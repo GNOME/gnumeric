@@ -1,5 +1,11 @@
 1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
 
+	* ms-excel-read.c (biff_name_data_new): add sheet scope.
+	(ms_excel_read_name): Use the 2nd 'copy' of idx since its the
+	only valid one. (biff_name_data_get_name): Create using scope.
+
+1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
+
 	* Makefile.am: remove the 'ole' test program
 
 	* ole.c: Removed, see module libole2 in test/test-ole.

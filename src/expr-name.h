@@ -13,24 +13,26 @@
 void      expr_name_init       (void);
 
 /* Attach a name to a workbook */
-ExprName *expr_name_add        (Workbook *wb, const char *name,
+ExprName *expr_name_add        (Workbook *wb, Sheet *sheet,
+				const char *name,
 				ExprTree *expr, char **error_msg);
 
-/* Can only be used when we have a current sheet */
-ExprName *expr_name_create     (Workbook *wb, const char *name,
+/* Convenience function to parse the name */
+ExprName *expr_name_create     (Workbook *wb, Sheet *sheet, const char *name,
 				const char *value, char **error_msg);
 
 /* Lookup - use sparingly */
-ExprName *expr_name_lookup     (Workbook *wb, const char *name);
+ExprName *expr_name_lookup     (Workbook *wb, Sheet *sheet, const char *name);
 
-/* Remove a name from a workbook */
+/* Remove a name from its parent workbook / sheet */
 void      expr_name_remove     (ExprName *exprn);
 
-/* Remove a workbook's names */
-void      expr_name_clean      (Workbook *wb);
+/* Destroy the local scope's names */
+void      expr_name_clean_workbook  (Workbook *wb);
+void      expr_name_clean_sheet     (Sheet    *sheet);
 
 /* Get all a workbooks names */
-GList    *expr_name_list       (Workbook *wb, gboolean builtins_too);
+GList    *expr_name_list       (Workbook *wb, Sheet *sheet, gboolean builtins_too);
 
 /* Evaluate the name's expression */
 Value    *eval_expr_name       (FunctionEvalInfo *ei, const ExprName *exprn);

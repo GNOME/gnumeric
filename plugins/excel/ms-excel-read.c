@@ -624,6 +624,7 @@ biff_format_data_destroy (gpointer key, BiffFormatData *d, gpointer userdata)
 
 typedef struct {
 	char const *name;
+	gboolean    sheet_scope;
 	enum { BNDStore, BNDName } type;
 	union {
 		ExprName *name;
@@ -640,11 +641,13 @@ static void
 biff_name_data_new (ExcelWorkbook *wb, char const *name,
 		    guint16 const sheet_index,
 		    guint8 const *formula, guint16 const len,
-		    gboolean const external)
+		    gboolean const external,
+		    gboolean const sheet_scope)
 {
 	BiffNameData *bnd = g_new (BiffNameData, 1);
-	bnd->name    = name;
-	bnd->type    = BNDStore;
+	bnd->name        = name;
+	bnd->sheet_scope = sheet_scope;
+	bnd->type        = BNDStore;
 	if (formula) {
 		bnd->v.store.data = g_malloc (len);
 		memcpy (bnd->v.store.data, formula, len);
@@ -700,9 +703,14 @@ biff_name_data_get_name (ExcelSheet *sheet, int idx)
 		} else {
 			bnd->type = BNDName;
 			g_free (bnd->v.store.data);
-			bnd->v.name = expr_name_add (sheet->wb->gnum_wb,
-						     bnd->name,
-						     tree, &duff);
+			if (bnd->sheet_scope)
+				bnd->v.name = expr_name_add (NULL, sheet->gnum_sheet,
+							     bnd->name,
+							     tree, &duff);
+			else
+				bnd->v.name = expr_name_add (sheet->wb->gnum_wb, NULL,
+							     bnd->name,
+							     tree, &duff);
 			if (!bnd->v.name)
 				printf ("Error: '%s' on name '%s'\n", duff,
 					bnd->name);
@@ -1915,10 +1923,7 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	guint8  name_len       = MS_OLE_GET_GUINT8  (q->data + 3);
 	guint16 name_def_len;
 	guint8 *name_def_data;
-	guint16 sheet_idx      = MS_OLE_GET_GUINT16 (q->data + 6);
-#if 0
-	guint16 ixals          = MS_OLE_GET_GUINT16 (q->data + 8); /* dup */
-#endif
+	guint16 sheet_idx      = MS_OLE_GET_GUINT16 (q->data + 8);
 	guint8  menu_txt_len   = MS_OLE_GET_GUINT8  (q->data + 10);
 	guint8  descr_txt_len  = MS_OLE_GET_GUINT8  (q->data + 11);
 	guint8  help_txt_len   = MS_OLE_GET_GUINT8  (q->data + 12);
@@ -2010,7 +2015,7 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 
 	biff_name_data_new (sheet->wb, name, sheet_idx,
 			    name_def_data, name_def_len,
-			    FALSE);
+			    FALSE, (sheet_idx != 0));
 	if (menu_txt)
 		g_free (menu_txt);
 	if (descr_txt)
@@ -2042,7 +2047,7 @@ ms_excel_externname (BiffQuery *q, ExcelSheet *sheet)
 				      MS_OLE_GET_GUINT8(q->data), NULL);
 	}
 
-	biff_name_data_new (sheet->wb, name, 0, defn, defnlen, TRUE);
+	biff_name_data_new (sheet->wb, name, 0, defn, defnlen, TRUE, FALSE);
 }
 
 /**

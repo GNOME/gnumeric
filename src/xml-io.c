@@ -36,11 +36,6 @@ typedef struct {
 	xmlNodePtr style_node;  /* The node where we insert the styles */
 } parse_xml_context_t;
 
-static Sheet      *xml_sheet_read     (parse_xml_context_t *ctxt, xmlNodePtr tree);
-static xmlNodePtr  xml_sheet_write    (parse_xml_context_t *ctxt, Sheet *sheet);
-static gboolean    xml_workbook_read  (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree);
-static xmlNodePtr  xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb);
-
 /*
  * Internal stuff: xml helper functions.
  */
@@ -715,14 +710,10 @@ xml_write_style (parse_xml_context_t *ctxt, Style *style, int style_idx)
 }
 
 static xmlNodePtr
-xml_write_names (parse_xml_context_t *ctxt, Workbook *wb)
+xml_write_names (parse_xml_context_t *ctxt, GList *names)
 {
-	GList *names, *m;
-	xmlNodePtr cur;
-
-	g_return_val_if_fail (wb != NULL, NULL);
-
-	m = names = expr_name_list (wb, FALSE);
+	GList      *m;
+	xmlNodePtr  cur;
 
 	if (!names)
 		return NULL;
@@ -748,16 +739,16 @@ xml_write_names (parse_xml_context_t *ctxt, Workbook *wb)
 		xmlAddChild (cur, tmp);
 		names = g_list_next (names);
 	}
-	g_list_free (m);
+
 	return cur;
 }
 
 static void
-xml_read_names (parse_xml_context_t *ctxt, xmlNodePtr tree, Workbook *wb)
+xml_read_names (parse_xml_context_t *ctxt, xmlNodePtr tree, Workbook *wb,
+		Sheet *sheet)
 {
 	xmlNodePtr child;
 
-	g_return_if_fail (wb != NULL);
 	g_return_if_fail (ctxt != NULL);
 	g_return_if_fail (tree != NULL);
 
@@ -781,7 +772,7 @@ xml_read_names (parse_xml_context_t *ctxt, xmlNodePtr tree, Workbook *wb)
 					g_return_if_fail (txt != NULL);
 					g_return_if_fail (!strcmp (bits->name, "value"));
 
-					if (!expr_name_create (wb, name, txt, &error))
+					if (!expr_name_create (wb, sheet, name, txt, &error))
 						g_warning (error);
 
 					g_free (txt);
@@ -1672,6 +1663,10 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	sprintf (str, "%f", sheet->last_zoom_factor_used);
 	xmlNewChild (cur, ctxt->ns, "Zoom", str);
 
+	child = xml_write_names (ctxt, sheet->names);
+	if (child)
+		xmlAddChild (cur, child);
+
 	/* 
 	 * Print Information
 	 */
@@ -1875,6 +1870,10 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	xml_read_cols_info (ctxt, ret, tree);
 	xml_read_rows_info (ctxt, ret, tree);
 
+	child = xml_search_child (tree, "Names");
+	if (child)
+		xml_read_names (ctxt, child, NULL, ret);
+
 	child = xml_search_child (tree, "Objects");
 	if (child != NULL){
 		objects = child->childs;
@@ -1923,7 +1922,7 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	if (child)
 		xmlAddChild (cur, child);
 
-	child = xml_write_names (ctxt, wb);
+	child = xml_write_names (ctxt, wb->names);
 	if (child)
 		xmlAddChild (cur, child);
 
@@ -2045,14 +2044,14 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 	 */
 	child = xml_search_child (tree, "Names");
 	if (child)
-		xml_read_names (ctxt, child, wb);
+		xml_read_names (ctxt, child, wb, NULL);
 
 	child = xml_search_child (tree, "Sheets");
 	/*
 	 * Pass 2: read the contents
 	 */
 	c = child->childs;
-	while (c != NULL){
+	while (c != NULL) {
 		sheet = xml_sheet_read (ctxt, c);
 		c = c->next;
 	}

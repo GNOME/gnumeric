@@ -462,7 +462,11 @@ try_symbol (char *string, gboolean try_cellref_and_number)
 	}
 	
 	{ /* Name ? */
-		ExprName *name = expr_name_lookup (parser_wb,
+		/*
+		 * FIXME: we need a good bit of work to get sheet
+		 * scope names working well
+		 */
+		ExprName *name = expr_name_lookup (parser_wb, NULL,
 						   string);
 		if (name)
 			return return_name (name);

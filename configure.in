@@ -157,6 +157,7 @@ if $try_bonobo; then
 	fi
 fi
 AM_CONDITIONAL(BONOBO, $have_bonobo)
+AM_CONDITIONAL(LIBOLE2_PUBLIC_LIBRARY, false)
 
 dnl ******************************
 dnl GnomePrint checking

@@ -88,7 +88,8 @@ fill_list (state_t *state)
 
 	state->selected   = -1;
 
-	state->expr_names = names = expr_name_list (state->wb, FALSE);
+	/* FIXME: scoping issues here */
+	state->expr_names = names = expr_name_list (state->wb, NULL, FALSE);
 	
 	while (names) {
 		ExprName *expr_name = names->data;
@@ -165,11 +166,13 @@ grab_text_ok (state_t *state, gboolean update_list)
 	if (!name || (name[0] == '\0'))
 		return TRUE;
 	
-	expr_name = expr_name_lookup (state->wb, name);
+	/* FIXME: we need to be able to select names scope ideally */
+	expr_name = expr_name_lookup (state->wb, NULL, name);
 	if (expr_name)
 		expr_name_remove (expr_name);
 
-	expr_name = expr_name_create (state->wb, name,
+	/* FIXME: and here */
+	expr_name = expr_name_create (state->wb, NULL, name,
 				      value, &error);
 
 	if (expr_name == NULL) {

@@ -325,7 +325,7 @@ workbook_do_destroy (Workbook *wb)
 
 	symbol_table_destroy (wb->symbol_names);
 
-	expr_name_clean (wb);
+	expr_name_clean_workbook (wb);
 
 	workbook_do_destroy_private (wb);
 

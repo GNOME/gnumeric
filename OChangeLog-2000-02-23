@@ -1,3 +1,26 @@
+1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_do_destroy): rename name clean.
+
+	* src/sheet.c (sheet_destroy): add name clean.
+
+	* configure.in: Add vital conditional for libole2.
+
+	* src/xml-io.c (xml_write_names): Write from a GList.
+	(xml_workbook_write): pass a GList. (xml_read_names): add sheet arg.
+	(xml_workbook_read): upd. name read. (xml_sheet_read): add sheet name
+	read. (xml_sheet_write): write names.
+	Clean several redundant forward references.
+
+	* src/main.c: make startup_files const.
+
+	* src/expr-name.c: Major API hack for scoped names.
+	(expr_name_add, expr_name_create, expr_name_lookup): add docs
+	+ scoped names. (expr_name_value): setup correct 'wb' for parsing.
+
+	* src/parser.y (try_symbol): Add comment + hard code to workbook
+	scope.
+
 1999-09-26  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/sheet-object.c (sheet_set_mode_type): Protect Bonobo code

@@ -1,3 +1,12 @@
+Gnumeric 0.38
+
+Arturo:
+	* Split libole2 + test program.
+	* Large excel file support > 8Mb.
+
+Michael:
+	* Start of sheet/workbook/global name scoping.
+
 Gnumeric 0.36
 
 Jody:

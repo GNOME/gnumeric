@@ -162,6 +162,7 @@ struct _FunctionDefinition {
 struct _ExprName {
 	String       *name;
 	Workbook     *wb;
+	Sheet        *sheet;
 	gboolean      builtin;
 	union {
 		ExprTree     *expr_tree;

@@ -120,6 +120,9 @@ struct _Sheet {
 	/* The list of cells that have a comment */
 	GList       *comment_list;
 	
+	/* User defined names */
+	GList      *names;
+	
 	double      last_zoom_factor_used;
 
 	/*

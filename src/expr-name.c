@@ -14,11 +14,28 @@
 #include "eval.h"
 #include "expr-name.h"
 
-/* We don't expect that many names ! */
+/* We don't expect that many global names ! */
 static GList *global_names = NULL;
 
+/*
+ * FIXME: when we sort out the parser's scope problems
+ * we'll fix this.
+ */
+static Workbook *
+get_real_wb (Workbook *wb, Sheet *sheet)
+{
+	if (wb)
+		return wb;
+	if (sheet)
+		return sheet->workbook;
+
+	g_warning ("duff name scope");
+
+	return NULL;
+}
+
 ExprName *
-expr_name_lookup (Workbook *wb, char const *name)
+expr_name_lookup (Workbook *wb, Sheet *sheet, char const *name)
 {
 	GList *p = global_names;
        
@@ -31,6 +48,7 @@ expr_name_lookup (Workbook *wb, char const *name)
 			return expr_name;
 		p = g_list_next (p);
 	}
+
 	if (wb)
 		p = wb->names;
 	while (p) {
@@ -40,12 +58,23 @@ expr_name_lookup (Workbook *wb, char const *name)
 			return expr_name;
 		p = g_list_next (p);
 	}
+
+	if (sheet)
+		p = sheet->names;
+	while (p) {
+		ExprName *expr_name = p->data;
+		g_return_val_if_fail (expr_name != NULL, 0);
+		if (g_strcasecmp (expr_name->name->str, name) == 0)
+			return expr_name;
+		p = g_list_next (p);
+	}
+
 	return NULL;
 }
 
 static ExprName *
-add_real (Workbook *wb, const char *name, gboolean builtin,
-	  ExprTree *expr_tree, void *expr_func)
+add_real (Workbook *wb, Sheet *sheet, const char *name,
+	  gboolean builtin, ExprTree *expr_tree, void *expr_func)
 {
 	ExprName *expr_name;
 
@@ -54,6 +83,7 @@ add_real (Workbook *wb, const char *name, gboolean builtin,
 	expr_name = g_new (ExprName,1);
 
 	expr_name->wb      = wb;
+	expr_name->sheet   = sheet;
 	expr_name->name    = string_get (name);
 
 	g_return_val_if_fail (expr_name->name != NULL, NULL);
@@ -117,21 +147,35 @@ name_refer_circular (const char *name, ExprTree *expr)
 	return FALSE;
 }
 
+/**
+ * expr_name_add:
+ * @wb: 
+ * @sheet: 
+ * @name: 
+ * @expr: 
+ * @error_msg: 
+ * 
+ * Parses a texual name in @value, and enters the value
+ * either as a workbook name if @sheet == NULL or a sheet
+ * name if @wb == NULL. If both wb & sheet == NULL then
+ * it must be a truly global name.
+ * 
+ * Return value: 
+ **/
 ExprName *
-expr_name_add (Workbook *wb, char const *name,
+expr_name_add (Workbook *wb, Sheet *sheet, char const *name,
 	       ExprTree *expr, char **error_msg)
 {
 	ExprName *expr_name;
 
-	g_return_val_if_fail (wb != NULL, 0);
 	g_return_val_if_fail (name != NULL, 0);
 	g_return_val_if_fail (expr != NULL, 0);
 	
-	if ((expr_name = expr_name_lookup (wb, name))) {
+	if ((expr_name = expr_name_lookup (wb, sheet, name))) {
 		*error_msg = _("already defined");
 		return NULL;
-	} else if (!wb) {
-		*error_msg = _("no workbook");
+	} else if (!wb && !sheet) {
+		*error_msg = _("no scope");
 		return NULL;
 	}
 
@@ -140,44 +184,68 @@ expr_name_add (Workbook *wb, char const *name,
 		return NULL;
 	}
 
-	expr_name = add_real (wb, name, FALSE, expr, NULL);
+	expr_name = add_real (wb, sheet, name, FALSE, expr, NULL);
 	if (wb)
 		wb->names    = g_list_append (wb->names, expr_name);
+	else if (sheet)
+		sheet->names = g_list_append (sheet->names, expr_name);
 	else
 		global_names = g_list_append (global_names, expr_name);
 	
 	return expr_name;
 }
 
+/**
+ * expr_name_create:
+ * @wb: 
+ * @sheet:
+ * @name: 
+ * @value: 
+ * @error_msg: 
+ * 
+ * Parses a texual name in @value, and enters the value
+ * either as a workbook name if @sheet == NULL or a sheet
+ * name if @wb == NULL.
+ * 
+ * Return value: The created ExprName.
+ **/
 ExprName *
-expr_name_create (Workbook *wb, const char *name,
+expr_name_create (Workbook *wb, Sheet *sheet, const char *name,
 		  const char *value, char **error_msg)
 {
 	ExprTree     *tree;
 	ParsePosition pp;
 
 	tree = expr_parse_string (value,
-				  parse_pos_init (&pp, wb, 0, 0),
+				  parse_pos_init (&pp,
+						  get_real_wb (wb, sheet),
+						  0, 0),
 				  NULL, error_msg);
 
 	if (!tree)
 		return NULL;
 
-	return expr_name_add (wb, name, tree, error_msg);
+	return expr_name_add (wb, sheet, name, tree, error_msg);
 }
 
 void
 expr_name_remove (ExprName *expr_name)
 {
 	Workbook *wb;
+	Sheet    *sheet;
+
 	g_return_if_fail (expr_name != NULL);
 
 	if (expr_name->wb) {
-		printf ("Removing from workbook\n");
 		wb = expr_name->wb;
 		g_assert (g_list_find (wb->names, expr_name) != NULL);
 		wb->names = g_list_remove (wb->names, expr_name);
 		g_assert (g_list_find (wb->names, expr_name) == NULL);
+	} else if (expr_name->sheet) {
+		sheet = expr_name->sheet;
+		g_assert (g_list_find (sheet->names, expr_name) != NULL);
+		sheet->names = g_list_remove (sheet->names, expr_name);
+		g_assert (g_list_find (sheet->names, expr_name) == NULL);
 	} else {
 		printf ("Removing from globals\n");
 		/* FIXME -- this code is not right.  */
@@ -187,7 +255,7 @@ expr_name_remove (ExprName *expr_name)
 		g_assert (g_list_find (wb->names, expr_name) == NULL);
 	}
 
-	printf ("Removing : '%s'\n", expr_name->name->str);
+/*	printf ("Removing : '%s'\n", expr_name->name->str);*/
 	if (expr_name->name)
 		string_unref (expr_name->name);
 	expr_name->name = NULL;
@@ -196,14 +264,32 @@ expr_name_remove (ExprName *expr_name)
 	    expr_name->t.expr_tree)
 		expr_tree_unref (expr_name->t.expr_tree);
 	
-	expr_name->wb          =  NULL;
+	expr_name->wb          = NULL;
+	expr_name->sheet       = NULL;
 	expr_name->t.expr_tree = NULL;
 	
 	g_free (expr_name);
 }
 
 void
-expr_name_clean (Workbook *wb)
+expr_name_clean_sheet (Sheet *sheet)
+{
+	GList *p = global_names;
+	GList *next ;
+	while (p) {
+		ExprName *expr_name = p->data;
+		g_return_if_fail (expr_name);
+
+		next = g_list_next (p);
+		if ((!sheet || expr_name->sheet == sheet))
+			expr_name_remove (expr_name);
+		
+		p = next;
+	}
+}
+
+void
+expr_name_clean_workbook (Workbook *wb)
 {
 	GList *p = global_names;
 	GList *next ;
@@ -220,7 +306,7 @@ expr_name_clean (Workbook *wb)
 }
 
 GList *
-expr_name_list (Workbook *wb, gboolean builtins_too)
+expr_name_list (Workbook *wb, Sheet *sheet, gboolean builtins_too)
 {
 	GList *l;
 	g_return_val_if_fail (wb != NULL, NULL);
@@ -242,7 +328,9 @@ expr_name_value (const ExprName *expr_name)
 	ParsePosition  pp;
 
 	if (!expr_name->builtin) {
-		parse_pos_init (&pp, expr_name->wb, 0, 0);
+		parse_pos_init (&pp, get_real_wb (expr_name->wb, 
+						  expr_name->sheet),
+				0, 0);
 		val = expr_decode_tree (expr_name->t.expr_tree, &pp);
 	} else
 		val = g_strdup (_("Builtin"));
@@ -313,7 +401,7 @@ expr_name_init (void)
 	/* Not in global function table though ! */
 	while (builtins[lp].name) {
 		ExprName *expr_name;
-		expr_name = add_real (NULL, builtins[lp].name, TRUE, NULL,
+		expr_name = add_real (NULL, NULL, builtins[lp].name, TRUE, NULL,
 				      builtins[lp].fn);
 		global_names = g_list_append (global_names, expr_name);
 		lp++;
