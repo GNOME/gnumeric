@@ -44,11 +44,6 @@
 	<name>vbox1</name>
 	<homogeneous>False</homogeneous>
 	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
 
 	<widget>
 	  <class>GtkHBox</class>
@@ -312,11 +307,6 @@
 	<name>vbox4</name>
 	<homogeneous>False</homogeneous>
 	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
 
 	<widget>
 	  <class>GtkVBox</class>
@@ -666,8 +656,22 @@
 		  <draw_indicator>True</draw_indicator>
 		  <child>
 		    <padding>0</padding>
-		    <expand>False</expand>
+		    <expand>True</expand>
 		    <fill>False</fill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkCheckButton</class>
+		  <name>csv_2x_indicator</name>
+		  <can_focus>True</can_focus>
+		  <label>_Adjacent quotes escaped</label>
+		  <active>True</active>
+		  <draw_indicator>True</draw_indicator>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>True</fill>
 		  </child>
 		</widget>
 
@@ -677,8 +681,8 @@
 		  <homogeneous>False</homogeneous>
 		  <spacing>0</spacing>
 		  <child>
-		    <padding>4</padding>
-		    <expand>True</expand>
+		    <padding>0</padding>
+		    <expand>False</expand>
 		    <fill>True</fill>
 		  </child>
 
@@ -836,11 +840,6 @@
 	<name>vbox7</name>
 	<homogeneous>False</homogeneous>
 	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
 
 	<widget>
 	  <class>GtkVBox</class>
@@ -1193,11 +1192,6 @@
 	<name>druid-vbox4</name>
 	<homogeneous>False</homogeneous>
 	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
 
 	<widget>
 	  <class>GtkVBox</class>

@@ -1,3 +1,23 @@
+2000-04-02  Jody Goldberg <jgoldberg@home.com>
+
+	* doc/stf-parser.txt : Add description of double quote handling.
+        * src/stf-parse.c (stf_parse_options_new) : Init
+	  indicator_2x_is_single and duplicates.
+	(stf_parse_options_csv_set_indicator_2x_is_single) : New function.
+	(stf_parse_csv_cell) : Add logic to optionaly treat double quotes as a
+	  single escaped quote.
+	* src/dialogs/dialog-stf-csv-page.c : Add the double quote checkbox.
+	* src/dialogs/dialog-stf.glade : Ditto.
+
+2000-04-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.[ch] (gnumeric_sheet_get_cell_bounds) : Delete.
+
+	* src/item-edit.c (item_edit_init) : Init the feedback_cursor to NULL.
+
+	* src/item-cursor.c (item_cursor_set_bounds) : HACK to force the
+	  canvas to honour update requests.
+
 2000-04-01  Jody Goldberg <jgoldberg@home.com>
 
 	* docs/C/func.defs, docs/C/functions.sgml : Regenerate.
@@ -11,7 +31,7 @@
 
 2000-03-31  Jody Goldberg <jgoldberg@home.com>
 
-	* src/workbook.c : Switch over to useing GNOMEUIINFO_ITEM_ where
+	* src/workbook.c : Switch over to using GNOMEUIINFO_ITEM_ where
 	  possible.
 	(cb_editline_focus_in) : Do not start editing if we are already
 	  editing.

@@ -29,6 +29,7 @@ gchar *s = N_("Semicolo_n (;)");
 gchar *s = N_("Slas_h (/)");
 gchar *s = N_("Misc");
 gchar *s = N_("S_ee two separators as one");
+gchar *s = N_("_Adjacent quotes escaped");
 gchar *s = N_("Te_xt indicator : ");
 gchar *s = N_("\"\n"
               "'\n"
@@ -53,7 +54,3 @@ gchar *s = N_("Format");
 gchar *s = N_("_Format :");
 gchar *s = N_("label8");
 gchar *s = N_("Example");
-gchar *s = N_("Finish");
-gchar *s = N_("You have successfully finished the customization process.\n"
-              "\n"
-              "Please press finish.");

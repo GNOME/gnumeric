@@ -44,6 +44,7 @@ typedef struct {
 	GtkCheckButton  *csv_custom;
 	GtkEntry        *csv_customseparator;
 	GtkCheckButton  *csv_duplicates;
+	GtkCheckButton  *csv_2x_indicator;
 	GtkCombo        *csv_textindicator;
 	GtkEntry        *csv_textfield;
 	GnomeCanvas     *csv_canvas;

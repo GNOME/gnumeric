@@ -60,6 +60,9 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 	textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (info->csv_textfield), 0, -1);
 	stf_parse_options_csv_set_stringindicator (parseoptions, textfieldtext[0]);
 
+	stf_parse_options_csv_set_indicator_2x_is_single  (parseoptions,
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_2x_indicator)));
+
 	stf_parse_options_csv_set_duplicates (parseoptions,
 					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_duplicates)));
 
@@ -235,6 +238,7 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->csv_custom          = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_custom"));
 	info->csv_customseparator = GTK_ENTRY        (glade_xml_get_widget (gui, "csv_customseparator"));
 
+	info->csv_2x_indicator  = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_2x_indicator"));
 	info->csv_duplicates    = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_duplicates"));
 	info->csv_textindicator = GTK_COMBO        (glade_xml_get_widget (gui, "csv_textindicator"));
 	info->csv_textfield     = GTK_ENTRY        (glade_xml_get_widget (gui, "csv_textfield"));
@@ -294,6 +298,10 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (info->csv_customseparator),
 			    "changed",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_2x_indicator),
+			    "toggled",
 			    GTK_SIGNAL_FUNC (csv_page_global_change),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (info->csv_duplicates),

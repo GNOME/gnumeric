@@ -2,7 +2,7 @@
  * stf-parse.c : Structured Text Format parser. (STF)
  *               A general purpose engine for parsing data
  *               in CSV and Fixed width format.
- *               
+ *
  *
  * Copyright (C) Almer. S. Tigelaar.
  * EMail: almer1@dds.nl or almer-t@bigfoot.com
@@ -23,7 +23,7 @@
  */
 
 #include <ctype.h>
- 
+
 #include "stf-parse.h"
 
 /* Some nice warning messages */
@@ -68,7 +68,10 @@ stf_parse_options_new (void)
 
 	parseoptions->splitpositions = g_array_new (FALSE, FALSE, sizeof (int));
 	parseoptions->modificationmode = FALSE;
-	
+
+	parseoptions->indicator_2x_is_single = TRUE;
+	parseoptions->duplicates = FALSE;
+
 	return parseoptions;
 }
 
@@ -106,7 +109,7 @@ stf_parse_options_set_type (StfParseOptions_t *parseoptions, StfParseType_t pars
 
 	if (parseoptions->parsetype != parsetype)
 		parseoptions->modified = TRUE;
-		
+
 	parseoptions->parsetype = parsetype;
 }
 
@@ -129,7 +132,7 @@ stf_parse_options_set_line_terminator (StfParseOptions_t *parseoptions, char ter
 
 	if (parseoptions->terminator != terminator)
 		parseoptions->modified = TRUE;
-	
+
 	parseoptions->terminator = terminator;
 }
 
@@ -150,10 +153,10 @@ stf_parse_options_set_lines_to_parse (StfParseOptions_t *parseoptions, int lines
 
 	/* we'll convert this to an index by subtracting 1 */
 	lines--;
-	
+
 	if (parseoptions->parselines != lines)
 		parseoptions->modified = TRUE;
-	
+
 	parseoptions->parselines = lines;
 }
 
@@ -167,7 +170,7 @@ void
 stf_parse_options_before_modification (StfParseOptions_t *parseoptions)
 {
 	int i;
-	
+
 	g_return_if_fail (parseoptions != NULL);
 	g_return_if_fail (parseoptions->modificationmode == FALSE);
 
@@ -193,24 +196,24 @@ stf_parse_options_after_modification (StfParseOptions_t *parseoptions)
 {
 	g_return_val_if_fail (parseoptions != NULL, FALSE);
 	g_return_val_if_fail (parseoptions->modificationmode == TRUE, FALSE);
-	
+
 	if (parseoptions->splitpositions->len == parseoptions->oldsplitpositions->len) {
 		int i;
 
 		for (i = 0; i < parseoptions->oldsplitpositions->len; i++) {
-		
+
 			if (g_array_index (parseoptions->oldsplitpositions, int, i) != g_array_index (parseoptions->splitpositions, int, i)) {
 
 				parseoptions->modified = TRUE;
 				break;
 			}
 		}
-	} else 
+	} else
 		parseoptions->modified = TRUE;
 
 	g_array_free (parseoptions->oldsplitpositions, TRUE);
 	parseoptions->modificationmode = FALSE;
-	
+
 	return parseoptions->modified;
 }
 
@@ -232,11 +235,11 @@ stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions,
 				       gboolean bang, gboolean custom)
 {
 	StfTextSeparator_t separators;
-	
+
 	g_return_if_fail (parseoptions != NULL);
 
 	separators = 0;
-	
+
 	if (tab)
 		separators |= TEXT_SEPARATOR_TAB;
 	if (colon)
@@ -280,14 +283,14 @@ stf_parse_options_csv_set_customfieldseparator (StfParseOptions_t *parseoptions,
 
 	if (parseoptions->customfieldseparator != customfieldseparator)
 		parseoptions->modified = TRUE;
-		
+
 	parseoptions->customfieldseparator = customfieldseparator;
 }
 
 /**
  * stf_parse_options_csv_set_stringindicator
  * @parseoptions : a parse options struct
- * @stringindicator : a char representing the string indicator 
+ * @stringindicator : a char representing the string indicator
  *
  * returns : nothing
  **/
@@ -299,14 +302,36 @@ stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, char
 
 	if (parseoptions->stringindicator != stringindicator)
 		parseoptions->modified = TRUE;
-		
+
 	parseoptions->stringindicator = stringindicator;
+}
+
+/**
+ * stf_parse_options_csv_set_indicator_2x_is_single :
+ * @parseoptions : a parse options struct
+ * @indic_2x : a boolean value indicating whether we want to see two
+ * 		adjacent string indicators as a single string indicator
+ * 		that is part of the cell, rather than a terminator.
+ *
+ * returns : nothing
+ **/
+void
+stf_parse_options_csv_set_indicator_2x_is_single  (StfParseOptions_t *parseoptions,
+						   gboolean indic_2x)
+{
+	g_return_if_fail (parseoptions != NULL);
+
+	if (parseoptions->indicator_2x_is_single != indic_2x)
+		parseoptions->modified = TRUE;
+
+	parseoptions->indicator_2x_is_single = indic_2x;
 }
 
 /**
  * stf_parse_options_csv_set_duplicates
  * @parseoptions : a parse options struct
- * @duplicates : a boolean value indicating weather we want to see to separators right behind eachother as one
+ * @duplicates : a boolean value indicating whether we want to see two
+ *               separators right behind each other as one
  *
  * returns : nothing
  **/
@@ -317,7 +342,7 @@ stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean 
 
 	if (parseoptions->duplicates != duplicates)
 		parseoptions->modified = TRUE;
-		
+
 	parseoptions->duplicates = duplicates;
 }
 
@@ -333,7 +358,7 @@ void
 stf_parse_options_fixed_splitpositions_clear (StfParseOptions_t *parseoptions)
 {
 	g_return_if_fail (parseoptions != NULL);
-	
+
 	g_array_free (parseoptions->splitpositions, TRUE);
 	parseoptions->splitpositions = g_array_new (FALSE, FALSE, sizeof (int));
 }
@@ -370,19 +395,19 @@ static gboolean
 stf_parse_options_valid (StfParseOptions_t *parseoptions)
 {
 	g_return_val_if_fail (parseoptions != NULL, FALSE);
-		
+
 	if (parseoptions->parsetype == PARSE_TYPE_CSV) {
 
 		if (parseoptions->stringindicator == '\0') {
-		
+
 			g_warning ("STF: Cannot have \\0 as string indicator");
 			return FALSE;
 		}
-		
+
 	} else if (parseoptions->parsetype == PARSE_TYPE_FIXED) {
 
 		if (!parseoptions->splitpositions) {
-		
+
 			g_warning ("STF: No splitpositions in struct");
 			return FALSE;
 		}
@@ -393,7 +418,7 @@ stf_parse_options_valid (StfParseOptions_t *parseoptions)
 		g_warning ("STF: Before modification without end modification called");
 		return FALSE;
 	}
-	
+
 	return TRUE;
 }
 
@@ -419,7 +444,7 @@ stf_cache_options_new (void)
 
 	cacheoptions->lines = g_ptr_array_new ();
 	cacheoptions->validsignature = 0;
-	
+
 	return cacheoptions;
 }
 
@@ -444,9 +469,9 @@ stf_cache_options_free (StfCacheOptions_t *cacheoptions)
 		item = g_ptr_array_index (cacheoptions->lines, i);
 		g_free (item);
 	}
-	
+
 	g_ptr_array_free (cacheoptions->lines, TRUE);
-	
+
 	g_free (cacheoptions);
 }
 
@@ -479,7 +504,7 @@ stf_cache_options_set_data (StfCacheOptions_t *cacheoptions, StfParseOptions_t *
 		item = g_ptr_array_index (cacheoptions->lines, i);
 		g_free (item);
 	}
-			
+
 	g_ptr_array_free (cacheoptions->lines, TRUE);
 	cacheoptions->lines = g_ptr_array_new ();
 
@@ -488,39 +513,39 @@ stf_cache_options_set_data (StfCacheOptions_t *cacheoptions, StfParseOptions_t *
 	while (*iterator) {
 
 		if (*iterator == parseoptions->terminator && !terminator) {
-		
+
 			terminator = TRUE;
 			iterator++;
 			continue;
 		}
-		
+
 		if (terminator) {
 			CacheItem_t *newitem;
-			
+
 			newitem = g_new (CacheItem_t, 1);
 
 			newitem->line = iterator;
 			newitem->signature = 0;
-			
+
 			g_ptr_array_add (cacheoptions->lines, newitem);
-			
+
 			terminator = FALSE;
-			
+
 			cacheoptions->linecount++;
-			
+
 			if (parseoptions->parselines != -1)
 				if (cacheoptions->linecount > parseoptions->parselines)
 					break;
-				
+
 			continue;
 		}
-	
+
 		iterator++;
 	}
 
 	cacheoptions->validsignature = 1;
 }
- 
+
 /**
  * stf_cache_options_set_range
  * @parseoptions : a cache options struct
@@ -534,7 +559,7 @@ stf_cache_options_set_range (StfCacheOptions_t *cacheoptions, int fromline, int 
 {
 
 	g_return_if_fail (cacheoptions != NULL);
-	
+
 	cacheoptions->fromline = fromline;
 	cacheoptions->toline = toline;
 }
@@ -560,7 +585,7 @@ stf_cache_options_invalidate (StfCacheOptions_t *cacheoptions)
 	if (cacheoptions->validsignature == 0) {
 		CacheItem_t *iterator;
 		int i;
-	
+
 		for (i = 0; i < cacheoptions->lines->len; i++) {
 
 			iterator = g_ptr_array_index (cacheoptions->lines, i);
@@ -585,7 +610,7 @@ stf_cache_options_valid (StfCacheOptions_t *cacheoptions)
 	g_return_val_if_fail (cacheoptions != NULL, FALSE);
 
 	if (!cacheoptions->data) {
-	
+
 		g_warning ("STF: No input data set in cacheoptions!");
 		return FALSE;
 	}
@@ -621,7 +646,7 @@ stf_parse_csv_is_separator (const char *character, StfParseType_t parsetype, cha
 
 		return FALSE;
 	}
-			
+
 	switch (*character) {
 	case '\t'             : if (parsetype & TEXT_SEPARATOR_TAB)       return TRUE; break;
 	case ':'              : if (parsetype & TEXT_SEPARATOR_COLON)     return TRUE; break;
@@ -657,35 +682,42 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 
 	cur = src->position;
-	
+
+	/* A leading quote is always a quote */
 	if (*cur == parseoptions->stringindicator) {
-	
+
 		cur++;
 		isstring = TRUE;
 		sawstringterm = FALSE;
 	} else {
-	
+
 		isstring = FALSE;
 		sawstringterm = TRUE;
         }
 
 
 	res = g_string_new ("");
-	
+
 	while (*cur && *cur != parseoptions->terminator) {
 
 		if (!sawstringterm) {
-		
-			if (*cur == parseoptions->stringindicator) {
 
-				sawstringterm = TRUE;
+			if (*cur == parseoptions->stringindicator) {
+				/* two stringindicators in a row represent a
+				 * single stringindicator character that does
+				 * not terminate the cell
+				 */
 				cur++;
-				continue;
+				if (*cur != parseoptions->stringindicator ||
+				    !parseoptions->indicator_2x_is_single) {
+					sawstringterm = TRUE;
+					continue;
+				}
 			}
 		} else {
-		
+
 			if (stf_parse_csv_is_separator (cur, parseoptions->separators, parseoptions->customfieldseparator)) {
-			
+
 				if (parseoptions->duplicates) {
 					const char *nextcur = cur;
 					nextcur++;
@@ -695,7 +727,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 					}
 				}
 				break;
-			}		
+			}
 		}
 
 		g_string_append_c (res, *cur);
@@ -709,7 +741,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 		cur++;
 
 	src->position = cur;
-       
+
 	if (len != 0) {
 		char *tmp = res->str;
 		g_string_free (res, FALSE);
@@ -743,20 +775,20 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (parseoptions != NULL, NULL);
-	
+
 	while (*src->position && *src->position != parseoptions->terminator) {
 
 		field = stf_parse_csv_cell (src, parseoptions);
 
 		if (list != NULL) {
-		
+
 			listend = g_slist_append (listend, field)->next;
 		} else {
 
 			list = g_slist_append (list, field);
 			listend = list;
 		}
-		
+
 		if (++col >= SHEET_MAX_COLS) {
 			g_warning (WARN_TOO_MANY_COLS, col);
 			return NULL;
@@ -782,11 +814,11 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (parseoptions != NULL, NULL);
-	
+
 	cur = src->position;
-	
+
 	res = g_string_new ("");
-	if (src->splitpos < parseoptions->splitpositions->len) 
+	if (src->splitpos < parseoptions->splitpositions->len)
 		splitval = (int) g_array_index (parseoptions->splitpositions, int, src->splitpos);
 	else
 		splitval = -1;
@@ -837,25 +869,25 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 
 	src->linepos = 0;
 	src->splitpos = 0;
-	
+
 	while (*src->position && *src->position != parseoptions->terminator) {
 
 		field = stf_parse_fixed_cell (src, parseoptions);
 
 		if (list != NULL) {
-		
+
 			listend = g_slist_append (listend, field)->next;
 		} else {
 
 			list = g_slist_append (list, field);
 			listend = list;
 		}
-		
+
 		if (++col >= SHEET_MAX_COLS) {
 			g_warning (WARN_TOO_MANY_COLS, col);
 			return NULL;
 		}
-		
+
 		src->splitpos++;
 	}
 
@@ -902,9 +934,9 @@ stf_parse_general (StfParseOptions_t *parseoptions, const char *data)
 
 	src.position = data;
 	row = 0;
-	
+
 	while (TRUE) {
-	
+
 		if (parseoptions->parsetype == PARSE_TYPE_CSV)
 			celllist = stf_parse_csv_line (&src, parseoptions);
 		else
@@ -914,13 +946,13 @@ stf_parse_general (StfParseOptions_t *parseoptions, const char *data)
 
 			listend = g_slist_append (listend, celllist)->next;
 		} else {
-			
+
 			list = g_slist_append (list, celllist);
 			listend = list;
 		}
-		
+
 		if (++row >= SHEET_MAX_ROWS) {
-		
+
 				g_warning (WARN_TOO_MANY_ROWS, row);
 				return NULL;
 		}
@@ -931,7 +963,7 @@ stf_parse_general (StfParseOptions_t *parseoptions, const char *data)
 
 		if (*src.position == '\0')
 			break;
-		
+
 		src.position++;
 	}
 
@@ -963,25 +995,25 @@ stf_parse_general_cached (StfParseOptions_t *parseoptions, StfCacheOptions_t *ca
 	Source_t src;
 	CacheItem_t *item;
 	int row;
-	
+
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (cacheoptions != NULL, NULL);
 	g_return_val_if_fail (stf_parse_options_valid (parseoptions), NULL);
 	g_return_val_if_fail (stf_cache_options_valid (cacheoptions), NULL);
 
 	if (cacheoptions->lines->len - 1 >= SHEET_MAX_ROWS) {
-	
+
 		g_warning (WARN_TOO_MANY_ROWS, cacheoptions->lines->len - 1);
 		return NULL;
 	}
 
 	if (cacheoptions->toline > cacheoptions->lines->len - 1 || cacheoptions->toline == -1)
 		cacheoptions->toline = cacheoptions->lines->len - 1;
-	
+
 	for (row = cacheoptions->fromline; row <= cacheoptions->toline; row++) {
 
 		item = g_ptr_array_index (cacheoptions->lines, row);
-		
+
 		if (item->signature != cacheoptions->validsignature) {
 			src.position = item->line;
 
@@ -1005,7 +1037,7 @@ stf_parse_general_cached (StfParseOptions_t *parseoptions, StfCacheOptions_t *ca
 			listend = list;
 		}
 	}
-	
+
 	return list;
 }
 
@@ -1028,18 +1060,18 @@ stf_parse_get_rowcount (StfParseOptions_t *parseoptions, const char *data)
 
 	g_return_val_if_fail (parseoptions != NULL, 0);
 	g_return_val_if_fail (data != NULL, 0);
-	
+
 	iterator = data;
-	
+
 	while (*iterator) {
-	
+
 		if (*iterator == parseoptions->terminator)
 			rowcount++;
 
 		if (parseoptions->parselines != -1)
 			if (rowcount > parseoptions->parselines)
 				break;
-						
+
 		iterator++;
 	}
 
@@ -1068,25 +1100,25 @@ stf_parse_get_colcount (StfParseOptions_t *parseoptions, const char *data)
 	if (parseoptions->parsetype == PARSE_TYPE_CSV) {
 		const char *iterator = data;
 		int tempcount = 0;
-		
+
 		while (1) {
-		
+
 			if (*iterator == parseoptions->terminator || *iterator == '\0') {
 
 				if (tempcount > colcount)
 					colcount = tempcount;
-			
+
 				tempcount = 0;
 
 				if (*iterator == '\0')
 					break;
 			}
-			
+
 			if (stf_parse_csv_is_separator (iterator, parseoptions->separators, parseoptions->customfieldseparator)) {
 
 				if (parseoptions->duplicates) {
 					const char *nextiterator = iterator;
-					
+
 					nextiterator++;
 					if (stf_parse_csv_is_separator (nextiterator, parseoptions->separators, parseoptions->customfieldseparator)) {
 
@@ -1094,14 +1126,14 @@ stf_parse_get_colcount (StfParseOptions_t *parseoptions, const char *data)
 						continue;
 					}
 				}
-				
+
 				tempcount++;
 			}
-				
+
 			iterator++;
 		}
 	} else {
-	
+
 		colcount = parseoptions->splitpositions->len - 1;
 	}
 
@@ -1131,15 +1163,15 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, const char *da
 
 	iterator = data;
 	while (*iterator) {
-	
+
 		if (*iterator == parseoptions->terminator) {
 
 			if (len > longest)
 				longest = len;
-		
+
 			len = 0;
 		}
-		
+
 		iterator++;
 		len++;
 		row++;
@@ -1175,12 +1207,12 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
 		int col = 0, colwidth = 0;
 
 		while (1) {
-		
+
 			if (stf_parse_csv_is_separator (iterator, parseoptions->separators, parseoptions->customfieldseparator) || *iterator == parseoptions->terminator || *iterator == '\0') {
 
 				if (parseoptions->duplicates) {
 					const char *nextiterator = iterator;
-					
+
 					nextiterator++;
 					if (stf_parse_csv_is_separator (nextiterator, parseoptions->separators, parseoptions->customfieldseparator)) {
 
@@ -1188,9 +1220,9 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
 						continue;
 					}
 				}
-								
+
 				if (col == index) {
-				
+
 					if (colwidth > width)
 						width = colwidth;
 				}
@@ -1200,13 +1232,13 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
 					col = 0;
 				else
 					col++;
-					
+
 				colwidth = -1;
 			}
 
 			if (*iterator == '\0')
 				break;
-			
+
 			colwidth++;
 			iterator++;
 		}
@@ -1222,24 +1254,24 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
 		if (colend == -1) {
 			const char *iterator = data;
 			int len = 0, templen = 0;
-			
+
 			while (*iterator) {
-			
+
 				if (*iterator == parseoptions->terminator) {
 
 					if (templen > len)
 						len = templen;
-						
+
 					templen = 0;
 				}
-				
+
 				templen++;
 				iterator++;
 			}
 
 			colend = len;
 		}
-		
+
 		width = colend - colstart;
 	}
 
@@ -1251,11 +1283,11 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
  * stf_parse_convert_to_unix
  * @data : the char buffer to convert
  *
- * This function will convert the @data into 
+ * This function will convert the @data into
  * unix line-terminated format. this means that CRLF (windows) will be converted to LF
  * and CR (Macintosh) to LF
  * NOTE : This will not resize the buffer
- * 
+ *
  * returns : TRUE on success, FALSE otherwise.
  **/
 gboolean
@@ -1267,12 +1299,12 @@ stf_parse_convert_to_unix (const char *data)
 
 	if (!iterator)
 		return FALSE;
-	
+
 	while (*iterator) {
-	
+
 		if (*iterator == '\r') {
 			const char *temp = iterator;
-			
+
 			temp++;
 
 			if (*temp != '\n') {
@@ -1284,13 +1316,13 @@ stf_parse_convert_to_unix (const char *data)
 		}
 
 		*dest = *iterator;
-		
+
 		iterator++;
 		dest++;
 		len++;
 	}
 	*dest = '\0';
-	
+
 	return TRUE;
 }
 
@@ -1311,18 +1343,18 @@ stf_parse_is_valid_data (const char *data)
 
 	valid = TRUE;
 	while (*iterator) {
-	
+
 		if (!isprint ((unsigned char)*iterator) &&
 		    *iterator != '\n' &&
 		    *iterator != '\r' &&
 		    *iterator != '\t') {
-		
+
 			valid = FALSE;
 			break;
 		}
 		iterator++;
-	} 
-	
+	}
+
 	return valid;
 }
 
@@ -1348,7 +1380,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, const char *data, Sheet *sheet
 
 		sublist = list->data;
 		col = 0;
-		
+
 		while (sublist) {
 
 			if (sublist->data) {
@@ -1360,28 +1392,28 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, const char *data, Sheet *sheet
 				 */
 				if (celldata[0] == '@') {
 					char *tmp;
-					
+
 					tmp = g_strdup_printf ("=\"%s\"", celldata);
-					
+
 					g_free (celldata);
 					sublist->data = tmp;
 				}
-				
+
 				cell_set_text_simple (newcell, sublist->data);
 
 				g_free (sublist->data);
 			}
-			
+
 			sublist = g_slist_next (sublist);
 			col++;
 		}
 
 		g_slist_free (sublist);
-		
+
 		list = g_slist_next (list);
 		row++;
 	}
-	
+
 	g_slist_free (list);
 
 	return sheet;
@@ -1405,7 +1437,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 
 		sublist = list->data;
 		col = 0;
-		
+
 		while (sublist) {
 
 			if (sublist->data) {
@@ -1417,13 +1449,13 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 				 */
 				if (celldata[0] == '@') {
 					char *tmp;
-					
+
 					tmp = g_strdup_printf ("=\"%s\"", celldata);
-					
+
 					g_free (celldata);
 					sublist->data = tmp;
 				}
-				
+
 				ccopy = g_new (CellCopy, 1);
 				ccopy->type = CELL_COPY_TYPE_TEXT;
 				ccopy->col_offset = col;
@@ -1434,7 +1466,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 
 				/* we don't free sublist->data, simply because CellCopy will do this */
 			}
-			
+
 			sublist = g_slist_next (sublist);
 			col++;
 		}
@@ -1443,18 +1475,18 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 
 		if (col > colhigh)
 			colhigh = col;
-		
+
 		list = g_slist_next (list);
 		row++;
 	}
-	
+
 	g_slist_free (list);
 
 	cr         = g_new (CellRegion, 1);
 	cr->list   = resultlist;
-	cr->cols   = (colhigh > 0) ? colhigh : 1; 
+	cr->cols   = (colhigh > 0) ? colhigh : 1;
 	cr->rows   = row;
 	cr->styles = NULL;
-	
+
 	return cr;
 }

@@ -9,8 +9,9 @@ Almer. S. Tigelaar.
 4. CSV Parsing
 	4.1 General
 	4.2 What is the string indicator?
-	4.3 What is the custom separator?
-	4.4 What does "duplicates" mean?
+	4.3 How are adjacent string indicators handled?
+	4.4 What is the custom separator?
+	4.5 What does "duplicates" mean?
 5. Fixed width parsing
 6. Cached parsing
 
@@ -127,7 +128,19 @@ Almer. S. Tigelaar.
 	some
 	example;data
 
-4.3 CSV Parsing -> What is the custom separator?
+4.3 CSV Parsing -> How are adjacent string indicators handled?
+============================================================
+
+	When parsing fields which are bounded by string indicators the convention
+	of doubling the indicator is used to encode an indicator that is NOT
+	the termination of the string.
+	eg
+	    "a""b"  encodes either the string
+		a"b
+	    or
+		ab
+
+4.4 CSV Parsing -> What is the custom separator?
 ================================================
 
 	Even though there are some default separators (namely tab, colon, comma and space)
@@ -141,7 +154,7 @@ Almer. S. Tigelaar.
 	is also set in addition to the tab and colon. In this example the custom field separator is set to
 	the "x" character.
 
-4.4 CSV Parsing -> What does duplicates mean?
+4.5 CSV Parsing -> What does duplicates mean?
 =============================================
 
 	This means that several column separators are seen as one.
