@@ -134,7 +134,7 @@ Pending Patches
     25.8)  plugins/gb                                           (DONE 20030110 MW)
     25.9)  plugins/gda                                          (DONE 20030110 MW)
     25.10) plugins/gnome-glossary                               (DONE 20030408 MW)
-    25.11) plugins/gnumeric_1_0
+    25.11) plugins/gnumeric_1_0         ---NOT BUILT---
     25.12) plugins/guile                                        (DONE 20030110 MW)
     25.13) plugins/html                                         (DONE 20030110 MW)
     25.14) plugins/lotus-123                                    (DONE 20030110 MW)

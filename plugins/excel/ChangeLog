@@ -1,3 +1,9 @@
+2003-04-09  Morten Welinder  <terra@gnome.org>
+
+	* boot.c (excel_file_probe): Guard against gsf read error.
+	(excel_file_open): Ditto.
+	(excel_file_open): 
+
 2003-03-26  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_tab_color) : no need to operate on the
