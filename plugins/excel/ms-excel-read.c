@@ -31,7 +31,7 @@
 #include "ms-excel.h"
 #include "ms-excel-biff.h"
 
-#define STRNPRINTF(ptr,n) { int xxxlp; printf ("'") ; for (xxxlp=0;xxxlp<(n);xxxlp++) printf ("%c", (ptr)[xxxlp]) ; printf ("'\n") ; }
+#define STRNPRINTF(ptr,n){ int xxxlp; printf ("'") ; for (xxxlp=0;xxxlp<(n);xxxlp++) printf ("%c", (ptr)[xxxlp]) ; printf ("'\n") ; }
 
 /*
  * FIXME: This needs proper unicode support ! current support is a guess 
@@ -48,15 +48,17 @@ biff_get_text (BYTE * ptr, int length)
 
 	ans = (char *) g_malloc (sizeof (char) * length + 1);
 
-	unicode = (ptr[0] == 0x1);	/*
-					 * Magic unicode number 
-					 */
+	/*
+	 * Magic unicode number 
+	 */
+	unicode = (ptr[0] == 0x1);
 	inb = unicode ? ptr + 1 : ptr;
-	for (lp = 0; lp < length; lp++) {
-		ans[lp] = (char) *inb;
+
+	for (lp = 0; lp < length; lp++){
+		ans [lp] = (char) *inb;
 		inb += unicode ? 2 : 1;
 	}
-	ans[lp] = 0;
+	ans [lp] = 0;
 	return ans;
 }
 
@@ -65,19 +67,19 @@ biff_get_global_string(MS_EXCEL_SHEET *sheet, int number)
 {
 	char *temp;
 	int length, k;
-
-	MS_EXCEL_WORKBOOK *wb = sheet->wb ;
-
+	
+	MS_EXCEL_WORKBOOK *wb = sheet->wb;
+	
         if (number >= wb->global_string_max)
-          return "Too Weird";
-
+		return "Too Weird";
+	
 	temp= wb->global_strings;
-        for (k= 0; k < number; ++k) {
-          length= BIFF_GETWORD(temp);
-          temp+= length + 3;
+        for (k = 0; k < number; k++){
+		length= BIFF_GETWORD (temp);
+		temp+= length + 3;
         }
-        length= BIFF_GETWORD(temp);
-        return biff_get_text(temp+3, length);
+        length = BIFF_GETWORD(temp);
+        return biff_get_text (temp+3, length);
 }
 
 /**
@@ -88,12 +90,12 @@ ms_biff_bof_data_new (BIFF_QUERY * q)
 {
 	BIFF_BOF_DATA *ans = g_new (BIFF_BOF_DATA, 1);
 
-	if ((q->opcode & 0xff) == BIFF_BOF) {
+	if ((q->opcode & 0xff) == BIFF_BOF){
 		assert (q->length >= 4);
 		/*
 		 * Determine type from boff
 		 */
-		switch (q->opcode >> 8) {
+		switch (q->opcode >> 8){
 		case 0:
 			ans->version = eBiffV2;
 			break;
@@ -108,7 +110,7 @@ ms_biff_bof_data_new (BIFF_QUERY * q)
 			 */
 			{
 				printf ("Complicated BIFF version %d\n",
-					BIFF_GETWORD(q->data)) ;
+					BIFF_GETWORD (q->data));
 				dump (q->data, q->length);
 				switch (BIFF_GETWORD (q->data))
 				{
@@ -129,9 +131,9 @@ ms_biff_bof_data_new (BIFF_QUERY * q)
 		default:
 			printf ("Unknown BIFF number in BOF %x\n", q->opcode);
 			ans->version = eBiffVUnknown;
-			printf ("Biff version %d\n", ans->version) ;
+			printf ("Biff version %d\n", ans->version);
 		}
-		switch (BIFF_GETWORD (q->data + 2)) {
+		switch (BIFF_GETWORD (q->data + 2)){
 		case 0x0005:
 			ans->type = eBiffTWorkbook;
 			break;
@@ -182,13 +184,13 @@ biff_boundsheet_data_new (BIFF_QUERY * q, eBiff_version ver)
 	if (ver != eBiffV5 &&	/*
 				 * Testing seems to indicate that Biff5 is compatibile with Biff7 here. 
 				 */
-	  ver != eBiffV7 &&
-	  ver != eBiffV8) {
+	    ver != eBiffV7 &&
+	    ver != eBiffV8){
 		printf ("Unknown BIFF Boundsheet spec. Assuming same as Biff7 FIXME\n");
 		ver = eBiffV7;
 	}
 	ans->streamStartPos = BIFF_GETLONG (q->data);
-	switch (BIFF_GETBYTE (q->data + 4)) {
+	switch (BIFF_GETBYTE (q->data + 4)){
 	case 00:
 		ans->type = eBiffTWorksheet;
 		break;
@@ -206,7 +208,7 @@ biff_boundsheet_data_new (BIFF_QUERY * q, eBiff_version ver)
 		ans->type = eBiffTUnknown;
 		break;
 	}
-	switch ((BIFF_GETBYTE (q->data + 5)) & 0x3) {
+	switch ((BIFF_GETBYTE (q->data + 5)) & 0x3){
 	case 00:
 		ans->hidden = eBiffHVisible;
 		break;
@@ -221,7 +223,7 @@ biff_boundsheet_data_new (BIFF_QUERY * q, eBiff_version ver)
 		ans->hidden = eBiffHVisible;
 		break;
 	}
-	if (ver == eBiffV8) {
+	if (ver == eBiffV8){
 		int strlen = BIFF_GETWORD (q->data + 6);
 
 		ans->name = biff_get_text (q->data + 8, strlen);
@@ -231,7 +233,7 @@ biff_boundsheet_data_new (BIFF_QUERY * q, eBiff_version ver)
 		ans->name = biff_get_text (q->data + 7, strlen);
 	}
 	/*
-	 * printf ("Blocksheet : '%s', %d:%d offset %lx\n", ans->name, ans->type, ans->hidden, ans->streamStartPos) ; 
+	 * printf ("Blocksheet : '%s', %d:%d offset %lx\n", ans->name, ans->type, ans->hidden, ans->streamStartPos); 
 	 */
 	return ans;
 }
@@ -259,7 +261,7 @@ biff_font_data_new (BIFF_QUERY * q)
 	fd->color_idx = BIFF_GETWORD (q->data + 4);
 	fd->boldness = BIFF_GETWORD (q->data + 6);
 	data = BIFF_GETWORD (q->data + 8);
-	switch (data) {
+	switch (data){
 	case 0:
 		fd->script = eBiffFSNone;
 		break;
@@ -274,7 +276,7 @@ biff_font_data_new (BIFF_QUERY * q)
 		break;
 	}
 	data = BIFF_GETWORD (q->data + 10);
-	switch (data) {
+	switch (data){
 	case 0:
 		fd->underline = eBiffFUNone;
 		break;
@@ -293,7 +295,7 @@ biff_font_data_new (BIFF_QUERY * q)
 	}
 	fd->fontname = biff_get_text (q->data + 15, BIFF_GETBYTE (q->data + 14));
 	/*
-	 * dump (q->data, q->length) ; 
+	 * dump (q->data, q->length); 
 	 */
 	printf ("Insert font '%s' size %d pts\n",
 		fd->fontname, fd->height * 20);
@@ -321,7 +323,7 @@ ms_excel_palette_new (BIFF_QUERY * q)
 	pal->blue = (int *) g_malloc (sizeof (int) * len);
 
 	printf ("New palette with %d entries\n", len);
-	for (lp = 0; lp < len; lp++) {
+	for (lp = 0; lp < len; lp++){
 		LONG num = BIFF_GETLONG (q->data + 2 + lp * 4);
 
 		pal->red[lp] = (num & 0x00ff0000) >> 16;
@@ -379,17 +381,17 @@ ms_excel_set_cell_colors (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf
 		return;
 
 	col = xf->foregnd_col;
-	if (col >= 0 && col < sheet->wb->palette->length) {
+	if (col >= 0 && col < sheet->wb->palette->length){
 		/*
-		 * printf ("FG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]) ; 
+		 * printf ("FG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]); 
 		 */
 		cell_set_foreground (cell, p->red[col], p->green[col], p->blue[col]);
 	} else
 		printf ("FG col out of range %d\n", col);
 	col = xf->backgnd_col;
-	if (col >= 0 && col < sheet->wb->palette->length) {
+	if (col >= 0 && col < sheet->wb->palette->length){
 		/*
-		 * printf ("BG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]) ; 
+		 * printf ("BG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]); 
 		 */
 		cell_set_background (cell, p->red[col], p->green[col], p->blue[col]);
 	} else
@@ -411,13 +413,13 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 	int idx = 0;
 
 	g_assert (idx != 4);
-	while (ptr) {
+	while (ptr){
 		if (idx == 4)
 			idx++;	/*
 				 * Backwards compatibility 
 				 */
 
-		if (idx == xf->font_idx) {
+		if (idx == xf->font_idx){
 			BIFF_FONT_DATA *fd = ptr->data;
 
 			/*
@@ -431,15 +433,15 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 				fd->fontname[i] = tolower (fd->fontname[i]);
 			fd->fontname[i] = '\x0';
 			cell_set_font (cell, font_change_component (cell->style->font->font_name, 1, fd->fontname));
-//			printf ("FoNt [-]: %s\n", cell->style->font->font_name);
-			if (fd->italic) {
+/*			printf ("FoNt [-]: %s\n", cell->style->font->font_name); */
+			if (fd->italic){
 				cell_set_font (cell, font_get_italic_name (cell->style->font->font_name));
-//				printf ("FoNt [i]: %s\n", cell->style->font->font_name);
+/*				printf ("FoNt [i]: %s\n", cell->style->font->font_name); */
 				cell->style->font->hint_is_italic = 1;
 			}
-			if (fd->boldness == 0x2bc) {
+			if (fd->boldness == 0x2bc){
 				cell_set_font (cell, font_get_bold_name (cell->style->font->font_name));
-//				printf ("FoNt [b]: %s\n", cell->style->font->font_name);
+/*				printf ("FoNt [b]: %s\n", cell->style->font->font_name); */
 				cell->style->font->hint_is_bold = 1;
 			}
 			/*
@@ -464,9 +466,9 @@ get_style_color_from_idx (MS_EXCEL_SHEET *sheet, int idx)
 	
  	if (idx >= 0 && p && idx < p->length)
  		return style_color_new (p->red[idx], p->green[idx],
- 					p->blue[idx]) ;
+ 					p->blue[idx]);
  	else
- 		return NULL ;
+ 		return NULL;
 }
 
 void
@@ -474,52 +476,52 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, int xfidx)
 {
 	GList *ptr;
 	int cnt;
-	BIFF_XF_DATA *xf ;
-	static int cache_xfidx = 0 ;
-	static BIFF_XF_DATA *cache_ptr   = 0 ;
+	BIFF_XF_DATA *xf;
+	static int cache_xfidx = 0;
+	static BIFF_XF_DATA *cache_ptr   = 0;
 
-	if (xfidx == 0) {
+	if (xfidx == 0){
 		printf ("Normal cell formatting\n");
 		return;
 	}
-	if (xfidx == 15) {
+	if (xfidx == 15){
 		printf ("Default cell formatting\n");
 		return;
 	}
-	xf = cache_ptr ;
+	xf = cache_ptr;
 
 	if (cache_xfidx != xfidx || !cache_ptr)
 	{
-		cache_xfidx = xfidx ;
-		cache_ptr   = 0 ;
+		cache_xfidx = xfidx;
+		cache_ptr   = 0;
 		/*
 		 * if (!cell->text) Crash if formatting and no text...
-		 * cell_set_text_simple(cell, "") ; 
+		 * cell_set_text_simple(cell, ""); 
 		 */
 		ptr = g_list_first (sheet->wb->XF_records);
 		/*
-		 * printf ("Looking for %d\n", xfidx) ; 
+		 * printf ("Looking for %d\n", xfidx); 
 		 */
 		cnt = 16 + 4;		/*
 					 * Magic number ... :-)  FIXME - dodgy 
 					 */
-		while (ptr) {
-			xf = ptr->data ;
+		while (ptr){
+			xf = ptr->data;
 	
-			if (xf->xftype != eBiffXCell) {
+			if (xf->xftype != eBiffXCell){
 				ptr = ptr->next;
 				continue;
 			}
-			if (cnt == xfidx) {
-				cache_ptr = xf ;
-				break ;
+			if (cnt == xfidx){
+				cache_ptr = xf;
+				break;
 			}
 			cnt++;
 			ptr = ptr->next;
 			if (!ptr)
 			{
 				printf ("No XF record for %d out of %d found :-(\n", xfidx, cnt);
-				return ;
+				return;
 			}
 		}
 	}
@@ -531,12 +533,12 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, int xfidx)
 	ms_excel_set_cell_colors (sheet, cell, xf);
 	ms_excel_set_cell_font (sheet, cell, xf);
 	{
-		int lp ;
- 		StyleColor *tmp[4] ;
+		int lp;
+ 		StyleColor *tmp[4];
  		for (lp=0;lp<4;lp++)
  			tmp[lp] = get_style_color_from_idx
- 				(sheet, xf->border_color[lp]) ;
- 		cell_set_border (cell, xf->border_type, tmp) ;
+ 				(sheet, xf->border_color[lp]);
+ 		cell_set_border (cell, xf->border_type, tmp);
 		}
 }
 
@@ -546,36 +548,36 @@ biff_xf_map_border (int b)
 	switch (b)
  	{
  	case 0: /* None */
- 		return BORDER_NONE ;
+ 		return BORDER_NONE;
  	case 1: /* Thin */
- 		return BORDER_THIN ;
+ 		return BORDER_THIN;
  	case 2: /* Medium */
- 		return BORDER_MEDIUM ;
+ 		return BORDER_MEDIUM;
  	case 3: /* Dashed */
- 		return BORDER_DASHED ;
+ 		return BORDER_DASHED;
  	case 4: /* Dotted */
- 		return BORDER_DOTTED ;
+ 		return BORDER_DOTTED;
  	case 5: /* Thick */
- 		return BORDER_THICK ;
+ 		return BORDER_THICK;
  	case 6: /* Double */
- 		return BORDER_DOUBLE ;
+ 		return BORDER_DOUBLE;
  	case 7: /* Hair */
- 		return BORDER_HAIR ;
+ 		return BORDER_HAIR;
  	case 8: /* Medium Dashed */
- 		return BORDER_MEDIUM ;
+ 		return BORDER_MEDIUM;
  	case 9: /* Dash Dot */
- 		return BORDER_THIN ;
+ 		return BORDER_THIN;
  	case 10: /* Medium Dash Dot */
- 		return BORDER_THIN ;
+ 		return BORDER_THIN;
  	case 11: /* Dash Dot Dot */
- 		return BORDER_HAIR ;
+ 		return BORDER_HAIR;
  	case 12: /* Medium Dash Dot Dot */
- 		return BORDER_THIN ;
+ 		return BORDER_THIN;
  	case 13: /* Slanted Dash Dot*/
- 		return BORDER_HAIR ;
+ 		return BORDER_HAIR;
  	}
-  	printf ("Unknown border style %d\n", b) ;
- 	return BORDER_NONE ;
+  	printf ("Unknown border style %d\n", b);
+ 	return BORDER_NONE;
 }
 
 /**
@@ -599,7 +601,7 @@ biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 
 	data = BIFF_GETWORD (q->data + 6);
 	subdata = data & 0x0007;
-	switch (subdata) {
+	switch (subdata){
 	case 0:
 		xf->halign = HALIGN_GENERAL;
 		break;
@@ -621,7 +623,7 @@ biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 	case 6:
 		xf->halign = HALIGN_JUSTIFY;
 		/*
-		 * xf->halign = HALIGN_CENTRE_ACROSS_SELECTION ;
+		 * xf->halign = HALIGN_CENTRE_ACROSS_SELECTION;
 		 */
 		break;
 	default:
@@ -631,7 +633,7 @@ biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 	}
 	xf->wrap = (data & 0x0008) ? eBiffWWrap : eBiffWNoWrap;
 	subdata = (data & 0x0070) >> 4;
-	switch (subdata) {
+	switch (subdata){
 	case 0:
 		xf->valign = VALIGN_TOP;
 		break;
@@ -655,7 +657,7 @@ biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 		xf->rotation = (data >> 8);
 	else {
 		subdata = (data & 0x0300) >> 8;
-		switch (subdata) {
+		switch (subdata){
 		case 0:
 			xf->rotation = 0;
 			break;
@@ -677,13 +679,13 @@ biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 		}
 	}
 
-	if (ver == eBiffV8) {
+	if (ver == eBiffV8){
 		/*
 		 * FIXME: Got bored and stop implementing everything, there is just too much ! 
 		 */
 		data = BIFF_GETWORD (q->data + 8);
 		subdata = (data & 0x00C0) >> 10;
-		switch (subdata) {
+		switch (subdata){
 		case 0:
 			xf->eastern = eBiffEContext;
 			break;
@@ -698,12 +700,12 @@ biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 			break;
 		}
 	}
-	if (ver == eBiffV8) {	/*
+	if (ver == eBiffV8){	/*
 				 * Very different 
 				 */
 		data = BIFF_GETWORD (q->data + 10);
 		subdata = data;
-		xf->border_type[STYLE_LEFT] = biff_xf_map_border (subdata & 0xf) ;
+		xf->border_type[STYLE_LEFT] = biff_xf_map_border (subdata & 0xf);
 		subdata = subdata >> 4;
 		xf->border_type[STYLE_RIGHT] = biff_xf_map_border (subdata & 0xf);
 		subdata = subdata >> 4;
@@ -718,7 +720,7 @@ biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 		subdata = subdata >> 7;
 		xf->border_color[STYLE_RIGHT] = (subdata & 0x7f);
 		subdata = (data & 0xc000) >> 14;
-		switch (subdata) {
+		switch (subdata){
 		case 0:
 			xf->border_orientation = eBiffBONone;
 			break;
@@ -809,7 +811,7 @@ ms_excel_sheet_destroy (MS_EXCEL_SHEET * sheet)
 {
 	GList *ptr = g_list_first (sheet->array_formulae);
 
-	while (ptr) {
+	while (ptr){
 		g_free (ptr->data);
 		ptr = ptr->next;
 	}
@@ -831,7 +833,7 @@ ms_excel_workbook_new ()
 	ans->XF_records = NULL;
 	ans->palette = NULL;
 	ans->global_strings = NULL;
-	ans->global_string_max = 0 ;
+	ans->global_string_max = 0;
 	return ans;
 }
 
@@ -846,7 +848,7 @@ ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 {
 	GList *ptr = g_list_first (wb->boundsheet_data);
 
-	while (ptr) {
+	while (ptr){
 		BIFF_BOUNDSHEET_DATA *dat;
 
 		dat = ptr->data;
@@ -856,7 +858,7 @@ ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 	g_list_free (wb->boundsheet_data);
 
 	ptr = g_list_first (wb->XF_records);
-	while (ptr) {
+	while (ptr){
 		BIFF_XF_DATA *dat;
 
 		dat = ptr->data;
@@ -866,7 +868,7 @@ ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 	g_list_free (wb->XF_records);
 
 	ptr = g_list_first (wb->font_data);
-	while (ptr) {
+	while (ptr){
 		BIFF_FONT_DATA *dat;
 
 		dat = ptr->data;
@@ -890,13 +892,13 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 {
 	Cell *cell;
 
-	switch (q->ls_op) {
+	switch (q->ls_op){
 	case BIFF_BLANK:	/*
 				 * FIXME: Not a good way of doing blanks ? 
 				 */
 		/*
 		 * printf ("Cell [%d, %d] XF = %x\n", EX_GETCOL(q), EX_GETROW(q),
-		 * EX_GETXF(q)) ; 
+		 * EX_GETXF(q)); 
 		 */
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), "");
 		break;
@@ -904,7 +906,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 				 * S59DA7.HTM is extremely unclear, this is an educated guess 
 				 */
 		{
-			if (q->opcode == BIFF_DV) {
+			if (q->opcode == BIFF_DV){
 				printf ("Unimplemented DV: data validation criteria, FIXME\n");
 				break;
 			} else {
@@ -913,7 +915,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 				BYTE *ptr;
 
 				/*
-				 * dump (q->data, q->length) ; 
+				 * dump (q->data, q->length); 
 				 */
 				row = EX_GETROW (q);
 				col = EX_GETCOL (q);
@@ -926,15 +928,15 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 				/*
 				 * if (lastcol<col)  What to do in this case ? 
 				 * {
-				 * printf ("Serious implentation documentation error\n") ;
-				 * break ;
+				 * printf ("Serious implentation documentation error\n");
+				 * break;
 				 * }
 				 */
 				incr = (lastcol > col) ? 1 : -1;
 				/*
-				 * g_assert (((lastcol-col)*incr+1)*2+6<=q->length) ; 
+				 * g_assert (((lastcol-col)*incr+1)*2+6<=q->length); 
 				 */
-				while (col != lastcol) {
+				while (col != lastcol){
 					ms_excel_sheet_insert (sheet, BIFF_GETWORD (ptr), EX_GETCOL (q), EX_GETROW (q), "");
 					col += incr;
 					ptr += 2;
@@ -943,20 +945,20 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		}
 		break;
  	case BIFF_HEADER: /* FIXME : S59D94 Microsoft failed to document this correctly  */
- 		printf ("Header\n") ;
+ 		printf ("Header\n");
 		if (q->length)
-			dump (q->data+1, BIFF_GETBYTE(q->data+0)) ;
+			dump (q->data+1, BIFF_GETBYTE(q->data+0));
  		break;
  	case BIFF_FOOTER: /* FIXME : S59D8D Microsoft failed to document this correctly  */
- 		printf ("Footer\n") ;
+ 		printf ("Footer\n");
 		if (q->length)
-			dump (q->data+1, BIFF_GETBYTE(q->data+0)) ;
+			dump (q->data+1, BIFF_GETBYTE(q->data+0));
  		break;
 	case BIFF_RSTRING:
 		/*
-		  printf ("Cell [%d, %d] = ", EX_GETCOL(q), EX_GETROW(q)) ;
-		  dump (q->data, q->length) ;
-		  STRNPRINTF(q->data + 8, EX_GETSTRLEN(q)) ; 
+		  printf ("Cell [%d, %d] = ", EX_GETCOL(q), EX_GETROW(q));
+		  dump (q->data, q->length);
+		  STRNPRINTF(q->data + 8, EX_GETSTRLEN(q)); 
 		*/
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
 		  biff_get_text (q->data + 8, EX_GETSTRLEN (q)));
@@ -967,8 +969,8 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			double num = BIFF_GETDOUBLE (q->data + 6);	/*
 									 * FIXME GETDOUBLE is not endian independant 
 									 */
-			printf ("A number : %f\n", num) ;
-			dump (q->data, q->length) ;
+			printf ("A number : %f\n", num);
+			dump (q->data, q->length);
 			sprintf (buf, "%f", num);
 			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
 			break;
@@ -989,7 +991,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
 			type = (number & 0x3);
 			printf ("position [%d,%d] = %x ( type %d )\n", EX_GETCOL (q), EX_GETROW (q), number, type);
-			switch (type) {
+			switch (type){
 			case eIEEE:
 				dump (q->data, q->length);
 				tmp[0] = 0;
@@ -1025,7 +1027,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 				 * FIXME 
 				 */
 		/*
-		 * printf ("Row %d formatting\n", EX_GETROW(q)) ; 
+		 * printf ("Row %d formatting\n", EX_GETROW(q)); 
 		 */
 		break;
 	case BIFF_FORMULA:	/*
@@ -1065,10 +1067,10 @@ ms_excel_read_sheet (BIFF_QUERY * q, MS_EXCEL_WORKBOOK * wb,
 
 	printf ("----------------- Sheet -------------\n");
 
-	while (ms_biff_query_next (q)) {
-		switch (q->ls_op) {
+	while (ms_biff_query_next (q)){
+		switch (q->ls_op){
 		case BIFF_EOF:
-			if (q->streamPos == blankSheetPos) {
+			if (q->streamPos == blankSheetPos){
 				printf ("Blank sheet '%s'\n", bsh->name);
 				ms_excel_sheet_destroy (sheet);
 				return;
@@ -1111,11 +1113,11 @@ find_workbook (MS_OLE * ptr)
 		int hit = 0;
 
 		/*
-		 * printf ("Checking '%s'\n", d->name) ; 
+		 * printf ("Checking '%s'\n", d->name); 
 		 */
 		hit |= (strncasecmp (d->name, "book", 4) == 0);
 		hit |= (strncasecmp (d->name, "workbook", 8) == 0);
-		if (hit) {
+		if (hit){
 		  printf ("Found Excel Stream : %s\n", d->name);
 		  return ms_ole_stream_open (d, 'r');
 		}
@@ -1131,7 +1133,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 	MS_EXCEL_WORKBOOK *wb = NULL;
 	xmlNodePtr child;
 
-	if (1) {
+	if (1){
 		MS_OLE_STREAM *stream;
 		BIFF_QUERY *q;
 		BIFF_BOF_DATA *ver = 0;
@@ -1164,31 +1166,31 @@ ms_excelReadWorkbook (MS_OLE * file)
 		stream = find_workbook (file);
 		q = ms_biff_query_new (stream);
 
-		while (ms_biff_query_next (q)) {
-			switch (q->ls_op) {
+		while (ms_biff_query_next (q)){
+			switch (q->ls_op){
 			case BIFF_BOF:
 			{
 				/* The first BOF seems to be OK, the rest lie ? */
-				eBiff_version vv = eBiffVUnknown ;
+				eBiff_version vv = eBiffVUnknown;
 				if (ver)
 				{
-					vv = ver->version ;
+					vv = ver->version;
 					ms_biff_bof_data_destroy (ver);
 				}
 				ver = ms_biff_bof_data_new (q);
 				if (vv != eBiffVUnknown)
-					ver->version = vv ;
+					ver->version = vv;
 
-				if (ver->type == eBiffTWorkbook) {
+				if (ver->type == eBiffTWorkbook){
 					wb = ms_excel_workbook_new ();
 					wb->gnum_wb = workbook_new ();
-				} else if (ver->type == eBiffTWorksheet) {
+				} else if (ver->type == eBiffTWorksheet){
 					GList *which = g_list_first (wb->boundsheet_data);
 
-					while (which) {
+					while (which){
 						BIFF_BOUNDSHEET_DATA *bsh = which->data;
 
-						if (bsh->streamStartPos == q->streamPos) {
+						if (bsh->streamStartPos == q->streamPos){
 							ms_excel_read_sheet (q, wb, bsh, ver->version);
 							break;
 						}
@@ -1242,7 +1244,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 
 					/*
 					 * printf ("Extended format:\n");
-					 * dump (q->data, q->length) ; 
+					 * dump (q->data, q->length); 
 					 */
 					wb->XF_records = g_list_append (wb->XF_records, ptr);
 				}
@@ -1258,7 +1260,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 			default:
 				printf ("Opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
 				/*
-				 * dump (q->data, q->length) ; 
+				 * dump (q->data, q->length); 
 				 */
 				break;
 			}
@@ -1268,7 +1270,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 			ms_biff_bof_data_destroy (ver);
 		ms_ole_stream_close (stream);
 	}
-	if (wb) {
+	if (wb){
 		workbook_recalc (wb->gnum_wb);
 		return wb->gnum_wb;
 	}
