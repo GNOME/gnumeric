@@ -13,7 +13,7 @@
 # #NAME? == #NAME?
 # #NULL! == #NULL!
 # #NUM! == #ZAHL!
-# #RECALC! == ??
+# #RECALC! == #NEU-BER!
 # #REF! == #BEZUG!
 # #UNKNOWN! == #UNBEKANNT!
 # #VALUE! == #WERT!
@@ -43,9 +43,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.56cvs\n"
-"POT-Creation-Date: 2000-07-22 14:26+0200\n"
+"POT-Creation-Date: 2000-07-23 13:53+0200\n"
 "PO-Revision-Date: 2000-07-22 14:53+02:00\n"
-"Last-Translator: Karl Eichwalder <ke@suse.de>\n"
+"Last-Translator: Matthias Warkus <mawa@iname.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -57,31 +57,31 @@ msgstr "Ich konnte Bonobo nicht initialisieren"
 
 #: graph/sample.c:206
 msgid "Chart type"
-msgstr ""
+msgstr "Graphtyp"
 
 #: graph/sample.c:207
 msgid "Plot mode"
-msgstr ""
+msgstr "Zeichenmodus"
 
 #: graph/sample.c:208
 msgid "Col/bar mode"
-msgstr ""
+msgstr "Säulen-/Balken-Modus"
 
 #: graph/sample.c:209
 msgid "Direction mode"
-msgstr ""
+msgstr "Richtungsmodus"
 
 #: graph/sample.c:210
 msgid "Line mode"
-msgstr ""
+msgstr "Linienmodus"
 
 #: graph/sample.c:211
 msgid "Scatter mode"
-msgstr ""
+msgstr "Streumodus"
 
 #: graph/sample.c:212
 msgid "Scatter connection"
-msgstr ""
+msgstr "Streuverbindung"
 
 #.
 #. * Add Sheet
@@ -363,7 +363,7 @@ msgstr "Bitweise Operationen"
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
 "simple bitwise operations"
-msgstr ""
+msgstr "Mehrere grundlegende Hilfsfunktionen für Primzahlen, Pi, Phi, Sigma. Enthält auch einige einfache Einzelbit-Operationen"
 
 #: plugins/oleo/boot.c:87
 msgid "GNU Oleo (*.oleo) file format"
@@ -628,11 +628,11 @@ msgstr "Standardfehler"
 
 #: src/analysis-tools.c:738
 msgid "Median"
-msgstr ""
+msgstr "Median"
 
 #: src/analysis-tools.c:739
 msgid "Mode"
-msgstr "Art"
+msgstr "Modus"
 
 #: src/analysis-tools.c:740
 msgid "Standard Deviation"
@@ -844,11 +844,11 @@ msgstr "Regression"
 
 #: src/analysis-tools.c:1894
 msgid "SUMMARY OUTPUT"
-msgstr ""
+msgstr "AUSGABEZUSAMMENFASSUNG"
 
 #: src/analysis-tools.c:1896
 msgid "Regression Statistics"
-msgstr ""
+msgstr "Regressions-Statistiken"
 
 #: src/analysis-tools.c:1897
 msgid "Multiple R"
@@ -902,7 +902,7 @@ msgstr ""
 
 #: src/analysis-tools.c:1919
 msgid "Coefficients"
-msgstr ""
+msgstr "Koeffizienten"
 
 #: src/analysis-tools.c:1922 src/analysis-tools.c:2397
 #: src/analysis-tools.c:2588 src/analysis-tools.c:2760
@@ -921,7 +921,7 @@ msgstr "Über 95%"
 
 #: src/analysis-tools.c:2113
 msgid "Moving Averages"
-msgstr "Gleitender Durchschnitte"
+msgstr "Gleitende Durchschnitte"
 
 #: src/analysis-tools.c:2182
 msgid "Ranks"
@@ -929,7 +929,7 @@ msgstr "Wertebereiche"
 
 #: src/analysis-tools.c:2190 src/analysis-tools.c:2215
 msgid "Point"
-msgstr ""
+msgstr "Punkt"
 
 #: src/analysis-tools.c:2200 src/analysis-tools.c:2226
 msgid "Rank"
@@ -953,7 +953,7 @@ msgstr "Anova: Einzelner Faktor"
 #: src/analysis-tools.c:2319 src/analysis-tools.c:2486
 #: src/analysis-tools.c:2661
 msgid "SUMMARY"
-msgstr ""
+msgstr "ZUSAMMENFASSUNG"
 
 #: src/analysis-tools.c:2320
 msgid "Groups"
@@ -1017,7 +1017,7 @@ msgstr ""
 
 #: src/analysis-tools.c:2805 src/dialogs/dialog-analysis-tools.c:95
 msgid "Histogram"
-msgstr ""
+msgstr "Histogramm"
 
 #: src/analysis-tools.c:2808
 msgid "Bin"
@@ -1025,12 +1025,12 @@ msgstr "Min"
 
 #: src/analysis-tools.c:2809
 msgid "Frequency"
-msgstr ""
+msgstr "Frequenz"
 
 #: src/analysis-tools.c:2811
 #, c-format
 msgid "Cumulative %"
-msgstr ""
+msgstr "Kumulative %"
 
 #: src/clipboard.c:303
 #, c-format
@@ -1101,11 +1101,11 @@ msgstr "Einfügen"
 
 #: src/command-context.c:116
 msgid "Would split an array."
-msgstr ""
+msgstr "Würde ein Array spalten."
 
 #: src/commands.c:407 src/commands.c:504
 msgid "Set Text"
-msgstr ""
+msgstr "Text eingeben"
 
 #: src/commands.c:431
 #, c-format
@@ -1247,7 +1247,7 @@ msgstr "In %s einfügen"
 
 #: src/commands.c:2091
 msgid "Autofill"
-msgstr ""
+msgstr "AutoFüllen"
 
 #: src/corba-args.c:33
 msgid "Oaf options"
@@ -2166,7 +2166,7 @@ msgstr "Einfarbig"
 
 #: src/dialogs/cell-format.glade.h:117
 msgid "Bricks"
-msgstr ""
+msgstr "Backsteine"
 
 #: src/dialogs/cell-format.glade.h:118
 msgid "Large Circles"
@@ -2175,7 +2175,7 @@ msgstr "Große Kreise"
 # Stroh -- wird das so bezeichnet? -ke-
 #: src/dialogs/cell-format.glade.h:119
 msgid "Thatch"
-msgstr ""
+msgstr "Riet"
 
 #: src/dialogs/cell-format.glade.h:120
 msgid "Semi Circles"
@@ -2657,9 +2657,12 @@ msgstr "Fourier-Analyse ist leider noch nicht implementiert."
 
 #: src/dialogs/dialog-analysis-tools.c:2426
 msgid "You should introduce a valid cell range in 'Bin Range:'"
-msgstr "Sie sollten einen gültigen Zellenbereich bei 'Numerischer Wertebereich (Bin Range):' eintragen"
+msgstr ""
+"Sie sollten einen gültigen Zellenbereich bei 'Numerischer Wertebereich (Bin "
+"Range):' eintragen"
 
 #: src/dialogs/dialog-analysis-tools.c:2454
+#: src/dialogs/dialog-analysis-tools.c:2905
 msgid "Given input range contains non-numeric data."
 msgstr "Der Eingabebereich enthält nicht-numerische Werte."
 
@@ -2801,17 +2804,17 @@ msgid "Goal seeking with cell %s found a solution"
 msgstr "Zielsuche mit Zelle %s war erfolgreich"
 
 #: src/dialogs/dialog-goal-seek.c:204
-#, c-format, ycp-format
+#, c-format
 msgid "Target value:   %12.2f"
 msgstr "Zielwert:       %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:207
-#, c-format, ycp-format
+#, c-format
 msgid "Current value:  %12.2f"
 msgstr "Aktueller Wert: %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:210
-#, c-format, ycp-format
+#, c-format
 msgid "Solution:       %12.2f"
 msgstr "Lösung:         %12.2f"
 
@@ -2914,9 +2917,8 @@ msgid "Paste special"
 msgstr "Einfügen spezial"
 
 #: src/dialogs/dialog-paste-special.c:106
-#, fuzzy
 msgid "Paste Link"
-msgstr "Einfügen"
+msgstr "Link einfügen"
 
 #: src/dialogs/dialog-paste-special.c:111
 msgid "Paste type"
@@ -2932,7 +2934,7 @@ msgstr "Austauschen"
 
 #: src/dialogs/dialog-paste-special.c:164
 msgid "Skip Blanks"
-msgstr ""
+msgstr "Lücken überspringen"
 
 #: src/dialogs/dialog-plugin-manager.c:91
 msgid "File name:"
@@ -3086,12 +3088,14 @@ msgid "Choose export formatting"
 msgstr "Export-Format wählen"
 
 #: src/dialogs/dialog-stf-export.glade.h:17
-#, fuzzy
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
 "used for terminating a line in the text file. Wether the quote character is "
 "placed around cells depends on the value choosen for quoting."
-msgstr "Das Export-Format anpassen."
+msgstr ""
+"Das Exportformat anpassen. Das Zeilenendezeichen ist die Zeichenfolge, die\n"
+"eine Zeile in der Textdatei abschließt. Ob Anführungszeichen um Zellen herum\n"
+"gelegt werden, hängt von dem für Anführungszeichen gewählten Wert ab."
 
 #: src/dialogs/dialog-stf-export.glade.h:18
 msgid "Line termination :"
@@ -3137,11 +3141,11 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:33
 msgid "Quoting :"
-msgstr ""
+msgstr "Anführen:"
 
 #: src/dialogs/dialog-stf-export.glade.h:34
 msgid "Quote character :"
-msgstr ""
+msgstr "Anführungszeichen:"
 
 #: src/dialogs/dialog-stf-export.glade.h:35
 msgid ""
@@ -3156,10 +3160,20 @@ msgid ""
 "Slash (/)\n"
 "Custom\n"
 msgstr ""
+"Leerzeichen\n"
+"Tabulator\n"
+"Ausrufezeichen (!)\n"
+"Doppelpunkt (:)\n"
+"Komma (,)\n"
+"Bindestrich (-)\n"
+"Pipe (|)\n"
+"Strichpunkt (;)\n"
+"Schrägstrich (/)\n"
+"Eigenes\n"
 
 #: src/dialogs/dialog-stf-fixed-page.c:63
 msgid "Autodiscovery did not find any columns in the text. Try manually"
-msgstr ""
+msgstr "Automatisches Entdecken hat keine Spalten im Text gefunden. Versuchen Sie es manuell"
 
 #: src/dialogs/dialog-stf-format-page.c:168
 #: src/dialogs/dialog-stf-format-page.c:373
@@ -3206,7 +3220,7 @@ msgstr "Ausgabeoptionen"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "Trim :"
-msgstr ""
+msgstr "Beschneiden:"
 
 #: src/dialogs/dialog-stf.glade.h:12
 msgid "Original data type :"
@@ -3315,7 +3329,7 @@ msgstr "Sonstiges"
 
 #: src/dialogs/dialog-stf.glade.h:39
 msgid "S_ee two separators as one"
-msgstr ""
+msgstr "Zwei Trennzeichen als eines sehen"
 
 #: src/dialogs/dialog-stf.glade.h:40
 msgid "_Adjacent quotes escaped"
@@ -3364,12 +3378,15 @@ msgid "Column formatting"
 msgstr "Spaltenformatierung"
 
 #: src/dialogs/dialog-stf.glade.h:60
-#, fuzzy
 msgid ""
 "Select the format for each column. You can click in the column list on the "
 "left to select a column, or you can click in the preview. You can then enter "
 "a custom format or select one from the list on the right."
-msgstr "Das Format für jede Spalte wählen."
+msgstr ""
+"Das Format für jede Spalte wählen. Sie können auf die Spaltenliste links\n"
+"klicken, um eine Spalte zu wählen, oder Sie können in die Vorschau klicken.\n"
+"Dann können Sie ein eigenes Format eingeben oder eines von der Liste rechts\n"
+"wählen."
 
 #: src/dialogs/dialog-stf.glade.h:61
 msgid "Per column formatting"
@@ -3566,7 +3583,7 @@ msgstr "S_palte(n) einfügen"
 #.
 #: src/dialogs/names.glade.h:7
 msgid "Name Guru"
-msgstr ""
+msgstr "Namen-Guru"
 
 #: src/dialogs/names.glade.h:10
 msgid "Define Name"
@@ -3680,6 +3697,10 @@ msgid ""
 "cm\n"
 "In\n"
 msgstr ""
+"Punkt\n"
+"mm\n"
+"cm\n"
+"Zoll\n"
 
 #: src/dialogs/print.glade.h:31
 msgid "_Top:"
@@ -4503,7 +4524,7 @@ msgstr "##0,0E+0"
 #.
 #: src/formats.c:167
 msgid "[$ADP]"
-msgstr ""
+msgstr "[$ADP]"
 
 #: src/formats.c:167
 msgid "Andorran peseta"
@@ -4519,7 +4540,7 @@ msgstr "VAE-Dirham"
 
 #: src/formats.c:169
 msgid "[$AFA]"
-msgstr ""
+msgstr "[$AFA]"
 
 #: src/formats.c:169
 msgid "Afghanistan afghani"
@@ -4527,7 +4548,7 @@ msgstr "Afghanischer Afghani"
 
 #: src/formats.c:170
 msgid "[$ALL]"
-msgstr ""
+msgstr "[$ALL]"
 
 #: src/formats.c:170
 msgid "Albanian lek"
@@ -4535,7 +4556,7 @@ msgstr "Albanischer Lek"
 
 #: src/formats.c:171
 msgid "[$ANG]"
-msgstr ""
+msgstr "[$ANG]"
 
 #: src/formats.c:171
 msgid "Netherlands Antillian guilder"
@@ -4543,7 +4564,7 @@ msgstr "Gulden der Niederländischen Antillen"
 
 #: src/formats.c:172
 msgid "[$AON]"
-msgstr ""
+msgstr "[$ADN]"
 
 #: src/formats.c:172
 msgid "Angolan new kwanza"
@@ -4551,7 +4572,7 @@ msgstr "Angolanischer Neuer Kwanza"
 
 #: src/formats.c:173
 msgid "[$ARA]"
-msgstr ""
+msgstr "[$ARA]"
 
 #: src/formats.c:173
 msgid "Argentine austral"
@@ -4567,7 +4588,7 @@ msgstr "Österreichischer Schilling"
 
 #: src/formats.c:175
 msgid "[$AUD]"
-msgstr ""
+msgstr "[$AUD]"
 
 #: src/formats.c:175
 msgid "Australian dollar"
@@ -4575,7 +4596,7 @@ msgstr "Australischer Dollar"
 
 #: src/formats.c:176
 msgid "[$AWG]"
-msgstr ""
+msgstr "[$AWG]"
 
 #: src/formats.c:176
 msgid "Aruban guilder"
@@ -4583,7 +4604,7 @@ msgstr "Arubanischer Gulden"
 
 #: src/formats.c:177
 msgid "[$BBD]"
-msgstr ""
+msgstr "[$BBD]"
 
 #: src/formats.c:177
 msgid "Barbados dollar"
@@ -4595,11 +4616,11 @@ msgstr "[$BDT]"
 
 #: src/formats.c:178
 msgid "Bangladeshi taka"
-msgstr ""
+msgstr "Bangladesh-Taka"
 
 #: src/formats.c:179
 msgid "[$BEF]"
-msgstr ""
+msgstr "[$BEF]"
 
 #: src/formats.c:179
 msgid "Belgian franc"
@@ -4607,7 +4628,7 @@ msgstr "Belgischer Franc"
 
 #: src/formats.c:180
 msgid "[$BGL]"
-msgstr ""
+msgstr "[$BGL]"
 
 #: src/formats.c:180
 msgid "Bulgarian lev"
@@ -4615,15 +4636,15 @@ msgstr "Bulgarischer Lev"
 
 #: src/formats.c:181
 msgid "[$BHD]"
-msgstr ""
+msgstr "[$BHD]"
 
 #: src/formats.c:181
 msgid "Bahraini dinar"
-msgstr ""
+msgstr "Bahrein-Dinar"
 
 #: src/formats.c:182
 msgid "[$BIF]"
-msgstr ""
+msgstr "[$BIF]"
 
 #: src/formats.c:182
 msgid "Burundi franc"
@@ -4631,7 +4652,7 @@ msgstr "Burundi-Franc"
 
 #: src/formats.c:183
 msgid "[$BMD]"
-msgstr ""
+msgstr "[$BMD]"
 
 #: src/formats.c:183
 msgid "Bermudian dollar"
@@ -4639,7 +4660,7 @@ msgstr "Bermuda-Dollar"
 
 #: src/formats.c:184
 msgid "[$BND]"
-msgstr ""
+msgstr "[$BND]"
 
 #: src/formats.c:184
 msgid "Brunei dollar"
@@ -4647,7 +4668,7 @@ msgstr "Brunei-Dollar"
 
 #: src/formats.c:185
 msgid "[$BOB]"
-msgstr ""
+msgstr "[$BOB]"
 
 #: src/formats.c:185
 msgid "Bolivian boliviano"
@@ -4655,7 +4676,7 @@ msgstr "Bolivischer Boliviano"
 
 #: src/formats.c:186
 msgid "[$BRE]"
-msgstr ""
+msgstr "[$BRE]"
 
 #: src/formats.c:186
 msgid "Brazilian cruzeiro"
@@ -4663,7 +4684,7 @@ msgstr "Brasilianischer Cruzeiro"
 
 #: src/formats.c:187
 msgid "[$BSD]"
-msgstr ""
+msgstr "[$BSD]"
 
 #: src/formats.c:187
 msgid "Bahamian dollar"
@@ -4671,15 +4692,15 @@ msgstr "Bahamas-Dollar"
 
 #: src/formats.c:188
 msgid "[$BTN]"
-msgstr ""
+msgstr "[$BTN]"
 
 #: src/formats.c:188
 msgid "Bhutan ngultrum"
-msgstr ""
+msgstr "Bhutan-Ngultrum"
 
 #: src/formats.c:189
 msgid "[$BWP]"
-msgstr ""
+msgstr "[$BWP]"
 
 #: src/formats.c:189
 msgid "Botswanian pula"
@@ -4687,7 +4708,7 @@ msgstr "Botswanischer Pula"
 
 #: src/formats.c:190
 msgid "[$BYB]"
-msgstr ""
+msgstr "[$BYB]"
 
 #: src/formats.c:190
 msgid "Belarussian ruble"
@@ -4695,7 +4716,7 @@ msgstr "Weißrussischer Rubel"
 
 #: src/formats.c:191
 msgid "[$BZD]"
-msgstr ""
+msgstr "[$BZD]"
 
 #: src/formats.c:191
 msgid "Belize dollar"
@@ -4703,7 +4724,7 @@ msgstr "Belize-Dollar"
 
 #: src/formats.c:192
 msgid "[$CAD]"
-msgstr ""
+msgstr "[$CAD]"
 
 #: src/formats.c:192
 msgid "Canadian dollar"
@@ -4711,7 +4732,7 @@ msgstr "Kanadischer Dollar"
 
 #: src/formats.c:193
 msgid "[$CHF]"
-msgstr ""
+msgstr "[$CHF]"
 
 #: src/formats.c:193
 msgid "Swiss franc"
@@ -4719,7 +4740,7 @@ msgstr "Schweizer Franken"
 
 #: src/formats.c:194
 msgid "[$CLP]"
-msgstr ""
+msgstr "[$CLP]"
 
 #: src/formats.c:194
 msgid "Chilean peso"
@@ -4827,7 +4848,7 @@ msgstr ""
 
 #: src/formats.c:207
 msgid "Ecuador sucre"
-msgstr ""
+msgstr "Ecuadorianischer Sucre"
 
 #: src/formats.c:208
 msgid "[$EGP]"
@@ -4955,7 +4976,7 @@ msgstr ""
 
 #: src/formats.c:223
 msgid "Guinea-Bissau peso"
-msgstr ""
+msgstr "Guinea-Bissau-Peso"
 
 #: src/formats.c:224
 msgid "[$GYD]"
@@ -4987,7 +5008,7 @@ msgstr ""
 
 #: src/formats.c:227
 msgid "Croatian kuna"
-msgstr ""
+msgstr "Kroatische Kuna"
 
 #: src/formats.c:228
 msgid "[$HTG]"
@@ -5115,7 +5136,7 @@ msgstr ""
 
 #: src/formats.c:243
 msgid "Kampuchean riel"
-msgstr ""
+msgstr "Kambodschanischer Riel"
 
 #: src/formats.c:244
 msgid "[$KMF]"
@@ -5219,7 +5240,7 @@ msgstr ""
 
 #: src/formats.c:256
 msgid "Moroccan dirham"
-msgstr ""
+msgstr "Marokkanischer Dirham"
 
 #: src/formats.c:257
 msgid "[$MDL]"
@@ -5323,7 +5344,7 @@ msgstr ""
 
 #: src/formats.c:269
 msgid "Malaysian ringgit"
-msgstr ""
+msgstr "Malaysischer Ringgit"
 
 #: src/formats.c:270
 msgid "[$MZM]"
@@ -5459,7 +5480,7 @@ msgstr ""
 
 #: src/formats.c:286
 msgid "Qatari rial"
-msgstr ""
+msgstr "Qatar-Rial"
 
 #: src/formats.c:287
 msgid "[$ROL]"
@@ -11492,7 +11513,7 @@ msgstr "#-/-"
 
 #: src/number-match.c:554
 msgid "#RECALC!"
-msgstr ""
+msgstr "#NEU-BER!"
 
 #: src/parse-util.c:520
 msgid "ERROR"
@@ -11501,7 +11522,7 @@ msgstr "FEHLER"
 #: src/plugin-util.c:114
 #, c-format
 msgid "Unable to unmap the file, error : %s"
-msgstr ""
+msgstr "Kann Datei nicht unmappen, Fehler: %s"
 
 #: src/plugin-util.c:123
 #, c-format
@@ -11715,7 +11736,7 @@ msgstr "Zeilen löschen"
 
 #: src/solver-lp.c:897
 msgid "Answer Report"
-msgstr ""
+msgstr "Antwortbericht"
 
 #: src/solver-lp.c:898
 msgid "Gnumeric Solver Answer Report"
@@ -11723,11 +11744,11 @@ msgstr ""
 
 #: src/solver-lp.c:902
 msgid "Target Cell (Maximize)"
-msgstr ""
+msgstr "Zielzelle (Maximieren)"
 
 #: src/solver-lp.c:904
 msgid "Target Cell (Minimize)"
-msgstr ""
+msgstr "Zielzelle (Minimieren)"
 
 #: src/solver-lp.c:906 src/solver-lp.c:932 src/solver-lp.c:967
 #: src/solver-lp.c:1064 src/solver-lp.c:1114
@@ -11805,7 +11826,7 @@ msgstr ""
 
 #: src/solver-lp.c:1067
 msgid "Coefficient"
-msgstr ""
+msgstr "Koeffizient"
 
 #: src/solver-lp.c:1068 src/solver-lp.c:1118
 msgid "Increase"
@@ -11825,15 +11846,15 @@ msgstr "Beschränkung"
 
 #: src/solver-lp.c:1116
 msgid "Price"
-msgstr ""
+msgstr "Preis"
 
 #: src/solver-lp.c:1117
 msgid "R.H. Side"
-msgstr ""
+msgstr "Rechte Seite"
 
 #: src/stf.c:122
 msgid "Error while trying to memory map file"
-msgstr ""
+msgstr "Fehler beim Versuch, Datei in Speicher zu mappen"
 
 #: src/stf.c:132
 msgid "Error while trying to pre-convert file"
@@ -12897,83 +12918,83 @@ msgstr "Gnumeric-XML-Dateiformat"
 #: wizards/graphics/graphic-context.c:150
 #, c-format
 msgid "\"Series %d\""
-msgstr ""
+msgstr "\"Folge %d\""
 
 #: wizards/graphics/graphic-type.c:25
 msgid "Clustered columns.  Compares values between categories"
-msgstr ""
+msgstr "Gebündelte Säulen. Vergleicht Werte zwischen Kategorien"
 
 #: wizards/graphics/graphic-type.c:37
 msgid "Stacked columns.  Compares the values brought by each category"
-msgstr ""
+msgstr "Gestapelte Säulen. Vergleicht die Werte, die jede Kategorie einbringt"
 
 #: wizards/graphics/graphic-type.c:50
 msgid ""
 "Stacked columns, 100%.  Compares between the categories the values broght to "
 "a total"
-msgstr ""
+msgstr "Gestapelte Säulen, 100%. Vergleicht die Werteanteile zwischen Kategorien"
 
 #: wizards/graphics/graphic-type.c:66
 msgid "Clustered bars.  Compares values between categories"
-msgstr ""
+msgstr "Gebündelte Balken. Vergleicht Werte zwischen Kategorien"
 
 #: wizards/graphics/graphic-type.c:78
 msgid "Stacked bars.  Compares the values brought by each category"
-msgstr ""
+msgstr "Gestapelte Balken. Vergleicht die Werte, die jede Kategorie einbringt"
 
 #: wizards/graphics/graphic-type.c:91
 msgid ""
 "Stacked bars, 100%.  Compares between the categories the values broght to a "
 "total"
-msgstr ""
+msgstr "Gestapelte Balken, 100%. Vergleicht die Werteanteile zwischen Kategorien"
 
 #: wizards/graphics/graphic-type.c:107
 msgid "Lines.  FIXME: Add nice explanation"
-msgstr ""
+msgstr "Linien. FIXME: Braucht nette Erklärung"
 
 #: wizards/graphics/graphic-type.c:120
 msgid "Stacked Lines.  FIXME: Add nice explanation"
-msgstr ""
+msgstr "Gestapelte Linien. FIXME: Braucht nette Erklärung"
 
 #: wizards/graphics/graphic-type.c:134
 msgid "Stacked lines, 100%.  FIXME: Add nice explanation"
-msgstr ""
+msgstr "Gestapelte Linien, 100%. FIXME: Braucht nette Erklärung"
 
 #: wizards/graphics/graphic-type.c:147
 msgid "Lines with markers.  FIXME: Add nice explanation"
-msgstr ""
+msgstr "Linien mit Markierungspunkten. FIXME: Braucht nette Erklärung"
 
 #: wizards/graphics/graphic-type.c:160
 msgid "Stacked lines with markers.  FIXME: Add nice explanation"
-msgstr ""
+msgstr "Gestapelte Linien mit Markierungspunkten. FIXME: Braucht nette Erklärung"
 
 #: wizards/graphics/graphic-type.c:173
 msgid "Stacked lines with markers, 100%.  FIXME: Add nice explanation"
-msgstr ""
+msgstr "Gestapelte Linien mit Markierungspunkten, 100%. FIXME: Braucht nette Erklärung"
 
 #: wizards/graphics/graphic-type.c:190
 msgid "Scatter points"
-msgstr ""
+msgstr "Gestreute Punkte"
 
 #: wizards/graphics/graphic-type.c:207
 msgid "Scatter points connected with lines"
-msgstr ""
+msgstr "Gestreute Punkte, verbunden mit Linien"
 
 #: wizards/graphics/graphic-type.c:224
 msgid "Scatter data connected with lines"
-msgstr ""
+msgstr "Gestreute Daten, verbunden mit Linien"
 
 #: wizards/graphics/graphic-type.c:245
 msgid "Area 1: FIXME add nice description"
-msgstr ""
+msgstr "Fläche 1: FIXME braucht nette Erklärung"
 
 #: wizards/graphics/graphic-type.c:257
 msgid "Stacked area.  FIXME: add nic description"
-msgstr ""
+msgstr "Gestapelte Flächen. FIXME: Braucht nette Erklärung"
 
 #: wizards/graphics/graphic-type.c:270
 msgid "Stacked Area, 100%.  FIXME: add nice description"
-msgstr ""
+msgstr "Gestapelte Flächen, 100%. FIXME: Braucht nette Erklärung"
 
 #: wizards/graphics/graphic-type.c:290
 msgid "Bar"
@@ -12985,7 +13006,7 @@ msgstr "Zeilen"
 
 #: wizards/graphics/graphic-type.c:292
 msgid "Scatter"
-msgstr ""
+msgstr "Streuung"
 
 #: wizards/graphics/graphic-type.c:293
 msgid "Areas"
@@ -13106,11 +13127,11 @@ msgstr "Beschriftung der _y-Achse:"
 
 #: wizards/graphics/graphics.glade.h:38
 msgid "_Second X axis values:"
-msgstr ""
+msgstr "Werte für zweite x-Achse:"
 
 #: wizards/graphics/graphics.glade.h:39
 msgid "S_econd Y axis values:"
-msgstr ""
+msgstr "Werte für zweite y-Achse:"
 
 #: wizards/graphics/graphics.glade.h:40
 msgid "Titles"
@@ -13118,7 +13139,7 @@ msgstr "Titel"
 
 #: wizards/graphics/graphics.glade.h:41
 msgid "Principal Axis"
-msgstr ""
+msgstr "Hauptachse"
 
 #: wizards/graphics/graphics.glade.h:42
 msgid "_X axis"
@@ -13150,11 +13171,11 @@ msgstr "x-Achse "
 
 #: wizards/graphics/graphics.glade.h:50
 msgid "_Main line divisions"
-msgstr ""
+msgstr "Hauptteilungen"
 
 #: wizards/graphics/graphics.glade.h:51
 msgid "_Secondary line divisions"
-msgstr ""
+msgstr "Untergeordnete Teilungen"
 
 #: wizards/graphics/graphics.glade.h:52
 msgid " Y axis "
@@ -13162,15 +13183,15 @@ msgstr "y-Achse "
 
 #: wizards/graphics/graphics.glade.h:53
 msgid "M_ain line divisions"
-msgstr ""
+msgstr "Hauptteilungen"
 
 #: wizards/graphics/graphics.glade.h:54
 msgid "S_econdary line divisions"
-msgstr ""
+msgstr "Untergeordnete Teilungen"
 
 #: wizards/graphics/graphics.glade.h:55
 msgid "Division lines"
-msgstr ""
+msgstr "Teilungslinien"
 
 # Checkit -ke-
 #: wizards/graphics/graphics.glade.h:56
