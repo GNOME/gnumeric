@@ -19,6 +19,7 @@ html_la_SOURCES = \
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
+XML_I18N_XML_KIND = --pass-through
 @XML_I18N_MERGE_XML_RULE@
 
 EXTRA_DIST = README ChangeLog $(xml_in_files) $(xml_DATA)
