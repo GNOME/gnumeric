@@ -44,6 +44,8 @@
 #include <math.h>
 #include <string.h>
 
+#define BUG_105322
+
 #undef QUANTIFYING
 
 #ifndef USE_RV_POOLS
@@ -215,7 +217,14 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 	pango_layout_set_text (layout, str->str, str->len);
 
 	attrs = mstyle_get_pango_attrs (mstyle);
-#if 0
+#ifdef BUG_105322
+	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
+	fore = color ? color : mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+	res->color.red = fore->red;
+	res->color.green = fore->green;
+	res->color.blue = fore->blue;
+	if (color) style_color_unref (color);
+#else
 	if (color) {
 		PangoAttrList *new_attrs = pango_attr_list_copy (attrs);
 		PangoAttribute *attr;
@@ -228,13 +237,6 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 		pango_attr_list_insert (attrs, attr);
 		style_color_unref (color);
 	}
-#else
-	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
-	fore = color ? color : mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-	res->color.red = fore->red;
-	res->color.green = fore->green;
-	res->color.blue = fore->blue;
-	if (color) style_color_unref (color);
 #endif
 	pango_layout_set_attributes (res->layout, attrs);
 	pango_attr_list_unref (attrs);
@@ -319,9 +321,11 @@ rendered_value_get_text (RenderedValue const *rv)
 const PangoColor *
 cell_get_render_color (Cell const *cell)
 {
+#ifndef BUG_105322
 	PangoAttrList *attrs;
 	PangoAttrIterator *it;
 	PangoAttribute *attr;
+#endif
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
@@ -329,6 +333,15 @@ cell_get_render_color (Cell const *cell)
 	if (cell->rendered_value == NULL)
 		cell_render_value ((Cell *)cell, TRUE);
 
+#ifdef BUG_105322
+	{
+		static PangoColor ick;
+		ick.red = cell->rendered_value->color.red;
+		ick.green = cell->rendered_value->color.green;
+		ick.blue = cell->rendered_value->color.blue;
+		return &ick;
+	}
+#else
 	attrs = pango_layout_get_attributes (cell->rendered_value->layout);
 	g_return_val_if_fail (attrs != NULL, NULL);
 
@@ -339,6 +352,7 @@ cell_get_render_color (Cell const *cell)
 		return NULL;
 
 	return &((PangoAttrColor *)attr)->color;
+#endif
 }
 
 /**
