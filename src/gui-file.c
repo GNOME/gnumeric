@@ -114,8 +114,6 @@ gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 	}
 
 	sheet_update (wb_view_cur_sheet	(wbv));
-
-	return new_wbcg ? new_wbcg : wbcg;
 }
 
 gboolean

@@ -1,3 +1,9 @@
+2004-08-30  Jon K Hellan  <hellan@acm.org>
+
+	* src/commands.c (cmd_merge_cells_repeat): Shut up warning.
+
+	* src/gui-file.c (gui_wb_view_show): Remove bogus return.
+
 2004-08-30  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_finalize): Destroy
