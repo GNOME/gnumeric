@@ -31,6 +31,7 @@ Andreas:
 	* Make Duplicate Sheet undoable
 	* Reduce the occasions when the undo chain is being flushed
 	* Make Edit->Sheet->Remove partly undoable
+	* Add standard output selector to consolidate tool
 
 Ben Liblit:
 	* Another attempt at configure time path generation.

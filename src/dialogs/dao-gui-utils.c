@@ -133,6 +133,11 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 		(state->gui, "retain_format_button");
 	state->retain_comments_button = glade_xml_get_widget
 		(state->gui, "retain_comments_button");
+	state->put_menu = glade_xml_get_widget
+		(state->gui, "put_menu");
+	if (state->put_menu)
+		gtk_option_menu_set_history 
+			(GTK_OPTION_MENU (state->put_menu), 1);
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "output-table"));
 	state->output_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->output_entry,
@@ -239,6 +244,11 @@ parse_output (GenericToolState *state, data_analysis_output_t *dao)
 	if (state->retain_comments_button != NULL)
 		dao->retain_comments = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (state->retain_comments_button));
+	if (state->put_menu != NULL)
+		dao->put_formulas 
+			= (gtk_option_menu_get_history 
+			   (GTK_OPTION_MENU (state->put_menu)) 
+			   != 0);
 
 	return dao;
 }

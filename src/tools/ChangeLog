@@ -1,3 +1,14 @@
+2003-08-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.c (dao_set_cell_expr): new
+	(dao_put_formulas): new
+	(dao_convert_to_values): new
+	(dao_redraw_respan): new
+	* dao.h (dao_set_cell_expr): new
+	(dao_put_formulas): new
+	(dao_convert_to_values): new
+	(dao_redraw_respan): new
+
 2003-07-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* fill-series.c (fill_series_adjust_variables): adjust 

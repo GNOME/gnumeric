@@ -1,3 +1,28 @@
+2003-08-03  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/commands.c (cmd_consolidate*): delete
+	* src/commands.h (cmd_consolidate): delete
+	* src/consolidate.c (consolidate_free): add argument
+	(consolidate_set_destination): delete
+	(consolidate_get_dest_bounding_box): delete
+	(consolidate_apply): make static
+	(tool_consolidate_engine): new
+	(set_cell_expr): delete
+	(set_cell_value): delete
+	(redraw_respan_and_select): delete
+	(simple_consolidate): use dao
+	(cb_row_tree): ditto
+	(row_consolidate): ditto
+	(cb_col_tree): ditto
+	(col_consolidate): ditto
+	(colrow_consolidate): use dao and write values only once
+	* src/consolidate.h (consolidate_free): add argument
+	(consolidate_set_destination): delete
+	(consolidate_get_dest_bounding_box): delete
+	(consolidate_apply): delete
+	(tool_consolidate_engine): new
+	(consolidate_check_destination): new
+
 2003-08-03  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-object-graphic.c (sheet_object_graphic_user_config):

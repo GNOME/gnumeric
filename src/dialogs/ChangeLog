@@ -1,3 +1,18 @@
+2003-08-03  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* consolidate.glade: add standard output selector
+	* dao-gui-utils.c (dialog_tool_init_outputs): handle put_menu
+	(parse_output): ditto
+	* dialog-analysis-tools.c (tool_destroy): call a tool
+	  specific destruction function if needed.
+	(dialog_tool_init): initialize state->state_destroy and
+	  state->put_menu
+	* dialog-consolidate.c: use GenericToolState as part of the 
+	  state structure and use the standard dao calls rather than 
+	  duplicating the code here.
+	* tool-dialogs.h (GenericToolState): add state_destroy and
+	  put_menu fields
+
 2003-07-31  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-sheet-order.c (cb_ok_clicked): use sheet indices

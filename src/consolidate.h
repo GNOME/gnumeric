@@ -2,6 +2,8 @@
 #define GNUMERIC_CONSOLIDATE_H
 
 #include "gnumeric.h"
+#include <tools/dao.h>
+#include <tools/tools.h>
 
 typedef enum {
 	/*
@@ -29,23 +31,23 @@ typedef enum {
 struct _Consolidate {
 	GnmFunc *fd;
 
-	GlobalRange *dst;
 	GSList      *src;
 
 	ConsolidateMode mode;
 };
 
 Consolidate *consolidate_new  (void);
-void         consolidate_free (Consolidate *cs);
+void         consolidate_free (Consolidate *cs, gboolean content_only);
 
 void         consolidate_set_function    (Consolidate *cs, GnmFunc *fd);
-void         consolidate_set_mode        (Consolidate *cs, ConsolidateMode mode);
+void         consolidate_set_mode        (Consolidate *cs, 
+					  ConsolidateMode mode);
 
-gboolean     consolidate_set_destination (Consolidate *cs, Value *range);
 gboolean     consolidate_add_source      (Consolidate *cs, Value *range);
+gboolean     consolidate_check_destination (Consolidate *cs, 
+					    data_analysis_output_t *dao);
 
-Range        consolidate_get_dest_bounding_box (Consolidate *cs);
-void         consolidate_apply                 (Consolidate *cs,
-						WorkbookControl *wbc);
+gboolean tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs, 
+			     analysis_tool_engine_t selector, gpointer result);
 
 #endif

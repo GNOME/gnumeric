@@ -46,6 +46,7 @@ typedef struct {
 	gboolean                    clear_outputrange;
 	gboolean                    retain_format;
 	gboolean                    retain_comments;
+	gboolean                    put_formulas;
 	WorkbookControl             *wbc;
 } data_analysis_output_t;
 
@@ -79,6 +80,8 @@ void dao_set_cell_printf      (data_analysis_output_t *dao,
                            G_GNUC_PRINTF (4, 5);
 void dao_set_cell_value       (data_analysis_output_t *dao, int col, int row,
 			       Value *v);
+void dao_set_cell_expr       (data_analysis_output_t *dao, int col, int row,
+			       GnmExpr const *expr);
 void dao_set_cell_float       (data_analysis_output_t *dao,
 			       int col, int row, gnm_float v);
 void dao_set_cell_int         (data_analysis_output_t *dao,
@@ -107,5 +110,12 @@ void dao_write_header (data_analysis_output_t *dao, const gchar *toolname,
 		       const gchar *title, Sheet *sheet);
 char *dao_find_name (Sheet *sheet, int col, int row);
 void dao_append_date (GString *buf);
+
+gboolean dao_put_formulas (data_analysis_output_t *dao);
+
+void dao_convert_to_values (data_analysis_output_t *dao);
+void dao_redraw_respan (data_analysis_output_t *dao);
+
+
 
 #endif

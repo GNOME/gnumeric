@@ -21,6 +21,7 @@
 
 #include <gnumeric-config.h>
 #include "gnumeric.h"
+#include <gnumeric-i18n.h>
 #include "consolidate.h"
 
 #include "cell.h"
@@ -80,70 +81,6 @@ get_bounding_box (GSList const *granges, Range *box)
 	box->end.row = max_y;
 }
 
-/**
- * set_cell_value:
- * @sheet: Sheet on which the cell is located
- * @col: Column index of the cell
- * @row: Row index of the cell
- * @value: The expression to put in the cell
- *
- * Set the expression of a cell optionally converting
- * it to a value.
- **/
-static void
-set_cell_expr (Sheet *sheet, int col, int row, GnmExpr const *expr)
-{
-	cell_set_expr (sheet_cell_fetch (sheet, col, row), expr);
-}
-
-/**
- * set_cell_value:
- * @sheet: Sheet on which the cell is located
- * @col: Column index of the cell
- * @row: Row index of the cell
- * @value: The value to put in the cell
- *
- * Set the value of a cell.
- **/
-static void
-set_cell_value (Sheet *sheet, int col, int row, Value const *value)
-{
-	/* There are cases in which value can be NULL */
-	if (value != NULL)
-		cell_set_value (sheet_cell_fetch (sheet, col, row),
-				value_duplicate (value));
-}
-
-static void
-redraw_respan_and_select (Sheet *sheet, CellPos const *start,
-			  int end_col, int end_row,
-			  gboolean values, WorkbookView *wbv)
-{
-	Range r;
-
-	range_init (&r, start->col, start->row, end_col, end_row);
-	sheet_range_calc_spans (sheet, &r, SPANCALC_RESIZE | SPANCALC_RENDER);
-	sheet_region_queue_recalc (sheet, &r);
-
-	if (values) {
-		int row, col;
-
-		workbook_recalc (sheet->workbook);
-		for (row = start->row; row <= end_row; row++) {
-			for (col = start->col; col <= end_col; col++) {
-				Cell *cell = sheet_cell_fetch (sheet, col, row);
-
-				if (cell_has_expr (cell))
-					cell_convert_expr_to_value (cell);
-			}
-		}
-	}
-
-	sheet_redraw_range (sheet, &r);
-	sv_selection_set (sheet_get_view (sheet, wbv), start,
-			  start->col, start->row,
-			  end_col, end_row);
-}
 
 static int
 cb_value_compare (Value const *a, Value const *b)
@@ -171,7 +108,6 @@ consolidate_new (void)
 
 	cs = g_new0 (Consolidate, 1);
 	cs->fd = NULL;
-	cs->dst = NULL;
 	cs->src = NULL;
 	cs->mode = CONSOLIDATE_PUT_VALUES;
 
@@ -179,7 +115,7 @@ consolidate_new (void)
 }
 
 void
-consolidate_free (Consolidate *cs)
+consolidate_free (Consolidate *cs, gboolean content_only)
 {
 	GSList *l;
 
@@ -189,17 +125,14 @@ consolidate_free (Consolidate *cs)
 		gnm_func_unref (cs->fd);
 		cs->fd = NULL;
 	}
-	if (cs->dst) {
-		global_range_free (cs->dst);
-		cs->dst = NULL;
-	}
 
 	for (l = cs->src; l != NULL; l = l->next)
 		global_range_free ((GlobalRange *) l->data);
 	g_slist_free (cs->src);
 	cs->src = NULL;
 
-	g_free (cs);
+	if (!content_only)
+		g_free (cs);
 }
 
 void
@@ -224,37 +157,32 @@ consolidate_set_mode (Consolidate *cs, ConsolidateMode mode)
 }
 
 gboolean
-consolidate_set_destination (Consolidate *cs, Value *range)
+consolidate_check_destination (Consolidate *cs, data_analysis_output_t *dao)
 {
-	GlobalRange *new;
-	GSList const *l;
+/* 	GlobalRange *new; */
+/* 	GSList const *l; */
 
-	g_return_val_if_fail (cs != NULL, FALSE);
-	g_return_val_if_fail (range != NULL, FALSE);
+/* 	g_return_val_if_fail (cs != NULL, FALSE); */
+/* 	g_return_val_if_fail (range != NULL, FALSE); */
 
-	new = g_new (GlobalRange, 1);
+/* 	new = g_new (GlobalRange, 1); */
 
-	new->sheet = range->v_range.cell.a.sheet;
-	range_init_value (&new->range, range);
-	value_release (range);
+/* 	new->sheet = range->v_range.cell.a.sheet; */
+/* 	range_init_value (&new->range, range); */
+/* 	value_release (range); */
 
-	/*
-	 * Don't allow the destination to overlap
-	 * with any of the source ranges
-	 */
-	for (l = cs->src; l != NULL; l = l->next) {
-		GlobalRange const *gr = l->data;
+/* 	/\* */
+/* 	 * Don't allow the destination to overlap */
+/* 	 * with any of the source ranges */
+/* 	 *\/ */
+/* 	for (l = cs->src; l != NULL; l = l->next) { */
+/* 		GlobalRange const *gr = l->data; */
 
-		if (global_range_overlap (new, gr)) {
-			global_range_free (new);
-			return FALSE;
-		}
-	}
-
-	if (cs->dst)
-		global_range_free (cs->dst);
-
-	cs->dst = new;
+/* 		if (global_range_overlap (new, gr)) { */
+/* 			global_range_free (new); */
+/* 			return FALSE; */
+/* 		} */
+/* 	} */
 
 	return TRUE;
 }
@@ -262,7 +190,7 @@ consolidate_set_destination (Consolidate *cs, Value *range)
 gboolean
 consolidate_add_source (Consolidate *cs, Value *range)
 {
-	GlobalRange *tmp, *new;
+	GlobalRange *new;
 
 	g_return_val_if_fail (cs != NULL, FALSE);
 	g_return_val_if_fail (range != NULL, FALSE);
@@ -272,29 +200,6 @@ consolidate_add_source (Consolidate *cs, Value *range)
 	new->sheet = range->v_range.cell.a.sheet;
 	range_init_value (&new->range, range);
 	value_release (range);
-
-	/*
-	 * Make sure the range that is added doesn't overlap
-	 * with the destination range
-	 *
-	 * In reality we only use the start col/row of
-	 * the destination range. Given that the size of result
-	 * of the consolidation can never exceed the size of the
-	 * any of the source ranges (it may be smaller, but never
-	 * larger) we do a strict sanity check here.
-	 */
-	tmp = global_range_dup (cs->dst);
-	tmp->range.end.col = tmp->range.start.col +
-		(new->range.end.col - new->range.start.col);
-	tmp->range.end.row = tmp->range.start.row +
-		(new->range.end.row - new->range.start.row);
-
-	if (global_range_overlap (tmp, new)) {
-		global_range_free (new);
-		global_range_free (tmp);
-		return FALSE;
-	}
-	global_range_free (tmp);
 
 	cs->src = g_slist_append (cs->src, new);
 
@@ -548,8 +453,9 @@ key_list_get (Consolidate *cs, gboolean is_cols)
  * useful either)
  **/
 static void
-simple_consolidate (GnmFunc *fd, GlobalRange const *dst, GSList const *src,
-		    gboolean is_col_or_row, int *end_col, int *end_row)
+simple_consolidate (GnmFunc *fd, GSList const *src,
+		    gboolean is_col_or_row,
+		    data_analysis_output_t *dao)
 {
 	GSList const *l;
 	Range box;
@@ -558,7 +464,6 @@ simple_consolidate (GnmFunc *fd, GlobalRange const *dst, GSList const *src,
 	int x, y;
 
 	g_return_if_fail (fd != NULL);
-	g_return_if_fail (dst != NULL);
 	g_return_if_fail (src != NULL);
 
 	/*
@@ -566,10 +471,6 @@ simple_consolidate (GnmFunc *fd, GlobalRange const *dst, GSList const *src,
 	 * this is needed so we know how far to traverse in total
 	 */
 	get_bounding_box (src, &box);
-	if (dst->range.start.row + box.end.row >= SHEET_MAX_ROWS)
-		box.end.row = SHEET_MAX_ROWS - 1;
-	if (dst->range.start.col + box.end.col >= SHEET_MAX_COLS)
-		box.end.col = SHEET_MAX_COLS - 1;
 
 	for (y = box.start.row; y <= box.end.row; y++) {
 		for (x = box.start.col; x <= box.end.col; x++) {
@@ -626,22 +527,16 @@ simple_consolidate (GnmFunc *fd, GlobalRange const *dst, GSList const *src,
 			 */
 			if (args) {
 				GnmExpr const *expr = gnm_expr_new_funcall (fd, args);
-				set_cell_expr (dst->sheet, dst->range.start.col + x,
-					       dst->range.start.row + y, expr);
+				dao_set_cell_expr (dao, x, y, expr);
 				gnm_expr_unref (expr);
 			}
 		}
 	}
-
-	if (end_row)
-		*end_row = box.end.row + dst->range.start.row;
-	if (end_col)
-		*end_col = box.end.col + dst->range.start.col;
 }
 
 typedef struct {
 	Consolidate *cs;
-	GlobalRange *colrow;
+	data_analysis_output_t *dao;
 	WorkbookControl *wbc;
 } ConsolidateContext;
 
@@ -654,20 +549,14 @@ typedef struct {
 static int
 cb_row_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
 {
-	Consolidate *cs;
-	int end_col = 0;
+	Consolidate *cs = cc->cs;
 
-	cs = cc->cs;
 	if (cs->mode & CONSOLIDATE_COPY_LABELS)
-		set_cell_value (cs->dst->sheet, cc->colrow->range.start.col - 1,
-				cc->colrow->range.start.row, key);
-	simple_consolidate (cs->fd, cc->colrow, ti->val, FALSE, &end_col, NULL);
+		dao_set_cell_value (cc->dao, -1, 0, value_duplicate (key)); 
 
-	if (end_col > cc->colrow->range.end.col)
-		cc->colrow->range.end.col = end_col;
+	simple_consolidate (cs->fd, ti->val, FALSE, cc->dao);
 
-	cc->colrow->range.start.row++;
-	cc->colrow->range.end.row++;
+	cc->dao->offset_col++;
 
 	return FALSE;
 }
@@ -680,7 +569,7 @@ cb_row_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
  * simple consolidation for each row.
  **/
 static void
-row_consolidate (Consolidate *cs, WorkbookView *wbv)
+row_consolidate (Consolidate *cs, data_analysis_output_t *dao)
 {
 	ConsolidateContext cc;
 	GTree *tree;
@@ -689,22 +578,12 @@ row_consolidate (Consolidate *cs, WorkbookView *wbv)
 
 	tree = retrieve_row_tree (cs);
 	cc.cs = cs;
-	cc.colrow = global_range_dup (cs->dst);
+	cc.dao = dao;
 
-	if (cs->mode & CONSOLIDATE_COPY_LABELS) {
-		cc.colrow->range.start.col++;
-		cc.colrow->range.end.col++;
-	}
+	if (cs->mode & CONSOLIDATE_COPY_LABELS)
+		dao->offset_col++;
 
 	g_tree_foreach (tree, (GTraverseFunc) cb_row_tree, &cc);
-
-	redraw_respan_and_select (cs->dst->sheet, &cs->dst->range.start,
-				  cc.colrow->range.end.col,
-				  cc.colrow->range.end.row - 1,
-				  cs->mode & CONSOLIDATE_PUT_VALUES, wbv);
-
-	global_range_free (cc.colrow);
-	cc.colrow = NULL;
 
 	tree_free (tree);
 }
@@ -718,24 +597,14 @@ row_consolidate (Consolidate *cs, WorkbookView *wbv)
 static gboolean
 cb_col_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
 {
-	Consolidate *cs;
-	int end_row = 0;
-
-	cs = cc->cs;
+	Consolidate *cs = cc->cs;
 
 	if (cs->mode & CONSOLIDATE_COPY_LABELS)
-		set_cell_value (cs->dst->sheet,
-				cc->colrow->range.start.col,
-				cc->colrow->range.start.row - 1,
-				key);
+		dao_set_cell_value (cc->dao, 0, -1, value_duplicate (key)); 
 
-	simple_consolidate (cs->fd, cc->colrow, ti->val, FALSE, NULL, &end_row);
+	simple_consolidate (cs->fd, ti->val, FALSE, cc->dao);
 
-	if (end_row > cc->colrow->range.end.row)
-		cc->colrow->range.end.row = end_row;
-
-	cc->colrow->range.start.col++;
-	cc->colrow->range.end.col++;
+	cc->dao->offset_col++;
 
 	return FALSE;
 }
@@ -748,31 +617,22 @@ cb_col_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
  * simple consolidation for each column.
  **/
 static void
-col_consolidate (Consolidate *cs, WorkbookView *wbv)
+col_consolidate (Consolidate *cs, data_analysis_output_t *dao)
 {
 	ConsolidateContext cc;
 	GTree *tree;
 
 	g_return_if_fail (cs != NULL);
+
 	tree = retrieve_col_tree (cs);
 
 	cc.cs = cs;
-	cc.colrow = global_range_dup (cs->dst);
+	cc.dao = dao;
 
-	if (cs->mode & CONSOLIDATE_COPY_LABELS) {
-		cc.colrow->range.start.row++;
-		cc.colrow->range.end.row++;
-	}
+	if (cs->mode & CONSOLIDATE_COPY_LABELS)
+		dao->offset_row++;
 
 	g_tree_foreach (tree, (GTraverseFunc) cb_col_tree, &cc);
-
-	redraw_respan_and_select (cs->dst->sheet, &cs->dst->range.start,
-				  cc.colrow->range.end.col - 1,
-				  cc.colrow->range.end.row,
-				  cs->mode & CONSOLIDATE_PUT_VALUES, wbv);
-
-	global_range_free (cc.colrow);
-	cc.colrow = NULL;
 
 	tree_free (tree);
 }
@@ -821,123 +681,141 @@ colrow_formula_args_build (Value const *row_name, Value const *col_name, GSList 
 }
 
 static void
-colrow_consolidate (Consolidate *cs, WorkbookView *wbv)
+colrow_consolidate (Consolidate *cs, data_analysis_output_t *dao)
 {
 	GSList *rows;
 	GSList *cols;
 	GSList const *l;
 	GSList const *m;
-	int x = 0;
-	int y = 0;
+	int x;
+	int y;
 
 	g_return_if_fail (cs != NULL);
 
 	rows = key_list_get (cs, FALSE);
 	cols = key_list_get (cs, TRUE);
 
-	if (cs->mode & CONSOLIDATE_COPY_LABELS)
-		y = 1;
-	else
-		y = 0;
+	if (cs->mode & CONSOLIDATE_COPY_LABELS) {
+		for (l = rows, y = 1; l != NULL; l = l->next, y++) {
+			Value const *row_name = l->data;
+			
+			dao_set_cell_value (dao, 0, y, value_duplicate (row_name));
+		}
+		for (m = cols, x = 1; m != NULL; m = m->next, x++) {
+			Value const *col_name = m->data;
+			
+			dao_set_cell_value (dao, x, 0, value_duplicate (col_name));
+		}
+		dao->offset_col = 1;
+		dao->offset_row = 1;
+	}
 
-	for (l = rows; l != NULL && cs->dst->range.start.row + y < SHEET_MAX_ROWS; l = l->next, y++) {
+	for (l = rows, y = 0; l != NULL; l = l->next, y++) {
 		Value const *row_name = l->data;
 
-		if (cs->mode & CONSOLIDATE_COPY_LABELS) {
-			set_cell_value (cs->dst->sheet,
-					cs->dst->range.start.col,
-					cs->dst->range.start.row + y,
-					row_name);
-			x = 1;
-		} else
-			x = 0;
-
-		for (m = cols; m != NULL && cs->dst->range.start.col + x < SHEET_MAX_COLS; m = m->next, x++) {
+		for (m = cols, x = 0; m != NULL; m = m->next, x++) {
 			Value const *col_name = m->data;
 			GnmExprList *args;
-
-			if (cs->mode & CONSOLIDATE_COPY_LABELS) {
-				set_cell_value (cs->dst->sheet,
-						cs->dst->range.start.col + x,
-						cs->dst->range.start.row,
-						col_name);
-			}
 
 			args = colrow_formula_args_build (row_name, col_name, cs->src);
 
 			if (args) {
 				GnmExpr const *expr = gnm_expr_new_funcall (cs->fd, args);
-				set_cell_expr (cs->dst->sheet, cs->dst->range.start.col + x,
-					       cs->dst->range.start.row + y, expr);
+				
+				dao_set_cell_expr (dao, x, y, expr);
 				gnm_expr_unref (expr);
 			}
 		}
 	}
 
-	redraw_respan_and_select (cs->dst->sheet, &cs->dst->range.start,
-				  cs->dst->range.end.col + x - 1,
-				  cs->dst->range.end.row + y - 1,
-				  cs->mode & CONSOLIDATE_PUT_VALUES, wbv);
-
-	/*
-	 * No need to free the values in these
-	 * lists, they are constpointers.
-	 */
 	g_slist_free (rows);
 	g_slist_free (cols);
 }
 
-/**
- * consolidate_get_dest_bounding_box:
- *
- * Retrieve the exact maximum area that the result of consolidation
- * can cover
- **/
-Range
-consolidate_get_dest_bounding_box (Consolidate *cs)
+static gboolean
+consolidate_apply (Consolidate *cs, 
+		   data_analysis_output_t *dao)
 {
-	Range r;
+/* 	WorkbookView *wbv = wb_control_view (wbc); */
 
-	range_init (&r, 0, 0, 0, 0);
-
-	g_return_val_if_fail (cs != NULL, r);
-
-	if (cs->src)
-		get_bounding_box (cs->src, &r);
-
-	if (range_translate (&r, cs->dst->range.start.col, cs->dst->range.start.row))
-		range_ensure_sanity (&r);
-
-	return r;
-}
-
-void
-consolidate_apply (Consolidate *cs, WorkbookControl *wbc)
-{
-	WorkbookView *wbv = wb_control_view (wbc);
-
-	g_return_if_fail (cs != NULL);
+	g_return_val_if_fail (cs != NULL, TRUE);
 
 	/*
 	 * All parameters must be set, it's not
 	 * a critical error if one of them is not set,
 	 * we just don't do anything in that case
 	 */
-	if (!cs->fd || !cs->dst || !cs->src)
-		return;
+	if (!cs->fd || !cs->src)
+		return TRUE;
 
 	if ((cs->mode & CONSOLIDATE_ROW_LABELS) && (cs->mode & CONSOLIDATE_COL_LABELS))
-		colrow_consolidate (cs, wbv);
+		colrow_consolidate (cs, dao);
 	else if (cs->mode & CONSOLIDATE_ROW_LABELS)
-		row_consolidate (cs, wbv);
+		row_consolidate (cs, dao);
 	else if (cs->mode & CONSOLIDATE_COL_LABELS)
-		col_consolidate (cs, wbv);
-	else {
-		int end_row, end_col;
+		col_consolidate (cs, dao);
+	else
+		simple_consolidate (cs->fd, cs->src, FALSE, dao);
+	dao_redraw_respan (dao);
+	return FALSE;
+}
 
-		simple_consolidate (cs->fd, cs->dst, cs->src, FALSE, &end_col, &end_row);
-		redraw_respan_and_select (cs->dst->sheet, &cs->dst->range.start,
-					  end_col, end_row,
-					  cs->mode & CONSOLIDATE_PUT_VALUES, wbv);
+
+
+gboolean 
+tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs, 
+			 analysis_tool_engine_t selector, gpointer result)
+{
+	Consolidate *cs = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Consolidating to (%s)"),
+						result) == NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+	{
+		Range r;
+
+		range_init (&r, 0, 0, 0, 0);
+		get_bounding_box (cs->src, &r);
+		
+		if ((cs->mode & CONSOLIDATE_ROW_LABELS) && 
+		    (cs->mode & CONSOLIDATE_COL_LABELS))
+			dao_adjust (dao, r.end.col + 1 + 
+				    ((cs->mode & CONSOLIDATE_COPY_LABELS) ?
+				     1 : 0), 
+				    r.end.row + 1 + 
+				    ((cs->mode & CONSOLIDATE_COPY_LABELS) ?
+				     1 : 0));
+		else if (cs->mode & CONSOLIDATE_ROW_LABELS)
+			dao_adjust (dao, r.end.col + 1, 
+				    r.end.row + 1 + 
+				    ((cs->mode & CONSOLIDATE_COPY_LABELS) ?
+				     1 : 0));
+
+		else if (cs->mode & CONSOLIDATE_COL_LABELS)
+			dao_adjust (dao, r.end.col + 1 + 
+				    ((cs->mode & CONSOLIDATE_COPY_LABELS) ?
+				     1 : 0), 
+				    r.end.row + 1);
+		else
+			dao_adjust (dao, r.end.col + 1, 
+				    r.end.row + 1);
+		return FALSE;
 	}
+	case TOOL_ENGINE_CLEAN_UP:
+		consolidate_free (cs, TRUE);
+		return FALSE;
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Data Consolidation"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Data Consolidation"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return consolidate_apply (cs, dao);
+	}
+	return TRUE;  /* We shouldn't get here */
 }

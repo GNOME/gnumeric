@@ -208,6 +208,8 @@ error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
 gboolean
 tool_destroy (GtkObject *w, GenericToolState  *state)
 {
+	gboolean res = FALSE;
+
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
@@ -222,9 +224,12 @@ tool_destroy (GtkObject *w, GenericToolState  *state)
 
 	state->dialog = NULL;
 
+	if (state->state_destroy)
+		res = state->state_destroy (w, state);
+
 	g_free (state);
 
-	return FALSE;
+	return (FALSE || res);
 }
 
 /**
@@ -331,6 +336,7 @@ dialog_tool_init (GenericToolState *state,
 	state->input_var1_str = (input_var1_str == NULL) ?
 		_("_Input Range:") : input_var1_str;
 	state->input_var2_str = input_var2_str;
+	state->state_destroy = NULL;
 
 	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (state->wbcg),
 		gui_name, NULL, NULL);
@@ -400,6 +406,8 @@ dialog_tool_init (GenericToolState *state,
 					       GTK_WIDGET (state->input_entry_2));
 		gtk_widget_show (GTK_WIDGET (state->input_entry_2));
 	}
+
+	state->put_menu = glade_xml_get_widget (state->gui, "put_menu"); 
 
 	state->warning = glade_xml_get_widget (state->gui, "warnings");
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);

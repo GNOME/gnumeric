@@ -24,7 +24,10 @@
 
 typedef struct _scenario_state scenario_state_t;
 
-typedef struct {
+typedef struct _GenericToolState GenericToolState;
+typedef gboolean (*state_destroy_t) (GtkObject *w, GenericToolState *state);
+
+struct _GenericToolState {
 	GladeXML  *gui;
 	GtkWidget *dialog;
 	GnmExprEntry *input_entry;
@@ -33,6 +36,7 @@ typedef struct {
         GtkWidget *clear_outputrange_button;
         GtkWidget *retain_format_button;
         GtkWidget *retain_comments_button;
+        GtkWidget *put_menu;
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
@@ -49,11 +53,12 @@ typedef struct {
 	WorkbookControlGUI  *wbcg;
 	GtkWidget *warning_dialog;
 	GtkWidget *warning;
+	state_destroy_t state_destroy;
 
-#warning  FIXME: The following 2 items do not belong into the GenericToolState
+/* #warning  FIXME: The following 2 items do not belong into the GenericToolState */
         scenario_state_t *scenario_state;
         GtkWidget *name_entry;
-} GenericToolState;
+} ;
 
 void     tool_load_selection (GenericToolState *state, gboolean allow_multiple);
 gboolean tool_destroy (GtkObject *w, GenericToolState  *state);

@@ -24,6 +24,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "tool-dialogs.h"
 
 #include <commands.h>
 #include <consolidate.h>
@@ -35,8 +36,12 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
 #include <workbook-edit.h>
+#include <dao-gui-utils.h>
+#include <tools/dao.h>
 
 #include <string.h>
+
+#define CONSOLIDATE_KEY            "consolidate-dialog"
 
 enum {
 	SOURCE_COLUMN,
@@ -46,36 +51,23 @@ enum {
 };
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
-	SheetView	   *sv;
-	Sheet              *sheet;
-	GladeXML           *glade_gui;
-	GtkWidget          *warning_dialog;
+	GenericToolState base;
 
-	struct {
-		GtkDialog       *dialog;
+	GtkOptionMenu     *function;
+	GtkOptionMenu     *put;
 
-		GtkOptionMenu     *function;
-		GtkOptionMenu     *put;
-
-		GnmExprEntry	  *destination;
-
-		GtkTreeView       *source_view;
-		GtkTreeModel      *source_areas;
-		GnumericCellRendererExprEntry *cellrenderer;
-		GdkPixbuf         *pixmap;
-
-		GtkButton         *clear;
-		GtkButton         *delete;
-
-		GtkCheckButton    *labels_row;
-		GtkCheckButton    *labels_col;
-		GtkCheckButton    *labels_copy;
-
-		GtkButton         *btn_ok;
-		GtkButton         *btn_cancel;
-	} gui;
-
+	GtkTreeView       *source_view;
+	GtkTreeModel      *source_areas;
+	GnumericCellRendererExprEntry *cellrenderer;
+	GdkPixbuf         *pixmap;
+	
+	GtkButton         *clear;
+	GtkButton         *delete;
+	
+	GtkCheckButton    *labels_row;
+	GtkCheckButton    *labels_col;
+	GtkCheckButton    *labels_copy;
+	
 	int                        areas_index;     /* Select index in sources clist */
 	char                      *construct_error; /* If set an error occurred in construct_consolidate */
 } ConsolidateState;
@@ -98,11 +90,11 @@ adjust_source_areas (ConsolidateState *state)
 	GtkTreeIter      iter;
 	
 	if (gtk_tree_model_get_iter_first 
-	    (state->gui.source_areas, &iter)) {
+	    (state->source_areas, &iter)) {
 		do {
 			char *source;
 
-			gtk_tree_model_get (state->gui.source_areas, 
+			gtk_tree_model_get (state->source_areas, 
 					    &iter,
 					    SOURCE_COLUMN, &source,
 					    -1);
@@ -110,16 +102,16 @@ adjust_source_areas (ConsolidateState *state)
 				cnt_empty--;
 			g_free (source);
 		} while (gtk_tree_model_iter_next 
-			 (state->gui.source_areas,&iter));
+			 (state->source_areas,&iter));
 	}
 	for (i = 0; i < cnt_empty; i++) {
-		gtk_list_store_append (GTK_LIST_STORE(state->gui.source_areas),
+		gtk_list_store_append (GTK_LIST_STORE(state->source_areas),
 				       &iter);
-		gtk_list_store_set (GTK_LIST_STORE(state->gui.source_areas),
+		gtk_list_store_set (GTK_LIST_STORE(state->source_areas),
 				    &iter,
 				    IS_EDITABLE_COLUMN,	TRUE,
 				    SOURCE_COLUMN, "",
-				    PIXMAP_COLUMN, state->gui.pixmap,
+				    PIXMAP_COLUMN, state->pixmap,
 				    -1);
 	}
 	dialog_set_button_sensitivity (NULL, state);
@@ -133,7 +125,7 @@ adjust_source_areas (ConsolidateState *state)
  * be used to actually "execute" a consolidation
  **/
 static Consolidate *
-construct_consolidate (ConsolidateState *state)
+construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 {
 	Consolidate      *cs   = consolidate_new ();
 	ConsolidateMode  mode = 0;
@@ -141,7 +133,7 @@ construct_consolidate (ConsolidateState *state)
 	Value            *range_value;
 	GtkTreeIter      iter;
 
-	switch (gtk_option_menu_get_history (state->gui.function)) {
+	switch (gtk_option_menu_get_history (state->function)) {
 	case 0 : func = "SUM"; break;
 	case 1 : func = "MIN"; break;
 	case 2 : func = "MAX"; break;
@@ -159,44 +151,34 @@ construct_consolidate (ConsolidateState *state)
 
 	consolidate_set_function (cs, gnm_func_lookup (func, NULL));
 
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->gui.labels_row)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->labels_row)))
 		mode |= CONSOLIDATE_COL_LABELS;
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->gui.labels_col)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->labels_col)))
 		mode |= CONSOLIDATE_ROW_LABELS;
 
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->gui.labels_copy)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->labels_copy)))
 		mode |= CONSOLIDATE_COPY_LABELS;
-	if (gtk_option_menu_get_history (state->gui.put) == 0)
+	if (!dao_put_formulas (dao))
 		mode |= CONSOLIDATE_PUT_VALUES;
 
 	consolidate_set_mode (cs, mode);
 
-	range_value = gnm_expr_entry_parse_as_value
-		(GNM_EXPR_ENTRY (state->gui.destination), state->sheet);
-	g_return_val_if_fail (range_value != NULL, NULL);
-
-	if (!consolidate_set_destination (cs, range_value)) {
-		g_warning ("Error while setting destination! This should not happen");
-		consolidate_free (cs);
-		return NULL;
-	}
-
 	g_return_val_if_fail (gtk_tree_model_iter_n_children
-			      (state->gui.source_areas,
+			      (state->source_areas,
 			       NULL)> 2, NULL);
 
 	gtk_tree_model_get_iter_first 
-		(state->gui.source_areas, &iter);
+		(state->source_areas, &iter);
 
 	do {
 		char *source;
 
-		gtk_tree_model_get (state->gui.source_areas, 
+		gtk_tree_model_get (state->source_areas, 
 				    &iter,
 				    SOURCE_COLUMN, &source,
 				    -1);
 		if (strlen(source) != 0) {
-			range_value = global_range_parse (state->sheet, source);
+			range_value = global_range_parse (state->base.sheet, source);
 			
 			if (range_value == NULL) {
 				state->construct_error = g_strdup_printf (
@@ -204,7 +186,7 @@ construct_consolidate (ConsolidateState *state)
 					  "does not define a region"),
 					source);
 				g_free (source);
-				consolidate_free (cs);
+				consolidate_free (cs, FALSE);
 				return NULL;
 			}
 			if (!consolidate_add_source (cs, range_value)) {
@@ -213,13 +195,13 @@ construct_consolidate (ConsolidateState *state)
 					  "with the destination region"),
 					source);
 				g_free (source);
-				consolidate_free (cs);
+				consolidate_free (cs, FALSE);
 				return NULL;
 			}
 		}
 		g_free (source);
 	} while (gtk_tree_model_iter_next 
-		 (state->gui.source_areas,&iter));
+		 (state->source_areas,&iter));
 
 	return cs;
 }
@@ -237,11 +219,16 @@ dialog_set_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 			       ConsolidateState *state)
 {
 	gboolean ready = FALSE;
+	int i = gnumeric_glade_group_value (state->base.gui, output_group);
 
-	ready = gnm_expr_entry_is_cell_ref (state->gui.destination, state->sheet, TRUE)
+	ready = (i != 2) 
+		|| gnm_expr_entry_is_cell_ref 
+		(GNM_EXPR_ENTRY (state->base.output_entry), 
+		 state->base.sheet, TRUE);
+	ready = ready
 		&& (gtk_tree_model_iter_n_children
-		    (state->gui.source_areas, NULL)> 2);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.btn_ok), ready);
+		    (state->source_areas, NULL)> 2);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->base.ok_button), ready);
 	return;
 }
 
@@ -250,9 +237,9 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 		      ConsolidateState *state)
 {
 	GtkTreeIter  iter;
-	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->gui.source_view);
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->source_view);
 
-	gtk_widget_set_sensitive (GTK_WIDGET(state->gui.delete), 
+	gtk_widget_set_sensitive (GTK_WIDGET(state->delete), 
 				  gtk_tree_selection_get_selected (selection, NULL, &iter));
 }
 
@@ -268,67 +255,71 @@ cb_source_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 
 	path = gtk_tree_path_new_from_string (path_string);
 
-	gtk_tree_model_get_iter (state->gui.source_areas, &iter, path);
-	gtk_list_store_set (GTK_LIST_STORE(state->gui.source_areas), 
+	gtk_tree_model_get_iter (state->source_areas, &iter, path);
+	gtk_list_store_set (GTK_LIST_STORE(state->source_areas), 
 			    &iter, SOURCE_COLUMN, new_text, -1);
 
 	gtk_tree_path_free (path);
 	adjust_source_areas (state);
 }
 
-static void
-cb_dialog_destroy (ConsolidateState *state)
+static gboolean
+cb_dialog_destroy (G_GNUC_UNUSED GtkObject *w, ConsolidateState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
-
-	g_object_unref (G_OBJECT (state->glade_gui));
-	state->glade_gui = NULL;
-	g_object_unref (G_OBJECT (state->gui.pixmap));
-	state->gui.pixmap = NULL;
-
+	if (state->pixmap != NULL) {
+		g_object_unref (G_OBJECT (state->pixmap));
+		state->pixmap = NULL;
+	}
 	if (state->construct_error) {
 		g_warning ("The construct error was not freed, this should not happen!");
 		g_free (state->construct_error);
 	}
-	g_free (state);
+	return FALSE;
 }
 
 static void
-cb_dialog_clicked (GtkWidget *widget, ConsolidateState *state)
+cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 {
-	if (state->gui.cellrenderer->entry)
+	Consolidate *cs;
+	data_analysis_output_t  *dao;
+
+	if (state->cellrenderer->entry)
 		gnumeric_cell_renderer_expr_entry_editing_done (
-			GTK_CELL_EDITABLE (state->gui.cellrenderer->entry),
-			state->gui.cellrenderer);
+			GTK_CELL_EDITABLE (state->cellrenderer->entry),
+			state->cellrenderer);
 
-	if (widget == GTK_WIDGET (state->gui.btn_ok)) {
-		Consolidate *cs;
-
-		if (state->warning_dialog != NULL)
-			gtk_widget_destroy (state->warning_dialog);
-
-		cs = construct_consolidate (state);
-
-		/*
-		 * If something went wrong consolidate_construct
-		 * return NULL and sets the state->construct_error to
-		 * a suitable error message
-		 */
-		if (cs == NULL) {
-			gnumeric_notice_nonmodal (GTK_WINDOW (state->gui.dialog),
-						  &state->warning_dialog,
-						  GTK_MESSAGE_ERROR,
-						  state->construct_error);
-			g_free (state->construct_error);
-			state->construct_error = NULL;
-
-			return;
-		}
-
-		cmd_consolidate (WORKBOOK_CONTROL (state->wbcg), cs);
+	if (state->base.warning_dialog != NULL)
+		gtk_widget_destroy (state->base.warning_dialog);
+	
+	dao  = parse_output ((GenericToolState *)state, NULL);
+	cs = construct_consolidate (state, dao);
+	
+	/*
+	 * If something went wrong consolidate_construct
+	 * return NULL and sets the state->construct_error to
+	 * a suitable error message
+	 */
+	if (cs == NULL) {
+		gnumeric_notice_nonmodal (GTK_WINDOW (state->base.dialog),
+					  &state->base.warning_dialog,
+					  GTK_MESSAGE_ERROR,
+					  state->construct_error);
+		g_free (state->construct_error);
+		g_free (dao);
+		state->construct_error = NULL;
+		
+		return;
 	}
+	
+/* consolidate_check_destination  should be written and verified */
 
-	gtk_widget_destroy (GTK_WIDGET (state->gui.dialog));
+/* 	cmd_consolidate (WORKBOOK_CONTROL (state->base.wbcg), cs); */
+
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
+				state->base.sheet,
+				dao, cs, tool_consolidate_engine) &&
+	    (button == state->base.ok_button))
+		gtk_widget_destroy (state->base.dialog);
 }
 
 static void
@@ -345,12 +336,12 @@ cb_clear_clicked (G_GNUC_UNUSED GtkButton *button,
 {
 	g_return_if_fail (state != NULL);
 
-	if (state->gui.cellrenderer->entry)
+	if (state->cellrenderer->entry)
 		gnumeric_cell_renderer_expr_entry_editing_done (
-			GTK_CELL_EDITABLE (state->gui.cellrenderer->entry),
-			state->gui.cellrenderer);
+			GTK_CELL_EDITABLE (state->cellrenderer->entry),
+			state->cellrenderer);
 
-	gtk_list_store_clear (GTK_LIST_STORE(state->gui.source_areas));
+	gtk_list_store_clear (GTK_LIST_STORE(state->source_areas));
 	adjust_source_areas (state);	
 
 	dialog_set_button_sensitivity (NULL, state);
@@ -362,15 +353,15 @@ cb_delete_clicked (G_GNUC_UNUSED GtkButton *button,
 {
 	GtkTreeIter sel_iter;
 	GtkTreeSelection  *selection = 
-		gtk_tree_view_get_selection (state->gui.source_view);
+		gtk_tree_view_get_selection (state->source_view);
 
-	if (state->gui.cellrenderer->entry)
+	if (state->cellrenderer->entry)
 		gnumeric_cell_renderer_expr_entry_editing_done (
-			GTK_CELL_EDITABLE (state->gui.cellrenderer->entry),
-			state->gui.cellrenderer);
+			GTK_CELL_EDITABLE (state->cellrenderer->entry),
+			state->cellrenderer);
 	if (!gtk_tree_selection_get_selected (selection, NULL, &sel_iter))
 		return;
-	gtk_list_store_remove (GTK_LIST_STORE(state->gui.source_areas),
+	gtk_list_store_remove (GTK_LIST_STORE(state->source_areas),
 			       &sel_iter);
 	adjust_source_areas (state);
 
@@ -382,12 +373,12 @@ cb_labels_toggled (G_GNUC_UNUSED GtkCheckButton *button,
 		   ConsolidateState *state)
 {
 	gboolean copy_labels =
-		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->gui.labels_row)) ||
-		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->gui.labels_col));
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->labels_row)) ||
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->labels_col));
 
-	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.labels_copy), copy_labels);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->labels_copy), copy_labels);
 	if (!copy_labels)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->gui.labels_copy), FALSE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->labels_copy), FALSE);
 }
 
 /***************************************************************************************/
@@ -401,46 +392,33 @@ connect_signal_labels_toggled (ConsolidateState *state, GtkCheckButton *button)
 }
 
 static void
-connect_signal_btn_clicked (ConsolidateState *state, GtkButton *button)
-{
-	g_signal_connect (G_OBJECT (button),
-		"clicked",
-		G_CALLBACK (cb_dialog_clicked), state);
-}
-
-static void
 setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 {
-	GnmExprEntryFlags flags;
 	GtkTreeViewColumn *column;
 	GtkTreeSelection  *selection;
 	GtkCellRenderer *renderer;
 
-	state->gui.dialog      = GTK_DIALOG        (glade_xml_get_widget (glade_gui, "dialog"));
-
-	state->gui.function    = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "function"));
-	state->gui.put         = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "put"));
-
-	state->gui.destination = gnm_expr_entry_new (state->wbcg, TRUE);
+	state->function    = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "function"));
+	state->put         = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "put"));
 
 /* Begin: Source Areas View*/
-	state->gui.source_view = GTK_TREE_VIEW (glade_xml_get_widget 
+	state->source_view = GTK_TREE_VIEW (glade_xml_get_widget 
 						(glade_gui, 
 						 "source_treeview"));
-	state->gui.source_areas = GTK_TREE_MODEL(gtk_list_store_new 
+	state->source_areas = GTK_TREE_MODEL(gtk_list_store_new 
 						 (NUM_COLMNS, 
 						  G_TYPE_STRING, 
 						  GDK_TYPE_PIXBUF,
 						  G_TYPE_INT));
-	gtk_tree_view_set_model (state->gui.source_view, 
-				 state->gui.source_areas);
+	gtk_tree_view_set_model (state->source_view, 
+				 state->source_areas);
 	
 	selection = gtk_tree_view_get_selection 
-			(state->gui.source_view );
+			(state->source_view );
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 	
-	renderer = gnumeric_cell_renderer_expr_entry_new (state->wbcg);
-	state->gui.cellrenderer = 
+	renderer = gnumeric_cell_renderer_expr_entry_new (state->base.wbcg);
+	state->cellrenderer = 
 		GNUMERIC_CELL_RENDERER_EXPR_ENTRY (renderer);
 	column = gtk_tree_view_column_new_with_attributes
 		("", renderer,
@@ -453,61 +431,35 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 	/* uncomment the next line and remove the following */
 /* 		gtk_tree_view_column_set_expand (column, TRUE); */
 	gtk_tree_view_column_set_min_width (column, 200);
-	gtk_tree_view_append_column (state->gui.source_view, column);
+	gtk_tree_view_append_column (state->source_view, column);
 	column = gtk_tree_view_column_new_with_attributes 
 		("", gtk_cell_renderer_pixbuf_new (), 
 		 "pixbuf", PIXMAP_COLUMN, NULL);
-	gtk_tree_view_append_column (state->gui.source_view, column);
+	gtk_tree_view_append_column (state->source_view, column);
 /* End: Source Areas View*/
 
-	state->gui.clear       = GTK_BUTTON          (glade_xml_get_widget (glade_gui, "clear"));
-	state->gui.delete      = GTK_BUTTON          (glade_xml_get_widget (glade_gui, "delete"));
+	state->clear       = GTK_BUTTON          (glade_xml_get_widget (glade_gui, "clear"));
+	state->delete      = GTK_BUTTON          (glade_xml_get_widget (glade_gui, "delete"));
 
-	state->gui.labels_row  = GTK_CHECK_BUTTON (glade_xml_get_widget (glade_gui, "labels_row"));
-	state->gui.labels_col  = GTK_CHECK_BUTTON (glade_xml_get_widget (glade_gui, "labels_col"));
-	state->gui.labels_copy = GTK_CHECK_BUTTON (glade_xml_get_widget (glade_gui, "labels_copy"));
-
-	state->gui.btn_ok     = GTK_BUTTON  (glade_xml_get_widget (glade_gui, "btn_ok"));
-	state->gui.btn_cancel = GTK_BUTTON  (glade_xml_get_widget (glade_gui, "btn_cancel"));
-
-	gtk_table_attach (GTK_TABLE (glade_xml_get_widget (glade_gui, "table1")),
-			  GTK_WIDGET (state->gui.destination),
-			  1, 2, 2, 3,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
-	gtk_widget_show (GTK_WIDGET (state->gui.destination));
-
-	flags = GNM_EE_SINGLE_RANGE;
-	gnm_expr_entry_set_flags (state->gui.destination, flags, flags);
-
-	gnumeric_editable_enters (GTK_WINDOW (state->gui.dialog),
-				  GTK_WIDGET (state->gui.destination));
+	state->labels_row  = GTK_CHECK_BUTTON (glade_xml_get_widget (glade_gui, "labels_row"));
+	state->labels_col  = GTK_CHECK_BUTTON (glade_xml_get_widget (glade_gui, "labels_col"));
+	state->labels_copy = GTK_CHECK_BUTTON (glade_xml_get_widget (glade_gui, "labels_copy"));
 
 	cb_selection_changed (NULL, state);
 	g_signal_connect (selection,
 		"changed",
 		G_CALLBACK (cb_selection_changed), state);
-	g_signal_connect (G_OBJECT (state->gui.destination),
-		"changed",
-		G_CALLBACK (dialog_set_button_sensitivity), state);
-	g_signal_connect (G_OBJECT (state->gui.clear),
+	g_signal_connect (G_OBJECT (state->clear),
 		"clicked",
 		G_CALLBACK (cb_clear_clicked), state);
-	g_signal_connect (G_OBJECT (state->gui.delete),
+	g_signal_connect (G_OBJECT (state->delete),
 		"clicked",
 		G_CALLBACK (cb_delete_clicked), state);
 
-	connect_signal_labels_toggled (state, state->gui.labels_row);
-	connect_signal_labels_toggled (state, state->gui.labels_col);
-	connect_signal_labels_toggled (state, state->gui.labels_copy);
+	connect_signal_labels_toggled (state, state->labels_row);
+	connect_signal_labels_toggled (state, state->labels_col);
+	connect_signal_labels_toggled (state, state->labels_copy);
 
-	connect_signal_btn_clicked (state, state->gui.btn_ok);
-	connect_signal_btn_clicked (state, state->gui.btn_cancel);
-
-	/* FIXME: that's not the proper help location */
-	gnumeric_init_help_button (
-		glade_xml_get_widget (glade_gui, "btn_help"),
-		"data-menu.html");
 }
 
 static gboolean
@@ -517,73 +469,93 @@ add_source_area (SheetView *sv, Range const *r, gpointer closure)
 	char *range_name = global_range_name (sv_sheet (sv), r);
 	GtkTreeIter      iter;
 	
-	gtk_list_store_prepend (GTK_LIST_STORE(state->gui.source_areas),
+	gtk_list_store_prepend (GTK_LIST_STORE(state->source_areas),
 				&iter);
-	gtk_list_store_set (GTK_LIST_STORE(state->gui.source_areas),
+	gtk_list_store_set (GTK_LIST_STORE(state->source_areas),
 			    &iter,
 			    IS_EDITABLE_COLUMN,	TRUE,
 			    SOURCE_COLUMN, range_name,
-			    PIXMAP_COLUMN, state->gui.pixmap,
+			    PIXMAP_COLUMN, state->pixmap,
 			    -1);
 	g_free (range_name);
 
 	return TRUE;
 }
 
-void
-dialog_consolidate (WorkbookControlGUI *wbcg)
+/**
+ * dialog_consolidate_tool_init:
+ * @state:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static void
+dialog_consolidate_tool_init (ConsolidateState *state)
 {
-	GladeXML *glade_gui;
-	ConsolidateState *state;
 	Range const *r = NULL;
 
-	g_return_if_fail (wbcg != NULL);
-
-	glade_gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
-		"consolidate.glade", NULL, NULL);
-        if (glade_gui == NULL)
-                return;
-
-	/* Primary static initialization */
-	state = g_new0 (ConsolidateState, 1);
-	state->wbcg        = wbcg;
-	state->sv	   = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
-	state->sheet	   = sv_sheet (state->sv);
-	state->glade_gui   = glade_gui;
-	state->warning_dialog = NULL;
 	state->areas_index = -1;
 
-	setup_widgets (state, glade_gui);
-	state->gui.pixmap =  gtk_widget_render_icon 
-		(GTK_WIDGET(state->gui.dialog),
+	setup_widgets (state, state->base.gui);
+	state->pixmap =  gtk_widget_render_icon 
+		(GTK_WIDGET(state->base.dialog),
 		 "Gnumeric_ExprEntry",
 		 GTK_ICON_SIZE_LARGE_TOOLBAR,
 		 "Gnumeric-Consolidate-Dialog");
 
 	/* Dynamic initialization */
 	cb_source_changed (NULL, state);
-	cb_labels_toggled (state->gui.labels_row, state);
+	cb_labels_toggled (state->labels_row, state);
 
 	/*
 	 * When there are non-singleton selections add them all to the
 	 * source range list for convenience
 	 */
-	if ((r = selection_first_range (state->sv, NULL, NULL)) != NULL 
+	if ((r = selection_first_range (state->base.sv, NULL, NULL)) != NULL 
 	    && !range_is_singleton (r))
-		selection_foreach_range (state->sv, TRUE, &add_source_area, state);
+		selection_foreach_range (state->base.sv, TRUE, &add_source_area, state);
 
 	adjust_source_areas (state);
 
-	gtk_widget_grab_focus   (GTK_WIDGET (state->gui.function));
-	gtk_widget_grab_default (GTK_WIDGET (state->gui.btn_ok));
+	gtk_widget_grab_focus   (GTK_WIDGET (state->function));
 
 	dialog_set_button_sensitivity(NULL, state);
 
-	/* a candidate for merging into attach guru */
-	g_object_set_data_full (G_OBJECT (state->gui.dialog),
-		"state", state, (GDestroyNotify) cb_dialog_destroy);
-	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->gui.dialog));
-	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
-				   GTK_WINDOW (state->gui.dialog));
-	gtk_widget_show (GTK_WIDGET (state->gui.dialog));
+	state->base.state_destroy = (state_destroy_t)cb_dialog_destroy;
+	
+}
+
+void
+dialog_consolidate (WorkbookControlGUI *wbcg)
+{
+	ConsolidateState *state;
+	SheetView *sv;
+	Sheet *sheet;
+
+	g_return_if_fail (wbcg != NULL);
+	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	sheet = sv_sheet (sv);
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, CONSOLIDATE_KEY)) {
+		return;
+	}
+
+	/* Primary static initialization */
+	state = g_new0 (ConsolidateState, 1);
+
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+			      "consolidate-tool.html",
+			      "consolidate.glade", "Consolidate",
+			      NULL, NULL,
+			      _("Could not create the Consolidate dialog."),
+			      CONSOLIDATE_KEY,
+			      G_CALLBACK (cb_consolidate_ok_clicked), 
+			      NULL,
+			      G_CALLBACK (dialog_set_button_sensitivity),
+			      0))
+		return;
+
+	dialog_consolidate_tool_init (state);
+	gtk_widget_show (GTK_WIDGET (state->base.dialog));
 }

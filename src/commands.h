@@ -77,8 +77,6 @@ gboolean cmd_search_replace     (WorkbookControl *wbc, Sheet *sheet, SearchRepla
 gboolean cmd_colrow_std_size    (WorkbookControl *wbc, Sheet *sheet,
 				 gboolean is_cols, double new_default);
 
-gboolean cmd_consolidate        (WorkbookControl *wbc, Consolidate *cs);
-
 gboolean cmd_zoom               (WorkbookControl *wbc, GSList *sheets, double factor);
 
 gboolean cmd_object_insert	(WorkbookControl *wbc, SheetObject *so,

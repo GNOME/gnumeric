@@ -76,6 +76,7 @@ dao_init (data_analysis_output_t *dao,
 	dao->clear_outputrange = TRUE;
 	dao->retain_format     = FALSE;
 	dao->retain_comments   = FALSE;
+	dao->put_formulas      = FALSE;
 
 	return dao;
 }
@@ -253,6 +254,33 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 	return FALSE;
 }
 
+void 
+dao_set_cell_expr       (data_analysis_output_t *dao, int col, int row,
+			       GnmExpr const *expr)
+{
+        Cell *cell;
+
+	col += dao->offset_col;
+	row += dao->offset_row;
+
+	/* Check that the output is in the given range, but allow singletons
+	 * to expand
+	 */
+	if (dao->type == RangeOutput &&
+	    (dao->cols > 1 || dao->rows > 1) &&
+	    (col >= dao->cols || row >= dao->rows))
+	        return;
+
+	col += dao->start_col;
+	row += dao->start_row;
+	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS)
+		return;
+
+	cell = sheet_cell_fetch (dao->sheet, col, row);
+	cell_set_expr (cell, expr);
+}
+
+
 /**
  * dao_set_cell_value:
  * @dao:
@@ -267,6 +295,7 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
  * 
  *
  **/
+
 void
 dao_set_cell_value (data_analysis_output_t *dao, int col, int row, Value *v)
 {
@@ -294,9 +323,8 @@ dao_set_cell_value (data_analysis_output_t *dao, int col, int row, Value *v)
 
 	cell = sheet_cell_fetch (dao->sheet, col, row);
 
-	sheet_cell_set_value (cell, v);
+	sheet_cell_set_value (cell, v);       
 }
-
 
 /**
  * dao_set_cell:
@@ -892,4 +920,48 @@ dao_find_name (Sheet *sheet, int col, int row)
 	}
 
 	return str;
+}
+
+gboolean 
+dao_put_formulas (data_analysis_output_t *dao)
+{
+	g_return_val_if_fail (dao != NULL, FALSE);
+	return dao->put_formulas;
+}
+
+void 
+dao_convert_to_values (data_analysis_output_t *dao)
+{
+	int row, col;
+	
+	if (dao->put_formulas)
+		return;
+	
+	workbook_recalc (dao->sheet->workbook);
+	for (row = 0; row < dao->rows; row++) {
+		for (col = 0; col < dao->cols; col++) {
+			Cell *cell = sheet_cell_fetch (dao->sheet, 
+						       dao->start_col + col, 
+						       dao->start_row + row);
+			
+			if (cell_has_expr (cell))
+				cell_convert_expr_to_value (cell);
+			}
+	}
+
+}
+
+void
+dao_redraw_respan (data_analysis_output_t *dao)
+{
+	Range r;
+
+	range_init (&r, dao->start_col, dao->start_row, 
+		    dao->start_col + dao->cols - 1, 
+		    dao->start_row + dao->rows - 1);
+	sheet_range_calc_spans (dao->sheet, &r, 
+				SPANCALC_RESIZE | SPANCALC_RENDER);
+	sheet_region_queue_recalc (dao->sheet, &r);
+	dao_convert_to_values (dao);	
+	sheet_redraw_range (dao->sheet, &r);
 }
