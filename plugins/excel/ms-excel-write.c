@@ -3602,7 +3602,6 @@ ms_excel_check_write (IOContext *context, void **state, WorkbookView *gwb_view,
 	ret = pre_pass (context, wb);
 
 cleanup:
-	g_list_free (sheets);
 	if (ret != 0) {
 		free_workbook (wb);
 		*state = NULL;

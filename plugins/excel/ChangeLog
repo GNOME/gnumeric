@@ -1,3 +1,8 @@
+2001-04-23  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-write.c (ms_excel_check_write): Avoid double free of
+ 	the list.
+
 2001-04-20  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_wsbool) : new function.
