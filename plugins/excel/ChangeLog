@@ -1,4 +1,8 @@
 2000-11-10  Jody Goldberg <jgoldberg@home.com>
+
+	* excel_builtin_formats : Correct long standing typos.
+
+2000-11-10  Jody Goldberg <jgoldberg@home.com>
 	Patch from Juan Pablo Mendoza <pablo_juan@yahoo.com>
 
          * ms-excel-write.c (write_biff7_comments): New function.
