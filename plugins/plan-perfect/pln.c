@@ -40,7 +40,7 @@ void     pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
 
 static char const *formula1[] = {
 	NULL,			/* 0 */
-	"MINUS(",
+	"-(",
 	"ABS(",
 	"INT(",
 	"SIGN(",
@@ -55,11 +55,11 @@ static char const *formula1[] = {
 	"MAX(",
 	"NA(",
 	"ISNA(",
-	"TIME(",
+	"NOW(",
 	"TODAY(",
 	"FACT(",
 	"ROW(",
-	"COL"			/* 20 */
+	"COLUMN("			/* 20 */
 };
 
 static const char* formula2[] =
@@ -145,7 +145,7 @@ static const char* formula2[] =
 	"LINK(",
 	"ISERR(",
 	"ISERR2(",		/* 80 */
-	"CHOOSE"
+	"CHOOSE("
 };
 
 typedef struct {
