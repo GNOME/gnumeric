@@ -36,16 +36,10 @@
 static GList *categories = NULL;
 static SymbolTable *global_symbol_table = NULL;
 
-extern void stat_functions_init        (void);
-extern void database_functions_init    (void);
-
 void
 functions_init (void)
 {
 	global_symbol_table = symbol_table_new ();
-
-	stat_functions_init ();
-	database_functions_init ();
 	func_builtin_init ();
 }
 

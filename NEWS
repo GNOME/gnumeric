@@ -3,7 +3,7 @@ Gnumeric 1.1.4
 Andreas:
 	* Improve printing dialogs.
 
-Jody
+Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=79925
 	* Only grab if selection succeeds.
 	* Fix drawing glitch when creating unshared views not at A1
@@ -12,6 +12,8 @@ Jody
 Morten:
 	* Cleanup fn-database.
 	* Disentangle fn-stat and fn-database.
+	* Make fn-database a plugin.
+	* Make fn-stat a plugin.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.3

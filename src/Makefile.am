@@ -2,7 +2,7 @@
 # Gnumeric's Makefile.
 # Author: Miguel de Icaza (miguel@kernel.org)
 
-SUBDIRS = pixmaps dialogs functions widgets tools
+SUBDIRS = pixmaps dialogs widgets tools
 
 bin_PROGRAMS = gnumeric
 if WITH_BONOBO
@@ -20,7 +20,6 @@ INCLUDES = 								\
 	-I$(top_srcdir)							\
 	-I$(srcdir)							\
 	-I$(srcdir)/widgets						\
-	-I$(srcdir)/functions						\
 	-I$(srcdir)/dialogs						\
 	-I$(srcdir)/tools						\
 	$(GNUMERIC_CFLAGS)
@@ -314,7 +313,6 @@ gnumeric_LDFLAGS = -export-dynamic
 gnumeric_app_libs =				\
 	dialogs/libdialogs.a			\
 	widgets/libwidgets.a			\
-	functions/libfunctions.a		\
 	tools/libtools.a			\
 	tools/solver/libsolver.a		\
 	tools/solver/lp_solve/liblp_solve.a

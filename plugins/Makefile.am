@@ -51,7 +51,8 @@ endif
 SUBDIRS_FILE_FORMATS = $(EXCEL_DIR) lotus-123 oleo sc sylk xbase html dif \
 	xml_sax applix mps $(GNOME_GLOSSARY_DIR) $(PSICONV_DIR)
 
-SUBDIRS_FUNCTIONS = numtheory fn-date fn-eng fn-financial fn-info fn-logical fn-lookup fn-math fn-string derivatives \
+SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-financial fn-info \
+	fn-logical fn-lookup fn-math fn-stat fn-string derivatives \
 	$(PYTHON_DIR) $(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
 	$(GDA_DIR) $(PYFUNC_DIR)
 
