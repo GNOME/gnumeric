@@ -91,14 +91,14 @@ gnumeric_cell_renderer_expr_entry_new (WorkbookControlGUI *wbcg)
 	return GTK_CELL_RENDERER (this);
 }
 
-static void
+void
 gnumeric_cell_renderer_expr_entry_editing_done (GtkCellEditable *entry,
-				     gpointer         data)
+						GnumericCellRendererExprEntry *celltext)
 {
   const gchar *path;
   const gchar *new_text;
-  GnumericCellRendererExprEntry *celltext = GNUMERIC_CELL_RENDERER_EXPR_ENTRY (data);
   
+  celltext->entry = NULL;
   if (gnm_expr_entry_editing_canceled (GNUMERIC_EXPR_ENTRY (entry)))
 	  return;
   
@@ -106,7 +106,7 @@ gnumeric_cell_renderer_expr_entry_editing_done (GtkCellEditable *entry,
   path = g_object_get_data (G_OBJECT (entry), GNUMERIC_CELL_RENDERER_EXPR_ENTRY_PATH);
   new_text = gnm_expr_entry_get_text (GNUMERIC_EXPR_ENTRY (entry));
   
-  g_signal_emit_by_name (G_OBJECT (data), "edited", path, new_text);
+  g_signal_emit_by_name (G_OBJECT (celltext), "edited", path, new_text);
 }
 
 static GtkCellEditable *
@@ -129,6 +129,7 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
     return NULL;
 
   gentry = gnumeric_expr_entry_new (celltext->wbcg, FALSE);
+  celltext->entry = gentry;
   gnm_expr_entry_set_scg (gentry, wbcg_cur_scg (celltext->wbcg));
   entry  = gnm_expr_entry_get_entry (gentry);
 

@@ -1,3 +1,11 @@
+2002-05-21 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-cell-renderer-expr-entry.c 
+	(gnumeric_cell_renderer_expr_entry_editing_done) : make non-static
+	(gnumeric_cell_renderer_expr_entry_start_editing) : save entry
+	* gnumeric-cell-renderer-expr-entry.h : declare
+	  gnumeric_cell_renderer_expr_entry_editing_done
+
 2002-05-03 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_can_rangesel) : Don't allow range 

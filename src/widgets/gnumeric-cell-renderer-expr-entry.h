@@ -21,6 +21,7 @@
 
 #include "gnumeric-cell-renderer-text.h"
 #include "workbook-control-gui.h"
+#include "gnumeric-expr-entry.h"
 
 G_BEGIN_DECLS
 
@@ -39,6 +40,7 @@ struct _GnumericCellRendererExprEntry
 	GnumericCellRendererText parent;
 	
 	WorkbookControlGUI *wbcg;
+	GnumericExprEntry  *entry;
 };
 
 struct _GnumericCellRendererExprEntryClass
@@ -48,6 +50,8 @@ struct _GnumericCellRendererExprEntryClass
 
 GType            gnumeric_cell_renderer_expr_entry_get_type (void);
 GtkCellRenderer *gnumeric_cell_renderer_expr_entry_new      (WorkbookControlGUI *wbcg);
+void             gnumeric_cell_renderer_expr_entry_editing_done (GtkCellEditable *entry,
+						 GnumericCellRendererExprEntry *celltext);
 
 G_END_DECLS
 

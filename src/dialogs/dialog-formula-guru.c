@@ -78,6 +78,8 @@ typedef struct
 	gint old_height_request;
 	gint old_width_request;
 
+	GnumericCellRendererExprEntry *cellrenderer;
+
 } FormulaGuruState;
 
 enum {
@@ -645,6 +647,10 @@ cb_dialog_formula_guru_clear_clicked (GtkWidget *button, FormulaGuruState *state
 static void
 cb_dialog_formula_guru_ok_clicked (GtkWidget *button, FormulaGuruState *state)
 {
+	if (state->cellrenderer->entry)
+		gnumeric_cell_renderer_expr_entry_editing_done (
+			GTK_CELL_EDITABLE (state->cellrenderer->entry),
+			state->cellrenderer);
 	wbcg_edit_finish (state->wbcg, TRUE);
 	return;
 }
@@ -743,6 +749,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 							   "text", ARG_TYPE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 	renderer = gnumeric_cell_renderer_expr_entry_new (state->wbcg);
+	state->cellrenderer = GNUMERIC_CELL_RENDERER_EXPR_ENTRY (renderer);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_dialog_formula_guru_edited), state);
 	column = gtk_tree_view_column_new_with_attributes (_("Function/Argument"),

@@ -1,3 +1,9 @@
+2002-05-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-formula-guru.c (cb_dialog_formula_guru_ok_clicked) :
+	  finish edits
+	(dialog_formula_guru_init) : save renderer
+
 2002-05-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-printer-setup.c (spin_button_adapt_to_unit) : reenable
