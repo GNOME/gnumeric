@@ -1,7 +1,7 @@
 <!DOCTYPE book PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
 ]>
 
-<sect1>
+<sect1 id="translating">
   <title>Translating Gnumeric</title>
     
     <para>
@@ -46,7 +46,7 @@
     </para>
 </sect1>
 
-<sect1>
+<sect1 id="currency">
   <title>Dealing with currency formats</title>
 
     <para>
