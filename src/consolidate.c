@@ -312,7 +312,7 @@ typedef struct {
 
 static int
 cb_tree_free (Value const *key, TreeItem *ti,
-	      __attribute__((unused)) gpointer user_data)
+	      G_GNUC_UNUSED gpointer user_data)
 {
 	g_return_val_if_fail (key != NULL, FALSE);
 

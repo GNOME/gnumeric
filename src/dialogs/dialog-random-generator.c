@@ -220,7 +220,7 @@ combo_get_distribution (GtkWidget *combo)
  * are the standard input (one range) and output items.
  **/
 static void
-random_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
+random_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				   RandomToolState *state)
 {
 	gboolean   ready  = FALSE;
@@ -514,7 +514,7 @@ distribution_parbox_config (RandomToolState *state,
  * which was selected.
  */
 static void
-distribution_callback (__attribute__((unused)) GtkWidget *widget,
+distribution_callback (G_GNUC_UNUSED GtkWidget *widget,
 		       RandomToolState *state)
 {
 	random_distribution_t dist;

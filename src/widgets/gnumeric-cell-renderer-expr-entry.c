@@ -111,12 +111,12 @@ gnumeric_cell_renderer_expr_entry_editing_done (GtkCellEditable *entry,
 
 static GtkCellEditable *
 gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
-				      __attribute__((unused)) GdkEvent *event,
-				      __attribute__((unused)) GtkWidget *widget,
+				      G_GNUC_UNUSED GdkEvent *event,
+				      G_GNUC_UNUSED GtkWidget *widget,
 				      const gchar          *path,
-				      __attribute__((unused)) GdkRectangle *background_area,
-				      __attribute__((unused)) GdkRectangle *cell_area,
-				      __attribute__((unused)) GtkCellRendererState flags)
+				      G_GNUC_UNUSED GdkRectangle *background_area,
+				      G_GNUC_UNUSED GdkRectangle *cell_area,
+				      G_GNUC_UNUSED GtkCellRendererState flags)
 {
   GnumericCellRendererExprEntry *celltext;
   GtkEntry *entry;

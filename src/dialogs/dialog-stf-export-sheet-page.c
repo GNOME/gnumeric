@@ -144,7 +144,7 @@ sheet_page_remove_clicked (GtkButton *button, StfE_SheetPageData_t *data)
  * Will move all items from the avail list to the export list
  **/
 static void
-sheet_page_addall_clicked (__attribute__((unused)) GtkButton *button,
+sheet_page_addall_clicked (G_GNUC_UNUSED GtkButton *button,
 			   StfE_SheetPageData_t *data)
 {
 
@@ -165,7 +165,7 @@ sheet_page_addall_clicked (__attribute__((unused)) GtkButton *button,
  * Will move all items from the export list to the avail list
  **/
 static void
-sheet_page_removeall_clicked (__attribute__((unused)) GtkButton *button,
+sheet_page_removeall_clicked (G_GNUC_UNUSED GtkButton *button,
 			      StfE_SheetPageData_t *data)
 {
 
@@ -186,7 +186,7 @@ sheet_page_removeall_clicked (__attribute__((unused)) GtkButton *button,
  * Will swap the selected item with the item right above it
  **/
 static void
-sheet_page_up_clicked (__attribute__((unused)) GtkButton *button,
+sheet_page_up_clicked (G_GNUC_UNUSED GtkButton *button,
 		       StfE_SheetPageData_t *data)
 {
 	if (data->sheet_run_export_index > 0) {
@@ -208,7 +208,7 @@ sheet_page_up_clicked (__attribute__((unused)) GtkButton *button,
  * Will swap the selected item with the item right below it
  **/
 static void
-sheet_page_down_clicked (__attribute__((unused)) GtkButton *button,
+sheet_page_down_clicked (G_GNUC_UNUSED GtkButton *button,
 			 StfE_SheetPageData_t *data)
 {
 	if (data->sheet_run_export_index + 1 < data->sheet_export->rows) {
@@ -234,8 +234,8 @@ sheet_page_down_clicked (__attribute__((unused)) GtkButton *button,
  **/
 static void
 sheet_page_avail_select_row (GtkCList *clist, int row,
-			     __attribute__((unused)) int column,
-			     __attribute__((unused)) GdkEventButton *event,
+			     G_GNUC_UNUSED int column,
+			     G_GNUC_UNUSED GdkEventButton *event,
 			     StfE_SheetPageData_t *data)
 {
 	g_return_if_fail (clist != NULL);
@@ -256,8 +256,8 @@ sheet_page_avail_select_row (GtkCList *clist, int row,
  **/
 static void
 sheet_page_export_select_row (GtkCList *clist, int row,
-			      __attribute__((unused)) int column,
-			      __attribute__((unused)) GdkEventButton *event,
+			      G_GNUC_UNUSED int column,
+			      G_GNUC_UNUSED GdkEventButton *event,
 			      StfE_SheetPageData_t *data)
 {
 	g_return_if_fail (clist != NULL);

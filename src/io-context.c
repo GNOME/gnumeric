@@ -83,7 +83,7 @@ ioc_error_error (CommandContext *cc, GError *err)
 }
 
 static void
-ioc_error_error_info (__attribute__((unused)) CommandContext *ctxt,
+ioc_error_error_info (G_GNUC_UNUSED CommandContext *ctxt,
 		      ErrorInfo *error)
 {
 	/* TODO what goes here */
@@ -414,7 +414,7 @@ io_progress_unset (IOContext *io_context)
 }
 
 void
-gnm_io_warning (__attribute__((unused)) IOContext *context,
+gnm_io_warning (G_GNUC_UNUSED IOContext *context,
 		char const *fmt, ...)
 {
 	va_list args;
@@ -428,14 +428,14 @@ gnm_io_warning (__attribute__((unused)) IOContext *context,
 
 void
 gnm_io_warning_unknown_font (IOContext *context,
-			     __attribute__((unused)) char const *font_name)
+			     G_GNUC_UNUSED char const *font_name)
 {
 	g_return_if_fail (IS_IO_CONTEXT (context));
 }
 
 void
 gnm_io_warning_unknown_function	(IOContext *context,
-				 __attribute__((unused)) char const *funct_name)
+				 G_GNUC_UNUSED char const *funct_name)
 {
 	g_return_if_fail (IS_IO_CONTEXT (context));
 }

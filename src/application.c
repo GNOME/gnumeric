@@ -326,7 +326,7 @@ struct wb_index_closure
 };
 
 static gboolean
-cb_workbook_index (__attribute__((unused)) Workbook * wb, gpointer closure)
+cb_workbook_index (G_GNUC_UNUSED Workbook * wb, gpointer closure)
 {
 	struct wb_index_closure *dat = closure;
 	return (--(dat->index) != 0);

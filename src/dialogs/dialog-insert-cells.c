@@ -70,7 +70,7 @@ insert_cell_destroy (GtkObject *w, InsertCellState *state)
 }
 
 static void
-cb_insert_cell_ok_clicked (__attribute__((unused)) GtkWidget *button,
+cb_insert_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			   InsertCellState *state)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
@@ -113,7 +113,7 @@ cb_insert_cell_ok_clicked (__attribute__((unused)) GtkWidget *button,
 }
 
 static void
-cb_insert_cell_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+cb_insert_cell_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 			       InsertCellState *state)
 {
 	gtk_widget_destroy (state->dialog);

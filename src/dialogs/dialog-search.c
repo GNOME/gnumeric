@@ -207,7 +207,7 @@ lazy_list_get_iter (GtkTreeModel *tree_model,
 }
 
 static GtkTreePath *
-lazy_list_get_path (__attribute__((unused)) GtkTreeModel *tree_model,
+lazy_list_get_path (G_GNUC_UNUSED GtkTreeModel *tree_model,
 		    GtkTreeIter  *iter)
 {
 	GtkTreePath *retval = gtk_tree_path_new ();
@@ -269,8 +269,8 @@ lazy_list_iter_children (GtkTreeModel *tree_model,
 }
 
 static gboolean
-lazy_list_iter_has_child (__attribute__((unused)) GtkTreeModel *tree_model,
-			  __attribute__((unused)) GtkTreeIter  *iter)
+lazy_list_iter_has_child (G_GNUC_UNUSED GtkTreeModel *tree_model,
+			  G_GNUC_UNUSED GtkTreeIter  *iter)
 {
 	return FALSE;
 }
@@ -306,9 +306,9 @@ lazy_list_iter_nth_child (GtkTreeModel *tree_model,
 }
 
 static gboolean
-lazy_list_iter_parent (__attribute__((unused)) GtkTreeModel *tree_model,
-		       __attribute__((unused)) GtkTreeIter  *iter,
-		       __attribute__((unused)) GtkTreeIter  *child)
+lazy_list_iter_parent (G_GNUC_UNUSED GtkTreeModel *tree_model,
+		       G_GNUC_UNUSED GtkTreeIter  *iter,
+		       G_GNUC_UNUSED GtkTreeIter  *child)
 {
 	return FALSE;
 }
@@ -535,8 +535,8 @@ non_model_dialog (WorkbookControlGUI *wbcg,
 }
 
 static gboolean
-range_focused (__attribute__((unused)) GtkWidget *widget,
-	       __attribute__((unused)) GdkEventFocus *event,
+range_focused (G_GNUC_UNUSED GtkWidget *widget,
+	       G_GNUC_UNUSED GdkEventFocus *event,
 	       DialogState *dd)
 {
 	GtkWidget *scope_range = glade_xml_get_widget (dd->gui, "scope_range");
@@ -545,14 +545,14 @@ range_focused (__attribute__((unused)) GtkWidget *widget,
 }
 
 static void
-dialog_destroy (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
+dialog_destroy (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	wbcg_edit_detach_guru (dd->wbcg);
 	free_state (dd);
 }
 
 static void
-close_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
+close_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	GtkDialog *dialog = dd->dialog;
 	gtk_widget_destroy (GTK_WIDGET (dialog));
@@ -600,7 +600,7 @@ cursor_change (GtkTreeView *tree_view, DialogState *dd)
 
 
 static void
-search_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
+search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
 	WorkbookControlGUI *wbcg = dd->wbcg;
@@ -705,13 +705,13 @@ prev_next_clicked (DialogState *dd, int delta)
 }
 
 static void
-prev_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
+prev_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	prev_next_clicked (dd, -1);
 }
 
 static void
-next_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
+next_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	prev_next_clicked (dd, +1);
 }

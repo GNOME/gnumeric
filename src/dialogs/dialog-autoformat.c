@@ -126,7 +126,7 @@ typedef struct {
  ********************************************************************************/
 
 static MStyle *
-cb_get_cell_style (__attribute__((unused)) PreviewGrid *pg,
+cb_get_cell_style (G_GNUC_UNUSED PreviewGrid *pg,
 		   int row, int col, FormatTemplate *ft)
 {
 	/*
@@ -137,9 +137,9 @@ cb_get_cell_style (__attribute__((unused)) PreviewGrid *pg,
 }
 
 static Value *
-cb_get_cell_value (__attribute__((unused)) PreviewGrid *pg,
+cb_get_cell_value (G_GNUC_UNUSED PreviewGrid *pg,
 		   int row, int col,
-		   __attribute__((unused)) gpointer data)
+		   G_GNUC_UNUSED gpointer data)
 {
 	char const *text;
 	char *endptr = NULL;
@@ -367,7 +367,7 @@ previews_load (AutoFormatState *state, int topindex)
  ********************************************************************************/
 
 static void
-cb_ok_clicked (__attribute__((unused)) GtkButton *button,
+cb_ok_clicked (G_GNUC_UNUSED GtkButton *button,
 	       AutoFormatState *state)
 {
 	if (state->selected_template)
@@ -378,7 +378,7 @@ cb_ok_clicked (__attribute__((unused)) GtkButton *button,
 }
 
 static void
-cb_cancel_clicked (__attribute__((unused)) GtkButton *button,
+cb_cancel_clicked (G_GNUC_UNUSED GtkButton *button,
 		   AutoFormatState *state)
 {
 	gtk_widget_destroy (GTK_WIDGET (state->dialog));
@@ -406,7 +406,7 @@ cb_scroll_value_changed (GtkAdjustment *adjustment, AutoFormatState *state)
 
 static gboolean
 cb_canvas_button_press (FooCanvas *canvas,
-			__attribute__((unused)) GdkEventButton *event,
+			G_GNUC_UNUSED GdkEventButton *event,
 			AutoFormatState *state)
 {
 	FormatTemplate *ft;
@@ -444,7 +444,7 @@ cb_canvas_button_press (FooCanvas *canvas,
 }
 
 static void
-cb_check_item_toggled (__attribute__((unused)) GtkCheckMenuItem *item,
+cb_check_item_toggled (G_GNUC_UNUSED GtkCheckMenuItem *item,
 		       AutoFormatState *state)
 {
 	GSList *ptr;
@@ -473,7 +473,7 @@ cb_check_item_toggled (__attribute__((unused)) GtkCheckMenuItem *item,
 }
 
 static void
-cb_category_popwin_hide (__attribute__((unused)) GtkWidget *widget,
+cb_category_popwin_hide (G_GNUC_UNUSED GtkWidget *widget,
 			 AutoFormatState *state)
 {
 	state->current_category_group = category_group_list_find_category_by_name(
@@ -521,7 +521,7 @@ cb_category_popwin_hide (__attribute__((unused)) GtkWidget *widget,
 }
 
 static void
-cb_gridlines_item_toggled (__attribute__((unused)) GtkCheckMenuItem *item,
+cb_gridlines_item_toggled (G_GNUC_UNUSED GtkCheckMenuItem *item,
 			   AutoFormatState *state)
 {
 	previews_free (state);

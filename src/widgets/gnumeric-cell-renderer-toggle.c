@@ -165,7 +165,7 @@ gnumeric_cell_renderer_toggle_set_property (GObject      *object,
 
 static void
 gnumeric_cell_renderer_toggle_get_size (GtkCellRenderer *cell,
-					__attribute__((unused)) GtkWidget *widget,
+					G_GNUC_UNUSED GtkWidget *widget,
 					GdkRectangle    *cell_area,
 					gint            *x_offset,
 					gint            *y_offset,
@@ -221,10 +221,10 @@ static void
 gnumeric_cell_renderer_toggle_render (GtkCellRenderer *cell,
 				      GdkWindow       *window,
 				      GtkWidget       *widget,
-				      __attribute__((unused)) GdkRectangle *background_area,
+				      G_GNUC_UNUSED GdkRectangle *background_area,
 				      GdkRectangle    *cell_area,
-				      __attribute__((unused)) GdkRectangle *expose_area,
-				      __attribute__((unused)) guint flags)
+				      G_GNUC_UNUSED GdkRectangle *expose_area,
+				      G_GNUC_UNUSED guint flags)
 {
 	GnumericCellRendererToggle *cellpixbuf = (GnumericCellRendererToggle *) cell;
 	GdkPixbuf *pixbuf;

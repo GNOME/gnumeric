@@ -88,7 +88,7 @@ set_checked (GladeXML *gui, const char *name, gboolean checked)
 }
 
 static void
-ok_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
+ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
 	GtkDialog *dialog = dd->dialog;
@@ -161,7 +161,7 @@ ok_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
 }
 
 static void
-cancel_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
+cancel_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	GtkDialog *dialog = dd->dialog;
 
@@ -170,7 +170,7 @@ cancel_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
 
 
 static void
-dialog_destroy (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
+dialog_destroy (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
 	g_object_unref (G_OBJECT (gui));
@@ -180,8 +180,8 @@ dialog_destroy (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
 }
 
 static gboolean
-range_focused (__attribute__((unused)) GtkWidget *widget,
-	       __attribute__((unused)) GdkEventFocus *event,
+range_focused (G_GNUC_UNUSED GtkWidget *widget,
+	       G_GNUC_UNUSED GdkEventFocus *event,
 	       DialogState *dd)
 {
 	GtkWidget *scope_range = glade_xml_get_widget (dd->gui, "scope_range");

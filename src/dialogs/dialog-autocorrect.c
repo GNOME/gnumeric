@@ -62,7 +62,7 @@ typedef struct {
 } AutoCorrectState;
 
 static void
-cb_add_clicked (__attribute__((unused)) GtkWidget *widget,
+cb_add_clicked (G_GNUC_UNUSED GtkWidget *widget,
 		AutoCorrectExceptionState *s)
 {
 	gchar const *txt;
@@ -88,7 +88,7 @@ cb_add_clicked (__attribute__((unused)) GtkWidget *widget,
 }
 
 static void
-cb_remove_clicked (__attribute__((unused)) GtkWidget *widget,
+cb_remove_clicked (G_GNUC_UNUSED GtkWidget *widget,
 		   AutoCorrectExceptionState *s)
 {
 	char *txt;
@@ -181,7 +181,7 @@ ac_dialog_toggle_init (AutoCorrectState *state, char const *name,
 }
 
 static gboolean
-cb_autocorrect_destroy (__attribute__((unused)) GtkObject *w,
+cb_autocorrect_destroy (G_GNUC_UNUSED GtkObject *w,
 			AutoCorrectState *state)
 {
 	g_slist_foreach (state->init_caps.exceptions, (GFunc)g_free, NULL);
@@ -204,7 +204,7 @@ cb_autocorrect_destroy (__attribute__((unused)) GtkObject *w,
 }
 
 static  gint
-cb_autocorrect_key_press (__attribute__((unused)) GtkWidget *widget,
+cb_autocorrect_key_press (G_GNUC_UNUSED GtkWidget *widget,
 			  GdkEventKey *event,
 			  AutoCorrectState *state)
 {
@@ -216,14 +216,14 @@ cb_autocorrect_key_press (__attribute__((unused)) GtkWidget *widget,
 }
 
 static void
-cb_cancel_button_clicked (__attribute__((unused)) GtkWidget *button,
+cb_cancel_button_clicked (G_GNUC_UNUSED GtkWidget *button,
 			  AutoCorrectState *state)
 {
 	gtk_object_destroy (GTK_OBJECT (state->dialog));
 }
 
 static void
-cb_apply_button_clicked (__attribute__((unused)) GtkWidget *button,
+cb_apply_button_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 AutoCorrectState *state)
 {
 	int i;

@@ -96,8 +96,8 @@ stf_dialog_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanva
  * returns : TRUE if the user actually wants to cancel, FALSE otherwise.
  **/
 static gboolean
-stf_dialog_druid_page_cancel (__attribute__((unused)) GnomeDruidPage *page,
-			      __attribute__((unused)) GnomeDruid *druid,
+stf_dialog_druid_page_cancel (G_GNUC_UNUSED GnomeDruidPage *page,
+			      G_GNUC_UNUSED GnomeDruid *druid,
 			      DruidPageData_t *data)
 {
 	return !gnumeric_dialog_question_yes_no (data->wbcg,
@@ -177,7 +177,7 @@ stf_dialog_set_initial_keyboard_focus (DruidPageData_t *pagedata)
  * returns : always TRUE, because it always sets the new page manually
  **/
 static gboolean
-stf_dialog_druid_page_next (__attribute__((unused)) GnomeDruidPage *page,
+stf_dialog_druid_page_next (G_GNUC_UNUSED GnomeDruidPage *page,
 			    GnomeDruid *druid, DruidPageData_t *data)
 {
 	DruidPosition_t newpos;
@@ -246,7 +246,7 @@ stf_dialog_druid_page_next (__attribute__((unused)) GnomeDruidPage *page,
  * returns : always TRUE, because it always cycles to the previous page manually
  **/
 static gboolean
-stf_dialog_druid_page_previous (__attribute__((unused)) GnomeDruidPage *page,
+stf_dialog_druid_page_previous (G_GNUC_UNUSED GnomeDruidPage *page,
 				GnomeDruid *druid, DruidPageData_t *data)
 {
 	DruidPosition_t newpos;
@@ -296,7 +296,7 @@ stf_dialog_druid_page_previous (__attribute__((unused)) GnomeDruidPage *page,
  * returns : nothing
  **/
 static void
-stf_dialog_druid_cancel (__attribute__((unused)) GnomeDruid *druid,
+stf_dialog_druid_cancel (G_GNUC_UNUSED GnomeDruid *druid,
 			 DruidPageData_t *data)
 {
 	data->canceled = TRUE;
@@ -313,7 +313,7 @@ stf_dialog_druid_cancel (__attribute__((unused)) GnomeDruid *druid,
  * returns : TRUE if we handled the keypress, FALSE if we pass it on.
  **/
 static gint
-stf_dialog_check_escape (__attribute__((unused)) GnomeDruid *druid,
+stf_dialog_check_escape (G_GNUC_UNUSED GnomeDruid *druid,
 			 GdkEventKey *event, DruidPageData_t *data)
 {
 	if (event->keyval == GDK_Escape) {
@@ -336,9 +336,9 @@ stf_dialog_check_escape (__attribute__((unused)) GnomeDruid *druid,
  * returns : nothing
  **/
 static void
-stf_dialog_druid_format_page_finish (__attribute__((unused)) GnomeDruid *druid,
-				     __attribute__((unused)) GnomeDruidPage *page,
-				     __attribute__((unused))  DruidPageData_t *data)
+stf_dialog_druid_format_page_finish (G_GNUC_UNUSED GnomeDruid *druid,
+				     G_GNUC_UNUSED GnomeDruidPage *page,
+				     G_GNUC_UNUSED  DruidPageData_t *data)
 {
 	gtk_main_quit ();
 }

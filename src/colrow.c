@@ -298,7 +298,7 @@ colrow_get_index_list (int first, int last, ColRowIndexList *list)
 }
 
 ColRowStateList	*
-colrow_make_state (__attribute__((unused)) Sheet *sheet, int count,
+colrow_make_state (G_GNUC_UNUSED Sheet *sheet, int count,
 		   float size_pts, gboolean hard_size,
 		   int outline_level)
 {

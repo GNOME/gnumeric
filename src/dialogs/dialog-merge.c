@@ -69,7 +69,7 @@ enum {
 };
 
 static void
-cb_merge_update_buttons (__attribute__((unused)) gpointer ignored,
+cb_merge_update_buttons (G_GNUC_UNUSED gpointer ignored,
 			 MergeState *state)
 {
 /* Note: ignored could be NULL or  an expr-entry. */
@@ -134,7 +134,7 @@ merge_store_info_in_list (GtkTreeIter *iter, MergeState *state)
 
 
 static void
-cb_merge_add_clicked (__attribute__((unused)) GtkWidget *ignore,
+cb_merge_add_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		      MergeState *state)
 {
 	GtkTreeIter iter;
@@ -150,7 +150,7 @@ cb_merge_add_clicked (__attribute__((unused)) GtkWidget *ignore,
 }
 
 static void
-cb_merge_change_clicked (__attribute__((unused)) GtkWidget *ignore,
+cb_merge_change_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 			 MergeState *state)
 {
 	GtkTreeIter iter;
@@ -161,7 +161,7 @@ cb_merge_change_clicked (__attribute__((unused)) GtkWidget *ignore,
 }
 
 static void
-cb_merge_delete_clicked (__attribute__((unused)) GtkWidget *ignore,
+cb_merge_delete_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 			 MergeState *state)
 {
 	GtkTreeIter iter;
@@ -173,7 +173,7 @@ cb_merge_delete_clicked (__attribute__((unused)) GtkWidget *ignore,
 }
 
 static void
-cb_merge_cancel_clicked (__attribute__((unused)) GtkWidget *ignore,
+cb_merge_cancel_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 			 MergeState *state)
 {
 	    gtk_widget_destroy (GTK_WIDGET (state->dialog));
@@ -215,7 +215,7 @@ cb_merge_trim_data (gpointer data, gpointer lp)
 
 
 static void
-cb_merge_merge_clicked (__attribute__((unused)) GtkWidget *ignore,
+cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 			MergeState *state)
 {
 	GtkTreeIter this_iter;

@@ -360,8 +360,8 @@ fixed_page_canvas_button_release_event (GnomeCanvas *canvas, GdkEventButton *eve
  **/
 static void
 fixed_page_collist_select_row (GtkCList *clist, int row,
-			       __attribute__((unused)) int column,
-			       __attribute__((unused)) GdkEventButton *event,
+			       G_GNUC_UNUSED int column,
+			       G_GNUC_UNUSED GdkEventButton *event,
 			       DruidPageData_t *data)
 {
 	FixedInfo_t *info = data->fixed_info;
@@ -416,7 +416,7 @@ fixed_page_colend_changed (GtkSpinButton *button, DruidPageData_t *data)
  * returns : nothing
  **/
 static void
-fixed_page_add_clicked (__attribute__((unused)) GtkButton *button,
+fixed_page_add_clicked (G_GNUC_UNUSED GtkButton *button,
 			DruidPageData_t *data)
 {
 	FixedInfo_t *info = data->fixed_info;
@@ -459,7 +459,7 @@ fixed_page_add_clicked (__attribute__((unused)) GtkButton *button,
  * returns : nothing
  **/
 static void
-fixed_page_remove_clicked (__attribute__((unused)) GtkButton *button,
+fixed_page_remove_clicked (G_GNUC_UNUSED GtkButton *button,
 			   DruidPageData_t *data)
 {
 	FixedInfo_t *info = data->fixed_info;
@@ -491,7 +491,7 @@ fixed_page_remove_clicked (__attribute__((unused)) GtkButton *button,
  * Will clear all entries in fixed_collist
  **/
 static void
-fixed_page_clear_clicked (__attribute__((unused)) GtkButton *button,
+fixed_page_clear_clicked (G_GNUC_UNUSED GtkButton *button,
 			  DruidPageData_t *data)
 {
 	FixedInfo_t *info = data->fixed_info;
@@ -519,7 +519,7 @@ fixed_page_clear_clicked (__attribute__((unused)) GtkButton *button,
  * text.
  **/
 static void
-fixed_page_auto_clicked (__attribute__((unused)) GtkButton *button,
+fixed_page_auto_clicked (G_GNUC_UNUSED GtkButton *button,
 			 DruidPageData_t *data)
 {
 	fixed_page_autodiscover (data);
@@ -542,8 +542,8 @@ fixed_page_auto_clicked (__attribute__((unused)) GtkButton *button,
  * returns : nothing
  **/
 void
-stf_dialog_fixed_page_prepare (__attribute__((unused)) GnomeDruidPage *page,
-			       __attribute__((unused)) GnomeDruid *druid,
+stf_dialog_fixed_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
+			       G_GNUC_UNUSED GnomeDruid *druid,
 			       DruidPageData_t *pagedata)
 {
 	FixedInfo_t *info = pagedata->fixed_info;

@@ -102,7 +102,7 @@ dialog_row_height_destroy (GtkObject *w, RowHeightState *state)
 }
 
 static void
-cb_dialog_row_height_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+cb_dialog_row_height_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 				     RowHeightState *state)
 {
 	gtk_widget_destroy (state->dialog);
@@ -157,7 +157,7 @@ dialog_row_height_load_value (RowHeightState *state)
 }
 
 static void
-cb_dialog_row_height_value_changed (__attribute__((unused)) GtkSpinButton *spinbutton,
+cb_dialog_row_height_value_changed (G_GNUC_UNUSED GtkSpinButton *spinbutton,
 				    RowHeightState *state)
 {
 	if (!state->adjusting) {
@@ -181,7 +181,7 @@ cb_dialog_row_height_default_check_toggled (GtkToggleButton *togglebutton, RowHe
 }
 
 static void
-cb_dialog_row_height_apply_clicked (__attribute__((unused)) GtkWidget *button,
+cb_dialog_row_height_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 				    RowHeightState *state)
 {
 	gnm_float value = gtk_spin_button_get_value (state->spin);

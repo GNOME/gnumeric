@@ -143,7 +143,7 @@ dialog_function_select_destroy (FunctionSelectState  *state)
  * Close (destroy) the dialog
  **/
 static void
-cb_dialog_function_select_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+cb_dialog_function_select_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 					  FunctionSelectState *state)
 {
 	gtk_widget_destroy (state->dialog);
@@ -158,7 +158,7 @@ cb_dialog_function_select_cancel_clicked (__attribute__((unused)) GtkWidget *but
  * Close (destroy) the dialog
  **/
 static void
-cb_dialog_function_select_ok_clicked (__attribute__((unused)) GtkWidget *button,
+cb_dialog_function_select_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 				      FunctionSelectState *state)
 {
 	GtkTreeIter  iter;

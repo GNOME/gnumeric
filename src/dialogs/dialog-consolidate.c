@@ -154,7 +154,7 @@ construct_consolidate (ConsolidateState *state)
  *
  **/
 static void
-dialog_set_button_sensitivity (__attribute__((unused)) GtkWidget *dummy,
+dialog_set_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 			       ConsolidateState *state)
 {
 	gboolean ready = FALSE;
@@ -213,10 +213,10 @@ cb_dialog_clicked (GtkWidget *widget, ConsolidateState *state)
 }
 
 static void
-cb_areas_select_row (__attribute__((unused)) GtkCList *clist,
+cb_areas_select_row (G_GNUC_UNUSED GtkCList *clist,
 		     int row,
-		     __attribute__((unused)) int column,
-		     __attribute__((unused)) GdkEventButton *event,
+		     G_GNUC_UNUSED int column,
+		     G_GNUC_UNUSED GdkEventButton *event,
 		     ConsolidateState *state)
 {
 	g_return_if_fail (state != NULL);
@@ -226,7 +226,7 @@ cb_areas_select_row (__attribute__((unused)) GtkCList *clist,
 }
 
 static void
-cb_source_changed (__attribute__((unused)) GtkEntry *ignored,
+cb_source_changed (G_GNUC_UNUSED GtkEntry *ignored,
 		   ConsolidateState *state)
 {
 	g_return_if_fail (state != NULL);
@@ -237,7 +237,7 @@ cb_source_changed (__attribute__((unused)) GtkEntry *ignored,
 }
 
 static void
-cb_add_clicked (__attribute__((unused)) GtkButton *button,
+cb_add_clicked (G_GNUC_UNUSED GtkButton *button,
 		ConsolidateState *state)
 {
 	char *text[1];
@@ -279,7 +279,7 @@ cb_add_clicked (__attribute__((unused)) GtkButton *button,
 }
 
 static void
-cb_clear_clicked (__attribute__((unused)) GtkButton *button,
+cb_clear_clicked (G_GNUC_UNUSED GtkButton *button,
 		  ConsolidateState *state)
 {
 	g_return_if_fail (state != NULL);
@@ -293,7 +293,7 @@ cb_clear_clicked (__attribute__((unused)) GtkButton *button,
 }
 
 static void
-cb_delete_clicked (__attribute__((unused)) GtkButton *button,
+cb_delete_clicked (G_GNUC_UNUSED GtkButton *button,
 		   ConsolidateState *state)
 {
 	g_return_if_fail (state != NULL);
@@ -314,7 +314,7 @@ cb_delete_clicked (__attribute__((unused)) GtkButton *button,
 }
 
 static void
-cb_labels_toggled (__attribute__((unused)) GtkCheckButton *button,
+cb_labels_toggled (G_GNUC_UNUSED GtkCheckButton *button,
 		   ConsolidateState *state)
 {
 	gboolean copy_labels =

@@ -215,7 +215,7 @@ load_model_data (SortFlowState *state)
  *
  **/
 static void
-cb_update_add_sensitivity (__attribute__((unused)) GtkWidget *dummy,
+cb_update_add_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 			   SortFlowState *state)
 {
         Value *range_add;
@@ -324,7 +324,7 @@ dialog_destroy (GtkObject *w, SortFlowState  *state)
  * Sort
  **/
 static void
-cb_dialog_ok_clicked (__attribute__((unused)) GtkWidget *button,
+cb_dialog_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		      SortFlowState *state)
 {
 	SortData *data;
@@ -386,7 +386,7 @@ cb_dialog_ok_clicked (__attribute__((unused)) GtkWidget *button,
  * Close (destroy) the dialog
  **/
 static void
-cb_dialog_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 			  SortFlowState *state)
 {
 	gtk_widget_destroy (state->dialog);
@@ -439,7 +439,7 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
  *
  */
 static void
-cb_sort_selection_changed (__attribute__((unused)) GtkTreeSelection *ignored,
+cb_sort_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 			   SortFlowState *state)
 {
 	GtkTreeIter iter;
@@ -464,7 +464,7 @@ cb_sort_selection_changed (__attribute__((unused)) GtkTreeSelection *ignored,
 }
 
 static void
-toggled (__attribute__((unused)) GtkCellRendererToggle *cell,
+toggled (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	 gchar                 *path_string,
 	 gpointer               data,
 	 int                    column)
@@ -523,19 +523,19 @@ move_cb (SortFlowState *state, gint direction)
 }
 
 static void
-cb_up (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
+cb_up (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 {
 	move_cb (state, -1);
 }
 
 static void
-cb_down (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
+cb_down (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 {
 	move_cb (state,  1);
 }
 
 static void
-cb_delete_clicked (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
+cb_delete_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 {
 	GtkTreeIter iter;
 
@@ -549,7 +549,7 @@ cb_delete_clicked (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
 }
 
 static void
-cb_add_clicked (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
+cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 {
         Value *range_add;
 	GlobalRange grange_sort, grange_add;
@@ -612,7 +612,7 @@ cb_add_clicked (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
 }
 
 static void
-cb_toggled_descending (__attribute__((unused)) GtkCellRendererToggle *cell,
+cb_toggled_descending (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	 gchar                 *path_string,
 	 gpointer               data)
 {

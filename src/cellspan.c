@@ -43,8 +43,8 @@ col_compare (gconstpointer a, gconstpointer b)
 }
 
 static void
-free_hash_value (__attribute__((unused)) gpointer key, gpointer value,
-		 __attribute__((unused)) gpointer user_data)
+free_hash_value (G_GNUC_UNUSED gpointer key, gpointer value,
+		 G_GNUC_UNUSED gpointer user_data)
 {
 	g_free (value);
 }
@@ -99,7 +99,7 @@ cell_register_span (Cell const * const cell, int left, int right)
 }
 
 static gboolean
-span_remove (__attribute__((unused)) gpointer key, gpointer value,
+span_remove (G_GNUC_UNUSED gpointer key, gpointer value,
 	     gpointer user_data)
 {
 	CellSpanInfo *span = (CellSpanInfo *)value;

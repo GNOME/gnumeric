@@ -185,7 +185,7 @@ is_hom_row_or_col_ref (GnumericExprEntry *entry_1, GnumericExprEntry *entry_2,
  *
  **/
 static void
-dialog_set_sec_button_sensitivity (__attribute__((unused)) GtkWidget *dummy,
+dialog_set_sec_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				   SolverState *state)
 {
 	gboolean ready;
@@ -217,10 +217,10 @@ dialog_set_sec_button_sensitivity (__attribute__((unused)) GtkWidget *dummy,
  **/
 
 static void
-constraint_select_click (__attribute__((unused)) GtkWidget      *clist,
+constraint_select_click (G_GNUC_UNUSED GtkWidget      *clist,
 			 gint           row,
-			 __attribute__((unused)) gint           column,
-			 __attribute__((unused)) GdkEventButton *event,
+			 G_GNUC_UNUSED gint           column,
+			 G_GNUC_UNUSED GdkEventButton *event,
 			 SolverState    *state)
 {
         state->selected_row = row;
@@ -238,10 +238,10 @@ constraint_select_click (__attribute__((unused)) GtkWidget      *clist,
  **/
 
 static void
-constraint_unselect_click (__attribute__((unused)) GtkWidget      *clist,
-			   __attribute__((unused)) gint           row,
-			   __attribute__((unused)) gint           column,
-			   __attribute__((unused)) GdkEventButton *event,
+constraint_unselect_click (G_GNUC_UNUSED GtkWidget      *clist,
+			   G_GNUC_UNUSED gint           row,
+			   G_GNUC_UNUSED gint           column,
+			   G_GNUC_UNUSED GdkEventButton *event,
 			   SolverState *state)
 {
         state->selected_row = -1;
@@ -274,7 +274,7 @@ release_constraint (constraint_t * data)
  *
  **/
 static void
-cb_dialog_delete_clicked (__attribute__((unused)) GtkWidget *button, SolverState *state)
+cb_dialog_delete_clicked (G_GNUC_UNUSED GtkWidget *button, SolverState *state)
 {
 	gtk_clist_remove (state->constraint_list, state->selected_row);
 }
@@ -287,7 +287,7 @@ cb_dialog_delete_clicked (__attribute__((unused)) GtkWidget *button, SolverState
  *
  **/
 static void
-cb_dialog_add_clicked (__attribute__((unused)) GtkWidget *button,
+cb_dialog_add_clicked (G_GNUC_UNUSED GtkWidget *button,
 		       SolverState *state)
 {
 	gint         selection;
@@ -363,7 +363,7 @@ cb_dialog_change_clicked (GtkWidget *button, SolverState *state)
  *
  **/
 static void
-dialog_set_main_button_sensitivity (__attribute__((unused)) GtkWidget *dummy,
+dialog_set_main_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				    SolverState *state)
 {
 	gboolean ready = FALSE;
@@ -382,7 +382,7 @@ dialog_set_main_button_sensitivity (__attribute__((unused)) GtkWidget *dummy,
  *
  **/
 static void
-cb_dialog_set_rhs_sensitivity (__attribute__((unused)) GtkWidget *dummy,
+cb_dialog_set_rhs_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 			       SolverState *state)
 {
 	return;
@@ -408,7 +408,7 @@ cb_dialog_set_rhs_sensitivity (__attribute__((unused)) GtkWidget *dummy,
  *
  **/
 static void
-cb_dialog_model_type_clicked (__attribute__((unused)) GtkWidget *button,
+cb_dialog_model_type_clicked (G_GNUC_UNUSED GtkWidget *button,
 			      SolverState *state)
 {
 	SolverModelType type;
@@ -448,7 +448,7 @@ cb_dialog_model_type_clicked (__attribute__((unused)) GtkWidget *button,
  *
  **/
 static void
-free_original_values (GSList *ov, __attribute__((unused)) gpointer user_data)
+free_original_values (GSList *ov, G_GNUC_UNUSED gpointer user_data)
 {
 	g_slist_foreach (ov, (GFunc)g_free, NULL);
 	g_slist_free (ov);
@@ -522,7 +522,7 @@ restore_original_values (GSList *input_cells, GSList *ov)
  * Close (destroy) the dialog
  **/
 static void
-cb_dialog_cancel_clicked (__attribute__((unused)) GtkWidget *button, SolverState *state)
+cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, SolverState *state)
 {
 	if (state->ov_stack != NULL) {
 		GSList *cells = state->ov_cell_stack;
@@ -553,7 +553,7 @@ cb_dialog_cancel_clicked (__attribute__((unused)) GtkWidget *button, SolverState
  * Close (destroy) the dialog
  **/
 static void
-cb_dialog_close_clicked (__attribute__((unused)) GtkWidget *button,
+cb_dialog_close_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 SolverState *state)
 {
 	gtk_widget_destroy (state->dialog);
@@ -728,7 +728,7 @@ save_original_values (GSList *input_cells)
  *
  **/
 static void
-cb_destroy (gpointer data, __attribute__((unused)) gpointer user_data)
+cb_destroy (gpointer data, G_GNUC_UNUSED gpointer user_data)
 {
 	g_free (data);
 }
@@ -847,7 +847,7 @@ solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
  *
  **/
 static void
-cb_dialog_solve_clicked (__attribute__((unused)) GtkWidget *button,
+cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 SolverState *state)
 {
 	constraint_conversion_t conv = {NULL, NULL, NULL};

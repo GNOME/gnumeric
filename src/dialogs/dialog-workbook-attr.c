@@ -96,8 +96,8 @@ static int attr_dialog_page = 0;
  * between dialog invocations.
  */
 static void
-cb_page_select (__attribute__((unused)) GtkNotebook *notebook,
-		__attribute__((unused)) GtkNotebookPage *page,
+cb_page_select (G_GNUC_UNUSED GtkNotebook *notebook,
+		G_GNUC_UNUSED GtkNotebookPage *page,
 		gint page_num,  AttrState *state)
 {
 	if (!state->destroying)
@@ -116,7 +116,7 @@ get_entry_values (AttrState *state, int *max_iterations, double *iteration_toler
 }
 
 static void
-cb_widget_changed (__attribute__((unused)) GtkWidget *widget, AttrState *state)
+cb_widget_changed (G_GNUC_UNUSED GtkWidget *widget, AttrState *state)
 {
 	gboolean changed;
 	int max_iterations;
@@ -143,7 +143,7 @@ cb_widget_changed (__attribute__((unused)) GtkWidget *widget, AttrState *state)
 
 /* Handler for the apply button */
 static void
-cb_attr_dialog_dialog_apply (__attribute__((unused)) GtkWidget *button,
+cb_attr_dialog_dialog_apply (G_GNUC_UNUSED GtkWidget *button,
 			     AttrState *state)
 {
 	state->wbv->show_horizontal_scrollbar = state->old.show_hsb =
@@ -174,7 +174,7 @@ cb_attr_dialog_dialog_apply (__attribute__((unused)) GtkWidget *button,
 }
 
 static void
-cb_attr_dialog_dialog_close (__attribute__((unused)) GtkWidget *button,
+cb_attr_dialog_dialog_close (G_GNUC_UNUSED GtkWidget *button,
 			     AttrState *state)
 {
 	state->destroying = TRUE;

@@ -67,7 +67,7 @@ dialog_cell_comment_destroy (GtkObject *w, CommentState *state)
 }
 
 static void
-cb_cell_comment_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+cb_cell_comment_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 				CommentState *state)
 {
 	gtk_widget_destroy (state->dialog);
@@ -75,7 +75,7 @@ cb_cell_comment_cancel_clicked (__attribute__((unused)) GtkWidget *button,
 }
 
 static void
-cb_cell_comment_ok_clicked (__attribute__((unused)) GtkWidget *button,
+cb_cell_comment_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			    CommentState *state)
 {
 	GtkTextIter start;

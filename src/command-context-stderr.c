@@ -78,14 +78,14 @@ ccs_init (CommandContextStderr *ccs)
 }
 
 static char *
-ccs_get_password (__attribute__((unused)) CommandContext *cc,
-		  __attribute__((unused)) char const* msg)
+ccs_get_password (G_GNUC_UNUSED CommandContext *cc,
+		  G_GNUC_UNUSED char const* msg)
 {
 	return NULL;
 }
 static void
-ccs_set_sensitive (__attribute__((unused)) CommandContext *cc,
-		   __attribute__((unused)) gboolean sensitive)
+ccs_set_sensitive (G_GNUC_UNUSED CommandContext *cc,
+		   G_GNUC_UNUSED gboolean sensitive)
 {
 }
 

@@ -71,8 +71,8 @@ cb_focus_on_entry (GtkWidget *widget, GtkWidget *entry)
  *
  **/
 static void
-tool_set_focus_output_range (__attribute__((unused)) GtkWidget *widget,
-			     __attribute__((unused)) GdkEventFocus *event,
+tool_set_focus_output_range (G_GNUC_UNUSED GtkWidget *widget,
+			     G_GNUC_UNUSED GdkEventFocus *event,
 			     GenericToolState *state)
 {
 	    gtk_toggle_button_set_active

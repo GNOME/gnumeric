@@ -59,7 +59,7 @@
  **/
 static gboolean
 hash_table_destroy_entry_cb (gpointer pkey, gpointer pvalue,
-			     __attribute__((unused)) gpointer data)
+			     G_GNUC_UNUSED gpointer data)
 {
 	g_free ((guint *) pkey);
 	mstyle_unref ((MStyle *) pvalue);
@@ -642,7 +642,7 @@ format_template_new_from_file (char const *filename, CommandContext *cc)
 static xmlNode *
 format_colrow_info_write_xml (FormatColRowInfo const *info,
 			      xmlNode *parent, xmlChar const *type,
-			      __attribute__((unused)) XmlParseContext *ctxt)
+			      G_GNUC_UNUSED XmlParseContext *ctxt)
 {
 	xmlNode *tmp, *container;
 

@@ -65,7 +65,7 @@ typedef struct {
    selected, operation "None" is selected, and "Transpose" and "Skip
    Blanks" are not selected.  */
 static void
-paste_link_set_sensitive (__attribute__((unused)) GtkWidget *ignored,
+paste_link_set_sensitive (G_GNUC_UNUSED GtkWidget *ignored,
 			  PasteSpecialState *state)
 {
 	gboolean sensitive =
@@ -79,7 +79,7 @@ paste_link_set_sensitive (__attribute__((unused)) GtkWidget *ignored,
 }
 
 static void
-cb_type_toggle (__attribute__((unused)) GtkWidget *ignored,
+cb_type_toggle (G_GNUC_UNUSED GtkWidget *ignored,
 		PasteSpecialState *state)
 {
 	state->type = gtk_radio_group_get_selected (state->type_group);
@@ -89,7 +89,7 @@ cb_type_toggle (__attribute__((unused)) GtkWidget *ignored,
 }
 
 static void
-cb_op_toggle (__attribute__((unused)) GtkWidget *ignored,
+cb_op_toggle (G_GNUC_UNUSED GtkWidget *ignored,
 	      PasteSpecialState *state)
 {
 	state->op = gtk_radio_group_get_selected (state->op_group);

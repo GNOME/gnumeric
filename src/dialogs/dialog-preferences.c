@@ -65,7 +65,7 @@ typedef struct {
 } page_info_t;
 
 static gboolean
-cb_pref_notification_destroy (__attribute__((unused)) GtkWidget *page,
+cb_pref_notification_destroy (G_GNUC_UNUSED GtkWidget *page,
 			      guint notification)
 {
 	gconf_client_notify_remove (application_get_gconf_client (), notification);
@@ -309,7 +309,7 @@ cb_pref_tree_selection_changed (GtkTreeSelection *selection,
 }
 
 static void
-pref_tree_page_open (PrefState *state, __attribute__((unused)) gpointer data,
+pref_tree_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 		     GtkNotebook *notebook, gint page_num)
 {
 	char *object_data_path;
@@ -324,7 +324,7 @@ pref_tree_page_open (PrefState *state, __attribute__((unused)) gpointer data,
 
 static gboolean
 pref_tree_find_iter (GtkTreeModel *model,
-		     __attribute__((unused)) GtkTreePath *tree_path,
+		     G_GNUC_UNUSED GtkTreePath *tree_path,
 		     GtkTreeIter *iter, search_cb_t *data)
 {
 	char *path;
@@ -391,7 +391,7 @@ pref_tree_set_model (GConfClient *gconf, GtkTreeModel *model, GtkTreeIter *iter)
 
 static void
 cb_pref_tree_changed_notification (GConfClient *gconf,
-				   __attribute__((unused)) guint cnxn_id,
+				   G_GNUC_UNUSED guint cnxn_id,
 				   GConfEntry *entry,
 				   GtkTreeModel *model)
 {
@@ -408,7 +408,7 @@ cb_pref_tree_changed_notification (GConfClient *gconf,
 }
 
 static void
-cb_value_edited (__attribute__((unused)) GtkCellRendererText *cell,
+cb_value_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	gchar               *path_string,
 	gchar               *new_text,
         GtkTreeStore        *model)
@@ -478,7 +478,7 @@ cb_value_edited (__attribute__((unused)) GtkCellRendererText *cell,
 }
 
 static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data,
-					  __attribute__((unused)) GtkNotebook *notebook,
+					  G_GNUC_UNUSED GtkNotebook *notebook,
 					  gint page_num)
 {
 	pref_tree_data_t  *this_pref_tree_data = data;
@@ -568,16 +568,16 @@ static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data,
 /*******************************************************************************************/
 
 static void
-pref_font_page_open (PrefState *state, __attribute__((unused)) gpointer data,
-		     __attribute__((unused)) GtkNotebook *notebook,
-		     __attribute__((unused)) gint page_num)
+pref_font_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
+		     G_GNUC_UNUSED GtkNotebook *notebook,
+		     G_GNUC_UNUSED gint page_num)
 {
 	dialog_pref_load_description_from_schema (state, "/schemas" GNUMERIC_GCONF_FONT_NAME);
 }
 
 static void
 cb_pref_font_set_fonts (GConfClient *gconf,
-		        __attribute__((unused)) guint cnxn_id,
+		        G_GNUC_UNUSED guint cnxn_id,
 			GConfEntry *entry,
 		        GtkWidget *page)
 {
@@ -607,7 +607,7 @@ cb_pref_font_set_fonts (GConfClient *gconf,
 }
 
 static gboolean
-cb_pref_font_has_changed (__attribute__((unused)) FontSelector *fs,
+cb_pref_font_has_changed (G_GNUC_UNUSED FontSelector *fs,
 			  MStyle *mstyle, PrefState *state)
 {
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_SIZE))
@@ -631,9 +631,9 @@ cb_pref_font_has_changed (__attribute__((unused)) FontSelector *fs,
 
 static
 GtkWidget *pref_font_initializer (PrefState *state,
-				  __attribute__((unused)) gpointer data,
-				  __attribute__((unused)) GtkNotebook *notebook,
-				  __attribute__((unused)) gint page_num)
+				  G_GNUC_UNUSED gpointer data,
+				  G_GNUC_UNUSED GtkNotebook *notebook,
+				  G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = font_selector_new ();
 	guint notification;
@@ -661,9 +661,9 @@ GtkWidget *pref_font_initializer (PrefState *state,
 /*******************************************************************************************/
 
 static void
-pref_undo_page_open (PrefState *state, __attribute__((unused)) gpointer data,
-		     __attribute__((unused)) GtkNotebook *notebook,
-		     __attribute__((unused)) gint page_num)
+pref_undo_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
+		     G_GNUC_UNUSED GtkNotebook *notebook,
+		     G_GNUC_UNUSED gint page_num)
 {
 	dialog_pref_load_description (state,
 				      _("The items on this page customize the "
@@ -672,8 +672,8 @@ pref_undo_page_open (PrefState *state, __attribute__((unused)) gpointer data,
 
 static void
 cb_pref_undo_set_sheet_name (GConfClient *gconf,
-			     __attribute__((unused)) guint cnxn_id,
-			     __attribute__((unused)) GConfEntry *entry,
+			     G_GNUC_UNUSED guint cnxn_id,
+			     G_GNUC_UNUSED GConfEntry *entry,
 			     GtkToggleButton *button)
 {
 	gboolean is_set_gconf = gconf_client_get_bool (gconf,
@@ -695,8 +695,8 @@ cb_pref_undo_sheet_name_toggled (GtkToggleButton *button, PrefState *state)
 
 static void
 cb_pref_undo_set_max_descriptor_width (GConfClient *gconf,
-				       __attribute__((unused)) guint cnxn_id,
-				       __attribute__((unused)) GConfEntry *entry,
+				       G_GNUC_UNUSED guint cnxn_id,
+				       G_GNUC_UNUSED GConfEntry *entry,
 				       GtkSpinButton *button)
 {
 	gint int_in_gconf = gconf_client_get_int (gconf,
@@ -718,8 +718,8 @@ cb_pref_undo_max_descriptor_width_changed (GtkSpinButton *button, PrefState *sta
 
 static void
 cb_pref_undo_set_size (GConfClient *gconf,
-		       __attribute__((unused)) guint cnxn_id,
-		       __attribute__((unused)) GConfEntry *entry,
+		       G_GNUC_UNUSED guint cnxn_id,
+		       G_GNUC_UNUSED GConfEntry *entry,
 		       GtkSpinButton *button)
 {
 	gint int_in_gconf = gconf_client_get_int (gconf,
@@ -741,8 +741,8 @@ cb_pref_undo_size_changed (GtkSpinButton *button, PrefState *state)
 
 static void
 cb_pref_undo_set_maxnum (GConfClient *gconf,
-			 __attribute__((unused)) guint cnxn_id,
-			 __attribute__((unused)) GConfEntry *entry,
+			 G_GNUC_UNUSED guint cnxn_id,
+			 G_GNUC_UNUSED GConfEntry *entry,
 			 GtkSpinButton *button)
 {
 	gint int_in_gconf = gconf_client_get_int (gconf,
@@ -764,9 +764,9 @@ cb_pref_undo_maxnum_changed (GtkSpinButton *button, PrefState *state)
 
 static
 GtkWidget *pref_undo_page_initializer (PrefState *state,
-				       __attribute__((unused)) gpointer data,
-				       __attribute__((unused)) GtkNotebook *notebook,
-				       __attribute__((unused)) gint page_num)
+				       G_GNUC_UNUSED gpointer data,
+				       G_GNUC_UNUSED GtkNotebook *notebook,
+				       G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = gtk_table_new (4, 2, FALSE);
 	gint row = 0;
@@ -811,9 +811,9 @@ GtkWidget *pref_undo_page_initializer (PrefState *state,
 /*******************************************************************************************/
 
 static void
-pref_sort_page_open (PrefState *state, __attribute__((unused)) gpointer data,
-		     __attribute__((unused)) GtkNotebook *notebook,
-		     __attribute__((unused)) gint page_num)
+pref_sort_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
+		     G_GNUC_UNUSED GtkNotebook *notebook,
+		     G_GNUC_UNUSED gint page_num)
 {
 	dialog_pref_load_description (state,
 				      _("The items on this page customize the "
@@ -823,8 +823,8 @@ pref_sort_page_open (PrefState *state, __attribute__((unused)) gpointer data,
 
 static void
 cb_pref_sort_set_retain_formats (GConfClient *gconf,
-				 __attribute__((unused)) guint cnxn_id,
-				 __attribute__((unused)) GConfEntry *entry,
+				 G_GNUC_UNUSED guint cnxn_id,
+				 G_GNUC_UNUSED GConfEntry *entry,
 			         GtkToggleButton *button)
 {
 	gboolean is_set_gconf = gconf_client_get_bool (gconf,
@@ -846,8 +846,8 @@ cb_pref_sort_retain_formats_toggled(GtkToggleButton *button, PrefState *state)
 
 static void
 cb_pref_sort_set_case (GConfClient *gconf,
-		       __attribute__((unused)) guint cnxn_id,
-		       __attribute__((unused)) GConfEntry *entry,
+		       G_GNUC_UNUSED guint cnxn_id,
+		       G_GNUC_UNUSED GConfEntry *entry,
 		       GtkToggleButton *button)
 {
 	gboolean is_set_gconf = gconf_client_get_bool (gconf,
@@ -869,8 +869,8 @@ cb_pref_sort_case_toggled(GtkToggleButton *button, PrefState *state)
 
 static void
 cb_pref_sort_set_ascending (GConfClient *gconf,
-			    __attribute__((unused)) guint cnxn_id,
-			    __attribute__((unused)) GConfEntry *entry,
+			    G_GNUC_UNUSED guint cnxn_id,
+			    G_GNUC_UNUSED GConfEntry *entry,
 			    GtkToggleButton *button)
 {
 	gboolean is_set_gconf = gconf_client_get_bool (gconf,
@@ -892,8 +892,8 @@ cb_pref_sort_ascending_toggled(GtkToggleButton *button, PrefState *state)
 
 static void
 cb_pref_sort_set_initial_clauses (GConfClient *gconf,
-				  __attribute__((unused)) guint cnxn_id,
-				  __attribute__((unused)) GConfEntry *entry,
+				  G_GNUC_UNUSED guint cnxn_id,
+				  G_GNUC_UNUSED GConfEntry *entry,
 			          GtkSpinButton *button)
 {
 	gint int_in_gconf = gconf_client_get_int (gconf,
@@ -915,9 +915,9 @@ cb_pref_sort_initial_clauses_changed (GtkSpinButton *button, PrefState *state)
 
 static
 GtkWidget *pref_sort_page_initializer (PrefState *state,
-				       __attribute__((unused)) gpointer data,
-				       __attribute__((unused)) GtkNotebook *notebook,
-				       __attribute__((unused)) gint page_num)
+				       G_GNUC_UNUSED gpointer data,
+				       G_GNUC_UNUSED GtkNotebook *notebook,
+				       G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = gtk_table_new (3, 2, FALSE);
 	gint row = 0;
@@ -958,9 +958,9 @@ GtkWidget *pref_sort_page_initializer (PrefState *state,
 
 static void
 pref_window_page_open (PrefState *state,
-		       __attribute__((unused)) gpointer data,
-		       __attribute__((unused)) GtkNotebook *notebook,
-		       __attribute__((unused)) gint page_num)
+		       G_GNUC_UNUSED gpointer data,
+		       G_GNUC_UNUSED GtkNotebook *notebook,
+		       G_GNUC_UNUSED gint page_num)
 {
 	dialog_pref_load_description (state,
 				      _("The items on this page customize the "
@@ -969,8 +969,8 @@ pref_window_page_open (PrefState *state,
 
 static void
 cb_pref_window_set_zoom (GConfClient *gconf,
-			 __attribute__((unused)) guint cnxn_id,
-			 __attribute__((unused)) GConfEntry *entry,
+			 G_GNUC_UNUSED guint cnxn_id,
+			 G_GNUC_UNUSED GConfEntry *entry,
 			 GtkSpinButton *button)
 {
 	gnm_float float_in_gconf = gconf_client_get_float (gconf,
@@ -993,8 +993,8 @@ cb_pref_window_zoom_changed (GtkSpinButton *button, PrefState *state)
 
 static void
 cb_pref_window_set_window_height (GConfClient *gconf,
-				  __attribute__((unused)) guint cnxn_id,
-				  __attribute__((unused)) GConfEntry *entry,
+				  G_GNUC_UNUSED guint cnxn_id,
+				  G_GNUC_UNUSED GConfEntry *entry,
 				GtkSpinButton *button)
 {
 	gnm_float float_in_gconf = gconf_client_get_float (gconf,
@@ -1017,8 +1017,8 @@ cb_pref_window_height_changed (GtkSpinButton *button, PrefState *state)
 
 static void
 cb_pref_window_set_window_width (GConfClient *gconf,
-				 __attribute__((unused)) guint cnxn_id,
-				 __attribute__((unused)) GConfEntry *entry,
+				 G_GNUC_UNUSED guint cnxn_id,
+				 G_GNUC_UNUSED GConfEntry *entry,
 				GtkSpinButton *button)
 {
 	gnm_float float_in_gconf = gconf_client_get_float (gconf,
@@ -1041,8 +1041,8 @@ cb_pref_window_width_changed (GtkSpinButton *button, PrefState *state)
 
 static void
 cb_pref_window_set_sheet_num (GConfClient *gconf,
-			      __attribute__((unused)) guint cnxn_id,
-			      __attribute__((unused)) GConfEntry *entry,
+			      G_GNUC_UNUSED guint cnxn_id,
+			      G_GNUC_UNUSED GConfEntry *entry,
 			      GtkSpinButton *button)
 {
 	gint int_in_gconf = gconf_client_get_int (gconf,
@@ -1064,8 +1064,8 @@ cb_pref_window_sheet_num_changed (GtkSpinButton *button, PrefState *state)
 
 static void
 cb_pref_window_set_live_scrolling (GConfClient *gconf,
-				   __attribute__((unused)) guint cnxn_id,
-				   __attribute__((unused)) GConfEntry *entry,
+				   G_GNUC_UNUSED guint cnxn_id,
+				   G_GNUC_UNUSED GConfEntry *entry,
 				   GtkToggleButton *button)
 {
 	gboolean is_set_gconf = gconf_client_get_bool (gconf,
@@ -1088,9 +1088,9 @@ cb_pref_window_live_scrolling_toggled (GtkToggleButton *button, PrefState *state
 
 static
 GtkWidget *pref_window_page_initializer (PrefState *state,
-					 __attribute__((unused)) gpointer data,
-					 __attribute__((unused)) GtkNotebook *notebook,
-					 __attribute__((unused)) gint page_num)
+					 G_GNUC_UNUSED gpointer data,
+					 G_GNUC_UNUSED GtkNotebook *notebook,
+					 G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = gtk_table_new (4, 2, FALSE);
 	gint row = 0;
@@ -1143,9 +1143,9 @@ GtkWidget *pref_window_page_initializer (PrefState *state,
 /*******************************************************************************************/
 
 static void
-pref_file_page_open (PrefState *state, __attribute__((unused)) gpointer data,
-		     __attribute__((unused)) GtkNotebook *notebook,
-		     __attribute__((unused)) gint page_num)
+pref_file_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
+		     G_GNUC_UNUSED GtkNotebook *notebook,
+		     G_GNUC_UNUSED gint page_num)
 {
 	dialog_pref_load_description (state,
 				      _("The items on this page are related to the saving "
@@ -1155,8 +1155,8 @@ pref_file_page_open (PrefState *state, __attribute__((unused)) gpointer data,
 
 static void
 cb_pref_file_set_file_history_num (GConfClient *gconf,
-				   __attribute__((unused)) guint cnxn_id,
-				   __attribute__((unused)) GConfEntry *entry,
+				   G_GNUC_UNUSED guint cnxn_id,
+				   G_GNUC_UNUSED GConfEntry *entry,
 			     GtkSpinButton *button)
 {
 	gint int_in_gconf = gconf_client_get_int (gconf,
@@ -1178,8 +1178,8 @@ cb_pref_file_file_history_changed (GtkSpinButton *button, PrefState *state)
 
 static void
 cb_pref_file_set_xml_compression (GConfClient *gconf,
-				  __attribute__((unused)) guint cnxn_id,
-				  __attribute__((unused)) GConfEntry *entry,
+				  G_GNUC_UNUSED guint cnxn_id,
+				  G_GNUC_UNUSED GConfEntry *entry,
 			          GtkSpinButton *button)
 {
 	gint int_in_gconf = gconf_client_get_int (gconf,
@@ -1201,8 +1201,8 @@ cb_pref_file_xml_compression_changed (GtkSpinButton *button, PrefState *state)
 
 static void
 cb_pref_file_set_overwrite (GConfClient *gconf,
-			    __attribute__((unused)) guint cnxn_id,
-			    __attribute__((unused)) GConfEntry *entry,
+			    G_GNUC_UNUSED guint cnxn_id,
+			    G_GNUC_UNUSED GConfEntry *entry,
 			    GtkToggleButton *button)
 {
 	gboolean is_set_gconf = gconf_client_get_bool (gconf,
@@ -1224,8 +1224,8 @@ cb_pref_file_overwrite_toggled (GtkToggleButton *button, PrefState *state)
 
 static void
 cb_pref_file_set_single_sheet_warn (GConfClient *gconf,
-				    __attribute__((unused)) guint cnxn_id,
-				    __attribute__((unused)) GConfEntry *entry,
+				    G_GNUC_UNUSED guint cnxn_id,
+				    G_GNUC_UNUSED GConfEntry *entry,
 				    GtkToggleButton *button)
 {
 	gboolean is_set_gconf = gconf_client_get_bool (gconf,
@@ -1247,9 +1247,9 @@ cb_pref_file_single_sheet_warn_toggled (GtkToggleButton *button, PrefState *stat
 
 static
 GtkWidget *pref_file_page_initializer (PrefState *state,
-				       __attribute__((unused)) gpointer data,
-				       __attribute__((unused)) GtkNotebook *notebook,
-				       __attribute__((unused)) gint page_num)
+				       G_GNUC_UNUSED gpointer data,
+				       G_GNUC_UNUSED GtkNotebook *notebook,
+				       G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = gtk_table_new (2, 2, FALSE);
 	gint row = 0;
@@ -1308,7 +1308,7 @@ static page_info_t page_info[] = {
 
 
 static gboolean
-cb_preferences_destroy (__attribute__((unused)) GtkWidget *widget,
+cb_preferences_destroy (G_GNUC_UNUSED GtkWidget *widget,
 			PrefState *state)
 {
 	if (state->gconf)
@@ -1329,14 +1329,14 @@ cb_preferences_destroy (__attribute__((unused)) GtkWidget *widget,
 }
 
 static void
-cb_close_clicked (__attribute__((unused)) GtkWidget *ignore, PrefState *state)
+cb_close_clicked (G_GNUC_UNUSED GtkWidget *ignore, PrefState *state)
 {
 	    gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
 static void
 cb_dialog_pref_switch_page  (GtkNotebook *notebook,
-			     __attribute__((unused)) GtkNotebookPage *page,
+			     G_GNUC_UNUSED GtkNotebookPage *page,
 			     gint page_num, PrefState *state)
 {
 	if (page_info[page_num].page_open)

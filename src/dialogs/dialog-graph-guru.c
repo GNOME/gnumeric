@@ -265,7 +265,7 @@ minor_chart_type_get_pos (xmlNode const *node, int *col, int *row)
 }
 
 static gboolean
-cb_key_press_event (__attribute__((unused)) GtkWidget *wrapper,
+cb_key_press_event (G_GNUC_UNUSED GtkWidget *wrapper,
 		    GdkEventKey *event,
 		    GraphGuruTypeSelector *typesel)
 {
@@ -327,7 +327,7 @@ cb_button_press_event (GtkWidget *widget, GdkEventButton *event,
 }
 
 static void
-cb_selection_changed (__attribute__((unused)) GtkTreeSelection *ignored,
+cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 		      GraphGuruTypeSelector *typesel)
 {
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (typesel->list_view);
@@ -354,7 +354,7 @@ cb_selection_changed (__attribute__((unused)) GtkTreeSelection *ignored,
 }
 
 static void
-cb_sample_pressed (__attribute__((unused)) GtkWidget *button,
+cb_sample_pressed (G_GNUC_UNUSED GtkWidget *button,
 		   GraphGuruTypeSelector *typesel)
 {
 	if (typesel->current_major_item == NULL)
@@ -383,7 +383,7 @@ cb_sample_pressed (__attribute__((unused)) GtkWidget *button,
 }
 
 static void
-cb_sample_released (__attribute__((unused)) GtkWidget *button,
+cb_sample_released (G_GNUC_UNUSED GtkWidget *button,
 		    GraphGuruTypeSelector *typesel)
 {
 	if (typesel->current_major_item == NULL)
@@ -491,8 +491,8 @@ major_list_init (GraphGuruTypeSelector *typesel, xmlNode *major)
 }
 
 static void
-cb_canvas_realized (__attribute__((unused)) GtkWidget *widget,
-		    __attribute__((unused)) gpointer data)
+cb_canvas_realized (G_GNUC_UNUSED GtkWidget *widget,
+		    G_GNUC_UNUSED gpointer data)
 {
 	/*gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE); */
 }
@@ -543,7 +543,7 @@ graph_guru_get_series (GraphGuruState *s, int indx)
 }
 
 static char *
-graph_guru_plot_name (__attribute__((unused)) GraphGuruState *s,
+graph_guru_plot_name (G_GNUC_UNUSED GraphGuruState *s,
 		      xmlNode *plot)
 {
 	char *name;
@@ -792,7 +792,7 @@ vector_state_init (VectorState *vs, xmlNode *descriptor)
 }
 
 static void
-cb_entry_changed (__attribute__((unused)) GtkEditable *editable,
+cb_entry_changed (G_GNUC_UNUSED GtkEditable *editable,
 		  VectorState *vs)
 {
 	if (!vs->state->updating)
@@ -800,7 +800,7 @@ cb_entry_changed (__attribute__((unused)) GtkEditable *editable,
 }
 
 static void
-cb_entry_rangesel_drag_finished (__attribute__((unused)) GnumericExprEntry *gee,
+cb_entry_rangesel_drag_finished (G_GNUC_UNUSED GnumericExprEntry *gee,
 				 VectorState *vs)
 {
 	vector_state_apply_changes (vs);
@@ -939,7 +939,7 @@ graph_guru_state_destroy (GraphGuruState *state)
 }
 
 static gboolean
-cb_graph_guru_destroy (__attribute__((unused)) GtkObject *w,
+cb_graph_guru_destroy (G_GNUC_UNUSED GtkObject *w,
 		       GraphGuruState *state)
 {
 	graph_guru_state_destroy (state);
@@ -947,7 +947,7 @@ cb_graph_guru_destroy (__attribute__((unused)) GtkObject *w,
 }
 
 static  gint
-cb_graph_guru_key_press (__attribute__((unused)) GtkWidget *widget,
+cb_graph_guru_key_press (G_GNUC_UNUSED GtkWidget *widget,
 			 GdkEventKey *event,
 			 GraphGuruState *state)
 {
@@ -959,7 +959,7 @@ cb_graph_guru_key_press (__attribute__((unused)) GtkWidget *widget,
 }
 
 static char *
-graph_guru_series_name (__attribute__((unused)) GraphGuruState *s,
+graph_guru_series_name (G_GNUC_UNUSED GraphGuruState *s,
 			xmlNode *series)
 {
 	int i;
@@ -1110,7 +1110,7 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot, int seriesID)
 }
 
 static void
-graph_guru_apply_changes (__attribute__((unused)) GraphGuruState *state)
+graph_guru_apply_changes (G_GNUC_UNUSED GraphGuruState *state)
 {
 #if 0
 	CORBA_Environment  ev;
@@ -1135,7 +1135,7 @@ graph_guru_apply_changes (__attribute__((unused)) GraphGuruState *state)
 }
 
 static void
-graph_guru_init_data_page (__attribute__((unused)) GraphGuruState *s)
+graph_guru_init_data_page (G_GNUC_UNUSED GraphGuruState *s)
 {
 #if 0
 	if (s->data_guru != CORBA_OBJECT_NIL)
@@ -1155,7 +1155,7 @@ graph_guru_init_data_page (__attribute__((unused)) GraphGuruState *s)
 }
 
 static void
-graph_guru_init_format_page (__attribute__((unused)) GraphGuruState *s)
+graph_guru_init_format_page (G_GNUC_UNUSED GraphGuruState *s)
 {
 #if 0
 	GtkWidget *w;
@@ -1285,7 +1285,7 @@ cb_series_entry_changed (GtkWidget *ct, char *new_text, GraphGuruState *s)
 }
 
 static gboolean
-cb_series_selection_changed (__attribute__((unused)) GtkWidget *ct,
+cb_series_selection_changed (G_GNUC_UNUSED GtkWidget *ct,
 			     GtkWidget *item, GraphGuruState *s)
 {
 	if (!s->updating) {
@@ -1299,7 +1299,7 @@ cb_series_selection_changed (__attribute__((unused)) GtkWidget *ct,
 
 static gboolean
 cb_plot_entry_changed (GtkWidget *ct, char *new_text,
-		       __attribute__((unused)) GraphGuruState *s)
+		       G_GNUC_UNUSED GraphGuruState *s)
 {
 	if (!gnm_combo_text_set_text (GNM_COMBO_TEXT (ct), new_text,
 		GNM_COMBO_TEXT_NEXT)) {
@@ -1309,7 +1309,7 @@ cb_plot_entry_changed (GtkWidget *ct, char *new_text,
 }
 
 static gboolean
-cb_plot_selection_changed (__attribute__((unused)) GtkWidget *ct,
+cb_plot_selection_changed (G_GNUC_UNUSED GtkWidget *ct,
 			   GtkWidget *item, GraphGuruState *s)
 {
 	if (!s->updating) {
@@ -1342,7 +1342,7 @@ graph_guru_selector_init (GraphGuruState *s, char const *name, int i,
 }
 
 static void
-cb_graph_guru_focus (__attribute__((unused)) GtkWindow *window,
+cb_graph_guru_focus (G_GNUC_UNUSED GtkWindow *window,
 		     GtkWidget *focus, GraphGuruState *state)
 {
 	vector_state_apply_changes (state->current_vector);
@@ -1360,8 +1360,8 @@ cb_graph_guru_focus (__attribute__((unused)) GtkWindow *window,
 }
 
 static void
-cb_graph_guru_series_add (__attribute__((unused)) GtkWidget *button,
-			  __attribute__((unused)) GraphGuruState *s)
+cb_graph_guru_series_add (G_GNUC_UNUSED GtkWidget *button,
+			  G_GNUC_UNUSED GraphGuruState *s)
 {
 #if 0
 	int new_index;
@@ -1383,7 +1383,7 @@ cb_graph_guru_series_add (__attribute__((unused)) GtkWidget *button,
 }
 
 static void
-cb_graph_guru_series_delete (__attribute__((unused)) GtkWidget *button,
+cb_graph_guru_series_delete (G_GNUC_UNUSED GtkWidget *button,
 			     GraphGuruState *s)
 {
 	if (s->current_series >= 0) {

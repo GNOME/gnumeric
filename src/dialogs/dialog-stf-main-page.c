@@ -145,7 +145,7 @@ main_page_startrow_changed (GtkSpinButton* button, DruidPageData_t *data)
  * returns : nothing
  **/
 static void
-main_page_stoprow_changed (__attribute__((unused)) GtkSpinButton* button,
+main_page_stoprow_changed (G_GNUC_UNUSED GtkSpinButton* button,
 			   DruidPageData_t *data)
 {
 
@@ -160,7 +160,7 @@ main_page_stoprow_changed (__attribute__((unused)) GtkSpinButton* button,
  *
  **/
 static void
-main_page_trim_menu_deactivate (__attribute__((unused)) GtkMenu *menu,
+main_page_trim_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu,
 				DruidPageData_t *data)
 {
 	MainInfo_t *info = data->main_info;

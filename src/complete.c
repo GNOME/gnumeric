@@ -99,7 +99,7 @@ complete_start (Complete *complete, char const *text)
 }
 
 static gboolean
-default_search_iteration (__attribute__((unused)) Complete *complete)
+default_search_iteration (G_GNUC_UNUSED Complete *complete)
 {
 	return FALSE;
 }

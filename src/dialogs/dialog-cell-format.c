@@ -272,10 +272,10 @@ static int fmt_dialog_currency = 0;
  * between dialog invocations.
  */
 static void
-cb_page_select (__attribute__((unused)) GtkNotebook *notebook,
-		__attribute__((unused)) GtkNotebookPage *page,
+cb_page_select (G_GNUC_UNUSED GtkNotebook *notebook,
+		G_GNUC_UNUSED GtkNotebookPage *page,
 		gint page_num,
-		__attribute__((unused))	gpointer user_data)
+		G_GNUC_UNUSED	gpointer user_data)
 {
 	fmt_dialog_page = page_num;
 }
@@ -862,7 +862,7 @@ cb_format_list_select (GtkTreeSelection *selection, FormatState *state)
 }
 
 static gboolean
-cb_format_currency_select (__attribute__((unused)) GtkWidget *ct,
+cb_format_currency_select (G_GNUC_UNUSED GtkWidget *ct,
 			   char *new_text, FormatState *state)
 {
 	int i;
@@ -1494,7 +1494,7 @@ fmt_dialog_init_align_page (FormatState *state)
 /*****************************************************************************/
 
 static void
-cb_font_changed (__attribute__((unused)) GtkWidget *widget,
+cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
 		 MStyle *mstyle, FormatState *state)
 {
 	static MStyleElementType const font_types[] = {
@@ -1533,10 +1533,10 @@ cb_font_changed (__attribute__((unused)) GtkWidget *widget,
  * It is called whenever the color combo changes value.
  */
 static void
-cb_font_preview_color (__attribute__((unused)) ColorCombo *combo,
+cb_font_preview_color (G_GNUC_UNUSED ColorCombo *combo,
 		       GdkColor *c,
-		       __attribute__((unused)) gboolean is_custom,
-		       __attribute__((unused)) gboolean by_user,
+		       G_GNUC_UNUSED gboolean is_custom,
+		       G_GNUC_UNUSED gboolean by_user,
 		       gboolean is_default, FormatState *state)
 {
 	StyleColor *col;
@@ -1561,7 +1561,7 @@ cb_font_strike_toggle (GtkToggleButton *button, FormatState *state)
 }
 
 static gboolean
-cb_font_underline_changed (__attribute__((unused)) GtkWidget *ct,
+cb_font_underline_changed (G_GNUC_UNUSED GtkWidget *ct,
 			   char *new_text, FormatState *state)
 {
 	StyleUnderlineType res = UNDERLINE_NONE;
@@ -1675,9 +1675,9 @@ fmt_dialog_init_font_page (FormatState *state)
 /*****************************************************************************/
 
 static MStyle *
-cb_pattern_preview_get_cell_style (__attribute__((unused)) PreviewGrid *pg,
-				   __attribute__((unused)) int row,
-				   __attribute__((unused)) int col,
+cb_pattern_preview_get_cell_style (G_GNUC_UNUSED PreviewGrid *pg,
+				   G_GNUC_UNUSED int row,
+				   G_GNUC_UNUSED int col,
 				   MStyle *style)
 {
 	mstyle_ref (style);
@@ -1702,10 +1702,10 @@ draw_pattern_preview (FormatState *state)
 }
 
 static void
-cb_back_preview_color (__attribute__((unused)) ColorCombo *combo,
+cb_back_preview_color (G_GNUC_UNUSED ColorCombo *combo,
 		       GdkColor *c,
-		       __attribute__((unused)) gboolean is_custom,
-		       __attribute__((unused)) gboolean by_user,
+		       G_GNUC_UNUSED gboolean is_custom,
+		       G_GNUC_UNUSED gboolean by_user,
 		       gboolean is_default,
 		       FormatState *state)
 {
@@ -1726,10 +1726,10 @@ cb_back_preview_color (__attribute__((unused)) ColorCombo *combo,
 }
 
 static void
-cb_pattern_preview_color (__attribute__((unused)) ColorCombo *combo,
+cb_pattern_preview_color (G_GNUC_UNUSED ColorCombo *combo,
 			  GdkColor *c,
-			  __attribute__((unused)) gboolean is_custom,
-			  __attribute__((unused)) gboolean by_user,
+			  G_GNUC_UNUSED gboolean is_custom,
+			  G_GNUC_UNUSED gboolean by_user,
 			  gboolean is_default, FormatState *state)
 {
 	StyleColor *col = (is_default
@@ -2188,10 +2188,10 @@ cb_border_toggle (GtkToggleButton *button, BorderPicker *picker)
 }
 
 static void
-cb_border_color (__attribute__((unused)) ColorCombo *combo,
+cb_border_color (G_GNUC_UNUSED ColorCombo *combo,
 		 GdkColor *c,
-		 __attribute__((unused)) gboolean is_custom,
-		 __attribute__((unused)) gboolean by_user,
+		 G_GNUC_UNUSED gboolean is_custom,
+		 G_GNUC_UNUSED gboolean by_user,
 		 gboolean is_default, FormatState *state)
 {
 	state->border.rgba =
@@ -2384,7 +2384,7 @@ validation_rebuild_validation (FormatState *state)
 }
 
 static void
-cb_validation_error_action_deactivate (__attribute__((unused)) GtkMenuShell *ignored,
+cb_validation_error_action_deactivate (G_GNUC_UNUSED GtkMenuShell *ignored,
 				       FormatState *state)
 {
 	int index = gtk_option_menu_get_history (state->validation.error.action);
@@ -2422,7 +2422,7 @@ cb_validation_error_action_deactivate (__attribute__((unused)) GtkMenuShell *ign
 }
 
 static void
-cb_validation_sensitivity (__attribute__((unused)) GtkMenuShell *ignored,
+cb_validation_sensitivity (G_GNUC_UNUSED GtkMenuShell *ignored,
 			   FormatState *state)
 {
 	gboolean has_operators = FALSE;
@@ -2492,7 +2492,7 @@ cb_validation_sensitivity (__attribute__((unused)) GtkMenuShell *ignored,
 }
 
 static void
-cb_validation_changed (__attribute__((unused)) GtkEntry *ignored,
+cb_validation_changed (G_GNUC_UNUSED GtkEntry *ignored,
 		       FormatState *state)
 {
 	state->validation.changed = TRUE;
@@ -2521,7 +2521,7 @@ fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 }
 
 static void
-cb_validation_rebuild (__attribute__((unused)) void *ignored,
+cb_validation_rebuild (G_GNUC_UNUSED void *ignored,
 		       FormatState *state)
 {
 	validation_rebuild_validation (state);
@@ -2736,8 +2736,8 @@ cb_fmt_dialog_dialog_destroy (FormatState *state)
  *       cell format dialog is made non-modal
  */
 static void
-cb_fmt_dialog_set_focus (__attribute__((unused)) GtkWidget *window,
-			 __attribute__((unused)) GtkWidget *focus_widget,
+cb_fmt_dialog_set_focus (G_GNUC_UNUSED GtkWidget *window,
+			 G_GNUC_UNUSED GtkWidget *focus_widget,
 			 FormatState *state)
 {
 	if (state->validation.changed)

@@ -65,8 +65,8 @@ static GnmFuncFlags do_af_suggest_list (GnmExprList *list,
 struct cb_af_suggest { GnmFuncFlags typ; StyleFormat **explicit; };
 
 static Value *
-cb_af_suggest (__attribute__((unused)) Sheet *sheet,
-	       __attribute__((unused)) int col, __attribute__((unused)) int row,
+cb_af_suggest (G_GNUC_UNUSED Sheet *sheet,
+	       G_GNUC_UNUSED int col, G_GNUC_UNUSED int row,
 	       Cell *cell, void *_data)
 {
 	struct cb_af_suggest *data = _data;

@@ -37,7 +37,7 @@
  * returns : nothing
  **/
 static void
-csv_page_global_change (__attribute__((unused)) GtkWidget *widget,
+csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 			DruidPageData_t *data)
 {
 	CsvInfo_t *info = data->csv_info;
@@ -174,8 +174,8 @@ csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
  * returns : nothing
  **/
 void
-stf_dialog_csv_page_prepare (__attribute__((unused)) GnomeDruidPage *page,
-			     __attribute__((unused)) GnomeDruid *druid,
+stf_dialog_csv_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
+			     G_GNUC_UNUSED GnomeDruid *druid,
 			     DruidPageData_t *pagedata)
 {
 	CsvInfo_t *info = pagedata->csv_info;

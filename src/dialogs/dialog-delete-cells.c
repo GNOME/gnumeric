@@ -70,7 +70,7 @@ delete_cell_destroy (GtkObject *w, DeleteCellState *state)
 }
 
 static void
-cb_delete_cell_ok_clicked (__attribute__((unused)) GtkWidget *button,
+cb_delete_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			   DeleteCellState *state)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
@@ -113,7 +113,7 @@ cb_delete_cell_ok_clicked (__attribute__((unused)) GtkWidget *button,
 }
 
 static void
-cb_delete_cell_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+cb_delete_cell_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 			       DeleteCellState *state)
 {
 	gtk_widget_destroy (state->dialog);

@@ -84,7 +84,7 @@ enum {
 };
 
 static void
-cb_name_edited (__attribute__((unused)) GtkCellRendererText *cell,
+cb_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	gchar               *path_string,
 	gchar               *new_text,
         SheetManager        *state)
@@ -123,10 +123,10 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 }
 
 static void
-cb_color_changed_fore (__attribute__((unused)) ColorCombo *color_combo,
-		       GdkColor *color, __attribute__((unused)) gboolean custom,
-		       __attribute__((unused)) gboolean by_user,
-		       __attribute__((unused)) gboolean is_default,
+cb_color_changed_fore (G_GNUC_UNUSED ColorCombo *color_combo,
+		       GdkColor *color, G_GNUC_UNUSED gboolean custom,
+		       G_GNUC_UNUSED gboolean by_user,
+		       G_GNUC_UNUSED gboolean is_default,
 		       SheetManager *state)
 {
 	GtkTreeIter sel_iter;
@@ -140,10 +140,10 @@ cb_color_changed_fore (__attribute__((unused)) ColorCombo *color_combo,
 }
 
 static void
-cb_color_changed_back (__attribute__((unused)) ColorCombo *color_combo,
-		       GdkColor *color, __attribute__((unused)) gboolean custom,
-		       __attribute__((unused)) gboolean by_user,
-		       __attribute__((unused)) gboolean is_default,
+cb_color_changed_back (G_GNUC_UNUSED ColorCombo *color_combo,
+		       GdkColor *color, G_GNUC_UNUSED gboolean custom,
+		       G_GNUC_UNUSED gboolean by_user,
+		       G_GNUC_UNUSED gboolean is_default,
 		       SheetManager *state)
 {
 	GtkTreeIter sel_iter;
@@ -161,7 +161,7 @@ cb_color_changed_back (__attribute__((unused)) ColorCombo *color_combo,
  * for this view.
  */
 static void
-cb_selection_changed (__attribute__((unused)) GtkTreeSelection *ignored,
+cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 		      SheetManager *state)
 {
 	GtkTreeIter  iter;
@@ -221,7 +221,7 @@ cb_selection_changed (__attribute__((unused)) GtkTreeSelection *ignored,
 }
 
 static void
-cb_toggled_lock (__attribute__((unused)) GtkCellRendererToggle *cell,
+cb_toggled_lock (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 		 gchar                 *path_string,
 		 gpointer               data)
 {
@@ -401,19 +401,19 @@ cb_item_move (SheetManager *state, gint direction)
 }
 
 static void
-cb_up (__attribute__((unused)) GtkWidget *w, SheetManager *state)
+cb_up (G_GNUC_UNUSED GtkWidget *w, SheetManager *state)
 {
 	cb_item_move (state, -1);
 }
 
 static void
-cb_down (__attribute__((unused)) GtkWidget *w, SheetManager *state)
+cb_down (G_GNUC_UNUSED GtkWidget *w, SheetManager *state)
 {
 	cb_item_move (state,  1);
 }
 
 static void
-cb_add_clicked (__attribute__((unused)) GtkWidget *ignore, SheetManager *state)
+cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 {
 	GtkTreeIter iter;
 	GtkTreeIter sel_iter;
@@ -466,14 +466,14 @@ cb_add_clicked (__attribute__((unused)) GtkWidget *ignore, SheetManager *state)
 }
 
 static void
-cb_duplicate_clicked (__attribute__((unused)) GtkWidget *ignore,
-		      __attribute__((unused)) SheetManager *state)
+cb_duplicate_clicked (G_GNUC_UNUSED GtkWidget *ignore,
+		      G_GNUC_UNUSED SheetManager *state)
 {
 	g_warning ("'Duplicate' not implemented.");
 }
 
 static void
-cb_delete_clicked (__attribute__((unused)) GtkWidget *ignore,
+cb_delete_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		   SheetManager *state)
 {
 	GtkTreeIter sel_iter;
@@ -506,14 +506,14 @@ cb_delete_clicked (__attribute__((unused)) GtkWidget *ignore,
 }
 
 static void
-cb_cancel_clicked (__attribute__((unused)) GtkWidget *ignore,
+cb_cancel_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		   SheetManager *state)
 {
 	    gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
 static void
-cb_delete_sheets (gpointer data, __attribute__((unused)) gpointer dummy)
+cb_delete_sheets (gpointer data, G_GNUC_UNUSED gpointer dummy)
 {
 	Sheet *sheet = data;
 
@@ -532,7 +532,7 @@ sheet_order_gdk_color_equal (GdkColor *color_a, GdkColor *color_b)
 }
 
 static void
-cb_ok_clicked (__attribute__((unused)) GtkWidget *ignore, SheetManager *state)
+cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 {
 	GSList *new_order = NULL;
 	GSList *changed_names = NULL;

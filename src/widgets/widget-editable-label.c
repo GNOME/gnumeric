@@ -102,7 +102,7 @@ el_stop_editing (EditableLabel *el)
 }
 
 static void
-el_entry_activate (GtkEntry *entry, __attribute__((unused)) gpointer ignored)
+el_entry_activate (GtkEntry *entry, G_GNUC_UNUSED gpointer ignored)
 {
 	EditableLabel *el = EDITABLE_LABEL (entry);
 	gboolean reject = FALSE;
@@ -230,14 +230,14 @@ el_class_init (GtkObjectClass *object_class)
 }
 
 static void
-cb_el_changed (GtkWidget *w, __attribute__((unused)) gpointer ignored)
+cb_el_changed (GtkWidget *w, G_GNUC_UNUSED gpointer ignored)
 {
 	gtk_widget_queue_resize	(w);
 }
 
 static void
-cb_el_parent_set (GtkWidget *w, __attribute__((unused)) gpointer ignored,
-		  __attribute__((unused)) gpointer ignored_2)
+cb_el_parent_set (GtkWidget *w, G_GNUC_UNUSED gpointer ignored,
+		  G_GNUC_UNUSED gpointer ignored_2)
 {
 	EditableLabel *el = EDITABLE_LABEL (w);
 	GtkStyle *s = gtk_widget_get_style (w);

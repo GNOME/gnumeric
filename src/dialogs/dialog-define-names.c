@@ -87,13 +87,13 @@ name_guru_scope_is_sheet (NameGuruState *state)
  * Return Value: TRUE if users confirms deletion, FALSE otherwise
  **/
 static gboolean
-name_guru_warn (__attribute__((unused)) NameGuruState *state)
+name_guru_warn (G_GNUC_UNUSED NameGuruState *state)
 {
 	return TRUE;
 }
 
 static void
-cb_scope_changed (__attribute__((unused)) GtkToggleButton *button,
+cb_scope_changed (G_GNUC_UNUSED GtkToggleButton *button,
 		  NameGuruState *state)
 {
 	if (state->updating || state->cur_name == NULL)
@@ -221,14 +221,14 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
  *
  **/
 static void
-cb_name_guru_update_sensitivity (__attribute__((unused)) GtkWidget *dummy,
+cb_name_guru_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				 NameGuruState *state)
 {
 	name_guru_update_sensitivity (state, FALSE);
 }
 
 static void
-cb_name_guru_select_name (__attribute__((unused)) GtkTreeSelection *ignored,
+cb_name_guru_select_name (G_GNUC_UNUSED GtkTreeSelection *ignored,
 			  NameGuruState *state)
 {
 	GnmNamedExpr *nexpr;
@@ -300,7 +300,7 @@ name_guru_populate_list (NameGuruState *state)
  * Remove the state->cur_name
  **/
 static void
-name_guru_remove (__attribute__((unused)) GtkWidget *ignored,
+name_guru_remove (G_GNUC_UNUSED GtkWidget *ignored,
 		  NameGuruState *state)
 {
 	g_return_if_fail (state != NULL);
@@ -446,7 +446,7 @@ cb_name_guru_destroy (NameGuruState *state)
 }
 
 static void
-cb_entry_activate (__attribute__((unused)) GtkWidget *item,
+cb_entry_activate (G_GNUC_UNUSED GtkWidget *item,
 		   NameGuruState *state)
 {
 	char const *name = gtk_entry_get_text (state->name);

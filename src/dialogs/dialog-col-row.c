@@ -66,7 +66,7 @@ dialog_col_row_destroy (GtkObject *w, ColRowState *state)
 }
 
 static void
-cb_dialog_col_row_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+cb_dialog_col_row_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 				  ColRowState *state)
 {
 	gtk_widget_destroy (state->dialog);
@@ -75,7 +75,7 @@ cb_dialog_col_row_cancel_clicked (__attribute__((unused)) GtkWidget *button,
 
 
 static void
-cb_dialog_col_row_ok_clicked (__attribute__((unused)) GtkWidget *button,
+cb_dialog_col_row_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			      ColRowState *state)
 {
 	state->callback (state->wbcg, 
