@@ -2789,6 +2789,12 @@ cb_data_sort (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_data_shuffle (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	dialog_shuffle (wbcg);
+}
+
+static void
 cb_data_import_text (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 #warning TODO
@@ -3755,7 +3761,7 @@ static GnomeUIInfo workbook_menu_data [] = {
 		cb_data_sort, GTK_STOCK_SORT_ASCENDING),
 	GNOMEUIINFO_ITEM_NONE (N_("Sh_uffle..."),
 		N_("Shuffle cells, rows or columns"),
-		cb_data_filter),
+		cb_data_shuffle),
 	GNOMEUIINFO_SUBTREE(N_("_Filter"), workbook_menu_data_filter),
 	GNOMEUIINFO_ITEM_NONE (N_("_Validate..."),
 		N_("Validate input with preset criteria"),
@@ -3995,7 +4001,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("RandomGenerator", cb_tools_random_generator),
 
 	BONOBO_UI_UNSAFE_VERB ("DataSort", cb_data_sort),
-	BONOBO_UI_UNSAFE_VERB ("DataShuffle", cb_data_filter),
+	BONOBO_UI_UNSAFE_VERB ("DataShuffle", cb_data_shuffle),
 	BONOBO_UI_UNSAFE_VERB ("DataAutoFilter", cb_auto_filter),
 	BONOBO_UI_UNSAFE_VERB ("DataFilterShowAll", cb_show_all),
 	BONOBO_UI_UNSAFE_VERB ("DataFilterAdvancedfilter", cb_data_filter),
