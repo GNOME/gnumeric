@@ -1,3 +1,11 @@
+1999-05-24  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (workbook_fixup_references): Set formula
+ 	directly, not via text strings.  (This actually fixes a bug with
+ 	insertion of columns/rows where we modify the cells before we
+ 	restructure the sheet.)  It's much faster and cleaner too.
+	(workbook_invalidate_references): Ditto.
+
 1999-05-23  Morten Welinder  <terra@diku.dk>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_cursor_set): Make the

@@ -2198,25 +2198,13 @@ workbook_fixup_references (Workbook *wb, Sheet *sheet, int col, int row,
 	for (l = cells; l; l = l->next)	{
 		Cell *cell = l->data;
 		ExprTree *newtree;
-		int thiscol, thisrow;
-
-		thiscol = cell->col->pos;
-		thisrow = cell->row->pos;
 
 		newtree = expr_tree_fixup_references (cell->parsed_node, cell->sheet,
-						      thiscol, thisrow, sheet,
+						      cell->col->pos, cell->row->pos,
+						      sheet,
 						      col, row, coldelta, rowdelta);
-		if (newtree) {
-			char *exprtxt, *eqexprtxt;
-
-			exprtxt = expr_decode_tree (newtree, cell->sheet, thiscol, thisrow);
-			eqexprtxt = g_strconcat ("=", exprtxt, NULL);
-			cell_set_text (cell, eqexprtxt);
-
-			g_free (exprtxt);
-			g_free (eqexprtxt);
-			expr_tree_unref (newtree);
-		}
+		if (newtree)
+			cell_set_formula_tree (cell, newtree);
 	}
 
 	g_list_free (cells);
@@ -2252,25 +2240,13 @@ workbook_invalidate_references (Workbook *wb, Sheet *sheet, int col, int row,
 	for (l = cells; l; l = l->next)	{
 		Cell *cell = l->data;
 		ExprTree *newtree;
-		int thiscol, thisrow;
-
-		thiscol = cell->col->pos;
-		thisrow = cell->row->pos;
 
 		newtree = expr_tree_invalidate_references (cell->parsed_node, cell->sheet,
-							   thiscol, thisrow, sheet,
+							   cell->col->pos, cell->row->pos,
+							   sheet,
 							   col, row, colcount, rowcount);
-		if (newtree) {
-			char *exprtxt, *eqexprtxt;
-
-			exprtxt = expr_decode_tree (newtree, cell->sheet, thiscol, thisrow);
-			eqexprtxt = g_strconcat ("=", exprtxt, NULL);
-			cell_set_text (cell, eqexprtxt);
-
-			g_free (exprtxt);
-			g_free (eqexprtxt);
-			expr_tree_unref (newtree);
-		}
+		if (newtree)
+			cell_set_formula_tree (cell, newtree);
 	}
 
 	g_list_free (cells);
