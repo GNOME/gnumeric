@@ -19,7 +19,7 @@
 
 			<menuitem name="FileSave" verb="" _label="_Save"
 			_descr="Save the current file" pixtype="stock" pixname="Menu_Save"
-			accel="&lt;Control&gt;s"/>
+			accel="*Control*s"/>
 	
 			<menuitem name="FileSaveAs" verb="" _label="Save _As..."
 			_descr="Save the current file with a different name"
@@ -41,35 +41,35 @@
 	
 			<menuitem name="FileClose" verb="" _label="_Close"
 			_descr="Close the current file" pixtype="stock" pixname="Menu_Close"
-			accel="&lt;Control&gt;w"/>
+			accel="*Control*w"/>
 
 			<placeholder delimit="both"/>
 	
 			<menuitem name="FileExit" verb="" _label="E_xit" _descr="Exit the program"
-			pixtype="stock" pixname="Menu_Exit" accel="&lt;Control&gt;q"/>
+			pixtype="stock" pixname="Menu_Exit" accel="*Control*q"/>
 
 		</submenu>
 
 		<submenu name="Edit" _label="_Edit">
 
 			<menuitem name="Undo" verb="EditUndo" _label="_Undo" _descr="Undo the last action"
-			pixtype="stock" pixname="Menu_Undo" accel="&lt;Control&gt;z"/>
+			pixtype="stock" pixname="Menu_Undo" accel="*Control*z"/>
 	
 			<menuitem name="Redo" verb="EditRedo" _label="_Redo" _descr="Redo the undone action"
-			pixtype="stock" pixname="Menu_Redo" accel="&lt;Control&gt;r"/>
+			pixtype="stock" pixname="Menu_Redo" accel="*Control*r"/>
 
 			<menuitem/>
 	
 			<menuitem name="EditCut" verb="" _label="C_ut" _descr="Cut the selection"
-			pixtype="stock" pixname="Menu_Cut" accel="&lt;Control&gt;x"/>
+			pixtype="stock" pixname="Menu_Cut" accel="*Control*x"/>
 	
 			<menuitem name="EditCopy" verb="" _label="_Copy"
 			_descr="Copy the selection" pixtype="stock" pixname="Menu_Copy"
-			accel="&lt;Control&gt;c"/>
+			accel="*Control*c"/>
 	
 			<menuitem name="EditPaste" verb="" _label="_Paste"
 			_descr="Paste the clipboard" pixtype="stock" pixname="Menu_Paste"
-			accel="&lt;Control&gt;v"/>
+			accel="*Control*v"/>
 	
 			<menuitem name="EditPasteSpecial" verb=""
 			_label="_Paste special..."
@@ -113,19 +113,19 @@
 			<submenu name="Select" _label="_Select...">
 
 				<menuitem name="EditSelectAll" verb=""
-				_label="Select _All" accel="&lt;Control&gt;a"
+				_label="Select _All" accel="*Control*a"
 				_descr="Select all cells in the spreadsheet"/>
 
 				<menuitem name="EditSelectRow" verb=""
-				_label="Select _Row" accel="&lt;Shift&gt; "
+				_label="Select _Row" accel="*Shift* "
 				_descr="Select an entire row"/>
 
 				<menuitem name="EditSelectColumn" verb=""
-				_label="Select _Column" accel="&lt;Control&gt; "
+				_label="Select _Column" accel="*Control* "
 				_descr="Select an entire column"/>
 
 				<menuitem name="EditSelectArray" verb=""
-				_label="Select Arra_y" accel="&lt;Control&gt;/"
+				_label="Select Arra_y" accel="*Control*/"
 				_descr="Select an array of cells"/>
 
 				<menuitem name="EditSelectDepends" verb=""
@@ -189,12 +189,12 @@
 				<menuitem name="Date" verb="InsertCurrentDate"
 				_label="Current _date"
 				_descr="Insert the current date into the selected cell(s)"
-				accel="&lt;Control&gt;;"/>
+				accel="*Control*;"/>
 
 				<menuitem name="Time" verb="InsertCurrentTime"
 				_label="Current _time"
 				_descr="Insert the current time into the selected cell(s)"
-				accel="&lt;Control&gt;:"/>
+				accel="*Control*:"/>
 
 			</submenu>
 
@@ -206,7 +206,7 @@
 			<menuitem name="FormatCells" verb=""
 			_label="_Cells..."
 			_descr="Modify the formatting of the selected cells"
-			accel="&lt;Control&gt;1"/>
+			accel="*Control*1"/>
 
 			<submenu _label="C_olumn">
 				<menuitem name="AutoFit" verb="ColumnAutoSize"
