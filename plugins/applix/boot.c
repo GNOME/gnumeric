@@ -23,19 +23,13 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "applix.h"
 
-#include <plugin.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
 #include <workbook-view.h>
 #include <workbook.h>
 #include <io-context.h>
 
 #include <gsf/gsf-input.h>
 #include <string.h>
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 gboolean applix_file_probe (GnmFileOpener const *fo, GsfInput *input,
                             FileProbeLevel pl);

@@ -52,11 +52,11 @@ static GObjectClass *parent_class = NULL;
 static void gplp_set_attributes (GnmPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error);
 static void gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error);
 static void gplp_unload_base (GnmPluginLoader *loader, ErrorInfo **ret_error);
-static void gplp_load_service_file_opener (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
-static void gplp_load_service_file_saver (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
 static void gplp_load_service_function_group (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
 static void gplp_unload_service_function_group (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
-/* static void gplp_load_service_ui (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error); */
+#ifdef WITH_BONOBO
+static void gplp_load_service_ui (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
+#endif
 
 #define PLUGIN_GET_LOADER(plugin) \
 	GNM_PLUGIN_LOADER_PYTHON (g_object_get_data (G_OBJECT (plugin), "python-loader"))
@@ -64,7 +64,6 @@ static void gplp_unload_service_function_group (GnmPluginLoader *loader, GnmPlug
 	PLUGIN_GET_LOADER (plugin_service_get_plugin (service))
 #define SWITCH_TO_PLUGIN(plugin) \
 	gnm_py_interpreter_switch_to (PLUGIN_GET_LOADER (plugin)->py_interpreter_info)
-
 
 static void
 gplp_set_attributes (GnmPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error)
@@ -207,8 +206,6 @@ gplp_class_init (GObjectClass *gobject_class)
 	loader_class->set_attributes = gplp_set_attributes;
 	loader_class->load_base = gplp_load_base;
 	loader_class->unload_base = gplp_unload_base;
-	loader_class->load_service_file_opener = gplp_load_service_file_opener;
-	loader_class->load_service_file_saver = gplp_load_service_file_saver;
 	loader_class->load_service_function_group = gplp_load_service_function_group;
 	loader_class->unload_service_function_group = gplp_unload_service_function_group;
 #ifdef WITH_BONOBO
@@ -219,247 +216,6 @@ gplp_class_init (GObjectClass *gobject_class)
 PLUGIN_CLASS (GnmPluginLoaderPython, gnm_plugin_loader_python,
 	      gplp_class_init, gplp_init,
 	      TYPE_GNM_PLUGIN_LOADER)
-
-/*
- * Service - file_opener
- */
-
-typedef struct {
-	PyObject *python_func_file_probe;
-	PyObject *python_func_file_open;
-} ServiceLoaderDataFileOpener;
-
-static void
-gplp_loader_data_opener_free (ServiceLoaderDataFileOpener *loader_data)
-{
-	Py_DECREF (loader_data->python_func_file_probe);
-	Py_DECREF (loader_data->python_func_file_open);
-	g_free (loader_data);
-}
-
-static gboolean
-gplp_func_file_probe (GnmFileOpener const *fo, GnmPluginService *service,
-		      GsfInput *input, FileProbeLevel pl)
-{
-	ServiceLoaderDataFileOpener *loader_data;
-	PyObject *probe_result = NULL;
-	PyObject *input_wrapper;
-	gboolean result;
-
-	g_return_val_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_OPENER (service), FALSE);
-	g_return_val_if_fail (input != NULL, FALSE);
-	g_return_val_if_fail (_PyGObject_API != NULL, FALSE);
-
-	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
-	input_wrapper = pygobject_new (G_OBJECT (input));
-	if (input_wrapper == NULL) {
-		g_warning (py_exc_to_string ());
-		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
-	}
-	if (input_wrapper != NULL) {
-		/* wrapping adds a reference */
-		g_object_unref (G_OBJECT (input));
-		probe_result = PyObject_CallFunction
-			(loader_data->python_func_file_probe, 
-			 (char *) "O", input_wrapper);
-		Py_DECREF (input_wrapper);
-	}
-	if (probe_result != NULL) {
-		result = PyObject_IsTrue (probe_result);
-		Py_DECREF (probe_result);
-	} else {
-		PyErr_Clear ();
-		result = FALSE;
-	}
-
-	return result;
-}
-
-static void
-gplp_func_file_open (GnmFileOpener const *fo, 
-		     GnmPluginService *service,
-		     IOContext *io_context, 
-		     GODoc *doc,
-		     GsfInput *input)
-{
-	ServiceLoaderDataFileOpener *loader_data;
-	Sheet *sheet;
-	PyObject *open_result = NULL;
-	PyObject *input_wrapper;
-
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_OPENER (service));
-	g_return_if_fail (input != NULL);
-	g_return_if_fail (_PyGObject_API != NULL);
-
-	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
-	sheet = sheet_new (WORKBOOK (doc), _("Some name"));
-	input_wrapper = pygobject_new (G_OBJECT (input));
-	if (input_wrapper != NULL) {
-		 /* wrapping adds a reference */
-		g_object_unref (G_OBJECT (input));
-		open_result = PyObject_CallFunction
-			(loader_data->python_func_file_open,
-			 (char *) "NO", 
-			 py_new_Sheet_object (sheet), input_wrapper);
-		Py_DECREF (input_wrapper);
-	}
-	if (open_result != NULL) {
-		Py_DECREF (open_result);
-		workbook_sheet_attach (WORKBOOK (doc), sheet, NULL);
-	} else {
-		gnumeric_io_error_string (io_context, py_exc_to_string ());
-		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
-		sheet_destroy (sheet);
-	}
-}
-
-static void
-gplp_load_service_file_opener (GnmPluginLoader *loader,
-			       GnmPluginService *service,
-			       ErrorInfo **ret_error)
-{
-	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
-	gchar *func_name_file_probe, *func_name_file_open;
-	PyObject *python_func_file_probe, *python_func_file_open;
-
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_OPENER (service));
-
-	GNM_INIT_RET_ERROR_INFO (ret_error);
-	gnm_py_interpreter_switch_to (loader_python->py_interpreter_info);
-	func_name_file_probe = g_strconcat (
-		plugin_service_get_id (service), "_file_probe", NULL);
-	python_func_file_probe = PyDict_GetItemString (loader_python->main_module_dict,
-	                                               func_name_file_probe);
-	gnm_python_clear_error_if_needed (loader_python->py_object);
-	func_name_file_open = g_strconcat (
-		plugin_service_get_id (service), "_file_open", NULL);
-	python_func_file_open = PyDict_GetItemString (loader_python->main_module_dict,
-	                                              func_name_file_open);
-	gnm_python_clear_error_if_needed (loader_python->py_object);
-	if (python_func_file_open != NULL) {
-		PluginServiceFileOpenerCallbacks *cbs;
-		ServiceLoaderDataFileOpener *loader_data;
-
-		cbs = plugin_service_get_cbs (service);
-		cbs->plugin_func_file_probe = gplp_func_file_probe;
-		cbs->plugin_func_file_open = gplp_func_file_open;
-
-		loader_data = g_new (ServiceLoaderDataFileOpener, 1);
-		loader_data->python_func_file_probe = python_func_file_probe;
-		loader_data->python_func_file_open = python_func_file_open;
-		Py_INCREF (loader_data->python_func_file_probe);
-		Py_INCREF (loader_data->python_func_file_open);
-		g_object_set_data_full
-			(G_OBJECT (service), "loader_data", loader_data,
-			 (GDestroyNotify) gplp_loader_data_opener_free);
-	} else {
-		*ret_error = error_info_new_printf (
-		             _("Python file \"%s\" has invalid format."),
-		             loader_python->module_name);
-		error_info_add_details (*ret_error,
-		                        error_info_new_printf (
-		                        _("File doesn't contain \"%s\" function."),
-		                        func_name_file_open));
-	}
-	g_free (func_name_file_probe);
-	g_free (func_name_file_open);
-}
-
-/*
- * Service - file_saver
- */
-
-typedef struct {
-	PyObject *python_func_file_save;
-} ServiceLoaderDataFileSaver;
-
-static void
-gplp_loader_data_saver_free (ServiceLoaderDataFileSaver *loader_data)
-{
-	Py_DECREF (loader_data->python_func_file_save);
-	g_free (loader_data);
-}
-
-static void
-gplp_func_file_save (GnmFileSaver const *fs, GnmPluginService *service,
-		     IOContext *io_context, WorkbookView const *wb_view,
-		     GsfOutput *output)
-{
-	ServiceLoaderDataFileSaver *saver_data;
-	PyObject *py_workbook;
-	PyObject *save_result = NULL;
-	PyObject *output_wrapper;
-
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_SAVER (service));
-	g_return_if_fail (output != NULL);
-	g_return_if_fail (_PyGObject_API != NULL);
-
-	saver_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
-	py_workbook = py_new_Workbook_object (wb_view_workbook (wb_view));
-	output_wrapper = pygobject_new (G_OBJECT (output));
-	if (output_wrapper != NULL) {
-		/* wrapping adds a reference */
-		g_object_unref (G_OBJECT (output));
-		save_result = PyObject_CallFunction
-			(saver_data->python_func_file_save,
-			 (char *) "NO", py_workbook, output_wrapper);
-		Py_DECREF (output_wrapper);
-	}
-	if (save_result != NULL) {
-		Py_DECREF (save_result);
-	} else {
-		gnumeric_io_error_string (io_context, py_exc_to_string ());
-		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
-	}
-}
-
-static void
-gplp_load_service_file_saver (GnmPluginLoader *loader,
-			      GnmPluginService *service,
-			      ErrorInfo **ret_error)
-{
-	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
-	gchar *func_name_file_save;
-	PyObject *python_func_file_save;
-
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_SAVER (service));
-
-	GNM_INIT_RET_ERROR_INFO (ret_error);
-	gnm_py_interpreter_switch_to (loader_python->py_interpreter_info);
-	func_name_file_save = g_strconcat (
-		plugin_service_get_id (service), "_file_save", NULL);
-	python_func_file_save = PyDict_GetItemString (loader_python->main_module_dict,
-	                                              func_name_file_save);
-	gnm_python_clear_error_if_needed (loader_python->py_object);
-	if (python_func_file_save != NULL) {
-		PluginServiceFileSaverCallbacks *cbs;
-		ServiceLoaderDataFileSaver *saver_data;
-
-		cbs = plugin_service_get_cbs (service);
-		cbs->plugin_func_file_save = gplp_func_file_save;
-
-		saver_data = g_new (ServiceLoaderDataFileSaver, 1);
-		saver_data->python_func_file_save = python_func_file_save;
-		Py_INCREF (saver_data->python_func_file_save);
-		g_object_set_data_full
-			(G_OBJECT (service), "loader_data", saver_data,
-			 (GDestroyNotify) gplp_loader_data_saver_free);
-	} else {
-		*ret_error = error_info_new_printf (
-		             _("Python file \"%s\" has invalid format."),
-		             loader_python->module_name);
-		if (python_func_file_save == NULL) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
-			                        _("File doesn't contain \"%s\" function."),
-			                        func_name_file_save));
-		}
-	}
-	g_free (func_name_file_save);
-}
 
 /*
  * Service - function_group

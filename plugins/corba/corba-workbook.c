@@ -253,7 +253,7 @@ wbcc_finalize (GObject *obj)
 }
 
 static void
-wbcc_gnm_cmd_context_init (GnmCmdContextClass *iface)
+wbcc_gnm_cmd_context_init (GOCmdContextClass *iface)
 {
 	iface->get_password	    = wbcc_get_password;
 	iface->set_sensitive	    = wbcc_set_sensitive;
@@ -317,7 +317,7 @@ GSF_CLASS_FULL (WorkbookControlCORBA, workbook_control_corba,
 		wbcc_class_init, wbcc_init, 
 		WORKBOOK_CONTROL_TYPE, 0,
 		GSF_INTERFACE (wbcc_gnm_cmd_context_init,
-			       GNM_CMD_CONTEXT_TYPE))
+			       GO_CMD_CONTEXT_TYPE))
 
 WorkbookControl *
 workbook_control_corba_new (WorkbookView *optional_view,

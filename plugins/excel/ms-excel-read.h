@@ -17,6 +17,7 @@
 #include <expr.h>
 #include <pango/pango-attributes.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <goffice/utils/go-file.h>
 
 typedef struct {
 	Workbook  *wb;
@@ -97,8 +98,12 @@ typedef struct {
 } ExcelStringEntry;
 
 struct _ExcelWorkbook {
+	GOImporter	  base;
+
+	GsfInfile	 *ole;
 	MSContainer	  container;
 	IOContext	 *context;
+	GsfInput	 *content;
 
 	GPtrArray	 *excel_sheets;
 	GHashTable	 *boundsheet_data_by_stream;

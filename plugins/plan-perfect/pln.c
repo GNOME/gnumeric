@@ -7,35 +7,28 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
-#include <plugin.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
-#include <io-context.h>
+#include <workbook.h>
 #include <sheet.h>
+#include <cell.h>
 #include <ranges.h>
 #include <value.h>
 #include <expr.h>
-#include <cell.h>
-#include <workbook.h>
-#include <parse-util.h>
 #include <sheet-style.h>
 #include <style.h>
 #include <mstyle.h>
+#include <parse-util.h>
 #include <gutils.h>
 
+#include <goffice/utils/go-file.h>
+#include <goffice/app/go-plugin-impl.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>
+#include <gmodule.h>
+#include <glib/gi18n.h>
 #include <string.h>
 #include <math.h>
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
-
-gboolean pln_file_probe (GnmFileOpener const *fo, GsfInput *input,
-			 FileProbeLevel pl);
-void     pln_file_open (GnmFileOpener const *fo, IOContext *io_context,
-			GODoc *doc, GsfInput *input);
 
 static char const *formula1[] = {
 	NULL,			/* 0 */
@@ -61,8 +54,7 @@ static char const *formula1[] = {
 	"COLUMN("			/* 20 */
 };
 
-static const char* formula2[] =
-{
+static const char* formula2[] = {
 	"?bad1?(",		/* 0 */
 	"POWER(",
 	"LN(",
@@ -148,9 +140,12 @@ static const char* formula2[] =
 };
 
 typedef struct {
-	Sheet *sheet;
-	GHashTable *styles;
-} PlanPerfectImport;
+	GOImporter	  base;
+
+	Workbook	*wb;
+	Sheet		*sheet;
+	GHashTable	*styles;
+} GnmPlanPerfectIn;
 
 static guint8 const signature[] =
     { 0xff, 'W','P','C', 0x10, 0, 0, 0, 0x9, 0xa };
@@ -171,31 +166,8 @@ pln_get_func_table2 (unsigned i)
 	return formula2 [i];
 }
 
-gboolean
-pln_file_probe (GnmFileOpener const *fo, GsfInput *input,
-		FileProbeLevel pl)
-{
-	/*
-	 * a plan-perfect header
-	 *	0	= -1
-	 *	1-3	= "WPC"
-	 *	4-7	= 16 (double word)
-	 *	8	= 9 (plan perfect file)
-	 *	9	= 10 (worksheet file)
-	 *	10	= major version number
-	 *	11	= minor version number
-	 *	12-13	= encryption key
-	 *	14-15	= unused
-	 */
-	char const *header = NULL;
-	if (!gsf_input_seek (input, 0, G_SEEK_SET))
-		header = gsf_input_read (input, sizeof (signature), NULL);
-	return header != NULL &&
-		memcmp (header, signature, sizeof (signature)) == 0;
-}
-
 static GnmStyle *
-pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
+pln_get_style (GnmPlanPerfectIn *imp, guint8 const* data, gboolean is_cell)
 {
 	guint16 attr, fmt, font;
 	guint32 key;
@@ -207,7 +179,7 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 
 	/* Check for use of sheet defaults */
 	if (is_cell) {
-		GnmStyle *def = sheet_style_default (state->sheet);
+		GnmStyle *def = sheet_style_default (imp->sheet);
 		if ((attr & 0x0700) == 0x0400) {
 			attr &= 0xf8ff;
 			switch (mstyle_get_align_h (def)) {
@@ -231,7 +203,7 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 	key |= font & 0xf800;
 	key |= (attr >> 4) & 0x07ff; /* drop type, hide 0, and top lock bit */
 
-	res = g_hash_table_lookup (state->styles, GINT_TO_POINTER (key));
+	res = g_hash_table_lookup (imp->styles, GINT_TO_POINTER (key));
 	if (res == NULL) {
 		static StyleHAlignFlags const haligns[] = {
 			HALIGN_GENERAL, HALIGN_LEFT, HALIGN_RIGHT, HALIGN_CENTER
@@ -245,7 +217,7 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 		mstyle_set_font_bold (res, (attr & 0x0080) ? TRUE : FALSE);
 		mstyle_set_align_h (res, haligns [(attr & 0x300) >> 8]);
 
-		g_hash_table_insert (state->styles, GINT_TO_POINTER (key), res);
+		g_hash_table_insert (imp->styles, GINT_TO_POINTER (key), res);
 #warning generate formats
 	}
 
@@ -481,8 +453,8 @@ pln_calc_font_width (guint16 cwidth, gboolean permit_default)
 	return (cwidth & 0xff) * FONT_WIDTH;
 }
 
-static ErrorInfo *
-pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
+static void
+pln_parse_sheet (GnmPlanPerfectIn *imp, GsfInput *input)
 {
 	int max_col = SHEET_MAX_COLS;
 	int max_row = SHEET_MAX_ROWS;
@@ -495,17 +467,21 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 	GnmParsePos pp;
 	GnmRange r;
 
-	range_init (&r, 0,0,0, SHEET_MAX_ROWS);
-	parse_pos_init_sheet (&pp, state->sheet);
-
 	data = gsf_input_read (input, 16, NULL);
-	if (data == NULL || GSF_LE_GET_GUINT16 (data + 12) != 0)
-		return error_info_new_str (_("PLN : Spreadsheet is password encrypted"));
+	if (data == NULL) {
+		go_importer_fail (GO_IMPORTER (imp), _("Unable to read header"));
+		return;
+	}
+	if (0 != GSF_LE_GET_GUINT16 (data + 12)) {
+		go_importer_fail (GO_IMPORTER (imp), _("Spreadsheet is encrypted"));
+		return;
+	}
+
 
 	/* Process the record based sections
 	 * Each record consists of a two-byte record type code,
-	 * followed by a two byte length
-	 */
+	 * followed by a two byte length */
+	range_init (&r, 0,0,0, SHEET_MAX_ROWS);
 	do {
 		data = gsf_input_read (input, 4, NULL);
 		if (data == NULL)
@@ -541,10 +517,10 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 				if (i <= max_col) {
 					double const width = pln_calc_font_width (
 						GSF_LE_GET_GUINT16 (data + 4), TRUE);
-					sheet_col_set_size_pts (state->sheet, i, width, FALSE);
+					sheet_col_set_size_pts (imp->sheet, i, width, FALSE);
 					r.start.col = r.end.col = i;
-					sheet_style_apply_range (state->sheet, &r,
-						pln_get_style (state, data, FALSE));
+					sheet_style_apply_range (imp->sheet, &r,
+						pln_get_style (imp, data, FALSE));
 				}
 			break;
 
@@ -555,6 +531,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 	} while (rcode != 25);
 
 	/* process the CELL information */
+	parse_pos_init_sheet (&pp, imp->sheet);
 	while (NULL != (data = gsf_input_read (input, 20, NULL))) {
 		unsigned type = GSF_LE_GET_GUINT16 (data + 12);
 		unsigned length = GSF_LE_GET_GUINT16 (data + 18);
@@ -563,36 +540,41 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 		pp.eval.col = GSF_LE_GET_GUINT16 (data + 2);
 		/* Special value indicating end of sheet */
 		if (pp.eval.row == 0xFFFF)
-			return NULL;
+			return;
 
-		if (pp.eval.row > max_row)
-			return error_info_new_printf (
-				_("Ignoring data that claims to be in row %u which is > max row %u"),
-				pp.eval.row, max_row);
-		if (pp.eval.col > max_col)
-			return error_info_new_printf (
-				_("Ignoring data that claims to be in column %u which is > max column %u"),
-				pp.eval.col, max_col);
+		if (pp.eval.row > max_row) {
+			go_importer_warn (GO_IMPORTER (imp),
+				_("Ignoring content outside sheet bounds"),
+				_("row %u which is > max row %u"), pp.eval.row, max_row);
+			continue;;
+		}
+		if (pp.eval.row > max_row) {
+			go_importer_warn (GO_IMPORTER (imp),
+				_("Ignoring content outside sheet bounds"),
+				_("column %u which is > max column %u"), pp.eval.col, max_col);
+			continue;;
+		}
 
 		v = NULL;
 		expr = NULL;
 		cell = NULL;
 		if ((type & 0x7) != 0) {
-			style = pln_get_style (state, data, TRUE);
+			style = pln_get_style (imp, data, TRUE);
 			if (style != NULL)
-				sheet_style_set_pos (state->sheet, pp.eval.col, pp.eval.row, style);
+				sheet_style_set_pos (imp->sheet, pp.eval.col, pp.eval.row, style);
 			if ((type & 0x7) != 6)
-				cell = sheet_cell_fetch (state->sheet, pp.eval.col, pp.eval.row);
-		} else {
+				cell = sheet_cell_fetch (imp->sheet, pp.eval.col, pp.eval.row);
+		} else
 			style = NULL;
-		}
 
 		switch (type & 0x7) {
 		/* Empty Cell */
 		case 0:
-			if (length != 0) {
-				g_warning ("an empty unformated cell has an expression ?");
-			} else
+			if (length != 0)
+				go_importer_warn (GO_IMPORTER (imp),
+					_("An empty unformated cell has an expression"),
+					"%s", cellpos_as_string	(&pp.eval));
+			else
 				continue;
 
 		/* Floating Point */
@@ -648,35 +630,62 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 		} else if (v != NULL)
 			cell_set_value (cell, v);
 	}
-
-	return NULL;
 }
 
-void
-pln_file_open (GnmFileOpener const *fo, IOContext *io_context,
-               GODoc *doc, GsfInput *input)
+static void
+gnm_plan_perfect_in_import (GOImporter *imp, GODoc *doc)
 {
-	Workbook *wb;
-	char  *name;
-	Sheet *sheet;
-	ErrorInfo *error;
-	PlanPerfectImport state;
+	GnmPlanPerfectIn *pln  = (GnmPlanPerfectIn *) imp;
+	char *name;
 
-	wb    = WORKBOOK (doc);
-	name  = workbook_sheet_get_free_name (wb, "PlanPerfect", FALSE, TRUE);
-	sheet = sheet_new (wb, name);
+	pln->wb = WORKBOOK (doc);
+	name = workbook_sheet_get_free_name (pln->wb, "PlanPerfect", FALSE, TRUE);
+	pln->sheet = sheet_new (pln->wb, name);
 	g_free (name);
-	workbook_sheet_attach (wb, sheet, NULL);
-	sheet_flag_recompute_spans (sheet);
 
-	state.sheet  = sheet;
-	state.styles = g_hash_table_new_full (
-		g_direct_hash, g_direct_equal,
+	workbook_sheet_attach (pln->wb, pln->sheet, NULL);
+	sheet_flag_recompute_spans (pln->sheet);
+	pln->styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify) mstyle_unref);
-	error = pln_parse_sheet (input, &state);
-	g_hash_table_destroy (state.styles);
-	if (error != NULL) {
-		workbook_sheet_detach (wb, sheet, FALSE);
-		gnumeric_io_error_info_set (io_context, error);
-	}
+	pln_parse_sheet (pln, imp->input);
+	g_hash_table_destroy (pln->styles);
+}
+
+static gboolean
+gnm_plan_perfect_in_probe (GOImporter *imp)
+{
+	/*
+	 * a plan-perfect header
+	 *	0	= -1
+	 *	1-3	= "WPC"
+	 *	4-7	= 16 (double word)
+	 *	8	= 9 (plan perfect file)
+	 *	9	= 10 (worksheet file)
+	 *	10	= major version number
+	 *	11	= minor version number
+	 *	12-13	= encryption key
+	 *	14-15	= unused
+	 */
+	char const *header = NULL;
+	if (!gsf_input_seek (imp->input, 0, G_SEEK_SET))
+		header = gsf_input_read (imp->input, sizeof (signature), NULL);
+	return header != NULL &&
+		memcmp (header, signature, sizeof (signature)) == 0;
+}
+
+static void
+gnm_plan_perfect_in_class_init (GOImporterClass *import_class)
+{
+	import_class->Probe	= gnm_plan_perfect_in_probe;
+	import_class->Import	= gnm_plan_perfect_in_import;
+}
+
+typedef GOImporterClass GnmPlanPerfectInClass;
+static GType gnm_plan_perfect_in_type;
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
+{
+	GSF_DYNAMIC_CLASS (GnmPlanPerfectIn, gnm_plan_perfect_in,
+		gnm_plan_perfect_in_class_init, NULL, GO_IMPORTER_TYPE,
+		G_TYPE_MODULE (plugin), gnm_plan_perfect_in_type);
 }

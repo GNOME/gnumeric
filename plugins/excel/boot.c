@@ -60,61 +60,10 @@ gint ms_excel_write_debug = 0;
 /* Enables debugging mesgs while reading excel objects */
 gint ms_excel_object_debug = 0;
 
-gboolean excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
-void excel_file_open (GnmFileOpener const *fo, IOContext *context, GODoc *doc, GsfInput *input);
 void excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void excel_biff8_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void excel_dsf_file_save   (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void plugin_cleanup (void);
-
-static GsfInput *
-find_content_stream (GsfInfile *ole, gboolean *is_97)
-{
-	static char const * const stream_names[] = {
-		"Workbook",	"WORKBOOK",	"workbook",
-		"Book",		"BOOK",		"book"
-	};
-	GsfInput *stream;
-	unsigned i;
-
-	for (i = 0 ; i < G_N_ELEMENTS (stream_names) ; i++) {
-		stream = gsf_infile_child_by_name (ole, stream_names[i]);
-		if (stream != NULL) {
-			if (is_97 != NULL)
-				*is_97 = (i < 3);
-			return stream;
-		}
-	}
-
-	return  NULL;
-}
-
-gboolean
-excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
-{
-	GsfInfile *ole;
-	GsfInput  *stream;
-	gboolean res = FALSE;
-
-	if (input == NULL)
-		return FALSE;
-	ole = gsf_infile_msole_new (input, NULL);
-	if (ole == NULL) {	/* Test for non-OLE BIFF file */
-		guint8 const *data;
-		gsf_input_seek (input, 0, G_SEEK_SET);
-		data = gsf_input_read (input, 2, NULL);
-		return data && data[0] == 0x09 && (data[1] & 0xf1) == 0;
-	}
-
-	stream = find_content_stream (ole, NULL);
-	if (stream != NULL) {
-		g_object_unref (G_OBJECT (stream));
-		res = TRUE;
-	}
-	g_object_unref (G_OBJECT (ole));
-
-	return res;
-}
 
 static void
 excel_read_metadata (Workbook  *wb, GsfInfile *ole, char const *name,
@@ -136,35 +85,17 @@ excel_read_metadata (Workbook  *wb, GsfInfile *ole, char const *name,
 	}
 }
 
-void
-excel_file_open (GnmFileOpener const *fo, IOContext *context,
-                 GODoc *doc, GsfInput *input)
+static void
+excel_file_import (GOImporter *importer, GODoc *doc)
 {
-	GsfInput  *stream = NULL;
-	GError    *err = NULL;
-	GsfInfile *ole = gsf_infile_msole_new (input, &err);
+	ExcelWorkbook *ewb = (ExcelWorkbook *)importer;
 	Workbook  *wb = WORKBOOK (doc);
 	gboolean   is_double_stream_file, is_97;
 
-	if (ole == NULL) {
-		guint8 const *data;
-
-		/* Test for non-OLE BIFF file */
-		gsf_input_seek (input, 0, G_SEEK_SET);
-		data = gsf_input_read (input, 2, NULL);
-		if (data && data[0] == 0x09 && (data[1] & 0xf1) == 0) {
-			gsf_input_seek (input, -2, G_SEEK_CUR);
-			excel_read_workbook (context, wb, input,
-					     &is_double_stream_file);
+	if (ewb->ole == NULL)  {
+		excel_read_workbook (context, wb, input,
+				     &is_double_stream_file);
 			/* NOTE : we lack a saver for the early formats */
-			return;
-		}
-
-		/* OK, it really isn't an Excel file */
-		g_return_if_fail (err != NULL);
-		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
-			err->message);
-		g_error_free (err);
 		return;
 	}
 
@@ -209,6 +140,47 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 		workbook_set_saveinfo (wb, FILE_FL_AUTO,
 			gnm_file_saver_for_id ("Gnumeric_Excel:excel_biff7"));
 }
+
+static gboolean
+excel_file_probe (GOImporter *importer)
+{
+	static char const * const stream_names[] = {
+		"Workbook",	"WORKBOOK",	"workbook",
+		"Book",		"BOOK",		"book"
+	};
+	ExcelWorkbook *ewb = (ExcelWorkbook *)importer;
+	unsigned i;
+
+	ewb->ole = gsf_infile_msole_new (importer->input, NULL);
+	if (NULL == ewb->ole) {	/* Test for non-OLE BIFF file */
+		guint8 const *data;
+		gsf_input_seek (importer->input, 0, G_SEEK_SET);
+		data = gsf_input_read (importer->input, 2, NULL);
+		return data && data[0] == 0x09 && (data[1] & 0xf1) == 0;
+	}
+
+	for (i = 0 ; i < G_N_ELEMENTS (stream_names) ; i++) {
+		ewb->content = gsf_infile_child_by_name (ewb->ole, stream_names[i]);
+		if (ewb->content != NULL) {
+				*is_97 = (i < 3);
+			return stream;
+		}
+	}
+
+	return  FALSE;
+}
+
+static void
+excel_workbook_class_init (GOImporterClass *import_class)
+{
+	gobject_class->finalize =
+	import_class->Probe	= excel_file_probe;
+	import_class->Import	= excel_file_import;
+}
+
+static GSF_CLASS (ExcelWorkbook, excel_workbook,
+		  excel_workbook_class_init, NULL,
+		  GO_IMPORTER_TYPE);
 
 static void
 excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
@@ -275,7 +247,7 @@ excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
 
 void
 excel_dsf_file_save (GnmFileSaver const *fs, IOContext *context,
-		       WorkbookView const *wbv, GsfOutput *output)
+		     WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, TRUE, TRUE);
 }
@@ -292,7 +264,6 @@ excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context,
 {
 	excel_save (context, wbv, output, TRUE, FALSE);
 }
-
 
 void
 plugin_init (void)

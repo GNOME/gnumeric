@@ -1184,7 +1184,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	GtkWidget *selector;
 	GladeXML *gui;
 
-	gui = gnm_glade_xml_new (s->cc, "gog-guru-type-selector.glade", "type_selector", NULL);
+	gui = go_libglade_new ("gog-guru-type-selector.glade", NULL, NULL, s->gcc);
 
 	typesel = g_new0 (GraphGuruTypeSelector, 1);
 	typesel->state = s;

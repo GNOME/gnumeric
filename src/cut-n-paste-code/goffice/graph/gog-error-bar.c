@@ -248,7 +248,7 @@ gog_error_bar_prefs (GogSeries *series,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
 					       _("Positive error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hminus.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-hminus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,

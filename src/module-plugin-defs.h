@@ -31,45 +31,6 @@ void      plugin_init (void);
 void      plugin_cleanup (void);
 
 
-#ifdef PLUGIN_ID
-
-static GnmPlugin *gnm_get_current_plugin (void)
-{
-	static GnmPlugin *plugin = NULL;
-	if (plugin == NULL) plugin = go_app_get_plugin (PLUGIN_ID);
-	return plugin;
-}
-#define PLUGIN (gnm_get_current_plugin ())
-
-/* Use this macro for defining types inside plugins */
-#define	PLUGIN_CLASS(name, prefix, class_init, instance_init, parent_type) \
-GType \
-prefix ## _get_type (void) \
-{ \
-	GType type = 0; \
-	if (type == 0) { \
-		static GTypeInfo const object_info = { \
-			sizeof (name ## Class), \
-			(GBaseInitFunc) NULL, \
-			(GBaseFinalizeFunc) NULL, \
-			(GClassInitFunc) class_init, \
-			(GClassFinalizeFunc) NULL, \
-			NULL,	/* class_data */ \
-			sizeof (name), \
-			0,	/* n_preallocs */ \
-			(GInstanceInitFunc) instance_init, \
-			NULL \
-		}; \
-		type = g_type_module_register_type ( \
-			G_TYPE_MODULE (gnm_get_current_plugin ()), parent_type, #name, \
-			&object_info, 0); \
-	} \
-	return type; \
-}
-
-#endif
-
-
 /* All fields in this structure are PRIVATE. */
 typedef struct {
 	guint32 magic_number;

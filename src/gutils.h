@@ -42,27 +42,6 @@ G_STMT_START { \
 void	  gnm_ptr_array_insert	(GPtrArray *array, gpointer value, int index);
 gint      gnm_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func);
 void      gnm_list_free_custom (GList *list, GFreeFunc free_func);
-#define GNM_LIST_FOREACH(list,valtype,val,stmnt) \
-G_STMT_START { \
-	GList *gnm_l; \
-	for (gnm_l = (list); gnm_l != NULL; gnm_l = gnm_l->next) { \
-		valtype *val = gnm_l->data; \
-		stmnt \
-		; \
-	} \
-} G_STMT_END
-#define GNM_LIST_PREPEND(list,item) \
-	(list = g_list_prepend (list, item))
-#define GNM_LIST_APPEND(list,item) \
-	(list = g_list_append (list, item))
-#define GNM_LIST_REMOVE(list,item) \
-	(list = g_list_remove (list, item))
-#define GNM_LIST_CONCAT(list_a,list_b) \
-	(list_a = g_list_concat (list_a, list_b))
-#define GNM_LIST_REVERSE(list) \
-	(list = g_list_reverse (list))
-#define GNM_LIST_SORT(list,cmp_func) \
-	(list = g_list_sort (list, cmp_func))
 
 int	    gnm_str_compare		(void const *x, void const *y);
 guint	    gnm_ascii_strcase_hash	(gconstpointer v);

@@ -17,7 +17,7 @@ libgoffice_app_la_SOURCES = \
 	go-cmd-context.c		\
 	go-cmd-context.h		\
 	go-plugin.h			\
-	go-plugin-module-defs.h		\
+	go-plugin-impl.h		\
 	go-service.c			\
 	go-service.h			\
 	go-service-impl.h		\

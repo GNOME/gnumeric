@@ -309,9 +309,6 @@ void
 gog_plugin_services_shutdown (void)
 {
 	gsf_xml_in_doc_free (doc);
-	g_slist_foreach (refd_plugins, (GFunc)gnm_plugin_use_unref, NULL);
-	g_slist_foreach (refd_plugins, (GFunc)g_object_unref, NULL);
-	g_slist_free (refd_plugins);
 }
 
 /***************************************************************************/

@@ -44,7 +44,7 @@ gog_contour_plot_pref (GogContourPlot *plot, GnmCmdContext *cc)
 	char const *dir = gnm_plugin_get_dir_name (
 		plugins_get_plugin_by_id ("GOffice_plot_surface"));
 	char	 *path = g_build_filename (dir, "gog-contour-prefs.glade", NULL);
-	GladeXML *gui = gnm_glade_xml_new (cc, path, "gog_contour_prefs", NULL);
+	GladeXML *gui = go_libglade_new (cc, path, "gog_contour_prefs", NULL);
 
 	g_free (path);
         if (gui == NULL)
