@@ -1,3 +1,7 @@
+1999-08-11  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/text/text-io.c: Prototypes updated.
+
 1999-08-11  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* TODO: Updated the remaining work of build-in functions.

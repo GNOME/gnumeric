@@ -36,8 +36,8 @@ static Sheet    *text_read_sheet     (const char *filename);
 static int       text_write_sheet    (Sheet *sheet, const char *filename);
 */
 
-static Workbook *text_read_workbook  (const char *filename);
-static int       text_write_workbook (Workbook *sheet, const char *filename);
+static gboolean  text_read_workbook  (Workbook *wb, const char *filename);
+static int       text_write_workbook (Workbook *wb, const char *filename);
 
 static void      writeTextSheet      (TextData *data, Sheet *sheet);
 static void      writeTextWorkbook   (TextData *data, Workbook *wb);

@@ -58,7 +58,7 @@ xb_setdouble (guint8 *p, double d)
 #endif
 
 static char *
-filename_ext(const char *filename)
+filename_ext (const char *filename)
 {
 	char *p = strrchr (filename, '.');
 	if (p==NULL)
@@ -146,9 +146,11 @@ xbase_load (Workbook *wb, const char *filename)
 	Value *val;
 	
 	if ((file = xbase_open (filename)) == NULL)
-		return FALSE
+		return FALSE;
+
 	if ((p = filename_ext (name)) != NULL)
 		*p = '\0'; /* remove "dbf" */
+
 	rec = record_new (file);
 	sheet = sheet_new (wb, name);
 	p = name;

@@ -1,3 +1,8 @@
+1999-08-11  Michael Meeks  <michael@imaginator.com>
+
+	* boot.c (xbase_load): Add missing ';' Miguel's been doing too
+	much Pascal recently :-)
+
 1999-08-09    <miguel@gnu.org>
 
 	* boot.c (xbase_load): Adapted to new file open conventions.
