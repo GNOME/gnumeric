@@ -45,6 +45,11 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
+gboolean qpro_file_probe (GnumFileOpener const *fo, GsfInput *input,
+			  FileProbeLevel pl);
+void     qpro_file_open (GnumFileOpener const *fo, IOContext *context,
+			 WorkbookView *new_wb_view, GsfInput *input);
+
 static gboolean
 qpro_check_signature (GsfInput *input)
 {

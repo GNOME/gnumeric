@@ -1,3 +1,7 @@
+2002-08-16  Jon K Hellan  <hellan@acm.org>
+
+	* qpro-read.c (qpro_file_probe, qpro_file_open): Predeclare.
+
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.7
