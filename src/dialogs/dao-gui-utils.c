@@ -56,8 +56,9 @@ static void
 cb_focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active)
-		gtk_widget_grab_focus (GTK_WIDGET (gnm_expr_entry_get_entry 
-						   (GNUMERIC_EXPR_ENTRY (entry))));
+		gtk_widget_grab_focus
+			(GTK_WIDGET (gnm_expr_entry_get_entry 
+				     (GNUMERIC_EXPR_ENTRY (entry))));
 }
 
 /**
@@ -73,7 +74,8 @@ static void
 tool_set_focus_output_range (GtkWidget *widget, GdkEventFocus *event,
 			GenericToolState *state)
 {
-	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->output_range), TRUE);
+	    gtk_toggle_button_set_active
+		    (GTK_TOGGLE_BUTTON (state->output_range), TRUE);
 }
 
 
@@ -90,9 +92,12 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 {
 	GtkTable *table;
 
-	state->new_sheet  = glade_xml_get_widget (state->gui, "newsheet-button");
-	state->new_workbook  = glade_xml_get_widget (state->gui, "newworkbook-button");
-	state->output_range  = glade_xml_get_widget (state->gui, "outputrange-button");
+	state->new_sheet  = glade_xml_get_widget (state->gui,
+						  "newsheet-button");
+	state->new_workbook  = glade_xml_get_widget (state->gui,
+						     "newworkbook-button");
+	state->output_range  = glade_xml_get_widget (state->gui,
+						     "outputrange-button");
 	state->clear_outputrange_button = glade_xml_get_widget 
 		(state->gui, "clear_outputrange_button");
 	state->retain_format_button = glade_xml_get_widget 
@@ -102,9 +107,9 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "output-table"));
 	state->output_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->output_entry,
-                                      GNUM_EE_SINGLE_RANGE,
-                                      GNUM_EE_MASK);
-        gnm_expr_entry_set_scg (state->output_entry, wbcg_cur_scg (state->wbcg));
+				  GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
+        gnm_expr_entry_set_scg (state->output_entry,
+				wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->output_entry),
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,
@@ -112,10 +117,11 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 	g_signal_connect (G_OBJECT (state->output_range),
 		"toggled",
 		G_CALLBACK (cb_focus_on_entry), state->output_entry);
-	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry 
-				    (GNUMERIC_EXPR_ENTRY (state->output_entry))),
-		"focus-in-event",
-		G_CALLBACK (tool_set_focus_output_range), state);
+	g_signal_connect
+		(G_OBJECT (gnm_expr_entry_get_entry 
+			   (GNUMERIC_EXPR_ENTRY (state->output_entry))),
+		 "focus-in-event",
+		 G_CALLBACK (tool_set_focus_output_range), state);
 	g_signal_connect_after (G_OBJECT (state->output_entry),
 		"changed",
 		G_CALLBACK (sensitivity_cb), state);

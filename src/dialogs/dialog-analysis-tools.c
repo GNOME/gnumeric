@@ -261,15 +261,16 @@ dialog_tool_init_buttons (GenericToolState *state, GtkSignalFunc ok_function)
 		"clicked",
 		G_CALLBACK (ok_function), state);
 
-	state->cancel_button = glade_xml_get_widget (state->gui, "cancelbutton");
+	state->cancel_button = glade_xml_get_widget (state->gui,
+						     "cancelbutton");
 	g_signal_connect (G_OBJECT (state->cancel_button),
-		"clicked",
-		G_CALLBACK (cb_tool_cancel_clicked), state);
+			  "clicked",
+			  G_CALLBACK (cb_tool_cancel_clicked), state);
 	state->apply_button = glade_xml_get_widget (state->gui, "applybutton");
 	if (state->apply_button != NULL )
 		g_signal_connect (G_OBJECT (state->apply_button),
-			"clicked",
-			G_CALLBACK (ok_function), state);
+				  "clicked",
+				  G_CALLBACK (ok_function), state);
 	state->help_button = glade_xml_get_widget (state->gui, "helpbutton");
 	if (state->help_button != NULL )
 		gnumeric_init_help_button (state->help_button,
@@ -310,16 +311,16 @@ dialog_tool_init (GenericToolState *state,
 		  GtkSignalFunc sensitivity_cb,
 		  GnumericExprEntryFlags flags)
 {
-	GtkTable *table;
+	GtkTable  *table;
 	GtkWidget *widget;
-	gint key_stroke;
+	gint      key_stroke;
 
 	state->wbcg  = wbcg;
 	state->wb    = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
 	state->sv    = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->warning_dialog = NULL;
-	state->help_link = help_file;
+	state->help_link      = help_file;
 	state->input_var1_str = (input_var1_str == NULL) ? 
 		_("_Input Range:") : input_var1_str;
 	state->input_var2_str = input_var2_str;
@@ -341,10 +342,14 @@ dialog_tool_init (GenericToolState *state,
 		state->accel = NULL;
 	} else {
 		state->accel = gtk_accel_group_new ();
-		table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
-		state->input_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
-		gnm_expr_entry_set_flags (state->input_entry, flags, GNUM_EE_MASK);
-		gnm_expr_entry_set_scg (state->input_entry, wbcg_cur_scg (state->wbcg));
+		table = GTK_TABLE (glade_xml_get_widget (state->gui,
+							 "input-table"));
+		state->input_entry = gnumeric_expr_entry_new (state->wbcg,
+							      TRUE);
+		gnm_expr_entry_set_flags (state->input_entry, flags,
+					  GNUM_EE_MASK);
+		gnm_expr_entry_set_scg (state->input_entry,
+					wbcg_cur_scg (state->wbcg));
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
 				  1, 2, 0, 1,
 				  GTK_EXPAND | GTK_FILL, 0,
@@ -354,12 +359,12 @@ dialog_tool_init (GenericToolState *state,
 					G_CALLBACK (sensitivity_cb), state);
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 					  GTK_WIDGET (state->input_entry));
-		key_stroke = gtk_label_parse_uline (GTK_LABEL (widget), state->input_var1_str);
+		key_stroke = gtk_label_parse_uline (GTK_LABEL (widget),
+						    state->input_var1_str);
 		if (key_stroke != GDK_VoidSymbol)
-			gtk_widget_add_accelerator (GTK_WIDGET (state->input_entry),
-						    "grab_focus",
-						    state->accel, key_stroke,
-						    GDK_MOD1_MASK, 0);
+			gtk_widget_add_accelerator
+			  (GTK_WIDGET (state->input_entry), "grab_focus",
+			   state->accel, key_stroke, GDK_MOD1_MASK, 0);
 		gtk_widget_show (GTK_WIDGET (state->input_entry));
 	}
 
@@ -374,14 +379,16 @@ dialog_tool_init (GenericToolState *state,
 		GList *this_label_widget;
 		GtkTableChild *tchild;
 
-		state->input_entry_2 = gnumeric_expr_entry_new (state->wbcg, TRUE);
+		state->input_entry_2 = gnumeric_expr_entry_new (state->wbcg,
+								TRUE);
 		gnm_expr_entry_set_flags (state->input_entry_2, 
 					  GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
-		gnm_expr_entry_set_scg (state->input_entry_2, wbcg_cur_scg (state->wbcg));
+		gnm_expr_entry_set_scg (state->input_entry_2,
+					wbcg_cur_scg (state->wbcg));
 		table = GTK_TABLE (gtk_widget_get_parent (widget));
 		
-		this_label_widget = g_list_find_custom (
-			table->children, widget, (GCompareFunc) dialog_tool_cmp);
+		this_label_widget = g_list_find_custom
+		  (table->children, widget, (GCompareFunc) dialog_tool_cmp);
 		tchild =  (GtkTableChild *)(this_label_widget->data);
 
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
@@ -391,25 +398,24 @@ dialog_tool_init (GenericToolState *state,
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 					  GTK_WIDGET (state->input_entry_2));
 		g_signal_connect_after (G_OBJECT (state->input_entry_2),
-			"changed",
-			G_CALLBACK (sensitivity_cb), state);
+					"changed",
+					G_CALLBACK (sensitivity_cb), state);
 		if (state->input_var2_str != NULL) {
-			key_stroke = gtk_label_parse_uline (GTK_LABEL (widget), 
-							    state->input_var2_str);
+			key_stroke = gtk_label_parse_uline
+			  (GTK_LABEL (widget), state->input_var2_str);
 			if (key_stroke != GDK_VoidSymbol)
-				gtk_widget_add_accelerator (GTK_WIDGET (state->input_entry_2),
-							    "grab_focus",
-							    state->accel, key_stroke,
-							    GDK_MOD1_MASK, 0);
+				gtk_widget_add_accelerator
+				  (GTK_WIDGET (state->input_entry_2),
+				   "grab_focus", state->accel, key_stroke,
+				   GDK_MOD1_MASK, 0);
 		}
 		gtk_widget_show (GTK_WIDGET (state->input_entry_2));
 	}
 
 	state->warning = glade_xml_get_widget (state->gui, "warnings");
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (tool_destroy), state);
+	g_signal_connect (G_OBJECT (state->dialog), "destroy",
+			  G_CALLBACK (tool_destroy), state);
 
 	dialog_tool_init_outputs (state, sensitivity_cb);
 
@@ -443,7 +449,8 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 	if (first != NULL) {
 		if (allow_multiple) {
 			char *text = selection_to_string (state->sv, TRUE);
-			gnm_expr_entry_load_from_text  (state->input_entry, text);
+			gnm_expr_entry_load_from_text  (state->input_entry,
+							text);
 			g_free (text);
 		} else
 			gnm_expr_entry_load_from_range (state->input_entry,
@@ -453,7 +460,8 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 	}
 
 	gtk_widget_show (state->dialog);
-	gnm_expr_entry_grab_focus (GNUMERIC_EXPR_ENTRY (state->input_entry), FALSE);
+	gnm_expr_entry_grab_focus (GNUMERIC_EXPR_ENTRY (state->input_entry),
+				   FALSE);
 }
 
 /**********************************************/

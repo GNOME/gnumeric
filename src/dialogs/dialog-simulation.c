@@ -63,7 +63,7 @@ simulation_update_sensitivity_cb (GtkWidget *dummy,
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 	if (input_range == NULL) {
 		gtk_label_set_text (GTK_LABEL (state->warning),
-				    _("The list range is invalid."));
+				    _("The input variable range is invalid."));
 		gtk_widget_set_sensitive (state->ok_button, FALSE);
 		return;
 	} else
@@ -241,7 +241,7 @@ dialog_simulation (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init (state, wbcg, wb_control_cur_sheet (wbc),
 			      "simulation.html",
 			      "simulation.glade", "Simulation",
-			      _("_Inputs:"), _("_Outputs::"),
+			      _("_Inputs:"), _("_Outputs:"),
 			      _("Could not create the Simulation dialog."),
 			      SIMULATION_KEY,
 			      G_CALLBACK (simulation_ok_clicked_cb),
