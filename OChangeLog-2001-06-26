@@ -1,5 +1,14 @@
 2000-04-02  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-edit.c (entry_changed) : Call scan_for_range here.
+	(item_edit_set_arg) : And here.
+	(recalc_spans) : But NOT here.  Calling request_update while updating
+	  any other canvas item is bad.
+
+	* src/item-cursor.c (item_cursor_set_bounds) : remove ugly hack.
+
+2000-04-02  Jody Goldberg <jgoldberg@home.com>
+
 	* doc/stf-parser.txt : Add description of double quote handling.
         * src/stf-parse.c (stf_parse_options_new) : Init
 	  indicator_2x_is_single and duplicates.

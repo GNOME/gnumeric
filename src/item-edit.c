@@ -133,6 +133,10 @@ entry_destroy_feedback_range (ItemEdit *item_edit)
 	}
 }
 
+/* WARNING : DO NOT CALL THIS FROM FROM UPDATE.  It may create another
+ *           canvas-item which would in turn call update and confuse the
+ *           canvas.
+ */
 static void
 scan_for_range (ItemEdit *item_edit)
 {
@@ -316,8 +320,6 @@ recalc_spans (GnomeCanvasItem *item)
 		MAX (item_edit->lines * item_edit->font_height, cri->size_pixels - 2);
 
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
-
-	scan_for_range (item_edit);
 }
 
 static void
@@ -399,6 +401,8 @@ static void
 entry_changed (GtkEntry *entry, void *data)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (data);
+
+	scan_for_range (ITEM_EDIT(item));
 	gnome_canvas_item_request_update (item);
 }
 
@@ -458,6 +462,8 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_edit->signal2 = gtk_signal_connect_after (
 		GTK_OBJECT (item_edit->entry), "event",
 		GTK_SIGNAL_FUNC (entry_event), item_edit);
+
+	scan_for_range (item_edit);
 
 	/* set the font and the upper left corner if this is the first pass */
 	if (item_edit->font == NULL) {
