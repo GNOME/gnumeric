@@ -1,3 +1,9 @@
+1999-04-29  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: Added SUMX2MY2(), SUMX2PY2(), and SUMXMY2().
+
+	* src/fn-stat.c: CONFIDENCE() should now work fully.
+	
 1999-04-28  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-stat.c: Added COUNTA(), FINV(), and TINV().

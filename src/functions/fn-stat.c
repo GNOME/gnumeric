@@ -1351,26 +1351,20 @@ static char *help_normsinv = {
           "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST")
 };
 
-static Value *
-gnumeric_normsinv (struct FunctionDefinition *i,
-		   Value *argv [], char **error_string)
+static float_t
+normsinv (float_t p)
 {
         const int left = 1;
 	const int right = 2;
-        const int iterations = 100;
+        const int iterations = 200;
 	const float_t accuracy_limit = 0.00000003;
-        float_t p, p_test, x = 0, step = 1;
+        float_t p_test, x = 0, step = 1;
 	int     n, dir = 0;
 
-        p = value_get_as_double (argv [0]);
-	if (p < 0 || p > 1) {
-		*error_string = _("#NUM!");
-		return NULL;
-	}
 	for (n=0; n<iterations; n++) {
 	        p_test = phi(x);
 		if (fabs(p - p_test) < accuracy_limit)
-		        return value_float (x);
+		        return fabs(x);
 		if (p < p_test) {
 		        if (dir == right)
 			        step /= 2;
@@ -1383,8 +1377,26 @@ gnumeric_normsinv (struct FunctionDefinition *i,
 			dir = right;
 		}
 	}
-	*error_string = _("#N/A!");
-	return NULL;
+	return -1;
+}
+
+static Value *
+gnumeric_normsinv (struct FunctionDefinition *i,
+		   Value *argv [], char **error_string)
+{
+        float_t p, x;
+
+        p = value_get_as_double (argv [0]);
+	if (p < 0 || p > 1) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	x = normsinv(p);
+	if (x < 0) {
+		*error_string = _("#N/A!");
+		return NULL;
+	}
+	return value_float(x);
 }
 
 static char *help_lognormdist = {
@@ -2749,8 +2761,8 @@ gnumeric_confidence (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	/* Only 95% confidence implemented */
-	return value_float (1.96 * (stddev/sqrt(size)));
+
+	return value_float (normsinv(x/2) * (stddev/sqrt(size)));
 }
 
 static char *help_standardize = {
@@ -3236,7 +3248,8 @@ gnumeric_poisson (struct FunctionDefinition *i,
 		*error_string = _("Unimplemented");
 		return NULL;
 	} else
-		return value_float (exp(-mean)*pow(mean,x)/exp (lgamma (x + 1)));
+		return value_float (exp(-mean)*pow(mean,x) / 
+				    exp (lgamma (x + 1)));
 }
 
 static char *help_pearson = {

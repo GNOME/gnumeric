@@ -92,6 +92,10 @@ Value *gnumeric_count       (void *tsheet, GList *expr_node_list,
 			     int eval_col, int eval_row,
 			     char **error_string);
 
+Value *gnumeric_sum         (void *tsheet, GList *expr_node_list,
+			     int eval_col, int eval_row,
+			     char **error_string);
+
 int solver_simplex(Workbook *wb, Sheet *sheet);
 
 #endif /* GNUMERIC_FUNC_H */

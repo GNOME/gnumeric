@@ -13,11 +13,6 @@
 #include "utils.h"
 #include "func.h"
 
-/* Some forward declarations */
-static Value *gnumeric_sum         (void *tsheet, GList *expr_node_list,
-				    int eval_col, int eval_row,
-				    char **error_string);
-
 
 #if 0
 /* help template */
@@ -1018,7 +1013,7 @@ callback_function_sum (Sheet *sheet, Value *value, char **error_string, void *cl
 	return TRUE;
 }
 
-static Value *
+Value *
 gnumeric_sum (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
 	Value *result;
@@ -1510,6 +1505,332 @@ gnumeric_randbetween (struct FunctionDefinition *i, Value *argv [], char **error
 	return value_int (r % (top-bottom+1) + bottom);
 }
 
+typedef struct {
+        GSList *list;
+        int    num;
+} math_sums_t;
+
+static int
+callback_function_sumxy (Sheet *sheet, int col, int row,
+			 Cell *cell, void *user_data)
+{
+        math_sums_t *mm = user_data;
+        float_t     x;
+	gpointer    p;
+
+	if (cell == NULL || cell->value == NULL)
+	        return TRUE;
+
+        switch (cell->value->type) {
+	case VALUE_INTEGER:
+	        x = cell->value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+	        x = cell->value->v.v_float;
+		break;
+	default:
+	        return TRUE;
+	}
+
+	p = g_new(float_t, 1);
+	*((float_t *) p) = x;
+	mm->list = g_slist_append(mm->list, p);
+	mm->num++;
+
+	return TRUE;
+}
+
+static char *help_sumx2my2 = {
+	N_("@FUNCTION=SUMX2MY2\n"
+	   "@SYNTAX=SUMX2MY2(array1,array2)\n"
+
+	   "@DESCRIPTION="
+	   "SUMX2MY2 function returns the sum of the difference of squares "
+	   "of corresponding values in two arrays. @array1 is the first "
+	   "array or range of data points and @array2 is the second array "
+	   "or range of data points. The equation of SUMX2MY2 is "
+	   "SUM (x^2-y^2). "
+	   "\n"
+           "Strings and empty cells are simply ignored."
+           "\n"
+	   "If @array1 and @array2 have different number of data points, "
+	   "SUMX2MY2 returns #N/A! error. "
+	   "\n"
+	   "@SEEALSO=SUMSQ")
+};
+
+static Value *
+gnumeric_sumx2my2 (struct FunctionDefinition *i,
+		   Value *argv [], char **error_string)
+{
+        Value       *values_x = argv[0];
+        Value       *values_y = argv[1];
+	math_sums_t items_x, items_y;
+	int         ret;
+	float_t     sum;
+	GSList      *list1, *list2;
+
+	items_x.num  = 0;
+	items_x.list = NULL;
+	items_y.num  = 0;
+	items_y.list = NULL;
+
+        if (values_x->type == VALUE_CELLRANGE) {
+		ret = sheet_cell_foreach_range (
+		  values_x->v.cell_range.cell_a.sheet, TRUE,
+		  values_x->v.cell_range.cell_a.col, 
+		  values_x->v.cell_range.cell_a.row,
+		  values_x->v.cell_range.cell_b.col,
+		  values_x->v.cell_range.cell_b.row,
+		  callback_function_sumxy,
+		  &items_x);
+		if (ret == FALSE) {
+		        *error_string = _("#VALUE!");
+			return NULL;
+		}
+	} else {
+		*error_string = _("Array version not implemented!");
+		return NULL;
+	}
+	
+        if (values_y->type == VALUE_CELLRANGE) {
+		ret = sheet_cell_foreach_range (
+		  values_y->v.cell_range.cell_a.sheet, TRUE,
+		  values_y->v.cell_range.cell_a.col, 
+		  values_y->v.cell_range.cell_a.row,
+		  values_y->v.cell_range.cell_b.col,
+		  values_y->v.cell_range.cell_b.row,
+		  callback_function_sumxy,
+		  &items_y);
+		if (ret == FALSE) {
+		        *error_string = _("#VALUE!");
+			return NULL;
+		}
+	} else {
+		*error_string = _("Array version not implemented!");
+		return NULL;
+	}
+
+	if (items_x.num != items_y.num) {
+	        *error_string = _("#N/A!");
+		return NULL;
+	}
+
+	list1 = items_x.list;
+	list2 = items_y.list;
+	sum = 0;
+	while (list1 != NULL) {
+	        float_t  x, y;
+
+		x = *((float_t *) list1->data);
+		y = *((float_t *) list2->data);
+		sum += x*x - y*y;
+		g_free(list1->data);
+		g_free(list2->data);
+		list1 = list1->next;
+		list2 = list2->next;
+	}
+
+	g_slist_free(items_x.list);
+	g_slist_free(items_y.list);
+	
+	return value_float (sum);
+}
+
+static char *help_sumx2py2 = {
+	N_("@FUNCTION=SUMX2PY2\n"
+	   "@SYNTAX=SUMX2PY2(array1,array2)\n"
+
+	   "@DESCRIPTION="
+	   "SUMX2PY2 function returns the sum of the sum of squares "
+	   "of corresponding values in two arrays. @array1 is the first "
+	   "array or range of data points and @array2 is the second array "
+	   "or range of data points. The equation of SUMX2PY2 is "
+	   "SUM (x^2+y^2). "
+	   "\n"
+           "Strings and empty cells are simply ignored."
+           "\n"
+	   "If @array1 and @array2 have different number of data points, "
+	   "SUMX2PY2 returns #N/A! error. "
+	   "\n"
+	   "@SEEALSO=SUMSQ")
+};
+
+static Value *
+gnumeric_sumx2py2 (struct FunctionDefinition *i,
+		   Value *argv [], char **error_string)
+{
+        Value       *values_x = argv[0];
+        Value       *values_y = argv[1];
+	math_sums_t items_x, items_y;
+	int         ret;
+	float_t     sum;
+	GSList      *list1, *list2;
+
+	items_x.num  = 0;
+	items_x.list = NULL;
+	items_y.num  = 0;
+	items_y.list = NULL;
+
+        if (values_x->type == VALUE_CELLRANGE) {
+		ret = sheet_cell_foreach_range (
+		  values_x->v.cell_range.cell_a.sheet, TRUE,
+		  values_x->v.cell_range.cell_a.col, 
+		  values_x->v.cell_range.cell_a.row,
+		  values_x->v.cell_range.cell_b.col,
+		  values_x->v.cell_range.cell_b.row,
+		  callback_function_sumxy,
+		  &items_x);
+		if (ret == FALSE) {
+		        *error_string = _("#VALUE!");
+			return NULL;
+		}
+	} else {
+		*error_string = _("Array version not implemented!");
+		return NULL;
+	}
+	
+        if (values_y->type == VALUE_CELLRANGE) {
+		ret = sheet_cell_foreach_range (
+		  values_y->v.cell_range.cell_a.sheet, TRUE,
+		  values_y->v.cell_range.cell_a.col, 
+		  values_y->v.cell_range.cell_a.row,
+		  values_y->v.cell_range.cell_b.col,
+		  values_y->v.cell_range.cell_b.row,
+		  callback_function_sumxy,
+		  &items_y);
+		if (ret == FALSE) {
+		        *error_string = _("#VALUE!");
+			return NULL;
+		}
+	} else {
+		*error_string = _("Array version not implemented!");
+		return NULL;
+	}
+
+	if (items_x.num != items_y.num) {
+	        *error_string = _("#N/A!");
+		return NULL;
+	}
+
+	list1 = items_x.list;
+	list2 = items_y.list;
+	sum = 0;
+	while (list1 != NULL) {
+	        float_t  x, y;
+
+		x = *((float_t *) list1->data);
+		y = *((float_t *) list2->data);
+		sum += x*x + y*y;
+		g_free(list1->data);
+		g_free(list2->data);
+		list1 = list1->next;
+		list2 = list2->next;
+	}
+
+	g_slist_free(items_x.list);
+	g_slist_free(items_y.list);
+	
+	return value_float (sum);
+}
+
+static char *help_sumxmy2 = {
+	N_("@FUNCTION=SUMXMY2\n"
+	   "@SYNTAX=SUMXMY2(array1,array2)\n"
+
+	   "@DESCRIPTION="
+	   "SUMXMY2 function returns the sum of squares of differences "
+	   "of corresponding values in two arrays. @array1 is the first "
+	   "array or range of data points and @array2 is the second array "
+	   "or range of data points. The equation of SUMXMY2 is "
+	   "SUM (x-y)^2. "
+	   "\n"
+           "Strings and empty cells are simply ignored."
+           "\n"
+	   "If @array1 and @array2 have different number of data points, "
+	   "SUMXMY2 returns #N/A! error. "
+	   "\n"
+	   "@SEEALSO=SUMSQ")
+};
+
+static Value *
+gnumeric_sumxmy2 (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
+{
+        Value       *values_x = argv[0];
+        Value       *values_y = argv[1];
+	math_sums_t items_x, items_y;
+	int         ret;
+	float_t     sum;
+	GSList      *list1, *list2;
+
+	items_x.num  = 0;
+	items_x.list = NULL;
+	items_y.num  = 0;
+	items_y.list = NULL;
+
+        if (values_x->type == VALUE_CELLRANGE) {
+		ret = sheet_cell_foreach_range (
+		  values_x->v.cell_range.cell_a.sheet, TRUE,
+		  values_x->v.cell_range.cell_a.col, 
+		  values_x->v.cell_range.cell_a.row,
+		  values_x->v.cell_range.cell_b.col,
+		  values_x->v.cell_range.cell_b.row,
+		  callback_function_sumxy,
+		  &items_x);
+		if (ret == FALSE) {
+		        *error_string = _("#VALUE!");
+			return NULL;
+		}
+	} else {
+		*error_string = _("Array version not implemented!");
+		return NULL;
+	}
+	
+        if (values_y->type == VALUE_CELLRANGE) {
+		ret = sheet_cell_foreach_range (
+		  values_y->v.cell_range.cell_a.sheet, TRUE,
+		  values_y->v.cell_range.cell_a.col, 
+		  values_y->v.cell_range.cell_a.row,
+		  values_y->v.cell_range.cell_b.col,
+		  values_y->v.cell_range.cell_b.row,
+		  callback_function_sumxy,
+		  &items_y);
+		if (ret == FALSE) {
+		        *error_string = _("#VALUE!");
+			return NULL;
+		}
+	} else {
+		*error_string = _("Array version not implemented!");
+		return NULL;
+	}
+
+	if (items_x.num != items_y.num) {
+	        *error_string = _("#N/A!");
+		return NULL;
+	}
+
+	list1 = items_x.list;
+	list2 = items_y.list;
+	sum = 0;
+	while (list1 != NULL) {
+	        float_t  x, y;
+
+		x = *((float_t *) list1->data);
+		y = *((float_t *) list2->data);
+		sum += (x-y) * (x-y);
+		g_free(list1->data);
+		g_free(list2->data);
+		list1 = list1->next;
+		list2 = list2->next;
+	}
+
+	g_slist_free(items_x.list);
+	g_slist_free(items_y.list);
+	
+	return value_float (sum);
+}
+
 FunctionDefinition math_functions [] = {
 	{ "abs",     "f",    "number",    &help_abs,   NULL, gnumeric_abs },
 	{ "acos",    "f",    "number",    &help_acos,  NULL, gnumeric_acos },
@@ -1554,11 +1875,12 @@ FunctionDefinition math_functions [] = {
 	{ "sqrtpi",  "f",    "number",    &help_sqrtpi,  NULL, gnumeric_sqrtpi},
 	{ "sum",     0,      "number",    &help_sum,     gnumeric_sum, NULL },
 	{ "sumsq",   0,      "number",    &help_sumsq,   gnumeric_sumsq, NULL },
+	{ "sumx2my2", "AA", "array1,array2", &help_sumx2my2, NULL, gnumeric_sumx2my2 },
+	{ "sumx2py2", "AA", "array1,array2", &help_sumx2py2, NULL, gnumeric_sumx2py2 },
+	{ "sumxmy2",  "AA", "array1,array2", &help_sumxmy2, NULL, gnumeric_sumxmy2 },
 	{ "tan",     "f",    "number",    &help_tan,     NULL, gnumeric_tan },
 	{ "tanh",    "f",    "number",    &help_tanh,    NULL, gnumeric_tanh },
 	{ "trunc",   "f",    "number",    &help_trunc,   gnumeric_trunc, NULL },
 	{ "pi",      "",     "",          &help_pi,      NULL, gnumeric_pi },
 	{ NULL, NULL },
 };
-
-
