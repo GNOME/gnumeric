@@ -16,8 +16,6 @@ Release Critical
 Pending Patches
 ---------------
 
-
-
 Long term breakage
 ------------------
 
@@ -33,15 +31,13 @@ Long term breakage
 
 - Panes 
     : support horizontal or vertical only
+- outline mode
+    : finish implementing optionally putting markers above/left
 
 - support negative durations with [h]
 
 - Functions like SMALL and LARGE use O(n*log n) algorithms.  Should use
   O(n) algorithms, see Knuth.
-
-- outline mode
-    : finish implementing optionally putting markers above/left
-    : connect the hide/show menu items
 
 - Version the idl file so that future versions will not be confused by attempts
   to use an older version of the idl.
