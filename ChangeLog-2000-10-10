@@ -1,3 +1,13 @@
+2000-09-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/main.c (gnumeric_main) : Do not init the currency_date routines
+	  here, or shut them down.
+
+	* src/number-match.c (format_match_init) : Call the currency_date init
+	  routine from here.  It must be done BEFORE the regexps are generated.
+	(format_match_finish) : Shut the currency_date routines down from here.
+	  for symetry.
+
 2000-09-25  Morten Welinder  <terra@diku.dk>
 
 	* * */* */*/*: s/can not/cannot/.

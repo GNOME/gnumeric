@@ -568,6 +568,8 @@ format_match_init (void)
 {
 	int i;
 
+	currency_date_format_init ();
+
 	for (i = 0; cell_formats [i]; i++){
 		char const * const * p = cell_formats [i];
 
@@ -606,6 +608,7 @@ format_match_finish (void)
 		g_free (fp);
 	}
 	g_list_free (format_match_list);
+	currency_date_format_shutdown ();
 }
 
 /*

@@ -169,7 +169,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	gnumeric_color_init ();
 	format_match_init ();
 	format_color_init ();
-	currency_date_format_init ();
 	e_cursors_init ();
 	auto_format_init ();
 	functions_init ();
@@ -244,7 +243,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	print_shutdown ();
 	auto_format_shutdown ();
 	e_cursors_shutdown ();
-	currency_date_format_shutdown ();
 	format_match_finish ();
 	format_color_shutdown ();
 	style_shutdown ();
