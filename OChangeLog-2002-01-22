@@ -1,6 +1,7 @@
 2001-02-01  Jody Goldberg <jgoldberg@home.com>
 
-	* src/item-grid.c (item_grid_draw) : Init the extra top.
+	* src/item-grid.c (item_grid_draw) : Init the extra horizontals
+	  in the next two rows.
 
 2001-02-01  Jody Goldberg <jgoldberg@home.com>
 

@@ -384,7 +384,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	/* pretend the previous bottom had no borders */
 	for (col = start_col ; col <= end_col+1; ++col)
 		prev_vert [col] = sr.top [col] = none;
-	next_sr.top [end_col+1] = none;
+	next_sr.top [end_col+1] = next_sr.bottom [end_col+1] = none;
 
 	/* load up the styles for the first row */
 	next_sr.row = sr.row = row = start_row;
