@@ -3071,7 +3071,7 @@ write_db_cell (BiffPut *bp, ExcelSheet *sheet,
 	MS_OLE_SET_GUINT32 (data, pos - ri_start [0]);
 	for (i = 0 ; i < nrows; i++) {
 		offset = rc_start [0]
-			- (i > 0) ? rc_start [i - 1] : ri_start [1];
+			- (i > 0 ? rc_start [i - 1] : ri_start [1]);
 		MS_OLE_SET_GUINT16 (data + 4 + i * 2, offset);
 	}
 
