@@ -19,8 +19,7 @@
 #include "sheet.h"
 #include "file.h"
 
-#include "ms-ole.h"
-#include "ms-excel.h"
+#include "excel.h"
 #include "boot.h"
 
 static gboolean
@@ -48,7 +47,7 @@ excel_load (const char *filename)
 	if (!f)
 		return NULL;
 
-	wb = ms_excelReadWorkbook (f);
+	wb = ms_excel_read_workbook (f);
 	if (wb) {
 		char *name = g_strconcat (filename, ".gnumeric", NULL);
 		workbook_set_filename (wb, name);

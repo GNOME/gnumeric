@@ -21,6 +21,35 @@
 
 #define BIFF_DEBUG 0
 
+/*******************************************************************************/
+/*                             Helper Functions                                */
+/*******************************************************************************/
+
+#if G_BYTE_ORDER == G_BIG_ENDIAN
+double biff_getdouble (guint8 *p)
+{
+    double d;
+    int i;
+    guint8 *t = (guint8 *)&d;
+    int sd = sizeof (d);
+
+    for (i = 0; i < sd; i++)
+      t[i] = p[sd - 1 - i];
+
+    return d;
+}
+
+void biff_setdouble (guint8 *p, double d)
+{
+    int i;
+    guint8 *t = (guint8 *)&d;
+    int sd = sizeof (d);
+
+    for (i = 0; i < sd; i++)
+	    p[sd - 1 - i] = t[i];
+}
+#endif
+
 static void
 dump_biff (BIFF_QUERY *bq)
 {
@@ -29,6 +58,10 @@ dump_biff (BIFF_QUERY *bq)
 		dump (bq->data, bq->length);
 /*	dump_stream (bq->pos); */
 }
+
+/*******************************************************************************/
+/*                                 Read Side                                   */
+/*******************************************************************************/
 
 BIFF_QUERY *
 ms_biff_query_new (MS_OLE_STREAM *ptr)
@@ -221,17 +254,41 @@ ms_biff_query_destroy (BIFF_QUERY *bq)
 	}
 }
 
-#if G_BYTE_ORDER == G_BIG_ENDIAN
-double biff_getdouble(guint8 *p)
+/*******************************************************************************/
+/*                                 Write Side                                  */
+/*******************************************************************************/
+
+
+/* Sets up a record on a stream */
+BIFF_PUT *
+ms_biff_put_new        (MS_OLE_STREAM *s)
 {
-    double d;
-    int i;
-    guint8 *t = (guint8 *)&d;
-    int sd = sizeof (d);
-
-    for (i = 0; i < sd; i++)
-      t[i] = p[sd - 1 - i];
-
-    return d;
+	return 0;
 }
-#endif
+void
+ms_biff_put_set_pad    (BIFF_PUT *bp, guint pad)
+{
+}
+guint8 *
+ms_biff_put_next_len   (BIFF_PUT *bp, guint32 len)
+{
+	return 0;
+}
+void
+ms_biff_put_commit_len (BIFF_PUT *bp)
+{
+}
+MS_OLE_STREAM *
+ms_biff_put_next_var   (BIFF_PUT *bp)
+{
+	return 0;
+}
+void
+ms_biff_put_commit_var (BIFF_PUT *bp, guint32 len)
+{
+}
+void
+ms_biff_put_destroy    (BIFF_PUT *bp)
+{
+}
+

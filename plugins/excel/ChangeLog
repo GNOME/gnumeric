@@ -1,5 +1,25 @@
 1999-05-12  Michael Meeks  <michael@imaginator.com>
 
+	* ms-biff.h: Major overhaul, added some fields to be implemented.
+	Added stubs for new BIFF write-side.
+
+	* ms-biff.c (biff_setdouble): Implemented.
+
+	* ms-excel.c (ms_excel_read_cell): BIFF_NUMBER: Removed last
+	vestige of nasty number->text->number sillyness.
+
+	* Makefile.am (libexcel_a_SOURCES): Added excel.h,
+	ms-excel-write.[ch].
+
+	* boot.c (excel_load): Updated name & headers.
+
+	* ms-excel.c (ms_excel_write_workbook): Stubbed.
+
+	* ms-excel.h: Split out excel specifics into smaller header.
+	Renamed functions to remove nasty mixed case.
+
+1999-05-12  Michael Meeks  <michael@imaginator.com>
+
 	* ole.c (main): Add check on ptr to fix NULL pointers getting
 	to strcasecmp.
 	(do_copyin): Added mass-copy in/out function.

@@ -11,6 +11,7 @@ noinst_LIBRARIES = libexcel.a
 libexcel_a_SOURCES =		\
 	boot.c			\
 	boot.h			\
+	excel.h			\
 	ms-excel-biff.h		\
 	ms-biff.c		\
 	ms-biff.h		\
@@ -20,6 +21,8 @@ libexcel_a_SOURCES =		\
 	ms-escher.h		\
 	ms-excel.c		\
 	ms-excel.h		\
+	ms-excel-write.c	\
+	ms-excel-write.h	\
 	ms-formula.c		\
 	ms-formula.h		\
 	ms-obj.c		\

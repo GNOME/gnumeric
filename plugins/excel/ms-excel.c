@@ -28,18 +28,21 @@
 #include "ms-ole.h"
 #include "ms-biff.h"
 #include "ms-formula.h"
+#include "excel.h"
 #include "ms-excel.h"
-#include "ms-excel-biff.h"
 #include "ms-obj.h"
 #include "ms-escher.h"
 
 #define EXCEL_DEBUG 0
 
+/* This many styles are reserved */
 #define XF_MAGIC_OFFSET (16 + 4)
 
 /* Forward references */
-static MS_EXCEL_SHEET *ms_excel_sheet_new (MS_EXCEL_WORKBOOK * wb, char *name) ;
-static void ms_excel_workbook_attach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans) ;
+static MS_EXCEL_SHEET *ms_excel_sheet_new       (MS_EXCEL_WORKBOOK *wb,
+						 char *name) ;
+static void            ms_excel_workbook_attach (MS_EXCEL_WORKBOOK *wb,
+						 MS_EXCEL_SHEET *ans) ;
 
 /**
  * Generic 16 bit int index pointer functions.
@@ -159,8 +162,7 @@ biff_get_text (BYTE *pos, guint32 length, guint32* byte_length)
 		dump (pos, *byte_length) ;
 	}
 
-	for (lp = 0; lp < length; lp++)
-	{
+	for (lp = 0; lp < length; lp++) {
 		guint16 c;
 		if (high_byte) {
 			c = BIFF_GETWORD(ptr);
@@ -1541,20 +1543,12 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	case BIFF_DBCELL: /* S59D6D.HTM */
 		/* Can be ignored on read side */
 		break ;
-	case BIFF_NUMBER:
-		{
-			char buf[MS_EXCEL_DOUBLE_FORMAT_LEN];
-			double num = BIFF_GETDOUBLE (q->data + 6);	/*
-									 * FIXME GETDOUBLE is not endian independant 
-									 */
-/*			dump (q->data, q->length);
-			snprintf (buf, 64, "NUM %f", num); */
-			snprintf (buf, MS_EXCEL_DOUBLE_FORMAT_LEN-1,
-				  MS_EXCEL_DOUBLE_FORMAT, num);
-			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q),
-					       EX_GETROW (q), buf);
-			break;
-		}
+	case BIFF_NUMBER: {
+		Value *v = value_float (BIFF_GETDOUBLE (q->data + 6));
+		ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q),
+					   EX_GETROW (q), v);
+		break;
+	}
 	case BIFF_COLINFO: /* FIXME: See: S59D67.HTM */
 	{
 		int firstcol, lastcol, lp ;
@@ -2053,7 +2047,7 @@ find_workbook (MS_OLE * ptr)
 }
 
 Workbook *
-ms_excelReadWorkbook (MS_OLE * file)
+ms_excel_read_workbook (MS_OLE * file)
 {
 	MS_EXCEL_WORKBOOK *wb = NULL;
 	xmlNodePtr child;

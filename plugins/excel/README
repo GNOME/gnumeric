@@ -31,3 +31,8 @@ or
 	./ole somefile.xls get <stream name> <filename>
 
 1999-04-13 Michael Meeks <michael@imaginator.com>
+
+TODO:
+
+	padding in BIFF records, implement properly.
+	biff_put etc. needs to be written.
