@@ -1121,7 +1121,7 @@ pps_encode_tree_chain (MsOle *f, GList *list)
 #if OLE_DEBUG > 0
 	printf ("No. of entries is %d\n", len);
 #endif
-	if (len/2==1)
+	if (len > 1)	/* FIXME tenix HACK: original line was: if (len/2==1) */
 		l = g_list_next (l);
 
 	for (lp=1;lp<len/2;lp++) {
@@ -2287,6 +2287,7 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 
 /**
  * pps_create:
+ * @f: ole file handle
  * @p: returned pps.
  * @parent: parent pps.
  * @name: its name.
@@ -2297,7 +2298,8 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
  * Return value: error status.
  **/
 static MsOleErr
-pps_create (GList **p, GList *parent, const char *name, MsOleType type)
+pps_create (MsOle *f, GList **p, GList *parent, const char *name,
+	    MsOleType type)
 {
 	PPS *pps, *par;
 
@@ -2322,6 +2324,7 @@ pps_create (GList **p, GList *parent, const char *name, MsOleType type)
 	par->children = g_list_insert_sorted (par->children, pps,
 					      (GCompareFunc)pps_compare_func);
 	*p = g_list_find (par->children, pps);
+	f->num_pps++;
 
 	return MS_OLE_ERR_OK;
 }
@@ -2411,7 +2414,7 @@ path_to_pps (PPS **pps, MsOle *f, const char *path,
 		cur = find_in_pps (parent, dirs[lp]);
 		
 		if (!cur && create_if_not_found &&
-		    pps_create (&cur, parent, dirs[lp], MsOleStorageT) !=
+		    pps_create (f, &cur, parent, dirs[lp], MsOleStorageT) !=
 		    MS_OLE_ERR_OK)
 			cur = NULL;
 		/* else carry on not finding them before dropping out */
@@ -2436,7 +2439,8 @@ path_to_pps (PPS **pps, MsOle *f, const char *path,
 	if (!cur) {
 		if (create_if_not_found) {
 			MsOleErr result;
-			result = pps_create (&cur, parent, file, MsOleStreamT);
+			result = pps_create (f, &cur, parent, file,
+					     MsOleStreamT);
 			if (result == MS_OLE_ERR_OK) {
 				*pps = cur->data;
 				g_return_val_if_fail (IS_PPS (cur->data),

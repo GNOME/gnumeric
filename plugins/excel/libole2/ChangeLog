@@ -1,3 +1,10 @@
+1999-11-21  Arturo Tena  <arturo@directmail.org>
+
+	* ms-ole.c (pps_create): Added MsOle *f parameter, this fix a bug when
+	  creating more than 4 PPS's. All callers changed.
+	  (pps_encode_tree_chain): Little hack to allow creating more than 4
+	  PPS's, this function must be rewitten later.
+
 1999-11-15  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-ole-summary.c: s/section_t/MsOleSummarySection/
