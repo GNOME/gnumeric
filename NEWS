@@ -21,6 +21,7 @@ Jody:
 	* Modernize the sylk importer
 	http://bugzilla.gnome.org/show_bug.cgi?id=129444
 	* Fix xls import of plot styles that override defaults
+	* Fix xml import of ManualRecalc flag
 
 Jukka:
 	* GLPK upgrade to version 4.2
