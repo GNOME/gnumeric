@@ -2895,12 +2895,19 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (filter == NULL) {
 		Range const *src = selection_first_range (sv,
 			COMMAND_CONTEXT (wbcg), _("Add Filter"));
-		if (src == NULL || src->start.row == src->end.row) {
+		Range region = *src;
+
+		/* only one row selected -- assume that the user wants to
+		 * filter the region below this row. */
+		if (src != NULL && src->start.row == src->end.row)
+			sheet_filter_guess_region  (sv->sheet, &region);
+
+		if (src == NULL || region.start.row == region.end.row) {
 			gnumeric_error_invalid	(COMMAND_CONTEXT (wbcg),
 				 _("AutoFilter"), _("Requires more than 1 row"));
 			return;
 		}
-		gnm_filter_new (sv->sheet, src);
+		gnm_filter_new (sv->sheet, &region);
 	} else {
 		/* keep distinct to simplify undo/redo later */
 		gnm_filter_remove (filter);

@@ -1,5 +1,12 @@
 2003-09-22  Jody Goldberg <jody@gnome.org>
 
+	From John Gill :
+	* src/sheet-filter.c (sheet_filter_guess_region) : Some heuristics to
+	  guess the region to autofilter when only 1 cell or row is selected.
+	* src/workbook-control-gui.c (cb_auto_filter) : Use it.
+
+2003-09-22  Jody Goldberg <jody@gnome.org>
+
 	* src/workbook-control-gui.c (cb_graph_dim_editor_update) : ignore if
 	  dataset has already been deleted.
 	(cb_dim_editor_weakref_notify) : new.

@@ -1110,6 +1110,71 @@ gnm_filter_overlaps_range (GnmFilter const *filter, Range const *r)
 	return range_overlap (&filter->r, r);
 }
 
+/*************************************************************************/
+
+static gboolean
+sheet_cell_or_one_below_is_not_empty (Sheet *sheet, int col, int row)
+{
+	return !sheet_is_cell_empty (sheet, col, row) ||
+		(row < (SHEET_MAX_ROWS - 1) &&
+		 !sheet_is_cell_empty (sheet, col, row+1));
+}
+
+/**
+ * sheet_filter_guess_region :
+ * @sheet : #Sheet
+ * @range : #Range
+ *
+ **/
+void
+sheet_filter_guess_region (Sheet *sheet, Range *region)
+{
+	int col;
+	int end_row;
+	int offset;
+	
+	/* check in case only one cell selected */
+	if (region->start.col == region->end.col) {
+		int start = region->start.col;
+		/* look for previous empty column */
+		for (col = start - 1; col > 0; col--)
+			if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row)) 
+				break;
+		region->start.col = col - 1;
+
+		/* look for next empty column */
+		for (col = start + 1; col < SHEET_MAX_COLS; col++)
+			if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row)) 
+				break;
+		region->end.col = col - 1;
+	}		
+	
+	/* find first and last non-empty cells in region */
+	for (col = region->start.col; col <= region->end.col; col++)
+		if (sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row))
+			break;
+
+	if (col > region->end.col)
+		return; /* all empty -- give up */
+	region->start.col = col;
+	
+	for (col = region->end.col; col >= region->start.col; col--)
+		if (sheet_cell_or_one_below_is_not_empty(sheet, col, region->start.row))
+			break;
+	region->end.col = col;
+	
+	/* now find length of longest column */
+	for (col = region->start.col; col <= region->end.col; col++) {
+		offset = 0;
+		if (sheet_is_cell_empty(sheet, col, region->start.row))
+			offset = 1;
+		end_row = sheet_find_boundary_vertical (sheet, col,
+			region->start.row + offset, col, 1, TRUE);
+		if (end_row > region->end.row) 
+			region->end.row = end_row;
+	}
+}
+
 /**
  * sheet_filter_insdel_colrow :
  * @sheet :

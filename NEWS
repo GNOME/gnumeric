@@ -29,6 +29,9 @@ Jody:
 	* Emergency release of libgsf-1.9.0 to handle changes in libxml 2.6.0.
 	* Fix deleting a graph object with expr entries.
 
+John Gill:
+	* Even more heuristics for autofill range selection.
+
 Nick Lamb:
 	* Improve import of ancient xls.
 
@@ -222,7 +225,7 @@ Jody:
 	* Some basic work on axis
 
 John Gill:
-	* More More XLish heuristics for autofill range selection.
+	* More XLish heuristics for autofill range selection.
 	* Support End keys, and XL style 'transition' keys
 
 Jon Kåre:
