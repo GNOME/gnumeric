@@ -1,3 +1,9 @@
+2001-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+	
+	http://bugzilla.gnome.org/show_bug.cgi?id=67298
+	* src/commands.c (cmd_paste_copy) : let single merged target behave
+	  like single cell
+
 2001-12-21  Jody Goldberg <jody@gnome.org>
 
 	* src/parse-util.c (parse_text_value_or_expr) : you do need to unref
@@ -221,6 +227,7 @@
 	docs easier/workable.
 
 2001-12-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+	
 	* src/cellspan.c (cellspan_is_empty) : handle empty but defined
 	  cells (#66658)
 	(cell_calc_span) : don't span empty cells (#66658)

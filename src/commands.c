@@ -2584,6 +2584,33 @@ cmd_paste_copy (WorkbookControl *wbc,
 		} else if (content->rows == 1 && me->dst.range.start.row == me->dst.range.end.row) {
 			me->dst.range.end.row = me->dst.range.start.row + content->cols -1;
 		}
+	} else if  (content->cols != 1 || content->rows != 1) {
+		/* Note: when the source is a single cell, a single target merge is special */
+		/* see clipboard.c (clipboard_paste_region)                                 */
+		Range const *merge = sheet_merge_is_corner (pt->sheet, &me->dst.range.start);
+		if (merge != NULL && range_equal (&me->dst.range, merge)) {
+			/* destination is a single merge */
+			/* enlarge it such that the source fits */
+			if (pt->paste_flags & PASTE_TRANSPOSE) {
+				if ((me->dst.range.end.col - me->dst.range.start.col + 1) < 
+				    content->rows)
+					me->dst.range.end.col = 
+						me->dst.range.start.col + content->rows -1;
+				if ((me->dst.range.end.row - me->dst.range.start.row + 1) < 
+				    content->cols)
+					me->dst.range.end.row = 
+						me->dst.range.start.row + content->cols -1;
+			} else {
+				if ((me->dst.range.end.col - me->dst.range.start.col + 1) < 
+				    content->cols)
+					me->dst.range.end.col = 
+						me->dst.range.start.col + content->cols -1;
+				if ((me->dst.range.end.row - me->dst.range.start.row + 1) < 
+				    content->rows)
+					me->dst.range.end.row = 
+						me->dst.range.start.row + content->rows -1;
+			}
+		}
 	}
 
 	/* Use translate to do a quiet sanity check */
