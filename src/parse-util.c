@@ -95,18 +95,18 @@ cols_name (int start_col, int end_col)
 char const *
 col_parse (char const *str, int *res, unsigned char *relative)
 {
-	char const *ptr = str;
+	char const *ptr, *start = str;
 	int col = -1;
 
-	if (!(*relative = (*ptr != '$')))
-		ptr++;
+	if (!(*relative = (*start != '$')))
+		start++;
 
-	for (; col < SHEET_MAX_COLS ; ptr++)
+	for (ptr = start; col < SHEET_MAX_COLS ; ptr++)
 		if (('a' <= *ptr && *ptr <= 'z'))
 			col = 26 * (col + 1) + (*ptr - 'a');
 		else if (('A' <= *ptr && *ptr <= 'Z'))
 			col = 26 * (col + 1) + (*ptr - 'A');
-		else if (ptr != str) {
+		else if (ptr != start) {
 			*res = col;
 			return ptr;
 		} else
@@ -144,6 +144,24 @@ rows_name (int start_row, int end_row)
 	}
 	*res = '\0';
 	return buffer;
+}
+
+char const *
+row_parse (char const *str, int *res, unsigned char *relative)
+{
+	char const *end, *ptr = str;
+	int row;
+
+	if (!(*relative = (*ptr != '$')))
+		ptr++;
+
+	errno = 0;
+	row = strtol (ptr, (char **)&end, 10);
+	if (ptr != end && 0 < row && row <= SHEET_MAX_ROWS && errno != ERANGE) {
+		*res = row - 1;
+		return end;
+	} else
+		return str;
 }
 
 /***************************************************************************/
@@ -789,24 +807,6 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
 
 	*sheet = workbook_sheet_by_name (wb, name);
 	return *sheet != NULL ? end : start;
-}
-
-char const *
-row_parse (char const *str, int *res, unsigned char *relative)
-{
-	char const *end, *ptr = str;
-	int row;
-
-	if (!(*relative = (*ptr != '$')))
-		ptr++;
-
-	errno = 0;
-	row = strtol (ptr, (char **)&end, 10);
-	if (ptr != end && 0 < row && row <= SHEET_MAX_ROWS && errno != ERANGE) {
-		*res = row - 1;
-		return end;
-	} else
-		return str;
 }
 
 /** rangeref_parse :

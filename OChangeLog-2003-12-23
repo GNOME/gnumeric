@@ -1,3 +1,9 @@
+2002-10-07  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (col_parse) : don't get confused when parsing an
+	  absolute _row_ (yes I mean row) ref.  $3 would see the dollar then
+	  fail, but would return a col of -1.
+
 2002-10-07  Morten Welinder  <terra@diku.dk>
 
 	* src/value.c (value_zero): New variable.
