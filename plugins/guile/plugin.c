@@ -90,60 +90,6 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 }
 
 static SCM
-scm_cell_value (SCM scm)
-{
-	CellRef cell_ref = scm_to_cell_ref(scm);
-	Cell *cell;
-
-	g_return_val_if_fail (eval_pos != NULL, SCM_EOL);
-
-	cell = sheet_cell_get(eval_pos->sheet, cell_ref.col, cell_ref.row);
-
-	if (cell == NULL)
-		return SCM_EOL;
-
-	assert (cell->value != NULL);
-
-	return value_to_scm(cell->value, cell_ref);
-}
-
-static SCM
-scm_cell_expr (SCM scm)
-{
-	CellRef cell_ref = scm_to_cell_ref(scm);
-	Cell *cell;
-
-	g_return_val_if_fail (eval_pos != NULL, SCM_EOL);
-
-	cell = sheet_cell_get(eval_pos->sheet, cell_ref.col, cell_ref.row);
-
-	if (cell == NULL || cell_has_expr (cell))
-		return SCM_EOL;
-
-	return SCM_EOL;//expr_to_scm (cell->base.expression, cell_ref);
-}
-
-static SCM
-scm_set_cell_string (SCM scm_cell_ref, SCM scm_string)
-{
-	CellRef cell_ref = scm_to_cell_ref(scm_cell_ref);
-	Cell *cell;
-
-	g_return_val_if_fail (eval_pos != NULL, SCM_EOL);
-
-	cell = sheet_cell_get(eval_pos->sheet, cell_ref.col, cell_ref.row);
-
-	SCM_ASSERT(SCM_NIMP(scm_string) && SCM_STRINGP(scm_string), scm_string, SCM_ARG2, "set-cell-string!");
-
-	if (cell == NULL)
-		return SCM_UNSPECIFIED;
-
-	cell_set_text (cell, SCM_CHARS(scm_string));
-
-	return SCM_UNSPECIFIED;
-}
-
-static SCM
 scm_gnumeric_funcall (SCM funcname, SCM arglist)
 {
 	int i, num_args;
@@ -256,9 +202,6 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	init_value_type ();
 	
-	scm_make_gsubr ("cell-value", 1, 0, 0, scm_cell_value);
-	scm_make_gsubr ("cell-expr", 1, 0, 0, scm_cell_expr);
-	scm_make_gsubr ("set-cell-string!", 2, 0, 0, scm_set_cell_string);
 	scm_make_gsubr ("gnumeric-funcall", 2, 0, 0, scm_gnumeric_funcall);
 	scm_make_gsubr ("register-function", 5, 0, 0, scm_register_function);
 

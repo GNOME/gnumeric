@@ -1,5 +1,17 @@
 2000-11-12  Ariel Rios  <ariel@arcavia.com>
 
+	* functions.scm (fibo): Return value smob
+	* guile-support.c : Ditto for the functions removed on header file.
+	(scm_to_value): We now only call get_value_from_smob and things are
+	way easier and cleaner now.
+	* guile-support.h: (list_to_scm): Removed function. 
+	(cell_ref_to_scm): Ditto
+	(scm_to_cell_ref): Ditto
+	(scm_symbolfrom0str): Ditto
+	(scm_to_value): Ditto.
+
+2000-11-12  Ariel Rios  <ariel@arcavia.com>
+
 	* functions.scm: Cleaned old commented scheme functions.
 
 2000-11-12  Ariel Rios  <ariel@arcavia.com>

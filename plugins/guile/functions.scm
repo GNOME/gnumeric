@@ -18,7 +18,7 @@
 		(if (<= n 2)
 		    b
 		    (fibof (- n 1) b (+ a b))))))
-    (fibof n 1 1))))
+      (value-new-float (fibof n 1 1)))))
 
 (register-function 
 "fibo" "f"
