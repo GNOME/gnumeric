@@ -1,3 +1,11 @@
+1999-10-30  Arturo Tena <arturo@directmail.org>
+
+	* ms-ole.c, ms-ole.h: Delete fstat wrapper, created isregfile_wrap and
+	  getfilesize_wrap wrappers instead. All callers changed.
+	* ms-ole.c: (extend_file): Not use lseek to extend the file, but
+	  actually write bytes after the end of the file (this allow to write a
+	  simpler gnome-vfs method).
+
 1999-10-27  Morten Welinder  <terra@diku.dk>
 
 	* ms-ole.c (ms_ole_open_vfs): Quiet when file is too short.

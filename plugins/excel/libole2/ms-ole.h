@@ -144,9 +144,10 @@ struct _MsOleSysWrappers {
 	int (*open3) (const char *pathname, int flags, mode_t mode);
 	ssize_t (*read) (int fd, void *buf, size_t count);
 	int (*close) (int fd);
-	int (*fstat) (int filedes, struct stat *buf);
 	ssize_t (*write) (int fd, const void *buf, size_t count);
 	off_t (*lseek) (int fildes, off_t offset, int whence);
+	int (*isregfile) (int fildes);
+	int (*getfilesize) (int fildes, guint32 *size);
 };
 
 

@@ -130,14 +130,37 @@ lseek_wrap (int fildes, off_t offset, int whence)
 	return lseek (fildes, offset, whence);
 }
 
+static int
+isregfile_wrap (int fildes)
+{
+	struct stat st;
+
+	if (fstat (fildes, &st))
+		return 0;
+
+	return S_ISREG(st.st_mode);
+}
+
+static int
+getfilesize_wrap (int fildes, guint32 *size)
+{
+	struct stat st;
+
+	if (fstat (fildes, &st))
+		return -1;
+
+	*size = st.st_size;
+	return 0;
+}
 static MsOleSysWrappers default_wrappers = {
 	open2_wrap,
 	open3_wrap,
 	read_wrap,
 	close_wrap,
-	fstat_wrap,
 	write_wrap,
-	lseek_wrap
+	lseek_wrap,
+	isregfile_wrap,	
+	getfilesize_wrap
 };
 
 static void
@@ -690,31 +713,55 @@ extend_file (MsOle *f, guint blocks)
 		struct stat st;
 		int file;
 		guint8 *newptr, zero = 0;
+		guint32 filesize;
 		guint32 oldlen;
-		
+		guint32 icount;
+		gchar zeroblock [BB_BLOCK_SIZE];
+
+		memset (zeroblock, zero, BB_BLOCK_SIZE);
 		g_assert (f);
 		file = f->file_des;
 		
 		g_assert (munmap(f->mem, f->length) != -1);
+
 		/* Extend that file by blocks */
-		
-		if ((f->syswrap->fstat(file, &st) == -1) ||
-		    (f->syswrap->lseek (file, st.st_size + BB_BLOCK_SIZE*blocks - 1, SEEK_SET)==(off_t)-1) ||
-		    (f->syswrap->write (file, &zero, 1) == -1)) {
+
+		if (f->syswrap->getfilesize (file, &filesize)) {
+			printf ("Serious error extending file\n");
+			f->mem = 0;
+			return;
+		}
+		if (f->syswrap->lseek (file, 0, SEEK_END) == (off_t)-1) {
+			printf ("Serious error extending file\n");
+			f->mem = 0;
+			return;
+		}
+		for (icount = 0; icount < blocks; icount++) {
+			if (f->syswrap->write (file, zeroblock, BB_BLOCK_SIZE -
+					       ((icount == blocks - 1) ? 1 : 0))
+			    == -1) {
+				printf ("Serious error extending file\n");
+				f->mem = 0;
+				return;
+			}
+		}
+		if (f->syswrap->write (file, &zero, 1) == -1) {
 			printf ("Serious error extending file\n");
 			f->mem = 0;
 			return;
 		}
 
-		oldlen = st.st_size;
-		f->syswrap->fstat(file, &st);
-		f->length = st.st_size;
+		oldlen = filesize;
+
+		if (f->syswrap->getfilesize (file, &(f->length))) {
+			printf ("Warning couldn't get the size of the file\n");
+		}
 		g_assert (f->length == BB_BLOCK_SIZE*blocks + oldlen);
 		if (f->length%BB_BLOCK_SIZE)
 			printf ("Warning file %d non-integer number of blocks\n", f->length);
 		/* NOTE tenix here we don't check if try_mmap is true, because
 		   if it reach here it means f->ole_mmap is true and try_mmap is
-		   true too */
+		   true too. This is related with system wrappers. */
 		newptr = mmap (f->mem, f->length, PROT_READ|PROT_WRITE, MAP_SHARED, file, 0);
 #if OLE_DEBUG > 0
 		if (newptr != f->mem)
@@ -1419,13 +1466,18 @@ ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
 		(*f)->mode = 'r';
 		prot &= ~PROT_WRITE;
 	}
-	if ((file == -1) || (*f)->syswrap->fstat(file, &st)
-	    || !(S_ISREG(st.st_mode))) {
+	if ((file == -1) || !((*f)->syswrap->isregfile (file))) {
+		/* FIXME tenix is not a memory leak not to close file? */
 		printf ("No such file '%s'\n", name);
 		g_free (*f) ;
 		return MS_OLE_ERR_EXIST;
 	}
-	(*f)->length = st.st_size;
+	if ((*f)->syswrap->getfilesize(file, &((*f)->length))) {
+		printf ("Couldn't get the size of file '%s'\n", name);
+		(*f)->syswrap->close (file) ;
+		g_free (*f) ;
+		return MS_OLE_ERR_EXIST;
+	}
 	if ((*f)->length<=0x4c) { /* Bad show */
 #if OLE_DEBUG > 0
 		printf ("File '%s' too short\n", name);
@@ -1537,9 +1589,11 @@ ms_ole_create_vfs (MsOle **f, const char *name, gboolean try_mmap,
 
 	(*f)->ref_count = 0;
 	(*f)->file_des  = file;
-	(*f)->mode             = 'w';
-	(*f)->syswrap->fstat (file, &st);
-	(*f)->length = st.st_size;
+	(*f)->mode      = 'w';
+	if ((*f)->syswrap->getfilesize (file, &((*f)->length))) {
+		printf ("Warning couldn't get the size of the file '%s'\n",
+			name);
+	}
 	if ((*f)->length % BB_BLOCK_SIZE)
 		printf ("Warning file %d non-integer number of blocks\n",
 			(*f)->length);
