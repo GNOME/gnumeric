@@ -1,3 +1,11 @@
+2002-11-27  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (wbcg_progress_set): Deprecation
+	cleanup: s/gtk_progress_bar_update/get_progress_bar_set_fraction/.
+	(setup_progress_bar): Deprecation cleanup: Remove
+	gtk_progress_bar_set_orientation. These are in the changelog for
+	2002-11-19, but never actually got committed.
+
 2002-11-27  Morten Welinder  <terra@diku.dk>
 
 	(From Evert's patch in bug #99429.)

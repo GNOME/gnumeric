@@ -1481,7 +1481,8 @@ wbcg_progress_set (CommandContext *cc, gfloat val)
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
 
 #ifdef WITH_BONOBO
-	gtk_progress_bar_update (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (wbcg->progress_bar),
+				       val);
 #else
 	gnome_appbar_set_progress_percentage (wbcg->appbar, val);
 #endif
@@ -4421,8 +4422,6 @@ setup_progress_bar (WorkbookControlGUI *wbcg)
 
 	gtk_progress_bar_set_orientation (
 		progress_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
-	gtk_progress_bar_set_bar_style (
-		progress_bar, GTK_PROGRESS_CONTINUOUS);
 
 	wbcg->progress_bar = GTK_WIDGET (progress_bar);
 
