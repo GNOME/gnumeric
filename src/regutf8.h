@@ -1,0 +1,41 @@
+#ifndef GNUMERIC_REGUTF8_H
+#define GNUMERIC_REGUTF8_H
+
+#include <sys/types.h>
+#include <regex.h>
+
+#ifdef HAVE_UTF8_REGEXP
+
+/* We have a usable library.  Use it.  */
+#define gnumeric_regex_t regex_t
+#define gnumeric_regcomp regcomp
+#define gnumeric_regexec regexec
+#define gnumeric_regerror regerror
+#define gnumeric_regfree regfree
+
+#else
+
+/* Use our poor man's routines.  */
+
+typedef struct {
+	size_t re_nsub;
+
+	/* Internal fields below.  */
+	regex_t theregexp;
+	gboolean casefold;
+	gboolean nosub;
+
+	size_t srcparcount, parcount;
+	size_t *parens;
+} gnumeric_regex_t;
+
+int gnumeric_regcomp (gnumeric_regex_t *preg, const char *pattern, int cflags);
+int gnumeric_regexec (const gnumeric_regex_t *preg, const char *string,
+		      size_t nmatch, regmatch_t pmatch[], int eflags);
+size_t gnumeric_regerror (int errcode, const gnumeric_regex_t *preg,
+			  char *errbuf, size_t errbuf_size);
+void gnumeric_regfree (gnumeric_regex_t *preg);
+
+#endif
+
+#endif

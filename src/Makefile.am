@@ -175,6 +175,8 @@ GNUMERIC_BASE =					\
 	ranges.h				\
 	regression.c				\
 	regression.h				\
+	regutf8.c				\
+	regutf8.h				\
 	rendered-value.c			\
 	rendered-value.h			\
 	search.h				\
