@@ -37,8 +37,8 @@
 	    pixtype="stock" pixname="Gnumeric_PrintPreview"/>
 
 	<cmd name="FileSummary"
-	    _label="Su_mmary..."
-	    _tip="Summary information"/>
+	    _label="P_roperties..."
+	    _tip="Edit descriptive information"/>
 
 	<cmd name="FileClose"
 	    _label="_Close"
@@ -327,12 +327,12 @@
 
 	    <menuitem name="InsertGraph" verb="GraphGuru"
 		pixtype="stock" pixname="Gnumeric_GraphGuru"
-		_label="_Graph"
+		_label="_Graph..."
 		_tip="Invoke the graph guru to create a graph"/>
 
 	    <menuitem name="InsertComponent" verb=""
 		pixtype="stock" pixname="Gnumeric_InsertComponent"
-		_label="_Object"
+		_label="_Object..."
 		_tip="Inserts a Bonobo object"/>
 
 	    <menuitem name="InsertShapedComponent" verb=""
@@ -343,7 +343,7 @@
 
 	    <submenu name="Names" _label="_Name">
 		<menuitem name="Define" verb="EditNames"
-		    _label="_Define"
+		    _label="_Define..."
 		    _tip="Edit sheet and workbook names"
 		    accel="*Control*F3"/>
 	    </submenu>

@@ -1,4 +1,11 @@
-Gnumeric 0.99.2
+Gnumeric 1.0.1
+
+Jody:
+	* Some missing '...' in menu names
+	* Rename 'Summary' menu -> 'Properties'
+
+--------------------------------------------------------------------------
+Gnumeric 1.0.0
 
 Andreas:
 	* Improve file format documentation

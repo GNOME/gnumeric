@@ -1,3 +1,10 @@
+2002-01-01  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric.xml : Add some missing ...
+	rename 'Summary' -> 'Properties'
+
+	* src/workbook-control-gui.c : ditto.
+
 2001-12-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/main.c : describe geometry option

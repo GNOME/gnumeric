@@ -2490,8 +2490,8 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_NONE (N_("Su_mmary..."),
-			       N_("Summary information"),
+	GNOMEUIINFO_ITEM_NONE (N_("P_roperties..."),
+			       N_("Edit descriptive information"),
 			       cb_file_summary),
 
 	GNOMEUIINFO_MENU_CLOSE_ITEM (cb_file_close, NULL),
