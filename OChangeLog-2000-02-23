@@ -1,3 +1,7 @@
+1999-08-29  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (workbook_do_destroy): Typo.
+
 1999-08-28  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/*.glade.h: Make sure every dialog box has updated

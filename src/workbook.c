@@ -282,7 +282,7 @@ workbook_do_destroy (Workbook *wb)
 	 */
 
 	summary_info_free (wb->summary_info);
-	wb->sin = NULL;
+	wb->summary_info = NULL;
 
 	/*
 	 * Erase all cells.  In particular this removes all links between
