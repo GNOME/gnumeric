@@ -11,11 +11,14 @@
 #include "graph.h"
 #include "graph-view.h"
 #include "graph-view-scatter.h"
+#include "graph-vector.h"
 
 typedef struct {
 	GraphView   *graph_view;
 	Graph       *graph;
 	GdkDrawable *drawable;
+
+	GdkGC	    *gc;
 	int          x, y;
 	int          width, height;
 	int          xl, yl;
@@ -34,10 +37,12 @@ typedef enum {
 	SYMBOL_FILLED_SQUARE,
 	SYMBOL_TRIANGLE,
 	SYMBOL_FILLED_TRIANGLE,
+	SYMBOL_CROSS_CIRCLE,
+	SYMBOL_CROSS_FILLED_CIRCLE,
 	SYMBOL_LAST
 } Symbols;
 
-static Symbol
+static Symbols
 setup_symbol (ScatterDrawCtx *ctx, int series)
 {
 	/*
@@ -46,11 +51,11 @@ setup_symbol (ScatterDrawCtx *ctx, int series)
 	gdk_gc_set_foreground (ctx->graph_view->fill_gc,
 			       &ctx->graph_view->palette [series % ctx->graph_view->n_palette]);
 	
-	return (Symbol) series % (SYMBOL_LAST-1);
+	return (Symbols) series % (SYMBOL_LAST-1);
 }
 
-static
-put_symbol (ScatterDrawCtx *ctx, Symbol sym, int px, int py)
+static void
+put_symbol (ScatterDrawCtx *ctx, Symbols sym, int px, int py)
 {
 	gboolean fill = FALSE;
 	const int dim = ctx->dim;
@@ -98,7 +103,7 @@ put_symbol (ScatterDrawCtx *ctx, Symbol sym, int px, int py)
 
 	case SYMBOL_CROSS_CIRCLE:
 	case SYMBOL_CROSS_FILLED_CIRCLE:
-		gdk_draw_ellipse (
+		gdk_draw_arc (
 			ctx->drawable, ctx->gc, fill,
 			px - dim_h, py - dim_h,
 			dim, dim, 0, 360 * 64);
@@ -126,7 +131,7 @@ put_symbol (ScatterDrawCtx *ctx, Symbol sym, int px, int py)
 
 		tpoints [3] = tpoints [0];
 		
-		gdk_draw_polygon (ctx->drawable, ctx->gc, fill, t_points, 4);
+		gdk_draw_polygon (ctx->drawable, ctx->gc, fill, tpoints, 4);
 		break;
 	}
 
@@ -149,7 +154,7 @@ graph_view_scatter_plot (GraphView *graph_view, GdkDrawable *drawable,
 			 int x, int y, int width, int height)
 {
 	ScatterDrawCtx ctx;
-	GraphVector **vectors = graph->layout->vectors;
+	GraphVector **vectors = graph_view->graph->layout->vectors;
 	GraphVector *x_vector = vectors [0];
 	int x_vals = graph_vector_count (x_vector);
 	int vector_count = graph_view->graph->layout->n_series;
@@ -159,7 +164,7 @@ graph_view_scatter_plot (GraphView *graph_view, GdkDrawable *drawable,
 	ctx.y = y;
 	ctx.width = width;
 	ctx.height = height;
-v	ctx.drawable = drawable;
+	ctx.drawable = drawable;
 	ctx.graph_view = graph_view;
 	ctx.graph = graph_view->graph;
 	ctx.yl = graph_view->bbox.y1 - graph_view->bbox.y0;
@@ -169,14 +174,13 @@ v	ctx.drawable = drawable;
 	
 	for (xi = 0; xi < x_vals; xi++){
 		int vector;
-
-		xv = graph_vector_get_double (x_vector, i);
+		double const xv = graph_vector_get_double (x_vector, xi);
 		
 		for (vector = 1; vector < vector_count; vector++){
 			double y;
 
 			y = graph_vector_get_double (vectors [vector], xi);
-			plot_point (ctx, xi, xv, vector, y);
+			plot_point (&ctx, xi, xv, vector, y);
 		}
 	}
 }
