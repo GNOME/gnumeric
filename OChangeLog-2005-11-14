@@ -1,5 +1,17 @@
 2001-08-23  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-bar.c (item_bar_destroy) : remove debug msg.
+	(item_bar_realize) : We need to use an existing widget to get style
+	  information, use the select all button because it was the first
+	  thing I thought of.
+
+2001-08-23  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-graph.c (gnm_graph_clear_vectors_internal) : once we
+	  clear the vectors be sure to also zero out the array.
+	(gnm_graph_arrange_vectors) : CORBA does not like NULL.  Giveit some
+	  zero length sequences.
+
 	* src/commands.c (cmd_object_move) : init first_time.
 	(cmd_object_move_destroy) : fix cut-n-paste-o.
 	(cmd_object_move_redo) : do even less work.

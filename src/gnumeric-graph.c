@@ -114,6 +114,7 @@ gnm_graph_clear_vectors_internal (GnmGraph *graph, gboolean unsubscribe)
 		vector->graph = NULL;
 		gtk_object_unref (GTK_OBJECT (vector));
 	}
+	g_ptr_array_set_size (graph->vectors, 0);
 	if (unsubscribe) {
 		CORBA_Environment ev;
 
@@ -268,8 +269,21 @@ void
 gnm_graph_arrange_vectors (GnmGraph *graph)
 {
 	CORBA_Environment  ev;
+	GNOME_Gnumeric_Graph_Manager_v2_VectorIDs *data, *headers;
+
+	int len = 0;
+
+	data = GNOME_Gnumeric_Graph_Manager_v2_VectorIDs__alloc ();
+	data->_length = data->_maximum = len;
+	data->_buffer = CORBA_sequence_GNOME_Gnumeric_Graph_Manager_v2_VectorID_allocbuf (len);
+	data->_release = CORBA_TRUE;
+	headers = GNOME_Gnumeric_Graph_Manager_v2_VectorIDs__alloc ();
+	headers->_length = data->_maximum = len;
+	headers->_buffer = CORBA_sequence_GNOME_Gnumeric_Graph_Manager_v2_VectorID_allocbuf (len);
+	headers->_release = CORBA_TRUE;
+
 	CORBA_exception_init (&ev);
-	MANAGER1 (arrangeVectors) (graph->manager, NULL, NULL, &ev);
+	MANAGER1 (arrangeVectors) (graph->manager, data, headers, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("'%s' : while auto arranging the vectors in graph %p",
 			   bonobo_exception_get_text (&ev), graph);
@@ -312,11 +326,38 @@ gnm_graph_destroy (GtkObject *obj)
 }
 
 static void
+gnm_graph_populate_menu (SheetObject *so,
+			 GtkObject   *obj_view,
+			 GtkMenu     *menu)
+{
+	GnmGraph *graph;
+
+	graph = GNUMERIC_GRAPH (so);
+	g_return_if_fail (IS_GNUMERIC_GRAPH (so));
+
+#if 0
+	GtkWidget *item;
+	item = gtk_menu_item_new_with_label (_("Open"));
+	gtk_signal_connect (GTK_OBJECT (item), "activate",
+			    GTK_SIGNAL_FUNC (open_cb), so);
+	gtk_menu_append (menu, item);
+#endif
+
+	if (SHEET_OBJECT_CLASS (gnm_graph_parent_class)->populate_menu)
+		SHEET_OBJECT_CLASS (gnm_graph_parent_class)->populate_menu (so, obj_view, menu);
+}
+
+static void
 gnm_graph_class_init (GtkObjectClass *object_class)
 {
+	SheetObjectClass *sheet_object_class;
+
 	gnm_graph_parent_class = gtk_type_class (SHEET_OBJECT_CONTAINER_TYPE);
 
 	object_class->destroy = &gnm_graph_destroy;
+
+	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+	sheet_object_class->populate_menu = &gnm_graph_populate_menu;
 }
 
 E_MAKE_TYPE (gnm_graph, "GnmGraph", GnmGraph,

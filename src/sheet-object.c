@@ -91,7 +91,7 @@ sheet_object_populate_menu (SheetObject *so,
 
 	if (SO_CLASS(so)->user_config != NULL) {
 		item = gnome_stock_menu_item (GNOME_STOCK_MENU_PROP,
-					      _("Configure"));
+					      _("Properties..."));
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
 				    GTK_SIGNAL_FUNC (cb_sheet_object_configure), obj_view);
 		gtk_menu_append (menu, item);

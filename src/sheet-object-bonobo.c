@@ -164,10 +164,10 @@ sheet_object_bonobo_print (SheetObject const *so, GnomePrintContext *ctx,
 	BonoboPrintData *bpd;
 	double coords [4];
 
-	g_return_if_fail (IS_SHEET_OBJECT_BONOBO (so));
+	sob = SHEET_OBJECT_BONOBO (so);
+	g_return_if_fail (sob != NULL);
 	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (ctx));
 
-	sob = SHEET_OBJECT_BONOBO (so);
 
 	bpc = bonobo_print_client_get (sob->object_server);
 	if (!bpc) {
@@ -234,9 +234,9 @@ sheet_object_bonobo_populate_menu (SheetObject *so,
 	SheetObjectBonobo *sob;
 	GtkWidget *item;
 
-	g_return_if_fail (IS_SHEET_OBJECT_BONOBO (so));
-
 	sob = SHEET_OBJECT_BONOBO (so);
+	g_return_if_fail (sob != NULL);
+
 	if (sob->has_persist_file || sob->has_persist_stream) {
 		item = gtk_menu_item_new_with_label (_("Open"));
 		gtk_signal_connect (GTK_OBJECT (item), "activate",

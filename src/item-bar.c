@@ -157,6 +157,8 @@ item_bar_realize (GnomeCanvasItem *item)
 	ItemBar *ib;
 	GdkWindow *window;
 	GdkGC *gc;
+	GtkStyle *style;
+	GtkWidget *button;
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)(item);
@@ -164,19 +166,17 @@ item_bar_realize (GnomeCanvasItem *item)
 	ib = ITEM_BAR (item);
 	window = GTK_WIDGET (item->canvas)->window;
 
+	/* We need to extract the colours from a real visible button,
+	 * choose this one because it is available.
+	 */
+	button = ib->gcanvas->scg->select_all_btn;
+
 	/* Configure our gc */
 	ib->gc = gc = gdk_gc_new (window);
-	{
-		GtkWidget *w = gtk_button_new ();
-		GtkStyle *style;
-		gtk_widget_ensure_style (w);
-
-		style = gtk_widget_get_style (w);
-		gdk_gc_set_foreground (ib->gc, &style->text[GTK_STATE_NORMAL]);
-
-		ib->shade = gdk_gc_ref (style->dark_gc[GTK_STATE_NORMAL]);
-		gtk_widget_destroy (w);
-	}
+	gtk_widget_ensure_style (button);
+	style = gtk_widget_get_style (button);
+	gdk_gc_set_foreground (ib->gc, &style->text[GTK_STATE_NORMAL]);
+	ib->shade = gdk_gc_ref (style->dark_gc[GTK_STATE_NORMAL]);
 	ib->lines = gdk_gc_new (window);
 	gdk_gc_copy (ib->lines, gc);
 	gdk_gc_set_line_attributes (ib->lines, 2, GDK_LINE_SOLID,
@@ -900,7 +900,6 @@ item_bar_destroy (GtkObject *object)
 
 	ib_fonts_unref (bar);
 
-	puts("ib destroy");
 	if (bar->tip) {
 		gtk_object_unref (GTK_OBJECT (bar->tip));
 		bar->tip = NULL;
