@@ -1,5 +1,3 @@
-/* File import from gal to gnumeric by import-gal.  Do not edit.  */
-
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * widget-pixmap-combo.c - A pixmap selector combo box
@@ -50,10 +48,25 @@ static void
 pixmap_combo_destroy (GtkObject *object)
 {
 	PixmapCombo *pc = PIXMAP_COMBO (object);
+	int i;
 
-	if (pc->tool_tip)
+	if (pc->tool_tip) {
 		g_object_unref (pc->tool_tip);
-	pc->tool_tip = NULL;
+		pc->tool_tip = NULL;
+	}
+
+	if (pc->pixbufs) {
+		for (i = 0; i < pc->num_elements; i++)
+			if (pc->pixbufs[i])
+				g_object_unref (pc->pixbufs[i]);
+		g_free (pc->pixbufs);
+		pc->pixbufs = NULL;
+	}
+
+	if (pc->ids) {
+		g_free (pc->ids);
+		pc->ids = NULL;
+	}
 
 	(*pixmap_combo_parent_class->destroy) (object);
 }
@@ -99,7 +112,7 @@ emit_change (GtkWidget *button, PixmapCombo *pc)
 	g_return_if_fail (pc->last_index < pc->num_elements);
 
 	g_signal_emit (pc, pixmap_combo_signals [CHANGED], 0,
-		       pc->elements[pc->last_index].id);
+		       pc->ids[pc->last_index]);
 }
 
 static void
@@ -111,77 +124,72 @@ pixmap_clicked (GtkWidget *button, PixmapCombo *pc)
 	gtk_combo_box_popup_hide (GTK_COMBO_BOX (pc));
 }
 
-static GtkWidget *
-image_from_data (guint8 const *data)
-{
-	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline (-1,  data, FALSE, NULL);
-	GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
-	g_object_unref (pixbuf);
-	return image;
-}
-
-static void
-pixmap_table_setup (PixmapCombo *pc)
-{
-	int row, col, index = 0;
-
-	pc->combo_table = gtk_table_new (pc->cols, pc->rows, 0);
-	pc->tool_tip = gtk_tooltips_new ();
-	g_object_ref (pc->tool_tip);
-	gtk_object_sink (GTK_OBJECT (pc->tool_tip));
-
-	for (row = 0; row < pc->rows; row++) {
-		for (col = 0; col < pc->cols; ++col, ++index) {
-			PixmapComboElement const *element = pc->elements + index;
-			GtkWidget *button;
-
-			if (element->inline_gdkpixbuf == NULL) {
-				/* exit both loops */
-				row = pc->rows;
-				break;
-			}
-
-			button = gtk_button_new ();
-			gtk_container_add (GTK_CONTAINER (button),
-				image_from_data (element->inline_gdkpixbuf));
-			gtk_button_set_relief (GTK_BUTTON (button),
-				GTK_RELIEF_NONE);
-			gtk_tooltips_set_tip (pc->tool_tip,
-				button,
-				gettext (element->untranslated_tooltip),
-				"What goes here ??");
-
-			gtk_table_attach (GTK_TABLE (pc->combo_table), button,
-					  col, col+1, row+1, row+2, GTK_FILL, GTK_FILL, 1, 1);
-
-			g_signal_connect (button, "clicked",
-					  G_CALLBACK (pixmap_clicked), pc);
-			g_object_set_data (G_OBJECT (button), "gal",
-						  GINT_TO_POINTER (index));
-		}
-	}
-	pc->num_elements = index;
-
-	gtk_widget_show_all (pc->combo_table);
-}
-
 static void
 pixmap_combo_construct (PixmapCombo *pc,
 			PixmapComboElement const *elements, int ncols, int nrows)
 {
+	int row, col;
+
 	g_return_if_fail (pc != NULL);
 	g_return_if_fail (IS_PIXMAP_COMBO (pc));
 
 	/* Our table selector */
 	pc->cols = ncols;
 	pc->rows = nrows;
-	pc->elements = elements;
-	pixmap_table_setup (pc);
+	pc->pixbufs = g_new0 (GdkPixbuf *, ncols * nrows);
+	pc->ids = g_new0 (int, ncols * nrows);
+	pc->num_elements = 0;
+
+	pc->combo_table = gtk_table_new (ncols, nrows, 0);
+	pc->tool_tip = gtk_tooltips_new ();
+	g_object_ref (pc->tool_tip);
+	gtk_object_sink (GTK_OBJECT (pc->tool_tip));
+
+	for (row = 0; row < nrows; row++) {
+		for (col = 0; col < ncols; col++) {
+			PixmapComboElement const *element = elements + pc->num_elements;
+			guint8 const *data = element->inline_gdkpixbuf;
+			GtkWidget *button;
+			GdkPixbuf *pixbuf;
+
+			if (!data)
+				goto nomore;
+
+			/* Deliberately copy the pixels.  */
+			pixbuf = gdk_pixbuf_new_from_inline (-1, data, TRUE, NULL);
+			pc->ids[pc->num_elements] = element->id;
+			pc->pixbufs[pc->num_elements] = pixbuf;
+
+			button = gtk_button_new ();
+			gtk_container_add (GTK_CONTAINER (button),
+					   gtk_image_new_from_pixbuf (pixbuf));
+			gtk_button_set_relief (GTK_BUTTON (button),
+					       GTK_RELIEF_NONE);
+			gtk_tooltips_set_tip (pc->tool_tip,
+					      button,
+					      gettext (element->untranslated_tooltip),
+					      "What goes here?");
+
+			gtk_table_attach (GTK_TABLE (pc->combo_table), button,
+					  col, col + 1,
+					  row + 1, row + 2,
+					  GTK_FILL, GTK_FILL, 1, 1);
+
+			g_signal_connect (button, "clicked",
+					  G_CALLBACK (pixmap_clicked), pc);
+			g_object_set_data (G_OBJECT (button), "gal",
+					   GINT_TO_POINTER (pc->num_elements));
+
+			pc->num_elements++;
+		}
+	}
+ nomore:
+	gtk_widget_show_all (pc->combo_table);
 
 	pc->preview_button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (pc->preview_button), GTK_RELIEF_NONE);
 
-	pc->preview_pixmap = image_from_data (elements [0].inline_gdkpixbuf);
+	pc->preview_pixmap = gtk_image_new_from_pixbuf (pc->pixbufs[0]);
 
 	gtk_container_add (GTK_CONTAINER (pc->preview_button), GTK_WIDGET (pc->preview_pixmap));
 	gtk_widget_set_size_request (GTK_WIDGET (pc->preview_pixmap), 24, 24);
@@ -201,7 +209,6 @@ pixmap_combo_new (PixmapComboElement const *elements, int ncols, int nrows)
 {
 	PixmapCombo *pc;
 
-	g_return_val_if_fail (elements != NULL, NULL);
 	g_return_val_if_fail (elements != NULL, NULL);
 	g_return_val_if_fail (ncols > 0, NULL);
 	g_return_val_if_fail (nrows > 0, NULL);
@@ -227,8 +234,8 @@ pixmap_combo_select_pixmap (PixmapCombo *pc, int index)
 		GTK_CONTAINER (pc->preview_button),
 		pc->preview_pixmap);
 
-	pc->preview_pixmap = image_from_data (
-		pc->elements [index].inline_gdkpixbuf);
+	pc->preview_pixmap =
+		gtk_image_new_from_pixbuf (pc->pixbufs[index]);
 	gtk_widget_show (pc->preview_pixmap);
 
 	gtk_container_add (

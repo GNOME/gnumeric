@@ -154,8 +154,8 @@ go_pattern_selector (GOColor fore, GOColor back)
 		{ N_("Large Circles"),			NULL, 45},
 		{ N_("Bricks"),				NULL, 46}
 	};
-#define H 20
-#define W 20
+	const int H = 20;
+	const int W = 20;
 	GtkWidget *w;
 	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
 	guchar    *buf = gdk_pixbuf_get_pixels (pixbuf);
@@ -183,7 +183,7 @@ go_pattern_selector (GOColor fore, GOColor back)
 	path[1].y = path[2].y = H;
 	svp = art_svp_from_vpath (path);
 	for (i = 0; i < G_N_ELEMENTS (elements) ; i++) {
-		memset (buf, 0, rowstride * 20);
+		memset (buf, 0, rowstride * H);
 		pat.pattern = i;
 		go_pattern_render_svp (&pat, svp, 0, 0, W, H, buf, rowstride);
 		data = gdk_pixdata_from_pixbuf (&pixdata, pixbuf, FALSE);
@@ -194,10 +194,13 @@ go_pattern_selector (GOColor fore, GOColor back)
 	w = pixmap_combo_new (elements, 6, 4);
 	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
 	g_object_unref (pixbuf);
+
+	for (i = 0; i < G_N_ELEMENTS (elements) ; i++) {
+		g_free (elements[i].inline_gdkpixbuf);
+		elements[i].inline_gdkpixbuf = NULL;
+	}
 	return w;
 }
-#undef H
-#undef W
 
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*

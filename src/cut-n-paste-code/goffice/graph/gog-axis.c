@@ -224,6 +224,10 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 	g_signal_connect_object (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_pos_changed), axis, 0);
+
+	g_object_set_data_full (G_OBJECT (notebook), "gui", gui,
+				(GDestroyNotify)g_object_unref);
+
 	gtk_widget_show (GTK_WIDGET (notebook));
 	return notebook;
 }

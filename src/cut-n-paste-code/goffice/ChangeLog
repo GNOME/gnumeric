@@ -1,5 +1,9 @@
 2003-08-29  Morten Welinder  <terra@gnome.org>
 
+	* graph/gog-axis.c (gog_axis_class_init): Plug leak.
+
+	* utils/go-pattern.c (go_pattern_selector): Free the pixel data.
+
 	* graph/gog-guru.c (graph_typeselect_minor): Handle ->plot
 	changing underneath us.
 

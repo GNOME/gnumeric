@@ -45,9 +45,10 @@ typedef struct {
 	GtkComboBox     combo_box;
 
 	/* Static information */
-	PixmapComboElement const *elements;
 	int cols, rows;
 	int num_elements;
+	GdkPixbuf **pixbufs;
+	int *ids;
 
 	/* State info */
 	int last_index;

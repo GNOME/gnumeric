@@ -1,3 +1,8 @@
+2003-08-29  Morten Welinder  <terra@gnome.org>
+
+	* widget-pixmap-combo.c (pixmap_combo_construct): Rework to copy
+	all parts of elements needed later.
+
 2003-08-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* preview-file-selection.c: use  HSCALE and VSCALE rather than SCALE
