@@ -269,15 +269,17 @@ editable_label_get_text  (EditableLabel const *el)
 void
 editable_label_set_color (EditableLabel *el, GdkColor *color)
 {
-	int contrast = color->red + color->green + color->blue;
-	GdkColor base = *color;
-	GdkColor text = (contrast >= 0x18000) ? gs_black : gs_white;
+	if (color != NULL) {
+		int contrast = color->red + color->green + color->blue;
+		GdkColor base = *color;
+		GdkColor text = (contrast >= 0x18000) ? gs_black : gs_white;
 
-	g_return_if_fail (IS_EDITABLE_LABEL (el));
-	g_return_if_fail (el->unedited_text == NULL);
+		g_return_if_fail (IS_EDITABLE_LABEL (el));
+		g_return_if_fail (el->unedited_text == NULL);
 
-	/* ignore the current colors */
-	el_set_color_gdk (el, &base, &text);
+		/* ignore the current colors */
+		el_set_color_gdk (el, &base, &text);
+	}
 }
 
 GtkWidget *
