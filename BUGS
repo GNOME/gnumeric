@@ -8,13 +8,9 @@ Release Critical
 ----------------
 
 - when only graph is selected but it only has 1 chart allow going backward
-- check why 
-- legend does not redraw when item name changes
 
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.
-
-* Look into octave/matlab filters
 
 * compartmentalize gconf support
 
@@ -450,6 +446,8 @@ Misc stuff that should be fixed
 - Remove duplication of code between analysis-tools.c and collect.c
 
 - Make deletion work for multiple ranges.
+
+- Look into octave/matlab filters
 
 - autoformat
     - leaking styles when an edge is disabled
