@@ -92,7 +92,7 @@ gtk_combo_stack_class_init (GtkObjectClass *object_class)
 		gtk_marshal_NONE__INT,
 		GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
-	
+
 }
 
 static void
@@ -126,7 +126,7 @@ cb_button_release_event (GtkList *list, GdkEventButton *e, gpointer data)
 
 	gtk_combo_stack_clear_selection (combo);
 	gtk_combo_box_popup_hide (GTK_COMBO_BOX (combo));
-	
+
 	if (combo->priv->curr_item > 0) {
 		gint dummy, w, h;
 		gdk_window_get_geometry (e->window, &dummy, &dummy, &w, &h, &dummy);
@@ -144,7 +144,7 @@ list_select_cb (GtkList *list, GtkWidget *child, gpointer data)
 	GtkComboStack *combo = GTK_COMBO_STACK (data);
 	GList *ptr, *items = gtk_container_children (GTK_CONTAINER (list));
 	guint i = 0;
-	
+
 	gtk_combo_stack_clear_selection (combo);
 
 	for (ptr = items; ptr != NULL ; i++ ) {
@@ -234,7 +234,7 @@ gtk_combo_stack_push_item (GtkComboStack *combo,
 			   const gchar *item)
 {
 	GtkWidget *listitem;
-	
+
 	g_return_if_fail (item != NULL);
 
 	combo->priv->num_items++;

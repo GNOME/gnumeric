@@ -13,6 +13,7 @@ Morten:
 	* Plug autoformat leak.
 	* Import all gal widgets we use.
 	* Fix lots of UTF-8/filename problems.
+	* Make pixmap combos multihead safe.
 
 --------------------------------------------------------------------------
 

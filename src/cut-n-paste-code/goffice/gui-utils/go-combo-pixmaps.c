@@ -24,9 +24,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtktable.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #include "gtk-combo-box.h"
 #include "widget-pixmap-combo.h"
@@ -56,8 +54,22 @@ pixmap_combo_destroy (GtkObject *object)
 	if (pc->tool_tip)
 		g_object_unref (pc->tool_tip);
 	pc->tool_tip = NULL;
-	
+
 	(*pixmap_combo_parent_class->destroy) (object);
+}
+
+static void
+cb_screen_changed (PixmapCombo *pc, GdkScreen *previous_screen)
+{
+	GtkWidget *w = GTK_WIDGET (pc);
+	GdkScreen *screen = gtk_widget_has_screen (w)
+		? gtk_widget_get_screen (w)
+		: NULL;
+
+	if (screen) {
+		GtkWidget *toplevel = gtk_widget_get_toplevel (pc->combo_table);
+		gtk_window_set_screen (GTK_WINDOW (toplevel), screen);
+	}
 }
 
 static void
@@ -93,7 +105,7 @@ emit_change (GtkWidget *button, PixmapCombo *pc)
 static void
 pixmap_clicked (GtkWidget *button, PixmapCombo *pc)
 {
-	int index = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (button)));
+	int index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "gal"));
 	pixmap_combo_select_pixmap (pc, index);
 	emit_change (button, pc);
 	gtk_combo_box_popup_hide (GTK_COMBO_BOX (pc));
@@ -144,7 +156,7 @@ pixmap_table_setup (PixmapCombo *pc)
 
 			g_signal_connect (button, "clicked",
 					  G_CALLBACK (pixmap_clicked), pc);
-			gtk_object_set_user_data (GTK_OBJECT (button),
+			g_object_set_data (G_OBJECT (button), "gal",
 						  GINT_TO_POINTER (index));
 		}
 	}
@@ -173,6 +185,7 @@ pixmap_combo_construct (PixmapCombo *pc,
 
 	gtk_container_add (GTK_CONTAINER (pc->preview_button), GTK_WIDGET (pc->preview_pixmap));
 	gtk_widget_set_size_request (GTK_WIDGET (pc->preview_pixmap), 24, 24);
+	g_signal_connect (G_OBJECT (pc), "screen-changed", G_CALLBACK (cb_screen_changed), NULL);
 	g_signal_connect (pc->preview_button, "clicked",
 			  G_CALLBACK (emit_change), pc);
 
@@ -217,7 +230,7 @@ pixmap_combo_select_pixmap (PixmapCombo *pc, int index)
 	pc->preview_pixmap = image_from_data (
 		pc->elements [index].inline_gdkpixbuf);
 	gtk_widget_show (pc->preview_pixmap);
-	
+
 	gtk_container_add (
 		GTK_CONTAINER (pc->preview_button), pc->preview_pixmap);
 }

@@ -53,7 +53,7 @@ color_group_class_init (ColorGroupClass *klass)
 	GObjectClass *object_class;
 
 	object_class = (GObjectClass*) klass;
-	
+
 	object_class->finalize = &color_group_finalize;
 	parent_class = g_type_class_peek (PARENT_TYPE);
 
@@ -112,7 +112,7 @@ initialize_group_names (void)
 /**
  * color_group_get :
  * @name :
- * @context : 
+ * @context :
  *
  * Look up the name/context specific color-group.  Return NULL if it is not found.
  * No reference is added if it is found.
@@ -180,7 +180,7 @@ color_group_finalize (GObject *obj)
 		g_ptr_array_free (cg->history, TRUE);
 		cg->history = NULL;
 	}
-	
+
 	if (parent_class->finalize)
 		(parent_class->finalize) (obj);
 }
@@ -193,7 +193,7 @@ gint
 color_group_get_history_size (ColorGroup *cg)
 {
 	g_return_val_if_fail (cg != NULL, 0);
-	
+
 	return cg->history_size;
 }
 
@@ -260,7 +260,7 @@ color_group_fetch (const gchar *name, gpointer context)
 	 * make the upper limit twice the size of the number of displayed items
 	 * (2 * 8) ?
 	 */
-	cg->history_size = 16; 
+	cg->history_size = 16;
 
 	/* lastly register this name */
 	g_hash_table_insert (group_names, cg, cg);
@@ -298,14 +298,14 @@ void
 color_group_add_color (ColorGroup *cg, GdkColor const * const color)
 {
 	int i;
-	
+
 	g_return_if_fail(cg != NULL);
 	g_return_if_fail(color != NULL); /* Can't be NULL */
 
 	/* Let's be smart and see if it's already in our history, no need to add it again*/
 	for (i = 0; i < (int) cg->history->len; i++) {
 		GdkColor *current = g_ptr_array_index (cg->history, i);
-		
+
 		if (gdk_color_equal (color, current))
 			return;
 	}

@@ -32,8 +32,7 @@
 
 #include <gnumeric-config.h>
 
-#include <gtk/gtkentry.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>

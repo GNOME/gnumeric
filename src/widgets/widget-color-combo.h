@@ -1,7 +1,7 @@
 /* File import from gal to gnumeric by import-gal.  Do not edit.  */
 
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * widget-color-combo.h - A color selector combo box
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -33,7 +33,7 @@
 #ifndef GNUMERIC_WIDGET_COLOR_COMBO_H
 #define GNUMERIC_WIDGET_COLOR_COMBO_H
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <widgets/gtk-combo-box.h>
 #include <widgets/color-palette.h>
 

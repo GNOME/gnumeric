@@ -26,7 +26,7 @@
 #ifndef _GTK_COMBO_BOX_H_
 #define _GTK_COMBO_BOX_H_
 
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -54,7 +54,7 @@ struct _GtkComboBoxClass {
 	/*
 	 * invoked when the popup has been hidden, if the signal
 	 * returns TRUE, it means it should be killed from the
-	 */ 
+	 */
 	gboolean  *(*pop_down_done)   (GtkComboBox *cbox, GtkWidget *);
 
 	/*

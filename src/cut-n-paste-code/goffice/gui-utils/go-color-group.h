@@ -1,7 +1,7 @@
 /* File import from gal to gnumeric by import-gal.  Do not edit.  */
 
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * color-group.h - Utility to keep a shered memory of custom colors
  * between arbitrary widgets.
  * Copyright 2000, Michael Levy
@@ -50,7 +50,7 @@ typedef struct _ColorGroup {
 
 typedef struct {
 	GObjectClass parent_class;
-	
+
 	/* Signals emited by this object */
 	void (*custom_color_add) (ColorGroup *color_group, GdkColor const * const color);
 } ColorGroupClass;

@@ -1,7 +1,7 @@
 /* File import from gal to gnumeric by import-gal.  Do not edit.  */
 
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * color-palette.h - A color selector palette
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -32,9 +32,7 @@
 #ifndef GNUMERIC_COLOR_PALETTE_H
 #define GNUMERIC_COLOR_PALETTE_H
 
-#include <gtk/gtktooltips.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomeui/gnome-color-picker.h>
 #include <widgets/color-group.h>
@@ -57,7 +55,7 @@ typedef struct _ColorPalette {
 	/* The current color */
 	GdkColor *current_color;
 	gboolean  current_is_default;
-	
+
         /*
 	 * Position of the last possible position
 	 * for custom colors in **items
@@ -74,14 +72,14 @@ typedef struct _ColorPalette {
 
 	/* The table with our default color names */
 	ColorNamePair *default_set;
-	
+
 	/* The color group to which we belong */
 	ColorGroup *color_group;
 } ColorPalette;
 
 typedef struct {
 	GtkVBoxClass parent_class;
-	
+
 	/* Signals emited by this widget */
 	void (* color_changed) (ColorPalette *color_palette, GdkColor *color,
 				gboolean custom, gboolean by_user, gboolean is_default);

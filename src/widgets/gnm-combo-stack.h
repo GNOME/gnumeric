@@ -27,7 +27,7 @@
 #ifndef _GTK_COMBO_STACK_H
 #define _GTK_COMBO_STACK_H
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include "gtk-combo-box.h"
 
 G_BEGIN_DECLS
