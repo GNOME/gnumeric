@@ -1,5 +1,22 @@
 1999-12-21  Jon K Hellan  <hellan@acm.org>
 
+	* ms-excel-write.c (write_index, write_db_cell, write_block,
+	write_sheet): Write row info records in blocks of 32. Excel was
+	unable to read files we made if they were over 517 rows. Limit is
+	now pushed to 16544.
+	(write_index): Assertion no longer true - removed it. Refer to
+	Excel doc page.
+	(write_db_cell): Write offsets for all rows in block in single
+	record. Add number of rows parameter.
+	(write_block): New function. Write a block of rows. Previously
+	part of write_sheet, but changed for blocked row info.
+	(write_sheet): Move inner loop to write_block.
+	(new_sheet): Initialize sheet->cells to 0.
+	
+	* excel.h (ROW_BLOCK_MAX_LEN): Define.
+
+1999-12-21  Jon K Hellan  <hellan@acm.org>
+
 	* ms-excel-write.c (fixup_fill_colors): Fix minor bug.
 
 1999-12-17  Jon K Hellan  <hellan@acm.org>

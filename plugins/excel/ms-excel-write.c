@@ -1684,7 +1684,7 @@ border_type_to_excel (StyleBorderType btype, eBiff_version ver)
  * for black, i.e. fg(file) = 8, bg(file) = fg(internal). This is what
  * we'll do, although I don't know if Excel always does.
  *
- * This makes us compatible with our owin import code.  The import
+ * This makes us compatible with our own import code.  The import
  * side test can't be correct, though. Excel displays fg(file) = 0,
  * bg(file) = 1 as black (=0) background. Gnumeric displays background
  * as white, since fg(file) = 0.  But I'll leave this ugliness in for
@@ -2945,6 +2945,7 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 */
 }
 
+/* See: S59D99.HTM */
 static void
 write_index (MsOleStream *s, ExcelSheet *sheet, MsOlePos pos)
 {
@@ -2961,7 +2962,6 @@ write_index (MsOleStream *s, ExcelSheet *sheet, MsOlePos pos)
 	else
 		s->lseek (s, pos+4+12, MsOleSeekSet);
 
-	g_assert (sheet->maxy >= sheet->dbcells->len);
 	for (lp = 0; lp < sheet->dbcells->len; lp++) {
 		MsOlePos pos = g_array_index (sheet->dbcells, MsOlePos, lp);
 		MS_OLE_SET_GUINT32 (data, pos - sheet->wb->streamPos);
@@ -3018,75 +3018,79 @@ write_rowinfo (BiffPut *bp, ExcelSheet *sheet, guint32 row, guint32 width)
 	return pos;
 }
 
+/**
+ * write_db_cell
+ * @bp        BIFF buffer
+ * @sheet     sheet
+ * @ri_start  start positions of first 2 rowinfo records
+ * @rc_start  start positions of first row in each cell in block
+ * @nrows  no. of rows in block.
+ *
+ * Write DBCELL (Stream offsets) record for a block of rows.
+ *
+ * See: 'Finding records in BIFF files': S59E28.HTM
+ *       and 'DBCELL': S59D6D.HTM
+ */
 static void
-write_db_cell (BiffPut *bp, ExcelSheet *sheet, MsOlePos start)
+write_db_cell (BiffPut *bp, ExcelSheet *sheet,
+	       MsOlePos *ri_start, MsOlePos *rc_start, guint32 nrows)
 {
-	/* See: 'Finding records in BIFF files': S59E28.HTM */
-	/* See: 'DBCELL': S59D6D.HTM */
-	
 	MsOlePos pos;
+	guint32 i;
+	guint16 offset;
 
-	guint8 *data = ms_biff_put_len_next (bp, BIFF_DBCELL, 6);
+	guint8 *data = ms_biff_put_len_next (bp, BIFF_DBCELL, 4 + nrows * 2);
 	pos = bp->streamPos;
 
-	MS_OLE_SET_GUINT32 (data    , pos - start);
-	MS_OLE_SET_GUINT16 (data + 4, 0); /* Only 1 row starts at the beggining */
+	MS_OLE_SET_GUINT32 (data, pos - ri_start [0]);
+	offset = rc_start [0] - ri_start [1];
+	for (i = 0 ; i < nrows; i++, offset = rc_start [i] - rc_start [i - 1]) 
+		MS_OLE_SET_GUINT16 (data + 4 + i * 2, offset); 
 
 	ms_biff_put_commit (bp);
 
 	g_array_append_val (sheet->dbcells, pos);
 }
 
-/* See: 'Finding records in BIFF files': S59E28.HTM */
-/* and S59D99.HTM */
-static void
-write_sheet (BiffPut *bp, ExcelSheet *sheet)
-{
-	guint32 x, y, maxx, maxy;
-	MsOlePos index_off;
+/**
+ * write_block
+ * @bp     BIFF buffer
+ * @sheet  sheet
+ * @begin  first row no
+ * @nrows  no. of rows in block.
+ *
+ * Write a block of rows. Returns no. of last row written.
+ *
+ * We do not have to write row records for empty rows which use the
+ * default style. But we do not test for this yet.
+ *
+ * See: 'Finding records in BIFF files': S59E28.HTM *
+ */
+static guint32
+write_block (BiffPut *bp, ExcelSheet *sheet, guint32 begin, int nrows)
+{		
+	guint32 maxx = sheet->maxx;
+	guint32 end;
+	guint32 x, y;
+	MsOlePos  ri_start [2]; /* Row info start */
+	MsOlePos *rc_start;	/* Row cells start */
 
-	sheet->streamPos = biff_bof_write (bp, sheet->wb->ver, eBiffTWorksheet);
+	if (nrows > sheet->maxy - begin) /* Incomplete final block? */
+		nrows = sheet->maxy - begin;
+	end = begin + nrows - 1;
 
-	if (sheet->maxy > 4096)
-		g_error ("Sheet seems impossibly big");
-	
-	if (sheet->wb->ver >= eBiffV8) {
-		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
-						     sheet->maxy*4 + 16);
-		index_off = bp->streamPos;
-		MS_OLE_SET_GUINT32 (data, 0);
-		MS_OLE_SET_GUINT32 (data +  4, 0);
-		MS_OLE_SET_GUINT32 (data +  8, sheet->maxy);
-		MS_OLE_SET_GUINT32 (data + 12, 0);
-	} else {
-		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
-						     sheet->maxy*4 + 12);
-		index_off = bp->streamPos;
-		MS_OLE_SET_GUINT32 (data, 0);
-		MS_OLE_SET_GUINT16 (data + 4, 0);
-		MS_OLE_SET_GUINT16 (data + 6, sheet->maxy);
-		MS_OLE_SET_GUINT32 (data + 8, 0);
-	}
-	ms_biff_put_commit (bp);
+	ri_start [0] = write_rowinfo (bp, sheet, begin, maxx);
+	ri_start [1] = bp->streamPos;
+	for (y = begin + 1; y <= end; y++)
+		(void) write_rowinfo (bp, sheet, y, maxx);
 
-	write_sheet_bools (bp, sheet);
-
-/* FIXME: INDEX, UG! see S59D99.HTM */
-/* Finding cell records in Biff files see: S59E28.HTM */
-	maxx = sheet->maxx;
-	maxy = sheet->maxy;
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_write_debug > 1)
-		printf ("Saving sheet '%s' geom (%d, %d)\n", 
-			sheet->gnum_sheet->name, maxx, maxy);
-#endif
-	for (y = 0; y < maxy; y++) {
+	rc_start = g_new0 (MsOlePos, nrows);
+	for (y = begin; y <= end; y++) {
 		guint32 run_size = 0;
 		GList *xf_list = NULL;
-		MsOlePos start;
 
-		start = write_rowinfo (bp, sheet, y, maxx);
-
+		/* Save start pos of 1st cell in row */
+		rc_start [y - begin] = bp->streamPos;
 		for (x = 0; x < maxx; x++) {
 			const ExcelCell *cell = excel_cell_get (sheet, x, y);
 			if (!cell->gnum_cell) {
@@ -3112,10 +3116,60 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 			g_list_free (xf_list);
 			xf_list = NULL;
 		}
-
-		write_db_cell (bp, sheet, start);
 	}
 
+	write_db_cell (bp, sheet, ri_start, rc_start, nrows);
+	g_free (rc_start);
+	
+	return y - 1;
+}
+
+/* See: 'Finding records in BIFF files': S59E28.HTM */
+/* and S59D99.HTM */
+static void
+write_sheet (BiffPut *bp, ExcelSheet *sheet)
+{
+	guint32 y, block_end;
+	int rows_in_block = ROW_BLOCK_MAX_LEN;
+	MsOlePos index_off;
+	/* No. of blocks of rows. Only correct as long as all rows -
+	   including empties - have row info records */
+	guint32 nblocks = (sheet->maxy - 1) / rows_in_block + 1; 
+
+	sheet->streamPos = biff_bof_write (bp, sheet->wb->ver, eBiffTWorksheet);
+
+	if (sheet->maxy > 16544)
+		g_error ("Sheet seems impossibly big");
+
+	if (sheet->wb->ver >= eBiffV8) {
+		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
+						     nblocks * 4 + 16);
+		index_off = bp->streamPos;
+		MS_OLE_SET_GUINT32 (data, 0);
+		MS_OLE_SET_GUINT32 (data +  4, 0);
+		MS_OLE_SET_GUINT32 (data +  8, sheet->maxy);
+		MS_OLE_SET_GUINT32 (data + 12, 0);
+	} else {
+		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
+						     nblocks * 4 + 12);
+		index_off = bp->streamPos;
+		MS_OLE_SET_GUINT32 (data, 0);
+		MS_OLE_SET_GUINT16 (data + 4, 0);
+		MS_OLE_SET_GUINT16 (data + 6, sheet->maxy);
+		MS_OLE_SET_GUINT32 (data + 8, 0);
+	}
+	ms_biff_put_commit (bp);
+
+	write_sheet_bools (bp, sheet);
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 1)
+		printf ("Saving sheet '%s' geom (%d, %d)\n", 
+			sheet->gnum_sheet->name, sheet->maxx, sheet->maxy);
+#endif
+	for (y = 0; y < sheet->maxy; y = block_end + 1)
+		block_end = write_block (bp, sheet, y, rows_in_block);
+	
 	write_index (bp->pos, sheet, index_off);
 	write_sheet_tail (bp, sheet);
 
@@ -3144,7 +3198,7 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 
 	ms_formula_cache_init (sheet);
 	sheet->cell_used_map = cell_used_map_new (sheet);
-	sheet->cells = g_new (ExcelCell, sheet->maxy * sheet->maxx);
+	sheet->cells = g_new0 (ExcelCell, sheet->maxy * sheet->maxx);
 }
 
 static void

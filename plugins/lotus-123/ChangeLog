@@ -1,6 +1,10 @@
+1999-12-21  Jon K Hellan  <hellan@acm.org>
+ 	
+	* README: I was credited for this, but I did not write it.
+ 
 1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
  
-        * boot.c (lotus_cleanup_plugin): free pd->title
+	* boot.c (lotus_cleanup_plugin): free pd->title
 
 1999-10-13  Michael Meeks  <mmeeks@gnu.org>
 

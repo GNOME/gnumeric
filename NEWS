@@ -11,6 +11,7 @@ Jon:
 	* Lots of Excel style export work:
 	format, font, colors, borders, alignment, wrap, rotation.
 	* Excel export row/col sizing.
+	* Excel fixed up DBCELL collating to export lots of rows correctly.
 
 JP:
 	* Added sorting of infinite ranges
