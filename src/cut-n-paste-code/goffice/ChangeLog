@@ -1,3 +1,8 @@
+2004-08-17  Jon K Hellan  <hellan@acm.org>
+
+	* graph/gog-style.c (cb_image_file_select): is_save parameter to
+	gui_image_file_select no longer needed.
+
 2004-08-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-axis.c (gog_axis_editor): don't show preferences for
