@@ -15,6 +15,7 @@ Jody:
 	* enable/disable transposition of ins col/row menu for non-bonobo.
 	* Misc fixes for named expressions.
 	* Improve initial state for expr-entry.
+	* fix 1 pixel offset for comment indicators.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=72521
 	* Don't crash XL when exporting intersheet references.

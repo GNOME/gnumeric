@@ -1,3 +1,8 @@
+2002-03-02  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-cell-comment.c (comment_get_points) : fix 1 pixel
+	  offset from right edge.
+
 2002-02-28  Jody Goldberg <jody@gnome.org>
 
 	* src/eval.c (handle_tree_deps) : disregard inactive names.

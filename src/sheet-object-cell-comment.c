@@ -81,7 +81,7 @@ comment_get_points (SheetControlGUI *scg, SheetObject *so)
 		far_col = 1 + so->anchor.cell_bound.start.col;
 
 	/* TODO : This could be optimized using the offsets associated with the visible region */
-	x = scg_colrow_distance_get (scg, TRUE, 0, far_col) - 1;
+	x = scg_colrow_distance_get (scg, TRUE, 0, far_col);
 	y = scg_colrow_distance_get (scg, FALSE, 0, so->anchor.cell_bound.start.row) + 1;
 
 	points = gnome_canvas_points_new (3);
