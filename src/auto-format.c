@@ -217,9 +217,9 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 
 			closure.typ = AF_UNKNOWN;
 			closure.explicit = explicit;
-			workbook_foreach_cell_in_range (epos, v, TRUE,
-							&cb_af_suggest,
-							&closure);
+			workbook_foreach_cell_in_range (epos, v,
+				CELL_ITER_IGNORE_BLANK,
+				&cb_af_suggest, &closure);
 			return closure.typ;
 		}
 

@@ -518,8 +518,9 @@ search_collect_cells (SearchReplace *sr, Sheet *sheet)
 		cells = g_ptr_array_new ();
 		range_list = global_range_list_parse (sr->curr_sheet, sr->range_text);
 		global_range_list_foreach (range_list,
-			   eval_pos_init_sheet (&ep, sr->curr_sheet), TRUE,
-			   (ForeachCellCB) search_collect_cells_cb, cells);
+			   eval_pos_init_sheet (&ep, sr->curr_sheet),
+			   CELL_ITER_IGNORE_BLANK,
+			   (CellIterFunc) &search_collect_cells_cb, cells);
 		range_list_destroy (range_list);
 		break;
 	}

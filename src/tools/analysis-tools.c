@@ -141,7 +141,7 @@ new_data_set (Value *range, gboolean ignore_non_num, gboolean read_label,
 	the_set->complete = !ignore_non_num;
 	the_set->read_label = read_label;
 
-	result = workbook_foreach_cell_in_range (pos, range, FALSE,
+	result = workbook_foreach_cell_in_range (pos, range, CELL_ITER_ALL,
 						 cb_store_data, the_set);
 	g_free (pos);
 
@@ -631,8 +631,9 @@ write_data (WorkbookControl *wbc, data_analysis_output_t *dao, GArray *data)
 	if (dao->cols <= dao->offset_col)
 		return;
 
-	sheet_foreach_cell_in_range (dao->sheet, FALSE, st_col, st_row, end_col, end_row,
-				     (ForeachCellCB)&WriteData_ForeachCellCB, data);
+	sheet_foreach_cell_in_range (dao->sheet, CELL_ITER_ALL,
+		st_col, st_row, end_col, end_row,
+		(CellIterFunc)&WriteData_ForeachCellCB, data);
 }
 
 static gboolean 

@@ -1144,14 +1144,14 @@ global_range_list_parse (Sheet *sheet, char const *str)
 
 Value *
 global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
-			   gboolean	 only_existing,
-			   ForeachCellCB handler,
+			   CellIterFlags flags,
+			   CellIterFunc  handler,
 			   gpointer	 closure)
 {
 	Value *v;
 	for (; gr_list != NULL; gr_list = gr_list->next) {
 		v = workbook_foreach_cell_in_range (ep, gr_list->data,
-			only_existing, handler, closure);
+			flags, handler, closure);
 		if (v != NULL)
 			return v;
 	}

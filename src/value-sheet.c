@@ -269,7 +269,7 @@ value_area_foreach (EvalPos const *ep, Value const *v,
 		wrap.ep = ep;
 		wrap.real_data = closure;
 		return workbook_foreach_cell_in_range (
-			ep, v, TRUE,
+			ep, v, CELL_ITER_IGNORE_BLANK,
 			&cb_wrapper_foreach_cell_in_area,
 			(void *)&wrap);
 	}

@@ -1,3 +1,13 @@
+2002-07-13  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_foreach_cell_in_range) : fix 3d handling,
+	  and convert.
+
+	* src/sheet.c (sheet_foreach_cell_in_range) : convert from boolean to
+	  bit flags and support only_visible in addition to only existing.
+	(sheet_col_size_fit_pixels) : Only fit visible cells.
+	(sheet_row_size_fit_pixels) : ditto.
+
 2002-07-12  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (cb_max_cell_width) : leave merged cells out of the

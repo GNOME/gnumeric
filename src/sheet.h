@@ -81,13 +81,11 @@ Cell       *sheet_cell_fetch		(Sheet *sheet, int col, int row);
 Cell       *sheet_cell_new		(Sheet *sheet, int col, int row);
 void        sheet_cell_remove		(Sheet *sheet, Cell *cell, gboolean redraw);
 
-/* Iteration utilities */
-/* See also : workbook_foreach_cell_in_range */
-Value      *sheet_foreach_cell_in_range	(Sheet *sheet, gboolean only_existing,
+Value      *sheet_foreach_cell_in_range	(Sheet *sheet, CellIterFlags flags,
 					 int start_col, int start_row,
 					 int end_col, int end_row,
-					 ForeachCellCB callback,
-					 void *closure);
+					 CellIterFunc callback,
+					 gpointer     closure);
 GPtrArray  *sheet_cells                  (Sheet *sheet,
 					  int start_col, int start_row,
 					  int end_col, int end_row,

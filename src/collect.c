@@ -156,7 +156,7 @@ collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
 
 	err = function_iterate_argument_values (ep, &callback_function_collect,
 		&cl, exprlist,
-		TRUE, flags&COLLECT_IGNORE_BLANKS);
+		TRUE, (flags & COLLECT_IGNORE_BLANKS) ?  CELL_ITER_IGNORE_BLANK : CELL_ITER_ALL);
 
 	if (err) {
 		g_assert (err->type == VALUE_ERROR);
@@ -486,7 +486,7 @@ collect_strings (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags, V
 
 	err = function_iterate_argument_values (ep, &callback_function_collect_strings,
 		&cl, exprlist,
-		TRUE, flags & COLLECT_IGNORE_BLANKS);
+		TRUE, (flags & COLLECT_IGNORE_BLANKS) ?  CELL_ITER_IGNORE_BLANK : CELL_ITER_ALL);
 
 	if (err) {
 		g_assert (err->type == VALUE_ERROR);

@@ -1000,7 +1000,7 @@ typedef struct {
  */
 static Value *
 cb_iterate_cellrange (Sheet *sheet, int col, int row,
-		      Cell *cell, void *user_data)
+		      Cell *cell, gpointer user_data)
 {
 	IterateCallbackClosure *data = user_data;
 	Value *res;
@@ -1033,10 +1033,10 @@ cb_iterate_cellrange (Sheet *sheet, int col, int row,
 Value *
 function_iterate_do_value (EvalPos const *ep,
 			   FunctionIterateCB  callback,
-			   void		*closure,
+			   gpointer	 closure,
 			   Value	*value,
 			   gboolean      strict,
-			   gboolean	 ignore_blank)
+			   CellIterFlags iter_flags)
 {
 	Value *res = NULL;
 
@@ -1056,8 +1056,7 @@ function_iterate_do_value (EvalPos const *ep,
 		res = (*callback)(ep, value, closure);
 		break;
 
-	case VALUE_ARRAY:
-	{
+	case VALUE_ARRAY: {
 		int x, y;
 
 		/* Note the order here.  */
@@ -1066,7 +1065,7 @@ function_iterate_do_value (EvalPos const *ep,
 				res = function_iterate_do_value (
 					ep, callback, closure,
 					value->v_array.vals [x][y],
-					strict, TRUE);
+					strict, CELL_ITER_IGNORE_BLANK);
 				if (res != NULL)
 					return res;
 			}
@@ -1080,7 +1079,7 @@ function_iterate_do_value (EvalPos const *ep,
 		data.closure  = closure;
 		data.strict   = strict;
 
-		res = workbook_foreach_cell_in_range (ep, value, ignore_blank,
+		res = workbook_foreach_cell_in_range (ep, value, iter_flags,
 						      cb_iterate_cellrange,
 						      &data);
 	}
@@ -1100,7 +1099,7 @@ function_iterate_do_value (EvalPos const *ep,
  *                   will stop and that error will be returned.  If FALSE, an
  *                   error will be passed on to the callback (as a Value *
  *                   of type VALUE_ERROR).
- * @ignore_blank:    If TRUE blanks will not be passed to the callback.
+ * @iter_flags:
  *
  * Return value:
  *    NULL            : if no errors were reported.
@@ -1118,7 +1117,7 @@ function_iterate_argument_values (EvalPos const		*ep,
 				  void			*callback_closure,
 				  GnmExprList		*expr_node_list,
 				  gboolean		 strict,
-				  gboolean		 ignore_blank)
+				  CellIterFlags		 iter_flags)
 {
 	Value * result = NULL;
 
@@ -1141,7 +1140,7 @@ function_iterate_argument_values (EvalPos const		*ep,
 		}
 
 		result = function_iterate_do_value (ep, callback, callback_closure,
-						    val, strict, ignore_blank);
+						    val, strict, iter_flags);
 		value_release (val);
 	}
 	return result;

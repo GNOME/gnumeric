@@ -595,9 +595,9 @@ workbook_unref (Workbook *wb)
 Value *
 workbook_foreach_cell_in_range (EvalPos const *pos,
 				Value const	*cell_range,
-				gboolean	 only_existing,
-				ForeachCellCB	 handler,
-				void		*closure)
+				CellIterFlags	 flags,
+				CellIterFunc	 handler,
+				gpointer	 closure)
 {
 	Range  r;
 	Sheet *start_sheet, *end_sheet;
@@ -616,23 +616,22 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
 		int stop = end_sheet->index_in_wb;
 		if (i < stop) { int tmp = i; i = stop ; stop = tmp; }
 
-		g_return_val_if_fail (start_sheet->workbook == wb, VALUE_TERMINATE);
+		g_return_val_if_fail (end_sheet->workbook == wb, VALUE_TERMINATE);
 
 		while (i <= stop) {
-			res = sheet_foreach_cell_in_range (g_ptr_array_index (wb->sheets, i),
-							   only_existing,
-							   r.start.col, r.start.row,
-							   r.end.col, r.end.row,
-							   handler, closure);
+			res = sheet_foreach_cell_in_range (
+				g_ptr_array_index (wb->sheets, i), flags,
+				r.start.col, r.start.row, r.end.col, r.end.row,
+				handler, closure);
 			if (res != NULL)
 				return res;
 		}
+		return NULL;
 	}
 
-	return sheet_foreach_cell_in_range (start_sheet, only_existing,
-					    r.start.col, r.start.row,
-					    r.end.col, r.end.row,
-					    handler, closure);
+	return sheet_foreach_cell_in_range (start_sheet, flags,
+		r.start.col, r.start.row, r.end.col, r.end.row,
+		handler, closure);
 }
 
 /**

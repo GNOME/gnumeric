@@ -1415,7 +1415,7 @@ gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 		value_area_get_height (ei->pos, args[0]) *
 		value_area_get_width (ei->pos, args[0]);
 
-	workbook_foreach_cell_in_range (ei->pos, args[0], TRUE,
+	workbook_foreach_cell_in_range (ei->pos, args[0], CELL_ITER_IGNORE_BLANK,
 					&cb_countblank, &count);
 
 	return value_new_int (count);

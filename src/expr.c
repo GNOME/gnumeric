@@ -967,8 +967,9 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 		if (res->type != VALUE_CELLRANGE)
 			return value_duplicate (res);
 		if (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) {
-			workbook_foreach_cell_in_range (pos, res, TRUE,
-							cb_range_eval, NULL);
+			workbook_foreach_cell_in_range (pos, res,
+				CELL_ITER_IGNORE_BLANK,
+				cb_range_eval, NULL);
 			return value_duplicate (res);
 		} else {
 			/*

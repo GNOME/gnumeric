@@ -258,11 +258,9 @@ sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags)
 	/* Redraw the original region in case the span changes */
 	sheet_redraw_range (sheet, r);
 
-	sheet_foreach_cell_in_range (sheet, TRUE,
-				     r->start.col, r->start.row,
-				     r->end.col, r->end.row,
-				     cb_recalc_span1,
-				     GINT_TO_POINTER (flags));
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+		r->start.col, r->start.row, r->end.col, r->end.row,
+		cb_recalc_span1, GINT_TO_POINTER (flags));
 
 	/* Redraw the new region in case the span changes */
 	sheet_redraw_range (sheet, r);
@@ -1036,10 +1034,10 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col)
 	if (ci == NULL)
 		return 0;
 
-	sheet_foreach_cell_in_range (sheet, TRUE,
-				  col, 0,
-				  col, SHEET_MAX_ROWS-1,
-				  (ForeachCellCB)&cb_max_cell_width, &max);
+	sheet_foreach_cell_in_range (sheet,
+		CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_HIDDEN,
+		col, 0, col, SHEET_MAX_ROWS-1,
+		(CellIterFunc)&cb_max_cell_width, &max);
 
 	/* Reset to the default width if the column was empty */
 	if (max <= 0)
@@ -1085,10 +1083,11 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row)
 	if (ri == NULL)
 		return 0;
 
-	sheet_foreach_cell_in_range (sheet, TRUE,
+	sheet_foreach_cell_in_range (sheet,
+		CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_HIDDEN,
 		0, row,
 		SHEET_MAX_COLS-1, row,
-		(ForeachCellCB)&cb_max_cell_height, &max);
+		(CellIterFunc)&cb_max_cell_height, &max);
 
 	/* Reset to the default width if the column was empty */
 	if (max <= 0)
@@ -1248,20 +1247,16 @@ sheet_range_set_text (ParsePos const *pos, Range const *r, char const *str)
 			range_init_full_sheet (&closure.expr_bound));
 
 	/* Store the parsed result creating any cells necessary */
-	sheet_foreach_cell_in_range (pos->sheet, FALSE,
-				     r->start.col, r->start.row,
-				     r->end.col, r->end.row,
-				     (ForeachCellCB)&cb_set_cell_content,
-				     &closure);
+	sheet_foreach_cell_in_range (pos->sheet, CELL_ITER_ALL,
+		r->start.col, r->start.row, r->end.col, r->end.row,
+		(CellIterFunc)&cb_set_cell_content, &closure);
 
 	merged = sheet_merge_get_overlap (pos->sheet, r);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 		Range const *r = ptr->data;
-		sheet_foreach_cell_in_range (pos->sheet, FALSE,
-					     r->start.col, r->start.row,
-					     r->end.col, r->end.row,
-					     (ForeachCellCB)&cb_clear_non_corner,
-					     (gpointer)r);
+		sheet_foreach_cell_in_range (pos->sheet, CELL_ITER_ALL,
+			r->start.col, r->start.row, r->end.col, r->end.row,
+			(CellIterFunc)&cb_clear_non_corner, (gpointer)r);
 	}
 	g_slist_free (merged);
 
@@ -2007,10 +2002,9 @@ sheet_range_contains_region (Sheet const *sheet, Range const *r,
 		return TRUE;
 	}
 
-	if (sheet_foreach_cell_in_range ((Sheet *)sheet, TRUE,
-					 r->start.col, r->start.row,
-					 r->end.col, r->end.row,
-					 cb_cell_is_array, NULL)) {
+	if (sheet_foreach_cell_in_range ((Sheet *)sheet, CELL_ITER_IGNORE_BLANK,
+		r->start.col, r->start.row, r->end.col, r->end.row,
+		cb_cell_is_array, NULL)) {
 		if (wbc != NULL)
 			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd,
 				_("cannot operate on array formulae"));
@@ -2179,13 +2173,15 @@ sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
  * comment near the call.
  */
 Value *
-sheet_foreach_cell_in_range (Sheet *sheet, gboolean only_existing,
+sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 			     int start_col, int start_row,
 			     int end_col,   int end_row,
-			     ForeachCellCB callback, void *closure)
+			     CellIterFunc callback, void *closure)
 {
 	int i, j;
 	Value *cont;
+	gboolean const visiblity_matters = (flags & CELL_ITER_IGNORE_HIDDEN);
+	gboolean const only_existing = (flags & CELL_ITER_IGNORE_BLANK);
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (callback != NULL, NULL);
@@ -2206,6 +2202,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, gboolean only_existing,
 	for (i = start_row; i <= end_row; ++i) {
 		ColRowInfo *ci = sheet_row_get (sheet, i);
 
+		/* no need to check visiblity, that would require a colinfo to exist */
 		if (ci == NULL) {
 			if (only_existing) {
 				/* skip segments with no cells */
@@ -2226,12 +2223,18 @@ sheet_foreach_cell_in_range (Sheet *sheet, gboolean only_existing,
 			continue;
 		}
 
+		if (visiblity_matters && !ci->visible)
+			continue;
+
 		for (j = start_col; j <= end_col; ++j) {
 			ColRowInfo const *ri = sheet_col_get (sheet, j);
 			Cell *cell = NULL;
 
-			if (ri != NULL)
+			if (ri != NULL) {
+				if (visiblity_matters && !ri->visible)
+					continue;
 				cell = sheet_cell_get (sheet, j, i);
+			}
 
 			if (cell == NULL && only_existing) {
 				/* skip segments with no cells */
@@ -2294,11 +2297,9 @@ sheet_cells (Sheet *sheet,
 
 	g_return_val_if_fail (IS_SHEET (sheet), cells);
 
-	sheet_foreach_cell_in_range (sheet, TRUE,
-				     start_col, start_row,
-				     end_col, end_row,
-				     cb_sheet_cells_collect,
-				     cells);
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+		start_col, start_row, end_col, end_row,
+		cb_sheet_cells_collect, cells);
 
 	r.start.col = start_col;
 	r.start.row = start_row;
@@ -2347,7 +2348,8 @@ sheet_is_region_empty (Sheet *sheet, Range const *r)
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	return sheet_foreach_cell_in_range (
-		sheet, TRUE, r->start.col, r->start.row, r->end.col, r->end.row,
+		sheet, CELL_ITER_IGNORE_BLANK,
+		r->start.col, r->start.row, r->end.col, r->end.row,
 		fail_if_exist, NULL) == NULL;
 }
 
@@ -2471,9 +2473,6 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 			    sheet->workbook->priv->recursive_dirty_enabled);
 }
 
-/*
- * Callback for sheet_foreach_cell_in_range to remove a set of cells.
- */
 static Value *
 cb_free_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
@@ -2504,7 +2503,7 @@ sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 		sheet->priv->recompute_max_col_group = TRUE;
 
 	if (free_cells)
-		sheet_foreach_cell_in_range (sheet, TRUE,
+		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
 			col, 0, col, SHEET_MAX_ROWS-1,
 			&cb_free_cell, NULL);
 
@@ -2540,7 +2539,7 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 		sheet->priv->recompute_max_row_group = TRUE;
 
 	if (free_cells)
-		sheet_foreach_cell_in_range (sheet, TRUE,
+		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
 			0, row, SHEET_MAX_COLS-1, row,
 			&cb_free_cell, NULL);
 
@@ -2864,10 +2863,9 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 		/* Remove or empty the cells depending on
 		 * whether or not there are comments
 		 */
-		sheet_foreach_cell_in_range (sheet, TRUE,
-					  start_col, start_row, end_col, end_row,
-					  &cb_empty_cell,
-					  GINT_TO_POINTER (!(clear_flags & CLEAR_COMMENTS)));
+		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+			start_col, start_row, end_col, end_row,
+			&cb_empty_cell, GINT_TO_POINTER (!(clear_flags & CLEAR_COMMENTS)));
 
 		if (!(clear_flags & CLEAR_NORESPAN)) {
 			sheet_regen_adjacent_spans (sheet,
@@ -3012,10 +3010,9 @@ colrow_move (Sheet *sheet,
 		return;
 
 	/* Collect the cells and unlinks them if necessary */
-	sheet_foreach_cell_in_range (sheet, TRUE,
-				     start_col, start_row,
-				     end_col, end_row,
-				     &cb_collect_cell, &cells);
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+		start_col, start_row, end_col, end_row,
+		&cb_collect_cell, &cells);
 
 	/* Reverse the list so that we start at the top left
 	 * which makes things easier for arrays.
@@ -3420,12 +3417,10 @@ sheet_move_range (WorkbookControl *wbc,
 	}
 
 	/* 3. Collect the cells */
-	sheet_foreach_cell_in_range (rinfo->origin_sheet, TRUE,
-				     rinfo->origin.start.col,
-				     rinfo->origin.start.row,
-				     rinfo->origin.end.col,
-				     rinfo->origin.end.row,
-				     &cb_collect_cell, &cells);
+	sheet_foreach_cell_in_range (rinfo->origin_sheet, CELL_ITER_IGNORE_BLANK,
+		rinfo->origin.start.col, rinfo->origin.start.row,
+		rinfo->origin.end.col, rinfo->origin.end.row,
+		&cb_collect_cell, &cells);
 
 	/* Reverse list so that we start at the top left (simplifies arrays). */
 	cells = g_list_reverse (cells);

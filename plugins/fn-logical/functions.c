@@ -89,9 +89,8 @@ gnumeric_and (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 	/* Yes, AND is actually strict.  */
 	Value *v = function_iterate_argument_values (ei->pos,
-						     callback_function_and,
-						     &result, nodes,
-						     TRUE, TRUE);
+		callback_function_and, &result, nodes,
+		TRUE, CELL_ITER_IGNORE_BLANK);
 	if (v != NULL)
 		return v;
 
@@ -173,9 +172,8 @@ gnumeric_or (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 	/* Yes, OR is actually strict.  */
 	Value *v = function_iterate_argument_values (ei->pos,
-						     callback_function_or,
-						     &result, nodes,
-						     TRUE, TRUE);
+		callback_function_or, &result, nodes,
+		TRUE, CELL_ITER_IGNORE_BLANK);
 	if (v != NULL)
 		return v;
 
@@ -226,10 +224,10 @@ gnumeric_xor (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	int result = -1;
 
+	/* Yes, XOR is actually strict.  */
 	Value *v = function_iterate_argument_values (ei->pos,
-						     callback_function_xor,
-						     &result, nodes,
-						     TRUE, TRUE);
+		callback_function_xor, &result, nodes,
+		TRUE, CELL_ITER_IGNORE_BLANK);
 	if (v != NULL)
 		return v;
 

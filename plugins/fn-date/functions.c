@@ -1223,7 +1223,6 @@ gnumeric_isoyear (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *res;
 	GDate *date;
-	int isoyear;
 	int year;
 	int month;
 	int isoweeknum;

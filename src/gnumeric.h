@@ -119,8 +119,13 @@ struct _GlobalRange {
 	Range  range;
 };
 
-typedef Value * (*ForeachCellCB)(Sheet *sheet, int col, int row,
-				 Cell *cell, void *user_data);
+typedef enum {
+	CELL_ITER_ALL 		= 0,
+	CELL_ITER_IGNORE_BLANK  = 1 << 0,
+	CELL_ITER_IGNORE_HIDDEN = 1 << 1
+} CellIterFlags;
+typedef Value *(*CellIterFunc) (Sheet *sheet, int col, int row,
+				Cell *cell, gpointer user_data);
 
 typedef enum _SpanCalcFlags {
 	SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */

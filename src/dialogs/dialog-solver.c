@@ -839,7 +839,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 
 	result = workbook_foreach_cell_in_range (
 		eval_pos_init_sheet (&pos, state->sheet),
-		input_range, FALSE, grab_cells, &input_cells);
+		input_range, CELL_ITER_ALL, grab_cells, &input_cells);
 
 	param->input_cells = input_cells;
 

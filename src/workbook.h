@@ -107,9 +107,9 @@ void        workbook_add_summary_info    (Workbook *wb, SummaryItem *sit);
 /* See also sheet_cell_foreach_range */
 Value	   *workbook_foreach_cell_in_range (EvalPos const *pos,
 					    Value const	  *cell_range,
-					    gboolean	   only_existing,
-					    ForeachCellCB  handler,
-					    void	  *closure);
+					    CellIterFlags  flags,
+					    CellIterFunc   handler,
+					    gpointer	   closure);
 GPtrArray  *workbook_cells               (Workbook *wb, gboolean comments);
 
 /* Calculation */

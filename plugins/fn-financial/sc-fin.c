@@ -206,7 +206,7 @@ static gnum_float
 Duration (GDate *nSettle, GDate *nMat, gnum_float fCoup, gnum_float fYield,
 	  gint nFreq, gint nBase, gnum_float fNumOfCoups)
 {
-        gnum_float  fYearfrac   = GetYearFrac ( nSettle, nMat, nBase );
+        /* gnum_float  fYearfrac   = GetYearFrac ( nSettle, nMat, nBase ); */
         gnum_float  fDur        = 0.0;
 	gnum_float  t, p        = 0.0;
 

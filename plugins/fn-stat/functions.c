@@ -124,7 +124,7 @@ stat_helper (stat_closure_t *cl, EvalPos const *ep, Value *val)
 	expr_node_list = gnm_expr_list_append (NULL, &expr);
 	err = function_iterate_argument_values (ep,
 		&callback_function_stat, cl, expr_node_list,
-		TRUE, FALSE);
+		TRUE, CELL_ITER_ALL);
 	gnm_expr_list_free (expr_node_list);
 
 	if (err != NULL)
@@ -179,7 +179,7 @@ make_list (make_list_t *p, EvalPos const *ep, Value *val)
 	expr_node_list = gnm_expr_list_append (NULL, &expr);
 	err = function_iterate_argument_values (ep,
 		&callback_function_make_list, p, expr_node_list,
-		TRUE, FALSE);
+		TRUE, CELL_ITER_ALL);
 	gnm_expr_list_free (expr_node_list);
 	return err;
 }
@@ -387,8 +387,8 @@ gnumeric_rank (FunctionEvalInfo *ei, Value **argv)
 	        p.order = 0;
 	p.rank = 1;
 	ret = sheet_foreach_cell_in_range (
-	        eval_sheet (argv[1]->v_range.cell.a.sheet,
-			    ei->pos->sheet), TRUE,
+	        eval_sheet (argv[1]->v_range.cell.a.sheet, ei->pos->sheet),
+		CELL_ITER_IGNORE_BLANK,
 		argv[1]->v_range.cell.a.col,
 		argv[1]->v_range.cell.a.row,
 		argv[1]->v_range.cell.b.col,
@@ -868,7 +868,7 @@ gnumeric_count (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	/* no need to check for error, this is not strict */
 	function_iterate_argument_values (ei->pos,
 		callback_function_count, result, expr_node_list,
-		FALSE, TRUE);
+		FALSE, CELL_ITER_IGNORE_BLANK);
 
 	return result;
 }
@@ -910,7 +910,7 @@ gnumeric_counta (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	/* no need to check for error, this is not strict */
         function_iterate_argument_values (ei->pos,
 		callback_function_counta, result, expr_node_list,
-		FALSE, TRUE);
+		FALSE, CELL_ITER_IGNORE_BLANK);
 
         return result;
 }
@@ -1444,7 +1444,7 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 
 	ret = function_iterate_do_value (ei->pos,
 		(FunctionIterateCB) callback_function_chitest_actual,
-		&p1, argv[0], TRUE, TRUE);
+		&p1, argv[0], TRUE, CELL_ITER_IGNORE_BLANK);
 	if (ret != NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
@@ -1453,7 +1453,7 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	p2.next_col = p1.columns->next;
 	ret = function_iterate_do_value (ei->pos,
 		(FunctionIterateCB) callback_function_chitest_theoretical,
-		&p2, argv[1], TRUE, TRUE);
+		&p2, argv[1], TRUE, CELL_ITER_IGNORE_BLANK);
 	if (ret != NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
@@ -2615,8 +2615,8 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 
         if (known_x->type == VALUE_CELLRANGE) {
 		ret = sheet_foreach_cell_in_range (
-			eval_sheet (known_x->v_range.cell.a.sheet,
-				    ei->pos->sheet), TRUE,
+			eval_sheet (known_x->v_range.cell.a.sheet, ei->pos->sheet),
+			CELL_ITER_IGNORE_BLANK,
 			known_x->v_range.cell.a.col,
 			known_x->v_range.cell.a.row,
 			known_x->v_range.cell.b.col,
@@ -2645,8 +2645,8 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 
         if (known_y->type == VALUE_CELLRANGE) {
 		ret = sheet_foreach_cell_in_range (
-			eval_sheet (known_y->v_range.cell.a.sheet,
-				    ei->pos->sheet),TRUE,
+			eval_sheet (known_y->v_range.cell.a.sheet, ei->pos->sheet),
+			CELL_ITER_IGNORE_BLANK,
 			known_y->v_range.cell.a.col,
 			known_y->v_range.cell.a.row,
 			known_y->v_range.cell.b.col,
@@ -2792,7 +2792,7 @@ gnumeric_ztest (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 	status = function_iterate_argument_values (ei->pos,
 		callback_function_ztest, &p, expr_node_list,
-		TRUE, TRUE);
+		TRUE, CELL_ITER_IGNORE_BLANK);
 	if (status != NULL)
 		return status;
 
@@ -3146,7 +3146,7 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 	ret = function_iterate_do_value (ei->pos, (FunctionIterateCB)
 					 callback_function_percentrank,
 					 &p, argv[0],
-					 TRUE, TRUE);
+					 TRUE, CELL_ITER_IGNORE_BLANK);
 
 	if (ret != NULL || (p.smaller + p.equal == 0) ||
 		(p.greater + p.equal == 0))
@@ -3420,7 +3420,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		expr_node_list = gnm_expr_list_append (NULL, &expr);
 		err = function_iterate_argument_values (ei->pos,
 			 &callback_function_ttest, &t_cl, expr_node_list,
-			 TRUE, FALSE);
+			 TRUE, CELL_ITER_ALL);
 		gnm_expr_list_free (expr_node_list);
 		if (err != NULL)
 		        return err;
@@ -3432,7 +3432,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		expr_node_list = gnm_expr_list_append (NULL, &expr);
 		err = function_iterate_argument_values (ei->pos,
 			 &callback_function_ttest, &t_cl, expr_node_list,
-			 TRUE, FALSE);
+			 TRUE, CELL_ITER_ALL);
 		gnm_expr_list_free (expr_node_list);
 		if (err != NULL)
 		        return err;

@@ -176,15 +176,15 @@ typedef Value * (*FunctionIterateCB) (EvalPos const *ep,
 Value *function_iterate_argument_values	(EvalPos const	   *ep,
                                          FunctionIterateCB  cb,
                                          gpointer           user_data,
-                                         GnmExprList          *expr_node_list,
+                                         GnmExprList       *expr_node_list,
                                          gboolean           strict,
-                                         gboolean           ignore_blank);
+                                         CellIterFlags	    iter_flags);
 Value *function_iterate_do_value	(EvalPos const      *ep,
-                                     FunctionIterateCB   cb,
-                                     gpointer            user_data,
-                                     Value              *value,
-                                     gboolean            strict,
-                                     gboolean            ignore_blank);
+					 FunctionIterateCB   cb,
+					 gpointer            user_data,
+					 Value              *value,
+					 gboolean            strict,
+					 CellIterFlags	     iter_flags);
 
 /******************************************************************************/
 

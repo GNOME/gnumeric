@@ -1,3 +1,7 @@
+2002-07-13  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_price) : silence some warnings.
+
 2002-07-07  Jody Goldberg <jody@gnome.org>
 
 	* sc-fin.c (GetDiffParam) : avoid compiler warnings.

@@ -1746,7 +1746,7 @@ gnumeric_npv (FunctionEvalInfo *ei, GnmExprList *nodes)
 	p.num   = 0;
 
 	v = function_iterate_argument_values (ei->pos, callback_function_npv,
-					      &p, nodes, TRUE, TRUE);
+		&p, nodes, TRUE, CELL_ITER_IGNORE_BLANK);
 
 	return (v != NULL) ? v : value_new_float (p.sum);
 }
@@ -2406,10 +2406,10 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 {
         GDate      *settlement;
         GDate      *maturity;
-        gnum_float a, d, e, n;
-	gnum_float first_term, last_term, den, base, exponent, sum;
+        /* gnum_float a, d, e, n; */
+	/* gnum_float first_term, last_term, den, base, exponent, sum; */
 	gnum_float rate, yield, redemption;
-	gint freq, basis, k;
+	gint freq, basis;
 	Value *result;
 
         settlement = datetime_value_to_g (argv[0]);

@@ -1169,9 +1169,8 @@ gnumeric_improduct (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	complex_real (&p.res, 1);
 
         if ((v = function_iterate_argument_values (ei->pos,
-						   &callback_function_imoper,
-						   &p, expr_node_list,
-						   TRUE, TRUE)) != NULL)
+			&callback_function_imoper, &p, expr_node_list,
+			TRUE, CELL_ITER_IGNORE_BLANK)) != NULL)
                 return v;
 
 	return value_new_complex (&p.res, p.imunit);
@@ -1203,9 +1202,8 @@ gnumeric_imsum (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	complex_real (&p.res, 0);
 
         if ((v = function_iterate_argument_values (ei->pos,
-						   callback_function_imoper,
-						   &p, expr_node_list,
-						   TRUE, TRUE)) != NULL)
+			callback_function_imoper, &p, expr_node_list,
+			TRUE, CELL_ITER_IGNORE_BLANK)) != NULL)
                 return v;
 
 	return value_new_complex (&p.res, p.imunit);

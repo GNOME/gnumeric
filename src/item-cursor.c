@@ -778,9 +778,10 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			/* Make sure we don't overwrite the contents of the fill target */
 			for (x = ic->pos.end.col + 1; x <= final_col; x++) {
-				tmp = sheet_foreach_cell_in_range (
-					sheet, TRUE, x, ic->pos.start.row, x,
-					ic->pos.end.row, (ForeachCellCB) cb_autofill_bound,
+				tmp = sheet_foreach_cell_in_range (sheet,
+					CELL_ITER_IGNORE_BLANK,
+					x, ic->pos.start.row, x, ic->pos.end.row,
+					(CellIterFunc) cb_autofill_bound,
 					GINT_TO_POINTER (TRUE));
 
 				if (tmp) {
@@ -822,9 +823,11 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			 * NOTE : We assume the traversal order is 'do all cols in a row and
 			 *        move on to the next row' here!
 			 */
-			tmp = sheet_foreach_cell_in_range (
-				sheet, TRUE, ic->pos.start.col, ic->pos.end.row + 1,
-				ic->pos.end.col, final_row, (ForeachCellCB) cb_autofill_bound,
+			tmp = sheet_foreach_cell_in_range (sheet,
+				CELL_ITER_IGNORE_BLANK,
+				ic->pos.start.col, ic->pos.end.row + 1,
+				ic->pos.end.col, final_row,
+				(CellIterFunc) cb_autofill_bound,
 				GINT_TO_POINTER (FALSE));
 
 			if (tmp) {
