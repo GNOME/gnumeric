@@ -14,6 +14,7 @@ Andreas:
 	  overwrite an existing one.
 	* Don't close the print dialog if a user wants to look at a preview.
 	* Remove last use of gnome-config
+	* Fix GtkFileChooser crash (133069)
 
 Emmanuel Pacaud:
 	* Work on single point formating for charts.

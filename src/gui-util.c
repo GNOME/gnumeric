@@ -195,12 +195,21 @@ fsel_response_cb (GtkFileChooser *dialog,
   gtk_main_quit ();
 }
 
+static gint
+gu_delete_handler (GtkDialog *dialog,
+                    GdkEventAny *event,
+                    gpointer data)
+{
+	gtk_dialog_response(dialog, GTK_RESPONSE_CANCEL);
+	return TRUE; /* Do not destroy */
+}
 
 gboolean
 gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkWidget *w)
 {
 	/* Note: wbcg will be NULL if called (indirectly) from gog-style.c  */
 	gboolean result = FALSE;
+	gulong delete_handler = 0;
 
 	gtk_window_set_modal (GTK_WINDOW (w), TRUE);
 	if (wbcg)
@@ -223,11 +232,19 @@ gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkWidget *w)
 	} else if (GTK_IS_FILE_CHOOSER (w)) {
 		g_signal_connect (w, "response",
 				  G_CALLBACK (fsel_response_cb), &result);
+		delete_handler =
+			g_signal_connect (w,
+					  "delete_event",
+					  G_CALLBACK (gu_delete_handler),
+					  NULL);
 	}
 
 	gtk_widget_show_all (w);
 	gtk_grab_add (w);
 	gtk_main ();
+
+	if (GTK_IS_FILE_CHOOSER (w) && delete_handler != 0)
+		g_signal_handler_disconnect (w, delete_handler);
 
 	return result;
 }

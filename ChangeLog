@@ -1,3 +1,9 @@
+2004-02-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gui-util.c (gu_delete_handler): new
+	(gnumeric_dialog_file_selection): catch window manager deletion 
+	  of the dialog.
+
 2004-01-28  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=131933
