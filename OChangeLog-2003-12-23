@@ -1,3 +1,8 @@
+2001-04-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/style.c (font_init) : rename fontmap -> fontmap2 for newer
+	  versions of gnome-print.
+
 2001-04-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/Makefile.am : rename gnumeric.xml GNOME_Gnumeric.xml.

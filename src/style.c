@@ -235,11 +235,11 @@ font_init (void)
 		const char *lc_all = getenv ("LC_ALL");
 		const char *lang = getenv ("LANG");
 		char *msg;
-		char *fontmap_fn = gnome_datadir_file ("fonts/fontmap");
+		char *fontmap_fn = gnome_datadir_file ("fonts/fontmaps");
 		gboolean exists = (fontmap_fn != NULL);
 
 		if (!exists)
-			fontmap_fn = gnome_unconditional_datadir_file ("fonts/fontmap");
+			fontmap_fn = gnome_unconditional_datadir_file ("fonts/fontmaps");
 
 		if (lc_all == NULL)
 			lc_all = _("<Has not been set>");

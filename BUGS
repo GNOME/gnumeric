@@ -8,7 +8,7 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - rename gnumeric.xml
+    - finish rename gnumeric.xml
 
     - defining file patterns in plugin spec overrides 'has_probe' flag silently.
 
@@ -21,9 +21,6 @@ Release Critical
 
     - #52753 Figure out the GAL colour combo problem that activates all
       workbooks together when only 1 changes.
-
-    - Figure out what to do in src/style.c now that gnome-print installs a
-      fontmap2 file.
 
 Long term breakage
 ------------------

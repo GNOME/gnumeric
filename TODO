@@ -2,7 +2,6 @@
 
 See BUGS file too.
 
-rename plugin xml2 -> xml-ng
 Project
     - Switch hard coded states on SAX in to use dynamic 
     - add a parallel i/o mechanism for SAX based i/o to sheet object
