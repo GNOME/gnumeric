@@ -38,9 +38,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2001-10-04 21:57+0200\n"
-"PO-Revision-Date: 2001-08-21 00:13+02:00\n"
-"Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
+"POT-Creation-Date: 2001-10-05 20:17-0400\n"
+"PO-Revision-Date: 2001-10-06 00:13+02:00\n"
+"Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -1518,8 +1518,8 @@ msgstr "Indsæt indholdet af klippebordet eller fraklipsmellemlager"
 msgid "Paste with optional filters and transformations"
 msgstr "Indsæt med valgbare filtre og transformationer"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/analysis-tools.c:2339
-#: src/analysis-tools.c:2365 src/workbook-format-toolbar.c:466
+#: src/GNOME_Gnumeric.xml.h:149 src/analysis-tools.c:2346
+#: src/analysis-tools.c:2372 src/workbook-format-toolbar.c:466
 msgid "Percent"
 msgstr "Procent"
 
@@ -1734,7 +1734,7 @@ msgstr "Statistiske metoder"
 msgid "Su_mmary..."
 msgstr "Oversi_gt..."
 
-#: src/GNOME_Gnumeric.xml.h:199 src/analysis-tools.c:2910
+#: src/GNOME_Gnumeric.xml.h:199 src/analysis-tools.c:2917
 #: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2940
 #: src/workbook-control-gui.c:3547 src/workbook-view.c:510
 msgid "Sum"
@@ -2069,28 +2069,28 @@ msgstr "Arbejds_bog..."
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/analysis-tools.c:598 src/analysis-tools.c:2336
-#: src/analysis-tools.c:2478 src/analysis-tools.c:2644
+#: src/analysis-tools.c:605 src/analysis-tools.c:2343
+#: src/analysis-tools.c:2485 src/analysis-tools.c:2651
 #: src/dialogs/dialog-stf-preview.h:19
 #, c-format
 msgid "Column %d"
 msgstr "Kolonne: %d"
 
-#: src/analysis-tools.c:610 src/analysis-tools.c:2362
-#: src/analysis-tools.c:2500 src/analysis-tools.c:2661
+#: src/analysis-tools.c:617 src/analysis-tools.c:2369
+#: src/analysis-tools.c:2507 src/analysis-tools.c:2668
 #, c-format
 msgid "Row %d"
 msgstr "Række: %d"
 
-#: src/analysis-tools.c:683
+#: src/analysis-tools.c:690
 msgid "Correlations"
 msgstr "Korrelationer"
 
-#: src/analysis-tools.c:758
+#: src/analysis-tools.c:765
 msgid "Covariances"
 msgstr "Kovarianser"
 
-#: src/analysis-tools.c:820
+#: src/analysis-tools.c:827
 msgid "Summary Statistics"
 msgstr "Sammendragsstatistikker"
 
@@ -2101,7 +2101,7 @@ msgstr "Sammendragsstatistikker"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:832
+#: src/analysis-tools.c:839
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -2109,57 +2109,57 @@ msgstr ""
 "/Gennemsnit/Standardfejl/Median/Modus/Standardafvigelse/Stikprøvevarians/"
 "Kurtosis/Skævhed/Område/Minimum/Maksimum/Sum/Antal"
 
-#: src/analysis-tools.c:953
+#: src/analysis-tools.c:960
 msgid "Confidence Interval for the Mean"
 msgstr "Konfidensinterval for middelværdi"
 
 # RETMIG: CI?
-#: src/analysis-tools.c:954
+#: src/analysis-tools.c:961
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr "/%g%% CI for middelværdien fra/til"
 
-#: src/analysis-tools.c:986 src/dialogs/descriptive-stats.glade.h:9
+#: src/analysis-tools.c:993 src/dialogs/descriptive-stats.glade.h:9
 msgid "Kth Largest"
 msgstr "K-te største"
 
-#: src/analysis-tools.c:987
+#: src/analysis-tools.c:994
 #, c-format
 msgid "Largest (%d)"
 msgstr "Største (%d)"
 
-#: src/analysis-tools.c:1013 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1020 src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Smallest"
 msgstr "K'te mindste"
 
-#: src/analysis-tools.c:1014
+#: src/analysis-tools.c:1021
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Mindste (%d)"
 
 # stikprøve kolliderer med at det bruges i betydningen "et eksempel"
-#: src/analysis-tools.c:1131 src/analysis-tools.c:2954
+#: src/analysis-tools.c:1138 src/analysis-tools.c:2961
 #: src/dialogs/cell-format.glade.h:56
 msgid "Sample"
 msgstr "Prøve"
 
-#: src/analysis-tools.c:1189
+#: src/analysis-tools.c:1196
 msgid "z-Test"
 msgstr "z-test"
 
-#: src/analysis-tools.c:1212 src/analysis-tools.c:1326
-#: src/analysis-tools.c:1464 src/analysis-tools.c:1581
-#: src/analysis-tools.c:1697
+#: src/analysis-tools.c:1219 src/analysis-tools.c:1333
+#: src/analysis-tools.c:1471 src/analysis-tools.c:1588
+#: src/analysis-tools.c:1704
 msgid "Variable 1"
 msgstr "Variabel 1"
 
-#: src/analysis-tools.c:1213 src/analysis-tools.c:1327
-#: src/analysis-tools.c:1465 src/analysis-tools.c:1582
-#: src/analysis-tools.c:1698
+#: src/analysis-tools.c:1220 src/analysis-tools.c:1334
+#: src/analysis-tools.c:1472 src/analysis-tools.c:1589
+#: src/analysis-tools.c:1705
 msgid "Variable 2"
 msgstr "Variabel 2"
 
-#: src/analysis-tools.c:1216
+#: src/analysis-tools.c:1223
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/z/P (Z<=z) "
 "one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
@@ -2167,12 +2167,12 @@ msgstr ""
 "/Middel/Kendt varians/Observationer/Hypotetisk middelforskel/z/P(Z<=z) "
 "ensidet/z kritisk værdi ensidet/P(Z<=z) tosidet/z kritisk værdi tosidet"
 
-#: src/analysis-tools.c:1306 src/analysis-tools.c:1441
-#: src/analysis-tools.c:1558
+#: src/analysis-tools.c:1313 src/analysis-tools.c:1448
+#: src/analysis-tools.c:1565
 msgid "t-Test"
 msgstr "t-test"
 
-#: src/analysis-tools.c:1330
+#: src/analysis-tools.c:1337
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -2181,7 +2181,7 @@ msgstr ""
 "/Middel/Varians/Pearson korrelation/Hypotetisk middelforskel/fg/t værdi/P"
 "(T<=t) ensidet/t kritisk værdi ensidet/P(T<=t) tosidet/t kritisk tosidet"
 
-#: src/analysis-tools.c:1468
+#: src/analysis-tools.c:1475
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/df/"
 "t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -2191,7 +2191,7 @@ msgstr ""
 "værdi/P(T<=t) ensidet/t kritisk værdi ensidet/P(T<=t) tosidet/t kritisk "
 "tosidet"
 
-#: src/analysis-tools.c:1585
+#: src/analysis-tools.c:1592
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/df/t Stat/P (T<=t) "
 "one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
@@ -2199,32 +2199,32 @@ msgstr ""
 "/Middel/Varians/Observationer/Hypotetisk middelforskel/fg/t værdi/P(T<=t) "
 "ensidet/t kritisk værdi ensidet/P(T<=t) tosidet/t kritisk tosidet"
 
-#: src/analysis-tools.c:1677
+#: src/analysis-tools.c:1684
 msgid "F-Test"
 msgstr "F-test"
 
-#: src/analysis-tools.c:1704
+#: src/analysis-tools.c:1711
 msgid "/Mean/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
 msgstr ""
 "/Middel/Varians/Observationer/fg/P(F<=f) ensidet/F kritisk værdi ensidet"
 
-#: src/analysis-tools.c:1785
+#: src/analysis-tools.c:1792
 msgid "Random"
 msgstr "Tilfældig"
 
-#: src/analysis-tools.c:1923
+#: src/analysis-tools.c:1930
 msgid "Not implemented yet.\n"
 msgstr "Ikke implementeret endnu.\n"
 
 #. TODO This would be better using the
 #. value in the checkbox instead of this
 #. global, but I don't know GTK very well
-#: src/analysis-tools.c:2020 src/dialogs/dialog-analysis-tools.c:114
+#: src/analysis-tools.c:2027 src/dialogs/dialog-analysis-tools.c:114
 #: src/dialogs/dialog-analysis-tools.c:2542
 msgid "Regression"
 msgstr "Regression"
 
-#: src/analysis-tools.c:2022
+#: src/analysis-tools.c:2029
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -2232,159 +2232,159 @@ msgstr ""
 "/SUMMARISK UDDATA//Regression statistik/Multipel R/R²/Justeret R²/"
 "Standardfejl/Observationer//ANOVA//Regression/Residual/Total///Sammenfald"
 
-#: src/analysis-tools.c:2041
+#: src/analysis-tools.c:2048
 #, c-format
 msgid "X Variable %d"
 msgstr "X-variabel %d"
 
-#: src/analysis-tools.c:2043
+#: src/analysis-tools.c:2050
 msgid "/df/SS/MS/F/Significance F"
 msgstr "/fg/SS/MS/F/Signifikans F"
 
-#: src/analysis-tools.c:2049
+#: src/analysis-tools.c:2056
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower 95%/Upper 95%"
 msgstr "/Koefficienter/Standardfejl/t-værdi/P-værdi/nedre 95%/Øvre 95%"
 
-#: src/analysis-tools.c:2247
+#: src/analysis-tools.c:2254
 msgid "Moving Averages"
 msgstr "Flytter gennemsnit"
 
-#: src/analysis-tools.c:2320
+#: src/analysis-tools.c:2327
 msgid "Ranks"
 msgstr "Omfang"
 
-#: src/analysis-tools.c:2328 src/analysis-tools.c:2353
+#: src/analysis-tools.c:2335 src/analysis-tools.c:2360
 msgid "Point"
 msgstr "Point"
 
-#: src/analysis-tools.c:2338 src/analysis-tools.c:2364
+#: src/analysis-tools.c:2345 src/analysis-tools.c:2371
 msgid "Rank"
 msgstr "Omfang"
 
-#: src/analysis-tools.c:2455 src/analysis-tools.c:2626
-#: src/analysis-tools.c:2817
+#: src/analysis-tools.c:2462 src/analysis-tools.c:2633
+#: src/analysis-tools.c:2824
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2460 src/dialogs/analysis-tools.glade.h:2
+#: src/analysis-tools.c:2467 src/dialogs/analysis-tools.glade.h:2
 #: src/dialogs/dialog-analysis-tools.c:90
 msgid "Anova: Single Factor"
 msgstr "Anova: enkelfaktor"
 
-#: src/analysis-tools.c:2461 src/analysis-tools.c:2820
+#: src/analysis-tools.c:2468 src/analysis-tools.c:2827
 msgid "SUMMARY"
 msgstr "OVERSIGT"
 
-#: src/analysis-tools.c:2462
+#: src/analysis-tools.c:2469
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupper/Antal/Sum/Gennemsnit/Varians"
 
-#: src/analysis-tools.c:2533
+#: src/analysis-tools.c:2540
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Kilde til variation/Mellem grupper/Indenfor grupper/Total"
 
-#: src/analysis-tools.c:2538 src/analysis-tools.c:2734
+#: src/analysis-tools.c:2545 src/analysis-tools.c:2741
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/fg/MS/F/P-værdi/F kritisk værdi"
 
-#: src/analysis-tools.c:2631 src/dialogs/analysis-tools.glade.h:4
+#: src/analysis-tools.c:2638 src/dialogs/analysis-tools.glade.h:4
 #: src/dialogs/dialog-analysis-tools.c:94
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: tofaktor uden replikering"
 
-#: src/analysis-tools.c:2632
+#: src/analysis-tools.c:2639
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "OVERSIGT/Antal/Sum/Gennemsnit/Varians"
 
-#: src/analysis-tools.c:2728
+#: src/analysis-tools.c:2735
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Kilde til variation/Rækker/Kolonner/Fejl/Total"
 
-#: src/analysis-tools.c:2819 src/dialogs/analysis-tools.glade.h:3
+#: src/analysis-tools.c:2826 src/dialogs/analysis-tools.glade.h:3
 #: src/dialogs/dialog-analysis-tools.c:92
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: tofaktor med replikering"
 
-#: src/analysis-tools.c:2836 src/analysis-tools.c:2907
-#: src/analysis-tools.c:2958 src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:2843 src/analysis-tools.c:2914
+#: src/analysis-tools.c:2965 src/dialogs/dialog-autoformat.c:77
 #: src/dialogs/dialog-autoformat.c:81
 msgid "Total"
 msgstr "Total"
 
-#: src/analysis-tools.c:2909 src/dialogs/consolidate.glade.h:5
+#: src/analysis-tools.c:2916 src/dialogs/consolidate.glade.h:5
 #: src/workbook-control-gui.c:3551
 msgid "Count"
 msgstr "Antal"
 
-#: src/analysis-tools.c:2911 src/dialogs/consolidate.glade.h:2
+#: src/analysis-tools.c:2918 src/dialogs/consolidate.glade.h:2
 #: src/workbook-control-gui.c:3550
 msgid "Average"
 msgstr "Gennemsnit"
 
-#: src/analysis-tools.c:2912
+#: src/analysis-tools.c:2919
 msgid "Variance"
 msgstr "Varians"
 
-#: src/analysis-tools.c:2952
+#: src/analysis-tools.c:2959
 msgid "ANOVA"
 msgstr "ANOVA"
 
-#: src/analysis-tools.c:2953
+#: src/analysis-tools.c:2960
 msgid "Source of Variation"
 msgstr "Kilde til variation"
 
-#: src/analysis-tools.c:2955 src/dialogs/dialog-stf.glade.h:17
+#: src/analysis-tools.c:2962 src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
 msgstr "Kolonner"
 
-#: src/analysis-tools.c:2956
+#: src/analysis-tools.c:2963
 msgid "Interaction"
 msgstr "Interaktion"
 
-#: src/analysis-tools.c:2957
+#: src/analysis-tools.c:2964
 msgid "Within"
 msgstr "Indeni"
 
-#: src/analysis-tools.c:2960
+#: src/analysis-tools.c:2967
 msgid "SS"
 msgstr "SS"
 
 # degrees freedom, frihedsgrader
-#: src/analysis-tools.c:2967
+#: src/analysis-tools.c:2974
 msgid "df"
 msgstr "fg"
 
 #. Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within should all be the same
-#: src/analysis-tools.c:2976
+#: src/analysis-tools.c:2983
 msgid "MS"
 msgstr "MS"
 
-#: src/analysis-tools.c:2983
+#: src/analysis-tools.c:2990
 msgid "F"
 msgstr "F"
 
-#: src/analysis-tools.c:2989
+#: src/analysis-tools.c:2996
 msgid "P-value"
 msgstr "P-værdi"
 
-#: src/analysis-tools.c:2994
+#: src/analysis-tools.c:3001
 msgid "F crit"
 msgstr "F krit"
 
-#: src/analysis-tools.c:3047 src/dialogs/analysis-tools.glade.h:12
+#: src/analysis-tools.c:3054 src/dialogs/analysis-tools.glade.h:12
 #: src/dialogs/dialog-analysis-tools.c:106
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/analysis-tools.c:3050
+#: src/analysis-tools.c:3057
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:3051
+#: src/analysis-tools.c:3058
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/analysis-tools.c:3054
+#: src/analysis-tools.c:3061
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Akkumuleret %"
@@ -2751,44 +2751,44 @@ msgid "Merging %s"
 msgstr "Fletning af %s"
 
 #. Corrected below.
-#: src/commands.c:3686 src/dialogs/search-replace.glade.h:41
+#: src/commands.c:3705 src/dialogs/search-replace.glade.h:43
 msgid "Search and Replace"
 msgstr "Søg og erstat"
 
-#: src/commands.c:3782
+#: src/commands.c:3801
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Sætning af den automatiske bredde af kolonnerne til %.2f punkter"
 
-#: src/commands.c:3783
+#: src/commands.c:3802
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Sætning af den automatiske højde af rækkerne til %.2f punkter"
 
 #. Changed in initial redo.
-#: src/commands.c:3868
+#: src/commands.c:3887
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Forener til %s!%s"
 
-#: src/commands.c:3983
+#: src/commands.c:4002
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom ind på %s til %.0f%%"
 
-#: src/commands.c:4052
+#: src/commands.c:4071
 msgid "Insert object"
 msgstr "Indsætning af objekt"
 
-#: src/commands.c:4110
+#: src/commands.c:4129
 msgid "Delete object"
 msgstr "Sletning af objekt"
 
-#: src/commands.c:4191
+#: src/commands.c:4210
 msgid "Resize object"
 msgstr "Ændring af størrelse på objekt"
 
-#: src/commands.c:4191
+#: src/commands.c:4210
 msgid "Move object"
 msgstr "Flytning af objekt"
 
@@ -4158,7 +4158,7 @@ msgid "_Value and probability input range:"
 msgstr "_Inddatainterval for værdi og sandsynlighed:"
 
 #: src/dialogs/dialog-analysis-tools.c:134
-#: src/dialogs/search-replace.glade.h:23
+#: src/dialogs/search-replace.glade.h:24 src/dialogs/search.glade.h:15
 #: src/widgets/widget-font-selector.c:104
 msgid "Normal"
 msgstr "Normal"
@@ -4271,7 +4271,7 @@ msgstr "Kunne ikke oprette kovariansværktøjsvinduet."
 
 #: src/dialogs/dialog-analysis-tools.c:1330
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr "Kunne ikke oprette vinduet for beskrivende statistic."
+msgstr "Kunne ikke oprette vinduet for beskrivende statistik."
 
 #: src/dialogs/dialog-analysis-tools.c:1427
 msgid "Could not create the Rank and  Percentile Tools dialog."
@@ -4507,8 +4507,8 @@ msgstr "Fejl under læsning af kategorilisten"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:958 src/format.c:1699 src/format.c:1791
-#: src/format.c:1800 src/format.c:1869
+#: src/dialogs/dialog-autoformat.c:958 src/format.c:1702 src/format.c:1794
+#: src/format.c:1803 src/format.c:1872
 msgid "General"
 msgstr "Generelt"
 
@@ -4646,7 +4646,8 @@ msgstr "Tekst"
 msgid "Boolean"
 msgstr "Boolsk"
 
-#: src/dialogs/dialog-formula-guru.c:417 src/dialogs/search-replace.glade.h:35
+#: src/dialogs/dialog-formula-guru.c:417 src/dialogs/search-replace.glade.h:36
+#: src/dialogs/search.glade.h:18
 msgid "Range"
 msgstr "Interval"
 
@@ -4760,11 +4761,11 @@ msgstr "Grafdata"
 msgid "Step 3 of 3: Customize graph"
 msgstr "Trin 3 af 3: Tilpas grafen"
 
-#: src/dialogs/dialog-graph-guru.c:683
+#: src/dialogs/dialog-graph-guru.c:682
 msgid "Plot name"
 msgstr "Plottenavn"
 
-#: src/dialogs/dialog-graph-guru.c:686
+#: src/dialogs/dialog-graph-guru.c:685
 msgid "Series name"
 msgstr "Serienavn"
 
@@ -4916,7 +4917,7 @@ msgstr "Tilpasning af sidehoved"
 msgid "Custom footer configuration"
 msgstr "Tilpasning af sidefod"
 
-#: src/dialogs/dialog-search-replace.c:121
+#: src/dialogs/dialog-search-replace.c:141
 msgid "You must select some cell types to search."
 msgstr "Du skal vælge nogle celletyper at søge efter"
 
@@ -5238,7 +5239,7 @@ msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
-"Hver kolonne i teksten er adskilt af et adskillelstegn, f.eks. et semikolon."
+"Hver kolonne i teksten er adskilt af et adskillelsestegn, f.eks. et semikolon."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -5968,9 +5969,131 @@ msgstr "_periodisk"
 msgid "_random"
 msgstr "_tilfældig"
 
-#: src/dialogs/search-replace.glade.h:1
+#: src/dialogs/search-replace.glade.h:1 src/dialogs/search.glade.h:1
 msgid "Advanced"
 msgstr "Avanceret"
+
+#: src/dialogs/search-replace.glade.h:6 src/dialogs/search.glade.h:2
+msgid "Column major"
+msgstr "Hovedkolonne"
+
+#: src/dialogs/search-replace.glade.h:7 src/dialogs/search.glade.h:3
+#: src/dialogs/summary.glade.h:3
+msgid "Comments"
+msgstr "Kommentarer"
+
+#: src/dialogs/search-replace.glade.h:9 src/dialogs/search.glade.h:4
+msgid "Current sheet"
+msgstr "Det aktive ark"
+
+#: src/dialogs/search-replace.glade.h:10 src/dialogs/search.glade.h:5
+msgid "Do not consider matches in the middle of words"
+msgstr "Ignorér fundne i midten af ord"
+
+#: src/dialogs/search-replace.glade.h:13 src/dialogs/search.glade.h:6
+msgid "Entire workbook"
+msgstr "Hele arbejdsbogen"
+
+#: src/dialogs/search-replace.glade.h:15 src/dialogs/search.glade.h:7
+msgid "Expressions"
+msgstr "Udtryk"
+
+#: src/dialogs/search.glade.h:8
+msgid "Find text within cell comments"
+msgstr "Find tekst i cellekommentarer"
+
+#: src/dialogs/search.glade.h:9
+msgid "Find text within expressions"
+msgstr "Find tekst i udtryk"
+
+#: src/dialogs/search.glade.h:10
+msgid "Find text within non-string values"
+msgstr "Find tekst i værdier der ikke er tekst"
+
+#: src/dialogs/search.glade.h:11
+msgid "Find text within string values"
+msgstr "Find tekst i værdier der er tekst"
+
+#: src/dialogs/search-replace.glade.h:18 src/dialogs/search.glade.h:12
+msgid "Ignore case"
+msgstr "Skeln ikke mellem store og små bogstaver"
+
+#: src/dialogs/search-replace.glade.h:22 src/dialogs/search.glade.h:13
+msgid "Match whole words only"
+msgstr "Søg efter hele ord"
+
+#: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:14
+msgid "Miscellanea"
+msgstr "Diverse"
+
+#: src/dialogs/search-replace.glade.h:25 src/dialogs/search.glade.h:16
+msgid "Other values"
+msgstr "Andre værdier"
+
+#: src/dialogs/search-replace.glade.h:32 src/dialogs/search.glade.h:17
+msgid "Plain text"
+msgstr "Almindelig tekst"
+
+#: src/dialogs/search-replace.glade.h:37 src/dialogs/search.glade.h:19
+msgid "Regular expression"
+msgstr "Regulært udtryk"
+
+#: src/dialogs/search-replace.glade.h:40 src/dialogs/search.glade.h:20
+msgid "Row major"
+msgstr "Hovedrække"
+
+#: src/dialogs/search-replace.glade.h:41 src/dialogs/search.glade.h:21
+msgid "Scope"
+msgstr "Virkefelt"
+
+#: src/dialogs/search-replace.glade.h:42 src/dialogs/search.glade.h:22
+msgid "Search"
+msgstr "Søg"
+
+#: src/dialogs/search.glade.h:23
+msgid "Search cells containing"
+msgstr "Søg i celler der indeholder"
+
+#: src/dialogs/search-replace.glade.h:48 src/dialogs/search.glade.h:24
+msgid "Search column by column"
+msgstr "Søg kolonne for kolonne"
+
+#: src/dialogs/search-replace.glade.h:49 src/dialogs/search.glade.h:25
+msgid "Search for"
+msgstr "Søg efter"
+
+#: src/dialogs/search.glade.h:26
+msgid "Search in all cells in the workbook"
+msgstr "Søg i alle celler i arbejdsbogen"
+
+#: src/dialogs/search.glade.h:27
+msgid "Search in current sheet only"
+msgstr "Søg kun i det aktive ark"
+
+#: src/dialogs/search.glade.h:28
+msgid "Search in specified range only"
+msgstr "Søg kun i det angivne interval"
+
+#: src/dialogs/search-replace.glade.h:50 src/dialogs/search.glade.h:29
+msgid "Search line by line"
+msgstr "Søg linje for linje"
+
+#: src/dialogs/search-replace.glade.h:52 src/dialogs/search.glade.h:30
+msgid "Strings"
+msgstr "Tekster"
+
+#: src/dialogs/search-replace.glade.h:53 src/dialogs/search.glade.h:31
+msgid "The search text is a regular expression"
+msgstr "Søgeteksten er et regulært udtryk"
+
+#: src/dialogs/search-replace.glade.h:54 src/dialogs/search.glade.h:32
+msgid "The search text is taken literal"
+msgstr "Søgeteksten bliver brugt bogstaveligt"
+
+# passer bedre end direkte oversættelse
+#: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:33
+msgid "When set, do not distinguish between upper and lower case letters"
+msgstr "Skeln ikke mellem store og små bogstaver under søgningen"
 
 #: src/dialogs/search-replace.glade.h:2
 msgid "Ask before each change"
@@ -5988,182 +6111,109 @@ msgstr "Med"
 msgid "Change cells containing"
 msgstr "Ændr celler der indeholder"
 
-#: src/dialogs/search-replace.glade.h:6 src/dialogs/summary.glade.h:3
-msgid "Comments"
-msgstr "Kommentarer"
-
-#: src/dialogs/search-replace.glade.h:7
+#: src/dialogs/search-replace.glade.h:8
 msgid "Create =ERROR(\"...\")"
 msgstr "Opret =ERROR(\"...\")"
 
-#: src/dialogs/search-replace.glade.h:8
-msgid "Current sheet"
-msgstr "Det aktive ark"
-
-#: src/dialogs/search-replace.glade.h:9
-msgid "Do not consider matches in the middle of words"
-msgstr "Ignorér fundne i midten af ord"
-
-#: src/dialogs/search-replace.glade.h:10
+#: src/dialogs/search-replace.glade.h:11
 msgid "Do not perform this replacement"
 msgstr "Foretag ikke denne erstatning"
 
-#: src/dialogs/search-replace.glade.h:11
+#: src/dialogs/search-replace.glade.h:12
 msgid "Don't change"
 msgstr "Ændr ikke"
 
-#: src/dialogs/search-replace.glade.h:12
-msgid "Entire workbook"
-msgstr "Hele arbejdsbogen"
-
-#: src/dialogs/search-replace.glade.h:13
+#: src/dialogs/search-replace.glade.h:14
 msgid "Error behavior"
 msgstr "Fejlopførsel"
 
-#: src/dialogs/search-replace.glade.h:14
-msgid "Expressions"
-msgstr "Udtryk"
-
-#: src/dialogs/search-replace.glade.h:15
+#: src/dialogs/search-replace.glade.h:16
 msgid "Fail"
 msgstr "Afbryd"
 
-#: src/dialogs/search-replace.glade.h:16
+#: src/dialogs/search-replace.glade.h:17
 msgid "Fail without any changes actually being done to any cell"
 msgstr "Afbryd uden at ændringerne bliver gemt i nogen af cellerne"
 
-#: src/dialogs/search-replace.glade.h:17
-msgid "Ignore case"
-msgstr "Skeln ikke mellem store og små bogstaver"
-
-#: src/dialogs/search-replace.glade.h:18
+#: src/dialogs/search-replace.glade.h:19
 msgid "Location"
 msgstr "Placering"
 
-#: src/dialogs/search-replace.glade.h:19
+#: src/dialogs/search-replace.glade.h:20
 msgid "Make error expression"
 msgstr "Opret et fejludtryk"
 
-#: src/dialogs/search-replace.glade.h:20
+#: src/dialogs/search-replace.glade.h:21
 msgid "Make string value"
 msgstr "Opret en tekstværdi"
 
-#: src/dialogs/search-replace.glade.h:21
-msgid "Match whole words only"
-msgstr "Søg efter hele ord"
-
-#: src/dialogs/search-replace.glade.h:22
-msgid "Miscellanea"
-msgstr "Diverse"
-
-#: src/dialogs/search-replace.glade.h:24
-msgid "Other values"
-msgstr "Andre værdier"
-
-#: src/dialogs/search-replace.glade.h:25
+#: src/dialogs/search-replace.glade.h:26
 msgid "Perform changes within cell comments"
 msgstr "Foretag ændringer i cellekommentarer"
 
-#: src/dialogs/search-replace.glade.h:26
+#: src/dialogs/search-replace.glade.h:27
 msgid "Perform changes within expressions"
 msgstr "Foretag ændringer i udtryk"
 
-#: src/dialogs/search-replace.glade.h:27
+#: src/dialogs/search-replace.glade.h:28
 msgid "Perform changes within non-string values"
 msgstr "Foretag ændringer i værdier der ikke er tekst"
 
-#: src/dialogs/search-replace.glade.h:28
+#: src/dialogs/search-replace.glade.h:29
 msgid "Perform changes within string values"
 msgstr "Foretag ændringer i værdier der er tekst"
 
-#: src/dialogs/search-replace.glade.h:29
+#: src/dialogs/search-replace.glade.h:30
 msgid "Perform no more replacements"
 msgstr "Foretag ikke flere erstatninger"
 
-#: src/dialogs/search-replace.glade.h:30
+#: src/dialogs/search-replace.glade.h:31
 msgid "Perform this replacement"
 msgstr "Foretag denne erstatning"
 
-#: src/dialogs/search-replace.glade.h:31
-msgid "Plain text"
-msgstr "Almindelig tekst"
-
-#: src/dialogs/search-replace.glade.h:32
+#: src/dialogs/search-replace.glade.h:33
 msgid "Preserve case"
 msgstr "Bevar små og store bogstaver"
 
-#: src/dialogs/search-replace.glade.h:33
+#: src/dialogs/search-replace.glade.h:34
 msgid "Query"
 msgstr "Spørg"
 
-#: src/dialogs/search-replace.glade.h:34
+#: src/dialogs/search-replace.glade.h:35
 msgid "Query for replacement"
 msgstr "Spørg efter erstatning"
 
-#: src/dialogs/search-replace.glade.h:36
-msgid "Regular expression"
-msgstr "Regulært udtryk"
-
-#: src/dialogs/search-replace.glade.h:37
+#: src/dialogs/search-replace.glade.h:38
 msgid "Replace by"
 msgstr "Erstat med"
 
-#: src/dialogs/search-replace.glade.h:38
+#: src/dialogs/search-replace.glade.h:39
 msgid "Replacing"
 msgstr "Erstatter"
 
-#: src/dialogs/search-replace.glade.h:39
-msgid "Scope"
-msgstr "Virkefelt"
-
-#: src/dialogs/search-replace.glade.h:40
-msgid "Search"
-msgstr "Søg"
-
-#: src/dialogs/search-replace.glade.h:42
+#: src/dialogs/search-replace.glade.h:44
 msgid "Search and Replace Query"
 msgstr "Søg og erstat-forespørgsel"
 
-#: src/dialogs/search-replace.glade.h:43
+#: src/dialogs/search-replace.glade.h:45
 msgid "Search and replace in all cells in the workbook"
 msgstr "Søg og erstat i alle celler i arbejdsbogen"
 
-#: src/dialogs/search-replace.glade.h:44
-msgid "Search and replace in current sheet only"
-msgstr "Søg og erstat i det aktive ark kun"
-
-#: src/dialogs/search-replace.glade.h:45
-msgid "Search and replace in specified range only"
-msgstr "Søg og erstat i det angivne interval kun"
-
 #: src/dialogs/search-replace.glade.h:46
-msgid "Search for"
-msgstr "Søg efter"
+msgid "Search and replace in current sheet only"
+msgstr "Søg og erstat kun i det aktive ark"
 
 #: src/dialogs/search-replace.glade.h:47
+msgid "Search and replace in specified range only"
+msgstr "Søg og erstat kun i det angivne interval"
+
+#: src/dialogs/search-replace.glade.h:51
 msgid "Skip cells that that would result in errors"
 msgstr "Spring over celler der ville resultere i fejl"
 
-#: src/dialogs/search-replace.glade.h:48
-msgid "Strings"
-msgstr "Tekster"
-
-#: src/dialogs/search-replace.glade.h:49
-msgid "The search text is a regular expression"
-msgstr "Søgeteksten er et regulært udtryk"
-
-#: src/dialogs/search-replace.glade.h:50
-msgid "The search text is taken literal"
-msgstr "Søgeteksten bliver brugt bogstaveligt"
-
-#: src/dialogs/search-replace.glade.h:51
+#: src/dialogs/search-replace.glade.h:55
 msgid "Turn unparseable entries into string values"
 msgstr "Omdan ufortolkelige poster til tekst"
-
-# passer bedre end direkte oversættelse
-#: src/dialogs/search-replace.glade.h:52
-msgid "When set, do not distinguish between upper and lower case letters"
-msgstr "Skeln ikke mellem store og små bogstaver under søgningen"
 
 # dialog er et mystisk begreb - for de fleste betyder det nok en samtale
 #: src/dialogs/sheet-order.glade.h:1
@@ -6176,11 +6226,11 @@ msgstr "Slet det valgte ark"
 
 #: src/dialogs/sheet-order.glade.h:4
 msgid "Move the currently selected sheet down one position"
-msgstr "Flyt det valgte ark en position ned"
+msgstr "Flyt det valgte ark én position ned"
 
 #: src/dialogs/sheet-order.glade.h:5
 msgid "Move the currently selected sheet up one position"
-msgstr "Flyt det valgte ark en position op"
+msgstr "Flyt det valgte ark én position op"
 
 #: src/dialogs/sheet-order.glade.h:6
 msgid "Order Sheets"
@@ -6639,18 +6689,18 @@ msgid "yellow"
 msgstr "gul"
 
 #. Is it a boolean?
-#: src/format.c:1606 src/number-match.c:994 src/value-sheet.c:34
+#: src/format.c:1609 src/number-match.c:992 src/value-sheet.c:34
 #: src/value.c:247 src/value.c:480
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1606 src/number-match.c:996 src/value-sheet.c:34
+#: src/format.c:1609 src/number-match.c:994 src/value-sheet.c:34
 #: src/value.c:249 src/value.c:480
 msgid "FALSE"
 msgstr "FALSE"
 
 #. Array of arrays ??
-#: src/format.c:1634
+#: src/format.c:1637
 msgid "ARRAY"
 msgstr "MATRIX"
 
@@ -6705,7 +6755,7 @@ msgstr "[$ANG]"
 
 #: src/formats.c:264
 msgid "Netherlands Antillian guilder"
-msgstr "Hollandsk-antilliske gylden"
+msgstr "Hollandsk-antilske gylden"
 
 #: src/formats.c:265
 msgid "[$AON]"
@@ -7073,7 +7123,7 @@ msgstr "[$GHC]"
 
 #: src/formats.c:310
 msgid "Ghanaian cedi"
-msgstr "Ghanaianske cedi"
+msgstr "Ghanesiske cedi"
 
 #: src/formats.c:311
 msgid "[$GIP]"
@@ -7441,7 +7491,7 @@ msgstr "[$MRO]"
 
 #: src/formats.c:356
 msgid "Mauritanian ouguiya"
-msgstr "Mauritanske ouguiya"
+msgstr "Mauretanske ouguiya"
 
 #: src/formats.c:357
 msgid "[$MTL]"
@@ -7457,7 +7507,7 @@ msgstr "[$MUR]"
 
 #: src/formats.c:358
 msgid "Mauritius rupee"
-msgstr "Mauritiuske rupee"
+msgstr "Mauritiske rupee"
 
 #: src/formats.c:359
 msgid "[$MVR]"
@@ -7465,7 +7515,7 @@ msgstr "[$MVR]"
 
 #: src/formats.c:359
 msgid "Maldive rupee"
-msgstr "Maldivianske rupee"
+msgstr "Maldiviske rupee"
 
 #: src/formats.c:360
 msgid "[$MWK]"
@@ -7473,7 +7523,7 @@ msgstr "[$MWK]"
 
 #: src/formats.c:360
 msgid "Malawi kwacha"
-msgstr "Malawianske kwacha"
+msgstr "Malawiske kwacha"
 
 #: src/formats.c:361
 msgid "[$MXP]"
@@ -7481,7 +7531,7 @@ msgstr "[$MXP]"
 
 #: src/formats.c:361
 msgid "Mexican peso"
-msgstr "Mexikanske peso"
+msgstr "Mexicanske peso"
 
 #: src/formats.c:362
 msgid "[$MYR]"
@@ -7489,7 +7539,7 @@ msgstr "[$MYR]"
 
 #: src/formats.c:362
 msgid "Malaysian ringgit"
-msgstr "Malajsiske ringgit"
+msgstr "Malaysiske ringgit"
 
 #: src/formats.c:363
 msgid "[$MZM]"
@@ -7561,7 +7611,7 @@ msgstr "[$PAB]"
 
 #: src/formats.c:371
 msgid "Panamanian balboa"
-msgstr "Panamaiske balboa"
+msgstr "Panamanske balboa"
 
 #: src/formats.c:372
 msgid "[$PEI]"
@@ -7569,7 +7619,7 @@ msgstr "[$PEI]"
 
 #: src/formats.c:372
 msgid "Peruvian inti"
-msgstr "Peruiske inti"
+msgstr "Peruvianske inti"
 
 #: src/formats.c:373
 msgid "[$PGK]"
@@ -7729,7 +7779,7 @@ msgstr "[$SRG]"
 
 #: src/formats.c:392
 msgid "Suriname guilder"
-msgstr "Surinamesiske gylden"
+msgstr "Surinamske gylden"
 
 #: src/formats.c:393
 msgid "[$STD]"
@@ -7849,7 +7899,7 @@ msgstr "[$UGX]"
 
 #: src/formats.c:407
 msgid "Ugandan shilling"
-msgstr "Ugandesiske shilling"
+msgstr "Ugandiske shilling"
 
 #: src/formats.c:408
 msgid "[$USD]"
@@ -7929,7 +7979,7 @@ msgstr "[$YER]"
 
 #: src/formats.c:417
 msgid "Yemeni rial"
-msgstr "Jemenske rial"
+msgstr "Yemenske rial"
 
 #: src/formats.c:418
 msgid "[$YUN]"
@@ -8192,7 +8242,7 @@ msgid ""
 "@SEEALSO=DSUM"
 msgstr ""
 "\n"
-"DPRODUCT(A1:C7, \"Alder\", A9:B11) er lig me 1247.\n"
+"DPRODUCT(A1:C7, \"Alder\", A9:B11) er lig med 1247.\n"
 "\n"
 "@SEEALSO=DSUM"
 
@@ -8668,7 +8718,7 @@ msgstr ""
 "Bemærk at Gnumeric vil udføre almindelig tekst til serienummer-konvertering "
 "for dig, så du kan opgive en dato som en tekst.\n"
 "@EXAMPLES=\n"
-"day (\"10/24/1968\") er lig med 24.\n"
+"DAY (\"10/24/1968\") er lig med 24.\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
@@ -8971,7 +9021,7 @@ msgstr ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(tal,[pladser])\n"
 "@DESCRIPTION=DEC2HEX-funktionen konverterer et decimaltal til et "
-"hexadecimalt tal. @pladser er et valgfrit felt som antiver antallet af "
+"hexadecimalt tal. @pladser er et valgfrit felt som angiver antallet af "
 "pladser som skal fyldes med nuller.\n"
 "Hvis @pladser er for lille eller negativ, returneres en #TAL!-fejl. Denne "
 "funktion er Excel-kompatibel. \n"
@@ -12252,7 +12302,7 @@ msgstr ""
 "@SYNTAX=COLUMNS(reference)\n"
 "@DESCRIPTION=COLUMNS-funktionen returnerer antal kolonner i et interval "
 "eller matrixreference.\n"
-"Hvis @reference hverken er en tabl, en reference eller et interval, "
+"Hvis @reference hverken er en tabel, en reference eller et interval, "
 "returnerer funktionen en #VÆRDI!-fejl.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -14613,7 +14663,7 @@ msgstr ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
 "@DESCRIPTION=GEOMEAN returnerer den geometriske middelværdi af de givne "
-"parametrer. Dette er lig den N-te rod af produktet af termerne. Denne "
+"parametre. Dette er lig den N-te rod af produktet af termerne. Denne "
 "funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "Lad os antage at cellerne A1, A2, ..., A5 indeholder tallene 11.4, 17.3, "
@@ -16818,7 +16868,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(værdi)\n"
-"@DESCRIPTION=T returnerer @værdi hvis og kune hvis den er tekst, ellers "
+"@DESCRIPTION=T returnerer @værdi hvis og kun hvis den er tekst, ellers "
 "returneres en tom tekst.\n"
 "@EXAMPLES=\n"
 "T(\"dette er tekst\") er lig med \"dette er tekst\".\n"
@@ -17262,35 +17312,35 @@ msgstr "Kunne ikke opstarte arbejdsbogsfabrik"
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Kunne ikke opstarte EmbeddableGrid-fabrik"
 
-#: src/number-match.c:645
+#: src/number-match.c:646
 msgid "#NULL!"
 msgstr "#NUL!"
 
-#: src/number-match.c:646
+#: src/number-match.c:647
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:647
+#: src/number-match.c:648
 msgid "#VALUE!"
 msgstr "#VÆRDI!"
 
-#: src/number-match.c:648
+#: src/number-match.c:649
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:649
+#: src/number-match.c:650
 msgid "#NAME?"
 msgstr "#NAVN?"
 
-#: src/number-match.c:650
+#: src/number-match.c:651
 msgid "#NUM!"
 msgstr "#TAL!"
 
-#: src/number-match.c:651
+#: src/number-match.c:652
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/number-match.c:652
+#: src/number-match.c:653
 msgid "#RECALC!"
 msgstr "#OMBEREGN!"
 
@@ -17485,7 +17535,7 @@ msgstr "kan ikke mmap'pe fil, fejl: %s"
 #: src/plugin-util.c:225 src/plugin-util.c:263
 #, c-format
 msgid "Error while opening file \"%s\" for writing."
-msgstr "Fejl ved åbning af filn \"%s\" til skrivning."
+msgstr "Fejl ved åbning af filen \"%s\" til skrivning."
 
 #: src/plugin-util.c:229 src/plugin-util.c:267
 #, c-format
@@ -17719,31 +17769,31 @@ msgstr "A_rk"
 msgid "Printing failed"
 msgstr "Udskrift mislykkedes"
 
-#: src/search.c:125
+#: src/search.c:127
 msgid "Search string must not be empty."
 msgstr "Søgetekst må ikke være tom."
 
-#: src/search.c:128
+#: src/search.c:130
 msgid "Replacement string must be set."
 msgstr "Erstatningstekst skal være angivet."
 
-#: src/search.c:134
+#: src/search.c:136
 msgid "You must specify a range to search."
 msgstr "Du skal angive et interval at søge i."
 
-#: src/search.c:140
+#: src/search.c:142
 msgid "The search range is invalid."
 msgstr "Søgeintervallet er ugyldigt."
 
-#: src/search.c:145
+#: src/search.c:147
 msgid "Invalid search pattern."
 msgstr "Ugyldigt søgemønster."
 
-#: src/search.c:160 src/search.c:164
+#: src/search.c:162 src/search.c:166
 msgid "Invalid $-specification in replacement."
 msgstr "Ugyldig $-angivelse i erstatningstekst."
 
-#: src/search.c:169
+#: src/search.c:171
 msgid "Invalid trailing backslash in replacement."
 msgstr "Ugyldig afsluttende omvendt skråstreg i erstatningstekst."
 
