@@ -15,9 +15,6 @@ SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-erlang \
 	fn-financial fn-info fn-logical fn-complex fn-lookup fn-math \
 	fn-stat fn-string fn-random derivatives
 
-if WITH_GUILE
-  SUBDIRS_FUNCTIONS += guile
-endif
 if WITH_GDA
   SUBDIRS_FUNCTIONS += gda
 endif
@@ -53,9 +50,4 @@ if PLUGIN_LIST_GIVEN
 else
   SUBDIRS = $(SUBDIRS_FILE_FORMATS) $(SUBDIRS_FUNCTIONS) \
 	$(SUBDIRS_LOADERS) $(SUBDIRS_DATA_SOURCES) $(SUBDIRS_EXAMPLES)
-endif
-
-# Distribute that dir, to silence intltool.
-if NEVER
-  SUBDIRS += gb
 endif

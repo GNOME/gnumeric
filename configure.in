@@ -406,12 +406,12 @@ fi
 AC_SUBST(GUILE_LIBS)
 AC_SUBST(GUILE_INCS)
 
+dnl Comment out the guile block:
+ifelse([
 dnl check for guile 1.5
 try_guile=false
 guile_msg="disabled pending some guile developer interest"
 enable_guile=false
-dnl Comment out this block:
-ifelse([
 AC_ARG_WITH(guile,
 	[--{with,without}-guile    Compile with Guile support or without it],
 	if test "x$withval" = xyes; then
@@ -431,8 +431,8 @@ fi
 if $enable_guile; then
 	GNOME_CHECK_GUILE
 fi
-])
 AM_CONDITIONAL(WITH_GUILE, $enable_guile)
+])
 
 dnl **************************************************
 dnl * psiconv support
@@ -934,7 +934,6 @@ plugins/perl/Makefile
 plugins/perl/ext/Makefile.PL
 plugins/perl-func/Makefile
 plugins/perl-loader/Makefile
-plugins/guile/Makefile
 plugins/xbase/Makefile
 plugins/html/Makefile
 plugins/dif/Makefile
@@ -948,7 +947,6 @@ plugins/mps/Makefile
 plugins/sample_datasource/Makefile
 plugins/paradox/Makefile
 plugins/uihello/Makefile
-plugins/gb/Makefile
 po/Makefile.in
 po-functions/Makefile.in
 schemas/Makefile
@@ -971,10 +969,10 @@ Configuration:
 
 	Perl Support:		${perl_msg}
 	Python Support:		${python_msg}
-	Guile Support:		${guile_msg}
 
 	GDA support:		${gda_msg}
 	GNOME-DB support:	${gnomedb_msg}
 	Psiconv support:        ${psiconv_msg}
 "
 #	Mono support:		${mono_msg}
+#	Guile Support:		${guile_msg}

@@ -2,6 +2,7 @@
 
 	* Makefile.in.in, POTFILES.in, POTFILES.skip: Remove; all of these
 	  are now created by autogen.sh.
+	* README_TRANSLATORS: A message to the translators.
 
 2005-02-24  Raphael Higino  <raphaelh@cvs.gnome.org>
 

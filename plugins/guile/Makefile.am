@@ -1,3 +1,8 @@
+This directory isn't currently in use.
+If you decide to resurrect it, make sore you remove all references to
+plugins/guile/* files from po/POTFILES.skip.
+Do it before you delete this paragraph here.
+
 gnumeric_guiledir  = $(gnumeric_datadir)/guile
 INCLUDES = \
     -DPLUGIN_ID=\"Gnumeric_guile\"		\

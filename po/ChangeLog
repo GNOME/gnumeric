@@ -4,10 +4,12 @@
 
 2005-03-16  Stepan Kasal  <kasal@ucw.cz>
 
-	* Makefile.in.in.own: New file; our own copy, which autogen.sh uses
-	  to overwrite whatever the *-ize tools deliver.  Comes from intltool
-	  CVS, plus some patches.
-	* POTFILES.in, POTFILES.skip: Updated.
+	* Makefile.in.in.own: New file; our own copy, which autogen.sh
+	  uses to overwrite whatever the *-ize tools deliver.  Comes from
+	  intltool CVS, plus some patches.
+	* POTFILES.in, POTFILES.skip: Updated; move plugins/{gb,guile}/*
+	  from POTFILES.in to POTFILES.skip.
+	* README_TRANSLATORS: A message to the translators.
 
 2005-03-16  Frank Arnold  <farnold@cvs.gnome.org>
 

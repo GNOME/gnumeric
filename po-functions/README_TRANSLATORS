@@ -1,0 +1,5 @@
+This directory has to be set up before you can use intltool here.
+Please run
+        TRANSL_ONLY=1 ./autogen.sh
+at the top level directory.
+
