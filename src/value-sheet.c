@@ -168,6 +168,19 @@ value_area_get_height (const EvalPosition *ep, Value const *v)
 	}
 }
 
+Value const *
+value_area_fetch_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
+{
+	Value const * const res = value_area_get_x_y (ep, v, x, y);
+	static Value *value_zero = NULL;
+	if (res)
+		return res;
+
+	if (value_zero == NULL)
+		value_zero = value_new_int (0);
+	return value_zero;
+}
+
 /*
  * An internal routine to get a cell from an array or range.  If any
  * problems occur a NULL is returned.
@@ -228,7 +241,7 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 		g_return_val_if_fail (a_row<=b_row, NULL);
 		g_return_val_if_fail (a_col<=b_col, NULL);
 
-		sheet = a->sheet ? a->sheet : ep->sheet;
+		sheet = a->sheet?a->sheet:ep->sheet;
 		g_return_val_if_fail (sheet != NULL, NULL);
 
 		/* Speedup */
@@ -243,19 +256,6 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 	}
 	
 	return NULL;
-}
-
-Value const *
-value_area_fetch_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
-{
-	Value const * const res = value_area_get_x_y (ep, v, x, y);
-	static Value *value_zero = NULL;
-	if (res)
-		return res;
-
-	if (value_zero == NULL)
-		value_zero = value_new_int (0);
-	return value_zero;
 }
 
 typedef struct
