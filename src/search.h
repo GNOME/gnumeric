@@ -42,6 +42,12 @@ struct _SearchReplace {
 
 	SearchReplaceError error_behaviour;
 
+	/*
+	 * If true:  A1,B1,...,A2,B2,...
+	 * If false: A1,A2,...,B1,B2,...
+	 */
+	gboolean by_row;
+
 	regex_t *comp_search;
 	gboolean plain_replace;
 

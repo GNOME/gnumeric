@@ -14,9 +14,9 @@
 
 <widget>
   <class>GnomeDialog</class>
-  <name>search_replace_dialog</name>
+  <name>search_dialog</name>
   <visible>False</visible>
-  <title>Search and Replace</title>
+  <title>Search</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
@@ -106,7 +106,7 @@
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
-	    <fill>True</fill>
+	    <fill>False</fill>
 	  </child>
 
 	  <widget>
@@ -119,7 +119,7 @@
 	    <widget>
 	      <class>GtkTable</class>
 	      <name>table1</name>
-	      <rows>2</rows>
+	      <rows>1</rows>
 	      <columns>2</columns>
 	      <homogeneous>False</homogeneous>
 	      <row_spacing>4</row_spacing>
@@ -129,32 +129,6 @@
 		<expand>True</expand>
 		<fill>True</fill>
 	      </child>
-
-	      <widget>
-		<class>GtkLabel</class>
-		<name>label2</name>
-		<label>Replace by</label>
-		<justify>GTK_JUSTIFY_CENTER</justify>
-		<wrap>False</wrap>
-		<xalign>0</xalign>
-		<yalign>0.5</yalign>
-		<xpad>4</xpad>
-		<ypad>0</ypad>
-		<child>
-		  <left_attach>0</left_attach>
-		  <right_attach>1</right_attach>
-		  <top_attach>1</top_attach>
-		  <bottom_attach>2</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>True</xfill>
-		  <yfill>False</yfill>
-		</child>
-	      </widget>
 
 	      <widget>
 		<class>GtkLabel</class>
@@ -212,37 +186,6 @@
 		  <text></text>
 		</widget>
 	      </widget>
-
-	      <widget>
-		<class>GnomeEntry</class>
-		<name>entry5</name>
-		<max_saved>10</max_saved>
-		<child>
-		  <left_attach>1</left_attach>
-		  <right_attach>2</right_attach>
-		  <top_attach>1</top_attach>
-		  <bottom_attach>2</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>True</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>True</xfill>
-		  <yfill>False</yfill>
-		</child>
-
-		<widget>
-		  <class>GtkEntry</class>
-		  <child_name>GnomeEntry:entry</child_name>
-		  <name>replacetext</name>
-		  <can_focus>True</can_focus>
-		  <editable>True</editable>
-		  <text_visible>True</text_visible>
-		  <text_max_length>0</text_max_length>
-		  <text></text>
-		</widget>
-	      </widget>
 	    </widget>
 
 	    <widget>
@@ -262,21 +205,6 @@
 	      <can_focus>True</can_focus>
 	      <label>Ignore case</label>
 	      <active>True</active>
-	      <draw_indicator>True</draw_indicator>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkCheckButton</class>
-	      <name>query</name>
-	      <tooltip>Ask before each change</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>Query</label>
-	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
 		<padding>0</padding>
@@ -353,7 +281,7 @@
 	    <widget>
 	      <class>GtkRadioButton</class>
 	      <name>scope_workbook</name>
-	      <tooltip>Search and replace in all cells in the workbook</tooltip>
+	      <tooltip>Search in all cells in the workbook</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>Entire workbook</label>
 	      <active>True</active>
@@ -369,7 +297,7 @@
 	    <widget>
 	      <class>GtkRadioButton</class>
 	      <name>scope_sheet</name>
-	      <tooltip>Search and replace in current sheet only</tooltip>
+	      <tooltip>Search in current sheet only</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>Current sheet</label>
 	      <active>False</active>
@@ -396,7 +324,7 @@
 	      <widget>
 		<class>GtkRadioButton</class>
 		<name>scope_range</name>
-		<tooltip>Search and replace in specified range only</tooltip>
+		<tooltip>Search in specified range only</tooltip>
 		<can_focus>True</can_focus>
 		<label>Range</label>
 		<active>False</active>
@@ -440,13 +368,13 @@
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>frame4</name>
-	  <label>Change cells containing</label>
+	  <label>Search cells containing</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	  <child>
 	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
+	    <expand>False</expand>
+	    <fill>False</fill>
 	  </child>
 
 	  <widget>
@@ -472,8 +400,8 @@
 
 	      <widget>
 		<class>GtkCheckButton</class>
-		<name>replace_other</name>
-		<tooltip>Perform changes within non-string values</tooltip>
+		<name>search_other</name>
+		<tooltip>Find text within non-string values</tooltip>
 		<can_focus>True</can_focus>
 		<label>Other values</label>
 		<active>True</active>
@@ -496,8 +424,8 @@
 
 	      <widget>
 		<class>GtkCheckButton</class>
-		<name>replace_comments</name>
-		<tooltip>Perform changes within cell comments</tooltip>
+		<name>search_comments</name>
+		<tooltip>Find text within cell comments</tooltip>
 		<can_focus>True</can_focus>
 		<label>Comments</label>
 		<active>False</active>
@@ -520,8 +448,8 @@
 
 	      <widget>
 		<class>GtkCheckButton</class>
-		<name>replace_expr</name>
-		<tooltip>Perform changes within expressions</tooltip>
+		<name>search_expr</name>
+		<tooltip>Find text within expressions</tooltip>
 		<can_focus>True</can_focus>
 		<label>Expressions</label>
 		<active>True</active>
@@ -544,8 +472,8 @@
 
 	      <widget>
 		<class>GtkCheckButton</class>
-		<name>replace_string</name>
-		<tooltip>Perform changes within string values</tooltip>
+		<name>search_string</name>
+		<tooltip>Find text within string values</tooltip>
 		<can_focus>True</can_focus>
 		<label>Strings</label>
 		<active>True</active>
@@ -571,115 +499,14 @@
 
 	<widget>
 	  <class>GtkFrame</class>
-	  <name>frame5</name>
-	  <label>Error behavior</label>
-	  <label_xalign>0</label_xalign>
-	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
-	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
-	  </child>
-
-	  <widget>
-	    <class>GtkVBox</class>
-	    <name>vbox4</name>
-	    <border_width>4</border_width>
-	    <homogeneous>False</homogeneous>
-	    <spacing>4</spacing>
-
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>error_fail</name>
-	      <tooltip>Fail without any changes actually being done to any cell</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>Fail</label>
-	      <active>True</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>error</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>error_skip</name>
-	      <tooltip>Skip cells that that would result in errors</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>Don't change</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>error</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>error_query</name>
-	      <tooltip>Query for replacement</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>Query</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>error</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>error_error</name>
-	      <tooltip>Create =ERROR(&quot;...&quot;)</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>Make error expression</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>error</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>error_string</name>
-	      <tooltip>Turn unparseable entries into string values</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>Make string value</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>error</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-	  </widget>
-	</widget>
-
-	<widget>
-	  <class>GtkFrame</class>
 	  <name>frame7</name>
 	  <label>Miscellanea</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	  <child>
 	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
+	    <expand>False</expand>
+	    <fill>False</fill>
 	  </child>
 
 	  <widget>
@@ -695,21 +522,6 @@
 	      <tooltip>Do not consider matches in the middle of words</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>Match whole words only</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkCheckButton</class>
-	      <name>preserve_case</name>
-	      <tooltip>Attempt to preserve case of text when replacing</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>Preserve case</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
@@ -767,7 +579,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<child_name>Notebook:tab</child_name>
-	<name>replace_strings</name>
+	<name>label4</name>
 	<label>Advanced</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -776,276 +588,6 @@
 	<xpad>0</xpad>
 	<ypad>0</ypad>
       </widget>
-    </widget>
-  </widget>
-</widget>
-
-<widget>
-  <class>GnomeDialog</class>
-  <name>query_dialog</name>
-  <visible>False</visible>
-  <title>Search and Replace Query</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>False</allow_grow>
-  <auto_shrink>False</auto_shrink>
-  <auto_close>False</auto_close>
-  <hide_on_close>False</hide_on_close>
-
-  <widget>
-    <class>GtkVBox</class>
-    <child_name>GnomeDialog:vbox</child_name>
-    <name>dialog-vbox2</name>
-    <homogeneous>False</homogeneous>
-    <spacing>8</spacing>
-    <child>
-      <padding>4</padding>
-      <expand>True</expand>
-      <fill>True</fill>
-    </child>
-
-    <widget>
-      <class>GtkHButtonBox</class>
-      <child_name>GnomeDialog:action_area</child_name>
-      <name>dialog-action_area2</name>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
-      <spacing>8</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-	<pack>GTK_PACK_END</pack>
-      </child>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>qd_yes_button</name>
-	<tooltip>Perform this replacement</tooltip>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_YES</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>qd_no_button</name>
-	<tooltip>Do not perform this replacement</tooltip>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_NO</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>qd_cancel_button</name>
-	<tooltip>Perform no more replacements</tooltip>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GtkLabel</class>
-      <name>label8</name>
-      <label>Search and Replace</label>
-      <justify>GTK_JUSTIFY_CENTER</justify>
-      <wrap>False</wrap>
-      <xalign>0.5</xalign>
-      <yalign>0.5</yalign>
-      <xpad>0</xpad>
-      <ypad>0</ypad>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>False</fill>
-      </child>
-    </widget>
-
-    <widget>
-      <class>GtkTable</class>
-      <name>table3</name>
-      <rows>3</rows>
-      <columns>2</columns>
-      <homogeneous>False</homogeneous>
-      <row_spacing>4</row_spacing>
-      <column_spacing>4</column_spacing>
-      <child>
-	<padding>0</padding>
-	<expand>True</expand>
-	<fill>True</fill>
-      </child>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>label5</name>
-	<label>Location</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>0</left_attach>
-	  <right_attach>1</right_attach>
-	  <top_attach>0</top_attach>
-	  <bottom_attach>1</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>label6</name>
-	<label>Replacing</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>0</left_attach>
-	  <right_attach>1</right_attach>
-	  <top_attach>1</top_attach>
-	  <bottom_attach>2</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>label7</name>
-	<label>By</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>0</left_attach>
-	  <right_attach>1</right_attach>
-	  <top_attach>2</top_attach>
-	  <bottom_attach>3</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkEntry</class>
-	<name>qd_old_text</name>
-	<can_focus>True</can_focus>
-	<editable>False</editable>
-	<text_visible>True</text_visible>
-	<text_max_length>0</text_max_length>
-	<text></text>
-	<child>
-	  <left_attach>1</left_attach>
-	  <right_attach>2</right_attach>
-	  <top_attach>1</top_attach>
-	  <bottom_attach>2</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkEntry</class>
-	<name>qd_new_text</name>
-	<can_focus>True</can_focus>
-	<editable>False</editable>
-	<text_visible>True</text_visible>
-	<text_max_length>0</text_max_length>
-	<text></text>
-	<child>
-	  <left_attach>1</left_attach>
-	  <right_attach>2</right_attach>
-	  <top_attach>2</top_attach>
-	  <bottom_attach>3</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkEntry</class>
-	<name>qd_location</name>
-	<can_focus>True</can_focus>
-	<editable>False</editable>
-	<text_visible>True</text_visible>
-	<text_max_length>0</text_max_length>
-	<text></text>
-	<child>
-	  <left_attach>1</left_attach>
-	  <right_attach>2</right_attach>
-	  <top_attach>0</top_attach>
-	  <bottom_attach>1</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GtkCheckButton</class>
-      <name>qd_query</name>
-      <tooltip>Ask before each change</tooltip>
-      <can_focus>True</can_focus>
-      <label>Query</label>
-      <active>False</active>
-      <draw_indicator>True</draw_indicator>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>False</fill>
-      </child>
     </widget>
   </widget>
 </widget>

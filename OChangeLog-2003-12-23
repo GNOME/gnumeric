@@ -1,3 +1,8 @@
+2001-10-05  Morten Welinder  <terra@diku.dk>
+
+	* src/commands.c (cmd_search_replace_do): Leg work for search.
+	* src/search.h: Ditto.
+
 2001-10-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/application.c (application_init) : Add a matching save icon for

@@ -3552,6 +3552,25 @@ cb_order_sheet_row_col (const void *_a, const void *_b)
 	return i;
 }
 
+static int
+cb_order_sheet_col_row (const void *_a, const void *_b)
+{
+	const EvalPos *a = *(const EvalPos **)_a;
+	const EvalPos *b = *(const EvalPos **)_b;
+	int i;
+
+	/* By sheet name.  FIXME: Any better way than this?  */
+	i = strcmp (a->sheet->name_unquoted, b->sheet->name_unquoted);
+
+	/* By column number.  */
+	if (!i) i = (a->eval.col - b->eval.col);
+
+	/* By row number.  */
+	if (!i) i = (a->eval.row - b->eval.row);
+
+	return i;
+}
+
 
 static gboolean
 cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
@@ -3611,7 +3630,7 @@ cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
 	qsort (&g_ptr_array_index (cells, 0),
 	       cells->len,
 	       sizeof (gpointer),
-	       cb_order_sheet_row_col);
+	       sr->by_row ? cb_order_sheet_row_col : cb_order_sheet_col_row);
 
 	for (i = 0; i < cells->len; i++) {
 		EvalPos *ep = g_ptr_array_index (cells, i);

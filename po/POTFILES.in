@@ -116,6 +116,7 @@ src/dialogs/print.glade
 src/dialogs/rank.glade
 src/dialogs/row-height.glade
 src/dialogs/sampling.glade
+src/dialogs/search.glade
 src/dialogs/search-replace.glade
 src/dialogs/sheet-order.glade
 src/dialogs/sheet-rename.glade

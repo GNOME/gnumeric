@@ -108,6 +108,7 @@ glade_DATA = 				\
 	rank.glade			\
 	row-height.glade		\
 	sampling.glade			\
+	search.glade			\
 	search-replace.glade		\
 	sheet-order.glade		\
 	sheet-rename.glade		\

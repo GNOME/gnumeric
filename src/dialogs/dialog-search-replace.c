@@ -49,6 +49,12 @@ static const char *scope_group[] = {
 	0
 };
 
+static const char *direction_group[] = {
+	"row_major",
+	"column_major",
+	0
+};
+
 static gboolean
 is_checked (GladeXML *gui, const char *name)
 {
@@ -106,6 +112,9 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 
 	i = gnumeric_glade_group_value (gui, error_group);
 	sr->error_behaviour = (i == -1) ? SRE_fail : (SearchReplaceError)i;
+
+	i = gnumeric_glade_group_value (gui, direction_group);
+	sr->by_row = (i == -1) ? TRUE : (gboolean)i;
 
 	err = search_replace_verify (sr);
 	if (err) {
