@@ -1,3 +1,8 @@
+2002-01-27  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c :
+	  remove Menu_ prefix from pixmap names.
+
 2002-01-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gnumeric_notice_nonmodal) : non-modal version of
