@@ -1,3 +1,10 @@
+2001-12-20  Morten Welinder  <terra@diku.dk>
+
+	* fn-financial.c (gnumeric_oddfprice, gnumeric_coupdaybs,
+	gnumeric_coupdaysnc, gnumeric_accrint, gnumeric_coupnum,
+	gnumeric_yield, gnumeric_coupdays): Plug leaks.
+	(gnumeric_coupncd): Plug leaks and fix bogus free.
+
 2001-12-19  Morten Welinder  <terra@diku.dk>
 
 	* fn-date.c (gnumeric_date): Fix xl compatibility.

@@ -3,7 +3,7 @@
  *
  * Authors:
  *  Jukka-Pekka Iivonen (jiivonen@hutcs.cs.hut.fi)
- *  Morten Welinder (terra@diku.dk) 
+ *  Morten Welinder (terra@diku.dk)
  *  Vladimir Vuksan (vuksan@veus.hr)
  *
 
@@ -228,7 +228,7 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 }
 
 static GDateDay
-days_in_month(GDateYear year, GDateMonth month)
+days_in_month (GDateYear year, GDateMonth month)
 {
         switch (month) {
 	case 1:
@@ -245,7 +245,7 @@ days_in_month(GDateYear year, GDateMonth month)
 	case 11:
 	        return 30;
 	case 2:
-	        if (g_date_is_leap_year(year))
+	        if (g_date_is_leap_year (year))
 		        return 29;
 		else
 		        return 28;
@@ -322,7 +322,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 					        return 365.0;
 				else
 				        return 365.0;
-			} else if (g_date_is_leap_year (sy+1)) {
+			} else if (g_date_is_leap_year (sy + 1)) {
 			        if (sm <= 2)
 			                return 365.0;
 				if (mm <= 2)
@@ -349,7 +349,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 			          if (md < 28)
 				          return 184.0;
 				  else if (sm >= 9)
-				          if (g_date_is_leap_year (sy+1))
+				          if (g_date_is_leap_year (sy + 1))
 					          return 182.0 + 2*(md == 28);
 					  else
 				                  return 181.0;
@@ -372,8 +372,8 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 						          return 181.0;
 					  else
 				                  if (g_date_is_leap_year (sy)
-						      || 
-						      g_date_is_leap_year(sy+1))
+						      ||
+						      g_date_is_leap_year (sy + 1))
 						          return 182.0;
 						  else
 						          return 181.0;
@@ -386,8 +386,8 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 					  else
 				                  return 184.0;
 				  else
-				          if (g_date_is_leap_year (sy) || 
-					      g_date_is_leap_year (sy+1))
+				          if (g_date_is_leap_year (sy) ||
+					      g_date_is_leap_year (sy + 1))
 					          return 182.0;
 					  else
 				                  return 181.0;
@@ -405,7 +405,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 				  else
 				          return 181.0;
 			  else
-			          if (g_date_is_leap_year (sy+1))
+			          if (g_date_is_leap_year (sy + 1))
 				          return 182.0;
 				  else
 				          return 181.0;
@@ -418,7 +418,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 				          return 183.0 - (md == 30);
 				  else
 				          return 182.0 - (md == 30);
-			  else if (g_date_is_leap_year (sy+1))
+			  else if (g_date_is_leap_year (sy + 1))
 			          return 183.0 - (md == 30);
 			  else
 			          return 182.0 - (md == 30);
@@ -433,7 +433,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 					  else
 				                  return 181.0;
 				  else
-				          if (g_date_is_leap_year (sy+1))
+				          if (g_date_is_leap_year (sy + 1))
 					          return 182.0;
 					  else
 				                  return 181.0;
@@ -448,7 +448,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 					  else
 				                  return 182.0 - (md == 30);
 				  else
-				          if (g_date_is_leap_year (sy+1))
+				          if (g_date_is_leap_year (sy + 1))
 					          return 183.0 - (md == 30);
 					  else
 				                  return 182.0 - (md == 30);
@@ -473,9 +473,9 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 					  else
 				                  return 181.0;
 				  else
-				          if (g_date_is_leap_year (sy+1))
-					          if (md == 28 || 
-						      !g_date_is_leap_year(my))
+				          if (g_date_is_leap_year (sy + 1))
+					          if (md == 28 ||
+						      !g_date_is_leap_year (my))
 						          return 184.0;
 						  else
 						          return 182.0;
@@ -483,13 +483,13 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 				                  return 181.0;
 			  else
 			          if (g_date_is_leap_year (sy)
-				      || (md >= 29 && 
-					  ((g_date_is_leap_year (sy+1)
+				      || (md >= 29 &&
+					  ((g_date_is_leap_year (sy + 1)
 					    && g_date_is_leap_year (my)
-					    && sy+1 == my)
+					    && sy + 1 == my)
 					   || my == sy)))
 				          return 182.0;
-				  else 
+				  else
 				          return 181.0;
 		  case 9:
 		          if ((sm >= 4 && sm <= 8) || (sm == 9 && sd < md)
@@ -502,7 +502,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 					  else
 				                  return 181.0;
 				  else
-				          if (g_date_is_leap_year (sy+1))
+				          if (g_date_is_leap_year (sy + 1))
 					          return 182.0;
 					  else
 				                  return 181.0;
@@ -517,7 +517,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 					  else
 				                  return 182.0 - (md >= 30);
 				  else
-				          if (g_date_is_leap_year (sy+1))
+				          if (g_date_is_leap_year (sy + 1))
 					          return 183.0 - (md >= 30);
 					  else
 				                  return 182.0 - (md >= 30);
@@ -532,7 +532,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 					  else
 				                  return 181.0;
 				  else
-				          if (g_date_is_leap_year (sy+1))
+				          if (g_date_is_leap_year (sy + 1))
 					          return 182.0;
 					  else
 				                  return 181.0;
@@ -547,7 +547,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 					  else
 				                  return 182.0 - (md >= 30);
 				  else
-				          if (g_date_is_leap_year (sy+1))
+				          if (g_date_is_leap_year (sy + 1))
 					          return 183.0 - (md >= 30);
 					  else
 				                  return 182.0 - (md >= 30);
@@ -570,7 +570,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
  * is not implemented.
  */
 static int
-coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
+coupdaybs (GDate *settlement, GDate *maturity, int freq, int basis)
 {
         int        d, months, days;
 	GDateYear  sy, my;
@@ -628,7 +628,7 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 			        md = 28;
 			else if (md == 31)
 			        md = 30;
-			else if (md == 28 && mm == 2 
+			else if (md == 28 && mm == 2
 				 &&   g_date_is_leap_year (sy)
 				 && ! g_date_is_leap_year (my))
 			        md = 29;
@@ -675,7 +675,7 @@ coupdaysnc_b123 (GDate *date1, GDateYear y2, GDateMonth m2, GDateDay d2,
 	        date2 = g_date_new_dmy (29, m2, new_y);
 	else
 	        date2 = g_date_new_dmy (d2, m2, new_y);
-  
+
 	serial2 = g_date_julian (date2);
 	g_date_free (date2);
 
@@ -687,7 +687,7 @@ coupdaysnc_b123 (GDate *date1, GDateYear y2, GDateMonth m2, GDateDay d2,
  * coupon date.
  */
 static int
-coupdaysnc(GDate *settlement, GDate *maturity, int freq, int basis)
+coupdaysnc (GDate *settlement, GDate *maturity, int freq, int basis)
 {
         GDateYear  sy, my;
 	GDateMonth sm, mm;
@@ -722,7 +722,7 @@ coupdaysnc(GDate *settlement, GDate *maturity, int freq, int basis)
 			        md = 30;
 			else if (md == 28 && mm == 2) {
 			        if (sm > 2) {
-				        if (!g_date_is_leap_year (sy+1) ||
+				        if (!g_date_is_leap_year (sy + 1) ||
 					    !g_date_is_leap_year (my))
 					        md = 30;
 				} else if (sd == 28 && sm == 2) {
@@ -731,7 +731,7 @@ coupdaysnc(GDate *settlement, GDate *maturity, int freq, int basis)
 						        return 362;
 						else
 						        md = 30;
-					else if (g_date_is_leap_year (sy+1) &&
+					else if (g_date_is_leap_year (sy + 1) &&
 						 g_date_is_leap_year (my))
 					        return 358;
 					else
@@ -764,7 +764,7 @@ coupdaysnc(GDate *settlement, GDate *maturity, int freq, int basis)
 		if (freq == 1) {
 		        if (days > 0)
 			        return days;
-			return coupdaysnc_b123 (settlement, my, mm, md, sy+1);
+			return coupdaysnc_b123 (settlement, my, mm, md, sy + 1);
 		} else if (freq == 2) {
 		        return -1; /* FIXME: the frequency 2 */
 		} else {
@@ -781,23 +781,23 @@ coupdaysnc(GDate *settlement, GDate *maturity, int freq, int basis)
 					        return 359;
 					else if (! g_date_is_leap_year (sy)) {
 					        if (sm == 2 && sd == 28 &&
-						    g_date_is_leap_year (sy+1))
+						    g_date_is_leap_year (sy + 1))
 						        return 361;
 						else
 						        md = 28;
 					}
-				} else if (! g_date_is_leap_year (sy+1))
+				} else if (! g_date_is_leap_year (sy + 1))
 				        md = 28;
 			} else if (md == 31)
 			        md = 30;
 			else if (md == 28 && mm == 2
 				 && !g_date_is_leap_year (my)) {
 			        if (sm > 2) {
-				        if (g_date_is_leap_year (sy+1))
+				        if (g_date_is_leap_year (sy + 1))
 					        md = 29;
 				} else if (g_date_is_leap_year (sy))
 				        md = 29;
-				else if (g_date_is_leap_year (sy+1) && sm == 2
+				else if (g_date_is_leap_year (sy + 1) && sm == 2
 					 && sd == 28)
 				        return 361;
 			}
@@ -822,7 +822,7 @@ coupdaysnc(GDate *settlement, GDate *maturity, int freq, int basis)
  * and maturity dates, rounded up.
  */
 static int
-coupnum(GDate *settlement, GDate *maturity, int freq, int basis)
+coupnum (GDate *settlement, GDate *maturity, int freq, int basis)
 {
         int        years, months, days;
 	GDateYear  sy, my;
@@ -841,7 +841,7 @@ coupnum(GDate *settlement, GDate *maturity, int freq, int basis)
 	if (md == days_in_month (my, mm) && sd == days_in_month (sy, sm))
 	        days = 0;
 	else
-	        days = md - sd + (g_date_is_leap_year (sy) && sd==28 && sm==2);
+	        days = md - sd + (g_date_is_leap_year (sy) && sd == 28 && sm == 2);
 
 	if (freq == 1)
 	        return years + (months > 0) + (months == 0 && days > 0);
@@ -862,7 +862,7 @@ coupnum(GDate *settlement, GDate *maturity, int freq, int basis)
 }
 
 static GDate *
-coupncd(GDate *settlement, GDate *maturity, int freq, int basis)
+coupncd (GDate *settlement, GDate *maturity, int freq, int basis)
 {
         int        months, days;
 	GDateYear  sy, my, year;
@@ -954,8 +954,8 @@ coupncd(GDate *settlement, GDate *maturity, int freq, int basis)
 			}
 		}
 
-		if (md == days_in_month(my, mm))
-		        day = days_in_month(year, month);
+		if (md == days_in_month (my, mm))
+		        day = days_in_month (year, month);
 		else
 		        day = md;
 	}
@@ -1032,6 +1032,7 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
         GDate      *maturity;
 	gnum_float rate, a, d, par, freq, coefficient, x;
 	int        basis;
+	Value      *result;
 
         settlement     = datetime_value_to_g (argv[0]);
 	first_interest = datetime_value_to_g (argv[1]);
@@ -1041,25 +1042,33 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 	freq           = value_get_as_float (argv[5]);
 	basis          = argv[6] ? value_get_as_int (argv[6]) : 0;
 
-        if (settlement == NULL || first_interest == NULL || maturity == NULL)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
-
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
 	    || g_date_compare (settlement, first_interest) > 0
-	    || g_date_compare (first_interest, maturity) > 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+	    || g_date_compare (first_interest, maturity) > 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
 	a = days_monthly_basis (argv[0], argv[2], basis);
 	d = annual_year_basis (argv[0], basis);
 
 	if (a < 0 || d <= 0 || par <= 0 || rate <= 0 || basis < 0 || basis > 4
-	    || freq == 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+	    || freq == 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
 	coefficient = par * rate / freq;
 	x = a / d;
 
-	return value_new_float (coefficient * freq * x);
+	result = value_new_float (coefficient * freq * x);
+
+ out:
+	g_date_free (settlement);
+	g_date_free (first_interest);
+	g_date_free (maturity);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -2655,7 +2664,7 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 	type = argv[5] ? !!value_get_as_int (argv[5]) : 0;
 
 	/* First calculate the payment */
-        pmt = calculate_pmt(rate,nper,pv,fv,type);
+        pmt = calculate_pmt (rate,nper,pv,fv,type);
 
 	/*
 	 * Now we need to calculate the amount of money going towards the
@@ -2832,43 +2841,43 @@ gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 
 	switch (*str) {
 	case 'A':
-	        if (strncmp("ATS", str, 3) == 0)
+	        if (strncmp ("ATS", str, 3) == 0)
 		        return value_new_float (13.7603);
 		break;
 	case 'B':
-	        if (strncmp("BEF", str, 3) == 0)
+	        if (strncmp ("BEF", str, 3) == 0)
 		        return value_new_float (40.3399);
 		break;
 	case 'D':
-	        if (strncmp("DEM", str, 3) == 0)
+	        if (strncmp ("DEM", str, 3) == 0)
 		        return value_new_float (1.95583);
 		break;
 	case 'E':
-	        if (strncmp("ESP", str, 3) == 0)
+	        if (strncmp ("ESP", str, 3) == 0)
 		        return value_new_float (166.386);
 		break;
 	case 'F':
-	        if (strncmp("FIM", str, 3) == 0)
+	        if (strncmp ("FIM", str, 3) == 0)
 		        return value_new_float (5.94573);
-		else if (strncmp("FRF", str, 3) == 0)
+		else if (strncmp ("FRF", str, 3) == 0)
 		        return value_new_float (6.55957);
 		break;
 	case 'I':
-	        if (strncmp("IEP", str, 3) == 0)
+	        if (strncmp ("IEP", str, 3) == 0)
 		        return value_new_float (0.787564);
-		else if (strncmp("ITL", str, 3) == 0)
+		else if (strncmp ("ITL", str, 3) == 0)
 		        return value_new_float (1936.27);
 		break;
 	case 'L':
-	        if (strncmp("LUX", str, 3) == 0)
+	        if (strncmp ("LUX", str, 3) == 0)
 		        return value_new_float (40.3399);
 		break;
 	case 'N':
-	        if (strncmp("NLG", str, 3) == 0)
+	        if (strncmp ("NLG", str, 3) == 0)
 		        return value_new_float (2.20371);
 		break;
 	case 'P':
-	        if (strncmp("PTE", str, 3) == 0)
+	        if (strncmp ("PTE", str, 3) == 0)
 		        return value_new_float (200.482);
 		break;
 	default:
@@ -2917,7 +2926,8 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 	gnum_float first_term, last_term, den, base, exponent, sum;
 	gnum_float rate, yield, redemption;
 	gint freq, basis, k;
-	
+	Value *result;
+
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
 	rate       = value_get_as_float (argv[2]);
@@ -2926,23 +2936,24 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
         freq       = value_get_as_int (argv[5]);
         basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
-        if (settlement == NULL || maturity == NULL)
-                return value_new_error (ei->pos, gnumeric_err_VALUE);
-
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-            || g_date_compare (settlement, maturity) > 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+            || g_date_compare (settlement, maturity) > 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
-        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0) {
+                result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
 	a = coupdaybs (settlement, maturity, freq, basis);
 	d = coupdaysnc (settlement, maturity, freq, basis);
 	e = coupdays (settlement, maturity, freq, basis);
 	n = coupnum (settlement, maturity, freq, basis);
 
-	first_term = redemption / pow ( (1.0 + yield/freq), (n-1.0 + d/e));
-	last_term = a/e * rate/freq * 100.0;
+	first_term = redemption / pow ( (1.0 + yield / freq), (n - 1.0 + d / e));
+	last_term = a / e * rate / freq * 100.0;
 	sum = 0.0;
 	den = 100.0 * rate / freq;
 	base = 1.0 + yield / freq;
@@ -2950,7 +2961,13 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 	for (k = 0; k < n; k++)
 	        sum += den / pow (base, exponent + k);
 
-	return value_new_float (first_term + sum - last_term);
+	result = value_new_float (first_term + sum - last_term);
+
+ out:
+	g_date_free (settlement);
+	g_date_free (maturity);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -2991,7 +3008,8 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 	gnum_float coeff, num, den;
 	gnum_float rate, par, redemption;
 	gint       freq, basis;
-	
+	Value      *result;
+
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
 	rate       = value_get_as_float (argv[2]);
@@ -3000,15 +3018,16 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
         freq       = value_get_as_int (argv[5]);
         basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
-        if (settlement == NULL || maturity == NULL)
-                return value_new_error (ei->pos, gnumeric_err_VALUE);
-
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-            || g_date_compare (settlement, maturity) > 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+            || g_date_compare (settlement, maturity) > 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
-        if (rate < 0.0 || par < 0.0 || redemption <= 0.0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+        if (rate < 0.0 || par < 0.0 || redemption <= 0.0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
 	a = coupdaybs (settlement, maturity, freq, basis);
 	d = coupdaysnc (settlement, maturity, freq, basis);
@@ -3021,12 +3040,18 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 		        - (par / 100.0  +  (a / e  *  rate / freq));
 		den = par / 100.0  +  (a / e  *   rate / freq);
 
-		return value_new_float (num / den * coeff);
+		result = value_new_float (num / den * coeff);
 	} else {
 	        /* We should goal-seek using price */
 
-	        return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+	        result = value_new_error (ei->pos, "#UNIMPLEMENTED!");
 	}
+
+ out:
+	g_date_free (settlement);
+	g_date_free (maturity);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -3145,7 +3170,8 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 	gnum_float term1, term2, last_term, sum;
 	gnum_float rate, yield, redemption;
 	gint       freq, basis, k;
-	
+	Value      *result;
+
         settlement   = datetime_value_to_g (argv[0]);
         maturity     = datetime_value_to_g (argv[1]);
         issue        = datetime_value_to_g (argv[2]);
@@ -3156,18 +3182,18 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
         freq         = value_get_as_int (argv[7]);
         basis        = argv[8] ? value_get_as_int (argv[8]) : 0;
 
-        if (settlement == NULL || maturity == NULL || issue == NULL
-	    || first_coupon == NULL)
-                return value_new_error (ei->pos, gnumeric_err_VALUE);
-
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
             || g_date_compare (issue, settlement) > 0
 	    || g_date_compare (settlement, first_coupon) > 0
-	    || g_date_compare (first_coupon, maturity) > 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+	    || g_date_compare (first_coupon, maturity) > 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
-        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0) {
+                result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
 	a = coupdaybs (settlement, maturity, freq, basis);
 	ds = -1; /* FIXME */
@@ -3180,14 +3206,22 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 	 */
 
 	/* Odd short first coupon */
-	term1 = redemption / pow (1.0 + yield/freq, n-1.0 + ds/e);
-	term2 = (100.0 * rate/freq * df/e) / pow (1.0 + yield/freq, ds/e);;
-	last_term = 100.0 * rate/freq * a/e;
+	term1 = redemption / pow (1.0 + yield / freq, n - 1.0 + ds / e);
+	term2 = (100.0 * rate / freq * df / e) / pow (1.0 + yield / freq, ds / e);;
+	last_term = 100.0 * rate / freq * a / e;
 	sum = 0;
-	for (k=1; k<n; k++)
-	        sum += (100.0 * rate/freq) / pow (1 + yield/freq, k + ds/e);
+	for (k = 1; k < n; k++)
+	        sum += (100.0 * rate / freq) / pow (1 + yield / freq, k + ds / e);
 
-	return value_new_float (term1 + term2 + sum - last_term);
+	result = value_new_float (term1 + term2 + sum - last_term);
+
+ out:
+	g_date_free (settlement);
+	g_date_free (maturity);
+	g_date_free (issue);
+	g_date_free (first_coupon);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -3406,25 +3440,31 @@ gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
         GDate *maturity;
         int freq, basis;
         int days;
+	Value *result;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
-        if (settlement == NULL || maturity == NULL)
-                return value_new_error (ei->pos, gnumeric_err_VALUE);
-
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-	    || g_date_compare (settlement, maturity) > 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+	    || g_date_compare (settlement, maturity) > 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
         days = coupdaybs (settlement, maturity, freq, basis);
 
         if (days < 0)
-	        return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+	        result = value_new_error (ei->pos, "#UNIMPLEMENTED!");
+	else
+		result = value_new_int (days);
 
-        return value_new_int (days);
+ out:
+	g_date_free (settlement);
+	g_date_free (maturity);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -3464,25 +3504,33 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
         GDate *maturity;
         int freq, basis;
         gnum_float days;
+	Value *result;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
-        if (settlement == NULL || maturity == NULL)
-                return value_new_error (ei->pos, gnumeric_err_VALUE);
-
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-	    || g_date_compare (settlement, maturity) > 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+	    || g_date_compare (settlement, maturity) > 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
         days = coupdays (settlement, maturity, freq, basis);
 
-        if (days < 0)
-	        return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        if (days < 0) {
+	        result = value_new_error (ei->pos, "#UNIMPLEMENTED!");
+		goto out;
+	}
 
-        return value_new_float (days);
+        result = value_new_float (days);
+
+ out:
+	g_date_free (settlement);
+	g_date_free (maturity);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -3522,25 +3570,31 @@ gnumeric_coupdaysnc (FunctionEvalInfo *ei, Value **argv)
         GDate      *maturity;
         int        freq, basis;
         gnum_float days;
+	Value      *result;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
-        if (settlement == NULL || maturity == NULL)
-                return value_new_error (ei->pos, gnumeric_err_VALUE);
-
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-	    || g_date_compare (settlement, maturity) > 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+	    || g_date_compare (settlement, maturity) > 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
         days = coupdaysnc (settlement, maturity, freq, basis);
 
         if (days < 0)
-	        return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+	        result = value_new_error (ei->pos, "#UNIMPLEMENTED!");
+	else
+		result = value_new_float (days);
 
-        return value_new_float (days);
+ out:
+	g_date_free (settlement);
+	g_date_free (maturity);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -3579,25 +3633,28 @@ gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
         GDate   *maturity;
         GDate   *date;
         int     freq, basis;
-	Value   *v;
+	Value   *result;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
-        if (settlement == NULL || maturity == NULL)
-                return value_new_error (ei->pos, gnumeric_err_VALUE);
-
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-	    || g_date_compare (settlement, maturity) > 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+	    || g_date_compare (settlement, maturity) > 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
         date = coupncd (settlement, maturity, freq, basis);
-	v = value_new_int (datetime_g_to_serial (date));
-	g_free (date);
+	result = value_new_int (datetime_g_to_serial (date));
+	g_date_free (date);
 
-	return v;
+ out:
+	g_date_free (settlement);
+	g_date_free (maturity);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -3672,22 +3729,28 @@ gnumeric_coupnum (FunctionEvalInfo *ei, Value **argv)
         GDate *maturity;
         int freq, basis;
         gnum_float n;
+	Value *result;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
-        if (settlement == NULL || maturity == NULL)
-                return value_new_error (ei->pos, gnumeric_err_VALUE);
-
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-	    || g_date_compare (settlement, maturity) > 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+	    || g_date_compare (settlement, maturity) > 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
         n = coupnum (settlement, maturity, freq, basis);
 
-        return value_new_float (n);
+        result = value_new_float (n);
+
+ out:
+	g_date_free (settlement);
+	g_date_free (maturity);
+
+	return result;
 }
 
 /***************************************************************************/
