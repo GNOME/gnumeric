@@ -1,5 +1,9 @@
 2003-11-26  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post release bump
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.2.2
 
 2003-11-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
