@@ -35,8 +35,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62cvs\n"
-"POT-Creation-Date: 2001-02-11 06:59+0100\n"
-"PO-Revision-Date: 2001-02-11 07:50+01:00\n"
+"POT-Creation-Date: 2001-02-11 08:07+0100\n"
+"PO-Revision-Date: 2001-02-11 08:24+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1073,7 +1073,7 @@ msgstr "Leeren rückgängig machen"
 
 #. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1133 src/sheet.c:2409
+#: src/commands.c:1133 src/sheet.c:2412
 msgid "Clear"
 msgstr "Leeren"
 
@@ -2117,54 +2117,50 @@ msgid "_Locked"
 msgstr "Ges_perrt"
 
 #: src/dialogs/cell-format.glade.h:99
-msgid "_Merge Cells"
-msgstr "Zellen zusa_mmenführen"
-
-#: src/dialogs/cell-format.glade.h:100
 msgid "_No Color"
 msgstr "_Keine Farbe"
 
-#: src/dialogs/cell-format.glade.h:101
+#: src/dialogs/cell-format.glade.h:100
 msgid "_Number"
 msgstr "_Zahl"
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:101
 msgid "_Percentage"
 msgstr "_Prozent"
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:102
 msgid "_Right"
 msgstr "_Rechts:"
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:103
 msgid "_Scientific"
 msgstr "Wissensc_haftlich"
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:104
 msgid "_Style"
 msgstr "_Stil"
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:105
 msgid "_Time"
 msgstr "_Zeit"
 
-#: src/dialogs/cell-format.glade.h:107
+#: src/dialogs/cell-format.glade.h:106
 msgid "_Top"
 msgstr "_Oben"
 
-#: src/dialogs/cell-format.glade.h:108
+#: src/dialogs/cell-format.glade.h:107
 msgid "_Type"
 msgstr "_Typ"
 
-#: src/dialogs/cell-format.glade.h:109
+#: src/dialogs/cell-format.glade.h:108
 msgid "_Underline:"
 msgstr "_Unterstreichen:"
 
-#: src/dialogs/cell-format.glade.h:110
+#: src/dialogs/cell-format.glade.h:109
 msgid "_Use Separator for 1000's"
 msgstr "_Trennzeichen für Tausender benutzen"
 
-#: src/dialogs/cell-format.glade.h:111
+#: src/dialogs/cell-format.glade.h:110
 msgid "_Wrap text"
 msgstr "Text um_brechen"
 
@@ -3265,7 +3261,8 @@ msgstr "Daten (von %s)"
 msgid ""
 "Actual processing will start at this line, any previous lines will be ignored"
 msgstr ""
-"Die tatsächliche Verarbeitung wird bei dieser Zeile beginnen, alle vorangehenden\n"
+"Die tatsächliche Verarbeitung wird bei dieser Zeile beginnen, alle "
+"vorangehenden\n"
 "werden ignoriert werden."
 
 #: src/dialogs/dialog-stf.glade.h:4
@@ -3348,7 +3345,8 @@ msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon"
 msgstr ""
-"Die Spalten im Text sind durch ein Trennzeichen voneinander abgetrennt, z. B.\n"
+"Die Spalten im Text sind durch ein Trennzeichen voneinander abgetrennt, "
+"z. B.\n"
 "durch ein Semikolon."
 
 #: src/dialogs/dialog-stf.glade.h:23
@@ -3433,7 +3431,8 @@ msgstr "Je Spalte formatieren"
 #: src/dialogs/dialog-stf.glade.h:43
 msgid "Processing ends at this line, any subsequent lines will be ignored"
 msgstr ""
-"Die Verarbeitung endet bei dieser Zeile; alle folgenden Zeilen werden ignoriert\n"
+"Die Verarbeitung endet bei dieser Zeile; alle folgenden Zeilen werden "
+"ignoriert\n"
 "werden."
 
 #: src/dialogs/dialog-stf.glade.h:44
@@ -3464,7 +3463,8 @@ msgid ""
 "format or select one from the list on the right."
 msgstr ""
 "Das Format für jede Spalte wählen. Sie können auf die Spaltenliste links\n"
-"klicken, um eine Spalte zu markieren.  Dann können Sie ein benutzerdefiniertes\n"
+"klicken, um eine Spalte zu markieren.  Dann können Sie ein "
+"benutzerdefiniertes\n"
 "Format eingeben oder eines aus der Liste rechts wählen."
 
 #: src/dialogs/dialog-stf.glade.h:50
@@ -3514,7 +3514,8 @@ msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting"
 msgstr ""
-"Führende und anhängende Leerzeichen von jeder Spalte entfernen; wenn Sie sich\n"
+"Führende und anhängende Leerzeichen von jeder Spalte entfernen; wenn Sie "
+"sich\n"
 "unsicher sind, sollten Sie diese Einstellung bei dem Vorgabewert belassen."
 
 #: src/dialogs/dialog-stf.glade.h:62
@@ -4340,7 +4341,9 @@ msgstr "Ein Wert"
 
 #: src/dialogs/validate.glade.h:2
 msgid "Apply these changes to other cells with the same settings"
-msgstr "Diese Änderungen auch auf die Zellen anwenden, die die gleichen Einstellungen haben"
+msgstr ""
+"Diese Änderungen auch auf die Zellen anwenden, die die gleichen "
+"Einstellungen haben"
 
 #: src/dialogs/validate.glade.h:4
 msgid "Data Validation"
@@ -4535,23 +4538,15 @@ msgstr "Fehler: kein Blatt"
 msgid "Syntax error"
 msgstr "Syntaxfehler"
 
-#: src/expr.c:203
-msgid "Missing quote"
-msgstr "Fehlendes Anführungszeichen"
-
-#: src/expr.c:207
-msgid "Impossible!"
-msgstr "Unmöglich!"
-
-#: src/expr.c:553
+#: src/expr.c:546
 msgid "Internal type error"
 msgstr "Interner Typenfehler"
 
-#: src/expr.c:732
+#: src/expr.c:725
 msgid "Unknown operator"
 msgstr "Unbekannter Operator"
 
-#: src/expr.c:950
+#: src/expr.c:943
 msgid "Unknown evaluation error"
 msgstr "Unbekannter Auswertungsfehler"
 
@@ -11900,7 +11895,8 @@ msgstr "Die Modul-Datei »%s« kann nicht geöffnet werden: %s"
 #: src/plugin.c:1094
 #, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
-msgstr "Version des Plugins »%s« unterscheidet sich von der der Anwendung »%s«."
+msgstr ""
+"Version des Plugins »%s« unterscheidet sich von der der Anwendung »%s«."
 
 #: src/plugin.c:1098
 #, c-format
@@ -12037,9 +12033,8 @@ msgid "The search range is invalid."
 msgstr ""
 
 #: src/search.c:142
-#, fuzzy
 msgid "Invalid search pattern."
-msgstr "Ungültiges Argument"
+msgstr "Ungültiges Suchmuster."
 
 #: src/search.c:157 src/search.c:161
 msgid "Invalid $-specification in replacement."
@@ -12112,24 +12107,20 @@ msgid "_Delete..."
 msgstr "_Entfernen..."
 
 #: src/sheet-control-gui.c:1096
-#, fuzzy
 msgid "_Insert Column(s)"
-msgstr "Spalten einfügen"
+msgstr "Spalt_e(n) einfügen"
 
 #: src/sheet-control-gui.c:1098
-#, fuzzy
 msgid "_Delete Column(s)"
-msgstr "Spalten löschen"
+msgstr "Spa_lte(n) löschen"
 
 #: src/sheet-control-gui.c:1100
-#, fuzzy
 msgid "_Insert Row(s)"
-msgstr "Zeilen einfügen"
+msgstr "Z_eile(n) einfügen"
 
 #: src/sheet-control-gui.c:1102
-#, fuzzy
 msgid "_Delete Row(s)"
-msgstr "Zeilen löschen"
+msgstr "Zei_le(n) löschen"
 
 #: src/sheet-control-gui.c:1105
 msgid "Clear Co_ntents"
@@ -12162,15 +12153,14 @@ msgid "_Row Height..."
 msgstr "_Zeilenhöhe..."
 
 #: src/sheet-object-container.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "can't create object for '%s'"
-msgstr "Kann Datei %s nicht erzeugen\n"
+msgstr "Objekt für »%s« kann nicht erzeugen werden"
 
 #: src/gnumeric.xml.h:12 src/sheet-object-widget.c:255
 #: src/workbook-object-toolbar.c:135
-#, fuzzy
 msgid "Button"
-msgstr "Unten"
+msgstr "Knopf"
 
 #: src/sheet-object-widget.c:493
 #, fuzzy
@@ -12179,21 +12169,21 @@ msgstr "Konfiguriere"
 
 #: src/sheet-object.c:81
 msgid "Configure"
-msgstr "Konfiguriere"
+msgstr "Konfigurieren"
 
-#: src/sheet.c:2812 src/sheet.c:2822
+#: src/sheet.c:2815 src/sheet.c:2825
 msgid "Insert Columns"
 msgstr "Spalten einfügen"
 
-#: src/sheet.c:2891
+#: src/sheet.c:2894
 msgid "Delete Columns"
 msgstr "Spalten löschen"
 
-#: src/sheet.c:2959 src/sheet.c:2969
+#: src/sheet.c:2962 src/sheet.c:2972
 msgid "Insert Rows"
 msgstr "Zeilen einfügen"
 
-#: src/sheet.c:3038
+#: src/sheet.c:3041
 msgid "Delete Rows"
 msgstr "Zeilen löschen"
 
@@ -12322,12 +12312,15 @@ msgstr "Fehler beim Versuch, die Datei vorab zu konvertieren"
 #. * Note this buffer was allocated with malloc, not g_malloc
 #.
 #: src/stf.c:148
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
 "The character '%c' (ASCII decimal %d) was encountered.\n"
 "Most likely your locale settings are wrong."
-msgstr "Diese Datei scheint keine gültige Textdatei zu sein"
+msgstr ""
+"Diese Datei scheint keine gültige Textdatei zu sein.\n"
+"Das Zeichen »%c« (ASCII-Dezimalwert %d) wurde angetroffen.\n"
+"Wahrscheinlich sind Ihre Standorteinstellungen (\"locale settings\") falsch."
 
 #: src/stf.c:205
 msgid "Parse error while trying to parse data into sheet"
@@ -12523,7 +12516,6 @@ msgid "Add decimals"
 msgstr "Dezimalen hinzufügen"
 
 #: src/workbook-format-toolbar.c:443
-#, fuzzy
 msgid "Increases the number of decimals displayed"
 msgstr "Die Anzahl der angezeigten Dezimalen erhöhen"
 
@@ -12532,7 +12524,6 @@ msgid "Remove decimals"
 msgstr "Dezimalen entfernen"
 
 #: src/workbook-format-toolbar.c:446
-#, fuzzy
 msgid "Decreases the number of decimals displayed"
 msgstr "Die Anzahl der angezeigten Dezimalen vermindern"
 
@@ -12640,9 +12631,8 @@ msgid "Creates a list"
 msgstr "Eine Liste erzeugen"
 
 #: src/workbook-object-toolbar.c:147
-#, fuzzy
 msgid "Combo"
-msgstr "Farbe"
+msgstr ""
 
 #: src/workbook-object-toolbar.c:147
 #, fuzzy
@@ -12666,18 +12656,16 @@ msgid "Rectangle"
 msgstr "Rechteck"
 
 #: src/workbook-object-toolbar.c:156
-#, fuzzy
 msgid "Creates a rectangle object"
-msgstr "Ein neues Arbeitsbuch erzeugen"
+msgstr "Ein Rechteckobjekt erzeugen"
 
 #: src/workbook-object-toolbar.c:159
 msgid "Ellipse"
 msgstr "Ellipse"
 
 #: src/workbook-object-toolbar.c:159
-#, fuzzy
 msgid "Creates an ellipse object"
-msgstr "Neues Arbeitsblatt erzeugen"
+msgstr "Ein Ellipsenobjekt erzeugen"
 
 #: src/workbook-view.c:235
 #, c-format
@@ -12780,9 +12768,9 @@ msgid "Select an object to add"
 msgstr "Ein hinzuzufügendes Objekt auswählen"
 
 #: src/workbook-control-gui.c:1454
-#, fuzzy
-msgid "Unable to create object of type '"
-msgstr "Kann Datei %s nicht erzeugen\n"
+#, c-format
+msgid "Unable to create object of type '%s'"
+msgstr "Es ist nicht möglich, ein Objekt des Typus' »%s« zu erzeugen"
 
 #: src/gnumeric.xml.h:227 src/workbook-control-gui.c:1772
 msgid "_New"
@@ -13062,8 +13050,8 @@ msgstr "Neue Zellen einfügen"
 msgid "_Name"
 msgstr "_Name"
 
-#: src/workbook-control-gui.c:1984
-msgid "_Add\\modify comment..."
+#: src/gnumeric.xml.h:198 src/workbook-control-gui.c:1984
+msgid "_Add / Modify comment..."
 msgstr "Kommentar _hinzufügen/ändern..."
 
 #: src/gnumeric.xml.h:64 src/workbook-control-gui.c:1985
@@ -13404,9 +13392,8 @@ msgstr ""
 "Geben Sie eine Zeichenkette für die Formatierungen für jeden Abschnitt ein:"
 
 #: src/gnumeric.xml.h:20
-#, fuzzy
 msgid "Change height of the selected rows"
-msgstr "Zeilenhöhe einstellen"
+msgstr "Höhe der markierten Zeilen ändern"
 
 #: src/gnumeric.xml.h:21
 msgid "Change the default column width"
@@ -13421,18 +13408,16 @@ msgid "Change the order the sheets are displayed"
 msgstr ""
 
 #: src/gnumeric.xml.h:24
-#, fuzzy
 msgid "Change width of the selected columns"
-msgstr "Spaltenbreite einstellen"
+msgstr "Breite der markierten Spalten ändern"
 
 #: src/gnumeric.xml.h:30
 msgid "Close the current file"
 msgstr "Die aktuelle Datei schließen"
 
 #: src/gnumeric.xml.h:32
-#, fuzzy
 msgid "Combo Box"
-msgstr "Farbe"
+msgstr ""
 
 #: src/gnumeric.xml.h:34
 #, fuzzy
@@ -13483,9 +13468,8 @@ msgid "Create a radio button"
 msgstr "Eine Grafik erzeugen"
 
 #: src/gnumeric.xml.h:48
-#, fuzzy
 msgid "Create an arrow"
-msgstr "Ein neues Arbeitsbuch erzeugen"
+msgstr "Einen Pfeil erzeugen"
 
 #: src/gnumeric.xml.h:53
 #, fuzzy
@@ -13493,9 +13477,8 @@ msgid "Cut the selection"
 msgstr "_Auswahl automatisch einpasssen"
 
 #: src/gnumeric.xml.h:54
-#, fuzzy
 msgid "Decrease Precision"
-msgstr "Vermindern"
+msgstr "Genauigkeit vermindern"
 
 #: src/gnumeric.xml.h:55
 #, fuzzy
@@ -13507,9 +13490,8 @@ msgid "Display the value of a formula or the formula itself"
 msgstr ""
 
 #: src/gnumeric.xml.h:58
-#, fuzzy
 msgid "Draw a rectangle"
-msgstr "Ein neues Arbeitsbuch erzeugen"
+msgstr "Ein Rechteck zeichnen"
 
 #: src/gnumeric.xml.h:59
 msgid "Draw an oval"
@@ -13520,14 +13502,12 @@ msgid "E_xit"
 msgstr "_Beenden"
 
 #: src/gnumeric.xml.h:61
-#, fuzzy
 msgid "Edit a formula in the current cell"
-msgstr "Eine Funktion in der aktuellen Zelle bearbeiten"
+msgstr "Eine Formel in der aktuellen Zelle bearbeiten"
 
 #: src/gnumeric.xml.h:63
-#, fuzzy
 msgid "Edit the name of the current sheet"
-msgstr "Eine Funktion in der aktuellen Zelle bearbeiten"
+msgstr "Den Namen des aktuellen Blatts bearbeiten"
 
 #: src/gnumeric.xml.h:65
 msgid "Ensure columns are just wide enough to display content"
@@ -13571,14 +13551,12 @@ msgid "Hide _Row Headers"
 msgstr "_Zeilenkopf verbergen"
 
 #: src/gnumeric.xml.h:84
-#, fuzzy
 msgid "Hide the selected columns"
-msgstr "Ausgewählte Zellen sortieren"
+msgstr "Ausgewählte Spalten verbergen"
 
 #: src/gnumeric.xml.h:85
-#, fuzzy
 msgid "Hide the selected rows"
-msgstr "Ausgewählte Zellen sortieren"
+msgstr "Ausgewählte Zeilen verbergen"
 
 #: src/gnumeric.xml.h:87
 #, fuzzy
@@ -13610,7 +13588,6 @@ msgid "Insert a shaped component into the spreadsheet"
 msgstr "Ein genormtes Objekt in das Arbeitsblatt einfügen"
 
 #: src/gnumeric.xml.h:95
-#, fuzzy
 msgid "Insert an object into the spreadsheet"
 msgstr "Ein Objekt in das Arbeitsblatt einfügen"
 
@@ -13648,7 +13625,8 @@ msgid "Make font bold"
 msgstr "Die Schrift fett machen"
 
 #: src/gnumeric.xml.h:117
-msgid "Makes font italic"
+#, fuzzy
+msgid "Make font italic"
 msgstr "Die Schrift kursiv machen"
 
 #: src/gnumeric.xml.h:118
@@ -13714,14 +13692,12 @@ msgid "Redo the undone action"
 msgstr "Operation wiederholen"
 
 #: src/gnumeric.xml.h:153
-#, fuzzy
 msgid "Remove selected cells, shifting others into their place"
-msgstr "Ausgewählte Zellen entfernen, andere an deren Stelle einsetzen"
+msgstr "Markierte Zellen entfernen, andere an deren Stelle einsetzen"
 
 #: src/gnumeric.xml.h:156
-#, fuzzy
 msgid "Right justifies the contents of each cell"
-msgstr "Zelleninhalt rechts ausrichten"
+msgstr "Inhalt jeder Zelle rechts ausrichten"
 
 #: src/gnumeric.xml.h:160
 msgid "Save _As"
@@ -13772,7 +13748,6 @@ msgid "Statistical methods"
 msgstr "Statistische Methoden"
 
 #: src/gnumeric.xml.h:187
-#, fuzzy
 msgid "Sum into the current cell"
 msgstr "Summe in die aktuelle Zelle schreiben"
 
@@ -13803,10 +13778,6 @@ msgstr "Die letzte Operation rückgängig machen"
 #: src/gnumeric.xml.h:197
 msgid "_About..."
 msgstr "_Info..."
-
-#: src/gnumeric.xml.h:198
-msgid "_Add / modify comment..."
-msgstr "Kommentar _hinzufügen/ändern..."
 
 #: src/gnumeric.xml.h:204
 msgid "_Change Name..."
@@ -13856,6 +13827,15 @@ msgstr "_Speichern"
 #: src/gnumeric.xml.h:247
 msgid "_View"
 msgstr "_Ansicht"
+
+#~ msgid "_Merge Cells"
+#~ msgstr "Zellen zusa_mmenführen"
+
+#~ msgid "Missing quote"
+#~ msgstr "Fehlendes Anführungszeichen"
+
+#~ msgid "Impossible!"
+#~ msgstr "Unmöglich!"
 
 #~ msgid "Data Interchange Format (CSV) module"
 #~ msgstr "Modul: Data Interchange Format Import (CSV)"
