@@ -28,6 +28,7 @@
 
 #include <func.h>
 #include <mathfunc.h>
+#include <rangefunc.h>
 #include <value.h>
 #include <auto-format.h>
 

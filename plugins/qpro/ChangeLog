@@ -1,3 +1,7 @@
+2002-08-04  Jon K Hellan  <hellan@acm.org>
+
+	* qpro-read.c: include gutils.h.
+
 2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".

@@ -112,7 +112,6 @@ gnm_guile_catcher (void *data, SCM tag, SCM throw_args)
 	char *msg;
 	char buf[256];
 	Value *v;
-	int len;
 
 	func = scm_c_eval_string ("gnm:error->string");
 	if (scm_procedure_p (func)) {
@@ -170,6 +169,12 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 	return scm_to_value (result);
 }
 
+/*
+ * FIXME: If we clean up at exit, removing the registered functions, we get
+ * rid of the 'Leaking string [Guile] with ref_count=1' warnings. The way we
+ * do this for other plugins, including Python, we deactivate the
+ * plugin. However, it is not possible to finalize Guile.
+ */
 static SCM
 scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_category, SCM scm_function)
 {
@@ -208,7 +213,6 @@ plugin_cleanup_general (ErrorInfo **ret_error)
 void
 plugin_init_general (ErrorInfo **ret_error)
 {
-	FunctionCategory *cat;
 	char *name, *dir;
 
 	*ret_error = NULL;
@@ -217,8 +221,6 @@ plugin_init_general (ErrorInfo **ret_error)
 
 	/* Initialize just in case. */
 	eval_pos = NULL;
-
-	cat = function_get_category ("Guile");
 
 	init_value_type ();
 

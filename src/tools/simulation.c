@@ -41,6 +41,7 @@
 #include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <mathfunc.h>
+#include "rangefunc.h"
 #include "simulation.h"
 
 typedef enum {

@@ -9,6 +9,7 @@
 #include "gnumeric.h"
 #include "search.h"
 
+#include "gutils.h"
 #include "ranges.h"
 #include "sheet.h"
 #include "workbook.h"

@@ -23,6 +23,7 @@
 #include <gnumeric.h>
 #include "qpro.h"
 
+#include <gutils.h>
 #include <plugin-util.h>
 #include <file.h>
 #include <workbook-view.h>
