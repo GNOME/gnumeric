@@ -613,7 +613,7 @@ static char const *help_fixed = {
 	   "@EXAMPLES=\n"
 	   "FIXED(1234.567,2) equals \"1,234.57\".\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=TEXT, VALUE, DOLLAR")
 };
 
 static GnmValue *
@@ -806,7 +806,7 @@ static char const *help_text = {
 	   "TEXT(3.223,\"$0.00\") equals \"$3.22\".\n"
 	   "TEXT(date(1999,4,15),\"mmmm, dd, yy\") equals \"April, 15, 99\".\n"
 	   "\n"
-	   "@SEEALSO=DOLLAR")
+	   "@SEEALSO=DOLLAR, FIXED, VALUE")
 };
 
 static GnmValue *

@@ -805,7 +805,7 @@ static char const *help_indirect = {
 	   "If A1 contains 3.14 and A2 contains A1, then\n"
 	   "INDIRECT(A2) equals 3.14.\n"
 	   "\n"
-	   "@SEEALSO=AREAS,INDEX,")
+	   "@SEEALSO=AREAS,INDEX,CELL")
 };
 
 static GnmValue *

@@ -86,7 +86,7 @@ static char const *help_cell = {
 	   "@EXAMPLES=\n"
 	   "Cell(\"format\",A1) returns the code of the format of the cell A1.\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=INDIRECT")
 };
 
 typedef struct {
