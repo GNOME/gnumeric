@@ -1,3 +1,8 @@
+2002-03-08  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Use .glade, .xml, .xml.in files directly.
+	* *.po: Update.
+	
 2002-03-08  Jody Goldberg <jody@gnome.org>
 
 	* POTFILES.in : plugins/sample_datasource/sample_datasource.c

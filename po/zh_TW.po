@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.99.1\n"
-"POT-Creation-Date: 2002-03-08 00:53+0100\n"
+"POT-Creation-Date: 2002-03-08 13:44+0100\n"
 "PO-Revision-Date: 2001-12-30 20:38+0800\n"
 "Last-Translator: Abel Cheung <maddog@linux.org.hk>\n"
 "Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
@@ -38,7 +38,7 @@ msgstr "Applix (*.as)"
 msgid "Imports version 4.[234] spreadsheets"
 msgstr "可匯入 4.[234] 版本的試算表"
 
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3123
+#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3125
 msgid "Financial"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/derivatives/options.c:290
+#: plugins/derivatives/options.c:291
 msgid ""
 "@FUNCTION=opt_bs_call\n"
 "@SYNTAX=opt_bs_call(strike,price,volatility,days_to_maturity,rate)\n"
@@ -69,7 +69,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:310
+#: plugins/derivatives/options.c:311
 msgid ""
 "@FUNCTION=opt_bs_put\n"
 "@SYNTAX=opt_bs_put(strike,price,volatility,days_to_maturity,rate)\n"
@@ -88,7 +88,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:330
+#: plugins/derivatives/options.c:331
 msgid ""
 "@FUNCTION=opt_bs_call_delta\n"
 "@SYNTAX=opt_bs_call_delta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -109,7 +109,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:353
+#: plugins/derivatives/options.c:354
 msgid ""
 "@FUNCTION=opt_bs_put_delta\n"
 "@SYNTAX=opt_bs_put_delta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -130,7 +130,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:377
+#: plugins/derivatives/options.c:378
 #, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_call_rho\n"
@@ -152,7 +152,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:401
+#: plugins/derivatives/options.c:402
 #, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_put_rho\n"
@@ -174,7 +174,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:424
+#: plugins/derivatives/options.c:425
 msgid ""
 "@FUNCTION=opt_bs_call_theta\n"
 "@SYNTAX=opt_bs_call_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -194,7 +194,7 @@ msgid ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:447
+#: plugins/derivatives/options.c:448
 msgid ""
 "@FUNCTION=opt_bs_put_theta\n"
 "@SYNTAX=opt_bs_put_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -214,7 +214,7 @@ msgid ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:470
+#: plugins/derivatives/options.c:471
 msgid ""
 "@FUNCTION=opt_bs_gamma\n"
 "@SYNTAX=opt_bs_gamma(strike,price,volatility,days_to_maturity,rate)\n"
@@ -235,7 +235,7 @@ msgid ""
 "opt_bs_vega"
 msgstr ""
 
-#: plugins/derivatives/options.c:494
+#: plugins/derivatives/options.c:495
 #, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_vega\n"
@@ -257,59 +257,59 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4490
-#: plugins/mps/mps.c:581 src/xml-io.c:3249
+#: plugins/dif/dif.c:78 plugins/excel/ms-excel-read.c:4483
+#: plugins/mps/mps.c:584 src/xml-io.c:3250
 msgid "Reading file..."
 msgstr "正在讀入檔案..."
 
-#: plugins/dif/dif.c:245
+#: plugins/dif/dif.c:247
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
 msgstr "第 %d 行出現語法錯誤。會忽略。"
 
-#: plugins/dif/dif.c:282
+#: plugins/dif/dif.c:284
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
 msgstr "出現不明的資料值「%s」（第 %d 行）。會忽略。"
 
-#: plugins/dif/dif.c:289
+#: plugins/dif/dif.c:291
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
 msgstr "出現不明的變數值類型「%d」（第 %d 行）。會忽略。"
 
-#: plugins/dif/dif.c:298
+#: plugins/dif/dif.c:300
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
 msgstr "DIF 檔的行數大於可接受行數的最大值 %d。會忽略剩餘的行數。"
 
-#: plugins/dif/dif.c:302
+#: plugins/dif/dif.c:304
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
 msgstr "DIF 檔的列數大於可接受列數的最大值 %d。會忽略剩餘的列數。"
 
-#: plugins/dif/dif.c:314
+#: plugins/dif/dif.c:316
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
 msgstr "當讀取檔案標頭時檔案突然在 %d 行完結。"
 
-#: plugins/dif/dif.c:318
+#: plugins/dif/dif.c:320
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
 msgstr "當讀取檔案資料時檔案突然在 %d 行完結。"
 
-#: plugins/dif/dif.c:334
+#: plugins/dif/dif.c:336
 msgid "Error while reading DIF file."
 msgstr "讀取 DIF 檔時發生錯誤。"
 
-#: plugins/dif/dif.c:365
+#: plugins/dif/dif.c:367
 msgid "Cannot get default sheet."
 msgstr ""
 
-#: plugins/dif/dif.c:398
+#: plugins/dif/dif.c:400
 msgid "Error while saving DIF file."
 msgstr "儲存 DIF 檔時發生錯誤。"
 
@@ -350,41 +350,41 @@ msgstr "無法開啟"
 msgid "Saving file..."
 msgstr "正在儲存檔案..."
 
-#: plugins/excel/ms-excel-read.c:433
+#: plugins/excel/ms-excel-read.c:894
 msgid "#UNKNOWN!"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:567 plugins/lotus-123/lotus.c:191
+#: plugins/excel/ms-excel-read.c:1028 plugins/lotus-123/lotus.c:191
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:497
 #, c-format
 msgid "Sheet%d"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:570
+#: plugins/excel/ms-excel-read.c:1031
 #, c-format
 msgid "Macro%d"
 msgstr "巨集%d"
 
-#: plugins/excel/ms-excel-read.c:573
+#: plugins/excel/ms-excel-read.c:1034
 #, c-format
 msgid "Chart%d"
 msgstr "圖表%d"
 
-#: plugins/excel/ms-excel-read.c:576
+#: plugins/excel/ms-excel-read.c:1037
 #, c-format
 msgid "Module%d"
 msgstr "模組%d"
 
-#: plugins/excel/ms-excel-read.c:4485
+#: plugins/excel/ms-excel-read.c:4478
 msgid "No book or workbook streams found."
 msgstr ""
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4649
+#: plugins/excel/ms-excel-read.c:4640
 msgid "Password protected workbooks are not supported yet."
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:4762
+#: plugins/excel/ms-excel-read.c:4757
 msgid "Unable to locate valid MS Excel workbook"
 msgstr ""
 
@@ -397,11 +397,11 @@ msgstr "此檔案的行數過多（%d > %d）"
 msgid "Can't open stream for writing\n"
 msgstr ""
 
-#: plugins/excel/ms-formula-read.c:600
+#: plugins/excel/ms-formula-read.c:604
 msgid "Broken function"
 msgstr ""
 
-#: plugins/excel/ms-formula-read.c:1467
+#: plugins/excel/ms-formula-read.c:1437
 msgid " Unknown formula"
 msgstr "不明的算式"
 
@@ -481,7 +481,7 @@ msgstr ""
 msgid "Error: no recordsets were returned"
 msgstr ""
 
-#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1364
+#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1366
 msgid "Database"
 msgstr "資料庫"
 
@@ -501,11 +501,11 @@ msgstr "Gnome 辭彙 PO 檔格式"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "它提供將 Gnome 辭彙儲存為 .po 檔的支援。"
 
-#: plugins/guile/plugin.c:67 src/func.c:793 src/functions/fn-information.c:695
-#: src/functions/fn-information.c:766 src/functions/fn-information.c:794
-#: src/functions/fn-information.c:821 src/functions/fn-information.c:872
-#: src/functions/fn-information.c:902 src/functions/fn-information.c:969
-#: src/functions/fn-logical.c:196 src/functions/fn-string.c:325
+#: plugins/guile/plugin.c:67 src/func.c:804 src/functions/fn-information.c:698
+#: src/functions/fn-information.c:769 src/functions/fn-information.c:797
+#: src/functions/fn-information.c:824 src/functions/fn-information.c:875
+#: src/functions/fn-information.c:905 src/functions/fn-information.c:972
+#: src/functions/fn-logical.c:199 src/functions/fn-string.c:328
 msgid "Invalid number of arguments"
 msgstr "參數數目不正確"
 
@@ -586,16 +586,16 @@ msgstr "Lotus 123"
 msgid "Lotus 123 (*.wk1)"
 msgstr "Lotus 123（*.wk1）"
 
-#: plugins/mps/mps.c:278
+#: plugins/mps/mps.c:281
 msgid "Program Name"
 msgstr ""
 
-#: plugins/mps/mps.c:284
+#: plugins/mps/mps.c:287
 msgid "Objective Value"
 msgstr ""
 
 #. Print 'Status'.
-#: plugins/mps/mps.c:295
+#: plugins/mps/mps.c:298
 msgid "Feasible"
 msgstr "可行"
 
@@ -603,12 +603,12 @@ msgstr "可行"
 #. * Add objective function stuff into the sheet.
 #.
 #. Print 'Objective function:'
-#: plugins/mps/mps.c:310
+#: plugins/mps/mps.c:313
 msgid "Objective function:"
 msgstr ""
 
 #. Print 'Current values'
-#: plugins/mps/mps.c:313
+#: plugins/mps/mps.c:316
 msgid "Current values"
 msgstr ""
 
@@ -616,61 +616,64 @@ msgstr ""
 #. * Add constraints into the sheet.
 #.
 #. Print 'Constraints:'.
-#: plugins/mps/mps.c:334
+#: plugins/mps/mps.c:337
 msgid "Constraints:"
 msgstr "限制："
 
 #. Print constraint titles.
-#: plugins/mps/mps.c:337 src/dialogs/dialog-plugin-manager.c:550
+#: plugins/mps/mps.c:340 src/dialogs/dialog-plugin-manager.c:550
 #: src/dialogs/plugin-manager.glade.h:8 src/format-template.c:405
-#: src/tools/solver/reports.c:138 src/tools/solver/reports.c:162
-#: src/tools/solver/reports.c:190 src/tools/solver/reports.c:291
-#: src/tools/solver/reports.c:320 src/workbook-control.c:234
+#: src/tools/solver/reports.c:144 src/tools/solver/reports.c:168
+#: src/tools/solver/reports.c:196 src/tools/solver/reports.c:294
+#: src/tools/solver/reports.c:323 src/tools/solver/reports.c:403
+#: src/tools/solver/reports.c:410 src/tools/solver/reports.c:630
+#: src/workbook-control.c:233
 msgid "Name"
 msgstr "名稱"
 
-#: plugins/mps/mps.c:341 src/dialogs/dialog-plugin-manager.c:555
-#: src/tools/solver/reports.c:292 src/tools/solver/reports.c:321
+#: plugins/mps/mps.c:344 src/dialogs/dialog-plugin-manager.c:555
+#: src/tools/solver/reports.c:295 src/tools/solver/reports.c:324
+#: src/tools/solver/reports.c:404 src/tools/solver/reports.c:411
 msgid "Value"
 msgstr "變數值"
 
-#: plugins/mps/mps.c:342
+#: plugins/mps/mps.c:345
 msgid "Type"
 msgstr "類型"
 
-#: plugins/mps/mps.c:343
+#: plugins/mps/mps.c:346
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:344 src/tools/solver/reports.c:194
+#: plugins/mps/mps.c:347 src/tools/solver/reports.c:200
 msgid "Slack"
 msgstr ""
 
-#: plugins/mps/mps.c:345 src/tools/solver/reports.c:193
+#: plugins/mps/mps.c:348 src/tools/solver/reports.c:199
 msgid "Status"
 msgstr "狀態"
 
-#: plugins/mps/mps.c:1131
+#: plugins/mps/mps.c:1134
 msgid "Problem name was not defined in the file."
 msgstr ""
 
-#: plugins/mps/mps.c:1134
+#: plugins/mps/mps.c:1137
 msgid "Invalid ROWS section in the file."
 msgstr ""
 
-#: plugins/mps/mps.c:1137
+#: plugins/mps/mps.c:1140
 msgid "Invalid COLUMNS section in the file."
 msgstr ""
 
-#: plugins/mps/mps.c:1140
+#: plugins/mps/mps.c:1143
 msgid "Invalid RHS section in the file."
 msgstr ""
 
-#: plugins/mps/mps.c:1143
+#: plugins/mps/mps.c:1146
 msgid "Invalid BOUNDS section in the file."
 msgstr ""
 
-#: plugins/mps/mps.c:1159
+#: plugins/mps/mps.c:1162
 msgid "Error while reading MPS file."
 msgstr "讀入 MPS 檔時發生錯誤。"
 
@@ -1013,53 +1016,53 @@ msgstr ""
 msgid "Unsupported Python type: %s"
 msgstr ""
 
-#: plugins/python-loader/python-loader.c:128
+#: plugins/python-loader/python-loader.c:129
 msgid "Python module name not given."
 msgstr "沒有提供 Python 模組名稱。"
 
-#: plugins/python-loader/python-loader.c:171
+#: plugins/python-loader/python-loader.c:172
 #, c-format
 msgid "Module \"%s\" doesn't exist."
 msgstr "模組「%s」不存在。"
 
-#: plugins/python-loader/python-loader.c:196
+#: plugins/python-loader/python-loader.c:197
 #, c-format
 msgid "Execution of module \"%s\" failed."
 msgstr "執行模組「%s」時發生錯誤。"
 
-#: plugins/python-loader/python-loader.c:228 src/plugin-loader-module.c:193
+#: plugins/python-loader/python-loader.c:229 src/plugin-loader-module.c:193
 msgid "Loader"
 msgstr ""
 
-#: plugins/python-loader/python-loader.c:231
+#: plugins/python-loader/python-loader.c:232
 msgid "Python module name"
 msgstr "Python 模組名稱"
 
-#: plugins/python-loader/python-loader.c:332
+#: plugins/python-loader/python-loader.c:333
 msgid "Some name"
 msgstr ""
 
-#: plugins/python-loader/python-loader.c:393
-#: plugins/python-loader/python-loader.c:477
-#: plugins/python-loader/python-loader.c:677
+#: plugins/python-loader/python-loader.c:394
+#: plugins/python-loader/python-loader.c:478
+#: plugins/python-loader/python-loader.c:689
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Python 檔案「%s」的格式不正確。"
 
-#: plugins/python-loader/python-loader.c:398
-#: plugins/python-loader/python-loader.c:404
-#: plugins/python-loader/python-loader.c:482 src/plugin-loader-module.c:440
+#: plugins/python-loader/python-loader.c:399
+#: plugins/python-loader/python-loader.c:405
+#: plugins/python-loader/python-loader.c:483 src/plugin-loader-module.c:440
 #: src/plugin-loader-module.c:446 src/plugin-loader-module.c:511
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "檔案內沒有「%s」函數。"
 
-#: plugins/python-loader/python-loader.c:682
+#: plugins/python-loader/python-loader.c:694
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr ""
 
-#: plugins/python-loader/python-loader.c:687
+#: plugins/python-loader/python-loader.c:699
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr ""
@@ -1072,25 +1075,36 @@ msgstr "Python 增效模組"
 msgid "This plugin provides Python language support in Gnumeric"
 msgstr "此增效模組為 Gnumeric 提供 Python 語言支援"
 
-#: plugins/python/python.c:52
+#: plugins/python/python.c:53
 msgid "Python exception"
 msgstr ""
 
-#: plugins/python/python.c:577
+#: plugins/python/python.c:579
 msgid "Unknown Python type"
 msgstr ""
 
-#: plugins/python/python.c:616
+#: plugins/python/python.c:619
 msgid "Unable to lookup Python code object."
 msgstr ""
 
-#: plugins/python/python.c:821
+#: plugins/python/python.c:825
 msgid "object must be callable"
 msgstr ""
 
-#: plugins/python/python.c:922
+#: plugins/python/python.c:927
 #, c-format
 msgid "Unhandled Python exception: %s"
+msgstr ""
+
+#: plugins/sample_datasource/sample_datasource.c:250
+#, no-c-format
+msgid ""
+"@FUNCTION=atl_last\n"
+"@SYNTAX=atl_last(tag)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 msgstr ""
 
 #: plugins/sc/plugin.xml.in.h:1
@@ -1141,7 +1155,7 @@ msgstr "開啟 sylk 檔時發生錯誤。"
 msgid "Error while reading sheet."
 msgstr "讀入試算表時發生錯誤。"
 
-#: plugins/xbase/boot.c:163
+#: plugins/xbase/boot.c:164
 msgid "Error while opening xbase file."
 msgstr "開啟 xbase 檔時發生錯誤。"
 
@@ -1181,11 +1195,11 @@ msgstr "XML 文件格式不正確！"
 msgid "About this application"
 msgstr "關於此應用程式"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3055
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3054
 msgid "Add an outline group"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3085
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3084
 msgid "Advanced _Filter..."
 msgstr "進階過濾器(_F)..."
 
@@ -1201,23 +1215,23 @@ msgstr "將內容靠左對齊並增加縮排"
 msgid "Arrow"
 msgstr "箭頭"
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3023
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3022
 msgid "Auto _Correct..."
 msgstr "自動修正(_C)..."
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2653
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2652
 msgid "Auto_fill"
 msgstr "自動填充(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2654
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2653
 msgid "Automatically fill the current selection"
 msgstr "自動填滿目前的選擇區域"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3024
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3023
 msgid "Automatically perform simple spell checking"
 msgstr "自動進行簡單的拼字檢查"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3027
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3026
 msgid "Automatically save the current document at regular intervals"
 msgstr "自動在固定的時間內儲存目前的文件"
 
@@ -1242,15 +1256,15 @@ msgstr "邊框"
 msgid "Button"
 msgstr "按鈕"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2797
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2796
 msgid "C_ells..."
 msgstr "儲存格(_E)..."
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2707
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2706
 msgid "C_lear"
 msgstr "清除(_L)"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2910
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2909
 msgid "C_olumn"
 msgstr "列(_O)"
 
@@ -1270,24 +1284,24 @@ msgstr "按照已選擇的儲存格區域置中"
 msgid "Centers the text in each selection"
 msgstr "將每個選擇區域的文字置中"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2844
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2843
 msgid "Change height of the selected rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2837
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2836
 msgid "Change the default column width"
 msgstr "改變預設的每列寬度"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2856
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2855
 msgid "Change the default row height"
 msgstr "改變預設的每行高度"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2680
-#: src/workbook-control-gui.c:2866
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2679
+#: src/workbook-control-gui.c:2865
 msgid "Change the order the sheets are displayed"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2825
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2824
 msgid "Change width of the selected columns"
 msgstr "改變已選的欄位的寬度"
 
@@ -1295,19 +1309,19 @@ msgstr "改變已選的欄位的寬度"
 msgid "Checkbox"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2614
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2613
 msgid "Clear the selected cells' comments"
 msgstr "清除已選擇的儲存格的註解"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2617
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2616
 msgid "Clear the selected cells' contents"
 msgstr "清除已選擇的儲存格的內容"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2611
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2610
 msgid "Clear the selected cells' formats"
 msgstr "清除已選擇的儲存格的格式"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2608
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2607
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "清除已選擇的儲存格的格式、註解及內容"
 
@@ -1316,16 +1330,16 @@ msgid "Close the current file"
 msgstr "關閉目前的檔案"
 
 #: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:4
-#: src/workbook-control-gui.c:2613
+#: src/workbook-control-gui.c:2612
 msgid "Co_mments"
 msgstr "註解(_M)"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2982
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2981
 #, fuzzy
 msgid "Co_variance"
 msgstr "取消(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3049
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3048
 msgid "Collapse an outline group"
 msgstr ""
 
@@ -1333,29 +1347,29 @@ msgstr ""
 msgid "Combo Box"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2954
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2953
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:2958
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:2957
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:2963
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:2962
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2968
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2967
 msgid ""
 "Comparing two population means from pop. with known varinces or using a "
 "large sample: z- test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3010
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3009
 msgid "Comparing two population variances"
 msgstr ""
 
@@ -1363,12 +1377,12 @@ msgstr ""
 msgid "Configure toolbars"
 msgstr "設定工具列"
 
-#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3103
+#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3102
 msgid "Consolidate regions using a function"
 msgstr "透過函數合併不同區域的資料"
 
 #: src/GNOME_Gnumeric.xml.h:45 src/selection.c:497
-#: src/workbook-control-gui.c:3157
+#: src/workbook-control-gui.c:3156
 msgid "Copy"
 msgstr "複製"
 
@@ -1381,7 +1395,7 @@ msgid "Copy the selection"
 msgstr "複製選擇區域"
 
 #: src/GNOME_Gnumeric.xml.h:48 src/dialogs/covariance.glade.h:2
-#: src/workbook-control-gui.c:2983
+#: src/workbook-control-gui.c:2982
 msgid "Covariance"
 msgstr ""
 
@@ -1413,15 +1427,15 @@ msgstr "繪畫直線"
 msgid "Create a list"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2749
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2748
 msgid "Create a new shared view of the workbook"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2575
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2574
 msgid "Create a new spreadsheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2752
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2751
 msgid "Create a new unshared view of the workbook"
 msgstr ""
 
@@ -1447,17 +1461,17 @@ msgid "Cu_t"
 msgstr "剪下(_T)"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2770
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2769
 msgid "Current _date"
 msgstr "現在的日期(_D)"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2776
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2775
 msgid "Current _time"
 msgstr "現在的時間(_T)"
 
 #: src/GNOME_Gnumeric.xml.h:66 src/selection.c:523 src/selection.c:526
-#: src/workbook-control-gui.c:3154
+#: src/workbook-control-gui.c:3153
 msgid "Cut"
 msgstr "剪下"
 
@@ -1478,15 +1492,15 @@ msgstr "減低精確度"
 msgid "Decreases the number of decimals displayed"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2871
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2870
 msgid "Display _Formulas"
 msgstr "顯示算式(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3064
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3063
 msgid "Display _Outlines"
 msgstr "顯示輪廓(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2872
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2871
 msgid "Display the value of a formula or the formula itself"
 msgstr "顯示算式的回傳值或是算式本身"
 
@@ -1507,16 +1521,16 @@ msgstr "離開(_X)"
 msgid "Edit a formula in the current cell"
 msgstr "在目前的儲存格中編輯算式"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2594
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2593
 #, fuzzy
 msgid "Edit descriptive information"
 msgstr "額外資訊"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2785
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2784
 msgid "Edit sheet and workbook names"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2815
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2814
 msgid "Edit the selected cell's comment"
 msgstr ""
 
@@ -1524,11 +1538,11 @@ msgstr ""
 msgid "Ellipse"
 msgstr "橢圓"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2828
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2827
 msgid "Ensure columns are just wide enough to display content"
 msgstr "確定欄寬僅僅足夠顯示內容"
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2846
 msgid "Ensure rows are just tall enough to display content"
 msgstr "確定行高僅僅足夠顯示內容"
 
@@ -1536,20 +1550,20 @@ msgstr "確定行高僅僅足夠顯示內容"
 msgid "Exit the program"
 msgstr "離開程式"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2941
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2940
 msgid "Exponential smoothing"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:2989
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:2988
 #, fuzzy
 msgid "F_orecasting"
 msgstr "格式(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3124
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3123
 msgid "F_ormat"
 msgstr "格式(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3086
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3085
 msgid "Filter data with given criteria"
 msgstr "以指定的規條過濾資料"
 
@@ -1572,12 +1586,12 @@ msgstr "選擇字型"
 msgid "Foreground"
 msgstr "前景"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2915
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2914
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4063
-#: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:2992
+#: src/GNOME_Gnumeric.xml.h:94 src/dialogs/fourier-analysis.glade.h:2
+#: src/tools/analysis-tools.c:4068 src/workbook-control-gui.c:2991
 msgid "Fourier Analysis"
 msgstr ""
 
@@ -1590,7 +1604,7 @@ msgstr ""
 msgid "Function Guru"
 msgstr "函數精靈"
 
-#: src/GNOME_Gnumeric.xml.h:97 src/workbook-control-gui.c:2660
+#: src/GNOME_Gnumeric.xml.h:97 src/workbook-control-gui.c:2659
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 
@@ -1598,7 +1612,7 @@ msgstr ""
 msgid "Graph Guru"
 msgstr "圖表精靈"
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2843
+#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2842
 msgid "H_eight..."
 msgstr "高度(_E)..."
 
@@ -1606,7 +1620,7 @@ msgstr "高度(_E)..."
 msgid "Hide _Column Headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2883
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2882
 msgid "Hide _Gridlines"
 msgstr "隱藏格線(_G)"
 
@@ -1614,19 +1628,19 @@ msgstr "隱藏格線(_G)"
 msgid "Hide _Row Headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2877
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2876
 msgid "Hide _Zeros"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2831
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2830
 msgid "Hide the selected columns"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2850
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2849
 msgid "Hide the selected rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2579
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2578
 msgid "Imports a file"
 msgstr "匯入檔案"
 
@@ -1651,12 +1665,12 @@ msgstr "加入元件"
 msgid "Insert Shaped Component"
 msgstr "加入不規則元件"
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:464
-#: src/workbook-control-gui.c:2672
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:463
+#: src/workbook-control-gui.c:2671
 msgid "Insert a new sheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2807
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2806
 msgid "Insert a new spreadsheet"
 msgstr "加入新的試算表"
 
@@ -1668,23 +1682,23 @@ msgstr ""
 msgid "Insert an object into the spreadsheet"
 msgstr "將物件加入試算表"
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2798
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2797
 msgid "Insert new cells"
 msgstr "加入新的儲存格"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2801
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2800
 msgid "Insert new columns"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2804
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2803
 msgid "Insert new rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:2771
+#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:2770
 msgid "Insert the current date into the selected cell(s)"
 msgstr "將現在的日期加入已選擇的儲存格"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:2777
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:2776
 msgid "Insert the current time into the selected cell(s)"
 msgstr "將現在的時間加入已選擇的儲存格"
 
@@ -1701,7 +1715,7 @@ msgstr "加入 Bonobo 物件"
 msgid "Invoke the graph guru to create a graph"
 msgstr "調用圖表精靈來繪製圖表"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2684
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2683
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
@@ -1709,15 +1723,15 @@ msgstr ""
 msgid "Italicize"
 msgstr "斜體"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3033
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3032
 msgid "Iteratively recalculate to find a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3037
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3036
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2733
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2732
 msgid "Jump to a specified cell"
 msgstr "移至指定的儲存格"
 
@@ -1748,19 +1762,19 @@ msgstr ""
 msgid "Lock or unlock the top left cols/rows"
 msgstr "鎖定或不鎖定左上角的行/列"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2668
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2667
 msgid "Make a copy of the current sheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2657
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2656
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2834
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2833
 msgid "Make any hidden columns in the selection visible"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2853
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2852
 msgid "Make any hidden rows in the selection visible"
 msgstr ""
 
@@ -1789,11 +1803,11 @@ msgstr "合併"
 msgid "Merge a range of cells"
 msgstr "合併某範圍的儲存格"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2907
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2906
 msgid "Modify the formatting of the selected cells"
 msgstr "修改已選擇的儲存格的內容格式"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2919
+#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2918
 msgid "Modify the workbook attributes"
 msgstr ""
 
@@ -1801,28 +1815,28 @@ msgstr ""
 msgid "Money"
 msgstr "貨幣"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2945
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2944
 #, fuzzy
 msgid "Moving average"
 msgstr "移動 %s"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3133
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3132
 msgid "New"
 msgstr "新增"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2748
+#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2747
 msgid "New _Shared"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2751
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2750
 msgid "New _Unshared"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2929
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2928
 msgid "One Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3136
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3135
 msgid "Open"
 msgstr "開啟"
 
@@ -1834,11 +1848,11 @@ msgstr "開啟試算表"
 msgid "Open an existing workbook"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3070
+#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3069
 msgid "Outlines _Below"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3076
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3075
 msgid "Outlines _Right"
 msgstr ""
 
@@ -1846,13 +1860,13 @@ msgstr ""
 msgid "P_aste Special..."
 msgstr "特別方式貼上(_A)..."
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2593
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2592
 #, fuzzy
 msgid "P_roperties..."
 msgstr "特性..."
 
 #: src/GNOME_Gnumeric.xml.h:160 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3160
+#: src/workbook-control-gui.c:3159
 msgid "Paste"
 msgstr "貼上"
 
@@ -1864,35 +1878,35 @@ msgstr "貼上剪貼簿的內容"
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "貼上剪貼簿或剪貼緩衝區的內容"
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2702
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2701
 msgid "Paste with optional filters and transformations"
 msgstr "透過選擇性的過濾器及變換方式貼上"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2980
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2979
 #, fuzzy
 msgid "Pearson Correlation"
 msgstr "每一欄的個別格式"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/analysis-tools.c:2734
+#: src/GNOME_Gnumeric.xml.h:165 src/tools/analysis-tools.c:2739
 #: src/workbook-format-toolbar.c:461
 msgid "Percent"
 msgstr "百分比"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3004
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3003
 msgid "Periodic and random samples"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:167 src/dialogs/print.glade.h:16
-#: src/workbook-control-gui.c:3145
+#: src/workbook-control-gui.c:3144
 msgid "Print"
 msgstr "列印"
 
-#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2588
+#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2587
 msgid "Print Pre_view..."
 msgstr "列印預覽(_V)..."
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2588
-#: src/workbook-control-gui.c:3148
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2587
+#: src/workbook-control-gui.c:3147
 msgid "Print Preview"
 msgstr "列印預覽"
 
@@ -1920,25 +1934,25 @@ msgstr "圓形按鈕"
 msgid "Ranks and _Percentiles"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:2998
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:2997
 msgid "Ranks, placements and percentiles"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:2679
-#: src/workbook-control-gui.c:2865
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:2678
+#: src/workbook-control-gui.c:2864
 msgid "Re-_Order Sheets..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2675
-#: src/workbook-control-gui.c:2862
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2674
+#: src/workbook-control-gui.c:2861
 msgid "Re_name..."
 msgstr "重新命名(_N)..."
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2737
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2736
 msgid "Recalculate"
 msgstr "重新計算"
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2738
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2737
 msgid "Recalculate the spreadsheet"
 msgstr "重新計算試算表"
 
@@ -1950,11 +1964,11 @@ msgstr "矩形"
 msgid "Redo the undone action"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3001
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3000
 msgid "Regression Analysis"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:3058
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:3057
 msgid "Remove an outline group"
 msgstr ""
 
@@ -1962,8 +1976,8 @@ msgstr ""
 msgid "Remove selected cells, shifting others into their place"
 msgstr "刪除已選擇的儲存格，並移入其它儲存格來代替"
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2676
-#: src/workbook-control-gui.c:2863
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2675
+#: src/workbook-control-gui.c:2862
 msgid "Rename the current sheet"
 msgstr ""
 
@@ -1976,15 +1990,15 @@ msgstr "右"
 msgid "Right justifies the contents of each cell"
 msgstr "向右靠齊每個儲存格的內容"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2714
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2713
 msgid "S_heet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2818
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2817
 msgid "S_pecial"
 msgstr "特別(_P)"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3139
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3138
 msgid "Save"
 msgstr "儲存"
 
@@ -2009,43 +2023,43 @@ msgstr ""
 msgid "Scrollbar"
 msgstr "美元"
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:2726
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:2725
 msgid "Search and Replace..."
 msgstr "搜尋及取代..."
 
-#: src/GNOME_Gnumeric.xml.h:198 src/workbook-control-gui.c:2721
+#: src/GNOME_Gnumeric.xml.h:198 src/workbook-control-gui.c:2720
 msgid "Search for some text"
 msgstr "搜尋文字"
 
-#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2727
+#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2726
 msgid "Search for some text and replace it with something else"
 msgstr "搜尋文字並以其它內容取代"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2720
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2719
 msgid "Search..."
 msgstr "搜尋..."
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2640
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2639
 msgid "Select Arra_y"
 msgstr "選擇陣列(_Y)"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2625
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2624
 msgid "Select _All"
 msgstr "選擇全部(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2635
+#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2634
 msgid "Select _Column"
 msgstr "選擇整列(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2645
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2644
 msgid "Select _Depends"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2630
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2629
 msgid "Select _Row"
 msgstr "選擇整行(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2626
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2625
 msgid "Select all cells in the spreadsheet"
 msgstr ""
 
@@ -2053,15 +2067,15 @@ msgstr ""
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "選取所有與目前儲存格內容有關連的儲存格"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2641
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2640
 msgid "Select an array of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2636
+#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2635
 msgid "Select an entire column"
 msgstr "選擇整列"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2631
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2630
 msgid "Select an entire row"
 msgstr "選擇整行"
 
@@ -2081,11 +2095,11 @@ msgstr "將已選擇的儲存格格式設定為百分比"
 msgid "Setup the page settings for your current printer"
 msgstr "修改目前印表機的頁面設定"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3187
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3186
 msgid "Sort Ascending"
 msgstr "遞增排序"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3190
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3189
 msgid "Sort Descending"
 msgstr "遞減排序"
 
@@ -2113,14 +2127,14 @@ msgstr "分開"
 msgid "Split merged ranges of cells"
 msgstr "分開本來已合併的儲存格"
 
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3042
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3041
 #, fuzzy
 msgid "Statistical Anal_ysis"
 msgstr "資料分析(_D)..."
 
 #: src/GNOME_Gnumeric.xml.h:223 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3180 src/workbook-control-gui.c:3799
-#: src/workbook-view.c:451
+#: src/workbook-control-gui.c:3179 src/workbook-control-gui.c:3798
+#: src/workbook-view.c:450
 msgid "Sum"
 msgstr "總和"
 
@@ -2132,44 +2146,44 @@ msgstr "將總和放入目前的儲存格"
 msgid "Thousand separator"
 msgstr "千位分隔號"
 
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:2890
+#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:2889
 msgid "Toggle whether or not to display column headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:2884
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:2883
 msgid "Toggle whether or not to display gridlines"
 msgstr "切換是否顯示格線"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3065
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3064
 msgid "Toggle whether or not to display outline groups"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2896
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2895
 msgid "Toggle whether or not to display row headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:2878
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:2877
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3077
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3076
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3071
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3070
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:2932
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:2931
 msgid "Two Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3007
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3006
 #, fuzzy
 msgid "Two _Means"
 msgstr "平均值(_M)："
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3052
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3051
 msgid "Uncollapse an outline group"
 msgstr ""
 
@@ -2185,31 +2199,31 @@ msgstr "將文字加上底線"
 msgid "Undo the last action"
 msgstr "還原上次操作"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2957
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2956
 msgid "Unpaired Samples, E_qual Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2962
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2961
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3100
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3099
 msgid "Validate input with preset criteria"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2995
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2994
 msgid "Various frequency tables"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2986
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2985
 msgid "Various summary statistics"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:2758
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:2757
 msgid "Zoom the spreadsheet in or out"
 msgstr "將試算表拉遠或拉近"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2977
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2976
 msgid "_ANOVA"
 msgstr ""
 
@@ -2218,29 +2232,29 @@ msgid "_About..."
 msgstr "關於(_A)..."
 
 #: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1448
-#: src/workbook-control-gui.c:2814
+#: src/workbook-control-gui.c:2813
 msgid "_Add / Modify comment..."
 msgstr "增加/修改註解(_A)..."
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2607
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2606
 msgid "_All"
 msgstr "全部(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3026
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3025
 msgid "_Auto Save..."
 msgstr "自動儲存(_A)..."
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2827
-#: src/workbook-control-gui.c:2846
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2826
+#: src/workbook-control-gui.c:2845
 msgid "_Auto fit selection"
 msgstr "自動符合內容(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2914
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2913
 msgid "_Autoformat..."
 msgstr "自動格式化(_A)..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2906
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2905
 msgid "_Cells..."
 msgstr "儲存格(_C)..."
 
@@ -2254,11 +2268,11 @@ msgstr "關閉(_C)"
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2800
+#: src/workbook-control-gui.c:2799
 msgid "_Columns"
 msgstr "列(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3102
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3101
 msgid "_Consolidate..."
 msgstr "合併(_C)..."
 
@@ -2271,29 +2285,29 @@ msgstr "內容(_C)"
 msgid "_Copy"
 msgstr "複製(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:2979
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:2978
 #, fuzzy
 msgid "_Correlation"
 msgstr "分數(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3126
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3125
 msgid "_Data"
 msgstr "資料(_D)"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:2784
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:2783
 msgid "_Define..."
 msgstr "定義(_D)..."
 
 #: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1435
-#: src/workbook-control-gui.c:2709
+#: src/workbook-control-gui.c:2708
 msgid "_Delete..."
 msgstr "刪除(_D)..."
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2985
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2984
 msgid "_Descriptive Statistics"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2666
 msgid "_Duplicate"
 msgstr "複製(_D)"
 
@@ -2301,7 +2315,7 @@ msgstr "複製(_D)"
 msgid "_Edit"
 msgstr "編輯(_E)"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2940
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2939
 msgid "_Exponential Smoothing"
 msgstr ""
 
@@ -2310,32 +2324,32 @@ msgid "_File"
 msgstr "檔案(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:267 src/dialogs/cell-format.glade.h:109
-#: src/workbook-control-gui.c:2718
+#: src/workbook-control-gui.c:2717
 msgid "_Fill"
 msgstr "填充(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3098
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3097
 msgid "_Filter"
 msgstr "過濾器(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2610
+#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2609
 msgid "_Formats"
 msgstr "格式(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2991
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2990
 msgid "_Fourier Analysis"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:949
-#: src/workbook-control-gui.c:2760
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:948
+#: src/workbook-control-gui.c:2759
 msgid "_Freeze Panes"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3032
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3031
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2732
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2731
 msgid "_Goto cell..."
 msgstr "移至儲存格(_G)..."
 
@@ -2348,7 +2362,7 @@ msgstr "圖表(_G)"
 msgid "_Group"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3108
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3107
 msgid "_Group and Outline"
 msgstr ""
 
@@ -2357,25 +2371,25 @@ msgid "_Help"
 msgstr "說明(_H)"
 
 #: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1460
-#: src/sheet-control-gui.c:1468 src/workbook-control-gui.c:2830
-#: src/workbook-control-gui.c:2849
+#: src/sheet-control-gui.c:1468 src/workbook-control-gui.c:2829
+#: src/workbook-control-gui.c:2848
 msgid "_Hide"
 msgstr "隱藏(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3048
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3047
 msgid "_Hide Detail"
 msgstr "隱藏細節(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2994
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2993
 msgid "_Histogram"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:2579
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:2578
 msgid "_Import..."
 msgstr "匯入(_I)..."
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:2671
-#: src/workbook-control-gui.c:3123
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:2670
+#: src/workbook-control-gui.c:3122
 msgid "_Insert"
 msgstr "加入(_I)"
 
@@ -2383,20 +2397,20 @@ msgstr "加入(_I)"
 msgid "_Insert new"
 msgstr "新增(_I)"
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:2967
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:2966
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2944
+#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2943
 #, fuzzy
 msgid "_Moving Average"
 msgstr "平均值"
 
-#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:2812
+#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:2811
 msgid "_Name"
 msgstr "名稱(_N)"
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:2575
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:2574
 msgid "_New"
 msgstr "新增(_N)"
 
@@ -2405,7 +2419,7 @@ msgstr "新增(_N)"
 msgid "_Object..."
 msgstr "物件(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:2928
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:2927
 #, fuzzy
 msgid "_One Factor"
 msgstr "分數(_F)"
@@ -2414,7 +2428,7 @@ msgstr "分數(_F)"
 msgid "_Open..."
 msgstr "開啟(_O)..."
 
-#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:2953
+#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:2952
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
@@ -2422,7 +2436,7 @@ msgstr ""
 msgid "_Paste"
 msgstr "貼上(_P)"
 
-#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3017
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3016
 msgid "_Plug-ins..."
 msgstr "增效模組(_P)..."
 
@@ -2430,25 +2444,25 @@ msgstr "增效模組(_P)..."
 msgid "_Print..."
 msgstr "列印(_P)..."
 
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:2659
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:2658
 msgid "_Random Generator..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:1015
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:1014
 msgid "_Redo"
 msgstr "取消還原(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3000
+#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:2999
 #, fuzzy
 msgid "_Regression"
 msgstr "表示式"
 
 #: src/GNOME_Gnumeric.xml.h:298 src/dialogs/autocorrect.glade.h:12
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2683
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2682
 msgid "_Remove"
 msgstr "移除(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:2911
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:2910
 msgid "_Row"
 msgstr "行(_R)"
 
@@ -2458,11 +2472,11 @@ msgstr "行(_R)"
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
-#: src/workbook-control-gui.c:2803
+#: src/workbook-control-gui.c:2802
 msgid "_Rows"
 msgstr "行(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3003
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3002
 #, fuzzy
 msgid "_Sampling"
 msgstr "示範"
@@ -2471,7 +2485,7 @@ msgstr "示範"
 msgid "_Save"
 msgstr "儲存(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:2716
+#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:2715
 msgid "_Select"
 msgstr "選擇(_S)"
 
@@ -2480,32 +2494,32 @@ msgstr "選擇(_S)"
 msgid "_Shaped Object"
 msgstr "物件(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:2806
-#: src/workbook-control-gui.c:2912
+#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:2805
+#: src/workbook-control-gui.c:2911
 msgid "_Sheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3051
+#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3050
 msgid "_Show Detail"
 msgstr "顯示細節(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3036
+#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3035
 msgid "_Solver..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3095
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3094
 msgid "_Sort..."
 msgstr "排序(_S)..."
 
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:2855
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:2854
 msgid "_Standard Height"
 msgstr "標準高度(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:2836
+#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:2835
 msgid "_Standard Width"
 msgstr "標準寬度(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:2656
+#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:2655
 msgid "_Tabulate Dependency..."
 msgstr ""
 
@@ -2513,20 +2527,20 @@ msgstr ""
 msgid "_Toolbars..."
 msgstr "工具列(_T)..."
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3125
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3124
 msgid "_Tools"
 msgstr "工具(_T)"
 
-#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2931
+#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2930
 #, fuzzy
 msgid "_Two Factor"
 msgstr "分數(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3009
+#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3008
 msgid "_Two Variances: FTest"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:1014
+#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:1013
 msgid "_Undo"
 msgstr "還原(_U)"
 
@@ -2535,12 +2549,12 @@ msgid "_Ungroup"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1462
-#: src/sheet-control-gui.c:1470 src/workbook-control-gui.c:2833
-#: src/workbook-control-gui.c:2852
+#: src/sheet-control-gui.c:1470 src/workbook-control-gui.c:2832
+#: src/workbook-control-gui.c:2851
 msgid "_Unhide"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3099
+#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3098
 msgid "_Validate..."
 msgstr ""
 
@@ -2548,325 +2562,24 @@ msgstr ""
 msgid "_View"
 msgstr "檢視(_V)"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:2824
+#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:2823
 msgid "_Width..."
 msgstr "寬度(_W)..."
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:2918
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:2917
 msgid "_Workbook..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:2757
+#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:2756
 msgid "_Zoom..."
 msgstr "縮放(_Z)..."
-
-#: src/analysis-tools.c:196 src/analysis-tools.c:3227
-#, c-format
-msgid "Row %i"
-msgstr "第 %i 行"
-
-#: src/analysis-tools.c:199 src/analysis-tools.c:3219
-#, c-format
-msgid "Column %i"
-msgstr "第 %i 列"
-
-#: src/analysis-tools.c:202
-#, c-format
-msgid "Bin %i"
-msgstr ""
-
-#: src/analysis-tools.c:206
-#, c-format
-msgid "Area %i"
-msgstr "第 %i 個區域"
-
-#: src/analysis-tools.c:811 src/analysis-tools.c:814
-msgid "Correlations"
-msgstr ""
-
-#: src/analysis-tools.c:903 src/analysis-tools.c:906
-msgid "Covariances"
-msgstr ""
-
-#: src/analysis-tools.c:985
-msgid "Summary Statistics"
-msgstr ""
-
-#.
-#. * Note to translators: in the following string and others like it,
-#. * the "/" is a separator character that can be changed to anything
-#. * if the translation needs the slash; just use, say, "|" instead.
-#. *
-#. * The items are bundled like this to increase translation context.
-#.
-#: src/analysis-tools.c:996
-msgid ""
-"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
-"Skewness/Range/Minimum/Maximum/Sum/Count"
-msgstr ""
-
-#: src/analysis-tools.c:1083
-msgid "Confidence Interval for the Mean"
-msgstr ""
-
-#: src/analysis-tools.c:1084
-#, c-format
-msgid "/%%%s%%%% CI for the Mean from/to"
-msgstr ""
-
-#: src/analysis-tools.c:1123 src/dialogs/descriptive-stats.glade.h:10
-msgid "Kth Largest"
-msgstr ""
-
-#: src/analysis-tools.c:1124
-#, c-format
-msgid "Largest (%d)"
-msgstr ""
-
-#: src/analysis-tools.c:1148 src/dialogs/descriptive-stats.glade.h:11
-msgid "Kth Smallest"
-msgstr ""
-
-#: src/analysis-tools.c:1149
-#, c-format
-msgid "Smallest (%d)"
-msgstr ""
-
-#: src/analysis-tools.c:1270 src/dialogs/cell-format.glade.h:70
-msgid "Sample"
-msgstr "示範"
-
-#: src/analysis-tools.c:1367 src/analysis-tools.c:1369
-#: src/analysis-tools.c:1486 src/analysis-tools.c:1488
-#: src/analysis-tools.c:1645 src/analysis-tools.c:1647
-#: src/analysis-tools.c:1773 src/analysis-tools.c:1775
-#: src/analysis-tools.c:1909 src/analysis-tools.c:1911
-#, c-format
-msgid "Variable %i"
-msgstr ""
-
-#: src/analysis-tools.c:1371
-msgid "z-Test"
-msgstr ""
-
-#: src/analysis-tools.c:1374
-msgid ""
-"/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
-"Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
-"Critical two-tail"
-msgstr ""
-
-#: src/analysis-tools.c:1502 src/analysis-tools.c:1649
-#: src/analysis-tools.c:1777
-msgid "t-Test"
-msgstr ""
-
-#: src/analysis-tools.c:1505
-msgid ""
-"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
-"df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
-"two-tail"
-msgstr ""
-
-#: src/analysis-tools.c:1652
-msgid ""
-"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
-"Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
-"(T<=t) two-tail/t Critical two-tail"
-msgstr ""
-
-#: src/analysis-tools.c:1780
-msgid ""
-"/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
-"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
-"t Critical two-tail"
-msgstr ""
-
-#: src/analysis-tools.c:1918
-msgid "F-Test"
-msgstr ""
-
-#: src/analysis-tools.c:1924
-msgid ""
-"/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
-"(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
-msgstr ""
-
-#: src/analysis-tools.c:2042 src/analysis-tools.c:2100
-msgid "Random"
-msgstr ""
-
-#: src/analysis-tools.c:2216
-msgid "Not implemented yet.\n"
-msgstr "此功能尚未完成。\n"
-
-#: src/analysis-tools.c:2291
-msgid "Y Variable"
-msgstr ""
-
-#: src/analysis-tools.c:2353 src/dialogs/regression.glade.h:8
-msgid "Regression"
-msgstr ""
-
-#: src/analysis-tools.c:2355
-msgid ""
-"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
-"Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
-msgstr ""
-
-#: src/analysis-tools.c:2376
-msgid "/df/SS/MS/F/Significance of F"
-msgstr ""
-
-#: src/analysis-tools.c:2383
-#, c-format
-msgid ""
-"/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
-"%%"
-msgstr ""
-
-#: src/analysis-tools.c:2539
-msgid "Moving Averages"
-msgstr ""
-
-#: src/analysis-tools.c:2554
-#, fuzzy
-msgid "Standard Error"
-msgstr "標準寬度(_S)"
-
-#: src/analysis-tools.c:2642
-msgid "Exponential Smoothing"
-msgstr ""
-
-#: src/analysis-tools.c:2722
-msgid "Ranks"
-msgstr ""
-
-#: src/analysis-tools.c:2731
-msgid "Point"
-msgstr ""
-
-#: src/analysis-tools.c:2733
-msgid "Rank"
-msgstr ""
-
-#. We are ready to create the summary table
-#: src/analysis-tools.c:2822 src/analysis-tools.c:3017
-#: src/analysis-tools.c:3279
-msgid "Anova"
-msgstr ""
-
-#: src/analysis-tools.c:2824
-msgid "Anova: Single Factor"
-msgstr ""
-
-#: src/analysis-tools.c:2825 src/analysis-tools.c:3282
-msgid "SUMMARY"
-msgstr ""
-
-#: src/analysis-tools.c:2826
-msgid "/Groups/Count/Sum/Average/Variance"
-msgstr ""
-
-#: src/analysis-tools.c:2882
-msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
-msgstr ""
-
-#: src/analysis-tools.c:2887 src/analysis-tools.c:3099
-#: src/analysis-tools.c:3306
-msgid "/SS/df/MS/F/P-value/F critical"
-msgstr ""
-
-#: src/analysis-tools.c:3023
-msgid "Anova: Two-Factor Without Replication"
-msgstr ""
-
-#: src/analysis-tools.c:3024
-msgid "/SUMMARY/Count/Sum/Average/Variance"
-msgstr ""
-
-#: src/analysis-tools.c:3093
-msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
-msgstr ""
-
-#: src/analysis-tools.c:3281
-msgid "Anova: Two-Factor With Replication"
-msgstr ""
-
-#: src/analysis-tools.c:3286 src/analysis-tools.c:3296
-#: src/analysis-tools.c:3304 src/dialogs/dialog-autoformat.c:67
-#: src/dialogs/dialog-autoformat.c:71
-msgid "Total"
-msgstr ""
-
-#: src/analysis-tools.c:3288
-msgid "/Count/Sum/Average/Variance"
-msgstr ""
-
-#: src/analysis-tools.c:3298
-msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
-msgstr ""
-
-#: src/analysis-tools.c:3769
-#, c-format
-msgid "<%s"
-msgstr ""
-
-#: src/analysis-tools.c:3773
-msgid "Too Small"
-msgstr ""
-
-#: src/analysis-tools.c:3790
-msgid "More"
-msgstr ""
-
-#: src/analysis-tools.c:3798
-#, c-format
-msgid ">%s"
-msgstr ""
-
-#: src/analysis-tools.c:3802
-msgid "Too Large"
-msgstr ""
-
-#: src/analysis-tools.c:3843 src/dialogs/histogram.glade.h:7
-msgid "Histogram"
-msgstr ""
-
-#: src/analysis-tools.c:3848
-msgid "Bin"
-msgstr ""
-
-#: src/analysis-tools.c:3873
-msgid "Frequency"
-msgstr ""
-
-#: src/analysis-tools.c:3875 src/dialogs/dialog-zoom.glade.h:2
-#, no-c-format
-msgid "%"
-msgstr "%"
-
-#: src/analysis-tools.c:3878
-#, no-c-format
-msgid "Cumulative %"
-msgstr ""
-
-#: src/analysis-tools.c:4083
-#, fuzzy
-msgid "Real"
-msgstr "矩形"
-
-#: src/analysis-tools.c:4084
-#, fuzzy
-msgid "Imaginary"
-msgstr "一月"
 
 #: src/bonobo-io.c:455
 #, c-format
 msgid "Error '%s' opening workbook stream"
 msgstr ""
 
-#: src/bonobo-io.c:474 src/format-template.c:627 src/xml-io.c:3272
+#: src/bonobo-io.c:474 src/format-template.c:627 src/xml-io.c:3273
 msgid "Invalid xml file. Tree is empty ?"
 msgstr ""
 
@@ -3147,7 +2860,7 @@ msgid "Pasting into %s"
 msgstr "貼到 %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2617 src/commands.c:2618 src/workbook-control-gui.c:1817
+#: src/commands.c:2617 src/commands.c:2618 src/workbook-control-gui.c:1816
 msgid "Autofill"
 msgstr "自動填充"
 
@@ -3420,7 +3133,7 @@ msgid "Advanced Filter"
 msgstr "進階過濾器(_F)..."
 
 #: src/dialogs/advanced-filter.glade.h:3
-#: src/dialogs/dialog-advanced-filter.c:372
+#: src/dialogs/dialog-advanced-filter.c:374
 #, fuzzy
 msgid "Criteria _Range:"
 msgstr "規條"
@@ -4002,6 +3715,10 @@ msgstr "反向對角間條"
 msgid "S_ymbol:"
 msgstr "符號(_Y)："
 
+#: src/dialogs/cell-format.glade.h:70 src/tools/analysis-tools.c:1275
+msgid "Sample"
+msgstr "示範"
+
 #: src/dialogs/cell-format.glade.h:71
 msgid "Semi Circles"
 msgstr "半圓"
@@ -4298,7 +4015,7 @@ msgid "Selection has"
 msgstr "選擇字型"
 
 #: src/dialogs/cell-sort.glade.h:3 src/dialogs/dialog-cell-sort.c:710
-#: src/workbook-control-gui.c:2455
+#: src/workbook-control-gui.c:2454
 msgid "Sort"
 msgstr "排序"
 
@@ -4337,7 +4054,7 @@ msgstr "每列的寬度，以點數計(_C)："
 msgid "Add the entered area to the list of source areas"
 msgstr "將輸入的區域加入來源區域的列表"
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3802
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3801
 msgid "Average"
 msgstr "平均值"
 
@@ -4349,7 +4066,7 @@ msgstr "複製標籤(_O)"
 msgid "Clear the list of source areas"
 msgstr "清除來源區域的列表"
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3803
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3802
 msgid "Count"
 msgstr ""
 
@@ -4382,11 +4099,11 @@ msgstr ""
 msgid "Labels"
 msgstr "標籤"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3801
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3800
 msgid "Max"
 msgstr "最大值"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3800
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3799
 msgid "Min"
 msgstr "最小值"
 
@@ -4503,6 +4220,14 @@ msgstr ""
 #: src/dialogs/descriptive-stats.glade.h:9
 msgid "K = "
 msgstr "K = "
+
+#: src/dialogs/descriptive-stats.glade.h:10 src/tools/analysis-tools.c:1128
+msgid "Kth Largest"
+msgstr ""
+
+#: src/dialogs/descriptive-stats.glade.h:11 src/tools/analysis-tools.c:1153
+msgid "Kth Smallest"
+msgstr ""
 
 #: src/dialogs/descriptive-stats.glade.h:14
 msgid "S_ummary Statistics"
@@ -4638,7 +4363,7 @@ msgstr "Vladimir Vuksan，有關財務的函數。"
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder，Gnumeric hacker。"
 
-#: src/dialogs/dialog-about.c:89 src/functions/fn-sheet.c:143
+#: src/dialogs/dialog-about.c:89 src/functions/fn-sheet.c:145
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -4665,31 +4390,31 @@ msgstr "Gnumeric 首頁"
 msgid "Contract Support"
 msgstr ""
 
-#: src/dialogs/dialog-advanced-filter.c:162
+#: src/dialogs/dialog-advanced-filter.c:164
 #, fuzzy
 msgid "The list range is invalid."
 msgstr "搜尋範圍無效。"
 
-#: src/dialogs/dialog-advanced-filter.c:172
+#: src/dialogs/dialog-advanced-filter.c:174
 #, fuzzy
 msgid "The criteria range is invalid."
 msgstr "搜尋範圍無效。"
 
-#: src/dialogs/dialog-advanced-filter.c:184
+#: src/dialogs/dialog-advanced-filter.c:186
 #, fuzzy
 msgid "The output range is invalid."
 msgstr "搜尋範圍無效。"
 
-#: src/dialogs/dialog-advanced-filter.c:239
+#: src/dialogs/dialog-advanced-filter.c:241
 #, fuzzy
 msgid "The given criteria are invalid."
 msgstr "搜尋範圍無效。"
 
-#: src/dialogs/dialog-advanced-filter.c:245
+#: src/dialogs/dialog-advanced-filter.c:247
 msgid "No matching records were found."
 msgstr ""
 
-#: src/dialogs/dialog-advanced-filter.c:248
+#: src/dialogs/dialog-advanced-filter.c:250
 #: src/dialogs/dialog-analysis-tools.c:701
 #: src/dialogs/dialog-analysis-tools.c:817
 #: src/dialogs/dialog-analysis-tools.c:945
@@ -4708,12 +4433,12 @@ msgstr ""
 msgid "An unexpected error has occurred: %d."
 msgstr "發生非預期的錯誤：%d。"
 
-#: src/dialogs/dialog-advanced-filter.c:371
+#: src/dialogs/dialog-advanced-filter.c:373
 #, fuzzy
 msgid "_List Range:"
 msgstr "輸入"
 
-#: src/dialogs/dialog-advanced-filter.c:376
+#: src/dialogs/dialog-advanced-filter.c:378
 msgid "Could not create the Advanced Filter dialog."
 msgstr ""
 
@@ -5014,6 +4739,12 @@ msgstr "二月"
 msgid "Mrt"
 msgstr ""
 
+#: src/dialogs/dialog-autoformat.c:67 src/dialogs/dialog-autoformat.c:71
+#: src/tools/analysis-tools.c:3291 src/tools/analysis-tools.c:3301
+#: src/tools/analysis-tools.c:3309
+msgid "Total"
+msgstr ""
+
 #: src/dialogs/dialog-autoformat.c:68
 msgid "North"
 msgstr "北"
@@ -5144,7 +4875,7 @@ msgstr "指定值："
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: src/dialogs/dialog-cell-format.c:2536 src/dialogs/dialog-cell-format.c:2541
-#: src/dialogs/dialog-cell-format.c:2551 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2551 src/functions/fn-information.c:430
 #: src/workbook-format-toolbar.c:816
 msgid "Automatic"
 msgstr "自動"
@@ -5211,7 +4942,7 @@ msgid "Value%d"
 msgstr ""
 
 #: src/dialogs/dialog-formula-guru.c:442 src/dialogs/dialog-search.c:125
-#: src/functions/fn-string.c:1217
+#: src/functions/fn-string.c:1220
 msgid "String"
 msgstr "字串"
 
@@ -5277,9 +5008,10 @@ msgstr ""
 #. * Fill in the labels of `Target Cell' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:47 src/dialogs/tabulate.glade.h:1
-#: src/tools/solver/reports.c:137 src/tools/solver/reports.c:161
-#: src/tools/solver/reports.c:189 src/tools/solver/reports.c:290
-#: src/tools/solver/reports.c:319
+#: src/tools/solver/reports.c:143 src/tools/solver/reports.c:167
+#: src/tools/solver/reports.c:195 src/tools/solver/reports.c:293
+#: src/tools/solver/reports.c:322 src/tools/solver/reports.c:402
+#: src/tools/solver/reports.c:409
 msgid "Cell"
 msgstr ""
 
@@ -5511,20 +5243,33 @@ msgstr "註釋"
 msgid "Could not create the Sheet Name Change dialog."
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:67
+#: src/dialogs/dialog-sheet-order.c:71
 #, fuzzy
 msgid "A sheet name must have at least 1 character."
 msgstr "最少必須有一個字元"
 
-#: src/dialogs/dialog-sheet-order.c:174
+#: src/dialogs/dialog-sheet-order.c:162
+msgid "You can only remove new sheets."
+msgstr ""
+
+#: src/dialogs/dialog-sheet-order.c:202
 #, fuzzy
 msgid "Current Name"
 msgstr "現在的日期(_D)"
 
-#: src/dialogs/dialog-sheet-order.c:179
+#: src/dialogs/dialog-sheet-order.c:211
+#, fuzzy
+msgid "Rem"
+msgstr "移除"
+
+#: src/dialogs/dialog-sheet-order.c:220
 #, fuzzy
 msgid "New Name"
 msgstr "名稱"
+
+#: src/dialogs/dialog-sheet-order.c:294
+msgid "<new>"
+msgstr ""
 
 #: src/dialogs/dialog-solver.c:64
 msgid "<="
@@ -5543,27 +5288,27 @@ msgstr "="
 msgid "Int"
 msgstr "整數"
 
-#: src/dialogs/dialog-solver.c:749
+#: src/dialogs/dialog-solver.c:747
 msgid ""
 "Solver found an optimal solution. All constraints and optimality conditions "
 "are satisfied.\n"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:756
+#: src/dialogs/dialog-solver.c:754
 msgid "The Target Cell value does not converge!"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:760
+#: src/dialogs/dialog-solver.c:758
 #, c-format
 msgid "Solver was not successful: %i"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:783
+#: src/dialogs/dialog-solver.c:781
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1028
+#: src/dialogs/dialog-solver.c:1026
 msgid "Could not create the Solver dialog."
 msgstr ""
 
@@ -6094,6 +5839,11 @@ msgstr ""
 msgid "Workbook Attributes"
 msgstr ""
 
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3880
+#, no-c-format
+msgid "%"
+msgstr "%"
+
 #: src/dialogs/dialog-zoom.glade.h:4
 #, no-c-format
 msgid "20_0 %"
@@ -6108,8 +5858,8 @@ msgstr "縮放倍率"
 msgid "Sheets"
 msgstr "選擇(_S)"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3350
-#: src/workbook-control-gui.c:3390
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3349
+#: src/workbook-control-gui.c:3389
 msgid "Zoom"
 msgstr "縮放"
 
@@ -6292,6 +6042,10 @@ msgstr "設為科學記數格式"
 #, fuzzy
 msgid "Chart Output"
 msgstr "輸出"
+
+#: src/dialogs/histogram.glade.h:7 src/tools/analysis-tools.c:3848
+msgid "Histogram"
+msgstr ""
 
 #: src/dialogs/histogram.glade.h:8
 #, fuzzy
@@ -6571,7 +6325,7 @@ msgstr "隱藏(_H)"
 msgid "Headers and footers"
 msgstr ""
 
-#: src/dialogs/print.glade.h:8 src/print-info.c:428
+#: src/dialogs/print.glade.h:8 src/print-info.c:429
 msgid "In"
 msgstr ""
 
@@ -6625,8 +6379,8 @@ msgstr ""
 msgid "Scale"
 msgstr "示範"
 
-#: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1035 src/workbook.c:1282 src/xml-io.c:2961
+#: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:143
+#: src/workbook.c:1035 src/workbook.c:1281 src/xml-io.c:2962
 msgid "Sheet"
 msgstr ""
 
@@ -6720,11 +6474,11 @@ msgid "_Vertically"
 msgstr "垂直捲動列(_H)"
 
 #. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:43 src/print-info.c:427
+#: src/dialogs/print.glade.h:43 src/print-info.c:428
 msgid "cm"
 msgstr ""
 
-#: src/dialogs/print.glade.h:44 src/print-info.c:426
+#: src/dialogs/print.glade.h:44 src/print-info.c:427
 msgid "mm"
 msgstr ""
 
@@ -6732,7 +6486,7 @@ msgstr ""
 msgid "page(s) wide by"
 msgstr ""
 
-#: src/dialogs/print.glade.h:46 src/print-info.c:425
+#: src/dialogs/print.glade.h:46 src/print-info.c:426
 msgid "pts"
 msgstr ""
 
@@ -6790,6 +6544,10 @@ msgstr "0.95"
 
 #: src/dialogs/regression.glade.h:3
 msgid "Confidence Level:"
+msgstr ""
+
+#: src/dialogs/regression.glade.h:8 src/tools/analysis-tools.c:2358
+msgid "Regression"
 msgstr ""
 
 #: src/dialogs/regression.glade.h:11
@@ -7204,8 +6962,8 @@ msgstr ""
 msgid "B_y Changing Cells: "
 msgstr "透過更改儲存格："
 
-#: src/dialogs/solver.glade.h:7 src/tools/solver/reports.c:257
-#: src/tools/solver/reports.c:367
+#: src/dialogs/solver.glade.h:7 src/tools/solver/reports.c:260
+#: src/tools/solver/reports.c:368 src/tools/solver/reports.c:525
 msgid "Constraints"
 msgstr ""
 
@@ -7266,19 +7024,23 @@ msgid "_Max"
 msgstr "最大值"
 
 #: src/dialogs/solver.glade.h:23
-msgid "_Right Hand Side:"
+msgid "_Program"
 msgstr ""
 
 #: src/dialogs/solver.glade.h:24
+msgid "_Right Hand Side:"
+msgstr ""
+
+#: src/dialogs/solver.glade.h:25
 #, fuzzy
 msgid "_Sensitivity"
 msgstr "區分大小寫"
 
-#: src/dialogs/solver.glade.h:25
+#: src/dialogs/solver.glade.h:26
 msgid "_Set Target Cell:       "
 msgstr ""
 
-#: src/dialogs/solver.glade.h:26
+#: src/dialogs/solver.glade.h:27
 #, fuzzy
 msgid "_Type:"
 msgstr "類型"
@@ -7433,15 +7195,15 @@ msgstr "內置"
 msgid "Error: no sheet"
 msgstr ""
 
-#: src/expr.c:551
+#: src/expr.c:553
 msgid "Internal type error"
 msgstr ""
 
-#: src/expr.c:730
+#: src/expr.c:732
 msgid "Unknown operator"
 msgstr ""
 
-#: src/expr.c:967
+#: src/expr.c:968
 msgid "Unknown evaluation error"
 msgstr ""
 
@@ -8893,25 +8655,25 @@ msgstr ""
 msgid "[Red]"
 msgstr ""
 
-#: src/func.c:94
+#: src/func.c:96
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "無法建立檔案 %s\n"
 
-#: src/func.c:251
+#: src/func.c:253
 msgid "Function implementation not available."
 msgstr "尚未加入此函數功能。"
 
-#: src/func.c:470
+#: src/func.c:480
 msgid "Unknown Function"
 msgstr "不明的函數"
 
-#: src/func.c:840
+#: src/func.c:851
 msgid "Function does not exist"
 msgstr "函數不存在"
 
 #. *************************************************************************
-#: src/functions/fn-database.c:504
+#: src/functions/fn-database.c:506
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -8923,7 +8685,7 @@ msgstr ""
 "@DESCRIPTION=DAVERAGE 函數會在列表或資料區域裡尋找所有符合指定條件的欄位並回"
 "傳它們的平均值。\n"
 
-#: src/functions/fn-database.c:512
+#: src/functions/fn-database.c:514
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -8943,7 +8705,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:574
+#: src/functions/fn-database.c:576
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -8955,7 +8717,7 @@ msgstr ""
 "@DESCRIPTION=DCOUNT 函數會在列表或資料區域裡數出所有符合指定條件的數字欄位的"
 "數目。\n"
 
-#: src/functions/fn-database.c:582
+#: src/functions/fn-database.c:584
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -8973,7 +8735,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAVERAGE"
 
-#: src/functions/fn-database.c:636
+#: src/functions/fn-database.c:638
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -8985,7 +8747,7 @@ msgstr ""
 "@DESCRIPTION=DCOUNTA 函數會在列表或資料區域裡數出所有符合指定條件的資料欄位的"
 "數目。\n"
 
-#: src/functions/fn-database.c:644
+#: src/functions/fn-database.c:646
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -9003,7 +8765,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:695
+#: src/functions/fn-database.c:697
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -9014,7 +8776,7 @@ msgstr ""
 "@SYNTAX=DGET(資料區域,欄位名稱,條件)\n"
 "@DESCRIPTION=DGET 函數會在符合指定條件的情況下回傳某列的唯一欄位值。\n"
 
-#: src/functions/fn-database.c:703
+#: src/functions/fn-database.c:705
 #, fuzzy
 msgid ""
 "\n"
@@ -9034,7 +8796,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:764
+#: src/functions/fn-database.c:766
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -9045,7 +8807,7 @@ msgstr ""
 "@SYNTAX=DMAX(資料區域,欄位名稱,條件)\n"
 "@DESCRIPTION=DMAX 函數會在符合指定條件的情況下找出某一列數字的最大值。\n"
 
-#: src/functions/fn-database.c:772
+#: src/functions/fn-database.c:774
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -9063,7 +8825,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMIN"
 
-#: src/functions/fn-database.c:836
+#: src/functions/fn-database.c:838
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -9074,7 +8836,7 @@ msgstr ""
 "@SYNTAX=DMIN(資料區域,欄位名稱,條件)\n"
 "@DESCRIPTION=DMIN 函數會在符合指定條件的情況下找出某一列數字的最小值。\n"
 
-#: src/functions/fn-database.c:844
+#: src/functions/fn-database.c:846
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -9090,7 +8852,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMAX"
 
-#: src/functions/fn-database.c:907
+#: src/functions/fn-database.c:909
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -9102,7 +8864,7 @@ msgstr ""
 "@DESCRIPTION=DPRODUCT 函數會在某一列中找出符合指定條件的數字並回傳它們的乘"
 "積。\n"
 
-#: src/functions/fn-database.c:915
+#: src/functions/fn-database.c:917
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -9116,7 +8878,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSUM"
 
-#: src/functions/fn-database.c:975
+#: src/functions/fn-database.c:977
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -9125,7 +8887,7 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:984
+#: src/functions/fn-database.c:986
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -9141,7 +8903,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEVP"
 
-#: src/functions/fn-database.c:1042
+#: src/functions/fn-database.c:1044
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -9150,7 +8912,7 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:1051
+#: src/functions/fn-database.c:1053
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -9166,7 +8928,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEV"
 
-#: src/functions/fn-database.c:1111
+#: src/functions/fn-database.c:1113
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -9177,7 +8939,7 @@ msgstr ""
 "@SYNTAX=DSUM(資料區域,欄位名稱,條件)\n"
 "@DESCRIPTION=DSUM 函數會在某一列中找出符合指定條件的數字並回傳它們的總和。\n"
 
-#: src/functions/fn-database.c:1119
+#: src/functions/fn-database.c:1121
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -9193,7 +8955,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DPRODUCT"
 
-#: src/functions/fn-database.c:1179
+#: src/functions/fn-database.c:1181
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -9202,7 +8964,7 @@ msgid ""
 "specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:1188
+#: src/functions/fn-database.c:1190
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -9218,7 +8980,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVARP"
 
-#: src/functions/fn-database.c:1248
+#: src/functions/fn-database.c:1250
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -9227,7 +8989,7 @@ msgid ""
 "conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:1257
+#: src/functions/fn-database.c:1259
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -9243,7 +9005,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVAR"
 
-#: src/functions/fn-database.c:1318
+#: src/functions/fn-database.c:1320
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
@@ -9256,7 +9018,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-date.c:27
+#: src/functions/fn-date.c:29
 #, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
@@ -9290,7 +9052,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-date.c:97
+#: src/functions/fn-date.c:99
 msgid ""
 "@FUNCTION=UNIX2DATE\n"
 "@SYNTAX=UNIX2DATE(unixtime)\n"
@@ -9304,7 +9066,7 @@ msgid ""
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 msgstr ""
 
-#: src/functions/fn-date.c:127
+#: src/functions/fn-date.c:129
 msgid ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
@@ -9318,7 +9080,7 @@ msgid ""
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 msgstr ""
 
-#: src/functions/fn-date.c:158
+#: src/functions/fn-date.c:160
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -9338,7 +9100,7 @@ msgstr ""
 "DATEVALUE(\"1/1/1999\") 等於 36161。\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:183
+#: src/functions/fn-date.c:185
 msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
@@ -9375,7 +9137,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:350
+#: src/functions/fn-date.c:352
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -9400,7 +9162,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:404
+#: src/functions/fn-date.c:406
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -9421,7 +9183,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NOW"
 
-#: src/functions/fn-date.c:427
+#: src/functions/fn-date.c:429
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -9451,7 +9213,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY"
 
-#: src/functions/fn-date.c:458
+#: src/functions/fn-date.c:460
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -9471,7 +9233,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:487
+#: src/functions/fn-date.c:489
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -9494,7 +9256,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR,MINUTE"
 
-#: src/functions/fn-date.c:516
+#: src/functions/fn-date.c:518
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -9519,7 +9281,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:545
+#: src/functions/fn-date.c:547
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -9544,7 +9306,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:575
+#: src/functions/fn-date.c:577
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -9569,7 +9331,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: src/functions/fn-date.c:605
+#: src/functions/fn-date.c:607
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -9592,7 +9354,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
-#: src/functions/fn-date.c:642
+#: src/functions/fn-date.c:644
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -9615,7 +9377,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:679
+#: src/functions/fn-date.c:681
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -9638,7 +9400,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:716
+#: src/functions/fn-date.c:718
 #, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
@@ -9674,7 +9436,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:769
+#: src/functions/fn-date.c:771
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -9707,11 +9469,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:807
+#: src/functions/fn-date.c:809
 msgid "Unsupported method"
 msgstr "不支援的算法"
 
-#: src/functions/fn-date.c:872
+#: src/functions/fn-date.c:874
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -9737,7 +9499,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH"
 
-#: src/functions/fn-date.c:922
+#: src/functions/fn-date.c:924
 #, fuzzy
 msgid ""
 "@FUNCTION=WORKDAY\n"
@@ -9765,12 +9527,12 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #. Path of the current directory or folder.
-#: src/functions/fn-date.c:960 src/functions/fn-eng.c:77
-#: src/functions/fn-information.c:393 src/functions/fn-information.c:409
+#: src/functions/fn-date.c:962 src/functions/fn-eng.c:78
+#: src/functions/fn-information.c:396 src/functions/fn-information.c:412
 msgid "Unimplemented"
 msgstr "功能尚未完成"
 
-#: src/functions/fn-date.c:995
+#: src/functions/fn-date.c:997
 #, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
@@ -9796,7 +9558,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1129
+#: src/functions/fn-date.c:1131
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9811,7 +9573,7 @@ msgid ""
 "@SEEALSO=WEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1173
+#: src/functions/fn-date.c:1175
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -9833,11 +9595,11 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1232
+#: src/functions/fn-date.c:1234
 msgid "Date / Time"
 msgstr "日期 / 時間"
 
-#: src/functions/fn-eng.c:91
+#: src/functions/fn-eng.c:92
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -9858,7 +9620,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: src/functions/fn-eng.c:114
+#: src/functions/fn-eng.c:115
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -9883,7 +9645,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 
-#: src/functions/fn-eng.c:140
+#: src/functions/fn-eng.c:141
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -9908,7 +9670,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 
-#: src/functions/fn-eng.c:166
+#: src/functions/fn-eng.c:167
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -9933,7 +9695,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
-#: src/functions/fn-eng.c:192
+#: src/functions/fn-eng.c:193
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -9958,7 +9720,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 
-#: src/functions/fn-eng.c:218
+#: src/functions/fn-eng.c:219
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -9983,7 +9745,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
-#: src/functions/fn-eng.c:244
+#: src/functions/fn-eng.c:245
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -10004,7 +9766,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
-#: src/functions/fn-eng.c:267
+#: src/functions/fn-eng.c:268
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -10029,7 +9791,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 
-#: src/functions/fn-eng.c:293
+#: src/functions/fn-eng.c:294
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -10054,7 +9816,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 
-#: src/functions/fn-eng.c:319
+#: src/functions/fn-eng.c:320
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -10079,7 +9841,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 
-#: src/functions/fn-eng.c:345
+#: src/functions/fn-eng.c:346
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -10104,7 +9866,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 
-#: src/functions/fn-eng.c:371
+#: src/functions/fn-eng.c:372
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -10125,7 +9887,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
-#: src/functions/fn-eng.c:394
+#: src/functions/fn-eng.c:395
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -10141,7 +9903,7 @@ msgid ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
 
-#: src/functions/fn-eng.c:432
+#: src/functions/fn-eng.c:433
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -10157,7 +9919,7 @@ msgid ""
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 msgstr ""
 
-#: src/functions/fn-eng.c:469
+#: src/functions/fn-eng.c:470
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -10173,7 +9935,7 @@ msgid ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
 
-#: src/functions/fn-eng.c:505
+#: src/functions/fn-eng.c:506
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -10189,7 +9951,7 @@ msgid ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
 
-#: src/functions/fn-eng.c:577
+#: src/functions/fn-eng.c:578
 msgid ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
@@ -10216,7 +9978,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-eng.c:616
+#: src/functions/fn-eng.c:617
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -10237,7 +9999,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMREAL"
 
-#: src/functions/fn-eng.c:647
+#: src/functions/fn-eng.c:648
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -10257,7 +10019,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY"
 
-#: src/functions/fn-eng.c:678
+#: src/functions/fn-eng.c:679
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
@@ -10277,7 +10039,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
-#: src/functions/fn-eng.c:709
+#: src/functions/fn-eng.c:710
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -10297,7 +10059,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
-#: src/functions/fn-eng.c:740
+#: src/functions/fn-eng.c:741
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
@@ -10317,7 +10079,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: src/functions/fn-eng.c:768
+#: src/functions/fn-eng.c:769
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -10335,7 +10097,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
-#: src/functions/fn-eng.c:795
+#: src/functions/fn-eng.c:796
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
@@ -10347,7 +10109,7 @@ msgid ""
 "@SEEALSO=IMLN"
 msgstr ""
 
-#: src/functions/fn-eng.c:823
+#: src/functions/fn-eng.c:824
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -10359,7 +10121,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-eng.c:850
+#: src/functions/fn-eng.c:851
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
@@ -10374,7 +10136,7 @@ msgid ""
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 msgstr ""
 
-#: src/functions/fn-eng.c:882
+#: src/functions/fn-eng.c:883
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -10394,7 +10156,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG10"
 
-#: src/functions/fn-eng.c:911
+#: src/functions/fn-eng.c:912
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -10414,7 +10176,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 
-#: src/functions/fn-eng.c:940
+#: src/functions/fn-eng.c:941
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
@@ -10437,7 +10199,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSQRT"
 
-#: src/functions/fn-eng.c:976
+#: src/functions/fn-eng.c:977
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
@@ -10457,7 +10219,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPRODUCT"
 
-#: src/functions/fn-eng.c:1010
+#: src/functions/fn-eng.c:1011
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -10477,7 +10239,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
-#: src/functions/fn-eng.c:1038
+#: src/functions/fn-eng.c:1039
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -10497,7 +10259,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPOWER"
 
-#: src/functions/fn-eng.c:1066
+#: src/functions/fn-eng.c:1067
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
@@ -10517,7 +10279,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUM"
 
-#: src/functions/fn-eng.c:1097
+#: src/functions/fn-eng.c:1098
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -10537,7 +10299,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMDIV"
 
-#: src/functions/fn-eng.c:1167
+#: src/functions/fn-eng.c:1168
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
@@ -10557,7 +10319,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUB"
 
-#: src/functions/fn-eng.c:1201
+#: src/functions/fn-eng.c:1202
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -10663,7 +10425,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-eng.c:1602
+#: src/functions/fn-eng.c:1603
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -10685,7 +10447,7 @@ msgid ""
 "@SEEALSO=ERFC"
 msgstr ""
 
-#: src/functions/fn-eng.c:1648
+#: src/functions/fn-eng.c:1649
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -10699,7 +10461,7 @@ msgid ""
 "@SEEALSO=ERF"
 msgstr ""
 
-#: src/functions/fn-eng.c:1678
+#: src/functions/fn-eng.c:1679
 #, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
@@ -10725,11 +10487,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: src/functions/fn-eng.c:1723 src/functions/fn-eng.c:1777
+#: src/functions/fn-eng.c:1724 src/functions/fn-eng.c:1778
 msgid "Impossible"
 msgstr "不可能"
 
-#: src/functions/fn-eng.c:1734
+#: src/functions/fn-eng.c:1735
 #, fuzzy
 msgid ""
 "@FUNCTION=GESTEP\n"
@@ -10754,11 +10516,11 @@ msgstr ""
 "\n"
 "@SEEALSO=DELTA"
 
-#: src/functions/fn-eng.c:1791
+#: src/functions/fn-eng.c:1792
 msgid "Engineering"
 msgstr "工程學"
 
-#: src/functions/fn-financial.c:343
+#: src/functions/fn-financial.c:345
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -10789,7 +10551,7 @@ msgid ""
 "@SEEALSO=ACCRINTM"
 msgstr ""
 
-#: src/functions/fn-financial.c:435
+#: src/functions/fn-financial.c:437
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -10816,7 +10578,7 @@ msgid ""
 "@SEEALSO=ACCRINT"
 msgstr ""
 
-#: src/functions/fn-financial.c:488
+#: src/functions/fn-financial.c:490
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -10846,7 +10608,7 @@ msgid ""
 "@SEEALSO=RECEIVED, DATE"
 msgstr ""
 
-#: src/functions/fn-financial.c:549
+#: src/functions/fn-financial.c:551
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -10871,7 +10633,7 @@ msgid ""
 "@SEEALSO=INTRATE"
 msgstr ""
 
-#: src/functions/fn-financial.c:604
+#: src/functions/fn-financial.c:606
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -10897,7 +10659,7 @@ msgid ""
 "@SEEALSO=PRICEMAT"
 msgstr ""
 
-#: src/functions/fn-financial.c:656
+#: src/functions/fn-financial.c:658
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -10923,7 +10685,7 @@ msgid ""
 "@SEEALSO=PRICEDISC"
 msgstr ""
 
-#: src/functions/fn-financial.c:715
+#: src/functions/fn-financial.c:717
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -10948,7 +10710,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:766
+#: src/functions/fn-financial.c:768
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -10973,11 +10735,11 @@ msgid ""
 "@SEEALSO=NOMINAL"
 msgstr ""
 
-#: src/functions/fn-financial.c:805
+#: src/functions/fn-financial.c:807
 msgid "effect - domain error"
 msgstr ""
 
-#: src/functions/fn-financial.c:813
+#: src/functions/fn-financial.c:815
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -10995,11 +10757,11 @@ msgid ""
 "@SEEALSO=EFFECT"
 msgstr ""
 
-#: src/functions/fn-financial.c:843
+#: src/functions/fn-financial.c:845
 msgid "nominal - domain error"
 msgstr ""
 
-#: src/functions/fn-financial.c:852
+#: src/functions/fn-financial.c:854
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -11010,7 +10772,7 @@ msgid ""
 "@SEEALSO=PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:886
+#: src/functions/fn-financial.c:888
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -11025,7 +10787,7 @@ msgid ""
 "@SEEALSO=DDB,SLN,SYD"
 msgstr ""
 
-#: src/functions/fn-financial.c:942
+#: src/functions/fn-financial.c:944
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -11041,7 +10803,7 @@ msgid ""
 "@SEEALSO=SLN,SYD"
 msgstr ""
 
-#: src/functions/fn-financial.c:990
+#: src/functions/fn-financial.c:992
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -11064,11 +10826,11 @@ msgid ""
 "@SEEALSO=SYD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1034
+#: src/functions/fn-financial.c:1036
 msgid "sln - domain error"
 msgstr ""
 
-#: src/functions/fn-financial.c:1042
+#: src/functions/fn-financial.c:1044
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -11094,11 +10856,11 @@ msgid ""
 "@SEEALSO=SLN"
 msgstr ""
 
-#: src/functions/fn-financial.c:1088
+#: src/functions/fn-financial.c:1090
 msgid "syd - domain error"
 msgstr ""
 
-#: src/functions/fn-financial.c:1098
+#: src/functions/fn-financial.c:1100
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -11113,7 +10875,7 @@ msgid ""
 "@SEEALSO=DOLLARFR"
 msgstr ""
 
-#: src/functions/fn-financial.c:1142
+#: src/functions/fn-financial.c:1144
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -11126,7 +10888,7 @@ msgid ""
 "@SEEALSO=DOLLARDE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1184
+#: src/functions/fn-financial.c:1186
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -11137,7 +10899,7 @@ msgid ""
 "@SEEALSO=NPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1244
+#: src/functions/fn-financial.c:1246
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -11152,7 +10914,7 @@ msgid ""
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1289
+#: src/functions/fn-financial.c:1291
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -11168,7 +10930,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1330
+#: src/functions/fn-financial.c:1332
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -11183,7 +10945,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1371
+#: src/functions/fn-financial.c:1373
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -11193,7 +10955,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1479
+#: src/functions/fn-financial.c:1481
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -11213,7 +10975,7 @@ msgid ""
 "@SEEALSO=FV,NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1602
+#: src/functions/fn-financial.c:1604
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -11227,7 +10989,7 @@ msgid ""
 "@SEEALSO=FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1649
+#: src/functions/fn-financial.c:1651
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -11241,7 +11003,7 @@ msgid ""
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1703
+#: src/functions/fn-financial.c:1705
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -11256,7 +11018,7 @@ msgid ""
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1763
+#: src/functions/fn-financial.c:1765
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -11279,7 +11041,7 @@ msgid ""
 "@SEEALSO=IRR,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1867
+#: src/functions/fn-financial.c:1869
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -11294,7 +11056,7 @@ msgid ""
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
 
-#: src/functions/fn-financial.c:1906
+#: src/functions/fn-financial.c:1908
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -11311,7 +11073,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1944
+#: src/functions/fn-financial.c:1946
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -11327,7 +11089,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1991
+#: src/functions/fn-financial.c:1993
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -11343,7 +11105,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2040
+#: src/functions/fn-financial.c:2042
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -11362,7 +11124,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2089
+#: src/functions/fn-financial.c:2091
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -11375,7 +11137,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2126
+#: src/functions/fn-financial.c:2128
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -11390,7 +11152,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2170
+#: src/functions/fn-financial.c:2172
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -11435,7 +11197,7 @@ msgstr ""
 "EURO(\"DEM\") 回傳 1.95583。\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2252
+#: src/functions/fn-financial.c:2254
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
@@ -11459,7 +11221,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2342
+#: src/functions/fn-financial.c:2344
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
@@ -11482,7 +11244,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2432
+#: src/functions/fn-financial.c:2434
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -11506,7 +11268,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2468
+#: src/functions/fn-financial.c:2470
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -11531,7 +11293,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2505
+#: src/functions/fn-financial.c:2507
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -11557,7 +11319,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2608
+#: src/functions/fn-financial.c:2610
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -11582,7 +11344,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2645
+#: src/functions/fn-financial.c:2647
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -11608,7 +11370,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2682
+#: src/functions/fn-financial.c:2684
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -11633,7 +11395,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2719
+#: src/functions/fn-financial.c:2721
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -11657,7 +11419,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2753
+#: src/functions/fn-financial.c:2755
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -11681,7 +11443,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2787
+#: src/functions/fn-financial.c:2789
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -11714,7 +11476,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2829
+#: src/functions/fn-financial.c:2831
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -11748,7 +11510,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2872
+#: src/functions/fn-financial.c:2874
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -11781,7 +11543,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2914
+#: src/functions/fn-financial.c:2916
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -11813,7 +11575,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2955
+#: src/functions/fn-financial.c:2957
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -11845,7 +11607,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2996
+#: src/functions/fn-financial.c:2998
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -11875,7 +11637,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3036
+#: src/functions/fn-financial.c:3038
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -11886,7 +11648,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3056
+#: src/functions/fn-financial.c:3058
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -11897,7 +11659,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3076
+#: src/functions/fn-financial.c:3078
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -11908,7 +11670,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3097
+#: src/functions/fn-financial.c:3099
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -11919,7 +11681,7 @@ msgid ""
 "@SEEALSO=DB"
 msgstr ""
 
-#: src/functions/fn-information.c:83
+#: src/functions/fn-information.c:86
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(type,ref)\n"
@@ -11942,11 +11704,11 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:271 src/functions/fn-information.c:446
+#: src/functions/fn-information.c:274 src/functions/fn-information.c:449
 msgid "Unknown info_type"
 msgstr ""
 
-#: src/functions/fn-information.c:277
+#: src/functions/fn-information.c:280
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -11959,7 +11721,7 @@ msgid ""
 "@SEEALSO=TEXT"
 msgstr ""
 
-#: src/functions/fn-information.c:322
+#: src/functions/fn-information.c:325
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -11979,7 +11741,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT"
 
-#: src/functions/fn-information.c:361
+#: src/functions/fn-information.c:364
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(type)\n"
@@ -12003,20 +11765,20 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:416
+#: src/functions/fn-information.c:419
 msgid "Unknown version"
 msgstr "版本不詳"
 
-#: src/functions/fn-information.c:418
+#: src/functions/fn-information.c:421
 #, c-format
 msgid "%s version %s"
 msgstr "%s 版本 %s"
 
-#: src/functions/fn-information.c:436
+#: src/functions/fn-information.c:439
 msgid "Unknown system"
 msgstr "系統類型不詳"
 
-#: src/functions/fn-information.c:452
+#: src/functions/fn-information.c:455
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -12036,11 +11798,11 @@ msgstr ""
 "\n"
 "@SEEALSO=ERROR"
 
-#: src/functions/fn-information.c:476
+#: src/functions/fn-information.c:479
 msgid "Argument mismatch"
 msgstr "參數數目錯誤"
 
-#: src/functions/fn-information.c:507
+#: src/functions/fn-information.c:510
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -12060,7 +11822,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NA"
 
-#: src/functions/fn-information.c:542
+#: src/functions/fn-information.c:545
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -12081,7 +11843,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: src/functions/fn-information.c:573
+#: src/functions/fn-information.c:576
 #, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
@@ -12115,7 +11877,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: src/functions/fn-information.c:632
+#: src/functions/fn-information.c:635
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -12135,7 +11897,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISNA"
 
-#: src/functions/fn-information.c:654
+#: src/functions/fn-information.c:657
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -12155,7 +11917,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: src/functions/fn-information.c:675
+#: src/functions/fn-information.c:678
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -12175,7 +11937,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:724
+#: src/functions/fn-information.c:727
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -12195,7 +11957,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISODD"
 
-#: src/functions/fn-information.c:746
+#: src/functions/fn-information.c:749
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -12215,7 +11977,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:776
+#: src/functions/fn-information.c:779
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -12235,7 +11997,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTEXT"
 
-#: src/functions/fn-information.c:803
+#: src/functions/fn-information.c:806
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -12255,7 +12017,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:830
+#: src/functions/fn-information.c:833
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -12275,7 +12037,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISEVEN"
 
-#: src/functions/fn-information.c:852
+#: src/functions/fn-information.c:855
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -12287,7 +12049,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:884
+#: src/functions/fn-information.c:887
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -12307,7 +12069,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISNONTEXT"
 
-#: src/functions/fn-information.c:911
+#: src/functions/fn-information.c:914
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -12328,7 +12090,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:950
+#: src/functions/fn-information.c:953
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -12350,7 +12112,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:977
+#: src/functions/fn-information.c:980
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -12363,11 +12125,11 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:1009
+#: src/functions/fn-information.c:1012
 msgid "Information"
 msgstr "資訊"
 
-#: src/functions/fn-logical.c:20
+#: src/functions/fn-logical.c:23
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -12389,7 +12151,7 @@ msgid ""
 "@SEEALSO=OR, NOT"
 msgstr ""
 
-#: src/functions/fn-logical.c:83
+#: src/functions/fn-logical.c:86
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -12403,11 +12165,11 @@ msgid ""
 "@SEEALSO=AND, OR"
 msgstr ""
 
-#: src/functions/fn-logical.c:103 src/functions/fn-string.c:506
+#: src/functions/fn-logical.c:106 src/functions/fn-string.c:509
 msgid "Type Mismatch"
 msgstr "類型不符"
 
-#: src/functions/fn-logical.c:110
+#: src/functions/fn-logical.c:113
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -12426,7 +12188,7 @@ msgid ""
 "@SEEALSO=AND, NOT"
 msgstr ""
 
-#: src/functions/fn-logical.c:167
+#: src/functions/fn-logical.c:170
 msgid ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition[,if-true,if-false])\n"
@@ -12442,7 +12204,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-logical.c:230
+#: src/functions/fn-logical.c:233
 msgid ""
 "@FUNCTION=TRUE\n"
 "@SYNTAX=TRUE()\n"
@@ -12454,7 +12216,7 @@ msgid ""
 "@SEEALSO=FALSE"
 msgstr ""
 
-#: src/functions/fn-logical.c:252
+#: src/functions/fn-logical.c:255
 msgid ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
@@ -12466,11 +12228,11 @@ msgid ""
 "@SEEALSO=TRUE"
 msgstr ""
 
-#: src/functions/fn-logical.c:278
+#: src/functions/fn-logical.c:281
 msgid "Logical"
 msgstr "邏輯"
 
-#: src/functions/fn-lookup.c:316
+#: src/functions/fn-lookup.c:318
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -12495,7 +12257,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:428
+#: src/functions/fn-lookup.c:430
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -12516,11 +12278,11 @@ msgstr ""
 "\n"
 "@SEEALSO=IF"
 
-#: src/functions/fn-lookup.c:453
+#: src/functions/fn-lookup.c:455
 msgid "#ARG!"
 msgstr "#ARG!"
 
-#: src/functions/fn-lookup.c:477
+#: src/functions/fn-lookup.c:479
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -12538,7 +12300,7 @@ msgid ""
 "@SEEALSO=HLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:535
+#: src/functions/fn-lookup.c:537
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
@@ -12555,7 +12317,7 @@ msgid ""
 "@SEEALSO=VLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:593
+#: src/functions/fn-lookup.c:595
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -12571,7 +12333,7 @@ msgid ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:660
+#: src/functions/fn-lookup.c:662
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -12592,7 +12354,7 @@ msgid ""
 "@SEEALSO=LOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:720
+#: src/functions/fn-lookup.c:722
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -12608,7 +12370,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:788
+#: src/functions/fn-lookup.c:790
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array,[row, col, area])\n"
@@ -12624,7 +12386,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:835
+#: src/functions/fn-lookup.c:837
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -12638,7 +12400,7 @@ msgid ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:888
+#: src/functions/fn-lookup.c:890
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -12652,7 +12414,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:914
+#: src/functions/fn-lookup.c:916
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -12665,7 +12427,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:977
+#: src/functions/fn-lookup.c:979
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -12679,7 +12441,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:1030
+#: src/functions/fn-lookup.c:1032
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -12693,7 +12455,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:1056
+#: src/functions/fn-lookup.c:1058
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
@@ -12715,7 +12477,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:1082
+#: src/functions/fn-lookup.c:1084
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -12731,11 +12493,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: src/functions/fn-lookup.c:1130
+#: src/functions/fn-lookup.c:1132
 msgid "Data / Lookup"
 msgstr "資料 / 檢索"
 
-#: src/functions/fn-math.c:118
+#: src/functions/fn-math.c:121
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -12761,7 +12523,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LCM"
 
-#: src/functions/fn-math.c:170
+#: src/functions/fn-math.c:173
 #, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
@@ -12789,7 +12551,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GCD"
 
-#: src/functions/fn-math.c:227
+#: src/functions/fn-math.c:230
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -12814,7 +12576,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, FLOOR"
 
-#: src/functions/fn-math.c:252
+#: src/functions/fn-math.c:255
 #, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
@@ -12840,7 +12602,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:284
+#: src/functions/fn-math.c:287
 #, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
@@ -12866,7 +12628,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 
-#: src/functions/fn-math.c:315
+#: src/functions/fn-math.c:318
 #, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
@@ -12892,7 +12654,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:346
+#: src/functions/fn-math.c:349
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -12916,7 +12678,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:370
+#: src/functions/fn-math.c:373
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -12940,7 +12702,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:395
+#: src/functions/fn-math.c:398
 #, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
@@ -12966,7 +12728,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:427
+#: src/functions/fn-math.c:430
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -12993,7 +12755,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:455
+#: src/functions/fn-math.c:458
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -13017,7 +12779,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/functions/fn-math.c:479
+#: src/functions/fn-math.c:482
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -13048,7 +12810,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUMIF"
 
-#: src/functions/fn-math.c:557
+#: src/functions/fn-math.c:560
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -13069,7 +12831,7 @@ msgid ""
 "@SEEALSO=COUNTIF, SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:710
+#: src/functions/fn-math.c:713
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -13096,7 +12858,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL"
 
-#: src/functions/fn-math.c:751
+#: src/functions/fn-math.c:754
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -13119,7 +12881,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/functions/fn-math.c:775
+#: src/functions/fn-math.c:778
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -13143,7 +12905,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/functions/fn-math.c:800
+#: src/functions/fn-math.c:803
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -13164,7 +12926,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/functions/fn-math.c:822
+#: src/functions/fn-math.c:825
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -13185,7 +12947,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: src/functions/fn-math.c:845
+#: src/functions/fn-math.c:848
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -13207,7 +12969,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:886
+#: src/functions/fn-math.c:889
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -13222,7 +12984,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:920
+#: src/functions/fn-math.c:923
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -13250,7 +13012,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, ABS, INT"
 
-#: src/functions/fn-math.c:957
+#: src/functions/fn-math.c:960
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -13273,7 +13035,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/functions/fn-math.c:981
+#: src/functions/fn-math.c:984
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -13298,7 +13060,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, LOG2, LOG10"
 
-#: src/functions/fn-math.c:1021
+#: src/functions/fn-math.c:1024
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -13319,7 +13081,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/functions/fn-math.c:1051
+#: src/functions/fn-math.c:1054
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -13342,7 +13104,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP"
 
-#: src/functions/fn-math.c:1085
+#: src/functions/fn-math.c:1088
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -13362,7 +13124,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/functions/fn-math.c:1113
+#: src/functions/fn-math.c:1116
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -13384,7 +13146,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/functions/fn-math.c:1142
+#: src/functions/fn-math.c:1145
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -13409,7 +13171,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 
-#: src/functions/fn-math.c:1190
+#: src/functions/fn-math.c:1193
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -13430,7 +13192,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/functions/fn-math.c:1212
+#: src/functions/fn-math.c:1215
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -13450,7 +13212,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDBETWEEN"
 
-#: src/functions/fn-math.c:1235
+#: src/functions/fn-math.c:1238
 #, fuzzy
 msgid ""
 "@FUNCTION=RANDEXP\n"
@@ -13469,7 +13231,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1258
+#: src/functions/fn-math.c:1261
 #, fuzzy
 msgid ""
 "@FUNCTION=RANDPOISSON\n"
@@ -13488,7 +13250,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1284
+#: src/functions/fn-math.c:1287
 msgid ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p,trials)\n"
@@ -13501,7 +13263,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1314
+#: src/functions/fn-math.c:1317
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -13515,7 +13277,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1345
+#: src/functions/fn-math.c:1348
 #, fuzzy
 msgid ""
 "@FUNCTION=RANDBERNOULLI\n"
@@ -13535,7 +13297,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1373
+#: src/functions/fn-math.c:1376
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -13556,7 +13318,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/functions/fn-math.c:1396
+#: src/functions/fn-math.c:1399
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -13578,7 +13340,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/functions/fn-math.c:1419
+#: src/functions/fn-math.c:1422
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -13600,7 +13362,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POWER"
 
-#: src/functions/fn-math.c:1446
+#: src/functions/fn-math.c:1449
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -13615,7 +13377,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1476
+#: src/functions/fn-math.c:1479
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -13632,7 +13394,7 @@ msgid ""
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1508
+#: src/functions/fn-math.c:1511
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -13647,7 +13409,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1539
+#: src/functions/fn-math.c:1542
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -13669,7 +13431,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM"
 
-#: src/functions/fn-math.c:1568
+#: src/functions/fn-math.c:1571
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -13683,7 +13445,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 msgstr ""
 
-#: src/functions/fn-math.c:1606
+#: src/functions/fn-math.c:1609
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -13696,7 +13458,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1634
+#: src/functions/fn-math.c:1637
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -13717,7 +13479,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:1657
+#: src/functions/fn-math.c:1660
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -13739,7 +13501,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:1680
+#: src/functions/fn-math.c:1683
 #, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
@@ -13763,7 +13525,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: src/functions/fn-math.c:1705
+#: src/functions/fn-math.c:1708
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -13788,7 +13550,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: src/functions/fn-math.c:1740
+#: src/functions/fn-math.c:1743
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -13809,7 +13571,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: src/functions/fn-math.c:1778
+#: src/functions/fn-math.c:1781
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -13830,7 +13592,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: src/functions/fn-math.c:1816
+#: src/functions/fn-math.c:1819
 #, fuzzy
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
@@ -13856,7 +13618,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: src/functions/fn-math.c:1854
+#: src/functions/fn-math.c:1857
 #, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
@@ -13879,7 +13641,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: src/functions/fn-math.c:1886
+#: src/functions/fn-math.c:1889
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -13905,7 +13667,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:1920
+#: src/functions/fn-math.c:1923
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -13926,7 +13688,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: src/functions/fn-math.c:1949
+#: src/functions/fn-math.c:1952
 #, fuzzy
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
@@ -13952,7 +13714,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: src/functions/fn-math.c:1983
+#: src/functions/fn-math.c:1986
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -13973,7 +13735,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2027
+#: src/functions/fn-math.c:2030
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -13994,7 +13756,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2068
+#: src/functions/fn-math.c:2071
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -14015,7 +13777,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDDOWN"
 msgstr ""
 
-#: src/functions/fn-math.c:2112
+#: src/functions/fn-math.c:2115
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -14032,7 +13794,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2162
+#: src/functions/fn-math.c:2165
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -14069,7 +13831,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:2428
+#: src/functions/fn-math.c:2431
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
@@ -14105,14 +13867,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: src/functions/fn-math.c:2484 src/functions/fn-math.c:2503
-#: src/functions/fn-math.c:2597 src/functions/fn-math.c:2617
-#: src/functions/fn-math.c:2709 src/functions/fn-math.c:2729
-#: src/functions/fn-stat.c:2618 src/functions/fn-stat.c:2648
+#: src/functions/fn-math.c:2487 src/functions/fn-math.c:2506
+#: src/functions/fn-math.c:2600 src/functions/fn-math.c:2620
+#: src/functions/fn-math.c:2712 src/functions/fn-math.c:2732
+#: src/functions/fn-stat.c:2617 src/functions/fn-stat.c:2647
 msgid "Array version not implemented!"
 msgstr "陣列版本尚未完成！"
 
-#: src/functions/fn-math.c:2541
+#: src/functions/fn-math.c:2544
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
@@ -14148,7 +13910,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: src/functions/fn-math.c:2653
+#: src/functions/fn-math.c:2656
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMXMY2\n"
@@ -14184,7 +13946,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: src/functions/fn-math.c:2767
+#: src/functions/fn-math.c:2770
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -14215,7 +13977,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:2849
+#: src/functions/fn-math.c:2852
 #, fuzzy
 msgid ""
 "@FUNCTION=SERIESSUM\n"
@@ -14244,7 +14006,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:2972
+#: src/functions/fn-math.c:2975
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -14268,11 +14030,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: src/functions/fn-math.c:3020
+#: src/functions/fn-math.c:3023
 msgid "#3D MULT?"
 msgstr ""
 
-#: src/functions/fn-math.c:3099
+#: src/functions/fn-math.c:3102
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -14293,7 +14055,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: src/functions/fn-math.c:3175
+#: src/functions/fn-math.c:3178
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -14310,14 +14072,15 @@ msgid ""
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:3233
+#: src/functions/fn-math.c:3236
+#, fuzzy
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
 "@DESCRIPTION=SUMPRODUCT function multiplies corresponding data entries in "
 "the given arrays or ranges, and then returns the sum of those products.  If "
 "an array entry is not numeric, the value zero is used instead. \n"
-"If arrays or range arguments do not have the same dimentions, SUMPRODUCT "
+"If arrays or range arguments do not have the same dimensions, SUMPRODUCT "
 "returns #VALUE! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -14341,11 +14104,11 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: src/functions/fn-math.c:3351
+#: src/functions/fn-math.c:3354
 msgid "Maths / Trig."
 msgstr "數學 / 三角函數"
 
-#: src/functions/fn-sheet.c:21
+#: src/functions/fn-sheet.c:23
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(permit_intersection)\n"
@@ -14361,7 +14124,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-sheet.c:103
+#: src/functions/fn-sheet.c:105
 msgid ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
@@ -14379,7 +14142,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-stat.c:159
+#: src/functions/fn-stat.c:162
 msgid ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
@@ -14394,7 +14157,7 @@ msgid ""
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
 msgstr ""
 
-#: src/functions/fn-stat.c:191
+#: src/functions/fn-stat.c:194
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -14411,7 +14174,7 @@ msgid ""
 "@SEEALSO=VARP,STDEV"
 msgstr ""
 
-#: src/functions/fn-stat.c:225
+#: src/functions/fn-stat.c:228
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
@@ -14426,7 +14189,7 @@ msgid ""
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 msgstr ""
 
-#: src/functions/fn-stat.c:255
+#: src/functions/fn-stat.c:258
 msgid ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
@@ -14441,7 +14204,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:285
+#: src/functions/fn-stat.c:288
 msgid ""
 "@FUNCTION=RANK\n"
 "@SYNTAX=RANK(x,ref[,order])\n"
@@ -14458,7 +14221,7 @@ msgid ""
 "@SEEALSO=PERCENTRANK"
 msgstr ""
 
-#: src/functions/fn-stat.c:377
+#: src/functions/fn-stat.c:380
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,fraction)\n"
@@ -14477,7 +14240,7 @@ msgid ""
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 msgstr ""
 
-#: src/functions/fn-stat.c:439
+#: src/functions/fn-stat.c:442
 msgid ""
 "@FUNCTION=COVAR\n"
 "@SYNTAX=COVAR(array1,array2)\n"
@@ -14493,7 +14256,7 @@ msgid ""
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:471
+#: src/functions/fn-stat.c:474
 msgid ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(array1,array2)\n"
@@ -14509,7 +14272,7 @@ msgid ""
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:503
+#: src/functions/fn-stat.c:506
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
@@ -14526,7 +14289,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 msgstr ""
 
-#: src/functions/fn-stat.c:542
+#: src/functions/fn-stat.c:545
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -14539,7 +14302,7 @@ msgid ""
 "@SEEALSO=NORMDIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:569
+#: src/functions/fn-stat.c:572
 msgid ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
@@ -14554,7 +14317,7 @@ msgid ""
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:602
+#: src/functions/fn-stat.c:605
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
@@ -14570,7 +14333,7 @@ msgid ""
 "@SEEALSO=NORMDIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:642
+#: src/functions/fn-stat.c:645
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stdev)\n"
@@ -14586,7 +14349,7 @@ msgid ""
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:679
+#: src/functions/fn-stat.c:682
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -14600,7 +14363,7 @@ msgid ""
 "@SEEALSO=FISHER"
 msgstr ""
 
-#: src/functions/fn-stat.c:707
+#: src/functions/fn-stat.c:710
 #, fuzzy
 msgid ""
 "@FUNCTION=MODE\n"
@@ -14631,7 +14394,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 
-#: src/functions/fn-stat.c:743
+#: src/functions/fn-stat.c:746
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -14657,7 +14420,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: src/functions/fn-stat.c:775
+#: src/functions/fn-stat.c:778
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -14683,7 +14446,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: src/functions/fn-stat.c:806
+#: src/functions/fn-stat.c:809
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -14708,7 +14471,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:848
+#: src/functions/fn-stat.c:851
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -14733,7 +14496,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
-#: src/functions/fn-stat.c:890
+#: src/functions/fn-stat.c:893
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -14749,7 +14512,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-stat.c:922
+#: src/functions/fn-stat.c:925
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -14775,7 +14538,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,ABS"
 
-#: src/functions/fn-stat.c:964
+#: src/functions/fn-stat.c:967
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -14791,7 +14554,7 @@ msgid ""
 "@SEEALSO=MIN,ABS"
 msgstr ""
 
-#: src/functions/fn-stat.c:1006
+#: src/functions/fn-stat.c:1009
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -14811,7 +14574,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 msgstr ""
 
-#: src/functions/fn-stat.c:1044
+#: src/functions/fn-stat.c:1047
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -14826,7 +14589,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 msgstr ""
 
-#: src/functions/fn-stat.c:1077
+#: src/functions/fn-stat.c:1080
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -14841,7 +14604,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1120
+#: src/functions/fn-stat.c:1123
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -14856,7 +14619,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1157
+#: src/functions/fn-stat.c:1160
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -14872,7 +14635,7 @@ msgid ""
 "@SEEALSO=GAMMAINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1198
+#: src/functions/fn-stat.c:1201
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -14887,7 +14650,7 @@ msgid ""
 "@SEEALSO=GAMMADIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1234
+#: src/functions/fn-stat.c:1237
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -14902,7 +14665,7 @@ msgid ""
 "@SEEALSO=CHIINV,CHITEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1270
+#: src/functions/fn-stat.c:1273
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -14916,7 +14679,7 @@ msgid ""
 "@SEEALSO=CHIDIST,CHITEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1304
+#: src/functions/fn-stat.c:1307
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -14931,7 +14694,7 @@ msgid ""
 "@SEEALSO=CHIDIST,CHIINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1442
+#: src/functions/fn-stat.c:1445
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -14948,7 +14711,7 @@ msgid ""
 "@SEEALSO=BETAINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1482
+#: src/functions/fn-stat.c:1485
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -14965,7 +14728,7 @@ msgid ""
 "@SEEALSO=BETADIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1522
+#: src/functions/fn-stat.c:1525
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -14981,7 +14744,7 @@ msgid ""
 "@SEEALSO=TINV,TTEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1559
+#: src/functions/fn-stat.c:1562
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -14995,7 +14758,7 @@ msgid ""
 "@SEEALSO=TDIST,TTEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1593
+#: src/functions/fn-stat.c:1596
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -15011,7 +14774,7 @@ msgid ""
 "@SEEALSO=FINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1630
+#: src/functions/fn-stat.c:1633
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -15026,7 +14789,7 @@ msgid ""
 "@SEEALSO=FDIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1666
+#: src/functions/fn-stat.c:1669
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -15044,7 +14807,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1712
+#: src/functions/fn-stat.c:1715
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -15062,7 +14825,7 @@ msgid ""
 "@SEEALSO=BINOMDIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1752
+#: src/functions/fn-stat.c:1755
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -15077,7 +14840,7 @@ msgid ""
 "@SEEALSO=COMBIN"
 msgstr ""
 
-#: src/functions/fn-stat.c:1787
+#: src/functions/fn-stat.c:1790
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -15094,7 +14857,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1827
+#: src/functions/fn-stat.c:1830
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -15110,7 +14873,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:1868
+#: src/functions/fn-stat.c:1871
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -15125,7 +14888,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:1906
+#: src/functions/fn-stat.c:1909
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -15142,7 +14905,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1952
+#: src/functions/fn-stat.c:1955
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -15157,7 +14920,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1997
+#: src/functions/fn-stat.c:2000
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -15173,7 +14936,7 @@ msgid ""
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:2035
+#: src/functions/fn-stat.c:2038
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -15194,7 +14957,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 msgstr ""
 
-#: src/functions/fn-stat.c:2075
+#: src/functions/fn-stat.c:2078
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -15210,7 +14973,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 msgstr ""
 
-#: src/functions/fn-stat.c:2109
+#: src/functions/fn-stat.c:2112
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -15225,7 +14988,7 @@ msgid ""
 "@SEEALSO=STDEV"
 msgstr ""
 
-#: src/functions/fn-stat.c:2140
+#: src/functions/fn-stat.c:2143
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -15241,7 +15004,7 @@ msgid ""
 "@SEEALSO=STDEV"
 msgstr ""
 
-#: src/functions/fn-stat.c:2173
+#: src/functions/fn-stat.c:2176
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -15255,7 +15018,7 @@ msgid ""
 "@SEEALSO=SKEW"
 msgstr ""
 
-#: src/functions/fn-stat.c:2208
+#: src/functions/fn-stat.c:2211
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -15271,7 +15034,7 @@ msgid ""
 "@SEEALSO=NORMDIST, WEIBULL"
 msgstr ""
 
-#: src/functions/fn-stat.c:2251
+#: src/functions/fn-stat.c:2254
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -15284,7 +15047,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 msgstr ""
 
-#: src/functions/fn-stat.c:2276
+#: src/functions/fn-stat.c:2279
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -15297,7 +15060,7 @@ msgid ""
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:2306
+#: src/functions/fn-stat.c:2309
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -15325,7 +15088,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: src/functions/fn-stat.c:2340
+#: src/functions/fn-stat.c:2343
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -15355,7 +15118,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: src/functions/fn-stat.c:2387
+#: src/functions/fn-stat.c:2390
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -15385,7 +15148,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
-#: src/functions/fn-stat.c:2458
+#: src/functions/fn-stat.c:2461
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -15402,7 +15165,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,CRITBINOM"
 msgstr ""
 
-#: src/functions/fn-stat.c:2554
+#: src/functions/fn-stat.c:2553
 #, fuzzy
 msgid ""
 "@FUNCTION=STEYX\n"
@@ -15433,7 +15196,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: src/functions/fn-stat.c:2709
+#: src/functions/fn-stat.c:2708
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -15449,7 +15212,7 @@ msgid ""
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 msgstr ""
 
-#: src/functions/fn-stat.c:2790
+#: src/functions/fn-stat.c:2789
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -15479,7 +15242,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:2825
+#: src/functions/fn-stat.c:2824
 #, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
@@ -15510,7 +15273,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: src/functions/fn-stat.c:2860
+#: src/functions/fn-stat.c:2859
 #, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
@@ -15541,7 +15304,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: src/functions/fn-stat.c:2895
+#: src/functions/fn-stat.c:2894
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -15559,7 +15322,7 @@ msgid ""
 "@SEEALSO=VAR,VARPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:2930
+#: src/functions/fn-stat.c:2929
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -15577,7 +15340,7 @@ msgid ""
 "@SEEALSO=VARP,VARP"
 msgstr ""
 
-#: src/functions/fn-stat.c:2965
+#: src/functions/fn-stat.c:2964
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -15595,7 +15358,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:3000
+#: src/functions/fn-stat.c:2999
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -15613,7 +15376,7 @@ msgid ""
 "@SEEALSO=STDEVA,STDEVP"
 msgstr ""
 
-#: src/functions/fn-stat.c:3035
+#: src/functions/fn-stat.c:3034
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -15633,7 +15396,7 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 msgstr ""
 
-#: src/functions/fn-stat.c:3145
+#: src/functions/fn-stat.c:3144
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -15651,7 +15414,7 @@ msgid ""
 "@SEEALSO=QUARTILE"
 msgstr ""
 
-#: src/functions/fn-stat.c:3194
+#: src/functions/fn-stat.c:3193
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -15676,7 +15439,7 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 msgstr ""
 
-#: src/functions/fn-stat.c:3250
+#: src/functions/fn-stat.c:3249
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -15692,7 +15455,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:3300
+#: src/functions/fn-stat.c:3299
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -15722,7 +15485,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:3470
+#: src/functions/fn-stat.c:3469
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -15738,7 +15501,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-stat.c:3545
+#: src/functions/fn-stat.c:3544
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -15766,7 +15529,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:3817
+#: src/functions/fn-stat.c:3816
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -15787,7 +15550,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:3930
+#: src/functions/fn-stat.c:3929
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -15814,7 +15577,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4185
+#: src/functions/fn-stat.c:4184
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -15834,7 +15597,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4300
+#: src/functions/fn-stat.c:4299
 #, fuzzy
 msgid ""
 "@FUNCTION=FORECAST\n"
@@ -15867,7 +15630,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: src/functions/fn-stat.c:4371
+#: src/functions/fn-stat.c:4370
 #, fuzzy
 msgid ""
 "@FUNCTION=INTERCEPT\n"
@@ -15899,7 +15662,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: src/functions/fn-stat.c:4421
+#: src/functions/fn-stat.c:4420
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -15914,11 +15677,11 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:4470
+#: src/functions/fn-stat.c:4469
 msgid "Statistics"
 msgstr ""
 
-#: src/functions/fn-string.c:30
+#: src/functions/fn-string.c:33
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
@@ -15929,7 +15692,7 @@ msgid ""
 "@SEEALSO=CODE"
 msgstr ""
 
-#: src/functions/fn-string.c:56
+#: src/functions/fn-string.c:59
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -15941,7 +15704,7 @@ msgid ""
 "@SEEALSO=CHAR"
 msgstr ""
 
-#: src/functions/fn-string.c:78
+#: src/functions/fn-string.c:81
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -15955,7 +15718,7 @@ msgid ""
 "@SEEALSO=LEN, SEARCH, DELTA"
 msgstr ""
 
-#: src/functions/fn-string.c:103
+#: src/functions/fn-string.c:106
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -15967,7 +15730,7 @@ msgid ""
 "@SEEALSO=CHAR, CODE"
 msgstr ""
 
-#: src/functions/fn-string.c:125
+#: src/functions/fn-string.c:128
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -15980,7 +15743,7 @@ msgid ""
 "@SEEALSO=MID, RIGHT"
 msgstr ""
 
-#: src/functions/fn-string.c:161
+#: src/functions/fn-string.c:164
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -15992,7 +15755,7 @@ msgid ""
 "@SEEALSO=UPPER"
 msgstr ""
 
-#: src/functions/fn-string.c:191
+#: src/functions/fn-string.c:194
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -16005,11 +15768,11 @@ msgid ""
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
 
-#: src/functions/fn-string.c:217
+#: src/functions/fn-string.c:220
 msgid "Invalid arguments"
 msgstr ""
 
-#: src/functions/fn-string.c:236
+#: src/functions/fn-string.c:239
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -16023,7 +15786,7 @@ msgid ""
 "@SEEALSO=MID, LEFT"
 msgstr ""
 
-#: src/functions/fn-string.c:275
+#: src/functions/fn-string.c:278
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -16035,7 +15798,7 @@ msgid ""
 "@SEEALSO=LOWER"
 msgstr ""
 
-#: src/functions/fn-string.c:305
+#: src/functions/fn-string.c:308
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -16047,7 +15810,7 @@ msgid ""
 "@SEEALSO=LEFT, MID, RIGHT"
 msgstr ""
 
-#: src/functions/fn-string.c:347
+#: src/functions/fn-string.c:350
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -16061,11 +15824,11 @@ msgstr ""
 
 #. FIXME: this and above case should probably have the
 #. same error message.
-#: src/functions/fn-string.c:386
+#: src/functions/fn-string.c:389
 msgid "Out of memory"
 msgstr ""
 
-#: src/functions/fn-string.c:402
+#: src/functions/fn-string.c:405
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -16077,7 +15840,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-string.c:434
+#: src/functions/fn-string.c:437
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -16090,7 +15853,7 @@ msgid ""
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 msgstr ""
 
-#: src/functions/fn-string.c:476
+#: src/functions/fn-string.c:479
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -16103,7 +15866,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-string.c:544
+#: src/functions/fn-string.c:547
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -16115,7 +15878,7 @@ msgid ""
 "@SEEALSO=LOWER, UPPER"
 msgstr ""
 
-#: src/functions/fn-string.c:590
+#: src/functions/fn-string.c:593
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -16128,7 +15891,7 @@ msgid ""
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 msgstr ""
 
-#: src/functions/fn-string.c:640
+#: src/functions/fn-string.c:643
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -16142,7 +15905,7 @@ msgid ""
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
 
-#: src/functions/fn-string.c:666
+#: src/functions/fn-string.c:669
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -16155,11 +15918,11 @@ msgid ""
 "@SEEALSO=DOLLAR"
 msgstr ""
 
-#: src/functions/fn-string.c:702
+#: src/functions/fn-string.c:705
 msgid "Type mismatch"
 msgstr ""
 
-#: src/functions/fn-string.c:714
+#: src/functions/fn-string.c:717
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -16171,7 +15934,7 @@ msgid ""
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 msgstr ""
 
-#: src/functions/fn-string.c:760
+#: src/functions/fn-string.c:763
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -16183,7 +15946,7 @@ msgid ""
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 msgstr ""
 
-#: src/functions/fn-string.c:803
+#: src/functions/fn-string.c:806
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -16197,7 +15960,7 @@ msgid ""
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
 
-#: src/functions/fn-string.c:919
+#: src/functions/fn-string.c:922
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -16209,7 +15972,7 @@ msgid ""
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
 
-#: src/functions/fn-string.c:988
+#: src/functions/fn-string.c:991
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -16451,55 +16214,55 @@ msgstr ""
 msgid "C_ancel"
 msgstr "取消(_A)"
 
-#: src/main.c:80
+#: src/main.c:81
 msgid "Display Gnumeric's version"
 msgstr "顯示 Gnumeric 版本"
 
-#: src/main.c:82
+#: src/main.c:83
 msgid "Set the root library directory"
 msgstr ""
 
-#: src/main.c:84
+#: src/main.c:85
 msgid "Adjust the root data directory"
 msgstr ""
 
-#: src/main.c:87
+#: src/main.c:88
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:87
+#: src/main.c:88
 msgid "FILE"
 msgstr "檔案"
 
-#: src/main.c:90
+#: src/main.c:91
 msgid "Enables some debugging functions"
 msgstr "啟用某些偵錯功能"
 
-#: src/main.c:90 src/main.c:93 src/main.c:95
+#: src/main.c:91 src/main.c:94 src/main.c:96
 msgid "LEVEL"
 msgstr ""
 
-#: src/main.c:93
+#: src/main.c:94
 msgid "Enables some dependency related debugging functions"
 msgstr ""
 
-#: src/main.c:95
+#: src/main.c:96
 msgid "Enables some print debugging behavior"
 msgstr "啟用某些列印偵錯功能"
 
-#: src/main.c:98
+#: src/main.c:99
 msgid "Specify the size and location of the initial window"
 msgstr ""
 
-#: src/main.c:98
+#: src/main.c:99
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr ""
 
-#: src/main.c:102
+#: src/main.c:103
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 
-#: src/main.c:131
+#: src/main.c:132
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -16513,7 +16276,7 @@ msgid ""
 "-- The Gnumeric Team."
 msgstr ""
 
-#: src/main.c:187
+#: src/main.c:188
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -16524,11 +16287,11 @@ msgstr ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 
-#: src/main.c:247
+#: src/main.c:248
 msgid "Could not initialize Workbook factory"
 msgstr ""
 
-#: src/main.c:251
+#: src/main.c:252
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr ""
 
@@ -16564,60 +16327,60 @@ msgstr "#N/A"
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
-#: src/parser.y:348
+#: src/parser.y:349
 msgid "Sheet name is required"
 msgstr ""
 
-#: src/parser.y:458
+#: src/parser.y:459
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr ""
 
-#: src/parser.y:480
+#: src/parser.y:481
 #, c-format
 msgid "Unknown workbook '%s'"
 msgstr ""
 
-#: src/parser.y:492
+#: src/parser.y:493
 #, c-format
 msgid "Name '%s' does not exist in workbook '%s'"
 msgstr ""
 
-#: src/parser.y:517 src/parser.y:540
+#: src/parser.y:518 src/parser.y:541
 #, c-format
 msgid "Unknown sheet '%s'"
 msgstr ""
 
-#: src/parser.y:648 src/parser.y:662
+#: src/parser.y:649 src/parser.y:663
 #, c-format
 msgid "The character %c cannot be used to separate array elements"
 msgstr ""
 
-#: src/parser.y:823 src/parser.y:833 src/parser.y:866
+#: src/parser.y:824 src/parser.y:834 src/parser.y:867
 msgid "The number is out of range"
 msgstr "數字超出範圍以外"
 
-#: src/parser.y:894
+#: src/parser.y:895
 msgid "Could not find matching closing quote"
 msgstr ""
 
-#: src/parser.y:1037
+#: src/parser.y:1038
 msgid "Multiple expressions are not supported in this context"
 msgstr ""
 
-#: src/parser.y:1059
+#: src/parser.y:1060
 msgid "Could not find matching opening parenthesis"
 msgstr ""
 
-#: src/parser.y:1063
+#: src/parser.y:1064
 msgid "Could not find matching closing parenthesis"
 msgstr ""
 
-#: src/parser.y:1067
+#: src/parser.y:1068
 msgid "Invalid expression"
 msgstr "無效的表示式"
 
-#: src/parser.y:1072
+#: src/parser.y:1073
 #, c-format
 msgid "Unexpected token %c"
 msgstr ""
@@ -16633,7 +16396,7 @@ msgstr "無法開啟模組檔案「%s」。"
 
 #: src/plugin-loader-module.c:130 src/plugin-loader-module.c:334
 #: src/plugin-loader-module.c:435 src/plugin-loader-module.c:506
-#: src/plugin-loader-module.c:595
+#: src/plugin-loader-module.c:599
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "模組檔案「%s」的格式無效。"
@@ -16676,12 +16439,12 @@ msgstr "檔案沒有“plugin_cleanup_general”函式。"
 msgid "File doesn't contain \"plugin_can_deactivate_general\" function."
 msgstr "檔案沒有“plugin_can_deactivate_general”函式。"
 
-#: src/plugin-loader-module.c:600
+#: src/plugin-loader-module.c:604
 #, c-format
 msgid "File doesn't contain \"%s\" array."
 msgstr "檔案沒有“%s”陣列。"
 
-#: src/plugin-loader-module.c:687
+#: src/plugin-loader-module.c:691
 #, c-format
 msgid "Module doesn't contain \"%s\" function."
 msgstr "模組沒有“%s”函式。"
@@ -16698,58 +16461,58 @@ msgstr ""
 msgid "Error while loading plugin."
 msgstr "載入增效模組時發生錯誤。"
 
-#: src/plugin-service.c:124
+#: src/plugin-service.c:125
 msgid "Initializing function inside plugin returned error."
 msgstr "增效模組內部初始化函式時發生錯誤。"
 
-#: src/plugin-service.c:129 src/plugin-service.c:1073
-#: src/plugin-service.c:1301
+#: src/plugin-service.c:130 src/plugin-service.c:1080
+#: src/plugin-service.c:1308
 msgid "Error while loading plugin service."
 msgstr "載入增效模組服務時發生錯誤。"
 
-#: src/plugin-service.c:163
+#: src/plugin-service.c:164
 msgid "Cleanup function inside plugin returned error."
 msgstr ""
 
-#: src/plugin-service.c:302
+#: src/plugin-service.c:303
 msgid "Error while reading file."
 msgstr "讀入檔案時發生錯誤。"
 
-#: src/plugin-service.c:479
+#: src/plugin-service.c:480
 msgid "File opener has no id"
 msgstr ""
 
-#: src/plugin-service.c:482
+#: src/plugin-service.c:483
 #, c-format
 msgid "File opener with id=\"%s\" has no description"
 msgstr ""
 
-#: src/plugin-service.c:612
+#: src/plugin-service.c:613
 msgid "Error while saving file."
 msgstr "儲存檔案時發生錯誤。"
 
-#: src/plugin-service.c:711
+#: src/plugin-service.c:712
 msgid "File saver has no id"
 msgstr ""
 
-#: src/plugin-service.c:714
+#: src/plugin-service.c:715
 #, c-format
 msgid "File saver with id=\"%s\" has no description"
 msgstr ""
 
-#: src/plugin-service.c:866
+#: src/plugin-service.c:867
 msgid "Missing function group id."
 msgstr ""
 
-#: src/plugin-service.c:871 src/plugin-service.c:876
+#: src/plugin-service.c:872 src/plugin-service.c:877
 msgid "Missing function category name."
 msgstr ""
 
-#: src/plugin-service.c:1036
+#: src/plugin-service.c:1043
 msgid "Missing loader id."
 msgstr ""
 
-#: src/plugin-service.c:1196
+#: src/plugin-service.c:1203
 #, c-format
 msgid "Error while reading service of type \"%s\"."
 msgstr ""
@@ -16783,7 +16546,7 @@ msgstr "讀入檔案“%s”時發生錯誤。"
 msgid "Unable to mmap the file."
 msgstr ""
 
-#: src/plugin-util.c:318 src/xml-io.c:3238
+#: src/plugin-util.c:318 src/xml-io.c:3239
 msgid "Cannot get file size."
 msgstr "無法取得檔案大小。"
 
@@ -16918,61 +16681,61 @@ msgstr "啟用增效模組時發生錯誤。"
 msgid "Errors while initializing plugin system."
 msgstr "初始化增效模組支援時發生錯誤。"
 
-#: src/print-info.c:25 src/print-info.c:28 src/print-info.c:29
-#: src/print-info.c:277
+#: src/print-info.c:26 src/print-info.c:29 src/print-info.c:30
+#: src/print-info.c:278
 msgid "Page &[PAGE]"
 msgstr ""
 
-#: src/print-info.c:26 src/print-info.c:31
+#: src/print-info.c:27 src/print-info.c:32
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr ""
 
-#: src/print-info.c:27 src/print-info.c:28 src/print-info.c:29
-#: src/print-info.c:31 src/print-info.c:276
+#: src/print-info.c:28 src/print-info.c:29 src/print-info.c:30
+#: src/print-info.c:32 src/print-info.c:277
 msgid "&[TAB]"
 msgstr ""
 
-#: src/print-info.c:29 src/print-info.c:30 src/print-info.c:31
+#: src/print-info.c:30 src/print-info.c:31 src/print-info.c:32
 msgid "&[DATE]"
 msgstr ""
 
-#: src/print-info.c:425
+#: src/print-info.c:426
 msgid "points"
 msgstr "點"
 
-#: src/print-info.c:426
+#: src/print-info.c:427
 msgid "millimeter"
 msgstr "毫米"
 
-#: src/print-info.c:427
+#: src/print-info.c:428
 msgid "centimeter"
 msgstr "厘米"
 
-#: src/print-info.c:428
+#: src/print-info.c:429
 msgid "inch"
 msgstr "吋"
 
-#: src/print-info.c:518
+#: src/print-info.c:519
 msgid "Sheet 1"
 msgstr ""
 
-#: src/print-info.c:581
+#: src/print-info.c:582
 msgid "tab"
 msgstr ""
 
-#: src/print-info.c:582
+#: src/print-info.c:583
 msgid "page"
 msgstr "頁"
 
-#: src/print-info.c:583
+#: src/print-info.c:584
 msgid "pages"
 msgstr "頁"
 
-#: src/print-info.c:584
+#: src/print-info.c:585
 msgid "date"
 msgstr "日期"
 
-#: src/print-info.c:585
+#: src/print-info.c:586
 msgid "time"
 msgstr "時間"
 
@@ -17211,23 +16974,23 @@ msgstr ""
 msgid "cannot operate on array formulae"
 msgstr ""
 
-#: src/sheet.c:3043
+#: src/sheet.c:3045
 msgid "Clear"
 msgstr "清除"
 
-#: src/sheet.c:3451
+#: src/sheet.c:3453
 msgid "Insert Columns"
 msgstr ""
 
-#: src/sheet.c:3508
+#: src/sheet.c:3510
 msgid "Delete Columns"
 msgstr ""
 
-#: src/sheet.c:3562
+#: src/sheet.c:3564
 msgid "Insert Rows"
 msgstr ""
 
-#: src/sheet.c:3619
+#: src/sheet.c:3621
 msgid "Delete Rows"
 msgstr ""
 
@@ -17280,58 +17043,328 @@ msgstr "匯入文字檔（自訂格式）"
 msgid "Text export (configurable)"
 msgstr "匯入文字檔（自訂格式）"
 
-#: src/tools/solver/reports.c:91
+#: src/tools/analysis-tools.c:197 src/tools/analysis-tools.c:3232
+#, c-format
+msgid "Row %i"
+msgstr "第 %i 行"
+
+#: src/tools/analysis-tools.c:200 src/tools/analysis-tools.c:3224
+#, c-format
+msgid "Column %i"
+msgstr "第 %i 列"
+
+#: src/tools/analysis-tools.c:203
+#, c-format
+msgid "Bin %i"
+msgstr ""
+
+#: src/tools/analysis-tools.c:207
+#, c-format
+msgid "Area %i"
+msgstr "第 %i 個區域"
+
+#: src/tools/analysis-tools.c:816 src/tools/analysis-tools.c:819
+msgid "Correlations"
+msgstr ""
+
+#: src/tools/analysis-tools.c:908 src/tools/analysis-tools.c:911
+msgid "Covariances"
+msgstr ""
+
+#: src/tools/analysis-tools.c:990
+msgid "Summary Statistics"
+msgstr ""
+
+#.
+#. * Note to translators: in the following string and others like it,
+#. * the "/" is a separator character that can be changed to anything
+#. * if the translation needs the slash; just use, say, "|" instead.
+#. *
+#. * The items are bundled like this to increase translation context.
+#.
+#: src/tools/analysis-tools.c:1001
+msgid ""
+"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
+"Skewness/Range/Minimum/Maximum/Sum/Count"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1088
+msgid "Confidence Interval for the Mean"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1089
+#, c-format
+msgid "/%%%s%%%% CI for the Mean from/to"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1129
+#, c-format
+msgid "Largest (%d)"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1154
+#, c-format
+msgid "Smallest (%d)"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1372 src/tools/analysis-tools.c:1374
+#: src/tools/analysis-tools.c:1491 src/tools/analysis-tools.c:1493
+#: src/tools/analysis-tools.c:1650 src/tools/analysis-tools.c:1652
+#: src/tools/analysis-tools.c:1778 src/tools/analysis-tools.c:1780
+#: src/tools/analysis-tools.c:1914 src/tools/analysis-tools.c:1916
+#, c-format
+msgid "Variable %i"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1376
+msgid "z-Test"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1379
+msgid ""
+"/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
+"Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
+"Critical two-tail"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1507 src/tools/analysis-tools.c:1654
+#: src/tools/analysis-tools.c:1782
+msgid "t-Test"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1510
+msgid ""
+"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
+"df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
+"two-tail"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1657
+msgid ""
+"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
+"Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
+"(T<=t) two-tail/t Critical two-tail"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1785
+msgid ""
+"/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
+"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
+"t Critical two-tail"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1923
+msgid "F-Test"
+msgstr ""
+
+#: src/tools/analysis-tools.c:1929
+msgid ""
+"/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
+"(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2047 src/tools/analysis-tools.c:2105
+msgid "Random"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2221
+msgid "Not implemented yet.\n"
+msgstr "此功能尚未完成。\n"
+
+#: src/tools/analysis-tools.c:2296
+msgid "Y Variable"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2360
+msgid ""
+"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
+"Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2381
+msgid "/df/SS/MS/F/Significance of F"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2388
+#, c-format
+msgid ""
+"/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
+"%%"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2544
+msgid "Moving Averages"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2559
+#, fuzzy
+msgid "Standard Error"
+msgstr "標準寬度(_S)"
+
+#: src/tools/analysis-tools.c:2647
+msgid "Exponential Smoothing"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2727
+msgid "Ranks"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2736
+msgid "Point"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2738
+msgid "Rank"
+msgstr ""
+
+#. We are ready to create the summary table
+#: src/tools/analysis-tools.c:2827 src/tools/analysis-tools.c:3022
+#: src/tools/analysis-tools.c:3284
+msgid "Anova"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2829
+msgid "Anova: Single Factor"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2830 src/tools/analysis-tools.c:3287
+msgid "SUMMARY"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2831
+msgid "/Groups/Count/Sum/Average/Variance"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2887
+msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2892 src/tools/analysis-tools.c:3104
+#: src/tools/analysis-tools.c:3311
+msgid "/SS/df/MS/F/P-value/F critical"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3028
+msgid "Anova: Two-Factor Without Replication"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3029
+msgid "/SUMMARY/Count/Sum/Average/Variance"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3098
+msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3286
+msgid "Anova: Two-Factor With Replication"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3293
+msgid "/Count/Sum/Average/Variance"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3303
+msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3774
+#, c-format
+msgid "<%s"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3778
+msgid "Too Small"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3795
+msgid "More"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3803
+#, c-format
+msgid ">%s"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3807
+msgid "Too Large"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3853
+msgid "Bin"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3878
+msgid "Frequency"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3883
+#, no-c-format
+msgid "Cumulative %"
+msgstr ""
+
+#: src/tools/analysis-tools.c:4088 src/tools/solver/reports.c:609
+#, fuzzy
+msgid "Real"
+msgstr "矩形"
+
+#: src/tools/analysis-tools.c:4089
+#, fuzzy
+msgid "Imaginary"
+msgstr "一月"
+
+#: src/tools/solver/reports.c:94
 #, fuzzy
 msgid "Gnumeric Solver"
 msgstr "Gnumeric"
 
-#: src/tools/solver/reports.c:96
+#: src/tools/solver/reports.c:100
 msgid "Worksheet:"
 msgstr ""
 
-#: src/tools/solver/reports.c:103
+#: src/tools/solver/reports.c:109
 msgid "Report Created:"
 msgstr ""
 
 #. Fill in the header titles.
-#: src/tools/solver/reports.c:124 src/tools/solver/reports.c:253
+#: src/tools/solver/reports.c:130 src/tools/solver/reports.c:256
 msgid "Answer Report"
 msgstr ""
 
-#: src/tools/solver/reports.c:139 src/tools/solver/reports.c:163
+#: src/tools/solver/reports.c:145 src/tools/solver/reports.c:169
 msgid "Original Value"
 msgstr ""
 
-#: src/tools/solver/reports.c:140 src/tools/solver/reports.c:164
+#: src/tools/solver/reports.c:146 src/tools/solver/reports.c:170
 msgid "Final Value"
 msgstr ""
 
-#: src/tools/solver/reports.c:191
+#: src/tools/solver/reports.c:197
 msgid "Cell Value"
 msgstr ""
 
-#: src/tools/solver/reports.c:192
+#: src/tools/solver/reports.c:198
 msgid "Formula"
 msgstr "算式"
 
-#: src/tools/solver/reports.c:223
+#: src/tools/solver/reports.c:229
 msgid "Binding"
 msgstr ""
 
-#: src/tools/solver/reports.c:225
+#: src/tools/solver/reports.c:231
 msgid "Not Binding"
 msgstr ""
 
-#: src/tools/solver/reports.c:248
+#: src/tools/solver/reports.c:251
 msgid "Target Cell (Maximize)"
 msgstr ""
 
-#: src/tools/solver/reports.c:250
+#: src/tools/solver/reports.c:253
 msgid "Target Cell (Minimize)"
 msgstr ""
 
 #. Fill in other titles.
-#: src/tools/solver/reports.c:256 src/tools/solver/reports.c:366
+#: src/tools/solver/reports.c:259 src/tools/solver/reports.c:367
 msgid "Adjustable Cells"
 msgstr ""
 
@@ -17339,41 +17372,195 @@ msgstr ""
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports.c:274 src/tools/solver/reports.c:363
+#: src/tools/solver/reports.c:277 src/tools/solver/reports.c:364
 msgid "Sensitivity Report"
 msgstr ""
 
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
-#: src/tools/solver/reports.c:288 src/tools/solver/reports.c:317
+#: src/tools/solver/reports.c:291 src/tools/solver/reports.c:320
 msgid "Final"
 msgstr ""
 
-#: src/tools/solver/reports.c:289
+#: src/tools/solver/reports.c:292
 msgid "Reduced"
 msgstr ""
 
-#: src/tools/solver/reports.c:293
+#: src/tools/solver/reports.c:296
 #, fuzzy
 msgid "Gradient"
 msgstr "列印"
 
-#: src/tools/solver/reports.c:318
+#: src/tools/solver/reports.c:321
 #, fuzzy
 msgid "Lagrange"
 msgstr "範圍"
 
-#: src/tools/solver/reports.c:322
+#: src/tools/solver/reports.c:325
 #, fuzzy
 msgid "Multiplier"
 msgstr "相乘"
 
-#: src/tools/solver/solver.c:362
+#.
+#. * Fill in the titles.
+#.
+#. Fill in the header titles.
+#: src/tools/solver/reports.c:385 src/tools/solver/reports.c:493
+msgid "Limits Report"
+msgstr ""
+
+#.
+#. * Fill in the labels.
+#.
+#: src/tools/solver/reports.c:401 src/tools/solver/reports.c:414
+#: src/tools/solver/reports.c:419
+#, fuzzy
+msgid "Target"
+msgstr "紫紅"
+
+#: src/tools/solver/reports.c:408
+msgid "Adjustable"
+msgstr ""
+
+#: src/tools/solver/reports.c:413
+msgid "Lower"
+msgstr ""
+
+#: src/tools/solver/reports.c:415 src/tools/solver/reports.c:420
+#, fuzzy
+msgid "Limit"
+msgstr "分鐘(_M)"
+
+#: src/tools/solver/reports.c:416 src/tools/solver/reports.c:421
+#, fuzzy
+msgid "Result"
+msgstr "設定儲存格："
+
+#: src/tools/solver/reports.c:418
+msgid "Upper"
+msgstr ""
+
+#.
+#. * Fill in the titles.
+#.
+#. Fill in the header titles.
+#: src/tools/solver/reports.c:511 src/tools/solver/reports.c:666
+msgid "Program Report"
+msgstr ""
+
+#.
+#. * Fill in the labels of `General Statistics' section.
+#.
+#: src/tools/solver/reports.c:524
+#, fuzzy
+msgid "Variables"
+msgstr "項目會"
+
+#: src/tools/solver/reports.c:526
+#, fuzzy
+msgid "Int Constraints"
+msgstr "限制："
+
+#: src/tools/solver/reports.c:527
+#, fuzzy
+msgid "Bool Constraints"
+msgstr "限制："
+
+#: src/tools/solver/reports.c:528 src/tools/solver/reports.c:555
+#, fuzzy
+msgid "Number of"
+msgstr "數字"
+
+#. Set the `Nbr of Bool Constraints'.
+#. FIXME: Bools
+#.
+#. * Fill in the labels of `Data Sparsity' section.
+#.
+#: src/tools/solver/reports.c:550
+msgid "Matrix Elements"
+msgstr ""
+
+#: src/tools/solver/reports.c:551
+msgid "Non-zeros (constr.)"
+msgstr ""
+
+#: src/tools/solver/reports.c:552
+msgid "Zeros (constr.)"
+msgstr ""
+
+#: src/tools/solver/reports.c:553
+msgid "Non-zeros (obj. fn)"
+msgstr ""
+
+#: src/tools/solver/reports.c:554
+msgid "Zeros (obj. fn)"
+msgstr ""
+
+#: src/tools/solver/reports.c:556
+msgid "Ratio"
+msgstr ""
+
+#.
+#. * Fill in the labels of `Computing Time' section.
+#.
+#: src/tools/solver/reports.c:607
+msgid "User"
+msgstr ""
+
+#: src/tools/solver/reports.c:608
+msgid "System"
+msgstr ""
+
+#: src/tools/solver/reports.c:610
+msgid "Time (sec.)"
+msgstr ""
+
+#.
+#. * Fill in the labels of `System Information' section.
+#.
+#: src/tools/solver/reports.c:628
+msgid "CPU"
+msgstr ""
+
+#: src/tools/solver/reports.c:629
+msgid "OS"
+msgstr ""
+
+#. Set the `CPU Name'.
+#: src/tools/solver/reports.c:635 src/tools/solver/reports.c:639
+#, fuzzy
+msgid "Unknown"
+msgstr "<不明>"
+
+#: src/tools/solver/reports.c:644
+#, c-format
+msgid "%s (%s)"
+msgstr ""
+
+#. Fill in other titles.
+#: src/tools/solver/reports.c:669
+msgid "General Statistics"
+msgstr ""
+
+#: src/tools/solver/reports.c:670
+msgid "Data Sparsity"
+msgstr ""
+
+#: src/tools/solver/reports.c:671
+msgid "Computing Time"
+msgstr ""
+
+#: src/tools/solver/reports.c:672
+#, fuzzy
+msgid "System Information"
+msgstr "資訊"
+
+#: src/tools/solver/solver.c:384
 msgid "Target cell is empty. The objective function cannot be determined."
 msgstr ""
 
-#: src/tools/solver/solver.c:379
+#: src/tools/solver/solver.c:401
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
@@ -17384,43 +17571,43 @@ msgstr ""
 msgid "Cell %s is not permitted to be blank"
 msgstr ""
 
-#: src/validation.c:156
-#, fuzzy, c-format
-msgid "'%s' is not an integer"
-msgstr "%s 不是有效的目的地區域"
-
-#: src/validation.c:168
+#: src/validation.c:157
 #, c-format
 msgid "'%s' is an error"
 msgstr ""
 
-#: src/validation.c:176
+#: src/validation.c:166
 #, fuzzy, c-format
 msgid "'%s' is not a valid date"
 msgstr "%s 不是有效的目的地區域"
 
-#: src/validation.c:178
+#: src/validation.c:168
 #, fuzzy, c-format
 msgid "'%s' is not a valid time"
 msgstr "%s 不是有效的目的地區域"
 
-#: src/validation.c:180
+#: src/validation.c:170
 #, c-format
 msgid "'%s' is not a number"
 msgstr ""
 
-#: src/validation.c:272
+#: src/validation.c:183
+#, fuzzy, c-format
+msgid "'%s' is not an integer"
+msgstr "%s 不是有效的目的地區域"
+
+#: src/validation.c:276
 #, c-format
 msgid "%s is not true."
 msgstr ""
 
-#: src/validation.c:285
+#: src/validation.c:289
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's contents."
 msgstr ""
 
-#: src/validation.c:292
+#: src/validation.c:296
 msgid "Gnumeric: Validation"
 msgstr ""
 
@@ -17464,68 +17651,68 @@ msgstr "每列預設寬度必須大於 %d。"
 msgid "The default row height must be > %d."
 msgstr "每行預設高度必須大於 %d。"
 
-#: src/workbook-control-gui.c:296
+#: src/workbook-control-gui.c:295
 msgid " : Gnumeric"
 msgstr ""
 
-#: src/workbook-control-gui.c:416
+#: src/workbook-control-gui.c:415
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr ""
 
-#: src/workbook-control-gui.c:463
+#: src/workbook-control-gui.c:462
 msgid "Duplicate this sheet"
 msgstr ""
 
-#: src/workbook-control-gui.c:465
+#: src/workbook-control-gui.c:464
 msgid "Rename this sheet"
 msgstr ""
 
-#: src/workbook-control-gui.c:466
+#: src/workbook-control-gui.c:465
 msgid "Re-order sheets"
 msgstr ""
 
-#: src/workbook-control-gui.c:467
+#: src/workbook-control-gui.c:466
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook-control-gui.c:799 src/workbook-control-gui.c:857
+#: src/workbook-control-gui.c:798 src/workbook-control-gui.c:856
 msgid "Nothing"
 msgstr "無"
 
-#: src/workbook-control-gui.c:949
+#: src/workbook-control-gui.c:948
 msgid "Un_freeze Panes"
 msgstr ""
 
-#: src/workbook-control-gui.c:1011 src/workbook-control-gui.c:3167
-#: src/workbook-control-gui.c:3362 src/workbook-control-gui.c:3384
+#: src/workbook-control-gui.c:1010 src/workbook-control-gui.c:3166
+#: src/workbook-control-gui.c:3361 src/workbook-control-gui.c:3383
 msgid "Undo"
 msgstr "還原"
 
-#: src/workbook-control-gui.c:1012 src/workbook-control-gui.c:3170
-#: src/workbook-control-gui.c:3369 src/workbook-control-gui.c:3387
+#: src/workbook-control-gui.c:1011 src/workbook-control-gui.c:3169
+#: src/workbook-control-gui.c:3368 src/workbook-control-gui.c:3386
 msgid "Redo"
 msgstr "取消還原"
 
-#: src/workbook-control-gui.c:1162
+#: src/workbook-control-gui.c:1161
 #, c-format
 msgid "Would split array %s"
 msgstr ""
 
-#: src/workbook-control-gui.c:1164
+#: src/workbook-control-gui.c:1163
 msgid "Would split an array"
 msgstr ""
 
-#: src/workbook-control-gui.c:1225
+#: src/workbook-control-gui.c:1224
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook-control-gui.c:1228
+#: src/workbook-control-gui.c:1227
 msgid "Workbook has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook-control-gui.c:1730
+#: src/workbook-control-gui.c:1729
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -17537,7 +17724,7 @@ msgid ""
 "The replace has been aborted and nothing has been changed."
 msgstr ""
 
-#: src/workbook-control-gui.c:1767
+#: src/workbook-control-gui.c:1766
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr ""
@@ -17546,7 +17733,7 @@ msgstr ""
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1978
+#: src/workbook-control-gui.c:1977
 msgid "Insert rows"
 msgstr ""
 
@@ -17554,182 +17741,182 @@ msgstr ""
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1996
+#: src/workbook-control-gui.c:1995
 msgid "Insert columns"
 msgstr ""
 
-#: src/workbook-control-gui.c:2331
+#: src/workbook-control-gui.c:2330
 msgid "Show"
 msgstr "顯示"
 
-#: src/workbook-control-gui.c:2331
+#: src/workbook-control-gui.c:2330
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/workbook-control-gui.c:2348
+#: src/workbook-control-gui.c:2347
 msgid "can only be performed on an existing group"
 msgstr ""
 
-#: src/workbook-control-gui.c:2372
+#: src/workbook-control-gui.c:2371
 msgid "Group"
 msgstr ""
 
-#: src/workbook-control-gui.c:2372
+#: src/workbook-control-gui.c:2371
 msgid "Ungroup"
 msgstr ""
 
-#: src/workbook-control-gui.c:2517
+#: src/workbook-control-gui.c:2516
 msgid "Select an object to add"
 msgstr "選擇要加上的物件"
 
-#: src/workbook-control-gui.c:2528
+#: src/workbook-control-gui.c:2527
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "無法加上「%s」類型的物件"
 
-#: src/workbook-control-gui.c:2616
+#: src/workbook-control-gui.c:2615
 #, fuzzy
 msgid "_Contents"
 msgstr "內容(_C)"
 
-#: src/workbook-control-gui.c:2646
+#: src/workbook-control-gui.c:2645
 msgid "Select all the cells that depend on the current edit cell."
 msgstr ""
 
-#: src/workbook-control-gui.c:2701
+#: src/workbook-control-gui.c:2700
 msgid "P_aste special..."
 msgstr "特別方式貼上(_A)..."
 
-#: src/workbook-control-gui.c:2710
+#: src/workbook-control-gui.c:2709
 msgid "Remove selected cells, shifting other into their place"
 msgstr ""
 
-#: src/workbook-control-gui.c:2761
+#: src/workbook-control-gui.c:2760
 msgid "Freeze the top left of the sheet"
 msgstr ""
 
-#: src/workbook-control-gui.c:2789
+#: src/workbook-control-gui.c:2788
 msgid "_Auto generate names..."
 msgstr ""
 
-#: src/workbook-control-gui.c:2790
+#: src/workbook-control-gui.c:2789
 msgid "Use the current selection to create names"
 msgstr ""
 
-#: src/workbook-control-gui.c:2889
+#: src/workbook-control-gui.c:2888
 msgid "Hide _Column Header"
 msgstr ""
 
-#: src/workbook-control-gui.c:2895
+#: src/workbook-control-gui.c:2894
 msgid "Hide _Row Header"
 msgstr ""
 
-#: src/workbook-control-gui.c:2997
+#: src/workbook-control-gui.c:2996
 msgid "Ranks And _Percentiles"
 msgstr ""
 
-#: src/workbook-control-gui.c:3018
+#: src/workbook-control-gui.c:3017
 msgid "Manage available plugin modules."
 msgstr "管理可用的增效模組。"
 
-#: src/workbook-control-gui.c:3054
+#: src/workbook-control-gui.c:3053
 msgid "_Group..."
 msgstr ""
 
-#: src/workbook-control-gui.c:3057
+#: src/workbook-control-gui.c:3056
 msgid "_Ungroup..."
 msgstr ""
 
-#: src/workbook-control-gui.c:3096
+#: src/workbook-control-gui.c:3095
 msgid "Sorts the selected region."
 msgstr ""
 
-#: src/workbook-control-gui.c:3133
+#: src/workbook-control-gui.c:3132
 msgid "Creates a new workbook"
 msgstr ""
 
-#: src/workbook-control-gui.c:3136
+#: src/workbook-control-gui.c:3135
 msgid "Opens an existing workbook"
 msgstr ""
 
-#: src/workbook-control-gui.c:3139
+#: src/workbook-control-gui.c:3138
 msgid "Saves the workbook"
 msgstr ""
 
-#: src/workbook-control-gui.c:3145
+#: src/workbook-control-gui.c:3144
 msgid "Prints the workbook"
 msgstr ""
 
-#: src/workbook-control-gui.c:3154
+#: src/workbook-control-gui.c:3153
 msgid "Cuts the selection to the clipboard"
 msgstr "將選擇範圍剪下至剪貼簿"
 
-#: src/workbook-control-gui.c:3157
+#: src/workbook-control-gui.c:3156
 msgid "Copies the selection to the clipboard"
 msgstr "將選擇範圍複製至剪貼簿"
 
-#: src/workbook-control-gui.c:3160
+#: src/workbook-control-gui.c:3159
 msgid "Pastes the clipboard"
 msgstr "由剪貼簿貼上"
 
-#: src/workbook-control-gui.c:3167
+#: src/workbook-control-gui.c:3166
 msgid "Undo the operation"
 msgstr "還原操作"
 
-#: src/workbook-control-gui.c:3170
+#: src/workbook-control-gui.c:3169
 msgid "Redo the operation"
 msgstr "取消還原操作"
 
-#: src/workbook-control-gui.c:3180
+#: src/workbook-control-gui.c:3179
 msgid "Sum into the current cell."
 msgstr "將選擇區域的總和放在目前的儲存格中。"
 
-#: src/workbook-control-gui.c:3183
+#: src/workbook-control-gui.c:3182
 msgid "Function"
 msgstr "函數"
 
-#: src/workbook-control-gui.c:3183
+#: src/workbook-control-gui.c:3182
 msgid "Edit a function in the current cell."
 msgstr "在目前的儲存格中編輯算式。"
 
-#: src/workbook-control-gui.c:3187
+#: src/workbook-control-gui.c:3186
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
 msgstr ""
 
-#: src/workbook-control-gui.c:3190
+#: src/workbook-control-gui.c:3189
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
 msgstr ""
 
-#: src/workbook-control-gui.c:4133
+#: src/workbook-control-gui.c:4132
 msgid "Send"
 msgstr "送出電郵"
 
-#: src/workbook-control-gui.c:4133
+#: src/workbook-control-gui.c:4132
 msgid "Send the current file in email"
 msgstr "將目前的檔案以電郵方式送出"
 
-#: src/workbook-control-gui.c:4335
+#: src/workbook-control-gui.c:4334
 msgid "Re-Edit"
 msgstr "重新編輯"
 
-#: src/workbook-control-gui.c:4336 src/workbook-control-gui.c:4341
+#: src/workbook-control-gui.c:4335 src/workbook-control-gui.c:4340
 msgid "Discard"
 msgstr "捨棄"
 
-#: src/workbook-control-gui.c:4340
+#: src/workbook-control-gui.c:4339
 msgid "Accept"
 msgstr "接受"
 
-#: src/workbook-control.c:218
+#: src/workbook-control.c:217
 #, fuzzy
 msgid "Define Name"
 msgstr "定義(_D)"
 
-#: src/workbook-control.c:241
+#: src/workbook-control.c:240
 msgid "Address"
 msgstr ""
 
@@ -17932,19 +18119,19 @@ msgstr ""
 msgid "%dR x %dC"
 msgstr "%dR × %dC"
 
-#: src/workbook-view.c:361
+#: src/workbook-view.c:360
 msgid "Internal ERROR"
 msgstr "內部錯誤"
 
-#: src/workbook-view.c:560
+#: src/workbook-view.c:559
 msgid "Default file saver is not available."
 msgstr ""
 
-#: src/workbook-view.c:651
+#: src/workbook-view.c:650
 msgid "No sheets in workbook."
 msgstr ""
 
-#: src/workbook-view.c:661
+#: src/workbook-view.c:660
 msgid "Unsupported file format."
 msgstr "不支援的檔案格式"
 
@@ -17966,30 +18153,30 @@ msgstr ""
 msgid "You may not use this name twice"
 msgstr ""
 
-#: src/xml-io.c:2676
+#: src/xml-io.c:2677
 msgid "Unparsable xml in clipboard"
 msgstr "剪貼簿中有無法分析的 xml 內容"
 
-#: src/xml-io.c:2683
+#: src/xml-io.c:2684
 msgid "Clipboard is in unknown format"
 msgstr "剪貼簿的內容格式不詳"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3088
+#: src/xml-io.c:3089
 msgid "Processing file..."
 msgstr "正在處理檔案..."
 
-#: src/xml-io.c:3246
+#: src/xml-io.c:3247
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 
-#: src/xml-io.c:3281
+#: src/xml-io.c:3282
 msgid "Is not an Gnumeric Workbook file"
 msgstr ""
 
-#: src/xml-io.c:3339
+#: src/xml-io.c:3340
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 檔案格式"
 
