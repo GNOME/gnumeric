@@ -4739,7 +4739,7 @@ branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
 
 
 
-#if STANDALONE
+#ifdef STANDALONE
 int main()
 {
   float_t A[] = { 11, 5, 6, 50, 1, 0, 0, 1 };

@@ -231,7 +231,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 
 	/* 2. the grids */
 	if (sheet->show_grid) {
-#if PAINT_DEBUG
+#ifdef PAINT_DEBUG
 		fprintf (stderr, "paint : %s%d:", col_name(paint_col), paint_row+1);
 #endif
 		col = paint_col;
@@ -255,7 +255,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 			}
 		}
-#if PAINT_DEBUG
+#ifdef PAINT_DEBUG
 		fprintf (stderr, "%s%d\n", col_name(col-1), row);
 #endif
 	}

@@ -177,7 +177,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	global_gnome_font_init ();
 
 	/* Glade */
-	glade_bonobo_init ();
+	glade_gnome_init ();
 	if (startup_glade_file)
 		glade_xml_new (startup_glade_file, NULL);
 

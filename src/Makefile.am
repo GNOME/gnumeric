@@ -265,7 +265,6 @@ gnumeric_bonobo_LDADD =					\
 	-lbonobo-print					\
 	../idl/libGnumeric.a				\
 	../idl/libGraph.a				\
-	-lglade-bonobo					\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GNOME_XML_LIB) 				\
 	$(GUILE_LIBS)					\

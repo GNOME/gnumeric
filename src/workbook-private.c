@@ -25,7 +25,7 @@
 #include "config.h"
 #include "workbook-private.h"
 
-#if ENABLE_BONOBO
+#ifdef ENABLE_BONOBO
 #define WORKBOOK_PRIVATE_TYPE        (workbook_private_get_type ())
 #define WORKBOOK_PRIVATE(o)          (GTK_CHECK_CAST ((o), WORKBOOK_PRIVATE_TYPE, WorkbookPrivate))
 #define WORKBOOK_PRIVATE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), WORKBOOK_PRIVATE_TYPE, WorkbookPrivateClass))
@@ -82,7 +82,7 @@ workbook_private_get_type (void)
 WorkbookPrivate *
 workbook_private_new ()
 {
-#if ENABLE_BONOBO
+#ifdef ENABLE_BONOBO
 	WorkbookPrivate *wbp = gtk_type_new (workbook_private_get_type ());
 #else
 	WorkbookPrivate *wbp = g_new0 (WorkbookPrivate, 1);
@@ -94,7 +94,7 @@ workbook_private_new ()
 void
 workbook_private_delete (WorkbookPrivate *wbp)
 {
-#if ENABLE_BONOBO
+#ifdef ENABLE_BONOBO
 	bonobo_object_unref (BONOBO_OBJECT (wbp));
 #else
 	g_free (wbp);

@@ -1,3 +1,9 @@
+2000-07-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/Makefile.am (EXTRA_DIST) : Remove -lglade-bonobo for now.
+
+	* src/main.c (gnumeric_main) : glade_bonobo_init -> glade_gnome_init
+
 2000-07-05  Michael Meeks  <michael@helixcode.com>
 
 	* src/bonobo-io.c (write_stream_to_storage): implement.
