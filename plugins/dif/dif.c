@@ -74,7 +74,7 @@ dif_input_context_new (IOContext *io_context, Workbook *wb, char const *file_nam
 	ctxt->sheet          = workbook_sheet_add (wb, NULL, FALSE);
 
 	io_progress_message (io_context, _("Reading file..."));
-	memory_io_progress_set (io_context, ctxt->data, ctxt->data_size, 0.0, 1.0);
+	memory_io_progress_set (io_context, ctxt->data, ctxt->data_size);
 
 	return ctxt;
 }

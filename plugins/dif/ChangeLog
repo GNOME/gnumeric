@@ -1,3 +1,8 @@
+2001-06-12  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dif.c (dif_input_context_new): Adjusted to memory_io_progress_set
+	signature change.
+
 2001-06-04  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml (<service>): Set save_scope to "sheet".
