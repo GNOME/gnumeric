@@ -63,6 +63,7 @@ item_grid_realize (GnomeCanvasItem *item)
 	item_grid->grid_color = color_alloc (item->canvas, "gray60");
 
 	gdk_gc_set_foreground (gc, &item_grid->grid_color);
+	gdk_gc_set_background (gc, &item_grid->background);
 	
 	gdk_gc_set_foreground (item_grid->fill_gc, &item_grid->background);
 	gdk_gc_set_background (item_grid->fill_gc, &item_grid->grid_color);
@@ -83,6 +84,13 @@ item_grid_reconfigure (GnomeCanvasItem *item)
 	g_warning ("item_grid_reconfigure\n");
 }
 
+static void
+cross (GdkDrawable *drawable, GdkGC *gc, int x1, int y1, int x2, int y2)
+{
+	gdk_draw_line (drawable, gc, x1, y1, x2, y2);
+	gdk_draw_line (drawable, gc, x1, y2, x2, y1);
+}
+
 /*
  * Draw a cell.  It gets pixel level coordinates
  */
@@ -90,20 +98,15 @@ static void
 item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		     int x1, int y1, int x2, int y2)
 {
+	GdkGC *grid_gc = item_grid->grid_gc;
+
 	gdk_draw_rectangle (drawable, item_grid->fill_gc, TRUE,
-			    x1+1, y1+1, x2-1, y2-1);
-	gdk_draw_line (drawable,
-		       item_grid->grid_gc,
-		       x1, y1, x2, y1);
-	gdk_draw_line (drawable,
-		       item_grid->grid_gc,
-		       x2, y1, x2, y2);
-	gdk_draw_line (drawable,
-		       item_grid->grid_gc,
-		       x2, y2, x1, y2);
-	gdk_draw_line (drawable,
-		       item_grid->grid_gc,
-		       x1, y1, x1, y2);
+			    x1+1, y1+1, x2-x1-2, y2-y1-2);
+
+	gdk_draw_line (drawable, grid_gc, x1, y1, x2, y1);
+	gdk_draw_line (drawable, grid_gc, x2, y1, x2, y2);
+	gdk_draw_line (drawable, grid_gc, x2, y2, x1, y2);
+	gdk_draw_line (drawable, grid_gc, x1, y1, x1, y2);
 }
 
 /*
@@ -121,7 +124,6 @@ find_col (ItemGrid *item_grid, int x, int *col_origin)
 		if (x >= pixel && x <= pixel + ci->width){
 			if (col_origin)
 				*col_origin = pixel;
-			printf ("Columna inicial: %d, %d\n", col, pixel);
 			return col;
 		}
 		col++;
@@ -152,28 +154,36 @@ find_row (ItemGrid *item_grid, int y, int *row_origin)
 }
 
 static void
-item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-		int x, int y, int width, int height)
+item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
 	Sheet *sheet = item_grid->sheet;
-	const int end_x = x + width;
-	const int end_y = y + height;
+	int end_x;
+	int end_y;
 	int paint_col, paint_row, col, row;
 	int x_paint, y_paint;
+	int diff_x, diff_y;
 
 	paint_col = find_col (item_grid, x, &x_paint);
 	paint_row = find_row (item_grid, y, &y_paint);
-	
+#ifdef DEBUG_EXPOSES
+	printf ("Expose at (%d,%d) for (%d,%d) -> [%d,%d] column origin at [%d,%d]\n",
+		x, y, width, height, paint_col, paint_row, x_paint, y_paint);
+#endif
 	col = paint_col;
 
-	for (x_paint = x; x_paint < end_x; col++){
+	diff_x = x - x_paint;
+	end_x = width + diff_x;
+	diff_y = y - y_paint;
+	end_y = height + diff_y;
+
+	for (x_paint = -diff_x; x_paint < end_x; col++){
 		ColInfo *ci;
 
 		ci = sheet_get_col_info (sheet, col);
 
 		row = paint_row;
-		for (y_paint = y; y_paint < end_y; row++){
+		for (y_paint = -diff_y; y_paint < end_y; row++){
 			RowInfo *ri;
 
 			ri = sheet_get_row_info (sheet, row);
@@ -187,9 +197,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 		x_paint += ci->width;
 	}
-	gdk_draw_line (drawable, item_grid->grid_gc, x, y, x + width, y + height);
-	gdk_draw_line (drawable, item_grid->grid_gc,x, y + height,
-		       x + width, y);
+#undef DEBUG_EXPOSES
+#ifdef DEBUG_EXPOSES
+	cross (drawable, item_grid->grid_gc, 0, 0, width, height);
+#endif
 }
 
 static double
@@ -209,7 +220,9 @@ item_grid_translate (GnomeCanvasItem *item, double dx, double dy)
 static gint
 item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 {
+#if 0
 	printf ("Event\n");
+#endif
 	return 0;
 }
 

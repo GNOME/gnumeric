@@ -31,7 +31,11 @@ typedef struct {
 	char       *name;
 		   
 	Style      style;
+
+	ColInfo    default_col_style;
 	GList      *cols_info;
+
+	RowInfo    default_row_style;
 	GList      *rows_info;
 	void       *contents;
 } Sheet;

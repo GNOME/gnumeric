@@ -22,7 +22,7 @@ sheet_get_col_info (Sheet *sheet, int col)
 	static ColInfo c;
 
 	c.col   = col;
-	c.width = 60;
+	c.width = (col + 1) * 15;
 	c.style = NULL;
 
 	return &c;
