@@ -250,10 +250,10 @@
       files. There is no danger that data be lost or that any other
       serious problem arise by selecting the wrong scheme. If the
       wrong scheme is selected, either the file will contain
-      characters which are non-sensical and &gnum; will open an error
+      characters which are nonsensical and &gnum; will open an error
       dialog asking the user to select a different encoding scheme, or
-      the preview area will display non-sensical characters. These
-      non-sensical characters may simply be characters grouped
+      the preview area will display nonsensical characters. These
+      nonsensical characters may simply be characters grouped
       together which do not occur in any language, such as
       "&#xE5;&#xD5;&#xDB;&#xDB;&#xDE;", or may be characters for which
       a graphical representation (a glyph) does not exist in the font

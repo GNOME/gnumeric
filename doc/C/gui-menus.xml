@@ -746,7 +746,7 @@
       	    	<listitem>
      	      	<para>
      	       	<guimenuitem>Goto cell...</guimenuitem> &mdash; The
-			       <guimenuitem>Goto cell...</guimenuitem> menuitemn opens up a
+			       <guimenuitem>Goto cell...</guimenuitem> menuitem opens up a
 				   dialog which allows the user to type the name of a cell in
 				   the worksheet. The current view will then change to be sure
 				   that the selected cell is in the current view and the
@@ -893,7 +893,7 @@
                 portion of the worksheet. This is useful to be able to
                 line up portions of the worksheet which are not
                 usually together. For instance, if a user had a very
-                large table with the titles of each oolumn of data on
+                large table with the titles of each column of data on
                 row 12, the user could select row 13 and select this
                 menu item.  If the user scrolled through each data
                 row, the data would line up underneath each header.

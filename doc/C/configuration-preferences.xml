@@ -267,7 +267,7 @@
     <para>
       The <interface>Screen</interface> elements allows the user to
       set the pixel pitch (number of pixels per length) for the
-      screen. This is a fundamenal property of the display which
+      screen. This is a fundamental property of the display which
       should be set correctly by default. 
     </para>
 
