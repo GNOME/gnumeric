@@ -117,12 +117,12 @@ plugins_init(void)
 	g_print ("plugins_init()\n");
 
 	/* Load the user plugins */
-	plugin_dir = g_copy_strings (home_dir ? home_dir : "", "/.gnumeric/plugins", NULL);
+	plugin_dir = g_copy_strings (home_dir ? home_dir : "", "/.gnumeric/plugins/", NULL);
 	plugin_load_plugins_in_dir (plugin_dir);
 	g_free (plugin_dir);
 
 	/* Load the system plugins */
-	plugin_dir = gnome_unconditional_libdir_file ("gnumeric/plugins");
+	plugin_dir = gnome_unconditional_libdir_file ("gnumeric/plugins/");
 	plugin_load_plugins_in_dir (plugin_dir);
 	g_free (plugin_dir);
 }
