@@ -1032,7 +1032,7 @@ static const char *help_imarcsec = {
 	   "@EXAMPLES=\n"
 	   "IMARCSEC(\"1+j\") equals 1.1185179+0.5306375j.\n"
 	   "\n"
-	   "@SEEALSO=IMARCCSC,IMARCOT")
+	   "@SEEALSO=IMARCCSC,IMARCCOT")
 };
 
 static Value *
@@ -1063,7 +1063,7 @@ static const char *help_imarccsc = {
 	   "@EXAMPLES=\n"
 	   "IMARCCSC(\"1+j\") equals 0.45227845-0.5306375j.\n"
 	   "\n"
-	   "@SEEALSO=IMARCSEC,IMARCOT")
+	   "@SEEALSO=IMARCSEC,IMARCCOT")
 };
 
 static Value *
@@ -1094,7 +1094,7 @@ static const char *help_imarccot = {
 	   "@EXAMPLES=\n"
 	   "IMARCCOT(\"1+j\") equals 0.553574+0.4023595j.\n"
 	   "\n"
-	   "@SEEALSO=IMARCSEC,IMARCSC")
+	   "@SEEALSO=IMARCSEC,IMARCCSC")
 };
 
 static Value *
@@ -1222,7 +1222,7 @@ static const char *help_imarcsech = {
 	   "@EXAMPLES=\n"
 	   "IMARCSECH(\"1+j\") equals 0.5306375-1.118518j.\n"
 	   "\n"
-	   "@SEEALSO=IMARCCSCH,IMARCOTH")
+	   "@SEEALSO=IMARCCSCH,IMARCCOTH")
 };
 
 static Value *
@@ -1253,7 +1253,7 @@ static const char *help_imarccsch = {
 	   "@EXAMPLES=\n"
 	   "IMARCCSCH(\"1+j\") equals 0.5306375-0.452278j.\n"
 	   "\n"
-	   "@SEEALSO=IMARCSECH,IMARCOTH")
+	   "@SEEALSO=IMARCSECH,IMARCCOTH")
 };
 
 static Value *
@@ -1285,7 +1285,7 @@ static const char *help_imarccoth = {
 	   "@EXAMPLES=\n"
 	   "IMARCCOTH(\"1+j\") equals 0.40235948-0.5535744j.\n"
 	   "\n"
-	   "@SEEALSO=IMARCSECH,IMARCSCH")
+	   "@SEEALSO=IMARCSECH,IMARCCSCH")
 };
 
 static Value *

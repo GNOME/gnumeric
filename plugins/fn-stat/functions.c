@@ -1162,7 +1162,7 @@ static const char *help_bernoulli = {
            "@EXAMPLES=\n"
            "BERNOULLI(0,0.5).\n"
            "\n"
-           "@SEEALSO=RANDBERBOULLI")
+           "@SEEALSO=RANDBERNOULLI")
 };
 
 static gnum_float
