@@ -1,5 +1,17 @@
 2002-07-12  Jody Goldberg <jody@gnome.org>
 
+	* qpro-read.c (qpro_parse_formula) : add handlers for binary/unary ops,
+	  cellrefs, and constants.  Still needs work for rangerefs,
+	  and functions.  Could also use some testing for abs/rel and sheet
+	  qualified references.
+
+2002-07-12  Jody Goldberg <jody@gnome.org>
+
+	* qpro-read.c (qpro_parse_formula) : make a guess about string and
+	  error states.
+
+2002-07-12  Jody Goldberg <jody@gnome.org>
+
 	* qpro-read.c : Ok we do a few things now.
 	  Sheet name, tab colour, zoom.
 	  blank, int, float, string cells.

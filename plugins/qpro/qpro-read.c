@@ -30,6 +30,7 @@
 #include <sheet.h>
 #include <cell.h>
 #include <value.h>
+#include <expr.h>
 #include <sheet-style.h>
 #include <style-color.h>
 #include <parse-util.h>
@@ -102,7 +103,9 @@ qpro_get_record (QProReadState *state, guint16 *id, guint16 *len)
 	*id  = GSF_LE_GET_GUINT16 (data + 0);
 	*len = GSF_LE_GET_GUINT16 (data + 2);
 
+#if 0
 	printf ("%hd with %hd\n", *id, *len);
+#endif
 
 	if (*len == 0)
 		return "";
@@ -110,7 +113,7 @@ qpro_get_record (QProReadState *state, guint16 *id, guint16 *len)
 	g_return_val_if_fail (*len < 0x2000, NULL);
 	data = gsf_input_read (state->input, *len, NULL);
 	if (data == NULL)
-		g_warning ("huh? failue reading %hd for type %hd", *len, *id);
+		g_warning ("huh? failure reading %hd for type %hd", *len, *id);
 	return data;
 }
 
@@ -131,18 +134,175 @@ qpro_validate_len (QProReadState *state, char const *id, guint16 len, int expect
 	return TRUE;
 }
 
+
 static void
 qpro_parse_formula (QProReadState *state, int col, int row,
-		    guint8 const *data)
+		    guint8 const *data, guint8 const *end)
 {
-	double val = gnumeric_get_le_double (data);
-	int ex;
+	int magic = GSF_LE_GET_GUINT16 (data + 6) & 0x7ff8;
+	guint16 ref_offset = GSF_LE_GET_GUINT16 (data + 12);
+	Value   *val;
+	GSList  *stack = NULL;
+	GnmExpr const *expr;
+	guint8 const *refs, *fmla;
+	int len;
 
-	frexp (val, &ex);
+	fmla = data + 14;
+	refs = fmla + ref_offset;
+	g_return_if_fail (refs <= end);
+
+#if 0
 	puts (cell_coord_name (col, row));
-	printf ("Exp = 0x%x, %g %d\n", (GSF_LE_GET_GUINT16 (data + 6) >> 1) & 0x7ff,
-		val, ex);
-	gsf_mem_dump (data, 8);
+	gsf_mem_dump (fmla, refs-fmla);
+	gsf_mem_dump (refs, end-fmla);
+#endif
+
+	while (fmla < refs && *fmla != QPRO_OP_EOF) {
+		expr = NULL;
+		len = 1;
+		switch (*fmla) {
+		case QPRO_OP_CONST_FLOAT:
+			expr = gnm_expr_new_constant (value_new_float (
+				gnumeric_get_le_double (fmla+1)));
+			len = 9;
+			break;
+
+		case QPRO_OP_CELLREF: {
+			CellRef ref;
+			guint16 tmp = GSF_LE_GET_GUINT16 (refs + 4);
+			ref.sheet = NULL;
+			ref.col = *((gint8 *)(refs + 2));
+			ref.col_relative = (tmp & 0x4000) ? TRUE : FALSE;
+			ref.row_relative = (tmp & 0x2000) ? TRUE : FALSE;
+			if (ref.row_relative)
+				ref.row = ((gint16)(tmp & 0x1fff) << 3) >> 3;
+			else
+				ref.row = tmp & 0x1fff;
+			expr = gnm_expr_new_cellref (&ref);
+			refs += 6;
+			break;
+		}
+
+		case QPRO_OP_RANGEREF: {
+			CellRef a, b;
+
+			expr = gnm_expr_new_constant (
+				value_new_cellrange_unsafe (&a, &b));
+			refs += 10;
+			break;
+		}
+		case QPRO_OP_EOF:	break; /* exit */
+		case QPRO_OP_PAREN:	break; /* ignore for now */
+
+		case QPRO_OP_CONST_INT:
+			expr = gnm_expr_new_constant (
+				value_new_int ((gint16)GSF_LE_GET_GUINT16 (fmla+1)));
+			len = 3;
+			break;
+
+		case QPRO_OP_CONST_STR:
+			expr = gnm_expr_new_constant (value_new_string (fmla+1));
+			len = 1 + strlen (fmla+1) + 1;
+			break;
+
+		case QPRO_OP_DEFAULT_ARG:
+			expr = gnm_expr_new_constant (value_new_empty ());
+			break;
+
+		case QPRO_OP_ADD: case QPRO_OP_SUB:
+		case QPRO_OP_MULT: case QPRO_OP_DIV:
+		case QPRO_OP_EXP:
+		case QPRO_OP_EQ: case QPRO_OP_NE:
+		case QPRO_OP_LE: case QPRO_OP_GE:
+		case QPRO_OP_LT: case QPRO_OP_GT:
+		case QPRO_OP_CONCAT: {
+			static GnmExprOp const binop_map[] = {
+				GNM_EXPR_OP_ADD,	GNM_EXPR_OP_SUB,
+				GNM_EXPR_OP_MULT,	GNM_EXPR_OP_DIV,
+				GNM_EXPR_OP_EXP,
+				GNM_EXPR_OP_EQUAL,	GNM_EXPR_OP_NOT_EQUAL,
+				GNM_EXPR_OP_LTE,	GNM_EXPR_OP_GTE,
+				GNM_EXPR_OP_LT,		GNM_EXPR_OP_GT,
+				0, 0, 0, 0,
+				GNM_EXPR_OP_CAT
+			};
+			GnmExpr const *l, *r;
+			GSList *tmp = stack;
+
+			g_return_if_fail (stack != NULL && stack->next != NULL);
+			r = stack->data;
+			l = stack->next->data;
+
+			stack = stack->next->next;
+			tmp->next->next = NULL;
+			g_slist_free (tmp);
+			expr = gnm_expr_new_binary (
+				l, binop_map [*fmla - QPRO_OP_ADD], r);
+			break;
+		}
+
+		case QPRO_OP_AND:
+		case QPRO_OP_OR:
+		case QPRO_OP_NOT:
+
+		case QPRO_OP_UNARY_NEG:
+		case QPRO_OP_UNARY_PLUS: {
+			GSList *tmp = stack;
+
+			g_return_if_fail (stack != NULL);
+			expr = stack->data;
+
+			stack = stack->next;
+			tmp->next= NULL;
+			g_slist_free (tmp);
+
+			expr = gnm_expr_new_unary ((*fmla == QPRO_OP_UNARY_NEG)
+				? GNM_EXPR_OP_UNARY_NEG : GNM_EXPR_OP_UNARY_PLUS,
+				expr);
+			break;
+		}
+
+		default:
+			if (QPRO_OP_FIRST_FUNC <= *fmla && *fmla <= QPRO_OP_LAST_FUNC) {
+			}
+		}
+		if (expr != NULL) {
+			stack = g_slist_prepend (stack, (gpointer)expr);
+		}
+		fmla += len;
+	}
+	g_return_if_fail (fmla != refs);
+	g_return_if_fail (stack != NULL);
+	g_return_if_fail (stack->next == NULL);
+
+	expr = stack->data;
+	g_slist_free (stack);
+
+	if (magic == 0x7ff0) {
+		val = value_new_error (NULL,  gnumeric_err_VALUE);
+	} else if (magic == 0x7ff8) {
+		guint16 id, len;
+		int new_row, new_col;
+
+		data = qpro_get_record (state, &id, &len);
+
+		g_return_if_fail (data != NULL);
+		g_return_if_fail (id == QPRO_FORMULA_STRING);
+
+		new_col = data [0]; 
+		new_row = GSF_LE_GET_GUINT16 (data + 2);
+
+		/* Be anal */
+		g_return_if_fail (col == new_col);
+		g_return_if_fail (row == new_row);
+
+		val = value_new_string (data + 7);
+	} else
+		val = value_new_float (gnumeric_get_le_double (data));
+
+	cell_set_expr_and_value (sheet_cell_fetch (state->cur_sheet, col, row),
+		expr, val, TRUE);
+	gnm_expr_unref (expr);
 }
 
 static MStyle *
@@ -215,7 +375,8 @@ qpro_read_sheet (QProReadState *state)
 				sheet_style_set_pos (sheet, col, row,
 					qpro_get_style (state, data + 4));
 
-				qpro_parse_formula (state, col, row, data + 6);
+				qpro_parse_formula (state, col, row,
+					data + 6, data + len);
 			}
 			break;
 
