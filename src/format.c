@@ -822,10 +822,13 @@ format_remove_decimal (const char *format_string)
 		lc = localeconv ();
 
 	/*
-	 * Consider General format as 0.0
+	 * Consider General format as 0. with several optional decimal places.
+	 * This is WRONG.  FIXME FIXME FIXME
+	 * We need to look at the number of decimals in the current value
+	 * and use that as a base.
 	 */
 	if (strcmp (format_string, "General") == 0)
-		format_string = "0.0#######";
+		format_string = "0.########";
 
 	ret = g_strdup (format_string);
 	p = (char *) find_decimal_char (ret);
@@ -834,10 +837,14 @@ format_remove_decimal (const char *format_string)
 		return NULL;
 	}
 
-	if ((*(p+1) == '0') || (*(p+1) == '#'))
-		p++;
+	/* If there is more than 1 thing after the decimal place
+	 * leave the decimal.
+	 * If there is only 1 thing after the decimal remove the decimal too.
+	 */
+	if ((p[1] == '0' || p[1] == '#') && (p[2] == '0' || p[2] == '#'))
+		++p;
 
-	for (t = p; *t; t++)
+	for (t = p; *t; ++t)
 		*t = *(t+1);
 
 	return ret;
@@ -854,36 +861,55 @@ format_remove_decimal (const char *format_string)
 char *
 format_add_decimal (const char *format_string)
 {
-	const char *p;
-	char *n;
+	char const *pre = NULL;
+	char const *post = NULL;
+	char *res;
 
 	if (!lc)
 		lc = localeconv ();
 
-	if (strcmp (format_string, "General") == 0)
+	if (strcmp (format_string, "General") == 0) {
 		format_string = "0";
+		pre = format_string+1;
+		post = pre;
+	} else
+	{
+		pre = find_decimal_char (format_string);
 
-	p = find_decimal_char (format_string);
-	if (!p){
-		char ret_val [3];
+		/* If there is no decimal append to the last '0' */
+		if (pre == NULL) {
+			pre = strrchr (format_string, '0');
 
-		ret_val [0] = DECIMAL_CHAR_OF_LC (lc);
-		ret_val [1] = '0';
-		ret_val [2] = 0;
-		return g_strdup (ret_val);
+			/* If there are no 0s append to the ':s' */
+			if (pre == NULL) {
+				pre = strrchr (format_string, 's');
+				if (pre > format_string && pre[-1] == ':') {
+					if (pre[1] == 's')
+						pre += 2;
+					else
+						++pre;
+				} else
+					return NULL;
+			} else
+				++pre;
+			post = pre;
+		} else
+			post = pre+1;
 	}
-	p++;
-	n = g_malloc ((p - format_string) +
-		      1 +
-		      strlen (p) +
-		      1);
-	if (!n)
+	res = g_malloc ((pre - format_string + 1) +
+		      1 + /* for the decimal */
+		      1 + /* for the extra 0 */
+		      strlen (post) +
+		      1 /*terminate */);
+	if (!res)
 		return NULL;
-	strncpy (n, format_string, p - format_string);
-	n [p-format_string] = '0';
-	strcpy (&n [p-format_string+1], p);
 
-	return n;
+	strncpy (res, format_string, pre - format_string);
+	res [pre-format_string + 0] = DECIMAL_CHAR_OF_LC(lc);
+	res [pre-format_string + 1] = '0';
+	strcpy (res + (pre - format_string) + 2, post);
+
+	return res;
 }
 
 static gchar *

@@ -1983,11 +1983,14 @@ workbook_create_toolbars (Workbook *wb)
 /**
  * workbook_new:
  *
- * Creates a new empty Workbook.
+ * Creates a new empty Workbook
+ * and assigns a unique name.
  */
 Workbook *
 workbook_new (void)
 {
+	static int count = 0;
+	gboolean is_unique;
 	Workbook  *wb;
 	int        sx, sy;
 
@@ -2002,7 +2005,13 @@ workbook_new (void)
 	sy = (sy * 3) / 4;
 	gtk_window_set_default_size (GTK_WINDOW (wb->toplevel), sx, sy);
 
-	workbook_set_title (wb, _("Untitled.gnumeric"));
+	/* Assign a default name */
+	do {
+		char *name = g_strdup_printf (_("Book%d.gnumeric"), ++count);
+		is_unique = workbook_set_filename (wb, name);
+		g_free (name);
+	} while (!is_unique);
+	wb->needs_name = TRUE;
 
 	workbook_setup_status_area (wb);
 	workbook_setup_edit_area (wb);
@@ -2569,25 +2578,15 @@ workbook_sheet_get_free_name (Workbook *wb)
 Workbook *
 workbook_new_with_sheets (int sheet_count)
 {
-	static int count = 0;
 	Workbook *wb;
 	int i;
-	char *name;
-	gboolean is_unique;
 
 	wb = workbook_new ();
 
-	/* Assign a default name */
-	do {
-		name = g_strdup_printf (_("Book%d"), ++count);
-		is_unique = workbook_set_filename (wb, name);
-		g_free (name);
-	} while (!is_unique);
-
 	for (i = 1; i <= sheet_count; i++){
 		Sheet *sheet;
+		char *name = g_strdup_printf (_("Sheet%d"), i);
 
-		name = g_strdup_printf (_("Sheet%d"), i);
 		sheet = sheet_new (wb, name);
 		workbook_attach_sheet (wb, sheet);
 		g_free (name);
@@ -2654,6 +2653,7 @@ workbook_set_filename (Workbook *wb, const char *name)
 
 	workbook_set_title (wb, g_basename (name));
 
+	wb->needs_name = FALSE;
 	return TRUE;
 }
 

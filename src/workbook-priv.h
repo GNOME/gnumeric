@@ -53,8 +53,7 @@ struct _Workbook {
 	GtkObject  gtk_object;
 #endif
 
-	char       *filename;
-
+	/* { Start view specific elements */;
         GtkWidget  *toplevel; 
 	GtkWidget  *notebook;
 	GtkWidget  *table;
@@ -66,7 +65,11 @@ struct _Workbook {
 
         /* The status bar */
         GnomeAppBar * appbar;
-  
+	/* } End view specific elements */;
+
+	char       *filename;
+	gboolean    needs_name;
+
 	/* The auto-expression */
 	ExprTree   *auto_expr;
 	String     *auto_expr_desc;

@@ -1,3 +1,14 @@
+1999-11-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/file.c (workbook_save) : Use needs_name flag rather than
+	  checking the filename.  All books now have file names.
+
+	* src/workbook.c (workbook_new_with_sheets) : Move default name
+	  assignment.
+	(workbook_new) : Here.  Make the default name end in .gnumeric.
+	  Add a needs_name flag marking this name as auto generated.
+	(workbook_set_filename) : Clear the needs_name flag.
+
 1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
 
 	* configure.in, plugins/Makefile.am:
@@ -11,12 +22,12 @@
 
 	* src/format.c (format_number) : Handle m, mm as minutes if followed
 	  immediately by seconds.
-	  FIXME FIXME FIXME : The formating is still incomplete.
-	  - It does not support seconds fractions.
-	  - It incorrectly accepts mmm:ss as some sort of minute spec.
-	  TODO TODO TODO
-	  - Too much parsing is taking place when formating.  We should
-	    have set all that up before hand when the format was parsed.
+
+	(format_remove_decimal) : Remove the decimal place when there are no
+	  more numbers after the decimal.  This is still broken in the face
+	   of specs with different forms for negatives.
+	(format_add_decimal) : Support formats other than number.  Same
+	  brokeness as format_remove_decimal.
 
 	* src/dialogs/{cell-format,font-sel}.glade.h : Regenerate from
 	  current .glade files.

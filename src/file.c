@@ -528,7 +528,7 @@ workbook_save (Workbook *wb)
 {
 	g_return_if_fail (wb != NULL);
 
-	if (!wb->filename){
+	if (wb->needs_name) {
 		workbook_save_as (wb);
 		return;
 	}

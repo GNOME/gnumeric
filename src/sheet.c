@@ -1165,6 +1165,10 @@ sheet_cancel_pending_input (Sheet *sheet)
 	workbook_recalc (sheet->workbook);
 }
 
+/**
+ * Load the edit line with the value of the cell under the cursor
+ * for @sheet.
+ */
 void
 sheet_load_cell_val (Sheet *sheet)
 {
