@@ -1,3 +1,15 @@
+1999-12-17  Arturo Tena  <arturo@directmail.org>
+
+	* ms-ole.c, ms-ole.h (BLP): made private.
+	* ms-ole.c (define MS_OLE_H_IMPLEMENTATION): deleted, not used.
+	  (ms_ole_read_ptr_bb, ms_ole_read_ptr_sb): fixed error return value.
+	  (ms_ole_read_copy_bb, ms_ole_read_copy_sb): changed return value,
+	  to a gint, more appropiate.
+	* ms-ole.h (include sys/stat.h): deleted, not needed.
+	  (ifdef G_HAVE_GINT64): commented, it's useless anyway.
+
+	* ms-ole.c, ms-ole.h: more documentation, clean up.
+
 1999-12-15  Arturo Tena  <arturo@directmail.org>
 
 	* ms-ole.c, ms-ole.h: more documentation.

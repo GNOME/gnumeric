@@ -1,16 +1,17 @@
 /**
  * ms-ole.c: MS Office OLE support for Gnumeric
  *
- * Author:
+ * Authors:
  *    Michael Meeks (michael@imaginator.com)
  *    Arturo Tena   (arturo@directmail.org)
  **/
+
 
 /* FIXME tenix delete unused headers */
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/mman.h>
-#include <sys/stat.h>
+#include <sys/stat.h>	/* for struct stat */
 #include <sys/types.h>
 #include <fcntl.h>
 #include <malloc.h>
@@ -18,14 +19,14 @@
 #include <ctype.h>
 #include <glib.h>
 
-#define  MS_OLE_H_IMPLEMENTATION
-#	include "ms-ole.h"
-#undef   MS_OLE_H_IMPLEMENTATION
+#include "ms-ole.h"
+
 
 #ifndef MAP_FAILED
 /* Someone needs their head examining - BSD ? */
 #	define MAP_FAILED ((void *)-1)
 #endif
+
 
 /* Implementational detail - not for global header */
 
@@ -60,6 +61,7 @@
       B_XD_NUM  => undef,       # long 48
  */
 
+
 /**
  * Structure describing an OLE file
  **/
@@ -85,9 +87,11 @@ struct _MsOle
 };
 
 
+
 /**
  * Default system calls wrappers
  **/
+
 static int
 open2_wrap (const char *pathname, int flags)
 {
@@ -191,6 +195,10 @@ my_array_hack (GArray *a, guint s, guint32 idx)
 /* Far far faster... */
 #       define ms_array_index(a,b,c) g_array_index (a, b, c)
 #endif
+
+
+typedef guint32 BLP;	/* Block pointer */
+
 
 #define BB_THRESHOLD   0x1000
 
@@ -325,6 +333,7 @@ get_block_ptr (MsOle *f, BLP b, gboolean forwrite)
 
 	return attr->data;
 }
+
 
 /* This is a list of big blocks which contain a flat description of all blocks
    in the file. Effectively inside these blocks is a FAT of chains of other BBs,
@@ -536,18 +545,18 @@ dump_allocation (MsOle *f)
  *        default : dump header and allocation
  */
 void
-ms_ole_debug (MsOle *f, int magic)
+ms_ole_debug (MsOle *fs, int magic)
 {
 	switch (magic) {
 	case 2:
-		if (f->pps)
-			dump_tree (f->pps, 0);
+		if (fs->pps)
+			dump_tree (fs->pps, 0);
 		else
 			printf ("There are no tree (no pps)\n");
 		break;
 	default:
-		dump_header (f);
-		dump_allocation (f);
+		dump_header (fs);
+		dump_allocation (fs);
 		break;
 	}
 }
@@ -1426,41 +1435,41 @@ new_null_msole ()
 
 /**
  * ms_ole_ref:
- * @f: filesystem object.
+ * @fs: filesystem object.
  * 
  * Increment by one the count of references to the filesystem.
  **/
 void
-ms_ole_ref (MsOle *f)
+ms_ole_ref (MsOle *fs)
 {
-	g_return_if_fail (f != NULL);
-	f->ref_count++;
+	g_return_if_fail (fs != NULL);
+	fs->ref_count++;
 }
 
 
 /**
  * ms_ole_unref:
- * @f: filesystem object.
+ * @fs: filesystem object.
  * 
  * Decrement by one the count of references to the filesystem.
  **/
 void
-ms_ole_unref (MsOle *f)
+ms_ole_unref (MsOle *fs)
 {
-	g_return_if_fail (f != NULL);
-	f->ref_count--;
+	g_return_if_fail (fs != NULL);
+	fs->ref_count--;
 }
 
 
 /**
  * ms_ole_open_vfs:
- * @f: filesystem object.
- * @name: path of the filesystem-in-the file on the actual filesystem.
+ * @fs: filesystem object.
+ * @path: path to the filesystem-in-the file on the actual filesystem.
  * @try_mmap: TRUE if try to mmap(2) the filesystem-in-a-file,
  *            instead of opening.
- * @wrappers: system functions wrappers, NULL if standard functions are used.
+ * @wrappers: system functions wrappers, %NULL if standard functions are used.
  * 
- * Opens the filesystem-in-the-file @name and creates the filesystem object @f.
+ * Opens the filesystem-in-the-file @path and creates the filesystem object @fs.
  * 
  * Return value: a #MsOleErr code.
  **/
@@ -1571,13 +1580,13 @@ ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
 
 /**
  * ms_ole_create_vfs:
- * @f: filesystem object.
- * @name: path of the filesystem-in-the file on the actual filesystem.
+ * @fs: filesystem object.
+ * @path: path to the filesystem-in-the file on the actual filesystem.
  * @try_mmap: TRUE if try to mmap(2) the filesystem-in-a-file,
  *            instead of opening.
- * @wrappers: system functions wrappers, NULL if standard functions are used.
+ * @wrappers: system functions wrappers, %NULL if standard functions are used.
  * 
- * Creates the filesystem-in-the-file @name and creates the filesystem @f.
+ * Creates the filesystem-in-the-file @path and creates the filesystem @fs.
  *
  * Return value: a #MsOleErr code.
  **/
@@ -1703,9 +1712,9 @@ destroy_pps (GList *l)
 
 /**
  * ms_ole_destroy:
- * @ptr: filesystem object.
+ * @fs: filesystem object.
  * 
- * Closes the filesystem @ptr and truncates any free blocks.
+ * Closes the filesystem @fs and truncates any free blocks.
  **/
 void
 ms_ole_destroy (MsOle **ptr)
@@ -1925,11 +1934,11 @@ free_allocation (MsOle *f, guint32 startblock, gboolean is_big_block_stream)
 
 /**
  * ms_ole_lseek:
- * @s: 
- * @bytes: 
- * @type: 
+ * @s: stream object.
+ * @bytes: number of bytes to set the stream pointer.
+ * @type: relative from where the stream pointer will be set.
  * 
- * 
+ * Set the stream pointer for @s as many as @bytes bytes according to @type.
  * 
  * Return value: 
  **/
@@ -1957,79 +1966,45 @@ ms_ole_lseek (MsOleStream *s, MsOleSPos bytes, MsOleSeek type)
 }
 
 
+/*
+ *  Returns:
+ *  NULL    - on error
+ */
 static guint8*
 ms_ole_read_ptr_bb (MsOleStream *s, MsOlePos length)
 {
-	int blockidx = s->position/BB_BLOCK_SIZE;
 	int blklen;
-	guint32 len=length;
 	guint8 *ans;
+	guint32 len=length;
+	int blockidx = s->position/BB_BLOCK_SIZE;
 
-	g_return_val_if_fail (s, 0);
+	g_return_val_if_fail (s, NULL);
 
 	if (!s->blocks || blockidx >= s->blocks->len) {
 		printf ("Reading from NULL file\n");
-		return 0;
+		return NULL;
 	}
 
 	blklen = BB_BLOCK_SIZE - s->position%BB_BLOCK_SIZE;
 
 	if (len > blklen && !s->file->ole_mmap)
-		return 0;
+		return NULL;
 
 	while (len > blklen) {
 		len -= blklen;
 		blklen = BB_BLOCK_SIZE;
-		if (blockidx >= (s->blocks->len - 1) ||
-		    (ms_array_index (s->blocks, BLP, blockidx) !=
-		     blockidx + 1))
-			return 0;
+		if (blockidx >= (s->blocks->len - 1)
+		    || (ms_array_index (s->blocks, BLP, blockidx)
+			!= blockidx + 1))
+			return NULL;
 		blockidx++;
 	}
 	/* Straight map, simply return a pointer */
-	ans = BB_R_PTR(s->file, ms_array_index (s->blocks, BLP, s->position/BB_BLOCK_SIZE))
-	      + s->position%BB_BLOCK_SIZE;
+	ans = BB_R_PTR (s->file, ms_array_index (s->blocks, BLP,
+						 s->position/BB_BLOCK_SIZE))
+		+ s->position%BB_BLOCK_SIZE;
 	ms_ole_lseek (s, length, MsOleSeekCur);
-	if (libole2_debug)
-		check_stream (s);
 
-	return ans;
-}
-
-
-static guint8*
-ms_ole_read_ptr_sb (MsOleStream *s, MsOlePos length)
-{
-	int blockidx = s->position/SB_BLOCK_SIZE;
-	int blklen;
-	guint32 len=length;
-	guint8 *ans;
-
-	g_return_val_if_fail (s, 0);
-
-	if (!s->blocks || blockidx >= s->blocks->len) {
-		printf ("Reading from NULL file\n");
-		return 0;
-	}
-
-	blklen = SB_BLOCK_SIZE - s->position%SB_BLOCK_SIZE;
-
-	if (len > blklen && !s->file->ole_mmap)
-		return 0;
-
-	while (len > blklen) {
-		len -= blklen;
-		blklen = SB_BLOCK_SIZE;
-		if (blockidx >= (s->blocks->len - 1) ||
-		    (ms_array_index (s->blocks, BLP, blockidx) !=
-		     blockidx + 1))
-			return 0;
-		blockidx++;
-	}
-	/* Straight map, simply return a pointer */
-	ans = GET_SB_R_PTR(s->file, ms_array_index (s->blocks, BLP, s->position/SB_BLOCK_SIZE))
-		+ s->position%SB_BLOCK_SIZE;
-	ms_ole_lseek (s, length, MsOleSeekCur);
 	if (libole2_debug)
 		check_stream (s);
 
@@ -2039,15 +2014,61 @@ ms_ole_read_ptr_sb (MsOleStream *s, MsOlePos length)
 
 /*
  *  Returns:
- *  0 - on error
- *  1 - on success
+ *  NULL    - on error
  */
-static MsOlePos
+static guint8*
+ms_ole_read_ptr_sb (MsOleStream *s, MsOlePos length)
+{
+	int blklen;
+	guint8 *ans;
+	guint32 len=length;
+	int blockidx = s->position/SB_BLOCK_SIZE;
+
+	g_return_val_if_fail (s, NULL);
+
+	if (!s->blocks || blockidx >= s->blocks->len) {
+		printf ("Reading from NULL file\n");
+		return NULL;
+	}
+
+	blklen = SB_BLOCK_SIZE - s->position%SB_BLOCK_SIZE;
+
+	if (len > blklen && !s->file->ole_mmap)
+		return NULL;
+
+	while (len > blklen) {
+		len -= blklen;
+		blklen = SB_BLOCK_SIZE;
+		if (blockidx >= (s->blocks->len - 1)
+		    || (ms_array_index (s->blocks, BLP, blockidx)
+			!= blockidx + 1))
+			return NULL;
+		blockidx++;
+	}
+	/* Straight map, simply return a pointer */
+	ans = GET_SB_R_PTR (s->file, ms_array_index (s->blocks, BLP,
+						     s->position/SB_BLOCK_SIZE))
+		+ s->position%SB_BLOCK_SIZE;
+	ms_ole_lseek (s, length, MsOleSeekCur);
+
+	if (libole2_debug)
+		check_stream (s);
+
+	return ans;
+}
+
+
+/*
+ *  Returns:
+ *  zero    - on error
+ *  no zero - on success
+ */
+static gint
 ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 {
-	int offset = s->position%BB_BLOCK_SIZE;
-	int blkidx = s->position/BB_BLOCK_SIZE;
 	guint8 *src;
+	int offset = s->position % BB_BLOCK_SIZE;
+	int blkidx = s->position / BB_BLOCK_SIZE;
 
 	g_return_val_if_fail (s, 0);
 	g_return_val_if_fail (ptr, 0);
@@ -2057,15 +2078,15 @@ ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 		return 0;
 	}
 
-	while (length>0)
+	while (length > 0)
 	{
 		BLP block;
 		int cpylen = BB_BLOCK_SIZE - offset;
-		if (cpylen>length)
+		if (cpylen > length)
 			cpylen = length;
 
-		if (s->position + cpylen > s->size ||
-		    blkidx == s->blocks->len) {
+		if (s->position + cpylen > s->size
+		    || blkidx == s->blocks->len) {
 #if OLE_DEBUG > 0
 			printf ("Trying 2 to read beyond end of stream %d+%d %d\n",
 				s->position, cpylen, s->size);
@@ -2074,7 +2095,7 @@ ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 		}
 		g_assert (blkidx < s->blocks->len);
 		block = ms_array_index (s->blocks, BLP, blkidx);
-		src = BB_R_PTR(s->file, block) + offset;
+		src = BB_R_PTR (s->file, block) + offset;
 		
 		memcpy (ptr, src, cpylen);
 		ptr    += cpylen;
@@ -2085,13 +2106,20 @@ ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 		blkidx++;
 		s->position+=cpylen;
 	}
+
 	if (libole2_debug)
 		check_stream (s);
+
 	return 1;
 }
 
 
-static MsOlePos
+/*
+ *  Returns:
+ *  zero    - on error
+ *  no zero - on success
+ */
+static gint
 ms_ole_read_copy_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 {
 	int offset = s->position%SB_BLOCK_SIZE;
@@ -2106,14 +2134,14 @@ ms_ole_read_copy_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 		return 0;
 	}
 
-	while (length>0)
+	while (length > 0)
 	{
 		int cpylen = SB_BLOCK_SIZE - offset;
 		BLP block;
 		if (cpylen>length)
 			cpylen = length;
-		if (s->position + cpylen > s->size ||
-		    blkidx == s->blocks->len) {
+		if (s->position + cpylen > s->size
+		    || blkidx == s->blocks->len) {
 #if OLE_DEBUG > 0
 			printf ("Trying 3 to read beyond end of stream %d+%d %d\n",
 				s->position, cpylen, s->size);
@@ -2125,7 +2153,7 @@ ms_ole_read_copy_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 		src = GET_SB_R_PTR(s->file, block) + offset;
 				
 		memcpy (ptr, src, cpylen);
-		ptr   += cpylen;
+		ptr += cpylen;
 		length -= cpylen;
 		
 		offset = 0;
@@ -2133,8 +2161,10 @@ ms_ole_read_copy_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 		blkidx++;
 		s->position+=cpylen;
 	}
+
 	if (libole2_debug)
 		check_stream (s);
+
 	return 1;
 }
 
@@ -2209,17 +2239,16 @@ ms_ole_append_block (MsOleStream *s)
 static MsOlePos
 ms_ole_write_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 {
-	guint8 *dest;
-	int     offset  = s->position%BB_BLOCK_SIZE;
-	guint32 blkidx  = s->position/BB_BLOCK_SIZE;
-	guint32 bytes   = length;
-	gint32  lengthen;
+	guint8  *dest;
+	gint32   lengthen;
+	guint32  bytes   = length;
+	int      offset  = s->position%BB_BLOCK_SIZE;
+	guint32  blkidx  = s->position/BB_BLOCK_SIZE;
 	
 	s->file->dirty = 1;
 	while (bytes > 0) {
 		BLP block;
 		int cpylen = BB_BLOCK_SIZE - offset;
-
 		if (cpylen > bytes)
 			cpylen = bytes;
 		
@@ -2255,6 +2284,7 @@ ms_ole_write_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 }
 
 
+/* FIXME: I'm sure these functions should fail gracefully somehow :-) */
 static MsOlePos
 ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 {
@@ -2399,8 +2429,7 @@ pps_create (MsOle *f, GList **p, GList *parent, const char *name,
  * Find the right Stream ... John 4:13-14 ...
  * in a storage
  * 
- * Return value: NULL if not found or pointer
- * to the child list
+ * Return value: %NULL if not found or pointer to the child list
  **/
 static GList *
 find_in_pps (GList *l, const char *name)
@@ -2438,15 +2467,15 @@ find_in_pps (GList *l, const char *name)
 
 /**
  * path_to_pps:
- * @pps:  pointer to pps to return value in
- * @f:    ole file hande
- * @path: path to find
- * @file: file to find in path
- * @create_if_not_found: :-)
+ * @pps:  pointer to pps to return value in.
+ * @f:    ole file hande.
+ * @path: path to find.
+ * @file: file to find in path.
+ * @create_if_not_found: :-).
  * 
- * Locates a stream or storage with the given path
+ * Locates a stream or storage with the given path.
  * 
- * Return value: error status
+ * Return value: a MsOleErr code.
  **/
 static MsOleErr
 path_to_pps (PPS **pps, MsOle *f, const char *path,
@@ -2526,10 +2555,10 @@ path_to_pps (PPS **pps, MsOle *f, const char *path,
 
 /**
  * ms_ole_unlink:
- * @f: filesystem object
- * @path: path of the stream or directory to unlink.
+ * @fs: filesystem object.
+ * @path: path of the stream or directory to delete.
  *
- * Delete the stream or directory @path on the filesystem @f.
+ * Delete the stream or directory @path on the filesystem @fs.
  *
  * Return value: a #MsOleErr code.
  **/
@@ -2543,11 +2572,11 @@ ms_ole_unlink (MsOle *f, const char *path)
 
 /**
  * ms_ole_directory:
- * @names:
- * @f: filesystem object.
- * @path:
+ * @names: array where the names are storesd, it's %NULL ended.
+ * @fs: filesystem object.
+ * @dirpath: directory path.
  *
- * Gets the names of the streams and directories in a directory.
+ * Gets the names of the streams and directories in the directory @dirpath.
  *
  * Returns: a MsOleErr code.
  **/
@@ -2593,14 +2622,14 @@ ms_ole_directory (char ***names, MsOle *f, const char *path)
 /**
  * ms_ole_stat:
  * @stat: stat information.
- * @f: filesystem object
- * @path:
- * @file:
+ * @fs: filesystem object.
+ * @dirpath: directory path.
+ * @name: stream or directory name.
  *
- * Gets informatino about the stream or a directory which is in the directory
- * @path and its name is @file.
+ * Gets information about the stream or the directory which is in the directory
+ * @dirpath and its name is @file.
  *
- * Returns: a MsOleErr code
+ * Returns: a MsOleErr code.
  **/
 MsOleErr
 ms_ole_stat (MsOleStat *stat, MsOle *f, const char *path,
@@ -2631,14 +2660,16 @@ ms_ole_stat (MsOleStat *stat, MsOle *f, const char *path,
 /**
  * ms_ole_stream_open:
  * @stream: stream object.
- * @f: filesystem object.
- * @path:
- * @fname:
- * @mode: mode of opening stream ('r' for read only or 'w' for write only).
+ * @fs: filesystem object.
+ * @dirpath: directory of the stream.
+ * @name: stream name.
+ * @mode: mode of opening stream.
  * 
- * Opens the stream @path and creates the stream object @stream.
+ * Opens the stream in @dirpath with the name @name and creates the stream
+ * object @stream. If @mode is '%r' it opens read only, and if it is '%w'
+ * it opens for write only.
  *
- * Return value: a MsOleErr code.
+ * Return value: a #MsOleErr code.
  **/
 MsOleErr
 ms_ole_stream_open (MsOleStream ** const stream, MsOle *f,
@@ -2786,7 +2817,7 @@ ms_ole_stream_open (MsOleStream ** const stream, MsOle *f,
 
 /**
  * ms_ole_stream_duplicate:
- * @s: stream object copy.
+ * @stream_copy: stream object copy.
  * @stream: stream object to be duplicated.
  * 
  * Duplicates the stream object @stream.
@@ -2814,11 +2845,11 @@ ms_ole_stream_duplicate (MsOleStream **s, const MsOleStream * const stream)
 
 /**
  * ms_ole_stream_close:
- * @s: stream object to be closed.
+ * @stream: stream object to be closed.
  * 
- * Closes the stream @s.
+ * Closes the @stream.
  * 
- * Return value: a MsOleErr code.
+ * Return value: a #MsOleErr code.
  **/
 MsOleErr
 ms_ole_stream_close (MsOleStream **s)
