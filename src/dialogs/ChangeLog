@@ -1,3 +1,8 @@
+2001-09-28  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-cell-comment.c (dialog_cell_comment):
+	Make the cell comment dialog user resizable. Fixes #60053
+
 2001-09-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (desc_stat_tool_set_focus_output_range) : 

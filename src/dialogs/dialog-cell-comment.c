@@ -37,7 +37,8 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 		NULL);
 
 	gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
-
+	gtk_window_set_policy (GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
+	
 	textbox = gtk_text_new (NULL, NULL);
 	gtk_text_set_word_wrap (GTK_TEXT (textbox), TRUE);
 	gtk_text_set_editable (GTK_TEXT (textbox), TRUE);
