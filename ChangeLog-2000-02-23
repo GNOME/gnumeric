@@ -3,6 +3,7 @@
 	* src/gnumeric-sheet.c (gnumeric_sheet_new): Use
 	gtk_widget_set_usize() instead of gnome_canvas_set_size().
 	* src/pattern-selector.c (pattern_selector_new): Likewise.
+	* src/sheet-view.c (new_canvas_bar): Likewise.
 
 1998-12-13  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
 

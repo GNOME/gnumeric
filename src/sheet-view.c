@@ -168,7 +168,7 @@ new_canvas_bar (SheetView *sheet_view, GtkOrientation o, GnomeCanvasItem **itemp
 		h = 20;
 		gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, 1000000, h);
 	}
-	gnome_canvas_set_size (GNOME_CANVAS (canvas), w, h);
+	gtk_widget_set_usize (canvas, w, h);
 	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
 	item = gnome_canvas_item_new (group,
 				      item_bar_get_type (),
