@@ -9,6 +9,7 @@ Andreas:
 Jody:
 	* Have the stf dialog use the default font.
 	* Use GsfInput for importing.
+	* Improve the Applix importer.
 
 Jukka:
 	* More solver enhancements:

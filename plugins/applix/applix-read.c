@@ -23,6 +23,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+
+/* Used docs from
+ * http://www.vistasource.com/products/axware/fileformats/wptchc01.html
+ */
+
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "applix.h"
@@ -62,7 +67,7 @@ typedef struct {
 	GPtrArray     *attrs;
 	GPtrArray     *font_names;
 
-	char *buffer;
+	unsigned char *buffer;
 	size_t buffer_size;
 	size_t line_len;
 	int zoom;
@@ -140,7 +145,7 @@ applix_parse_value (char *buf, char **follow)
 static unsigned char *
 applix_get_line (ApplixReadState *state)
 {
-	unsigned char *ptr;
+	unsigned char *ptr, *end, *buf;
 	size_t len, skip = 0, offset = 0;
 
 	while (NULL != (ptr = gsf_input_textline_ascii_gets (state->input))) {
@@ -154,8 +159,32 @@ applix_get_line (ApplixReadState *state)
 			state->buffer_size += state->line_len;
 			state->buffer = g_realloc (state->buffer, state->buffer_size + 1);
 		}
-		memcpy (state->buffer + offset, ptr+skip, len-skip);
-		offset += len-skip;
+
+		end = ptr + len;
+		ptr += skip;
+		buf = state->buffer + offset;
+		while (ptr < end) {
+			if (*ptr == '^') {
+				if (ptr [1] != '^') {
+					if (ptr [1] == '\0' || ptr [2] == '\0') {
+						applix_parse_error (state, _("Missing characters for character encoding"));
+						*(buf++) = *(ptr++);
+					} else if (ptr [1] < 'a' || ptr [1] > 'p' ||
+						   ptr [2] < 'a' || ptr [2] > 'p') {
+						applix_parse_error (state, _("Invalid characters for in encoding '%c%c'"),
+								    ptr[1], ptr[2]);
+						*(buf++) = *(ptr++);
+					} else {
+						*(buf++) = ((ptr[1] - 'a') << 8) | (ptr[2] - 'a');
+						ptr += 3;
+					}
+				} else /* an encoded carat */
+					*(buf++) = '^', ptr += 2;
+			} else
+				*(buf++) = *(ptr++);
+		}
+
+		offset = buf - state->buffer;
 
 		if (len >= state->line_len)
 			skip = 1; /* skip the leading space for next line */
@@ -720,6 +749,7 @@ applix_get_sheet (ApplixReadState *state, unsigned char **buffer,
 		sheet = sheet_new (state->wb, *buffer);
 		workbook_sheet_attach (state->wb, sheet, NULL);
 		sheet_set_zoom_factor (sheet, (double )(state->zoom) / 100., FALSE, FALSE);
+		sheet_flag_recompute_spans (sheet);
 	}
 
 	*buffer = tmp+1;
@@ -869,6 +899,7 @@ applix_read_cells (ApplixReadState *state)
 	int col, row;
 	MStyle *style;
 	Cell *cell;
+	ParseError  perr;
 	unsigned char content_type, *tmp, *ptr;
 
 	while (NULL != (ptr = applix_get_line (state))) {
@@ -952,22 +983,28 @@ applix_read_cells (ApplixReadState *state)
 					expr_string = tmp+3; /* ~addr~<space><space>=expr */
 				}
 
+				/* We need to continue at all costs so that the
+				 * rest of the sheet can be parsed. If we quit, then trailing
+				 * 'Formula ' lines confuse the parser
+				 */
 				if (*expr_string != '=' && *expr_string != '+') {
-					(void) applix_parse_error (state, "Expression did not start with '=' ?");
-					continue;
-				}
+					(void) applix_parse_error (state, _("Expression did not start with '=' ? '%s'"),
+								   expr_string);
+					expr = gnm_expr_new_constant (value_new_string (expr_string));
+				} else
+					expr = gnm_expr_parse_str (expr_string+1,
+						parse_pos_init_cell (&pos, cell),
+						GNM_EXPR_PARSE_USE_APPLIX_REFERENCE_CONVENTIONS |
+						GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
+						&perr);
 
-				expr = gnm_expr_parse_str (expr_string+1,
-					parse_pos_init_cell (&pos, cell),
-					GNM_EXPR_PARSE_USE_APPLIX_REFERENCE_CONVENTIONS |
-					GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-					NULL);
 				if (expr == NULL) {
-					(void) applix_parse_error (state, "Invalid expression");
-					continue;
-				}
-
-				if (is_array) {
+					(void) applix_parse_error (state, _("%s!%s : unable to parse '%s'\n     %s"),
+								   cell->base.sheet->name_quoted, cell_name (cell),
+								   expr_string, perr.message);
+					parse_error_free (&perr);
+					expr = gnm_expr_new_constant (value_new_string (expr_string));
+				} else if (is_array) {
 					gnm_expr_ref (expr);
 					cell_set_array_formula (sheet,
 								r.start.col, r.start.row,

@@ -1,3 +1,9 @@
+2002-06-14  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y (parser_sheet_by_name) : new utility function to
+	  support applix style absolute sheet references.
+	(sheetref) : parser_sheet_by_name.
+
 2002-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_cell_range_is_locked_effective) : new

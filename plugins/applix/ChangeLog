@@ -1,5 +1,13 @@
 2002-06-14  Jody Goldberg <jody@gnome.org>
 
+	* applix-read.c (applix_read_cells) : be more expressive and lenient
+	  when dealing with parse errors.
+	(applix_get_line) : handle the 8bit character encoding.  TODO : add
+	  the 16 bit when we figure out what encoding all of this lives in.
+	(applix_get_sheet) : Flag the need to recompute spans.
+
+2002-06-14  Jody Goldberg <jody@gnome.org>
+
 	* applix-read.c : convert to gsf input and restructure quite a bit to
 	  be more flexible, add support for applix-5, and support
 	  hidden/locked formats.

@@ -379,6 +379,31 @@ force_explicit_sheet_references (ParserState *state, CellRef *ref)
 	return TRUE;
 }
 
+static Sheet *
+parser_sheet_by_name (Workbook *wb, GnmExpr *name_expr)
+{
+	char  *name = name_expr->constant.value->v_str.val->str;
+	Sheet *sheet = NULL;
+	
+	if (wb == NULL)
+		return NULL;
+	
+	sheet = workbook_sheet_by_name (wb, name);
+
+	/* Applix has absolute and relative sheet references */
+	if (sheet == NULL &&
+	    !state->use_excel_reference_conventions && *name == '$')
+		sheet = workbook_sheet_by_name (wb, name+1);
+
+	if (sheet == NULL) {
+		gnumeric_parse_error (
+				state, PERR_UNKNOWN_SHEET,
+				g_strdup_printf (_("Unknown sheet '%s'"), name),
+				state->expr_text - state->expr_backup, strlen (name));
+	}
+	return sheet;
+}
+
 /* Make byacc happier */
 int yyparse (void);
 
@@ -545,42 +570,23 @@ string_opt_quote : STRING
 		 ;
 
 sheetref: string_opt_quote SHEET_SEP {
-	        char  *name = $1->constant.value->v_str.val->str;
-		Sheet *sheet = workbook_sheet_by_name (state->pos->wb, name);
-		if (sheet == NULL) {
-			int retval = gnumeric_parse_error (
-				state, PERR_UNKNOWN_SHEET,
-				g_strdup_printf (_("Unknown sheet '%s'"), name),
-				state->expr_text - state->expr_backup, strlen (name));
-
-			unregister_allocation ($1); gnm_expr_unref ($1);
-			return retval;
-		} else
-			unregister_allocation ($1); gnm_expr_unref ($1);
+		Sheet *sheet = parser_sheet_by_name (state->pos->wb, $1);
+		unregister_allocation ($1); gnm_expr_unref ($1);
+		if (sheet == NULL)
+			return ERROR;
 	        $$ = sheet;
 	}
 
 	| '[' string_opt_quote ']' string_opt_quote SHEET_SEP {
-		Workbook * wb =
-		    application_workbook_get_by_name ($2->constant.value->v_str.val->str);
-		Sheet *sheet = NULL;
-		char *sheetname = $4->constant.value->v_str.val->str;
-
-		if (wb != NULL)
-			sheet = workbook_sheet_by_name (wb, sheetname);
+		Workbook *wb = application_workbook_get_by_name (
+			$2->constant.value->v_str.val->str);
+		Sheet *sheet = parser_sheet_by_name (wb, $4);
 
 		unregister_allocation ($2); gnm_expr_unref ($2);
-		if (sheet == NULL) {
-			int retval = gnumeric_parse_error (
-				state, PERR_UNKNOWN_SHEET,
-				g_strdup_printf (_("Unknown sheet '%s'"), sheetname),
-				state->expr_text - state->expr_backup, strlen (sheetname));
+		unregister_allocation ($4); gnm_expr_unref ($4);
 
-			unregister_allocation ($4); gnm_expr_unref ($4);
-			return retval;
-		} else
-			unregister_allocation ($4); gnm_expr_unref ($4);
-
+		if (sheet == NULL)
+			return ERROR;
 	        $$ = sheet;
         }
 	;
