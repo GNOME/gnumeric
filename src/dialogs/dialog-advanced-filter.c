@@ -296,9 +296,6 @@ loop:
 		}
 	}
 
-	if (v != -1)
-		gtk_object_destroy (GTK_OBJECT (dia));
-
 	switch (f.type) {
 	case InPlace:
 	        dao.type = RangeOutput;
@@ -327,9 +324,8 @@ loop:
 				      crit_col_e, crit_row_e,
 				      unique_only_flag);
 	switch (error_flag) {
-	case OK:
-	        gtk_object_unref (GTK_OBJECT (gui));
-		break;
+	case OK: break;
+
 	case N_COLUMNS_ERROR:
  	        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce the same number of "
@@ -340,5 +336,10 @@ loop:
 		gtk_entry_select_region (GTK_ENTRY (list_range), 0,
 					 GTK_ENTRY (list_range)->text_length);
 		goto loop;
+	}
+
+	if (v != -1) {
+	        gtk_object_unref (GTK_OBJECT (gui));
+		gtk_object_destroy (GTK_OBJECT (dia));
 	}
 }

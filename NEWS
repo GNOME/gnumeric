@@ -38,6 +38,8 @@ Jody:
 	* Fix ins/del col/row in outline mode.
 	* Support number buttons in outline mode.
 	* Implement XL export for array formulas.
+	* Fix handling of failue in filter dialog.
+	* Remove some dead code.
 
 Morten:
 	* Fix EXPRESSION crash.

@@ -1,3 +1,8 @@
+2001-12-07  Jody Goldberg <jody@gnome.org>
+
+	* dialog-advanced-filter.c (dialog_advanced_filter) : don't destroy
+	  the dialog until we are done with it.
+
 2001-12-03  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* anova-two.glade : activate labels button and change (1 - alpha)

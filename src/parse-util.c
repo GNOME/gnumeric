@@ -419,7 +419,7 @@ parse_col_name (char const *cell_str, char const **endptr)
 	return col;
 }
 
-/*
+/**
  * parse_cell_name
  * @cell_name:   a string representation of a cell name.
  * @col:         result col
@@ -479,99 +479,6 @@ parse_cell_name (char const *cell_str, int *col, int *row, gboolean strict, int 
 	if (chars_read)
 		*chars_read = cell_str - original;
 	return TRUE;
-}
-
-gboolean
-parse_cell_name_or_range (char const *cell_str, int *col, int *row, int *cols, int *rows, gboolean strict)
-{
-        int e_col, e_row;
-
-	*cols = *rows = 1;
-	if (!parse_cell_name (cell_str, col, row, strict, NULL)) {
-	        if (!parse_range (cell_str, col, row, &e_col, &e_row))
-		        return FALSE;
-		else {
-		        *cols = e_col - *col + 1;
-			*rows = e_row - *row + 1;
-		}
-	}
-
-	return TRUE;
-}
-
-
-/*
- * Returns a list of cells in a string.  If the named cells do not
- * exist, they are created.  If the input string is not valid,
- * the error_flag is set.
- */
-GSList *
-parse_cell_name_list (Sheet *sheet,
-		      char const *cell_name_str,
-		      int *error_flag,
-		      gboolean strict)
-{
-        char     *buf, *tmp = NULL;
-	GSList   *cells = NULL;
-	Cell     *cell;
-	int      i, n, j, k, col, row;
-	gboolean range_flag = 0;
-
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (cell_name_str != NULL, NULL);
-	g_return_val_if_fail (error_flag != NULL, NULL);
-
-	buf = g_malloc (strlen (cell_name_str) + 1);
-	for (i = n = 0; ; i++) {
-
-	        if ((cell_name_str [i] == ',') ||
-		    (cell_name_str [i] == ':') ||
-		    (cell_name_str [i] == '\0')){
-		        buf [n] = '\0';
-
-			if (!parse_cell_name (buf, &col, &row, strict, NULL)){
-			error:
-			        *error_flag = 1;
-				g_free (buf);
-				g_slist_free (cells);
-				g_free (tmp);
-				return NULL;
-			}
-
-			if (cell_name_str [i] == ':')
-			        if (range_flag) {
-				        goto error;
-				} else {
-					tmp = g_strdup (buf);
-				        range_flag = 1;
-				}
-			else if (range_flag) {
-			        int x1, x2, y1, y2;
-
-				parse_cell_name (tmp, &x1, &y1, strict, NULL);
-				parse_cell_name (buf, &x2, &y2, strict, NULL);
-			        for (j = x1; j <= x2; j++)
-				        for (k = y1; k <= y2; k++) {
-					        cell = sheet_cell_fetch
-						  (sheet, j, k);
-						cells = g_slist_append
-						  (cells, (gpointer) cell);
-					}
-			} else {
-			        cell = sheet_cell_fetch (sheet, col, row);
-			        cells = g_slist_append(cells, (gpointer) cell);
-			}
-			n = 0;
-		} else
-		        buf [n++] = cell_name_str [i];
-		if (! cell_name_str [i])
-		        break;
-	}
-
-	*error_flag = 0;
-	g_free (buf);
-	g_free (tmp);
-	return cells;
 }
 
 /**

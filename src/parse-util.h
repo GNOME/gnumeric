@@ -25,11 +25,7 @@ char const *cell_name                (Cell const *cell);
 int         parse_col_name           (char const *cell_str, char const **endptr);
 gboolean    parse_cell_name          (char const *cell_str, int *col, int *row,
 				      gboolean strict, int *chars_read);
-gboolean    parse_cell_name_or_range (char const *cell_str, int *col, int *row,
-				      int *cols, int *rows, gboolean strict);
 gboolean    parse_cell_range         (Sheet *sheet, char const *range, Value **v);
-GSList     *parse_cell_name_list     (Sheet *sheet, char const *cell_name_str,
-				      int *error_flag, gboolean strict);
 
 StyleFormat *parse_text_value_or_expr (ParsePos const *pos,
 				       char const *text,
