@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2001-12-26 00:56-0500\n"
-"PO-Revision-Date: 2001-12-22 06:31+0100\n"
+"POT-Creation-Date: 2001-12-28 05:14+0100\n"
+"PO-Revision-Date: 2001-12-28 05:14+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -214,7 +214,7 @@ msgstr "Kan inte öppna ström för skrivning\n"
 msgid "Broken function"
 msgstr "Trasig funktion"
 
-#: plugins/excel/ms-formula-read.c:1421
+#: plugins/excel/ms-formula-read.c:1438
 msgid " Unknown formula"
 msgstr "Okänd formel"
 
@@ -2623,289 +2623,289 @@ msgid "Typing \"%s%s\" in %s"
 msgstr "Inmatning av \"%s%s\" i %s"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: src/commands.c:834
+#: src/commands.c:835
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Inmatning av \"%s%s\""
 
-#: src/commands.c:1083
+#: src/commands.c:1084
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Infogning av %d kolumner före %s"
 
-#: src/commands.c:1084
+#: src/commands.c:1085
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Infogning av %d kolumner före %s"
 
-#: src/commands.c:1095
+#: src/commands.c:1096
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Infogning av %d rader före %s"
 
-#: src/commands.c:1096
+#: src/commands.c:1097
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Infogning av %d rad före %s"
 
-#: src/commands.c:1107
+#: src/commands.c:1108
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Borttagning av kolumnerna %s"
 
-#: src/commands.c:1108
+#: src/commands.c:1109
 #, c-format
 msgid "Deleting column %s"
 msgstr "Borttagning av kolumn %s"
 
-#: src/commands.c:1118
+#: src/commands.c:1119
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Borttagning av raderna %s"
 
-#: src/commands.c:1119
+#: src/commands.c:1120
 #, c-format
 msgid "Deleting row %s"
 msgstr "Borttagning av rad %s"
 
-#: src/commands.c:1194
+#: src/commands.c:1195
 msgid "Undo Clear"
 msgstr "Ångra töm"
 
-#: src/commands.c:1273
+#: src/commands.c:1274
 msgid "contents"
 msgstr "innehåll"
 
-#: src/commands.c:1275
+#: src/commands.c:1276
 msgid "formats"
 msgstr "format"
 
-#: src/commands.c:1277
+#: src/commands.c:1278
 msgid "comments"
 msgstr "kommentarer"
 
-#: src/commands.c:1293
+#: src/commands.c:1294
 msgid "all"
 msgstr "alla"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: src/commands.c:1300
+#: src/commands.c:1301
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Tömmande av %s i %s"
 
-#: src/commands.c:1495
+#: src/commands.c:1496
 #, c-format
 msgid "Changing format of %s"
 msgstr "Byter format på %s"
 
-#: src/commands.c:1571
+#: src/commands.c:1572
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Byt namn på blad \"%s\" till \"%s\""
 
-#: src/commands.c:1681
+#: src/commands.c:1682
 msgid "Set Date/Time"
 msgstr "Ställ datum/tid"
 
-#: src/commands.c:1698
+#: src/commands.c:1699
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Ställer nuvarande datum i %s"
 
-#: src/commands.c:1699
+#: src/commands.c:1700
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Ställer nuvarande tid i %s"
 
-#: src/commands.c:1806
+#: src/commands.c:1807
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Autopassar kolumn %s"
 
-#: src/commands.c:1807
+#: src/commands.c:1808
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Autopassar rad %s"
 
-#: src/commands.c:1810
+#: src/commands.c:1811
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Ställer in bredden på kolumn %s till %d bildpunkter"
 
-#: src/commands.c:1812
+#: src/commands.c:1813
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Ställer in höjd på rad %s till %d bildpunkter"
 
-#: src/commands.c:1817 src/commands.c:1818
+#: src/commands.c:1818 src/commands.c:1819
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Autopassar kolumner %s"
 
-#: src/commands.c:1821
+#: src/commands.c:1822
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Ställer in bredd på kolumner %s till %d bildpunkter"
 
-#: src/commands.c:1823
+#: src/commands.c:1824
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Ställer in höjd på rader %s till %d bildpunkter"
 
-#: src/commands.c:1907
+#: src/commands.c:1908
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorterar %s"
 
-#: src/commands.c:2035
+#: src/commands.c:2036
 msgid "Unhide columns"
 msgstr "Visa kolumner"
 
-#: src/commands.c:2035
+#: src/commands.c:2036
 msgid "Hide columns"
 msgstr "Göm kolumner"
 
-#: src/commands.c:2036
+#: src/commands.c:2037
 msgid "Unhide rows"
 msgstr "Visa rader"
 
-#: src/commands.c:2036
+#: src/commands.c:2037
 msgid "Hide rows"
 msgstr "Göm rader"
 
-#: src/commands.c:2117
+#: src/commands.c:2118
 msgid "Expand columns"
 msgstr "Fäll ut kolumner"
 
-#: src/commands.c:2117
+#: src/commands.c:2118
 msgid "Collapse columns"
 msgstr "Fäll ihop kolumner"
 
-#: src/commands.c:2118
+#: src/commands.c:2119
 msgid "Expand rows"
 msgstr "Fäll ut rader"
 
-#: src/commands.c:2118
+#: src/commands.c:2119
 msgid "Collapse rows"
 msgstr "Fäll ihop rader"
 
-#: src/commands.c:2187
+#: src/commands.c:2188
 msgid "Those columns are already grouped"
 msgstr "Dessa kolumner är redan grupperade"
 
-#: src/commands.c:2188
+#: src/commands.c:2189
 msgid "Those rows are already grouped"
 msgstr "Dessa rader är redan grupperade"
 
-#: src/commands.c:2191
+#: src/commands.c:2192
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "De kolumnerna är inte grupperade, du kan inte ogruppera dem"
 
-#: src/commands.c:2192
+#: src/commands.c:2193
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "De raderna är inte grupperade, du kan inte ogruppera dem"
 
-#: src/commands.c:2203
+#: src/commands.c:2204
 #, c-format
 msgid "Group columns %s"
 msgstr "Gruppera kolumner %s"
 
-#: src/commands.c:2203
+#: src/commands.c:2204
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Ogruppera kolumner %s"
 
-#: src/commands.c:2205
+#: src/commands.c:2206
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Gruppera rader %d:%d"
 
-#: src/commands.c:2205
+#: src/commands.c:2206
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Ogruppera rader %d:%d"
 
-#: src/commands.c:2405
+#: src/commands.c:2413
 #, c-format
 msgid "Moving %s"
 msgstr "Flyttar %s"
 
-#: src/commands.c:2414 src/commands.c:2622
+#: src/commands.c:2422 src/commands.c:2630
 msgid "is beyond sheet boundaries"
 msgstr "är utanför bladets gränser"
 
 #. FIXME?
-#: src/commands.c:2566
+#: src/commands.c:2574
 #, c-format
 msgid "Pasting into %s"
 msgstr "Klistrar in i %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2795 src/commands.c:2796 src/workbook-control-gui.c:1836
+#: src/commands.c:2803 src/commands.c:2804 src/workbook-control-gui.c:1836
 msgid "Autofill"
 msgstr "Autofyllning"
 
 #. Changed in initial redo.
-#: src/commands.c:2819
+#: src/commands.c:2827
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofyllning av %s"
 
-#: src/commands.c:2972
+#: src/commands.c:2980
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatering av %s"
 
-#: src/commands.c:3082
+#: src/commands.c:3090
 #, c-format
 msgid "Unmerging %s"
 msgstr "Splittring av %s"
 
-#: src/commands.c:3220
+#: src/commands.c:3228
 #, c-format
 msgid "Merging %s"
 msgstr "Sammanslagning av %s"
 
 #. Corrected below.
-#: src/commands.c:3600 src/dialogs/search-replace.glade.h:43
+#: src/commands.c:3608 src/dialogs/search-replace.glade.h:43
 msgid "Search and Replace"
 msgstr "Sök och ersätt"
 
-#: src/commands.c:3696
+#: src/commands.c:3704
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Inställning av standardbredd på kolumner till %.2f punkter"
 
-#: src/commands.c:3697
+#: src/commands.c:3705
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Inställning av standardhöjd på rader till %.2f punkter"
 
 #. Changed in initial redo.
-#: src/commands.c:3782
+#: src/commands.c:3790
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Konsolidation till %s!%s"
 
-#: src/commands.c:3897
+#: src/commands.c:3905
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Inzoomning av %s till %.0f%%"
 
-#: src/commands.c:3966
+#: src/commands.c:3974
 msgid "Insert object"
 msgstr "Infogning av objekt"
 
-#: src/commands.c:4024
+#: src/commands.c:4032
 msgid "Delete object"
 msgstr "Borttagning av objekt"
 
-#: src/commands.c:4105
+#: src/commands.c:4113
 msgid "Resize object"
 msgstr "Storleksändring av objekt"
 
-#: src/commands.c:4105
+#: src/commands.c:4113
 msgid "Move object"
 msgstr "Flyttning av objekt"
 
@@ -12967,6 +12967,27 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=ADDRESS\n"
+"@SYNTAX=ADDRESS(radnummer;kolumnnummer[;absolutnummer;a1;text])\n"
+"@DESCRIPTION=ADDRESS en celladress som text för angivna rad- och "
+"kolumnnummer.\n"
+"Om @absolutnummer är 1 eller utelämnas returnerar ADDRESS en absolut "
+"referens. Om @absolutnummer är 2 returnerar ADDRESS absolut rad och relativ "
+"kolumn. Om @absolutnummer är 3 returnerar ADDRESS relativ rad och absolut "
+"kolumn. Om @absolutnummer är större än 3 returnerar ADDRESS felvärdet "
+"#NUM!.\n"
+"@a1 är ett logiskt värde som anger typen av referens. Om @a1 är SANT eller "
+"utelämnas returnerar ADDRESS en referens av A1-typ, exempelvis $D$4. Annars "
+"returnerar ADDRESS en referens av R1C1-typ, exempelvis R4C4.\n"
+"@text anger namnet på arbetsbladet som ska användas som extern referens.\n"
+"Om @radnummer eller @kolumnnummer är mindre än ett returnerar ADDRESS "
+"felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"ADDRESS(5;4) är lika med \"$D$5\".\n"
+"ADDRESS(5;4;4) är lika med \"D5\".\n"
+"ADDRESS(5;4;3;FALSE) är lika med \"R[5]C4\".\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-lookup.c:428
 msgid ""
@@ -12980,6 +13001,16 @@ msgid ""
 "\n"
 "@SEEALSO=IF"
 msgstr ""
+"@FUNCTION=CHOOSE\n"
+"@SYNTAX=CHOOSE(index[;värde1][;värde2]...)\n"
+"@DESCRIPTION=CHOOSE returnerar värdet på indexet @index. @index avrundas "
+"till ett heltal om det inte är det.\n"
+"Om @index < 1 eller @index > antalet värden: returnerar #VÄRDE!.\n"
+"@EXAMPLES=\n"
+"CHOOSE(3;\"Äpple\";\"Apelsin\";\"Grapefrukt\";\"Persika\") är lika med "
+"\"Grapefrukt\".\n"
+"\n"
+"@SEEALSO=IF"
 
 #: src/functions/fn-lookup.c:453
 msgid "#ARG!"
@@ -17708,9 +17739,8 @@ msgid "Unable to open file '%s'"
 msgstr "Kan inte öppna filen \"%s\""
 
 #: src/gui-validation.c:45
-#, fuzzy
 msgid "The value you entered :\n"
-msgstr "Värdet du anger:\n"
+msgstr "Värdet du angav:\n"
 
 #: src/gui-validation.c:78
 #, c-format
@@ -17788,9 +17818,8 @@ msgid "Can be blank\n"
 msgstr "Kan vara tom\n"
 
 #: src/gui-validation.c:146
-#, fuzzy
 msgid "Re-Edit"
-msgstr "_Redigera"
+msgstr "Redigera om"
 
 #: src/gui-validation.c:146 src/gui-validation.c:151
 msgid "Discard"
@@ -18601,15 +18630,15 @@ msgstr "Kantbredd"
 msgid "Transparent"
 msgstr "Genomskinlig"
 
-#: src/sheet-object-widget.c:826
+#: src/sheet-object-widget.c:821
 msgid "Checkbox Configure"
 msgstr "Kryssrutekonfiguration"
 
-#: src/sheet-object-widget.c:839
+#: src/sheet-object-widget.c:834
 msgid "Cell :"
 msgstr "Cell:"
 
-#: src/sheet-object-widget.c:842
+#: src/sheet-object-widget.c:837
 msgid "Label :"
 msgstr "Rubrik:"
 
@@ -19184,15 +19213,16 @@ msgid "Discard Expression"
 msgstr "Förkasta uttryck"
 
 #: src/workbook-edit.c:165
-#, fuzzy
 msgid "Gnumeric : Validation"
-msgstr "Inmatningsvalidering"
+msgstr "Gnumeric: validering"
 
 #: src/workbook-edit.c:167
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
 msgstr ""
+"Det värdet är ogiltigt.\n"
+"Begränsningar har placerats på innehållet i denna cell."
 
 #: src/workbook-format-toolbar.c:86
 msgid "Set Horizontal Alignment"
