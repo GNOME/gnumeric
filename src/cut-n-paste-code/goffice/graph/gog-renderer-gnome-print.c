@@ -417,21 +417,23 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 	GnomeFont *gfont = get_font (prend,  rend->cur_style->font.font);
 
 	if (text[0]) {
-		double x, y;
+		double x, y, w, h;
 #ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
-		int w, h;
+		int iw, ih;
 		const double dummy_dpi = 300; /* FIXME: What exactly is this?  */
 		PangoFontDescription *pango_font =   /* FIXME: can i get the pango font directly ? */
 			gnome_font_get_pango_description (gfont, dummy_dpi);
 
 		pango_layout_set_font_description (prend->layout, pango_font);
 		pango_layout_set_text (prend->layout, text, -1);
-		pango_layout_get_pixel_size (prend->layout, &w, &h);
+		pango_layout_get_size (prend->layout, &iw, &ih);
+		w = iw / (double)PANGO_SCALE;
+		h = ih / (double)PANGO_SCALE;
 #else
 		/* This code will die when we require libgnomeprint 2.8  */
 		double font_ascent = gnome_font_get_ascender (gfont);
-		double w = gnome_font_get_width_utf8 (gfont, text);
-		double h = font_ascent + gnome_font_get_descender (gfont);
+		w = gnome_font_get_width_utf8 (gfont, text);
+		h = font_ascent + gnome_font_get_descender (gfont);
 #endif	
 		x = pos->x;
 		switch (anchor) {
