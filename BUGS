@@ -281,6 +281,7 @@ Pending Patches
 	    6.9.4.1) XL95					(DONE)
 	    6.9.4.2) Escher					(DONE)
     6.10) hlink export
+    6.11) Comment import for XL97				(DONE)
 
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)

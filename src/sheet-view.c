@@ -83,8 +83,12 @@ sv_wbv (SheetView const *sv)
 static void
 sv_init_sc (SheetView const *sv, SheetControl *sc)
 {
+	CellPos initial;
+
+	sc_set_zoom_factor (sc);
+
 	/* set_panes will change the initial so cache it */
-	CellPos initial = sv->initial_top_left;
+	initial = sv->initial_top_left;
 	sc_set_panes (sc);
 
 	/* And this will restore it */

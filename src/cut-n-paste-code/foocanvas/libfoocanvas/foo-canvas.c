@@ -3103,8 +3103,8 @@ foo_canvas_set_pixels_per_unit (FooCanvas *canvas, double n)
 	cy = (canvas->layout.vadjustment->value + center_y) / canvas->pixels_per_unit + canvas->scroll_y1 + canvas->zoom_yofs;
 
 	/* Now calculate the new offset of the upper left corner. */
-	x1 = ((cx - canvas->scroll_x1) * n) - center_x;
-	y1 = ((cy - canvas->scroll_y1) * n) - center_y;
+	x1 = ((cx - canvas->scroll_x1) * n) - center_x + .5;
+	y1 = ((cy - canvas->scroll_y1) * n) - center_y + .5;
 
 	canvas->pixels_per_unit = n;
 

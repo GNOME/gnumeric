@@ -745,8 +745,8 @@ get_xtn_lens (guint32 *pre_len, guint32 *end_len, guint8 const *ptr, gboolean ex
 	}
 }
 
-static char *
-get_chars (char const *ptr, guint length, gboolean use_utf16)
+char *
+ms_biff_get_chars (char const *ptr, guint length, gboolean use_utf16)
 {
 	char* ans;
 	unsigned i;
@@ -838,7 +838,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 		g_warning ("Warning unterminated string floating.");
 	} else {
 		(*byte_length) += (use_utf16 ? 2 : 1)*length;
-		ans = get_chars ((char *) ptr, length, use_utf16);
+		ans = ms_biff_get_chars ((char *) ptr, length, use_utf16);
 	}
 	return ans;
 }
@@ -922,7 +922,7 @@ sst_read_string (char **output, BiffQuery *q, guint32 offset)
 		g_assert (get_len >= 0);
 
 		/* FIXME: split this simple bit out of here, it makes more sense damnit */
-		str = get_chars ((char *)(q->data + new_offset + pre_len), get_len, use_utf16);
+		str = ms_biff_get_chars ((char *)(q->data + new_offset + pre_len), get_len, use_utf16);
 		new_offset += pre_len + get_len * (use_utf16 ? 2 : 1);
 
 		if (!(*output))
@@ -2414,7 +2414,8 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 			cell_comment_author_set (CELL_COMMENT (obj->gnum_obj), author);
 			obj->comment_pos = pos;
 		} else {
-			g_warning ("DOH!");
+			/* hmm, how did this happen ? we should have seen
+			 * some escher records earlier */
 			cell_set_comment (esheet->sheet, &pos, author, NULL);
 		}
 		g_free (author);
@@ -3696,7 +3697,7 @@ excel_read_PANE (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 		sv_freeze_panes (sv, &frozen, &unfrozen);
 		sv_set_initial_top_left (sv, colLeft, rwTop);
 	} else {
-		g_warning ("EXCEL : no support for split panes yet");
+		g_warning ("EXCEL : no support for split panes yet (%s)", esheet->sheet->name_unquoted);
 	}
 }
 

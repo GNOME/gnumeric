@@ -3222,6 +3222,7 @@ cb_sort_descending (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 #include <goffice/graph/gog-guru.h>
 #include <goffice/graph/gog-data-allocator.h>
+#include <goffice/graph/gog-data-set.h>
 #include <sheet-object-graph.h>
 static void
 cb_add_graph (GogGraph *graph, gpointer wbcg)

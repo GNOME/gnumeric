@@ -262,10 +262,16 @@ atl_last_unlink (FunctionEvalInfo *ei)
 static const char *help_atl_last = {
         /* xgettext:no-c-format */
 	N_("@FUNCTION=atl_last\n"
-	   "@SYNTAX=atl_last(tag)\n"
+	   "@SYNTAX=ATL_LAST (tag)\n"
 	   "@DESCRIPTION="
+	   "ATL_LAST is a sample implemention of a real time data source. "
+	   "It takes a string tag and monitors the named pipe /tmp/atl "
+	   "for changes to the value of that tag.\n"
+	   "\n"
+	   "* This is no intended to be generally enabled and is OFF by default.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ATL_LAST(\"IBM\")"
 	   "\n"
 	   "@SEEALSO=")
 };

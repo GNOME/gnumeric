@@ -333,36 +333,26 @@ ms_read_TXO (BiffQuery *q)
 	g_return_val_if_fail (1 <= halign && halign <= 4, NULL);
 	g_return_val_if_fail (1 <= valign && valign <= 4, NULL);
 
-	text = g_new (char, text_len + 1);
-	text [0] = '\0';
-	if (ms_biff_query_peek_next (q, &peek_op) &&
-	    peek_op == BIFF_CONTINUE) {
-		guint8 *data;
-		int i, increment = 1;
-
+	if (ms_biff_query_peek_next (q, &peek_op) && peek_op == BIFF_CONTINUE) {
 		ms_biff_query_next (q);
-		increment = (GSF_LE_GET_GUINT8 (q->data)) ? 2 : 1;
-		data = q->data + 1;
 
-		/*
-		 * FIXME: Use biff_get_text or something ?
-		 */
-		if ((int)q->length < increment * text_len) {
-			g_free (text);
+		if ((int)q->length < text_len) {
+			g_warning ("Broken continue in TXO record");
 			text = g_strdup ("Broken continue");
-		} else {
-			for (i = 0; i < text_len ; ++i)
-				text [i] = data [i * increment];
-			text [text_len] = '\0';
-		}
+		} else
+			text = ms_biff_get_chars (q->data + 1, text_len,
+						  *(q->data) != 0);
 
 		if (ms_biff_query_peek_next (q, &peek_op) &&
 		    peek_op == BIFF_CONTINUE)
 			ms_biff_query_next (q);
 		else
 			g_warning ("Unusual, TXO text with no formatting has 0x%x @ 0x%x", peek_op, q->streamPos);
-	} else if (text_len > 0)
-		g_warning ("TXO len of %d but no continue", text_len);
+	} else {
+		if (text_len > 0)
+			g_warning ("TXO len of %d but no continue", text_len);
+		text = g_strdup ("");
+	}
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0) {

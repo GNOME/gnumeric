@@ -436,7 +436,8 @@ csv_tsv_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 		return (name != NULL &&
 		        (g_ascii_strcasecmp (name, "csv") == 0 ||
 			 g_ascii_strcasecmp (name, "tsv") == 0));
-	}
+	} else if (pl == FILE_PROBE_CONTENT)
+		return TRUE;
 	return FALSE;
 }
 
