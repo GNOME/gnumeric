@@ -1,3 +1,12 @@
+2000-04-30  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/workbook.c (workbook_new_with_sheets): Put a space there, to
+	avoid having "Sheet 1" and then "Sheet1" in the same workbook.
+
+2000-04-29  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/application.c (application_init): Oops.
+
 2000-04-29  Jody Goldberg <jgoldberg@home.com>
 	
 	* * : Convert 'Value' into a union of real types and allocate each

@@ -3092,7 +3092,7 @@ workbook_new_with_sheets (int sheet_count)
 
 	for (i = 1; i <= sheet_count; i++){
 		Sheet *sheet;
-		char *name = g_strdup_printf (_("Sheet%d"), i);
+		char *name = g_strdup_printf (_("Sheet %d"), i);
 
 		sheet = sheet_new (wb, name);
 		workbook_attach_sheet (wb, sheet);
