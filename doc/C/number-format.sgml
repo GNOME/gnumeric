@@ -57,16 +57,17 @@
       </screenshot>
     </figure>
     
-  <para>The main dialog is split into two list, a list of formatting
-    categories, and a list of formats in each category.</para>
+  <para>The page is split into two sections, a set of formatting
+  categories, and some convenience tools for manipulating the formats
+  in each category.</para>
 
-    <para>There is also a Sample output of what the new formatting should
-  look like, and the example of what the formatting code looks like.</para>
+  <para>There is also a Sample output of what the new formatting should look like.
+  <para>
 </sect2>    
 
 
 <sect2 id="changing-font">
-<title>Changing the Font</title>
+<title>Changing the Font or Font Color</title>
 
 <para>Any cell can use any font that is availble to Gnumeric. This 
 includes font attributes like bold, italics, etc as well as
@@ -115,34 +116,6 @@ tab. This will open the standard Gnome font selection dialog.</para>
 there are buttons on the toolbar for doing this quickly.
 See <xref linkend="number-format-bold-italics"></para>
 
-</sect2>
-
-<sect2>
-<title>Changing the cell's Color</title>
-
-<para>Any cell in gnumeric can be assigned a color
-for the text, the background, or the border. It is also
-possible to add a pattern to the background of the cell.
-FIXME: Setting the color and pattern for the background
-currently is not enabled.</para>
-
-<figure id="number-format-color-dialog">
-  <title>The cell color dialog.</title>
-    <screenshot>
-      <graphic fileref="images/number-format-color-dialog.jpg"></graphic>
-     </screenshot>
-</figure>
-
-<para>The <guilabel>Text color</guilabel> area is use to set an optional color
-for the cell contents. The default is to not assign a
-color to the cell and rely on the global defaults. To
-give a cells contents a color, select the 
-<guibutton>Use This Color</guibutton> and then click
-on the <guibutton>Color Selector Button</guibutton> to
-open the Gnome color dialog. Select a color and
-press <guibutton>Okay</guibutton> to return to the cell color dialog.
-</para>
-
 <procedure>
   <title>Changing a cell's text color</title>
  <step>
@@ -157,13 +130,29 @@ press <guibutton>Okay</guibutton> to return to the cell color dialog.
          the <guimenuitem>Cell Format</guimenuitem> menu option.</para>
    </step>
    <step>
-       <para>Select the <guilabel>Color </guilabel> tab in the dialog box notebook. This will open
+       <para>Select the <guilabel>Font </guilabel> tab in the dialog box notebook. This will open
        the font selection part of the dialog. See 
        <xref linkend="number-format-color-dialog"> for a look at the dialog.</para>
    </step>
    <step><para>TELL PEOPLE HOW TO USE THE COLOR PICKER HERE</para></step>
     <!--  FIXME FIXME FIXME -->
 </procedure>
+
+</sect2>
+
+<sect2>
+<title>Changing the cell's Background Colors and Patterns</title>
+
+<para>A cell in gnumeric can be assigned a solid background color, and an
+pattern with a potentially different colour.
+</para>
+
+<figure id="number-format-color-dialog">
+  <title>The cell color dialog.</title>
+    <screenshot>
+      <graphic fileref="images/number-format-color-dialog.jpg"></graphic>
+     </screenshot>
+</figure>
 
 <para>The <guilabel>background configuration</guilabel> includes
 options for setting the cells background to either a solid
@@ -178,11 +167,6 @@ click on the <guibutton>use a pattern</guibutton> button
 and select a pattern by clicking on the pattern the user wants.
 there is a solid black border that should outline the currently
 selected pattern. </para>
-
-<!-- fixme -->
-<para>Note: the background options are not implemented yet.</para>
-<!-- fixme -->
-</sect2>
 
 <sect2>
 <title>Cell content justification and alignment</title>
@@ -323,11 +307,81 @@ as needed. There are several justification options. See
 </sect1>
 
   
-<sect1><title>Number formatting expressions</title>
+<sect1><title>Number formatting overview</title>
     <para>The number formatting engine in Gnumeric is very powerful: it
-      can be used to display numbers in various format as well as
+      can be used to display numbers in various formats as well as
       providing the user with the ability to specify colors based on
-      various conditions.</para>
+      various simple conditions.</para>
+
+  <para> <xref linkend="number-format-list"> The available catagories of
+  pre-defined formats are :
+  <example id="formula-format-overview">
+    <programlisting>
+  General		A swiss army knife of a format.  It will attempt
+                        to display a value it the 'best' way possible.
+			The choice of format depends on the size of the cell
+			and gnumeric's estimate of what 'type' of value is
+			being displayed (number, date, time ...).
+
+  Number		Displays numbers with 0-30 digits after the decimal
+			place.  Negatives can be displayed normally, within
+			parenthises, or turning Red.  Optionally a delimiter
+			can be added every third order of magnitude (thousand,
+			million, ...).  Both the decimal point and the
+			thousands seperator have internationalization support.
+
+  Currency		Is very similar to Number, with the addition of a
+			currency symbol.  Currently known symbols include '$'
+			and the three letter abreviations of a ll major
+			currencies.
+
+  Accounting		A specialization of Currency which pays more attention
+			to the alignment of negative numbers.  It ensures that
+			A small amount of space is prepended to positive
+			numbers so that that align with negatives.
+			ie
+			    ' 600.123 ' : Note the spaces for the positive number
+			    '-500.456 ' : in 1 format for negatives.
+			    '(500.456)' : in another.
+
+  Date			The various permutations and combinations of
+			predefined date representations big to expose the
+			underlying format specification language
+			<xref linkend="format-specification-language">.
+			The short version is that years can be 2 or 4 digit
+			(yy or yyyy).  Months can be as many digits as needed
+			(m), always 2 digits (mm), or as the short form (mmm).
+			Days can be as many digits as needed (d) or two digits
+			(dd).  The various other characters offer a choice of
+			seperators.
+
+  Time			As with dates predefined time formats are selected
+			using their specification.  Hours (h), minutes (mm),
+			seconds (ss).  Sometimes it is necessary to display
+			more than 24 hours, or more that 60 minutes/seconds
+			without the values incrementing the display unit of
+			the next larger measure (ie 25 hours instead of 1day +
+			1hour).  For that instance you can use '[h]', '[m]' or
+			'[s]'.
+
+  Percentage		Multiplies a value by 100 and appends a percent.
+			Can be used with 0-30 digits after the decimal place.
+
+  Scientific		Formats the value using scientific notation
+			and 0-30 digits after the decimal place.  No provision
+			for controling the exponent are provided at this time.
+
+  Text			Treats numeric values as text.  This will show a
+			number with as much precision as available and will
+			lose knowledge of whether it represented a date, or
+			time.
+
+  Custom		This provides a list of the format specifications for
+			all predefined formats and allows a user to enter
+			create new specialized types.
+	</programlisting>
+    </example>
+  </para>
 
   <para> <xref linkend="formula-example-1"> is an example of some of 
       the many variations of formatting one can apply to a number with 
@@ -337,21 +391,21 @@ as needed. There are several justification options. See
     <title>Some examples of number formatting</title>
     <programlisting>
       
-      For the number 600
+      For the number 600.123
       
       Numbers
-         General:                                           600.12
-             0.0:                                           600.1
+         General:                                           '600.123'
+             0.0:                                           '600.1'
       Accounting
-          _($*#,##0_);_($*(#,##0);_($*"-"_);_(@_)           $600
-          _($*#,##0.00_);_($*(#,##0.00);_($*"-"??_);_(@_)   $600.12
+          _($*#,##0_);_($*(#,##0);_($*"-"_);_(@_)           ' $600 '
+          _($*#,##0.00_);_($*(#,##0.00);_($*"-"??_);_(@_)   ' $600.12 '
       Scientific
-           0.00E+00                                         600.123
+           0.000E+00                                        '600.123'
       
-    </programlisting>
-      </example>
-      
-  </sect1>
+	</programlisting>
+    </example>
+
+</sect1>
 
 <sect1>
 <title>Date and Time formatting</title>

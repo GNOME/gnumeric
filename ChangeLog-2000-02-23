@@ -1,5 +1,10 @@
 1999-11-11  Jody Goldberg <jgoldberg@home.com>
 
+	* doc/C/images/{number-format-dialog.jpg,
+			number-format-justification-dialog-2.jpg,
+			number-format-color-dialog-2.jpg) : Update.
+	* doc/C/number-format.sgml : Update.
+
 	* src/sheet-object-bonobo.c (sheet_object_bonobo_load) :
 	  The client_site is created in the initializer.
 
