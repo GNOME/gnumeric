@@ -23884,7 +23884,7 @@ msgstr "De forente arabiske emirater, dirham"
 
 #: src/formats.c:392
 msgid "Afghanistan, Afghanis"
-msgstr "Afghanistanske, afghani"
+msgstr "Afghanske, afghani"
 
 #: src/formats.c:393
 msgid "Albania, Leke"
@@ -28532,6 +28532,3 @@ msgstr "Feil under lagring av fil"
 #: src/xml-io.c:4254
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
-
-#~ msgid "Invalid password"
-#~ msgstr "Ugyldig passord"
