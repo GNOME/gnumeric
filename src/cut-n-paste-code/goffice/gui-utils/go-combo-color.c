@@ -127,13 +127,22 @@ cb_palette_color_changed (ColorPalette *P, GdkColor *color,
 }
 
 static void
-preview_clicked (GtkWidget *button, ColorCombo *cc)
+apply_current_color (ColorCombo *cc)
 {
 	gboolean is_default;
 	GdkColor *color = color_palette_get_current_color (cc->palette, &is_default);
 	emit_color_changed (cc, color, FALSE, TRUE, is_default);
 	if (color)
 		gdk_color_free (color);
+}
+
+static void
+preview_clicked (GtkWidget *button, ColorCombo *cc)
+{
+	if (cc->instant_apply)
+		apply_current_color (cc);
+	else
+		gtk_combo_box_popup_display (GTK_COMBO_BOX (cc));
 }
 
 static void
@@ -251,6 +260,7 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 	color = color_palette_get_current_color (cc->palette, NULL);
 	color_combo_set_color_internal (cc, color);
 	if (color) gdk_color_free (color);
+	cc->instant_apply = TRUE;
 }
 
 /* color_combo_get_color:
@@ -260,6 +270,9 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 GdkColor *
 color_combo_get_color (ColorCombo *cc, gboolean *is_default)
 {
+	g_return_if_fail (cc != NULL);
+	g_return_if_fail (IS_COLOR_COMBO (cc));
+
 	return color_palette_get_current_color (cc->palette, is_default);
 }
 
@@ -274,6 +287,10 @@ color_combo_get_color (ColorCombo *cc, gboolean *is_default)
 void
 color_combo_set_color (ColorCombo *cc, GdkColor *color)
 {
+	g_return_if_fail (cc != NULL);
+	g_return_if_fail (IS_COLOR_COMBO (cc));
+
+	
 	/* This will change the color on the palette than it will invoke
 	 * cb_palette_color_changed which will call emit_color_changed and
 	 * set_color_internal which will change the color on our preview and
@@ -286,6 +303,24 @@ color_combo_set_color (ColorCombo *cc, GdkColor *color)
 }
 
 /**
+ * color_combo_set_instant_apply
+ * @cc     The combo
+ * @active Whether instant apply should be active or not
+ *
+ * Turn instant apply behaviour on or off. Instant apply means that pressing
+ * the button applies the current color. When off, pressing the button opens
+ * the combo.
+ */
+void
+color_combo_set_instant_apply (ColorCombo *cc, gboolean active)
+{
+	g_return_if_fail (cc != NULL);
+	g_return_if_fail (IS_COLOR_COMBO (cc));
+
+	cc->instant_apply = active;
+}
+
+/**
  * color_combo_set_color_to_default
  * @cc  The combo
  *
@@ -295,6 +330,9 @@ color_combo_set_color (ColorCombo *cc, GdkColor *color)
 void
 color_combo_set_color_to_default (ColorCombo *cc)
 {
+	g_return_if_fail (cc != NULL);
+	g_return_if_fail (IS_COLOR_COMBO (cc));
+
 	color_palette_set_color_to_default (cc->palette);
 }
 

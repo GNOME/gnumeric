@@ -1,5 +1,3 @@
-/* File import from gal to gnumeric by import-gal.  Do not edit.  */
-
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gtk-combo-box.h - a customizable combobox
@@ -28,9 +26,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define GTK_COMBO_BOX_TYPE          (gtk_combo_box_get_type())
 #define GTK_COMBO_BOX(obj)	    G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_combo_box_get_type (), GtkComboBox)
@@ -64,30 +60,32 @@ struct _GtkComboBoxClass {
 	void      (*post_pop_hide)    (GtkComboBox *cbox);
 };
 
+/* public */
 GtkType    gtk_combo_box_get_type    (void);
 void       gtk_combo_box_construct   (GtkComboBox *combo_box,
 				      GtkWidget   *display_widget,
 				      GtkWidget   *optional_pop_down_widget);
-void       gtk_combo_box_get_pos     (GtkComboBox *combo_box, int *x, int *y);
-
 GtkWidget *gtk_combo_box_new         (GtkWidget *display_widget,
 				      GtkWidget *optional_pop_down_widget);
-void       gtk_combo_box_popup_hide  (GtkComboBox *combo_box);
-
-void       gtk_combo_box_set_display (GtkComboBox *combo_box,
-				      GtkWidget *display_widget);
-
 void       gtk_combo_box_set_title   (GtkComboBox *combo,
 				      const gchar *title);
-
 void       gtk_combo_box_set_tearable        (GtkComboBox *combo,
 					      gboolean tearable);
 void       gtk_combo_box_set_arrow_sensitive (GtkComboBox *combo,
 					      gboolean sensitive);
 void       gtk_combo_box_set_arrow_relief    (GtkComboBox *cc,
 					      GtkReliefStyle relief);
-#ifdef __cplusplus
-};
-#endif /* __cplusplus */
+
+/* protected */
+void       gtk_combo_box_get_pos     (GtkComboBox *combo_box, int *x, int *y);
+
+void       gtk_combo_box_popup_hide  (GtkComboBox *combo_box);
+
+void       gtk_combo_box_popup_display (GtkComboBox *combo_box);
+
+void       gtk_combo_box_set_display (GtkComboBox *combo_box,
+				      GtkWidget *display_widget);
+
+G_END_DECLS
 
 #endif /* _GTK_COMBO_BOX_H_ */

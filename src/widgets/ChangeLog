@@ -1,3 +1,20 @@
+2003-06-13  Jon K Hellan  <hellan@acm.org>
+
+	* widget-color-combo.c (apply_current_color): New
+	function. Contains meat of previous version of preview_clicked.
+	(preview_clicked): Make behaviour depend on instant_apply toggle.
+	(color_combo_construct): Initialize instant_apply.
+	(color_combo_set_instant_apply): New function. Turn instant apply
+	behaviour on or off.
+	(color_combo_get_color, color_combo_set_color,
+	color_combo_set_color_to_default): Add preconditions.
+
+	* widget-color-combo.h (struct _ColorCombo): Remove unused
+	'trigger' member. Add 'instant_apply' member.
+
+	* gtk-combo-box.[ch]: Export gtk_combo_box_popup_display - mark it
+	protected. Mark other protected methods as such as well.
+
 2003-06-13  Jody Goldberg <jody@gnome.org>
 
 	* color-palette.c : include string.h to suppress warning

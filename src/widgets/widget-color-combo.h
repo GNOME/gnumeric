@@ -53,7 +53,7 @@ typedef struct _ColorCombo {
 
 	GdkColor  default_color_save;
         GdkColor *default_color;
-	gboolean  trigger;
+	gboolean  instant_apply;
 } ColorCombo;
 
 typedef struct {
@@ -80,6 +80,7 @@ void       color_combo_set_color_to_default (ColorCombo *cc);
 GdkColor  *color_combo_get_color  (ColorCombo  *cc, gboolean *is_default);
 
 void       color_combo_box_set_preview_relief (ColorCombo *cc, GtkReliefStyle relief);
+void       color_combo_set_instant_apply (ColorCombo *cc, gboolean active);
 
 G_END_DECLS
 

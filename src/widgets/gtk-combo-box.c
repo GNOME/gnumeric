@@ -1,5 +1,3 @@
-/* File import from gal to gnumeric by import-gal.  Do not edit.  */
-
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gtk-combo-box.c - a customizable combobox
@@ -237,7 +235,7 @@ gtk_combo_box_popup_hide_unconditional (GtkComboBox *combo_box)
  * This is the external interface - for subclasses and apps which expect a
  * regular combo which doesn't do tearoffs.
  */
-void
+/* protected */ void
 gtk_combo_box_popup_hide (GtkComboBox *combo_box)
 {
 	if (!combo_box->priv->torn_off)
@@ -253,7 +251,7 @@ gtk_combo_box_popup_hide (GtkComboBox *combo_box)
 /*
  * Find best location for displaying
  */
-void
+/* protected */ void
 gtk_combo_box_get_pos (GtkComboBox *combo_box, int *x, int *y)
 {
 	GtkWidget *wcombo = GTK_WIDGET (combo_box);
@@ -273,7 +271,7 @@ gtk_combo_box_get_pos (GtkComboBox *combo_box, int *x, int *y)
 		*x = gdk_screen_width () - pw;
 }
 
-static void
+/* protected */ void
 gtk_combo_box_popup_display (GtkComboBox *combo_box)
 {
 	int x, y;
@@ -454,7 +452,7 @@ GSF_CLASS(GtkComboBox,gtk_combo_box,gtk_combo_box_class_init,gtk_combo_box_init,
 
  * Sets the displayed widget for the @combo_box to be @display_widget
  */
-void
+/* protected */ void
 gtk_combo_box_set_display (GtkComboBox *combo_box, GtkWidget *display_widget)
 {
 	g_return_if_fail (combo_box != NULL);
