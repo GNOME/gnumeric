@@ -1,3 +1,8 @@
+2002-03-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.glade: Added `automatic scaling' and `show iteration
+	results' buttons.  Added `max iterations' and `max time' buttons.
+
 2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-sheet-order.c (dialog_sheet_order) : some
