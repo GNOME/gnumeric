@@ -44,10 +44,9 @@ gnumeric_sheet_create (Sheet *sheet, GtkWidget *entry)
 	gsheet = gtk_type_new (gnumeric_sheet_get_type ());
 	canvas = GNOME_CANVAS (gsheet);
 
-	canvas->visual = gtk_widget_get_default_visual ();
-	canvas->colormap = gtk_widget_get_default_colormap ();
-	canvas->cc   = gdk_color_context_new (canvas->visual, canvas->colormap);
-	canvas->root = gnome_canvas_group_new (canvas);
+	gnome_canvas_construct (canvas,
+				gtk_widget_get_default_visual (),
+				gtk_widget_get_default_colormap ());
 	
 	gsheet->sheet   = sheet;
 	gsheet->top_col = 0;

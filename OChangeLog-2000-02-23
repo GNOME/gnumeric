@@ -1,3 +1,19 @@
+1998-07-14  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_create): Use
+	gnome_canvas_construct() to initialize the canvas.
+
+	* src/item-bar.c (get_col_name): Fixed generation of column names.
+	(get_row_name): Rows are numbered from 1, not 0.  Also, assert
+	that the row number is less than 65536.
+	(item_bar_event): Grab/ungrab the mouse on button press/release.
+	(item_bar_event): On motion_notify, only call set_cursor() if we
+	are not resizing.
+	(item_bar_event): Only take care of enter_notify events if we are
+	not resizing.
+
+	* po/es.po configure.in: Added Spanish translation.
+
 1998-07-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/item-bar.c (item_bar_event): Do world->canvas cordinate

@@ -103,7 +103,9 @@ get_row_name (int n)
 {
 	static char x [32];
 
-	sprintf (x, "%d", n);
+	g_assert (n < 65536);
+
+	sprintf (x, "%d", n + 1);
 	return x;
 }
 
@@ -114,12 +116,12 @@ get_col_name (int n)
 
 	g_assert (n < 256);
 	
-	if (n < 'z'-'a'){
+	if (n <= 'z'-'a') {
 		x [0] = n + 'A';
 		x [1] = 0;
 	} else {
-		x [0] = (n / ('z'-'a')) + 'A';
-		x [1] = (n % ('z'-'a')) + 'A';
+		x [0] = (n / ('z'-'a'+1) - 1) + 'A';
+		x [1] = (n % ('z'-'a'+1)) + 'A';
 		x [2] = 0;
 	}
 	return x;
@@ -150,7 +152,6 @@ bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ColRowInfo *info, char 
 	gdk_draw_string (drawable, font, item_bar->gc, x1 + ((x2 - x1)-len)/2,
 			 y2 - (y2 - y1)/2 + texth/2 - 1,
 			 str);
-			 
 }
 
 static void
@@ -305,15 +306,20 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	GnomeCanvas *canvas = item->canvas;
 	ItemBar *item_bar = ITEM_BAR (item);
 	int pos, start, ele, x, y;
+	int resizing;
+
+	resizing = ITEM_BAR_RESIZING (item_bar);
 	
 	switch (e->type){
 	case GDK_ENTER_NOTIFY:
-		convert (canvas, e->crossing.x, e->crossing.y, &x, &y);
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
-			pos = y;
-		else
-			pos = x;
-		set_cursor (item_bar, pos);
+		if (!resizing) {
+			convert (canvas, e->crossing.x, e->crossing.y, &x, &y);
+			if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+				pos = y;
+			else
+				pos = x;
+			set_cursor (item_bar, pos);
+		}
 		break;
 		
 	case GDK_MOTION_NOTIFY:
@@ -324,7 +330,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			pos = x;
 
 		/* Do column resizing or incremental marking */
-		if (ITEM_BAR_RESIZING (item_bar)){
+		if (resizing){
 			int npos;
 
 			npos = pos - item_bar->resize_start_pos;
@@ -335,8 +341,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 					0, 0, INT_MAX, INT_MAX);
 			}
 		} else {
+			set_cursor (item_bar, pos);
 		}
-		set_cursor (item_bar, pos);
 		break;
 
 	case GDK_BUTTON_PRESS:
@@ -354,6 +360,12 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			item_bar->resize_width = cri->pixels;
 
 			item_bar_start_resize (item_bar, pos);
+			gdk_pointer_grab (GTK_WIDGET (canvas)->window,
+					  FALSE,
+					  GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+					  NULL,
+					  NULL,
+					  e->button.time);
 		} else {
 			gtk_signal_emit (GTK_OBJECT (item),
 					 item_bar_signals [SELECTION_CHANGED],
@@ -362,13 +374,14 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 
 	case GDK_BUTTON_RELEASE:
-		if (ITEM_BAR_RESIZING (item_bar)){
+		if (resizing){
 			gtk_signal_emit (GTK_OBJECT (item),
 					 item_bar_signals [SIZE_CHANGED],
 					 item_bar->resize_pos,
 					 item_bar->resize_width);
 			item_bar->resize_pos = -1;
 			gtk_object_destroy (item_bar->resize_guide);
+			gdk_pointer_ungrab (e->button.time);
 		} 
 	default:
 		return FALSE;
@@ -469,6 +482,7 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 				      LAST_SIGNAL);
 	
 	/* Method overrides */
+	object_class->destroy = item_bar_destroy;
 	object_class->set_arg = item_bar_set_arg;
 
 	/* GnomeCanvasItem method overrides */
