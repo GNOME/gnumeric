@@ -258,7 +258,7 @@ know we are in UTF-8 mode. */
 
 #define GETCHARINCTEST(c, eptr) \
   c = *eptr++; \
-  if (md->utf8 && (c & 0xc0) == 0xc0) \
+  if (1 /* md->utf8 */ && (c & 0xc0) == 0xc0) \
     { \
     int gcaa = utf8_table4[c & 0x3f];  /* Number of additional bytes */ \
     int gcss = 6*gcaa; \
@@ -5620,7 +5620,7 @@ for (;;)
       be "non-word" characters. */
 
 #ifdef SUPPORT_UTF8
-      if (md->utf8)
+      if (1 /* md->utf8 */)
         {
         if (eptr == md->start_subject) prev_is_word = FALSE; else
           {
@@ -5662,7 +5662,7 @@ for (;;)
       return MATCH_NOMATCH;
     if (eptr++ >= md->end_subject) return MATCH_NOMATCH;
 #ifdef SUPPORT_UTF8
-    if (md->utf8)
+    if (1 /* md->utf8 */)
       while (eptr < md->end_subject && (*eptr & 0xc0) == 0x80) eptr++;
 #endif
     ecode++;
@@ -5915,7 +5915,7 @@ for (;;)
 
 #ifdef SUPPORT_UTF8
       /* UTF-8 mode */
-      if (md->utf8)
+      if (1 /* md->utf8 */)
         {
         for (i = 1; i <= min; i++)
           {
@@ -5955,7 +5955,7 @@ for (;;)
         {
 #ifdef SUPPORT_UTF8
         /* UTF-8 mode */
-        if (md->utf8)
+        if (1 /* md->utf8 */)
           {
           for (i = min;; i++)
             {
@@ -5997,7 +5997,7 @@ for (;;)
 
 #ifdef SUPPORT_UTF8
         /* UTF-8 mode */
-        if (md->utf8)
+        if (1 /* md->utf8 */)
           {
           for (i = min; i < max; i++)
             {
@@ -6206,7 +6206,7 @@ for (;;)
 
     REPEATCHAR:
 #ifdef SUPPORT_UTF8
-    if (md->utf8)
+    if (1 /* md->utf8 */)
       {
       int len = 1;
       const uschar *charptr = ecode;
@@ -6432,7 +6432,7 @@ for (;;)
 
 #ifdef SUPPORT_UTF8
       /* UTF-8 mode */
-      if (md->utf8)
+      if (1 /* md->utf8 */)
         {
         register int d;
         for (i = 1; i <= min; i++)
@@ -6457,7 +6457,7 @@ for (;;)
         {
 #ifdef SUPPORT_UTF8
         /* UTF-8 mode */
-        if (md->utf8)
+        if (1 /* md->utf8 */)
           {
           register int d;
           for (i = min;; i++)
@@ -6493,7 +6493,7 @@ for (;;)
 
 #ifdef SUPPORT_UTF8
         /* UTF-8 mode */
-        if (md->utf8)
+        if (1 /* md->utf8 */)
           {
           register int d;
           for (i = min; i < max; i++)
@@ -6541,7 +6541,7 @@ for (;;)
       {
 #ifdef SUPPORT_UTF8
       /* UTF-8 mode */
-      if (md->utf8)
+      if (1 /* md->utf8 */)
         {
         register int d;
         for (i = 1; i <= min; i++)
@@ -6564,7 +6564,7 @@ for (;;)
         {
 #ifdef SUPPORT_UTF8
         /* UTF-8 mode */
-        if (md->utf8)
+        if (1 /* md->utf8 */)
           {
           register int d;
           for (i = min;; i++)
@@ -6599,7 +6599,7 @@ for (;;)
 
 #ifdef SUPPORT_UTF8
         /* UTF-8 mode */
-        if (md->utf8)
+        if (1 /* md->utf8 */)
           {
           register int d;
           for (i = min; i < max; i++)
@@ -6688,7 +6688,7 @@ for (;;)
     if (min > 0)
       {
 #ifdef SUPPORT_UTF8
-      if (md->utf8) switch(ctype)
+      if (1 /* md->utf8 */) switch(ctype)
         {
         case OP_ANY:
         for (i = 1; i <= min; i++)
@@ -6829,7 +6829,7 @@ for (;;)
       {
 #ifdef SUPPORT_UTF8
       /* UTF-8 mode */
-      if (md->utf8)
+      if (1 /* md->utf8 */)
         {
         for (i = min;; i++)
           {
@@ -6938,7 +6938,7 @@ for (;;)
 #ifdef SUPPORT_UTF8
       /* UTF-8 mode */
 
-      if (md->utf8)
+      if (1 /* md->utf8 */)
         {
         switch(ctype)
           {
