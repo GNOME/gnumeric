@@ -1087,7 +1087,7 @@ write_fonts (BiffPut *bp, ExcelWorkbook *wb)
  * format is added. Free resources when it was already there.
  **/
 static void
-after_put_format (char *format, gboolean was_added, gint index,
+after_put_format (StyleFormat *format, gboolean was_added, gint index,
 		  const char *tmpl)
 {
 	if (was_added) {
@@ -1097,7 +1097,7 @@ after_put_format (char *format, gboolean was_added, gint index,
 		}
 #endif
 	} else {
-		g_free (format);
+		style_format_unref (format);
 	}
 }
 
@@ -1115,7 +1115,7 @@ formats_put_magic (ExcelWorkbook *wb)
 		if (!fmt || strlen (fmt) == 0)
 			fmt = "General";
 		two_way_table_put (wb->formats->two_way_table,
-				   g_strdup (fmt),
+				   style_format_new_XL (fmt, FALSE),
 				   FALSE, /* Not unique */
 				   (AfterPutFunc) after_put_format,
 				   "Magic format %d - %s\n");

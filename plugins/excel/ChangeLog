@@ -1,3 +1,9 @@
+2000-08-23  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (formats_put_magic) : Fixups after changes to
+	  format tables.  We need to store a StyleFormat, not a string.
+	(after_put_format) : unref rather than free.
+
 2000-08-21  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-write.c (formats_init) : The format table nows stores
