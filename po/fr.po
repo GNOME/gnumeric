@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.64\n"
-"POT-Creation-Date: 2001-03-17 00:52-0500\n"
-"PO-Revision-Date: 2001-02-27 11:41+0100\n"
+"POT-Creation-Date: 2001-03-18 20:26+0100\n"
+"PO-Revision-Date: 2001-03-18 19:53+0100\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@eikonex.org>\n"
 "Language-Team: GNOME French Team <gnomefr@gnomefr.traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -49,34 +49,34 @@ msgstr "Format Excel(R) 97"
 msgid "Excel(R) 95 file format"
 msgstr "Format Excel(R) 95"
 
-#: plugins/excel/ms-excel-read.c:433
+#: plugins/excel/ms-excel-read.c:434
 msgid "#UNKNOWN!"
 msgstr "#INCONNU !"
 
-#: plugins/excel/ms-excel-read.c:604 plugins/lotus-123/lotus.c:196
+#: plugins/excel/ms-excel-read.c:605 plugins/lotus-123/lotus.c:196
 #: plugins/oleo/oleo.c:46
 #, c-format
 msgid "Sheet%d"
 msgstr "Feuille %d"
 
-#: plugins/excel/ms-excel-read.c:3925
+#: plugins/excel/ms-excel-read.c:3917
 msgid "No book or workbook streams found."
 msgstr "Aucun flux de livre ou classeur trouvée."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4219
+#: plugins/excel/ms-excel-read.c:4211
 msgid "Password protected workbooks are not supported yet."
 msgstr "Les classeurs protégés par mot de passe ne sont pas encore supportés."
 
-#: plugins/excel/ms-excel-read.c:4340
+#: plugins/excel/ms-excel-read.c:4332
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Incapable de trouver un classeur MS Excel valide"
 
-#: plugins/excel/ms-excel-write.c:3500
+#: plugins/excel/ms-excel-write.c:3501
 msgid "Too many rows for this format"
 msgstr "Beaucoup trop de rangées pour ce format"
 
-#: plugins/excel/ms-excel-write.c:3584
+#: plugins/excel/ms-excel-write.c:3585
 msgid "Can't open stream for writing\n"
 msgstr "Ne peut ouvrir le flux pour l'écriture\n"
 
@@ -518,11 +518,11 @@ msgstr "Erreur : pas de feuille"
 msgid "Error while opening xbase file."
 msgstr "Erreur lors de la fermeture du fichier, erreur : %s"
 
-#: plugins/xml2/xml2.c:1556
+#: plugins/xml2/xml2.c:1558
 msgid "xmlCreateFileParserCtxt() failed."
 msgstr ""
 
-#: plugins/xml2/xml2.c:1567
+#: plugins/xml2/xml2.c:1569
 msgid "XML document not well formed!"
 msgstr "Document XML pas bien formé !"
 
@@ -959,7 +959,7 @@ msgstr "% cumulatif"
 msgid "Error '%s' opening workbook stream"
 msgstr ""
 
-#: src/bonobo-io.c:472 src/xml-io-autoft.c:427 src/xml-io.c:3256
+#: src/bonobo-io.c:472 src/xml-io-autoft.c:427 src/xml-io.c:3244
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Fichier xml non valide. L'arbre est-il vide ?"
 
@@ -1086,7 +1086,7 @@ msgstr "Annuler Vider"
 
 #. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1140 src/sheet.c:2405
+#: src/commands.c:1140 src/sheet.c:2440
 msgid "Clear"
 msgstr "Vider"
 
@@ -3088,11 +3088,11 @@ msgstr "Liste de greffons"
 msgid "Plugin details"
 msgstr "Détails du greffon"
 
-#: src/dialogs/dialog-printer-setup.c:966
+#: src/dialogs/dialog-printer-setup.c:967
 msgid "Custom header configuration"
 msgstr "Configuration personnalisée du haut de page"
 
-#: src/dialogs/dialog-printer-setup.c:978
+#: src/dialogs/dialog-printer-setup.c:979
 msgid "Custom footer configuration"
 msgstr "Configuration personnalisée du pied de page"
 
@@ -3216,7 +3216,7 @@ msgstr "Virgule (,)"
 
 #: src/dialogs/dialog-stf-export.glade.h:15
 #: src/dialogs/dialog-stf-format-page.c:174
-#: src/dialogs/dialog-stf-format-page.c:390 src/dialogs/validate.glade.h:4
+#: src/dialogs/dialog-stf-format-page.c:390 src/dialogs/validate.glade.h:6
 msgid "Custom"
 msgstr "Personnalisé"
 
@@ -3853,7 +3853,7 @@ msgstr "Haut de page"
 msgid "Headers and footers"
 msgstr "Haut et Pied de pages"
 
-#: src/dialogs/print.glade.h:12 src/print-info.c:445
+#: src/dialogs/print.glade.h:12 src/print-info.c:427
 msgid "In"
 msgstr "In"
 
@@ -3890,7 +3890,7 @@ msgstr "Imprimer"
 msgid "Print _area:"
 msgstr "Région _à imprimer :"
 
-#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:146 src/print.c:1244
+#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:146 src/print.c:1239
 msgid "Print preview"
 msgstr "Aperçu avant impression"
 
@@ -3911,7 +3911,7 @@ msgid "Scale"
 msgstr "Échelle"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:135
-#: src/workbook.c:958 src/xml-io.c:2945
+#: src/workbook.c:958 src/xml-io.c:2933
 msgid "Sheet"
 msgstr "Feuille"
 
@@ -3989,11 +3989,11 @@ msgid "_Vertically"
 msgstr "_Verticalement"
 
 #. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:46 src/print-info.c:444
+#: src/dialogs/print.glade.h:46 src/print-info.c:426
 msgid "cm"
 msgstr "cm"
 
-#: src/dialogs/print.glade.h:47 src/print-info.c:443
+#: src/dialogs/print.glade.h:47 src/print-info.c:425
 msgid "mm"
 msgstr "mm"
 
@@ -4001,7 +4001,7 @@ msgstr "mm"
 msgid "page(s) wide by"
 msgstr "page(s) large par"
 
-#: src/dialogs/print.glade.h:49 src/print-info.c:442
+#: src/dialogs/print.glade.h:49 src/print-info.c:424
 msgid "pts"
 msgstr "pts"
 
@@ -4389,163 +4389,177 @@ msgid "Title"
 msgstr "Titre"
 
 #: src/dialogs/validate.glade.h:1
+msgid "A blank cell will be seen as valid"
+msgstr ""
+
+#: src/dialogs/validate.glade.h:2
+#, fuzzy
+msgid "Ac_tion :"
+msgstr "Action"
+
+#: src/dialogs/validate.glade.h:3
 #, fuzzy
 msgid "Any Value"
 msgstr "Valeur p"
 
-#: src/dialogs/validate.glade.h:2
-msgid "Apply these _changes to other cells with the same settings"
+#: src/dialogs/validate.glade.h:4
+msgid "Apply these changes to _other cells with the same settings"
 msgstr ""
 
-#: src/dialogs/validate.glade.h:3
+#: src/dialogs/validate.glade.h:5
 #, fuzzy
 msgid "Clear All"
 msgstr "_Tout effacer"
 
-#: src/dialogs/validate.glade.h:5
+#: src/dialogs/validate.glade.h:7
 msgid "Date"
 msgstr "Date"
 
-#: src/dialogs/validate.glade.h:6
+#: src/dialogs/validate.glade.h:8
 msgid "Decimal"
 msgstr "Décimal"
 
-#: src/dialogs/validate.glade.h:7
+#: src/dialogs/validate.glade.h:9
+msgid "Give the cell a dropdown combo with all possible valid values"
+msgstr ""
+
+#: src/dialogs/validate.glade.h:10
 #, fuzzy
 msgid "Gnumeric: Input Validation"
 msgstr "plugins Gnumeric"
 
-#: src/dialogs/validate.glade.h:8
-msgid "Ignore blank"
+#: src/dialogs/validate.glade.h:11
+#, fuzzy
+msgid "Ignore _blank"
 msgstr "Ignorer les blancs"
 
-#: src/dialogs/validate.glade.h:9 src/functions/fn-information.c:857
+#: src/dialogs/validate.glade.h:12
+msgid "In-cell _dropdown"
+msgstr ""
+
+#: src/dialogs/validate.glade.h:13 src/functions/fn-information.c:857
 msgid "Information"
 msgstr "Information"
 
-#: src/dialogs/validate.glade.h:10
+#: src/dialogs/validate.glade.h:14
 #, fuzzy
 msgid "Input _Message :"
 msgstr "_Message d'entrée"
 
-#: src/dialogs/validate.glade.h:11 src/gnumeric.xml.h:116
+#: src/dialogs/validate.glade.h:15 src/gnumeric.xml.h:116
 #: src/workbook-object-toolbar.c:144
 msgid "List"
 msgstr "Liste"
 
-#: src/dialogs/validate.glade.h:12
-#, fuzzy
-msgid "St_yle :"
-msgstr "St_yle :"
-
-#: src/dialogs/validate.glade.h:13
-msgid "Stop"
-msgstr "Stop"
-
-#: src/dialogs/validate.glade.h:14
-msgid "Text length"
-msgstr ""
-
-#: src/dialogs/validate.glade.h:15
-msgid "Time"
-msgstr "Heure"
-
 #: src/dialogs/validate.glade.h:16
-msgid "Validation criteria"
-msgstr ""
+#, fuzzy
+msgid "Messa_ge :"
+msgstr "Message"
 
 #: src/dialogs/validate.glade.h:17
-msgid "Warning"
-msgstr "Avertissement"
+msgid "S_how error alert after invalid data is entered"
+msgstr ""
 
 #: src/dialogs/validate.glade.h:18
-msgid "Whole numbers"
+msgid "Show input _message when cell is selected"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:19
+msgid "Stop"
+msgstr "Stop"
+
+#: src/dialogs/validate.glade.h:20
+msgid "Text length"
+msgstr ""
+
+#: src/dialogs/validate.glade.h:21
+msgid "Time"
+msgstr "Heure"
+
+#: src/dialogs/validate.glade.h:22
+#, fuzzy
+msgid "Tit_le :"
+msgstr "_Titre :"
+
+#: src/dialogs/validate.glade.h:23
+msgid "Validation criteria"
+msgstr ""
+
+#: src/dialogs/validate.glade.h:24
+msgid "Warning"
+msgstr "Avertissement"
+
+#: src/dialogs/validate.glade.h:25
+msgid "Whole numbers"
+msgstr ""
+
+#: src/dialogs/validate.glade.h:26
 #, fuzzy
 msgid "_Allow :"
 msgstr "_Permettre :"
 
-#: src/dialogs/validate.glade.h:20
+#: src/dialogs/validate.glade.h:27
 #, fuzzy
 msgid "_Condition :"
 msgstr "_Deux points (:)"
 
-#: src/dialogs/validate.glade.h:21
+#: src/dialogs/validate.glade.h:28
 msgid "_Error Alert"
 msgstr ""
 
-#: src/dialogs/validate.glade.h:22
-#, fuzzy
-msgid "_Error message :"
-msgstr "Message d'erreur Gnumeric"
-
-#: src/dialogs/validate.glade.h:23
-msgid "_In-cell dropdown"
-msgstr ""
-
-#: src/dialogs/validate.glade.h:24
+#: src/dialogs/validate.glade.h:29
 #, fuzzy
 msgid "_Input Message"
 msgstr "_Intervalle d'entrée :"
 
-#: src/dialogs/validate.glade.h:25
+#: src/dialogs/validate.glade.h:30
 msgid "_Settings"
 msgstr "_Réglages"
 
-#: src/dialogs/validate.glade.h:26
-msgid "_Show error alert after invalid data is entered"
-msgstr ""
-
-#: src/dialogs/validate.glade.h:27
-msgid "_Show input message when cell is selected"
-msgstr ""
-
-#: src/dialogs/validate.glade.h:28
+#: src/dialogs/validate.glade.h:31
 msgid "_Title :"
 msgstr "_Titre :"
 
-#: src/dialogs/validate.glade.h:29
+#: src/dialogs/validate.glade.h:32
 msgid "label11"
 msgstr "label11"
 
-#: src/dialogs/validate.glade.h:30
+#: src/dialogs/validate.glade.h:33
 msgid "label12"
 msgstr "label12"
 
-#: src/dialogs/validate.glade.h:31
-msgid "min <= val <= max         (between)"
-msgstr ""
-
-#: src/dialogs/validate.glade.h:32
-#, fuzzy
-msgid "val != bound                 (not equal to)"
-msgstr "                         "
-
-#: src/dialogs/validate.glade.h:33
-#, fuzzy
-msgid "val >  bound                 (greater than)"
-msgstr "                         "
-
 #: src/dialogs/validate.glade.h:34
-msgid "val >=bound                 (greater than or equal to)"
+msgid "min <= val <= max         (between)"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:35
 #, fuzzy
-msgid "val <  bound                 (less than)"
+msgid "val != bound                 (not equal to)"
 msgstr "                         "
 
 #: src/dialogs/validate.glade.h:36
-msgid "val <= min || max <= val (not between)"
-msgstr ""
+#, fuzzy
+msgid "val >  bound                 (greater than)"
+msgstr "                         "
 
 #: src/dialogs/validate.glade.h:37
-msgid "val <=bound                 (less than or equal to)"
+msgid "val >=bound                 (greater than or equal to)"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:38
+#, fuzzy
+msgid "val <  bound                 (less than)"
+msgstr "                         "
+
+#: src/dialogs/validate.glade.h:39
+msgid "val <= min || max <= val (not between)"
+msgstr ""
+
+#: src/dialogs/validate.glade.h:40
+msgid "val <=bound                 (less than or equal to)"
+msgstr ""
+
+#: src/dialogs/validate.glade.h:41
 #, fuzzy
 msgid "val == bound                (equal to)"
 msgstr "                         "
@@ -4698,16 +4712,15 @@ msgstr "TABLEAU"
 #.
 #: src/formats.c:253
 msgid "[$ADP]"
-msgstr ""
+msgstr "[$ADP]"
 
 #: src/formats.c:253
 msgid "Andorran peseta"
 msgstr ""
 
 #: src/formats.c:254
-#, fuzzy
 msgid "[$AED]"
-msgstr "&[DATE]"
+msgstr "[$AED]"
 
 #: src/formats.c:254
 msgid "UAE dirham"
@@ -4715,23 +4728,23 @@ msgstr ""
 
 #: src/formats.c:255
 msgid "[$AFA]"
-msgstr ""
+msgstr "[$AFA]"
 
 #: src/formats.c:255
 msgid "Afghanistan afghani"
-msgstr ""
+msgstr "Afghanistan afghani"
 
 #: src/formats.c:256
 msgid "[$ALL]"
-msgstr ""
+msgstr "[$ALL]"
 
 #: src/formats.c:256
 msgid "Albanian lek"
-msgstr ""
+msgstr "Albanie lek"
 
 #: src/formats.c:257
 msgid "[$ANG]"
-msgstr ""
+msgstr "[$ANG]"
 
 #: src/formats.c:257
 msgid "Netherlands Antillian guilder"
@@ -4739,7 +4752,7 @@ msgstr ""
 
 #: src/formats.c:258
 msgid "[$AON]"
-msgstr ""
+msgstr "[$AON]"
 
 #: src/formats.c:258
 msgid "Angolan new kwanza"
@@ -4747,16 +4760,15 @@ msgstr ""
 
 #: src/formats.c:259
 msgid "[$ARA]"
-msgstr ""
+msgstr "[$ARA]"
 
 #: src/formats.c:259
 msgid "Argentine austral"
 msgstr ""
 
 #: src/formats.c:260
-#, fuzzy
 msgid "[$ATS]"
-msgstr "&[DATE]"
+msgstr "[$ATS]"
 
 #: src/formats.c:260
 msgid "Austrian schilling"
@@ -4764,7 +4776,7 @@ msgstr ""
 
 #: src/formats.c:261
 msgid "[$AUD]"
-msgstr ""
+msgstr "[$AUD]"
 
 #: src/formats.c:261
 msgid "Australian dollar"
@@ -4772,7 +4784,7 @@ msgstr ""
 
 #: src/formats.c:262
 msgid "[$AWG]"
-msgstr ""
+msgstr "[$AWG]"
 
 #: src/formats.c:262
 msgid "Aruban guilder"
@@ -4780,16 +4792,15 @@ msgstr ""
 
 #: src/formats.c:263
 msgid "[$BBD]"
-msgstr ""
+msgstr "[$BBD]"
 
 #: src/formats.c:263
 msgid "Barbados dollar"
 msgstr ""
 
 #: src/formats.c:264
-#, fuzzy
 msgid "[$BDT]"
-msgstr "&[DATE]"
+msgstr "[$BDT]"
 
 #: src/formats.c:264
 msgid "Bangladeshi taka"
@@ -4797,7 +4808,7 @@ msgstr ""
 
 #: src/formats.c:265
 msgid "[$BEF]"
-msgstr ""
+msgstr "[$BEF]"
 
 #: src/formats.c:265
 msgid "Belgian franc"
@@ -4805,7 +4816,7 @@ msgstr ""
 
 #: src/formats.c:266
 msgid "[$BGL]"
-msgstr ""
+msgstr "[$BGL]"
 
 #: src/formats.c:266
 msgid "Bulgarian lev"
@@ -4813,7 +4824,7 @@ msgstr ""
 
 #: src/formats.c:267
 msgid "[$BHD]"
-msgstr ""
+msgstr "[$BHD]"
 
 #: src/formats.c:267
 msgid "Bahraini dinar"
@@ -4821,7 +4832,7 @@ msgstr ""
 
 #: src/formats.c:268
 msgid "[$BIF]"
-msgstr ""
+msgstr "[$BIF]"
 
 #: src/formats.c:268
 msgid "Burundi franc"
@@ -4829,7 +4840,7 @@ msgstr ""
 
 #: src/formats.c:269
 msgid "[$BMD]"
-msgstr ""
+msgstr "[$BMD]"
 
 #: src/formats.c:269
 msgid "Bermudian dollar"
@@ -4837,7 +4848,7 @@ msgstr ""
 
 #: src/formats.c:270
 msgid "[$BND]"
-msgstr ""
+msgstr "[$BND]"
 
 #: src/formats.c:270
 msgid "Brunei dollar"
@@ -4845,7 +4856,7 @@ msgstr ""
 
 #: src/formats.c:271
 msgid "[$BOB]"
-msgstr ""
+msgstr "[$BOB]"
 
 #: src/formats.c:271
 msgid "Bolivian boliviano"
@@ -4853,7 +4864,7 @@ msgstr ""
 
 #: src/formats.c:272
 msgid "[$BRE]"
-msgstr ""
+msgstr "[$BRE]"
 
 #: src/formats.c:272
 msgid "Brazilian cruzeiro"
@@ -4861,7 +4872,7 @@ msgstr ""
 
 #: src/formats.c:273
 msgid "[$BSD]"
-msgstr ""
+msgstr "[$BSD]"
 
 #: src/formats.c:273
 msgid "Bahamian dollar"
@@ -4869,7 +4880,7 @@ msgstr ""
 
 #: src/formats.c:274
 msgid "[$BTN]"
-msgstr ""
+msgstr "[$BTN]"
 
 #: src/formats.c:274
 msgid "Bhutan ngultrum"
@@ -4877,7 +4888,7 @@ msgstr ""
 
 #: src/formats.c:275
 msgid "[$BWP]"
-msgstr ""
+msgstr "[$BWP]"
 
 #: src/formats.c:275
 msgid "Botswanian pula"
@@ -4885,7 +4896,7 @@ msgstr ""
 
 #: src/formats.c:276
 msgid "[$BYB]"
-msgstr ""
+msgstr "[$BYB]"
 
 #: src/formats.c:276
 msgid "Belarussian ruble"
@@ -4893,7 +4904,7 @@ msgstr ""
 
 #: src/formats.c:277
 msgid "[$BZD]"
-msgstr ""
+msgstr "[$BZD]"
 
 #: src/formats.c:277
 msgid "Belize dollar"
@@ -4901,7 +4912,7 @@ msgstr ""
 
 #: src/formats.c:278
 msgid "[$CAD]"
-msgstr ""
+msgstr "[$CAD]"
 
 #: src/formats.c:278
 msgid "Canadian dollar"
@@ -4909,7 +4920,7 @@ msgstr ""
 
 #: src/formats.c:279
 msgid "[$CHF]"
-msgstr ""
+msgstr "[$CHF]"
 
 #: src/formats.c:279
 msgid "Swiss franc"
@@ -4917,7 +4928,7 @@ msgstr ""
 
 #: src/formats.c:280
 msgid "[$CLP]"
-msgstr ""
+msgstr "[$CLP]"
 
 #: src/formats.c:280
 msgid "Chilean peso"
@@ -4925,7 +4936,7 @@ msgstr ""
 
 #: src/formats.c:281
 msgid "[$CNY]"
-msgstr ""
+msgstr "[$CNY]"
 
 #: src/formats.c:281
 msgid "Chinese yuan renminbi"
@@ -4933,7 +4944,7 @@ msgstr ""
 
 #: src/formats.c:282
 msgid "[$COP]"
-msgstr ""
+msgstr "[$COP]"
 
 #: src/formats.c:282
 msgid "Colombian peso"
@@ -4941,7 +4952,7 @@ msgstr ""
 
 #: src/formats.c:283
 msgid "[$CRC]"
-msgstr ""
+msgstr "[$CRC]"
 
 #: src/formats.c:283
 msgid "Costa Rican colon"
@@ -4949,7 +4960,7 @@ msgstr ""
 
 #: src/formats.c:284
 msgid "[$CSK]"
-msgstr ""
+msgstr "[$CSK]"
 
 #: src/formats.c:284
 msgid "Czech Koruna"
@@ -4957,7 +4968,7 @@ msgstr ""
 
 #: src/formats.c:285
 msgid "[$CUP]"
-msgstr ""
+msgstr "[$CUP]"
 
 #: src/formats.c:285
 #, fuzzy
@@ -4966,7 +4977,7 @@ msgstr "Impossible d'ouvrir"
 
 #: src/formats.c:286
 msgid "[$CVE]"
-msgstr ""
+msgstr "[$CVE]"
 
 #: src/formats.c:286
 msgid "Cape Verde escudo"
@@ -4974,16 +4985,15 @@ msgstr ""
 
 #: src/formats.c:287
 msgid "[$CYP]"
-msgstr ""
+msgstr "[$CYP]"
 
 #: src/formats.c:287
 msgid "Cyprus pound"
 msgstr ""
 
 #: src/formats.c:288
-#, fuzzy
 msgid "[$DEM]"
-msgstr "&[DATE]"
+msgstr "[$DEM]"
 
 #: src/formats.c:288
 msgid "Deutsche mark"
@@ -4991,7 +5001,7 @@ msgstr ""
 
 #: src/formats.c:289
 msgid "[$DJF]"
-msgstr ""
+msgstr "[$DJF]"
 
 #: src/formats.c:289
 msgid "Djibouti franc"
@@ -4999,7 +5009,7 @@ msgstr ""
 
 #: src/formats.c:290
 msgid "[$DKK]"
-msgstr ""
+msgstr "[$DKK]"
 
 #: src/formats.c:290
 msgid "Danish krone"
@@ -5007,7 +5017,7 @@ msgstr ""
 
 #: src/formats.c:291
 msgid "[$DOP]"
-msgstr ""
+msgstr "[$DOP]"
 
 #: src/formats.c:291
 msgid "Dominican peso"
@@ -5015,7 +5025,7 @@ msgstr ""
 
 #: src/formats.c:292
 msgid "[$DZD]"
-msgstr ""
+msgstr "[$DZD]"
 
 #: src/formats.c:292
 msgid "Algerian dinar"
@@ -5023,7 +5033,7 @@ msgstr ""
 
 #: src/formats.c:293
 msgid "[$ECS]"
-msgstr ""
+msgstr "[$ECS]"
 
 #: src/formats.c:293
 msgid "Ecuador sucre"
@@ -5031,7 +5041,7 @@ msgstr ""
 
 #: src/formats.c:294
 msgid "[$EGP]"
-msgstr ""
+msgstr "[$EGP]"
 
 #: src/formats.c:294
 msgid "Egyptian pound"
@@ -5039,16 +5049,15 @@ msgstr ""
 
 #: src/formats.c:295
 msgid "[$ESP]"
-msgstr ""
+msgstr "[$ESP]"
 
 #: src/formats.c:295
 msgid "Spanish peseta"
 msgstr ""
 
 #: src/formats.c:296
-#, fuzzy
 msgid "[$ETB]"
-msgstr "&[TAB]"
+msgstr "[$ETB]"
 
 #: src/formats.c:296
 msgid "Ethiopian birr"
@@ -5056,15 +5065,15 @@ msgstr ""
 
 #: src/formats.c:297
 msgid "[$EUR]"
-msgstr ""
+msgstr "[$EUR]"
 
 #: src/formats.c:297
 msgid "Euro"
-msgstr ""
+msgstr "Euro"
 
 #: src/formats.c:298
 msgid "[$FIM]"
-msgstr ""
+msgstr "[$FIM]"
 
 #: src/formats.c:298
 msgid "Finnish markka"
@@ -5072,7 +5081,7 @@ msgstr ""
 
 #: src/formats.c:299
 msgid "[$FJD]"
-msgstr ""
+msgstr "[$FJD]"
 
 #: src/formats.c:299
 msgid "Fiji dollar"
@@ -5080,7 +5089,7 @@ msgstr ""
 
 #: src/formats.c:300
 msgid "[$FKP]"
-msgstr ""
+msgstr "[$FKP]"
 
 #: src/formats.c:300
 msgid "Falkland Islands pound"
@@ -5088,7 +5097,7 @@ msgstr ""
 
 #: src/formats.c:301
 msgid "[$FRF]"
-msgstr ""
+msgstr "[$FRF]"
 
 #: src/formats.c:301
 msgid "French franc"
@@ -5096,7 +5105,7 @@ msgstr "Franc français"
 
 #: src/formats.c:302
 msgid "[$GBP]"
-msgstr ""
+msgstr "[$GBP]"
 
 #: src/formats.c:302
 msgid "UK pound sterling"
@@ -5104,7 +5113,7 @@ msgstr ""
 
 #: src/formats.c:303
 msgid "[$GHC]"
-msgstr ""
+msgstr "[$GHC]"
 
 #: src/formats.c:303
 msgid "Ghanaian cedi"
@@ -5112,7 +5121,7 @@ msgstr ""
 
 #: src/formats.c:304
 msgid "[$GIP]"
-msgstr ""
+msgstr "[$GIP]"
 
 #: src/formats.c:304
 msgid "Gibraltar pound"
@@ -5120,7 +5129,7 @@ msgstr ""
 
 #: src/formats.c:305
 msgid "[$GMD]"
-msgstr ""
+msgstr "[$GMD]"
 
 #: src/formats.c:305
 msgid "Gambian dalasi"
@@ -5128,7 +5137,7 @@ msgstr ""
 
 #: src/formats.c:306
 msgid "[$GNF]"
-msgstr ""
+msgstr "[$GNF]"
 
 #: src/formats.c:306
 msgid "Guinea franc"
@@ -5136,7 +5145,7 @@ msgstr ""
 
 #: src/formats.c:307
 msgid "[$GRD]"
-msgstr ""
+msgstr "[$GRD]"
 
 #: src/formats.c:307
 msgid "Greek drachma"
@@ -5144,7 +5153,7 @@ msgstr ""
 
 #: src/formats.c:308
 msgid "[$GTQ]"
-msgstr ""
+msgstr "[$GTQ]"
 
 #: src/formats.c:308
 msgid "Guatemalan quetzal"
@@ -5152,7 +5161,7 @@ msgstr ""
 
 #: src/formats.c:309
 msgid "[$GWP]"
-msgstr ""
+msgstr "[$GWP]"
 
 #: src/formats.c:309
 msgid "Guinea-Bissau peso"
@@ -5160,7 +5169,7 @@ msgstr ""
 
 #: src/formats.c:310
 msgid "[$GYD]"
-msgstr ""
+msgstr "[$GYD]"
 
 #: src/formats.c:310
 msgid "Guyanan dollar"
@@ -5168,7 +5177,7 @@ msgstr ""
 
 #: src/formats.c:311
 msgid "[$HKD]"
-msgstr ""
+msgstr "[$HKD]"
 
 #: src/formats.c:311
 msgid "Hong Kong dollar"
@@ -5176,7 +5185,7 @@ msgstr ""
 
 #: src/formats.c:312
 msgid "[$HNL]"
-msgstr ""
+msgstr "[$HNL]"
 
 #: src/formats.c:312
 msgid "Honduran lempira"
@@ -5184,7 +5193,7 @@ msgstr ""
 
 #: src/formats.c:313
 msgid "[$HRK]"
-msgstr ""
+msgstr "[$HRK]"
 
 #: src/formats.c:313
 msgid "Croatian kuna"
@@ -5192,7 +5201,7 @@ msgstr ""
 
 #: src/formats.c:314
 msgid "[$HTG]"
-msgstr ""
+msgstr "[$HTG]"
 
 #: src/formats.c:314
 msgid "Haitian gourde"
@@ -5200,7 +5209,7 @@ msgstr ""
 
 #: src/formats.c:315
 msgid "[$HUF]"
-msgstr ""
+msgstr "[$HUF]"
 
 #: src/formats.c:315
 msgid "Hungarian forint"
@@ -5208,7 +5217,7 @@ msgstr ""
 
 #: src/formats.c:316
 msgid "[$IDR]"
-msgstr ""
+msgstr "[$IDR]"
 
 #: src/formats.c:316
 msgid "Indonesian rupiah"
@@ -5216,7 +5225,7 @@ msgstr ""
 
 #: src/formats.c:317
 msgid "[$IEP]"
-msgstr ""
+msgstr "[$IEP]"
 
 #: src/formats.c:317
 msgid "Irish punt"
@@ -5224,7 +5233,7 @@ msgstr ""
 
 #: src/formats.c:318
 msgid "[$IEX]"
-msgstr ""
+msgstr "[$IEX]"
 
 #: src/formats.c:318
 msgid "Irish pence ***"
@@ -5232,7 +5241,7 @@ msgstr ""
 
 #: src/formats.c:319
 msgid "[$ILS]"
-msgstr ""
+msgstr "[$ILS]"
 
 #: src/formats.c:319
 msgid "Israeli shekel"
@@ -5240,7 +5249,7 @@ msgstr ""
 
 #: src/formats.c:320
 msgid "[$INR]"
-msgstr ""
+msgstr "[$INR]"
 
 #: src/formats.c:320
 msgid "Indian rupee"
@@ -5248,7 +5257,7 @@ msgstr ""
 
 #: src/formats.c:321
 msgid "[$IQD]"
-msgstr ""
+msgstr "[$IQD]"
 
 #: src/formats.c:321
 msgid "Iraqi dinar"
@@ -5256,7 +5265,7 @@ msgstr ""
 
 #: src/formats.c:322
 msgid "[$IRR]"
-msgstr ""
+msgstr "[$IRR]"
 
 #: src/formats.c:322
 msgid "Iranian rial"
@@ -5264,7 +5273,7 @@ msgstr ""
 
 #: src/formats.c:323
 msgid "[$ISK]"
-msgstr ""
+msgstr "[$ISK]"
 
 #: src/formats.c:323
 msgid "Iceland krona"
@@ -5272,7 +5281,7 @@ msgstr ""
 
 #: src/formats.c:324
 msgid "[$ITL]"
-msgstr ""
+msgstr "[$ITL]"
 
 #: src/formats.c:324
 msgid "Italian lira"
@@ -5280,7 +5289,7 @@ msgstr ""
 
 #: src/formats.c:325
 msgid "[$JMD]"
-msgstr ""
+msgstr "[$JMD]"
 
 #: src/formats.c:325
 msgid "Jamaican dollar"
@@ -5288,7 +5297,7 @@ msgstr ""
 
 #: src/formats.c:326
 msgid "[$JOD]"
-msgstr ""
+msgstr "[$JOD]"
 
 #: src/formats.c:326
 msgid "Jordanian dinar"
@@ -5296,7 +5305,7 @@ msgstr ""
 
 #: src/formats.c:327
 msgid "[$JPY]"
-msgstr ""
+msgstr "[$JPY]"
 
 #: src/formats.c:327
 msgid "Japanese yen"
@@ -5304,7 +5313,7 @@ msgstr ""
 
 #: src/formats.c:328
 msgid "[$KES]"
-msgstr ""
+msgstr "[$KES]"
 
 #: src/formats.c:328
 msgid "Kenyan shilling"
@@ -5312,7 +5321,7 @@ msgstr ""
 
 #: src/formats.c:329
 msgid "[$KHR]"
-msgstr ""
+msgstr "[$KHR]"
 
 #: src/formats.c:329
 msgid "Kampuchean riel"
@@ -5320,7 +5329,7 @@ msgstr ""
 
 #: src/formats.c:330
 msgid "[$KMF]"
-msgstr ""
+msgstr "[$KMF]"
 
 #: src/formats.c:330
 msgid "Comoros franc"
@@ -5328,7 +5337,7 @@ msgstr ""
 
 #: src/formats.c:331
 msgid "[$KPW]"
-msgstr ""
+msgstr "[$KPW]"
 
 #: src/formats.c:331
 msgid "North Korean won"
@@ -5336,7 +5345,7 @@ msgstr ""
 
 #: src/formats.c:332
 msgid "[$KRW]"
-msgstr ""
+msgstr "[$KRW]"
 
 #: src/formats.c:332
 msgid "Republic of Korea won"
@@ -5344,7 +5353,7 @@ msgstr ""
 
 #: src/formats.c:333
 msgid "[$KWD]"
-msgstr ""
+msgstr "[$KWD]"
 
 #: src/formats.c:333
 msgid "Kuwaiti dinar"
@@ -5352,7 +5361,7 @@ msgstr ""
 
 #: src/formats.c:334
 msgid "[$KYD]"
-msgstr ""
+msgstr "[$KYD]"
 
 #: src/formats.c:334
 msgid "Cayman Islands dollar"
@@ -5360,7 +5369,7 @@ msgstr ""
 
 #: src/formats.c:335
 msgid "[$LAK]"
-msgstr ""
+msgstr "[$LAK]"
 
 #: src/formats.c:335
 msgid "Lao kip"
@@ -5368,7 +5377,7 @@ msgstr ""
 
 #: src/formats.c:336
 msgid "[$LBP]"
-msgstr ""
+msgstr "[$LBP]"
 
 #: src/formats.c:336
 msgid "Lebanese pound"
@@ -5376,7 +5385,7 @@ msgstr ""
 
 #: src/formats.c:337
 msgid "[$LKR]"
-msgstr ""
+msgstr "[$LKR]"
 
 #: src/formats.c:337
 msgid "Sri Lanka rupee"
@@ -5384,7 +5393,7 @@ msgstr ""
 
 #: src/formats.c:338
 msgid "[$LRD]"
-msgstr ""
+msgstr "[$LRD]"
 
 #: src/formats.c:338
 msgid "Liberian dollar"
@@ -5392,7 +5401,7 @@ msgstr ""
 
 #: src/formats.c:339
 msgid "[$LSL]"
-msgstr ""
+msgstr "[$LSL]"
 
 #: src/formats.c:339
 msgid "Lesotho loti"
@@ -5400,7 +5409,7 @@ msgstr ""
 
 #: src/formats.c:340
 msgid "[$LUF]"
-msgstr ""
+msgstr "[$LUF]"
 
 #: src/formats.c:340
 msgid "Luxembourg franc"
@@ -5408,7 +5417,7 @@ msgstr ""
 
 #: src/formats.c:341
 msgid "[$LYD]"
-msgstr ""
+msgstr "[$LYD]"
 
 #: src/formats.c:341
 msgid "Libyan dinar"
@@ -5416,7 +5425,7 @@ msgstr ""
 
 #: src/formats.c:342
 msgid "[$MAD]"
-msgstr ""
+msgstr "[$MAD]"
 
 #: src/formats.c:342
 msgid "Moroccan dirham"
@@ -5424,7 +5433,7 @@ msgstr ""
 
 #: src/formats.c:343
 msgid "[$MDL]"
-msgstr ""
+msgstr "[$MDL]"
 
 #: src/formats.c:343
 msgid "Moldovan leu"
@@ -5432,7 +5441,7 @@ msgstr ""
 
 #: src/formats.c:344
 msgid "[$MGF]"
-msgstr ""
+msgstr "[$MGF]"
 
 #: src/formats.c:344
 msgid "Malagasy franc"
@@ -5440,7 +5449,7 @@ msgstr ""
 
 #: src/formats.c:345
 msgid "[$MLF]"
-msgstr ""
+msgstr "[$MLF]"
 
 #: src/formats.c:345
 msgid "Mali franc"
@@ -5448,7 +5457,7 @@ msgstr ""
 
 #: src/formats.c:346
 msgid "[$MMK]"
-msgstr ""
+msgstr "[$MMK]"
 
 #: src/formats.c:346
 msgid "Myanmar kyat"
@@ -5456,7 +5465,7 @@ msgstr ""
 
 #: src/formats.c:347
 msgid "[$MNT]"
-msgstr ""
+msgstr "[$MNT]"
 
 #: src/formats.c:347
 msgid "Mongolian tugrik"
@@ -5464,7 +5473,7 @@ msgstr ""
 
 #: src/formats.c:348
 msgid "[$MOP]"
-msgstr ""
+msgstr "[$MOP]"
 
 #: src/formats.c:348
 msgid "Macau pataca"
@@ -5472,7 +5481,7 @@ msgstr ""
 
 #: src/formats.c:349
 msgid "[$MRO]"
-msgstr ""
+msgstr "[$MRO]"
 
 #: src/formats.c:349
 msgid "Mauritanian ouguiya"
@@ -5480,7 +5489,7 @@ msgstr ""
 
 #: src/formats.c:350
 msgid "[$MTL]"
-msgstr ""
+msgstr "[$MTL]"
 
 #: src/formats.c:350
 msgid "Maltese lira"
@@ -5488,7 +5497,7 @@ msgstr ""
 
 #: src/formats.c:351
 msgid "[$MUR]"
-msgstr ""
+msgstr "[$MUR]"
 
 #: src/formats.c:351
 msgid "Mauritius rupee"
@@ -5496,7 +5505,7 @@ msgstr ""
 
 #: src/formats.c:352
 msgid "[$MVR]"
-msgstr ""
+msgstr "[$MVR]"
 
 #: src/formats.c:352
 msgid "Maldive rupee"
@@ -5504,7 +5513,7 @@ msgstr ""
 
 #: src/formats.c:353
 msgid "[$MWK]"
-msgstr ""
+msgstr "[$MWK]"
 
 #: src/formats.c:353
 msgid "Malawi kwacha"
@@ -5512,7 +5521,7 @@ msgstr ""
 
 #: src/formats.c:354
 msgid "[$MXP]"
-msgstr ""
+msgstr "[$MXP]"
 
 #: src/formats.c:354
 msgid "Mexican peso"
@@ -5520,7 +5529,7 @@ msgstr ""
 
 #: src/formats.c:355
 msgid "[$MYR]"
-msgstr ""
+msgstr "[$MYR]"
 
 #: src/formats.c:355
 msgid "Malaysian ringgit"
@@ -5528,7 +5537,7 @@ msgstr ""
 
 #: src/formats.c:356
 msgid "[$MZM]"
-msgstr ""
+msgstr "[$MZM]"
 
 #: src/formats.c:356
 msgid "Mozambique metical"
@@ -5536,7 +5545,7 @@ msgstr ""
 
 #: src/formats.c:357
 msgid "[$NGN]"
-msgstr ""
+msgstr "[$NGN]"
 
 #: src/formats.c:357
 msgid "Nigerian naira"
@@ -5544,7 +5553,7 @@ msgstr ""
 
 #: src/formats.c:358
 msgid "[$NIO]"
-msgstr ""
+msgstr "[$NIO]"
 
 #: src/formats.c:358
 msgid "Nicaraguan cordoba oro"
@@ -5552,7 +5561,7 @@ msgstr ""
 
 #: src/formats.c:359
 msgid "[$NLG]"
-msgstr ""
+msgstr "[$NLG]"
 
 #: src/formats.c:359
 msgid "Netherlands guilder"
@@ -5560,7 +5569,7 @@ msgstr ""
 
 #: src/formats.c:360
 msgid "[$NOK]"
-msgstr ""
+msgstr "[$NOK]"
 
 #: src/formats.c:360
 msgid "Norwegian krone"
@@ -5568,7 +5577,7 @@ msgstr ""
 
 #: src/formats.c:361
 msgid "[$NPR]"
-msgstr ""
+msgstr "[$NPR]"
 
 #: src/formats.c:361
 msgid "Nepalese rupee"
@@ -5576,7 +5585,7 @@ msgstr ""
 
 #: src/formats.c:362
 msgid "[$NZD]"
-msgstr ""
+msgstr "[$NZD]"
 
 #: src/formats.c:362
 msgid "New Zealand dollar"
@@ -5584,16 +5593,15 @@ msgstr ""
 
 #: src/formats.c:363
 msgid "[$OMR]"
-msgstr ""
+msgstr "[$OMR]"
 
 #: src/formats.c:363
 msgid "Rial Omani"
 msgstr ""
 
 #: src/formats.c:364
-#, fuzzy
 msgid "[$PAB]"
-msgstr "&[TAB]"
+msgstr "[$PAB]"
 
 #: src/formats.c:364
 msgid "Panamanian balboa"
@@ -5601,7 +5609,7 @@ msgstr ""
 
 #: src/formats.c:365
 msgid "[$PEI]"
-msgstr ""
+msgstr "[$PEI]"
 
 #: src/formats.c:365
 msgid "Peruvian inti"
@@ -5609,7 +5617,7 @@ msgstr ""
 
 #: src/formats.c:366
 msgid "[$PGK]"
-msgstr ""
+msgstr "[$PGK]"
 
 #: src/formats.c:366
 msgid "Papua New Guinea kina"
@@ -5617,7 +5625,7 @@ msgstr ""
 
 #: src/formats.c:367
 msgid "[$PHP]"
-msgstr ""
+msgstr "[$PHP]"
 
 #: src/formats.c:367
 msgid "Philippino peso"
@@ -5625,7 +5633,7 @@ msgstr ""
 
 #: src/formats.c:368
 msgid "[$PKR]"
-msgstr ""
+msgstr "[$PKR]"
 
 #: src/formats.c:368
 msgid "Pakistan rupee"
@@ -5633,16 +5641,15 @@ msgstr ""
 
 #: src/formats.c:369
 msgid "[$PLZ]"
-msgstr ""
+msgstr "[$PLZ]"
 
 #: src/formats.c:369
 msgid "Polish zloty"
 msgstr ""
 
 #: src/formats.c:370
-#, fuzzy
 msgid "[$PTE]"
-msgstr "&[DATE]"
+msgstr "[$PTE]"
 
 #: src/formats.c:370
 msgid "Portuguese escudo"
@@ -5650,7 +5657,7 @@ msgstr ""
 
 #: src/formats.c:371
 msgid "[$PYG]"
-msgstr ""
+msgstr "[$PYG]"
 
 #: src/formats.c:371
 msgid "Paraguay guarani"
@@ -5658,7 +5665,7 @@ msgstr ""
 
 #: src/formats.c:372
 msgid "[$QAR]"
-msgstr ""
+msgstr "[$QAR]"
 
 #: src/formats.c:372
 msgid "Qatari rial"
@@ -5666,7 +5673,7 @@ msgstr ""
 
 #: src/formats.c:373
 msgid "[$ROL]"
-msgstr ""
+msgstr "[$ROL]"
 
 #: src/formats.c:373
 msgid "Romanian leu"
@@ -5674,7 +5681,7 @@ msgstr ""
 
 #: src/formats.c:374
 msgid "[$RWF]"
-msgstr ""
+msgstr "[$RWF]"
 
 #: src/formats.c:374
 msgid "Rwanda franc"
@@ -5682,7 +5689,7 @@ msgstr ""
 
 #: src/formats.c:375
 msgid "[$SAR]"
-msgstr ""
+msgstr "[$SAR]"
 
 #: src/formats.c:375
 msgid "Saudi Arabian riyal"
@@ -5690,7 +5697,7 @@ msgstr ""
 
 #: src/formats.c:376
 msgid "[$SBD]"
-msgstr ""
+msgstr "[$SBD]"
 
 #: src/formats.c:376
 msgid "Solomon Islands dollar"
@@ -5698,7 +5705,7 @@ msgstr ""
 
 #: src/formats.c:377
 msgid "[$SCR]"
-msgstr ""
+msgstr "[$SCR]"
 
 #: src/formats.c:377
 msgid "Seychelles rupee"
@@ -5706,7 +5713,7 @@ msgstr ""
 
 #: src/formats.c:378
 msgid "[$SDP]"
-msgstr ""
+msgstr "[$SDP]"
 
 #: src/formats.c:378
 msgid "Sudanese pound"
@@ -5714,7 +5721,7 @@ msgstr ""
 
 #: src/formats.c:379
 msgid "[$SEK]"
-msgstr ""
+msgstr "[$SEK]"
 
 #: src/formats.c:379
 msgid "Swedish krona"
@@ -5722,7 +5729,7 @@ msgstr ""
 
 #: src/formats.c:380
 msgid "[$SGD]"
-msgstr ""
+msgstr "[$SGD]"
 
 #: src/formats.c:380
 msgid "Singapore dollar"
@@ -5730,16 +5737,15 @@ msgstr ""
 
 #: src/formats.c:381
 msgid "[$SHP]"
-msgstr ""
+msgstr "[$SHP]"
 
 #: src/formats.c:381
 msgid "St.Helena pound"
 msgstr ""
 
 #: src/formats.c:382
-#, fuzzy
 msgid "[$SIT]"
-msgstr "&[DATE]"
+msgstr "[$SIT]"
 
 #: src/formats.c:382
 msgid "Slovenia tolar"
@@ -5747,7 +5753,7 @@ msgstr ""
 
 #: src/formats.c:383
 msgid "[$SLL]"
-msgstr ""
+msgstr "[$SLL]"
 
 #: src/formats.c:383
 msgid "Sierra Leone leone"
@@ -5755,7 +5761,7 @@ msgstr ""
 
 #: src/formats.c:384
 msgid "[$SOS]"
-msgstr ""
+msgstr "[$SOS]"
 
 #: src/formats.c:384
 msgid "Somali shilling"
@@ -5763,7 +5769,7 @@ msgstr ""
 
 #: src/formats.c:385
 msgid "[$SRG]"
-msgstr ""
+msgstr "[$SRG]"
 
 #: src/formats.c:385
 msgid "Suriname guilder"
@@ -5771,7 +5777,7 @@ msgstr ""
 
 #: src/formats.c:386
 msgid "[$STD]"
-msgstr ""
+msgstr "[$STD]"
 
 #: src/formats.c:386
 msgid "Sao Tome and Principe dobra"
@@ -5779,7 +5785,7 @@ msgstr ""
 
 #: src/formats.c:387
 msgid "[$SUR]"
-msgstr ""
+msgstr "[$SUR]"
 
 #: src/formats.c:387
 msgid "USSR rouble"
@@ -5787,7 +5793,7 @@ msgstr ""
 
 #: src/formats.c:388
 msgid "[$SVC]"
-msgstr ""
+msgstr "[$SVC]"
 
 #: src/formats.c:388
 msgid "El Salvador colon"
@@ -5795,7 +5801,7 @@ msgstr ""
 
 #: src/formats.c:389
 msgid "[$SYP]"
-msgstr ""
+msgstr "[$SYP]"
 
 #: src/formats.c:389
 msgid "Syrian pound"
@@ -5803,16 +5809,15 @@ msgstr ""
 
 #: src/formats.c:390
 msgid "[$SZL]"
-msgstr ""
+msgstr "[$SZL]"
 
 #: src/formats.c:390
 msgid "Swaziland lilangeni"
 msgstr ""
 
 #: src/formats.c:391
-#, fuzzy
 msgid "[$THB]"
-msgstr "&[TAB]"
+msgstr "[$THB]"
 
 #: src/formats.c:391
 msgid "Thai baht"
@@ -5820,7 +5825,7 @@ msgstr ""
 
 #: src/formats.c:392
 msgid "[$TND]"
-msgstr ""
+msgstr "[$TND]"
 
 #: src/formats.c:392
 msgid "Tunisian dinar"
@@ -5828,16 +5833,15 @@ msgstr ""
 
 #: src/formats.c:393
 msgid "[$TOP]"
-msgstr ""
+msgstr "[$TOP]"
 
 #: src/formats.c:393
 msgid "Tongan pa'anga"
 msgstr ""
 
 #: src/formats.c:394
-#, fuzzy
 msgid "[$TPE]"
-msgstr "&[DATE]"
+msgstr "[$TPE]"
 
 #: src/formats.c:394
 msgid "East Timor escudo"
@@ -5845,7 +5849,7 @@ msgstr ""
 
 #: src/formats.c:395
 msgid "[$TRL]"
-msgstr ""
+msgstr "[$TRL]"
 
 #: src/formats.c:395
 msgid "Turkish lira"
@@ -5853,7 +5857,7 @@ msgstr ""
 
 #: src/formats.c:396
 msgid "[$TTD]"
-msgstr ""
+msgstr "[$TTD]"
 
 #: src/formats.c:396
 msgid "Trinidad and Tobago dollar"
@@ -5861,7 +5865,7 @@ msgstr ""
 
 #: src/formats.c:397
 msgid "[$TWD]"
-msgstr ""
+msgstr "[$TWD]"
 
 #: src/formats.c:397
 msgid "New Taiwan dollar"
@@ -5869,7 +5873,7 @@ msgstr ""
 
 #: src/formats.c:398
 msgid "[$TZS]"
-msgstr ""
+msgstr "[$TZS]"
 
 #: src/formats.c:398
 msgid "Tanzanian shilling"
@@ -5877,7 +5881,7 @@ msgstr ""
 
 #: src/formats.c:399
 msgid "[$UAH]"
-msgstr ""
+msgstr "[$UAH]"
 
 #: src/formats.c:399
 msgid "Ukrainian hryvnia"
@@ -5885,7 +5889,7 @@ msgstr ""
 
 #: src/formats.c:400
 msgid "[$UGX]"
-msgstr ""
+msgstr "[$UGX]"
 
 #: src/formats.c:400
 msgid "Ugandan shilling"
@@ -5893,7 +5897,7 @@ msgstr ""
 
 #: src/formats.c:401
 msgid "[$USD]"
-msgstr ""
+msgstr "[$USD]"
 
 #: src/formats.c:401
 msgid "US dollar"
@@ -5901,7 +5905,7 @@ msgstr ""
 
 #: src/formats.c:402
 msgid "[$UYP]"
-msgstr ""
+msgstr "[$UYP]"
 
 #: src/formats.c:402
 msgid "Uruguayan peso"
@@ -5909,7 +5913,7 @@ msgstr ""
 
 #: src/formats.c:403
 msgid "[$VEB]"
-msgstr ""
+msgstr "[$VEB]"
 
 #: src/formats.c:403
 msgid "Venezuelan bolivar"
@@ -5917,7 +5921,7 @@ msgstr ""
 
 #: src/formats.c:404
 msgid "[$VND]"
-msgstr ""
+msgstr "[$VND]"
 
 #: src/formats.c:404
 msgid "Vietnamese dong"
@@ -5925,7 +5929,7 @@ msgstr ""
 
 #: src/formats.c:405
 msgid "[$VUV]"
-msgstr ""
+msgstr "[$VUV]"
 
 #: src/formats.c:405
 msgid "Vanuatu vatu"
@@ -5933,7 +5937,7 @@ msgstr ""
 
 #: src/formats.c:406
 msgid "[$WST]"
-msgstr ""
+msgstr "[$WST]"
 
 #: src/formats.c:406
 msgid "Samoan tala"
@@ -5941,7 +5945,7 @@ msgstr ""
 
 #: src/formats.c:407
 msgid "[$XCD]"
-msgstr ""
+msgstr "[$XCD]"
 
 #: src/formats.c:407
 msgid "East Caribbean dollar"
@@ -5949,7 +5953,7 @@ msgstr ""
 
 #: src/formats.c:408
 msgid "[$XEU]"
-msgstr ""
+msgstr "[$XEU]"
 
 #: src/formats.c:408
 msgid "European currency unit"
@@ -5957,7 +5961,7 @@ msgstr ""
 
 #: src/formats.c:409
 msgid "[$YDD]"
-msgstr ""
+msgstr "[$YDD]"
 
 #: src/formats.c:409
 msgid "Democratic Yemeni dinar"
@@ -5965,7 +5969,7 @@ msgstr ""
 
 #: src/formats.c:410
 msgid "[$YER]"
-msgstr ""
+msgstr "[$YER]"
 
 #: src/formats.c:410
 msgid "Yemeni rial"
@@ -5973,7 +5977,7 @@ msgstr ""
 
 #: src/formats.c:411
 msgid "[$YUN]"
-msgstr ""
+msgstr "[$YUN]"
 
 #: src/formats.c:411
 msgid "New Yugoslavia dinar"
@@ -5981,7 +5985,7 @@ msgstr ""
 
 #: src/formats.c:412
 msgid "[$ZAL]"
-msgstr ""
+msgstr "[$ZAL]"
 
 #: src/formats.c:412
 msgid "South African rand funds code"
@@ -5989,7 +5993,7 @@ msgstr ""
 
 #: src/formats.c:413
 msgid "[$ZAR]"
-msgstr ""
+msgstr "[$ZAR]"
 
 #: src/formats.c:413
 msgid "South African rand"
@@ -5997,7 +6001,7 @@ msgstr ""
 
 #: src/formats.c:414
 msgid "[$ZMK]"
-msgstr ""
+msgstr "[$ZMK]"
 
 #: src/formats.c:414
 msgid "Zambian kwacha"
@@ -6005,7 +6009,7 @@ msgstr ""
 
 #: src/formats.c:415
 msgid "[$ZRZ]"
-msgstr ""
+msgstr "[$ZRZ]"
 
 #: src/formats.c:415
 msgid "Zaire Zaire"
@@ -6013,7 +6017,7 @@ msgstr ""
 
 #: src/formats.c:416
 msgid "[$ZWD]"
-msgstr ""
+msgstr "[$ZWD]"
 
 #: src/formats.c:416
 msgid "Zimbabwe dollar"
@@ -6052,17 +6056,6 @@ msgstr ""
 "@DESCRIPTION=La fonction DAVERAGE retourne la moyenne des valeurs d'une "
 "liste ou d'une base de données qui remplissent les conditions spécifiées.\n"
 
-#: src/functions/fn-database.c:499
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -6074,16 +6067,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(base_de_données,champ,critère)\n"
 "@DESCRIPTION=La fonction DCOUNT compte les cellules qui contiennent des "
 "nombres dans une base de données qui remplit les conditions spécifiées.\n"
-
-#: src/functions/fn-database.c:568
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -6097,16 +6080,6 @@ msgstr ""
 "@DESCRIPTION=La fonction DCOUNTA compte les cellules qui contiennent des "
 "données dans une base de données qui remplit les conditions spécifiées.\n"
 
-#: src/functions/fn-database.c:629
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -6118,17 +6091,6 @@ msgstr ""
 "@SYNTAX=DGET(base_de_données,champ,critère)\n"
 "@DESCRIPTION=La fonction DGET retourne une seule valeur d'une colonne qui "
 "remplit les conditions spécifiées.\n"
-
-#: src/functions/fn-database.c:687
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -6142,16 +6104,6 @@ msgstr ""
 "@DESCRIPTION=La fonction DMAX retourne le plus grand nombre d'une colonne "
 "qui remplit les conditions spécifiées.\n"
 
-#: src/functions/fn-database.c:755
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -6163,15 +6115,6 @@ msgstr ""
 "@SYNTAX=DMIN(base_de_données,champ,critère)\n"
 "@DESCRIPTION=La fonction DMIN retourne le plus petit nombre d'une colonne "
 "qui remplit les conditions spécifiées.\n"
-
-#: src/functions/fn-database.c:826
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
 
 #: src/functions/fn-database.c:888
 msgid ""
@@ -6185,14 +6128,6 @@ msgstr ""
 "@DESCRIPTION=La fonction DPRODUCT retourne le produit des nombres des "
 "nombres d'une colonne qui remplit les conditions spécifiées.\n"
 
-#: src/functions/fn-database.c:896
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
-
 #: src/functions/fn-database.c:955
 msgid ""
 "@FUNCTION=DSTDEV\n"
@@ -6200,15 +6135,6 @@ msgid ""
 "@DESCRIPTION=DSTDEV function returns the estimate of the standard deviation "
 "of a population based on a sample. The populations consists of numbers that "
 "match conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:964
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
 msgstr ""
 
 #: src/functions/fn-database.c:1021
@@ -6220,30 +6146,12 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:1030
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=DSUM function returns the sum of numbers in a column that match "
 "conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:1097
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
 msgstr ""
 
 #: src/functions/fn-database.c:1156
@@ -6255,15 +6163,6 @@ msgid ""
 "specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:1165
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -6271,15 +6170,6 @@ msgid ""
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:1233
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
 msgstr ""
 
 #: src/functions/fn-database.c:1293
@@ -14074,17 +13964,17 @@ msgstr "Fichier/Aperçu avant impression"
 msgid "File/"
 msgstr "Fichier/"
 
-#: src/item-bar.c:488
+#: src/item-bar.c:647
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Largeur : %.2f pts (%d pixels)"
 
-#: src/item-bar.c:491
+#: src/item-bar.c:650
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Hauteur : %.2f pts (%d pixels)"
 
-#: src/item-cursor.c:807
+#: src/item-cursor.c:792
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -14094,46 +13984,46 @@ msgstr ""
 "dans cette région. Voulez-vous remplacer le contenu des cellules de cette "
 "région?"
 
-#: src/item-cursor.c:909
+#: src/item-cursor.c:894
 #, fuzzy
 msgid "_Move"
 msgstr "Déplacer"
 
-#: src/gnumeric.xml.h:212 src/item-cursor.c:912 src/sheet-control-gui.c:991
+#: src/gnumeric.xml.h:212 src/item-cursor.c:897 src/sheet-control-gui.c:967
 msgid "_Copy"
 msgstr "_Copier"
 
-#: src/item-cursor.c:915
+#: src/item-cursor.c:900
 #, fuzzy
 msgid "Copy _Formats"
 msgstr "Copier les formats"
 
-#: src/item-cursor.c:917
+#: src/item-cursor.c:902
 #, fuzzy
 msgid "Copy _Values"
 msgstr "Copier les valeurs"
 
-#: src/item-cursor.c:922
+#: src/item-cursor.c:907
 #, fuzzy
 msgid "Shift _Down and Copy"
 msgstr "Décaler vers le bas et copier"
 
-#: src/item-cursor.c:924
+#: src/item-cursor.c:909
 #, fuzzy
 msgid "Shift _Right and Copy"
 msgstr "Décaler vers la droite et copier"
 
-#: src/item-cursor.c:926
+#: src/item-cursor.c:911
 #, fuzzy
 msgid "Shift Dow_n and Move"
 msgstr "Décaler vers le bas et déplacer"
 
-#: src/item-cursor.c:928
+#: src/item-cursor.c:913
 #, fuzzy
 msgid "Shift Righ_t and Move"
 msgstr "Décaler vers la droite et déplacer"
 
-#: src/item-cursor.c:933
+#: src/item-cursor.c:918
 #, fuzzy
 msgid "C_ancel"
 msgstr "Covariance"
@@ -14415,7 +14305,7 @@ msgid "Errors while initializing plugin system."
 msgstr ""
 
 #: src/print-info.c:21 src/print-info.c:24 src/print-info.c:25
-#: src/print-info.c:278
+#: src/print-info.c:277
 msgid "Page &[PAGE]"
 msgstr "Page &[PAGE]"
 
@@ -14424,7 +14314,7 @@ msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Page &[PAGE] de &[PAGES]"
 
 #: src/print-info.c:23 src/print-info.c:24 src/print-info.c:25
-#: src/print-info.c:27 src/print-info.c:277
+#: src/print-info.c:27 src/print-info.c:276
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
@@ -14432,69 +14322,69 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:442
+#: src/print-info.c:424
 msgid "points"
 msgstr "points"
 
-#: src/print-info.c:443
+#: src/print-info.c:425
 msgid "millimeter"
 msgstr "millimètre"
 
-#: src/print-info.c:444
+#: src/print-info.c:426
 msgid "centimeter"
 msgstr "centimètre"
 
-#: src/print-info.c:445
+#: src/print-info.c:427
 msgid "inch"
 msgstr "inch"
 
-#: src/print-info.c:535
+#: src/print-info.c:517
 msgid "Sheet 1"
 msgstr "Feuille 1"
 
-#: src/print-info.c:598
+#: src/print-info.c:580
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:599
+#: src/print-info.c:581
 msgid "page"
 msgstr "Page"
 
-#: src/print-info.c:600
+#: src/print-info.c:582
 msgid "pages"
 msgstr "pages"
 
-#: src/print-info.c:601
+#: src/print-info.c:583
 msgid "date"
 msgstr "date"
 
-#: src/print-info.c:602
+#: src/print-info.c:584
 msgid "time"
 msgstr "date"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:545
+#: src/print.c:543
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1040 src/workbook-control-gui.c:2765
+#: src/print.c:1035 src/workbook-control-gui.c:2765
 msgid "Selection must be a single range"
 msgstr "La sélection doit être un intervalle unique"
 
-#: src/print.c:1157
+#: src/print.c:1152
 #, fuzzy
 msgid "Print Sheets"
 msgstr "Configuration de l'impression"
 
-#: src/print.c:1167
+#: src/print.c:1162
 msgid "Act_ive sheet"
 msgstr "Feuille active"
 
-#: src/print.c:1167
+#: src/print.c:1162
 msgid "S_heets"
 msgstr "F_euilles"
 
-#: src/print.c:1254
+#: src/print.c:1249
 msgid "Printing failed"
 msgstr "Échec de l'impression"
 
@@ -14548,25 +14438,25 @@ msgstr "Copier"
 msgid "Cut"
 msgstr "Couper"
 
-#: src/sheet-control-gui.c:464
+#: src/sheet-control-gui.c:440
 #, c-format
 msgid "Row: %d"
 msgstr "Ligne : %d"
 
-#: src/sheet-control-gui.c:479
+#: src/sheet-control-gui.c:455
 #, c-format
 msgid "Column: %s"
 msgstr "Colonne : %s"
 
-#: src/gnumeric.xml.h:51 src/sheet-control-gui.c:989
+#: src/gnumeric.xml.h:51 src/sheet-control-gui.c:965
 msgid "Cu_t"
 msgstr "Co_uper"
 
-#: src/gnumeric.xml.h:234 src/sheet-control-gui.c:993
+#: src/gnumeric.xml.h:234 src/sheet-control-gui.c:969
 msgid "_Paste"
 msgstr "C_oller"
 
-#: src/sheet-control-gui.c:995
+#: src/sheet-control-gui.c:971
 msgid "Paste _Special"
 msgstr "Collage _spécial"
 
@@ -14577,62 +14467,58 @@ msgstr "Collage _spécial"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1007
+#: src/sheet-control-gui.c:983
 msgid "_Insert..."
 msgstr "_Insérer..."
 
-#: src/gnumeric.xml.h:216 src/sheet-control-gui.c:1009
+#: src/gnumeric.xml.h:216 src/sheet-control-gui.c:985
 #: src/workbook-control-gui.c:2037
 msgid "_Delete..."
 msgstr "_Effacer..."
 
-#: src/sheet-control-gui.c:1011
-#, fuzzy
+#: src/sheet-control-gui.c:987
 msgid "_Insert Column(s)"
-msgstr "Insérer colonnes"
+msgstr "_Insérer colonne(s)"
 
-#: src/sheet-control-gui.c:1013
-#, fuzzy
+#: src/sheet-control-gui.c:989
 msgid "_Delete Column(s)"
-msgstr "Supprimer colonnes"
+msgstr "_Supprimer colonne(s)"
 
-#: src/sheet-control-gui.c:1015
-#, fuzzy
+#: src/sheet-control-gui.c:991
 msgid "_Insert Row(s)"
-msgstr "Insérer lignes"
+msgstr "_Insérer ligne(s)"
 
-#: src/sheet-control-gui.c:1017
-#, fuzzy
+#: src/sheet-control-gui.c:993
 msgid "_Delete Row(s)"
-msgstr "Supprimer lignes"
+msgstr "_Supprimer ligne(s)"
 
-#: src/sheet-control-gui.c:1020
+#: src/sheet-control-gui.c:996
 msgid "Clear Co_ntents"
 msgstr "Effacer co_ntenu"
 
-#: src/sheet-control-gui.c:1026
+#: src/sheet-control-gui.c:1002
 msgid "_Format Cells..."
 msgstr "_Format des cellules..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1030
+#: src/sheet-control-gui.c:1006
 msgid "Column _Width..."
 msgstr "Largeur de _colonne..."
 
-#: src/gnumeric.xml.h:226 src/sheet-control-gui.c:1032
-#: src/sheet-control-gui.c:1040 src/workbook-control-gui.c:2148
+#: src/gnumeric.xml.h:226 src/sheet-control-gui.c:1008
+#: src/sheet-control-gui.c:1016 src/workbook-control-gui.c:2148
 #: src/workbook-control-gui.c:2167
 msgid "_Hide"
 msgstr "Cac_her"
 
-#: src/gnumeric.xml.h:250 src/sheet-control-gui.c:1034
-#: src/sheet-control-gui.c:1042 src/workbook-control-gui.c:2151
+#: src/gnumeric.xml.h:250 src/sheet-control-gui.c:1010
+#: src/sheet-control-gui.c:1018 src/workbook-control-gui.c:2151
 #: src/workbook-control-gui.c:2170
 msgid "_Unhide"
 msgstr "_Montrer"
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1038
+#: src/sheet-control-gui.c:1014
 msgid "_Row Height..."
 msgstr "_Hauteur de ligne..."
 
@@ -14655,19 +14541,19 @@ msgstr "Case à cocher"
 msgid "Configure"
 msgstr "Configurer"
 
-#: src/sheet.c:2818 src/sheet.c:2828
+#: src/sheet.c:2853 src/sheet.c:2863
 msgid "Insert Columns"
 msgstr "Insérer colonnes"
 
-#: src/sheet.c:2897
+#: src/sheet.c:2932
 msgid "Delete Columns"
 msgstr "Supprimer colonnes"
 
-#: src/sheet.c:2965 src/sheet.c:2975
+#: src/sheet.c:3000 src/sheet.c:3010
 msgid "Insert Rows"
 msgstr "Insérer lignes"
 
-#: src/sheet.c:3044
+#: src/sheet.c:3079
 msgid "Delete Rows"
 msgstr "Supprimer lignes"
 
@@ -15986,16 +15872,16 @@ msgstr "doit avoir au moins 1 lettre"
 msgid "There is already a sheet named '%s'"
 msgstr "Il y a déjà une feuille nommée « %s »"
 
-#: src/xml-io.c:3212
+#: src/xml-io.c:3200
 #, fuzzy
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Fichier xml non valide. L'arbre est vide ?"
 
-#: src/xml-io.c:3265
+#: src/xml-io.c:3253
 msgid "Is not an Gnumeric Workbook file"
 msgstr "N'est pas un fichier classeur Gnumeric"
 
-#: src/xml-io.c:3328
+#: src/xml-io.c:3316
 msgid "Gnumeric XML file format"
 msgstr "Format de fichier Gnumeric XML"
 
@@ -16403,6 +16289,14 @@ msgstr "_Enregistrer"
 #: src/gnumeric.xml.h:251
 msgid "_View"
 msgstr "_Vue"
+
+#, fuzzy
+#~ msgid "St_yle :"
+#~ msgstr "St_yle :"
+
+#, fuzzy
+#~ msgid "_Error message :"
+#~ msgstr "Message d'erreur Gnumeric"
 
 #~ msgid "_Title:"
 #~ msgstr "_Titre :"
