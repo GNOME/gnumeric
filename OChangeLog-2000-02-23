@@ -1,3 +1,8 @@
+1999-12-18  Kjartan Maraas  <kmaraas@online.no>
+
+	* src/dialogs/print.glade.h: Added xgettext:no-c-format in
+	comment to please msgfmt.
+	
 1999-12-18  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-financial.c (gnumeric_tbilleq,
