@@ -172,7 +172,13 @@ ExprTree   *expr_tree_duplicate  (ExprTree *expr);
 char       *expr_decode_tree     (ExprTree *tree, Sheet *sheet,
 				  int col, int row);
 
-ExprTree   *expr_tree_new        (void);
+ExprTree   *expr_tree_new_constant(Value *v);
+ExprTree   *expr_tree_new_unary  (Operation op, ExprTree *e);
+ExprTree   *expr_tree_new_binary (ExprTree *l, Operation op, ExprTree *r);
+ExprTree   *expr_tree_new_funcall(Symbol *sym, GList *args);
+ExprTree   *expr_tree_new_var    (const CellRef *cr);
+ExprTree   *expr_tree_new_error  (const char *txt);
+
 void        expr_tree_ref        (ExprTree *tree);
 void        expr_tree_unref      (ExprTree *tree);
 

@@ -47,19 +47,91 @@ expr_parse_string (const char *expr, Sheet *sheet, int col, int row,
 
 
 ExprTree *
-expr_tree_new (void)
+expr_tree_new_constant (Value *v)
 {
 	ExprTree *ans;
 
 	ans = g_new (ExprTree, 1);
-	if (!ans)
-		return NULL;
-	
-	ans->ref_count = 1;
-	ans->oper = OPER_CONSTANT;
-	ans->u.constant = NULL;
+	if (ans) {
+		ans->ref_count = 1;
+		ans->oper = OPER_CONSTANT;
+		ans->u.constant = v;
+	}
 	return ans;
 }
+
+ExprTree *
+expr_tree_new_unary  (Operation op, ExprTree *e)
+{
+	ExprTree *ans;
+
+	ans = g_new (ExprTree, 1);
+	if (ans) {
+		ans->ref_count = 1;
+		ans->oper = op;
+		ans->u.value = e;
+	}
+	return ans;
+}
+
+
+ExprTree *
+expr_tree_new_binary (ExprTree *l, Operation op, ExprTree *r)
+{
+	ExprTree *ans;
+
+	ans = g_new (ExprTree, 1);
+	if (ans) {
+		ans->ref_count = 1;
+		ans->oper = op;
+		ans->u.binary.value_a = l;
+		ans->u.binary.value_b = r;
+	}
+	return ans;
+}
+
+ExprTree *
+expr_tree_new_funcall (Symbol *sym, GList *args)
+{
+	ExprTree *ans;
+	g_return_val_if_fail (sym, NULL);
+
+	ans = g_new (ExprTree, 1);
+	if (ans) {
+		ans->ref_count = 1;
+		ans->oper = OPER_FUNCALL;
+		ans->u.function.symbol = sym;;
+		ans->u.function.arg_list = args;
+	}
+	return ans;
+}
+
+ExprTree *
+expr_tree_new_var (const CellRef *cr)
+{
+	ExprTree *ans;
+
+	ans = g_new (ExprTree, 1);
+	if (ans) {
+		ans->ref_count = 1;
+		ans->oper = OPER_VAR;
+		ans->u.ref = *cr;
+	}
+	return ans;
+}
+
+ExprTree *
+expr_tree_new_error (const char *txt)
+{
+	ExprTree *val, *call;
+	Symbol *func;
+
+	val = expr_tree_new_constant (value_new_string (txt));
+	func = symbol_lookup (global_symbol_table, "ERROR");
+	symbol_ref (func);
+	return expr_tree_new_funcall (func, g_list_prepend (NULL, val));
+}
+
 
 /*
  * expr_tree_ref:
@@ -635,44 +707,6 @@ cell_ref_restore_absolute (CellRef *cell_ref, const CellRef *orig, int eval_col,
 	}
 }
 
-#if 0
-static Value *
-eval_cell_value (Sheet *sheet, Value *value)
-{
-	Value *res;
-
-	res = g_new (Value, 1);
-	res->type = value->type;
-
-	switch (res->type){
-	case VALUE_STRING:
-		res->v.str = value->v.str;
-		string_ref (res->v.str);
-		break;
-
-	case VALUE_INTEGER:
-		res->v.v_int = value->v.v_int;
-		break;
-
-	case VALUE_FLOAT:
-		res->v.v_float = value->v.v_float;
-		break;
-
-	case VALUE_ARRAY:
-		res = value_duplicate (value);
-		break;
-
-	case VALUE_CELLRANGE:
-		res->v.cell_range = value->v.cell_range;
-		break;
-	default:
-		g_warning ("eval_cell_value error\n");
-		break;
-	}
-	return res;
-}
-#endif
-
 static void
 free_values (Value **values, int top)
 {
@@ -1179,13 +1213,11 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			return NULL;
 		}
 
-		res = g_new (Value, 1);
-		res->type = VALUE_STRING;
 		sa = value_get_as_string (a);
 		sb = value_get_as_string (b);
-
 		tmp = g_strconcat (sa, sb, NULL);
-		res->v.str = string_get (tmp);
+		res = value_new_string (tmp);
+
 		g_free (sa);
 		g_free (sb);
 		g_free (tmp);
@@ -1204,14 +1236,9 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		Cell *cell;
 		int col, row;
 
-		if (sheet == NULL){
+		if (sheet == NULL) {
 			/* Only the test program requests this */
-			res = g_new (Value, 1);
-
-			res->type = VALUE_FLOAT;
-			res->v.v_float = 3.14;
-
-			return res;
+			return value_new_float (3.14);
 		}
 
 		ref = &tree->u.ref;
@@ -1255,13 +1282,10 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			value_release (a);
 			return NULL;
 		}
-		res = g_new (Value, 1);
-		res->type = a->type;
-		if (a->type == VALUE_INTEGER){
-			res->v.v_int = -a->v.v_int;
-		} else {
-			res->v.v_float = -a->v.v_float;
-		}
+		if (a->type == VALUE_INTEGER)
+			res = value_new_int (-a->v.v_int);
+		else
+			res = value_new_float (-a->v.v_float);
 		value_release (a);
 		return res;
 	}
@@ -1480,33 +1504,6 @@ expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row)
 }
 
 
-static ExprTree *
-build_error_string (const char *txt)
-{
-	ExprTree *val, *call;
-	Symbol *func;
-
-	val = g_new (ExprTree, 1);
-	val->oper = OPER_CONSTANT;
-	val->ref_count = 1;
-	val->u.constant = value_new_string (txt);
-
-	func = symbol_lookup (global_symbol_table, "ERROR");
-	if (func == NULL) {
-		g_assert_not_reached ();
-		return val;
-	}
-
-	call = g_new (ExprTree, 1);
-	call->oper = OPER_FUNCALL;
-	call->ref_count = 1;
-	symbol_ref ((call->u.function.symbol = func));
-	call->u.function.arg_list = g_list_prepend (NULL, val);
-
-	return call;
-}
-
-
 struct expr_tree_frob_references {
 	Sheet *src_sheet;
 	int src_col, src_row;
@@ -1550,19 +1547,12 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 		if (a == NULL && b == NULL)
 			return NULL;
 		else {
-			ExprTree *dst;
-
 			if (a == NULL)
 				expr_tree_ref ((a = src->u.binary.value_a));
 			if (b == NULL)
 				expr_tree_ref ((b = src->u.binary.value_b));
 
-			dst = g_new (ExprTree, 1);
-			dst->oper = src->oper;
-			dst->ref_count = 1;
-			dst->u.binary.value_a = a;
-			dst->u.binary.value_b = b;
-			return dst;
+			return expr_tree_new_binary (a, src->oper, b);
 		}
 	}
 
@@ -1571,15 +1561,8 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 			do_expr_tree_invalidate_references (src->u.value, info);
 		if (a == NULL)
 			return NULL;
-		else {
-			ExprTree *dst;
-
-			dst = g_new (ExprTree, 1);
-			dst->oper = src->oper;
-			dst->ref_count = 1;
-			dst->u.value = a;
-			return dst;
-		}
+		else
+			return expr_tree_new_unary (src->oper, a);
 	}
 
 	case OPER_FUNCALL: {
@@ -1594,7 +1577,6 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 		}
 
 		if (any) {
-			ExprTree *dst;
 			GList *m;
 
 			for (l = src->u.function.arg_list, m = new_args; l; l = l->next, m = m->next) {
@@ -1602,13 +1584,8 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 					expr_tree_ref ((m->data = l->data));
 			}
 
-			dst = g_new (ExprTree, 1);
-			dst->oper = OPER_FUNCALL;
-			dst->ref_count = 1;
-			symbol_ref ((dst->u.function.symbol = src->u.function.symbol));
-			dst->u.function.arg_list = new_args;
-
-			return dst;
+			symbol_ref (src->u.function.symbol);
+			return expr_tree_new_funcall (src->u.function.symbol, new_args);
 		} else {
 			g_list_free (new_args);
 			return NULL;
@@ -1625,7 +1602,7 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 		cell_ref_make_absolute (&cr, info->src_col, info->src_row);
 
 		if (cell_in_range (&cr, info))
-			return build_error_string ("#Reference to deleted cell!");
+			return expr_tree_new_error (_("#Reference to deleted cell!"));
 		else
 			return NULL;
 	}
@@ -1650,7 +1627,7 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 			cell_ref_make_absolute (&cb, info->src_col, info->src_row);
 
 			if (cell_in_range (&ca, info) && cell_in_range (&cb, info))
-				return build_error_string ("#Reference to deleted range!");
+				return expr_tree_new_error (_("#Reference to deleted range!"));
 			else
 				return NULL;
 		}
@@ -1773,19 +1750,12 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 		if (a == NULL && b == NULL)
 			return NULL;
 		else {
-			ExprTree *dst;
-
 			if (a == NULL)
 				expr_tree_ref ((a = src->u.binary.value_a));
 			if (b == NULL)
 				expr_tree_ref ((b = src->u.binary.value_b));
 
-			dst = g_new (ExprTree, 1);
-			dst->oper = src->oper;
-			dst->ref_count = 1;
-			dst->u.binary.value_a = a;
-			dst->u.binary.value_b = b;
-			return dst;
+			return expr_tree_new_binary (a, src->oper, b);
 		}
 	}
 
@@ -1794,15 +1764,8 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 			do_expr_tree_fixup_references (src->u.value, info);
 		if (a == NULL)
 			return NULL;
-		else {
-			ExprTree *dst;
-
-			dst = g_new (ExprTree, 1);
-			dst->oper = src->oper;
-			dst->ref_count = 1;
-			dst->u.value = a;
-			return dst;
-		}
+		else
+			return expr_tree_new_unary (src->oper, a);
 	}
 
 	case OPER_FUNCALL: {
@@ -1817,7 +1780,6 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 		}
 
 		if (any) {
-			ExprTree *dst;
 			GList *m;
 
 			for (l = src->u.function.arg_list, m = new_args; l; l = l->next, m = m->next) {
@@ -1825,13 +1787,8 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 					expr_tree_ref ((m->data = l->data));
 			}
 
-			dst = g_new (ExprTree, 1);
-			dst->oper = OPER_FUNCALL;
-			dst->ref_count = 1;
-			symbol_ref ((dst->u.function.symbol = src->u.function.symbol));
-			dst->u.function.arg_list = new_args;
-
-			return dst;
+			symbol_ref (src->u.function.symbol);
+			return expr_tree_new_funcall (src->u.function.symbol, new_args);
 		} else {
 			g_list_free (new_args);
 			return NULL;
@@ -1839,7 +1796,6 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 	}
 
 	case OPER_VAR: {
-		ExprTree *dst;
 		CellRef cr = src->u.ref; /* Copy a structure, not a pointer.  */
 
 		/* If the sheet is wrong, do nothing.  */
@@ -1849,12 +1805,7 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 		if (!fixup_calc_new_cellref (&cr, info))
 			return NULL;
 
-		dst = g_new (ExprTree, 1);
-		dst->oper = src->oper;
-		dst->ref_count = 1;
-		dst->u.ref = cr;
-
-		return dst;
+		return expr_tree_new_var (&cr);
 	}
 
 	case OPER_CONSTANT: {
@@ -1868,8 +1819,6 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 
 		case VALUE_CELLRANGE: {
 			gboolean a_changed, b_changed;
-			ExprTree *dst;
-			Value *nv;
 
 			CellRef ca = v->v.cell_range.cell_a; /* Copy a structure, not a pointer.  */
 			CellRef cb = v->v.cell_range.cell_b; /* Copy a structure, not a pointer.  */
@@ -1884,17 +1833,7 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 			if (!a_changed && !b_changed)
 				return NULL;
 
-			nv = g_new (Value, 1);
-			nv->type = v->type;
-			nv->v.cell_range.cell_a = ca;
-			nv->v.cell_range.cell_b = cb;
-
-			dst = g_new (ExprTree, 1);
-			dst->oper = src->oper;
-			dst->ref_count = 1;
-			dst->u.constant = nv;
-
-			return dst;
+			return expr_tree_new_constant (value_new_cellrange (&ca, &cb));
 		}
 		case VALUE_ARRAY:
 			fprintf (stderr, "Reminder: FIXME in do_expr_tree_fixup_references\n");

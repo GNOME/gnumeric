@@ -41,7 +41,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
 		if (cell->parsed_node && (cell->flags & CELL_QUEUED_FOR_RECALC))
 			cell_eval (cell);
 	}
-	
+
 	if (!cell->value){
 		/*
 		 * FIXME: If this is a formula, is it worth recursing on
@@ -50,7 +50,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
 		 */
 		return TRUE;
 	}
-	
+
 	cont = (*data->callback)(sheet, cell->value, data->error_string, data->closure);
 
 	return cont;
@@ -60,7 +60,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
  * function_iterate_do_value:
  *
  * Helper routine for function_iterate_argument_values.
- */ 
+ */
 int
 function_iterate_do_value (Sheet                   *sheet,
 			   FunctionIterateCallback callback,
@@ -71,14 +71,14 @@ function_iterate_do_value (Sheet                   *sheet,
 			   char                    **error_string)
 {
 	int ret = TRUE;
-	
+
 	switch (value->type){
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 	case VALUE_STRING:
 		ret = (*callback)(sheet, value, error_string, closure);
 			break;
-			
+
 	case VALUE_ARRAY:
 	{
 		int x, y;
@@ -98,11 +98,11 @@ function_iterate_do_value (Sheet                   *sheet,
 	case VALUE_CELLRANGE: {
 		IterateCallbackClosure data;
 		int start_col, start_row, end_col, end_row;
-		
+
 		data.callback = callback;
 		data.closure  = closure;
 		data.error_string = error_string;
-		
+
 		cell_get_abs_col_row (&value->v.cell_range.cell_a,
 				      eval_col, eval_row,
 				      &start_col, &start_row);
@@ -144,7 +144,7 @@ function_iterate_argument_values (Sheet                   *sheet,
 				sheet, callback, callback_closure,
 				eval_col, eval_row, val,
 				error_string);
-			
+
 			value_release (val);
 		}
 	}
@@ -172,15 +172,15 @@ tokenized_help_new (FunctionDefinition *fd)
 		char *ptr;
 		int seek_att = 1;
 		int last_newline = 1;
-		
+
 		tok->help_copy = g_strdup (fd->help [0]);
 		tok->sections = g_ptr_array_new ();
 		ptr = tok->help_copy;
-		
+
 		while (*ptr){
 			if (*ptr == '\\' && *(ptr+1))
 				ptr+=2;
-			
+
 			if (*ptr == '@' && seek_att && last_newline){
 				*ptr = 0;
 				g_ptr_array_add (tok->sections, (ptr+1));
@@ -198,7 +198,7 @@ tokenized_help_new (FunctionDefinition *fd)
 		tok->help_copy = NULL;
 		tok->sections = NULL;
 	}
-	
+
 	return tok;
 }
 
@@ -212,7 +212,7 @@ tokenized_help_find (TokenizedHelp *tok, char *token)
 
 	if (!tok || !tok->sections)
 		return "Incorrect Function Description.";
-	
+
 	for (lp = 0; lp < tok->sections->len-1; lp++){
 		char *cmp = g_ptr_array_index (tok->sections, lp);
 
@@ -242,13 +242,13 @@ install_symbols (FunctionDefinition *functions, gchar *description)
 {
 	int i;
 	FunctionCategory *fn_cat = g_new (FunctionCategory, 1);
-	
+
 	g_return_if_fail (categories);
 
 	fn_cat->name = description;
 	fn_cat->functions = functions;
-	g_ptr_array_add (categories, fn_cat); 
-	
+	g_ptr_array_add (categories, fn_cat);
+
 	for (i = 0; functions [i].name; i++){
 		symbol_install (global_symbol_table, functions [i].name,
 				SYMBOL_FUNCTION, &functions [i]);
@@ -275,7 +275,7 @@ functions_init (void)
 }
 
 /* Initialize temporarily with statics.  The real versions from the locale
- * will be setup in constants_init 
+ * will be setup in constants_init
  */
 char * gnumeric_err_NULL = "#NULL!";
 char * gnumeric_err_DIV0 = "#DIV/0!";
@@ -288,26 +288,12 @@ char * gnumeric_err_NA = "#N/A";
 void
 constants_init (void)
 {
-	Value *true, *false, *version;
-
-	/* FALSE */
-	false = g_new (Value, 1);
-	false->type = VALUE_INTEGER;
-	false->v.v_int = 0;
-
-	/* TRUE */
-	true = g_new (Value, 1);
-	true->type = VALUE_INTEGER;
-	true->v.v_int = 1;
-
-	/* GNUMERIC_VERSION */
-	version = g_new (Value, 1);
-	version->type = VALUE_FLOAT;
-	version->v.v_float = atof (GNUMERIC_VERSION);
-	
-	symbol_install (global_symbol_table, "FALSE", SYMBOL_VALUE, false);
-	symbol_install (global_symbol_table, "TRUE", SYMBOL_VALUE, true);
-	symbol_install (global_symbol_table, "GNUMERIC_VERSION", SYMBOL_VALUE, version);
+	symbol_install (global_symbol_table, "FALSE", SYMBOL_VALUE,
+			value_new_bool (FALSE));
+	symbol_install (global_symbol_table, "TRUE", SYMBOL_VALUE,
+			value_new_bool (TRUE));
+	symbol_install (global_symbol_table, "GNUMERIC_VERSION", SYMBOL_VALUE,
+			value_new_float (atof (GNUMERIC_VERSION)));
 
 	/* Global helper value for arrays */
 	value_zero = value_new_float (0);

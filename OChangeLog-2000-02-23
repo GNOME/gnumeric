@@ -1,5 +1,23 @@
 1999-06-17  Morten Welinder  <terra@diku.dk>
 
+	* src/expr.c (expr_tree_new_constant): New function.
+	(expr_tree_new_unary): New function.
+	(expr_tree_new_binary): New function.
+	(expr_tree_new_funcall): New function.
+	(expr_tree_new_var): New function.
+	(expr_tree_new_error): Renamed from build_error_string, made
+ 	public, and simplified.  All callers changed.
+	(do_expr_tree_invalidate_references): Simplify.
+	(do_expr_tree_fixup_references): Ditto.
+	(eval_expr): Simplify.
+	(expr_tree_new): Obsolete.
+
+	* src/func.c (constants_init): Simplify.
+
+	* src/main.c (gnumeric_main): Call style_shutdown.
+
+	* src/style.c (style_shutdown): New function.
+
 	* src/expr.h: Avoid using bitfields here.  They are slow and
  	confuse tools like Purify.  And used like this they don't save any
  	space anyway.

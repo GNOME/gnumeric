@@ -104,6 +104,7 @@ font_compute_hints (StyleFont *font)
 
 #ifdef DEBUG_FONTS
 #include <X11/Xlib.h>
+#include <X11/Xatom.h>
 #include "gdk/gdkprivate.h" /* Sorry */
 
 static char *
@@ -118,7 +119,7 @@ my_gdk_actual_font_name (GdkFont *font)
 		if (XGetFontProperty (private->xfont, font_atom, &atom) == True) {
 			char *xname, *gname;
 			xname = XGetAtomName (private->xdisplay, atom);
-			gname = g_strdup (xname);
+			gname = g_strdup ((xname && *xname) ? xname : "<unspecified>");
 			XFree (xname);
 			return gname;
 		}
@@ -176,7 +177,7 @@ style_font_new_simple (const char *font_name, int units)
 #ifdef DEBUG_FONTS
 		{
 			char *fname = my_gdk_actual_font_name (gdk_font);
-			printf ("was resolved as \"%s\".\n\n", fname);
+			printf ("was resolved as \"%s\".\n\n", fname ? fname : "(null)");
 			g_free (fname);
 		}
 #endif
@@ -630,4 +631,49 @@ style_init (void)
 	style_font_negative_hash = g_hash_table_new (font_hash, font_equal);
 
 	font_init ();
+}
+
+static void
+delete_neg_font (gpointer key, gpointer value, gpointer user_data)
+{
+	StyleFont *font = key;
+
+	g_free (font->font_name);
+	g_free (font);
+}
+
+/*
+ * Release all resources allocated by style_init.
+ */
+void
+style_shutdown (void)
+{
+	int boldp, italicp;
+
+	for (boldp = 0; boldp <= 1; boldp++) {
+		for (italicp = 0; italicp <= 1; italicp++) {
+			g_free (standard_font_names[boldp][italicp]);
+			standard_font_names[boldp][italicp] = NULL;
+
+			style_font_unref (standard_fonts[boldp][italicp]);
+			standard_fonts[boldp][italicp] = NULL;
+		}
+	}
+
+	gnumeric_default_font = NULL;
+	gnumeric_default_bold_font = NULL;
+	gnumeric_default_italic_font = NULL;
+
+	g_hash_table_destroy (style_format_hash);
+	style_format_hash = NULL;
+	g_hash_table_destroy (style_font_hash);
+	style_font_hash = NULL;
+	g_hash_table_destroy (style_border_hash);
+	style_border_hash = NULL;
+	g_hash_table_destroy (style_color_hash);
+	style_color_hash = NULL;
+
+	g_hash_table_foreach (style_font_negative_hash, delete_neg_font, NULL);
+	g_hash_table_destroy (style_font_negative_hash);
+	style_font_negative_hash = NULL;
 }

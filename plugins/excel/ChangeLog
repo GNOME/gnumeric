@@ -1,5 +1,14 @@
 1999-06-17  Morten Welinder  <terra@diku.dk>
 
+	* ms-formula-read.c (expr_tree_unary): Obsolete.  Use
+ 	expr_tree_new_unary instead.
+	(expr_tree_cellref): Obsolete.  Use expr_tree_new_var instead.
+	(expr_tree_value): Obsolete.  Use expr_tree_new_constant instead.
+	(expr_tree_string): Simplify.
+	(ms_excel_parse_formula): Use expr_tree_string.  Use
+ 	expr_tree_new_binary.
+	(make_function): Use expr_tree_new_funcall.  Fix leak.
+
 	* ms-excel-read.c (ms_excel_read_name): Don't print null pointers.
 	(ms_excel_read_workbook): Ditto.
 
