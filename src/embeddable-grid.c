@@ -308,7 +308,7 @@ grid_view_activate (GridView *grid_view)
 /*	gtk_signal_emit_by_name (GTK_OBJECT (grid_view->view.plug), "set_focus",
 	grid_view->sheet_view->sheet_view);*/
 			
-	gnome_view_activate_notify(GNOME_VIEW(grid_view), TRUE);
+	gnome_view_activate_notify (GNOME_VIEW (grid_view), TRUE);
 }
 
 GnomeView *

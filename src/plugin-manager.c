@@ -82,7 +82,7 @@ static void
 row_cb (GtkWidget * clist, gint row, gint col,
 	       GdkEvent *event,  PluginManager *pm)
 {
-	if (GTK_CLIST(clist)->selection != NULL)
+	if (GTK_CLIST (clist)->selection != NULL)
 		gtk_widget_set_sensitive (pm->button_remove, 1);
 	else
 		gtk_widget_set_sensitive (pm->button_remove, 0);
@@ -92,7 +92,7 @@ static gint
 pm_key_event (GtkWidget *pm, GdkEventKey *event)
 {
 	if (event->keyval == GDK_Escape) {
-		gtk_widget_destroy(pm);
+		gtk_widget_destroy (pm);
 		return 1;
 	} else
 		return 0;
@@ -116,7 +116,7 @@ plugin_manager_new (Workbook *wb)
 	pm->hbox = gtk_hbox_new (0, 0);
 	gtk_container_add (GTK_CONTAINER (pm->dialog), pm->hbox);
 
-	pm->scrollwin = gtk_scrolled_window_new(NULL, NULL);
+	pm->scrollwin = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (pm->scrollwin),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC); 
@@ -135,7 +135,7 @@ plugin_manager_new (Workbook *wb)
 	gtk_box_pack_start (GTK_BOX (pm->hbox), pm->vbbox, 0, 0, 5);
 	
 	pm->button_close = gtk_button_new_with_label (_("Close"));
-	gtk_container_add (GTK_CONTAINER(pm->vbbox), pm->button_close);
+	gtk_container_add (GTK_CONTAINER (pm->vbbox), pm->button_close);
 	
 	pm->button_add = gtk_button_new_with_label (_("Add..."));
 	gtk_container_add (GTK_CONTAINER (pm->vbbox), pm->button_add);
@@ -149,17 +149,17 @@ plugin_manager_new (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (pm->button_close), "clicked",
 			    GTK_SIGNAL_FUNC (close_cb), pm);
 	
-	gtk_signal_connect(GTK_OBJECT (pm->button_add), "clicked",
-			   GTK_SIGNAL_FUNC (add_cb), pm);
+	gtk_signal_connect (GTK_OBJECT (pm->button_add), "clicked",
+			    GTK_SIGNAL_FUNC (add_cb), pm);
 	
 	gtk_signal_connect (GTK_OBJECT (pm->button_remove), "clicked",
-			   GTK_SIGNAL_FUNC (remove_cb), pm);
+			    GTK_SIGNAL_FUNC (remove_cb), pm);
 	
-	gtk_signal_connect(GTK_OBJECT (pm->clist), "select_row",
-			   GTK_SIGNAL_FUNC (row_cb), pm);
+	gtk_signal_connect (GTK_OBJECT (pm->clist), "select_row",
+			    GTK_SIGNAL_FUNC (row_cb), pm);
 	
-	gtk_signal_connect(GTK_OBJECT (pm->clist), "unselect_row",
-			   GTK_SIGNAL_FUNC (row_cb), pm);
+	gtk_signal_connect (GTK_OBJECT (pm->clist), "unselect_row",
+			    GTK_SIGNAL_FUNC (row_cb), pm);
 	
 	gtk_signal_connect (GTK_OBJECT (pm->dialog), "key_press_event",
 			    GTK_SIGNAL_FUNC (pm_key_event), NULL);

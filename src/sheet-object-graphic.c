@@ -22,7 +22,7 @@ sheet_object_graphic_destroy (GtkObject *object)
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (object);
 
 	string_unref (sog->color);
-	GTK_OBJECT_CLASS (sheet_object_graphic_parent_class)->destroy(object);
+	GTK_OBJECT_CLASS (sheet_object_graphic_parent_class)->destroy (object);
 }
 
 static GnomeCanvasItem *

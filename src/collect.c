@@ -60,7 +60,7 @@ callback_function_collect (const EvalPosition *ep, Value *value, void *closure)
 	        if (cl->flags & COLLECT_DATES) {
 		        x = get_serial_date (value);
 			if (x == 0)
-			        return value_new_error(ep, gnumeric_err_VALUE);
+			        return value_new_error (ep, gnumeric_err_VALUE);
 		} else if (cl->flags & COLLECT_IGNORE_STRINGS)
 			return NULL;
 		else if (cl->flags & COLLECT_ZERO_STRINGS)
@@ -125,7 +125,7 @@ collect_floats (GList *exprlist, const EvalPosition *ep, CollectFlags flags,
 		g_assert (err->type == VALUE_ERROR);
 		g_free (cl.data);
 		/* Be careful not to make value_terminate into a real value */
-		*error = (err != value_terminate())? value_duplicate(err) : err;
+		*error = (err != value_terminate ())? value_duplicate (err) : err;
 		return NULL;
 	}
 
@@ -171,7 +171,7 @@ float_range_function (GList *exprlist, FunctionEvalInfo *ei,
 
 	vals = collect_floats (exprlist, &ei->pos, flags, &n, &error);
 	if (!vals)
-		return (error != value_terminate()) ? error : NULL;
+		return (error != value_terminate ()) ? error : NULL;
 
 	err = func (vals, n, &res);
 	g_free (vals);

@@ -40,8 +40,8 @@ plugin_load (Workbook *wb, const gchar *modfile)
 		char *str;
 		str = g_strconcat(_("unable to open module file: "), g_module_error(), NULL);
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, str);
-		g_free(str);
-		g_free(data);
+		g_free (str);
+		g_free (data);
 		return NULL;
 #endif
 	}
@@ -73,7 +73,7 @@ plugin_unload (Workbook *wb, PluginData *pd)
 {
 	g_return_if_fail (pd != NULL);
 	
-	if (pd->can_unload && !pd->can_unload(pd)) {
+	if (pd->can_unload && !pd->can_unload (pd)) {
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_INFO,
 				 _("Plugin is still in use.\n"));
 		return;
@@ -127,9 +127,9 @@ load_all_plugins (void)
 }
 
 void
-plugins_init(void)
+plugins_init (void)
 {
-	if (!g_module_supported())
+	if (!g_module_supported ())
 		return;
 
 	load_all_plugins ();

@@ -1000,7 +1000,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 
 			sibling = sheet_cell_get (sheet, pos, row);
 
-			if (!cell_is_blank(sibling))
+			if (!cell_is_blank (sibling))
 				return;
 
 			ci = sheet_col_get_info (sheet, pos);
@@ -1028,7 +1028,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 
 			sibling = sheet_cell_get (sheet, pos, row);
 
-			if (!cell_is_blank(sibling))
+			if (!cell_is_blank (sibling))
 				return;
 
 			ci = sheet_col_get_info (sheet, pos);
@@ -1063,7 +1063,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 			if (*col1 - 1 >= 0){
 				left_sibling = sheet_cell_get (sheet, *col1 - 1, row);
 
-				if (!cell_is_blank(left_sibling))
+				if (!cell_is_blank (left_sibling))
 					left_left = 0;
 				else {
 					ci = sheet_col_get_info (sheet, *col1 - 1);
@@ -1079,7 +1079,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 			if (*col2 + 1 < SHEET_MAX_COLS-1){
 				right_sibling = sheet_cell_get (sheet, *col2 + 1, row);
 
-				if (!cell_is_blank(right_sibling))
+				if (!cell_is_blank (right_sibling))
 					left_right = 0;
 				else {
 					ci = sheet_col_get_info (sheet, *col2 + 1);
@@ -1229,7 +1229,7 @@ cell_calc_dimensions (Cell *cell)
  * cell_get_text:
  * @cell: the cell to fetch the text from.
  *
- * Returns a g_malloced() version of the contents of the cell.  It will
+ * Returns a g_malloced () version of the contents of the cell.  It will
  * return a formula if it is a formula, or a string value rendered with the
  * current format.
  *
@@ -1311,7 +1311,7 @@ cell_get_comment (Cell *cell)
 }
 
 gboolean
-cell_is_blank(Cell *cell)
+cell_is_blank (Cell *cell)
 {
 	if (cell == NULL || cell->value == NULL ||
 	    cell->value->type == VALUE_EMPTY)

@@ -112,9 +112,11 @@ general_linear_regression (float_t **xss, int xdim,
 	g_free (xTy);
 
 	if (extra_stat) {
-		extra_stat->se = g_new(float_t, xdim);
-	        for (i=0; i<xdim; i++)
-		        extra_stat->se[i] = 0;
+		extra_stat->se = g_new (float_t, xdim);
+
+	        for (i = 0; i < xdim; i++)
+		        extra_stat->se [i] = 0;
+
 		extra_stat->sqr_r = 0;
 		extra_stat->se_y = 0;
 		extra_stat->F = 0;

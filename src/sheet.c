@@ -189,10 +189,10 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->cols.max_used = -1;
 	sheet->rows.max_used = -1;
 
-	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new(), 
-			      COLROW_SEGMENT_INDEX(SHEET_MAX_COLS-1)+1);
-	g_ptr_array_set_size (sheet->rows.info = g_ptr_array_new(), 
-			      COLROW_SEGMENT_INDEX(SHEET_MAX_ROWS-1)+1);
+	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (), 
+			      COLROW_SEGMENT_INDEX (SHEET_MAX_COLS-1)+1);
+	g_ptr_array_set_size (sheet->rows.info = g_ptr_array_new (), 
+			      COLROW_SEGMENT_INDEX (SHEET_MAX_ROWS-1)+1);
 	sheet->print_info = print_info_new ();
 
 	sheet->cell_hash = g_hash_table_new (cell_hash,
@@ -249,8 +249,9 @@ sheet_foreach_colrow (Sheet *sheet, ColRowCollection *infos,
 
 	i = start;
 	while (i <= stop) {
-		ColRowInfo **segment = COLROW_GET_SEGMENT(infos, i);
+		ColRowInfo **segment = COLROW_GET_SEGMENT (infos, i);
 		int sub = COLROW_SUB_INDEX(i);
+
 		i += COLROW_SEGMENT_SIZE - sub;
 		if (segment != NULL)
 			for (; sub < COLROW_SEGMENT_SIZE; ++sub) {
@@ -273,8 +274,8 @@ sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 	 * Ensure that there is at least 1 pixel around every cell so that we
 	 * can mark the current cell
 	 */
-	ci->margin_a = MAX(ci->margin_a_pt * pix_per_unit, 1);
-	ci->margin_b = MAX(ci->margin_b_pt * pix_per_unit, 1);
+	ci->margin_a = MAX (ci->margin_a_pt * pix_per_unit, 1);
+	ci->margin_b = MAX (ci->margin_b_pt * pix_per_unit, 1);
 
 	return FALSE;
 }
@@ -362,7 +363,7 @@ void
 sheet_col_add (Sheet *sheet, ColRowInfo *cp)
 {
 	int const col = cp->pos;
-	ColRowInfo *** segment = (ColRowInfo ***)&COLROW_GET_SEGMENT(&(sheet->cols), col);
+	ColRowInfo *** segment = (ColRowInfo ***)&COLROW_GET_SEGMENT (&(sheet->cols), col);
 
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (col < SHEET_MAX_COLS);
@@ -769,8 +770,9 @@ typedef struct {
 	int col;
 	GList * cells;
 } closure_cells_in_col;
+
 static gboolean
-cb_collect_cells_in_col(Sheet *sheet, ColRowInfo *ri, closure_cells_in_col *dat)
+cb_collect_cells_in_col (Sheet *sheet, ColRowInfo *ri, closure_cells_in_col *dat)
 {
 	Cell * cell = row_cell_get_displayed_at (ri, dat->col);
 	if (cell)
@@ -1397,7 +1399,7 @@ int
 sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 				int count, gboolean jump_to_boundaries)
 {
-	gboolean find_first = cell_is_blank(sheet_cell_get (sheet, start_col, row));
+	gboolean find_first = cell_is_blank (sheet_cell_get (sheet, start_col, row));
 	int new_col = start_col, prev_col = start_col;
 	gboolean keep_looking = FALSE;
 	int iterations = 0;
@@ -1417,7 +1419,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 		else if (new_col >= SHEET_MAX_COLS)
 			new_col = SHEET_MAX_COLS-1;
 		else if (jump_to_boundaries) {
-			keep_looking = (cell_is_blank( sheet_cell_get (sheet, new_col, row)) == find_first);
+			keep_looking = (cell_is_blank (sheet_cell_get (sheet, new_col, row)) == find_first);
 			if (keep_looking)
 				prev_col = new_col;
 			else if (!find_first) {
@@ -1453,7 +1455,7 @@ int
 sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 			      int count, gboolean jump_to_boundaries)
 {
-	gboolean find_first = cell_is_blank(sheet_cell_get (sheet, col, start_row));
+	gboolean find_first = cell_is_blank (sheet_cell_get (sheet, col, start_row));
 	int new_row = start_row, prev_row = start_row;
 	gboolean keep_looking = FALSE;
 	int iterations = 0;
@@ -1472,7 +1474,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 		else if (new_row > SHEET_MAX_ROWS-1)
 			new_row = SHEET_MAX_ROWS-1;
 		else if (jump_to_boundaries) {
-			keep_looking = (cell_is_blank( sheet_cell_get (sheet, col, new_row)) == find_first);
+			keep_looking = (cell_is_blank (sheet_cell_get (sheet, col, new_row)) == find_first);
 			if (keep_looking)
 				prev_row = new_row;
 			else if (!find_first) {
@@ -1722,9 +1724,9 @@ sheet_col_get (Sheet const *sheet, int const pos)
 	g_return_val_if_fail (pos < SHEET_MAX_COLS, NULL);
 	g_return_val_if_fail (pos >= 0, NULL);
 
-	segment = COLROW_GET_SEGMENT(&(sheet->cols), pos);
+	segment = COLROW_GET_SEGMENT (&(sheet->cols), pos);
 	if (segment != NULL)
-		ci = segment[COLROW_SUB_INDEX(pos)];
+		ci = segment [COLROW_SUB_INDEX(pos)];
 	return ci;
 }
 /**
@@ -1760,9 +1762,9 @@ sheet_row_get (Sheet const *sheet, int const pos)
 	g_return_val_if_fail (pos < SHEET_MAX_ROWS, NULL);
 	g_return_val_if_fail (pos >= 0, NULL);
 
-	segment = COLROW_GET_SEGMENT(&(sheet->rows), pos);
+	segment = COLROW_GET_SEGMENT (&(sheet->rows), pos);
 	if (segment != NULL)
-		ri = segment[COLROW_SUB_INDEX(pos)];
+		ri = segment [COLROW_SUB_INDEX(pos)];
 	return ri;
 }
 
@@ -1873,7 +1875,8 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 	}
 
 	for (i = start_col; i <= end_col ; ++i) {
-		ColRowInfo *ci = sheet_col_get(sheet, i);
+		ColRowInfo *ci = sheet_col_get (sheet, i);
+
 		if (ci == NULL) {
 			if (!only_existing)
 				for (j = start_row; j <= end_row ; ++j) {
@@ -1886,7 +1889,7 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 		}
 
 		for (j = start_row; j <= end_row ; ++j) {
-			ColRowInfo *ri = sheet_row_get(sheet, j);
+			ColRowInfo *ri = sheet_row_get (sheet, j);
 			Cell * cell = NULL;
 
 			if (ri != NULL)
@@ -1906,7 +1909,7 @@ static Value *
 fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	if (!sheet_selection_is_cell_selected (sheet, col, row))
-		return value_terminate();
+		return value_terminate ();
 	else
 		return NULL;
 }
@@ -2151,7 +2154,7 @@ static void
 sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 {
 	ColRowInfo ***segment = (ColRowInfo ***)&COLROW_GET_SEGMENT(&(sheet->cols), col);
-	int const sub = COLROW_SUB_INDEX(col);
+	int const sub = COLROW_SUB_INDEX (col);
 	ColRowInfo *ci = NULL;
 
 	if (*segment == NULL)
@@ -2340,13 +2343,13 @@ assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
 	if (cell->parsed_node && cell->parsed_node->oper == OPER_ARRAY){
 		ArrayRef * ref = &cell->parsed_node->u.array;
 		if ((col - ref->x) < cb->r.start.col)
-			return value_terminate();
+			return value_terminate ();
 		if ((row - ref->y) < cb->r.start.row)
-			return value_terminate();
+			return value_terminate ();
 		if ((col - ref->x + ref->cols -1) > cb->r.end.col)
-			return value_terminate();
+			return value_terminate ();
 		if ((row - ref->y + ref->rows -1) > cb->r.end.row)
-			return value_terminate();
+			return value_terminate ();
 	}
 
 	cb->l = g_list_prepend (cb->l, cell);
@@ -2656,12 +2659,12 @@ sheet_fill_selection_with (Sheet *sheet, const char *str,
 		g_return_if_fail (str != NULL);
 	}
 
-	cell_freeze_redraws();
+	cell_freeze_redraws ();
 	for (; l; l = l->next){
 		SheetSelection *ss = l->data;
 		sheet_set_text (sheet, str, &ss->user);
 	}
-	cell_thaw_redraws();
+	cell_thaw_redraws ();
 	workbook_recalc (sheet->workbook);
 }
 
@@ -3026,7 +3029,7 @@ avoid_dividing_array_horizontal (Sheet *sheet, int col, int row, Cell *cell,
 	    cell->parsed_node->oper != OPER_ARRAY ||
 	    cell->parsed_node->u.array.x <= 0)
 		return NULL;
-	return value_terminate();
+	return value_terminate ();
 }
 
 /*
@@ -3042,7 +3045,7 @@ avoid_dividing_array_vertical (Sheet *sheet, int col, int row, Cell *cell,
 	    cell->parsed_node->oper != OPER_ARRAY ||
 	    cell->parsed_node->u.array.y <= 0)
 		return NULL;
-	return value_terminate();
+	return value_terminate ();
 }
 
 /*
@@ -3082,7 +3085,7 @@ colrow_move (Sheet *sheet,
 	cells = g_list_reverse (cells);
 
 	/* Update the position */
-	segment[COLROW_SUB_INDEX(old_pos)] = NULL;
+	segment [COLROW_SUB_INDEX (old_pos)] = NULL;
 	info->pos = new_pos;
 
 	/* TODO : Figure out a way to merge these functions */

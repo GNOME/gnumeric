@@ -452,15 +452,15 @@ x_clipboard_bind_workbook (Workbook *wb)
 	
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "selection_clear_event",
-		GTK_SIGNAL_FUNC(x_selection_clear), wb);
+		GTK_SIGNAL_FUNC (x_selection_clear), wb);
 
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "selection_received",
-		GTK_SIGNAL_FUNC(x_selection_received), wb);
+		GTK_SIGNAL_FUNC (x_selection_received), wb);
 
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "selection_get",
-		GTK_SIGNAL_FUNC(x_selection_handler), NULL);
+		GTK_SIGNAL_FUNC (x_selection_handler), NULL);
 
 	gtk_selection_add_target (
 		wb->toplevel,

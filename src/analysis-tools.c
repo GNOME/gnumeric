@@ -88,7 +88,7 @@ set_cell (data_analysis_output_t *dao, int col, int row, char *text)
 }
 
 static void
-get_data(Sheet *sheet, Range *range, data_set_t *data)
+get_data (Sheet *sheet, Range *range, data_set_t *data)
 {
         gpointer p;
 	Cell     *cell;
@@ -104,17 +104,17 @@ get_data(Sheet *sheet, Range *range, data_set_t *data)
 
 	for (col=range->start.col; col<=range->end.col; col++)
 	        for (row=range->start.row; row<=range->end.row; row++) {
-		        cell = sheet_cell_get(sheet, col, row);
+		        cell = sheet_cell_get (sheet, col, row);
 			if (cell != NULL && cell->value != NULL) {
 			        v = cell->value;
-				if (VALUE_IS_NUMBER(v))
+				if (VALUE_IS_NUMBER (v))
 				        x = value_get_as_float (v);
 				else
 				        x = 0;
 
-				p = g_new(float_t, 1);
-				*((float_t *) p) = x;
-				data->array = g_slist_append(data->array, p);
+				p = g_new (float_t, 1);
+				* ( (float_t *) p) = x;
+				data->array = g_slist_append (data->array, p);
 				data->sum += x;
 				data->sqrsum += x*x;
 				if (data->n == 0) {
@@ -134,7 +134,7 @@ get_data(Sheet *sheet, Range *range, data_set_t *data)
 }
 
 static void
-get_data_groupped_by_columns(Sheet *sheet, Range *range, int col,
+get_data_groupped_by_columns (Sheet *sheet, Range *range, int col,
 			     data_set_t *data)
 {
         gpointer p;
@@ -150,17 +150,17 @@ get_data_groupped_by_columns(Sheet *sheet, Range *range, int col,
 	data->array = NULL;
 
 	for (row=range->start.row; row<=range->end.row; row++) {
-	       cell = sheet_cell_get(sheet, col, row);
+	       cell = sheet_cell_get (sheet, col, row);
 	       if (cell != NULL && cell->value != NULL) {
 		       v = cell->value;
-		       if (VALUE_IS_NUMBER(v))
+		       if (VALUE_IS_NUMBER (v))
 			       x = value_get_as_float (v);
 		       else
 			       x = 0;
 
-		       p = g_new(float_t, 1);
-		       *((float_t *) p) = x;
-		       data->array = g_slist_append(data->array, p);
+		       p = g_new (float_t, 1);
+		       * ( (float_t *) p) = x;
+		       data->array = g_slist_append (data->array, p);
 		       data->sum += x;
 		       data->sqrsum += x*x;
 		       if (data->n == 0) {
@@ -180,7 +180,7 @@ get_data_groupped_by_columns(Sheet *sheet, Range *range, int col,
 }
 
 static void
-get_data_groupped_by_rows(Sheet *sheet, Range *range, int row,
+get_data_groupped_by_rows (Sheet *sheet, Range *range, int row,
 			  data_set_t *data)
 {
         gpointer p;
@@ -196,17 +196,17 @@ get_data_groupped_by_rows(Sheet *sheet, Range *range, int row,
 	data->array = NULL;
 
 	for (col=range->start.col; col<=range->end.col; col++) {
-	       cell = sheet_cell_get(sheet, col, row);
+	       cell = sheet_cell_get (sheet, col, row);
 	       if (cell != NULL && cell->value != NULL) {
 		       v = cell->value;
-		       if (VALUE_IS_NUMBER(v))
+		       if (VALUE_IS_NUMBER (v))
 			       x = value_get_as_float (v);
 		       else
 			       x = 0;
 
-		       p = g_new(float_t, 1);
-		       *((float_t *) p) = x;
-		       data->array = g_slist_append(data->array, p);
+		       p = g_new (float_t, 1);
+		       * ( (float_t *) p) = x;
+		       data->array = g_slist_append (data->array, p);
 		       data->sum += x;
 		       data->sqrsum += x*x;
 		       data->n++;
@@ -217,30 +217,30 @@ get_data_groupped_by_rows(Sheet *sheet, Range *range, int row,
 }
 
 static void
-free_data_set(data_set_t *data)
+free_data_set (data_set_t *data)
 {
         GSList *current = data->array;
 
 	while (current != NULL) {
-	        g_free(current->data);
+	        g_free (current->data);
 		current=current->next;
 	}
 
-	g_slist_free(data->array);
+	g_slist_free (data->array);
 }
 
 static void
-prepare_output(Workbook *wb, data_analysis_output_t *dao, char *name)
+prepare_output (Workbook *wb, data_analysis_output_t *dao, char *name)
 {
 	if (dao->type == NewSheetOutput) {
-	        dao->sheet = sheet_new(wb, name);
+	        dao->sheet = sheet_new (wb, name);
 		dao->start_col = dao->start_row = 0;
-		workbook_attach_sheet(wb, dao->sheet);
+		workbook_attach_sheet (wb, dao->sheet);
 	} else if (dao->type == NewWorkbookOutput) {
 		wb = workbook_new ();
-		dao->sheet = sheet_new(wb, name);
+		dao->sheet = sheet_new (wb, name);
 		dao->start_col = dao->start_row = 0;
-		workbook_attach_sheet(wb, dao->sheet);
+		workbook_attach_sheet (wb, dao->sheet);
 		gtk_widget_show (wb->toplevel);
 	}
 }
@@ -257,7 +257,7 @@ prepare_output(Workbook *wb, data_analysis_output_t *dao, char *name)
 
 
 static float_t
-correl(data_set_t *set_one, data_set_t *set_two, int *error_flag)
+correl (data_set_t *set_one, data_set_t *set_two, int *error_flag)
 {
         GSList  *current_one, *current_two;
 	float_t sum_xy = 0, c=0;
@@ -268,8 +268,8 @@ correl(data_set_t *set_one, data_set_t *set_two, int *error_flag)
 	current_two = set_two->array;
 
 	while (current_one != NULL && current_two != NULL) {
-	        sum_xy += *((float_t *) current_one->data) *
-		  *((float_t *) current_two->data);
+	        sum_xy += * ( (float_t *) current_one->data) *
+		  * ( (float_t *) current_two->data);
 	        current_one = current_one->next;
 	        current_two = current_two->next;
 	}
@@ -283,7 +283,7 @@ correl(data_set_t *set_one, data_set_t *set_two, int *error_flag)
 		        *error_flag = 2;
 		else
 		        c = (sum_xy - (set_one->sum*set_two->sum/set_one->n)) /
-			     sqrt(tmp);
+			     sqrt (tmp);
 	}
 
 	return c;
@@ -307,7 +307,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 	cols = input_range->end.col - input_range->start.col + 1;
 	rows = input_range->end.row - input_range->start.row + 1;
 
-	prepare_output(wb, dao, "Correlations");
+	prepare_output (wb, dao, "Correlations");
 
 	set_cell (dao, 0, 0, "");
 
@@ -321,7 +321,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 				  (sheet, input_range->start.col+col, 
 				   input_range->start.row);
 				if (cell != NULL && cell->value != NULL) {
-				        s = value_get_as_string(cell->value);
+				        s = value_get_as_string (cell->value);
 				        set_cell (dao, 0, col+1, s);
 				        set_cell (dao, col+1, 0, s);
 				} else
@@ -330,14 +330,14 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 			input_range->start.row++;
 		} else
 		        for (col=0; col<vars; col++) {
-			        sprintf(buf, "Column %d", col+1);
+			        sprintf (buf, "Column %d", col+1);
 				set_cell (dao, 0, col+1, buf);
 				set_cell (dao, col+1, 0, buf);
 			}
 
-		data_sets = g_new(data_set_t, vars);
+		data_sets = g_new (data_set_t, vars);
 		for (i=0; i<vars; i++)
-		        get_data_groupped_by_columns(sheet,
+		        get_data_groupped_by_columns (sheet,
 						     input_range, i, 
 						     &data_sets[i]);
 	} else {
@@ -350,7 +350,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 				  (sheet, input_range->start.col,
 				   input_range->start.row+col);
 				if (cell != NULL && cell->value != NULL) {
-				        s = value_get_as_string(cell->value);
+				        s = value_get_as_string (cell->value);
 				        set_cell (dao, 0, col+1, s);
 				        set_cell (dao, col+1, 0, s);
 				} else
@@ -359,15 +359,15 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 			input_range->start.col++;
 		} else 
 		        for (col=0; col<vars; col++) {
-			        sprintf(buf, "Row %d", col+1);
+			        sprintf (buf, "Row %d", col+1);
 				set_cell (dao, 0, col+1, buf);
 				set_cell (dao, col+1, 0, buf);
 			}
  
-		data_sets = g_new(data_set_t, vars);
+		data_sets = g_new (data_set_t, vars);
 
 		for (i=0; i<vars; i++)
-		        get_data_groupped_by_rows(sheet,
+		        get_data_groupped_by_rows (sheet,
 						  input_range, i, 
 						  &data_sets[i]);
 	}
@@ -378,7 +378,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 			        set_cell (dao, col+1, row+1, "1");
 				break;
 			} else {
-			        sprintf(buf, "%f", correl(&data_sets[col],
+			        sprintf (buf, "%f", correl (&data_sets[col],
 							  &data_sets[row],
 							  &error));
 				if (error)
@@ -390,7 +390,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 	}
 
 	for (i=0; i<vars; i++)
-	        free_data_set(&data_sets[i]);
+	        free_data_set (&data_sets[i]);
 	g_free (data_sets);
 
 	return 0;
@@ -409,7 +409,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 
 
 static float_t
-covar(data_set_t *set_one, data_set_t *set_two, int *error_flag)
+covar (data_set_t *set_one, data_set_t *set_two, int *error_flag)
 {
         GSList  *current_one, *current_two;
 	float_t sum = 0, c=0;
@@ -423,8 +423,8 @@ covar(data_set_t *set_one, data_set_t *set_two, int *error_flag)
 	mean2 = set_two->sum / set_two->n;
 
 	while (current_one != NULL && current_two != NULL) {
-	        x = *((float_t *) current_one->data);
-	        y = *((float_t *) current_two->data);
+	        x = * ( (float_t *) current_one->data);
+	        y = * ( (float_t *) current_two->data);
 	        sum += (x - mean1) * (y - mean2);
 	        current_one = current_one->next;
 	        current_two = current_two->next;
@@ -452,7 +452,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 	int        vars, cols, rows, col, row, i;
 	int        error;
 
-	prepare_output(wb, dao, "Covariances");
+	prepare_output (wb, dao, "Covariances");
 
 	cols = input_range->end.col - input_range->start.col + 1;
 	rows = input_range->end.row - input_range->start.row + 1;
@@ -469,7 +469,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 				  (sheet, input_range->start.col+col, 
 				   input_range->start.row);
 				if (cell != NULL && cell->value != NULL) {
-				        s = value_get_as_string(cell->value);
+				        s = value_get_as_string (cell->value);
 				        set_cell (dao, 0, col+1, s);
 				        set_cell (dao, col+1, 0, s);
 				} else
@@ -478,14 +478,14 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 			input_range->start.row++;
 		} else
 		        for (col=0; col<vars; col++) {
-			        sprintf(buf, "Column %d", col+1);
+			        sprintf (buf, "Column %d", col+1);
 				set_cell (dao, 0, col+1, buf);
 				set_cell (dao, col+1, 0, buf);
 			}
 
-		data_sets = g_new(data_set_t, vars);
+		data_sets = g_new (data_set_t, vars);
 		for (i=0; i<vars; i++)
-		        get_data_groupped_by_columns(sheet,
+		        get_data_groupped_by_columns (sheet,
 						     input_range, i, 
 						     &data_sets[i]);
 	} else {
@@ -498,7 +498,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 				  (sheet, input_range->start.col,
 				   input_range->start.row+col);
 				if (cell != NULL && cell->value != NULL) {
-				        s = value_get_as_string(cell->value);
+				        s = value_get_as_string (cell->value);
 				        set_cell (dao, 0, col+1, s);
 				        set_cell (dao, col+1, 0, s);
 				} else
@@ -507,15 +507,15 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 			input_range->start.col++;
 		} else 
 		        for (col=0; col<vars; col++) {
-			        sprintf(buf, "Row %d", col+1);
+			        sprintf (buf, "Row %d", col+1);
 				set_cell (dao, 0, col+1, buf);
 				set_cell (dao, col+1, 0, buf);
 			}
  
-		data_sets = g_new(data_set_t, vars);
+		data_sets = g_new (data_set_t, vars);
 
 		for (i=0; i<vars; i++)
-		        get_data_groupped_by_rows(sheet,
+		        get_data_groupped_by_rows (sheet,
 						  input_range, i, 
 						  &data_sets[i]);
 	}
@@ -525,7 +525,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 		        if (row < col)
 				break;
 			else {
-			        sprintf(buf, "%f", covar(&data_sets[col],
+			        sprintf (buf, "%f", covar (&data_sets[col],
 							 &data_sets[row],
 							  &error));
 				if (error)
@@ -537,7 +537,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 	}
 
 	for (i=0; i<vars; i++)
-	        free_data_set(&data_sets[i]);
+	        free_data_set (&data_sets[i]);
 	g_free (data_sets);
 
 	return 0;
@@ -556,7 +556,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 
 
 static float_t
-kurt(data_set_t *data, int *error_flag)
+kurt (data_set_t *data, int *error_flag)
 {
         GSList  *current;
 	float_t sum = 0;
@@ -571,11 +571,11 @@ kurt(data_set_t *data, int *error_flag)
 	        *error_flag = 0;
 
 	mean = data->sum / n;
-	stdev = sqrt((data->sqrsum - data->sum2/n) / (n - 1));
+	stdev = sqrt ( (data->sqrsum - data->sum2/n) / (n - 1));
 
 	current = data->array;
 	while (current != NULL) {
-	        x = *((float_t *) current->data);
+	        x = * ( (float_t *) current->data);
 	        x = (x - mean) / stdev;
 		sum += (x * x) * (x * x);
 	        current = current->next;
@@ -583,13 +583,13 @@ kurt(data_set_t *data, int *error_flag)
 
 	num = n * (n + 1);
 	dem = (n - 1) * (n - 2) * (n - 3);
-	d = (3 * (n - 1) * (n - 1)) / ((n - 2) * (n - 3));
+	d = (3 * (n - 1) * (n - 1)) / ( (n - 2) * (n - 3));
 
 	return sum * (num / dem) - d;
 }
 
 static float_t
-skew(data_set_t *data, int *error_flag)
+skew (data_set_t *data, int *error_flag)
 {
         GSList  *current;
 	float_t x3, m, s, x, dxn;
@@ -603,32 +603,32 @@ skew(data_set_t *data, int *error_flag)
 
 	x3 = 0;
 	m = data->sum / n;
-	s = sqrt((data->sqrsum - data->sum2/n) / (n - 1));
+	s = sqrt ( (data->sqrsum - data->sum2/n) / (n - 1));
 
 	current = data->array;
 	while (current != NULL) {
-	        x = *((float_t *) current->data);
+	        x = * ( (float_t *) current->data);
 		dxn = (x - m) / s;
 		x3 += dxn * dxn * dxn;
 	        current = current->next;
 	}
 
-	return ((x3 * n) / (n - 1)) / (n - 2);
+	return ( (x3 * n) / (n - 1)) / (n - 2);
 }
 
 static void
-summary_statistics(Workbook *wb, data_set_t *data_set, int vars,
+summary_statistics (Workbook *wb, data_set_t *data_set, int vars,
 		   data_analysis_output_t *dao)
 {
         char    buf[256];
 	float_t x;
 	int     col, error;
 
-	prepare_output(wb, dao, "Summary Statistics");
+	prepare_output (wb, dao, "Summary Statistics");
 
         set_cell (dao, 0, 0, "");
 	for (col=0; col<vars; col++) {
-	        sprintf(buf, "Column %d", col+1);
+	        sprintf (buf, "Column %d", col+1);
 		set_cell (dao, col+1, 0, buf);
 	}
 
@@ -652,158 +652,158 @@ summary_statistics(Workbook *wb, data_set_t *data_set, int vars,
 		var = (data_set[col].sqrsum - 
 			       data_set[col].sum2/data_set[col].n) /
 		        (data_set[col].n - 1);
-		stdev = sqrt(var);
+		stdev = sqrt (var);
 
 		data_set[col].array = 
-		        g_slist_sort(data_set[col].array, 
+		        g_slist_sort (data_set[col].array, 
 				     (GCompareFunc) float_compare);
 
 	        /* Mean */
-	        sprintf(buf, "%f", data_set[col].sum / data_set[col].n);
+	        sprintf (buf, "%f", data_set[col].sum / data_set[col].n);
 		set_cell (dao, col+1, 1, buf);
 
 		/* Standard Error */
-	        sprintf(buf, "%f", stdev / sqrt(data_set[col].n));
+	        sprintf (buf, "%f", stdev / sqrt (data_set[col].n));
 		set_cell (dao, col+1, 2, buf);
 
 		/* Median */
 		if (data_set[col].n % 2 == 1)
-		        x = *((float_t *)g_slist_nth_data(data_set[col].array, 
+		        x = * ( (float_t *)g_slist_nth_data (data_set[col].array, 
 							  data_set[col].n/2));
 		else {
-		        x=*((float_t *)g_slist_nth_data(data_set[col].array, 
+		        x=* ( (float_t *)g_slist_nth_data (data_set[col].array, 
 							data_set[col].n/2));
-		        x+=*((float_t *)g_slist_nth_data(data_set[col].array, 
+		        x+=* ( (float_t *)g_slist_nth_data (data_set[col].array, 
 							 data_set[col].n/2-1));
 			x /= 2;
 		}
-	        sprintf(buf, "%f", x);
+	        sprintf (buf, "%f", x);
 		set_cell (dao, col+1, 3, buf);
 
 		/* Mode */
 		/* TODO */
 
 		/* Standard Deviation */
-	        sprintf(buf, "%f", stdev);
+	        sprintf (buf, "%f", stdev);
 		set_cell (dao, col+1, 5, buf);
 
 		/* Sample Variance */
-	        sprintf(buf, "%f", var);
+	        sprintf (buf, "%f", var);
 		set_cell (dao, col+1, 6, buf);
 
 		/* Kurtosis */
 		if (data_set[col].n > 3) {
-		        x = kurt(&data_set[col], &error);
-			sprintf(buf, "%f", x);
+		        x = kurt (&data_set[col], &error);
+			sprintf (buf, "%f", x);
 		} else
-		        sprintf(buf, "#N/A");
+		        sprintf (buf, "#N/A");
 		set_cell (dao, col+1, 7, buf);
 
 		/* Skewness */
 		if (data_set[col].n > 2) {
-		        x = skew(&data_set[col], &error);
-			sprintf(buf, "%f", x);
+		        x = skew (&data_set[col], &error);
+			sprintf (buf, "%f", x);
 		} else
-		        sprintf(buf, "#N/A");
+		        sprintf (buf, "#N/A");
 		set_cell (dao, col+1, 8, buf);
 
 		/* Range */
-	        sprintf(buf, "%f", data_set[col].max - data_set[col].min);
+	        sprintf (buf, "%f", data_set[col].max - data_set[col].min);
 		set_cell (dao, col+1, 9, buf);
 
 		/* Minimum */
-	        sprintf(buf, "%f", data_set[col].min);
+	        sprintf (buf, "%f", data_set[col].min);
 		set_cell (dao, col+1, 10, buf);
 
 		/* Maximum */
-	        sprintf(buf, "%f", data_set[col].max);
+	        sprintf (buf, "%f", data_set[col].max);
 		set_cell (dao, col+1, 11, buf);
 
 		/* Sum */
-	        sprintf(buf, "%f", data_set[col].sum);
+	        sprintf (buf, "%f", data_set[col].sum);
 		set_cell (dao, col+1, 12, buf);
 
 		/* Count */
-	        sprintf(buf, "%d", data_set[col].n);
+	        sprintf (buf, "%d", data_set[col].n);
 		set_cell (dao, col+1, 13, buf);
 	}
 }
 
 static void
-confidence_level(Workbook *wb, data_set_t *data_set, int vars, float_t c_level,
+confidence_level (Workbook *wb, data_set_t *data_set, int vars, float_t c_level,
 		 data_analysis_output_t *dao)
 {
         float_t x;
         char    buf[256];
         int col;
 
-	prepare_output(wb, dao, "Confidence Level");
+	prepare_output (wb, dao, "Confidence Level");
 
 	for (col=0; col<vars; col++) {
-	        float_t stdev = sqrt((data_set[col].sqrsum - 
+	        float_t stdev = sqrt ( (data_set[col].sqrsum - 
 				      data_set[col].sum2/data_set[col].n) /
 				     (data_set[col].n - 1));
 
-	        sprintf(buf, "Column %d", col+1);
+	        sprintf (buf, "Column %d", col+1);
 		set_cell (dao, col+1, 0, buf);
 
-		x = -qnorm(c_level / 2, 0, 1) * (stdev/sqrt(data_set[col].n));
-		sprintf(buf, "%f", x);
+		x = -qnorm (c_level / 2, 0, 1) * (stdev/sqrt (data_set[col].n));
+		sprintf (buf, "%f", x);
 		set_cell (dao, col+1, 2, buf);
 	}
-	sprintf(buf, "Confidence Level(%g%%)", c_level*100);
+	sprintf (buf, "Confidence Level (%g%%)", c_level*100);
         set_cell (dao, 0, 2, buf);
 }
 
 static void
-kth_largest(Workbook *wb, data_set_t *data_set, int vars, int k,
+kth_largest (Workbook *wb, data_set_t *data_set, int vars, int k,
 	    data_analysis_output_t *dao)
 {
         float_t x;
         char    buf[256];
         int     col;
 
-	prepare_output(wb, dao, "Kth Largest");
+	prepare_output (wb, dao, "Kth Largest");
 
 	for (col=0; col<vars; col++) {
-	        sprintf(buf, "Column %d", col+1);
+	        sprintf (buf, "Column %d", col+1);
 		set_cell (dao, col+1, 0, buf);
 
 		data_set[col].array = 
-		        g_slist_sort(data_set[col].array, 
+		        g_slist_sort (data_set[col].array, 
 				     (GCompareFunc) float_compare_desc);
 
-		x = *((float_t *) g_slist_nth_data(data_set[col].array, k-1));
-		sprintf(buf, "%f", x);
-		set_cell(dao, col+1, 2, buf);
+		x = * ( (float_t *) g_slist_nth_data (data_set[col].array, k-1));
+		sprintf (buf, "%f", x);
+		set_cell (dao, col+1, 2, buf);
 	}
-	sprintf(buf, "Largest(%d)", k);
+	sprintf (buf, "Largest (%d)", k);
         set_cell (dao, 0, 2, buf);
 }
 
 static void
-kth_smallest(Workbook *wb, data_set_t *data_set, int vars, int k,
+kth_smallest (Workbook *wb, data_set_t *data_set, int vars, int k,
 	     data_analysis_output_t *dao)
 {
         float_t x;
         char    buf[256];
         int     col;
 
-	prepare_output(wb, dao, "Kth Smallest");
+	prepare_output (wb, dao, "Kth Smallest");
 
 	for (col=0; col<vars; col++) {
-	        sprintf(buf, "Column %d", col+1);
+	        sprintf (buf, "Column %d", col+1);
 		set_cell (dao, col+1, 0, buf);
 
 		data_set[col].array = 
-		        g_slist_sort(data_set[col].array, 
+		        g_slist_sort (data_set[col].array, 
 				     (GCompareFunc) float_compare);
 
-		x = *((float_t *) g_slist_nth_data(data_set[col].array, k-1));
-		sprintf(buf, "%f", x);
-		set_cell(dao, col+1, 2, buf);
+		x = * ( (float_t *) g_slist_nth_data (data_set[col].array, k-1));
+		sprintf (buf, "%f", x);
+		set_cell (dao, col+1, 2, buf);
 	}
-	sprintf(buf, "Smallest(%d)", k);
+	sprintf (buf, "Smallest (%d)", k);
         set_cell (dao, 0, 2, buf);
 }
 
@@ -823,40 +823,40 @@ descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
 
 	if (columns_flag) {
 	        vars = cols;
-		data_sets = g_new(data_set_t, vars);
+		data_sets = g_new (data_set_t, vars);
 		for (i=0; i<vars; i++)
-		        get_data_groupped_by_columns(current_sheet,
+		        get_data_groupped_by_columns (current_sheet,
 						     input_range, i, 
 						     &data_sets[i]);
 	} else {
 	        vars = rows;
-		data_sets = g_new(data_set_t, vars);
+		data_sets = g_new (data_set_t, vars);
 		for (i=0; i<vars; i++)
-		        get_data_groupped_by_rows(current_sheet,
+		        get_data_groupped_by_rows (current_sheet,
 						  input_range, i, 
 						  &data_sets[i]);
 	}
 
         if (ds->summary_statistics) {
-                summary_statistics(wb, data_sets, vars, dao);
+                summary_statistics (wb, data_sets, vars, dao);
 		if (dao->type == RangeOutput)
 		        dao->start_row += 15;
 	}
         if (ds->confidence_level) {
-                confidence_level(wb, data_sets, vars, ds->c_level, dao);
+                confidence_level (wb, data_sets, vars, ds->c_level, dao);
 		if (dao->type == RangeOutput)
 		        dao->start_row += 4;
 	}
         if (ds->kth_largest) {
-                kth_largest(wb, data_sets, vars, ds->k_largest, dao);
+                kth_largest (wb, data_sets, vars, ds->k_largest, dao);
 		if (dao->type == RangeOutput)
 		        dao->start_row += 4;
 	}
         if (ds->kth_smallest)
-                kth_smallest(wb, data_sets, vars, ds->k_smallest, dao);
+                kth_smallest (wb, data_sets, vars, ds->k_smallest, dao);
 
 	for (i=0; i<vars; i++)
-	        free_data_set(&data_sets[i]);
+	        free_data_set (&data_sets[i]);
 	g_free (data_sets);
 
 	return 0;
@@ -888,9 +888,9 @@ int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 	char       buf[256];
 	float_t    x;
 
-	prepare_output(wb, dao, "Sample");
+	prepare_output (wb, dao, "Sample");
 
-	get_data(sheet, input_range, &data_set);
+	get_data (sheet, input_range, &data_set);
 
 	if (periodic_flag) {
 	        GSList *current = data_set.array;
@@ -899,8 +899,8 @@ int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 
 		while (current != NULL) {
 		        if (++counter == size) {
-			        x = *((float_t *) current->data);
-				sprintf(buf, "%f", x);
+			        x = * ( (float_t *) current->data);
+				sprintf (buf, "%f", x);
 				set_cell (dao, 0, row++, buf);
 				counter = 0;
 			}
@@ -917,60 +917,60 @@ int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 		        return 1;
 
 		if (size <= data_set.n/2) {
-		        index_tbl = g_new(int, size);
+		        index_tbl = g_new (int, size);
 
 			for (i=0; i<size; i++) {
 			try_again_1:
-			        x = random_01() * size;
+			        x = random_01 () * size;
 				for (n=0; n<i; n++)
 				        if (index_tbl[n] == x)
 					        goto try_again_1;
 				index_tbl[i] = x;
 			}
-			qsort(index_tbl, size, sizeof(int), 
+			qsort (index_tbl, size, sizeof (int), 
 			      int_compare);
 			n = 0;
 			while (n < size) {
 			        if (counter++ == index_tbl[n]) {
-					sprintf(buf, "%f", 
-						*((float_t *) current->data));
+					sprintf (buf, "%f", 
+						* ( (float_t *) current->data));
 					set_cell (dao, 0, row++, buf);
 					++n;
 				}
 				current = current->next;
 			}
-			g_free(index_tbl);
+			g_free (index_tbl);
 		} else {
 		        if (data_set.n != size)
-			        index_tbl = g_new(int, data_set.n-size);
+			        index_tbl = g_new (int, data_set.n-size);
 			else {
-			        index_tbl = g_new(int, 1);
+			        index_tbl = g_new (int, 1);
 				index_tbl[0] = -1;
 			}
 
 			for (i=0; i<data_set.n-size; i++) {
 			try_again_2:
-			        x = random_01() * size;
+			        x = random_01 () * size;
 				for (n=0; n<i; n++)
 				        if (index_tbl[n] == x)
 					        goto try_again_2;
 				index_tbl[i] = x;
 			}
 			if (data_set.n != size)
-			        qsort(index_tbl, size, sizeof(int), 
+			        qsort (index_tbl, size, sizeof (int), 
 				      int_compare);
 			n = 0;
 			while (current != NULL) {
 			        if (counter++ == index_tbl[n])
 					++n;
 				else {
-					sprintf(buf, "%f", 
-						*((float_t *) current->data));
+					sprintf (buf, "%f", 
+						* ( (float_t *) current->data));
 					set_cell (dao, 0, row++, buf);
 				}
 				current = current->next;
 			}
-			g_free(index_tbl);
+			g_free (index_tbl);
 		}
 		
 	}
@@ -999,10 +999,10 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	float_t    mean1, mean2, var1, var2, z, p;
 	char       buf[256];
 
-	prepare_output(wb, dao, "z-Test");
+	prepare_output (wb, dao, "z-Test");
 
-	get_data(sheet, input_range1, &set_one);
-	get_data(sheet, input_range2, &set_two);
+	get_data (sheet, input_range1, &set_one);
+	get_data (sheet, input_range2, &set_two);
 
         set_cell (dao, 0, 0, "");
 
@@ -1010,16 +1010,16 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        char *s;
 		Cell *cell;
 
-		cell = sheet_cell_get(sheet, input_range1->start.col, 
+		cell = sheet_cell_get (sheet, input_range1->start.col, 
 				      input_range1->start.row);
 		if (cell != NULL && cell->value != NULL) {
-		        s = value_get_as_string(cell->value);
+		        s = value_get_as_string (cell->value);
 			set_cell (dao, 1, 0, s);
 		}
-		cell = sheet_cell_get(sheet, input_range2->start.col, 
+		cell = sheet_cell_get (sheet, input_range2->start.col, 
 				      input_range2->start.row);
 		if (cell != NULL && cell->value != NULL) {
-		        s = value_get_as_string(cell->value);
+		        s = value_get_as_string (cell->value);
 			set_cell (dao, 2, 0, s);
 		}
 
@@ -1035,9 +1035,9 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
         set_cell (dao, 0, 3, "Observations");
         set_cell (dao, 0, 4, "Hypothesized Mean Difference");
         set_cell (dao, 0, 5, "z");
-        set_cell (dao, 0, 6, "P(Z<=z) one-tail");
+        set_cell (dao, 0, 6, "P (Z<=z) one-tail");
         set_cell (dao, 0, 7, "z Critical one-tail");
-        set_cell (dao, 0, 8, "P(Z<=z) two-tail");
+        set_cell (dao, 0, 8, "P (Z<=z) two-tail");
         set_cell (dao, 0, 9, "z Critical two-tail");
 
 	mean1 = set_one.sum / set_one.n;
@@ -1045,50 +1045,50 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	var1 = (set_one.sqrsum - set_one.sum2/set_one.n) / (set_one.n - 1);
 	var2 = (set_two.sqrsum - set_two.sum2/set_two.n) / (set_two.n - 1);
 	z = (mean1 - mean2 - mean_diff) / 
-	  sqrt(known_var1/set_one.n + known_var2/set_two.n);
-	p = 1 - pnorm(z, 0, 1);
+	  sqrt (known_var1/set_one.n + known_var2/set_two.n);
+	p = 1 - pnorm (z, 0, 1);
 
 	/* Mean */
-	sprintf(buf, "%f", mean1);
-	set_cell(dao, 1, 1, buf);
-	sprintf(buf, "%f", mean2);
-	set_cell(dao, 2, 1, buf);
+	sprintf (buf, "%f", mean1);
+	set_cell (dao, 1, 1, buf);
+	sprintf (buf, "%f", mean2);
+	set_cell (dao, 2, 1, buf);
 
 	/* Known Variance */
-	sprintf(buf, "%f", known_var1);
-	set_cell(dao, 1, 2, buf);
-	sprintf(buf, "%f", known_var2);
-	set_cell(dao, 2, 2, buf);
+	sprintf (buf, "%f", known_var1);
+	set_cell (dao, 1, 2, buf);
+	sprintf (buf, "%f", known_var2);
+	set_cell (dao, 2, 2, buf);
 
 	/* Observations */
-	sprintf(buf, "%d", set_one.n);
-	set_cell(dao, 1, 3, buf);
-	sprintf(buf, "%d", set_two.n);
-	set_cell(dao, 2, 3, buf);
+	sprintf (buf, "%d", set_one.n);
+	set_cell (dao, 1, 3, buf);
+	sprintf (buf, "%d", set_two.n);
+	set_cell (dao, 2, 3, buf);
 
 	/* Hypothesized Mean Difference */
-	sprintf(buf, "%f", mean_diff);
-	set_cell(dao, 1, 4, buf);
+	sprintf (buf, "%f", mean_diff);
+	set_cell (dao, 1, 4, buf);
 
 	/* z */
-	sprintf(buf, "%f", z);
-	set_cell(dao, 1, 5, buf);
+	sprintf (buf, "%f", z);
+	set_cell (dao, 1, 5, buf);
 
-	/* P(Z<=z) one-tail */
-	sprintf(buf, "%f", p);
-	set_cell(dao, 1, 6, buf);
+	/* P (Z<=z) one-tail */
+	sprintf (buf, "%f", p);
+	set_cell (dao, 1, 6, buf);
 
 	/* z Critical one-tail */
-	sprintf(buf, "%f", qnorm(alpha, 0, 1));
-	set_cell(dao, 1, 7, buf);
+	sprintf (buf, "%f", qnorm (alpha, 0, 1));
+	set_cell (dao, 1, 7, buf);
 
-	/* P(Z<=z) two-tail */
-	sprintf(buf, "%f", 2*p);
-	set_cell(dao, 1, 8, buf);
+	/* P (Z<=z) two-tail */
+	sprintf (buf, "%f", 2*p);
+	set_cell (dao, 1, 8, buf);
 
 	/* z Critical two-tail */
-	sprintf(buf, "%f", qnorm(1.0-(1.0-alpha)/2, 0, 1));
-	set_cell(dao, 1, 9, buf);
+	sprintf (buf, "%f", qnorm (1.0- (1.0-alpha)/2, 0, 1));
+	set_cell (dao, 1, 9, buf);
 
 	free_data_set (&set_one);
 	free_data_set (&set_two);
@@ -1123,16 +1123,16 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	float_t    dx, dm, M, Q, N, s;
 	char       buf[256];
 
-	get_data(sheet, input_range1, &set_one);
-	get_data(sheet, input_range2, &set_two);
+	get_data (sheet, input_range1, &set_one);
+	get_data (sheet, input_range2, &set_two);
 
 	if (set_one.n != set_two.n) {
-	        free_data_set(&set_one);
-		free_data_set(&set_two);
+	        free_data_set (&set_one);
+		free_data_set (&set_two);
 	        return 1;
 	}
 
-	prepare_output(wb, dao, "t-Test");
+	prepare_output (wb, dao, "t-Test");
 
         set_cell (dao, 0, 0, "");
 
@@ -1140,16 +1140,16 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        char *s;
 		Cell *cell;
 
-		cell = sheet_cell_get(sheet, input_range1->start.col, 
+		cell = sheet_cell_get (sheet, input_range1->start.col, 
 				      input_range1->start.row);
 		if (cell != NULL && cell->value != NULL) {
-		        s = value_get_as_string(cell->value);
+		        s = value_get_as_string (cell->value);
 			set_cell (dao, 1, 0, s);
 		}
-		cell = sheet_cell_get(sheet, input_range2->start.col, 
+		cell = sheet_cell_get (sheet, input_range2->start.col, 
 				      input_range2->start.row);
 		if (cell != NULL && cell->value != NULL) {
-		        s = value_get_as_string(cell->value);
+		        s = value_get_as_string (cell->value);
 			set_cell (dao, 2, 0, s);
 		}
 
@@ -1167,9 +1167,9 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
         set_cell (dao, 0, 5, "Hypothesized Mean Difference");
         set_cell (dao, 0, 6, "df");
         set_cell (dao, 0, 7, "t Stat");
-        set_cell (dao, 0, 8, "P(T<=t) one-tail");
+        set_cell (dao, 0, 8, "P (T<=t) one-tail");
         set_cell (dao, 0, 9, "t Critical one-tail");
-        set_cell (dao, 0, 10, "P(T<=t) two-tail");
+        set_cell (dao, 0, 10, "P (T<=t) two-tail");
         set_cell (dao, 0, 11, "t Critical two-tail");
 
 	current_one = set_one.array;
@@ -1180,8 +1180,8 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	while (current_one != NULL && current_two != NULL) {
 	        float_t x, y, d;
 
-		x = *((float_t *) current_one->data);
-		y = *((float_t *) current_two->data);
+		x = * ( (float_t *) current_one->data);
+		y = * ( (float_t *) current_two->data);
 		sum_xy += x*y;
 		d = x-y;
 		sum += d;
@@ -1201,65 +1201,65 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	var2 = (set_two.sqrsum - set_two.sum2/set_two.n) / (set_two.n - 1);
 
 	df = set_one.n - 1;
-	pearson = ((set_one.n*sum_xy - set_one.sum*set_two.sum) /
-		   sqrt((set_one.n*set_one.sqrsum - set_one.sum2) *
-			(set_one.n*set_two.sqrsum - set_two.sum2)));
-	s = sqrt(Q / (N - 1));
-	t = (sum/set_one.n - mean_diff)/(s/sqrt(set_one.n));
-	p = 1.0 - pt(fabs(t), df);
+	pearson = ( (set_one.n*sum_xy - set_one.sum*set_two.sum) /
+		   sqrt ( (set_one.n*set_one.sqrsum - set_one.sum2) *
+			 (set_one.n*set_two.sqrsum - set_two.sum2)));
+	s = sqrt (Q / (N - 1));
+	t = (sum/set_one.n - mean_diff)/ (s/sqrt (set_one.n));
+	p = 1.0 - pt (fabs (t), df);
 
 	/* Mean */
-	sprintf(buf, "%f", mean1);
-	set_cell(dao, 1, 1, buf);
-	sprintf(buf, "%f", mean2);
-	set_cell(dao, 2, 1, buf);
+	sprintf (buf, "%f", mean1);
+	set_cell (dao, 1, 1, buf);
+	sprintf (buf, "%f", mean2);
+	set_cell (dao, 2, 1, buf);
 
 	/* Variance */
-	sprintf(buf, "%f", var1);
-	set_cell(dao, 1, 2, buf);
-	sprintf(buf, "%f", var2);
-	set_cell(dao, 2, 2, buf);
+	sprintf (buf, "%f", var1);
+	set_cell (dao, 1, 2, buf);
+	sprintf (buf, "%f", var2);
+	set_cell (dao, 2, 2, buf);
 
 	/* Observations */
-	sprintf(buf, "%d", set_one.n);
-	set_cell(dao, 1, 3, buf);
-	sprintf(buf, "%d", set_two.n);
-	set_cell(dao, 2, 3, buf);
+	sprintf (buf, "%d", set_one.n);
+	set_cell (dao, 1, 3, buf);
+	sprintf (buf, "%d", set_two.n);
+	set_cell (dao, 2, 3, buf);
 
 	/* Pearson Correlation */
-	sprintf(buf, "%f", pearson);
-	set_cell(dao, 1, 4, buf);
+	sprintf (buf, "%f", pearson);
+	set_cell (dao, 1, 4, buf);
 
 	/* Hypothesized Mean Difference */
-	sprintf(buf, "%f", mean_diff);
-	set_cell(dao, 1, 5, buf);
+	sprintf (buf, "%f", mean_diff);
+	set_cell (dao, 1, 5, buf);
 
 	/* df */
-	sprintf(buf, "%f", df);
-	set_cell(dao, 1, 6, buf);
+	sprintf (buf, "%f", df);
+	set_cell (dao, 1, 6, buf);
 
 	/* t */
-	sprintf(buf, "%f", t);
-	set_cell(dao, 1, 7, buf);
+	sprintf (buf, "%f", t);
+	set_cell (dao, 1, 7, buf);
 
-	/* P(T<=t) one-tail */
-	sprintf(buf, "%f", p);
-	set_cell(dao, 1, 8, buf);
+	/* P (T<=t) one-tail */
+	sprintf (buf, "%f", p);
+	set_cell (dao, 1, 8, buf);
 
 	/* t Critical one-tail */
-	sprintf(buf, "%f", qt(alpha, df));
-	set_cell(dao, 1, 9, buf);
+	sprintf (buf, "%f", qt (alpha, df));
+	set_cell (dao, 1, 9, buf);
 
-	/* P(T<=t) two-tail */
-	sprintf(buf, "%f", 2*p);
-	set_cell(dao, 1, 10, buf);
+	/* P (T<=t) two-tail */
+	sprintf (buf, "%f", 2*p);
+	set_cell (dao, 1, 10, buf);
 
 	/* t Critical two-tail */
-	sprintf(buf, "%f", qt(1.0-(1.0-alpha)/2, df));
-	set_cell(dao, 1, 11, buf);
+	sprintf (buf, "%f", qt (1.0- (1.0-alpha)/2, df));
+	set_cell (dao, 1, 11, buf);
 
-        free_data_set(&set_one);
-        free_data_set(&set_two);
+        free_data_set (&set_one);
+        free_data_set (&set_two);
 
 	return 0;
 }
@@ -1276,10 +1276,10 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	float_t    mean1, mean2, var, var1, var2, t, p, df;
 	char       buf[256];
 
-	prepare_output(wb, dao, "t-Test");
+	prepare_output (wb, dao, "t-Test");
 
-	get_data(sheet, input_range1, &set_one);
-	get_data(sheet, input_range2, &set_two);
+	get_data (sheet, input_range1, &set_one);
+	get_data (sheet, input_range2, &set_two);
 
         set_cell (dao, 0, 0, "");
 
@@ -1287,16 +1287,16 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        char *s;
 		Cell *cell;
 
-		cell = sheet_cell_get(sheet, input_range1->start.col, 
+		cell = sheet_cell_get (sheet, input_range1->start.col, 
 				      input_range1->start.row);
 		if (cell != NULL && cell->value != NULL) {
-		        s = value_get_as_string(cell->value);
+		        s = value_get_as_string (cell->value);
 			set_cell (dao, 1, 0, s);
 		}
-		cell = sheet_cell_get(sheet, input_range2->start.col, 
+		cell = sheet_cell_get (sheet, input_range2->start.col, 
 				      input_range2->start.row);
 		if (cell != NULL && cell->value != NULL) {
-		        s = value_get_as_string(cell->value);
+		        s = value_get_as_string (cell->value);
 			set_cell (dao, 2, 0, s);
 		}
 
@@ -1314,9 +1314,9 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
         set_cell (dao, 0, 5, "Hypothesized Mean Difference");
         set_cell (dao, 0, 6, "df");
         set_cell (dao, 0, 7, "t Stat");
-        set_cell (dao, 0, 8, "P(T<=t) one-tail");
+        set_cell (dao, 0, 8, "P (T<=t) one-tail");
         set_cell (dao, 0, 9, "t Critical one-tail");
-        set_cell (dao, 0, 10, "P(T<=t) two-tail");
+        set_cell (dao, 0, 10, "P (T<=t) two-tail");
         set_cell (dao, 0, 11, "t Critical two-tail");
 
 	mean1 = set_one.sum / set_one.n;
@@ -1326,66 +1326,66 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	var2 = (set_two.sqrsum - set_two.sum2/set_two.n) / (set_two.n - 1);
 
 	var = (set_one.sqrsum+set_two.sqrsum - (set_one.sum+set_two.sum)*
-	       (set_one.sum+set_two.sum)/(set_one.n+set_two.n)) /
+	       (set_one.sum+set_two.sum)/ (set_one.n+set_two.n)) /
 	  (set_one.n+set_two.n-1);  /* TODO: Correct??? */
 
 	df = set_one.n + set_two.n - 2;
-	t = fabs(mean1 - mean2 - mean_diff) /
-	  sqrt(var1/set_one.n + var2/set_two.n);
-	p = 1.0 - pt(t, df);
+	t = fabs (mean1 - mean2 - mean_diff) /
+	  sqrt (var1/set_one.n + var2/set_two.n);
+	p = 1.0 - pt (t, df);
 
 	/* Mean */
-	sprintf(buf, "%f", mean1);
-	set_cell(dao, 1, 1, buf);
-	sprintf(buf, "%f", mean2);
-	set_cell(dao, 2, 1, buf);
+	sprintf (buf, "%f", mean1);
+	set_cell (dao, 1, 1, buf);
+	sprintf (buf, "%f", mean2);
+	set_cell (dao, 2, 1, buf);
 
 	/* Variance */
-	sprintf(buf, "%f", var1);
-	set_cell(dao, 1, 2, buf);
-	sprintf(buf, "%f", var2);
-	set_cell(dao, 2, 2, buf);
+	sprintf (buf, "%f", var1);
+	set_cell (dao, 1, 2, buf);
+	sprintf (buf, "%f", var2);
+	set_cell (dao, 2, 2, buf);
 
 	/* Observations */
-	sprintf(buf, "%d", set_one.n);
-	set_cell(dao, 1, 3, buf);
-	sprintf(buf, "%d", set_two.n);
-	set_cell(dao, 2, 3, buf);
+	sprintf (buf, "%d", set_one.n);
+	set_cell (dao, 1, 3, buf);
+	sprintf (buf, "%d", set_two.n);
+	set_cell (dao, 2, 3, buf);
 
 	/* Pooled Variance */
-	sprintf(buf, "%f", var);
-	set_cell(dao, 1, 4, buf);
+	sprintf (buf, "%f", var);
+	set_cell (dao, 1, 4, buf);
 
 	/* Hypothesized Mean Difference */
-	sprintf(buf, "%f", mean_diff);
-	set_cell(dao, 1, 5, buf);
+	sprintf (buf, "%f", mean_diff);
+	set_cell (dao, 1, 5, buf);
 
 	/* df */
-	sprintf(buf, "%f", df);
-	set_cell(dao, 1, 6, buf);
+	sprintf (buf, "%f", df);
+	set_cell (dao, 1, 6, buf);
 
 	/* t */
-	sprintf(buf, "%f", t);
-	set_cell(dao, 1, 7, buf);
+	sprintf (buf, "%f", t);
+	set_cell (dao, 1, 7, buf);
 
-	/* P(T<=t) one-tail */
-	sprintf(buf, "%f", p);
-	set_cell(dao, 1, 8, buf);
+	/* P (T<=t) one-tail */
+	sprintf (buf, "%f", p);
+	set_cell (dao, 1, 8, buf);
 
 	/* t Critical one-tail */
-	sprintf(buf, "%f", qt(alpha, df));
-	set_cell(dao, 1, 9, buf);
+	sprintf (buf, "%f", qt (alpha, df));
+	set_cell (dao, 1, 9, buf);
 
-	/* P(T<=t) two-tail */
-	sprintf(buf, "%f", 2*p);
-	set_cell(dao, 1, 10, buf);
+	/* P (T<=t) two-tail */
+	sprintf (buf, "%f", 2*p);
+	set_cell (dao, 1, 10, buf);
 
 	/* t Critical two-tail */
-	sprintf(buf, "%f", qt(1.0-(1.0-alpha)/2, df));
-	set_cell(dao, 1, 11, buf);
+	sprintf (buf, "%f", qt (1.0- (1.0-alpha)/2, df));
+	set_cell (dao, 1, 11, buf);
 
-        free_data_set(&set_one);
-        free_data_set(&set_two);
+        free_data_set (&set_one);
+        free_data_set (&set_two);
 
 	return 0;
 }
@@ -1402,10 +1402,10 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	float_t    mean1, mean2, var1, var2, t, p, df, c;
 	char       buf[256];
 
-	prepare_output(wb, dao, "t-Test");
+	prepare_output (wb, dao, "t-Test");
 
-	get_data(sheet, input_range1, &set_one);
-	get_data(sheet, input_range2, &set_two);
+	get_data (sheet, input_range1, &set_one);
+	get_data (sheet, input_range2, &set_two);
 
         set_cell (dao, 0, 0, "");
 
@@ -1413,16 +1413,16 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        char *s;
 		Cell *cell;
 
-		cell = sheet_cell_get(sheet, input_range1->start.col, 
+		cell = sheet_cell_get (sheet, input_range1->start.col, 
 				      input_range1->start.row);
 		if (cell != NULL && cell->value != NULL) {
-		        s = value_get_as_string(cell->value);
+		        s = value_get_as_string (cell->value);
 			set_cell (dao, 1, 0, s);
 		}
-		cell = sheet_cell_get(sheet, input_range2->start.col, 
+		cell = sheet_cell_get (sheet, input_range2->start.col, 
 				      input_range2->start.row);
 		if (cell != NULL && cell->value != NULL) {
-		        s = value_get_as_string(cell->value);
+		        s = value_get_as_string (cell->value);
 			set_cell (dao, 2, 0, s);
 		}
 
@@ -1439,9 +1439,9 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
         set_cell (dao, 0, 4, "Hypothesized Mean Difference");
         set_cell (dao, 0, 5, "df");
         set_cell (dao, 0, 6, "t Stat");
-        set_cell (dao, 0, 7, "P(T<=t) one-tail");
+        set_cell (dao, 0, 7, "P (T<=t) one-tail");
         set_cell (dao, 0, 8, "t Critical one-tail");
-        set_cell (dao, 0, 9, "P(T<=t) two-tail");
+        set_cell (dao, 0, 9, "P (T<=t) two-tail");
         set_cell (dao, 0, 10, "t Critical two-tail");
 
 	mean1 = set_one.sum / set_one.n;
@@ -1451,60 +1451,60 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	var2 = (set_two.sqrsum - set_two.sum2/set_two.n) / (set_two.n - 1);
 
 	c = (var1/set_one.n) / (var1/set_one.n+var2/set_two.n);
-	df = 1.0 / ((c*c) / (set_one.n-1.0) + ((1-c)*(1-c)) / (set_two.n-1.0));
+	df = 1.0 / ( (c*c) / (set_one.n-1.0) + ( (1-c)* (1-c)) / (set_two.n-1.0));
 
-	t = fabs(mean1 - mean2 - mean_diff) /
-	  sqrt(var1/set_one.n + var2/set_two.n);
-	p = 1.0 - pt(t, df);
+	t = fabs (mean1 - mean2 - mean_diff) /
+	  sqrt (var1/set_one.n + var2/set_two.n);
+	p = 1.0 - pt (t, df);
 
 	/* Mean */
-	sprintf(buf, "%f", mean1);
-	set_cell(dao, 1, 1, buf);
-	sprintf(buf, "%f", mean2);
-	set_cell(dao, 2, 1, buf);
+	sprintf (buf, "%f", mean1);
+	set_cell (dao, 1, 1, buf);
+	sprintf (buf, "%f", mean2);
+	set_cell (dao, 2, 1, buf);
 
 	/* Variance */
-	sprintf(buf, "%f", var1);
-	set_cell(dao, 1, 2, buf);
-	sprintf(buf, "%f", var2);
-	set_cell(dao, 2, 2, buf);
+	sprintf (buf, "%f", var1);
+	set_cell (dao, 1, 2, buf);
+	sprintf (buf, "%f", var2);
+	set_cell (dao, 2, 2, buf);
 
 	/* Observations */
-	sprintf(buf, "%d", set_one.n);
-	set_cell(dao, 1, 3, buf);
-	sprintf(buf, "%d", set_two.n);
-	set_cell(dao, 2, 3, buf);
+	sprintf (buf, "%d", set_one.n);
+	set_cell (dao, 1, 3, buf);
+	sprintf (buf, "%d", set_two.n);
+	set_cell (dao, 2, 3, buf);
 
 	/* Hypothesized Mean Difference */
-	sprintf(buf, "%f", mean_diff);
-	set_cell(dao, 1, 4, buf);
+	sprintf (buf, "%f", mean_diff);
+	set_cell (dao, 1, 4, buf);
 
 	/* df */
-	sprintf(buf, "%f", df);
-	set_cell(dao, 1, 5, buf);
+	sprintf (buf, "%f", df);
+	set_cell (dao, 1, 5, buf);
 
 	/* t */
-	sprintf(buf, "%f", t);
-	set_cell(dao, 1, 6, buf);
+	sprintf (buf, "%f", t);
+	set_cell (dao, 1, 6, buf);
 
-	/* P(T<=t) one-tail */
-	sprintf(buf, "%f", p);
-	set_cell(dao, 1, 7, buf);
+	/* P (T<=t) one-tail */
+	sprintf (buf, "%f", p);
+	set_cell (dao, 1, 7, buf);
 
 	/* t Critical one-tail */
-	sprintf(buf, "%f", qt(alpha, df));
-	set_cell(dao, 1, 8, buf);
+	sprintf (buf, "%f", qt (alpha, df));
+	set_cell (dao, 1, 8, buf);
 
-	/* P(T<=t) two-tail */
-	sprintf(buf, "%f", 2*p);
-	set_cell(dao, 1, 9, buf);
+	/* P (T<=t) two-tail */
+	sprintf (buf, "%f", 2*p);
+	set_cell (dao, 1, 9, buf);
 
 	/* t Critical two-tail */
-	sprintf(buf, "%f", qt(1.0-(1.0-alpha)/2, df));
-	set_cell(dao, 1, 10, buf);
+	sprintf (buf, "%f", qt (1.0- (1.0-alpha)/2, df));
+	set_cell (dao, 1, 10, buf);
 
-        free_data_set(&set_one);
-        free_data_set(&set_two);
+        free_data_set (&set_one);
+        free_data_set (&set_two);
 
 	return 0;
 }
@@ -1529,7 +1529,7 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	float_t    mean1, mean2, var1, var2, f, p, df1, df2, c;
 	char       buf[256];
 
-	prepare_output(wb, dao, "F-Test");
+	prepare_output (wb, dao, "F-Test");
 
         set_cell (dao, 0, 0, "");
 
@@ -1537,16 +1537,16 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        char *s;
 		Cell *cell;
 
-		cell = sheet_cell_get(sheet, input_range1->start.col, 
+		cell = sheet_cell_get (sheet, input_range1->start.col, 
 				      input_range1->start.row);
 		if (cell != NULL && cell->value != NULL) {
-		        s = value_get_as_string(cell->value);
+		        s = value_get_as_string (cell->value);
 			set_cell (dao, 1, 0, s);
 		}
-		cell = sheet_cell_get(sheet, input_range2->start.col, 
+		cell = sheet_cell_get (sheet, input_range2->start.col, 
 				      input_range2->start.row);
 		if (cell != NULL && cell->value != NULL) {
-		        s = value_get_as_string(cell->value);
+		        s = value_get_as_string (cell->value);
 			set_cell (dao, 2, 0, s);
 		}
 
@@ -1557,15 +1557,15 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 		set_cell (dao, 2, 0, "Variable 2");
 	}
 
-	get_data(sheet, input_range1, &set_one);
-	get_data(sheet, input_range2, &set_two);
+	get_data (sheet, input_range1, &set_one);
+	get_data (sheet, input_range2, &set_two);
 
         set_cell (dao, 0, 1, "Mean");
         set_cell (dao, 0, 2, "Variance");
         set_cell (dao, 0, 3, "Observations");
         set_cell (dao, 0, 4, "df");
         set_cell (dao, 0, 5, "F");
-        set_cell (dao, 0, 6, "P(F<=f) one-tail");
+        set_cell (dao, 0, 6, "P (F<=f) one-tail");
         set_cell (dao, 0, 7, "F Critical one-tail");
 
 	mean1 = set_one.sum / set_one.n;
@@ -1579,46 +1579,46 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	df2 = set_two.n-1;
 
 	f = var1 / var2;
-	p = 1.0 - pf(f, df1, df2);
+	p = 1.0 - pf (f, df1, df2);
 
 	/* Mean */
-	sprintf(buf, "%f", mean1);
-	set_cell(dao, 1, 1, buf);
-	sprintf(buf, "%f", mean2);
-	set_cell(dao, 2, 1, buf);
+	sprintf (buf, "%f", mean1);
+	set_cell (dao, 1, 1, buf);
+	sprintf (buf, "%f", mean2);
+	set_cell (dao, 2, 1, buf);
 
 	/* Variance */
-	sprintf(buf, "%f", var1);
-	set_cell(dao, 1, 2, buf);
-	sprintf(buf, "%f", var2);
-	set_cell(dao, 2, 2, buf);
+	sprintf (buf, "%f", var1);
+	set_cell (dao, 1, 2, buf);
+	sprintf (buf, "%f", var2);
+	set_cell (dao, 2, 2, buf);
 
 	/* Observations */
-	sprintf(buf, "%d", set_one.n);
-	set_cell(dao, 1, 3, buf);
-	sprintf(buf, "%d", set_two.n);
-	set_cell(dao, 2, 3, buf);
+	sprintf (buf, "%d", set_one.n);
+	set_cell (dao, 1, 3, buf);
+	sprintf (buf, "%d", set_two.n);
+	set_cell (dao, 2, 3, buf);
 
 	/* df */
-	sprintf(buf, "%f", df1);
-	set_cell(dao, 1, 4, buf);
-	sprintf(buf, "%f", df2);
-	set_cell(dao, 2, 4, buf);
+	sprintf (buf, "%f", df1);
+	set_cell (dao, 1, 4, buf);
+	sprintf (buf, "%f", df2);
+	set_cell (dao, 2, 4, buf);
 
 	/* F */
-	sprintf(buf, "%f", f);
-	set_cell(dao, 1, 5, buf);
+	sprintf (buf, "%f", f);
+	set_cell (dao, 1, 5, buf);
 
-	/* P(F<=f) one-tail */
-	sprintf(buf, "%f", p);
-	set_cell(dao, 1, 6, buf);
+	/* P (F<=f) one-tail */
+	sprintf (buf, "%f", p);
+	set_cell (dao, 1, 6, buf);
 
 	/* F Critical one-tail */
-	sprintf(buf, "%f", qf(alpha, df1, df2));
-	set_cell(dao, 1, 7, buf);
+	sprintf (buf, "%f", qf (alpha, df1, df2));
+	set_cell (dao, 1, 7, buf);
 
-        free_data_set(&set_one);
-        free_data_set(&set_two);
+        free_data_set (&set_one);
+        free_data_set (&set_two);
 
 	return 0;
 }
@@ -1643,36 +1643,36 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 	Value      **values, *v;
 	Cell       *cell;
 
-	prepare_output(wb, dao, "Random");
+	prepare_output (wb, dao, "Random");
 
 	switch (distribution) {
 	case DiscreteDistribution:
 	        n = param->discrete.end_row-param->discrete.start_row + 1;
-	        prob = g_new(float_t, n);
-		cumul_p = g_new(float_t, n);
-		values = g_new(Value *, n);
+	        prob = g_new (float_t, n);
+		cumul_p = g_new (float_t, n);
+		values = g_new (Value *, n);
 
                 p = 0;
 		j = 0;
 	        for (i=param->discrete.start_row;
 		     i<=param->discrete.end_row; i++, j++) {
-		        cell = sheet_cell_get(sheet,
+		        cell = sheet_cell_get (sheet,
 					      param->discrete.start_col+1, i);
 			if (cell != NULL && cell->value != NULL) {
 			        v = cell->value;
-				if (VALUE_IS_NUMBER(v))
+				if (VALUE_IS_NUMBER (v))
 				        prob[j] = value_get_as_float (v);
 				else {
-				        g_free(prob);
-					g_free(cumul_p);
-					g_free(values);
+				        g_free (prob);
+					g_free (cumul_p);
+					g_free (values);
 
 					return 1;
 				}
 			} else {
-			        g_free(prob);
-				g_free(cumul_p);
-				g_free(values);
+			        g_free (prob);
+				g_free (cumul_p);
+				g_free (values);
 
 			        return 1;
 			}
@@ -1680,62 +1680,62 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 			p += prob[j];
 			cumul_p[j] = p;
 
-		        cell = sheet_cell_get(sheet,
+		        cell = sheet_cell_get (sheet,
 					      param->discrete.start_col, i);
 			if (cell != NULL && cell->value != NULL)
-			        values[j] = value_duplicate(cell->value);
+			        values[j] = value_duplicate (cell->value);
 			else {
-			        g_free(prob);
-				g_free(cumul_p);
-				g_free(values);
+			        g_free (prob);
+				g_free (cumul_p);
+				g_free (values);
 
 			        return 1;
 			}
 		}
 		
 		if (p != 1) {
-		        g_free(prob);
-			g_free(cumul_p);
-			g_free(values);
+		        g_free (prob);
+			g_free (cumul_p);
+			g_free (values);
 
 		        return 2;
 		}
 			
 	        for (i=0; i<vars; i++) {
 		        for (n=0; n<count; n++) {
-			        float_t x = random_01();
+			        float_t x = random_01 ();
 
 				for (j=0; cumul_p[j] < x; j++)
 				        ;
 
-				if (VALUE_IS_NUMBER(values[j]))
-				        sprintf(buf, "%f", 
-						value_get_as_float(values[j]));
+				if (VALUE_IS_NUMBER (values[j]))
+				        sprintf (buf, "%f", 
+						value_get_as_float (values[j]));
 				else
-				        sprintf(buf, "%s",
-						value_get_as_string(values[j]));
-				set_cell(dao, i, n, buf);
+				        sprintf (buf, "%s",
+						value_get_as_string (values[j]));
+				set_cell (dao, i, n, buf);
 			}
 		}
 	        break;
 	case NormalDistribution:
 	        for (i=0; i<vars; i++) {
 		        for (n=0; n<count; n++) {
-			        sprintf(buf, "%f", 
-					qnorm(random_01(),
+			        sprintf (buf, "%f", 
+					qnorm (random_01 (),
 					      param->normal.mean,
 					      param->normal.stdev));
-				set_cell(dao, i, n, buf);
+				set_cell (dao, i, n, buf);
 			}
 		}
 	        break;
 	case BernoulliDistribution:
 	        for (i=0; i<vars; i++) {
 		        for (n=0; n<count; n++) {
-			        sprintf(buf, "%d", 
-					(random_01() <= param->bernoulli.p) ?
+			        sprintf (buf, "%d", 
+					 (random_01 () <= param->bernoulli.p) ?
 					1 : 0);
-				set_cell(dao, i, n, buf);
+				set_cell (dao, i, n, buf);
 			}
 		}
 	        break;
@@ -1743,14 +1743,14 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 	        range = param->uniform.upper_limit-param->uniform.lower_limit;
 	        for (i=0; i<vars; i++) {
 		        for (n=0; n<count; n++) {
-			        sprintf(buf, "%f", range*random_01() +
+			        sprintf (buf, "%f", range*random_01 () +
 					param->uniform.lower_limit);
-				set_cell(dao, i, n, buf);
+				set_cell (dao, i, n, buf);
 			}
 		}
 		break;
 	default:
-	        printf("Not implemented yet.\n");
+	        printf ("Not implemented yet.\n");
 		break;
 	}
 
@@ -1776,17 +1776,17 @@ int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	char       buf[256];
 	GSList     *current_one, *current_two;
 
-	get_data(sheet, input_range1, &set_one);
-	get_data(sheet, input_range2, &set_two);
+	get_data (sheet, input_range1, &set_one);
+	get_data (sheet, input_range2, &set_two);
 
 	if (set_one.n != set_two.n) {
-	        free_data_set(&set_one);
-		free_data_set(&set_two);
+	        free_data_set (&set_one);
+		free_data_set (&set_two);
 
 		return 1;
 	}
 
-	prepare_output(wb, dao, "Regression");
+	prepare_output (wb, dao, "Regression");
 
         set_cell (dao, 0, 0, "SUMMARY OUTPUT");
 
@@ -1829,8 +1829,8 @@ int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	while (current_one != NULL && current_two != NULL) {
 	        float_t x, y;
 
-		x = *((float_t *) current_one->data);
-		y = *((float_t *) current_two->data);
+		x = * ( (float_t *) current_one->data);
+		y = * ( (float_t *) current_two->data);
 	        ss_xy += (x - mean1) * (y - mean2);
 		ss_xx += (x - mean1) * (x - mean1);
 		ss_yy += (y - mean2) * (y - mean2);
@@ -1838,32 +1838,32 @@ int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        current_two = current_two->next;
 	}
 
-	r = ss_xy/sqrt(ss_xx*ss_yy);
+	r = ss_xy/sqrt (ss_xx*ss_yy);
 
 	/* Multiple R */
-	sprintf(buf, "%f", r);
-	set_cell(dao, 1, 3, buf);
+	sprintf (buf, "%f", r);
+	set_cell (dao, 1, 3, buf);
 
 	/* R Square */
-	sprintf(buf, "%f", r*r);
-	set_cell(dao, 1, 4, buf);
+	sprintf (buf, "%f", r*r);
+	set_cell (dao, 1, 4, buf);
 
 	/* Observations */
-	sprintf(buf, "%d", set_one.n);
-	set_cell(dao, 1, 7, buf);
+	sprintf (buf, "%d", set_one.n);
+	set_cell (dao, 1, 7, buf);
 
 	/* Total / df */
-	sprintf(buf, "%d", set_one.n-1);
-	set_cell(dao, 1, 13, buf);
+	sprintf (buf, "%d", set_one.n-1);
+	set_cell (dao, 1, 13, buf);
 
 	/* Total / SS */
-	sprintf(buf, "%f", ss_xx);
-	set_cell(dao, 2, 13, buf);
+	sprintf (buf, "%f", ss_xx);
+	set_cell (dao, 2, 13, buf);
 
 	/* TODO: Fill in the rest of the outputs */
 
-        free_data_set(&set_one);
-        free_data_set(&set_two);
+        free_data_set (&set_one);
+        free_data_set (&set_two);
 
 	return 0;
 }
@@ -1891,24 +1891,24 @@ int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval,
 	cols = range->end.col - range->start.col + 1;
 	rows = range->end.row - range->start.row + 1;
 
-	if ((cols != 1 && rows != 1) || interval < 1)
+	if ( (cols != 1 && rows != 1) || interval < 1)
 	        return 1;
 
-	prepare_output(wb, dao, "Moving Averages");
+	prepare_output (wb, dao, "Moving Averages");
 
-	prev = g_new(float_t, interval);
+	prev = g_new (float_t, interval);
 
-	get_data(sheet, range, &data_set);
+	get_data (sheet, range, &data_set);
 	current = data_set.array;
 	count = add_cursor = del_cursor = row = 0;
 	sum = 0;
 
 	while (current != NULL) {
-	        prev[add_cursor] = *((float_t *) current->data);
+	        prev[add_cursor] = * ( (float_t *) current->data);
 		if (count == interval-1) {
 			sum += prev[add_cursor];
-			sprintf(buf, "%f", sum / interval);
-			set_cell(dao, 0, row, buf);
+			sprintf (buf, "%f", sum / interval);
+			set_cell (dao, 0, row, buf);
 			++row;
 		        sum -= prev[del_cursor];
 			if (++add_cursor == interval)
@@ -1919,15 +1919,15 @@ int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval,
 		        ++count;
 		        sum += prev[add_cursor];
 			++add_cursor;
-			sprintf(buf, "#N/A");
-			set_cell(dao, 0, row++, buf);
+			sprintf (buf, "#N/A");
+			set_cell (dao, 0, row++, buf);
 		}
 		current = current->next;
 	}
 
-	g_free(prev);
+	g_free (prev);
 
-	free_data_set(&data_set);
+	free_data_set (&data_set);
 
 	return 0;
 }
@@ -1966,7 +1966,7 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 	char       buf[256];
 	int        vars, cols, rows, col, i, n;
 
-	prepare_output(wb, dao, "Ranks");
+	prepare_output (wb, dao, "Ranks");
 
 	cols = input_range->end.col - input_range->start.col + 1;
 	rows = input_range->end.row - input_range->start.row + 1;
@@ -1981,23 +1981,23 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 				  (sheet, input_range->start.col+col, 
 				   input_range->start.row);
 				if (cell != NULL && cell->value != NULL) {
-				        s = value_get_as_string(cell->value);
+				        s = value_get_as_string (cell->value);
 				        set_cell (dao, col*4+1, 0, s);
 				}
 			} else {
-			        sprintf(buf, "Column %d", col+1);
+			        sprintf (buf, "Column %d", col+1);
 				set_cell (dao, col*4+1, 0, buf);
 			}
 			set_cell (dao, col*4+2, 0, "Rank");
 			set_cell (dao, col*4+3, 0, "Percent");
 		}
-		data_sets = g_new(data_set_t, vars);
+		data_sets = g_new (data_set_t, vars);
 
 		if (dao->labels_flag)
 		        input_range->start.row++;
 
 		for (i=0; i<vars; i++)
-		        get_data_groupped_by_columns(sheet,
+		        get_data_groupped_by_columns (sheet,
 						     input_range, i, 
 						     &data_sets[i]);
 	} else {
@@ -2011,23 +2011,23 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 				  (sheet, input_range->start.col, 
 				   input_range->start.row+col);
 				if (cell != NULL && cell->value != NULL) {
-				        s = value_get_as_string(cell->value);
+				        s = value_get_as_string (cell->value);
 				        set_cell (dao, col*4+1, 0, s);
 				}
 			} else {
-		                sprintf(buf, "Row %d", col+1);
+		                sprintf (buf, "Row %d", col+1);
 				set_cell (dao, col*4+1, 0, buf);
 			}
 			set_cell (dao, col*4+2, 0, "Rank");
 			set_cell (dao, col*4+3, 0, "Percent");
 		}
-		data_sets = g_new(data_set_t, vars);
+		data_sets = g_new (data_set_t, vars);
 
 		if (dao->labels_flag)
 		        input_range->start.col++;
 
 		for (i=0; i<vars; i++)
-		        get_data_groupped_by_rows(sheet,
+		        get_data_groupped_by_rows (sheet,
 						  input_range, i, 
 						  &data_sets[i]);
 	}
@@ -2036,10 +2036,10 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 	        rank_t *rank;
 	        n = 0;
 	        current = data_sets[i].array;
-		rank = g_new(rank_t, data_sets[i].n);
+		rank = g_new (rank_t, data_sets[i].n);
 
 		while (current != NULL) {
-		        float_t x = *((float_t *) current->data);
+		        float_t x = * ( (float_t *) current->data);
 
 			rank[n].point = n+1;
 			rank[n].x = x;
@@ -2048,7 +2048,7 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 
 			inner = data_sets[i].array;
 			while (inner != NULL) {
-			        float_t y = *((float_t *) inner->data);
+			        float_t y = * ( (float_t *) inner->data);
 				if (y > x)
 				        rank[n].rank++;
 				else if (y == x)
@@ -2058,33 +2058,33 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 			n++;
 			current = current->next;
 		}
-		qsort ((rank_t *) rank, data_sets[i].n,
+		qsort ( (rank_t *) rank, data_sets[i].n,
 		       sizeof (rank_t), (void *) &rank_compare);
 
 		for (n=0; n<data_sets[i].n; n++) {
 			/* Point number */
-			sprintf(buf, "%d", rank[n].point);
+			sprintf (buf, "%d", rank[n].point);
 			set_cell (dao, i*4+0, n+1, buf);
 
 			/* Value */
-			sprintf(buf, "%f", rank[n].x);
+			sprintf (buf, "%f", rank[n].x);
 			set_cell (dao, i*4+1, n+1, buf);
 
 			/* Rank */
-			sprintf(buf, "%d", rank[n].rank);
+			sprintf (buf, "%d", rank[n].rank);
 			set_cell (dao, i*4+2, n+1, buf);
 
 			/* Percent */
-			sprintf(buf, "%.2f%%", 
-				100.0-(100.0 * (rank[n].rank-1)/
+			sprintf (buf, "%.2f%%", 
+				100.0- (100.0 * (rank[n].rank-1)/
 				       (data_sets[i].n-1)));
 			set_cell (dao, i*4+3, n+1, buf);
 		}
-		g_free(rank);
+		g_free (rank);
 	}
 
 	for (i=0; i<vars; i++)
-	        free_data_set(&data_sets[i]);
+	        free_data_set (&data_sets[i]);
 	g_free (data_sets);
 
 	return 0;
@@ -2109,7 +2109,7 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 	float_t    ms_b, ms_w, f, p, f_c;
 	int        df_b, df_w, df_t;
 
-	prepare_output(wb, dao, "Anova");
+	prepare_output (wb, dao, "Anova");
 
 	cols = range->end.col - range->start.col + 1;
 	rows = range->end.row - range->start.row + 1;
@@ -2131,21 +2131,21 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 				  (sheet, range->start.col+col, 
 				   range->start.row);
 				if (cell != NULL && cell->value != NULL) {
-				        s = value_get_as_string(cell->value);
+				        s = value_get_as_string (cell->value);
 				        set_cell (dao, 0, col+4, s);
 				}
 			} else {
-			        sprintf(buf, "Column %d", col+1);
+			        sprintf (buf, "Column %d", col+1);
 				set_cell (dao, 0, col+4, buf);
 			}
 		}
-		data_sets = g_new(data_set_t, vars);
+		data_sets = g_new (data_set_t, vars);
 
 		if (dao->labels_flag)
 		        range->start.row++;
 
 		for (i=0; i<vars; i++)
-		        get_data_groupped_by_columns(sheet,
+		        get_data_groupped_by_columns (sheet,
 						     range, i, 
 						     &data_sets[i]);
 	} else {
@@ -2157,21 +2157,21 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 				  (sheet, range->start.col, 
 				   range->start.row+col);
 				if (cell != NULL && cell->value != NULL) {
-				        s = value_get_as_string(cell->value);
+				        s = value_get_as_string (cell->value);
 				        set_cell (dao, 0, col+4, s);
 				}
 			} else {
-		                sprintf(buf, "Row %d", col+1);
+		                sprintf (buf, "Row %d", col+1);
 				set_cell (dao, 0, col+4, buf);
 			}
 		}
-		data_sets = g_new(data_set_t, vars);
+		data_sets = g_new (data_set_t, vars);
 
 		if (dao->labels_flag)
 		        range->start.col++;
 
 		for (i=0; i<vars; i++)
-		        get_data_groupped_by_rows(sheet,
+		        get_data_groupped_by_rows (sheet,
 						  range, i, 
 						  &data_sets[i]);
 	}
@@ -2181,21 +2181,21 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 	        float_t v;
 
 	        /* Count */
-	        sprintf(buf, "%d", data_sets[i].n);
+	        sprintf (buf, "%d", data_sets[i].n);
 		set_cell (dao, 1, i+4, buf);
 
 		/* Sum */
-		sprintf(buf, "%f", data_sets[i].sum);
+		sprintf (buf, "%f", data_sets[i].sum);
 		set_cell (dao, 2, i+4, buf);
 
 		/* Average */
-		sprintf(buf, "%f", data_sets[i].sum / data_sets[i].n);
+		sprintf (buf, "%f", data_sets[i].sum / data_sets[i].n);
 		set_cell (dao, 3, i+4, buf);
 
 		/* Variance */
 		v = (data_sets[i].sqrsum - data_sets[i].sum2/data_sets[i].n) /
 		  (data_sets[i].n - 1);
-		sprintf(buf, "%f", v);
+		sprintf (buf, "%f", v);
 		set_cell (dao, 4, i+4, buf);
 	}
 
@@ -2212,7 +2212,7 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 	set_cell (dao, 0, vars+11, "Total");
 
 	/* ANOVA */
-	mean = g_new(float_t, vars);
+	mean = g_new (float_t, vars);
 	sum_total = n_total = 0;
 	ssb = ssw = sst = 0;
 	for (i=0; i<vars; i++) {
@@ -2231,7 +2231,7 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 		float_t t, x;
 
 		while (current != NULL) {
-			x = *((float_t *) current->data);
+			x = * ( (float_t *) current->data);
 			t = x - mean[i];
 		        ssw += t * t;
 			t = x - mean_total;
@@ -2245,36 +2245,36 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 	ms_b = ssb / df_b;
 	ms_w = ssw / df_w;
 	f    = ms_b / ms_w;
-	p    = 1.0 - pf(f, df_b, df_w);
-	f_c  = qf(alpha, df_b, df_w);
+	p    = 1.0 - pf (f, df_b, df_w);
+	f_c  = qf (alpha, df_b, df_w);
 
-	sprintf(buf, "%f", ssb);
+	sprintf (buf, "%f", ssb);
 	set_cell (dao, 1, vars+8, buf);
-	sprintf(buf, "%f", ssw);
+	sprintf (buf, "%f", ssw);
 	set_cell (dao, 1, vars+9, buf);
-	sprintf(buf, "%f", sst);
+	sprintf (buf, "%f", sst);
 	set_cell (dao, 1, vars+11, buf);
-	sprintf(buf, "%d", df_b);
+	sprintf (buf, "%d", df_b);
 	set_cell (dao, 2, vars+8, buf);
-	sprintf(buf, "%d", df_w);
+	sprintf (buf, "%d", df_w);
 	set_cell (dao, 2, vars+9, buf);
-	sprintf(buf, "%d", df_t);
+	sprintf (buf, "%d", df_t);
 	set_cell (dao, 2, vars+11, buf);
-	sprintf(buf, "%f", ms_b);
+	sprintf (buf, "%f", ms_b);
 	set_cell (dao, 3, vars+8, buf);
-	sprintf(buf, "%f", ms_w);
+	sprintf (buf, "%f", ms_w);
 	set_cell (dao, 3, vars+9, buf);
-	sprintf(buf, "%f", f);
+	sprintf (buf, "%f", f);
 	set_cell (dao, 4, vars+8, buf);
-	sprintf(buf, "%f", p);
+	sprintf (buf, "%f", p);
 	set_cell (dao, 5, vars+8, buf);
-	sprintf(buf, "%f", f_c);
+	sprintf (buf, "%f", f_c);
 	set_cell (dao, 6, vars+8, buf);
 
-	g_free(mean);
+	g_free (mean);
 
 	for (i=0; i<vars; i++)
-	        free_data_set(&data_sets[i]);
+	        free_data_set (&data_sets[i]);
 	g_free (data_sets);
 
         return 0;
@@ -2300,7 +2300,7 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 	float_t    ms_r, ms_c, ms_e, f1, f2, p1, p2, f1_c, f2_c;
 	int        df_r, df_c, df_e, df_t;
 
-	prepare_output(wb, dao, "Anova");
+	prepare_output (wb, dao, "Anova");
 
 	cols = range->end.col - range->start.col + 1;
 	rows = range->end.row - range->start.row + 1;
@@ -2312,45 +2312,45 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 	set_cell (dao, 3, 2, "Average");
 	set_cell (dao, 4, 2, "Variance");
 
-	data_sets = g_new(data_set_t, cols);
-	col_mean = g_new(float_t, cols);
+	data_sets = g_new (data_set_t, cols);
+	col_mean = g_new (float_t, cols);
 	for (i=0; i<cols; i++) {
 	        float_t v;
 
-	        get_data_groupped_by_columns(sheet, range, i, &data_sets[i]);
-	        sprintf(buf, "Column %d", i+1);
+	        get_data_groupped_by_columns (sheet, range, i, &data_sets[i]);
+	        sprintf (buf, "Column %d", i+1);
 		set_cell (dao, 0, i+4+rows, buf);
-	        sprintf(buf, "%d", data_sets[i].n);
+	        sprintf (buf, "%d", data_sets[i].n);
 		set_cell (dao, 1, i+4+rows, buf);
-	        sprintf(buf, "%f", data_sets[i].sum);
+	        sprintf (buf, "%f", data_sets[i].sum);
 		set_cell (dao, 2, i+4+rows, buf);
-	        sprintf(buf, "%f", data_sets[i].sum/data_sets[i].n);
+	        sprintf (buf, "%f", data_sets[i].sum/data_sets[i].n);
 		set_cell (dao, 3, i+4+rows, buf);
 		v = (data_sets[i].sqrsum - data_sets[i].sum2/data_sets[i].n) /
 		  (data_sets[i].n - 1);
-		sprintf(buf, "%f", v);
+		sprintf (buf, "%f", v);
 		set_cell (dao, 4, i+4+rows, buf);
 		col_mean[i] = data_sets[i].sum / data_sets[i].n;
 	}
-	g_free(data_sets);
+	g_free (data_sets);
 
-	data_sets = g_new(data_set_t, rows);
-	row_mean = g_new(float_t, rows);
+	data_sets = g_new (data_set_t, rows);
+	row_mean = g_new (float_t, rows);
 	for (i=n=sum=0; i<rows; i++) {
 	        float_t v;
 
-	        get_data_groupped_by_rows(sheet, range, i, &data_sets[i]);
-	        sprintf(buf, "Row %d", i+1);
+	        get_data_groupped_by_rows (sheet, range, i, &data_sets[i]);
+	        sprintf (buf, "Row %d", i+1);
 		set_cell (dao, 0, i+3, buf);
-	        sprintf(buf, "%d", data_sets[i].n);
+	        sprintf (buf, "%d", data_sets[i].n);
 		set_cell (dao, 1, i+3, buf);
-	        sprintf(buf, "%f", data_sets[i].sum);
+	        sprintf (buf, "%f", data_sets[i].sum);
 		set_cell (dao, 2, i+3, buf);
-	        sprintf(buf, "%f", data_sets[i].sum/data_sets[i].n);
+	        sprintf (buf, "%f", data_sets[i].sum/data_sets[i].n);
 		set_cell (dao, 3, i+3, buf);
 		v = (data_sets[i].sqrsum - data_sets[i].sum2/data_sets[i].n) /
 		  (data_sets[i].n - 1);
-		sprintf(buf, "%f", v);
+		sprintf (buf, "%f", v);
 		set_cell (dao, 4, i+3, buf);
 		n += data_sets[i].n;
 		sum += data_sets[i].sum;
@@ -2364,7 +2364,7 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 		n = 0;
 
 	        while (current != NULL) {
-		        x = *((float_t *) current->data);
+		        x = * ( (float_t *) current->data);
 			t = x - col_mean[n] - row_mean[i] + mean;
 			t *= t;
 			ss_e += t;
@@ -2375,7 +2375,7 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 			current = current->next;
 		}
 	}
-	g_free(data_sets);
+	g_free (data_sets);
 
 	ss_r = ss_c = 0;
 	for (i=0; i<rows; i++) {
@@ -2393,8 +2393,8 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 		t *= t;
 	        ss_c += t;
 	}
-	g_free(col_mean);
-	g_free(row_mean);
+	g_free (col_mean);
+	g_free (row_mean);
 
 	ss_c *= rows;
 
@@ -2407,10 +2407,10 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 	ms_e = ss_e / df_e;
 	f1   = ms_r / ms_e;
 	f2   = ms_c / ms_e;
-	p1   = 1.0 - pf(f1, df_r, df_e);
-	p2   = 1.0 - pf(f2, df_c, df_e);
-	f1_c = qf(alpha, df_r, df_e);
-	f2_c = qf(alpha, df_c, df_e);
+	p1   = 1.0 - pf (f1, df_r, df_e);
+	p2   = 1.0 - pf (f2, df_c, df_e);
+	f1_c = qf (alpha, df_r, df_e);
+	f2_c = qf (alpha, df_c, df_e);
 
 	set_cell (dao, 0, 6+rows+cols, "ANOVA");
 	set_cell (dao, 0, 7+rows+cols, "Source of Variation");
@@ -2425,39 +2425,39 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 	set_cell (dao, 0, 10+rows+cols, "Error");
 	set_cell (dao, 0, 12+rows+cols, "Total");
 
-	sprintf(buf, "%f", ss_r);
+	sprintf (buf, "%f", ss_r);
 	set_cell (dao, 1, 8+rows+cols, buf);
-	sprintf(buf, "%f", ss_c);
+	sprintf (buf, "%f", ss_c);
 	set_cell (dao, 1, 9+rows+cols, buf);
-	sprintf(buf, "%f", ss_e);
+	sprintf (buf, "%f", ss_e);
 	set_cell (dao, 1, 10+rows+cols, buf);
-	sprintf(buf, "%f", ss_t);
+	sprintf (buf, "%f", ss_t);
 	set_cell (dao, 1, 12+rows+cols, buf);
-	sprintf(buf, "%d", df_r);
+	sprintf (buf, "%d", df_r);
 	set_cell (dao, 2, 8+rows+cols, buf);
-	sprintf(buf, "%d", df_c);
+	sprintf (buf, "%d", df_c);
 	set_cell (dao, 2, 9+rows+cols, buf);
-	sprintf(buf, "%d", df_e);
+	sprintf (buf, "%d", df_e);
 	set_cell (dao, 2, 10+rows+cols, buf);
-	sprintf(buf, "%d", df_t);
+	sprintf (buf, "%d", df_t);
 	set_cell (dao, 2, 12+rows+cols, buf);
-	sprintf(buf, "%f", ms_r);
+	sprintf (buf, "%f", ms_r);
 	set_cell (dao, 3, 8+rows+cols, buf);
-	sprintf(buf, "%f", ms_c);
+	sprintf (buf, "%f", ms_c);
 	set_cell (dao, 3, 9+rows+cols, buf);
-	sprintf(buf, "%f", ms_e);
+	sprintf (buf, "%f", ms_e);
 	set_cell (dao, 3, 10+rows+cols, buf);
-	sprintf(buf, "%f", f1);
+	sprintf (buf, "%f", f1);
 	set_cell (dao, 4, 8+rows+cols, buf);
-	sprintf(buf, "%f", f2);
+	sprintf (buf, "%f", f2);
 	set_cell (dao, 4, 9+rows+cols, buf);
-	sprintf(buf, "%f", p1);
+	sprintf (buf, "%f", p1);
 	set_cell (dao, 5, 8+rows+cols, buf);
-	sprintf(buf, "%f", p2);
+	sprintf (buf, "%f", p2);
 	set_cell (dao, 5, 9+rows+cols, buf);
-	sprintf(buf, "%f", f1_c);
+	sprintf (buf, "%f", f1_c);
 	set_cell (dao, 6, 8+rows+cols, buf);
-	sprintf(buf, "%f", f2_c);
+	sprintf (buf, "%f", f2_c);
 	set_cell (dao, 6, 9+rows+cols, buf);
 
 	return 0;

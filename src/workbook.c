@@ -112,7 +112,7 @@ static void
 plugins_cmd (GtkWidget *widget, Workbook *wb)
 {
 	GtkWidget *pm = plugin_manager_new (wb);
-	gtk_widget_show(pm);
+	gtk_widget_show (pm);
 }
 
 #ifndef ENABLE_BONOBO
@@ -1053,16 +1053,16 @@ static GnomeUIInfo workbook_menu_help [] = {
 #endif
 
 static GnomeUIInfo workbook_menu [] = {
-        GNOMEUIINFO_MENU_FILE_TREE(workbook_menu_file),
-	GNOMEUIINFO_MENU_EDIT_TREE(workbook_menu_edit),
-	GNOMEUIINFO_MENU_VIEW_TREE(workbook_menu_view),
+        GNOMEUIINFO_MENU_FILE_TREE (workbook_menu_file),
+	GNOMEUIINFO_MENU_EDIT_TREE (workbook_menu_edit),
+	GNOMEUIINFO_MENU_VIEW_TREE (workbook_menu_view),
 	{ GNOME_APP_UI_SUBTREE, N_("_Insert"), NULL, workbook_menu_insert },
 	{ GNOME_APP_UI_SUBTREE, N_("F_ormat"), NULL, workbook_menu_format },
 	{ GNOME_APP_UI_SUBTREE, N_("_Tools"), NULL, workbook_menu_tools },
 #ifdef ENABLE_BONOBO
 #warning Should enable this when Bonobo gets menu help support
 #else
-	GNOMEUIINFO_MENU_HELP_TREE(workbook_menu_help),
+	GNOMEUIINFO_MENU_HELP_TREE (workbook_menu_help),
 #endif
 	GNOMEUIINFO_END
 };
@@ -1080,7 +1080,7 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK(
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Print"), N_("Prints the workbook"),
 		file_print_cmd, GNOME_STOCK_PIXMAP_PRINT),
 	GNOMEUIINFO_ITEM_DATA (
@@ -1147,7 +1147,7 @@ workbook_setup_sheets (Workbook *wb)
 {
 	wb->notebook = gtk_notebook_new ();
 	gtk_signal_connect_after (GTK_OBJECT (wb->notebook), "switch_page",
-				  GTK_SIGNAL_FUNC(do_focus_sheet), wb);
+				  GTK_SIGNAL_FUNC (do_focus_sheet), wb);
 
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (wb->notebook), GTK_POS_BOTTOM);
 	gtk_notebook_set_tab_border (GTK_NOTEBOOK (wb->notebook), 0);
@@ -1414,7 +1414,7 @@ static void
 wizard_input (GtkWidget *widget, Workbook *wb)
 {
 	FunctionDefinition *fd = dialog_function_select (wb);
-	GtkEntry *entry = GTK_ENTRY(wb->ea_input);
+	GtkEntry *entry = GTK_ENTRY (wb->ea_input);
 	gchar *txt, *edittxt;
 	int pos;
 
@@ -1428,8 +1428,8 @@ wizard_input (GtkWidget *widget, Workbook *wb)
 
 	pos = gtk_editable_get_position (GTK_EDITABLE (entry));
 
-	gtk_editable_insert_text (GTK_EDITABLE(entry),
-				  txt, strlen(txt), &pos);
+	gtk_editable_insert_text (GTK_EDITABLE (entry),
+				  txt, strlen (txt), &pos);
 	g_free (txt);
 	txt = gtk_entry_get_text (entry);
 
@@ -1507,14 +1507,14 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_container_add (GTK_CONTAINER (ok_button), pix);
 	GTK_WIDGET_UNSET_FLAGS (ok_button, GTK_CAN_FOCUS);
 	gtk_signal_connect (GTK_OBJECT (ok_button), "clicked",
-			    GTK_SIGNAL_FUNC(accept_input), wb);
+			    GTK_SIGNAL_FUNC (accept_input), wb);
 
 	/* Cancel */
 	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_CANCEL);
 	gtk_container_add (GTK_CONTAINER (cancel_button), pix);
 	GTK_WIDGET_UNSET_FLAGS (cancel_button, GTK_CAN_FOCUS);
 	gtk_signal_connect (GTK_OBJECT (cancel_button), "clicked",
-			    GTK_SIGNAL_FUNC(cancel_input), wb);
+			    GTK_SIGNAL_FUNC (cancel_input), wb);
 
 	gtk_box_pack_start (GTK_BOX (box2), wb->ea_status, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), ok_button, 0, 0, 0);
@@ -1527,7 +1527,7 @@ workbook_setup_edit_area (Workbook *wb)
 		gtk_container_add (GTK_CONTAINER (wizard_button), pix);
 		GTK_WIDGET_UNSET_FLAGS (wizard_button, GTK_CAN_FOCUS);
 		gtk_signal_connect (GTK_OBJECT (wizard_button), "clicked",
-				    GTK_SIGNAL_FUNC(wizard_input), wb);
+				    GTK_SIGNAL_FUNC (wizard_input), wb);
 		gtk_box_pack_start (GTK_BOX (box), wizard_button, 0, 0, 0);
 	}
 
@@ -1539,7 +1539,7 @@ workbook_setup_edit_area (Workbook *wb)
 		gtk_container_add (GTK_CONTAINER (deps_button), pix);
 		GTK_WIDGET_UNSET_FLAGS (deps_button, GTK_CAN_FOCUS);
 		gtk_signal_connect (GTK_OBJECT (deps_button), "clicked",
-				    GTK_SIGNAL_FUNC(misc_output), wb);
+				    GTK_SIGNAL_FUNC (misc_output), wb);
 		gtk_box_pack_start (GTK_BOX (box), deps_button, 0, 0, 0);
 	}
 
@@ -1552,10 +1552,10 @@ workbook_setup_edit_area (Workbook *wb)
 
 	/* Do signal setup for the editing input line */
 	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "activate",
-			    GTK_SIGNAL_FUNC(wb_input_finished),
+			    GTK_SIGNAL_FUNC (wb_input_finished),
 			    wb);
 	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "key_press_event",
-			    GTK_SIGNAL_FUNC(wb_edit_key_pressed),
+			    GTK_SIGNAL_FUNC (wb_edit_key_pressed),
 			    wb);
 
 	/* Do signal setup for the status input line */
@@ -1606,7 +1606,7 @@ workbook_set_auto_expr (Workbook *wb,
  * to the workbook via sheet_suspend_auto_expr.
  */
 void
-sheet_suspend_auto_expr(Workbook *wb, ExprTree **expr, String **desc)
+sheet_suspend_auto_expr (Workbook *wb, ExprTree **expr, String **desc)
 {
 	g_return_if_fail (wb != NULL);
 
@@ -1622,7 +1622,7 @@ sheet_suspend_auto_expr(Workbook *wb, ExprTree **expr, String **desc)
  * expressions.
  */
 void
-sheet_resume_auto_expr(Workbook *wb, ExprTree *expr, String *desc)
+sheet_resume_auto_expr (Workbook *wb, ExprTree *expr, String *desc)
 {
 	Sheet *sheet;
 
@@ -1663,7 +1663,7 @@ change_auto_expr_menu (GtkWidget *widget, GdkEventButton *event, Workbook *wb)
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    GTK_SIGNAL_FUNC(change_auto_expr), wb);
+				    GTK_SIGNAL_FUNC (change_auto_expr), wb);
 		gtk_object_set_data (GTK_OBJECT (item), "expr",
 				     quick_compute_routines [i].function);
 		gtk_object_set_data (GTK_OBJECT (item), "name",
@@ -1995,12 +1995,12 @@ workbook_new (void)
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->table     = gtk_table_new (0, 0, 0);
 
-	gtk_window_set_policy (GTK_WINDOW(wb->toplevel), 1, 1, 0);
+	gtk_window_set_policy (GTK_WINDOW (wb->toplevel), 1, 1, 0);
 	sx = MAX (gdk_screen_width  () - 64, 400);
 	sy = MAX (gdk_screen_height () - 64, 200);
 	sx = (sx * 3) / 4;
 	sy = (sy * 3) / 4;
-	gtk_window_set_default_size (GTK_WINDOW(wb->toplevel), sx, sy);
+	gtk_window_set_default_size (GTK_WINDOW (wb->toplevel), sx, sy);
 
 	workbook_set_title (wb, _("Untitled.gnumeric"));
 
@@ -2047,9 +2047,9 @@ workbook_new (void)
 			   drag_types, n_drag_types,
 			   GDK_ACTION_COPY);
 
-	gtk_signal_connect (GTK_OBJECT(wb->toplevel),
+	gtk_signal_connect (GTK_OBJECT (wb->toplevel),
 			    "drag_data_received",
-			    GTK_SIGNAL_FUNC(filenames_dropped), wb);
+			    GTK_SIGNAL_FUNC (filenames_dropped), wb);
 #endif
 
 	/* clipboard setup */

@@ -336,16 +336,18 @@ range_merge (Range const *a, Range const *b)
 void
 range_dump (Range const *src)
 {
-	/* keep these as 2 print statements, because
-	 * col_name uses a static buffer */
+	/*
+	 * keep these as 2 print statements, because
+	 * col_name uses a static buffer
+	 */
 	printf ("%s%d",
-		col_name(src->start.col),
+		col_name (src->start.col),
 		src->start.row + 1);
 
 	if (src->start.col != src->end.col ||
 	    src->start.row != src->end.row)
 		printf (":%s%d\n",
-			col_name(src->end.col),
+			col_name (src->end.col),
 			src->end.row + 1);
 }
 

@@ -43,7 +43,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row,
 		cell_eval (cell);
 
 	/* If we encounter an error for the strict case, short-circuit here.  */
-	if (data->strict && (NULL != (res = cell_is_error(cell))))
+	if (data->strict && (NULL != (res = cell_is_error (cell))))
 		return res;
 
 	/* All other cases -- including error -- just call the handler.  */
@@ -249,11 +249,12 @@ tokenized_help_destroy (TokenizedHelp *tok)
 }
 
 static gint
-function_category_compare(gconstpointer	a, gconstpointer b)
+function_category_compare (gconstpointer a, gconstpointer b)
 {
 	FunctionCategory const *cat_a = a;
 	FunctionCategory const *cat_b = b;
-	return g_strcasecmp(cat_a->name, cat_b->name);
+
+	return g_strcasecmp (cat_a->name, cat_b->name);
 }
 
 FunctionCategory *
@@ -262,11 +263,12 @@ function_get_category (gchar const *description)
 	FunctionCategory *cat;
 	FunctionCategory  tmp;
 
-	g_return_val_if_fail(description != NULL, NULL);
+	g_return_val_if_fail (description != NULL, NULL);
 
 	tmp.name = description;
-       	cat = (FunctionCategory *)g_list_find_custom(categories, &tmp,
-						     &function_category_compare);
+       	cat = (FunctionCategory *)
+		g_list_find_custom (categories, &tmp,
+				    &function_category_compare);
 	
 	if (cat != NULL)
 		return cat;
@@ -274,8 +276,8 @@ function_get_category (gchar const *description)
        	cat = g_new (FunctionCategory, 1);
 	cat->name = description;
 	cat->functions = NULL;
-	categories = g_list_insert_sorted(categories, cat,
-					  &function_category_compare);
+	categories = g_list_insert_sorted (
+		categories, cat, &function_category_compare);
 
 	return cat;
 }
@@ -434,15 +436,16 @@ function_call_with_values (const EvalPosition *ep, const char *name,
 void
 functions_init (void)
 {
-	math_functions_init();
-	sheet_functions_init();
-	date_functions_init();
-	string_functions_init();
-	stat_functions_init();
-	finance_functions_init();
-	eng_functions_init();
-	lookup_functions_init();
-	logical_functions_init();
-	database_functions_init();
-	information_functions_init();
+	math_functions_init ();
+	sheet_functions_init ();
+	date_functions_init ();
+	string_functions_init ();
+	stat_functions_init ();
+	finance_functions_init ();
+	eng_functions_init ();
+	lookup_functions_init ();
+	logical_functions_init ();
+	database_functions_init ();
+	information_functions_init ();
 }
+

@@ -196,12 +196,14 @@ static void
 move_cursor_horizontal (GnumericSheet *gsheet, int count, gboolean jump_to_boundaries)
 {
 	Sheet *sheet = gsheet->sheet_view->sheet;
-	int const new_col =
-	    sheet_find_boundary_horizontal (sheet,
-					    sheet->cursor_col,
-					    sheet->cursor_row,
-					    count, jump_to_boundaries);
-	move_cursor (gsheet, new_col, CURSOR_ROW(gsheet), TRUE);
+	int const new_col;
+
+	new_col = sheet_find_boundary_horizontal (
+		sheet,
+		sheet->cursor_col,
+		sheet->cursor_row,
+		count, jump_to_boundaries);
+	move_cursor (gsheet, new_col, CURSOR_ROW (gsheet), TRUE);
 }
 
 static void
@@ -348,7 +350,7 @@ gnumeric_sheet_create_editing_cursor (GnumericSheet *gsheet)
 	col = sheet->cursor_col;
 	row = sheet->cursor_row;
 
-	item = gnome_canvas_item_new (GNOME_CANVAS_GROUP(canvas->root),
+	item = gnome_canvas_item_new (GNOME_CANVAS_GROUP (canvas->root),
 				      item_edit_get_type (),
 				      "ItemEdit::Sheet",    sheet,
 				      "ItemEdit::Grid",     gsheet->item_grid,
@@ -763,7 +765,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			sheet_cursor_move (sheet, 0, 0, TRUE, TRUE);
 			break;
 		} else
-			(*movefn_horizontal)(gsheet, -CURSOR_COL(gsheet), FALSE);
+			(*movefn_horizontal)(gsheet, -CURSOR_COL (gsheet), FALSE);
 		break;
 
 	case GDK_KP_Delete:

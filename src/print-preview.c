@@ -536,8 +536,8 @@ static GnomeUIInfo toolbar [] = {
 		preview_last_page_cmd, GNOME_STOCK_PIXMAP_LAST),
 
 	{ GNOME_APP_UI_TOGGLEITEM, N_("Move"), N_("Move"), move_cmd },
-	GNOMEUIINFO_TOGGLEITEM(N_("Zoom in"), N_("Zooms the page in"), preview_zoom_in_cmd, zoom_in_xpm),
-	GNOMEUIINFO_TOGGLEITEM(N_("Zoom out"), N_("Zooms the page out"), preview_zoom_out_cmd, zoom_out_xpm),
+	GNOMEUIINFO_TOGGLEITEM (N_("Zoom in"), N_("Zooms the page in"), preview_zoom_in_cmd, zoom_in_xpm),
+	GNOMEUIINFO_TOGGLEITEM (N_("Zoom out"), N_("Zooms the page out"), preview_zoom_out_cmd, zoom_out_xpm),
 	GNOMEUIINFO_END
 };
 

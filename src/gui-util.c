@@ -239,7 +239,7 @@ gnumeric_create_tooltip (void)
 	
 	if (rc_style == NULL) {
 		int i;
-		rc_style = gtk_rc_style_new();
+		rc_style = gtk_rc_style_new ();
 
 		for (i = 5; --i >= 0 ; ) {
 			rc_style->color_flags[i] = GTK_RC_BG;

@@ -233,10 +233,10 @@ item_edit_set_editor (ItemEdit *item_edit, void *data)
 	item_edit->editor = GTK_WIDGET (data);
 	item_edit->signal = gtk_signal_connect (
 		GTK_OBJECT (item_edit->editor), "changed",
-		GTK_SIGNAL_FUNC(entry_changed), item_edit);
+		GTK_SIGNAL_FUNC (entry_changed), item_edit);
 	item_edit->signal2 = gtk_signal_connect_after (
 		GTK_OBJECT (item_edit->editor), "event",
-		GTK_SIGNAL_FUNC(entry_event), item_edit);
+		GTK_SIGNAL_FUNC (entry_event), item_edit);
 }
 		      
 static void
@@ -280,7 +280,7 @@ item_edit_class_init (ItemEditClass *item_edit_class)
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	item_edit_parent_class = gtk_type_class (gnome_canvas_item_get_type());
+	item_edit_parent_class = gtk_type_class (gnome_canvas_item_get_type ());
 	
 	object_class = (GtkObjectClass *) item_edit_class;
 	item_class = (GnomeCanvasItemClass *) item_edit_class;

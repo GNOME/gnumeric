@@ -198,19 +198,19 @@ g_str_case_equal (gconstpointer v, gconstpointer v2)
 static guint
 g_str_case_hash (gconstpointer v)
 {
-  const char *s = (char*)v;
-  const char *p;
-  guint h=0, g;
-
-  for(p = s; *p != '\0'; p += 1) {
-    h = ( h << 4 ) + tolower (*p);
-    if ( ( g = h & 0xf0000000 ) ) {
-      h = h ^ (g >> 24);
-      h = h ^ g;
-    }
-  }
-
-  return h /* % M */;
+	const char *s = (char*)v;
+	const char *p;
+	guint h=0, g;
+	
+	for(p = s; *p != '\0'; p += 1) {
+		h = ( h << 4 ) + tolower (*p);
+		if ( ( g = h & 0xf0000000 ) ) {
+			h = h ^ (g >> 24);
+			h = h ^ g;
+		}
+	}
+	
+	return h /* % M */;
 }
 
 

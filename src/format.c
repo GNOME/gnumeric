@@ -398,7 +398,7 @@ format_compile (StyleFormat *format)
 }
 
 static void
-style_entry_free(gpointer data, gpointer user_data)
+style_entry_free (gpointer data, gpointer user_data)
 {
 	StyleFormatEntry *entry = data;
 
@@ -731,11 +731,11 @@ format_add_thousand (const char *format_string)
 	if (strcmp (format_string, "General") == 0){
 		char *s = g_strdup ("#!##0");
 
-		s [1] = THOUSAND_CHAR_OF_LC(lc);
+		s [1] = THOUSAND_CHAR_OF_LC (lc);
 		return s;
 	}
 
-	if (strchr (format_string, THOUSAND_CHAR_OF_LC(lc)) != NULL)
+	if (strchr (format_string, THOUSAND_CHAR_OF_LC (lc)) != NULL)
 		return NULL;
 
 	b = g_malloc (strlen (format_string) + 7);
@@ -743,7 +743,7 @@ format_add_thousand (const char *format_string)
 		return NULL;
 
 	strcpy (b, "#!##0");
-	b [1] = THOUSAND_CHAR_OF_LC(lc);
+	b [1] = THOUSAND_CHAR_OF_LC (lc);
 
 	strcpy (&b[5], format_string);
 
@@ -867,7 +867,7 @@ format_add_decimal (const char *format_string)
 	if (!p){
 		char ret_val [3];
 
-		ret_val [0] = DECIMAL_CHAR_OF_LC(lc);
+		ret_val [0] = DECIMAL_CHAR_OF_LC (lc);
 		ret_val [1] = '0';
 		ret_val [2] = 0;
 		return g_strdup (ret_val);

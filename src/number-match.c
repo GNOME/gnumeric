@@ -595,7 +595,7 @@ compute_value (const char *s, const regmatch_t *mp,
 				     *    I assume ',' means thousans_sep.
 				     */
 				    number *= 1000.;
-				    number += strtod(ptr, &ptr);
+				    number += strtod (ptr, &ptr);
 				} while (*(ptr++) == ',');
 
 				idx += 3;

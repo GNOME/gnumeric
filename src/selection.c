@@ -905,7 +905,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 					break;
 
 				default :
-					g_assert_not_reached();
+					g_assert_not_reached ();
 				};
 				break;
 
@@ -944,7 +944,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 
 					/* shrink the left segment */
 					if (b->start.col == 0) {
-						g_free(a);
+						g_free (a);
 						a = NULL;
 						continue;
 					}
@@ -952,7 +952,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 					break;
 
 				default :
-					g_assert_not_reached();
+					g_assert_not_reached ();
 				};
 				break;
 
@@ -989,7 +989,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 					break;
 
 				default :
-					g_assert_not_reached();
+					g_assert_not_reached ();
 				};
 				break;
 
@@ -1023,7 +1023,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 					break;
 
 				default :
-					g_assert_not_reached();
+					g_assert_not_reached ();
 				};
 				break;
 
@@ -1072,10 +1072,10 @@ range_to_string (Sheet *sheet,
 		g_string_sprintfa (res->str, "\'%s\'!", sheet->name);
 
 	g_string_sprintfa (res->str, "$%s$%d",
-			   col_name(start_col), start_row+1);
+			   col_name (start_col), start_row+1);
 	if ((start_col != end_col) || (start_row != end_row))
 		g_string_sprintfa (res->str, ":$%s$%d",
-				   col_name(end_col), end_row+1);
+				   col_name (end_col), end_row+1);
 }
 
 char *

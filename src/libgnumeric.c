@@ -165,14 +165,14 @@ gnumeric_main (void *closure, int argc, char *argv [])
 int
 main (int argc, char *argv [])
 {
-	scm_boot_guile(argc, argv, gnumeric_main, 0);
+	scm_boot_guile (argc, argv, gnumeric_main, 0);
 	return 0;
 }
 #else
 int
 main (int argc, char *argv [])
 {
-	gnumeric_main(0, argc, argv);
+	gnumeric_main (0, argc, argv);
 	return 0;
 }
 #endif

@@ -735,14 +735,14 @@ create_popup_menu (Sheet *sheet,
 		if ((type == IG_PASTE && !include_paste) ||
 		    (type == IG_PASTE_SPECIAL && !include_paste_special) ||
 		    item_grid_context_menu [i].fn == NULL)
-			gtk_widget_set_sensitive(GTK_WIDGET (item), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (item), FALSE);
 
 		if (pix_name != NULL) {
 			GtkWidget *pixmap =
 				gnome_stock_pixmap_widget (GTK_WIDGET (item),
 							   pix_name);
 			gtk_widget_show (pixmap);
-			gtk_pixmap_menu_item_set_pixmap(
+			gtk_pixmap_menu_item_set_pixmap (
 				GTK_PIXMAP_MENU_ITEM (item),
 				pixmap);
 		}
@@ -771,7 +771,7 @@ item_grid_popup_menu (Sheet *sheet, GdkEvent *event, int col, int row,
 	gboolean const show_paste = !application_clipboard_is_empty ();
 	/* Paste special only applies to copied cells not cut */
 	gboolean const show_paste_special = show_paste &&
-	    (application_clipboard_contents_get() != NULL);
+	    (application_clipboard_contents_get () != NULL);
 
 	menu = create_popup_menu (sheet, show_paste, show_paste_special,
 				  is_col, is_row);
@@ -1177,7 +1177,7 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	item_grid_parent_class = gtk_type_class (gnome_canvas_item_get_type());
+	item_grid_parent_class = gtk_type_class (gnome_canvas_item_get_type ());
 
 	object_class = (GtkObjectClass *) item_grid_class;
 	item_class = (GnomeCanvasItemClass *) item_grid_class;

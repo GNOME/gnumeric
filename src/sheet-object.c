@@ -391,9 +391,9 @@ sheet_object_create_button  (Sheet *sheet,
 }
 
 SheetObject *
-sheet_object_create_checkbox(Sheet *sheet,
-			     double x1, double y1,
-			     double x2, double y2)
+sheet_object_create_checkbox (Sheet *sheet,
+			      double x1, double y1,
+			      double x2, double y2)
 {
 	SheetObject * obj =
 	    sheet_object_widget_new (sheet, x1, y1, x2, y2,
@@ -948,7 +948,7 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 		update_bbox (so);
 
 		/* Tell the object to update its co-ordinates */
-		SO_CLASS(so)->update_bounds (so);
+		SO_CLASS (so)->update_bounds (so);
 
 		break;
 	}
@@ -998,7 +998,7 @@ sheet_object_end_popup (SheetObject *so, GtkMenu *menu)
 static void
 menu_unrealize_cb (GtkMenu *menu, SheetObject *so)
 {
-	SO_CLASS(so)->end_popup (so, menu);
+	SO_CLASS (so)->end_popup (so, menu);
 }
 
 static GtkMenu *

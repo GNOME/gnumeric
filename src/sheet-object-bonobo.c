@@ -58,11 +58,11 @@ get_file_name (void)
 	
         gtk_signal_connect (GTK_OBJECT (fs->ok_button),
                             "clicked",
-                            GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
+                            GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
 
         gtk_signal_connect (GTK_OBJECT (fs->cancel_button),
                             "clicked",
-                            GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
+                            GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
 
 	gtk_widget_show (GTK_WIDGET (fs));
 	gtk_main ();

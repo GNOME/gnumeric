@@ -105,8 +105,8 @@ item_bar_unrealize (GnomeCanvasItem *item)
 static void
 item_bar_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
-	if (GNOME_CANVAS_ITEM_CLASS(item_bar_parent_class)->update)
-		(*GNOME_CANVAS_ITEM_CLASS(item_bar_parent_class)->update)(item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->update)
+		(*GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->update)(item, affine, clip_path, flags);
 
 	item->x1 = 0;
 	item->y1 = 0;
@@ -305,9 +305,9 @@ set_cursor (ItemBar *item_bar, int pos)
 		return;
 
 	if (is_pointer_on_division (item_bar, pos, NULL, NULL))
-		gdk_window_set_cursor(canvas->window, item_bar->change_cursor);
+		gdk_window_set_cursor (canvas->window, item_bar->change_cursor);
 	else
-		gdk_window_set_cursor(canvas->window, item_bar->normal_cursor);
+		gdk_window_set_cursor (canvas->window, item_bar->normal_cursor);
 }
 
 /*
@@ -690,7 +690,7 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	item_bar_parent_class = gtk_type_class (gnome_canvas_item_get_type());
+	item_bar_parent_class = gtk_type_class (gnome_canvas_item_get_type ());
 
 	object_class = (GtkObjectClass *) item_bar_class;
 	item_class = (GnomeCanvasItemClass *) item_bar_class;

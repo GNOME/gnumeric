@@ -544,13 +544,13 @@ eval_funcall (FunctionEvalInfo *s, ExprTree const *tree)
 					else if (a.row == b.row) {
 						int const c = s->pos.eval_col;
 						if (a.col <= c && c <= b.col)
-							v = value_duplicate(value_area_get_x_y (&s->pos, v, c - a.col, 0));
+							v = value_duplicate (value_area_get_x_y (&s->pos, v, c - a.col, 0));
 						else
 							type_mismatch = TRUE;
 					} else if (a.col == b.col) {
 						int const r = s->pos.eval_row;
 						if (a.row <= r && r <= b.row)
-							v = value_duplicate(value_area_get_x_y (&s->pos, v, 0, r - a.row));
+							v = value_duplicate (value_area_get_x_y (&s->pos, v, 0, r - a.row));
 						else
 							type_mismatch = TRUE;
 					} else
@@ -960,31 +960,31 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 				abort ();
 			}
 		} else {
-			float_t const va = value_get_as_float(a);
-			float_t const vb = value_get_as_float(b);
+			float_t const va = value_get_as_float (a);
+			float_t const vb = value_get_as_float (b);
 			value_release (a);
 			value_release (b);
 
 			switch (tree->oper){
 			case OPER_ADD:
-				return value_new_float(va + vb);
+				return value_new_float (va + vb);
 
 			case OPER_SUB:
-				return value_new_float(va - vb);
+				return value_new_float (va - vb);
 
 			case OPER_MULT:
-				return value_new_float(va * vb);
+				return value_new_float (va * vb);
 
 			case OPER_DIV:
 				return (vb == 0.0)
 				    ? value_new_error (&s->pos,
 						       gnumeric_err_DIV0)
-				    : value_new_float(va / vb);
+				    : value_new_float (va / vb);
 
 			case OPER_EXP:
 				if (va == 0 && vb <= 0)
 					return value_new_error (&s->pos, gnumeric_err_NUM);
-				return value_new_float(pow(va, vb));
+				return value_new_float (pow (va, vb));
 
 			default:
 				break;
@@ -1144,7 +1144,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree const *tree)
 }
 
 int
-cell_ref_get_abs_col(CellRef const *ref, EvalPosition const *pos)
+cell_ref_get_abs_col (CellRef const *ref, EvalPosition const *pos)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (pos != NULL, 0);
@@ -1156,7 +1156,7 @@ cell_ref_get_abs_col(CellRef const *ref, EvalPosition const *pos)
 }
 
 int
-cell_ref_get_abs_row(CellRef const *ref, EvalPosition const *pos)
+cell_ref_get_abs_row (CellRef const *ref, EvalPosition const *pos)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (pos != NULL, 0);

@@ -261,7 +261,7 @@ workbook_import (Workbook *parent, const char *filename)
 	dialog = gnome_dialog_new ("Import File", GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL, NULL);
 
-	gtk_widget_reparent (contents, GTK_WIDGET (GNOME_DIALOG(dialog)->vbox));
+	gtk_widget_reparent (contents, GTK_WIDGET (GNOME_DIALOG (dialog)->vbox));
 	gtk_widget_show (contents);
 	/* End of hack */
 
@@ -283,12 +283,13 @@ workbook_import (Workbook *parent, const char *filename)
 		text [0] = fo->format_description;
 		gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, l->data);
-		if (row == 0) gtk_clist_select_row(clist, 0, 0);
+		if (row == 0)
+			gtk_clist_select_row (clist, 0, 0);
 
 		row++;
 	}
 
-	gtk_widget_grab_focus (GTK_WIDGET(clist));
+	gtk_widget_grab_focus (GTK_WIDGET (clist));
 
 	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
 
@@ -384,7 +385,7 @@ fill_save_menu (GtkOptionMenu *omenu, GtkMenu *menu)
 			selected = i;
 
 		gtk_signal_connect (GTK_OBJECT (menu_item), "activate",
-				    GTK_SIGNAL_FUNC(saver_activate), fs);
+				    GTK_SIGNAL_FUNC (saver_activate), fs);
 	}
 
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), GTK_WIDGET (menu));
