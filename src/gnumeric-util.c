@@ -174,11 +174,7 @@ font_get_italic_name (char *fontname)
 {
 	char *f;
 	
-	f = font_change_component (fontname, 3, "i");
+	f = font_change_component (fontname, 3, "o");
 
 	return f;
 }
-
-
-
-

@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "gnumeric-util.h"
 #include "gnome-xml/tree.h"
 #include "gnome-xml/parser.h"
 #include "color.h"
@@ -275,24 +276,20 @@ static void ms_excel_set_cell_font (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_D
 	{
 	  BIFF_FONT_DATA *fd = ptr->data ;
 
-	  /* FIXME: the following does not accept the possibility of bold AND italic. Ugly code.  */
-	  if (fd->italic)
-	    {
-	      cell_set_font (cell, font_get_italic_name(fd->fontname)) ;
-	      cell->style->font->hint_is_italic = 1;
-	    }
-	  else
-	    {
-	      if (fd->boldness==0x2bc)
-		{
-		  cell_set_font (cell, font_get_bold_name(fd->fontname)) ;
-		  cell->style->font->hint_is_bold = 1;
-		}
-	      else
-		{
-		  cell_set_font (cell, fd->fontname) ;
-		}
-	    }
+      /* FIXME: instead of just copying the windows font into the cell, we 
+       * should implement a font name mapping mechanism.  */
+      cell_set_font (cell, fd->fontname) ;	  
+      if (fd->italic)
+        {
+          cell_set_font (cell, font_get_italic_name (cell->style->font->font_name)) ;
+          cell->style->font->hint_is_italic = 1;
+        }
+      if (fd->boldness==0x2bc)
+        {
+          cell_set_font (cell, font_get_bold_name (cell->style->font->font_name)) ;
+          cell->style->font->hint_is_bold = 1;
+        }
+      /* What about underlining?  */
 	  return ;
 	}
       idx++ ;
