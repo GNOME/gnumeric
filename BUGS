@@ -8,6 +8,12 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    : File Sendto needs to uri-ify the name when opening tmp file
+    : Add <control>period == insert current date&time
+
+    http://bugzilla.gnome.org/show_bug.cgi?id=152528
+    : No crash when reading broken xls
+
     http://bugzilla.gnome.org/show_bug.cgi?id=152765
     : Need to press delete twice in chart guru
 
@@ -69,6 +75,9 @@ Release Critical
 
 
 
+
+    : Use GNOME Recent for the gnome build
+    : Add a HIGy '*' before the workbook name when modified
 
 Worries
 
@@ -630,9 +639,7 @@ Short Term Goals
     14.2) Notice mismatch between suffix and saver		(DONE)
     14.3) sort the file types by precedence and recently used
     14.4) do we want to persist recently used ?
-    14.5) Fix 'do you want to overwrite' transientness
-
-    http://bugzilla.gnome.org/show_bug.cgi?id=69799
+    14.5) Fix 'do you want to overwrite' transientness		(DONE)
 
 21) AutoFilter
     21.1)  clip size for long lists				(DONE)

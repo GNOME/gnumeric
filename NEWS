@@ -30,6 +30,12 @@ Jody:
 	* Fix rendering problem when zoomed
 	* Fix object positioning when zoomed
 	* Make the status area shorter with GtkStatusbar and fewer frames
+	* XLS import for arcs, polygons
+	* Improve XLS object styling
+	* More win32 build patches
+
+Jon Kåre:
+	* Fix the CORBA plugin
 
 Morten:
 	http://bugzilla.gnome.org/show_bug.cgi?id=152511
