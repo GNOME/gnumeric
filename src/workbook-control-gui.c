@@ -431,15 +431,7 @@ delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 static void
 sheet_action_rename_sheet (GtkWidget *widget, SheetControlGUI *scg)
 {
-	SheetControl *sc = (SheetControl *) scg;
-	Sheet *sheet = sc->sheet;
-	char *new_name = dialog_get_sheet_name (scg->wbcg, sheet->name_unquoted);
-	if (!new_name)
-		return;
-
-	/* We do not care if it fails */
-	cmd_rename_sheet (sc->wbc, sheet->name_unquoted, new_name);
-	g_free (new_name);
+	dialog_sheet_name (scg->wbcg);
 }
 
 static void
@@ -2025,18 +2017,9 @@ cb_insert_comment (GtkWidget *widget, WorkbookControlGUI *wbcg)
 /****************************************************************************/
 
 static void
-cb_sheet_change_name (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_sheet_name (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	char *new_name;
-
-	new_name = dialog_get_sheet_name (wbcg, sheet->name_unquoted);
-	if (!new_name)
-		return;
-
-	cmd_rename_sheet (wbc, sheet->name_unquoted, new_name);
-	g_free (new_name);
+	dialog_sheet_name (wbcg);
 }
 
 static void
@@ -2692,7 +2675,7 @@ static GnomeUIInfo workbook_menu_edit_sheet [] = {
 
 	GNOMEUIINFO_ITEM_NONE (N_("Re_name..."),
 		N_("Rename the current sheet"),
-		cb_sheet_change_name),
+		cb_sheet_name),
 
 	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets..."),
 		N_("Change the order the sheets are displayed"),
@@ -2879,7 +2862,7 @@ static GnomeUIInfo workbook_menu_format_row [] = {
 static GnomeUIInfo workbook_menu_format_sheet [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Change name"),
 		N_("Edit the name of the current sheet"),
-		cb_sheet_change_name),
+		cb_sheet_name),
 	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets..."),
 		N_("Change the order the sheets are displayed"),
 		cb_sheet_order),
@@ -3290,7 +3273,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("RowDefaultSize",
 		workbook_cmd_format_row_std_height),
 
-	BONOBO_UI_UNSAFE_VERB ("SheetChangeName", cb_sheet_change_name),
+	BONOBO_UI_UNSAFE_VERB ("SheetChangeName", cb_sheet_name),
 	BONOBO_UI_UNSAFE_VERB ("SheetReorder", cb_sheet_order),
 	BONOBO_UI_UNSAFE_VERB ("SheetRemove", cb_sheet_remove),
 

@@ -1,3 +1,9 @@
+2002-01-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/workbook-control-gui.c (sheet_action_rename_sheet) : move most 
+	  code into dialog_sheet_name and friends
+	(cb_sheet_change_name) : ditto, also rename to cb_sheet_name
+
 2002-01-28 Joshua R. Odom <jrodom@stic.net>
 
 	* src/application.c : clean up the file names to match the code.

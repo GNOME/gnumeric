@@ -1,3 +1,13 @@
+2002-01-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-simple-input.c (dialog_get_sheet_name) replaced by 
+	  sheet_name_destroy, cb_sheet_name_ok_clicked, 
+	  cb_sheet_name_cancel_clicked, dialog_sheet_name
+	* dialogs.h (dialog_get_sheet_name) : replace with
+	  dialog_sheet_name
+	* sheet-rename.glade : use descriptive button ids &
+	  edit label
+	
 2002-01-28  Jody Goldberg <jody@gnome.org>
 
 	* dialog-sheet-order.c (cb_sheet_order_destroy) : detach guru.
