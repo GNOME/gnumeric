@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 08:44-0500\n"
-"PO-Revision-Date: 2004-01-26 22:36+0100\n"
+"POT-Creation-Date: 2004-02-24 05:14+0100\n"
+"PO-Revision-Date: 2004-02-24 13:12+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -20112,10 +20112,15 @@ msgstr "Nastavení šířky sloupce %s na výchozí"
 msgid "Setting height of row %s to default"
 msgstr "Nastavení výšky řádku %s na výchozí"
 
-#: src/commands.c:1935 src/commands.c:1936
+#: src/commands.c:1935
 #, c-format
 msgid "Autofitting columns %s"
-msgstr "Automatická úprava velikosti sloupců %s"
+msgstr "Automaticky přizpůsobuji sloupce %s"
+
+#: src/commands.c:1936
+#, c-format
+msgid "Autofitting rows %s"
+msgstr "Automaticky přizpůsobuji řádky %s"
 
 #: src/commands.c:1939
 #, c-format
@@ -20563,19 +20568,19 @@ msgstr "Osa Z"
 msgid "Plot"
 msgstr "Graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "H"
 msgstr "V"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "Height"
 msgstr "Výška"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "W"
 msgstr "Š"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "Width"
 msgstr "Šířka"
 
