@@ -2,10 +2,11 @@
 # Copyright (C) 1998,1999 Free Software Foundation, Inc.
 # Richard Hult <rhult@hem2.passagen.se>, 1999.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.25\n"
-"POT-Creation-Date: 1999-06-15 21:20+0200\n"
+"POT-Creation-Date: 1999-06-15 22:01+0200\n"
 "PO-Revision-Date: 1999-06-15 21:20+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -164,7 +165,7 @@ msgid ""
 "http://www.gnome.org/gnumeric/"
 msgstr ""
 "GNOME kalkylprogram.\n"
-"http://www.gnome.org/gnumeric"
+"http://www.gnome.org/gnumeric/"
 
 #: src/dates.c:14
 msgid "*Sun"
@@ -887,7 +888,7 @@ msgstr ""
 
 #: src/fn-date.c:496
 msgid "Unsupported method"
-msgstr ""
+msgstr "Ej stödd metod"
 
 #: src/fn-math.c:17
 msgid ""
@@ -1583,18 +1584,12 @@ msgid ""
 msgstr ""
 
 #: src/fn-misc.c:66
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA()\n"
 "@DESCRIPTION=ISNA Returns TRUE if the value is the #N/A error value. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (timmar,minuter,sekunder)\n"
-"@DESCRIPTION=Returnerar en bråkdel som representerar det nuvarande "
-"klockslaget.\n"
-"@SEEALSO=HOUR"
 
 #: src/fn-misc.c:98
 msgid ""
@@ -2544,128 +2539,112 @@ msgid "New"
 msgstr "Nytt"
 
 #: src/workbook.c:963
-#, fuzzy
 msgid "Creates a new sheet"
-msgstr "Skapa ett nytt kalkylblad"
+msgstr "Skapar ett nytt kalkylblad"
 
 #: src/workbook.c:966
 msgid "Open"
 msgstr "Öppna"
 
 #: src/workbook.c:966
-#, fuzzy
 msgid "Opens an existing workbook"
-msgstr "Öppna en existerande arbetsbok"
+msgstr "Öppnar en existerande arbetsbok"
 
 #: src/workbook.c:969
 msgid "Save"
 msgstr "Spara"
 
 #: src/workbook.c:969
-#, fuzzy
 msgid "Saves the workbook"
-msgstr "Spara arbetsboken"
+msgstr "Sparar arbetsboken"
 
 #: src/workbook.c:975
-#, fuzzy
 msgid "Cuts the selection to the clipboard"
-msgstr "Klipp ut markeringen till urklippet"
+msgstr "Klipper ut markeringen till urklippet"
 
 #: src/workbook.c:978
-#, fuzzy
 msgid "Copies the selection to the clipboard"
-msgstr "Kopiera markeringen till urklippet"
+msgstr "Kopierar markeringen till urklippet"
 
 #: src/workbook.c:981
-#, fuzzy
 msgid "Pastes the clipboard"
-msgstr "Klistra in från urklippet"
+msgstr "Klistrar in från urklippet"
 
 #: src/workbook.c:987
 msgid "Left align"
 msgstr "Vänsterjusterat"
 
 #: src/workbook.c:987
-#, fuzzy
 msgid "Left justifies the cell contents"
-msgstr "Vänsterjustera cellinnehållet"
+msgstr "Vänsterjusterar cellinnehållet"
 
 #: src/workbook.c:990
-#, fuzzy
 msgid "Centers the cell contents"
-msgstr "Centrera cellinnehållet"
+msgstr "Centrerar cellinnehållet"
 
 #: src/workbook.c:993
 msgid "Right align"
 msgstr "Högerjustera"
 
 #: src/workbook.c:993
-#, fuzzy
 msgid "Right justifies the cell contents"
-msgstr "Högerjustera cellinnehållet"
+msgstr "Högerjusterar cellinnehållet"
 
 #: src/workbook.c:998
 msgid "Bold"
 msgstr "Fetstil"
 
 #: src/workbook.c:998
-#, fuzzy
 msgid "Sets the bold font"
-msgstr "Fetstil"
+msgstr "Sätter fetstil på typsnittet"
 
 #: src/workbook.c:1001
 msgid "Italic"
 msgstr "Kursiv"
 
 #: src/workbook.c:1001
-#, fuzzy
 msgid "Makes the font italic"
-msgstr "Kursivt"
+msgstr "Gör typsnittet kursivt"
 
 #: src/workbook.c:1008
 msgid "Graphic"
 msgstr "Diagram"
 
 #: src/workbook.c:1008
-#, fuzzy
 msgid "Creates a graphic in the spreadsheet"
-msgstr "Skapa ett diagram på kalkylbladet"
+msgstr "Skapar ett diagram på kalkylbladet"
 
 #: src/workbook.c:1012
 msgid "Line"
 msgstr "Linje"
 
 #: src/workbook.c:1012
-#, fuzzy
 msgid "Creates a line object"
-msgstr "Rita en linje"
+msgstr "Skapar ett linje-objekt"
 
 #: src/workbook.c:1015
 msgid "Arrow"
 msgstr "Pil"
 
 #: src/workbook.c:1015
-#, fuzzy
 msgid "Creates an arrow object"
-msgstr "Rita en pil"
+msgstr "Skapar ett pil-objekt"
 
 #: src/workbook.c:1018
 msgid "Rectangle"
 msgstr "Rektangel"
 
 #: src/workbook.c:1018
-#, fuzzy
 msgid "Creates a rectangle object"
-msgstr "Rita en rektangel"
+msgstr "Skapar ett rektangel-objekt"
 
 #: src/workbook.c:1021
 msgid "Ellipse"
 msgstr "Ellips"
 
 #: src/workbook.c:1021
-#, fuzzy
 msgid "Creates an ellipse object"
-msgstr "Rita en ellips"
+msgstr "Skapar ett ellips-objekt"
 
 #: src/workbook.c:1134
 msgid "You should introduce a valid cell name"
@@ -2739,7 +2718,7 @@ msgstr "Blad %d"
 
 #: src/workbook.c:2130
 msgid "Gnumeric: "
-msgstr ""
+msgstr "Gnumeric: "
 
 #: src/xml-io.c:1667
 msgid "Gnumeric XML file format"
