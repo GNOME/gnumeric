@@ -191,13 +191,9 @@ install: build
 	# specialist package
 	# (dh_install doesn't do the right thing here IMO; perhaps it
 	# doesn't like multiple globs in one line)
-	for p in gnumeric-doc gnumeric-python gnumeric-gda gnumeric-gnome-db ; do \
-		echo "Files in package $$p" ; \
-		while read l ; do \
-			/bin/echo -e "\t$$l" ; \
-			rm -rvf debian/gnumeric/$$l ; \
-		done < debian/$$p.install ; \
-	done
+	while read l ; do \
+		rm -rvf debian/gnumeric/$$l ; \
+	done < debian/gnumeric-plugins-extra.install
 	# Remove dirs that are now empty
 	-find debian/gnumeric -type d -depth | xargs rmdir >/dev/null 2>&1
 

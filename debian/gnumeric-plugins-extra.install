@@ -3,3 +3,5 @@
 /usr/lib/gnumeric/*-bonobo/plugins/py-func/*
 /usr/lib/gnumeric/*-bonobo/plugins/gnome-glossary/*
 /usr/share/gnumeric/*-bonobo/python
+/usr/lib/gnumeric/*-bonobo/plugins/gdaif/*
+/usr/lib/gnumeric/*-bonobo/plugins/gnome-db/*

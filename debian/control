@@ -21,7 +21,7 @@ Standards-Version: 3.6.1
 Package: gnumeric
 Architecture: any
 Depends: ${shlibs:Depends}, gsfonts, gconf2
-Suggests: gnumeric-doc, gnumeric-python, gnumeric-gda, gnumeric-gnomedb
+Suggests: gnumeric-doc, gnumeric-plugins-extra
 Conflicts: gnumeric1.0, gnumeric1.0-doc
 Replaces: zh-trans (<< 0.8-1), gnumeric1.0
 Description: A GNOME spreadsheet application
@@ -64,30 +64,20 @@ Replaces: gnumeric (<< 1.1.17-2), gnumeric1.0-doc
 Description: Documentation for Gnumeric, the GNOME spreadsheet application
  The `Gnumeric's User Manual' in Gnome Help (DocBook XML) format.
 
-Package: gnumeric-python
+Package: gnumeric-plugins-extra
 Architecture: any
 Depends: gnumeric (= ${Source-Version}), ${shlibs:Depends}
-Conflicts: gnumeric1.0-python
-Replaces: gnumeric1.0-python
-Description: Python plugins for the GNOME spreadsheet
- Plugins written in Python and plugins that allow you to extend Gnumeric's 
- functionality using the Python scripting language:
-  o Python plugin
-  o Python plugin loader
-  o Python functions
-  o Gnome glossary
-
-Package: gnumeric-gda
-Architecture: any
-Depends: gnumeric (= ${Source-Version}), ${shlibs:Depends}
-Conflicts: gnumeric1.0-gda
-Replaces: gnumeric1.0-gda
-Description: Database access plugin for the GNOME spreadsheet
- A plugin to let Gnumeric access databases through the GNU Data Access
- framework.
-
-Package: gnumeric-gnome-db
-Architecture: any
-Depends: gnumeric (= ${Source-Version}), ${shlibs:Depends}
-Description: GNOME-DB plugin for the GNOME spreadsheet
- A plugin to let Gnumeric access databases through libgnomedb.
+Conflicts: gnumeric1.0-python, gnumeric1.0-gda, gnumeric-python, gnumeric-gda
+Replaces: gnumeric1.0-gda, gnumeric1.0-python, gnumeric-python, gnumeric-gda
+Description: Additional plugins for the GNOME spreadsheet
+ Gnumeric ships with a number of plugins; this package contains those
+ plugins that require additional packages above what the 'gnumeric' package
+ needs.
+ .
+ This includes
+  o The Python plugin
+  o The Python plugin loader
+  o Additional Python functions
+  o The Gnome glossary
+  o The gda (Gnome Database Access) plugin
+  o The GNOME-DB plugin
