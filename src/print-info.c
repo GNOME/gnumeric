@@ -598,6 +598,10 @@ print_info_dup (PrintInformation const *src_pi)
 	/* Margins (note that the others are copied as part of print_config) */
 	print_info_margin_copy (&src_pi->margins.top,    &dst_pi->margins.top);
 	print_info_margin_copy (&src_pi->margins.bottom, &dst_pi->margins.bottom);
+	dst_pi->margins.left	= src_pi->margins.left;
+	dst_pi->margins.right	= src_pi->margins.right;
+	dst_pi->margins.header	= src_pi->margins.header;
+	dst_pi->margins.footer	= src_pi->margins.footer;
 
 	/* Booleans */
 	dst_pi->center_vertically	  = src_pi->center_vertically;
