@@ -1,5 +1,17 @@
 1998-11-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/sheet.h: formula_cell_list *ONLY* exists in the Workbook,
+	not on the Sheet.
+
+	* src/sheet.c (sheet_cell_formula_link,	sheet_cell_formula_unlink): 
+	Keep the formula on the Workbook, not on the Sheet.  Thanks to
+	Havoc for reporting these bugs.
+	
+	* src/cell.c (cell_set_formula): Use cell_set_rendered_text to
+	propery set the error messages.
+	(cell_get_text): If value is NULL, use the rendered version of the
+	text instead of re-rendering it.
+
 	* src/dialog-cell-format.c (create_number_format_page): Put the
 	clist inside a scrolled window for the new CList api.
 	

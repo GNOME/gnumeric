@@ -2004,7 +2004,7 @@ sheet_cell_formula_link (Cell *cell)
 	
 	sheet = cell->sheet;
 
-	sheet->formula_cell_list = g_list_prepend (sheet->formula_cell_list, cell);
+	sheet->workbook->formula_cell_list = g_list_prepend (sheet->workbook->formula_cell_list, cell);
 	cell_add_dependencies (cell);
 }
 
@@ -2018,7 +2018,7 @@ sheet_cell_formula_unlink (Cell *cell)
 	
 	sheet = cell->sheet;
 	cell_drop_dependencies (cell);
-	sheet->formula_cell_list = g_list_remove (sheet->formula_cell_list, cell);
+	sheet->workbook->formula_cell_list = g_list_remove (sheet->workbook->formula_cell_list, cell);
 }
 
 /*

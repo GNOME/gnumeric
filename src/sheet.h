@@ -106,9 +106,6 @@ typedef struct {
 
 	int         cursor_col, cursor_row;
 	
-	/* The list of formulas */
-	GList       *formula_cell_list;
-
 	/* The list of cells that have a comment */
 	GList       *comment_list;
 	

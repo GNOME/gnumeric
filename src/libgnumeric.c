@@ -19,7 +19,7 @@ static const struct poptOption options[] = {
   {NULL, '\0', 0, NULL, 0}
 };
 
-static void
+static int
 gnumeric_main (void *closure, int argc, char *argv [])
 {
 	GList *l;

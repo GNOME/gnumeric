@@ -52,9 +52,7 @@ cell_set_formula (Cell *cell, char *text)
 					       &desired_format,
 					       &error_msg);
 	if (cell->parsed_node == NULL){
-		if (cell->text)
-			string_unref_ptr (&cell->text);
-		cell->text = string_get (error_msg);
+		cell_set_rendered_text (cell, error_msg);
 		return;
 	}
 	if (desired_format && strcmp (cell->style->format->format, "General") == 0){
@@ -1327,12 +1325,7 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	else
 		do_multi_line = FALSE;
 
-#if 0
-	if (cell->text)
-		text = cell->text->str;
-	else
-		text = "";
-#endif
+	text = cell->text->str;
 	
 	if (do_multi_line){
 		GList *lines, *l;
@@ -1491,7 +1484,14 @@ cell_get_text (Cell *cell)
 		return ret;
 	}
 
-	str = format_value (cell->style->format, cell->value, NULL);
+	/*
+	 * If a value is set, return that text formatted
+	 */
+	if (cell->value)
+		str = format_value (cell->style->format, cell->value, NULL);
+	else
+		str = g_strdup (cell->text->str);
+	
 	return str;
 }
 
