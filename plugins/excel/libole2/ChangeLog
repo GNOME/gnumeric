@@ -1,3 +1,12 @@
+1999-12-10  Arturo Tena  <arturo@directmail.org>
+
+	* ms-ole.c (pps_encode_tree_chain): Rewritten, so we can create a file
+	  with more than 4 PPS in a file.
+	  (pps_create): Take one additional parameter, in order to increment
+	  the number of pps when a new file is created. All callers changed.
+
+	* ms-ole.c (dump): The dump now fits on 80-columns displays.
+
 1999-11-30  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-ole-summary.c (write_items): Ensure that we write a BB file.

@@ -1082,100 +1082,114 @@ pps_encode_tree_initial (MsOle *f, GList *list, PPS_IDX *p)
 		pps_encode_tree_initial (f, g_list_next(list), p);
 }
 
+
 /*
  * Chain the blocks together afterwards
- * FIXME: Leaks like a sieve
  */
 static void
 pps_encode_tree_chain (MsOle *f, GList *list)
 {
-	PPS     *pps, *p;
-	GList   *l;
-	int      lp, len;
-	PPS     *next, *prev;
-	guint8  *mem, *parmem;
+	PPS	*parent;		/* parent's PPS */
+	int	len;			/* how many childrens are there */
+	GList	*lchildren;		/* visited children */
+        PPS	*children;		/* visited children's PPS */
+	PPS     *next;			/* next children's PPS */
+	PPS	*prev;			/* previous children's PPS */
+	guint8	*mem;			/* a PPS in memory */
+	guint8	*mem_parent;		/* a PPS in memory */
+	gint	i;
+	int	half_way;
 
 	g_return_if_fail (list);
 	g_return_if_fail (list->data);
-	
-	pps      = list->data;
-	parmem   = get_pps_ptr (f, pps->idx, TRUE);
-	g_return_if_fail (pps->children);
-	len      = g_list_length (pps->children);
-	l        = pps->children;
 
-	if (len == 0) {
-#if OLE_DEBUG > 0
-		printf ("Empty directory '%s'\n", pps->name);
-		return;
-#endif		
-	} else if (len == 1) {
-		p = l->data;
-		PPS_SET_DIR  (parmem, p->idx);
-		return;
-	}
-
-	g_assert (l);
-	next = prev = p = l->data;
-
-#if OLE_DEBUG > 0
-	printf ("No. of entries is %d\n", len);
-#endif
-	if (len/2==1)
-		l = g_list_next (l);
-
-	for (lp = 1; lp < len / 2; lp++) {
-		p    = l->data;
-		prev = g_list_previous(l)->data;
-
-#if OLE_DEBUG > 0
-		printf ("Chaining previous for '%s'\n", p->name);
-#endif
-		if (p->type == MsOleStorageT)
-			pps_encode_tree_chain (f, l);
-
-		mem  = get_pps_ptr (f, p->idx, TRUE);
-		PPS_SET_NEXT (mem, PPS_END_OF_CHAIN);
-		PPS_SET_PREV (mem, prev->idx);
-		l    = g_list_next (l);
-	}
-
-	g_assert (l);
-	prev   = p;
-	p      = l->data;
+	parent = list->data;
+	len = g_list_length (parent->children);
+	half_way = len / 2;
+	lchildren = parent->children;
 
 	/* The base node of the directory */
-	PPS_SET_DIR  (parmem, p->idx);
+	/* Choose the first child */
+	mem_parent = get_pps_ptr (f, parent->idx, TRUE);
 
-#if OLE_DEBUG > 0
-	printf ("Base node is '%s'\n", p->name);
+	if (len == 1) {
+		PPS_SET_DIR (mem_parent, ((PPS *)(lchildren->data))->idx);
+		/*
+		  PPS_SET_PREV (mem_parent, PPS_END_OF_CHAIN);
+		  PPS_SET_NEXT (mem_parent, PPS_END_OF_CHAIN);
+		*/
+
+#if OLE_DEBUG > 1
+		printf ("tenix3 Final encode '%s' as \n",
+			((PPS *)(parent))->name);
+		dump (mem_parent, PPS_BLOCK_SIZE);
+		printf ("tenix3 Final encode '%s' as \n",
+			((PPS *)(lchildren->data))->name);
+		dump (get_pps_ptr (f, ((PPS *)(lchildren->data))->idx, FALSE),
+		      PPS_BLOCK_SIZE);
 #endif
 
-	/* Points potentialy both ways */
-	mem    = get_pps_ptr (f, p->idx, TRUE);
-	PPS_SET_PREV (mem, prev->idx);
-	l      = g_list_next (l);
-	if (l)
-		PPS_SET_NEXT (mem, ((PPS *)l->data)->idx);
-	else
-		PPS_SET_NEXT (mem, PPS_END_OF_CHAIN);
-
-	while (l && g_list_next(l)) {
-	        p    = l->data;
-		next = g_list_next (l)->data;
-
-#if OLE_DEBUG > 0
-		printf ("Chaining next for '%s'\n", p->name);
-#endif
-		if (p->type == MsOleStorageT)
-			pps_encode_tree_chain (f, l);
-
-		mem  = get_pps_ptr (f, p->idx, TRUE);
-		PPS_SET_NEXT (mem, next->idx);
-		PPS_SET_PREV (mem, PPS_END_OF_CHAIN);
-		l = g_list_next (l);
+		return;
 	}
+
+#if OLE_DEBUG > 1
+	if (len == 0)
+		printf ("Empty directory '%s'\n", ((PPS *)(children))->name);
+#endif
+
+	i = 0;
+	for (; lchildren; lchildren = g_list_next (lchildren)) {
+		children = lchildren->data;
+
+		if (children->type == MsOleStorageT)
+			pps_encode_tree_chain (f, lchildren);
+
+		if (i == half_way)
+			PPS_SET_DIR (mem_parent, ((PPS *)(children))->idx);
+
+		mem = get_pps_ptr (f, children->idx, TRUE);
+		if (i == half_way) {
+			if (g_list_previous(lchildren)) {
+				prev = g_list_previous(lchildren)->data;
+				PPS_SET_PREV (mem, prev->idx);
+			} /* else
+				PPS_SET_PREV (mem, PPS_END_OF_CHAIN); */
+			if (g_list_next(lchildren)) {
+				next = g_list_next(lchildren)->data;
+				PPS_SET_NEXT (mem, next->idx);
+			} /* else
+				PPS_SET_NEXT (mem, PPS_END_OF_CHAIN); */
+		} else if (i < half_way) {
+			/* PPS_SET_NEXT (mem, PPS_END_OF_CHAIN); */
+			if (g_list_previous(lchildren)) {
+				prev = g_list_previous(lchildren)->data;
+				PPS_SET_PREV (mem, prev->idx);
+			} /* else
+				PPS_SET_PREV (mem, PPS_END_OF_CHAIN); */
+		} else /* i > half_way */ {
+			/* PPS_SET_PREV (mem, PPS_END_OF_CHAIN); */
+			if (g_list_next(lchildren)) {
+				next = g_list_next(lchildren)->data;
+				PPS_SET_NEXT (mem, next->idx);
+			} /* else
+				PPS_SET_NEXT (mem, PPS_END_OF_CHAIN); */
+		}
+
+#if OLE_DEBUG > 1
+			printf ("tenix1 Final encode '%s' as \n",
+				((PPS *)(children))->name);
+			dump (mem, PPS_BLOCK_SIZE);
+#endif
+
+		i++;
+	}
+
+#if OLE_DEBUG > 1
+	printf ("tenix2 Final encode '%s' as \n", ((PPS *)(parent))->name);
+	dump (mem_parent, PPS_BLOCK_SIZE);
+#endif
 }
+
 
 static int
 write_pps (MsOle *f)
@@ -1731,12 +1745,12 @@ dump (guint8 const *ptr, guint32 len)
 
 	for (lp = 0;lp<(len+15)/16;lp++)
 	{
-		printf ("%8x  |  ", lp*16);
+		printf ("%8x | ", lp*16);
 		for (lp2=0;lp2<16;lp2++) {
 			off = lp2 + (lp<<4);
 			off<len?printf("%2x ", ptr[off]):printf("XX ");
 		}
-		printf ("  |  ");
+		printf ("| ");
 		for (lp2=0;lp2<16;lp2++) {
 			off = lp2 + (lp<<4);
 			printf ("%c", off<len?(ptr[off]>'!'&&ptr[off]<127?ptr[off]:'.'):'*');
@@ -2287,6 +2301,7 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 
 /**
  * pps_create:
+ * @f: ole file handle.
  * @p: returned pps.
  * @parent: parent pps.
  * @name: its name.
@@ -2297,7 +2312,8 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
  * Return value: error status.
  **/
 static MsOleErr
-pps_create (GList **p, GList *parent, const char *name, MsOleType type)
+pps_create (MsOle *f, GList **p, GList *parent, const char *name,
+	    MsOleType type)
 {
 	PPS *pps, *par;
 
@@ -2322,6 +2338,7 @@ pps_create (GList **p, GList *parent, const char *name, MsOleType type)
 	par->children = g_list_insert_sorted (par->children, pps,
 					      (GCompareFunc)pps_compare_func);
 	*p = g_list_find (par->children, pps);
+	f->num_pps++;
 
 	return MS_OLE_ERR_OK;
 }
@@ -2411,7 +2428,7 @@ path_to_pps (PPS **pps, MsOle *f, const char *path,
 		cur = find_in_pps (parent, dirs[lp]);
 		
 		if (!cur && create_if_not_found &&
-		    pps_create (&cur, parent, dirs[lp], MsOleStorageT) !=
+		    pps_create (f, &cur, parent, dirs[lp], MsOleStorageT) !=
 		    MS_OLE_ERR_OK)
 			cur = NULL;
 		/* else carry on not finding them before dropping out */
@@ -2436,7 +2453,8 @@ path_to_pps (PPS **pps, MsOle *f, const char *path,
 	if (!cur) {
 		if (create_if_not_found) {
 			MsOleErr result;
-			result = pps_create (&cur, parent, file, MsOleStreamT);
+			result = pps_create (f, &cur, parent, file,
+					     MsOleStreamT);
 			if (result == MS_OLE_ERR_OK) {
 				*pps = cur->data;
 				g_return_val_if_fail (IS_PPS (cur->data),
