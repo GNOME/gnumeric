@@ -755,7 +755,7 @@ sheet_autofill_dir (Sheet *sheet,
 			range_init (&tmp, col, row,
 				    col + fi->merged_size.col,
 				    row + fi->merged_size.row);
-			sheet_merge_add	(NULL, sheet, &tmp);
+			sheet_merge_add	(NULL, sheet, &tmp, TRUE);
 		}
 
 		col += col_inc;

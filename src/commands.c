@@ -2461,7 +2461,7 @@ cmd_unmerge_cells_undo_internal (GnumericCommand *cmd, WorkbookControl *wbc,
 
 	for (i = 0 ; i < me->unmerged_regions->len ; ++i) {
 		Range const *tmp = &(g_array_index (me->unmerged_regions, Range, i));
-		sheet_merge_add (wbc, me->sheet, tmp);
+		sheet_merge_add (wbc, me->sheet, tmp, FALSE);
 		if (re_span)
 			sheet_range_calc_spans (me->sheet, *tmp, SPANCALC_RE_RENDER);
 	}
@@ -2627,20 +2627,7 @@ cmd_merge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		me->old_content = g_slist_prepend (me->old_content,
 			clipboard_copy_range (me->unmerge.sheet, r));
 
-		if (r->start.col != r->end.col)
-			sheet_clear_region (wbc, me->unmerge.sheet,
-					    r->start.col+1, r->start.row,
-					    r->end.col, r->end.row,
-					    CLEAR_VALUES | CLEAR_FORMATS |
-					    CLEAR_COMMENTS | CLEAR_NOCHECKARRAY);
-		if (r->start.row != r->end.row)
-			sheet_clear_region (wbc, me->unmerge.sheet,
-					    r->start.col, r->start.row+1,
-	    /* yes I mean start.col */	    r->start.col, r->end.row,
-					    CLEAR_VALUES | CLEAR_FORMATS |
-					    CLEAR_COMMENTS | CLEAR_NOCHECKARRAY);
-
-		sheet_merge_add (wbc, me->unmerge.sheet, r);
+		sheet_merge_add (wbc, me->unmerge.sheet, r, TRUE);
 	}
 
 	me->old_content = g_slist_reverse (me->old_content);

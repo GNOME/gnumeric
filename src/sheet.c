@@ -1127,6 +1127,15 @@ cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
 	return NULL;
 }
 
+static Value *
+cb_clear_non_corner (Sheet *sheet, int col, int row, Cell *cell,
+		     Range const *merged)
+{
+	if (merged->start.col != col || merged->start.row != row)
+		cell_set_value (cell, value_new_empty (), NULL);
+	return NULL;
+}
+
 /**
  * sheet_range_set_text :
  *
@@ -1142,6 +1151,7 @@ void
 sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 {
 	closure_set_cell_value	closure;
+	GSList *merged, *ptr;
 
 	g_return_if_fail (pos != NULL);
 	g_return_if_fail (r != NULL);
@@ -1153,10 +1163,21 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 
 	/* Store the parsed result creating any cells necessary */
 	sheet_foreach_cell_in_range (pos->sheet, FALSE,
-				  r->start.col, r->start.row,
-				  r->end.col, r->end.row,
-				  (ForeachCellCB)&cb_set_cell_content,
-				  &closure);
+				     r->start.col, r->start.row,
+				     r->end.col, r->end.row,
+				     (ForeachCellCB)&cb_set_cell_content,
+				     &closure);
+
+	merged = sheet_merge_get_overlap (pos->sheet, r);
+	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
+		Range const *r = ptr->data;
+		sheet_foreach_cell_in_range (pos->sheet, FALSE,
+					     r->start.col, r->start.row,
+					     r->end.col, r->end.row,
+					     (ForeachCellCB)&cb_clear_non_corner,
+					     (gpointer)r);
+	}
+	g_slist_free (merged);
 
 	if (closure.format)
 		style_format_unref (closure.format);
@@ -3645,7 +3666,7 @@ sheet_clone_merged_regions (Sheet const *src, Sheet *dst)
 {
 	GSList *ptr;
 	for (ptr = src->list_merged ; ptr != NULL ; ptr = ptr->next)
-		sheet_merge_add (NULL, dst, ptr->data);
+		sheet_merge_add (NULL, dst, ptr->data, FALSE);
 }
 
 static void

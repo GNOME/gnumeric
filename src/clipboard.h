@@ -50,6 +50,7 @@ struct _CellRegion {
 	int          cols, rows;
 	CellCopyList *list;
 	GList        *styles;
+	GSList       *merged;
 };
 
 struct _PasteTarget {

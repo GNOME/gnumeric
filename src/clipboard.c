@@ -15,6 +15,7 @@
 #include "dependent.h"
 #include "sheet.h"
 #include "sheet-style.h"
+#include "sheet-merge.h"
 #include "eval.h"
 #include "selection.h"
 #include "application.h"
@@ -428,9 +429,10 @@ CellRegion *
 clipboard_copy_range (Sheet *sheet, Range const *r)
 {
 	CellRegion *c;
+	GSList *merged, *ptr;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (r != NULL, NULL);
 	g_return_val_if_fail (r->start.col <= r->end.col, NULL);
 	g_return_val_if_fail (r->start.row <= r->end.row, NULL);
 
@@ -450,11 +452,16 @@ clipboard_copy_range (Sheet *sheet, Range const *r)
 		r->start.col, r->start.row,
 		r->end.col, r->end.row,
 		clipboard_prepend_cell, c);
+	/* reverse the list so that upper left corner is first */
+	c->list = g_list_reverse (c->list);
 
 	c->styles = sheet_style_get_list (sheet, r);
 
-	/* reverse the list so that upper left corner is first */
-	c->list = g_list_reverse (c->list);
+	c->merged = NULL;
+	merged = sheet_merge_get_overlap (sheet, r);
+	for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
+		c->merged = g_slist_prepend (c->merged, range_copy (ptr->data));
+	g_slist_free (merged);
 
 	return c;
 }
@@ -470,7 +477,6 @@ clipboard_paste (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
 	CellRegion *content;
 
 	g_return_if_fail (pt != NULL);
-	g_return_if_fail (pt->sheet != NULL);
 	g_return_if_fail (IS_SHEET (pt->sheet));
 
 	content = application_clipboard_contents_get ();
@@ -495,7 +501,7 @@ clipboard_release (CellRegion *content)
 
 	g_return_if_fail (content != NULL);
 
-	for (l = content->list; l; l = l->next){
+	for (l = content->list; l; l = l->next) {
 		CellCopy *this_cell = l->data;
 
 		if (this_cell->type == CELL_COPY_TYPE_CELL) {
@@ -512,6 +518,13 @@ clipboard_release (CellRegion *content)
 	if (content->styles != NULL) {
 		style_list_free (content->styles);
 		content->styles = NULL;
+	}
+	if (content->merged != NULL) {
+		GSList *ptr;
+		for (ptr = content->merged; ptr != NULL ; ptr = ptr->next)
+			g_free (ptr->data);
+		g_slist_free (content->merged);
+		content->merged = NULL;
 	}
 
 	g_list_free (content->list);

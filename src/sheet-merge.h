@@ -4,7 +4,8 @@
 #include "gnumeric.h"
 
 gboolean     sheet_merge_add		(WorkbookControl *cc,
-					 Sheet *sheet, Range const *r);
+					 Sheet *sheet, Range const *r,
+					 gboolean clear);
 gboolean     sheet_merge_remove		(WorkbookControl *cc,
 					 Sheet *sheet, Range const *r);
 GSList      *sheet_merge_get_overlap	(Sheet const *sheet, Range const *r);

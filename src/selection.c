@@ -1117,7 +1117,7 @@ selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 
 /*
  * selection_contains_colrow :
- * @sheet : The whose selection we are interested in.
+ * @sheet : containing the selection
  * @colrow: The column or row number we are interested in.
  * @is_col: A flag indicating whether this it is a column or a row.
  *
@@ -1427,7 +1427,7 @@ sheet_row_selection_type (Sheet const *sheet, int row)
  * @is_cols :
  * @index :
  *
- * returns TRUE if all of the selected cols/rows in the selection fully
+ * returns TRUE if all of the selected cols/rows in the selection
  * 	are fully selected and the selection contains the specified col.
  */
 gboolean

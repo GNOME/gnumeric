@@ -139,6 +139,9 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 		}
 		return TRUE;
 	} else if (is_selected) {
+		/* No need to reset the gc to white if not selected
+		 * we only paint a cell packground if it is non-white
+		 */
 		gdk_gc_set_fill (gc, GDK_SOLID);
 		gdk_gc_set_foreground (gc, &gs_lavender);
 	}

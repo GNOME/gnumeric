@@ -13,12 +13,11 @@ Release Critical
 - Merged Cells
     - copy/paste (cut works)
     - fix undo ins/del row/col to restore lost merged regions
-    - fill range should not put entries in
-    - autofill should not fill in the invisible areas.
 
 - Fix Borders
     - border style double_line does not handle all of the different
       intersection cases.
+    - diagonals
 
 Long term breakage
 ------------------

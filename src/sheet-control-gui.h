@@ -131,7 +131,7 @@ void scg_set_cursor_bounds	(SheetControlGUI *scg,
 void scg_compute_visible_region (SheetControlGUI *scg, gboolean full_recompute);
 void scg_make_cell_visible	(SheetControlGUI  *scg, int col, int row,
 				 gboolean force_scroll);
-void scg_create_edit_cursor	(SheetControlGUI *scg);
+void scg_create_editor		(SheetControlGUI *scg);
 void scg_stop_editing		(SheetControlGUI *scg);
 void scg_stop_cell_selection	(SheetControlGUI *scg, gboolean clear_string);
 

@@ -26,6 +26,8 @@
 #include "sheet-private.h"
 #include "ranges.h"
 #include "cell.h"
+#include "sheet-style.h"
+#include "mstyle.h"
 #include "expr.h"
 #include "command-context.h"
 
@@ -46,40 +48,65 @@ range_row_cmp (Range const *a, Range const *b)
  * @wbc : workbook control
  * @sheet : the sheet which will contain the region
  * @src : The region to merge
+ * @clear : should the non-corner content of the region be cleared and the
+ *          style from the corner applied.
  *
  * Add a range to the list of merge targets.  Checks for array spliting returns
  * TRUE if there was an error.  Does not regen spans, redraw or render.
  */
 gboolean
-sheet_merge_add (WorkbookControl *wbc, Sheet *sheet, Range const *range)
+sheet_merge_add (WorkbookControl *wbc,
+		 Sheet *sheet, Range const *r, gboolean clear)
 {
 	GSList *test;
 	Range  *r_copy;
 	Cell   *cell;
+	MStyle *style;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (range != NULL, TRUE);
+	g_return_val_if_fail (r != NULL, TRUE);
 
-	if (sheet_range_splits_array (sheet, range, wbc, _("Merge")))
+	if (sheet_range_splits_array (sheet, r, wbc, _("Merge")))
 		return TRUE;
 
-	test = sheet_merge_get_overlap (sheet, range);
+	test = sheet_merge_get_overlap (sheet, r);
 	if (test != NULL) {
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
 			_("There is already a merged region that intersects"),
-			range_name (range));
+			range_name (r));
 		g_slist_free (test);
 		return TRUE;
 	}
 
-	r_copy = range_copy (range);
+	if (clear) {
+		/* Clear the non-corner content */
+		if (r->start.col != r->end.col)
+			sheet_clear_region (wbc, sheet,
+					    r->start.col+1, r->start.row,
+					    r->end.col, r->end.row,
+					    CLEAR_VALUES | CLEAR_COMMENTS |
+					    CLEAR_NOCHECKARRAY);
+		if (r->start.row != r->end.row)
+			sheet_clear_region (wbc, sheet,
+					    r->start.col, r->start.row+1,
+	    /* yes I mean start.col */	    r->start.col, r->end.row,
+					    CLEAR_VALUES | CLEAR_COMMENTS |
+					    CLEAR_NOCHECKARRAY);
+
+		/* Apply the corner style to the entire region */
+		style = sheet_style_get (sheet, r->start.col, r->start.row);
+		mstyle_ref (style);
+		sheet_style_set_range (sheet, r, style);
+	}
+
+	r_copy = range_copy (r);
 	g_hash_table_insert (sheet->hash_merged, &r_copy->start, r_copy);
 
 	/* Store in order from bottom to top then LEFT TO RIGHT (by start coord) */
 	sheet->list_merged = g_slist_insert_sorted (sheet->list_merged, r_copy,
 						    (GCompareFunc)range_row_cmp);
 
-	cell = sheet_cell_get (sheet, range->start.col, range->start.row);
+	cell = sheet_cell_get (sheet, r->start.col, r->start.row);
 	if (cell != NULL)
 		cell->base.flags |= CELL_IS_MERGED;
 
@@ -277,7 +304,7 @@ sheet_merge_relocate (ExprRelocateInfo const *ri)
 	/* move the ranges after removing the previous content in case of overlap */
 	for (ptr = to_move ; ptr != NULL ; ptr = ptr->next) {
 		Range *dest = ptr->data;
-		sheet_merge_add (NULL, ri->target_sheet, dest);
+		sheet_merge_add (NULL, ri->target_sheet, dest, TRUE);
 		g_free (dest);
 	}
 	g_slist_free (to_move);

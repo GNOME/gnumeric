@@ -858,31 +858,40 @@ tail_recursion :
 	return NULL;
 }
 
+#define border_null(b)	((b) == none || (b) == NULL)
+
 static inline void
 style_row (MStyle *style, int start_col, int end_col, StyleRow *sr)
 {
-	StyleBorder *top, *bottom, *none = style_border_none ();
-	StyleBorder *left, *right, *v;
+	StyleBorder const *top, *bottom, *none = style_border_none ();
+	StyleBorder const *left, *right, *v;
 	int const end = MIN (end_col, sr->end_col);
 	int i = MAX (start_col, sr->start_col);
-#if 0
-	gboolean const has_back = mstyle_get_pattern (mstyle) > 0;
-#endif
 
 	top = mstyle_get_border (style, MSTYLE_BORDER_TOP);
 	bottom = mstyle_get_border (style, MSTYLE_BORDER_BOTTOM);
 	left = mstyle_get_border (style, MSTYLE_BORDER_LEFT);
 	right = mstyle_get_border (style, MSTYLE_BORDER_RIGHT);
 
-	if (left != none &&
-	    (sr->vertical [i] == none || sr->vertical [i] == NULL))
+	/* Cancel grids if there is a background */
+	if (mstyle_get_pattern (style) > 0) {
+		if (top == none)
+			top = NULL;
+		if (bottom == none)
+			bottom = NULL;
+		if (left == none)
+			left = NULL;
+		if (right == none)
+			right = NULL;
+	}
+
+	if (left != none && border_null (sr->vertical [i]))
 		sr->vertical [i] = left;
 	v = (right != none) ? right : left;
 
 	while (i <= end) {
 		sr->styles [i] = style;
-		if (top != none &&
-		    (sr->top [i] == none || sr->top [i] == NULL))
+		if (top != none && border_null (sr->top [i]))
 			sr->top [i] = top;
 		sr->bottom [i] = bottom;
 		sr->vertical [++i] = v;

@@ -1,3 +1,23 @@
+2001-01-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (clipboard_copy_range) : save the merged regions.
+	(clipboard_release) : cleanup merged regions.
+
+	* src/commands.c (cmd_merge_cells_redo) : move the non-corner content
+	  clearing from here.
+	* src/sheet-merge.c (sheet_merge_add) : to here.  Apply the style from
+	  the corner to the entire region.
+
+	* src/sheet.c (sheet_range_set_text) : clear range_filled merged
+	  regions.
+
+	* src/item-grid.c (item_grid_draw) : borders & grids for merged cells.
+
+2001-01-23  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (style_row) : move the clearing of grid lines
+	* src/item-grid.c (item_grid_draw) : from here.
+
 2001-01-24  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/gnumeric-util.c (gnumeric_create_popup_menu):

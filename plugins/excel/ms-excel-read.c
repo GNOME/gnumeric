@@ -3376,7 +3376,7 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 		r.end.row = MS_OLE_GET_GUINT16(ptr+2);
 		r.start.col = MS_OLE_GET_GUINT16(ptr+4);
 		r.end.col = MS_OLE_GET_GUINT16(ptr+6);
-		sheet_merge_add (NULL, sheet->gnum_sheet, &r);
+		sheet_merge_add (NULL, sheet->gnum_sheet, &r, FALSE);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
 			range_dump (&r, "\n");

@@ -2559,7 +2559,7 @@ xml_read_merged_regions (XmlParseContext const *ctxt, xmlNodePtr sheet)
 			if (parse_range (content,
 					 &r.start.col, &r.start.row,
 					 &r.end.col, &r.end.row))
-				sheet_merge_add (NULL, ctxt->sheet, &r);
+				sheet_merge_add (NULL, ctxt->sheet, &r, FALSE);
 			xmlFree (content);
 		}
 	}
