@@ -1,3 +1,7 @@
+2001-04-26  Jon K Hellan  <Jon.Hellan@clustra.com>
+
+	* POTFILES.in: Change from gnumeric.xml to GNOME_Gnumeric.xml
+
 2001-04-23  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian translation.
