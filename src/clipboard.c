@@ -399,6 +399,10 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 	if (clipboard == NULL) {
 		Sheet *sheet = application_clipboard_sheet_get ();
 		Range const *a = application_clipboard_area_get ();
+
+		g_return_if_fail (sheet != NULL);
+		g_return_if_fail (a != NULL);
+
 		content_needs_free = TRUE;
 		clipboard =
 		    clipboard_copy_cell_range (sheet,
