@@ -51,7 +51,7 @@ XmlParseContext *xml_parse_ctx_new_full (xmlDocPtr             doc,
 					 XmlSheetObjectWriteFn write_fn,
 					 gpointer              user_data);
 void             xml_parse_ctx_destroy  (XmlParseContext      *ctxt);
-					
+
 xmlNodePtr       xml_workbook_write     (XmlParseContext      *ctx,
 					 WorkbookView         *wb_view);
 gboolean         xml_workbook_read      (IOContext            *context,

@@ -15,7 +15,7 @@ typedef struct {
 } descriptive_stat_tool_t;
 
 typedef enum {
-  DiscreteDistribution, UniformDistribution, NormalDistribution, 
+  DiscreteDistribution, UniformDistribution, NormalDistribution,
   BernoulliDistribution, BinomialDistribution, PoissonDistribution,
   PatternedDistribution, NegativeBinomialDistribution, ExponentialDistribution
 } random_distribution_t;

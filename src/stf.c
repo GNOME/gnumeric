@@ -150,7 +150,7 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 		g_free (message);
 
 		free (data);
-		
+
 		return -1;
 	}
 
@@ -237,9 +237,9 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
  * stf_open_for_write:
  * @context: commandcontext
  * @filename: file to open
- * 
+ *
  * Opens a file
- * 
+ *
  * Return value: NULL on error or a pointer to a FILE struct on success.
  **/
 static FILE *
@@ -259,9 +259,9 @@ stf_open_for_write (IOContext *context, const char *filename)
  * stf_write_func:
  * @string: data to write
  * @data: file to write too
- * 
+ *
  * Callback routine which writes to a file
- * 
+ *
  * Return value: TRUE on successful write, FALSE otherwise
  **/
 static gboolean
@@ -301,25 +301,25 @@ stf_write_workbook (IOContext *context, WorkbookView *wb_view,
 
 	if (result != NULL) {
 		FILE *f = stf_open_for_write (context, filename);
-		
+
 		if (!f)
 			return -1;
 
 		stf_export_options_set_write_callback (result->export_options,
 						       (StfEWriteFunc) stf_write_func, (gpointer) f);
-		
+
 		if (stf_export (result->export_options) == FALSE) {
-		
+
 			gnumeric_error_read (COMMAND_CONTEXT (context),
 					     _("Error while trying to write csv file"));
 			stf_export_dialog_result_free (result);
 			return -1;
 		}
-		
+
 		stf_export_dialog_result_free (result);
 
 		fclose (f);
-		
+
 		return 0;
 	} else
 		return -1;

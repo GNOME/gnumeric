@@ -19,12 +19,12 @@ struct _ItemGrid {
 	SheetControlGUI *sheet_view;
 
 	ItemGridSelectionType selecting;
-	
+
 	GdkGC      *grid_gc;	/* Draw grid gc */
 	GdkGC      *fill_gc;	/* Default background fill gc */
 	GdkGC      *gc;		/* Color used for the cell */
 	GdkGC      *empty_gc;	/* GC used for drawing empty cells */
-	
+
 	GdkColor   background;
 	GdkColor   grid_color;
 	GdkColor   default_color;
@@ -40,7 +40,7 @@ void    item_grid_popup_menu (SheetControlGUI *sheet_view, GdkEventButton *event
 void    item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 			       int x, int y, int w, int h,
 			       gboolean const extended_left);
-			       
+
 typedef struct {
 	GnomeCanvasItemClass parent_class;
 } ItemGridClass;

@@ -86,7 +86,7 @@ string_unref (String *string)
 {
 	g_return_if_fail (string != NULL);
 	g_return_if_fail (string->ref_count > 0);
-	
+
 	if (--(string->ref_count) == 0){
 		g_hash_table_remove (string_hash_table, string->str);
 		g_free (string->str);

@@ -108,7 +108,7 @@ string_pos_in_list (gchar *str, GList *list)
 	gchar *item;
 	gint length;
 	int i;
-	
+
 	length = g_list_length(list);
 	for (i = 0; i < length; i++) {
 		item = (gchar *)g_list_nth_data(list, i);
@@ -123,7 +123,7 @@ static void
 free_string_list (GList *list)
 {
 	GList *l;
-	
+
 	for (l = list; l; l = l->next)
 		g_free (l->data);
 
@@ -167,7 +167,7 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 	btn = gnumeric_dialog_run (orderbox->wbcg, GNOME_DIALOG (dialog));
 	if (btn == 0) {
 		orderbox->cs  = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
-		orderbox->val = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb1));	
+		orderbox->val = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb1));
 	}
 
 	if (btn != -1)
@@ -184,7 +184,7 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	GtkWidget *hbox = gtk_hbox_new (FALSE, 2);
 
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 5);
-	
+
 	orderbox  = g_new (OrderBox, 1);
 	orderbox->parent = parent;
 	orderbox->main_frame = gtk_frame_new (frame_text);
@@ -203,7 +203,7 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 
 		orderbox->asc = 1;
 		orderbox->asc_desc = gtk_hbox_new (FALSE, 0);
-		
+
 		item = gtk_radio_button_new_with_label (group, _("Ascending"));
 		gtk_box_pack_start (GTK_BOX (orderbox->asc_desc), item, FALSE, FALSE, 0);
 		group = gtk_radio_button_group (GTK_RADIO_BUTTON (item));
@@ -218,13 +218,13 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	/* Advanced button */
 	orderbox->cs = FALSE;
 	orderbox->val = TRUE;
-	
+
 	{
 		GtkWidget *pm = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_PROPERTIES);
 		orderbox->adv_button = gnome_pixmap_button (pm, _("Advanced..."));
 	}
-	
-	gtk_box_pack_start (GTK_BOX (hbox), orderbox->adv_button, 
+
+	gtk_box_pack_start (GTK_BOX (hbox), orderbox->adv_button,
 			    FALSE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (orderbox->adv_button), "clicked",
 		GTK_SIGNAL_FUNC (dialog_cell_sort_adv),  orderbox);
@@ -289,7 +289,7 @@ dialog_cell_sort_ok (SortFlow *sf)
 		divstart = sf->sel->start.row;
 		divend = sf->sel->end.row;
 	}
-	
+
 	array = g_new (SortClause, sf->num_clause);
 	for (lp = 0; lp < sf->num_clause; lp++) {
 		int division;
@@ -343,9 +343,9 @@ dialog_cell_sort_ok (SortFlow *sf)
 	data->num_clause = sf->num_clause;
 	data->clauses = array;
 	data->top = sf->top;
-	
+
 	cmd_sort (WORKBOOK_CONTROL (sf->wbcg), data);
-	
+
 
 	return FALSE;
 }
@@ -383,7 +383,7 @@ dialog_cell_sort_add_clause(SortFlow *sf, WorkbookControlGUI *wbcg)
 		else
 			sf->clauses [sf->num_clause] = order_box_new (sf->clause_box, "then by",
 								      sf->colnames_plain, TRUE, wbcg);
-		
+
 		gtk_widget_show_all (sf->dialog);
 		sf->num_clause++;
 	}
@@ -424,7 +424,7 @@ dialog_cell_sort_header_toggled (GtkWidget *widget, SortFlow *sf)
 				gtk_combo_set_popdown_strings
 					(GTK_COMBO (sf->clauses [i]->rangetext),
 					 g_list_copy (sf->rownames_plain));
-		}	
+		}
 		if (i > 0)
 			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (sf->clauses [i]->rangetext)->entry), "");
 	}
@@ -500,15 +500,15 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	/* We can't sort complex ranges */
 	if (!selection_is_simple (WORKBOOK_CONTROL (wbcg), sheet, _("sort")))
-		return;	
+		return;
 
 	/* Correct selection if necessary */
 	range_clip_to_finite (sort_flow.sel, sort_flow.sheet);
-	
+
 	/* Set up the dialog information */
 	sort_flow.header = FALSE;
 	sort_flow.top = TRUE;
-	sort_flow.colnames_plain  = col_row_name_list (sort_flow.sheet, 
+	sort_flow.colnames_plain  = col_row_name_list (sort_flow.sheet,
 						       sort_flow.sel->start.col,
 						       sort_flow.sel->end.col,
 						       sort_flow.sel->start.row,
@@ -523,7 +523,7 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 						       sort_flow.sel->end.row,
 						       sort_flow.sel->start.col,
 						       FALSE, FALSE);
-	sort_flow.rownames_header = col_row_name_list (sort_flow.sheet, 
+	sort_flow.rownames_header = col_row_name_list (sort_flow.sheet,
 						       sort_flow.sel->start.row,
 						       sort_flow.sel->end.row,
 						       sort_flow.sel->start.col,
@@ -556,39 +556,39 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	/* Build the rest of the dialog */
 	gnome_dialog_close_hides(GNOME_DIALOG (sort_flow.dialog), TRUE);
-	
+
 	sort_flow.clause_box = gtk_vbox_new (FALSE, FALSE);
-	gtk_table_attach_defaults (GTK_TABLE (table), 
+	gtk_table_attach_defaults (GTK_TABLE (table),
 				   sort_flow.clause_box, 0, 1, 0, 1);
 
 	for (lp = 0; lp < sort_flow.num_clause; lp++) {
 		sort_flow.clauses [lp] = order_box_new (sort_flow.clause_box,
-							lp 
-							? _("then by") 
+							lp
+							? _("then by")
 							: _("Sort by"),
 							sort_flow.colnames_plain,
 							lp ? TRUE : FALSE, wbcg);
 	}
 	order_box_set_default (sort_flow.clauses [0]);
-	
+
 	/* Hook up the signals */
 	gtk_signal_connect (GTK_OBJECT (check), "toggled",
 			    GTK_SIGNAL_FUNC (dialog_cell_sort_header_toggled),
 			    &sort_flow);
 	gtk_signal_connect (GTK_OBJECT (rb1),   "toggled",
 			    GTK_SIGNAL_FUNC (dialog_cell_sort_rows_toggled),
-			    &sort_flow);	
+			    &sort_flow);
 	gtk_signal_connect (GTK_OBJECT (rb2),   "toggled",
 			    GTK_SIGNAL_FUNC (dialog_cell_sort_cols_toggled),
 			    &sort_flow);
 
 	/* Set the header button and drop down boxes correctly */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check),
-				      range_has_header (sort_flow.sheet, 
+				      range_has_header (sort_flow.sheet,
 							sort_flow.sel, TRUE));
 
 	gtk_widget_show_all (sort_flow.clause_box);
-	
+
 	/* Run the dialog */
 	cont = TRUE;
 	while (cont) {
@@ -602,18 +602,18 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 		else
 			cont = FALSE;
 	}
-	
+
 	/* Clean up */
 	if (sort_flow.dialog)
 		gtk_object_destroy (GTK_OBJECT (sort_flow.dialog));
-	
+
 	for (lp = 0; lp < sort_flow.num_clause; lp++)
 		order_box_destroy (sort_flow.clauses [lp]);
-	
+
 	free_string_list (sort_flow.colnames_plain);
 	free_string_list (sort_flow.colnames_header);
 	free_string_list (sort_flow.rownames_plain);
 	free_string_list (sort_flow.rownames_header);
-	
+
 	gtk_object_unref (GTK_OBJECT (gui));
 }

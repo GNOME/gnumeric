@@ -75,7 +75,7 @@ static gboolean
 corba_range_parse (Sheet *sheet, const char *range_spec, GSList **return_list)
 {
 	GSList *list;
-	
+
 	list = range_list_parse (sheet, range_spec, TRUE);
 	if (list) {
 		*return_list = list;
@@ -118,7 +118,7 @@ static void
 Sheet_cursor_move (PortableServer_Servant servant, const CORBA_long col, const CORBA_long row, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
-	
+
 	verify_col (col);
 	verify_row (row);
 
@@ -160,7 +160,7 @@ Sheet_selection_append (PortableServer_Servant servant,
 
 	verify_col (col);
 	verify_row (row);
-	
+
 	sheet_selection_add (sheet, col, row);
 }
 
@@ -269,10 +269,10 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
 	Value *v;
-	
+
 	verify_col (col);
 	verify_row (row);
-	
+
 	cell = sheet_cell_fetch (sheet, col, row);
 
 	switch (value->_d){
@@ -315,7 +315,7 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 		v = value_new_cellrange (&a, &b, 0, 0);
 		break;
 	}
-		
+
 	case GNOME_Gnumeric_VALUE_ARRAY:
 		v = NULL;
 		g_error ("FIXME: Implement me");
@@ -350,31 +350,31 @@ fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, COR
 			value->_d = GNOME_Gnumeric_VALUE_BOOLEAN;
 			value->_u.v_bool = cell->value->v_bool.val;
 			break;
-			
+
 		case VALUE_ERROR:
 			value->_d = GNOME_Gnumeric_VALUE_ERROR;
 			value->_u.error = CORBA_string_dup (cell->value->v_err.mesg->str);
 			break;
-			
+
 		case VALUE_STRING:
 			value->_d = GNOME_Gnumeric_VALUE_STRING;
 			value->_u.str = CORBA_string_dup (cell->value->v_str.val->str);
 			break;
-			
+
 		case VALUE_INTEGER:
 			value->_d = GNOME_Gnumeric_VALUE_INTEGER;
 			value->_u.v_int = cell->value->v_int.val;
 			break;
-			
+
 		case VALUE_FLOAT:
 			value->_d = GNOME_Gnumeric_VALUE_FLOAT;
 			value->_u.v_float = cell->value->v_float.val;
 			break;
-				
+
 		case VALUE_CELLRANGE: {
 			char *a, *b;
 			Value const *v = cell->value;
-			
+
 			a = cellref_name (&v->v_range.cell.a, &pp, FALSE);
 			b = cellref_name (&v->v_range.cell.b, &pp,
 					  v->v_range.cell.a.sheet ==
@@ -387,7 +387,7 @@ fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, COR
 			g_free (b);
 			break;
 		}
-				
+
 		case VALUE_ARRAY:
 			g_error ("FIXME: Implement me");
 			break;
@@ -406,7 +406,7 @@ Sheet_cell_get_value (PortableServer_Servant servant,
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	GNOME_Gnumeric_Value *value;
-	
+
 	verify_col_val (col, NULL);
 	verify_row_val (row, NULL);
 
@@ -426,7 +426,7 @@ Sheet_cell_set_text (PortableServer_Servant servant,
 
 	verify_col (col);
 	verify_row (row);
-	
+
 	cell = sheet_cell_fetch (sheet, col, row);
 	sheet_cell_set_text (cell, text);
 }
@@ -442,7 +442,7 @@ Sheet_cell_get_text (PortableServer_Servant servant,
 
 	verify_col_val (col, NULL);
 	verify_row_val (row, NULL);
-	
+
 	cell = sheet_cell_get (sheet, col, row);
 	if (cell) {
 		char *str;
@@ -463,10 +463,10 @@ Sheet_cell_set_format (PortableServer_Servant servant,
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
-	
+
 	verify_col (col);
 	verify_row (row);
-	
+
 	cell = sheet_cell_fetch (sheet, col, row);
 	cell_set_format (cell, format);
 }
@@ -543,7 +543,7 @@ Sheet_cell_set_comment (PortableServer_Servant servant,
 
 	verify_col (col);
 	verify_row (row);
-	
+
 	cell = sheet_cell_fetch (sheet, col, row);
 	cell_set_comment (cell, comment);
 }
@@ -558,7 +558,7 @@ Sheet_cell_get_comment (PortableServer_Servant servant,
 
 	verify_col_val (col, NULL);
 	verify_row_val (row, NULL);
-	
+
 	cell = sheet_cell_get (sheet, col, row);
 	if (cell)
 		return CORBA_string_dup (cell->comment->comment->str);
@@ -576,7 +576,7 @@ Sheet_cell_set_foreground (PortableServer_Servant servant,
 
 	verify_col (col);
 	verify_row (row);
-	
+
 	gdk_color_parse (color, &c);
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE,
 			  style_color_new (c.red, c.green, c.blue));
@@ -604,7 +604,7 @@ Sheet_cell_set_background (PortableServer_Servant servant,
 
 	verify_col (col);
 	verify_row (row);
-	
+
 	gdk_color_parse (color, &c);
 	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK,
 			  style_color_new (c.red, c.green, c.blue));
@@ -630,7 +630,7 @@ Sheet_cell_set_pattern (PortableServer_Servant servant,
 
 	verify_col (col);
 	verify_row (row);
-	
+
 	mstyle_set_pattern (mstyle, pattern);
 	sheet_style_attach_single (sheet_from_servant (servant),
 				   col, row, mstyle);
@@ -667,36 +667,36 @@ Sheet_cell_set_alignment (PortableServer_Servant servant,
 
 	verify_col (col);
 	verify_row (row);
-	
+
 	switch (halign) {
 	case GNOME_Gnumeric_Sheet_HALIGN_GENERAL:
 		h = HALIGN_GENERAL;
 		break;
-		
+
 	case GNOME_Gnumeric_Sheet_HALIGN_LEFT:
 		h = HALIGN_LEFT;
 		break;
-		
+
 	case GNOME_Gnumeric_Sheet_HALIGN_RIGHT:
 		h = HALIGN_RIGHT;
 		break;
-		
+
 	case GNOME_Gnumeric_Sheet_HALIGN_CENTER:
 		h = HALIGN_CENTER;
 		break;
-		
+
 	case GNOME_Gnumeric_Sheet_HALIGN_FILL:
 		h = HALIGN_FILL;
 		break;
-		
+
 	case GNOME_Gnumeric_Sheet_HALIGN_JUSTIFY:
 		h = HALIGN_JUSTIFY;
 		break;
-		
+
 	case GNOME_Gnumeric_Sheet_HALIGN_CENTER_ACROSS_SELECTION:
 		h = HALIGN_CENTER_ACROSS_SELECTION;
 		break;
-		
+
 	default:
 		h = HALIGN_GENERAL;
 	}
@@ -747,19 +747,19 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 	case HALIGN_GENERAL:
 		*halign = GNOME_Gnumeric_Sheet_HALIGN_GENERAL;
 		break;
-		
+
 	case HALIGN_LEFT:
 		*halign = GNOME_Gnumeric_Sheet_HALIGN_LEFT;
 		break;
-		
+
 	case HALIGN_RIGHT:
 		*halign = GNOME_Gnumeric_Sheet_HALIGN_RIGHT;
 		break;
-		
+
 	case HALIGN_CENTER:
 		*halign = GNOME_Gnumeric_Sheet_HALIGN_CENTER;
 		break;
-		
+
 	case HALIGN_FILL:
 		*halign = GNOME_Gnumeric_Sheet_HALIGN_FILL;
 		break;
@@ -767,7 +767,7 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 	case HALIGN_JUSTIFY:
 		*halign = GNOME_Gnumeric_Sheet_HALIGN_JUSTIFY;
 		break;
-		
+
 	case HALIGN_CENTER_ACROSS_SELECTION:
 		*halign = GNOME_Gnumeric_Sheet_HALIGN_CENTER_ACROSS_SELECTION;
 		break;
@@ -780,15 +780,15 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 	case VALIGN_TOP:
 		*valign = GNOME_Gnumeric_Sheet_VALIGN_TOP;
 		break;
-		
+
 	case VALIGN_BOTTOM:
 		*valign = GNOME_Gnumeric_Sheet_VALIGN_BOTTOM;
 		break;
-		
+
 	case VALIGN_CENTER:
 		*valign = GNOME_Gnumeric_Sheet_VALIGN_CENTER;
 		break;
-		
+
 	case VALIGN_JUSTIFY:
 		*valign = GNOME_Gnumeric_Sheet_VALIGN_JUSTIFY;
 		break;
@@ -901,7 +901,7 @@ Sheet_range_get_values (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 	GSList *ranges, *l;
 	int size, i;
-	
+
 	verify_range_val (sheet, range, &ranges, NULL);
 
 	/*
@@ -912,11 +912,11 @@ Sheet_range_get_values (PortableServer_Servant servant,
 		Value *value = l->data;
 		CellRef a, b;
 		int cols, rows;
-		
+
 		g_assert (value->type == VALUE_CELLRANGE);
 
 		/*
-		 * NOTE : These are absolute references 
+		 * NOTE : These are absolute references
 		 * by construction
 		 */
 		a = value->v_range.cell.a;
@@ -946,7 +946,7 @@ Sheet_range_get_values (PortableServer_Servant servant,
 		Value *value = l->data;
 		CellRef a, b;
 		int col, row;
-		
+
 		a = value->v_range.cell.a;
 		b = value->v_range.cell.b;
 
@@ -977,7 +977,7 @@ Sheet_range_set_text (PortableServer_Servant servant,
 	verify_range (sheet, range, &ranges);
 
 	range_list_foreach_all (ranges, cb_range_set_text, (char *) text);
-	
+
 	range_list_destroy (ranges);
 }
 
@@ -1033,7 +1033,7 @@ Sheet_range_set_foreground (PortableServer_Servant servant,
 	GdkColor c;
 
 	verify_range (sheet, range, &ranges);
-	
+
 	gdk_color_parse (color, &c);
 
 	mstyle = mstyle_new ();
@@ -1056,7 +1056,7 @@ Sheet_range_set_background (PortableServer_Servant servant,
 	GdkColor c;
 
 	verify_range (sheet, range, &ranges);
-	
+
 	gdk_color_parse (color, &c);
 
 	mstyle = mstyle_new ();
@@ -1078,7 +1078,7 @@ Sheet_range_set_pattern (PortableServer_Servant servant,
 	MStyle  *mstyle;
 
 	verify_range (sheet, range, &ranges);
-	
+
 	mstyle = mstyle_new ();
 	mstyle_set_pattern (mstyle, pattern);
 	ranges_set_style (sheet, ranges, mstyle);
@@ -1100,7 +1100,7 @@ Sheet_range_set_alignment (PortableServer_Servant servant,
 	MStyle  *mstyle;
 
 	verify_range (sheet, range, &ranges);
-	
+
 	mstyle = mstyle_new ();
 	mstyle_set_align_h (mstyle, halign);
 	mstyle_set_align_v (mstyle, valign);
@@ -1134,7 +1134,7 @@ Sheet_col_width (PortableServer_Servant servant, CORBA_long col, CORBA_Environme
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	ColRowInfo *ci;
-	
+
 	verify_col_val (col, 0.0);
 
 	ci = sheet_col_get_info (sheet, col);
@@ -1189,7 +1189,7 @@ Sheet_corba_class_init (void)
 	gnome_gnumeric_sheet_epv.cell_set_format = Sheet_cell_set_format;
 	gnome_gnumeric_sheet_epv.cell_get_format = Sheet_cell_get_format;
 	gnome_gnumeric_sheet_epv.cell_set_font = Sheet_cell_set_font;
-	gnome_gnumeric_sheet_epv.cell_get_font = Sheet_cell_get_font;	
+	gnome_gnumeric_sheet_epv.cell_get_font = Sheet_cell_get_font;
 	gnome_gnumeric_sheet_epv.cell_set_foreground = Sheet_cell_set_foreground;
 	gnome_gnumeric_sheet_epv.cell_get_foreground = Sheet_cell_get_foreground;
 	gnome_gnumeric_sheet_epv.cell_set_background = Sheet_cell_set_background;
@@ -1240,7 +1240,7 @@ sheet_corba_setup (Sheet *sheet)
 	SheetServant *ss;
 	CORBA_Environment ev;
         PortableServer_ObjectId *objid;
-	
+
 	Sheet_corba_class_init ();
 
 	ss = g_new0 (SheetServant, 1);
@@ -1253,7 +1253,7 @@ sheet_corba_setup (Sheet *sheet)
 	CORBA_free (objid);
 
 	sheet->priv->corba_server = PortableServer_POA_servant_to_reference (gnumeric_poa, ss, &ev);
-	
+
 	CORBA_exception_free (&ev);
 }
 
@@ -1261,7 +1261,7 @@ void
 sheet_corba_shutdown (Sheet *sheet)
 {
 	CORBA_Environment ev;
-	
+
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->priv->corba_server != NULL);

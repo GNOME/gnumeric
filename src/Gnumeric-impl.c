@@ -252,7 +252,7 @@ static POA_GNOME_GnumericFactory__vepv impl_GNOME_GnumericFactory_vepv =
 };
 
 /*** Stub implementations ***/
-static Bonobo_GenericFactory 
+static Bonobo_GenericFactory
 impl_Bonobo_GenericFactory__create(PortableServer_POA poa, CORBA_Environment * ev)
 {
    Bonobo_GenericFactory retval;
@@ -298,7 +298,7 @@ impl_Bonobo_GenericFactory_new_args(impl_POA_Bonobo_GenericFactory * servant,
    return retval;
 }
 
-static GNOME_Table 
+static GNOME_Table
 impl_GNOME_Table__create(PortableServer_POA poa, CORBA_Environment * ev)
 {
    GNOME_Table retval;
@@ -348,7 +348,7 @@ impl_GNOME_Table_set(impl_POA_GNOME_Table * servant,
    return retval;
 }
 
-static GNOME_Spreadsheet 
+static GNOME_Spreadsheet
 impl_GNOME_Spreadsheet__create(PortableServer_POA poa, CORBA_Environment * ev)
 {
    GNOME_Spreadsheet retval;
@@ -418,7 +418,7 @@ impl_GNOME_Spreadsheet_set(impl_POA_GNOME_Spreadsheet * servant,
    return retval;
 }
 
-static GNOME_Gnumeric 
+static GNOME_Gnumeric
 impl_GNOME_Gnumeric__create(PortableServer_POA poa, CORBA_Environment * ev)
 {
    GNOME_Gnumeric retval;
@@ -488,7 +488,7 @@ impl_GNOME_Gnumeric_get_string(impl_POA_GNOME_Gnumeric * servant,
    return retval;
 }
 
-static GNOME_GnumericFactory 
+static GNOME_GnumericFactory
 impl_GNOME_GnumericFactory__create(PortableServer_POA poa, CORBA_Environment * ev)
 {
    GNOME_GnumericFactory retval;

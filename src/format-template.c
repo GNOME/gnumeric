@@ -42,10 +42,10 @@
 
 /**
  * hash_table_destroy_entry_cb:
- * @pkey: 
- * @pvalue: 
- * @data: 
- * 
+ * @pkey:
+ * @pvalue:
+ * @data:
+ *
  * Callback for destroying a single key/value pair from a GHashTable
  *
  * Returns : Always TRUE
@@ -62,7 +62,7 @@ hash_table_destroy_entry_cb (gpointer pkey, gpointer pvalue, gpointer data)
 /**
  * hash_table_destroy:
  * @table:
- * 
+ *
  * Destroy the hashtable (including the keys and values)
  *
  * Returns : Always NULL
@@ -81,33 +81,33 @@ hash_table_destroy (GHashTable *table)
 	 * before removal as a sanity check
 	 */
 	size = g_hash_table_size (table);
-	
+
 	if (g_hash_table_foreach_remove (table, hash_table_destroy_entry_cb, NULL) != size)
 		g_warning ("format-template.c: Not all items removed from hash table!");
 
 	g_hash_table_destroy (table);
-	
+
 	return NULL;
 }
 
 /**
  * hash_table_create:
- * 
+ *
  * Create a new hashtable for the format template
  *
  * Returns : A new hashtable
  **/
 static GHashTable *
 hash_table_create (void)
-{	
+{
 	return g_hash_table_new (g_int_hash, g_int_equal);
 }
 
 /**
  * hash_table_generate_key:
- * @row: 
- * @col: 
- * 
+ * @row:
+ * @col:
+ *
  * Generate a key from row, col coordinates.
  * This key is always unique provided that row and col are
  * both below 65535 (2^16)
@@ -121,18 +121,18 @@ hash_table_generate_key (int row, int col)
 
 	key = 0;
 	key = (row << 16) + col;
-	
+
 	return key;
 }
 
 /**
  * hash_table_lookup:
- * @table: 
- * @row: 
- * @col: 
- * 
+ * @table:
+ * @row:
+ * @col:
+ *
  * Looks up a the value of a row,col pair in the hash table
- * 
+ *
  * Return value: The MStyle associated with the coordinates
  **/
 static MStyle *
@@ -142,7 +142,7 @@ hash_table_lookup (GHashTable *table, int row, int col)
 	guint key;
 
 	key = hash_table_generate_key (row, col);
-	
+
 	result = g_hash_table_lookup (table, &key);
 
 	return result;
@@ -150,12 +150,12 @@ hash_table_lookup (GHashTable *table, int row, int col)
 
 /**
  * hash_table_insert:
- * @table: 
- * @row: 
- * @col: 
+ * @table:
+ * @row:
+ * @col:
  * @mstyle:
  * @merge_colors:
- * 
+ *
  * Insert a new entry into the hashtable for row, col. Note that
  * if there is already an existing entry for those coordinates the
  * existing MStyle and the new one will be merges together to form
@@ -172,7 +172,7 @@ hash_table_insert (GHashTable *table, int row, int col, MStyle *mstyle)
 	g_return_if_fail (mstyle != NULL);
 
 	key = hash_table_generate_key (row, col);
-	
+
 	/*
 	 * If an entry for this col/row combination does not
 	 * yet exist then simply create a new entry in the hash table
@@ -203,7 +203,7 @@ hash_table_insert (GHashTable *table, int row, int col, MStyle *mstyle)
  * @offset: Desired offset
  * @offset_gravity: Gravity
  * @size: The size
- * 
+ *
  * This function is simply an easy way to create a FormatColRowInfo
  * instantly
  *
@@ -218,7 +218,7 @@ format_col_row_info_make (int offset, int offset_gravity,
 	new.offset = offset;
 	new.offset_gravity = offset_gravity;
 	new.size = size;
-	
+
 	return new;
 }
 
@@ -228,9 +228,9 @@ format_col_row_info_make (int offset, int offset_gravity,
 
 /**
  * format_template_member_new:
- * 
+ *
  * Create a new TemplateMember
- * 
+ *
  * Return value: the new TemplateMember
  **/
 TemplateMember *
@@ -253,9 +253,9 @@ format_template_member_new (void)
 
 /**
  * format_template_member_clone:
- * 
+ *
  * Clone a template member
- * 
+ *
  * Return value: a copy of @member
  **/
 TemplateMember *
@@ -280,14 +280,14 @@ format_template_member_clone (TemplateMember *member)
 /**
  * format_template_member_free:
  * @member: TemplateMember
- * 
+ *
  * Frees an existing template member
  **/
 void
 format_template_member_free (TemplateMember *member)
 {
 	g_return_if_fail (member != NULL);
-	
+
 	if (member->mstyle)
 		mstyle_unref (member->mstyle);
 
@@ -297,12 +297,12 @@ format_template_member_free (TemplateMember *member)
 
 /**
  * format_template_member_get_rect:
- * @member: 
- * @x1: 
- * @y1: 
- * @x2: 
- * @y2: 
- * 
+ * @member:
+ * @x1:
+ * @y1:
+ * @x2:
+ * @y2:
+ *
  * Get the rectangular area covered by the TemplateMember @member in the parent
  * rectangle @x1, @y1, @x2, @y2.
  * NOTE : This simply calculates the rectangle, it does not calculate repetitions
@@ -317,9 +317,9 @@ format_template_member_get_rect (TemplateMember *member, int x1, int y1, int x2,
 
 	r.start.row = r.end.row = 0;
 	r.start.col = r.end.col = 0;
-	
+
 	g_return_val_if_fail (member != NULL, r);
-	
+
 	/*
 	 * Calculate where the top left of the rectangle will come
 	 */
@@ -327,12 +327,12 @@ format_template_member_get_rect (TemplateMember *member, int x1, int y1, int x2,
 		r.start.row = y1 + member->row.offset;
 	else
 		r.end.row = y2 - member->row.offset;
-			
+
 	if (member->col.offset_gravity > 0)
 		r.start.col = x1 + member->col.offset;
 	else
 		r.end.col = x2 - member->col.offset;
-			
+
 	/*
 	 * Now that we know these coordinates we'll calculate the
 	 * bottom right coordinates
@@ -370,7 +370,7 @@ format_template_member_get_rect (TemplateMember *member, int x1, int y1, int x2,
  * NOTE : MStyle are taken care of internally, there is no
  *        need to unref or ref mstyle's manually.
  */
- 
+
 FormatColRowInfo
 format_template_member_get_row_info (TemplateMember *member)
 {
@@ -479,13 +479,13 @@ format_template_member_set_style (TemplateMember *member, MStyle *mstyle)
 /******************************************************************************
  * FormatTemplate - Creation/Destruction
  ******************************************************************************/
- 
+
 /**
  * format_template_new:
  * @context: a WorkbookControl
- * 
+ *
  * Create a new 'empty' FormatTemplate
- * 
+ *
  * Return value: the new FormatTemplate
  **/
 FormatTemplate *
@@ -494,19 +494,19 @@ format_template_new (WorkbookControl *context)
 	FormatTemplate *ft;
 
 	g_return_val_if_fail (context != NULL, NULL);
-	
+
 	ft = g_new0 (FormatTemplate, 1);
 
 	ft->filename    = g_string_new ("");
-	
+
 	ft->author      = g_string_new (g_get_real_name ());
 	ft->name        = g_string_new ("Name");
 	ft->description = g_string_new ("");
 	ft->category    = g_string_new ("General");
-	
+
 	ft->members = NULL;
 	ft->context = context;
-	
+
 	ft->number    = TRUE;
 	ft->border    = TRUE;
 	ft->font      = TRUE;
@@ -518,14 +518,14 @@ format_template_new (WorkbookControl *context)
 
 	ft->x1 = ft->y1 = 0;
 	ft->x2 = ft->y2 = 0;
-	
+
 	return ft;
 }
 
 /**
  * format_template_free:
  * @ft: FormatTemplate
- * 
+ *
  * Free @ft
  *
  **/
@@ -537,31 +537,31 @@ format_template_free (FormatTemplate *ft)
 	g_return_if_fail (ft != NULL);
 
 	g_string_free (ft->filename, TRUE);
-	
+
 	g_string_free (ft->author, TRUE);
 	g_string_free (ft->name, TRUE);
 	g_string_free (ft->description, TRUE);
 	g_string_free (ft->category, TRUE);
 
-	iterator = ft->members;	
+	iterator = ft->members;
 	while (iterator) {
 		TemplateMember *member = iterator->data;
 
 		format_template_member_free (member);
-		
+
 		iterator = g_slist_next (iterator);
 	}
 	g_slist_free (ft->members);
 
 	ft->table = hash_table_destroy (ft->table);
-	
+
 	g_free (ft);
 }
 
 /**
  * format_template_clone:
  * @ft: FormatTemplate
- * 
+ *
  * Make a copy of @ft.
  *
  * Returns : a copy of @ft
@@ -582,7 +582,7 @@ format_template_clone (FormatTemplate *ft)
 	clone->description = g_string_new (ft->description->str);
 	clone->category    = g_string_new (ft->category->str);
 
-	iterator = ft->members;	
+	iterator = ft->members;
 	while (iterator) {
 		TemplateMember *member = format_template_member_clone ((TemplateMember *) iterator->data);
 
@@ -602,7 +602,7 @@ format_template_clone (FormatTemplate *ft)
 	clone->y2        = ft->y2;
 
 	clone->invalidate_hash = TRUE;
-	
+
 	return clone;
 }
 
@@ -610,10 +610,10 @@ format_template_clone (FormatTemplate *ft)
  * format_template_new_from_file:
  * @context: a WorkbookControl
  * @filename: The filename to load from
- * 
+ *
  * Create a new FormatTemplate and load a template file
  * into it.
- * 
+ *
  * Return value: a new FormatTemplate (or NULL on error)
  **/
 FormatTemplate *
@@ -626,14 +626,14 @@ format_template_new_from_file (WorkbookControl *context, const char *filename)
 
 	if (!g_file_exists (filename))
 		return NULL;
-	
+
 	ft = format_template_new (context);
 
 	g_string_free (ft->filename, TRUE);
 	ft->filename = g_string_new (filename);
-	
+
 	if (gnumeric_xml_read_format_template (ft->context, ft, filename) != 0) {
-	
+
 		format_template_free (ft);
 		return NULL;
 	}
@@ -644,9 +644,9 @@ format_template_new_from_file (WorkbookControl *context, const char *filename)
 /**
  * format_template_save_to_file:
  * @ft: a FormatTemplate
- * 
+ *
  * Saves template @ft to a filename set with format_template_set_filename
- * 
+ *
  * Return value: 0 on success, or -1 on error.
  **/
 int
@@ -661,7 +661,7 @@ format_template_save (FormatTemplate *ft)
  * format_template_attach_member:
  * @ft: FormatTemplate
  * @member: the new member to attach
- * 
+ *
  * Attaches @member to template @ft
  **/
 void
@@ -682,7 +682,7 @@ format_template_attach_member (FormatTemplate *ft, TemplateMember *member)
  * format_template_detach_member:
  * @ft: FormatTemplate
  * @member: a TemplateMember
- * 
+ *
  * Detaches @member from template @ft
  **/
 void
@@ -700,16 +700,16 @@ format_template_detach_member (FormatTemplate *ft, TemplateMember *member)
 
 /**
  * format_template_filter_style:
- * @ft: 
+ * @ft:
  * @mstyle:
  * @fill_defaults: If set fill in the gaps with the "default" mstyle.
- * 
+ *
  * Filter an mstyle and strip and replace certain elements
  * based on what the user wants to apply.
  * Basically you should pass FALSE as @fill_defaults, unless you want to have
  * a completely filled style to be returned. If you set @fill_default to TRUE
  * the returned mstyle might have some of it's elements 'not set'
- * 
+ *
  * Return value: The same mstyle as @mstyle with most likely some modifications
  **/
 static MStyle *
@@ -743,7 +743,7 @@ format_template_filter_style (FormatTemplate *ft, MStyle *mstyle, gboolean fill_
 			mstyle_unset_element (mstyle, MSTYLE_FONT_UNDERLINE);
 			mstyle_unset_element (mstyle, MSTYLE_FONT_STRIKETHROUGH);
 			mstyle_unset_element (mstyle, MSTYLE_FONT_SIZE);
-		
+
 			mstyle_unset_element (mstyle, MSTYLE_COLOR_FORE);
 		}
 		if (!ft->patterns) {
@@ -757,7 +757,7 @@ format_template_filter_style (FormatTemplate *ft, MStyle *mstyle, gboolean fill_
 		}
 	} else {
 		MStyle *mstyle_default = mstyle_new_default ();
-		
+
 		/*
 		 * We fill in the gaps with the default mstyle
 		 */
@@ -780,7 +780,7 @@ format_template_filter_style (FormatTemplate *ft, MStyle *mstyle, gboolean fill_
 			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_UNDERLINE);
 			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_STRIKETHROUGH);
 			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_SIZE);
-		
+
 			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_COLOR_FORE);
 		 }
 		 if (!ft->patterns) {
@@ -795,7 +795,7 @@ format_template_filter_style (FormatTemplate *ft, MStyle *mstyle, gboolean fill_
 
 		 mstyle_unref (mstyle_default);
 	}
-	
+
 	return mstyle;
 }
 
@@ -809,10 +809,10 @@ typedef void (* PCalcCallback) (FormatTemplate *ft, Range *r, MStyle *mstyle, gp
  * @ft: Format template
  * @s: Target range
  * @display_error: If TRUE will display an error message if @s is not appropriate for @ft.
- * 
+ *
  * Check wether range @s is big enough to apply format template @ft to it.
  * If this is not the case an error message WILL be displayed if @display_error is TRUE
- * 
+ *
  * Return value: TRUE if @s is big enough, FALSE if not.
  **/
 static gboolean
@@ -824,7 +824,7 @@ format_template_range_check (FormatTemplate *ft, Range s, gboolean display_error
 	gboolean invalid_range_seen = FALSE;
 
 	g_return_val_if_fail (ft != NULL, FALSE);
-	
+
 	iterator = ft->members;
 	while (iterator) {
 		TemplateMember *member = iterator->data;
@@ -840,10 +840,10 @@ format_template_range_check (FormatTemplate *ft, Range s, gboolean display_error
 
 			if (diff_row > diff_row_high)
 				diff_row_high = diff_row;
-					
+
 			invalid_range_seen = TRUE;
 		}
-			
+
 		iterator = g_slist_next (iterator);
 	}
 
@@ -872,7 +872,7 @@ format_template_range_check (FormatTemplate *ft, Range s, gboolean display_error
 		}
 
 		g_free (errmsg);
-		
+
 		return FALSE;
 	} else if (invalid_range_seen) {
 
@@ -888,7 +888,7 @@ format_template_range_check (FormatTemplate *ft, Range s, gboolean display_error
  * @s: Target range
  * @pc: Callback function
  * @cb_data: Data to pass to the callback function
- * 
+ *
  * Calculate all styles for a range of @s. This routine will invoke the callback function
  * and pass all styles and ranges for those styles to the callback function.
  * The callback function should UNREF the mstyle passed!
@@ -900,7 +900,7 @@ format_template_calculate (FormatTemplate *ft, Range s, PCalcCallback pc, gpoint
 	GSList *iterator;
 
 	g_return_if_fail (ft != NULL);
-	
+
 	/*
 	 * Apply all styles
 	 */
@@ -914,14 +914,14 @@ format_template_calculate (FormatTemplate *ft, Range s, PCalcCallback pc, gpoint
 		if (member->direction == FREQ_DIRECTION_NONE) {
 
 			pc (ft, &r, mstyle_copy (mstyle), cb_data);
-				
+
 		} else if (member->direction == FREQ_DIRECTION_HORIZONTAL) {
 			int col_repeat = member->repeat;
 			Range hr = r;
 
 			while (col_repeat != 0) {
 				pc (ft, &hr, mstyle_copy (mstyle), cb_data);
-				
+
 				hr.start.col += member->skip + member->col.size;
 				hr.end.col   += member->skip + member->col.size;
 
@@ -941,7 +941,7 @@ format_template_calculate (FormatTemplate *ft, Range s, PCalcCallback pc, gpoint
 
 			while (row_repeat != 0) {
 				pc (ft, &vr, mstyle_copy (mstyle), cb_data);
-				
+
 				vr.start.row += member->skip + member->row.size;
 				vr.end.row   += member->skip + member->row.size;
 
@@ -951,13 +951,13 @@ format_template_calculate (FormatTemplate *ft, Range s, PCalcCallback pc, gpoint
 					if (vr.start.row > s.end.row)
 						break;
 				}
-				
+
 				if (vr.start.row > s.end.row - member->edge)
 					break;
 			}
 		}
 
-		
+
 		iterator = g_slist_next (iterator);
 	}
 }
@@ -965,7 +965,7 @@ format_template_calculate (FormatTemplate *ft, Range s, PCalcCallback pc, gpoint
 /******************************************************************************
  * FormatTemplate - Application for the hashtable (previews)
  ******************************************************************************/
- 
+
 static void
 cb_format_hash_style (FormatTemplate *ft, Range *r, MStyle *mstyle, GHashTable *table)
 {
@@ -975,10 +975,10 @@ cb_format_hash_style (FormatTemplate *ft, Range *r, MStyle *mstyle, GHashTable *
 	 * Filter out undesired elements
 	 */
 	mstyle = format_template_filter_style (ft, mstyle, TRUE);
-	
+
 	for (row = r->start.row; row <= r->end.row; row++) {
 		for (col = r->start.col; col <= r->end.col; col++) {
-		
+
 			hash_table_insert (table, row, col, mstyle);
 		}
 	}
@@ -993,7 +993,7 @@ cb_format_hash_style (FormatTemplate *ft, Range *r, MStyle *mstyle, GHashTable *
 /**
  * format_template_recalc_hash:
  * @ft: FormatTemplate
- * 
+ *
  * Refills the hashtable based on new dimensions
  **/
 static void
@@ -1002,7 +1002,7 @@ format_template_recalc_hash (FormatTemplate *ft)
 	Range s;
 
 	g_return_if_fail (ft != NULL);
-	
+
 	ft->table = hash_table_destroy (ft->table);
 	ft->table = hash_table_create ();
 
@@ -1024,7 +1024,7 @@ format_template_recalc_hash (FormatTemplate *ft)
 
 		return;
 	}
-	
+
 	format_template_calculate (ft, s, (PCalcCallback) cb_format_hash_style, ft->table);
 
 	/*
@@ -1042,11 +1042,11 @@ format_template_recalc_hash (FormatTemplate *ft)
 				MStyle *mstyle;
 				MStyle *mstyle_to_bottom;
 				MStyle *mstyle_to_right;
-				
+
 				mstyle = format_template_get_style (ft, row, col);
 				if (!mstyle)
 					continue;
-				
+
 				mstyle_to_bottom = format_template_get_style (ft, row + 1, col);
 				mstyle_to_right = format_template_get_style (ft, row, col + 1);
 
@@ -1054,7 +1054,7 @@ format_template_recalc_hash (FormatTemplate *ft)
 				right = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
 
 				if (bottom != NULL && bottom->line_type != STYLE_BORDER_NONE) {
-				
+
 					if (!mstyle_to_bottom) {
 						MStyle *mstyle_default;
 
@@ -1064,7 +1064,7 @@ format_template_recalc_hash (FormatTemplate *ft)
 
 						mstyle_set_border (mstyle_to_bottom, MSTYLE_BORDER_TOP,
 							   style_border_ref (bottom));
-						
+
 						hash_table_insert (ft->table, row + 1, col, mstyle_to_bottom);
 
 						mstyle_unref (mstyle_to_bottom);
@@ -1073,7 +1073,7 @@ format_template_recalc_hash (FormatTemplate *ft)
 							   style_border_ref (bottom));
 					}
 				}
-							   
+
 				if (right != NULL && right->line_type != STYLE_BORDER_NONE) {
 
 					if (!mstyle_to_right) {
@@ -1082,7 +1082,7 @@ format_template_recalc_hash (FormatTemplate *ft)
 						mstyle_default = mstyle_new_default ();
 						mstyle_to_right = mstyle_copy (mstyle_default);
 						mstyle_unref (mstyle_default);
-						
+
 						mstyle_set_border (mstyle_to_right, MSTYLE_BORDER_LEFT,
 								   style_border_ref (right));
 
@@ -1097,16 +1097,16 @@ format_template_recalc_hash (FormatTemplate *ft)
 			}
 		}
 	}
-	
+
 	g_hash_table_thaw (ft->table);
 }
 
 /**
  * format_template_get_style:
- * @ft: 
- * @row: 
- * @col: 
- * 
+ * @ft:
+ * @row:
+ * @col:
+ *
  * Returns the MStyle associated with coordinates row, col.
  * This routine uses the hash to do this.
  * NOTE : You MAY NOT free the result of this operation,
@@ -1119,7 +1119,7 @@ MStyle *
 format_template_get_style (FormatTemplate *ft, int row, int col)
 {
 	MStyle *mstyle;
-	
+
 	g_return_val_if_fail (ft != NULL, NULL);
 	g_return_val_if_fail (ft->table != NULL, NULL);
 
@@ -1128,11 +1128,11 @@ format_template_get_style (FormatTemplate *ft, int row, int col)
 	 * then refill it
 	 */
 	if (ft->invalidate_hash) {
-	
+
 		ft->invalidate_hash = FALSE;
 		format_template_recalc_hash (ft);
 	}
-		
+
 	mstyle = hash_table_lookup (ft->table, row, col);
 
 	return mstyle;
@@ -1149,7 +1149,7 @@ cb_format_sheet_style (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *shee
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (r != NULL);
 	g_return_if_fail (mstyle != NULL);
-	
+
 	mstyle = format_template_filter_style (ft, mstyle, FALSE);
 
 	/*
@@ -1171,21 +1171,21 @@ cb_format_sheet_border (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *she
 	g_return_if_fail (sheet != NULL);
 
 	mstyle = format_template_filter_style (ft, mstyle, FALSE);
-	
+
 	bottom = mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
 	right  = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
-	
+
         /*
 	 * We need not unref the mstyles after binding them
 	 * to the sheet. The sheet will take care for them
-	 */		
+	 */
 	if (bottom != NULL && bottom->line_type != STYLE_BORDER_NONE) {
 		MStyle *mstyle_to_bottom = mstyle_new ();
 		Range br = *r;
 
 		br.end.row++;
 		br.start.row = br.end.row;
-					
+
 		mstyle_set_border (mstyle_to_bottom, MSTYLE_BORDER_TOP,
 				   style_border_ref (bottom));
 
@@ -1268,7 +1268,7 @@ char *
 format_template_get_filename (FormatTemplate *ft)
 {
 	g_return_val_if_fail (ft != NULL, NULL);
-	
+
 	if (ft->filename)
 		return g_strdup (ft->filename->str);
 	else
@@ -1279,7 +1279,7 @@ char *
 format_template_get_name (FormatTemplate *ft)
 {
 	g_return_val_if_fail (ft != NULL, NULL);
-	
+
 	if (ft->name)
 		return g_strdup (ft->name->str);
 	else
@@ -1290,7 +1290,7 @@ char *
 format_template_get_author (FormatTemplate *ft)
 {
 	g_return_val_if_fail (ft != NULL, NULL);
-	
+
 	if (ft->author)
 		return g_strdup (ft->author->str);
 	else
@@ -1301,7 +1301,7 @@ char *
 format_template_get_description (FormatTemplate *ft)
 {
 	g_return_val_if_fail (ft != NULL, NULL);
-	
+
 	if (ft->description)
 		return g_strdup (ft->description->str);
 	else
@@ -1312,7 +1312,7 @@ char *
 format_template_get_category (FormatTemplate *ft)
 {
 	g_return_val_if_fail (ft != NULL, NULL);
-	
+
 	if (ft->category)
 		return g_strdup (ft->category->str);
 	else
@@ -1332,10 +1332,10 @@ format_template_set_filename (FormatTemplate *ft, const char *filename)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (filename != NULL);
-	
+
 	if (ft->filename)
 		g_string_free (ft->filename, TRUE);
-		
+
 	ft->filename = g_string_new (filename);
 }
 
@@ -1344,10 +1344,10 @@ format_template_set_name (FormatTemplate *ft, const char *name)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (name != NULL);
-	
+
 	if (ft->name)
 		g_string_free (ft->name, TRUE);
-		
+
 	ft->name = g_string_new (name);
 }
 
@@ -1356,10 +1356,10 @@ format_template_set_author (FormatTemplate *ft, const char *author)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (author != NULL);
-	
+
 	if (ft->author)
 		g_string_free (ft->author, TRUE);
-		
+
 	ft->author = g_string_new (author);
 }
 
@@ -1368,10 +1368,10 @@ format_template_set_description (FormatTemplate *ft, const char *description)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (description != NULL);
-	
+
 	if (ft->description)
 		g_string_free (ft->description, TRUE);
-		
+
 	ft->description = g_string_new (description);
 }
 
@@ -1380,10 +1380,10 @@ format_template_set_category (FormatTemplate *ft, const char *category)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (category != NULL);
-	
+
 	if (ft->category)
 		g_string_free (ft->category, TRUE);
-		
+
 	ft->category = g_string_new (category);
 }
 
@@ -1396,7 +1396,7 @@ format_template_set_category (FormatTemplate *ft, const char *category)
  * @font: Apply font?
  * @patterns: Apply patterns?
  * @alignment: Apply alignment?
- * 
+ *
  * Sets the types of elements to filter out of mstyles
  * returned by format_template_calculate_style and applied
  * when using format_template_apply_to_sheet_selection.
@@ -1409,7 +1409,7 @@ format_template_set_filter (FormatTemplate *ft,
 			    gboolean alignment)
 {
 	g_return_if_fail (ft != NULL);
-	
+
 	ft->number    = number;
 	ft->border    = border;
 	ft->font      = font;
@@ -1421,12 +1421,12 @@ format_template_set_filter (FormatTemplate *ft,
 
 /**
  * format_template_set_size:
- * @ft: 
- * @x1: 
- * @y1: 
- * @x2: 
- * @y2: 
- * 
+ * @ft:
+ * @x1:
+ * @y1:
+ * @x2:
+ * @y2:
+ *
  * This will set the size of the application area.
  * BIG FAT NOTE : You will need to pass the COORDINATES of top, left and
  * bottom, right. Not the dimensions.

@@ -1170,11 +1170,11 @@ parse_search_string(gchar *find_str)
 	buf = g_new(gchar, strlen(find_str) + 1);
 	p = buf;
 	i = 0;
-	
+
 	pos = wildcards_and_question_marks(find_str, &qmarks, &wildcard);
 	wildcard = 1;
 	find_str += pos;
-	
+
 	while (*find_str) {
 	        if (*find_str == '~') {
 		        buf[i++] = *(++find_str);
@@ -1199,7 +1199,7 @@ parse_search_string(gchar *find_str)
 	search_cond->min_skip = qmarks;
 	search_cond->wildcard_prefix = wildcard;
 	conditions = g_slist_append(conditions, search_cond);
-	
+
 	g_free(buf);
 
 	return conditions;
@@ -1210,7 +1210,7 @@ parse_search_string(gchar *find_str)
  * end of the token.
  */
 static int
-match_string(gchar *str, string_search_t *cond, gchar **match_start, 
+match_string(gchar *str, string_search_t *cond, gchar **match_start,
 	     gchar **match_end)
 {
         gchar *p;
@@ -1339,7 +1339,7 @@ string_functions_init (void)
 			    &help_clean,      gnumeric_clean);
 	function_add_args  (cat, "code",       "s",    "text",
 			    &help_code,       gnumeric_code);
-	function_add_nodes (cat, "concatenate",0,      "text1,text2", 
+	function_add_nodes (cat, "concatenate",0,      "text1,text2",
 			    &help_concatenate,gnumeric_concatenate);
 	function_add_args  (cat, "dollar",     "f|f",  "num,decimals",
 			    &help_dollar,     gnumeric_dollar);

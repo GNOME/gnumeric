@@ -10,7 +10,7 @@ void
 test ()
 {
 	double timec = 36022.63582;
-	
+
 	printf( "%s|\n", format_number (12.0,  "0", NULL));
 	printf( "%s|\n", format_number (12.3456789,  "??0000.00?", NULL));
 	printf( "%s|\n", format_number (12.3,        "??0000.00?", NULL));

@@ -108,7 +108,7 @@ html_write_wb_latex (IOContext *context, WorkbookView *wb_view,
 	while (sheet_list) {
 		Sheet *sheet = sheet_list->data;
 		Range r = sheet_get_extent (sheet);
-		
+
 		latex_fputs (sheet->name_unquoted, fp);
 		fprintf (fp, "\n\n");
 		fprintf (fp, "\\begin{tabular}{|");
@@ -209,7 +209,7 @@ html_write_wb_latex2e (IOContext *context, WorkbookView *wb_view,
 	while (sheet_list) {
 		Sheet *sheet = sheet_list->data;
 		Range range = sheet_get_extent (sheet);
-		
+
 		latex_fputs (sheet->name_unquoted, fp);
 		fprintf (fp, "\n\n");
 		fprintf (fp, "\\begin{tabular}{|");

@@ -58,7 +58,7 @@ enum {
 /**
  * preview_grid_destroy:
  * @object: a Preview grid
- * 
+ *
  * Destroy handler
  **/
 static void
@@ -75,7 +75,7 @@ preview_grid_destroy (GtkObject *object)
 /**
  * preview_grid_realize:
  * @item: a PreviewGrid
- * 
+ *
  * Realize handler
  **/
 static void
@@ -137,7 +137,7 @@ preview_grid_realize (GnomeCanvasItem *item)
 /**
  * preview_grid_unrealize:
  * @item: a PreviewGrid
- * 
+ *
  * Unrealize handler
  **/
 static void
@@ -180,7 +180,7 @@ preview_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, i
 
 /**
  * preview_grid_draw_background:
- * 
+ *
  * Draw cell background
  **/
 static void
@@ -193,12 +193,12 @@ preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid *preview_grid, 
 	g_return_if_fail (drawable != NULL);
 	g_return_if_fail (preview_grid != NULL);
 	g_return_if_fail (mstyle != NULL);
-	
+
 	/*
 	 * Insert code here for selection drawing
 	 */
 	is_selected = FALSE;
-	
+
 	if (gnumeric_background_set_gc (mstyle, gc, preview_grid->canvas_item.canvas, is_selected))
 		/* Fill the entire cell including the right & left grid line */
 		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
@@ -209,7 +209,7 @@ preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid *preview_grid, 
 
 /**
  * preview_grid_draw:
- * 
+ *
  * Draw Handler
  *
  * NOTE :
@@ -232,7 +232,7 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, i
 	/* 2. the grids */
 	paint_col = preview_grid->get_col_offset_cb (x, &x_paint, preview_grid->cb_data);
 	paint_row = preview_grid->get_row_offset_cb (y, &y_paint, preview_grid->cb_data);
-	
+
 	diff_x = x - x_paint;
 	diff_y = y - y_paint;
 
@@ -241,9 +241,9 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, i
 		x_paint = -diff_x;
 		gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
 		while (x_paint < width && col < SHEET_MAX_COLS) {
-	
+
 			x_paint += preview_grid->get_col_width_cb (col++, preview_grid->cb_data);
-		
+
 			gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
 		}
 
@@ -251,9 +251,9 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, i
 		y_paint = -diff_y;
 		gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 		while (y_paint < height && row < SHEET_MAX_ROWS) {
-	
+
 			y_paint += preview_grid->get_row_height_cb (row++, preview_grid->cb_data);
-			
+
 			gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 		}
 	}
@@ -278,10 +278,10 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, i
 				mstyle = mstyle_new_default ();
 			else
 				mstyle_ref (mstyle);
-				
+
 			/*
 			 * Draw background and border for this cell
-			 */				
+			 */
 			preview_grid_draw_background (drawable, preview_grid, mstyle,
 						      col, row, x_paint, y_paint, w, h);
 
@@ -290,7 +290,7 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, i
 			 * We call upon item_grid_draw_border here from item-grid.c
 			 */
 			item_grid_draw_border (drawable, mstyle, x_paint, y_paint, w, h, FALSE);
-			
+
 			/*preview_grid_draw_border (drawable, mstyle, x_paint, y_paint, w, h);*/
 
 			/*
@@ -298,21 +298,21 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, i
 			 */
 			if (cell)
 				cell_draw (cell, mstyle, NULL, preview_grid->gc, drawable, x_paint, y_paint);
-				
+
 			mstyle_unref (mstyle);
-			
+
 			x_paint += preview_grid->get_col_width_cb (col, preview_grid->cb_data);
 		}
-		
+
 		y_paint += preview_grid->get_row_height_cb (row, preview_grid->cb_data);
 	}
 }
 
 /**
  * preview_grid_point:
- * 
+ *
  * Point Handler
- * 
+ *
  * Return value: point
  **/
 static double
@@ -326,7 +326,7 @@ preview_grid_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 /**
  * preview_grid_init:
  * @preview_grid: a PreviewGrid
- * 
+ *
  * Instance initialization
  **/
 static void
@@ -342,7 +342,7 @@ preview_grid_init (PreviewGrid *preview_grid)
 
 /**
  * preview_grid_set_arg:
- * 
+ *
  * Callback to set arguments
  **/
 static void
@@ -385,7 +385,7 @@ preview_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 /**
  * preview_grid_class_init:
  * @preview_grid_class: a PreviewGrid
- * 
+ *
  * PreviewGrid class initialization
  **/
 static void
@@ -398,7 +398,7 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 
 	object_class = (GtkObjectClass *) preview_grid_class;
 	item_class = (GnomeCanvasItemClass *) preview_grid_class;
-	
+
 	gtk_object_add_arg_type ("PreviewGrid::GetCellCb", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_GET_CELL_CB);
 	gtk_object_add_arg_type ("PreviewGrid::GetRowOffsetCb", GTK_TYPE_POINTER,
@@ -417,7 +417,7 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 
 	gtk_object_add_arg_type ("PreviewGrid::RenderGridlines", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_RENDER_GRIDLINES);
-		
+
 	object_class->set_arg = preview_grid_set_arg;
 	object_class->destroy = preview_grid_destroy;
 
@@ -425,10 +425,10 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 	item_class->update      = preview_grid_update;
 	item_class->realize     = preview_grid_realize;
 	item_class->unrealize   = preview_grid_unrealize;
-	
+
 	item_class->draw        = preview_grid_draw;
 	item_class->point       = preview_grid_point;
-	
+
 	/* Turn of translate and event handlers
 	item_class->translate   = preview_grid_translate;
 	item_class->event       = preview_grid_event;
@@ -437,9 +437,9 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 
 /**
  * preview_grid_get_type:
- * 
+ *
  * Create type information
- * 
+ *
  * Return value: PreviewGrid type information
  **/
 GtkType

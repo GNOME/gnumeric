@@ -20,7 +20,7 @@ typedef struct {
 	GtkWidget *font_style_list;
 	GtkWidget *font_size_list;
 	GtkWidget *font_preview;
-	
+
 	gboolean  is_bold;
 	gboolean  is_italic;
 	double    size;
@@ -45,7 +45,7 @@ void       font_selector_set_style  (FontSelector *fs,
 				     gboolean is_italic);
 void       font_selector_set_points (FontSelector *fs,
 				     double point_size);
-				   
+
 void       font_selector_set_screen_res (FontSelector *fs,
 					 float h_dpi,
 					 float v_dpi);

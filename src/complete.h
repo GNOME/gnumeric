@@ -17,7 +17,7 @@ typedef struct {
 
 	CompleteMatchNotifyFn notify;
 	void *notify_closure;
-	
+
 	char *text;
 
 	guint idle_tag;
@@ -25,7 +25,7 @@ typedef struct {
 
 typedef struct {
 	GtkObjectClass parent_class;
-	
+
 	gboolean (*search_iteration) (Complete *complete);
 } CompleteClass;
 

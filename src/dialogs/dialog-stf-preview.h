@@ -45,7 +45,7 @@ typedef struct {
 	int               activecolumn;   /* active column */
 } RenderData_t;
 
-/* This will actually draw the stuff on screen */	
+/* This will actually draw the stuff on screen */
 void               stf_preview_render                    (RenderData_t *renderdata, GSList *list, int rowcount, int colcount);
 
 /* These are for creation/deletion */

@@ -1,7 +1,7 @@
 /* vim: set sw=8: */
 
 /*
- * workbook-control.c: 
+ * workbook-control.c:
  *
  * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
  *

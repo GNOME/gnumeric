@@ -116,7 +116,7 @@ graph_guru_state_destroy (GraphGuruState *state)
 
 	if (state->ranges != NULL) {
 		GSList *ptr = state->ranges;
-		
+
 		for (; ptr != NULL; ptr = ptr->next)
 			g_free (ptr->data);
 		g_slist_free (state->ranges);

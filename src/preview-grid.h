@@ -24,7 +24,7 @@ typedef struct {
 	GdkGC      *fill_gc;	/* Default background fill gc */
 	GdkGC      *gc;		/* Color used for the cell */
 	GdkGC      *empty_gc;	/* GC used for drawing empty cells */
-	
+
 	GdkColor   background;
 	GdkColor   grid_color;
 	GdkColor   default_color;
@@ -32,7 +32,7 @@ typedef struct {
 	int        visual_is_paletted;
 
 	PGridGetCell get_cell_cb;
-	
+
 	PGridGetRowOffset get_row_offset_cb;
 	PGridGetColOffset get_col_offset_cb;
 

@@ -3,13 +3,13 @@
 
 #include "analysis-tools.h"
 
-int correlation_tool      (WorkbookControl *context, Sheet *current_sheet, 
+int correlation_tool      (WorkbookControl *context, Sheet *current_sheet,
 			   Range *input_range, int columns_flag,
 			   data_analysis_output_t *dao);
-int covariance_tool       (WorkbookControl *context, Sheet *current_sheet, 
+int covariance_tool       (WorkbookControl *context, Sheet *current_sheet,
 			   Range *input_range, int columns_flag,
 			   data_analysis_output_t *dao);
-int descriptive_stat_tool (WorkbookControl *context, Sheet *current_sheet, 
+int descriptive_stat_tool (WorkbookControl *context, Sheet *current_sheet,
 			   Range *input_range, int columns_flag,
 			   descriptive_stat_tool_t *ds,
 			   data_analysis_output_t *dao);
@@ -54,7 +54,7 @@ int anova_single_factor_tool        (WorkbookControl *context, Sheet *sheet,
 				     Range *range, int columns_flag,
 				     float_t alpha, data_analysis_output_t *dao);
 int anova_two_factor_without_r_tool (WorkbookControl *context, Sheet *sheet,
-				     Range *range, float_t alpha, 
+				     Range *range, float_t alpha,
 				     data_analysis_output_t *dao);
 int anova_two_factor_with_r_tool (WorkbookControl *context, Sheet *sheet,
 				  Range *range, int rows_per_sample,

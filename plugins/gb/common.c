@@ -12,14 +12,14 @@ value_to_gb (Value *val)
 	case VALUE_EMPTY:
 		/* FIXME ?? what belongs here */
 		return gb_value_new_empty ();
- 
+
 	case VALUE_BOOLEAN:
-		return gb_value_new_boolean (val->v_bool.val);	
-			
+		return gb_value_new_boolean (val->v_bool.val);
+
 	case VALUE_ERROR:
 		/* FIXME ?? what belongs here */
 		return gb_value_new_string_chars (val->v_err.mesg->str);
-			
+
 	case VALUE_STRING:
 		return gb_value_new_string_chars (val->v_str.val->str);
 

@@ -290,11 +290,11 @@ sst_bound_check (BiffQuery *q, guint32 offset)
 	if (offset >= q->length) {
 		guint32 d = offset - q->length;
 		guint16 opcode;
-		
+
 		if (!ms_biff_query_peek_next (q, &opcode) ||
 		    opcode != BIFF_CONTINUE)
 			return 0;
-		
+
 		if (!ms_biff_query_next (q))
 			return 0;
 
@@ -336,7 +336,7 @@ get_string (char **output, BiffQuery *q, guint32 offset, MsBiffVersion ver)
 
 	do {
 		new_offset = sst_bound_check (q, new_offset);
-		
+
 		header = biff_string_get_flags (q->data + new_offset,
 						&high_byte,
 						&ext_str,
@@ -356,7 +356,7 @@ get_string (char **output, BiffQuery *q, guint32 offset, MsBiffVersion ver)
 		chars_left = (q->length - new_offset - pre_len) / (high_byte?2:1);
 		if (chars_left > total_len)
 			get_len = total_len;
-		else 
+		else
 			get_len = chars_left;
 		total_len -= get_len;
 		g_assert (get_len >= 0);
@@ -2331,7 +2331,7 @@ ms_sheet_obj_realize (MSContainer *container, MSObj *obj)
 	g_return_val_if_fail (container != NULL, TRUE);
 	g_return_val_if_fail (obj->anchor_set, TRUE);
 
-	sheet = (ExcelSheet *)container; 
+	sheet = (ExcelSheet *)container;
 
 	if (ms_sheet_obj_anchor_to_pos (position, obj->raw_anchor,
 					sheet->gnum_sheet,

@@ -3,7 +3,7 @@
  *
  * The default Gnumeric bootstraps with this file.  The
  * CORBA version of Gnumeric bootstraps with corba-args.c
- * 
+ *
  * Author:
  *    Miguel de Icaza (miguel@gnu.org).
  */

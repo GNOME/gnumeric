@@ -171,9 +171,9 @@ currency_date_format_init (void)
 	cell_format_currency [5] =
 		g_strdup_printf ("%s#,##0.00_);[Red](%s#,##0.00)", curr, curr);
 
-	cell_format_account [0] = 
+	cell_format_account [0] =
 		g_strdup_printf ("_(%s* #,##0_);_(%s* (#,##0);_(%s* \"-\"_);_(@_)", curr, curr, curr);
-	cell_format_account [2] = 
+	cell_format_account [2] =
 		g_strdup_printf ("_(%s* #,##0.00_);_(%s* (#,##0.00);_(%s* \"-\"??_);_(@_)", curr, curr, curr);
 
 	if (!format_month_before_day ()) {

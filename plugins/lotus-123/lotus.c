@@ -64,14 +64,14 @@ append_zeros (char *s, int n) {
 			strcat (s, "0");
 	}
 }
-  
+
 static void
 cell_set_format_from_lotus_format (Cell *cell, int fmt)
 {
 	int fmt_type  = (fmt >> 4) & 0x7;
 	int precision = fmt&0xf;
 	char fmt_string [100];
-	
+
 	switch (fmt_type) {
 
 	case 0:			/* Float */
@@ -115,7 +115,7 @@ cell_set_format_from_lotus_format (Cell *cell, int fmt)
 	printf ("Format: %s\n", fmt_string);
 #endif
 }
-  
+
 typedef struct {
 	FILE    *f;
 	guint16  type;
@@ -193,7 +193,7 @@ attach_sheet (Workbook *wb, int idx)
 	Sheet *sheet;
 	char  *sheet_name;
 
-	sheet_name = g_strdup_printf (_("Sheet%d"), idx); 
+	sheet_name = g_strdup_printf (_("Sheet%d"), idx);
 	sheet = sheet_new (wb, sheet_name);
 	g_free (sheet_name);
 	workbook_sheet_attach (wb, sheet, NULL);
@@ -305,7 +305,7 @@ lotus_read (IOContext *context, Workbook *wb, const char *filename)
 		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
-		
+
 	res = read_workbook (context, wb, f);
 	fclose (f);
 

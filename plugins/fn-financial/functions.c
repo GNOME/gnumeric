@@ -241,7 +241,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 			} else if (g_date_is_leap_year (sy-1)) {
 			        if (sm == 1 || sm == 2)
 				        if (mm == 1 || mm == 2)
-					        if (sm < mm || 
+					        if (sm < mm ||
 						    (sm == mm && sd < md))
 						        return 366.0;
 						else
@@ -268,7 +268,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 }
 
 /*
- * Returns the number of days from the beginning of the coupon period to 
+ * Returns the number of days from the beginning of the coupon period to
  * the settlement date.  Currently, returns negative numbers if the branch
  * is not implemented.
  */
@@ -487,7 +487,7 @@ coupncd(GDate *settlement, GDate *maturity, int freq, int basis)
 	}  else {
 	        days = md - sd;
 		months = mm - sm;
-		
+
 		if ((months > 0 || (months == 0 && days > 0)) &&
 		    (months < 3 || (months == 3 && days <= 0))) {
 		        month = mm;

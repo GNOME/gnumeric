@@ -229,8 +229,8 @@ init_plugin (CommandContext *context, PluginData *pd)
 		return PLUGIN_QUIET_ERROR;
 
 	/* We register XBase format with a precendence of 100 */
-	file_format_register_open (100, 
-				   _("Xbase (*.dbf) file format"), 
+	file_format_register_open (100,
+				   _("Xbase (*.dbf) file format"),
 				   &xbase_probe, &xbase_load);
 
 	if (plugin_data_init (pd, &xbase_can_unload, &xbase_cleanup_plugin,

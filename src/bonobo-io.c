@@ -40,7 +40,7 @@ write_stream_to_storage (xmlNodePtr           cur,
 	char *name = NULL;
 	gboolean loop;
 	int flags;
-	
+
 	flags = Bonobo_Storage_CREATE |	Bonobo_Storage_WRITE |
 		Bonobo_Storage_FAILIFEXIST;
 
@@ -55,7 +55,7 @@ write_stream_to_storage (xmlNodePtr           cur,
 			loop = TRUE;
 		}
 	} while (loop);
-	
+
 	if (BONOBO_EX (ev)) {
 		g_free (name);
 		return;
@@ -95,9 +95,9 @@ gnumeric_bonobo_obj_write (xmlNodePtr   cur,
 #	endif
 #endif
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (object), FALSE);
-	
+
 	sob = SHEET_OBJECT_BONOBO (object);
-	
+
 	ps = Bonobo_Unknown_queryInterface (
 		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
 		"IDL:Bonobo/PersistStream:1.0", &ev);
@@ -116,7 +116,7 @@ gnumeric_bonobo_obj_write (xmlNodePtr   cur,
 	CORBA_exception_free (&ev);
 
 	/*
-	 * If it is a complex object / container it will need to 
+	 * If it is a complex object / container it will need to
 	 * serialize to a Storage;
 	 * this needs implementing
 	 * xml_set_value_string (cur, "Storage", ###);
@@ -277,7 +277,7 @@ gnumeric_bonobo_write_workbook (IOContext    *context,
 	xml->root = xml_workbook_write (ctxt, wb_view);
 	xml_parse_ctx_destroy (ctxt);
 
-	/* 
+	/*
 	 * save the content to a temp buffer.
 	 */
 	xmlDocDumpMemory (xml, &mem, &size);
@@ -287,12 +287,12 @@ gnumeric_bonobo_write_workbook (IOContext    *context,
 		CORBA_Environment ev;
 		Bonobo_Stream stream;
 		int flags;
-		
+
 		flags = Bonobo_Storage_CREATE |	Bonobo_Storage_WRITE |
 			Bonobo_Storage_FAILIFEXIST;
 
 		CORBA_exception_init (&ev);
-	
+
 		stream = Bonobo_Storage_openStream (
 			bonobo_object_corba_objref (BONOBO_OBJECT (storage)),
 			"Workbook", flags, &ev);
@@ -304,7 +304,7 @@ gnumeric_bonobo_write_workbook (IOContext    *context,
 			if (!BONOBO_EX (&ev))
 				bonobo_stream_client_write (stream, mem,
 							    size, &ev);
-		
+
 			if (BONOBO_EX (&ev)) {
 				gnumeric_io_error_save (context,
 					"Error storing workbook stream");
@@ -330,7 +330,7 @@ xml_input_read_cb (void *context, char *buffer, int len)
 	Bonobo_Stream        stream = context;
 	CORBA_Environment    ev;
 	int                  ret;
-	
+
 	CORBA_exception_init (&ev);
 
 	Bonobo_Stream_read (stream, len, &buf, &ev);
@@ -380,7 +380,7 @@ hack_xmlSAXParseFile (Bonobo_Stream stream)
 		ctxt->myDoc = NULL;
 	}
 	xmlFreeParserCtxt (ctxt);
-    
+
 	return ret;
 #else
 	xmlDocPtr ret;
@@ -419,7 +419,7 @@ hack_xmlSAXParseFile (Bonobo_Stream stream)
 		ctxt->myDoc = NULL;
 	}
 	xmlFreeParserCtxt (ctxt);
-    
+
 	return ret;
 #endif /* HAVE_LIBXML_2*/
 }
@@ -489,7 +489,7 @@ gnumeric_bonobo_read_workbook (IOContext    *context,
 	}
 
 	ctxt = xml_parse_ctx_new_full (
-		doc, gmr, version, 
+		doc, gmr, version,
 		gnumeric_bonobo_obj_read,
 		NULL, storage);
 

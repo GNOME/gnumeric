@@ -97,7 +97,7 @@ thrash_insert (Sheet *sheet)
 
 			cell_set_value (cell, value_new_int (i), NULL);
 		}
-		
+
 		r.start.col = 0;
 		r.start.row = MAX (0, j - 1);
 		r.end.col   = SHEET_MAX_COLS;

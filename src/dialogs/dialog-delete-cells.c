@@ -49,13 +49,13 @@ dialog_delete_cells_impl (WorkbookControlGUI *wbcg, Sheet *sheet, GladeXML  *gui
 
 		if (i == 0)
 			cmd_shift_rows (wbc, sheet,
-					ss->user.start.col + cols, 
-					ss->user.start.row, 
+					ss->user.start.col + cols,
+					ss->user.start.row,
 					ss->user.end.row, -cols);
 		else if (i == 1)
 			cmd_shift_cols (wbc, sheet,
 					ss->user.start.col,
-					ss->user.end.col, 
+					ss->user.end.col,
 					ss->user.start.row + rows, -rows);
 		else if (i == 2)
 			cmd_delete_rows (wbc, sheet,
@@ -107,7 +107,7 @@ dialog_delete_cells (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	/* Wrapper to ensure the libglade object gets removed on error */
 	dialog_delete_cells_impl (wbcg, sheet, gui);
-	
+
 	gtk_object_unref (GTK_OBJECT (gui));
 }
 

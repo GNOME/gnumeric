@@ -47,6 +47,6 @@ gnumeric_io_progress_set (IOContext *context, gfloat f)
 {
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (context->impl != NULL);
-	
+
 	gnumeric_progress_set (COMMAND_CONTEXT (context->impl), f);
 }

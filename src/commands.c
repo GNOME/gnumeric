@@ -376,7 +376,7 @@ cmd_set_text_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		sheet_cell_set_text (cell, me->text);
 		g_free (me->text);
 	} else if (cell != NULL)
-		sheet_clear_region (wbc, me->pos.sheet, 
+		sheet_clear_region (wbc, me->pos.sheet,
 				    me->pos.eval.col, me->pos.eval.row,
 				    me->pos.eval.col, me->pos.eval.row,
 				    CLEAR_VALUES);
@@ -1325,7 +1325,7 @@ cmd_set_date_time_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		g_free (me->contents);
 		me->contents = NULL;
 	} else
-		sheet_clear_region (wbc, me->pos.sheet, 
+		sheet_clear_region (wbc, me->pos.sheet,
 				    me->pos.eval.col, me->pos.eval.row,
 				    me->pos.eval.col, me->pos.eval.row,
 				    CLEAR_VALUES);
@@ -2158,10 +2158,10 @@ typedef struct {
 	GnumericCommand parent;
 
 	Sheet          *sheet;
-	
+
 	GSList         *selections;  /* Selections on the sheet */
 	GSList         *old_styles;  /* Older styles, one style_list per selection range*/
-	
+
 	FormatTemplate *ft;         /* Template that has been applied */
 } CmdAutoFormat;
 
@@ -2209,7 +2209,7 @@ cmd_autoformat_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	format_template_apply_to_sheet_regions (me->ft, me->sheet, me->selections);
-	
+
 	sheet_set_dirty (me->sheet, TRUE);
 	workbook_recalc (me->sheet->workbook);
 	sheet_update (me->sheet);
@@ -2233,21 +2233,21 @@ cmd_autoformat_destroy (GtkObject *cmd)
 
 			g_free (os);
 		}
-		
+
 		me->old_styles = NULL;
 	}
 
 	if (me->selections != NULL) {
 		GSList *l;
-		
+
 		for (l = me->selections ; l != NULL ; l = g_slist_remove (l, l->data))
 			g_free (l->data);
-			
+
 		me->selections = NULL;
 	}
 
 	format_template_free (me->ft);
-	
+
 	gnumeric_command_destroy (cmd);
 }
 
@@ -2285,7 +2285,7 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 		if (range.start.row > 0) range.start.row--;
 		if (range.end.col < SHEET_MAX_COLS-1) range.end.col++;
 		if (range.end.row < SHEET_MAX_ROWS-1) range.end.row++;
-		
+
 		os = g_new (CmdFormatOldStyle, 1);
 
 		os->styles = sheet_get_styles_in_range (sheet, &range);

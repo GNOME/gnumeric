@@ -46,7 +46,7 @@ struct _WorkbookControlGUI {
 		GtkWidget*guru;
 		int       signal_changed;
 	} edit_line;
-	
+
 	/* While editing these should be visible */
 	GtkWidget *ok_button, *cancel_button;
 

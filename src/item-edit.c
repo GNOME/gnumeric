@@ -160,7 +160,7 @@ item_edit_draw_cursor (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *sty
 {
 	if (!item_edit->cursor_visible)
 		return;
-	
+
 	gdk_draw_line (drawable, style->black_gc,
 		       x, y-font->ascent,
 		       x, y+font->descent);
@@ -233,7 +233,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	/* Make a number of tests for auto-completion */
 	text = workbook_edit_get_display_text (item_edit->sheet_view->wbcg);
-	
+
 	for (ptr = item_edit->text_offsets; ptr != NULL; ptr = ptr->next){
 		int const text_end = GPOINTER_TO_INT (ptr->data);
 
@@ -442,12 +442,12 @@ entry_changed (GtkEntry *entry, void *data)
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (data);
 	ItemEdit *item_edit = ITEM_EDIT (item);
 	const char *text;
-	
+
 	text = gtk_entry_get_text (item_edit->entry);
 
 	if (gnumeric_char_start_expr_p (text))
 		scan_for_range (item_edit, text);
-	
+
 	gnome_canvas_item_request_update (item);
 }
 
@@ -456,7 +456,7 @@ item_edit_destroy (GtkObject *o)
 {
 	ItemEdit *item_edit = ITEM_EDIT (o);
 	GtkEntry *entry = item_edit->entry;
-	
+
 	if (item_edit->text_offsets != NULL)
 		g_slist_free (item_edit->text_offsets);
 
@@ -514,7 +514,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	/*
 	 * Init the auto-completion
 	 */
-	
+
 	/* set the font and the upper left corner if this is the first pass */
 	if (item_edit->font == NULL) {
 		MStyle *mstyle = sheet_style_compute (sheet,

@@ -25,7 +25,7 @@ gnumeric_arg_parse (int argc, char *argv [])
 	gnomelib_register_popt_table (oaf_popt_options, _("Oaf options"));
 	gnome_init_with_popt_table ("gnumeric", VERSION,
 				    argc, argv, gnumeric_popt_options, 0, &ctx);
-	
+
 	orb = oaf_init (argc, argv);
 
 	if (bonobo_init (orb, NULL, NULL) == FALSE)

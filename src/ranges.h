@@ -39,9 +39,9 @@
  * @r:   range to operate on
  * @x:   column,
  * @y:   row co-ordinate
- * 
+ *
  * Determine if a range contains a col,row co-ordinate.
- * 
+ *
  * Return value: TRUE if co-ordinate contained.
  **/
 #define range_contains(r,x,y)	(((y) <= ((Range *)(r))->end.row) && \
@@ -76,7 +76,7 @@ void        range_list_foreach_area (Sheet *sheet, GSList *ranges,
 						      const Range *range,
 						      gpointer     user_data),
 				     gpointer user_data);
-						      
+
 void        ranges_set_style        (Sheet  *sheet, GSList *ranges,
 				     MStyle *mstyle);
 

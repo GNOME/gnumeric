@@ -47,7 +47,7 @@ struct _ItemCursor {
 	int      base_x, base_y;
 	int      base_col, base_row;
 	int      base_cols, base_rows;
-	
+
 	/* Cached values of the last bounding box information used */
 	int      cached_x, cached_y, cached_w, cached_h;
 

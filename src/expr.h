@@ -13,7 +13,7 @@ typedef enum {
 	OPER_GTE,		/* Compare value greather or equal than */
 	OPER_LTE,		/* Compare value less or equal than */
 	OPER_NOT_EQUAL,		/* Compare for non equivalence */
-	
+
 	OPER_ADD,		/* Add  */
 	OPER_SUB,		/* Subtract */
 	OPER_MULT,		/* Multiply */
@@ -76,7 +76,7 @@ struct _ExprName {
 
 	NamedExpression const *name;
 };
-		
+
 struct _ExprVar {
 	Operation const oper;
 	int       ref_count;
@@ -168,7 +168,7 @@ struct _ExprRelocateInfo {
 
 	Range   origin;	        /* References to cells in origin_sheet!range */
 	Sheet  *origin_sheet;	/* should to adjusted */
-	
+
 	Sheet  *target_sheet;	/* to point at this sheet */
 	int col_offset, row_offset;/* and offset by this amount */
 };
@@ -191,7 +191,7 @@ ExprTree       *expr_rewrite (ExprTree        const *expr,
 
 int             expr_tree_get_const_int (ExprTree const *expr);
 char const *	expr_tree_get_const_str (ExprTree const *expr);
- 
+
 /*
  * Returns int(0) if the expression uses a non-existant cell for anything
  * other than an equality test.

@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
- 
+
 #include <dirent.h>
 #include <string.h>
 #include <errno.h>
@@ -37,9 +37,9 @@ util_list_free (GList *list)
 	GList *iterator = list;
 
 	while (iterator) {
-	
+
 		g_free (iterator->data);
-	
+
 		iterator = g_list_next (iterator);
 	}
 
@@ -48,9 +48,9 @@ util_list_free (GList *list)
 
 /**
  * template_list_load:
- * 
+ *
  * Load the list of available templates
- * 
+ *
  * Return value: The list of templates (should be freed with templates_list_free)
  **/
 GList *
@@ -64,7 +64,7 @@ template_list_load (void)
 	dir = opendir (GNUMERIC_AUTOFORMATDIR);
 	if (dir == NULL) {
 		g_warning ("Error while trying to open the autoformat template directory %s : %s", GNUMERIC_AUTOFORMATDIR, g_strerror (errno));
-			
+
 		return NULL;
 	}
 
@@ -147,13 +147,13 @@ template_list_load (void)
 	}
 
 	if (errno) {
-	
+
 		g_warning ("Error while reading listing of %s", GNUMERIC_AUTOFORMATDIR);
 		closedir (dir);
 		g_list_free (list);
 		return NULL;
 	} else if (count == 0) {
-	
+
 		g_warning ("The autoformat template directory %s contains no templates at all!", GNUMERIC_AUTOFORMATDIR);
 		closedir (dir);
 		g_list_free (list);
@@ -168,7 +168,7 @@ template_list_load (void)
 /**
  * template_list_free:
  * @list: A GList
- * 
+ *
  * Free the template list
  **/
 void
@@ -179,9 +179,9 @@ template_list_free (GList *list)
 
 /**
  * category_list_load
- * 
+ *
  * Loads the list of categories available
- * 
+ *
  * Return value: NULL on failure or a pointer to a list with categories on success.
  **/
 GList *
@@ -191,7 +191,7 @@ category_list_load (void)
 	GList *list = NULL;
 
 	template_list = template_list_load ();
-	
+
 	/*
 	 * Strip category part from each filename and put this in a separate list
 	 * In the filename the second part is always the category
@@ -231,10 +231,10 @@ category_list_load (void)
 		}
 
 		g_strfreev (array);
-		
+
 		iterator = g_list_next (iterator);
 	}
-	
+
 	template_list_free (template_list);
 
 	return list;
@@ -243,7 +243,7 @@ category_list_load (void)
 /**
  * category_list_free:
  * @list: A GList
- * 
+ *
  * Free the template list
  **/
 void

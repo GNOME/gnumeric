@@ -71,7 +71,7 @@ cellref_name (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname
 	/* If it is a non-local reference, add the path to the external sheet */
 	if (sheet != NULL && !no_sheetname) {
 		char *s;
-	        
+
 		s = g_strconcat (sheet->name_quoted, "!", buffer, NULL);
 
 		if (sheet->workbook != pp->wb) {
@@ -106,7 +106,7 @@ cellref_a1_get (CellRef *out, const char *in, CellPos const *pos)
 		return FALSE;
 
 	col = toupper (*in++) - 'A';
-	
+
 	if (toupper (*in) >= 'A' && toupper (*in) <= 'Z')
 		col = (col+1) * ('Z'-'A'+1) + toupper (*in++) - 'A';
 
@@ -116,7 +116,7 @@ cellref_a1_get (CellRef *out, const char *in, CellPos const *pos)
 		in++;
 	} else
 		out->row_relative = TRUE;
-	
+
 	if (!(*in >= '1' && *in <= '9'))
 		return FALSE;
 
@@ -220,10 +220,10 @@ cellref_r1c1_get (CellRef *out, const char *in, CellPos const *pos)
  * @out: destination CellRef
  * @in: reference description text, no leading or trailing
  *      whitespace allowed.
- * 
+ *
  * Converts the char * representation of a Cell reference into
  * an internal representation.
- * 
+ *
  * Return value: TRUE if no format errors found.
  **/
 gboolean
@@ -283,7 +283,7 @@ col_name (int col)
 {
 	static char buffer [3];
 	char *p = buffer;
-	
+
 	g_assert (col < SHEET_MAX_COLS);
 	g_assert (col >= 0);
 
@@ -340,7 +340,7 @@ parse_col_name (const char *cell_str, const char **endptr)
  * @row:         result row
  * @strict:      if this is TRUE, then parsing stops at possible errors,
  *               otherwise an attempt is made to return cell names with trailing garbage.
- * 
+ *
  * Return value: true if the cell_name could be successfully parsed
  */
 gboolean
@@ -349,10 +349,10 @@ parse_cell_name (const char *cell_str, int *col, int *row, gboolean strict, int 
 	char const * const original = cell_str;
 	unsigned char c;
 	gboolean found_digits = FALSE;
-	
+
 	if (*cell_str == '$')
 		cell_str++;
-	
+
 	/* Parse column name: one or two letters.  */
 	c = toupper ((unsigned char) *cell_str);
 	cell_str++;
@@ -370,7 +370,7 @@ parse_cell_name (const char *cell_str, int *col, int *row, gboolean strict, int 
 
 	if (*cell_str == '$')
 		cell_str++;
-	
+
 	/* Parse row number: a sequence of digits.  */
 	for (*row = 0; *cell_str; cell_str++) {
 		if (*cell_str < '0' || *cell_str > '9'){
@@ -439,8 +439,8 @@ parse_cell_name_list (Sheet *sheet,
 	buf = g_malloc (strlen (cell_name_str) + 1);
 	for (i = n = 0; ; i++) {
 
-	        if ((cell_name_str [i] == ',') || 
-		    (cell_name_str [i] == ':') || 
+	        if ((cell_name_str [i] == ',') ||
+		    (cell_name_str [i] == ':') ||
 		    (cell_name_str [i] == '\0')){
 		        buf [n] = '\0';
 
@@ -471,7 +471,7 @@ parse_cell_name_list (Sheet *sheet,
 						  (sheet, j, k);
 						cells = g_slist_append
 						  (cells, (gpointer) cell);
-					}        
+					}
 			} else {
 			        cell = sheet_cell_fetch (sheet, col, row);
 			        cells = g_slist_append(cells, (gpointer) cell);

@@ -27,7 +27,7 @@ struct _ItemEdit {
 	gboolean  cursor_visible;
 	int       blink_timer;
 	int       auto_entry;
-	
+
 	/*
 	 * When editing, if the cursor is inside a cell name, or a
 	 * cell range, we highlight this on the spreadsheet.

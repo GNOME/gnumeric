@@ -152,7 +152,7 @@ do_af_suggest (const ExprTree *expr, const EvalPos *epos, char **explicit)
 			g_free (explicit1);
 			*explicit = explicit2;
 			return typ2;
-		}		
+		}
 	}
 
 	case OPER_DIV:

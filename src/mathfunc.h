@@ -139,8 +139,8 @@ float_t     fact   (int n);
 
 /* Affine scaling */
 
-typedef void (*affscale_callback_fun_t) (int iter, float_t *x, 
-					 float_t bv, float_t cx, 
+typedef void (*affscale_callback_fun_t) (int iter, float_t *x,
+					 float_t bv, float_t cx,
 					 int n_variables, void *data);
 
 gboolean affine_init (float_t *A, float_t *b, float_t *c, int n_constraints,

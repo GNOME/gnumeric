@@ -8,7 +8,7 @@
  * Keep element_size up to date.
  */
 enum _MStyleElementType {
-	/* Delimiter */ 
+	/* Delimiter */
 	MSTYLE_ELEMENT_UNSET = 0,
 	/* When there is a conflict in a merge */
 	MSTYLE_ELEMENT_CONFLICT,

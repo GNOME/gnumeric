@@ -27,7 +27,7 @@ static POA_GNOME_Gnumeric_Vector__vepv vector_vepv;
 static BonoboObjectClass *vector_parent_class;
 
 static CORBA_boolean
-impl_vector_only_numbers (PortableServer_Servant servant, 
+impl_vector_only_numbers (PortableServer_Servant servant,
 			  CORBA_Environment *ev)
 {
 	printf ("FIXME: We are always reporting only numbers = TRUE\n");
@@ -41,7 +41,7 @@ find_block (SheetVector *vec, int index, int *ret_top, int *ret_idx)
 
 	for (i = total = 0; i < vec->n_blocks; i++){
 		int old_total = total;
-		
+
 		total += vec->blocks [i].size;
 
 		if (index <= total){
@@ -97,7 +97,7 @@ impl_vector_get_numbers (PortableServer_Servant servant,
 	for (i = low; i < high; i++, idx++){
 		Cell *cell;
 		int col, row;
-		
+
 		if (i == block_top){
 			block = &vec->blocks [block_idx++];
 			block_top += block->size;
@@ -119,7 +119,7 @@ impl_vector_get_numbers (PortableServer_Servant servant,
 	for (j = 0, i = low; i < high; i++, j++){
 		printf ("Valud %d: %g\n", i, res->_buffer [j]);
 	}
-	
+
 	return res;
 }
 
@@ -133,7 +133,7 @@ impl_vector_get_vec_values (PortableServer_Servant servant,
 	RangeBlock *block;
 	int block_top, block_idx;
 	int i, j, cols, rows, idx;
-	
+
 	if (high == -1)
 		high = vec->len;
 
@@ -159,12 +159,12 @@ impl_vector_get_vec_values (PortableServer_Servant servant,
 	j = 0;
 	cols = block->range.end.col - block->range.start.col + 1;
 	rows = block->range.end.row - block->range.start.row + 1;
-	
+
 	for (i = low; i < high; i++, idx++){
 		GNOME_Gnumeric_VecValue vecvalue;
 		Cell *cell;
 		int col, row;
-		
+
 		if (i == block_top){
 			block = &vec->blocks [block_idx++];
 			block_top += block->size;
@@ -180,7 +180,7 @@ impl_vector_get_vec_values (PortableServer_Servant servant,
 
 		if (cell){
 			Value *value = cell->value;
-			
+
 			switch (value->type){
 			case VALUE_EMPTY:
 			case VALUE_ERROR:
@@ -209,7 +209,7 @@ impl_vector_get_vec_values (PortableServer_Servant servant,
 				vecvalue._d= GNOME_Gnumeric_VALUE_STRING;
 				vecvalue._u.str = CORBA_string_dup (value->v_str.val->str);
 				break;
-				
+
 			}
 		} else {
 			vecvalue._d = GNOME_Gnumeric_VALUE_FLOAT;
@@ -221,7 +221,7 @@ impl_vector_get_vec_values (PortableServer_Servant servant,
 	}
 
 	return res;
-	
+
 }
 
 static CORBA_short
@@ -257,14 +257,14 @@ sheet_vector_destroy (GtkObject *object)
 {
 	SheetVector *vec = SHEET_VECTOR (object);
 	CORBA_Environment ev;
-	
+
 	if (vec->sheet != NULL)
 		g_error ("SheetVector has not been detached prior to destruction");
 
 	CORBA_exception_init (&ev);
 	CORBA_Object_release (vec->notify, &ev);
 	CORBA_exception_free (&ev);
-	
+
 	if (vec->blocks)
 		g_free (vec->blocks);
 
@@ -289,9 +289,9 @@ static void
 sheet_vector_class_init (GtkObjectClass *object_class)
 {
 	vector_parent_class = gtk_type_class (bonobo_object_get_type ());
-	
+
 	object_class->destroy = sheet_vector_destroy;
-	
+
 	init_vector_corba_class ();
 }
 
@@ -331,7 +331,7 @@ sheet_vector_corba_object_create (BonoboObject *object)
 {
 	POA_GNOME_Gnumeric_Vector *servant;
 	CORBA_Environment ev;
-	
+
 	servant = (POA_GNOME_Gnumeric_Vector *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &vector_vepv;
 
@@ -362,7 +362,7 @@ sheet_vector_new (Sheet *sheet)
 		bonobo_object_unref (BONOBO_OBJECT (sheet_vector));
 		return NULL;
 	}
-	
+
 	bonobo_object_construct (BONOBO_OBJECT (sheet_vector), corba_vector);
 
 	return sheet_vector;
@@ -407,7 +407,7 @@ sheet_vector_attach (SheetVector *sheet_vector, Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet_vector->sheet = sheet;
-	
+
 	sheet->priv->sheet_vectors = g_slist_prepend (sheet->priv->sheet_vectors, sheet_vector);
 }
 
@@ -435,17 +435,17 @@ sheet_vectors_cell_changed (Cell *cell)
 	const int col = cell->pos.col;
 	const int row = cell->pos.row;
 	int i;
-	
+
 	for (l = cell->sheet->priv->sheet_vectors; l; l = l->next){
 		SheetVector *vec = l->data;
 
 		if (vec->notify == CORBA_OBJECT_NIL)
 			continue;
-		
+
 		for (i = 0; i < vec->n_blocks; i++)
 			if (range_contains (&vec->blocks [i].range, col, row)){
 				CORBA_Environment ev;
-	
+
 				/*
 				 * FIXME: This is lame.  Find out the real index
 				 * then, notify
@@ -462,7 +462,7 @@ sheet_vectors_shutdown (Sheet *sheet)
 {
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	
+
 	for (;sheet->priv->sheet_vectors;){
 		SheetVector *sheet_vector = sheet->priv->sheet_vectors->data;
 

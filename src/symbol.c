@@ -24,7 +24,7 @@ symbol_lookup (SymbolTable *st, const char *str)
 
 	g_return_val_if_fail (str != NULL, NULL);
 	g_return_val_if_fail (st != NULL, NULL);
-	
+
 	sym = (Symbol *) g_hash_table_lookup (st->hash, str);
 	return sym;
 }
@@ -54,9 +54,9 @@ symbol_install (SymbolTable *st, const char *str, SymbolType type, void *data)
 	sym->data = data;
 	sym->str  = g_strdup (str);
 	sym->st   = st;
-	
+
 	g_hash_table_insert (st->hash, sym->str, sym);
-	
+
 	return sym;
 }
 
@@ -86,7 +86,7 @@ symbol_unref (Symbol *sym)
 {
 	g_return_if_fail (sym != NULL);
 	g_return_if_fail (sym->ref_count > 0);
-	
+
 	if (--(sym->ref_count) == 0){
 		g_hash_table_remove (sym->st->hash, sym->str);
 		g_free (sym->str);

@@ -32,7 +32,7 @@ typedef struct {
         float_t ss_resid;
 	float_t ybar;
 	float_t *xbar;
-	float_t var; /* The variance of the entire regression: 
+	float_t var; /* The variance of the entire regression:
 			sum(errors^2)/(n-xdim) */
 } regression_stat_t;
 

@@ -126,7 +126,7 @@ print_page_repeated_rows (Sheet *sheet,
  * print_page_repeated_cols
  *
  * It is up to the caller to determine if repeated columns should be printed
- * on the page. 
+ * on the page.
  */
 static void
 print_page_repeated_cols (Sheet *sheet,
@@ -159,7 +159,7 @@ print_page_repeated_cols (Sheet *sheet,
 
 /*
  * print_page_repeated_intersect
- * 
+ *
  * Print the corner where repeated rows and columns intersect.
  *
  * It is impossible to print both from rows and columns. XL prints the cells
@@ -194,7 +194,7 @@ print_page_cells (Sheet *sheet,
 			base_x, base_y,
 			print_width, print_height);
 	}
-	
+
 	print_cell_range (
 		pj->print_context, sheet,
 		start_col, start_row,
@@ -240,11 +240,11 @@ typedef enum {
 
 /*
  * print_hf_line
- * @pj: printing context 
+ * @pj: printing context
  * @format:
  * @side:
  * @y:
- * 
+ *
  * Print a header/footer line.
  *
  * Position at y, and clip to rectangle. If print_debugging is > 0, display
@@ -257,7 +257,7 @@ print_hf_element (PrintJobInfo *pj, const char *format, HFSide side, double y)
 	char *text;
 	double x;
 	double len;
-	
+
 	/* Be really really anal in case Bug
 	 * http://bugs.gnome.org/db/82/8200.html exists
 	 */
@@ -273,15 +273,15 @@ print_hf_element (PrintJobInfo *pj, const char *format, HFSide side, double y)
 		g_free (text);
 		return;
 	}
-	
+
 	len = gnome_font_get_width_string (pj->decoration_font, text);
-	
+
 	pm = &pj->pi->margins;
 	switch (side){
 	case LEFT_HEADER:
 		x = pm->left.points;
 		break;
-		
+
 	case RIGHT_HEADER:
 		x = pj->width - pm->right.points - len;
 		break;
@@ -292,7 +292,7 @@ print_hf_element (PrintJobInfo *pj, const char *format, HFSide side, double y)
 
 	default:
 		x = 0;
-	}	
+	}
 	gnome_print_moveto (pj->print_context, x, y);
 	/* FIXME:
 	 * Switch this back to gnome_print_show once we use UTF-8 internally */
@@ -302,14 +302,14 @@ print_hf_element (PrintJobInfo *pj, const char *format, HFSide side, double y)
 
 /*
  * print_hf_line
- * @pj:     printing context 
+ * @pj:     printing context
  * @hf:     header/footer descriptor
  * @y:      vertical position
  * @left:   left coordinate of clip rectangle
  * @bottom: bottom coordinate of clip rectangle
  * @right:  right coordinate of clip rectangel
  * @top:    top coordinate of clip rectangle
- * 
+ *
  * Print a header/footer line.
  *
  * Position at y, and clip to rectangle. If print_debugging is > 0, display
@@ -321,7 +321,7 @@ print_hf_line (PrintJobInfo *pj, PrintHF *hf, double y,
 {
 	gnome_print_setfont (pj->print_context, pj->decoration_font);
 	gnome_print_setrgbcolor (pj->print_context, 0, 0, 0);
-	
+
 	gnome_print_gsave (pj->print_context);
 
 	print_make_rectangle_path (pj->print_context,
@@ -345,7 +345,7 @@ print_hf_line (PrintJobInfo *pj, PrintHF *hf, double y,
 
 /*
  * print_headers
- * @pj: printing context 
+ * @pj: printing context
  * Print headers
  *
  * Align ascenders flush with inside of top margin.
@@ -368,7 +368,7 @@ print_headers (PrintJobInfo *pj)
 
 /*
  * print_footers
- * @pj: printing context 
+ * @pj: printing context
  * Print footers
  *
  * Align descenders flush with inside of bottom margin.
@@ -384,7 +384,7 @@ print_footers (PrintJobInfo *pj)
 	top    =  1 + MAX (pm->footer.points, pm->bottom.points);
 	bottom = -1 + MIN (pm->footer.points, pm->bottom.points);
 
-	/* Clip path for the header 
+	/* Clip path for the header
 	 * NOTE : postscript clip paths exclude the border, gdk includes it.
 	 */
 	print_hf_line (pj, pj->pi->footer, y,
@@ -447,7 +447,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 				 pj->pi->repeat_top.range.cell.b.row + 1);
 	} else
 		repeat_rows_used_y = 0;
-	
+
 	/* Space for repeated cols depends on whether we print them or not */
 	if (pj->pi->repeat_left.use &&
 	    start_col > pj->pi->repeat_left.range.cell.a.col) {
@@ -464,10 +464,10 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 
 	if (!output)
 		return printed;
-	
+
 	if (!printed)
 		return 0;
-	
+
 	base_x = 0;
 	base_y = 0;
 
@@ -475,7 +475,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 						   start_row, end_row + 1);
 	if (pj->pi->center_vertically){
 		double h = print_height;
-		
+
 		if (pj->pi->print_titles)
 			h += sheet->rows.default_style.size_pts;
 		h += repeat_rows_used_y;
@@ -493,7 +493,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	}
 
 	/* Margins */
-	base_x += margins->left.points; 
+	base_x += margins->left.points;
 	base_y += MAX (margins->top.points, margins->header.points);
 
 	for (i = 0; i < pj->n_copies; i++){
@@ -509,10 +509,10 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		gnome_print_beginpage (pj->print_context, pagenotxt);
 		g_free (pagenotxt);
 
-		setup_rotation (pj);	
+		setup_rotation (pj);
 		print_headers (pj);
 		print_footers (pj);
-		
+
 		/*
 		 * Print any titles that might be used
 		 */
@@ -556,10 +556,10 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 			print_page_repeated_cols (
 				sheet, start_row, end_row, x, y,
 				repeat_cols_used_x, print_height, pj);
-			
+
 			x += repeat_cols_used_x;
 		}
-		
+
 		/*
 		 * Print the body of the data
 		 */
@@ -603,7 +603,7 @@ compute_group (Sheet *sheet, int start, int end, int usable,
 
 	for (idx = start; idx < end; idx++, count++) {
 		ColRowInfo *info;
-		
+
 		info = (*get_info) (sheet, idx);
 
 		/* Hidden ColRows are ignored */
@@ -615,7 +615,7 @@ compute_group (Sheet *sheet, int start, int end, int usable,
 					return 1;
 				else
 					return count;
-			} 
+			}
 		}
 	}
 
@@ -700,14 +700,14 @@ print_range_down_then_right (Sheet *sheet, Range r, PrintJobInfo *pj,
 
 		while (row < r.end.row) {
 			int row_count;
-			
+
 			if (row < pj->pi->repeat_top.range.cell.b.row) {
 				usable_y = usable_y_initial;
 				row = MIN (row,
 					   pj->pi->repeat_top.range.cell.b.row);
 			} else
 				usable_y = usable_y_repeating;
-			
+
 			row_count = compute_group (sheet, row, r.end.row,
 						       usable_y,
 						       sheet_row_get_info);
@@ -717,14 +717,14 @@ print_range_down_then_right (Sheet *sheet, Range r, PrintJobInfo *pj,
 				COL_FIT (col + col_count - 1),
 				ROW_FIT (row + row_count - 1),
 				pj, output);
-				
+
 			row += row_count;
 
 			/* Only update page count when actually printing */
 			if (printed && output)
 				pj->render_info->page++;
 
-			pages += printed ? 1 : 0;			
+			pages += printed ? 1 : 0;
 		}
 		col += col_count;
 	}
@@ -750,20 +750,20 @@ print_range_right_then_down (Sheet *sheet, Range r, PrintJobInfo *pj,
 	while (row < r.end.row) {
 		int row_count;
 		int col = r.start.col;
-		
+
 		if (row < pj->pi->repeat_top.range.cell.b.row) {
 			usable_y = usable_y_initial;
 			row = MIN (row,
 				   pj->pi->repeat_top.range.cell.b.row);
 		} else
 			usable_y = usable_y_repeating;
-		
+
 		row_count = compute_group (sheet, row, r.end.row,
 					   usable_y, sheet_row_get_info);
-			
+
 		while (col < r.end.col) {
 			int col_count;
-			
+
 			if (col < pj->pi->repeat_left.range.cell.b.col) {
 				usable_x = usable_x_initial;
 				col = MIN (col,
@@ -822,7 +822,7 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
 		pages = print_range_down_then_right (sheet, r, pj, output);
 	else
 		pages = print_range_right_then_down (sheet, r, pj, output);
-	
+
 #ifdef ENABLE_BONOBO
 	{
 	GList  *l;
@@ -918,7 +918,7 @@ compute_sheet_pages (gpointer value, gpointer user_data)
 		r.end.col++;
 		r.end.row++;
 	}
-	
+
 	/* Find out how many pages actually contain data */
 	pc->pages = print_sheet_range (sheet, r, pj, FALSE);
 }
@@ -1001,7 +1001,7 @@ static void
 workbook_print_all (Workbook *wb, PrintJobInfo *pj)
 {
 	GList *sheets;
-	
+
 	g_return_if_fail (wb != NULL);
 
 	pj->render_info->pages = compute_pages (wb, NULL, NULL, pj);
@@ -1017,7 +1017,7 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	PrintJobInfo *pj;
 	PrintMargins *pm = &sheet->print_info->margins;
 	int width, height;
-	
+
 	pj = g_new0 (PrintJobInfo, 1);
 
 	/*
@@ -1064,7 +1064,7 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->sheet_objects = NULL;
 
 	pj->decoration_font = gnome_font_new ("Helvetica", 12);
-	
+
 	return pj;
 }
 
@@ -1076,7 +1076,7 @@ print_job_info_destroy (PrintJobInfo *pj)
 
 	if (pj->sheet_objects)
 		g_warning ("Leaking sheet object print data");
-	
+
 	g_free (pj);
 }
 
@@ -1158,21 +1158,21 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	/* perform actual printing */
 	switch (pj->range) {
-		
+
 	case PRINT_ACTIVE_SHEET:
 		pj->render_info->pages = compute_pages (NULL, sheet, NULL, pj);
 		print_sheet (sheet, pj);
 		break;
-		
+
 	case PRINT_ALL_SHEETS:
 	case PRINT_SHEET_RANGE:
 		workbook_print_all (sheet->workbook, pj);
 		break;
-				
+
 	case PRINT_SHEET_SELECTION:
 		sheet_print_selection (wbcg, sheet, pj);
 		break;
-		
+
 	default:
 		g_error ("mis-enumerated print type");
 		break;

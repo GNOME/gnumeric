@@ -5,7 +5,7 @@
  * Useful macros for reducing the ammount of boiler plate
  * to be typed every time we create a GtkObject
  */
- 
+
 #define GNUMERIC_MAKE_TYPE_WITH_CLASS(l,str,t,pt,ci,i,parent) \
 GtkType l##_get_type(void)\
 {\

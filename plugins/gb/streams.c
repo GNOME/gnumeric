@@ -79,7 +79,7 @@ gb_ole_stream_class_init (GBOleStreamClass *klass)
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = gb_ole_stream_destroy;
-	
+
 	lex_class = GB_LEXER_STREAM_CLASS (klass);
 
 	lex_class->s_getc   = s_getc;

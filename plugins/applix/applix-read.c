@@ -597,10 +597,10 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					if (color == NULL)
 						return NULL;
 					mstyle_set_color (style, MSTYLE_COLOR_BACK, color);
-				} 
+				}
 			} else if (sep[0] == 'T' || sep[0] == 'B' || sep[0] == 'L' || sep[0] == 'R') {
 				/* A map from applix border indicies to gnumeric. */
-				static StyleBorderType const map[] = {0, 
+				static StyleBorderType const map[] = {0,
 					STYLE_BORDER_THIN,
 					STYLE_BORDER_MEDIUM,
 					STYLE_BORDER_THICK,
@@ -678,7 +678,7 @@ applix_read_attributes (ApplixReadState *state)
 		if (!strncmp (buffer, "Attr Table End", 14))
 			return 0;
 
-		if (buffer[0] != '<') 
+		if (buffer[0] != '<')
 			return applix_parse_error (state, "Invalid attribute");
 
 		/* TODO : The first style seems to be a different format */
@@ -966,7 +966,7 @@ applix_read_cells (ApplixReadState *state)
 			ParsePos	 pos;
 			ExprTree	*expr;
 			Value		*val = NULL;
-			Range		 r; 
+			Range		 r;
 			char *expr_string;
 
 			ptr = applix_parse_value (ptr+2, &expr_string);

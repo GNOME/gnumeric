@@ -27,7 +27,7 @@ main ()
 	EvalTree *node;
 	int i;
 	char *error;
-	
+
 	for (i = 0; exp [i]; i++){
 		printf ("Expression: %s;  ", exp [i]);
 		node = expr_parse_string (exp [i], 0, 0, 0, NULL, &error);
@@ -42,6 +42,6 @@ main ()
 		}
 		value_dump (v);
 	}
-	
+
 	return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * utils-dialog.c: 
+ * utils-dialog.c:
  *
  * Author:
  *  Jon K Hellan <Jon.K.Hellan@item.ntnu.no>
@@ -21,7 +21,7 @@ GtkWidget *
 gnumeric_dialog_entry_new (GnomeDialog *dialog)
 {
 	GtkWidget *entry;
-	
+
 	entry = gtk_entry_new ();
 	if (dialog)
 		gnome_dialog_editable_enters(dialog, GTK_EDITABLE (entry));
@@ -35,13 +35,13 @@ gnumeric_dialog_entry_new (GnomeDialog *dialog)
  * @max:    max text length
  *
  * Calls gtk_entry_new_with_max_length to create an entry field, then
- * makes <Enter> activate the default button. 
+ * makes <Enter> activate the default button.
  */
 GtkWidget *
 gnumeric_dialog_entry_new_with_max_length (GnomeDialog *dialog, guint16 max)
 {
 	GtkWidget *entry;
-	
+
 	entry = gtk_entry_new_with_max_length (max);
 	if (dialog)
 		gnome_dialog_editable_enters(dialog, GTK_EDITABLE (entry));
@@ -84,13 +84,13 @@ gnumeric_load_image (char const * const name)
 {
 	GtkWidget *image;
 	char *path;
-	
+
 	path = g_strconcat (GNUMERIC_ICONDIR "/", name, NULL);
 	image = gnome_pixmap_new_from_file (path);
 	g_free (path);
 
 	if (image)
 		gtk_widget_show (image);
-	
+
 	return image;
 }

@@ -14,7 +14,7 @@ char   	      *style_format_str_as_XL	(const char *descriptor_string,
 void           style_format_ref		(StyleFormat *sf);
 void           style_format_unref	(StyleFormat *sf);
 gboolean       style_format_is_general	(StyleFormat const *sf);
-				      
+
 void   format_destroy (StyleFormat *format);
 char  *format_value   (StyleFormat *format, const Value *value, StyleColor **color,
 		       float col_width);

@@ -83,7 +83,7 @@ static char *help_datevalue = {
 	   "DATEVALUE(\"1/1/1999\") equals to 36160. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "\n"	   
+	   "\n"
 	   "@SEEALSO=DATE")
 };
 
@@ -546,7 +546,7 @@ gnumeric_month (FunctionEvalInfo *ei, Value **argv)
 {
 	int res = 1;
 	GDate *date;
-	
+
 	if (argv[0]->type == VALUE_ERROR)
 		return value_duplicate (argv[0]);
 
@@ -707,7 +707,7 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 
 		if (day1 == 31)
 			day1 = 30;
-		break;		
+		break;
 
 	case METHOD_EUROPE:
 		if (day1 == 31)
@@ -1010,7 +1010,7 @@ date_functions_init(void)
 				 "time",
 				 &help_hour,        gnumeric_hour );
 
-	def = function_add_args (cat,  "minute",         "S",     
+	def = function_add_args (cat,  "minute",         "S",
 				 "time",
 				 &help_minute,      gnumeric_minute );
 

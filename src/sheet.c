@@ -639,7 +639,7 @@ sheet_flag_status_update_cell (Cell const *cell)
 	 */
 	if (pos->col == sheet->cursor.edit_pos.col &&
 	    pos->row == sheet->cursor.edit_pos.row) {
-		sheet->priv->edit_pos.content_changed = 
+		sheet->priv->edit_pos.content_changed =
 		sheet->priv->edit_pos.format_changed  = TRUE;
 	}
 }
@@ -1866,7 +1866,7 @@ fail_if_exist (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
  * @end_row:   end row
  *
  * Returns TRUE if the specified region of the @sheet does not
- * contain any cells 
+ * contain any cells
  */
 gboolean
 sheet_is_region_empty (Sheet *sheet, Range const *r)

@@ -49,7 +49,7 @@ sheet_object_bonobo_destroy (GtkObject *object)
 	g_free (sob->object_id);
 
 	sob->object_server = NULL;
-	sob->client_site   = NULL;	
+	sob->client_site   = NULL;
 }
 
 static char *
@@ -58,9 +58,9 @@ get_file_name (void)
 	GtkFileSelection *fs;
 	char *filename;
 	char *basename;
- 
+
 	fs = GTK_FILE_SELECTION (gtk_file_selection_new ("Select filename"));
-	
+
         gtk_signal_connect (GTK_OBJECT (fs->ok_button),
                             "clicked",
                             GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
@@ -100,7 +100,7 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 	CORBA_Environment ev;
 	Bonobo_PersistFile pf;
 	Bonobo_PersistStream ps;
-	
+
 	CORBA_exception_init (&ev);
 
 	pf = Bonobo_Unknown_queryInterface (
@@ -124,15 +124,15 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 		g_free (file);
 
 		goto finish;
-	} 
-		
+	}
+
 	ps = Bonobo_Unknown_queryInterface (
 		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
 		"IDL:Bonobo/PersistStream:1.0", &ev);
-	
+
 	if (ev._major == CORBA_NO_EXCEPTION && ps != CORBA_OBJECT_NIL){
 		char *file;
-		
+
 		if (!fname)
 			file = get_file_name ();
 		else
@@ -140,7 +140,7 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 
 		if (file) {
 			BonoboStream *stream;
-			
+
 			stream = bonobo_stream_open ("fs", file, Bonobo_Storage_READ, 0);
 			if (stream) {
 				Bonobo_PersistStream_load (
@@ -177,16 +177,16 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 {
 	CORBA_Environment   ev;
 	Bonobo_PersistStream ret;
-	
+
 	if (!stream)
 		return TRUE;
-	
+
 	g_return_val_if_fail (sob != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), FALSE);
 	g_return_val_if_fail (sob->client_site != NULL, FALSE);
-	
+
 	CORBA_exception_init (&ev);
-	
+
 	ret = Bonobo_Unknown_queryInterface (
 		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
 		"IDL:Bonobo/PersistStream:1.0", &ev);
@@ -308,7 +308,7 @@ sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
 	}
 
 	sob->client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
-	
+
 	if (!bonobo_client_site_bind_embeddable (sob->client_site,
 						 sob->object_server)) {
 		gtk_object_destroy (GTK_OBJECT (sob));

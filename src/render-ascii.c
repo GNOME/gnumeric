@@ -29,12 +29,12 @@ cell_region_render_ascii (CellRegion *cr)
 	int col, row;
 
 	g_return_val_if_fail (cr != NULL, NULL);
-	
+
 	data = g_new0 (char **, cr->rows);
 
 	for (row = 0; row < cr->rows; row++)
 		data [row] = g_new0 (char *, cr->cols);
-	
+
 	/* temporarily reverse the style list to be in forwards order
 	 * so that we can look things up
 	 */
@@ -43,7 +43,7 @@ cell_region_render_ascii (CellRegion *cr)
 	for (l = cr->list; l; l = l->next){
 		CellCopy *c_copy = l->data;
 		char *v;
-		
+
 		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
 			MStyle *mstyle = sheet_style_compute_from_list (styles,
 				c_copy->u.cell->pos.col,
@@ -55,7 +55,7 @@ cell_region_render_ascii (CellRegion *cr)
 			mstyle_unref (mstyle);
 		} else
 			v = g_strdup (c_copy->u.text);
-		
+
 		data [c_copy->row_offset][c_copy->col_offset] = v;
 	}
 
@@ -66,7 +66,7 @@ cell_region_render_ascii (CellRegion *cr)
 	line = g_string_new (NULL);
 	for (row = 0; row < cr->rows; row++){
 		g_string_assign (line, "");
-		
+
 		for (col = 0; col < cr->cols; col++){
 			if (data [row][col]){
 				g_string_append (line, data [row][col]);

@@ -191,7 +191,7 @@ excel_gb_range_class_init (GBRunObjectClass *klass)
 
 	gbrun_class->set_arg = excel_gb_range_set_arg;
 	gbrun_class->get_arg = excel_gb_range_get_arg;
-	
+
 	gbrun_object_add_property (
 		gbrun_class, "value", 0, VALUE);
 
@@ -232,7 +232,7 @@ excel_gb_range_get_type (void)
 		gtk_type_class (object_type);
 	}
 
-	return object_type;	
+	return object_type;
 }
 
 ExcelGBRange *

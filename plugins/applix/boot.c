@@ -104,7 +104,7 @@ init_plugin (CommandContext *context, PluginData *pd)
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
-	file_format_register_open (100, 
+	file_format_register_open (100,
 				   _("Applix (*.as) file format"),
 				   &applix_probe, &applix_load);
 

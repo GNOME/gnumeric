@@ -1,5 +1,5 @@
 /*
- * Global Gnome Font data structures.  To avoid duplicating this across 
+ * Global Gnome Font data structures.  To avoid duplicating this across
  * workbooks.
  *
  * Author:
@@ -15,7 +15,7 @@ GList *gnumeric_font_family_list = NULL;
 GList *gnumeric_point_size_list = NULL;
 
 int const gnumeric_point_sizes [] = {
-	4, 8, 9, 10, 11, 12, 14, 16, 18, 
+	4, 8, 9, 10, 11, 12, 14, 16, 18,
 	20, 22, 24, 26, 28, 36, 48, 72,
 	0
 };
@@ -33,7 +33,7 @@ global_gnome_font_init (void)
 			gnumeric_font_family_list, g_strdup (ll->data), (GCompareFunc)strcmp);
 	}
 	gnome_font_family_list_free (l);
-	
+
 	for (i = 0; gnumeric_point_sizes [i] != 0; i++){
 		char buffer [6];
 
@@ -51,7 +51,7 @@ global_gnome_font_shutdown (void)
 
 	for (l = gnumeric_font_family_list; l; l = l->next)
 		g_free (l->data);
-	
+
 	g_list_free (gnumeric_font_family_list);
 
 	for (l = gnumeric_point_size_list; l; l = l->next){

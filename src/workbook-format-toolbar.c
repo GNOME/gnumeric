@@ -66,7 +66,7 @@ set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags align)
 	mstyle = mstyle_new ();
 	mstyle_set_align_h (mstyle, align);
 	workbook_format_halign_feedback_set (wbcg, align);
-	
+
 	cmd_format (wbc, sheet, mstyle, NULL);
 }
 
@@ -288,14 +288,14 @@ workbook_cmd_format_as_percent (GtkWidget *widget, WorkbookControlGUI *wbcg)
  * helper routines in format.c.
  */
 typedef char *(*format_modify_fn) (StyleFormat const *format);
-	
+
 static Value *
 modify_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *closure)
 {
 	MStyle *mstyle = sheet_style_compute (sheet, col, row);
 	format_modify_fn modify_format = closure;
 	char *new_fmt;
-		
+
 	new_fmt = (*modify_format) (mstyle_get_format (mstyle));
 	if (new_fmt == NULL) {
 		mstyle_unref (mstyle);
@@ -463,7 +463,7 @@ back_color_changed (ColorCombo *combo, GdkColor *c, WorkbookControlGUI *wbcg)
 		    mstyle_get_pattern (mstyle) < 1)
 			mstyle_set_pattern (mstyle, 1);
 
-		mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, 
+		mstyle_set_color (mstyle, MSTYLE_COLOR_BACK,
 				  style_color_new (c->red, c->green, c->blue));
 	} else
 		/* Set background to NONE */
@@ -495,10 +495,10 @@ workbook_format_toolbar_orient (GtkToolbar *toolbar,
 {
 	WorkbookControlGUI *wbcg = closure;
 	GtkWidget *font_button;
-	
+
 	font_button = gnumeric_toolbar_get_widget (GNUMERIC_TOOLBAR (toolbar),
 						   TOOLBAR_FONT_BUTTON_INDEX);
-		
+
 	if (dir == GTK_ORIENTATION_HORIZONTAL) {
 		gtk_widget_show (wbcg->font_name_selector);
 		gtk_widget_show (wbcg->font_size_selector);
@@ -737,7 +737,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	gtk_signal_connect (GTK_OBJECT (back_combo), "changed",
 			    GTK_SIGNAL_FUNC (back_color_changed), wbcg);
 	disable_focus (back_combo, NULL);
-	
+
 	gtk_combo_box_set_title (GTK_COMBO_BOX (back_combo),
 				 _("Background"));
 
@@ -780,7 +780,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	font_button = gnumeric_toolbar_get_widget (GNUMERIC_TOOLBAR (toolbar),
 						   TOOLBAR_FONT_BUTTON_INDEX);
 	gtk_widget_hide (font_button);
-	
+
 	/* Handle orientation changes so that we can hide wide widgets */
 	gtk_signal_connect (
 		GTK_OBJECT(toolbar), "orientation-changed",
@@ -833,7 +833,7 @@ workbook_format_toolbutton_update (WorkbookControlGUI *wbcg,
 {
 	GtkWidget *w = gnumeric_toolbar_get_widget (toolbar, button_index);
 	GtkToggleButton *tb = GTK_TOGGLE_BUTTON (w);
-	
+
 	gtk_signal_handler_block_by_func (GTK_OBJECT (tb), func, wbcg);
 	gtk_toggle_button_set_active (tb, flag);
 	gtk_signal_handler_unblock_by_func (GTK_OBJECT (tb), func, wbcg);
@@ -937,7 +937,7 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 	/* Do no update the font when we update the status display */
 	gtk_signal_handler_block_by_func (GTK_OBJECT (fontsize->entry),
 					  &change_font_size_in_selection_cmd, wbcg);
-	
+
 	gtk_combo_text_set_text (fontsize, size_str);
 
 	/* Restore callback */

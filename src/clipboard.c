@@ -52,7 +52,7 @@ cell_get_contents_as_expr_tree (Cell const * cell)
 	ExprTree *expr = NULL;
 
 	g_return_val_if_fail (cell_has_expr_or_number_or_blank (cell), NULL);
-	
+
 	if (cell_is_blank (cell))
 		expr = expr_tree_new_constant (value_new_float (0.0));
 	else if (cell_has_expr (cell)) {
@@ -94,7 +94,7 @@ apply_paste_oper_to_values (Cell const *old_cell, Cell const *copied_cell,
 	Operation op;
 
 	g_return_val_if_fail (paste_flags & PASTE_OPER_MASK, NULL);
-	
+
 	if (paste_flags & PASTE_OPER_ADD)
 		op = OPER_ADD;
 	else if (paste_flags & PASTE_OPER_SUB)
@@ -135,18 +135,18 @@ paste_cell_with_operation (Sheet *dest_sheet,
 		return;
 
 	old_cell = sheet_cell_get (dest_sheet, target_col, target_row);
-	
+
 	if ((!cell_has_expr_or_number_or_blank (old_cell)) ||
 	    (!cell_has_expr_or_number_or_blank (c_copy->u.cell)))
 		return;
-	
+
 	new_cell          = cell_copy (c_copy->u.cell);
 	new_cell->base.sheet   = dest_sheet;
 	new_cell->pos.col = target_col;
 	new_cell->pos.row = target_row;
-	
+
 	/* FIXME : This does not handle arrays, linked cells, ranges, etc. */
-	
+
 	if ((paste_flags & PASTE_CONTENT) &&
 	    ((c_copy->u.cell != NULL && cell_has_expr (c_copy->u.cell)) ||
 	           (old_cell != NULL && cell_has_expr (old_cell)))) {
@@ -162,7 +162,7 @@ paste_cell_with_operation (Sheet *dest_sheet,
 
 		cell_set_value (new_cell, new_val, NULL);
 	}
-	
+
 	sheet_cell_insert (dest_sheet, new_cell, target_col, target_row, TRUE);
 }
 
@@ -174,9 +174,9 @@ paste_link (Sheet *dest_sheet,
 	ExprTree *expr;
 	Cell *cell;
 	CellRef source_cell_ref;
-	
+
 	cell = sheet_cell_fetch (dest_sheet, target_col, target_row);
-	
+
 	/* FIXME : This is broken
 	 * 1) should be relative not absolute (add toggle ?)
 	 * 2) this is the WRONG SHEET !
@@ -187,7 +187,7 @@ paste_link (Sheet *dest_sheet,
 	source_cell_ref.col_relative = 0;
 	source_cell_ref.row_relative = 0;
 	expr = expr_tree_new_var (&source_cell_ref);
-	
+
 	cell_set_expr (cell, expr, NULL);
 }
 
@@ -214,7 +214,7 @@ paste_cell (Sheet *dest_sheet,
 					   rwinfo, c_copy, paste_flags);
 		return;
 	}
-	
+
 	if (c_copy->type == CELL_COPY_TYPE_CELL) {
 		Cell *new_cell = cell_copy (c_copy->u.cell);
 
@@ -306,7 +306,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 	if ((pt->range.start.col + dst_cols) > SHEET_MAX_COLS ||
 	    (pt->range.start.row + dst_rows) > SHEET_MAX_ROWS) {
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
-					_("Unable to paste"), 
+					_("Unable to paste"),
 				      _("result passes the sheet boundary"));
 		return TRUE;
 	}

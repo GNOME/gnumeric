@@ -70,10 +70,10 @@ struct _PrintInformation {
 	PrintOrientation orientation;
 	PrintScaling     scaling;
 	PrintMargins     margins;
-	
+
 	unsigned int     center_vertically:1;
 	unsigned int     center_horizontally:1;
-	
+
 	unsigned int     print_line_divisions:1;
 	unsigned int     print_black_and_white:1;
 	unsigned int     print_as_draft:1;
@@ -83,7 +83,7 @@ struct _PrintInformation {
 		PRINT_ORDER_DOWN_THEN_RIGHT,
 		PRINT_ORDER_RIGHT_THEN_DOWN
 	}                print_order;
-	
+
 	PrintHF          *header;
 	PrintHF          *footer;
 
@@ -125,7 +125,7 @@ char             *hf_format_render       (const char *format,
 HFRenderInfo     *hf_render_info_new     (void);
 void              hf_render_info_destroy (HFRenderInfo *hfi);
 
-	
+
 const char *unit_name_get_short_name (UnitName name, gboolean translated);
 const char *unit_name_get_name       (UnitName name, gboolean translated);
 UnitName    unit_name_to_unit        (const char *s, gboolean translated);

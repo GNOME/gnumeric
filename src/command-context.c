@@ -69,7 +69,7 @@ gnumeric_error_plugin (CommandContext *context,
 		       char const *message)
 {
 	char *fmessage;
-	
+
 	g_return_if_fail (IS_COMMAND_CONTEXT (context));
 
 	fmessage = format_message (context, message);

@@ -4,7 +4,7 @@
  * dialog-define-name.c: Edit named regions.
  *
  * Author:
- * 	Jody Goldberg <jgoldberg@home.com> 
+ * 	Jody Goldberg <jgoldberg@home.com>
  *	Michael Meeks <michael@imaginator.com>
  */
 #include <config.h>

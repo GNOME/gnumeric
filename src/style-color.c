@@ -21,7 +21,7 @@ void
 gnumeric_color_init (void)
 {
 	GdkColormap *colormap = gtk_widget_get_default_colormap ();
-	
+
 	e_color_init ();
 
 	/* Allocate the default colors */

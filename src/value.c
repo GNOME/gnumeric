@@ -171,7 +171,7 @@ value_new_cellrange_r (Sheet *sheet, const Range *r)
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
 	a = &v->cell.a;
 	b = &v->cell.b;
-	
+
 	a->sheet = sheet;
 	b->sheet = sheet;
 	a->col   = r->start.col;
@@ -440,11 +440,11 @@ gboolean
 value_get_as_checked_bool (Value const *v)
 {
 	gboolean result, err;
-	
+
 	result = value_get_as_bool (v, &err);
-	
+
 	g_return_val_if_fail (!err, FALSE);
-	
+
 	return result;
 }
 
@@ -461,10 +461,10 @@ value_get_as_string (const Value *value)
 	case VALUE_EMPTY:
 		return g_strdup ("");
 
-	case VALUE_ERROR: 
+	case VALUE_ERROR:
 		return g_strdup (value->v_err.mesg->str);
 
-	case VALUE_BOOLEAN: 
+	case VALUE_BOOLEAN:
 		return g_strdup (value->v_bool.val ? _("TRUE") : _("FALSE"));
 
 	case VALUE_STRING:
@@ -509,9 +509,9 @@ value_get_as_string (const Value *value)
 		return ans;
 	}
 
-	case VALUE_CELLRANGE: 
+	case VALUE_CELLRANGE:
 		return value_cellrange_get_as_string (value, TRUE);
-	
+
 	default:
 		g_warning ("value_string problem\n");
 		break;
@@ -583,7 +583,7 @@ value_get_as_float (const Value *v)
 
 	case VALUE_INTEGER:
 		return (float_t) v->v_int.val;
-		
+
 	case VALUE_ARRAY:
 		return 0.0;
 
@@ -714,7 +714,7 @@ compare_float_float (Value const *va, Value const *vb)
  * Compares two (Value *) and returns one of ValueCompare
  *
  * if pos is non null it will perform implict intersection for
- * cellranges. if case_sensitive is true, be case sensitive on string 
+ * cellranges. if case_sensitive is true, be case sensitive on string
  * comparisons.
  */
 ValueCompare
@@ -750,13 +750,13 @@ value_compare (Value const *a, Value const *b, gboolean case_sensitive)
 			int t;
 
 			if (case_sensitive) {
-				t = strcmp (a->v_str.val->str, 
+				t = strcmp (a->v_str.val->str,
 					    b->v_str.val->str);
 			} else {
-				t = g_strcasecmp (a->v_str.val->str, 
+				t = g_strcasecmp (a->v_str.val->str,
 						  b->v_str.val->str);
 			}
-			
+
 			if (t == 0)
 				return IS_EQUAL;
 			else if (t > 0)

@@ -38,7 +38,7 @@
  * @cell:   The cell
  * @mstyle: The mstyle associated with the cell
  * @dynamic_width : Allow format to depend on column width.
- * 
+ *
  * Formats the value of the cell according to the format style given in @mstyle
  *
  * Return value: a new RenderedValue
@@ -137,8 +137,8 @@ rendered_value_destroy (RenderedValue *rv)
 
 /**
  * rendered_value_calc_size:
- * @cell: 
- * 
+ * @cell:
+ *
  * Calls upon rendered_value_calc_size_ext
  **/
 void
@@ -177,10 +177,10 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 
 	g_return_if_fail (mstyle != NULL);
 	g_return_if_fail (rv != NULL);
-	
+
 	text       = rv->rendered_text->str;
 	text_width = gdk_string_measure (gdk_font, text);
-	
+
 	if (text_width < cell_w ||
 	    (cell_is_number (cell) &&
 	     sheet != NULL && !sheet->display_formulas)) {

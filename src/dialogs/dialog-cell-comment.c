@@ -20,7 +20,7 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Cell *cell)
 	GtkWidget *dialog;
 	GtkWidget *text;
 	int v;
-	
+
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (cell != NULL);
 
@@ -29,7 +29,7 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Cell *cell)
 		GNOME_STOCK_BUTTON_OK,
 		GNOME_STOCK_BUTTON_CANCEL,
 		NULL);
-	
+
 	gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
 
 	text = gtk_text_new (NULL, NULL);
@@ -39,11 +39,11 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Cell *cell)
 	if (cell->comment){
 		char *comment = cell->comment->comment->str;
 		gint pos = 0;
-		
+
 		gtk_editable_insert_text (
 			GTK_EDITABLE (text), comment, strlen (comment), &pos);
 	}
-	
+
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), text, TRUE, TRUE, 0);
 	gtk_widget_show (text);
 	gtk_widget_grab_focus (text);
@@ -51,7 +51,7 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Cell *cell)
 	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (v == -1)
 		return;
-	
+
 	if (v == 0){
 		char *comment;
 

@@ -13,11 +13,11 @@
 typedef struct _SummaryItem SummaryItem;
 typedef struct _SummaryInfo SummaryInfo;
 
-typedef enum { SUMMARY_STRING, 
-               SUMMARY_BOOLEAN, 
-	       SUMMARY_SHORT, 
-	       SUMMARY_INT, 
-	       SUMMARY_TIME 
+typedef enum { SUMMARY_STRING,
+               SUMMARY_BOOLEAN,
+	       SUMMARY_SHORT,
+	       SUMMARY_INT,
+	       SUMMARY_TIME
 	     } SummaryItemType;
 
 /* See dialog-summary.c before fiddling */
@@ -38,7 +38,7 @@ typedef enum { SUMMARY_I_CODEPAGE,
 	       SUMMARY_I_CHARCOUNT,
 	       SUMMARY_I_APP,
 	       SUMMARY_I_SECURITY,
-	       
+
 	       SUMMARY_I_CATEGORY,
 	       SUMMARY_I_PRESFORMAT,
 	       SUMMARY_I_BYTECOUNT,

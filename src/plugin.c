@@ -38,7 +38,7 @@ struct _PluginData
 
         gboolean initialized;
         gboolean version_checked;
-	
+
 	/* filled in by plugin */
 	void    *user_data;
 };
@@ -47,7 +47,7 @@ GList *plugin_list = NULL;
 
 /* A coarse safety check to ensure that plugins are used only with the version
  * they are compiled for.
- * 
+ *
  * @plugin_version : A string representing the version of gnumeric that the
  *                   pluging was compiled for.
  *
@@ -106,13 +106,13 @@ plugin_load (CommandContext *context, const gchar *modfile)
 	struct stat sbuf;
 
 	g_return_val_if_fail (modfile != NULL, NULL);
-	
+
 	data = g_new0 (PluginData, 1);
 	if (!data) {
 		g_print ("allocation error");
 		return NULL;
 	}
-	
+
 	data->initialized = FALSE;
 	data->version_checked = FALSE;
 	data->file_name = g_strdup (modfile);
@@ -126,9 +126,9 @@ plugin_load (CommandContext *context, const gchar *modfile)
 		g_free (data);
 		return NULL;
 	}
-	
+
 	if (!g_module_symbol (data->handle, "init_plugin", (gpointer *) &data->init_plugin)){
-		gnumeric_error_plugin (context, 
+		gnumeric_error_plugin (context,
 			_("Plugin must contain init_plugin function."));
 		goto error;
 	}
@@ -140,8 +140,8 @@ plugin_load (CommandContext *context, const gchar *modfile)
 	} else {
 	        data->size = sbuf.st_size;
 		data->modified = sbuf.st_ctime;
-	}	
-	
+	}
+
 	res = data->init_plugin (context, data);
 	if (res != PLUGIN_OK) {
 		/* Avoid displaying 2 error boxes */
@@ -196,7 +196,7 @@ plugin_load_plugins_in_dir (CommandContext *context, const char *directory)
 {
 	DIR *d;
 	struct dirent *e;
-	
+
 	if ((d = opendir (directory)) == NULL)
 		return;
 
@@ -253,7 +253,7 @@ plugins_init (CommandContext *context)
 /*
  * Initializes PluginData structure
  */
-gboolean       
+gboolean
 plugin_data_init (PluginData *pd, PluginCanUnloadFn can_unload_fn,
 		  PluginCleanupFn cleanup_fn,
 		  const gchar *title, const gchar *descr)

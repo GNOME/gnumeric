@@ -22,7 +22,7 @@
  *   offset_gravity :
  *     1. This is the side to count offset from,
  *        gravity (for rows : +1=top, -1=bottom; for cols : +1=left, -1=right).
- * 
+ *
  * Dimensions :
  *   size :
  *     1. The number of cols/rows from the offset, if this is <=0 than this is
@@ -33,7 +33,7 @@
  *     1. The direction to repeat in, this can be either horizontal
  *        or vertical.
  *   repeat :
- *     1. When repeat >= 0, we will repeat 
+ *     1. When repeat >= 0, we will repeat
  *        repeat times, if it is something else (preferably -1) we
  *        simply repeat _indefinitely_ in vertical or horizontal directions.
  *   skip :
@@ -76,14 +76,14 @@ typedef struct {
 	int repeat;
 	int skip;
 	int edge;
-	
+
 	MStyle *mstyle;       /* Style to apply */
 } TemplateMember;
 
 typedef struct {
         /* The filename of this template */
 	GString *filename;
-	
+
 	/*
 	 * Some usual information
 	 */

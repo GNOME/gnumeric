@@ -126,7 +126,7 @@ application_init (void)
 	/* FIXME : 96 as the default will scale Helvetica-9 to Helvetica-12
 	 * which is not too ugly.  Ideally we could get the correct values here but,
 	 *
-	 * XFree86-3) lies.  It defaults to 75x75 dpi and only allows the user to 
+	 * XFree86-3) lies.  It defaults to 75x75 dpi and only allows the user to
 	 *            specify one resolution, which it uses for both axis.
 	 * XFree86-4) Makes a better guess, but still seems to use the same
 	 *            resolution for both directions.
@@ -136,7 +136,7 @@ application_init (void)
 	 * I'll leave it as is for now, and revisit the solution when we shake
 	 * out the flaws in the display code.
 	 */
-	gnome_config_push_prefix ("Gnumeric/Screen_Resolution/"); 
+	gnome_config_push_prefix ("Gnumeric/Screen_Resolution/");
 	app.horizontal_dpi = gnome_config_get_float ("Horizontal_dpi=96");
 	app.vertical_dpi = gnome_config_get_float ("Vertical_dpi=96");
 	gnome_config_pop_prefix ();
@@ -236,7 +236,7 @@ application_clipboard_copy (WorkbookControl *wbc,
 
 	if (application_set_selected_sheet (wbc, sheet) ) {
 		app.clipboard_cut_range = *area;
-		app.clipboard_copied_contents = 
+		app.clipboard_copied_contents =
 			clipboard_copy_range (sheet, area);
 
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
@@ -395,10 +395,10 @@ application_dpi_to_pixels ()
 
 /**
  * application_history_get_list:
- * 
+ *
  *  This function returns a pointer to the history list,
  * creating it if neccessary.
- * 
+ *
  * Return value: the list./
  **/
 GList*
@@ -414,7 +414,7 @@ application_history_get_list (void)
 
         gnome_config_push_prefix ("/Gnumeric/History/");
 
-        /* Get maximum number of history entries.  Write default value to 
+        /* Get maximum number of history entries.  Write default value to
 	 * config file if no entry exists. */
         max_entries = gnome_config_get_int_with_default ("MaxFiles=4", &do_set);
 	if (do_set)
@@ -439,13 +439,13 @@ application_history_get_list (void)
 
 /**
  * application_history_update_list:
- * @filename: 
- * 
- * This function updates the history list.  The return value is a 
+ * @filename:
+ *
+ * This function updates the history list.  The return value is a
  * pointer to the filename that was removed, if the list was already full
  * or NULL if no items were removed.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 gchar *
 application_history_update_list (gchar *filename)
@@ -469,7 +469,7 @@ application_history_update_list (gchar *filename)
 	/* Check if this filename already exists in the list */
 	for (l = app.history_list; l && (count < max_entries); l = l->next) {
 
-		if (!found && (!strcmp ((gchar *)l->data, filename) || 
+		if (!found && (!strcmp ((gchar *)l->data, filename) ||
 			       (count == max_entries - 1))) {
 			/* This is either the last item in the list, or a
 			 * duplicate of the requested entry. */
@@ -511,7 +511,7 @@ application_history_list_shrink (void)
 void
 application_history_write_config (void)
 {
-	gchar *key; 
+	gchar *key;
 	GList *l;
 	gint max_entries, i = 0;
 

@@ -14,12 +14,12 @@
 #include <string.h>
 #include "../global-gnome-font.h"
 
-/* 
+/*
  * Inside this file we define a number of aliases for the
  * FontSelector object, a short hand for it is FS
  *
  * I do want to avoid typing.
- */ 
+ */
 #define FS(x) FONT_SELECTOR(x)
 
 typedef FontSelector Fs;
@@ -209,7 +209,7 @@ static void
 fs_fill_font_size_list (FontSelector *fs)
 {
 	int i;
-	
+
 	for (i = 0; gnumeric_point_sizes [i] != 0; i++) {
 		char buffer [4 * sizeof (int)];
 		char *array [1];
@@ -224,7 +224,7 @@ fs_fill_font_size_list (FontSelector *fs)
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_size_list), "map",
 		GTK_SIGNAL_FUNC (list_mapped), NULL);
-	
+
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_size_entry), "changed",
 		GTK_SIGNAL_FUNC (size_changed), fs);
@@ -320,7 +320,7 @@ static void
 select_row (GtkWidget *list, int row)
 {
 	GtkCList *cl = GTK_CLIST (list);
-	
+
 	gtk_clist_select_row (cl, row, 0);
 }
 

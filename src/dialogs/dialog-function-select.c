@@ -67,11 +67,11 @@ function_list_fill (FunctionSelectState *state)
 
 	gtk_clist_freeze (list);
 	gtk_clist_clear (list);
-	
+
 	for (p = cat->functions; p ; p = g_list_next (p)) {
 		gchar *cols [1];
 		FunctionDefinition const * const func = p->data;
-		
+
 		cols[0] = (gchar *)function_def_get_name (func); /* Const cast */
 		gtk_clist_append (list, cols);
 
@@ -148,7 +148,7 @@ dialog_function_select_impl (WorkbookControlGUI *wbcg, GladeXML *gui)
 	gtk_clist_column_titles_passive (GTK_CLIST (state.categories));
 	gtk_clist_column_titles_passive (GTK_CLIST (state.functions));
 
-	do 
+	do
 		/* Bring up the dialog */
 		res = gnumeric_dialog_run (wbcg, GNOME_DIALOG (state.dialog));
 	while (res == HELP_BUTTON);
@@ -183,7 +183,7 @@ dialog_function_select (WorkbookControlGUI *wbcg)
                 return NULL;
 
 	fd = dialog_function_select_impl (wbcg, gui);
-	
+
 	gtk_object_unref (GTK_OBJECT (gui));
 
 	return fd;

@@ -737,7 +737,7 @@ pln_parse_sheet (CommandContext *context, FileSource_t *src)
 			(context, _("PLN : Spreadsheet is password encrypted"));
 		return -1;
 	}
-	
+
 	/*
 	 * Point to beginning of real data (16 byte header)
 	 */

@@ -27,12 +27,12 @@ struct _SheetControlGUI {
 
 	/* Selection group */
 	GnomeCanvasGroup *selection_group;
-	
+
 	/*
 	 * Control points for the current item
 	 */
 	GnomeCanvasItem  *control_points [9];
-	
+
 	/* Scrolling information */
 	GtkWidget  *vs, *hs;	/* The scrollbars */
 	GtkObject  *va, *ha;    /* The adjustments */

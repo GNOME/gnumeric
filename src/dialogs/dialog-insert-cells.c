@@ -49,13 +49,13 @@ dialog_insert_cells_impl (WorkbookControlGUI *wbcg, Sheet *sheet, GladeXML  *gui
 
 		if (i == 0)
 			cmd_shift_rows (wbc, sheet,
-					ss->user.start.col, 
-					ss->user.start.row, 
+					ss->user.start.col,
+					ss->user.start.row,
 					ss->user.end.row, cols);
 		else if (i == 1)
 			cmd_shift_cols (wbc, sheet,
 					ss->user.start.col,
-					ss->user.end.col, 
+					ss->user.end.col,
 					ss->user.start.row, rows);
 		else if (i == 2)
 			cmd_insert_rows (wbc, sheet,
@@ -107,6 +107,6 @@ dialog_insert_cells (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	/* Wrapper to ensure the libglade object gets removed on error */
 	dialog_insert_cells_impl (wbcg, sheet, gui);
-	
+
 	gtk_object_unref (GTK_OBJECT (gui));
 }

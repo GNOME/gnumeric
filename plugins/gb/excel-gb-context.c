@@ -43,7 +43,7 @@ excel_gb_context_get_type (void)
 					     &eval_info);
 	}
 
-	return eval_type;	
+	return eval_type;
 }
 
 

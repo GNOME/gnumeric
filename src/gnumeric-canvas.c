@@ -293,7 +293,7 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 
 	g_return_if_fail (gsheet->selecting_cell == FALSE);
 
-	/* Hide the primary cursor while the range selection cursor is visible 
+	/* Hide the primary cursor while the range selection cursor is visible
 	 * and we are selecting on a different sheet than the expr being edited
 	 */
 	if (sheet != wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)))

@@ -67,7 +67,7 @@ color_from_palette (int idx)
 		return NULL;
 
 	e = excel_default_palette [idx];
-	
+
 	return style_color_new (e.r << 8, e.g << 8, e.b << 8);
 }
 
@@ -78,14 +78,14 @@ palette_from_color (StyleColor *color)
 	int r = color->red >> 8;
 	int g = color->green >> 8;
 	int b = color->blue >> 8;
-	
+
 	g_return_val_if_fail (color != NULL, 0);
 
 	for (i = 0; i < EXCEL_DEF_PAL_LEN; i++) {
 		EXCEL_PALETTE_ENTRY e = excel_default_palette [i];
 
 /*		g_message ("R:%d,%d;G:%d,%d;B:%d,%d", e.r, r, e.g, g, e.b, b);*/
-		
+
 		if (e.r == r && e.g == g && e.b == b)
 			return i;
 	};
@@ -108,9 +108,9 @@ excel_gb_interior_set_arg (GBRunEvalContext *ec,
 {
 	ExcelGBInterior *interior = EXCEL_GB_INTERIOR (object);
 	MStyle          *style;
-	
+
 	switch (property) {
-		
+
 	case COLOR:
 		style = mstyle_new ();
 		mstyle_set_color (style, MSTYLE_COLOR_FORE,
@@ -176,18 +176,18 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 	int              col      = interior->range.start.col;
 	int              row      = interior->range.end.col;
 	MStyle          *style;
-	
+
 	switch (property) {
 	case COLOR: {
 		StyleColor *color;
 		long realcolor;
-		
+
 		style = sheet_style_compute (interior->sheet, col, row);
 		color = mstyle_get_color (style, MSTYLE_COLOR_FORE);
 		realcolor = convert_rgb_to_color (color->red, color->green, color->blue);
-		
+
 		mstyle_unref (style);
-		
+
 		return (gb_value_new_long (realcolor));
 	}
 	case COLOR_INDEX: {
@@ -211,24 +211,24 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 	}
 	case PATTERN: {
 		int pattern;
-		
+
 		style = sheet_style_compute (interior->sheet, col, row);
 
 		pattern = mstyle_get_pattern (style);
 
 		mstyle_unref (style);
-		
+
 		return (gb_value_new_int (pattern));
 	}
 
 	case PATTERN_COLOR: {
 		StyleColor *color;
 		long realcolor;
-		
+
 		style = sheet_style_compute (interior->sheet, col, row);
 		color = mstyle_get_color (style, MSTYLE_COLOR_BACK);
 		realcolor = convert_rgb_to_color (color->red, color->green, color->blue);
-		
+
 		mstyle_unref (style);
 
 		return (gb_value_new_long (realcolor));
@@ -262,22 +262,22 @@ static void
 excel_gb_interior_class_init (GBRunObjectClass *klass)
 {
 	GBRunObjectClass *gbrun_class = (GBRunObjectClass *) klass;
-	
+
 	gbrun_class->set_arg = excel_gb_interior_set_arg;
 	gbrun_class->get_arg = excel_gb_interior_get_arg;
-	
-	gbrun_object_add_property (gbrun_class, "color", 
+
+	gbrun_object_add_property (gbrun_class, "color",
 				   gb_type_long, COLOR);
-	
-	gbrun_object_add_property (gbrun_class, "colorindex", 
+
+	gbrun_object_add_property (gbrun_class, "colorindex",
 				   gb_type_int, COLOR_INDEX);
 
-	gbrun_object_add_property (gbrun_class, "pattern", 
+	gbrun_object_add_property (gbrun_class, "pattern",
 				   gb_type_int, PATTERN);
 
-	gbrun_object_add_property (gbrun_class, "patterncolor", 
+	gbrun_object_add_property (gbrun_class, "patterncolor",
 				   gb_type_long, PATTERN_COLOR);
-	
+
 	gbrun_object_add_property (gbrun_class, "patterncolorindex",
 				   gb_type_int, PATTERN_COLOR_INDEX);
 
@@ -307,7 +307,7 @@ excel_gb_interior_get_type (void)
 		gtk_type_class (object_type);
 	}
 
-	return object_type;	
+	return object_type;
 }
 
 ExcelGBInterior *

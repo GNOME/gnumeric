@@ -2473,7 +2473,7 @@ repeat:
 
 			comment += MAX_BIFF_NOTE_CHUNK;
 			len -= MAX_BIFF_NOTE_CHUNK;
-			
+
 	        	ms_biff_put_var_next (bp, BIFF_NOTE);
 		        MS_OLE_SET_GUINT16 (data + 0, 0xffff);
 	        	MS_OLE_SET_GUINT16 (data + 2, 0);

@@ -20,7 +20,7 @@
 #include "sheet-private.h"
 
 typedef struct {
-	POA_GNOME_Gnumeric_Workbook servant;	
+	POA_GNOME_Gnumeric_Workbook servant;
 	Workbook *workbook;
 } WorkbookServant;
 
@@ -51,11 +51,11 @@ Workbook_sheet_new (PortableServer_Servant servant, const CORBA_char *name, CORB
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Workbook_NameExists, NULL);
 		return CORBA_OBJECT_NIL;
 	}
-	
+
 	sheet = sheet_new (workbook, name);
 
 	workbook_sheet_attach (workbook, sheet, NULL);
-	
+
 	return corba_sheet (sheet, ev);
 }
 
@@ -140,7 +140,7 @@ Workbook_sheet_rename (PortableServer_Servant servant,
 		       const CORBA_char *new_name, CORBA_Environment *ev)
 {
 	Workbook *workbook = workbook_from_servant (servant);
-	
+
 	return cmd_rename_sheet (command_context_corba (workbook),
 				 workbook, old_name, new_name);
 }
@@ -232,14 +232,14 @@ void
 workbook_corba_shutdown (Workbook *wb)
 {
 	CORBA_Environment ev;
-	
+
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (wb->corba_server != NULL);
 
 	g_warning ("Should release all the corba resources here");
 
 	gtk_object_destroy (GTK_OBJECT (wb->priv->corba_context));
-	
+
 	CORBA_exception_init (&ev);
 	PortableServer_POA_deactivate_object (gnumeric_poa, wb->corba_server, &ev);
 	CORBA_exception_free (&ev);
@@ -255,6 +255,6 @@ command_context_corba (Workbook *wb)
 		return command_context_corba_new ();
 
 	g_return_val_if_fail (wb->priv && wb->priv->corba_context, NULL);
-	
+
 	return wb->priv->corba_context;
 }

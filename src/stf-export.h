@@ -28,9 +28,9 @@ typedef enum {
 /*
  * Export Options struct
  */
-typedef struct 
+typedef struct
 {
-	
+
 	StfTerminatorType_t terminator_type;      /* Desired line terminator */
 	char                cell_separator;       /* Desired cell separator */
 
@@ -42,7 +42,7 @@ typedef struct
 	StfEWriteFunc       write_func;           /* Write callback routine */
 	gpointer            write_data;           /* Data to pass to callback routine (2nd param)*/
 } StfExportOptions_t;
-                  
+
 /*
  * Creation/Destruction of StfExportOptions struct
  */

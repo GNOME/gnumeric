@@ -71,7 +71,7 @@ struct _FormulaGuruState
 	GtkWidget *description;
 	GtkWidget *arg_view;
 	GtkRequisition arg_requisition;
-	
+
 	gboolean	    valid;
 	gboolean	    is_rolled;
 	gboolean	    var_args;
@@ -143,7 +143,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 
 static void
 cb_formula_guru_rolled_entry_changed (GtkEditable *editable,
-				      FormulaGuruState *state) 
+				      FormulaGuruState *state)
 {
 	gtk_entry_set_text (state->cur_arg->entry,
 		gtk_entry_get_text (GTK_ENTRY (state->rolled_entry)));
@@ -267,10 +267,10 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 	if (as->index > 0) {
 		ArgumentState *tmp = g_ptr_array_index (state->args, as->index-1);
 		int const prev_top = tmp->name_label->allocation.y;
-		int const cur_bottom = 
+		int const cur_bottom =
 			as->name_label->allocation.y +
 			as->name_label->allocation.height;
-		
+
 		if (va->value > prev_top &&
 		    (prev_top + va->page_size) >= cur_bottom) {
 			va->value = prev_top;
@@ -587,7 +587,7 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	state->arg_frame    = glade_xml_get_widget (state->gui, "arg_frame");
 	state->description  = glade_xml_get_widget (state->gui, "description");
 	state->arg_view	    = glade_xml_get_widget (state->gui, "arg_view");
-	state->arg_requisition.width = state->arg_requisition.height = 0; 
+	state->arg_requisition.width = state->arg_requisition.height = 0;
 
 	formula_guru_init_args (state);
 
@@ -637,7 +637,7 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	gtk_label_set_text  (GTK_LABEL (state->description),
 			     tokenized_help_find (help_tokens, "DESCRIPTION"));
 	tokenized_help_destroy (help_tokens);
-	
+
 	formula_guru_set_scrollwin_size (state);
 	gnumeric_set_transient (state->wbcg, GTK_WINDOW (state->dialog));
 

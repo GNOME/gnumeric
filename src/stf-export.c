@@ -37,9 +37,9 @@
 
 /**
  * stf_export_options_new:
- * 
+ *
  * Creates a new export options struct
- * 
+ *
  * Return value: a new export options struct
  **/
 StfExportOptions_t *
@@ -52,17 +52,17 @@ stf_export_options_new (void)
 	export_options->quoting_char      = '\0';
 	export_options->sheet_list        = NULL;
 	export_options->quoting_mode      = QUOTING_MODE_UNKNOWN;
-	
+
 	export_options->write_func        = NULL;
 	export_options->write_data        = NULL;
-	
+
 	return export_options;
 }
 
 /**
  * stf_export_options_free:
  * @export_options: an export options struct
- * 
+ *
  * Frees the export options struct
  **/
 void
@@ -70,7 +70,7 @@ stf_export_options_free (StfExportOptions_t *export_options)
 {
 	if (export_options->sheet_list)
 		g_slist_free (export_options->sheet_list);
-		
+
 	g_free (export_options);
 }
 
@@ -78,7 +78,7 @@ stf_export_options_free (StfExportOptions_t *export_options)
  * stf_export_options_set_terminator_type:
  * @export_options: an export options struct
  * @terminator_type: The new terminator type
- * 
+ *
  * Sets the terminator type
  **/
 void
@@ -86,7 +86,7 @@ stf_export_options_set_terminator_type (StfExportOptions_t *export_options, StfT
 {
 	g_return_if_fail (export_options != NULL);
 	g_return_if_fail (terminator_type >= 0 && terminator_type < TERMINATOR_TYPE_UNKNOWN);
-	
+
 	export_options->terminator_type = terminator_type;
 }
 
@@ -95,7 +95,7 @@ stf_export_options_set_terminator_type (StfExportOptions_t *export_options, StfT
  * stf_export_options_set_cell_separator:
  * @export_options: an export options struct
  * @cell_separator: The new cell separator
- * 
+ *
  * Sets the cell separator (a.k.a. field separator)
  **/
 void
@@ -103,7 +103,7 @@ stf_export_options_set_cell_separator (StfExportOptions_t *export_options, char 
 {
 	g_return_if_fail (export_options != NULL);
 	g_return_if_fail (cell_separator != '\0');
-	
+
 	export_options->cell_separator = cell_separator;
 }
 
@@ -111,7 +111,7 @@ stf_export_options_set_cell_separator (StfExportOptions_t *export_options, char 
  * stf_export_options_set_quoting_mode:
  * @export_options: an export options struct
  * @quoting_mode: the quoting mode
- * 
+ *
  * Sets the quoting mode (auto/always/never)
  **/
 void
@@ -127,7 +127,7 @@ stf_export_options_set_quoting_mode (StfExportOptions_t *export_options, StfQuot
  * stf_export_options_set_quoting_char:
  * @export_options: an export options struct
  * @quoting_char: the quoting char
- * 
+ *
  * Sets the quoting char (== character which is used to 'quote')
  * The quoting char can't be \0 !
  **/
@@ -154,7 +154,7 @@ stf_export_options_set_write_callback (StfExportOptions_t *export_options,
 /**
  * stf_export_options_sheet_list_clear:
  * @export_options: an export options struct
- * 
+ *
  * Clears the sheet list.
  * NOTE : This does not free the sheets contained in the sheet list
  *        the caller is responsible for freeing them!
@@ -195,17 +195,17 @@ stf_export_options_sheet_list_add (StfExportOptions_t *export_options, Sheet *sh
  * stf_export_cell:
  * @export_options: an export options struct
  * @cell: the cell to write to the file
- * 
+ *
  * Passes the contents of @cell to the callback function
  * (also does some csv related formatting)
- * 
+ *
  * Return value: return TRUE on success, FALSE otherwise.
  **/
 static gboolean
 stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 {
 	g_return_val_if_fail (export_options != NULL, FALSE);
-	
+
 	if (cell) {
 		gboolean quoting = FALSE;
 		char *text = cell_get_rendered_text (cell);
@@ -213,14 +213,14 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 		GString *res = g_string_new ("");
 
 		if (export_options->quoting_mode == QUOTING_MODE_AUTO) {
-			
+
 			if (strchr (s, export_options->cell_separator) ||
 			    strchr (s, export_options->quoting_char) ||
 			    strchr (s, ' ') || strchr (s, '\t')) {
 				quoting = TRUE;
 			}
 		} else {
-			
+
 			quoting = (export_options->quoting_mode == QUOTING_MODE_ALWAYS);
 		}
 
@@ -228,12 +228,12 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 			g_string_append_c (res, export_options->quoting_char);
 
 		while (*s) {
-		
+
 			if (*s == export_options->quoting_char)
 				g_string_append (res, "\"\"");
 			else
 				g_string_append_c (res, *s);
-			
+
 			s++;
 		}
 
@@ -242,7 +242,7 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 
 		if (!export_options->write_func (res->str, export_options->write_data))
 			return FALSE;
-		
+
 		g_string_free (res, TRUE);
 		g_free (text);
 	}
@@ -254,9 +254,9 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
  * stf_export_sheet:
  * @export_options: an export options struct
  * @sheet: the sheet to export
- * 
+ *
  * Writes the @sheet to the callback function
- * 
+ *
  * Return value: returns TRUE on success, FALSE otherwise
  **/
 static gboolean
@@ -279,12 +279,12 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 	g_string_append_c (separator, export_options->cell_separator);
 
 	r = sheet_get_extent (sheet);
-	
+
 	for (row = r.start.row; row <= r.end.row; row++) {
-	
+
 		for (col = r.start.col; col <= r.end.col; col++) {
 			Cell *cell = sheet_cell_get (sheet, col, row);
-			
+
 			if (!stf_export_cell (export_options, cell)) {
 				g_string_free (separator, TRUE);
 				return FALSE;
@@ -311,7 +311,7 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 			if (!export_options->write_func ("\r\n", export_options->write_data))
 				error = TRUE;
 			break;
-		default : 
+		default :
 			g_warning ("STF-E : Unknown terminator type");
 			break;
 		}
@@ -329,17 +329,17 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 /**
  * stf_export:
  * @export_options: an export options struct
- * 
+ *
  * Exports the sheets given in @export_options
  * (passes strings to write to the write callback function)
- * 
+ *
  * Return value: TRUE on success, FALSE otherwise
  **/
 gboolean
 stf_export (StfExportOptions_t *export_options)
 {
 	GSList *iterator;
-	
+
 	g_return_val_if_fail (export_options != NULL, FALSE);
 	g_return_val_if_fail (export_options->terminator_type != TERMINATOR_TYPE_UNKNOWN, FALSE);
 	g_return_val_if_fail (export_options->cell_separator != '\0', FALSE);
@@ -347,15 +347,15 @@ stf_export (StfExportOptions_t *export_options)
 	g_return_val_if_fail (export_options->quoting_mode != QUOTING_MODE_UNKNOWN, FALSE);
 
 	iterator = export_options->sheet_list;
-	
+
 	while (iterator) {
-	
+
 		if (!stf_export_sheet (export_options, iterator->data))
 			break;
 
 		iterator = g_slist_next (iterator);
 	}
-	
+
 	if (iterator) /* hmm, something went wrong */
 		return FALSE;
 	else

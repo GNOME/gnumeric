@@ -46,11 +46,11 @@ cell_dirty (Cell *cell)
  *      	- rendered_value.
  *      	- expression.
  *      	- parse format.
- *     
+ *
  *      Clears the flags to
  *      	- not queued for recalc.
  *      	- has no expression.
- *     
+ *
  *      Does NOT change
  *      	- Comments.
  *      	- Spans.
@@ -668,7 +668,7 @@ cell_render_value (Cell *cell, gboolean dynamic_width)
 {
 	RenderedValue *rv;
 	MStyle *mstyle;
-		
+
 	g_return_if_fail (cell != NULL);
 
 	mstyle = cell_get_mstyle (cell);
@@ -707,7 +707,7 @@ cell_get_format (Cell const *cell)
 {
 	char   *result = NULL;
 	MStyle *mstyle;
-	
+
 	g_return_val_if_fail (cell != NULL, g_strdup ("General"));
 
 	mstyle = cell_get_mstyle (cell);

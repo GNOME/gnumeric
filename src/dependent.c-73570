@@ -1,7 +1,7 @@
 /* vim: set sw=8: */
 
 /*
- * dependent.c: 
+ * dependent.c:
  *
  * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
  *
@@ -338,7 +338,7 @@ dependent_set_expr (Dependent *dep, ExprTree *expr)
  * @dep : The dependent we are interested in.
  * @file : FILE * to print to.
  *
- * A useful little debugging utility. 
+ * A useful little debugging utility.
  */
 void
 dependent_debug_name (Dependent const *dep, FILE *out)

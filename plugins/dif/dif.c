@@ -301,7 +301,7 @@ dif_write_cell (FILE *f, Cell const *cell)
 		/* FIXME : I have no idea the original code was trying to
 		 * do but it was definitely wrong.  This is only marginally
 		 * better.  It will dump the rendered string as a single line.
-		 * with the magic prefix and quotes from the original.  At 
+		 * with the magic prefix and quotes from the original.  At
 		 * least it will not completely disregard negatives.
 		 */
 		fputs("1,0\n\"", f);
@@ -344,7 +344,7 @@ dif_write_workbook (IOContext *context,
 	if (sheet_list) {
 		Sheet *sheet = sheet_list->data;
 		Range r = sheet_get_extent (sheet);
-		
+
 		/*
 		 * Write out the standard headers
 		 */
@@ -384,7 +384,7 @@ out:
 		fclose (f);
 	if (rc < 0)
 		gnumeric_io_error_save (context, "");
-	
+
 	return rc;	/* Q: what do we have to return here?? */
 }
 
@@ -410,10 +410,10 @@ init_plugin (CommandContext *context, PluginData * pd)
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
-	file_format_register_open (1, 
+	file_format_register_open (1,
 				   _("Data Interchange Format (*.dif) file format"),
 				   NULL, &dif_read_workbook);
-	file_format_register_save (".dif", 
+	file_format_register_save (".dif",
 				   _("Data Interchange Format (*.dif)"),
 				   FILE_FL_MANUAL, &dif_write_workbook);
 

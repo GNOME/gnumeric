@@ -41,7 +41,7 @@ attach_sheet (Workbook *wb, int idx)
 	Sheet *sheet;
 	char  *sheet_name;
 
-	sheet_name = g_strdup_printf (_("Sheet%d"), idx); 
+	sheet_name = g_strdup_printf (_("Sheet%d"), idx);
 	sheet = sheet_new (wb, sheet_name);
 	g_free (sheet_name);
 	workbook_sheet_attach (wb, sheet, NULL);
@@ -191,7 +191,7 @@ oleo_read (IOContext *context, Workbook *wb, const char *filename)
 		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
-	
+
 	sheet = attach_sheet (wb, sheetidx++);
 
 	while (1) {

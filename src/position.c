@@ -63,7 +63,7 @@ eval_pos_init_cell (EvalPos *eval_pos, Cell const *cell)
 }
 
 EvalPos *
-eval_pos_init_cellref (EvalPos *dest, EvalPos const *src, 
+eval_pos_init_cellref (EvalPos *dest, EvalPos const *src,
 		       CellRef const *ref)
 {
 	/* FIXME : This is a place to catch all of the strange

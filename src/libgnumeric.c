@@ -296,7 +296,7 @@ main (int argc, char *argv [])
 		}
 	}
 #endif
-	
+
 	scm_boot_guile (argc, argv, gnumeric_main, 0);
 	return 0;
 }

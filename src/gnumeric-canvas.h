@@ -15,7 +15,7 @@ struct _GnumericSheet {
 	GnomeCanvas   canvas;
 
 	SheetControlGUI     *sheet_view;
-	
+
 	struct {
 		int first, last_full, last_visible;
 	} row, col, row_offset, col_offset;

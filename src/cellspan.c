@@ -92,7 +92,7 @@ span_remove (gpointer key, gpointer value, gpointer user_data)
 {
 	CellSpanInfo *span = (CellSpanInfo *)value;
 	Cell *cell = user_data;
-	
+
 	if (cell == span->cell) {
 		g_free (span); /* free the span descriptor */
 		return TRUE;

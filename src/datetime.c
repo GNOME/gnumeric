@@ -51,7 +51,7 @@ datetime_g_to_serial (GDate *date)
 
 /* ------------------------------------------------------------------------- */
 
-GDate* 
+GDate*
 datetime_serial_to_g (int serial)
 {
 	if (!date_origin)

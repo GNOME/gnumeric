@@ -18,7 +18,7 @@ struct _Workbook {
 	GPtrArray *wb_views;
 
 	GPtrArray  *sheets;
-	GHashTable *sheet_hash_private;	
+	GHashTable *sheet_hash_private;
 
 	/* Attribute list */
 	GList *attributes;

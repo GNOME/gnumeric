@@ -44,7 +44,7 @@ style_font_new_simple (const char *font_name, double size, double scale,
 	key.is_bold   = bold;
 	key.is_italic = italic;
 	key.scale     = scale;
-	
+
 	font = (StyleFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (!font){
 		if (g_hash_table_lookup (style_font_negative_hash, &key))
@@ -388,11 +388,11 @@ void
 style_init (void)
 {
 	number_format_init ();
-	style_font_hash   = g_hash_table_new (style_font_hash_func, 
+	style_font_hash   = g_hash_table_new (style_font_hash_func,
 					      style_font_equal);
 	style_color_hash  = g_hash_table_new (color_hash, color_equal);
 
-	style_font_negative_hash = g_hash_table_new (style_font_hash_func, 
+	style_font_negative_hash = g_hash_table_new (style_font_hash_func,
 						     style_font_equal);
 
 	font_init ();

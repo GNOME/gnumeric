@@ -22,7 +22,7 @@
 
 typedef struct {
 	GBRunEvalContext parent;
-	
+
 	WorkbookControl *control;
 } ExcelGBContext;
 

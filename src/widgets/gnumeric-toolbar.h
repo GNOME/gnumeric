@@ -23,5 +23,5 @@ GtkWidget *gnumeric_toolbar_new        		(GnomeUIInfo *info,
 GtkWidget *gnumeric_toolbar_get_widget          (GnumericToolbar *toolbar,
 						 int pos);
 
-#endif 
+#endif
 

@@ -2088,7 +2088,7 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders,
 	 * sensible */
 	if (pageno >= 0 && pageno <= FD_LAST)
 		fmt_dialog_page = pageno;
-	
+
 	/* Select the wanted page the last invocation used */
 	gtk_notebook_set_page (
 		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (dialog)->notebook),

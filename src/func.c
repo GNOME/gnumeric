@@ -56,7 +56,7 @@ dump_func_help (gpointer key, gpointer value, void *output_file)
 {
 	Symbol *sym = value;
 	FunctionDefinition *fd;
-	
+
 	if (sym->type != SYMBOL_FUNCTION)
 		return;
 	fd = sym->data;
@@ -71,7 +71,7 @@ function_dump_defs (const char *filename)
 	FILE *output_file;
 
 	g_return_if_fail (filename != NULL);
-	
+
 	if ((output_file = fopen (filename, "w")) == NULL){
 		printf (_("Cannot create file %s\n"), filename);
 		exit (1);
@@ -108,13 +108,13 @@ function_get_category (gchar const *description)
 	/*
 	 * This cast is just here to kill a warning; we aren't going to
 	 * actually change the description.
-	 */ 
+	 */
 	tmps.str  = (gchar *)description;
 	tmpc.name = &tmps;
 	gnode = g_list_find_custom (categories, &tmpc,
 				    &function_category_compare);
        	cat = gnode ? (FunctionCategory *) (gnode->data) : NULL;
-	
+
 	if (cat != NULL)
 		return cat;
 
@@ -298,7 +298,7 @@ function_def_set_user_data (FunctionDefinition *fndef,
 			    gpointer user_data)
 {
 	g_return_if_fail (fndef != NULL);
-	
+
 	fndef->user_data = user_data;
 }
 
@@ -315,13 +315,13 @@ function_def_get_name (const FunctionDefinition *fndef)
  * @fndef: pointer to function definition
  * @min: pointer to min. args
  * @max: pointer to max. args
- * 
+ *
  * This calculates the max and min args that
  * can be passed; NB max can be G_MAXINT for
  * a vararg function.
  * NB. this data is not authoratitive for a
  * 'nodes' function.
- * 
+ *
  **/
 void
 function_def_count_args (const FunctionDefinition *fndef,
@@ -363,7 +363,7 @@ function_def_count_args (const FunctionDefinition *fndef,
  * function_def_get_arg_type:
  * @fndef: the fn defintion
  * @arg_idx: zero based argument offset
- * 
+ *
  * Return value: the type of the argument
  **/
 char
@@ -412,7 +412,7 @@ function_marshal_arg (FunctionEvalInfo *ei,
 			       (arg_type == 'r' || arg_type == 'a' ||
 				arg_type == 'A' || arg_type == '?')
 			       ? EVAL_PERMIT_NON_SCALAR : EVAL_STRICT);
-		
+
 	switch (arg_type) {
 
 	case 'f':
@@ -470,7 +470,7 @@ function_marshal_arg (FunctionEvalInfo *ei,
 		if (v->type != VALUE_ARRAY &&
 		    v->type != VALUE_CELLRANGE)
 			*type_mismatch = TRUE;
-			
+
 		if (v->type == VALUE_CELLRANGE) {
 			cell_ref_make_abs (&v->v_range.cell.a,
 					   &v->v_range.cell.a,
@@ -515,10 +515,10 @@ free_values (Value **values, int top)
  * function_call_with_list:
  * @ei: EvalInfo containing valid fd!
  * @args: GList of ExprTree args.
- * 
+ *
  * Do the guts of calling a function.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 Value *
 function_call_with_list (FunctionEvalInfo *ei, GList *l)
@@ -532,11 +532,11 @@ function_call_with_list (FunctionEvalInfo *ei, GList *l)
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_def != NULL, NULL);
 
-	/* Functions that deal with ExprNodes */		
+	/* Functions that deal with ExprNodes */
 	fd = ei->func_def;
 	if (fd->fn_type == FUNCTION_NODES)
 	        return fd->fn.fn_nodes (ei, l);
-	
+
 	/* Functions that take pre-computed Values */
 	argc = g_list_length (l);
 	function_def_count_args (fd, &fn_argc_min,
@@ -565,9 +565,9 @@ function_call_with_list (FunctionEvalInfo *ei, GList *l)
 	while (arg < fn_argc_max)
 		values [arg++] = NULL;
 	v = fd->fn.fn_args (ei, values);
-	
+
 	free_values (values, arg);
-	return v;	
+	return v;
 }
 
 /*

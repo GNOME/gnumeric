@@ -128,7 +128,7 @@ html_write_cell32 (FILE *fp, Cell *cell, MStyle *style)
 		if (mstyle_get_align_v (style) & VALIGN_TOP)
 			fprintf (fp, " valign=top");
 	}
-	
+
 	html_get_color (style, MSTYLE_COLOR_BACK, &r, &g, &b);
 	if (r < 255 || g < 255 || b < 255)
 		fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
@@ -138,7 +138,7 @@ html_write_cell32 (FILE *fp, Cell *cell, MStyle *style)
 		fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
 			 r, g, b);
 	html_write_cell_str (fp, cell, style);
-	
+
 	if (r != 0 || g != 0 || b != 0)
 		fprintf (fp, "</FONT>");
 
@@ -162,7 +162,7 @@ html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
 		case HALIGN_RIGHT :
 			fprintf (fp, " halign=right");
 			break;
-			
+
 		case HALIGN_CENTER :
 		case HALIGN_CENTER_ACROSS_SELECTION :
 			fprintf (fp, " halign=center");
@@ -170,11 +170,11 @@ html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
 		default :
 			break;
 		}
-		
+
 		if (mstyle_get_align_v (style) & VALIGN_TOP)
 			fprintf (fp, " valign=top");
 	}
-		
+
 	html_get_color (style, MSTYLE_COLOR_BACK, &r, &g, &b);
 	if (r < 255 || g < 255 || b < 255)
 		fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
@@ -185,7 +185,7 @@ html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
 			 r, g, b);
 
 	html_write_cell_str (fp, cell, style);
-	
+
 	if (r != 0 || g != 0 || b != 0)
 		fprintf (fp, "</FONT>");
 
@@ -238,7 +238,7 @@ html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
 	while (sheet_list) {
 		Sheet *sheet = sheet_list->data;
 		Range r = sheet_get_extent (sheet);
-		
+
 		fprintf (fp, "<TABLE border=1>\n");
 		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name_unquoted);
 
@@ -247,7 +247,7 @@ html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
 			for (col = r.start.col; col <= r.end.col; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				style = sheet_style_compute (sheet, col, row);
-				
+
 				html_write_cell32 (fp, cell, style);
 			}
 			fprintf (fp, "</TR>\n");
@@ -307,7 +307,7 @@ html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
 	while (sheet_list) {
 		Sheet *sheet = sheet_list->data;
 		Range r = sheet_get_extent (sheet);
-		
+
 		fprintf (fp, "<TABLE border=1>\n");
 		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name_unquoted);
 
@@ -316,7 +316,7 @@ html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
 			for (col = r.start.col; col <= r.end.col; col++) {
 				cell  = sheet_cell_get (sheet, col, row);
 				style = sheet_style_compute (sheet, col, row);
-				
+
 				html_write_cell40 (fp, cell, style);
 			}
 			fprintf (fp, "</TR>\n");

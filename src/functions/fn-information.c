@@ -192,7 +192,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		 * contains right-aligned text, caret (^) if the cell contains
 		 * centered text, backslash (\) if the cell contains
 		 * fill-aligned text, and empty text ("") if the cell contains
-		 * anything else.  
+		 * anything else.
 		 */
 		return value_new_error (ei->pos, _("Unimplemented"));
 	} else if (!g_strcasecmp (info_type, "protect")) {
@@ -355,7 +355,7 @@ static char *help_iserror = {
 };
 
 /* A utility routine to evaluate a single argument and return any errors
- * directly 
+ * directly
  */
 static Value *
 gnumeric_check_for_err (FunctionEvalInfo *ei, GList *expr_node_list,
@@ -491,7 +491,7 @@ gnumeric_error_type (FunctionEvalInfo *ei, GList *expr_node_list)
 		return err;
 	if (res == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NA);
-	
+
 	mesg = res->v_err.mesg->str;
 	if (!strcmp (gnumeric_err_NULL, mesg))
 		retval = 1;

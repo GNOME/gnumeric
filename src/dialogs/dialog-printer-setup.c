@@ -155,7 +155,7 @@ spin_button_set_bound (GtkSpinButton *spin, double space_to_grow,
  * get_paper_width
  * @dpi  print info
  *
- * Return paper width in points, taking page orientation into account. 
+ * Return paper width in points, taking page orientation into account.
  */
 static double
 get_paper_pswidth (dialog_print_info_t *dpi)
@@ -170,7 +170,7 @@ get_paper_pswidth (dialog_print_info_t *dpi)
  * get_paper_psheight
  * @dpi  print info
  *
- * Return paper height in points, taking page orientation into account. 
+ * Return paper height in points, taking page orientation into account.
  */
 static double
 get_paper_psheight (dialog_print_info_t *dpi)
@@ -514,7 +514,7 @@ static void
 canvas_update (dialog_print_info_t *dpi)
 {
 	if (dpi->current_paper != dpi->paper ||
-	    dpi->current_orientation != dpi->orientation) { 
+	    dpi->current_orientation != dpi->orientation) {
 		preview_page_destroy (dpi);
 		dpi->current_paper = dpi->paper;
 		dpi->current_orientation = dpi->orientation;
@@ -1105,7 +1105,7 @@ orientation_changed (GtkToggleButton *landscape_bt, dialog_print_info_t *dpi)
 		dpi->orientation = PRINT_ORIENT_HORIZONTAL;
 	else
 		dpi->orientation = PRINT_ORIENT_VERTICAL;
-			
+
 	canvas_update (dpi);
 }
 

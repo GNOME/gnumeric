@@ -457,7 +457,7 @@ init_plugin (CommandContext *context, PluginData * pd)
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
-	file_format_register_open (1, 
+	file_format_register_open (1,
 				   _("SC/xspread file import"),
 				   NULL, sc_read_workbook);
 

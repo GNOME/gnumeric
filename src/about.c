@@ -20,7 +20,7 @@ static void
 cb_closed (GtkWidget *button, WorkbookControlGUI *wbcg)
 {
 	g_return_if_fail (gtk_object_get_data (GTK_OBJECT (wbcg), ABOUT_KEY) != NULL);
-	
+
 	gtk_object_remove_data (GTK_OBJECT (wbcg), ABOUT_KEY);
 }
 
@@ -33,7 +33,7 @@ void
 dialog_about (WorkbookControlGUI *wbcg)
 {
         GtkWidget *about, *l, *href, *hbox;
-	
+
         const gchar *authors[] = {
 		N_("Miguel de Icaza, main programmer."),
 		N_("Sean Atkinson, functions and X-Base importing."),
@@ -65,7 +65,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 #ifdef ENABLE_NLS
 	{
  	    int i;
-	    
+
 	    for (i = 0; authors[i] != NULL; i++){
 		    authors [i] = _(authors [i]);
 	    }

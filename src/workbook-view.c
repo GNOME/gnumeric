@@ -433,7 +433,7 @@ WorkbookView *
 workbook_view_new (Workbook *optional_wb)
 {
 	WorkbookView *view;
-	
+
 	view = gtk_type_new (workbook_view_get_type ());
 	workbook_view_init (view, optional_wb);
 	return view;

@@ -226,7 +226,7 @@ range_stddev_pop (const float_t *xs, int n, float_t *res)
 	else {
 		*res = sqrt (*res);
 		return 0;
-	}		
+	}
 }
 
 /* Standard deviation with weight N-1.  */
@@ -238,7 +238,7 @@ range_stddev_est (const float_t *xs, int n, float_t *res)
 	else {
 		*res = sqrt (*res);
 		return 0;
-	}		
+	}
 }
 
 /* Population skew.  */
@@ -408,7 +408,7 @@ range_correl_pop (const float_t *xs, const float_t *ys, int n, float_t *res)
 	float_t sx, sy, vxy;
 
 	if (range_stddev_pop (xs, n, &sx) || sx == 0 ||
-	    range_stddev_pop (ys, n, &sy) || sy == 0 ||	    
+	    range_stddev_pop (ys, n, &sy) || sy == 0 ||
 	    range_covar (xs, ys, n, &vxy))
 		return 1;
 
@@ -422,7 +422,7 @@ range_correl_est (const float_t *xs, const float_t *ys, int n, float_t *res)
 	float_t sx, sy, vxy;
 
 	if (range_stddev_est (xs, n, &sx) || sx == 0 ||
-	    range_stddev_est (ys, n, &sy) || sy == 0 ||	    
+	    range_stddev_est (ys, n, &sy) || sy == 0 ||
 	    range_covar (xs, ys, n, &vxy))
 		return 1;
 
@@ -1820,8 +1820,8 @@ double pbeta_raw(double x, double pin, double qin)
 	    ans = 1 - ans;
     }
     else {
-	/*___ FIXME ___:  This takes forever (or ends wrongly) 
-	  when (one or) both p & q  are huge 
+	/*___ FIXME ___:  This takes forever (or ends wrongly)
+	  when (one or) both p & q  are huge
 	*/
 
 	/* evaluate the infinite sum first.  term will equal */
@@ -2096,8 +2096,8 @@ double qbeta(double alpha, double p, double q)
 
 double pt(double x, double n)
 {
-/* return  P[ T <= x ]	where  
- * T ~ t_{n}  (t distrib. with n degrees of freedom).	
+/* return  P[ T <= x ]	where
+ * T ~ t_{n}  (t distrib. with n degrees of freedom).
 
  *	--> ./pnt.c for NON-central
  */
@@ -2187,7 +2187,7 @@ double qt(double p, double ndf)
 #endif
 	/* FIXME: This test should depend on  ndf  AND p  !!
 	 * -----  and in fact should be replaced by
-	 * something like Abramowitz & Stegun 26.7.5 (p.949) 
+	 * something like Abramowitz & Stegun 26.7.5 (p.949)
 	 */
 	if (ndf > 1e20) return qnorm(p, 0.0, 1.0);
 
@@ -2589,7 +2589,7 @@ double dpois(double x, double lambda)
  *
  *    #include "Mathlib.h"
  *    double pbinom(double x, double n, double p)
- *  
+ *
  *  DESCRIPTION
  *
  *    The distribution function of the binomial distribution.
@@ -4065,7 +4065,7 @@ fact (int n)
  * a product of a lower triangular matrix, L, and an upper triangluar
  * matrix, U, where A = L*U.  The lower triangular matrix, L, contains
  * ones along the main diagonal.
- * 
+ *
  * The determinant of the original matrix, A, is det(A)=det(L)*det(U).
  * The determinant of any triangular matrix is the product of the
  * elements along its main diagonal.  Since det(L) is always one, we
@@ -4147,7 +4147,7 @@ minverse(float_t *A, int dim, float_t *res)
 	array = g_new (float_t, cols*rows);
 	for (i=0; i<cols; i++)
 	        for (n=0; n<rows; n++)
-		        if (i < dim) 
+		        if (i < dim)
 			        ARRAY(i, n) = A[n+i*rows];
 			else if (i-dim == n)
 			        ARRAY(i, n) = 1;
@@ -4268,17 +4268,17 @@ mpivot (float_t *pivot_table, int cols, int rows)
 		        pivot = pivot_table[i + j*rows] /
 			        pivot_table[j + j*rows];
 			for (k=j; k<cols; k++)
-			        pivot_table[i + k*rows] -= 
+			        pivot_table[i + k*rows] -=
 				        pivot * pivot_table[j + k*rows];
 		}
 	}
-	
+
 	for (i=0; i<rows; i++) {
 	        pivot = pivot_table[i + i*rows];
 		pivot_table[i + i*rows] /= pivot;
 		pivot_table[i + (cols-1)*rows] /= pivot;
 	}
-    
+
 	return 0;
 }
 
@@ -4321,13 +4321,13 @@ display (float_t *M, int cols, int rows, char *s)
 	printf("\n");
 }
 
-/* Solves the dual vector v from 
+/* Solves the dual vector v from
  *   (A * D^2 * A_t) * v = A * D^2 * c
  *
  * After the call, D^2 is in `sqr_D' and v is in `v'.
  *
- * `wspace' should have 
- *     (n_constraints * n_variables)        | for A * D^2 
+ * `wspace' should have
+ *     (n_constraints * n_variables)        | for A * D^2
  *   + (n_constraints * n_constraints)      | for (A * D^2) * A_t
  *   + (n_constraints)                      | for (A * D^2) * c
  *   + (n_constraints + 1) * n_constraints  | for pivot table
@@ -4336,7 +4336,7 @@ display (float_t *M, int cols, int rows, char *s)
 static int
 solve_dual_vector (float_t *A, float_t *c, float_t *x, float_t *A_t,
 		   int n_constraints, int n_variables,
-		   float_t *sqr_D, float_t *v, 
+		   float_t *sqr_D, float_t *v,
 		   float_t *wspace)
 {
         float_t *Asqr_D;
@@ -4348,7 +4348,7 @@ solve_dual_vector (float_t *A, float_t *c, float_t *x, float_t *A_t,
 
 	Asqr_D = &wspace[s_ind];
 	s_ind += n_variables * n_constraints;
-  
+
 	Asqr_DA_t = &wspace[s_ind];
 	s_ind += n_constraints * n_constraints;
 
@@ -4571,29 +4571,29 @@ affine_init (float_t *A, float_t *b, float_t *c, int n_constraints,
 	 for (i=0; i<n_variables; i++)
 	         new_c [i] = c[i];
 	 new_c[i] = -pow (2, 58);
-	 
+
 	 for (i=0; i<n_constraints; i++)
 	         tmp[i] = 0;
 	 for (i=0; i<n_constraints; i++)
 	         for (j=0; j<n_variables; j++)
 		          tmp[i] += A[i + j*n_constraints];
-	 
+
 	 for (i=0; i<n_variables; i++)
 	         tmp[i] = b[i] - tmp[i];
-	 
+
 	 for (i=0; i<n_variables; i++)
 	         for (j=0; j<n_constraints; j++)
 		         new_A[j + i*n_constraints] = A[j + i*n_constraints];
 	 for (i=0; i<n_constraints; i++)
 	         new_A[i + n_variables*n_constraints] = tmp[i];
-	 
+
 	 for (i=0; i<=n_variables; i++)
 	         new_x[i] = 1;
-	 
+
 	 found = affine_scale (new_A, b, new_c, new_x,
 			       n_constraints, n_variables+1, TRUE,
 			       0.01, 1000, NULL, NULL);
-	 
+
 	 for (i=0; i<n_variables; i++)
 	         x[i] = new_x[i];
 
@@ -4672,7 +4672,7 @@ branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
 				     (n_constraints+1)*(n_variables+1));
 			rb =  g_new (float_t, (n_constraints+1));
 			/* FIXME: int_r too */
-	      
+
 			for (k=0; k<n_variables; k++)
 			        lrc[k] = c[k];
 			lrc[k] = 0;
@@ -4715,7 +4715,7 @@ branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
 			g_free (rA);
 			g_free (rb);
 			g_free (lrc);
-			
+
 			return f1 || f2;
 		} else if (int_r [i])
 		        x[i] = rint (x[i]);
@@ -4732,7 +4732,7 @@ branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
 			for (i=0; i<n_original; i++)
 			        xx[i] = x[i];
 		}
-	
+
 	g_free (x);
 	return TRUE;
 }
@@ -4754,7 +4754,7 @@ int main()
 
   int n_variables = 4;
   int n_constraints = 2;
-  
+
   branch_and_bound (A, b, c, x, n_constraints, n_variables, n_variables, TRUE,
 		    0.000001, 10000, r_int,
 		    NULL, NULL, &best);

@@ -101,7 +101,7 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 		Value *v = eval_expr (ei->pos, l->data, EVAL_STRICT);
 
 		args = g_slist_prepend (args, value_to_gb (v));
-		
+
 		value_release (v);
 	}
 
@@ -197,13 +197,13 @@ read_gb (gpointer            *jody_broke_the_context,
 			FunctionCategory *cat;
 
 			cat = function_get_category ("GnomeBasic");
-		
+
 			fns = gbrun_project_fn_names (wd->proj);
 
 			/* FIXME: Argh, this means we need per workbook functions; ha, ha ha. */
 			for (f = fns; f; f = f->next)
 				register_vb_function (wb, f->data, cat, wd);
-		
+
 			g_slist_free (fns);
 		}
 	}
@@ -226,7 +226,7 @@ stream_provider (GBRunEvalContext *ec,
 	MsOle         *f = user_data;
 	MsOleStream   *s;
 	MsOleVba      *vba;
-	
+
 	if (ms_ole_stream_open (&s, f, "_VBA_PROJECT_CUR/VBA", name, 'r')
 	    != MS_OLE_ERR_OK) {
 		g_warning ("Error opening %s", name);
@@ -246,12 +246,12 @@ stream_provider (GBRunEvalContext *ec,
 
 /**
  * read_ole2_gb:
- * @context: 
- * @wb: 
- * @f: 
- * 
+ * @context:
+ * @wb:
+ * @f:
+ *
  * The main function that organises all of the GB from a new Excel file.
- * 
+ *
  * Return value: TRUE on success.
  **/
 static gboolean
@@ -318,10 +318,10 @@ file_provider (GBRunEvalContext *ec,
 	       gpointer          user_data)
 {
 	GBLexerStream *ret = NULL;
-	
+
 	if (g_file_exists (name))
 		ret = file_to_stream (name);
-	
+
 	else {
 		char *fname;
 
@@ -331,7 +331,7 @@ file_provider (GBRunEvalContext *ec,
 			ret = file_to_stream (fname);
 		else
 			g_warning ("Error opening '%s'", fname);
-		
+
 		g_free (fname);
 	}
 

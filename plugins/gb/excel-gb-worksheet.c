@@ -74,13 +74,13 @@ excel_gb_worksheet_set_arg (GBRunEvalContext *ec,
 			    GBValue          *val)
 {
 	ExcelGBWorksheet *worksheet = EXCEL_GB_WORKSHEET (object);
-	
+
 	switch (property) {
-		
+
 	case NAME:
 		sheet_rename (worksheet->sheet, val->v.s->str);
 		return TRUE;
-	
+
 	default:
 		g_warning ("Unhandled property '%d'", property);
 		return FALSE;
@@ -95,7 +95,7 @@ excel_gb_worksheet_get_arg (GBRunEvalContext *ec,
 	ExcelGBWorksheet *worksheet = EXCEL_GB_WORKSHEET (object);
 
 	switch (property) {
-		
+
 	case NAME: {
 		return (gb_value_new_string_chars (worksheet->sheet->name_unquoted));
 		break;
@@ -165,7 +165,7 @@ excel_gb_worksheet_class_init (GBRunObjectClass *klass)
 
 	gbrun_class->set_arg = excel_gb_worksheet_set_arg;
 	gbrun_class->get_arg = excel_gb_worksheet_get_arg;
-	
+
 	gbrun_object_add_method_arg (gbrun_class, "func;range;range,string;range;n",
 				     excel_gb_worksheet_range);
 
@@ -205,7 +205,7 @@ excel_gb_worksheet_get_type (void)
 		gtk_type_class (object_type);
 	}
 
-	return object_type;	
+	return object_type;
 }
 
 ExcelGBWorksheet *

@@ -376,7 +376,7 @@ static char *help_atan = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "ATAN(0.5) equals 0,463648.\n"	
+	   "ATAN(0.5) equals 0,463648.\n"
 	   "ATAN(1) equals 0,785398.\n"
 	   "\n"
 	   "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS")
@@ -649,7 +649,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	ret = sheet_cell_foreach_range (
 		eval_sheet (range->v_range.cell.a.sheet, ei->pos->sheet),
 		/*
-		 * Do not ignore empty cells if there is a 
+		 * Do not ignore empty cells if there is a
 		 * target range.  We need the orders of the source values to
 		 * line up with the values of the target range.
 		 */
@@ -699,7 +699,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	g_slist_free(items.list);
-		
+
 	return value_new_float (sum);
 }
 
@@ -2288,35 +2288,35 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 			*p++ = 'L';
 			for ( ; *p; p++)
 			        *p = *(p+1);
-		} 
+		}
 	        /* Replace ``XCV'' with ``VC'' */
 	        if ((p = strstr(buf, "XCV")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'C';
 			for ( ; *p; p++)
 			        *p = *(p+1);
-		} 
+		}
 	        /* Replace ``CDL'' with ``LD'' */
 	        if ((p = strstr(buf, "CDL")) != NULL) {
 		        *p++ = 'L';
 			*p++ = 'D';
 			for ( ; *p; p++)
 			        *p = *(p+1);
-		} 
+		}
 	        /* Replace ``CML'' with ``LM'' */
 	        if ((p = strstr(buf, "CML")) != NULL) {
 		        *p++ = 'L';
 			*p++ = 'M';
 			for ( ; *p; p++)
 			        *p = *(p+1);
-		} 
+		}
 	        /* Replace ``CMVC'' with ``LMVL'' */
 	        if ((p = strstr(buf, "CMVC")) != NULL) {
 		        *p++ = 'L';
 			*p++ = 'M';
 			*p++ = 'V';
 			*p++ = 'L';
-		} 
+		}
 	}
 	if (form == 1) {
 	        /* Replace ``CDXC'' with ``LDXL'' */
@@ -2325,35 +2325,35 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 			*p++ = 'D';
 			*p++ = 'X';
 			*p++ = 'L';
-		} 
+		}
 	        /* Replace ``CDVC'' with ``LDVL'' */
 	        if ((p = strstr(buf, "CDVC")) != NULL) {
 		        *p++ = 'L';
 			*p++ = 'D';
 			*p++ = 'V';
 			*p++ = 'L';
-		} 
+		}
 	        /* Replace ``CMXC'' with ``LMXL'' */
 	        if ((p = strstr(buf, "CMXC")) != NULL) {
 		        *p++ = 'L';
 			*p++ = 'M';
 			*p++ = 'X';
 			*p++ = 'L';
-		} 
+		}
 	        /* Replace ``XCIX'' with ``VCIV'' */
 	        if ((p = strstr(buf, "XCIX")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'C';
 			*p++ = 'I';
 			*p++ = 'V';
-		} 
+		}
 	        /* Replace ``XLIX'' with ``VLIV'' */
 	        if ((p = strstr(buf, "XLIX")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'L';
 			*p++ = 'I';
 			*p++ = 'V';
-		} 
+		}
 	}
 	if (form > 1) {
 	        /* Replace ``XLIX'' with ``IL'' */
@@ -2362,21 +2362,21 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 			*p++ = 'L';
 			for ( ; *p; p++)
 			        *p = *(p+2);
-		} 
+		}
 	        /* Replace ``XCIX'' with ``IC'' */
 	        if ((p = strstr(buf, "XCIX")) != NULL) {
 		        *p++ = 'I';
 			*p++ = 'C';
 			for ( ; *p; p++)
 			        *p = *(p+2);
-		} 
+		}
 	        /* Replace ``CDXC'' with ``XD'' */
 	        if ((p = strstr(buf, "CDXC")) != NULL) {
 		        *p++ = 'X';
 			*p++ = 'D';
 			for ( ; *p; p++)
 			        *p = *(p+2);
-		} 
+		}
 	        /* Replace ``CDVC'' with ``XDV'' */
 	        if ((p = strstr(buf, "CDVC")) != NULL) {
 		        *p++ = 'X';
@@ -2384,14 +2384,14 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 			*p++ = 'V';
 			for ( ; *p; p++)
 			        *p = *(p+1);
-		} 
+		}
 	        /* Replace ``CDIC'' with ``XDIX'' */
 	        if ((p = strstr(buf, "CDIC")) != NULL) {
 		        *p++ = 'X';
 			*p++ = 'D';
 			*p++ = 'I';
 			*p++ = 'X';
-		} 
+		}
 	        /* Replace ``LMVL'' with ``XMV'' */
 	        if ((p = strstr(buf, "LMVL")) != NULL) {
 		        *p++ = 'X';
@@ -2399,21 +2399,21 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 			*p++ = 'V';
 			for ( ; *p; p++)
 			        *p = *(p+1);
-		} 
+		}
 	        /* Replace ``CMIC'' with ``XMIX'' */
 	        if ((p = strstr(buf, "CMIC")) != NULL) {
 		        *p++ = 'X';
 			*p++ = 'M';
 			*p++ = 'I';
 			*p++ = 'X';
-		} 
+		}
 	        /* Replace ``CMXC'' with ``XM'' */
 	        if ((p = strstr(buf, "CMXC")) != NULL) {
 		        *p++ = 'X';
 			*p++ = 'M';
 			for ( ; *p; p++)
 			        *p = *(p+2);
-		} 
+		}
 	}
 	if (form > 2) {
 	        /* Replace ``XDV'' with ``VD'' */
@@ -2422,28 +2422,28 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 			*p++ = 'D';
 			for ( ; *p; p++)
 			        *p = *(p+1);
-		} 
+		}
 	        /* Replace ``XDIX'' with ``VDIV'' */
 	        if ((p = strstr(buf, "XDIX")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'D';
 			*p++ = 'I';
 			*p++ = 'V';
-		} 
+		}
 	        /* Replace ``XMV'' with ``VM'' */
 	        if ((p = strstr(buf, "XMV")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'M';
 			for ( ; *p; p++)
 			        *p = *(p+1);
-		} 
+		}
 	        /* Replace ``XMIX'' with ``VMIV'' */
 	        if ((p = strstr(buf, "XMIX")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'M';
 			*p++ = 'I';
 			*p++ = 'V';
-		} 
+		}
 	}
 	if (form == 4) {
 	        /* Replace ``VDIV'' with ``ID'' */
@@ -2452,14 +2452,14 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 			*p++ = 'D';
 			for ( ; *p; p++)
 			        *p = *(p+2);
-		} 
+		}
 	        /* Replace ``VMIV'' with ``IM'' */
 	        if ((p = strstr(buf, "VMIV")) != NULL) {
 		        *p++ = 'I';
 			*p++ = 'M';
 			for ( ; *p; p++)
 			        *p = *(p+2);
-		} 
+		}
 	}
 
 	return value_new_string (buf);
@@ -2517,7 +2517,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 			values_x->v_range.cell.b.row,
 			callback_function_sumxy,
 			&items_x);
-		
+
 		if (ret != NULL)
 		        return value_new_error (ei->pos, gnumeric_err_VALUE);
 	} else
@@ -3317,7 +3317,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *args)
 				data[i][y * thissizex + x] = value_get_as_float (v);
 			}
 		}
-		value_release (val);					
+		value_release (val);
 	}
 
 	if (size_error) {
@@ -3437,7 +3437,7 @@ math_functions_init (void)
 	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
 
 	function_add_nodes (cat, "multinomial", 0,
-			    "",          
+			    "",
 			    &help_multinomial, gnumeric_multinomial);
 	function_add_args  (cat, "odd" ,    "f",
 			    "number",    &help_odd,      gnumeric_odd);
@@ -3455,22 +3455,22 @@ math_functions_init (void)
 	function_add_args  (cat, "rand",    "",
 			    "",          &help_rand,     gnumeric_rand);
         function_add_args  (cat, "randbernoulli", "f",
-                            "p",          
+                            "p",
                             &help_randbernoulli, gnumeric_randbernoulli);
         function_add_args  (cat, "randbetween", "ff",
-                            "bottom,top", 
+                            "bottom,top",
                             &help_randbetween, gnumeric_randbetween);
         function_add_args  (cat, "randbinom", "ff",
-                            "p,trials",          
+                            "p,trials",
                             &help_randbinom, gnumeric_randbinom);
         function_add_args  (cat, "randexp", "f",
                             "b",
                             &help_randexp,  gnumeric_randexp);
         function_add_args  (cat, "randnegbinom", "ff",
-                            "p,failures",          
+                            "p,failures",
                             &help_randnegbinom, gnumeric_randnegbinom);
         function_add_args  (cat, "randpoisson", "f",
-                            "lambda",          
+                            "lambda",
                             &help_randpoisson, gnumeric_randpoisson);
 	function_add_args  (cat, "roman",      "f|f",
 			    "number[,type]",

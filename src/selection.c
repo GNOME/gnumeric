@@ -1070,7 +1070,7 @@ selection_foreach_range (Sheet *sheet, gboolean from_start,
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	if (from_start) 
+	if (from_start)
 		for (l = sheet->selections; l != NULL; l = l->next) {
 			SheetSelection *ss = l->data;
 			if (!range_cb (sheet, &ss->user, user_data))

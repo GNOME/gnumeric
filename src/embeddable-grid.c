@@ -71,7 +71,7 @@ embeddable_grid_set_header_visibility (EmbeddableGrid *eg,
 	bonobo_embeddable_foreach_view (BONOBO_EMBEDDABLE (eg),
 					set_header_visibility, eg);
 }
-				       
+
 static void
 Grid_set_header_visibility (PortableServer_Servant servant,
 			    const CORBA_boolean col_headers_visible,
@@ -103,7 +103,7 @@ embeddable_grid_view_factory (BonoboEmbeddable *embeddable,
 {
 	BonoboView *view;
 	EmbeddableGrid *eg = EMBEDDABLE_GRID (embeddable);
-	
+
 	view = grid_view_new (eg);
 
 	return BONOBO_VIEW (view);
@@ -143,7 +143,7 @@ create_embeddable_grid (BonoboObject *object)
 {
 	POA_GNOME_Gnumeric_Grid *servant;
 	CORBA_Environment ev;
-	
+
 	servant = (POA_GNOME_Gnumeric_Grid *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &embeddable_grid_vepv;
 
@@ -173,7 +173,7 @@ embeddable_grid_new_anon (void)
 {
 	EmbeddableGrid *embeddable_grid;
 	GNOME_Gnumeric_Grid corba_embeddable_grid;
-		
+
 	embeddable_grid = gtk_type_new (EMBEDDABLE_GRID_TYPE);
 	embeddable_grid_init_anon (embeddable_grid);
 	corba_embeddable_grid = create_embeddable_grid (BONOBO_OBJECT (embeddable_grid));
@@ -182,7 +182,7 @@ embeddable_grid_new_anon (void)
 		gtk_object_destroy (GTK_OBJECT (embeddable_grid));
 		return NULL;
 	}
-	
+
 	bonobo_embeddable_construct (
 		BONOBO_EMBEDDABLE (embeddable_grid), corba_embeddable_grid,
 		embeddable_grid_view_factory, NULL);
@@ -195,7 +195,7 @@ embeddable_grid_new (Workbook *wb, Sheet *sheet)
 {
 	EmbeddableGrid *embeddable_grid;
 	GNOME_Gnumeric_Grid corba_embeddable_grid;
-		
+
 	embeddable_grid = gtk_type_new (EMBEDDABLE_GRID_TYPE);
 	corba_embeddable_grid = create_embeddable_grid (BONOBO_OBJECT (embeddable_grid));
 
@@ -211,7 +211,7 @@ embeddable_grid_new (Workbook *wb, Sheet *sheet)
 	 * We keep a handle to the Workbook
 	 */
 	bonobo_object_ref (BONOBO_OBJECT (embeddable_grid->workbook->priv));
-	
+
 	bonobo_embeddable_construct (
 		BONOBO_EMBEDDABLE (embeddable_grid), corba_embeddable_grid,
 		embeddable_grid_view_factory, NULL);
@@ -256,7 +256,7 @@ embeddable_grid_get_type (void)
 		};
 		type = gtk_type_unique (bonobo_embeddable_get_type (), &info);
 	}
-	
+
 	return type;
 }
 
@@ -286,7 +286,7 @@ grid_view_get_type (void)
 		};
 		type = gtk_type_unique (bonobo_view_get_type (), &info);
 	}
-	
+
 	return type;
 }
 
@@ -310,7 +310,7 @@ grid_view_new (EmbeddableGrid *eg)
 {
 	GridView *grid_view = NULL;
 	Bonobo_View corba_grid_view;
-	
+
 	grid_view = gtk_type_new (GRID_VIEW_TYPE);
 
 	corba_grid_view = bonobo_view_corba_object_create (BONOBO_OBJECT (grid_view));
@@ -331,7 +331,7 @@ grid_view_new (EmbeddableGrid *eg)
 
 	gtk_signal_connect (GTK_OBJECT (grid_view), "activate",
 			    GTK_SIGNAL_FUNC (grid_view_activate), NULL);
-	
+
 	return BONOBO_VIEW (grid_view);
 }
 

@@ -578,7 +578,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 							item_bar->change_cursor,
 							e->button.time);
 			}
-			
+
 			npos = pos - item_bar->resize_start_pos;
 			if (npos <= 0)
 				break;
@@ -719,7 +719,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		item_bar_end_resize (item_bar, -1);
 		break;
 	}
-		
+
 	case GDK_BUTTON_RELEASE:
 	{
 		gboolean needs_ungrab = FALSE;

@@ -26,7 +26,7 @@ void
 gnumeric_toolbar_append_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
 				       const char *tooltip_text,
 				       const char *tooltip_private_text);
-				  
+
 /* A simple routine for making a popup menu */
 int        run_popup_menu  (GdkEvent *event, int button, char **strings);
 

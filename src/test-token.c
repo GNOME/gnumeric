@@ -18,11 +18,11 @@ main ()
 	char *s;
 	int i, v;
 	mp_exp_t exp;
-	
+
 	for (i = 0; tests [i]; i++){
 		char *test = tests [i];
 		int v;
-		
+
 		printf ("Expression: %s\n", test);
 
 		while ((v = token_get_next (&test, &res)) != 0){
@@ -57,6 +57,6 @@ main ()
 		}
 		printf ("\n");
 	}
-	
+
 	return 0;
 }

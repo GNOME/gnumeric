@@ -285,15 +285,15 @@ dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
                 gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
 		gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
 
-                set_entry = gnumeric_dialog_entry_new_with_max_length 
+                set_entry = gnumeric_dialog_entry_new_with_max_length
 			(GNOME_DIALOG (dialog), MAX_CELL_NAME_LEN);
-                target_entry = gnumeric_dialog_entry_new_with_max_length 
+                target_entry = gnumeric_dialog_entry_new_with_max_length
 			(GNOME_DIALOG (dialog), MAX_CELL_NAME_LEN);
-                change_entry = gnumeric_dialog_entry_new_with_max_length 
+                change_entry = gnumeric_dialog_entry_new_with_max_length
 			(GNOME_DIALOG (dialog), MAX_CELL_NAME_LEN);
-                xmin_entry = gnumeric_dialog_entry_new_with_max_length 
+                xmin_entry = gnumeric_dialog_entry_new_with_max_length
 			(GNOME_DIALOG (dialog), MAX_CELL_NAME_LEN);
-                xmax_entry = gnumeric_dialog_entry_new_with_max_length 
+                xmax_entry = gnumeric_dialog_entry_new_with_max_length
 			(GNOME_DIALOG (dialog), MAX_CELL_NAME_LEN);
 
 		set_label    = gtk_label_new (_("Set cell:"));

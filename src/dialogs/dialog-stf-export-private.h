@@ -19,7 +19,7 @@ typedef struct {
 	GtkButton *sheet_removeall;
 	GtkButton *sheet_up;
 	GtkButton *sheet_down;
-	
+
 	/* Run-time members */
 	int        sheet_run_avail_index;
 	int        sheet_run_export_index;
@@ -42,14 +42,14 @@ typedef enum {
 
 typedef struct {
 	StfE_DruidPosition_t   active_page;                /* The currently active page */
-	
+
 	GtkWindow             *window;                     /* The main window */
 	GnomeDruid            *druid;                      /* The gnome druid */
 	GnomeDruidPage        *sheet_page, *format_page;   /* Rest of the pages */
 
-	StfE_FormatPageData_t *format_page_data;    
+	StfE_FormatPageData_t *format_page_data;
 	StfE_SheetPageData_t  *sheet_page_data;
-	
+
 	gboolean               canceled;                   /* Indicates weather the user canceled */
 } StfE_DruidData_t;
 

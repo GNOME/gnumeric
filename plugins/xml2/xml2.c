@@ -59,7 +59,7 @@ xml2ParseAttrDouble (CHAR const * const *attrs, char const *name, double * res)
 {
 	char *end;
 	double tmp;
-	
+
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
@@ -89,7 +89,7 @@ xml2ParseAttrInt (CHAR const * const *attrs, char const *name, int *res)
 {
 	char *end;
 	int tmp;
-	
+
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
@@ -119,7 +119,7 @@ static int
 xml2ParseAttrColour (CHAR const * const *attrs, char const *name, StyleColor **res)
 {
 	int red, green, blue;
-	
+
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
@@ -365,7 +365,7 @@ xml2ParseWBView (XML2ParseState *state, CHAR const **attrs)
 
 	for (; attrs[0] && attrs[1] ; attrs += 2)
 		if (xml2ParseAttrInt (attrs, "SelectedTab", &sheet_index))
-			wb_view_sheet_focus (state->wb_view, 
+			wb_view_sheet_focus (state->wb_view,
 				workbook_sheet_by_index (state->wb, sheet_index));
 		else if (xml2ParseAttrInt (attrs, "Width", &width)) ;
 		else if (xml2ParseAttrInt (attrs, "Height", &height)) ;
@@ -1479,12 +1479,12 @@ init_plugin (CommandContext *context, PluginData *pd)
 			      _("The next generation sax based xml I/O subsystem"))) {
 
 		/* low priority for now */
-		file_format_register_open (1, 
+		file_format_register_open (1,
 					   _("EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"),
 					   NULL, &xml2_open);
 
 #if 0
-		file_format_register_save (".gnumeric", 
+		file_format_register_save (".gnumeric",
 					   _("Gnumeric (*.gnumeric) XML based file format"),
 					   FILE_FL_MANUAL, &xml2_write);
 #endif

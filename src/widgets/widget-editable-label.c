@@ -140,7 +140,7 @@ el_start_editing (El *el, const char *text, gboolean select_text)
 
 	if (select_text)
 		gtk_editable_select_region (GTK_EDITABLE (el->entry), 0, -1);
-	  
+
 	/*
 	 * Syncronize the GtkEntry with the label
 	 */

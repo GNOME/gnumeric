@@ -1,5 +1,5 @@
 /*
- * dialog-analysis-tools.c: 
+ * dialog-analysis-tools.c:
  *
  * Author:
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
@@ -46,7 +46,7 @@ static int dialog_anova_two_factor_with_r_tool    (WorkbookControlGUI *wbcg,
 
 
 static descriptive_stat_tool_t ds;
-static int                     label_row_flag, intercept_flag; 
+static int                     label_row_flag, intercept_flag;
 
 typedef int (*tool_fun_ptr_t)(WorkbookControlGUI *wbcg, Sheet *sheet);
 
@@ -212,7 +212,7 @@ set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao, const cha
         }
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (new_sheet_toggled),
-			    &dao->type);	
+			    &dao->type);
 	sprintf(buf, "%s_radiobutton4", n);
 	radiobutton = glade_xml_get_widget (gui, buf);
 	if (!radiobutton) {
@@ -221,7 +221,7 @@ set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao, const cha
         }
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (new_workbook_toggled),
-			    &dao->type);	
+			    &dao->type);
 	sprintf(buf, "%s_radiobutton5", n);
 	radiobutton = glade_xml_get_widget (gui, buf);
 	if (!radiobutton) {
@@ -230,7 +230,7 @@ set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao, const cha
         }
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (range_output_toggled),
-			    &dao->type);	
+			    &dao->type);
 
 	sprintf(buf, "%s_output_range_entry", n);
 	entry = glade_xml_get_widget (gui, buf);
@@ -240,7 +240,7 @@ set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao, const cha
         }
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (focus_on_entry),
-			    entry);	
+			    entry);
 	gtk_signal_connect (GTK_OBJECT (entry), "focus_in_event",
 			    GTK_SIGNAL_FUNC (output_range_selected),
 			    radiobutton);
@@ -261,7 +261,7 @@ set_group_option_signals (GladeXML *gui, int *group, const char *n)
         }
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (columns_toggled),
-			    group);	
+			    group);
 	sprintf(buf, "%s_radiobutton2", n);
 	radiobutton = glade_xml_get_widget (gui, buf);
 	if (!radiobutton) {
@@ -270,7 +270,7 @@ set_group_option_signals (GladeXML *gui, int *group, const char *n)
         }
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (rows_toggled),
-			    group);	
+			    group);
 
 	return 0;
 }
@@ -336,7 +336,7 @@ static check_button_t first_row_label_button[] = {
 };
 
 static check_button_t force_intercept_zero_button[] = {
-	{ N_("Force Intercept to Be Zero"), force_intercept_zero_signal_fun, 
+	{ N_("Force Intercept to Be Zero"), force_intercept_zero_signal_fun,
 	  FALSE, ""},
 	{ NULL, NULL }
 };
@@ -344,10 +344,10 @@ static check_button_t force_intercept_zero_button[] = {
 
 static int selected_row;
 
-/* Parses text specifying ranges into columns, sorting from left to right. 
+/* Parses text specifying ranges into columns, sorting from left to right.
 For example, the text "A5:B30,J10:J15,C1:C5" would be returned in **ranges
-as the equivalent of running parse_ranges on "A5:A30" "B5:B30" "J10:J15" and 
-"C1:C5" in that order. */ 
+as the equivalent of running parse_ranges on "A5:A30" "B5:B30" "J10:J15" and
+"C1:C5" in that order. */
 static int
 parse_multiple_ranges (char *text, Range **ranges, int *dim)
 {
@@ -356,7 +356,7 @@ parse_multiple_ranges (char *text, Range **ranges, int *dim)
 	int i, j, last, curdim;
 	int start_col, start_row,
 	    end_col, end_row;
-	
+
 	strcpy(buf, text);
 	buf[255] = '\0';
 	curdim = 0;
@@ -448,7 +448,7 @@ error_in_entry (WorkbookControlGUI *wbcg, GtkWidget *entry, const char *err_str)
 
 	gtk_widget_grab_focus (entry);
 	gtk_entry_set_position (GTK_ENTRY (entry), 0);
-	gtk_entry_select_region (GTK_ENTRY (entry), 0, 
+	gtk_entry_select_region (GTK_ENTRY (entry), 0,
 				 GTK_ENTRY(entry)->text_length);
 }
 
@@ -471,7 +471,7 @@ add_check_buttons (GtkWidget *box, check_button_t *cbs)
 		        entry = gnumeric_dialog_entry_new_with_max_length (dialog, 20);
 			gtk_entry_set_text (GTK_ENTRY (entry),
 					    cbs[i].default_value);
-			gtk_box_pack_start (GTK_BOX (hbox), entry, 
+			gtk_box_pack_start (GTK_BOX (hbox), entry,
 					    TRUE, TRUE, 0);
 			ds.entry[i] = entry;
 		}
@@ -494,7 +494,7 @@ parse_output (WorkbookControlGUI *wbcg, Sheet *sheet, int output,
 	if (output == 2 &&
 	    !parse_range (text, &range.start.col, &range.start.row,
 			  &range.end.col, &range.end.row)) {
-	        error_in_entry (wbcg, entry, 
+	        error_in_entry (wbcg, entry,
 				_("You should introduce a valid cell range "
 				  "in 'Input Range:'"));
 		return 1;
@@ -539,9 +539,9 @@ add_output_frame (GtkWidget *box, GSList **output_ops)
 					    _("Output Range:"));
 	*output_ops = GTK_RADIO_BUTTON (r)->group;
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), r);
-	output_range_entry = gnumeric_dialog_entry_new_with_max_length 
+	output_range_entry = gnumeric_dialog_entry_new_with_max_length
 		(GNOME_DIALOG (gtk_widget_get_toplevel (box)), 20);
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), 
+	gtk_box_pack_start_defaults (GTK_BOX (hbox),
 				     output_range_entry);
 	gtk_box_pack_start_defaults (GTK_BOX (box), hbox);
 	gtk_signal_connect
@@ -637,7 +637,7 @@ correlation_dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -648,7 +648,7 @@ correlation_dialog_loop:
 			  &range.start.row,
 			  &range.end.col,
 			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry, 
+	        error_in_entry (wbcg, range_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Input Range:'"));
 		goto correlation_dialog_loop;
@@ -659,7 +659,7 @@ correlation_dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto correlation_dialog_loop;
@@ -738,7 +738,7 @@ dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -749,7 +749,7 @@ dialog_loop:
 			  &range.start.row,
 			  &range.end.col,
 			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry, 
+	        error_in_entry (wbcg, range_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Range:'"));
 		goto dialog_loop;
@@ -760,7 +760,7 @@ dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto dialog_loop;
@@ -829,7 +829,7 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			else
 			        label =
 				  gtk_label_new (_("Number of Samples:"));
-			sampling_entry[i] =  gnumeric_dialog_entry_new_with_max_length 
+			sampling_entry[i] =  gnumeric_dialog_entry_new_with_max_length
 				(GNOME_DIALOG (dialog), 20);
 			r = gtk_radio_button_new_with_label
 			  (sampling_ops, _(sample_method_ops[i]));
@@ -861,7 +861,7 @@ sampling_dialog_loop:
 	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (selection == -1)
 		return 1;
-	
+
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return 1;
@@ -872,7 +872,7 @@ sampling_dialog_loop:
 			  &range.start.row,
 			  &range.end.col,
 			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry, 
+	        error_in_entry (wbcg, range_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Range:'"));
 		goto sampling_dialog_loop;
@@ -933,7 +933,7 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 		check_buttons = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG
-					     (dialog)->vbox), 
+					     (dialog)->vbox),
 				    check_buttons, TRUE, TRUE, 0);
 		add_check_buttons(check_buttons, desc_stat_buttons);
 
@@ -952,7 +952,7 @@ stat_dialog_loop:
 	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (selection == -1)
 		return 1;
-	
+
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return 1;
@@ -966,7 +966,7 @@ stat_dialog_loop:
 			  &range.start.row,
 			  &range.end.col,
 			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry, 
+	        error_in_entry (wbcg, range_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Range:'"));
 		goto stat_dialog_loop;
@@ -1059,7 +1059,7 @@ ztest_dialog_loop:
 	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (selection == -1)
 		return 1;
-	
+
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return 1;
@@ -1072,7 +1072,7 @@ ztest_dialog_loop:
 			  &range_input1.start.row,
 			  &range_input1.end.col,
 			  &range_input1.end.row)) {
-	        error_in_entry (wbcg, range1_entry, 
+	        error_in_entry (wbcg, range1_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Variable 1:'"));
 		goto ztest_dialog_loop;
@@ -1083,7 +1083,7 @@ ztest_dialog_loop:
 			  &range_input2.start.row,
 			  &range_input2.end.col,
 			  &range_input2.end.row)) {
-	        error_in_entry (wbcg, range2_entry, 
+	        error_in_entry (wbcg, range2_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Variable 2:'"));
 		goto ztest_dialog_loop;
@@ -1187,7 +1187,7 @@ dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -1198,7 +1198,7 @@ dialog_loop:
 			  &range_input1.start.row,
 			  &range_input1.end.col,
 			  &range_input1.end.row)) {
-	        error_in_entry (wbcg, range1_entry, 
+	        error_in_entry (wbcg, range1_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Variable 1:'"));
 		goto dialog_loop;
@@ -1209,7 +1209,7 @@ dialog_loop:
 			  &range_input2.start.row,
 			  &range_input2.end.col,
 			  &range_input2.end.row)) {
-	        error_in_entry (wbcg, range2_entry, 
+	        error_in_entry (wbcg, range2_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Variable 2:'"));
 		goto dialog_loop;
@@ -1224,7 +1224,7 @@ dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto dialog_loop;
@@ -1321,7 +1321,7 @@ dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -1332,7 +1332,7 @@ dialog_loop:
 			  &range_input1.start.row,
 			  &range_input1.end.col,
 			  &range_input1.end.row)) {
-	        error_in_entry (wbcg, range1_entry, 
+	        error_in_entry (wbcg, range1_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Variable 1:'"));
 		goto dialog_loop;
@@ -1343,7 +1343,7 @@ dialog_loop:
 			  &range_input2.start.row,
 			  &range_input2.end.col,
 			  &range_input2.end.row)) {
-	        error_in_entry (wbcg, range2_entry, 
+	        error_in_entry (wbcg, range2_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Variable 2:'"));
 		goto dialog_loop;
@@ -1358,7 +1358,7 @@ dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto dialog_loop;
@@ -1456,7 +1456,7 @@ dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -1467,7 +1467,7 @@ dialog_loop:
 			  &range_input1.start.row,
 			  &range_input1.end.col,
 			  &range_input1.end.row)) {
-	        error_in_entry (wbcg, range1_entry, 
+	        error_in_entry (wbcg, range1_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Variable 1:'"));
 		goto dialog_loop;
@@ -1478,7 +1478,7 @@ dialog_loop:
 			  &range_input2.start.row,
 			  &range_input2.end.col,
 			  &range_input2.end.row)) {
-	        error_in_entry (wbcg, range2_entry, 
+	        error_in_entry (wbcg, range2_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Variable 2:'"));
 		goto dialog_loop;
@@ -1493,7 +1493,7 @@ dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto dialog_loop;
@@ -1553,7 +1553,7 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	output_range_entry
 		= glade_xml_get_widget (gui, "ftest_output_range_entry");
 
-        if (!dialog || !range1_entry || !range2_entry || 
+        if (!dialog || !range1_entry || !range2_entry ||
 	    !output_range_entry || !checkbutton) {
                 printf ("Corrupt file analysis-tools.glade\n");
                 return 0;
@@ -1586,7 +1586,7 @@ ftest_dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -1597,7 +1597,7 @@ ftest_dialog_loop:
 			  &range_input1.start.row,
 			  &range_input1.end.col,
 			  &range_input1.end.row)) {
-	        error_in_entry (wbcg, range1_entry, 
+	        error_in_entry (wbcg, range1_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Variable 1:'"));
 		goto ftest_dialog_loop;
@@ -1608,7 +1608,7 @@ ftest_dialog_loop:
 			  &range_input2.start.row,
 			  &range_input2.end.col,
 			  &range_input2.end.row)) {
-	        error_in_entry (wbcg, range2_entry, 
+	        error_in_entry (wbcg, range2_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Variable 2:'"));
 		goto ftest_dialog_loop;
@@ -1620,7 +1620,7 @@ ftest_dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto ftest_dialog_loop;
@@ -1658,7 +1658,7 @@ static const DistributionStrs *
 distribution_strs_find (random_distribution_t dist)
 {
 	int i;
-	
+
 	for (i = 0; distribution_strs[i].name != NULL; i++)
 		if (distribution_strs[i].dist == dist)
 			return &distribution_strs[i];
@@ -1711,10 +1711,10 @@ distribution_parbox_config (random_tool_callback_t *p,
 }
 
 /*
- * combo_get_distribution 
+ * combo_get_distribution
  * @combo  combo widget with distribution list
  *
- * Find from combo the distribution the user selected 
+ * Find from combo the distribution the user selected
  */
 static random_distribution_t
 combo_get_distribution (GtkWidget *combo)
@@ -1728,7 +1728,7 @@ combo_get_distribution (GtkWidget *combo)
 	for (i = 0; distribution_strs[i].name != NULL; i++)
 		if (strcmp(text, _(distribution_strs[i].name)) == 0)
 			ret = distribution_strs[i].dist;
-	
+
 	return ret;
 }
 
@@ -1744,7 +1744,7 @@ static void
 distribution_callback (GtkWidget *widget, random_tool_callback_t *p)
 {
 	random_distribution_t dist;
-	
+
 	dist = combo_get_distribution (p->distribution_combo);
 	distribution_parbox_config (p, dist);
 }
@@ -1791,7 +1791,7 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	GtkWidget *vars_entry, *count_entry, *output_range_entry;
 	GList     *distribution_type_strs = NULL;
 	const DistributionStrs *ds;
-	
+
 	int                     vars, count;
 	random_tool_t           param;
 	data_analysis_output_t  dao;
@@ -1802,7 +1802,7 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	char  *text;
 	int   selection, x1, x2, y1, y2;
 	int   i, dist_str_no;
-	
+
 	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
         if (gui == NULL)
                 return 0;
@@ -1868,7 +1868,7 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	gtk_signal_connect (GTK_OBJECT(GTK_COMBO(distribution_combo)->entry),
 			    "changed", GTK_SIGNAL_FUNC (distribution_callback),
 			    &callback_data);
-	
+
 	gtk_signal_connect (GTK_OBJECT (dialog), "realize",
 			    GTK_SIGNAL_FUNC (dialog_random_realized),
 			    &callback_data);
@@ -1878,7 +1878,7 @@ random_dialog_loop:
 	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (selection == -1)
 		return 1;
-	
+
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return 1;
@@ -1928,7 +1928,7 @@ random_dialog_loop:
 			  &param.discrete.start_row,
 			  &param.discrete.end_col,
 			  &param.discrete.end_row)) {
-		        error_in_entry (wbcg, par1_entry, 
+		        error_in_entry (wbcg, par1_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Value and probability input "
 					  "Range:'"));
@@ -1943,11 +1943,11 @@ random_dialog_loop:
 		param.uniform.upper_limit = atof(text);
 		break;
 	}
-	
+
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto random_dialog_loop;
@@ -1995,7 +1995,7 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (!dialog) {
 		intercept_flag = 1; /* TODO This would be better using the
-				       value in the checkbox instead of this 
+				       value in the checkbox instead of this
 				       global, but I don't know GTK very well*/
 
 	        dialog = new_dialog(_("Regression"));
@@ -2016,7 +2016,7 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			(dialog, vbox, _("Confidence Level:"), "0.95", 20);
 
 		add_check_buttons(vbox, first_row_label_button);
-		add_check_buttons(vbox, force_intercept_zero_button); 
+		add_check_buttons(vbox, force_intercept_zero_button);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -2033,7 +2033,7 @@ dialog_loop:
 	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (selection == -1)
 		return 1;
-	
+
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return 1;
@@ -2046,7 +2046,7 @@ dialog_loop:
 			  &range_inputy.start.row,
 			  &range_inputy.end.col,
 			  &range_inputy.end.row)) {
-	        error_in_entry (wbcg, range1_entry, 
+	        error_in_entry (wbcg, range1_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Variable 1:'"));
 		goto dialog_loop;
@@ -2054,7 +2054,7 @@ dialog_loop:
 
 	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
 	if (!parse_multiple_ranges (text, &range_inputxs, &xdim)) {
-	        error_in_entry (wbcg, range2_entry, 
+	        error_in_entry (wbcg, range2_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Variable 2:'"));
 		goto dialog_loop;
@@ -2069,23 +2069,23 @@ dialog_loop:
 	labels = label_row_flag;
 	if (labels) {
 	        range_inputy.start.row++;
-		for (i = 0; i < xdim; i++) 
+		for (i = 0; i < xdim; i++)
 	        	range_inputxs[i].start.row++;
 	}
-	
+
 	err = regression_tool (WORKBOOK_CONTROL (wbcg), sheet,
 			       &range_inputy, range_inputxs, alpha, &dao,
 			       intercept_flag, xdim);
 	if (err){
 		switch (err){
-		case 1: 
+		case 1:
 			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 			      _("There are too few data points to conduct this "
 				"regression.\nThere must be at least as many "
 				"data points as free variables."));
 			break;
-		case 2: 
-			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, 
+		case 2:
+			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 			      _("Two or more of the independent variables "
 				"are linearly dependent,\nand the regression "
 				"cannot be calculated. Remove one of these\n"
@@ -2098,7 +2098,7 @@ dialog_loop:
 			break;
 		}
 		g_free (range_inputxs);
-		goto dialog_loop; 
+		goto dialog_loop;
 	}
 	g_free (range_inputxs);
 	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
@@ -2174,7 +2174,7 @@ dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -2185,7 +2185,7 @@ dialog_loop:
 			  &range.start.row,
 			  &range.end.col,
 			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry, 
+	        error_in_entry (wbcg, range_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Range:'"));
 		goto dialog_loop;
@@ -2196,7 +2196,7 @@ dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto dialog_loop;
@@ -2284,7 +2284,7 @@ dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -2295,7 +2295,7 @@ dialog_loop:
 			  &range.start.row,
 			  &range.end.col,
 			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry, 
+	        error_in_entry (wbcg, range_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Range:'"));
 		goto dialog_loop;
@@ -2306,7 +2306,7 @@ dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto dialog_loop;
@@ -2320,7 +2320,7 @@ dialog_loop:
 	}
 
 
-	error_in_entry (wbcg, output_range_entry, 
+	error_in_entry (wbcg, output_range_entry,
 			_("Fourier analysis is not implemented yet.  Sorry."));
 
 	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
@@ -2368,7 +2368,7 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	output_range_entry
 		= glade_xml_get_widget (gui, "hist_output_range_entry");
 
-        if (!dialog || !range1_entry || !range2_entry || 
+        if (!dialog || !range1_entry || !range2_entry ||
 	    !output_range_entry || !checkbutton || !sorted_cb ||
 	    !percentage_cb || !chart_cb) {
                 printf ("Corrupt file analysis-tools.glade\n");
@@ -2406,7 +2406,7 @@ dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -2417,7 +2417,7 @@ dialog_loop:
 			  &range_input1.start.row,
 			  &range_input1.end.col,
 			  &range_input1.end.row)) {
-	        error_in_entry (wbcg, range1_entry, 
+	        error_in_entry (wbcg, range1_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Input Range:'"));
 		goto dialog_loop;
@@ -2428,7 +2428,7 @@ dialog_loop:
 			  &range_input2.start.row,
 			  &range_input2.end.col,
 			  &range_input2.end.row)) {
-	        error_in_entry (wbcg, range2_entry, 
+	        error_in_entry (wbcg, range2_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Bin Range:'"));
 		goto dialog_loop;
@@ -2437,7 +2437,7 @@ dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto dialog_loop;
@@ -2457,12 +2457,12 @@ dialog_loop:
 			      sorted, percentage, chart, &dao);
 
 	if (err == 1) {
-	        error_in_entry (wbcg, range1_entry, 
+	        error_in_entry (wbcg, range1_entry,
 				_("Given input range contains non-numeric "
 				  "data."));
 	        goto dialog_loop;
 	} else if (err == 2) {
-	        error_in_entry (wbcg, range2_entry, 
+	        error_in_entry (wbcg, range2_entry,
 				_("Given bin range contains non-numeric data."));
 	        goto dialog_loop;
 	}
@@ -2530,7 +2530,7 @@ dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -2541,7 +2541,7 @@ dialog_loop:
 			  &range.start.row,
 			  &range.end.col,
 			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry, 
+	        error_in_entry (wbcg, range_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Range:'"));
 		goto dialog_loop;
@@ -2552,7 +2552,7 @@ dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto dialog_loop;
@@ -2640,7 +2640,7 @@ dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -2651,7 +2651,7 @@ dialog_loop:
 			  &range.start.row,
 			  &range.end.col,
 			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry, 
+	        error_in_entry (wbcg, range_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Range:'"));
 		goto dialog_loop;
@@ -2662,7 +2662,7 @@ dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto dialog_loop;
@@ -2751,7 +2751,7 @@ dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -2762,7 +2762,7 @@ dialog_loop:
 			  &range.start.row,
 			  &range.end.col,
 			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry, 
+	        error_in_entry (wbcg, range_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Range:'"));
 		goto dialog_loop;
@@ -2773,7 +2773,7 @@ dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto dialog_loop;
@@ -2860,7 +2860,7 @@ dialog_loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		return 1;
 	}
-	
+
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
 		return 1;
@@ -2871,7 +2871,7 @@ dialog_loop:
 			  &range.start.row,
 			  &range.end.col,
 			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry, 
+	        error_in_entry (wbcg, range_entry,
 				_("You should introduce a valid cell range "
 				  "in 'Range:'"));
 		goto dialog_loop;
@@ -2880,7 +2880,7 @@ dialog_loop:
 	if (dao.type == RangeOutput) {
 	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
 	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry, 
+		        error_in_entry (wbcg, output_range_entry,
 					_("You should introduce a valid cell "
 					  "range in 'Output Range:'"));
 			goto dialog_loop;
@@ -2902,20 +2902,20 @@ dialog_loop:
 	err = anova_two_factor_with_r_tool (WORKBOOK_CONTROL (wbcg), sheet,
 					    &range, rows, alpha, &dao);
 	if (err == 1) {
-	        error_in_entry (wbcg, rows_entry, 
+	        error_in_entry (wbcg, rows_entry,
 				_("Each sample should contain the same number "
-				  "of rows (`Rows per sample:')")); 
+				  "of rows (`Rows per sample:')"));
 	        goto dialog_loop;
 	} else if (err == 2) {
-	        error_in_entry (wbcg, rows_entry, 
+	        error_in_entry (wbcg, rows_entry,
 				_("Given input range contains non-numeric "
-				  "data.")); 
+				  "data."));
 	        goto dialog_loop;
 	} else if (err == 3) {
-	        error_in_entry (wbcg, range_entry, 
+	        error_in_entry (wbcg, range_entry,
 				_("The given input range should contain at "
 				  "least two columns of data and the "
-				  "labels.")); 
+				  "labels."));
 	        goto dialog_loop;
 	}
 
@@ -2985,7 +2985,7 @@ dialog_data_analysis (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return;
 	else
 		gtk_object_destroy (GTK_OBJECT (dialog));
-	
+
 	if (selection == 0) {
 	        g_return_if_fail (tools[selected_row].fun != NULL);
 		selection = tools[selected_row].fun (wbcg, sheet);

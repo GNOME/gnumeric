@@ -2662,7 +2662,7 @@ int anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *ran
 	       for (j=1; j<cols; j++) {
 		       cell = sheet_cell_get (sheet, range->start.col + j,
 						     range->start.row + i);
-			      if (cell == NULL 
+			      if (cell == NULL
 				  || !VALUE_IS_NUMBER(cell->value))
 				      return 2;
 	       }
@@ -2750,7 +2750,7 @@ int anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *ran
 	set_cell (dao, 0, n*6+7, _("Variance"));
 
 	for (i=1; i<cols; i++) {
-	        v = (col_sqrsum[i-1] - (col_sum[i-1] * col_sum[i-1]) / 
+	        v = (col_sqrsum[i-1] - (col_sum[i-1] * col_sum[i-1]) /
 		     col_count[i-1]) / (col_count[i-1] - 1);
 	        set_cell_int   (dao, i, n*6+4, col_count[i-1]);
 	        set_cell_float (dao, i, n*6+5, col_sum[i-1]);
@@ -2824,7 +2824,7 @@ int histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin
 	        set_cell (dao, ++i, 0, _("Cumulative %"));
 
 	set_italic (dao, 0, 0, i, 0);
-	
+
 	count = g_new (int, bin_set.n+1);
 	intval = g_new (float_t, bin_set.n);
 
@@ -2858,7 +2858,7 @@ int histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin
 	        set_cell_int (dao, 1, i+1, count[i]);
 		cum_sum += count[i];
 		if (percentage)
-		        set_cell_float (dao, 2, i+1, 
+		        set_cell_float (dao, 2, i+1,
 					(float_t) cum_sum / set.n);
 	}
 

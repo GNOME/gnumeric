@@ -130,7 +130,7 @@ linear_solve (float_t **A, float_t *b, int n, float_t *res)
 		res[0] = (A[1][1] * b[0] - A[1][0] * b[1]) / d;
 		res[1] = (A[0][0] * b[1] - A[0][1] * b[0]) / d;
 		return 0;
-	} 
+	}
 
 	/* Otherwise, use LUP-decomposition to find res such that
 		 xTx * res = b */

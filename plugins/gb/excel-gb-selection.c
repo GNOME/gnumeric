@@ -71,7 +71,7 @@ excel_gb_selection_get_type (void)
 		gtk_type_class (object_type);
 	}
 
-	return object_type;	
+	return object_type;
 }
 
 ExcelGBSelection *

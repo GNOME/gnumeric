@@ -460,7 +460,7 @@ format_compile (StyleFormat *format)
 		case ';':
 			if (which < 4) {
 				standard_entries [which].restriction_type = '*';
-				standard_entries [which].format = 
+				standard_entries [which].format =
 					g_strndup (string->str, string->len + 1);
 				which++;
 			}

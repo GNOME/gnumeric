@@ -26,7 +26,7 @@ sheet_object_item_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 	item = bonobo_client_site_new_item (
 		SHEET_OBJECT_BONOBO (so)->client_site,
 		sheet_view->object_group);
-	
+
 	return item;
 }
 

@@ -9,7 +9,7 @@ gboolean print_cell_range (GnomePrintContext *context,
 			   gboolean output);
 
 void print_cell_grid  (GnomePrintContext *context,
-		       Sheet *sheet, 
+		       Sheet *sheet,
 		       int start_col, int start_row,
 		       int end_col, int end_row,
 		       double base_x, double base_y,

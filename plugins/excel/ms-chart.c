@@ -1742,7 +1742,7 @@ BC_R(tick)(ExcelChartHandler const *handle,
 	guint16 const position   = MS_OLE_GET_GUINT8 (q->data+2);
 
 	guint16 const flags = MS_OLE_GET_GUINT8 (q->data+24);
-	
+
 	switch (major_type) {
 	case 0: puts ("no major tick;"); break;
 	case 1: puts ("major tick inside axis;"); break;

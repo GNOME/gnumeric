@@ -211,9 +211,9 @@ sheet_object_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 	}
 
 	/* Store some useful information */
-	gtk_object_set_data (GTK_OBJECT (item), 
+	gtk_object_set_data (GTK_OBJECT (item),
 			     SHEET_OBJ_VIEW_OBJECT_KEY, so);
-	gtk_object_set_data (GTK_OBJECT (item), 
+	gtk_object_set_data (GTK_OBJECT (item),
 			     SHEET_OBJ_VIEW_SHEET_CONTROL_GUI_KEY, sheet_view);
 
 	gtk_signal_connect (GTK_OBJECT (item), "event",

@@ -17,7 +17,7 @@ typedef struct _SheetVector SheetVector;
 
 typedef struct {
 	int size;
-	
+
 	Range range;
 } RangeBlock;
 
@@ -30,7 +30,7 @@ struct _SheetVector {
 	/*
 	 * A sheet vector consists of a group of ranges.  The user
 	 * can specify multiple non-contigous ranges as a single
-	 * serie.  
+	 * serie.
 	 */
 	int          n_blocks;	/* Number of Range blocks */
 	RangeBlock  *blocks;	/* The blocks. */

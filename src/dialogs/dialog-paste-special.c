@@ -99,7 +99,7 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 	GtkWidget *tmp;
 
 	state = g_new (PasteSpecialState, 1);
-	
+
 	tmp = gnome_dialog_new (_("Paste special"), _("Paste Link"),
 				GNOME_STOCK_BUTTON_OK,
 				GNOME_STOCK_BUTTON_CANCEL,
@@ -125,15 +125,15 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 			func = GTK_SIGNAL_FUNC (disable_op_group);
 		else
 			func = GTK_SIGNAL_FUNC (enable_op_group);
-		
+
 		r = gtk_radio_button_new_with_label (state->group_type, _(paste_types [i].name));
 		state->group_type = GTK_RADIO_BUTTON (r)->group;
-		
+
 		gtk_signal_connect (GTK_OBJECT (r), "toggled", func, f2);
 		gtk_signal_connect (GTK_OBJECT (r), "toggled",
 				    GTK_SIGNAL_FUNC (paste_link_set_sensitive),
 				    state);
-		
+
 		gtk_box_pack_start_defaults (GTK_BOX (f1v), r);
 		if (i == 0) first_button = r;
 	}
@@ -141,7 +141,7 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 	state->group_ops = NULL;
 	for (i = 0; paste_ops [i]; i++){
 		GtkWidget *r;
-		
+
 		r = gtk_radio_button_new_with_label (state->group_ops, _(paste_ops [i]));
 		gtk_signal_connect (GTK_OBJECT (r), "toggled",
 				    GTK_SIGNAL_FUNC (paste_link_set_sensitive),
@@ -193,25 +193,25 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 	if (v == BUTTON_OK){
 		result = 0;
 		i = gtk_radio_group_get_selected (state->group_type);
-		
+
 		switch (i){
 		case 0: /* all */
 			result = PASTE_ALL_TYPES;
 			break;
-			
+
 		case 1: /* content */
 			result = PASTE_CONTENT;
 			break;
-			
+
 		case 2: /* as values */
 			result = PASTE_AS_VALUES;
 			break;
-			
+
 		case 3: /* formats */
 			result = PASTE_FORMATS;
 			break;
 		}
-		
+
 		/* If it was not just formats, check operation */
 		if (i != 3){
 			i = gtk_radio_group_get_selected (state->group_ops);
@@ -219,15 +219,15 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 			case 1:		/* Add */
 				result |= PASTE_OPER_ADD;
 				break;
-				
+
 			case 2:
 				result |= PASTE_OPER_SUB;
 				break;
-				
+
 			case 3:
 				result |= PASTE_OPER_MULT;
 				break;
-				
+
 			case 4:
 				result |= PASTE_OPER_DIV;
 				break;

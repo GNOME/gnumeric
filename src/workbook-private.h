@@ -29,7 +29,7 @@ struct _WorkbookPrivate {
 	BonoboItemContainer   *bonobo_container;
 
 	BonoboPersistFile *persist_file;
-	
+
 	/* A list of EmbeddableGrids exported to the world */
 	GList      *workbook_views;
 #endif

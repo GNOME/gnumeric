@@ -33,7 +33,7 @@ typedef struct {
 	GtkLabel       *main_lines;
 	GtkFrame       *main_frame;
 	GnomeCanvas    *main_canvas;
-	
+
 	/* Page members that are created at run-time */
 	GnomeCanvasText *main_run_text;
 	GnomeCanvasRect *main_run_rect;
@@ -88,7 +88,7 @@ typedef struct {
 	GtkEntry          *format_format;
 	GnomeCanvas       *format_canvas;
 	GtkVScrollbar     *format_scroll;
-	
+
 	/* Page members that are created at run-time */
 	RenderData_t      *format_run_renderdata;
 	StfParseOptions_t *format_run_parseoptions;  /* Note : refers to either FixedInfo_t or CsvInfo_t parseoptions */
@@ -111,7 +111,7 @@ typedef enum {
 } DruidPosition_t;
 
 /* The MOTHER struct, passed trough signal handlers etc
- * contains pointers to nearly all members in the druid 
+ * contains pointers to nearly all members in the druid
  */
 typedef struct {
 	DruidPosition_t position;                                        /* Current position */
@@ -126,8 +126,8 @@ typedef struct {
 	int           lines;        /* Number of lines @data consists of */
 	int           colcount;     /* Number of columns @data consists of */
 	int           importlines;  /* Number of lines to import */
-	
-	
+
+
 	MainInfo_t   *main_info;
 	CsvInfo_t    *csv_info;
 	FixedInfo_t  *fixed_info;
@@ -192,5 +192,5 @@ void    stf_dialog_format_page_prepare                  (GnomeDruidPage *page, G
 void    stf_dialog_csv_page_cleanup                     (DruidPageData_t *pagedata);
 void    stf_dialog_fixed_page_cleanup                   (DruidPageData_t *pagedata);
 void    stf_dialog_format_page_cleanup                  (DruidPageData_t *pagedata);
- 
+
 #endif /* GNUMERIC_DIALOG_STF_H */

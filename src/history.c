@@ -176,13 +176,13 @@ history_menu_insert_items (WorkbookControlGUI *wbcg, GList *name_list)
 	g_return_if_fail (name_list != NULL);
 
 	CORBA_exception_init (&ev);
-	
+
 	/* Add a new menu item for each item in the history list */
 	accel_number = 1;
 	bonobo_ui_component_freeze (wbcg->uic, &ev);
 	for (l = name_list; l; l = l->next) {
 		char *id, *str, *label, *filename;
-		
+
 		id = g_strdup_printf ("FileHistory%d", accel_number);
 		str = history_item_label (l->data, accel_number);
 		label = bonobo_ui_util_encode_str (str);
@@ -277,7 +277,7 @@ history_menu_flush (GList *wl, GList *name_list)
 		{
 			/* ICK : Should this be virtual ?
 			 * seems too specific to do that.
-			 * kludge for now 
+			 * kludge for now
 			 */
 			if (IS_WORKBOOK_CONTROL_GUI (control))
 				history_menu_remove_items (WORKBOOK_CONTROL_GUI (control), name_list);

@@ -90,7 +90,7 @@ write_wb_roff (IOContext *context, WorkbookView *wb_view, FILE *fp)
 	while (sheet_list) {
 		Sheet *sheet = sheet_list->data;
 		Range r = sheet_get_extent (sheet);
-		
+
 		fprintf (fp, "%s\n\n", sheet->name_unquoted);
 		fprintf (fp, ".TS H\n");
 		fprintf (fp, "allbox;\n");

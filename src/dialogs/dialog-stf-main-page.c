@@ -4,7 +4,7 @@
  * Almer. S. Tigelaar <almer1@dds.nl>
  *
  */
- 
+
 #include <config.h>
 #include "dialog-stf.h"
 
@@ -35,7 +35,7 @@ main_page_set_spin_button_adjustment (GtkSpinButton* spinbutton, int min, int ma
  * main_page_set_scroll_region_and_prevent_center
  * @data : a mother struct
  *
- * This is merely a hack to prevent the canvas from centering on the text if the text 
+ * This is merely a hack to prevent the canvas from centering on the text if the text
  * width and/or height are smaller than the width and/or height of the GnomeCanvas.
  * Warning 1 : Don't remove this, this is necessary!!
  * Warning 2 : Be sure that the canvas has both his width and height set to something other than 0
@@ -53,7 +53,7 @@ main_page_set_scroll_region_and_prevent_center (DruidPageData_t *data)
 			"text_height", &textheight,
 			NULL);
 	textwidth += TEXT_OFFSET;
-	
+
 	stf_dialog_set_scroll_region_and_prevent_center (info->main_canvas,
 							 info->main_run_rect,
 							 textwidth,
@@ -84,7 +84,7 @@ main_page_import_range_changed (DruidPageData_t *data)
 	data->importlines = (stoprow - startrow) + 1;
 	linescaption = g_strdup_printf (_("%d lines to import"), data->importlines);
 	gtk_label_set_text (info->main_lines, linescaption);
-	g_free (linescaption);	
+	g_free (linescaption);
 }
 
 /*************************************************************************************************
@@ -96,12 +96,12 @@ main_page_import_range_changed (DruidPageData_t *data)
  * @button : the spinbutton the event handler is attached to
  * @data : mother struct
  *
- * This function will adjust the amount of displayed text to 
+ * This function will adjust the amount of displayed text to
  * reflect the number of lines the user wants to import
  *
  * returns : nothing
  **/
-static void 
+static void
 main_page_startrow_changed (GtkSpinButton* button, DruidPageData_t *data)
 {
 	const char *cur = data->data;
@@ -117,7 +117,7 @@ main_page_startrow_changed (GtkSpinButton* button, DruidPageData_t *data)
 	}
 	data->cur = cur;
 
-	main_page_import_range_changed (data);	
+	main_page_import_range_changed (data);
 	main_page_set_scroll_region_and_prevent_center (data);
 }
 
@@ -128,11 +128,11 @@ main_page_startrow_changed (GtkSpinButton* button, DruidPageData_t *data)
  *
  * returns : nothing
  **/
-static void 
+static void
 main_page_stoprow_changed (GtkSpinButton* button, DruidPageData_t *data)
 {
 
-	main_page_import_range_changed (data);	
+	main_page_import_range_changed (data);
 	main_page_set_scroll_region_and_prevent_center (data);
 }
 
@@ -140,7 +140,7 @@ main_page_stoprow_changed (GtkSpinButton* button, DruidPageData_t *data)
  * main_page_trim_toggled:
  * @button: the toggle button the event handler is attached to
  * @data: mother struct
- * 
+ *
  **/
 static void
 main_page_trim_menu_deactivate (GtkMenuShell *shell, DruidPageData_t *data)
@@ -187,7 +187,7 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->main_lines     = GTK_LABEL        (glade_xml_get_widget (gui, "main_lines"));
 	info->main_frame     = GTK_FRAME        (glade_xml_get_widget (gui, "main_frame"));
 	info->main_canvas    = GNOME_CANVAS     (glade_xml_get_widget (gui, "main_canvas"));
-		
+
 	info->main_run_text = GNOME_CANVAS_TEXT (gnome_canvas_item_new (gnome_canvas_root (info->main_canvas),
 									GNOME_TYPE_CANVAS_TEXT,
 									"text", pagedata->data,
@@ -208,13 +208,13 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 									NULL));
 
 	/* Set properties */
-	
+
 	main_page_set_spin_button_adjustment (info->main_startrow, 1, pagedata->lines);
 	main_page_set_spin_button_adjustment (info->main_stoprow, 1, pagedata->lines);
 	gtk_spin_button_set_value (info->main_stoprow, (float) pagedata->lines);
-	
+
 	main_page_set_scroll_region_and_prevent_center (pagedata);
-		
+
         label = g_strdup_printf (_("Data (from %s)"), g_basename (pagedata->filename));
 	gtk_frame_set_label (info->main_frame, label);
 	g_free (label);
@@ -222,11 +222,11 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	/* Connect signals */
 
 	gtk_signal_connect (GTK_OBJECT (info->main_startrow), "changed",
-			    GTK_SIGNAL_FUNC (main_page_startrow_changed), 
+			    GTK_SIGNAL_FUNC (main_page_startrow_changed),
 			    pagedata);
 
 	gtk_signal_connect (GTK_OBJECT (info->main_stoprow), "changed",
-			    GTK_SIGNAL_FUNC (main_page_stoprow_changed), 
+			    GTK_SIGNAL_FUNC (main_page_stoprow_changed),
 			    pagedata);
 
 	menu = (GtkMenu *) gtk_option_menu_get_menu (info->main_trim);
@@ -234,12 +234,12 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    "deactivate",
 			    GTK_SIGNAL_FUNC (main_page_trim_menu_deactivate),
 			    pagedata);
-			    
+
 	/* Emit signals */
-	
+
 	gtk_signal_emit_by_name (GTK_OBJECT (info->main_startrow), "changed",
 				 info->main_startrow);
 
 	gtk_signal_emit_by_name (GTK_OBJECT (menu), "deactivate",
-				 menu);	
+				 menu);
 }

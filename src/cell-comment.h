@@ -15,7 +15,7 @@ struct _CellComment {
 	String          *comment;
 	int             timer_tag;
 	void            *window;
-	
+
 	/* A list of GnomeCanvasItems, one per SheetView */
 	GList           *realized_list;
 };

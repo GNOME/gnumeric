@@ -43,11 +43,11 @@ WorkbookFactory_read (PortableServer_Servant servant, const CORBA_char *filename
 {
 	WorkbookControl *context;
 	Workbook *workbook;
-	
+
 	context = command_context_corba (NULL);
 	workbook = workbook_read (context, filename);
 	gtk_object_unref (GTK_OBJECT (context));
-	
+
 	if (workbook)
 		return CORBA_Object_duplicate (workbook->corba_server, ev);
 	else
@@ -107,7 +107,7 @@ GNOME_Gnumeric_WorkbookFactory__create (PortableServer_POA poa, CORBA_Environmen
 	gnumeric_wb_factory_epv.read = WorkbookFactory_read;
 	gnumeric_wb_object_factory.manufactures = WorkbookFactory_manufactures;
 	gnumeric_wb_object_factory.create_object = WorkbookFactory_create_object;
-		
+
 	gnumeric_workbook_factory_vepv.GNOME_Gnumeric_WorkbookFactory_epv =
 		&gnumeric_wb_factory_epv;
 	gnumeric_workbook_factory_vepv.GNOME_ObjectFactory_epv =
@@ -169,14 +169,14 @@ _WorkbookFactory_init (CORBA_Environment *ev)
 		return TRUE;
 
 	return FALSE;
-}	
+}
 
 gboolean
 WorkbookFactory_init (void)
 {
 	CORBA_Environment ev;
 	gboolean retval;
-	
+
 	CORBA_exception_init (&ev);
 	retval = _WorkbookFactory_init (&ev);
 	CORBA_exception_free (&ev);

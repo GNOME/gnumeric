@@ -15,7 +15,7 @@
 /**
  * fixed_page_autodiscover:
  * @pagedata: a mother struct
- * 
+ *
  * Use the STF's autodiscovery function and put the
  * result in the fixed_collist
  **/
@@ -25,19 +25,19 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 	FixedInfo_t *info = pagedata->fixed_info;
 	int i = 0;
 	char *tset[2];
-	
+
 	stf_parse_options_fixed_autodiscover (info->fixed_run_parseoptions, pagedata->importlines, (char *) pagedata->cur);
 
 	gtk_clist_clear (info->fixed_collist);
 
 	while (i < info->fixed_run_parseoptions->splitpositions->len) {
-	
+
 		tset[0] = g_strdup_printf ("%d", i);
 		tset[1] = g_strdup_printf ("%d", g_array_index (info->fixed_run_parseoptions->splitpositions,
 								int,
 								i));
 		gtk_clist_append (info->fixed_collist, tset);
-		
+
 		g_free (tset[0]);
 		g_free (tset[1]);
 
@@ -46,9 +46,9 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 
 	tset[0] = g_strdup_printf ("%d", i);
 	tset[1] = g_strdup_printf ("%d", -1);
-	
+
 	gtk_clist_append (info->fixed_collist, tset);
-		
+
 	g_free (tset[0]);
 	g_free (tset[1]);
 
@@ -59,8 +59,8 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 
 	if (info->fixed_run_parseoptions->splitpositions->len < 1) {
 		GtkWidget *dialog;
-      
-		dialog = gnome_ok_dialog_parented (_("Autodiscovery did not find any columns in the text. Try manually"), 
+
+		dialog = gnome_ok_dialog_parented (_("Autodiscovery did not find any columns in the text. Try manually"),
 						   pagedata->window);
 
 
@@ -86,7 +86,7 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 	int i, temp;
 
 	stf_parse_options_before_modification (parseoptions);
-	
+
 	stf_parse_options_fixed_splitpositions_clear (parseoptions);
 	for (i = 0; i < info->fixed_collist->rows; i++) {
 		gtk_clist_get_text (info->fixed_collist, i, 1, t);
@@ -95,7 +95,7 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 	}
 
 	if (stf_parse_options_after_modification (parseoptions)) {
-	
+
 		stf_cache_options_invalidate (info->fixed_run_cacheoptions);
 
 		pagedata->colcount = stf_parse_get_colcount (parseoptions, pagedata->cur);
@@ -111,11 +111,11 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 
 	list = stf_parse_general_cached (parseoptions,
 					 info->fixed_run_cacheoptions);
-				
+
 	stf_preview_render (info->fixed_run_renderdata,
 			    list,
 			    info->fixed_run_displayrows,
-			    pagedata->colcount); 
+			    pagedata->colcount);
 }
 
 /*************************************************************************************************
@@ -161,15 +161,15 @@ fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *even
 	int column;
 
 	gnome_canvas_window_to_world (canvas, event->x, event->y, &worldx, &worldy);
-	
+
 	column = stf_preview_get_column_border_at_x (info->fixed_run_renderdata, worldx);
-	
+
 	if (column != -1 || info->fixed_run_mousedown) {
-	
+
 		cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 		gdk_window_set_cursor (canvas->layout.bin_window, cursor);
 		gdk_cursor_destroy (cursor);
-		
+
 		/* This is were the actual resizing is done, now we simply wait till
 		 * the user moves the mouse "width in pixels of a char" pixels
 		 * after that we reset the x_position and adjust the column end and
@@ -180,20 +180,20 @@ fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *even
 			double diff;
 			int min, max;
 			int colend, chars;
-			
+
 			diff = worldx - info->fixed_run_xorigin;
 			chars = diff / info->fixed_run_renderdata->charwidth;
 
 			if (chars != 0) {
-			
+
 				info->fixed_run_xorigin = worldx;
-			
+
 				gtk_clist_get_text (info->fixed_collist, info->fixed_run_column, 1, t);
-			
+
 				colend = atoi (t[0]);
 
 				if (info->fixed_run_column > 0) {
-				
+
 					gtk_clist_get_text (info->fixed_collist, info->fixed_run_column - 1, 1, t);
 					min = atoi (t[0]) + 1;
 				} else
@@ -205,28 +205,28 @@ fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *even
 					max = atoi (t[0]) - 1;
 				} else {
 					GtkAdjustment *spinadjust = gtk_spin_button_get_adjustment (info->fixed_colend);
-					
+
 					max = spinadjust->upper;
 				}
 
 				colend += chars;
-			
+
 				if (colend < min)
 					colend = min;
-				
+
 				if (colend > max)
 					colend = max;
 
 				gtk_clist_select_row (info->fixed_collist, info->fixed_run_column, 0);
 				gnumeric_clist_moveto (info->fixed_collist, info->fixed_run_column);
-				
+
 				gtk_spin_button_set_value (info->fixed_colend, colend);
 
 				fixed_page_update_preview (data);
 			}
 		}
 	} else {
-	
+
 		cursor = gdk_cursor_new (GDK_HAND2);
 		gdk_window_set_cursor (canvas->layout.bin_window, cursor);
 		gdk_cursor_destroy (cursor);
@@ -238,7 +238,7 @@ fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *even
 /**
  * fixed_page_canvas_motion_notify_event
  * @canvas : The gnome canvas that emitted the signal
- * @event : a gdk event button struct 
+ * @event : a gdk event button struct
  * @data : a mother struct
  *
  * This handles single clicking/drag start events :
@@ -253,14 +253,14 @@ fixed_page_canvas_button_press_event (GnomeCanvas *canvas, GdkEventButton *event
 	FixedInfo_t *info = data->fixed_info;
 	double worldx, worldy;
 	int column;
-	
+
 	gnome_canvas_window_to_world (canvas, event->x, event->y, &worldx, &worldy);
-	
+
 	column = stf_preview_get_column_border_at_x (info->fixed_run_renderdata, worldx);
 
 	switch (event->button) {
 	case 1 : { /* Left button -> Resize */
-	
+
 		if (column != -1) {
 
 			info->fixed_run_xorigin   = worldx;
@@ -269,19 +269,19 @@ fixed_page_canvas_button_press_event (GnomeCanvas *canvas, GdkEventButton *event
 		}
 	} break;
 	case 3 : { /* Right button -> Remove */
-	
+
 		if (column != -1) {
 
 			gtk_clist_select_row (info->fixed_collist, column, 0);
 			gnumeric_clist_moveto (info->fixed_collist, column);
-			
+
 			gtk_signal_emit_by_name (GTK_OBJECT (info->fixed_remove),
 						 "clicked",
 						 data);
 		}
 	} break;
 	}
-	
+
 	return TRUE;
 }
 
@@ -300,7 +300,7 @@ fixed_page_canvas_button_release_event (GnomeCanvas *canvas, GdkEventButton *eve
 {
 	FixedInfo_t *info = data->fixed_info;
 	double worldx, worldy;
-	
+
 	gnome_canvas_window_to_world (canvas, event->x, event->y, &worldx, &worldy);
 
 	/* User must not drag an have clicked the LEFT mousebutton */
@@ -312,10 +312,10 @@ fixed_page_canvas_button_release_event (GnomeCanvas *canvas, GdkEventButton *eve
 			int colindex = stf_preview_get_column_at_x (info->fixed_run_renderdata, worldx);
 			int i;
 			char *row[2];
-			
+
 			if (colindex > 0) {
 				char *coltext[1];
-				
+
 				gtk_clist_get_text (info->fixed_collist, colindex - 1, 1, coltext);
 				if (atoi (coltext[0]) == charindex) /* Don't create a new column with the same splitposition */
 					return TRUE;
@@ -330,16 +330,16 @@ fixed_page_canvas_button_release_event (GnomeCanvas *canvas, GdkEventButton *eve
 
 			for (i = colindex; i < info->fixed_collist->rows; i++) {
 				char *text = g_strdup_printf ("%d", i);
-				
+
 				gtk_clist_set_text (info->fixed_collist, i, 0, text);
 				g_free (text);
 			}
-			
+
 			fixed_page_update_preview (data);
 		}
 	} else
 		info->fixed_run_mousedown = FALSE;
-	
+
 	return TRUE;
 }
 
@@ -366,9 +366,9 @@ fixed_page_collist_select_row (GtkCList *clist, int row, int column, GdkEventBut
 		info->fixed_run_manual = FALSE;
 		return;
 	}
-	
+
 	info->fixed_run_index = row;
-	
+
 	gtk_clist_get_text (clist, row, 1, t);
 	gtk_spin_button_set_value (info->fixed_colend, atoi(t[0]));
 
@@ -393,7 +393,7 @@ fixed_page_colend_changed (GtkSpinButton *button, DruidPageData_t *data)
 
 	if (info->fixed_run_index < 0 || (info->fixed_run_index == info->fixed_collist->rows - 1))
 		return;
-		
+
 	text = gtk_editable_get_chars (GTK_EDITABLE (button), 0, -1);
 	gtk_clist_set_text (info->fixed_collist, info->fixed_run_index, 1, text);
 	g_free (text);
@@ -418,19 +418,19 @@ fixed_page_add_clicked (GtkButton *button, DruidPageData_t *data)
 	int colindex = info->fixed_collist->rows;
 
 	if (colindex > 1) {
-	
+
 		gtk_clist_get_text (info->fixed_collist, colindex - 2, 1, tget);
 		tget[0] = g_strdup_printf ("%d", atoi (tget[0]) + 1);
 		gtk_clist_set_text (info->fixed_collist, colindex - 1, 1, tget[0]);
 		g_free (tget[0]);
 	}
 	else {
-	
+
 		tget[0] = g_strdup ("1");
 		gtk_clist_set_text (info->fixed_collist, colindex - 1, 1, tget[0]);
 		g_free (tget[0]);
 	}
-	
+
 	tset[0] = g_strdup_printf ("%d", colindex);
 	tset[1] = g_strdup_printf ("%d", -1);
 	gtk_clist_append (info->fixed_collist, tset);
@@ -439,7 +439,7 @@ fixed_page_add_clicked (GtkButton *button, DruidPageData_t *data)
 
 	gtk_clist_select_row (info->fixed_collist, info->fixed_collist->rows - 2, 0);
 	gnumeric_clist_moveto (info->fixed_collist, info->fixed_collist->rows - 2);
-	
+
 	fixed_page_update_preview (data);
 }
 
@@ -460,8 +460,8 @@ fixed_page_remove_clicked (GtkButton *button, DruidPageData_t *data)
 
 	if (info->fixed_run_index < 0 || (info->fixed_run_index == info->fixed_collist->rows - 1))
 		info->fixed_run_index--;
-	
-	gtk_clist_remove (info->fixed_collist, info->fixed_run_index);	
+
+	gtk_clist_remove (info->fixed_collist, info->fixed_run_index);
 
 	for (i = info->fixed_run_index; i < info->fixed_collist->rows; i++) {
 		char *text = g_strdup_printf ("%d", i);
@@ -469,7 +469,7 @@ fixed_page_remove_clicked (GtkButton *button, DruidPageData_t *data)
 		gtk_clist_set_text (info->fixed_collist, i, 0, text);
 		g_free (text);
 	}
-	
+
 	gtk_clist_select_row (info->fixed_collist, info->fixed_run_index, 0);
 	gnumeric_clist_moveto (info->fixed_collist, info->fixed_run_index);
 
@@ -480,7 +480,7 @@ fixed_page_remove_clicked (GtkButton *button, DruidPageData_t *data)
  * fixed_page_clear_clicked:
  * @button: GtkButton
  * @data: mother struct
- * 
+ *
  * Will clear all entries in fixed_collist
  **/
 static void
@@ -488,17 +488,17 @@ fixed_page_clear_clicked (GtkButton *button, DruidPageData_t *data)
 {
 	FixedInfo_t *info = data->fixed_info;
 	char *tset[2];
-	
+
 	gtk_clist_clear (info->fixed_collist);
 
 	tset[0] = g_strdup ("0");
 	tset[1] = g_strdup ("-1");
-	
+
 	gtk_clist_append (info->fixed_collist, tset);
-		
+
 	g_free (tset[0]);
 	g_free (tset[1]);
-		
+
 	fixed_page_update_preview (data);
 }
 
@@ -506,7 +506,7 @@ fixed_page_clear_clicked (GtkButton *button, DruidPageData_t *data)
  * fixed_page_auto_clicked:
  * @button: GtkButton
  * @data: mother struct
- * 
+ *
  * Will try to automatically recognize columns in the
  * text.
  **/
@@ -541,7 +541,7 @@ stf_dialog_fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPag
 	if (pagedata->cur != info->fixed_run_cacheoptions->data ||
 	    pagedata->importlines != info->fixed_run_parseoptions->parselines)
 	{
-	
+
 		stf_parse_options_set_lines_to_parse (info->fixed_run_parseoptions, pagedata->importlines);
 		stf_cache_options_set_data (info->fixed_run_cacheoptions, info->fixed_run_parseoptions, pagedata->cur);
 	}
@@ -558,13 +558,13 @@ stf_dialog_fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPag
 	 */
 	{
 		int rowcount = stf_parse_get_rowcount (info->fixed_run_parseoptions, pagedata->cur) + 1;
-		
+
 		if (rowcount > LINE_DISPLAY_LIMIT)
 			GTK_RANGE (info->fixed_scroll)->adjustment->upper = LINE_DISPLAY_LIMIT;
 		else
 			GTK_RANGE (info->fixed_scroll)->adjustment->upper = rowcount;
 	}
-		
+
 	gtk_adjustment_changed (GTK_RANGE (info->fixed_scroll)->adjustment);
 	stf_preview_set_startrow (info->fixed_run_renderdata, GTK_RANGE (info->fixed_scroll)->adjustment->value);
 
@@ -595,7 +595,7 @@ stf_dialog_fixed_page_cleanup (DruidPageData_t *pagedata)
 		stf_parse_options_free (info->fixed_run_parseoptions);
 		info->fixed_run_parseoptions = NULL;
 	}
-	
+
 	stf_cache_options_free (info->fixed_run_cacheoptions);
 	info->fixed_run_cacheoptions = NULL;
 }
@@ -621,7 +621,7 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_return_if_fail (pagedata->fixed_info != NULL);
 
 	info = pagedata->fixed_info;
-		
+
         /* Create/get object and fill information struct */
 	info->fixed_collist = GTK_CLIST       (glade_xml_get_widget (gui, "fixed_collist"));
 	info->fixed_colend  = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "fixed_colend"));
@@ -641,10 +641,10 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->fixed_run_displayrows   = stf_preview_get_displayed_rowcount (info->fixed_run_renderdata);
 	info->fixed_run_mousedown     = FALSE;
 	info->fixed_run_xorigin       = 0;
-	
+
 	stf_parse_options_set_type  (info->fixed_run_parseoptions, PARSE_TYPE_FIXED);
 	stf_cache_options_set_data  (info->fixed_run_cacheoptions, info->fixed_run_parseoptions, pagedata->cur);
-	
+
 	gtk_clist_column_titles_passive (info->fixed_collist);
 
 	t[0] = g_strdup ("0");
@@ -652,7 +652,7 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	gtk_clist_append (info->fixed_collist, t);
 	g_free (t[0]);
 	g_free (t[1]);
-	
+
 	/* Connect signals */
 	gtk_signal_connect (GTK_OBJECT (info->fixed_collist),
 			    "select_row",
@@ -678,7 +678,7 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    "clicked",
 			    GTK_SIGNAL_FUNC (fixed_page_auto_clicked),
 			    pagedata);
-			    
+
 	gtk_signal_connect (GTK_OBJECT (info->fixed_canvas),
 			    "motion_notify_event",
 			    GTK_SIGNAL_FUNC (fixed_page_canvas_motion_notify_event),
@@ -691,7 +691,7 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    "button_release_event",
 			    GTK_SIGNAL_FUNC (fixed_page_canvas_button_release_event),
 			    pagedata);
-			    
+
 	gtk_signal_connect (GTK_OBJECT (GTK_RANGE (info->fixed_scroll)->adjustment),
 			    "value_changed",
 			    GTK_SIGNAL_FUNC (fixed_page_scroll_value_changed),

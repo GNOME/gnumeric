@@ -43,7 +43,7 @@ typedef struct {
  * Bonobo Items.
  */
 GtkType            sheet_object_bonobo_get_type       (void);
-SheetObjectBonobo *sheet_object_bonobo_construct      (SheetObjectBonobo *sob, 
+SheetObjectBonobo *sheet_object_bonobo_construct      (SheetObjectBonobo *sob,
 						       Sheet             *sheet,
 						       const char        *object_id);
 

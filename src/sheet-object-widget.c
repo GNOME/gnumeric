@@ -543,8 +543,8 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *sheet_view)
 	state->swc = swc;
 	state->wbcg = sheet_view->wbcg;
 	state->dialog = gnome_dialog_new (_("Checkbox Configure"),
-					  GNOME_STOCK_BUTTON_OK, 
-					  GNOME_STOCK_BUTTON_CANCEL, 
+					  GNOME_STOCK_BUTTON_OK,
+					  GNOME_STOCK_BUTTON_CANCEL,
 					  NULL);
 	state->entry = gtk_entry_new ();
 	if (swc->dep.expression != NULL) {

@@ -253,7 +253,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 	Value     *value;
 	ValueType  value_type;
 	FillItem  *fi;
-	Cell *cell; 
+	Cell *cell;
 
 	fi = g_new (FillItem, 1);
 	fi->type = FILL_EMPTY;
@@ -569,7 +569,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 	case FILL_NUMBER: {
 		FillItem *last = fi->group_last;
 		Value *v;
-		
+
 		if (last->delta_is_float) {
 			double const d = value_get_as_float (last->v.value);
 			v = value_new_float (d + idx * last->delta.d_float);

@@ -49,7 +49,7 @@ excel_gb_worksheet_function_deref (GBEvalContext  *ec,
 		pos.sheet    = funcs->sheet;
 		pos.eval.col = 0; /* FIXME: where should we be located ? */
 		pos.eval.row = 0;
-		
+
 		ret = function_def_call_with_values (
 			&pos, fd, args->len, (Value **)args->pdata);
 
@@ -94,7 +94,7 @@ excel_gb_worksheet_function_get_type (void)
 		gtk_type_class (object_type);
 	}
 
-	return object_type;	
+	return object_type;
 }
 
 ExcelGBWorksheetFunction *

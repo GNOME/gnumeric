@@ -56,11 +56,11 @@ gnumeric_toolbar_construct (GnumericToolbar *toolbar,
 			    gpointer data)
 {
 	GtkToolbar *gtk_toolbar = GTK_TOOLBAR (toolbar);
-	
+
 	g_return_if_fail (info != NULL);
 	g_return_if_fail (toolbar != NULL);
 	g_return_if_fail (IS_GNUMERIC_TOOLBAR (toolbar));
-	
+
 	gtk_toolbar->orientation = GTK_ORIENTATION_HORIZONTAL;
 	gtk_toolbar->style = GTK_TOOLBAR_ICONS;
 
@@ -81,7 +81,7 @@ gnumeric_toolbar_new (GnomeUIInfo *info,
 	GnumericToolbar *toolbar;
 
 	g_return_val_if_fail (info != NULL, NULL);
-	
+
 	toolbar = gtk_type_new (gnumeric_toolbar_get_type ());
 	gnumeric_toolbar_construct (toolbar, info, accel_group, data);
 
@@ -94,7 +94,7 @@ gnumeric_toolbar_get_widget (GnumericToolbar *toolbar, int pos)
 	GtkToolbarChild *child;
 	GList *children;
 	int i;
-	
+
 	g_return_val_if_fail (toolbar != NULL, NULL);
 	g_return_val_if_fail (IS_GNUMERIC_TOOLBAR (toolbar), NULL);
 	g_return_val_if_fail (pos > 0, NULL);

@@ -26,7 +26,7 @@ void function_category_add_func (FunctionCategory *, FunctionDefinition *);
 /******************************************************************************/
 
 /*
- * Function registration routines 
+ * Function registration routines
  *
  * Functions come in two fashions:  Those that only deal with
  * very specific data types and a constant number of arguments,

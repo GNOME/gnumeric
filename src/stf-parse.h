@@ -37,7 +37,7 @@ typedef struct {
 	char                 terminator;            /* Line terminator */
 	int                  parselines;            /* Number of lines to parse */
 	StfTrimType_t        trim_spaces;           /* Trim spaces in fields ? */
-		
+
 	/* CSV related */
 	StfTextSeparator_t   separators;            /* Text separator(s) */
 	char                 customfieldseparator;  /* Custom text separator */
@@ -51,7 +51,7 @@ typedef struct {
 	gboolean             modified;              /* Indicates whether the contents have changed */
 	int                  rowcount;              /* Number of rows parsed */
 	int                  colcount;              /* Number of columns parsed */
-	
+
 	/* Related to modification determination */
 	GArray              *oldsplitpositions;     /* Splitpositions before before_modification was called */
 	gboolean             modificationmode;      /* If TRUE we are in modification determination mode */
@@ -60,7 +60,7 @@ typedef struct {
 typedef struct {
 	const char         *data;           /* Data to parse */
 	int                 validsignature; /* time signature used for caching */
-	
+
 	int                 fromline;       /* Line to begin parsing at */
 	int                 toline;         /* Line to stop parsing at */
 

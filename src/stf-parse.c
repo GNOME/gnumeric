@@ -174,7 +174,7 @@ stf_parse_options_set_lines_to_parse (StfParseOptions_t *parseoptions, int lines
  * stf_parse_options_set_trim_spaces:
  * @parseoptions: a parse options struct
  * @trim_spaces: whether you want to trim spaces or not
- * 
+ *
  * If enabled will trim spaces in every parsed field on left and right
  * sides.
  **/
@@ -1396,7 +1396,7 @@ stf_parse_is_valid_data (char *data)
 		    *iterator != '\t' &&
 		    *iterator != '\f') {
 
-			
+
 			return iterator;
 		}
 		iterator++;
@@ -1410,10 +1410,10 @@ stf_parse_is_valid_data (char *data)
  * @parseoptions: a Parse options struct.
  * @data_lines : The number of lines to look at in @data.
  * @data : The actual data.
- * 
+ *
  * Automatically try to discover columns in the text to be parsed.
  * We ignore empty lines (only containing parseoptions->terminator)
- * 
+ *
  **/
 void
 stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_lines, const char *data)
@@ -1439,7 +1439,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 		int position = 0;
 
 		while (*iterator && *iterator != parseoptions->terminator) {
-			
+
 			if (!begin_recorded && *iterator == ' ') {
 
 				disc = g_new0 (AutoDiscovery_t, 1);
@@ -1448,7 +1448,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 
 				begin_recorded = TRUE;
 			} else if (begin_recorded && *iterator != ' ') {
-			
+
 				disc->stop = position;
 				list = g_slist_prepend (list, disc);
 
@@ -1478,7 +1478,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 
 		if (position != 0)
 			effective_lines++;
-			
+
 		lines++;
 
 		if (lines >= data_lines)
@@ -1498,7 +1498,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 	 */
 	line_begin_hits = g_new0 (int, max_line_length + 1);
 	line_end_hits   = g_new0 (int, max_line_length + 1);
-	
+
 	while (list) {
 		AutoDiscovery_t *disc = list->data;
 
@@ -1506,7 +1506,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 		line_end_hits[disc->stop]++;
 
 		g_free (disc);
-		
+
 		list = g_slist_next (list);
 	}
 	g_slist_free (list_start);
@@ -1559,13 +1559,13 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 				while (*iterator && *iterator != parseoptions->terminator) {
 
 					if (pos == begin) {
-					
+
 						if (*iterator == ' ')
 							left_aligned = FALSE;
 
 						trigger = TRUE;
 					} else if (pos == end - 1) {
-					
+
 						if (*iterator == ' ')
 							right_aligned = FALSE;
 
@@ -1574,28 +1574,28 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 
 					if (trigger || pos == end - 1) {
 						if (!space_trigger && *iterator == ' ') {
-			
+
 							space_trigger = TRUE;
 							spaces_start = pos;
 						} else if (space_trigger && *iterator != ' ') {
-						
+
 							space_trigger = FALSE;
 							num_spaces = pos - spaces_start;
 						}
 					}
-						    
+
 					iterator++;
 					pos++;
 				}
 
 				if (num_spaces < 2)
 					has_2_spaces = FALSE;
-					
+
 				if (*iterator)
 					iterator++;
 
 				lines++;
-			
+
 				if (lines >= data_lines)
 					break;
 			}
@@ -1616,10 +1616,10 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 				i++;
 			}
 		}
-		
+
 		/*
 		 * Remove empty columns here if needed
-		 */	 
+		 */
 		for (i = 0; i < parseoptions->splitpositions->len - 1; i++) {
 			int begin = g_array_index (parseoptions->splitpositions, int, i);
 			int end = g_array_index (parseoptions->splitpositions, int, i + 1);
@@ -1630,7 +1630,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 			while (*iterator) {
 				gboolean trigger = FALSE;
 				int pos = 0;
-			
+
 				while (*iterator && *iterator != parseoptions->terminator) {
 
 
@@ -1640,7 +1640,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 						trigger = FALSE;
 
 					if (trigger) {
-				
+
 						if (*iterator != ' ')
 							only_spaces = FALSE;
 					}
@@ -1653,7 +1653,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 					iterator++;
 
 				lines++;
-			
+
 				if (lines >= data_lines)
 					break;
 			}
@@ -1749,7 +1749,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 
 	list = stf_parse_general (parseoptions, data);
 	list_start = list;
-	
+
 	while (list) {
 
 		sublist = list->data;

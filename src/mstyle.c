@@ -181,7 +181,7 @@ mstyle_element_dump (const MStyleElement *e)
 	char    *txt_ans;
 
 	g_return_val_if_fail (e != NULL, g_strdup ("Duff element"));
-	
+
 	switch (e->type) {
 	case MSTYLE_ELEMENT_UNSET:
 		g_string_sprintf (ans, "Unset");
@@ -191,10 +191,10 @@ mstyle_element_dump (const MStyleElement *e)
 		break;
 	case MSTYLE_COLOR_BACK:
 		g_string_sprintf (ans, "backgnd col");
-		break;		
+		break;
 	case MSTYLE_COLOR_PATTERN:
 		g_string_sprintf (ans, "pattern col");
-		break;		
+		break;
 	case MSTYLE_FONT_NAME:
 		g_string_sprintf (ans, "name '%s'", e->u.font.name->str);
 		break;
@@ -340,10 +340,10 @@ mstyle_element_equal (const MStyleElement a,
  * mstyle_elements_equal:
  * @a: a style
  * @b: another style
- * 
+ *
  * Compares for identical style element arrays,
  * fully commutative.
- * 
+ *
  * Return value: TRUE if equal.
  **/
 static gboolean
@@ -420,7 +420,7 @@ mstyle_element_unref (MStyleElement e)
  * mstyle_elements_compare:
  * @a: style to be tagged
  * @b: style to compare.
- * 
+ *
  * Compares styles and tags conflicts into a.
  **/
 static inline void
@@ -526,11 +526,11 @@ static MStyle *default_mstyle = NULL;
 
 /**
  * mstyle_new_default:
- * 
+ *
  * Return the default style,
  * this should _never_ _ever_ have any of its elements
  * set.
- * 
+ *
  * Return value: the default style.
  **/
 MStyle *
@@ -542,7 +542,7 @@ mstyle_new_default (void)
 		mstyle_ref (default_mstyle);
 		return default_mstyle;
 	}
-	
+
 	mstyle = mstyle_new ();
 
 	mstyle_set_format_text (mstyle, "General");
@@ -617,7 +617,7 @@ mstyle_do_merge (const GList *list, MStyleElementType max)
 	MStyle         *ans;
 	MStyleElement *mash;
 
-	g_return_val_if_fail (list != NULL, 
+	g_return_val_if_fail (list != NULL,
 			      mstyle_new_default ());
 
 	g_return_val_if_fail (max <= MSTYLE_ELEMENT_MAX,
@@ -625,7 +625,7 @@ mstyle_do_merge (const GList *list, MStyleElementType max)
 	g_return_val_if_fail (max > 0,
 			      mstyle_new_default ());
 
-	/* Short circuit the common default case */ 
+	/* Short circuit the common default case */
 	if (!list->next) {
 		mstyle_ref (list->data);
 		return list->data;
@@ -633,13 +633,13 @@ mstyle_do_merge (const GList *list, MStyleElementType max)
 
 	ans  = mstyle_new ();
 	mash = ans->elements;
- 
+
 	while (l) {
 		guint j;
 		MStyle *style = l->data;
 		MStyleElement *e = style->elements;
 		MStyleElement *m = mash;
-		
+
 		for (j = 0; j < MSTYLE_ELEMENT_MAX; j++) {
 
 			if (m->type == MSTYLE_ELEMENT_UNSET &&
@@ -651,7 +651,7 @@ mstyle_do_merge (const GList *list, MStyleElementType max)
 		}
 		l = g_list_next (l);
 	}
-	
+
 	return ans;
 }
 
@@ -659,13 +659,13 @@ mstyle_do_merge (const GList *list, MStyleElementType max)
  * mstyle_merge:
  * @master: the master style
  * @slave:  the slave style
- * 
+ *
  *   This function removes any style elements from the slave
  * that are masked by the master style. Thus eventualy the
  * slave style becomes redundant and can be removed.
  * NB. if slave->ref_count == 1 we operate on it directly
  * otherwise we must copy.
- * 
+ *
  * Returns: the masked style.
  **/
 MStyle *
@@ -701,7 +701,7 @@ mstyle_to_string (const MStyle *style)
 	char *txt_ans;
 
 	g_return_val_if_fail (style != NULL, "(null)");
-	
+
 	ans = g_string_new ("Elements : ");
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
 		char *txt;
@@ -737,14 +737,14 @@ mstyle_destroy (MStyle *style)
 {
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (style->ref_count == 0);
-	
+
 	if (style->name)
 		g_free (style->name);
 	style->name = NULL;
 
 	if (style->elements)
 		mstyle_elements_unref (style->elements);
-		
+
 	g_free (style);
 }
 
@@ -824,7 +824,7 @@ mstyle_unset_element (MStyle *st, MStyleElementType t)
  * @src: Source mstyle
  * @dst: Destination mstyle
  * @t: Element to replace
- * 
+ *
  * This function replaces element 't' in mstyle 'dst' with element 't'
  * in mstyle 'src'. (If element 't' was already set in mstyle 'dst' then
  * the element will first be unset)
@@ -836,7 +836,7 @@ mstyle_replace_element (MStyle *src, MStyle *dst, MStyleElementType t)
 	g_return_if_fail (dst != NULL);
 
 	mstyle_element_ref (&src->elements [t]);
-	
+
 	if (mstyle_is_element_set (dst, t))
 		mstyle_unset_element (dst, t);
 
@@ -963,7 +963,7 @@ mstyle_get_font (const MStyle *style, double zoom)
 
 	font = style_font_new (
 		name, size, zoom, bold, italic);
-	
+
 	return font;
 }
 
@@ -972,7 +972,7 @@ mstyle_set_font_name (MStyle *style, const char *name)
 {
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (style != NULL);
-	
+
 	mstyle_element_unref (style->elements [MSTYLE_FONT_NAME]);
 	style->elements [MSTYLE_FONT_NAME].type = MSTYLE_FONT_NAME;
 	style->elements [MSTYLE_FONT_NAME].u.font.name = string_get (name);
@@ -1146,7 +1146,7 @@ void
 mstyle_set_orientation (MStyle *style, StyleOrientation o)
 {
 	g_return_if_fail (style != NULL);
-	
+
 	style->elements [MSTYLE_ORIENTATION].type = MSTYLE_ORIENTATION;
 	style->elements [MSTYLE_ORIENTATION].u.orientation = o;
 }

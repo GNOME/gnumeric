@@ -14,7 +14,7 @@
  *    data repository information has been extenuated or if a match has
  *    been found, then the method should return FALSE and invoke the
  *    notification function that was provided to Complete.
- * 
+ *
  *
  * (C) 2000 Helix Code, Inc.
  */
@@ -43,7 +43,7 @@ static void
 complete_destroy (GtkObject *object)
 {
 	Complete *complete = COMPLETE (object);
-	
+
 	if (complete->idle_tag){
 		gtk_idle_remove (complete->idle_tag);
 		complete->idle_tag = 0;
@@ -51,7 +51,7 @@ complete_destroy (GtkObject *object)
 
 	if (complete->text)
 		g_free (complete->text);
-	
+
 	if (parent_class->destroy)
 		(parent_class->destroy)(object);
 }
@@ -64,7 +64,7 @@ complete_idle (gpointer data)
 	if (complete->idle_tag == 0){
 		abort ();
 	}
-		
+
 	if (ACC(complete)->search_iteration (complete))
 		return TRUE;
 
@@ -79,11 +79,11 @@ complete_start (Complete *complete, const char *text)
 	g_return_if_fail (complete != NULL);
 	g_return_if_fail (IS_COMPLETE (complete));
 	g_return_if_fail (text != NULL);
-	
+
 	if (complete->text)
 		g_free (complete->text);
 	complete->text = g_strdup (text);
-	
+
 	if (complete->idle_tag == 0)
 		complete->idle_tag = gtk_idle_add (complete_idle, complete);
 }
@@ -98,7 +98,7 @@ static void
 complete_class_init (GtkObjectClass *object_class)
 {
 	CompleteClass *complete_class = (CompleteClass *) object_class;
-	
+
 	object_class->destroy = complete_destroy;
 	complete_class->search_iteration = default_search_iteration;
 

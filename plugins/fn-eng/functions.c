@@ -29,7 +29,7 @@ static char *help_ = {
 	   ""
 	   ""
 	   "\n"
-	   
+
 	   ""
 	   ""
 	   ""
@@ -448,7 +448,7 @@ static char *help_besseli = {
 	   "truncated."
 	   "\n"
 	   "If @x or @y are not numeric a #VALUE! error is returned. "
-	   "If @y < 0 a #NUM! error is returned. " 
+	   "If @y < 0 a #NUM! error is returned. "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -464,7 +464,7 @@ gnumeric_besseli (FunctionEvalInfo *ei, Value **argv)
 	double x;
 	double order;
 	double result;
-	
+
 	x = value_get_as_float (argv[0]);	/* value to evaluate I_n at. */
 	order = value_get_as_float (argv[1]);	/* the order */
 
@@ -489,7 +489,7 @@ static char *help_besselk = {
 	   "truncated."
 	   "\n"
 	   "If x or n are not numeric a #VALUE! error is returned. "
-	   "If y < 0 a #NUM! error is returned. " 
+	   "If y < 0 a #NUM! error is returned. "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -504,7 +504,7 @@ gnumeric_besselk (FunctionEvalInfo *ei, Value **argv)
 	double x;
 	double order;
 	double result;
-	
+
 	x = value_get_as_float (argv[0]);	/* value to evaluate K_n at. */
 	order = value_get_as_float (argv[1]);	/* the order */
 
@@ -528,7 +528,7 @@ static char *help_besselj = {
 	   "truncated."
 	   "\n"
 	   "If @x or @y are not numeric a #VALUE! error is returned.  "
-	   "If @y < 0 a #NUM! error is returned. " 
+	   "If @y < 0 a #NUM! error is returned. "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -565,7 +565,7 @@ static char *help_bessely = {
 	   "truncated."
 	   "\n"
 	   "If x or n are not numeric a #VALUE! error is returned. "
-	   "If n < 0 a #NUM! error is returned. " 
+	   "If n < 0 a #NUM! error is returned. "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -719,7 +719,7 @@ static char *help_imreal = {
 
 
 static Value *
-gnumeric_imreal (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_imreal (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t c;
 	char imunit;
@@ -750,7 +750,7 @@ static char *help_imabs = {
 
 
 static Value *
-gnumeric_imabs (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_imabs (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t c;
 	char imunit;
@@ -780,7 +780,7 @@ static char *help_imconjugate = {
 };
 
 static Value *
-gnumeric_imconjugate (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_imconjugate (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -811,7 +811,7 @@ static char *help_imcos = {
 };
 
 static Value *
-gnumeric_imcos (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_imcos (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -866,7 +866,7 @@ static char *help_imexp = {
 };
 
 static Value *
-gnumeric_imexp (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_imexp (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -894,7 +894,7 @@ static char *help_imargument = {
 };
 
 static Value *
-gnumeric_imargument (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_imargument (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t c;
 	char imunit;
@@ -953,7 +953,7 @@ static char *help_imlog2 = {
 };
 
 static Value *
-gnumeric_imlog2 (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_imlog2 (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -983,7 +983,7 @@ static char *help_imlog10 = {
 };
 
 static Value *
-gnumeric_imlog10 (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_imlog10 (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -1015,7 +1015,7 @@ static char *help_impower = {
 };
 
 static Value *
-gnumeric_impower (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_impower (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t a, b, res;
 	char imunit;
@@ -1049,7 +1049,7 @@ static char *help_imdiv = {
 };
 
 static Value *
-gnumeric_imdiv (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_imdiv (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t a, b, res;
 	char imunit;
@@ -1083,7 +1083,7 @@ static char *help_imsin = {
 };
 
 static Value *
-gnumeric_imsin (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_imsin (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -1111,7 +1111,7 @@ static char *help_imsqrt = {
 };
 
 static Value *
-gnumeric_imsqrt (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_imsqrt (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -1139,7 +1139,7 @@ static char *help_imsub = {
 };
 
 static Value *
-gnumeric_imsub (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_imsub (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t a, b, res;
 	char imunit;
@@ -1240,7 +1240,7 @@ static char *help_imsum = {
 };
 
 static Value *
-gnumeric_imsum (FunctionEvalInfo *ei, GList *expr_node_list) 
+gnumeric_imsum (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	Value *v;
         eng_imoper_t p;
@@ -1366,7 +1366,7 @@ typedef struct {
 
 
 static float_t
-get_constant_of_unit(eng_convert_unit_t units[], 
+get_constant_of_unit(eng_convert_unit_t units[],
 		     eng_convert_unit_t prefixes[],
 		     char *unit_name, float_t *c, float_t *prefix)
 {
@@ -1386,7 +1386,7 @@ get_constant_of_unit(eng_convert_unit_t units[],
 				unit_name++;
 				break;
 			}
-	
+
 	for (i = 0; units [i].str != NULL; i++)
 	        if (strcmp (unit_name, units [i].str) == 0) {
 		        *c = units [i].c;
@@ -1406,7 +1406,7 @@ convert (eng_convert_unit_t units[],
 
 	if (get_constant_of_unit (units, prefixes, from_unit, &from_c,
 				  &from_prefix)) {
-	  
+
 	        if (!get_constant_of_unit (units, prefixes,
 					   to_unit, &to_c, &to_prefix))
 			return value_new_error (ep, gnumeric_err_NUM);
@@ -1414,16 +1414,16 @@ convert (eng_convert_unit_t units[],
 	        if ( (from_c == 0) || (to_prefix == 0) )
 	                return value_new_error (ep, gnumeric_err_NUM);
 
-		*v = value_new_float (((n*from_prefix) / from_c) * 
+		*v = value_new_float (((n*from_prefix) / from_c) *
 				 to_c / to_prefix);
 		return *v;
 	}
 
 	return NULL;
-}	
+}
 
 static Value *
-gnumeric_convert (FunctionEvalInfo *ei, Value **argv) 
+gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 {
         /* Weight and mass constants */
         #define one_g_to_sg     0.00006852205001
@@ -1562,7 +1562,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 		{ "W",    one_HP_to_W },
 		{ NULL,   0.0 }
 	};
-	
+
 	static eng_convert_unit_t magnetism_units[] = {
 	        { "T",    1.0 },
 		{ "ga",   one_T_to_ga },
@@ -1701,7 +1701,7 @@ gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
 	    upper = value_get_as_float (argv [1]);
 	    ans = erf(upper) - ans;
 	  }
-	
+
 	return value_new_float (ans);
 }
 
@@ -1839,7 +1839,7 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 	default:
 		err = value_new_error (ei->pos, _("Impossible"));
 	}
-	       
+
 	if (!argv [1])
 		value_release (vy);
 	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);

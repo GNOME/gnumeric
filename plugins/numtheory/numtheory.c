@@ -586,8 +586,8 @@ init_plugin (CommandContext *context, PluginData *pd)
 	function_add_args  (cat, "nt_pi",   "f",
 			    "number",    &help_nt_pi,    gnumeric_nt_pi);
 	function_add_args  (cat, "nt_mu",   "f",
-			    "number",    &help_nt_mu,    gnumeric_nt_mu);		     
-	
+			    "number",    &help_nt_mu,    gnumeric_nt_mu);
+
 
         cat = function_get_category (_("Bitwise Operations"));
 

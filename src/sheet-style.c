@@ -114,7 +114,7 @@ sheet_style_cache_flush (SheetStyleData *sd, CacheFlushType type)
 			if (type & STYLE_CACHE_FLUSH_SHRINK)
 				/* We are a good size, this will wrap but heh. */
 				g_hash_table_freeze (sd->style_cache);
-			
+
 			g_hash_table_foreach_remove (sd->style_cache,
 						     (GHRFunc)scache_remove, sd);
 			style_cache_flushes++;
@@ -154,10 +154,10 @@ sheet_style_cache_add (SheetStyleData *sd, int col, int row,
  * do_list_check_sorted:
  * @list: the list of StyleRegions.
  * @as_per_sheet: which direction the stamp order should be.
- * 
+ *
  *   This function checks each StyleRegion's range, and its stamp
  * for correctness.
- * 
+ *
  * Return value: FALSE if a sort error occurs.
  **/
 static gboolean
@@ -210,7 +210,7 @@ style_region_new (const Range *range, MStyle *mstyle)
 	sr->stamp = stamp++;
 	sr->range = *range;
 	sr->style = mstyle;
-       
+
 	return sr;
 }
 
@@ -224,7 +224,7 @@ style_region_copy (const StyleRegion *sra)
 	sr->range = sra->range;
 	sr->style = sra->style;
 	mstyle_ref (sra->style);
-       
+
 	return sr;
 }
 
@@ -585,7 +585,7 @@ sheet_style_attach (Sheet  *sheet, Range range,
 		range_dump (&sr->range);
 		fprintf (stderr, "\n");
 	}
-	
+
 #if 0
 	/* Try to handle set/get, set/get, set/get pattern without cache trashing */
 	if (range_overlap (&range, &sd->cached_range)) {
@@ -716,7 +716,7 @@ sheet_style_compute (const Sheet *sheet, int col, int row)
 	sd = sheet->style_data;
 
 	g_return_val_if_fail (sd != NULL, NULL);
-	
+
 	if ((mstyle = sheet_style_cache_lookup (sd, col, row))) {
 		mstyle_ref (mstyle);
 
@@ -967,13 +967,13 @@ stylish_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 	SheetStyleData *sd;
 
 	sd = sheet->style_data;
- 
+
  	/* Don't touch the last 'global' range */
  	for (l = sd->style_list; l && l->next; l = next) {
  		StyleRegion *sr = (StyleRegion *)l->data;
- 
+
  		next = g_list_next (l);
- 
+
 		if (is_col) {
 			start = sr->range.start.col;
 			end = sr->range.end.col;
@@ -981,7 +981,7 @@ stylish_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 			start = sr->range.start.row;
 			end = sr->range.end.row;
 		}
- 
+
 		/*  We can ignore anything at least 2 cells left or above of insert */
 		if (pos >= (end + 2))
  			continue;
@@ -1000,7 +1000,7 @@ stylish_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
  			sr->range.start.row = MIN (start, SHEET_MAX_ROWS - 1);
  			sr->range.end.row = MIN (end, SHEET_MAX_ROWS - 1);
  		}
-			
+
 	}
 
 	sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
@@ -1014,7 +1014,7 @@ styleless_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 	SheetStyleData *sd;
 
 	sd = sheet->style_data;
- 
+
 	move_range   = sheet_get_full_range ();
 	ignore_range = sheet_get_full_range ();
 	if (is_col) {
@@ -1070,7 +1070,7 @@ styleless_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 				frag->range.end.row   = MIN (frag->range.end.row + count,
 							     SHEET_MAX_ROWS - 1);
 			}
-			
+
 			/* 3.3 Insert in the correct stamp order */
 			if (is_col) {
 				if (frag->range.start.col <= frag->range.end.col)
@@ -1097,8 +1097,8 @@ sheet_style_insert_colrow (Sheet *sheet, int pos, int count,
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* Check if style preserving insert option is specified. */
-	gnome_config_push_prefix ("Gnumeric/Options/"); 
-	stylish = gnome_config_get_bool_with_default ("StylishInsert=true", 
+	gnome_config_push_prefix ("Gnumeric/Options/");
+	stylish = gnome_config_get_bool_with_default ("StylishInsert=true",
 							&was_default);
 
 	if (was_default) {
@@ -1205,7 +1205,7 @@ sheet_get_styles_in_range (Sheet *sheet, const Range *r)
 
 		fragments = range_split_ranges (r, (Range *)sr,
 						(RangeCopyFn)style_region_copy);
-		
+
 /* 2. Iterate over each fragment */
 		for (f = fragments; f; f = f->next) {
 			StyleRegion *frag = (StyleRegion *)f->data;
@@ -1275,7 +1275,7 @@ do_apply_border (Sheet *sheet, const Range *r,
 
 	if (borders [idx]) {
 		style_border_ref (borders [idx]);
-		
+
 		mstyle = mstyle_new ();
 		mstyle_set_border (mstyle, t, borders [idx]);
 		sheet_style_attach (sheet, *r, mstyle);
@@ -1297,9 +1297,9 @@ do_blank_border (Sheet *sheet, const Range *r,
 /**
  * sheet_range_set_border:
  * @sheet:
- * @range: 
+ * @range:
  * @borders: an array of border styles to apply
- * 
+ *
  * Apply borders round the edge of a range.
  * ignore special corner cases; these are made by
  * an implicit StyleRegion overlap at present.
@@ -1335,7 +1335,7 @@ sheet_range_set_border (Sheet         *sheet,
 			do_blank_border (sheet, &r, MSTYLE_BORDER_BOTTOM);
 	}
 
-	/* 2   We prefer to paint Top of the row below */ 
+	/* 2   We prefer to paint Top of the row below */
 	if (borders [STYLE_BORDER_BOTTOM]) {
 		r = *range;
 		r.start.row = r.end.row;
@@ -1370,7 +1370,7 @@ sheet_range_set_border (Sheet         *sheet,
 	}
 
 	/* 4.1 The right inner */
-	/* 4   We prefer to paint left of the col to the right */ 
+	/* 4   We prefer to paint left of the col to the right */
 	if (borders [STYLE_BORDER_RIGHT]) {
 		r = *range;
 		r.start.col = r.end.col;
@@ -1448,13 +1448,13 @@ sheet_range_set_border (Sheet         *sheet,
 
 /**
  * sheet_get_region_list_for_range:
- * @style_list: 
- * @range: 
- * 
+ * @style_list:
+ * @range:
+ *
  * Returns a reversed order list of styles that overlap
  * with range.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 static inline GList *
 sheet_get_region_list_for_range (GList *style_list, const Range *range)
@@ -1493,7 +1493,7 @@ border_invalidate (UniqueClosure *cl, StyleBorderLocation location)
  * @cl: unique data
  * @location: which border to deal with
  * @border: the border to mask against
- * 
+ *
  * This masks the border at @cl->borders [@location]
  * it is marked invalid if the border != current value
  * note it doesn't much matter whether this is an inner
@@ -1518,7 +1518,7 @@ border_mask (UniqueClosure *cl, StyleBorderLocation location,
 		}
 	}
 }
-	
+
 /*
  * Plenty of room for optimization here
  */
@@ -1535,7 +1535,7 @@ border_check (UniqueClosure *cl, GList *edge_list,
 		MStyle *inner_style, *outer_style = NULL;
 		const MStyleBorder *inner_border = NULL, *outer_border = NULL;
 		CellPos inner, outer;
-		
+
 		inner = r->start;
 		outer = r->start;
 		switch (location) {
@@ -1618,14 +1618,14 @@ border_check (UniqueClosure *cl, GList *edge_list,
 		if (do_outer)
 			border_mask (cl, location, outer_border);
 		border_mask (cl, location, inner_border);
-		
+
 		/* If we have gone from nothing to something along an edge or vv. */
 		if (cl->border_valid [location] &&
 		    (!do_outer || outer_border == style_border_none ()) &&
 		    inner_border == style_border_none () &&
 		    cl->borders [location] != style_border_none ())
 			border_invalidate (cl, location);
-		
+
 		/* Normal compare for styles */
 		mstyle_compare (cl->mstyle, inner_style);
 		mstyle_unref (inner_style);
@@ -1647,7 +1647,7 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 	int      i;
 
  	/*
-	 * 1. Create the super range including outer 
+	 * 1. Create the super range including outer
 	 *     + inner + ( unwanted corners )
 	 */
 	all = *range;
@@ -1677,7 +1677,7 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 	 * 3. Create border ranges around the sides,
 	 * each is two cells thick.
 	 */
-	
+
 	/* 3.1 Top */
 	i = STYLE_BORDER_TOP;
 	edge [i] = *range;
@@ -1817,13 +1817,13 @@ sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
 			     mstyle_get_border (cl.mstyle, MSTYLE_BORDER_DIAGONAL));
 	else
 		border_invalidate (&cl, STYLE_BORDER_DIAG);
- 
+
 	if (style_debugging > 0) {
 		fprintf (stderr, "Uniqe style is ");
 		mstyle_dump (cl.mstyle);
 		fprintf (stderr, "\n");
 	}
- 
+
 	return cl.mstyle;
 }
 
@@ -1831,7 +1831,7 @@ sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
  * sheet_style_get_extent:
  * @r: input / output range
  * @sheet: the sheet whose styles are being examined.
- * 
+ *
  * The union of @r and all stylesregions that are visible in blank cells.
  */
 void

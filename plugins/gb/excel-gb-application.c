@@ -46,9 +46,9 @@ static void
 excel_gb_application_class_init (GBRunObjectClass *klass)
 {
 	klass->get_arg = excel_gb_application_get_arg;
-	
+
 	gbrun_object_add_property_full (
-		klass, "worksheets", 
+		klass, "worksheets",
 		excel_gb_worksheets_get_type (),
 		WORKSHEETS, GBRUN_PROPERTY_READABLE);
 }
@@ -74,7 +74,7 @@ excel_gb_application_get_type (void)
 		gtk_type_class (object_type);
 	}
 
-	return object_type;	
+	return object_type;
 }
 
 ExcelGBApplication *

@@ -89,7 +89,7 @@ ms_read_TXO (BiffQuery *q)
 
 		ms_biff_query_next (q);
 		data = q->data;
-		
+
 		if (unicode_flag) {
 			increment = 2;
 			data++;
@@ -101,11 +101,11 @@ ms_read_TXO (BiffQuery *q)
 		if (q->length < increment * text_len) {
 			g_free (text);
 			text = g_strdup ("Broken continue");
-		} else { 
+		} else {
 			for (i = 0; i < text_len ; ++i)
 				text [i] = data [i * increment];
 			text [text_len] = '\0';
-		} 
+		}
 
 		if (ms_biff_query_peek_next (q, &peek_op) &&
 		    peek_op == BIFF_CONTINUE)
@@ -356,7 +356,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		printf("OBJ : unexpected extra data after Object End record;\n");
 		ms_ole_dump (data, data_len_left);
 		return TRUE;
-	}       
+	}
 
 	/* Catch underflow too */
 	g_return_val_if_fail (data_len_left == 0, TRUE);

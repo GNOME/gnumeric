@@ -301,7 +301,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 
 				if (!cell_is_blank (cell) && cell != edit_cell)
 					cell_draw (cell, mstyle, NULL,
-						   item_grid->gc, drawable, 
+						   item_grid->gc, drawable,
 						   x_paint, y_paint);
 				mstyle_unref (mstyle);
 

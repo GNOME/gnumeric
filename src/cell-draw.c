@@ -31,7 +31,7 @@ draw_text (GdkDrawable *drawable, GdkFont *font, GdkGC *gc,
 }
 
 static void
-draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font, 
+draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font,
 	       int x1, int text_base, int width,
 	       int const * const line_offset, int num_lines)
 {
@@ -138,14 +138,14 @@ cell_split_text (GdkFont *font, char const *text, int const width)
  * @y1 : The pixel coord within the drawable of the upper left corner
  *       of the gridlines (marked a).
  */
-void 
+void
 cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 	   GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
 {
 	StyleFont    *style_font;
 	GdkFont      *font;
 	GdkRectangle  rect;
-	
+
 	Sheet const * const sheet = cell->base.sheet;
 	ColRowInfo const * const ci = cell->col_info;
 	ColRowInfo const * const ri = cell->row_info;
@@ -180,7 +180,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 		text = "Pending";
 	} else
 		text = cell->rendered_value->rendered_text->str;
-	
+
 	if (spaninfo != NULL) {
 		start_col = spaninfo->left;
 		end_col = spaninfo->right;
@@ -196,7 +196,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	font = style_font_gdk_font (style_font);
 	font_height = style_font_get_height (style_font);
 	valign = mstyle_get_align_v (mstyle);
-	
+
 	switch (valign) {
 	default:
 		g_warning ("Unhandled cell vertical alignment\n");
@@ -210,12 +210,12 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 		 */
 		text_base = y1 + font->ascent + ri->margin_a;
 		break;
-		
+
 	case VALIGN_CENTER:
 		text_base = y1 + font->ascent + ri->margin_a +
 		    (height - font_height) / 2;
 		break;
-		
+
 	case VALIGN_BOTTOM:
 		/*
 		 * y1 + ri->size_pixels == bottom grid line.
@@ -225,7 +225,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 		text_base = y1 + ri->size_pixels - font->descent - ri->margin_b;
 		break;
 	}
-	
+
 	halign = cell_default_halign (cell, mstyle);
 
 	is_single_line = (halign != HALIGN_JUSTIFY &&
@@ -312,7 +312,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 		case HALIGN_FILL:
 			printf ("FILL!\n");
 			/* fall through */
-			
+
 		case HALIGN_LEFT:
 			x1 += 1 + ci->margin_a;
 			break;
@@ -324,9 +324,9 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 		case HALIGN_CENTER:
 			x1 += 1 + ci->margin_a + (width - cell_width_pixel) / 2;
 			break;
-			
+
 		case HALIGN_CENTER_ACROSS_SELECTION:
-			x1 = rect.x + (rect.width - cell_width_pixel) / 2; 
+			x1 = rect.x + (rect.width - cell_width_pixel) / 2;
 			break;
 
 		default:
@@ -354,17 +354,17 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 			y_offset = 0;
 			inter_space = font_height;
 			break;
-			
+
 		case VALIGN_CENTER:
 			y_offset = (height -
 				    (line_count * font_height)) / 2;
 			inter_space = font_height;
 			break;
-			
+
 		case VALIGN_JUSTIFY:
 			if (line_count > 1) {
 				y_offset = 0;
-				inter_space = font_height + 
+				inter_space = font_height +
 					(height - (line_count * font_height))
 					/ (line_count - 1);
 
@@ -372,14 +372,14 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 				if (inter_space < font_height)
 					inter_space = font_height;
 				break;
-			} 
+			}
 			/* Else, we become a VALIGN_BOTTOM line */
-			
+
 		case VALIGN_BOTTOM:
 			y_offset = height - (line_count * font_height);
 			inter_space = font_height;
 			break;
-			
+
 		default:
 			g_warning ("Unhandled cell vertical alignment\n");
 			y_offset = 0;
@@ -402,7 +402,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 				if (num_lines > 0)
 					len = gdk_string_width (font, text);
 				break;
-				
+
 			case HALIGN_RIGHT:
 				len = gdk_string_width (font, str);
 				x_offset = ci->size_pixels - ci->margin_b - len;
@@ -420,7 +420,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 				   x1 + x_offset, y1 + y_offset,
 				   str, strlen (str), len, line_offset, num_lines);
 			y_offset += inter_space;
-			
+
 			g_free (l->data);
 		}
 		g_list_free (lines);

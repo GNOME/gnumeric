@@ -55,7 +55,7 @@ sort_compare_cells (const Cell *ca, const Cell *cb, SortClause *clause)
 {
 	Value *a, *b;
 	ValueType ta, tb;
-	ValueCompare comp = IS_EQUAL;	
+	ValueCompare comp = IS_EQUAL;
 	int ans = 0;
 
 	if (!ca)
@@ -81,7 +81,7 @@ sort_compare_cells (const Cell *ca, const Cell *cb, SortClause *clause)
 	} else {
 		comp = value_compare (a, b, clause->cs);
 	}
-	
+
 	if (comp == IS_LESS) {
 		ans = clause->asc ?  1 : -1;
 	} else if (comp == IS_GREATER) {
@@ -258,7 +258,7 @@ sort_contents (WorkbookControl *context, SortData *data)
 
 	length = sort_data_length (data);
 	real_length = 0;
-	
+
 	/* Discern the rows/cols to be actually sorted */
 	real = g_new (int, length);
 	for (i = 0; i < length; i++) {
@@ -271,7 +271,7 @@ sort_contents (WorkbookControl *context, SortData *data)
 		} else {
 			real[i] = i;
 			real_length++;
-		}	
+		}
 	}
 
 	cur = 0;
@@ -298,7 +298,7 @@ sort_contents (WorkbookControl *context, SortData *data)
 	}
 	g_free (perm);
 	g_free (real);
-	
+
 	sort_permute (context, data, iperm, length);
 
 	return iperm;

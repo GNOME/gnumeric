@@ -2,7 +2,7 @@
 
 /*
   Authors: Ariel Rios <ariel@arcavia.com>
-*/             
+*/
 
 #include <libguile.h>
 #include <gtk/gtk.h>
@@ -18,7 +18,7 @@ gnumeric_list2scm (GList *list, SCM (*data_to_scm)(void*))
 
   while (list)
     {
-      *tail = scm_cons (data_to_scm (&list->data), *tail); 
+      *tail = scm_cons (data_to_scm (&list->data), *tail);
       tail = SCM_CDRLOC (*tail);
       list = list->next;
     }
@@ -43,7 +43,7 @@ gnumeric_scm2list (SCM obj , void (*fromscm)(SCM, void*))
         GList *n = g_list_alloc ();
 	if (res == NULL)
 	  res = tail = n;
-	else 
+	else
 	  {
 	    g_list_concat (tail, n);
 	    tail = n;
@@ -64,7 +64,7 @@ gnumeric_scm2list (SCM obj , void (*fromscm)(SCM, void*))
 	  GList *n = g_list_alloc ();
 	  if (res == NULL)
 	    res = tail = n;
-	  else 
+	  else
 	    {
 	      g_list_concat (tail, n);
 	      tail = n;
@@ -91,4 +91,4 @@ scm_to_value (SCM value_smob)
 {
 	return get_value_from_smob (value_smob);
 }
-	
+

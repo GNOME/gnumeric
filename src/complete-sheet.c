@@ -34,9 +34,9 @@ complete_sheet_destroy (GtkObject *object)
 	CompleteSheet *cs = COMPLETE_SHEET (object);
 
 	free_search (cs);
-	
+
 	g_free (cs->current);
-	
+
 	if (parent_class->destroy)
 		(parent_class->destroy)(object);
 }
@@ -90,7 +90,7 @@ complete_sheet_search_iteration (Complete *complete)
 	CompleteSheet *cs = COMPLETE_SHEET (complete);
 	ColRowInfo *ci;
 	int i;
-	
+
 	if (strncmp (cs->current, complete->text, strlen (cs->current)) != 0)
 		reset_search (cs);
 
@@ -123,7 +123,7 @@ complete_sheet_class_init (GtkObjectClass *object_class)
 
 	object_class->destroy = complete_sheet_destroy;
 	auto_complete_class->search_iteration = complete_sheet_search_iteration;
-		
+
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
@@ -137,13 +137,13 @@ complete_sheet_new (Sheet *sheet, int col, int row, CompleteMatchNotifyFn notify
 
 	cs = gtk_type_new (complete_sheet_get_type ());
 	complete_construct (COMPLETE (cs), notify, notify_closure);
-	
+
 	cs->sheet = sheet;
 	cs->col = col;
 	cs->row = row;
 	cs->current = g_strdup ("");
 	reset_search (cs);
-	
+
 	return COMPLETE (cs);
 }
 

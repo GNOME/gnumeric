@@ -91,7 +91,7 @@ xml_parse_ctx_new (xmlDocPtr doc,
 	return xml_parse_ctx_new_full (
 		doc, ns, GNUM_XML_V5, NULL, NULL, NULL);
 }
-       
+
 void
 xml_parse_ctx_destroy (XmlParseContext *ctxt)
 {
@@ -1309,7 +1309,7 @@ xml_write_print_repeat_range (XmlParseContext *ctxt, char *name, PrintRepeatRang
 
 	g_return_val_if_fail (name != NULL, NULL);
 	g_return_val_if_fail (range != NULL, NULL);
-	
+
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, name, NULL);
 	if (range->use) {
 		s = value_cellrange_get_as_string ((Value *)&range->range, FALSE);
@@ -1318,7 +1318,7 @@ xml_write_print_repeat_range (XmlParseContext *ctxt, char *name, PrintRepeatRang
 	}
 	str = string_get (s);
 	xml_set_value_string  (cur, "value", str);
-	
+
 	string_unref (str);
 	g_free (s);
 
@@ -1329,7 +1329,7 @@ static xmlNodePtr
 xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 {
 	xmlNodePtr cur, child;
-	
+
 	g_return_val_if_fail (pi != NULL, NULL);
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "PrintInformation", NULL);
@@ -1393,12 +1393,12 @@ static void
 xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree, char *name, PrintRepeatRange *range)
 {
 	xmlNodePtr child;
-	
+
 	g_return_if_fail (ctxt != NULL);
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (range != NULL);
-	
+
 	if (ctxt->version > GNUM_XML_V4) {
 		if ((child = xml_search_child (tree, name))) {
 			String *s = xml_get_value_string  (child, "value");
@@ -1477,7 +1477,7 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	xml_read_print_repeat_range (ctxt, tree, "repeat_top", &pi->repeat_top);
 	xml_read_print_repeat_range (ctxt, tree, "repeat_left", &pi->repeat_left);
-			
+
 	if ((child = xml_search_child (tree, "order"))) {
 		char *txt;
 		txt = xmlNodeGetContent (child);
@@ -1790,7 +1790,7 @@ xml_write_sheet_object (XmlParseContext *ctxt, SheetObject *object)
 			}
 		} else
 			cur = NULL;
-		
+
 		return cur;
 	} else
 #endif
@@ -2165,7 +2165,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		/* Is this a post 0.57 formatted value */
 		if (ctxt->version >= GNUM_XML_V4) {
 			int tmp;
-			is_post_52_array = 
+			is_post_52_array =
 				xml_get_value_int (tree, "Rows", &array_rows) &&
 				xml_get_value_int (tree, "Cols", &array_cols);
 			if (xml_get_value_int (tree, "ValueType", &tmp)) {
@@ -2226,7 +2226,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 
 			xml_cell_set_array_expr (ret, content+1,
 						 array_rows, array_cols);
-		} else if (ctxt->version >= GNUM_XML_V3 || 
+		} else if (ctxt->version >= GNUM_XML_V3 ||
 			   xml_not_used_old_array_spec (ret, content)) {
 			if (is_value) {
 				Value *v = value_new_from_string (value_type, content);
@@ -2496,26 +2496,26 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters *param)
 	return cur;
 }
 
-/* 
+/*
  *
  */
 
 static int
-natural_order_cmp( const void *a, const void *b ) 
+natural_order_cmp( const void *a, const void *b )
 {
-	const Cell *ca = *(void**)a ; 
-	const Cell *cb = *(void**)b ; 
+	const Cell *ca = *(void**)a ;
+	const Cell *cb = *(void**)b ;
 	int diff = (ca->pos.row != cb->pos.row);
 
 	if (diff != 0)
 		return diff;
-	return ca->pos.col - cb->pos.col; 
+	return ca->pos.col - cb->pos.col;
 }
 
 static void
-copy_hash_table_to_ptr_array( gpointer key,gpointer value, gpointer user_data) 
+copy_hash_table_to_ptr_array( gpointer key,gpointer value, gpointer user_data)
 {
-	g_ptr_array_add(user_data,value) ; 
+	g_ptr_array_add(user_data,value) ;
 }
 
 
@@ -2644,15 +2644,15 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 	/* g_hash_table_foreach (sheet->cell_hash, xml_write_cell_to, ctxt); */
 	/* save cells in natural order */
 	{
-		gint i ,n ; 
-		n = g_hash_table_size(sheet->cell_hash) ; 
-		if ( n > 0 ) 
+		gint i ,n ;
+		n = g_hash_table_size(sheet->cell_hash) ;
+		if ( n > 0 )
 		{
-			GPtrArray *natural = g_ptr_array_new() ; 
-			g_hash_table_foreach(sheet->cell_hash,copy_hash_table_to_ptr_array,natural) ; 
-			qsort( &g_ptr_array_index(natural,0),n,sizeof(gpointer),natural_order_cmp) ; 
-			for ( i = 0 ; i < n ; i++ ) 
-				xml_write_cell_to(NULL,g_ptr_array_index(natural,i),ctxt) ; 
+			GPtrArray *natural = g_ptr_array_new() ;
+			g_hash_table_foreach(sheet->cell_hash,copy_hash_table_to_ptr_array,natural) ;
+			qsort( &g_ptr_array_index(natural,0),n,sizeof(gpointer),natural_order_cmp) ;
+			for ( i = 0 ; i < n ; i++ )
+				xml_write_cell_to(NULL,g_ptr_array_index(natural,i),ctxt) ;
 			g_ptr_array_free(natural,TRUE) ;
 		}
 	}
@@ -3251,7 +3251,7 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 	if (child) {
 		int sheet_index = 0;
 		if (xml_get_value_int (child, "SelectedTab", &sheet_index))
-			wb_view_sheet_focus (wb_view, 
+			wb_view_sheet_focus (wb_view,
 				workbook_sheet_by_index (ctxt->wb, sheet_index));
 	}
 

@@ -161,7 +161,7 @@ cmd_select_cur_depends (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	cur_cell = sheet_cell_get (sheet, 
+	cur_cell = sheet_cell_get (sheet,
 				   sheet->cursor.edit_pos.col,
 				   sheet->cursor.edit_pos.row);
 	if (cur_cell == NULL)
@@ -254,7 +254,7 @@ cmd_select_cur_inputs (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	cell = sheet_cell_get (sheet, 
+	cell = sheet_cell_get (sheet,
 			       sheet->cursor.edit_pos.col,
 			       sheet->cursor.edit_pos.row);
 

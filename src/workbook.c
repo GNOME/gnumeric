@@ -49,9 +49,9 @@ static gint workbook_signals [LAST_SIGNAL] = {
 	0, /* CELL_CHANGED */
 };
 
-/* 
+/*
  * We introduced numbers in front of the the history file names for two
- * reasons:  
+ * reasons:
  * 1. Bonobo won't let you make 2 entries with the same label in the same
  *    menu. But that's what happens if you e.g. access worksheets with the
  *    same name from 2 different directories.
@@ -87,7 +87,7 @@ workbook_history_update (GList *wl, gchar *filename)
 	/* Do nothing if filename already at head of list */
 	if (!(hl && strcmp ((gchar *)hl->data, canonical_name) == 0)) {
 		history_menu_flush (wl, hl); /* Remove the old entries */
-		
+
 		/* Update the history list */
 		del_name = application_history_update_list (canonical_name);
 		g_free (del_name);
@@ -158,7 +158,7 @@ workbook_destroy (GtkObject *wb_object)
 	}
 	g_list_free (sheets);
 
-	/* TODO : This should be earlier when we figure out how to deal with 
+	/* TODO : This should be earlier when we figure out how to deal with
 	 * the issue raised by 'pristine'.
 	 */
 	/* Get rid of all the views */
@@ -510,9 +510,9 @@ workbook_new (void)
 
 /**
  * workbook_sheet_name_strip_number:
- * @name: name to strip number from 
+ * @name: name to strip number from
  * @number: returns the number stripped off in *number
- * 
+ *
  * Gets a name in the form of "Sheet (10)", "Stuff" or "Dummy ((((,"
  * and returns the real name of the sheet "Sheet","Stuff","Dymmy ((((,"
  * without the copy number.
@@ -719,8 +719,8 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 	for (l = dependents; l; l = l->next)	{
 		Dependent *dep = l->data;
 		ExprRewriteInfo rwinfo;
-		ExprTree *newtree; 
-		
+		ExprTree *newtree;
+
 		rwinfo.type = EXPR_REWRITE_RELOCATE;
 		memcpy (&rwinfo.u.relocate, info, sizeof (ExprRelocateInfo));
 		eval_pos_init_dep (&rwinfo.u.relocate.pos, dep);
@@ -1167,7 +1167,7 @@ workbook_sheet_rename (WorkbookControl *wbc,
 	/* Did the name change? */
 	if (strcmp (old_name, new_name) == 0)
 		return TRUE;
-	
+
 	if (strlen (new_name) < 1) {
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Sheet name"),
 					_("must have at least 1 letter"));

@@ -1190,7 +1190,7 @@ solver_lp_copy (SolverParameters const *src_param, Sheet *new_sheet)
 
 	if (src_param->target_cell != NULL)
 	        dst_param->target_cell =
-		    sheet_cell_fetch (new_sheet, 
+		    sheet_cell_fetch (new_sheet,
 				      src_param->target_cell->pos.row,
 				      src_param->target_cell->pos.col);
 

@@ -97,8 +97,8 @@ static gboolean
 cb_attr_dialog_dialog_destroy (GtkObject *w, AttrState *state)
 {
 	GnomePropertyBox *box = state->dialog;
-	
-	gtk_signal_disconnect (GTK_OBJECT (box->notebook), 
+
+	gtk_signal_disconnect (GTK_OBJECT (box->notebook),
 			       state->page_signal);
 	gtk_object_unref (GTK_OBJECT (state->gui));
 	g_free (state);
@@ -166,7 +166,7 @@ attr_dialog_impl (AttrState *state)
 	g_return_if_fail (dialog != NULL);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Workbook Attributes"));
-	
+
 	/* Initialize */
 	state->dialog			= GNOME_PROPERTY_BOX (dialog);
 

@@ -2,8 +2,8 @@
 /*
  *
  *     Authors: Mark Probst
- *              Ariel Rios <ariel@arcavia.com>   
- *	   Copyright Mark Probst, Ariel Rios 2000 
+ *              Ariel Rios <ariel@arcavia.com>
+ *	   Copyright Mark Probst, Ariel Rios 2000
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@
  * over maintaing it.
  */
 static EvalPos const *eval_pos = NULL;
-	
+
 static Value*
 func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 {
@@ -162,11 +162,11 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 	SCM_ASSERT (SCM_NIMP (scm_name) && SCM_STRINGP (scm_name), scm_name, SCM_ARG1, "scm_register_function");
 	SCM_ASSERT (SCM_NIMP (scm_args) && SCM_STRINGP (scm_args), scm_args, SCM_ARG2, "scm_register_function");
 	SCM_ASSERT (SCM_NIMP (scm_help) && SCM_STRINGP (scm_help), scm_help, SCM_ARG3, "scm_register_function");
-	SCM_ASSERT (SCM_NIMP (scm_category) && SCM_STRINGP (scm_category), 
+	SCM_ASSERT (SCM_NIMP (scm_category) && SCM_STRINGP (scm_category),
 		    scm_category, SCM_ARG4, "scm_register_function");
 	SCM_ASSERT (scm_procedure_p (scm_function), scm_function, SCM_ARG5, "scm_register_function");
 
-	scm_permanent_object (scm_function); 
+	scm_permanent_object (scm_function);
 
 	help  = g_new (char *, 1);
 	*help = g_strdup (SCM_CHARS (scm_help));
@@ -215,7 +215,7 @@ init_plugin (CommandContext *context, PluginData *pd)
 	function_add_nodes (cat, "scm_apply", 0, "symbol", NULL, func_scm_apply);
 
 	init_value_type ();
-	
+
 	scm_make_gsubr ("gnumeric-funcall", 2, 0, 0, scm_gnumeric_funcall);
 	scm_make_gsubr ("register-function", 5, 0, 0, scm_register_function);
 

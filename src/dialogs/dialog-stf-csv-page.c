@@ -36,7 +36,7 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 	gboolean customvalid = FALSE;
 
 	stf_parse_options_before_modification (parseoptions);
-	
+
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_custom))) {
 		char *csvcustomtext = gtk_editable_get_chars (GTK_EDITABLE (info->csv_customseparator), 0, -1);
 
@@ -44,7 +44,7 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 			stf_parse_options_csv_set_customfieldseparator (parseoptions, csvcustomtext[0]);
 			customvalid = TRUE;
 		}
-		
+
 		g_free (csvcustomtext);
 	}
 
@@ -75,14 +75,14 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 		int i;
 
 		data->colcount = stf_parse_get_colcount (parseoptions, data->cur);
-			
+
 		stf_cache_options_invalidate (info->csv_run_cacheoptions);
 
 		stf_preview_colwidths_clear (info->csv_run_renderdata);
 		for (i = 0; i < data->colcount + 1; i++)
 			stf_preview_colwidths_add (info->csv_run_renderdata, stf_parse_get_colwidth (parseoptions, data->cur, i));
 	}
-					      
+
 	/* actually do the parsing and rendering */
 	stf_cache_options_set_range (info->csv_run_cacheoptions,
 				     info->csv_run_renderdata->startrow - 1,
@@ -90,7 +90,7 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 
 	list = stf_parse_general_cached (parseoptions,
 					 info->csv_run_cacheoptions);
-			   
+
 	stf_preview_render (info->csv_run_renderdata,
 			    list,
 			    info->csv_run_displayrows,
@@ -136,7 +136,7 @@ csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
 		gtk_widget_set_sensitive   (GTK_WIDGET (info->csv_customseparator), TRUE);
 		gtk_widget_grab_focus      (GTK_WIDGET (info->csv_customseparator));
 		gtk_editable_select_region (GTK_EDITABLE (info->csv_customseparator), 0, -1);
-		
+
 	}
 	else {
 		gtk_widget_set_sensitive (GTK_WIDGET (info->csv_customseparator), FALSE);
@@ -168,13 +168,13 @@ stf_dialog_csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageD
 	if (pagedata->cur != info->csv_run_cacheoptions->data ||
 	    pagedata->importlines != info->csv_run_parseoptions->parselines)
 	{
-	
+
 		stf_parse_options_set_lines_to_parse (info->csv_run_parseoptions, pagedata->importlines);
 		stf_cache_options_set_data  (info->csv_run_cacheoptions, info->csv_run_parseoptions, pagedata->cur);
 	}
 
 	stf_parse_options_set_trim_spaces (info->csv_run_parseoptions, pagedata->trim);
-		
+
 	stf_cache_options_invalidate (info->csv_run_cacheoptions);
 
 	pagedata->colcount = stf_parse_get_colcount (info->csv_run_parseoptions, pagedata->cur);
@@ -185,13 +185,13 @@ stf_dialog_csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageD
 	 */
 	{
 		int rowcount = stf_parse_get_rowcount (info->csv_run_parseoptions, pagedata->cur) + 1;
-		
+
 		if (rowcount > LINE_DISPLAY_LIMIT)
 			GTK_RANGE (info->csv_scroll)->adjustment->upper = LINE_DISPLAY_LIMIT;
 		else
 			GTK_RANGE (info->csv_scroll)->adjustment->upper = rowcount;
 	}
-	
+
 	gtk_adjustment_changed (GTK_RANGE (info->csv_scroll)->adjustment);
 	stf_preview_set_startrow (info->csv_run_renderdata, GTK_RANGE (info->csv_scroll)->adjustment->value);
 
@@ -215,15 +215,15 @@ stf_dialog_csv_page_cleanup (DruidPageData_t *pagedata)
 	stf_cache_options_free (info->csv_run_cacheoptions);
 	info->csv_run_cacheoptions = NULL;
 
-	if (info->csv_run_parseoptions) {	
+	if (info->csv_run_parseoptions) {
 		stf_parse_options_free (info->csv_run_parseoptions);
 		info->csv_run_parseoptions = NULL;
 	}
-	
+
 	stf_preview_free (info->csv_run_renderdata);
 	info->csv_run_renderdata = NULL;
 }
- 
+
 /**
  * stf_dialog_csv_page_init
  * @gui : The glade gui of the dialog
@@ -244,7 +244,7 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_return_if_fail (pagedata->csv_info != NULL);
 
 	info = pagedata->csv_info;
-	
+
 	/* Create/get object and fill information struct */
 	info->csv_tab             = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_tab"));
 	info->csv_colon           = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_colon"));
@@ -265,7 +265,7 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 
 	info->csv_canvas = GNOME_CANVAS   (glade_xml_get_widget (gui, "csv_canvas"));
 	info->csv_scroll = GTK_VSCROLLBAR (glade_xml_get_widget (gui, "csv_scroll"));
-	
+
 	/* Set properties */
 	info->csv_run_renderdata    = stf_preview_new (info->csv_canvas, FALSE);
 	info->csv_run_parseoptions  = stf_parse_options_new ();
@@ -274,7 +274,7 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 
 	stf_parse_options_set_type  (info->csv_run_parseoptions, PARSE_TYPE_CSV);
 	stf_cache_options_set_data  (info->csv_run_cacheoptions, info->csv_run_parseoptions, pagedata->cur);
-	
+
 	/* Connect signals */
 	gtk_signal_connect (GTK_OBJECT (info->csv_tab),
 			    "toggled",
@@ -332,7 +332,7 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    "changed",
 			    GTK_SIGNAL_FUNC (csv_page_global_change),
 			    pagedata);
-	
+
 	gtk_signal_connect (GTK_OBJECT (GTK_RANGE (info->csv_scroll)->adjustment),
 			    "value_changed",
 			    GTK_SIGNAL_FUNC (csv_page_scroll_value_changed),

@@ -95,7 +95,7 @@ parse_range (const char *text, int *start_col, int *start_row,
 
 /**
  * range_list_destroy:
- * @ranges: a list of value ranges to destroy. 
+ * @ranges: a list of value ranges to destroy.
  *
  * Destroys a list of ranges returned from parse_cell_range_list
  */
@@ -127,14 +127,14 @@ range_list_destroy (GSList *ranges)
 GSList *
 range_list_parse (Sheet *sheet, const char *range_spec, gboolean strict)
 {
-	
+
 	char *copy, *range_copy, *r;
 	GSList *ranges = NULL;
-	
+
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (range_spec != NULL, NULL);
-	
+
 	range_copy = copy = g_strdup (range_spec);
 
 	while ((r = strtok (range_copy, ",")) != NULL){
@@ -150,7 +150,7 @@ range_list_parse (Sheet *sheet, const char *range_spec, gboolean strict)
 		ranges = g_slist_prepend (ranges, v);
 		range_copy = NULL;
 	}
-	
+
 	g_free (copy);
 
 	return ranges;
@@ -158,7 +158,7 @@ range_list_parse (Sheet *sheet, const char *range_spec, gboolean strict)
 
 /**
  * range_list_foreach_full:
- * 
+ *
  * foreach cell in the range, make sure it exists, and invoke the routine
  * @callback on the resulting cell, passing @data to it
  *
@@ -183,7 +183,7 @@ range_list_foreach_full (GSList *ranges, void (*callback)(Cell *cell, void *data
 		Value *value = l->data;
 		CellRef a, b;
 		int col, row;
-		
+
 		g_assert (value->type == VALUE_CELLRANGE);
 
 		/*
@@ -228,7 +228,7 @@ range_list_foreach (GSList *ranges, void (*callback)(Cell *cell, void *data),
  * @ranges:    The list of ranges.
  * @callback:  The user function
  * @user_data: Passed to callback intact.
- * 
+ *
  * Iterates over the ranges calling the callback with the
  * range, sheet and user data set
  **/
@@ -247,7 +247,7 @@ range_list_foreach_area (Sheet *sheet, GSList *ranges,
 		Value *value = l->data;
 		Sheet *s;
 		Range   range;
-		
+
 		g_assert (value->type == VALUE_CELLRANGE);
 
 		/*
@@ -272,12 +272,12 @@ range_list_foreach_area (Sheet *sheet, GSList *ranges,
  * range_adjacent:
  * @a: First range
  * @b: Second range
- * 
+ *
  * Detects whether a range of similar size is adjacent
  * to the other range. Similarity is determined by having
  * a shared side of equal length. NB. this will clearly
  * give odd results for overlapping regions.
- * 
+ *
  * Return value: if they share a side of equal length
  **/
 gboolean
@@ -285,7 +285,7 @@ range_adjacent (Range const *a, Range const *b)
 {
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
-	
+
 	if ((a->start.col == b->start.col) &&
 	    (a->end.col   == b->end.col))
 		return (a->end.row + 1 == b->start.row ||
@@ -303,14 +303,14 @@ range_adjacent (Range const *a, Range const *b)
  * range_merge:
  * @a: Range a.
  * @b: Range b.
- * 
+ *
  * This routine coalesces two adjacent regions, eg.
  * (A1, B1) would return A1:B1 or (A1:B2, C1:D2)) would
  * give A1:D2. NB. it is imperative that the regions are
  * actualy adjacent or unexpected results will ensue.
  *
  * Fully commutative.
- * 
+ *
  * Return value: the merged range.
  **/
 Range
@@ -328,7 +328,7 @@ range_merge (Range const *a, Range const *b)
 
 /*      Useful perhaps but kills performance */
 /*	g_return_val_if_fail (range_adjacent (a, b), ans); */
-	
+
 	if (a->start.row < b->start.row) {
 		ans.start.row = a->start.row;
 		ans.end.row   = b->end.row;
@@ -353,7 +353,7 @@ range_name (Range const *src)
 {
 	static char buffer [(2 + 4 * sizeof (long)) * 2 + 1];
 	char *name;
-	
+
 	if (src->start.col != src->end.col ||
 	    src->start.row != src->end.row) {
 		name = g_strdup (col_name (src->start.col));
@@ -365,7 +365,7 @@ range_name (Range const *src)
 			 col_name (src->start.col),
 			 src->start.row + 1);
 	}
-	
+
 	return buffer;
 }
 
@@ -374,11 +374,11 @@ range_name (Range const *src)
  * @sheet: Sheet to check
  * @src: Range to check
  * @top: Flag
- * 
+ *
  * This routine takes a sheet and a range and checks for a header row
  * in the range.  If top is true it looks for a header row from the top
  * and if false it looks for a header col from the left
- * 
+ *
  * Return value: Whether or not the range has a header
  **/
 gboolean
@@ -404,18 +404,18 @@ range_has_header (const Sheet *sheet, const Range *src, gboolean top)
 
 	for (i = 0; i<length; i++) {
 		if (top) {
-			ca = sheet_cell_get (sheet, src->start.col + i, 
+			ca = sheet_cell_get (sheet, src->start.col + i,
 					     src->start.row);
-			cb = sheet_cell_get (sheet, src->start.col + i, 
+			cb = sheet_cell_get (sheet, src->start.col + i,
 					     src->start.row + 1);
 		} else {
-			ca = sheet_cell_get (sheet, src->start.col, 
+			ca = sheet_cell_get (sheet, src->start.col,
 					     src->start.row + i);
-			cb = sheet_cell_get (sheet, src->start.col + 1, 
+			cb = sheet_cell_get (sheet, src->start.col + 1,
 					     src->start.row + i);
 		}
-		
-		
+
+
 		if (!ca || !cb) {
 			continue;
 		}
@@ -437,7 +437,7 @@ range_has_header (const Sheet *sheet, const Range *src, gboolean top)
 		/* Look for style differences */
 		stylea = cell_get_mstyle (ca);
 		styleb = cell_get_mstyle (cb);
-		
+
 		if (!mstyle_equal (stylea, styleb)) {
 			return TRUE;
 		}
@@ -483,12 +483,12 @@ ranges_dump (GList *l, const char *txt)
 
 /**
  * range_contained:
- * @a: 
- * @b: 
- * 
+ * @a:
+ * @b:
+ *
  * Is @a totaly contained by @b
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 gboolean
 range_contained (Range const *a, Range const *b)
@@ -501,7 +501,7 @@ range_contained (Range const *a, Range const *b)
 
 	if (a->start.col < b->start.col)
 		return FALSE;
-       
+
 	if (a->end.col > b->end.col)
 		return FALSE;
 
@@ -513,7 +513,7 @@ range_contained (Range const *a, Range const *b)
  * @hard: The region that is split against
  * @soft: The region that is split
  * @copy_fn: the function used to create the copies or NULL.
- * 
+ *
  * Splits soft into several chunks, and returns the still
  * overlapping remainder of soft as the first list item
  * ( the central region in the pathalogical case ).
@@ -731,11 +731,11 @@ range_copy (const Range *a)
  * @a: Range a
  * @b: Range b
  * @copy_fn: Optional copy fn.
- * 
+ *
  * Fragments the ranges into totaly overlapping regions,
  * optional copy_fn ( NULL ) for default, copies the ranges.
  * NB. commutative.
- * 
+ *
  * Return value: A list of fragmented ranges or at minimum
  * simply a and b.
  **/
@@ -743,10 +743,10 @@ GList *
 range_fragment (const Range *a, const Range *b)
 {
 	GList *split, *ans = NULL;
-	
+
 	split = range_split_ranges (a, b, NULL);
 	ans   = g_list_concat (ans, split);
-	
+
 	split = range_split_ranges (b, a, NULL);
 	if (split) {
 		g_free (split->data);
@@ -760,9 +760,9 @@ range_fragment (const Range *a, const Range *b)
 /**
  * range_fragment_list:
  * @ra: A list of possibly overlapping ranges.
- * 
+ *
  *  Converts the ranges into non-overlapping sub-ranges.
- * 
+ *
  * Return value: new list of fully overlapping ranges.
  **/
 GList *
@@ -798,7 +798,7 @@ range_fragment_list_clip (const GList *ra, const Range *clip)
 	for (a = ranges; a; a = nexta) {
 		GList   *b, *nextb;
 		gboolean done_split = FALSE;
-		
+
 		for (b = a->next; b && !done_split; b = nextb) {
 			nextb = b->next;
 
@@ -809,7 +809,7 @@ range_fragment_list_clip (const GList *ra, const Range *clip)
 
 			} else if (range_overlap (a->data, b->data)) {
 				GList *split;
-				
+
 				split = range_fragment (a->data, b->data);
 
 				g_assert (split);
@@ -825,7 +825,7 @@ range_fragment_list_clip (const GList *ra, const Range *clip)
 		if (done_split) {
 			g_free (a->data);
 			ranges = g_list_remove (ranges, a->data);
-			
+
 			if (b == nexta)
 				nexta = b->next;
 
@@ -857,12 +857,12 @@ range_fragment_list_clip (const GList *ra, const Range *clip)
 #endif
 	while (remove) {
 		gpointer kill;
-		
+
 		kill = remove->data;
-		
+
 		ranges = g_list_remove (ranges, kill);
 		remove = g_list_remove (remove, kill);
-		
+
 		g_free (kill);
 	}
 
@@ -889,11 +889,11 @@ range_fragment_free (GList *fragments)
  * @r: intersection range
  * @a: range a
  * @b: range b
- * 
+ *
  * This computes the intersection of two ranges; on a Venn
  * diagram this would be A (upside down U) B.
  * If the ranges do not intersect, false is returned an the
- * values of r are unpredictable. 
+ * values of r are unpredictable.
  *
  * NB. totally commutative
  *
@@ -903,10 +903,10 @@ gboolean
 range_intersection (Range *r, Range const *a, Range const *b)
 {
 	g_return_val_if_fail (range_overlap (a, b), FALSE);
-	
+
 	r->start.col = MAX (a->start.col, b->start.col);
 	r->start.row = MAX (a->start.row, b->start.row);
-	
+
 	r->end.col = MIN (a->end.col, b->end.col);
 	r->end.row = MIN (a->end.row, b->end.row);
 
@@ -916,7 +916,7 @@ range_intersection (Range *r, Range const *a, Range const *b)
 /**
  * range_normalize:
  * @a: a range
- * 
+ *
  * Ensures that start <= end for rows and cols.
  **/
 void
@@ -940,13 +940,13 @@ range_normalize (Range *src)
  * range_union:
  * @a: range a
  * @b: range b
- * 
+ *
  * This computes the union; on a Venn
  * diagram this would be A U B
  * NB. totally commutative. Also, this may
  * include cells not in either range since
  * it must return a Range.
- * 
+ *
  * Return value: the union
  **/
 Range
@@ -986,10 +986,10 @@ range_is_singleton (Range const *r)
 /**
  * range_is_infinite:
  * @r: the range.
- * 
+ *
  *  This determines whether @r completely spans a sheet
  * in either dimension ( semi-infinite )
- * 
+ *
  * Return value: TRUE if it is infinite else FALSE
  **/
 gboolean
@@ -1002,7 +1002,7 @@ range_is_infinite (Range const *r)
 	if (r->start.row == 0 &&
 	    r->end.row   >= SHEET_MAX_ROWS - 1)
 		return TRUE;
-	
+
 	return FALSE;
 }
 
@@ -1010,12 +1010,12 @@ void
 range_clip_to_finite (Range *range, Sheet *sheet)
 {
 	Range extent;
-	
+
 	extent = sheet_get_extent (sheet);
        	if (range->end.col >= SHEET_MAX_COLS - 2)
 		range->end.col = extent.end.col;
 	if (range->end.row >= SHEET_MAX_ROWS - 2)
-		range->end.row = extent.end.row;	
+		range->end.row = extent.end.row;
 }
 
 static void
@@ -1035,10 +1035,10 @@ ranges_set_style (Sheet *sheet, GSList *ranges, MStyle *mstyle)
 
 /**
  * range_translate:
- * @range: 
- * @col_offset: 
- * @row_offset: 
- * 
+ * @range:
+ * @col_offset:
+ * @row_offset:
+ *
  * Translate the range clipping to the sheet bounds as needed.
  *
  * return TRUE if the range is no longer valid.
@@ -1097,10 +1097,10 @@ range_check_sanity (Range *range)
  * range_transpose:
  * @range: The range.
  * @boundary: The box to transpose inside
- * 
+ *
  *   Effectively mirrors the ranges in 'boundary' around a
  * leading diagonal projected from offset.
- * 
+ *
  * Return value: whether we clipped the range.
  **/
 gboolean
@@ -1171,9 +1171,9 @@ range_transpose (Range *range, const CellPos *origin)
  * @d_tly: top left row delta
  * @d_brx: bottom right column delta
  * @d_bry: bottom right row delta
- * 
+ *
  * Attempts to expand a ranges area
- * 
+ *
  * Return value: TRUE if we can expand, FALSE if not enough room.
  **/
 gboolean
@@ -1204,7 +1204,7 @@ range_expand (Range *range, int d_tlx, int d_tly, int d_brx, int d_bry)
 	    t >= SHEET_MAX_ROWS)
 		return FALSE;
 	range->end.row = t;
-	
+
 	return TRUE;
 }
 
