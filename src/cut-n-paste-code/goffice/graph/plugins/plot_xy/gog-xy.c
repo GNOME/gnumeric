@@ -928,23 +928,14 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 		return;
 
 	plot = GOG_XY_PLOT (series->plot);
-	if (!plot->default_style_has_markers) {
-		style->disable_theming |= GOG_STYLE_MARKER;
-		if (style->marker.auto_shape) {
-			GOMarker *m = go_marker_new ();
-			go_marker_set_shape (m, GO_MARKER_NONE);
-			gog_style_set_marker (style, m);
-		}
-	}
-	if (!plot->default_style_has_lines) {
-		style->disable_theming |= GOG_STYLE_LINE;
-		if (style->line.auto_dash)
-			style->line.dash_type = GO_LINE_NONE;
-		if (style->line.auto_color) {
-			style->line.width = 0;
-			style->line.color = RGBA_BLACK;
-		}
-	}
+
+	if (!plot->default_style_has_markers &&
+	    style->marker.auto_shape) 
+		go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
+
+	if (!plot->default_style_has_lines &&
+	    style->line.auto_dash)
+		style->line.dash_type = GO_LINE_NONE;
 }
 
 static void
