@@ -26,6 +26,15 @@ static GtkObjectClass *parent_class;
 static void
 free_search (CompleteSheet *cs)
 {
+	/* Nothing, for now.  */
+}
+
+static void
+complete_sheet_finalize (GtkObject *object)
+{
+	CompleteSheet *cs = COMPLETE_SHEET (object);
+	g_free (cs->current);
+	parent_class->finalize (object);
 }
 
 static void
@@ -35,10 +44,8 @@ complete_sheet_destroy (GtkObject *object)
 
 	free_search (cs);
 
-	g_free (cs->current);
-
 	if (parent_class->destroy)
-		(parent_class->destroy)(object);
+		(parent_class->destroy) (object);
 }
 
 #define MAX_SCAN_SPACE 1024
@@ -122,6 +129,7 @@ complete_sheet_class_init (GtkObjectClass *object_class)
 	CompleteClass *auto_complete_class = (CompleteClass *) object_class;
 
 	object_class->destroy = complete_sheet_destroy;
+	object_class->finalize = complete_sheet_finalize;
 	auto_complete_class->search_iteration = complete_sheet_search_iteration;
 
 	parent_class = gtk_type_class (PARENT_TYPE);

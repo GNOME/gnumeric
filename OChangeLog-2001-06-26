@@ -1,9 +1,23 @@
+2000-12-19  Morten Welinder  <terra@diku.dk>
+
+	* configure.in: Introduce variables for the <yes> and <no> visible
+ 	markers.  Prepare for fanciness.
+
+	* src/complete-sheet.c (complete_sheet_class_init): Set finalize.
+	(complete_sheet_finalize): New function.
+	(complete_sheet_destroy): Move the freeing of ->current to
+ 	_finalize.
+
+	* src/complete.c (complete_destroy): Zero out text field after
+ 	freeing it.
+	(complete_start): Handle the special case of text not changing.
+
 2000-12-19  Miguel de Icaza  <miguel@helixcode.com>
 
-	* src/complete.h (CompleteClass): new method: start_over. 
+	* src/complete.h (CompleteClass): new method: start_over.
 
 	* src/complete.c (complete_start): invoke start_over.
-	
+
 	* src/complete.c, src/complete-sheet.c: Use E_MAKE_TYPE instead of
 	GNUMERIC_MAKE_TYPE.
 
@@ -175,7 +189,7 @@
 	* src/cell.c (cell_convert_expr_to_value) : rename from cell_make_value.
 
 	* src/format.c (format_number) : adjust signature to take the
-	  colwidth in preparation for supporting 
+	  colwidth in preparation for supporting
 	(format_value) : pass in the width.
 
 2000-12-14  Jody Goldberg <jgoldberg@home.com>
@@ -381,7 +395,7 @@
 	* src/file.c (set_ok): Rename to handle_ok. Make it check if
 	current file selection is a directory. If so, change to the
 	directory and continue selecting file.
-	
+
 2000-12-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_region_adjacent_merge) : new function.
@@ -659,7 +673,7 @@
 
 	* src/file.c (do_save_as): Remember name with extension, so
 	subsequent saves are done to the correct file.
-	
+
 	* src/workbook.c (workbook_set_saveinfo): Remove redundant setting
 	of title.
 
@@ -701,7 +715,7 @@
 
 	* src/dialogs/summary.glade: Centered "Document Summary
 	Information" label.
-	
+
 2000-11-21  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet.c (sheet_new_sheet_view): Remove spurious ref.
@@ -761,7 +775,7 @@
 2000-11-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_region_is_merge_cell) :
-	(sheet_region_get_merged) : 
+	(sheet_region_get_merged) :
 	(sheet_region_unmerge) :
 	(sheet_region_merge) : implement.
 
@@ -1044,7 +1058,7 @@
 
 	* src/gnumeric.xml: fiddle, lots of strange mangling, needs HEAD
 	bonobo to look at all good.
-	
+
 	* src/xml-io.c (xml_write_sheet_object): free the node nicely in
 	the failure case.
 
@@ -1112,7 +1126,7 @@
 	* src/workbook-format-toolbar.c (workbook_format_toolbutton_update) :
 	  Minor optimization to decrease flicker.
 
-	* src/sheet.c (sheet_cell_calc_span) : Clarify the semantics of 
+	* src/sheet.c (sheet_cell_calc_span) : Clarify the semantics of
 	  the various flags.
 	(cb_max_cell_width) : If the value used a dynamic format we need to
 	  rerender ignoring the current width.
@@ -1251,7 +1265,7 @@
 
 	* src/gui-clipboard.c:
 	(x_selection_to_cell_region): Make error message more descriptive.
-	
+
 	* src/stf.c:
 	(stf_read_workbook): Ditto.
 
@@ -1259,7 +1273,7 @@
 
 	Fix bug #21674. (Fix will kick in once the version number of the
 	XML format is bumped to GNUM_XML_V5)
-	
+
 	* src/print-info.c (print_info_new): Add extra commenting.
 
 	* src/xml-io.c:
@@ -1424,7 +1438,7 @@
 	to check the ranges. Display an error and abort when a range is invalid.
 	(format_template_recalc_hash): Idem, but don't display an error but a
 	warning, as no such error is supposed to happen here.
-	
+
 	* src/format-template.c: Fix bug #30419
 	(format_template_filter_style): Add COLOR_BACK to pattern filtering.
 	(format_template_filter_style): Correct to not always replace
@@ -1442,7 +1456,7 @@
 2000-11-02  Michael Meeks <michael@helixcode.com>
 
 	* The big api rename ...
-	
+
 2000-11-02  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: bump gb requirement to gb-0.0.15
@@ -1485,7 +1499,7 @@
 
 	* src/workbook.c (workbook_history_update): Fix test to avoid
 	  changing an already correct history.
-	(workbook_destroy): Don't free wb->filename until we're through 
+	(workbook_destroy): Don't free wb->filename until we're through
 	  using it.
 
 2000-11-01  Jody Goldberg <jgoldberg@home.com>
@@ -1556,7 +1570,7 @@
 
 2000-11-01  Almer S. Tigelaar  <almer1@dds.nl>
 
-	* src/dialogs/dialog-stf.glade: 
+	* src/dialogs/dialog-stf.glade:
 	Beautify dialog.
 
 2000-11-01  Almer S. Tigelaar  <almer1@dds.nl>
@@ -1824,9 +1838,9 @@
 	(cmd_autoformat_redo): New, redo for the autoformat.
 	(cmd_autoformat_destroy): Part of undo/redo.
 	(cmd_autoformat): Idem.
-	
+
 	* src/format-template.h: Correct outdated comment.
-	
+
 	* src/format-template.h, src/format-template.c:
 	(format_template_member_clone): New, clone a templatemember.
 	(format_template_clone): New, clone a format template.
@@ -1846,7 +1860,7 @@
 
 2000-10-28  Jon K Hellan  <hellan@acm.org>
 
-	* src/bonobo-io.c (gnumeric_bonobo_{read|write}_workbook): 
+	* src/bonobo-io.c (gnumeric_bonobo_{read|write}_workbook):
 	Forgot to tell: Also replaced vfs storage, which no longer exists
 	in Bonobo, with efs, which does. It doesn't seem to work, but
 	that's a different matter.

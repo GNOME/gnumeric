@@ -44,16 +44,18 @@ complete_destroy (GtkObject *object)
 {
 	Complete *complete = COMPLETE (object);
 
-	if (complete->idle_tag){
+	if (complete->idle_tag) {
 		gtk_idle_remove (complete->idle_tag);
 		complete->idle_tag = 0;
 	}
 
-	if (complete->text)
+	if (complete->text) {
 		g_free (complete->text);
+		complete->text = 0;
+	}
 
 	if (parent_class->destroy)
-		(parent_class->destroy)(object);
+		(parent_class->destroy) (object);
 }
 
 static gint
@@ -80,9 +82,11 @@ complete_start (Complete *complete, const char *text)
 	g_return_if_fail (IS_COMPLETE (complete));
 	g_return_if_fail (text != NULL);
 
-	if (complete->text)
-		g_free (complete->text);
-	complete->text = g_strdup (text);
+	if (complete->text != text) {
+		if (complete->text)
+			g_free (complete->text);
+		complete->text = g_strdup (text);
+	}
 
 	if (complete->idle_tag == 0)
 		complete->idle_tag = gtk_idle_add (complete_idle, complete);
