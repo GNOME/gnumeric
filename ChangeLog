@@ -1,5 +1,10 @@
 2003-08-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=120562
+	* src/style.h (DEFAULT_FONT): change to "Sans Regular"
+
+2003-08-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/sheet-object-graph.c (cmd_so_graph_config): use
 	  sheet_object_graph_user_config_t
 	(sheet_object_graph_user_config_free_data): new
