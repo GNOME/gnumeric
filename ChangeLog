@@ -1,3 +1,11 @@
+2003-06-02  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_analysis_tool): Clarify memory ownership
+	rules and adhere to them.  Plug leak.
+
+	* src/item-edit.c (ie_layout): Hande ->layout properly so it
+	doesn't get leaked.
+
 2003-06-01  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object.c (sheet_objects_relocate) : check for
@@ -15,7 +23,7 @@
 	* src/parser.y (find_matching_close) : Generated spurious paren errors
 	  because gnm_strunescape points to the first char after the string
 	  then we incremented.
-	(yylex) : As long as we're down here tack ona  bit of user
+	(yylex) : As long as we're down here tack on a bit of user
 	  friendliness in the face of spaces.  If we know they can't be
 	  operators based on the token we're returning ignore them to help the
 	  users out.

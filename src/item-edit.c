@@ -226,12 +226,9 @@ ie_layout (FooCanvasItem *item)
 
 	g_return_if_fail (cri != NULL);
 
-	if (ie->layout != NULL)
-		g_object_unref (G_OBJECT (ie->layout));
-
 	entered_text = gtk_entry_get_text (ie->entry);
 	text = wbcg_edit_get_display_text (scg_get_wbcg (ie->scg));
-	ie->layout = gtk_widget_create_pango_layout  (GTK_WIDGET (item->canvas), text);
+	pango_layout_set_text (ie->layout, text, -1);
 
 	pango_layout_set_font_description (ie->layout,
 		pango_context_get_font_description (style_font->pango.context));
@@ -373,13 +370,21 @@ item_edit_realize (FooCanvasItem *item)
 	ie->fill_gc = gdk_gc_new (GTK_WIDGET (item->canvas)->window);
 	if (!gnumeric_background_set_gc (ie->style, ie->fill_gc, item->canvas, FALSE))
 		gdk_gc_set_rgb_fg_color (ie->fill_gc, &gs_white);
+
+	ie->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas), NULL);
 }
 
 static void
 item_edit_unrealize (FooCanvasItem *item)
 {
 	ItemEdit *ie = ITEM_EDIT (item);
-	g_object_unref (G_OBJECT (ie->fill_gc));	ie->fill_gc = NULL;
+
+	g_object_unref (G_OBJECT (ie->fill_gc));
+	ie->fill_gc = NULL;
+
+	g_object_unref (G_OBJECT (ie->layout));
+	ie->layout = NULL;
+
 	if (parent_class->unrealize)
 		(parent_class->unrealize) (item);
 }

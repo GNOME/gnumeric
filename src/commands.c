@@ -4706,6 +4706,7 @@ typedef struct
 
 	data_analysis_output_t  *dao;
 	gpointer                specs;
+	gboolean                specs_owned;
 	analysis_tool_engine    engine;
 	data_analysis_output_type_t type;
 
@@ -4826,6 +4827,7 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	return (me->type == NewWorkbookOutput);
 }
+
 static void
 cmd_analysis_tool_finalize (GObject *cmd)
 {
@@ -4838,14 +4840,20 @@ cmd_analysis_tool_finalize (GObject *cmd)
 
 	me->engine (me->dao, me->specs, TOOL_ENGINE_CLEAN_UP, NULL);
 
-	g_free (me->specs);
-	g_free (me->dao);
+	if (me->specs_owned) {
+		g_free (me->specs);
+		g_free (me->dao);
+	}
 	if (me->old_content)
 		cellregion_free (me->old_content);
 
 	gnumeric_command_finalize (cmd);
 }
 
+/*
+ * Note: this takes ownership of specs and dao if and if only the command
+ * succeeds.
+ */
 gboolean
 cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 		   data_analysis_output_t *dao, gpointer specs,
@@ -4853,6 +4861,7 @@ cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 {
 	GObject *obj;
 	CmdAnalysis_Tool *me;
+	gboolean trouble;
 
 	g_return_val_if_fail (dao != NULL, TRUE);
 	g_return_val_if_fail (specs != NULL, TRUE);
@@ -4865,11 +4874,14 @@ cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 
 	/* Store the specs for the object */
 	me->specs = specs;
+	me->specs_owned = FALSE;
 	me->dao = dao;
 	me->engine = engine;
 	me->cmd.cmd_descriptor = NULL;
-	if (me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DAO, NULL))
+	if (me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DAO, NULL)) {
+		g_object_unref (obj);
 		return TRUE;
+	}
 	me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR, &me->cmd.cmd_descriptor);
 	me->cmd.sheet = NULL;
 	me->type = dao->type;
@@ -4880,7 +4892,12 @@ cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 	me->cmd.size = 1 + dao->rows * dao->cols / 2;
 
 	/* Register the command object */
-	return command_push_undo (wbc, obj);
+	trouble = command_push_undo (wbc, obj);
+
+	if (!trouble)
+		me->specs_owned = TRUE;
+
+	return trouble;
 }
 
 /******************************************************************/

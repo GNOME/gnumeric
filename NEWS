@@ -55,6 +55,7 @@ Morten:
 	  deprecated gtk_style_get_font function.
 	* Start getting rid of use of deprecated features.
 	* Multihead support.
+	* Fix crash for analysis tools on initial failure.
 
 --------------------------------------------------------------------------
 
