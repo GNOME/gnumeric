@@ -177,7 +177,7 @@ dialog_insert_cells (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_insert_cell_cancel_clicked), state);
-/* FIXME: Add correct helpfile address */
+
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_INSERT_CELS);
@@ -185,6 +185,12 @@ dialog_insert_cells (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (insert_cell_destroy), state);
+
+	gtk_toggle_button_set_active 
+		(GTK_TOGGLE_BUTTON (glade_xml_get_widget 
+				    (state->gui, cols < rows 
+				     ? "radio_0" : "radio_1")), 
+		 TRUE);
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),

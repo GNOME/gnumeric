@@ -5,10 +5,12 @@ Andreas:
 	* Also use fallback-fonts for the page decorations when printing.
 	* Add default header/footer font selector to preference dialog.
 	http://bugzilla.gnome.org/show_bug.cgi?id=125361
-	* Fix printing from Page Setup dialog
+	* Fix printing from Page Setup dialog.
 	http://bugzilla.gnome.org/show_bug.cgi?id=125422
+	* Upon inserting of cells try to guess whether to move cells down 
+          or to the right.
 	* Upon deleting of cells try to guess whether to move cells up 
-          or to the left
+          or to the left.
 
 Jody:
 	* More renaming

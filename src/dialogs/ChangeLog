@@ -1,8 +1,14 @@
 2003-10-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=125422
+	* dialog-insert-cells.c (dialog_insert_cells): try to guess
+	  whether to move cells down or to the right
+	* insert-cells.glade: add missing radio button
+
+2003-10-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* dialog-delete-cells.c (dialog_delete_cells): try to guess
-	  whether to move up or to the left
+	  whether to move cells up or to the left
 
 2003-10-26  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
