@@ -15,4 +15,7 @@ liblotus_la_SOURCES =		\
 	boot.c			\
 	boot.h			\
 	lotus.c			\
-	lotus.h
+	lotus.h			\
+	lotus-formula.c		\
+	lotus-formula.h
+

@@ -1,5 +1,13 @@
 1999-07-21  Michael Meeks  <michael@edenproject.org>
 
+	* lotus.h (LOTUS_GETDOUBLE): Split these into lotus.h
+
+	* Makefile.am: Added lotus-formula.[ch]
+
+	* lotus-formual.[ch]: ditto.
+
+	* lotus.c (read_workbook): Changed NAME to INTEGER doh.
+
 	* boot.c (lotus_probe): Expand to 'wks' files.
 
 1999-07-21  Michael Meeks  <michael@edenproject.org>

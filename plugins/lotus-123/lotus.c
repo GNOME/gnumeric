@@ -25,14 +25,9 @@
 #include "lotus.h"
 #include "lotus-types.h"
 
-/* These really should be in glib */
+#if G_BYTE_ORDER != G_LITTLE_ENDIAN
 
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-#     define LOTUS_GETDOUBLE(p)   (*((double*)(p)))
-#     define LOTUS_SETDOUBLE(p,q) (*((double*)(p))=(q))
-#else
-#     define LOTUS_GETDOUBLE(p)   (lotus_getdouble(p))
-#     define LOTUS_SETDOUBLE(p,q) (lotus_setdouble(p,q))
+/* These really should be in glib */
 
 double
 lotus_getdouble (guint8 *p)
@@ -122,8 +117,6 @@ insert_value (Sheet *sheet, guint32 col, guint32 row, Value *val)
 	return cell;
 }
 
-/* Replace readsint(\(.*\)) with GINT16_FROM_LE(*(gint16 *)\1) */
-
 /* buf was old siag wb / sheet */
 static gboolean
 read_workbook (Workbook *wb, FILE *f)
@@ -154,7 +147,7 @@ read_workbook (Workbook *wb, FILE *f)
 			sheet = NULL;
 			break;
 
-		case LOTUS_NAME:
+		case LOTUS_INTEGER:
 		{
 			gint16 i = GINT16_FROM_LE (*(gint16 *)(r->data + 5));
 			v = value_new_int (i);
@@ -206,20 +199,26 @@ read_workbook (Workbook *wb, FILE *f)
 			break;
 		}
 		case LOTUS_FORMULA:
+		{
+			ExprTree *f;
 		/* 5-12 = value */
 		/* 13-14 = formula r->length */
-/*                Ignore for now.
                         i = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
 			j = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
+/*                Ignore for now.
 			f = sf | readfmt(p); 
 			formula(GINT16_FROM_LE (*(gint16 *)(r->data + 13), r->data + 15, i, j));
 			p1 = pop();
-			value.number = LOTUS_GETDOUBLE (r->data + 5);
+			value.number = LOTUS_GETDOUBLE (
 			ins_data(buf, siod_interpreter, p1,
 				value, EXPRESSION, s, i+1, j+1);
 			cfree(p1);
 			ins_format(buf,	s, i+1, j+1, fmt_old2new(f));*/
+			f = lotus_parse_formula (sheet, i, j, r->data + 15, /* FIXME: unsafe */
+						 GINT16_FROM_LE (*(gint16 *)(r->data + 13)));
+			v = value_new_float (LOTUS_GETDOUBLE (r->data + 5));
 			break;
+		}
 		default:
 			break;
 		}
