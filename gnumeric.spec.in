@@ -82,8 +82,11 @@ fi
 %{prefix}/share/gnome/help/gnumeric/C/*.html
 %{prefix}/share/gnome/help/gnumeric/C/*.dat
 %{prefix}/share/gnome/help/gnumeric/C/docbook.css
+%{prefix}/share/gnome/ui/gnumeric.xml
 %config %{prefix}/share/gnome/apps/Applications/gnumeric.desktop
 %{prefix}/share/pixmaps/gnumeric/*
+%{prefix}/share/pixmaps/gnome-application-x-gnumeric.png
+%{prefix}/share/pixmaps/gnome-application-x-xls.png
 %{prefix}/share/pixmaps/gnome-gnumeric.png
 %{prefix}/share/gnumeric/@VERSION@/templates/*.gnumeric
 %{prefix}/share/gnumeric/@VERSION@/autoformat-templates/*.xml
@@ -95,10 +98,17 @@ fi
 %defattr (0444, bin, bin, 555)
 # This should go in a devel package...
 %{prefix}/share/idl/*.idl
+%{prefix}/share/gnumeric/@VERSION/idl/*.idl
 %config %{sysconfdir}/CORBA/servers/gnumeric.gnorba
 %doc HACKING AUTHORS ChangeLog NEWS BUGS README COPYING TODO
 
 %changelog
+* Wed Oct 18 2000 John Gotts <jgotts@linuxsavvy.com>
+- Added gnumeric.xml, gnome-application-x-gnumeric.png,
+  gnome-application-x-xls.png, gnumeric.oafinfo, and gnumericConf.sh. 
+- Fixed incorrect idl path.
+- Removed an excess blank line.  ;-)
+
 * Sun Oct 01 2000 Almer S. Tigelaar <almer1@dds.nl>
 - Make some minor adjustments for the autoformatter
 
@@ -160,4 +170,3 @@ fi
 
 * Thu Sep 24 1998 Michael Fulbright <msf@redhat.com>
 - Version 0.2
-
