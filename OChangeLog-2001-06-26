@@ -1,3 +1,7 @@
+2000-04-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print.c : make ENABLE_BONOBO_PRINT conditional on ENABLE_BONOBO.
+
 2000-04-14  Michael Meeks  <michael@helixcode.com>
 
 	* src/print.c (print_job_info_get): setup sheet object list.

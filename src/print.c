@@ -18,7 +18,9 @@
 #include <libgnomeprint/gnome-print-master-preview.h>
 #include <libgnomeprint/gnome-print-dialog.h>
 
+#ifdef ENABLE_BONOBO
 #define ENABLE_BONOBO_PRINT
+#endif
 
 #ifdef ENABLE_BONOBO_PRINT
 #	include <bonobo/bonobo-print-client.h>
