@@ -1,5 +1,10 @@
 2000-04-17  Karl EICHWALDER  <ke@suse.de>
 
+	* src/dialogs/dialog-analysis-tools.c (dialog_correlation_tool):
+	Correct C&P errors (ACK by Jukka-Pekka Iivonen).
+
+2000-04-17  Karl EICHWALDER  <ke@suse.de>
+
 	* NEWS (Translations): New top.
 
 	* gnumeric.desktop.in (Comment): Shorten comment.

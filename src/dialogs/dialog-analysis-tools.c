@@ -489,7 +489,7 @@ parse_output(int output, Sheet *sheet,
 			  &range.end.row)) {
 	        error_in_entry(wb, entry, 
 			     _("You should introduce a valid cell range "
-			       "in 'Into a Range:'"));
+			       "in 'Input Range:'"));
 		return 1;
 	}
 
@@ -646,7 +646,7 @@ correlation_dialog_loop:
 			  &range.end.row)) {
 	        error_in_entry(wb, range_entry, 
 			       _("You should introduce a valid cell range "
-			       "in 'Range:'"));
+			       "in 'Input Range:'"));
 		goto correlation_dialog_loop;
 	}
 
