@@ -1,3 +1,7 @@
+2001-02-13  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : Fix target name.
+
 2001-02-12  Karl Eichwalder  <ke@suse.de>
 
 	* Makefile.am (EXTRA_DIST): Add $(gnumeric_plugin_python_DATA).
