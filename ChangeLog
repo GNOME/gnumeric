@@ -1,3 +1,8 @@
+2001-06-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_new) : Use the extension associated with
+	  the default saver as the default extension.
+
 2001-06-04  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/func.c (function_def_get_full_info_if_needed): Use fn_type to
