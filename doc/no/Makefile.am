@@ -3,6 +3,8 @@ locale=no_NO
 gnumeric_helpdir = $(datadir)/gnome/help/gnumeric/$(lang)
 gnumeric_help_DATA = topic.dat
 
-include $(srcdir)/../gnumeric-doc.make
+#include $(srcdir)/../gnumeric-doc.make
 
-dist-hook: app-dist-hook
+#dist-hook: app-dist-hook
+
+EXTRA_DIST = topic.dat
