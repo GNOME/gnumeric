@@ -1,3 +1,21 @@
+2000-01-03  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/cell.c (cell_render_value): Do not check for cell->sheet and
+	cell->sheet->workbook, these must be true.
+
+2000-01-02  Martin Sheppard  <martin.sheppard@iname.com>
+
+	* src/workbook.h (struct _Workbook): add option to display text of
+	formulas instead of their value
+
+	* src/workbook.c (workbook_menu_edit): add menu oiption for toggling
+	the display of formulas
+	(toggle_formuals_cmd,cb_cell_rerender): new function to toggle the 
+	display of formulas
+	(workbook_new): initialize the display formulas option
+
+	* src/cell.c (cell_render_value): implemented displaying formulas
+	
 2000-01-02  Martin Sheppard <martin.sheppard@iname.com>
 
 	* src/parser.{c,y} (yylex) : fixed so that while parsing a formula,

@@ -378,7 +378,9 @@ cell_get_formatted_val (Cell *cell, StyleColor **col)
  * cell_render_value
  * @cell: The cell whose value needs to be rendered
  *
- * The value of the cell is formated according to the format style
+ * The value of the cell is formated according to the format style, but if
+ * formulas are being displayed then use the text of the formula instead of 
+ * its value.
  */
 void
 cell_render_value (Cell *cell)
@@ -397,8 +399,16 @@ cell_render_value (Cell *cell)
 		cell->render_color = NULL;
 	}
 
-	str = cell_get_formatted_val (cell, &color);
-	cell->render_color = color;
+	if (cell->sheet->workbook->display_formulas && cell->parsed_node){
+		ParsePosition pp;
+		char *tmpstr = expr_decode_tree (cell->parsed_node,
+						 parse_pos_cell (&pp, cell));
+		str = g_strconcat ("=", tmpstr, NULL);
+		g_free (tmpstr);
+	} else {
+		str = cell_get_formatted_val (cell, &color);		
+		cell->render_color = color;
+	}
 
 	cell_set_rendered_text (cell, str);
 	g_free (str);

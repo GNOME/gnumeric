@@ -111,6 +111,8 @@ struct _Workbook {
 
 	void       *corba_server;
 
+	gboolean   display_formulas; 
+
 	WorkbookPrivate *priv;
 };
 

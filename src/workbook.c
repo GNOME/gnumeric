@@ -847,6 +847,20 @@ zoom_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+cb_cell_rerender (gpointer cell, gpointer data)
+{
+        cell_render_value(cell);
+        cell_queue_redraw(cell);
+}
+
+static void
+toggle_formulas_cmd (GtkWidget *widget, Workbook *wb)
+{
+	wb->display_formulas = !wb->display_formulas;
+	g_list_foreach(wb->formula_cell_list, &cb_cell_rerender, NULL);
+}
+
+static void
 format_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
@@ -1101,6 +1115,8 @@ static GnomeUIInfo workbook_menu_edit [] = {
 static GnomeUIInfo workbook_menu_view [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Zoom..."),
 	  N_("Zoom the spreadsheet in or out"), zoom_cmd },
+	{ GNOME_APP_UI_ITEM, N_("Toggle _Formulas"),
+	  N_("Toggle the display of formulas"), toggle_formulas_cmd },
 	GNOMEUIINFO_END
 };
 
@@ -2138,6 +2154,7 @@ workbook_new (void)
 	wb = gtk_type_new (workbook_get_type ());
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->table     = gtk_table_new (0, 0, 0);
+	wb->display_formulas = FALSE;
 
 	gtk_window_set_policy (GTK_WINDOW (wb->toplevel), 1, 1, 0);
 	sx = MAX (gdk_screen_width  () - 64, 400);
