@@ -35,10 +35,7 @@ typedef enum { MS_BIFF_V2 = 2,
  * 'data *' should _not_ be kept.
  **/
 typedef struct {
-	guint8	  ms_op;
-	guint8	  ls_op;
 	guint16	  opcode;
-
 	guint32	  length;
 	gboolean  data_malloced, non_decrypted_data_malloced;
 	guint8	 *data, *non_decrypted_data;
@@ -73,8 +70,7 @@ guint32     ms_biff_query_bound_check (BiffQuery *q,
 /*******************************************************************************/
 
 typedef struct _BiffPut {
-	guint8		 ms_op;
-	guint8		 ls_op;
+	guint16		 opcode;
 	guint32		 length; /* NB. can be extended by a continue opcode */
 	guint8		*data;
 	int		 streamPos;

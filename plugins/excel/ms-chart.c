@@ -2229,10 +2229,9 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	d (0, fputs ("{ /* CHART */\n", stderr););
 
 	while (!done && ms_biff_query_next (q)) {
-		int const lsb = q->opcode & 0xff;
-
 		/* Use registered jump table for chart records */
 		if ((q->opcode & 0xff00) == 0x1000) {
+			int const lsb = q->opcode & 0xff;
 			int const begin_end =
 				(q->opcode == BIFF_CHART_begin ||
 				 q->opcode == BIFF_CHART_end);
@@ -2254,87 +2253,91 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 							fprintf (stderr, ");\n"); });
 				}
 			}
-		} else {
-			switch (lsb) {
-			case BIFF_EOF:
-				done = TRUE;
-				d (0, fputs ("}; /* CHART */\n", stderr););
-				g_return_val_if_fail(state.stack->len == 0, TRUE);
-				break;
-
-			case BIFF_PROTECT : {
-				gboolean const is_protected =
-					(1 == GSF_LE_GET_GUINT16 (q->data));
-				d (4, fprintf (stderr, "Chart is%s protected;\n",
-					     is_protected ? "" : " not"););
-				break;
-			}
-
-			case BIFF_NUMBER: {
-				double val;
-				val = gsf_le_get_double (q->data + 6);
-				/* Figure out how to assign these back to the series,
-				 * are they just sequential ?
-				 */
-				d (10, fprintf (stderr, "%f\n", val););
-				break;
-			}
-
-			case BIFF_LABEL : {
-				guint16 row = GSF_LE_GET_GUINT16 (q->data + 0);
-				guint16 col = GSF_LE_GET_GUINT16 (q->data + 2);
-				guint16 xf  = GSF_LE_GET_GUINT16 (q->data + 4);
-				guint16 len = GSF_LE_GET_GUINT16 (q->data + 6);
-				char *label = biff_get_text (q->data + 8, len, NULL, ver);
-				d (10, {fprintf (stderr, "'%s'\n;hmm, what are these values for a chart ???\n"
-						"row = %d, col = %d, xf = %d\n", label, row, col, xf);});
-				g_free (label);
-				break;
-			}
-
-			case BIFF_MS_O_DRAWING:
-				ms_escher_parse (q, &state.container, FALSE);
-				break;
-
-			case BIFF_EXTERNCOUNT: /* ignore */ break;
-			case BIFF_EXTERNSHEET: /* These cannot be biff8 */
-				excel_read_EXTERNSHEET_v7 (q, &state.container);
-				break;
-
-			case BIFF_WINDOW2 :
-				if (full_page != NULL && container->ver > MS_BIFF_V2)
-					if (GSF_LE_GET_GUINT16 (q->data + 0) & 0x0400)
-						wb_view_sheet_focus (container->ewb->wbv, full_page);
-				break;
-
-			case BIFF_SCL :
-				if (full_page != NULL)
-					excel_read_SCL (q, full_page);
-				break;
-
-			case BIFF_PLS:		/* Skip for Now */
-			case BIFF_DIMENSIONS :	/* Skip for Now */
-			case BIFF_HEADER :	/* Skip for Now */
-			case BIFF_FOOTER :	/* Skip for Now */
-			case BIFF_HCENTER :	/* Skip for Now */
-			case BIFF_VCENTER :	/* Skip for Now */
-			case BIFF_CODENAME :
-			case BIFF_SETUP :
-				d (8, fprintf (stderr, "Handled biff %x in chart;\n",
-					     q->opcode););
-				break;
-
-			case BIFF_PRINTSIZE: {
-#if 0
-				/* Undocumented, seems like an enum ??? */
-				gint16 const v = GSF_LE_GET_GUINT16 (q->data);
-#endif
-			}
+		} else switch (q->opcode) {
+		case BIFF_EOF:
+			done = TRUE;
+			d (0, fputs ("}; /* CHART */\n", stderr););
+			g_return_val_if_fail(state.stack->len == 0, TRUE);
 			break;
 
-			default :
-				excel_unexpected_biff (q, "Chart", ms_excel_chart_debug);
-			}
+		case BIFF_PROTECT : {
+			gboolean const is_protected =
+				(1 == GSF_LE_GET_GUINT16 (q->data));
+			d (4, fprintf (stderr, "Chart is%s protected;\n",
+				     is_protected ? "" : " not"););
+			break;
+		}
+
+		case BIFF_BLANK_v0:
+		case BIFF_BLANK_v2: /* Stores a missing value in the inline value tables */
+			break;
+		case BIFF_NUMBER_v0:
+		case BIFF_NUMBER_v2: {
+			unsigned offset = (q->opcode == BIFF_NUMBER_v2) ? 6: 7;
+			double val = gsf_le_get_double (q->data + offset);
+			/* Figure out how to assign these back to the series,
+			 * are they just sequential ?  */
+			d (10, fprintf (stderr, "%f\n", val););
+			break;
+		}
+
+		case BIFF_LABEL_v0 : break; /* ignore for now */
+		case BIFF_LABEL_v2 : {
+			guint16 row = GSF_LE_GET_GUINT16 (q->data + 0);
+			guint16 col = GSF_LE_GET_GUINT16 (q->data + 2);
+			guint16 xf  = GSF_LE_GET_GUINT16 (q->data + 4);
+			guint16 len = GSF_LE_GET_GUINT16 (q->data + 6);
+			char *label = biff_get_text (q->data + 8, len, NULL, ver);
+			d (10, {fprintf (stderr, "'%s'\n;hmm, what are these values for a chart ???\n"
+					"row = %d, col = %d, xf = %d\n", label, row, col, xf);});
+			g_free (label);
+			break;
+		}
+
+		case BIFF_MS_O_DRAWING:
+			ms_escher_parse (q, &state.container, FALSE);
+			break;
+
+		case BIFF_EXTERNCOUNT: /* ignore */ break;
+		case BIFF_EXTERNSHEET: /* These cannot be biff8 */
+			excel_read_EXTERNSHEET_v7 (q, &state.container);
+			break;
+
+		case BIFF_WINDOW2_v0 :
+		case BIFF_WINDOW2_v2 :
+			if (full_page != NULL && container->ver > MS_BIFF_V2)
+				if (GSF_LE_GET_GUINT16 (q->data + 0) & 0x0400)
+					wb_view_sheet_focus (container->ewb->wbv, full_page);
+			break;
+
+		case BIFF_SCL :
+			if (full_page != NULL)
+				excel_read_SCL (q, full_page);
+			break;
+
+		case BIFF_PLS:		/* Skip for Now */
+		case BIFF_DIMENSIONS_v0 :/* Skip for Now */
+		case BIFF_DIMENSIONS_v2 :/* Skip for Now */
+		case BIFF_HEADER :	/* Skip for Now */
+		case BIFF_FOOTER :	/* Skip for Now */
+		case BIFF_HCENTER :	/* Skip for Now */
+		case BIFF_VCENTER :	/* Skip for Now */
+		case BIFF_CODENAME :
+		case BIFF_SETUP :
+			d (8, fprintf (stderr, "Handled biff %x in chart;\n",
+				     q->opcode););
+			break;
+
+		case BIFF_PRINTSIZE: {
+#if 0
+			/* Undocumented, seems like an enum ??? */
+			gint16 const v = GSF_LE_GET_GUINT16 (q->data);
+#endif
+		}
+		break;
+
+		default :
+			excel_unexpected_biff (q, "Chart", ms_excel_chart_debug);
 		}
 		state.prev_opcode = q->opcode;
 	}

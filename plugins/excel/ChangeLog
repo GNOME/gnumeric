@@ -1,3 +1,30 @@
+2004-09-22  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=153260
+	* ms-excel-write.c (excel_write_BOF) : use the versioned ids directly
+	(excel_write_FORMULA) : ARRAY is v2 for the versions we can export
+
+	* ms-excel-read.c (excel_unexpected_biff) : tweak the typing for
+	  printf
+	(ms_biff_bof_data_new) : straight to opcodes.
+	(excel_read_PALETTE) : ditto.
+	(excel_formula_shared) : ditto.
+	(excel_read_DEF_ROW_HEIGHT) : ditto.
+	(excel_read_FORMULA) : ditto, but be careful.  Use the BOF version,
+	  not the record.  Our export was dropping the version.
+	(excel_read_ROW) : better handling for old versions.
+
+	* ms-chart.c (ms_excel_chart_read) : use raw opcodes for non-chart
+	  records
+
+	* ms-biff.c : Drop all the ms_op ls_op nonsense and just store opcode
+	  a straight 16 bit id.
+
+	* biff-types.h : Rework to include explicit versioning for all records
+	  We were hitting too many odd ball records with invalid versioning
+	  Not just 0x1<byte>, but also 0x8<byte> even though that is a valid
+	  version.
+
 2004-09-16  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (xl_find_fontspec) : Scale the right direction

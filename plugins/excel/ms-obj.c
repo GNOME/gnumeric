@@ -736,7 +736,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	gboolean next_biff_record_maybe_imdata = FALSE;
 
 	g_return_val_if_fail (q, TRUE);
-	g_return_val_if_fail (q->ls_op == BIFF_OBJ, TRUE);
+	g_return_val_if_fail (q->opcode == BIFF_OBJ, TRUE);
 
 	data = q->data;
 	data_len_left = q->length;

@@ -756,7 +756,7 @@ excel_unexpected_biff (BiffQuery *q, char const *state,
 {
 #ifndef NO_DEBUG_EXCEL
 	if (debug_level > 1) {
-		g_warning ("Unexpected Opcode in %s: 0x%x, length 0x%x\n",
+		g_warning ("Unexpected Opcode in %s: 0x%hx, length 0x%x\n",
 			state, q->opcode, q->length);
 		if (debug_level > 2)
 			gsf_mem_dump (q->data, q->length);
@@ -1092,26 +1092,19 @@ biff_get_error (GnmEvalPos const *pos, guint8 err)
 	}
 }
 
-/**
- * See S59D5D.HTM
- **/
 MsBiffBofData *
 ms_biff_bof_data_new (BiffQuery *q)
 {
 	MsBiffBofData *ans = g_new (MsBiffBofData, 1);
 
-	if ((q->opcode & 0xff) == BIFF_BOF &&
-	    (q->length >= 4)) {
+	if (q->length >= 4) {
 
 		/* Determine type from BOF */
-		switch (q->opcode >> 8) {
-		case 0: ans->version = MS_BIFF_V2;
-			break;
-		case 2: ans->version = MS_BIFF_V3;
-			break;
-		case 4: ans->version = MS_BIFF_V4;
-			break;
-		case 8: 
+		switch (q->opcode) {
+		case BIFF_BOF_v0:	ans->version = MS_BIFF_V2; break;
+		case BIFF_BOF_v2:	ans->version = MS_BIFF_V3; break;
+		case BIFF_BOF_v4:	ans->version = MS_BIFF_V4; break;
+		case BIFF_BOF_v8:
 			d (2, {
 				fprintf (stderr,"Complicated BIFF version 0x%x\n",
 					GSF_LE_GET_GUINT16 (q->non_decrypted_data));
@@ -1559,7 +1552,6 @@ excel_palette_destroy (ExcelPalette *pal)
 	g_free (pal);
 }
 
-/* See: S59DC9.HTM */
 static void
 excel_read_PALETTE (BiffQuery *q, ExcelWorkbook *ewb)
 {
@@ -2274,7 +2266,9 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 	XLSharedFormula *sf;
 
 	if (!ms_biff_query_peek_next (q, &opcode) ||
-	    ((0xff & opcode) != BIFF_SHRFMLA && (0xff & opcode) != BIFF_ARRAY)) {
+	    (opcode != BIFF_SHRFMLA &&
+	     opcode != BIFF_ARRAY_v0 &&
+	     opcode != BIFF_ARRAY_v2)) {
 		g_warning ("EXCEL: unexpected record '0x%x' after a formula in '%s'.",
 			   opcode, cell_name (cell));
 		return NULL;
@@ -2284,7 +2278,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 
 	d (2, range_dump (&r, " <-- shared fmla in\n"););
 
-	is_array = (q->ls_op == BIFF_ARRAY);
+	is_array = (q->opcode != BIFF_SHRFMLA);
 	r.start.row	= GSF_LE_GET_GUINT16 (q->data + 0);
 	r.end.row	= GSF_LE_GET_GUINT16 (q->data + 2);
 	r.start.col	= GSF_LE_GET_GUINT8 (q->data + 4);
@@ -2327,7 +2321,6 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 	return expr;
 }
 
-/* See: S59D8F.HTM */
 static void
 excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 {
@@ -2453,8 +2446,9 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		expr = excel_formula_shared (q, esheet, cell);
 
 	if (is_string) {
-		guint16 code;
-		if (ms_biff_query_peek_next (q, &code) && (0xff & code) == BIFF_STRING) {
+		guint16 opcode;
+		if (ms_biff_query_peek_next (q, &opcode) &&
+		    (opcode == BIFF_STRING_v0 || opcode == BIFF_STRING_v2)) {
 			char *v = NULL;
 			if (ms_biff_query_next (q)) {
 				/*
@@ -3063,6 +3057,9 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 	   fprintf (stderr,"EXTERNNAME\n");
 	   gsf_mem_dump (q->data, q->length); });
 
+	/* use biff version to differentiate, not the record version because
+	 * the version is the same for very old and new, with _v2 used for
+	 * some intermediate variants */
 	if (ver >= MS_BIFF_V7) {
 		guint16 flags = GSF_LE_GET_GUINT8 (q->data);
 		guint32 namelen = GSF_LE_GET_GUINT8 (q->data + 6);
@@ -3183,6 +3180,9 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
 		builtin_name = (flags & 0x0020) != 0;
 	}
 
+	/* use biff version to differentiate, not the record version because
+	 * the version is the same for very old and new, with _v2 used for
+	 * some intermediate variants */
 	if (ver >= MS_BIFF_V8) {
 		expr_len = GSF_LE_GET_GUINT16 (q->data + 4);
 		sheet_index = GSF_LE_GET_GUINT16 (q->data + 8);
@@ -3434,14 +3434,20 @@ excel_read_ROW (BiffQuery *q, ExcelReadSheet *esheet)
 	guint16 const end_col = GSF_LE_GET_GUINT16 (q->data + 4) - 1;
 #endif
 	guint16 const height = GSF_LE_GET_GUINT16 (q->data + 6);
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data + 12);
-	guint16 const flags2 = GSF_LE_GET_GUINT16 (q->data + 14);
-	guint16 const xf = flags2 & 0xfff;
+	guint16 flags = 0;
+	guint16 flags2 = 0;
+	guint16 xf;
 
 	/* If the bit is on it indicates that the row is of 'standard' height.
 	 * However the remaining bits still include the size.
 	 */
 	gboolean const is_std_height = (height & 0x8000) != 0;
+
+	if (q->opcode == BIFF_ROW_v2) {
+		flags = GSF_LE_GET_GUINT16 (q->data + 12);
+		flags2 = GSF_LE_GET_GUINT16 (q->data + 14);
+	}
+	xf = flags2 & 0xfff;
 
 	d (1, {
 		fprintf (stderr,"Row %d height 0x%x, flags=0x%x;\n", row + 1, height,flags);
@@ -3582,7 +3588,6 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 				       firstcol, lastcol);
 }
 
-/* See: S59D8F.HTM */
 /* When IMDATA or BG_PIC is bitmap, the format is OS/2 BMP, but the
  * 14 bytes header is missing.
  */
@@ -3661,7 +3666,6 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 	return pixbuf;
 }
 
-/* S59DE2.HTM */
 static void
 excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 {
@@ -3709,7 +3713,7 @@ excel_read_DEF_ROW_HEIGHT (BiffQuery *q, ExcelReadSheet *esheet)
 	guint16 height = 0; /* must be 16 bit */
 	double height_units;
 
-	if (q->ms_op > 0) {
+	if (q->opcode != BIFF_DEFAULTROWHEIGHT_v0) {
 		flags  = GSF_LE_GET_GUINT16 (q->data);
 		height = GSF_LE_GET_GUINT16 (q->data + 2);
 	} else {
@@ -3775,7 +3779,7 @@ excel_read_GUTS (BiffQuery *q, ExcelReadSheet *esheet)
    "the printinfo has a gp printconfig which stores the settings [but] when we
    set a printer it overrides the previous settings with the printer defaults"
 
-/* map a BIFF4 SETUP paper size number to the equivalent libgnomeprint paper
+   map a BIFF4 SETUP paper size number to the equivalent libgnomeprint paper
    name or width and height.
    The mapping can be derived from http://sc.openoffice.org/excelfileformat.pdf
    and the documentation for the Spreadsheet::WriteExcel perl module.
@@ -3806,12 +3810,11 @@ static paper_size_table_entry const paper_size_table[PAPER_NAMES_LEN] = {
 #endif
 
 
-/* See: S59DE3.HTM */
 static void
 excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	PrintInformation *pi = esheet->sheet->print_info;
-	guint16  grbit, papersize;
+	guint16  grbit; /* , papersize; */
 
 	g_return_if_fail (q->length == 34);
 
@@ -3925,7 +3928,7 @@ excel_read_MULRK (BiffQuery *q, ExcelReadSheet *esheet)
 static void
 excel_read_MULBLANK (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	/* S59DA7.HTM is extremely unclear, this is an educated guess */
+	/* This is an educated guess, docs are not terribly clear */
 	int firstcol = XL_GETCOL (q);
 	int const row = XL_GETROW (q);
 	guint8 const *ptr = (q->data + q->length - 2);
@@ -4004,10 +4007,6 @@ static void
 excel_read_DIMENSIONS (BiffQuery *q, ExcelWorkbook *ewb)
 {
 	GnmRange r;
-
-	/* What the heck was a 0x00 ? */
-	if (q->opcode != 0x200)
-		return;
 
 	if (ewb->container.ver >= MS_BIFF_V8) {
 		r.start.row = GSF_LE_GET_GUINT32 (q->data);
@@ -4097,10 +4096,6 @@ excel_read_DELTA (BiffQuery *q, ExcelWorkbook *ewb)
 {
 	double tolerance;
 
-	/* samples/excel/dbfuns.xls has as sample of this record */
-	if (q->opcode == BIFF_UNKNOWN_1)
-		return;
-
 	g_return_if_fail (q->length == 8);
 
 	tolerance = gsf_le_get_double (q->data);
@@ -4160,7 +4155,7 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 	guint32 biff_pat_col;
 	gboolean set_grid_color;
 
-	if (esheet->container.ver > MS_BIFF_V2) {
+	if (q->opcode == BIFF_WINDOW2_v2) {
 		guint16 const options    = GSF_LE_GET_GUINT16 (q->data + 0);
 
 		g_return_if_fail (q->length >= 10);
@@ -5196,91 +5191,54 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 
 		d (5, fprintf (stderr,"Opcode: 0x%x\n", q->opcode););
 
-		if (q->ms_op == 0x10) {
-			/* HACK: it seems that in older versions of XL the
-			 * charts did not have a wrapper object.  the first
-			 * record in the sequence of chart records was a
-			 * CHART_UNITS followed by CHART_CHART.  We play off of
-			 * that.  When we encounter a CHART_units record we
-			 * jump to the chart handler which then starts parsing
-			 * at the NEXT record.
-			 */
-			if (q->opcode == BIFF_CHART_units)
-				ms_excel_chart_read (q, sheet_container (esheet),
-					ver, sheet_object_graph_new (NULL), NULL);
-			else
-				g_warning ("EXCEL: How are we seeing chart records in a sheet ?");
-			continue;
-		} else if (q->ms_op == 0x01) {
-			switch (q->opcode) {
-			case BIFF_CONDFMT: excel_read_CONDFMT (q, esheet); break;
-			case BIFF_CF:
-				g_warning ("Found a CF record without a CONDFMT ??");
-				excel_read_CF (q, esheet);
-				break;
-			case BIFF_DVAL:		excel_read_DVAL (q, esheet);  break;
-			case BIFF_HLINK:	excel_read_HLINK (q, esheet); break;
-			case BIFF_CODENAME:	excel_read_CODENAME (q, ewb, esheet); break;
-				break;
-			case BIFF_DV:
-				g_warning ("Found a DV record without a DVal ??");
-				excel_read_DV (q, esheet);
-				break;
-			default:
-				excel_unexpected_biff (q, "Sheet", ms_excel_read_debug);
-			}
-			continue;
-		}
+		switch (q->opcode) {
+		case BIFF_DIMENSIONS_v0: break; /* ignore ancient XL2 variant */
+		case BIFF_DIMENSIONS_v2: excel_read_DIMENSIONS (q, ewb); break;
 
-		switch (q->ls_op) {
-		case BIFF_DIMENSIONS:	/* 2, NOT 1,10 */
-			excel_read_DIMENSIONS (q, ewb);
-			break;
+		case BIFF_BLANK_v0:
+		case BIFF_BLANK_v2: excel_set_xf (esheet, q); break;
 
-		case BIFF_BLANK:
-			excel_set_xf (esheet, q);
-			break;
-
-		case BIFF_INTEGER: /* Extinct in modern Excel */
+		case BIFF_INTEGER:
 			excel_sheet_insert_val (esheet, q,
 				value_new_int (GSF_LE_GET_GUINT16 (q->data + 7)));
 			break;
-
-		case BIFF_NUMBER:
-			if (ver == MS_BIFF_V2)
-				v = value_new_float (gsf_le_get_double (q->data + 7));
-			else
-				v = value_new_float (gsf_le_get_double (q->data + 6));
-
-			excel_sheet_insert_val (esheet, q, v);
+		case BIFF_NUMBER_v0:
+			excel_sheet_insert_val (esheet, q,
+				value_new_float (gsf_le_get_double (q->data + 7)));
+			break;
+		case BIFF_NUMBER_v2:
+			excel_sheet_insert_val (esheet, q,
+				value_new_float (gsf_le_get_double (q->data + 6)));
 			break;
 
-		case BIFF_LABEL: excel_read_LABEL (q, esheet, FALSE);	break;
+		case BIFF_LABEL_v0:
+		case BIFF_LABEL_v2: excel_read_LABEL (q, esheet, FALSE); break;
 
-		case BIFF_BOOLERR: { /* S59D5F.HTM */
-			GnmValue *v;
-			guint8 const val = GSF_LE_GET_GUINT8 (q->data + 6);
-
-
+		case BIFF_BOOLERR_v0:
+		case BIFF_BOOLERR_v2:
 			if (GSF_LE_GET_GUINT8 (q->data + 7)) {
 				GnmEvalPos ep;
 				GnmCellPos pos;
 				pos.col = XL_GETCOL (q);
 				pos.row = XL_GETROW (q);
-				v = biff_get_error (eval_pos_init (&ep, esheet->sheet, &pos), val);
+				v = biff_get_error (eval_pos_init (&ep, esheet->sheet, &pos),
+					GSF_LE_GET_GUINT8 (q->data + 6));
 			} else
-				v = value_new_bool (val);
+				v = value_new_bool (GSF_LE_GET_GUINT8 (q->data + 6));
 			excel_sheet_insert_val (esheet, q, v);
 			break;
-		}
 
-		case BIFF_FORMULA:	excel_read_FORMULA (q, esheet);	break;
+		case BIFF_FORMULA_v0:
+		case BIFF_FORMULA_v2:
+		case BIFF_FORMULA_v4:	excel_read_FORMULA (q, esheet);	break;
 		/* case STRING : is handled elsewhere since it always follows FORMULA */
-		case BIFF_ROW:		excel_read_ROW (q, esheet);	break;
+		case BIFF_ROW_v0:
+		case BIFF_ROW_v2:	excel_read_ROW (q, esheet);	break;
 		case BIFF_EOF:		return TRUE;
 
 		/* NOTE : bytes 12 & 16 appear to require the non decrypted data */
-		case BIFF_INDEX:	break;
+		case BIFF_INDEX_v0:
+		case BIFF_INDEX_v2:	break;
 
 		case BIFF_CALCCOUNT:	excel_read_CALCCOUNT (q, ewb);	break;
 		case BIFF_CALCMODE:	excel_read_CALCMODE (q,ewb);	break;
@@ -5323,10 +5281,12 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 
 		case BIFF_NOTE:		excel_read_NOTE (q, esheet);	  	break;
 		case BIFF_SELECTION:	excel_read_SELECTION (q, esheet);	break;
-		case BIFF_EXTERNNAME:
+		case BIFF_EXTERNNAME_v0:
+		case BIFF_EXTERNNAME_v2:
 			excel_read_EXTERNNAME (q, &esheet->container);
 			break;
-		case BIFF_DEFAULTROWHEIGHT:
+		case BIFF_DEFAULTROWHEIGHT_v0:
+		case BIFF_DEFAULTROWHEIGHT_v2:
 			excel_read_DEF_ROW_HEIGHT (q, esheet);
 			break;
 
@@ -5355,7 +5315,10 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 			break;
 
 		case BIFF_WINDOW1:	break; /* what does this do for a sheet ? */
-		case BIFF_WINDOW2:	excel_read_WINDOW2 (q, esheet, wb_view); break;
+		case BIFF_WINDOW2_v0:
+		case BIFF_WINDOW2_v2:
+			excel_read_WINDOW2 (q, esheet, wb_view);
+			break;
 		case BIFF_BACKUP:	break;
 		case BIFF_PANE:		excel_read_PANE (q, esheet, wb_view);	 break;
 
@@ -5414,8 +5377,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 
 		case BIFF_RSTRING:	excel_read_LABEL (q, esheet, TRUE);	break;
 
-		/* S59D6D.HTM,  Can be ignored on read side */
-		case BIFF_DBCELL:						break;
+		case BIFF_DBCELL: break; /* Can be ignored on read side */
 
 		case BIFF_BG_PIC:	excel_read_BG_PIC (q, esheet);		break;
 		case BIFF_MERGECELLS:	excel_read_MERGECELLS (q, esheet);	break;
@@ -5442,17 +5404,21 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 					 i, esheet->container.ewb->sst_len);
 			break;
 
-		/* Found in worksheet only in XLS <= BIFF 4 */
-		case BIFF_XF_OLD:
+		case BIFF_XF_OLD_v0:
+		case BIFF_XF_OLD_v2:
+		case BIFF_XF_OLD_v4:
 			excel_read_XF_OLD (q, ewb, ver);
 			break;
 		case BIFF_XF_INDEX:
 			esheet->biff2_prev_xf_index = GSF_LE_GET_GUINT16 (q->data);
 			break;
 
-		case BIFF_NAME:		excel_read_NAME (q, ewb, esheet);	break;
-		case BIFF_FONT:		excel_read_FONT (q, ewb);	break;
-		case BIFF_FORMAT:	excel_read_FORMAT (q, ewb);	break;
+		case BIFF_NAME_v0:
+		case BIFF_NAME_v2:	excel_read_NAME (q, ewb, esheet); break;
+		case BIFF_FONT_v0:
+		case BIFF_FONT_v2:	excel_read_FONT (q, ewb);	break;
+		case BIFF_FORMAT_v0:
+		case BIFF_FORMAT_v4:	excel_read_FORMAT (q, ewb);	break;
 		case BIFF_STYLE:	break;
 		case BIFF_1904:		excel_read_1904 (q, ewb);	break;
 		case BIFF_FILEPASS: {
@@ -5463,6 +5429,37 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 			}
 			break;
 		}
+
+		case BIFF_CONDFMT: excel_read_CONDFMT (q, esheet); break;
+		case BIFF_CF:
+			g_warning ("Found a CF record without a CONDFMT ??");
+			excel_read_CF (q, esheet);
+			break;
+		case BIFF_DVAL:		excel_read_DVAL (q, esheet);  break;
+		case BIFF_HLINK:	excel_read_HLINK (q, esheet); break;
+		case BIFF_CODENAME:	excel_read_CODENAME (q, ewb, esheet); break;
+			break;
+		case BIFF_DV:
+			g_warning ("Found a DV record without a DVal ??");
+			excel_read_DV (q, esheet);
+			break;
+
+		case BIFF_UNKNOWN_810:
+			/* samples/excel/dbfuns.xls has as sample of this record */
+			break;
+
+		/* HACK: it seems that in older versions of XL the
+		 * charts did not have a wrapper object.  the first
+		 * record in the sequence of chart records was a
+		 * CHART_UNITS followed by CHART_CHART.  We play off of
+		 * that.  When we encounter a CHART_units record we
+		 * jump to the chart handler which then starts parsing
+		 * at the NEXT record.
+		 */
+		case BIFF_CHART_units :
+			ms_excel_chart_read (q, sheet_container (esheet),
+				ver, sheet_object_graph_new (NULL), NULL);
+			break;
 
 		default:
 			excel_unexpected_biff (q, "Sheet", ms_excel_read_debug);
@@ -5556,9 +5553,6 @@ excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 	}});
 }
 
-/*
- * See: S59E17.HTM
- */
 static void
 excel_read_WINDOW1 (BiffQuery *q, WorkbookView *wb_view)
 {
@@ -5731,42 +5725,11 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		d (5, fprintf (stderr,"Opcode: 0x%x\n", q->opcode););
 
-		/* Catch Oddballs
-		 * The heuristic seems to be that 'version 1' BIFF types
-		 * are unique and not versioned.
-		 */
-		if (0x1 == q->ms_op) {
-			switch (q->opcode) {
-			case BIFF_DSF:		/* stored in the biff8 workbook */
-			case BIFF_XL5MODIFY:	/* stored in the biff5/7 book */
-				d (0, fprintf (stderr, "Double stream file : %d\n",
-					       GSF_LE_GET_GUINT16 (q->data)););
-				if (GSF_LE_GET_GUINT16 (q->data))
-					*is_double_stream_file = TRUE;
-				break;
-
-			case BIFF_XL9FILE:
-				d (0, puts ("XL 2000 file"););
-				break;
-
-			case BIFF_RECALCID:	break;
-			case BIFF_REFRESHALL:	break;
-			case BIFF_CODENAME:	excel_read_CODENAME (q, ewb, NULL); break;
-			case BIFF_PROT4REVPASS: break;
-
-			case BIFF_USESELFS:	break;
-			case BIFF_TABID:	break;
-			case BIFF_PROT4REV:
-				break;
-
-
-			case BIFF_SUPBOOK:	excel_read_SUPBOOK (q, ewb); break;
-
-			default:
-				excel_unexpected_biff (q, "Workbook", ms_excel_read_debug);
-			}
-		} else switch (q->ls_op) {
-		case BIFF_BOF:
+		switch (q->opcode) {
+		case BIFF_BOF_v0:
+		case BIFF_BOF_v2:
+		case BIFF_BOF_v4:
+		case BIFF_BOF_v8:
 			ewb = excel_read_BOF (q, ewb, wb_view, context, &ver, &current_sheet);
 			break;
 
@@ -5775,12 +5738,15 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			d (0, fprintf (stderr,"End of worksheet spec.\n"););
 			break;
 
-		case BIFF_FONT:		excel_read_FONT (q, ewb);			break;
+		case BIFF_FONT_v0:
+		case BIFF_FONT_v2:	excel_read_FONT (q, ewb);			break;
 		case BIFF_WINDOW1:	excel_read_WINDOW1 (q, wb_view);		break;
 		case BIFF_BOUNDSHEET:	excel_read_BOUNDSHEET (q, ewb, ver->version);	break;
 		case BIFF_PALETTE:	excel_read_PALETTE (q, ewb);			break;
 
-		case BIFF_XF_OLD: /* see S59E1E.HTM */
+		case BIFF_XF_OLD_v0:
+		case BIFF_XF_OLD_v2:
+		case BIFF_XF_OLD_v4:	excel_read_XF_OLD (q, ewb, ver->version);	break;
 		case BIFF_XF:		excel_read_XF (q, ewb, ver->version);		break;
 
 		case BIFF_EXTERNCOUNT:	/* ignore */ break;
@@ -5801,7 +5767,8 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 		}
 
-		case BIFF_FORMAT:	excel_read_FORMAT (q, ewb);			break;
+		case BIFF_FORMAT_v0:
+		case BIFF_FORMAT_v4:	excel_read_FORMAT (q, ewb);			break;
 
 		case BIFF_BACKUP: 	break;
 		case BIFF_CODEPAGE: { /* DUPLICATE 42 */
@@ -5862,8 +5829,10 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		case BIFF_WINDOWPROTECT:
 			break;
 
-		case BIFF_EXTERNNAME:	excel_read_EXTERNNAME (q, &ewb->container); break;
-		case BIFF_NAME:		excel_read_NAME (q, ewb, NULL);	break;
+		case BIFF_EXTERNNAME_v0:
+		case BIFF_EXTERNNAME_v2: excel_read_EXTERNNAME (q, &ewb->container); break;
+		case BIFF_NAME_v0:
+		case BIFF_NAME_v2:	excel_read_NAME (q, ewb, NULL);	break;
 		case BIFF_XCT:		excel_read_XCT (q, ewb);	break;
 
 		case BIFF_WRITEACCESS:
@@ -5887,12 +5856,15 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		case BIFF_SELECTION: /* 0, NOT 10 */
 			break;
 
-		case BIFF_DIMENSIONS:	/* 2, NOT 1,10 */
-			/* Check for padding */
-			if (q->ms_op == 0 && prev_was_eof)
+		case BIFF_DIMENSIONS_v0:
+			/* Ignore files that pad the the end with zeros */
+			if (prev_was_eof) {
 				stop_loading = TRUE;
-			else
-				excel_read_DIMENSIONS (q, ewb);
+				break;
+			}
+			/* fall through */
+		case BIFF_DIMENSIONS_v2:
+			excel_read_DIMENSIONS (q, ewb);
 			break;
 
 		case BIFF_OBJ:	ms_read_OBJ (q, &ewb->container, NULL); break;
@@ -5913,11 +5885,36 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		case BIFF_SST:	   excel_read_SST (q, ewb);	break;
 		case BIFF_EXTSST:  excel_read_EXSST (q, ewb);	break;
 
+		case BIFF_DSF:		/* stored in the biff8 workbook */
+		case BIFF_XL5MODIFY:	/* stored in the biff5/7 book */
+			d (0, fprintf (stderr, "Double stream file : %d\n",
+				       GSF_LE_GET_GUINT16 (q->data)););
+			if (GSF_LE_GET_GUINT16 (q->data))
+				*is_double_stream_file = TRUE;
+			break;
+
+		case BIFF_XL9FILE:
+			d (0, puts ("XL 2000 file"););
+			break;
+
+		case BIFF_RECALCID:	break;
+		case BIFF_REFRESHALL:	break;
+		case BIFF_CODENAME:	excel_read_CODENAME (q, ewb, NULL); break;
+		case BIFF_PROT4REVPASS: break;
+
+		case BIFF_USESELFS:	break;
+		case BIFF_TABID:	break;
+		case BIFF_PROT4REV:
+			break;
+
+
+		case BIFF_SUPBOOK:	excel_read_SUPBOOK (q, ewb); break;
+
 		default:
 			excel_unexpected_biff (q, "Workbook", ms_excel_read_debug);
 			break;
 		}
-		prev_was_eof = (q->ls_op == BIFF_EOF);
+		prev_was_eof = (q->opcode == BIFF_EOF);
 	}
 	ms_biff_query_destroy (q);
 	if (ver)

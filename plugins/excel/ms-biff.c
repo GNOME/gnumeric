@@ -407,8 +407,6 @@ ms_biff_query_next (BiffQuery *q)
 		return FALSE;
 	q->opcode = GSF_LE_GET_GUINT16 (data);
 	q->length = GSF_LE_GET_GUINT16 (data + 2);
-	q->ms_op  = (q->opcode>>8);
-	q->ls_op  = (q->opcode&0xff);
 
 	/* no biff record should be larger than around 20,000 */
 	g_return_val_if_fail (q->length < 20000, FALSE);
@@ -519,7 +517,7 @@ ms_biff_put_new (GsfOutput *output, MsBiffVersion version, int codepage)
 
 	bp = g_new (BiffPut, 1);
 
-	bp->ms_op         = bp->ls_op = 0;
+	bp->opcode        = 0;
 	bp->length        = 0;
 	bp->length        = 0;
 	bp->streamPos     = gsf_output_tell (output);
@@ -582,8 +580,7 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 #endif
 
 	bp->len_fixed  = 1;
-	bp->ms_op      = (opcode >>   8);
-	bp->ls_op      = (opcode & 0xff);
+	bp->opcode     = opcode;
 	bp->length     = len;
 	bp->streamPos  = gsf_output_tell (bp->output);
 	if (len > 0) {
@@ -605,8 +602,7 @@ ms_biff_put_var_next (BiffPut *bp, guint16 opcode)
 #endif
 
 	bp->len_fixed  = 0;
-	bp->ms_op      = (opcode >>   8);
-	bp->ls_op      = (opcode & 0xff);
+	bp->opcode     = opcode;
 	bp->curpos     = 0;
 	bp->length     = 0;
 	bp->data       = 0;
@@ -678,7 +674,7 @@ ms_biff_put_var_commit (BiffPut *bp)
 	endpos = bp->streamPos + bp->length + 4;
 	gsf_output_seek (bp->output, bp->streamPos, G_SEEK_SET);
 
-	GSF_LE_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
+	GSF_LE_SET_GUINT16 (tmp, bp->opcode);
 	GSF_LE_SET_GUINT16 (tmp+2, bp->length);
 	gsf_output_write (bp->output, 4, tmp);
 
@@ -703,7 +699,7 @@ ms_biff_put_len_commit (BiffPut *bp)
 /*	if (!bp->data_malloced) Unimplemented optimisation
 		bp->output->lseek (bp->output, bp->length, G_SEEK_CUR);
 		else */
-	GSF_LE_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
+	GSF_LE_SET_GUINT16 (tmp, bp->opcode);
 	GSF_LE_SET_GUINT16 (tmp + 2, bp->length);
 	gsf_output_write (bp->output, 4, tmp);
 	gsf_output_write (bp->output, bp->length, bp->data);
