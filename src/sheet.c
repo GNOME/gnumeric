@@ -319,7 +319,7 @@ cb_recalc_span0 (gpointer key, gpointer value, gpointer flags)
 }
 
 void
-sheet_calc_spans (Sheet const *sheet, SpanCalcFlags const flags)
+sheet_calc_spans (Sheet const *sheet, SpanCalcFlags flags)
 {
 	g_hash_table_foreach (sheet->cell_hash, cb_recalc_span0, GINT_TO_POINTER (flags));
 }
@@ -342,7 +342,7 @@ cb_recalc_span1 (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
  * the cached version of the rendered text in the cell.
  **/
 void
-sheet_range_calc_spans (Sheet *sheet, Range r, SpanCalcFlags const flags)
+sheet_range_calc_spans (Sheet *sheet, Range r, SpanCalcFlags flags)
 {
 	sheet->modified = TRUE;
 
@@ -364,7 +364,7 @@ sheet_range_calc_spans (Sheet *sheet, Range r, SpanCalcFlags const flags)
 }
 
 void
-sheet_cell_calc_span (Cell const *cell, SpanCalcFlags const flags)
+sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 {
 	CellSpanInfo const * span;
 	int left, right;
@@ -710,7 +710,9 @@ sheet_update (Sheet const *sheet)
 
 	if (p->recompute_spans) {
 		p->recompute_spans = FALSE;
-		sheet_calc_spans (sheet, SPANCALC_RESIZE);
+		sheet_calc_spans (sheet, SPANCALC_RESIZE |
+				  (p->recompute_visibility ?
+				   SPANCALC_NO_DRAW : SPANCALC_SIMPLE));
 	}
 
 	if (p->reposition_row_comment < SHEET_MAX_ROWS ||
@@ -2898,6 +2900,7 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 
 	/* 6. Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 	if (sheet->priv->reposition_col_comment > col)
 		sheet->priv->reposition_col_comment = col;
@@ -2969,6 +2972,7 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 
 	/* 7. Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 	if (sheet->priv->reposition_col_comment > col)
 		sheet->priv->reposition_col_comment = col;
@@ -3044,6 +3048,7 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 
 	/* 6. Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 	if (sheet->priv->reposition_row_comment > row)
 		sheet->priv->reposition_row_comment = row;
@@ -3115,6 +3120,7 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 
 	/* 7. Notify sheet of pending update */
 	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 	if (sheet->priv->reposition_row_comment > row)
 		sheet->priv->reposition_row_comment = row;
@@ -3213,9 +3219,12 @@ sheet_move_range (CommandContext *context,
 	/* 7. Recompute dependencies */
 	sheet_recalc_dependencies (rinfo->target_sheet);
 
-	/* 8. Recalc & Redraw */
-	workbook_recalc (rinfo->target_sheet->workbook);
-	sheet_redraw_all (rinfo->target_sheet);
+	/* 8. Notify sheet of pending update */
+	rinfo->origin_sheet->priv->recompute_spans = TRUE;
+	sheet_flag_status_update_range (rinfo->origin_sheet, &rinfo->origin);
+
+	/* FIXME FIXME FIXME : these should be at the command level */
+	sheet_update (rinfo->origin_sheet);
 }
 
 /**

@@ -1,5 +1,10 @@
 2000-05-25  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_update) : Only redraw forech cell if we will not
+	  be redrawing everything later.
+	(sheet_{insert,del}_{cols,row}) : Mark the need to recompute spans on
+	  next update.
+
 	* src/print.c (print_{headers, footers}) : Headers and footers are
 	  offset from the edge of the page by their own margins.  MS appears
 	  to assume the order is edge -> header -> top.
