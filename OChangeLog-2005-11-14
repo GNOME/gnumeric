@@ -1,3 +1,24 @@
+2003-02-17  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=106148.
+	* src/expr.c (cellrange_relocate) : In situations where only part of a
+	  range ref is moving we may not need to change the expression.
+	  However, thiings will not be queued for recalc if the expression is
+	  not changed, so pretend to change it.
+
+2003-02-15  Jody Goldberg <jody@gnome.org>
+
+	* src/plugin-loader-module.c
+	(gnumeric_plugin_loader_module_load_service_plugin_loader) : simplify.
+
+2003-02-11  Jody Goldberg <jody@gnome.org>
+
+	* src/plugin-service.c (plugin_service_new) : use a hash table for the
+	  service types.
+	(plugin_services_init) : new to define the builtin services.
+	(plugin_services_shutdown) : new.
+	(plugin_service_define) : allow the definition of new service types.
+
 2003-02-10  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (xml_read_cell_copy): Fix 104669.
@@ -10,6 +31,8 @@
 
 2003-02-08  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : Remove tests for evolution.  We can use the simpler
+	  command line interface with far fewer worries.
 	* configure.in : remove mr_IN until there is content
 
 2003-02-07  Morten Welinder  <terra@diku.dk>
