@@ -173,7 +173,7 @@ static char *help_hour = {
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
-	   "string"
+	   "string\n"
 	   ""
 	   "@SEEALSO=MINUTE, NOW, TIME, SECOND")
 };
@@ -188,7 +188,7 @@ static char *help_minute = {
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
-	   "string"
+	   "string\n"
 	   ""
 	   "@SEEALSO=HOUR, NOW, TIME, SECOND")
 };
@@ -203,7 +203,7 @@ static char *help_second = {
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
-	   "string"
+	   "string\n"
 	   ""
 	   "@SEEALSO=HOUR, MINUTE, NOW, TIME")
 };
@@ -240,7 +240,7 @@ static char *help_year = {
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
-	   "string"
+	   "string\n"
 	   ""
 	   "@SEEALSO=DAY, MONTH, TIME, NOW")
 };
@@ -254,7 +254,7 @@ static char *help_month = {
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
-	   "string"
+	   "string\n"
 	   ""
 	   "@SEEALSO=DAY, TIME, NOW, YEAR")
 };
@@ -268,7 +268,7 @@ static char *help_day = {
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
-	   "string"
+	   "string\n"
 	   ""
 	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
 };

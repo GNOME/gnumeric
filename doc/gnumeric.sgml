@@ -7,6 +7,7 @@
 <!entity autofill SYSTEM "autofill.sgml">
 <!entity worksheet SYSTEM "worksheet.sgml">
 <!entity files SYSTEM "files.sgml">
+<!entity functions SYSTEM "functions.sgml">
 ]>
 <book id="gnumeric">
   <bookinfo>
@@ -91,6 +92,10 @@
     <para>boxes, labels, etc eventually.</para>
   </chapter>
 
+  <chapter id="function-reference">
+    <title>Gnumeric Function Reference</title>
+    &functions;
+  </chapter>
 </book>
 	
 

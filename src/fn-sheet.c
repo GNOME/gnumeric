@@ -13,6 +13,19 @@
 #include "utils.h"
 #include "func.h"
 
+static char *help_if = {
+	N_("@FUNCTION=IF\n"
+	   "@SYNTAX=IF(condition,if-true,if-false)\n"
+
+	   "@DESCRIPTION="
+	   "Use the IF statement to evaluate conditionally other expressions "
+	   "IF evaluates @condition.  If @condition returns a non-zero value "
+	   "the result of the IF expression is the @if-true expression, otherwise "
+	   "IF evaluates to the value of @if-false"
+	   "\n"
+	   "@SEEALSO=")
+};
+
 static Value *
 gnumeric_if (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
@@ -46,6 +59,17 @@ gnumeric_if (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, ch
 	/* Return the result */
 	return eval_expr (tsheet, (ExprTree *) expr, eval_col, eval_row, error_string);
 }
+
+static char *help_selection = {
+	N_("@FUNCTION=SELECTION\n"
+	   "@SYNTAX=SELECTION(x)\n"
+
+	   "@DESCRIPTION="
+	   "The SELECTION function returns a list with the values in the current mouse cursor. "
+	   "This is usually used to implement on-the-flight computation of values"
+	   "\n"
+	   "@SEEALSO=")
+};
 
 static Value *
 gnumeric_selection (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
@@ -102,9 +126,9 @@ gnumeric_selection (void *tsheet, GList *expr_node_list, int eval_col, int eval_
 }
 
 FunctionDefinition sheet_functions [] = {
-	{ "if",     0,       "logical_test,value_if_true,value_if_false", NULL,
+	{ "if",     0,       "logical_test,value_if_true,value_if_false", &help_if,
 	  gnumeric_if, NULL },
-	{ "selection", 0,    "", NULL, gnumeric_selection, NULL },
+	{ "selection", 0,    "", &help_selection, gnumeric_selection, NULL },
 	{ NULL, NULL }
 };
 

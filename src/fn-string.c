@@ -13,6 +13,17 @@
 #include "utils.h"
 #include "func.h"
 
+static char *help_char = {
+	N_("@FUNCTION=CHAR\n"
+	   "@SYNTAX=CHAR(x)\n"
+
+	   "@DESCRIPTION="
+	   "Returns the ascii character reprensented by the number x."
+	   "\n"
+	   
+	   "@SEEALSO=CODE")
+};
+
 static Value *
 gnumeric_char (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
@@ -23,6 +34,17 @@ gnumeric_char (struct FunctionDefinition *i, Value *argv [], char **error_string
 
 	return value_str (result);
 }
+
+static char *help_code = {
+	N_("@FUNCTION=CODE\n"
+	   "@SYNTAX=CODE(char)\n"
+
+	   "@DESCRIPTION="
+	   "Returns the ASCII number for the character char."
+	   "\n"
+	   
+	   "@SEEALSO=CHAR")
+};
 
 static Value *
 gnumeric_code (struct FunctionDefinition *i, Value *argv [], char **error_string)
@@ -35,6 +57,17 @@ gnumeric_code (struct FunctionDefinition *i, Value *argv [], char **error_string
 	return value_int (argv [0]->v.str->str [0]);
 }
 
+static char *help_exact = {
+	N_("@FUNCTION=EXACT\n"
+	   "@SYNTAX=EXACT(string1, string2)\n"
+
+	   "@DESCRIPTION="
+	   "Returns true if string1 is exactly equal to string2 (this routine is case sensitive."
+	   "\n"
+	   
+	   "@SEEALSO=")
+};
+
 static Value *
 gnumeric_exact (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
@@ -45,6 +78,17 @@ gnumeric_exact (struct FunctionDefinition *i, Value *argv [], char **error_strin
 
 	return value_int (strcmp (argv [0]->v.str->str, argv [1]->v.str->str) == 0);
 }
+
+static char *help_len = {
+	N_("@FUNCTION=LEN\n"
+	   "@SYNTAX=LEN(string)\n"
+
+	   "@DESCRIPTION="
+	   "Returns the length in characters of the string @string."
+	   "\n"
+	   
+	   "@SEEALSO=CHAR, CODE")
+};
 
 static Value *
 gnumeric_len (struct FunctionDefinition *i, Value *argv [], char **error_string)
@@ -128,6 +172,16 @@ gnumeric_left (void *sheet, GList *expr_node_list, int eval_col, int eval_row, c
 	return v;
 }
 
+static char *help_lower = {
+	N_("@FUNCTION=LOWER\n"
+	   "@SYNTAX=LOWER(text)\n"
+
+	   "@DESCRIPTION="
+	   "Returns a lower-case version of the string in @text"
+	   "\n"
+	   "@SEEALSO=UPPER")
+};
+
 static Value *
 gnumeric_lower (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
@@ -146,6 +200,54 @@ gnumeric_lower (struct FunctionDefinition *i, Value *argv [], char **error_strin
 	v->v.str = string_get (p);
 	g_free (p);
 
+	return v;
+}
+
+static char *help_mid = {
+	N_("@FUNCTION=MID\n"
+	   "@SYNTAX=MID(string, position, length)\n"
+
+	   "@DESCRIPTION="
+	   "Returns a substring from @string starting at @position for @lenght characters."
+	   "\n"
+	   
+	   "@SEEALSO=LEFT, RIGHT")
+};
+
+static Value *
+gnumeric_mid (struct FunctionDefinition *i, Value *argv [], char **error)
+{
+	Value *v;
+	int pos, len;
+	char *s, *source;
+
+	if (argv [0]->type != VALUE_STRING ||
+	    argv [1]->type != VALUE_INTEGER ||
+	    argv [2]->type != VALUE_INTEGER){
+		*error = "Type mismatch";
+		return NULL;
+	}
+
+	len = value_get_as_int (argv [2]);
+	pos = value_get_as_int (argv [1]);
+
+	if (len < 0 || pos < 0){
+		*error = "Invalid arguments";
+		return NULL;
+	}
+
+	source = argv [0]->v.str->str;
+
+	if (pos > strlen (source))
+		return value_str ("");
+	
+	s = g_malloc0 (len);
+	
+	strncpy (s, source + pos, len);
+
+	v = value_str (s);
+	g_free (s);
+	
 	return v;
 }
 
@@ -189,6 +291,16 @@ gnumeric_right (void *sheet, GList *expr_node_list, int eval_col, int eval_row, 
 	return v;
 }
 
+static char *help_upper = {
+	N_("@FUNCTION=UPPER\n"
+	   "@SYNTAX=UPPER(text)\n"
+
+	   "@DESCRIPTION="
+	   "Returns a upper-case version of the string in @text"
+	   "\n"
+	   "@SEEALSO=LOWER")
+};
+
 static Value *
 gnumeric_upper (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
@@ -211,21 +323,20 @@ gnumeric_upper (struct FunctionDefinition *i, Value *argv [], char **error_strin
 }
 
 FunctionDefinition string_functions [] = {
-	{ "char",     "f",  "number",            NULL, NULL, gnumeric_char },
-	{ "code",     "s",  "text",              NULL, NULL, gnumeric_code },
-	{ "exact",    "ss", "text1,text2",       NULL, NULL, gnumeric_exact },
-	{ "left",     0,    "text,num_chars",    &help_left, gnumeric_left, NULL },
-	{ "len",      "s",  "text",              NULL, NULL, gnumeric_len },
-	{ "lower",    "s",  "text",              NULL, NULL, gnumeric_lower },
+	{ "char",     "f",  "number",            &help_char,  NULL, gnumeric_char },
+	{ "code",     "s",  "text",              &help_code,  NULL, gnumeric_code },
+	{ "exact",    "ss", "text1,text2",       &help_exact, NULL, gnumeric_exact },
+	{ "left",     0,    "text,num_chars",    &help_left,  gnumeric_left, NULL },
+	{ "len",      "s",  "text",              &help_len,   NULL, gnumeric_len },
+	{ "lower",    "s",  "text",              &help_lower, NULL, gnumeric_lower },
+        { "mid",      "sff","text,pos,num",      &help_mid,   NULL, gnumeric_mid },
 	{ "right",    0,    "text,num_chars",    &help_right, gnumeric_right, NULL },
-	{ "upper",    "s",  "text",              NULL, NULL, gnumeric_upper },
+	{ "upper",    "s",  "text",              &help_upper, NULL, gnumeric_upper },
 	{ NULL, NULL },
 };
 
 /*
  * Missing:
- *
- * CLEAN(text) removes non-printable character from text
  *
  * DOLLAR(number [,decimals] formats number as currency.
  *
@@ -233,8 +344,6 @@ FunctionDefinition string_functions [] = {
  * formats number as text with a fixed number of decimals
  *
  * FIND (find_text, within_text [,start_at_num])
- *
- * MID (text, start_num, num_chars)
  *
  * PROPER(text) capitalizes the first letter in each word of a text value
  *

@@ -27,6 +27,9 @@ dialog_about (Workbook *wb)
 		"Federico Mena, Canvas support.",
 		"Adrian Likins, Documentation, debugging",
 		"Jakub Jelinek, Gnumeric hacker",
+		"Michael Meeks, Excel and OLE2 importing",
+		"Bruno Unna, Excel code",
+		"Mark Probst, Guile support",
 		NULL
 	};
 

@@ -58,7 +58,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	
 	if (dump_file_name){
 		dump_functions (dump_file_name);
-		exit (1);
+		exit (0);
 	}
 
 	startup_files = poptGetArgs (ctx);

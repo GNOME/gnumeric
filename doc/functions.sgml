@@ -1,49 +1,1488 @@
-
-Function: AND
-
-Syntax:   AND(b1, b2, ...)
-
-Implements the logical AND function: the result is TRUE if all of the
-expression evaluate to TRUE, otherwise it returns FALSE.
-
-b1, trough bN are expressions that should evaluate to TRUE or FALSE.
-If an integer or floating point value is provided zero is considered
-FALSE and anything else is TRUE.
-
-If the values contain strings or empty cells those values are
-ignored.  If no logical values are provided, then the error '#VALUE!'
-is returned. 
-
-See also: OR.
+<sect1>
+  <title>Reference</title>
 
 
+ 
+<itemizedlist mark="bullet">
+<listitem><para><link linkend="gnumeric-ABS">ABS</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ACOS">ACOS</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ACOSH">ACOSH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-AND">AND</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ASIN">ASIN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ASINH">ASINH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ATAN">ATAN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ATAN2">ATAN2</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ATANH">ATANH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-AVERAGE">AVERAGE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-BIN2DEC">BIN2DEC</link></para></listitem>
+<listitem><para><link linkend="gnumeric-CEIL">CEIL</link></para></listitem>
+<listitem><para><link linkend="gnumeric-CHAR">CHAR</link></para></listitem>
+<listitem><para><link linkend="gnumeric-CLEAN">CLEAN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-CODE">CODE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COS">COS</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COSH">COSH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COUNT">COUNT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DATE">DATE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DAY">DAY</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DEGREES">DEGREES</link></para></listitem>
+<listitem><para><link linkend="gnumeric-EXACT">EXACT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-EXP">EXP</link></para></listitem>
+<listitem><para><link linkend="gnumeric-FACT">FACT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-FLOOR">FLOOR</link></para></listitem>
+<listitem><para><link linkend="gnumeric-HOUR">HOUR</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IF">IF</link></para></listitem>
+<listitem><para><link linkend="gnumeric-INT">INT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-LEFT">LEFT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-LEN">LEN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-LOG">LOG</link></para></listitem>
+<listitem><para><link linkend="gnumeric-LOG10">LOG10</link></para></listitem>
+<listitem><para><link linkend="gnumeric-LOG2">LOG2</link></para></listitem>
+<listitem><para><link linkend="gnumeric-LOWER">LOWER</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MAX">MAX</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MID">MID</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MIN">MIN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MINUTE">MINUTE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MONTH">MONTH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-NOW">NOW</link></para></listitem>
+<listitem><para><link linkend="gnumeric-OR">OR</link></para></listitem>
+<listitem><para><link linkend="gnumeric-PI">PI</link></para></listitem>
+<listitem><para><link linkend="gnumeric-RADIANS">RADIANS</link></para></listitem>
+<listitem><para><link linkend="gnumeric-RIGHT">RIGHT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SECOND">SECOND</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SELECTION">SELECTION</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SIN">SIN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SINH">SINH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SUM">SUM</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TAN">TAN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TANH">TANH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TIME">TIME</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TODAY">TODAY</link></para></listitem>
+<listitem><para><link linkend="gnumeric-UPPER">UPPER</link></para></listitem>
+<listitem><para><link linkend="gnumeric-YEAR">YEAR</link></para></listitem>
+</itemizedlist>
 
------------------------
-Function: AVERAGE
 
-Syntax:   AVERAGE(value1, value2,...)
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DAY">DAY</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DAY</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DAY (serial_number)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Converts a serial number to a day.</para>
+        <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-MONTH">MONTH</link>
+,         <link linkend="gnumeric-TIME">TIME</link>
+,         <link linkend="gnumeric-NOW">NOW</link>
+,         <link linkend="gnumeric-YEAR">YEAR</link>
+      </para>
+    </refsect1>
+  </refentry>
 
-Computes the average of all the values and cells referenced in the
-argument list.  This is equivalent to the sum of the arguments divided
-by the count of the arguments.
 
-See also: SUM, COUNT
------------------------
-Function: OR
 
-Syntax:   OR(b1, b2, ...)
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-LOWER">LOWER</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LOWER</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LOWER(text)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns a lower-case version of the string in @text</para>
 
-Implements the logical OR function: the result is TRUE if any of the
-values evaluated to TRUE.
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-UPPER">UPPER</link>
+      </para>
+    </refsect1>
+  </refentry>
 
-b1, trough bN are expressions that should evaluate to TRUE or FALSE.
-If an integer or floating point value is provided zero is considered
-FALSE and anything else is TRUE.
 
-If the values contain strings or empty cells those values are
-ignored.  If no logical values are provided, then the error '#VALUE!'
-is returned. 
 
-See also: AND
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-LOG2">LOG2</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LOG2</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LOG2(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Computes the base-2 logarithm  of x. </para>
+        <para>Performing this function on a string or empty cell returns an error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-EXP">EXP</link>
+,         <link linkend="gnumeric-LOG10">LOG10</link>
+,         <link linkend="gnumeric-LOG">LOG</link>
+      </para>
+    </refsect1>
+  </refentry>
 
------------------------
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-SECOND">SECOND</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SECOND</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SECOND (serial_number)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Converts a serial number to a second.  The second is returned as an integer in the range 0 to 59</para>
+        <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-HOUR">HOUR</link>
+,         <link linkend="gnumeric-MINUTE">MINUTE</link>
+,         <link linkend="gnumeric-NOW">NOW</link>
+,         <link linkend="gnumeric-TIME">TIME</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ATAN">ATAN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ATAN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ATAN(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The ATAN function calculates the arc tangent of x; that  is the value whose tangent is x.Return value is in radians.</para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TAN">TAN</link>
+,         <link linkend="gnumeric-COS">COS</link>
+,         <link linkend="gnumeric-SIN">SIN</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-SINH">SINH</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SINH</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SINH(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The SINH  function  returns  the  hyperbolic sine of x, which is defined mathematically as (exp(x) - exp(-x)) / 2.  x is in radians. </para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SIN">SIN</link>
+,         <link linkend="gnumeric-COS">COS</link>
+,         <link linkend="gnumeric-COSH">COSH</link>
+,         <link linkend="gnumeric-TAN">TAN</link>
+,         <link linkend="gnumeric-TANH">TANH</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+,         <link linkend="gnumeric-EXP">EXP</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-INT">INT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>INT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>INT(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >0, amd CEIL(b1) for b1 < 0. </para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-FLOOR">FLOOR</link>
+,         <link linkend="gnumeric-CEIL">CEIL</link>
+,         <link linkend="gnumeric-ABS">ABS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-SUM">SUM</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SUM</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SUM(value1, value2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Computes the sum of all the values and cells referenced in the argument list. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-AVERAGE">AVERAGE</link>
+,         <link linkend="gnumeric-COUNT">COUNT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-CEIL">CEIL</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>CEIL</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>CEIL(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The CEIL function rounds x up to the next nearest integer.</para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ABS">ABS</link>
+,         <link linkend="gnumeric-FLOOR">FLOOR</link>
+,         <link linkend="gnumeric-INT">INT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-FACT">FACT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>FACT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>FACT(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Computes the factorial of x. ie, x!</para>
+        <para>Performing this function on a string or empty cell returns an error</para>        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-HOUR">HOUR</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>HOUR</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>HOUR (serial_number)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Converts a serial number to an hour.  The hour is returned as an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)</para>
+        <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-MINUTE">MINUTE</link>
+,         <link linkend="gnumeric-NOW">NOW</link>
+,         <link linkend="gnumeric-TIME">TIME</link>
+,         <link linkend="gnumeric-SECOND">SECOND</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-MID">MID</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MID</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MID(string, position, length)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns a substring from @string starting at @position for @lenght characters.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-LEFT">LEFT</link>
+,         <link linkend="gnumeric-RIGHT">RIGHT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-MONTH">MONTH</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MONTH</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MONTH (serial_number)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Converts a serial number to a month.</para>
+        <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DAY">DAY</link>
+,         <link linkend="gnumeric-TIME">TIME</link>
+,         <link linkend="gnumeric-NOW">NOW</link>
+,         <link linkend="gnumeric-YEAR">YEAR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-NOW">NOW</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>NOW</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>NOW ()</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the serial number for the date and time at the time it is evaluated.</para>
+        <para>Serial Numbers in Gnumeric are represented as follows:The integral part is the number of days since the 1st of January of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds</para>        <para>For example: .0 represents the beginning of the day, and 0.5 represents noon</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TODAY">TODAY</link>
+,         <link linkend="gnumeric-NOW">NOW</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-MAX">MAX</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MAX</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MAX(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>MAX returns the value of the element of the values passed that has the largest value. With negative numbers considered smaller than positive numbers.</para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-MIN">MIN</link>
+,         <link linkend="gnumeric-ABS">ABS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ATANH">ATANH</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ATANH</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ATANH(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The  ATANH  function  calculates  the inverse hyperbolic tangent of x; that is the value whose  hyperbolic  tangent is  x.   If  the  absolute value of x is greater than 1.0,  ATANH returns an error of 'atanh: domain error'      </para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ATAN">ATAN</link>
+,         <link linkend="gnumeric-TAN">TAN</link>
+,         <link linkend="gnumeric-SIN">SIN</link>
+,         <link linkend="gnumeric-COS">COS</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TIME">TIME</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TIME</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TIME (hours,minutes,seconds)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns a fraction representing the hour</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-HOUR">HOUR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-YEAR">YEAR</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>YEAR</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>YEAR (serial_number)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Converts a serial number to a year.</para>
+        <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DAY">DAY</link>
+,         <link linkend="gnumeric-MONTH">MONTH</link>
+,         <link linkend="gnumeric-TIME">TIME</link>
+,         <link linkend="gnumeric-NOW">NOW</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-AND">AND</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>AND</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>AND(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.</para>
+        <para>b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-OR">OR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ACOSH">ACOSH</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ACOSH</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ACOSH(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The ACOSH  function  calculates  the inverse hyperbolic cosine of x; that is the value whose hyperbolic cosine is x. If x is less than 1.0, acosh() returns the error  'acosh - domain error'</para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ACOS">ACOS</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-CLEAN">CLEAN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>CLEAN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>CLEAN(string)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Cleans the string from any non-printable characters.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-RADIANS">RADIANS</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>RADIANS</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>RADIANS(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Computes the number of radians equivalent to  x degrees. </para>
+        <para>Performing this function on a string or empty cell simply does nothing. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PI">PI</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-LEFT">LEFT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LEFT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LEFT(text[,num_chars])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the leftmost num_chars characters or the left character if num_chars is not specified</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-MID">MID</link>
+,         <link linkend="gnumeric-RIGHT">RIGHT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-OR">OR</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>OR</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>OR(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Implements the logical OR function: the result is TRUE if any of the values evaluated to TRUE.</para>
+        <para>b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!'is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-AND">AND</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-FLOOR">FLOOR</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>FLOOR</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>FLOOR(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The FLOOR function rounds x down to the next nearest integer.</para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-CEIL">CEIL</link>
+,         <link linkend="gnumeric-ABS">ABS</link>
+,         <link linkend="gnumeric-INT">INT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-AVERAGE">AVERAGE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>AVERAGE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>AVERAGE(value1, value2,...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Computes the average of all the values and cells referenced in the argument list.  This is equivalent to the sum of the arguments divided by the count of the arguments.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SUM">SUM</link>
+,         <link linkend="gnumeric-COUNT">COUNT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TAN">TAN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TAN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TAN(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The TAN function  returns the tangent of x, where x is given in radians. </para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TANH">TANH</link>
+,         <link linkend="gnumeric-COS">COS</link>
+,         <link linkend="gnumeric-COSH">COSH</link>
+,         <link linkend="gnumeric-SIN">SIN</link>
+,         <link linkend="gnumeric-SINH">SINH</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-MIN">MIN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MIN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MIN(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>MIN returns the value of the element of the values passed that has the smallest value. With negative numbers considered smaller than positive numbers.</para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-MAX">MAX</link>
+,         <link linkend="gnumeric-ABS">ABS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TANH">TANH</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TANH</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TANH(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para> The TANH function returns the hyperbolic tangent of x,  which is defined mathematically as sinh(x) / cosh(x). </para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TAN">TAN</link>
+,         <link linkend="gnumeric-SIN">SIN</link>
+,         <link linkend="gnumeric-SINH">SINH</link>
+,         <link linkend="gnumeric-COS">COS</link>
+,         <link linkend="gnumeric-COSH">COSH</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IF">IF</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IF</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IF(condition,if-true,if-false)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-UPPER">UPPER</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>UPPER</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>UPPER(text)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns a upper-case version of the string in @text</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-LOWER">LOWER</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-SELECTION">SELECTION</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SELECTION</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SELECTION(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The SELECTION function returns a list with the values in the current mouse cursor. This is usually used to implement on-the-flight computation of values</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ABS">ABS</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ABS</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ABS(b1)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Implements the Absolute Value function:  the result is to drop the negative sign (if present).  This can be done for integers and floating point numbers.</para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-CEIL">CEIL</link>
+,         <link linkend="gnumeric-FLOOR">FLOOR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-COSH">COSH</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COSH</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COSH(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The COSH  function  returns the hyperbolic cosine of x,  which is defined mathematically as (exp(x) + exp(-x)) / 2.    x is in radians. </para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-COS">COS</link>
+,         <link linkend="gnumeric-SIN">SIN</link>
+,         <link linkend="gnumeric-SINH">SINH</link>
+,         <link linkend="gnumeric-TAN">TAN</link>
+,         <link linkend="gnumeric-TANH">TANH</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+,         <link linkend="gnumeric-EXP">EXP</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-MINUTE">MINUTE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MINUTE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MINUTE (serial_number)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Converts a serial number to a minute.  The minute is returned as an integer in the range 0 to 59</para>
+        <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-HOUR">HOUR</link>
+,         <link linkend="gnumeric-NOW">NOW</link>
+,         <link linkend="gnumeric-TIME">TIME</link>
+,         <link linkend="gnumeric-SECOND">SECOND</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-PI">PI</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>PI</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>PI()</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The PI functions returns the value of Pi as defined by M_PI.</para>
+        <para>This function is called with no arguments.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-CHAR">CHAR</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>CHAR</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>CHAR(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the ascii character reprensented by the number x.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-CODE">CODE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-EXACT">EXACT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>EXACT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>EXACT(string1, string2)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns true if string1 is exactly equal to string2 (this routine is case sensitive.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ASIN">ASIN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ASIN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ASIN(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The ASIN function calculates the arc sine of x; that is the value whose sine is x. If x falls outside  the  range -1 to 1, ASIN fails and returns the error 'asin - domain error'   </para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SIN">SIN</link>
+,         <link linkend="gnumeric-COS">COS</link>
+,         <link linkend="gnumeric-ASINH">ASINH</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-BIN2DEC">BIN2DEC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>BIN2DEC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>BIN2DEC(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The BIN2DEC function converts a binary number in string or number to its decimal equivalent.</para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DEC2BIN">DEC2BIN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-EXP">EXP</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>EXP</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>EXP(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Computes the value of e(the base of natural logarithmns) raised to the power of x. </para>
+        <para>Performing this function on a string or empty cell returns an error.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-LOG">LOG</link>
+,         <link linkend="gnumeric-LOG2">LOG2</link>
+,         <link linkend="gnumeric-LOG10">LOG10</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ATAN2">ATAN2</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ATAN2</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ATAN2(b1,b2)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The ATAN2 function calculates the arc tangent of the two variables b1 and b2.  It is similar to calculating  the  arc tangent  of b2 / b1, except that the signs of both arguments are used to determine the quadrant of the result. The result is in Radians.</para>
+        <para>Performing this function on a string or empty cell simply does nothing. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ATAN">ATAN</link>
+,         <link linkend="gnumeric-ATANH">ATANH</link>
+,         <link linkend="gnumeric-COS">COS</link>
+,         <link linkend="gnumeric-SIN">SIN</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ACOS">ACOS</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ACOS</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ACOS(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The ACOS function calculates the arc cosine of x; that  is the value whose cosine is x.  If x  falls  outside  the  range -1 to 1, ACOS fails and returns the error 'acos - domain error'.  The value it returns is in radians. </para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-COS">COS</link>
+,         <link linkend="gnumeric-SIN">SIN</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DATE">DATE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DATE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DATE (year,month,day)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Computes the number of days since the 1st of january of 1900(the date serial number) for the given year, month and day.</para>
+        <para>The day might be negative (to count backwards) and it is relative to the previous month.  The years should be at least 1900</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TODAY">TODAY</link>
+,         <link linkend="gnumeric-NOW">NOW</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-LOG10">LOG10</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LOG10</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LOG10(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Computes the base-10 logarithm  of x. </para>
+        <para>Performing this function on a string or empty cell returns an error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-EXP">EXP</link>
+,         <link linkend="gnumeric-LOG2">LOG2</link>
+,         <link linkend="gnumeric-LOG">LOG</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DEGREES">DEGREES</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DEGREES</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DEGREES(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Computes the number of degrees equivalent to  x radians.</para>
+        <para>Performing this function on a string or empty cell simply does nothing. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-RADIANS">RADIANS</link>
+,         <link linkend="gnumeric-PI">PI</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-LEN">LEN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LEN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LEN(string)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the length in characters of the string @string.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-CHAR">CHAR</link>
+,         <link linkend="gnumeric-CODE">CODE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ASINH">ASINH</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ASINH</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ASINH(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The ASINH  function  calculates  the inverse hyperbolic  sine of x; that is the value whose hyperbolic sine is x. </para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ASIN">ASIN</link>
+,         <link linkend="gnumeric-SIN">SIN</link>
+,         <link linkend="gnumeric-COS">COS</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-RIGHT">RIGHT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>RIGHT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>RIGHT(text[,num_chars])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the rightmost num_chars characters or the right character if num_chars is not specified</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-MID">MID</link>
+,         <link linkend="gnumeric-LEFT">LEFT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-COUNT">COUNT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COUNT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COUNT(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the total number of arguments passed.</para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-AVERAGE">AVERAGE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-LOG">LOG</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LOG</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LOG(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Computes the natural logarithm  of x. </para>
+        <para>Performing this function on a string or empty cell returns an error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-EXP">EXP</link>
+,         <link linkend="gnumeric-LOG2">LOG2</link>
+,         <link linkend="gnumeric-LOG10">LOG10</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-SIN">SIN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SIN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SIN(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The SIN function returns the sine of x, where x is given  in radians. </para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-COS">COS</link>
+,         <link linkend="gnumeric-COSH">COSH</link>
+,         <link linkend="gnumeric-SINH">SINH</link>
+,         <link linkend="gnumeric-TAN">TAN</link>
+,         <link linkend="gnumeric-TANH">TANH</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TODAY">TODAY</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TODAY</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TODAY ()</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the serial number for today (the number of days elapsed since the 1st of January of 1900)</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TODAY">TODAY</link>
+,         <link linkend="gnumeric-NOW">NOW</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-CODE">CODE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>CODE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>CODE(char)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the ASCII number for the character char.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-CHAR">CHAR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-COS">COS</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COS</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COS(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The  COS  function  returns  the cosine of x, where x is given in radians.  </para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-COSH">COSH</link>
+,         <link linkend="gnumeric-SIN">SIN</link>
+,         <link linkend="gnumeric-SINH">SINH</link>
+,         <link linkend="gnumeric-TAN">TAN</link>
+,         <link linkend="gnumeric-TANH">TANH</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+</sect1>

@@ -14,22 +14,16 @@
 #include "utils.h"
 #include "func.h"
 
-static Value *
-gnumeric_char (FunctionDefinition *fn, Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-	int i;
-	char buffer [2];
-	
-	v->type = VALUE_STRING;
-	i = value_get_as_double (argv [0]);
-	buffer [0] = i;
-	buffer [1] = 0;
-	v->v.str = string_get (buffer);
-	
-	return v;
-}
+static char *help_clean = {
+	N_("@FUNCTION=CLEAN\n"
+	   "@SYNTAX=CLEAN(string)\n"
 
+	   "@DESCRIPTION="
+	   "Cleans the string from any non-printable characters."
+	   "\n"
+	   
+	   "@SEEALSO=")
+};
 static Value *
 gnumeric_clean (FunctionDefinition *fn, Value *argv [], char **error_string)
 {
@@ -58,25 +52,7 @@ gnumeric_clean (FunctionDefinition *fn, Value *argv [], char **error_string)
 	return res;
 }
 
-static Value *
-gnumeric_exact (FunctionDefinition *fn, Value *argv [], char **error_string)
-{
-	Value *res;
-	
-	if (argv [0]->type != VALUE_STRING || argv [1]->type != VALUE_STRING){
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
-
-	res = g_new (Value, 1);
-	res->type = VALUE_INTEGER;
-	res->v.v_int = !strcmp (argv [0]->v.str->str, argv [1]->v.str->str);
-	return res;
-}
-
 FunctionDefinition misc_functions [] = {
-	{ "char",  "f",  "number",           NULL, NULL, gnumeric_char },
-	{ "clean", "s",  "text",             NULL, NULL, gnumeric_clean },
-	{ "exact", "ss", "text1,text2",      NULL, NULL, gnumeric_exact },
+	{ "clean", "s",  "text",             &help_clean, NULL, gnumeric_clean },
 	{ NULL, NULL }
 };
