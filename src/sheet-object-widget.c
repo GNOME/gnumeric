@@ -171,9 +171,9 @@ sheet_object_widget_construct (SheetObjectWidget *sow)
  * sheet_object_widget_clone:
  * @so: The source object for that we are going to use as cloning source
  * @sheet: The destination sheet of the cloned object
- * 
+ *
  * The common part of the clone rutine of all the objects
- * 
+ *
  * Return Value: a newly created SheetObjectWidget
  **/
 static SheetObjectWidget *
@@ -181,7 +181,7 @@ sheet_object_widget_clone (SheetObject const *so, Sheet *sheet)
 {
 	SheetObjectWidget *sow = SHEET_OBJECT_WIDGET (so);
 	SheetObjectWidget *new_sow;
-	
+
 	new_sow = SHEET_OBJECT_WIDGET (gtk_type_new (GTK_OBJECT_TYPE (sow)));
 
 	sheet_object_widget_construct (new_sow);
@@ -192,6 +192,20 @@ sheet_object_widget_clone (SheetObject const *so, Sheet *sheet)
 static E_MAKE_TYPE (sheet_object_widget, "SheetObjectWidget", SheetObjectWidget,
 		    sheet_object_widget_class_init, NULL,
 		    SHEET_OBJECT_TYPE);
+
+static void
+gnumeric_table_attach_with_label (GtkWidget *dialog, GtkWidget *table,
+				  char const *text, GtkWidget *entry, int line)
+{
+ 	gtk_table_attach_defaults (GTK_TABLE(table),
+		gtk_label_new (_(text)),
+		0, 1, line, line+1);
+ 	gtk_table_attach_defaults (GTK_TABLE(table),
+		entry,
+		1, 2, line, line+1);
+ 	gnumeric_editable_enters (GTK_WINDOW (dialog),
+		GTK_EDITABLE (entry));
+}
 
 /****************************************************************************/
 static GtkType sheet_widget_label_get_type (void);
@@ -209,7 +223,7 @@ static void
 sheet_widget_label_construct_with_label (SheetObjectWidget *sow, const char *text)
 {
 	SheetWidgetLabel *swl = SHEET_WIDGET_LABEL (sow);
-	
+
 	swl->label = g_strdup (text);
 }
 
@@ -226,7 +240,7 @@ sheet_widget_label_destroy (GtkObject *obj)
 
 	g_free (swl->label);
 	swl->label = NULL;
-	
+
 	(*sheet_object_widget_class->destroy)(obj);
 }
 
@@ -242,11 +256,11 @@ static SheetObject *
 sheet_widget_label_clone (SheetObject const *so, Sheet *new_sheet)
 {
 	SheetObjectWidget *new_sow;
-	
+
 	new_sow = sheet_object_widget_clone (so, new_sheet);
 
 	sheet_widget_label_construct_with_label (new_sow, SHEET_WIDGET_LABEL (so)->label);
-	   
+
 	return SHEET_OBJECT (new_sow);
 }
 
@@ -274,7 +288,7 @@ sheet_widget_label_read_xml (SheetObject *so,
 		g_warning ("Could not read a SheetWidgetLabel beacause it lacks a label property\n");
 		return TRUE;
 	}
-		
+
 	swl->label = g_strdup (label);
 	xmlFree (label);
 
@@ -331,7 +345,7 @@ static GtkWidget *
 sheet_widget_frame_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
 	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (sow);
-	
+
 	return gtk_frame_new (swf->label);
 }
 
@@ -372,7 +386,7 @@ sheet_widget_frame_read_xml (SheetObject *so,
 		g_warning ("Could not read a SheetWidgetFrame beacause it lacks a label property\n");
 		return TRUE;
 	}
-		
+
 	swf->label = g_strdup (label);
 	xmlFree (label);
 
@@ -420,7 +434,7 @@ sheet_widget_button_destroy (GtkObject *obj)
 
 	g_free (swb->label);
 	swb->label = NULL;
-	
+
 	(*sheet_object_widget_class->destroy)(obj);
 }
 
@@ -428,7 +442,7 @@ static GtkWidget *
 sheet_widget_button_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (sow);
-	
+
 	return gtk_button_new_with_label (swb->label);
 }
 
@@ -442,7 +456,7 @@ sheet_widget_button_clone (SheetObject const *so, Sheet *new_sheet)
 	sheet_widget_button_construct_with_label (new_sow, SHEET_WIDGET_BUTTON (so)->label);
 
 	return SHEET_OBJECT (new_sow);
-		
+
 }
 
 static gboolean
@@ -469,7 +483,7 @@ sheet_widget_button_read_xml (SheetObject *so,
 		g_warning ("Could not read a SheetWidgetButton beacause it lacks a label property\n");
 		return TRUE;
 	}
-		
+
 	swb->label = g_strdup (label);
 	xmlFree (label);
 
@@ -485,10 +499,460 @@ SOW_MAKE_TYPE(button, Button,
       	      &sheet_widget_button_read_xml);
 
 /****************************************************************************/
+static GtkType sheet_widget_scrollbar_get_type (void);
+#define SHEET_WIDGET_SCROLLBAR_TYPE     (sheet_widget_scrollbar_get_type ())
+#define SHEET_WIDGET_SCROLLBAR(obj)     (GTK_CHECK_CAST((obj), SHEET_WIDGET_SCROLLBAR_TYPE, SheetWidgetScrollbar))
+#define DEP_TO_SCROLLBAR(d_ptr)		(SheetWidgetScrollbar *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetScrollbar, dep))
+
+typedef struct {
+	SheetObjectWidget	sow;
+
+	gboolean  being_updated;
+	Dependent dep;
+	GtkAdjustment *adjustment;
+} SheetWidgetScrollbar;
+typedef struct {
+	SheetObjectWidgetClass	sow;
+} SheetWidgetScrollbarClass;
+
+static void
+sheet_widget_scrollbar_set_value (SheetWidgetScrollbar *swb, gfloat new_val)
+{
+	if (swb->being_updated)
+		return;
+	swb->adjustment->value = new_val;
+
+	swb->being_updated = TRUE;
+	gtk_adjustment_value_changed (swb->adjustment);
+	swb->being_updated = FALSE;
+}
+
+static void
+scrollbar_eval (Dependent *dep)
+{
+	Value *v;
+	EvalPos pos;
+
+	v = expr_eval (dep->expression,
+		eval_pos_init_dep (&pos, dep), EVAL_STRICT);
+	sheet_widget_scrollbar_set_value (DEP_TO_SCROLLBAR(dep),
+		value_get_as_float (v));
+	value_release (v);
+}
+
+static void
+scrollbar_debug_name (Dependent const *dep, FILE *out)
+{
+	fprintf (out, "Scrollbar%p", dep);
+}
+
+static DEPENDENT_MAKE_TYPE (scrollbar, NULL)
+
+static gboolean
+sheet_widget_scrollbar_get_ref (SheetWidgetScrollbar const *swb, CellRef *res)
+{
+	Value *target;
+	g_return_val_if_fail (swb != NULL, FALSE);
+
+	if (swb->dep.expression == NULL)
+		return FALSE;
+
+	target = expr_tree_get_range (swb->dep.expression);
+	if (target == NULL)
+		return FALSE;
+
+	*res = target->v_range.cell.a;
+	value_release (target);
+
+	g_return_val_if_fail (!res->col_relative, FALSE);
+	g_return_val_if_fail (!res->row_relative, FALSE);
+
+	if (res->sheet == NULL)
+		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swb));
+	return TRUE;
+}
+
+static void
+cb_scrollbar_value_changed (GtkAdjustment *adjustment,
+			    SheetWidgetScrollbar *swb)
+{
+	CellRef ref;
+
+	if (swb->being_updated)
+		return;
+
+	swb->being_updated = TRUE;
+	if (sheet_widget_scrollbar_get_ref (swb, &ref)) {
+		Cell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
+		/* TODO : add more control for precision, XL is stupid */
+		sheet_cell_set_value (cell, value_new_int (swb->adjustment->value), NULL);
+		sheet_set_dirty (ref.sheet, TRUE);
+		workbook_recalc (ref.sheet->workbook);
+		sheet_update (ref.sheet);
+	}
+	swb->being_updated = FALSE;
+}
+
+static void
+sheet_widget_scrollbar_construct_with_ref (SheetObjectWidget *sow,
+					  CellRef const *ref)
+{
+	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (sow);
+
+	g_return_if_fail (swb != NULL);
+
+	swb->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 1.));
+	gtk_object_ref (GTK_OBJECT (swb->adjustment));
+	gtk_object_sink (GTK_OBJECT (swb->adjustment));
+
+	swb->being_updated = FALSE;
+	swb->dep.sheet = NULL;
+	swb->dep.flags = scrollbar_get_dep_type ();
+	swb->dep.expression = (ref != NULL) ? expr_tree_new_var (ref) : NULL;
+	gtk_signal_connect (GTK_OBJECT (swb->adjustment),
+		"value_changed",
+		GTK_SIGNAL_FUNC (cb_scrollbar_value_changed), swb);
+}
+
+static void
+sheet_widget_scrollbar_construct (SheetObjectWidget *sow)
+{
+	sheet_widget_scrollbar_construct_with_ref (sow, NULL);
+}
+
+static void
+sheet_widget_scrollbar_destroy (GtkObject *obj)
+{
+	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (obj);
+
+	g_return_if_fail (swb != NULL);
+
+	dependent_set_expr (&swb->dep, NULL);
+	if (swb->adjustment != NULL) {
+		gtk_object_unref (GTK_OBJECT (swb->adjustment));
+		swb->adjustment = NULL;
+	}
+
+	(*sheet_object_widget_class->destroy)(obj);
+}
+
+static GtkWidget *
+sheet_widget_scrollbar_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+{
+	SheetObject *so = SHEET_OBJECT (sow);
+	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (sow);
+	GtkWidget *bar;
+	/* TODO : this is not exactly accurate, but should catch the worst of it
+	 * Howver we do not have a way to handle resizes.
+	 */
+	gboolean is_horizontal = range_width (&so->anchor.cell_bound) > range_height (&so->anchor.cell_bound);
+
+	g_return_val_if_fail (swb != NULL, NULL);
+
+	bar = is_horizontal
+		? gtk_hscrollbar_new (swb->adjustment)
+		: gtk_vscrollbar_new (swb->adjustment);
+	GTK_WIDGET_UNSET_FLAGS (bar, GTK_CAN_FOCUS);
+
+	return bar;
+}
+
+static SheetObject *
+sheet_widget_scrollbar_clone (SheetObject const *so, Sheet *new_sheet)
+{
+	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (so);
+	SheetObjectWidget *new_sow = sheet_object_widget_clone (so, new_sheet);
+	GtkAdjustment *new_adjust, *old_adjust;
+	CellRef ref;
+
+	sheet_widget_scrollbar_construct_with_ref (new_sow,
+		(sheet_widget_scrollbar_get_ref (swb, &ref)) ? &ref : NULL);
+	new_adjust = SHEET_WIDGET_SCROLLBAR (new_sow)->adjustment;
+	old_adjust = SHEET_WIDGET_SCROLLBAR (so)->adjustment;
+
+	new_adjust->lower = old_adjust->lower;
+	new_adjust->upper = old_adjust->upper;
+	new_adjust->value = old_adjust->value;
+	new_adjust->step_increment = old_adjust->step_increment;
+	new_adjust->page_increment = old_adjust->page_increment;
+
+	return SHEET_OBJECT (new_sow);
+}
+
+typedef struct {
+	GtkWidget *dialog;
+	GnumericExprEntry *expression;
+	GtkWidget *min;
+	GtkWidget *max;
+	GtkWidget *inc;
+	GtkWidget *page;
+
+	GtkWidget *old_focus;
+
+	WorkbookControlGUI  *wbcg;
+	SheetWidgetScrollbar *swb;
+	Sheet		    *sheet;
+} ScrollbarConfigState;
+
+static void
+cb_scrollbar_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+		       ScrollbarConfigState *state)
+{
+	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
+		GnumericExprEntry *ee = GNUMERIC_EXPR_ENTRY (focus_widget);
+		wbcg_set_entry (state->wbcg, ee);
+	} else
+		wbcg_set_entry (state->wbcg, NULL);
+
+	/* Force an update of the content in case it
+	 * needs tweaking (eg make it absolute)
+	 */
+	if (IS_GNUMERIC_EXPR_ENTRY (state->old_focus)) {
+		ParsePos  pp;
+		ExprTree *expr = gnumeric_expr_entry_parse (
+			GNUMERIC_EXPR_ENTRY (state->old_focus),
+			parse_pos_init (&pp, NULL, state->sheet, 0, 0),
+			FALSE);
+
+		if (expr != NULL)
+			expr_tree_unref (expr);
+	}
+	state->old_focus = focus_widget;
+}
+
+static gboolean
+cb_scrollbar_config_destroy (GtkObject *w, ScrollbarConfigState *state)
+{
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	wbcg_edit_detach_guru (state->wbcg);
+
+	/* Handle window manger closing the dialog.
+	 * This will be ignored if we are being destroyed differently.
+	 */
+	wbcg_edit_finish (state->wbcg, FALSE);
+
+	state->dialog = NULL;
+
+	g_free (state);
+	return FALSE;
+}
+
+static void
+cb_scrollbar_config_clicked (GnomeDialog *dialog, gint button_number,
+			    ScrollbarConfigState *state)
+{
+	if (button_number == 0) {
+		SheetObject *so = SHEET_OBJECT (state->swb);
+		ExprTree    *expr;
+		ParsePos     pp;
+
+		expr = gnumeric_expr_entry_parse (state->expression,
+				parse_pos_init (&pp, NULL, so->sheet, 0, 0),
+				FALSE);
+		if (expr != NULL)
+			dependent_set_expr (&state->swb->dep, expr);
+	}
+	wbcg_edit_finish (state->wbcg, FALSE);
+}
+
+static void
+sheet_widget_scrollbar_user_config (SheetObject *so, SheetControlGUI *scg)
+{
+	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (so);
+	WorkbookControlGUI   *wbcg = scg_get_wbcg (scg);
+	ScrollbarConfigState *state;
+	GtkWidget *table;
+
+	g_return_if_fail (swb != NULL);
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
+		return;
+
+	state = g_new (ScrollbarConfigState, 1);
+	state->swb = swb;
+	state->wbcg = wbcg;
+	state->sheet = sc_sheet	(SHEET_CONTROL (scg));
+	state->old_focus = NULL;
+	state->dialog = gnome_dialog_new (_("Scrollbar Configure"),
+					  GNOME_STOCK_BUTTON_OK,
+					  GNOME_STOCK_BUTTON_CANCEL,
+					  NULL);
+
+ 	table = gtk_table_new (0, 0, FALSE);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
+		table, TRUE, TRUE, 5);
+
+	state->expression = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
+	gnumeric_expr_entry_set_flags (state->expression,
+		GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL | GNUM_EE_SINGLE_RANGE,
+		GNUM_EE_MASK);
+	gnumeric_expr_entry_set_scg (state->expression, scg);
+	gnumeric_expr_entry_set_rangesel_from_dep (state->expression, &swb->dep);
+	gnumeric_table_attach_with_label (state->dialog, table,
+		N_("Link to :"), GTK_WIDGET (state->expression), 0);
+
+	/* TODO : This is silly, no need to be similar to XL here. */
+ 	state->min = gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (
+		swb->adjustment->lower, 0., 30001., 1., 10., 1.)), 1., 0);
+	gnumeric_table_attach_with_label (state->dialog, table,
+		N_("Min :"), GTK_WIDGET (state->min), 1);
+ 	state->max = gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (
+		swb->adjustment->upper, 0., 30001., 1., 10., 1.)), 1., 0);
+	gnumeric_table_attach_with_label (state->dialog, table,
+		N_("Max :"), GTK_WIDGET (state->max), 2);
+ 	state->inc = gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (
+		swb->adjustment->step_increment, 0., 30001., 1., 10., 1.)), 1., 0);
+	gnumeric_table_attach_with_label (state->dialog, table,
+		N_("Increment :"), GTK_WIDGET (state->inc), 3);
+ 	state->page = gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (
+		swb->adjustment->page_increment, 0., 30001., 1., 10., 1.)), 1., 0);
+	gnumeric_table_attach_with_label (state->dialog, table,
+		N_("Page :"), GTK_WIDGET (state->page), 4);
+
+	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
+
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
+			    GTK_SIGNAL_FUNC (cb_scrollbar_set_focus), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (cb_scrollbar_config_destroy), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "clicked",
+			    GTK_SIGNAL_FUNC (cb_scrollbar_config_clicked), state);
+
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       SHEET_OBJECT_CONFIG_KEY);
+
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
+	gtk_window_set_focus (GTK_WINDOW (state->dialog),
+			      GTK_WIDGET (state->expression));
+	gtk_widget_show_all (state->dialog);
+}
+
+static gboolean
+sheet_widget_scrollbar_set_sheet (SheetObject *so, Sheet *sheet)
+{
+	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (so);
+
+	dependent_set_sheet (&swb->dep, sheet);
+	if (swb->dep.expression != NULL)
+		scrollbar_eval (&swb->dep);
+
+	return FALSE;
+}
+
+static gboolean
+sheet_widget_scrollbar_clear_sheet (SheetObject *so)
+{
+	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (so);
+
+	if (dependent_is_linked (&swb->dep))
+		dependent_unlink (&swb->dep, NULL);
+	swb->dep.sheet = NULL;
+	return FALSE;
+}
+
+static gboolean
+sheet_widget_scrollbar_write_xml (SheetObject const *so,
+				 XmlParseContext const *context,
+				 xmlNodePtr tree)
+{
+	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (so);
+
+	xml_node_set_double (tree, "Min", swb->adjustment->lower, 2);
+	xml_node_set_double (tree, "Max", swb->adjustment->upper-1., 2); /* allow scrolling to max */
+	xml_node_set_double (tree, "Inc", swb->adjustment->step_increment, 2);
+	xml_node_set_double (tree, "Page", swb->adjustment->page_increment, 2);
+	xml_node_set_double  (tree, "Value", swb->adjustment->value, 2);
+	if (swb->dep.expression != NULL) {
+		ParsePos pos;
+		char *val = expr_tree_as_string (swb->dep.expression,
+			parse_pos_init (&pos, NULL, so->sheet, 0, 0));
+		xml_node_set_cstr (tree, "Input", val);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+sheet_widget_scrollbar_read_xml (SheetObject *so,
+				 XmlParseContext const *context,
+				 xmlNodePtr tree)
+{
+	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (so);
+	double tmp;
+	gchar *input_txt;
+
+	swb->dep.sheet = NULL;
+	swb->dep.expression = NULL;
+	swb->dep.flags = scrollbar_get_dep_type ();
+
+	input_txt = (gchar *)xmlGetProp (tree, (xmlChar *)"Input");
+	if (input_txt != NULL && *input_txt != '\0') {
+		ParsePos pos;
+		ExprTree *expr;
+
+		expr = expr_parse_str_simple (input_txt,
+			parse_pos_init (&pos, NULL, context->sheet, 0, 0));
+
+		if (expr == NULL) {
+			g_warning ("Could not read scrollbar widget object. Could not parse expr\n");
+			xmlFree (input_txt);
+			return TRUE;
+		}
+
+		swb->dep.expression = expr;
+
+		xmlFree (input_txt);
+	}
+
+	if (xml_node_get_double (tree, "Min", &tmp))
+		swb->adjustment->lower = tmp;
+	if (xml_node_get_double (tree, "Max", &tmp))
+		swb->adjustment->upper = tmp + 1.; /* allow scrolling to max */
+	if (xml_node_get_double (tree, "Inc", &tmp))
+		swb->adjustment->step_increment = tmp;
+	if (xml_node_get_double (tree, "Page", &tmp))
+		swb->adjustment->page_increment = tmp;
+	if (xml_node_get_double  (tree, "Value", &tmp))
+		swb->adjustment->value = tmp;
+	gtk_adjustment_changed	(swb->adjustment);
+
+	return FALSE;
+}
+
+void
+sheet_widget_scrollbar_set_details (SheetObject *so, ExprTree *link,
+				    int value, int min, int max, int inc, int page)
+{
+	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (so);
+	g_return_if_fail (swb != NULL);
+	swb->adjustment->value = value;
+	swb->adjustment->lower = min;
+	swb->adjustment->upper = max + 1.; /* allow scrolling to max */
+	swb->adjustment->step_increment = inc;
+	swb->adjustment->page_increment = page;
+	if (link != NULL)
+		dependent_set_expr (&swb->dep, link);
+	else
+		gtk_adjustment_changed	(swb->adjustment);
+}
+
+SOW_MAKE_TYPE (scrollbar, Scrollbar,
+	       &sheet_widget_scrollbar_user_config,
+	       &sheet_widget_scrollbar_set_sheet,
+	       &sheet_widget_scrollbar_clear_sheet,
+	       &sheet_widget_scrollbar_clone,
+	       &sheet_widget_scrollbar_write_xml,
+	       &sheet_widget_scrollbar_read_xml)
+
+/****************************************************************************/
 static GtkType sheet_widget_checkbox_get_type (void);
-#define SHEET_WIDGET_CHECKBOX_TYPE     (sheet_widget_checkbox_get_type ())
-#define SHEET_WIDGET_CHECKBOX(obj)     (GTK_CHECK_CAST((obj), SHEET_WIDGET_CHECKBOX_TYPE, SheetWidgetCheckbox))
-#define DEP_TO_CHECKBOX(d_ptr)	(SheetWidgetCheckbox *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetCheckbox, dep))
+#define SHEET_WIDGET_CHECKBOX_TYPE	(sheet_widget_checkbox_get_type ())
+#define SHEET_WIDGET_CHECKBOX(obj)	(GTK_CHECK_CAST((obj), SHEET_WIDGET_CHECKBOX_TYPE, SheetWidgetCheckbox))
+#define DEP_TO_CHECKBOX(d_ptr)		(SheetWidgetCheckbox *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetCheckbox, dep))
 
 typedef struct {
 	SheetObjectWidget	sow;
@@ -553,7 +1017,6 @@ sheet_widget_checkbox_construct_with_ref (SheetObjectWidget *sow,
 {
 	static int counter = 0;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (sow);
-	ExprTree *expr = NULL;
 
 	g_return_if_fail (swc != NULL);
 
@@ -562,11 +1025,7 @@ sheet_widget_checkbox_construct_with_ref (SheetObjectWidget *sow,
 	swc->value = FALSE;
 	swc->dep.sheet = NULL;
 	swc->dep.flags = checkbox_get_dep_type ();
-
-	if (ref != NULL)
-		expr = expr_tree_new_var (ref);
-
-	swc->dep.expression = expr;
+	swc->dep.expression = (ref != NULL) ? expr_tree_new_var (ref) : NULL;
 }
 
 static void
@@ -617,8 +1076,7 @@ sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc, CellRef *res)
 }
 
 static void
-sheet_widget_checkbox_toggled (GtkToggleButton *button,
-			       SheetWidgetCheckbox *swc)
+cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 {
 	CellRef ref;
 
@@ -649,8 +1107,8 @@ sheet_widget_checkbox_create_widget (SheetObjectWidget *sow, SheetControlGUI *sv
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), swc->value);
 	gtk_signal_connect (GTK_OBJECT (button), "toggled",
-			    GTK_SIGNAL_FUNC (sheet_widget_checkbox_toggled),
-			    swc);
+		GTK_SIGNAL_FUNC (cb_checkbox_toggled),
+		swc);
 
 	return button;
 }
@@ -662,7 +1120,7 @@ sheet_widget_checkbox_clone (SheetObject const *so, Sheet *new_sheet)
 	SheetObjectWidget *new_sow = sheet_object_widget_clone (so, new_sheet);
 	CellRef ref;
 
-	sheet_widget_checkbox_construct_with_ref (new_sow, 
+	sheet_widget_checkbox_construct_with_ref (new_sow,
 		(sheet_widget_checkbox_get_ref (swc, &ref)) ? &ref : NULL,
 		swc->label);
 	SHEET_WIDGET_CHECKBOX (new_sow)->value = swc->value;
@@ -672,7 +1130,7 @@ sheet_widget_checkbox_clone (SheetObject const *so, Sheet *new_sheet)
 
 typedef struct {
 	GtkWidget *dialog;
-	GtkWidget *expression;
+	GnumericExprEntry *expression;
 	GtkWidget *label;
 
 	GtkWidget *old_focus;
@@ -689,7 +1147,6 @@ cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
 		GnumericExprEntry *ee = GNUMERIC_EXPR_ENTRY (focus_widget);
 		wbcg_set_entry (state->wbcg, ee);
-		gnumeric_expr_entry_set_absolute (ee);
 	} else
 		wbcg_set_entry (state->wbcg, NULL);
 
@@ -737,7 +1194,7 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 		ExprTree    *expr;
 		ParsePos     pp;
 
-		expr = gnumeric_expr_entry_parse (GNUMERIC_EXPR_ENTRY (state->expression),
+		expr = gnumeric_expr_entry_parse (state->expression,
 				parse_pos_init (&pp, NULL, so->sheet, 0, 0),
 				FALSE);
 		if (expr != NULL)
@@ -752,14 +1209,14 @@ cb_checkbox_label_changed (GtkWidget *entry, CheckboxConfigState *state)
 	GList *list;
  	SheetWidgetCheckbox *swc;
  	gchar const *text;
- 
+
  	text = gtk_entry_get_text (GTK_ENTRY (entry));
  	swc = state->swc;
- 
+
  	if (swc->label)
  		g_free (swc->label);
  	swc->label = g_strdup (text);
- 
+
  	list = swc->sow.parent_object.realized_list;
  	for (; list != NULL; list = list->next) {
  		GnomeCanvasWidget *item = GNOME_CANVAS_WIDGET (list->data);
@@ -767,24 +1224,23 @@ cb_checkbox_label_changed (GtkWidget *entry, CheckboxConfigState *state)
  		g_return_if_fail (GTK_IS_LABEL (GTK_BIN (item->widget)->child));
  		gtk_label_set_text (GTK_LABEL (GTK_BIN (item->widget)->child), text);
  	}
- 	
+
 }
-  
+
 static void
 sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 {
-	CheckboxConfigState *state;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-	GtkWidget *label;
+	WorkbookControlGUI  *wbcg = scg_get_wbcg (scg);
+	CheckboxConfigState *state;
 	GtkWidget *table;
-	WorkbookControlGUI *wbcg = scg_get_wbcg (scg);
 
 	g_return_if_fail (swc != NULL);
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
-	
+
 	state = g_new (CheckboxConfigState, 1);
 	state->swc = swc;
 	state->wbcg = wbcg;
@@ -794,27 +1250,21 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 					  GNOME_STOCK_BUTTON_OK,
 					  GNOME_STOCK_BUTTON_CANCEL,
 					  NULL);
-	state->expression = gnumeric_expr_entry_new (wbcg);
-	gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->expression), scg);
-	gnumeric_expr_entry_set_rangesel_from_dep (
-		GNUMERIC_EXPR_ENTRY (state->expression), &swc->dep);
+	state->expression = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
+	gnumeric_expr_entry_set_flags (state->expression,
+		GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL | GNUM_EE_SINGLE_RANGE,
+		GNUM_EE_MASK);
+	gnumeric_expr_entry_set_scg (state->expression, scg);
+	gnumeric_expr_entry_set_rangesel_from_dep (state->expression, &swc->dep);
+	gnumeric_table_attach_with_label (state->dialog, table,
+		N_("Link to :"), GTK_WIDGET (state->expression), 0);
 
  	state->label = gtk_entry_new ();
+	gnumeric_table_attach_with_label (state->dialog, table,
+		N_("Label :"), GTK_WIDGET (state->label), 1);
+
  	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
- 
- 	table = gtk_table_new (0, 0, FALSE);
- 	label = gtk_label_new (_("Cell :"));
- 	gtk_table_attach_defaults (GTK_TABLE(table), label,
- 				   0, 1, 0, 1);
- 	label = gtk_label_new (_("Label :"));
- 	gtk_table_attach_defaults (GTK_TABLE(table), label,
- 				   0, 1, 1, 2);
- 
- 	gtk_table_attach_defaults (GTK_TABLE(table), state->expression,
- 				   1, 2, 0, 1);
- 	gtk_table_attach_defaults (GTK_TABLE(table), state->label,
- 				   1, 2, 1, 2);
-	
+
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
 			    table, TRUE, TRUE, 5);
 	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
@@ -827,10 +1277,6 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 			    GTK_SIGNAL_FUNC (cb_checkbox_config_destroy), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "clicked",
 			    GTK_SIGNAL_FUNC (cb_checkbox_config_clicked), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE(state->expression));
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE(state->label));
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
@@ -879,7 +1325,7 @@ sheet_widget_checkbox_write_xml (SheetObject const *so,
 			parse_pos_init (&pos, NULL, so->sheet, 0, 0));
 		xml_node_set_cstr (tree, "Input", val);
 	}
-	
+
 	return FALSE;
 }
 
@@ -890,19 +1336,20 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
-	gchar *input_txt = (gchar *)xmlGetProp (tree, (xmlChar *)"Input");
+	gchar *input_txt;
 
 	if (!label) {
 		g_warning ("Could not read a CheckBoxWidget object because it lacks a label property");
 		return TRUE;
 	}
-	
+
 	swc->dep.sheet = NULL;
 	swc->dep.expression = NULL;
 	swc->dep.flags = checkbox_get_dep_type ();
 	swc->label = g_strdup (label);
 	xmlFree (label);
-	
+
+	input_txt = (gchar *)xmlGetProp (tree, (xmlChar *)"Input");
 	if (input_txt != NULL && *input_txt != '\0') {
 		ParsePos pos;
 		ExprTree *expr;
@@ -917,15 +1364,15 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 		}
 
 		swc->dep.expression = expr;
-		
+
 		xmlFree (input_txt);
 	}
-		
+
 	xml_node_get_int (tree, "Value", &swc->value);
 
 	return FALSE;
 }
-		
+
 void
 sheet_widget_checkbox_set_link (SheetObject *so, ExprTree *expr)
 {
@@ -1314,8 +1761,8 @@ SOW_MAKE_TYPE(combo, Combo,
 
 /**
  * sheet_widget_init_clases:
- * @void: 
- * 
+ * @void:
+ *
  * Initilize the classes for the sheet-object-widgets. We need to initalize
  * them before we try loading a sheet that might contain sheet-object-widgets
  **/
@@ -1325,6 +1772,7 @@ sheet_object_widget_register (void)
 	SHEET_WIDGET_LABEL_TYPE;
 	SHEET_WIDGET_FRAME_TYPE;
 	SHEET_WIDGET_BUTTON_TYPE;
+	SHEET_WIDGET_SCROLLBAR_TYPE;
 	SHEET_WIDGET_CHECKBOX_TYPE;
 	SHEET_WIDGET_RADIO_BUTTON_TYPE;
 	SHEET_WIDGET_LIST_TYPE;

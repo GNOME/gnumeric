@@ -869,6 +869,10 @@
 	    _tip="Create a button" verb="CreateButton"/>
 	-->
 
+	<toolitem name="Scrollbar"
+	    pixtype="stock" pixname="Gnumeric_Scrollbar"
+	    _label="Scrollbar"
+	    _tip="Create a scrollbar" verb="CreateScrollbar"/>
 	<toolitem name="Checkbox"
 	    pixtype="stock" pixname="Gnumeric_Checkbutton"
 	    _label="Checkbox"

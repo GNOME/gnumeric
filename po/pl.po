@@ -4239,7 +4239,7 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:1
 msgid ""
-"The toprow contains labels, these will not be consolidated, but used as key "
+"The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
 "Etykiety zawarte s± w górnym wierszu. Nie bêd± one ³±czone, ale u¿ywane jako "
@@ -5425,8 +5425,8 @@ msgstr "Przecinek (,)"
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
-"used for terminating a line in the text file. Wether the quote character is "
-"placed around cells depends on the value choosen for quoting."
+"used for terminating a line in the text file. Whether the quote character is "
+"placed around cells depends on the value chosen for quoting."
 msgstr ""
 "Okre¶l format eksportowanego tekstu. Zakoñczenie wiersza to sekwencja znaków "
 "wykorzystywana do zakoñczenia wiersza w pliku tekstowym. To, czy warto¶ci "
@@ -6593,7 +6593,7 @@ msgid "Ma_tch whole words only"
 msgstr "Wyszukiwanie tylko ca³ych _s³ów"
 
 #: src/dialogs/search-replace.glade.h:1 src/dialogs/search.glade.h:1
-msgid "Miscellanea"
+msgid "Miscellaneous"
 msgstr "Ró¿ne"
 
 #: src/dialogs/search-replace.glade.h:1
@@ -6677,7 +6677,7 @@ msgid "The search text is taken literal"
 msgstr "Napis podany do wyszukiwania traktowany jest bezpo¶rednio"
 
 #: src/dialogs/search-replace.glade.h:1
-msgid "Turn unparseable entries into string values"
+msgid "Turn unparsable entries into string values"
 msgstr "Zmenia ka¿d± warto¶æ w ³añcuch znakowy"
 
 #: src/dialogs/search-replace.glade.h:1 src/dialogs/search.glade.h:1

@@ -4092,7 +4092,7 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
-"The toprow contains labels, these will not be consolidated, but used as key "
+"The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
 "Üst satýr etiketleri içerdiðinden bunlar birleþtirilmeyecek, fakat "
@@ -5332,8 +5332,8 @@ msgstr "Virgül (,)"
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
-"used for terminating a line in the text file. Wether the quote character is "
-"placed around cells depends on the value choosen for quoting."
+"used for terminating a line in the text file. Whether the quote character is "
+"placed around cells depends on the value chosen for quoting."
 msgstr ""
 "Aktarma biçemini özelleþtirir. Satýr sonlandýrýcý metin dosyasý içindeki bir "
 "satýrýn sonalandýrýlmasýnda kullanýlan bir karakter dizisidir. Sýnýrlama "
@@ -6511,7 +6511,7 @@ msgid "Match whole words only"
 msgstr "Sadece tam sözcükleri bul"
 
 #: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:9
-msgid "Miscellanea"
+msgid "Miscellaneous"
 msgstr "Çeþitli"
 
 #: src/dialogs/search-replace.glade.h:25
@@ -6627,7 +6627,7 @@ msgid "The search text is taken literal"
 msgstr "Arama metni harflerden ibarettir"
 
 #: src/dialogs/search-replace.glade.h:55
-msgid "Turn unparseable entries into string values"
+msgid "Turn unparsable entries into string values"
 msgstr "Dizge deðerlerinde çözümlenemeyenleri döndürür"
 
 #: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:23

@@ -4200,7 +4200,7 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
-"The toprow contains labels, these will not be consolidated, but used as key "
+"The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
 "La primera fila conté les etiquetes, no es consolidaran, però s'usaran de "
@@ -5494,8 +5494,8 @@ msgstr "Coma (,)"
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
-"used for terminating a line in the text file. Wether the quote character is "
-"placed around cells depends on the value choosen for quoting."
+"used for terminating a line in the text file. Whether the quote character is "
+"placed around cells depends on the value chosen for quoting."
 msgstr ""
 "Personalitza el format d'exportació. El caràcter final de cada línia és la "
 "seqüència emprada per acabar una línia en un fitxer de text. El fet de que "
@@ -6722,7 +6722,7 @@ msgid "Match whole words only"
 msgstr "Fes coinicidir només les paraules senceres"
 
 #: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:9
-msgid "Miscellanea"
+msgid "Miscellaneous"
 msgstr "Miscel·lània"
 
 #: src/dialogs/search-replace.glade.h:25
@@ -6838,7 +6838,7 @@ msgid "The search text is taken literal"
 msgstr "El text de cerca es pren literalment"
 
 #: src/dialogs/search-replace.glade.h:55
-msgid "Turn unparseable entries into string values"
+msgid "Turn unparsable entries into string values"
 msgstr "Canvia les entrades que no es puguin analitzar en valors de cadenes"
 
 #: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:23

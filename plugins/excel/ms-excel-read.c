@@ -2124,11 +2124,16 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 
 		/* can not be done until we have set the sheet */
 		if (obj->excel_type == 0x0B) {
-			MSObjAttr *link = ms_object_attr_bag_lookup (obj->attrs, 
-				MS_OBJ_ATTR_CHECKBOX_LINK);
-			if (link != NULL)
-				sheet_widget_checkbox_set_link (SHEET_OBJECT (obj->gnum_obj),
-					link->v.v_expr);
+			sheet_widget_checkbox_set_link (SHEET_OBJECT (obj->gnum_obj),
+				ms_object_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
+		} else if (obj->excel_type == 0x11) {
+			sheet_widget_scrollbar_set_details (SHEET_OBJECT (obj->gnum_obj),
+				ms_object_attr_get_expr (obj, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
+				0,
+				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
+				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100),
+				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
+				ms_object_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
 		}
 	}
 
@@ -2253,12 +2258,13 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 			so = sheet_object_box_new (FALSE);  /* placeholder */
 		break;
 	}
-	case 0x0B: so = sheet_widget_checkbox_new (sheet); break; /* CheckBox*/
-	case 0x0C: so = sheet_widget_radio_button_new (sheet); break; /* OptionButton */
-	case 0x0E: so = sheet_widget_label_new (sheet);    break; /* Label */
+	case 0x0B: so = sheet_widget_checkbox_new (sheet); break;
+	case 0x0C: so = sheet_widget_radio_button_new (sheet); break;
+	case 0x0E: so = sheet_widget_label_new (sheet);    break;
 	case 0x10: so = sheet_object_box_new (FALSE);  break; /* Spinner */
-	case 0x12: so = sheet_widget_list_new (sheet);     break; /* List */
-	case 0x14: so = sheet_widget_combo_new (sheet);    break; /* Combo */
+	case 0x11: so = sheet_widget_scrollbar_new (sheet); break;
+	case 0x12: so = sheet_widget_list_new (sheet);     break;
+	case 0x14: so = sheet_widget_combo_new (sheet);    break;
 
 	case 0x19: /* Comment */
 		/* TODO: we'll need a special widget for this */

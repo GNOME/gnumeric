@@ -99,7 +99,7 @@ format_page_canvas_button_press_event (GnomeCanvas *canvas, GdkEventButton *even
 
 /**
  * format_page_collist_select_row
- * @clist : GtkCList which emmitted the signal
+ * @clist : GtkCList which emitted the signal
  * @row : row the user selected
  * @column : column the user selected
  * @event : some info on the button the user clicked (unused)
@@ -137,7 +137,7 @@ format_page_collist_select_row (GtkCList *clist, int row, int column, GdkEventBu
 
 /**
  * format_page_sublist_select_row
- * @clist : GtkCList which emmitted the signal
+ * @clist : GtkCList which emitted the signal
  * @row : row the user selected
  * @column : column the user selected
  * @event : some info on the button the user clicked (unused)

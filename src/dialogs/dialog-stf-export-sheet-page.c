@@ -214,7 +214,7 @@ sheet_page_down_clicked (GtkButton *button, StfE_SheetPageData_t *data)
  * @event: the event
  * @data: sheet page data
  *
- * Signal emmitted when the selected row changes
+ * Signal emitted when the selected row changes
  **/
 static void
 sheet_page_avail_select_row (GtkCList *clist, int row, int column,
@@ -234,7 +234,7 @@ sheet_page_avail_select_row (GtkCList *clist, int row, int column,
  * @event: the event
  * @data: sheet page data
  *
- * Signal emmitted when the selected row changes
+ * Signal emitted when the selected row changes
  **/
 static void
 sheet_page_export_select_row (GtkCList *clist, int row, int column,

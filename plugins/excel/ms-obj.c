@@ -83,7 +83,7 @@ ms_object_attr_new_ptr (MSObjAttrID id, gpointer val)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
 
-	g_return_val_if_fail ((id & MS_OBJ_ATTR_MASK) == MS_OBJ_ATTR_NEEDS_FREE_MASK, NULL);
+	g_return_val_if_fail ((id & MS_OBJ_ATTR_MASK) == MS_OBJ_ATTR_IS_PTR_MASK, NULL);
 
 	/* be anal about constness */
 	*((MSObjAttrID *)&(res->id)) = id;
@@ -96,7 +96,7 @@ ms_object_attr_new_expr (MSObjAttrID id, ExprTree *expr)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
 
-	g_return_val_if_fail ((id & MS_OBJ_ATTR_MASK) == MS_OBJ_ATTR_NEEDS_EXPR_UNREF, NULL);
+	g_return_val_if_fail ((id & MS_OBJ_ATTR_MASK) == MS_OBJ_ATTR_IS_EXPR_MASK, NULL);
 
 	/* be anal about constness */
 	*((MSObjAttrID *)&(res->id)) = id;
@@ -104,14 +104,70 @@ ms_object_attr_new_expr (MSObjAttrID id, ExprTree *expr)
 	return res;
 }
 
-void
+guint32
+ms_object_attr_get_uint (MSObj *obj, MSObjAttrID id, guint32 default_value)
+{
+	MSObjAttr *attr;
+
+	g_return_val_if_fail (obj != NULL, default_value);
+	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_INT_MASK, default_value);
+
+	attr = ms_object_attr_bag_lookup (obj->attrs, id);
+	if (attr == NULL)
+		return default_value;
+	return attr->v.v_uint;
+}
+
+gint32
+ms_object_attr_get_int  (MSObj *obj, MSObjAttrID id, gint32 default_value)
+{
+	MSObjAttr *attr;
+
+	g_return_val_if_fail (obj != NULL, default_value);
+	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_INT_MASK, default_value);
+
+	attr = ms_object_attr_bag_lookup (obj->attrs, id);
+	if (attr == NULL)
+		return default_value;
+	return attr->v.v_int;
+}
+
+gpointer
+ms_object_attr_get_ptr  (MSObj *obj, MSObjAttrID id, gpointer default_value)
+{
+	MSObjAttr *attr;
+
+	g_return_val_if_fail (obj != NULL, default_value);
+	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_PTR_MASK, default_value);
+
+	attr = ms_object_attr_bag_lookup (obj->attrs, id);
+	if (attr == NULL)
+		return default_value;
+	return attr->v.v_ptr;
+}
+
+ExprTree *
+ms_object_attr_get_expr (MSObj *obj, MSObjAttrID id, ExprTree *default_value)
+{
+	MSObjAttr *attr;
+
+	g_return_val_if_fail (obj != NULL, default_value);
+	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_EXPR_MASK, default_value);
+
+	attr = ms_object_attr_bag_lookup (obj->attrs, id);
+	if (attr == NULL)
+		return default_value;
+	return attr->v.v_expr;
+}
+
+static void
 ms_object_attr_destroy (MSObjAttr *attr)
 {
 	if (attr != NULL) {
-		if ((attr->id & MS_OBJ_ATTR_NEEDS_FREE_MASK) &&
+		if ((attr->id & MS_OBJ_ATTR_IS_PTR_MASK) &&
 		    attr->v.v_ptr != NULL) {
 			g_free (attr->v.v_ptr);
-		} else if ((attr->id & MS_OBJ_ATTR_NEEDS_EXPR_UNREF) &&
+		} else if ((attr->id & MS_OBJ_ATTR_IS_EXPR_MASK) &&
 		    attr->v.v_expr != NULL) {
 			expr_tree_unref (attr->v.v_expr);
 		}
@@ -396,22 +452,39 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			ms_obj_dump (data, len, data_len_left, "RadioButton");
 			break;
 
-		case GR_SCROLLBAR :
+		case GR_SCROLLBAR : {
+			ms_object_attr_bag_insert (obj->attrs,
+				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_VALUE,
+					MS_OLE_GET_GUINT16 (data+8)));
+			ms_object_attr_bag_insert (obj->attrs,
+				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_MIN,
+					MS_OLE_GET_GUINT16 (data+10)));
+			ms_object_attr_bag_insert (obj->attrs,
+				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_MAX,
+					MS_OLE_GET_GUINT16 (data+12)));
+			ms_object_attr_bag_insert (obj->attrs,
+				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_INC,
+					MS_OLE_GET_GUINT16 (data+14)));
+			ms_object_attr_bag_insert (obj->attrs,
+				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_PAGE,
+					MS_OLE_GET_GUINT16 (data+16)));
 			ms_obj_dump (data, len, data_len_left, "ScrollBar");
 			break;
+		}
 
 		case GR_NOTE_STRUCTURE :
 			ms_obj_dump (data, len, data_len_left, "Note");
 			break;
 
-		case GR_SCROLLBAR_FORMULA :
-			/* A touch of spelunking suggests that
-			 * 0x06 uint16 == first visible element (0 based)
-			 * 0x12 uint16 == number of elements
-			 * 0x14 uint16 == current element (1 based)
-			 */
+		case GR_SCROLLBAR_FORMULA : {
+			guint16 const expr_len = MS_OLE_GET_GUINT16 (data+4);
+			ExprTree *ref = ms_container_parse_expr (container, data+10, expr_len);
+			if (ref != NULL)
+				ms_object_attr_bag_insert (obj->attrs,
+					ms_object_attr_new_expr (MS_OBJ_ATTR_SCROLLBAR_LINK, ref));
 			ms_obj_dump (data, len, data_len_left, "ScrollbarFmla");
 			break;
+		}
 
 		case GR_GROUP_BOX_DATA :
 			ms_obj_dump (data, len, data_len_left, "GroupBoxData");
@@ -429,8 +502,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			ms_obj_dump (data, len, data_len_left, "CheckBoxData");
 			break;
 
-		case GR_LISTBOX_DATA :
-		{
+		case GR_LISTBOX_DATA : {
 			/* FIXME : find some docs for this
 			 * It seems as if list box data does not conform to
 			 * the docs.  It acts like an end and has no size.
@@ -452,8 +524,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			break;
 		}
 
-		case GR_COMMON_OBJ_DATA :
-		{
+		case GR_COMMON_OBJ_DATA : {
 			guint16 const options =MS_OLE_GET_GUINT16 (data+8);
 
 			/* Multiple objects in 1 record ?? */
@@ -477,9 +548,15 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			if (options&0x4000)
 				printf ("AutoLines;\n");
 
-			if ((options & 0x9fee) != 0)
-				printf ("WARNING : Why is option not 0 (%x)\n",
-					options & 0x9fee);
+			if (ms_excel_object_debug > 4) {
+				/* According to the docs this should not fail
+				 * but there appears to be a flag at 0x200 for
+				 * scrollbars
+				 */
+				if ((options & 0x9fee) != 0)
+					printf ("WARNING : Why is option not 0 (%x)\n",
+						options & 0x9fee);
+			}
 #endif
 		}
 		break;

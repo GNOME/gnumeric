@@ -4265,7 +4265,7 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
-"The toprow contains labels, these will not be consolidated, but used as key "
+"The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
 "De bovenste rij bevat labels. Deze worden gebruikt  voor vergelijking en "
@@ -5461,8 +5461,8 @@ msgstr "Komma (,)"
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
-"used for terminating a line in the text file. Wether the quote character is "
-"placed around cells depends on the value choosen for quoting."
+"used for terminating a line in the text file. Whether the quote character is "
+"placed around cells depends on the value chosen for quoting."
 msgstr ""
 "Pas het exporteer formaat aan Uw wensen aan. De regel breker is de karakter "
 "reeks\n"
@@ -6635,7 +6635,7 @@ msgid "Ma_tch whole words only"
 msgstr "_Alleen overeenkomsten van hele woorden."
 
 #: src/dialogs/search-replace.glade.h:11 src/dialogs/search.glade.h:9
-msgid "Miscellanea"
+msgid "Miscellaneous"
 msgstr "Overige"
 
 #: src/dialogs/search-replace.glade.h:12
@@ -6719,7 +6719,7 @@ msgid "The search text is taken literal"
 msgstr "De zoektekst wordt letterlijk genomen"
 
 #: src/dialogs/search-replace.glade.h:33
-msgid "Turn unparseable entries into string values"
+msgid "Turn unparsable entries into string values"
 msgstr "Zet onverwerkbare items om in tekenreeksen"
 
 #: src/dialogs/search-replace.glade.h:34 src/dialogs/search.glade.h:23

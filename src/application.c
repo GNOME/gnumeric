@@ -27,6 +27,7 @@
 #include "pixmaps/label.xpm"
 #include "pixmaps/frame.xpm"
 #include "pixmaps/button.xpm"
+#include "pixmaps/vscrollbar.xpm"
 #include "pixmaps/checkbutton.xpm"
 #include "pixmaps/radiobutton.xpm"
 #include "pixmaps/list.xpm"
@@ -227,6 +228,7 @@ application_init (void)
 		{ 21, 21, "Gnumeric_Label", label_xpm },
 		{ 21, 21, "Gnumeric_Frame", frame_xpm },
 		{ 21, 21, "Gnumeric_Button", button_xpm },
+		{ 21, 21, "Gnumeric_Scrollbar", vscrollbar_xpm },
 		{ 21, 21, "Gnumeric_Checkbutton", checkbutton_xpm },
 		{ 21, 21, "Gnumeric_Radiobutton", radiobutton_xpm },
 		{ 21, 21, "Gnumeric_List", list_xpm },

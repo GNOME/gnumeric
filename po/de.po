@@ -4179,7 +4179,7 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
-"The toprow contains labels, these will not be consolidated, but used as key "
+"The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
 "Die erste Zeile enthält Bezeichner. Diese werden nicht konsolidiert, sondern "
@@ -5444,8 +5444,8 @@ msgstr "Komma (,)"
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
-"used for terminating a line in the text file. Wether the quote character is "
-"placed around cells depends on the value choosen for quoting."
+"used for terminating a line in the text file. Whether the quote character is "
+"placed around cells depends on the value chosen for quoting."
 msgstr ""
 "Das Exportformat anpassen. Das Zeilenendezeichen ist die Zeichenfolge, die\n"
 "eine Zeile in der Textdatei abschließt. Ob Anführungszeichen um Zellen "
@@ -6651,7 +6651,7 @@ msgid "Match whole words only"
 msgstr "Nur vollständige Wörter berücksichtigen"
 
 #: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:9
-msgid "Miscellanea"
+msgid "Miscellaneous"
 msgstr "Weitere Sachen"
 
 #: src/dialogs/search-replace.glade.h:25
@@ -6770,7 +6770,7 @@ msgid "The search text is taken literal"
 msgstr "Der Suchtext ist wörtlich gemeint"
 
 #: src/dialogs/search-replace.glade.h:55
-msgid "Turn unparseable entries into string values"
+msgid "Turn unparsable entries into string values"
 msgstr ""
 "Einträge, die nicht eingelesen werden können, in Zeichenkettenwerte wandeln"
 

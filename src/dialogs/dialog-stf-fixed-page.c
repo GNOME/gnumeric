@@ -513,7 +513,7 @@ fixed_page_auto_clicked (GtkButton *button, DruidPageData_t *data)
 
 /**
  * stf_dialog_fixed_page_prepare
- * @page : The druidpage that emmitted the signal
+ * @page : The druidpage that emitted the signal
  * @druid : The gnomedruid that houses @page
  * @data : mother struct
  *

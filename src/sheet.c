@@ -1561,6 +1561,7 @@ sheet_cell_set_expr (Cell *cell, ExprTree *expr)
 void
 sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 {
+	/* TODO : if the value is unchanged do not assign it */
 	cell_set_value (cell, v, opt_fmt);
 	sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
 	cell_queue_recalc (cell);

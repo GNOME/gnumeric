@@ -77,6 +77,14 @@ cmd_create_button (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 #endif
 static void
+cmd_create_scrollbar (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	SheetObject *so = sheet_widget_scrollbar_new (sheet);
+	create_object_command (scg, so);
+}
+static void
 cmd_create_checkbox (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
@@ -156,6 +164,9 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 		&cmd_create_button, "Gnumeric_Button"),
 #endif
 	GNOMEUIINFO_ITEM_STOCK (
+		N_("Scrollbar"), N_("Creates a scrollbar"),
+		&cmd_create_scrollbar, "Gnumeric_Scrollbar"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Checkbox"), N_("Creates a checkbox"),
 		&cmd_create_checkbox, "Gnumeric_Checkbutton"),
 #if 0
@@ -198,6 +209,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("CreateLabel", cmd_create_label),
 	BONOBO_UI_UNSAFE_VERB ("CreateFrame", cmd_create_frame),
 	/* BONOBO_UI_UNSAFE_VERB ("CreateButton", cmd_create_button), */
+	BONOBO_UI_UNSAFE_VERB ("CreateScrollbar", cmd_create_scrollbar),
 	BONOBO_UI_UNSAFE_VERB ("CreateCheckbox", cmd_create_checkbox),
 	/* BONOBO_UI_UNSAFE_VERB ("CreateRadiobutton", cmd_create_radiobutton), */
 	BONOBO_UI_UNSAFE_VERB ("CreateList", cmd_create_list),

@@ -4470,7 +4470,7 @@ msgstr "左列包含标签, 这些将不能被合并, 但可用作比较时的键"
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
-"The toprow contains labels, these will not be consolidated, but used as key "
+"The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr "最上行包含标签, 这些将不能被合并, 但可用作比较时的键"
 
@@ -5856,8 +5856,8 @@ msgstr "逗号(,)"
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
-"used for terminating a line in the text file. Wether the quote character is "
-"placed around cells depends on the value choosen for quoting."
+"used for terminating a line in the text file. Whether the quote character is "
+"placed around cells depends on the value chosen for quoting."
 msgstr ""
 "自订输出格式. 行终端是在文本文件中中断一行的字符序列.是否在单元的周围放引用符"
 "依赖于被选择作为引用的值"
@@ -7147,7 +7147,7 @@ msgid "Match whole words only"
 msgstr "只匹配整个单词"
 
 #: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:9
-msgid "Miscellanea"
+msgid "Miscellaneous"
 msgstr "杂项"
 
 #: src/dialogs/search-replace.glade.h:25
@@ -7265,7 +7265,7 @@ msgid "The search text is taken literal"
 msgstr "检索文本是一个普通的文字"
 
 #: src/dialogs/search-replace.glade.h:55
-msgid "Turn unparseable entries into string values"
+msgid "Turn unparsable entries into string values"
 msgstr "改变不可扫描的入口为字符串值"
 
 #: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:23

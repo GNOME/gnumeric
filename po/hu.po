@@ -4152,7 +4152,7 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
-"The toprow contains labels, these will not be consolidated, but used as key "
+"The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
 
@@ -5437,8 +5437,8 @@ msgstr "Vesszõ (,)"
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
-"used for terminating a line in the text file. Wether the quote character is "
-"placed around cells depends on the value choosen for quoting."
+"used for terminating a line in the text file. Whether the quote character is "
+"placed around cells depends on the value chosen for quoting."
 msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:17
@@ -6642,7 +6642,7 @@ msgid "Match whole words only"
 msgstr "Csak egész szó számít"
 
 #: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:9
-msgid "Miscellanea"
+msgid "Miscellaneous"
 msgstr "Egyebek"
 
 #: src/dialogs/search-replace.glade.h:25
@@ -6758,7 +6758,7 @@ msgid "The search text is taken literal"
 msgstr "A keresés szövege szó szerint értendõ"
 
 #: src/dialogs/search-replace.glade.h:55
-msgid "Turn unparseable entries into string values"
+msgid "Turn unparsable entries into string values"
 msgstr "Az értelmezhetetlen értékeket karakterlánccá alakítja"
 
 #: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:23

@@ -12,6 +12,9 @@ SheetObject *sheet_widget_label_new		(Sheet *sheet);
 SheetObject *sheet_widget_frame_new		(Sheet *sheet);
 SheetObject *sheet_widget_button_new		(Sheet *sheet);
 
+SheetObject *sheet_widget_scrollbar_new		(Sheet *sheet);
+void	     sheet_widget_scrollbar_set_details	(SheetObject *so, ExprTree *link,
+						 int value, int min, int max, int inc, int page);
 SheetObject *sheet_widget_checkbox_new		(Sheet *sheet);
 void	     sheet_widget_checkbox_set_link	(SheetObject *so, ExprTree *expr);
 

@@ -1,3 +1,13 @@
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* src/application.c (application_init) : Add scrollbar.
+
+	* src/sheet-object-widget.c : Add scrollbars.
+	(sheet_widget_checkbox_user_config) : Use gnumeric_table_attach_with_label.
+	(gnumeric_table_attach_with_label) : new util, does no belong here.
+
+	* src/workbook-object-toolbar.c (cmd_create_scrollbar) : new.
+
 2002-01-20  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-graph.c (gnm_graph_subscribe_vector) : Pass a place

@@ -31,14 +31,20 @@ typedef enum {
 	MS_OBJ_ATTR_IS_INT_MASK = 0x1000,
 	MS_OBJ_ATTR_BLIP_ID,
 	MS_OBJ_ATTR_FILL_COLOR,
+	MS_OBJ_ATTR_SCROLLBAR_VALUE,
+	MS_OBJ_ATTR_SCROLLBAR_MIN,
+	MS_OBJ_ATTR_SCROLLBAR_MAX,
+	MS_OBJ_ATTR_SCROLLBAR_INC,
+	MS_OBJ_ATTR_SCROLLBAR_PAGE,
 
     /* Ptrs */
-	MS_OBJ_ATTR_NEEDS_FREE_MASK = 0x2000,
+	MS_OBJ_ATTR_IS_PTR_MASK = 0x2000,
 	MS_OBJ_ATTR_ANCHOR,
 
     /* Expressions */
-	MS_OBJ_ATTR_NEEDS_EXPR_UNREF = 0x4000,
+	MS_OBJ_ATTR_IS_EXPR_MASK = 0x4000,
 	MS_OBJ_ATTR_CHECKBOX_LINK,
+	MS_OBJ_ATTR_SCROLLBAR_LINK,
 
 	MS_OBJ_ATTR_MASK = 0x7000
 } MSObjAttrID;
@@ -48,6 +54,7 @@ typedef struct {
 	union {
 		gboolean  v_boolean;
 		guint32	  v_uint;
+		guint32	  v_int;
 		gpointer  v_ptr;
 		ExprTree *v_expr;
 	} v;
@@ -55,9 +62,14 @@ typedef struct {
 
 MSObjAttr    *ms_object_attr_new_flag    (MSObjAttrID id);
 MSObjAttr    *ms_object_attr_new_uint    (MSObjAttrID id, guint32 val);
+MSObjAttr    *ms_object_attr_new_int     (MSObjAttrID id, gint32 val);
 MSObjAttr    *ms_object_attr_new_ptr     (MSObjAttrID id, gpointer val);
 MSObjAttr    *ms_object_attr_new_expr    (MSObjAttrID id, ExprTree *expr);
-void	      ms_object_attr_destroy     (MSObjAttr *attr);
+
+guint32   ms_object_attr_get_uint (MSObj *obj, MSObjAttrID id, guint32 default_value);
+gint32    ms_object_attr_get_int  (MSObj *obj, MSObjAttrID id, gint32 default_value);
+gpointer  ms_object_attr_get_ptr  (MSObj *obj, MSObjAttrID id, gpointer default_value);
+ExprTree *ms_object_attr_get_expr (MSObj *obj, MSObjAttrID id, ExprTree *default_value);
 
 typedef GHashTable MSObjAttrBag;
 MSObjAttrBag *ms_object_attr_bag_new     (void);

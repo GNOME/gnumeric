@@ -4238,7 +4238,7 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
-"The toprow contains labels, these will not be consolidated, but used as key "
+"The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
 "一番上の欄はラベルを含んでいるので合成されませんが、比較時のキーワードとして"
@@ -5429,8 +5429,8 @@ msgstr "カンマ (,)"
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
-"used for terminating a line in the text file. Wether the quote character is "
-"placed around cells depends on the value choosen for quoting."
+"used for terminating a line in the text file. Whether the quote character is "
+"placed around cells depends on the value chosen for quoting."
 msgstr ""
 "エキスポートする形式をカスタマイズします。\n"
 "行終端は、テキストファイルにおいて行を終えるために使われるキャラクタシーケン"
@@ -6593,7 +6593,7 @@ msgid "Ma_tch whole words only"
 msgstr "単語全体に一致するもののみ(_T)"
 
 #: src/dialogs/search-replace.glade.h:11 src/dialogs/search.glade.h:9
-msgid "Miscellanea"
+msgid "Miscellaneous"
 msgstr "雑集"
 
 #: src/dialogs/search-replace.glade.h:12
@@ -6677,7 +6677,7 @@ msgid "The search text is taken literal"
 msgstr "検索文字列はトークン"
 
 #: src/dialogs/search-replace.glade.h:33
-msgid "Turn unparseable entries into string values"
+msgid "Turn unparsable entries into string values"
 msgstr "解析不能な検索候補を文字列に変換する"
 
 #: src/dialogs/search-replace.glade.h:34 src/dialogs/search.glade.h:23

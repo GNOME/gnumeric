@@ -389,7 +389,7 @@ Formulas
 	  <widget>
 	    <class>GtkCheckButton</class>
 	    <name>labels_row</name>
-	    <tooltip>The toprow contains labels, these will not be consolidated, but used as key for comparison</tooltip>
+	    <tooltip>The top row contains labels, these will not be consolidated, but used as key for comparison</tooltip>
 	    <can_focus>True</can_focus>
 	    <label>In _top row</label>
 	    <active>False</active>

@@ -4559,7 +4559,7 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
-"The toprow contains labels, these will not be consolidated, but used as key "
+"The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
 "A linha de cima contém rótulos; estes não serão consolidados, e sim usados "
@@ -5913,8 +5913,8 @@ msgstr "Vírgula (,)"
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
-"used for terminating a line in the text file. Wether the quote character is "
-"placed around cells depends on the value choosen for quoting."
+"used for terminating a line in the text file. Whether the quote character is "
+"placed around cells depends on the value chosen for quoting."
 msgstr ""
 "Personalizar o formato de exportação. O terminador de linha é a seqüência de "
 "caracteres usada para terminar uma linha em um arquivo de texto. O caracter "
@@ -7201,7 +7201,7 @@ msgid "Match whole words only"
 msgstr "Comparar apenas palavras inteiras"
 
 #: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:9
-msgid "Miscellanea"
+msgid "Miscellaneous"
 msgstr "Miscelânea"
 
 #: src/dialogs/search-replace.glade.h:25
@@ -7322,7 +7322,7 @@ msgid "The search text is taken literal"
 msgstr "O texto de busca é literal"
 
 #: src/dialogs/search-replace.glade.h:55
-msgid "Turn unparseable entries into string values"
+msgid "Turn unparsable entries into string values"
 msgstr "Transformar entradas não interpretáveis em strings"
 
 #: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:23

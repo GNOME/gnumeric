@@ -15,7 +15,7 @@
 
 /**
  * csv_page_global_change
- * @widget : the widget which emmited the signal
+ * @widget : the widget which emitted the signal
  * @data : mother struct
  *
  * This will update the preview based on the state of
@@ -117,7 +117,7 @@ csv_page_scroll_value_changed (GtkAdjustment *adjustment, DruidPageData_t *data)
 
 /**
  * csv_page_custom_toggled
- * @button : the Checkbutton that emmited the signal
+ * @button : the Checkbutton that emitted the signal
  * @data : a mother struct
  *
  * This will nicely activate the @data->csv_info->csv_customseparator widget
@@ -151,7 +151,7 @@ csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
 
 /**
  * stf_dialog_csv_page_prepare
- * @page : The druidpage that emmitted the signal
+ * @page : The druidpage that emitted the signal
  * @druid : The gnomedruid that houses @page
  * @data : mother struct
  *

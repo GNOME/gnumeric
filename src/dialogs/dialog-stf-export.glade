@@ -423,7 +423,7 @@
 	  <class>GtkLabel</class>
 	  <name>label6</name>
 	  <width>470</width>
-	  <label>Customize the export format. The line terminator is the character sequence used for terminating a line in the text file. Wether the quote character is placed around cells depends on the value choosen for quoting.</label>
+	  <label>Customize the export format. The line terminator is the character sequence used for terminating a line in the text file. Whether the quote character is placed around cells depends on the value chosen for quoting.</label>
 	  <justify>GTK_JUSTIFY_LEFT</justify>
 	  <wrap>True</wrap>
 	  <xalign>7.45058e-09</xalign>
