@@ -1,3 +1,8 @@
+2002-10-01  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_attr_enum) : new.
+	(oo_style_prop) : some initial work.
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9

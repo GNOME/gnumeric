@@ -33,6 +33,9 @@
 #include <parse-util.h>
 #include <io-context.h>
 #include <datetime.h>
+#include <style-color.h>
+#include <sheet-style.h>
+#include <mstyle.h>
 
 #include <gnumeric-i18n.h>
 #include <gsf/gsf-libxml.h>
@@ -55,6 +58,9 @@ typedef struct {
 	int 		 col_inc;
 	gboolean 	 simple_content : 1;
 	gboolean 	 error_content : 1;
+	GHashTable	*styles;
+	MStyle		*style;
+	MStyle		*col_default_styles[SHEET_MAX_COLS];
 } OOParseState;
 
 static void oo_warning (OOParseState *state, char const *fmt, ...)
@@ -88,8 +94,8 @@ oo_warning (OOParseState *state, char const *fmt, ...)
 }
 
 static gboolean
-xml_sax_attr_bool (OOParseState *state,
-		   xmlChar const * const *attrs, char const *name, gboolean *res)
+oo_attr_bool (OOParseState *state, xmlChar const * const *attrs,
+	      char const *name, gboolean *res)
 {
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -104,8 +110,8 @@ xml_sax_attr_bool (OOParseState *state,
 }
 
 static gboolean
-xml_sax_attr_int (OOParseState *state,
-		  xmlChar const * const *attrs, char const *name, int *res)
+oo_attr_int (OOParseState *state, xmlChar const * const *attrs,
+	     char const *name, int *res)
 {
 	char *end;
 	int tmp;
@@ -128,8 +134,8 @@ xml_sax_attr_int (OOParseState *state,
 }
 
 static gboolean
-xml_sax_attr_float (OOParseState *state,
-		    xmlChar const * const *attrs, char const *name, gnum_float *res)
+oo_attr_float (OOParseState *state, xmlChar const * const *attrs,
+	       char const *name, gnum_float *res)
 {
 	char *end;
 	double tmp;
@@ -150,6 +156,54 @@ xml_sax_attr_float (OOParseState *state,
 	*res = tmp;
 	return TRUE;
 }
+
+static StyleColor *
+oo_attr_color (OOParseState *state, xmlChar const * const *attrs,
+	       char const *name)
+{
+	guint r, g, b;
+
+	g_return_val_if_fail (attrs != NULL, NULL);
+	g_return_val_if_fail (attrs[0] != NULL, NULL);
+	g_return_val_if_fail (attrs[1] != NULL, NULL);
+
+	if (strcmp (attrs[0], name))
+		return NULL;
+
+	if (3 == sscanf (attrs[1], "#%2x%2x%2x", &r, &g, &b))
+		return style_color_new_i8 (r, g, b);
+
+	oo_warning (state, "Invalid attribute '%s', expected color, received '%s'",
+		    name, attrs[1]);
+	return NULL;
+}
+
+typedef struct {
+	char const * const name;
+	int val;
+} OOEnum;
+
+static gboolean
+oo_attr_enum (OOParseState *state, xmlChar const * const *attrs,
+	      char const *name, OOEnum const *enums, int *res)
+{
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (strcmp (attrs[0], name))
+		return FALSE;
+
+	for (; enums->name != NULL ; enums++)
+		if (!strcmp (enums->name, attrs[1])) {
+			*res = enums->val;
+			return TRUE;
+		}
+	oo_warning (state, "Invalid attribute '%s', unknown enum value '%s'",
+		    name, attrs[1]);
+	return FALSE;
+}
+
 /****************************************************************************/
 
 static void
@@ -157,9 +211,10 @@ oo_table_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
 	/* <table:table table:name="Result" table:style-name="ta1"> */
 	OOParseState *state = (OOParseState *)gsf_state;
+	int i;
 
-	state->pos.eval.col = -1;
-	state->pos.eval.row = -1;
+	state->pos.eval.col = 0;
+	state->pos.eval.row = 0;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (!strcmp (attrs[0], "table:name")) {
@@ -172,19 +227,30 @@ oo_table_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 				/* TODO : check the order */
 			}
 		}
+	for (i = SHEET_MAX_COLS ; i-- > 0 ; )
+		state->col_default_styles[i] = NULL;
 }
 
 static void
 oo_col_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
-	/* <table:table-column table:style-name="co1" table:default-cell-style-name="ce1"/> */
-	/* <table:table-column table:style-name="co2" table:number-columns-repeated="255" table:default-cell-style-name="Default"/> */
+	OOParseState *state = (OOParseState *)gsf_state;
+	MStyle *style = NULL;
+	int repeat_count = 1;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (!strcmp (attrs[0], "table:default-cell-style-name"))
+			style = g_hash_table_lookup (state->styles, attrs[1]);
+		else if (oo_attr_int (state, attrs, "table:number-columns-repeated", &repeat_count))
+			;
+
+	while (repeat_count-- > 0)
+		state->col_default_styles[state->pos.eval.col++] = style;
 }
 
 static void
 oo_row_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
-	/* <table:table-row table:style-name="ro1"> */
 	OOParseState *state = (OOParseState *)gsf_state;
 	int      repeat_count;
 	gboolean repeat_flag = FALSE;
@@ -195,7 +261,7 @@ oo_row_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 	g_return_if_fail (state->pos.eval.row < SHEET_MAX_ROWS);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_attr_int (state, attrs, "table:number-rows-repeated", &repeat_count))
+		if (oo_attr_int (state, attrs, "table:number-rows-repeated", &repeat_count))
 			repeat_flag = TRUE;
 	}
 	if (repeat_flag)
@@ -279,11 +345,12 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 	gboolean	 bool_val;
 	gnum_float	 float_val;
 	int array_cols = -1, array_rows = -1;
+	MStyle *style = NULL;
 
 	state->col_inc = 1;
 	state->error_content = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_attr_int (state, attrs, "table:number-columns-repeated", &state->col_inc))
+		if (oo_attr_int (state, attrs, "table:number-columns-repeated", &state->col_inc))
 			;
 		else if (!strcmp (attrs[0], "table:formula")) {
 			char const *expr_string;
@@ -316,7 +383,7 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 				}
 			}
 		}
-		else if (xml_sax_attr_bool (state, attrs, "table:boolean-value", &bool_val))
+		else if (oo_attr_bool (state, attrs, "table:boolean-value", &bool_val))
 			val = value_new_bool (bool_val);
 		else if (!strcmp (attrs[0], "table:date-value")) {
 			unsigned y, m, d;
@@ -328,14 +395,25 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 			}
 		} else if (!strcmp (attrs[0], "table:string-value"))
 			val = value_new_string (attrs[1]);
-		else if (xml_sax_attr_float (state, attrs, "table:value", &float_val))
+		else if (oo_attr_float (state, attrs, "table:value", &float_val))
 			val = value_new_float (float_val);
-		else if (xml_sax_attr_int (state, attrs, "table:number-matrix-columns-spanned", &array_cols))
+		else if (oo_attr_int (state, attrs, "table:number-matrix-columns-spanned", &array_cols))
 			;
-		else if (xml_sax_attr_int (state, attrs, "table:number-matrix-rows-spanned", &array_rows))
+		else if (oo_attr_int (state, attrs, "table:number-matrix-rows-spanned", &array_rows))
 			;
+		else if (!strcmp (attrs[0], "table:style-name")) {
+			style = g_hash_table_lookup (state->styles, attrs[1]);
+		}
 	}
 
+	if (style == NULL)
+		style = state->col_default_styles[state->pos.eval.col];
+	if (style != NULL) {
+		mstyle_ref (style);
+		sheet_style_set_pos (state->pos.sheet,
+		     state->pos.eval.col, state->pos.eval.row,
+		     style);
+	}
 	state->simple_content = FALSE;
 	if (expr != NULL) {
 		Cell *cell = sheet_cell_fetch (state->pos.sheet,
@@ -404,90 +482,156 @@ oo_cell_content_end (GsfXmlSAXState *gsf_state)
 static void
 oo_style (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
-	 /* <style:style style:name="ce1" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="N0"> */
+	OOParseState *state = (OOParseState *)gsf_state;
+	state->style = mstyle_new_default ();
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (!strcmp (attrs[0], "style:name")) {
+			g_hash_table_replace (state->styles,
+				g_strdup (attrs[1]),
+				state->style = mstyle_new_default ());
+			return;
+		}
 }
+
+static void
+oo_style_end (GsfXmlSAXState *gsf_state)
+{
+	OOParseState *state = (OOParseState *)gsf_state;
+	state->style = NULL;
+}
+
 static void
 oo_style_prop (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	static OOEnum const h_alignments [] = {
+		{ "start",	HALIGN_LEFT },
+		{ "center",	HALIGN_CENTER },
+		{ "end", 	HALIGN_RIGHT },
+		{ "justify",	HALIGN_JUSTIFY },
+		{ NULL,	0 },
+	};
+	static OOEnum const v_alignments [] = {
+		{ "bottom", 	VALIGN_BOTTOM },
+		{ "top",	VALIGN_TOP },
+		{ "middle",	VALIGN_CENTER },
+		{ NULL,	0 },
+	};
 	OOParseState *state = (OOParseState *)gsf_state;
+	StyleColor *color;
+	MStyle *style = state->style;
+	StyleHAlignFlags h_align = HALIGN_GENERAL;
+	gboolean h_align_is_valid = FALSE;
+	int tmp;
 
-	state->pos.eval.col = -1;
-	state->pos.eval.row = -1;
+	g_return_if_fail (style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (!strcmp (attrs[0], "fo:background-color")) {
-			"#010101"
-		else if (!strcmp (attrs[0], "fo:color")) {
-			="#000000"
-		} else if (!strcmp (attrs[0], "style:cell-protect")) {
-			="protected"
-		} else if (!strcmp (attrs[0], "style:text-align-source")) {
-			="value-type"
-		} else if (!strcmp (attrs[0], "fo:vertical-align")) {
-			="bottom" {top, middle, bottom, Automatic }
-		} else if (!strcmp (attrs[0], "fo:wrap-option")) {
-			="no-wrap"
-		} else if (!strcmp (attrs[0], "style:font-name")) {
-			="Arial"
-		} else if (!strcmp (attrs[0], "fo:font-size")) {
-			="10pt"
-		} else if (!strcmp (attrs[0], "fo:font-weight")) {
+		if ((color = oo_attr_color (state, attrs, "fo:background-color"))) {
+			mstyle_set_color (style, MSTYLE_COLOR_BACK, color);
+			mstyle_set_pattern (style, 1);
+		} else if ((color = oo_attr_color (state, attrs, "fo:color")))
+			mstyle_set_color (style, MSTYLE_COLOR_FORE, color);
+		else if (!strcmp (attrs[0], "style:cell-protect"))
+			mstyle_set_content_locked (style, !strcmp (attrs[1], "protected"));
+		else if (oo_attr_enum (state, attrs, "style:text-align", h_alignments, &tmp))
+			h_align = tmp;
+		else if (!strcmp (attrs[0], "style:text-align-source"))
+			h_align_is_valid = !strcmp (attrs[1], "fixed");
+		else if (oo_attr_enum (state, attrs, "fo:vertical-align", v_alignments, &tmp))
+			;
+		else if (!strcmp (attrs[0], "fo:vertical-align"))
+			mstyle_set_align_v (style, tmp);
+		else if (!strcmp (attrs[0], "fo:wrap-option"))
+			mstyle_set_wrap_text (style, !strcmp (attrs[1], "wrap"));
+		else if (!strcmp (attrs[0], "style:font-name"))
+			mstyle_set_font_name (style, attrs[1]);
+		else if (!strcmp (attrs[0], "fo:font-size")) {
+			float size;
+			if (1 == sscanf (attrs[1], "%fpt", &size))
+				mstyle_set_font_size (style, size);
+		}
+#if 0
+		else if (!strcmp (attrs[0], "fo:font-weight")) {
+				mstyle_set_font_bold (style, TRUE);
+				mstyle_set_font_uline (style, TRUE);
 			="normal"
 		} else if (!strcmp (attrs[0], "fo:font-style" )) {
 			="italic"
+				mstyle_set_font_italic (style, TRUE);
+		} else if (!strcmp (attrs[0], "style:text-underline" )) {
+			="italic"
+				mstyle_set_font_italic (style, TRUE);
 		}
+#endif
+
+	mstyle_set_align_h (style, h_align_is_valid ? h_align : HALIGN_GENERAL);
 }
 		       
 static GsfXmlSAXNode opencalc_dtd[] = {
 GSF_XML_SAX_NODE (START, START, NULL, FALSE, NULL, NULL, 0),
 GSF_XML_SAX_NODE (START, OFFICE, "office:document-content", FALSE, NULL, NULL, 0),
   GSF_XML_SAX_NODE (OFFICE, SCRIPT, "office:script", FALSE, NULL, NULL, 0),
-  /* <office:script/> */
-
   GSF_XML_SAX_NODE (OFFICE, OFFICE_FONTS, "office:font-decls", FALSE, NULL, NULL, 0),
-  /* <office:font-decls> */
-
     GSF_XML_SAX_NODE (OFFICE_FONTS, FONT_DECL, "style:font-decl", FALSE, NULL, NULL, 0),
-    /* <style:font-decl style:name="Arial" fo:font-family="Arial"/> */
-
   GSF_XML_SAX_NODE (OFFICE, OFFICE_STYLES, "office:automatic-styles", FALSE, NULL, NULL, 0),
-  /* <office:automatic-styles> */
-
-    GSF_XML_SAX_NODE (OFFICE_STYLES, STYLE, "style:style", FALSE, &oo_style, NULL, 0),
-      /* <style:style style:name="co1" style:family="table-column"> */
-
+    GSF_XML_SAX_NODE (OFFICE_STYLES, STYLE, "style:style", FALSE, &oo_style, &oo_style_end, 0),
       GSF_XML_SAX_NODE (STYLE, STYLE_PROP, "style:properties", FALSE, &oo_style_prop, NULL, 0),
-	/* <style:properties fo:break-before="auto" style:column-width="0.9138inch"/> */
-
     GSF_XML_SAX_NODE (OFFICE_STYLES, NUMBER_STYLE, "number:number-style", FALSE, NULL, NULL, 0),
-    /* <number:number-style style:name="N1" style:family="data-style"> */
-
       GSF_XML_SAX_NODE (NUMBER_STYLE, NUMBER_STYLE_PROP, "number:number", FALSE, NULL, NULL, 0),
-      /* <number:number number:decimal-places="0" number:min-integer-digits="1"/> */
-
+      GSF_XML_SAX_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, "number:fraction", FALSE, NULL, NULL, 0),
       GSF_XML_SAX_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, "number:scientific-number", FALSE, NULL, NULL, 0),
-      /* <number:scientific-number number:decimal-places="2" number:min-integer-digits="1" number:min-exponent-digits="2"/> */
-
     GSF_XML_SAX_NODE (OFFICE_STYLES, DATE_STYLE, "number:date-style", FALSE, NULL, NULL, 0),
-    /* <number:date-style style:name="N32" style:family="data-style" number:automatic-order="true"> */
-
+      GSF_XML_SAX_NODE (DATE_STYLE, DATE_QUARTER, "number:quarter", FALSE, NULL, NULL, 0),
       GSF_XML_SAX_NODE (DATE_STYLE, DATE_YEAR, "number:year", FALSE, NULL, NULL, 0),
       GSF_XML_SAX_NODE (DATE_STYLE, DATE_MONTH, "number:month", FALSE, NULL, NULL, 0),
       GSF_XML_SAX_NODE (DATE_STYLE, DATE_DAY, "number:day", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (DATE_STYLE, DATE_DAY_OF_WEEK, "number:day-of-week", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (DATE_STYLE, DATE_WEEK_OF_YEAR, "number:week-of-year", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (DATE_STYLE, DATE_HOURS, "number:hours", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (DATE_STYLE, DATE_MINUTES, "number:minutes", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (DATE_STYLE, DATE_SECONDS, "number:seconds", FALSE, NULL, NULL, 0),
       GSF_XML_SAX_NODE (DATE_STYLE, DATE_TEXT, "number:text", FALSE, NULL, NULL, 0),
-
+    GSF_XML_SAX_NODE (OFFICE_STYLES, STYLE_BOOL, "number:boolean-style", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_BOOL, BOOL_PROP, "number:boolean", FALSE, NULL, NULL, 0),
+    GSF_XML_SAX_NODE (OFFICE_STYLES, STYLE_CURRENCY, "number:currency-style", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_CURRENCY, CURRENCY_STYLE, "number:number", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_CURRENCY, CURRENCY_STYLE_PROP, "style:properties", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_CURRENCY, CURRENCY_MAP, "style:map", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_CURRENCY, CURRENCY_SYMBOL, "number:currency-symbol", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_CURRENCY, CURRENCY_TEXT, "number:text", FALSE, NULL, NULL, 0),
+    GSF_XML_SAX_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, "number:percentage-style", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_PERCENTAGE, PERCENTAGE_STYLE_PROP, "number:number", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, "number:text", FALSE, NULL, NULL, 0),
+    GSF_XML_SAX_NODE (OFFICE_STYLES, STYLE_TEXT, "number:text-style", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_TEXT, STYLE_TEXT_PROP, "number:text-content", FALSE, NULL, NULL, 0),
+    GSF_XML_SAX_NODE (OFFICE_STYLES, STYLE_TIME, "number:time-style", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_TIME, TIME_HOURS, "number:hours", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_TIME, TIME_MINUTES, "number:minutes", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_TIME, TIME_SECONDS, "number:seconds", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_TIME, TIME_AM_PM, "number:am-pm", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE_TIME, TIME_TEXT, "number:text", FALSE, NULL, NULL, 0),
 
   GSF_XML_SAX_NODE (OFFICE, OFFICE_BODY, "office:body", FALSE, NULL, NULL, 0),
     GSF_XML_SAX_NODE (OFFICE_BODY, TABLE_CALC_SETTINGS, "table:calculation-settings", FALSE, NULL, NULL, 0),
-    /* <table:calculation-settings table:case-sensitive="false" table:use-regular-expressions="false"/> */
-
     GSF_XML_SAX_NODE (OFFICE_BODY, TABLE, "table:table", FALSE, &oo_table_start, NULL, 0),
       GSF_XML_SAX_NODE (TABLE, TABLE_COL, "table:table-column", FALSE, &oo_col_start, NULL, 0),
       GSF_XML_SAX_NODE (TABLE, TABLE_ROW, "table:table-row", FALSE, &oo_row_start, NULL, 0),
 	GSF_XML_SAX_NODE (TABLE_ROW, TABLE_CELL, "table:table-cell", FALSE, &oo_cell_start, &oo_cell_end, 0),
+	GSF_XML_SAX_NODE (TABLE_ROW, TABLE_COVERED_CELL, "table:covered-table-cell", FALSE, NULL, NULL, 0),
 	  GSF_XML_SAX_NODE (TABLE_CELL, CELL_TEXT, "text:p", TRUE, NULL, &oo_cell_content_end, 0),
+	    GSF_XML_SAX_NODE (CELL_TEXT, CELL_TEXT_S, "text:s", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (TABLE, TABLE_COL_GROUP, "table:table-column-group", FALSE, NULL, NULL, 0),
+        GSF_XML_SAX_NODE (TABLE_COL_GROUP, TABLE_COL_GROUP, "table:table-column-group", FALSE, NULL, NULL, 0),
+        GSF_XML_SAX_NODE (TABLE_COL_GROUP, TABLE_COL, "table:table-column", FALSE, NULL, NULL, 0), /* 2nd def */
+      GSF_XML_SAX_NODE (TABLE, TABLE_ROW_GROUP,	      "table:table-row-group", FALSE, NULL, NULL, 0),
+        GSF_XML_SAX_NODE (TABLE_ROW_GROUP, TABLE_ROW_GROUP, "table:table-row-group", FALSE, NULL, NULL, 0),
+        GSF_XML_SAX_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    "table:table-row", FALSE, NULL, NULL, 0), /* 2nd def */
+    GSF_XML_SAX_NODE (OFFICE_BODY, NAMED_EXPRS, "table:named-expressions", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (NAMED_EXPRS, NAMED_EXPR, "table:named-expression", FALSE, NULL, NULL, 0),
   { NULL }
 };
+
 
 void
 openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
@@ -525,6 +669,10 @@ openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	state.pos.sheet = NULL;
 	state.pos.eval.col	= -1;
 	state.pos.eval.row	= -1;
+	state.styles = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) mstyle_unref);
+	state.style = NULL;
 
 	state.base.root = opencalc_dtd;
 	if (!gsf_xmlSAX_parse (content, &state.base))
@@ -532,6 +680,7 @@ openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	else
 		workbook_queue_all_recalc (state.pos.wb);
 
+	g_hash_table_destroy (state.styles);
 	g_object_unref (G_OBJECT (content));
 	g_object_unref (G_OBJECT (zip));
 
