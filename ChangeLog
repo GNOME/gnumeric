@@ -1,3 +1,7 @@
+2000-11-02  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: bump gb requirement to gb-0.0.15
+
 2000-11-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_new_sheet_view) : Set the cursor when the sheet
