@@ -85,25 +85,25 @@ set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags halign)
 }
 
 static void
-left_align_cmd (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_align_left (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	set_selection_halign (wbcg, HALIGN_LEFT);
 }
 
 static void
-right_align_cmd (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_align_right (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	set_selection_halign (wbcg, HALIGN_RIGHT);
 }
 
 static void
-center_cmd (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_align_center (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	set_selection_halign (wbcg, HALIGN_CENTER);
 }
 
 static void
-center_across_selection_cmd (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_center_across_selection (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	set_selection_halign (wbcg, HALIGN_CENTER_ACROSS_SELECTION);
 }
@@ -206,7 +206,7 @@ toggled_from_toolbar (GtkToggleButton *t)
 }
 
 /**
- * font_select_cmd
+ * cb_font_name
  *
  * @wbcg:  workboook
  *
@@ -215,28 +215,28 @@ toggled_from_toolbar (GtkToggleButton *t)
  * size controls.
  */
 static void
-font_select_cmd (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_font_name (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	dialog_cell_format (wbcg, wb_control_cur_sheet (wbc), FD_FONT);
 }
 
 static void
-bold_cmd (GtkToggleButton *t, WorkbookControlGUI *wbcg)
+cb_font_bold (GtkToggleButton *t, WorkbookControlGUI *wbcg)
 {
 	if (toggled_from_toolbar (t))
 		change_selection_font (wbcg, TRUE, FALSE, FALSE, FALSE);
 }
 
 static void
-italic_cmd (GtkToggleButton *t, WorkbookControlGUI *wbcg)
+cb_font_italic (GtkToggleButton *t, WorkbookControlGUI *wbcg)
 {
 	if (toggled_from_toolbar (t))
 		change_selection_font (wbcg, FALSE, TRUE, FALSE, FALSE);
 }
 
 static void
-underline_cmd (GtkToggleButton *t, WorkbookControlGUI *wbcg)
+cb_font_underline (GtkToggleButton *t, WorkbookControlGUI *wbcg)
 {
 	if (toggled_from_toolbar (t))
 		change_selection_font (wbcg, FALSE, FALSE, TRUE, FALSE);
@@ -306,13 +306,13 @@ apply_number_format (WorkbookControlGUI *wbcg, const char *translated_format)
 }
 
 static void
-workbook_cmd_format_as_money (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_format_as_money (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	apply_number_format (wbcg, cell_formats [FMT_ACCOUNT] [2]);
 }
 
 static void
-workbook_cmd_format_as_percent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_format_as_percent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	apply_number_format (wbcg, "0.00%");
 }
@@ -366,30 +366,30 @@ do_modify_format (WorkbookControlGUI *wbcg, format_modify_fn modify_fn)
 }
 
 static void
-workbook_cmd_format_add_thousands (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_format_add_thousands (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	do_modify_format (wbcg, &format_toggle_thousands);
 }
 
 static void
-workbook_cmd_format_add_decimals (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_format_add_decimals (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	do_modify_format (wbcg, &format_add_decimal);
 }
 
 static void
-workbook_cmd_format_remove_decimals (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_format_remove_decimals (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	do_modify_format (wbcg, &format_remove_decimal);
 }
 
 static void
-workbook_cmd_format_inc_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_format_inc_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 }
 
 static void
-workbook_cmd_format_dec_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_format_dec_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 }
 
@@ -401,24 +401,24 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	/* Button to replace font and size selectors in vertical mode */
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Select font"), N_("Font selector"),
-		&font_select_cmd, "Font"),
+		&cb_font_name, "Font"),
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Bold"), N_("Sets the bold font"),
-		&bold_cmd, NULL, NULL,
+		&cb_font_bold, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_BOLD,
 		'b', GDK_CONTROL_MASK
 	},
 
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Italic"), N_("Makes the font italic"),
-		&italic_cmd, NULL, NULL,
+		&cb_font_italic, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_ITALIC,
 		'i', GDK_CONTROL_MASK
 	},
 
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Underline"), N_("Underlines the font"),
-		&underline_cmd, NULL, NULL,
+		&cb_font_underline, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_UNDERLINE,
 		'u', GDK_CONTROL_MASK
 	},
@@ -427,19 +427,19 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Left align"), N_("Left justifies the cell contents"),
-		&left_align_cmd, NULL, NULL,
+		&cb_align_left, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_ALIGN_LEFT },
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Center"), N_("Centers the cell contents"),
-		&center_cmd, NULL, NULL,
+		&cb_align_center, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_ALIGN_CENTER },
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Right align"), N_("Right justifies the cell contents"),
-		&right_align_cmd, NULL, NULL,
+		&cb_align_right, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_ALIGN_RIGHT },
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Center across selection"), N_("Center across selection"),
-		&center_across_selection_cmd, NULL, NULL,
+		&cb_center_across_selection, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, "Gnumeric_CenterAcrossSelection" },
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Merge"), N_("Merge a range of cells"),
@@ -452,50 +452,52 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Money format"), N_("Sets the format of the selected cells to monetary"),
-		workbook_cmd_format_as_money, "Gnumeric_FormatAsMoney"),
+		cb_format_as_money, "Gnumeric_FormatAsMoney"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Percent"), N_("Sets the format of the selected cells to percentage"),
-		workbook_cmd_format_as_percent, "Gnumeric_FormatAsPercent"),
+		cb_format_as_percent, "Gnumeric_FormatAsPercent"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Thousand separator"), N_("Sets the format of the selected cells to include a thousands separator"),
-		workbook_cmd_format_add_thousands, "Gnumeric_FormatThousandSeperator"),
+		cb_format_add_thousands, "Gnumeric_FormatThousandSeperator"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Add decimals"), N_("Increases the number of decimals displayed"),
-		workbook_cmd_format_add_decimals, "Gnumeric_FormatAddPrecision"),
+		cb_format_add_decimals, "Gnumeric_FormatAddPrecision"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Remove decimals"), N_("Decreases the number of decimals displayed"),
-		workbook_cmd_format_remove_decimals, "Gnumeric_FormatRemovePrecision"),
+		cb_format_remove_decimals, "Gnumeric_FormatRemovePrecision"),
 
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Increase Indent"), N_("Aligns the contents to the left and increases the indent"),
-		workbook_cmd_format_inc_indent, GNOME_STOCK_PIXMAP_TEXT_INDENT),
+		cb_format_inc_indent, GNOME_STOCK_PIXMAP_TEXT_INDENT),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Decrease Indent"), N_("Aligns the contents to the left and decreases the indent"),
-		workbook_cmd_format_dec_indent, GNOME_STOCK_PIXMAP_TEXT_UNINDENT),
+		cb_format_dec_indent, GNOME_STOCK_PIXMAP_TEXT_UNINDENT),
+
+	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_END
 };
 #else
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_UNSAFE_VERB ("FontSelect",              &font_select_cmd),
-	BONOBO_UI_UNSAFE_VERB ("FontBold",		  &bold_cmd),
-	BONOBO_UI_UNSAFE_VERB ("FontItalic",		  &italic_cmd),
-	BONOBO_UI_UNSAFE_VERB ("FontUnderline",	   	  &underline_cmd),
-	BONOBO_UI_UNSAFE_VERB ("AlignLeft",		  &left_align_cmd),
-	BONOBO_UI_UNSAFE_VERB ("AlignCenter",		  &center_cmd),
-	BONOBO_UI_UNSAFE_VERB ("AlignRight",		  &right_align_cmd),
-	BONOBO_UI_UNSAFE_VERB ("CenterAcrossSelection",	  &center_across_selection_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FontSelect",              &cb_font_name),
+	BONOBO_UI_UNSAFE_VERB ("FontBold",		  &cb_font_bold),
+	BONOBO_UI_UNSAFE_VERB ("FontItalic",		  &cb_font_italic),
+	BONOBO_UI_UNSAFE_VERB ("FontUnderline",	   	  &cb_font_underline),
+	BONOBO_UI_UNSAFE_VERB ("AlignLeft",		  &cb_align_left),
+	BONOBO_UI_UNSAFE_VERB ("AlignCenter",		  &cb_align_center),
+	BONOBO_UI_UNSAFE_VERB ("AlignRight",		  &cb_align_right),
+	BONOBO_UI_UNSAFE_VERB ("CenterAcrossSelection",	  &cb_center_across_selection),
 	BONOBO_UI_UNSAFE_VERB ("FormatMergeCells",	  &cb_merge_cells),
 	BONOBO_UI_UNSAFE_VERB ("FormatUnmergeCells",	  &cb_unmerge_cells),
-	BONOBO_UI_UNSAFE_VERB ("FormatAsMoney",	          &workbook_cmd_format_as_money),
-	BONOBO_UI_UNSAFE_VERB ("FormatAsPercent",	  &workbook_cmd_format_as_percent),
-	BONOBO_UI_UNSAFE_VERB ("FormatWithThousands",	  &workbook_cmd_format_add_thousands),
-	BONOBO_UI_UNSAFE_VERB ("FormatIncreasePrecision", &workbook_cmd_format_add_decimals),
-	BONOBO_UI_UNSAFE_VERB ("FormatDecreasePrecision", &workbook_cmd_format_remove_decimals),
-	BONOBO_UI_UNSAFE_VERB ("FormatIncreaseIndent",	  &workbook_cmd_format_inc_indent),
-	BONOBO_UI_UNSAFE_VERB ("FormatDecreaseIndent",	  &workbook_cmd_format_dec_indent),
+	BONOBO_UI_UNSAFE_VERB ("FormatAsMoney",	          &cb_format_as_money),
+	BONOBO_UI_UNSAFE_VERB ("FormatAsPercent",	  &cb_format_as_percent),
+	BONOBO_UI_UNSAFE_VERB ("FormatWithThousands",	  &cb_format_add_thousands),
+	BONOBO_UI_UNSAFE_VERB ("FormatIncreasePrecision", &cb_format_add_decimals),
+	BONOBO_UI_UNSAFE_VERB ("FormatDecreasePrecision", &cb_format_remove_decimals),
+	BONOBO_UI_UNSAFE_VERB ("FormatIncreaseIndent",	  &cb_format_inc_indent),
+	BONOBO_UI_UNSAFE_VERB ("FormatDecreaseIndent",	  &cb_format_dec_indent),
 	BONOBO_UI_VERB_END
 };
 #endif
