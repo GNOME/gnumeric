@@ -76,15 +76,6 @@ sheet_redraw_all (Sheet const *sheet, gboolean headers)
 }
 
 void
-sheet_redraw_headers (Sheet const *sheet,
-		      gboolean col, gboolean row,
-		      Range const *r /* optional == NULL */)
-{
-	SHEET_FOREACH_CONTROL (sheet, view, control,
-		sc_redraw_headers (control, col, row, r););
-}
-
-void
 sheet_rename (Sheet *sheet, char const *new_name)
 {
 	Workbook *wb;

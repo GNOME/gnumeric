@@ -102,7 +102,6 @@ GPtrArray  *sheet_cells                  (Sheet *sheet,
 
 void        sheet_recompute_spans_for_col     (Sheet *sheet, int col);
 
-gboolean    sheet_is_region_empty_or_selected (Sheet *sheet, Range const *r);
 gboolean    sheet_is_region_empty 	      (Sheet *sheet, Range const *r);
 gboolean    sheet_is_cell_empty 	      (Sheet *sheet, int col, int row);
 
@@ -119,8 +118,8 @@ int	    sheet_find_boundary_vertical   (Sheet *sheet, int move_col, int row,
 					    int base_col, int count,
 					    gboolean jump_to_boundaries);
 
-ColRowInfo const * sheet_colrow_get_default (Sheet const *sheet,
-					     gboolean is_cols);
+ColRowInfo const *sheet_colrow_get_default (Sheet const *sheet,
+					    gboolean is_cols);
 
 /* Returns a pointer to a ColRowInfo: existing or NULL */
 ColRowInfo *sheet_col_get                 (Sheet const *sheet, int col);
@@ -204,56 +203,50 @@ gboolean sheet_range_contains_region (Sheet const *sheet, Range const *r,
 void	 sheet_range_bounding_box    (Sheet const *sheet, Range *r);
 
 /* Redraw */
-void        sheet_redraw_all              (Sheet const *sheet, gboolean header);
-void        sheet_redraw_headers (Sheet const *sheet, gboolean col, gboolean row, Range const *r /* optional == NULL */);
-void        sheet_redraw_cell             (Cell const *cell);
-void        sheet_redraw_range            (Sheet const *sheet, Range const *r);
-void        sheet_redraw_region      	  (Sheet const *sheet,
-				           int start_col, int start_row,
-				           int end_col,   int end_row);
+void     sheet_redraw_all       (Sheet const *sheet, gboolean header);
+void     sheet_redraw_cell      (Cell const *cell);
+void     sheet_redraw_range     (Sheet const *sheet, Range const *r);
+void     sheet_redraw_region    (Sheet const *sheet,
+				 int start_col, int start_row,
+				 int end_col,   int end_row);
 
-void        sheet_unant                    (Sheet *sheet);
-void        sheet_ant                      (Sheet *sheet, GList *ranges);
+void	 sheet_flag_status_update_cell	(Cell const *c);
+void	 sheet_flag_status_update_range	(Sheet const *s, Range const *r);
+void     sheet_flag_format_update_range	(Sheet const *s, Range const *r);
+void	 sheet_flag_recompute_spans	(Sheet const *s);
+void	 sheet_update_only_grid		(Sheet const *s);
+void     sheet_update                   (Sheet const *s);
+void	 sheet_scrollbar_config		(Sheet const *s);
+void     sheet_adjust_preferences	(Sheet const *s,
+					 gboolean redraw, gboolean resize);
 
-void	    sheet_flag_status_update_cell  (Cell const *c);
-void	    sheet_flag_status_update_range (Sheet const *s, Range const *r);
-void        sheet_flag_format_update_range (Sheet const *s, Range const *r);
-void        sheet_flag_selection_change    (Sheet const *s);
-void	    sheet_flag_recompute_spans	   (Sheet const *s);
-void	    sheet_update_only_grid	   (Sheet const *s);
-void        sheet_update                   (Sheet const *s);
-void	    sheet_scrollbar_config	   (Sheet const *s);
-void        sheet_adjust_preferences   	   (Sheet const *s,
-					    gboolean redraw, gboolean resize);
-
-void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
-gboolean    sheet_is_pristine             (Sheet const *sheet);
-Range       sheet_get_extent		  (Sheet const *sheet,
-					   gboolean spans_and_merges_extend);
+void     sheet_set_dirty	(Sheet *sheet, gboolean is_dirty);
+gboolean sheet_is_pristine	(Sheet const *sheet);
+Range    sheet_get_extent	(Sheet const *sheet,
+				 gboolean spans_and_merges_extend);
 
 /* Sheet information manipulation */
-void        sheet_move_range              (GnmExprRelocateInfo const * rinfo,
-					   GSList **reloc_storage,
-					   CommandContext *cc);
+void     sheet_move_range	(GnmExprRelocateInfo const *rinfo,
+				 GSList **reloc_storage, CommandContext *cc);
 
-char       *sheet_name_quote              (char const *unquoted_name);
+char	*sheet_name_quote	(char const *unquoted_name);
 
 /*
  * Utilities to set cell contents, queueing recalcs,
  * redraws and rendering as required.  Does NOT check for
  * division of arrays.
  */
-void  sheet_cell_set_expr  (Cell *cell, GnmExpr const *expr);
-void  sheet_cell_set_value (Cell *cell, Value *v);
-void  sheet_cell_set_text  (Cell *cell, char const *str);
-Value const *sheet_cell_get_value (Sheet *sheet, int const col, int const row);
-void  sheet_range_set_text   (ParsePos const *pos, Range const *r, char const *str);
-void  sheet_apply_style	     (Sheet  *sheet, Range const *range, MStyle *mstyle);
-void  sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
-void  sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags);
-void  sheet_cell_calc_span   (Cell *cell, SpanCalcFlags flags);
+void	     sheet_cell_set_expr    (Cell *cell, GnmExpr const *expr);
+void	     sheet_cell_set_value   (Cell *cell, Value *v);
+void	     sheet_cell_set_text    (Cell *cell, char const *str);
+Value const *sheet_cell_get_value   (Sheet *sheet, int const col, int const row);
+void	     sheet_range_set_text   (ParsePos const *pos, Range const *r, char const *str);
+void	     sheet_apply_style	    (Sheet  *sheet, Range const *range, MStyle *mstyle);
+void	     sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
+void	     sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags);
+void	     sheet_cell_calc_span   (Cell *cell, SpanCalcFlags flags);
 
-void sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);
+void	     sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);
 
 /* Implementation for commands, no undo */
 gboolean  sheet_insert_cols (Sheet *sheet,
@@ -269,8 +262,7 @@ gboolean  sheet_delete_rows (Sheet *sheet,
 			     int row, int count, ColRowStateList *states,
 			     GSList **reloc_storage, CommandContext *cc);
 
-typedef enum
-{
+typedef enum {
 	CLEAR_VALUES	   = 0x1,
 	CLEAR_FORMATS	   = 0x2,
 	CLEAR_COMMENTS	   = 0x4,

@@ -1,5 +1,7 @@
 2003-06-03  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet.h : delete some non-existant decls.
+
 	* src/sheet-object.c (sheet_objects_relocate) : kludgy tweak so that
 	  ins/del col/row moves things and cut-n-paste does not.
 
