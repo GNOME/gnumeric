@@ -639,9 +639,12 @@ workbook_expr_unrelocate (Workbook *wb, GSList *info)
 						     tmp->u.pos.eval.col,
 						     tmp->u.pos.eval.row);
 
-			g_return_if_fail (cell != NULL);
-
-			sheet_cell_set_expr (cell, tmp->oldtree);
+			/* It is possible to have a NULL if the relocation info
+			 * is not really relevant.  eg when undoing a pasted
+			 * cut that was relocated but also saved to a buffer.
+			 */
+			if (cell != NULL)
+				sheet_cell_set_expr (cell, tmp->oldtree);
 		} else
 			dependent_set_expr (tmp->u.dep, tmp->oldtree);
 #warning Check to see what recalc assumptions the callers make

@@ -2347,15 +2347,6 @@ cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	sheet_move_range (wbc, &reverse, &tmp);
 	workbook_expr_unrelocate_free (tmp);
 
-	while (me->paste_content) {
-		PasteContent *pc = me->paste_content->data;
-		me->paste_content = g_slist_remove (me->paste_content, pc);
-
-		clipboard_paste_region (wbc, &pc->pt, pc->contents);
-		cellregion_free (pc->contents);
-		g_free (pc);
-	}
-
 	/* Restore the original row heights */
 	colrow_restore_sizes (me->info.target_sheet, FALSE, me->info.origin.start.row + me->info.row_offset,
 			      me->info.origin.end.row + me->info.row_offset, me->saved_sizes);
@@ -2365,6 +2356,15 @@ cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	workbook_expr_unrelocate (me->info.target_sheet->workbook,
 				  me->reloc_storage);
 	me->reloc_storage = NULL;
+
+	while (me->paste_content) {
+		PasteContent *pc = me->paste_content->data;
+		me->paste_content = g_slist_remove (me->paste_content, pc);
+
+		clipboard_paste_region (wbc, &pc->pt, pc->contents);
+		cellregion_free (pc->contents);
+		g_free (pc);
+	}
 
 	/* Force update of the status area */
 	sheet_flag_status_update_range (me->info.target_sheet, NULL);
