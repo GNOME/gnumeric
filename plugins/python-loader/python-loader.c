@@ -26,6 +26,9 @@
 #include "module-plugin-defs.h"
 #include "py-gnumeric.h"
 
+#define BROKEN_PY_INITIALIZE
+
+
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 GtkType python_get_loader_type (ErrorInfo **ret_error);
@@ -69,12 +72,25 @@ static void gnumeric_plugin_loader_python_load_service_function_group (GnumericP
 static void gnumeric_plugin_loader_python_unload_service_function_group (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 
 
+#ifdef BROKEN_PY_INITIALIZE
+extern char **environ;
+#endif
+
 static void
 initialize_python_if_needed (void)
 {
 	static gboolean python_initialized = FALSE;
 
 	if (!python_initialized) {
+#ifdef BROKEN_PY_INITIALIZE
+		int i;
+
+		/* Python's convertenviron has gotten into its head that it can
+		   write to the strings in the environment.  We have little choice
+		but to allocate a copy of everything. */
+		for (i = 0; environ[i]; i++)
+			environ[i] = g_strdup (environ[i]);
+#endif
 		Py_Initialize ();
 		PyEval_InitThreads ();
 		python_initialized = TRUE;

@@ -1,3 +1,8 @@
+2001-08-28  Morten Welinder  <terra@diku.dk>
+
+	* python-loader.c (initialize_python_if_needed): Avoid segfaults
+ 	with buggy pythons.
+
 2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml: Removed
