@@ -54,7 +54,7 @@ draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font,
  * WARNING : This code is an almost exact duplicate of
  *          print-cell.c:cell_split_text
  * and is very similar to
- *          cell.c:calc_text_dimensions
+ *          rendered-value.c:rendered_value_calc_size_ext
  *
  * Try to keep it that way.
  */

@@ -98,9 +98,12 @@ STF - pasting a single line should not invoke the importer
 
 - Merged Cells
     - autofill
-    - undo/redo (even for row/col ins/del)
+    - copy/paste (cut works)
+    - undo/redo merge
+    - fix undo ins/del row/col to restore lost merged regions
     - width of cell for general format
     - printing
+    - multi line text in merged cells
 
 Dialogs
 -------

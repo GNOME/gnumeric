@@ -1985,7 +1985,7 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 	g_hash_table_insert (sheet->cell_hash, &cell->pos, cell);
 }
 
-void
+static void
 sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row, gboolean recalc_span)
 {
 	cell->base.sheet = sheet;
@@ -2034,7 +2034,7 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
  * sheet_cell_remove_simple : Remove the cell from the web of depenancies of a
  *        sheet.  Do NOT redraw or free the cell.
  */
-void
+static void
 sheet_cell_remove_simple (Sheet *sheet, Cell *cell)
 {
 	GList *deps;
@@ -2054,7 +2054,7 @@ sheet_cell_remove_simple (Sheet *sheet, Cell *cell)
 }
 
 /**
- * sheet_cell_remove_simple : Remove the cell from the web of depenancies of a
+ * sheet_cell_remove : Remove the cell from the web of depenancies of a
  *        sheet.  Do NOT free the cell, optionally redraw it.
  */
 void
@@ -2169,7 +2169,6 @@ cb_remove_allcells (gpointer ignored, gpointer value, gpointer flags)
 	cell_destroy (cell);
 	return TRUE;
 }
-
 
 static gboolean
 cb_dummy_remove_func (void *key, void *value, void *user)

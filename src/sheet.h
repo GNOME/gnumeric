@@ -99,10 +99,7 @@ void        sheet_make_cell_visible	(Sheet *sheet, int col, int row);
 Cell       *sheet_cell_get		(Sheet const *sheet, int col, int row);
 Cell       *sheet_cell_fetch		(Sheet *sheet, int col, int row);
 Cell       *sheet_cell_new		(Sheet *sheet, int col, int row);
-void        sheet_cell_insert		(Sheet *sheet, Cell *cell,
-					 int col, int row, gboolean recalc_span);
 void        sheet_cell_remove		(Sheet *sheet, Cell *cell, gboolean redraw);
-void	    sheet_cell_remove_simple	(Sheet *sheet, Cell *cell);
 
 /* Iteration utilities */
 /* See also : workbook_foreach_cell_in_range */

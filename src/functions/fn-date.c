@@ -154,7 +154,13 @@ datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 		g_date_set_year (gdate1, new_year1);
 		g_date_set_year (gdate2, new_year2);
 
-		g_warning("datedif is known to differ from Excel for some values.");
+		{
+			static gboolean need_warning = TRUE;
+			if (need_warning) {
+				g_warning("datedif is known to differ from Excel for some values.");
+				need_warning = FALSE;
+			}
+		}
 	}
 
 	return datetime_g_days_between (gdate1, gdate2);
