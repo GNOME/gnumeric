@@ -960,12 +960,12 @@ msgstr "貼り付け"
 #: src/cmd-edit.c:408
 #, c-format
 msgid "Shift rows %s"
-msgstr "行%dを上に移動"
+msgstr "行%sを上に移動"
 
 #: src/cmd-edit.c:409
 #, c-format
 msgid "Shift row %s"
-msgstr "行%dを上に移動"
+msgstr "行%sを上に移動"
 
 #: src/cmd-edit.c:446
 #, c-format
@@ -1092,14 +1092,12 @@ msgid "Setting current time in %s"
 msgstr "現在の時間を %s に設定"
 
 #: src/commands.c:1841
-#, fuzzy, c-format
 msgid "Autofitting column %s"
-msgstr "%s 列を削除中"
+msgstr "列%sに自動フィットを実行しています"
 
 #: src/commands.c:1842
-#, fuzzy, c-format
 msgid "Autofitting row %s"
-msgstr "%d 行を削除中"
+msgstr "行%sに自動フィットを実行しています"
 
 #: src/commands.c:1845
 #, c-format
@@ -1112,9 +1110,8 @@ msgid "Setting height of row %s to %d pixels"
 msgstr "行%sの高さを%dピクセルに設定"
 
 #: src/commands.c:1852 src/commands.c:1853
-#, fuzzy, c-format
 msgid "Autofitting columns %s"
-msgstr "%s 列を削除中"
+msgstr "列%sに自動フィットを実行しています"
 
 #: src/commands.c:1856
 #, c-format
@@ -1129,7 +1126,7 @@ msgstr "行%sの高さを%dピクセルに設定"
 #: src/commands.c:1942
 #, c-format
 msgid "Sorting %s"
-msgstr "%s を整列中"
+msgstr "%sをソートしています"
 
 #: src/commands.c:2070
 msgid "Unhide columns"
@@ -1152,9 +1149,8 @@ msgid "Expand columns"
 msgstr "列を展開する"
 
 #: src/commands.c:2155
-#, fuzzy
 msgid "Collapse columns"
-msgstr "列のリストを消去"
+msgstr "列を折りたたむ"
 
 #: src/commands.c:2156
 msgid "Expand rows"
@@ -1162,7 +1158,7 @@ msgstr "行を展開する"
 
 #: src/commands.c:2156
 msgid "Collapse rows"
-msgstr ""
+msgstr "行を折りたたむ"
 
 #: src/commands.c:2257
 msgid "Those columns are already grouped"
@@ -1252,9 +1248,8 @@ msgid "Setting default width of columns to %.2fpts"
 msgstr "デフォルトの列の幅を%.2fポイントに設定"
 
 #: src/commands.c:3759
-#, fuzzy, c-format
 msgid "Setting default height of rows to %.2fpts"
-msgstr "行の高さを設定"
+msgstr "行のデフォルト高さを%.2fポイントに設定"
 
 #. Changed in initial redo.
 #: src/commands.c:3844
@@ -2842,9 +2837,8 @@ msgstr "信頼レベル:"
 
 #: src/dialogs/dialog-analysis-tools.c:2059
 #: src/dialogs/dialog-analysis-tools.c:2067
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Input X Range'"
-msgstr "'入力範囲:'に正しいセルの範囲を指定して下さい"
+msgstr "'X範囲の入力'に正しいセルの範囲を指定して下さい"
 
 #: src/dialogs/dialog-analysis-tools.c:2092
 msgid ""
@@ -3320,16 +3314,18 @@ msgid ""
 "Do you want to activate appropriate plugin together with this one?\n"
 "(otherwise, plugin won't be loaded)"
 msgstr ""
+"このプラグインはタイプ\"%s\"のローダに依存しています。\n"
+"これとこれに適切なプラグインを有効にしますか?\n"
+"(有効にしないなら、プラグインは読み込まれません)"
 
 #: src/dialogs/dialog-plugin-manager.c:217
-#, fuzzy
 msgid "Error while activating plugin loader"
-msgstr "プラグインを有効にしているときにエラーが発生しました"
+msgstr "プラグインローダを有効にしているときにエラーが発生しました"
 
 #: src/dialogs/dialog-plugin-manager.c:231
 #, c-format
 msgid "Loader for selected plugin (type: \"%s\") is not available."
-msgstr ""
+msgstr "選択したプラグイン(タイプ: \"%s\")のローダは使用できません。"
 
 #: src/dialogs/dialog-plugin-manager.c:244
 msgid "Error while activating plugin"
@@ -3349,6 +3345,9 @@ msgid ""
 "Do you want to mark it for deactivation such that it will be inactive after "
 "restarting Gnumeric?"
 msgstr ""
+"プラグインはまだ使用中なので無効にはできません。\n"
+"Gnumericを再起動したときに有効にならないように、無効にマークをつけて"
+"おきますか?"
 
 #: src/dialogs/dialog-plugin-manager.c:310
 msgid "Errors while activating plugins"
@@ -3361,17 +3360,17 @@ msgstr "プラグインを無効にしているときにエラーが発生しました"
 #: src/dialogs/dialog-plugin-manager.c:474
 #, c-format
 msgid "%s [in memory, marked for deactivation]"
-msgstr ""
+msgstr "%s [メモリ上, 無効にマーク]"
 
 #: src/dialogs/dialog-plugin-manager.c:477
 #, c-format
 msgid "%s [in memory]"
-msgstr ""
+msgstr "%s [メモリ上]"
 
 #: src/dialogs/dialog-plugin-manager.c:480
 #, c-format
 msgid "%s [marked for deactivation]"
-msgstr ""
+msgstr "%s [無効にマーク]"
 
 #: src/dialogs/dialog-plugin-manager.c:619
 msgid "Plugin list"
@@ -4740,14 +4739,12 @@ msgid "Information"
 msgstr "情報"
 
 #: src/dialogs/validate.glade.h:13
-#, fuzzy
 msgid "Input Validation"
-msgstr "Gnumeric: オートフォーマット"
+msgstr "入力確認"
 
 #: src/dialogs/validate.glade.h:14
-#, fuzzy
 msgid "Input _Message :"
-msgstr "入力メッセージ(_M)"
+msgstr "入力メッセージ(_M):"
 
 #: src/GNOME_Gnumeric.xml.h:121 src/dialogs/validate.glade.h:15
 #: src/workbook-object-toolbar.c:154
@@ -14355,32 +14352,29 @@ msgstr "プラグインローダ(\"%s\")の初期化中にエラーが発生しました。"
 #: src/plugin.c:1020
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be activated."
-msgstr ""
+msgstr "ID=\"%s\"のプラグインに依存していますが有効にはできません。"
 
 #: src/plugin.c:1027 src/plugin.c:1215
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which is not available."
-msgstr ""
+msgstr "ID=\"%s\"のプラグインに依存していますが有効にはできません。"
 
 #: src/plugin.c:1040
-#, fuzzy, c-format
 msgid "Error while activating plugin service #%d."
-msgstr "プラグインを有効にしているときにエラーが発生しました。"
+msgstr "プラグインサービス#%dを有効にしているときにエラーが発生しました。"
 
 #: src/plugin.c:1080
-#, fuzzy, c-format
 msgid "Error while deactivating plugin service #%d."
-msgstr "プラグインを無効にしているときにエラーが発生しました"
+msgstr "プラグインサービス#%dを無効にしているときにエラーが発生しました。"
 
 #: src/plugin.c:1151 src/plugin.c:1201
-#, fuzzy
 msgid "Cannot load plugin loader."
-msgstr "プラグイン #%d 情報が読み込めません。"
+msgstr "プラグインローダを読み込めません。"
 
 #: src/plugin.c:1208
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be loaded."
-msgstr ""
+msgstr "ID=\"%s\"のプラグインに依存していますが読み込めませんでした。"
 
 #: src/plugin.c:1291
 #, c-format
@@ -14410,7 +14404,6 @@ msgid "Errors while initializing plugin system."
 msgstr "プラグインシステムの初期化中にエラーが発生しました。"
 
 #: src/plugin-loader-module.c:83
-#, fuzzy
 msgid "Module file name not given."
 msgstr "モジュールファイル名が指定されていません。"
 
@@ -14422,18 +14415,16 @@ msgstr "モジュールファイル\"%s\"を開けません: %s"
 #: src/plugin-loader-module.c:128 src/plugin-loader-module.c:331
 #: src/plugin-loader-module.c:432 src/plugin-loader-module.c:503
 #: src/plugin-loader-module.c:592
-#, fuzzy, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "モジュールファイル\"%s\"のフォーマットが正しくありません。"
 
 #: src/plugin-loader-module.c:133
-#, fuzzy
 msgid "File doesn't contain (\"plugin_file_struct\" symbol)."
-msgstr "ファイルには\"cleanup_plugin\"関数が含まれていません。"
+msgstr "ファイルには(\"plugin_file_struct\"シンボル)が含まれていません。"
 
 #: src/plugin-loader-module.c:137
 msgid "File has a bad magic number."
-msgstr ""
+msgstr "ファイルのマジックナンバーは不正です。"
 
 #: src/plugin-loader-module.c:141
 #, c-format
@@ -14455,43 +14446,36 @@ msgid "Module file name"
 msgstr "モジュールファイル名"
 
 #: src/plugin-loader-module.c:336
-#, fuzzy
 msgid "File doesn't contain \"plugin_init_general\" function."
-msgstr "ファイルには\"cleanup_plugin\"関数が含まれていません。"
+msgstr "ファイルには\"plugin_init_general\"関数が含まれていません。"
 
 #: src/plugin-loader-module.c:341
-#, fuzzy
 msgid "File doesn't contain \"plugin_cleanup_general\" function."
-msgstr "ファイルには\"cleanup_plugin\"関数が含まれていません。"
+msgstr "ファイルには\"plugin_cleanup_general\"関数が含まれていません。"
 
 #: src/plugin-loader-module.c:346
-#, fuzzy
 msgid "File doesn't contain \"plugin_can_deactivate_general\" function."
-msgstr "ファイルには\"can_deactivate_plugin\"関数が含まれていません。"
+msgstr "ファイルには\"plugin_can_deactivate_general\"関数が含まれていません。"
 
 #: src/plugin-loader-module.c:597
-#, fuzzy, c-format
 msgid "File doesn't contain \"%s\" array."
-msgstr "ファイルには\"init_plugin\"関数が含まれていません。"
+msgstr "ファイルには\"%s\"配列が含まれていません。"
 
 #: src/plugin-loader-module.c:684
-#, fuzzy, c-format
 msgid "Module doesn't contain \"%s\" function."
-msgstr "ファイルには\"init_plugin\"関数が含まれていません。"
+msgstr "モジュールには\"%s\"関数が含まれていません。"
 
 #: src/plugin-loader.c:214
-#, fuzzy
 msgid "Error while loading plugin dependencies."
-msgstr "プラグインを有効にしているときにエラーが発生しました。"
+msgstr "プラグインの依存関係を読み込んでいるときにエラーが発生しました。"
 
 #: src/plugin-loader.c:285 src/plugin-loader.c:336
 msgid "Service not supported by loader."
-msgstr ""
+msgstr "ローダがサポートしていないサービスです。"
 
 #: src/plugin-loader.c:289
-#, fuzzy
 msgid "Error while loading plugin."
-msgstr "プラグインを有効にしているときにエラーが発生しました"
+msgstr "プラグインを読み込んでいるときにエラーが発生しました。"
 
 #: src/print-info.c:22 src/print-info.c:25 src/print-info.c:26
 #: src/print-info.c:277
@@ -14557,9 +14541,8 @@ msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
 #: src/print.c:1021
-#, fuzzy
 msgid "Print Region"
-msgstr "印刷プレビュー"
+msgstr "範囲を印刷"
 
 #: src/print.c:1134
 msgid "Print Sheets"
@@ -14606,7 +14589,6 @@ msgid "Invalid trailing backslash in replacement."
 msgstr "置換の最後のバックスラッシュが不正です。"
 
 #: src/selection.c:83
-#, fuzzy
 msgid "cannot be performed with multiple ranges selected"
 msgstr "複数選択のもとで実行できません"
 
@@ -14621,9 +14603,8 @@ msgid "Cut"
 msgstr "カット"
 
 #: src/sheet-control-gui.c:504
-#, fuzzy, c-format
 msgid "Row: %s"
-msgstr "行: %d"
+msgstr "行: %s"
 
 #: src/sheet-control-gui.c:520
 #, c-format
@@ -14729,14 +14710,12 @@ msgid "Checkbox Configure"
 msgstr "チェックボックス設定"
 
 #: src/sheet-object-widget.c:844
-#, fuzzy
 msgid "Cell :"
-msgstr "セル"
+msgstr "セル :"
 
 #: src/sheet-object-widget.c:847
-#, fuzzy
 msgid "Label :"
-msgstr "ラベル"
+msgstr "ラベル :"
 
 #: src/sheet-object.c:81
 msgid "Configure"
@@ -14888,14 +14867,13 @@ msgid "R.H. Side"
 msgstr "R.H. Side"
 
 #: src/stf-parse.c:31
-#, fuzzy, c-format
 msgid "Too many rows in data to parse: %d"
-msgstr "この形式には行数が多すぎます"
+msgstr "パースする行数が多すぎます: %d"
 
 #: src/stf-parse.c:32
 #, c-format
 msgid "Too many columns in data to parse: %d"
-msgstr ""
+msgstr "パースする列数が多すぎます: %d"
 
 #: src/stf.c:130
 msgid "Error while trying to memory map file"
@@ -14982,14 +14960,12 @@ msgstr ""
 "ご協力を感謝いたします -- Gnumeric チーム\n"
 
 #: src/style.c:271
-#, fuzzy
 msgid "Your fontmap file does not have a valid entry for Helvetica."
-msgstr "Helvetica に対して適当なエントリがありません"
+msgstr "Helvetica に対応する適当なエントリがフォントマップにありません。"
 
 #: src/style.c:272
-#, fuzzy
 msgid "Your fontmap file could not be found in the expected location."
-msgstr "指定された場所に見つかりませんでした"
+msgstr "想定されている場所にフォントマップがありませんでした。"
 
 #: src/value.c:653
 msgid "Terminate"
@@ -15017,16 +14993,14 @@ msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "行の高さが適当な値ではありません。0以上でなければなりません"
 
 #: src/workbook-cmd-format.c:208
-#, fuzzy
 msgid ""
 "You entered an invalid default column width value.  It must be bigger than 0"
-msgstr "列の幅が適当な値ではありません。0以上でなければなりません"
+msgstr "列のデフォルト幅が適当な値ではありません。0以上でなければなりません"
 
 #: src/workbook-cmd-format.c:236
-#, fuzzy
 msgid ""
 "You entered an invalid default row height value.  It must be bigger than 0"
-msgstr "行の高さが適当な値ではありません。0以上でなければなりません"
+msgstr "行のデフォルト高さが適当な値ではありません。0以上でなければなりません"
 
 #: src/workbook-format-toolbar.c:85
 #, fuzzy
@@ -15034,44 +15008,36 @@ msgid "Set Horizontal Alignment"
 msgstr "縦位置"
 
 #: src/workbook-format-toolbar.c:185
-#, fuzzy
 msgid "Set Font Style"
-msgstr "フォントスタイル:"
+msgstr "フォントスタイルの設定"
 
 #: src/workbook-format-toolbar.c:252
-#, fuzzy
 msgid "Set Font"
-msgstr "フォントを選択"
+msgstr "フォントの設定"
 
 #: src/workbook-format-toolbar.c:285
-#, fuzzy
 msgid "Set Font Size"
-msgstr "フォントサイズ"
+msgstr "フォントサイズの設定"
 
 #: src/workbook-format-toolbar.c:307
-#, fuzzy
 msgid "Format as Money"
-msgstr "書式"
+msgstr "金額として書式設定"
 
 #: src/workbook-format-toolbar.c:313
-#, fuzzy
 msgid "Format as Percentage"
-msgstr "パーセンテージの累積(_U)"
+msgstr "パーセントで書式設定"
 
 #: src/workbook-format-toolbar.c:320
-#, fuzzy
 msgid "Format with thousands seperator"
-msgstr "1000ごとのカンマ"
+msgstr "1000単位のセパレータを挿入"
 
 #: src/workbook-format-toolbar.c:348
-#, fuzzy
 msgid "Increase precision"
-msgstr "精度の増幅"
+msgstr "精度を上げる"
 
 #: src/workbook-format-toolbar.c:354
-#, fuzzy
 msgid "Decrease precision"
-msgstr "精度の緩和"
+msgstr "精度を落とす"
 
 #: src/GNOME_Gnumeric.xml.h:96 src/workbook-format-toolbar.c:377
 #: src/workbook-format-toolbar.c:482
@@ -15166,11 +15132,11 @@ msgstr "選択されているセルの形式をパーセントにする"
 
 #: src/workbook-format-toolbar.c:467
 msgid "Thousand separator"
-msgstr "1000ごとのカンマ"
+msgstr "1000単位のセパレータ"
 
 #: src/workbook-format-toolbar.c:467
 msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr "1000ごとのカンマを含むために選択されたセルの書式を設定する"
+msgstr "1000単位のセパレータを含むために選択されたセルの書式を設定する"
 
 #: src/workbook-format-toolbar.c:470
 msgid "Add decimals"
@@ -15376,12 +15342,11 @@ msgstr "なし"
 
 #: src/workbook-control-gui.c:936
 msgid "Unfreeze Panes"
-msgstr ""
+msgstr "ペインのフリーズ解除"
 
 #: src/workbook-control-gui.c:936
-#, fuzzy
 msgid "_Freeze Panes"
-msgstr "フリーズ(_F)..."
+msgstr "ペインのフリーズ(_F)"
 
 #: src/workbook-control-gui.c:955 src/workbook-control-gui.c:2614
 #: src/workbook-control-gui.c:2797 src/workbook-control-gui.c:2837
@@ -15988,29 +15953,24 @@ msgid "Display _Outlines"
 msgstr "アウトラインの表示(_O)"
 
 #: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2517
-#, fuzzy
 msgid "Toggle whether or not to display outline groups"
-msgstr "グリッドラインの表示／非表示を切替えます"
+msgstr "アウトライングループの表示／非表示を切替えます"
 
 #: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:2522
-#, fuzzy
 msgid "Outlines _Below"
-msgstr "下にアウトライン表示(_B)"
+msgstr "詳細データの下に表示(_B)"
 
 #: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2523
-#, fuzzy
 msgid "Toggle whether to display row outlines on top or bottom"
-msgstr "グリッドラインの表示／非表示を切替えます"
+msgstr "行のアウトライン表示が上か下かをトグルします"
 
 #: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:2528
-#, fuzzy
 msgid "Outlines _Right"
-msgstr "右にアウトライン表示(_R)"
+msgstr "詳細データの右に表示(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2529
-#, fuzzy
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr "列のヘッダの表示／非表示を切替えます"
+msgstr "列のアウトライン表示が左か右かをトグルします"
 
 #: src/workbook-control-gui.c:2538
 msgid "_Sort"
@@ -16030,12 +15990,11 @@ msgstr "指定された条件でデータをフィルタ"
 
 #: src/workbook-control-gui.c:2545
 msgid "_Validate..."
-msgstr "評価(_V)..."
+msgstr "確認(_V)..."
 
 #: src/workbook-control-gui.c:2546
-#, fuzzy
 msgid "Validate input with preset criteria"
-msgstr "指定された条件でデータをフィルタ"
+msgstr "あらかじめ用意された条件で入力を確認"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2549
 msgid "_Consolidate..."
