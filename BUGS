@@ -31,12 +31,6 @@ Pending Patches
 Long term breakage
 ------------------
 
-- Auto-format (the "style on a range" kind) assumes a certain data layout,
-  such as a final "Total" row.  I would like an extension that would allow
-  me to ignore the final line of the template.  This could probably be
-  the left-most, right-most, or upper edge too.  Template should, I think,
-  be marked as to the sanity of these truncations.
-
 - Most arg-type functions need to be somehow marked as strict.  Checking for
   errors by hand everywhere is silly.  (This is at least partially done.)
 
@@ -60,7 +54,7 @@ Long term breakage
     - Remove sheet. This raises some serious design issues.
     - Freeze panes.
     - Changing summary info.
-    - Analysis tools (except singel factor ANOVA).
+    - Analysis tools (except single factor ANOVA).
     - Goal seek.
     - Tabulate.
 
