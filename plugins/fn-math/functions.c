@@ -13,6 +13,7 @@
 #include "sheet.h"
 #include "str.h"
 #include "mathfunc.h"
+#include "rangefunc.h"
 #include "collect.h"
 #include "auto-format.h"
 

@@ -11,6 +11,7 @@
 #include "func-util.h"
 #include "parse-util.h"
 #include "mathfunc.h"
+#include "rangefunc.h"
 #include "regression.h"
 #include "sheet.h"
 #include "cell.h"
@@ -20,27 +21,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-
-static guint
-float_hash (const gnum_float *d)
-{
-	guint h = 0;
-	size_t i;
-	const unsigned char *p = (const unsigned char *)d;
-
-	for (i = 0; i < sizeof (gnum_float); i++)
-		h ^= h / 3 + (h << 9) + p[i];
-
-        return h;
-}
-
-static gint
-float_equal (const gnum_float *a, const gnum_float *b)
-{
-	if (*a == *b)
-	        return 1;
-	return 0;
-}
 
 static gint
 float_compare (const gnum_float *a, const gnum_float *b)
@@ -734,50 +714,6 @@ static char *help_mode = {
 	   "\n"
            "@SEEALSO=AVERAGE,MEDIAN")
 };
-
-static void
-cb_range_mode (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (value);
-}
-
-static int
-range_mode (const gnum_float *xs, int n, gnum_float *res)
-{
-	GHashTable *h;
-	int i;
-	gnum_float mode = 0;
-	int dups = 0;
-
-	if (n <= 1) return 1;
-
-	h = g_hash_table_new ((GHashFunc)float_hash,
-			      (GCompareFunc)float_equal);
-	for (i = 0; i < n; i++) {
-		int *pdups = g_hash_table_lookup (h, &xs[i]);
-
-		if (pdups)
-			(*pdups)++;
-		else {
-			pdups = g_new (int, 1);
-			*pdups = 1;
-			g_hash_table_insert (h, (gpointer)(&xs[i]), pdups);
-		}
-
-		if (*pdups > dups) {
-			dups = *pdups;
-			mode = xs[i];
-		}
-	}
-	g_hash_table_foreach (h, cb_range_mode, NULL);
-	g_hash_table_destroy (h);
-
-	if (dups <= 1)
-		return 1;
-
-	*res = mode;
-	return 0;
-}
 
 static Value *
 gnumeric_mode (FunctionEvalInfo *ei, GList *expr_node_list)
@@ -2379,29 +2315,12 @@ static char *help_median = {
            "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM")
 };
 
-/* Special Excel-meaning of median.  */
-static int
-range_excel_median (const gnum_float *xs, int n, gnum_float *res)
-{
-	if (n > 0) {
-		/* OK, so we ignore the constness here.  Tough.  */
-		qsort ((gnum_float *) xs, n, sizeof (xs[0]),
-		       (void *) &float_compare);
-		if (n & 1)
-			*res = xs[n / 2];
-		else
-			*res = (xs[n / 2 - 1] + xs[n / 2]) / 2;
-		return 0;
-	} else
-		return 1;
-}
-
 static Value *
 gnumeric_median (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
-				     range_excel_median,
+				     range_median_inter,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
