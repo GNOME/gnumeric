@@ -76,7 +76,7 @@ static char const *help_randuniform = {
 	   "RANDUNIFORM returns a random variate from the uniform (flat) "
 	   "distribution from a to b. The distribution is,\n\n\t"
 	   "p(x) dx = {1 over (b-a)} dx : for a <= x < b.\n"
-	   "p(x) dx = 0 : for x < a or b < x.\n"
+	   "p(x) dx = 0 : for x < a or b <= x.\n"
            "* If @a > @b RANDUNIFORM returns #NUM! error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
