@@ -94,6 +94,16 @@ Jody:
 	* Problem introduced in 1.2.1 that breaks xml import in other locales
 	http://bugzilla.gnome.org/show_bug.cgi?id=127145
 	* Update status display even on delayed motion.
+	http://bugzilla.gnome.org/show_bug.cgi?id=127205
+	* Fix rangeseltion of multiple items in other locales
+	http://bugzilla.gnome.org/show_bug.cgi?id=127199
+	* Update the format status UI after a successful read
+	http://bugzilla.gnome.org/show_bug.cgi?id=127211
+	* Errors default to horzontal alignment == center
+	http://bugzilla.gnome.org/show_bug.cgi?id=127204
+	* Don't add a grid if there wasn't one in the xls
+	http://bugzilla.gnome.org/show_bug.cgi?id=127238
+	* Fix memory handling for autoformats
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

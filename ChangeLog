@@ -1,3 +1,17 @@
+2003-11-17  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=127238
+	* src/format-template.c (format_template_transform_edges) : fix.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=127211
+	* src/style.c (style_default_halign) : errors appear to have default
+	  horizontal alignment of center.  This is ancient code, I wonder why
+	  no one ever noticed.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=127199
+	* src/gui-file.c (gui_file_read) : do a sheet_update after a
+	  successful read.
+
 2003-11-16  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : no need to

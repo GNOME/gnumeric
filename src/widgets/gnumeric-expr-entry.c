@@ -107,13 +107,13 @@ static gboolean
 split_char_p (unsigned char const *c)
 {
 	switch (*c) {
-	case ',': case '=':
+	case '=':
 	case '(': case '<': case '>':
 	case '+': case '-': case '*': case '/':
 	case '^': case '&': case '%': case '!':
 		return TRUE;
 	default :
-		return FALSE;
+		return *c == format_get_arg_sep () || *c == format_get_col_sep ();
 	}
 }
 

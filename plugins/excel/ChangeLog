@@ -1,5 +1,9 @@
 2003-11-17  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=127204
+	* ms-chart.c (ms_excel_read_chart) : remove any grids that were
+	  automaticlly created if there were none in the input stream.
+
 	* plugins/excel/ms-chart.c (BC_R(areaformat)) : we need to consider
 	  pattern = 0 as NONE only if it is not autoformat.  Our theme engine
 	  does not change fill types, so it would ignore styles with fill=NONE

@@ -78,6 +78,7 @@ typedef struct {
 	int		 style_element;
 
 	gboolean	 frame_for_grid;
+	gboolean	 has_a_grid;
 	int		 plot_counter;
 	XLChartSeries	*currentSeries;
 	GPtrArray	*series;
@@ -824,6 +825,8 @@ BC_R(frame)(XLChartHandler const *handle,
 #endif
 
 	s->frame_for_grid = (s->prev_opcode == BIFF_CHART_plotarea);
+	s->has_a_grid |= s->frame_for_grid;
+	d (0, fputs (s->frame_for_grid ? "For grid;\n" : "Not for grid;\n", stderr););
 
 	return FALSE;
 }
@@ -978,6 +981,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	s->style->line.auto_color = (flags & 0x01) ? TRUE : FALSE;
 	s->style->line.pattern    = GSF_LE_GET_GUINT16 (q->data+4);
 
+	d (0, fprintf (stderr, "flags == %hd.\n", flags););
 	d (0, fprintf (stderr, "Lines are %f pts wide.\n", s->style->line.width););
 	d (0, fprintf (stderr, "Lines have a %s pattern.\n",
 		       ms_line_pattern [s->style->line.pattern ]););
@@ -1959,6 +1963,7 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	state.currentSeries = NULL;
 	state.series	    = g_ptr_array_new ();
 	state.plot_counter  = -1;
+	state.has_a_grid    = FALSE;
 	state.text	    = NULL;
 
 	if (NULL != (state.sog = sog)) {
@@ -2075,6 +2080,15 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 			}
 		}
 		state.prev_opcode = q->opcode;
+	}
+
+	/* If there was no grid in the stream remove the automatic grid */
+	if (state.chart != NULL && !state.has_a_grid) {
+		GogGrid *grid = gog_chart_get_grid (state.chart);
+		if (grid != NULL) {
+			gog_object_clear_parent (GOG_OBJECT (grid));
+			g_object_unref (grid);
+		}
 	}
 
 	/* Cleanup */

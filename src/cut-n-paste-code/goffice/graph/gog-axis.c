@@ -1027,6 +1027,29 @@ gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
 }
 
 static void
+gog_axis_size_allocate (GogView *v, GogViewAllocation const *a)
+{
+	GogAxis *axis = GOG_AXIS (v->model);
+	GogViewRequisition tmp;
+	char *label;
+	int i;
+	double total = 0., max = 0., tick_major = 0., tick_minor = 0., pad = 0.;
+
+	aview_parent_klass->size_allocate (v, a);
+
+	if (!axis->major_tick_labeled || axis->type != GOG_AXIS_X)
+		return;
+
+	gog_renderer_push_style (v->renderer, axis->base.style);
+	for (i = gog_axis_num_markers (axis, NULL, NULL) ; i-- > 0 ; ) {
+		label = gog_axis_get_marker (axis, i);
+		gog_renderer_measure_text (v->renderer, label, &tmp);
+		g_free (label);
+	}
+	gog_renderer_pop_style (v->renderer);
+}
+
+static void
 gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 {
 	GtkAnchorType anchor;
@@ -1251,8 +1274,9 @@ gog_axis_view_class_init (GogAxisViewClass *gview_klass)
 	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
 
 	aview_parent_klass = g_type_class_peek_parent (gview_klass);
-	view_klass->size_request    = gog_axis_view_size_request;
-	view_klass->render	    = gog_axis_view_render;
+	view_klass->size_request  = gog_axis_view_size_request;
+	view_klass->size_allocate = gog_axis_size_allocate;
+	view_klass->render	  = gog_axis_view_render;
 }
 
 static GSF_CLASS (GogAxisView, gog_axis_view,

@@ -123,7 +123,7 @@ xml_parse_ctx_new (xmlDocPtr     doc,
 	ctxt->expr_map     = g_hash_table_new (g_direct_hash, g_direct_equal);
 	ctxt->shared_exprs = g_ptr_array_new ();
 	ctxt->wb_view      = wb_view;
-	ctxt->wb	   = wb_view_workbook (wb_view);
+	ctxt->wb	   = (wb_view != NULL) ? wb_view_workbook (wb_view) : NULL;
 	ctxt->exprconv     = xml_io_conventions ();
 
 	return ctxt;

@@ -1,3 +1,9 @@
+2003-11-17  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=127205
+	* gnumeric-expr-entry.c (split_char_p) : Handle locale specific arg
+	  seperators.
+
 2003-10-26  Morten Welinder  <terra@gnome.org>
 
 	* widget-locale-selector.c (get_locale_name): Tentative fix for

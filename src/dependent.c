@@ -38,6 +38,7 @@
 #include <string.h>
 
 #define BUCKET_SIZE	128
+#undef DEBUG_EVALUATION
 
 static void dynamic_dep_eval 	   (GnmDependent *dep);
 static void dynamic_dep_debug_name (GnmDependent const *dep, FILE *out);

@@ -600,6 +600,7 @@ style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 		for (v = c->value; v != NULL ; )
 			switch (v->type) {
 			case VALUE_BOOLEAN :
+			case VALUE_ERROR :
 				return HALIGN_CENTER;
 
 			case VALUE_INTEGER :

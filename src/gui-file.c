@@ -117,6 +117,7 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 		} else
 			(void) wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg), wbv, NULL, NULL);
 
+		sheet_update (wb_view_cur_sheet	(wbv));
 		return TRUE;
 	}
 	return FALSE;

@@ -709,7 +709,6 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	       GnmExprEvalFlags flags)
 {
 	GnmValue *res = NULL, *a = NULL, *b = NULL;
-	GnmValDiff comp;
 
 	g_return_val_if_fail (expr != NULL, handle_empty (NULL, flags));
 	g_return_val_if_fail (pos != NULL, handle_empty (NULL, flags));
@@ -720,7 +719,8 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	case GNM_EXPR_OP_GT:
 	case GNM_EXPR_OP_GTE:
 	case GNM_EXPR_OP_LT:
-	case GNM_EXPR_OP_LTE:
+	case GNM_EXPR_OP_LTE: {
+		GnmValDiff comp;
 		flags = (flags | GNM_EXPR_EVAL_PERMIT_EMPTY) & ~GNM_EXPR_EVAL_PERMIT_NON_SCALAR;
 
 		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
@@ -742,6 +742,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			value_release (b);
 
 		return bin_cmp (expr->any.oper, comp, pos);
+	}
 
 	case GNM_EXPR_OP_ADD:
 	case GNM_EXPR_OP_SUB:
@@ -983,13 +984,12 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		return value_new_error_REF (pos);
 
 	case GNM_EXPR_OP_CELLREF: {
-		GnmCellRef const * const ref = &expr->cellref.ref;
 		GnmCell *cell;
 		GnmCellPos dest;
 
-		cellref_get_abs_pos (ref, &pos->eval, &dest);
+		cellref_get_abs_pos (&expr->cellref.ref, &pos->eval, &dest);
 
-		cell = sheet_cell_get (eval_sheet (ref->sheet, pos->sheet),
+		cell = sheet_cell_get (eval_sheet (expr->cellref.ref.sheet, pos->sheet),
 			dest.col, dest.row);
 		if (cell == NULL)
 			return handle_empty (NULL, flags);

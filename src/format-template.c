@@ -860,18 +860,20 @@ static FormatTemplate *
 format_template_transform_edges (FormatTemplate const *origft)
 {
 	FormatTemplate *ft;
-	GSList *ptr0, *ptr1;
+	GSList *ptr0, *ptr1, *next;
 
 	g_return_val_if_fail (origft != NULL, NULL);
 
 	ft = format_template_clone (origft);
-	for (ptr0 = ft->members; ptr0 != NULL ; ptr0 = ptr0->next) {
+	for (ptr0 = ft->members; ptr0 != NULL ; ptr0 = next) {
 		TemplateMember *member = ptr0->data;
 
 		gboolean left   = FALSE;
 		gboolean right  = FALSE;
 		gboolean top    = FALSE;
 		gboolean bottom = FALSE;
+
+		next = ptr0->next; /* we may delete it later */
 
 		if (member->col.size == 1 &&
 		    member->direction == FREQ_DIRECTION_NONE) {
