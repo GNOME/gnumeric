@@ -15,7 +15,7 @@ Jukka:
 Morten:
 	* Speed up font handling a bit.
 	* Speed up dependency handling.
-	* Eliminate deep recursion during evaluation.
+	* Eliminate deep recursion during dependency dirtying.
 	* Fix the python and python-loader modules.  (Work around mind-
 	  boggling bug in python.  Again.)
 
