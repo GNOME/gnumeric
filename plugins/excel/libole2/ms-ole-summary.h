@@ -59,8 +59,9 @@ typedef enum {
 	MS_OLE_SUMMARY_TYPE_LONG    = 0x30,
 	MS_OLE_SUMMARY_TYPE_SHORT   = 0x40,
 	MS_OLE_SUMMARY_TYPE_BOOLEAN = 0x50,
-	MS_OLE_SUMMARY_TYPE_OTHER   = 0x60,
+	MS_OLE_SUMMARY_TYPE_OTHER   = 0x60
 } MsOleSummaryType;
+
 #define MS_OLE_SUMMARY_TYPE(x) ((MsOleSummaryType)((x)>>8))
 
 /*

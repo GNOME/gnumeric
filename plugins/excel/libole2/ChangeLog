@@ -1,3 +1,8 @@
+1999-11-12  Arturo Tena  <arturo@directmail.org>
+
+	* ms-ole-summary.h (MsOleSummaryType): Deleted extra comma in structure
+	definition.
+
 1999-11-08  Arturo Tena  <arturo@directmail.org>
 
 	* ms-ole-summary.c, ms-ole.c: Commented all public functions with
