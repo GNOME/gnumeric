@@ -21,7 +21,6 @@
 #include "pixmaps/auto-sum.xpm"
 #include "pixmaps/equal-sign.xpm"
 #include "pixmaps/function_selector.xpm"
-#include "pixmaps/graphic.xpm"
 #include "pixmaps/insert-bonobo-component.xpm"
 
 #include "pixmaps/label.xpm"
@@ -65,6 +64,7 @@
 #include "pixmaps/16_hide_column.xpm"
 #include "pixmaps/16_hide_row.xpm"
 #include "pixmaps/16_insert_shaped_object.xpm"
+#include "pixmaps/16_graph_guru.xpm"
 #include "pixmaps/16_merge_cells.xpm"
 #include "pixmaps/16_split_cells.xpm"
 #include "pixmaps/16_sort_ascending.xpm"
@@ -91,6 +91,7 @@
 #include "pixmaps/24_hide_column.xpm"
 #include "pixmaps/24_hide_row.xpm"
 #include "pixmaps/24_insert_shaped_object.xpm"
+#include "pixmaps/24_graph_guru.xpm"
 #include "pixmaps/24_merge_cells.xpm"
 #include "pixmaps/24_split_cells.xpm"
 #include "pixmaps/24_sort_ascending.xpm"
@@ -146,6 +147,7 @@ application_init (void)
 		{ 16, 16, "Menu_Gnumeric_SearchAndReplace", i16_search_and_replace },
 		{ 16, 16, "Menu_Gnumeric_PrintPreview", menu_print_preview_xpm },
 		{ 16, 16, "Menu_Gnumeric_InsertShapedComponent", i16_insert_shaped_object_xpm },
+		{ 16, 16, "Menu_Gnumeric_GraphGuru", i16_graph_guru_xpm },
 
 		{ 16, 16, "Menu_Gnumeric_Cut", i16_cut_xpm },
 		{ 16, 16, "Menu_Gnumeric_Copy", i16_copy_xpm },
@@ -176,6 +178,7 @@ application_init (void)
 
 		{ 24, 24, "Gnumeric_PrintPreview", print_preview_xpm },
 		{ 24, 24, "Gnumeric_InsertShapedComponent", i24_insert_shaped_object_xpm },
+		{ 24, 24, "Gnumeric_GraphGuru", i24_graph_guru_xpm },
 #if 0
 		{ 24, 24, "Gnumeric_CommentAdd", i24_add_comment_xpm },
 		{ 24, 24, "Gnumeric_CommentDelete", i24_delete_comment_xpm },
@@ -210,7 +213,6 @@ application_init (void)
 		{ 24, 24, "Gnumeric_AutoSum", auto_sum_xpm },
 		{ 24, 24, "Gnumeric_EqualSign", equal_sign_xpm },
 		{ 24, 24, "Gnumeric_FormulaGuru", formula_guru_xpm },
-		{ 24, 24, "Gnumeric_GraphGuru", graph_guru_xpm },
 		{ 24, 24, "Gnumeric_InsertComponent", insert_component_xpm },
 
 		{ 24, 21, "Gnumeric_FormatAsMoney", money_xpm },

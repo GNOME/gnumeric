@@ -30,6 +30,8 @@ Pre 1.0 breakage
 Long term breakage
 ------------------
 
+- xml-io::Context::parent ???
+
 - Audit all fixed-length buffers.  Most non-time-critical can be replaced
   by proper usage of g_strdup_printf.
 

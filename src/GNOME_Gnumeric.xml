@@ -48,7 +48,7 @@
 	<cmd name="FileExit"
 	    _label="E_xit"
 	    _tip="Exit the program"
-	    pixtype="stock" pixname="Exit"
+	    pixtype="stock" pixname="Quit"
 	    accel="*Control*q"/>
 
 	<cmd name="EditUndo"
@@ -324,6 +324,11 @@
 	    <menuitem name="InsertCells" verb=""
 		_label="C_ells..."
 		_tip="Insert new cells"/>
+
+	    <menuitem name="InsertGraph" verb=""
+		pixtype="stock" pixname="Gnumeric_GraphGuru"
+		_label="_Graph"
+		_tip="Invoke the graph guru to create a graph"/>
 
 	    <menuitem name="InsertObject" verb=""
 		pixtype="stock" pixname="Gnumeric_InsertShapedComponent"

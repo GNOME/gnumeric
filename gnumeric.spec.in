@@ -114,7 +114,7 @@ fi
 %{prefix}/lib/gnumeric/%{bonobover}/plugins/*/*.xml
 %{prefix}/lib/gnumeric/%{bonobover}/plugins/*/glossary-po-header
 %config %{prefix}/share/gnome/apps/Applications/*
-%{prefix}/share/gnome/help/gnumeric/C/images/*
+%{prefix}/share/gnome/help/gnumeric/C/figures/*
 %{prefix}/share/gnome/help/gnumeric/C/*.*
 %dir %{prefix}/share/gnumeric
 %dir %{prefix}/share/gnumeric/%{bonobover}

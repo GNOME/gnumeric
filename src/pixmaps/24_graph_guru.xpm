@@ -1,5 +1,5 @@
 /* XPM */
-static char * graph_guru_xpm[] = {
+static char * i24_graph_guru_xpm[] = {
 "24 24 43 1",
 " 	c None",
 ".	c #000000",
