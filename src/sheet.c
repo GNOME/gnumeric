@@ -1393,6 +1393,7 @@ sheet_cancel_pending_input (Sheet *sheet)
 
 		gnumeric_sheet_destroy_editing_cursor (gsheet);
 	}
+	sheet_load_cell_val (sheet);
 }
 
 /**
