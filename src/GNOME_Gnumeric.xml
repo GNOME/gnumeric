@@ -485,9 +485,13 @@
 		_label="_Sort..."
 		_tip="Sort the selected cells"/>
 
-	    <menuitem name="DataFilter" verb=""
-		_label="_Filter..."
-		_tip="Filter data with given criteria"/>
+	    <submenu name="Filter" _label="_Filter">
+
+	        <menuitem name="DataFilterAdvancedfilter" verb=""
+		    _label="Advanced _Filter..."
+		    _tip="Filter data with given criteria"/>
+
+	    </submenu>
 
 	    <menuitem name="DataValidate" verb=""
 		_label="_Validate..."

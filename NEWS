@@ -16,8 +16,10 @@ Jody:
 	* Fix Edit -> Fill -> Autofill
 
 Jukka:
-	* Documented the advanced filter.
+	* Lots of documentation added.
 	* Added `Help' buttons for various tools.
+	* Help button of autosave doesn't kill the dialog any more.
+	* Added `Filter' submenu into the `Data' menu.
 
 --------------------------------------------------------------------------
 Gnumeric 0.74

@@ -2875,14 +2875,21 @@ static GnomeUIInfo workbook_menu_data_outline [] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo workbook_menu_data_filter [] = {
+	{ GNOME_APP_UI_ITEM, N_("Advanced _Filter..."),
+	  N_("Filter data with given criteria"),
+	  cb_data_filter,
+	NULL, NULL, 0, 0, 0, 0 },
+
+	GNOMEUIINFO_END
+};
+
 /* Data menu */
 static GnomeUIInfo workbook_menu_data [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("_Sort"),
 		N_("Sorts the selected region."),
 		cb_data_sort, "Menu_Gnumeric_SortAscending"),
-	GNOMEUIINFO_ITEM_NONE (N_("_Filter..."),
-		N_("Filter data with given criteria"),
-		cb_data_filter),
+	GNOMEUIINFO_SUBTREE(N_("_Filter"), workbook_menu_data_filter),
 	GNOMEUIINFO_ITEM_NONE (N_("_Validate..."),
 		N_("Validate input with preset criteria"),
 		cb_data_validate),
@@ -3076,7 +3083,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsDataAnalysis", cb_tools_data_analysis),
 
 	BONOBO_UI_UNSAFE_VERB ("DataSort", cb_data_sort),
-	BONOBO_UI_UNSAFE_VERB ("DataFilter", cb_data_filter),
+	BONOBO_UI_UNSAFE_VERB ("DataFilterAdvancedfilter", cb_data_filter),
 	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
 	BONOBO_UI_UNSAFE_VERB ("DataConsolidate", cb_data_consolidate),
 

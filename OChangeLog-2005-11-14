@@ -1,3 +1,8 @@
+2001-11-01  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* src/GNOME_Gnumeric.xml, src/worbook-control-gui.c: Added Filter
+	submenu.
+
 2001-10-31  Jody Goldberg <jgoldberg@home.com>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=63478
