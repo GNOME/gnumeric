@@ -1,0 +1,36 @@
+This is a small and simple plugin to export and import HTML files.
+It is published under the GNU GPL..
+
+Features of the export/import functions:
+
+	- exporting tables
+
+		* all tables are written in one file, but every sheet
+		  gets it's own TABLE-tag
+		* beside the content of the cells it self the following
+		  attributes are exported:
+			- center and right horizontal alignment
+			- vertical top alignment
+			- background color
+			- foreground color
+			- bold font setting
+			- italic font setting
+		* the characters "<" and ">" are 7bit encoded
+
+	- importing tables
+
+		* this is just a dirty hack which will in the most
+		  cases only work while reading html files which were
+		  created by this plugin!
+		* while reading the html file the following attributes
+		  are imported:
+			- bold font setting
+			- italic font setting
+			- horizontal center and right aligment
+		* the 7bit presentation of "<" and ">" are decoded
+
+There is also an experimental LaTeX mode for exporting tables.
+It does not support colors and can not align to the center .. :-(
+
+Author: rasca (thron@gmx.de)
+-

@@ -1,0 +1,19 @@
+07/07/99 (rasca)
+	- added first latex export code
+	- minor code clean ups
+	- import horizontal cell alignment (right and center)
+	- support for exporting fore- and background colors
+	- correct email address in README
+	- added file_format_unregister_open()
+	- reading now honors italic and bold
+
+07/07/99 (rasca)
+	- minor changes to the writing code, so that the cell could
+	  also have values like "<hello>"
+	- simple html read function which does not recognize alignment
+	  or bold/italic ..
+
+06/07/99 (rasca)
+	- right and left alignment, bold and italic seems to work :)
+	- started to write a html plugin to save a sheet as a raw html file
+

@@ -1,6 +1,6 @@
 
 #include <gnome-factory.idl>
-#include <GnomeObject.idl> 
+#include <gnome-unknown.idl> 
 
 module GNOME {
 	module Gnumeric {
@@ -188,7 +188,7 @@ module GNOME {
 			
 		};
 
-		interface Workbook : GNOME::obj {
+		interface Workbook : GNOME::Unknown {
 			exception NameExists {};
 
 			Sheet sheet_new    (in string name) raises (NameExists);

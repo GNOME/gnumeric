@@ -138,24 +138,7 @@ GNOME_PRINT_CFLAGS=`gnome-config --cflags print`
 AC_SUBST(GNOME_PRINT_LIBS)
 AC_SUBST(GNOME_PRINT_CFLAGS)
 
-dnl ******************************************
-dnl LibGlade tests:
-dnl    These duplicate the things 
-dnl    that are in libglade's configure.in
-dnl    so that we can include it in gnumeric.
-dnl ******************************************
-AC_PROG_AWK
-GDK_KEYSYMS="`$GTK_CONFIG --prefix`/include/gdk/gdkkeysyms.h"
-AC_SUBST(GDK_KEYSYMS)
-AC_DEFINE(ENABLE_GNOME)
-AM_CONDITIONAL(GNOME_SUPPORT, true)
-AM_CONDITIONAL(LIBGLADE_FULLDIST, false)
-XML_LIBS=`gnome-config --libs xml`
-XML_CFLAGS=`gnome-config --cflags xml`/gnome-xml
-AM_CONDITIONAL(HAVE_GTK_DOC, false)
-AC_SUBST(XML_LIBS)
-AC_SUBST(XML_CFLAGS)
-
+AM_PATH_LIBGLADE
 
 AC_OUTPUT([
 gnumeric.spec
@@ -164,10 +147,6 @@ icons/Makefile
 src/Makefile
 wizards/Makefile
 wizards/graphics/Makefile
-libglade/Makefile
-libglade/glade/Makefile
-libglade/doc/Makefile
-libglade/macros/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/es/Makefile
@@ -184,6 +163,7 @@ plugins/guile/Makefile
 plugins/ff-csv/Makefile
 plugins/text/Makefile
 plugins/xbase/Makefile
+plugins/html/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile

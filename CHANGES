@@ -6,6 +6,10 @@ Miguel:
 	Imported Alan's libCSV and rewrwite ff-csv so that it actually works.
 	Add import feature.  Drop some normal loaders and make them importers
 	Fixed lots of print stuff.
+
+Rasca Gmelch:
+	HTML import plugin
+
 Jukka:
 	* Started the implementation of Data Analysis tools
 	- Implemented Correlation and Covariance tools

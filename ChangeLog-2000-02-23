@@ -1,3 +1,9 @@
+1999-07-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/Gnumeric.idl: Small typo fixes.
+
+	* Killed liblgade from here, it is now a requirement.
+
 1999-07-07  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialog-analysis-tools.c: Cleaned up `groupped by' radio

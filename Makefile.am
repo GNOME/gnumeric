@@ -1,4 +1,4 @@
-SUBDIRS = intl po macros libglade plugins src doc
+SUBDIRS = intl po macros libglade plugins src doc corba-test
 
 EXTRA_DIST = \
 	gnumeric.desktop README HACKING gnumeric.spec.in 	\
