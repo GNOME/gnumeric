@@ -16,6 +16,8 @@
 #include "sheet-object-container.h"
 #include <bonobo/gnome-container.h>
 #include <bonobo/gnome-component.h>
+#include <bonobo/gnome-component-client.h>
+#include <bonobo/gnome-view-frame.h>
 
 #if 0
 #include "PlotComponent.h"
@@ -109,10 +111,13 @@ sheet_object_container_land (SheetObject *so)
 	for (l = so->sheet->sheet_views; l; l = l->next){
 		GnomeCanvasItem *item;
 		SheetView *sheet_view = l->data;
-		GtkWidget *view;
+		GnomeViewFrame *view_frame;
+		GtkWidget *view_widget;
 
-		view = gnome_bonobo_object_new_view (soc->object_server);
-		item = make_container_item (so, sheet_view, view);
+		view_frame = gnome_bonobo_object_new_view (soc->object_server,
+							   soc->client_site);
+		view_widget = gnome_view_frame_get_wrapper (view_frame);
+		item = make_container_item (so, sheet_view, view_widget);
 		so->realized_list = g_list_prepend (so->realized_list, item);
 	}
 }
@@ -122,17 +127,21 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 {
 	SheetObjectContainer *soc;
 	GnomeCanvasItem *i;
-	GtkWidget *w;
+	GnomeViewFrame *view_frame;
+	GtkWidget *view_widget;
 
 	soc = SHEET_OBJECT_CONTAINER (so);
 	
 	if (soc->client_site == NULL)
-		w = gtk_button_new_with_label (_("Object server"));
+		view_widget = gtk_button_new_with_label (_("Object server"));
 	else {
-		w = gnome_bonobo_object_new_view (soc->object_server);
+		view_frame = gnome_bonobo_object_new_view (soc->object_server,
+							   soc->client_site);
+
+		view_widget = gnome_view_frame_get_wrapper (view_frame);
 	}
-	
-	i = make_container_item (so, sheet_view, w);
+
+	i = make_container_item (so, sheet_view, view_widget);
 
 	return i;
 }

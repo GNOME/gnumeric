@@ -1,3 +1,16 @@
+1999-06-09  Nat Friedman  <nat@gnome-support.com>
+
+	* src/sheet-view.c (sheet_view_insert_object): Commented out call
+ 	to gnome_bonobo_object_new_view since the API changed and this
+ 	function doesn't do anything anyways.
+
+	* src/sheet-object-container.c: Include gnome-component-client.h
+ 	and view-frame.h.
+	(sheet_object_container_land): Pass soc->client_site to
+ 	gnome_bonobo_object_new_view.  Get the view wrapper widget from
+ 	the view frame.
+	(sheet_object_container_realize): Likewise.
+
 1999-06-09  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook.c (insert_at_cursor): Use cell_set_value instead of
