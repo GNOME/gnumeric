@@ -13,6 +13,8 @@ Jody:
 
 Morten:
 	* Make search-and-replace dialog non-modal.
+	* Released version 2 -- a cute little thing of about 3k.  She
+	  leaks, though.
 
 Zbigniew Chyla:
 	* More work on plugins.
