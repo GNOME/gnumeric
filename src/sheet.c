@@ -2535,7 +2535,7 @@ assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
  * to the structure being manipulated by the sheet_cell_foreach_range routine
  */
 void
-sheet_clear_region (CmdContext *context, Sheet *sheet,
+sheet_clear_region (CommandContext *context, Sheet *sheet,
 		    int start_col, int start_row, int end_col, int end_row,
 		    gboolean const clearStyles)
 {
@@ -2590,7 +2590,7 @@ sheet_clear_region (CmdContext *context, Sheet *sheet,
  * Clears the contents in a region of cells
  */
 void
-sheet_clear_region_content (CmdContext *context, Sheet *sheet,
+sheet_clear_region_content (CommandContext *context, Sheet *sheet,
 			    int start_col, int start_row,
 			    int end_col, int end_row)
 {
@@ -3285,7 +3285,7 @@ colrow_move (Sheet *sheet,
  * @count   The number of columns to be inserted
  */
 void
-sheet_insert_cols (CmdContext *context, Sheet *sheet,
+sheet_insert_cols (CommandContext *context, Sheet *sheet,
 		   int col, int count)
 {
 	struct expr_relocate_info reloc_info;
@@ -3354,7 +3354,7 @@ sheet_insert_cols (CmdContext *context, Sheet *sheet,
  * @count   The number of columns to be deleted
  */
 void
-sheet_delete_cols (CmdContext *context, Sheet *sheet,
+sheet_delete_cols (CommandContext *context, Sheet *sheet,
 		   int col, int count)
 {
 	struct expr_relocate_info reloc_info;
@@ -3424,7 +3424,7 @@ sheet_delete_cols (CmdContext *context, Sheet *sheet,
  * @count   The number of rows to be inserted
  */
 void
-sheet_insert_rows (CmdContext *context, Sheet *sheet,
+sheet_insert_rows (CommandContext *context, Sheet *sheet,
 		   int row, int count)
 {
 	struct expr_relocate_info reloc_info;
@@ -3494,7 +3494,7 @@ sheet_insert_rows (CmdContext *context, Sheet *sheet,
  * @count   The number of rows to be deleted
  */
 void
-sheet_delete_rows (CmdContext *context, Sheet *sheet,
+sheet_delete_rows (CommandContext *context, Sheet *sheet,
 		   int row, int count)
 {
 	struct expr_relocate_info reloc_info;
@@ -3562,7 +3562,7 @@ sheet_delete_rows (CmdContext *context, Sheet *sheet,
  * do that ?
  */
 void
-sheet_move_range (CmdContext *context,
+sheet_move_range (CommandContext *context,
 		  struct expr_relocate_info const * rinfo)
 {
 	GList *deps, *cells = NULL;
@@ -3664,7 +3664,7 @@ sheet_move_range (CmdContext *context,
  */
 
 void
-sheet_shift_rows (CmdContext *context, Sheet *sheet,
+sheet_shift_rows (CommandContext *context, Sheet *sheet,
 		  int col, int start_row, int end_row, int count)
 {
 	struct expr_relocate_info rinfo;
@@ -3693,7 +3693,7 @@ sheet_shift_rows (CmdContext *context, Sheet *sheet,
  * and copies them @count units (possibly negative) downwards.
  */
 void
-sheet_shift_cols (CmdContext *context, Sheet *sheet,
+sheet_shift_cols (CommandContext *context, Sheet *sheet,
 		  int start_col, int end_col, int row, int count)
 {
 	struct expr_relocate_info rinfo;

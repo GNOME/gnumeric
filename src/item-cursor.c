@@ -620,36 +620,36 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 		if (!item_cursor_target_region_ok (item_cursor)) {
 			return;
 		}
-		if (!sheet_selection_copy (command_context_gui (wb), sheet))
+		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
 			return;
-		sheet_selection_paste (command_context_gui (wb), sheet,
+		sheet_selection_paste (workbook_command_context_gui (wb), sheet,
 				       col, row, PASTE_ALL_TYPES, time);
 		return;
 
 	case ACTION_MOVE_CELLS:
 		if (!item_cursor_target_region_ok (item_cursor))
 			return;
-		if (!sheet_selection_cut (command_context_gui (wb), sheet))
+		if (!sheet_selection_cut (workbook_command_context_gui (wb), sheet))
 			return;
-		sheet_selection_paste (command_context_gui (wb), sheet,
+		sheet_selection_paste (workbook_command_context_gui (wb), sheet,
 				       col, row, PASTE_ALL_TYPES, time);
 		return;
 
 	case ACTION_COPY_FORMATS:
 		if (!item_cursor_target_region_ok (item_cursor))
 			return;
-		if (!sheet_selection_copy (command_context_gui (wb), sheet))
+		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
 			return;
-		sheet_selection_paste (command_context_gui (wb), sheet,
+		sheet_selection_paste (workbook_command_context_gui (wb), sheet,
 				       col, row, PASTE_FORMATS, time);
 		return;
 
 	case ACTION_COPY_VALUES:
 		if (!item_cursor_target_region_ok (item_cursor))
 			return;
-		if (!sheet_selection_copy (command_context_gui (wb), sheet))
+		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
 			return;
-		sheet_selection_paste (command_context_gui (wb), sheet,
+		sheet_selection_paste (workbook_command_context_gui (wb), sheet,
 				       col, row, PASTE_VALUES, time);
 		return;
 

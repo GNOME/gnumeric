@@ -1,39 +1,29 @@
 #include <config.h>
+#include "gnumeric-type-util.h"
 #include "command-context.h"
-#include "command-context-impl.h"
 
-/*
- * command_context_vtbl_init : A utility routine to be used to init
- *    a vtbl to NULL.  As new functions are added this will ensure that
- *    if a class does not define a new hander we can catch it rather
- *    than calling uninitialized memory.
- */
-void
-command_context_vtbl_init (GnmCmdcontext_vtbl *vtbl)
-{
-	g_return_if_fail (vtbl);
+#define PARENT_TYPE gtk_object_get_type ()
 
-	vtbl->plugin_problem = NULL;
-	vtbl->splits_array = NULL;
-}
+#define CC_CLASS(o) COMMAND_CONTEXT_CLASS (GTK_OBJECT (o)->klass)
 
 void
-gnumeric_error_plugin_problem (CmdContext *context,
+gnumeric_error_plugin_problem (CommandContext *context,
 			       char const * const message)
 {
-	g_return_if_fail (context);
-	g_return_if_fail (context->vtbl);
-	g_return_if_fail (context->vtbl->plugin_problem);
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (IS_COMMAND_CONTEXT (context));
 
-	(*context->vtbl->plugin_problem)(context, message);
+	CC_CLASS (context)->error_plugin_problem (context, message);
 }
 
 void
-gnumeric_error_splits_array (CmdContext *context)
+gnumeric_error_splits_array (CommandContext *context)
 {
 	g_return_if_fail (context);
-	g_return_if_fail (context->vtbl);
-	g_return_if_fail (context->vtbl->splits_array);
+	g_return_if_fail (IS_COMMAND_CONTEXT (context));
 
-	(*context->vtbl->splits_array)(context);
+	CC_CLASS (context)->error_splits_array (context);
 }
+
+GNUMERIC_MAKE_TYPE(command_context, "CommandContext", CommandContext, NULL, NULL, PARENT_TYPE);
+

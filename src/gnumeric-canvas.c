@@ -20,6 +20,7 @@
 #include "ranges.h"
 #include "application.h"
 #include "workbook-view.h"
+#include "workbook.h"
 
 #undef DEBUG_POSITIONS
 
@@ -770,7 +771,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_KP_Delete:
 	case GDK_Delete:
-		sheet_selection_clear_content (command_context_gui (wb), sheet);
+		sheet_selection_clear_content (workbook_command_context_gui (wb), sheet);
 		break;
 
 	case GDK_KP_Enter:

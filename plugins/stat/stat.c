@@ -20,7 +20,7 @@ cleanup_plugin (PluginData *pd)
 }
 
 PluginInitResult
-init_plugin (CmdContext *context, PluginData *pd)
+init_plugin (CommandContext *context, PluginData *pd)
 {
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;

@@ -94,7 +94,7 @@ html_init (void)
  * called by gnumeric to load the plugin
  */
 PluginInitResult
-init_plugin (CmdContext *context, PluginData *pd)
+init_plugin (CommandContext *context, PluginData *pd)
 {
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;

@@ -138,7 +138,7 @@ selection_first_range (Sheet const *sheet, gboolean const permit_complex)
  * produces a warning.
  */
 gboolean
-selection_is_simple (CmdContext *context, Sheet const *sheet,
+selection_is_simple (CommandContext *context, Sheet const *sheet,
 		     char const *command_name)
 {
 	char *msg;
@@ -590,7 +590,7 @@ sheet_selection_unant (Sheet *sheet)
 }
 
 gboolean
-sheet_selection_copy (CmdContext *context, Sheet *sheet)
+sheet_selection_copy (CommandContext *context, Sheet *sheet)
 {
 	SheetSelection *ss;
 	g_return_val_if_fail (sheet != NULL, FALSE);
@@ -610,7 +610,7 @@ sheet_selection_copy (CmdContext *context, Sheet *sheet)
 }
 
 gboolean
-sheet_selection_cut (CmdContext *context, Sheet *sheet)
+sheet_selection_cut (CommandContext *context, Sheet *sheet)
 {
 	SheetSelection *ss;
 
@@ -667,7 +667,7 @@ sheet_selection_move (struct expr_relocate_info *rinfo)
 }
 
 void
-sheet_selection_paste (CmdContext *context, Sheet *sheet,
+sheet_selection_paste (CommandContext *context, Sheet *sheet,
 		       int dest_col, int dest_row,
 		       int paste_flags, guint32 time)
 {
@@ -744,7 +744,7 @@ cb_sheet_selection_clear (Sheet *sheet,
  * Removes the contents and styles.
  **/
 void
-sheet_selection_clear (CmdContext *context, Sheet *sheet)
+sheet_selection_clear (CommandContext *context, Sheet *sheet)
 {
 	selection_apply (sheet, &cb_sheet_selection_clear, TRUE, NULL);
 }
@@ -767,7 +767,7 @@ cb_sheet_selection_clear_content (Sheet *sheet,
  * Removes the contents of all the cells in the current selection.
  **/
 void
-sheet_selection_clear_content (CmdContext *context, Sheet *sheet)
+sheet_selection_clear_content (CommandContext *context, Sheet *sheet)
 {
 	selection_apply (sheet, &cb_sheet_selection_clear_content,
 			 TRUE, context);
@@ -781,7 +781,7 @@ sheet_selection_clear_content (CmdContext *context, Sheet *sheet)
  * Removes all of the comments on the range of selected cells.
  **/
 void
-sheet_selection_clear_comments (CmdContext *context, Sheet *sheet)
+sheet_selection_clear_comments (CommandContext *context, Sheet *sheet)
 {
 	selection_apply (sheet, &sheet_clear_region_comments, TRUE, NULL);
 }
@@ -793,7 +793,7 @@ sheet_selection_clear_comments (CmdContext *context, Sheet *sheet)
  * Removes all formating
  **/
 void
-sheet_selection_clear_formats (CmdContext *context, Sheet *sheet)
+sheet_selection_clear_formats (CommandContext *context, Sheet *sheet)
 {
 	selection_apply (sheet, &sheet_clear_region_formats, TRUE, NULL);
 }

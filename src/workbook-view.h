@@ -3,11 +3,6 @@
 
 #include "gnumeric.h"
 
-/* The command context for use by a GUI.
- * This will need refinement.
- */
-CmdContext * command_context_gui (Workbook *wb);
-
 /* Actions on the workbooks UI
  * 
  * These are the embryonic form of signals that will change the

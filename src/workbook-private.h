@@ -33,6 +33,11 @@ struct _WorkbookPrivate {
 	GtkWidget *fore_combo, *back_combo;
 
 	const char *current_font_name;
+
+	/*
+	 * GUI command context
+	 */
+	CommandContext *gui_context;
 };
 
 #endif /* GNUMERIC_WORKBOOK_PRIVATE_H */

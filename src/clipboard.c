@@ -132,7 +132,7 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
  * paste_flags:  controls what gets pasted (see clipboard.h for details
  */
 static void
-do_clipboard_paste_cell_region (CmdContext *context,
+do_clipboard_paste_cell_region (CommandContext *context,
 				CellRegion *region, Sheet *dest_sheet,
 				int dest_col,       int dest_row,
 				int paste_width,    int paste_height,
@@ -292,7 +292,7 @@ x_selection_to_cell_region (char *data, int len)
  *
  */
 static void
-sheet_paste_selection (CmdContext *context, Sheet *sheet,
+sheet_paste_selection (CommandContext *context, Sheet *sheet,
 		       CellRegion *content, SheetSelection *ss, clipboard_paste_closure_t *pc)
 {
 	int        paste_height, paste_width;
@@ -380,7 +380,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 	} else
 		content = x_selection_to_cell_region (sel->data, sel->length);
 
-	sheet_paste_selection (command_context_gui (wb),
+	sheet_paste_selection (workbook_command_context_gui (wb),
 			       pc->dest_sheet, content, ss, pc);
 
 	/* Release the resources we used */
@@ -580,7 +580,7 @@ find_local_workbook_with_selection (void)
  * Main entry point for the paste code
  */
 void
-clipboard_paste_region (CmdContext *context,
+clipboard_paste_region (CommandContext *context,
 			CellRegion *region, Sheet *dest_sheet,
 			int dest_col,       int dest_row,
 			int paste_flags,    guint32 time)

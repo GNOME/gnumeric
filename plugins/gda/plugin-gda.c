@@ -249,7 +249,7 @@ cleanup_plugin (PluginData *pd)
 
 
 PluginInitResult
-init_plugin (CmdContext *context, PluginData* pd)
+init_plugin (CommandContext *context, PluginData* pd)
 {
 	g_print("plugin-gda: init_plugin called\n");
 

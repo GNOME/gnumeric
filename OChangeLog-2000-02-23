@@ -1,3 +1,24 @@
+1999-12-30  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/gnumeric-type-util.h (GNUMERIC_MAKE_TYPE): New macro, copied
+	from Evolution.  We need to refactor our code in Gnumeric to use
+	this macro.
+
+	* src/workbook.c (workbook_do_destroy): Destroy the per-workbook
+	context here.  Hardcoded to be a GUI context for now.
+	(workbook_new): Create the context here.
+	(workbook_command_context_gui): This routine is now the one that
+	returns the command context.
+
+	* src/gnumeric.h: Added CommandCOntext typedef here.
+
+	* All files: renamed CmdContext to CommandContext.
+	renamed command_context_gui to workbook_command_context_gui.
+
+	* src/workbook-view.c: Removed the GUI_CmdContext class setup.
+	* src/command-context.c: Replaced the ad-hoc object system with a
+	GtkObject-based system.
+
 1999-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/file.c (workbook_load_from) : The 'open' functions return error

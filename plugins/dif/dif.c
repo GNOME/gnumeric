@@ -266,7 +266,9 @@ dif_read_workbook (Workbook *book, char const *filename)
 		workbook_attach_sheet (book, src.sheet);
 		g_free (name);
 
-		if (!dif_parse_sheet (&src)) {
+		result = dif_parse_sheet (&src);
+
+		if (!result) {
 			workbook_detach_sheet (book, src.sheet, TRUE);
 			result = g_strdup(_(("DIF : Failed to load sheet")));
 		}
@@ -438,7 +440,7 @@ dif_cleanup_plugin (PluginData *pd)
 
 
 PluginInitResult
-init_plugin (CmdContext *context, PluginData * pd)
+init_plugin (CommandContext *context, PluginData * pd)
 {
 	char *desc;
 

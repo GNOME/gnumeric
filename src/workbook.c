@@ -31,6 +31,7 @@
 #include "workbook-cmd-format.h"
 #include "workbook-format-toolbar.h"
 #include "workbook-view.h"
+#include "command-context-gui.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/gnome-persist-file.h>
@@ -354,6 +355,8 @@ workbook_do_destroy (Workbook *wb)
 
 	expr_name_clean_workbook (wb);
 
+	gtk_object_destroy (GTK_OBJECT (wb->priv->gui_context));
+	
 	workbook_do_destroy_private (wb);
 
 	if (!GTK_OBJECT_DESTROYED (wb->toplevel))
@@ -645,7 +648,7 @@ copy_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_copy (command_context_gui (wb), sheet);
+	sheet_selection_copy (workbook_command_context_gui (wb), sheet);
 }
 
 static void
@@ -655,7 +658,7 @@ cut_cmd (GtkWidget *widget, Workbook *wb)
 
 	sheet = workbook_get_current_sheet (wb);
 	if (sheet->mode == SHEET_MODE_SHEET)
-		sheet_selection_cut (command_context_gui (wb), sheet);
+		sheet_selection_cut (workbook_command_context_gui (wb), sheet);
 	else {
 		if (sheet->current_object){
 			gtk_object_unref (GTK_OBJECT (sheet->current_object));
@@ -675,7 +678,7 @@ paste_cmd (GtkWidget *widget, Workbook *wb)
 	g_return_if_fail (!application_clipboard_is_empty ());
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_paste (command_context_gui (wb), sheet,
+	sheet_selection_paste (workbook_command_context_gui (wb), sheet,
 			       sheet->cursor_col, sheet->cursor_row,
 			       PASTE_DEFAULT, GDK_CURRENT_TIME);
 }
@@ -692,7 +695,7 @@ paste_special_cmd (GtkWidget *widget, Workbook *wb)
 	sheet = workbook_get_current_sheet (wb);
 	flags = dialog_paste_special (wb);
 	if (flags != 0)
-		sheet_selection_paste (command_context_gui (wb), sheet,
+		sheet_selection_paste (workbook_command_context_gui (wb), sheet,
 				       sheet->cursor_col, sheet->cursor_row,
 				       flags, GDK_CURRENT_TIME);
 
@@ -760,7 +763,7 @@ insert_cols_cmd (GtkWidget *unused, Workbook *wb)
 	/* TODO : No need to check simplicty.  XL applies for each
 	 * non-discrete selected region, (use selection_apply) */
 	sheet = workbook_get_current_sheet (wb);
-	if (!selection_is_simple (command_context_gui (wb), sheet, _("Insert cols")))
+	if (!selection_is_simple (workbook_command_context_gui (wb), sheet, _("Insert cols")))
 		return;
 
 	ss = sheet->selections->data;
@@ -771,7 +774,7 @@ insert_cols_cmd (GtkWidget *unused, Workbook *wb)
 	 * at minimum a warning if things are about to be cleared ?
 	 */
 	cols = ss->user.end.col - ss->user.start.col + 1;
-	sheet_insert_cols (command_context_gui (wb), sheet,
+	sheet_insert_cols (workbook_command_context_gui (wb), sheet,
 			   ss->user.start.col, cols);
 }
 
@@ -785,7 +788,7 @@ insert_rows_cmd (GtkWidget *unused, Workbook *wb)
 	/* TODO : No need to check simplicty.  XL applies for each
 	 * non-discrete selected region, (use selection_apply) */
 	sheet = workbook_get_current_sheet (wb);
-	if (!selection_is_simple (command_context_gui (wb), sheet, _("Insert rows")))
+	if (!selection_is_simple (workbook_command_context_gui (wb), sheet, _("Insert rows")))
 		return;
 
 	ss = sheet->selections->data;
@@ -796,7 +799,7 @@ insert_rows_cmd (GtkWidget *unused, Workbook *wb)
 	 * at minimum a warning if things are about to be cleared ?
 	 */
 	rows = ss->user.end.row - ss->user.start.row + 1;
-	sheet_insert_rows (command_context_gui (wb), sheet,
+	sheet_insert_rows (workbook_command_context_gui (wb), sheet,
 			   ss->user.start.row, rows);
 }
 
@@ -807,7 +810,7 @@ clear_all_cmd (GtkWidget *widget, Workbook *wb)
 
 	sheet = workbook_get_current_sheet (wb);
 
-	sheet_selection_clear (command_context_gui (wb), sheet);
+	sheet_selection_clear (workbook_command_context_gui (wb), sheet);
 }
 
 static void
@@ -816,7 +819,7 @@ clear_formats_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_clear_formats (command_context_gui (wb), sheet);
+	sheet_selection_clear_formats (workbook_command_context_gui (wb), sheet);
 }
 
 static void
@@ -825,7 +828,7 @@ clear_comments_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_clear_comments (command_context_gui (wb), sheet);
+	sheet_selection_clear_comments (workbook_command_context_gui (wb), sheet);
 }
 
 static void
@@ -834,7 +837,7 @@ clear_content_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_clear_content (command_context_gui (wb), sheet);
+	sheet_selection_clear_content (workbook_command_context_gui (wb), sheet);
 }
 
 static void
@@ -2162,6 +2165,8 @@ workbook_new (void)
 	workbook_setup_edit_area (wb);
 	workbook_setup_sheets (wb);
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
+
+	wb->priv->gui_context = command_context_gui_new (wb);
 	
 #ifndef ENABLE_BONOBO
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
@@ -2948,3 +2953,35 @@ workbook_selection_to_string (Workbook *wb, Sheet *base_sheet)
 	return result;
 }
 
+CommandContext *
+workbook_command_context_gui (Workbook *wb)
+{
+	/*
+	 * Mhm.  Why is this invoked sometimes with WB == NULL?
+	 */
+	if (wb == NULL){
+		static CommandContextGui *cc;
+		
+		{
+			static int error_shown;
+
+			/*
+			 * We can workaround this problem without much pain,
+			 * I just want to know what was the plan for this
+			 *
+			 * We can go back to a single global if required, but
+			 * I dislike that plan -mig
+			 */
+			if (!error_shown){
+				g_warning ("NULL wb should never happen, Jody can you check this?");
+				error_shown = 1;
+			}
+		}
+
+		if (cc == NULL)
+			cc = command_context_gui_new (NULL);
+		return cc;
+	}
+	
+	return wb->priv->gui_context;
+}

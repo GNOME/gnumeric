@@ -445,7 +445,7 @@ sc_cleanup_plugin (PluginData *pd)
 
 
 PluginInitResult
-init_plugin (CmdContext *context, PluginData * pd)
+init_plugin (CommandContext *context, PluginData * pd)
 {
 	const char *desc = _("SC/xspread file import");
 

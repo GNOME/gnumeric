@@ -29,7 +29,7 @@ GList *plugin_list = NULL;
  * return TRUE if the plugin version and the application version do not match exactly.
  */
 gboolean
-plugin_version_mismatch  (CmdContext *context, PluginData *pd,
+plugin_version_mismatch  (CommandContext *context, PluginData *pd,
 			  char const * const plugin_version)
 {
 	gboolean const mismatch = (strcmp (plugin_version, GNUMERIC_VERSION) != 0);
@@ -50,7 +50,7 @@ PluginData *
 plugin_load (Workbook *wb, const gchar *modfile)
 {
 	/* FIXME : Get the correct command context here. */
-	CmdContext *context = command_context_gui (wb);
+	CommandContext *context = workbook_command_context_gui (wb);
 
 	PluginData *data;
 	PluginInitResult res;

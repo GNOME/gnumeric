@@ -182,6 +182,8 @@ typedef gboolean (*WorkbookCallback)(Workbook *, gpointer data);
 void     workbook_foreach             (WorkbookCallback cback,
 				       gpointer data);
 
+CommandContext *workbook_command_context_gui (Workbook *wb);
+
 /*
  * Feedback routines
  */

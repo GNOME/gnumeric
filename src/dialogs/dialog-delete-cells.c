@@ -48,20 +48,20 @@ dialog_delete_cells_impl (Workbook *wb, Sheet *sheet, GladeXML  *gui)
 		rows = ss->user.end.row - ss->user.start.row + 1;
 
 		if (i == 0)
-			sheet_shift_rows (command_context_gui (wb), sheet,
+			sheet_shift_rows (workbook_command_context_gui (wb), sheet,
 					  ss->user.start.col + cols, 
 					  ss->user.start.row, 
 					  ss->user.end.row, -cols);
 		else if (i == 1)
-			sheet_shift_cols (command_context_gui (wb), sheet,
+			sheet_shift_cols (workbook_command_context_gui (wb), sheet,
 					  ss->user.start.col,
 					  ss->user.end.col, 
 					  ss->user.start.row + rows, -rows);
 		else if (i == 2)
-			sheet_delete_rows (command_context_gui (wb), sheet,
+			sheet_delete_rows (workbook_command_context_gui (wb), sheet,
 					   ss->user.start.row, rows);
 		else if (i == 3)
-			sheet_delete_cols (command_context_gui (wb), sheet,
+			sheet_delete_cols (workbook_command_context_gui (wb), sheet,
 					   ss->user.start.col, cols);
 	}
 
@@ -81,7 +81,7 @@ dialog_delete_cells (Workbook *wb, Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if (!selection_is_simple (command_context_gui (wb), sheet, _("delete cells")))
+	if (!selection_is_simple (workbook_command_context_gui (wb), sheet, _("delete cells")))
 		return;
 
 	ss = sheet->selections->data;
@@ -90,12 +90,12 @@ dialog_delete_cells (Workbook *wb, Sheet *sheet)
 
 	/* short circuit the dialog if an entire row/column is selected */
 	if (ss->user.start.row == 0 && ss->user.end.row  >= SHEET_MAX_ROWS-1) {
-		sheet_delete_cols (command_context_gui (wb), sheet,
+		sheet_delete_cols (workbook_command_context_gui (wb), sheet,
 				   ss->user.start.col, cols);
 		return;
 	}
 	if (ss->user.start.col == 0 && ss->user.end.col  >= SHEET_MAX_COLS-1) {
-		sheet_delete_rows (command_context_gui (wb), sheet,
+		sheet_delete_rows (workbook_command_context_gui (wb), sheet,
 				   ss->user.start.row, rows);
 		return;
 	}

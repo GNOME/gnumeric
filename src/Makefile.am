@@ -66,6 +66,8 @@ GNUMERIC_BASE_SOURCES =				\
 	color.h					\
 	command-context.h			\
 	command-context.c			\
+	command-context-gui.h			\
+	command-context-gui.c			\
 	complex.h				\
 	complex.c				\
 	corba.h					\
@@ -95,6 +97,7 @@ GNUMERIC_BASE_SOURCES =				\
 	gnumeric-sheet.h			\
 	gnumeric-util.c				\
 	gnumeric-util.h				\
+	gnumeric-type-util.h			\
 	gnumeric.h				\
 	item-bar.c				\
 	item-bar.h				\

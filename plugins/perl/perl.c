@@ -25,7 +25,7 @@ no_unloading_for_me (PluginData *pd)
 }
 
 PluginInitResult
-init_plugin (CmdContext *context, PluginData *pd)
+init_plugin (CommandContext *context, PluginData *pd)
 {
 	char *argv[] = { "", NULL, NULL, NULL };
 	char *arg;

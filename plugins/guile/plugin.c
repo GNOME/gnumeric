@@ -464,7 +464,7 @@ no_unloading_for_me (PluginData *pd)
 }
 
 PluginInitResult
-init_plugin (CmdContext *context, PluginData *pd)
+init_plugin (CommandContext *context, PluginData *pd)
 {
 	FunctionCategory *cat;
 	char *init_file_name;

@@ -32,7 +32,7 @@ typedef struct _SheetSelection	SheetSelection;
 typedef struct _EvalPosition	EvalPosition;
 typedef struct _ParsePosition	ParsePosition;
 typedef struct _FunctionEvalInfo FunctionEvalInfo;
-typedef struct _CmdContext	CmdContext;
+typedef struct _CommandContext	CommandContext;
 
 typedef struct _PrintInformation PrintInformation;
 typedef struct _String	 	 String;

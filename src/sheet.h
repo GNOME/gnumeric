@@ -325,7 +325,7 @@ void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
 gboolean    sheet_is_pristine             (Sheet *sheet);
 
 /* Sheet information manipulation */
-void        sheet_move_range              (CmdContext *context,
+void        sheet_move_range              (CommandContext *context,
 					   struct expr_relocate_info const * rinfo);
 
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
@@ -386,22 +386,22 @@ void sheet_corba_shutdown    (Sheet *);
  * These have undo/redo capabilities
  * and will route error messages to the caller appropriately.
  */
-void  sheet_insert_cols (CmdContext *context, Sheet *sheet,
+void  sheet_insert_cols (CommandContext *context, Sheet *sheet,
 			 int col, int count);
-void  sheet_delete_cols (CmdContext *context, Sheet *sheet,
+void  sheet_delete_cols (CommandContext *context, Sheet *sheet,
 			 int col, int count);
-void  sheet_shift_cols  (CmdContext *context, Sheet *sheet,
+void  sheet_shift_cols  (CommandContext *context, Sheet *sheet,
 			 int start_col, int end_col,
 			 int row,       int count);
-void  sheet_insert_rows (CmdContext *context, Sheet *sheet,
+void  sheet_insert_rows (CommandContext *context, Sheet *sheet,
 			 int row, int count);
-void  sheet_delete_rows (CmdContext *context, Sheet *sheet,
+void  sheet_delete_rows (CommandContext *context, Sheet *sheet,
 			 int row, int count);
-void  sheet_shift_rows  (CmdContext *context, Sheet *sheet,
+void  sheet_shift_rows  (CommandContext *context, Sheet *sheet,
 			 int col,
 			 int start_row, int end_row, int count);
 
-void  sheet_clear_region          (CmdContext *context, Sheet *sheet,
+void  sheet_clear_region          (CommandContext *context, Sheet *sheet,
 				   int start_col, int start_row,
 				   int end_col,   int end_row,
 				   gboolean const keep_styles);
@@ -409,7 +409,7 @@ void  sheet_clear_region_formats  (Sheet *sheet,
 				   int start_col, int start_row,
 				   int end_col,   int end_row,
 				   void *closure);
-void  sheet_clear_region_content  (CmdContext *context, Sheet *sheet,
+void  sheet_clear_region_content  (CommandContext *context, Sheet *sheet,
 				   int start_col, int start_row,
 				   int end_col,   int end_row);
 void  sheet_clear_region_comments (Sheet *sheet,
