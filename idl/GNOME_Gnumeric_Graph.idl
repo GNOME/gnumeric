@@ -52,7 +52,7 @@ module GNOME {
 	};
 
 	module Graph {
-	    interface Manager_v3 : Bonobo::Unknown {
+	    interface Manager_v4 : Bonobo::Embeddable {
 		typedef sequence<octet>	Buffer;
 
 		Bonobo::Control configure (in string type);
