@@ -24,7 +24,14 @@
 static guint
 float_hash (const gnum_float *d)
 {
-        return (guint)((*d) * 100);
+	guint h = 0;
+	size_t i;
+	const unsigned char *p = (const unsigned char *)d;
+
+	for (i = 0; i < sizeof (gnum_float); i++)
+		h ^= h / 3 + (h << 9) + p[i];
+
+        return h;
 }
 
 static gint
@@ -728,74 +735,60 @@ static char *help_mode = {
            "@SEEALSO=AVERAGE,MEDIAN")
 };
 
-typedef struct {
-       GHashTable *hash_table;
-       GSList     *items;
-       gnum_float mode;
-       int        count;
-} stat_mode_t;
-
-static Value *
-callback_function_mode (EvalPos const *ep, Value *value, void *closure)
+static void
+cb_range_mode (gpointer key, gpointer value, gpointer user_data)
 {
-       stat_mode_t *mm = closure;
-       gnum_float  key;
-       int      *p, count;
+	g_free (value);
+}
 
-       if (!VALUE_IS_NUMBER (value))
-	       return NULL;
+static int
+range_mode (const gnum_float *xs, int n, gnum_float *res)
+{
+	GHashTable *h;
+	int i;
+	gnum_float mode = 0;
+	int dups = 0;
 
-       key = value_get_as_float (value);
-       p = g_hash_table_lookup (mm->hash_table, &key);
+	if (n <= 1) return 1;
 
-       if (p == NULL){
-	       p = g_new (int, 1);
-	       mm->items = g_slist_append (mm->items, p);
-	       *p = count = 1;
-	       g_hash_table_insert (mm->hash_table, &key, p);
-       } else
-	       *p = count = *p + 1;
+	h = g_hash_table_new ((GHashFunc)float_hash,
+			      (GCompareFunc)float_equal);
+	for (i = 0; i < n; i++) {
+		int *pdups = g_hash_table_lookup (h, &xs[i]);
 
-       if (count > mm->count) {
-	       mm->count = count;
-	       mm->mode = key;
-       }
-       return NULL;
+		if (pdups)
+			(*pdups)++;
+		else {
+			pdups = g_new (int, 1);
+			*pdups = 1;
+			g_hash_table_insert (h, (gpointer)(&xs[i]), pdups);
+		}
+
+		if (*pdups > dups) {
+			dups = *pdups;
+			mode = xs[i];
+		}
+	}
+	g_hash_table_foreach (h, cb_range_mode, NULL);
+	g_hash_table_destroy (h);
+
+	if (dups <= 1)
+		return 1;
+
+	*res = mode;
+	return 0;
 }
 
 static Value *
 gnumeric_mode (FunctionEvalInfo *ei, GList *expr_node_list)
 {
-       Value  *err;
-       GSList *tmp;
-       stat_mode_t pr;
-
-       pr.hash_table = g_hash_table_new ((GHashFunc) float_hash,
-					 (GCompareFunc) float_equal);
-       pr.items      = NULL;
-       pr.mode       = 0.0;
-       pr.count      = 0;
-
-       err = function_iterate_argument_values (ei->pos,
-		callback_function_mode, &pr, expr_node_list,
-		TRUE, TRUE);
-
-       g_hash_table_destroy (pr.hash_table);
-       tmp = pr.items;
-       while (tmp != NULL){
-	       g_free (tmp->data);
-	       tmp = tmp->next;
-       }
-       g_slist_free (pr.items);
-
-       /* no need to check for terminate */
-       if (err != NULL)
-	       return err;
-
-       if (pr.count < 2)
-		return value_new_error (ei->pos, gnumeric_err_NA);
-
-       return value_new_float (pr.mode);
+	return float_range_function (expr_node_list,
+				     ei,
+				     range_mode,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     gnumeric_err_NA);
 }
 
 /***************************************************************************/

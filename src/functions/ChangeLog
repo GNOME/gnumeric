@@ -1,3 +1,8 @@
+2001-07-20  Morten Welinder  <terra@diku.dk>
+
+	* fn-stat.c (gnumeric_mode): Clean up.
+	(float_hash): try to adhere to the C standard.
+
 2001-07-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.68
