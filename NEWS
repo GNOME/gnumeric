@@ -143,6 +143,7 @@ Morten:
 	* Improve fixed-width stf.
 	* Fix reading 1.0 xml files lacking encoding.
 	* Handle file save errors that happen after the initial open.
+	* Major speed-up for certain dynamic dependencies.
 
 --------------------------------------------------------------------------
 

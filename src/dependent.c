@@ -60,6 +60,7 @@ typedef struct {
 	Dependent  base;
 	Dependent *container;
 	GSList    *ranges;
+	GSList    *singles;
 } DynamicDep;
 
 void
@@ -955,6 +956,7 @@ dependent_add_dynamic_dep (Dependent *dep, ValueRange const *v)
 	DependentFlags   flags;
 	DynamicDep	*dyn;
 	CellPos const	*pos;
+	DependencyRange  range;
 
 	g_return_if_fail (dep != NULL);
 
@@ -971,11 +973,19 @@ dependent_add_dynamic_dep (Dependent *dep, ValueRange const *v)
 		dyn->base.expression	= NULL;
 		dyn->container		= dep;
 		dyn->ranges		= NULL;
+		dyn->singles		= NULL;
 		g_hash_table_insert (dep->sheet->deps->dynamic_deps, dep, dyn);
 	}
 
-	flags = link_cellrange_dep (&dyn->base, pos, &v->cell.a, &v->cell.b);
-	dyn->ranges = g_slist_prepend (dyn->ranges, value_duplicate ((Value *)v));
+	cellref_get_abs_pos (&v->cell.a, pos, &range.range.start);
+	cellref_get_abs_pos (&v->cell.b, pos, &range.range.end);
+	if (range_is_singleton (&range.range)) {
+		flags = link_single_dep (&dyn->base, pos, &v->cell.a);
+		dyn->singles = g_slist_prepend (dyn->singles, value_duplicate ((Value *)v));
+	} else {
+		flags = link_cellrange_dep (&dyn->base, pos, &v->cell.a, &v->cell.b);
+		dyn->ranges = g_slist_prepend (dyn->ranges, value_duplicate ((Value *)v));
+	}
 	if (flags & DEPENDENT_HAS_3D)
 		workbook_link_3d_dep (dep);
 }
@@ -987,7 +997,15 @@ dynamic_dep_free (DynamicDep *dyn)
 	CellPos const *pos = (dependent_is_cell (dep))
 		? &DEP_TO_CELL(dep)->pos : &dummy;
 	ValueRange *v;
-	GSList *ptr = dyn->ranges;
+	GSList *ptr;
+
+	for (ptr = dyn->singles ; ptr != NULL ; ptr = ptr->next) {
+		v = ptr->data;
+		unlink_single_dep (&dyn->base, pos, &v->cell.a);
+		value_release ((Value *)v);
+	}
+	g_slist_free (dyn->singles);
+	dyn->singles = NULL;
 
 	for (ptr = dyn->ranges ; ptr != NULL ; ptr = ptr->next) {
 		v = ptr->data;

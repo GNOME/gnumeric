@@ -1,3 +1,9 @@
+2003-08-20  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (dependent_add_dynamic_dep): Identify
+	single-cell dependencies and record them as such.  (Fixes
+	performance problem 120290.)
+
 2003-08-18  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (main): s/printf/g_print/, see 120124.
