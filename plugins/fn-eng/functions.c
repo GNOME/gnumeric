@@ -58,7 +58,7 @@ val_to_base (Value *value, Value *val_places,
 	if (val_places){
 		if (val_places->type != VALUE_INTEGER &&
 		    val_places->type != VALUE_FLOAT){
-			*error_string = _("#VALUE!");
+			*error_string = gnumeric_err_VALUE;
 			return NULL;
 		}
 		places = value_get_as_int (val_places);
@@ -80,13 +80,13 @@ val_to_base (Value *value, Value *val_places,
 		str = buffer;
 		break;
 	default:
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
 	v = strtol (str, &err, src_base);
 	if (*err){
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -135,7 +135,7 @@ val_to_base (Value *value, Value *val_places,
 			if (v == 0)
 				break;
 			else {
-				*error_string = _("#NUM!");
+				*error_string = gnumeric_err_NUM;
 				return NULL;
 			}
 		}
@@ -415,11 +415,11 @@ gnumeric_besselj (struct FunctionDefinition *i,
 	    argv[1]->type != VALUE_INTEGER &&
 	    argv[0]->type != VALUE_FLOAT &&
 	    argv[1]->type != VALUE_FLOAT){
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 	if ((y=value_get_as_int(argv[1]))<0){
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	return value_new_float (jn (y, value_get_as_float (argv [0])));
@@ -452,11 +452,11 @@ gnumeric_bessely (struct FunctionDefinition *i,
 	    argv[1]->type != VALUE_INTEGER &&
 	    argv[0]->type != VALUE_FLOAT &&
 	    argv[1]->type != VALUE_FLOAT){
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 	if ((y=value_get_as_int(argv[1]))<0){
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	return value_new_float (yn (y, value_get_as_float (argv [0])));
@@ -624,7 +624,7 @@ gnumeric_complex (struct FunctionDefinition *fd,
 
 	if (strcmp(suffix, "i") != 0 &&
 	    strcmp(suffix, "j") != 0) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -652,12 +652,12 @@ gnumeric_imaginary (struct FunctionDefinition *fd,
 	        return value_new_int (0);
 
 	if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
 	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	
@@ -685,12 +685,12 @@ gnumeric_imreal (struct FunctionDefinition *fd,
 	        return value_new_float (value_get_as_float (argv[0]));
 
 	if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
 	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	
@@ -720,12 +720,12 @@ gnumeric_imabs (struct FunctionDefinition *fd,
 	}
 
 	if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
 	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	
@@ -754,12 +754,12 @@ gnumeric_imconjugate (struct FunctionDefinition *fd,
 	}
 
 	if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
 	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	
@@ -786,11 +786,11 @@ gnumeric_imcos (struct FunctionDefinition *fd,
 	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	
@@ -818,11 +818,11 @@ gnumeric_imexp (struct FunctionDefinition *fd,
 	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -851,11 +851,11 @@ gnumeric_imargument (struct FunctionDefinition *fd,
 	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -895,16 +895,16 @@ gnumeric_imln (struct FunctionDefinition *fd,
 	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	
 	if (real == 0) {
-		*error_string = _("#DIV/0!");
+		*error_string = gnumeric_err_DIV0;
 		return NULL;
 	}
 	
@@ -934,16 +934,16 @@ gnumeric_imlog2 (struct FunctionDefinition *fd,
 	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	
 	if (real == 0) {
-		*error_string = _("#DIV/0!");
+		*error_string = gnumeric_err_DIV0;
 		return NULL;
 	}
 	
@@ -974,16 +974,16 @@ gnumeric_imlog10 (struct FunctionDefinition *fd,
 	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	
 	if (real == 0) {
-		*error_string = _("#DIV/0!");
+		*error_string = gnumeric_err_DIV0;
 		return NULL;
 	}
 	
@@ -1015,18 +1015,18 @@ gnumeric_impower (struct FunctionDefinition *fd,
 	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
 	n = value_get_as_float (argv[1]);
 	
 	if (real == 0) {
-		*error_string = _("#DIV/0!");
+		*error_string = gnumeric_err_DIV0;
 		return NULL;
 	}
 	
@@ -1058,11 +1058,11 @@ gnumeric_imdiv (struct FunctionDefinition *fd,
 	        a = value_get_as_float (argv[0]);
 	        b = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &a, &b, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1070,18 +1070,18 @@ gnumeric_imdiv (struct FunctionDefinition *fd,
 	        c = value_get_as_float (argv[1]);
 	        d = 0;
 	} else if (argv[1]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[1]->v.str->str,
 					  &c, &d, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
 	den = c*c + d*d;
 
 	if (den == 0) {
-		*error_string = _("#DIV/0!");
+		*error_string = gnumeric_err_DIV0;
 		return NULL;
 	}
 	
@@ -1108,11 +1108,11 @@ gnumeric_imsin (struct FunctionDefinition *fd,
 	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	
@@ -1140,11 +1140,11 @@ gnumeric_imsqrt (struct FunctionDefinition *fd,
 	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &real, &im, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1174,11 +1174,11 @@ gnumeric_imsub (struct FunctionDefinition *fd,
 	        a = value_get_as_float (argv[0]);
 	        b = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &a, &b, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1186,11 +1186,11 @@ gnumeric_imsub (struct FunctionDefinition *fd,
 	        c = value_get_as_float (argv[1]);
 	        d = 0;
 	} else if (argv[1]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[1]->v.str->str,
 					  &c, &d, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1217,11 +1217,11 @@ gnumeric_improduct (struct FunctionDefinition *fd,
 	        a = value_get_as_float (argv[0]);
 	        b = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &a, &b, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1229,11 +1229,11 @@ gnumeric_improduct (struct FunctionDefinition *fd,
 	        c = value_get_as_float (argv[1]);
 	        d = 0;
 	} else if (argv[1]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[1]->v.str->str,
 					  &c, &d, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1260,11 +1260,11 @@ gnumeric_imsum (struct FunctionDefinition *fd,
 	        a = value_get_as_float (argv[0]);
 	        b = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[0]->v.str->str,
 					  &a, &b, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1272,11 +1272,11 @@ gnumeric_imsum (struct FunctionDefinition *fd,
 	        c = value_get_as_float (argv[1]);
 	        d = 0;
 	} else if (argv[1]->type != VALUE_STRING) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (get_real_and_imaginary(argv[1]->v.str->str,
 					  &c, &d, &suffix)) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1424,7 +1424,7 @@ convert(eng_convert_unit_t units[],
 				 &from_prefix)) {
 	        if (!get_constant_of_unit(units, prefixes,
 					 to_unit, &to_c, &to_prefix)) {
-		        *error_string = _("#NUM!");
+		        *error_string = gnumeric_err_NUM;
 			*v = NULL;
 			return 1;
 		}
@@ -1670,7 +1670,7 @@ gnumeric_convert (struct FunctionDefinition *fd,
 		    error_string))
 	        return v;
 
-	*error_string = _("#NUM!");
+	*error_string = gnumeric_err_NUM;
 	return NULL;
 }
 
@@ -1702,7 +1702,7 @@ gnumeric_erf (struct FunctionDefinition *i,
 		upper = value_get_as_float (argv[1]);
 	
 	if (lower < 0.0 || upper < 0.0){
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	       
@@ -1734,7 +1734,7 @@ gnumeric_erfc (struct FunctionDefinition *i,
 {
 	float_t x;
 	if ((x=value_get_as_float (argv[0]))<0){
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	return value_new_float (erfc (x));

@@ -2,6 +2,8 @@
 
 	* src/cell.c (cell_comment_destroy): Free realized_list.
 
+	* fn-*.c: Use new standard error variables.
+
 1999-06-12  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/expr.h : Declare new standard error constants to avoid

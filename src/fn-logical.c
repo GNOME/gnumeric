@@ -77,7 +77,7 @@ gnumeric_and (Sheet *sheet, GList *expr_node_list,
 	/* See if there was any value worth using */
 	if (result->v.v_int == -1){
 		value_release (result);
-		*error_string = _("#VALUE");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 	return result;
@@ -168,7 +168,7 @@ gnumeric_or (Sheet *sheet, GList *expr_node_list,
 	/* See if there was any value worth using */
 	if (result->v.v_int == -1){
 		value_release (result);
-		*error_string = _("#VALUE");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 	return result;

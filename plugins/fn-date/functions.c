@@ -165,7 +165,7 @@ gnumeric_edate (struct FunctionDefinition *fd,
 	date = g_date_new_serial (serial);
 
 	if (!g_date_valid(date)) {
-                  *error_string = _("#VALUE!");
+                  *error_string = gnumeric_err_VALUE;
                   return NULL;
 	}
 
@@ -175,7 +175,7 @@ gnumeric_edate (struct FunctionDefinition *fd,
 	        g_date_subtract_months (date, -months);
 
 	if (!g_date_valid(date)) {
-                  *error_string = _("#NUM!");
+                  *error_string = gnumeric_err_NUM;
                   return NULL;
 	}
 

@@ -287,7 +287,7 @@ gnumeric_dollarde (struct FunctionDefinition *i, Value *argv [], char **error_st
 	fraction = value_get_as_int (argv [1]);
 
 	if (fraction <= 0) {
-                *error_string = _("#NUM!");
+                *error_string = gnumeric_err_NUM;
                 return NULL;
 	}
 
@@ -326,7 +326,7 @@ gnumeric_dollarfr (struct FunctionDefinition *i, Value *argv [], char **error_st
 	fraction = value_get_as_int (argv [1]);
 
 	if (fraction <= 0) {
-                *error_string = _("#NUM!");
+                *error_string = gnumeric_err_NUM;
                 return NULL;
 	}
 

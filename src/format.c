@@ -1024,7 +1024,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 			}
 			v = format_number (value->v.v_float, &entry);
 		} else
-			return g_strdup (_("#VAL!"));
+			return g_strdup (gnumeric_err_VALUE);
 		break;
 
 	case VALUE_INTEGER:

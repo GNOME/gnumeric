@@ -55,7 +55,7 @@ gnumeric_address (struct FunctionDefinition *i,
 	col = value_get_as_int (argv[1]);
 
 	if (row < 1 || col < 1) {
-	        *error_string = _("#NUM!");
+	        *error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -69,7 +69,7 @@ gnumeric_address (struct FunctionDefinition *i,
 	else {
 	        a1 = value_get_as_bool (argv[3], &err);
 		if (err) {
-		        *error_string = _("#VALUE!");
+		        *error_string = gnumeric_err_VALUE;
 			return NULL;
 		}
 	}
@@ -122,7 +122,7 @@ gnumeric_address (struct FunctionDefinition *i,
 	default:
 	        g_free(text);
 	        g_free(buf);
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	v = value_new_string (buf);
@@ -166,7 +166,7 @@ gnumeric_choose (Sheet *sheet, GList *expr_node_list,
 		return NULL;
 
 	if ((v->type != VALUE_INTEGER) && (v->type != VALUE_FLOAT)){
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		value_release (v);
 		return NULL;
 	}
@@ -182,7 +182,7 @@ gnumeric_choose (Sheet *sheet, GList *expr_node_list,
 					  eval_row, error_string);
 		l = g_list_next (l);
 	}
-	*error_string = _("#VALUE!");
+	*error_string = gnumeric_err_VALUE;
 	return NULL;
 }
 
@@ -285,11 +285,11 @@ gnumeric_vlookup (struct FunctionDefinition *i,
 	col_idx = value_get_as_int (argv[2]);
 
 	if (col_idx <= 0){
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	if (col_idx >value_area_get_width (argv [1])){
-		*error_string = _("#REF!");
+		*error_string = gnumeric_err_REF;
 		return NULL;
 	}
 
@@ -299,7 +299,7 @@ gnumeric_vlookup (struct FunctionDefinition *i,
 		approx = value_get_as_bool (argv [3], &err);
 
 		if (err){
-			*error_string = _("#VALUE!");
+			*error_string = gnumeric_err_VALUE;
 			return NULL;
 		}
 	} else
@@ -337,7 +337,7 @@ gnumeric_vlookup (struct FunctionDefinition *i,
 		return value_duplicate (v);
 	}
 	else
-		*error_string = _("#N/A");
+		*error_string = gnumeric_err_NA;
 
 	return NULL;
 }
@@ -372,11 +372,11 @@ gnumeric_hlookup (struct FunctionDefinition *i,
 	height  = value_area_get_width (argv [1]);
 
 	if (row_idx <= 0){
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	if (row_idx > value_area_get_height (argv [1])){
-		*error_string = _("#REF!");
+		*error_string = gnumeric_err_REF;
 		return NULL;
 	}
 
@@ -385,7 +385,7 @@ gnumeric_hlookup (struct FunctionDefinition *i,
 		approx = value_get_as_bool (argv [3], &err);
 
 		if (err){
-			*error_string = _("#VALUE!");
+			*error_string = gnumeric_err_VALUE;
 			return NULL;
 		}
 	} else
@@ -425,7 +425,7 @@ gnumeric_hlookup (struct FunctionDefinition *i,
 		return value_duplicate (v);
 	}
 	else
-		*error_string = _("#N/A");
+		*error_string = gnumeric_err_NA;
 
 	return NULL;
 }
@@ -519,7 +519,7 @@ gnumeric_lookup (struct FunctionDefinition *i,
 				lpy++;
 		}
 		if (!next_largest) {
-			*error_string = _("#N/A");
+			*error_string = gnumeric_err_NA;
 			return NULL;
 		}
 		return value_duplicate (value_area_get_at_x_y (dest,
@@ -569,7 +569,7 @@ gnumeric_column (Sheet *sheet, GList *expr_node_list,
 		value_release (v);
 		return NULL;
 	default:
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		value_release (v);
 		return NULL;
 	}
@@ -632,10 +632,10 @@ gnumeric_offset (struct FunctionDefinition *i,
 	th = value_get_as_int (argv[4]);
 
 	if (tw < 0 || th < 0) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	} else if (a.row < 0 || a.col < 0) {
-		*error_string = _("#REF!");
+		*error_string = gnumeric_err_REF;
 		return NULL;
 	}
 
@@ -684,7 +684,7 @@ gnumeric_row (Sheet *sheet, GList *expr_node_list,
 		value_release (v);
 		return NULL;
 	default:
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		value_release (v);
 		return NULL;
 	}

@@ -1091,7 +1091,7 @@ gnumeric_search (struct FunctionDefinition *i,
 	if (within_len <= start_num) {
 	        g_free(text);
 		g_free(within);
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -1099,7 +1099,7 @@ gnumeric_search (struct FunctionDefinition *i,
 	if (conditions == NULL) {
 	        g_free(text);
 		g_free(within);
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -1132,7 +1132,7 @@ match_again:
 	}
 
 	free_all_after_search(conditions, text, within);
-	*error_string = _("#VALUE!");
+	*error_string = gnumeric_err_VALUE;
 	return NULL;
 }
 

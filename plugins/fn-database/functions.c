@@ -363,12 +363,12 @@ gnumeric_daverage (struct FunctionDefinition *i,
 
 	field = find_column_of_field(database, argv[1]);
 	if (field < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	cells = find_cells_that_match(database, field, criterias);
@@ -430,12 +430,12 @@ gnumeric_dcount (struct FunctionDefinition *i,
 
 	field = find_column_of_field(database, argv[1]);
 	if (field < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	cells = find_cells_that_match(database, field, criterias);
@@ -496,12 +496,12 @@ gnumeric_dcounta (struct FunctionDefinition *i,
 
 	field = find_column_of_field(database, argv[1]);
 	if (field < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	cells = find_cells_that_match(database, field, criterias);
@@ -566,14 +566,14 @@ gnumeric_dget (struct FunctionDefinition *i,
 	field = find_column_of_field(database, argv[1]);
 
 	if (field < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
 	criterias = parse_database_criteria(database, criteria);
 
 	if (criterias == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -592,11 +592,11 @@ gnumeric_dget (struct FunctionDefinition *i,
 	free_criterias(criterias);
 
 	if (count == 0) {
-		*error_string = _("#VALUE!");
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 	if (count > 1) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -643,17 +643,17 @@ gnumeric_dmax (struct FunctionDefinition *i,
 
 	field = find_column_of_field(database, argv[1]);
 	if (field < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	cells = find_cells_that_match(database, field, criterias);
 	if (cells == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	current = cells;
@@ -716,17 +716,17 @@ gnumeric_dmin (struct FunctionDefinition *i,
 
 	field = find_column_of_field(database, argv[1]);
 	if (field < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	cells = find_cells_that_match(database, field, criterias);
 	if (cells == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	current = cells;
@@ -789,17 +789,17 @@ gnumeric_dproduct (struct FunctionDefinition *i,
 
 	field = find_column_of_field(database, argv[1]);
 	if (field < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	cells = find_cells_that_match(database, field, criterias);
 	if (cells == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	current = cells;
@@ -862,17 +862,17 @@ gnumeric_dstdev (struct FunctionDefinition *i,
 
 	field = find_column_of_field(database, argv[1]);
 	if (field < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	cells = find_cells_that_match(database, field, criterias);
 	if (cells == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	current = cells;
@@ -890,7 +890,7 @@ gnumeric_dstdev (struct FunctionDefinition *i,
 	free_criterias(criterias);
 
 	if (p.N - 1 == 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -938,17 +938,17 @@ gnumeric_dstdevp (struct FunctionDefinition *i,
 
 	field = find_column_of_field(database, argv[1]);
 	if (field < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	cells = find_cells_that_match(database, field, criterias);
 	if (cells == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	current = cells;
@@ -966,7 +966,7 @@ gnumeric_dstdevp (struct FunctionDefinition *i,
 	free_criterias(criterias);
 
 	if (p.N == 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1013,17 +1013,17 @@ gnumeric_dsum (struct FunctionDefinition *i,
 
 	field = find_column_of_field(database, argv[1]);
 	if (field < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	cells = find_cells_that_match(database, field, criterias);
 	if (cells == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	current = cells;
@@ -1086,17 +1086,17 @@ gnumeric_dvar (struct FunctionDefinition *i,
 
 	field = find_column_of_field(database, argv[1]);
 	if (field < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	cells = find_cells_that_match(database, field, criterias);
 	if (cells == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	current = cells;
@@ -1114,7 +1114,7 @@ gnumeric_dvar (struct FunctionDefinition *i,
 	free_criterias(criterias);
 
 	if (p.N - 1 == 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1162,17 +1162,17 @@ gnumeric_dvarp (struct FunctionDefinition *i,
 
 	field = find_column_of_field(database, argv[1]);
 	if (field < 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	cells = find_cells_that_match(database, field, criterias);
 	if (cells == NULL) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 	current = cells;
@@ -1190,7 +1190,7 @@ gnumeric_dvarp (struct FunctionDefinition *i,
 	free_criterias(criterias);
 
 	if (p.N == 0) {
-		*error_string = _("#NUM!");
+		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
