@@ -23,8 +23,8 @@ You need:				Debian package name
 	libgnomeui	>= 2.0.0	libgnomeui-dev
 	libbonobo	>= 2.0.0	libbonobo2-dev
 	libbonoboui	>= 2.0.0	libbonoboui2-dev
-	libgnomeprint	>= 2.2.0	libgnomeprint2.2-dev
-	libgnomeprintui	>= 2.2.0	libgnomeprintui2.2-dev
+	libgnomeprint	>= 2.4.2	libgnomeprint2.4-dev
+	libgnomeprintui	>= 2.4.2	libgnomeprintui2.4-dev
 	libgsf		>= 1.8.2	libgsf-1-dev + libgsf-gnome-1-dev
 	libglade	>= 2.0.0	libglade2-dev
 	intltools	>= 0.27.2	intltool
@@ -37,8 +37,8 @@ Optionally:
 	pygtk		>= 1.99.10	python-gtk2-dev
 
 	The GDA plugin, for accessing databases
-	gda		>= 0.90.0	libgda2-dev
-	libgnomedb	>= 0.90.2	libgnomedb2-dev
+	gda		>= 1.0.1	libgda2-dev
+	libgnomedb	>= 1.0.1	libgnomedb2-dev
 
 Currently disabled:
 	gb		== 0.0.17

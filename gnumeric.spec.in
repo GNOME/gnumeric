@@ -25,8 +25,9 @@ BuildRequires:	libglade2-devel		>= 1.99.7
 BuildRequires:	libgnomecanvas-devel	>= 1.113.0
 BuildRequires:	libgnome-devel		>= 1.105.0
 BuildRequires:	libgnomeui-devel	>= 1.106.0
-BuildRequires:	libgnomeprint22-devel	>= 2.2.0
-BuildRequires:	libgnomeprintui22	>= 2.2.0
+BuildRequires:	libgnomeprint24-devel	>= 2.4.2
+BuildRequires:	libgnomeprintui24	>= 2.4.2
+# What about libart requirement?
 %if %{?_with_bonobo:1}%{!?_with_bonobo:0}
 BuildRequires: libbonobo-devel		>= 2.0.0
 BuildRequires: libbonoboui-devel	>= 2.0.0
