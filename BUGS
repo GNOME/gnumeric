@@ -10,6 +10,11 @@ Release Critical
 Long term breakage
 ------------------
 - The max row/col scroll size is still hard coded.
+
+- Increase/Decrease precision toolbar buttons should look at the displayed
+  precision for the edit cell and assign the changed value to the entire
+  selection.  Not individually adjusting each non-blank cells precision.
+
 - Auto resize needs to handle empty cells.
 - Clearing a cell that stopped a span does not regenerate the span.
 - changing col/row sizes does not have undo support.
@@ -38,6 +43,7 @@ Long term breakage
 Function Breakage
 -----------------
 - Index  : does not support 0,0 or reference syntax.
+- Offset
 
 Widget polishing
 ----------------
