@@ -1,3 +1,8 @@
+2004-10-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=154137
+	* dialog-stf-fixed-page.c (popup_elements): change text
+
 2004-10-21  Morten Welinder  <terra@gnome.org>
 
 	* dialog-about.c: Add Arief Mulya Utama.

@@ -11,6 +11,7 @@ Andreas:
 	  #139385]
 	* Improve schema description [#153631]
 	* Warn if csv import is dropping columns [#139385]
+	* Change menu text in fixed cvs import [#154137]
 
 Arief Mulya Utama:
 	* Erlang (telecommunications engineering) plugin.

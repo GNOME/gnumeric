@@ -66,17 +66,17 @@ enum {
 };
 
 static GnumericPopupMenuElement const popup_elements[] = {
-	{ N_("Delete and Merge _Left"), GTK_STOCK_REMOVE,
+	{ N_("Merge with column on _left"), GTK_STOCK_REMOVE,
 	  0, 1 << CONTEXT_STF_IMPORT_MERGE_LEFT, CONTEXT_STF_IMPORT_MERGE_LEFT },
-	{ N_("Delete and Merge _Right"), GTK_STOCK_REMOVE,
+	{ N_("Merge with column on _right"), GTK_STOCK_REMOVE,
 	  0, 1 << CONTEXT_STF_IMPORT_MERGE_RIGHT, CONTEXT_STF_IMPORT_MERGE_RIGHT },
 	{ "", NULL, 0, 0, 0 },
-	{ N_("_Split"), NULL,
+	{ N_("_Split this column"), NULL,
 	  0, 1 << CONTEXT_STF_IMPORT_SPLIT, CONTEXT_STF_IMPORT_SPLIT },
 	{ "", NULL, 0, 0, 0 },
-	{ N_("_Widen"), GTK_STOCK_GO_FORWARD,
+	{ N_("_Widen this column"), GTK_STOCK_GO_FORWARD,
 	  0, 1 << CONTEXT_STF_IMPORT_WIDEN, CONTEXT_STF_IMPORT_WIDEN },
-	{ N_("_Narrow"), GTK_STOCK_GO_BACK,
+	{ N_("_Narrow this column"), GTK_STOCK_GO_BACK,
 	  0, 1 << CONTEXT_STF_IMPORT_NARROW, CONTEXT_STF_IMPORT_NARROW },
 	{ NULL, NULL, 0, 0, 0 },
 };
