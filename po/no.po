@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.42\n"
-"POT-Creation-Date: 1999-12-18 20:31+0100\n"
+"POT-Creation-Date: 1999-12-20 21:19+0100\n"
 "PO-Revision-Date: 1999-12-18 20:29+01:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -1120,15 +1120,15 @@ msgstr "utvalg"
 msgid "Select Printer"
 msgstr "Velg skriver"
 
-#: src/dialogs/dialog-printer-setup.c:502
+#: src/dialogs/dialog-printer-setup.c:504
 msgid "Custom header configuration"
 msgstr "Egendefinert konfigurasjon av topptekst"
 
-#: src/dialogs/dialog-printer-setup.c:513
+#: src/dialogs/dialog-printer-setup.c:515
 msgid "Custom footer configuration"
 msgstr "Egendefinert konfigurasjon av bunntekst"
 
-#: src/dialogs/dialog-printer-setup.c:726
+#: src/dialogs/dialog-printer-setup.c:730
 msgid "Print setup"
 msgstr "Skriveroppsett"
 
@@ -4205,8 +4205,8 @@ msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
 "@DESCRIPTION=TBILLEQ function returns the bond-yield equivalent (BEY) for a "
-"treasury bill.  TBILLEQ is equivalent to (365 x discount) / (360 - discount "
-"x DSM) where DSM is the days between @settlement and @maturity. \n"
+"treasury bill.  TBILLEQ is equivalent to (365 * discount) / (360 - discount "
+"* DSM) where DSM is the days between @settlement and @maturity. \n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLEQ returns NUM! error. If @discount is "
 "negative, TBILLEQ returns NUM! error. \n"
@@ -4215,7 +4215,7 @@ msgid ""
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1072
+#: src/functions/fn-financial.c:1076
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -4231,7 +4231,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1113
+#: src/functions/fn-financial.c:1117
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -4246,7 +4246,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1154
+#: src/functions/fn-financial.c:1158
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -4262,7 +4262,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:1258
+#: src/functions/fn-financial.c:1262
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -4282,7 +4282,7 @@ msgid ""
 "@SEEALSO=FV,NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1339
+#: src/functions/fn-financial.c:1343
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -4298,11 +4298,11 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: src/functions/fn-financial.c:1363
+#: src/functions/fn-financial.c:1367
 msgid "pv - domain error"
 msgstr "pv - domenefeil"
 
-#: src/functions/fn-financial.c:1376
+#: src/functions/fn-financial.c:1380
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -4316,7 +4316,7 @@ msgid ""
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1430
+#: src/functions/fn-financial.c:1434
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -4331,7 +4331,7 @@ msgid ""
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1487
+#: src/functions/fn-financial.c:1491
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -4354,7 +4354,7 @@ msgid ""
 "@SEEALSO=IRR,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1591
+#: src/functions/fn-financial.c:1595
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
@@ -4370,7 +4370,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:1624
+#: src/functions/fn-financial.c:1628
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -4386,7 +4386,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1658
+#: src/functions/fn-financial.c:1662
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -4403,7 +4403,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1712
+#: src/functions/fn-financial.c:1716
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -4419,7 +4419,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1767
+#: src/functions/fn-financial.c:1771
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -4435,7 +4435,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1803
+#: src/functions/fn-financial.c:1807
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -4448,7 +4448,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1840
+#: src/functions/fn-financial.c:1844
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(pv,schedule)\n"
@@ -4461,7 +4461,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1881
+#: src/functions/fn-financial.c:1885
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -4486,7 +4486,91 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:1965
+#: src/functions/fn-financial.c:1967
+msgid ""
+"@FUNCTION=PRICE\n"
+"@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:1991
+msgid ""
+"@FUNCTION=YIELD\n"
+"@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2009
+msgid ""
+"@FUNCTION=YIELDDISC\n"
+"@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2027
+msgid ""
+"@FUNCTION=YIELDMAT\n"
+"@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2045
+msgid ""
+"@FUNCTION=ODDFPRICE\n"
+"@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
+"frequency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2063
+msgid ""
+"@FUNCTION=ODDFYIELD\n"
+"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,f"
+"requency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2081
+msgid ""
+"@FUNCTION=ODDLPRICE\n"
+"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequ"
+"ency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2099
+msgid ""
+"@FUNCTION=ODDLYIELD\n"
+"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,freque"
+"ncy,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2119
 msgid "Financial"
 msgstr "Finans"
 
@@ -9609,12 +9693,12 @@ msgstr "Kan ikke opprette fil %s\n"
 msgid "You cannot change part of an array."
 msgstr "Du kan ikke endre en del av en tabell."
 
-#: src/item-bar.c:462
+#: src/item-bar.c:427
 #, c-format
 msgid "Height: %.2f"
 msgstr "Høyde: %.2f"
 
-#: src/item-bar.c:465
+#: src/item-bar.c:430
 #, c-format
 msgid "Width: %.2f"
 msgstr "Bredde: %.2f"
@@ -9795,7 +9879,7 @@ msgid "Plugin is still in use.\n"
 msgstr "Tillegget er fremdeles i bruk.\n"
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
-#: src/print-info.c:269
+#: src/print-info.c:277
 msgid "Page &[PAGE]"
 msgstr "Side &[SIDE]"
 
@@ -9812,63 +9896,63 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATO]"
 
-#: src/print-info.c:268
+#: src/print-info.c:276
 msgid "Sheet &[PAGE]"
 msgstr "Ark &[SIDE]"
 
-#: src/print-info.c:419
+#: src/print-info.c:439
 msgid "pts"
 msgstr "pkt"
 
-#: src/print-info.c:419
+#: src/print-info.c:439
 msgid "points"
 msgstr "punkter"
 
-#: src/print-info.c:420
+#: src/print-info.c:440
 msgid "mm"
 msgstr "mm"
 
-#: src/print-info.c:420
+#: src/print-info.c:440
 msgid "millimeter"
 msgstr "millimeter"
 
-#: src/print-info.c:421
+#: src/print-info.c:441
 msgid "cm"
 msgstr "cm"
 
-#: src/print-info.c:421
+#: src/print-info.c:441
 msgid "centimeter"
 msgstr "centimeter"
 
-#: src/print-info.c:422
+#: src/print-info.c:442
 msgid "In"
 msgstr "T"
 
-#: src/print-info.c:422
+#: src/print-info.c:442
 msgid "inch"
 msgstr "tomme"
 
-#: src/print-info.c:482
+#: src/print-info.c:502
 msgid "Sheet 1"
 msgstr "Ark 1"
 
-#: src/print-info.c:540
+#: src/print-info.c:560
 msgid "tab"
 msgstr "arkfane"
 
-#: src/print-info.c:541
+#: src/print-info.c:561
 msgid "page"
 msgstr "side"
 
-#: src/print-info.c:542
+#: src/print-info.c:562
 msgid "pages"
 msgstr "sider"
 
-#: src/print-info.c:543
+#: src/print-info.c:563
 msgid "date"
 msgstr "dato"
 
-#: src/print-info.c:544
+#: src/print-info.c:564
 msgid "time"
 msgstr "tid"
 
@@ -10033,20 +10117,20 @@ msgstr "Rad: %d"
 msgid "Column: %s"
 msgstr "Kolonne: %s"
 
-#: src/sheet.c:1186
+#: src/sheet.c:1189
 msgid "Internal ERROR"
 msgstr "Intern FEIL"
 
-#: src/sheet.c:3146
+#: src/sheet.c:3141
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Kunne ikke aktivere objekt %s"
 
-#: src/sheet.c:3158
+#: src/sheet.c:3153
 msgid "I was unable to the bind object"
 msgstr "Kunne ikke binde objektet"
 
-#: src/style.c:406
+#: src/style.c:428
 msgid ""
 "Gnumeric failed to find a suitable default font.\n"
 "\n"
@@ -10640,7 +10724,7 @@ msgstr "Ark%d"
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
-#: src/xml-io.c:2369
+#: src/xml-io.c:2381
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
 
