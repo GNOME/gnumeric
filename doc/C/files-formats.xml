@@ -192,6 +192,7 @@
 
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -455,6 +456,7 @@ gunzip Book1.text.gz
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -571,6 +573,7 @@ gunzip Book1.text.gz
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -685,6 +688,7 @@ gunzip Book1.text.gz
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -791,6 +795,7 @@ gunzip Book1.text.gz
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -889,6 +894,7 @@ gunzip Book1.text.gz
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -945,12 +951,12 @@ gunzip Book1.text.gz
 	</listitem>
       </varlistentry>
 
+<!-- TODO remove or improve HTML examples
       <varlistentry>
         <term>
 	  <emphasis role="bold">Format Details</emphasis>
 	</term>
 	<listitem>
-<!-- TODO remove or improve HTML examples
 	  <para>
 	    The following figures illustrate the output of the
 	    different HTML file formats.
@@ -1005,9 +1011,9 @@ gunzip Book1.text.gz
               </mediaobject>
             </screenshot>
           </figure>
--->
 	</listitem>
       </varlistentry>
+-->
 
       <varlistentry>
         <term>
@@ -1071,6 +1077,7 @@ gunzip Book1.text.gz
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1332,6 +1339,7 @@ pdflatex Book1.tex
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1472,6 +1480,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1575,6 +1584,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1709,6 +1719,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1804,6 +1815,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1930,6 +1942,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2041,6 +2054,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
      
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2167,6 +2181,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
      
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2237,11 +2252,11 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  <para>
 	     The Postscript language was created by Adobe, Inc. The
 	    Adobe web site has a non-technical <ulink type="http"
-	    linkend="http://www.adobe.com/products/postscript/main.html">introduction</ulink>,
+	    url="http://www.adobe.com/products/postscript/main.html">introduction</ulink>,
 	    as well as a technical <ulink type="http"
-	    linkend="http://www.adobe.com/products/postscript/overview.html">overview</ulink>
+	    url="http://www.adobe.com/products/postscript/overview.html">overview</ulink>
 	    and the actual <ulink type="http"
-	    linkend="http://partners.adobe.com/asn/tech/ps/specifications.jsp">specifications</ulink>.
+	    url="http://partners.adobe.com/asn/tech/ps/specifications.jsp">specifications</ulink>.
 	  </para>
 	</listitem>
       </varlistentry>
@@ -2285,6 +2300,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2373,6 +2389,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2487,6 +2504,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2641,6 +2659,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2762,6 +2781,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2967,6 +2987,7 @@ Sheet 0
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -3086,6 +3107,7 @@ Sheet 0
     </para>
 
     <table frame='all'>
+      <title></title>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
