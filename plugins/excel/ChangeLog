@@ -1,5 +1,10 @@
 1999-06-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* ms-formula-read.c (formula_func_data): LOG, ROMAN, and TRUNC
+ 	made var args.
+	
+1999-06-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
 	* ms-formula-read.c (formula_func_data): PRODUCT, ROUNDDOWN,
  	ROUNDUP, SUBTOTAL, SUMSQ, and SUMIF fixed.  SUMX2MY2 and SUMX2PY2
  	added but they don't work (I don't know why?).
