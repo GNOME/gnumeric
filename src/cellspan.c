@@ -235,9 +235,9 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	min_col = (merge_left != NULL) ? merge_left->end.col : 0;
 	max_col = (merge_right != NULL) ? merge_right->start.col : SHEET_MAX_COLS;
 
+	*col1 = *col2 = cell->pos.col;
 	switch (align) {
 	case HALIGN_LEFT:
-		*col1 = *col2 = cell->pos.col;
 		pos = cell->pos.col + 1;
 		left = indented_w - COL_INTERNAL_WIDTH (cell->col_info);
 		margin = cell->col_info->margin_b;
@@ -255,14 +255,13 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 				 */
 				left -= COL_INTERNAL_WIDTH (ci) +
 					margin + ci->margin_a;
+				*col2 = pos;
 			}
 			margin = ci->margin_b;
-			(*col2)++;
 		}
 		return;
 
 	case HALIGN_RIGHT:
-		*col1 = *col2 = cell->pos.col;
 		pos = cell->pos.col - 1;
 		left = indented_w - COL_INTERNAL_WIDTH (cell->col_info);
 		margin = cell->col_info->margin_a;
@@ -280,17 +279,17 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 				 */
 				left -= COL_INTERNAL_WIDTH (ci) +
 					margin + ci->margin_b;
+				*col1 = pos;
 			}
 			margin = ci->margin_a;
-			(*col1)--;
 		}
 		return;
 
 	case HALIGN_CENTER: {
 		int remain_left, remain_right;
-		int margin_a, margin_b;
+		int margin_a, margin_b, pos_l, pos_r;
 
-		*col1 = *col2 = cell->pos.col;
+		pos_l = pos_r = cell->pos.col;
 		left = cell_width_pixel -  COL_INTERNAL_WIDTH (cell->col_info);
 
 		remain_left  = left / 2 + (left % 2);
@@ -301,39 +300,35 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		for (; remain_left > 0 || remain_right > 0;){
 			ColRowInfo *ci;
 
-			if (*col1 - 1 >= min_col){
-				ci = sheet_col_get_info (sheet, *col1 - 1);
+			if (--pos_l >= min_col){
+				ci = sheet_col_get_info (sheet, pos_l);
 
 				if (ci->visible) {
-					if (cell_is_empty (cell, *col1 - 1, ri)) {
+					if (cell_is_empty (cell, pos_l, ri)) {
 						remain_left -= COL_INTERNAL_WIDTH (ci) +
 							margin_a + ci->margin_b;
 						margin_a = ci->margin_a;
-						(*col1)--;
+						*col1 = pos_l;
 					} else
 						remain_left = 0;
-				} else {
+				} else
 					margin_a = ci->margin_a;
-					(*col1)--;
-				}
 			} else
 				remain_left = 0;
 
-			if (*col2 + 1 < max_col){
-				ci = sheet_col_get_info (sheet, *col2 + 1);
+			if (++pos_r < max_col){
+				ci = sheet_col_get_info (sheet, pos_r);
 
 				if (ci->visible) {
-					if (cell_is_empty (cell, *col2 + 1, ri)) {
+					if (cell_is_empty (cell, pos_r, ri)) {
 						remain_right -= COL_INTERNAL_WIDTH (ci) +
 							margin_b + ci->margin_a;
 						margin_b = ci->margin_b;
-						(*col2)++;
+						*col2 = pos_r;
 					} else
 						remain_right = 0;
-				} else {
+				} else
 					margin_b = ci->margin_b;
-					(*col2)++;
-				}
 			} else
 				remain_right = 0;
 
@@ -343,62 +338,42 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 
 	case HALIGN_CENTER_ACROSS_SELECTION:
 	{
-		ColRowInfo const *ci;
 		int const row = ri->pos;
-		int left = cell->pos.col, right = left;
-		int tmp;
+		int pos_l, pos_r;
 
-		left_loop :
-			tmp = left - 1;
-			/* When scanning left make sure not to overrun other spans */
-			if (tmp >= min_col) {
-				ci = sheet_col_get_info (sheet, tmp);
-				if (ci->visible) {
-					if (cell_is_empty (cell, tmp, ri)) {
-						MStyle * const mstyle =
-						    sheet_style_get (cell->base.sheet, tmp, row);
-						gboolean const res =
-						    (mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION);
+		pos_l = pos_r = cell->pos.col;
+		while (--pos_l >= min_col) {
+			ColRowInfo const *ci = sheet_col_get_info (sheet, pos_l);
+			if (ci->visible) {
+				if (cell_is_empty (cell, pos_l, ri)) {
+					MStyle * const mstyle =
+						sheet_style_get (cell->base.sheet, pos_l, row);
 
-						if (res) {
-							left = tmp;
-							goto left_loop;
-						}
-					}
-				} else {
-					left = tmp;
-					goto left_loop;
-				}
+					if (mstyle_get_align_h (mstyle) != HALIGN_CENTER_ACROSS_SELECTION)
+						break;
+					*col1 = pos_l;
+				} else
+					break;
 			}
-		right_loop :
-			tmp = right + 1;
-			if (tmp < max_col) {
-				ci = sheet_col_get_info (sheet, tmp);
-				if (ci->visible) {
-					if (cell_is_empty (cell, tmp, ri)) {
-						MStyle * const mstyle =
-						    sheet_style_get (cell->base.sheet, tmp, row);
-						gboolean const res =
-						    (mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION);
+		}
+		while (++pos_r < max_col) {
+			ColRowInfo const *ci = sheet_col_get_info (sheet, pos_r);
+			if (ci->visible) {
+				if (cell_is_empty (cell, pos_r, ri)) {
+					MStyle * const mstyle =
+						sheet_style_get (cell->base.sheet, pos_r, row);
 
-						if (res) {
-							right = tmp;
-							goto right_loop;
-						}
-					}
-				} else {
-					right = tmp;
-					goto right_loop;
-				}
+					if (mstyle_get_align_h (mstyle) != HALIGN_CENTER_ACROSS_SELECTION)
+						break;
+					*col2 = pos_r;
+				} else
+					break;
 			}
-
-		*col1 = left;
-		*col2 = right;
+		}
 		break;
 	}
 
 	default:
 		g_warning ("Unknown horizontal alignment type %d\n", align);
-		*col1 = *col2 = cell->pos.col;
 	} /* switch */
 }

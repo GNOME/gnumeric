@@ -1,12 +1,20 @@
 Gnumeric 0.64
 
+Almer:
+	* Improve scrollbars.
+
 Jody:
 	* Fix handling of edit pos while extending out of merged regions.
 	* Fix format toolbar update.
-	* Fix merge undo
+	* Fix merge undo.
+	* Fix interactions between spans and hidden rows/cols.
+	* Work around xls files which specify col/row too small.
 
 Morten:
 	* Make search-and-replace dialog non-modal.
+
+Zbigniew Chyla:
+	* More work on plugins.
 
 --------------------------------------------------------------------------
 Gnumeric 0.63

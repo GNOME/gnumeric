@@ -2346,13 +2346,13 @@ sheet_regen_adjacent_spans (Sheet *sheet,
 			if (!test[i])
 				continue;
 
-			cell = sheet_cell_get (sheet, col[i], ri->pos);
-			if (cell == NULL) {
-				span = row_span_get (ri, col[i]);
-				if (span == NULL)
+			span = row_span_get (ri, col [i]);
+			if (span == NULL) {
+				cell = sheet_cell_get (sheet, col [i], ri->pos);
+				if (cell == NULL)
 					continue;
+			} else
 				cell = span->cell;
-			}
 
 			cell_calc_span (cell, &left, &right);
 			if (span) {

@@ -484,15 +484,21 @@ void
 colrow_set_visibility_list (Sheet *sheet, gboolean const is_cols,
 			    gboolean const visible, ColRowVisList *list)
 {
+	ColRowVisList *ptr;
+
 	/* Trivial optimization */
 	if (list == NULL)
 		return;
 
-	for (; list != NULL ; list = list->next) {
-		int min_col, max_col;
-		ColRowIndex *info = list->data;
+	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
+		ColRowIndex *info = ptr->data;
 		colrow_set_visibility (sheet, is_cols, visible,
 				       info->first, info->last);
+	}
+
+	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
+		int min_col, max_col;
+		ColRowIndex *info = ptr->data;
 		sheet_regen_adjacent_spans (sheet,
 					    info->first, 0,
 					    info->last, SHEET_MAX_ROWS-1,

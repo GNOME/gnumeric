@@ -1,3 +1,24 @@
+2001-02-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (format_number) : Invert the logic if this test.
+	  We increment again later.  So what we really want is to avoid double
+	  incrementing and avoid incrementing past the end.
+
+	* src/cellspan.c (cell_calc_span) : rework when to increment
+	  boundaries.  It is important not to have a span end in a hidden
+	  column or it will not be drawn.  As such we need to be careful to
+	  only increment the margin args when a bound extends into a visible
+	  column.
+
+	* src/sheet.c (sheet_regen_adjacent_spans) : check for spans before
+	  cells in case we are cutting off the span at its core.
+
+	* src/colrow.c (colrow_set_visibility_list) : set all visibilities
+	  before regening spans.
+
+	* src/cell-draw.c (cell_draw) : Add some warnings for cols/rows that
+	  are too small.
+
 2001-02-24  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugins/applix/applix-read.c,

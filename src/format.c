@@ -1038,7 +1038,7 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 		number = -number;
 	}
 
-	while (*format){
+	while (*format) {
 		int c = *format;
 
 		switch (c) {
@@ -1053,8 +1053,8 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 						no_locale = FALSE;
 					else if (no_locale)
 						g_string_append_c (result, *format);
-				if (*format == ']')
-					++format;
+				if (!*format)
+					--format;
 			} else if (!ignore_further_elapsed)
 				time_display_elapsed = TRUE;
 			break;
@@ -1172,6 +1172,8 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 
 			for (format++; *format && *format != '"'; format++)
 				g_string_append_c (result, *format);
+			if (!*format)
+				--format;
 			break;
 
 		}
@@ -1215,7 +1217,7 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 				g_string_append (result, ntxt);
 				g_free (ntxt);
 			}
-			if (*(format+1))
+			if (format[1])
 				format++;
 			g_string_append_c (result, ' ');
 			break;
@@ -1251,7 +1253,7 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 		case 'd':
 			if (!time_split)
 				time_split = split_time (signed_number);
-			format += append_day (result, format, time_split) -1;
+			format += append_day (result, format, time_split) - 1;
 			break;
 
 		case 'Y':

@@ -188,6 +188,9 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 	/* This rectangle has the whole area used by this cell
 	 * excluding the surrounding grid lines and margins */
+	g_return_if_fail (width > 0);
+	g_return_if_fail (height > 0);
+
 	rect.x = x1 + 1 + ci->margin_a;
 	rect.y = y1 + 1 + ri->margin_a;
 	rect.width = width;
@@ -226,9 +229,6 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 		break;
 	}
 
-	/* Do not allow text to impinge upon the grid lines or margins
-	 * FIXME : Should use margins from spaninfo->left and spaninfo->right
-	 */
 	gdk_gc_set_clip_rectangle (gc, &rect);
 
 	/* Set the font colour */
