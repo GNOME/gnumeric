@@ -33,7 +33,7 @@ extern int gnumeric_debugging;
 
 /* Forward references */
 static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
-					     char *name);
+					     const char *name);
 static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 					     ExcelSheet *ans);
 
@@ -1649,7 +1649,7 @@ ms_excel_sheet_shared_formula (ExcelSheet *sheet, int const col, int const row)
 }
 
 static ExcelSheet *
-ms_excel_sheet_new (ExcelWorkbook *wb, char *name)
+ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 {
 	ExcelSheet *ans = (ExcelSheet *) g_malloc (sizeof (ExcelSheet));
 
@@ -2459,20 +2459,22 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			}
 			break;
 		}
-		case BIFF_INDEX :
-		case BIFF_CALCMODE :
-		case BIFF_CALCCOUNT :
-		case BIFF_REFMODE :
-		case BIFF_ITERATION :
-		case BIFF_DELTA :
-		case BIFF_SAVERECALC :
-		case BIFF_PRINTHEADERS :
 		case BIFF_PRINTGRIDLINES :
-		case BIFF_GUTS :
-		case BIFF_DEFAULTROWHEIGHT :
-		case BIFF_GRIDSET :
-		case BIFF_COUNTRY :
-		case BIFF_WSBOOL :
+			printf ("Grid lines: %d\n", MS_OLE_GET_GUINT16 (q->data));
+			break;
+		case BIFF_GRIDSET:
+		case BIFF_INDEX:
+		case BIFF_CALCMODE:
+		case BIFF_CALCCOUNT:
+		case BIFF_REFMODE:
+		case BIFF_ITERATION:
+		case BIFF_DELTA:
+		case BIFF_SAVERECALC:
+		case BIFF_PRINTHEADERS:
+		case BIFF_GUTS:
+		case BIFF_DEFAULTROWHEIGHT:
+		case BIFF_COUNTRY:
+		case BIFF_WSBOOL:
 			break;
 
 		case BIFF_HEADER: /* FIXME : S59D94 */
@@ -2510,19 +2512,20 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		}
 		break;
 
-		case BIFF_LEFTMARGIN :
-		case BIFF_RIGHTMARGIN :
-		case BIFF_TOPMARGIN :
-		case BIFF_BOTTOMMARGIN :
+		case BIFF_LEFTMARGIN:
+		case BIFF_RIGHTMARGIN:
+		case BIFF_TOPMARGIN:
+		case BIFF_BOTTOMMARGIN:
 		{
-			/* TODO : What to do with this information ? */
 			double margin;
+
 			margin = BIFF_GETDOUBLE(q->data);
+			printf ("%d margin : %f\n", q->opcode, margin);
 			break;
 		}
 
-		case BIFF_OBJPROTECT :
-		case BIFF_PROTECT :
+		case BIFF_OBJPROTECT:
+		case BIFF_PROTECT:
 		{
 			/* TODO : What to do with this information ? */
 			gboolean is_protected;
@@ -2530,21 +2533,86 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			break;
 		}
 
-		case BIFF_HCENTER :
-		case BIFF_VCENTER :
-		case BIFF_PLS :
-		case BIFF_SETUP :
-		case BIFF_DEFCOLWIDTH :
-		case BIFF_SCL :
+		case BIFF_HCENTER:
+			printf ("Center between hmargins? %d\n",
+				MS_OLE_GET_GUINT16 (q->data) == 0x1);
 			break;
 
-		case BIFF_DIMENSIONS :	/* 2, NOT 1,10 */
+		case BIFF_VCENTER:
+			printf ("Center between vmargins? %d\n",
+				MS_OLE_GET_GUINT16 (q->data) == 0x1);
+			break;
+
+		case BIFF_PLS:
+			if (MS_OLE_GET_GUINT16 (q->data) == 0x00) {
+				/*
+				 * q->data + 2 -> q->data + q->length 
+				 * map to a DEVMODE structure see MS' SDK.
+				 */
+			} else if (MS_OLE_GET_GUINT16 (q->data) == 0x01) {
+				/*
+				 * q's data maps to a TPrint structure
+				 * see Inside Macintosh Vol II p 149.
+				 */
+			}
+			break;
+
+		case BIFF_SETUP:
+			if (q->length == 34) { 
+				guint16  grbit;
+				gboolean valid;
+
+				printf ("Print Setup:\n");
+
+				grbit = MS_OLE_GET_GUINT16 (q->data + 10);
+				if ((grbit & 0x80) == 0x80)
+					printf ("Starting page number %d\n",
+						MS_OLE_GET_GUINT16 (q->data +  4));
+
+				valid = (grbit & 0x4) != 0x4;
+				if (valid) {
+					if ((grbit & 0x40) != 0x40)
+						printf ("portrait? %d\n", (grbit & 0x2) == 0x2);
+					printf ("Paper size %d scale %d resolution %d vert. res. %d num copies %d\n",
+						MS_OLE_GET_GUINT16 (q->data +  0),
+						MS_OLE_GET_GUINT16 (q->data +  2),
+						MS_OLE_GET_GUINT16 (q->data + 12),
+						MS_OLE_GET_GUINT16 (q->data + 14),
+						MS_OLE_GET_GUINT16 (q->data + 32));						
+				}
+				printf ("l->r&down? %d, black&white? %d, draft? %d notes(comments)? %d\n",
+					(grbit & 0x1) == 0x1, (grbit & 0x8) == 0x8,
+					(grbit & 0x10) == 0x10, (grbit & 0x20) == 0x20);
+				printf ("fit to width %d pages, height %d pages\n",
+					MS_OLE_GET_GUINT16 (q->data +  6),
+					MS_OLE_GET_GUINT16 (q->data +  8));
+				printf ("header margin %f, footer margin %f (inches?)\n",
+					BIFF_GETDOUBLE  (q->data + 16),
+					BIFF_GETDOUBLE  (q->data + 24));
+			} else
+				g_warning ("Duff BIFF_SETUP");
+			break;
+
+		case BIFF_DEFCOLWIDTH:
+			break;
+
+		case BIFF_SCL:
+			if (q->length == 4) {
+				/* Zoom stored as an Egyptian fraction */
+				double zoom = (double)MS_OLE_GET_GUINT16 (q->data) /
+					MS_OLE_GET_GUINT16 (q->data + 2);
+				sheet_set_zoom_factor (sheet->gnum_sheet, zoom);
+			} else
+				g_warning ("Duff BIFF_SCL record");
+			break;
+
+		case BIFF_DIMENSIONS:	/* 2, NOT 1,10 */
 			ms_excel_biff_dimensions (q, wb);
 			break;
 
-		case BIFF_SCENMAN :
-		case BIFF_SCENARIO :
-		case BIFF_MERGECELLS :
+		case BIFF_SCENMAN:
+		case BIFF_SCENARIO:
+		case BIFF_MERGECELLS:
 			break;
 
 		default:

@@ -14,7 +14,10 @@
 #include <config.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <math.h>
+
 #include <gnome.h>
+
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "gnome-xml/tree.h"
@@ -813,7 +816,6 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 	case VALUE_INTEGER:
 	{
 		int_t vint = v->v.v_int;
-		guint head = 2;
 		guint8 *data;
 
 #if EXCEL_DEBUG > 0
@@ -1202,6 +1204,38 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 		printf ("FIXME: need magic window2 numbers\n");
 	}
 	
+	if (ver >= eBiffV8) {
+		double zoom = sheet->gnum_sheet->last_zoom_factor_used;
+		int    a = 1, b = 2, lp;
+		
+		for (lp = 0; lp < 10; lp++) {
+			double d1, d2, d3;
+			d1 = fabs ((a + 1.0 / b) - zoom);
+			d2 = fabs ((a / b + 1.0) - zoom);
+			d3 = fabs ((a + 1.0 / b + 1.0) - zoom);
+			
+			if ((fabs ((double)a/b) - zoom) < 0.005)
+				break;
+
+			if (d1 < d2 &&
+			    d1 < d3) {
+				a++;
+			} else if (d2 < d1 &&
+				   d2 < d3) {
+				b++;
+			} else {
+				a++;
+				b++;
+			}
+		}
+		g_warning ("Untested: Zoom %f is %d/%d ( = %f)", zoom, a, b, (double)a/b);
+
+		data = ms_biff_put_len_next (bp, BIFF_SCL, 4);
+		MS_OLE_SET_GUINT16 (data + 0, a);
+		MS_OLE_SET_GUINT16 (data + 2, b);
+		ms_biff_put_commit (bp);
+	}
+
 	/* See: S59DE2.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_SELECTION, 15);
 	MS_OLE_SET_GUINT32 (data +  0, 0x00000103);

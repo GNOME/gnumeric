@@ -1,3 +1,11 @@
+1999-09-11  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* ms-excel-write.c (write_value): Clean unused 'head'
+	(write_sheet_tail): Add zoom factor write.
+
+	* ms-excel-read.c (ms_excel_read_sheet): Add BIFF_SETUP decode.
+	Add Zoom factor reading, add lots of printing records & debug dumps.
+
 1999-09-08  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c : Add selection.h
