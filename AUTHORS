@@ -1,7 +1,9 @@
 Miguel de Icaza, creator.
 Jody Goldberg, maintainer.
+Harald Ashburner, Options pricers
 Sean Atkinson, functions and X-Base importing.
 Michel Berkelaar, Simplex algorithm for Solver (LP Solve).
+Jean Brefort, Core charting engine.
 Grandma Chema Celorio, Tester and sheet copy.
 Frank Chiulli, OLE support.
 Kenneth Christiansen, i18n, misc stuff.
@@ -21,11 +23,13 @@ Adrian Likins, documentation, debugging.
 Takashi Matsuda, original text plugin.
 Michael Meeks, Excel and OLE2 importing.
 Lutz Muller, SheetObject improvements.
+Emmanuel Pacaud, Many plot types for charting engine.
 Federico M. Quintero, canvas support.
 Mark Probst, Guile support.
 Rasca, HTML, troff, LaTeX exporters.
 Vincent Renardias, original CSV support, French localization.
 Ariel Rios, Guile support.
+Uwe Steinmann, Paradox Importer.
 Arturo Tena, OLE support.
 Almer S. Tigelaar, Gnumeric hacker.
 Bruno Unna, Excel bits.
