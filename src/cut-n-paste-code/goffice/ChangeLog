@@ -1,3 +1,7 @@
+2003-11-17  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-object-xml.c (gog_object_write_property): Plug leak.
+
 2003-11-15  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-axis.c (gog_axis_view_render) : support minor ticks and

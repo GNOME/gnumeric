@@ -178,8 +178,7 @@ gog_object_write_property (GogObject *obj, GParamSpec *pspec, xmlNode *parent)
 	GType    prop_type = G_PARAM_SPEC_VALUE_TYPE (pspec);
 	gboolean success = TRUE;
 	GValue	 value = { 0 };
-	xmlNode *node = xmlNewDocNode (parent->doc, NULL,
-		(xmlChar const *)"property", NULL);
+	xmlNode *node;
 
 	g_value_init (&value, prop_type);
 	g_object_get_property  (G_OBJECT (obj), pspec->name, &value);
@@ -189,6 +188,9 @@ gog_object_write_property (GogObject *obj, GParamSpec *pspec, xmlNode *parent)
 		g_value_unset (&value);
 		return;
 	}
+
+	node = xmlNewDocNode (parent->doc, NULL,
+			      (xmlChar const *)"property", NULL);
 
 	switch (G_TYPE_FUNDAMENTAL (prop_type)) {
 	case G_TYPE_CHAR:
