@@ -166,17 +166,9 @@ sheet_object_container_class_init (GtkObjectClass *object_class)
 }
 
 SheetObject *
-sheet_object_container_new_bonobo (Sheet *sheet, BonoboClientSite *client_site)
+sheet_object_container_new (Sheet *sheet)
 {
-	SheetObjectContainer *c;
-
-	c = gtk_type_new (sheet_object_container_get_type ());
-
-	SHEET_OBJECT_BONOBO (c)->object_server =
-		bonobo_client_site_get_embeddable (client_site);
-	SHEET_OBJECT_BONOBO (c)->client_site = client_site;
-
-	return SHEET_OBJECT (c);
+	return sheet_object_container_new_object (sheet, NULL);
 }
 
 SheetObject *
@@ -206,20 +198,17 @@ sheet_object_container_new_file (Sheet *sheet, const char *fname)
 	g_return_val_if_fail (sheet != NULL, NULL);
 
 	iid = bonobo_directory_find_for_file (fname, required_ids, &msg);
-
-	if (!iid)
-		gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
-
-	else {
+	if (iid != NULL) {
 		so = sheet_object_container_new_object (sheet, iid);
 		if (so == NULL) {
 			msg = g_strdup_printf (_("can't create object for '%s'"), iid);
 			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
 		} else
 			sheet_object_bonobo_load_file (SHEET_OBJECT_BONOBO (so), fname);
-	}
+		g_free (iid);
+	} else
+		gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
 
-	g_free (iid);
 	g_free (msg);
 
 	return so;

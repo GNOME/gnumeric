@@ -945,7 +945,7 @@ applix_read_cells (ApplixReadState *state)
 			mstyle_set_border (tmp, MSTYLE_BORDER_TOP,
 				style_border_ref (border));
 			range_init (&r, col, row+1, col, row+1);
-			sheet_style_attach (sheet, r, tmp);
+			sheet_style_attach (sheet, &r, tmp);
 		}
 		if (mstyle_is_element_set (style, MSTYLE_BORDER_RIGHT)) {
 			Range r;
@@ -955,7 +955,7 @@ applix_read_cells (ApplixReadState *state)
 			mstyle_set_border (tmp, MSTYLE_BORDER_LEFT,
 				style_border_ref (border));
 			range_init (&r, col+1, row, col+1, row);
-			sheet_style_attach (sheet, r, tmp);
+			sheet_style_attach (sheet, &r, tmp);
 		}
 
 		content_type = *ptr;
@@ -1037,7 +1037,7 @@ applix_read_cells (ApplixReadState *state)
 								expr, FALSE);
 					cell_assign_value (cell, val, NULL);
 				} else
-					cell_set_expr_and_value (cell, expr, val, NULL);
+					cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
 
 				if (!applix_get_line (state) ||
 				    strncmp (state->buffer, "Formula: ", 9)) {
@@ -1056,7 +1056,7 @@ applix_read_cells (ApplixReadState *state)
 				printf ("shared '%s'\n", expr_string);
 #endif
 				expr = g_hash_table_lookup (state->exprs, expr_string);
-				cell_set_expr_and_value (cell, expr, val, NULL);
+				cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
 			}
 			break;
 		}
@@ -1262,7 +1262,7 @@ applix_read_impl (ApplixReadState *state)
 				if (tmp != ptr && attr_index >= 2 && attr_index < state->attrs->len+2) {
 					MStyle *style = g_ptr_array_index(state->attrs, attr_index-2);
 					mstyle_ref (style);
-					sheet_style_attach (sheet, r, style);
+					sheet_style_attach (sheet, &r, style);
 					if (mstyle_is_element_set (style, MSTYLE_BORDER_BOTTOM)) {
 						Range offset = r;
 						MStyle *tmp = mstyle_new ();
@@ -1271,7 +1271,7 @@ applix_read_impl (ApplixReadState *state)
 						mstyle_set_border (tmp, MSTYLE_BORDER_TOP,
 							style_border_ref (border));
 						offset.start.row = ++offset.end.row;
-						sheet_style_attach (sheet, offset, tmp);
+						sheet_style_attach (sheet, &offset, tmp);
 					}
 					if (mstyle_is_element_set (style, MSTYLE_BORDER_RIGHT)) {
 						Range offset = r;
@@ -1281,7 +1281,7 @@ applix_read_impl (ApplixReadState *state)
 						mstyle_set_border (tmp, MSTYLE_BORDER_LEFT,
 							style_border_ref (border));
 						offset.start.col = ++offset.end.col;
-						sheet_style_attach (sheet, offset, tmp);
+						sheet_style_attach (sheet, &offset, tmp);
 					}
 				} else if (attr_index != 1) /* TODO : What the hell is attr 1 ?? */
 					return applix_parse_error (state, "Invalid row format attr index");

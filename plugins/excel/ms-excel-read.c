@@ -1481,10 +1481,10 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 				   style_border_ref (border));
 	}
 
-	sheet_style_attach (sheet->gnum_sheet, range, mstyle[0]);
+	sheet_style_attach (sheet->gnum_sheet, &range, mstyle[0]);
 
 	if (restore_style != NULL)
-		sheet_style_attach (sheet->gnum_sheet, range, restore_style);
+		sheet_style_attach (sheet->gnum_sheet, &range, restore_style);
 	mstyle_unref (existing_style);
 
 #if UNDERSTAND_DUAL_BORDERS
@@ -1496,7 +1496,7 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 		range.start.col = col;
 		range.start.row = row+1;
 		range.end       = range.start;
-		sheet_style_attach (sheet->gnum_sheet, range, mstyle[1]);
+		sheet_style_attach (sheet->gnum_sheet, &range, mstyle[1]);
 	}
 	if (mstyle[2] != NULL) {
 #if UNDERSTAND_DUAL_BORDERS
@@ -1506,7 +1506,7 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 		range.start.col = col+1;
 		range.start.row = row;
 		range.end       = range.start;
-		sheet_style_attach (sheet->gnum_sheet, range, mstyle[2]);
+		sheet_style_attach (sheet->gnum_sheet, &range, mstyle[2]);
 	}
 	style_optimize (sheet, col, row);
 }
@@ -1524,7 +1524,7 @@ ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row,
 	range.start.row = row;
 	range.end.col   = end_col;
 	range.end.row   = row;
-	sheet_style_attach (sheet->gnum_sheet, range, mstyle[0]);
+	sheet_style_attach (sheet->gnum_sheet, &range, mstyle[0]);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 2) {
@@ -1538,7 +1538,7 @@ ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row,
 			range.start.row = row+1;
 			range.end.col   = end_col;
 			range.end.row   = row+1;
-			sheet_style_attach (sheet->gnum_sheet, range, mstyle[1]);
+			sheet_style_attach (sheet->gnum_sheet, &range, mstyle[1]);
 		} else
 			mstyle_unref (mstyle[1]);
 	}
@@ -1548,7 +1548,7 @@ ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row,
 			range.start.row = row;
 			range.end.col   = end_col+1;
 			range.end.row   = row;
-			sheet_style_attach (sheet->gnum_sheet, range, mstyle[2]);
+			sheet_style_attach (sheet->gnum_sheet, &range, mstyle[2]);
 		} else
 			mstyle_unref (mstyle[2]);
 	}
@@ -2182,7 +2182,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		} else
 			cell_assign_value (cell, val, NULL);
 	} else if (!cell_has_expr (cell)) {
-		cell_set_expr_and_value (cell, expr, val, NULL);
+		cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
 		expr_tree_unref (expr);
 	} else {
 		/*
@@ -2342,7 +2342,7 @@ ms_sheet_obj_create (MSContainer *container, MSObj *obj)
 	case 0x08 :
 		    /* Picture */
 #ifdef ENABLE_BONOBO
-		    so = sheet_object_container_new_object (sheet, NULL);
+		    so = sheet_object_container_new (sheet);
 #else
 		    so = NULL;
 		    {

@@ -186,7 +186,7 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 			range.end.col   = col;
 			range.end.row   = rowcount;
 
-			sheet_style_attach (sheet, range, style);
+			sheet_style_attach (sheet, &range, style);
 
 			iterator = g_slist_next (iterator);
 

@@ -408,7 +408,7 @@ cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
  */
 void
 cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v,
-			 StyleFormat *opt_fmt)
+			 StyleFormat *opt_fmt, gboolean link_expr)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (expr != NULL);
@@ -425,8 +425,9 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v,
 	cell->format = opt_fmt;
 	cell->base.expression = expr;
 	cell->base.flags |= CELL_HAS_EXPRESSION;
-	dependent_link (CELL_TO_DEP (cell), &cell->pos);
 	cell->value = v;
+	if (link_expr)
+		dependent_link (CELL_TO_DEP (cell), &cell->pos);
 }
 
 /**
@@ -691,10 +692,9 @@ cell_set_mstyle (Cell const *cell, MStyle *mstyle)
 {
 	Range         range;
 
-	range.start = cell->pos;
-	range.end   = range.start;
+	range.start = range.end = cell->pos;
 
-	sheet_style_attach (cell->base.sheet, range, mstyle);
+	sheet_style_attach (cell->base.sheet, &range, mstyle);
 }
 
 char *

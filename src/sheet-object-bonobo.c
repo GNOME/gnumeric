@@ -272,8 +272,7 @@ sheet_object_bonobo_read_xml (SheetObject *so,
 		return TRUE;
 	}
 
-	so = ctxt->read_fn (tree, ctxt->sheet, ctxt->user_data);
-	return FALSE;
+	return ctxt->read_fn (tree, so, ctxt->sheet, ctxt->user_data);
 }
 
 static gboolean
@@ -348,22 +347,35 @@ gboolean
 sheet_object_bonobo_set_object_iid (SheetObjectBonobo *sob,
 				    char const *object_id)
 {
+	BonoboObjectClient *server;
+
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), FALSE);
 	g_return_val_if_fail (sob->object_id == NULL, FALSE);
 	g_return_val_if_fail (object_id != NULL, FALSE);
 
-	sob->object_id     = g_strdup (object_id);
-	sob->object_server = bonobo_object_activate (object_id, 0);
-	if (!sob->object_server) {
+	server = bonobo_object_activate (object_id, 0);
+	if (!server) {
 		gtk_object_destroy (GTK_OBJECT (sob));
 		return FALSE;
 	}
+	sob->object_id = g_strdup (object_id);
 
-	if (!bonobo_client_site_bind_embeddable (sob->client_site,
-						 sob->object_server)) {
+	return sheet_object_bonobo_set_server (sob, server);
+}
+
+gboolean
+sheet_object_bonobo_set_server (SheetObjectBonobo *sob,
+				BonoboObjectClient *server)
+{
+	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), FALSE);
+	g_return_val_if_fail (sob->object_server == NULL, FALSE);
+	g_return_val_if_fail (BONOBO_IS_OBJECT_CLIENT (server), FALSE);
+
+	if (!bonobo_client_site_bind_embeddable (sob->client_site, server)) {
 		gtk_object_destroy (GTK_OBJECT (sob));
 		return FALSE;
 	}
+	sob->object_server = server;
 
 	return TRUE;
 }

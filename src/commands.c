@@ -2424,6 +2424,136 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 
 /******************************************************************/
 
+#define CMD_MERGE_CELLS_TYPE        (cmd_merge_cells_get_type ())
+#define CMD_MERGE_CELLS(o)          (GTK_CHECK_CAST ((o), CMD_MERGE_CELLS_TYPE, CmdMergeCells))
+
+typedef struct {
+	GnumericCommand parent;
+
+} CmdMergeCells;
+
+GNUMERIC_MAKE_COMMAND (CmdMergeCells, cmd_merge_cells);
+
+static gboolean
+cmd_merge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdMergeCells *me = CMD_MERGE_CELLS (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_merge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdMergeCells *me = CMD_MERGE_CELLS (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	return FALSE;
+}
+
+static void
+cmd_merge_cells_destroy (GtkObject *cmd)
+{
+	CmdMergeCells *me = CMD_MERGE_CELLS (cmd);
+
+	gnumeric_command_destroy (cmd);
+}
+
+/**
+ * cmd_merge_cells:
+ * @context: the context.
+ *
+ * Return value: TRUE if there was a problem
+ **/
+gboolean
+cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet)
+{
+	GtkObject *obj;
+	CmdMergeCells *me;
+	GSList    *l;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_MERGE_CELLS_TYPE);
+	me = CMD_MERGE_CELLS (obj);
+
+	me->parent.size = 1;
+	me->parent.cmd_descriptor = g_strdup (_("Merge Cells"));
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+
+#define CMD_UNMERGE_CELLS_TYPE        (cmd_unmerge_cells_get_type ())
+#define CMD_UNMERGE_CELLS(o)          (GTK_CHECK_CAST ((o), CMD_UNMERGE_CELLS_TYPE, CmdUnmergeCells))
+
+typedef struct {
+	GnumericCommand parent;
+
+} CmdUnmergeCells;
+
+GNUMERIC_MAKE_COMMAND (CmdUnmergeCells, cmd_unmerge_cells);
+
+static gboolean
+cmd_unmerge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdUnmergeCells *me = CMD_UNMERGE_CELLS (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_unmerge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdUnmergeCells *me = CMD_UNMERGE_CELLS (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	return FALSE;
+}
+
+static void
+cmd_unmerge_cells_destroy (GtkObject *cmd)
+{
+	CmdUnmergeCells *me = CMD_UNMERGE_CELLS (cmd);
+
+	gnumeric_command_destroy (cmd);
+}
+
+/**
+ * cmd_unmerge_cells:
+ * @context: the context.
+ *
+ * Return value: TRUE if there was a problem
+ **/
+gboolean
+cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet)
+{
+	GtkObject *obj;
+	CmdUnmergeCells *me;
+	GSList    *l;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_UNMERGE_CELLS_TYPE);
+	me = CMD_UNMERGE_CELLS (obj);
+
+	me->parent.size = 1;
+	me->parent.cmd_descriptor = g_strdup (_("Unmerge Cells"));
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+
 /* TODO :
  * - SheetObject creation & manipulation.
  */

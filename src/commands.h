@@ -57,4 +57,7 @@ gboolean cmd_autoformat         (WorkbookControl *wbc, Sheet *sheet, FormatTempl
 gboolean cmd_hide_selection_colrow (WorkbookControl *wbc, Sheet *sheet,
 				    gboolean is_cols, gboolean visible);
 
+gboolean cmd_merge_cells	(WorkbookControl *wbc, Sheet *sheet);
+gboolean cmd_unmerge_cells	(WorkbookControl *wbc, Sheet *sheet);
+
 #endif /* GNUMERIC_COMMANDS_H */

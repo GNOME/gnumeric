@@ -72,27 +72,37 @@ set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags align)
 }
 
 static void
-left_align_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
+left_align_cmd (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	set_selection_halign (wbcg, HALIGN_LEFT);
 }
 
 static void
-right_align_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
+right_align_cmd (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	set_selection_halign (wbcg, HALIGN_RIGHT);
 }
 
 static void
-center_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
+center_cmd (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	set_selection_halign (wbcg, HALIGN_CENTER);
 }
 
 static void
-center_across_selection_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
+center_across_selection_cmd (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	set_selection_halign (wbcg, HALIGN_CENTER_ACROSS_SELECTION);
+}
+
+static void
+cb_merge_cells (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+{
+}
+
+static void
+cb_unmerge_cells (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+{
 }
 
 /*
@@ -180,7 +190,6 @@ toggled_from_toolbar (GtkToggleButton *t)
 /**
  * font_select_cmd
  *
- * @widget: widget
  * @wbcg:  workboook
  *
  * Pop up cell format dialog at font page. Used from font select toolbar
@@ -188,7 +197,7 @@ toggled_from_toolbar (GtkToggleButton *t)
  * size controls.
  */
 static void
-font_select_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
+font_select_cmd (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	dialog_cell_format (wbcg, wb_control_cur_sheet (wbc), FD_FONT);
@@ -279,13 +288,13 @@ apply_number_format (WorkbookControlGUI *wbcg, const char *translated_format)
 }
 
 static void
-workbook_cmd_format_as_money (GtkWidget *widget, WorkbookControlGUI *wbcg)
+workbook_cmd_format_as_money (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	apply_number_format (wbcg, cell_formats [FMT_ACCOUNT] [2]);
 }
 
 static void
-workbook_cmd_format_as_percent (GtkWidget *widget, WorkbookControlGUI *wbcg)
+workbook_cmd_format_as_percent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	apply_number_format (wbcg, "0.00%");
 }
@@ -342,19 +351,19 @@ do_modify_format (WorkbookControlGUI *wbcg, format_modify_fn modify_fn)
 }
 
 static void
-workbook_cmd_format_add_thousands (GtkWidget *widget, WorkbookControlGUI *wbcg)
+workbook_cmd_format_add_thousands (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	do_modify_format (wbcg, &format_toggle_thousands);
 }
 
 static void
-workbook_cmd_format_add_decimals (GtkWidget *widget, WorkbookControlGUI *wbcg)
+workbook_cmd_format_add_decimals (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	do_modify_format (wbcg, &format_add_decimal);
 }
 
 static void
-workbook_cmd_format_remove_decimals (GtkWidget *widget, WorkbookControlGUI *wbcg)
+workbook_cmd_format_remove_decimals (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	do_modify_format (wbcg, &format_remove_decimal);
 }
@@ -407,7 +416,14 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 		N_("Center across selection"), N_("Center across selection"),
 		&center_across_selection_cmd, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, "Gnumeric_CenterAcrossSelection" },
-
+	{ GNOME_APP_UI_TOGGLEITEM,
+		N_("Merge"), N_("Merge a range of cells"),
+		&cb_merge_cells, NULL, NULL,
+		GNOME_APP_PIXMAP_STOCK, "Gnumeric_MergeCells" },
+	{ GNOME_APP_UI_TOGGLEITEM,
+		N_("Split"), N_("Split merged ranges of cells"),
+		&cb_unmerge_cells, NULL, NULL,
+		GNOME_APP_PIXMAP_STOCK, "Gnumeric_SplitCells" },
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
@@ -438,6 +454,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("AlignCenter",		  &center_cmd),
 	BONOBO_UI_UNSAFE_VERB ("AlignRight",		  &right_align_cmd),
 	BONOBO_UI_UNSAFE_VERB ("CenterAcrossSelection",	  &center_across_selection_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FormatMergeCells",	  &cb_merge_cells),
+	BONOBO_UI_UNSAFE_VERB ("FormatUnmergeCells",	  &cb_unmerge_cells),
 	BONOBO_UI_UNSAFE_VERB ("FormatAsMoney",	          &workbook_cmd_format_as_money),
 	BONOBO_UI_UNSAFE_VERB ("FormatAsPercent",	  &workbook_cmd_format_as_percent),
 	BONOBO_UI_UNSAFE_VERB ("FormatWithThousands",	  &workbook_cmd_format_add_thousands),

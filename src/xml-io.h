@@ -24,12 +24,13 @@ typedef enum
 
 typedef struct _XmlParseContext XmlParseContext;
 
-typedef gboolean     (*XmlSheetObjectWriteFn) (xmlNodePtr   cur,
-					       SheetObject const *object,
-					       gpointer     user_data);
-typedef SheetObject *(*XmlSheetObjectReadFn)  (xmlNodePtr   tree,
-					       Sheet       *sheet,
-					       gpointer     user_data);
+typedef gboolean (*XmlSheetObjectWriteFn) (xmlNodePtr   cur,
+					   SheetObject const *object,
+					   gpointer     user_data);
+typedef gboolean (*XmlSheetObjectReadFn)  (xmlNodePtr   tree,
+					   SheetObject *object,
+					   Sheet       *sheet,
+					   gpointer     user_data);
 
 struct _XmlParseContext {
 	xmlDocPtr doc;		/* Xml document */

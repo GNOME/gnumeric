@@ -28,9 +28,9 @@
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
 #include "workbook-edit.h"
-#include "workbook-private.h" /* FIXME Ick */
 #include "sheet-object.h"
 #include "sheet-object-container.h"
+#include "sheet-object-bonobo.h"
 #include "sheet-control-gui.h"
 #include "selection.h"
 #include "ranges.h"
@@ -230,29 +230,26 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 	}
 
 	if (button == state->button_finish) {
-		BonoboClientSite *client_site;
+		SheetObject *so = sheet_object_container_new (state->sheet);
 
-		/* Configure our container */
-		client_site = bonobo_client_site_new (state->wb->priv->bonobo_container);
+		if (sheet_object_bonobo_set_server (SHEET_OBJECT_BONOBO (so),
+						    state->manager_client)) {
 
-		if (bonobo_client_site_bind_embeddable (client_site, state->manager_client)) {
-			SheetObject *so = sheet_object_container_new_bonobo (
-				state->sheet, client_site);
 			scg_mode_create_object (state->scg, so);
-		}
 
-		/* Add a reference to the vector so that they continue to exist
-		 * when the dialog goes away.  Then tie them to the destruction of
-		 * the client_site.
-		 */
-		if (state->vectors != NULL) {
-			int i = state->vectors->len;
-			while (i-- > 0) {
-				gpointer *elem = g_ptr_array_index (state->vectors, i);
-				gtk_object_ref (GTK_OBJECT (elem));
-				gtk_signal_connect (GTK_OBJECT (client_site), "destroy",
-						    GTK_SIGNAL_FUNC (cb_graph_vector_destroy),
-						    elem);
+			/* Add a reference to the vector so that they continue to exist
+			 * when the dialog goes away.  Then tie them to the destruction of
+			 * the sheet object.
+			 */
+			if (state->vectors != NULL) {
+				int i = state->vectors->len;
+				while (i-- > 0) {
+					gpointer *elem = g_ptr_array_index (state->vectors, i);
+					gtk_object_ref (GTK_OBJECT (elem));
+					gtk_signal_connect (GTK_OBJECT (so), "destroy",
+						GTK_SIGNAL_FUNC (cb_graph_vector_destroy),
+						elem);
+				}
 			}
 		}
 	}

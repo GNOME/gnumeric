@@ -35,7 +35,7 @@ set_bold (Sheet *sheet, int col1, int row1, int col2, int row2)
 	range.end.row   = row2;
 
 	mstyle_set_font_bold (mstyle, TRUE);
-	sheet_style_attach (sheet, range, mstyle);
+	sheet_style_attach (sheet, &range, mstyle);
 }
 
 

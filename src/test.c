@@ -91,7 +91,7 @@ thrash_insert (Sheet *sheet)
 				setstyle = style2;
 
 			mstyle_ref (setstyle);
-			sheet_style_attach (sheet, r, setstyle);
+			sheet_style_attach (sheet, &r, setstyle);
 
 			cell = sheet_cell_fetch (sheet, i, j);
 

@@ -260,7 +260,7 @@ sheet_style_attach_single (Sheet *sheet, int col, int row,
 	r.end.col   = col;
 	r.end.row   = row;
 
-	sheet_style_attach (sheet, r, mstyle);
+	sheet_style_attach (sheet, &r, mstyle);
 
 	/*
 	 * Expand to 3x3 patch.
@@ -550,7 +550,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
  * NOTE : DOES NOT REDRAW.
  **/
 void
-sheet_style_attach (Sheet  *sheet, Range range,
+sheet_style_attach (Sheet  *sheet, Range const *range,
 		    MStyle *mstyle)
 {
 	StyleRegion    *sr;
@@ -559,7 +559,7 @@ sheet_style_attach (Sheet  *sheet, Range range,
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (mstyle != NULL);
-	g_return_if_fail (range_valid (&range));
+	g_return_if_fail (range_valid (range));
 	g_return_if_fail (mstyle_verify (mstyle));
 
 	sd = sheet->style_data;
@@ -575,7 +575,7 @@ sheet_style_attach (Sheet  *sheet, Range range,
 	 *  Can we afford to merge on the fly ?
 	 */
 
-	sr = style_region_new (&range, mstyle);
+	sr = style_region_new (range, mstyle);
 	sd->style_list = g_list_prepend (sd->style_list, sr);
 
 	if (STYLE_DEBUG) {
@@ -588,7 +588,7 @@ sheet_style_attach (Sheet  *sheet, Range range,
 
 #if 0
 	/* Try to handle set/get, set/get, set/get pattern without cache trashing */
-	if (range_overlap (&range, &sd->cached_range)) {
+	if (range_overlap (range, &sd->cached_range)) {
 		sd->cached_list = g_list_prepend (sd->cached_list, sr);
 		sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_HASH);
 	} else
@@ -791,7 +791,7 @@ sheet_range_apply_style (Sheet       *sheet,
 {
 	SpanCalcFlags const spanflags = required_updates_for_style (style);
 
-	sheet_style_attach   (sheet, *range, style);
+	sheet_style_attach   (sheet, range, style);
 	sheet_style_optimize (sheet, *range);
 	sheet_range_calc_spans (sheet, *range, spanflags);
 
@@ -876,19 +876,6 @@ sheet_styles_dump (Sheet *sheet)
 	fprintf (stderr, "There were %d styles\n", i);
 }
 
-Range
-sheet_get_full_range (void)
-{
-	Range r;
-
-	r.start.col = 0;
-	r.start.row = 0;
-	r.end.col = SHEET_MAX_COLS - 1;
-	r.end.row = SHEET_MAX_ROWS - 1;
-
-	return r;
-}
-
 void
 sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 			   gboolean is_col)
@@ -904,7 +891,7 @@ sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 
 	sd = sheet->style_data;
 
-	del_range = sheet_get_full_range ();
+	range_init_full_sheet (&del_range);
 	if (is_col) {
 		del_range.start.col = pos;
 		del_range.end.col   = pos + count - 1;
@@ -1015,8 +1002,8 @@ styleless_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 
 	sd = sheet->style_data;
 
-	move_range   = sheet_get_full_range ();
-	ignore_range = sheet_get_full_range ();
+	range_init_full_sheet (&move_range);
+	range_init_full_sheet (&ignore_range);
 	if (is_col) {
 		move_range.start.col = pos;
 		ignore_range.end.col = MAX (pos - 1, 0);
@@ -1148,7 +1135,7 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 /* Make sure this doesn't screw up the ranges under our feet later */
 	dest = rinfo->origin;
 	range_translate (&dest, rinfo->col_offset, rinfo->row_offset);
-	sheet_style_attach (rinfo->target_sheet, dest, mstyle_new_default ());
+	sheet_style_attach (rinfo->target_sheet, &dest, mstyle_new_default ());
 
 /* 2 Either fold back or queue Regions */
 	for (l = stored_regions; l; l = l->next) {
@@ -1261,7 +1248,7 @@ sheet_style_attach_list (Sheet *sheet, const GList *list,
 			range_transpose (&r, corner);
 
 		mstyle_ref (sr->style);
-		sheet_style_attach (sheet, r, sr->style);
+		sheet_style_attach (sheet, &r, sr->style);
 		spanflags |= required_updates_for_style (sr->style);
 	}
 	return spanflags;
@@ -1278,7 +1265,7 @@ do_apply_border (Sheet *sheet, const Range *r,
 
 		mstyle = mstyle_new ();
 		mstyle_set_border (mstyle, t, borders [idx]);
-		sheet_style_attach (sheet, *r, mstyle);
+		sheet_style_attach (sheet, r, mstyle);
 	}
 }
 
@@ -1291,7 +1278,7 @@ do_blank_border (Sheet *sheet, const Range *r,
 	mstyle = mstyle_new ();
 	mstyle_set_border (mstyle, t,
 			   style_border_ref (style_border_none ()));
-	sheet_style_attach (sheet, *r, mstyle);
+	sheet_style_attach (sheet, r, mstyle);
 }
 
 /**
@@ -1440,7 +1427,7 @@ sheet_range_set_border (Sheet         *sheet,
 	if (mstyle_empty (mstyle))
 		mstyle_unref (mstyle);
 	else
-		sheet_style_attach (sheet, *range, mstyle);
+		sheet_style_attach (sheet, range, mstyle);
 
 	sheet_style_optimize (sheet, *range);
 	sheet_redraw_range (sheet, range);

@@ -168,36 +168,32 @@ read_stream_from_storage (Bonobo_Unknown       object,
 	bonobo_object_release_unref (ps, ev);
 }
 
-static SheetObject *
+static gboolean
 gnumeric_bonobo_obj_read (xmlNodePtr   tree,
+			  SheetObject *so,
 			  Sheet       *sheet,
 			  gpointer     user_data)
 {
 	CORBA_Environment    ev;
-	SheetObject         *so;
 	SheetObjectBonobo   *sob;
 	Bonobo_Storage       storage;
 	char                *object_id, *sname;
 
-	g_return_val_if_fail (tree != NULL, FALSE);
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-	g_return_val_if_fail (user_data != NULL, FALSE);
+	g_return_val_if_fail (tree != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (user_data != NULL, TRUE);
 
-	storage = bonobo_object_corba_objref (user_data);
-	g_return_val_if_fail (storage != CORBA_OBJECT_NIL, FALSE);
+	sob = SHEET_OBJECT_BONOBO (so);
+	g_return_val_if_fail (sob != NULL, TRUE);
 
 	object_id = xmlGetProp (tree, "OAFIID");
 	if (!object_id) {
 		g_warning ("Malformed object, error in save; no id");
-		return NULL;
+		return TRUE;
 	}
 
-	so = sheet_object_container_new_object (sheet, object_id);
-	sob = SHEET_OBJECT_BONOBO (so);
-	if (!sob) {
-		g_warning ("Error activating '%s'", object_id);
-		return NULL;
-	}
+	storage = bonobo_object_corba_objref (user_data);
+	g_return_val_if_fail (storage != CORBA_OBJECT_NIL, TRUE);
 
 	CORBA_exception_init (&ev);
 
@@ -214,7 +210,7 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 		gtk_object_unref (GTK_OBJECT (sob));
 		CORBA_exception_free (&ev);
 		g_warning ("nasty error");
-		return NULL;
+		return TRUE;
 	}
 
 	/*
@@ -224,7 +220,7 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 	 */
 	CORBA_exception_free (&ev);
 
-	return SHEET_OBJECT (sob);
+	return FALSE;
 }
 
 static int

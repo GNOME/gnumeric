@@ -42,6 +42,8 @@ SheetObjectBonobo *sheet_object_bonobo_construct (SheetObjectBonobo	 *sob,
 char const *sheet_object_bonobo_get_object_iid	(SheetObjectBonobo const *sob);
 gboolean    sheet_object_bonobo_set_object_iid	(SheetObjectBonobo	 *sob,
 						 char const	   	 *object_id);
+gboolean    sheet_object_bonobo_set_server	(SheetObjectBonobo	 *sob,
+						 BonoboObjectClient	 *object_server);
 gboolean    sheet_object_bonobo_load_file	(SheetObjectBonobo *sob,
 						 char const *fname);
 gboolean    sheet_object_bonobo_load_stream	(SheetObjectBonobo *sob,

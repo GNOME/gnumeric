@@ -36,6 +36,16 @@ range_init (Range *r, int start_col, int start_row,
 	return r;
 }
 
+Range *
+range_init_full_sheet (Range *r)
+{
+	r->start.col = 0;
+	r->start.row = 0;
+	r->end.col = SHEET_MAX_COLS - 1;
+	r->end.row = SHEET_MAX_ROWS - 1;
+	return r;
+}
+
 /**
  * range_parse:
  * @sheet: the sheet where the cell range is evaluated
@@ -1028,7 +1038,7 @@ static void
 range_style_apply_cb (Sheet *sheet, const Range *range, gpointer user_data)
 {
 	mstyle_ref ((MStyle *)user_data);
-	sheet_style_attach (sheet, *range, (MStyle *)user_data);
+	sheet_style_attach (sheet, range, (MStyle *)user_data);
 }
 
 void

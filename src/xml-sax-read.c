@@ -1218,7 +1218,7 @@ xml2EndElement (XML2ParseState *state, const CHAR *name)
 		g_return_if_fail (state->style != NULL);
 		g_return_if_fail (state->sheet != NULL);
 
-		sheet_style_attach (state->sheet, state->style_range, state->style);
+		sheet_style_attach (state->sheet, &state->style_range, state->style);
 
 		state->style_range_init = FALSE;
 		state->style = NULL;

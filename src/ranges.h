@@ -55,6 +55,7 @@
 #define range_valid(r)          (((Range *)(r))->start.col <= ((Range *)(r))->end.col && \
 				 ((Range *)(r))->start.row <= ((Range *)(r))->end.row)
 
+Range	   *range_init_full_sheet   (Range *r);
 Range      *range_init              (Range *r, int start_col, int start_row,
 				     int end_col, int end_row);
 Value      *range_parse             (Sheet *sheet, const char *range, gboolean strict);

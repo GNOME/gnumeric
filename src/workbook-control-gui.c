@@ -1467,20 +1467,20 @@ cb_sheet_pref_hide_row_header (GtkWidget *widget, WorkbookControlGUI *wbcg)
 /****************************************************************************/
 
 static void
-cb_format_cells (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_format_cells (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	dialog_cell_format (wbcg, wb_control_cur_sheet (wbc), FD_CURRENT);
 }
 
 static void
-cb_autoformat (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_autoformat (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	dialog_autoformat (wbcg);
 }
 
 static void
-cb_workbook_attr (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_workbook_attr (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	dialog_workbook_attr (wbcg);
 }

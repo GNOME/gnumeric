@@ -1205,7 +1205,7 @@ cb_format_sheet_border (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *she
 		mstyle_set_border (mstyle_to_bottom, MSTYLE_BORDER_TOP,
 				   style_border_ref (bottom));
 
-		sheet_style_attach (sheet, br, mstyle_to_bottom);
+		sheet_style_attach (sheet, &br, mstyle_to_bottom);
 	}
 
 	if (right != NULL && right->line_type != STYLE_BORDER_NONE) {
@@ -1218,7 +1218,7 @@ cb_format_sheet_border (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *she
 		mstyle_set_border (mstyle_to_right, MSTYLE_BORDER_LEFT,
 				   style_border_ref (right));
 
-		sheet_style_attach (sheet, rr, mstyle_to_right);
+		sheet_style_attach (sheet, &rr, mstyle_to_right);
 	}
 
 	mstyle_unref (mstyle);

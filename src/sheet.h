@@ -193,7 +193,7 @@ MStyle        *sheet_style_compute              (const Sheet *sheet,
 						 int col, int row);
 MStyle	      *sheet_style_compute_from_list	(GList *list,
 						 int col, int row);
-void           sheet_style_attach               (Sheet  *sheet, Range   range,
+void           sheet_style_attach               (Sheet  *sheet, Range const *range,
 						 MStyle *mstyle);
 void           sheet_style_attach_single        (Sheet  *sheet, int col, int row,
 						 MStyle *mstyle);
@@ -213,7 +213,6 @@ void           sheet_create_styles              (Sheet *sheet);
 void           sheet_destroy_styles             (Sheet *sheet);
 GList         *sheet_get_style_list             (Sheet const *sheet);
 void           sheet_styles_dump                (Sheet *sheet);
-Range          sheet_get_full_range             (void);
 void           sheet_style_get_extent           (Sheet const *sheet, Range *r);
 Range          sheet_get_extent                 (Sheet const *sheet);
 

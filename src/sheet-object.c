@@ -476,6 +476,8 @@ void
 sheet_object_position_pixels (SheetObject const *so,
 			      SheetControlGUI const *scg, int *coords)
 {
+	g_return_if_fail (so->sheet != NULL);
+
 	coords [0] = scg_colrow_distance_get (scg, TRUE, 0,
 		so->cell_bound.start.col);
 	coords [1] = scg_colrow_distance_get (scg, FALSE, 0,

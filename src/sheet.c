@@ -135,6 +135,7 @@ sheet_new (Workbook *wb, const char *name)
 {
 	Sheet  *sheet;
 	MStyle *mstyle;
+	Range	full;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
@@ -190,7 +191,7 @@ sheet_new (Workbook *wb, const char *name)
 					     (GCompareFunc)&cellpos_cmp);
 
 	mstyle = mstyle_new_default ();
-	sheet_style_attach (sheet, sheet_get_full_range (), mstyle);
+	sheet_style_attach (sheet, range_init_full_sheet (&full), mstyle);
 
 	sheet_init_default_styles (sheet);
 
@@ -2411,7 +2412,7 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 
 	/* Clear the style in the region (new_default will ref the style for us). */
 	if (clear_flags & CLEAR_FORMATS) {
-		sheet_style_attach (sheet, r, mstyle_new_default ());
+		sheet_style_attach (sheet, &r, mstyle_new_default ());
 		sheet_range_calc_spans (sheet, r, SPANCALC_RE_RENDER|SPANCALC_RESIZE);
 		rows_height_update (sheet, &r);
 	}
@@ -3657,7 +3658,7 @@ sheet_clone_styles (Sheet const *src, Sheet *dst)
 
 	for (ptr = style_regions; ptr != NULL; ptr = ptr->next) {
 		StyleRegion const *region = ptr->data;
-		sheet_style_attach (dst, region->range, mstyle_copy (region->style));
+		sheet_style_attach (dst, &region->range, mstyle_copy (region->style));
 	}
 
 	g_list_free (style_regions);

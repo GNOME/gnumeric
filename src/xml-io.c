@@ -1646,7 +1646,7 @@ xml_read_style_region (XmlParseContext *ctxt, xmlNodePtr tree)
 	style = xml_read_style_region_ex (ctxt, tree, &range);
 
 	if (style)
-		sheet_style_attach (ctxt->sheet, range, style);
+		sheet_style_attach (ctxt->sheet, &range, style);
 }
 
 /*
