@@ -1,3 +1,16 @@
+2004-10-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=152672
+	* graph/gog-theme.c (gog_themes_init): set pattern background to
+	white, even when automatic pattern style is NONE.
+	* graph/gog-label.c (gog_label_editor): fix layout.
+	(gog_label_view_render): add padding
+	when outline > 0. or pattern != NONE.
+	* graph/gog-outlined-object.c (gog_outlined_view_size_request): ditto.
+	(gog_outlined_view_size_allocate): ditto.
+	* graph/gog-style.c (gog_style_is_different_size): changing pattern
+	type can change object size.
+
 2004-09-29  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-guru-type-selector.glade: new.

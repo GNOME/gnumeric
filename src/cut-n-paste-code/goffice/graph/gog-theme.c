@@ -462,6 +462,7 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->outline.width = -1;
 	style->fill.type = GOG_FILL_STYLE_NONE;
+	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogGraph", NULL);
 
 	/* chart */
@@ -482,10 +483,8 @@ gog_themes_init	(void)
 
 	/* Axis */
 	style = gog_style_new ();
-	style->outline.color = 0;
 	style->line.width = 0; /* hairline */
 	style->line.color = RGBA_GREY (0x20);
-	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style, NULL, "GogAxis", NULL);
 
 	/* Grid */
@@ -518,6 +517,7 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->outline.width = -1; /* none */
 	style->fill.type = GOG_FILL_STYLE_NONE;
+	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogLabel", NULL);
 
 /* Guppi */
@@ -538,6 +538,7 @@ gog_themes_init	(void)
 	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
 	style->fill.type = GOG_FILL_STYLE_NONE;
+	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogChart", NULL);
 
 	/* legend */
@@ -549,10 +550,8 @@ gog_themes_init	(void)
 
 	/* Axis */
 	style = gog_style_new ();
-	style->outline.color = 0;
 	style->line.width = 0.; /* hairline */
 	style->line.color = RGBA_GREY (0x20);
-	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style, NULL, "GogAxis", NULL);
 
 	/* Grid */
@@ -586,6 +585,7 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->outline.width = -1; /* none */
 	style->fill.type = GOG_FILL_STYLE_NONE;
+	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogLabel", NULL);
 }
 

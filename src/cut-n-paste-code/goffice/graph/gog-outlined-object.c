@@ -106,10 +106,10 @@ static void
 gog_outlined_view_size_request (GogView *v, GogViewRequisition *req)
 {
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (v->model);
-	double outline = gog_renderer_line_size (
-		v->renderer, goo->base.style->outline.width);
+	double outline = gog_renderer_line_size (v->renderer, 
+						 goo->base.style->outline.width);
 
-	if (outline > 0) {
+	if (goo->base.style->fill.type != GOG_FILL_STYLE_NONE || outline > 0) {
 		req->w += outline * 2 + 
 			gog_renderer_pt2r_y (v->renderer, goo->padding_pts);
 		req->h += outline * 2 + 
@@ -122,11 +122,11 @@ gog_outlined_view_size_allocate (GogView *v, GogViewAllocation const *a)
 {
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (v->model);
 	GogViewAllocation res = *a;
-	double outline = gog_renderer_line_size (
-		v->renderer, goo->base.style->outline.width);
+	double outline = gog_renderer_line_size (v->renderer, 
+						 goo->base.style->outline.width);
 
-	/* We only need internal padding if there is an outline */
-	if (outline > 0) {
+	/* We only need internal padding if there is an outline or a pattern */
+	if (goo->base.style->fill.type != GOG_FILL_STYLE_NONE || outline > 0.) {
 		double pad_x = gog_renderer_pt2r_x (v->renderer, goo->padding_pts);
 		double pad_y = gog_renderer_pt2r_y (v->renderer, goo->padding_pts);
 		res.x += outline + pad_x/2;

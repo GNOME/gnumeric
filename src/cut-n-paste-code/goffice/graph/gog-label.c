@@ -37,6 +37,7 @@
 #include <gtk/gtknotebook.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtkalignment.h>
 
 struct _GogLabel {
 	GogOutlinedObject	base;
@@ -100,15 +101,18 @@ gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
 	static guint label_pref_page = 0;
 	GtkWidget *notebook = gtk_notebook_new ();
-	GtkWidget *hbox = gtk_hbox_new (FALSE, 5);
+	GtkWidget *hbox = gtk_hbox_new (FALSE, 12);
+	GtkWidget *alignment = gtk_alignment_new (0, 0, 1, 0);
 
+	gtk_container_set_border_width (GTK_CONTAINER (alignment), 12);
 	gtk_box_pack_start (GTK_BOX (hbox), 
-		gtk_label_new_with_mnemonic (_("_Text:")), FALSE, TRUE, 6);
+		gtk_label_new_with_mnemonic (_("_Text:")), FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), 
 		gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 0, TRUE),
 		TRUE, TRUE, 0);
-	gtk_widget_show_all (hbox);
-	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), hbox,
+	gtk_container_add (GTK_CONTAINER (alignment), hbox);
+	gtk_widget_show_all (alignment);
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), alignment,
 		gtk_label_new (_("Data")));
 	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
 	gog_style_handle_notebook (notebook, &label_pref_page);
@@ -207,15 +211,15 @@ gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogLabel *l = GOG_LABEL (view->model);
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (view->model);
+	GogStyle *style = l->base.base.style;
 
-	gog_renderer_push_style (view->renderer, l->base.base.style);
+	gog_renderer_push_style (view->renderer, style);
 	if (l->text.data != NULL) {
 		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (l->text.data));
 		if (text != NULL) {
 			double outline = gog_renderer_line_size (
 				view->renderer, goo->base.style->outline.width);
-			
-			if (outline > 0.) {
+			if (style->fill.type != GOG_FILL_STYLE_NONE || outline > 0.) {
 				GogViewRequisition req;
 				GogViewAllocation rect;
 				double pad_x = gog_renderer_pt2r_x (view->renderer, goo->padding_pts);
