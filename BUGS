@@ -4,7 +4,9 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Delete sheet does not clear cells from recalc queue.
+- Delete sheet does not properly clear deleted cells from the depend lists of
+  the remainder.
+- FALSE is written in a locale specific format.  Apparently so are number formats.
 
 Long term breakage
 ------------------
@@ -56,7 +58,6 @@ Dialogs
 Function Breakage
 -----------------
 - Index  : does not support 0,0 or reference syntax.
-- INT and FLOOR : INT seems to be FLOOR and vise versa.
 
 Printing
 --------

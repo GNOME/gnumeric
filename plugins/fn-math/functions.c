@@ -963,6 +963,8 @@ static char *help_floor = {
 	   "@EXAMPLES=\n"
 	   "FLOOR(0.5) equals 0.\n"
 	   "FLOOR(5,2) equals 4.\n"
+	   "FLOOR(-5,-2) equals -4.\n"
+	   "FLOOR(-5,2) equals #NUM!.\n"
 	   "\n"
 	   "@SEEALSO=CEIL, ABS, INT")
 };
@@ -975,11 +977,10 @@ gnumeric_floor (FunctionEvalInfo *ei, Value **argv)
 	number = value_get_as_float (argv[0]);
 	if (argv[1] == NULL)
 	        s = (number >= 0) ? 1.0 : -1.0;
-	else {
+	else
 	        s = value_get_as_float (argv[1]);
-	}
 
-	if (s == 0 || number / s < 0)
+	if (s == 0 || (number / s) < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (floor (number / s) * s);
