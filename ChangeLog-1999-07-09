@@ -1,3 +1,19 @@
+1998-07-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key): Add support for
+	keyboard-selection.
+
+	* src/item-edit.c (item_edit_destroy): Request a repaint for every
+	area we touched at destruction time.
+
+	* src/sheet.c (sheet_redraw_cell_region, sheet_redraw_selection):
+	New functions to request that only a specific range of cells be
+	redrawn.
+	(sheet_selection_extend_vertical,
+	sheet_selection_extend_horizontal): new routines to deal with
+	mouse selection. 
+	Use those functions all over sheet.c
+
 1998-07-19  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c src/item-bar.c src/sheet.c: Removed the
