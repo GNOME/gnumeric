@@ -343,7 +343,7 @@ cell_set_comment (Cell *cell, const char *str)
  * This routine sets the rendered text field of the cell
  * it recomputes the bounding box for the cell as well
  */
-void
+static void
 cell_set_rendered_text (Cell *cell, const char *rendered_text)
 {
 	String *oldtext;
@@ -1354,11 +1354,20 @@ calc_text_dimensions (Cell *cell,
 void
 cell_calc_dimensions (Cell *cell, gboolean const auto_resize_height)
 {
+	CellSpanInfo const * otherspan;
 	int  left, right;
 
 	g_return_if_fail (cell != NULL);
 
 	cell_unregister_span (cell);
+
+	/* In case there was a different cell that used to span into this cell */
+	if (NULL != (otherspan = row_span_get (cell->row, cell->col->pos))) {
+		Cell *other = otherspan->cell;
+		cell_queue_redraw (other);
+		cell_calc_dimensions (other, FALSE);
+		cell_queue_redraw (other);
+	}
 
 	if (cell->text) {
 		char *rendered_text = cell->text->str;

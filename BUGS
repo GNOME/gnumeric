@@ -4,7 +4,6 @@ and longer term bugs.
 
 Release Critical
 ----------------
-spans are not recalculated when a value is entered in a previously empty cell.
 
 Long term breakage
 ------------------

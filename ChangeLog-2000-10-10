@@ -1,3 +1,16 @@
+2000-04-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/file.c (workbook_read) : Do NOT recalc on load for now even
+	  though there are are queued cells that desire it.  This will
+	  prematurely mark the sheet as dirty.  This will need to be
+	  revisited.
+
+	* src/cell.c (cell_set_rendered_text) : Make static.
+
+	* src/cell.c (cell_calc_dimensions) : Be careful to recalculate spans
+	  that centered on other cells when calculating the span for a new
+	  cell.
+
 2000-04-09  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-object-bonobo.c (sheet_object_bonobo_class_init): add print
