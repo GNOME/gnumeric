@@ -1194,6 +1194,7 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 {
 	static Range const dummy = { { 0,0 }, { 0,0 } };
 	struct sheet_extent_data closure;
+	GList *l;
 
 	g_return_val_if_fail (IS_SHEET (sheet), dummy);
 
@@ -1205,6 +1206,19 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 	closure.spans_and_merges_extend = spans_and_merges_extend;
 
 	g_hash_table_foreach (sheet->cell_hash, &cb_sheet_get_extent, &closure);
+
+	for (l = sheet->sheet_objects; l; l = l->next) {
+		SheetObject *so = SHEET_OBJECT (l->data);
+
+		closure.range.start.col = MIN (so->cell_bound.start.col,
+					       closure.range.start.col);
+		closure.range.start.row = MIN (so->cell_bound.start.row,
+					       closure.range.start.row);
+		closure.range.end.col = MAX (so->cell_bound.end.col,
+					     closure.range.end.col);
+		closure.range.end.row = MAX (so->cell_bound.end.row,
+					     closure.range.end.row);
+	}
 
 	if (closure.range.start.col >= SHEET_MAX_COLS - 2)
 		closure.range.start.col = 0;

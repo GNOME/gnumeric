@@ -1,3 +1,8 @@
+2001-08-13  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
+	* src/sheet.c (sheet_get_extent): Don't ignore the SheetObjects! They 
+	want to get printed even if all cells are empty.
+
 2001-08-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/formats.c (currency_symbols) : fix brazil and argentina.
