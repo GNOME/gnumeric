@@ -104,9 +104,11 @@ refresh_right_frame (PluginData *pd, PluginManager *pm)
 	if (!pd)
 		str = g_strdup (_("Modified:"));
 	else {
-		long l = plugin_data_last_modified (pd);
-		str = g_strdup_printf (_("Modified: %s"), ctime (&l));
-		str [strlen (str) - 1] = '\0'; /* get rid of '\n' */
+		time_t l = plugin_data_last_modified (pd);
+		char *timestr = g_strdup (ctime (&l));
+		timestr [strlen (timestr) - 1] = '\0'; /* get rid of '\n' */
+		str = g_strdup_printf (_("Modified: %s"), timestr);
+		g_free (timestr);
 	}
 	gtk_label_set_text (GTK_LABEL (pm->modified_lbl), str);
 	g_free (str);

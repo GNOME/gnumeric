@@ -529,7 +529,7 @@ fs_set_filename (GtkFileSelection *fsel, Workbook *wb)
  * not the workbook.
  */
 static gboolean
-wants_to_overwrite (Workbook *wb, char *name)
+wants_to_overwrite (Workbook *wb, const char *name)
 {
 	GtkWidget *d, *button_no;
 	char *message = g_strdup_printf
@@ -558,17 +558,19 @@ wants_to_overwrite (Workbook *wb, char *name)
  * not the workbook.
  */
 static gboolean
-can_try_save_to (Workbook *wb, char *name)
+can_try_save_to (Workbook *wb, const char *name)
 {
 	struct stat sb;
-	char *err_str = NULL;
+	char *err_str;
 	gboolean dir_entered = FALSE;
 	gboolean file_exists = FALSE;
-	
-	if (name [strlen (name)-1] == '/') {
+
+	if (*name == 0)
+		return FALSE;
+	else if (name [strlen (name) - 1] == '/') {
 		dir_entered = TRUE;
 	} else if ((stat (name, &sb) == 0)) {
-		if (S_ISDIR(sb.st_mode)) 
+		if (S_ISDIR (sb.st_mode))
 			dir_entered = TRUE;
 		else
 			file_exists = TRUE;
@@ -600,12 +602,13 @@ can_try_save_to (Workbook *wb, char *name)
  * not the workbook.
  */
 static gboolean
-do_save_as (CommandContext *context, Workbook *wb, char *name)
+do_save_as (CommandContext *context, Workbook *wb, const char *name)
 {
-	char *template, *base;
+	char *template, *filename;
+	const char *base;
 	gboolean success = FALSE;
-	
-	if (name [strlen (name)-1] == '/') {
+
+	if (*name == 0 || name [strlen (name) - 1] == '/') {
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 				 _("Please enter a file name,\nnot a directory"));
 		return FALSE;
@@ -619,21 +622,21 @@ do_save_as (CommandContext *context, Workbook *wb, char *name)
 	}
 
 	base = g_basename (name);
-		
+
 	if (strchr (base, '.') == NULL)
-		name = g_strconcat (name, current_saver->extension, NULL);
+		filename = g_strconcat (name, current_saver->extension, NULL);
 	else
-		name = g_strdup (name);
+		filename = g_strdup (name);
 		
-	if (!can_try_save_to (wb, name)) {
-		g_free (name);
+	if (!can_try_save_to (wb, filename)) {
+		g_free (filename);
 		return FALSE;
 	}
 
 	template = g_strdup_printf (_("Could not save to file %s\n%%s"), name);
 	command_context_push_template (context, template);
 	/* Files are expected to be in standard C format.  */
-	if (current_saver->save (context, wb, name) == 0) {
+	if (current_saver->save (context, wb, filename) == 0) {
 		workbook_set_saveinfo (wb, name, current_saver->level,
 				       current_saver->save);
 		workbook_set_dirty (wb, FALSE);
@@ -642,7 +645,7 @@ do_save_as (CommandContext *context, Workbook *wb, char *name)
 
 	command_context_pop_template (context);
 	g_free (template);
-	g_free (name);
+	g_free (filename);
 
 	return success;
 }

@@ -1,3 +1,9 @@
+2000-07-01  Morten Welinder  <terra@diku.dk>
+
+	* dialog-plugin-manager.c (refresh_right_frame): Use time_t, not
+ 	long for times.  Make sure to delete the right character ('\n'),
+ 	not an arbitrary one.
+
 2000-06-30  Morten Welinder  <terra@diku.dk>
 
 	* dialog-solver.c (dialog_results): Initialise

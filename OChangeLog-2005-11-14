@@ -1,3 +1,9 @@
+2000-07-01  Morten Welinder  <terra@diku.dk>
+
+	* src/file.c (can_try_save_to): Constify.  Handle empty name.
+	(do_save_as): Ditto.
+	(wants_to_overwrite): Ditto.
+
 2000-06-30  Morten Welinder  <terra@diku.dk>
 
 	* src/file.c (dialog_query_load_file): Guard against empty entry.
