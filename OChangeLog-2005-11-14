@@ -1,3 +1,10 @@
+2002-06-11  Jon K Hellan  <hellan@acm.org>
+
+	* src/file.c: Include unistd.h to declare unlink, close and read.
+
+	* src/main-application.c: Inlude bonobo-main.h to declare
+	bonobo_activate.
+
 2002-06-10  Jon K Hellan  <hellan@acm.org>
 
 	* src/file.c: Fix up includes to make the bonobo version build.

@@ -14,8 +14,8 @@
 #include <bonobo.h>
 #include <bonobo/bonobo-stream.h>
 #include <libgnome/gnome-util.h>
-/* #include <sys/types.h> */
 #include <sys/stat.h>
+#include <unistd.h>
 #endif
 #include "file-priv.h"
 #include "io-context.h"

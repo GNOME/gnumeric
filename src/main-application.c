@@ -28,6 +28,10 @@
 #include <time.h>
 #include <string.h>
 
+#ifdef WITH_BONOBO
+#include <bonobo/bonobo-main.h>
+#endif
+
 static int gnumeric_show_version = FALSE;
 static char *dump_file_name = NULL;
 
