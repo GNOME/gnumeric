@@ -8,7 +8,7 @@ confexec_DATA = gnumericConf.sh
 
 CLEANFILES=gnumericConf.sh
 
-## Cloned frmo gnome-print
+## Cloned from gnome-print
 ##
 ## We create printConf.sh here and not from configure because we want
 ## to get the paths expanded correctly.  Macros like srcdir are given
