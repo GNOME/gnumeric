@@ -39,6 +39,8 @@ ms_excel_write_workbook (MS_OLE *file, Workbook *wb,
 	MS_OLE_STREAM    *str;
 	BIFF_PUT *bp;
 
+	g_return_val_if_fail (wb, 0);
+	g_return_val_if_fail (file, 0);
 	g_return_val_if_fail (ver>=eBiffV7, 0);
 
 	if (!file || !wb) {

@@ -902,7 +902,9 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 						}
 						if (str) {
 							set_val = value_new_string (str);
+#if FORMULA_DEBUG > 0
 							printf ("String '%s'\n", str);
+#endif
 							g_free (str);
 						} else
 							set_val = value_new_string ("");

@@ -469,6 +469,7 @@ value_array_resize (Value *v, guint width, guint height)
 	Value *newval;
 	Value ***tmp;
 
+	g_warning ("Totally untested");
 	g_return_if_fail (v);
 	g_return_if_fail (v->type == VALUE_ARRAY);
 
@@ -645,9 +646,7 @@ eval_cell_value (Sheet *sheet, Value *value)
 		break;
 
 	case VALUE_ARRAY:
-		g_warning ("Check VALUE_ARRAY handling in eval_cell_value vs. Excel\n");
-		/* Return top left corner... */
-		res = value_duplicate (value->v.array.vals[0][0]);
+		res = value_duplicate (value);
 		break;
 
 	case VALUE_CELLRANGE:

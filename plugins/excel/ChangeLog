@@ -1,3 +1,10 @@
+1999-05-15  Michael Meeks  <michael@imaginator.com>
+
+	* ms-formula.c (ms_excel_parse_formula): Cleaned debug.
+
+	* boot.c (excel_init): Added write hooks.
+	(excel_save_95, excel_save_98, excel_save): Created.
+
 1999-05-14  Michael Meeks  <michael@imaginator.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Finaly got the ARRAY

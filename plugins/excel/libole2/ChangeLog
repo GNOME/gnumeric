@@ -1,3 +1,9 @@
+1999-05-15  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_create): Fixed stupid bug; created
+	ole file was opened read-only; also set mode = 'w'
+	Major re-working / bug-fixing...
+
 1999-05-14  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.h: Updated types to forward references.

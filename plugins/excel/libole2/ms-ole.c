@@ -442,7 +442,7 @@ ms_ole_create (const char *name)
 	guint32 sbd_startblock  = 0, zero = 0;
 	char title[] ="Root Entry";
 
-	if ((file = open (name, O_RDONLY|O_CREAT|O_TRUNC|O_NONBLOCK,
+	if ((file = open (name, O_RDWR|O_CREAT|O_TRUNC|O_NONBLOCK,
 			  S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP)) == -1)
 	{
 		printf ("Can't create file '%s'\n", name);
@@ -457,10 +457,11 @@ ms_ole_create (const char *name)
 	}
 
 	f = g_new0 (MS_OLE, 1);
-	f->header.sbd_list = 0;
-	f->header.sbf_list = 0;
+	f->header.sbd_list  = 0;
+	f->header.sbf_list  = 0;
 	f->header.root_list = 0;
-	f->file_descriptor = file;
+	f->file_descriptor  = file;
+	f->mode             = 'w';
 	fstat(file, &st);
 	f->length = st.st_size;
 	if (f->length%BB_BLOCK_SIZE)
@@ -493,17 +494,23 @@ ms_ole_create (const char *name)
 	SET_NUM_BBD_BLOCKS(f, 1);
 	SET_BBD_LIST(f, 0, 1);
 
+	/* the first BBD block : 1 */
+	for (lp=0;lp<BB_BLOCK_SIZE/4;lp++)
+		SET_GUINT32(GET_BB_START_PTR(f,1) + lp*4, END_OF_CHAIN);
+
+	SET_GUINT32(GET_BB_CHAIN_PTR(f,1), SPECIAL_BLOCK); /* Itself */
+	SET_GUINT32(GET_BB_CHAIN_PTR(f,2), END_OF_CHAIN);  /* SBD chain */
+	SET_GUINT32(GET_BB_CHAIN_PTR(f,3), END_OF_CHAIN);  /* SBF stream */
+
 	f->header.root_startblock = 0;
 	f->header.sbd_startblock  = 2;
 	f->header.sbf_startblock  = 3;
 	SET_ROOT_STARTBLOCK(f, f->header.root_startblock);
 	SET_SBD_STARTBLOCK (f, f->header.sbd_startblock);
 
+	read_root_list (f);
+
 	/* The first PPS block : 0 */
-
-/*	f->header.root_list = g_array_new (0, 0, BBPtr);
-	g_array_append_val (f->header.root_list, 0); */
-
 	lp = 0;
 	ptr = f->mem + BB_BLOCK_SIZE;
 	while (title[lp])
@@ -520,15 +527,6 @@ ms_ole_create (const char *name)
 	PPS_SET_NEXT(f, PPS_ROOT_BLOCK, PPS_END_OF_CHAIN);
 	PPS_SET_PREV(f, PPS_ROOT_BLOCK, PPS_END_OF_CHAIN);
 	PPS_SET_SIZE(f, PPS_ROOT_BLOCK, 0);
-
-	/* the first BBD block : 1 */
-
-	for (lp=0;lp<BB_BLOCK_SIZE/4;lp++)
-		SET_GUINT32(GET_BB_START_PTR(f,1) + lp*4, END_OF_CHAIN);
-
-	SET_GUINT32(GET_BB_CHAIN_PTR(f,1), SPECIAL_BLOCK); /* Itself */
-	SET_GUINT32(GET_BB_CHAIN_PTR(f,2), END_OF_CHAIN);  /* SBD chain */
-	SET_GUINT32(GET_BB_CHAIN_PTR(f,3), END_OF_CHAIN);  /* SBF stream */
 
 	/* the first SBD block : 2 */
 	for (lp=0;lp<(BB_BLOCK_SIZE/4);lp++)

@@ -195,7 +195,7 @@ float_t      value_get_as_float    (const Value *v);
 int          value_get_as_int      (const Value *v);
 char        *value_get_as_string   (const Value *value);
 
-void         value_dump            (Value *value);
+void         value_dump            (const Value *value);
 
 /* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
 guint        value_area_get_width  (Value *v);

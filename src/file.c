@@ -94,7 +94,7 @@ file_format_register_save (char *extension, char *format_description, FileFormat
 	fs->format_description = format_description;
 	fs->save = save_fn;
 
-	gnumeric_file_savers = g_list_prepend (gnumeric_file_savers, fs);
+	gnumeric_file_savers = g_list_append (gnumeric_file_savers, fs);
 }
 
 /**

@@ -639,7 +639,7 @@ forget_tree (ExprTree *tree)
 }
 
 void
-value_dump (Value *value)
+value_dump (const Value *value)
 {
 	switch (value->type){
 	case VALUE_STRING:
@@ -658,14 +658,14 @@ value_dump (Value *value)
 		int x, y;
 		
 		printf ("Array: { ");
-		for (x = 0; x < value->v.array.x; x++)
-			for (y = 0; y < value->v.array.y; y++)
-				value_dump (&value->v.array.vals [x][y]);
+		for (y = 0; y < value->v.array.y; y++)
+			for (x = 0; x < value->v.array.x; x++)
+				value_dump (value->v.array.vals [x][y]);
 		printf ("}\n");
 		break;
 	}
 	case VALUE_CELLRANGE: {
-		CellRef *c = &value->v.cell_range.cell_a;
+		const CellRef *c = &value->v.cell_range.cell_a;
 		printf ("CellRange\n");
 		printf ("%p: %d,%d rel? %d,%d\n", c->sheet, c->col, c->row,
 			c->col_relative, c->row_relative);

@@ -1,5 +1,19 @@
 1999-05-15  Michael Meeks  <michael@imaginator.com>
 
+	* src/file.c (file_format_register_save): Changed to append
+	new types; works round bug in selection.
+
+	* src/expr.c (eval_cell_value): Fix sillyness of top left
+	corner stuff.
+
+	* src/expr.h: Added const to value_dump
+
+	* src/parser.y (value_dump): Fixed array problem.
+	Added const to parameter.
+
+	
+1999-05-15  Michael Meeks  <michael@imaginator.com>
+
 	* src/parser.c (value_dump): Updated Arrays, to use Value *
 
 	* src/func.c (function_iterate_do_value): same.
