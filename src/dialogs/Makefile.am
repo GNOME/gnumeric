@@ -47,6 +47,7 @@ libdialogs_a_SOURCES =				\
 	dialog-stf-preview.c			\
 	dialog-stf-preview.h			\
 	dialog-summary.c			\
+	dialog-workbook-attr.c			\
 	dialog-zoom.c				\
 	utils-dialog.c                          \
 	dialogs.h				\
@@ -81,7 +82,8 @@ glade_DATA = 				\
 	cell-sort.glade			\
 	dialog-stf.glade		\
 	plugin-manager.glade		\
-	function-select.glade 
+	function-select.glade 		\
+	workbook-attr.glade
 
 glade_msgs = 				\
 	advanced-filter.glade.h		\
@@ -109,7 +111,8 @@ glade_msgs = 				\
 	cell-sort.glade.h		\
 	dialog-stf.glade.h		\
 	plugin-manager.glade.h		\
-	function-select.glade.h 
+	function-select.glade.h		\
+	workbook-attr.glade.h
 
 EXTRA_DIST = $(glade_DATA) $(glade_msgs)
 

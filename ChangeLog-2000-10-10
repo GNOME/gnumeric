@@ -1,3 +1,37 @@
+2000-03-24  JP Rosevear  <jpr@arcavia.com>
+
+	* src/dialogs/workbook-attr.glade.h: Dialog translation header.
+
+	* src/dialogs/workbook-attr.glade: New dialog file for workbook
+	attributes.
+
+	* src/dialogs/dialog-workbook-attr.c : New file to display a
+	workbook attribute dialog.
+	(dialog_workbook_attr): Basic preparation.
+	(attr_dialog_impl): Setup the dialog and display it.
+	(attr_dialog_init_view_page): Initialize the view tab of 
+	the workbook.
+	(cb_show_hsb_toggled): Widget callback
+	(cb_show_vsb_toggled): ditto
+	(cb_show_tabs_toggled): ditto
+	(cb_attr_dialog_dialog_destroy): Destroy callback.
+	(cb_attr_dialog_dialog_apply): Apply callback - this needs to be
+	more sophisticated and use a command for undo/redo purposes.
+
+	* src/dialogs/Makefile.am: Setup for new files.
+
+	* src/dialogs/dialogs.h: Define new dialog function.
+
+	* src/workbook.c : Update menus for new workbook dialog under 
+	the format menu and remove now unused callbacks.
+	(workbook_get_arg): Put breaks in so we don't get
+	stupid errors.
+	(workbook_set_arg): ditto
+	(workbook_attr_cmd): New call back for menu option
+
+	* src/xml-io.c (xml_arg_set): Add more types for conversion.
+	(xml_arg_get): Add more types for conversion.
+
 2000-03-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (cellref_relocate) : Simply code to implement correct logic.

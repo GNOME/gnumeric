@@ -51,12 +51,39 @@ static void
 xml_arg_set (GtkArg *arg, gchar *string)
 {
 	switch (arg->type) {
-
-		case GTK_TYPE_BOOL:
-			if (!strcmp (string, "TRUE")) 
-				GTK_VALUE_BOOL (*arg) = TRUE;
-			else
-				GTK_VALUE_BOOL (*arg) = FALSE;
+	case GTK_TYPE_CHAR:
+		GTK_VALUE_CHAR (*arg) = string[0];
+		break;
+	case GTK_TYPE_UCHAR:
+		GTK_VALUE_UCHAR (*arg) = string[0];
+		break;
+	case GTK_TYPE_BOOL:
+		if (!strcmp (string, "TRUE")) 
+			GTK_VALUE_BOOL (*arg) = TRUE;
+		else
+			GTK_VALUE_BOOL (*arg) = FALSE;
+		break;
+	case GTK_TYPE_INT:
+		GTK_VALUE_INT (*arg) = atoi (string);
+		break;
+	case GTK_TYPE_UINT:
+		GTK_VALUE_UINT (*arg) = atoi (string);
+		break;
+	case GTK_TYPE_LONG:
+		GTK_VALUE_LONG (*arg) = atol (string);
+		break;
+	case GTK_TYPE_ULONG:
+		GTK_VALUE_ULONG (*arg) = atol (string);
+		break;
+	case GTK_TYPE_FLOAT:
+		GTK_VALUE_FLOAT (*arg) = atof (string);
+		break;
+	case GTK_TYPE_DOUBLE:
+		GTK_VALUE_DOUBLE (*arg) = atof (string);
+		break;
+	case GTK_TYPE_STRING:
+		GTK_VALUE_STRING (*arg) = g_strdup (string);
+		break;
 	}
 }
 
@@ -64,12 +91,29 @@ static char *
 xml_arg_get (GtkArg *arg)
 {
 	switch (arg->type) {
-
-		case GTK_TYPE_BOOL:
-			if (GTK_VALUE_BOOL (*arg))
-				return g_strdup ("TRUE");
-			else
-				return g_strdup ("FALSE");
+	case GTK_TYPE_CHAR:
+		return g_strdup (&GTK_VALUE_CHAR (*arg));
+	case GTK_TYPE_UCHAR:
+		return g_strdup (&GTK_VALUE_UCHAR (*arg));
+	case GTK_TYPE_BOOL:
+		if (GTK_VALUE_BOOL (*arg))
+			return g_strdup ("TRUE");
+		else
+			return g_strdup ("FALSE");
+	case GTK_TYPE_INT:
+		return g_strdup_printf("%i", GTK_VALUE_INT (*arg));
+	case GTK_TYPE_UINT:
+		return g_strdup_printf("%u", GTK_VALUE_UINT (*arg));
+	case GTK_TYPE_LONG:
+		return g_strdup_printf("%i", GTK_VALUE_LONG (*arg));
+	case GTK_TYPE_ULONG:
+		return g_strdup_printf("%u", GTK_VALUE_ULONG (*arg));
+	case GTK_TYPE_FLOAT:
+		return g_strdup_printf("%f", GTK_VALUE_FLOAT (*arg));
+	case GTK_TYPE_DOUBLE:
+		return g_strdup_printf("%f", GTK_VALUE_DOUBLE (*arg));
+	case GTK_TYPE_STRING:
+		return g_strdup (GTK_VALUE_STRING (*arg));
 	}
 
 	return NULL;

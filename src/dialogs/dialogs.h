@@ -17,6 +17,7 @@ void   	 dialog_about           (Workbook *wb);
 void   	 dialog_define_names    (Workbook *wb);
 void   	 dialog_cell_comment    (Workbook *wb, Cell *cell);
 void   	 dialog_cell_sort       (Workbook *wb, Sheet *sheet);
+void   	 dialog_workbook_attr   (Workbook *wb);
 void   	 dialog_function_wizard (Workbook *wb);
 void   	 dialog_goal_seek       (Workbook *wb, Sheet *sheet);
 void   	 dialog_solver          (Workbook *wb, Sheet *sheet);

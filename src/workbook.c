@@ -925,36 +925,18 @@ cb_sheet_pref_hide_row_header (GtkWidget *widget, Workbook *wb)
 }
 
 /***********************************************************************/
-/* Workbook level preferences */
-
-static void
-cb_wb_pref_hide_hscroll (GtkWidget *widget, Workbook *wb)
-{
-	wb->show_horizontal_scrollbar = ! wb->show_horizontal_scrollbar;
-	workbook_view_pref_visibility (wb);
-}
-
-static void
-cb_wb_pref_hide_vscroll (GtkWidget *widget, Workbook *wb)
-{
-	wb->show_vertical_scrollbar = ! wb->show_vertical_scrollbar;
-	workbook_view_pref_visibility (wb);
-}
-
-static void
-cb_wb_pref_hide_tabs (GtkWidget *widget, Workbook *wb)
-{
-	wb->show_notebook_tabs = ! wb->show_notebook_tabs;
-	workbook_view_pref_visibility (wb);
-}
-
-/***********************************************************************/
 
 static void
 format_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	dialog_cell_format (wb, sheet);
+}
+
+static void
+workbook_attr_cmd (GtkWidget *widget, Workbook *wb)
+{
+	dialog_workbook_attr (wb);
 }
 
 static void
@@ -1297,16 +1279,6 @@ static GnomeUIInfo workbook_menu_format_sheet [] = {
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo workbook_menu_format_workbook [] = {
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide _Horizontal Scrollbar"),
-	    NULL, &cb_wb_pref_hide_hscroll },
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide _Vertical Scrollbar"),
-	    NULL, &cb_wb_pref_hide_vscroll },
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide Sheet _Tabs"),
-	    NULL, &cb_wb_pref_hide_tabs },
-	GNOMEUIINFO_END
-};
-
 static GnomeUIInfo workbook_menu_format [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Cells..."),
 	  N_("Modify the formatting of the selected cells"),
@@ -1314,7 +1286,9 @@ static GnomeUIInfo workbook_menu_format [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("C_olumn"), NULL, workbook_menu_format_column },
 	{ GNOME_APP_UI_SUBTREE, N_("_Row"),    NULL, workbook_menu_format_row },
 	{ GNOME_APP_UI_SUBTREE, N_("_Sheet"),  NULL, workbook_menu_format_sheet },
-	{ GNOME_APP_UI_SUBTREE, N_("_Workbook"),  NULL, workbook_menu_format_workbook },
+	{ GNOME_APP_UI_ITEM, N_("_Workbook..."),
+	  N_("Modify the workbook attributes"),
+	  workbook_attr_cmd, NULL, NULL, 0, 0, 0, 0 },
 	GNOMEUIINFO_END
 };
 
@@ -2505,12 +2479,15 @@ workbook_set_arg (GtkObject  *object,
 	case ARG_VIEW_HSCROLLBAR:
 		wb->show_horizontal_scrollbar = GTK_VALUE_BOOL (*arg);
 		workbook_view_pref_visibility (wb);
+		break;
 	case ARG_VIEW_VSCROLLBAR:
 		wb->show_vertical_scrollbar = GTK_VALUE_BOOL (*arg);
 		workbook_view_pref_visibility (wb);
+		break;
 	case ARG_VIEW_TABS:
 		wb->show_notebook_tabs = GTK_VALUE_BOOL (*arg);
 		workbook_view_pref_visibility (wb);
+		break;
 	}
 }
 
@@ -2527,10 +2504,13 @@ workbook_get_arg (GtkObject  *object,
 	  
 	  case ARG_VIEW_HSCROLLBAR:
 		  GTK_VALUE_BOOL (*arg) = wb->show_horizontal_scrollbar;
+		  break;
 	  case ARG_VIEW_VSCROLLBAR:
 		  GTK_VALUE_BOOL (*arg) = wb->show_vertical_scrollbar;
+		  break;
 	  case ARG_VIEW_TABS:
 		  GTK_VALUE_BOOL (*arg) = wb->show_notebook_tabs;
+		  break;
 	  }
 }
 

@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<GTK-Interface>
+
+<project>
+  <name>Workbook Attr</name>
+  <program_name>workbook-attr</program_name>
+  <directory></directory>
+  <source_directory>src</source_directory>
+  <pixmaps_directory>pixmaps</pixmaps_directory>
+  <language>C</language>
+  <gnome_support>True</gnome_support>
+  <gettext_support>True</gettext_support>
+  <output_main_file>False</output_main_file>
+  <main_source_file>gladesource.c</main_source_file>
+  <main_header_file>gladesource.h</main_header_file>
+  <handler_source_file>gladesig.c</handler_source_file>
+  <handler_header_file>gladesig.h</handler_header_file>
+  <output_translatable_strings>True</output_translatable_strings>
+  <translatable_strings_file>workbook-attr.glade.h</translatable_strings_file>
+</project>
+
+<widget>
+  <class>GnomePropertyBox</class>
+  <name>WorkbookAttr</name>
+
+  <widget>
+    <class>GtkNotebook</class>
+    <child_name>GnomePropertyBox:notebook</child_name>
+    <name>notebook1</name>
+    <can_focus>True</can_focus>
+    <show_tabs>True</show_tabs>
+    <show_border>True</show_border>
+    <tab_pos>GTK_POS_TOP</tab_pos>
+    <scrollable>False</scrollable>
+    <tab_hborder>2</tab_hborder>
+    <tab_vborder>2</tab_vborder>
+    <popup_enable>False</popup_enable>
+
+    <widget>
+      <class>GtkVBox</class>
+      <name>vbox1</name>
+      <homogeneous>False</homogeneous>
+      <spacing>0</spacing>
+
+      <widget>
+	<class>GtkFrame</class>
+	<name>frame5</name>
+	<label>Scrollbars</label>
+	<label_xalign>0</label_xalign>
+	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkHBox</class>
+	  <name>hbox3</name>
+	  <homogeneous>True</homogeneous>
+	  <spacing>0</spacing>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>Workbook::show_horizontal_scrollbar</name>
+	    <can_focus>True</can_focus>
+	    <label>Horizontal Scrollbar</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>Workbook::show_vertical_scrollbar</name>
+	    <can_focus>True</can_focus>
+	    <label>Vertical Scrollbar</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkFrame</class>
+	<name>frame6</name>
+	<label>Notebook</label>
+	<label_xalign>0</label_xalign>
+	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkCheckButton</class>
+	  <name>Workbook::show_notebook_tabs</name>
+	  <can_focus>True</can_focus>
+	  <label>Tabs</label>
+	  <active>False</active>
+	  <draw_indicator>True</draw_indicator>
+	</widget>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkLabel</class>
+      <child_name>Notebook:tab</child_name>
+      <name>label1</name>
+      <label>View</label>
+      <justify>GTK_JUSTIFY_CENTER</justify>
+      <wrap>False</wrap>
+      <xalign>0.5</xalign>
+      <yalign>0.5</yalign>
+      <xpad>0</xpad>
+      <ypad>0</ypad>
+    </widget>
+  </widget>
+</widget>
+
+</GTK-Interface>
