@@ -714,6 +714,14 @@ src/widgets/Makefile
 src/functions/Makefile
 doc/Makefile
 doc/C/Makefile
+doc/de/Makefile
+doc/es/Makefile
+doc/hu/Makefile
+doc/ja/Makefile
+doc/nl/Makefile
+doc/no/Makefile
+doc/ru/Makefile
+doc/sv/Makefile
 omf-install/Makefile
 plugins/Makefile
 plugins/numtheory/Makefile

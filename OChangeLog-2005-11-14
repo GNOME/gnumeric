@@ -1,3 +1,8 @@
+2002-02-20  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : add the new doc dirs for the topic.dat files.
+	* doc/Makefile.am : ditto.
+
 2002-02-20  Morten Welinder  <terra@diku.dk>
 
         * src/format.c (format_value): Missing g_strdup added for sanity

@@ -1,7 +1,6 @@
 ## Process this file with automake to produce Makefile.in.
 
-# 'es' subdirectory is old an incomplete
-SUBDIRS = C 
+SUBDIRS = C de es hu ja nl no ru sv
 
 EXTRA_DIST = 				\
 	translating.sgml		\
