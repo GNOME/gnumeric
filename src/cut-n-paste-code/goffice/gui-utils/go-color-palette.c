@@ -41,6 +41,8 @@
 #include <gui-util.h>
 #include <style-color.h>
 
+#include <string.h>
+
 #define COLOR_PREVIEW_WIDTH 15
 #define COLOR_PREVIEW_HEIGHT 15
 

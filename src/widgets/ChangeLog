@@ -1,3 +1,7 @@
+2003-06-13  Jody Goldberg <jody@gnome.org>
+
+	* color-palette.c : include string.h to suppress warning
+
 2003-06-13  Jon K Hellan  <hellan@acm.org>
 
 	* color-palette.c (color_palette_destroy, color_palette_finalize,
