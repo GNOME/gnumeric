@@ -6,21 +6,7 @@
 #include "gui-gnumeric.h"	/* TODO : work to remove this when sheet MVC is done */
 #include "xml-io.h"
 
-#ifdef ENABLE_BONOBO
-#       include <bonobo/bonobo-print-client.h>
-#endif
-
-typedef struct {
-	SheetObject     *so;
-#ifdef ENABLE_BONOBO
-	BonoboPrintData *pd;
-#endif
-	double           x_pos_pts;
-	double           y_pos_pts;
-
-	double           scale_x;
-	double           scale_y;
-} SheetObjectPrintInfo;
+#include <libgnomeprint/gnome-print.h>
 
 typedef enum {
 	SO_ANCHOR_UNKNOWN			= 0x00,
@@ -46,7 +32,8 @@ SheetObject *sheet_object_read_xml    (XmlParseContext const *ctxt,
 xmlNodePtr   sheet_object_write_xml   (SheetObject const *so,
 				       XmlParseContext const *ctxt);
 void         sheet_object_print       (SheetObject const *so,
-				       SheetObjectPrintInfo const *pi);
+				       GnomePrintContext *ctx,
+				       double base_x, double base_y);
 void         sheet_object_clone_sheet (Sheet const *src, Sheet *dst);
 
 void	     sheet_object_realize	  (SheetObject *object);

@@ -3859,9 +3859,8 @@ sheet_col_row_default_calc (Sheet *sheet, double units, int margin_a, int margin
 double
 sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 {
-	double units = 0;
+	double units = 0., sign = 1.;
 	int i;
-	int sign = 1;
 
 	g_return_val_if_fail (IS_SHEET (sheet), 1.);
 
@@ -3869,7 +3868,7 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 		int const tmp = to;
 		to = from;
 		from = tmp;
-		sign = -1;
+		sign = -1.;
 	}
 
 	g_return_val_if_fail (from >= 0, 1.);

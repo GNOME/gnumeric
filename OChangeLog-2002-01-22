@@ -1,3 +1,27 @@
+2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
+	* src/print.c: Remove all bonobo-related stuff.
+	(print_sheet_objects): New. Prints all objects that overlap a given
+	range and clips to that range.
+	(print_page_cells): Call print_sheet_objects from here.
+	(print_page_object): Removed. 
+	(print_page): Check for sheet objects if no printable cells can be 
+	found.
+	(render_sheet_objects): Removed.
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_print): Move the
+	bonobo printing stuff in here.
+	* src/sheet-object-impl.h: The virtual method print now has only
+	three arguments: The PrintContext and the base (x & y) where to
+	start printing.
+	* src/sheet-object.[c,h]: Adjusted to new syntax.
+	* src/sheet-object-cell-commend.c (cell_comment_print): Same here.
+	* src/sheet-object-graphic.c (sheet_object_graphic_print): And here.
+	Fixed some broken logic. Printing of arrows implemented.
+	(sheet_object_filled_print): Fixed.
+	* src/sheet.c (sheet_col_get_distance_pts): Make sign double like in 
+	sheet_row_get_distance_pts. This didn't fix my problem but it is
+	nicer this way (problem got fixed by Jody's fix below).
+	
 2001-08-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-object.c (cell_offset_calc_pt) : Fixcut-n-paste-o to fix

@@ -376,10 +376,11 @@ sheet_object_realize (SheetObject *so)
 }
 
 void
-sheet_object_print (SheetObject const *so, SheetObjectPrintInfo const *pi)
+sheet_object_print (SheetObject const *so, GnomePrintContext *ctx, 
+		    double base_x, double base_y)
 {
 	if (SO_CLASS (so)->print)
-		SO_CLASS (so)->print (so, pi);
+		SO_CLASS (so)->print (so, ctx, base_x, base_y);
 	else
 		g_warning ("Un-printable sheet object");
 }

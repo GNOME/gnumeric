@@ -134,13 +134,16 @@ sheet_object_bonobo_load_persist_stream (SheetObjectBonobo *sob,
 }
 
 static void
-sheet_object_bonobo_print (SheetObject const *so,
-			   SheetObjectPrintInfo const *pi)
+sheet_object_bonobo_print (SheetObject const *so, GnomePrintContext *ctx,
+			   double base_x, double base_y)
 {
 	SheetObjectBonobo const *sob;
 	BonoboPrintClient *bpc;
+	BonoboPrintData *bpd;
+	double coords [4];
 
-	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (IS_SHEET_OBJECT_BONOBO (so));
+	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (ctx));
 
 	sob = SHEET_OBJECT_BONOBO (so);
 
@@ -153,7 +156,12 @@ sheet_object_bonobo_print (SheetObject const *so,
 		return;
 	}
 
-	bonobo_print_client_render (bpc, pi->pd);
+	sheet_object_position_pts (so, coords);
+	bpd = bonobo_print_data_new ((coords [2] - coords [0]),
+				     (coords [3] - coords [1]));
+	bonobo_print_client_render (bpc, bpd);
+	bonobo_print_data_render (ctx, base_x, base_y, bpd, 0.0, 0.0);
+	bonobo_print_data_free (bpd);
 }
 
 void

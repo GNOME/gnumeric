@@ -209,7 +209,8 @@ cell_comment_write_xml (SheetObject const *so,
 }
 
 static void
-cell_comment_print (SheetObject const *so, SheetObjectPrintInfo const *pi)
+cell_comment_print (SheetObject const *so, GnomePrintContext *ctx,
+		    double base_x, double base_y)
 {
 	/*
 	 * Nothing in here. This function is here to suppress a warning

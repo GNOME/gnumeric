@@ -22,6 +22,7 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-colors.h>
 #include <gal/widgets/widget-color-combo.h>
+#include <math.h>
 
 /* These are persisted */
 typedef enum {
@@ -235,44 +236,32 @@ sheet_object_graphic_clone (SheetObject const *so, Sheet *sheet)
 }
 
 static void
-sheet_object_graphic_print (SheetObject const *so,
-			    SheetObjectPrintInfo const *pi)
+sheet_object_graphic_print (SheetObject const *so, GnomePrintContext *ctx,
+			    double base_x, double base_y)
 {
-#ifdef ENABLE_BONOBO
 	SheetObjectGraphic *sog;
 	double coords [4];
 	double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
-	GnomePrintMeta *meta;
-	GnomePrintContext *ctx;
 
 	g_return_if_fail (IS_SHEET_OBJECT_GRAPHIC (so));
+	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (ctx));
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
 	sheet_object_position_pts (so, coords);
 
-	if (so->type == SHEET_OBJECT_ARROW) {
-		static gboolean warned = FALSE;
-		if (!warned)
-			g_warning ("FIXME: I print arrows as lines");
-		warned = TRUE;
-	}
-
-	meta = bonobo_print_data_get_meta (pi->pd);
-	ctx = GNOME_PRINT_CONTEXT (meta);
-	
 	gnome_print_gsave (ctx);
 
 	if (sog->fill_color) {
 		switch (so->direction) {
 		case SO_DIR_UP_RIGHT:
 		case SO_DIR_DOWN_RIGHT:
-			x1 = coords [0];
-			x2 = coords [2];
+			x1 = base_x;
+			x2 = base_x + (coords [2] - coords [0]);
 			break;
 		case SO_DIR_UP_LEFT:
 		case SO_DIR_DOWN_LEFT:
-			x1 = coords [2];
-			x2 = coords [0];
+			x1 = base_x + (coords [2] - coords [0]);
+			x2 = base_x;
 			break;
 		default:
 			g_warning ("Cannot guess direction!");
@@ -283,13 +272,13 @@ sheet_object_graphic_print (SheetObject const *so,
 		switch (so->direction) {
 		case SO_DIR_UP_LEFT:
 		case SO_DIR_UP_RIGHT:
-			y1 = coords [3];
-			y2 = coords [1];
+			y1 = base_y;
+			y2 = base_y + (coords [3] - coords [1]);
 			break;
 		case SO_DIR_DOWN_LEFT:
 		case SO_DIR_DOWN_RIGHT:
-			y1 = coords [1];
-			y2 = coords [3];
+			y1 = base_y + (coords [3] - coords [1]);
+			y2 = base_y;
 			break;
 		default:
 			g_warning ("Cannot guess direction!");
@@ -297,21 +286,45 @@ sheet_object_graphic_print (SheetObject const *so,
 			return;
 		}
 
-		gnome_print_setrgbcolor (ctx, (double) sog->fill_color->red,
-					      (double) sog->fill_color->green,
-					      (double) sog->fill_color->blue);
+		gnome_print_setrgbcolor (ctx,
+					 (double) sog->fill_color->red,
+					 (double) sog->fill_color->green,
+					 (double) sog->fill_color->blue);
+
+		if (sog->type == SHEET_OBJECT_ARROW) {
+			double phi;
+
+			phi = atan2 (y2 - y1, x2 - x1) - M_PI_2;
+
+			gnome_print_gsave (ctx);
+			gnome_print_translate (ctx, x2, y2);
+			gnome_print_rotate (ctx, phi / (2 * M_PI) * 360);
+			gnome_print_setlinewidth (ctx, 1.0);
+			gnome_print_newpath (ctx);
+			gnome_print_moveto (ctx, 0.0, 0.0); 
+			gnome_print_lineto (ctx, -sog->c, -sog->b);
+			gnome_print_lineto (ctx, 0.0, -sog->a);
+			gnome_print_lineto (ctx, sog->c, -sog->b);
+			gnome_print_closepath (ctx);
+			gnome_print_fill (ctx);
+			gnome_print_grestore (ctx);
+
+			/*
+			 * Make the line shorter so that the arrow won't be
+			 * on top of a (perhaps quite fat) line.
+			 */
+			x2 += sog->a * sin (phi);
+			y2 -= sog->a * cos (phi);
+		}
+
 		gnome_print_setlinewidth (ctx, sog->width);
 		gnome_print_newpath (ctx);
 		gnome_print_moveto (ctx, x1, y1);
 		gnome_print_lineto (ctx, x2, y2);
 		gnome_print_stroke (ctx);
 	}
-	
+
 	gnome_print_grestore (ctx);
-#else
-	g_warning (PACKAGE " has been compiled without bonobo support. "
-		   "Objects will not be printed.");
-#endif
 }
 
 typedef struct
@@ -829,7 +842,6 @@ sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
 	gtk_widget_show (dialog);
 }
 
-#ifdef ENABLE_BONOBO
 static void
 make_rect (GnomePrintContext *ctx, double x1, double x2, double y1, double y2)
 {
@@ -910,30 +922,28 @@ make_ellipse (GnomePrintContext *ctx,
 			     x1,             center_y + ch1,
 			     x1,             center_y); 
 }
-#endif
 
 static void
-sheet_object_filled_print (SheetObject const *so,
-			   SheetObjectPrintInfo const *pi)
+sheet_object_filled_print (SheetObject const *so, GnomePrintContext *ctx,
+			   double base_x, double base_y)
 {
-#ifdef ENABLE_BONOBO
 	SheetObjectFilled *sof;
 	SheetObjectGraphic *sog;
 	double coords [4];
-	double width, height;
-	GnomePrintMeta *meta;
-	GnomePrintContext *ctx;
+	double start_x, start_y;
+	double end_x, end_y;
 
 	g_return_if_fail (IS_SHEET_OBJECT_FILLED (so));
+	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (ctx));
 	sof = SHEET_OBJECT_FILLED (so);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
 	sheet_object_position_pts (so, coords);
-	width  = coords [2] - coords [0];
-	height = coords [3] - coords [1];
 
-	meta = bonobo_print_data_get_meta (pi->pd);
-	ctx = GNOME_PRINT_CONTEXT (meta);
+	start_x = base_x;
+	start_y = base_y;
+	end_x = start_x + (coords [2] - coords [0]);
+	end_y = start_y + (coords [3] - coords [1]);
 
 	gnome_print_gsave (ctx);
 
@@ -945,9 +955,9 @@ sheet_object_filled_print (SheetObject const *so,
 					 (double) sof->outline_color->blue); 
 		gnome_print_newpath (ctx);
 		if (sog->type == SHEET_OBJECT_OVAL)
-			make_ellipse (ctx, 0.0, width, 0.0, height);
+			make_ellipse (ctx, start_x, end_x, start_y, end_y);
 		else
-			make_rect (ctx, 0.0, width, 0.0, height);
+			make_rect (ctx, start_x, end_x, start_y, end_y);
 		gnome_print_closepath (ctx);
 		gnome_print_stroke (ctx);
 	}
@@ -959,17 +969,13 @@ sheet_object_filled_print (SheetObject const *so,
 					 (double) sog->fill_color->blue);
 		gnome_print_newpath (ctx);
 		if (sog->type == SHEET_OBJECT_OVAL)
-			make_ellipse (ctx, 0.0, width, 0.0, height);
+			make_ellipse (ctx, start_x, end_x, start_y, end_y);
 		else
-			make_rect (ctx, 0.0, width, 0.0, height);
+			make_rect (ctx, start_x, end_x, start_y, end_y);
 		gnome_print_fill (ctx);
 	}
 
 	gnome_print_grestore (ctx);
-#else
-	g_warning (PACKAGE " has been compiled without bonobo support. "
-		   "Objects will not be printed.");
-#endif
 }
 
 static void

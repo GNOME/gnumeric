@@ -13,7 +13,6 @@
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-printer-dialog.h>
 #include <libgnomeprint/gnome-print-copies.h>
-
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-master-preview.h>
 #include <libgnomeprint/gnome-print-dialog.h>
@@ -108,11 +107,6 @@ typedef struct {
 	GnomePrintContext *print_context;
 
 	/*
-	 * Part 4: Sheet objects as BonoboPrintData.
-	 */
-	GList *sheet_objects;
-
-	/*
 	 * Part 5: Headers and footers
 	 */
 	HFRenderInfo *render_info;
@@ -127,15 +121,85 @@ print_titles (PrintJobInfo const *pj, Sheet const *sheet,
 }
 
 static void
+print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet,
+		     int start_col, int start_row, int end_col, int end_row,
+		     double base_x, double base_y)
+{
+	GList *l;
+	Range range;
+
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (pj != NULL);
+
+	range_init (&range, start_col, start_row, end_col, end_row);
+
+	for (l = sheet->sheet_objects; l; l = l->next) {
+		SheetObject *so = SHEET_OBJECT (l->data);
+		double coords [4];
+		double obj_base_x = 0.0, obj_base_y = 0.0;
+		double end_x, end_y;
+
+		/* First check if we need to print this object */
+		if (!range_overlap (&range, &so->cell_bound))
+			continue;
+
+		sheet_object_position_pts (so, coords);
+		switch (pj->pi->scaling.type) {
+		case PERCENTAGE:
+			obj_base_x = base_x + coords [0] 
+				- sheet_col_get_distance_pts (sheet, 0,
+							      start_col);
+			obj_base_y = base_y - coords [3]
+				+ sheet_row_get_distance_pts (sheet, 0, 
+							      start_row);
+			break;
+		case SIZE_FIT:
+			g_warning ("SIZE_FIT not implemented for "
+				   "objects!");
+			continue;
+		}
+
+		/*
+		 * Make sure the object doesn't go beyond the specified
+		 * cells.
+		 */
+		end_x = base_x + sheet_col_get_distance_pts (sheet, start_col,
+						             end_col + 1);
+		end_y = base_y - sheet_row_get_distance_pts (sheet, start_row,
+						             end_row + 1);
+		print_make_rectangle_path (pj->print_context, base_x, base_y,
+					   end_x, end_y);
+#ifndef NO_DEBUG_PRINT
+		if (print_debugging > 0) {
+			gnome_print_gsave (pj->print_context);
+			gnome_print_stroke (pj->print_context);
+			gnome_print_moveto (pj->print_context, base_x, base_y);
+			gnome_print_lineto (pj->print_context, end_x, end_y);
+			gnome_print_stroke (pj->print_context);
+			gnome_print_grestore (pj->print_context);
+		}
+#endif
+		gnome_print_clip (pj->print_context);
+
+		sheet_object_print (so, pj->print_context,
+				    obj_base_x, obj_base_y);
+	}
+}
+
+static void
 print_page_cells (PrintJobInfo const *pj, Sheet const *sheet,
 		  int start_col, int start_row, int end_col, int end_row,
 		  double base_x, double base_y)
 {
-	base_y = (pj->height/ (pj->pi->scaling.percentage / 100.)) - base_y;
+	/* Invert PostScript Y coordinates to make X&Y cases the same */
+	base_y = (pj->height / (pj->pi->scaling.percentage / 100.)) - base_y;
+
 	print_cell_range (pj->print_context, sheet,
-		start_col, start_row,
-		end_col, end_row,
-		base_x, base_y, !pj->pi->print_grid_lines);
+			  start_col, start_row,
+			  end_col, end_row,
+			  base_x, base_y, !pj->pi->print_grid_lines);
+	print_sheet_objects (pj, sheet, start_col, start_row, end_col, end_row,
+			     base_x, base_y);
 }
 
 /*
@@ -150,6 +214,7 @@ print_page_repeated_rows (PrintJobInfo const *pj, Sheet const *sheet,
 			  double base_x, double base_y)
 {
 	Range const *r = &pj->pi->repeat_top.range;
+
 	print_page_cells (pj, sheet,
 		start_col, MIN (r->start.row, r->end.row),
 		end_col,   MAX (r->start.row, r->end.row),
@@ -168,6 +233,7 @@ print_page_repeated_cols (PrintJobInfo const *pj, Sheet const *sheet,
 			  double base_x, double base_y)
 {
 	Range const *r = &pj->pi->repeat_left.range;
+
 	print_page_cells (pj, sheet,
 		MIN (r->start.col, r->end.col), start_row,
 		MAX (r->start.col, r->end.col), end_row,
@@ -192,37 +258,6 @@ print_page_repeated_intersect (PrintJobInfo const *pj, Sheet const *sheet,
 				  pj->pi->repeat_left.range.end.col,
 				  base_x, base_y);
 }
-
-#ifdef ENABLE_BONOBO
-
-static void
-print_page_object (PrintJobInfo const *pj, Sheet const *sheet,
-		   int start_col, int start_row,
-		   double base_x, double base_y,
-		   SheetObjectPrintInfo *pi)
-{
-	double       x, y;
-
-	g_return_if_fail (pj != NULL);
-	g_return_if_fail (pi != NULL);
-	g_return_if_fail (pi->so != NULL);
-
-	x = sheet_col_get_distance_pts (sheet, 0, start_col);
-	y = sheet_row_get_distance_pts (sheet, 0, start_row);
-
-	/* FIXME: we need to calc meta_x & meta_y for scissoring */
-
-	bonobo_print_data_render (pj->print_context,
-				  base_x + pi->x_pos_pts - x,
-				  pj->height - base_y - pi->y_pos_pts + y - pi->pd->height,
-				  pi->pd, 0, 0/*meta_x, meta_y*/);
-/*	printf ("PosX: %g + %g  - %g = %g\n", base_x, pi->x_pos_pts, x,
-		base_x + pi->x_pos_pts - x);
-	printf ("PosY: %g - %g - %g + %g - %g = %g\n", pj->height, base_y,
-		pi->y_pos_pts, y, pi->pd->height,
-		pj->height - base_y - pi->y_pos_pts + y - pi->pd->height);*/
-}
-#endif
 
 typedef enum {
 	LEFT_HEADER,
@@ -462,6 +497,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet,
 	float x, y, clip_y;
 	char *pagenotxt;
 	gboolean printed;
+	GList *l;
 
 	/* FIXME: Can col / row space calculation be factored out? */
 
@@ -507,6 +543,16 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet,
 		printed = sheet_style_has_visible_content (sheet,
 			range_init (&r, start_col, start_row,
 				    end_col, end_row));
+	}
+
+	/* Check for sheet objects if nothing has been found so far */
+	if (!printed) {
+		Range range;
+		range_init (&range, start_col, start_row, end_col, end_row);
+		for (l = sheet->sheet_objects; l && !printed; l = l->next) {
+			SheetObject *so = SHEET_OBJECT (l->data);
+			printed = range_overlap (&range, &so->cell_bound);
+		}
 	}
 
 	if (!output)
@@ -618,17 +664,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet,
 	}
 
 	print_page_cells (pj, sheet,
-		start_col, start_row, end_col, end_row, x, y);
-
-#ifdef ENABLE_BONOBO
-	{
-		GList *l;
-
-		for (l = pj->sheet_objects; l; l = l->next)
-			print_page_object (pj, sheet, start_col, start_row,
-					   x, y, l->data);
-	}
-#endif
+			  start_col, start_row, end_col, end_row, x, y);
 
 	gnome_print_showpage (pj->print_context);
 
@@ -665,45 +701,6 @@ compute_group (PrintJobInfo const *pj, Sheet const *sheet,
 
 	return count;
 }
-
-#ifdef ENABLE_BONOBO
-/*
- * Render Sheet objects.
- *
- * FIXME : JEG Sep/10/00
- * Michael : Why is this bonobo specific ?
- * Shouldn't the printing be a virtual for SheetObject ?
- *
- * FIXME: JKH Sep/11/00
- * Hmm. This appears to fail when sheet is split over several pages.
- */
-static void
-render_sheet_objects (PrintJobInfo *pj, Sheet const *sheet)
-{
-	GList *l;
-
-	pj->sheet_objects = NULL;
-	for (l = sheet->sheet_objects; l; l = l->next) {
-		SheetObjectPrintInfo *pi;
-		double coords [4];
-
-		pi = g_new0 (SheetObjectPrintInfo, 1);
-
-		pi->so = l->data;
-		pi->scale_x = pi->scale_y = 1.;
-
-		sheet_object_position_pts (pi->so, coords);
-		pi->x_pos_pts = coords [0];
-		pi->y_pos_pts = coords [1];
-
-		pi->pd = bonobo_print_data_new ((coords [2] - coords [0]),
-						(coords [3] - coords [1]));
-		sheet_object_print (pi->so, pi);
-
-		pj->sheet_objects = g_list_prepend (pj->sheet_objects, pi);
-	}
-}
-#endif
 
 #define COL_FIT(col) (col >= SHEET_MAX_COLS ? (SHEET_MAX_COLS-1) : col)
 #define ROW_FIT(row) (row >= SHEET_MAX_ROWS ? (SHEET_MAX_ROWS-1) : row)
@@ -853,29 +850,10 @@ print_sheet_range (PrintJobInfo *pj, Sheet const *sheet,
 {
 	int pages;
 
-#ifdef ENABLE_BONOBO
-	render_sheet_objects (pj, sheet);
-#endif
-
  	if (pj->pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT)
 		pages = print_range_down_then_right (pj, sheet, r, output);
 	else
 		pages = print_range_right_then_down (pj, sheet, r, output);
-
-#ifdef ENABLE_BONOBO
-	{
-	GList  *l;
-	for (l = pj->sheet_objects; l; l = l->next) {
-		SheetObjectPrintInfo *pi = l->data;
-
-		bonobo_print_data_free (pi->pd);
-		pi->pd = NULL;
-		g_free (pi);
-	}
-	g_list_free (pj->sheet_objects);
-	pj->sheet_objects = NULL;
-	}
-#endif
 
 	return pages;
 }
@@ -1091,8 +1069,6 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->render_info->sheet = sheet;
 	pj->render_info->page = 1;
 
-	pj->sheet_objects = NULL;
-
 	pj->decoration_font = gnome_font_new ("Helvetica", 12);
 
 	return pj;
@@ -1103,9 +1079,6 @@ print_job_info_destroy (PrintJobInfo *pj)
 {
 	hf_render_info_destroy (pj->render_info);
 	gtk_object_unref (GTK_OBJECT (pj->decoration_font));
-
-	if (pj->sheet_objects)
-		g_warning ("Leaking sheet object print data");
 
 	g_free (pj);
 }
