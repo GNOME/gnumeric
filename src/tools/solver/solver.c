@@ -46,6 +46,9 @@
 #include <unistd.h>
 #include <sys/times.h>
 
+
+extern const gchar *solver_max_time_err;
+
 /* ------------------------------------------------------------------------- */
 
 
@@ -308,24 +311,6 @@ restore_original_values (SolverResults *res)
 /************************************************************************
  */
 
-#if 0
-static void
-callback (int iter, gnm_float *x, gnm_float bv, gnm_float cx, int n,
-	  void *data)
-{
-        int     i;
-
-	printf ("Iteration=%3d ", iter + 1);
-	printf ("bv=%9.4" GNUM_FORMAT_f
-		" cx=%9.4" GNUM_FORMAT_f
-		" gap=%9.4" GNUM_FORMAT_f "\n",
-		bv, cx, gnumabs (bv - cx));
-	for (i = 0; i < n; i++)
-	        printf ("%8.4" GNUM_FORMAT_f " ", x[i]);
-        printf ("\n");
-}
-#endif
-
 static int
 get_col_nbr (SolverResults *res, CellPos *pos)
 {
@@ -360,11 +345,11 @@ clear_input_vars (int n_variables, SolverResults *res)
 static SolverProgram
 lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		   SolverResults *res, const SolverLPAlgorithm *alg,
-		   gnm_float start_time, gchar **errmsg)
+		   gnm_float start_time, GTimeVal start, const gchar **errmsg)
 {
         SolverProgram     program;
 	Cell              *target;
-	gnm_float        x, x0, base;
+	gnm_float         x, x0, base;
 	int               i, n, ind;
 
 	/* Initialize the SolverProgram structure. */
@@ -400,6 +385,8 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 	/* Add constraints. */
 	for (i = ind = 0; i < param->n_total_constraints; i++) {
 	        SolverConstraint *c = solver_get_constraint (res, i);
+		GTimeVal cur_time;
+
 		target = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
 
 		/* Check that LHS is a number type. */
@@ -454,6 +441,16 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		x = value_get_as_float (target->value);
 		alg->set_constr_fn (program, ind, c->type, x);
 		ind++;
+
+		/* Check that max time has not elapsed. */
+		g_get_current_time (&cur_time);
+		if (cur_time.tv_sec - start.tv_sec >
+		    param->options.max_time_sec) {
+			*errmsg = solver_max_time_err;
+			solver_results_free (res);
+			return NULL;
+		}
+		
 	}
 
 	/* Set up the problem type. */
@@ -500,7 +497,7 @@ static gboolean
 check_program_definition_failures (Sheet            *sheet,
 				   SolverParameters *param,
 				   SolverResults    **res,
-				   gchar            **errmsg)
+				   const gchar      **errmsg)
 {
 	GSList           *inputs;
 	GSList           *c;
@@ -598,7 +595,7 @@ check_program_definition_failures (Sheet            *sheet,
 
 static SolverResults *
 solver_run (WorkbookControl *wbc, Sheet *sheet,
-	    const SolverLPAlgorithm *alg, gchar **errmsg)
+	    const SolverLPAlgorithm *alg, const gchar **errmsg)
 {
 	SolverParameters  *param = sheet->solver_parameters;
 	SolverProgram     program;
@@ -618,7 +615,8 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 	save_original_values (res, param, sheet);
 
 	program              = lp_qp_solver_init (sheet, param, res, alg, 
-						  -res->time_real, errmsg);
+						  -res->time_real, start,
+						  errmsg);
 	if (program == NULL)
 	        return NULL;
 
@@ -646,7 +644,7 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 }
 
 SolverResults *
-solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
+solver (WorkbookControl *wbc, Sheet *sheet, const gchar **errmsg)
 {
 	const SolverLPAlgorithm *alg = NULL;
 	SolverParameters  *param = sheet->solver_parameters;
