@@ -83,7 +83,13 @@ GNOME Spread Sheet task list
 
    It does not shrink.
 
+* Basic functions
+
+   V/H LOOKUP, UPPER, LOWER
+
 * Excel importing
+
+   Correct Date support.
 
    Add collation of BIFF continuation records to the
    previous record, to save many checks in the code.

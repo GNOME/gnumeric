@@ -1,3 +1,27 @@
+1999-02-09  Michael Meeks  <michael@imaginator.com>
+	
+	* plugins/excel/ms-excel.c (ms_excel_sheet_new,
+	ms_excel_workbook_attach, biff_boundsheet_data_new):
+	Major sheet allocation re-organisation, hash boundsheet data.
+	(ms_excel_sheet_set_version, ms_excel_sheet_set_index,
+	ms_excel_workbook_get_sheet): re-hashed API
+	* plugins/excel/ms-formula.c: PTG_MISSARG implemented
+
+1999-02-08  Sean Atkinson  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-excel-biff.h, ms-excel.c:
+	added BIFF_EXTERNCOUNT
+	* plugins/excel/ms-excel.c (ms_excel_read_sheet): 
+	stubbed BIFF_EXTERNSHEET, stubbed SUPBOOK
+	(biff_get_externsheet_name): implemented inter-sheet references
+	* plugins/excel/ms-formula.ch: added FORMULA_PTG_CONCAT
+	(ms_excel_parse_formula): implemented FORMULA_PTG_REF_3D
+
+1999-02-07  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c (ms_excel_parse_formula):
+	FORMULA_PTG_ATTR stubs: can ignore most of AttrSpace.
+	
 1999-02-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (cell_draw): Make the clip region one pixel bigger to

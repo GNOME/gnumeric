@@ -15,14 +15,16 @@ extern Workbook *ms_excelReadWorkbook(MS_OLE *file) ;
 
 typedef struct _BIFF_BOUNDSHEET_DATA
 {
-  LONG streamStartPos ;
-  eBiff_filetype type ;
-  eBiff_hidden   hidden ;
-  char *name ;
+	guint16 index ;
+	guint32 streamStartPos ;
+	eBiff_filetype type ;
+	eBiff_hidden   hidden ;
+	char *name ;
 } BIFF_BOUNDSHEET_DATA ;
 
 typedef struct _MS_EXCEL_SHEET
 {
+	int index ;
 	Sheet *gnum_sheet ;
 	struct _MS_EXCEL_WORKBOOK *wb ;
 	eBiff_version ver ;
@@ -53,13 +55,22 @@ typedef struct _BIFF_FONT_DATA
 	char *fontname ;
 } BIFF_FONT_DATA ;
 
+typedef struct _BIFF_EXTERNSHEET_DATA {
+	guint16 sup_idx ;
+	guint16 first_tab ;
+	guint16 last_tab ;
+} BIFF_EXTERNSHEET_DATA ;
+
 typedef struct _MS_EXCEL_WORKBOOK
 {
-	GList *boundsheet_data ;
+	GHashTable *boundsheet_data_by_stream ;
+	GHashTable *boundsheet_data_by_index ;
 	GHashTable *XF_cell_records ;
 	GHashTable *XF_style_records ;
 	GHashTable *font_data ;
-	GList *excel_sheets ;
+  	GList *excel_sheets ;
+	BIFF_EXTERNSHEET_DATA *extern_sheets ;
+	guint16 num_extern_sheets ;
 	MS_EXCEL_PALETTE *palette ;
 	/**
 	 *    Global strings kludge, works for me,
@@ -70,8 +81,10 @@ typedef struct _MS_EXCEL_WORKBOOK
 
 	/**
 	 * Gnumeric parallel workbook
-	 **/
+   	 **/
 	Workbook *gnum_wb ;
 } MS_EXCEL_WORKBOOK ;
+
+extern char* biff_get_externsheet_name (MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first) ;
 
 #endif

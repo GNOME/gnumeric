@@ -72,6 +72,8 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 #define BIFF_PRECISION                  0x0e
 #define BIFF_HEADER                     0x14
 #define BIFF_FOOTER                     0x15
+#define BIFF_EXTERNCOUNT                0x16 /* number of external references*/
+#define BIFF_EXTERNSHEET                0x17
 #define BIFF_ARRAY                      0x21
 #define BIFF_FONT                       0x31
 #define BIFF_XF_OLD                     0x43
@@ -87,8 +89,8 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 #define BIFF_STRING_REF			0xfd
 
 /* Odd balls */
+#define BIFF_SUPBOOK                   0x1ae /* Supporting Workbook */
 #define BIFF_DV                        0x1be
 #define BIFF_BOOLERR                   0x205
 #define BIFF_STRING                    0x207
 #endif
-
