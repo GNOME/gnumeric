@@ -28,6 +28,8 @@ typedef struct {
 gboolean
 criteria_test_equal (Value const *x, Value const *y)
 {
+	g_return_val_if_fail (x != NULL, FALSE);
+	g_return_val_if_fail (y != NULL, FALSE);
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        if (value_get_as_float (x) == value_get_as_float (y))
 		        return 1;
@@ -43,6 +45,8 @@ criteria_test_equal (Value const *x, Value const *y)
 gboolean
 criteria_test_unequal (Value const *x, Value const *y)
 {
+	g_return_val_if_fail (x != NULL, FALSE);
+	g_return_val_if_fail (y != NULL, FALSE);
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        if (value_get_as_float (x) != value_get_as_float (y))
 		        return 1;
@@ -58,6 +62,8 @@ criteria_test_unequal (Value const *x, Value const *y)
 gboolean
 criteria_test_less (Value const *x, Value const *y)
 {
+	g_return_val_if_fail (x != NULL, FALSE);
+	g_return_val_if_fail (y != NULL, FALSE);
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        if (value_get_as_float (x) < value_get_as_float (y))
 		        return 1;
@@ -70,6 +76,8 @@ criteria_test_less (Value const *x, Value const *y)
 gboolean
 criteria_test_greater (Value const *x, Value const *y)
 {
+	g_return_val_if_fail (x != NULL, FALSE);
+	g_return_val_if_fail (y != NULL, FALSE);
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        if (value_get_as_float (x) > value_get_as_float (y))
 		        return 1;
@@ -82,6 +90,8 @@ criteria_test_greater (Value const *x, Value const *y)
 gboolean
 criteria_test_less_or_equal (Value const *x, Value const *y)
 {
+	g_return_val_if_fail (x != NULL, FALSE);
+	g_return_val_if_fail (y != NULL, FALSE);
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        if (value_get_as_float (x) <= value_get_as_float (y))
 		        return 1;
@@ -94,6 +104,8 @@ criteria_test_less_or_equal (Value const *x, Value const *y)
 gboolean
 criteria_test_greater_or_equal (Value const *x, Value const *y)
 {
+	g_return_val_if_fail (x != NULL, FALSE);
+	g_return_val_if_fail (y != NULL, FALSE);
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        if (value_get_as_float (x) >= value_get_as_float (y))
 		        return 1;
@@ -208,6 +220,8 @@ parse_criteria (char const *criteria, criteria_test_fun_t *fun,
 	}
 
 	*test_value = format_match (criteria + len, NULL, NULL);
+	if (*test_value == NULL)
+		*test_value = value_new_string (criteria + len);
 }
 
 

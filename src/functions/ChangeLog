@@ -1,3 +1,8 @@
+2001-06-15  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-database.c (criteria_test_*) : protect against NULL.
+	(parse_criteria) : fall back on a string if we don't match.
+
 2001-06-07  Jody Goldberg <jgoldberg@home.com>
 
 	* fn-database.c (parse_criteria) : Use a decent parser.  Good idea
