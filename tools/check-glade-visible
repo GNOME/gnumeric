@@ -50,13 +50,13 @@ my @files;
 FILE:
     foreach my $filename (@files) {
 	local (*GREP);
-	open (*GREP, "grep -c '<visible>False</visible>' '$filename' /dev/null 2>/dev/null |")
+	open (*GREP, "grep -c '^  <property name=\"visible\">True</property>' '$filename' /dev/null 2>/dev/null |")
 	    or die "$0: cannot execute grep: $!\n";
 	while (<GREP>) {
 	    chomp;
 	    last if m|^/dev/null:|;
-	    if (/:0$/) {
-		print STDERR "File `$filename' does not set the visible attribute.\n";
+	    if (!/:0$/) {
+		print STDERR "File `$filename' sets the visible property to True.\n";
 		$exitcode = 1;
 		next FILE;
 	    }

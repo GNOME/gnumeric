@@ -149,9 +149,10 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 		"destroy",
 		G_CALLBACK (dialog_cell_comment_destroy), state);
 
+	gtk_widget_grab_focus (textview);
+
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       COMMENT_DIALOG_KEY);
 	gtk_widget_show_all (state->dialog);
-	gtk_widget_grab_focus (textview);
 }
