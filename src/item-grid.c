@@ -456,6 +456,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 		colwidths[col] = ci->visible ? ci->size_pixels : -1;
 	}
 
+	x = start_x; /* make gcc happy in case there are no visible rows */
 	for (y = start_y; row <= end_row; row = sr.row = next_sr.row, ri = next_ri) {
 		/* Restore the set of ranges seen, but still active.
 		 * Reinverting list to maintain the original order */
