@@ -1,3 +1,9 @@
+2002-10-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c: add missing border connector (Thanks Adrian!)
+	(latex_file_save) : calc spans
+	* html.c (write_row) : calc spans
+
 2002-10-27  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.10

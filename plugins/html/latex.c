@@ -127,7 +127,7 @@ static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
 	  {{"8",""}, { "27",""}, { "43",""}},
 	  {{"",""}, { "",""}, { ":t:",""}}},
 	 {{{":b|",""}, { "29",""}, { ":","|"}},
-	  {{":b|",""}, { "30",""}, { "45",""}},
+	  {{":b|",""}, { "30",""}, { ":|",""}},
 	  {{":b:",""}, { "31",""}, { ":",":"}}}}
 };
 
@@ -910,7 +910,9 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	for (row = total_range.start.row; row <= total_range.end.row; row++) {
 		ColRowInfo const * ri;
 		ri = sheet_row_get_info (current_sheet, row);
-
+		if (ri->needs_respan)
+			row_calc_spans ((ColRowInfo *) ri, current_sheet);
+		
 		/* We need to check for horizontal borders at the top of this row */
 		length = num_cols;
 		clines = g_new0 (StyleBorderType, length);

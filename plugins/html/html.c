@@ -430,6 +430,8 @@ write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t versio
 	ColRowInfo const * ri;
 
 	ri = sheet_row_get_info (sheet, row);
+	if (ri->needs_respan)
+		row_calc_spans ((ColRowInfo *) ri, sheet);
 
 	for (col = range->start.col; col <= range->end.col; col++) {
 		CellSpanInfo const *the_span;
