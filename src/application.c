@@ -62,6 +62,10 @@
 #include "pixmaps/16_split_cells.xpm"
 #include "pixmaps/16_unhide_column.xpm"
 #include "pixmaps/16_unhide_row.xpm"
+#include "pixmaps/16_group.xpm"
+#include "pixmaps/16_ungroup.xpm"
+#include "pixmaps/16_show_detail.xpm"
+#include "pixmaps/16_hide_detail.xpm"
 
 #include "pixmaps/24_add_column.xpm"
 #include "pixmaps/24_add_row.xpm"
@@ -77,6 +81,10 @@
 #include "pixmaps/24_split_cells.xpm"
 #include "pixmaps/24_unhide_column.xpm"
 #include "pixmaps/24_unhide_row.xpm"
+#include "pixmaps/24_group.xpm"
+#include "pixmaps/24_ungroup.xpm"
+#include "pixmaps/24_show_detail.xpm"
+#include "pixmaps/24_hide_detail.xpm"
 
 typedef struct
 {
@@ -129,6 +137,10 @@ application_init (void)
 		{ 16, 16, "Menu_Gnumeric_MergeCells", i16_merge_cells_xpm },
 		{ 16, 16, "Menu_Gnumeric_SplitCells", i16_split_cells_xpm },
 		{ 16, 16, "Menu_Gnumeric_CenterAcrossSelection", i16_center_across_selection_xpm },
+		{ 16, 16, "Menu_Gnumeric_ShowDetail", i16_show_detail_xpm },
+		{ 16, 16, "Menu_Gnumeric_HideDetail", i16_hide_detail_xpm },
+		{ 16, 16, "Menu_Gnumeric_Group", i16_group_xpm },
+		{ 16, 16, "Menu_Gnumeric_Ungroup", i16_ungroup_xpm },
 
 		{ 24, 24, "Gnumeric_PrintPreview", print_preview_xpm },
 		{ 24, 24, "Gnumeric_InsertShapedComponent", i24_insert_shaped_object_xpm },
@@ -150,6 +162,10 @@ application_init (void)
 		{ 24, 24, "Gnumeric_MergeCells", i24_merge_cells_xpm },
 		{ 24, 24, "Gnumeric_SplitCells", i24_split_cells_xpm },
 		{ 24, 24, "Gnumeric_CenterAcrossSelection", i24_center_across_selection_xpm },
+		{ 24, 24, "Gnumeric_ShowDetail", i24_show_detail_xpm },
+		{ 24, 24, "Gnumeric_HideDetail", i24_hide_detail_xpm },
+		{ 24, 24, "Gnumeric_Group", i24_group_xpm },
+		{ 24, 24, "Gnumeric_Ungroup", i24_ungroup_xpm },
 
 		{ 24, 24, "Gnumeric_SortAscending", sort_ascending_xpm },
 		{ 24, 24, "Gnumeric_SortDescending", sort_descending_xpm },

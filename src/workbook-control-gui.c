@@ -1812,11 +1812,11 @@ cb_data_show_detail (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 }
 static void
-cb_data_add_group (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_data_group (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 }
 static void
-cb_data_remove_group (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_data_ungroup (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 }
 
@@ -2324,18 +2324,18 @@ static GnomeUIInfo workbook_menu_tools [] = {
 };
 
 static GnomeUIInfo workbook_menu_data_outline [] = {
-	GNOMEUIINFO_ITEM_NONE (N_("_Hide Detail"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Hide Detail"),
 		N_("Collapse an outline group"),
-		cb_data_hide_detail),
-	GNOMEUIINFO_ITEM_NONE (N_("_Show Detail"),
+		cb_data_hide_detail, "Menu_Gnumeric_HideDetail"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Show Detail"),
 		N_("Uncollapse an outline group"),
-		cb_data_show_detail),
-	GNOMEUIINFO_ITEM_NONE (N_("_Group..."),
+		cb_data_show_detail, "Menu_Gnumeric_ShowDetail"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Group..."),
 		N_("Add an outline group"),
-		cb_data_add_group),
-	GNOMEUIINFO_ITEM_NONE (N_("_Ungroup..."),
+		cb_data_group, "Menu_Gnumeric_Group"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Ungroup..."),
 		N_("Remove an outline group"),
-		cb_data_remove_group),
+		cb_data_ungroup, "Menu_Gnumeric_Ungroup"),
 	GNOMEUIINFO_END
 };
 
@@ -2542,8 +2542,8 @@ static BonoboUIVerb verbs [] = {
 #endif
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineHideDetail", cb_data_hide_detail),
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineShowDetail", cb_data_show_detail),
-	BONOBO_UI_UNSAFE_VERB ("DataOutlineAddGroup", cb_data_add_group),
-	BONOBO_UI_UNSAFE_VERB ("DataOutlineRemoveGroup", cb_data_remove_group),
+	BONOBO_UI_UNSAFE_VERB ("DataOutlineGroup", cb_data_group),
+	BONOBO_UI_UNSAFE_VERB ("DataOutlineUngroup", cb_data_ungroup),
 
 	BONOBO_UI_UNSAFE_VERB ("AutoSum", cb_autosum),
 	BONOBO_UI_UNSAFE_VERB ("FunctionGuru", cb_formula_guru),

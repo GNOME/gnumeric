@@ -1230,6 +1230,14 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 	sheet_flag_status_update_range (pos->sheet, r);
 }
 
+/**
+ * sheet_cell_set_text:
+ *
+ * Marks the sheet as dirty 
+ * Clears old spans.
+ * Flags status updates
+ * Queues recalcs
+ */
 void
 sheet_cell_set_text (Cell *cell, char const *text)
 {
@@ -1254,6 +1262,7 @@ sheet_cell_set_text (Cell *cell, char const *text)
 
 	if (expr != NULL) {
 		cell_set_expr (cell, expr, format);
+		cell_unregister_span (cell);
 		expr_tree_unref (expr);
 	} else {
 		cell_set_value (cell, val, format);
@@ -1265,11 +1274,20 @@ sheet_cell_set_text (Cell *cell, char const *text)
 	sheet_flag_status_update_cell (cell);
 }
 
+/**
+ * sheet_cell_set_expr:
+ *
+ * Marks the sheet as dirty 
+ * Clears old spans.
+ * Flags status updates
+ * Queues recalcs
+ */
 void
 sheet_cell_set_expr (Cell *cell, ExprTree *expr)
 {
 	/* No need to do anything until recalc */
 	cell_set_expr (cell, expr, NULL);
+	cell_unregister_span (cell);
 	cell_content_changed (cell);
 	sheet_flag_status_update_cell (cell);
 }

@@ -17,16 +17,6 @@ Release Critical
 
     - Fix XL named expr import for sheet local names
 
-    - #52753 Figure out the GAL colour combo problem that activates all
-      workbooks together when only 1 changes.
-      	: Add a 'view_change' handler to wb_control
-	: Add a color_combo get palette
-	: Add a color-palette get/set color_group
-	: Figure out palette even handler
-	: Tie the color group to the view
-
-    - Init the undo/redo stack content for new controls
-
 Long term breakage
 ------------------
 

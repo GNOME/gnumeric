@@ -1,3 +1,14 @@
+2001-04-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_cell_set_expr) : clear old span when an
+	  expression is assigned.
+	(sheet_cell_set_text) : ditto.
+
+	* src/application.c (application_init) : add new icons.
+
+	* src/workbook-control-gui.c : Use the new icons.
+	* src/GNOME_Gnumeric.xml : ditto.
+
 2001-04-18  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-control-gui.c (scg_rangesel_cursor_extend,
@@ -6,8 +17,6 @@
 	scg_rangesel_vertical_extend, scg_rangesel_cursor_extend): Use
 	value of item_cursor from after GnumericSheet method has been
 	invoked.
-
-2001-04-18  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-edit.[ch] (workbook_get_entry,
 	workbook_get_entry_logical): Change return type to
