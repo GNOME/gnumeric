@@ -1,5 +1,25 @@
 2001-04-30  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/commands.c (cmd_clear_selection): More descriptive
+	descriptor.
+	(cmd_format): Idem.
+	(cmd_resize_colrow): Idem.
+	(cmd_autofill): Idem.
+	(cmd_autoformat): Idem.
+	(cmd_unmerge_cells): Idem.
+	(cmd_merge_cells): Idem.
+	(cmd_colrow_std_size): Add "pts" to end of descriptor.
+	(cmd_zoom): No need to re-assign gstring.
+	(range_list_to_string): Convert a list of ranges to a
+	string representation.
+
+	* src/colrow.[ch] (colrow_index_list_to_string): Convert
+	an index list to a string representation.
+	(colrow_string_build): Utility routine for
+	colrow_index_list_to_string.
+
+2001-04-30  Almer S. Tigelaar  <almer@gnome.org>
+
 	* src/parser.y (gnumeric_expr_parser) : Give a warning
 	when both the resulting ExprTree and error message is non-null.
 	This should never happen.

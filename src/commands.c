@@ -5,6 +5,8 @@
  *
  * Copyright (C) 1999, 2000 Jody Goldberg (jgoldberg@home.com)
  *
+ * Contributors : Almer S. Tigelaar (almer@gnome.org)
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -210,6 +212,46 @@ update_after_action (Sheet *sheet)
 			  wb_control_sheet_focus (control, sheet);
 		);
 	}
+}
+
+/*
+ * range_list_to_string: Convert a list of ranges into a string.
+ *                       (The result will be something like :
+ *                        "A1:C3, D4:E5"). The string will be
+ *                       automatically truncated to MAX_DESCRIPTOR_WIDTH.
+ *                       The caller should free the GString that is returned.
+ *
+ * @ranges : GSList containing Range *'s
+ */
+static GString *
+range_list_to_string (GSList *ranges)
+{
+	GString *names;
+	GSList *l;
+
+	g_return_val_if_fail (ranges != NULL, NULL);
+	
+	names = g_string_new ("");
+	for (l = ranges; l != NULL; l = l->next) {
+		Range const * const r = l->data;
+
+		/* No need to free range_name, uses static buffer */
+		g_string_append (names, range_name (r));
+
+		if (l->next)
+			g_string_append (names, ", ");
+	}
+
+	/* Make sure the string doesn't get overly wide
+	 * There is no need to do this for "types", because that
+	 * will never grow indefinitely
+	 */
+	if (strlen (names->str) > MAX_DESCRIPTOR_WIDTH) {
+		g_string_truncate (names, MAX_DESCRIPTOR_WIDTH - 3);
+		g_string_append (names, "...");
+	}
+
+	return names;
 }
 
 /*
@@ -1226,6 +1268,7 @@ cmd_clear_selection (WorkbookControl *wbc, Sheet *sheet, int clear_flags)
 {
 	GtkObject *obj;
 	CmdClear *me;
+	GString *names, *types;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
@@ -1249,9 +1292,44 @@ cmd_clear_selection (WorkbookControl *wbc, Sheet *sheet, int clear_flags)
 	me->parent.sheet = sheet;
 	me->parent.size = 1;  /* FIXME?  */
 
-	/* TODO : Something more descriptive ? maybe the range name */
-	me->parent.cmd_descriptor = g_strdup (_("Clear"));
+	/* Collect clear types for descriptor */
+	if (clear_flags != (CLEAR_VALUES | CLEAR_FORMATS | CLEAR_COMMENTS)) {
+		GSList *m, *l = NULL;
+		types = g_string_new ("");
 
+		if (clear_flags & CLEAR_VALUES)
+			l = g_slist_append (l, g_string_new (_("contents")));
+		if (clear_flags & CLEAR_FORMATS)
+			l = g_slist_append (l, g_string_new (_("formats")));
+		if (clear_flags & CLEAR_COMMENTS)
+			l = g_slist_append (l, g_string_new (_("comments")));
+
+		/* Using a list for this may seem overkill, but is really the only
+		 * right way to do this
+		 */
+		for (m = l; m != NULL; m = m->next) {
+			GString *s = l->data;
+			
+			g_string_append (types, s->str);
+			g_string_free (s, TRUE);
+
+			if (m->next)
+				g_string_append (types, ", ");
+		}
+		g_slist_free (l);
+	} else
+		types = g_string_new (_("all"));
+
+	/* The range name string will automatically be truncated, we don't
+	 * need to truncate the "types" list because it will not grow
+	 * indefinitely
+	 */
+	names = range_list_to_string (me->selection);	
+	me->parent.cmd_descriptor = g_strdup_printf (_("Clearing %s in %s"), types->str, names->str);
+	
+	g_string_free (names, TRUE);
+	g_string_free (types, TRUE);
+	
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
@@ -1443,9 +1521,13 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 	} else
 		me->borders = NULL;
 
-	me->parent.cmd_descriptor = g_strdup (opt_translated_name != NULL
-			? opt_translated_name
-			: _("Format cells"));
+	if (opt_translated_name == NULL) {
+		GString *names = range_list_to_string (me->selection);
+		
+		me->parent.cmd_descriptor = g_strdup_printf ("Changing format of %s", names->str);
+		g_string_free (names, TRUE);
+	} else
+		me->parent.cmd_descriptor = g_strdup (opt_translated_name);
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
@@ -1736,6 +1818,8 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 {
 	GtkObject *obj;
 	CmdResizeColRow *me;
+	GString *list;
+	gboolean is_single;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
@@ -1751,10 +1835,24 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;  /* Changed in initial redo.  */
-	me->parent.cmd_descriptor = is_cols
-	    ? g_strdup (_("Setting width of columns"))
-	    : g_strdup (_("Setting height of rows"));
 
+	list = colrow_index_list_to_string (selection, is_cols, &is_single);
+	/* Make sure the string doesn't get overly wide */
+	if (strlen (list->str) > MAX_DESCRIPTOR_WIDTH) {
+		g_string_truncate (list, MAX_DESCRIPTOR_WIDTH - 3);
+		g_string_append (list, "...");
+	}
+
+	if (is_single)
+		me->parent.cmd_descriptor = is_cols
+			? g_strdup_printf (_("Setting width of column %s to %d pixels"), list->str, new_size)
+			: g_strdup_printf (_("Setting height of row %s to %d pixels"), list->str, new_size);
+	else
+		me->parent.cmd_descriptor = is_cols
+			? g_strdup_printf (_("Setting width of columns %s to %d pixels"), list->str, new_size)
+			: g_strdup_printf (_("Setting height of rows %s to %d pixels"), list->str, new_size);
+
+	g_string_free (list, TRUE);
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
@@ -2534,7 +2632,8 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;  /* Changed in initial redo.  */
-	me->parent.cmd_descriptor = g_strdup (_("Autofill"));
+	me->parent.cmd_descriptor = g_strdup_printf (_("Autofilling %s"),
+						     range_name (&me->dst.range));
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
@@ -2651,6 +2750,7 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 {
 	GtkObject *obj;
 	CmdAutoFormat *me;
+	GString   *names;
 	GSList    *l;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
@@ -2683,7 +2783,11 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;  /* FIXME?  */
-	me->parent.cmd_descriptor = g_strdup (_("Autoformat"));
+
+	names = range_list_to_string (me->selections);
+	me->parent.cmd_descriptor = g_strdup_printf (_("Autoformatting %s"),
+						     names->str);
+	g_string_free (names, TRUE);
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
@@ -2779,6 +2883,7 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
 {
 	GtkObject *obj;
 	CmdUnmergeCells *me;
+	GString *names;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
@@ -2787,7 +2892,11 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;
-	me->parent.cmd_descriptor = g_strdup (_("Unmerge Cells"));
+
+	names = range_list_to_string ((GSList *) selection);
+	me->parent.cmd_descriptor = g_strdup_printf (_("Unmerging Regions %s"), names->str);
+	g_string_free (names, TRUE);
+	
 	me->unmerged_regions = NULL;
 	me->ranges = g_array_new (FALSE, FALSE, sizeof (Range));
 	for ( ; selection != NULL ; selection = selection->next)
@@ -2902,6 +3011,7 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
 {
 	GtkObject *obj;
 	CmdMergeCells *me;
+	GString *names;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
@@ -2910,7 +3020,11 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;
-	me->parent.cmd_descriptor = g_strdup (_("Merge Cells"));
+
+	names = range_list_to_string ((GSList *) (selection));
+	me->parent.cmd_descriptor = g_strdup_printf (_("Merging Regions %s"),
+						     names->str);
+	g_string_free (names, TRUE);
 
 	me->ranges = g_array_new (FALSE, FALSE, sizeof (Range));
 	for ( ; selection != NULL ; selection = selection->next)
@@ -3434,8 +3548,8 @@ cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
 	me->parent.sheet = sheet;
 	me->parent.size = 1;  /* Changed in initial redo.  */
 	me->parent.cmd_descriptor = is_cols
-		? g_strdup_printf (_("Setting default width of columns to %.2f"), new_default)
-		: g_strdup_printf (_("Setting default height of rows to %.2f"), new_default);
+		? g_strdup_printf (_("Setting default width of columns to %.2fpts"), new_default)
+		: g_strdup_printf (_("Setting default height of rows to %.2fpts"), new_default);
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
@@ -3533,11 +3647,11 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 	for (i = 0, l = me->sheets; l != NULL; l = l->next, i++) {
 		Sheet *sheet = l->data;
 
-		namelist = g_string_append (namelist, sheet->name_unquoted);
+		g_string_append (namelist, sheet->name_unquoted);
 		me->old_factors[i] = sheet->last_zoom_factor_used;
 		
 		if (l->next)
-			namelist = g_string_append (namelist, ", ");
+			g_string_append (namelist, ", ");
 	}
 
 	/* Make sure the string doesn't get overly wide */

@@ -63,6 +63,9 @@ gboolean colrow_foreach	(ColRowCollection const *infos,
 /* Support for Col/Row resizing */
 ColRowSizeList	*colrow_size_list_destroy	(ColRowSizeList *list);
 ColRowIndexList *colrow_index_list_destroy	(ColRowIndexList *list);
+GString         *colrow_index_list_to_string    (ColRowIndexList *list,
+						 gboolean const is_cols,
+						 gboolean *is_single);
 ColRowIndexList *colrow_get_index_list		(int first, int last,
 						 ColRowIndexList *list);
 double		*colrow_save_sizes		(Sheet *sheet, gboolean const is_cols,
