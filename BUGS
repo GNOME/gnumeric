@@ -14,6 +14,9 @@ Release Critical
     * Format toolbar is too wide.  (The foreground colour combo has falled
       off the edge for me.)
 
+Bonobo-CRITICAL **: file bonobo-ui-component.c: line 847 (impl_set_prop): assertion `node != NULL' failed.
+
+
 Long term breakage
 ------------------
 
