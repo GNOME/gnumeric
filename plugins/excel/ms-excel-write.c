@@ -783,7 +783,7 @@ static ExcelFont *excel_font_new (MStyle *st)
 static void
 excel_font_free (ExcelFont *f)
 {
-	if (f && f != (ExcelFont *) 0xdeadbeef) {
+	if (f) {
 		style_font_unref (f->style_font);
 		g_free (f);
 	}
@@ -796,14 +796,11 @@ excel_font_free (ExcelFont *f)
 static guint
 excel_font_hash (gconstpointer f)
 {
-	guint res;
+	guint res = 0;
 	ExcelFont * font = (ExcelFont *) f;
 
-	if (!f || f == (gpointer) 0xdeadbeef) {
-		res = 0;	/* Recognize junk - inelegant, I know! */
-	} else {
+	if (f)
 		res = style_font_hash_func (font->style_font) ^ font->color;
-	}
 
 	return res;
 }
@@ -817,11 +814,10 @@ static gint
 excel_font_equal (gconstpointer	a, gconstpointer b)
 {
 	gint res;
-	gconstpointer deadbeef = (gconstpointer) 0xdeadbeef;
 
 	if (a == b)
 		res = TRUE;
-	else if (a == deadbeef || b == deadbeef)
+	else if (!a || !b)
 		res = FALSE;	/* Recognize junk - inelegant, I know! */
 	else {
 		const ExcelFont *fa  = (const ExcelFont *) a;	
@@ -909,7 +905,7 @@ put_font (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
 
 	/* Occupy index FONT_SKIP with junk - Excel skips it */
 	if (twt->idx_to_key->len == FONT_SKIP)
-		(void) two_way_table_put (twt, (gpointer) 0xdeadbeef, 
+		(void) two_way_table_put (twt, NULL, 
 					  FALSE, NULL, NULL);
 	
 	two_way_table_put (twt, f, TRUE, (AfterPutFunc) after_put_font, NULL);
