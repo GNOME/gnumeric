@@ -74,7 +74,7 @@ cb_remove_child (GogObject *parent, GogObject *child,
 static void
 cb_model_changed (GogObject *model, gboolean resized, GogView *view)
 {
-	d (0, g_warning ("model %s(%p) for view %s(%p) changed %d",
+	gog_debug (0, g_warning ("model %s(%p) for view %s(%p) changed %d",
 		   G_OBJECT_TYPE_NAME (model), model,
 		   G_OBJECT_TYPE_NAME (view), view, resized););
 	if (resized)
@@ -188,6 +188,90 @@ gog_view_size_request_real (GogView *view, GogViewRequisition *req)
 static void
 gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 {
+	GSList *ptr;
+	GogView *child;
+	GogObjectPosition pos;
+	GogViewRequisition req;
+	GogViewAllocation tmp, available = *allocation, res = *allocation;
+
+	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+		child = ptr->data;
+
+		pos = child->model->position;
+		if (pos & GOG_POSITION_MANUAL) {
+			/* position relative to the entire region */
+			tmp = available;
+			/* add some flags to control interpretation of manual
+			 * eg abs/percentage from start/end */
+			g_warning ("manual is not supported yet");
+		} else if (pos & GOG_POSITION_COMPASS) {
+			gboolean vertical = TRUE;
+
+			/* Dead simple */
+			gog_view_size_request (child, &req);
+			if (req.h > res.h)
+				req.h = res.h;
+			if (req.w > res.w)
+				req.w = res.w;
+			tmp = res;
+
+			if (pos & GOG_POSITION_N) {
+				res.y += req.h;
+				res.h -= req.h;
+				tmp.h  = req.h;
+				vertical = FALSE;
+			} else if (pos & GOG_POSITION_S) {
+				res.h -= req.h;
+				tmp.y  = res.y + res.h;
+				tmp.h  = req.h;
+				vertical = FALSE;
+			} 
+
+			if (pos & GOG_POSITION_E) {
+				res.w -= req.w;
+				tmp.x  = res.x + res.w;
+				tmp.w  = req.w;
+				/* For NE & NW only alignment fill makes sense */
+				if (pos & (GOG_POSITION_N|GOG_POSITION_S))
+					pos = GOG_POSITION_ALIGN_FILL;
+			} else if (pos & GOG_POSITION_W) {
+				res.x += req.w;
+				res.w -= req.w;
+				tmp.w  = req.w;
+				/* For NE & NW only alignment fill makes sense */
+				if (pos & (GOG_POSITION_N|GOG_POSITION_S))
+					pos = GOG_POSITION_ALIGN_FILL;
+			}
+
+			pos &= GOG_POSITION_ALIGNMENT;
+			if (GOG_POSITION_ALIGN_FILL != pos) {
+				if (vertical) {
+					if (GOG_POSITION_ALIGN_END == pos) {
+						if (tmp.h >= req.h)
+							tmp.y += tmp.h - req.h;
+					} else if (GOG_POSITION_ALIGN_CENTER == pos) {
+						if (tmp.h >= req.h)
+							tmp.y += (tmp.h - req.h) / 2.;
+					}
+					tmp.h = req.h;
+				} else {
+					if (GOG_POSITION_ALIGN_END == pos) {
+						if (tmp.w >= req.w)
+							tmp.x += tmp.w - req.w;
+					} else if (GOG_POSITION_ALIGN_CENTER == pos) {
+						if (tmp.w >= req.w)
+							tmp.x += (tmp.w - req.w) / 2.;
+					}
+					tmp.w = req.w;
+				}
+			}
+
+			gog_view_size_allocate (child, &tmp);
+		} else if (pos != GOG_POSITION_SPECIAL)
+			g_warning ("unexpected position %x for child %p of %p",
+				   pos, child, view);
+	}
+	view->residual = res;
 }
 
 /* A simple default implementation */
@@ -309,7 +393,10 @@ gog_view_size_request (GogView *view, GogViewRequisition *requisition)
 
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (requisition != NULL);
-	(klass->size_request) (view, requisition);
+	if (klass->size_request)
+		(klass->size_request) (view, requisition);
+	else
+		requisition->w = requisition->h = 1.;
 }
 
 /**
@@ -329,7 +416,7 @@ gog_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
 	g_return_if_fail (klass->size_allocate != NULL);
 	g_return_if_fail (!view->being_updated);
 
-	d (0, g_warning ("size_allocate %s %p : x = %g, y = %g w = %g, h = %g",
+	gog_debug (0, g_warning ("size_allocate %s %p : x = %g, y = %g w = %g, h = %g",
 		   G_OBJECT_TYPE_NAME (view), view,
 		   allocation->x, allocation->y, allocation->w, allocation->h););
 

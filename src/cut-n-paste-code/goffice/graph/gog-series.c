@@ -91,6 +91,7 @@ gog_series_editor (GogObject *gobj,
 	unsigned i, row = 0;
 	gboolean has_shared = FALSE;
 	GogSeries *series = GOG_SERIES (gobj);
+	GogDataset *set = GOG_DATASET (gobj);
 	GogSeriesDesc const *desc;
 
 	g_return_val_if_fail (series->plot != NULL, NULL);
@@ -107,14 +108,14 @@ gog_series_editor (GogObject *gobj,
 	table = GTK_TABLE (w);
 
 	row = make_dim_editor (table, row,
-		gog_data_allocator_editor (dalloc, series, -1),
+		gog_data_allocator_editor (dalloc, set, -1),
 		N_("Name"), TRUE, FALSE);
 
 	/* first the unshared entries */
 	for (i = 0; i < desc->num_dim; i++)
 		if (!desc->dim[i].is_shared)
 			row = make_dim_editor (table, row,
-				gog_data_allocator_editor (dalloc, series, i),
+				gog_data_allocator_editor (dalloc, set, i),
 				desc->dim[i].name, desc->dim[i].priority, FALSE);
 
 	if (has_shared) {
@@ -127,7 +128,7 @@ gog_series_editor (GogObject *gobj,
 	for (i = 0; i < desc->num_dim; i++)
 		if (desc->dim[i].is_shared)
 			row = make_dim_editor (table, row,
-				gog_data_allocator_editor (dalloc, series, i),
+				gog_data_allocator_editor (dalloc, set, i),
 				desc->dim[i].name, desc->dim[i].priority, TRUE);
 
 	gtk_widget_show_all (GTK_WIDGET (table));
@@ -185,9 +186,77 @@ gog_series_init (GogSeries *series)
 	series->values = NULL;
 }
 
-GSF_CLASS (GogSeries, gog_series,
-	   gog_series_class_init, gog_series_init,
-	   GOG_STYLED_OBJECT_TYPE)
+static GOData *
+gog_series_get_dim (GogDataset const *set, int dim_i)
+{
+	GogSeries const *series = GOG_SERIES (set);
+	g_return_val_if_fail ((int)series->plot->desc.series.num_dim > dim_i, NULL);
+	g_return_val_if_fail (dim_i >= -1, NULL);
+	return series->values[dim_i].data;
+}
+
+static void
+gog_series_set_dim_dataset (GogDataset *set, int dim_i,
+			    GOData *val, GError **err)
+{
+	GogSeriesDesc const *desc;
+	GogSeries *series = GOG_SERIES (set);
+	GogGraph *graph;
+
+	g_return_if_fail (GOG_PLOT (series->plot) != NULL);
+	g_return_if_fail (val == NULL || GO_DATA (val) != NULL);
+
+	if (val == gog_series_get_dim (set, dim_i))
+		return;
+
+	if (dim_i < 0) {
+		gog_series_set_name (series, GO_DATA_SCALAR (val), err);
+		return;
+	}
+
+	graph = gog_object_get_graph (GOG_OBJECT (series));
+	gog_series_set_dim_internal (series, dim_i, val, graph);
+
+	/* absorb ref to orig, simplifies life cycle easier for new GODatas */
+	if (val != NULL)
+		g_object_unref (val);
+
+	/* clone shared dimensions into other series in the plot, and
+	 * invalidate if necessary */
+	desc = &series->plot->desc.series;
+	if (desc->dim[dim_i].is_shared) {
+		gboolean mark_invalid = (val == NULL && desc->dim[dim_i].priority == GOG_SERIES_REQUIRED);
+		GSList *ptr = series->plot->series;
+
+		val = series->values[dim_i].data;
+		for (; ptr != NULL ; ptr = ptr->next) {
+			GogSeries *dst = ptr->data;
+			gog_series_set_dim_internal (dst, dim_i, val, graph);
+			if (mark_invalid)
+				dst->is_valid = FALSE;
+		}
+	}
+
+	gog_series_check_validity (series);
+}
+
+void
+gog_series_set_dim (GogSeries *series, int dim_i, GOData *val, GError **err)
+{
+	gog_dataset_set_dim (GOG_DATASET (series), dim_i, val, err);
+}
+
+static void
+gog_series_dataset_init (GogDatasetClass *iface)
+{
+	iface->get_dim = gog_series_get_dim;
+	iface->set_dim = gog_series_set_dim_dataset;
+}
+
+GSF_CLASS_FULL (GogSeries, gog_series,
+		gog_series_class_init, gog_series_init,
+		GOG_STYLED_OBJECT_TYPE, 0,
+		GSF_INTERFACE (gog_series_dataset_init, GOG_DATASET_TYPE))
 
 /**
  * gog_series_is_valid :
@@ -244,79 +313,6 @@ gog_series_set_name (GogSeries *series,
 		name = g_strdup (go_data_scalar_get_str (
 			GO_DATA_SCALAR (series->values[-1].data)));
 	gog_object_set_name (GOG_OBJECT (series), name, err);
-}
-
-/**
- * gog_series_get_dim :
- * @series : #GogSeries
- * @dim_i : < 0 gets the name
- *
- * Returns the GOData associated with dimension @dim_i.  Does NOT add a
- * reference.
- **/
-GOData *
-gog_series_get_dim (GogSeries const *series, int dim_i)
-{
-	g_return_val_if_fail (GOG_SERIES (series) != NULL, NULL);
-	g_return_val_if_fail ((int)series->plot->desc.series.num_dim > dim_i, NULL);
-	g_return_val_if_fail (dim_i >= -1, NULL);
-	return series->values[dim_i].data;
-}
-
-/**
- * gog_series_set_dim :
- * @series : #GogSeries
- * @dim_i :  < 0 gets the name
- * @val : #GOData
- * @err : #GError
- *
- * Absorbs a ref to @val if it is non NULL and updates the validity of the
- * series.  If @dim_i is a shared dimension update all of the other series
- * associated with the same plot.
- **/
-void
-gog_series_set_dim (GogSeries *series, int dim_i,
-		    GOData *val, GError **err)
-{
-	GogSeriesDesc const *desc;
-	GogGraph *graph;
-
-	g_return_if_fail (GOG_SERIES (series) != NULL);
-	g_return_if_fail (GOG_PLOT (series->plot) != NULL);
-	g_return_if_fail (val == NULL || GO_DATA (val) != NULL);
-
-	if (val == gog_series_get_dim (series, dim_i))
-		return;
-
-	if (dim_i < 0) {
-		gog_series_set_name (series, GO_DATA_SCALAR (val), err);
-		return;
-	}
-
-	graph = gog_object_get_graph (GOG_OBJECT (series));
-	gog_series_set_dim_internal (series, dim_i, val, graph);
-
-	/* absorb ref to orig, simplifies life cycle easier for new GODatas */
-	if (val != NULL)
-		g_object_unref (val);
-
-	/* clone shared dimensions into other series in the plot, and
-	 * invalidate if necessary */
-	desc = &series->plot->desc.series;
-	if (desc->dim[dim_i].is_shared) {
-		gboolean mark_invalid = (val == NULL && desc->dim[dim_i].priority == GOG_SERIES_REQUIRED);
-		GSList *ptr = series->plot->series;
-
-		val = series->values[dim_i].data;
-		for (; ptr != NULL ; ptr = ptr->next) {
-			GogSeries *dst = ptr->data;
-			gog_series_set_dim_internal (dst, dim_i, val, graph);
-			if (mark_invalid)
-				dst->is_valid = FALSE;
-		}
-	}
-
-	gog_series_check_validity (series);
 }
 
 /**

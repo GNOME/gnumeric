@@ -1,4 +1,10 @@
-A tally of the beverages owed.
+A tally of the beverages owed for 1.2.x
+
+    Beverage bounty has not begun yet
+    Check back soon
+
+----------------------------------------------------------------
+A tally of the beverages owed for 1.0.x
 
     Morten 			: Hot Chocolate.
     Bogus pointer comparison in help tokenizer.

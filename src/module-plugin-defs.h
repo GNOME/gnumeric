@@ -1,10 +1,9 @@
 #ifndef GNUMERIC_MODULE_PLUGIN_DEFS_H
 #define GNUMERIC_MODULE_PLUGIN_DEFS_H
 
-#include <glib.h>
+#include <gui-gnumeric.h>	/* for wbcg typedef */
 #include <plugin.h>
 #include <func.h>
-#include <workbook-control-gui.h>
 
 /*
  * Every plugin should put somewhere a line with:

@@ -26,12 +26,19 @@
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
 
+typedef enum {
+	GOG_AXIS_AT_LOW = -1,
+	GOG_AXIS_IN_MIDDLE = 0,
+	GOG_AXIS_AT_HIGH = 1
+} GogAxisPosition;
+
 struct _GogAxis {
 	GogObject	base;
 };
 
 typedef struct {
 	GogObjectClass	base;
+	GogAxisPosition	pos;
 } GogAxisClass;
 
 enum {
@@ -39,32 +46,6 @@ enum {
 };
 
 static GObjectClass *parent_klass;
-
-static void
-gog_axis_set_property (GObject *obj, guint param_id,
-			    GValue const *value, GParamSpec *pspec)
-{
-	/* GogAxis *axis = GOG_AXIS (obj); */
-
-	switch (param_id) {
-
-	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 return; /* NOTE : RETURN */
-	}
-}
-
-static void
-gog_axis_get_property (GObject *obj, guint param_id,
-			    GValue *value, GParamSpec *pspec)
-{
-	/* GogAxis *axis = GOG_AXIS (obj); */
-
-	switch (param_id) {
-
-	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 break;
-	}
-}
 
 static void
 gog_axis_finalize (GObject *obj)
@@ -84,15 +65,19 @@ gog_axis_type_name (GogObject const *item)
 static void
 gog_axis_class_init (GogAxisClass *klass)
 {
+	static GogObjectRole const roles[] = {
+		{ N_("Label"), "GogLabel",
+		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
+		  NULL, NULL, NULL, NULL, NULL, NULL },
+	};
 	GObjectClass *gobject_klass   = (GObjectClass *) klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
 
 	parent_klass = g_type_class_peek_parent (klass);
-	gobject_klass->set_property = gog_axis_set_property;
-	gobject_klass->get_property = gog_axis_get_property;
 	gobject_klass->finalize	    = gog_axis_finalize;
 
 	gog_klass->type_name = gog_axis_type_name;
+	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 }
 
 static void

@@ -28,13 +28,15 @@
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-legend.h>
+#include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-theme.h>
 
-int goffice_graph_debug_level = 0;
+int goffice_graph_debug_level = 10;
 
 void
 libgoffice_init (void)
 {
+	/* keep trigger happy linkers from leaving things out */
 	gog_plugin_services_init ();
 	(void) GOG_GRAPH_TYPE;
 	(void) GOG_CHART_TYPE;
@@ -42,6 +44,7 @@ libgoffice_init (void)
 	(void) GOG_SERIES_TYPE;
 	(void) GOG_LEGEND_TYPE;
 	(void) GOG_AXIS_TYPE;
+	(void) GOG_LABEL_TYPE;
 	gog_themes_init	();
 }
 

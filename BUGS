@@ -33,7 +33,7 @@ Pending Patches
     0.3)  Make the 'apply' behavior of the color combo optional
           so that we can do just selection.
     0.4)  Add keynav for color combo
-    0.5)  center color combo swatches in the buttons            (DONE)
+    0.5)  center color combo swatches in the buttons		(DONE)
     0.6)  alpha channel support for colour combos
     0.7)  Add mnemonic_activate for colour combos		(DONE)
     0.8)  Add mnemonic_activate for ExprEntry			(DONE)
@@ -55,30 +55,30 @@ Pending Patches
 	1.3.4) Consider font specification
 	1.3.5) Possibly move to libgsf
     1.4) Decide on model vs view structure			(DONE)
-    1.5) Pie Plot
-	1.5.1) Make the segments curve				(DONE)
-	1.5.2) extracted segments
-	1.5.3) Rings
-	1.5.4) Radial plots
-    1.6) 1st pass at Graph Guru					(DONE)
-	1.6.1) update when someone else changes the model	(DONE)
-	1.6.2) remove prop pages for deleted items		(DONE)
-	1.6.3) Keep state::chart,plot safe for typeselector	(DONE)
+    1.5) 1st pass at Graph Guru					(DONE)
+	1.5.1) update when someone else changes the model	(DONE)
+	1.5.2) remove prop pages for deleted items		(DONE)
+	1.5.3) Keep state::chart,plot safe for typeselector	(DONE)
 	       in case they get deleted
-    1.7) data allocator in gnumeric				(DONE)
-    1.8) XLS import
-	1.8.1) check overlap percentage for bars		(DONE)
-	1.8.2) Add gog_object_set_position
-	1.8.3) Handle 'use_one_style'
-	1.8.4) override auto series indexing for xls
-	1.8.5) styles
-	1.8.6) Avoid leaking GODatas when faced with an unknown	(DONE)
+    1.6) data allocator in gnumeric				(DONE)
+    1.7) XLS import
+	1.7.1) check overlap percentage for bars		(DONE)
+	1.7.2) Add gog_object_set_position
+	1.7.3) Handle 'use_one_style'
+	1.7.4) override auto series indexing for xls
+	1.7.5) styles
+	1.7.6) Avoid leaking GODatas when faced with an unknown	(DONE)
 	       plot type.
-    1.9) data sources
-	1.9.1) vector and scalar data sources from gnumeric	(DONE)
-	1.9.2) static vector and scalar data sources for utils
-	1.9.3) an index source
-	1.9.4) Add min/max elements to vector			(DONE)
+    1.8) data sources
+	1.8.1) vector and scalar data sources from gnumeric	(DONE)
+	1.8.2) static vector and scalar data sources for utils
+	1.8.3) an index source
+	1.8.4) Add min/max elements to vector			(DONE)
+    1.9) Pie Plot
+	1.9.1) Make the segments curve				(DONE)
+	1.9.2) extracted segments
+	1.9.3) Rings
+	1.9.4) Radial plots
     1.10) Bar/Col Plot						(DONE)
 	1.10.1) merge bar/col stack type bools into 1 enum	(DONE)
 	1.10.2) normal						(DONE)
@@ -87,6 +87,7 @@ Pending Patches
 	1.10.5) Skip over bars/cols when too narrow
 	1.10.6) Work around bleed through with overlap 100	(DONE)
 	1.10.7) Check for short vectors				(DONE)
+	1.10.8) Clip when values are out of range
     1.11) Rethink GraphItem lifecyle to simplify removal	(DONE)
     1.12) Extend GogObjectRole to include more handlers		(DONE)
     1.13) Decide on recalc strategy				(DONE)
@@ -120,24 +121,28 @@ Pending Patches
 	    1.20.1.1) none					(DONE)
 	    1.20.1.2) solid					(DONE)
 	    1.20.1.3) basic gradients				(DONE)
-	    1.20.1.4) advanced gradients 		{Jean Befort}
+	    1.20.1.4) advanced gradients via combo	{Jean Befort}
 	    1.20.1.5) pixmaps fills				(DONE)
 	    1.20.1.6) patterns
 	1.20.2) outline line pattern
+	1.20.3) font selector
     1.21) themes
 	1.21.1) Actually use the themes to initialize styles	(DONE)
 	1.21.2) load from xml
 	1.21.3) selector for graphs
 	1.21.4) How to change a graph's theme
+	1.21.5) Use Roles rather than Types to enumerate
     1.22) Legend
 	1.22.1) Set up cardinality framework.			(DONE)
 	1.22.2) smarter layout
-    1.23) simple chart layout
+    1.23) Layout engine
 	1.23.1) In ChartView::size_allocate use the positions	(DONE)
 	1.23.2) For compass placement use the alignment flags	(DONE)
 	1.23.3) support NW, NE, SW, SE				(DONE)
+	1.23.4) Move ChartView::size_allocate -> GogView	(DONE)
 	1.23.4) Add some notion of padding
 	1.23.5) remove request_valid, pass in available space
+	1.24.6) Have Graph, Chart, Legend and Axis use it
     1.24) Sizing units
 	1.24.1) Have the legend use pts to size swatches	(DONE)
 	1.24.2) Test renderers mapping between pts & pixels	(DONE)
@@ -153,6 +158,10 @@ Pending Patches
     1.26) Move 'use_one_style' from pie -> plot with 1 series
     1.27) Add a flag to gobject to go with its role indicating	(DONE)
 	whether the instance was autocreated or assigned.
+    1.28) Axis management
+	1.28.1) Charts have axis layout scheme
+	1.28.2) Create plot2d as base for bar/col & XY
+	1.28.3) Filter add plot in guru to good types.
 
     questions
 	- xml persistence : sax or dom ?
@@ -285,26 +294,25 @@ Pending Patches
     25.8)  plugins/gb                                           (DONE 20030110 MW)
     25.9)  plugins/gda                                          (DONE 20030110 MW)
     25.10) plugins/gnome-glossary                               (DONE 20030408 MW)
-    25.11) plugins/gnumeric_1_0         ---NOT BUILT---
-    25.12) plugins/guile                                        (DONE 20030110 MW)
-    25.13) plugins/html                                         (DONE 20030110 MW)
-    25.14) plugins/lotus-123                                    (DONE 20030110 MW)
-    25.15) plugins/mps                ---PROBABLY SAFE---
-    25.16) plugins/numtheory                                    (DONE 20030110 MW)
-    25.17) plugins/oleo                                         (DONE 20030408 MW)
-    25.18) plugins/openoffice                                   (DONE 20030408 MW)
-    25.19) plugins/perl                                         (DONE 20030110 MW)
-    25.20) plugins/plan-perfect                                 (DONE 20030408 MW)
-    25.21) plugins/psiconv              ---NOT SAFE---
-    25.22) plugins/py-func                                      (DONE 20030408 MW)
-    25.23) plugins/python-loader                                (DONE 20030408 MW)
-    25.24) plugins/qpro                                         (DONE 20030110 MW)
-    25.25) plugins/sample_datasource                            (DONE 20030110 MW)
-    25.26) plugins/sc                                           (DONE 20030409 MW)
-    25.27) plugins/sylk                                         (DONE 20030110 MW)
-    25.28) plugins/uihello                                      (DONE 20030408 MW)
-    25.29) plugins/xbase                                        (DONE 20030408 MW)
-    25.30) plugins/xml_sax                                      (DONE 20030408 MW)
+    25.11) plugins/guile                                        (DONE 20030110 MW)
+    25.12) plugins/html                                         (DONE 20030110 MW)
+    25.13) plugins/lotus-123                                    (DONE 20030110 MW)
+    25.14) plugins/mps                ---PROBABLY SAFE---
+    25.15) plugins/numtheory                                    (DONE 20030110 MW)
+    25.16) plugins/oleo                                         (DONE 20030408 MW)
+    25.17) plugins/openoffice                                   (DONE 20030408 MW)
+    25.18) plugins/perl                                         (DONE 20030110 MW)
+    25.19) plugins/plan-perfect                                 (DONE 20030408 MW)
+    25.20) plugins/psiconv              ---NOT SAFE---
+    25.21) plugins/py-func                                      (DONE 20030408 MW)
+    25.22) plugins/python-loader                                (DONE 20030408 MW)
+    25.23) plugins/qpro                                         (DONE 20030110 MW)
+    25.24) plugins/sample_datasource                            (DONE 20030110 MW)
+    25.25) plugins/sc                                           (DONE 20030409 MW)
+    25.26) plugins/sylk                                         (DONE 20030110 MW)
+    25.27) plugins/uihello                                      (DONE 20030408 MW)
+    25.28) plugins/xbase                                        (DONE 20030408 MW)
+    25.29) plugins/xml_sax                                      (DONE 20030408 MW)
 
 26) Format characterization
     26.1) Add characterization (units) to StyleFormat
@@ -341,14 +349,14 @@ Functions
 Excel i/o
     - 'Forms' import.
 
-1) zip based format
-    1.1) move existing code into plugin (easy)
-    1.2) work on sax-ish exporter				(DONE)
-    1.3) convert xml-sax to use gsf sax helper			(DONE)
-    1.4) Namespace support for xml import			(DONE)
-    1.5) Entity support
-    1.6) writeup and discuss proposals for container
-    1.7) writeup and discuss proposals for content
+- zip based format
+    1) move existing code into plugin (easy)
+    2) work on sax-ish exporter					(DONE)
+    3) convert xml-sax to use gsf sax helper			(DONE)
+    4) Namespace support for xml import				(DONE)
+    5) Entity support in gsf
+    6) writeup and discuss proposals for container
+    7) writeup and discuss proposals for content
 
 Misc stuff that should be fixed
 -------------------------------

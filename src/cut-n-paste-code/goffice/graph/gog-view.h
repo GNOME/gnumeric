@@ -36,6 +36,7 @@ struct _GogView {
 	GSList	    *children;
 
 	GogViewAllocation  allocation;	/* in renderer units */
+	GogViewAllocation  residual;	/* left over after compass children are placed */
 	unsigned allocation_valid : 1;  /* adjust our layout when child changes size */
 	unsigned child_allocations_valid : 1;  /* some children need to adjust their layout */
 	unsigned being_updated : 1;

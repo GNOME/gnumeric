@@ -22,16 +22,6 @@
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-data-allocator.h>
 
-static void
-gog_data_allocator_base_init (gpointer g_class)
-{
-	static gboolean need_init = TRUE;
-
-	if (need_init) {
-		need_init = FALSE;
-	}
-}
-
 GType
 gog_data_allocator_get_type (void)
 {
@@ -40,8 +30,8 @@ gog_data_allocator_get_type (void)
 	if (!gog_data_allocator_type) {
 		static GTypeInfo const gog_data_allocator_info = {
 			sizeof (GogDataAllocatorClass),	/* class_size */
-			gog_data_allocator_base_init,	/* base_init */
-			NULL,				/* base_finalize */
+			NULL,		/* base_init */
+			NULL,		/* base_finalize */
 		};
 
 		gog_data_allocator_type = g_type_register_static (G_TYPE_INTERFACE,
@@ -59,9 +49,63 @@ gog_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
 }
 
 gpointer
-gog_data_allocator_editor (GogDataAllocator *dalloc,
-			       GogSeries *series, int dim_i)
+gog_data_allocator_editor (GogDataAllocator *dalloc, GogDataset *set, int dim_i)
 {
 	g_return_val_if_fail (IS_GOG_DATA_ALLOCATOR (dalloc), NULL);
-	return GOG_DATA_ALLOCATOR_GET_CLASS (dalloc)->editor (dalloc, series, dim_i);
+	return GOG_DATA_ALLOCATOR_GET_CLASS (dalloc)->editor (dalloc, set, dim_i);
 }
+
+/****************************************************************************/
+
+GType
+gog_dataset_get_type (void)
+{
+	static GType gog_dataset_type = 0;
+
+	if (!gog_dataset_type) {
+		static GTypeInfo const gog_dataset_info = {
+			sizeof (GogDataAllocatorClass),	/* class_size */
+			NULL,		/* base_init */
+			NULL,		/* base_finalize */
+		};
+
+		gog_dataset_type = g_type_register_static (G_TYPE_INTERFACE,
+			"GogDataset", &gog_dataset_info, 0);
+	}
+
+	return gog_dataset_type;
+}
+
+/**
+ * gog_dataset_get_dim :
+ * @set : #GogDataset
+ * @dim_i :
+ *
+ * Returns the GOData associated with dimension @dim_i.  Does NOT add a
+ * reference.
+ **/
+GOData *
+gog_dataset_get_dim (GogDataset const *set, int dim_i)
+{
+	g_return_val_if_fail (IS_GOG_DATASET (set), NULL);
+	return GOG_DATASET_GET_CLASS (set)->get_dim (set, dim_i);
+}
+
+/**
+ * gog_dataset_set_dim :
+ * @series : #GogSeries
+ * @dim_i :  < 0 gets the name
+ * @val : #GOData
+ * @err : #GError
+ *
+ * Absorbs a ref to @val if it is non NULL and updates the validity of the
+ * series.  If @dim_i is a shared dimension update all of the other series
+ * associated with the same plot.
+ **/
+void
+gog_dataset_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)
+{
+	g_return_if_fail (IS_GOG_DATASET (set));
+	GOG_DATASET_GET_CLASS (set)->set_dim (set, dim_i, val, err);
+}
+

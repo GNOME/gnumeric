@@ -45,7 +45,7 @@ enum {
 	GRAPH_LAST_SIGNAL
 };
 static gulong gog_graph_signals [GRAPH_LAST_SIGNAL] = { 0, };
-static GObjectClass *parent_klass;
+static GObjectClass *graph_parent_klass;
 static GogViewClass *gview_parent_klass;
 
 static void
@@ -104,7 +104,7 @@ gog_graph_finalize (GObject *obj)
 		graph->idle_handler = 0;
 	}
 
-	(parent_klass->finalize) (obj);
+	(graph_parent_klass->finalize) (obj);
 }
 
 static char const *
@@ -159,9 +159,12 @@ gog_graph_class_init (GogGraphClass *klass)
 		{ N_("Chart"), "GogChart",
 		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
 		  NULL, NULL, NULL, role_chart_post_add, role_chart_pre_remove, NULL },
+		{ N_("Title"), "GogLabel",
+		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
+		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
 
-	parent_klass = g_type_class_peek_parent (klass);
+	graph_parent_klass = g_type_class_peek_parent (klass);
 	gobject_klass->set_property = gog_graph_set_property;
 	gobject_klass->get_property = gog_graph_get_property;
 	gobject_klass->finalize	    = gog_graph_finalize;
@@ -489,35 +492,36 @@ gog_graph_view_set_property (GObject *gobject, guint param_id,
 }
 
 static void
-gog_graph_view_size_request (GogView *view, GogViewRequisition *req)
-{
-	req->w = req->h = 0.;
-}
-
-static void
 gog_graph_view_size_allocate (GogView *view, GogViewAllocation const *a)
 {
 	GSList *ptr;
-	double dh, dw;
+	double h, w;
 	unsigned x, y, rows, cols;
 	GogView *child;
 	GogGraph *graph = GOG_GRAPH (view->model);
-	GogViewAllocation res;
-	double outline = gog_renderer_outline_size (view->renderer,
-						    graph->base.style);
+	GogViewAllocation res, tmp;
+	double outline = gog_renderer_outline_size (
+		view->renderer, graph->base.style);
 
-	dw = (a->w - 2.*outline) / gog_graph_num_cols (graph);
-	dh = (a->h - 2.*outline) / gog_graph_num_rows (graph);
+	res.x += outline;
+	res.y += outline;
+	res.w -= outline * 2.;
+	res.h -= outline * 2.;
+	(gview_parent_klass->size_allocate) (view, &res);
+
+	res = view->residual;
+	w = res.w / gog_graph_num_cols (graph);
+	h = res.h / gog_graph_num_rows (graph);
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
 		if (child->model->position == GOG_POSITION_SPECIAL) {
 			gog_chart_get_position (GOG_CHART (child->model),
 				&x, &y, &rows, &cols);
-			res.x = a->x + outline + x * dw;
-			res.y = a->y + outline + y * dh;
-			res.w = cols * dw;
-			res.h = rows * dh;
-			gog_view_size_allocate (child, &res);
+			tmp.x = x * w + res.x;
+			tmp.y = y * h + res.y;
+			tmp.w = cols * w;
+			tmp.h = rows * h;
+			gog_view_size_allocate (child, &tmp);
 		}
 	}
 }
@@ -540,7 +544,6 @@ gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 
 	gview_parent_klass = g_type_class_peek_parent (gview_klass);
 	gobject_klass->set_property = gog_graph_view_set_property;
-	view_klass->size_request    = gog_graph_view_size_request;
 	view_klass->size_allocate   = gog_graph_view_size_allocate;
 	view_klass->render	    = gog_graph_view_render;
 

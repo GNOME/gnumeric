@@ -34,13 +34,17 @@ GType	  gog_plot_get_type (void);
 GogPlot  *gog_plot_new_by_type	(GogPlotType const *type);
 GogPlot  *gog_plot_new_by_name	(char const *id);
 gboolean  gog_plot_make_similar	(GogPlot *dst, GogPlot const *src);
+
 void	  gog_plot_request_cardinality_update (GogPlot *plot);
 unsigned  gog_plot_get_cardinality (GogPlot *);
-void      gog_plot_foreach_elem  (GogPlot *,
-				  GogEnumFunc handler, gpointer data);
+void      gog_plot_foreach_elem    (GogPlot *,
+				    GogEnumFunc handler, gpointer data);
+GOData	 *gog_plot_get_axis_bounds (GogPlot *plot, unsigned axis,
+				    double *min, double *max);
 
 GogSeries	  *gog_plot_new_series	  (GogPlot *plot);
 GogPlotDesc const *gog_plot_description	  (GogPlot const *plot);
+
 
 GogChart *gog_plot_get_chart (GogPlot const *plot);
 

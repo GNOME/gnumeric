@@ -97,7 +97,8 @@ GType plugin_service_plugin_loader_generate_type (PluginService *service,
                                                   ErrorInfo **ret_error);
 
 #ifdef WITH_BONOBO
-#include <workbook-control-gui.h>
+#include <bonobo.h>
+#include <gui-gnumeric.h>
 
 #define GNM_PLUGIN_SERVICE_UI_TYPE  (plugin_service_ui_get_type ())
 #define GNM_PLUGIN_SERVICE_UI(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_UI_TYPE, PluginServiceUI))

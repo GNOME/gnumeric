@@ -516,6 +516,13 @@ workbook_get_filename (Workbook *wb)
 	return wb->filename;
 }
 
+/**
+ * workbook_get_filename_utf8 :
+ * @wb : #Workbook
+ * @basename :
+ *
+ * Caller is responsible for freeing
+ **/
 char *
 workbook_get_filename_utf8 (Workbook *wb, gboolean basename)
 {

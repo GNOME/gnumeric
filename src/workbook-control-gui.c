@@ -5540,7 +5540,7 @@ wbcg_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
 
 typedef struct {
 	GnmExprEntry *entry;
-	GogSeries *series;
+	GogDataset *dataset;
 	int dim_i;
 } GraphDimEditor;
 
@@ -5576,25 +5576,25 @@ cb_graph_dim_editor_update (G_GNUC_UNUSED GnmExprEntry *gee,
 	}
 
 	/* The SheetObjectGraph does the magic to link things in */
-	gog_series_set_dim (editor->series, editor->dim_i, data, NULL);
+	gog_dataset_set_dim (editor->dataset, editor->dim_i, data, NULL);
 }
 
 static gpointer
 wbcg_data_allocator_editor (GogDataAllocator *dalloc,
-			    GogSeries *series, int dim_i)
+			    GogDataset *dataset, int dim_i)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (dalloc);
 	GraphDimEditor *editor;
 	GOData *val;
 
 	editor = g_new (GraphDimEditor, 1);
-	editor->series = series;
-	editor->dim_i  = dim_i;
-	editor->entry  = gnm_expr_entry_new (wbcg, TRUE);
+	editor->dataset = dataset;
+	editor->dim_i   = dim_i;
+	editor->entry   = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_update_policy (editor->entry,
 		GTK_UPDATE_DISCONTINUOUS);
 
-	val = gog_series_get_dim (series, dim_i);
+	val = gog_dataset_get_dim (dataset, dim_i);
 	if (val != NULL)
 		gnm_expr_entry_load_from_text (editor->entry,
 			go_data_as_str (val));

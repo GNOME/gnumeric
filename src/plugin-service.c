@@ -1221,6 +1221,7 @@ GSF_CLASS (PluginServicePluginLoader, plugin_service_plugin_loader,
 /*
  * PluginServiceUI
  */
+#include <workbook-control-gui.h>
 
 typedef struct{
 	PluginServiceClass plugin_service_class;

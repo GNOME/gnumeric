@@ -1,3 +1,13 @@
+2003-06-12  Jody Goldberg <jody@gnome.org>
+
+	* graph/goffice-graph.h : remove POSITION_FILL
+	  It does no good to have random thought experiments floating around.
+
+2003-06-12  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-guru.c (graph_guru_type_selector_new) : add an accelerator
+	  for the plot family selector.
+
 2003-06-10  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-view.c (gog_view_size_allocate) : Use the new debug macro.

@@ -1,9 +1,9 @@
 #ifndef GNUMERIC_PLUGIN_H
 #define GNUMERIC_PLUGIN_H
 
-#include <gtk/gtktypeutils.h>
 #include "gnumeric.h"
 #include "error-info.h"
+#include <glib-object.h>
 
 /*
  * Use "#define PLUGIN_DEBUG x" to enable some plugin related debugging

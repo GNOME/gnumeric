@@ -1070,7 +1070,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 			"pixbuf", PLOT_FAMILY_TYPE_IMAGE,
 			NULL));
 	gtk_tree_view_append_column (typesel->list_view,
-		gtk_tree_view_column_new_with_attributes (_("Plot Type"),
+		gtk_tree_view_column_new_with_attributes (_("_Plot Type"),
 			gtk_cell_renderer_text_new (),
 			"text", PLOT_FAMILY_TYPE_NAME,
 			NULL));

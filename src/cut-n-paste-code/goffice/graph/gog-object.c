@@ -128,9 +128,12 @@ gog_object_generate_name (GogObject *obj)
 	GSList *ptr;
 
 	g_return_val_if_fail (klass != NULL, NULL);
-	g_return_val_if_fail (klass->type_name != NULL, NULL);
 
-	type_name = (*klass->type_name) (obj);
+	if (*klass->type_name == NULL) {
+		g_return_val_if_fail (obj->role != NULL, NULL);
+		type_name = obj->role->id;
+	} else
+		type_name = (*klass->type_name) (obj);
 
 	g_return_val_if_fail (type_name != NULL, NULL);
 	name_len = strlen (type_name);
@@ -286,6 +289,30 @@ cb_collect_possible_additions (char const *name, GogObjectRole const *role,
 		data->res = g_slist_prepend (data->res, (gpointer)role);
 }
 
+static int
+gog_object_position_cmp (GogObjectPosition pos)
+{
+	if (pos & GOG_POSITION_COMPASS)
+		return 0;
+	if (pos == GOG_POSITION_SPECIAL)
+		return 2;
+	return 1; /* GOG_POSITION_MANUAL */
+}
+
+static int
+gog_role_cmp (GogObjectRole const *a, GogObjectRole const *b)
+{
+	int index_a = gog_object_position_cmp (a->allowable_positions);
+	int index_b = gog_object_position_cmp (b->allowable_positions);
+
+	/* intentionally reverse to put SPECIAL at the top */
+	if (index_a < index_b)
+		return 1;
+	else if (index_a > index_b)
+		return -1;
+	return g_utf8_collate (a->id, b->id);
+}
+
 /**
  * gog_object_possible_additions :
  * @parent : a #GogObject
@@ -308,7 +335,7 @@ gog_object_possible_additions (GogObject const *parent)
 		g_hash_table_foreach (klass->roles,
 			(GHFunc) cb_collect_possible_additions, &data);
 
-		return data.res;
+		return g_slist_sort (data.res, (GCompareFunc) gog_role_cmp);
 	}
 
 	return NULL;
@@ -369,7 +396,7 @@ gog_object_update (GogObject *obj)
 	if (obj->needs_update) {
 		obj->needs_update = FALSE;
 		obj->being_updated = TRUE;
-		d (0, g_warning ("updating %s (%p)", G_OBJECT_TYPE_NAME (obj), obj););
+		gog_debug (0, g_warning ("updating %s (%p)", G_OBJECT_TYPE_NAME (obj), obj););
 		if (klass->update != NULL)
 			(*klass->update) (obj);
 		obj->being_updated = FALSE;
@@ -443,20 +470,6 @@ gog_object_clear_parent (GogObject *obj)
 	return TRUE;
 }
 
-static int
-order_positions (GogObjectPosition pos)
-{
-	if (pos & GOG_POSITION_COMPASS)
-		return 0;
-
-	if (pos == GOG_POSITION_FILL)
-		return 2;
-	if (pos == GOG_POSITION_SPECIAL)
-		return 3;
-	/* GOG_POSITION_MANUAL */
-	return 1;
-}
-
 /**
  * gog_object_set_parent :
  * @child  : #GogObject.
@@ -483,10 +496,10 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
 	child->position = role->default_position;
 
 	/* Insert sorted based on hokey little ordering */
-	order = order_positions (child->position);
+	order = gog_object_position_cmp (child->position);
 	step = &parent->children;
 	while (*step != NULL &&
-	       order >= order_positions (GOG_OBJECT ((*step)->data)->position))
+	       order >= gog_object_position_cmp (GOG_OBJECT ((*step)->data)->position))
 		step = &((*step)->next);
 	*step = g_slist_prepend (*step, child);
 

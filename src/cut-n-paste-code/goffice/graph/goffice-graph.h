@@ -54,6 +54,7 @@ typedef GSList 			GogSeriesElementStyleList;
 
 /* Data */
 typedef struct _GogDataAllocator GogDataAllocator;
+typedef struct _GogDataset	 GogDataset;
 typedef struct _GOData		 GOData;
 typedef struct _GODataScalar	 GODataScalar;
 typedef struct _GODataVector	 GODataVector;
@@ -80,7 +81,7 @@ typedef enum {
 	GOG_AXIS_Z,
 	GOG_AXIS_RADIAL,
 	GOG_AXIS_TYPES
-} GogAxisType;
+} GogAxisType;	/* unused for now.  Do we need it ? */
 
 typedef enum {
 	GOG_DIM_INVALID = -1,
@@ -115,21 +116,20 @@ typedef enum {
 	GOG_POSITION_ALIGN_CENTER = 3 << 4,
 	GOG_POSITION_ALIGNMENT	  = 0x30,
 
-	GOG_POSITION_FILL	= 1 << 6,
-	GOG_POSITION_SPECIAL	= 1 << 7,
+	GOG_POSITION_SPECIAL	= 1 << 6,
 
-	GOG_POSITION_MANUAL	  = 1 << 8,
-	GOG_POSITION_MANUAL_X_ABS = 1 << 9, /* abs vs relative pos */
-	GOG_POSITION_MANUAL_Y_ABS = 1 << 10,
-	GOG_POSITION_MANUAL_X_END = 1 << 11, /* pos relative to start or end */
-	GOG_POSITION_MANUAL_Y_END = 1 << 12
+	GOG_POSITION_MANUAL	  = 1 << 7,
+	GOG_POSITION_MANUAL_X_ABS = 1 << 8, /* abs vs relative pos */
+	GOG_POSITION_MANUAL_Y_ABS = 1 << 9,
+	GOG_POSITION_MANUAL_X_END = 1 << 10, /* pos relative to start or end */
+	GOG_POSITION_MANUAL_Y_END = 1 << 11
 } GogObjectPosition;
 
 /* #define NO_DEBUG_CHARTS */
 #ifndef NO_DEBUG_CHARTS
-#define d(level, code)	do { if (goffice_graph_debug_level > level) { code } } while (0)
+#define gog_debug(level, code)	do { if (goffice_graph_debug_level > level) { code } } while (0)
 #else
-#define d(level, code)
+#define gog_debug(level, code)
 #endif
 extern int goffice_graph_debug_level;
 

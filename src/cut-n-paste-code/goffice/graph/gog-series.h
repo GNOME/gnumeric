@@ -35,7 +35,6 @@ gboolean      gog_series_is_valid  (GogSeries const *series);
 GODataScalar *gog_series_get_name  (GogSeries const *series);
 void	      gog_series_set_name  (GogSeries *series,
 				    GODataScalar *val, GError **err);
-GOData	     *gog_series_get_dim   (GogSeries const *series, int dim_i);
 void	      gog_series_set_dim   (GogSeries *series, int dim_i,
 				    GOData *val, GError **err);
 void	      gog_series_set_index (GogSeries *series,

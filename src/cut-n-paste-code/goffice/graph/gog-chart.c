@@ -80,6 +80,9 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 		{ N_("Legend"), "GogLegend",
 		  GOG_POSITION_COMPASS, GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, TRUE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
+		{ N_("Title"), "GogLabel",
+		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
+		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
 
 	gog_klass->editor    = gog_chart_editor;
@@ -216,108 +219,26 @@ typedef GogViewClass	GogChartViewClass;
 static GogViewClass *cview_parent_klass;
 
 static void
-gog_chart_view_size_request (GogView *view, GogViewRequisition *req)
-{
-	req->w = req->h = 0.;
-}
-
-static void
 gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
 {
 	GSList *ptr;
 	GogView *child;
 	GogChart *chart = GOG_CHART (view->model);
-	GogViewAllocation tmp, available, res = *allocation;
-	GogObjectPosition pos;
-	GogViewRequisition req;
-	double outline = gog_renderer_outline_size (view->renderer,
-						    chart->base.style);
+	GogViewAllocation res = *allocation;
+	double outline = gog_renderer_outline_size (
+		view->renderer, chart->base.style);
 
 	res.x += outline;
 	res.y += outline;
 	res.w -= outline * 2.;
 	res.h -= outline * 2.;
-	available = res;
+	(cview_parent_klass->size_allocate) (view, &res);
 
+	/* overlay all the plots in the residual */
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
-
-		pos = child->model->position;
-		if (pos & GOG_POSITION_MANUAL) {
-			/* position relative to the entire region */
-			tmp = available;
-			/* add some flags to control interpretation of manual
-			 * eg abs/percentage from start/end */
-			g_warning ("manual is not supported yet");
-		} else if (pos & GOG_POSITION_COMPASS) {
-			gboolean vertical = TRUE;
-
-			/* Dead simple */
-			gog_view_size_request (child, &req);
-			if (req.h > res.h)
-				req.h = res.h;
-			if (req.w > res.w)
-				req.w = res.w;
-			tmp = res;
-
-			if (pos & GOG_POSITION_N) {
-				res.y += req.h;
-				res.h -= req.h;
-				tmp.h  = req.h;
-				vertical = FALSE;
-			} else if (pos & GOG_POSITION_S) {
-				res.h -= req.h;
-				tmp.y  = res.y + res.h;
-				tmp.h  = req.h;
-				vertical = FALSE;
-			} 
-
-			if (pos & GOG_POSITION_E) {
-				res.w -= req.w;
-				tmp.x  = res.x + res.w;
-				tmp.w  = req.w;
-				/* For NE & NW only alignment fill makes sense */
-				if (pos & (GOG_POSITION_N|GOG_POSITION_S))
-					pos = GOG_POSITION_ALIGN_FILL;
-			} else if (pos & GOG_POSITION_W) {
-				res.x += req.w;
-				res.w -= req.w;
-				tmp.w  = req.w;
-				/* For NE & NW only alignment fill makes sense */
-				if (pos & (GOG_POSITION_N|GOG_POSITION_S))
-					pos = GOG_POSITION_ALIGN_FILL;
-			}
-
-			pos &= GOG_POSITION_ALIGNMENT;
-			if (GOG_POSITION_ALIGN_FILL != pos) {
-				if (vertical) {
-					if (GOG_POSITION_ALIGN_END == pos) {
-						if (tmp.h >= req.h)
-							tmp.y += tmp.h - req.h;
-					} else if (GOG_POSITION_ALIGN_CENTER == pos) {
-						if (tmp.h >= req.h)
-							tmp.y += (tmp.h - req.h) / 2.;
-					}
-					tmp.h = req.h;
-				} else {
-					if (GOG_POSITION_ALIGN_END == pos) {
-						if (tmp.w >= req.w)
-							tmp.x += tmp.w - req.w;
-					} else if (GOG_POSITION_ALIGN_CENTER == pos) {
-						if (tmp.w >= req.w)
-							tmp.x += (tmp.w - req.w) / 2.;
-					}
-					tmp.w = req.w;
-				}
-			}
-
-			gog_view_size_allocate (child, &tmp);
-		} else if (pos == GOG_POSITION_FILL ||
-			   pos == GOG_POSITION_SPECIAL)
-			gog_view_size_allocate (child, &res);
-		else
-			g_warning ("unexpected position %x for child %p of %p",
-				   pos, child, view);
+		if (child->model->position == GOG_POSITION_SPECIAL)
+			gog_view_size_allocate (child, &view->residual);
 	}
 }
 
@@ -337,7 +258,6 @@ gog_chart_view_class_init (GogChartViewClass *gview_klass)
 	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
 
 	cview_parent_klass = g_type_class_peek_parent (gview_klass);
-	view_klass->size_request    = gog_chart_view_size_request;
 	view_klass->size_allocate   = gog_chart_view_size_allocate;
 	view_klass->render	    = gog_chart_view_render;
 }

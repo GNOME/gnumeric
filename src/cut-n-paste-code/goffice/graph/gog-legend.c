@@ -109,6 +109,12 @@ gog_legend_type_name (GogObject const *item)
 static void
 gog_legend_class_init (GogLegendClass *klass)
 {
+	static GogObjectRole const roles[] = {
+		{ N_("Title"), "GogLabel",
+		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
+		  NULL, NULL, NULL, NULL, NULL, NULL },
+	};
+
 	GObjectClass *gobject_klass   = (GObjectClass *) klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
 
@@ -119,6 +125,7 @@ gog_legend_class_init (GogLegendClass *klass)
 
 	gog_klass->type_name	= gog_legend_type_name;
 	gog_klass->view_type	= gog_legend_view_get_type ();
+	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, LEGEND_SWATCH_SIZE_PTS,
 		g_param_spec_double ("swatch_size_pts", "Swatch Size pts",
