@@ -22,7 +22,7 @@
 #include <string.h>
 #include <glib.h>
 #include <libxml/tree.h>
-#include <libxml/xmlmemory.h>
+#include <libxml/globals.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/util/e-util.h>
 
