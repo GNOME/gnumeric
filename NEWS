@@ -1,5 +1,9 @@
 Gnumeric 1.0.1
 
+Andreas:
+	* Fix 67878 (help button ref)
+	* Fix a few ANOVA error messages
+
 Jody:
 	* Some missing '...' in menu names
 	* Rename 'Summary' menu -> 'Properties'

@@ -1,3 +1,10 @@
+2002-01-03  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+        http://bugzilla.gnome.org/show_bug.cgi?id=67878
+	* dialog-workbook-attr.c (attr_dialog_impl) : fix
+	  help button reference
+
+
 2001-12-31  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* histogram.glade : correct label

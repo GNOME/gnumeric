@@ -181,7 +181,7 @@ attr_dialog_impl (AttrState *state)
 		NULL);
 
 	/* FIXME : do we have real docs for this ? */
-	gnumeric_pbox_init_help	(dialog, "workbook.html");
+	gnumeric_pbox_init_help	(dialog, "format-menu.html");
 
 	gtk_signal_connect (GTK_OBJECT (dialog), "apply",
 			    GTK_SIGNAL_FUNC (cb_attr_dialog_dialog_apply),
