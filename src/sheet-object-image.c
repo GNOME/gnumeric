@@ -39,9 +39,6 @@ typedef struct {
 	SheetObjectClass parent_class;
 } SheetObjectImageClass;
 
-#define SHEET_OBJECT_IMAGE(o)    (G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_OBJECT_IMAGE_TYPE, SheetObjectImage))
-#define IS_SHEET_OBJECT_IMAGE(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_IMAGE_TYPE))
-
 static SheetObjectClass *sheet_object_image_parent_class;
 
 /**
