@@ -30,8 +30,11 @@ Jon Kåre:
         * Separate GUI for showing progress and messages before first 
 	  spreadsheet window is displayed.
 	* Fix 98661.
-	* Ported the remaining plugins to gsf output.
+	* Port the remaining plugins to gsf output.
 	* Use desktop font for row and column titles, fixing 98666.
+	* Fix bugs in the bonobo control version of Gnumeric.
+	* Install the bonobo control in libexec.
+	* Fix key navigation and scrollbar scrolling in auto-filter combos.
 
 Morten:
 	* Improve qpro importer.
