@@ -220,6 +220,9 @@
 		name). Example: March.
 	      </para></listitem>
 	    <listitem><para>
+		<guilabel>mmmmm</guilabel>: month (first letter). Example: M.
+	      </para></listitem>
+	    <listitem><para>
 		<guilabel>yyyy</guilabel>: year (four digits).  Example: 1967.
 	      </para></listitem>
 	    <listitem><para>
