@@ -1,3 +1,14 @@
+2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-consolidate.c (is_cell_ref) replace with 
+	  gnm_expr_entry_is_cell_ref
+	(cb_add_clicked) : use gnm_expr_entry_global_range_name
+	* dialog-solver.c (is_hom_row_or_col_ref) : use 
+	  gnm_expr_entry_parse_as_value
+	(is_cell_ref) replace with gnm_expr_entry_is_cell_ref
+	(cb_dialog_add_clicked) : use gnm_expr_entry_parse_as_value
+	(cb_dialog_solve_clicked) : ditto
+
 2002-02-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-consolidate.c (cb_add_clicked) : expr-entries are not

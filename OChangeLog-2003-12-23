@@ -1,3 +1,8 @@
+2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/value.c (value_get_as_string) : case VALUE_CELLRANGE can be
+	  for absolute and A1-rel references. Use global_range_name.
+
 2002-02-27  Morten Welinder  <terra@diku.dk>
 
 	* src/analysis-tools.c (ztest_tool): Fix problem from R upgrade.

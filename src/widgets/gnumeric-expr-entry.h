@@ -44,12 +44,15 @@ void	  gnm_expr_entry_rangesel_stop	(GnumericExprEntry *e,
 
 gboolean  gnm_expr_entry_can_rangesel	(GnumericExprEntry *e);
 gboolean  gnm_expr_entry_is_blank	(GnumericExprEntry *e);
+gboolean  gnm_expr_entry_is_cell_ref (GnumericExprEntry *e, 
+				      Sheet *sheet, gboolean allow_multiple_cell);
 
 Value	 *gnm_expr_entry_parse_as_value	(GnumericExprEntry *ee, Sheet *sheet);
 GSList	 *gnm_expr_entry_parse_as_list	(GnumericExprEntry *ee, Sheet *sheet);
 ExprTree *gnm_expr_entry_parse		(GnumericExprEntry *e,
 					 ParsePos const *pp,
 					 ParseError *perr, gboolean start_sel);
+char     *gnm_expr_entry_global_range_name (GnumericExprEntry *e, Sheet *sheet);
 void	 gnm_expr_entry_load_from_text	(GnumericExprEntry *e, char const *str);
 void	 gnm_expr_entry_load_from_dep	(GnumericExprEntry *e,
 					 Dependent const *dep);

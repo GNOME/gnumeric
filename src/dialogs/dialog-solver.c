@@ -107,16 +107,13 @@ static const char *problem_type_group[] = {
 static gboolean
 is_hom_row_or_col_ref (GnumericExprEntry *entry_1, GnumericExprEntry *entry_2, Sheet *sheet)
 {
-	char const *text;
         Value *input_range_1;
         Value *input_range_2;
 
 	gboolean res;
 
-	text = gtk_entry_get_text (GTK_ENTRY (entry_1));
-	input_range_1 = global_range_parse (sheet,text);
-	text = gtk_entry_get_text (GTK_ENTRY (entry_2));
-	input_range_2 = global_range_parse (sheet,text);
+	input_range_1 = gnm_expr_entry_parse_as_value (entry_1, sheet);
+	input_range_2 = gnm_expr_entry_parse_as_value (entry_2, sheet);
 
         if ((input_range_1 != NULL) && (input_range_2 != NULL)) {
 		res = ((input_range_1->type == VALUE_CELLRANGE)
@@ -145,35 +142,6 @@ is_hom_row_or_col_ref (GnumericExprEntry *entry_1, GnumericExprEntry *entry_2, S
 }
 
 /**
- * is_cell_ref:
- * @Widget:
- *
- **/
-static gboolean
-is_cell_ref (GnumericExprEntry *entry, Sheet *sheet, gboolean allow_multiple_cell)
-{
-	char const *text;
-        Value *input_range;
-	gboolean res;
-
-	text = gtk_entry_get_text (GTK_ENTRY (entry));
-	input_range = global_range_parse (sheet,text);
-
-        if (input_range != NULL) {
-		res = ((input_range->type == VALUE_CELLRANGE)
-		       && ( allow_multiple_cell ||
-			    ((input_range->v_range.cell.a.col ==
-			     input_range->v_range.cell.b.col)
-			    && (input_range->v_range.cell.a.row ==
-				input_range->v_range.cell.b.row))));
-		value_release (input_range);
-	} else {
-		res = FALSE;
-	}
-	return res;
-}
-
-/**
  * dialog_set_sec_button_sensitivity:
  * @dummy:
  * @state:
@@ -186,7 +154,7 @@ dialog_set_sec_button_sensitivity (GtkWidget *dummy, SolverState *state)
 	gboolean select_ready;
 
 	select_ready = (state->selected_row > -1);
-	ready = is_cell_ref (state->lhs_entry, state->sheet, TRUE) &&
+	ready = gnm_expr_entry_is_cell_ref (state->lhs_entry, state->sheet, TRUE) &&
 		((gnumeric_option_menu_get_selected_index (state->type_combo)
 		  == CONSTRAINT_INTEGER)
 		 || (gnumeric_option_menu_get_selected_index (state->type_combo)
@@ -282,18 +250,18 @@ cb_dialog_delete_clicked (GtkWidget *button, SolverState *state)
 static void
 cb_dialog_add_clicked (GtkWidget *button, SolverState *state)
 {
-	char const *text;
 	gint selection;
 	char *texts[2] = {NULL, NULL};
 	constraint_t *the_constraint = g_new (constraint_t, 1);
 
-	text = gtk_entry_get_text (GTK_ENTRY (state->lhs_entry));
-	the_constraint->lhs_value =  global_range_parse (state->sheet,text);
+	the_constraint->lhs_value =  gnm_expr_entry_parse_as_value (state->lhs_entry,
+								    state->sheet);
 	the_constraint->type = gnumeric_option_menu_get_selected_index (state->type_combo);
 	if ((the_constraint->type != CONSTRAINT_INTEGER) &&
 	    (the_constraint->type != CONSTRAINT_BOOLEAN)) {
-		text = gtk_entry_get_text (GTK_ENTRY (state->rhs_entry));
-		the_constraint->rhs_value =  global_range_parse (state->sheet,text);
+		the_constraint->rhs_value =  gnm_expr_entry_parse_as_value (state->rhs_entry,
+								    state->sheet);
+
 /* FIXMEE: We are dropping cross sheet references!! */
 		texts[0] = write_constraint_str (the_constraint->lhs_value->v_range.cell.a.col,
 					     the_constraint->lhs_value->v_range.cell.a.row,
@@ -356,8 +324,8 @@ dialog_set_main_button_sensitivity (GtkWidget *dummy, SolverState *state)
 {
 	gboolean ready = FALSE;
 
-	ready = is_cell_ref (state->target_entry, state->sheet, FALSE)
-		&& is_cell_ref (state->change_cell_entry, state->sheet, TRUE);
+	ready = gnm_expr_entry_is_cell_ref (state->target_entry, state->sheet, FALSE)
+		&& gnm_expr_entry_is_cell_ref (state->change_cell_entry, state->sheet, TRUE);
 	gtk_widget_set_sensitive (state->solve_button, ready);
 }
 
@@ -696,7 +664,6 @@ cb_destroy (gpointer data, gpointer user_data)
 static void
 cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 {
-	char const         *text;
 	Value              *target_range;
 	Value              *input_range;
         CellList           *input_cells = NULL;
@@ -712,13 +679,12 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	pos = g_new (EvalPos, 1);
 	pos = eval_pos_init(pos, state->sheet, &cellpos);
 
-	text = gtk_entry_get_text (GTK_ENTRY (state->target_entry));
-	target_range = global_range_parse (state->sheet, text);
-	text = gtk_entry_get_text (GTK_ENTRY (state->change_cell_entry));
+	target_range = gnm_expr_entry_parse_as_value (state->target_entry, state->sheet);
+	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry, state->sheet);
+
 	if (state->sheet->solver_parameters->input_entry_str != NULL)
 		g_free (state->sheet->solver_parameters->input_entry_str);
-	state->sheet->solver_parameters->input_entry_str = g_strdup(text);
-	input_range = global_range_parse (state->sheet, text);
+	state->sheet->solver_parameters->input_entry_str = value_get_as_string (input_range);
 
 	state->sheet->solver_parameters->target_cell =
 		sheet_cell_fetch (state->sheet,
@@ -997,10 +963,10 @@ dialog_init (SolverState *state)
 		glade_xml_get_widget(state->gui, "non_neg_button")),
 			state->sheet->solver_parameters->options.assume_non_negative);
 	if (state->sheet->solver_parameters->input_entry_str != NULL)
-		gtk_entry_set_text (GTK_ENTRY(state->change_cell_entry),
-				    state->sheet->solver_parameters->input_entry_str );
+		gnm_expr_entry_load_from_text (state->change_cell_entry,
+					       state->sheet->solver_parameters->input_entry_str);
 	if (state->sheet->solver_parameters->target_cell != NULL)
-		gtk_entry_set_text (GTK_ENTRY(state->target_entry),
+		gnm_expr_entry_load_from_text (state->target_entry,
 				    cell_name(state->sheet->solver_parameters->target_cell));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "max_button")),

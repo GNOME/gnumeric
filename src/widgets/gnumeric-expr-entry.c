@@ -1012,3 +1012,44 @@ gnm_expr_entry_get_entry (GnumericExprEntry *gee)
 
 	return gee->entry;
 }
+
+gboolean  
+gnm_expr_entry_is_cell_ref (GnumericExprEntry *e, Sheet *sheet, 
+			    gboolean allow_multiple_cell)
+{
+        Value *val;
+	gboolean res;
+
+	val = gnm_expr_entry_parse_as_value (e, sheet);
+
+        if (val != NULL) {
+		res = ((val->type == VALUE_CELLRANGE)
+		       && ( allow_multiple_cell ||
+			    ((val->v_range.cell.a.col ==
+			     val->v_range.cell.b.col)
+			    && (val->v_range.cell.a.row ==
+				val->v_range.cell.b.row))));
+		value_release (val);
+	} else {
+		res = FALSE;
+	}
+	return res;
+
+}
+
+char *
+gnm_expr_entry_global_range_name (GnumericExprEntry *e, Sheet *sheet)
+{
+	Value *val;
+	char *text = NULL;
+
+	val = gnm_expr_entry_parse_as_value (e, sheet);
+
+	if (val != NULL) {
+		if (val->type == VALUE_CELLRANGE)
+			text = value_get_as_string (val);
+		value_release (val);
+	}
+	
+	return text;
+}

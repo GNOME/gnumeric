@@ -22,6 +22,7 @@
 #include <errno.h>
 #include <math.h>
 #include <string.h>
+#include <ranges.h>
 #include <libgnome/gnome-i18n.h>
 
 Value *
@@ -561,18 +562,13 @@ value_get_as_string (Value const *v)
 	}
 
 	case VALUE_CELLRANGE: {
-		char *a = cellref_name (&v->v_range.cell.a, NULL, FALSE);
-		char *b = cellref_name (&v->v_range.cell.b, NULL, FALSE);
-		char *res = g_strconcat (a, ":", b, NULL);
-
-		g_free (a);
-		g_free (b);
-
-		/* This is a fallback that should never be called.
-		 * without a parsepos we can not resolve relative references.
+		/* Note: this makes only sense for absolute references or
+		 *       references relative to A1
 		 */
-		g_warning ("value_as_string called for a cellrange ?");
-		return res;
+		Range range;
+		range_init (&range, v->v_range.cell.a.col, v->v_range.cell.a.row,
+				    v->v_range.cell.b.col, v->v_range.cell.b.row);
+		return global_range_name (v->v_range.cell.a.sheet, &range);;
 	}
 
 	default:

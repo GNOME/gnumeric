@@ -1,3 +1,12 @@
+2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_is_cell_ref) : new (is_cell_ref
+	  from src/dialogs/dialog-solver.c and 
+	  src/dialogs/dialog-consolidate.c)
+	(gnm_expr_entry_global_range_name) : new (extracted common code)
+	* gnumeric-expr-entry.h (gnm_expr_entry_is_cell_ref) : new
+	(gnm_expr_entry_global_range_name) : new
+
 2002-02-26  Jody Goldberg <jody@gnome.org>
 
 	* widget-editable-label.c (el_size_request) : start using pango to

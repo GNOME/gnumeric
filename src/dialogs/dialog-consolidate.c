@@ -146,27 +146,6 @@ construct_consolidate (ConsolidateState *state)
 /***************************************************************************************/
 
 /**
- * is_cell_ref:
- * @Widget:
- *
- **/
-static gboolean
-is_cell_ref (GnumericExprEntry *entry, Sheet *sheet, gboolean allow_multiple_cell)
-{
-	gboolean res = FALSE;
-        Value *input_range = gnm_expr_entry_parse_as_value (entry, sheet);
-
-        if (input_range != NULL) {
-		res = ((input_range->type == VALUE_CELLRANGE) &&
-		       (allow_multiple_cell ||
-			((input_range->v_range.cell.a.col == input_range->v_range.cell.b.col) &&
-			 (input_range->v_range.cell.a.row == input_range->v_range.cell.b.row))));
-		value_release (input_range);
-	}
-	return res;
-}
-
-/**
  * dialog_set_button_sensitivity:
  * @dummy:
  * @state:
@@ -177,7 +156,7 @@ dialog_set_button_sensitivity (GtkWidget *dummy, ConsolidateState *state)
 {
 	gboolean ready = FALSE;
 
-	ready = is_cell_ref (state->gui.destination, state->sheet, TRUE)
+	ready = gnm_expr_entry_is_cell_ref (state->gui.destination, state->sheet, TRUE)
 		&& (state->gui.areas->rows > 0);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.btn_ok), ready);
 	return;
@@ -248,7 +227,8 @@ cb_source_changed (GtkEntry *ignored, ConsolidateState *state)
 	g_return_if_fail (state != NULL);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.add),
-				  is_cell_ref (state->gui.source, state->sheet, TRUE));
+				  gnm_expr_entry_is_cell_ref (state->gui.source, 
+							      state->sheet, TRUE));
 }
 
 static void
@@ -256,8 +236,6 @@ cb_add_clicked (GtkButton *button, ConsolidateState *state)
 {
 	char *text[1];
 	int i, exists = -1;
-	Value *value;
-	Range range;
 
 	g_return_if_fail (state != NULL);
 
@@ -267,16 +245,8 @@ cb_add_clicked (GtkButton *button, ConsolidateState *state)
 	 * simply select the existing entry
 	 */
 
-	value = gnm_expr_entry_parse_as_value (state->gui.source, state->sheet);
-
-	g_return_if_fail (value != NULL);
-	g_return_if_fail (value->type == VALUE_CELLRANGE);
-
-	range_init (&range, value->v_range.cell.a.col, value->v_range.cell.a.row,
-		    value->v_range.cell.b.col, value->v_range.cell.b.row);
-
-	text[0] = global_range_name (value->v_range.cell.a.sheet, &range);
-	value_release (value);
+	text[0] = gnm_expr_entry_global_range_name (state->gui.source, state->sheet);
+	g_return_if_fail (text != NULL);
 
 	for (i = 0; i < state->gui.areas->rows; i++) {
 		char *t[1];
