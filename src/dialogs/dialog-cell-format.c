@@ -272,8 +272,10 @@ static int fmt_dialog_currency = 0;
  * between dialog invocations.
  */
 static void
-cb_page_select (GtkNotebook *notebook, GtkNotebookPage *page,
-		gint page_num, gpointer user_data)
+cb_page_select (__attribute__((unused)) GtkNotebook *notebook,
+		__attribute__((unused)) GtkNotebookPage *page,
+		gint page_num,
+		__attribute__((unused))	gpointer user_data)
 {
 	fmt_dialog_page = page_num;
 }
@@ -454,7 +456,7 @@ generate_format (FormatState *state)
 
 	case FMT_CURRENCY :
 		g_string_append (new_format,
-				 (gchar *)currency_symbols[state->format.currency_index].symbol);
+				 (const gchar *)currency_symbols[state->format.currency_index].symbol);
 
 		/* Non simple currencies require a spacer */
 		if (currency_symbols[state->format.currency_index].symbol[0] == '[')
@@ -500,7 +502,7 @@ generate_format (FormatState *state)
 	case FMT_ACCOUNT :
 		g_string_append (new_format, "_(");
 		g_string_append (new_format,
-				 (gchar *)currency_symbols[state->format.currency_index].symbol);
+				 (const gchar *)currency_symbols[state->format.currency_index].symbol);
 		g_string_append (new_format, "* #,##0");
 		if (state->format.num_decimals > 0) {
 			g_return_if_fail (state->format.num_decimals <= 30);
@@ -510,7 +512,7 @@ generate_format (FormatState *state)
 		}
 		g_string_append (new_format, "_);_(");
 		g_string_append (new_format,
-				 (gchar *)currency_symbols[state->format.currency_index].symbol);
+				 (const gchar *)currency_symbols[state->format.currency_index].symbol);
 		g_string_append (new_format, "* (#,##0");
 		if (state->format.num_decimals > 0) {
 			g_return_if_fail (state->format.num_decimals <= 30);
@@ -520,7 +522,7 @@ generate_format (FormatState *state)
 		}
 		g_string_append (new_format, ");_(");
 		g_string_append (new_format,
-				 (gchar *)currency_symbols[state->format.currency_index].symbol);
+				 (const gchar *)currency_symbols[state->format.currency_index].symbol);
 		g_string_append (new_format, "* \"-\"");
 		g_string_append (new_format, qmarks + 30-state->format.num_decimals);
 		g_string_append (new_format, "_);_(@_)");
@@ -617,7 +619,7 @@ fillin_negative_samples (FormatState *state)
 		decimal[0] = format_get_decimal ();
 
 	if (page == 2) {
-		currency = (gchar *)currency_symbols[state->format.currency_index].symbol;
+		currency = (const gchar *)currency_symbols[state->format.currency_index].symbol;
 		/*
 		 * FIXME : This should be better hidden.
 		 * Ideally the render would do this for us.
@@ -645,7 +647,7 @@ fillin_negative_samples (FormatState *state)
 
 	/* If non empty then free the string */
 	if (*currency)
-		g_free ((char *)currency);
+		g_free ((char*)currency);
 
 	path = gtk_tree_path_new ();
 	gtk_tree_path_append_index (path, state->format.negative_format);
@@ -860,7 +862,8 @@ cb_format_list_select (GtkTreeSelection *selection, FormatState *state)
 }
 
 static gboolean
-cb_format_currency_select (GtkWidget *ct, char *new_text, FormatState *state)
+cb_format_currency_select (__attribute__((unused)) GtkWidget *ct,
+			   char *new_text, FormatState *state)
 {
 	int i;
 
@@ -1057,14 +1060,14 @@ fmt_dialog_init_format_page (FormatState *state)
 		GList *ptr, *l = NULL;
 
 		for (i = 0; currency_symbols[i].symbol != NULL ; ++i)
-			l = g_list_append (l, _((gchar *)currency_symbols[i].description));
+			l = g_list_append (l, _((const gchar *)currency_symbols[i].description));
 		l = g_list_sort (l, funny_currency_order);
 
 		for (ptr = l; ptr != NULL ; ptr = ptr->next)
 			gnm_combo_text_add_item	(combo, ptr->data);
 		g_list_free (l);
 		gnm_combo_text_set_text	 (combo,
-			_((gchar *)currency_symbols[state->format.currency_index].description),
+			_((const gchar *)currency_symbols[state->format.currency_index].description),
 			GNM_COMBO_TEXT_FROM_TOP);
 
 		g_signal_connect (G_OBJECT (combo),
@@ -1491,7 +1494,8 @@ fmt_dialog_init_align_page (FormatState *state)
 /*****************************************************************************/
 
 static void
-cb_font_changed (GtkWidget *widget, MStyle *mstyle, FormatState *state)
+cb_font_changed (__attribute__((unused)) GtkWidget *widget,
+		 MStyle *mstyle, FormatState *state)
 {
 	static MStyleElementType const font_types[] = {
 		MSTYLE_FONT_NAME,
@@ -1529,9 +1533,11 @@ cb_font_changed (GtkWidget *widget, MStyle *mstyle, FormatState *state)
  * It is called whenever the color combo changes value.
  */
 static void
-cb_font_preview_color (ColorCombo *combo, GdkColor *c,
-		       gboolean is_custom, gboolean by_user, gboolean is_default,
-		       FormatState *state)
+cb_font_preview_color (__attribute__((unused)) ColorCombo *combo,
+		       GdkColor *c,
+		       __attribute__((unused)) gboolean is_custom,
+		       __attribute__((unused)) gboolean by_user,
+		       gboolean is_default, FormatState *state)
 {
 	StyleColor *col;
 
@@ -1555,7 +1561,8 @@ cb_font_strike_toggle (GtkToggleButton *button, FormatState *state)
 }
 
 static gboolean
-cb_font_underline_changed (GtkWidget *ct, char *new_text, FormatState *state)
+cb_font_underline_changed (__attribute__((unused)) GtkWidget *ct,
+			   char *new_text, FormatState *state)
 {
 	StyleUnderlineType res = UNDERLINE_NONE;
 
@@ -1668,7 +1675,10 @@ fmt_dialog_init_font_page (FormatState *state)
 /*****************************************************************************/
 
 static MStyle *
-cb_pattern_preview_get_cell_style (PreviewGrid *pg, int row, int col, MStyle *style)
+cb_pattern_preview_get_cell_style (__attribute__((unused)) PreviewGrid *pg,
+				   __attribute__((unused)) int row,
+				   __attribute__((unused)) int col,
+				   MStyle *style)
 {
 	mstyle_ref (style);
 	return style;
@@ -1692,8 +1702,11 @@ draw_pattern_preview (FormatState *state)
 }
 
 static void
-cb_back_preview_color (ColorCombo *combo, GdkColor *c,
-		       gboolean is_custom, gboolean by_user, gboolean is_default,
+cb_back_preview_color (__attribute__((unused)) ColorCombo *combo,
+		       GdkColor *c,
+		       __attribute__((unused)) gboolean is_custom,
+		       __attribute__((unused)) gboolean by_user,
+		       gboolean is_default,
 		       FormatState *state)
 {
 	StyleColor *sc;
@@ -1711,9 +1724,11 @@ cb_back_preview_color (ColorCombo *combo, GdkColor *c,
 }
 
 static void
-cb_pattern_preview_color (ColorCombo *combo, GdkColor *c,
-			  gboolean is_custom, gboolean by_user, gboolean is_default,
-			  FormatState *state)
+cb_pattern_preview_color (__attribute__((unused)) ColorCombo *combo,
+			  GdkColor *c,
+			  __attribute__((unused)) gboolean is_custom,
+			  __attribute__((unused)) gboolean by_user,
+			  gboolean is_default, FormatState *state)
 {
 	StyleColor *col = (is_default
 			   ? sheet_style_get_auto_pattern_color (state->sheet)
@@ -2171,9 +2186,11 @@ cb_border_toggle (GtkToggleButton *button, BorderPicker *picker)
 }
 
 static void
-cb_border_color (ColorCombo *combo, GdkColor *c,
-		 gboolean is_custom, gboolean by_user, gboolean is_default,
-		 FormatState *state)
+cb_border_color (__attribute__((unused)) ColorCombo *combo,
+		 GdkColor *c,
+		 __attribute__((unused)) gboolean is_custom,
+		 __attribute__((unused)) gboolean by_user,
+		 gboolean is_default, FormatState *state)
 {
 	state->border.rgba =
 		GNOME_CANVAS_COLOR (c->red>>8, c->green>>8, c->blue>>8);
@@ -2365,7 +2382,8 @@ validation_rebuild_validation (FormatState *state)
 }
 
 static void
-cb_validation_error_action_deactivate (GtkMenuShell *ignored, FormatState *state)
+cb_validation_error_action_deactivate (__attribute__((unused)) GtkMenuShell *ignored,
+				       FormatState *state)
 {
 	int index = gnumeric_option_menu_get_selected_index (state->validation.error.action);
 	gboolean const flag = (index > 0) &&
@@ -2402,7 +2420,8 @@ cb_validation_error_action_deactivate (GtkMenuShell *ignored, FormatState *state
 }
 
 static void
-cb_validation_sensitivity (GtkMenuShell *ignored, FormatState *state)
+cb_validation_sensitivity (__attribute__((unused)) GtkMenuShell *ignored,
+			   FormatState *state)
 {
 	gboolean has_operators = FALSE;
 	char const *msg0 = "";
@@ -2471,7 +2490,8 @@ cb_validation_sensitivity (GtkMenuShell *ignored, FormatState *state)
 }
 
 static void
-cb_validation_changed (GtkEntry *ignored, FormatState *state)
+cb_validation_changed (__attribute__((unused)) GtkEntry *ignored,
+		       FormatState *state)
 {
 	state->validation.changed = TRUE;
 }
@@ -2499,7 +2519,8 @@ fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 }
 
 static void
-cb_validation_rebuild (void *ignored, FormatState *state)
+cb_validation_rebuild (__attribute__((unused)) void *ignored,
+		       FormatState *state)
 {
 	validation_rebuild_validation (state);
 }
@@ -2713,7 +2734,8 @@ cb_fmt_dialog_dialog_destroy (FormatState *state)
  *       cell format dialog is made non-modal
  */
 static void
-cb_fmt_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+cb_fmt_dialog_set_focus (__attribute__((unused)) GtkWidget *window,
+			 __attribute__((unused)) GtkWidget *focus_widget,
 			 FormatState *state)
 {
 	if (state->validation.changed)
