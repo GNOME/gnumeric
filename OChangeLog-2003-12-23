@@ -1,5 +1,14 @@
 2002-02-20  Morten Welinder  <terra@diku.dk>
 
+	* src/mathfunc.c (display): Fix format.
+	* src/analysis-tools.c (confidence_level): Ditto.
+	(regression_tool): Ditto.
+	* src/format.c (fmt_general_int): Ditto.
+
+	* configure.in (set_mode_warnings): Add -Wformat also.
+
+2002-02-20  Morten Welinder  <terra@diku.dk>
+
 	* src/func.c (fn_def_new, function_add_args, function_add_nodes):
  	Constify.
 

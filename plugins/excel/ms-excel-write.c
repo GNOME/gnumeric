@@ -2480,8 +2480,10 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 			(((((int)val)<<2)>>2) == ((int)val));
 
 		d (3, printf ("Writing %g is (%g %g) is int ? %d\n",
-			      val, 1.0*(int)val,
-			      1.0*(val - (int)val), is_int););
+			      (double)val,
+			      (double)(1.0 * (int)val),
+			      (double)(1.0 * (val - (int)val)),
+			      is_int););
 
 		/* FIXME : Add test for double with 2 digits of fraction
 		 * and represent it as a mode 3 RK (val*100) construct */

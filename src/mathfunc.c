@@ -4047,14 +4047,14 @@ vect_sqr_mdiag (gnum_float *v, int n, gnum_float *M)
 #include <stdio.h>
 
 static void
-display (gnum_float *M, int cols, int rows, char *s)
+display (gnum_float *M, int cols, int rows, const char *s)
 {
         int i, j;
 
 	printf ("\n%s:\n", s);
 	for (i = 0; i < rows; i++) {
 	        for (j = 0; j < cols; j++)
-		         printf ("%8.4f ", M[i + j * rows]);
+		         printf ("%8.4" GNUM_FORMAT_f " ", M[i + j * rows]);
 		printf ("\n");
 	}
 	printf ("\n");

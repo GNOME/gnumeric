@@ -1,3 +1,13 @@
+2002-02-20  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-write.c (write_value): Fix format.
+
+	* ms-excel-read.c (ms_excel_read_name): Constify.
+
+	* ms-formula-read.c (formula_func_data): Constify.
+
+	* ms-excel-util.c (two_way_table_put): Constify.
+
 2002-02-19  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (ms_excel_palette_get): Update documentation.

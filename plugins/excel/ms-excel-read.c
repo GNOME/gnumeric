@@ -2625,23 +2625,24 @@ Opcode 0x 18 :            NAME, length 0x1a (=26)
 
 	/* FIXME FIXME FIXME: Disable for now */
 	if (0 && name_len == 1 && *ptr <= 0x0c) {
+		const char *cname;
 		switch (*ptr) {
-		case 0x00: name = "Consolidate_Area"; break;
-		case 0x01: name = "Auto_Open"; break;
-		case 0x02: name = "Auto_Close"; break;
-		case 0x03: name = "Extract"; break;
-		case 0x04: name = "Database"; break;
-		case 0x05: name = "Criteria"; break;
-		case 0x06: name = "Print_Area"; break;
-		case 0x07: name = "Print_Titles"; break;
-		case 0x08: name = "Recorder"; break;
-		case 0x09: name = "Data_Form"; break;
-		case 0x0a: name = "Auto_Activate"; break;
-		case 0x0b: name = "Auto_Deactivate"; break;
-		case 0x0c: name = "Sheet_Title"; break;
-		default:   name = "ERROR ERROR ERROR.  This is impossible";
+		case 0x00: cname = "Consolidate_Area"; break;
+		case 0x01: cname = "Auto_Open"; break;
+		case 0x02: cname = "Auto_Close"; break;
+		case 0x03: cname = "Extract"; break;
+		case 0x04: cname = "Database"; break;
+		case 0x05: cname = "Criteria"; break;
+		case 0x06: cname = "Print_Area"; break;
+		case 0x07: cname = "Print_Titles"; break;
+		case 0x08: cname = "Recorder"; break;
+		case 0x09: cname = "Data_Form"; break;
+		case 0x0a: cname = "Auto_Activate"; break;
+		case 0x0b: cname = "Auto_Deactivate"; break;
+		case 0x0c: cname = "Sheet_Title"; break;
+		default:   cname = "ERROR ERROR ERROR.  This is impossible";
 		}
-		name = g_strdup (name);
+		name = g_strdup (cname);
 	} else
 		name = biff_get_text (ptr, name_len, NULL);
 	ptr += name_len + name_def_len;

@@ -1,3 +1,9 @@
+2002-02-20  Morten Welinder  <terra@diku.dk>
+
+	* lotus.c (lotus_special_formats): Constify and make static.
+
+	* lotus-formula.c (functions): Constify.
+
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.0

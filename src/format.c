@@ -1490,7 +1490,7 @@ fmt_general_int (int val, int col_width)
 		if (log_val > col_width)
 			/* FIXME : glib bug.  it does not handle G, use g */
 			/* Decrease available width by 5 to account for .+E00 */
-			return g_strdup_printf ("%.*" GNUM_FORMAT_g, col_width - 5, (double)val);
+			return g_strdup_printf ("%.*g", col_width - 5, (double)val);
 	}
 	return g_strdup_printf ("%d", val);
 }

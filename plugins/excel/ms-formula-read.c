@@ -44,7 +44,7 @@
  *     macrofun.hlp has info on them but supporting Excel4 macro sheets is not
  *     top priority.
  **/
-FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
+const FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 {
 /* 0 */		{ "COUNT", -1 },
 /* 1 */		{ "IF", -1 },

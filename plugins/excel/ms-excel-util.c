@@ -106,7 +106,7 @@ two_way_table_free (TwoWayTable *table)
  */
 gint
 two_way_table_put (const TwoWayTable *table, gpointer key,
-		   gboolean unique,  AfterPutFunc apf, gpointer closure)
+		   gboolean unique,  AfterPutFunc apf, gconstpointer closure)
 {
 	gint index = two_way_table_key_to_idx (table, key);
 	gboolean found = (index >= 0);

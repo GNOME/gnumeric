@@ -1075,12 +1075,15 @@ confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
         gnum_float x;
         guint col;
 	char *buffer;
+	char *format;
 	desc_stats_t info;
 	data_set_t *the_col;
 
 	prepare_output (wbc, dao, _("Confidence Interval for the Mean"));
-	buffer = g_strdup_printf (_("/%g%% CI for the Mean from"
-				    "/to"), c_level * 100);
+	format = g_strdup_printf (_("/%%%s%%%% CI for the Mean from"
+				    "/to"), GNUM_FORMAT_g);
+	buffer = g_strdup_printf (format, c_level * 100);
+	g_free (format);
 	set_cell_text_col (dao, 0, 1, buffer);
         g_free (buffer);
 
@@ -2262,6 +2265,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	data_set_t   *y_data        = NULL;
 	GArray       *cleaned       = NULL;
 	char         *text          = NULL;
+	char         *format;
 	regression_stat_t   *regression_stat = NULL;
 	gnum_float   r;
 	gnum_float   *res,  **xss;
@@ -2374,13 +2378,18 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 					 "/Significance of F"));
 	set_italic (dao, 1, 10, 5, 10);
 
-	text = g_strdup_printf (_("/Coefficients"
-				  "/Standard Error"
-				  "/t Stat"
-				  "/P-value"
-				  "/Lower %0.0f%%"
-				  "/Upper %0.0f%%"),
-				((1.0 - alpha) * 100),((1.0 - alpha) * 100));
+	format = g_strdup_printf (_("/Coefficients"
+				    "/Standard Error"
+				    "/t Stat"
+				    "/P-value"
+				    "/Lower %%0.0%s%%%%"
+				    "/Upper %%0.0%s%%%%"),
+				  GNUM_FORMAT_f,
+				  GNUM_FORMAT_f);
+	text = g_strdup_printf (format,
+				(1.0 - alpha) * 100,
+				(1.0 - alpha) * 100);
+	g_free (format);
         set_cell_text_row (dao, 1, 15, text);
 	set_italic (dao, 1, 15, 6, 15);
 	g_free (text);

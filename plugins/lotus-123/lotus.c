@@ -28,7 +28,8 @@
 
 #define LOTUS_DEBUG 0
 
-char *lotus_special_formats[16] = {
+static const char *
+lotus_special_formats[16] = {
 	"",
 	"",
 	"d-mmm-yy",

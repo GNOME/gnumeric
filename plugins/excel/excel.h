@@ -52,12 +52,12 @@ extern  char const *excel_builtin_formats[];
 
 typedef struct
 {
-	char *prefix ;
+	const char *prefix ;
 	int num_args ; /* -1 for multi-arg */
 		       /* -2 for unknown args */
 } FormulaFuncData;
 
-extern FormulaFuncData formula_func_data[];
+extern const FormulaFuncData formula_func_data[];
 #define FORMULA_FUNC_DATA_LEN 368
 
 #define ROW_BLOCK_MAX_LEN 32

@@ -21,12 +21,12 @@
 typedef struct {
 	gint     args; /* -1 for multiple arguments */
 	guint16  idx;
-	gchar   *name;
+	const gchar   *name;
 	enum { NORMAL, UNARY, BINOP } special;
 	guint32  data;
 } func_struct_t;
 
-func_struct_t functions[] = {
+const func_struct_t functions[] = {
 	{ 1, 0x08, "-", UNARY, OPER_UNARY_NEG },
 	{ 2, 0x09, "+", BINOP, OPER_ADD },
 	{ 2, 0x0A, "-", BINOP, OPER_SUB },
