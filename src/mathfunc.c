@@ -40,9 +40,11 @@
 #include <math.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <float.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <locale.h>
 
 #if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
 /* Make sure we have this symbol defined, since the existance of either
@@ -59,8 +61,6 @@
 #define M_2PIgnum       (2 * M_PIgnum)
 #define	M_Egnum         GNM_const(2.718281828459045235360287471352662497757247)
 
-#define ML_NEGINF (-HUGE_VAL)
-#define ML_POSINF (HUGE_VAL)
 #define ML_UNDERFLOW (GNUM_EPSILON * GNUM_EPSILON)
 #define ML_ERROR(cause) /* Nothing */
 #define MATHLIB_ERROR g_error
@@ -83,17 +83,85 @@ static void pnorm_both (gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail
 /* MW ---------------------------------------------------------------------- */
 
 gnm_float gnm_nan;
+gnm_float gnm_pinf;
+gnm_float gnm_ninf;
 
 void
 mathfunc_init (void)
 {
-	gnm_nan = -HUGE_VAL * 0.0;
+	const char *bug_url = "http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric";
+	char *old_locale;
+	double d;
+
+	gnm_pinf = HUGE_VAL;
+	if (gnm_pinf > 0 && !finitegnum (gnm_pinf))
+		goto have_pinf;
+
+#if defined(INFINITY) && defined(__STDC_IEC_559__)
+	gnm_pinf = INFINITY;
+	if (gnm_pinf > 0 && !finitegnum (gnm_pinf))
+		goto have_pinf;
+#endif
+
+	/* Try sscanf with fixed strings.  */
+	old_locale = setlocale (LC_ALL, "C");
+	if (sscanf ("Inf", "%lf", &d) != 1 &&
+	    sscanf ("+Inf", "%lf", &d) != 1)
+		d = 0;
+	setlocale (LC_ALL, old_locale);
+	gnm_pinf = d;
+	if (gnm_pinf > 0 && !finitegnum (gnm_pinf))
+		goto have_pinf;
+
+	/* Try overflow.  */
+	gnm_pinf = (HUGE_VAL * HUGE_VAL);
+	if (gnm_pinf > 0 && !finitegnum (gnm_pinf))
+		goto have_pinf;
+
+	g_error ("Failed to generate +Inf.  Please report at %s",
+		 bug_url);
+	abort ();
+
+ have_pinf:
+	/* ---------------------------------------- */
+
+	gnm_ninf = -gnm_pinf;
+	if (gnm_ninf < 0 && !finitegnum (gnm_ninf))
+		goto have_ninf;
+
+	g_error ("Failed to generate -Inf.  Please report at %s",
+		 bug_url);
+	abort ();
+
+ have_ninf:
+	/* ---------------------------------------- */
+
+	gnm_nan = gnm_pinf * 0.0;
 	if (isnangnum (gnm_nan))
-		return;
+		goto have_nan;
 
-	/* FIXME: Try other methods.  */
+	/* Try sscanf with fixed strings.  */
+	old_locale = setlocale (LC_ALL, "C");
+	if (sscanf ("NaN", "%lf", &d) != 1 &&
+	    sscanf ("NAN", "%lf", &d) != 1 &&
+	    sscanf ("+NaN", "%lf", &d) != 1 &&
+	    sscanf ("+NAN", "%lf", &d) != 1)
+		d = 0;
+	setlocale (LC_ALL, old_locale);
+	gnm_nan = d;
+	if (isnangnum (gnm_nan))
+		goto have_nan;
 
-	g_assert (isnangnum (gnm_nan));
+	gnm_nan = gnm_pinf / gnm_pinf;
+	if (isnangnum (gnm_nan))
+		goto have_nan;
+
+	g_error ("Failed to generate NaN.  Please report at %s",
+		 bug_url);
+	abort ();
+
+ have_nan:
+	return;
 }
 
 /*
@@ -168,7 +236,7 @@ gnumeric_fake_trunc (gnm_float x)
 #define give_log log_p
 							/* "DEFAULT" */
 							/* --------- */
-#define R_D__0	(log_p ? ML_NEGINF : 0.)		/* 0 */
+#define R_D__0	(log_p ? gnm_ninf : 0.)		/* 0 */
 #define R_D__1	(log_p ? 0. : 1.)			/* 1 */
 #define R_DT_0	(lower_tail ? R_D__0 : R_D__1)		/* 0 */
 #define R_DT_1	(lower_tail ? R_D__1 : R_D__0)		/* 1 */
@@ -582,8 +650,8 @@ gnm_float qnorm(gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail,
     if (isnangnum(p) || isnangnum(mu) || isnangnum(sigma))
 	return p + mu + sigma;
 #endif
-    if (p == R_DT_0)	return ML_NEGINF;
-    if (p == R_DT_1)	return ML_POSINF;
+    if (p == R_DT_0)	return gnm_ninf;
+    if (p == R_DT_1)	return gnm_pinf;
     R_Q_P01_check(p);
 
     if(sigma  < 0)	ML_ERR_return_NAN;
@@ -654,8 +722,8 @@ gnm_float qnorm(gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail,
 	    REprintf("\t r < GNUM_MIN : giving up (-> +- Inf \n");
 #endif
 	    ML_ERROR(ME_RANGE);
-	    if(q < 0.0) return ML_NEGINF;
-	    else	return ML_POSINF;
+	    if(q < 0.0) return gnm_ninf;
+	    else	return gnm_pinf;
 	}
     }
 /* FIXME: This could be improved when log_p or !lower_tail ?
@@ -829,7 +897,7 @@ gnm_float qlnorm(gnm_float p, gnm_float logmean, gnm_float logsd, gboolean lower
 #endif
     R_Q_P01_check(p);
 
-    if (p == R_DT_1)	return ML_POSINF;
+    if (p == R_DT_1)	return gnm_pinf;
     if (p == R_DT_0)	return 0;
     return expgnum(qnorm(p, logmean, logsd, lower_tail, log_p));
 }
@@ -925,7 +993,7 @@ gnm_float qpois(gnm_float p, gnm_float lambda, gboolean lower_tail, gboolean log
     if(lambda < 0) ML_ERR_return_NAN;
 
     if (p == R_DT_0) return 0;
-    if (p == R_DT_1) return ML_POSINF;
+    if (p == R_DT_1) return gnm_pinf;
 
     if(lambda == 0) return 0;
 
@@ -938,10 +1006,10 @@ gnm_float qpois(gnm_float p, gnm_float lambda, gboolean lower_tail, gboolean log
     if(!lower_tail || log_p) {
 	p = R_DT_qIv(p); /* need check again (cancellation!): */
 	if (p == 0.) return 0;
-	if (p == 1.) return ML_POSINF;
+	if (p == 1.) return gnm_pinf;
     }
     /* temporary hack --- FIXME --- */
-    if (p + 1.01*GNUM_EPSILON >= 1.) return ML_POSINF;
+    if (p + 1.01*GNUM_EPSILON >= 1.) return gnm_pinf;
 
     /* y := approx.value (Cornish-Fisher expansion) :  */
     z = qnorm(p, 0., 1., /*lower_tail*/TRUE, /*log_p*/FALSE);
@@ -1723,10 +1791,10 @@ static gnm_float lbeta(gnm_float a, gnm_float b)
     if (p < 0)
 	ML_ERR_return_NAN
     else if (p == 0) {
-	return ML_POSINF;
+	return gnm_pinf;
     }
     else if (!finitegnum(q)) {
-	return ML_NEGINF;
+	return gnm_ninf;
     }
 
     if (p >= 10) {
@@ -1854,8 +1922,8 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
     if (isnangnum(p) || isnangnum(ndf))
 	return p + ndf;
 #endif
-    if (p == R_DT_0) return ML_NEGINF;
-    if (p == R_DT_1) return ML_POSINF;
+    if (p == R_DT_0) return gnm_ninf;
+    if (p == R_DT_1) return gnm_pinf;
     R_Q_P01_check(p);
 
     if (ndf < 1) /* FIXME:  not yet treated here */
@@ -1880,7 +1948,7 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
 	    q = sqrtgnum(2 / (P * (2 - P)) - 2);
 	else { /* P = 0, but maybe = expgnum(p) ! */
 	    if(log_p) q = M_SQRT2gnum * expgnum(- .5 * R_D_Lval(p));
-	    else q = ML_POSINF;
+	    else q = gnm_pinf;
 	}
     }
     else if (ndf < 1 + eps) { /* df ~= 1  (df < 1 excluded above !) */
@@ -1889,7 +1957,7 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
 
 	else { /* P = 0, but maybe p_ = expgnum(p) ! */
 	    if(log_p) q = M_1_PI * expgnum(-R_D_Lval(p));/* cot(e) ~ 1/e */
-	    else q = ML_POSINF;
+	    else q = gnm_pinf;
 	}
     }
     else {		/*-- usual case;  including, e.g.,  df = 1.1 */
@@ -2586,7 +2654,7 @@ gnm_float qnbinom(gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, g
     if (pr <= 0 || pr >= 1 || n <= 0) ML_ERR_return_NAN;
 
     if (p == R_DT_0) return 0;
-    if (p == R_DT_1) return ML_POSINF;
+    if (p == R_DT_1) return gnm_pinf;
     Q = 1.0 / pr;
     P = (1.0 - pr) * Q;
     mu = n * P;
@@ -2598,10 +2666,10 @@ gnm_float qnbinom(gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, g
     if(!lower_tail || log_p) {
 	p = R_DT_qIv(p); /* need check again (cancellation!): */
 	if (p == R_DT_0) return 0;
-	if (p == R_DT_1) return ML_POSINF;
+	if (p == R_DT_1) return gnm_pinf;
     }
     /* temporary hack --- FIXME --- */
-    if (p + 1.01*GNUM_EPSILON >= 1.) return ML_POSINF;
+    if (p + 1.01*GNUM_EPSILON >= 1.) return gnm_pinf;
 
     /* y := approx.value (Cornish-Fisher expansion) :  */
     z = qnorm(p, 0., 1., /*lower_tail*/TRUE, /*log_p*/FALSE);
@@ -2692,12 +2760,12 @@ gnm_float dbeta(gnm_float x, gnm_float a, gnm_float b, gboolean give_log)
     if (x < 0 || x > 1) return(R_D__0);
     if (x == 0) {
 	if(a > 1) return(R_D__0);
-	if(a < 1) return(ML_POSINF);
+	if(a < 1) return(gnm_pinf);
 	/* a == 1 : */ return(R_D_val(b));
     }
     if (x == 1) {
 	if(b > 1) return(R_D__0);
-	if(b < 1) return(ML_POSINF);
+	if(b < 1) return(gnm_pinf);
 	/* b == 1 : */ return(R_D_val(a));
     }
     if (a < 1) {
@@ -3641,7 +3709,7 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	   (*ize == 2 && *x > xlrg_BESS_IJ)) {
 	    ML_ERROR(ME_RANGE);
 	    for(k=1; k <= *nb; k++)
-		bi[k]=ML_POSINF;
+		bi[k]=gnm_pinf;
 	    return;
 	}
 	intx = (long) (*x);/* --> we will probably fail when *x > LONG_MAX */
@@ -4131,7 +4199,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	    if(ex <= 0) {
 		ML_ERROR(ME_RANGE);
 		for(i=0; i < *nb; i++)
-		    bk[i] = ML_POSINF;
+		    bk[i] = gnm_pinf;
 	    } else /* would only have underflow */
 		for(i=0; i < *nb; i++)
 		    bk[i] = 0.;
@@ -4632,7 +4700,7 @@ qgamma (gnm_float p, gnm_float alpha, gnm_float scale,
 		x0 = v * powgnum (x1 * sqrtgnum (p1) + 1 - p1, 3) / 2;
 	}
 
-	res1 = pfuncinverter (p, &alpha, lower_tail, log_p, 0, ML_POSINF, x0,
+	res1 = pfuncinverter (p, &alpha, lower_tail, log_p, 0, gnm_pinf, x0,
 			      pgamma1, dgamma1);
 
 	return res1 * scale;
@@ -5842,7 +5910,7 @@ gpow2 (int n)
 		}
 		return res;
 	} else
-		return (n > 0) ? ML_POSINF : ML_UNDERFLOW;
+		return (n > 0) ? gnm_pinf : ML_UNDERFLOW;
 #else
 	return ldexpgnum (1.0, n);
 #endif

@@ -20,6 +20,8 @@
 #define M_SQRT2gnum (sqrtgnum (2))
 
 extern gnm_float gnm_nan;
+extern gnm_float gnm_pinf;
+extern gnm_float gnm_ninf;
 
 /* ------------------------------------------------------------------------- */
 
