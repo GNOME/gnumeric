@@ -312,22 +312,20 @@ static int
 workbook_persist_file_load (BonoboPersistFile *ps, const CORBA_char *filename,
 			    CORBA_Environment *ev, void *closure)
 {
-/* FIXME (I'll fix this today - zbigniew)
 	WorkbookView *wbv = closure;
 
-	return workbook_load_from (NULL, wbv, filename); */
-	return -1;
+	return wb_view_open (wbv, /* FIXME */ NULL, filename) ? 0 : -1;
 }
 
 static int
 workbook_persist_file_save (BonoboPersistFile *ps, const CORBA_char *filename,
 			    CORBA_Environment *ev, void *closure)
 {
-/* FIXME (I'll fix this today - zbigniew)
 	WorkbookView *wbv = closure;
+	GnumFileSaver *fs;
 
-	return gnumeric_xml_write_workbook (NULL, NULL, wbv, filename); */
-	return -1;
+	fs = get_file_saver_by_id ("Gnumeric_XmlIO:gnum_xml");
+	return wb_view_save_as (wbv, /* FIXME */ NULL, fs, filename) ? 0 : -1;
 }
 
 extern Bonobo_Unknown

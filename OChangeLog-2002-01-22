@@ -31,6 +31,10 @@
 	set file_saver to NULL in signal handler. Disconnect when changing file
 	saver or destroying the workbook.
 	(workbook_get_file_saver): New accessor function.
+	(workbook_persist_file_load): Use wb_view_open instead of
+	workbook_load_from.
+	(workbook_persist_file_save): Use wb_view_save_as instead of calling
+	gnumeric_xml_write_workbook directly.
 
 	* src/workbook-view.[ch]
 	(wb_view_set_attributev): Renamed to wb_view_set_attribute_list and
