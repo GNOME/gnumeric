@@ -99,10 +99,6 @@ WBC_VIRTUAL (edit_line_set,
 	(WorkbookControl *wbc, char const *text), (wbc, text))
 WBC_VIRTUAL (selection_descr_set,
 	(WorkbookControl *wbc, char const *text), (wbc, text))
-WBC_VIRTUAL (edit_set_sensitive,
-	(WorkbookControl *wbc,
-	 gboolean enable_edit_ok_cancel, gboolean enable_actions),
-	(wbc, enable_edit_ok_cancel, enable_actions))
 WBC_VIRTUAL (auto_expr_value, (WorkbookControl *wbc), (wbc))
 
 WBC_VIRTUAL_FULL (sheet_remove, sheet.remove,
@@ -138,6 +134,8 @@ WBC_VIRTUAL_FULL (menu_state_sheet_count, menu_state.sheet_count,
 
 WBC_VIRTUAL (paste_from_selection,
 	(WorkbookControl *wbc, GnmPasteTarget const *pt), (wbc, pt))
+WBC_VIRTUAL (update_action_sensitivity,
+	(WorkbookControl *wbc), (wbc))
 
 void
 wb_control_sheet_add (WorkbookControl *wbc, SheetView *sv)
@@ -162,6 +160,7 @@ wb_control_sheet_add (WorkbookControl *wbc, SheetView *sv)
 			wb_control_style_feedback (wbc, NULL);
 			wb_control_menu_state_sheet_prefs (wbc, new_sheet);
 			wb_control_menu_state_update (wbc, MS_ALL);
+			wb_control_update_action_sensitivity (wbc);
 		}
 	}
 }

@@ -235,9 +235,10 @@ wb_view_menus_update (WorkbookView *wbv)
 
 	sheet = wbv->current_sheet;
 	if (sheet != NULL) {
-		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control, {
-			wb_control_menu_state_update (control, MS_ALL);
-			wb_control_menu_state_sheet_prefs (control, sheet);
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc, {
+			wb_control_menu_state_update (wbc, MS_ALL);
+			wb_control_menu_state_sheet_prefs (wbc, sheet);
+			wb_control_update_action_sensitivity (wbc);
 		});
 	}
 }
@@ -281,8 +282,8 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 		}
 
 		if (optional_wbc == NULL) {
-		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
-			wb_control_selection_descr_set (control, sel_descr););
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
+			wb_control_selection_descr_set (wbc, sel_descr););
 		} else
 			wb_control_selection_descr_set (optional_wbc, sel_descr);
 	}

@@ -400,11 +400,21 @@ wbcg_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
 }
 
 static void
-wbcg_edit_set_sensitive (WorkbookControl *wbc,
-			 gboolean enable_edit_ok_cancel,
-			 gboolean enable_actions)
+wbcg_update_action_sensitivity (WorkbookControl *wbc)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (wbc);
+	SheetControlGUI	   *scg = wbcg_cur_scg (wbcg);
+	gboolean edit_object = scg != NULL &&
+		(scg->selected_objects != NULL || scg->new_object != NULL);
+	gboolean enable_actions = TRUE;
+	gboolean enable_edit_ok_cancel = FALSE;
+
+	if (edit_object || wbcg->edit_line.guru != NULL)
+		enable_actions = FALSE;
+	else if (wbcg_is_editing (wbcg)) {
+		enable_actions = FALSE;
+		enable_edit_ok_cancel = TRUE;
+	}
 
 	/* These are only sensitive while editing */
 	gtk_widget_set_sensitive (wbcg->ok_button, enable_edit_ok_cancel);
@@ -823,18 +833,14 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	gtk_drag_dest_set (scg->label, GTK_DEST_DEFAULT_ALL,
 			drag_types, G_N_ELEMENTS (drag_types),
 			GDK_ACTION_MOVE);
-	g_signal_connect (G_OBJECT (scg->label), "drag_begin",
-			G_CALLBACK (cb_sheet_label_drag_begin), wbcg);
-	g_signal_connect (G_OBJECT (scg->label), "drag_end",
-			G_CALLBACK (cb_sheet_label_drag_end), wbcg);
-	g_signal_connect (G_OBJECT (scg->label), "drag_leave",
-			G_CALLBACK (cb_sheet_label_drag_leave), wbcg);
-	g_signal_connect (G_OBJECT (scg->label), "drag_data_get",
-			G_CALLBACK (cb_sheet_label_drag_data_get), wbcg);
-	g_signal_connect (G_OBJECT (scg->label), "drag_data_received",
-			G_CALLBACK (cb_sheet_label_drag_data_received), wbcg);
-	g_signal_connect (G_OBJECT (scg->label), "drag_motion",
-			G_CALLBACK (cb_sheet_label_drag_motion), wbcg);
+	g_object_connect (G_OBJECT (scg->label),
+		"signal::drag_begin", G_CALLBACK (cb_sheet_label_drag_begin), wbcg,
+		"signal::drag_end", G_CALLBACK (cb_sheet_label_drag_end), wbcg,
+		"signal::drag_leave", G_CALLBACK (cb_sheet_label_drag_leave), wbcg,
+		"signal::drag_data_get", G_CALLBACK (cb_sheet_label_drag_data_get), wbcg,
+		"signal::drag_data_received", G_CALLBACK (cb_sheet_label_drag_data_received), wbcg,
+		"signal::drag_motion", G_CALLBACK (cb_sheet_label_drag_motion), wbcg,
+		NULL);
 
 	gtk_widget_show (scg->label);
 	gtk_widget_show_all (GTK_WIDGET (scg->table));
@@ -2473,8 +2479,8 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 	wbc_class->zoom_feedback	= wbcg_zoom_feedback;
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
 	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
-	wbc_class->edit_set_sensitive	= wbcg_edit_set_sensitive;
 	wbc_class->auto_expr_value	= wbcg_auto_expr_value;
+	wbc_class->update_action_sensitivity = wbcg_update_action_sensitivity;
 
 	wbc_class->sheet.add        = wbcg_sheet_add;
 	wbc_class->sheet.remove	    = wbcg_sheet_remove;
@@ -2569,6 +2575,7 @@ wbcg_create (WorkbookControlGUI *wbcg,
 	if (sheet != NULL) {
 		wb_control_menu_state_update (wbc, MS_ALL);
 		wb_control_menu_state_sheet_prefs (wbc, sheet);
+		wb_control_update_action_sensitivity (wbc);
 		wb_control_style_feedback (wbc, NULL);
 		wb_control_zoom_feedback (wbc);
 	}

@@ -395,10 +395,10 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *ev)
 		scg_objects_nudge (scg, (resize ? 4 : 8), ((resize && shrink) ? -1 :  1), 0);
 		return TRUE;
 	case GDK_KP_Up: case GDK_Up:
-		scg_objects_nudge (scg, (resize ? 1 : 8), 0, ((resize && shrink) ? -1 :  1));
+		scg_objects_nudge (scg, (resize ? 1 : 8), 0, ((resize && shrink) ?  1 : - 1));
 		return TRUE;
 	case GDK_KP_Down: case GDK_Down:
-		scg_objects_nudge (scg, (resize ? 6 : 8), 0, ((resize && shrink) ?  1 : -1));
+		scg_objects_nudge (scg, (resize ? 6 : 8), 0, ((resize && shrink) ? -1 :  1));
 		return TRUE;
 
 	default:

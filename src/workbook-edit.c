@@ -262,7 +262,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 	 * editline at the last position, we'll get the right style feedback */
 	gtk_editable_set_position ((GtkEditable *) wbcg_get_entry (wbcg), 0);
 
-	wb_control_edit_set_sensitive (wbc, FALSE, TRUE);
+	wb_control_update_action_sensitivity (wbc);
 
 	/* restore focus to original sheet in case things were being selected
 	 * on a different page.  Do no go through the view, rangesel is
@@ -579,7 +579,6 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	}
 
 	gnm_app_clipboard_unant ();
-	wb_control_edit_set_sensitive (WORKBOOK_CONTROL (wbcg), TRUE, FALSE);
 
 	cell = sheet_cell_get (sv->sheet, col, row);
 	if (blankp)
@@ -647,6 +646,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 
 	if (text)
 		g_free (text);
+	wb_control_update_action_sensitivity (WORKBOOK_CONTROL (wbcg));
 
 	inside_editing = FALSE;
 	return TRUE;
@@ -701,7 +701,7 @@ wbcg_edit_attach_guru_main (WorkbookControlGUI *wbcg, GtkWidget *guru)
 
 	wbcg->edit_line.guru = guru;
 	gtk_editable_set_editable (GTK_EDITABLE (wbcg_get_entry (wbcg)), FALSE);
-	wb_control_edit_set_sensitive (wbc, FALSE, FALSE);
+	wb_control_update_action_sensitivity (wbc);
 	wb_control_menu_state_update (wbc, MS_GURU_MENU_ITEMS);
 }
 
@@ -760,7 +760,7 @@ wbcg_edit_detach_guru (WorkbookControlGUI *wbcg)
 	wbcg_set_entry (wbcg, NULL);
 	wbcg->edit_line.guru = NULL;
 	gtk_editable_set_editable (GTK_EDITABLE (wbcg_get_entry (wbcg)), TRUE);
-	wb_control_edit_set_sensitive (wbc, FALSE, TRUE);
+	wb_control_update_action_sensitivity (wbc);
 	wb_control_menu_state_update (wbc, MS_GURU_MENU_ITEMS);
 }
 

@@ -1651,6 +1651,7 @@ scg_mode_clear (SheetControlGUI *scg)
 		scg->new_object = NULL;
 	}
 	scg_object_unselect (scg, NULL);
+	wb_control_update_action_sensitivity (sc_wbc (SHEET_CONTROL (scg)));
 
 	return TRUE;
 }
@@ -1702,6 +1703,7 @@ scg_mode_create_object (SheetControlGUI *scg, SheetObject *so)
 		scg_cursor_visible (scg, FALSE);
 		scg_take_focus (scg);
 		scg_set_display_cursor (scg);
+		wb_control_update_action_sensitivity (sc_wbc (SHEET_CONTROL (scg)));
 	}
 }
 
@@ -1757,7 +1759,7 @@ scg_object_select (SheetControlGUI *scg, SheetObject *so)
 		scg->selected_objects = g_hash_table_new_full (
 			g_direct_hash, g_direct_equal,
 			(GDestroyNotify) g_object_unref, (GDestroyNotify) g_free);
-		wb_control_edit_set_sensitive (sc_wbc (SHEET_CONTROL (scg)), FALSE, FALSE);
+		wb_control_update_action_sensitivity (sc_wbc (SHEET_CONTROL (scg)));
 	} else {
 		g_return_if_fail (g_hash_table_lookup (scg->selected_objects, so) == NULL);
 		g_object_ref (so);
@@ -1826,7 +1828,7 @@ scg_object_unselect (SheetControlGUI *scg, SheetObject *so)
 	g_hash_table_destroy (scg->selected_objects);
 	scg->selected_objects = NULL;
 	scg_mode_edit (SHEET_CONTROL (scg));
-	wb_control_edit_set_sensitive (sc_wbc (SHEET_CONTROL (scg)), TRUE, TRUE);
+	wb_control_update_action_sensitivity (sc_wbc (SHEET_CONTROL (scg)));
 }
 
 typedef struct {

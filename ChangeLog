@@ -1,3 +1,16 @@
+2004-10-28  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_update_action_sensitivity) :
+	  renamed from wbcg_edit_set_sensitive (still a bogus title given that
+	  we have related functionality in several places).  Moved the logic
+	  to define what should be sensitive here, rather than from the model.
+	  This allows us to reconfigure on sheet changes.
+
+2004-10-28  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : up/down where
+	  reversed.
+
 2004-10-29  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook.c (workbook_set_dirty) : update the title if dirtiness

@@ -10,23 +10,29 @@ Release Critical
 
 debian 272697
 
+    : Use GNOME Recent for the gnome build
+    : kasal's popt patch
+    : kasal's ssconvert patch
+
+Worries
+-------
+
     : provide undo for dropped objects from sheet_objects_relocate
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
-    : kasal's popt patch
+    : Select graph, Copy, and paste to Emacs: used to crash, but now it
+    just g_barfs and pastes empty string.
 
     : editing text boxes (do a derived FooCanvasEditableTextItem)
       we can steal some of the xim support from item-edit.
+
     http://bugzilla.gnome.org/show_bug.cgi?id=152528
     : No crash when reading broken xls
-
-    http://bugzilla.gnome.org/show_bug.cgi?id=152765
-    : Need to press delete twice in chart guru
-
     http://bugzilla.gnome.org/show_bug.cgi?id=152317
     : Warning of possible dataloss loading into XP
       Looks like XL charts do not like non-trivial expressions for series names
-
+    http://bugzilla.gnome.org/show_bug.cgi?id=151610
+    : No longer crashes, but we mis-import multiple axis sets
     : Delete grid then edit chart and see a new grid
 
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
@@ -38,17 +44,10 @@ debian 272697
     : crash 	: fixed
     : we mis-import multiple axis sets
 
-    : Use GNOME Recent for the gnome build
-
-Worries
-
-    The only way to unhide column A seems to be to select the entire sheet
+    : The only way to unhide column A seems to be to select the entire sheet
     and unhide.  Not elegant.  We could, perhaps, when a single column is
     selected add "Unhide column to the left" and "... right" to the context
     menu (when relevant).
-
-    : Select graph, Copy, and paste to Emacs: used to crash, but now it
-    just g_barfs and pastes empty string.
 
 -------------------------------------------------------------------------------
 Pending Patches
