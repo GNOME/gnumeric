@@ -39,6 +39,9 @@
  * if you are entering a range of similar data, you really want the same
  * format.  You don't want a different number of decimals for "22%" and
  * "22.5%".
+ *
+ * (The problem here is actually more a physics problem -- what are the
+ * units -- that a math problem.)
  */
 /* ------------------------------------------------------------------------- */
 
@@ -116,8 +119,7 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 
 	case OPER_MULT:
 		/* Fall through.  This isn't quite right, but good enough.  */
-	case OPER_ADD:
-	case OPER_SUB: {
+	case OPER_ADD: {
 		/* Return the first interesting type we see.  */
 		AutoFormatTypes typ;
 
@@ -126,6 +128,26 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 			return typ;
 
 		return do_af_suggest (expr->u.binary.value_b, ppos, explicit);
+	}
+
+	case OPER_SUB: {
+		AutoFormatTypes typ1, typ2;
+		char *explicit1 = NULL, *explicit2 = NULL;
+
+		typ1 = do_af_suggest (expr->u.binary.value_a, ppos, &explicit1);
+		typ2 = do_af_suggest (expr->u.binary.value_b, ppos, &explicit2);
+
+		if (typ1 == AF_DATE && typ2 == AF_DATE)
+			return AF_UNITLESS;
+		else if (typ1 != AF_UNKNOWN && typ1 != AF_UNITLESS) {
+			*explicit = explicit1;
+			g_free (explicit2);
+			return typ1;
+		} else {
+			g_free (explicit1);
+			*explicit = explicit2;
+			return typ2;
+		}		
 	}
 
 	case OPER_DIV:
@@ -278,7 +300,6 @@ auto_format_suggest (const ExprTree *expr, EvalPosition *ppos)
 		explicit = NULL;
 	}
 
-	fprintf (stderr, "Auto format: %s\n", explicit ? explicit : "(none)");
 	return explicit;
 }
 
