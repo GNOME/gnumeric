@@ -54,6 +54,9 @@ struct _Workbook {
 
 typedef struct {
 	GObjectClass   base;
+
+	void (*summary_changed) (Workbook *wb);
+	void (*filename_changed) (Workbook *wb);
 } WorkbookClass;
 
 GType       workbook_get_type            (void);
@@ -97,6 +100,8 @@ void        workbook_set_dirty           (Workbook *wb, gboolean is_dirty);
 gboolean    workbook_is_dirty            (Workbook const *wb);
 gboolean    workbook_is_pristine         (Workbook const *wb);
 char       *workbook_selection_to_string (Workbook *wb, Sheet *base_sheet);
+
+void        workbook_add_summary_info    (Workbook *wb, SummaryItem *sit);
 
 /* See also sheet_cell_foreach_range */
 Value	   *workbook_foreach_cell_in_range (EvalPos const *pos,

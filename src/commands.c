@@ -61,7 +61,6 @@
 #include "sheet-control.h"
 #include "style-color.h"
 #include "summary.h"
-#include "dialogs/dialogs.h"
 #include "tools/dao.h"
 
 #include <libgnome/gnome-i18n.h>
@@ -4692,22 +4691,20 @@ typedef struct
 
 GNUMERIC_MAKE_COMMAND (CmdChangeSummary, cmd_change_summary);
 
-static void cb_change_summary_apply_change (SummaryItem *sit, SummaryInfo *sin)
+static void cb_change_summary_apply_change (SummaryItem *sit, Workbook *wb)
 {
-	summary_info_add (sin, summary_item_copy (sit));
+	workbook_add_summary_info (wb, summary_item_copy (sit));
 }
 
 static gboolean
 cmd_change_summary_apply (WorkbookControlGUI *wbcg, GSList *info)
 {
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	SummaryInfo *sin = wb->summary_info;
 
-	g_slist_foreach (info, (GFunc) cb_change_summary_apply_change, sin); 
+	g_slist_foreach (info, (GFunc) cb_change_summary_apply_change, wb); 
 
 	/* Set Workbook dirty!? */
 	workbook_set_dirty (wb, TRUE);
-	dialog_summary_update (wbcg, FALSE);
 	return FALSE;
 }
 

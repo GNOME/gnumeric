@@ -43,7 +43,6 @@ typedef struct {
         int                         start_col, cols;
         int                         start_row, rows;
 	int                         offset_col, offset_row;
-        gboolean                    labels_flag; /* deprecated, will be removed */
 	gboolean                    autofit_flag : 1;
 	gboolean                    clear_outputrange : 1;
 	gboolean                    retain_format : 1;

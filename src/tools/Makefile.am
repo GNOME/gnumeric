@@ -25,5 +25,6 @@ libtools_a_SOURCES =					\
 	auto-correct.c					\
 	auto-correct.h					\
 	goal-seek.c					\
-	goal-seek.h
+	goal-seek.h					\
+	tools.h
 

@@ -35,7 +35,6 @@
 #include "gutils.h"
 #include "gnm-marshalers.h"
 #include "style-color.h"
-#include "dialogs/dialogs.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
@@ -51,6 +50,16 @@
 #include <stdlib.h>
 
 static GObjectClass *workbook_parent_class;
+
+/* Signals */
+enum {
+	SUMMARY_CHANGED,
+	FILENAME_CHANGED,
+	LAST_SIGNAL
+};
+
+static GQuark signals [LAST_SIGNAL] = { 0 };
+
 
 /*
  * We introduced numbers in front of the the history file names for two
@@ -407,6 +416,24 @@ workbook_class_init (GObjectClass *object_class)
 	workbook_parent_class = g_type_class_peek (G_TYPE_OBJECT);
 
 	object_class->finalize = workbook_finalize;
+
+	signals [SUMMARY_CHANGED] = g_signal_new ("summary_changed",
+		WORKBOOK_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (WorkbookClass, summary_changed),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
+	
+	signals [FILENAME_CHANGED] = g_signal_new ("filename_changed",
+		WORKBOOK_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (WorkbookClass, filename_changed),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);	
 }
 
 /**
@@ -524,11 +551,8 @@ workbook_set_filename (Workbook *wb, const char *name)
 
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		wb_control_title_set (control, base_name););
-	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		if (IS_WORKBOOK_CONTROL_GUI (control)) 
-				  dialog_summary_update 
-				  (WORKBOOK_CONTROL_GUI (control), FALSE););
 
+	g_signal_emit (G_OBJECT (wb), signals [FILENAME_CHANGED], 0);
 	return TRUE;
 }
 
@@ -538,6 +562,12 @@ workbook_get_filename (Workbook *wb)
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 
 	return wb->filename;
+}
+
+void workbook_add_summary_info (Workbook *wb, SummaryItem *sit)
+{
+	if (summary_info_add (wb->summary_info, sit))
+		g_signal_emit (G_OBJECT (wb), signals [SUMMARY_CHANGED], 0);
 }
 
 /**

@@ -29,7 +29,7 @@
 #include <gui-util.h>
 #include <func.h>
 #include <solver.h>
-#include <tools.h>
+#include <tool-dialogs.h>
 #include <value.h>
 #include <cell.h>
 #include <sheet.h>

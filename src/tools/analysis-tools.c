@@ -1107,8 +1107,8 @@ analysis_tool_descriptive_engine_run (data_analysis_output_t *dao,
 	guint         col;
 	const gnum_float *the_data;
 
-	data = new_data_set_list (info->input, info->group_by,
-				  TRUE, info->labels, dao->sheet);
+	data = new_data_set_list (info->base.input, info->base.group_by,
+				  TRUE, info->base.labels, dao->sheet);
 
 	if (info->summary_statistics || info->confidence_level) {
 		basic_stats = g_array_new (FALSE, FALSE, sizeof (desc_stats_t));
@@ -1166,8 +1166,8 @@ analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs,
 		return (dao_command_descriptor (dao, _("Descriptive Statistics (%s)"), result) 
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO: 
-		prepare_input_range (&info->input, info->group_by);
-		dao_adjust (dao, 1 + g_slist_length (info->input),
+		prepare_input_range (&info->base.input, info->base.group_by);
+		dao_adjust (dao, 1 + g_slist_length (info->base.input),
 			    (info->summary_statistics ? 16 : 0) +
 			    (info->confidence_level ? 4 : 0) +
 			    (info->kth_largest ? 4 : 0) +
@@ -1215,8 +1215,8 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 	guint n_data;
 	gnum_float x;
 
-	data = new_data_set_list (info->input, info->group_by,
-				  TRUE, info->labels, dao->sheet);
+	data = new_data_set_list (info->base.input, info->base.group_by,
+				  TRUE, info->base.labels, dao->sheet);
 
 	for (n_data = 0; n_data < data->len; n_data++) {
 		for (n_sample = 0; n_sample < info->number; n_sample++) {
@@ -1240,7 +1240,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 			if (info->periodic) {
 				if ((info->size < 0) || (info->size > data_len)) {
 					destroy_data_set_list (data);
-					gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+					gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
 							 _("The requested sample size is to large"
 							   " for a periodic sample."));
 					return TRUE;
@@ -1249,7 +1249,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 					x = g_array_index (this_data, gnum_float, i);
 					g_array_append_val (sample, x);
 				}
-				write_data (WORKBOOK_CONTROL (info->wbcg), dao, sample);
+				write_data (WORKBOOK_CONTROL (info->base.wbcg), dao, sample);
 			} else {
 				for (i = 0; i < info->size; i++) {
 					guint random_index;
@@ -1264,7 +1264,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 					g_array_append_val (sample, x);
 					data_len--;
 				}
-				write_data (WORKBOOK_CONTROL (info->wbcg), dao, sample);
+				write_data (WORKBOOK_CONTROL (info->base.wbcg), dao, sample);
 				for (j = i; j < info->size; j++)
 					dao_set_cell_na (dao, 0, j);
 			}
@@ -1292,8 +1292,8 @@ analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs,
 		return (dao_command_descriptor (dao, _("Sampling (%s)"), result) 
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO: 
-		prepare_input_range (&info->input, info->group_by);
-		dao_adjust (dao, info->number * g_slist_length (info->input), 
+		prepare_input_range (&info->base.input, info->base.group_by);
+		dao_adjust (dao, info->number * g_slist_length (info->base.input), 
 			    1 + info->size);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
@@ -1332,9 +1332,9 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 	gnum_float mean_1 = 0, mean_2 = 0, z = 0, p = 0;
 	gint mean_error_1 = 0, mean_error_2 = 0;
 
-	variable_1 = new_data_set (info->range_1, TRUE, info->labels,
+	variable_1 = new_data_set (info->base.range_1, TRUE, info->base.labels,
 				   _("Variable %i"), 1, dao->sheet);
-	variable_2 = new_data_set (info->range_2, TRUE, info->labels,
+	variable_2 = new_data_set (info->base.range_2, TRUE, info->base.labels,
 				   _("Variable %i"), 2, dao->sheet);
 
         dao_set_cell (dao, 0, 0, "");
@@ -1391,13 +1391,13 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_float_na (dao, 1, 7, p, no_error);
 
 	/* z Critical one-tail */
-	dao_set_cell_float (dao, 1, 8, qnorm (info->alpha, 0, 1, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 8, qnorm (info->base.alpha, 0, 1, FALSE, FALSE));
 
 	/* P (Z<=z) two-tail */
 	dao_set_cell_float_na (dao, 1, 9, 2 * p, no_error);
 
 	/* z Critical two-tail */
-	dao_set_cell_float (dao, 1, 10, qnorm (info->alpha / 2, 0, 1, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 10, qnorm (info->base.alpha / 2, 0, 1, FALSE, FALSE));
 
 	dao_set_italic (dao, 0, 0, 0, 10);
 	dao_set_italic (dao, 0, 0, 2, 0);
@@ -1467,15 +1467,15 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	gnum_float    mean_1 = 0, mean_2 = 0;
 	gnum_float    pearson, var_1, var_2, t = 0, p = 0, df, var_diff = 0, mean_diff = 0;
 
-	variable_1 = new_data_set (info->range_1, TRUE, info->labels,
+	variable_1 = new_data_set (info->base.range_1, TRUE, info->base.labels,
 				   _("Variable %i"), 1, dao->sheet);
-	variable_2 = new_data_set (info->range_2, TRUE, info->labels,
+	variable_2 = new_data_set (info->base.range_2, TRUE, info->base.labels,
 				   _("Variable %i"), 2, dao->sheet);
 
 	if (variable_1->data->len != variable_2->data->len) {
 		destroy_data_set (variable_1);
 		destroy_data_set (variable_2);
-		gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+		gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
 				 _("The 2 input ranges must have the same size."));
 	        return TRUE;
 	}
@@ -1575,13 +1575,13 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_float_na (dao, 1, 8, p, var_diff_error == 0);
 
 	/* t Critical one-tail */
-	dao_set_cell_float (dao, 1, 9, qt (info->alpha, df, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 9, qt (info->base.alpha, df, FALSE, FALSE));
 
 	/* P (T<=t) two-tail */
 	dao_set_cell_float_na (dao, 1, 10, 2 * p, var_diff_error == 0);
 
 	/* t Critical two-tail */
-	dao_set_cell_float (dao, 1, 11, qt (info->alpha / 2, df, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 11, qt (info->base.alpha / 2, df, FALSE, FALSE));
 
 	dao_set_italic (dao, 0, 0, 0, 11);
 	dao_set_italic (dao, 0, 0, 2, 0);
@@ -1643,9 +1643,9 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	gint df;
 	gint mean_error_1 = 0, mean_error_2 = 0, var_error_1 = 0, var_error_2 = 0;
 
-	variable_1 = new_data_set (info->range_1, TRUE, info->labels,
+	variable_1 = new_data_set (info->base.range_1, TRUE, info->base.labels,
 				   _("Variable %i"), 1, dao->sheet);
-	variable_2 = new_data_set (info->range_2, TRUE, info->labels,
+	variable_2 = new_data_set (info->base.range_2, TRUE, info->base.labels,
 				   _("Variable %i"), 2, dao->sheet);
 
         dao_set_cell (dao, 0, 0, "");
@@ -1727,13 +1727,13 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_float_na (dao, 1, 9, p, no_error && (var != 0));
 
 	/* t Critical one-tail */
-	dao_set_cell_float (dao, 1, 10, qt (info->alpha, df, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 10, qt (info->base.alpha, df, FALSE, FALSE));
 
 	/* P (T<=t) two-tail */
 	dao_set_cell_float_na (dao, 1, 11, 2 * p, no_error && (var != 0));
 
 	/* t Critical two-tail */
-	dao_set_cell_float (dao, 1, 12, qt (info->alpha / 2, df, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 12, qt (info->base.alpha / 2, df, FALSE, FALSE));
 
 	dao_set_italic (dao, 0, 0, 0, 12);
 	dao_set_italic (dao, 0, 0, 2, 0);
@@ -1785,9 +1785,9 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 	gnum_float df = 0;
 	gint mean_error_1 = 0, mean_error_2 = 0, var_error_1 = 0, var_error_2 = 0;
 
-	variable_1 = new_data_set (info->range_1, TRUE, info->labels,
+	variable_1 = new_data_set (info->base.range_1, TRUE, info->base.labels,
 				   _("Variable %i"), 1, dao->sheet);
-	variable_2 = new_data_set (info->range_2, TRUE, info->labels,
+	variable_2 = new_data_set (info->base.range_2, TRUE, info->base.labels,
 				   _("Variable %i"), 2, dao->sheet);
 
         dao_set_cell (dao, 0, 0, "");
@@ -1865,13 +1865,13 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_float_na (dao, 1, 8, p, no_error);
 
 	/* t Critical one-tail */
-	dao_set_cell_float (dao, 1, 9, qt (info->alpha, df, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 9, qt (info->base.alpha, df, FALSE, FALSE));
 
 	/* P (T<=t) two-tail */
 	dao_set_cell_float_na (dao, 1, 10, 2 * p, no_error);
 
 	/* t Critical two-tail */
-	dao_set_cell_float (dao, 1, 11, qt (info->alpha / 2, df, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 11, qt (info->base.alpha / 2, df, FALSE, FALSE));
 
 	dao_set_italic (dao, 0, 0, 0, 11);
 	dao_set_italic (dao, 0, 0, 2, 0);
@@ -1936,16 +1936,16 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 	gint  df_1= 0, df_2 = 0;
 	gint mean_error_1, mean_error_2, var_error_1 = 0, var_error_2 = 0;
 
-	variable_1 = new_data_set (info->range_1, TRUE, info->labels,
+	variable_1 = new_data_set (info->base.range_1, TRUE, info->base.labels,
 				   _("Variable %i"), 1, dao->sheet);
-	variable_2 = new_data_set (info->range_2, TRUE, info->labels,
+	variable_2 = new_data_set (info->base.range_2, TRUE, info->base.labels,
 				   _("Variable %i"), 2, dao->sheet);
 
 	if ((variable_1->data->len == 0) ||  (variable_2->data->len == 0))
 	{
 		destroy_data_set (variable_1);
 		destroy_data_set (variable_2);
-		gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+		gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
 				 _("A data set is empty"));
 		return TRUE;
 	} 
@@ -1991,16 +1991,16 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 	if (!calc_error) {
 		f = var_1/var_2;
 		p_right_tail = pf (f, df_1, df_2, FALSE, FALSE);
-		q_right_tail = qf (info->alpha, df_1, df_2, FALSE, FALSE);
+		q_right_tail = qf (info->base.alpha, df_1, df_2, FALSE, FALSE);
 		p_left_tail =  pf (f, df_1, df_2, TRUE, FALSE);
-		q_left_tail =  qf (info->alpha, df_1, df_2, TRUE, FALSE);
+		q_left_tail =  qf (info->base.alpha, df_1, df_2, TRUE, FALSE);
 		if (p_right_tail < 0.5)
 			p_2_tail =  2 * p_right_tail;
 		else
 			p_2_tail =  2 * p_left_tail;
 		
-		q_2_tail_left =  qf (info->alpha / 2.0, df_1, df_2, TRUE, FALSE);
-		q_2_tail_right  =  qf (info->alpha / 2.0, df_1, df_2, FALSE, FALSE);
+		q_2_tail_left =  qf (info->base.alpha / 2.0, df_1, df_2, TRUE, FALSE);
+		q_2_tail_right  =  qf (info->base.alpha / 2.0, df_1, df_2, FALSE, FALSE);
 	}
 	
 	/* Mean */
@@ -2139,16 +2139,16 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 
 	/* read the data */
-	x_data = new_data_set_list (info->input, info->group_by,
-				  FALSE, info->labels, dao->sheet);
+	x_data = new_data_set_list (info->base.input, info->base.group_by,
+				  FALSE, info->base.labels, dao->sheet);
 	xdim = x_data->len;
-	y_data = new_data_set (info->y_input, FALSE, info->labels,
+	y_data = new_data_set (info->y_input, FALSE, info->base.labels,
 			       _("Y Variable"), 0, dao->sheet);
 
 	if (y_data->data->len != ((data_set_t *)g_ptr_array_index (x_data, 0))->data->len) {
 		destroy_data_set (y_data);
 		destroy_data_set_list (x_data);
-		gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+		gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
 				 _("There must be an equal number of entries "
 				   "for each variable in the regression."));
 		return TRUE;
@@ -2203,21 +2203,21 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		g_free (res);
 		switch (regerr) {
 		case REG_not_enough_data:
-			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+			gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
 					 _("There are too few data points to conduct this "
 					   "regression.\nThere must be at least as many "
 					   "data points as free variables."));
 			break;
 			
 		case REG_near_singular_bad:
-			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+			gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
 					 _("Two or more of the independent variables "
 					   "are nearly linear\ndependent.  All numerical "
 					   "precision was lost in the computation."));
                 break;
 		
 		case REG_singular:
-			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+			gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
 					 _("Two or more of the independent variables "
 					   "are linearly\ndependent, and the regression "
 					   "cannot be calculated.\n\nRemove one of these\n"
@@ -2226,7 +2226,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 			
 		case REG_invalid_data:
 		case REG_invalid_dimensions:
-			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+			gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
 					 _("There must be an equal number of entries "
 					   "for each variable in the regression."));
 			break;
@@ -2395,7 +2395,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	g_free (res);
 	
 	if (regerr == REG_near_singular_good) 
-	        gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+	        gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
 				 _("Two or more of the independent variables "
 				   "are nearly linear\ndependent.  Treat the "
 				   "regression result with great care!"));
@@ -2414,12 +2414,12 @@ analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
 		return (dao_command_descriptor (dao, _("Regression (%s)"), result) 
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->input, info->group_by);
-		if (!check_input_range_list_homogeneity (info->input)) {
-			info->err = analysis_tools_REG_invalid_dimensions;
+		prepare_input_range (&info->base.input, info->base.group_by);
+		if (!check_input_range_list_homogeneity (info->base.input)) {
+			info->base.err = analysis_tools_REG_invalid_dimensions;
 			return TRUE;
 		}
-		dao_adjust (dao, 7, 17 + g_slist_length (info->input));
+		dao_adjust (dao, 7, 17 + g_slist_length (info->base.input));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		value_release (info->y_input);
@@ -2459,8 +2459,8 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 	gint          col = 0;
 	gnum_float    *prev, *prev_av;
 
-	data = new_data_set_list (info->input, info->group_by,
-				  TRUE, info->labels, dao->sheet);
+	data = new_data_set_list (info->base.input, info->base.group_by,
+				  TRUE, info->base.labels, dao->sheet);
 
 	prev = g_new (gnum_float, info->interval);
 	prev_av = g_new (gnum_float, info->interval);
@@ -2539,8 +2539,9 @@ analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs
 		return (dao_command_descriptor (dao, _("Moving Average (%s)"), result) 
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO: 
-		prepare_input_range (&info->input, info->group_by);
-		dao_adjust (dao, (info->std_error_flag ? 2 : 1) * g_slist_length (info->input), 
+		prepare_input_range (&info->base.input, info->base.group_by);
+		dao_adjust (dao, (info->std_error_flag ? 2 : 1) * 
+			    g_slist_length (info->base.input), 
 			    1 + analysis_tool_calc_length (specs));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
@@ -2582,8 +2583,8 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 
 	/* TODO: Standard error output */
 
-	data = new_data_set_list (info->input, info->group_by,
-				  TRUE, info->labels, dao->sheet);
+	data = new_data_set_list (info->base.input, info->base.group_by,
+				  TRUE, info->base.labels, dao->sheet);
 
 	for (dataset = 0; dataset < data->len; dataset++) {
 		data_set_t    *current;
@@ -2631,8 +2632,9 @@ analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao, gpointe
 		return (dao_command_descriptor (dao, _("Exponential Smoothing (%s)"), result) 
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO: 
-		prepare_input_range (&info->input, info->group_by);
-		dao_adjust (dao, (info->std_error_flag ? 2 : 1) * g_slist_length (info->input), 
+		prepare_input_range (&info->base.input, info->base.group_by);
+		dao_adjust (dao, (info->std_error_flag ? 2 : 1) * 
+			    g_slist_length (info->base.input), 
 			    1 + analysis_tool_calc_length (specs));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
@@ -2685,8 +2687,8 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 	GPtrArray *data = NULL;
 	guint n_data;
 
-	data = new_data_set_list (info->input, info->group_by,
-				  TRUE, info->labels, dao->sheet);
+	data = new_data_set_list (info->base.input, info->base.group_by,
+				  TRUE, info->base.labels, dao->sheet);
 
 	for (n_data = 0; n_data < data->len; n_data++) {
 	        rank_t *rank;
@@ -2761,8 +2763,8 @@ analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer specs,
 		return (dao_command_descriptor (dao, _("Ranks (%s)"), result) 
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO: 
-		prepare_input_range (&info->input, info->group_by);
-		dao_adjust (dao, 4 * g_slist_length (info->input), 
+		prepare_input_range (&info->base.input, info->base.group_by);
+		dao_adjust (dao, 4 * g_slist_length (info->base.input), 
 			    1 + analysis_tool_calc_length (specs));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
@@ -2806,9 +2808,9 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 	gnum_float *ss_terms = NULL;
 	int        df_b, df_w, df_t;
 
-	prepare_input_range (&info->input, info->group_by);
-	data = new_data_set_list (info->input, info->group_by,
-				  TRUE, info->labels, dao->sheet);
+	prepare_input_range (&info->base.input, info->base.group_by);
+	data = new_data_set_list (info->base.input, info->base.group_by,
+				  TRUE, info->base.labels, dao->sheet);
 
 
 	dao_set_cell (dao, 0, 0, _("Anova: Single Factor"));
@@ -2953,8 +2955,8 @@ analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs,
 		return (dao_command_descriptor (dao, _("Single Factor ANOVA (%s)"), result) 
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO: 
-		prepare_input_range (&info->input, info->group_by);
-		dao_adjust (dao, 7, 11 + g_slist_length (info->input));
+		prepare_input_range (&info->base.input, info->base.group_by);
+		dao_adjust (dao, 7, 11 + g_slist_length (info->base.input));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (dao, specs);
@@ -3247,7 +3249,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 		g_ptr_array_index (col_labels, i_c) = make_label (
 			dao->sheet, info->input->v_range.cell.a.col + i_c,
 			info->input->v_range.cell.a.row - 1,
-			_("Column %i"), i_c + 1, dao->labels_flag);
+			_("Column %i"), i_c + 1, info->labels);
 	row_labels = g_ptr_array_new ();
 	g_ptr_array_set_size (row_labels, info->n_r);
 	for (i_r = 0; i_r < info->n_r; i_r++)
@@ -3255,7 +3257,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 			dao->sheet,
 			info->input->v_range.cell.a.col - 1,
 			info->input->v_range.cell.a.row + i_r * info->replication,
-			_("Row %i"), i_r + 1, dao->labels_flag);
+			_("Row %i"), i_r + 1, info->labels);
 
 	input_cp = value_duplicate (info->input);
 	input_cp->v_range.cell.b.row = input_cp->v_range.cell.a.row +
@@ -4097,8 +4099,8 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 	guint         dataset;
 	gint          col = 0;
 
-	data = new_data_set_list (info->input, info->group_by,
-				  TRUE, info->labels, dao->sheet);
+	data = new_data_set_list (info->base.input, info->base.group_by,
+				  TRUE, info->base.labels, dao->sheet);
 
 	for (dataset = 0; dataset < data->len; dataset++) {
 		data_set_t    *current;
@@ -4151,8 +4153,8 @@ static int
 analysis_tool_fourier_calc_length (data_analysis_output_t *dao, 
 				   analysis_tools_data_fourier_t *info)
 {
-	GPtrArray     *data = new_data_set_list (info->input, info->group_by,
-						 TRUE, info->labels, dao->sheet);
+	GPtrArray     *data = new_data_set_list (info->base.input, info->base.group_by,
+						 TRUE, info->base.labels, dao->sheet);
 	int           result = 1;
 	guint         dataset;
 
@@ -4181,8 +4183,8 @@ analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs,
 		return (dao_command_descriptor (dao, _("Fourier Series (%s)"), result) 
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO: 
-		prepare_input_range (&info->input, info->group_by);
-		dao_adjust (dao, 2 * g_slist_length (info->input), 
+		prepare_input_range (&info->base.input, info->base.group_by);
+		dao_adjust (dao, 2 * g_slist_length (info->base.input), 
 			    2 + analysis_tool_fourier_calc_length (dao, specs));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:

@@ -25,7 +25,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialogs.h"
-#include "tools.h"
+#include "tool-dialogs.h"
 #include "random-generator.h"
 
 #include <workbook.h>
@@ -57,11 +57,8 @@
 
 #define RANDOM_KEY            "analysistools-random-dialog"
 
-ANALYSISTOOLS_OUTPUT_GROUP       /* defined in dao.h */
-
 typedef struct {
-	GENERIC_TOOL_STATE
-
+	GenericToolState base;
 	GtkWidget *distribution_table;
         GtkWidget *distribution_combo;
 	GtkWidget *par1_label;
@@ -179,10 +176,10 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 	random_distribution_t the_dist;
 
         output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->output_entry), state->sheet);
+		(GNUMERIC_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
 	the_dist = combo_get_distribution (state->distribution_combo);
 
-	i = gnumeric_glade_group_value (state->gui, output_group);
+	i = gnumeric_glade_group_value (state->base.gui, output_group);
 
 	ready = ((entry_to_int (GTK_ENTRY (state->vars_entry), &vars, FALSE) == 0 &&
 		  vars > 0) &&
@@ -230,7 +227,7 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 		break;
 	case DiscreteDistribution:
 		disc_prob_range = gnm_expr_entry_parse_as_value
-			(GNUMERIC_EXPR_ENTRY (state->par1_expr_entry), state->sheet);
+			(GNUMERIC_EXPR_ENTRY (state->par1_expr_entry), state->base.sheet);
 		ready = ready && disc_prob_range != NULL;
 		if (disc_prob_range != NULL) value_release (disc_prob_range);
 		break;
@@ -243,12 +240,12 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 		break;
 	}
 
-	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
-	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
-	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
+	gtk_widget_set_sensitive (state->base.clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->base.retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->base.retain_comments_button, (i == 2));
 
-	gtk_widget_set_sensitive (state->apply_button, ready);
-	gtk_widget_set_sensitive (state->ok_button, ready);
+	gtk_widget_set_sensitive (state->base.apply_button, ready);
+	gtk_widget_set_sensitive (state->base.ok_button, ready);
 }
 
 /*
@@ -279,7 +276,7 @@ distribution_parbox_config (RandomToolState *state,
 	gtk_widget_show (par1_entry);
 
 	if (state->distribution_accel != NULL) {
-		gtk_window_remove_accel_group (GTK_WINDOW (state->dialog),
+		gtk_window_remove_accel_group (GTK_WINDOW (state->base.dialog),
 					       state->distribution_accel);
 		state->distribution_accel = NULL;
 	}
@@ -304,7 +301,7 @@ distribution_parbox_config (RandomToolState *state,
 		gtk_label_set_text (GTK_LABEL (state->par2_label), "");
 	        gtk_widget_hide (state->par2_entry);
 	}
-	gtk_window_add_accel_group (GTK_WINDOW (state->dialog),
+	gtk_window_add_accel_group (GTK_WINDOW (state->base.dialog),
 				    state->distribution_accel);
 }
 
@@ -371,8 +368,8 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	gint vars, count, err;
 	random_tool_t           param;
 
-	if (state->warning_dialog != NULL)
-		gtk_widget_destroy (state->warning_dialog);
+	if (state->base.warning_dialog != NULL)
+		gtk_widget_destroy (state->base.warning_dialog);
 
         parse_output ((GenericToolState *)state, &dao);
 
@@ -404,7 +401,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		break;
 	case DiscreteDistribution:
 		param.discrete.range = gnm_expr_entry_parse_as_value (
-			GNUMERIC_EXPR_ENTRY (state->par1_expr_entry), state->sheet);
+			GNUMERIC_EXPR_ENTRY (state->par1_expr_entry), state->base.sheet);
 		break;
 	case UniformDistribution:
 	default:
@@ -415,17 +412,17 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		break;
 	}
 
-	err = random_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+	err = random_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			   vars, count, state->distribution, &param,&dao);
 	switch (err) {
 	case 0:
-		if (button == state->ok_button) {
+		if (button == state->base.ok_button) {
 			if (state->distribution_accel) {
-				gtk_window_remove_accel_group (GTK_WINDOW (state->dialog),
+				gtk_window_remove_accel_group (GTK_WINDOW (state->base.dialog),
 							       state->distribution_accel);
 				state->distribution_accel = NULL;
 			}
-			gtk_widget_destroy (state->dialog);
+			gtk_widget_destroy (state->base.dialog);
 		}
 		break;
 	case 1: /* non-numeric probability (DiscreteDistribution) */
@@ -448,7 +445,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, text);
+		gnumeric_notice (state->base.wbcg, GTK_MESSAGE_ERROR, text);
 		g_free (text);
 		break;
 	}
@@ -473,16 +470,16 @@ dialog_random_tool_init (RandomToolState *state)
 	GtkTable *table;
 	Range const *first;
 
-	state->gui = gnumeric_glade_xml_new (state->wbcg, "random-generation.glade");
-        if (state->gui == NULL)
+	state->base.gui = gnumeric_glade_xml_new (state->base.wbcg, "random-generation.glade");
+        if (state->base.gui == NULL)
                 return TRUE;
 
-	state->dialog = glade_xml_get_widget (state->gui, "Random");
-        if (state->dialog == NULL)
+	state->base.dialog = glade_xml_get_widget (state->base.gui, "Random");
+        if (state->base.dialog == NULL)
                 return TRUE;
 
 
-	state->accel = NULL;
+	state->base.accel = NULL;
 	state->distribution_accel = NULL;
 	state->distribution = DiscreteDistribution;
 
@@ -492,14 +489,14 @@ dialog_random_tool_init (RandomToolState *state)
 	dialog_tool_init_outputs ((GenericToolState *)state,
 				  G_CALLBACK (random_tool_update_sensitivity_cb));
 
-	state->distribution_table = glade_xml_get_widget (state->gui, "distribution_table");
-	state->distribution_combo = glade_xml_get_widget (state->gui, "distribution_combo");
-	state->par1_entry = glade_xml_get_widget (state->gui, "par1_entry");
-	state->par1_label = glade_xml_get_widget (state->gui, "par1_label");
-	state->par2_label = glade_xml_get_widget (state->gui, "par2_label");
-	state->par2_entry = glade_xml_get_widget (state->gui, "par2_entry");
-	state->vars_entry = glade_xml_get_widget (state->gui, "vars_entry");
-	state->count_entry = glade_xml_get_widget (state->gui, "count_entry");
+	state->distribution_table = glade_xml_get_widget (state->base.gui, "distribution_table");
+	state->distribution_combo = glade_xml_get_widget (state->base.gui, "distribution_combo");
+	state->par1_entry = glade_xml_get_widget (state->base.gui, "par1_entry");
+	state->par1_label = glade_xml_get_widget (state->base.gui, "par1_label");
+	state->par2_label = glade_xml_get_widget (state->base.gui, "par2_label");
+	state->par2_entry = glade_xml_get_widget (state->base.gui, "par2_entry");
+	state->vars_entry = glade_xml_get_widget (state->base.gui, "vars_entry");
+	state->count_entry = glade_xml_get_widget (state->base.gui, "count_entry");
 	int_to_entry (GTK_ENTRY (state->count_entry), 1);
 
 	for (i = 0, dist_str_no = 0; distribution_strs[i].name != NULL; i++) {
@@ -527,34 +524,34 @@ dialog_random_tool_init (RandomToolState *state)
 		"changed",
 		G_CALLBACK (random_tool_update_sensitivity_cb), state);
 
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "distribution_table"));
-	state->par1_expr_entry = GTK_WIDGET (gnumeric_expr_entry_new (state->wbcg, TRUE));
+	table = GTK_TABLE (glade_xml_get_widget (state->base.gui, "distribution_table"));
+	state->par1_expr_entry = GTK_WIDGET (gnumeric_expr_entry_new (state->base.wbcg, TRUE));
 	gnm_expr_entry_set_flags (GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
 				       GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
         gnm_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
-				wbcg_cur_scg (state->wbcg));
+				wbcg_cur_scg (state->base.wbcg));
 	gtk_table_attach (table, state->par1_expr_entry,
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+ 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->par1_expr_entry));
 
 
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->par1_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->par2_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->vars_entry));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->count_entry));
 
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (G_OBJECT (state->dialog),
+	wbcg_edit_attach_guru (state->base.wbcg, state->base.dialog);
+	g_signal_connect (G_OBJECT (state->base.dialog),
 		"destroy",
 		G_CALLBACK (tool_destroy), state);
-	g_signal_connect (G_OBJECT (state->dialog),
+	g_signal_connect (G_OBJECT (state->base.dialog),
 		"realize",
 		G_CALLBACK (dialog_random_realized), state);
 	g_signal_connect_after (G_OBJECT (state->vars_entry),
@@ -573,13 +570,13 @@ dialog_random_tool_init (RandomToolState *state)
 		"changed",
 		G_CALLBACK (random_tool_update_sensitivity_cb), state);
 
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
 			       RANDOM_KEY);
 
-	first = selection_first_range (state->sheet, NULL, NULL);
+	first = selection_first_range (state->base.sheet, NULL, NULL);
 	if (first != NULL) {
-		gnm_expr_entry_load_from_range (state->output_entry,
-						state->sheet, first);
+		gnm_expr_entry_load_from_range (state->base.output_entry,
+						state->base.sheet, first);
 		int_to_entry (GTK_ENTRY (state->count_entry),
 			      first->end.row - first->start.row + 1);
 		int_to_entry (GTK_ENTRY (state->vars_entry),
@@ -616,14 +613,13 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	}
 
 	state = g_new (RandomToolState, 1);
-	(*(ToolType *)state) = TOOL_RANDOM;
-	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->sheet = sheet;
-	state->warning_dialog = NULL;
-	state->help_link = "random-number-generation-tool.html";
-	state->input_var1_str = NULL;
-	state->input_var2_str = NULL;
+	state->base.wbcg  = wbcg;
+	state->base.wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->base.sheet = sheet;
+	state->base.warning_dialog = NULL;
+	state->base.help_link = "random-number-generation-tool.html";
+	state->base.input_var1_str = NULL;
+	state->base.input_var2_str = NULL;
 
 	if (dialog_random_tool_init (state)) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
@@ -632,7 +628,7 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 	}
 
-	gtk_widget_show (state->dialog);
+	gtk_widget_show (state->base.dialog);
 
         return 0;
 }

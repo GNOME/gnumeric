@@ -26,17 +26,15 @@ typedef enum {
 } analysis_tools_error_code_t;
 
 
-#define ANALYSIS_TOOLS_DATA_GENERIC 	analysis_tools_error_code_t err;\
-	                                WorkbookControlGUI *wbcg;       \
-	                                GSList     *input;              \
-	                                group_by_t group_by;            \
-                                        gboolean   labels	
-
 /********************************************************************/
 /* Subsection 3a: Undoable Tools using the first  common generic data struct */
 
 typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
+	analysis_tools_error_code_t err;
+	WorkbookControlGUI *wbcg;       
+	GSList     *input;              
+	group_by_t group_by;            
+	gboolean   labels;
 } analysis_tools_data_generic_t;
 
 /**************** Correlation Tool ***************/
@@ -58,7 +56,7 @@ gboolean analysis_tool_covariance_engine  (data_analysis_output_t *dao, gpointer
 /************** Single Factor ANOVA  *************/
 
 typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
+	analysis_tools_data_generic_t base;
 	gnum_float alpha;
 } analysis_tools_data_anova_single_t;
 
@@ -68,7 +66,7 @@ gboolean analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointe
 /********** Descriptive Statistics Tool **********/
 
 typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
+	analysis_tools_data_generic_t base;
         gboolean summary_statistics;
         gboolean confidence_level;
         gboolean kth_largest;
@@ -85,7 +83,7 @@ gboolean analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer
 /************** Moving Averages **** *************/
 
 typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
+	analysis_tools_data_generic_t base;
 	int interval;
 	int std_error_flag;
 } analysis_tools_data_moving_average_t;
@@ -97,7 +95,7 @@ gboolean analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpoin
 /************** Exponential Smoothing  *************/
 
 typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
+	analysis_tools_data_generic_t base;
 	gnum_float damp_fact;
 	int std_error_flag;
 } analysis_tools_data_exponential_smoothing_t;
@@ -109,7 +107,7 @@ gboolean analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao
 /************** Fourier Analysis **** *************/
 
 typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
+	analysis_tools_data_generic_t base;
 	gboolean inverse;
 } analysis_tools_data_fourier_t;
 
@@ -120,7 +118,7 @@ gboolean analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer spe
 /************** Sampling Tool **********************/
 
 typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
+	analysis_tools_data_generic_t base;
 	gboolean periodic;
 	guint size;
 	guint number;
@@ -133,7 +131,7 @@ gboolean analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer sp
 /************** Ranking Tool *************************/
 
 typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
+	analysis_tools_data_generic_t base;
 	gboolean av_ties;
 } analysis_tools_data_ranking_t;
 
@@ -144,7 +142,7 @@ gboolean analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer spe
 /****************  Regression  ********************/
 
 typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
+	analysis_tools_data_generic_t base;
 	Value      *y_input;
 	gnum_float alpha;
 	gint       intercept;
@@ -159,16 +157,14 @@ gboolean analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer 
 /* Subsection 3c: Undoable Tools using the second common generic    */
 /*                data struct augmented with some simple fields     */
 
-#define ANALYSIS_TOOLS_DATA_GENERIC_TWO_VARS	analysis_tools_error_code_t err;\
-	                                WorkbookControlGUI *wbcg;               \
-                                        Value *range_1;                         \
-                                        Value *range_2;                         \
-                                        gboolean   labels	
-
 /*********************** FTest ************************/
 
 typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC_TWO_VARS;
+	analysis_tools_error_code_t err;
+	WorkbookControlGUI *wbcg;  
+	Value *range_1;                         
+	Value *range_2;                         
+	gboolean   labels;
 	gnum_float alpha;
 } analysis_tools_data_ftest_t;
 
@@ -178,8 +174,7 @@ gboolean analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs
 /*********************** TTest paired *****************/
 
 typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC_TWO_VARS;
-	gnum_float alpha;
+	analysis_tools_data_ftest_t base;
 	gnum_float mean_diff;
 	gnum_float var1;
 	gnum_float var2;

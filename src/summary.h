@@ -92,7 +92,7 @@ struct _SummaryInfo {
 
 SummaryInfo *summary_info_new	  (void);
 GList       *summary_info_as_list (SummaryInfo const *sin);
-void         summary_info_add     (SummaryInfo *sin, SummaryItem *sit);
+gboolean     summary_info_add     (SummaryInfo *sin, SummaryItem *sit);
 void         summary_info_default (SummaryInfo *sin);
 void         summary_info_dump    (SummaryInfo *sin);
 void         summary_info_free    (SummaryInfo *sin);

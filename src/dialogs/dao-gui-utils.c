@@ -27,7 +27,6 @@
 
 #include <gnumeric-config.h>
 #include "dao-gui-utils.h"
-#include "tools.h"
 
 #include "value.h"
 #include "gui-util.h"
@@ -35,7 +34,13 @@
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtk.h>
 
-ANALYSISTOOLS_OUTPUT_GROUP
+const char *output_group[] = {
+	"newsheet-button",
+	"newworkbook-button",
+	"outputrange-button",
+	"inplace-button",          /* used only in advanced filter  */
+	0
+};
 
 
 /**

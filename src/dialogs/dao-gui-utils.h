@@ -32,17 +32,11 @@
 #include "numbers.h"
 #include <widgets/gnumeric-expr-entry.h>
 #include <glade/glade.h>
-#include "tools.h"
-#include "dao-gui-utils.h"
+#include "tool-dialogs.h"
+#include "tools/dao.h"
 
 
-#define ANALYSISTOOLS_OUTPUT_GROUP static const char *output_group[] = {\
-	"newsheet-button",\
-	"newworkbook-button",\
-	"outputrange-button",\
-	"inplace-button",          /* used only in advanced filter  */\
-	0\
-};
+extern const char *output_group[];
 
 
 void dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb);

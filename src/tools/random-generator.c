@@ -26,7 +26,6 @@
 
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#include "analysis-tools.h"
 #include "random-generator.h"
 
 #include "mathfunc.h"

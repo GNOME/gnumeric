@@ -32,7 +32,7 @@
 #include <ranges.h>
 #include <func-util.h>
 #include <gui-util.h>
-#include <tools.h>
+#include <tool-dialogs.h>
 #include <dao-gui-utils.h>
 #include <value.h>
 #include <workbook-edit.h>
@@ -48,11 +48,7 @@
 
 #define ADVANCED_FILTER_KEY         "advanced-filter-dialog"
 
-ANALYSISTOOLS_OUTPUT_GROUP       /* defined in dao-gui-utils.h */
-
-typedef struct {
-	GENERIC_TOOL_STATE
-} AdvancedFilterState;
+typedef GenericToolState AdvancedFilterState;
 
 static void
 free_rows (GSList *row_list)
@@ -379,7 +375,6 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 		return;
 
 	state = g_new (AdvancedFilterState, 1);
-	(*(ToolType *)state) = TOOL_ADVANCED_FILTER;
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = wb_control_cur_sheet (wbc);

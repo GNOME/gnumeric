@@ -1,5 +1,18 @@
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* Makefile.am : replace tools.h by tool-dialogs.h 
+	* dao-gui-utils.c : define output_group
+	* dao-gui-utils.h : define output_group as extern
+	* dialog-advanced-filter.c : use inheritance over #define
+	* dialog-analysis-tools.c : use inheritance over #define
+	* dialog-random-generator.c : use inheritance over #define
+	* dialog-solver.c : include tool-dialogs.h instead of tools.h
+	* dialog-summary.c : use new workbook signals
+	* tools.h : split into tool-dialogs.h and tools/tools.h
+	* tool-dialogs.h : new
+
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dao-gui-utils.c (parse_output) : fix typos (use the intended
 	  buttons)
 	* dialog-analysis-tools.c : make regression tool undoable

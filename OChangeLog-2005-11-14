@@ -1,5 +1,16 @@
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/commands.c : use workbook signals
+	* src/commands.h : include tools/tools.h rather than dialogs/tools.h 
+	* src/summary.c (summary_info_add) : return boolean
+	* src/summary.h (summary_info_add) : return boolean
+	* src/workbook.c : new workbook signals
+	(workbook_add_summary_info) : new, emit signal
+	(workbook_set_filename) : emit signal
+	* src/workbook.h : new workbook signals
+
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/commands.c (cmd_analysis_tools_undo) : clear region
 	  before pasting (to avoid leaving cell comments behind)
 

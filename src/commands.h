@@ -5,7 +5,7 @@
 #include "consolidate.h"
 #include "gnumeric.h"
 #include "sort.h"
-#include "dialogs/tools.h"
+#include "tools/tools.h"
 
 void command_undo (WorkbookControl *wbc);
 void command_redo (WorkbookControl *wbc);

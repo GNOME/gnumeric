@@ -43,6 +43,8 @@ typedef struct {
 	GtkWidget          *ok_button;
 	GtkWidget          *cancel_button;
 	GtkWidget          *apply_button;
+	gulong              signal_handler_filename_changed;
+	gulong              signal_handler_summary_changed;
 } SummaryState;
 
 static const char *dialog_summary_names[] = {
@@ -136,6 +138,15 @@ dialog_summary_put (SummaryState *state)
 }
 
 static void
+cb_info_changed (Workbook *wb, SummaryState *state)
+{
+	dialog_summary_put (state);
+	return;
+}
+
+
+
+static void
 cb_dialog_summary_cancel_clicked (GtkWidget *button, SummaryState *state)
 {
 	gtk_widget_destroy (state->dialog);
@@ -162,6 +173,13 @@ cb_dialog_summary_destroy (GtkObject *w, SummaryState *state)
 {
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
+
+	g_signal_handler_disconnect (
+		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))), 
+		state->signal_handler_filename_changed);
+	g_signal_handler_disconnect (
+		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))), 
+		state->signal_handler_summary_changed);
 
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
@@ -237,6 +255,14 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 	
 	g_object_set_data (G_OBJECT (state->dialog), SUMMARY_DIALOG_KEY_DIALOG, 
 			   state);
+	
+	state->signal_handler_filename_changed = g_signal_connect ( 
+		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))), 
+		"filename_changed", G_CALLBACK (cb_info_changed), state) ;
+	state->signal_handler_summary_changed = g_signal_connect ( 
+		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))), 
+		"summary_changed", G_CALLBACK (cb_info_changed), state) ;
+
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SUMMARY_DIALOG_KEY);
 

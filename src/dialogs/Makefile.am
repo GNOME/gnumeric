@@ -69,7 +69,7 @@ base_files =					\
 	dialog-workbook-attr.c			\
 	dialog-zoom.c				\
 	dialogs.h				\
-	tools.h
+	tool-dialogs.h
 
 gladedir   = $(gnumeric_libdir)/glade
 glade_DATA = 				\

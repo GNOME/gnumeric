@@ -225,7 +225,7 @@ summary_info_get (SummaryInfo const *sin, char const *name)
 	return g_hash_table_lookup (sin->names, name);
 }
 
-void
+gboolean
 summary_info_add (SummaryInfo *sin, SummaryItem *sit)
 {
 	SummaryItem *tsit;
@@ -239,7 +239,7 @@ summary_info_add (SummaryInfo *sin, SummaryItem *sit)
 	if ((tsit = summary_info_get (sin, sit->name))) {
 		if (summary_item_eq (sit, tsit)) {
 			summary_item_free (sit);
-			return;
+			return FALSE;
 		}
 		g_hash_table_remove (sin->names, sit->name);
 		summary_item_free (tsit);
@@ -254,6 +254,7 @@ summary_info_add (SummaryInfo *sin, SummaryItem *sit)
 		g_hash_table_insert (sin->names, sit->name, sit);
 		sin->modified = TRUE;
 	}
+	return TRUE;
 }
 
 void

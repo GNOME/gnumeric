@@ -1,5 +1,14 @@
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* Makefile.am : added tools.h
+	* analysis-tools.c : use inheritance over #define
+	* analysis-tools.h : use inheritance over #define
+	* dao.h : delete labels_flag from dao (it's not an output option)
+	* random-generator.c :  use inheritance over #define
+	* tools.h : new
+
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* analysis-tools.[hc] : make regrssion tool undoable
 
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
