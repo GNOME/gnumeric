@@ -421,6 +421,17 @@ cb_free_keyed_dialog_context (KeyedDialogContext *ctxt)
 	g_free (ctxt);
 }
 
+static gint
+cb_keyed_dialog_keypress (GtkWidget *dialog, GdkEventKey *event,
+			  G_GNUC_UNUSED gpointer user)
+{
+	if (event->keyval == GDK_Escape) {
+		gtk_object_destroy (GTK_OBJECT (dialog));
+		return TRUE;
+	}
+	return FALSE;
+}
+
 /**
  * gnumeric_keyed_dialog
  *
@@ -453,6 +464,9 @@ gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *
 		key, ctxt, (GDestroyNotify) cb_free_keyed_dialog_context);
 	g_object_set_data_full (G_OBJECT (dialog),
 		"KeyedDialog", ctxt, (GDestroyNotify) cb_free_keyed_dialog_context);
+	g_signal_connect (G_OBJECT (dialog),
+		"key_press_event",
+		G_CALLBACK (cb_keyed_dialog_keypress), NULL);
 }
 
 /**

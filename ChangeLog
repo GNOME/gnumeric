@@ -1,3 +1,13 @@
+2003-03-12  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=108225
+	* src/format.c (append_hour_elapsed) : why did I round this ?
+	  Ideally we need to know the display precision to round correctly.
+
+	* src/gui-util.c (cb_keyed_dialog_keypress) : new.
+	(gnumeric_keyed_dialog) : initialize it here so that all the keyed
+	  dialogs get support for quiting when Escape is pressed.
+
 2003-03-07  Morten Welinder  <terra@diku.dk>
 
 	* src/value.c (value_peek_string): Use G_N_ELEMENTS.

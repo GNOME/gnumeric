@@ -330,10 +330,13 @@ append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
 	char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
 	double res, int_part;
 
-	res = modf (gnumeric_fake_round (number * 24.), &int_part);
+	/* ick.  round assuming no more than 100th of a second, we really need
+	 * to know the precision earlier */
+	res = gnumeric_fake_round (number * 24. * 60. * 60. * 100.);
+	res = modf (res / (60. * 60. * 100.), &int_part);
 	tm->tm_hour = int_part;
-	res *= (res < 0.) ? -3600. : 3600.;
-	tm->tm_min = res * 60.;
+	res *= ((res < 0.) ? -3600. : 3600.);
+	tm->tm_min = res / 60.;
 	tm->tm_sec = res - tm->tm_min * 60;
 
 	snprintf (buf, sizeof (buf), "%d", tm->tm_hour);
@@ -1401,7 +1404,7 @@ format_number (GString *result,
 				append_hour_elapsed (result, &tm, signed_number);
 			} else {
 				/* h == hour optionally in 24 hour mode
-				 * h followed by am/pm puts it in 12 hout mode
+				 * h followed by am/pm puts it in 12 hour mode
 				 *
 				 * multiple h eg 'hh' force 12 hour mode.
 				 * NOTE : This is a non-XL extension
