@@ -1,3 +1,8 @@
+2004-07-26  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_colrow_group_ungroup): Don't use ?: result
+	as a structure.  Go via pointers.
+
 2004-07-23  Morten Welinder  <terra@gnome.org>
 
 	* src/wbcg-actions.c: Add Ctrl-Sift-D for double underline.

@@ -866,7 +866,7 @@ sheet_colrow_group_ungroup (Sheet *sheet, GnmRange const *r,
 	}
 
 	/* Set new outline for each col/row and find highest outline level */
-	new_max = (is_cols ? sheet->cols : sheet->rows).max_outline_level;
+	new_max = (is_cols ? &sheet->cols : &sheet->rows)->max_outline_level;
 	for (i = start; i <= end; i++) {
 		ColRowInfo *cri = sheet_colrow_fetch (sheet, i, is_cols);
 		int const new_level = cri->outline_level + step;
