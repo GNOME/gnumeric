@@ -5,6 +5,8 @@
  
 <itemizedlist mark="bullet">
 <listitem><para><link linkend="gnumeric-ABS">ABS</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ACCRINT">ACCRINT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ACCRINTM">ACCRINTM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ACOS">ACOS</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ACOSH">ACOSH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ADDRESS">ADDRESS</link></para></listitem>
@@ -69,6 +71,7 @@
 <listitem><para><link linkend="gnumeric-DELTA">DELTA</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DEVSQ">DEVSQ</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DGET">DGET</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DISC">DISC</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DMAX">DMAX</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DMIN">DMIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DOLLAR">DOLLAR</link></para></listitem>
@@ -105,6 +108,7 @@
 <listitem><para><link linkend="gnumeric-FREQUENCY">FREQUENCY</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FTEST">FTEST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FV">FV</link></para></listitem>
+<listitem><para><link linkend="gnumeric-FVSCHEDULE">FVSCHEDULE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GAMMADIST">GAMMADIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GAMMAINV">GAMMAINV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GAMMALN">GAMMALN</link></para></listitem>
@@ -142,6 +146,7 @@
 <listitem><para><link linkend="gnumeric-INFO">INFO</link></para></listitem>
 <listitem><para><link linkend="gnumeric-INT">INT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-INTERCEPT">INTERCEPT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-INTRATE">INTRATE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-IPMT">IPMT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ISBLANK">ISBLANK</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ISERR">ISERR</link></para></listitem>
@@ -152,6 +157,7 @@
 <listitem><para><link linkend="gnumeric-ISNONTEXT">ISNONTEXT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ISNUMBER">ISNUMBER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ISODD">ISODD</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ISPMT">ISPMT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ISREF">ISREF</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ISTEXT">ISTEXT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-KURT">KURT</link></para></listitem>
@@ -178,6 +184,7 @@
 <listitem><para><link linkend="gnumeric-MINA">MINA</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MINUTE">MINUTE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MINVERSE">MINVERSE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MIRR">MIRR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MMULT">MMULT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MOD">MOD</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MODE">MODE</link></para></listitem>
@@ -211,6 +218,8 @@
 <listitem><para><link linkend="gnumeric-POISSON">POISSON</link></para></listitem>
 <listitem><para><link linkend="gnumeric-POWER">POWER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PPMT">PPMT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-PRICEDISC">PRICEDISC</link></para></listitem>
+<listitem><para><link linkend="gnumeric-PRICEMAT">PRICEMAT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PROB">PROB</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PRODUCT">PRODUCT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PROPER">PROPER</link></para></listitem>
@@ -222,6 +231,7 @@
 <listitem><para><link linkend="gnumeric-RANDBETWEEN">RANDBETWEEN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RANK">RANK</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RATE">RATE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-RECEIVED">RECEIVED</link></para></listitem>
 <listitem><para><link linkend="gnumeric-REPLACE">REPLACE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-REPT">REPT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RIGHT">RIGHT</link></para></listitem>
@@ -266,6 +276,9 @@
 <listitem><para><link linkend="gnumeric-T">T</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TAN">TAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TANH">TANH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TBILLEQ">TBILLEQ</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TBILLPRICE">TBILLPRICE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TBILLYIELD">TBILLYIELD</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TDIST">TDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TEXT">TEXT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TIME">TIME</link></para></listitem>
@@ -313,6 +326,27 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-GCD">GCD</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-PRICEDISC">PRICEDISC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>PRICEDISC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>PRICEDISC(settlement,maturity,discount,redemption[,basis]@DESCRIPTION=PRICEDISC calculates and returns the price per $100 face value of a security bond.  The security does not pay interest at maturity.  @discount is the rate for which the security is discounted.  @redemption is the amount to be received on @maturity date.  @basis is the type of day counting system you want to use:</synopsis>
+    </refsynopsisdiv>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PRICEMAT">PRICEMAT</link>
       </para>
     </refsect1>
   </refentry>
@@ -1193,6 +1227,31 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-TBILLYIELD">TBILLYIELD</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TBILLYIELD</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TBILLYIELD(settlement,maturity,pr)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>TBILLYIELD function returns the yield for a treasury bill. @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. </para>
+        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLYIELD returns NUM! error. If @pr is negative, TBILLYIELD returns NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TBILLEQ">TBILLEQ</link>
+,         <link linkend="gnumeric-TBILLPRICE">TBILLPRICE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-CONVERT">CONVERT</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1817,6 +1876,27 @@
       <para>        <link linkend="gnumeric-BIN2OCT">BIN2OCT</link>
 ,         <link linkend="gnumeric-OCT2DEC">OCT2DEC</link>
 ,         <link linkend="gnumeric-OCT2HEX">OCT2HEX</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-PRICEMAT">PRICEMAT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>PRICEMAT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>PRICEMAT(settlement,maturity,issue,rate,yield[,basis]@DESCRIPTION=PRICEMAT calculates and returns the price per $100 face value of a security.  The security pays interest at maturity. @basis is the type of day counting system you want to use:</synopsis>
+    </refsynopsisdiv>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PRICEDISC">PRICEDISC</link>
       </para>
     </refsect1>
   </refentry>
@@ -3874,6 +3954,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-INTRATE">INTRATE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>INTRATE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>INTRATE(settlement,maturity,investment,redemption[,basis])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>INTRATE calculates and returns the interest rate of a security. @investment is the prize of the security paid at @settlement date and @redemption is the amount to be received at @maturity date.  @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, INTRATE returns NUM! error.If @basis < 0 or @basis > 4, INTRATE returns NUM! error. If settlement date is after maturity date or they are the same, INTRATE returns NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-RECEIVED">RECEIVED</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-BESSELI">BESSELI</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3918,6 +4022,31 @@
       <para>        <link linkend="gnumeric-BESSELJ">BESSELJ</link>
 ,         <link linkend="gnumeric-BESSELK">BESSELK</link>
 ,         <link linkend="gnumeric-BESSELY">BESSELY</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TBILLEQ">TBILLEQ</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TBILLEQ</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TBILLEQ(settlement,maturity,discount)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>TBILLEQ function returns the bond-yield equivalent (BEY) for a treasury bill.  TBILLEQ is equivalent to (365 x discount) / (360 - discount x DSM) where DSM is the days between @settlement and @maturity. </para>
+        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLEQ returns NUM! error. If @discount is negative, TBILLEQ returns NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TBILLPRICE">TBILLPRICE</link>
+,         <link linkend="gnumeric-TBILLYIELD">TBILLYIELD</link>
       </para>
     </refsect1>
   </refentry>
@@ -4414,6 +4543,30 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-FDIST">FDIST</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ISPMT">ISPMT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ISPMT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ISPMT(rate,per,nper,pv)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>ISPMT function returns the interest payed on a given period. </para>
+        <para>If @per < 1 or @per > @nper, ISPMT returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PV">PV</link>
       </para>
     </refsect1>
   </refentry>
@@ -5049,6 +5202,31 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-TBILLPRICE">TBILLPRICE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TBILLPRICE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TBILLPRICE(settlement,maturity,discount)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>TBILLPRICE function returns the price per $100 value for a treasury bill where @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. </para>
+        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns NUM! error. If @discount is negative, TBILLPRICE returns NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TBILLEQ">TBILLEQ</link>
+,         <link linkend="gnumeric-TBILLYIELD">TBILLYIELD</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-LOG2">LOG2</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -5392,6 +5570,26 @@
       <para>        <link linkend="gnumeric-FDIST">FDIST</link>
 ,         <link linkend="gnumeric-FINV">FINV</link>
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DISC">DISC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DISC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DISC(settlement,maturity,par,redemption[,basis]@DESCRIPTION=DISC calculates and returns the discount rate for a sequrity. @basis is the type of day counting system you want to use:</synopsis>
+    </refsynopsisdiv>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -6086,6 +6284,31 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-FVSCHEDULE">FVSCHEDULE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>FVSCHEDULE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>FVSCHEDULE(pv,schedule)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>FVSCHEDULE returns the future value of given initial value @pv after applying a series of compound periodic interest rates. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PV">PV</link>
+,         <link linkend="gnumeric-FV">FV</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-MONTH">MONTH</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -6201,6 +6424,30 @@
       <para>        <link linkend="gnumeric-STDEV">STDEV</link>
 ,         <link linkend="gnumeric-VAR">VAR</link>
 ,         <link linkend="gnumeric-MEAN">MEAN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ACCRINTM">ACCRINTM</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ACCRINTM</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ACCRINTM(issue,maturity,rate[,par,basis])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>ACCRINTM calculates and returns the accrued interest for a security from @issue to @maturity date.  @rate is the annual rate of the security and @par is the par value of the security. If you omit @par, ACCRINTM applies $1,000 instead.  @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If issue date or maturity date is not valid, ACCRINTM returns NUM! error.If @rate or @par is zero or negative, ACCRINTM returns NUM! error.If @basis < 0 or @basis > 4, ACCRINTM returns NUM! error. If issue date is after maturity date or they are the same, ACCRINTM returns NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ACCRINT">ACCRINT</link>
       </para>
     </refsect1>
   </refentry>
@@ -6657,6 +6904,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-MIRR">MIRR</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MIRR</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MIRR(values,finance_rate,reinvest_rate)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>MIRR function returns the modified internal rate of return for a given periodic cash flow. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-NPV">NPV</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-ISREF">ISREF</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -6746,6 +7017,30 @@
       <para>        <link linkend="gnumeric-AVERAGE">AVERAGE</link>
 ,         <link linkend="gnumeric-SUM">SUM</link>
 ,         <link linkend="gnumeric-COUNT">COUNT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ACCRINT">ACCRINT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ACCRINT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>ACCRINT calculates and returns the accrued interest for a security paying periodic interest.  @rate is the annual rate of the security and @par is the par value of the security. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If issue date or settlement date is not valid, ACCRINT returns NUM! error.If @rate or @par is zero or negative, ACCRINT returns NUM! error.If @basis < 0 or @basis > 4, ACCRINT returns NUM! error. If issue date is after maturity date or they are the same, ACCRINT returns NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ACCRINTM">ACCRINTM</link>
       </para>
     </refsect1>
   </refentry>
@@ -7147,6 +7442,27 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ODD">ODD</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-RECEIVED">RECEIVED</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>RECEIVED</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>RECEIVED(settlement,maturity,investment,rate[,basis]@DESCRIPTION=RECEIVED calculates and returns the amount to be received at @maturity date for a security bond. @basis is the type of day counting system you want to use:</synopsis>
+    </refsynopsisdiv>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-INTRATE">INTRATE</link>
       </para>
     </refsect1>
   </refentry>

@@ -1,3 +1,8 @@
+1999-09-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/format.c (format_number): "\" is an escape character for the
+	next character on the format.
+
 1999-09-07  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.h: Make up for deficient header files.

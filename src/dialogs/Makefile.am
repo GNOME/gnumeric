@@ -47,7 +47,9 @@ glade_msgs = 				\
 	font-sel.glade.h		\
 	hf-config.glade.h		\
 	import.glade.h			\
-	print.glade.h
+	print.glade.h			\
+	names.glade.h			\
+	summary.glade.h
 
 EXTRA_DIST = $(glade_DATA) $(glade_msgs)
 

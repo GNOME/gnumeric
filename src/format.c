@@ -796,11 +796,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 
 		case '\\':
 			if (*(format+1)){
-				if (can_render_number && !info.rendered) {
-					char *s = do_render_number (number, &info);
-					g_string_append (result, s);
-					g_free (s);
-				}
+				format++;
 				g_string_append_c (result, *format);
 			}
 			break;

@@ -4,6 +4,18 @@
 If any of the arguments is less than one, LCM returns #NUM! error. 
 @SEEALSO=GCD
 
+@FUNCTION=PRICEDISC
+@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis]@DESCRIPTION=PRICEDISC calculates and returns the price per $100 face value of a security bond.  The security does not pay interest at maturity.  @discount is the rate for which the security is discounted.  @redemption is the amount to be received on @maturity date.  @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEDISC returns NUM! error.If @basis < 0 or @basis > 4, PRICEDISC returns NUM! error. If settlement date is after maturity date or they are the same, PRICEDISC returns NUM! error. 
+@SEEALSO=PRICEMAT
+
 @FUNCTION=IMARGUMENT
 @SYNTAX=IMARGUMENT(inumber)
 @DESCRIPTION=IMARGUMENT returns the argument theta of a complex number.
@@ -208,6 +220,12 @@ If @x < 0 or @y <= 0 this will return an error.  Performing this function on a s
 @DESCRIPTION=HARMEAN returns the harmonic mean of the N data points.
 Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE
+
+@FUNCTION=TBILLYIELD
+@SYNTAX=TBILLYIELD(settlement,maturity,pr)
+@DESCRIPTION=TBILLYIELD function returns the yield for a treasury bill. @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLYIELD returns NUM! error. If @pr is negative, TBILLYIELD returns NUM! error. 
+@SEEALSO=TBILLEQ,TBILLPRICE
 
 @FUNCTION=CONVERT
 @SYNTAX=CONVERT(number,from_unit,to_unit)
@@ -437,6 +455,18 @@ If @known_y's and @known_x's are empty or have a different number of arguments t
 @DESCRIPTION=The OCT2BIN function converts an octal number to a binary number.  @places is an optional field, specifying to zero pad to that number of spaces.
 If @places is too small or negative #NUM! error is returned.
 @SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX
+
+@FUNCTION=PRICEMAT
+@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis]@DESCRIPTION=PRICEMAT calculates and returns the price per $100 face value of a security.  The security pays interest at maturity. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEMAT returns NUM! error.If @basis < 0 or @basis > 4, PRICEMAT returns NUM! error. If settlement date is after maturity date or they are the same, PRICEMAT returns NUM! error. 
+@SEEALSO=PRICEDISC
 
 @FUNCTION=IMCONJUGATE
 @SYNTAX=IMCONJUGATE(inumber)
@@ -915,6 +945,19 @@ Performing this function on a string or empty cell simply does nothing. If @stde
 @DESCRIPTION=RANK returns the rank of a number in a list of numbers.  @x is the number whose rank you want to find, @ref is the list of numbers, and @order specifies how to rank numbers.  If @order is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order.
 @SEEALSO=PERCENTRANK
 
+@FUNCTION=INTRATE
+@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])
+@DESCRIPTION=INTRATE calculates and returns the interest rate of a security. @investment is the prize of the security paid at @settlement date and @redemption is the amount to be received at @maturity date.  @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, INTRATE returns NUM! error.If @basis < 0 or @basis > 4, INTRATE returns NUM! error. If settlement date is after maturity date or they are the same, INTRATE returns NUM! error. 
+@SEEALSO=RECEIVED
+
 @FUNCTION=BESSELI
 @SYNTAX=BESSELI(x,y)
 @DESCRIPTION=The BESSELI function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.
@@ -926,6 +969,12 @@ If @x or @y are not numeric a #VALUE! error is returned. If @y < 0 a #NUM! error
 @DESCRIPTION=The BESSELJ function returns the bessel function with @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.
 If @x or @y are not numeric a #VALUE! error is returned.  If @y < 0 a #NUM! error is returned.
 @SEEALSO=BESSELJ,BESSELK,BESSELY
+
+@FUNCTION=TBILLEQ
+@SYNTAX=TBILLEQ(settlement,maturity,discount)
+@DESCRIPTION=TBILLEQ function returns the bond-yield equivalent (BEY) for a treasury bill.  TBILLEQ is equivalent to (365 x discount) / (360 - discount x DSM) where DSM is the days between @settlement and @maturity. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLEQ returns NUM! error. If @discount is negative, TBILLEQ returns NUM! error. 
+@SEEALSO=TBILLPRICE,TBILLYIELD
 
 @FUNCTION=BESSELK
 @SYNTAX=BESSELK(x,y)
@@ -1052,6 +1101,12 @@ Note that Gnumeric will perform regular string to serial number conversion for y
 @DESCRIPTION=The FINV function returns the inverse of the F probability distribution.
 If @p < 0 or @p > 1 FINV returns #NUM! error. If @dof1 < 1 or @dof2 < 1 FINV returns #NUM! error.
 @SEEALSO=FDIST
+
+@FUNCTION=ISPMT
+@SYNTAX=ISPMT(rate,per,nper,pv)
+@DESCRIPTION=ISPMT function returns the interest payed on a given period. 
+If @per < 1 or @per > @nper, ISPMT returns #NUM! error. 
+@SEEALSO=PV
 
 @FUNCTION=IMCOS
 @SYNTAX=IMCOS(inumber)
@@ -1214,6 +1269,12 @@ If @p < 0 or @p > 1 NORMSINV returns #NUM! error.
 @criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
 @SEEALSO=DPRODUCT
 
+@FUNCTION=TBILLPRICE
+@SYNTAX=TBILLPRICE(settlement,maturity,discount)
+@DESCRIPTION=TBILLPRICE function returns the price per $100 value for a treasury bill where @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns NUM! error. If @discount is negative, TBILLPRICE returns NUM! error. 
+@SEEALSO=TBILLEQ,TBILLYIELD
+
 @FUNCTION=LOG2
 @SYNTAX=LOG2(x)
 @DESCRIPTION=Computes the base-2 logarithm  of @x. 
@@ -1300,6 +1361,18 @@ Performing this function on a string or empty cell simply does nothing.
 
 If the data sets contain a different number of data points and the test is paired (@type one), TTEST returns the #N/A error. @tails and @type are truncated to integers. If @tails is not one or two, TTEST returns #NUM! error. If @type is any other than one, two, or three, TTEST returns #NUM! error. 
 @SEEALSO=FDIST,FINV
+
+@FUNCTION=DISC
+@SYNTAX=DISC(settlement,maturity,par,redemption[,basis]@DESCRIPTION=DISC calculates and returns the discount rate for a sequrity. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, DISC returns NUM! error.If @basis < 0 or @basis > 4, DISC returns NUM! error. If settlement date is after maturity date or they are the same, DISC returns NUM! error. 
+@SEEALSO=
 
 @FUNCTION=NPER
 @SYNTAX=NPER(rate,pmt,pv,fv,type)
@@ -1456,6 +1529,11 @@ If the values contain strings or empty cells those values are ignored.  If no lo
 @DESCRIPTION=Computes the sum of all the values and cells referenced in the argument list. 
 @SEEALSO=AVERAGE, COUNT
 
+@FUNCTION=FVSCHEDULE
+@SYNTAX=FVSCHEDULE(pv,schedule)
+@DESCRIPTION=FVSCHEDULE returns the future value of given initial value @pv after applying a series of compound periodic interest rates. 
+@SEEALSO=PV,FV
+
 @FUNCTION=MONTH
 @SYNTAX=MONTH (serial_number)
 @DESCRIPTION=Converts a serial number to a month.
@@ -1483,6 +1561,19 @@ If @x < @a or @x > @b BETADIST returns #NUM! error. If @alpha <= 0 or @beta <= 0
 @DESCRIPTION=STDEVP returns standard deviation of a set of numbers treating these numbers as members of a complete population
 Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=STDEV,VAR,MEAN
+
+@FUNCTION=ACCRINTM
+@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])
+@DESCRIPTION=ACCRINTM calculates and returns the accrued interest for a security from @issue to @maturity date.  @rate is the annual rate of the security and @par is the par value of the security. If you omit @par, ACCRINTM applies $1,000 instead.  @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @basis is omitted, US 30/360 is applied. If issue date or maturity date is not valid, ACCRINTM returns NUM! error.If @rate or @par is zero or negative, ACCRINTM returns NUM! error.If @basis < 0 or @basis > 4, ACCRINTM returns NUM! error. If issue date is after maturity date or they are the same, ACCRINTM returns NUM! error. 
+@SEEALSO=ACCRINT
 
 @FUNCTION=DEC2BIN
 @SYNTAX=DEC2BIN(number[,places])
@@ -1609,6 +1700,11 @@ PMT = Payment received on annuity
 PRINCIPA(per-1) = amount of the remaining principal from last period
 @SEEALSO=PPMT,PV,FV
 
+@FUNCTION=MIRR
+@SYNTAX=MIRR(values,finance_rate,reinvest_rate)
+@DESCRIPTION=MIRR function returns the modified internal rate of return for a given periodic cash flow. 
+@SEEALSO=NPV
+
 @FUNCTION=ISREF
 @SYNTAX=ISREF()
 @DESCRIPTION=ISREF returns TRUE if the value is a reference. 
@@ -1632,6 +1728,19 @@ If @digits is greater than zero, @number is rounded up to the given number of di
 @SYNTAX=SUMA(value1, value2, ...)
 @DESCRIPTION=Computes the sum of all the values and cells referenced in the argument list.  Numbers, text and logical values are included in the calculation too.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
 @SEEALSO=AVERAGE, SUM, COUNT
+
+@FUNCTION=ACCRINT
+@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])
+@DESCRIPTION=ACCRINT calculates and returns the accrued interest for a security paying periodic interest.  @rate is the annual rate of the security and @par is the par value of the security. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @basis is omitted, US 30/360 is applied. If issue date or settlement date is not valid, ACCRINT returns NUM! error.If @rate or @par is zero or negative, ACCRINT returns NUM! error.If @basis < 0 or @basis > 4, ACCRINT returns NUM! error. If issue date is after maturity date or they are the same, ACCRINT returns NUM! error. 
+@SEEALSO=ACCRINTM
 
 @FUNCTION=IMTAN
 @SYNTAX=IMTAN(inumber)
@@ -1729,6 +1838,18 @@ Performing this function on a non-integer or a negative number returns an error.
 @SYNTAX=EVEN(number)
 @DESCRIPTION=EVEN function returns the number rounded up to the nearest even integer. 
 @SEEALSO=ODD
+
+@FUNCTION=RECEIVED
+@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis]@DESCRIPTION=RECEIVED calculates and returns the amount to be received at @maturity date for a security bond. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, RECEIVED returns NUM! error.If @basis < 0 or @basis > 4, RECEIVED returns NUM! error. If settlement date is after maturity date or they are the same, RECEIVED returns NUM! error. 
+@SEEALSO=INTRATE
 
 @FUNCTION=IF
 @SYNTAX=IF(condition[,if-true,if-false])
