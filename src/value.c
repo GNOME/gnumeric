@@ -85,7 +85,7 @@ value_new_float (gnum_float f)
 		return (Value *)v;
 	} else {
 		/* FIXME: bogus ep sent here.  What to do?  */
-		return value_new_error (NULL, gnumeric_err_VALUE);
+		return value_new_error (NULL, gnumeric_err_NUM);
 	}
 }
 
