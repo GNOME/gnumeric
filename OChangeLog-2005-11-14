@@ -1,3 +1,11 @@
+2002-02-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c (anova_single_factor_tool) : be more
+	  careful with precision.
+	* src/rangefuncs.c (range_sum) : improve precision through 2 pass
+	  algorithm
+	(range_sumsq) : ditto
+
 2002-01-31  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control.c (wb_control_parse_and_jump) : make defined

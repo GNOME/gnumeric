@@ -1,5 +1,8 @@
 Gnumeric 1.0.5
 
+Andreas:
+	* Improve numerical precision in single factor ANOVA
+
 Jody:
 	* Make names created in the goto box absolute.
 

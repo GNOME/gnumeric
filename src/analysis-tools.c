@@ -2811,13 +2811,14 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 {
 	GSList *input_range;
 	GPtrArray *data = NULL;
-	guint index;
+	guint index, i;
 	gint error;
-	gboolean A_is_valid = TRUE, T_is_valid = TRUE, CF_is_valid = TRUE;
 	gint N = 0;
-	gnum_float T = 0.0, A = 0.0, CF = 0.0;
 	gnum_float ss_b, ss_w, ss_t;
 	gnum_float ms_b, ms_w, f = 0.0, p = 0.0, f_c = 0.0;
+	gnum_float overall_mean;
+	gnum_float *treatment_mean = NULL;
+	gnum_float *ss_terms = NULL;
 	int        df_b, df_w, df_t;
 
 	input_range = input;
@@ -2843,6 +2844,7 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 		goto finish_anova_single_factor_tool;
 	
 	/* SUMMARY & ANOVA calculation*/
+	treatment_mean = g_new (gnum_float, data->len);
 	for (index = 0; index < data->len; index++) {
 		gnum_float x;
 		data_set_t *current_data;
@@ -2862,16 +2864,12 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 		error = range_sum (the_data, 
 				   current_data->data->len, &x);
 		set_cell_float_na (dao, 2, index, x, error == 0);
-		A += (x * x) / current_data->data->len;
-		A_is_valid = A_is_valid && (error == 0) && (current_data->data->len > 0);
-		CF += x;
-		CF_is_valid = CF_is_valid && (error == 0);
 
 		/* Average */
 		error = range_average (the_data, 
 				       current_data->data->len, &x);
 		set_cell_float_na (dao, 3, index, x, error == 0);
-
+		treatment_mean[index] = x;
 		
 		/* Variance */
 		error = range_var_est (the_data, 
@@ -2880,11 +2878,7 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 
 		/* Further Calculations */;
 		error = range_sumsq (the_data, current_data->data->len, &x);
-		T += x;
-		T_is_valid = T_is_valid && (error == 0);
 	}
-
-	CF = (CF * CF)/N;
 
 	dao->start_row += data->len + 2;
 	dao->rows -= data->len + 2;
@@ -2909,31 +2903,53 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 	df_b = data->len - 1;
 	df_w = N - data->len;
 	df_t = N - 1;
-	ss_b = A - CF;
-	ss_w = T - A;
-	ss_t = T - CF;
+	
+	error = range_average (treatment_mean, data->len, &overall_mean);
+	ss_terms = g_new (gnum_float, data->len);
+	for (index = 0; index < data->len; index++) {
+		data_set_t *current_data = g_ptr_array_index (data, index);
+		gnum_float diff = treatment_mean[index] - overall_mean;
+
+		ss_terms[index] = current_data->data->len * (diff * diff);
+	}
+	error = range_sum (ss_terms, data->len, &ss_b);
+
+	for (index = 0; index < data->len; index++) {
+		data_set_t *current_data = g_ptr_array_index (data, index);
+		gnum_float *the_data = (gnum_float *)current_data->data->data;
+
+		ss_terms[index] = 0;
+		for (i = 0; i < current_data->data->len; i++) {
+			gnum_float diff = the_data[i] - treatment_mean[index];
+			ss_terms[index] += diff * diff;
+		}
+	}
+	error = range_sum (ss_terms, data->len, &ss_w);
+	g_free (ss_terms);
+
+	ss_t = ss_b + ss_w;
 	ms_b = ss_b / df_b;
 	ms_w = ss_w / df_w;
-	if (A_is_valid && CF_is_valid && T_is_valid) {
-		f    = ms_b / ms_w;
-		p    = 1.0 - pf (f, df_b, df_w);
-		f_c  = qf (1 - alpha, df_b, df_w);
-	}
+	f    = ms_b / ms_w;
+	p    = 1.0 - pf (f, df_b, df_w);
+	f_c  = qf (1 - alpha, df_b, df_w);
 
-	set_cell_float_na (dao, 1, 2, ss_b, A_is_valid && CF_is_valid);
-	set_cell_float_na (dao, 1, 3, ss_w, A_is_valid && T_is_valid);
-	set_cell_float_na (dao, 1, 4, ss_t, T_is_valid && CF_is_valid);
+	set_cell_float (dao, 1, 2, ss_b);
+	set_cell_float (dao, 1, 3, ss_w);
+	set_cell_float (dao, 1, 4, ss_t);
 	set_cell_int (dao, 2, 2, df_b);
 	set_cell_int (dao, 2, 3, df_w);
 	set_cell_int (dao, 2, 4, df_t);
-	set_cell_float_na (dao, 3, 2, ms_b, A_is_valid && CF_is_valid);
-	set_cell_float_na (dao, 3, 3, ms_w, A_is_valid && T_is_valid);
-	set_cell_float_na (dao, 4, 2, f, A_is_valid && CF_is_valid && T_is_valid);
-	set_cell_float_na (dao, 5, 2, p, A_is_valid && CF_is_valid && T_is_valid);
-	set_cell_float_na (dao, 6, 2, f_c, A_is_valid && CF_is_valid && T_is_valid);
+	set_cell_float (dao, 3, 2, ms_b);
+	set_cell_float (dao, 3, 3, ms_w);
+	set_cell_float (dao, 4, 2, f);
+	set_cell_float (dao, 5, 2, p);
+	set_cell_float (dao, 6, 2, f_c);
 
 finish_anova_single_factor_tool:
 
+	if (treatment_mean != NULL)
+		g_free (treatment_mean);
 	autofit_columns (dao, 0, 6);
 
 	destroy_data_set_list (data);
