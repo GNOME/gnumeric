@@ -8,6 +8,8 @@
           records when we expect a cell.
 	(ms_excel_read_formula) : Clarify error message.
 	(biff_name_data_new) : Partial support for local vs global names.
+	(biff_name_data_get_name) : Reformat to improve readability.
+	(ms_excel_read_formula) : Ditto.
 
 	* ms-chart.c (ms_excel_biff_dimensions) : Don't print unless
           we're debugging.
