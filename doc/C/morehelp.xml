@@ -303,14 +303,14 @@ http://www.gnome.org/
     The <application>Gnumeric</application> IRC discussion channel is
     named <literal>#gnumeric</literal> (although the number symbol,
     #, may not be needed) and is hosted on the series of servers
-    called <literal>Gimpnet</literal>. The best way to connect to
-    gimpnet is using the IRC server
+    called <literal>GIMPnet</literal>. The best way to connect to
+    GIMPnet is using the IRC server
     <literal>irc.gimp.org</literal>. That hostname points to a variety
     of different servers in the United States. If you live elsewhere,
     after you are connected you can use the chat command
     <literal>/links</literal> to find a server which is closer on
-    the internet to your location. More information about gimpnet can
-    be found by looking at the gimpnet web site (<ulink type="http"
+    the internet to your location. More information about GIMPnet can
+    be found by looking at the GIMPnet web site (<ulink type="http"
     url="http://www.xach.com/gimpnet/" >
     <uri>http://www.gimp.net/</uri> </ulink>).
   </para>
