@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <libguile.h>
 #include <gnome.h>
+#include <guile/gh.h>
 
 #include "../../src/gnumeric.h"
 #include "../../src/symbol.h"
@@ -95,9 +96,9 @@ value_to_scm (Value *val, CellRef cell_ref)
 		case VALUE_INTEGER :
 			return scm_long2num(val->v.v_int);
 
-		case VALUE_FLOAT :
-			return scm_dbl2big(val->v.v_float);
-
+	        case VALUE_FLOAT : 
+			return gh_double2scm(val->v.v_float);
+	       
 		case VALUE_CELLRANGE :
 			return scm_cons(scm_symbolfrom0str("cell-range"),
 					scm_cons(cell_ref_to_scm(val->v.cell_range.cell_a, cell_ref),

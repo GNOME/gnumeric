@@ -80,5 +80,18 @@ is greater than 0 and 0 if NUMBER is equal 0."
 @DESCRIPTION=Returns the fibonnacci computation for number."
 fibo)
 
+;;;;;;;;;;;;proof
+
+;(define (test n)
+;  n)
+
+;(register-function
+;"test" "f"
+;"@FUNCTION=TEST
+;@SYNTAX=TEST(num)
+;@DESCRIPTION=Prueba"
+;test)
+
+
 
 

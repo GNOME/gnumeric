@@ -1,3 +1,12 @@
+1999-12-09  Ariel Rios <jarios@usa.net>
+
+	* plugin.c: We now include guile/gh.h so we can transform from doubles to scm numbers.
+	  (value_to_scm): In VALUE_INTEGER we now use gh_double2scm to pass the double unto
+	  scheme. In this way we remove the bug that crashed gnumeric when we passed a rational number.
+
+	* functions.scm: (test) A test function was added. Since it's only created for hacking purposes
+	  'tis commented.
+
 1999-12-08  Ariel Rios <jarios@usa.net>
 
 	* plugin.c: (func_marshal_func) We now use func_def_count_arg to get the count 
