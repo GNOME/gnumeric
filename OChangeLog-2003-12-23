@@ -1,5 +1,10 @@
 2002-04-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/gui-util.c (gnumeric_error_info_dialog_show_full) : converted from 
+	  GnomeDialog to GtkDialog
+
+2002-04-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* schemas/gnumeric-general.schemas : add xml-compression schema
 	* src/gnumeric-gconf-priv.h : new xml-compression-level key
 	* src/gnumeric-gconf.[ch] : new xml-compression-level get/set functions

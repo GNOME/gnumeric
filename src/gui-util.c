@@ -283,11 +283,14 @@ gnumeric_error_info_dialog_show_full (WorkbookControlGUI *wbcg, ErrorInfo *error
 	GtkWidget *dialog;
 	GtkWidget *scrolled_window, *ctree;
 	GtkCTreeNode *main_ctree_node;
-	GtkWidget *button_close;
 
 	g_return_if_fail (error != NULL);
 
-	dialog = gnome_dialog_new (_("Detailed error message"), NULL);
+	dialog = gtk_dialog_new_with_buttons (_("Detailed error message"), 
+					      wbcg_toplevel (wbcg),
+					      GTK_DIALOG_DESTROY_WITH_PARENT,
+					      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+					      NULL);
 	gtk_widget_set_usize (dialog, 600, 300);
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
@@ -300,13 +303,9 @@ gnumeric_error_info_dialog_show_full (WorkbookControlGUI *wbcg, ErrorInfo *error
 	gtk_clist_set_column_auto_resize (GTK_CLIST (ctree), 0, TRUE);
 	gtk_container_add (GTK_CONTAINER (scrolled_window), ctree);
 	gtk_widget_show_all (GTK_WIDGET (scrolled_window));
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 0);
 
-	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_CLOSE);
-	button_close = GTK_WIDGET (g_list_last (GNOME_DIALOG (dialog)->buttons)->data);
-	GTK_WIDGET_SET_FLAGS (button_close, GTK_CAN_DEFAULT);
-
-	gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
+	gnumeric_set_transient (wbcg, GTK_WINDOW (dialog));
 	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
 }
 
