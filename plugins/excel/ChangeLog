@@ -1,3 +1,8 @@
+1999-06-17  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-read.c (formula_func_data): Fixed up, should work
+	again.
+
 1999-06-17  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula-read.c (make_function): Yet another leak fix.

@@ -30,6 +30,9 @@ Morten:
 Miguel
 	* Worked on other things
 
+Sean
+	* Implemented 'X-base' importing support ( DBase, FoxPro etc. )
+
 Michael
 	* Re-wrote the OLE block layer again...
 	* Tentative alpha Excel sheet writing

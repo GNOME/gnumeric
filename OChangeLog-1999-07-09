@@ -1,3 +1,13 @@
+1999-06-18  Michael Meeks  <michael@edenproject.org>
+
+	* src/main.c (gnumeric_main): Add xbase_init
+
+	* src/Makefile.am (gnumeric_LDADD): Add xbase.
+
+	* configure.in (XML_CFLAGS): Added xbase.
+
+	* plugins/Makefile.am (SUBDIRS): Added xbase.
+
 1999-06-17  Morten Welinder  <terra@diku.dk>
 
 	* src/expr.c (eval_expr): Fix error handling of comparisons.

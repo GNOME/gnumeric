@@ -1,0 +1,9 @@
+1999-06-18  Michael Meeks  <michael@edenproject.org>
+
+	* xbase.c (xbase_read_field): Conditional debug
+	(xbase_read_header): ditto
+
+1999-06-10  Sean Atkinson  <sca20@cam.ac.uk>
+
+	* Created.
+

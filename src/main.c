@@ -18,6 +18,7 @@
 #include "main.h"
 
 #include "../plugins/excel/boot.h"
+#include "../plugins/xbase/boot.h"
 #include <glade/glade.h>
 #include <glade/glade-xml.h>
 
@@ -65,6 +66,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	/* The statically linked in file formats */
 	xml_init ();
 	excel_init ();
+	xbase_init ();
 
 	/* Glade */
 	glade_gnome_init ();
