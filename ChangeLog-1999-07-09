@@ -1,3 +1,8 @@
+1999-02-06  Vincent Renardias <vincent@ldsol.com>
+
+	* src/csv-io.h src/csv-io.c: Added code to load
+	csv files.
+
 1999-02-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/file.c (fill_save_menu): Creates an option menu with the
