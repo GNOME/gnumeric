@@ -1,3 +1,7 @@
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.56
+
 2000-06-19  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-function-wizard.c (formula_guru_set_expr) : We need to

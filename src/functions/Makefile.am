@@ -1,8 +1,6 @@
 INCLUDES = 						\
 	-I$(srcdir)/..					\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-        -DGNUMERIC_GLADEDIR=\""$(gladedir)"\"           \
-	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"		\
 	-I$(includedir)				 	\
 	$(EXTRA_GNOME_CFLAGS)				\
 	$(GUILE_INCS)

@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
-"POT-Creation-Date: 2000-06-18 23:27-0400\n"
+"POT-Creation-Date: 2000-06-19 22:02-0400\n"
 "PO-Revision-Date: 2000-05-19 00:40+02:00\n"
 "Last-Translator: Leandro Noferini <lnoferin@cybervalley.org>\n"
 "Language-Team: \n"
@@ -126,11 +126,11 @@ msgstr "Cartelle di lavoro protette da password non ancora supportate"
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Non riesco a trovare una cartella di lavoro MS Excel"
 
-#: plugins/excel/ms-excel-write.c:3374
+#: plugins/excel/ms-excel-write.c:3383
 msgid "Too many rows for this format"
 msgstr "Troppe righe per questo formato"
 
-#: plugins/excel/ms-excel-write.c:3457
+#: plugins/excel/ms-excel-write.c:3466
 msgid "Can't open stream for writing\n"
 msgstr ""
 
@@ -722,7 +722,7 @@ msgstr "Kurtosis"
 msgid "Skewness"
 msgstr "Skewness"
 
-#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:333
+#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:404
 msgid "Range"
 msgstr "Intervallo"
 
@@ -1939,7 +1939,7 @@ msgstr "_Tipo"
 msgid "Display the value exactly as it was entered"
 msgstr "Mostra il valore esattamente com'e` stato immesso"
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:331
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:402
 msgid "Number"
 msgstr "Numero"
 
@@ -2826,28 +2826,28 @@ msgstr "e poi"
 msgid "delete cells"
 msgstr "cancella celle"
 
-#: src/dialogs/dialog-function-wizard.c:323
+#: src/dialogs/dialog-function-wizard.c:394
 #, fuzzy, c-format
 msgid "Value%d"
 msgstr "Valore"
 
-#: src/dialogs/dialog-function-wizard.c:330 src/functions/fn-string.c:1337
+#: src/dialogs/dialog-function-wizard.c:401 src/functions/fn-string.c:1337
 msgid "String"
 msgstr "Stringa"
 
-#: src/dialogs/dialog-function-wizard.c:332
+#: src/dialogs/dialog-function-wizard.c:403
 msgid "Boolean"
 msgstr "Booleano"
 
-#: src/dialogs/dialog-function-wizard.c:334
+#: src/dialogs/dialog-function-wizard.c:405
 msgid "Array"
 msgstr "Vettore"
 
-#: src/dialogs/dialog-function-wizard.c:335
+#: src/dialogs/dialog-function-wizard.c:406
 msgid "Range/Array"
 msgstr "Intervallo/Vettore"
 
-#: src/dialogs/dialog-function-wizard.c:337
+#: src/dialogs/dialog-function-wizard.c:408
 msgid "Any"
 msgstr "Ogni"
 
@@ -3670,54 +3670,54 @@ msgstr "_Ridimensiona a:"
 msgid "_Fit to:"
 msgstr "_Adatta a:"
 
-#: src/dialogs/print.glade.h:14
-#, c-format
+#: src/dialogs/print.glade.h:15
+#, no-c-format
 msgid "% of normal size"
 msgstr "% della dimensione normale"
 
-#: src/dialogs/print.glade.h:15
+#: src/dialogs/print.glade.h:16
 msgid "page(s) wide by"
 msgstr ""
 
-#: src/dialogs/print.glade.h:16
+#: src/dialogs/print.glade.h:17
 msgid "tall"
 msgstr ""
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:18
 msgid "Fi_rst page number:"
 msgstr "Num_ero della prima pagina:"
 
-#: src/dialogs/print.glade.h:18
+#: src/dialogs/print.glade.h:19
 msgid "Page"
 msgstr "Pagina"
 
-#: src/dialogs/print.glade.h:19
+#: src/dialogs/print.glade.h:20
 msgid "Center on page"
 msgstr "Centra nella pagina"
 
-#: src/dialogs/print.glade.h:20
+#: src/dialogs/print.glade.h:21
 msgid "_Horizontally"
 msgstr "_Orizzontalmente"
 
-#: src/dialogs/print.glade.h:21
+#: src/dialogs/print.glade.h:22
 msgid "_Vertically"
 msgstr "_Verticalmente"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:23
 msgid "_Left:"
 msgstr "_Sinistra:"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:24
 #, fuzzy
 msgid "_Right:"
 msgstr "_Destra"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:25
 #, fuzzy
 msgid "_Units:"
 msgstr "_Larghezza:"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:26
 msgid ""
 "pts\n"
 "mm\n"
@@ -3726,117 +3726,117 @@ msgid ""
 msgstr ""
 
 # Sono Qui
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:31
 #, fuzzy
 msgid "_Top:"
 msgstr "Al_to"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:32
 msgid "He_ader:"
 msgstr "_Intestazione"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:33
 #, fuzzy
 msgid "_Footer:"
 msgstr "_Pie` pagina"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:34
 msgid "_Bottom:"
 msgstr "_Basso"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:35
 msgid "Paper _size:"
 msgstr "_Dimensioni della carta:"
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:36
 msgid "Margins"
 msgstr "Margini"
 
-#: src/dialogs/print.glade.h:36 src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:37 src/dialogs/print.glade.h:42
 msgid "sample goes here"
 msgstr "l'esempio va qui"
 
-#: src/dialogs/print.glade.h:37
+#: src/dialogs/print.glade.h:38
 msgid "Header"
 msgstr "Intestazione"
 
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:39
 msgid "Customize _header"
 msgstr "Configura _intestazione"
 
-#: src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:40
 msgid "Customize _footer"
 msgstr "Configura _pie` pagina"
 
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:41
 msgid "Footer:"
 msgstr "Pie` pagina"
 
-#: src/dialogs/print.glade.h:42
+#: src/dialogs/print.glade.h:43
 msgid "Headers and footers"
 msgstr "Intestazioni e pie` pagina"
 
-#: src/dialogs/print.glade.h:43
+#: src/dialogs/print.glade.h:44
 msgid "Print _area:"
 msgstr "_Area di stampa:"
 
-#: src/dialogs/print.glade.h:44
+#: src/dialogs/print.glade.h:45
 msgid "Titles to print"
 msgstr "Titoli da stampare"
 
-#: src/dialogs/print.glade.h:45
+#: src/dialogs/print.glade.h:46
 msgid "_Columns to repeat on the left side:"
 msgstr "_Colonne da ripetere sul lato sinistro:"
 
-#: src/dialogs/print.glade.h:46
+#: src/dialogs/print.glade.h:47
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Righe da ripetere nella parte iniziale:"
 
-#: src/dialogs/print.glade.h:47 src/dialogs/print.glade.h:56
+#: src/dialogs/print.glade.h:48 src/dialogs/print.glade.h:57
 #: src/workbook.c:1519
 msgid "Print"
 msgstr "Stampa"
 
-#: src/dialogs/print.glade.h:48
+#: src/dialogs/print.glade.h:49
 msgid "Row and co_lumn headings"
 msgstr "Titoli della riga e della colonna"
 
-#: src/dialogs/print.glade.h:49 src/workbook.c:1198
+#: src/dialogs/print.glade.h:50 src/workbook.c:1198
 msgid "Co_mments"
 msgstr "Co_mmenti"
 
-#: src/dialogs/print.glade.h:50
+#: src/dialogs/print.glade.h:51
 msgid "_Grid lines"
 msgstr "Linee della _griglia"
 
-#: src/dialogs/print.glade.h:51
+#: src/dialogs/print.glade.h:52
 msgid "_Black and white"
 msgstr "_Bianco e nero"
 
-#: src/dialogs/print.glade.h:52
+#: src/dialogs/print.glade.h:53
 msgid "Page order"
 msgstr "Ordine delle pagine"
 
-#: src/dialogs/print.glade.h:53
+#: src/dialogs/print.glade.h:54
 msgid "_Down, then right"
 msgstr "_Giu`, e poi a destra"
 
-#: src/dialogs/print.glade.h:54
+#: src/dialogs/print.glade.h:55
 msgid "R_ight, then down"
 msgstr "A _Destra, e poi giu`"
 
-#: src/dialogs/print.glade.h:55 src/functions/fn-sheet.c:105
+#: src/dialogs/print.glade.h:56 src/functions/fn-sheet.c:105
 #: src/workbook.c:768
 #, fuzzy
 msgid "Sheet"
 msgstr "Foglio %d"
 
-#: src/dialogs/print.glade.h:57 src/print.c:987 src/workbook.c:1176
+#: src/dialogs/print.glade.h:58 src/print.c:987 src/workbook.c:1176
 #: src/workbook.c:1522
 msgid "Print preview"
 msgstr "Antepima di stampa"
 
-#: src/dialogs/print.glade.h:58
+#: src/dialogs/print.glade.h:59
 #, fuzzy
 msgid "Options"
 msgstr "_Opzioni"

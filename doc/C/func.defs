@@ -18,7 +18,7 @@ LCM(4,7,5) equals to 140.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEDISC returns #NUM! error. If @basis < 0 or @basis > 4, PRICEDISC returns #NUM! error. If settlement date is after maturity date or they are the same, PRICEDISC returns #NUM! error. 
+If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, PRICEDISC returns #NUM! error. If @basis < 0 or @basis > 4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEDISC returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=PRICEMAT
@@ -78,11 +78,11 @@ DEGREES(2.5) equals 143.2394.
 @DESCRIPTION=NOMINAL calculates the nominal interest rate from a given effective rate.
 Nominal interest rate is given by a formula:
 
-nper * (( 1 + r ) ^ (1 / nper) - 1 )
+@nper * (( 1 + @r ) ^ (1 / @nper) - 1 )
 where:
 
-r = effective interest rate
-nper = number of periods used for compounding
+@r = effective interest rate
+@nper = number of periods used for compounding
 @EXAMPLES=
 
 @SEEALSO=EFFECT
@@ -318,6 +318,8 @@ PERCENTILE(A1:A5,0.42) equals 20.02.
 @EXAMPLES=
 FLOOR(0.5) equals 0.
 FLOOR(5,2) equals 4.
+FLOOR(-5,-2) equals -4.
+FLOOR(-5,2) equals #NUM!.
 
 @SEEALSO=CEIL, ABS, INT
 
@@ -348,7 +350,7 @@ If @index < 1 or @index > number of values: returns #VAL!.
 
 @FUNCTION=POISSON
 @SYNTAX=POISSON(x,mean,cumulative)
-@DESCRIPTION=POISSON function returns the Poisson distribution @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to @x.
+@DESCRIPTION=POISSON function returns the Poisson distribution. @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to @x.
 If @x is a non-integer it is truncated. If @x <= 0 POISSON returns #NUM! error. If @mean <= 0 POISSON returns the #NUM! error. This function is Excel compatible. 
 @EXAMPLES=
 POISSON(3,6,0) equals 0.089235078.
@@ -359,7 +361,7 @@ POISSON(3,6,0) equals 0.089235078.
 @SYNTAX=SYD(cost,salvage_value,life,period)
 @DESCRIPTION=The SYD function calculates the sum-of-years digits depriciation for an asset based on its cost, salvage value, anticipated life and a particular period. This method accelerates the rate of the depreciation, so that more depreciation expense occurs in earlier periods than in later ones. The depreciable cost is the actual cost minus the salvage value. The useful life is the number of periods (typically years) over with the asset is depreciated.
 The Formula used for sum-of-years digits depriciation is:
-Depriciation expense = ( cost - salvage_value ) * (life - period + 1) * 2 / life * (life + 1).
+Depriciation expense = ( @cost - @salvage_value ) * (@life - @period + 1) * 2 / @life * (@life + 1).
 	@cost = cost of an asset when acquired (market value).	@salvage_value = amount you get when asset sold at the end of its useful life.	@life = anticipated life of an asset.	@period = period for which we need the expense.
 @EXAMPLES=
 For example say a company purchases a new computer for $5000 which has a salvage value of $200, and a useful life of three years. We would use the following to calculate the second year's depreciation using the SYD method:
@@ -419,7 +421,7 @@ HARMEAN(A1:A5) equals 19.529814427.
 @FUNCTION=TBILLYIELD
 @SYNTAX=TBILLYIELD(settlement,maturity,pr)
 @DESCRIPTION=TBILLYIELD function returns the yield for a treasury bill. @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. 
-If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLYIELD returns NUM! error. If @pr is negative, TBILLYIELD returns #NUM! error. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLYIELD returns #NUM! error. If @pr is negative, TBILLYIELD returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=TBILLEQ,TBILLPRICE
@@ -540,7 +542,7 @@ LOG(8192,2) equals 13.
 
 @FUNCTION=HYPGEOMDIST
 @SYNTAX=HYPGEOMDIST(x,n,M,N)
-@DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.
+@DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution. @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.
 If @x,@n,@M or @N is a non-integer it is truncated. If @x,@n,@M or @N < 0 HYPGEOMDIST returns #NUM! error. If @x > @M or @n > @N HYPGEOMDIST returns #NUM! error. This function is Excel compatible. 
 @EXAMPLES=
 HYPGEOMDIST(1,2,3,10) equals 0.4666667.
@@ -724,12 +726,12 @@ If @array contains not data points, PERCENTRANK returns #NUM! error. If @signifi
 
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL
 
-@FUNCTION=RandNegBinom
-@SYNTAX=RandNegBinom(p,failures)
-@DESCRIPTION=RandNegBinom returns a negitive binomialy distributed random number. 
-If @p < 0 or @p > 1 RandNegBinom returns #NUM! error. If @failures RandNegBinom returns #NUM! error. 
+@FUNCTION=RANDNEGBINOM
+@SYNTAX=RANDNEGBINOM(p,failures)
+@DESCRIPTION=RANDNEGBINOM returns a negitive binomialy distributed random number. 
+If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures RANDNEGBINOM returns #NUM! error. 
 @EXAMPLES=
-RandNegBinom(0.5,2).
+RANDNEGBINOM(0.5,2).
 
 @SEEALSO=RAND,RANDBETWEEN
 
@@ -777,7 +779,7 @@ OCT2BIN("213") equals 10001011.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEMAT returns #NUM! error. If @basis < 0 or @basis > 4, PRICEMAT returns #NUM! error. If settlement date is after maturity date or they are the same, PRICEMAT returns #NUM! error. 
+If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, PRICEMAT returns #NUM! error. If @basis < 0 or @basis > 4, PRICEMAT returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEMAT returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=PRICEDISC
@@ -845,7 +847,8 @@ SERIESSUM(3,1,2.23,A1:A5) equals 251416.43018.
 @values contains the serie of cash flow generated by the investment.  @dates contains the dates of the payments.  The first date describes the payment day of the initial payment and thus all the other dates should be after this date. The optional @guess is the initial value used in calculating the XIRR.  You do not have to use that, it is only provided for the Excel compatibility. 
 This function is Excel compatible. 
 @EXAMPLES=
-Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, 1933, and 1422, and the cells B1:B5 contain the dates "1999-01-15", "1999-04-04", "1999-05-09", "2000-03-12", and "2000-05-1". Then XIRR(A1:A5,B1:B5) returns 0.224838. 
+Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, 1933, and 1422, and the cells B1:B5 contain the dates "1999-01-15", "1999-04-04", "1999-05-09", "2000-03-12", and "2000-05-1". Then
+XIRR(A1:A5,B1:B5) returns 0.224838. 
 @SEEALSO=IRR,XNPV
 
 @FUNCTION=LEFT
@@ -991,7 +994,7 @@ CHAR(65) equals A.
 
 @FUNCTION=PMT
 @SYNTAX=PMT(rate,nper,pv[,fv,type])
-@DESCRIPTION=PMT calculates the present value of an investment.
+@DESCRIPTION=FIXME: Below is a PV function description!PMT calculates the present value of an investment.
 @EXAMPLES=
 
 @SEEALSO=PPMT,PV,FV
@@ -1016,7 +1019,7 @@ If @const is FALSE, the line will be forced to go through the origin, i.e., b wi
 @SEEALSO=LOGEST,GROWTH,TREND
 
 @FUNCTION=INDEX
-@SYNTAX=INDEX(reference, [row, col, area])
+@SYNTAX=INDEX(reference,[row, col, area])
 @DESCRIPTION=The INDEX function returns a reference to the cell at a offset into the reference specified by row, col.
 If things go wrong returns #REF! 
 @EXAMPLES=
@@ -1126,7 +1129,7 @@ CEIL(-2.9) equals -2.
 @DESCRIPTION=MDETERM function returns the determinant of a given matrix. 
 If the @matrix does not contain equal number of columns and rows, MDETERM returns #VALUE! error. This function is Excel compatible. 
 @EXAMPLES=
-Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, B1, ..., B4 4, 2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and D1, ..., D4 7, 3, 6, and 5.  Then.
+Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, B1, ..., B4 4, 2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and D1, ..., D4 7, 3, 6, and 5. Then
 MDETERM(A1:D4) equals 148.
 
 @SEEALSO=MMULT, MINVERSE
@@ -1285,7 +1288,7 @@ DSTDEVP(A1:C7, "Salary", A9:B11) equals 6459.5.
 
 @FUNCTION=CRITBINOM
 @SYNTAX=CRITBINOM(trials,p,alpha)
-@DESCRIPTION=CRITBINOM function returns the smallest value for which thecumulative is creater than or equal to a given value. @n is the number of trials, @p is the probability of success in trials, and @alpha is the criterion value. 
+@DESCRIPTION=CRITBINOM function returns the smallest value for which thecumulative is greater than or equal to a given value. @n is the number of trials, @p is the probability of success in trials, and @alpha is the criterion value. 
 If @trials is a non-integer it is truncated. If @trials < 0 CRITBINOM returns #NUM! error. If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. If @alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error. This function is Excel compatible. 
 @EXAMPLES=
 CRITBINOM(10,0.5,0.75) equals 6.
@@ -1295,7 +1298,7 @@ CRITBINOM(10,0.5,0.75) equals 6.
 @FUNCTION=SUMPRODUCT
 @SYNTAX=SUMPRODUCT(range1,range2,...)
 @DESCRIPTION=SUMPRODUCT function multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products.  If an array entry is not numeric, the value zero is used instead. 
-If array or range arguments do not have the same dimentions, SUMPRODUCT returns #VALUE! error. This function is Excel compatible. 
+If arrays or range arguments do not have the same dimentions, SUMPRODUCT returns #VALUE! error. This function is Excel compatible. 
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  Then
 SUMPRODUCT(A1:A5,B1:B5) equals 3370.
@@ -1322,7 +1325,7 @@ BINOMDIST(3,5,0.8,0) equals 0.2048.
 
 @FUNCTION=DB
 @SYNTAX=DB(cost,salvage,life,period[,month])
-@DESCRIPTION=DB calculates the depreciation of an asset for a given period using the fixed-declining balance method.  @cost is the initial value of the asset.  @salvage after the depreciation. @life is the number of periods overall.  @period is the period for which you want the depreciation to be calculated.  @month is the number of months in the first year of depreciation. If @month is omitted, it is assumed to be 12. 
+@DESCRIPTION=DB calculates the depreciation of an asset for a given period using the fixed-declining balance method.  @cost is the initial value of the asset.  @salvage is the value after the depreciation. @life is the number of periods overall.  @period is the period for which you want the depreciation to be calculated.  @month is the number of months in the first year of depreciation. If @month is omitted, it is assumed to be 12. 
 @EXAMPLES=
 
 @SEEALSO=DDB,SLN,SYD
@@ -1485,7 +1488,7 @@ NEGBINOMDIST(2,5,0.55) equals 0.152872629.
 @FUNCTION=DOLLARDE
 @SYNTAX=DOLLARDE(fractional_dollar,fraction)
 @DESCRIPTION=DOLLARDE converts a dollar price expressed as a fraction into a dollar price expressed as a decimal number. 
-If @fraction is non-integer it is truncated. If @fraction<=0 DOLLARDE returns #NUM! error. 
+If @fraction is non-integer it is truncated. If @fraction <= 0, DOLLARDE returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=DOLLARFR
@@ -1587,7 +1590,7 @@ NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) equals 186.30673.
 @SEEALSO=PV,XNPV
 
 @FUNCTION=VLOOKUP
-@SYNTAX=VLOOKUP(value,range,column,[approximate])
+@SYNTAX=VLOOKUP(value,range,column[,approximate])
 @DESCRIPTION=VLOOKUP function finds the row in range that has a first column similar to value.  If @approximate is not true it finds the row with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than @value.  It returns the value in the row found at a 1 based offset in @column columns into the @range.
 Returns #NUM! if @column < 0. Returns #REF! if @column falls outside @range.
 @EXAMPLES=
@@ -1656,7 +1659,7 @@ LOGNORMDIST(3,1,2) equals 0.519662338.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, INTRATE returns NUM! error. If @basis < 0 or @basis > 4, INTRATE returns #NUM! error. If settlement date is after maturity date or they are the same, INTRATE returns #NUM! error. 
+If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, INTRATE returns #NUM! error. If @basis < 0 or @basis > 4, INTRATE returns #NUM! error. If @settlement date is after @maturity date or they are the same, INTRATE returns #NUM! error. 
 @EXAMPLES=
 
 If you had a bond with a settlement date of April 15, 2000, maturity date September 30, 2000, investment of $100,000, redemption value $103,525, using the actual/actual basis, the bond discount rate is:
@@ -1690,8 +1693,8 @@ BESSELJ(0.89,3) equals 0.013974004.
 
 @FUNCTION=TBILLEQ
 @SYNTAX=TBILLEQ(settlement,maturity,discount)
-@DESCRIPTION=TBILLEQ function returns the bond-yield equivalent (BEY) for a treasury bill.  TBILLEQ is equivalent to (365 * discount) / (360 - discount * DSM) where DSM is the days between @settlement and @maturity. 
-If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLEQ returns NUM! error. If @discount is negative, TBILLEQ returns #NUM! error. 
+@DESCRIPTION=TBILLEQ function returns the bond-yield equivalent (BEY) for a treasury bill.  TBILLEQ is equivalent to (365 * @discount) / (360 - @discount * DSM) where DSM is the days between @settlement and @maturity. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLEQ returns #NUM! error. If @discount is negative, TBILLEQ returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=TBILLPRICE,TBILLYIELD
@@ -1717,9 +1720,9 @@ If @row_num or @col_num is less than one, ADDRESS returns #NUM! error.
 @SEEALSO=
 
 @FUNCTION=INDIRECT
-@SYNTAX=INDIRECT(ref_text, [format])
+@SYNTAX=INDIRECT(ref_text,[format])
 @DESCRIPTION=INDIRECT function returns the contents of the cell pointed to by the ref_text string. The string specifices a single cell reference the format of which is either A1 or R1C1 style. The style is set by the format boolean, which defaults to the former.
-If ref_text is not a valid reference returns #REF! 
+If @ref_text is not a valid reference returns #REF! 
 @EXAMPLES=
 
 @SEEALSO=
@@ -1744,7 +1747,7 @@ REPLACE("testing",2,3,"*****") equals "t*****ing".
 
 @FUNCTION=GAMMADIST
 @SYNTAX=GAMMADIST(x,alpha,beta,cum)
-@DESCRIPTION=GAMMADIST function returns the gamma distribution. If @cum is TRUE GAMMADIST returns the incomplete gamma function, otherwise it returns the probability mass function.
+@DESCRIPTION=GAMMADIST function returns the gamma distribution. If @cum is TRUE, GAMMADIST returns the incomplete gamma function, otherwise it returns the probability mass function.
 If @x < 0 GAMMADIST returns #NUM! error. If @alpha <= 0 or @beta <= 0, GAMMADIST returns #NUM! error. This function is Excel compatible. 
 @EXAMPLES=
 GAMMADIST(1,2,3,0) equals 0.07961459.
@@ -1829,7 +1832,7 @@ SUMX2MY2(A1:A5,B1:B5) equals -1299.
 
 @FUNCTION=VAR
 @SYNTAX=VAR(b1, b2, ...)
-@DESCRIPTION=VAR estimates the variance of a sample of a population. To get the true variance of a complete population use @VARP
+@DESCRIPTION=VAR estimates the variance of a sample of a population. To get the true variance of a complete population use @VARP.
 (VAR is also known as the N-1-variance.  Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.)This function is Excel compatible. 
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
@@ -1987,16 +1990,15 @@ SIN(0.5) equals 0.479426.
 @DESCRIPTION=EFFECT calculates the effective interest rate from a given nominal rate.
 Effective interest rate is calculated using this formulae:
 
-         r( 1 + ------ ) ^ nper - 1       nper
+         @r( 1 + ------ ) ^ @nper - 1       @nper
 where:
 
 @r = nominal interest rate (stated in yearly terms)
 @nper = number of periods used for compounding
+@EXAMPLES=
 For example credit cards will list an APR (annual percentage rate) which is a nominal interest rate.
 For example if you wanted to find out how much you are actually paying interest on your credit card that states an APR of 19% that is compounded monthly you would type in:
 =EFFECT(.19,12) and you would get .2075 or 20.75%. That is the effective percentage you will pay on your loan.
-@EXAMPLES=
-
 @SEEALSO=NOMINAL
 
 @FUNCTION=OFFSET
@@ -2028,7 +2030,7 @@ OR(3>4,4<3) equals FALSE.
 @FUNCTION=QUARTILE
 @SYNTAX=QUARTILE(array,quart)
 @DESCRIPTION=QUARTILE function returns the quartile of the given data points.  
-If quart is equal to:  QUARTILE returns:
+If @quart is equal to: QUARTILE returns:
 0                      the smallest value of @array.
 1                      the first quartile
 2                      the second quartile
@@ -2113,7 +2115,7 @@ COUNT(A1:A5) equals 5.
 
 @FUNCTION=EURO
 @SYNTAX=EURO(currency)
-@DESCRIPTION=EURO converts one Euro to a given national currency in the European monetary union.  Currency is one of the following:
+@DESCRIPTION=EURO converts one Euro to a given national currency in the European monetary union.  @currency is one of the following:
     ATS     (Austria)
     BEF     (Belgium)
     DEM     (Germany)
@@ -2126,7 +2128,7 @@ COUNT(A1:A5) equals 5.
     NLG     (Netherlands)
     PTE     (Portugal)
 
-If the given currency is other than one of the above, EURO returns #NUM! error. 
+If the given @currency is other than one of the above, EURO returns #NUM! error. 
 @EXAMPLES=
 EURO("DEM") returns 1.95583.
 @SEEALSO=
@@ -2193,7 +2195,7 @@ in A2 EXPRESSION(A3) equals empty.
 @FUNCTION=TBILLPRICE
 @SYNTAX=TBILLPRICE(settlement,maturity,discount)
 @DESCRIPTION=TBILLPRICE function returns the price per $100 value for a treasury bill where @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. 
-If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns NUM! error. If @discount is negative, TBILLPRICE returns #NUM! error. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns #NUM! error. If @discount is negative, TBILLPRICE returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=TBILLEQ,TBILLYIELD
@@ -2347,14 +2349,14 @@ TTEST(A1:A5,B1:B5,1,3) equals 0.113821797.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, DISC returns #NUM! error. If @basis < 0 or @basis > 4, DISC returns #NUM! error. If settlement date is after maturity date or they are the same, DISC returns #NUM! error. 
+If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, DISC returns #NUM! error. If @basis < 0 or @basis > 4, DISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, DISC returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=NPER
 @SYNTAX=NPER(rate,pmt,pv,fv,type)
-@DESCRIPTION=NPER calculates number of periods of an investment based on periodic constant payments and a constant interest rate. The interest rate per period is rate, pmt is the payment made each period, pv is the present value, fv is the future value and type is when the payments are due. If type = 1, payments are due at the begining of the period, if type = 0, payments are due at the end of the period.
+@DESCRIPTION=NPER calculates number of periods of an investment based on periodic constant payments and a constant interest rate. The interest rate per period is @rate, @pmt is the payment made each period, @pv is the present value, @fv is the future value and @type is when the payments are due. If @type = 1, payments are due at the begining of the period, if @type = 0, payments are due at the end of the period.
 @EXAMPLES=
 For example, if you deposit $10,000 in a savings account that earns an interest rate of 6%. To calculate home many years it will take to double your investment use NPER as follows:
 =NPER(0.06, 0, -10000, 20000,0)returns 11.895661046 which indicates that you can double your money just before the end of the 12th year.
@@ -2370,7 +2372,7 @@ Returns #NUM if start_date or end_date are invalid
 
 @FUNCTION=STDEV
 @SYNTAX=STDEV(b1, b2, ...)
-@DESCRIPTION=STDEV returns standard deviation of a set of numbers treating these numbers as members of a populationThis function is Excel compatible. 
+@DESCRIPTION=STDEV returns standard deviation of a set of numbers treating these numbers as members of a population. This function is Excel compatible. 
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
 STDEV(A1:A5) equals 10.84619749.
@@ -2456,13 +2458,12 @@ NORMINV(0.76,2,3) equals 4.118907689.
 
 @FUNCTION=PV
 @SYNTAX=PV(rate,nper,pmt,fv,type)
-@DESCRIPTION=PV calculates the present value of an investment.
-@EXAMPLES=
+@DESCRIPTION=PV calculates the present value of an investment. @rate is the periodic interest rate, @nper is the number of periods used for compounding. @pmt is the payment made each period, @fv is the future value and @type is when the payment is made. If @type = 1 then the payment is made at the begining of the period. If @type = 0 it is made at the end of each period.@EXAMPLES=
 
 @SEEALSO=FV
 
 @FUNCTION=DOLLAR
-@SYNTAX=DOLLAR(num,[decimals])
+@SYNTAX=DOLLAR(num[,decimals])
 @DESCRIPTION=DOLLAR returns @num formatted as currency.
 @EXAMPLES=
 DOLLAR(12345) equals "$12,345.00".
@@ -2508,7 +2509,7 @@ SUBSTITUTE("testing","test","wait") equals "waiting".
 
 @FUNCTION=FV
 @SYNTAX=FV(rate,term,pmt,pv,type)
-@DESCRIPTION=FV computes the future value of an investment. This is based on periodic, constant payments and a constant interest rate. The interest rate per period is rate, term is the number of periods in an annuity, pmt is the payment made each period, pv is the present value and type is when the payment is made. If type = 1 then the payment is made at the begining of the period. If type = 0 it is made at the end of each period.
+@DESCRIPTION=FV computes the future value of an investment. This is based on periodic, constant payments and a constant interest rate. The interest rate per period is @rate, @term is the number of periods in an annuity, @pmt is the payment made each period, @pv is the present value and @type is when the payment is made. If @type = 1 then the payment is made at the begining of the period. If @type = 0 it is made at the end of each period.
 @EXAMPLES=
 
 @SEEALSO=PV,PMT,PPMT
@@ -2561,7 +2562,7 @@ CEILING(123.123,3) equals 126.
 
 @FUNCTION=KURTP
 @SYNTAX=KURTP(n1, n2, ...)
-@DESCRIPTION=KURT returns the population kurtosis of a data set.
+@DESCRIPTION=KURTP returns the population kurtosis of a data set.
 Strings and empty cells are simply ignored.
 If fewer than two numbers are given or all of them are equal KURTP returns #DIV/0! error.
 @EXAMPLES=
@@ -2627,7 +2628,7 @@ SUM(A1:A5) equals 107.
 
 @FUNCTION=FVSCHEDULE
 @SYNTAX=FVSCHEDULE(principal,schedule)
-@DESCRIPTION=FVSCHEDULE returns the future value of given initial value after applying a series of compound periodic interest rates. The argument principal is the present value; schedule is an array of interest rates to apply. The schedule argument must be a range of cells.
+@DESCRIPTION=FVSCHEDULE returns the future value of given initial value after applying a series of compound periodic interest rates. The argument @principal is the present value; @schedule is an array of interest rates to apply. The @schedule argument must be a range of cells.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain interest rates 0.11, 0.13, 0.09, 0.17, and 0.03.  Then
 FVSCHEDULE(3000,A1:A5) equals 4942.7911611.
@@ -2658,7 +2659,7 @@ BETADIST(0.12,2,3) equals 0.07319808.
 @SEEALSO=
 
 @FUNCTION=FIXED
-@SYNTAX=FIXED(num, [decimals, no_commas])
+@SYNTAX=FIXED(num,[decimals, no_commas])
 @DESCRIPTION=FIXED returns @num as a formatted string with @decimals numbers after the decimal point, omitting commas if requested by @no_commas.
 @EXAMPLES=
 FIXED(1234.567,2) equals "1,234.57".
@@ -2667,7 +2668,7 @@ FIXED(1234.567,2) equals "1,234.57".
 
 @FUNCTION=STDEVP
 @SYNTAX=STDEVP(b1, b2, ...)
-@DESCRIPTION=STDEVP returns standard deviation of a set of numbers treating these numbers as members of a complete populationThis function is Excel compatible. 
+@DESCRIPTION=STDEVP returns standard deviation of a set of numbers treating these numbers as members of a complete population. This function is Excel compatible. 
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
 STDEVP(A1:A5) equals 9.701133954.
@@ -2684,7 +2685,7 @@ STDEVP(A1:A5) equals 9.701133954.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If issue date or maturity date is not valid, ACCRINTM returns NUM! error. If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINTM returns #NUM! error. If issue date is after maturity date or they are the same, ACCRINTM returns #NUM! error. 
+If @basis is omitted, US 30/360 is applied. If @issue date or @maturity date is not valid, ACCRINTM returns #NUM! error. If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINTM returns #NUM! error. If @issue date is after @maturity date or they are the same, ACCRINTM returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=ACCRINT
@@ -2713,7 +2714,7 @@ DEC2BIN(42) equals 101010.
 @SEEALSO=
 
 @FUNCTION=HLOOKUP
-@SYNTAX=HLOOKUP(value,range,row,[approximate])
+@SYNTAX=HLOOKUP(value,range,row[,approximate])
 @DESCRIPTION=HLOOKUP function finds the col in range that has a first row cell similar to value.  If @approximate is not true it finds the col with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than @value it returns the value in the col found at a 1 based offset in @row rows into the @range.
 Returns #NUM! if @row < 0. Returns #REF! if @row falls outside @range.
 @EXAMPLES=
@@ -2741,7 +2742,7 @@ LOG10(7) equals 0.845098.
 @values contains the serie of cash flow generated by the investment.  The payments should occur at regular intervals.  The optional @guess is the initial value used in calculating the IRR.  You do not have to use that, it is only provided for the Excel compatibility. 
 This function is Excel compatible. 
 @EXAMPLES=
-Let us assume that the cells A1:A8 contain the numbers -32432, 5324, 7432, 9332, 12324, 4334, 1235, -3422.  Now
+Let us assume that the cells A1:A8 contain the numbers -32432, 5324, 7432, 9332, 12324, 4334, 1235, -3422.  Then
 IRR(A1:A8) returns 0.04375. 
 @SEEALSO=FV,NPV,PV
 
@@ -2886,7 +2887,7 @@ FTEST(A1:A5,B1:B5) equals 0.510815017.
 
 @FUNCTION=SKEWP
 @SYNTAX=SKEWP(n1, n2, ...)
-@DESCRIPTION=SKEW returns the population skewness of a data set.
+@DESCRIPTION=SKEWP returns the population skewness of a data set.
 Strings and empty cells are simply ignored.
 If less than two numbers are given, SKEWP returns #DIV/0! error.
 @EXAMPLES=
@@ -2995,7 +2996,7 @@ SUMA(A1:A5) equals 107.
 
 @FUNCTION=ACCRINT
 @SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])
-@DESCRIPTION=ACCRINT calculates the accrued interest for a security that pays periodic interest.  The rate is the annual rate of the security and par is the par value of the security. basis is the type of day counting system you want to use:
+@DESCRIPTION=ACCRINT calculates the accrued interest for a security that pays periodic interest.  The @rate is the annual rate of the security and @par is the par value of the security. @basis is the type of day counting system you want to use:
 
 0  US 30/360
 1  actual days/actual days
@@ -3003,7 +3004,7 @@ SUMA(A1:A5) equals 107.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If issue date or settlement date is not valid, ACCRINT returns NUM! error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINT returns #NUM! error. If issue date is after maturity date or they are the same, ACCRINT returns #NUM! error. 
+If @basis is omitted, US 30/360 is applied. If @issue date or @settlement date is not valid, ACCRINT returns #NUM! error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINT returns #NUM! error. If @issue date is after @settlement date or they are the same, ACCRINT returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=ACCRINTM
@@ -3035,9 +3036,9 @@ ATAN(1) equals 0,785398.
 
 @FUNCTION=SLN
 @SYNTAX=SLN(cost,salvage_value,life)
-@DESCRIPTION=The SLN function will determine the straight line depreciation of an assest for a single period. The amount you paid for the asset is the cost, salvage is the value of the asset at the end of its useful life, and life is the number of periods over which an the asset is depreciated. This method of deprecition devides the cost evenly ofver the life of an asset.
+@DESCRIPTION=The SLN function will determine the straight line depreciation of an asset for a single period. The amount you paid for the asset is the @cost, @salvage is the value of the asset at the end of its useful life, and @life is the number of periods over which an the asset is depreciated. This method of deprecition devides the cost evenly over the life of an asset.
 The formula used for straight line depriciation is:
-Depriciation expense = ( cost - salvage_value ) / life
+Depriciation expense = ( @cost - @salvage_value ) / @life
 	@cost = cost of an asset when acquired (market value).	@salvage_value = amount you get when asset sold at the end of the assets's useful life.	@life = anticipated life of an asset.
 @EXAMPLES=
 For example, lets suppose your company purchases a new machine for $10,000, which has a salvage value of $700 and will have a useful life of 10 years. The SLN yearly depreciation is computed as follows:
@@ -3130,7 +3131,7 @@ COVAR(A1:A5,B1:B5) equals 65.858.
 @FUNCTION=DOLLARFR
 @SYNTAX=DOLLARFR(decimal_dollar,fraction)
 @DESCRIPTION=DOLLARFR converts a decimal dollar price into a dollar price expressed as a fraction. 
-If @fraction is non-integer it is truncated. If @fraction <= 0 DOLLARFR returns #NUM! error. 
+If @fraction is non-integer it is truncated. If @fraction <= 0, DOLLARFR returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=DOLLARDE
@@ -3172,7 +3173,7 @@ EVEN(5.4) equals 6.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, RECEIVED returns #NUM! error. If @basis < 0 or @basis > 4, RECEIVED returns #NUM! error. If settlement date is after maturity date or they are the same, RECEIVED returns #NUM! error. 
+If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, RECEIVED returns #NUM! error. If @basis < 0 or @basis > 4, RECEIVED returns #NUM! error. If @settlement date is after @maturity date or they are the same, RECEIVED returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=INTRATE
@@ -3188,7 +3189,7 @@ IF(FALSE,TRUE,FALSE) equals FALSE.
 @FUNCTION=XNPV
 @SYNTAX=XNPV(rate,values,dates)
 @DESCRIPTION=XNPV calculates the net present value of an investment.  The schedule of the cash flows is given in @dates array.  The first date indicates the beginning of the payment schedule.  @rate is the interest rate and @values are the payments. 
-If @values and @dates contain unequal number of values, XNPV returns the #NUM error. 
+If @values and @dates contain unequal number of values, XNPV returns the #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=NPV,PV
@@ -3229,6 +3230,14 @@ ACOSH(5.3) equals 2.35183.
 
 @SEEALSO=ACOS, ASINH, DEGREES, RADIANS 
 
+@FUNCTION=TRIM
+@SYNTAX=TRIM(text)
+@DESCRIPTION=TRIM returns @text with only single spaces between words.
+@EXAMPLES=
+TRIM("  a bbb  cc") equals "a bbb cc".
+
+@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE
+
 @FUNCTION=TRUNC
 @SYNTAX=TRUNC(number[,digits])
 @DESCRIPTION=TRUNC function returns the value of @number truncated to the number of digits specified. If @digits is omitted then @digits defaults to zero. This function is Excel compatible. 
@@ -3237,14 +3246,6 @@ TRUNC(3.12) equals 3.
 TRUNC(4.15,1) equals 4.1.
 
 @SEEALSO=INT
-
-@FUNCTION=TRIM
-@SYNTAX=TRIM(text)
-@DESCRIPTION=TRIM returns @text with only single spaces between words.
-@EXAMPLES=
-TRIM("  a bbb  cc") equals "a bbb cc".
-
-@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE
 
 @FUNCTION=PROB
 @SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])

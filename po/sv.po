@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.53\n"
-"POT-Creation-Date: 2000-06-18 23:27-0400\n"
+"POT-Creation-Date: 2000-06-19 22:02-0400\n"
 "PO-Revision-Date: 1999-12-01 11:00+0100\n"
 "Last-Translator: Andreas Hyden <a.hyden@cyberpoint.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -133,11 +133,11 @@ msgstr "Lösenordsskyddade arbetsböcker stöds inte än."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
-#: plugins/excel/ms-excel-write.c:3374
+#: plugins/excel/ms-excel-write.c:3383
 msgid "Too many rows for this format"
 msgstr "För många rader för detta formatet"
 
-#: plugins/excel/ms-excel-write.c:3457
+#: plugins/excel/ms-excel-write.c:3466
 msgid "Can't open stream for writing\n"
 msgstr "Kan inte öppna ström för skrivning\n"
 
@@ -735,7 +735,7 @@ msgstr "Kurtosis"
 msgid "Skewness"
 msgstr "Skevhet"
 
-#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:333
+#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:404
 msgid "Range"
 msgstr "Område"
 
@@ -1917,7 +1917,7 @@ msgstr "T_yp"
 msgid "Display the value exactly as it was entered"
 msgstr "Visa värdet exakt som det matades in"
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:331
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:402
 msgid "Number"
 msgstr "Tal"
 
@@ -2766,28 +2766,28 @@ msgstr "sedan efter"
 msgid "delete cells"
 msgstr "ta bort celler"
 
-#: src/dialogs/dialog-function-wizard.c:323
+#: src/dialogs/dialog-function-wizard.c:394
 #, fuzzy, c-format
 msgid "Value%d"
 msgstr "Värde"
 
-#: src/dialogs/dialog-function-wizard.c:330 src/functions/fn-string.c:1337
+#: src/dialogs/dialog-function-wizard.c:401 src/functions/fn-string.c:1337
 msgid "String"
 msgstr "Sträng"
 
-#: src/dialogs/dialog-function-wizard.c:332
+#: src/dialogs/dialog-function-wizard.c:403
 msgid "Boolean"
 msgstr "Boolesk variabel"
 
-#: src/dialogs/dialog-function-wizard.c:334
+#: src/dialogs/dialog-function-wizard.c:405
 msgid "Array"
 msgstr "Fält"
 
-#: src/dialogs/dialog-function-wizard.c:335
+#: src/dialogs/dialog-function-wizard.c:406
 msgid "Range/Array"
 msgstr "Område/Fält"
 
-#: src/dialogs/dialog-function-wizard.c:337
+#: src/dialogs/dialog-function-wizard.c:408
 msgid "Any"
 msgstr "Vilken som helst"
 
@@ -3590,54 +3590,54 @@ msgstr "_Justera till:"
 msgid "_Fit to:"
 msgstr "_Anpassa till:"
 
-#: src/dialogs/print.glade.h:14
-#, c-format
+#: src/dialogs/print.glade.h:15
+#, no-c-format
 msgid "% of normal size"
 msgstr "% av normalstorlek"
 
-#: src/dialogs/print.glade.h:15
+#: src/dialogs/print.glade.h:16
 msgid "page(s) wide by"
 msgstr "s. på bredden och"
 
-#: src/dialogs/print.glade.h:16
+#: src/dialogs/print.glade.h:17
 msgid "tall"
 msgstr "hög"
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:18
 msgid "Fi_rst page number:"
 msgstr "_Börja sidnumrera från:"
 
-#: src/dialogs/print.glade.h:18
+#: src/dialogs/print.glade.h:19
 msgid "Page"
 msgstr "Sida"
 
-#: src/dialogs/print.glade.h:19
+#: src/dialogs/print.glade.h:20
 msgid "Center on page"
 msgstr "Centrera på sidan"
 
-#: src/dialogs/print.glade.h:20
+#: src/dialogs/print.glade.h:21
 msgid "_Horizontally"
 msgstr "_Vågrätt"
 
-#: src/dialogs/print.glade.h:21
+#: src/dialogs/print.glade.h:22
 msgid "_Vertically"
 msgstr "_Lodrätt"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:23
 msgid "_Left:"
 msgstr "_Vänster:"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:24
 #, fuzzy
 msgid "_Right:"
 msgstr "_Höger"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:25
 #, fuzzy
 msgid "_Units:"
 msgstr "_Bredd:"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:26
 msgid ""
 "pts\n"
 "mm\n"
@@ -3645,115 +3645,115 @@ msgid ""
 "In\n"
 msgstr ""
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:31
 msgid "_Top:"
 msgstr "_Överkant:"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:32
 msgid "He_ader:"
 msgstr "Sid_huvud:"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:33
 #, fuzzy
 msgid "_Footer:"
 msgstr "Sid_fot"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:34
 msgid "_Bottom:"
 msgstr "_Underkant:"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:35
 msgid "Paper _size:"
 msgstr "Papperss_torlek:"
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:36
 msgid "Margins"
 msgstr "Marginaler"
 
-#: src/dialogs/print.glade.h:36 src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:37 src/dialogs/print.glade.h:42
 msgid "sample goes here"
 msgstr "exempel"
 
-#: src/dialogs/print.glade.h:37
+#: src/dialogs/print.glade.h:38
 msgid "Header"
 msgstr "Sidhuvud"
 
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:39
 msgid "Customize _header"
 msgstr "An_passa sidhuvud"
 
-#: src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:40
 msgid "Customize _footer"
 msgstr "A_npassa sidfot"
 
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:41
 msgid "Footer:"
 msgstr "Sidfot:"
 
-#: src/dialogs/print.glade.h:42
+#: src/dialogs/print.glade.h:43
 msgid "Headers and footers"
 msgstr "Sidhuvud/sidfot"
 
-#: src/dialogs/print.glade.h:43
+#: src/dialogs/print.glade.h:44
 msgid "Print _area:"
 msgstr "Utskrifts_område:"
 
-#: src/dialogs/print.glade.h:44
+#: src/dialogs/print.glade.h:45
 msgid "Titles to print"
 msgstr "Utskriftsrubriker"
 
-#: src/dialogs/print.glade.h:45
+#: src/dialogs/print.glade.h:46
 msgid "_Columns to repeat on the left side:"
 msgstr "_Rader att upprepa till vänster:"
 
-#: src/dialogs/print.glade.h:46
+#: src/dialogs/print.glade.h:47
 msgid "_Rows to repeat on the upper region:"
 msgstr "Ra_der att upprepa överst:"
 
-#: src/dialogs/print.glade.h:47 src/dialogs/print.glade.h:56
+#: src/dialogs/print.glade.h:48 src/dialogs/print.glade.h:57
 #: src/workbook.c:1519
 msgid "Print"
 msgstr "Skriv ut"
 
-#: src/dialogs/print.glade.h:48
+#: src/dialogs/print.glade.h:49
 msgid "Row and co_lumn headings"
 msgstr "Rad- och kolumnrubriker"
 
-#: src/dialogs/print.glade.h:49 src/workbook.c:1198
+#: src/dialogs/print.glade.h:50 src/workbook.c:1198
 msgid "Co_mments"
 msgstr "Ko_mmentarer"
 
-#: src/dialogs/print.glade.h:50
+#: src/dialogs/print.glade.h:51
 msgid "_Grid lines"
 msgstr "R_utnät"
 
-#: src/dialogs/print.glade.h:51
+#: src/dialogs/print.glade.h:52
 msgid "_Black and white"
 msgstr "Svartvitt"
 
-#: src/dialogs/print.glade.h:52
+#: src/dialogs/print.glade.h:53
 msgid "Page order"
 msgstr "Utskriftsordning"
 
-#: src/dialogs/print.glade.h:53
+#: src/dialogs/print.glade.h:54
 msgid "_Down, then right"
 msgstr "_Nedåt, sedan höger"
 
-#: src/dialogs/print.glade.h:54
+#: src/dialogs/print.glade.h:55
 msgid "R_ight, then down"
 msgstr "_Höger, sedan nedåt"
 
-#: src/dialogs/print.glade.h:55 src/functions/fn-sheet.c:105
+#: src/dialogs/print.glade.h:56 src/functions/fn-sheet.c:105
 #: src/workbook.c:768
 msgid "Sheet"
 msgstr "Blad"
 
-#: src/dialogs/print.glade.h:57 src/print.c:987 src/workbook.c:1176
+#: src/dialogs/print.glade.h:58 src/print.c:987 src/workbook.c:1176
 #: src/workbook.c:1522
 msgid "Print preview"
 msgstr "Förhandsgranskning"
 
-#: src/dialogs/print.glade.h:58
+#: src/dialogs/print.glade.h:59
 #, fuzzy
 msgid "Options"
 msgstr "_Alternativ"

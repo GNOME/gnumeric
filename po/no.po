@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.54\n"
-"POT-Creation-Date: 2000-06-19 21:04+0200\n"
+"POT-Creation-Date: 2000-06-19 22:02-0400\n"
 "PO-Revision-Date: 2000-06-19 21:02+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -711,7 +711,7 @@ msgstr "Kurtose"
 msgid "Skewness"
 msgstr "Forskyvning"
 
-#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:333
+#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:404
 msgid "Range"
 msgstr "OmrÅÂde"
 
@@ -1879,7 +1879,7 @@ msgstr "_Type"
 msgid "Display the value exactly as it was entered"
 msgstr "Vis vedien eksakt som den ble skrevet inn"
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:331
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:402
 msgid "Number"
 msgstr "Tall"
 
@@ -2733,28 +2733,28 @@ msgstr "sÅÂ etter"
 msgid "delete cells"
 msgstr "slett celler"
 
-#: src/dialogs/dialog-function-wizard.c:323
+#: src/dialogs/dialog-function-wizard.c:394
 #, c-format
 msgid "Value%d"
 msgstr "Verdi%d"
 
-#: src/dialogs/dialog-function-wizard.c:330 src/functions/fn-string.c:1337
+#: src/dialogs/dialog-function-wizard.c:401 src/functions/fn-string.c:1337
 msgid "String"
 msgstr "Streng"
 
-#: src/dialogs/dialog-function-wizard.c:332
+#: src/dialogs/dialog-function-wizard.c:403
 msgid "Boolean"
 msgstr "Boolsk"
 
-#: src/dialogs/dialog-function-wizard.c:334
+#: src/dialogs/dialog-function-wizard.c:405
 msgid "Array"
 msgstr "Matrise"
 
-#: src/dialogs/dialog-function-wizard.c:335
+#: src/dialogs/dialog-function-wizard.c:406
 msgid "Range/Array"
 msgstr "OmrÅÂde/Matrise"
 
-#: src/dialogs/dialog-function-wizard.c:337
+#: src/dialogs/dialog-function-wizard.c:408
 msgid "Any"
 msgstr "Enhver"
 
@@ -5791,6 +5791,17 @@ msgstr ""
 "@DESCRIPTION=DAVERAGE-funksjonen returnerer gjennomsnittet av verdiene i en "
 "liste eller en database som passer til de spesifiserte betingelsene. \n"
 
+#: src/functions/fn-database.c:499
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5802,6 +5813,16 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,felt,kriterie)\n"
 "@DESCRIPTION=DCOUNT-funksjonen teller cellene som inneholder tall i en "
 "database som passer de oppgitte betingelsene. \n"
+
+#: src/functions/fn-database.c:568
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
+msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5815,6 +5836,16 @@ msgstr ""
 "@DESCRIPTION=DCOUNTA-funksjonen teller cellene som inneholder data i en "
 "database som passer de oppgitte betingelsene. \n"
 
+#: src/functions/fn-database.c:629
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5826,6 +5857,17 @@ msgstr ""
 "@SYNTAX=DGET(database,felt,kriterie)\n"
 "@DESCRIPTION=DGET-funksjonen returnerer en enkelt verdi fra en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
+
+#: src/functions/fn-database.c:687
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
+msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -5839,6 +5881,16 @@ msgstr ""
 "@DESCRIPTION=DMAX-funksjonen returnerer det stÅ¯rste tallet i en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
 
+#: src/functions/fn-database.c:755
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
+
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5851,6 +5903,15 @@ msgstr ""
 "@DESCRIPTION=DMIN-funksjonen returnerer det minste tallet i en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
 
+#: src/functions/fn-database.c:826
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
+msgstr ""
+
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -5862,6 +5923,14 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,felt,kriterie)\n"
 "@DESCRIPTION=DPRODUCT-funksjonen returnerer produktet av tallene i en "
 "kolonne som tilfredstiller de spesifiserte betingelsene. \n"
+
+#: src/functions/fn-database.c:896
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
+msgstr ""
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -5877,6 +5946,15 @@ msgstr ""
 "en populasjon basert pÅÂ et utvalg. Populasjonen bestÅÂr av tall som til- "
 "fredstiller de spesifiserte betingelsene. \n"
 
+#: src/functions/fn-database.c:964
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
+msgstr ""
+
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5891,6 +5969,15 @@ msgstr ""
 "basert pÅÂ hele populasjonen. Populasjonenen bestÅÂr av tall som til- "
 "fredstiller de spesifiserte betingelsene. \n"
 
+#: src/functions/fn-database.c:1030
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
+msgstr ""
+
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -5902,6 +5989,15 @@ msgstr ""
 "@SYNTAX=DSUM(database,felt,kriterie)\n"
 "@DESCRIPTION=DSUM-funksjonen returnerer summen av tallene i en kolonne som "
 "mÅ¯ter de spesifiserte betingelsene. \n"
+
+#: src/functions/fn-database.c:1097
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
+msgstr ""
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -5917,6 +6013,15 @@ msgstr ""
 "basert pÅÂ et utvalg. Populasjonene bestÅÂr av tall som mÅ¯ter de "
 "spesifiserte betingelsene. \n"
 
+#: src/functions/fn-database.c:1165
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5930,6 +6035,15 @@ msgstr ""
 "@DESCRIPTION=DVARP-funksjonen returnerer variansen til en populasjon basert "
 "pÅÂ hele populasjonene. Populasjonene bestÅÂr av tall som mÅ¯ter de "
 "spesifiserte betingelsene. \n"
+
+#: src/functions/fn-database.c:1233
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
+msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""

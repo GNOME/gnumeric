@@ -255,6 +255,7 @@
 <listitem><para><link linkend="gnumeric-RADIANS">RADIANS</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RAND">RAND</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RANDBETWEEN">RANDBETWEEN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-RANDNEGBINOM">RANDNEGBINOM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RANK">RANK</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RATE">RATE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RECEIVED">RECEIVED</link></para></listitem>
@@ -271,7 +272,6 @@
 <listitem><para><link linkend="gnumeric-RandBernoulli">RandBernoulli</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RandBinom">RandBinom</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RandExp">RandExp</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RandNegBinom">RandNegBinom</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RandPoisson">RandPoisson</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SEARCH">SEARCH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SECOND">SECOND</link></para></listitem>
@@ -386,7 +386,7 @@
       <refsect1>
         <title>Description</title>
         <para>PRICEDISC calculates and returns the price per $100 face value of a security bond.  The security does not pay interest at maturity.  @discount is the rate for which the security is discounted.  @redemption is the amount to be received on @maturity date.  @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEDISC returns #NUM! error. If @basis < 0 or @basis > 4, PRICEDISC returns #NUM! error. If settlement date is after maturity date or they are the same, PRICEDISC returns #NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, PRICEDISC returns #NUM! error. If @basis < 0 or @basis > 4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEDISC returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -588,7 +588,7 @@
       <refsect1>
         <title>Description</title>
         <para>NOMINAL calculates the nominal interest rate from a given effective rate.</para>
-        <para>Nominal interest rate is given by a formula:</para>        <para></para>        <para>nper * (( 1 + r ) ^ (1 / nper) - 1 )</para>        <para>where:</para>        <para></para>        <para>r = effective interest rate</para>        <para>nper = number of periods used for compounding</para>
+        <para>Nominal interest rate is given by a formula:</para>        <para></para>        <para>@nper * (( 1 + @r ) ^ (1 / @nper) - 1 )</para>        <para>where:</para>        <para></para>        <para>@r = effective interest rate</para>        <para>@nper = number of periods used for compounding</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1304,7 +1304,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>FLOOR(0.5) equals 0.</para>        <para>FLOOR(5,2) equals 4.</para>        <para></para>
+        <para>FLOOR(0.5) equals 0.</para>        <para>FLOOR(5,2) equals 4.</para>        <para>FLOOR(-5,-2) equals -4.</para>        <para>FLOOR(-5,2) equals #NUM!.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-CEIL">CEIL</link>
@@ -1412,7 +1412,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>POISSON function returns the Poisson distribution @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to @x.</para>
+        <para>POISSON function returns the Poisson distribution. @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to @x.</para>
         <para>If @x is a non-integer it is truncated. If @x <= 0 POISSON returns #NUM! error. If @mean <= 0 POISSON returns the #NUM! error. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -1442,7 +1442,7 @@
       <refsect1>
         <title>Description</title>
         <para>The SYD function calculates the sum-of-years digits depriciation for an asset based on its cost, salvage value, anticipated life and a particular period. This method accelerates the rate of the depreciation, so that more depreciation expense occurs in earlier periods than in later ones. The depreciable cost is the actual cost minus the salvage value. The useful life is the number of periods (typically years) over with the asset is depreciated.</para>
-        <para>The Formula used for sum-of-years digits depriciation is:</para>        <para>Depriciation expense = ( cost - salvage_value ) * (life - period + 1) * 2 / life * (life + 1).</para>        <para>	@cost = cost of an asset when acquired (market value).	@salvage_value = amount you get when asset sold at the end of its useful life.	@life = anticipated life of an asset.	@period = period for which we need the expense.</para>
+        <para>The Formula used for sum-of-years digits depriciation is:</para>        <para>Depriciation expense = ( @cost - @salvage_value ) * (@life - @period + 1) * 2 / @life * (@life + 1).</para>        <para>	@cost = cost of an asset when acquired (market value).	@salvage_value = amount you get when asset sold at the end of its useful life.	@life = anticipated life of an asset.	@period = period for which we need the expense.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1647,7 +1647,7 @@
       <refsect1>
         <title>Description</title>
         <para>TBILLYIELD function returns the yield for a treasury bill. @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. </para>
-        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLYIELD returns NUM! error. If @pr is negative, TBILLYIELD returns #NUM! error. </para>
+        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLYIELD returns #NUM! error. If @pr is negative, TBILLYIELD returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1759,7 +1759,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>HYPGEOMDIST function returns the hypergeometric distribution @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.</para>
+        <para>HYPGEOMDIST function returns the hypergeometric distribution. @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.</para>
         <para>If @x,@n,@M or @N is a non-integer it is truncated. If @x,@n,@M or @N < 0 HYPGEOMDIST returns #NUM! error. If @x > @M or @n > @N HYPGEOMDIST returns #NUM! error. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -2389,23 +2389,23 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-RandNegBinom">RandNegBinom</refentrytitle><refmiscinfo></refmiscinfo>
+      <refentrytitle><anchor id="gnumeric-RANDNEGBINOM">RANDNEGBINOM</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
-      <refname>RandNegBinom</refname>
+      <refname>RANDNEGBINOM</refname>
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>RandNegBinom(p,failures)</synopsis>
+      <synopsis>RANDNEGBINOM(p,failures)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>RandNegBinom returns a negitive binomialy distributed random number. </para>
-        <para>If @p < 0 or @p > 1 RandNegBinom returns #NUM! error. If @failures RandNegBinom returns #NUM! error. </para>
+        <para>RANDNEGBINOM returns a negitive binomialy distributed random number. </para>
+        <para>If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures RANDNEGBINOM returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>RandNegBinom(0.5,2).</para>        <para></para>
+        <para>RANDNEGBINOM(0.5,2).</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-RAND">RAND</link>
@@ -2546,7 +2546,7 @@
       <refsect1>
         <title>Description</title>
         <para>PRICEMAT calculates and returns the price per $100 face value of a security.  The security pays interest at maturity. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEMAT returns #NUM! error. If @basis < 0 or @basis > 4, PRICEMAT returns #NUM! error. If settlement date is after maturity date or they are the same, PRICEMAT returns #NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, PRICEMAT returns #NUM! error. If @basis < 0 or @basis > 4, PRICEMAT returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEMAT returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -2750,7 +2750,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, 1933, and 1422, and the cells B1:B5 contain the dates "1999-01-15", "1999-04-04", "1999-05-09", "2000-03-12", and "2000-05-1". Then XIRR(A1:A5,B1:B5) returns 0.224838. </para>
+        <para>Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, 1933, and 1422, and the cells B1:B5 contain the dates "1999-01-15", "1999-04-04", "1999-05-09", "2000-03-12", and "2000-05-1". Then</para>        <para>XIRR(A1:A5,B1:B5) returns 0.224838. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-IRR">IRR</link>
@@ -3205,7 +3205,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>PMT calculates the present value of an investment.</para>
+        <para>FIXME: Below is a PV function description!PMT calculates the present value of an investment.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -3292,7 +3292,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>INDEX(reference, [row, col, area])</synopsis>
+      <synopsis>INDEX(reference,[row, col, area])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -3589,7 +3589,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, B1, ..., B4 4, 2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and D1, ..., D4 7, 3, 6, and 5.  Then.</para>        <para>MDETERM(A1:D4) equals 148.</para>        <para></para>
+        <para>Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, B1, ..., B4 4, 2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and D1, ..., D4 7, 3, 6, and 5. Then</para>        <para>MDETERM(A1:D4) equals 148.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-MMULT">MMULT</link>
@@ -4079,7 +4079,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>CRITBINOM function returns the smallest value for which thecumulative is creater than or equal to a given value. @n is the number of trials, @p is the probability of success in trials, and @alpha is the criterion value. </para>
+        <para>CRITBINOM function returns the smallest value for which thecumulative is greater than or equal to a given value. @n is the number of trials, @p is the probability of success in trials, and @alpha is the criterion value. </para>
         <para>If @trials is a non-integer it is truncated. If @trials < 0 CRITBINOM returns #NUM! error. If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. If @alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -4108,7 +4108,7 @@
       <refsect1>
         <title>Description</title>
         <para>SUMPRODUCT function multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products.  If an array entry is not numeric, the value zero is used instead. </para>
-        <para>If array or range arguments do not have the same dimentions, SUMPRODUCT returns #VALUE! error. This function is Excel compatible. </para>
+        <para>If arrays or range arguments do not have the same dimentions, SUMPRODUCT returns #VALUE! error. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -4194,7 +4194,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>DB calculates the depreciation of an asset for a given period using the fixed-declining balance method.  @cost is the initial value of the asset.  @salvage after the depreciation. @life is the number of periods overall.  @period is the period for which you want the depreciation to be calculated.  @month is the number of months in the first year of depreciation. If @month is omitted, it is assumed to be 12. </para>
+        <para>DB calculates the depreciation of an asset for a given period using the fixed-declining balance method.  @cost is the initial value of the asset.  @salvage is the value after the depreciation. @life is the number of periods overall.  @period is the period for which you want the depreciation to be calculated.  @month is the number of months in the first year of depreciation. If @month is omitted, it is assumed to be 12. </para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -4692,7 +4692,7 @@
       <refsect1>
         <title>Description</title>
         <para>DOLLARDE converts a dollar price expressed as a fraction into a dollar price expressed as a decimal number. </para>
-        <para>If @fraction is non-integer it is truncated. If @fraction<=0 DOLLARDE returns #NUM! error. </para>
+        <para>If @fraction is non-integer it is truncated. If @fraction <= 0, DOLLARDE returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5034,7 +5034,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>VLOOKUP(value,range,column,[approximate])</synopsis>
+      <synopsis>VLOOKUP(value,range,column[,approximate])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -5180,7 +5180,7 @@
       <refsect1>
         <title>Description</title>
         <para>INTRATE calculates and returns the interest rate of a fully vested security. @investment is the prize of the security paid at @settlement date and @redemption is the amount to be received at @maturity date.  @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, INTRATE returns NUM! error. If @basis < 0 or @basis > 4, INTRATE returns #NUM! error. If settlement date is after maturity date or they are the same, INTRATE returns #NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, INTRATE returns #NUM! error. If @basis < 0 or @basis > 4, INTRATE returns #NUM! error. If @settlement date is after @maturity date or they are the same, INTRATE returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5295,8 +5295,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>TBILLEQ function returns the bond-yield equivalent (BEY) for a treasury bill.  TBILLEQ is equivalent to (365 * discount) / (360 - discount * DSM) where DSM is the days between @settlement and @maturity. </para>
-        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLEQ returns NUM! error. If @discount is negative, TBILLEQ returns #NUM! error. </para>
+        <para>TBILLEQ function returns the bond-yield equivalent (BEY) for a treasury bill.  TBILLEQ is equivalent to (365 * @discount) / (360 - @discount * DSM) where DSM is the days between @settlement and @maturity. </para>
+        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLEQ returns #NUM! error. If @discount is negative, TBILLEQ returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5377,12 +5377,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>INDIRECT(ref_text, [format])</synopsis>
+      <synopsis>INDIRECT(ref_text,[format])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
         <para>INDIRECT function returns the contents of the cell pointed to by the ref_text string. The string specifices a single cell reference the format of which is either A1 or R1C1 style. The style is set by the format boolean, which defaults to the former.</para>
-        <para>If ref_text is not a valid reference returns #REF! </para>
+        <para>If @ref_text is not a valid reference returns #REF! </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5466,7 +5466,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>GAMMADIST function returns the gamma distribution. If @cum is TRUE GAMMADIST returns the incomplete gamma function, otherwise it returns the probability mass function.</para>
+        <para>GAMMADIST function returns the gamma distribution. If @cum is TRUE, GAMMADIST returns the incomplete gamma function, otherwise it returns the probability mass function.</para>
         <para>If @x < 0 GAMMADIST returns #NUM! error. If @alpha <= 0 or @beta <= 0, GAMMADIST returns #NUM! error. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -5727,7 +5727,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>VAR estimates the variance of a sample of a population. To get the true variance of a complete population use @VARP</para>
+        <para>VAR estimates the variance of a sample of a population. To get the true variance of a complete population use @VARP.</para>
         <para>(VAR is also known as the N-1-variance.  Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.)This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -6197,11 +6197,11 @@
       <refsect1>
         <title>Description</title>
         <para>EFFECT calculates the effective interest rate from a given nominal rate.</para>
-        <para>Effective interest rate is calculated using this formulae:</para>        <para></para>        <para>         r( 1 + ------ ) ^ nper - 1       nper</para>        <para>where:</para>        <para></para>        <para>@r = nominal interest rate (stated in yearly terms)</para>        <para>@nper = number of periods used for compounding</para>        <para>For example credit cards will list an APR (annual percentage rate) which is a nominal interest rate.</para>        <para>For example if you wanted to find out how much you are actually paying interest on your credit card that states an APR of 19% that is compounded monthly you would type in:</para>        <para>=EFFECT(.19,12) and you would get .2075 or 20.75%. That is the effective percentage you will pay on your loan.</para>
+        <para>Effective interest rate is calculated using this formulae:</para>        <para></para>        <para>         @r( 1 + ------ ) ^ @nper - 1       @nper</para>        <para>where:</para>        <para></para>        <para>@r = nominal interest rate (stated in yearly terms)</para>        <para>@nper = number of periods used for compounding</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para></para>
+        <para>For example credit cards will list an APR (annual percentage rate) which is a nominal interest rate.</para>        <para>For example if you wanted to find out how much you are actually paying interest on your credit card that states an APR of 19% that is compounded monthly you would type in:</para>        <para>=EFFECT(.19,12) and you would get .2075 or 20.75%. That is the effective percentage you will pay on your loan.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-NOMINAL">NOMINAL</link>
@@ -6311,7 +6311,7 @@
       <refsect1>
         <title>Description</title>
         <para>QUARTILE function returns the quartile of the given data points.  </para>
-        <para>If quart is equal to:  QUARTILE returns:</para>        <para>0                      the smallest value of @array.</para>        <para>1                      the first quartile</para>        <para>2                      the second quartile</para>        <para>3                      the third quartile</para>        <para>4                      the largest value of @array.</para>        <para></para>        <para>If @array is empty, QUARTILE returns #NUM! error. If @quart < 0 or @quart > 4, QUARTILE returns #NUM! error. If @quart is not an integer, it is truncated. This function is Excel compatible. </para>
+        <para>If @quart is equal to: QUARTILE returns:</para>        <para>0                      the smallest value of @array.</para>        <para>1                      the first quartile</para>        <para>2                      the second quartile</para>        <para>3                      the third quartile</para>        <para>4                      the largest value of @array.</para>        <para></para>        <para>If @array is empty, QUARTILE returns #NUM! error. If @quart < 0 or @quart > 4, QUARTILE returns #NUM! error. If @quart is not an integer, it is truncated. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -6566,8 +6566,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>EURO converts one Euro to a given national currency in the European monetary union.  Currency is one of the following:</para>
-        <para>    ATS     (Austria)</para>        <para>    BEF     (Belgium)</para>        <para>    DEM     (Germany)</para>        <para>    ESP     (Spain)</para>        <para>    FIM     (Finland)</para>        <para>    FRF     (France)</para>        <para>    IEP     (Ireland)</para>        <para>    ITL     (Italy)</para>        <para>    LUF     (Luxemburg)</para>        <para>    NLG     (Netherlands)</para>        <para>    PTE     (Portugal)</para>        <para></para>        <para>If the given currency is other than one of the above, EURO returns #NUM! error. </para>
+        <para>EURO converts one Euro to a given national currency in the European monetary union.  @currency is one of the following:</para>
+        <para>    ATS     (Austria)</para>        <para>    BEF     (Belgium)</para>        <para>    DEM     (Germany)</para>        <para>    ESP     (Spain)</para>        <para>    FIM     (Finland)</para>        <para>    FRF     (France)</para>        <para>    IEP     (Ireland)</para>        <para>    ITL     (Italy)</para>        <para>    LUF     (Luxemburg)</para>        <para>    NLG     (Netherlands)</para>        <para>    PTE     (Portugal)</para>        <para></para>        <para>If the given @currency is other than one of the above, EURO returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -6737,7 +6737,7 @@
       <refsect1>
         <title>Description</title>
         <para>TBILLPRICE function returns the price per $100 value for a treasury bill where @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. </para>
-        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns NUM! error. If @discount is negative, TBILLPRICE returns #NUM! error. </para>
+        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns #NUM! error. If @discount is negative, TBILLPRICE returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7201,7 +7201,7 @@
       <refsect1>
         <title>Description</title>
         <para>DISC calculates and returns the discount rate for a sequrity. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, DISC returns #NUM! error. If @basis < 0 or @basis > 4, DISC returns #NUM! error. If settlement date is after maturity date or they are the same, DISC returns #NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, DISC returns #NUM! error. If @basis < 0 or @basis > 4, DISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, DISC returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7227,7 +7227,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>NPER calculates number of periods of an investment based on periodic constant payments and a constant interest rate. The interest rate per period is rate, pmt is the payment made each period, pv is the present value, fv is the future value and type is when the payments are due. If type = 1, payments are due at the begining of the period, if type = 0, payments are due at the end of the period.</para>
+        <para>NPER calculates number of periods of an investment based on periodic constant payments and a constant interest rate. The interest rate per period is @rate, @pmt is the payment made each period, @pv is the present value, @fv is the future value and @type is when the payments are due. If @type = 1, payments are due at the begining of the period, if @type = 0, payments are due at the end of the period.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -7285,7 +7285,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>STDEV returns standard deviation of a set of numbers treating these numbers as members of a populationThis function is Excel compatible. </para>
+        <para>STDEV returns standard deviation of a set of numbers treating these numbers as members of a population. This function is Excel compatible. </para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -7557,11 +7557,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>PV calculates the present value of an investment.</para>
-
-    </refsect1>      <refsect1>
-        <title>Examples</title>
-        <para></para>
+        <para>PV calculates the present value of an investment. @rate is the periodic interest rate, @nper is the number of periods used for compounding. @pmt is the payment made each period, @fv is the future value and @type is when the payment is made. If @type = 1 then the payment is made at the begining of the period. If @type = 0 it is made at the end of each period.@EXAMPLES=</para>
         <para></para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -7581,7 +7577,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>DOLLAR(num,[decimals])</synopsis>
+      <synopsis>DOLLAR(num[,decimals])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -7735,7 +7731,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>FV computes the future value of an investment. This is based on periodic, constant payments and a constant interest rate. The interest rate per period is rate, term is the number of periods in an annuity, pmt is the payment made each period, pv is the present value and type is when the payment is made. If type = 1 then the payment is made at the begining of the period. If type = 0 it is made at the end of each period.</para>
+        <para>FV computes the future value of an investment. This is based on periodic, constant payments and a constant interest rate. The interest rate per period is @rate, @term is the number of periods in an annuity, @pmt is the payment made each period, @pv is the present value and @type is when the payment is made. If @type = 1 then the payment is made at the begining of the period. If @type = 0 it is made at the end of each period.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -7909,7 +7905,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>KURT returns the population kurtosis of a data set.</para>
+        <para>KURTP returns the population kurtosis of a data set.</para>
         <para>Strings and empty cells are simply ignored.</para>        <para>If fewer than two numbers are given or all of them are equal KURTP returns #DIV/0! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -8112,7 +8108,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>FVSCHEDULE returns the future value of given initial value after applying a series of compound periodic interest rates. The argument principal is the present value; schedule is an array of interest rates to apply. The schedule argument must be a range of cells.</para>
+        <para>FVSCHEDULE returns the future value of given initial value after applying a series of compound periodic interest rates. The argument @principal is the present value; @schedule is an array of interest rates to apply. The @schedule argument must be a range of cells.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -8223,7 +8219,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>FIXED(num, [decimals, no_commas])</synopsis>
+      <synopsis>FIXED(num,[decimals, no_commas])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -8254,7 +8250,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>STDEVP returns standard deviation of a set of numbers treating these numbers as members of a complete populationThis function is Excel compatible. </para>
+        <para>STDEVP returns standard deviation of a set of numbers treating these numbers as members of a complete population. This function is Excel compatible. </para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -8285,7 +8281,7 @@
       <refsect1>
         <title>Description</title>
         <para>ACCRINTM calculates and returns the accrued interest for a security from @issue to @maturity date.  @rate is the annual rate of the security and @par is the par value of the security. If you omit @par, ACCRINTM applies $1,000 instead.  @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If issue date or maturity date is not valid, ACCRINTM returns NUM! error. If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINTM returns #NUM! error. If issue date is after maturity date or they are the same, ACCRINTM returns #NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @issue date or @maturity date is not valid, ACCRINTM returns #NUM! error. If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINTM returns #NUM! error. If @issue date is after @maturity date or they are the same, ACCRINTM returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -8392,7 +8388,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>HLOOKUP(value,range,row,[approximate])</synopsis>
+      <synopsis>HLOOKUP(value,range,row[,approximate])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -8488,7 +8484,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the cells A1:A8 contain the numbers -32432, 5324, 7432, 9332, 12324, 4334, 1235, -3422.  Now</para>        <para>IRR(A1:A8) returns 0.04375. </para>
+        <para>Let us assume that the cells A1:A8 contain the numbers -32432, 5324, 7432, 9332, 12324, 4334, 1235, -3422.  Then</para>        <para>IRR(A1:A8) returns 0.04375. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-FV">FV</link>
@@ -8799,7 +8795,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>SKEW returns the population skewness of a data set.</para>
+        <para>SKEWP returns the population skewness of a data set.</para>
         <para>Strings and empty cells are simply ignored.</para>        <para>If less than two numbers are given, SKEWP returns #DIV/0! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -9086,8 +9082,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ACCRINT calculates the accrued interest for a security that pays periodic interest.  The rate is the annual rate of the security and par is the par value of the security. basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If issue date or settlement date is not valid, ACCRINT returns NUM! error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINT returns #NUM! error. If issue date is after maturity date or they are the same, ACCRINT returns #NUM! error. </para>
+        <para>ACCRINT calculates the accrued interest for a security that pays periodic interest.  The @rate is the annual rate of the security and @par is the par value of the security. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @issue date or @settlement date is not valid, ACCRINT returns #NUM! error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINT returns #NUM! error. If @issue date is after @settlement date or they are the same, ACCRINT returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -9203,8 +9199,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The SLN function will determine the straight line depreciation of an assest for a single period. The amount you paid for the asset is the cost, salvage is the value of the asset at the end of its useful life, and life is the number of periods over which an the asset is depreciated. This method of deprecition devides the cost evenly ofver the life of an asset.</para>
-        <para>The formula used for straight line depriciation is:</para>        <para>Depriciation expense = ( cost - salvage_value ) / life</para>        <para>	@cost = cost of an asset when acquired (market value).	@salvage_value = amount you get when asset sold at the end of the assets's useful life.	@life = anticipated life of an asset.</para>
+        <para>The SLN function will determine the straight line depreciation of an asset for a single period. The amount you paid for the asset is the @cost, @salvage is the value of the asset at the end of its useful life, and @life is the number of periods over which an the asset is depreciated. This method of deprecition devides the cost evenly over the life of an asset.</para>
+        <para>The formula used for straight line depriciation is:</para>        <para>Depriciation expense = ( @cost - @salvage_value ) / @life</para>        <para>	@cost = cost of an asset when acquired (market value).	@salvage_value = amount you get when asset sold at the end of the assets's useful life.	@life = anticipated life of an asset.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -9494,7 +9490,7 @@
       <refsect1>
         <title>Description</title>
         <para>DOLLARFR converts a decimal dollar price into a dollar price expressed as a fraction. </para>
-        <para>If @fraction is non-integer it is truncated. If @fraction <= 0 DOLLARFR returns #NUM! error. </para>
+        <para>If @fraction is non-integer it is truncated. If @fraction <= 0, DOLLARFR returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -9607,7 +9603,7 @@
       <refsect1>
         <title>Description</title>
         <para>RECEIVED calculates and returns the amount to be received at @maturity date for a security bond. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, RECEIVED returns #NUM! error. If @basis < 0 or @basis > 4, RECEIVED returns #NUM! error. If settlement date is after maturity date or they are the same, RECEIVED returns #NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, RECEIVED returns #NUM! error. If @basis < 0 or @basis > 4, RECEIVED returns #NUM! error. If @settlement date is after @maturity date or they are the same, RECEIVED returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -9662,7 +9658,7 @@
       <refsect1>
         <title>Description</title>
         <para>XNPV calculates the net present value of an investment.  The schedule of the cash flows is given in @dates array.  The first date indicates the beginning of the payment schedule.  @rate is the interest rate and @values are the payments. </para>
-        <para>If @values and @dates contain unequal number of values, XNPV returns the #NUM error. </para>
+        <para>If @values and @dates contain unequal number of values, XNPV returns the #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -9794,34 +9790,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-TRUNC">TRUNC</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>TRUNC</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>TRUNC(number[,digits])</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>TRUNC function returns the value of @number truncated to the number of digits specified. If @digits is omitted then @digits defaults to zero. This function is Excel compatible. </para>
-
-    </refsect1>      <refsect1>
-        <title>Examples</title>
-        <para></para>
-        <para>TRUNC(3.12) equals 3.</para>        <para>TRUNC(4.15,1) equals 4.1.</para>        <para></para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-INT">INT</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-TRIM">TRIM</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -9845,6 +9813,34 @@
 ,         <link linkend="gnumeric-MID">MID</link>
 ,         <link linkend="gnumeric-REPLACE">REPLACE</link>
 ,         <link linkend="gnumeric-SUBSTITUTE">SUBSTITUTE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TRUNC">TRUNC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TRUNC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TRUNC(number[,digits])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>TRUNC function returns the value of @number truncated to the number of digits specified. If @digits is omitted then @digits defaults to zero. This function is Excel compatible. </para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para>TRUNC(3.12) equals 3.</para>        <para>TRUNC(4.15,1) equals 4.1.</para>        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-INT">INT</link>
       </para>
     </refsect1>
   </refentry>

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
-"POT-Creation-Date: 2000-06-18 23:27-0400\n"
+"POT-Creation-Date: 2000-06-19 22:02-0400\n"
 "PO-Revision-Date: 1999-09-09 01:40+0100\n"
 "Last-Translator: Bobo Rajec,BSP Consulting,+42 7 5330 017,, "
 "<bobo@bobo.bspc.sk>\n"
@@ -129,11 +129,11 @@ msgstr ""
 msgid "Unable to locate valid MS Excel workbook"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3374
+#: plugins/excel/ms-excel-write.c:3383
 msgid "Too many rows for this format"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3457
+#: plugins/excel/ms-excel-write.c:3466
 msgid "Can't open stream for writing\n"
 msgstr ""
 
@@ -720,7 +720,7 @@ msgstr ""
 msgid "Skewness"
 msgstr ""
 
-#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:333
+#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:404
 #, fuzzy
 msgid "Range"
 msgstr "Obdå¾nik"
@@ -1949,7 +1949,7 @@ msgstr "Hore"
 msgid "Display the value exactly as it was entered"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:331
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:402
 msgid "Number"
 msgstr "Èísla"
 
@@ -2868,30 +2868,30 @@ msgstr ""
 msgid "delete cells"
 msgstr "vyma¾ bunky"
 
-#: src/dialogs/dialog-function-wizard.c:323
+#: src/dialogs/dialog-function-wizard.c:394
 #, fuzzy, c-format
 msgid "Value%d"
 msgstr "Hodnoty"
 
-#: src/dialogs/dialog-function-wizard.c:330 src/functions/fn-string.c:1337
+#: src/dialogs/dialog-function-wizard.c:401 src/functions/fn-string.c:1337
 #, fuzzy
 msgid "String"
 msgstr "Varovanie"
 
-#: src/dialogs/dialog-function-wizard.c:332
+#: src/dialogs/dialog-function-wizard.c:403
 msgid "Boolean"
 msgstr ""
 
-#: src/dialogs/dialog-function-wizard.c:334
+#: src/dialogs/dialog-function-wizard.c:405
 #, fuzzy
 msgid "Array"
 msgstr "©ípka"
 
-#: src/dialogs/dialog-function-wizard.c:335
+#: src/dialogs/dialog-function-wizard.c:406
 msgid "Range/Array"
 msgstr ""
 
-#: src/dialogs/dialog-function-wizard.c:337
+#: src/dialogs/dialog-function-wizard.c:408
 msgid "Any"
 msgstr ""
 
@@ -3734,60 +3734,60 @@ msgstr "_Automatické prispôsobenie"
 msgid "_Fit to:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:14
-#, c-format
+#: src/dialogs/print.glade.h:15
+#, no-c-format
 msgid "% of normal size"
 msgstr ""
 
-#: src/dialogs/print.glade.h:15
+#: src/dialogs/print.glade.h:16
 msgid "page(s) wide by"
 msgstr ""
 
-#: src/dialogs/print.glade.h:16
+#: src/dialogs/print.glade.h:17
 #, fuzzy
 msgid "tall"
 msgstr "Kurzíva"
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:18
 msgid "Fi_rst page number:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:18
+#: src/dialogs/print.glade.h:19
 #, fuzzy
 msgid "Page"
 msgstr "Vlo¾"
 
-#: src/dialogs/print.glade.h:19
+#: src/dialogs/print.glade.h:20
 #, fuzzy
 msgid "Center on page"
 msgstr "Na stred"
 
-#: src/dialogs/print.glade.h:20
+#: src/dialogs/print.glade.h:21
 #, fuzzy
 msgid "_Horizontally"
 msgstr "Vodorovne"
 
-#: src/dialogs/print.glade.h:21
+#: src/dialogs/print.glade.h:22
 #, fuzzy
 msgid "_Vertically"
 msgstr "Zvislo"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:23
 #, fuzzy
 msgid "_Left:"
 msgstr "Doµava"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:24
 #, fuzzy
 msgid "_Right:"
 msgstr "Doprava"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:25
 #, fuzzy
 msgid "_Units:"
 msgstr "©írka"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:26
 msgid ""
 "pts\n"
 "mm\n"
@@ -3795,123 +3795,123 @@ msgid ""
 "In\n"
 msgstr ""
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:31
 #, fuzzy
 msgid "_Top:"
 msgstr "Hore"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:32
 msgid "He_ader:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:33
 #, fuzzy
 msgid "_Footer:"
 msgstr "Písmo"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:34
 #, fuzzy
 msgid "_Bottom:"
 msgstr "Dolu"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:35
 msgid "Paper _size:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:36
 #, fuzzy
 msgid "Margins"
 msgstr "Min"
 
-#: src/dialogs/print.glade.h:36 src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:37 src/dialogs/print.glade.h:42
 msgid "sample goes here"
 msgstr ""
 
-#: src/dialogs/print.glade.h:37
+#: src/dialogs/print.glade.h:38
 msgid "Header"
 msgstr ""
 
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:39
 msgid "Customize _header"
 msgstr ""
 
-#: src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:40
 msgid "Customize _footer"
 msgstr ""
 
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:41
 msgid "Footer:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:42
+#: src/dialogs/print.glade.h:43
 msgid "Headers and footers"
 msgstr ""
 
-#: src/dialogs/print.glade.h:43
+#: src/dialogs/print.glade.h:44
 #, fuzzy
 msgid "Print _area:"
 msgstr "Percentá"
 
-#: src/dialogs/print.glade.h:44
+#: src/dialogs/print.glade.h:45
 msgid "Titles to print"
 msgstr ""
 
-#: src/dialogs/print.glade.h:45
+#: src/dialogs/print.glade.h:46
 msgid "_Columns to repeat on the left side:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:46
+#: src/dialogs/print.glade.h:47
 msgid "_Rows to repeat on the upper region:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:47 src/dialogs/print.glade.h:56
+#: src/dialogs/print.glade.h:48 src/dialogs/print.glade.h:57
 #: src/workbook.c:1519
 #, fuzzy
 msgid "Print"
 msgstr "Percentá"
 
-#: src/dialogs/print.glade.h:48
+#: src/dialogs/print.glade.h:49
 msgid "Row and co_lumn headings"
 msgstr ""
 
-#: src/dialogs/print.glade.h:49 src/workbook.c:1198
+#: src/dialogs/print.glade.h:50 src/workbook.c:1198
 #, fuzzy
 msgid "Co_mments"
 msgstr "_Komentáre"
 
-#: src/dialogs/print.glade.h:50
+#: src/dialogs/print.glade.h:51
 msgid "_Grid lines"
 msgstr ""
 
-#: src/dialogs/print.glade.h:51
+#: src/dialogs/print.glade.h:52
 msgid "_Black and white"
 msgstr ""
 
-#: src/dialogs/print.glade.h:52
+#: src/dialogs/print.glade.h:53
 msgid "Page order"
 msgstr ""
 
-#: src/dialogs/print.glade.h:53
+#: src/dialogs/print.glade.h:54
 msgid "_Down, then right"
 msgstr ""
 
-#: src/dialogs/print.glade.h:54
+#: src/dialogs/print.glade.h:55
 #, fuzzy
 msgid "R_ight, then down"
 msgstr "Zarovnaj doprava"
 
-#: src/dialogs/print.glade.h:55 src/functions/fn-sheet.c:105
+#: src/dialogs/print.glade.h:56 src/functions/fn-sheet.c:105
 #: src/workbook.c:768
 #, fuzzy
 msgid "Sheet"
 msgstr "_Zo¹it"
 
-#: src/dialogs/print.glade.h:57 src/print.c:987 src/workbook.c:1176
+#: src/dialogs/print.glade.h:58 src/print.c:987 src/workbook.c:1176
 #: src/workbook.c:1522
 msgid "Print preview"
 msgstr ""
 
-#: src/dialogs/print.glade.h:58
+#: src/dialogs/print.glade.h:59
 #, fuzzy
 msgid "Options"
 msgstr "Operácia"

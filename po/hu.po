@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 2000-06-18 23:27-0400\n"
+"POT-Creation-Date: 2000-06-19 22:02-0400\n"
 "PO-Revision-Date: 2000-04-08 13:46+0202\n"
 "Last-Translator: Emese Kovacs <emese@gnome.hu>\n"
 "Language-Team: Hungarian\n"
@@ -129,11 +129,11 @@ msgstr "A jelszóval védett munkafüzeteket a program jelenleg nem támogatja."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3374
+#: plugins/excel/ms-excel-write.c:3383
 msgid "Too many rows for this format"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3457
+#: plugins/excel/ms-excel-write.c:3466
 msgid "Can't open stream for writing\n"
 msgstr ""
 
@@ -736,7 +736,7 @@ msgstr ""
 msgid "Skewness"
 msgstr ""
 
-#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:333
+#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:404
 msgid "Range"
 msgstr "Tartomány"
 
@@ -1951,7 +1951,7 @@ msgstr "_Típus"
 msgid "Display the value exactly as it was entered"
 msgstr "Az érték pontosan úgy jelenik meg, ahogy beírtad"
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:331
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:402
 msgid "Number"
 msgstr "Szám"
 
@@ -2828,28 +2828,28 @@ msgstr ""
 msgid "delete cells"
 msgstr "cellák törlése"
 
-#: src/dialogs/dialog-function-wizard.c:323
+#: src/dialogs/dialog-function-wizard.c:394
 #, fuzzy, c-format
 msgid "Value%d"
 msgstr "Érték"
 
-#: src/dialogs/dialog-function-wizard.c:330 src/functions/fn-string.c:1337
+#: src/dialogs/dialog-function-wizard.c:401 src/functions/fn-string.c:1337
 msgid "String"
 msgstr "Karakterlánc"
 
-#: src/dialogs/dialog-function-wizard.c:332
+#: src/dialogs/dialog-function-wizard.c:403
 msgid "Boolean"
 msgstr "Boolean"
 
-#: src/dialogs/dialog-function-wizard.c:334
+#: src/dialogs/dialog-function-wizard.c:405
 msgid "Array"
 msgstr "Tömb"
 
-#: src/dialogs/dialog-function-wizard.c:335
+#: src/dialogs/dialog-function-wizard.c:406
 msgid "Range/Array"
 msgstr "Tartomány/Tömb"
 
-#: src/dialogs/dialog-function-wizard.c:337
+#: src/dialogs/dialog-function-wizard.c:408
 msgid "Any"
 msgstr ""
 
@@ -3663,54 +3663,54 @@ msgstr "Legyen _az eredeti méret:"
 msgid "_Fit to:"
 msgstr "Legye_n:"
 
-#: src/dialogs/print.glade.h:14
-#, c-format
+#: src/dialogs/print.glade.h:15
+#, no-c-format
 msgid "% of normal size"
 msgstr "%-a"
 
-#: src/dialogs/print.glade.h:15
+#: src/dialogs/print.glade.h:16
 msgid "page(s) wide by"
 msgstr "oldal széles és"
 
-#: src/dialogs/print.glade.h:16
+#: src/dialogs/print.glade.h:17
 msgid "tall"
 msgstr "oldal magas"
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:18
 msgid "Fi_rst page number:"
 msgstr "_Elsõ oldal száma:"
 
-#: src/dialogs/print.glade.h:18
+#: src/dialogs/print.glade.h:19
 msgid "Page"
 msgstr "Oldal1"
 
-#: src/dialogs/print.glade.h:19
+#: src/dialogs/print.glade.h:20
 msgid "Center on page"
 msgstr "Igazítás az oldal közepére"
 
-#: src/dialogs/print.glade.h:20
+#: src/dialogs/print.glade.h:21
 msgid "_Horizontally"
 msgstr "_Vízszintesen"
 
-#: src/dialogs/print.glade.h:21
+#: src/dialogs/print.glade.h:22
 msgid "_Vertically"
 msgstr "Függõlegese_n"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:23
 msgid "_Left:"
 msgstr "_Bal:"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:24
 #, fuzzy
 msgid "_Right:"
 msgstr "_Jobb"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:25
 #, fuzzy
 msgid "_Units:"
 msgstr "_Jó szöveg:"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:26
 msgid ""
 "pts\n"
 "mm\n"
@@ -3718,115 +3718,115 @@ msgid ""
 "In\n"
 msgstr ""
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:31
 msgid "_Top:"
 msgstr "_Felsõ:"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:32
 msgid "He_ader:"
 msgstr "F_ejléc:"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:33
 #, fuzzy
 msgid "_Footer:"
 msgstr "_Lábléc"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:34
 msgid "_Bottom:"
 msgstr "_Alsó:"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:35
 msgid "Paper _size:"
 msgstr "Lap _mérete"
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:36
 msgid "Margins"
 msgstr "Margók"
 
-#: src/dialogs/print.glade.h:36 src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:37 src/dialogs/print.glade.h:42
 msgid "sample goes here"
 msgstr "ide jön a minta"
 
-#: src/dialogs/print.glade.h:37
+#: src/dialogs/print.glade.h:38
 msgid "Header"
 msgstr "Fejléc"
 
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:39
 msgid "Customize _header"
 msgstr "_Egyéni fejléc"
 
-#: src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:40
 msgid "Customize _footer"
 msgstr "Egyéni lá_bléc"
 
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:41
 msgid "Footer:"
 msgstr "Lábléc:"
 
-#: src/dialogs/print.glade.h:42
+#: src/dialogs/print.glade.h:43
 msgid "Headers and footers"
 msgstr "Fej- és láblécek"
 
-#: src/dialogs/print.glade.h:43
+#: src/dialogs/print.glade.h:44
 msgid "Print _area:"
 msgstr "Nyomtatási _terület"
 
-#: src/dialogs/print.glade.h:44
+#: src/dialogs/print.glade.h:45
 msgid "Titles to print"
 msgstr "Címként nyomtatandók a"
 
-#: src/dialogs/print.glade.h:45
+#: src/dialogs/print.glade.h:46
 msgid "_Columns to repeat on the left side:"
 msgstr "_Balra ismétlõdõ oszlopok"
 
-#: src/dialogs/print.glade.h:46
+#: src/dialogs/print.glade.h:47
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Fent ismétlõdõ sorok"
 
-#: src/dialogs/print.glade.h:47 src/dialogs/print.glade.h:56
+#: src/dialogs/print.glade.h:48 src/dialogs/print.glade.h:57
 #: src/workbook.c:1519
 msgid "Print"
 msgstr "Nyomtatás"
 
-#: src/dialogs/print.glade.h:48
+#: src/dialogs/print.glade.h:49
 msgid "Row and co_lumn headings"
 msgstr "Sor- és oszlopa_zonosítókkal"
 
-#: src/dialogs/print.glade.h:49 src/workbook.c:1198
+#: src/dialogs/print.glade.h:50 src/workbook.c:1198
 msgid "Co_mments"
 msgstr "Meg_jegyzések"
 
-#: src/dialogs/print.glade.h:50
+#: src/dialogs/print.glade.h:51
 msgid "_Grid lines"
 msgstr "_Cellarácsokkal"
 
-#: src/dialogs/print.glade.h:51
+#: src/dialogs/print.glade.h:52
 msgid "_Black and white"
 msgstr "Fekete-fe_hérben"
 
-#: src/dialogs/print.glade.h:52
+#: src/dialogs/print.glade.h:53
 msgid "Page order"
 msgstr "Oldalak sorrendje"
 
-#: src/dialogs/print.glade.h:53
+#: src/dialogs/print.glade.h:54
 msgid "_Down, then right"
 msgstr "Le, maj_d jobbra folytatja"
 
-#: src/dialogs/print.glade.h:54
+#: src/dialogs/print.glade.h:55
 msgid "R_ight, then down"
 msgstr "Jobbr_a, majd lefelé folytatja"
 
-#: src/dialogs/print.glade.h:55 src/functions/fn-sheet.c:105
+#: src/dialogs/print.glade.h:56 src/functions/fn-sheet.c:105
 #: src/workbook.c:768
 msgid "Sheet"
 msgstr "Munkalap"
 
-#: src/dialogs/print.glade.h:57 src/print.c:987 src/workbook.c:1176
+#: src/dialogs/print.glade.h:58 src/print.c:987 src/workbook.c:1176
 #: src/workbook.c:1522
 msgid "Print preview"
 msgstr "Nyomtatási kép"
 
-#: src/dialogs/print.glade.h:58
+#: src/dialogs/print.glade.h:59
 #, fuzzy
 msgid "Options"
 msgstr "Egyebe_k"
