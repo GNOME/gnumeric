@@ -28,25 +28,28 @@ Requirements
 
 You need:
 
-	glib		>= 2.0.0
-	gtk+		>= 2.0.0
-	libgnome	>= 2.0.0
-	libgnomeui	>= 2.0.0
-	libbonobo	>= 2.0.0
-	libbonoboui	>= 2.0.0
-	libgnomeprint	>= 2.2.0
-	libgnomeprintui	>= 2.2.0
-	libgsf		>= 1.7.1
-	libglade	>= 2.0.0
-	intltools	>= 0.9
-	gal-2		>= 1.99.0	(cvs HEAD)
-	gnome-xml   	>= 2.4.12
+					Debian package name
+	glib		>= 2.0.0	libglib2.0-dev
+	gtk+		>= 2.0.0	libgtk2.0-dev
+	libgnome	>= 2.0.0	libgnome2-dev
+	libgnomeui	>= 2.0.0	libgnomeui-dev
+	libbonobo	>= 2.0.0	libbonobo2-dev
+	libbonoboui	>= 2.0.0	libbonoboui2-dev
+	bonobo-activation >= 1.0.2	libbonobo-activation-dev
+	libgnomeprint	>= 2.2.0	libgnomeprint2.2-dev
+	libgnomeprintui	>= 2.2.0	libgnomeprintui2.2-dev
+	libgsf		>= 1.7.2	libgsf-1-dev + libgsf-gnome-1-dev
+	libglade	>= 2.0.0	libglade2-dev
+	intltools	>= 0.9		intltool
+	gal		>= 1.99.1	libgal2.0-dev
+	gnome-xml   	>= 2.4.12	libxml2-dev
 	NOTE : gnome-xml is also known as libxml
 
 Optionally:
-	gda		>= 0.9          (GDA plugin, for accessing databases)
+	The GDA plugin, for accessing databases
+	gda		>= 0.10         libgda2-dev
 
-Currently Disabled
+Currently disabled:
 	gb		== 0.0.17
 	guile		>= 1.5
 	guppi		>= 0.40.3
