@@ -18,6 +18,6 @@ void		 workbook_control_gui_init      (WorkbookControlGUI *wbcg,
 						 WorkbookView *optional_view);
 
 GtkWindow *wb_control_gui_toplevel (WorkbookControlGUI *wbcg);
-void       wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg);
+Sheet *    wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg);
 
 #endif /* GNUMERIC_WORKBOOK_CONTROL_GUI_H */

@@ -43,6 +43,8 @@
 #include "position.h"
 #include "parse-util.h"
 #include "ranges.h"
+#include "history.h"
+#include "str.h"
 
 #include "gnumeric-type-util.h"
 #include "gnumeric-util.h"
@@ -53,6 +55,48 @@
 #include <ctype.h>
 
 #include "pixmaps/equal-sign.xpm"
+
+/* The locations within the main table in the workbook */
+#define WB_EA_LINE   0
+#define WB_EA_SHEETS 1
+#define WB_EA_STATUS 2
+
+#define WB_COLS      1
+
+GtkWindow *
+wb_control_gui_toplevel (WorkbookControlGUI *wbcg)
+{
+	return wcbg->toplevel;
+}
+
+Sheet *
+wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg)
+{
+	GtkWidget *current_notebook;
+	Sheet *sheet;
+
+	g_return_val_if_fail (wb != NULL, NULL);
+
+	current_notebook = GTK_NOTEBOOK (wb->notebook)->cur_page->child;
+	sheet = gtk_object_get_data (GTK_OBJECT (current_notebook), "sheet");
+
+	if (sheet != NULL) {
+		SheetView *sheet_view = SHEET_VIEW (sheet->sheet_views->data);
+
+		g_return_val_if_fail (sheet_view != NULL, NULL);
+
+		/* This is silly.  We have no business assuming there is only 1 view */
+		gtk_window_set_focus (GTK_WINDOW (workbook_get_toplevel (wb)), sheet_view->sheet_view);
+
+		if (wb->current_sheet != sheet) {
+			gtk_signal_emit (GTK_OBJECT (wb), workbook_signals [SHEET_ENTERED], sheet);
+			wb->current_sheet = sheet;
+		}
+	} else
+		g_warning ("There is no current sheet in this workbook");
+
+	return sheet;
+}
 
 static void
 wbcg_title_set (WorkbookControl *wbc, char const *title)
@@ -118,68 +162,15 @@ wbcg_format_feedback (WorkbookControl *wbc, MStyle *style)
 	workbook_feedback_set ((WorkbookControlGUI *)wbc, style);
 }
 
-#if 0
 void
-wbcg_history_setup (Workbook *wb)
+wbcg_history_setup (WorkbookControlGUI *wbcg)
 {
-	GList *hl;
-
-	hl = application_history_get_list ();
-
+	GList *hl = application_history_get_list ();
 	if (hl)
-		history_menu_setup (wb, hl);
+		history_menu_setup (wbcg, hl);
 }
 
-/* 
- * We introduced numbers in front of the the history file names for two
- * reasons:  
- * 1. Bonobo won't let you make 2 entries with the same label in the same
- *    menu. But that's what happens if you e.g. access worksheets with the
- *    same name from 2 different directories.
- * 2. The numbers are useful accelerators.
- * 3. Excel does it this way.
- *
- * Because numbers are reassigned with each insertion, we have to remove all
- * the old entries and insert new ones.
- */
-void
-wbcg_history_update (GList *wl, gchar *filename)
-{
-	gchar   *del_name;
-	gchar   *canonical_name;
-	gboolean add_sep;
-	GList   *hl;
-	gchar *cwd;
-
-	/* Rudimentary filename canonicalization. */
-	if (!g_path_is_absolute (filename)) {
-		cwd = g_get_current_dir ();
-		canonical_name = g_strconcat (cwd, "/", filename, NULL);
-		g_free (cwd);
-	} else
-		canonical_name = g_strdup (filename);
-
-	/* Get the history list */
-	hl = application_history_get_list ();
-
-	/* If List is empty, a separator will be needed too. */
-	add_sep = (hl == NULL);
-
-	/* Do nothing if filename already at head of list */
-	if (hl && strcmp ((gchar *)hl->data, canonical_name) != 0) {
-		history_menu_flush (wl, hl); /* Remove the old entries */
-		
-		/* Update the history list */
-		del_name = application_history_update_list (canonical_name);
-		g_free (del_name);
-
-		/* Fill the menus */
-		hl = application_history_get_list ();
-		history_menu_fill (wl, hl, add_sep);
-	}
-	g_free (canonical_name);
-}
-
+#if 0
 /*
  * This function will be used by the options dialog when the list size is
  * reduced by the user.
@@ -222,7 +213,7 @@ cb_change_zoom (GtkWidget *caller, WorkbookControlGUI *wbcg)
 	sheet_set_zoom_factor (sheet, (double) factor / 100, FALSE, TRUE);
 
 	/* Restore the focus to the sheet */
-	wb_control_gui_focus_cur_sheet	(wbcg);
+	wb_control_gui_focus_cur_sheet (wbcg);
 }
 
 static void
@@ -263,6 +254,29 @@ wbcg_edit_line_set (WorkbookControl *wbc, char const *text)
 {
 	GtkEntry *entry = workbook_get_entry ((WorkbookControlGUI*)wbc);
 	gtk_entry_set_text (entry, text);
+}
+
+static void
+wbcg_auto_expr_name (WorkbookControl *wbc, char const *text)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	if (!wbcg->updating_toolbar)
+		puts ("TODO : set the auto expression menu");
+}
+
+static void
+wbcg_auto_expr_value (WorkbookControl *wbc, char const *text)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	WorkbookView *wbv = wb_control_workbook_view (wbc);
+	char *res;
+
+	g_return_if_fail (wbc != NULL);
+	g_return_if_fail (text != NULL);
+
+	res = g_strconcat (wbv->auto_expr_desc->str, "=", text, NULL);
+	gnome_canvas_item_set (wbcg->auto_expr_label, "text", res, NULL);
+	g_free (res);
 }
 
 static GtkComboStack *
@@ -377,29 +391,29 @@ wbcg_paste_from_selection (WorkbookControl *wbc, PasteTarget const *pt, guint32 
 static void
 wbcg_error_system (WorkbookControl *wbc, char const *msg)
 {
-	gnumeric_notice (wbc, GNOME_MESSAGE_BOX_ERROR, msg);
+	gnumeric_notice ((WorkbookControlGUI *)wbc, GNOME_MESSAGE_BOX_ERROR, msg);
 }
 static void
 wbcg_error_plugin (WorkbookControl *wbc, char const *msg)
 {
-	gnumeric_notice (wbc, GNOME_MESSAGE_BOX_ERROR, msg);
+	gnumeric_notice ((WorkbookControlGUI *)wbc, GNOME_MESSAGE_BOX_ERROR, msg);
 }
 static void
 wbcg_error_read (WorkbookControl *wbc, char const *msg)
 {
-	gnumeric_notice (wbc, GNOME_MESSAGE_BOX_ERROR, msg);
+	gnumeric_notice ((WorkbookControlGUI *)wbc, GNOME_MESSAGE_BOX_ERROR, msg);
 }
 
 static void
 wbcg_error_save (WorkbookControl *wbc, char const *msg)
 {
-	gnumeric_notice (wbc, GNOME_MESSAGE_BOX_ERROR, msg);
+	gnumeric_notice ((WorkbookControlGUI *)wbc, GNOME_MESSAGE_BOX_ERROR, msg);
 }
 static void
 wbcg_error_invalid (WorkbookControl *wbc, char const *msg, char const * value)
 {
 	char *buf = g_strconcat (msg, " : ", value, NULL);
-	gnumeric_notice (wbc, GNOME_MESSAGE_BOX_ERROR, buf);
+	gnumeric_notice ((WorkbookControlGUI *)wbc, GNOME_MESSAGE_BOX_ERROR, buf);
 	g_free (buf);
 }
 
@@ -426,9 +440,6 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg, Workbook *wb)
 	gboolean   done      = FALSE;
 	int        iteration = 0;
 	static int in_can_close;
-
-	/* FIXME */
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 
 	if (in_can_close)
 		return FALSE;
@@ -464,7 +475,7 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg, Workbook *wb)
 
 		switch (button) {
 		case 0: /* YES */
-			done = workbook_save (wbc, wb);
+			done = workbook_save (wbcg, wb);
 			break;
 
 		case 1: /* NO */
@@ -519,7 +530,7 @@ delete_sheet_if_possible (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 	button_no = g_list_last (GNOME_DIALOG (d)->buttons)->data;
 	gtk_widget_grab_focus (button_no);
 
-	r = gnumeric_dialog_run (wbc, GNOME_DIALOG (d));
+	r = gnumeric_dialog_run (wbcg, GNOME_DIALOG (d));
 
 	if (r != 0)
 		return;
@@ -541,7 +552,7 @@ static void
 cb_file_open (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	char *fname = dialog_query_load_file (wbc);
+	char *fname = dialog_query_load_file (wbcg);
 	Workbook *new_wb;
 
 	if (!fname)
@@ -571,13 +582,13 @@ cb_file_import (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	/* FIXME */
 	Workbook *wb = wb_control_workbook (wbc);
-	char *fname = dialog_query_load_file (wbc);
+	char *fname = dialog_query_load_file (wbcg);
 	Workbook *new_wb;
 
 	if (!fname)
 		return;
 
-	new_wb = workbook_import (wbc, wb, fname);
+	new_wb = workbook_import (wbcg, wb, fname);
 	if (new_wb) {
 		workbook_show (new_wb);
 
@@ -592,7 +603,7 @@ cb_file_save (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Workbook *wb = wb_control_workbook (wbc);
-	workbook_save (wbc, wb);
+	workbook_save (wbcg, wb);
 }
 
 static void
@@ -600,28 +611,28 @@ cb_file_save_as (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Workbook *wb = wb_control_workbook (wbc);
-	workbook_save_as (wbc, wb);
+	workbook_save_as (wbcg, wb);
 }
 
 static void
 cb_file_print_setup (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_printer_setup (wbc, wb_control_cur_sheet (wbc));
+	dialog_printer_setup (wbcg, wb_control_cur_sheet (wbc));
 }
 
 static void
 cb_file_print (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	sheet_print (wbc, wb_control_cur_sheet (wbc), FALSE, PRINT_ACTIVE_SHEET);
+	sheet_print (wbcg, wb_control_cur_sheet (wbc), FALSE, PRINT_ACTIVE_SHEET);
 }
 
 static void
 cb_file_print_preview (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	sheet_print (wbc, wb_control_cur_sheet (wbc), TRUE, PRINT_ACTIVE_SHEET);
+	sheet_print (wbcg, wb_control_cur_sheet (wbc), TRUE, PRINT_ACTIVE_SHEET);
 }
 
 static void
@@ -629,7 +640,7 @@ cb_file_summary (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Workbook *wb = wb_control_workbook (wbc);
-	dialog_summary_update (wbc, wb->summary_info);
+	dialog_summary_update (wbcg, wb->summary_info);
 }
 
 static void
@@ -785,7 +796,7 @@ cb_edit_paste_special (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	int flags = dialog_paste_special (wbc);
+	int flags = dialog_paste_special (wbcg);
 	if (flags != 0)
 		cmd_paste_to_selection (wbc, sheet, flags);
 }
@@ -795,7 +806,7 @@ cb_edit_delete (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	dialog_delete_cells (wbc, sheet);
+	dialog_delete_cells (wbcg, sheet);
 }
 
 static void
@@ -807,7 +818,7 @@ cb_edit_delete_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_edit_goto (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
-	dialog_goto_cell (WORKBOOK_CONTROL (wbcg));
+	dialog_goto_cell (wbcg);
 }
 
 static void
@@ -822,7 +833,7 @@ static void
 cb_view_zoom (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_zoom (wbc, wb_control_cur_sheet (wbc));
+	dialog_zoom (wbcg, wb_control_cur_sheet (wbc));
 }
 
 /****************************************************************************/
@@ -846,7 +857,7 @@ cb_insert_current_time (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_define_name (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
-	dialog_define_names (WORKBOOK_CONTROL (wbcg));
+	dialog_define_names (wbcg);
 }
 
 static void
@@ -916,8 +927,7 @@ static void
 cb_insert_cells (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	dialog_insert_cells (wbc, sheet);
+	dialog_insert_cells (wbcg, wb_control_cur_sheet (wbc));
 }
 
 #ifdef ENABLE_BONOBO
@@ -948,15 +958,30 @@ cb_insert_comment (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	Cell *cell = sheet_cell_fetch (sheet,
 				       sheet->cursor.edit_pos.col,
 				       sheet->cursor.edit_pos.row);
-	dialog_cell_comment (wbc, cell);
+	dialog_cell_comment (wbcg, cell);
 }
 
 /****************************************************************************/
 
+void
+cb_sheet_change_name (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	char *new_name;
+
+	new_name = dialog_get_sheet_name (wbcg, sheet->name_unquoted);
+	if (!new_name)
+		return;
+
+	cmd_rename_sheet (WORKBOOK_CONTROL (wbcg),
+			  sheet->name_unquoted, new_name);
+	g_free (new_name);
+}
+
 static void
 cb_sheet_order (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-        dialog_sheet_order (WORKBOOK_CONTROL (wbcg));
+        dialog_sheet_order (wbcg);
 }
 
 static void
@@ -1016,78 +1041,77 @@ static void
 cb_format_cells (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	dialog_cell_format (wbc, sheet, FD_CURRENT);
+	dialog_cell_format (wbcg, wb_control_cur_sheet (wbc), FD_CURRENT);
 }
 
 static void
 cb_autoformat (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_autoformat (WORKBOOK_CONTROL (wbcg));
+	dialog_autoformat (wbcg);
 }
 
 static void
 cb_workbook_attr (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_workbook_attr (WORKBOOK_CONTROL (wbcg));
+	dialog_workbook_attr (wbcg);
 }
 
 static void
 cb_tools_plugins (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_plugin_manager (WORKBOOK_CONTROL (wbcg));
+	dialog_plugin_manager (wbcg);
 }
 
 static void
 cb_tools_autocorrect (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_autocorrect (WORKBOOK_CONTROL (wbcg));
+	dialog_autocorrect (wbcg);
 }
 
 static void
 cb_tools_auto_save (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_autosave (WORKBOOK_CONTROL (wbcg));
+	dialog_autosave (wbcg);
 }
 
 static void
 cb_tools_goal_seek (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_goal_seek (wbc, wb_control_cur_sheet (wbc));
+	dialog_goal_seek (wbcg, wb_control_cur_sheet (wbc));
 }
 
 static void
 cb_tools_solver (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_solver (wbc, wb_control_cur_sheet (wbc));
+	dialog_solver (wbcg, wb_control_cur_sheet (wbc));
 }
 
 static void
 cb_tools_data_analysis (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_data_analysis (wbc, wb_control_cur_sheet (wbc));
+	dialog_data_analysis (wbcg, wb_control_cur_sheet (wbc));
 }
 
 static void
 cb_data_sort (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_cell_sort (wbc, wb_control_cur_sheet (wbc));
+	dialog_cell_sort (wbcg, wb_control_cur_sheet (wbc));
 }
 
 static void
 cb_data_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_advanced_filter (WORKBOOK_CONTROL (wbcg));
+	dialog_advanced_filter (wbcg);
 }
 
 static void
 cb_help_about (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_about (WORKBOOK_CONTROL (wbcg));
+	dialog_about (wbcg);
 }
 
 static void
@@ -1119,7 +1143,7 @@ cb_autosum (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_formula_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_formula_guru (WORKBOOK_CONTROL (wbcg));
+	dialog_formula_guru (wbcg);
 }
 
 static void
@@ -1168,16 +1192,44 @@ sort_cmd (WorkbookControlGUI *wbcg, int asc)
 }
 
 static void
-sort_ascend_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_sort_ascending (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	sort_cmd (wbcg, 0);
 }
 
 static void
-sort_descend_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_sort_descending (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	sort_cmd (wbcg, 1);
 }
+
+#ifdef ENABLE_BONOBO
+static void
+cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	dialog_graph_guru (wbcg);
+}
+
+static void
+cb_insert_component (GtkWidget *widget, Workbook *wb)
+{
+	select_component_id (wb->current_sheet,
+			     "IDL:Bonobo/Embeddable:1.0");
+}
+
+static void
+cb_insert_shaped_component (GtkWidget *widget, Workbook *wb)
+{
+	select_component_id (wb->current_sheet,
+			     "IDL:Bonobo/Canvas/Item:1.0");
+}
+
+static void
+cb_dump_xml (GtkWidget *widget, Workbook *wb)
+{
+	bonobo_win_dump (BONOBO_WIN (wb->toplevel), "on demand");
+}
+#endif
 
 #ifndef ENABLE_BONOBO
 /*
@@ -1434,7 +1486,7 @@ static GnomeUIInfo workbook_menu_format_row [] = {
 static GnomeUIInfo workbook_menu_format_sheet [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Change name"),
 		NULL,
-		workbook_cmd_format_sheet_change_name),
+		cb_sheet_change_name),
 	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets"),
 		NULL,
 		cb_sheet_order),
@@ -1607,10 +1659,10 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Sort Ascending"), N_("Sorts the selected region in ascending order based on the first column selected."),
-		sort_ascend_cmd, "Gnumeric_SortAscending"),
+		cb_sort_ascending, "Gnumeric_SortAscending"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Sort Descending"), N_("Sorts the selected region in descending order based on the first column selected."),
-		sort_descend_cmd, "Gnumeric_SortDescending"),
+		cb_sort_descending, "Gnumeric_SortDescending"),
 
 	GNOMEUIINFO_END
 };
@@ -1687,7 +1739,7 @@ static BonoboUIVerb verbs [] = {
 		workbook_cmd_format_row_std_height),
 
 	BONOBO_UI_UNSAFE_VERB ("SheetChangeName",
-		workbook_cmd_format_sheet_change_name),
+		cb_sheet_change_name),
 	BONOBO_UI_UNSAFE_VERB ("SheetReorder",
 		cb_sheet_order),
 	BONOBO_UI_UNSAFE_VERB ("SheetDisplayFormulas",
@@ -1717,15 +1769,15 @@ static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_UNSAFE_VERB ("AutoSum", cb_autosum),
 	BONOBO_UI_UNSAFE_VERB ("FunctionGuru", cb_formula_guru),
-	BONOBO_UI_UNSAFE_VERB ("SortAscending", sort_ascend_cmd),
-	BONOBO_UI_UNSAFE_VERB ("SortDescending", sort_descend_cmd),
-	BONOBO_UI_UNSAFE_VERB ("GraphGuru", launch_graph_guru),
-	BONOBO_UI_UNSAFE_VERB ("InsertComponent", verb_insert_component),
-	BONOBO_UI_UNSAFE_VERB ("InsertShapedComponent", verb_insert_shaped_component),
+	BONOBO_UI_UNSAFE_VERB ("SortAscending", cb_sort_ascending),
+	BONOBO_UI_UNSAFE_VERB ("SortDescending", cb_sort_descending),
+	BONOBO_UI_UNSAFE_VERB ("GraphGuru", cb_launch_graph_guru),
+	BONOBO_UI_UNSAFE_VERB ("InsertComponent", cb_insert_component),
+	BONOBO_UI_UNSAFE_VERB ("InsertShapedComponent", cb_insert_shaped_component),
 
 	BONOBO_UI_UNSAFE_VERB ("HelpAbout", cb_help_about),
 
-	BONOBO_UI_UNSAFE_VERB ("DebugDumpXml", verb_debug_dump_xml),
+	BONOBO_UI_UNSAFE_VERB ("DebugDumpXml", cb_dump_xml),
 
 	BONOBO_UI_VERB_END
 };
@@ -2021,8 +2073,7 @@ cb_workbook_debug_info (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		summary_info_dump (wb->summary_info);
 
 		if ((selection = selection_first_range (sheet, FALSE)) == NULL) {
-			gnumeric_notice (WORKBOOK_CONTROL (wbcg),
-				GNOME_MESSAGE_BOX_ERROR,
+			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				_("Selection must be a single range"));
 			return;
 		}
@@ -2148,15 +2199,305 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 }
 
 static int
-workbook_delete_event (GtkWidget *widget, GdkEvent *event, WorkbookControlGUI *wbcg)
+wbcg_delete_event (GtkWidget *widget, GdkEvent *event, WorkbookControlGUI *wbcg)
 {
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	return workbook_close_if_user_permits (wbcg, wb);
 }
 
+/*
+ * We must not crash on focus=NULL. We're called like that as a result of
+ * gtk_window_set_focus (toplevel, NULL) if the first sheet view is destroyed
+ * just after being created. This happens e.g when we cancel a file import or
+ * the import fails.
+ */
+static void
+wbcg_set_focus (GtkWindow *window, GtkWidget *focus, WorkbookControlGUI *wbcg)
+{
+	if (focus && !window->focus_widget)
+		wb_control_gui_focus_cur_sheet (wbcg);
+}
+
+static GtkObjectClass *parent_class;
+static void
+wbcg_destroy (GtkObject *wb_object)
+{
+	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (wb_object);
+
+	gtk_signal_disconnect_by_func (
+		GTK_OBJECT (wbcg->toplevel),
+		GTK_SIGNAL_FUNC (wbcg_set_focus), wbcg);
+
+	workbook_auto_complete_destroy (wbcg);
+
+	gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), NULL);
+
+	if (!GTK_OBJECT_DESTROYED (wbcg->toplevel))
+		gtk_object_destroy (GTK_OBJECT (wbcg->toplevel));
+
+	GTK_OBJECT_CLASS (parent_class)->destroy (wb_object);
+}
+
+static gboolean
+cb_scroll_wheel_support (GtkWidget *w, GdkEventButton *event, Workbook *wb)
+{
+	/* FIXME : now that we have made the split this is no longer true. */
+	/* This is a stub routine to handle scroll wheel events
+	 * Unfortunately the toplevel window is currently owned by the workbook
+	 * rather than a workbook-view so we cannot really scroll things
+	 * unless we scrolled all the views at once which is ugly.
+	 */
+#if 0
+	if (event->button == 4)
+	    puts("up");
+	else if (event->button == 5)
+	    puts("down");
+#endif
+	return FALSE;
+}
+
+static void
+do_focus_sheet (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num,
+		WorkbookControlGUI *wbcg)
+{
+	/* Hang on to old sheet */
+	Sheet *old_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+
+	/* Lookup sheet associated with the current notebook tab */
+	Sheet *sheet = wb_control_gui_focus_cur_sheet (wbcg);
+	gboolean accept = TRUE;
+
+	/* Remove the cell seletion cursor if it exists */
+	if (old_sheet != NULL)
+		sheet_destroy_cell_select_cursor (old_sheet, TRUE);
+
+	if (wbcg->editing) {
+		/* If we are not at a subexpression boundary then finish editing */
+		accept = !workbook_editing_expr (wbcg);
+
+		if (accept)
+			workbook_finish_editing (wbcg, TRUE);
+	}
+	if (accept && wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)) != NULL) {
+		/* force an update of the status and edit regions */
+		sheet_flag_status_update_range (sheet, NULL);
+
+		sheet_update (sheet);
+	}
+}
+
+static void
+workbook_setup_sheets (WorkbookControlGUI *wbcg)
+{
+	wbcg->notebook = gtk_notebook_new ();
+	gtk_signal_connect_after (GTK_OBJECT (wbcg->notebook), "switch_page",
+				  GTK_SIGNAL_FUNC (do_focus_sheet), wbcg);
+
+	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (wbcg->notebook), GTK_POS_BOTTOM);
+	gtk_notebook_set_tab_border (GTK_NOTEBOOK (wbcg->notebook), 0);
+
+	gtk_table_attach (GTK_TABLE (wbcg->table), wbcg->notebook,
+			  0, WB_COLS, WB_EA_SHEETS, WB_EA_SHEETS+1,
+			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+			  0, 0);
+}
+
+#ifdef ENABLE_BONOBO
+static void
+setup_progress_bar (WorkbookControlGUI *wbcg)
+{
+	GtkProgressBar *progress_bar;
+	BonoboControl  *control;
+
+	progress_bar = (GTK_PROGRESS_BAR (gtk_progress_bar_new ()));
+
+	gtk_progress_bar_set_orientation (
+		progress_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
+	gtk_progress_bar_set_bar_style (
+		progress_bar, GTK_PROGRESS_CONTINUOUS);
+	
+	wbcg->progress_bar = GTK_WIDGET (progress_bar);
+	gtk_widget_show (wbcg->progress_bar);
+
+	control = bonobo_control_new (wbcg->progress_bar);
+	g_return_if_fail (control != NULL);
+
+	bonobo_ui_component_object_set (
+		wbcg->uic,
+		"/status/Progress",
+		bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+		NULL);
+}
+#endif
+
+static void
+cb_auto_expr_changed (GtkWidget *item, WorkbookControlGUI *wbcg)
+{
+	g_return_if_fail (wbcg->updating_toolbar == FALSE);
+
+	wbcg->updating_toolbar = TRUE;
+	wb_view_auto_expr (
+		wb_control_workbook_view (WORKBOOK_CONTROL (wbcg)),
+		gtk_object_get_data (GTK_OBJECT (item), "name"),
+		gtk_object_get_data (GTK_OBJECT (item), "expr"));
+	wbcg->updating_toolbar = FALSE;
+}
+
+static void
+cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
+{
+	/*
+	 * WARNING * WARNING * WARNING
+	 *
+	 * Keep the functions in lower case.
+	 * We currently register the functions in lower case and some locales
+	 * (notably tr_TR) do not have the same encoding for tolower that
+	 * locale C does.
+	 *
+	 * eg tolower ('I') != 'i'
+	 * Which would break function lookup when looking up for funtion 'selectIon'
+	 * when it wa sregistered as 'selection'
+	 *
+	 * WARNING * WARNING * WARNING
+	 */
+	static struct {
+		char *displayed_name;
+		char *function;
+	} const quick_compute_routines [] = {
+		{ N_("Sum"),   	       "sum(selection(0))" },
+		{ N_("Min"),   	       "min(selection(0))" },
+		{ N_("Max"),   	       "max(selection(0))" },
+		{ N_("Average"),       "average(selection(0))" },
+		{ N_("Count"),         "count(selection(0))" },
+		{ NULL, NULL }
+	};
+
+	GtkWidget *menu;
+	GtkWidget *item;
+	int i;
+
+	menu = gtk_menu_new ();
+
+	for (i = 0; quick_compute_routines [i].displayed_name; i++) {
+		item = gtk_menu_item_new_with_label (
+			_(quick_compute_routines [i].displayed_name));
+		gtk_object_set_data (GTK_OBJECT (item), "expr",
+				     quick_compute_routines [i].function);
+		gtk_object_set_data (GTK_OBJECT (item), "name",
+				     _(quick_compute_routines [i].displayed_name));
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    GTK_SIGNAL_FUNC (cb_auto_expr_changed), wbcg);
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_widget_show (item);
+	}
+
+	gnumeric_popup_menu (GTK_MENU (menu), event);
+}
+
+/*
+ * Sets up the autocalc label on the workbook.
+ *
+ * This code is more complex than it should for a number of
+ * reasons:
+ *
+ *    1. GtkLabels flicker a lot, so we use a GnomeCanvas to
+ *       avoid the unnecessary flicker
+ *
+ *    2. Using a Canvas to display a label is tricky, there
+ *       are a number of ugly hacks here to do what we want
+ *       to do.
+ *
+ * When GTK+ gets a flicker free label (Owen mentions that the
+ * new repaint engine in GTK+ he is working on will be flicker free)
+ * we can remove most of these hacks
+ */
+static void
+workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
+{
+	GtkWidget *canvas;
+	GnomeCanvasGroup *root;
+	GtkWidget *l, *frame;
+
+	canvas = gnome_canvas_new ();
+
+	l = gtk_label_new ("Info");
+	gtk_widget_ensure_style (l);
+
+	/* The canvas that displays text */
+	root = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
+	wbcg->auto_expr_label = GNOME_CANVAS_ITEM (gnome_canvas_item_new (
+		root, gnome_canvas_text_get_type (),
+		"text",     "x",
+		"x",        (double) 0,
+		"y",        (double) 0,	/* FIXME :-) */
+		"font_gdk", l->style->font,
+		"anchor",   GTK_ANCHOR_NW,
+		"fill_color", "black",
+		NULL));
+	gtk_widget_set_usize (
+		GTK_WIDGET (canvas),
+		gdk_text_measure (l->style->font, "W", 1) * 15, -1);
+
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (frame), canvas);
+#ifdef ENABLE_BONOBO
+	{
+		BonoboControl *control;
+
+		control = bonobo_control_new (frame);
+		g_return_if_fail (control != NULL);
+		
+		bonobo_ui_component_object_set (
+			wbcg->uic,
+			"/status/AutoExpr",
+			bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+			NULL);
+	}
+#else
+	gtk_box_pack_start (GTK_BOX (wbcg->appbar), frame, FALSE, TRUE, 0);
+#endif
+	gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
+			    GTK_SIGNAL_FUNC (cb_select_auto_expr), wbcg);
+
+	gtk_object_unref (GTK_OBJECT (l));
+	gtk_widget_show_all (frame);
+}
+
+/*
+ * Sets up the status display area
+ */
+static void
+workbook_setup_status_area (WorkbookControlGUI *wbcg)
+{
+	/*
+	 * Create the GnomeAppBar
+	 */
+#ifdef ENABLE_BONOBO
+	setup_progress_bar (wbcg);
+#else
+	wbcg->appbar = GNOME_APPBAR (
+		gnome_appbar_new (TRUE, TRUE,
+				  GNOME_PREFERENCES_USER));
+
+	gnome_app_set_statusbar (GNOME_APP (wbcg->toplevel),
+				 GTK_WIDGET (wbcg->appbar));
+#endif
+
+	/*
+	 * Add the auto calc widgets.
+	 */
+	workbook_setup_auto_calc (wbcg);
+}
+
 void
 workbook_control_gui_init (WorkbookControlGUI *wbcg, WorkbookView *optional_view)
 {
+	int sx, sy;
+
+#ifdef ENABLE_BONOBO
+	BonoboUIContainer *ui_container;
+#endif
 	GtkWidget *tmp;
 
 	workbook_control_init (&wbcg->wb_control, optional_view);
@@ -2165,8 +2506,13 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg, WorkbookView *optional_view
 	wbcg->toplevel = GTK_WINDOW (tmp);
 
 	workbook_setup_edit_area (wbcg);
+	workbook_setup_sheets (wbcg);
 
 #ifndef ENABLE_BONOBO
+	/* Do BEFORE setting up UI bits in the non-bonobo case */
+	workbook_setup_status_area (wbcg);
+
+	gnome_app_set_contents (GNOME_APP (wbcg->toplevel), wbcg->table);
 	gnome_app_create_menus_with_data (GNOME_APP (wbcg->toplevel), workbook_menu, wbcg);
 	gnome_app_install_menu_hints (GNOME_APP (wbcg->toplevel), workbook_menu);
 
@@ -2189,6 +2535,9 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg, WorkbookView *optional_view
 	bonobo_ui_component_add_verb_list_with_data (wbcg->uic, verbs, wbcg);
 		
 	bonobo_ui_util_set_ui (wbcg->uic, GNOME_DATADIR, "gnumeric.xml", "gnumeric");
+
+	/* Do after setting up UI bits in the bonobo case */
+	workbook_setup_status_area (wb);
 #endif
 	/* Create before registering verbs so that we can merge some extra. */
  	workbook_create_toolbars (wbcg);
@@ -2196,9 +2545,60 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg, WorkbookView *optional_view
 	/* clipboard setup */
 	x_clipboard_bind_workbook (wbcg);
 
+	/* Create dynamic history menu items. */
+	wbcg_history_setup (wbcg);
+
+	/* There is nothing to undo/redo yet */
+	wbcg_undo_redo_labels (WORKBOOK_CONTROL (wbcg), NULL, NULL);
+
+	/*
+	 * Enable paste special, this assumes that the default is to
+	 * paste from the X clipboard.  It will be disabled when
+	 * something is cut.
+	 */
+	wbcg_paste_special_enable (WORKBOOK_CONTROL (wbcg), TRUE);
+
+	/* We are not in edit mode */
+	wbcg->select_abs_col = wbcg->select_abs_row = FALSE;
+	wbcg->select_full_col = wbcg->select_full_row = FALSE;
+	wbcg->select_single_cell = FALSE;
+	wbcg->editing = FALSE;
+	wbcg->editing_sheet = NULL;
+	wbcg->editing_cell = NULL;
+
 	gtk_signal_connect_after (
 		GTK_OBJECT (wbcg->toplevel), "delete_event",
-		GTK_SIGNAL_FUNC (workbook_delete_event), wbcg);
+		GTK_SIGNAL_FUNC (wbcg_delete_event), wbcg);
+	gtk_signal_connect_after (
+		GTK_OBJECT (wbcg->toplevel), "set_focus",
+		GTK_SIGNAL_FUNC (wbcg_set_focus), wbcg);
+	gtk_signal_connect (GTK_OBJECT (wbcg->toplevel),
+			    "button-release-event",
+			    GTK_SIGNAL_FUNC (cb_scroll_wheel_support),
+			    wbcg);
+#if 0
+	/* Enable toplevel as a drop target */
+
+	gtk_drag_dest_set (wbcg->toplevel,
+			   GTK_DEST_DEFAULT_ALL,
+			   drag_types, n_drag_types,
+			   GDK_ACTION_COPY);
+
+	gtk_signal_connect (GTK_OBJECT (wb->toplevel),
+			    "drag_data_received",
+			    GTK_SIGNAL_FUNC (filenames_dropped), wb);
+#endif
+
+	/* Now that everything is initialized set the size */
+	/* TODO : use gnome-config ? */
+	gtk_window_set_policy (wbcg->toplevel, TRUE, TRUE, FALSE);
+	sx = MAX (gdk_screen_width  () - 64, 600);
+	sy = MAX (gdk_screen_height () - 64, 200);
+	sx = (sx * 3) / 4;
+	sy = (sy * 3) / 4;
+	wbcg_size_pixels_set (WORKBOOK_CONTROL (wbcg), sx, sy);
+
+	gtk_widget_show_all (wbcg->table);
 }
 
 static void
@@ -2208,6 +2608,9 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 
 	g_return_if_fail (wbc_class != NULL);
 
+	parent_class = gtk_type_class (gtk_object_get_type ());
+
+	object_class->destroy 	    = wbcg_destroy;
 	wbc_class->title_set	    = wbcg_title_set;
 	wbc_class->size_pixels_set  = wbcg_size_pixels_set;
 	wbc_class->prefs_update	    = wbcg_prefs_update;
@@ -2215,6 +2618,9 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->format_feedback  = wbcg_format_feedback;
 	wbc_class->zoom_feedback    = wbcg_zoom_feedback;
 	wbc_class->edit_line_set    = wbcg_edit_line_set;
+
+	wbc_class->auto_expr.name    = wbcg_auto_expr_name;
+	wbc_class->auto_expr.value   = wbcg_auto_expr_value;
 
 	wbc_class->undo_redo.clear  = wbcg_undo_redo_clear;
 	wbc_class->undo_redo.pop    = wbcg_undo_redo_pop;
@@ -2231,16 +2637,11 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->error.invalid = wbcg_error_invalid;
 }
 
-static void
-workbook_control_gui_ctor (GtkObject *object)
-{
-}
 
 GNUMERIC_MAKE_TYPE(workbook_control_gui,
 		   "WorkbookControlGUI",
 		   WorkbookControlGUI,
-		   workbook_control_gui_ctor_class,
-		   workbook_control_gui_ctor,
+		   workbook_control_gui_ctor_class, NULL,
 		   workbook_control_get_type ());
 
 WorkbookControl *

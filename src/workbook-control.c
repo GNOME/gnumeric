@@ -58,6 +58,10 @@ WBC_VIRTUAL (zoom_feedback,
 	     (WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (edit_line_set,
 	     (WorkbookControl *wbc, char const *text), (wbc, text))
+WBC_VIRTUAL_FULL (auto_expr_name, auto_expr.name,
+	     (WorkbookControl *wbc, char const *name), (wbc, text))
+WBC_VIRTUAL_FULL (auto_expr_value, auto_expr.value,
+	     (WorkbookControl *wbc, char const *value), (wbc, text))
 
 WBC_VIRTUAL_FULL (undo_redo_clear, undo_redo.clear,
 	(WorkbookControl *wbc, gboolean is_undo), (wbc, is_undo))

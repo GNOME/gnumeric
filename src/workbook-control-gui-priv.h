@@ -59,6 +59,7 @@ struct _WorkbookControlGUI {
 	/* Used to detect if the user has backspaced, so we turn off auto-complete */
 	int              auto_max_size;
 
+	/* FIXME : should be in the View */
 	/* When editing a cell: the cell (may be NULL) */
 	Cell        *editing_cell;
 	Sheet       *editing_sheet;
