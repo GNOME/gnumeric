@@ -58,7 +58,7 @@ eaier to reference the cells as a group. This can include
 cells in sets horizontally, vertically, or in arrays.</para>
 
 <para>The ':' operator is used to indicate a range of cells. The basic
-syntax is upperleft corne:bottom rigth corner. </para>
+syntax is upperleft corner:bottom rigth corner. </para>
 
     <example>
     <programlisting>

@@ -298,14 +298,21 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 			NULL, "black", 1);
 		break;
 
-	case SHEET_MODE_CREATE_OVAL:
+	case SHEET_MODE_CREATE_OVAL: {
+		double x1, x2, y1, y2;
+
+		x1 = MIN (oc->x, to_x);
+		x2 = MAX (oc->x, to_x);
+		y1 = MIN (oc->y, to_y);
+		y2 = MAX (oc->y, to_y);
+		
 		o = sheet_object_create_filled (
 			sheet, SHEET_OBJECT_ELLIPSE,
-			oc->x, oc->y,
-			to_x, to_y,
+			x1, y1, x2, y2,
 			NULL, "black", 1);
 		break;
-
+	}
+	
 	case SHEET_MODE_SHEET:
 	case SHEET_MODE_OBJECT_SELECTED:
 		g_warning ("This sould not happen\n");

@@ -1,5 +1,8 @@
 1998-09-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/sheet-object.c (create_object): Swap arguments to the
+	ellipse object to guarrantee we pass valid information.
+
 	* src/render-ascii.c (cell_region_render_ascii): Ok, remove the
 	leaks now.
 
