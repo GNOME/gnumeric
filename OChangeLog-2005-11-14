@@ -1,3 +1,9 @@
+2005-03-04  Jon K Hellan  <hellan@acm.org>
+
+	* src/ssindex.c (main): Plugin api renamed.
+
+	* src/ssconvert.c (main): Ditto.
+
 2005-03-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* src/sheet-control-gui.c (apply_move): don't get rtl flag from 

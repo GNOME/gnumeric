@@ -204,8 +204,8 @@ main (int argc, char const *argv [])
 
 	cc = cmd_context_stderr_new ();
 	gnm_plugins_init (GO_CMD_CONTEXT (cc));
-	plugin_db_activate_plugin_list (
-		plugins_get_available_plugins (), &plugin_errs);
+	go_plugin_db_activate_plugin_list (
+		go_plugins_get_available_plugins (), &plugin_errs);
 
 	if (ssconvert_list_exporters)
 		list_them (&get_file_savers,
