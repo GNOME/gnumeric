@@ -15,7 +15,6 @@
 #include "ms-ole.h"
 #include "ms-ole-summary.h"
 #include "ms-biff.h"
-#include "biff-types.h"
 
 #define BIFF_TYPES_FILE    "biff-types.h"
 
@@ -664,7 +663,7 @@ decompress_vba (guint8 *data, guint32 len)
 	#define BUF_BITS 6
 	#define BUF_MASK 0x3f
 
-	int      shift, i;
+	int      shift;
 	guint8   buffer[BUF_SIZE];
 	guint8  *ptr;
 	guint32  pos;
@@ -683,7 +682,7 @@ decompress_vba (guint8 *data, guint32 len)
 			if (hdr & shift) {
 				guint16 dt = MS_OLE_GET_GUINT16 (ptr);
 				int lp, i;
-				printf ("|match 0x%x = %d, %d|\n", dt, (dt >> 9) + 1,
+				printf ("|match 0x%x = %d, %d|\n", dt, ((dt >> 9)&0xf) + 1,
 					(dt & BUF_MASK));
 				/* Perhaps dt & SHIFT = dist. to end of run */
 				for (i = 16; i >= 0; i--) {

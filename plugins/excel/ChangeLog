@@ -2,6 +2,9 @@
 
 	* ole.c (decompress_vba): an idea.
 	(dump_vba_module): + hooks.
+1999-09-25  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* ole.c (decompress_vba): remove unused + clean headers.
 
 1999-09-25  Jody Goldberg <jgoldberg@home.com>
 
