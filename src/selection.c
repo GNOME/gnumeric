@@ -1114,12 +1114,19 @@ selection_foreach_range (Sheet *sheet, gboolean from_start,
 /*
  * walk_boundaries : Iterates through a region by row then column.
  *
+ * @sheet : The sheet being iterated in
+ * @bound : The bounding range
+ * @forward : iterate forward or backwards
+ * @horizontal : across then down
+ * @smart_merge: iterate into merged cells only at their corners
+ * @res : The result.
+ *
  * returns TRUE if the cursor leaves the boundary region.
  */
 static gboolean
 walk_boundaries (Sheet const *sheet, Range const * const bound,
 		 gboolean const forward, gboolean const horizontal,
-		 CellPos * const res)
+		 gboolean const smart_merge, CellPos * const res)
 {
 	int const step = forward ? 1 : -1;
 	CellPos pos = sheet->edit_pos_real;
@@ -1158,20 +1165,22 @@ loop :
 		} else
 			pos.row += step;
 	}
-	merge = sheet_region_get_merged_cell (sheet, &pos);
-	if (merge != NULL) {
-		if (forward) {
-			if (pos.col != merge->start.col ||
-			    pos.row != merge->start.row)
-				goto loop;
-		} else if (horizontal) {
-			if (pos.col != merge->end.col ||
-			    pos.row != merge->start.row)
-				goto loop;
-		} else {
-			if (pos.col != merge->start.col ||
-			    pos.row != merge->end.row)
-				goto loop;
+	if (smart_merge) {
+		merge = sheet_region_get_merged_cell (sheet, &pos);
+		if (merge != NULL) {
+			if (forward) {
+				if (pos.col != merge->start.col ||
+				    pos.row != merge->start.row)
+					goto loop;
+			} else if (horizontal) {
+				if (pos.col != merge->end.col ||
+				    pos.row != merge->start.row)
+					goto loop;
+			} else {
+				if (pos.col != merge->start.col ||
+				    pos.row != merge->end.row)
+					goto loop;
+			}
 		}
 	}
 
@@ -1208,7 +1217,7 @@ sheet_selection_walk_step (Sheet *sheet,
 			 ss->start.row == sheet->edit_pos.row) {
 			Range const *merge = sheet_region_is_merge_cell (sheet,
 				&sheet->edit_pos);
-			if (range_equal (merge, ss))
+			if (merge != NULL && range_equal (merge, ss))
 				is_singleton = TRUE;
 		}
 	}
@@ -1229,7 +1238,7 @@ sheet_selection_walk_step (Sheet *sheet,
 
 		/* Ignore attempts to move outside the boundary region */
 		if (!walk_boundaries (sheet, &full_sheet, forward, horizontal,
-				      &destination)) {
+				      FALSE, &destination)) {
 			sheet_selection_set (sheet,
 					     destination.col, destination.row,
 					     destination.col, destination.row,
@@ -1240,7 +1249,8 @@ sheet_selection_walk_step (Sheet *sheet,
 		return;
 	}
 
-	if (walk_boundaries (sheet, ss, forward, horizontal, &destination)) {
+	if (walk_boundaries (sheet, ss, forward, horizontal,
+			     TRUE, &destination)) {
 		if (forward) {
 			GList *tmp = g_list_last (sheet->selections);
 			sheet->selections =

@@ -1,5 +1,11 @@
 2000-12-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/selection.c (walk_boundaries) : Make smart walking of merged
+	  cells optional.  It only seems to affect walking fixed regions.
+	(sheet_selection_walk_step) : Fix previous thinko.
+
+2000-12-18  Jody Goldberg <jgoldberg@home.com>
+
 	* src/selection.c (sheet_selection_walk_step) : recognize singletons
 	  even when they are merged cells.
 
