@@ -528,7 +528,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	Sheet *sheet = gnm_app_clipboard_sheet_get ();
 	GnmRange const *a = gnm_app_clipboard_area_get ();
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	gchar const* target_name = gdk_atom_name (selection_data->target);
+	gchar *target_name;
 
 	/*
 	 * Not sure how to handle this, not sure what purpose this has has
@@ -552,6 +552,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 
 	g_return_if_fail (clipboard != NULL);
 
+	target_name = gdk_atom_name (selection_data->target);
 	/*
 	 * Check whether the other application wants gnumeric XML format
 	 * in fact we only have to check the 'info' variable, however
@@ -597,6 +598,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 
 		g_free (rendered_selection);
 	}
+	g_free (target_name);
 
 	/*
 	 * If this was a CUT operation we need to clear the content that was pasted

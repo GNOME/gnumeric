@@ -1,3 +1,7 @@
+2005-03-24  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (x_clipboard_get_cb): Plug leak.
+
 2005-03-24  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (tdistexp): Take a log_p flag.  Improve accuracy
