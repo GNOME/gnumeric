@@ -1,0 +1,134 @@
+Hello,
+
+   I have just released Gnumeric 0.36, the new version of your
+favorite computing spreadsheet.  The Gnumeric team came up with lots
+of new features and improvements for enhancing your spreadsheet
+experience.
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+* New features in this release
+
+   This is not a complete list, but we did work very hard this time,
+and the ChangeLog entries are not fully descriptive, I apologize in
+advance. 
+
+* Documentation
+
+	* Jukka improved the function's documentation and he also
+	  added examples to numerous functions. 
+
+* User interface
+
+	* New toolbar setup: we now have two toolbars and an emerging
+	  system for creating more toolbars and managing them (me)
+
+	* New toolbar items: Font, Font size, foreground color,
+	  background color buttons available for quick formatting (me)
+
+	* Quick format buttons on the toolbar: money format, percent
+	  format, add decimals, remove decimals, add-thousands (me)
+
+	* Edit/Delete added (Jukka)
+
+	* Format/{Column,Row,Sheet} additions (me)
+
+	* Implemented DnD support with images using Bonobo (Michael,
+	  requires Bonobo).
+
+	* Array input parser (Michael).
+
+	* New Zoom dialog box, much improved (Jody).
+
+	* Double clicking on row division now auto-sizes (just like
+	  columns).
+
+	* ESC should close all dialogs now properly (me)
+
+	* All dialogs now have a widget focused at startup (me)
+
+* Sheet objects
+
+	* Michael reimplemented the framework for sheet objects, they
+	  should behave saner
+
+	* Many updates from Jody, Michael to this code.
+
+* Printing
+
+	* Per/sheet print-information and print-previewing to match
+	  Excel (Michael).
+
+	* Print information is loaded/saved now to the .gnumeric
+	  files.
+
+* Bonobo features
+
+	* Excel images are imported using the Bonobo image component
+	  (and soon to be the EOG component Federicoi and Michael are
+	  working on) (Michael).
+
+	* Many reference/unreference fixes from Michael to get the
+	  code working properly with Bonobo.
+	
+* Excel support
+
+	* Improved the image import code for images and pictures
+	  (Escher code) by Jody
+
+	* Excel objects are imported by default (this is enabled to
+	  let you report better bugs in this piece of code ;-), Jody.
+
+	* Increased row limit to 64k (to match Excel 2000).
+
+	* Michael started to drop the mmap usage for loading excel
+	  files.
+	
+	* LibOLE2 API rewrite from Michael.
+
+	* Exports Excel add-in functions (Michael)
+
+	* Exports summary info to Excel (Frank)
+
+	* Default columns/rows sizes now match the Excel sizes.
+
+* Fixes
+
+	* Morten Welinder as usual fixed many bugs and plugged many
+	  memory leaks in the code all over the place.
+
+	* Scrollbars should be updated properly now (Jody).
+
+* Internals
+
+	* Jody redid the selection code and now it handles overlapping
+	  selections correctly.  The code he wrote is easily
+	  accessible by developers by using the selection_apply()
+	  routine.
+
+	  Many bugs are fixed as a side effect of this work.
+
+	* Changed to use selection_apply in many spots
+
+	* Improved the workbook_feedback code
+
+* Functions.
+
+	* PERCENTRANK() fixed (Jukka)
+
+	* MATCH(), INDEX() started (Michael)
+
+	* LOGEST() implemented (Morten)
+
+	* PERCENTILE() implemented (Jukka, Morten)
+
+* New widgets
+
+	* GtkComboBox, this is the ideal GtkComboBox (me)
+
+	* ColorCombo, a color selector combo box (me)
+
+Enjoy,
+Miguel.

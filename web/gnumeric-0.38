@@ -1,0 +1,55 @@
+Hello Gnumeric fans!
+
+   I have release a new version of Gnumeric 0.38.  This version is
+basically a bug fix release.  We did fix so many things in the last
+day, that it was worth making a new release of the code.
+
+   This version of Gnumeric needs gnome-print 0.8 (just released) as I
+corrected a printing semantic error in both programs. 
+
+* Availability
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnome-print
+
+* New since last release
+
+	* Color palette is the same as the Excel one (Morten, Jody, me)
+
+* Printing features
+
+	* Now empty cells are painted with the correct background (me).
+
+	* Now we paint the background for cells (me)
+
+	* Fixed bug on the portrait painting code (me).
+
+	* Fixed bug that made print-preview non-usable, should be
+	  fully working now (me).
+
+	* Fixed default header/footer to be printed.
+
+* User interface
+
+	* spinbox now gets a nice default value.  Set the dialog parent properly (Jody)
+
+* CORBA
+
+	* We now register our servers with a GOADID prefix, rather
+	  than IDL: (thanks to Owen for pointing this out).
+
+* Memory leaks
+
+	* ColorCombo leaks are gone
+
+	* Style leak fixed.
+
+* New translations
+
+	* Brazilian (Rodrigo)
+
+* XML-IO
+
+	* Fixed output to be quiet (jody)
+
+Miguel.
