@@ -1,3 +1,11 @@
+2000-01-05  Jon K Hellan  <hellan@acm.org>
+
+	* src/plugin-manager.c (struct PluginManager): Remove unused
+	members. (BUTTON_ADD, BUTTON_REMOVE, BUTTON_CLOSE): Define
+	(populate_clist):Remove set_sensitive. (row_cb): Use BUTTON_REMOVE define.
+	(plugin_manager_new): Use BUTTON_.. defines. Allow user to expand
+	size. Widen.
+
 2000-01-06  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/xml-io.c (xml_read_style): Actually read & use the font size; how

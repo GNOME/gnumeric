@@ -166,7 +166,6 @@ initgnumeric(void)
 {
 	PyImport_AddModule ("gnumeric");
 	Py_InitModule ("gnumeric", gnumeric_funcs);
-	g_print (_("Gnumeric/Python module initialized\n"));
 }
 
 static int

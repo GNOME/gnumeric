@@ -1,3 +1,8 @@
+2000-01-05  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (write_colinfos): Fix off by one error.
+	(write_sheet_bools): Ditto.
+
 2000-01-03  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_sheet) : extend support for WINDOW2.

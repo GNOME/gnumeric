@@ -2703,7 +2703,7 @@ write_colinfos (BiffPut *bp, ExcelSheet *sheet)
 			col.first = i;
 		}
 	}
-	col.last = sheet->maxx;
+	col.last = sheet->maxx - 1;
 	write_colinfo (bp, &col);
 }
 
@@ -2843,7 +2843,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	} else {
 		data = ms_biff_put_len_next (bp, (0x200 | BIFF_DIMENSIONS), 10);
 		MS_OLE_SET_GUINT16 (data +  0, 0);
-		MS_OLE_SET_GUINT16 (data +  2, sheet->maxy-1);
+		MS_OLE_SET_GUINT16 (data +  2, sheet->maxy);
 		MS_OLE_SET_GUINT16 (data +  4, 0);
 		MS_OLE_SET_GUINT16 (data +  6, sheet->maxx);
 		MS_OLE_SET_GUINT16 (data +  8, 0x0000);

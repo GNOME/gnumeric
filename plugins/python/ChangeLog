@@ -1,0 +1,5 @@
+2000-01-03  Jon K Hellan  <hellan@acm.org>
+
+        * plugins/python/python.c (initgnumeric): No longer display
+        Python initialization message.
+
