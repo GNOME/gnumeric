@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<plugin id="Gnumeric_fnlogical">
+	<information>
+		<_name>Logical Functions</_name>
+		<_description>Functions for manipulating truth values</_description>
+	</information>
+	<loader type="g_module">
+		<attribute name="module_file" value="plugin.la"/>
+	</loader>
+	<services>
+		<service type="function_group" id="logical">
+			<_category>Logical</_category>
+			<functions>
+				<function name="and"/>
+				<function name="or"/>
+				<function name="xor"/>
+				<function name="not"/>
+				<function name="if"/>
+				<function name="true"/>
+				<function name="false"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

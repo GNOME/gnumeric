@@ -39,7 +39,6 @@ extern void math_functions_init        (void);
 extern void sheet_functions_init       (void);
 extern void stat_functions_init        (void);
 extern void lookup_functions_init      (void);
-extern void logical_functions_init     (void);
 extern void database_functions_init    (void);
 extern void information_functions_init (void);
 
@@ -52,7 +51,6 @@ functions_init (void)
 	sheet_functions_init ();
 	stat_functions_init ();
 	lookup_functions_init ();
-	logical_functions_init ();
 	database_functions_init ();
 	information_functions_init ();
 }

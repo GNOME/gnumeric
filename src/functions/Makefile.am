@@ -10,7 +10,6 @@ noinst_LIBRARIES = libfunctions.a
 libfunctions_a_SOURCES =			\
 	fn-database.c				\
 	fn-information.c			\
-	fn-logical.c				\
 	fn-lookup.c				\
 	fn-math.c				\
 	fn-sheet.c				\
