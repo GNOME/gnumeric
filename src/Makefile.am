@@ -66,8 +66,10 @@ GNUMERIC_BASE_SOURCES =				\
 	color.h					\
 	command-context.h			\
 	command-context.c			\
-	command-context-gui.h			\
+	command-context-corba.c			\
+	command-context-corba.h			\
 	command-context-gui.c			\
+	command-context-gui.h			\
 	complex.h				\
 	complex.c				\
 	corba.h					\

@@ -16,6 +16,7 @@
 #include "utils.h"
 #include "ranges.h"
 #include "selection.h"
+#include "command-context-corba.h"
 
 #define verify(cond)          if (!(cond)){ out_of_range (ev); return; }
 #define verify_val(cond,val)  if (!(cond)){ out_of_range (ev); return (val); }
@@ -46,13 +47,6 @@ static inline void
 out_of_range (CORBA_Environment *ev)
 {
 	CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Sheet_OutOfRange, NULL);
-}
-
-CommandContext *
-command_context_corba (void)
-{
-	/* FIXME FIXME FIXME : corba context */
-	return NULL;
 }
 
 /*
@@ -184,7 +178,7 @@ Sheet_selection_copy (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
-	sheet_selection_copy (command_context_corba (), sheet);
+	sheet_selection_copy (command_context_corba (sheet->workbook), sheet);
 }
 
 static void
@@ -192,7 +186,7 @@ Sheet_selection_cut (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
-	sheet_selection_cut (command_context_corba (), sheet);
+	sheet_selection_cut (command_context_corba (sheet->workbook), sheet);
 }
 
 static void
@@ -205,8 +199,9 @@ Sheet_selection_paste (PortableServer_Servant servant,
 	verify_col (dest_col);
 	verify_row (dest_row);
 	
-	sheet_selection_paste (command_context_corba (), sheet,
-			       dest_col, dest_row, paste_flags, 0);
+	sheet_selection_paste (
+		command_context_corba (sheet->workbook), sheet,
+		dest_col, dest_row, paste_flags, 0);
 }
 
 static void
@@ -219,8 +214,10 @@ Sheet_clear_region (PortableServer_Servant servant,
 
 	verify_region (start_col, start_row, end_col, end_row);
 
-	sheet_clear_region (command_context_corba (), sheet, start_col, start_row,
-			    end_col, end_row, TRUE);
+	sheet_clear_region (
+		command_context_corba (sheet->workbook),
+		sheet, start_col, start_row,
+		end_col, end_row, TRUE);
 }
 
 static void
@@ -232,8 +229,9 @@ Sheet_clear_region_content (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_region (start_col, start_row, end_col, end_row);
-	sheet_clear_region_content (command_context_corba (), sheet,
-				    start_col, start_row, end_col, end_row);
+	sheet_clear_region_content (
+		command_context_corba (sheet->workbook), sheet,
+		start_col, start_row, end_col, end_row);
 }
 
 static void
@@ -805,8 +803,9 @@ Sheet_insert_col (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_col (col);
-	sheet_insert_cols (command_context_corba (), sheet,
-			   col, count);
+	sheet_insert_cols (
+		command_context_corba (sheet->workbook), sheet,
+		col, count);
 }
 
 static void
@@ -817,8 +816,9 @@ Sheet_delete_col (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_col (col);
-	sheet_delete_cols (command_context_corba (), sheet,
-			   col, count);
+	sheet_delete_cols (
+		command_context_corba (sheet->workbook), sheet,
+		col, count);
 }
 
 static void
@@ -829,8 +829,9 @@ Sheet_insert_row (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_row (row);
-	sheet_insert_rows (command_context_corba (), sheet,
-			   row, count);
+	sheet_insert_rows (
+		command_context_corba (sheet->workbook), sheet,
+		row, count);
 }
 
 static void
@@ -841,8 +842,9 @@ Sheet_delete_row (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_row (row);
-	sheet_delete_rows (command_context_corba (), sheet,
-			   row, count);
+	sheet_delete_rows (
+		command_context_corba (sheet->workbook), sheet,
+		row, count);
 }
 
 static void
@@ -857,8 +859,9 @@ Sheet_shift_rows (PortableServer_Servant servant,
 	verify_row (end_row);
 	verify_col (col);
 
-	sheet_shift_rows (command_context_corba (), sheet,
-			  col, start_row, end_row, count);
+	sheet_shift_rows (
+		command_context_corba (sheet->workbook), sheet,
+		col, start_row, end_row, count);
 }
 
 static void
@@ -873,8 +876,9 @@ Sheet_shift_cols (PortableServer_Servant servant,
 	verify_row (start_row);
 	verify_row (end_row);
 
-	sheet_shift_cols (command_context_corba (), sheet,
-			  col, start_row, end_row, count);
+	sheet_shift_cols (
+		command_context_corba (sheet->workbook), sheet,
+		col, start_row, end_row, count);
 }
 
 static GNOME_Gnumeric_Sheet_ValueVector *

@@ -1,3 +1,11 @@
+1999-12-31  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/corba-sheet.c: Use properly the command_context_corba,
+	passing a workbook argument in all functions.
+
+	* src/command-context-corba.c, src/command-context-corba.h:
+	Implement CORBA versions of the CommandContext.
+
 1999-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_command_context_gui) : minor warning
