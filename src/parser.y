@@ -220,7 +220,7 @@ return_cellref (char *p)
 	if (!(*p >= '1' && *p <= '9'))
 		return 0;
 
-	while (isdigit (*p)){
+	while (isdigit ((unsigned char)*p)){
 		row = row * 10 + *p - '0';
 		p++;
 	}
@@ -378,7 +378,7 @@ int yylex (void)
 	const char *p, *tmp;
 	int is_float, digits;
 
-        while(isspace (*parser_expr))
+        while(isspace ((unsigned char)*parser_expr))
                 parser_expr++;
 
 	c = *parser_expr++;
@@ -401,7 +401,8 @@ int yylex (void)
 		tmp = parser_expr;
 
 		digits = 1;
-		while (isdigit (*tmp) || (!is_float && *tmp=='.' && ++is_float)) {
+		while (isdigit ((unsigned char)*tmp) ||
+		       (!is_float && *tmp=='.' && ++is_float)) {
 			tmp++;
 			digits++;
 		}
@@ -414,7 +415,7 @@ int yylex (void)
 			tmp++;
 			if (*tmp == '-' || *tmp == '+')
 				tmp++;
-			while (isdigit (*tmp))
+			while (isdigit ((unsigned char)*tmp))
 				tmp++;
 		}
 
@@ -469,12 +470,12 @@ int yylex (void)
 	}
 	}
 	
-	if (isalpha (c) || c == '_' || c == '$'){
+	if (isalpha ((unsigned char)c) || c == '_' || c == '$'){
 		const char *start = parser_expr - 1;
 		char *str;
 		int  len;
 		
-		while (isalnum (*parser_expr) || *parser_expr == '_' ||
+		while (isalnum ((unsigned char)*parser_expr) || *parser_expr == '_' ||
 		       *parser_expr == '$' || *parser_expr == '.')
 			parser_expr++;
 

@@ -637,22 +637,16 @@ cell_set_text_simple (Cell *cell, const char *text)
  	if (text [0] == '=' && text [1] != 0){
 		cell_set_formula (cell, text);
 	} else {
-		const char *p;
 		char *end;
 		long l;
 
-		/* Skip spaces, just in case.  */
-		p = text;
-		while (isspace (*p)) p++;
-
-		l = strtol (p, &end, 10);
-		if (p != end && *end == 0){
-			/* It is an int.  FIXME: long/int confusion here.  */
+		l = strtol (text, &end, 10);
+		if (text != end && *end == 0 && l == (int)l) {
 			cell->value = value_new_int (l);
 		} else {
 			double d;
-			d = strtod (p, &end);
-			if (p != end && *end == 0){
+			d = strtod (text, &end);
+			if (text != end && *end == 0){
 				/* It is a floating point number.  */
 				cell->value = value_new_float ((float_t)d);
 			} else {

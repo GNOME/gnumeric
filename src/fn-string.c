@@ -606,7 +606,7 @@ gnumeric_proper (struct FunctionDefinition *i,
 
 	s = p = argv[0]->v.str->str;
 	while (*s) {
-		if (isalpha(*s)) {
+		if (isalpha((unsigned char)*s)) {
 			if (inword) {
 				*s = tolower(*s);
 			} else {

@@ -1,3 +1,20 @@
+1999-06-10  Morten Welinder  <terra@diku.dk>
+
+	* src/parser.y (return_cellref): Surprise: isdigit and friends
+ 	take unsigned chars (effectively).  The results are *undefined*
+ 	(and weird) for signed chars.
+	(yylex): Ditto.
+
+	* src/fn-string.c (gnumeric_proper): Ditto.
+
+	* src/utils.c (parse_cell_name): Ditto.
+
+	* src/sheet-autofill.c (string_has_number): Ditto.
+	(autofill_cell): Ditto.
+
+	* src/cell.c (cell_set_text_simple): Ditto.  Also fix long/int
+ 	confusion.
+
 1999-06-10  James Henstridge  <james@daa.com.au>
 
 	* src/main.c (gnumeric_main): changed call to glade_init() to a call
@@ -146,9 +163,9 @@
 	* src/gnumeric-util.c (font_change_component): Extend the size of
 	the array components[] so that it can handle very long fontset
 	names.
-	
+
 	* src/style.c: Change the default font names.
-	
+
 	* src/workbook.c: Add gtk_widget_ensure_style() call, which is
 	necessary to knowing if a fontset is supplied for the label
 	widget.
@@ -195,7 +212,7 @@
 
 1999-06-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	* src/file.c (dialog_query_load_file): 
+	* src/file.c (dialog_query_load_file):
 	(workbook_save_as): Prettify these.  Thanks to Andrew for pointing
 	this out.
 
@@ -365,7 +382,7 @@
 
 	* src/dialog-zoom.c (dialog_zoom): Handle window manager close
 	here (it comes in the form of return value being NULL).
-	
+
 	* src/dialog-insert-cells.c (dialog_insert_cells): ditto.
 
 	* src/dialog-delete-cells.c (dialog_delete_cells): ditto.

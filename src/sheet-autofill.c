@@ -159,7 +159,7 @@ string_has_number (String *str, int *num, int *pos)
 	int l = strlen (s);
 	gboolean found_number = FALSE;
 	
-	if (isdigit (*s)){
+	if (isdigit ((unsigned char)*s)){
 		*num = atoi (s);
 		*pos = 0;
 		return TRUE;
@@ -167,7 +167,7 @@ string_has_number (String *str, int *num, int *pos)
 	if (l <= 1)
 		return FALSE;
 	
-	for (p = s + l - 1; p > str->str && isdigit (*p); p--)
+	for (p = s + l - 1; p > str->str && isdigit ((unsigned char)*p); p--)
 		found_number = TRUE;
 
 	if (!found_number)
@@ -455,7 +455,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		if (last->v.numstr.pos == 0){
 			char *p = last->v.numstr.str->str;
 
-			while (*p && isdigit (*p))
+			while (*p && isdigit ((unsigned char)*p))
 			       p++;
 			
 			v = g_strconcat (buffer, p, NULL);
