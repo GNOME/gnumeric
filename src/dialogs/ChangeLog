@@ -1,3 +1,7 @@
+2001-02-11  Karl Eichwalder  <ke@suse.de>
+
+	* dialog-stf.glade: Add dots to tooltips.
+
 2001-02-11  Jody Goldberg <jgoldberg@home.com>
 
 	* cell-format.glade : Remove the merge cell button untill gtk2.0
