@@ -591,6 +591,7 @@ search_filter_matching (SearchReplace *sr, const GPtrArray *cells)
 
 	for (i = 0; i < cells->len; i++) {
 		SearchReplaceCellResult cell_res;
+		SearchReplaceValueResult value_res;
 		SearchReplaceCommentResult comment_res;
 		gboolean found;
 		const EvalPos *ep = g_ptr_array_index (cells, i);
@@ -601,6 +602,16 @@ search_filter_matching (SearchReplace *sr, const GPtrArray *cells)
 			SearchFilterResult *item = g_new (SearchFilterResult, 1);
 			item->ep = *ep;
 			item->cell = cell_res.cell;
+			item->locus = SRL_contents;
+			item->comment = NULL;
+			g_ptr_array_add (result, item);
+		}
+
+		if (search_replace_value (sr, ep, &value_res)) {
+			SearchFilterResult *item = g_new (SearchFilterResult, 1);
+			item->ep = *ep;
+			item->cell = value_res.cell;
+			item->locus = SRL_value;
 			item->comment = NULL;
 			g_ptr_array_add (result, item);
 		}
@@ -610,6 +621,7 @@ search_filter_matching (SearchReplace *sr, const GPtrArray *cells)
 			item->ep = *ep;
 			item->cell = NULL;
 			item->comment = comment_res.comment;
+			item->locus = SRL_commment;
 			g_ptr_array_add (result, item);
 		}
 	}
@@ -718,6 +730,35 @@ search_replace_cell (SearchReplace *sr,
 	}
 
 	return FALSE;
+}
+
+/* ------------------------------------------------------------------------- */
+
+gboolean
+search_replace_value (SearchReplace *sr,
+		      const EvalPos *ep,
+		      SearchReplaceValueResult *res)
+{
+	Cell *cell;
+
+	g_return_val_if_fail (res, FALSE);
+
+	res->cell = NULL;
+
+	g_return_val_if_fail (sr && sr->comp_search, FALSE);
+
+	if (!sr->search_expression_results)
+		return FALSE;
+
+	cell = res->cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
+	if (!cell || !cell_has_expr (cell) || !cell->value)
+		return FALSE;
+	else {
+		char *val = value_get_as_string (cell->value);
+		gboolean res = search_match_string (sr, val);			
+		g_free (val);
+		return res;
+	}
 }
 
 /* ------------------------------------------------------------------------- */

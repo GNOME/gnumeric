@@ -439,7 +439,7 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 
 	g_value_init (value, ll->column_headers[column]);
 
-	/* g_print ("col=%d,row=%d\n", column, row); */
+	g_print ("col=%d,row=%d\n", column, row);
 
 	switch (column) {
 	case COL_SHEET:
@@ -449,7 +449,14 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 		g_value_set_string (value, cellpos_as_string (&item->ep.eval));
 		return;
 	case COL_TYPE:
-		if (cell) {
+		switch (item->locus) {
+		case SRL_commment:
+			g_value_set_string (value, _("Comment"));
+			return;
+		case SRL_value:
+			g_value_set_string (value, _("Result"));
+			return;
+		case SRL_contents: {
 			Value *v = cell->value;
 			const char *type;
 
@@ -467,19 +474,38 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 			else
 				type = _("Other value");
 			g_value_set_string (value, type);
-		} else {
-			g_value_set_string (value, _("Comment"));
+			return;
 		}
-		return;
-	case COL_CONTENTS:
-		if (cell)
-			g_value_set_string_take_ownership
-				(value, cell_get_entered_text (cell));
-		else
-			g_value_set_string (value, cell_comment_text_get (item->comment));
-		return;
+
+#ifndef DEBUG_SWITCH_ENUM
 	default:
 		g_assert_not_reached ();
+#endif
+		}
+
+	case COL_CONTENTS:
+		switch (item->locus) {
+		case SRL_commment:
+			g_value_set_string (value, cell_comment_text_get (item->comment));
+			return;
+		case SRL_value:
+			g_value_set_string_take_ownership
+				(value, value_get_as_string (cell->value));
+			return;
+		case SRL_contents:
+			g_value_set_string_take_ownership
+				(value, cell_get_entered_text (cell));
+			return;
+#ifndef DEBUG_SWITCH_ENUM
+	default:
+		g_assert_not_reached ();
+#endif
+		}
+
+#ifndef DEBUG_SWITCH_ENUM
+	default:
+		g_assert_not_reached ();
+#endif
 	}
 }
 
@@ -489,10 +515,6 @@ static void
 free_state (DialogState *dd)
 {
 	search_filter_matching_free (dd->matches);
-#if 0
-	clear_strings (dd);
-	g_hash_table_destroy (dd->e_table_strings);
-#endif
 	g_object_unref (G_OBJECT (dd->gui));
 	g_object_unref (G_OBJECT (dd->matches_model));
 	memset (dd, 0, sizeof (*dd));
@@ -610,6 +632,7 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 	sr->search_strings = is_checked (gui, "search_string");
 	sr->search_other_values = is_checked (gui, "search_other");
 	sr->search_expressions = is_checked (gui, "search_expr");
+	sr->search_expression_results = is_checked (gui, "search_expr_results");
 	sr->search_comments = is_checked (gui, "search_comments");
 
 #if 0
@@ -631,6 +654,7 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 	} else if (!sr->search_strings &&
 		   !sr->search_other_values &&
 		   !sr->search_expressions &&
+		   !sr->search_expression_results &&
 		   !sr->search_comments) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("You must select some cell types to search."));
@@ -652,50 +676,6 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 		search_collect_cells_free (cells);
 
 		lazy_list_set_rows (ll, dd->matches->len);
-
-#if 0
-		for (i = 0; i < dd->matches->len; i++) {
-			SearchFilterResult *item = g_ptr_array_index (dd->matches, i);
-			Cell *cell = item->cell;
-			GtkTreeIter iter;
-			const char *type;
-			char *content;
-
-			if (cell) {
-				Value *v = cell->value;
-
-				gboolean is_expr = cell_has_expr (cell);
-				gboolean is_value = !is_expr && !cell_is_blank (cell) && v;
-
-				if (is_expr)
-					type = _("Expression");
-				else if (is_value && v->type == VALUE_STRING)
-					type = _("String");
-				else if (is_value && v->type == VALUE_INTEGER)
-					type = _("Integer");
-				else if (is_value && v->type == VALUE_FLOAT)
-					type = _("Number");
-				else
-					type = _("Other value");
-				content = cell_get_entered_text (cell);
-			} else {
-				type = _("Comment");
-				content = g_strdup (cell_comment_text_get (item->comment));
-			}
-
-			gtk_tree_store_append (tree_store, &iter, NULL);
-			gtk_tree_store_set (tree_store, &iter, COL_SHEET,
-					    item->ep.sheet->name_unquoted, -1);
-			gtk_tree_store_set (tree_store, &iter, COL_CELL,
-					    cellpos_as_string (&item->ep.eval), -1);
-			gtk_tree_store_set (tree_store, &iter, COL_TYPE,
-					    type, -1);
-			gtk_tree_store_set (tree_store, &iter, COL_CONTENTS,
-					    content, -1);
-
-			g_free (content);
-		}
-#endif
 
 		/* Set sensitivity of buttons.  */
 		cursor_change (dd->matches_table, dd);

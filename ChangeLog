@@ -1,3 +1,12 @@
+2002-11-01  Morten Welinder  <terra@diku.dk>
+
+	* src/search.c (search_filter_matching): Handle locus.  Search
+	expression results if requested.
+	(search_replace_cell): Handle locus.
+	(search_replace_value): New function.
+
+	* src/search.h: Add possibility of searching expressions' results.
+
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : pos release version bump

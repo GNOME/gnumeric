@@ -127,6 +127,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	sr->search_strings = is_checked (gui, "search_string");
 	sr->search_other_values = is_checked (gui, "search_other");
 	sr->search_expressions = is_checked (gui, "search_expr");
+	sr->search_expression_results = FALSE;
 	sr->search_comments = is_checked (gui, "search_comments");
 
 	i = gnumeric_glade_group_value (gui, error_group);
@@ -144,6 +145,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	} else if (!sr->search_strings &&
 		   !sr->search_other_values &&
 		   !sr->search_expressions &&
+		   !sr->search_expression_results &&
 		   !sr->search_comments) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("You must select some cell types to search."));

@@ -20,6 +20,10 @@ typedef enum { SRQ_fail,
 	       SRQ_query,
 	       SRQ_querycommment } SearchReplaceQuery;
 
+typedef enum { SRL_contents,
+	       SRL_value,
+	       SRL_commment } SearchReplaceLocus;
+
 typedef  int (*SearchReplaceQueryFunc) (SearchReplaceQuery q, SearchReplace *sr, ...);
 
 struct _SearchReplace {
@@ -40,6 +44,7 @@ struct _SearchReplace {
 	gboolean search_strings;
 	gboolean search_other_values;
 	gboolean search_expressions;
+	gboolean search_expression_results;
 	gboolean search_comments;
 
 	SearchReplaceError error_behaviour;
@@ -84,6 +89,7 @@ typedef struct {
 	EvalPos ep;
 	Cell *cell;
 	CellComment *comment;
+	SearchReplaceLocus locus;
 } SearchFilterResult;
 GPtrArray *search_filter_matching (SearchReplace *sr, const GPtrArray *cells);
 void search_filter_matching_free (GPtrArray *matches);
@@ -100,12 +106,19 @@ gboolean search_replace_comment (SearchReplace *sr,
 
 typedef struct SearchReplaceCellResult {
 	Cell *cell;
-	char *old_text; /* Caller must free if.  */
+	char *old_text; /* Caller must free.  */
 	char *new_text; /* Caller must free if replacing and found.  */
 } SearchReplaceCellResult;
 gboolean search_replace_cell (SearchReplace *sr,
 			      const EvalPos *ep,
 			      gboolean repl,
 			      SearchReplaceCellResult *res);
+
+typedef struct SearchReplaceValueResult {
+	Cell *cell;
+} SearchReplaceValueResult;
+gboolean search_replace_value (SearchReplace *sr,
+			       const EvalPos *ep,
+			       SearchReplaceValueResult *res);
 
 #endif

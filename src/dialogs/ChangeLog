@@ -1,5 +1,14 @@
 2002-11-01  Morten Welinder  <terra@diku.dk>
 
+	* dialog-search.c (search_clicked): Maybe search expression
+	results.
+	(search_get_value): Handle locus and values.
+
+	* dialog-search-replace.c (ok_clicked): Don't search expression
+	results.
+
+2002-11-01  Morten Welinder  <terra@diku.dk>
+
 	* dialog-about.c (dialog_about): Don't chain-translate the names.
 
 2002-11-01  Jody Goldberg <jody@gnome.org>
