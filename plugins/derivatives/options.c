@@ -60,6 +60,8 @@ static gnum_float CriticalValueOptionsOnOptions (char const *call_put_flag, gnum
 						 gnum_float r, gnum_float b, gnum_float v);
 static gnum_float opt_crit_val_chooser (gnum_float s,gnum_float xc,gnum_float xp,gnum_float t,
 					gnum_float tc, gnum_float tp, gnum_float r, gnum_float b, gnum_float v);
+gnum_float opt_bs_vega1 (gnum_float s,gnum_float x,gnum_float t,gnum_float r,gnum_float v,gnum_float b);
+gnum_float opt_bs_carrycost1 (char const *call_put_flag, gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float v, gnum_float b);
 
 
 /* The normal distribution function */

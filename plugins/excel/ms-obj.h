@@ -90,6 +90,7 @@ void	      ms_obj_attr_bag_insert  (MSObjAttrBag *attrs,
 				       MSObjAttr *attr);
 MSObjAttr    *ms_obj_attr_bag_lookup  (MSObjAttrBag *attrs,
 				       MSObjAttrID id);
+MSObj        *ms_obj_new              (MSObjAttrBag *attrs);
 
 struct _MSObj {
 	int id;
