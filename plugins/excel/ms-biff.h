@@ -84,22 +84,23 @@ typedef struct _BiffPut {
 
 /* Sets up a record on a stream */
 BiffPut *ms_biff_put_new     (GsfOutput *, MsBiffVersion version, int codepage);
-void     ms_biff_put_destroy (BiffPut *);
+void     ms_biff_put_destroy (BiffPut *bp);
 
 /**
  * If between the 'next' and 'commit' ls / ms_op are changed they will be
  * written correctly.
  **/
 /* For known length records shorter than 0x2000 bytes. */
-guint8        *ms_biff_put_len_next   (BiffPut *, guint16 opcode, guint32 len);
+guint8  *ms_biff_put_len_next   (BiffPut *bp, guint16 opcode, guint32 len);
 /* For unknown length records */
-void           ms_biff_put_var_next   (BiffPut *, guint16 opcode);
-void           ms_biff_put_var_write  (BiffPut *, guint8 const *, guint32 len);
+void     ms_biff_put_var_next   (BiffPut *bp, guint16 opcode);
+void     ms_biff_put_var_write  (BiffPut *bp, guint8 const *dat, guint32 len);
 /* Seeks to pos bytes after the beggining of the record */
-void           ms_biff_put_var_seekto (BiffPut *, int pos);
+void     ms_biff_put_var_seekto (BiffPut *bp, int pos);
 /* Must commit after each record */
-void           ms_biff_put_commit     (BiffPut *);
+void     ms_biff_put_commit     (BiffPut *bp);
 
+unsigned ms_biff_max_record_len (BiffPut const *bp);
 void dump_biff (BiffQuery *bq);
 
 #endif /* GNUMERIC_BIFF_H */

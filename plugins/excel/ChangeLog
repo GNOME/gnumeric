@@ -1,3 +1,9 @@
+2003-04-21  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_MERGECELLS) : handle too many merges
+	  for a single biff record.
+	* ms-biff.c (ms_biff_max_record_len) : new.
+
 2003-04-09  Morten Welinder  <terra@gnome.org>
 
 	* boot.c (excel_file_probe): Guard against gsf read error.

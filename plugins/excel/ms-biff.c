@@ -599,3 +599,9 @@ ms_biff_put_commit (BiffPut *bp)
 	else
 		ms_biff_put_var_commit (bp);
 }
+
+unsigned
+ms_biff_max_record_len (BiffPut const *bp)
+{
+	return (bp->version >= MS_BIFF_V8) ? MAX_BIFF8_RECORD_SIZE : MAX_BIFF7_RECORD_SIZE;
+}

@@ -591,7 +591,9 @@ excel_write_MERGECELLS (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	guint8 *record, *ptr;
 	GSList *merged;
-	guint16 len = 0;
+	guint16 len;
+	int remainder = 0;
+	int const max_records = (ms_biff_max_record_len (bp) - 2) / 8;
 
 	/* Find the set of regions that we can safely export */
 	for (merged = esheet->gnum_sheet->list_merged; merged != NULL ; merged = merged->next) {
@@ -599,30 +601,34 @@ excel_write_MERGECELLS (BiffPut *bp, ExcelWriteSheet *esheet)
 		Range const *r = merged->data;
 		if (r->start.row <= USHRT_MAX && r->end.row <= USHRT_MAX &&
 		    r->start.col <= UCHAR_MAX && r->end.col <= UCHAR_MAX)
-			len++;
+			remainder++;
 	}
 
 	/* Do not even write the record if there are no merged regions */
-	if (len <= 0)
+	if (remainder <= 0)
 		return;
 
-	record = ms_biff_put_len_next (bp, BIFF_MERGECELLS, 2+8*len);
-	GSF_LE_SET_GUINT16 (record, len);
+	merged = esheet->gnum_sheet->list_merged;
 
-	ptr = record + 2;
-	for (merged = esheet->gnum_sheet->list_merged; merged != NULL ; merged = merged->next) {
-		Range const *r = merged->data;
-		if (r->start.row <= USHRT_MAX && r->end.row <= USHRT_MAX &&
-		    r->start.col <= UCHAR_MAX && r->end.col <= UCHAR_MAX) {
-			GSF_LE_SET_GUINT16 (ptr+0, r->start.row);
-			GSF_LE_SET_GUINT16 (ptr+2, r->end.row);
-			GSF_LE_SET_GUINT16 (ptr+4, r->start.col);
-			GSF_LE_SET_GUINT16 (ptr+6, r->end.col);
-			ptr += 8;
+	for (; remainder > 0 ; remainder -= max_records) {
+		len = (remainder > max_records) ? max_records : remainder;
+
+		record = ms_biff_put_len_next (bp, BIFF_MERGECELLS, 2+8*len);
+		GSF_LE_SET_GUINT16 (record, len);
+		ptr = record + 2;
+		for (; merged != NULL && len-- > 0 ; merged = merged->next) {
+			Range const *r = merged->data;
+			if (r->start.row <= USHRT_MAX && r->end.row <= USHRT_MAX &&
+			    r->start.col <= UCHAR_MAX && r->end.col <= UCHAR_MAX) {
+				GSF_LE_SET_GUINT16 (ptr+0, r->start.row);
+				GSF_LE_SET_GUINT16 (ptr+2, r->end.row);
+				GSF_LE_SET_GUINT16 (ptr+4, r->start.col);
+				GSF_LE_SET_GUINT16 (ptr+6, r->end.col);
+				ptr += 8;
+			}
 		}
+		ms_biff_put_commit (bp);
 	}
-
-	ms_biff_put_commit (bp);
 }
 
 /****************************************************************************/
@@ -1699,7 +1705,7 @@ static void
 after_put_mstyle (MStyle *st, gboolean was_added, gint index, gconstpointer dummy)
 {
 	if (was_added) {
-		d (1, { fprintf (stderr, "Found unique mstyle %d\n", index); mstyle_dump (st);});
+		d (1, fprintf (stderr, "Found unique mstyle %d %p\n", index, st); );
 	}
 }
 
@@ -3509,6 +3515,7 @@ static guint32
 excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 			 GArray *dbcells)
 {
+	MStyle *mstyle;
 	ExcelWriteState *ewb = esheet->ewb;
 	int max_col = esheet->max_col;
 	int col, row, max_row;
@@ -3541,8 +3548,11 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 		has_content = TRUE;
 		for (col = 0; col < max_col; col++) {
 			cell = sheet_cell_get (sheet, col, row);
-			xf = two_way_table_key_to_idx (twt,
-				sheet_style_get (sheet, col, row));
+			mstyle = sheet_style_get (sheet, col, row);
+			xf = two_way_table_key_to_idx (twt, mstyle);
+			if (xf < 0) {
+				g_warning ("Can't find %p", mstyle);
+			}
 			if (cell == NULL) {
 				if (xf != esheet->col_xf [col])
 					xf_list [run_size++] = xf;
