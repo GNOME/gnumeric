@@ -1,12 +1,12 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * dialog-preferences.c: Dialog to change the order of sheets in the Gnumeric
- * spreadsheet
+ * dialog-preferences.c: Dialog to edit application wide preferences and default values
  *
  * Author:
  * 	Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
- * (C) Copyright 2000, 2001, 2002 Jody Goldberg <jody@gnome.org>
+ * (C) Copyright 2000-2002 Jody Goldberg <jody@gnome.org>
+ * (C) Copyright 2003-2004 Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "application.h"
 #include "dialogs.h"
@@ -56,8 +55,8 @@
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
+#include <glib/gi18n.h>
 #include <string.h>
-#include <gconf/gconf-client.h>
 
 enum {
 	ITEM_ICON,
@@ -74,20 +73,8 @@ typedef struct {
 	GSList		*pages;
 	GtkTreeStore    *store;
 	GtkTreeView     *view;
-	GConfClient	*gconf;
 	Workbook	*wb;
 } PrefState;
-
-typedef struct {
-	char const *page_name;
-	char const *icon_name;
-	char const *parent_path;
-	GtkWidget * (*page_initializer) (PrefState *state, gpointer data,
-					 GtkNotebook *notebook, gint page_num);
-	void	    (*page_open)	(PrefState *state, gpointer data,
-					 GtkNotebook *notebook, gint page_num);
-	gpointer data;
-} page_info_t;
 
 static void
 dialog_pref_add_item (PrefState *state, char const *page_name, char const *icon_name, 
@@ -111,15 +98,6 @@ dialog_pref_add_item (PrefState *state, char const *page_name, char const *icon_
 	g_object_unref (icon);
 }
 
-
-static gboolean
-cb_pref_notification_destroy (gpointer notification)
-{
-	gconf_client_notify_remove (gnm_app_get_gconf_client (),
-		GPOINTER_TO_INT (notification));
-	return TRUE;
-}
-
 static void
 dialog_pref_page_open (PrefState *state)
 {
@@ -133,18 +111,15 @@ dialog_pref_page_open (PrefState *state)
 }
 
 static void
-dialog_pref_load_description_from_schema (PrefState *state, char const *schema_path)
+dialog_pref_load_description_from_key (PrefState *state, char const *key)
 {
-	GConfSchema *the_schema;
-	GtkTextBuffer *buffer;
+	char *long_desc = go_conf_get_long_desc (key);
 
-	the_schema = gconf_client_get_schema (state->gconf, schema_path, NULL);
-	buffer = gtk_text_view_get_buffer (state->description);
+	g_return_if_fail (long_desc != NULL);
 
-	g_return_if_fail (the_schema != NULL);
-
-	gtk_text_buffer_set_text (buffer, gconf_schema_get_long_desc (the_schema), -1);
-	gconf_schema_free (the_schema);
+	gtk_text_buffer_set_text (
+		gtk_text_view_get_buffer (state->description), long_desc, -1);
+	g_free (long_desc);
 }
 
 static void
@@ -155,179 +130,202 @@ dialog_pref_load_description (PrefState *state, char const *text)
 	gtk_text_buffer_set_text (buffer, text, -1);
 }
 
-typedef void (* cb_pref_window_set_t) (GConfClient *gconf, guint cnxn_id, GConfEntry *entry,
-				       GtkSpinButton *button);
-typedef void  (* cb_pref_window_changed_t) (GtkSpinButton *button, PrefState *state);
-
 static void
-dialog_pref_create_int_spin (char const *key, char const *schema_key,
-			     GtkWidget *table, gint row, PrefState *state,
-			     gint val, gint from, gint to, gint step,
-			     cb_pref_window_set_t pref_window_set,
-			     cb_pref_window_changed_t pref_window_changed)
+set_tip (char const *key, GtkWidget *item)
 {
-	guint notif;
-	GtkWidget *item;
-	GConfSchema *the_schema;
-	GtkTooltips *the_tip;
-
-	the_schema = gconf_client_get_schema (state->gconf, schema_key, NULL);
-	item = gtk_label_new (the_schema ? gconf_schema_get_short_desc (the_schema)
-			      : "schema missing");
-	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
-	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1, 0,
-			  GTK_FILL, 5, 5);
-	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (val, from, to,
-									 step, step, step)),
-				     1, 0);
-	pref_window_set (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
-	notif = gconf_client_notify_add (state->gconf, key,
-			  (GConfClientNotifyFunc) pref_window_set,
-			  item, NULL, NULL);
-	g_signal_connect_swapped (G_OBJECT (table),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
-	g_signal_connect (G_OBJECT (item),
-		"value-changed",
-		G_CALLBACK (pref_window_changed), state);
-	gtk_table_attach (GTK_TABLE (table), item, 1, 2, row, row + 1, GTK_FILL | GTK_EXPAND,
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	if (the_schema) {
-		the_tip = gtk_tooltips_new ();
-		gtk_tooltips_set_tip (the_tip, item,
-				      gconf_schema_get_long_desc (the_schema), NULL);
-		gconf_schema_free (the_schema);
+	char *desc = go_conf_get_short_desc (key);
+	if (desc != NULL) {
+		GtkTooltips *the_tip = gtk_tooltips_new ();
+		gtk_tooltips_set_tip (the_tip, item, desc, NULL);
+		g_free (desc);
 	}
 }
 
-static void
-dialog_pref_create_float_spin (char const *key, char const *schema_key,
-			       GtkWidget *table, gint row, PrefState *state,
-			       gnm_float val, gnm_float from, gnm_float to, gnm_float step,
-			       gint digits,
-			       cb_pref_window_set_t pref_window_set,
-			       cb_pref_window_changed_t pref_window_changed)
+#ifdef WITH_GNOME
+static gboolean
+cb_pref_notification_destroy (gpointer notification)
 {
-	guint notif;
-	GtkWidget *item;
-	GConfSchema *the_schema;
-	GtkTooltips *the_tip;
+	gconf_client_notify_remove (gnm_app_get_gconf_client (),
+		GPOINTER_TO_INT (notification));
+	return TRUE;
+}
+#endif
 
-	the_schema = gconf_client_get_schema (state->gconf, schema_key, NULL);
-	item = gtk_label_new (the_schema ? gconf_schema_get_short_desc (the_schema)
-			      : "schema missing");
-	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
-	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1, 0,
-			  GTK_FILL, 5, 5);
-	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (val, from, to,
-									 step, step, step)),
-				     1, digits);
-	pref_window_set (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
-	notif = gconf_client_notify_add (state->gconf, key,
-			  (GConfClientNotifyFunc) pref_window_set,
-			  item, NULL, NULL);
+static void
+connect_notification (char const *key, GCallback func,
+		      gpointer data, GtkWidget *container)
+{
+#ifdef FIXMEFIXME
+	/***********
+	 * BROKEN
+	 * BROKEN
+	 *
+	 * Callback has an incorrect signature for gconf
+	 *
+	 * BROKEN
+	 * BROKEN
+	 **************/
+	notif = gconf_client_notify_add (state->gconf, key, func,
+					 data, NULL, NULL);
 	g_signal_connect_swapped (G_OBJECT (table),
 		"destroy",
 		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
-	g_signal_connect (G_OBJECT (item),
-		"value-changed",
-		G_CALLBACK (pref_window_changed), state);
-	gtk_table_attach (GTK_TABLE (table), item, 1, 2, row, row + 1, GTK_FILL | GTK_EXPAND,
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	if (the_schema) {
-		the_tip = gtk_tooltips_new ();
-		gtk_tooltips_set_tip (the_tip, item,
-				      gconf_schema_get_long_desc (the_schema), NULL);
-		gconf_schema_free (the_schema);
-	}
+#endif
 }
 
-typedef void (* cb_pref_window_set_toggled_t) (GConfClient *gconf, guint cnxn_id,
-					       GConfEntry *entry,
-					       GtkToggleButton *button);
-typedef void  (* cb_pref_window_toggled_t) (GtkToggleButton *button, PrefState *state);
-
+/*************************************************************************/
 static void
-dialog_pref_create_checkbox (char const *key, char const *schema_key,
-			     GtkWidget *table, gint row, PrefState *state,
-			     cb_pref_window_set_toggled_t pref_window_set,
-			     cb_pref_window_toggled_t pref_window_toggled)
+bool_pref_widget_to_conf (GtkToggleButton *button, char const *key)
 {
-	guint notif;
-	GtkWidget *item;
-	GConfSchema *the_schema;
-	GtkTooltips *the_tip;
+	go_conf_set_bool (key, gtk_toggle_button_get_active (button));
+}
+static void
+bool_pref_conf_to_widget (char const *key, GtkToggleButton *button)
+{
+	gboolean val_in_button = gtk_toggle_button_get_active (button);
+	gboolean val_in_conf = go_conf_get_bool (key);
+	if ((val_in_button != FALSE) != (val_in_conf != FALSE))
+		gtk_toggle_button_set_active (button, val_in_conf);
+}
+static void
+bool_pref_create_widget (char const *key, GtkWidget *table, gint row)
+{
+	char *desc = go_conf_get_short_desc (key);
+	GtkWidget *item = gtk_check_button_new_with_label (
+		desc ? desc : "schema missing");
+	g_free (desc);
 
-	the_schema = gconf_client_get_schema (state->gconf, schema_key, NULL);
-	item = gtk_check_button_new_with_label (the_schema
-						? gconf_schema_get_short_desc (the_schema)
-						: "schema missing");
-	pref_window_set (state->gconf, 0, NULL, GTK_TOGGLE_BUTTON (item));
-	notif = gconf_client_notify_add (state->gconf, key,
-			  (GConfClientNotifyFunc) pref_window_set,
-			  item, NULL, NULL);
-	g_signal_connect_swapped (G_OBJECT (table),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
+	bool_pref_conf_to_widget (key, GTK_TOGGLE_BUTTON (item));
 	g_signal_connect (G_OBJECT (item),
 		"toggled",
-		G_CALLBACK (pref_window_toggled), state);
-	gtk_table_attach (GTK_TABLE (table), item, 0, 2, row, row + 1, GTK_FILL | GTK_SHRINK,
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	if (the_schema) {
-		the_tip = gtk_tooltips_new ();
-		gtk_tooltips_set_tip (the_tip, item,
-				      gconf_schema_get_long_desc (the_schema), NULL);
-		gconf_schema_free (the_schema);
-	}
+		G_CALLBACK (bool_pref_widget_to_conf), (gpointer)key);
+	gtk_table_attach (GTK_TABLE (table), item,
+		0, 2, row, row + 1,
+		GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
+
+	connect_notification (key, G_CALLBACK (bool_pref_conf_to_widget), item, table);
+	set_tip (key, item);
 }
 
+/*************************************************************************/
+
+static void
+int_pref_widget_to_conf (GtkSpinButton *button, char const *key)
+{
+	go_conf_set_int (key, gtk_spin_button_get_value_as_int (button));
+}
+static void
+int_pref_conf_to_widget (char const *key, GtkSpinButton *button)
+{
+	gint val_in_button = gtk_spin_button_get_value_as_int (button);
+	gint val_in_conf = go_conf_get_int (key);
+	if (val_in_conf != val_in_button)
+		gtk_spin_button_set_value (button, (gdouble) val_in_conf);
+}
+static void
+int_pref_create_widget (char const *key, GtkWidget *table, gint row,
+			gint val, gint from, gint to, gint step)
+{
+	char *desc = go_conf_get_short_desc (key);
+	GtkWidget *item = gtk_label_new (desc ? desc : "schema missing");
+	g_free (desc);
+
+	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
+	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1, 0,
+			  GTK_FILL, 5, 5);
+	item = gtk_spin_button_new (GTK_ADJUSTMENT (
+				    gtk_adjustment_new (val, from, to, step, step, step)),
+				    1, 0);
+	int_pref_conf_to_widget (key, GTK_SPIN_BUTTON (item));
+	g_signal_connect (G_OBJECT (item),
+		"value-changed",
+		G_CALLBACK (int_pref_widget_to_conf), (gpointer) key);
+	gtk_table_attach (GTK_TABLE (table), item,
+		1, 2, row, row + 1,
+		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 5);
+
+	connect_notification (key, G_CALLBACK (int_pref_conf_to_widget), item, table);
+	set_tip (key, item);
+}
+
+/*************************************************************************/
+
+static void
+double_pref_widget_to_conf (GtkSpinButton *button, char const *key)
+{
+	go_conf_set_double (key, gtk_spin_button_get_value (button));
+}
+static void
+double_pref_conf_to_widget (char const *key, GtkSpinButton *button)
+{
+	double val_in_button = gtk_spin_button_get_value (button);
+	double val_in_conf = go_conf_get_double (key);
+	if (abs (val_in_conf - val_in_button) > 1e-10) /* dead simple */
+		gtk_spin_button_set_value (button, val_in_conf);
+}
+static void
+double_pref_create_widget (char const *key, GtkWidget *table, gint row,
+			   gnm_float val, gnm_float from, gnm_float to, gnm_float step,
+			   gint digits)
+{
+	char *desc = go_conf_get_short_desc (key);
+	GtkWidget *item = gtk_label_new (desc ? desc : "schema missing");
+	g_free (desc);
+
+	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
+	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1, 0,
+			  GTK_FILL, 5, 5);
+	item =  gtk_spin_button_new (GTK_ADJUSTMENT (
+				     gtk_adjustment_new (val, from, to, step, step, step)),
+				     1, digits);
+	double_pref_conf_to_widget (key, GTK_SPIN_BUTTON (item));
+	g_signal_connect (G_OBJECT (item),
+		"value-changed",
+		G_CALLBACK (double_pref_widget_to_conf), (gpointer)key);
+	gtk_table_attach (GTK_TABLE (table), item,
+		1, 2, row, row + 1,
+		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 5);
+
+	connect_notification (key, G_CALLBACK (double_pref_conf_to_widget), item, table);
+	set_tip (key, item);
+}
 
 /*******************************************************************************************/
 /*                     Tree View of selected configuration variables                       */
 /*******************************************************************************************/
 
 enum {
-	PREF_NAME,
+	PREF_KEY,
 	PREF_VALUE,
-	PREF_PATH,
-	PREF_SCHEMA,
+	PREF_SHORT_DESC,
 	IS_EDITABLE,
 	NUM_COLMNS
 };
 
 typedef struct {
-	char const *path;
+	char const *key;
 	char const *parent;
-	char const *schema;
 	GtkTreeView *treeview;
 } pref_tree_data_t;
 
 typedef struct {
-	char const *path;
+	char const *key;
 	GtkTreeIter iter;
 	gboolean iter_valid;
 } search_cb_t;
 
-
 static pref_tree_data_t pref_tree_data[] = {
-	{FUNCTION_SELECT_GCONF_NUM_OF_RECENT, NULL,
-	                      "/schemas" FUNCTION_SELECT_GCONF_NUM_OF_RECENT},
-	{GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE, NULL,
-	                      "/schemas" GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE},
-	{DIALOGS_GCONF_UNFOCUSED_RS, NULL,
-	                      "/schemas" DIALOGS_GCONF_UNFOCUSED_RS},
-	{NULL, NULL, NULL}
+	{ FUNCTION_SELECT_GCONF_NUM_OF_RECENT, NULL, NULL },
+	{ GNM_CONF_GUI_ED_AUTOCOMPLETE, NULL, NULL },
+	{ DIALOGS_GCONF_UNFOCUSED_RS, NULL, NULL },
+	{ NULL, NULL, NULL}
 };
 
 static pref_tree_data_t pref_tree_data_danger[] = {
-	{GNUMERIC_GCONF_GUI_RES_H, NULL,
-	                      "/schemas" GNUMERIC_GCONF_GUI_RES_H},
-	{GNUMERIC_GCONF_GUI_RES_V, NULL,
-	                      "/schemas" GNUMERIC_GCONF_GUI_RES_V},
-	{GNUMERIC_GCONF_GUI_ED_RECALC_LAG, NULL,
-	                      "/schemas" GNUMERIC_GCONF_GUI_ED_RECALC_LAG},
-	{NULL, NULL, NULL}
+	{ GNM_CONF_GUI_RES_H, NULL, NULL },
+	{ GNM_CONF_GUI_RES_V, NULL, NULL },
+	{ GNM_CONF_GUI_ED_RECALC_LAG, NULL, NULL },
+	{ NULL, NULL, NULL }
 };
 
 #define OBJECT_DATA_PATH_MODEL "treeview %i"
@@ -338,17 +336,17 @@ cb_pref_tree_selection_changed (GtkTreeSelection *selection,
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	char *schema_path;
 
 	g_return_if_fail (selection != NULL);
 
 	if (gtk_tree_selection_get_selected (selection,  &model, &iter)) {
+		char *key;
 		gtk_tree_model_get (model, &iter,
-				    PREF_SCHEMA, &schema_path,
+				    PREF_KEY, &key,
 				    -1);
-		if (schema_path) {
-			dialog_pref_load_description_from_schema (state, schema_path);
-			g_free (schema_path);
+		if (key != NULL) {
+			dialog_pref_load_description_from_key (state, key);
+			g_free (key);
 			return;
 		}
 	}
@@ -360,98 +358,60 @@ static void
 pref_tree_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 		     GtkNotebook *notebook, gint page_num)
 {
-	char *object_data_path;
-	GtkTreeView *view;
-
-	object_data_path = g_strdup_printf (OBJECT_DATA_PATH_MODEL, page_num);
-	view =  g_object_get_data (G_OBJECT (notebook), object_data_path);
+	char *object_data_path = g_strdup_printf (OBJECT_DATA_PATH_MODEL, page_num);
+	GtkTreeView *view =  g_object_get_data (G_OBJECT (notebook), object_data_path);
 	g_free (object_data_path);
-
 	cb_pref_tree_selection_changed (gtk_tree_view_get_selection (view), state);
 }
-
 
 static gboolean
 pref_tree_find_iter (GtkTreeModel *model,
 		     G_GNUC_UNUSED GtkTreePath *tree_path,
 		     GtkTreeIter *iter, search_cb_t *data)
 {
-	char *path;
+	char *key;
 
 	gtk_tree_model_get (model, iter,
-			    PREF_PATH, &path,
+			    PREF_KEY, &key,
 			    -1);
 
-	if (strcmp (path, data->path) == 0) {
+	if (strcmp (key, data->key) == 0) {
 		data->iter = *iter;
 		data->iter_valid = TRUE;
 	}
 
-	g_free (path);
+	g_free (key);
 	return data->iter_valid;
 }
 
 static void
-pref_tree_set_model (GConfClient *gconf, GtkTreeModel *model, GtkTreeIter *iter)
+pref_tree_set_model (GtkTreeModel *model, GtkTreeIter *iter)
 {
-	char *schema_path;
-	char *key;
-	GConfSchema *the_schema;
-	char *value_string;
+	char *key, *value_string, *desc;
 
-	gtk_tree_model_get (model, iter,
-			    PREF_SCHEMA, &schema_path,
-			    PREF_PATH, &key,
-			    -1);
-	the_schema = gconf_client_get_schema (gconf, schema_path, NULL);
-
-	g_return_if_fail (the_schema != NULL);
-
-	switch (gconf_schema_get_type (the_schema)) {
-	case GCONF_VALUE_STRING:
-		value_string = gconf_client_get_string (gconf, key, NULL);
-
-		break;
-	case GCONF_VALUE_INT:
-		value_string = g_strdup_printf ("%i", gconf_client_get_int (gconf, key,
-									    NULL));
-		break;
-	case GCONF_VALUE_FLOAT:
-		value_string = g_strdup_printf ("%f", gconf_client_get_float (gconf, key,
-									    NULL));
-		break;
-	case GCONF_VALUE_BOOL: {
-		gboolean b = gconf_client_get_bool (gconf, key, NULL);
-		value_string = g_strdup (format_boolean (b));
-		break;
-	}
-	default:
-		value_string = g_strdup ("ERROR FIXME");
-	}
+	gtk_tree_model_get (model, iter, PREF_KEY, &key, -1);
+	value_string = go_conf_get_value_as_str (key);
+	desc = go_conf_get_short_desc (key);
 	gtk_tree_store_set (GTK_TREE_STORE (model), iter,
-			    PREF_NAME, gconf_schema_get_short_desc (the_schema),
-			    PREF_VALUE, value_string,
+			    PREF_SHORT_DESC,	desc,
+			    PREF_VALUE,		value_string,
 			    -1);
-	g_free (key);
-	g_free (schema_path);
+	g_free (desc);
 	g_free (value_string);
-	gconf_schema_free (the_schema);
+	g_free (key);
 }
 
 static void
-cb_pref_tree_changed_notification (GConfClient *gconf,
-				   G_GNUC_UNUSED guint cnxn_id,
-				   GConfEntry *entry,
-				   GtkTreeModel *model)
+cb_pref_tree_changed_notification (char const *key, GtkTreeModel *model)
 {
 	search_cb_t search_cb;
+	search_cb.key = key;
 	search_cb.iter_valid = FALSE;
-	search_cb.path = gconf_entry_get_key (entry);
 
 	gtk_tree_model_foreach (model, (GtkTreeModelForeachFunc) pref_tree_find_iter,
 				&search_cb);
 	if (search_cb.iter_valid) {
-		pref_tree_set_model (gconf, model, &search_cb.iter);
+		pref_tree_set_model (model, &search_cb.iter);
 	} else
 		g_warning ("Unexpected gconf notification!");
 }
@@ -463,69 +423,14 @@ cb_value_edited (GtkCellRendererText *cell,
 		 PrefState	*state)
 {
 	GtkTreeIter iter;
-	GtkTreePath *path;
 	char        *key;
-	char        *schema;
-	gint        the_int;
-	gnm_float  the_float;
-	gboolean    the_bool;
-	GnmValue       *value;
-	GConfClient *client = gnm_app_get_gconf_client ();
-	GConfSchema *the_schema;
-	gboolean     err;
 	GtkTreeModel *model = g_object_get_data (G_OBJECT (cell), "model");
-	path = gtk_tree_path_new_from_string (path_string);
-
+	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter,
-			    PREF_PATH, &key,
-			    PREF_SCHEMA, &schema,
-			    -1);
-	the_schema = gconf_client_get_schema (client, schema, NULL);
-	switch (gconf_schema_get_type (the_schema)) {
-	case GCONF_VALUE_STRING:
-		gconf_client_set_string (client, key, new_text, NULL);
-		break;
-	case GCONF_VALUE_FLOAT:
-		value = format_match_number (new_text, NULL,
-				workbook_date_conv (state->wb));
-		if (value != NULL) {
-			the_float =  value_get_as_float (value);
-			gconf_client_set_float (client, key, the_float, NULL);
-		}
-		if (value)
-			value_release (value);
-		break;
-	case GCONF_VALUE_INT:
-		value = format_match_number (new_text, NULL,
-				workbook_date_conv (state->wb));
-		if (value != NULL) {
-			the_int =  value_get_as_int (value);
-			gconf_client_set_int (client, key, the_int, NULL);
-		}
-		if (value)
-			value_release (value);
-		break;
-	case GCONF_VALUE_BOOL:
-		value = format_match_number (new_text, NULL,
-				workbook_date_conv (state->wb));
-		if (value != NULL) {
-			err = FALSE;
-			the_bool =  value_get_as_bool (value, &err);
-			gconf_client_set_bool (client, key, the_bool, NULL);
-		}
-		if (value)
-			value_release (value);
-		break;
-	default:
-		g_warning ("Unsupported gconf type in preference dialog");
-	}
-
-
+	gtk_tree_model_get (model, &iter, PREF_KEY, &key, -1);
+	go_conf_set_value_from_str (key, new_text);
 	gtk_tree_path_free (path);
 	g_free (key);
-	g_free (schema);
-	gconf_schema_free (the_schema);
 }
 
 static GtkWidget *
@@ -558,9 +463,9 @@ pref_tree_initializer (PrefState *state, gpointer data,
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 	column = gtk_tree_view_column_new_with_attributes (_("Description"),
 							   gtk_cell_renderer_text_new (),
-							   "text", PREF_NAME,
+							   "text", PREF_SHORT_DESC,
 							   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, PREF_NAME);
+	gtk_tree_view_column_set_sort_column_id (column, PREF_SHORT_DESC);
 	gtk_tree_view_append_column (view, column);
 
 	renderer = gnumeric_cell_renderer_text_new ();
@@ -583,28 +488,19 @@ pref_tree_initializer (PrefState *state, gpointer data,
 		"changed",
 		G_CALLBACK (cb_pref_tree_selection_changed), state);
 
-	for (i = 0; this_pref_tree_data[i].path; i++) {
+	for (i = 0; this_pref_tree_data[i].key; i++) {
 		pref_tree_data_t *this_pref = &this_pref_tree_data[i];
 		GtkTreeIter      iter;
-		guint notification;
 
 		gtk_tree_store_append (model, &iter, NULL);
 
 		gtk_tree_store_set (model, &iter,
-				    PREF_PATH, this_pref->path,
-				    PREF_SCHEMA, this_pref->schema,
+				    PREF_KEY, this_pref->key,
 				    IS_EDITABLE, TRUE,
 				    -1);
-		pref_tree_set_model (state->gconf, GTK_TREE_MODEL (model), &iter);
-
-		notification = gconf_client_notify_add
-			(state->gconf, this_pref_tree_data[i].path,
-			 (GConfClientNotifyFunc) cb_pref_tree_changed_notification,
-			 model, NULL, NULL);
-
-		g_signal_connect_swapped (G_OBJECT (page),
-			"destroy",
-			G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notification));
+		pref_tree_set_model (GTK_TREE_MODEL (model), &iter);
+		connect_notification (this_pref_tree_data[i].key,
+			G_CALLBACK (cb_pref_tree_changed_notification), model, page);
 	}
 
 	object_data_path = g_strdup_printf (OBJECT_DATA_PATH_MODEL, page_num);
@@ -625,38 +521,24 @@ pref_font_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 		     G_GNUC_UNUSED GtkNotebook *notebook,
 		     G_GNUC_UNUSED gint page_num)
 {
-	dialog_pref_load_description_from_schema (state, "/schemas" GNUMERIC_GCONF_FONT_NAME);
+	dialog_pref_load_description_from_key (state, GNM_CONF_FONT_NAME);
 }
 
 static void
-cb_pref_font_set_fonts (GConfClient *gconf,
-		        G_GNUC_UNUSED guint cnxn_id,
-			GConfEntry *entry,
-		        GtkWidget *page)
+cb_pref_font_set_fonts (char const *key, GtkWidget *page)
 {
-	if (entry == NULL || 0 == strcmp (gconf_entry_get_key (entry),
-					  GNUMERIC_GCONF_FONT_NAME)) {
-		char      *font_name = gconf_client_get_string (gconf,
-					  GNUMERIC_GCONF_FONT_NAME, NULL);
-		font_selector_set_name      (FONT_SELECTOR (page), font_name);
-		g_free (font_name);
-	}
-	if (entry == NULL || 0 == strcmp (gconf_entry_get_key (entry),
-					  GNUMERIC_GCONF_FONT_SIZE)) {
-		double    size = gconf_client_get_float (gconf,
-					  GNUMERIC_GCONF_FONT_SIZE, NULL);
-		font_selector_set_points    (FONT_SELECTOR (page), size);
-	}
-	if (entry == NULL || 0 == strcmp (gconf_entry_get_key (entry),
-					  GNUMERIC_GCONF_FONT_BOLD)
-	    || 0 == strcmp (gconf_entry_get_key (entry),
-			    GNUMERIC_GCONF_FONT_ITALIC)) {
-		gboolean  is_bold = gconf_client_get_bool (gconf,
-			    GNUMERIC_GCONF_FONT_BOLD, NULL);
-		gboolean  is_italic = gconf_client_get_bool (gconf,
-			    GNUMERIC_GCONF_FONT_ITALIC, NULL);
-		font_selector_set_style     (FONT_SELECTOR (page), is_bold, is_italic);
-	}
+	if (key == NULL || 0 == strcmp (key, GNM_CONF_FONT_NAME))
+		font_selector_set_name (FONT_SELECTOR (page),
+			gnm_app_prefs->default_font.name);
+	if (key == NULL || 0 == strcmp (key, GNM_CONF_FONT_SIZE))
+		font_selector_set_points (FONT_SELECTOR (page),
+			gnm_app_prefs->default_font.size);
+	if (key == NULL ||
+	    0 == strcmp (key, GNM_CONF_FONT_BOLD) ||
+	    0 == strcmp (key, GNM_CONF_FONT_ITALIC))
+		font_selector_set_style (FONT_SELECTOR (page),
+			gnm_app_prefs->default_font.is_bold,
+			gnm_app_prefs->default_font.is_italic);
 }
 
 static gboolean
@@ -664,21 +546,17 @@ cb_pref_font_has_changed (G_GNUC_UNUSED FontSelector *fs,
 			  GnmStyle *mstyle, PrefState *state)
 {
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_SIZE))
-		gconf_client_set_float (state->gconf,
-					GNUMERIC_GCONF_FONT_SIZE,
-					mstyle_get_font_size (mstyle), NULL);
+		go_conf_set_double (GNM_CONF_FONT_SIZE,
+			mstyle_get_font_size (mstyle));
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_NAME))
-		gconf_client_set_string (state->gconf,
-					 GNUMERIC_GCONF_FONT_NAME,
-					 mstyle_get_font_name (mstyle), NULL);
+		go_conf_set_string (GNM_CONF_FONT_NAME,
+			mstyle_get_font_name (mstyle));
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_BOLD))
-		gconf_client_set_bool (state->gconf,
-				       GNUMERIC_GCONF_FONT_BOLD,
-				       mstyle_get_font_bold (mstyle), NULL);
+		go_conf_set_bool (GNM_CONF_FONT_BOLD,
+			mstyle_get_font_bold (mstyle));
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
-		gconf_client_set_bool (state->gconf,
-				       GNUMERIC_GCONF_FONT_ITALIC,
-				       mstyle_get_font_italic (mstyle), NULL);
+		go_conf_set_bool (GNM_CONF_FONT_ITALIC,
+			mstyle_get_font_italic (mstyle));
 	return TRUE;
 }
 
@@ -689,17 +567,11 @@ pref_font_initializer (PrefState *state,
 		       G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = font_selector_new ();
-	guint notification;
 
-	cb_pref_font_set_fonts (state->gconf, 0, NULL, page);
+	cb_pref_font_set_fonts (NULL, page);
 
-	notification = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_FONT_DIRECTORY,
-						(GConfClientNotifyFunc) cb_pref_font_set_fonts,
-						page, NULL, NULL);
-
-	g_signal_connect_swapped (G_OBJECT (page),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notification));
+	connect_notification (GNM_CONF_FONT_DIRECTORY,
+		G_CALLBACK (cb_pref_font_set_fonts), page, page);
 	g_signal_connect (G_OBJECT (page),
 		"font_changed",
 		G_CALLBACK (cb_pref_font_has_changed), state);
@@ -715,41 +587,30 @@ pref_font_initializer (PrefState *state,
 
 static void
 pref_font_hf_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
-		     G_GNUC_UNUSED GtkNotebook *notebook,
-		     G_GNUC_UNUSED gint page_num)
+			G_GNUC_UNUSED GtkNotebook *notebook,
+			G_GNUC_UNUSED gint page_num)
 {
-	dialog_pref_load_description_from_schema (state, "/schemas" PRINTSETUP_GCONF_HF_FONT_NAME);
+	dialog_pref_load_description_from_key (state, PRINTSETUP_GCONF_HF_FONT_NAME);
 }
 
 static void
-cb_pref_font_hf_set_fonts (GConfClient *gconf,
-		        G_GNUC_UNUSED guint cnxn_id,
-			GConfEntry *entry,
-		        GtkWidget *page)
+cb_pref_font_hf_set_fonts (char const *key, GtkWidget *page)
 {
-	if (entry == NULL || 0 == strcmp (gconf_entry_get_key (entry),
-					  PRINTSETUP_GCONF_HF_FONT_NAME)) {
-		char      *font_name = gconf_client_get_string (gconf,
-					  PRINTSETUP_GCONF_HF_FONT_NAME, NULL);
-		font_selector_set_name      (FONT_SELECTOR (page), font_name);
-		g_free (font_name);
+	if (key == NULL || 0 == strcmp (key, PRINTSETUP_GCONF_HF_FONT_NAME)) {
+		char *name = go_conf_load_string (PRINTSETUP_GCONF_HF_FONT_NAME);
+		font_selector_set_name (FONT_SELECTOR (page), name);
+		g_free (name);
 	}
-	if (entry == NULL || 0 == strcmp (gconf_entry_get_key (entry),
-					  PRINTSETUP_GCONF_HF_FONT_SIZE)) {
-		double    size = gconf_client_get_float (gconf,
-					  PRINTSETUP_GCONF_HF_FONT_SIZE, NULL);
-		font_selector_set_points    (FONT_SELECTOR (page), size);
-	}
-	if (entry == NULL || 0 == strcmp (gconf_entry_get_key (entry),
-					  PRINTSETUP_GCONF_HF_FONT_BOLD)
-	    || 0 == strcmp (gconf_entry_get_key (entry),
-			    PRINTSETUP_GCONF_HF_FONT_ITALIC)) {
-		gboolean  is_bold = gconf_client_get_bool (gconf,
-			    PRINTSETUP_GCONF_HF_FONT_BOLD, NULL);
-		gboolean  is_italic = gconf_client_get_bool (gconf,
-			    PRINTSETUP_GCONF_HF_FONT_ITALIC, NULL);
-		font_selector_set_style     (FONT_SELECTOR (page), is_bold, is_italic);
-	}
+	if (key == NULL || 0 == strcmp (key, PRINTSETUP_GCONF_HF_FONT_SIZE))
+		font_selector_set_points (FONT_SELECTOR (page),
+			go_conf_get_double (PRINTSETUP_GCONF_HF_FONT_SIZE));
+
+	if (key == NULL ||
+	    0 == strcmp (key, PRINTSETUP_GCONF_HF_FONT_BOLD) ||
+	    0 == strcmp (key, PRINTSETUP_GCONF_HF_FONT_ITALIC))
+		font_selector_set_style (FONT_SELECTOR (page),
+			go_conf_get_bool (PRINTSETUP_GCONF_HF_FONT_BOLD),
+			go_conf_get_bool (PRINTSETUP_GCONF_HF_FONT_ITALIC));
 }
 
 static gboolean
@@ -757,42 +618,31 @@ cb_pref_font_hf_has_changed (G_GNUC_UNUSED FontSelector *fs,
 			  GnmStyle *mstyle, PrefState *state)
 {
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_SIZE))
-		gconf_client_set_float (state->gconf,
-					PRINTSETUP_GCONF_HF_FONT_SIZE,
-					mstyle_get_font_size (mstyle), NULL);
+		go_conf_set_double (PRINTSETUP_GCONF_HF_FONT_SIZE,
+			mstyle_get_font_size (mstyle));
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_NAME))
-		gconf_client_set_string (state->gconf,
-					 PRINTSETUP_GCONF_HF_FONT_NAME,
-					 mstyle_get_font_name (mstyle), NULL);
+		go_conf_set_string (PRINTSETUP_GCONF_HF_FONT_NAME,
+			mstyle_get_font_name (mstyle));
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_BOLD))
-		gconf_client_set_bool (state->gconf,
-				       PRINTSETUP_GCONF_HF_FONT_BOLD,
-				       mstyle_get_font_bold (mstyle), NULL);
+		go_conf_set_bool (PRINTSETUP_GCONF_HF_FONT_BOLD,
+			mstyle_get_font_bold (mstyle));
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
-		gconf_client_set_bool (state->gconf,
-				       PRINTSETUP_GCONF_HF_FONT_ITALIC,
-				       mstyle_get_font_italic (mstyle), NULL);
+		go_conf_set_bool (PRINTSETUP_GCONF_HF_FONT_ITALIC,
+			mstyle_get_font_italic (mstyle));
 	return TRUE;
 }
 
 static GtkWidget *
 pref_font_hf_initializer (PrefState *state,
-		       G_GNUC_UNUSED gpointer data,
-		       G_GNUC_UNUSED GtkNotebook *notebook,
-		       G_GNUC_UNUSED gint page_num)
+			  G_GNUC_UNUSED gpointer data,
+			  G_GNUC_UNUSED GtkNotebook *notebook,
+			  G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = font_selector_new ();
-	guint notification;
 
-	cb_pref_font_hf_set_fonts (state->gconf, 0, NULL, page);
-
-	notification = gconf_client_notify_add (state->gconf, PRINTSETUP_GCONF_DIRECTORY,
-						(GConfClientNotifyFunc) cb_pref_font_hf_set_fonts,
-						page, NULL, NULL);
-
-	g_signal_connect_swapped (G_OBJECT (page),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notification));
+	cb_pref_font_hf_set_fonts (NULL, page);
+	connect_notification (PRINTSETUP_GCONF_DIRECTORY,
+		G_CALLBACK (cb_pref_font_hf_set_fonts), page, page);
 	g_signal_connect (G_OBJECT (page),
 		"font_changed",
 		G_CALLBACK (cb_pref_font_hf_has_changed), state);
@@ -812,100 +662,7 @@ pref_undo_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 		     G_GNUC_UNUSED gint page_num)
 {
 	dialog_pref_load_description (state,
-				      _("The items on this page customize the "
-					"behaviour of the undo/redo system."));
-}
-
-static void
-cb_pref_undo_set_sheet_name (GConfClient *gconf,
-			     G_GNUC_UNUSED guint cnxn_id,
-			     G_GNUC_UNUSED GConfEntry *entry,
-			     GtkToggleButton *button)
-{
-	gboolean is_set_gconf = gconf_client_get_bool (gconf,
-						       GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME,
-						       NULL);
-	gboolean is_set_button = gtk_toggle_button_get_active (button);
-	if (is_set_gconf != is_set_button)
-		gtk_toggle_button_set_active (button, is_set_gconf);
-}
-
-static void
-cb_pref_undo_sheet_name_toggled (GtkToggleButton *button, PrefState *state)
-{
-		gconf_client_set_bool (state->gconf,
-				       GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME,
-				       gtk_toggle_button_get_active (button),
-				       NULL);
-}
-
-static void
-cb_pref_undo_set_max_descriptor_width (GConfClient *gconf,
-				       G_GNUC_UNUSED guint cnxn_id,
-				       G_GNUC_UNUSED GConfEntry *entry,
-				       GtkSpinButton *button)
-{
-	gint int_in_gconf = gconf_client_get_int (gconf,
-						  GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH,
-						  NULL);
-	gint int_in_button = gtk_spin_button_get_value_as_int (button);
-	if (int_in_gconf != int_in_button)
-		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
-}
-
-static void
-cb_pref_undo_max_descriptor_width_changed (GtkSpinButton *button, PrefState *state)
-{
-		gconf_client_set_int (state->gconf,
-				       GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH,
-				       gtk_spin_button_get_value_as_int (button),
-				       NULL);
-}
-
-static void
-cb_pref_undo_set_size (GConfClient *gconf,
-		       G_GNUC_UNUSED guint cnxn_id,
-		       G_GNUC_UNUSED GConfEntry *entry,
-		       GtkSpinButton *button)
-{
-	gint int_in_gconf = gconf_client_get_int (gconf,
-						  GNUMERIC_GCONF_UNDO_SIZE,
-						  NULL);
-	gint int_in_button = gtk_spin_button_get_value_as_int (button);
-	if (int_in_gconf != int_in_button)
-		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
-}
-
-static void
-cb_pref_undo_size_changed (GtkSpinButton *button, PrefState *state)
-{
-		gconf_client_set_int (state->gconf,
-				       GNUMERIC_GCONF_UNDO_SIZE,
-				       gtk_spin_button_get_value_as_int (button),
-				       NULL);
-}
-
-static void
-cb_pref_undo_set_maxnum (GConfClient *gconf,
-			 G_GNUC_UNUSED guint cnxn_id,
-			 G_GNUC_UNUSED GConfEntry *entry,
-			 GtkSpinButton *button)
-{
-	gint int_in_gconf = gconf_client_get_int (gconf,
-						  GNUMERIC_GCONF_UNDO_MAXNUM,
-						  NULL);
-	gint int_in_button = gtk_spin_button_get_value_as_int (button);
-	if (int_in_gconf != int_in_button)
-		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
-}
-
-static void
-cb_pref_undo_maxnum_changed (GtkSpinButton *button, PrefState *state)
-{
-		gconf_client_set_int (state->gconf,
-				       GNUMERIC_GCONF_UNDO_MAXNUM,
-				       gtk_spin_button_get_value_as_int (button),
-				       NULL);
+		_("The items on this page customize the behaviour of the undo/redo system."));
 }
 
 static GtkWidget *
@@ -917,36 +674,14 @@ pref_undo_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_table_new (4, 2, FALSE);
 	gint row = 0;
 
-	/* Sheet name check box */
-	dialog_pref_create_checkbox (GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME,
-				     "/schemas" GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME,
-				     page, row++, state,
-				     cb_pref_undo_set_sheet_name,
-				     cb_pref_undo_sheet_name_toggled);
-
-	/* Descriptor Width Spin Button */
-	dialog_pref_create_int_spin (GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH,
-				     "/schemas" GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH,
-				     page, row++, state,
-				     5, 5, 200, 1,
-				     cb_pref_undo_set_max_descriptor_width,
-				     cb_pref_undo_max_descriptor_width_changed);
-
-	/* Undo Size Spin Button */
-	dialog_pref_create_int_spin (GNUMERIC_GCONF_UNDO_SIZE,
-				     "/schemas" GNUMERIC_GCONF_UNDO_SIZE,
-				     page, row++, state,
-				     1000, 0, 30000, 100,
-				     cb_pref_undo_set_size,
-				     cb_pref_undo_size_changed);
-
-	/* Undo Size Spin Button */
-	dialog_pref_create_int_spin (GNUMERIC_GCONF_UNDO_MAXNUM,
-				     "/schemas" GNUMERIC_GCONF_UNDO_MAXNUM,
-				     page, row++, state,
-				     20, 1, 200, 1,
-				     cb_pref_undo_set_maxnum,
-				     cb_pref_undo_maxnum_changed);
+	bool_pref_create_widget (GNM_CONF_UNDO_SHOW_SHEET_NAME,
+		page, row++);
+	int_pref_create_widget (GNM_CONF_UNDO_MAX_DESCRIPTOR_WIDTH,
+		page, row++, 5, 5, 200, 1);
+	int_pref_create_widget (GNM_CONF_UNDO_SIZE,
+		page, row++, 1000, 0, 30000, 100);
+	int_pref_create_widget (GNM_CONF_UNDO_MAXNUM,
+		page, row++, 20, 1, 200, 1);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -967,98 +702,6 @@ pref_sort_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 					"the behaviour of the sort toolbar buttons."));
 }
 
-static void
-cb_pref_sort_set_retain_formats (GConfClient *gconf,
-				 G_GNUC_UNUSED guint cnxn_id,
-				 G_GNUC_UNUSED GConfEntry *entry,
-			         GtkToggleButton *button)
-{
-	gboolean is_set_gconf = gconf_client_get_bool (gconf,
-						       GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM,
-						       NULL);
-	gboolean is_set_button = gtk_toggle_button_get_active (button);
-	if (is_set_gconf != is_set_button)
-		gtk_toggle_button_set_active (button, is_set_gconf);
-}
-
-static void
-cb_pref_sort_retain_formats_toggled(GtkToggleButton *button, PrefState *state)
-{
-		gconf_client_set_bool (state->gconf,
-				       GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM,
-				       gtk_toggle_button_get_active (button),
-				       NULL);
-}
-
-static void
-cb_pref_sort_set_case (GConfClient *gconf,
-		       G_GNUC_UNUSED guint cnxn_id,
-		       G_GNUC_UNUSED GConfEntry *entry,
-		       GtkToggleButton *button)
-{
-	gboolean is_set_gconf = gconf_client_get_bool (gconf,
-						       GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE,
-						       NULL);
-	gboolean is_set_button = gtk_toggle_button_get_active (button);
-	if (is_set_gconf != is_set_button)
-		gtk_toggle_button_set_active (button, is_set_gconf);
-}
-
-static void
-cb_pref_sort_case_toggled(GtkToggleButton *button, PrefState *state)
-{
-	gconf_client_set_bool (state->gconf,
-			       GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE,
-			       gtk_toggle_button_get_active (button),
-			       NULL);
-}
-
-static void
-cb_pref_sort_set_ascending (GConfClient *gconf,
-			    G_GNUC_UNUSED guint cnxn_id,
-			    G_GNUC_UNUSED GConfEntry *entry,
-			    GtkToggleButton *button)
-{
-	gboolean is_set_gconf = gconf_client_get_bool (gconf,
-						       GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING,
-						       NULL);
-	gboolean is_set_button = gtk_toggle_button_get_active (button);
-	if (is_set_gconf != is_set_button)
-		gtk_toggle_button_set_active (button, is_set_gconf);
-}
-
-static void
-cb_pref_sort_ascending_toggled(GtkToggleButton *button, PrefState *state)
-{
-	gconf_client_set_bool (state->gconf,
-			       GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING,
-			       gtk_toggle_button_get_active (button),
-			       NULL);
-}
-
-static void
-cb_pref_sort_set_initial_clauses (GConfClient *gconf,
-				  G_GNUC_UNUSED guint cnxn_id,
-				  G_GNUC_UNUSED GConfEntry *entry,
-			          GtkSpinButton *button)
-{
-	gint int_in_gconf = gconf_client_get_int (gconf,
-						  GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL,
-						  NULL);
-	gint int_in_button = gtk_spin_button_get_value_as_int (button);
-	if (int_in_gconf != int_in_button)
-		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
-}
-
-static void
-cb_pref_sort_initial_clauses_changed (GtkSpinButton *button, PrefState *state)
-{
-	gconf_client_set_int (state->gconf,
-			      GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL,
-			      gtk_spin_button_get_value_as_int (button),
-			      NULL);
-}
-
 static GtkWidget *
 pref_sort_page_initializer (PrefState *state,
 			    G_GNUC_UNUSED gpointer data,
@@ -1068,31 +711,14 @@ pref_sort_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_table_new (3, 2, FALSE);
 	gint row = 0;
 
-	/* Retain Formats check box */
-	dialog_pref_create_checkbox (GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM,
-				     "/schemas" GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM,
-				     page, row++, state,
-				     cb_pref_sort_set_retain_formats,
-				     cb_pref_sort_retain_formats_toggled);
-	/* Sort by Case check box */
-	dialog_pref_create_checkbox (GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE,
-				     "/schemas" GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE,
-				     page, row++, state,
-				     cb_pref_sort_set_case,
-				     cb_pref_sort_case_toggled);
-	/* Sort Ascending check box */
-	dialog_pref_create_checkbox (GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING,
-				     "/schemas" GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING,
-				     page, row++, state,
-				     cb_pref_sort_set_ascending,
-				     cb_pref_sort_ascending_toggled);
-	/* Max Intial Clauses Spin Button */
-	dialog_pref_create_int_spin (GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL,
-				     "/schemas" GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL,
-				     page, row++, state,
-				     10, 0, 50, 1,
-				     cb_pref_sort_set_initial_clauses,
-				     cb_pref_sort_initial_clauses_changed);
+	bool_pref_create_widget (GNM_CONF_SORT_DEFAULT_RETAIN_FORM,
+		page, row++);
+	bool_pref_create_widget (GNM_CONF_SORT_DEFAULT_BY_CASE,
+		page, row++);
+	bool_pref_create_widget (GNM_CONF_SORT_DEFAULT_ASCENDING,
+		page, row++);
+	int_pref_create_widget (GNM_CONF_SORT_DIALOG_MAX_INITIAL,
+		page, row++, 10, 0, 50, 1);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -1113,149 +739,6 @@ pref_window_page_open (PrefState *state,
 					"new default workbook."));
 }
 
-static void
-cb_pref_window_set_zoom (GConfClient *gconf,
-			 G_GNUC_UNUSED guint cnxn_id,
-			 G_GNUC_UNUSED GConfEntry *entry,
-			 GtkSpinButton *button)
-{
-	gnm_float float_in_gconf = gconf_client_get_float (gconf,
-							    GNUMERIC_GCONF_GUI_ZOOM,
-							    NULL);
-	gnm_float float_in_button = gtk_spin_button_get_value (button);
-	if (float_in_gconf != float_in_button)
-		gtk_spin_button_set_value (button, (gdouble) float_in_gconf);
-}
-
-
-static void
-cb_pref_window_zoom_changed (GtkSpinButton *button, PrefState *state)
-{
-	gconf_client_set_float (state->gconf,
-				GNUMERIC_GCONF_GUI_ZOOM,
-				gtk_spin_button_get_value (button),
-				NULL);
-}
-
-static void
-cb_pref_window_set_window_height (GConfClient *gconf,
-				  G_GNUC_UNUSED guint cnxn_id,
-				  G_GNUC_UNUSED GConfEntry *entry,
-				GtkSpinButton *button)
-{
-	gnm_float float_in_gconf = gconf_client_get_float (gconf,
-						  GNUMERIC_GCONF_GUI_WINDOW_Y,
-						  NULL);
-	gnm_float float_in_button = gtk_spin_button_get_value (button);
-	if (float_in_gconf != float_in_button)
-		gtk_spin_button_set_value (button, (gdouble) float_in_gconf);
-}
-
-
-static void
-cb_pref_window_height_changed (GtkSpinButton *button, PrefState *state)
-{
-	gconf_client_set_float (state->gconf,
-				GNUMERIC_GCONF_GUI_WINDOW_Y,
-				gtk_spin_button_get_value (button),
-				NULL);
-}
-
-static void
-cb_pref_window_set_window_width (GConfClient *gconf,
-				 G_GNUC_UNUSED guint cnxn_id,
-				 G_GNUC_UNUSED GConfEntry *entry,
-				GtkSpinButton *button)
-{
-	gnm_float float_in_gconf = gconf_client_get_float (gconf,
-						  GNUMERIC_GCONF_GUI_WINDOW_X,
-						  NULL);
-	gnm_float float_in_button = gtk_spin_button_get_value (button);
-	if (float_in_gconf != float_in_button)
-		gtk_spin_button_set_value (button, (gdouble) float_in_gconf);
-}
-
-
-static void
-cb_pref_window_width_changed (GtkSpinButton *button, PrefState *state)
-{
-	gconf_client_set_float (state->gconf,
-				GNUMERIC_GCONF_GUI_WINDOW_X,
-				gtk_spin_button_get_value (button),
-				NULL);
-}
-
-static void
-cb_pref_window_set_sheet_num (GConfClient *gconf,
-			      G_GNUC_UNUSED guint cnxn_id,
-			      G_GNUC_UNUSED GConfEntry *entry,
-			      GtkSpinButton *button)
-{
-	gint int_in_gconf = gconf_client_get_int (gconf,
-						  GNUMERIC_GCONF_WORKBOOK_NSHEETS,
-						  NULL);
-	gint int_in_button = gtk_spin_button_get_value_as_int (button);
-	if (int_in_gconf != int_in_button)
-		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
-}
-
-static void
-cb_pref_window_set_transition_keys (GConfClient *gconf,
-				    G_GNUC_UNUSED guint cnxn_id,
-				    G_GNUC_UNUSED GConfEntry *entry,
-				    GtkToggleButton *button)
-{
-	gboolean is_set_gconf = gconf_client_get_bool (gconf,
-						       GNUMERIC_GCONF_GUI_ED_TRANSITION_KEYS,
-						       NULL);
-	gboolean is_set_button = gtk_toggle_button_get_active (button);
-	if (is_set_gconf != is_set_button)
-		gtk_toggle_button_set_active (button, is_set_gconf);
-}
-
-static void
-cb_pref_window_transition_keys_toggled (GtkToggleButton *button, PrefState *state)
-{
-	gconf_client_set_bool (state->gconf,
-			       GNUMERIC_GCONF_GUI_ED_TRANSITION_KEYS,
-			       gtk_toggle_button_get_active (button),
-			       NULL);
-	gnm_app_set_transition_keys(gtk_toggle_button_get_active (button));
-}
-
-
-static void
-cb_pref_window_sheet_num_changed (GtkSpinButton *button, PrefState *state)
-{
-	gconf_client_set_int (state->gconf,
-			      GNUMERIC_GCONF_WORKBOOK_NSHEETS,
-			      gtk_spin_button_get_value_as_int (button),
-			      NULL);
-}
-
-static void
-cb_pref_window_set_live_scrolling (GConfClient *gconf,
-				   G_GNUC_UNUSED guint cnxn_id,
-				   G_GNUC_UNUSED GConfEntry *entry,
-				   GtkToggleButton *button)
-{
-	gboolean is_set_gconf = gconf_client_get_bool (gconf,
-						       GNUMERIC_GCONF_GUI_ED_LIVESCROLLING,
-						       NULL);
-	gboolean is_set_button = gtk_toggle_button_get_active (button);
-	if (is_set_gconf != is_set_button)
-		gtk_toggle_button_set_active (button, is_set_gconf);
-}
-
-static void
-cb_pref_window_live_scrolling_toggled (GtkToggleButton *button, PrefState *state)
-{
-	gconf_client_set_bool (state->gconf,
-			       GNUMERIC_GCONF_GUI_ED_LIVESCROLLING,
-			       gtk_toggle_button_get_active (button),
-			       NULL);
-}
-
 static GtkWidget *
 pref_window_page_initializer (PrefState *state,
 			      G_GNUC_UNUSED gpointer data,
@@ -1265,51 +748,18 @@ pref_window_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_table_new (4, 2, FALSE);
 	gint row = 0;
 
-	/* Transition keys check box */
-	dialog_pref_create_checkbox (GNUMERIC_GCONF_GUI_ED_TRANSITION_KEYS,
-				     "/schemas" GNUMERIC_GCONF_GUI_ED_TRANSITION_KEYS,
-				     page, row++, state,
-				     cb_pref_window_set_transition_keys,
-				     cb_pref_window_transition_keys_toggled);
-
-	/* Window Height Spin Button */
-	dialog_pref_create_float_spin (GNUMERIC_GCONF_GUI_WINDOW_Y,
-				       "/schemas" GNUMERIC_GCONF_GUI_WINDOW_Y,
-				       page, row++, state,
-				       0.75, 0.25, 1, 0.05, 2,
-				       cb_pref_window_set_window_height,
-				       cb_pref_window_height_changed);
-
-	/* Window Width Spin Button */
-	dialog_pref_create_float_spin (GNUMERIC_GCONF_GUI_WINDOW_X,
-				       "/schemas" GNUMERIC_GCONF_GUI_WINDOW_X,
-				       page, row++, state,
-				       0.75, 0.25, 1, 0.05, 2,
-				       cb_pref_window_set_window_width,
-				       cb_pref_window_width_changed);
-
-	/* Zoom Factor Spin Button */
-	dialog_pref_create_float_spin (GNUMERIC_GCONF_GUI_ZOOM,
-				       "/schemas" GNUMERIC_GCONF_GUI_ZOOM,
-				       page, row++, state,
-				       1.00, 0.10, 5.00, 0.05, 2,
-				       cb_pref_window_set_zoom,
-				       cb_pref_window_zoom_changed);
-
-	/* Sheet Num Spin Button */
-	dialog_pref_create_int_spin (GNUMERIC_GCONF_WORKBOOK_NSHEETS,
-				     "/schemas" GNUMERIC_GCONF_WORKBOOK_NSHEETS,
-				     page, row++, state,
-				     1, 1, 100, 1,
-				     cb_pref_window_set_sheet_num,
-				     cb_pref_window_sheet_num_changed);
-
-	/* Live Scrolling check box */
-	dialog_pref_create_checkbox (GNUMERIC_GCONF_GUI_ED_LIVESCROLLING,
-				     "/schemas" GNUMERIC_GCONF_GUI_ED_LIVESCROLLING,
-				     page, row++, state,
-				     cb_pref_window_set_live_scrolling,
-				     cb_pref_window_live_scrolling_toggled);
+	bool_pref_create_widget (GNM_CONF_GUI_ED_TRANSITION_KEYS,
+		page, row++);
+	double_pref_create_widget (GNM_CONF_GUI_WINDOW_Y,
+		page, row++, 0.75, 0.25, 1, 0.05, 2);
+	double_pref_create_widget (GNM_CONF_GUI_WINDOW_X,
+		page, row++, 0.75, 0.25, 1, 0.05, 2);
+	double_pref_create_widget (GNM_CONF_GUI_ZOOM,
+		page, row++, 1.00, 0.10, 5.00, 0.05, 2);
+	int_pref_create_widget (GNM_CONF_WORKBOOK_NSHEETS,
+		page, row++, 1, 1, 100, 1);
+	bool_pref_create_widget (GNM_CONF_GUI_ED_LIVESCROLLING,
+		page, row++);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -1329,119 +779,6 @@ pref_file_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 					"and opening of files."));
 }
 
-
-static void
-cb_pref_file_set_file_history_num (GConfClient *gconf,
-				   G_GNUC_UNUSED guint cnxn_id,
-				   G_GNUC_UNUSED GConfEntry *entry,
-			     GtkSpinButton *button)
-{
-	gint int_in_gconf = gconf_client_get_int (gconf,
-						  GNUMERIC_GCONF_FILE_HISTORY_N,
-						  NULL);
-	gint int_in_button = gtk_spin_button_get_value_as_int (button);
-	if (int_in_gconf != int_in_button)
-		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
-}
-
-static void
-cb_pref_file_file_history_changed (GtkSpinButton *button, PrefState *state)
-{
-		gconf_client_set_int (state->gconf,
-				      GNUMERIC_GCONF_FILE_HISTORY_N,
-				      gtk_spin_button_get_value_as_int (button),
-				      NULL);
-}
-
-static void
-cb_pref_file_set_xml_compression (GConfClient *gconf,
-				  G_GNUC_UNUSED guint cnxn_id,
-				  G_GNUC_UNUSED GConfEntry *entry,
-			          GtkSpinButton *button)
-{
-	gint int_in_gconf = gconf_client_get_int (gconf,
-						  GNUMERIC_GCONF_XML_COMPRESSION,
-						  NULL);
-	gint int_in_button = gtk_spin_button_get_value_as_int (button);
-	if (int_in_gconf != int_in_button)
-		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
-}
-
-static void
-cb_pref_file_xml_compression_changed (GtkSpinButton *button, PrefState *state)
-{
-		gconf_client_set_int (state->gconf,
-				       GNUMERIC_GCONF_XML_COMPRESSION,
-				       gtk_spin_button_get_value_as_int (button),
-				       NULL);
-}
-
-static void
-cb_pref_file_set_overwrite (GConfClient *gconf,
-			    G_GNUC_UNUSED guint cnxn_id,
-			    G_GNUC_UNUSED GConfEntry *entry,
-			    GtkToggleButton *button)
-{
-	gboolean is_set_gconf = gconf_client_get_bool (gconf,
-						       GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT,
-						       NULL);
-	gboolean is_set_button = gtk_toggle_button_get_active (button);
-	if (is_set_gconf != is_set_button)
-		gtk_toggle_button_set_active (button, is_set_gconf);
-}
-
-static void
-cb_pref_file_overwrite_toggled (GtkToggleButton *button, PrefState *state)
-{
-	gconf_client_set_bool (state->gconf,
-			       GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT,
-			       gtk_toggle_button_get_active (button),
-			       NULL);
-}
-
-static void
-cb_pref_file_set_single_sheet_warn (GConfClient *gconf,
-				    G_GNUC_UNUSED guint cnxn_id,
-				    G_GNUC_UNUSED GConfEntry *entry,
-				    GtkToggleButton *button)
-{
-	gboolean is_set_gconf = gconf_client_get_bool (gconf,
-						       GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE,
-						       NULL);
-	gboolean is_set_button = gtk_toggle_button_get_active (button);
-	if (is_set_gconf != is_set_button)
-		gtk_toggle_button_set_active (button, is_set_gconf);
-}
-
-static void
-cb_pref_file_single_sheet_warn_toggled (GtkToggleButton *button, PrefState *state)
-{
-	gconf_client_set_bool (state->gconf,
-			       GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE,
-			       gtk_toggle_button_get_active (button),
-			       NULL);
-}
-
-static void
-cb_pref_latex_set_use_utf8 (GConfClient *gconf,
-			    G_GNUC_UNUSED guint cnxn_id,
-			    G_GNUC_UNUSED GConfEntry *entry,
-			    GtkToggleButton *button)
-{
-	gboolean is_set_gconf = gconf_client_get_bool (gconf,
-						       PLUGIN_GCONF_LATEX_USE_UTF8,
-						       NULL);
-	gboolean is_set_button = gtk_toggle_button_get_active (button);
-	if (is_set_gconf != is_set_button)
-		gtk_toggle_button_set_active (button, is_set_gconf);
-}
-
-static void
-cb_pref_latex_set_use_utf8_toggled (GtkToggleButton *button, PrefState *state)
-{
-	gnm_gconf_set_latex_use_utf8 (gtk_toggle_button_get_active (button));
-}
-
 static GtkWidget *
 pref_file_page_initializer (PrefState *state,
 			    G_GNUC_UNUSED gpointer data,
@@ -1451,61 +788,45 @@ pref_file_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_table_new (2, 2, FALSE);
 	gint row = 0;
 
-	/* File History Number Spin Button */
-	dialog_pref_create_int_spin (GNUMERIC_GCONF_FILE_HISTORY_N,
-				     "/schemas" GNUMERIC_GCONF_FILE_HISTORY_N,
-				     page, row++, state,
-				     4, 0, 40, 1,
-				     cb_pref_file_set_file_history_num,
-				     cb_pref_file_file_history_changed);
-
-	/* XML Compression Spin Button */
-	dialog_pref_create_int_spin (GNUMERIC_GCONF_XML_COMPRESSION,
-				     "/schemas" GNUMERIC_GCONF_XML_COMPRESSION,
-				     page, row++, state,
-				     9, 0, 9, 1,
-				     cb_pref_file_set_xml_compression,
-				     cb_pref_file_xml_compression_changed);
-
-	/* Overwrite Default check box */
-	dialog_pref_create_checkbox (GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT,
-				     "/schemas" GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT,
-				     page, row++, state,
-				     cb_pref_file_set_overwrite,
-				     cb_pref_file_overwrite_toggled);
-
-	/* Single Sheet Warning check box */
-	dialog_pref_create_checkbox (GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE,
-				     "/schemas" GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE,
-				     page, row++, state,
-				     cb_pref_file_set_single_sheet_warn,
-				     cb_pref_file_single_sheet_warn_toggled);
-
-	/* LaTeX Exporter uses UTF-8 check box */
-	dialog_pref_create_checkbox (PLUGIN_GCONF_LATEX_USE_UTF8,
-				     "/schemas" PLUGIN_GCONF_LATEX_USE_UTF8,
-				     page, row++, state,
-				     cb_pref_latex_set_use_utf8,
-				     cb_pref_latex_set_use_utf8_toggled);
+	int_pref_create_widget (GNM_CONF_FILE_HISTORY_N,
+		page, row++, 4, 0, 40, 1);
+	int_pref_create_widget (GNM_CONF_XML_COMPRESSION,
+		page, row++, 9, 0, 9, 1);
+	bool_pref_create_widget (GNM_CONF_FILE_OVERWRITE_DEFAULT,
+		page, row++);
+	bool_pref_create_widget (GNM_CONF_FILE_SINGLE_SHEET_SAVE,
+		page, row++);
+	bool_pref_create_widget (PLUGIN_GCONF_LATEX_USE_UTF8,
+		page, row++);
 
 	gtk_widget_show_all (page);
 	return page;
 }
 
-
 /*******************************************************************************************/
 /*               General Preference Dialog Routines                                        */
 /*******************************************************************************************/
 
+typedef struct {
+	char const *page_name;
+	char const *icon_name;
+	char const *parent_path;
+	GtkWidget * (*page_initializer) (PrefState *state, gpointer data,
+					 GtkNotebook *notebook, gint page_num);
+	void	    (*page_open)	(PrefState *state, gpointer data,
+					 GtkNotebook *notebook, gint page_num);
+	gpointer data;
+} page_info_t;
+
 static page_info_t page_info[] = {
-	{N_("Font"),       GTK_STOCK_ITALIC,	         NULL, pref_font_initializer, pref_font_page_open, NULL},
-	{N_("Windows"),    "Gnumeric_ObjectCombo",	 NULL, pref_window_page_initializer, pref_window_page_open, NULL},
-	{N_("Files"),      GTK_STOCK_FLOPPY,	         NULL, pref_file_page_initializer, pref_file_page_open, NULL},
-	{N_("Undo"),       GTK_STOCK_UNDO,		 NULL, pref_undo_page_initializer, pref_undo_page_open, NULL},
-	{N_("Sorting"),    GTK_STOCK_SORT_ASCENDING,     NULL, pref_sort_page_initializer, pref_sort_page_open, NULL},
-	{N_("Various"),    GTK_STOCK_PREFERENCES,        NULL, pref_tree_initializer, pref_tree_page_open, pref_tree_data},
-	{N_("Internal"),   GTK_STOCK_DIALOG_ERROR,       "5",  pref_tree_initializer, pref_tree_page_open, pref_tree_data_danger},
-	{N_("Header/Footer"), GTK_STOCK_ITALIC,	         "0",  pref_font_hf_initializer, pref_font_hf_page_open, NULL},
+	{N_("Font"),          GTK_STOCK_ITALIC,	         NULL, &pref_font_initializer,		&pref_font_page_open,	NULL},
+	{N_("Windows"),       "Gnumeric_ObjectCombo",	 NULL, &pref_window_page_initializer,	&pref_window_page_open,	NULL},
+	{N_("Files"),         GTK_STOCK_FLOPPY,	         NULL, &pref_file_page_initializer,	&pref_file_page_open,	NULL},
+	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer,	&pref_undo_page_open,	NULL},
+	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  NULL, &pref_sort_page_initializer,	&pref_sort_page_open,	NULL},
+	{N_("Various"),       GTK_STOCK_PREFERENCES,     NULL, &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data},
+	{N_("Internal"),      GTK_STOCK_DIALOG_ERROR,    "5",  &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data_danger},
+	{N_("Header/Footer"), GTK_STOCK_ITALIC,	         "0",  &pref_font_hf_initializer,	&pref_font_hf_page_open, NULL},
 	{NULL, NULL, NULL, NULL, NULL, NULL},
 };
 
@@ -1546,19 +867,15 @@ cb_dialog_pref_selection_changed (GtkTreeSelection *selection,
 }
 
 static gboolean
-cb_preferences_destroy (G_GNUC_UNUSED GtkWidget *widget,
-			PrefState *state)
+cb_preferences_destroy (PrefState *state)
 {
-	if (state->gconf)
-		gconf_client_suggest_sync (state->gconf, NULL);
+	go_conf_sync ();
 
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
-
 	state->dialog = NULL;
-
 	g_free (state);
 
 	gnm_app_set_pref_dialog (NULL);
@@ -1567,9 +884,9 @@ cb_preferences_destroy (G_GNUC_UNUSED GtkWidget *widget,
 }
 
 static void
-cb_close_clicked (G_GNUC_UNUSED GtkWidget *ignore, PrefState *state)
+cb_close_clicked (PrefState *state)
 {
-	    gtk_widget_destroy (GTK_WIDGET (state->dialog));
+	gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
 static void
@@ -1615,7 +932,6 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 	state->dialog     = glade_xml_get_widget (gui, "preferences");
 	state->notebook   = glade_xml_get_widget (gui, "notebook");
 	state->pages      = NULL;
-	state->gconf      = gnm_app_get_gconf_client ();
 	state->description = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "description"));
 	state->wb	  = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 
@@ -1643,7 +959,7 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 			  "changed",
 			  G_CALLBACK (cb_dialog_pref_selection_changed), state);
 	
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
 		"clicked",
 		G_CALLBACK (cb_close_clicked), state);
 
@@ -1655,7 +971,7 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_PREFERENCES);
 
-	g_signal_connect (G_OBJECT (state->dialog),
+	g_signal_connect_swapped (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (cb_preferences_destroy), state);
 

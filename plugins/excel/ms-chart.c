@@ -2169,3 +2169,10 @@ ms_excel_read_chart_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)
 	ms_biff_bof_data_destroy (bof);
 	return res;
 }
+
+/***************************************************************************/
+
+void
+ms_excel_read_write_chart (ExcelWriteState *ewb, SheetObject *so)
+{
+}

@@ -11,14 +11,15 @@ change_logs = ChangeLog \
 	OChangeLog-2000-02-23 OChangeLog-2000-10-10  \
 	OChangeLog-2001-06-26
 
+@INTLTOOL_DESKTOP_RULE@
+
 Applicationsdir = $(datadir)/applications/
 Applications_in_files = gnumeric.desktop.in
 Applications_DATA = gnumeric.desktop
-@INTLTOOL_DESKTOP_RULE@
+
 gnewdir = $(datadir)/mc/templates
 gnew_in_files = gnumeric.desktop.in
 gnew_DATA = gnumeric.desktop
-@INTLTOOL_DESKTOP_RULE@
 
 Mimedir = $(datadir)/mime-info
 Mime_DATA = gnumeric.keys gnumeric.mime
@@ -31,8 +32,9 @@ GNOME_Gnumeric.server.in : GNOME_Gnumeric.server.in.in Makefile
 
 @INTLTOOL_SERVER_RULE@
 
-CLEANFILES = intltool-extract intltool-merge intltool-update \
-	$(server_DATA) $(server_in_files) gnumeric.desktop gnumeric.keys
+CLEANFILES = $(server_DATA) $(server_in_files) \
+	gnumeric.desktop gnumeric.keys
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
 EXTRA_DIST = \
 	gnumeric.desktop.in gnumeric.spec.in GNOME_Gnumeric.server.in.in\

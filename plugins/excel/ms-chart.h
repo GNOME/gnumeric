@@ -18,4 +18,6 @@ gboolean ms_excel_read_chart     (BiffQuery *q, MSContainer *container,
 gboolean ms_excel_read_chart_BOF (BiffQuery *q, MSContainer *container,
 				  SheetObject *sog);
 
+void	 ms_excel_read_write_chart (ExcelWriteState *ewb, SheetObject *so);
+
 #endif /* GNUMERIC_MS_CHART_H */

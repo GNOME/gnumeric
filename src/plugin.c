@@ -1840,7 +1840,7 @@ plugins_shutdown (void)
 	g_hash_table_destroy (available_plugins_id_hash);
 	g_slist_free_custom (available_plugins, gnm_plugin_try_unref);
 
-	gnm_conf_sync ();
+	go_conf_sync ();
 }
 
 void

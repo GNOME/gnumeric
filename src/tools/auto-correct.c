@@ -35,7 +35,6 @@
 #include "gnumeric-gconf.h"
 #include <gsf/gsf-impl-utils.h>
 
-#include <gconf/gconf-client.h>
 #include <string.h>
 
 static struct {
@@ -70,30 +69,24 @@ autocorrect_clear (void)
 static void
 autocorrect_load (void)
 {
-	GConfClient *client = gnm_app_get_gconf_client ();
-
-	autocorrect.init_caps = gconf_client_get_bool (client,
-		AUTOCORRECT_INIT_CAPS, NULL);
-	autocorrect_set_exceptions (AC_INIT_CAPS, gconf_client_get_list (client,
-		AUTOCORRECT_INIT_CAPS_LIST, GCONF_VALUE_STRING, NULL));
-
-	autocorrect.first_letter = gconf_client_get_bool (client,
-		AUTOCORRECT_FIRST_LETTER, NULL);
-	autocorrect_set_exceptions (AC_FIRST_LETTER, gconf_client_get_list (client,
-		AUTOCORRECT_FIRST_LETTER_LIST, GCONF_VALUE_STRING, NULL));
-
-	autocorrect.names_of_days = gconf_client_get_bool (client,
-		AUTOCORRECT_NAMES_OF_DAYS, NULL);
-	autocorrect.replace = gconf_client_get_bool (client,
-		AUTOCORRECT_REPLACE, NULL);
+	autocorrect.init_caps = go_conf_load_bool (AUTOCORRECT_INIT_CAPS, TRUE);
+	autocorrect_set_exceptions (AC_INIT_CAPS,
+		go_conf_load_str_list (AUTOCORRECT_INIT_CAPS_LIST));
+	autocorrect.first_letter = go_conf_load_bool (AUTOCORRECT_FIRST_LETTER, TRUE);
+	autocorrect_set_exceptions (AC_FIRST_LETTER,
+		go_conf_load_str_list (AUTOCORRECT_FIRST_LETTER_LIST));
+	autocorrect.names_of_days = go_conf_load_bool (AUTOCORRECT_NAMES_OF_DAYS, TRUE);
+	autocorrect.replace = go_conf_load_bool (AUTOCORRECT_REPLACE, TRUE);
 }
 
+#ifdef WITH_GNOME
 static void
 cb_autocorrect_update ()
 {
 	autocorrect_clear ();
 	autocorrect_load ();
 }
+#endif
 
 static void
 autocorrect_init (void)
@@ -102,10 +95,14 @@ autocorrect_init (void)
 		return;
 
 	autocorrect_load ();
+#if WITH_GNOME
 	autocorrect.notification_id = gconf_client_notify_add (
 		gnm_app_get_gconf_client (), AUTOCORRECT_DIRECTORY,
 		(GConfClientNotifyFunc) cb_autocorrect_update,
 		NULL, NULL, NULL);
+#else
+	autocorrect.notification_id = 1;
+#endif
 	g_object_set_data_full (gnm_app_get_app (),
 		"ToolsAutoCorrect", GINT_TO_POINTER (1),
 		(GDestroyNotify) autocorrect_clear);
@@ -114,25 +111,19 @@ autocorrect_init (void)
 void
 autocorrect_store_config (void)
 {
-	GConfChangeSet *cs = gconf_change_set_new ();
-
-	gconf_change_set_set_bool (cs, AUTOCORRECT_INIT_CAPS,
+	go_conf_set_bool (AUTOCORRECT_INIT_CAPS,
 		autocorrect.init_caps);
-	gconf_change_set_set_list (cs, AUTOCORRECT_INIT_CAPS_LIST,
-		GCONF_VALUE_STRING, autocorrect.exceptions.init_caps);
-	gconf_change_set_set_bool (cs, AUTOCORRECT_FIRST_LETTER,
+	go_conf_set_str_list (AUTOCORRECT_INIT_CAPS_LIST,
+		autocorrect.exceptions.init_caps);
+	go_conf_set_bool (AUTOCORRECT_FIRST_LETTER,
 		autocorrect.first_letter);
-	gconf_change_set_set_list (cs, AUTOCORRECT_FIRST_LETTER_LIST,
-	       GCONF_VALUE_STRING, autocorrect.exceptions.first_letter);
-	gconf_change_set_set_bool (cs, AUTOCORRECT_NAMES_OF_DAYS,
+	go_conf_set_str_list (AUTOCORRECT_FIRST_LETTER_LIST,
+	       autocorrect.exceptions.first_letter);
+	go_conf_set_bool (AUTOCORRECT_NAMES_OF_DAYS,
 		autocorrect.names_of_days);
-	gconf_change_set_set_bool (cs, AUTOCORRECT_REPLACE,
+	go_conf_set_bool (AUTOCORRECT_REPLACE,
 		autocorrect.replace);
-
-	gconf_client_commit_change_set (gnm_app_get_gconf_client (),
-					cs, FALSE, NULL);
-	gconf_client_suggest_sync (gnm_app_get_gconf_client (), NULL);
-	gconf_change_set_unref (cs);
+	go_conf_sync ();
 }
 
 gboolean

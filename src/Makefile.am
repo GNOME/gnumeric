@@ -296,7 +296,7 @@ gnumeric_SOURCES =				\
 
 gnumeric_LDADD = 				\
 	$(gnumeric_app_libs)			\
-	$(GNUMERIC_LIBS)			\
+	$(GNUMERIC_LIBS) -lpopt			\
 	$(INTLLIBS)
 
 gnumeric_LDFLAGS = -export-dynamic

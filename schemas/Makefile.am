@@ -1,6 +1,10 @@
 schemadir   = @GCONF_SCHEMA_FILE_DIR@
 schema_in_files = gnumeric-dialogs.schemas.in gnumeric-general.schemas.in gnumeric-plugins.schemas.in 
+if WITH_GNOME
 schema_DATA = $(schema_in_files:.schemas.in=.schemas)
+else
+schema_DATA =
+endif
 
 @INTLTOOL_SCHEMAS_RULE@
 

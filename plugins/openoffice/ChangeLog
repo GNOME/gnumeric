@@ -1,3 +1,11 @@
+2004-04-03  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_attr_distance) : new.
+	(oo_style_prop_row) : new.
+	(oo_style_prop_col) : new.
+	(oo_style_prop) : break out parsers for each style type.
+	(oo_style_start) : handle col/row sizes.
+
 2004-03-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.0

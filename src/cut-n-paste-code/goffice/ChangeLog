@@ -1,3 +1,11 @@
+2004-04-05  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=139205
+	* gui-utils/go-action-combo-stack.c
+	(go_action_combo_stack_create_menu_item) : There's no reason to set a
+	  default label not only was it ugly, but it disabled the nice utility
+	  code in GtkAction::connect_proxy that would set 'use_underline' for us
+
 2004-03-30  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=138532

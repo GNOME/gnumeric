@@ -338,7 +338,7 @@ static GtkWidget *
 go_action_combo_stack_create_menu_item (GtkAction *a)
 {
 	GOActionComboStack *saction = (GOActionComboStack *)a;
-	GtkWidget *item = gtk_image_menu_item_new_with_label ("UNDOREDO");
+	GtkWidget *item = gtk_image_menu_item_new ();
 	gboolean is_sensitive = gtk_tree_model_iter_n_children (saction->model, NULL) > 0;
 	gtk_widget_set_sensitive (GTK_WIDGET (item), is_sensitive);
 	return item;

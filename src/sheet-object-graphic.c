@@ -459,7 +459,7 @@ cb_fill_color_changed (GtkWidget *cc, GOColor color,
 {
 	gnm_so_graphic_set_fill_color (SHEET_OBJECT (state->sog),
 		go_combo_color_get_style_color (cc));
-	foo_canvas_item_set (state->arrow, "fill_color_gdk", color, NULL);
+	foo_canvas_item_set (state->arrow, "fill_color_rgba", color, NULL);
 }
 
 static void

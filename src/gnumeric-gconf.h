@@ -1,10 +1,9 @@
-#ifndef GNUMERIC_GCONF_H
-#define GNUMERIC_GCONF_H
+#ifndef GNM_CONF_H
+#define GNM_CONF_H
 
 #include <numbers.h>
 #include <gnumeric.h>
 #include <print-info.h>
-#include <gconf/gconf-client.h>
 
 typedef struct {
 	struct {
@@ -86,7 +85,6 @@ extern GnmAppPrefs const *gnm_app_prefs;
 void     gnm_conf_init (gboolean fast);
 void     gnm_conf_shutdown (void);
 void     gnm_conf_sync (void);
-GConfClient *gnm_app_get_gconf_client (void);
 
 /* autocorrect */
 void     gnm_gconf_set_autocorrect_init_caps (gboolean val);
@@ -168,4 +166,32 @@ void     gnm_gconf_set_unfocused_range_selection (gboolean val);
 void     gnm_gconf_set_prefer_clipboard_selection (gboolean val);
 void     gnm_gconf_set_latex_use_utf8 (gboolean val);
 
-#endif /* GNUMERIC_GRAPH_H */
+/**************************************************************/
+
+char	*go_conf_get_short_desc     (char const *key);
+char	*go_conf_get_long_desc      (char const *key);
+GType	 go_conf_get_type	    (char const *key);
+char	*go_conf_get_value_as_str   (char const *key);
+gboolean go_conf_set_value_from_str (char const *key, char const *val_str);
+
+gboolean go_conf_get_bool	(char const *key);
+int	 go_conf_get_int	(char const *key);
+double	 go_conf_get_double	(char const *key);
+char	*go_conf_get_string	(char const *key);
+GSList	*go_conf_get_str_list	(char const *key);
+
+gboolean go_conf_load_bool	(char const *key, gboolean default_val);
+int	 go_conf_load_int	(char const *key, int minima, int maxima, int default_val);
+double	 go_conf_load_double	(char const *key, double minima, double maxima, double default_val);
+char	*go_conf_load_string	(char const *key);
+GSList	*go_conf_load_str_list	(char const *key);
+
+void	 go_conf_set_bool	(char const *key, gboolean val);
+void	 go_conf_set_int	(char const *key, gint val);
+void	 go_conf_set_double	(char const *key, gnm_float val);
+void	 go_conf_set_string	(char const *key, char const *str);
+void	 go_conf_set_str_list	(char const *key, GSList *list);
+
+void	 go_conf_sync		(void);
+
+#endif /* GNM_CONF_H */

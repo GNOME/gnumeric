@@ -55,7 +55,6 @@ libgnomecanvas-2.0	>= 2.0.0
 libgnomeprint-2.2	>= 2.5.2
 libgnomeprintui-2.2	>= 2.5.2
 libart-2.0		>= 2.3.11
-gconf-2.0
 "
 
 dnl ************************************
@@ -63,6 +62,7 @@ dnl Are the GNOME extensions available ?
 dnl ************************************
 gnome_msg="yes"
 gnome_extension_reqs="
+gconf-2.0
 libbonobo-2.0	>= 2.2.0
 libbonoboui-2.0	>= 2.2.0
 libgnome-2.0	>= 2.0.0
