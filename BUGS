@@ -4,8 +4,8 @@ and longer term bugs.
 
 Release Critical
 ----------------
-Entering '1e99' in a cell with format 'General' is broken.
 
 Long term breakage
 ------------------
 - border style double_line does handle all of the different intersection cases.
+- 'General' numbers need to be formated based on the width of the cell.
