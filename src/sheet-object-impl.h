@@ -4,6 +4,7 @@
 
 #include "sheet-object.h"
 #include <gtk/gtkobject.h>
+#include <libgnomeprint/gnome-print.h>
 
 typedef enum {
 	SHEET_OBJECT_ACTION_STATIC,
@@ -63,7 +64,9 @@ typedef struct {
 				      XmlParseContext const *ctxt,
 				      xmlNodePtr	tree);
 	void                (*print) (SheetObject const *so,
-				      SheetObjectPrintInfo const *pi);
+				      GnomePrintContext *ctx,
+				      double base_x, 
+				      double base_y);
 	SheetObject *       (*clone) (SheetObject const *so,
 				      Sheet *sheet);
 						
