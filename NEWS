@@ -20,6 +20,7 @@ Morten:
 	* Fix CONCATENATE.
 	* Fix MULTINOMIAL.
 	* Fix LCM.
+	* Fix dependency tracking problem.
 
 Rodrigo:
 	* Update gda support.

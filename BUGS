@@ -22,8 +22,6 @@ Release Critical
 	: should not fill
 	: clearing 64k expressions from a column is dog slow
 
-    - 57372
-
 
 Pending Patches
 ---------------
