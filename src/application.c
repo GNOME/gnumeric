@@ -164,6 +164,7 @@ application_clipboard_clear (gboolean drop_selection)
 
 		/* Release the selection */
 		if (drop_selection) {
+#warning "FIXME: 1: this doesn't belong here.  2: it is not multihead safe."
 			gtk_selection_owner_set (NULL,
 						 GDK_SELECTION_PRIMARY,
 						 GDK_CURRENT_TIME);
