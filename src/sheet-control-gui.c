@@ -698,6 +698,13 @@ sheet_view_destroy (GtkObject *object)
 	if (scg->sheet)
 		sheet_detach_sheet_view (scg);
 
+	if (scg->wbcg) {
+		GtkWindow *toplevel = wb_control_gui_toplevel (scg->wbcg);
+		
+		if (toplevel && (toplevel->focus_widget == scg->canvas))
+			gtk_window_set_focus (toplevel, NULL);
+	}
+
 	/* FIXME : Should we be pedantic and
 	 * 1) clear the control points
 	 * 2) remove ourselves from the sheets list of views ?
@@ -2063,4 +2070,20 @@ void
 scg_stop_cell_selection	(SheetControlGUI *scg, gboolean clear_string)
 {
 	gnumeric_sheet_stop_cell_selection (GNUMERIC_SHEET (scg->canvas), clear_string);
+}
+
+void
+scg_rangesel_cursor_extend (SheetControlGUI *scg, int col, int row)
+{
+	gnumeric_sheet_rangesel_cursor_extend (
+		GNUMERIC_SHEET (scg->canvas), col, row);
+}
+
+void
+scg_take_focus (SheetControlGUI *scg)
+{
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	
+	gtk_window_set_focus (wb_control_gui_toplevel (scg->wbcg),
+			      scg->canvas);
 }

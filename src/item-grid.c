@@ -841,11 +841,11 @@ cb_extend_cell_range (SheetControlGUI *scg, int col, int row, gpointer ignored)
 	sheet_selection_extend_to (scg->sheet, col, row);
 	return TRUE;
 }
+
 static gboolean
 cb_extend_expr_range (SheetControlGUI *scg, int col, int row, gpointer ignored)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	gnumeric_sheet_rangesel_cursor_extend (gsheet, col, row);
+	scg_rangesel_cursor_extend (scg, col, row);
 	return TRUE;
 }
 

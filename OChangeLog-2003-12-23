@@ -1,3 +1,19 @@
+2001-01-26  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-control-gui.[ch] (scg_rangesel_cursor_extend,
+	  scg_take_focus): new functions to wrap direct calls to gsheet.
+
+	* src/sheet-control-gui.c (sheet_view_destroy): Yield focus if we
+	have it.
+
+	* src/workbook-control-gui.c (wb_control_gui_focus_cur_sheet): Use
+	scg_take_focus instead of gtk_window_set_focus.
+	(yield_focus): Remove. sheet_view_destroy now takes care of this.
+	(wbcg_sheet_add): Do not attach yield_focus.
+	
+	* src/item-grid.c (cb_extend_expr_range): Use
+	scg_rangesel_cursor_extend instead of gnumeric_sheet version.
+
 2001-01-26  Michael Meeks  <michael@helixcode.com>
 
 	* src/plugin.c (plugin_info_read): g_new0 the PluginInfo so the

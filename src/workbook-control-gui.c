@@ -113,7 +113,7 @@ wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg)
 
 	g_return_val_if_fail (scg != NULL, NULL);
 
-	gtk_window_set_focus (scg->wbcg->toplevel, scg->canvas);
+	scg_take_focus (scg);
 
 	return scg->sheet;
 }
@@ -282,23 +282,6 @@ wbcg_edit_selection_descr_set (WorkbookControl *wbc, char const *text)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	gtk_entry_set_text (GTK_ENTRY (wbcg->selection_descriptor), text);
-}
-
-/*
- * yield_focus
- * @widget   widget
- * @toplevel toplevel
- *
- * Give up focus if we have it. This is called when widget is destroyed. A
- * widget which no longer exists should not have focus!
- */
-static gboolean
-yield_focus (GtkWidget *widget, GtkWindow *toplevel)
-{
-	if (toplevel && (toplevel->focus_widget == widget))
-		gtk_window_set_focus (toplevel, NULL);
-
-	return FALSE;
 }
 
 /*
@@ -480,17 +463,6 @@ static void workbook_setup_sheets (WorkbookControlGUI *wbcg);
  * @sheet: a sheet
  *
  * Creates a new SheetControlGUI for the sheet and adds it to the workbook-control-gui.
- *
- * A callback to yield focus when the sheet view is destroyed is attached
- * to the sheet view. This solves a problem which we encountered e.g. when
- * a file import is canceled or fails:
- * - First, a sheet is attached to the workbook in this routine. The sheet
- *   view gets focus.
- * - Then, the sheet is detached, sheet view is destroyed, but GTK
- *   still believes that the sheet view has focus.
- * - GTK accesses already freed memory. Due to the excellent cast checking
- *   in GTK, we didn't get anything worse than warnings. But the bug had
- *   to be fixed anyway.
  */
 static void
 wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
@@ -507,10 +479,6 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 
 	scg = sheet_new_sheet_view (sheet);
 	scg->wbcg = wbcg;
-	gtk_signal_connect (
-		GTK_OBJECT (scg->canvas), "destroy",
-		GTK_SIGNAL_FUNC (yield_focus),
-		wbcg->toplevel);
 
 	/*
 	 * NB. this is so we can use editable_label_set_text since
