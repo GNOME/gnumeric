@@ -852,10 +852,10 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		break;
 	case BIFF_RSTRING:
 		/*
-		 * printf ("Cell [%d, %d] = ", EX_GETCOL(q), EX_GETROW(q)) ;
-		 * dump (q->data, q->length) ;
-		 * STRNPRINTF(q->data + 8, EX_GETSTRLEN(q)) ; 
-		 */
+		  printf ("Cell [%d, %d] = ", EX_GETCOL(q), EX_GETROW(q)) ;
+		  dump (q->data, q->length) ;
+		  STRNPRINTF(q->data + 8, EX_GETSTRLEN(q)) ; 
+		*/
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
 		  biff_get_text (q->data + 8, EX_GETSTRLEN (q)));
 		break;
@@ -863,9 +863,10 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		{
 			char buf[65];
 			double num = BIFF_GETDOUBLE (q->data + 6);	/*
-
 									 * FIXME GETDOUBLE is not endian independant 
 									 */
+			printf ("A number : %f\n", num) ;
+			dump (q->data, q->length) ;
 			sprintf (buf, "%f", num);
 			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
 			break;
@@ -884,19 +885,19 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 
 			number = BIFF_GETLONG (q->data + 6);
 			printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
-			printf ("position [%d,%d] = %x\n", EX_GETCOL (q), EX_GETROW (q), number);
 			type = (number & 0x3);
+			printf ("position [%d,%d] = %x ( type %d )\n", EX_GETCOL (q), EX_GETROW (q), number, type);
 			switch (type) {
 			case eIEEE:
 				dump (q->data, q->length);
-				tmp[0] = number & 0xfffffffc;
-				tmp[1] = 0;
+				tmp[0] = 0;
+				tmp[1] = number & 0xfffffffc;
 				answer = BIFF_GETDOUBLE (((BYTE *) tmp));
 				break;
 			case eIEEEx10:
 				dump (q->data, q->length);
-				tmp[0] = number & 0xfffffffc;
-				tmp[1] = 0;
+				tmp[0] = 0;
+				tmp[1] = number & 0xfffffffc;
 				answer = BIFF_GETDOUBLE (((BYTE *) tmp));
 				answer /= 100.0;
 				break;
@@ -911,13 +912,12 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 				answer = 0;
 			}
 			sprintf (buf, "%f", answer);
-			printf ("The answer is '%s'\n", buf);
 			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
 		}
 		break;
 	case BIFF_LABEL:
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
-		  biff_get_text (q->data + 8, EX_GETSTRLEN (q)));
+				       biff_get_text (q->data + 8, EX_GETSTRLEN (q)));
 		break;
 	case BIFF_ROW:		/*
 				 * FIXME 

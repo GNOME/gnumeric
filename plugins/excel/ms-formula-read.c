@@ -403,6 +403,19 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	    ptg_length = 2 ;
 	  }
 	  break ;
+	case FORMULA_PTG_STR:
+	{ /* FIXME: Len should only be a byte but seems to be a word ! */
+		guint32 len = BIFF_GETWORD(cur) ;
+		char *str = (char *)malloc(len+1) ;
+		guint32 lp ;
+		for (lp=0;lp<len;lp++)
+			str[lp] = BIFF_GETBYTE(cur+2+lp) ;
+		str[lp] = 0 ;
+		parse_list_push_raw (stack, str, NO_PRECEDENCE) ;
+		printf ("Found string '%s'\n", str) ;
+		ptg_length = 2 + len ;
+	}
+	break ;
 	default:
 	  {
 	    int lp ;

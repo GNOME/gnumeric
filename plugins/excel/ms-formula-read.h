@@ -19,6 +19,7 @@ void ms_excel_fixup_array_formulae (MS_EXCEL_SHEET *sheet) ;
 
 #define FORMULA_PTG_EXP                0x01
 #define FORMULA_PTG_PAREN              0x15
+#define FORMULA_PTG_STR                0x17
 
 #define FORMULA_PTG_FUNC               0x21
 #define FORMULA_PTG_FUNC_VAR           0x22

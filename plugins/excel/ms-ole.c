@@ -765,16 +765,6 @@ ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
 		printf ("Reading from NULL file\n") ;
 		return 0 ;
 	}
-/*	if (s->block == s->end_block)
-	{
-		block_left = PPS_GET_SIZE(s->file,s->pps) % BB_BLOCK_SIZE - s->offset ;
-		if (length>block_left)
-		{
-			printf ("Requesting beyond end of stream by %d bytes\n",
-				length - block_left) ;
-			return 0 ;
-		}
-		}*/
   
 	block_left = BB_BLOCK_SIZE - s->offset ;
 	if (length<=block_left) /* Just return the pointer then */
@@ -822,16 +812,6 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
 		printf ("Reading from NULL file\n") ;
 		return 0 ;
 	}
-/*	if (s->block == s->end_block)
-	{
-		block_left = PPS_GET_SIZE(s->file,s->pps) % SB_BLOCK_SIZE - s->offset ;
-		if (length>block_left)
-		{
-			printf ("Requesting beyond end of stream by %d bytes\n",
-				length - block_left) ;
-			return 0 ;
-		}
-		}*/
   
 	block_left = SB_BLOCK_SIZE - s->offset ;
 	if (length<=block_left) /* Just return the pointer then */
@@ -884,18 +864,6 @@ ms_ole_read_copy_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		printf ("Reading from NULL file\n") ;
 		return 0 ;
 	}
-/*	if (s->block == s->end_block)
-	{
-		block_left = PPS_GET_SIZE(s->file, s->pps) % BB_BLOCK_SIZE - s->offset ;
-		if (length>block_left)
-		{
-			printf ("Requesting beyond end of stream by %d bytes\n",
-				length - block_left) ;
-			return 0 ;
-		}
-		memcpy (ptr, GET_BB_START_PTR(s->file, s->block) + s->offset, length) ;
-		return 1 ;
-	}*/
 
 	block_left = BB_BLOCK_SIZE - s->offset ;
 
@@ -941,18 +909,6 @@ ms_ole_read_copy_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		printf ("Reading from NULL file\n") ;
 		return 0 ;
 	}
-/*	if (s->block == s->end_block)
-	{
-		block_left = PPS_GET_SIZE(s->file,s->pps) % SB_BLOCK_SIZE - s->offset ;
-		if (length>block_left)
-		{
-			printf ("Requesting beyond end of stream by %d bytes\n",
-				length - block_left) ;
-			return 0 ;
-		}
-		memcpy (ptr, GET_SB_START_PTR(s->file, s->block) + s->offset, length) ;
-		return 1 ;
-		}*/
 
 	block_left = SB_BLOCK_SIZE - s->offset ;
 
@@ -1046,7 +1002,7 @@ ms_ole_advance_bb (MS_OLE_STREAM *s, gint32 bytes)
 	guint32 lastblk = END_OF_CHAIN ;
 	g_assert (bytes>=0) ;
 
-	printf ("Advance from %d:%d by %d bytes\n", s->block, s->offset, bytes) ;
+/*	printf ("Advance from %d:%d by %d bytes\n", s->block, s->offset, bytes) ; */
 
 	s->offset = newoff%BB_BLOCK_SIZE ;
 		
@@ -1071,7 +1027,7 @@ ms_ole_advance_sb (MS_OLE_STREAM *s, gint32 bytes)
 	guint32 lastblk = END_OF_CHAIN ;
 	g_assert (bytes>=0) ;
 
-	printf ("Advance from %d:%d by %d bytes\n", s->block, s->offset, bytes) ;
+/*	printf ("Advance from %d:%d by %d bytes\n", s->block, s->offset, bytes) ; */
 
 	s->offset = newoff%SB_BLOCK_SIZE ;
 		

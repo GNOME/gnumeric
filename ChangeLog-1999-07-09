@@ -1,8 +1,17 @@
+1998-12-10  Michael Meeks    <michael@imaginator.com>
+
+	* plugins/excel/ms-excel.c (ms_excel_read_cell): Fixed serious bug
+	in IEE floating point number reading from RK records.
+
+	* plugins/excel/ms-formula.c (ms_excel_parse_formula): Implemented
+	string expressions in formulae, MS stores numbers like this !
+
 1998-12-10  Owen Taylor  <otaylor@redhat.com>
 
 	* src/workbook.c (filenames_dropped): Make toplevel
 	windows drop targets for files.
 
+>>>>>>> 1.225
 1998-12-09  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-ole.c: Indented correctly, implemented writes
