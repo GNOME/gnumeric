@@ -2,7 +2,7 @@
 # Copyright (C) 1999-2002 Free Software Foundation, Inc.
 # M.Meij <M.Meij@wbmt.tudelft.nl>
 # Almer S. Tigelaar <almer1@dds.nl>, 2001
-# Tino Meinen <a.t.meinen@chello.nl>, 2001-2002
+# Tino Meinen <a.t.meinen@chello.nl>, 2001-2003
 #
 # TODO:
 # sneltoetsen controleren, aanvullen, completeren.
@@ -100,7 +100,7 @@
 # workbook                werkmap
 # worksheet               werkblad
 # encrypted               beveiligd
-# chart			diagram (staaf-diagram, taartdiagram)
+# chart			diagram (staaf-diagram, taartdiagram cirkeldiagram)
 # graph			grafiek  (of net andersom?)
 # plot			plot-tekening?
 #
@@ -111,13 +111,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-19 12:42+0200\n"
-"PO-Revision-Date: 2003-07-19 22:26+0200\n"
+"POT-Creation-Date: 2003-07-23 12:40+0200\n"
+"PO-Revision-Date: 2003-07-23 22:46+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -3944,7 +3944,6 @@ msgstr ""
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 
 #: plugins/fn-date/functions.c:163
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
@@ -3960,16 +3959,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
-"@DESCRIPTION=DATE2UNIX zet een datum en tijd om in een Unix-tijd.\n"
+"@DESCRIPTION=DATE2UNIX zet een spreadsheet datum/tijd-serienummer om in een "
+"Unix-tijd.\n"
 "\n"
 "Een Unix-tijd is het aantal seconden sinds middernacht van 1 Januari 1970.\n"
 "\n"
 "@EXAMPLES=\n"
+"DATE2UNIX(\"01/01/2000\") is 946656000\n"
 "\n"
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 
+# het is niet mogelijk om de conventie te kiezen?
+# Bugrapport?
 #: plugins/fn-date/functions.c:197
-#, fuzzy
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -3987,13 +3989,15 @@ msgstr ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(datum_str)\n"
 "@DESCRIPTION=DATEVALUE geeft het serienummer van de datum; d.w.z. het aantal "
-"dagen sinds 1 jan 1900.\n"
-"Het argument @datum_str bevat de datum.\n"
+"dagen sinds 1 jan 1900. Het argument @datum_str bevat de datum. De waarde is "
+"afhankelijk van de datumconventie. Met de MS Excel conventie worden dagen "
+"geteld vanaf 1 januari 1900 terwijl met de 1904 conventie geteld wordt vanaf "
+"1 januari 1904.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"DATEVALUE(\"1/1/1999\") is 36161\n"
+"DATEVALUE(\"1/1/1999\") is 36161 (met de 1900 conventie)\n"
 "\n"
 "@SEEALSO=DATE"
 
@@ -4200,7 +4204,6 @@ msgstr ""
 "@SEEALSO=HOUR, MINUTE"
 
 #: plugins/fn-date/functions.c:529
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (date)\n"
@@ -4221,12 +4224,14 @@ msgstr ""
 "@DESCRIPTION=HOUR zet een serienummer om in uren. Het uur is een geheel "
 "getal in het bereik 0 (00:00 uur) tot 23 (23:00 uur).\n"
 "\n"
-"* Merk op dat Gnumeric gewone strings om kan zetten in serienummers zodat je "
-"een datum als een string kunt invoeren.\n"
+"* Merk op dat Gnumeric gewone tekenreeksen om kan zetten in serienummers "
+"zodat je een datum als een tekenreeks kunt invoeren.\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"HOUR(0,128472) is 3\n"
+"HOUR(0,25) is 6\n"
+"HOUR(0,1) is 2\n"
+"HOUR(\"2:24:53 PM\") is 14\n"
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
@@ -5149,7 +5154,6 @@ msgstr ""
 "@SEEALSO=DEC2HEX,·HEX2BIN,·HEX2OCT"
 
 #: plugins/fn-eng/functions.c:418
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -5172,9 +5176,8 @@ msgstr ""
 "@SYNTAX=BESSELI(x;y)\n"
 "@DESCRIPTION=BESSELI geeft de Neumann, Weber of Bessel functie. \n"
 "\n"
-"De functie wordt geëvalueerd in @x.  De orde van de besselfunctie is @y.  "
-"Als @y geen geheel getal is wordt alleen het gedeelte voor de komma "
-"beschouwd.\n"
+"@x is waar de functie wordt geëvalueerd.  @y is de orde van de "
+"Besselfunctie.  Als @y geen geheel getal is wordt deze afgekapt.\n"
 "\n"
 "* Als @x of @y geen getallen zijn geeft BESSELI een #WAARDE! foutmelding.\n"
 "* Als @y < 0 geeft BESSELI een #GETAL! foutmelding.\n"
@@ -5186,7 +5189,6 @@ msgstr ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: plugins/fn-eng/functions.c:456
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -5207,9 +5209,8 @@ msgstr ""
 "@SYNTAX=BESSELK(x;y)\n"
 "@DESCRIPTION=BESSELK geeft de Neumann, Weber of Bessel functie. \n"
 "\n"
-"De functie wordt geëvalueerd in @x.  De orde van de besselfunctie is @y.  "
-"Als @y geen geheel getal is wordt alleen het gedeelte voor de komma "
-"beschouwd.\n"
+"@x is waar de functie wordt geëvalueerd.  @y is de orde van de "
+"Besselfunctie.  Als @y geen geheel getal is wordt deze afgekapt.\n"
 "\n"
 "* Als @x of @y geen getallen zijn geeft BESSELK een #WAARDE! foutmelding.\n"
 "* Als @y < 0 geeft BESSELK een #GETAL! foutmelding.\n"
@@ -5221,7 +5222,6 @@ msgstr ""
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
 #: plugins/fn-eng/functions.c:493
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -5242,9 +5242,8 @@ msgstr ""
 "@SYNTAX=BESSELJ(x;y)\n"
 "@DESCRIPTION=BESSELJ geeft de Neumann, Weber of Bessel functie. \n"
 "\n"
-"De functie wordt geëvalueerd in @x.  De orde van de besselfunctie is @y.  "
-"Als @y geen geheel getal is wordt alleen het gedeelte voor de komma "
-"beschouwd.\n"
+"@x is waar de functie wordt geëvalueerd.  @y is de orde van de "
+"Besselfunctie.  Als @y geen geheel getal is wordt deze afgekapt.\n"
 "\n"
 "* Als @x of @y geen getallen zijn geeft BESSELJ een #WAARDE! foutmelding.\n"
 "* Als @y < 0 geeft BESSELJ een #GETAL! foutmelding.\n"
@@ -5256,7 +5255,6 @@ msgstr ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: plugins/fn-eng/functions.c:529
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -5279,9 +5277,8 @@ msgstr ""
 "@SYNTAX=BESSELY(x;y)\n"
 "@DESCRIPTION=BESSELY geeft de Neumann, Weber of Bessel functie. \n"
 "\n"
-"De functie wordt geëvalueerd in @x.  De orde van de besselfunctie is @y.  "
-"Als @y geen geheel getal is wordt alleen het gedeelte voor de komma "
-"beschouwd.\n"
+"@x is waar de functie wordt geëvalueerd.  @y is de orde van de "
+"Besselfunctie.  Als @y geen geheel getal is wordt deze afgekapt.\n"
 "\n"
 "* Als @x of @y geen getallen zijn geeft BESSELY een #WAARDE! foutmelding.\n"
 "* Als @y < 0 geeft BESSELY een #GETAL! foutmelding.\n"
@@ -5600,7 +5597,6 @@ msgstr ""
 "@SEEALSO=ERF"
 
 #: plugins/fn-eng/functions.c:1060
-#, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -5622,9 +5618,10 @@ msgstr ""
 "zijn. In dat geval is het resultaat 1.\n"
 "\n"
 "* @y is optioneel. Indien het wordt weggelaten, wordt @x met 0 vergeleken.\n"
-"* Als een van de argumenten geen getal is wordt een #WAARDE! foutmelding "
-"gegenereerd.\n"
+"* Als een van de argumenten geen getal is geeft DELTA een #WAARDE! "
+"foutmelding.\n"
 "* Deze functie is compatibel met Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "DELTA(42,99;43) is 0\n"
 "\n"
@@ -5654,7 +5651,7 @@ msgstr ""
 "het resultaat 1. In de andere gevallen is het resultaat 0. @y is optioneel. "
 "Indien het wordt weggelaten wordt @x met 0 vergeleken.\n"
 "\n"
-"* Indien een van de argumenten geen getal geeft GESTEP een #WAARDE! "
+"* Indien een van de argumenten geen getal is geeft GESTEP een #WAARDE! "
 "foutmelding.\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
@@ -6461,7 +6458,6 @@ msgstr ""
 "@SEEALSO=SLN"
 
 #: plugins/fn-financial/functions.c:1073
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -6478,22 +6474,8 @@ msgid ""
 "\n"
 "@SEEALSO=DOLLARFR"
 msgstr ""
-"@FUNCTION=DOLLARDE\n"
-"@SYNTAX=DOLLARDE(deel_dollar;noemer)\n"
-"@DESCRIPTION=DOLLARDE converteert een dollarprijs uitgedrukt als een breuk "
-"in\n"
-"een dollarprijs uitgedrukt als een decimaal getal.\n"
-"\n"
-"@deel_dollar is de te converteren dollar-breuk.\n"
-"@noemer is de noemer van de breuk.\n"
-"\n"
-"* Als @noemer geen geheel getal is wordt deze afgekapt.\n"
-"* Als @noemer <= 0, geeft DOLLARDE een #GETAL! foutmelding.\n"
-"\n"
-"@EXAMPLES=\n"
-"DOLLARDE(1,1;4)=1,25\n"
-"\n"
-"@SEEALSO=DOLLARFR"
+"DATE2UNIX(\\\"01/01/2000\\\") equals 946656000.\\n\"\n"
+"\"\\n\""
 
 #: plugins/fn-financial/functions.c:1117
 msgid ""
@@ -6718,7 +6700,6 @@ msgstr ""
 "@SEEALSO=FV,NPV,PV"
 
 #: plugins/fn-financial/functions.c:1586
-#, fuzzy
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -6743,7 +6724,7 @@ msgstr ""
 "@tw is de toekomstige waarde en @type geeft aan wanneer betalingen "
 "plaatsvinden.\n"
 "\n"
-"* Als type = 1 vindt de betaling aan het begin van de termijn plaats.\n"
+"* Als @type = 1 vindt de betaling aan het begin van de termijn plaats.\n"
 "* Als @type = 0 (of is weggelaten) vindt de betaling aan het einde van de "
 "termijn plaats.\n"
 "\n"
@@ -6858,7 +6839,6 @@ msgstr ""
 "@SEEALSO=IRR,XNPV"
 
 #: plugins/fn-financial/functions.c:1848
-#, fuzzy
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt[,pv,type])\n"
@@ -7184,8 +7164,9 @@ msgstr ""
 "FVSCHEDULE(3000;A1:A5) is 4942,7911611\n"
 "@SEEALSO=PV,FV"
 
+# De functie zou een #WAARDE foutmelding moeten geven ipv #GETAL 
+# net als bij EUROCONVERT
 #: plugins/fn-financial/functions.c:2219
-#, fuzzy
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -7217,7 +7198,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(valuta)\n"
-"@DESCRIPTION=EURO converteert één Euro in de valuta van een van de landen "
+"@DESCRIPTION=EURO converteert één Euro naar de valuta van een van de landen "
 "van de Europese monetaire unie.\n"
 "\n"
 "@valuta is een van de volgende:\n"
@@ -7226,6 +7207,7 @@ msgstr ""
 "    BEF\t(Belgie)\n"
 "    DEM\t(Duitsland)\n"
 "    ESP\t(Spanje)\n"
+"    EUR\t(Euro)\n"
 "    FIM\t(Finland)\n"
 "    FRF\t(Frankrijk)\n"
 "    GRD\t(Griekenland)\n"
@@ -7244,7 +7226,6 @@ msgstr ""
 "@SEEALSO=EUROCONVERT"
 
 #: plugins/fn-financial/functions.c:2326
-#, fuzzy
 msgid ""
 "@FUNCTION=EUROCONVERT\n"
 "@SYNTAX=EUROCONVERT(n,source,target)\n"
@@ -7285,6 +7266,7 @@ msgstr ""
 "    BEF\t(Belgie)\n"
 "    DEM\t(Duitsland)\n"
 "    ESP\t(Spanje)\n"
+"    EUR\t(Euro)\n"
 "    FIM\t(Finland)\n"
 "    FRF\t(Frankrijk)\n"
 "    GRD\t(Griekenland)\n"
@@ -7298,8 +7280,7 @@ msgstr ""
 "EUROCONVERT een #WAARDE! foutmelding.\n"
 "\n"
 "@EXAMPLES=\n"
-"EUROCONVERT(2,1;\"DEM\";\"EUR\") is 1,107\n"
-"\n"
+"EUROCONVERT(2,1;\"NLG\";\"EUR\") is 0,9529\n"
 "@SEEALSO=EURO"
 
 #: plugins/fn-financial/functions.c:2375
@@ -8455,7 +8436,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1157
-#, fuzzy
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -8469,11 +8449,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cel)\n"
-"@DESCRIPTION=EXPRESSION geeft de uitdrukking in @cel als een string, of een "
-"lege cel als de cel geen uitdrukking bevat.\n"
+"@DESCRIPTION=EXPRESSION geeft de uitdrukking in @cel als een tekenreeks, of "
+"een lege cel als de cel geen uitdrukking bevat.\n"
 "@EXAMPLES=\n"
-"in A1 EXPRESSION(A2) is 'EXPRESSION(A3)'\n"
-"in A2 EXPRESSION(A3) is leeg.\n"
+"invoeren van '=EXPRESSION(A3)' in A2 geeft een lege cel (aangenomen dat er "
+"niets in A3 staat).\n"
+"invoeren van '=EXPRESSION(A2)' in A1 geeft vervolgens: 'EXPRESSION(A3)'\n"
 "\n"
 "@SEEALSO=TEXT"
 
@@ -8648,7 +8629,6 @@ msgstr ""
 "@SEEALSO=ISERROR"
 
 #: plugins/fn-info/functions.c:1404
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
@@ -8994,7 +8974,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1790
-#, fuzzy
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -9007,11 +8986,11 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=GETENV\n"
-"@SYNTAX=GETENV(string)\n"
-"@DESCRIPTION=GETENV zoekt de waarde van de werkomgeving.\n"
+"@SYNTAX=GETENV(tekenreeks)\n"
+"@DESCRIPTION=GETENV zoekt een waarde vanuit de werkomgeving.\n"
 "\n"
-"* Als de variable opgegeven in @string niet bestaat, geeft GETENV een #N/B! "
-"foutmelding. Merk op dat namen van variabelen hoofdlettergevoelig zijn.\n"
+"* Als de variable opgegeven in @tekenreeks niet bestaat, geeft GETENV een #N/"
+"B! foutmelding. Merk op dat namen van variabelen hoofdlettergevoelig zijn.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -9070,7 +9049,6 @@ msgid "Information Functions"
 msgstr "Informatie Functies"
 
 #: plugins/fn-logical/functions.c:44
-#, fuzzy
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -9097,16 +9075,16 @@ msgstr ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1; b2; ...)\n"
 "@DESCRIPTION=AND implementeert de logische AND functie: het resultaat is "
-"WAAR als alle uitdrukkingen WAAR als resultaat hebben, anders  geeft het als "
+"WAAR als alle uitdrukkingen WAAR als resultaat hebben, anders geeft AND als "
 "resultaat ONWAAR.\n"
 "\n"
 "@b1 tot en met @bN zijn uitdrukkingen die WAAR of ONWAAR moeten geven. Als "
 "ze getallen als resultaat geven, wordt 0 als ONWAAR beschouwd en ieder ander "
 "getal als WAAR.\n"
 "\n"
-"* Als de waarden strings of lege cellen bevatten worden deze waarde "
+"* Als de waarden tekenreeksen of lege cellen bevatten worden deze waardes "
 "genegeerd.\n"
-"* Als geen logische waarden worden gegeven, wordt de foutmelding #WAARDE! "
+"* Als geen logische waardes worden gegeven, wordt de foutmelding #WAARDE! "
 "gegeven.\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
@@ -9375,9 +9353,8 @@ msgid "Logic"
 msgstr "Logica"
 
 #: plugins/fn-logical/plugin.xml.in.h:3
-#, fuzzy
 msgid "Logic Functions"
-msgstr "Logische Functies"
+msgstr "Logische functies"
 
 #: plugins/fn-lookup/functions.c:327
 #, fuzzy
@@ -9440,7 +9417,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-lookup/functions.c:431
-#, fuzzy
 msgid ""
 "@FUNCTION=AREAS\n"
 "@SYNTAX=AREAS(reference)\n"
@@ -9456,7 +9432,7 @@ msgstr ""
 "@DESCRIPTION=AREAS geeft het aantal gebieden in @verwijzingen. \n"
 "\n"
 "@EXAMPLES=\n"
-"AREAS((A1;B2;C3)) is .\n"
+"AREAS((A1;B2;C3)) is 3\n"
 "\n"
 "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
 
@@ -9855,7 +9831,6 @@ msgstr ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
 #: plugins/fn-lookup/functions.c:1130
-#, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -9872,7 +9847,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(verwijzing)\n"
-"@DESCRIPTION=ROWS geeft het aantal rijen in het opgegeven bereik of de array "
+"@DESCRIPTION=ROWS geeft het aantal rijen in het opgegeven bereik of de array-"
 "verwijzing.\n"
 "\n"
 "* Als @verwijzing noch een array is, noch een verwijzing noch een bereik, "
@@ -9884,7 +9859,6 @@ msgstr ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 
 #: plugins/fn-lookup/functions.c:1155
-#, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
@@ -9897,7 +9871,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=HYPERLINK\n"
-"@SYNTAX=HYPERLINK(link_locatie; optionele_label)\n"
+"@SYNTAX=HYPERLINK(link_locatie[; optioneel_label])\n"
 "@DESCRIPTION=HYPERLINK geeft momenteel zijn 2e argument door, of als dat is "
 "weggelaten, het 1ste argument.\n"
 "\n"
@@ -10024,7 +9998,6 @@ msgstr ""
 "@SEEALSO=LCM"
 
 #: plugins/fn-math/functions.c:193
-#, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -10052,6 +10025,7 @@ msgstr ""
 "\n"
 "* Als een van de argumenten kleiner is dan 1 geeft LCM een #GETAL! "
 "foutmelding.\n"
+"* Als een van de argumenten geen geheel getal is, wordt deze afgekapt.\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -10245,7 +10219,6 @@ msgstr ""
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:424
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -10264,8 +10237,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=ATANH berekent de arc tangens hyperbolicus van @x; dat is dus "
-"de waarde waarvan de tangens hyperbolicus @x is.\n"
+"@DESCRIPTION=ATANH berekent de arctangens hyperbolicus van @x; dat is dus de "
+"waarde waarvan de tangens hyperbolicus @x is.\n"
 "\n"
 "* Als de absolute waarde van @x groter is dan 1,0 geeft ATANH een GETAL! "
 "foutmelding.\n"
@@ -10540,7 +10513,6 @@ msgstr ""
 "@SEEALSO=RADIANS, PI"
 
 #: plugins/fn-math/functions.c:860
-#, fuzzy
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -10681,7 +10653,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-math/functions.c:1011
-#, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x[,significance])\n"
@@ -10700,10 +10671,11 @@ msgid ""
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
 "@FUNCTION=FLOOR\n"
-"@SYNTAX=FLOOR(x;significantie)\n"
-"@DESCRIPTION=FLOOR rond @x af naar het het dichstbijzijnde kleinere getal "
-"dat een veelvoud is van @significantie. @significantie is standaard 1.\n"
+"@SYNTAX=FLOOR(x[;significantie])\n"
+"@DESCRIPTION=FLOOR rondt @x af naar het het dichstbijzijnde kleinere getal "
+"dat een veelvoud is van @significantie.\n"
 "\n"
+"* @significantie is standaard 1.\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -10799,7 +10771,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG10"
 
 #: plugins/fn-math/functions.c:1137
-#, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -10821,6 +10792,10 @@ msgstr ""
 "@SYNTAX=POWER(x;y)\n"
 "@DESCRIPTION=POWER berekent @x tot de macht @y.\n"
 "\n"
+"* Als @x en @y beiden 0 zijn, geeft POWER een #GETAL! foutmelding.\n"
+"* Als @x = 0 en @y < 0 geeft POWER een #DEEL/0! foutmelding.\n"
+"* Als @x < 0 en @y is geen geheel getal, geeft POWER een #GETAL! "
+"foutmelding.\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -10880,7 +10855,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG"
 
 #: plugins/fn-math/functions.c:1228
-#, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -11211,7 +11185,6 @@ msgstr ""
 "@SEEALSO=SQRTPI"
 
 #: plugins/fn-math/functions.c:1569
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -11234,6 +11207,8 @@ msgstr ""
 "\n"
 "* Als @cijfers is weggelaten, wordt het afgekapt tot nul cijfers achter de "
 "komma.\n"
+"\n"
+"* Als @cijfers geen geheel getal is, wordt deze afgekapt.\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -11807,7 +11782,6 @@ msgstr ""
 "@SEEALSO=COUNT,SUM"
 
 #: plugins/fn-math/functions.c:2707
-#, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -11824,9 +11798,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
-"@DESCRIPTION=MINVERSE geeft de inverse van een gegeven matrix.\n"
+"@DESCRIPTION=MINVERSE geeft de inverse van de gegeven matrix @matrix.\n"
 "\n"
-"* Als de matrix geen inverse heeft, geeft MINVERSE een #GETAL! foutmelding.\n"
+"* Als @matrix geen inverse heeft, geeft MINVERSE een #GETAL! foutmelding.\n"
 "* Als het aantal rijen en kolommen van de @matrix niet gelijk is, geeft "
 "MINVERSE een #WAARDE! foutmelding.\n"
 "* Deze functie is compatibel met Excel.\n"
@@ -12019,12 +11993,10 @@ msgstr "Mathematische Functies"
 
 #. *************************************************************************
 #: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:124
-#, fuzzy
 msgid "Mathematics"
-msgstr "Zoekresulaten"
+msgstr "Wiskunde"
 
 #: plugins/fn-random/functions.c:49
-#, fuzzy
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -16238,7 +16210,6 @@ msgid "f,t,p"
 msgstr "f;t;p"
 
 #: plugins/fn-stat/functions.c:5837
-#, fuzzy
 msgid "x,mean,stddev,cumulative"
 msgstr "x;gemiddelde;stddev;cumulatief"
 
@@ -16343,7 +16314,6 @@ msgstr ""
 "@SEEALSO=CODE"
 
 #: plugins/fn-string/functions.c:102
-#, fuzzy
 msgid ""
 "@FUNCTION=UNICHAR\n"
 "@SYNTAX=UNICHAR(x)\n"
@@ -16358,11 +16328,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=UNICHAR\n"
 "@SYNTAX=UNICHAR(x)\n"
-"@DESCRIPTION=UNICHAR geeft het unicode-teken dat hoort bij het getal @x.\n"
+"@DESCRIPTION=UNICHAR geeft het Unicode-teken dat hoort bij het getal @x.\n"
 "\n"
 "@EXAMPLES=\n"
 "UNICHAR(65) is A\n"
-"UNICHAR(8232) is een carriage-return fout\n"
+"UNICHAR(860) is een kleine Griekse letter pi\n"
 "\n"
 "@SEEALSO=CHAR,UNICODE,CODE"
 
@@ -16391,7 +16361,6 @@ msgstr ""
 "@SEEALSO=CHAR"
 
 #: plugins/fn-string/functions.c:179
-#, fuzzy
 msgid ""
 "@FUNCTION=UNICODE\n"
 "@SYNTAX=UNICODE(char)\n"
@@ -16405,7 +16374,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=UNICODE\n"
 "@SYNTAX=UNICODE(teken)\n"
-"@DESCRIPTION=UNICODE geeft het unicode-getal voor het teken: @teken.\n"
+"@DESCRIPTION=UNICODE geeft het Unicode-getal voor het teken: @teken.\n"
 "\n"
 "\n"
 "@EXAMPLES=\n"
@@ -16441,8 +16410,8 @@ msgstr ""
 "\n"
 "@SEEALSO=LEN, SEARCH"
 
+# vrij vertaald
 #: plugins/fn-string/functions.c:230
-#, fuzzy
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -16456,8 +16425,8 @@ msgid ""
 "@SEEALSO=CHAR, CODE"
 msgstr ""
 "@FUNCTION=LEN\n"
-"@SYNTAX=LEN(string)\n"
-"@DESCRIPTION=LEN geeft het aantal tekens in @string.\n"
+"@SYNTAX=LEN(tekenreeks)\n"
+"@DESCRIPTION=LEN geeft het aantal tekens in @tekenreeks.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
@@ -16573,7 +16542,6 @@ msgstr ""
 "@SEEALSO=MID, LEFT"
 
 #: plugins/fn-string/functions.c:399
-#, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -16588,17 +16556,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(tekst)\n"
-"@DESCRIPTION=UPPER geeft een versie van @tekst in hoofdletters.\n"
+"@DESCRIPTION=UPPER geeft de @tekst in hoofdletters.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"UPPER(\"afgezegd\") is \"AFGEZEGD\"\n"
+"UPPER(\"geannuleerd\") is \"GEANNULEERD\"\n"
 "\n"
 "@SEEALSO=LOWER"
 
 #: plugins/fn-string/functions.c:421
-#, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -16613,13 +16580,13 @@ msgid ""
 "@SEEALSO=LEFT, MID, RIGHT"
 msgstr ""
 "@FUNCTION=CONCATENATE\n"
-"@SYNTAX=CONCATENATE(string1[;string2...])\"\n"
-"@DESCRIPTION=CONCATENATE plakt de gegeven strings aan elkaar.\n"
+"@SYNTAX=CONCATENATE(tekenreeks1[;tekenreeks2...])\"\n"
+"@DESCRIPTION=CONCATENATE plakt de gegeven tekenreeksen aan elkaar.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"CONCATENATE(\"aa\",\"bb\") is \"aabb\"\n"
+"CONCATENATE(\"aa\";\"bb\") is \"aabb\"\n"
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
@@ -17031,7 +16998,7 @@ msgstr "tekst;get"
 
 #: plugins/fn-string/functions.c:1183
 msgid "search_string,text,start_num"
-msgstr ""
+msgstr "zoekterm;tekst;begin_getal"
 
 #: plugins/fn-string/functions.c:1186
 msgid "text,old,new,num"
@@ -17072,6 +17039,7 @@ msgstr "Fout in project '%s'"
 msgid "Enables Gnome Basic support"
 msgstr "Levert Gnome Basic ondersteuning"
 
+# Is dit Basic of Basis?
 #: plugins/gb/plugin.xml.in.h:2
 msgid "Gnome Basic"
 msgstr "Gnome Basic"
@@ -17083,7 +17051,7 @@ msgstr "Te veel gegevens teruggekregen"
 #: plugins/gda/plugin-gda.c:100
 #, fuzzy
 msgid "Database Connection"
-msgstr "Database Functies"
+msgstr "Database functies"
 
 #: plugins/gda/plugin-gda.c:136
 msgid ""
@@ -17164,13 +17132,12 @@ msgid "Format: readDBTable(dsn,user,password,table)"
 msgstr "Formaat: readDBTable(dsn;gebruiker;wachtwoord;tabel)"
 
 #: plugins/gda/plugin.xml.in.h:2
-#, fuzzy
 msgid "Database functions for retrieval of data from a database."
-msgstr "Database functies voor het ophalen van gegevens uit een database"
+msgstr "Databasefuncties voor het ophalen van gegevens uit een database"
 
 #: plugins/gnome-db/plugin-gnomedb.c:24
 msgid "Could not run GNOME database configuration tool"
-msgstr ""
+msgstr "Kon de GNOME database configuratie niet uitvoeren"
 
 #: plugins/gnome-db/ui.xml.h:1
 msgid "Data Sources..."
@@ -17259,13 +17226,12 @@ msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
 #: plugins/html/plugin.xml.in.h:9
-#, fuzzy
 msgid "XHTML (*.html)"
-msgstr "XHTML (*.xhtml)"
+msgstr "XHTML (*.html)"
 
 #: plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
-msgstr ""
+msgstr "XHTML bereik - voor export naar klembord"
 
 #: plugins/lotus-123/boot.c:61
 msgid "Error while reading lotus workbook."
@@ -17285,7 +17251,7 @@ msgstr "Lotus 123 (*.wk1)"
 
 #: plugins/mps/mps.c:183
 msgid "Program Name"
-msgstr "Naam van Programma"
+msgstr "Naam van programma"
 
 #. Print 'Status'.
 #: plugins/mps/mps.c:189
@@ -17294,7 +17260,7 @@ msgstr "Haalbaar"
 
 #: plugins/mps/mps.c:223
 msgid "Objective Value"
-msgstr "Objectieve Waarde"
+msgstr "Objectieve waarde"
 
 #: plugins/mps/mps.c:229
 msgid "Objective function:"
@@ -17306,7 +17272,7 @@ msgstr "Voorwaarden:"
 
 #: plugins/mps/mps.c:247 src/commands.c:5452
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:969
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:111
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:105
 #: src/dialogs/dialog-define-names.c:483 src/dialogs/dialog-formula-guru.c:810
 #: src/dialogs/dialog-function-select.c:442
 #: src/dialogs/dialog-function-select.c:464 src/dialogs/dialog-scenarios.c:351
@@ -17402,7 +17368,6 @@ msgstr ""
 
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -17427,7 +17392,7 @@ msgstr ""
 "  -1 als @n een oneven aantal verschillende priemfactoren heeft.\n"
 "   1 als @n een even aantal verschillende priemfactoren heeft.\n"
 "\n"
-"* Als @n=1 is NT_MY 1\n"
+"* Als @n=1 geeft NT_MU 1\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
@@ -17610,13 +17575,12 @@ msgid "Number Theory"
 msgstr "Getal Theorie"
 
 #: plugins/numtheory/plugin.xml.in.h:3
-#, fuzzy
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also holds "
 "some simple bitwise operations."
 msgstr ""
-"Enkele basis hulpmiddellen voor  priemgetallen, pi, phi, sigma. Het bevat "
-"ook enkele eenvoudige functies voor het manipuleren van bits."
+"Enkele basishulpmiddellen voor  priemgetallen, pi, phi, sigma. Het bevat ook "
+"enkele eenvoudige functies voor het manipuleren van bits."
 
 #: plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
@@ -17645,14 +17609,12 @@ msgid "Unable to parse '%s' because '%s'"
 msgstr "Niet in staat '%s' te verwerken vanwege '%s'"
 
 #: plugins/openoffice/openoffice-read.c:496
-#, fuzzy
 msgid "Invalid array expression does not specify number of columns."
-msgstr "Ongeldige array-uitdrukking geeft het aantal kolommen niet op."
+msgstr "Ongeldige array-uitdrukking specificeert het aantal kolommen niet."
 
 #: plugins/openoffice/openoffice-read.c:499
-#, fuzzy
 msgid "Invalid array expression does not specify number of rows."
-msgstr "Ongeldige array-uitdrukking geeft het aantal rijen niet op."
+msgstr "Ongeldige array-uitdrukking specificeert het aantal rijen niet."
 
 #: plugins/openoffice/openoffice-read.c:747
 #, c-format
@@ -17755,7 +17717,7 @@ msgstr "Python functies"
 msgid "Sample Python plugin providing some (useless) functions."
 msgstr "Voorbeeld Python plugin met enkele (zinloze) functies."
 
-#: plugins/python-loader/gnm-py-interpreter.c:224
+#: plugins/python-loader/gnm-py-interpreter.c:264
 msgid "Default interpreter"
 msgstr "Standaard interpreteerder"
 
@@ -17767,20 +17729,20 @@ msgstr "Python plugin lader"
 msgid "This plugin provides support for Python plugins"
 msgstr "Deze plugin levert ondersteuning voor Python plugins"
 
-#: plugins/python-loader/py-console.c:74
+#: plugins/python-loader/py-console.c:75
 #, c-format
 msgid "*** Interpreter: %s\n"
 msgstr "*** Interpretatie: %s\n"
 
-#: plugins/python-loader/py-console.c:125
+#: plugins/python-loader/py-console.c:137
 msgid "Gnumeric Python console"
 msgstr "Gnumeric Python console"
 
-#: plugins/python-loader/py-console.c:135
+#: plugins/python-loader/py-console.c:147
 msgid "E_xecute in:"
 msgstr "_Uitvoeren in:"
 
-#: plugins/python-loader/py-console.c:179
+#: plugins/python-loader/py-console.c:191
 msgid "C_ommand:"
 msgstr "_Opdracht:"
 
@@ -17966,7 +17928,7 @@ msgid "Hello World"
 msgstr "Hallo Wereld"
 
 #: plugins/uihello/uihello.c:24
-#, fuzzy, c-format
+#, c-format
 msgid "This is message from the \"%s\" plugin."
 msgstr "Dit is een bericht van de \"%s\" plugin."
 
@@ -18005,9 +17967,8 @@ msgid "The next generation sax based xml I/O subsystem"
 msgstr "De volgende generatie sax gebaseerd xml I/O subsysteem"
 
 #: plugins/xml_sax/plugin.xml.in.h:4
-#, fuzzy
 msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-msgstr "EXPERIMENTEEL Gnumeric XML (*.gnumeric)"
+msgstr "ONVOLTOOID Gnumeric XML (*.gnumeric)"
 
 #: plugins/xml_sax/xml-sax-read.c:299
 #, c-format
@@ -18635,9 +18596,8 @@ msgid "C_ells..."
 msgstr "_Cellen..."
 
 #: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3551
-#, fuzzy
 msgid "C_hart..."
-msgstr "Kaart%d"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:22 src/workbook-control-gui.c:3443
 msgid "C_lear"
@@ -18680,9 +18640,8 @@ msgid "Change width of the selected columns"
 msgstr "Pas de breedte van de geselecteerde kolommen aan"
 
 #: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:4008
-#, fuzzy
 msgid "Chart Guru"
-msgstr "Kaart Uitvoer"
+msgstr "Grafiekgoeroe"
 
 #: src/GNOME_Gnumeric.xml.h:33 src/workbook-object-toolbar.c:159
 msgid "Checkbox"
@@ -18718,9 +18677,8 @@ msgid "Co_mments"
 msgstr "Op_merkingen"
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3748
-#, fuzzy
 msgid "Co_variance..."
-msgstr "Co_variantie"
+msgstr "Co_variantie..."
 
 #: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3827
 msgid "Collapse an outline group"
@@ -19164,7 +19122,7 @@ msgid "Jump to a specified cell"
 msgstr "Spring naar een specifieke cel"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:114
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:108
 #: src/sheet-object-graphic.c:1419 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Label"
@@ -19507,7 +19465,7 @@ msgstr "Selecteer gehele rij"
 
 #: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3310
 msgid "Sen_d To..."
-msgstr ""
+msgstr "Versturen aan..."
 
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3311
 #, fuzzy
@@ -20647,39 +20605,29 @@ msgstr "Scenario tonen"
 msgid "Shuffle Data"
 msgstr "Data husselen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:107
-msgid "Axis"
-msgstr "As"
-
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:46
-#: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
-msgid "Chart"
-msgstr "Diagram"
-
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:145
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:135
 msgid "Plot"
 msgstr "Tekenen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:149
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:99
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:138
 msgid "Legend"
 msgstr "Legenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:152
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:141
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:133
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:127
 msgid "Title"
 msgstr "Titel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:155
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:144
 msgid "X-Axis"
 msgstr "X-As"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:158
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:148
 msgid "Y-Axis"
 msgstr "Y-as"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:161
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:152
 msgid "Z-Axis"
 msgstr "Z-as"
 
@@ -20707,6 +20655,10 @@ msgstr "Breedte"
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:230
 msgid "Graph"
 msgstr "Grafiek"
+
+#: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
+msgid "Chart"
+msgstr "Diagram"
 
 # Dit zijn titels van de dialoogvensters, vandaar gebiedende wijs
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:995
@@ -20785,12 +20737,7 @@ msgstr "Volg_orde"
 msgid "_Top"
 msgstr "_Boven"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:98
-#, fuzzy
-msgid "GraphLabel"
-msgstr "Label"
-
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:107
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:102
 msgid "_Text:"
 msgstr "_Tekst:"
 
@@ -20807,17 +20754,16 @@ msgid "Chart Theme"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:59
 msgid "Series"
 msgstr "Series"
 
 # Data
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:138
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:132
 #: src/dialogs/dialog-stf.glade.h:19
 msgid "Data"
 msgstr "Gegevens"
 
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:141
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:135
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Stijl"
@@ -20978,14 +20924,15 @@ msgstr "%"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:3
 msgid "How far the bars/cols overlap as a percentage of the width"
 msgstr ""
+"Hoeveel de balken/kolommen overlappen als een percentage van de breedte"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:4
 msgid "Separation between groups as a percentage of bar/col width"
-msgstr ""
+msgstr "Scheiding tussen groepen als een percentage van de balk/kolom-breedte"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:5
 msgid "_Gap:"
-msgstr ""
+msgstr "_Scheiding:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:6
 msgid "_Overlap:"
@@ -21141,12 +21088,12 @@ msgstr "Standaard Balk/Kolom plot-types"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:4
 msgid "Degrees counter clockwise from 3 O'Clock"
-msgstr ""
+msgstr "Aantal graden kloksgewijs vanaf 3 uur."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:4
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:5
 msgid "Slices start _at:"
-msgstr ""
+msgstr "Punten beginnen bij:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:5
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:6
@@ -21154,6 +21101,8 @@ msgid ""
 "The default amount each slice is separated from the center measured as a "
 "percentage of the radius of the pie"
 msgstr ""
+"De standaardafstand die punten van het centrum zijn verwijderd gemeten als "
+"een percentage van de straal van de cirkel."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:6
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:7
@@ -21183,11 +21132,11 @@ msgstr "Ca_tegorieën:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
-msgstr "3D Taartdiagram"
+msgstr "3D Cirkeldiagram"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:2
 msgid "3D Split Pie"
-msgstr "3D Gespleten taartdiagram"
+msgstr "3D Gespleten cirkeldiagram"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:3
 msgid ""
@@ -21236,7 +21185,7 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:13
 msgid "Pie"
-msgstr "Taart"
+msgstr "Cirkel"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:14
 msgid "Ring"
@@ -21244,29 +21193,27 @@ msgstr "Ring"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:15
 msgid "Split Pie"
-msgstr "Taart gesplitst"
+msgstr "Cirkel gesplitst"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:16
-#, fuzzy
 msgid "Split Ring"
-msgstr "Taart gesplitst"
+msgstr "Ring gesplitst"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:1
-#, fuzzy
 msgid "Default pie types"
-msgstr "Standaard interpreteerder"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:2
 msgid "Pie Charts"
-msgstr "Taartdiagrammen"
+msgstr "Cirkeldiagrammen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:3
 msgid "Pie charts"
-msgstr "Taartdiagrammen"
+msgstr "Cirkeldiagrammen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:4
 msgid "Pie plotting engine"
-msgstr "Taart plot-motor"
+msgstr "Cirkel plot-motor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:5
 msgid "Ring plotting engine"
@@ -24198,6 +24145,7 @@ msgstr ""
 #, c-format
 msgid "You cannot have more than %d columns in this version of Gnumeric."
 msgstr ""
+"U kunt niet meer dan %d kolommen gebruiken in deze versie van Gnumeric."
 
 #: src/dialogs/dialog-stf-format-page.c:126
 #, c-format
@@ -24594,7 +24542,7 @@ msgstr ""
 #: src/dialogs/dialog-view.c:93
 #, c-format
 msgid "Display \"%s\" could not be opened."
-msgstr ""
+msgstr "Display \"%s\" kon niet worden geopend."
 
 #: src/dialogs/dialog-view.c:164
 msgid "This screen"
@@ -24810,9 +24758,8 @@ msgid "Negative number _format:"
 msgstr "Opmaak negatieve getallen"
 
 #: src/dialogs/format-selector.glade.h:14
-#, fuzzy
 msgid "Preview:"
-msgstr "Voorbeeld"
+msgstr "Voorbeeld:"
 
 #: src/dialogs/format-selector.glade.h:15
 msgid "S_ymbol:"
@@ -25344,7 +25291,7 @@ msgstr "Rij en ko_lom koppen"
 
 #: src/dialogs/print.glade.h:19
 msgid "Save as Default Settings"
-msgstr ""
+msgstr "Opslaan als standaard instellingen"
 
 #: src/dialogs/print.glade.h:20
 msgid "Scale"
@@ -26000,9 +25947,8 @@ msgid "Label:"
 msgstr "Label:"
 
 #: src/dialogs/so-checkbox.glade.h:4 src/dialogs/so-scrollbar.glade.h:2
-#, fuzzy
 msgid "Link to:"
-msgstr "Linkdoel"
+msgstr "Linkdoel:"
 
 # vulkleur/opvulkleur
 #: src/dialogs/so-fill.glade.h:3
@@ -26298,10 +26244,10 @@ msgstr "Gelijkheid testen van 2 Varianties (F-Test)"
 msgid "_Alpha:"
 msgstr "_Alpha:"
 
+# misschien 'maken' weglaten
 #: src/dialogs/view.glade.h:2
-#, fuzzy
 msgid "Create New View"
-msgstr "Een lijst object maken"
+msgstr "Een nieuwe weergave maken"
 
 # ergens anders
 #: src/dialogs/view.glade.h:3
@@ -26318,7 +26264,7 @@ msgstr ""
 
 #: src/dialogs/view.glade.h:6
 msgid "Sharing"
-msgstr ""
+msgstr "Delen"
 
 #: src/dialogs/view.glade.h:7
 msgid "Views will have separate cursor locations"
@@ -26329,14 +26275,12 @@ msgid "Views will share cursor position"
 msgstr ""
 
 #: src/dialogs/view.glade.h:9
-#, fuzzy
 msgid "_Shared"
-msgstr "Nieuw _Gedeeld"
+msgstr "_Gedeeld"
 
 #: src/dialogs/view.glade.h:10
-#, fuzzy
 msgid "_Unshared"
-msgstr "Nieuw _Ongedeeld"
+msgstr "_Ongedeeld"
 
 #: src/dialogs/workbook-attr.glade.h:2
 msgid "A_uto Complete Text in Cells"
@@ -26461,9 +26405,8 @@ msgid "Is not an autoformat template file"
 msgstr "Is geen autoformat sjabloon bestand"
 
 #: src/format-template.c:493
-#, fuzzy
 msgid "Invalid xml file. Tree is empty?"
-msgstr "Ongeldig xml bestand. Boom is leeg?"
+msgstr "Ongeldig xml-bestand. Boom is leeg?"
 
 #: src/format-template.c:826
 #, c-format
@@ -27603,7 +27546,6 @@ msgstr ""
 "testen)"
 
 #: src/main-application.c:112
-#, fuzzy
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -27618,14 +27560,14 @@ msgid ""
 msgstr ""
 "Bedankt voor het gebruiken van Gnumeric!\n"
 "\n"
-"De versie van Gnumeric die je gebruikt is inmiddels\n"
+"De versie van Gnumeric die u gebruikt is inmiddels\n"
 "behoorlijk verouderd. Waarschijnlijk zijn er in de \n"
 "tussentijd vele fouten verbeterd en nieuwe functies\n"
 "toegevoegd.\n"
 "\n"
-"Overweeg alsjeblieft een nieuwe versie te gebruiken\n"
-"voordat je fouten rapporteert.\n"
-"Kijk op http://www.gnumeric.org/ voor details.\n"
+"Overweeg alstublieft een nieuwere versie te gebruiken\n"
+"voordat u fouten rapporteert.\n"
+"Kijk op http://www.gnome.org/projects/gnumeric voor details.\n"
 "\n"
 "-- Het Gnumeric Team."
 
@@ -28201,9 +28143,8 @@ msgid "Clear Co_ntents"
 msgstr "I_nhoud Leegmaken"
 
 #: src/sheet-control-gui.c:1509
-#, fuzzy
 msgid "Edit Co_mment..."
-msgstr "Op_merkingen"
+msgstr "Op_merking bewerken..."
 
 #: src/sheet-control-gui.c:1515
 msgid "_Format Cells..."
@@ -28272,18 +28213,17 @@ msgstr "Kan object voor '%s' niet maken"
 msgid "Could not load file: %s"
 msgstr "Niet in staat om bestand '%s' te openen"
 
-#: src/sheet-object-widget.c:1120
+#: src/sheet-object-widget.c:1119
 #, c-format
 msgid "CheckBox %d"
 msgstr "Checkbox %d"
 
-#: src/sheet-object-widget.c:1549 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1548 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "RadioKnop"
 
 #. Oh, yeah?
 #: src/sheet-style.c:492
-#, fuzzy
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -28291,14 +28231,14 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 "Dit is een bijzondere versie van Gnumeric.  Het is gecompileerd\n"
-"met ondersteuning voor een zeer groot aantal rijen.  Toegang tot\n"
-"de kolom genaamd WAAR kan conflicteren met de constante met\n"
-"dezelfde naam.  Er moet rekening worden gehouden met vreemd\n"
+"met ondersteuning voor een zeer groot aantal kolommen.  Toegang tot\n"
+"de kolom genaamd WAAR kan conflicteren met de constante die\n"
+"dezelfde naam heeft.  Er moet rekening worden gehouden met vreemd\n"
 "gedrag."
 
 #: src/sheet.c:1942
 msgid "Target region contains merged cells"
-msgstr "Doel gebied bevat samengevoegde cellen"
+msgstr "Doelgebied bevat samengevoegde cellen"
 
 #: src/sheet.c:2004
 msgid "cannot operate on merged cells"
@@ -28838,9 +28778,9 @@ msgid "Report Created: "
 msgstr "Rapport Opgemaakt: "
 
 #: src/tools/fill-series.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "Fill Series (%s)"
-msgstr "Fourier Serie"
+msgstr "Vulserie (%s)"
 
 #: src/tools/random-generator.c:107
 msgid ""
@@ -29156,14 +29096,12 @@ msgid "Variables"
 msgstr "Variabelen"
 
 #: src/tools/solver/reports-write.c:573
-#, fuzzy
 msgid "Integer Constraints"
-msgstr "Int Voorwaarden"
+msgstr ""
 
 #: src/tools/solver/reports-write.c:574
-#, fuzzy
 msgid "Boolean Constraints"
-msgstr "Bool Voorwaarden"
+msgstr "Boolese voorwaarden"
 
 #: src/tools/solver/reports-write.c:575 src/tools/solver/reports-write.c:606
 msgid "Number of"
@@ -29421,23 +29359,19 @@ msgstr "#N/B"
 msgid "#RECALC!"
 msgstr "#HERBEREKEN!"
 
-# aangepaste?
 #. This is the default custom color
 #: src/widgets/color-palette.c:375
-#, fuzzy
 msgid "custom"
 msgstr "aangepast"
 
 #. "Custom" color - we'll pop up a GnomeColorPicker
 #: src/widgets/color-palette.c:417
-#, fuzzy
 msgid "Custom Color:"
-msgstr "Voet instellen"
+msgstr "Aangepaste kleur:"
 
 #: src/widgets/color-palette.c:425
-#, fuzzy
 msgid "Choose Custom Color"
-msgstr "Kies bladen om te exporteren"
+msgstr "Kies een aangepaste kleur"
 
 #: src/widgets/color-palette.c:558
 msgid "black"
@@ -29488,9 +29422,8 @@ msgid "dark green"
 msgstr "donkergroen"
 
 #: src/widgets/color-palette.c:572 src/widgets/color-palette.c:625
-#, fuzzy
 msgid "dull blue"
-msgstr "Celwaarde"
+msgstr "dofblauw"
 
 #: src/widgets/color-palette.c:573 src/widgets/color-palette.c:626
 msgid "blue"
@@ -29498,7 +29431,7 @@ msgstr "blauw"
 
 #: src/widgets/color-palette.c:574
 msgid "dull purple"
-msgstr "saai paars"
+msgstr "dofpaars"
 
 #: src/widgets/color-palette.c:575
 msgid "dark gray"
@@ -29513,17 +29446,16 @@ msgid "orange"
 msgstr "orange"
 
 #: src/widgets/color-palette.c:580
-#, fuzzy
 msgid "lime"
-msgstr "tijd"
+msgstr "citroen"
 
 #: src/widgets/color-palette.c:581
 msgid "dull green"
-msgstr "saai groen"
+msgstr "dofgroen"
 
 #: src/widgets/color-palette.c:582
 msgid "dull blue #2"
-msgstr "saai blauw #2"
+msgstr "dofblauw #2"
 
 #: src/widgets/color-palette.c:583
 msgid "sky blue #2"
@@ -30045,23 +29977,21 @@ msgid "Conversion Direction"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:453
-#, fuzzy
 msgid "This value determines which iconv test to perform."
-msgstr "Deze variabele bepaalt of autoaanvullen wordt gebruikt."
+msgstr "Deze waarde bepaalt welke iconf-test wordt uitgevoerd."
 
 #: src/widgets/widget-font-selector.c:151
 msgid "Bold italic"
 msgstr "Vet schuin"
 
 #: src/widgets/widget-format-selector.c:70
-#, fuzzy
 msgid "Currency"
 msgstr "Valuta"
 
+# Financieel
 #: src/widgets/widget-format-selector.c:71
-#, fuzzy
 msgid "Accounting"
-msgstr "Financieel"
+msgstr "Boekhouden"
 
 #: src/widgets/widget-format-selector.c:75
 msgid "Fraction"
@@ -30081,17 +30011,15 @@ msgstr "Opmaak negatieve getallen"
 
 #: src/widgets/widget-format-selector.c:955
 msgid "Number Formats"
-msgstr "Getallen Opmaak"
+msgstr "Getallen opmaak"
 
 #: src/widgets/widget-locale-selector.c:64
-#, fuzzy
 msgid "Western Europe"
-msgstr "Westers"
+msgstr "West-Europa"
 
 #: src/widgets/widget-locale-selector.c:65
-#, fuzzy
 msgid "Eastern Europe"
-msgstr "Centraal Europees"
+msgstr "Oost-Europa"
 
 #: src/widgets/widget-locale-selector.c:66
 msgid "North America"
@@ -30102,9 +30030,8 @@ msgid "South & Central America"
 msgstr "Zuid & Centraal-Amerika"
 
 #: src/widgets/widget-locale-selector.c:68
-#, fuzzy
 msgid "Asia"
-msgstr "sigma"
+msgstr "Asië"
 
 #: src/widgets/widget-locale-selector.c:69
 msgid "Africa"
@@ -30127,27 +30054,24 @@ msgid "United States/English (C)"
 msgstr "Verenigde staten/Engels (C)"
 
 #: src/widgets/widget-locale-selector.c:103
-#, fuzzy
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "Zuid Afrika, Rand"
+msgstr "Zuid Afrika Afrikaans (af_ZA)"
 
 #: src/widgets/widget-locale-selector.c:104
 msgid "Ethiopia/Amharic (am_ET)"
-msgstr ""
+msgstr "Ethiopië/Amharisch (am_ET)"
 
 #: src/widgets/widget-locale-selector.c:105
-#, fuzzy
 msgid "United Arab Emirates (ar_AE)"
-msgstr "Verenigde Arabische Emiraten, Dirhams"
+msgstr "Verenigde Arabische Emiraten (ar_AE)"
 
 #: src/widgets/widget-locale-selector.c:106
-#, fuzzy
 msgid "Bahrain (ar_BH)"
-msgstr "Bagrein, Dinar"
+msgstr "Bagrein (ar_BH)"
 
 #: src/widgets/widget-locale-selector.c:107
 msgid "Algeria (ar_DZ)"
-msgstr ""
+msgstr "Algerije (ar_DZ)"
 
 #: src/widgets/widget-locale-selector.c:108
 msgid "Egypt (ar_EG)"
@@ -30183,16 +30107,15 @@ msgstr "Marokko (ar_MA)"
 
 #: src/widgets/widget-locale-selector.c:116
 msgid "Oman (ar_OM)"
-msgstr ""
+msgstr "Oman (ar_OM)"
 
 #: src/widgets/widget-locale-selector.c:117
 msgid "Qatar (ar_QA)"
-msgstr ""
+msgstr "Qatar (ar_QA)"
 
 #: src/widgets/widget-locale-selector.c:118
-#, fuzzy
 msgid "Saudi Arabia (ar_SA)"
-msgstr "Saudi-Arabië, Riyal"
+msgstr "Saudi-Arabië (ar_SA)"
 
 #: src/widgets/widget-locale-selector.c:119
 msgid "Sudan (ar_SD)"
@@ -30215,14 +30138,12 @@ msgid "Azerbaijan (az_AZ)"
 msgstr "Azerbeijan (az_AZ)"
 
 #: src/widgets/widget-locale-selector.c:124
-#, fuzzy
 msgid "Belarus (be_BY)"
-msgstr "Belarus, Roebel"
+msgstr "Belarus (be_BY)"
 
 #: src/widgets/widget-locale-selector.c:125
-#, fuzzy
 msgid "Bulgaria (bg_BG)"
-msgstr "Bulgarije, Lev"
+msgstr "Bulgarije (bg_BG)"
 
 #: src/widgets/widget-locale-selector.c:126
 msgid "Bangladesh (bn_BD)"
@@ -30245,13 +30166,12 @@ msgid "Spain/Catalan (ca_ES)"
 msgstr "Spanje/Catalaans (ca_ES)"
 
 #: src/widgets/widget-locale-selector.c:131
-#, fuzzy
 msgid "Czech Republic (cs_CZ)"
-msgstr "Tsjechische Republiek, Koruna"
+msgstr "Tsjechische Republiek (cs_CZ)"
 
 #: src/widgets/widget-locale-selector.c:132
 msgid "Great Britain/Welsh (cy_GB)"
-msgstr ""
+msgstr "Groot Britanië/Welsh (cy_GB)"
 
 #: src/widgets/widget-locale-selector.c:133
 msgid "Denmark (da_DK)"
@@ -30422,9 +30342,8 @@ msgid "Estonia (et_EE)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:175
-#, fuzzy
 msgid "Spain/Basque (eu_ES)"
-msgstr "Spanje (es_ES)"
+msgstr "Spanje/Baskisch (es_ES)"
 
 #: src/widgets/widget-locale-selector.c:176
 msgid "Iran (fa_IR)"
@@ -30456,7 +30375,7 @@ msgstr "Frankrijk (fr_FR)"
 
 #: src/widgets/widget-locale-selector.c:183
 msgid "Ireland/Gaelic (ga_IE)"
-msgstr ""
+msgstr "Ierland/Gaelic (ga_IE)"
 
 #: src/widgets/widget-locale-selector.c:184
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
@@ -30476,78 +30395,71 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:188
 msgid "Croatia (hr_HR)"
-msgstr ""
+msgstr "Kroatië (hr_HR)"
 
 #: src/widgets/widget-locale-selector.c:189
 msgid "Hungary (hu_HU)"
-msgstr ""
+msgstr "Hongarije (hu_HU)"
 
 #: src/widgets/widget-locale-selector.c:190
-#, fuzzy
 msgid "Armenia (hy_AM)"
-msgstr "Armeens (ARMSCII-8)"
+msgstr "Armenië (hy_AM)"
 
 #: src/widgets/widget-locale-selector.c:191
 msgid "(i18n)"
-msgstr ""
+msgstr "(i18n)"
 
 #: src/widgets/widget-locale-selector.c:192
-#, fuzzy
 msgid "Indonesia (id_ID)"
-msgstr "Indonesië, Roepie"
+msgstr "Indonesië (id_ID)"
 
 #: src/widgets/widget-locale-selector.c:193
 msgid "Iceland (is_IS)"
-msgstr ""
+msgstr "IJsland (is_IS)"
 
 #: src/widgets/widget-locale-selector.c:194
 msgid "(iso14651_t1)"
-msgstr ""
+msgstr "(iso14651_t1)"
 
 #: src/widgets/widget-locale-selector.c:195
 msgid "Switzerland/Italian (it_CH)"
-msgstr ""
+msgstr "Zwitserland/Italiaans (it_CH)"
 
 #: src/widgets/widget-locale-selector.c:196
 msgid "Italy (it_IT)"
-msgstr ""
+msgstr "Italië (it_IT)"
 
 #: src/widgets/widget-locale-selector.c:197
 msgid "Israel/Hebrew (iw_IL)"
-msgstr ""
+msgstr "Israel/Hebreews (iw_IL)"
 
 #: src/widgets/widget-locale-selector.c:198
-#, fuzzy
 msgid "Japan (ja_JP)"
-msgstr "Japans (EUC-JP)"
+msgstr "Japan (ja_JP)"
 
 #: src/widgets/widget-locale-selector.c:199
-#, fuzzy
 msgid "Georgia (ka_GE)"
-msgstr "Georgisch (GEOSTD8)"
+msgstr "Georgië (ka_GE)"
 
 #: src/widgets/widget-locale-selector.c:200
 msgid "Greenland (kl_GL)"
-msgstr ""
+msgstr "Groenland (kl_GL)"
 
 #: src/widgets/widget-locale-selector.c:201
-#, fuzzy
 msgid "Korea (ko_KR)"
-msgstr "Koreaans (EUC-KR)"
+msgstr "Korea (ko_KR)"
 
 #: src/widgets/widget-locale-selector.c:202
 msgid "Great Britain/Cornish (kw_GB)"
-msgstr ""
+msgstr "Groot Britannië/Cornisch (kw_GB)"
 
 #: src/widgets/widget-locale-selector.c:203
-#, fuzzy
 msgid "Lithuania (lt_LT)"
-msgstr "Litouwen, Litai"
+msgstr "Litouwen (lt_LT)"
 
 #: src/widgets/widget-locale-selector.c:204
-#, fuzzy
 msgid "Latvia (lv_LV)"
-msgstr "Litouwen, Lati"
+msgstr "Letland (lv_LV)"
 
 #: src/widgets/widget-locale-selector.c:205
 msgid "New Zealand/Maori (mi_NZ)"
@@ -30591,7 +30503,7 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:215
 msgid "Poland (pl_PL)"
-msgstr ""
+msgstr "Polen (pl_PL)"
 
 #: src/widgets/widget-locale-selector.c:216
 msgid "Brazil (pt_BR)"
@@ -30599,16 +30511,15 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:217
 msgid "Portugal (pt_PT)"
-msgstr ""
+msgstr "Portugal (pt_PT)"
 
 #: src/widgets/widget-locale-selector.c:218
 msgid "Romania (ro_RO)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:219
-#, fuzzy
 msgid "Russia (ru_RU)"
-msgstr "Russisch (CP-866)"
+msgstr "Rusland (ru_RU)"
 
 #: src/widgets/widget-locale-selector.c:220
 msgid "Ukraine/Russian (ru_UA)"
@@ -30619,54 +30530,48 @@ msgid "Norway/Saami (se_NO)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:222
-#, fuzzy
 msgid "Slovakia (sk_SK)"
-msgstr "Slowakije, Koruny"
+msgstr "Slowakije (sk_SK)"
 
 #: src/widgets/widget-locale-selector.c:223
-#, fuzzy
 msgid "Slovenia (sl_SI)"
-msgstr "Slovenië, Tolar"
+msgstr "Slovenië  (sl_SI)"
 
 #: src/widgets/widget-locale-selector.c:224
-#, fuzzy
 msgid "Albania (sq_AL)"
-msgstr "Albanië, Lek"
+msgstr "Albanië (sq_AL)"
 
 #: src/widgets/widget-locale-selector.c:225
-#, fuzzy
 msgid "Yugoslavia (sr_YU)"
-msgstr "Joegoslavië, Nieuwe Dinar"
+msgstr "Joegoslavië (sr_YU)"
 
 #: src/widgets/widget-locale-selector.c:226
 msgid "Finland/Swedish (sv_FI)"
-msgstr ""
+msgstr "Finland/Zweeds (sv_FI)"
 
 #: src/widgets/widget-locale-selector.c:227
 msgid "Sweden (sv_SE)"
-msgstr ""
+msgstr "Zweden (sv_SE)"
 
 #: src/widgets/widget-locale-selector.c:228
 msgid "India/Tamil (ta_IN)"
-msgstr ""
+msgstr "India/Tamil (ta_IN)"
 
 #: src/widgets/widget-locale-selector.c:229
 msgid "India/Telugu (te_IN)"
-msgstr ""
+msgstr "India/Telugu (te_IN)"
 
 #: src/widgets/widget-locale-selector.c:230
-#, fuzzy
 msgid "Tajikistan (tg_TJ)"
-msgstr "Tadjikistan, Roebel"
+msgstr "Tadjikistan (tg_TJ)"
 
 #: src/widgets/widget-locale-selector.c:231
-#, fuzzy
 msgid "Thailand (th_TH)"
-msgstr "Thailand, Baht"
+msgstr "Thailand (th_TH)"
 
 #: src/widgets/widget-locale-selector.c:232
 msgid "Eritrea (ti_ER)"
-msgstr ""
+msgstr "Eritrea (ti_ER)"
 
 #: src/widgets/widget-locale-selector.c:233
 msgid "Ethiopia/Tigrinya (ti_ET)"
@@ -30682,21 +30587,19 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:236
 msgid "Russia/Tatar (tt_RU)"
-msgstr ""
+msgstr "Rusland/Tataars (tt_RU)"
 
 #: src/widgets/widget-locale-selector.c:237
 msgid "Ukraine (uk_UA)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:238
-#, fuzzy
 msgid "Pakistan (ur_PK)"
-msgstr "Pakistan, Roepie"
+msgstr "Pakistan (ur_PK)"
 
 #: src/widgets/widget-locale-selector.c:239
-#, fuzzy
 msgid "Uzbekistan (uz_UZ)"
-msgstr "Oesbekistan, Sum"
+msgstr "Oezbekistan (uz_UZ)"
 
 # trema?
 #: src/widgets/widget-locale-selector.c:240
@@ -30706,7 +30609,7 @@ msgstr "Vietnamees (TCVN)"
 
 #: src/widgets/widget-locale-selector.c:241
 msgid "Belgium/Walloon (wa_BE)"
-msgstr ""
+msgstr "België/Waals (wa_BE)"
 
 #: src/widgets/widget-locale-selector.c:242
 msgid "United States/Yiddish (yi_US)"
@@ -30714,19 +30617,19 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:243
 msgid "China (zh_CN)"
-msgstr ""
+msgstr "China (zh_CN)"
 
 #: src/widgets/widget-locale-selector.c:244
 msgid "Hong Kong/Chinese (zh_HK)"
-msgstr ""
+msgstr "Hong Kong/Chinees (zh_HK)"
 
 #: src/widgets/widget-locale-selector.c:245
 msgid "Singapore/Chinese (zh_SG)"
-msgstr ""
+msgstr "Singapore/Chinees (zh_SG)"
 
 #: src/widgets/widget-locale-selector.c:246
 msgid "Taiwan (zh_TW)"
-msgstr ""
+msgstr "Taiwan (zh_TW)"
 
 #: src/widgets/widget-locale-selector.c:435
 #, fuzzy
@@ -30748,11 +30651,11 @@ msgstr " : Gnumeric"
 #: src/workbook-control-gui.c:595
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
-msgstr "Weet U zeker dat u blad '%s' wilt verwijderen ?"
+msgstr "Weet u zeker dat u blad '%s' wilt verwijderen ?"
 
 #: src/workbook-control-gui.c:642
 msgid "Manage sheets..."
-msgstr "Beheer bladen..."
+msgstr "Bladen beheren..."
 
 #: src/workbook-control-gui.c:645
 msgid "Append"
@@ -30768,7 +30671,7 @@ msgstr "Verwijderen"
 
 #: src/workbook-control-gui.c:648
 msgid "Rename"
-msgstr "Her_noemen"
+msgstr "Hernoemen"
 
 #.
 #. * xgettext:
@@ -30934,11 +30837,11 @@ msgid "P_aste special..."
 msgstr "Pl_akken speciaal..."
 
 #: src/workbook-control-gui.c:3494
-#, fuzzy
 msgid "Create a new view of the workbook"
-msgstr "Een nieuwe gedeelde weergave van de werkmap maken"
+msgstr "Een nieuwe weergave van de werkmap maken"
 
 #: src/workbook-control-gui.c:3528
+#, fuzzy
 msgid "_Auto generate names..."
 msgstr "_Automatisch gegenereerde namen..."
 
@@ -31005,9 +30908,8 @@ msgstr ""
 "of gebruik maken van een grote steekproef: z-test"
 
 #: src/workbook-control-gui.c:3763
-#, fuzzy
 msgid "Ranks And _Percentiles..."
-msgstr "Rangen en Percentielen"
+msgstr "Rangen en _Percentielen..."
 
 #: src/workbook-control-gui.c:3890
 msgid "Sh_uffle..."
@@ -31248,6 +31150,13 @@ msgstr "Fout bij opslaan bestand"
 #: src/xml-io.c:3951
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
+
+#~ msgid "Axis"
+#~ msgstr "As"
+
+#, fuzzy
+#~ msgid "GraphLabel"
+#~ msgstr "Label"
 
 #~ msgid ""
 #~ "@FUNCTION=AMORDEGRC\n"
