@@ -17,7 +17,7 @@
     Gnumeric default is to follow the rules for the US, which are
     month/day/year.  Now, instead of adding those translations to the
     es.po file, those strings should be added to a per-country file,
-    in this example the "es@mx.po" file.  Currency in México uses the
+    in this example the "es_MX.po" file.  Currency in México uses the
     same symbols, so those format codes are left untouched.  Decimal
     point separator and thousand separators in Mexico are, again, the
     same as in the US, so they are left untouched.</para>
@@ -25,7 +25,7 @@
     <para>So, basically: when doing currency/date/number format
     translation, make sure no other country that uses your language
     has a different set of rules (when in doubt, just dont touch the
-    formatting codes and add your localized version to the NN@MM.po
+    formatting codes and add your localized version to the nn_MM.po
     file).</para>
     
 </sect1>

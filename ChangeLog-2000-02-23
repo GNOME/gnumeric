@@ -1,3 +1,8 @@
+1998-10-02 Vincent Renardias <vincent@waw.com>
+
+	* Changed 'es@mx' into 'es_MX' for locale stuff in
+	  configure.in, po/*, doc/translating.sgml.
+
 1998-10-01 Adrian Likins <adrian@gimp.org>
 
 	* src/*.sgml: guess what? doc updates.. mainly
