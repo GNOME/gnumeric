@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
-"POT-Creation-Date: 2000-12-13 12:21+0200\n"
+"POT-Creation-Date: 2000-12-13 15:54+0200\n"
 "PO-Revision-Date: 1999-12-08 14:44+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -156,7 +156,7 @@ msgstr "База даних"
 
 #: plugins/gda/plugin-gda.c:203
 msgid "Database functions for allowing the retrieval of data from a database"
-msgstr ""
+msgstr "Функц╕╖ баз даних, що дозволяють отримувати дан╕ з бази даних"
 
 #: plugins/guile/plugin.c:63 src/func.c:547 src/functions/fn-information.c:585
 #: src/functions/fn-information.c:653 src/functions/fn-information.c:680
@@ -164,12 +164,12 @@ msgstr ""
 #: src/functions/fn-information.c:784 src/functions/fn-information.c:847
 #: src/functions/fn-logical.c:196 src/functions/fn-string.c:343
 msgid "Invalid number of arguments"
-msgstr "Нев╕рна к╕льк╕сть аргумент╕в"
+msgstr "Нев╕рна к╕льк╕сть ар╜умент╕в"
 
 #. FIXME : This looks like a leak (JEG 4/4/00)
 #: plugins/guile/plugin.c:68 plugins/guile/plugin.c:73
 msgid "First argument to SCM must be a Guile expression"
-msgstr "Перший аргумент для SCM мусить бути виразом Guile"
+msgstr "Перший ар╜умент для SCM мусить бути виразом Guile"
 
 #: plugins/guile/plugin.c:77
 msgid "Undefined scheme function"
@@ -177,7 +177,7 @@ msgstr "Невизначена функц╕я scheme"
 
 #: plugins/guile/plugin.c:95
 msgid "Could not evaluate argument"
-msgstr "Не можливо виконати аргумент"
+msgstr "Не можливо виконати ар╜умент"
 
 #: plugins/guile/plugin.c:206
 msgid "Gnumeric has not been compiled with support for guile."
@@ -261,7 +261,7 @@ msgstr ""
 "@SYNTAX=NT_PHI(n)\n"
 "@DESCRIPTION=Функц╕я NT_PHI вирахову╓ к╕льк╕сть ц╕лих менших чи р╕вних @n, "
 "як╕ ╓ простими в╕дносно @n.\n"
-"Ця функц╕я прийма╓ лише один аргумент.\n"
+"Ця функц╕я прийма╓ лише один ар╜умент.\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
@@ -303,7 +303,7 @@ msgstr ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
 "@DESCRIPTION=NT_D вирахову╓ к╕льк╕сть д╕льник╕в @n.\n"
-"Ця функц╕я прийма╓ лише один аргумент. \n"
+"Ця функц╕я прийма╓ лише один ар╜умент. \n"
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
@@ -1190,7 +1190,7 @@ msgstr "Не м╕стить файл книги"
 
 #: src/bonobo-io.c:527
 msgid "Gnumeric Bonobo file format"
-msgstr ""
+msgstr "Формат файлу Gnumeric Bonobo"
 
 #: src/clipboard.c:280
 #, c-format
@@ -6649,7 +6649,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
-"@DESCRIPTION=IMARGUMENT поверта╓ тета-аргумент комплексного числа. Ця "
+"@DESCRIPTION=IMARGUMENT поверта╓ тета-ар╜умент комплексного числа. Ця "
 "функц╕я сум╕сна з Excel. \n"
 "@EXAMPLES=\n"
 "IMARGUMENT(\"2-j\") дор╕вню╓ -0.463647609.\n"
@@ -7952,7 +7952,7 @@ msgstr ""
 
 #: src/functions/fn-information.c:368
 msgid "Argument mismatch"
-msgstr "В╕дсутн╕й аргумент"
+msgstr "В╕дсутн╕й ар╜умент"
 
 #: src/functions/fn-information.c:399
 msgid ""
@@ -10980,6 +10980,13 @@ msgid ""
 "\n"
 "@SEEALSO=CODE"
 msgstr ""
+"@FUNCTION=CHAR\n"
+"@SYNTAX=CHAR(x)\n"
+"@DESCRIPTION=Функц╕я CHAR поверта╓ символ, що представля╓ ASCII-код @x.\n"
+"@EXAMPLES=\n"
+"CHAR(65) р╕вне A.\n"
+"\n"
+"@SEEALSO=CODE"
 
 #: src/functions/fn-string.c:49
 msgid ""
@@ -11082,7 +11089,7 @@ msgstr ""
 
 #: src/functions/fn-string.c:228 src/functions/fn-string.c:681
 msgid "Invalid arguments"
-msgstr "Нев╕рн╕ аргументи"
+msgstr "Нев╕рн╕ ар╜ументи"
 
 #: src/functions/fn-string.c:246
 msgid ""
@@ -11164,7 +11171,7 @@ msgstr ""
 #: src/functions/fn-string.c:398 src/functions/fn-string.c:481
 #: src/functions/fn-string.c:486 src/functions/fn-string.c:530
 msgid "Invalid argument"
-msgstr "Нев╕рний аргумент"
+msgstr "Нев╕рний ар╜умент"
 
 #: src/functions/fn-string.c:416
 msgid ""
@@ -11176,6 +11183,14 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=CLEAN\n"
+"@SYNTAX=CLEAN(рядок)\n"
+"@DESCRIPTION=Функц╕я CLEAN очища╓ @рядок в╕д символ╕в не призначених для "
+"друку.\n"
+"@EXAMPLES=\n"
+"CLEAN(\"один\"\\&char(7)) дор╕вню╓ \"один\".\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-string.c:455
 msgid ""
@@ -11478,11 +11493,11 @@ msgstr "Показати верс╕ю Gnumeric"
 
 #: src/main.c:85
 msgid "Set the root library directory"
-msgstr ""
+msgstr "Встановити кореневий каталог б╕бл╕отек"
 
 #: src/main.c:87
 msgid "Adjust the root data directory"
-msgstr ""
+msgstr "Налаштувати кореневий каталог даних"
 
 #: src/main.c:90
 msgid "Dumps the function definitions"
@@ -11543,7 +11558,7 @@ msgstr "Дозволя╓ налагоджувальн╕ пов╕домлення при зчитуванн╕ д╕аграм Excel"
 
 #: src/main.c:131
 msgid "Enables extra consistancy checking while reading ole files"
-msgstr ""
+msgstr "Ув╕мкнути додаткову перев╕рку узгодженост╕ п╕д час зчитування файл╕в ole"
 
 #: src/main.c:159
 #, c-format
@@ -11552,6 +11567,9 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
+"Верс╕я Gnumeric: \"%s\"\n"
+"Каталог даних: \"%s\"\n"
+"Каталог б╕бл╕отек: \"%s\"\n"
 
 #: src/main.c:209
 msgid "Could not initialize Workbook factory"
@@ -12014,7 +12032,6 @@ msgstr ""
 "Було виявлено символ \"%c\" (десяткове дначення ASCII - %d).\n"
 "Напевно у вас помилков╕ установки локал╕зац╕╖."
 
-
 #: src/stf.c:184
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Помилка анал╕зу даних в аркуш╕"
@@ -12325,7 +12342,7 @@ msgstr "Створити ел╕пс"
 #: src/workbook-view.c:210
 #, c-format
 msgid "%dLx%dC"
-msgstr ""
+msgstr "%dРx%dС"
 
 #: src/workbook-view.c:354
 msgid "Internal ERROR"
@@ -12598,7 +12615,7 @@ msgstr "Автостворення назв..."
 
 #: src/workbook-control-gui.c:1843
 msgid "Use the current selection to create names"
-msgstr ""
+msgstr "Використовувати поточний виб╕р для створення назв"
 
 #: po/tmp/gnumeric.xml.h:227 src/workbook-control-gui.c:1850
 #: src/workbook-control-gui.c:1958
@@ -13305,16 +13322,16 @@ msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
-"В╕дсортувати вибраний д╕апазон у зростаючому порядку ╜рунтуючись на "
-"першому вибраному стовпчику."
+"В╕дсортувати вибраний д╕апазон у зростаючому порядку ╜рунтуючись на першому "
+"вибраному стовпчику."
 
 #: po/tmp/gnumeric.xml.h:176
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr ""
-"В╕дсортувати вибраний д╕апазон у спадаючому порядку ╜рунтуючись на "
-"першому вибраному стовпчику."
+"В╕дсортувати вибраний д╕апазон у спадаючому порядку ╜рунтуючись на першому "
+"вибраному стовпчику."
 
 #: po/tmp/gnumeric.xml.h:177
 msgid "Statistical methods"
