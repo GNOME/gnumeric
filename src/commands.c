@@ -4099,7 +4099,6 @@ cmd_set_comment_apply (Sheet *sheet, CellPos *pos, char const *text)
 	CellComment   *comment;
 
 	comment = cell_has_comment_pos (sheet, pos);
-/* FIXME: this is not a perfect undo since we never delete a created comment */
 	if (comment) {
 		if (text) 
 			cell_comment_text_set (comment, text);
@@ -4164,15 +4163,15 @@ cmd_set_comment (WorkbookControl *wbc,
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;
-	me->parent.cmd_descriptor =
-		g_strdup_printf (new_text == NULL ? 
-				 _("Clear Comment of %s") :
-				 _("Set Comment of %s"),
-				 cell_pos_name (pos));
 	if (strlen (new_text) < 1)
 		me->new_text = NULL;
 	else
 		me->new_text    = g_strdup (new_text);
+	me->parent.cmd_descriptor =
+		g_strdup_printf (me->new_text == NULL ? 
+				 _("Clearing comment of %s") :
+				 _("Setting comment of %s"),
+				 cell_pos_name (pos));
 	me->old_text    = NULL;
 	me->pos         = *pos;
 	me->sheet       = sheet;
