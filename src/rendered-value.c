@@ -26,6 +26,7 @@
 #include "rendered-value.h"
 
 #include "expr.h"
+#include "gutils.h"
 #include "cell.h"
 #include "style.h"
 #include "style-color.h"
@@ -41,6 +42,20 @@
 
 #include <math.h>
 #include <ctype.h>
+
+#ifndef USE_RV_POOLS
+#define USE_RV_POOLS 1
+#endif
+
+#if USE_RV_POOLS
+/* Memory pool for strings.  */
+static gnm_mem_chunk *rendered_value_pool;
+#define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
+#define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
+#else
+#define CHUNK_ALLOC(T,c) g_new (T,1)
+#define CHUNK_FREE(p,v) g_free ((v))
+#endif
 
 /**
  * rendered_value_new:
@@ -124,7 +139,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 
 	g_return_val_if_fail (str != NULL, NULL);
 
-	res = g_new (RenderedValue, 1);
+	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
 	res->rendered_text = string_get (str);
 	res->render_color = color;
 	res->width_pixel = res->height_pixel = res->offset_pixel = 0;
@@ -147,7 +162,7 @@ rendered_value_destroy (RenderedValue *rv)
 		rv->render_color = NULL;
 	}
 
-	g_free (rv);
+	CHUNK_FREE (rendered_value_pool, rv);
 }
 
 /**
@@ -400,4 +415,35 @@ cell_rendered_offset (Cell const * cell)
 		return 0;
 	else
 		return cell->rendered_value->offset_pixel;
+}
+
+void
+rendered_value_init (void)
+{
+#if USE_RV_POOLS
+	rendered_value_pool =
+		gnm_mem_chunk_new ("rendered value pool",
+				   sizeof (RenderedValue),
+				   16 * 1024 - 128);
+#endif
+}
+
+#if USE_RV_POOLS
+static void
+cb_rendered_value_pool_leak (gpointer data, gpointer user)
+{
+	RenderedValue *rendered_value = data;
+	fprintf (stderr, "Leaking rendered value at %p [%s].\n",
+		 rendered_value, rendered_value->rendered_text->str);
+}
+#endif
+
+void
+rendered_value_shutdown (void)
+{
+#if USE_RV_POOLS
+	gnm_mem_chunk_foreach_leak (rendered_value_pool, cb_rendered_value_pool_leak, NULL);
+	gnm_mem_chunk_destroy (rendered_value_pool, FALSE);
+	rendered_value_pool = NULL;
+#endif
 }

@@ -38,6 +38,7 @@
 #include "cell.h"
 #include "value.h"
 #include "expr.h"
+#include "rendered-value.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -208,6 +209,7 @@ main (int argc, char *argv [])
 	cell_init ();
 	dependent_types_init ();
 	string_init ();
+	rendered_value_init ();
 	style_init ();
 	gnumeric_color_init ();
 	format_color_init ();
@@ -316,6 +318,7 @@ main (int argc, char *argv [])
 	format_color_shutdown ();
 	gnumeric_color_shutdown ();
 	style_shutdown ();
+	rendered_value_shutdown ();
 	string_shutdown ();
 	dependent_types_shutdown ();
 	cell_shutdown ();

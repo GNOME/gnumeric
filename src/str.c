@@ -121,7 +121,7 @@ static void
 cb_string_pool_leak (gpointer data, gpointer user)
 {
 	String *string = data;
-	fprintf (stderr, "Leaking string [%s]  with ref_count=%d.\n",
+	fprintf (stderr, "Leaking string [%s] with ref_count=%d.\n",
 		 string->str, string->ref_count);
 }
 #endif

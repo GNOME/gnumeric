@@ -1,3 +1,9 @@
+2002-04-09  Morten Welinder  <terra@diku.dk>
+
+	* src/rendered-value.c (rendered_value_new,
+ 	rendered_value_destroy, rendered_value_init,
+ 	rendered_value_shutdown): Yet another pool allocator.
+
 2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-canvas.c (gnm_canvas_key_mode_object) : Sheet objects 

@@ -137,7 +137,6 @@ gnumeric_config_set_string_list (GList *items,
 
 		gnome_config_push_prefix (config_path);
 		for (l = items, i = 0; l != NULL; l = l->next, i++) {
-
 			key = g_strdup_printf ("%s%d", item_name_prefix, i);
 			gnome_config_set_string (key, (gchar *) l->data);
 			g_free (key);
@@ -174,7 +173,7 @@ g_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 
 		while (i-- > index) {
 			gpointer tmp = g_ptr_array_index (array, i);
-			g_ptr_array_index (array, i+1) = tmp;
+			g_ptr_array_index (array, i + 1) = tmp;
 		}
 		g_ptr_array_index (array, index) = value;
 	} else
@@ -297,7 +296,7 @@ g_strsplit_to_list (gchar const *string, gchar const *delimiter)
  * @list: list of some items
  * @free_func: function freeing list item
  *
- * Clears a list, calling g_free() for each list item.
+ * Clears a list, calling @free_func for each list item.
  *
  */
 void
