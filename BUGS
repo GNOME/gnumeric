@@ -8,14 +8,16 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    : debian 272697
+1.4.1
+-----
     : Use GNOME Recent for the gnome build
-    : kasal's popt patch
     : tie the custom ui into action sensitivity pools
+    : kasal's popt patch
+    : JHM's paper size patch
+    : enable contour plots
 
 Worries
 -------
-
     : provide undo for dropped objects from sheet_objects_relocate
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
@@ -52,6 +54,8 @@ Worries
 Pending Patches
 ---------------
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=157997
+    : Apply after 1.4.0 to clean up the xls sheet object creation a bit.
     http://bugzilla.gnome.org/show_bug.cgi?id=84062
     - XIM menu, blocking on gtk changes
 

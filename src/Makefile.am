@@ -18,6 +18,9 @@ endif
 if ENABLE_SSCONVERT
   bin_PROGRAMS += ssconvert
 endif
+if ENABLE_SSINDEX
+  bin_PROGRAMS += ssindex
+endif
 
 INCLUDES = 								\
 	-I$(top_srcdir)							\
@@ -341,6 +344,11 @@ ssconvert_LDFLAGS = -export-dynamic
 ssconvert_SOURCES =				\
 	$(GNUMERIC_SOURCE)			\
 	ssconvert.c
+ssindex_LDADD   = $(gnumeric_LDADD)
+ssindex_LDFLAGS = -export-dynamic
+ssindex_SOURCES =				\
+	$(GNUMERIC_SOURCE)			\
+	ssindex.c
 
 #test_pango_LDADD   = $(gnumeric_LDADD)
 #test_pango_LDFLAGS = -export-dynamic
@@ -390,7 +398,7 @@ EXTRA_DIST = GNOME_Gnumeric-gtk.xml.in				\
 	    main-application.c 					\
 	    main-component.c					\
 	    $(GNUMERIC_GNOME) README.gnm_float			\
-	    gnumeric-paths.sh.in ssconvert.c gnumeric.rc
+	    gnumeric-paths.sh.in ssconvert.c ssindex.c gnumeric.rc
 DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
