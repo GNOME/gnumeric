@@ -10,8 +10,15 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <regutf8.h>
+#include <locale.h>
 
 #ifndef HAVE_UTF8_REGEXP
+
+#ifdef HAVE_WCTYPE_H
+#include <wctype.h>
+#endif
+#include <stdlib.h>
+#include <limits.h>
 
 #ifdef TEST_REGUTF8
 #include <stdio.h>
@@ -22,8 +29,14 @@
 #define REPEATCHAR(extp,c) \
   ((c) == '*' || ((extp) && ((c) == '+' || (c) == '{' || (c) == '?')))
 
-/* Match a single UTF-8 encoded character.  Needs to be ()-free.  */
-#define UTF8DOT "[\x01-\x7f\xc0-\xfd][\x80-\xbf]*"
+/* -------------------------------------------------------------------------- */
+
+static void
+regutf8_append_dot (GString *res)
+{
+	/* Match a single UTF-8 encoded character.  Needs to be ()-free.  */
+	g_string_append (res, "[\x01-\x7f\xc0-\xfd][\x80-\xbf]*");
+}
 
 /* -------------------------------------------------------------------------- */
 
@@ -211,10 +224,12 @@ make_pattern (gnumeric_regex_t *preg, GString *dst, char **pp, int mpflags)
 		case '.':
 			p++;
 			if (REPEATCHAR (srcext, *p)) {
-				g_string_append (dst, "(" UTF8DOT ")");
+				g_string_append_c (dst, '(');
+				regutf8_append_dot (dst);
+				g_string_append_c (dst, ')');
 				preg->parcount++;
 			} else
-				g_string_append (dst, UTF8DOT);
+				regutf8_append_dot (dst);
 			break;
 
 		case '\\':
@@ -248,7 +263,7 @@ make_pattern (gnumeric_regex_t *preg, GString *dst, char **pp, int mpflags)
 				g_string_append_c (dst, '0' + dstparno);
 				p++;
 			} else
-				g_string_append_unichar (dst, *p++);
+				g_string_append_c (dst, *p++);
 			break;
 
 		default:
@@ -278,6 +293,7 @@ gnumeric_regcomp (gnumeric_regex_t *preg, const char *pattern, int cflags)
 	int res = REG_OK;
 	gboolean extended = (cflags & REG_EXTENDED) != 0;
 	gboolean casefold = (cflags & REG_ICASE) != 0;
+	char *old_locale = NULL;
 	int mpflags;
 
 	preg->casefold = casefold;
@@ -323,7 +339,15 @@ gnumeric_regcomp (gnumeric_regex_t *preg, const char *pattern, int cflags)
 
 #endif
 
+#ifdef HAVE_WCTYPE_H
+	if (MB_CUR_MAX > 1) {
+		/* Barbarian.  */
+		old_locale = setlocale (LC_ALL, "C");
+	}
+#endif
 	res = regcomp (&preg->theregexp, utf8pat->str, cflags);
+	if (old_locale)
+		setlocale (LC_ALL, old_locale);
 	if (res != REG_OK) goto out;
 
  out:
@@ -343,6 +367,7 @@ gnumeric_regexec (const gnumeric_regex_t *preg, const char *string,
 	regmatch_t *utf8pmatch;
 	size_t utf8nmatch, i;
 	char *string_dup = NULL;
+	char *old_locale = NULL;
 
 	if (preg->nosub) nmatch = 0;
 	utf8nmatch = nmatch ? preg->parcount + 1 : 0;
@@ -363,7 +388,18 @@ gnumeric_regexec (const gnumeric_regex_t *preg, const char *string,
 				*p = g_ascii_tolower (*p);
 	}
 
+#ifdef HAVE_WCTYPE_H
+	if (MB_CUR_MAX > 1) {
+		/* Barbarian.  */
+		old_locale = setlocale (LC_ALL, "C");
+	}
+#endif
+
 	res = regexec (&preg->theregexp, string, utf8nmatch, utf8pmatch, eflags);
+
+	if (old_locale)
+		setlocale (LC_ALL, old_locale);
+
 	if (res != REG_OK)
 		goto out;
 
@@ -520,4 +556,3 @@ gnumeric_regcomp_XL (gnumeric_regex_t *preg, char const *pattern, int cflags)
 	g_string_free (res, TRUE);
 	return retval;
 }
-

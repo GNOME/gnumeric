@@ -51,6 +51,7 @@ Morten:
 	* Work around extremely slow cases in in, e.g., BETAINV.
 	* Improve speed of generation of many types of random numbers.
 	* Add back references to UTF-8 regexp routine.
+	* Fix UTF-8 regexp support in multibyte locales.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16

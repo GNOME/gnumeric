@@ -1,6 +1,8 @@
 2003-05-07  Morten Welinder  <terra@gnome.org>
 
-	* src/regutf8.c (make_pattern): Add back reference support.
+	* src/regutf8.c (gnumeric_regcomp, gnumeric_regexec): Switch to C
+	locale if needed.
+	(make_pattern): Add back reference support.
 
 2003-05-07  Andreas Guelzow <aguelzow@taliesin.ca>
 
