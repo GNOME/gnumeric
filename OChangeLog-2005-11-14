@@ -1,3 +1,9 @@
+2004-07-13  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_copyrel): New command.
+
+	* src/wbcg-actions.c (cb_copydown, cb_copyright): Implement.
+
 2004-07-12  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_cur_sheet) :  new convenience

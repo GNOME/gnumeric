@@ -3168,6 +3168,172 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 
 /******************************************************************/
 
+#define CMD_COPYREL_TYPE        (cmd_copyrel_get_type ())
+#define CMD_COPYREL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_COPYREL_TYPE, CmdCopyRel))
+
+typedef struct {
+	GnmCommand cmd;
+
+	GnmCellRegion *content;
+	GnmPasteTarget dst, src;
+	int dx, dy;
+	const char *name;
+} CmdCopyRel;
+
+static void
+cmd_copyrel_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
+{
+	CmdCopyRel const *orig = (CmdCopyRel const *) cmd;
+	cmd_copyrel (wbc, orig->dx, orig->dy, orig->name);
+}
+MAKE_GNM_COMMAND (CmdCopyRel, cmd_copyrel, cmd_copyrel_repeat);
+
+static gboolean
+cmd_copyrel_undo (GnmCommand *cmd, WorkbookControl *wbc)
+{
+	CmdCopyRel *me = CMD_COPYREL (cmd);
+	gboolean res;
+	SheetView *sv;
+
+	g_return_val_if_fail (wbc != NULL, TRUE);
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->content != NULL, TRUE);
+
+	res = clipboard_paste_region (me->content, &me->dst, GNM_CMD_CONTEXT (wbc));
+	cellregion_unref (me->content);
+	me->content = NULL;
+
+	if (res)
+		return TRUE;
+
+	/* Make the newly pasted content the selection (this queues a redraw) */
+	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
+	sv_selection_reset (sv);
+	sv_selection_add_range (sv,
+				me->dst.range.start.col, me->dst.range.start.row,
+				me->dst.range.start.col, me->dst.range.start.row,
+				me->dst.range.end.col, me->dst.range.end.row);
+	sv_make_cell_visible (sv,
+			      me->dst.range.start.col, me->dst.range.start.row,
+			      FALSE);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_copyrel_redo (GnmCommand *cmd, WorkbookControl *wbc)
+{
+	CmdCopyRel *me = CMD_COPYREL (cmd);
+	SheetView *sv;
+	GnmCellRegion *content;
+	gboolean res;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->content == NULL, TRUE);
+
+	me->content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
+
+	g_return_val_if_fail (me->content != NULL, TRUE);
+
+	sheet_clear_region (me->dst.sheet,
+		me->dst.range.start.col, me->dst.range.start.row,
+		me->dst.range.end.col,   me->dst.range.end.row,
+		CLEAR_VALUES | CLEAR_MERGES | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS,
+		GNM_CMD_CONTEXT (wbc));
+
+	content = clipboard_copy_range (me->src.sheet, &me->src.range);
+	res = clipboard_paste_region (content, &me->dst, GNM_CMD_CONTEXT (wbc));
+	cellregion_unref (content);
+	if (res)
+		return TRUE;
+
+	/* Make the newly filled content the selection (this queues a redraw) */
+	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
+	sv_selection_reset (sv);
+	sv_selection_add_range (sv,
+				me->dst.range.start.col, me->dst.range.start.row,
+				me->dst.range.start.col, me->dst.range.start.row,
+				me->dst.range.end.col, me->dst.range.end.row);
+
+	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
+	sheet_range_calc_spans (me->dst.sheet, &me->dst.range, SPANCALC_RENDER);
+	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
+	sv_make_cell_visible (sv,
+			      me->dst.range.start.col, me->dst.range.start.row,
+			      FALSE);
+
+	return FALSE;
+}
+
+static void
+cmd_copyrel_finalize (GObject *cmd)
+{
+	CmdCopyRel *me = CMD_COPYREL (cmd);
+
+	if (me->content) {
+		cellregion_unref (me->content);
+		me->content = NULL;
+	}
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_copyrel (WorkbookControl *wbc,
+	     int dx, int dy,
+	     const char *name)
+{
+	GObject *obj;
+	CmdCopyRel *me;
+	GnmRange target, src;
+	SheetView *sv  = wb_control_cur_sheet_view (wbc);
+	Sheet *sheet = sv->sheet;
+	GnmCellPos const *pos = sv_is_singleton_selected (sv);
+
+	if (!pos)
+		return FALSE;
+
+	target.start = target.end = *pos;
+
+	src = target;
+	src.start.col += dx;
+	src.end.col += dx;
+	src.start.row += dy;
+	src.end.row += dy;
+	if (src.start.col < 0 || src.start.col >= SHEET_MAX_COLS ||
+	    src.start.row < 0 || src.start.row >= SHEET_MAX_ROWS)
+		return FALSE;
+
+	/* Check arrays or merged regions in src or target regions */
+	if (sheet_range_splits_region (sheet, &target, NULL, GNM_CMD_CONTEXT (wbc), name) ||
+	    sheet_range_splits_region (sheet, &src, NULL, GNM_CMD_CONTEXT (wbc), name))
+		return TRUE;
+
+	obj = g_object_new (CMD_COPYREL_TYPE, NULL);
+	me = CMD_COPYREL (obj);
+
+	/* Store the specs for the object */
+	me->content = NULL;
+	me->dst.sheet = sheet;
+	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
+	me->dst.range = target;
+	me->src.sheet = sheet;
+	me->src.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
+	me->src.range = src;
+	me->dx = dx;
+	me->dy = dy;
+	me->name = name;
+
+	me->cmd.sheet = sheet;
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup (name);
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+
+
 #define CMD_AUTOFORMAT_TYPE        (cmd_autoformat_get_type ())
 #define CMD_AUTOFORMAT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_AUTOFORMAT_TYPE, CmdAutoFormat))
 

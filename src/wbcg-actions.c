@@ -1263,12 +1263,14 @@ static GNM_ACTION_DEF (cb_format_dec_indent)
 
 static GNM_ACTION_DEF (cb_copydown)
 {
-	g_warning ("Killroy was here in cb_copydown");
+	WorkbookControl  *wbc = WORKBOOK_CONTROL (wbcg);
+	cmd_copyrel (wbc, 0, -1, _("Copy down"));
 }
 
 static GNM_ACTION_DEF (cb_copyright)
 {
-	g_warning ("Killroy was here in cb_copyright");
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	cmd_copyrel (wbc, -1, 0, _("Copy right"));
 }
 
 static GNM_ACTION_DEF (cb_format_column_auto_fit)

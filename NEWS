@@ -100,6 +100,7 @@ Morten:
 	* Avoid keeping passwords in memory.  (Will need gtk+ fix to be really
 	  effective.)
 	* Switch to keeping URIs, not filenames, inside and in history.
+	* Implement copy-right (Ctrl-R) and copy-down (Ctrl-D).
 
 	(For those worrying over the pile of accuracy fixes above it should
 	be noted that prior versions of Gnumeric were already pretty good,

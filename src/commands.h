@@ -50,6 +50,10 @@ gboolean cmd_autofill		(WorkbookControl *wbc, Sheet *sheet,
 				 int w, int h, int end_col, int end_row,
 				 gboolean inverse_autofill);
 
+gboolean cmd_copyrel		(WorkbookControl *wbc,
+				 int dx, int dy,
+				 const char *name);
+
 /* currently these operate on the current sheet, and it calling control's
  * selection.  In the future we should pass in a virtualized selection.
  */
