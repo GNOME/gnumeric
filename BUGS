@@ -8,6 +8,9 @@ Release Critical
 Long term breakage
 ------------------
 
+- Sorting ranges containing array formulae (partially or completely) does
+  not work very well.  We should probably just refuse to do so.
+
 - Fix Borders
 - Entering "=1e11111" yields "Syntax Error", not "overflow".
   In general parsing needs better error messages.
@@ -111,8 +114,12 @@ Dialogs
 Function Breakage
 -----------------
 - Index  : does not support 0,0 or reference syntax.
-- ftest : Needs auditing.  All calls to eval_pos_init_cellref are questionable.
-- address : This code is a duplicate.  Have the function use the standard routines.
+- ftest : Needs auditing.  All calls to eval_pos_init_cellref are
+    questionable.
+- address : This code is a duplicate.  Have the function use the standard
+    routines.
+- There are a number of #UNIMPLEMENTED! things to take care of in the
+    finansial functions.  Mostly this is due to incomplete documentation.
 
 Printing
 --------
