@@ -1856,6 +1856,9 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			sheet_cursor_set (sheet->gnum_sheet, act_col, act_row, act_col, act_row, act_col, act_row) ;
 			break ;
 		}
+		case BIFF_MS_O_DRAWING: /* FIXME: See: S59DA4.HTM */
+			printf ("FIXME: MS Drawing\n");
+			break;
 		default:
 			switch (q->opcode) {
 			case BIFF_WINDOW2: /* FIXME: see S59E18.HTM */
@@ -2088,6 +2091,12 @@ ms_excelReadWorkbook (MS_OLE * file)
 				}
 				break;
 			}
+			case BIFF_EXTSST: /* See: S59D84 */
+				/* Can be safely ignored on read side */
+				break;
+			case BIFF_MS_O_DRAWING_GROUP: /* FIXME: See: S59DA5.HTM */
+				printf ("FIXME: MS Drawing Group\n");
+				break;
 			case BIFF_EXTERNSHEET:
 			{
 				if ( ver->version == eBiffV8 )

@@ -34,8 +34,11 @@
 #define BIFF_DBCELL                     0xd7
 #define BIFF_OLESIZE                    0xde
 #define BIFF_XF                         0xe0
+#define BIFF_MS_O_DRAWING_GROUP         0xeb
+#define BIFF_MS_O_DRAWING               0xec
 #define BIFF_SST                        0xfc
 #define BIFF_LABELSST                   0xfd
+#define BIFF_EXTSST                     0xff
 
 /* Odd balls */
 #define BIFF_SUPBOOK                   0x1ae /* Supporting Workbook */

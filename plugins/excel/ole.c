@@ -21,6 +21,10 @@ read_types ()
 	FILE *file = fopen(TYPES_FILE, "r");
 	char buffer[1024];
 	types = g_ptr_array_new ();
+	if (!file) {
+		printf ("Can't find vital file '%s'\n", TYPES_FILE);
+		return;
+	}
 	while (!feof(file)) {
 		char *p;
 		fgets(buffer,1023,file);
@@ -33,7 +37,8 @@ read_types ()
 				while (*pt && *pt != '#') pt++;      /* # */
 				while (*pt && !isspace(*pt)) pt++;  /* define */
 				while (*pt &&  isspace(*pt)) pt++;  /* '   ' */
-				name = pt;
+				while (*pt && *pt != '_') pt++;     /* BIFF_ */
+				name = *pt?pt+1:pt;
 				while (*pt && !isspace(*pt)) pt++;
 				bt->name=g_strndup(name, (pt-name));
 				g_ptr_array_add (types, bt);
@@ -173,10 +178,26 @@ int main (int argc, char **argv)
 			{
 				MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
 				BIFF_QUERY *q = ms_biff_query_new (stream);
+				guint16 last_opcode=0xffff;
+				guint32 last_length=0;
+				guint32 count=0;
 				while (ms_biff_query_next(q)) {
-					printf ("Opcode 0x%3x : %15s, length %d\n",
-						q->opcode, get_opcode_name (q->opcode), q->length);
+					if (q->opcode == last_opcode &&
+					    q->length == last_length)
+						count++;
+					else {
+						if (count>0)
+							printf (" x %d\n", count+1);
+						else
+							printf ("\n");
+						count=0;
+						printf ("Opcode 0x%3x : %15s, length %d",
+							q->opcode, get_opcode_name (q->opcode), q->length);
+					}
+					last_opcode=q->opcode;
+					last_length=q->length;
 				}
+				printf ("\n");
 				ms_ole_stream_close (stream);
 			} else {
 				printf ("Need a stream name\n");
