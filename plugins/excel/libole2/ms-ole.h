@@ -42,6 +42,7 @@ typedef enum { MS_OLE_ERR_OK,
 	       MS_OLE_ERR_PERM,
 	       MS_OLE_ERR_MEM,
 	       MS_OLE_ERR_SPACE,
+	       MS_OLE_ERR_NOTEMPTY,
 	       MS_OLE_ERR_BADARG } MsOleErr;
 
 /* Block pointer */
@@ -66,6 +67,16 @@ typedef enum { MsOleSeekSet, MsOleSeekCur, MsOleSeekEnd } MsOleSeek;
 	};
 #endif /* MS_OLE_H_IMPLEMENTATION */
 
+typedef enum  { MsOleStorageT = 1,
+		MsOleStreamT  = 2,
+		MsOleRootT    = 5} MsOleType ;
+
+typedef struct {
+	MsOleType type;
+	/* Valid only for Streams */
+	MsOlePos  size;
+} MsOleStat;
+
 /* Create new OLE file */
 extern MsOleErr ms_ole_create      (MsOle **, const char *name) ;
 /* Open existing OLE file */
@@ -73,6 +84,10 @@ extern MsOleErr ms_ole_open        (MsOle **, const char *name) ;
 extern void     ms_ole_ref         (MsOle *);
 extern void     ms_ole_unref       (MsOle *);
 extern void     ms_ole_destroy     (MsOle **);
+extern MsOleErr ms_ole_unlink      (MsOle *f, const char *path);
+extern MsOleErr ms_ole_directory   (char ***names,   MsOle *f, const char *path);
+extern MsOleErr ms_ole_stat        (MsOleStat *stat, MsOle *f, const char *path,
+				    const char *file);
 
 struct _MsOleStream
 {
@@ -114,9 +129,6 @@ extern MsOleErr ms_ole_stream_open       (MsOleStream ** const stream, MsOle *f,
 extern MsOleErr ms_ole_stream_close      (MsOleStream ** const stream);
 extern MsOleErr ms_ole_stream_duplicate  (MsOleStream ** const copy,
 					  const MsOleStream * const stream);
-extern MsOleErr ms_ole_storage_unlink    (MsOle *f, const char *path);
-extern MsOleErr ms_ole_stream_unlink     (MsOle *f, const char *path);
-extern MsOleErr ms_ole_storage_directory (char ***names, const char *path);
 
 extern void dump (guint8 const *ptr, guint32 len) ;
 

@@ -71,12 +71,6 @@ dump_biff (BiffQuery *bq)
 /*                                 Read Side                                   */
 /*******************************************************************************/
 
-/*static guint16
-no_quirks (const BiffQuery *q, guint16 op)
-{
-	return 0;
-}*/
-
 BiffQuery *
 ms_biff_query_new (MsOleStream *ptr)
 {
@@ -90,41 +84,10 @@ ms_biff_query_new (MsOleStream *ptr)
 /*	bq->padding       = 0; */
 	bq->num_merges    = 0;
 	bq->pos           = ptr;
-/*	bq->quirk         = no_quirks;*/
 #if BIFF_DEBUG > 0
 	dump_biff(bq);
 #endif
 	return bq;
-}
-
-/*void
-ms_biff_query_set_quirk (BiffQuery *bq, BiffQuirkFn *quirk)
-{
-	g_return_if_fail (bq != NULL);
-
-	bq->quirk = quirk;
-}*/
-
-BiffQuery *
-ms_biff_query_copy (const BiffQuery *p)
-{
-	BiffQuery *bf = g_new (BiffQuery, 1);
-
-	memcpy (bf, p, sizeof (BiffQuery));
-
-	if (p->data_malloced) {
-		bf->data = (guint8 *)g_malloc (p->length);
-		memcpy (bf->data, p->data, p->length);
-	}
-
-	if (ms_ole_stream_duplicate (&bf->pos, p->pos) !=
-	    MS_OLE_ERR_OK) {
-		g_free (bf->data);
-		g_free (bf);
-		return NULL;
-	}
-
-	return bf;
 }
 
 /**
@@ -155,8 +118,6 @@ ms_biff_merge_continues (BiffQuery *bq, guint32 len)
 	}
 	total_len = chunk.length;
 	g_array_append_val (contin, chunk);
-
-/*	bq->padding = bq->quirk (bq, bq->opcode); */
 
 	/* Subsequent continue blocks */
 	chunk.length = len;
@@ -333,7 +294,7 @@ ms_biff_put_new (MsOleStream *s)
 	bp->data_malloced = 0;
 	bp->len_fixed     = 0;
 	bp->pos           = s;
-/*	bp->quirk         = no_quirks;*/
+
 	return bp;
 }
 

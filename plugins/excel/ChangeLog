@@ -1,3 +1,14 @@
+1999-09-20  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* ole.c: massive, huge, big clean to new API; ahh that feels good,
+	add 'help' command. Break escher debug for now.
+
+	* Makefile.am: re-enabled 'ole'
+	
+	* ms-biff.h: removed all mention of quirks.
+
+	* ms-biff.c (ms_biff_query_copy): dangerous: removed, clean quirk stuff.
+
 1999-09-20  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-obj.[ch]: Remove a few #if ENABLE_BONOBO checks 

@@ -28,8 +28,6 @@ extern void   biff_setdouble (guint8 *p, double d);
 
 typedef struct _BiffQuery BiffQuery;
 
-typedef guint16 (BiffQuirkFn) (const BiffQuery *, guint16 op);
-
 /**
  * Returns query data, it is imperative that copies of
  * 'data *' should _not_ be kept.
@@ -45,15 +43,10 @@ struct _BiffQuery {
 /*	gint16  padding;*/
 	int     data_malloced; /* is *data a copy ? */
 	MsOleStream *pos;
-	BiffQuirkFn *quirk;    /* Ugly ! */
 };
  
 /* Sets up a query on a stream */
 extern BiffQuery  *ms_biff_query_new         (MsOleStream *);
-/*extern void        ms_biff_query_set_quirk   (BiffQuery *,
-  BiffQuirkFn *);*/
-/* Duplicates this query, so chaining can re-commence here */
-extern BiffQuery  *ms_biff_query_copy        (const BiffQuery *p);
 /* Updates the BiffQuery structure with the next BIFF record
  * returns: 1 for succes, and 0 for EOS(tream) */
 extern int         ms_biff_query_next_merge (BiffQuery *, gboolean do_merge);
@@ -80,7 +73,6 @@ typedef struct _BiffPut
 	int            data_malloced;
 	int            len_fixed;
 	MsOleStream *pos;
-	BiffQuirkFn *quirk;    /* Ugly ! */
 } BiffPut;
  
 /* Sets up a record on a stream */

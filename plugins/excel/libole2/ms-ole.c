@@ -58,9 +58,6 @@ struct _MsOle
 };
 
 typedef guint32 PPS_IDX ;
-typedef enum _PPSType { MsOlePPSStorage = 1,
-			MsOlePPSStream  = 2,
-			MsOlePPSRoot    = 5} PPSType ;
 
 #if OLE_DEBUG > 0
 /* Very grim, but quite necessary */
@@ -98,7 +95,7 @@ struct _PPS {
 	PPS     *parent;
 	guint32  size;
 	BLP      start;
-	PPSType type;
+	MsOleType type;
 	PPS_IDX  idx; /* Only used on write */
 };
 
@@ -260,7 +257,7 @@ get_block_ptr (MsOle *f, BLP b, gboolean forwrite)
 /* These get other interesting stuff from the PPS record */
 #define PPS_GET_STARTBLOCK(p)      ( MS_OLE_GET_GUINT32(p + 0x74))
 #define PPS_GET_SIZE(p)            ( MS_OLE_GET_GUINT32(p + 0x78))
-#define PPS_GET_TYPE(p) ((PPSType)( MS_OLE_GET_GUINT8(p + 0x42)))
+#define PPS_GET_TYPE(p) ((MsOleType)( MS_OLE_GET_GUINT8(p + 0x42)))
 #define PPS_SET_STARTBLOCK(p,i)    ( MS_OLE_SET_GUINT32(p + 0x74, i))
 #define PPS_SET_SIZE(p,i)          ( MS_OLE_SET_GUINT32(p + 0x78, i))
 #define PPS_SET_TYPE(p,i)          ( MS_OLE_SET_GUINT8 (p + 0x42, i))
@@ -882,7 +879,7 @@ pps_encode_tree_chain (MsOle *f, GList *list)
 #if OLE_DEBUG > 0
 		printf ("Chaining previous for '%s'\n", p->name);
 #endif
-		if (p->type == MsOlePPSStorage)
+		if (p->type == MsOleStorageT)
 			pps_encode_tree_chain (f, l);
 
 		mem  = get_pps_ptr (f, p->idx, TRUE);
@@ -918,7 +915,7 @@ pps_encode_tree_chain (MsOle *f, GList *list)
 #if OLE_DEBUG > 0
 		printf ("Chaining next for '%s'\n", p->name);
 #endif
-		if (p->type == MsOlePPSStorage)
+		if (p->type == MsOleStorageT)
 			pps_encode_tree_chain (f, l);
 
 		mem  = get_pps_ptr (f, p->idx, TRUE);
@@ -1356,7 +1353,7 @@ ms_ole_create (MsOle **f, const char *name)
 		p->sig      = PPS_SIG;
 		p->name     = g_strdup ("Root Entry");
 		p->start    = END_OF_CHAIN;
-		p->type     = MsOlePPSRoot;
+		p->type     = MsOleRootT;
 		p->size     = 0;
 		p->children = NULL;
 		p->parent   = NULL;
@@ -1992,7 +1989,7 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
  * Return value: error status
  **/
 static MsOleErr
-pps_create (GList **p, GList *parent, const char *name, PPSType type)
+pps_create (GList **p, GList *parent, const char *name, MsOleType type)
 {
 	PPS *pps, *par;
 
@@ -2043,8 +2040,8 @@ find_in_pps (GList *l, const char *name)
 	pps = l->data;
 	g_return_val_if_fail (IS_PPS (pps), NULL);
 	
-	if (pps->type == MsOlePPSStorage ||
-	    pps->type == MsOlePPSRoot)
+	if (pps->type == MsOleStorageT ||
+	    pps->type == MsOleRootT)
 		cur = pps->children;
 	else {
 		g_warning ("trying to enter a stream '%s'",
@@ -2106,7 +2103,7 @@ path_to_pps (PPS **pps, MsOle *f, const char *path,
 		cur = find_in_pps (parent, dirs[lp]);
 		
 		if (!cur && create_if_not_found &&
-		    pps_create (&cur, parent, dirs[lp], MsOlePPSStorage) !=
+		    pps_create (&cur, parent, dirs[lp], MsOleStorageT) !=
 		    MS_OLE_ERR_OK)
 			cur = NULL;
 		/* else carry on not finding them before dropping out */
@@ -2118,6 +2115,12 @@ path_to_pps (PPS **pps, MsOle *f, const char *path,
 	if (!cur || !cur->data)
 		return MS_OLE_ERR_EXIST;
 
+	if (file[0] == '\0') { /* We just want a directory */
+		*pps = cur->data;
+		g_return_val_if_fail (IS_PPS (cur->data), MS_OLE_ERR_INVALID);
+		return MS_OLE_ERR_OK;
+	}
+
 	parent = cur;
 	cur = find_in_pps (parent, file);
 
@@ -2125,7 +2128,7 @@ path_to_pps (PPS **pps, MsOle *f, const char *path,
 	if (!cur) {
 		if (create_if_not_found) {
 			MsOleErr result;
-			result = pps_create (&cur, parent, file, MsOlePPSStream);
+			result = pps_create (&cur, parent, file, MsOleStreamT);
 			if (result == MS_OLE_ERR_OK) {
 				*pps = cur->data;
 				g_return_val_if_fail (IS_PPS (cur->data),
@@ -2146,6 +2149,75 @@ path_to_pps (PPS **pps, MsOle *f, const char *path,
 	return MS_OLE_ERR_EXIST;
 }
 
+MsOleErr
+ms_ole_unlink (MsOle *f, const char *path)
+{
+	g_warning ("Unimplemented");
+	return MS_OLE_ERR_NOTEMPTY;
+}
+
+MsOleErr
+ms_ole_directory (char ***names, MsOle *f, const char *path)
+{
+	char    **ans;
+	PPS      *pps;
+	MsOleErr  result;
+	GList    *l;
+	int       lp;
+
+	g_return_val_if_fail (f != NULL, MS_OLE_ERR_BADARG);
+	g_return_val_if_fail (path != NULL, MS_OLE_ERR_BADARG);
+
+	if ((result = path_to_pps (&pps, f, path, "", FALSE)) !=
+	    MS_OLE_ERR_OK)
+		return result;
+
+	if (!pps)
+		return MS_OLE_ERR_INVALID;
+
+	l   = pps->children;
+	ans = g_new (char *, g_list_length (l) + 1);
+	
+	lp = 0;
+	for (; l; l = g_list_next (l)) {
+		pps = (PPS *)l->data;
+
+		if (!pps->name)
+			continue;
+
+		ans[lp] = g_strdup (pps->name);
+		lp++;
+	}
+	ans[lp] = NULL;
+
+	*names = ans;
+	return MS_OLE_ERR_OK;
+}
+
+MsOleErr
+ms_ole_stat (MsOleStat *stat, MsOle *f, const char *path,
+	     const char *file)
+{
+	PPS      *pps;
+	MsOleErr  result;
+
+	g_return_val_if_fail (f != NULL, MS_OLE_ERR_BADARG);
+	g_return_val_if_fail (file != NULL, MS_OLE_ERR_BADARG);
+	g_return_val_if_fail (path != NULL, MS_OLE_ERR_BADARG);
+	g_return_val_if_fail (stat != NULL, MS_OLE_ERR_BADARG);
+
+	if ((result = path_to_pps (&pps, f, path, file, FALSE)) !=
+	    MS_OLE_ERR_OK)
+		return result;
+
+	if (!pps)
+		return MS_OLE_ERR_INVALID;
+
+	stat->type = pps->type;
+	stat->size = pps->size;
+
+	return MS_OLE_ERR_OK;
+}
 /**
  * ms_ole_stream_open:
  * @d: directory entry handle
@@ -2313,6 +2385,7 @@ ms_ole_stream_duplicate (MsOleStream **s, const MsOleStream * const stream)
 	if (!s || !stream)
 		return MS_OLE_ERR_BADARG;
 
+	/* Lets face it having two pointers to the same file is a nightmare anyway :-) */
 	g_warning ("Do NOT use this function, it is unsafe with the blocks array");
 
 	if (!(*s = g_new (MsOleStream, 1)))

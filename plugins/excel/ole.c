@@ -117,30 +117,34 @@ get_escher_opcode_name (guint16 opcode)
 static void
 list_files (MsOle *ole)
 {
-	MsOleDirectory *dir = ms_ole_path_decode (ole, cur_dir);
-	g_assert (dir);
+	char     **names;
+	MsOleErr   result;
+	int        lp;
 
-	while (ms_ole_directory_next(dir)) {
-		if (dir->type == MsOlePPSStream)
-			printf ("'%25s : length %d bytes\n", dir->name, dir->length);
-		else if (dir->type == MsOlePPSStorage)
-			printf ("'[%s] : Storage ( directory )\n", dir->name);
+	result = ms_ole_directory (&names, ole, cur_dir);
+	if (result != MS_OLE_ERR_OK) {
+		g_warning ("Failed dir");
+		return;
+	}
+
+	if (!names[0])
+		g_warning ("You entered a file !");
+
+	for (lp = 0; names[lp]; lp++) {
+		MsOleStat s;
+		result = ms_ole_stat (&s, ole, cur_dir, names[lp]);
+
+		if (s.type == MsOleStreamT)
+			printf ("'%25s : length %d bytes\n", names[lp], s.size);
 		else
-			printf ("Wierd - '%25s' : type %d, length %d bytes\n", dir->name, dir->type, dir->length);
+			printf ("'[%s] : Storage ( directory )\n", names [lp]);
+		
 	}
 }
 
 static void
-syntax_error(char *err)
+list_commands ()
 {
-	if (err) {
-		printf("Error; '%s'\n",err);
-		exit(1);
-	}
-		
-	printf ("Sytax:\n");
-	printf (" ole <ole-file> [-i] [commands...]\n\n");
-	printf (" -i: Interactive, queries for fresh commands\n\n");
 	printf ("command can be one or all of:\n");
 	printf (" * ls:                   list files\n");
 	printf (" * cd:                   enter storage\n");
@@ -156,6 +160,20 @@ syntax_error(char *err)
 	printf (" * copyin  [<fname>,]...\n");
 	printf (" * copyout [<fname>,]...\n");
 	printf (" * quit,exit,bye:        exit\n");
+}
+
+static void
+syntax_error(char *err)
+{
+	if (err) {
+		printf("Error; '%s'\n",err);
+		exit(1);
+	}
+		
+	printf ("Sytax:\n");
+	printf (" ole <ole-file> [-i] [commands...]\n\n");
+	printf (" -i: Interactive, queries for fresh commands\n\n");
+	list_commands ();
 	exit(1);
 }
 
@@ -241,7 +259,7 @@ esh_header_destroy (ESH_HEADER *h)
 static int
 biff_to_flat_data (const BiffQuery *q, guint8 **data, guint32 *length)
 {
-	BiffQuery *nq = ms_biff_query_copy (q);
+/*	BiffQuery *nq = ms_biff_query_copy (q);
 	guint8 *ptr;
 	int cnt=0;
 
@@ -264,8 +282,10 @@ biff_to_flat_data (const BiffQuery *q, guint8 **data, guint32 *length)
 		ms_biff_query_next(nq);
 	} while (nq->opcode == BIFF_CONTINUE ||
 		 nq->opcode == BIFF_MS_O_DRAWING ||
-		 nq->opcode == BIFF_MS_O_DRAWING_GROUP);
-	return cnt;
+		 nq->opcode == BIFF_MS_O_DRAWING_GROUP);*/
+	g_warning ("This needs re-implementing by Jody");
+
+	return 0;
 }
 
 /* ---------------------------- End cut ---------------------------- */
@@ -301,7 +321,6 @@ static void
 enter_dir (MsOle *ole)
 {
 	char *newpath, *ptr;
-	MsOleDirectory *dir;
 
 	ptr = strtok (NULL, delim);
 	if (!ptr) {
@@ -327,51 +346,80 @@ enter_dir (MsOle *ole)
 		cur_dir = newp->str;
 		g_string_free (newp, FALSE);
 	} else {
+		MsOleStat s;
+		MsOleErr  result;
+
 		newpath = g_strconcat (cur_dir, ptr, "/", NULL);
 
-		dir = ms_ole_path_decode (ole, newpath);
-		if (!dir) {
+		result = ms_ole_stat (&s, ole, newpath, "");
+		if (result == MS_OLE_ERR_EXIST) {
 			printf ("Storage '%s' not found\n", ptr);
-			ms_ole_directory_destroy (dir);
-		} else {
-			g_free (cur_dir);
-			cur_dir = newpath;
+			g_free (newpath);
+			return;
 		}
+		if (result != MS_OLE_ERR_OK) {
+			g_warning ("internal error");
+			g_free (newpath);
+			return;
+		}
+		if (s.type != MsOleStorageT ||
+		    s.type != MsOleRootT) {
+			printf ("Trying to enter a stream");
+			g_free (newpath);
+			return;
+		}
+
+		g_free (cur_dir);
+		cur_dir = newpath;
 	}
 }
 
 static void
 do_dump (MsOle *ole)
 {
-	char *ptr;
-	MsOleDirectory *dir;
+	char        *ptr;
+	MsOleStream *stream;
+	guint8      *buffer;
 
 	ptr = strtok (NULL, delim);
-	if ((dir = ms_ole_file_decode (ole, cur_dir, ptr)))
-	{
-		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
-		guint8 *buffer = g_malloc (dir->length);
-		stream->read_copy (stream, buffer, dir->length);
-		printf ("Stream : '%s' length 0x%x\n", ptr, dir->length);
-		if (buffer)
-			dump (buffer, dir->length);
-		else
-			printf ("Failed read\n");
-		ms_ole_stream_close (stream);
-	} else
+	if (!ptr) {
 		printf ("Need a stream name\n");
+		return;
+	}
+       
+	if (ms_ole_stream_open (&stream, ole, cur_dir, ptr, 'r') !=
+	    MS_OLE_ERR_OK) {
+		printf ("Error opening '%s'\n", ptr);
+		return;
+	}
+	buffer = g_malloc (stream->size);
+	stream->read_copy (stream, buffer, stream->size);
+	printf ("Stream : '%s' length 0x%x\n", ptr, stream->size);
+	if (buffer)
+		dump (buffer, stream->size);
+	else
+		printf ("Failed read\n");
+	ms_ole_stream_close (&stream);
 }
 
 static void
 do_biff (MsOle *ole)
 {
 	char *ptr;
-	MsOleDirectory *dir;
+	MsOleStream *stream;
 	
 	ptr = strtok (NULL, delim);
-	if ((dir = ms_ole_file_decode (ole, cur_dir, ptr)))
+	if (!ptr) {
+		printf ("Need a stream name\n");
+		return;
+	}
+       
+	if (ms_ole_stream_open (&stream, ole, cur_dir, ptr, 'r') !=
+	    MS_OLE_ERR_OK) {
+		printf ("Error opening '%s'\n", ptr);
+		return;
+	}
 	{
-		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
 		BiffQuery *q = ms_biff_query_new (stream);
 		guint16 last_opcode=0xffff;
 		guint32 last_length=0;
@@ -393,21 +441,28 @@ do_biff (MsOle *ole)
 			last_length=q->length;
 		}
 		printf ("\n");
-		ms_ole_stream_close (stream);
-	} else
-		printf ("Need a stream name\n");
+		ms_ole_stream_close (&stream);
+	}
 }
 
 static void
 do_biff_raw (MsOle *ole)
 {
 	char *ptr;
-	MsOleDirectory *dir;
+	MsOleStream *stream;
 	
 	ptr = strtok (NULL, delim);
-	if ((dir = ms_ole_file_decode (ole, cur_dir, ptr)))
+	if (!ptr) {
+		printf ("Need a stream name\n");
+		return;
+	}
+       
+	if (ms_ole_stream_open (&stream, ole, cur_dir, ptr, 'r') !=
+	    MS_OLE_ERR_OK) {
+		printf ("Error opening '%s'\n", ptr);
+		return;
+	}
 	{
-		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
 		guint8 data[4], *buffer;
 		
 		buffer = g_new (guint8, 65550);
@@ -421,21 +476,27 @@ do_biff_raw (MsOle *ole)
 			buffer[0]=0;
 			buffer[len-1]=0;
 		}
-		ms_ole_stream_close (stream);
-	} else
-		printf ("Need a stream name\n");
+		ms_ole_stream_close (&stream);
+	}
 }
 
 static void
 do_draw (MsOle *ole, gboolean raw)
 {
 	char *ptr;
-	MsOleDirectory *dir;
-
+	MsOleStream *stream;
+	
 	ptr = strtok (NULL, delim);
-	if ((dir = ms_ole_file_decode (ole, cur_dir, ptr)))
-	{
-		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
+	if (!ptr) {
+		printf ("Need a stream name\n");
+		return;
+	}
+       
+	if (ms_ole_stream_open (&stream, ole, cur_dir, ptr, 'r') !=
+	    MS_OLE_ERR_OK) {
+		printf ("Error opening '%s'\n", ptr);
+		return;
+	} else {
 		BiffQuery *q = ms_biff_query_new (stream);
 		while (ms_biff_query_next(q)) {
 			if (q->ls_op == BIFF_MS_O_DRAWING ||
@@ -451,32 +512,32 @@ do_draw (MsOle *ole, gboolean raw)
 			}
 		}
 		printf ("\n");
-		ms_ole_stream_close (stream);
-	} else
-		printf ("Need a stream name\n");
+		ms_ole_stream_close (&stream);
+	}
 }
 
 static void
 really_get (MsOle *ole, char *from, char *to)
 {
-	MsOleDirectory *dir;
-
-	if ((dir = ms_ole_file_decode (ole, cur_dir, from)))
-	{
-		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
-		guint8 *buffer = g_malloc (dir->length);
+	MsOleStream *stream;
+	
+	if (ms_ole_stream_open (&stream, ole, cur_dir, from, 'r') !=
+	    MS_OLE_ERR_OK) {
+		printf ("Error opening '%s'\n", from);
+		return;
+	} else {
+		guint8 *buffer = g_malloc (stream->size);
 		FILE *f = fopen (to, "w");
-		stream->read_copy (stream, buffer, dir->length);
-		printf ("Stream : '%s' length 0x%x\n", from, dir->length);
+		stream->read_copy (stream, buffer, stream->size);
+		printf ("Stream : '%s' length 0x%x\n", from, stream->size);
 		if (f && buffer) {
-			fwrite (buffer, 1, dir->length, f);
+			fwrite (buffer, 1, stream->size, f);
 			fclose (f);
 		} else
 			printf ("Failed write to '%s'\n", to);
-		ms_ole_stream_close (stream);
+		ms_ole_stream_close (&stream);
 
-	} else
-		printf ("Need a stream name\n");
+	}
 }
 
 static void
@@ -492,7 +553,6 @@ do_get (MsOle *ole)
 static void
 really_put (MsOle *ole, char *from, char *to)
 {
-	MsOleDirectory *dir;
 	MsOleStream *stream;
 	char buffer[8200];
 
@@ -501,17 +561,15 @@ really_put (MsOle *ole, char *from, char *to)
 		return;
 	}
 
-	if (!(dir = ms_ole_file_decode (ole, cur_dir, to)))
-		dir = ms_ole_directory_create (ms_ole_path_decode (ole, cur_dir),
-					       to, MsOlePPSStream);
-		
-	if (dir)
-	{
+	if (ms_ole_stream_open (&stream, ole, cur_dir, to, 'w') !=
+	    MS_OLE_ERR_OK) {
+		printf ("Error opening '%s'\n", to);
+		return;
+	} else {
 		FILE *f = fopen (from, "r");
 		size_t len;
 		int block=0;
 
-		stream = ms_ole_stream_open (dir, 'w');
 		if (!f || !stream) {
 			printf ("Failed write\n");
 			return;
@@ -527,9 +585,8 @@ really_put (MsOle *ole, char *from, char *to)
 		} while (!feof(f) && len>0);
 
 		fclose (f);
-		ms_ole_stream_close (stream);
-	} else
-		printf ("Need a stream name\n");
+		ms_ole_stream_close (&stream);
+	}
 }
 
 static void
@@ -721,13 +778,11 @@ int main (int argc, char **argv)
 		syntax_error(0);
 
 	printf ("Ole file '%s'\n", argv[1]);
-	ole = ms_ole_open (argv[1]);
-	if (!ole) {
+	if (ms_ole_open (&ole, argv[1]) != MS_OLE_ERR_OK) {
 		printf ("Creating new file '%s'\n", argv[1]);
-		ole = ms_ole_create (argv[1]);
+		if (ms_ole_create (&ole, argv[1]) != MS_OLE_ERR_OK)
+			syntax_error ("Can't open file or create new one");
 	}
-	if (!ole)
-		syntax_error ("Can't open file or create new one");
 
 	if (argc<=2)
 		syntax_error ("Need command or -i");
@@ -786,6 +841,11 @@ int main (int argc, char **argv)
 			ms_ole_debug (ole, 1);
 		else if (g_strcasecmp(ptr, "vba")==0)
 			dump_vba (ole);
+		else if (g_strcasecmp(ptr,"help")==0 ||
+			   g_strcasecmp(ptr,"?")==0 ||
+			   g_strcasecmp(ptr,"info")==0 ||
+			   g_strcasecmp(ptr,"man")==0)
+			list_commands ();
 		else if (g_strcasecmp(ptr,"exit")==0 ||
 			   g_strcasecmp(ptr,"quit")==0 ||
 			   g_strcasecmp(ptr,"q")==0 ||
@@ -794,21 +854,18 @@ int main (int argc, char **argv)
 	}
 	while (!exit && interact);
 
-	ms_ole_destroy (ole);
+	ms_ole_destroy (&ole);
 	return 1;
 }
 
 static void
-dump_vba_module (MsOleDirectory *dir)
+dump_vba_module (MsOle *f, const char *path, const char *name)
 {
 	MsOleStream *s;
 
-	g_return_if_fail (dir != NULL);
-
-	s = ms_ole_stream_open (dir, 'r');
-
-	if (!s) {
-		printf ("Strange: can't open '%s'\n", dir->name);
+	if (ms_ole_stream_open (&s, f, path, name, 'r') !=
+	    MS_OLE_ERR_OK) {
+		printf ("Strange: can't open '%s%s'\n", path, name);
 		return;
 	}
 
@@ -819,7 +876,7 @@ dump_vba_module (MsOleDirectory *dir)
 
 		data = g_new (guint8, s->size);
 		if (!s->read_copy (s, data, s->size)) {
-			printf ("Strange: failed read of module '%s'\n", dir->name);
+			printf ("Strange: failed read of module '%s%s'\n", path, name);
 			return;
 		}
 		
@@ -850,27 +907,31 @@ dump_vba_module (MsOleDirectory *dir)
 		g_free (data);
 	}
 	
-	ms_ole_stream_close (s);
+	ms_ole_stream_close (&s);
 }
 
 /* Hack - leave it here for now */
 static void
 dump_vba (MsOle *f)
 {
-	MsOleDirectory *dir;
+	const char *vbapath = "/_VBA_PROJECT_CUR";
+	char **dir;
 	MsOleStream *s;
+	MsOleStat    st;
 	char *txt;
+	int   i;
+	int   module_count;
 
-	dir = ms_ole_path_decode (f, "_VBA_PROJECT_CUR");
-	if (!dir) {
-		printf ("No VBA found\n");
+	if (ms_ole_stat (&st, f, vbapath, "") != MS_OLE_ERR_OK ||
+	    st.type == MsOleStreamT) {
+		printf ("No valid VBA found\n");
 		return;
 	}
 
-	s   = ms_ole_stream_open_name (f, "/_VBA_PROJECT_CUR/PROJECT", 'r');
-	if (!s)
+	if (ms_ole_stream_open (&s, f, vbapath, "PROJECT", 'r') !=
+	    MS_OLE_ERR_OK) {
 		printf ("No project file... wierd\n");
-	else {
+	} else {
 		txt = g_new (guint8, s->size);
 		if (!s->read_copy (s, txt, s->size))
 			printf ("Failed to read project stream\n");
@@ -880,37 +941,29 @@ dump_vba (MsOle *f)
 			printf ("%s", txt);
 			printf ("----------\n");
 		}
-		ms_ole_stream_close (s);
+		ms_ole_stream_close (&s);
 	}
 
-	dir = ms_ole_path_decode (f, "/_VBA_PROJECT_CUR/VBA");
-	if (!dir) {
-		printf ("No VBA subdirectory found\n");
+	txt = g_strconcat (vbapath, "/VBA", NULL);
+	if (ms_ole_directory (&dir, f, txt) != MS_OLE_ERR_OK) {
+		printf ("No VBA subdirectory found");
+		g_free (txt);
 		return;
 	}
 
-	{
-		int module_count = 0;
-		MsOleDirectory *tmp = ms_ole_directory_copy (dir);
+	module_count = 0;
+	for (i = 0; dir[i]; i++) {
 
-		ms_ole_directory_enter (tmp);
-
-		while (ms_ole_directory_next(tmp)) {
-			if (!tmp->name) {
-				printf ("Odd: NULL dirctory name\n");
-				continue;
-			}
-			if (!g_strncasecmp (tmp->name, "Module", 6)) {
-				printf ("Module : %d = '%s'\n", module_count, tmp->name);
-				printf ("----------\n");
-				dump_vba_module (tmp);
-				printf ("----------\n");
-				module_count++;
-			}
+		if (!g_strncasecmp (dir[i], "Module", 6)) {
+			printf ("Module : %d = '%s'\n", module_count, dir[i]);
+			printf ("----------\n");
+			dump_vba_module (f, txt, dir[i]);
+			printf ("----------\n");
+			module_count++;
 		}	
-		if (!module_count)
-			printf ("Strange no modules found\n");
-
-		ms_ole_directory_destroy (tmp);
 	}
+	if (!module_count)
+		printf ("Strange no modules found\n");
+
+	g_free (txt);
 }
