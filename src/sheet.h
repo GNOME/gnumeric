@@ -150,13 +150,12 @@ void        sheet_cell_remove             (Sheet *sheet, Cell *cell, gboolean re
 void	    sheet_cell_remove_simple	  (Sheet *sheet, Cell *cell);
 
 /* Iteration utilities */
-typedef  gboolean (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *info,
-					    void *user_data);
+typedef  gboolean (*sheet_col_row_callback)(ColRowInfo *info, void *user_data);
 
-void        sheet_foreach_colrow	 (Sheet *sheet, ColRowCollection *infos,
-					  int start_col, int end_col,
-					  sheet_col_row_callback callback,
-					  void *user_data);
+gboolean    sheet_foreach_colrow	  (ColRowCollection const *infos,
+					   int start_col, int end_col,
+					   sheet_col_row_callback callback,
+					   void *user_data);
 
 /* See also : workbook_foreach_cell_in_range */
 Value      *sheet_cell_foreach_range      (Sheet *sheet, int only_existing,
@@ -286,9 +285,7 @@ void           sheet_style_list_destroy         (GList *l);
 SpanCalcFlags  sheet_style_attach_list          (Sheet *sheet, const GList *l,
 						 const CellPos *corner, gboolean transpose);
 
-gboolean       sheet_range_splits_array   (Sheet const *sheet,
-					   int const start_col, int const start_row,
-					   int end_col, int end_row);
+gboolean       sheet_range_splits_array   (Sheet const *sheet, Range const *r);
 
 /* Redraw */
 void        sheet_redraw_all              (Sheet const *sheet);
@@ -391,9 +388,9 @@ typedef enum
 
 void  sheet_clear_region (CommandContext *context,
 			  Sheet *sheet,
-			  int const start_col, int const start_row,
-			  int const end_col, int const end_row,
-			  int const clear_flags);
+			  int start_col, int start_row,
+			  int end_col, int end_row,
+			  int clear_flags);
 
 void sheet_vectors_shutdown    (Sheet *sheet);
 

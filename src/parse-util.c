@@ -488,7 +488,7 @@ parse_cell_name_list (Sheet *sheet,
  * @val : Returns a Value * if the text was a value, otherwise NULL.
  * @expr: Returns an ExprTree * if the text was an expression, otherwise NULL.
  * @current_format : An optional string with the current number format.  Not
- *                   fully implemented
+ *                   implemented
  *
  * Returns : A pointer to the optimal format to display the value or
  *     expression result, possibly NULL if there is no preffered format.

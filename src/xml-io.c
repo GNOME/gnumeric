@@ -1625,7 +1625,7 @@ typedef struct
 } closure_write_colrow;
 
 static gboolean
-xml_write_colrow_info (Sheet *sheet, ColRowInfo *info, void *user_data)
+xml_write_colrow_info (ColRowInfo *info, void *user_data)
 {
 	closure_write_colrow * closure = user_data;
 	xmlNodePtr cur;
@@ -2396,7 +2396,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 		closure.is_column = TRUE;
 		closure.container = cols;
 		closure.ctxt = ctxt;
-		sheet_foreach_colrow (sheet, &sheet->cols,
+		sheet_foreach_colrow (&sheet->cols,
 				      0, SHEET_MAX_COLS-1,
 				      &xml_write_colrow_info, &closure);
 	}
@@ -2410,7 +2410,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 		closure.is_column = FALSE;
 		closure.container = rows;
 		closure.ctxt = ctxt;
-		sheet_foreach_colrow (sheet, &sheet->rows,
+		sheet_foreach_colrow (&sheet->rows,
 				      0, SHEET_MAX_ROWS-1,
 				      &xml_write_colrow_info, &closure);
 	}

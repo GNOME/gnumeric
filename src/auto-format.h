@@ -40,7 +40,7 @@ typedef enum {
 
 	/*
 	 * Things like COUNT(...).  This probably should not be used for
-	 * auto_format_suggest.
+	 * auto_style_format_suggest.
 	 */
 	AF_UNITLESS,
 
@@ -56,7 +56,6 @@ void auto_format_init (void);
 void auto_format_shutdown (void);
 
 void auto_format_function_result (FunctionDefinition *fd, AutoFormatTypes res);
-char *auto_format_suggest (const ExprTree *expr, const EvalPos *ppos);
 StyleFormat *auto_style_format_suggest (const ExprTree *expr, const EvalPos *epos);
 
 #endif

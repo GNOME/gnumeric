@@ -50,7 +50,7 @@ gnumeric_wb_dialog_run (Workbook *wb, GnomeDialog *dialog)
 	gint res;
 	GtkObject * const app = GTK_OBJECT (wb->toplevel);
 
-	if (GTK_WINDOW (dialog)->transient_parent != wb->toplevel)
+	if (GTK_WINDOW (dialog)->transient_parent != GTK_WINDOW (wb->toplevel))
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
 					 GTK_WINDOW (wb->toplevel));
 

@@ -43,6 +43,7 @@
 /* The size, mask, and shift must be kept in sync */
 #define COLROW_SEGMENT_SIZE	0x80
 #define COLROW_SUB_INDEX(i)	((i) & 0x7f)
+#define COLROW_SEGMENT_START(i)	((i) & ~(0x7f))
 #define COLROW_SEGMENT_END(i)	((i) | 0x7f)
 #define COLROW_SEGMENT_INDEX(i)	((i) >> 7)
 #define COLROW_GET_SEGMENT(seg_array, i) \
@@ -255,8 +256,8 @@ sheet_new (Workbook *wb, const char *name)
  * Currently only support left -> right iteration.  If a callback returns
  * TRUE iteration stops.
  */
-void
-sheet_foreach_colrow (Sheet *sheet, ColRowCollection *infos,
+gboolean
+sheet_foreach_colrow (ColRowCollection const *infos,
 		      int start, int stop,
 		      sheet_col_row_callback callback, void *user_data)
 {
@@ -268,34 +269,34 @@ sheet_foreach_colrow (Sheet *sheet, ColRowCollection *infos,
 
 	i = start;
 	while (i <= stop) {
-		ColRowInfo **segment = COLROW_GET_SEGMENT (infos, i);
+		ColRowInfo * const * segment = COLROW_GET_SEGMENT (infos, i);
 		int sub = COLROW_SUB_INDEX(i);
 
 		i += COLROW_SEGMENT_SIZE - sub;
-		if (segment != NULL)
-			for (; sub < COLROW_SEGMENT_SIZE; ++sub) {
-				ColRowInfo * info = segment[sub];
-				if (info != NULL)
-					if ((*callback)(sheet, info, user_data))
-						return;
-			}
+		if (segment == NULL)
+			continue;
+
+		for (; sub < COLROW_SEGMENT_SIZE; ++sub) {
+			ColRowInfo * info = segment[sub];
+			if (info != NULL && (*callback)(info, user_data))
+				return TRUE;
+		}
 	}
+	return FALSE;
 }
 
-static gboolean
-colrow_compute_pixels_from_pts (Sheet *sheet, ColRowInfo *info, void *data)
+static void
+colrow_compute_pixels_from_pts (Sheet *sheet, ColRowInfo *info, gboolean const horizontal)
 {
 	double const scale =
 	    sheet->last_zoom_factor_used *
-	    application_display_dpi_get ((gboolean)data) / 72.;
+	    application_display_dpi_get (horizontal) / 72.;
 
 	/* 1) round to the nearest pixel
 	 * 2) XL appears to scale including the margins & grid lines
 	 *    but not the scale them.  So the size of the cell changes ???
 	 */
 	info->size_pixels = (int)(info->size_pts * scale + 0.5);
-
-	return FALSE;
 }
 static void
 colrow_compute_pts_from_pixels (Sheet *sheet, ColRowInfo *info, gboolean const horizontal)
@@ -308,6 +309,19 @@ colrow_compute_pts_from_pixels (Sheet *sheet, ColRowInfo *info, gboolean const h
 	 * but not the scale them.  So the size of the cell changes ???
 	 */
 	info->size_pts = info->size_pixels / scale;
+}
+
+struct resize_colrow {
+	Sheet *sheet;
+	gboolean horizontal;
+};
+
+static gboolean
+cb_colrow_compute_pixels_from_pts (ColRowInfo *info, void *data)
+{
+	struct resize_colrow *closure = data;
+	colrow_compute_pixels_from_pts (closure->sheet, info, closure->horizontal);
+	return FALSE;
 }
 
 /****************************************************************************/
@@ -443,6 +457,7 @@ void
 sheet_set_zoom_factor (Sheet *sheet, double const f)
 {
 	GList *l, *cl;
+	struct resize_colrow closure;
 
 	/* Bound zoom between 10% and 500% */
 	double const factor = (f < .1) ? .1 : ((f > 5.) ? 5. : f);
@@ -454,14 +469,17 @@ sheet_set_zoom_factor (Sheet *sheet, double const f)
 	sheet->last_zoom_factor_used = factor;
 
 	/* First, the default styles */
-	colrow_compute_pixels_from_pts (sheet, &sheet->rows.default_style, (void*)FALSE);
-	colrow_compute_pixels_from_pts (sheet, &sheet->cols.default_style, (void*)TRUE);
+	colrow_compute_pixels_from_pts (sheet, &sheet->rows.default_style, FALSE);
+	colrow_compute_pixels_from_pts (sheet, &sheet->cols.default_style, TRUE);
 
 	/* Then every column and row */
-	sheet_foreach_colrow (sheet, &sheet->rows, 0, SHEET_MAX_ROWS-1,
-			      &colrow_compute_pixels_from_pts, (void*)FALSE);
-	sheet_foreach_colrow (sheet, &sheet->cols, 0, SHEET_MAX_COLS-1,
-			      &colrow_compute_pixels_from_pts, (void*)TRUE);
+	closure.sheet = sheet;
+	closure.horizontal = TRUE;
+	sheet_foreach_colrow (&sheet->cols, 0, SHEET_MAX_COLS-1,
+			      &cb_colrow_compute_pixels_from_pts, &closure);
+	closure.horizontal = FALSE;
+	sheet_foreach_colrow (&sheet->rows, 0, SHEET_MAX_ROWS-1,
+			      &cb_colrow_compute_pixels_from_pts, &closure);
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
@@ -1011,10 +1029,16 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row)
 	return max;
 }
 
+struct recalc_span_closure {
+	Sheet *sheet;
+	int col;
+};
+
 static gboolean
-cb_recalc_spans_in_col (Sheet *sheet, ColRowInfo *ri, gpointer user)
+cb_recalc_spans_in_col (ColRowInfo *ri, gpointer user)
 {
-	int const col = GPOINTER_TO_INT(user);
+	struct recalc_span_closure *closure = user;
+	int const col = closure->col;
 	int left, right;
 	CellSpanInfo const * span = row_span_get (ri, col);
 
@@ -1028,7 +1052,7 @@ cb_recalc_spans_in_col (Sheet *sheet, ColRowInfo *ri, gpointer user)
 		}
 	} else {
 		/* If there is a cell see if it started to span */
-		Cell const * const cell = sheet_cell_get (sheet, col, ri->pos);
+		Cell const * const cell = sheet_cell_get (closure->sheet, col, ri->pos);
 		if (cell) {
 			cell_calc_span (cell, &left, &right);
 			if (left != right)
@@ -1050,9 +1074,9 @@ cb_recalc_spans_in_col (Sheet *sheet, ColRowInfo *ri, gpointer user)
 void
 sheet_recompute_spans_for_col (Sheet *sheet, int col)
 {
-	sheet_foreach_colrow (sheet, &sheet->rows,
+	sheet_foreach_colrow (&sheet->rows,
 			      0, SHEET_MAX_ROWS-1,
-			      (sheet_col_row_callback) &cb_recalc_spans_in_col,
+			      &cb_recalc_spans_in_col,
 			      GINT_TO_POINTER(col));
 }
 
@@ -1413,6 +1437,12 @@ sheet_redraw_cell_region (Sheet const *sheet,
 					max_col = MAX (span1->right, max_col);
 				}
 			}
+			/* skip segments with no cells */
+		} else if (row == COLROW_SEGMENT_START (row)) {
+			ColRowInfo const * const * const segment =
+				COLROW_GET_SEGMENT(&(sheet->rows), row);
+			if (segment == NULL)
+				row = COLROW_SEGMENT_END (row);
 		}
 	}
 
@@ -1541,7 +1571,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 		if (jump_to_boundaries) {
 			if (new_col > sheet->cols.max_used) {
 				if (count > 0)
-					return find_nonblank ? SHEET_MAX_COLS-1 : prev_col;
+					return (find_nonblank || iterations == 1) ? SHEET_MAX_COLS-1 : prev_col;
 				new_col = sheet->cols.max_used;
 			}
 			keep_looking = (cell_is_blank (sheet_cell_get (sheet, new_col, row)) == find_nonblank);
@@ -1607,7 +1637,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 		if (jump_to_boundaries) {
 			if (new_row > sheet->rows.max_used) {
 				if (count > 0)
-					return find_nonblank ? SHEET_MAX_ROWS-1 : prev_row;
+					return (find_nonblank || iterations == 1) ? SHEET_MAX_ROWS-1 : prev_row;
 				new_row = sheet->rows.max_used;
 			}
 
@@ -1636,6 +1666,56 @@ sheet_is_cell_array (Sheet const *sheet, int const col, int const row)
 	return cell_is_array (sheet_cell_get (sheet, col, row));
 }
 
+typedef enum {
+	CHECK_AND_LOAD_START = 1,
+	CHECK_END = 2,
+	LOAD_END  = 4
+} ArrayCheckFlags;
+
+typedef struct _ArrayCheckData {
+	Sheet const *sheet;
+	int flags;
+	int start, end;
+} ArrayCheckData;
+
+static gboolean
+cb_check_array_horizontal (ColRowInfo *col, void *user)
+{
+	ArrayCheckData *data = user;
+	ExprArray const *a = NULL;
+
+	if (data->flags & CHECK_AND_LOAD_START) {
+		if ((a = sheet_is_cell_array (data->sheet, col->pos, data->start)) != NULL)
+			if (a->y != 0)		/* Top */
+				return TRUE;
+	}
+	if (data->flags & LOAD_END)
+		a = sheet_is_cell_array (data->sheet, col->pos, data->end);
+
+	if (data->flags & CHECK_END)
+		return (a != NULL) && (a->y != (a->rows-1));	/* Bottom */
+	return FALSE;
+}
+
+static gboolean
+cb_check_array_vertical (ColRowInfo *row, void *user)
+{
+	ArrayCheckData *data = user;
+	ExprArray const *a = NULL;
+
+	if (data->flags & CHECK_AND_LOAD_START) {
+		if ((a = sheet_is_cell_array (data->sheet, data->start, row->pos)) != NULL)
+			if (a->x != 0)		/* Left */
+				return TRUE;
+	}
+	if (data->flags & LOAD_END)
+		a = sheet_is_cell_array (data->sheet, data->end, row->pos);
+
+	if (data->flags & CHECK_END)
+		return (a != NULL) && (a->x != (a->cols-1));	/* Right */
+	return FALSE;
+}
+
 /**
  * sheet_range_splits_array : * Check the outer edges of range to ensure that
  *         if an array is within it then the entire array is within the range.
@@ -1643,46 +1723,50 @@ sheet_is_cell_array (Sheet const *sheet, int const col, int const row)
  * returns TRUE is an array would be split.
  */
 gboolean
-sheet_range_splits_array (Sheet const *sheet,
-			  int const start_col, int const start_row,
-			  int end_col, int end_row)
+sheet_range_splits_array (Sheet const *sheet, Range const *r)
 {
-	ExprArray const *a;
-	gboolean nosplit = TRUE;
-	gboolean single;
-	int r, c;
+	ArrayCheckData closure;
 
-	if (end_col > sheet->cols.max_used)
-		end_col = sheet->cols.max_used;
-	if (end_row > sheet->rows.max_used)
-		end_row = sheet->rows.max_used;
+	g_return_val_if_fail (r->start.col <= r->end.col, FALSE);
+	g_return_val_if_fail (r->start.row <= r->end.row, FALSE);
 
-	if (start_row > 0 || end_row < SHEET_MAX_ROWS-1) {
-		/* Check top & bottom */
-		single = (start_row == end_row);
-		for (c = start_col; c <= end_col && nosplit; ++c){
-			if ((a = sheet_is_cell_array (sheet, c, start_row)) != NULL)
-				nosplit &= (a->y == 0);		/* Top */
-			if (!single)
-				a = sheet_is_cell_array (sheet, c, end_row);
-			if (a != NULL)
-				nosplit &= (a->y == (a->rows-1));	/* Bottom */
-		}
+	closure.sheet = sheet;
+
+	closure.start = r->start.row;
+	closure.end = r->end.row;
+	if (closure.start <= 0) {
+		closure.flags = (closure.end < sheet->rows.max_used)
+			? CHECK_END | LOAD_END
+			: 0;
+	} else {
+		closure.flags = (closure.start == closure.end)
+			? CHECK_AND_LOAD_START | CHECK_END
+			: CHECK_AND_LOAD_START | CHECK_END | LOAD_END;
 	}
 
-	if (start_col <= 0 && end_col >= SHEET_MAX_COLS-1)
-		return !nosplit; /* No need to check */
-
-	/* Check left & right */
-	single = (start_col == end_col);
-	for (r = start_row; r <= end_row && nosplit; ++r){
-		if ((a = sheet_is_cell_array (sheet, start_col, r)) != NULL)
-			nosplit &= (a->x == 0);		/* Left */
-		if ((a=sheet_is_cell_array (sheet, end_col, r)))
-			nosplit &= (a->x == (a->cols-1)); /* Right */
+	if (closure.flags && sheet_foreach_colrow (&sheet->cols,
+						   r->start.col, r->end.col,
+						   &cb_check_array_horizontal,
+						   &closure))
+		return TRUE;
+	
+	closure.start = r->start.col;
+	closure.end = r->end.col;
+	if (closure.start <= 0) {
+		closure.flags = (closure.end < sheet->cols.max_used)
+			? CHECK_END | LOAD_END
+			: 0;
+	} else {
+		closure.flags = (closure.start == closure.end)
+			? CHECK_AND_LOAD_START | CHECK_END
+			: CHECK_AND_LOAD_START | CHECK_END | LOAD_END;
 	}
 
-	return !nosplit;
+	return closure.flags &&
+		sheet_foreach_colrow (&sheet->rows,
+				      r->start.row, r->end.row,
+				      &cb_check_array_vertical,
+				      &closure);
 }
 
 /**
@@ -1806,28 +1890,46 @@ sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
 		ColRowInfo *ci = sheet_col_get (sheet, i);
 
 		if (ci == NULL) {
-			if (!only_existing)
+			if (only_existing) {
+				/* skip segments with no cells */
+				if (j == COLROW_SEGMENT_START (i)) {
+					ColRowInfo const * const * const segment =
+						COLROW_GET_SEGMENT(&(sheet->cols), i);
+					if (segment == NULL)
+						i = COLROW_SEGMENT_END(i);
+				}
+			} else {
 				for (j = start_row; j <= end_row ; ++j) {
 					cont = (*callback)(sheet, i, j, NULL, closure);
 					if (cont != NULL)
 						return cont;
 				}
+			}
 
 			continue;
 		}
 
 		for (j = start_row; j <= end_row ; ++j) {
 			ColRowInfo *ri = sheet_row_get (sheet, j);
-			Cell * cell = NULL;
+			Cell *cell = NULL;
 
 			if (ri != NULL)
 				cell = sheet_cell_get (sheet, i, j);
 
-			if (cell != NULL || !only_existing) {
-				cont = (*callback)(sheet, i, j, cell, closure);
-				if (cont != NULL)
-					return cont;
+			if (cell == NULL && only_existing) {
+				/* skip segments with no cells */
+				if (j == COLROW_SEGMENT_START (j)) {
+					ColRowInfo const * const * const segment =
+						COLROW_GET_SEGMENT(&(sheet->rows), j);
+					if (segment == NULL)
+						j = COLROW_SEGMENT_END(j);
+				}
+				continue;
 			}
+
+			cont = (*callback)(sheet, i, j, cell, closure);
+			if (cont != NULL)
+				return cont;
 		}
 	}
 	return NULL;
@@ -2332,9 +2434,9 @@ cb_clear_cell_comments (Sheet *sheet, int col, int row, Cell *cell,
  */
 void
 sheet_clear_region (CommandContext *context, Sheet *sheet,
-		    int const start_col, int const start_row,
-		    int const end_col, int const end_row,
-		    int const clear_flags)
+		    int start_col, int start_row,
+		    int end_col, int end_row,
+		    int clear_flags)
 {
 	Range r;
 	int min_col, max_col;
@@ -2348,6 +2450,12 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 	r.start.row = start_row;
 	r.end.col = end_col;
 	r.end.row = end_row;
+
+	if (clear_flags & CLEAR_VALUES && !(clear_flags & CLEAR_NOCHECKARRAY) &&
+	    sheet_range_splits_array (sheet, &r)) {
+		gnumeric_error_splits_array (context, _("Clear"));
+		return;
+	}
 
 	/* Queue a redraw for cells being modified */
 	if (clear_flags & (CLEAR_VALUES|CLEAR_FORMATS))
@@ -2372,70 +2480,73 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 	max_col = end_col;
 
 	if (clear_flags & CLEAR_VALUES) {
-		if (clear_flags & CLEAR_NOCHECKARRAY ||
-		    !sheet_range_splits_array (sheet,
-					       start_col, start_row,
-					       end_col,   end_row)) {
+		int i, row, col[2];
+		gboolean test[2];
 
-			int row, col[2];
-			gboolean test[2];
+		/* Remove or empty the cells depending on
+		 * whether or not there are comments
+		 */
+		sheet_cell_foreach_range (sheet, TRUE,
+					  start_col, start_row, end_col, end_row,
+					  &cb_empty_cell,
+					  GINT_TO_POINTER(!(clear_flags & CLEAR_COMMENTS)));
 
-			/* Remove or empty the cells depending on
-			 * whether or not there are comments
-			 */
-			sheet_cell_foreach_range (sheet, TRUE,
-				start_col, start_row, end_col, end_row,
-				&cb_empty_cell,
-				GINT_TO_POINTER(!(clear_flags & CLEAR_COMMENTS)));
+		/*
+		 * Regen the spans from adjacent cells that may now be
+		 * able to continue.
+		 */
+		test[0] = (start_col > 0);
+		test[1] = (end_col < SHEET_MAX_ROWS-1);
+		col[0] = start_col - 1;
+		col[1] = end_col + 1;
+		for (row = start_row; row <= end_row ; ++row) {
+			ColRowInfo const *ri = sheet_row_get (sheet, row);
 
-			/*
-			 * Regen the spans from adjacent cells that may now be
-			 * able to continue.
-			 */
-			test[0] = (start_col > 0);
-			test[1] = (end_col < SHEET_MAX_ROWS-1);
-			col[0] = start_col - 1;
-			col[1] = end_col + 1;
-			for (row = start_row; row <= end_row ; ++row) {
-				ColRowInfo const * ri = sheet_row_get_info (sheet, row);
-
-				int i = 2;
-				while (i-- > 0) {
-					int left, right;
-					CellSpanInfo const *span = NULL;
-					Cell const *cell;
-
-					if (!test[i])
-						continue;
-
-					cell = sheet_cell_get (sheet, col[i], ri->pos);
-					if (cell == NULL) {
-						span = row_span_get (ri, col[i]);
-						if (span == NULL)
-							continue;
-						cell = span->cell;
-					}
-
-					cell_calc_span (cell, &left, &right);
-					if (span) {
-						if (left != span->left || right != span->right) {
-							cell_unregister_span (cell);
-							cell_register_span (cell, left, right);
-						}
-					} else if (left != right)
-						cell_register_span (cell, left, right);
-
-					/* We would not need to redraw the old span, just the new one */
-					if (min_col > left)
-						min_col = left;
-					if (max_col < right)
-						max_col = right;
+			if (ri == NULL) {
+				/* skip segments with no cells */
+				if (row == COLROW_SEGMENT_START (row)) {
+					ColRowInfo const * const * const segment =
+						COLROW_GET_SEGMENT(&(sheet->rows), row);
+					if (segment == NULL)
+						row = COLROW_SEGMENT_END(row);
 				}
+				continue;
 			}
 
-			sheet_flag_status_update_range (sheet, &r);
-		} else
-			gnumeric_error_splits_array (context, _("Clear"));
+			for (i = 2 ; i-- > 0 ; ) {
+				int left, right;
+				CellSpanInfo const *span = NULL;
+				Cell const *cell;
+
+				if (!test[i])
+					continue;
+
+				cell = sheet_cell_get (sheet, col[i], ri->pos);
+				if (cell == NULL) {
+					span = row_span_get (ri, col[i]);
+					if (span == NULL)
+						continue;
+					cell = span->cell;
+				}
+
+				cell_calc_span (cell, &left, &right);
+				if (span) {
+					if (left != span->left || right != span->right) {
+						cell_unregister_span (cell);
+						cell_register_span (cell, left, right);
+					}
+				} else if (left != right)
+					cell_register_span (cell, left, right);
+
+				/* We would not need to redraw the old span, just the new one */
+				if (min_col > left)
+					min_col = left;
+				if (max_col < right)
+					max_col = right;
+			}
+		}
+
+		sheet_flag_status_update_range (sheet, &r);
 	}
 
 	/* Always redraw */
@@ -2929,9 +3040,16 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
+	reloc_info.origin.start.col = col;
+	reloc_info.origin.start.row = 0;
+	reloc_info.origin.end.col = col + count - 1;
+	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
+	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
+	reloc_info.col_offset = SHEET_MAX_COLS; /* send them to infinity */
+	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
+
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
-	if (sheet_range_splits_array (sheet, col, 0,
-				      col+count-1, SHEET_MAX_ROWS-1)) {
+	if (sheet_range_splits_array (sheet, &reloc_info.origin)) {
 		gnumeric_error_splits_array (context, _("Delete Columns"));
 		return TRUE;
 	}
@@ -2941,13 +3059,6 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 		sheet_col_destroy (sheet, i, TRUE);
 
 	/* 2. Invalidate references to the cells in the delete columns */
-	reloc_info.origin.start.col = col;
-	reloc_info.origin.start.row = 0;
-	reloc_info.origin.end.col = col + count - 1;
-	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
-	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
-	reloc_info.col_offset = SHEET_MAX_COLS; /* send them to infinity */
-	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
 	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
 
 	/* 3. Fix references to and from the cells which are moving */
@@ -3077,9 +3188,16 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
+	reloc_info.origin.start.col = 0;
+	reloc_info.origin.start.row = row;
+	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
+	reloc_info.origin.end.row = row + count - 1;
+	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
+	reloc_info.col_offset = SHEET_MAX_COLS; /* send them to infinity */
+	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
+
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
-	if (sheet_range_splits_array (sheet, 0, row,
-				      SHEET_MAX_COLS-1, row+count-1)) {
+	if (sheet_range_splits_array (sheet, &reloc_info.origin)) {
 		gnumeric_error_splits_array (context, _("Delete Rows"));
 		return TRUE;
 	}
@@ -3089,13 +3207,6 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 		sheet_row_destroy (sheet, i, TRUE);
 
 	/* 2. Invalidate references to the cells in the delete columns */
-	reloc_info.origin.start.col = 0;
-	reloc_info.origin.start.row = row;
-	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
-	reloc_info.origin.end.row = row + count - 1;
-	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
-	reloc_info.col_offset = SHEET_MAX_COLS; /* send them to infinity */
-	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
 	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
 
 	/* 3. Fix references to and from the cells which are moving */
@@ -3148,7 +3259,12 @@ sheet_move_range (CommandContext *context,
 	out_of_range = range_translate (&dst,
 					rinfo->col_offset, rinfo->row_offset);
 
-	/* 0. Walk cells in the moving range and ensure arrays aren't divided. */
+	/* Redraw the src region in case anything was spanning */
+	sheet_redraw_cell_region (rinfo->origin_sheet,
+				  rinfo->origin.start.col,
+				  rinfo->origin.start.row,
+				  rinfo->origin.end.col,
+				  rinfo->origin.end.row);
 
 	/* 1. invalidate references to any cells in the destination range that
 	 * are not shared with the src.  This must be done before the references
@@ -3394,7 +3510,7 @@ col_row_info_init (Sheet *sheet, double pts, int margin_a, int margin_b,
 	cri->visible = TRUE;
 	cri->spans = NULL;
 	cri->size_pts = pts;
-	colrow_compute_pixels_from_pts (sheet, cri, (void *)is_horizontal);
+	colrow_compute_pixels_from_pts (sheet, cri, is_horizontal);
 }
 
 /************************************************************************/
@@ -3492,7 +3608,7 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 
 	ci->hard_size |= set_by_user;
 	ci->size_pts = width_pts;
-	colrow_compute_pixels_from_pts (sheet, ci, (void*)TRUE);
+	colrow_compute_pixels_from_pts (sheet, ci, TRUE);
 
 	sheet->priv->recompute_visibility = TRUE;
 	if (sheet->priv->reposition_col_comment > col)
@@ -3679,7 +3795,7 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
 
 	ri->hard_size |= set_by_user;
 	ri->size_pts = height_pts;
-	colrow_compute_pixels_from_pts (sheet, ri, (void*)FALSE);
+	colrow_compute_pixels_from_pts (sheet, ri, FALSE);
 
 	sheet->priv->recompute_visibility = TRUE;
 	if (sheet->priv->reposition_row_comment > row)

@@ -126,7 +126,7 @@ col_row_set_visiblity (Sheet *sheet, gboolean const is_col,
 }
 
 static gboolean
-cb_set_row_height (Sheet *sheet, ColRowInfo *info, void *dummy)
+cb_set_row_height (ColRowInfo *info, void *sheet)
 {
 	/* If the size was not set by the user then auto resize */
 	if (!info->hard_size) {
@@ -151,7 +151,7 @@ rows_height_update (Sheet *sheet, Range const * range)
 	/* FIXME : this needs to check font sizes and contents rather than
 	 * just contents.  Empty cells will cause resize also
 	 */
-	sheet_foreach_colrow (sheet, &sheet->rows,
+	sheet_foreach_colrow (&sheet->rows,
 			      range->start.row, range->end.row,
-			      &cb_set_row_height, NULL);
+			      &cb_set_row_height, sheet);
 }

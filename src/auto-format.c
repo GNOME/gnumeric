@@ -264,7 +264,7 @@ do_af_suggest_list (GList *list, const EvalPos *epos, char **explicit)
 
 /* ------------------------------------------------------------------------- */
 
-char *
+static char *
 auto_format_suggest (const ExprTree *expr, const EvalPos *epos)
 {
 	char *explicit = NULL;

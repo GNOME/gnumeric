@@ -1,3 +1,39 @@
+2000-06-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_sheet_write) : Adjust to changes in
+	  sheet_foreach_colrow.
+
+	* src/sheet.c (sheet_foreach_colrow) : Adjust signature.
+	(colrow_compute_pixels_from_pts) : Adjust to changes in sheet_foreach_colrow.
+	(sheet_set_zoom_factor) : Ditto.
+	(cb_recalc_spans_in_col) : Ditto.
+	(sheet_recompute_spans_for_col) : Ditto.
+	(cb_colrow_compute_pixels_from_pts) : New function wrapper.
+	(sheet_find_boundary_{horizontal,vertical}) : Fix case of being on the
+	  last non-blank element of a col/row and jumping to the far edge.
+	(sheet_move_range) : Redraw prior to moving incase the src region
+	  contains a span.
+
+	(sheet_redraw_cell_region) : Be more intelligent about skipping over
+	  large empty regions.
+	(sheet_cell_foreach_range) : Ditto.
+
+	(cb_check_array_{horizontal,vertical}) : new functions.
+	(sheet_range_splits_array) : Rewrite to be use sheet_foreach_colrow.
+
+	* src/selection.c (sheet_selection_cut) : Adjust to changes in
+	  sheet_range_splits_array.
+
+	* src/commands.c (cmd_paste_cut_undo) : Select the src range when
+	  undoing a cut.  This seems like a nice effect.
+
+	* src/colrow.c (cb_set_row_height) : Adjust to the changes in
+	  sheet_foreach_colrow.
+
+	* src/auto-format.c (auto_format_suggest) : Make static.
+
+	* src/gnumeric-util.c (gnumeric_wb_dialog_run) : Silence warning.
+
 2000-06-02  Jon K Hellan  <hellan@acm.org>
 
 	* src/gnumeric-util.c (gnumeric_wb_dialog_run): Do not set parent

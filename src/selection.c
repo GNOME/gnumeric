@@ -638,9 +638,7 @@ sheet_selection_cut (CommandContext *context, Sheet *sheet)
 		return FALSE;
 
 	ss = sheet->selections->data;
-	if (sheet_range_splits_array (sheet,
-				      ss->user.start.col,ss->user.start.row,
-				      ss->user.end.col, ss->user.end.row)) {
+	if (sheet_range_splits_array (sheet, &ss->user)) {
 		gnumeric_no_modify_array_notice (sheet->workbook);
 		return FALSE;
 	}
@@ -949,11 +947,8 @@ selection_check_for_array (Sheet const * sheet, GSList const *selection)
 	/* Check for array subdivision */
 	for (l = selection; l != NULL; l = l->next) {
 		Range const *r = l->data;
-		if (sheet_range_splits_array (sheet,
-					      r->start.col, r->start.row,
-					      r->end.col, r->end.row)) {
+		if (sheet_range_splits_array (sheet, r))
 			return TRUE;
-		}
 	}
 	return FALSE;
 }

@@ -1753,6 +1753,15 @@ cmd_paste_cut_undo (GnumericCommand *cmd, CommandContext *context)
 	/* Force update of the status area */
 	sheet_flag_status_update_range (me->info.target_sheet, NULL /* force update */);
 
+	/* Select the original region */
+	sheet_selection_set (me->info.origin_sheet,
+			     me->info.origin.start.col,
+			     me->info.origin.start.row,
+			     me->info.origin.start.col,
+			     me->info.origin.start.row,
+			     me->info.origin.end.col,
+			     me->info.origin.end.row);
+
 	sheet_set_dirty (me->info.target_sheet, TRUE);
 	workbook_recalc (me->info.target_sheet->workbook);
 	sheet_update (me->info.target_sheet);
