@@ -3029,61 +3029,34 @@ static char const *help_ztest = {
 	   "STANDARDIZE")
 };
 
-typedef struct {
-	guint32 num;
-        gnm_float x;
-        gnm_float sum;
-        gnm_float sqrsum;
-} stat_ztest_t;
-
-static GnmValue *
-callback_function_ztest (GnmEvalPos const *ep, GnmValue *value, void *closure)
+static int
+range_ztest (const gnm_float *xs, int n, gnm_float *res)
 {
-	stat_ztest_t *mm = closure;
-	gnm_float last;
+	gnm_float x, s, m;
 
-	if (!VALUE_IS_NUMBER (value))
-		return value_new_error_VALUE (ep);
+	if (n < 3)
+		return 1;
 
-	last = value_get_as_float (value);
-	if (mm->num > 0) {
-	        mm->sum += mm->x;
-		mm->sqrsum += mm->x * mm->x;
-	}
-	mm->x = last;
-	mm->num++;
-	return NULL;
+	x = xs[--n];
+	if (range_average (xs, n, &m))
+		return 1;
+	if (range_stddev_est (xs, n, &s) || s == 0)
+	        return 1;
+
+	*res = pnorm (x, m, s / sqrtgnum (n), TRUE, FALSE);
+	return 0;
 }
 
 static GnmValue *
 gnumeric_ztest (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-	stat_ztest_t p;
-	GnmValue       *status;
-	gnm_float   stddev;
-
-	p.num    = 0;
-	p.sum    = 0;
-	p.sqrsum = 0;
-
-	status = function_iterate_argument_values (ei->pos,
-		callback_function_ztest, &p, expr_node_list,
-		TRUE, CELL_ITER_IGNORE_BLANK);
-	if (status != NULL)
-		return status;
-
-	p.num--;
-	if (p.num < 2)
-	        return value_new_error_DIV0 (ei->pos);
-
-	stddev = sqrtgnum ((p.sqrsum - p.sum * p.sum / p.num) / (p.num - 1));
-
-	if (stddev == 0)
-	        return value_new_error_DIV0 (ei->pos);
-
-	return value_new_float (pnorm ((p.sum / p.num - p.x) /
-				       (stddev / sqrtgnum (p.num)),
-				       0, 1, FALSE, FALSE));
+	return float_range_function (expr_node_list,
+				     ei,
+				     range_ztest,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
