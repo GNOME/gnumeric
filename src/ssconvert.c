@@ -53,7 +53,7 @@ gnumeric_popt_options[] = {
 	{ "list-exporters", '\0', POPT_ARG_NONE, &ssconvert_list_exporters, 0,
 	  N_("List the available exporters"), NULL },
 	{ "list-importers", '\0', POPT_ARG_NONE, &ssconvert_list_importers, 0,
-	  N_("List the available exporters"), NULL },
+	  N_("List the available importers"), NULL },
 	{ "export-file-per-sheet", 'S', POPT_ARG_NONE, &ssconvert_one_file_per_sheet, 0,
 	  N_("Export a file for each sheet if the exporter only supports one sheet at a time."), NULL },
 
