@@ -168,6 +168,7 @@ sheet_selection_add (Sheet *sheet, int col, int row)
  * @row:   row that gets covered
  *
  * This extends the selection to cover col, row
+ * and updates the status areas.
  */
 void
 sheet_selection_extend_to (Sheet *sheet, int col, int row)
@@ -188,6 +189,14 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 
 	workbook_set_region_status (sheet->workbook,
 				    sheet_get_selection_name (sheet));
+
+	/*
+	 * FIXME : Does this belong here ?
+	 * This is a convenient place to put is so that move movements
+	 * that change the selection also update the status region,
+	 * but this is somewhat lower level that I want to do this.
+	 */
+	sheet_update (sheet);
 }
 
 /*
@@ -407,6 +416,8 @@ sheet_selection_set (Sheet *sheet,
 			sheet_redraw_headers (sheet, FALSE, TRUE, &tmp);
 		}
 	}
+
+	sheet_flag_selection_change (sheet);
 }
 
 /**

@@ -621,7 +621,7 @@ sheet_reposition_comments (Sheet const * const sheet,
  */
 void
 sheet_flag_status_update_cell (Sheet const *sheet,
-			       int const col, int const row)
+			       int col, int row)
 {
 	/* if a part of the selected region changed value update
 	 * the auto expressions
@@ -651,7 +651,7 @@ sheet_flag_status_update_cell (Sheet const *sheet,
  */
 void
 sheet_flag_status_update_range (Sheet const *sheet,
-				Range const * const range)
+				Range const *range)
 {
 	/* Force an update */
 	if (range == NULL) {
@@ -671,6 +671,20 @@ sheet_flag_status_update_range (Sheet const *sheet,
 	 */
 	if (range_contains(range, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row))
 		sheet->priv->edit_pos_changed = TRUE;
+}
+
+/**
+ * sheet_flag_selection_change :
+ *    flag the sheet as requiring an update to the status display
+ *
+ * @sheet :
+ *
+ * Will cause auto expressions to be updated
+ */
+void
+sheet_flag_selection_change (Sheet const *sheet)
+{
+	sheet->priv->selection_content_changed = TRUE;
 }
 
 /*

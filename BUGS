@@ -4,8 +4,6 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- gnumeric_ftest : Needs auditing.  All calls to eval_pos_init_cellref
-  are questionable.
 
 Long term breakage
 ------------------
@@ -14,6 +12,7 @@ Long term breakage
 - Increase/Decrease precision toolbar buttons should look at the displayed
   precision for the edit cell and assign the changed value to the entire
   selection.  Not individually adjusting each non-blank cell's precision.
+  This would mirror the application of bold/italic/underline
 
 - Auto resize needs to handle empty cells.
 - Clearing a cell that stopped a span does not regenerate the span.
@@ -21,16 +20,18 @@ Long term breakage
 - The implication of mixed mode references ($B$2:C3)
   is large.  All accesses to a RangeRef need to be normalized.
 
+- gnumeric_ftest : Needs auditing.  All calls to eval_pos_init_cellref
+  are questionable.
 - Copy with destination larger than source does not duplicate the styles.
 
 - border style double_line does handle all of the different intersection cases.
 
 - 'General' numbers need to be formated based on the width of the cell.
 
-- when guess the format of a possible value we should try the format associated
-  with the cell FIRST rather than later.  eg enter '10-1' (without quotes) in a
-  cell with an assigned format of Text.  This should be treated as text.  Instead
-  It parses as a Date (Oct 1) and gets converted.
+- when guessing the format of a possible value we should try the format
+  associated with the cell FIRST rather than later.  eg enter '10-1' (without
+  quotes) in a cell with an assigned format of Text.  This should be treated as
+  text.  Instead It parses as a Date (Oct 1) and gets converted.
 
 - The File->Print Preview icon is too big.  Use the stock version when the next
   release of gnome-libs is made. (tigert is adding to gnome-libs)
@@ -41,9 +42,18 @@ Long term breakage
 - All forms of autoscroll should use the timer mechanism from item-grid.
 - The auto scroll timer from item-grid needs to move to sheet-view.
 
+Dialogs
+-------
+- Finish function wizard
+- Use color combos in format dialog.
+
 Function Breakage
 -----------------
 - Index  : does not support 0,0 or reference syntax.
+
+Printing
+--------
+- When sizing the page no space is left for the headers and footers.
 
 Widget polishing
 ----------------
@@ -51,3 +61,5 @@ Widget polishing
     : a value entered directly in the edit field does not handle selection in
       the list correctly
     : the list does not auto scroll.
+
+- Add row (rows ?) for custom colours in the color combo dialog.

@@ -1,3 +1,18 @@
+2000-05-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (sheet_selection_extend_to) : Call sheet_update
+	  so that selection changes via mouse movement will update the status
+	  areas.
+	(sheet_selection_set) : Call sheet_flag_selection_change.
+
+	* src/sheet.c (sheet_flag_selection_change) : New function to
+	  flag that sheet_update should recalc the autoexpressions.
+
+2000-05-07  Jody Goldberg <jgoldberg@home.com>
+
+	* README : Update to require new gnome-print.
+	* gnumeric.spec.in : Ditto.
+
 2000-05-08  Jon K Hellan  <hellan@acm.org>
 
 	This change was committed a week ago, but I forgot the changelog:

@@ -1,3 +1,12 @@
 2000-05-07  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am (gnumeric_plugin_LTLIBRARIES) : Disable for now.
+
+2000-04-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : typo.
+
+2000-04-26  Jody Goldberg <jgoldberg@home.com>
+
+	* perl.c (init_plugin) : Use gnumeric_sys_data_dir.
+

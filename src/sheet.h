@@ -291,8 +291,9 @@ void	    sheet_redraw_headers          (Sheet const *sheet,
 					   gboolean const col, gboolean const row,
 					   Range const * r /* optional == NULL */);
 
-void	    sheet_flag_status_update_cell (Sheet const *sheet, int const col, int const row);
-void	    sheet_flag_status_update_range(Sheet const *sheet, Range const * const range);
+void	    sheet_flag_status_update_cell (Sheet const *sheet, int col, int row);
+void	    sheet_flag_status_update_range(Sheet const *sheet, Range const *range);
+void        sheet_flag_selection_change   (Sheet const *sheet);
 void        sheet_update                  (Sheet const *sheet);
 void        sheet_compute_visible_ranges  (Sheet const *sheet);
 
