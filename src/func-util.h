@@ -30,7 +30,7 @@ Value *gnumeric_return_current_time (void);
  * This includes the database functions and some mathematical functions
  * like COUNTIF, SUMIF...
  */
-typedef int (*criteria_test_fun_t) (Value *x, Value *y);
+typedef gboolean (*criteria_test_fun_t) (Value const *x, Value const *y);
 
 typedef struct {
         criteria_test_fun_t fun;
@@ -38,13 +38,14 @@ typedef struct {
         int                 column;
 } func_criteria_t;
 
-int  criteria_test_equal            (Value *x, Value *y);
-int  criteria_test_unequal          (Value *x, Value *y);
-int  criteria_test_greater          (Value *x, Value *y);
-int  criteria_test_less             (Value *x, Value *y);
-int  criteria_test_greater_or_equal (Value *x, Value *y);
-int  criteria_test_less_or_equal    (Value *x, Value *y);
-void parse_criteria                 (const char *criteria,
+gboolean criteria_test_equal            (Value const *x, Value const *y);
+gboolean criteria_test_unequal          (Value const *x, Value const *y);
+gboolean criteria_test_greater          (Value const *x, Value const *y);
+gboolean criteria_test_less             (Value const *x, Value const *y);
+gboolean criteria_test_greater_or_equal (Value const *x, Value const *y);
+gboolean criteria_test_less_or_equal    (Value const *x, Value const *y);
+
+void parse_criteria                 (char const *criteria,
 				     criteria_test_fun_t *fun,
 				     Value **test_value);
 GSList *parse_criteria_range        (Sheet *sheet, int b_col, int b_row,

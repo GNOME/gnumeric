@@ -18,6 +18,8 @@
 #include "func.h"
 #include "value.h"
 #include "gutils.h"
+#include "sheet.h"
+#include "str.h"
 
 #include "parse-util.h"
 

@@ -2,7 +2,6 @@
 #define GNUMERIC_POSITION_H
 
 #include "gnumeric.h"
-#include "position.h"
 
 struct _EvalPos {
 	CellPos  eval;
@@ -58,11 +57,5 @@ int       cell_ref_get_abs_row  (CellRef const *cell_ref,
 void      cell_get_abs_col_row  (CellRef const *cell_ref,
 				 CellPos const *pos,
 				 int *col, int *row);
-
-void      range_ref_normalize  (Range *dest,
-				Sheet **start_sheet,
-				Sheet **end_sheet,
-				Value const *ref,
-				EvalPos const *ep);
 
 #endif /* GNUMERIC_POSITION_H */

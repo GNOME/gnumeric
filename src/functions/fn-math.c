@@ -12,10 +12,11 @@
 #include "func-util.h"
 #include "func.h"
 #include "cell.h"
+#include "sheet.h"
+#include "str.h"
 #include "mathfunc.h"
 #include "collect.h"
 #include "auto-format.h"
-
 
 typedef struct {
         GSList *list;

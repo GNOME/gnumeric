@@ -18,6 +18,7 @@
 #include "value.h"
 #include "expr.h"
 #include "func.h"
+#include "str.h"
 #include "plugin.h"
 #include "py-gnumeric.h"
 

@@ -15,6 +15,8 @@
 #include "format.h"
 #include "func.h"
 #include "cell.h"
+#include "sheet.h"
+#include "str.h"
 #include "parse-util.h"
 #include "ranges.h"
 #include "number-match.h"
@@ -362,15 +364,14 @@ eval_funcall (EvalPos const *pos, ExprTree const *tree,
  *     at the intersection point.  This value needs to be freed.
  **/
 Value *
-expr_implicit_intersection (EvalPos const *pos,
-			    Value *v)
+expr_implicit_intersection (EvalPos const *pos, Value *v)
 {
 	Value *res = NULL;
 	Range rng;
 	Sheet *start_sheet, *end_sheet;
 
 	/* handle inverted ranges */
-	range_ref_normalize  (&rng, &start_sheet, &end_sheet, v, pos);
+	value_cellrange_normalize (pos, v, &start_sheet, &end_sheet, &rng);
 
 	if (start_sheet == end_sheet) {
 		if (rng.start.row == rng.end.row) {
@@ -971,66 +972,6 @@ eval_expr (EvalPos const *pos, ExprTree const *tree,
 	return res;
 }
 
-void
-cell_ref_make_abs (CellRef *dest,
-		   CellRef const *src,
-		   EvalPos const *ep)
-{
-	g_return_if_fail (dest != NULL);
-	g_return_if_fail (src != NULL);
-	g_return_if_fail (ep != NULL);
-
-	*dest = *src;
-	if (src->col_relative)
-		dest->col += ep->eval.col;
-
-	if (src->row_relative)
-		dest->row += ep->eval.row;
-
-	dest->row_relative = dest->col_relative = FALSE;
-}
-
-int
-cell_ref_get_abs_col (CellRef const *ref, EvalPos const *pos)
-{
-	g_return_val_if_fail (ref != NULL, 0);
-	g_return_val_if_fail (pos != NULL, 0);
-
-	if (ref->col_relative)
-		return pos->eval.col + ref->col;
-	return ref->col;
-
-}
-int
-cell_ref_get_abs_row (CellRef const *ref, EvalPos const *pos)
-{
-	g_return_val_if_fail (ref != NULL, 0);
-	g_return_val_if_fail (pos != NULL, 0);
-
-	if (ref->row_relative)
-		return pos->eval.row + ref->row;
-	return ref->row;
-}
-
-
-void
-cell_get_abs_col_row (CellRef const *cell_ref,
-		      CellPos const *pos,
-		      int *col, int *row)
-{
-	g_return_if_fail (cell_ref != NULL);
-
-	if (cell_ref->col_relative)
-		*col = pos->col + cell_ref->col;
-	else
-		*col = cell_ref->col;
-
-	if (cell_ref->row_relative)
-		*row = pos->row + cell_ref->row;
-	else
-		*row = cell_ref->row;
-}
-
 /*
  * Converts a parsed tree into its string representation
  * assuming that we are evaluating at col, row
@@ -1415,8 +1356,7 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 }
 
 static ExprTree *
-cellrange_relocate (const Value *v,
-		    const ExprRelocateInfo *rinfo)
+cellrange_relocate (Value const *v, ExprRelocateInfo const *rinfo)
 {
 	/*
 	 * If either end is an error then the whole range is an error.
@@ -1515,8 +1455,7 @@ cellrange_relocate (const Value *v,
  * same cell after the move.
  */
 ExprTree *
-expr_rewrite (ExprTree        const *expr,
-	      ExprRewriteInfo const *rwinfo)
+expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 
@@ -1613,7 +1552,7 @@ expr_rewrite (ExprTree        const *expr,
 	}
 
 	case OPER_CONSTANT: {
-		const Value *v = expr->constant.value;
+		Value const *v = expr->constant.value;
 
 		if (v->type == VALUE_CELLRANGE) {
 			CellRef ref_a = v->v_range.cell.a;
@@ -1648,7 +1587,7 @@ expr_rewrite (ExprTree        const *expr,
 	}
 
 	case OPER_ARRAY: {
-		ExprArray const * a = &expr->array;
+		ExprArray const *a = &expr->array;
 		if (a->x == 0 && a->y == 0) {
 			ExprTree *func = expr_rewrite (a->corner.expr, rwinfo);
 
@@ -1753,14 +1692,12 @@ expr_boundingbox (ExprTree const *expr, CellPos const *pos, Range *bound)
 		Value const *v = expr->constant.value;
 
 		if (v->type == VALUE_CELLRANGE) {
-			CellRef ref_a = v->v_range.cell.a;
-			CellRef ref_b = v->v_range.cell.b;
 		}
 		break;
 	}
 
 	case OPER_ARRAY: {
-		ExprArray const * a = &expr->array;
+		ExprArray const *a = &expr->array;
 		if (a->x == 0 && a->y == 0)
 			expr_boundingbox (a->corner.expr, pos, bound);
 		break;

@@ -52,6 +52,7 @@
 #include "io-context.h"
 #include "expr.h"
 #include "gutils.h"
+#include "str.h"
 
 #include <libole2/ms-ole.h>
 #include "ms-biff.h"

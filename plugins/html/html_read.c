@@ -31,6 +31,7 @@
 #include "style-color.h"
 #include "html.h"
 #include "cell.h"
+#include "sheet.h"
 #include "value.h"
 #include "font.h"
 #include "plugin-util.h"

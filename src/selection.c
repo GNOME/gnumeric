@@ -10,6 +10,7 @@
  */
 #include <config.h>
 #include "selection.h"
+#include "sheet.h"
 #include "parse-util.h"
 #include "clipboard.h"
 #include "ranges.h"

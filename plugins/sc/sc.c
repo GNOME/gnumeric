@@ -24,6 +24,7 @@
 #include "file.h"
 #include "cell.h"
 #include "style.h"
+#include "sheet.h"
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

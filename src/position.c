@@ -126,24 +126,61 @@ parse_pos_init_evalpos (ParsePos *pp, EvalPos const *ep)
 	return parse_pos_init (pp, NULL, ep->sheet, ep->eval.col, ep->eval.row);
 }
 
-/**
- * range_ref_normalize :  Take a range_ref from a Value and normalize it
- *     by converting to absolute coords and handling inversions.
- */
 void
-range_ref_normalize  (Range *dest, Sheet **start_sheet, Sheet **end_sheet,
-		      Value const *ref, EvalPos const *ep)
+cell_ref_make_abs (CellRef *dest, CellRef const *src, EvalPos const *ep)
 {
-	g_return_if_fail (ref != NULL);
+	g_return_if_fail (dest != NULL);
+	g_return_if_fail (src != NULL);
 	g_return_if_fail (ep != NULL);
-	g_return_if_fail (ref->type == VALUE_CELLRANGE);
 
-	cell_get_abs_col_row (&ref->v_range.cell.a, &ep->eval,
-			      &dest->start.col, &dest->start.row);
-	cell_get_abs_col_row (&ref->v_range.cell.b, &ep->eval,
-			      &dest->end.col, &dest->end.row);
-	range_normalize (dest);
+	*dest = *src;
+	if (src->col_relative)
+		dest->col += ep->eval.col;
 
-	*start_sheet = eval_sheet (ref->v_range.cell.a.sheet, ep->sheet);
-	*end_sheet = eval_sheet (ref->v_range.cell.b.sheet, ep->sheet);
+	if (src->row_relative)
+		dest->row += ep->eval.row;
+
+	dest->row_relative = dest->col_relative = FALSE;
 }
+
+int
+cell_ref_get_abs_col (CellRef const *ref, EvalPos const *pos)
+{
+	g_return_val_if_fail (ref != NULL, 0);
+	g_return_val_if_fail (pos != NULL, 0);
+
+	if (ref->col_relative)
+		return pos->eval.col + ref->col;
+	return ref->col;
+
+}
+
+int
+cell_ref_get_abs_row (CellRef const *ref, EvalPos const *pos)
+{
+	g_return_val_if_fail (ref != NULL, 0);
+	g_return_val_if_fail (pos != NULL, 0);
+
+	if (ref->row_relative)
+		return pos->eval.row + ref->row;
+	return ref->row;
+}
+
+void
+cell_get_abs_col_row (CellRef const *cell_ref,
+		      CellPos const *pos,
+		      int *col, int *row)
+{
+	g_return_if_fail (cell_ref != NULL);
+
+	if (cell_ref->col_relative)
+		*col = pos->col + cell_ref->col;
+	else
+		*col = cell_ref->col;
+
+	if (cell_ref->row_relative)
+		*row = pos->row + cell_ref->row;
+	else
+		*row = cell_ref->row;
+}
+

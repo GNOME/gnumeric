@@ -14,6 +14,8 @@
 #include "func.h"
 #include "eval.h"
 #include "cell.h"
+#include "str.h"
+#include "sheet.h"
 
 /* Useful routines for multiple functions */
 

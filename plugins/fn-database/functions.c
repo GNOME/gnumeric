@@ -10,7 +10,9 @@
 #include "parse-util.h"
 #include "func-util.h"
 #include "func.h"
+#include "str.h"
 #include "cell.h"
+#include "sheet.h"
 
 /* Type definitions */
 
@@ -22,8 +24,8 @@ typedef struct {
 
 /* Callback functions */
 
-int
-criteria_test_equal(Value *x, Value *y)
+gboolean
+criteria_test_equal (Value const *x, Value const *y)
 {
         if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
 	        if (value_get_as_float (x) == value_get_as_float (y))
@@ -37,8 +39,8 @@ criteria_test_equal(Value *x, Value *y)
 	        return 0;
 }
 
-int
-criteria_test_unequal(Value *x, Value *y)
+gboolean
+criteria_test_unequal (Value const *x, Value const *y)
 {
         if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
 	        if (value_get_as_float (x) != value_get_as_float (y))
@@ -52,8 +54,8 @@ criteria_test_unequal(Value *x, Value *y)
 	        return 0;
 }
 
-int
-criteria_test_less(Value *x, Value *y)
+gboolean
+criteria_test_less (Value const *x, Value const *y)
 {
         if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
 	        if (value_get_as_float (x) < value_get_as_float (y))
@@ -64,8 +66,8 @@ criteria_test_less(Value *x, Value *y)
 	        return 0;
 }
 
-int
-criteria_test_greater(Value *x, Value *y)
+gboolean
+criteria_test_greater (Value const *x, Value const *y)
 {
         if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
 	        if (value_get_as_float (x) > value_get_as_float (y))
@@ -76,8 +78,8 @@ criteria_test_greater(Value *x, Value *y)
 	        return 0;
 }
 
-int
-criteria_test_less_or_equal(Value *x, Value *y)
+gboolean
+criteria_test_less_or_equal (Value const *x, Value const *y)
 {
         if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
 	        if (value_get_as_float (x) <= value_get_as_float (y))
@@ -88,8 +90,8 @@ criteria_test_less_or_equal(Value *x, Value *y)
 	        return 0;
 }
 
-int
-criteria_test_greater_or_equal(Value *x, Value *y)
+gboolean
+criteria_test_greater_or_equal (Value const *x, Value const *y)
 {
         if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
 	        if (value_get_as_float (x) >= value_get_as_float (y))
@@ -176,8 +178,8 @@ free_criterias(GSList *criterias)
 }
 
 void
-parse_criteria(const char *criteria, criteria_test_fun_t *fun,
-	       Value **test_value)
+parse_criteria (char const *criteria, criteria_test_fun_t *fun,
+		Value **test_value)
 {
 	char    *p;
 	gnum_float tmp;

@@ -22,6 +22,7 @@
 #include "workbook.h"
 #include "expr.h"
 #include "cell.h"
+#include "sheet.h"
 
 typedef enum {
 	REMOVE_DEPS = 0,

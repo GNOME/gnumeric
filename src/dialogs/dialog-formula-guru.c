@@ -28,6 +28,7 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "workbook.h"
+#include "sheet.h"
 #include "workbook-edit.h"
 #include "workbook-control.h"
 #include "cell.h"

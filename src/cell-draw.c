@@ -10,6 +10,8 @@
 #include "style.h"
 #include "style-color.h"
 #include "cell.h"
+#include "sheet.h"
+#include "str.h"
 #include "value.h"
 #include "workbook.h"
 #include "rendered-value.h"

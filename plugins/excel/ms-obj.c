@@ -50,9 +50,7 @@ ms_destroy_OBJ (MSObj *obj)
 	}
 }
 
-/*
- * See: S59EOE.HTM
- */
+/* S59EOE.HTM */
 char *
 ms_read_TXO (BiffQuery *q)
 {
@@ -148,9 +146,7 @@ ms_obj_dump_impl (guint8 const *data, int len, int data_left, char const *name)
 #define ms_obj_dump (data, len, data_left, name)
 #endif
 
-/*
- * See: S59DAD.HTM
- */
+/* S59DAD.HTM */
 static gboolean
 ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 {
@@ -169,9 +165,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	return TRUE;
 }
 
-/*
- * See: S59DAD.HTM
- */
+/* S59DAD.HTM */
 static gboolean
 ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 {
@@ -225,11 +219,11 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			ms_obj_dump (data, len, data_len_left, "GroupButton");
 			break;
 
-		case GR_CLIPBOARD_FORMAT:
+		case GR_CLIPBOARD_FORMAT :
 			ms_obj_dump (data, len, data_len_left, "ClipboardFmt");
 			break;
 
-		case GR_PICTURE_OPTIONS:
+		case GR_PICTURE_OPTIONS :
 		{
 			guint16 pict_opt;
 			g_return_val_if_fail (len == 2, TRUE);
@@ -248,7 +242,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			break;
 		}
 
-		case GR_PICTURE_FORMULA:
+		case GR_PICTURE_FORMULA :
 			ms_obj_dump (data, len, data_len_left, "PictFormula");
 			break;
 
@@ -318,7 +312,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			break;
 		}
 
-		case GR_COMMON_OBJ_DATA:
+		case GR_COMMON_OBJ_DATA :
 		{
 			guint16 const options =MS_OLE_GET_GUINT16 (data+8);
 

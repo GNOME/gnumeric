@@ -46,6 +46,7 @@
 #include "portability.h"
 #include "datetime.h"
 #include "mathfunc.h"
+#include "str.h"
 
 /***************************************************************************/
 

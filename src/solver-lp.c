@@ -7,15 +7,12 @@
  * (C) Copyright 1999, 2000 by Jukka-Pekka Iivonen
 */
 #include <config.h>
-#include <gnome.h>
-#include <math.h>
-#include <stdlib.h>
-#include "numbers.h"
 #include "gnumeric.h"
 #include "parse-util.h"
 #include "solver.h"
 #include "func.h"
 #include "cell.h"
+#include "sheet.h"
 #include "sheet-style.h"
 #include "eval.h"
 #include "dialogs.h"
@@ -23,6 +20,8 @@
 #include "mathfunc.h"
 #include "analysis-tools.h"
 
+#include <math.h>
+#include <stdlib.h>
 
 static void
 set_bold (Sheet *sheet, int col1, int row1, int col2, int row2)

@@ -19,6 +19,7 @@
 #include "tools.h"
 #include "value.h"
 #include "cell.h"
+#include "sheet.h"
 #include "workbook.h"
 #include "parse-util.h"
 #include "utils-dialog.h"

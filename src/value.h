@@ -3,10 +3,8 @@
 
 #include <glib.h>
 #include "gnumeric.h"
-#include "sheet.h"
-#include "numbers.h"
-#include "str.h"
 #include "position.h"
+#include "numbers.h"
 
 typedef enum {
 	/* Use magic values to act as a signature
@@ -87,55 +85,51 @@ Value       *value_new_float            (gnum_float f);
 Value       *value_new_error            (EvalPos const *pos, char const *mesg);
 Value       *value_new_error_str        (EvalPos const *pos, String *mesg);
 Value       *value_new_error_err        (EvalPos const *pos, ValueErr *err);
-Value       *value_new_string           (const char *str);
+Value       *value_new_string           (char const *str);
 Value       *value_new_string_str       (String *str);
-Value       *value_new_cellrange_unsafe (const CellRef *a, const CellRef *b);
-Value       *value_new_cellrange        (const CellRef *a, const CellRef *b,
-				         int const eval_col, int const eval_row);
-Value       *value_new_cellrange_r      (Sheet *sheet, const Range *r);
+Value       *value_new_cellrange_unsafe (CellRef const *a, CellRef const *b);
+Value       *value_new_cellrange        (CellRef const *a, CellRef const *b,
+				         int eval_col, int eval_row);
+Value       *value_new_cellrange_r      (Sheet *sheet, Range const *r);
 Value       *value_new_array            (guint cols, guint rows);
 Value       *value_new_array_empty      (guint cols, guint rows);
 Value 	    *value_new_array_non_init   (guint cols, guint rows);
-Value 	    *value_new_from_string	(ValueType t, const char *str);
+Value 	    *value_new_from_string	(ValueType t, char const *str);
 
-void         value_release         (Value *value);
-void         value_dump            (Value const *value);
-Value       *value_duplicate       (Value const *value);
-ValueCompare value_compare         (const Value *a, const Value *b,
+void         value_release         (Value *v);
+void         value_dump            (Value const *v);
+Value       *value_duplicate       (Value const *v);
+ValueCompare value_compare         (Value const *a, Value const *b,
 				    gboolean case_sensitive);
 
-gboolean     value_get_as_bool         (Value const *v, gboolean *err);
-gboolean     value_get_as_checked_bool (Value const *v);
-char        *value_get_as_string       (const Value *value);
-const char  *value_peek_string         (const Value *v);
-int          value_get_as_int          (const Value *v);
-gnum_float      value_get_as_float        (const Value *v);
-char        *value_cellrange_get_as_string (const Value *value,
-					    gboolean use_relative_syntax);
+gboolean    value_get_as_bool         (Value const *v, gboolean *err);
+gboolean    value_get_as_checked_bool (Value const *v);
+char       *value_get_as_string       (Value const *v);
+char const *value_peek_string         (Value const *v);
+int         value_get_as_int          (Value const *v);
+gnum_float  value_get_as_float        (Value const *v);
 
-/* Return a Special error value indicating that the iteration should stop */
-Value       *value_terminate (void);
+char *value_cellrange_get_as_string   (Value const *v, gboolean use_relative);
+void  value_cellrange_normalize	      (EvalPos const *ep, Value const *v,
+				       Sheet **start_sheet,
+				       Sheet **end_sheet,
+				       Range *dest);
 
 /* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
 /* The EvalPos provides a Sheet context; this allows
    calculation of relative references. 'x','y' give the position */
-int          value_area_get_width  (const EvalPos *ep, Value const *v);
-int          value_area_get_height (const EvalPos *ep, Value const *v);
+int          value_area_get_width  (EvalPos const *ep, Value const *v);
+int          value_area_get_height (EvalPos const *ep, Value const *v);
 
-/* Return Value(int 0) if non-existant */
-const Value *value_area_fetch_x_y  (const EvalPos *ep, Value const * v,
+Value const *value_area_fetch_x_y  (EvalPos const *ep, Value const *v,
+				    int x, int y);
+Value const *value_area_get_x_y	   (EvalPos const *ep, Value const *v,
 				    int x, int y);
 
-/* Return NULL if non-existant */
-const Value * value_area_get_x_y (const EvalPos *ep, Value const * v,
-				  int x, int y);
-
-typedef  Value * (*value_area_foreach_callback)(EvalPos const *ep,
-						Value const *v, void *user_data);
-
-Value * value_area_foreach (EvalPos const *ep, Value const *v,
-			    value_area_foreach_callback callback,
-			    void *closure);
+typedef Value *(*ValueAreaFunc) (EvalPos const *ep, Value const *v, void *user);
+Value *value_area_foreach  (EvalPos const *ep,  Value const *v,
+			    ValueAreaFunc func, void *user);
+Value *value_terminate	   (void);
 
 void value_array_set       (Value *array, int col, int row, Value *v);
 void value_array_resize    (Value *v, int width, int height);

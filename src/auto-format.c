@@ -15,6 +15,7 @@
 #include "formats.h"
 #include "expr.h"
 #include "cell.h"
+#include "sheet.h"
 #include "workbook.h"
 #include "format.h"
 

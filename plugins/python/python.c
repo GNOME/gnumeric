@@ -19,6 +19,7 @@
 #include "module-plugin-defs.h"
 #include "gutils.h"
 #include "value.h"
+#include "str.h"
 #include "command-context.h"
 
 #include "Python.h"

@@ -14,9 +14,6 @@
  */
 #include <config.h>
 
-#include <gnome.h>
-#include <string.h>
-#include <ctype.h>
 #include "gnumeric.h"
 #include "cell.h"
 #include "value.h"
@@ -30,9 +27,14 @@
 #include "mstyle.h"
 #include "ranges.h"
 #include "sheet-merge.h"
-#include "errno.h"
+#include "str.h"
 
 #include <math.h>
+#include <string.h>
+#include <ctype.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <gnome.h>
 
 typedef enum {
 

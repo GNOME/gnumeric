@@ -15,6 +15,8 @@
 #include "workbook.h"
 #include "expr-name.h"
 #include "expr.h"
+#include "str.h"
+#include "sheet.h"
 #include "sheet-style.h"
 
 /* We don't expect that many global names ! */

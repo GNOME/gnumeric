@@ -27,6 +27,7 @@
 #include "gnumeric-util.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
+#include "sheet.h"
 #include "workbook-edit.h"
 #include "sheet-object.h"
 #include "sheet-object-container.h"

@@ -14,6 +14,7 @@
 #include "gnumeric.h"
 #include "parse-util.h"
 #include "func.h"
+#include "str.h"
 #include "mathfunc.h"
 
 #if 0

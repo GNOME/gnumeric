@@ -13,6 +13,7 @@
 #include "parse-util.h"
 #include "ranges.h"
 #include "value.h"
+#include "sheet.h"
 
 static GtkObjectClass *gnumeric_expr_entry_parent_class;
 

@@ -15,6 +15,7 @@
 #include <gnome-xml/xmlmemory.h>
 #include "gnumeric.h"
 #include "workbook.h"
+#include "sheet.h"
 #include "workbook-view.h"
 #include "value.h"
 #include "io-context.h"

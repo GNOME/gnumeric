@@ -15,9 +15,10 @@
 #include "func.h"
 #include "eval.h"
 #include "cell.h"
+#include "str.h"
 #include "symbol.h"
 #include "workbook.h"
-
+#include "sheet.h"
 
 /* These are not supported yet */
 typedef enum {

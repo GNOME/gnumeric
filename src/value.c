@@ -8,15 +8,17 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include "gnumeric.h"
 #include "value.h"
 #include "parse-util.h"
 #include "style.h"
 #include "format.h"
 #include "portability.h"
+#include "str.h"
+
 #include <stdlib.h>
 #include <errno.h>
+#include <gnome.h>
 
 Value *
 value_new_empty (void)
@@ -82,7 +84,7 @@ value_new_error_err (EvalPos const *pos, ValueErr *err)
 }
 
 Value *
-value_new_string (const char *str)
+value_new_string (char const *str)
 {
 	ValueStr *v = g_new (ValueStr, 1);
 	*((ValueType *)&(v->type)) = VALUE_STRING;
@@ -100,7 +102,7 @@ value_new_string_str (String *str)
 }
 
 Value *
-value_new_cellrange_unsafe (const CellRef *a, const CellRef *b)
+value_new_cellrange_unsafe (CellRef const *a, CellRef const *b)
 {
 	ValueRange *v = g_new (ValueRange, 1);
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
@@ -119,8 +121,8 @@ value_new_cellrange_unsafe (const CellRef *a, const CellRef *b)
  * evaluate the ranges in their context and normalize then.
  */
 Value *
-value_new_cellrange (const CellRef *a, const CellRef *b,
-		     int const eval_col, int const eval_row)
+value_new_cellrange (CellRef const *a, CellRef const *b,
+		     int eval_col, int eval_row)
 {
 	ValueRange *v = g_new (ValueRange, 1);
 	int tmp;
@@ -164,7 +166,7 @@ value_new_cellrange (const CellRef *a, const CellRef *b,
 }
 
 Value *
-value_new_cellrange_r (Sheet *sheet, const Range *r)
+value_new_cellrange_r (Sheet *sheet, Range const *r)
 {
 	ValueRange *v = g_new (ValueRange, 1);
 	CellRef *a, *b;
@@ -225,7 +227,7 @@ value_new_array_empty (guint cols, guint rows)
 }
 
 Value *
-value_new_from_string (ValueType t, const char *str)
+value_new_from_string (ValueType t, char const *str)
 {
 	switch (t) {
 	case VALUE_EMPTY:
@@ -350,7 +352,7 @@ value_release (Value *value)
  * Makes a copy of a Value
  */
 Value *
-value_duplicate (const Value *src)
+value_duplicate (Value const *src)
 {
 	g_return_val_if_fail (src != NULL, NULL);
 
@@ -453,7 +455,7 @@ value_get_as_checked_bool (Value const *v)
  * simplistic value rendering
  */
 char *
-value_get_as_string (const Value *value)
+value_get_as_string (Value const *value)
 {
 	if (value == NULL)
 		return g_strdup ("");
@@ -486,7 +488,7 @@ value_get_as_string (const Value *value)
 
 		for (y = 0; y < value->v_array.y; y++){
 			for (x = 0; x < value->v_array.x; x++){
-				const Value *v = value->v_array.vals [x][y];
+				Value const *v = value->v_array.vals [x][y];
 
 				g_return_val_if_fail (v->type == VALUE_STRING ||
 						      v->type == VALUE_FLOAT ||
@@ -525,8 +527,8 @@ value_get_as_string (const Value *value)
  * Result will stay valid until (a) the value is disposed of, or (b) two
  * further calls to this function are made.
  */
-const char *
-value_peek_string (const Value *v)
+char const *
+value_peek_string (Value const *v)
 {
 	g_return_val_if_fail (v, "");
 
@@ -535,7 +537,7 @@ value_peek_string (const Value *v)
 	else {
 		static char *cache[2] = { 0 };
 		static int next = 0;
-		const char *s;
+		char const *s;
 
 		g_free (cache[next]);
 		s = cache[next] = value_get_as_string (v);
@@ -550,7 +552,7 @@ value_peek_string (const Value *v)
  * FIXME FIXME FIXME : Support errors
  */
 int
-value_get_as_int (const Value *v)
+value_get_as_int (Value const *v)
 {
 	if (v == NULL)
 		return 0;
@@ -591,7 +593,7 @@ value_get_as_int (const Value *v)
  * FIXME FIXME FIXME : Support errors
  */
 gnum_float
-value_get_as_float (const Value *v)
+value_get_as_float (Value const *v)
 {
 	if (v == NULL)
 		return 0.;

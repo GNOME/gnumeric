@@ -15,6 +15,8 @@
 #include "func.h"
 #include "cell.h"
 #include "format.h"
+#include "str.h"
+#include "sheet.h"
 #include "position.h"
 #include "number-match.h"
 

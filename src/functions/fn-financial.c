@@ -18,6 +18,7 @@
 #include "collect.h"
 #include "auto-format.h"
 #include "datetime.h"
+#include "str.h"
 
 /*
 

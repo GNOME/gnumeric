@@ -746,7 +746,7 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
 
 	g_return_val_if_fail (cell_range->type == VALUE_CELLRANGE, NULL);
 
-	range_ref_normalize  (&r, &start_sheet, &end_sheet, cell_range, pos);
+	value_cellrange_normalize (pos, cell_range, &start_sheet, &end_sheet, &r);
 
 	/* We cannot support this until the Sheet management is tidied up.  */
 	if (start_sheet != end_sheet)

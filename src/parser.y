@@ -27,8 +27,9 @@
 #include "auto-format.h"
 #include "style.h"
 #include "portability.h"
+#include "str.h"
 
-#define YYDEBUG 1
+/* #define YYDEBUG 1 */
 /* ------------------------------------------------------------------------- */
 /* Allocation with disposal-on-error */
 

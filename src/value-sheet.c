@@ -5,20 +5,19 @@
  *   Miguel de Icaza (miguel@gnu.org).
  */
 #include <config.h>
-#include <locale.h>
-#include <gnome.h>
 #include "value.h"
-#include "parse-util.h"
-#include "eval.h"
-#include "expr.h"
+#include "ranges.h"
+#include "str.h"
+#include "sheet.h"
 #include "cell.h"
 #include "workbook.h"
+#include "parse-util.h"
 
-#include <stdio.h>
+#include <gnome.h>
 
 /* Debugging utility to print a Value */
 void
-value_dump (const Value *value)
+value_dump (Value const *value)
 {
 	switch (value->type){
 	case VALUE_EMPTY:
@@ -87,7 +86,7 @@ value_dump (const Value *value)
 }
 
 static void
-encode_cellref (GString *dest, const CellRef *ref, gboolean use_relative_syntax)
+encode_cellref (GString *dest, CellRef const *ref, gboolean use_relative_syntax)
 {
 	if (ref->sheet){
 		g_string_append (dest, ref->sheet->name_quoted);
@@ -113,11 +112,11 @@ encode_cellref (GString *dest, const CellRef *ref, gboolean use_relative_syntax)
  * use_relative_syntax == FALSE: a4:b1
  */
 char *
-value_cellrange_get_as_string (const Value *value, gboolean use_relative_syntax)
+value_cellrange_get_as_string (Value const *value, gboolean use_relative_syntax)
 {
 	GString *str;
 	char *ans;
-	CellRef const * a, * b;
+	CellRef const *a, *b;
 
 	g_return_val_if_fail (value != NULL, NULL);
 	g_return_val_if_fail (value->type == VALUE_CELLRANGE, NULL);
@@ -141,7 +140,7 @@ value_cellrange_get_as_string (const Value *value, gboolean use_relative_syntax)
 }
 
 int
-value_area_get_width (const EvalPos *ep, Value const *v)
+value_area_get_width (EvalPos const *ep, Value const *v)
 {
 	g_return_val_if_fail (v, 0);
 
@@ -167,7 +166,7 @@ value_area_get_width (const EvalPos *ep, Value const *v)
 }
 
 int
-value_area_get_height (const EvalPos *ep, Value const *v)
+value_area_get_height (EvalPos const *ep, Value const *v)
 {
 	g_return_val_if_fail (v, 0);
 
@@ -208,7 +207,7 @@ value_area_fetch_x_y (EvalPos const *ep, Value const *v, int x, int y)
  * An internal routine to get a cell from an array or range.  If any
  * problems occur a NULL is returned.
  */
-const Value *
+Value const *
 value_area_get_x_y (EvalPos const *ep, Value const *v, int x, int y)
 {
 	g_return_val_if_fail (v, NULL);
@@ -282,14 +281,14 @@ value_area_get_x_y (EvalPos const *ep, Value const *v, int x, int y)
 
 typedef struct
 {
-	value_area_foreach_callback	 callback;
-	EvalPos const		*ep;
-	void				*real_data;
+	ValueAreaFunc  callback;
+	EvalPos const *ep;
+	void	      *real_data;
 } WrapperClosure;
 
 static Value *
-wrapper_foreach_cell_in_area_callback (Sheet *sheet, int col, int row,
-				       Cell *cell, void *user_data)
+cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
+				 Cell *cell, void *user_data)
 {
 	WrapperClosure * wrap;
 	if (cell == NULL || cell->value == NULL)
@@ -312,7 +311,7 @@ wrapper_foreach_cell_in_area_callback (Sheet *sheet, int col, int row,
  */
 Value *
 value_area_foreach (EvalPos const *ep, Value const *v,
-		    value_area_foreach_callback callback,
+		    ValueAreaFunc callback,
 		    void *closure)
 {
 	int x, y;
@@ -327,7 +326,7 @@ value_area_foreach (EvalPos const *ep, Value const *v,
 		wrap.real_data = closure;
 		return workbook_foreach_cell_in_range (
 			ep, v, TRUE,
-			&wrapper_foreach_cell_in_area_callback,
+			&cb_wrapper_foreach_cell_in_area,
 			(void *)&wrap);
 	}
 
@@ -341,4 +340,26 @@ value_area_foreach (EvalPos const *ep, Value const *v,
 				return tmp;
 
 	return NULL;
+}
+
+/**
+ * range_ref_normalize :  Take a range_ref from a Value and normalize it
+ *     by converting to absolute coords and handling inversions.
+ */
+void
+value_cellrange_normalize (EvalPos const *ep, Value const *ref,
+			   Sheet **start_sheet, Sheet **end_sheet, Range *dest)
+{
+	g_return_if_fail (ref != NULL);
+	g_return_if_fail (ep != NULL);
+	g_return_if_fail (ref->type == VALUE_CELLRANGE);
+
+	cell_get_abs_col_row (&ref->v_range.cell.a, &ep->eval,
+			      &dest->start.col, &dest->start.row);
+	cell_get_abs_col_row (&ref->v_range.cell.b, &ep->eval,
+			      &dest->end.col, &dest->end.row);
+	range_normalize (dest);
+
+	*start_sheet = eval_sheet (ref->v_range.cell.a.sheet, ep->sheet);
+	*end_sheet = eval_sheet (ref->v_range.cell.b.sheet, ep->sheet);
 }

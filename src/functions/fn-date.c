@@ -9,6 +9,7 @@
 #include <math.h>
 #include "gnumeric.h"
 #include "parse-util.h"
+#include "str.h"
 #include "cell.h"
 #include "func.h"
 #include "datetime.h"

@@ -14,6 +14,7 @@
 #include "parse-util.h"
 #include "func-util.h"
 #include "func.h"
+#include "sheet.h"
 #include "cell.h"
 #include "collect.h"
 #include "auto-format.h"

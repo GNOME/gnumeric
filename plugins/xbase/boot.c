@@ -28,6 +28,7 @@
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
 #include "xbase.h"
+#include "sheet.h"
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

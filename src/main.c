@@ -39,6 +39,7 @@ extern gboolean EmbeddableGridFactory_init (void);
 #include "auto-format.h"
 #include "style.h"
 #include "style-color.h"
+#include "str.h"
 
 #include <gal/widgets/e-cursors.h>
 #include <glade/glade.h>

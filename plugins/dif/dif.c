@@ -21,6 +21,7 @@
 #include "module-plugin-defs.h"
 #include "gnumeric.h"
 #include "cell.h"
+#include "sheet.h"
 #include "value.h"
 #include "file.h"
 #include "io-context.h"

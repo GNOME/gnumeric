@@ -7,11 +7,6 @@
  *   Jody Goldberg <jgoldberg@home.com>
  */
 #include <config.h>
-#include <gal/util/e-xml-utils.h>
-#include <gnome.h>
-#include <locale.h>
-#include <math.h>
-#include <limits.h>
 #include "gnumeric.h"
 #include "gnome-xml/parser.h"
 #include "gnome-xml/parserInternals.h"
@@ -41,6 +36,13 @@
 #include "format.h"
 #include "ranges.h"
 #include "file.h"
+#include "str.h"
+
+#include <gal/util/e-xml-utils.h>
+#include <gnome.h>
+#include <locale.h>
+#include <math.h>
+#include <limits.h>
 
 /* Precision to use when saving point measures. */
 #define POINT_SIZE_PRECISION 3

@@ -12,6 +12,7 @@
 #include "func.h"
 #include "dialogs.h"
 #include "workbook.h"
+#include "str.h"
 
 #define HELP_BUTTON (GNOME_CANCEL + 1)
 

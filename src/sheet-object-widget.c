@@ -22,7 +22,6 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include <libgnorba/gnorba.h>
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
 #include "gnumeric.h"
@@ -38,6 +37,7 @@
 #include "selection.h"
 #include "workbook-edit.h"
 #include "workbook.h"
+#include "sheet.h"
 #include "gnumeric-expr-entry.h"
 #include "dialogs.h"
 

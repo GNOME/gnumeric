@@ -30,6 +30,7 @@
 #include "module-plugin-defs.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
+#include "sheet.h"
 #include "ranges.h"
 #include "style.h"
 #include "style-border.h"

@@ -18,6 +18,7 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "cell.h"
+#include "sheet.h"
 #include "value.h"
 #include "error-info.h"
 #include "plugin-util.h"

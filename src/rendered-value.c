@@ -34,6 +34,7 @@
 #include "parse-util.h"
 #include "sheet-control-gui.h"
 #include "application.h"
+#include "str.h"
 
 #include <math.h>
 

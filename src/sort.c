@@ -13,9 +13,9 @@
 #include "cell.h"
 #include "sort.h"
 #include "value.h"
+#include "sheet.h"
 
 #include <stdlib.h>
-#include <stdio.h>
 
 typedef struct {
 	int index;

@@ -30,6 +30,7 @@
 #include "expr.h"
 #include "value.h"
 #include "cell.h"
+#include "sheet.h"
 #include "gnumeric-type-util.h"
 
 typedef enum { VECTOR_SCALAR, VECTOR_DATE, VECTOR_STRING } GraphVectorType;

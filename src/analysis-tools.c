@@ -20,6 +20,7 @@
 #include "tools.h"
 #include "value.h"
 #include "cell.h"
+#include "sheet.h"
 #include "style.h"
 #include "regression.h"
 #include "sheet-style.h"
