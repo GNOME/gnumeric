@@ -1,4 +1,9 @@
 2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c : use cell_assign_value rather than copy/paste to 
+	  preserve merged target fields.
+	
+2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 	
 	* src/sheet-object-widget.[ch] (sheet_widget_checkbox_switch_link_sheet) :
 	  delete again (unnecessary after Jody's fix of the root problem)

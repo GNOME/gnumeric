@@ -4450,7 +4450,6 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	Sheet *source_sheet = cell->a.sheet;
 	GSList *target_sheet;
 	Range target_range;
-	Range source_range;
 	ColRowStateList *state_col;
 	ColRowStateList *state_row;
 	
@@ -4464,19 +4463,13 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	for (i = 0; i < me->n; i++) {
 		Sheet *new_sheet;
-		GSList *a_box;
-		GSList *check_boxes;
 
 		new_sheet = workbook_sheet_add (me->sheet->workbook, NULL, FALSE);
 		me->sheet_list = g_slist_prepend (me->sheet_list, new_sheet);
 
 		colrow_set_states (new_sheet, TRUE, target_range.start.col, state_col);
 		colrow_set_states (new_sheet, FALSE, target_range.start.row, state_row); 	
-
 		sheet_object_clone_sheet_in_range (source_sheet, new_sheet, &target_range);
-		check_boxes = sheet_objects_get (new_sheet, &target_range, 
-						 sheet_widget_checkbox_get_type ());
-		g_slist_free (check_boxes);
 		clipboard_paste_region (me->wbc, paste_target_init (&pt, new_sheet, 
 								&target_range, PASTE_ALL_TYPES),
 					merge_content);
@@ -4486,27 +4479,29 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	colrow_state_list_destroy (state_row);
 
 	while (this_field) {
+		int col_source, row_source;
+		int col_target, row_target;
 
 		g_return_val_if_fail (this_data != NULL, TRUE);
 		cell = &((Value *)this_field->data)->v_range.cell;
-		range_init (&target_range, cell->a.col, cell->a.row,
-			    cell->a.col, cell->a.row);
+		col_target = cell->a.col;
+		row_target =  cell->a.row;
+		
 		cell = &((Value *)this_data->data)->v_range.cell;
-		range_init (&source_range, cell->a.col, cell->a.row,
-			    cell->a.col, cell->a.row);
+		col_source = cell->a.col;
+		row_source =  cell->a.row;
 		source_sheet = cell->a.sheet;
 			
 		target_sheet = me->sheet_list;
 		while (target_sheet) {
-			merge_content = clipboard_copy_range (source_sheet, &source_range);
-			clipboard_paste_region 
-				(me->wbc, paste_target_init 
-				 (&pt, (Sheet *)target_sheet->data, 
-				  &target_range, PASTE_AS_VALUES | PASTE_IGNORE_COMMENTS),
-				 merge_content);	
+			Cell *source_cell = sheet_cell_fetch (source_sheet, 
+							      col_source, row_source);
+			Cell *target_cell = sheet_cell_fetch ((Sheet *)target_sheet->data, 
+							      col_target, row_target);
+			cell_assign_value (target_cell, value_duplicate (source_cell->value));
+
 			target_sheet = target_sheet->next;
-			source_range.end.row++;
-			source_range.start.row++;
+			row_source++;
 		}
 
 		this_field = this_field->next;
