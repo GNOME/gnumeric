@@ -1,3 +1,8 @@
+2000-10-24  Michael Meeks  <michael@helixcode.com>
+
+	* src/gnumeric.xml: Start to separate out cmds / widgets, a very
+	long and tedious job, s/Menu_Open/Open/ etc.
+
 2000-10-22  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-format-toolbar.c (workbook_format_toolbar []): Now
