@@ -468,7 +468,6 @@ qpro_read_workbook (QProReadState *state, GsfInput *input)
 	guint8 const *data;
 
 	state->input = input;
-	gsf_input_seek (input, 0, G_SEEK_SET);
 
 	while (NULL != (data = qpro_get_record (state, &id, &len))) {
 		switch (id) {

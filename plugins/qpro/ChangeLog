@@ -1,3 +1,8 @@
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* qpro-read.c (qpro_read_workbook): Don't seek back to 0. Wrapper
+	which called probe does that.
+
 2002-11-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* qpro-read.c: Included headers for some standard library functions.
