@@ -8,6 +8,9 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    - Reenable compression
+    - get a libole2 release and attempt to deal with the ameritrade issues
+
 Pending Patches
 ---------------
 
@@ -34,7 +37,6 @@ Long term breakage
       or by selecting the first named expression in scope that contains the
       current cell.
     : Should <ok> add the name ?
-
 
 - How to handle Dependents in styles ?
 
