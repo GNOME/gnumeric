@@ -390,6 +390,29 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 		case EscherClientAnchor:
 			g_print ("%d %d %d %d\n", (int) GSF_LE_GET_GUINT16 (data), (int) GSF_LE_GET_GUINT16 (data + 2), (int) GSF_LE_GET_GUINT16 (data + 4), (int) GSF_LE_GET_GUINT16 (data + 6));
 			break;
+		case EscherOPT:
+			{
+				int i;
+				guint complex_offset;
+
+				complex_offset = 6 * record->inst;
+				for (i = 0; i < record->inst; i++) {
+					int id = GSF_LE_GET_GUINT16 (data + i * 6);
+					gboolean is_bid = id & 0x4000;
+					gboolean is_complex = id & 0x8000;
+					guint32 opt_data = GSF_LE_GET_GUINT32 (data + i * 6 + 2);
+
+					id &= 0x3fff;
+					g_print ("Opt  Id: %d, is_bid: %s, is_complex: %s, data: %d = 0x%x\n", id, is_bid ? "true" : "false", is_complex ? "true" : "false", opt_data, opt_data);
+					if (is_complex) {
+						gsf_mem_dump (data + complex_offset, opt_data);
+					}
+					if (is_complex) {
+						complex_offset += opt_data;
+					}
+				}
+			}
+			break;
 		case TextCharsAtom:
 			data = g_utf16_to_utf8 ((gunichar2 *) data, record->length / 2, NULL, NULL, NULL);
 			g_print (data);

@@ -1,4 +1,10 @@
-2004-03-20    <clahey@ximian.com>
+2004-03-21  Christopher James Lahey  <clahey@ximian.com>
+
+	* ms-compat/god-drawing-ms.c (handle_atom),
+	test/dump-ppt-records.c (handle_atom): Moved some of the debugging
+	stuff from god-drawing-ms to dump-ppt-records.
+
+2004-03-20  Christopher James Lahey  <clahey@ximian.com>
 
 	* drawing/god-anchor.c (god_anchor_finalize),
 	ms-compat/god-drawing-ms-client-handler.c

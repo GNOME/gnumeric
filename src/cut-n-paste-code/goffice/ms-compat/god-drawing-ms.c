@@ -238,7 +238,9 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			ERROR (record->length >= complex_offset, "Length Error");
 			for (i = 0; i < record->inst; i++) {
 				int id = GSF_LE_GET_GUINT16 (data + i * 6);
+#if 0
 				gboolean is_bid = id & 0x4000;
+#endif
 				gboolean is_complex = id & 0x8000;
 				guint32 opt_data = GSF_LE_GET_GUINT32 (data + i * 6 + 2);
 
@@ -274,19 +276,18 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 						 GOD_PROPERTY_DX_TEXT_BOTTOM,
 						 opt_data);
 					break;
+				case 260:
+					god_property_table_set_uint
+						(parse_state->prop_table,
+						 GOD_PROPERTY_BLIP_ID,
+						 opt_data);
+					break;
+				case 384:
+					god_property_table_set_uint
+						(parse_state->prop_table,
+						 GOD_PROPERTY_FILL_TYPE,
+						 opt_data);
 				}
-				d(g_print ("Opt  Id: %d, is_bid: %s, is_complex: %s, data: ", id, is_bid ? "true" : "false", is_complex ? "true" : "false");
-				  if (is_complex) {
-					  guint j;
-					  g_print ("(%d) ", opt_data);
-					  for (j = 0; j < opt_data; j++) {
-						  g_print ("%c", data[complex_offset + j]);
-					  }
-					  g_print("\n");
-				  } else {
-					  g_print ("%d = 0x%x\n", opt_data, opt_data);
-				  }
-				  );
 				if (is_complex) {
 					complex_offset += opt_data;
 					ERROR (record->length >= complex_offset, "Length Error");
