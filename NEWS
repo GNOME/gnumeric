@@ -18,6 +18,7 @@ Jody:
 
 Morten:
 	* Back-port DATE2UNIX fix.
+	* Back-port abs/fabs fix.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.4

@@ -1,3 +1,8 @@
+2002-02-15  Morten Welinder  <terra@diku.dk>
+
+	* src/regression.c (LUPDecomp): Use fabs, not abs.
+	* src/validation.c (validation_eval): Ditto.
+
 2002-02-11  Jody Goldberg <jody@gnome.org>
 
 	* src/stf.c (stf_init) : improve naming of the text exporter.
