@@ -849,6 +849,8 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 
 	if (redraw) {
 		if (prend->buffer == NULL) {
+			if (prend->w == 0 || prend->h == 0)
+				return FALSE;
 			prend->buffer = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
 							prend->w, prend->h);
 			if (prend->buffer == NULL) {

@@ -1,3 +1,9 @@
+2005-01-14  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=163939
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_update) : zero
+	  sized views are not relevent, and does not require any redrawing.
+
 2005-01-11  Morten Welinder  <terra@gnome.org>
 
 	* gui-utils/go-combo-text.c (go_combo_text_init): Bind to the
