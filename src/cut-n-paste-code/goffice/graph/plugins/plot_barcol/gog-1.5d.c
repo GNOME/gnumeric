@@ -48,6 +48,23 @@ enum {
 static GogObjectClass *plot1_5d_parent_klass;
 
 static void
+gog_plot_1_5d_clear_formats (GogPlot1_5d *plot)
+{
+	if (plot->fmt != NULL) {
+		go_format_unref (plot->fmt);
+		plot->fmt = NULL;
+	}
+}
+
+static void
+gog_plot1_5d_finalize (GObject *obj)
+{
+	gog_plot_1_5d_clear_formats (GOG_PLOT1_5D (obj));
+	if (G_OBJECT_CLASS (plot1_5d_parent_klass)->finalize)
+		G_OBJECT_CLASS (plot1_5d_parent_klass)->finalize (obj);
+}
+
+static void
 gog_plot1_5d_set_property (GObject *obj, guint param_id,
 			    GValue const *value, GParamSpec *pspec)
 {
@@ -129,17 +146,16 @@ gog_plot1_5d_update (GogObject *obj)
 	double **vals, minima, maxima;
 	double old_minima, old_maxima;
 	unsigned *lengths;
-	GSList *ptr;
-	GOData *index_dim = NULL;
+	GSList  *ptr;
+	GOData  *index_dim = NULL;
+	GogPlot *plot_that_labeled_axis;
+	GogAxis *axis;
 
 	old_minima =  model->minima;
 	old_maxima =  model->maxima;
 	model->minima =  DBL_MAX;
 	model->maxima = -DBL_MAX;
-	if (model->fmt != NULL) {
-		go_format_unref (model->fmt);
-		model->fmt = NULL;
-	}
+	gog_plot_1_5d_clear_formats (model);
 
 	num_elements = num_series = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
@@ -162,15 +178,14 @@ gog_plot1_5d_update (GogObject *obj)
 			model->fmt = go_data_preferred_fmt (series->base.values[1].data);
 		index_dim = GOG_SERIES (series)->values[0].data;
 	}
-	if (model->num_elements != num_elements) {
+	axis = gog_plot1_5d_get_index_axis (model);
+	if (model->num_elements != num_elements ||
+	    model->implicit_index ^ (index_dim == NULL) ||
+	    (index_dim != gog_axis_get_labels (axis, &plot_that_labeled_axis) &&
+	     GOG_PLOT (model) == plot_that_labeled_axis)) {
 		model->num_elements = num_elements;
-		gog_axis_bound_changed (
-			gog_plot1_5d_get_index_axis (model), GOG_OBJECT (model));
-	}
-	if (model->implicit_index ^ (index_dim == NULL)) {
 		model->implicit_index = (index_dim == NULL);
-		gog_axis_bound_changed (
-			gog_plot1_5d_get_index_axis (model), GOG_OBJECT (model));
+		gog_axis_bound_changed (axis, GOG_OBJECT (model));
 	}
 
 	model->num_series = num_series;
@@ -275,6 +290,7 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 	plot1_5d_parent_klass = g_type_class_peek_parent (plot_klass);
 	gobject_klass->set_property = gog_plot1_5d_set_property;
 	gobject_klass->get_property = gog_plot1_5d_get_property;
+	gobject_klass->finalize = gog_plot1_5d_finalize;
 
 	g_object_class_install_property (gobject_klass, GOG_1_5D_PROP_TYPE,
 		g_param_spec_string ("type", "type",
