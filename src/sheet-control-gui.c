@@ -121,8 +121,8 @@ scg_redraw_cell_region (SheetControl *sc,
 		: INT_MAX;
 
 #if 0
-	fprintf (stderr, "%s%d:", col_name(min_col), first_row+1);
-	fprintf (stderr, "%s%d\n", col_name(max_col), last_row+1);
+	fprintf (stderr, "%s%s:", col_name (min_col), row_name (first_row));
+	fprintf (stderr, "%s%s\n", col_name (max_col), row_name (last_row));
 #endif
 
 	gnome_canvas_request_redraw (GNOME_CANVAS (gsheet), x1-2, y1-2, x2, y2);
@@ -501,7 +501,7 @@ vertical_scroll_offset_changed (GtkAdjustment *adj, int top, int is_hint,
 	GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
 
 	if (is_hint) {
-		char *buffer = g_strdup_printf (_("Row: %d"), top + 1);
+		char *buffer = g_strdup_printf (_("Row: %s"), row_name (top));
 		wb_control_gui_set_status_text (scg->wbcg, buffer);
 		g_free (buffer);
 	} else {

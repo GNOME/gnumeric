@@ -1,4 +1,43 @@
 2001-06-03  Almer S. Tigelaar  <almer@gnome.org>
+ 
+ 	* src/parse-util.[ch] (row_name): New, converts
+ 	a row number to a string.
+ 	(rows_name): Idem, but for a start/end range.
+ 	(row_name_internal): Utility routine.
+ 
+ 	* src/colrow.c (colrow_string_build): Remove.
+ 	(colrow_index_list_to_string): Use rows_name
+ 	and cols_name.
+ 
+ 	* src/cmd-edit.c (cmd_shift_rows): Use rows_name.
+ 
+ 	* src/commands.c (cmd_insert_rows): Idem.
+ 	(cmd_delete_cols): Beautify.
+ 	(cmd_delete_rows): Beautify and use rows_name.
+ 
+ 	* src/eval.c (dump_range_dep): Use row_name.
+ 
+ 	* src/item-bar.c (get_row_name): Deprecated, remove.
+ 	(item_bar_draw): Use row_name.
+ 
+ 	* src/item-cursor.c (item_cursor_tip_setlabel): Idem.
+ 
+ 	* src/item-grid.c (item_grid_draw): Idem.
+ 
+ 	* src/ranges.c (range_name): Idem.
+ 	(range_dump): Idem.
+ 
+ 	* src/selection.c (reference_append): Idem.
+ 	(selection_get_ranges): Idem.
+ 	(cb_range_to_string): Idem.
+ 
+ 	* src/sheet-control-gui.c (scg_redraw_cell_region): Idem.
+ 	(vertical_scroll_offset_changed): Idem.
+ 
+ 	* src/value-sheet.c (value_dump): Idem.
+ 	(encode_cellref): Idem.
+
+2001-06-03  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/stf-parse.[ch] (stf_cache_options_new): Burn.
 	(stf_cache_options_free): Burn.

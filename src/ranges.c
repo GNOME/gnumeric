@@ -372,18 +372,19 @@ char const *
 range_name (Range const *src)
 {
 	static char buffer [(2 + 4 * sizeof (long)) * 2 + 1];
-	char *name;
 
 	if (src->start.col != src->end.col ||
 	    src->start.row != src->end.row) {
-		name = g_strdup (col_name (src->start.col));
-		sprintf (buffer, "%s%d:%s%d", name, src->start.row + 1,
-			 col_name (src->end.col), src->end.row + 1);
-		g_free (name);
+		char *name_col = g_strdup (col_name (src->start.col));
+		char *name_row = g_strdup (row_name (src->start.row));
+		sprintf (buffer, "%s%s:%s%s", name_col, name_row,
+			 col_name (src->end.col), row_name (src->end.row));
+		g_free (name_row);
+		g_free (name_col);
 	} else {
-		sprintf (buffer, "%s%d",
+		sprintf (buffer, "%s%s",
 			 col_name (src->start.col),
-			 src->start.row + 1);
+			 row_name (src->start.row));
 	}
 
 	return buffer;
@@ -470,17 +471,17 @@ range_dump (Range const *src, char const *suffix)
 {
 	/*
 	 * keep these as 2 print statements, because
-	 * col_name uses a static buffer
+	 * col_name and row_name use a static buffer
 	 */
-	fprintf (stderr, "%s%d",
+	fprintf (stderr, "%s%s",
 		col_name (src->start.col),
-		src->start.row + 1);
+		row_name (src->start.row));
 
 	if (src->start.col != src->end.col ||
 	    src->start.row != src->end.row)
-		fprintf (stderr, ":%s%d",
+		fprintf (stderr, ":%s%s",
 			col_name (src->end.col),
-			src->end.row + 1);
+			row_name (src->end.row));
 	fprintf (stderr, suffix);
 }
 

@@ -489,14 +489,10 @@ sheet_selection_reset (Sheet *sheet)
 static void
 reference_append (GString *result_str, CellPos const *pos)
 {
-	char *row_string = g_strdup_printf ("%d", pos->row);
-
 	g_string_append_c (result_str, '$');
 	g_string_append (result_str, col_name (pos->col));
 	g_string_append_c (result_str, '$');
-	g_string_append (result_str, row_string);
-
-	g_free (row_string);
+	g_string_append (result_str, row_name (pos->row));
 }
 
 char *
@@ -658,12 +654,12 @@ selection_get_ranges (Sheet const *sheet, gboolean allow_intersection)
 				segments_intersect (a->start.row, a->end.row,
 						    b->start.row, b->end.row);
 #ifdef DEBUG_SELECTION
-			fprintf (stderr, "row = %d\na = %d", row_intersect, a->start.row +1);
+			fprintf (stderr, "row = %d\na = %s", row_intersect, row_name (a->start.row));
 			if (a->start.row != a->end.row)
-				fprintf (stderr, " -> %d", a->end.row +1);
-			fprintf (stderr, "\nb = %d", b->start.row +1);
+				fprintf (stderr, " -> %s", row_name (a->end.row));
+			fprintf (stderr, "\nb = %s", row_name (b->start.row));
 			if (b->start.row != b->end.row)
-				fprintf (stderr, " -> %d\n", b->end.row +1);
+				fprintf (stderr, " -> %s\n", row_name (b->end.row));
 			else
 				fputc ('\n', stderr);
 #endif
@@ -924,11 +920,11 @@ cb_range_to_string (Sheet *sheet, Range const *r, void *closure)
 	if (res->include_sheet_name_prefix)
 		g_string_sprintfa (res->str, "%s!", sheet->name_quoted);
 
-	g_string_sprintfa (res->str, "$%s$%d",
-			   col_name (r->start.col), r->start.row+1);
+	g_string_sprintfa (res->str, "$%s$%s",
+			   col_name (r->start.col), row_name (r->start.row));
 	if ((r->start.col != r->end.col) || (r->start.row != r->end.row))
-		g_string_sprintfa (res->str, ":$%s$%d",
-				   col_name (r->end.col), r->end.row+1);
+		g_string_sprintfa (res->str, ":$%s$%s",
+				   col_name (r->end.col), row_name (r->end.row));
 }
 
 char *

@@ -1097,8 +1097,8 @@ cmd_insert_cols (WorkbookControl *wbc,
 {
 	char *mesg = g_strdup_printf ((count > 1)
 				      ? _("Inserting %d columns before %s")
-				      : _("Inserting %d column before %s"), count,
-				      col_name (start_col));
+				      : _("Inserting %d column before %s"),
+				      count, col_name (start_col));
 	return cmd_ins_del_colrow (wbc, sheet, TRUE, TRUE, mesg,
 				   start_col, count);
 }
@@ -1108,9 +1108,9 @@ cmd_insert_rows (WorkbookControl *wbc,
 		 Sheet *sheet, int start_row, int count)
 {
 	char *mesg = g_strdup_printf ((count > 1)
-				      ? _("Inserting %d rows before %d")
-				      : _("Inserting %d row before %d"),
-				      count, start_row+1);
+				      ? _("Inserting %d rows before %s")
+				      : _("Inserting %d row before %s"),
+				      count, row_name (start_row));
 	return cmd_ins_del_colrow (wbc, sheet, FALSE, TRUE, mesg,
 				   start_row, count);
 }
@@ -1119,17 +1119,10 @@ gboolean
 cmd_delete_cols (WorkbookControl *wbc,
 		 Sheet *sheet, int start_col, int count)
 {
-	char *mesg;
-	if (count > 1) {
-		/* col_name uses a static buffer */
-		char *temp = g_strdup_printf (_("Deleting %d columns %s:"),
-					      count, col_name (start_col));
-		mesg = g_strconcat (temp, col_name (start_col+count-1), NULL);
-		g_free (temp);
-	} else
-		mesg = g_strdup_printf (_("Deleting column %s"),
-					col_name (start_col));
-
+	char *mesg = g_strdup_printf ((count > 1)
+				      ? _("Deleting columns %s")
+				      : _("Deleting column %s"),
+				      cols_name (start_col, start_col + count - 1));
 	return cmd_ins_del_colrow (wbc, sheet, TRUE, FALSE, mesg, start_col, count);
 }
 
@@ -1137,11 +1130,10 @@ gboolean
 cmd_delete_rows (WorkbookControl *wbc,
 		 Sheet *sheet, int start_row, int count)
 {
-	char *mesg = (count > 1)
-	    ? g_strdup_printf (_("Deleting %d rows %d:%d"), count, start_row,
-			       start_row+count-1)
-	    : g_strdup_printf (_("Deleting row %d"), start_row);
-
+	char *mesg = g_strdup_printf ((count > 1)
+				      ? _("Deleting rows %s")
+				      : _("Deleting row %s"),
+				      rows_name (start_row, start_row + count - 1));
 	return cmd_ins_del_colrow (wbc, sheet, FALSE, FALSE, mesg, start_row, count);
 }
 

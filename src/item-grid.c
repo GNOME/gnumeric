@@ -284,8 +284,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int *colwidths = NULL;
 
 #if 0
-	printf ("%s%d:", col_name(start_col), start_row+1);
-	printf ("%s%d <= %d vs %d\n", col_name(end_col), end_row+1, y, draw_y);
+	printf ("%s%s:", col_name(start_col), row_name(start_row));
+	printf ("%s%s <= %d vs %d\n", col_name(end_col), row_name(end_row), y, draw_y);
 #endif
 
 	/* Skip any hidden cols/rows at the start */

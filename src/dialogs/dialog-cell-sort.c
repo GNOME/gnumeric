@@ -81,12 +81,12 @@ col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 		else if (is_cols)
 			str = g_strdup (col_name (col));
 		else
-			str = g_strdup_printf (_("Row %d"), row + 1);
+			str = g_strdup_printf (_("Row %s"), row_name (row));
 	} else {
 		if (is_cols)
 			str = g_strdup (col_name (col));
 		else
-			str = g_strdup_printf (_("Row %d"), row + 1);
+			str = g_strdup_printf (_("Row %s"), row_name (row));
 	}
 
 	return str;

@@ -67,17 +67,17 @@ value_dump (Value const *value)
 			printf ("%s:", sheet->name_quoted);
 		else
 			printf ("%p :", sheet);
-		printf ("%s%s%s%d\n",
+		printf ("%s%s%s%s\n",
 			(c->col_relative ? "":"$"), col_name(c->col),
-			(c->row_relative ? "":"$"), c->row+1);
+			(c->row_relative ? "":"$"), row_name(c->row));
 		c = &value->v_range.cell.b;
 		if (sheet && sheet->name_quoted)
 			printf ("%s:", sheet->name_unquoted);
 		else
 			printf ("%p :", sheet);
-		printf ("%s%s%s%d\n",
+		printf ("%s%s%s%s\n",
 			(c->col_relative ? "":"$"), col_name(c->col),
-			(c->row_relative ? "":"$"), c->row+1);
+			(c->row_relative ? "":"$"), row_name(c->row));
 		break;
 	}
 	default:
@@ -98,7 +98,7 @@ encode_cellref (GString *dest, CellRef const *ref, gboolean use_relative_syntax)
 
 	if (use_relative_syntax && !ref->row_relative)
 		g_string_append_c (dest, '$');
-	g_string_sprintfa (dest, "%d", ref->row+1);
+	g_string_append (dest, row_name (ref->row));
 }
 
 

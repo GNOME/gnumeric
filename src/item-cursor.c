@@ -1022,7 +1022,7 @@ item_cursor_set_visibility (ItemCursor *item_cursor, gboolean visible)
 static void
 item_cursor_tip_setlabel (ItemCursor *item_cursor)
 {
-	char buffer [32];
+	char buffer [32]; /* What if SHEET_MAX_ROWS or SHEET_MAX_COLS changes? */
 	int tmp;
 	Range const * src = &item_cursor->pos;
 
@@ -1038,14 +1038,14 @@ item_cursor_tip_setlabel (ItemCursor *item_cursor)
 	 * keep these as 2 print statements, because
 	 * col_name uses a static buffer
 	 */
-	tmp = snprintf (buffer, sizeof (buffer), "%s%d",
+	tmp = snprintf (buffer, sizeof (buffer), "%s%s",
 			col_name (src->start.col),
-			src->start.row + 1);
+			row_name (src->start.row));
 
 	if (src->start.col != src->end.col || src->start.row != src->end.row)
-		snprintf (buffer+tmp, sizeof (buffer)-tmp, ":%s%d",
+		snprintf (buffer+tmp, sizeof (buffer)-tmp, ":%s%s",
 			  col_name (src->end.col),
-			  src->end.row + 1);
+			  row_name (src->end.row));
 
 	gtk_label_set_text (GTK_LABEL (item_cursor->tip), buffer);
 }

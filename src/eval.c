@@ -1249,11 +1249,11 @@ dump_range_dep (gpointer key, gpointer value, gpointer closure)
 	DependencyRange const *deprange = key;
 	Range const *range = &(deprange->range);
 
-	/* 2 calls to col_name.  It uses a static buffer */
-	printf ("\t%s%d:",
-		col_name (range->start.col), range->start.row + 1);
-	printf ("%s%d -> ",
-		col_name (range->end.col), range->end.row + 1);
+	/* 2 calls to col_name and row_name.  It uses a static buffer */
+	printf ("\t%s%s:",
+		col_name (range->start.col), row_name (range->start.row));
+	printf ("%s%s -> ",
+		col_name (range->end.col), row_name (range->end.row));
 
 	dump_dependent_list (deprange->dependent_list);
 }
@@ -1263,7 +1263,6 @@ dump_single_dep (gpointer key, gpointer value, gpointer closure)
 {
 	DependencySingle *dep = key;
 
-	/* 2 calls to col_name.  It uses a static buffer */
 	printf ("\t%s -> ", cell_pos_name (&dep->pos));
 
 	dump_dependent_list (dep->dependent_list);

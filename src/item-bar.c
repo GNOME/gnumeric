@@ -204,17 +204,6 @@ item_bar_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int f
 		(*GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->update)(item, affine, clip_path, flags);
 }
 
-static const char *
-get_row_name (int n)
-{
-	static char x [4 * sizeof (int)];
-
-	g_return_val_if_fail (n >= 0 && n < SHEET_MAX_ROWS, "0");
-
-	snprintf (x, sizeof (x)-1, "%d", n + 1);
-	return x;
-}
-
 static void
 bar_draw_cell (ItemBar const * const item_bar,
 	       GdkDrawable *drawable, ColRowSelectionType const type,
@@ -442,7 +431,6 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			if (cri->visible) {
 				total += pixels;
 				if (total >= 0) {
-					char const * const str = get_row_name (row);
 					int level, i = 0, pos = base_pos;
 					int top = total - pixels;
 
@@ -451,7 +439,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 					bar_draw_cell (item_bar, drawable,
 						       has_object ? COL_ROW_NO_SELECTION
 						       : sheet_row_selection_type (sheet, row),
-						       str, &rect);
+						       row_name (row), &rect);
 
 					if (len > 0) {
 						for (level = cri->outline_level; i++ < level ; pos += inc) {
@@ -489,7 +477,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 										       left+size/2, top+3,
 										       left+size/2, top+size-4);
 									if (!cri->is_collapsed)
-										g_warning ("expected collapsed %d", row+1);
+										g_warning ("expected collapsed %s", row_name (row));
 								}
 								gdk_draw_line (drawable, item_bar->lines,
 									       left+3,	    top+size/2,

@@ -2,7 +2,9 @@ Gnumeric 0.66
 
 Almer:
 	* Some work on the SAX importer.
-	* Finish Group/Ungroup
+	* Finish Group/Ungroup.
+	* Clean-up the STF.
+	* Clean-up row naming.
 
 Jody:
 	* Fix ctrl-enter filling.

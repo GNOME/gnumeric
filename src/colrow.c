@@ -155,19 +155,6 @@ colrow_index_compare (ColRowIndex const * a, ColRowIndex const * b)
 	return a->first - b->first;
 }
 
-static void
-colrow_string_build (GString *str, int index, gboolean const is_cols)
-{	
-	if (is_cols)
-		g_string_append (str, col_name (index));
-	else {
-		char *s = g_strdup_printf ("%d", index + 1);
-			
-		g_string_append (str, s);
-		g_free (s);
-	}
-}
-
 /*
  * colrow_index_list_to_string: Convert an index list into a string.
  *                              The result must be freed by the caller.
@@ -189,13 +176,14 @@ colrow_index_list_to_string (ColRowIndexList *list, gboolean const is_cols, gboo
 	result = g_string_new ("");
 	for (ptr = list; ptr != NULL; ptr = ptr->next) {
 		ColRowIndex *index = ptr->data;
-		
-		colrow_string_build (result, index->first, is_cols);
-		if (index->last != index->first) {
-			g_string_append (result, "-");
-			colrow_string_build (result, index->last, is_cols);
+
+		if (is_cols)
+			g_string_append (result, cols_name (index->first, index->last));
+		else
+			g_string_append (result, rows_name (index->first, index->last));
+			
+		if (index->last != index->first)
 			single = FALSE;
-		}
 		
 		if (ptr->next) {
 			g_string_append (result, ", ");
