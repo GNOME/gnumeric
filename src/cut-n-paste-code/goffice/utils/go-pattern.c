@@ -156,7 +156,7 @@ go_pattern_selector (GOColor fore, GOColor back)
 #define H 20
 #define W 20
 	GtkWidget *w;
-	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, H, W);
+	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
 	guchar    *buf = gdk_pixbuf_get_pixels (pixbuf);
 	unsigned   rowstride = gdk_pixbuf_get_rowstride (pixbuf);
 	unsigned   i;
@@ -192,6 +192,7 @@ go_pattern_selector (GOColor fore, GOColor back)
 	art_svp_free (svp);
 	w = pixmap_combo_new (elements, 6, 4);
 	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
+	g_object_unref (pixbuf);
 	return w;
 }
 #undef H

@@ -1,5 +1,8 @@
 2003-08-26  Morten Welinder  <terra@gnome.org>
 
+	* utils/go-pattern.c (go_pattern_selector): Get the args to
+	gdk_pixbuf_new right.  Plug leak.
+
 	* utils/go-gradient.c (go_gradient_setup): New function.
 	(go_gradient_selector): Use go_gradient_setup.  Make return type
 	sane.
