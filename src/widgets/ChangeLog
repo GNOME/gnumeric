@@ -1,5 +1,9 @@
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.1.11
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
 	* widget-font-selector.c (fs_init) : don't hard code the path to the
 	  glade file.
 

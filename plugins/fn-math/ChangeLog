@@ -1,3 +1,7 @@
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
 2002-10-28  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_seriessum): New clean implementation.
