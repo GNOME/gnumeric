@@ -1,5 +1,13 @@
 2003-06-18  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/file.c: spelling fixes
+	* src/format-template.c: spelling fixes
+	* src/formats.c: spelling fixes
+	* src/func-builtin.c: spelling fixes
+	* src/sheet-style.c: spelling fixes
+
+2003-06-18  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/gui-clipboard.c: call stf_dialog with new arguments
 	* src/stf.c: call stf_dialog with new arguments
 

@@ -1,3 +1,7 @@
+2003-06-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c: spelling fix
+
 2003-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dao.c (dao_prepare_output): add space and parentheses around

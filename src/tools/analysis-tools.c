@@ -1248,7 +1248,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 				if ((info->size < 0) || (info->size > data_len)) {
 					destroy_data_set_list (data);
 					gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
-						_("The requested sample size is to large for a periodic sample."));
+						_("The requested sample size is too large for a periodic sample."));
 					return TRUE;
 				}
 				for (i = info->size - 1; i < data_len; i += info->size) {
@@ -2217,7 +2217,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		case REG_near_singular_bad:
 			gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
 					 _("Two or more of the independent variables "
-					   "are nearly linear\ndependent.  All numerical "
+					   "are nearly linearly\ndependent.  All numerical "
 					   "precision was lost in the computation."));
 			info->base.err = analysis_tools_reported_err_input;
 			break;
@@ -2407,7 +2407,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	if (regerr == REG_near_singular_good) 
 		gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
 			_("Two or more of the independent variables "
-			  "are nearly linear\ndependent.  Treat the "
+			  "are nearly linearly\ndependent.  Treat the "
 			  "regression result with great care!"));
 
 	return FALSE;

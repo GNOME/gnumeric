@@ -496,7 +496,7 @@ CurrencySymbol const currency_symbols[] =
 	{ "[$XCD]",	N_("East Caribbean Dollars"), TRUE, TRUE },
 	{ "[$XDR]",	N_("International Monetary Fund (IMF) Special Drawing Rights"), TRUE, TRUE },
 	{ "[$XOF]",	N_("Communaute Financiere Africaine BCEAO, Francs"), TRUE, TRUE },
-	{ "[$XPD]",	N_("Palladium Ounces"), TRUE, TRUE },
+	{ "[$XPD]",	N_("Palladium, Ounces"), TRUE, TRUE },
 	{ "[$XPF]",	N_("Comptoirs Francais du Pacifique Francs"), TRUE, TRUE },
 	{ "[$XPT]",	N_("Platinum, Ounces"), TRUE, TRUE },
 	{ "[$YER]",	N_("Yemen, Rials"), TRUE, TRUE },

@@ -444,7 +444,7 @@ sheet_style_init (Sheet *sheet)
 	if (SHEET_MAX_COLS > 364238) {
 		/* Oh, yeah?  */
 		g_warning (_("This is a special version of Gnumeric.  It has been compiled\n"
-			     "with support for a very large number of rows.  Access to the\n"
+			     "with support for a very large number of columns.  Access to the\n"
 			     "column named TRUE may conflict with the constant of the same\n"
 			     "name.  Expect weirdness."));
 	}

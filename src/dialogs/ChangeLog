@@ -1,5 +1,11 @@
 2003-06-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-paste-special.c: spelling fix
+	* search-replace.glade: spelling fix
+	* search.glade: spelling fix
+
+2003-06-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-stf-format-page.c (locale_changed_cb): new
 	(stf_dialog_format_page_init): add locale selector
 	* dialog-stf.c: add pagedata.locale and pagedata.fixed_locale

@@ -510,7 +510,7 @@
 			  <child>
 			    <widget class="GtkRadioButton" id="search_type_text">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">The search text is taken literal</property>
+			      <property name="tooltip" translatable="yes">The search text is taken literally.</property>
 			      <property name="can_focus">True</property>
 			      <property name="label" translatable="yes">_Plain text</property>
 			      <property name="use_underline">True</property>

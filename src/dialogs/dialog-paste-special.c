@@ -46,7 +46,7 @@ static const struct {
 
 static const char *paste_ops[] = {
 	N_("None"),
-	N_("Add "),
+	N_("Add"),
 	N_("Subtract"),
 	N_("Multiply"),
 	N_("Divide"),

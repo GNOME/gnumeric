@@ -177,7 +177,7 @@ solver_answer_report (WorkbookControl *wbc,
 	 */
 	if (res->param->options.assume_discrete) {
 	        dao_set_cell (&dao, 1, 18 + vars + i,
-			      _("Assume that all variables are integer."));
+			      _("Assume that all variables are integers."));
 	}
 
 
@@ -517,7 +517,7 @@ solver_performance_report (WorkbookControl *wbc,
 
 	dao_set_cell (&dao, 1, 6, _("Type"));
 	dao_set_cell (&dao, 1, 7, _("Status"));
-	dao_set_cell (&dao, 1, 8, _("Nbr of Iterations"));
+	dao_set_cell (&dao, 1, 8, _("Number of Iterations"));
 	dao_set_bold (&dao, 1, 6, 1, 8);
 
 	/* Print the problem type. */
@@ -570,8 +570,8 @@ solver_performance_report (WorkbookControl *wbc,
 
 	dao_set_cell (&dao, 2, 12, _("Variables"));
 	dao_set_cell (&dao, 3, 12, _("Constraints"));
-	dao_set_cell (&dao, 4, 12, _("Int Constraints"));
-	dao_set_cell (&dao, 5, 12, _("Bool Constraints"));
+	dao_set_cell (&dao, 4, 12, _("Integer Constraints"));
+	dao_set_cell (&dao, 5, 12, _("Boolean Constraints"));
 	dao_set_cell (&dao, 1, 13, _("Number of"));
 	dao_set_bold (&dao, 0, 12, 5, 12);
 	dao_set_bold (&dao, 1, 13, 1, 13);
@@ -887,7 +887,7 @@ solver_program_report (WorkbookControl *wbc,
 	 */
 	if (res->param->options.assume_discrete) {
 	        dao_set_cell (&dao, 1, row + 1,
-			      _("Assume that all variables are integer."));
+			      _("Assume that all variables are integers."));
 		row++;
 	}
 

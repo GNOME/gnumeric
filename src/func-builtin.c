@@ -104,7 +104,7 @@ static const char *help_gnumeric_version = {
 	   "@SYNTAX=GNUMERIC_VERSION()\n"
 
 	   "@DESCRIPTION="
-	   "GNUMERIC_VERSION return the version of gnumeric as a string."
+	   "GNUMERIC_VERSION returns the version of gnumeric as a string."
 
 	   "\n"
 	   "@EXAMPLES=\n"

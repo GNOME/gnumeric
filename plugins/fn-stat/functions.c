@@ -4561,7 +4561,7 @@ static char const *help_trend = {
 	   "* If @known_x's is omitted, an array {1, 2, 3, ...} is used.\n"
 	   "* If @new_x's is omitted, it is assumed to be the same as "
 	   "@known_x's.\n"
-           "* If @const is omitted, it is assumed to be TRUE.\n"
+	   "* If @const is omitted, it is assumed to be TRUE.\n"
 	   "* If @known_y's and @known_x's have unequal number of data points, "
 	   "TREND returns #NUM! error.\n"
 	   "\n"

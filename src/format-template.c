@@ -490,7 +490,7 @@ format_template_new_from_file (char const *filename, CommandContext *cc)
 				_("Is not an autoformat template file"));
 	} else
 		gnumeric_error_read (cc,
-			_("Invalid xml file. Tree is empty ?"));
+			_("Invalid xml file. Tree is empty?"));
 
 	xmlFreeDoc (doc);
 	return ft;
