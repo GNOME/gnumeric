@@ -1,3 +1,7 @@
+1999-04-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added CHIDIST(), CHIINV(), and GAMMAINV().
+
 Sat Apr 24 14:39:32 1999  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet.c (sheet_selection_reset_only): Remove useless
