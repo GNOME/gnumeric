@@ -1,3 +1,14 @@
+2003-05-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* stf-export.c (stf_export_cell): transliterate if
+	  requested
+	(stf_export_options_set_transliterate_mode): new
+	(stf_export_can_transliterate): new	
+
+	* stf-export.h: Add StfTransliterateMode_t
+	(stf_export_options_set_transliterate_mode): new
+	(stf_export_can_transliterate): new
+
 2003-05-09  Morten Welinder  <terra@gnome.org>
 
 	* src/format.h: Use gnumeric_regex_t, not regex_t.
@@ -9292,3 +9303,5 @@
 
 	* README:
 	* configure.in: increased minimum libgda versions
+2003-05-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+

@@ -22,7 +22,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialog-stf-export-private.h"
-
+#include "gtk/gtk.h"
 /*
  * Index of "Custom" in the separator optionmenu
  */
@@ -92,6 +92,24 @@ stf_export_dialog_format_page_init (GladeXML *gui)
 	data->format_quote       = GTK_OPTION_MENU (glade_xml_get_widget (gui, "format_quote"));
 	data->format_quotechar   = GTK_COMBO       (glade_xml_get_widget (gui, "format_quotechar"));
 	data->format_charset	 = CHARMAP_SELECTOR (charmap_selector_new ());
+	data->format_transliterate = GTK_OPTION_MENU (glade_xml_get_widget (gui, "format_transliterate"));
+
+	if (stf_export_can_transliterate ()) {
+	     gtk_option_menu_set_history (data->format_transliterate,
+					  TRANSLITERATE_MODE_TRANS);
+	} else {
+	     gtk_option_menu_set_history (data->format_transliterate,
+					  TRANSLITERATE_MODE_ESCAPE);	 
+	     gtk_widget_set_sensitive 
+		  (GTK_WIDGET(g_list_nth_data
+			      (GTK_MENU_SHELL 
+			       (gtk_option_menu_get_menu 
+				(data->format_transliterate))->children, 
+			      TRANSLITERATE_MODE_TRANS)),
+		   FALSE);
+	}
+	
+	     
 
 	table = glade_xml_get_widget (gui, "format_table");
 	gtk_table_attach_defaults (GTK_TABLE (table), GTK_WIDGET (data->format_charset),
@@ -101,9 +119,9 @@ stf_export_dialog_format_page_init (GladeXML *gui)
 	menu = (GtkMenu *) gtk_option_menu_get_menu (data->format_separator);
 
 	g_signal_connect (G_OBJECT (menu),
-		"deactivate",
-		G_CALLBACK (sheet_page_separator_menu_deactivate), data);
-
+			  "deactivate",
+			  G_CALLBACK (sheet_page_separator_menu_deactivate), data);
+	
 	return data;
 }
 
@@ -120,9 +138,11 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 {
 	StfTerminatorType_t terminator;
 	StfQuotingMode_t quotingmode;
+	StfTransliterateMode_t transliteratemode;
 	char *text;
 	char separator;
 	char const * charset;
+	
 
 	g_return_if_fail (data != NULL);
 	g_return_if_fail (export_options != NULL);
@@ -148,6 +168,16 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 	}
 
 	stf_export_options_set_quoting_mode (export_options, quotingmode);
+
+	switch (gtk_option_menu_get_history (data->format_transliterate)) {
+	case 0 : transliteratemode = TRANSLITERATE_MODE_TRANS; break;
+	case 1 : transliteratemode = TRANSLITERATE_MODE_ESCAPE; break;
+	default :
+		transliteratemode  = TRANSLITERATE_MODE_UNKNOWN;
+		break;
+	}
+
+	stf_export_options_set_transliterate_mode (export_options, transliteratemode);
 
 	text = gtk_editable_get_chars (GTK_EDITABLE (data->format_quotechar->entry), 0, -1);
 	stf_export_options_set_quoting_char (export_options, text[0]);

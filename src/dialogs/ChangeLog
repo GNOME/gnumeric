@@ -1,11 +1,22 @@
+2003-05-09   Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export-format-page.c 
+	(stf_export_dialog_format_page_init) : initialize 
+	  format_transliterate 
+	(stf_export_dialog_format_page_result): read
+	  format_transliterate
+	* dialog-stf-export-private.h (StfE_FormatPageData_t): add
+	  format_transliterate
+	* dialog-stf-export.glade: add tranliteration option menu
+
 2003-05-08   Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/dialogs/dialog-stf-csv-page.c: add forgotten #include
+	* dialog-stf-csv-page.c: add forgotten #include
 
 2003-05-08   Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=78355
-	* src/dialogs/dialog-stf-csv-page.c (stf_dialog_csv_page_prepare):
+	* dialog-stf-csv-page.c (stf_dialog_csv_page_prepare):
 	  set the default separator
 
 2003-05-07   Andreas J. Guelzow <aguelzow@taliesin.ca>

@@ -49,6 +49,7 @@ typedef struct {
 	GtkOptionMenu 	*format_quote;
 	GtkCombo      	*format_quotechar;
 	CharmapSelector *format_charset;
+	GtkOptionMenu 	*format_transliterate;
 } StfE_FormatPageData_t;
 
 /* Global stuff */

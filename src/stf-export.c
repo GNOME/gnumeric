@@ -129,6 +129,23 @@ stf_export_options_set_quoting_mode (StfExportOptions_t *export_options, StfQuot
 }
 
 /**
+ * stf_export_options_set_transliterate_mode:
+ * @export_options: an export options struct
+ * @transliterate_mode: the quoting mode
+ *
+ * Sets the transliterate mode (trans/escape)
+ **/
+void
+stf_export_options_set_transliterate_mode (StfExportOptions_t *export_options, StfTransliterateMode_t transliterate_mode)
+{
+	g_return_if_fail (export_options != NULL);
+	g_return_if_fail (transliterate_mode >= 0 && transliterate_mode < TRANSLITERATE_MODE_UNKNOWN);
+
+	export_options->transliterate_mode = transliterate_mode;
+}
+
+
+/**
  * stf_export_options_set_quoting_char:
  * @export_options: an export options struct
  * @quoting_char: the quoting char
@@ -242,29 +259,41 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 
 		if (export_options->charset != NULL)
 		{
-		  if (!g_str_equal (export_options->charset, "UTF-8"))
-		  {
-		    encoded_text = g_convert_with_fallback (text,
-							    strlen (text),
-							    export_options->charset,
-							    "UTF-8",
-							    NULL,
-							    &bytes_read,
-							    &bytes_written,
-							    &error);
-		    if (error != NULL)
-		    {
-		      g_warning ("stf-export.c in %s charset : %s", 
-				 export_options->charset,
-				 error->message);
-		      g_warning ("the following cell will be exported as UTF-8 :\n%s", s);
-		      g_error_free (error);
-		    }
-		    else 
-		    {
-		      s = encoded_text;
-		    }
-		  }
+			if (!g_str_equal (export_options->charset, "UTF-8"))
+			{
+				char *use_charset;
+				
+				if (export_options->transliterate_mode == TRANSLITERATE_MODE_ESCAPE) 
+					use_charset = g_strdup 
+						(export_options->charset);
+				else
+					use_charset = g_strconcat 
+						(export_options->charset, "//TRANSLIT", NULL);
+				
+				encoded_text = g_convert_with_fallback 
+					(text,
+					 strlen (text),
+					 use_charset,
+					 "UTF-8",
+					 NULL,
+					 &bytes_read,
+					 &bytes_written,
+					 &error);
+				if (error != NULL)
+				{
+					g_warning ("stf-export.c in %s charset : %s", 
+						   use_charset,
+						   error->message);
+					g_warning 
+						("the following cell will be exported as UTF-8 :\n%s", s);
+					g_error_free (error);
+				}
+				else 
+				{
+					s = encoded_text;
+				}
+				g_free (use_charset);
+			}
 		}
 
 		if (export_options->quoting_mode == QUOTING_MODE_AUTO) {
@@ -417,3 +446,30 @@ stf_export (StfExportOptions_t *export_options)
 	else
 		return TRUE;
 }
+
+
+/**
+ * stf_export:
+ *
+ *
+ * Return value: TRUE iff //TRANSLIT is supported
+ **/
+
+gboolean stf_export_can_transliterate (void) 
+{
+     char const *text = "G\xc3\xbclzow";
+     char *encoded_text = NULL;
+     GError * error = NULL;
+		
+     encoded_text = g_convert_with_fallback (text, strlen (text),
+					     "ASCII//TRANSLIT", "UTF-8", 
+					     NULL, NULL, NULL, &error);
+     g_free (encoded_text);
+     
+     if (error == NULL)
+	  return TRUE;
+
+     g_error_free (error);
+     return FALSE;
+}
+
