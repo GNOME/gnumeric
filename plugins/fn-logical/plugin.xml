@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<plugin id="Gnumeric_fncomplex">
+	<information>
+		<name>Complex Functions</name>
+		<name xml:lang="ca">Funcions lògiques</name>
+		<name xml:lang="ja">論理関数</name>
+		<name xml:lang="nl">Logische Functies</name>
+		<name xml:lang="no">Logiske funksjoner</name>
+		<name xml:lang="pt">Funções Lógicas</name>
+		<name xml:lang="sk">Logické funkcie</name>
+		<name xml:lang="sv">Logikfunktioner</name>
+		<name xml:lang="vi">Hàm logic</name>
+		<description>Functions for manipulating truth values</description>
+		<description xml:lang="ca">Funcions per manipular valors certs</description>
+		<description xml:lang="es">Funciones para manipular valores de verdad</description>
+		<description xml:lang="ja">論理関数</description>
+		<description xml:lang="nl">Functies voor het manipuleren van waarheids waarden</description>
+		<description xml:lang="pt">Funções para manipular valores verdadeiros</description>
+		<description xml:lang="sk">Funkcie pre prácu s pravdivostnými hodnotami</description>
+		<description xml:lang="sv">Funktioner för manipulation av sanningsvärden</description>
+		<description xml:lang="vi">Hàm xử lý giá trị sự thật</description>
+	</information>
+	<loader type="g_module">
+		<attribute name="module_file" value="plugin.la"/>
+	</loader>
+	<services>
+		<service type="function_group" id="complex">
+			<category>Complex</category>
+			<category xml:lang="fi">Kompleksi</category>
+			<functions>
+				<function name="complex"/>
+				<function name="imabs"/>
+				<function name="imaginary"/>
+				<function name="imargument"/>
+				<function name="imconjugate"/>
+				<function name="imcos"/>
+				<function name="imtan"/>
+				<function name="imarcsin"/>
+				<function name="imarccos"/>
+				<function name="imarctan"/>
+				<function name="imarcsec"/>
+				<function name="imarccsc"/>
+				<function name="imarccot"/>
+				<function name="imarcsinh"/>
+				<function name="imarccosh"/>
+				<function name="imarctanh"/>
+				<function name="imarcsech"/>
+				<function name="imarccsch"/>
+				<function name="imarccoth"/>
+				<function name="imsinh"/>
+				<function name="imcosh"/>
+				<function name="imtanh"/>
+				<function name="imsech"/>
+				<function name="imcsch"/>
+				<function name="imcoth"/>
+				<function name="imdiv"/>
+				<function name="imexp"/>
+				<function name="imln"/>
+				<function name="imlog10"/>
+				<function name="imlog2"/>
+				<function name="impower"/>
+				<function name="improduct"/>
+				<function name="imreal"/>
+				<function name="imsin"/>
+				<function name="imsqrt"/>
+				<function name="imsub"/>
+				<function name="imsum"/>
+			</functions>
+		</service>
+	</services>
+</plugin>
