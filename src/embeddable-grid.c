@@ -15,6 +15,7 @@
 #include <bonobo/bonobo-embeddable-factory.h>
 #include "Gnumeric.h"
 #include "sheet.h"
+#include "workbook.h"
 #include "embeddable-grid.h"
 
 /*

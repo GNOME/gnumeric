@@ -23,6 +23,7 @@
 #include "gnumeric-util.h"
 #include "sheet-object.h"
 #include "selection.h"
+#include "workbook.h"
 #include "dialogs.h"
 #include "main.h"
 #include "file.h"

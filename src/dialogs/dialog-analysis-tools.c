@@ -10,13 +10,14 @@
 #include <glade/glade.h>
 #include <string.h>
 #include "gnumeric.h"
+#include "workbook.h"
 #include "gnumeric-util.h"
 #include "utils-dialog.h"
 #include "dialogs.h"
 #include "utils.h"
 #include "utils-dialog.h"
 #include "tools.h"
-
+#include "ranges.h"
 
 static void dialog_correlation_tool         (Workbook *wb, Sheet *sheet);
 static void dialog_covariance_tool          (Workbook *wb, Sheet *sheet);
@@ -198,25 +199,6 @@ static check_button_t standard_errors_button[] = {
 };
 
 static int selected_row;
-
-int
-parse_range (char *text, int *start_col, int *start_row,
-	     int *end_col, int *end_row)
-{
-        char buf[256];
-        char *p;
-
-	strcpy(buf, text);
-	p = strchr(buf, ':');
-	if (p == NULL)
-	        return 0;
-	*p = '\0';
-	if (!parse_cell_name (buf, start_col, start_row))
-	        return 0;
-	if (!parse_cell_name (p+1, end_col, end_row))
-	        return 0;
-	return 1;
-}
 
 /* Parses text specifying ranges into columns, sorting from left to right. 
 For example, the text "A5:B30,J10:J15,C1:C5" would be returned in **ranges

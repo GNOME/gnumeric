@@ -20,6 +20,7 @@
 #include "utils-dialog.h"
 #include "ranges.h"
 #include "commands.h"
+#include "workbook.h"
 #include "sort.h"
 
 #define GLADE_FILE "cell-sort.glade"

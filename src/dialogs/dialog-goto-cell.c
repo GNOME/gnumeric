@@ -10,6 +10,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
+#include "workbook.h"
 #include "utils-dialog.h"
 
 static void

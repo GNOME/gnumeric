@@ -17,7 +17,7 @@
 #include "utils.h"
 #include "tools.h"
 #include "regression.h"
-
+#include "workbook.h"
 
 typedef struct {
         GSList  *array;

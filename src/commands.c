@@ -10,6 +10,7 @@
 #include "gnumeric-type-util.h"
 #include "commands.h"
 #include "sheet.h"
+#include "workbook.h"
 #include "workbook-view.h"
 #include "ranges.h"
 #include "sort.h"

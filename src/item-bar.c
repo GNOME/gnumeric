@@ -560,6 +560,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 
 	case GDK_BUTTON_PRESS:
+		/* Ignore scroll wheel events */
+		if (e->button.button > 3)
+			return FALSE;
+
 		if (is_vertical)
 			pos = e->button.y;
 		else
@@ -623,8 +627,13 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		Sheet *sheet;
 		int new_size;
 		
+		/* Ignore scroll wheel events */
+		if (e->button.button > 3)
+			return FALSE;
+
 		if (!resizing)
 			break;
+
 		if (e->button.button == 3)
 			break;
 
@@ -641,6 +650,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_BUTTON_RELEASE:
 	{
 		gboolean needs_ungrab = FALSE;
+
+		/* Ignore scroll wheel events */
+		if (e->button.button > 3)
+			return FALSE;
 
 		if (item_bar->start_selection >= 0) {
 			needs_ungrab = TRUE;

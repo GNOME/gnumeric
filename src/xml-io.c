@@ -25,6 +25,7 @@
 #include "print-info.h"
 #include "xml-io.h"
 #include "file.h"
+#include "workbook.h"
 #include "workbook-view.h"
 #include "selection.h"
 #include "command-context.h"

@@ -24,6 +24,7 @@
 #include "gnumeric.h"
 #include "file.h"
 #include "command-context.h"
+#include "workbook.h"
 
 #define arraysize(x)     (sizeof(x)/sizeof(*(x)))
 

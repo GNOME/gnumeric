@@ -12,6 +12,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
 #include "eval.h"
+#include "workbook.h"
 #include "expr-name.h"
 
 /* We don't expect that many global names ! */

@@ -11,6 +11,10 @@
  * recompilation, we put the code hre
  */
 struct _WorkbookPrivate {
+
+	GtkWidget  *table;
+	GnomeCanvasItem  *auto_expr_label;
+
 	/*
 	 * Toolbars
 	 */
@@ -33,6 +37,12 @@ struct _WorkbookPrivate {
 	GtkWidget *fore_combo, *back_combo;
 
 	const char *current_font_name;
+
+	/* Edit area */
+	GtkWidget  *ea_status;
+
+        /* The status bar */
+        GnomeAppBar *appbar;
 
 	/*
 	 * GUI command context

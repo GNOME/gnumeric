@@ -18,6 +18,7 @@
 #include <libgnomeprint/gnome-print-preview.h>
 
 #include "gnumeric.h"
+#include "workbook.h"
 #include "eval.h"
 #include "gnumeric-util.h"
 #include "sheet-object.h"

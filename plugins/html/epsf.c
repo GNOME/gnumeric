@@ -22,6 +22,7 @@
 #include <errno.h>
 #include <gnome.h>
 #include "config.h"
+#include "workbook.h"
 #include "epsf.h"
 #include "ps.h"
 #include "font.h"

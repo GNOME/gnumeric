@@ -22,6 +22,7 @@
 #include <gnome.h>
 #include <errno.h>
 #include "config.h"
+#include "workbook.h"
 #include "html.h"
 #include "font.h"
 #include "command-context.h"

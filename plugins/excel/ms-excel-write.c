@@ -39,6 +39,7 @@
 #include "utils.h"
 #include "print-info.h"
 #include "command-context.h"
+#include "workbook.h"
 
 #include "ms-ole.h"
 #include "ms-biff.h"

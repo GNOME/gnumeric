@@ -10,6 +10,7 @@
 #include <bonobo/bonobo-object.h>
 #include "sheet.h"
 #include "gnumeric.h"
+#include "workbook.h"
 #include "Gnumeric.h"
 #include "xml-io.h"
 #include "corba.h"

@@ -16,6 +16,7 @@
 #include "func.h"
 #include "utils.h"
 #include "ranges.h"
+#include "workbook.h"
 
 EvalPosition *
 eval_pos_init (EvalPosition *eval_pos, Sheet *sheet, int col, int row)

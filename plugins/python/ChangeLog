@@ -1,3 +1,7 @@
+2000-01-31  Jody Goldberg <jgoldberg@home.com>
+
+	* python.c (gnumeric_apply) : Make the const warning quiet.
+
 2000-01-14  Jon K Hellan  <hellan@acm.org>
 
 	* python.c (convert_py_exception_to_string): New function.

@@ -13,6 +13,7 @@
 #include "selection.h"
 #include "dialogs.h"
 #include "workbook-view.h"
+#include "workbook.h"
 #include "commands.h"
 
 #define GLADE_FILE "insert-cells.glade"

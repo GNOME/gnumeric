@@ -19,6 +19,7 @@
 #include "symbol.h"
 #include "expr.h"
 #include "sheet.h"
+#include "application.h"
 #include "utils.h"
 #include "auto-format.h"
 
@@ -272,14 +273,10 @@ int yyparse(void);
 	ExprTree *tree;
 	CellRef  *cell;
 	GList    *list;
-	Sheet    *sheetref;
-	Workbook *bookref;
 }
 %type  <tree>     exp array_exp
 %type  <list>     arg_list array_row, array_cols
 %token <tree>     NUMBER STRING FUNCALL CONSTANT CELLREF GTE LTE NE
-%token <sheetref> SHEETREF
-%token <bookref>  BOOKREF
 %token            SEPARATOR
 %type  <tree>     cellref
 
@@ -373,15 +370,47 @@ cellref:  CELLREF {
 		$$ = $1;
 	}
 
-	| SHEETREF '!' CELLREF {
+	| STRING '!' CELLREF {
+		Sheet *sheet = sheet_lookup_by_name (parser_wb, $1->u.constant->v.str->str);
+		/* TODO : Get rid of ParseErr and replace it with something richer. */
+		unregister_allocation ($3);
+		unregister_allocation ($1); expr_tree_unref ($1);
+		if (sheet == NULL) {
+			parser_error = PARSE_ERR_SYNTAX;
+                        return ERROR;
+		}
 	        $$ = $3;
-		$$->u.ref.sheet = $1;
+		$$->u.ref.sheet = sheet;
+		register_expr_allocation($$);
 	}
 
-	| '[' BOOKREF ']' SHEETREF '!' CELLREF {
-		/* FIXME: what about $2?  -- MW.  */
+	| '[' STRING ']' STRING '!' CELLREF {
+		/* TODO : Get rid of ParseErr and replace it with something richer.
+		 * The replace ment should include more detail as to what the error
+		 * was,  and where in the expr string to highlight.
+		 *
+		 * e.g. for =1+Shhet!A1+2
+		 *  We should return "Unknow Sheet 'Shhet'" and the indicies 3:7
+		 *  to mark the offending region.
+		 */
+		Workbook * wb =
+		    application_workbook_get_by_name ($2->u.constant->v.str->str);
+		Sheet *sheet = NULL;
+
+		if (wb != NULL)
+			sheet = sheet_lookup_by_name (wb, $4->u.constant->v.str->str);
+
+		unregister_allocation ($6);
+		unregister_allocation ($4); expr_tree_unref ($4);
+		unregister_allocation ($2); expr_tree_unref ($2);
+		if (sheet == NULL) {
+			/* TODO : Do we need to free things here too ? */
+			parser_error = PARSE_ERR_SYNTAX;
+                        return ERROR;
+		}
 	        $$ = $6;
-		$$->u.ref.sheet = $4;
+		$$->u.ref.sheet = sheet;
+		register_expr_allocation($$);
 	}
 	;
 
@@ -453,13 +482,6 @@ return_cellref (char *p)
 		return CELLREF;
 	} else
 		return 0;
-}
-
-static int
-return_sheetref (Sheet *sheet)
-{
-	yylval.sheetref = sheet;
-	return SHEETREF;
 }
 
 static int
@@ -548,13 +570,6 @@ try_symbol (char *string, gboolean try_cellref_and_number)
 	sym = symbol_lookup (global_symbol_table, string);
 	if (sym)
 		return return_symbol (sym);
-	else {
-		Sheet *sheet;
-
-		sheet = sheet_lookup_by_name (parser_wb, string);
-		if (sheet)
-			return return_sheetref (sheet);
-	}
 
 	{ /* Name ? */
 		/*

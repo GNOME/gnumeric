@@ -9,6 +9,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "dialogs.h"
+#include "workbook.h"
 
 /*
  * We need to get rid of that so that we will be able

@@ -38,6 +38,7 @@
 #include "file.h"
 #include "mstyle.h"
 #include "formats.h"
+#include "workbook.h"
 #include "command-context.h"
 
 #include "stf.h"

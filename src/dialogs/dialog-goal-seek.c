@@ -17,6 +17,7 @@
 #include "expr.h"
 #include "eval.h"
 #include "utils.h"
+#include "workbook.h"
 #include "utils-dialog.h"
 #include "goal-seek.h"
 #ifdef HAVE_IEEEFP_H

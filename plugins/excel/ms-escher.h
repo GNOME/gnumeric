@@ -12,6 +12,10 @@
  **/
 #include "ms-excel-read.h"
 
+#ifdef ENABLE_BONOBO
+#include <bonobo.h>
+#endif
+
 typedef struct {
 	char const  * reproid;
 #ifdef ENABLE_BONOBO

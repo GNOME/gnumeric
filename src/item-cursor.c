@@ -14,6 +14,7 @@
 #include "clipboard.h"
 #include "cursors.h"
 #include "selection.h"
+#include "workbook.h"
 #include "gnumeric-util.h"
 #include "sheet-autofill.h"
 

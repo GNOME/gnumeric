@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include <string.h>
 #include "gnumeric.h"
+#include "workbook.h"
 #include "gnumeric-sheet.h"
 #include "utils.h"
 #include "gnumeric-util.h"
@@ -3098,7 +3099,7 @@ sheet_lookup_by_name (Workbook *wb, const char *name)
 }
 
 void
-sheet_insert_object (Sheet *sheet, char *repoid)
+sheet_insert_object (Sheet *sheet, char *goadid)
 {
 #ifdef ENABLE_BONOBO
 	BonoboClientSite *client_site;
@@ -3106,17 +3107,17 @@ sheet_insert_object (Sheet *sheet, char *repoid)
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (repoid != NULL);
+	g_return_if_fail (goadid != NULL);
 
-	if (strncmp (repoid, "moniker_url:", 12) == 0)
-		object_server = bonobo_object_activate (repoid, 0);
+	if (strncmp (goadid, "moniker_url:", 12) == 0)
+		object_server = bonobo_object_activate (goadid, 0);
 	else
-		object_server = bonobo_object_activate_with_repo_id (NULL, repoid, 0, NULL);
+		object_server = bonobo_object_activate_with_goad_id (NULL, goadid, 0, NULL);
 	
 	if (!object_server){
 		char *msg;
 
-		msg = g_strdup_printf (_("I was not able to activate object %s"), repoid);
+		msg = g_strdup_printf (_("I was not able to activate object %s"), goadid);
 
 		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
 		g_free (msg);

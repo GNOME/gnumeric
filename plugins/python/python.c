@@ -16,7 +16,7 @@
 /* Yuck!
  * See comment in plugins/guile/plugin.c
  */
-static EvalPosition *eval_pos = NULL;
+static EvalPosition const *eval_pos = NULL;
 
 /*
  * Support for registering Python-based functions for use in formulas.
@@ -159,7 +159,7 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 	FunctionDefinition const * const fndef = ei->func_def;
 	Value *v;
 	GList *l;
-	EvalPosition *old_eval_pos;
+	EvalPosition const *old_eval_pos;
 	int i, min, max;
 	char *exc_string;
 	

@@ -10,9 +10,9 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include "gnumeric.h"
+#include "workbook.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
-
 
 static void
 autosave_on_off_toggled(GtkWidget *widget, Workbook *wb)

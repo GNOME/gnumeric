@@ -15,6 +15,7 @@
 #include "gnumeric-util.h"
 #include "file.h"
 #include "main.h"
+#include "workbook.h"
 #include "command-context.h"
 
 #include "excel.h"

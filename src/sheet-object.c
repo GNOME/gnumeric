@@ -16,6 +16,7 @@
 #include "cursors.h"
 
 #ifdef ENABLE_BONOBO
+#    include <bonobo.h>
 #    include "sheet-object-container.h"
 #    include "sheet-object-item.h"
 #endif

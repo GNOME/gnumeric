@@ -10,6 +10,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
+#include "workbook.h"
 #include "cell.h"
 #include "expr.h"
 #include "func.h"

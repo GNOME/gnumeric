@@ -895,9 +895,11 @@ gnumeric_sheet_drag_data_get (GtkWidget *widget,
 	Sheet *sheet = GNUMERIC_SHEET (widget)->sheet_view->sheet;
 	Workbook *wb = sheet->workbook;
 	char *s;
+	CommandContext *command_context =
+	    workbook_command_context_gui (sheet->workbook);
 	
 	if (wb->filename == NULL)
-		workbook_save (wb);
+		workbook_save (command_context, wb);
 	if (wb->filename == NULL)
 		return;
 	

@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_APPLICATION_H
 #define GNUMERIC_APPLICATION_H
 
-#include "workbook.h"
+#include "gnumeric.h"
 
 void         application_init			(void);
 

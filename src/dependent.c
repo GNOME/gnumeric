@@ -13,6 +13,7 @@
 #include "ranges.h"
 #include "eval.h"
 #include "main.h"
+#include "workbook.h"
 
 typedef enum {
 	REMOVE_DEPS = 0,

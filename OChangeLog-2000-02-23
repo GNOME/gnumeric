@@ -1,8 +1,23 @@
 2000-01-31  Jody Goldberg <jgoldberg@home.com>
 
+	* src/worksheet.h : Move more of the pure view elements into
+	  WorkbookPrivate.
+
+	* src/sheet.h : Remove include of workbook.h
+
+	* *.c : manually include workbook.h only where we need it.
+
+	* src/ranges.c (parse_range) : Move here from dialog-analysis-tools.c
+	  to avoid warnings.
+
 	* src/corba-workbook.c (Workbook_save_to) : Adjust to new calling
 	  convention.
 	* src/corba-workbook-factory.c (WorkbookFactory_read) : Ditto.
+
+	* src/parser.y : Support interbook references.
+
+	* src/item-bar.c : Ignore scroll-wheel events. Eventually the app will
+	  handle these rather than the grid.
 
 2000-01-31  Matthias Warkus  <mawa@iname.com>
 

@@ -19,6 +19,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <errno.h>
+#include "workbook.h"
 #include "command-context.h"
 #include "text-io.h"
 #include "file.h"

@@ -9,6 +9,7 @@
 #include "application.h"
 #include "clipboard.h"
 #include "selection.h"
+#include "workbook.h"
 #include "workbook-view.h"
 
 typedef struct

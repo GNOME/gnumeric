@@ -17,6 +17,7 @@
 #include "widgets/widget-color-combo.h"
 #include "widgets/gnumeric-toolbar.h"
 #include "workbook-private.h"
+#include "workbook.h"
 #include "application.h"
 #include "format.h"
 

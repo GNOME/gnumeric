@@ -90,6 +90,28 @@ range_parse (Sheet *sheet, const char *range, Value **v)
 	return  TRUE;
 }
 
+/* Pulled from dialog-analysis-tools.c
+ * Should be merged with range_parse
+ */
+int
+parse_range (char *text, int *start_col, int *start_row,
+	     int *end_col, int *end_row)
+{
+        char buf[256];
+        char *p;
+
+	strcpy(buf, text);
+	p = strchr(buf, ':');
+	if (p == NULL)
+	        return 0;
+	*p = '\0';
+	if (!parse_cell_name (buf, start_col, start_row))
+	        return 0;
+	if (!parse_cell_name (p+1, end_col, end_row))
+	        return 0;
+	return 1;
+}
+
 /**
  * range_list_destroy:
  * @ranges: a list of value ranges to destroy. 

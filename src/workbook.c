@@ -12,6 +12,7 @@
 #include "gnumeric.h"
 #include "application.h"
 #include "eval.h"
+#include "workbook.h"
 #include "gnumeric-util.h"
 #include "sheet-object.h"
 #include "dialogs.h"
@@ -365,7 +366,7 @@ workbook_delete_event (GtkWidget *widget, GdkEvent *event, Workbook *wb)
 {
 	if (workbook_can_close (wb)) {
 #ifdef ENABLE_BONOBO
-		if (wb->bonobo_regions) {
+		if (wb->workbook_views) {
 			gtk_widget_hide (GTK_WIDGET (wb->toplevel));
 			return FALSE;
 		}
@@ -486,7 +487,7 @@ workbook_is_pristine (Workbook *wb)
 
 	if (wb->names || wb->formula_cell_list ||
 #ifdef ENABLE_BONOBO
-	    wb->bonobo_regions ||
+	    wb->workbook_views ||
 #endif
 	    wb->eval_queue || !wb->needs_name)
 		return FALSE;
@@ -1009,11 +1010,11 @@ static void
 insert_object_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
-	char *repoid;
+	char *goadid;
 
-	repoid = gnome_bonobo_select_goad_id (_("Select an object"), NULL);
-	if (repoid != NULL)
-		sheet_insert_object (sheet, repoid);
+	goadid = gnome_bonobo_select_goad_id (_("Select an object"), NULL);
+	if (goadid != NULL)
+		sheet_insert_object (sheet, goadid);
 }
 #endif
 
@@ -1384,7 +1385,7 @@ workbook_setup_sheets (Workbook *wb)
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (wb->notebook), GTK_POS_BOTTOM);
 	gtk_notebook_set_tab_border (GTK_NOTEBOOK (wb->notebook), 0);
 
-	gtk_table_attach (GTK_TABLE (wb->table), wb->notebook,
+	gtk_table_attach (GTK_TABLE (wb->priv->table), wb->notebook,
 			  0, WB_COLS, WB_EA_SHEETS, WB_EA_SHEETS+1,
 			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
 			  0, 0);
@@ -1608,7 +1609,7 @@ workbook_set_region_status (Workbook *wb, const char *str)
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (str != NULL);
 
-	gtk_entry_set_text (GTK_ENTRY (wb->ea_status), str);
+	gtk_entry_set_text (GTK_ENTRY (wb->priv->ea_status), str);
 }
 
 static void
@@ -1676,14 +1677,14 @@ workbook_setup_edit_area (Workbook *wb)
 	GtkWidget *ok_button, *cancel_button, *wizard_button;
 	GtkWidget *pix, *deps_button, *box, *box2;
 
-	wb->ea_status = gtk_entry_new ();
+	wb->priv->ea_status = gtk_entry_new ();
 	wb->ea_input  = gtk_entry_new ();
 	ok_button     = gtk_button_new ();
 	cancel_button = gtk_button_new ();
 	box           = gtk_hbox_new (0, 0);
 	box2          = gtk_hbox_new (0, 0);
 
-	gtk_widget_set_usize (wb->ea_status, 100, 0);
+	gtk_widget_set_usize (wb->priv->ea_status, 100, 0);
 
 	/* Ok */
 	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_OK);
@@ -1699,7 +1700,7 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (cancel_input), wb);
 
-	gtk_box_pack_start (GTK_BOX (box2), wb->ea_status, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (box2), wb->priv->ea_status, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), ok_button, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), cancel_button, 0, 0, 0);
 
@@ -1730,7 +1731,7 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_box_pack_start (GTK_BOX (box2), box, 0, 0, 0);
 	gtk_box_pack_end   (GTK_BOX (box2), wb->ea_input, 1, 1, 0);
 
-	gtk_table_attach (GTK_TABLE (wb->table), box2,
+	gtk_table_attach (GTK_TABLE (wb->priv->table), box2,
 			  0, 1, 0, 1,
 			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
@@ -1743,7 +1744,7 @@ workbook_setup_edit_area (Workbook *wb)
 			    wb);
 
 	/* Do signal setup for the status input line */
-	gtk_signal_connect (GTK_OBJECT (wb->ea_status), "activate",
+	gtk_signal_connect (GTK_OBJECT (wb->priv->ea_status), "activate",
 			    GTK_SIGNAL_FUNC (wb_jump_to_cell),
 			    wb);
 }
@@ -1850,7 +1851,7 @@ workbook_setup_auto_calc (Workbook *wb)
 
 	/* The canvas that displays text */
 	root = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
-	wb->auto_expr_label = GNOME_CANVAS_ITEM (gnome_canvas_item_new (
+	wb->priv->auto_expr_label = GNOME_CANVAS_ITEM (gnome_canvas_item_new (
 		root, gnome_canvas_text_get_type (),
 		"text",     "x",
 		"x",        (double) 0,
@@ -1866,7 +1867,7 @@ workbook_setup_auto_calc (Workbook *wb)
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (frame), canvas);
-	gtk_box_pack_start (GTK_BOX (wb->appbar), frame, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (wb->priv->appbar), frame, FALSE, TRUE, 0);
 	gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
 			    GTK_SIGNAL_FUNC (change_auto_expr_menu), wb);
 
@@ -1883,10 +1884,10 @@ workbook_setup_status_area (Workbook *wb)
 	/*
 	 * Create the GnomeAppBar
 	 */
-	wb->appbar = GNOME_APPBAR (gnome_appbar_new (FALSE, TRUE,
+	wb->priv->appbar = GNOME_APPBAR (gnome_appbar_new (FALSE, TRUE,
 						    GNOME_PREFERENCES_USER));
 	gnome_app_set_statusbar (GNOME_APP (wb->toplevel),
-				 GTK_WIDGET (wb->appbar));
+				 GTK_WIDGET (wb->priv->appbar));
 
 	/*
 	 * Add the auto calc widgets.
@@ -1903,7 +1904,7 @@ workbook_auto_expr_label_set (Workbook *wb, const char *text)
 	g_return_if_fail (text != NULL);
 
 	res = g_strconcat (wb->auto_expr_desc->str, "=", text, NULL);
-	gnome_canvas_item_set (wb->auto_expr_label, "text", res, NULL);
+	gnome_canvas_item_set (wb->priv->auto_expr_label, "text", res, NULL);
 	g_free (res);
 }
 
@@ -1925,7 +1926,7 @@ workbook_configure_minimized_pixmap (Workbook *wb)
 static void
 grid_destroyed (GtkObject *embeddable_grid, Workbook *wb)
 {
-	wb->bonobo_regions = g_list_remove (wb->bonobo_regions, embeddable_grid);
+	wb->workbook_views = g_list_remove (wb->workbook_views, embeddable_grid);
 }
 
 static Bonobo_Unknown
@@ -1980,7 +1981,7 @@ workbook_container_get_object (BonoboObject *container, CORBA_char *item_name,
 	gtk_signal_connect (GTK_OBJECT (eg), "destroy",
 			    grid_destroyed, wb);
 	
-	wb->bonobo_regions = g_list_prepend (wb->bonobo_regions, eg);
+	wb->workbook_views = g_list_prepend (wb->workbook_views, eg);
 
 	return CORBA_Object_duplicate (
 		bonobo_object_corba_objref (BONOBO_OBJECT (eg)), ev);
@@ -2143,7 +2144,7 @@ workbook_new (void)
 
 	wb = gtk_type_new (workbook_get_type ());
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
-	wb->table     = gtk_table_new (0, 0, 0);
+	wb->priv->table     = gtk_table_new (0, 0, 0);
 	wb->autosave = FALSE;
 	wb->autosave_prompt = TRUE;
 	wb->autosave_minutes = 15;
@@ -2174,7 +2175,7 @@ workbook_new (void)
 	workbook_setup_status_area (wb);
 	workbook_setup_edit_area (wb);
 	workbook_setup_sheets (wb);
-	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
+	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->priv->table);
 
 	wb->priv->gui_context = command_context_gui_new (wb);
 	
@@ -2192,7 +2193,7 @@ workbook_new (void)
 	{
 		BonoboUIHandlerMenuItem *list;
 
-		wb->bonobo_regions  = NULL;
+		wb->workbook_views  = NULL;
 		wb->persist_file    = NULL;
 		wb->uih = bonobo_ui_handler_new ();
 		bonobo_ui_handler_set_app (wb->uih, GNOME_APP (wb->toplevel));
@@ -2243,7 +2244,7 @@ workbook_new (void)
 	/* clipboard setup */
 	x_clipboard_bind_workbook (wb);
 
-	gtk_widget_show_all (wb->table);
+	gtk_widget_show_all (wb->priv->table);
 
 	return wb;
 }

@@ -12,6 +12,7 @@
 #include "xml-io.h"
 #include "plugin.h"
 #include "format.h"
+#include "workbook.h"
 #include "cursors.h"
 #include "number-match.h"
 #include "main.h"

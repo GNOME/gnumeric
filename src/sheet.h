@@ -60,7 +60,6 @@ struct _ParsePosition {
 #include "symbol.h"
 #include "cell.h"
 #include "summary.h"
-#include "workbook.h"
 
 #define SHEET_MAX_ROWS (64 * 1024)
 #define SHEET_MAX_COLS 256	/* 0 - 255 inclusive */
@@ -374,7 +373,7 @@ gboolean     cellref_r1c1_get             (CellRef *out, const char *in,
 /*
  * Sheet, Bobobo objects
  */
-void sheet_insert_object (Sheet *sheet, char *repoid);
+void sheet_insert_object (Sheet *sheet, char *goadid);
 
 /*
  * Hooks for CORBA bootstrap: they create the

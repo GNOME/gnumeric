@@ -12,6 +12,7 @@
 #include "dialogs.h"
 #include "xml-io.h"
 #include "file.h"
+#include "workbook.h"
 #include "command-context.h"
 #include <locale.h>
 

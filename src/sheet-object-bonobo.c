@@ -22,6 +22,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
 #include "gnumeric.h"
+#include "workbook.h"
 #include "gnumeric-util.h"
 #include "sheet-object-bonobo.h"
 #include <bonobo/bonobo-container.h>

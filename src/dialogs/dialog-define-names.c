@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
+#include "workbook.h"
 
 #define LIST_KEY "name_list_data"
 

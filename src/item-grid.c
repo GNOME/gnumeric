@@ -23,6 +23,7 @@
 #include "workbook-cmd-format.h"
 #include "pattern.h"
 #include "workbook-view.h"
+#include "workbook.h"
 #include "commands.h"
 
 static GnomeCanvasItemClass *item_grid_parent_class;

@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "dialogs.h"
+#include "workbook.h"
 #include "plugin.h"
 
 typedef struct 

@@ -13,6 +13,7 @@
 #include "clipboard.h"
 #include "ranges.h"
 #include "application.h"
+#include "workbook.h"
 #include "gnumeric-util.h"
 
 /*

@@ -16,6 +16,7 @@
 #include "selection.h"
 #include "application.h"
 #include "render-ascii.h"
+#include "workbook.h"
 #include "workbook-view.h"
 #include "ranges.h"
 

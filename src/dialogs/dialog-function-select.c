@@ -12,6 +12,7 @@
 #include "dialogs.h"
 #include "cell.h"
 #include "expr.h"
+#include "workbook.h"
 #include "func.h"
 
 typedef struct {

@@ -18,6 +18,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "gnumeric.h"
+#include "workbook.h"
 #include "sheet-autofill.h"
 #include "dates.h"
 

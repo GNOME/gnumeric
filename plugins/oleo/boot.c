@@ -18,6 +18,7 @@
 #include <ctype.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "workbook.h"
 #include "gnumeric-util.h"
 #include "main.h"
 #include "sheet.h"

@@ -51,26 +51,19 @@ struct _Workbook {
 	BonoboPersistFile *persist_file;
 	
 	/* A list of EmbeddableGrids exported to the world */
-	GList      *bonobo_regions;
+	GList      *workbook_views;
 
 	BonoboUIHandler *uih;
 #else
 	GtkObject  gtk_object;
-
 #endif
 
 	/* { Start view specific elements */;
         GtkWidget  *toplevel; 
 	GtkWidget  *notebook;
-	GtkWidget  *table;
 
 	/* Edit area */
-	GtkWidget  *ea_status;
-	GtkWidget  *ea_button_box;
 	GtkWidget  *ea_input;
-
-        /* The status bar */
-        GnomeAppBar * appbar;
 	/* } End view specific elements */;
 
 	char       *filename;
@@ -83,7 +76,6 @@ struct _Workbook {
 	/* The auto-expression */
 	ExprTree   *auto_expr;
 	String     *auto_expr_desc;
-	GnomeCanvasItem  *auto_expr_label;
 	
 	/* The sheets */ 
 	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */

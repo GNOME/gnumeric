@@ -21,6 +21,7 @@
 #include "selection.h"
 #include "utils.h"	/* for cell_name */
 #include "ranges.h"
+#include "workbook.h"
 #include "ms-excel-util.h"
 #include "ms-excel-xf.h"
 #include "workbook-view.h"
@@ -4005,7 +4006,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			gnumeric_error_read (context, problem_loading);
 			return -1;
 		}
-		workbook_recalc (wb->gnum_wb);
+		workbook_recalc (workbook);
 		return 0;
 	}
 

@@ -12,6 +12,7 @@
 #include "gnumeric-util.h"
 #include "style.h"
 #include "color.h"
+#include "workbook.h"
 
 void
 gnumeric_no_modify_array_notice (Workbook *wb)
