@@ -2452,44 +2452,6 @@ dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
 	fmt_dialog_impl (state, pageno);
 }
 
-#if 0
-GtkWidget *
-dialog_cell_number_fmt (WorkbookControlGUI *wbcg, Value *sample_val)
-{
-	GladeXML     *gui;
-	FormatState  *state;
-	GtkWidget    *res;
-
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
-
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
-		"cell-format.glade", NULL, NULL);
-        if (gui == NULL)
-                return NULL;
-
-	/* Initialize */
-	state = g_new (FormatState, 1);
-	state->wbcg		= wbcg;
-	state->gui		= NULL;
-	state->sheet		= NULL;
-	state->value		= sample_val;
-	state->style		= mstyle_new (); /* FIXME : this should be passed in */
-	state->result		= mstyle_new ();
-	state->selection_mask	= 0;
-	state->dialog_changed	= NULL;		/* FIXME : These should be passed in */
-	state->dialog_changed_user_data = NULL;
-
-	fmt_dialog_init_format_page (state);
-
-	res = glade_xml_get_widget (state->gui, "number_box");
-	g_signal_connect (G_OBJECT (res),
-		"destroy",
-		G_CALLBACK (cb_fmt_dialog_dialog_destroy), state);
-
-	return res;
-}
-#endif
-
 /*
  * TODO
  *

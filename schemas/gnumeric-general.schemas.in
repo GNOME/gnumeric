@@ -194,7 +194,7 @@
         <applyto>/apps/gnumeric/core/gui/editing/transitionkeys</applyto>
         <owner>Gnumeric</owner>
         <type>bool</type>
-	<default>TRUE</default>
+	<default>FALSE</default>
         <locale name="C">
         <short>Transition Keys</short>
         <long>This variable determines whether transition keys are set on.</long>

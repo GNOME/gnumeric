@@ -21,26 +21,32 @@
 
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-styled-object.h>
+#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-view.h>
+#include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/go-data.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
+#include <src/gui-util.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkcheckbutton.h>
+#include <glade/glade-xml.h>
 
 enum {
 	AXIS_ELEM_MIN = 0,
 	AXIS_ELEM_MAX,
 	AXIS_ELEM_MAJOR_TICK,
 	AXIS_ELEM_MINOR_TICK,
-	AXIS_ELEM_MICRO_TICK,
 	AXIS_ELEM_LAST_ENTRY
 };
 
 struct _GogAxis {
-	GogObject	 base;
+	GogStyledObject	 base;
 
 	GogAxisType	 type;
 	GogAxisPosition	 pos;
@@ -48,9 +54,11 @@ struct _GogAxis {
 
 	GogDatasetElement source [AXIS_ELEM_LAST_ENTRY];
 	GogAxisTickLevel  tick_level;
+
+	double	min_val, max_val;
 };
 
-typedef GogObjectClass GogAxisClass;
+typedef GogStyledObjectClass GogAxisClass;
 
 static GType gog_axis_view_get_type (void);
 
@@ -118,6 +126,60 @@ gog_axis_update (GogObject *obj)
 }
 
 static void
+make_dim_editor (GtkTable *table, unsigned row, char const *name, GtkWidget *editor)
+{
+	char *txt = g_strconcat (name, ":", NULL);
+	GtkWidget *label = gtk_check_button_new_with_mnemonic (txt);
+	g_free (txt);
+
+	gtk_table_attach (table, label,
+		0, 1, row, row+1, GTK_FILL, 0, 5, 3);
+	gtk_table_attach (table, editor,
+		1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 5, 3);
+}
+
+static gpointer
+gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
+{
+	static char const *name[] = {
+		N_("M_in"), N_("M_ax"),
+		N_("Ma_jor Ticks"),
+		N_("Mi_nor Ticks")
+	};
+	GtkWidget *w, *notebook;
+	GtkTable  *table;
+	unsigned row = 0;
+	GogAxis *axis = GOG_AXIS (gobj);
+	GogDataset *set = GOG_DATASET (gobj);
+	GladeXML *gui;
+
+	gui = gnm_glade_xml_new (cc, "gog-axis-prefs.glade", "axis_pref_table", NULL);
+	if (gui == NULL)
+		return NULL;
+	/* Bounds Page */
+	notebook = gtk_notebook_new ();
+	w = gtk_table_new (1, 2, FALSE);
+	table = GTK_TABLE (w);
+	gtk_table_attach (table, gtk_label_new (_("Automatic")),
+		0, 1, 0, 1, GTK_FILL, 0, 5, 3);
+	for (row = AXIS_ELEM_MIN; row <= axis->tick_level; row++)
+		make_dim_editor (table, row+1, _(name[row]),
+			gog_data_allocator_editor (dalloc, set, row, TRUE));
+	gtk_widget_show_all (w);
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), w,
+		gtk_label_new (_("Bounds")));
+
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
+		glade_xml_get_widget (gui, "axis_pref_table"),
+		gtk_label_new (_("Details")));
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
+		gog_style_editor (gobj, cc, GOG_STYLE_LINE | GOG_STYLE_MARKER),
+		gtk_label_new (_("Style")));
+
+	gtk_widget_show (GTK_WIDGET (notebook));
+	return notebook;
+}
+static void
 gog_axis_class_init (GObjectClass *gobject_klass)
 {
 	static GogObjectRole const roles[] = {
@@ -140,6 +202,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 	gog_klass->update	= gog_axis_update;
+	gog_klass->editor	= gog_axis_editor;
 	gog_klass->view_type	= gog_axis_view_get_type ();
 }
 
@@ -156,14 +219,14 @@ static void
 gog_axis_dataset_dims (GogDataset const *set, int *first, int *last)
 {
 	*first = AXIS_ELEM_MIN;
-	*last  = AXIS_ELEM_MICRO_TICK;
+	*last  = AXIS_ELEM_MINOR_TICK;
 }
 
 static GogDatasetElement *
 gog_axis_dataset_get_elem (GogDataset const *set, int dim_i)
 {
 	GogAxis *axis = GOG_AXIS (set);
-	if (AXIS_ELEM_MIN <= dim_i && dim_i <= AXIS_ELEM_MICRO_TICK)
+	if (AXIS_ELEM_MIN <= dim_i && dim_i <= AXIS_ELEM_MINOR_TICK)
 		return &axis->source[dim_i];
 	return NULL;
 }
@@ -177,14 +240,22 @@ gog_axis_dataset_init (GogDatasetClass *iface)
 
 GSF_CLASS_FULL (GogAxis, gog_axis,
 		gog_axis_class_init, gog_axis_init,
-		GOG_OBJECT_TYPE, 0,
+		GOG_STYLED_OBJECT_TYPE, 0,
 		GSF_INTERFACE (gog_axis_dataset_init, GOG_DATASET_TYPE))
+
 
 GogAxisType
 gog_axis_type (GogAxis const *axis)
 {
-	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
+	g_return_val_if_fail (GOG_AXIS (axis) != NULL, GOG_AXIS_UNKNOWN);
 	return axis->type;
+}
+
+GogAxisPosition
+gog_axis_pos (GogAxis const *axis)
+{
+	g_return_val_if_fail (GOG_AXIS (axis) != NULL, GOG_AXIS_IN_MIDDLE);
+	return axis->pos;
 }
 
 /**
@@ -234,6 +305,22 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib,
 	gog_object_request_update (GOG_OBJECT (axis));
 }
 
+static unsigned
+gog_axis_num_markers (GogAxis *axis)
+{
+#warning bogus quicky
+	return 2;
+}
+
+static char const *
+gog_axis_get_marker (GogAxis *axis, unsigned i)
+{
+#warning bogus quicky
+	if (i == 0)
+		return "low";
+	return "high";
+}
+
 /****************************************************************************/
 
 typedef GogView		GogAxisView;
@@ -249,14 +336,98 @@ static void
 gog_axis_view_size_request (GogView *view, GogViewRequisition *req)
 {
 	GogAxis *axis = GOG_AXIS (view->model);
+	GogViewRequisition tmp;
+	gboolean const is_horiz = axis->type == GOG_AXIS_X;
+	int i;
+	double total = 0., max = 0.;
+	double line_width = gog_renderer_line_size (
+		view->renderer, axis->base.style->line.width);
+
+/* TODO : Think about rotating things or dropping markers periodically if
+ * things are too big */
+	gog_renderer_push_style (view->renderer, axis->base.style);
+	for (i = gog_axis_num_markers (axis) ; i-- > 0 ; ) {
+		gog_renderer_measure_text (view->renderer,
+			gog_axis_get_marker (axis, i), &tmp);
+		if (is_horiz) {
+			total += tmp.w;
+			if (max < tmp.h)
+				max = tmp.h;
+		} else {
+			total += tmp.h;
+			if (max < tmp.w)
+				max = tmp.w;
+		}
+	}
+	gog_renderer_pop_style (view->renderer);
+
+	max += line_width;
+	if (is_horiz) {
+		req->w = total;
+		req->h = max;
+	} else {
+		req->h = total;
+		req->w = max;
+	}
 }
 
 static void
 gog_axis_view_render (GogView *view, GogViewAllocation const *bbox)
 {
+	GogViewAllocation const *area = &view->residual;
+	ArtVpath path[3];
 	GogAxis *axis = GOG_AXIS (view->model);
+	double pre, post;
+	double line_width = gog_renderer_line_size (
+		view->renderer, axis->base.style->line.width) / 2;
 
 	(aview_parent_klass->render) (view, bbox);
+
+	g_return_if_fail (axis->pos != GOG_AXIS_IN_MIDDLE);
+
+	switch (axis->type) {
+	case GOG_AXIS_X:
+		gog_chart_view_get_indents (view->parent, &pre, &post);
+		path[0].x = area->x + pre;
+		path[1].x = area->x + area->w - post;
+
+		switch (axis->pos) {
+		case GOG_AXIS_AT_LOW:
+			path[0].y = path[1].y = area->y + line_width;
+			break;
+
+		case GOG_AXIS_AT_HIGH:
+			path[0].y = path[1].y = area->y + area->h - line_width;
+			break;
+		default :
+			break;
+		}
+		break;
+
+	case GOG_AXIS_Y:
+		path[0].y = area->y;
+		path[1].y = area->y + area->h;
+		switch (axis->pos) {
+		case GOG_AXIS_AT_LOW:
+			path[0].x = path[1].x = area->x + area->w - line_width;
+			break;
+		case GOG_AXIS_AT_HIGH:
+			path[0].x = path[1].x = area->x + line_width;
+			break;
+		default :
+			break;
+		}
+		break;
+	default :
+		break;
+	}
+
+	path[0].code = ART_MOVETO;
+	path[1].code = ART_LINETO;
+	path[2].code = ART_END;
+	gog_renderer_push_style (view->renderer, axis->base.style);
+	gog_renderer_draw_path (view->renderer, path);
+	gog_renderer_pop_style (view->renderer);
 }
 
 static void

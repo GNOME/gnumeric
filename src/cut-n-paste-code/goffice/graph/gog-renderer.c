@@ -329,31 +329,34 @@ GSF_CLASS (GogRenderer, gog_renderer,
 void
 gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 {
+	gboolean const narrow = (rect->w < 3.) || (rect->h < 3.);
+	double o, o_2;
 	ArtVpath path[6];
 
+	if (!narrow) {
+		o = gog_renderer_line_size (rend, rend->cur_style->outline.width);
+		o_2 = o / 2.;
+	} else
+		o = o_2 = 0.;
 	path[0].code = ART_MOVETO;
-	path[0].x = rect->x;
-	path[0].y = rect->y; 
 	path[1].code = ART_LINETO;
-	path[1].x = rect->x;
-	path[1].y = rect->y + rect->h; 
 	path[2].code = ART_LINETO;
-	path[2].x = rect->x + rect->w;
-	path[2].y = rect->y + rect->h; 
 	path[3].code = ART_LINETO;
-	path[3].x = rect->x + rect->w;
-	path[3].y = rect->y; 
 	path[4].code = ART_LINETO;
-	path[4].x = rect->x;
-	path[4].y = rect->y; 
 	path[5].code = ART_END;
+	path[0].x = path[1].x = path[4].x = rect->x + o_2;
+	path[2].x = path[3].x = path[0].x + rect->w - o;
+	path[0].y = path[3].y = path[4].y = rect->y + o_2; 
+	path[1].y = path[2].y = path[0].y + rect->h - o; 
 
-	gog_renderer_draw_polygon (rend, path, (rect->w < 3.) || (rect->h < 3.));
+	gog_renderer_draw_polygon (rend, path, narrow);
 }
 
 double
 gog_renderer_line_size (GogRenderer const *rend, double width)
 {
+	if (width < 0.)
+		return 0.;
 	width *= rend->scale;
 	if (width < 1.) /* cheesy version of hairline */
 		return 1.;

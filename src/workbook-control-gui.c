@@ -4651,7 +4651,30 @@ setup_progress_bar (WorkbookControlGUI *wbcg)
 void
 wb_control_gui_set_status_text (WorkbookControlGUI *wbcg, char const *text)
 {
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	gtk_label_set_text (GTK_LABEL (wbcg->status_text), text);
+}
+void
+wbcg_toggle_end_mode (WorkbookControlGUI *wbcg)
+{
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	wbcg_set_end_mode (wbcg, !wbcg->last_key_was_end);
+}
+void
+wbcg_set_end_mode (WorkbookControlGUI *wbcg, gboolean flag)
+{
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
+	if (wbcg->last_key_was_end == flag)
+		return;
+
+	if (flag == TRUE) {
+		wbcg->last_key_was_end = TRUE;
+		wb_control_gui_set_status_text (wbcg, "END");
+	} else {
+		wbcg->last_key_was_end = FALSE;
+		wb_control_gui_set_status_text (wbcg, "");
+	}
 }
 
 static PangoFontDescription *

@@ -720,13 +720,13 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 		vip->msg ? gnm_input_msg_get_title (vip->msg) : "",
 		STR_TWO_BYTE_LENGTH);
 	excel_write_string (bp,
-		vip->v ? vip->v->title->str : "",
+		(vip->v && vip->v->title) ? vip->v->title->str : "",
 		STR_TWO_BYTE_LENGTH);
 	excel_write_string (bp,
 		vip->msg ? gnm_input_msg_get_msg (vip->msg) : "",
 		STR_TWO_BYTE_LENGTH);
 	excel_write_string (bp,
-		vip->v ? vip->v->msg->str : "",
+		(vip->v && vip->v->msg) ? vip->v->msg->str : "",
 		STR_TWO_BYTE_LENGTH);
 
 	/* Things seem to parse relative to the top left of the first range */

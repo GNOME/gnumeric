@@ -190,10 +190,13 @@ static gboolean
 sheet_object_graph_read_xml (SheetObject *so,
 			     XmlParseContext const *ctxt, xmlNodePtr tree)
 {
-	GogObject *graph = gog_object_new_from_xml (NULL, 
-		e_xml_get_child_by_name (tree, "GogObject"));
-	sheet_object_graph_set_gog (SHEET_OBJECT_GRAPH (so), GOG_GRAPH (graph));
-	g_object_unref (graph);
+	xmlNodePtr child = e_xml_get_child_by_name (tree, "GogObject");
+
+	if (child != NULL) {
+		GogObject *graph = gog_object_new_from_xml (NULL,  child);
+		sheet_object_graph_set_gog (SHEET_OBJECT_GRAPH (so), GOG_GRAPH (graph));
+		g_object_unref (graph);
+	}
 	return FALSE;
 }
 

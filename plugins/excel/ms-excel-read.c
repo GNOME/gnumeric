@@ -5094,17 +5094,15 @@ excel_read_BOF (BiffQuery	 *q,
 		excel_read_sheet (q, ewb, wb_view, esheet);
 
 	} else if (ver->type == MS_BIFF_TYPE_Worksheet) {
-		BiffBoundsheetData *bsh =
-			g_hash_table_lookup (ewb->boundsheet_data_by_stream,
-					     &q->streamPos);
-		if (bsh  || ver->version == MS_BIFF_V4) {
-			ExcelReadSheet *esheet = excel_workbook_get_sheet (ewb, *current_sheet);
-			esheet->container.ver = ver->version;
-			excel_read_sheet (q, ewb, wb_view, esheet);
-			ms_container_realize_objs (sheet_container (esheet));
+		ExcelReadSheet *esheet = excel_workbook_get_sheet (ewb, *current_sheet);
+		esheet->container.ver = ver->version;
+		excel_read_sheet (q, ewb, wb_view, esheet);
+		ms_container_realize_objs (sheet_container (esheet));
+		(*current_sheet)++;
 
-			(*current_sheet)++;
-		} else
+		/* be anal */
+		if (g_hash_table_lookup (ewb->boundsheet_data_by_stream, &q->streamPos) == NULL &&
+		    ver->version != MS_BIFF_V4)
 			fprintf (stderr,"Sheet offset in stream of %x not found in list\n", q->streamPos);
 	} else if (ver->type == MS_BIFF_TYPE_Chart) {
 #if 0

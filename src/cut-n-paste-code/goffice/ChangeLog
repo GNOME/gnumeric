@@ -1,3 +1,8 @@
+2003-08-19  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-renderer.c (gog_renderer_draw_rectangle) : handle outlines
+	  properly.
+
 2003-08-14  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* graph/gog-style-prefs.glade: shuffle fill-image widgets again

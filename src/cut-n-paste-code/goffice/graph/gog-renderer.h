@@ -40,7 +40,8 @@ void  gog_renderer_pop_style      (GogRenderer *r);
 void  gog_renderer_draw_path      (GogRenderer *r, ArtVpath *path);
 void  gog_renderer_draw_polygon   (GogRenderer *r, ArtVpath *path,
 				   gboolean narrow);
-void  gog_renderer_draw_rectangle (GogRenderer *r, GogViewAllocation const *rect);
+void  gog_renderer_draw_rectangle (GogRenderer *r,
+				   GogViewAllocation const *rect);
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, ArtPoint *pos,
 				   char const *text, GogViewRequisition *size);

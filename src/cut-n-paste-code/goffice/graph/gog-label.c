@@ -193,7 +193,6 @@ gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_push_style (view->renderer, label->base.style);
 	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
 
-
 	if (label->text.data != NULL) {
 		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (label->text.data));
 		if (text != NULL) {

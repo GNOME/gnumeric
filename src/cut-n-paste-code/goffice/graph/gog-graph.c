@@ -527,6 +527,10 @@ gog_graph_view_size_allocate (GogView *view, GogViewAllocation const *a)
 	res.h -= outline * 2.;
 	(gview_parent_klass->size_allocate) (view, &res);
 
+	if (gog_graph_num_cols (graph) <= 0 ||
+	    gog_graph_num_rows (graph) <= 0)
+		return;
+
 	res = view->residual;
 	w = res.w / gog_graph_num_cols (graph);
 	h = res.h / gog_graph_num_rows (graph);

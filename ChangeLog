@@ -1,3 +1,32 @@
+2003-08-19  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-edit.c (wbcg_edit_attach_guru_main) : clear END-mode
+	(wbcg_edit_detach_guru) : ditto.
+
+	From John Gill :
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : Enable support
+	  for END-mode keystrokes.  The transition keys do something a bit
+	  funky though, disabled by default.
+	* src/workbook-control-gui.c (wbcg_toggle_end_mode) : new.
+	(wbcg_set_end_mode) : new.  To handle display of 'END-mode' keys.
+
+2003-08-19  Jody Goldberg <jody@gnome.org>
+
+	* src/value.c : Add #UNKNOWN! to avoid problems.
+
+	* src/expr.c (bin_cmp) : split out of.
+	(gnm_expr_eval) : here, in preparation for support implicit iteration
+	  for operators.
+
+	* schemas/gnumeric-general.schemas.in : disable transition keys by
+	  default because they make the ctrl-arrow movement odd.
+
+	* src/sheet-object-graph.c (sheet_object_graph_read_xml) : be more
+	  lenient about invalid xml.
+	* src/sheet-object.c (sheet_object_read_xml) : produce better
+	  warnings for unknown objects, and recognize that a GnmGraph is a
+	  graph even though we don't call it that anymore.
+
 2003-08-20  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (dependent_add_dynamic_dep): Identify

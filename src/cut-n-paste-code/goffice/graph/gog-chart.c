@@ -31,6 +31,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
 #include <string.h>
+#include <math.h>
 
 enum {
 	CHART_PROP_0,
@@ -407,7 +408,12 @@ gog_chart_get_axis (GogChart const *chart, GogAxisType target)
 
 /*********************************************************************/
 
-typedef GogView		GogChartView;
+typedef struct {
+	GogView base;
+
+	/* indents */
+	double pre_x, post_x;
+} GogChartView;
 typedef GogViewClass	GogChartViewClass;
 
 #define GOG_CHART_VIEW_TYPE	(gog_chart_view_get_type ())
@@ -421,8 +427,11 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 {
 	GSList *ptr;
 	GogView *child;
-	GogChart *chart = GOG_CHART (view->model);
-	GogViewAllocation res = *allocation;
+	GogChartView	*cview = GOG_CHART_VIEW (view);
+	GogChart	*chart = GOG_CHART (view->model);
+	GogAxis const *axis;
+	GogViewAllocation tmp, res = *allocation;
+	GogViewRequisition req;
 	double outline = gog_renderer_line_size (
 		view->renderer, chart->base.style->outline.width);
 
@@ -432,13 +441,83 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 	res.h -= outline * 2.;
 	(cview_parent_klass->size_allocate) (view, &res);
 
-	/* position the axis */
-	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
-		child = ptr->data;
-		if (child->model->position == GOG_POSITION_SPECIAL &&
-		    IS_GOG_AXIS (child->model)) {
-			gog_view_size_allocate (child, &view->residual);
-		}
+	res = view->residual;
+	if (chart->axis_set == GOG_AXIS_SET_XY) {
+		/* position the X & Y axes */
+		double pre_x = 0., post_x = 0., pre_y = 0, post_y = 0.;
+		double old_pre_x, old_post_x, old_pre_y, old_post_y;
+
+		do {
+			old_pre_x  = pre_x;	old_post_x = post_x;
+			old_pre_y  = pre_y;	old_post_y = post_y;
+			pre_x = post_x = pre_y = post_y = 0.;
+			for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+				child = ptr->data;
+				if (child->model->position != GOG_POSITION_SPECIAL ||
+				    !IS_GOG_AXIS (child->model))
+					continue;
+
+				axis = GOG_AXIS (child->model);
+
+				req.w = res.w - pre_x - post_x;
+				req.h = res.h - pre_y - post_y;
+				gog_view_size_request (child, &req);
+
+				switch (gog_axis_type (axis)) {
+				case GOG_AXIS_X:
+					/* X axis fill the bottom and top */
+					tmp.x = res.x;
+					tmp.w = res.w;
+					tmp.h = req.h;
+					switch (gog_axis_pos (axis)) {
+						case GOG_AXIS_AT_LOW:
+							post_y += req.h;
+							tmp.y   = res.y + res.h - post_y;
+							break;
+						case GOG_AXIS_AT_HIGH:
+							tmp.y  = res.y + pre_y;
+							pre_y += req.h;
+							break;
+						default:
+							break;
+					}
+				break;
+				case GOG_AXIS_Y:
+					/* Y axis take just the middle */
+					tmp.y = res.y + pre_y;
+					tmp.h = res.h - pre_y - post_y;
+					tmp.w = req.w;
+					switch (gog_axis_pos (axis)) {
+						case GOG_AXIS_AT_LOW:
+							tmp.x = res.x + pre_x;
+							pre_x  += req.w;
+							break;
+						case GOG_AXIS_AT_HIGH:
+							post_x  += req.w;
+							tmp.x = res.x + res.w - post_x;
+							break;
+						default:
+							break;
+					}
+					break;
+
+				default: break;
+				}
+				gog_view_size_allocate (child, &tmp);
+			}
+		/* as things get narrower their size may change */
+		} while (fabs (old_pre_x - pre_x) > 1e-4 ||
+			 fabs (old_post_x- post_x) > 1e-4 ||
+			 fabs (old_pre_y - pre_y) > 1e-4 ||
+			 fabs (old_post_y- post_y) > 1e-4);
+
+		cview->pre_x  = pre_x;
+		cview->post_x = post_x;
+		res.x += pre_x;	res.w -= pre_x + post_x;
+		res.y += pre_y;	res.h -= pre_y + post_y;
+	} else if (chart->axis_set > GOG_AXIS_SET_NONE) { /* catch unknown or none */
+		g_warning ("only have layout engine for xy and none currently");
+		return;
 	}
 
 	/* overlay all the plots in the residual */
@@ -446,7 +525,7 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 		child = ptr->data;
 		if (child->model->position == GOG_POSITION_SPECIAL &&
 		    IS_GOG_PLOT (child->model))
-			gog_view_size_allocate (child, &view->residual);
+			gog_view_size_allocate (child, &res);
 	}
 }
 
@@ -461,6 +540,12 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 }
 
 static void
+gog_chart_view_init (GogChartView *cview)
+{
+	cview->pre_x = cview->post_x = 0.;
+}
+
+static void
 gog_chart_view_class_init (GogChartViewClass *gview_klass)
 {
 	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
@@ -471,5 +556,25 @@ gog_chart_view_class_init (GogChartViewClass *gview_klass)
 }
 
 static GSF_CLASS (GogChartView, gog_chart_view,
-	   gog_chart_view_class_init, NULL,
-	   GOG_VIEW_TYPE)
+		  gog_chart_view_class_init, gog_chart_view_init,
+		  GOG_VIEW_TYPE)
+
+/**
+ * gog_chart_view_get_indents :
+ * @view : #GogChartView, publicly a GogView to keep this type private
+ * @pre	 :
+ * @post :
+ *
+ * Get the indentation necessary to align the lines for axis from different
+ * dimensions.
+ **/
+void
+gog_chart_view_get_indents (GogView const *view, double *pre, double *post)
+{
+	GogChartView *cview = GOG_CHART_VIEW (view);
+
+	g_return_if_fail (cview != NULL);
+
+	*pre = cview->pre_x;
+	*post = cview->post_x;
+}

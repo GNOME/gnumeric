@@ -279,10 +279,15 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 static PangoLayout *
 make_layout (GogRendererPixbuf *prend, char const *text)
 {
-	PangoLayout *layout = pango_layout_new (prend->pango_context);
+	PangoLayout *layout;
 	PangoAttribute *attr_zoom;
 	PangoAttrList  *attrs = NULL;
 
+	if (prend->pango_context == NULL)
+		prend->pango_context = pango_ft2_font_map_create_context (
+			PANGO_FT2_FONT_MAP (pango_ft2_font_map_for_display ()));
+
+	layout = pango_layout_new (prend->pango_context);
 	/* Assemble our layout. */
 	pango_layout_set_font_description (layout,
 		pango_context_get_font_description (prend->pango_context));
@@ -323,7 +328,16 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint *pos,
 	pango_ft2_render_layout (&ft_bitmap, layout, -rect.x, -rect.y);
 	g_object_unref (layout);
 
+#if 0
+	render = art_render_new (pos->x + rect.x, pos->y,
+		pos->x + rect.x + rect.width,
+		pos->y + rect.y + rect.height,
+		prend->pixels, prend->rowstride,
+		gdk_pixbuf_get_n_channels (prend->buffer) - 1,
+		8, ART_ALPHA_SEPARATE, NULL);
+#else
 	render = gog_art_renderer_new (prend);
+#endif
 	go_color_to_artpix (color, RGBA_BLACK);
 	art_render_image_solid (render, color);
 	art_render_mask (render,

@@ -55,6 +55,9 @@ struct _WorkbookControlGUI {
 	/* Used to detect if the user has backspaced, so we turn off auto-complete */
 	int              auto_max_size;
 
+	/* Keep track of whether the last key pressed was END, so end-mode works */
+	gboolean last_key_was_end;
+
 	SheetControlGUI *rangesel;
 
 	GtkWidget  *table;

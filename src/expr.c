@@ -649,6 +649,52 @@ cb_range_eval (Sheet *sheet, int col, int row, Cell *cell, void *ignore)
 }
 #endif
 
+static Value *
+bin_cmp (GnmExprOp op, ValueCompare comp, EvalPos const *pos)
+{
+	if (comp == TYPE_MISMATCH) {
+		/* TODO TODO TODO : Make error more informative
+		 *    regarding what is comparing to what
+		 */
+		/* For equality comparisons even errors are ok */
+		if (op == GNM_EXPR_OP_EQUAL)
+			return value_new_bool (FALSE);
+		if (op == GNM_EXPR_OP_NOT_EQUAL)
+			return value_new_bool (TRUE);
+
+		return value_new_error_VALUE (pos);
+	}
+
+	switch (op) {
+	case GNM_EXPR_OP_EQUAL:     return value_new_bool (comp == IS_EQUAL);
+	case GNM_EXPR_OP_GT:	    return value_new_bool (comp == IS_GREATER);
+	case GNM_EXPR_OP_LT:	    return value_new_bool (comp == IS_LESS);
+	case GNM_EXPR_OP_NOT_EQUAL: return value_new_bool (comp != IS_EQUAL);
+	case GNM_EXPR_OP_LTE: 	    return value_new_bool (comp != IS_GREATER);
+	case GNM_EXPR_OP_GTE:	    return value_new_bool (comp != IS_LESS);
+
+#ifndef DEBUG_SWITCH_ENUM
+	default:
+		g_assert_not_reached ();
+#endif
+	}
+	return value_new_error (pos, _("Internal type error"));
+}
+
+#ifdef NOT_READY_YET
+/* args will be 'EE' */
+static Value *
+func_bin_cmp (FunctionEvalInfo *ei, Value *argv [])
+{
+	if (argv[0]->type == VALUE_ERROR)
+		return argv[0];
+	if (argv[0]->type == VALUE_ERROR)
+		return argv[1];
+	return bin_cmp (expr->any.oper, 
+		value_compare (argv[0], argv[1], FALSE), ei->pos);
+}
+#endif
+
 /**
  * gnm_expr_eval :
  * @expr :
@@ -663,6 +709,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 	       GnmExprEvalFlags flags)
 {
 	Value *res = NULL, *a = NULL, *b = NULL;
+	ValueCompare comp;
 
 	g_return_val_if_fail (expr != NULL, handle_empty (NULL, flags));
 	g_return_val_if_fail (pos != NULL, handle_empty (NULL, flags));
@@ -673,9 +720,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 	case GNM_EXPR_OP_GT:
 	case GNM_EXPR_OP_GTE:
 	case GNM_EXPR_OP_LT:
-	case GNM_EXPR_OP_LTE: {
-		ValueCompare comp;
-
+	case GNM_EXPR_OP_LTE:
 		flags = (flags | GNM_EXPR_EVAL_PERMIT_EMPTY) & ~GNM_EXPR_EVAL_PERMIT_NON_SCALAR;
 
 		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
@@ -696,53 +741,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		if (b != NULL)
 			value_release (b);
 
-		if (comp == TYPE_MISMATCH) {
-			/* TODO TODO TODO : Make error more informative
-			 *    regarding what is comparing to what
-			 */
-			/* For equality comparisons even errors are ok */
-			if (expr->any.oper == GNM_EXPR_OP_EQUAL)
-				return value_new_bool (FALSE);
-			if (expr->any.oper == GNM_EXPR_OP_NOT_EQUAL)
-				return value_new_bool (TRUE);
-
-			return value_new_error_VALUE (pos);
-		}
-
-		switch (expr->any.oper) {
-		case GNM_EXPR_OP_EQUAL:
-			res = value_new_bool (comp == IS_EQUAL);
-			break;
-
-		case GNM_EXPR_OP_GT:
-			res = value_new_bool (comp == IS_GREATER);
-			break;
-
-		case GNM_EXPR_OP_LT:
-			res = value_new_bool (comp == IS_LESS);
-			break;
-
-		case GNM_EXPR_OP_NOT_EQUAL:
-			res = value_new_bool (comp != IS_EQUAL);
-			break;
-
-		case GNM_EXPR_OP_LTE:
-			res = value_new_bool (comp != IS_GREATER);
-			break;
-
-		case GNM_EXPR_OP_GTE:
-			res = value_new_bool (comp != IS_LESS);
-			break;
-
-#ifndef DEBUG_SWITCH_ENUM
-		default:
-			g_assert_not_reached ();
-			res = value_new_error (pos,
-						_("Internal type error"));
-#endif
-		}
-		return res;
-	}
+		return bin_cmp (expr->any.oper, comp, pos);
 
 	case GNM_EXPR_OP_ADD:
 	case GNM_EXPR_OP_SUB:

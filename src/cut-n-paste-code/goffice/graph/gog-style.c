@@ -307,7 +307,7 @@ fill_pattern_init (StylePrefState *state, GogStyle const *style)
 		gog_style_get_fill_color (style, 2),
 		"pattern_background", "fill_pattern_background_label",
 		G_CALLBACK (cb_bg_color_changed));
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), w, 3, 4, 1, 2, 0, 0, 0, 0);
 
 	populate_pattern_combo (state, style);
 	gtk_widget_show_all (table);
@@ -691,6 +691,7 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 	dst->fill    = src->fill;
 	dst->marker  = src->marker;
 	dst->font    = src->font;
+	dst->line    = src->line;
 
 	if (GOG_FILL_STYLE_IMAGE == dst->fill.type)
 		dst->fill.u.image.filename = g_strdup (dst->fill.u.image.filename);

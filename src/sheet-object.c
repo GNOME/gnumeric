@@ -30,6 +30,7 @@
 #include "sheet-object-graph.h"
 #include "sheet-object-image.h"
 #include "graph.h"
+#include "io-context.h"
 
 #include <libxml/globals.h>
 #include <gtk/gtkimagemenuitem.h>
@@ -518,10 +519,24 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		so = sheet_object_line_new (TRUE);
 	} else if (!strcmp (tree->name, "Line")){
 		so = sheet_object_line_new (FALSE);
+
+	/* Graphs changed names */
+	} else if (!strcmp (tree->name, "GnmGraph")){
+		so = sheet_object_graph_new (FALSE);
+
 	} else {
-		obj = g_object_new (g_type_from_name ((gchar *)tree->name), NULL);
-		if (!obj)
-			return (NULL);
+		GType type = g_type_from_name ((gchar *)tree->name);
+		if (type == 0) {
+			char *str = g_strdup_printf (_("Unsupported object type '%s'"),
+						     tree->name);
+			gnm_io_warning_unsupported_feature (ctxt->io_context, str);
+			g_free (str);
+			return NULL;
+		}
+
+		obj = g_object_new (type, NULL);
+		if (obj == NULL)
+			return NULL;
 
 		so = SHEET_OBJECT (obj);
 	}

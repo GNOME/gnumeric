@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-object.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-gradient.h>
+#include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
@@ -257,6 +258,14 @@ gog_themes_init	(void)
 	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogLegend", NULL);
 
+	/* Axis */
+	style = gog_style_new ();
+	style->outline.color = 0;
+	style->line.width = 0; /* hairline */
+	style->line.color = RGBA_GREY (0x20);
+	style->fill.type = GOG_FILL_STYLE_NONE;
+	gog_theme_add_element (theme, style, NULL, "GogAxis", NULL);
+
 	/* series */
 	style = gog_style_new ();
 	style->outline.color = RGBA_BLACK;
@@ -270,7 +279,7 @@ gog_themes_init	(void)
 
 	/* graph */
 	style = gog_style_new ();
-	style->outline.width = -1;
+	style->outline.width = -1; /* none */
 	style->fill.type = GOG_FILL_STYLE_GRADIENT;
 	style->fill.u.gradient.dir   = GO_GRADIENT_N_TO_S;
 	style->fill.u.gradient.start = RGBA_BLUE;
@@ -279,6 +288,7 @@ gog_themes_init	(void)
 
 	/* chart */
 	style = gog_style_new ();
+	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
 	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style, NULL, "GogChart", NULL);
@@ -287,14 +297,22 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->outline.color = RGBA_BLACK;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
-	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_GREY (0xB0));
+	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_GREY (0x20));
 	gog_theme_add_element (theme, style, NULL, "GogLegend", NULL);
+
+	/* Axis */
+	style = gog_style_new ();
+	style->outline.color = 0;
+	style->line.width = 0.; /* hairline */
+	style->line.color = RGBA_GREY (0x20);
+	style->fill.type = GOG_FILL_STYLE_NONE;
+	gog_theme_add_element (theme, style, NULL, "GogAxis", NULL);
 
 	/* series */
 	style = gog_style_new ();
 	style->outline.color = RGBA_BLACK;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
-	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_GREY (0xB0));
+	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_GREY (0x20));
 	/* FIXME : not really true, will want to split area from line */
 	gog_theme_add_element (theme, style,
 		map_area_series_solid_guppi, "GogSeries", NULL);

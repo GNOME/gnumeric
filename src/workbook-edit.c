@@ -461,6 +461,9 @@ wbcg_edit_attach_guru_main (WorkbookControlGUI *wbcg, GtkWidget *guru)
 	 */
 	application_clipboard_unant ();
 
+	/* don't sit end 'End' mode when a dialog comes up */
+	wbcg_set_end_mode (wbcg, FALSE);
+
 	wbcg->edit_line.guru = guru;
 	gtk_editable_set_editable (GTK_EDITABLE (wbcg_get_entry (wbcg)), FALSE);
 	wb_control_edit_set_sensitive (wbc, FALSE, FALSE);
@@ -515,6 +518,8 @@ wbcg_edit_detach_guru (WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
+	/* don't sit end 'End' mode when a dialog comes up */
+	wbcg_set_end_mode (wbcg, FALSE);
 	if (wbcg->edit_line.guru == NULL)
 		return;
 

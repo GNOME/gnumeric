@@ -22,6 +22,7 @@
 #include "application.h"
 #include "workbook-view.h"
 #include "workbook-edit.h"
+#include "workbook-control-gui.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
 #include "workbook-cmd-format.h"
@@ -116,11 +117,14 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 	Sheet *sheet = sc->sheet;
 	SheetView *sv = sc->view;
 	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
-	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
+	gboolean jump_to_bounds = event->state & GDK_CONTROL_MASK;
 	int state = gnumeric_filter_modifiers (event->state);
 	void (*movefn) (SheetControlGUI *, int n,
 			gboolean jump, gboolean horiz);
 
+	gboolean transition_keys = application_use_transition_keys();
+	gboolean end_mode = wbcg->last_key_was_end;
+	
 	/* Magic : Some of these are accelerators,
 	 * we need to catch them before entering because they appear to be printable
 	 */
@@ -154,32 +158,53 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 	case GDK_Left:
 		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
 			scg_set_left_col (gcanvas->simple.scg, gcanvas->first.col - 1);
+		else if (transition_keys && jump_to_bounds)
+			scg_queue_movement 
+				(gcanvas->simple.scg, movefn,
+				 -(gcanvas->last_visible.col-gcanvas->first.col),
+				 FALSE, TRUE);
 		else
-			(*movefn) (gcanvas->simple.scg, -1, jump_to_bounds, TRUE);
+			(*movefn) (gcanvas->simple.scg, -1, jump_to_bounds || end_mode, TRUE);
 		break;
 
 	case GDK_KP_Right:
 	case GDK_Right:
 		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
 			scg_set_left_col (gcanvas->simple.scg, gcanvas->first.col + 1);
+		else if (transition_keys && jump_to_bounds)
+			scg_queue_movement 
+				(gcanvas->simple.scg, movefn,
+				 gcanvas->last_visible.col-gcanvas->first.col,
+				 FALSE, TRUE);
 		else
-			(*movefn) (gcanvas->simple.scg, 1, jump_to_bounds, TRUE);
+			(*movefn) (gcanvas->simple.scg, 1, jump_to_bounds || end_mode, TRUE);
 		break;
 
 	case GDK_KP_Up:
 	case GDK_Up:
 		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
 			scg_set_top_row (gcanvas->simple.scg, gcanvas->first.row - 1);
+		else if (transition_keys && jump_to_bounds)
+			scg_queue_movement 
+				(gcanvas->simple.scg, movefn,
+				 -(gcanvas->last_visible.row-gcanvas->first.row),
+				 FALSE, FALSE);
 		else
-			(*movefn) (gcanvas->simple.scg, -1, jump_to_bounds, FALSE);
+			(*movefn) (gcanvas->simple.scg, -1, jump_to_bounds || end_mode, FALSE);
 		break;
 
 	case GDK_KP_Down:
 	case GDK_Down:
 		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
 			scg_set_top_row (gcanvas->simple.scg, gcanvas->first.row + 1);
+		else if (transition_keys && jump_to_bounds)
+			scg_queue_movement 
+				(gcanvas->simple.scg, movefn,
+				 gcanvas->last_visible.row-gcanvas->first.row,
+				 FALSE, FALSE);
+			
 		else
-			(*movefn) (gcanvas->simple.scg, 1, jump_to_bounds, FALSE);
+			(*movefn) (gcanvas->simple.scg, 1, jump_to_bounds || end_mode, FALSE);
 		break;
 
 	case GDK_KP_Page_Up:
@@ -218,7 +243,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		} else {
 			/* do the ctrl-home jump to A1 in 2 steps */
 			(*movefn)(gcanvas->simple.scg, -SHEET_MAX_COLS, FALSE, TRUE);
-			if ((event->state & GDK_CONTROL_MASK))
+			if ((event->state & GDK_CONTROL_MASK) || transition_keys)
 				(*movefn)(gcanvas->simple.scg, -SHEET_MAX_ROWS, FALSE, FALSE);
 		}
 		break;
@@ -230,14 +255,16 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 			int new_row = sv->edit_pos.row - (gcanvas->last_full.row - gcanvas->first.row);
 			scg_set_left_col (gcanvas->simple.scg, new_col);
 			scg_set_top_row (gcanvas->simple.scg, new_row);
-		} else {
+		} else if ((event->state & GDK_CONTROL_MASK)) {	
 			Range r = sheet_get_extent (sheet, FALSE);
 
 			/* do the ctrl-end jump to the extent in 2 steps */
 			(*movefn)(gcanvas->simple.scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
-			if ((event->state & GDK_CONTROL_MASK))
-				(*movefn)(gcanvas->simple.scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
+			(*movefn)(gcanvas->simple.scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
+		} else {  /* toggle end mode */
+			wbcg_toggle_end_mode(wbcg);
 		}
+			
 		break;
 
 	case GDK_KP_Insert :
@@ -341,6 +368,11 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		/* Forward the keystroke to the input line */
 		return gtk_widget_event (GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg))),
 					 (GdkEvent *) event);
+	}
+	
+	/* Update end-mode for magic end key stuff. */
+	if (event->keyval != GDK_End && event->keyval != GDK_KP_End) {
+		wbcg_set_end_mode(wbcg, FALSE);
 	}
 
 	if (wbcg_is_editing (wbcg))
@@ -716,7 +748,6 @@ gnm_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 								   root_group,
 								   FOO_TYPE_CANVAS_GROUP,
 								   NULL));
-
 	return gcanvas;
 }
 

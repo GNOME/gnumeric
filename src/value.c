@@ -48,7 +48,7 @@ static struct {
 	char const *C_name;
 	char const *locale_name;
 	String *locale_name_str;
-} standard_errors[8] = {
+} standard_errors[] = {
 	{ N_("#NULL!"), NULL, NULL },
 	{ N_("#DIV/0!"), NULL, NULL },
 	{ N_("#VALUE!"), NULL, NULL },
@@ -56,7 +56,8 @@ static struct {
 	{ N_("#NAME?"), NULL, NULL },
 	{ N_("#NUM!"), NULL, NULL },
 	{ N_("#N/A"), NULL, NULL },
-	{ N_("#RECALC!"), NULL, NULL }
+	{ N_("#RECALC!"), NULL, NULL },
+	{ N_("#UNKNOWN!"), NULL, NULL }
 };
 
 
