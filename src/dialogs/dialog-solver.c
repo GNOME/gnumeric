@@ -1055,12 +1055,12 @@ dialog_init (SolverState *state)
 	state->max_iter_entry = glade_xml_get_widget (state->gui, "max_iter_entry");
 	if (state->max_iter_entry == NULL)
 		return TRUE;
-	gtk_entry_set_text (GTK_ENTRY (state->max_iter_entry), "1000");
+	gtk_entry_set_text (GTK_ENTRY (state->max_iter_entry), "200");
 
 	state->max_time_entry = glade_xml_get_widget (state->gui, "max_time_entry");
 	if (state->max_time_entry == NULL)
 		return TRUE;
-	gtk_entry_set_text (GTK_ENTRY (state->max_time_entry), "3600");
+	gtk_entry_set_text (GTK_ENTRY (state->max_time_entry), "30");
 
 /* lhs_entry */
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "edit-table"));
