@@ -45,7 +45,6 @@ struct _XmlParseContext {
 	Sheet *sheet;		/* the associated sheet */
 	Workbook *wb;		/* the associated workbook */
 	IOContext *io_context;
-	gint element_counter;
 	GHashTable *style_table;/* old style styles compatibility */
 	GHashTable *expr_map;	/*
 				 * Emitted expressions with ref count > 1

@@ -1,3 +1,50 @@
+2001-06-12  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/io-context-priv.h
+	(enum GnumProgressHelperType, struct GnumProgressHelper): Two extra
+	helpers (value, workbook) + changes in count helper), removed min_f and
+	max_f fields.
+	(struct ProgressRange): New.
+	(struct _IOContext): Added progress_ranges, progress_min, progress_max.
+
+	* src/io-context.h
+	(enum WbProgressElements): New.
+	(file_io_progress_set, memory_io_progress_set):
+	Removed min_f and max_f arguments.
+	(count_io_progress_set): Added step argument, removed min_f and max_f.
+	(count_io_progress_update): s/value/inc.
+	(io_progress_range_push, io_progress_range_pop,
+	value_io_progress_set, value_io_progress_update,
+	workbook_io_progress_set, workbook_io_progress_update): New.
+
+	* src/io-context.c
+	(io_context_init): Initialize extra fields: progress_ranges,
+	progress_min, progress_max.
+	(io_progress_update): Adjust the value, using current range
+	<progress_min, progress_max>.
+	(io_progress_range_push, io_progress_range_pop): New.
+	(file_io_progress_set, memory_io_progress_set):
+	Removed min_f and max_f arguments.
+	(file_io_progress_update, memory_io_progress_update): Don't adjust value
+	to current range, io_progress_update takes care of this.
+	(count_io_progress_set): Added "step" argument, initialize extra
+	struct fields: last, current, step.
+	(count_io_progress_update): Take value increase as an argument, not
+	value itself. Return immediately if value hasn't changed enough. 
+	(value_io_progress_set, value_io_progress_update,
+	workbook_io_progress_set, workbook_io_progress_update): New. Two
+	additional helpers, "workbook" should be very useful when saving
+	workbook.
+
+	* src/xml-io.h (struct _XmlParseContext): Removed element_counter.
+
+	* src/xml-io.c
+	(xml_read_styles, xml_sheet_read): Don't increment element_counter
+	manually, just call count_io_progress_update.
+	(xml_workbook_read): Pass the size of the step to
+	count_io_progress_set, use io_progress_range_{push,pop}.
+	(gnumeric_xml_read_workbook): Use io progress helper of type "value".
+
 2001-06-11  Juan Pablo Mendoza <pablo_juan@yahoo.com>
 
 	* .cvsignore: Add GNOME_Gnumeric.oaf.

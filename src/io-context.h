@@ -14,6 +14,12 @@ typedef struct _IOContextClass IOContextClass;
 #define IO_CONTEXT(obj)    (GTK_CHECK_CAST ((obj), TYPE_IO_CONTEXT, IOContext))
 #define IS_IO_CONTEXT(obj) (GTK_CHECK_TYPE ((obj), TYPE_IO_CONTEXT))
 
+typedef enum {
+	WB_PROGRESS_CELLS  = 1,
+	WB_PROGRESS_STYLES = 2,
+	WB_PROGRESS_ALL    = (WB_PROGRESS_CELLS | WB_PROGRESS_STYLES)
+} WbProgressElements;
+
 GtkType   io_context_get_type (void);
 
 /*
@@ -40,18 +46,24 @@ gboolean   gnumeric_io_error_occurred     (IOContext *context);
 
 void       io_progress_message      (IOContext *io_context, const gchar *msg);
 void       io_progress_update       (IOContext *io_context, gdouble f);
+void       io_progress_range_push   (IOContext *io_context, gdouble min, gdouble max);
+void       io_progress_range_pop    (IOContext *io_context);
 
-void       file_io_progress_set    (IOContext *io_context, const gchar *file_name,
-                                    FILE *f, gdouble min_f, gdouble max_f);
+void       file_io_progress_set    (IOContext *io_context, const gchar *file_name, FILE *f);
 void       file_io_progress_update (IOContext *io_context);
 
-void       memory_io_progress_set    (IOContext *io_context, void *mem_start,
-                                      gint mem_size, gdouble min_f, gdouble max_f);
+void       memory_io_progress_set    (IOContext *io_context, void *mem_start, gint mem_size);
 void       memory_io_progress_update (IOContext *io_context, void *mem_current);
 
-void       count_io_progress_set    (IOContext *io_context, gint total,
-                                     gdouble min_f, gdouble max_f);
-void       count_io_progress_update (IOContext *io_context, gint count);
+void       count_io_progress_set    (IOContext *io_context, gint total, gint step);
+void       count_io_progress_update (IOContext *io_context, gint inc);
+
+void       value_io_progress_set    (IOContext *io_context, gint total, gint step);
+void       value_io_progress_update (IOContext *io_context, gint value);
+
+void       workbook_io_progress_set    (IOContext *io_context, Workbook *wb,
+                                        WbProgressElements elements, gint step);
+void       workbook_io_progress_update (IOContext *io_context, gint inc);
 
 void       io_progress_unset      (IOContext *io_context);
 

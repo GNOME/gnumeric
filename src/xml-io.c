@@ -2538,9 +2538,7 @@ xml_read_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	for (regions = child->xmlChildrenNode; regions != NULL; regions = regions->next) {
 		xml_read_style_region (ctxt, regions);
-		if (++ctxt->element_counter % N_ELEMENTS_BETWEEN_UPDATES == 0) {
-			count_io_progress_update (ctxt->io_context, ctxt->element_counter);
-		}
+		count_io_progress_update (ctxt->io_context, 1);
 	}
 }
 
@@ -2773,9 +2771,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 
 		for (cell = child->xmlChildrenNode; cell != NULL ; cell = cell->next) {
 			xml_read_cell (ctxt, cell);
-			if (++ctxt->element_counter % N_ELEMENTS_BETWEEN_UPDATES == 0) {
-				count_io_progress_update (ctxt->io_context, ctxt->element_counter);
-			}
+			count_io_progress_update (ctxt->io_context, 1);
 		}
 	}
 
@@ -3138,15 +3134,17 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 	 * Pass 2: read the contents
 	 */
 	io_progress_message (context, _("Processing XML tree..."));
-	count_io_progress_set (context, xml_read_workbook_n_elements (child), 0.5, 1.0);
+	io_progress_range_push (context, 0.5, 1.0);
+	count_io_progress_set (context, xml_read_workbook_n_elements (child),
+	                       N_ELEMENTS_BETWEEN_UPDATES);
 	ctxt->io_context = context;
-	ctxt->element_counter = 0;
 	c = child->xmlChildrenNode;
 	while (c != NULL) {
 		sheet = xml_sheet_read (ctxt, c);
 		c = c->next;
 	}
 	io_progress_unset (context);
+	io_progress_range_pop (context);
 
 	child = e_xml_get_child_by_name (tree, "Attributes");
 	if (child && ctxt->version >= GNUM_XML_V5) {
@@ -3365,18 +3363,20 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 		return;
 	}
 	io_progress_message (context, _("Parsing XML file..."));
-	count_io_progress_set (context, file_size, 0.0, 0.5);
+	io_progress_range_push (context, 0.0, 0.5);
+	value_io_progress_set (context, file_size, 0);
 	bytes = gzread (f, buffer, 4);
 	pctxt = xmlCreatePushParserCtxt (NULL, NULL, buffer, bytes, filename);
 	while ((bytes = gzread (f, buffer, XML_INPUT_BUFFER_SIZE)) > 0) {
 		xmlParseChunk (pctxt, buffer, bytes, 0);
-		count_io_progress_update (context, lseek (fd, 0, SEEK_CUR));
+		value_io_progress_update (context, lseek (fd, 0, SEEK_CUR));
 	}
 	xmlParseChunk (pctxt, buffer, 0, 1);
 	res = pctxt->myDoc;
 	xmlFreeParserCtxt (pctxt);
 	gzclose (f);
 	io_progress_unset (context);
+	io_progress_range_pop (context);
 
 	if (res == NULL) {
 		gnumeric_io_error_read (context, "");

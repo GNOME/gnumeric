@@ -14,12 +14,13 @@ typedef enum {
 	GNUM_PROGRESS_HELPER_FILE,
 	GNUM_PROGRESS_HELPER_MEM,
 	GNUM_PROGRESS_HELPER_COUNT,
+	GNUM_PROGRESS_HELPER_VALUE,
+	GNUM_PROGRESS_HELPER_WORKBOOK,
 	GNUM_PROGRESS_HELPER_LAST
 } GnumProgressHelperType;
 
 typedef struct {
 	GnumProgressHelperType helper_type;
-	gdouble min_f, max_f;
 	union {
 		struct {
 			FILE *f;
@@ -30,10 +31,23 @@ typedef struct {
 			gint size;
 		} mem;
 		struct {
-			gint total;
+			gint total, last, current;
+			gint step;
 		} count;
+		struct {
+			gint total, last;
+			gint step;
+		} value;
+		struct {
+			gint n_elements, last, current;
+			gint step;
+		} workbook;
 	} v;
 } GnumProgressHelper;
+
+typedef struct {
+	gfloat min, max;
+} ProgressRange;
 
 struct _IOContext {
 	GtkObject parent;
@@ -42,6 +56,8 @@ struct _IOContext {
 	ErrorInfo *error_info;
 	gboolean error_occurred;
 
+	GList *progress_ranges;
+	gfloat progress_min, progress_max;
 	gdouble last_progress;
 	gdouble last_time;
 	GnumProgressHelper helper;

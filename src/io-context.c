@@ -15,6 +15,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include "gnumeric.h"
+#include "sheet.h"
+#include "sheet-style.h"
+#include "workbook.h"
 #include "command-context.h"
 #include "gnumeric-util.h"
 #include "io-context.h"
@@ -23,14 +26,17 @@
 #define PROGRESS_UPDATE_STEP        0.01
 #define PROGRESS_UPDATE_PERIOD_SEC  0.20
 
-
 static void
 io_context_init (IOContext *io_context)
 {
 	io_context->impl = NULL;
 	io_context->error_info = NULL;
 	io_context->error_occurred = FALSE;
-	io_context->last_progress = 0.0;
+
+	io_context->progress_ranges = NULL;
+	io_context->progress_min = 0.0;
+	io_context->progress_max = 1.0;
+	io_context->last_progress = -1.0;
 	io_context->last_time = 0.0;
 	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_NONE;
 }
@@ -196,6 +202,10 @@ io_progress_update (IOContext *io_context, gdouble f)
 {
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 
+	if (io_context->progress_ranges != NULL) {
+		f = f * (io_context->progress_max - io_context->progress_min)
+		    + io_context->progress_min;
+	}
 	if (f - io_context->last_progress >= PROGRESS_UPDATE_STEP) {
 		struct timeval tv;
 		double t;
@@ -222,14 +232,61 @@ io_progress_message (IOContext *io_context, const gchar *msg)
 }
 
 void
-file_io_progress_set (IOContext *io_context, const gchar *file_name,
-                      FILE *f, gdouble min_f, gdouble max_f)
+io_progress_range_push (IOContext *io_context, gdouble min, gdouble max)
+{
+	ProgressRange *r;
+	gdouble new_min, new_max;
+
+	g_return_if_fail (IS_IO_CONTEXT (io_context));
+
+	r = g_new (ProgressRange, 1);
+	r->min = min;
+	r->max = max;
+	io_context->progress_ranges = g_list_append (io_context->progress_ranges, r);
+
+	new_min = min / (io_context->progress_max - io_context->progress_min)
+	          + io_context->progress_min;
+	new_max = max / (io_context->progress_max - io_context->progress_min)
+	          + io_context->progress_min;
+	io_context->progress_min = new_min;
+	io_context->progress_max = new_max;
+}
+
+void
+io_progress_range_pop (IOContext *io_context)
+{
+	GList *l;
+
+	g_return_if_fail (IS_IO_CONTEXT (io_context));
+	g_return_if_fail (io_context->progress_ranges != NULL);
+
+	l = g_list_last (io_context->progress_ranges);
+	io_context->progress_ranges= g_list_remove_link (io_context->progress_ranges, l);
+	g_free (l->data);
+	g_list_free_1 (l);
+
+	io_context->progress_min = 0.0;
+	io_context->progress_max = 1.0;
+	for (l = io_context->progress_ranges; l != NULL; l = l->next) {
+		ProgressRange *r = l->data;
+		gdouble new_min, new_max;
+
+		new_min = r->min / (io_context->progress_max - io_context->progress_min)
+		          + io_context->progress_min;
+		new_max = r->max / (io_context->progress_max - io_context->progress_min)
+		          + io_context->progress_min;
+		io_context->progress_min = new_min;
+		io_context->progress_max = new_max;
+	}
+}
+
+void
+file_io_progress_set (IOContext *io_context, const gchar *file_name, FILE *f)
 {
 	struct stat sbuf;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 	g_return_if_fail (file_name != NULL && f != NULL);
-	g_return_if_fail (min_f <= max_f);
 
 	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_FILE;
 	io_context->helper.v.file.f = f;
@@ -238,8 +295,6 @@ file_io_progress_set (IOContext *io_context, const gchar *file_name,
 	} else {
 		io_context->helper.v.file.size = LONG_MAX;
 	}
-	io_context->helper.min_f = min_f;
-	io_context->helper.max_f = max_f;
 }
 
 void
@@ -255,24 +310,19 @@ file_io_progress_update (IOContext *io_context)
 	if (pos == -1) {
 		pos = io_context->helper.v.file.size;
 	}
-	complete = (io_context->helper.max_f - io_context->helper.min_f)
-	           * pos / io_context->helper.v.file.size;
-	io_progress_update (io_context, io_context->helper.min_f + complete);
+	complete = 1.0 * pos / io_context->helper.v.file.size;
+	io_progress_update (io_context, complete);
 }
 
 void
-memory_io_progress_set (IOContext *io_context, gpointer mem_start,
-                        gint mem_size, gdouble min_f, gdouble max_f)
+memory_io_progress_set (IOContext *io_context, gpointer mem_start, gint mem_size)
 {
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 	g_return_if_fail (mem_start != NULL && mem_size >=0);
-	g_return_if_fail (min_f <= max_f);
 
 	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_MEM;
 	io_context->helper.v.mem.start = mem_start;
 	io_context->helper.v.mem.size = MAX (mem_size, 1);
-	io_context->helper.min_f = min_f;
-	io_context->helper.max_f = max_f;
 }
 
 void
@@ -284,36 +334,122 @@ memory_io_progress_update (IOContext *io_context, void *mem_current)
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 	g_return_if_fail (io_context->helper.helper_type = GNUM_PROGRESS_HELPER_MEM);
 
-	complete = (io_context->helper.max_f - io_context->helper.min_f)
-	           * (cur - io_context->helper.v.mem.start) / io_context->helper.v.mem.size;
-	io_progress_update (io_context, io_context->helper.min_f + complete);
+	complete = 1.0 * (cur - io_context->helper.v.mem.start)
+	           / io_context->helper.v.mem.size;
+	io_progress_update (io_context, complete);
 }
 
 void
-count_io_progress_set (IOContext *io_context, gint total,
-                       gdouble min_f, gdouble max_f)
+value_io_progress_set (IOContext *io_context, gint total, gint step)
 {
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 	g_return_if_fail (total >=0);
-	g_return_if_fail (min_f <= max_f);
 
-	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_COUNT;
-	io_context->helper.v.count.total = MAX (total, 1);
-	io_context->helper.min_f = min_f;
-	io_context->helper.max_f = max_f;
+	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_VALUE;
+	io_context->helper.v.value.total = MAX (total, 1);
+	io_context->helper.v.value.last = -step;
+	io_context->helper.v.value.step = step;
 }
 
 void
-count_io_progress_update (IOContext *io_context, gint count)
+value_io_progress_update (IOContext *io_context, gint value)
 {
 	gdouble complete;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 	g_return_if_fail (io_context->helper.helper_type = GNUM_PROGRESS_HELPER_COUNT);
 
-	complete = (io_context->helper.max_f - io_context->helper.min_f)
-	           * count / io_context->helper.v.count.total;
-	io_progress_update (io_context, io_context->helper.min_f + complete);
+	if (value - io_context->helper.v.value.last < io_context->helper.v.value.step) {
+		return;
+	}
+	io_context->helper.v.value.last = value;
+
+	complete = 1.0 * value / io_context->helper.v.value.total;
+	io_progress_update (io_context, complete);
+}
+
+void
+count_io_progress_set (IOContext *io_context, gint total, gint step)
+{
+	g_return_if_fail (IS_IO_CONTEXT (io_context));
+	g_return_if_fail (total >=0);
+
+	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_COUNT;
+	io_context->helper.v.count.total = MAX (total, 1);
+	io_context->helper.v.count.last = -step;
+	io_context->helper.v.count.current = 0;
+	io_context->helper.v.count.step = step;
+}
+
+void
+count_io_progress_update (IOContext *io_context, gint inc)
+{
+	gdouble complete;
+
+	g_return_if_fail (IS_IO_CONTEXT (io_context));
+	g_return_if_fail (io_context->helper.helper_type = GNUM_PROGRESS_HELPER_COUNT);
+
+	io_context->helper.v.count.current += inc;
+	if (io_context->helper.v.count.current - io_context->helper.v.count.last
+	    < io_context->helper.v.count.step) {
+		return;
+	}
+	io_context->helper.v.count.last = io_context->helper.v.count.current;
+
+	complete = 1.0 * io_context->helper.v.count.current
+	           / io_context->helper.v.count.total;
+	io_progress_update (io_context, complete);
+}
+
+void
+workbook_io_progress_set (IOContext *io_context, Workbook *wb,
+                          WbProgressElements elements, gint step)
+{
+	gint n = 0;
+	GList *sheets, *l;
+
+	g_return_if_fail (IS_IO_CONTEXT (io_context));
+	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (elements <= WB_PROGRESS_ALL);
+
+	sheets = workbook_sheets (wb);
+	for (l = sheets; l != NULL; l = l->next) {
+		Sheet *sheet = l->data;
+
+		if ((elements & WB_PROGRESS_CELLS) != 0) {
+			n += g_hash_table_size (sheet->cell_hash);
+		}
+		if ((elements & WB_PROGRESS_STYLES) != 0) {
+			n += g_list_length (sheet_style_get_list (sheet, NULL));
+		}
+	}
+	g_list_free (sheets);
+
+	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_WORKBOOK;
+	io_context->helper.v.workbook.n_elements = MAX (n, 1);
+	io_context->helper.v.workbook.last = -step;
+	io_context->helper.v.workbook.current = 0;
+	io_context->helper.v.workbook.step = step;
+}
+
+void
+workbook_io_progress_update (IOContext *io_context, gint inc)
+{
+	gdouble complete;
+
+	g_return_if_fail (IS_IO_CONTEXT (io_context));
+	g_return_if_fail (io_context->helper.helper_type = GNUM_PROGRESS_HELPER_WORKBOOK);
+
+	io_context->helper.v.workbook.current += inc;
+	if (io_context->helper.v.workbook.current - io_context->helper.v.workbook.last
+	    < io_context->helper.v.workbook.step) {
+		return;
+	}
+	io_context->helper.v.workbook.last = io_context->helper.v.workbook.current;
+
+	complete = 1.0 * io_context->helper.v.workbook.current
+	           / io_context->helper.v.workbook.n_elements;
+	io_progress_update (io_context, complete);
 }
 
 void
