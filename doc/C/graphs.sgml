@@ -1,9 +1,9 @@
 <sect1 id="graphing">
   <title>Graphing in Gnumeric</title>
   <para>
-    <application>Gnumeric</application> has the ability to create
-    graphs based on your data in the spreadsheet.  To do this, you
-    need the <application>Guppi</application> installed that has
+    <application>Gnumeric</application> can create graphs with data in a
+    worksheet.  To do this, you need a modern version of
+    <application>Guppi</application> (>= 0.40.0 ) installed that has
     <application>Gnumeric</application> support built in.
   </para>
   <para>
@@ -91,16 +91,3 @@
     </para>
   </sect2>
 </sect1>
-
-
-
-
-
-
-
-
-
-
-
-
-
