@@ -1,5 +1,7 @@
 2003-12-24  Morten Welinder  <terra@gnome.org>
 
+	* dialog-search.c (make_matches_table): Set single-paragraph-mode.
+
 	* dialog-stf-preview.c (stf_preview_set_lines): Set
 	single-paragraph-mode.  We're in gtk+ cvs HEAD land now.
 
