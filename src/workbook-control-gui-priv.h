@@ -53,7 +53,7 @@ struct _WorkbookControlGUI {
 	/* While not editing these should be visible */
 	GtkWidget *func_button;
 
-	gboolean    updating_toolbar;
+	gboolean    updating_ui;
 
 	/* Auto completion */
 	void            *auto_complete;         /* GtkType is (Complete *) */

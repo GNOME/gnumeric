@@ -59,8 +59,6 @@ wb_control_wrapper_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb)
 
 WBC_VIRTUAL (title_set,
 	(WorkbookControl *wbc, char const * title), (wbc, title))
-WBC_VIRTUAL (size_pixels_set,
-	(WorkbookControl *wbc, int w, int h), (wbc, w, h))
 WBC_VIRTUAL (prefs_update,
 	(WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (progress_set,
@@ -70,6 +68,8 @@ WBC_VIRTUAL (format_feedback,
 WBC_VIRTUAL (zoom_feedback,
 	     (WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (edit_line_set,
+	     (WorkbookControl *wbc, char const *text), (wbc, text))
+WBC_VIRTUAL (selection_descr_set,
 	     (WorkbookControl *wbc, char const *text), (wbc, text))
 WBC_VIRTUAL (auto_expr_value,
 	     (WorkbookControl *wbc, char const *value), (wbc, value))
@@ -83,7 +83,8 @@ WBC_VIRTUAL_FULL (sheet_rename, sheet.rename,
 WBC_VIRTUAL_FULL (sheet_focus, sheet.focus,
 	     (WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
 WBC_VIRTUAL_FULL (sheet_move, sheet.move,
-	     (WorkbookControl *wbc, Sheet *sheet, int dir), (wbc, sheet, dir))
+	     (WorkbookControl *wbc, Sheet *sheet, int new_pos),
+	     (wbc, sheet, new_pos))
 WBC_VIRTUAL_FULL (sheet_remove_all, sheet.remove_all,
 	     (WorkbookControl *wbc), (wbc))
 

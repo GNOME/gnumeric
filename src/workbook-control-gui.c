@@ -170,7 +170,7 @@ zoom_changed (WorkbookControlGUI *wbcg, Sheet* sheet)
 	 * This happens whenever the ui updates and the current cell makes a
 	 * change to the toolbar indicators.
 	 */
-	if (wbcg->updating_toolbar)
+	if (wbcg->updating_ui)
 		return;
 
 	g_return_if_fail (wbcg->zoom_entry != NULL);
@@ -188,9 +188,10 @@ wbcg_zoom_feedback (WorkbookControl *wbc)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 
 	/* Do not update the zoom when we update the status display */
-	wbcg->updating_toolbar = TRUE;
+	g_return_if_fail (!wbcg->updating_ui);
+	wbcg->updating_ui = TRUE;
 	zoom_changed (wbcg, sheet);
-	wbcg->updating_toolbar = FALSE;
+	wbcg->updating_ui = FALSE;
 }
 
 static void
@@ -198,6 +199,13 @@ wbcg_edit_line_set (WorkbookControl *wbc, char const *text)
 {
 	GtkEntry *entry = workbook_get_entry ((WorkbookControlGUI*)wbc);
 	gtk_entry_set_text (entry, text);
+}
+
+static void
+wbcg_edit_selection_descr_set (WorkbookControl *wbc, char const *text)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	gtk_entry_set_text (GTK_ENTRY (wbcg->selection_descriptor), text);
 }
 
 /*
@@ -297,7 +305,8 @@ static void
 sheet_action_clone_sheet (GtkWidget *widget, SheetView *sheet_view)
 {
      	Sheet *new_sheet = sheet_duplicate (sheet_view->sheet);
-	workbook_sheet_attach (sheet_view->sheet->workbook, new_sheet);
+	workbook_sheet_attach (sheet_view->sheet->workbook, new_sheet,
+			       sheet_view->sheet);
 	sheet_set_dirty (new_sheet, TRUE);
 }
 
@@ -361,7 +370,7 @@ sheet_menu_label_run (SheetView *sheet_view, GdkEventButton *event)
  * Invoked when the user has clicked on the EditableLabel widget.
  * This takes care of switching to the notebook that contains the label
  */
-static gint
+static gboolean
 cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 			     GtkWidget *child)
 {
@@ -389,6 +398,25 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 }
 
 static void workbook_setup_sheets (WorkbookControlGUI *wbcg);
+
+static int
+sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetView **res)
+{
+	int i = 0;
+	GtkWidget *w;
+
+	g_return_val_if_fail (IS_SHEET (sheet), -1);
+
+	for ( ; NULL != (w = gtk_notebook_get_nth_page (wbcg->notebook, i)) ; i++) {
+		SheetView *view = SHEET_VIEW (w);
+		if (view != NULL && view->sheet == sheet) {
+			if (res)
+				*res = view;
+			return i;
+		}
+	}
+	return -1;
+}
 
 /**
  * wbcg_sheet_add:
@@ -444,31 +472,13 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	gtk_widget_show (sheet_label);
 	gtk_widget_show_all (GTK_WIDGET (sheet_view));
 
-	g_return_if_fail (wbcg->updating_toolbar == FALSE);
-	gtk_notebook_append_page (wbcg->notebook,
-		GTK_WIDGET (sheet_view), sheet_label);
+	gtk_notebook_insert_page (wbcg->notebook,
+		GTK_WIDGET (sheet_view), sheet_label,
+		workbook_sheet_index_get (wb_control_workbook (wbc), sheet));
 
 	/* Only be scrollable if there are more than 3 tabs */
 	if (g_list_length (wbcg->notebook->children) > 3)
 		gtk_notebook_set_scrollable (wbcg->notebook, TRUE);
-}
-
-static int
-sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetView **res)
-{
-	int i = 0;
-	GtkWidget *w;
-
-	g_return_val_if_fail (IS_SHEET (sheet), -1);
-
-	for ( ; NULL != (w = gtk_notebook_get_nth_page (wbcg->notebook, i)) ; i++) {
-		SheetView *view = SHEET_VIEW (w);
-		if (view != NULL && view->sheet == sheet) {
-			*res = view;
-			return i;
-		}
-	}
-	return -1;
 }
 
 static void
@@ -523,10 +533,17 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 }
 
 static void
-wbcg_sheet_move (WorkbookControl *wbc, Sheet *sheet, int dir)
+wbcg_sheet_move (WorkbookControl *wbc, Sheet *sheet, int new_pos)
 {
-#warning Finish this
-	g_warning ("Finish me");
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	SheetView *sheet_view;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	/* No need for sanity checking, the workbook did that */
+        if (sheet_to_page_index (wbcg, sheet, &sheet_view) >= 0)
+		gtk_notebook_reorder_child (wbcg->notebook,
+			GTK_WIDGET (sheet_view), new_pos);
 }
 
 static void
@@ -740,7 +757,10 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	gboolean   can_close = TRUE;
 	gboolean   done      = FALSE;
 	int        iteration = 0;
+	Workbook  *wb = wb_view_workbook (wb_view);
 	static int in_can_close;
+
+	g_return_val_if_fail (IS_WORKBOOK (wb), TRUE);
 
 	if (in_can_close)
 		return FALSE;
@@ -776,7 +796,7 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 		switch (button) {
 		case 0: /* YES */
-			done = workbook_save (wbcg, wb);
+			done = workbook_save (wbcg, wb_view);
 			break;
 
 		case 1: /* NO */
@@ -800,6 +820,37 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		return FALSE;
 	} else
 		return TRUE;
+}
+
+/*
+ * wbcg_close_control:
+ *
+ * Returns TRUE if the control should not be closed.
+ */
+static gboolean
+wbcg_close_control (WorkbookControlGUI *wbcg)
+{
+	WorkbookView *wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
+
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wb_view), TRUE);
+	g_return_val_if_fail (wb_view->wb_controls != NULL, TRUE);
+
+	/* This is the last control */
+	if (wb_view->wb_controls->len <= 1) {
+		Workbook *wb = wb_view_workbook (wb_view);
+
+		g_return_val_if_fail (IS_WORKBOOK (wb), TRUE);
+		g_return_val_if_fail (wb->wb_views != NULL, TRUE);
+
+		/* This is the last view */
+		if (wb_view->wb_controls->len <= 1)
+			return workbook_close_if_user_permits (wbcg, wb_view);
+
+		gtk_object_unref (GTK_OBJECT (wb_view));
+	} else
+		gtk_object_unref (GTK_OBJECT (wbcg));
+
+	return FALSE;
 }
 
 /****************************************************************************/
@@ -838,36 +889,34 @@ cb_file_import (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_file_save (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	workbook_save (wbcg, wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
+	workbook_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
 }
 
 static void
 cb_file_save_as (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Workbook *wb = wb_control_workbook (wbc);
-	workbook_save_as (wbcg, wb);
+	workbook_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
 }
 
 static void
 cb_file_print_setup (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_printer_setup (wbcg, wb_control_cur_sheet (wbc));
+	Sheet *sheet =wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	dialog_printer_setup (wbcg, sheet);
 }
 
 static void
 cb_file_print (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	sheet_print (wbcg, wb_control_cur_sheet (wbc), FALSE, PRINT_ACTIVE_SHEET);
+	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	sheet_print (wbcg, sheet, FALSE, PRINT_ACTIVE_SHEET);
 }
 
 static void
 cb_file_print_preview (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	sheet_print (wbcg, wb_control_cur_sheet (wbc), TRUE, PRINT_ACTIVE_SHEET);
+	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	sheet_print (wbcg, sheet, TRUE, PRINT_ACTIVE_SHEET);
 }
 
 static void
@@ -881,8 +930,7 @@ cb_file_summary (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_file_close (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	workbook_close_if_user_permits (wbcg,
-		wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	wbcg_close_control (wbcg);
 }
 
 static void
@@ -899,8 +947,16 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	/* list is modified during workbook destruction */
 	workbooks = g_list_copy (application_workbook_list ());
 
-	for (ptr = workbooks; ptr != NULL ; ptr = ptr->next)
-		workbook_close_if_user_permits (wbcg, ptr->data);
+	for (ptr = workbooks; ptr != NULL ; ptr = ptr->next) {
+		Workbook *wb = ptr->data;
+		WorkbookView *wb_view;
+
+		g_return_if_fail (IS_WORKBOOK (wb));
+		g_return_if_fail (wb->wb_views != NULL);
+
+		wb_view = g_ptr_array_index (wb->wb_views, 0);
+		workbook_close_if_user_permits (wbcg, wb_view);
+	}
 
 	g_list_free (workbooks);
 }
@@ -1408,10 +1464,10 @@ sort_cmd (WorkbookControlGUI *wbcg, int asc)
 	SortClause *clause;
 	int numclause, i;
 
-	g_return_if_fail (wbcg != NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	sel = range_copy (selection_first_range (sheet, TRUE));
 
@@ -2475,8 +2531,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 static int
 wbcg_delete_event (GtkWidget *widget, GdkEvent *event, WorkbookControlGUI *wbcg)
 {
-	return workbook_close_if_user_permits (wbcg,
-		wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	return wbcg_close_control (wbcg);
 }
 
 /*
@@ -2500,9 +2555,16 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	Sheet *old_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 
 	/* Lookup sheet associated with the current notebook tab */
-	Sheet *sheet = wb_control_gui_focus_cur_sheet (wbcg);
+	Sheet *sheet;
 	gboolean accept = TRUE;
 
+	/* While initializing adding the sheets will trigger page changes, but
+	 * we do not actually want to change the focus sheet for the view
+	 */
+	if (wbcg->updating_ui)
+		return;
+
+	sheet = wb_control_gui_focus_cur_sheet (wbcg);
 	/* Remove the cell seletion cursor if it exists */
 	if (old_sheet != NULL)
 		sheet_destroy_cell_select_cursor (old_sheet, TRUE);
@@ -2617,14 +2679,14 @@ setup_progress_bar (WorkbookControlGUI *wbcg)
 static void
 cb_auto_expr_changed (GtkWidget *item, WorkbookControlGUI *wbcg)
 {
-	g_return_if_fail (wbcg->updating_toolbar == FALSE);
+	g_return_if_fail (!wbcg->updating_ui);
 
-	wbcg->updating_toolbar = TRUE;
+	wbcg->updating_ui = TRUE;
 	wb_view_auto_expr (
 		wb_control_view (WORKBOOK_CONTROL (wbcg)),
 		gtk_object_get_data (GTK_OBJECT (item), "name"),
 		gtk_object_get_data (GTK_OBJECT (item), "expr"));
-	wbcg->updating_toolbar = FALSE;
+	wbcg->updating_ui = FALSE;
 }
 
 static void
@@ -2785,7 +2847,11 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 #endif
 	GtkWidget *tmp;
 
-	tmp = gnome_app_new ("Gnumeric", "Gnumeric");
+#ifdef ENABLE_BONOBO
+	tmp  = bonobo_win_new ("Gnumeric", "Gnumeric");
+#else
+	tmp  = gnome_app_new ("Gnumeric", "Gnumeric");
+#endif
 	wbcg->toplevel = GTK_WINDOW (tmp);
 	wbcg->table    = gtk_table_new (0, 0, 0);
 	wbcg->notebook = NULL;
@@ -2893,16 +2959,16 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 
 	parent_class = gtk_type_class (workbook_control_get_type ());
 
-	object_class->destroy 	    = wbcg_destroy;
-	wbc_class->control_new	    = wbcg_control_new;
-	wbc_class->title_set	    = wbcg_title_set;
-	wbc_class->size_pixels_set  = wbcg_size_pixels_set;
-	wbc_class->prefs_update	    = wbcg_prefs_update;
-	wbc_class->progress_set     = wbcg_progress_set;
-	wbc_class->format_feedback  = wbcg_format_feedback;
-	wbc_class->zoom_feedback    = wbcg_zoom_feedback;
-	wbc_class->edit_line_set    = wbcg_edit_line_set;
-	wbc_class->auto_expr_value  = wbcg_auto_expr_value;
+	object_class->destroy		= wbcg_destroy;
+	wbc_class->control_new		= wbcg_control_new;
+	wbc_class->title_set		= wbcg_title_set;
+	wbc_class->prefs_update		= wbcg_prefs_update;
+	wbc_class->progress_set		= wbcg_progress_set;
+	wbc_class->format_feedback	= wbcg_format_feedback;
+	wbc_class->zoom_feedback	= wbcg_zoom_feedback;
+	wbc_class->edit_line_set	= wbcg_edit_line_set;
+	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
+	wbc_class->auto_expr_value	= wbcg_auto_expr_value;
 
 	wbc_class->sheet.add        = wbcg_sheet_add;
 	wbc_class->sheet.remove	    = wbcg_sheet_remove;
@@ -2936,10 +3002,22 @@ WorkbookControl *
 workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)
 {
 	WorkbookControlGUI *wbcg;
+	WorkbookControl    *wbc;
+	Sheet		   *cur_sheet;
 
 	wbcg = gtk_type_new (workbook_control_gui_get_type ());
 	workbook_control_gui_init (wbcg, optional_view, wb);
-	workbook_control_sheets_init (WORKBOOK_CONTROL (wbcg));
 
-	return WORKBOOK_CONTROL (wbcg);
+	wbc = WORKBOOK_CONTROL (wbcg);
+	g_return_val_if_fail (!wbcg->updating_ui, wbc);
+
+	wbcg->updating_ui = TRUE;
+	workbook_control_sheets_init (wbc);
+	wbcg->updating_ui = FALSE;
+
+	cur_sheet = wb_control_cur_sheet (wbc);
+	if (cur_sheet != NULL)
+		wbcg_sheet_focus (wbc, wb_control_cur_sheet (wbc));
+
+	return wbc;
 }

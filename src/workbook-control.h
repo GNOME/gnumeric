@@ -17,20 +17,21 @@ typedef struct {
 	WorkbookControl *(*control_new) (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb);
 
 	/* Actions on the workbook UI */
-	void (*title_set)	(WorkbookControl *wbc, char const *title);
-	void (*size_pixels_set)	(WorkbookControl *wbc, int width, int height);
-	void (*prefs_update)	(WorkbookControl *wbc);
-	void (*progress_set)	(WorkbookControl *wbc, gfloat val);
-	void (*format_feedback)	(WorkbookControl *wbc, MStyle *style);
-	void (*zoom_feedback)	(WorkbookControl *wbc);
-	void (*edit_line_set)   (WorkbookControl *wbc, char const *text);
-	void (*auto_expr_value) (WorkbookControl *wbc, char const *value);
+	void (*title_set)	    (WorkbookControl *wbc, char const *title);
+	void (*prefs_update)	    (WorkbookControl *wbc);
+	void (*progress_set)	    (WorkbookControl *wbc, gfloat val);
+	void (*format_feedback)	    (WorkbookControl *wbc, MStyle *style);
+	void (*zoom_feedback)	    (WorkbookControl *wbc);
+	void (*edit_line_set)	    (WorkbookControl *wbc, char const *text);
+	void (*selection_descr_set) (WorkbookControl *wbc, char const *text);
+	void (*auto_expr_value)	    (WorkbookControl *wbc, char const *value);
 	struct {
 		void (*add)	(WorkbookControl *wbc, Sheet *sheet);
 		void (*remove)	(WorkbookControl *wbc, Sheet *sheet);
 		void (*rename)  (WorkbookControl *wbc, Sheet *sheet);
 		void (*focus)   (WorkbookControl *wbc, Sheet *sheet);
-		void (*move)    (WorkbookControl *wbc, Sheet *sheet, int dir);
+		void (*move)    (WorkbookControl *wbc, Sheet *sheet,
+				 int new_pos);
 		void (*remove_all) (WorkbookControl *wbc);
 	} sheet;
 	struct {
@@ -72,18 +73,19 @@ WorkbookControl *wb_control_wrapper_new (WorkbookControl *wbc,
 					 WorkbookView *wbv, Workbook *wb);
 
 void wb_control_title_set	     (WorkbookControl *wbc, char const *title);
-void wb_control_size_pixels_set	     (WorkbookControl *wbc, int w, int h);
 void wb_control_prefs_update	     (WorkbookControl *wbc);
 void wb_control_format_feedback	     (WorkbookControl *wbc, MStyle *style);
 void wb_control_zoom_feedback	     (WorkbookControl *wbc);
 void wb_control_edit_line_set        (WorkbookControl *wbc, char const *text);
+void wb_control_selection_descr_set  (WorkbookControl *wbc, char const *text);
 void wb_control_auto_expr_value	     (WorkbookControl *wbc, char const *value);
 
 void wb_control_sheet_add	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_remove	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_rename	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_focus	     (WorkbookControl *wbc, Sheet *sheet);
-void wb_control_sheet_move	     (WorkbookControl *wbc, Sheet *sheet, int dir);
+void wb_control_sheet_move	     (WorkbookControl *wbc, Sheet *sheet,
+				      int new_pos);
 void wb_control_sheet_remove_all     (WorkbookControl *wbc);
 
 void wb_control_undo_redo_clear	     (WorkbookControl *wbc, gboolean is_undo);
