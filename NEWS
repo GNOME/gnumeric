@@ -12,6 +12,11 @@ Jon Kåre:
 	* When format toolbar is vertical, replace font and size
 	  selectors with a button.
 
+Morten:
+	* Fixed analysis tools for ranges not starting at A1.
+	* Isolated floating-point-double reading code with endian-issues
+	  in one spot rather than in all file io plugins.
+
 --------------------------------------------------------------------------
 Gnumeric 0.57
 
