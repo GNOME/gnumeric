@@ -1,16 +1,18 @@
-gnumeric (1.1.10-3) experimental; urgency=low
+gnumeric (1.1.11-2) experimental; urgency=low
 
   * UNRELEASED
 
- -- <not_a_debian_release>  Wed, 30 Oct 2002 21:40:02 +0100
+ -- <not_a_debian_release>  Fri,  1 Nov 2002 20:51:35 +0100
 
-gnumeric (1.1.10-2) experimental; urgency=low
+gnumeric (1.1.11-1) experimental; urgency=low
 
-  * Rebuild with the libgal2 released concurrently to this gnumeric; updated
-    build dependencies accordingly.
+  * New upstream development release.
+  * Rebuild with the current libgal2; updated build dependencies accordingly.
   * [debian/control] Corrected gnumeric-doc's section.
+  * [doc/C/keybinding-appendix.xml] Added from CVS.
+  * [doc/C/Makefile.am] Updated accordingly.
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 29 Oct 2002 08:10:26 +0100
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri,  1 Nov 2002 20:00:03 +0100
 
 gnumeric (1.1.10-1) experimental; urgency=low
 
