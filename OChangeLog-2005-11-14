@@ -1,3 +1,7 @@
+2000-05-15  Karl Eichwalder  <ke@suse.de>
+
+	* NEWS (Translations): Add de, no, and sv.
+
 2000-05-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.h : Reformat.
