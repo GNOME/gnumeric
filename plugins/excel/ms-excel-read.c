@@ -3398,7 +3398,7 @@ xl_find_fontspec (ExcelReadSheet *esheet, float *size20)
 	BiffFontData const *fd = (xf != NULL)
 		? excel_get_font (esheet->container.ewb, xf->font_idx)
 		: NULL;
-	*size20 = (fd != NULL) ? (20. * 10.) / fd->height : 1.;
+	*size20 = (fd != NULL) ? (fd->height / (20. * 10.)) : 1.;
 	return xl_lookup_font_specs ((fd != NULL) ? fd->fontname : "Arial");
 }
 
