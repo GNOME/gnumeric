@@ -1,3 +1,14 @@
+2000-03-14  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (biff_xf_data_new) : Remove warning about parent
+	  styles not == 0.  I finally understand what the semantics of this
+	  are.  Style 0 is 'Normal' this test was doing nothing accept
+	  discriminating agains 'Comma' and its friends.  We need to extend
+	  the gnumeric notion of styles to include the limited form of
+	  inheritance embodied by XL.
+
+	* ms-obj.c (object_anchor_to_position) : Be VERY careful.
+
 2000-03-13  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-obj.c (object_anchor_to_position) : Be more careful handling out

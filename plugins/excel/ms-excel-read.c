@@ -1430,12 +1430,11 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 	xf->parentstyle = (data & 0xfff0) >> 4;
 
 	if (xf->xftype == eBiffXCell && xf->parentstyle != 0) {
-		static gboolean need_warning = TRUE;
-		if (need_warning) {
-			need_warning = FALSE;
-			g_warning ("FIXME: unsupported xf parent style xf 0x%x != 0",
-				   xf->parentstyle);
-		}
+		/* TODO Add support for parent styles
+		 * XL implements a simple for of inheritance with styles.
+		 * If a style's parent changes a value and the child has not
+		 * overridden that value explicitly the child gets updated.
+		 */
 	}
 
 	data = MS_OLE_GET_GUINT16 (q->data + 6);

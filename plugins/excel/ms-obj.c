@@ -57,8 +57,9 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 			   eBiff_version const ver)
 {
 	float const row_denominator = (ver >= eBiffV8) ? 256. : 1024.;
-
 	int	i;
+
+	g_return_val_if_fail (obj->anchor_set, TRUE);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 0)
