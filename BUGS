@@ -47,6 +47,9 @@ Long term breakage
   gnome-print has a function we could use for printing which returns the
   underline thickness.
 
+- While resizing multiple columns, only the first one is being shown in its
+  new size.
+
 Dialogs
 -------
 - Enhance function wizard
