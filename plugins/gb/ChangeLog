@@ -1,3 +1,7 @@
+2000-12-02  Michael Meeks  <michael@helixcode.com>
+
+	* plugin.c (generic_marshaller): upd.
+
 2000-12-01  Michael Meeks  <michael@helixcode.com>
 
 	* plugin.c (generic_marshaller): update for new project API.
