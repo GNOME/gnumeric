@@ -49,8 +49,9 @@ struct _Workbook {
 typedef struct {
 	GObjectClass   base;
 
-	void (*summary_changed) (Workbook *wb);
-	void (*filename_changed) (Workbook *wb);
+	void (*summary_changed)     (Workbook *wb);
+	void (*filename_changed)    (Workbook *wb);
+	void (*sheet_order_changed) (Workbook *wb);
 } WorkbookClass;
 
 GType       workbook_get_type            (void);

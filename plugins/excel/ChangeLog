@@ -1,3 +1,10 @@
+2002-09-25  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (binary_ops) : enable intersection
+	  still needs work.
+	* ms-formula-write.c (ms_formula_build_pre_data) : ditt.
+	(write_node) : ditto.
+
 2002-09-15  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (const) : DateDif takes 3 arguments.

@@ -728,6 +728,7 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	guint n, i;
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (GTK_IS_WIDGET (widget));
 
 	w_source = gtk_drag_get_source_widget (context);
 	n_source = gtk_notebook_page_num_by_label (wbcg->notebook, w_source);
@@ -796,8 +797,6 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
-	g_message ("cb_sheet_label_drag_begin");
-
 	/* Create the arrow. */
 	arrow = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_widget_realize (arrow);
@@ -828,6 +827,18 @@ cb_sheet_label_drag_end (GtkWidget *widget, GdkDragContext *context,
 	g_object_set_data (G_OBJECT (widget), "arrow", NULL);
 }
 
+static void
+cb_sheet_label_drag_leave (GtkWidget *widget, GdkDragContext *context,
+			   guint time, WorkbookControlGUI *wbcg)
+{
+	GtkWidget *w_source, *arrow;
+
+	/* Hide the arrow. */
+	w_source = gtk_drag_get_source_widget (context);
+	arrow = g_object_get_data (G_OBJECT (w_source), "arrow");
+	gtk_widget_hide (arrow);
+}
+
 static gboolean
 cb_sheet_label_drag_motion (GtkWidget *widget, GdkDragContext *context,
 	gint x, gint y, guint time, WorkbookControlGUI *wbcg)
@@ -836,18 +847,19 @@ cb_sheet_label_drag_motion (GtkWidget *widget, GdkDragContext *context,
 	gint n_source, n_dest, root_x, root_y, pos_x, pos_y;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
-
-	g_message ("cb_sheet_label_drag_motion");
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
 
 	/* Make sure we are really hovering over another label. */
 	w_source = gtk_drag_get_source_widget (context);
 	n_source = gtk_notebook_page_num_by_label (wbcg->notebook, w_source);
 	n_dest   = gtk_notebook_page_num_by_label (wbcg->notebook, widget);
-	if (n_source == n_dest)
+	arrow = g_object_get_data (G_OBJECT (w_source), "arrow");
+	if (n_source == n_dest) {
+		gtk_widget_hide (arrow);
 		return (FALSE);
+	}
 
 	/* Move the arrow to the correct position and show it. */
-	arrow = g_object_get_data (G_OBJECT (w_source), "arrow");
 	window = gtk_widget_get_ancestor (widget, GTK_TYPE_WINDOW);
 	gtk_window_get_position (GTK_WINDOW (window), &root_x, &root_y);
 	pos_x = root_x + widget->allocation.x;
@@ -920,6 +932,8 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 			G_CALLBACK (cb_sheet_label_drag_begin), wbcg);
 	g_signal_connect (G_OBJECT (scg->label), "drag_end",
 			G_CALLBACK (cb_sheet_label_drag_end), wbcg);
+	g_signal_connect (G_OBJECT (scg->label), "drag_leave",
+			G_CALLBACK (cb_sheet_label_drag_leave), wbcg);
 	g_signal_connect (G_OBJECT (scg->label), "drag_data_get",
 			G_CALLBACK (cb_sheet_label_drag_data_get), wbcg);
 	g_signal_connect (G_OBJECT (scg->label), "drag_data_received",
@@ -4816,37 +4830,113 @@ wbcg_drag_data_get (GtkWidget          *widget,
 }
 #endif
 
-static void
-wbcg_filenames_dropped (GtkWidget *widget, GdkDragContext *context,
-			gint x, gint y,
-			GtkSelectionData *selection_data,
-			guint info, guint time,
-			WorkbookControl *wbc)
+static GtkWidget *
+wbcg_get_label_for_position (WorkbookControlGUI *wbcg, GtkWidget *source,
+			     gint x)
 {
-	GList *ptr, *uris = gnome_vfs_uri_list_parse (selection_data->data);
+	GtkWidget *label = NULL, *page;
+	guint n, i;
 
-	for (ptr = uris; ptr != NULL; ptr = ptr->next) {
-		GnomeVFSURI const *uri = ptr->data;
-		if (0) {
-		} else {
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
+
+	n = g_list_length (wbcg->notebook->children);
+	for (i = 0; i < n; i++) {
+		page = gtk_notebook_get_nth_page (wbcg->notebook, i);
+		label = gtk_notebook_get_tab_label (wbcg->notebook, page);
+		if (label->allocation.x + label->allocation.width >= x)
+			break;
+	}
+
+	return (label);
+}
+
+static gboolean
+cb_wbcg_drag_motion (GtkWidget *widget, GdkDragContext *context,
+		gint x, gint y, guint time, WorkbookControlGUI *wbcg)
+{
+	GtkWidget *source_widget, *arrow;
+
+	source_widget = gtk_drag_get_source_widget (context);
+	if (IS_EDITABLE_LABEL (source_widget)) {
+		GtkWidget *label;
+
+		/*
+		 * The user wants to reorder sheets. We simulate a
+		 * drag motion over a label.
+		 */
+		label = wbcg_get_label_for_position (wbcg, source_widget, x);
+		return (cb_sheet_label_drag_motion (label, context, x, y,
+						    time, wbcg));
+	}
+
+	return (TRUE);
+}
+
+static void
+cb_wbcg_drag_leave (GtkWidget *widget, GdkDragContext *context,
+	       gint x, gint y, guint time, WorkbookControlGUI *wbcg)
+{
+	GtkWidget *source_widget, *arrow;
+
+	source_widget = gtk_drag_get_source_widget (context);
+	if (IS_EDITABLE_LABEL (source_widget)) {
+		arrow = g_object_get_data (G_OBJECT (source_widget), "arrow");
+		gtk_widget_hide (arrow);
+	}
+}
+
+static void
+cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
+		gint x, gint y, GtkSelectionData *selection_data,
+		guint info, guint time, WorkbookControlGUI *wbcg)
+{
+	gchar *target_type;
+
+	target_type = gdk_atom_name (selection_data->target);
+
+	/* First possibility: User dropped some filenames. */
+	if (!strcmp (target_type, "text/uri-list")) {
+		GList *ptr, *uris = gnome_vfs_uri_list_parse (selection_data->data);
+
+		for (ptr = uris; ptr != NULL; ptr = ptr->next) {
+			GnomeVFSURI const *uri = ptr->data;
 			gchar *str = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
 			gchar *msg = g_strdup_printf (_("File \"%s\" has unknown format."), str);
-			gnumeric_error_read (COMMAND_CONTEXT (wbc), msg);
+			gnumeric_error_read (COMMAND_CONTEXT (wbcg), msg);
 			g_free (msg);
-		}
 #if 0
-		if (gnome_vfs_uri_is_local (uri)) {
-			if (!wb_view_open (file_name, wbc, FALSE, NULL)) {
+			if (gnome_vfs_uri_is_local (uri)) {
+				if (!wb_view_open (file_name, wbc, FALSE, NULL)) {
+				}
 			}
-		}
-		/* If it wasn't a workbook, see if we have a control for it */
-		SheetObject *so = sheet_object_container_new_file (
-			sc->sheet->workbook, file_name);
-		if (so != NULL)
-			scg_mode_create_object (gcanvas->simple.scg, so);
+			/* If it wasn't a workbook, see if we have a control for it */
+			SheetObject *so = sheet_object_container_new_file (
+				sc->sheet->workbook, file_name);
+			if (so != NULL)
+				scg_mode_create_object (gcanvas->simple.scg, so);
 #endif
-	}
-	gnome_vfs_uri_list_free (uris);
+		}
+		gnome_vfs_uri_list_free (uris);
+
+	/* Second possibility: User dropped a sheet. */
+	} else if (!strcmp (target_type, "GNUMERIC_SHEET")) {
+		GtkWidget *label;
+		GtkWidget *source_widget;
+
+		/*
+		 * The user wants to reorder the sheets but hasn't dropped
+		 * the sheet onto a label. Never mind. We figure out 
+		 * where the arrow is currently located and simulate a drop
+		 * on that label.
+		 */
+		source_widget = gtk_drag_get_source_widget (context);
+		label = wbcg_get_label_for_position (wbcg, source_widget, x);
+		cb_sheet_label_drag_data_received (label, context, x, y,
+				selection_data, info, time, wbcg);
+		
+	} else
+		g_warning ("Unknown target type '%s'!", target_type);
+	g_free (target_type);
 }
 
 /*
@@ -4882,7 +4972,8 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 			   WorkbookView *optional_view, Workbook *optional_wb)
 {
 	static GtkTargetEntry const drag_types[] = {
-		{ (char *) "text/uri-list", 0, TARGET_URI_LIST }
+		{ (char *) "text/uri-list", 0, TARGET_URI_LIST },
+		{ (char *) "GNUMERIC_SHEET", 0, TARGET_SHEET }
 	};
 	
 #ifdef WITH_BONOBO
@@ -5041,10 +5132,14 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	/* Setup a test of Drag and Drop */
 	gtk_drag_dest_set (GTK_WIDGET (wbcg_toplevel (wbcg)),
 		GTK_DEST_DEFAULT_ALL, drag_types, G_N_ELEMENTS (drag_types),
-		GDK_ACTION_COPY);
+		GDK_ACTION_COPY | GDK_ACTION_MOVE);
 	g_signal_connect (G_OBJECT (wbcg_toplevel (wbcg)),
 		"drag_data_received",
-		G_CALLBACK (wbcg_filenames_dropped), wbcg);
+		G_CALLBACK (cb_wbcg_drag_data_received), wbcg);
+	g_signal_connect (G_OBJECT (wbcg_toplevel (wbcg)),
+		"drag_motion", G_CALLBACK (cb_wbcg_drag_motion), wbcg);
+	g_signal_connect (G_OBJECT (wbcg_toplevel (wbcg)),
+		"drag_leave", G_CALLBACK (cb_wbcg_drag_leave), wbcg);
 #if 0
 	g_signal_connect (G_OBJECT (gcanvas),
 		"drag_data_get",

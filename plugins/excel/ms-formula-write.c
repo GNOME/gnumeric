@@ -161,6 +161,8 @@ ms_formula_build_pre_data (ExcelSheet *sheet, GnmExpr const *tree)
 
 	switch (tree->any.oper) {
 
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
 		ms_formula_build_pre_data (sheet, tree->binary.value_a);
 		ms_formula_build_pre_data (sheet, tree->binary.value_b);
@@ -557,7 +559,8 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 		{ FORMULA_PTG_PERCENT,	 5, 0, 0 }, /* Percentage (NOT MODULO) */
 		{ 0, 0, 0, 0 },	/* Array    */
 		{ 0, 0, 0, 0 }, /* Set      */
-		{ FORMULA_PTG_RANGE,	 0, 0, 0 }
+		{ FORMULA_PTG_RANGE,	 0, 0, 0 },
+		{ FORMULA_PTG_INTERSECT, 0, 0, 0 }
 	};
 	int op;
 	g_return_if_fail (pd);
@@ -566,6 +569,7 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 	op = tree->any.oper;
 	switch (op) {
 	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY : {
 		int const prec = operations[op].prec;
 

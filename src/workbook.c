@@ -48,6 +48,7 @@ static GObjectClass *workbook_parent_class;
 enum {
 	SUMMARY_CHANGED,
 	FILENAME_CHANGED,
+	SHEET_ORDER_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -359,7 +360,16 @@ workbook_class_init (GObjectClass *object_class)
 		(GSignalAccumulator) NULL, NULL,
 		gnm__VOID__VOID,
 		G_TYPE_NONE,
-		0, G_TYPE_NONE);	
+		0, G_TYPE_NONE);
+
+	signals [SHEET_ORDER_CHANGED] = g_signal_new ("sheet_order_changed",
+		WORKBOOK_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (WorkbookClass, sheet_order_changed),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
 }
 
 /**
@@ -798,6 +808,11 @@ post_sheet_index_change (Workbook *wb)
 	if (wb->sheet_order_dependents != NULL)
 		g_hash_table_foreach (wb->sheet_order_dependents,
 			(GHFunc) cb_dep_link, NULL);
+
+	if (wb->during_destruction)
+		return;
+
+	g_signal_emit (G_OBJECT (wb), signals [SHEET_ORDER_CHANGED], 0);
 }
 
 static void
@@ -1310,6 +1325,7 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 		}
 		this_sheet = this_sheet->next;
 	}
+
 	return FALSE;
 }
 

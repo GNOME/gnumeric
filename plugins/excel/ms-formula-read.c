@@ -699,7 +699,7 @@ static GnmExprOp const binary_ops [] = {
 	GNM_EXPR_OP_NOT_EQUAL,	/* 0x0e, ptgNE */
 
 /* FIXME: These need implementing ... */
-	GNM_EXPR_OP_ADD,	/* 0x0f, ptgIsect : Intersection */
+	GNM_EXPR_OP_INTERSECT,	/* 0x0f, ptgIsect : Intersection */
 	GNM_EXPR_OP_ADD,	/* 0x10, ptgUnion : Union */
 	GNM_EXPR_OP_RANGE_CTOR	/* 0x11, ptgRange : Range */
 };

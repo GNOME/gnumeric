@@ -31,7 +31,8 @@ typedef enum {
 	GNM_EXPR_OP_PERCENTAGE,	/* Percentage (value/100) */
 	GNM_EXPR_OP_ARRAY,	/* Array access */
 	GNM_EXPR_OP_SET,	/* A set of expressions */
-	GNM_EXPR_OP_RANGE_CTOR	/* A constructed range eg A1:index(1,2) */
+	GNM_EXPR_OP_RANGE_CTOR,	/* A constructed range eg A1:index(1,2) */
+	GNM_EXPR_OP_INTERSECT	/* The intersection of multiple ranges */
 } GnmExprOp;
 
 /* Shorthands for case statements.  Easy to read, easy to maintain.  */

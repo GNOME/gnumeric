@@ -1,3 +1,23 @@
+2002-09-25  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y : begin support for intersection and sets, still needs
+	  lots of work, but I don't want to get too out of sync.
+
+	* src/expr.c : handle intersection and sets.
+	* src/expr-name.c (name_refer_circular) : ditto.
+
+	* src/workbook.c (post_sheet_index_change) : don't emit the signal
+	  during destruction.
+
+2002-09-24  Lutz Müller <lutz@users.sourceforge.net>
+
+	* src/dialogs/dialog-sheet-order.c: Be aware of changes in the 
+	  sheet order.
+	* src/workbook.[c,h]: Provide a "sheet_order_changed" signal.
+	* src/workbook-control-gui.c: Remove debugging messages. Allow
+	  dropping the sheet anywhere in the workbook - reordering will still
+	  be done.
+
 2002-09-24  Morten Welinder  <terra@diku.dk>
 
 	* src/parser.y (yylex): Handle error constants.  (And fix utf8
@@ -33,6 +53,8 @@
 
 	* src/parser.y : remove sheet_ref RANGEREF production. RANGEREF
 	  already handles sheet references internally.
+
+2002-09-23  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (gnm_expr_eval) : handle empties when implicit
 	  intersection is valid but accesses an empty cell.

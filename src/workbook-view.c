@@ -35,6 +35,7 @@
 #include "format.h"
 #include "func.h"
 #include "expr.h"
+#include "expr-name.h"
 #include "expr-impl.h"
 #include "value.h"
 #include "ranges.h"

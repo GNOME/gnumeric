@@ -339,6 +339,20 @@ build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
 	return build_binop (l, GNM_EXPR_OP_RANGE_CTOR, r);
 }
 
+static GnmExpr *
+build_intersect (GnmExpr *l, GnmExpr *r)
+{
+#if 0
+			gnumeric_parse_error (state, PERR_UNEXPECTED_TOKEN,
+				_("Constructed ranges use simple references"),
+				state->expr_text - state->expr_backup, 0);
+			return NULL;
+		    }
+	}
+#endif
+	return build_binop (l, GNM_EXPR_OP_INTERSECT, r);
+}
+
 /**
  * parse_string_as_value :
  *
@@ -412,10 +426,9 @@ parser_sheet_by_name (Workbook *wb, GnmExpr *name_expr)
 		sheet = workbook_sheet_by_name (wb, name+1);
 
 	if (sheet == NULL) {
-		gnumeric_parse_error (
-				state, PERR_UNKNOWN_SHEET,
-				g_strdup_printf (_("Unknown sheet '%s'"), name),
-				state->expr_text - state->expr_backup, strlen (name));
+		gnumeric_parse_error (state, PERR_UNKNOWN_SHEET,
+			g_strdup_printf (_("Unknown sheet '%s'"), name),
+			state->expr_text - state->expr_backup, strlen (name));
 	}
 	return sheet;
 }
@@ -493,13 +506,27 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| exp LTE exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LTE,	$3); }
 	| exp AND exp	{ $$ = build_logical ($1, TRUE,	$3); }
 	| exp OR  exp	{ $$ = build_logical ($1, FALSE, $3); }
-	| '(' exp ')'   { $$ = $2; }
+	| exp ' ' exp	{ $$ = build_intersect ($1, $3); }
 
         | '-' exp %prec NEG { $$ = build_unary_op (GNM_EXPR_OP_UNARY_NEG, $2); }
         | '+' exp %prec PLUS { $$ = build_unary_op (GNM_EXPR_OP_UNARY_PLUS, $2); }
         | NOT exp { $$ = build_not ($2); }
         | exp '%' { $$ = build_unary_op (GNM_EXPR_OP_PERCENTAGE, $1); }
 
+	| '(' arg_list ')' {
+		if ($2 == NULL) {
+			gnumeric_parse_error (state, PERR_INVALID_EMPTY,
+				g_strdup_printf (_("() is an invalid expression")),
+				state->expr_text - state->expr_backup + 1, 0);
+		} else if ($2->next != NULL) {
+			unregister_allocation ($2);
+			$$ = register_expr_allocation (gnm_expr_new_set ($2));
+		} else {
+			unregister_allocation ($2);
+			$$ = register_expr_allocation ($2->data);
+			gnm_expr_list_free ($2);
+		}
+	}
         | '{' array_cols '}' {
 		unregister_allocation ($2);
 		$$ = build_array ($2);
@@ -514,8 +541,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 
 		pos.sheet = $1.first;
 		if ($1.last != NULL)
-			gnumeric_parse_error (
-				state, PERR_3D_NAME,
+			gnumeric_parse_error (state, PERR_3D_NAME,
 				g_strdup_printf (_("What is a 3D name %s:%s!%s ?"),
 						$1.first->name_quoted,
 						$1.last->name_quoted,
@@ -524,8 +550,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		else {
 			expr_name = expr_name_lookup (&pos, name);
 			if (expr_name == NULL)
-				gnumeric_parse_error (
-					state, PERR_UNKNOWN_NAME,
+				gnumeric_parse_error (state, PERR_UNKNOWN_NAME,
 					g_strdup_printf (_("Name '%s' does not exist in sheet '%s'"),
 							name, pos.sheet->name_quoted),
 					state->expr_text - state->expr_backup + 1, strlen (name));
@@ -546,8 +571,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		pos.wb = application_workbook_get_by_name (wb_name);
 
 		if (pos.wb == NULL) {
-			int retval = gnumeric_parse_error (
-				state, PERR_UNKNOWN_WORKBOOK,
+			int retval = gnumeric_parse_error (state, PERR_UNKNOWN_WORKBOOK,
 				g_strdup_printf (_("Unknown workbook '%s'"), wb_name), 
 				state->expr_text - state->expr_backup + 1, strlen (name));
 
@@ -558,8 +582,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 
 		expr_name = expr_name_lookup (&pos, name);
 		if (expr_name == NULL) {
-			int retval = gnumeric_parse_error (
-				state, PERR_UNKNOWN_NAME,
+			int retval = gnumeric_parse_error (state, PERR_UNKNOWN_NAME,
 				g_strdup_printf (_("Name '%s' does not exist in workbook '%s'"),
 						name, wb_name),
 				state->expr_text - state->expr_backup + 1, strlen (name));
@@ -699,8 +722,7 @@ array_row: array_exp {
 			$$ = g_slist_prepend ($3, $1);
 			register_expr_list_allocation ($$);
 		} else {
-			return gnumeric_parse_error (
-				state, PERR_INVALID_ARRAY_SEPARATOR,
+			return gnumeric_parse_error (state, PERR_INVALID_ARRAY_SEPARATOR,
 				g_strdup_printf (_("The character %c cannot be used to separate array elements"),
 				state->array_col_separator), state->expr_text - state->expr_backup + 1, 1);
 		}
@@ -713,8 +735,7 @@ array_row: array_exp {
 			register_expr_list_allocation ($$);
 		} else {
 			/* FIXME: Is this the right error to display? */
-			return gnumeric_parse_error (
-				state, PERR_INVALID_ARRAY_SEPARATOR,
+			return gnumeric_parse_error (state, PERR_INVALID_ARRAY_SEPARATOR,
 				g_strdup_printf (_("The character %c cannot be used to separate array elements"),
 				state->array_col_separator), state->expr_text - state->expr_backup + 1, 1);
 		}
@@ -867,8 +888,7 @@ yylex (void)
 				v = value_new_float (d);
 				state->expr_text = end;
 			} else if (c != 'e' && c != 'E') {
-				gnumeric_parse_error (
-					state, PERR_OUT_OF_RANGE,
+				gnumeric_parse_error (state, PERR_OUT_OF_RANGE,
 					g_strdup (_("The number is out of range")),
 					state->expr_text - state->expr_backup, end - start);
 				return INVALID_TOKEN;
@@ -877,8 +897,7 @@ yylex (void)
 				 * right region w/o it turning into an ugly
 				 * hack, for now the cursor is put at the end.
 				 */
-				gnumeric_parse_error (
-					state, PERR_OUT_OF_RANGE,
+				gnumeric_parse_error (state, PERR_OUT_OF_RANGE,
 					g_strdup (_("The number is out of range")),
 					0, 0);
 				return INVALID_TOKEN;
@@ -904,8 +923,7 @@ yylex (void)
 					v = value_new_float (d);
 					state->expr_text = end;
 				} else {
-					gnumeric_parse_error (
-						state, PERR_OUT_OF_RANGE,
+					gnumeric_parse_error (state, PERR_OUT_OF_RANGE,
 						g_strdup (_("The number is out of range")),
 						state->expr_text - state->expr_backup, end - start);
 					return INVALID_TOKEN;
@@ -932,8 +950,7 @@ yylex (void)
  		p = state->expr_text;
  		state->expr_text = find_char (state->expr_text, quotes_end);
 		if (!*state->expr_text) {
-  			gnumeric_parse_error (
-  				state, PERR_MISSING_CLOSING_QUOTE,
+  			gnumeric_parse_error (state, PERR_MISSING_CLOSING_QUOTE,
 				g_strdup (_("Could not find matching closing quote")),
   				(p - state->expr_backup) + 1, 1);
 			return INVALID_TOKEN;

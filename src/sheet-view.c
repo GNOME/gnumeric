@@ -36,6 +36,7 @@
 #include "application.h"
 #include "value.h"
 #include "parse-util.h"
+#include "expr-name.h"
 
 #include <gsf/gsf-impl-utils.h>
 

@@ -28,6 +28,8 @@ Jody:
 	* Move the CORBA support code into a plugin and make more functional.
 	* Add some UI for managing hyperlinks of various sorts (unfinished)
 	* Make the location status box smarter about named ranges
+	* Begin support for intersection
+	* Start parsing range sets
 
 Michael Meeks:
 	* Spruce up the CORBA code to use some bonobo utils.

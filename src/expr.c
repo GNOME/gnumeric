@@ -338,6 +338,7 @@ do_gnm_expr_unref (GnmExpr const *expr)
 
 	switch (expr->any.oper) {
 	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
 		do_gnm_expr_unref (expr->binary.value_a);
 		do_gnm_expr_unref (expr->binary.value_b);
@@ -432,6 +433,7 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 
 	switch (a->any.oper) {
 	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
 		return	gnm_expr_equal (a->binary.value_a, b->binary.value_a) &&
 			gnm_expr_equal (a->binary.value_b, b->binary.value_b);
@@ -476,9 +478,6 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 
 	case GNM_EXPR_OP_SET:
 		return gnm_expr_list_equal (a->set.set, b->set.set);
-
-	default :
-		g_assert_not_reached ();
 	}
 
 	return FALSE;
@@ -1061,6 +1060,8 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			return value_new_error (pos, gnumeric_err_REF);
 		return value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
 	}
+	case GNM_EXPR_OP_INTERSECT: {
+	};
 	}
 
 	return value_new_error (pos, _("Unknown evaluation error"));
@@ -1077,11 +1078,11 @@ static char *
 do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		   int paren_level)
 {
-	static const struct {
+	static struct {
 		char const *name;
 		int prec;	              /* Precedences -- should match parser.y  */
 		int assoc_left, assoc_right;  /* 0: no, 1: yes.  */
-	} operations[] = {
+	} const operations[] = {
 		{ "=",  1, 1, 0 },
 		{ ">",  1, 1, 0 },
 		{ "<",  1, 1, 0 },
@@ -1102,8 +1103,9 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		{ "+",  5, 0, 0 }, /* Unary +  */
 		{ "%",  5, 0, 0 }, /* Percentage (NOT MODULO) */
 		{ NULL, 0, 0, 0 }, /* Array    */
-		{ NULL, 0, 0, 0 },  /* Set      */
-		{ NULL, 0, 0, 0 }  /* Range Ctor */
+		{ NULL, 0, 0, 0 }, /* Set      */
+		{ NULL, 0, 0, 0 },  /* Range Ctor */
+		{ NULL, 0, 0, 0 }  /* intersection */
 	};
 	int const op = expr->any.oper;
 
@@ -1495,6 +1497,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 
 	switch (expr->any.oper) {
 	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY: {
 		GnmExpr const *a = gnm_expr_rewrite (expr->binary.value_a, rwinfo);
 		GnmExpr const *b = gnm_expr_rewrite (expr->binary.value_b, rwinfo);
@@ -1709,6 +1712,8 @@ gnm_expr_first_func (GnmExpr const *expr)
 	case GNM_EXPR_OP_FUNCALL:
 		return expr;
 
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
 		tmp = gnm_expr_first_func (expr->binary.value_a);
 		if (tmp != NULL)
@@ -1765,6 +1770,8 @@ static GSList *
 do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 {
 	switch (expr->any.oper) {
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
 		return do_referenced_sheets (
 			expr->binary.value_b,
@@ -1781,6 +1788,12 @@ do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 			sheets = do_referenced_sheets (l->data, sheets);
 		return sheets;
 	}
+	case GNM_EXPR_OP_SET: {
+		GnmExprList *l;
+		for (l = expr->set.set; l; l = l->next)
+			sheets = do_referenced_sheets (l->data, sheets);
+		return sheets;
+	}
 
 	case GNM_EXPR_OP_NAME:
 		return sheets;
@@ -1793,16 +1806,13 @@ do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 		if (v->type != VALUE_CELLRANGE)
 			return sheets;
 		return g_slist_insert_unique (
-				g_slist_insert_unique (sheets,
-						       v->v_range.cell.a.sheet),
-				v->v_range.cell.b.sheet);
+			g_slist_insert_unique (sheets,
+					       v->v_range.cell.a.sheet),
+			v->v_range.cell.b.sheet);
 	}
 
+	/* constant arrays can only contain simple values, no references */
 	case GNM_EXPR_OP_ARRAY:
-		g_warning ("An array in a NAME?");
-		break;
-
-	default :
 		break;
 	}
 	return sheets;
@@ -1835,6 +1845,8 @@ gnm_expr_get_boundingbox (GnmExpr const *expr, Range *bound)
 	g_return_if_fail (expr != NULL);
 
 	switch (expr->any.oper) {
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
 		gnm_expr_get_boundingbox (expr->binary.value_a, bound);
 		gnm_expr_get_boundingbox (expr->binary.value_b, bound);
@@ -1847,6 +1859,12 @@ gnm_expr_get_boundingbox (GnmExpr const *expr, Range *bound)
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList *l;
 		for (l = expr->func.arg_list; l; l = l->next)
+			gnm_expr_get_boundingbox (l->data, bound);
+		break;
+	}
+	case GNM_EXPR_OP_SET: {
+		GnmExprList *l;
+		for (l = expr->set.set; l; l = l->next)
 			gnm_expr_get_boundingbox (l->data, bound);
 		break;
 	}
@@ -1876,9 +1894,6 @@ gnm_expr_get_boundingbox (GnmExpr const *expr, Range *bound)
 			gnm_expr_get_boundingbox (a->corner.expr, bound);
 		break;
 	}
-
-	default :
-		g_assert_not_reached ();
 	}
 }
 
@@ -1991,6 +2006,7 @@ ets_hash (gconstpointer key)
 	guint h = (guint)(expr->any.oper);
 
 	switch (expr->any.oper){
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_ANY_BINARY:
 		return ((GPOINTER_TO_INT (expr->binary.value_a) * 7) ^
@@ -2020,17 +2036,12 @@ ets_hash (gconstpointer key)
 	case GNM_EXPR_OP_CONSTANT:
 		return value_hash (expr->constant.value);
 
-#ifndef DEBUG_SWITCH_ENUM
-	default:
-		g_assert_not_reached ();
-		return h;
-#endif
-
 	case GNM_EXPR_OP_CELLREF:
 	case GNM_EXPR_OP_NAME:
 	case GNM_EXPR_OP_ARRAY:
-		return h;  /* FIXME */
+		break;
 	}
+	return h;
 }
 
 /*
@@ -2048,6 +2059,7 @@ ets_equal (gconstpointer _a, gconstpointer _b)
 
 	switch (ea->any.oper){
 	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
 		return (ea->binary.value_a == eb->binary.value_a &&
 			ea->binary.value_b == eb->binary.value_b);

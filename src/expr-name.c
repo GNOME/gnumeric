@@ -214,6 +214,7 @@ name_refer_circular (char const *name, GnmExpr const *expr)
 
 	switch (expr->any.oper) {
 	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
 		return (name_refer_circular (name, expr->binary.value_a) ||
 			name_refer_circular (name, expr->binary.value_b));

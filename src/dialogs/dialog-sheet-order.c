@@ -67,6 +67,8 @@ typedef struct {
 
 	gboolean initial_colors_set;
 	GSList *old_order;
+
+	gulong sheet_order_changed_listener;
 } SheetManager;
 
 enum {
@@ -676,6 +678,12 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 static void
 cb_sheet_order_destroy (GtkWidget *ignored, SheetManager *state)
 {
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
+
+	/* Stop to listen to changes in the sheet order. */
+	g_signal_handler_disconnect (G_OBJECT (wb),
+				     state->sheet_order_changed_listener);
+
 	wbcg_edit_detach_guru (state->wbcg);
 	g_object_unref (G_OBJECT (state->gui));
 	state->gui = NULL;
@@ -691,6 +699,144 @@ cb_sheet_order_destroy (GtkWidget *ignored, SheetManager *state)
 	g_free (state);
 }
 
+static void
+dialog_sheet_order_update_sheet_order (SheetManager *state)
+{
+	gchar *name, *new_name;
+	gboolean is_deleted;
+	gboolean is_editable;
+	gboolean is_locked;
+	GdkColor *back, *fore;
+	GtkTreeIter iter;
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
+	gint i, j, n_sheets, n_children;
+	GtkTreeModel *model = GTK_TREE_MODEL (state->model);
+	Sheet *sheet_wb, *sheet_model;
+	GtkTreeSelection *sel = gtk_tree_view_get_selection (state->sheet_list);
+	gboolean selected;
+
+	n_sheets = workbook_sheet_count (wb);
+	n_children = gtk_tree_model_iter_n_children (model, NULL);
+	g_return_if_fail (n_sheets == n_children);
+
+	for (i = 0; i < n_sheets; i++) {
+		sheet_wb = workbook_sheet_by_index (wb, i);
+		for (j = i; j < n_children; j++) {
+			if (!gtk_tree_model_iter_nth_child (model, &iter,
+							    NULL, j))
+				break;
+			gtk_tree_model_get (model, &iter, SHEET_POINTER,
+					    &sheet_model, -1);
+			if (sheet_model == sheet_wb)
+				break;
+		}
+		if (j == i)
+			continue;
+
+		if (!gtk_tree_model_iter_nth_child (model, &iter, NULL, j))
+			break;
+		selected = gtk_tree_selection_iter_is_selected (sel, &iter);
+		gtk_tree_model_get (model, &iter,
+			SHEET_LOCKED, &is_locked,
+			SHEET_NAME, &name,
+			SHEET_NEW_NAME, &new_name, 
+			IS_EDITABLE_COLUMN, &is_editable,
+			SHEET_POINTER, &sheet_model,
+			IS_DELETED, &is_deleted,
+			BACKGROUND_COLOUR_POINTER, &back,
+			FOREGROUND_COLOUR_POINTER, &fore,
+			-1);
+		gtk_list_store_remove (state->model, &iter);
+		gtk_list_store_insert (state->model, &iter, i);
+		gtk_list_store_set (state->model, &iter,
+			SHEET_LOCKED, is_locked,
+			SHEET_LOCK_IMAGE, is_locked ?
+			state->image_padlock : state->image_padlock_no,
+			SHEET_NAME, name,
+			SHEET_NEW_NAME, new_name,
+			IS_EDITABLE_COLUMN, is_editable,
+			SHEET_POINTER, sheet_model,
+			IS_DELETED, is_deleted,
+			BACKGROUND_COLOUR_POINTER, back,
+			FOREGROUND_COLOUR_POINTER, fore,
+			-1);
+		if (back)
+			gdk_color_free (back);
+		if (fore)
+			gdk_color_free (fore);
+		g_free (name);
+		g_free (new_name);
+		if (selected)
+			gtk_tree_selection_select_iter (sel, &iter);
+	}
+
+	g_slist_free (state->old_order);
+	state->old_order = NULL;
+	for (i = 0; i < n_sheets; i++)
+		state->old_order = g_slist_append (state->old_order,
+					workbook_sheet_by_index (wb, i));
+
+	cb_selection_changed (NULL, state);
+}
+
+static void
+cb_sheet_order_changed (Workbook *wb, SheetManager *state)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model = GTK_TREE_MODEL (state->model);
+	guint i, n = 0;
+	Sheet *sheet;
+
+	/*
+	 * First question: Has the user already changed the order via
+	 * the dialog? If no, we assume that the user wants to see the 
+	 * sheet order change reflected in the dialog.
+	 */
+	n = g_slist_length (state->old_order);
+	for (i = 0; i < n; i++) {
+		if (!gtk_tree_model_iter_nth_child (model, &iter, NULL, i))
+			break;
+		gtk_tree_model_get (model, &iter, SHEET_POINTER, &sheet, -1);
+		if (sheet != g_slist_nth_data (state->old_order, i))
+			break;
+	}
+	if (n == i) {
+		dialog_sheet_order_update_sheet_order (state);
+		return;
+	}
+
+	/* 
+	 * The user has already changed the order via the dialog.
+	 * Let's check if the new sheet order is already reflected
+	 * in the dialog. If yes, things are easy.
+	 */
+	n = workbook_sheet_count (wb);
+	for (i = 0; i < n; i++) {
+		if (!gtk_tree_model_iter_nth_child (model, &iter, NULL, i))
+			break;
+		gtk_tree_model_get (model, &iter, SHEET_POINTER, &sheet, -1);
+		if (sheet != workbook_sheet_by_index (wb, i))
+			break;
+	}
+	if (i == n) {
+		g_slist_free (state->old_order);
+		state->old_order = NULL;
+		for (i = 0; i < n; i++)
+			state->old_order = g_slist_append (state->old_order,
+				workbook_sheet_by_index (wb, i));
+		return;
+	}
+
+	/*
+	 * The order in the dialog and the new sheet order are totally
+	 * different. Ask the user what to do.
+	 */
+	if (gnumeric_dialog_question_yes_no (state->wbcg,
+			_("The sheet order has changed. Do you want to "
+			  "update the list?"), TRUE))
+		dialog_sheet_order_update_sheet_order (state);
+}
+
 void
 dialog_sheet_order (WorkbookControlGUI *wbcg)
 {
@@ -698,6 +844,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	GladeXML *gui;
 	GtkTable *table;
 	ColorGroup *cg;
+	Workbook *wb;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -727,6 +874,12 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
                                              "Gnumeric_PadlockNo",
                                              GTK_ICON_SIZE_LARGE_TOOLBAR,
                                              "Gnumeric-Sheet-Manger");
+
+	/* Listen for changes in the sheet order. */
+	wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet_order_changed_listener = g_signal_connect (G_OBJECT (wb),
+		"sheet_order_changed", G_CALLBACK (cb_sheet_order_changed),
+		state);
 
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->up_btn),   0., .5, 0., 0.);
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->down_btn), 0., .5, 0., 0.);
