@@ -499,7 +499,7 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 	me->reloc_storage = NULL;
 
 	workbook_recalc (me->sheet->workbook);
-	sheet_redraw_all (me->sheet);
+	sheet_update (me->sheet);
 	sheet_load_cell_val (me->sheet);
 
 	return trouble;
@@ -547,7 +547,7 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 	}
 
 	workbook_recalc (me->sheet->workbook);
-	sheet_redraw_all (me->sheet);
+	sheet_update (me->sheet);
 	sheet_load_cell_val (me->sheet);
 
 	return trouble;

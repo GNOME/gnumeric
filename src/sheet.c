@@ -2675,6 +2675,11 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 	/* 5. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
 
+	/* 6. Notify sheet of pending update */
+	sheet->private->recompute_visibility = TRUE;
+	if (sheet->private->reposition_col_comment > col)
+		sheet->private->reposition_col_comment = col;
+
 	return FALSE;
 }
 
@@ -2740,6 +2745,11 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 
 	/* 6. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
+
+	/* 7. Notify sheet of pending update */
+	sheet->private->recompute_visibility = TRUE;
+	if (sheet->private->reposition_col_comment > col)
+		sheet->private->reposition_col_comment = col;
 
 	return FALSE;
 }
@@ -2810,6 +2820,11 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 	/* 5. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
 
+	/* 6. Notify sheet of pending update */
+	sheet->private->recompute_visibility = TRUE;
+	if (sheet->private->reposition_row_comment > row)
+		sheet->private->reposition_row_comment = row;
+
 	return FALSE;
 }
 
@@ -2875,6 +2890,11 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 
 	/* 6. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
+
+	/* 7. Notify sheet of pending update */
+	sheet->private->recompute_visibility = TRUE;
+	if (sheet->private->reposition_row_comment > row)
+		sheet->private->reposition_row_comment = row;
 
 	return FALSE;
 }
@@ -3103,6 +3123,16 @@ sheet_restore_row_col_sizes (Sheet *sheet, gboolean const is_cols,
 			else
 				sheet_row_set_size_pts (sheet, index+i, sizes[i], hard_size);
 		}
+	}
+
+	/* Notify sheet of pending update */
+	sheet->private->recompute_visibility = TRUE;
+	if (is_cols) {
+		if (sheet->private->reposition_col_comment > index)
+			sheet->private->reposition_col_comment = index;
+	} else {
+		if (sheet->private->reposition_row_comment > index)
+			sheet->private->reposition_row_comment = index;
 	}
 
 	g_free (sizes);

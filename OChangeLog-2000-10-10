@@ -1,3 +1,17 @@
+2000-03-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print.c (print_page) : Call setup_rotation unconditionally it
+	  will decide when to rotate.  Honour the repeat_{top,left}.use flags.
+	(print_page) : Add a clip path around the entire page to ensure that spans
+	  get clipped at the margin.
+	(print_job_info_init_sheet) : Use the repeat_{top,left}.use flags.
+
+	* src/commands.c (cmd_ins_del_row_col_{redo,undo}) : Use sheet_update.
+
+	* src/sheet.c (sheet_insert_{cols,rows}, sheet_delete_{cols,rows}) :
+	  Set the visibility notification flags.
+	(sheet_restore_row_col_sizes) : Ditto.
+
 2000-03-25  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/dialogs/dialog-stf.h, src/dialogs/dialog-stf.c : Added a

@@ -57,7 +57,6 @@ typedef struct {
         int      restriction_value;
 } StyleFormatEntry;
 
-
 /*
  * The returned string is newly allocated.
  *

@@ -31,6 +31,7 @@ Jody:
 	* More work on undo.
 	* Parse interbook references.
 	* Mostly correct sizing of MS Excel cols/rows and objects.
+	* Printing improvements.
 
 Jon:
 	* Cursor fixes and speedups.

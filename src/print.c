@@ -34,9 +34,6 @@
 #include "print-preview.h"
 #include "dialog-printer.h"
 
-#define MARGIN_X 1
-#define MARGIN_Y 1
-
 typedef struct {
 	/*
 	 * Part 1: The information the user configures on the Print Dialog
@@ -45,6 +42,7 @@ typedef struct {
 	int start_page, end_page; /* Interval */
 	int n_copies;
 	gboolean sorted_print;
+	gboolean is_preview;
 
 	int current_output_sheet;		/* current sheet number during output */
 
@@ -263,14 +261,12 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 
 	print_height = sheet_row_get_distance_pts (sheet, start_row, end_row+1);
 
-	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL)
-		setup_rotation (pj);
+	setup_rotation (pj);
 	
 	if (pj->pi->center_vertically){
 		if (pj->pi->print_titles)
 			print_height += sheet->rows.default_style.size_pts;
-		if (pj->pi->repeat_top.use)
-			print_height += pj->repeat_rows_used_y;
+		print_height += pj->repeat_rows_used_y;
 		base_y = (pj->y_points - print_height)/2;
 	}
 
@@ -278,8 +274,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	if (pj->pi->center_horizontally){
 		if (pj->pi->print_titles)
 			print_width += sheet->cols.default_style.size_pts;
-		if (pj->repeat_cols_used_x)
-			print_width += pj->repeat_cols_used_x;
+		print_width += pj->repeat_cols_used_x;
 		base_x = (pj->x_points - print_width)/2;
 	}
 
@@ -304,6 +299,18 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 			x += sheet->cols.default_style.size_pts;
 			y += sheet->rows.default_style.size_pts;
 		}
+
+		/* Clip the page */
+		gnome_print_newpath  (pj->print_context);
+		gnome_print_moveto   (pj->print_context,                x, y);
+		gnome_print_lineto   (pj->print_context, pj->x_points + x, y);
+		gnome_print_lineto   (pj->print_context, pj->x_points + x, y + pj->y_points);
+		gnome_print_lineto   (pj->print_context,                x, y + pj->y_points);
+		gnome_print_closepath(pj->print_context);
+		gnome_print_clip     (pj->print_context);
+
+		/* Start a new patch because the background fill function does not */
+		gnome_print_newpath  (pj->print_context);
 
 		/*
 		 * Print the repeated rows and columns
@@ -475,10 +482,12 @@ print_job_info_init_sheet (Sheet *sheet, PrintJobInfo *pj)
 		pj->titles_used_y = 0;
 	}
 
-	pj->repeat_rows_used_y = print_range_used_units (
-		sheet, TRUE, &pj->pi->repeat_top);
-	pj->repeat_cols_used_x = print_range_used_units (
-		sheet, FALSE, &pj->pi->repeat_left);
+	pj->repeat_rows_used_y = (pj->pi->repeat_top.use)
+	    ? print_range_used_units (sheet, TRUE, &pj->pi->repeat_top)
+	    : 0.;
+	pj->repeat_cols_used_x = (pj->pi->repeat_left.use)
+	    ? print_range_used_units (sheet, FALSE, &pj->pi->repeat_left)
+	    : 0.;
 
 	pj->render_info->sheet = sheet;
 }
@@ -615,7 +624,7 @@ workbook_print_all (Workbook *wb, PrintJobInfo *pj)
 }
 
 static PrintJobInfo *
-print_job_info_get (Sheet *sheet, PrintRange range)
+print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 {
 	PrintJobInfo *pj;
 	PrintMargins *pm = &sheet->print_info->margins;
@@ -636,6 +645,7 @@ print_job_info_get (Sheet *sheet, PrintRange range)
 	pj->end_page = workbook_sheet_count(sheet->workbook)-1;
 	pj->range = range;
 	pj->sorted_print = TRUE;
+	pj->is_preview = preview;
 	pj->n_copies = 1;
 	pj->current_output_sheet = 0;
 
@@ -729,7 +739,7 @@ sheet_print (Sheet *sheet, gboolean preview,
   			break;
   		}
   	}
-	pj = print_job_info_get (sheet, default_range);
+	pj = print_job_info_get (sheet, default_range, preview);
 	pj->n_copies = 1;
 	pj->sorted_print = FALSE;
 	if (default_range == PRINT_SHEET_RANGE) {
