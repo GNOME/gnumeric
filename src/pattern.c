@@ -112,6 +112,7 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 			    FooCanvas *canvas,
 			    gboolean const is_selected)
 {
+	GdkColormap *cmap = gdk_gc_get_colormap (gc);
 	int pattern;
 
 	/*
@@ -120,7 +121,7 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 	 */
 	pattern = mstyle_get_pattern (mstyle);
 	if (pattern > 0) {
-		GdkColor *back;
+		const GdkColor *back;
 		StyleColor *back_col =
 			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
 		g_return_val_if_fail (back_col != NULL, FALSE);
@@ -128,24 +129,38 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 		back = is_selected ? &back_col->selected_color : &back_col->color;
 
 		if (pattern > 1) {
+			GdkGCValues values;
 			StyleColor *pat_col =
 				mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
-			gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);
-			gdk_gc_set_rgb_fg_color (gc, &pat_col->color);
-			gdk_gc_set_rgb_bg_color (gc, back);
-			gdk_gc_set_stipple (gc, gnumeric_pattern_get_stipple (pattern));
+			values.fill = GDK_OPAQUE_STIPPLED;
+			values.foreground = pat_col->color;
+			gdk_rgb_find_color (cmap, &values.foreground);
+			values.background = *back;
+			gdk_rgb_find_color (cmap, &values.background);
+			values.stipple = gnumeric_pattern_get_stipple (pattern);
+			gdk_gc_set_values (gc, &values,
+					   GDK_GC_FILL | GDK_GC_FOREGROUND |
+					   GDK_GC_BACKGROUND | GDK_GC_STIPPLE);
 			foo_canvas_set_stipple_origin (canvas, gc);
 		} else {
-			gdk_gc_set_fill (gc, GDK_SOLID);
-#warning "FIXME: verify the _fg_ here."
-			gdk_gc_set_rgb_fg_color (gc, back);
+			GdkGCValues values;
+
+			values.fill = GDK_SOLID;
+#warning "FIXME: verify the _foreground_ here."
+			values.foreground = *back;
+			gdk_rgb_find_color (cmap, &values.foreground);
+			gdk_gc_set_values (gc, &values, GDK_GC_FILL | GDK_GC_FOREGROUND);
 		}
 		return TRUE;
 	} else if (is_selected) {
-		gdk_gc_set_fill (gc, GDK_SOLID);
-		gdk_gc_set_rgb_fg_color (gc, &gs_lavender);
+		GdkGCValues values;
+
+		values.foreground = gs_lavender;
+		gdk_rgb_find_color (cmap, &values.foreground);
+		values.fill = GDK_SOLID;
+		gdk_gc_set_values (gc, &values, GDK_GC_FILL | GDK_GC_FOREGROUND);
 	}
 	return FALSE;
 }
