@@ -21,7 +21,7 @@ Long term breakage
 
 - can_try_save_to uses access().  That's bogus in a number of ways: (a) it
   checks the wrong permissions in the set[gu]id case.  (b) It reports the
-  wrong result in the path is not readable.  The Right Way to do this, is
+  wrong result if the path is not readable.  The Right Way to do this, is
   just to do it.  And then check the error code.
 
 - gnumeric_error_invalid change call sequence to use printf argument style.
@@ -41,8 +41,8 @@ Long term breakage
 
 - support negative durations with [h]
 
-- Functions like SMALL and LARGE use O(n*log n) algorithms.  Should use
-  O(n) algorithms, see Knuth.
+- Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
+  algorithm, see Knuth.
 
 - Version the idl file so that future versions will not be confused by attempts
   to use an older version of the idl.
