@@ -1,5 +1,4 @@
 #include <glib.h>
-#include <gtk/gtk.h>
 #include <string.h>
 #include "lpkit.h"
 #include "lpglob.h"
@@ -834,16 +833,6 @@ coldual (lprec      *lp,
 } /* coldual */
 
 static gboolean
-cb_timeout (gpointer *p)
-{
-        lprec *lp = (lprec *) p;
-
-	lp->iter = lp->max_total_iter;
-	printf("Timeout\n");
-	return TRUE;
-}
-
-static gboolean
 iteration (lprec        *lp,
 	   int          row_nr,
 	   int          varin,
@@ -1097,9 +1086,8 @@ solvelp (lprec *lp)
 		}
 
 		if (Doiter)
-		        if (iteration (lp, row_nr, colnr, &theta, lp->upbo[colnr],
-				       &minit, &lp->lower[colnr], primal, &Status))
-			        ;
+		        iteration (lp, row_nr, colnr, &theta, lp->upbo[colnr],
+				   &minit, &lp->lower[colnr], primal, &Status);
 		
 		if (lp->num_inv >= lp->max_num_inv)
 		        DoInvert = TRUE;
