@@ -388,7 +388,7 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 	{
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		SheetSelection *ss = sheet_view->sheet->selections->data;
-		int col, distance;
+		int col;
 		
 		gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
 		sheet_view->tip = NULL;
@@ -416,7 +416,7 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 	{
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		SheetSelection *ss = sheet_view->sheet->selections->data;
-		int row, distance;
+		int row;
 		
 		gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
 		sheet_view->tip = NULL;

@@ -284,7 +284,7 @@ typedef struct
 } xformat_info;
 
 /*
- * This routine should always return, it can not fail, in the worst
+ * This routine should always return, it cannot fail, in the worst
  * case it should just downgrade to simplistic formatting
  */
 void

@@ -27,13 +27,13 @@ typedef struct {
 extern GList *gnumeric_file_savers;
 
 void file_format_register_open   (int             priority,
-				  char            *format_description,
+				  const char     *format_description,
 				  FileFormatProbe probe_fn,
 				  FileFormatOpen  open_fn);
 void file_format_unregister_open (FileFormatProbe probe, FileFormatOpen open);
 
 void file_format_register_save   (char           *extension,
-				  char           *format_description,
+				  const char     *format_description,
 				  FileFormatSave save_fn);
 void file_format_unregister_save (FileFormatSave save);
 

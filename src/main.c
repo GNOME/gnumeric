@@ -45,7 +45,6 @@ const struct poptOption gnumeric_popt_options [] = {
 static void
 gnumeric_main (void *closure, int argc, char *argv [])
 {
-	GList *l;
 	int i;
 	
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);

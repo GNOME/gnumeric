@@ -1718,7 +1718,6 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 	GString *result_str;
 	GList   *selections;
 	char    *result;
-	sheet_cell_foreach_callback assembler;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -2568,7 +2567,7 @@ sheet_verify_selection_simple (Sheet *sheet, const char *command_name)
 	msg = g_strconcat (
 		_("The command `"),
 		command_name,
-		_("' can not be performed with multiple selections"), NULL);
+		_("' cannot be performed with multiple selections"), NULL);
 	gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
 	g_free (msg);
 

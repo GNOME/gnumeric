@@ -70,7 +70,6 @@ function_iterate_do_value (Sheet                   *sheet,
 			   Value                   *value,
 			   char                    **error_string)
 {
-	GList *list;
 	int ret = TRUE;
 	
 	switch (value->type){

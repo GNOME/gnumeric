@@ -53,7 +53,7 @@ dialog_about (Workbook *wb)
 				 "(C) 1998-1999 Miguel de Icaza",
 				 authors,
 				 _("The GNOME spreadsheet.\n"
-				   "http://www.gnome.org/gnumeric"),
+				   "http://www.gnome.org/gnumeric/"),
 				 NULL);
 	gnome_dialog_set_parent (GNOME_DIALOG (about), GTK_WINDOW (wb->toplevel));
 	gnome_dialog_set_close (GNOME_DIALOG (about), TRUE);

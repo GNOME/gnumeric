@@ -306,8 +306,6 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 	get_dep_closure_t *c = closure;
 	Sheet *sheet = c->sheet;
 	GList *l;
-	static int inters=0;
-	static int nointers=0;
 
 	/* No intersection is the common case */
 

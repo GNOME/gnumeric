@@ -531,7 +531,7 @@ extract_text (const char *str, const regmatch_t *mp)
  * Given a number of matches described by MP on S,
  * compute the number based on the information on ARRAY
  *
- * Currently the code can not mix a MATCH_NUMBER with any
+ * Currently the code cannot mix a MATCH_NUMBER with any
  * of the date/time matching.
  */
 static gboolean

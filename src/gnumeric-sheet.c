@@ -1161,6 +1161,7 @@ gnumeric_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (widget));
 }
 
+#if 0
 static gint
 gnumeric_button_press (GtkWidget *widget, GdkEventButton *event)
 {
@@ -1169,6 +1170,7 @@ gnumeric_button_press (GtkWidget *widget, GdkEventButton *event)
 
 	return FALSE;
 }
+#endif
 
 static void
 gnumeric_sheet_class_init (GnumericSheetClass *class)

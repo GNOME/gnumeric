@@ -86,7 +86,6 @@ static Value *
 gnumeric_datevalue (struct FunctionDefinition *fd,
 		    Value *argv [], char **error_string)
 {
-	int         year, month, day;
 	const gchar *datestr;
 	GDate       date;
 
@@ -124,7 +123,6 @@ static Value *
 gnumeric_edate (struct FunctionDefinition *fd,
 		Value *argv [], char **error_string)
 {
-	int    year, month, day;
 	int    serial, months;
 	GDate* date;
 	

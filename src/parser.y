@@ -263,7 +263,6 @@ make_string_return (char *string)
 	ExprTree *e;
 	Value *v;
 	double fv;
-	int type;
 	char *format;
 
 	e = p_new (ExprTree);

@@ -385,8 +385,6 @@ editable_label_set_text (EditableLabel *el, const char *text)
 			"y",        (double) 1,
 			NULL);
 	} else {
-		char *item_text;
-
 		el_change_text (el, text);
 	}
 }

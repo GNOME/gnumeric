@@ -145,6 +145,7 @@ arg_data_list_new (State *state)
 	g_free (copy_args);
 }
 
+#if 0
 static void
 arg_data_list_destroy (State *state)
 {
@@ -166,6 +167,7 @@ arg_data_list_destroy (State *state)
 	}
 	g_ptr_array_free (state->args, FALSE);
 }
+#endif
 
 static void
 function_input (GtkWidget *widget, ARG_DATA *ad)
@@ -193,7 +195,6 @@ static GtkWidget *
 function_type_input (ARG_DATA *ad)
 {
 	GtkBox   *box;
-	GtkEntry *entry;
 	GtkButton *button;
 	GtkWidget *pix;
 	gchar *txt = NULL, *label;
@@ -297,7 +298,6 @@ get_text_value (State *state)
 	txt = g_strconcat (state->fd->name, "(", NULL);
 
 	for (lp = 0; lp < state->args->len; lp++){
-		int comma;
 		ARG_DATA *ad = g_ptr_array_index (state->args, lp);
 		gchar *val = gtk_entry_get_text (ad->entry);
 

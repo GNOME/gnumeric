@@ -555,8 +555,6 @@ cell_render_value (Cell *cell)
 void
 cell_set_value_simple (Cell *cell, Value *v)
 {
-	struct lconv *lconv;
-	
 	g_return_if_fail (cell);
 	g_return_if_fail (v);
 
@@ -615,8 +613,6 @@ cell_set_value (Cell *cell, Value *v)
 void
 cell_set_text_simple (Cell *cell, const char *text)
 {
-	struct lconv *lconv;
-	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
@@ -1466,7 +1462,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 {
 	Style        *style = cell->style;
 	GdkFont      *font = style->font->font;
-	GdkGC        *white_gc = GTK_WIDGET (sheet_view->sheet_view)->style->white_gc;
+	/* GdkGC        *white_gc = GTK_WIDGET (sheet_view->sheet_view)->style->white_gc; */
 	GdkRectangle rect;
 	
 	int start_col, end_col;
@@ -1673,7 +1669,6 @@ cell_get_text (Cell *cell)
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell->parsed_node && cell->sheet){
-		Sheet *sheet;
 		char *func, *ret;
 
 		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);

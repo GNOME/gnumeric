@@ -284,7 +284,6 @@ find_cells_that_match(Value *database, int field, GSList *criterias)
 	first_row = database->v.cell_range.cell_a.row + 1;
 
 	for (row=first_row; row<=last_row; row++) {
-	       GSList *new_item;
 	       Cell   *cell, *test_cell;
 
 	       cell = sheet_cell_get(sheet, field, row);

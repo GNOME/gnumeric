@@ -295,7 +295,6 @@ void dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 {
 	int lp;
 	int base_col, base_row, start_col, start_row, end_col, end_row;
-	char *txt;
 	SORT_FLOW sort_flow;
 
 	g_return_if_fail(inwb);

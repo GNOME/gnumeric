@@ -179,6 +179,7 @@ italic_cmd (GtkWidget *widget, Workbook *wb)
  */
 void (*graphic_wizard_hook)(Workbook *wb) = 0;
 
+#ifdef ENABLE_BONOBO
 static void
 create_graphic_cmd (GtkWidget *widget, Workbook *wb)
 {
@@ -192,6 +193,7 @@ create_graphic_cmd (GtkWidget *widget, Workbook *wb)
 		sheet_set_mode_type (sheet, SHEET_MODE_CREATE_GRAPHIC);
 	}
 }
+#endif
 
 static void
 create_line_cmd (GtkWidget *widget, Workbook *wb)
@@ -355,7 +357,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 	GtkWidget *d, *l;
 	int *allow_close = user_data;
 	int button;
-	char *f, *s;
+	char *s;
 	
 	if (!sheet->modified)
 		return;
@@ -1082,7 +1084,6 @@ workbook_focus_current_sheet (Workbook *wb)
 void
 workbook_focus_sheet (Sheet *sheet)
 {
-	SheetView *sheet_view;
 	GtkNotebook *notebook;
 	int sheets, i;
 
@@ -1749,8 +1750,8 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 	if (!workbook_can_detach_sheet (wb, current_sheet)){
 		gnumeric_notice (
 			wb, GNOME_MESSAGE_BOX_ERROR,
-			_("Other sheets depend on the values on this sheet, "
-			  "I can not remove it"));
+			_("Other sheets depend on the values on this sheet; "
+			  "I cannot remove it"));
 		return;
 	}
 
@@ -2331,7 +2332,7 @@ char *
 workbook_selection_to_string (Workbook *wb, Sheet *base_sheet)
 {
 	selection_assemble_closure_t info;
-	char *str, *result;
+	char *result;
 	
 	g_return_val_if_fail (wb != NULL, NULL);
 

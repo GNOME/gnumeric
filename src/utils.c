@@ -280,6 +280,3 @@ parse_cell_name_list (Sheet *sheet,
 	free (buf);
 	return cells;
 }
-
-
-

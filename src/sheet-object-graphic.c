@@ -69,7 +69,7 @@ sheet_object_graphic_realize (SheetObject *so, SheetView *sheet_view)
 static void
 sheet_object_graphic_update (SheetObject *sheet_object, gdouble to_x, gdouble to_y)
 {
-	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (sheet_object);
+	/* SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (sheet_object); */
 	GList *l;
 	
 	sheet_object->bbox_points->coords [2] = (gdouble) to_x;
@@ -210,7 +210,6 @@ sheet_object_filled_realize (SheetObject *so, SheetView *sheet_view)
 static void
 sheet_object_filled_update (SheetObject *sheet_object, gdouble to_x, gdouble to_y)
 {
-	double x1, x2, y1, y2;
 	double *coords = sheet_object->bbox_points->coords;
 	GList *l;
 	

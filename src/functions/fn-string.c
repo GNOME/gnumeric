@@ -602,7 +602,7 @@ static Value *
 gnumeric_replace (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v;
-	gchar *s, *p;
+	gchar *s;
 	gint start, num, oldlen, newlen;
 
 	if (argv[0]->type != VALUE_STRING ||

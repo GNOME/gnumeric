@@ -24,7 +24,7 @@ static const char *constraint_strs[] = {
 	NULL
 };
 
-
+#if 0
 static struct {
 	const char *name;
 	int  disables_second_group;
@@ -35,6 +35,7 @@ static struct {
 	{ N_("Formats"),  1 },
 	{ NULL, 0 }
 };
+#endif
 
 static const char *equal_ops [] = {
 	N_("Max"),
@@ -137,7 +138,6 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 	GtkWidget *dialog;
 	GtkWidget *radio_buttons, *check_buttons;
 	GtkWidget *check_buttons_left, *check_buttons_right;
-	GtkWidget *button;
 	GSList *group_estimates, *group_derivatives, *group_search;
 
 	dialog = gnome_dialog_new (_("Gnumeric Solver Options"),

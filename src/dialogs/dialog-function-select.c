@@ -110,7 +110,6 @@ function_select_create (SelectorState *selector_state)
 {
 	GtkWidget *box, *vbox;
 	GtkWidget *scroll;
-	GtkAdjustment *hadj;
 	GtkCList *cl;
 
 	vbox = gtk_vbox_new (0, 0);

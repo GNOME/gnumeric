@@ -322,7 +322,6 @@ static char *help_lookup = {
 static Value *
 gnumeric_lookup (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v1, *ans;
 	int height, width;
 	const Value *next_largest = NULL;
 	int next_largest_x = 0;
@@ -568,9 +567,9 @@ gnumeric_rows (struct FunctionDefinition *i, Value *argv [], char **error_string
 }
 
 FunctionDefinition lookup_functions [] = {
-        { "choose",     0,     "index,value...",           &help_choose,    gnumeric_choose, NULL },
+        { "choose",     0,     "index,value...",           &help_choose,   gnumeric_choose, NULL },
 	{ "column",    "?",    "ref",                      &help_column,   gnumeric_column, NULL },
-	{ "columns",   "A",    "ref",                      &help_column,   NULL, gnumeric_columns },
+	{ "columns",   "A",    "ref",                      &help_columns,  NULL, gnumeric_columns },
 	{ "hlookup",   "?Af|b","val,range,col_idx,approx", &help_hlookup,  NULL, gnumeric_hlookup },
 	{ "lookup",    "?A|r", "val,range,range",          &help_lookup,   NULL, gnumeric_lookup },
 	{ "offset",    "rffff","ref,row,col,hight,width",  &help_offset,   NULL, gnumeric_offset },

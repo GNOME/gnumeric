@@ -66,4 +66,3 @@ typedef struct {
 } SheetViewClass;
 
 #endif /* GNUMERIC_SHEET_VIEW_H */
-

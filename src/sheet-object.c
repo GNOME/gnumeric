@@ -683,8 +683,6 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 		
 		for (l = object->sheet->sheet_views; l; l = l->next){
 			SheetView *sheet_view = l->data;
-			GnomeCanvasItem *object_item = NULL;
-			GList *ll;
 
 			if (change & POINT (0)){
 				set_item_x (sheet_view, 0, coords [0] + dx);

@@ -74,6 +74,7 @@ xmlGetValue (xmlNodePtr node, const char *name)
 	return NULL;
 }
 
+#if 0
 /*
  * Get a String value for a node either carried as an attibute or as
  * the content of a child.
@@ -90,6 +91,7 @@ xmlGetStringValue (xmlNodePtr node, const char *name)
 	free(val);
 	return(ret);
 }
+#endif
 
 /*
  * Get an integer value for a node either carried as an attibute or as
@@ -114,6 +116,7 @@ xmlGetIntValue (xmlNodePtr node, const char *name, int *val)
 	return 0;
 }
 
+#if 0
 /*
  * Get a float value for a node either carried as an attibute or as
  * the content of a child.
@@ -123,7 +126,6 @@ xmlGetFloatValue (xmlNodePtr node, const char *name, float *val)
 {
 	int res;
 	char *ret;
-	xmlNodePtr child;
 	float f;
 
 	ret = xmlGetValue (node, name);
@@ -137,6 +139,7 @@ xmlGetFloatValue (xmlNodePtr node, const char *name, float *val)
 	}
 	return 0;
 }
+#endif
 
 /*
  * Get a double value for a node either carried as an attibute or as
@@ -147,7 +150,6 @@ xmlGetDoubleValue (xmlNodePtr node, const char *name, double *val)
 {
 	int res;
 	char *ret;
-	xmlNodePtr child;
 	float f;
 
 	ret = xmlGetValue (node, name);
@@ -162,17 +164,16 @@ xmlGetDoubleValue (xmlNodePtr node, const char *name, double *val)
 	return 0;
 }
 
+#if 0
 /*
  * Get a set of coodinates for a node, carried as the content of a child.
  */
-
 static int
 xmlGetCoordinate (xmlNodePtr node, const char *name,
 		  double *x, double *y)
 {
 	int res;
 	char *ret;
-	xmlNodePtr child;
 	float X, Y;
 
 	ret = xmlGetValue (node, name);
@@ -187,6 +188,7 @@ xmlGetCoordinate (xmlNodePtr node, const char *name,
 	}
 	return 0;
 }
+#endif
 
 /*
  * Get a pair of coodinates for a node, carried as the content of a child.
@@ -198,8 +200,6 @@ xmlGetCoordinates (xmlNodePtr node, const char *name,
 {
 	int res;
 	char *ret;
-	xmlNodePtr child;
-	float X1, Y1, X2, Y2;
 
 	ret = xmlGetValue (node, name);
 	if (ret == NULL) return(0);
@@ -212,10 +212,10 @@ xmlGetCoordinates (xmlNodePtr node, const char *name,
 	return 0;
 }
 
+#if 0
 /*
  * Get a GnomeCanvasPoints for a node, carried as the content of a child.
  */
-
 static GnomeCanvasPoints *
 xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 {
@@ -223,7 +223,6 @@ xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 	GnomeCanvasPoints *ret = NULL;
 	int res;
 	const char *ptr;
-	xmlNodePtr child;
 	int index = 0, i;
 	float coord[20];	/* TODO: must be dynamic !!!! */
 
@@ -251,6 +250,7 @@ xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 		ret->coords[i] = coord[i];
 	return ret;
 }
+#endif
 
 /*
  * Set a string value for a node either carried as an attibute or as
@@ -368,6 +368,7 @@ xmlSetIntValue (xmlNodePtr node, const char *name, int val)
 	xmlSetProp (node, name, str);
 }
 
+#if 0
 /*
  * Set a float value for a node either carried as an attibute or as
  * the content of a child.
@@ -395,7 +396,9 @@ xmlSetFloatValue (xmlNodePtr node, const char *name, float val)
 	}
 	xmlSetProp (node, name, str);
 }
+#endif
 
+#if 0
 /*
  * Set a double value for a node either carried as an attibute or as
  * the content of a child.
@@ -423,6 +426,7 @@ xmlSetDoubleValue (xmlNodePtr node, const char *name, double val)
 	}
 	xmlSetProp (node, name, str);
 }
+#endif
 
 /*
  * Search a child by name, if needed go down the tree to find it. 
@@ -461,7 +465,6 @@ xmlGetColorValue (xmlNodePtr node, const char *name,
 			     StyleColor **color)
 {
 	char *ret;
-	xmlNodePtr child;
 	int red, green, blue;
 
 	ret = xmlGetValue (node, name);
@@ -985,6 +988,7 @@ readXmlStyle (parseXmlContextPtr ctxt, xmlNodePtr tree, Style * ret)
 	return ret;
 }
 
+#if 0
 /*
  * Create an XML subtree of doc equivalent to the given StyleRegion.
  */
@@ -1006,6 +1010,7 @@ writeXmlStyleRegion (parseXmlContextPtr ctxt, StyleRegion *region)
 	}
 	return cur;
 }
+#endif
 
 /*
  * Create a StyleRegion equivalent to the XML subtree of doc.

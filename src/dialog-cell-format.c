@@ -798,7 +798,6 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 	gushort fore_red=0, fore_green=0, fore_blue=0;
 	gushort back_red=0xff, back_green=0xff, back_blue=0xff;
 
-	CellList *cl;
 	Cell *cell;
 
 	/*

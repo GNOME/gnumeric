@@ -98,7 +98,7 @@ GSList *
 range_list_parse (Sheet *sheet, const char *range_spec)
 {
 	
-	char *copy, *range, *range_copy, *r;
+	char *copy, *range_copy, *r;
 	GSList *ranges = NULL;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -203,7 +203,6 @@ range_set_style (GSList *ranges, Style *style)
 	for (l = ranges; l; l = l->next){
 		Value *value = l->data;
 		CellRef a, b;
-		int col, row;
 		
 		g_assert (value->type == VALUE_CELLRANGE);
 

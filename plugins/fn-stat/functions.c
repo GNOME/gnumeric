@@ -1629,7 +1629,7 @@ gnumeric_harmean (Sheet *sheet, GList *expr_node_list,
 		  int eval_col, int eval_row, char **error_string)
 {
 	stat_inv_sum_t pr;
-	float_t ans, num;
+	float_t num;
 
 	pr.first = TRUE;
 	pr.num   = 0;
@@ -1694,7 +1694,7 @@ gnumeric_geomean (Sheet *sheet, GList *expr_node_list,
 		  int eval_col, int eval_row, char **error_string)
 {
 	stat_prod_t pr;
-	float_t ans, num;
+	float_t num;
 
 	pr.first   = TRUE;
 	pr.num     = 0;
@@ -3081,7 +3081,7 @@ gnumeric_avedev (Sheet *sheet, GList *expr_node_list,
 		 int eval_col, int eval_row, char **error_string)
 {
         stat_avedev_sum_t pr;
-        float_t ans, num;
+        float_t num;
 
         pr.first = TRUE;
         pr.num   = 0;
@@ -3485,7 +3485,7 @@ gnumeric_large (Sheet *sheet, GList *expr_node_list,
 {
 	stat_trimmean_t p;
 	GSList          *list;
-	int             n, count, k;
+	int             n, k;
 	float_t         r;
 
 	p.first = TRUE;
@@ -3551,7 +3551,7 @@ gnumeric_small (Sheet *sheet, GList *expr_node_list,
 {
 	stat_trimmean_t p;
 	GSList          *list;
-	int             n, count, k;
+	int             n, k;
 	float_t         r;
 
 	p.first = TRUE;

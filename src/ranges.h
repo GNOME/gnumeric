@@ -2,6 +2,9 @@
 #define GNUMERIC_RANGES_H
 
 #include "sheet.h"
+#include "expr.h"
+#include "cell.h"
+#include "style.h"
 
 gboolean    range_parse             (Sheet *sheet, const char *range, Value **v);
 GSList     *range_list_parse        (Sheet *sheet, const char *cell_name_str);

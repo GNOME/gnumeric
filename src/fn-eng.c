@@ -503,8 +503,6 @@ get_real_and_imaginary(char *inumber, float_t *real, float_t *im,
 		       char **suffix)
 {
         char *p;
-	char buf[256];
-	int  i=0;
 
 	*real = 0;
 

@@ -378,8 +378,7 @@ gnumeric_pv (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
 	fvifa = calculate_fvifa(rate,nper);
 
-        return value_new_float ( ( (-1.0) * fv - pmt * ( 1.0 + rate * type ) * fvifa ) / pvif );
-
+        return value_new_float ((pmt * (1 + rate * type) * fvifa - fv) / pvif);
 }
 
 static char *help_npv = {
@@ -400,7 +399,6 @@ static int
 callback_function_npv (Sheet *sheet, Value *value, char **error_string, void *closure)
 {
         financial_npv_t *mm = closure;
-        float tmp;
  
         switch (value->type){
         case VALUE_INTEGER:
