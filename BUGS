@@ -9,6 +9,10 @@ Release Critical
 
 http://bugzilla.gnome.org/show_bug.cgi?id=71551
 
+Our deps in plugins are wrong: the xml file should depend on the .la file,
+but it does not.  (This shows only after "make clean" and with a "-j"
+make.)
+
 1.2 Targets
 -----------
 
