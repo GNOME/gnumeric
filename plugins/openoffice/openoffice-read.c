@@ -638,8 +638,6 @@ oo_style_prop (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		else if (!strcmp (attrs[0], "style:text-align-source"))
 			h_align_is_valid = !strcmp (attrs[1], "fixed");
 		else if (oo_attr_enum (state, attrs, "fo:vertical-align", v_alignments, &tmp))
-			;
-		else if (!strcmp (attrs[0], "fo:vertical-align"))
 			mstyle_set_align_v (style, tmp);
 		else if (!strcmp (attrs[0], "fo:wrap-option"))
 			mstyle_set_wrap_text (style, !strcmp (attrs[1], "wrap"));
