@@ -1380,7 +1380,7 @@ msgstr "Título"
 
 #: src/dialogs/summary.glade.h:8
 msgid "Author"
-msgstr "Autor""
+msgstr "Autor"
 
 #: src/dialogs/summary.glade.h:9
 msgid "Category"
