@@ -1,3 +1,10 @@
+2002-03-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* commands.h (cmd_set_comment) : new
+	* commands.c (cmd_set_comment_apply, set_comment_undo, 
+	  cmd_set_comment_redo, cmd_set_comment_finalize, cmd_set_comment) :
+	  new
+
 2002-03-04  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (dexp): Add give_log arg and use R's version.

@@ -1,3 +1,9 @@
+2002-03-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-cell-comment.c (cb_cell_comment_ok_clicked) : use
+	  cmd_set_comment
+	(dialog_cell_comment) : use cell_has_comment_pos
+
 2002-03-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-sheet-name.c (cb_sheet_name_ok_clicked ) : change the 

@@ -31,7 +31,8 @@ Andreas:
 	* Add help buttons to various dialogs
 	* Make reordering of sheets undoable
 	* Port zoom dialog and convert it into a guru
-	* Improve Sheet-Order Dialog
+	* Improve Sheet-Order dialog
+	* Make add/modify comment undoable
 
 Jody:
 	* Initial port to gnome2.

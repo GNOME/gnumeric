@@ -89,4 +89,7 @@ gboolean cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList 
 gboolean cmd_rename_sheet      (WorkbookControl *wbc, Sheet *sheet, 
 				char const *old_name, char const *new_name);
 
+gboolean cmd_set_comment       (WorkbookControl *wbc, Sheet *sheet,
+				 CellPos const *pos, const char *new_text);
+
 #endif /* GNUMERIC_COMMANDS_H */

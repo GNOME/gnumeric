@@ -4077,3 +4077,111 @@ cmd_rename_sheet (WorkbookControl *wbc, Sheet *sheet, char const *old_name, char
 }
 
 /******************************************************************/
+
+#define CMD_SET_COMMENT_TYPE        (cmd_set_comment_get_type ())
+#define CMD_SET_COMMENT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SET_COMMENT_TYPE, CmdSetComment))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	Sheet           *sheet;
+	CellPos	        pos;
+	gchar		*new_text;
+	gchar		*old_text;
+} CmdSetComment;
+
+GNUMERIC_MAKE_COMMAND (CmdSetComment, cmd_set_comment);
+
+static gboolean
+cmd_set_comment_apply (Sheet *sheet, CellPos *pos, char const *text)
+{
+	CellComment   *comment;
+
+	comment = cell_has_comment_pos (sheet, pos);
+/* FIXME: this is not a perfect undo since we never delete a created comment */
+	if (comment) {
+		if (text) 
+			cell_comment_text_set (comment, text);
+		else {
+			Range r;
+			r.start = *pos;
+			r.end   = *pos;
+			sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE);
+		}
+	} else if (text && (strlen (text) > 0))
+		cell_set_comment (sheet, pos, NULL, text);
+
+	sheet_set_dirty (sheet, TRUE);
+	return FALSE;
+}
+
+static gboolean
+cmd_set_comment_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdSetComment *me = CMD_SET_COMMENT (cmd);
+
+	return cmd_set_comment_apply (me->sheet, &me->pos, me->old_text);
+}
+
+static gboolean
+cmd_set_comment_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdSetComment *me = CMD_SET_COMMENT (cmd);
+
+	return cmd_set_comment_apply (me->sheet, &me->pos, me->new_text);
+}
+
+static void
+cmd_set_comment_finalize (GObject *cmd)
+{
+	CmdSetComment *me = CMD_SET_COMMENT (cmd);
+	if (me->new_text != NULL) {
+		g_free (me->new_text);
+		me->new_text = NULL;
+	}
+	if (me->old_text != NULL) {
+		g_free (me->old_text);
+		me->old_text = NULL;
+	}
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_set_comment (WorkbookControl *wbc,
+	      Sheet *sheet, CellPos const *pos,
+	      const char *new_text)
+{
+	GObject       *obj;
+	CmdSetComment *me;
+	CellComment   *comment;
+
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (new_text != NULL, TRUE);
+
+	obj = g_object_new (CMD_SET_COMMENT_TYPE, NULL);
+	me = CMD_SET_COMMENT (obj);
+
+	me->parent.sheet = sheet;
+	me->parent.size = 1;
+	me->parent.cmd_descriptor =
+		g_strdup_printf (new_text == NULL ? 
+				 _("Clear Comment of %s") :
+				 _("Set Comment of %s"),
+				 cell_pos_name (pos));
+	if (strlen (new_text) < 1)
+		me->new_text = NULL;
+	else
+		me->new_text    = g_strdup (new_text);
+	me->old_text    = NULL;
+	me->pos         = *pos;
+	me->sheet       = sheet;
+	comment = cell_has_comment_pos (sheet, pos);
+	if (comment)
+		me->old_text = g_strdup (cell_comment_text_get (comment));
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
