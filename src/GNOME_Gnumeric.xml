@@ -16,12 +16,12 @@
 	<cmd name="FileSave"
 	    _label="_Save"
 	    _tip="Save the current file"
-	    pixtype="stock" pixname="Save"
+	    pixtype="stock" pixname="Gnumeric_Save"
 	    accel="*Control*s"/>
 	<cmd name="FileSaveAs"
 	    _label="Save _As"
 	    _tip="Save the current file with a different name"
-	    pixtype="stock" pixname="Save As"/>
+	    pixtype="stock" pixname="Gnumeric_SaveAs"/>
 
 	<cmd name="FilePrintSetup"
 	    _label="Print S_etup"
@@ -221,7 +221,6 @@
 		<menuitem name="SheetRemove" verb=""
 		    _label="_Remove"
 		    _tip="Irrevocably remove an entire sheet"/>
-
 	    </submenu>
 
 	    <submenu name="Select" _label="_Select">
@@ -255,6 +254,7 @@
 	    <menuitem name="EditSearchReplace" verb=""
 		_label="Search and Replace..."
 		_tip="Search for some text and replace it with something else"
+		pixtype="stock" pixname="Gnumeric_SearchAndReplace"
 		accel="F6"/>
 
 	    <menuitem name="EditGoto" verb=""
