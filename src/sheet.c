@@ -1040,6 +1040,7 @@ sheet_load_cell_val (Sheet const *sheet)
 {
 	GtkEntry *entry;
 	Cell     *cell;
+	char     *text;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1049,12 +1050,20 @@ sheet_load_cell_val (Sheet const *sheet)
 			       sheet->cursor.edit_pos.col,
 			       sheet->cursor.edit_pos.row);
 
-	if (cell) {
-		char *text = cell_get_text (cell);
-		gtk_entry_set_text (entry, text);
-		g_free (text);
-	} else
-		gtk_entry_set_text (entry, "");
+	if (cell)
+		text = cell_get_text (cell);
+	else
+		text = g_strdup ("");
+
+	gtk_entry_set_text (entry, text);
+
+	/* This is intended for screen reading software etc. */
+	gtk_signal_emit_by_name (GTK_OBJECT (sheet->workbook), "cell_changed",
+				 sheet, text,
+				 sheet->cursor.edit_pos.col,
+				 sheet->cursor.edit_pos.row);
+
+	g_free (text);
 }
 
 /**

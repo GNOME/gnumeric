@@ -71,11 +71,12 @@ static WORKBOOK_PARENT_CLASS *workbook_parent_class;
 /* Workbook signals */
 enum {
 	SHEET_ENTERED,
+	CELL_CHANGED,
 	LAST_SIGNAL
 };
 
 static gint workbook_signals [LAST_SIGNAL] = {
-	0, /* SHEET_ENTERED */
+	0, /* SHEET_ENTERED, CELL_CHANGED */
 };
 
 static void workbook_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
@@ -2240,6 +2241,23 @@ workbook_class_init (GtkObjectClass *object_class)
 			GTK_SIGNAL_OFFSET (WorkbookClass,
 					   sheet_entered),
 			gtk_marshal_NONE__POINTER,
+			GTK_TYPE_NONE,
+			1,
+			GTK_TYPE_POINTER);
+	/* 
+	 * WARNING :
+	 * This is a preliminary hook used by screen reading software,
+	 * etc.  The signal does NOT trigger for all cell changes and
+	 * should be used with care.
+	 */
+	workbook_signals [CELL_CHANGED] =
+		gtk_signal_new (
+			"cell_changed",
+			GTK_RUN_LAST,
+			object_class->type,
+			GTK_SIGNAL_OFFSET (WorkbookClass,
+					   cell_changed),
+			gtk_marshal_NONE__POINTER_POINTER_INT_INT,
 			GTK_TYPE_NONE,
 			1,
 			GTK_TYPE_POINTER);

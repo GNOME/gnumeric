@@ -31,7 +31,9 @@ static void gtk_combo_popup_reparent (GtkWidget *popup, GtkWidget *new_parent,
 				      gboolean unrealize);
 static gboolean cb_popup_delete (GtkWidget *w, GdkEventAny *event,
 			     GtkComboBox *combo);
+#if 0
 static void gtk_combo_tearoff_bg_copy (GtkComboBox *combo);
+#endif
 
 enum {
 	POP_DOWN_WIDGET,
@@ -466,7 +468,8 @@ gtk_combo_popup_tear_off (GtkComboBox *combo)
 				       FALSE, TRUE, FALSE);
 		gtk_window_set_transient_for 
 			(GTK_WINDOW (tearoff),
-			 GTK_WINDOW (gtk_widget_get_toplevel (combo)));
+			 GTK_WINDOW (gtk_widget_get_toplevel
+				     GTK_WIDGET (combo)));
 	}
 
 	if (GTK_WIDGET_VISIBLE (combo->priv->popup)) {
@@ -524,7 +527,12 @@ gtk_combo_set_tearoff_state (GtkComboBox *combo,
  * Copy popup background to the tearoff window.
  *
  * Compare with gtk_menu_tearoff_bg_copy in gtk/gtkmenu.c
+ *
+ * FIXME:
+ * This is not used, but will be necessary when we make behaviour more
+ * consistent with tearoff menus.
  */
+#if 0
 static void
 gtk_combo_tearoff_bg_copy (GtkComboBox *combo)
 {
@@ -558,6 +566,7 @@ gtk_combo_tearoff_bg_copy (GtkComboBox *combo)
 		gdk_pixmap_unref (pixmap);
 	}
 }
+#endif
 
 /**
  * gtk_combo_popup_reparent
@@ -568,6 +577,10 @@ gtk_combo_tearoff_bg_copy (GtkComboBox *combo)
  * Reparent the popup, taking care of the refcounting
  *
  * Compare with gtk_menu_reparent in gtk/gtkmenu.c
+ *
+ * FIXME:
+ * The 'unrealize = TRUE' branch is unnecessary unless we decide to make it
+ * possible to reattach the popup to the combo.
  */
 static void 
 gtk_combo_popup_reparent (GtkWidget *popup, 

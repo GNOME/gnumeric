@@ -6,6 +6,9 @@
 
 static GtkObjectClass *gtk_combo_text_parent_class;
 
+static gboolean cb_pop_down (GtkWidget *w, GtkWidget *pop_down,
+			     gpointer dummy);
+
 static void
 gtk_combo_text_destroy (GtkObject *object)
 {
@@ -15,7 +18,8 @@ gtk_combo_text_destroy (GtkObject *object)
 		g_hash_table_destroy (ct->elements);
 		ct->elements = NULL;
 	}
-
+	gtk_signal_disconnect_by_func (GTK_OBJECT (ct),
+				       GTK_SIGNAL_FUNC (cb_pop_down), NULL);
 	(*gtk_combo_text_parent_class->destroy) (object);
 }
 
@@ -87,9 +91,11 @@ cb_enter (GtkWidget *w, GdkEventCrossing *event,
 	  gpointer user)
 {
 	GtkComboText *ct = user;
+	ct->cached_entry = w;
 	ct->cache_mouse_state = GTK_WIDGET_STATE(w);
 	if (GTK_STATE_SELECTED != ct->cache_mouse_state)
 		gtk_widget_set_state (w, GTK_STATE_ACTIVE);
+
 	return TRUE;
 }
 static gboolean
@@ -99,6 +105,18 @@ cb_exit (GtkWidget *w, GdkEventCrossing *event,
 	GtkComboText *ct = user;
 	gtk_widget_set_state (w, ct->cache_mouse_state);
 	return TRUE;
+}
+
+static gboolean
+cb_pop_down (GtkWidget *w, GtkWidget *pop_down, gpointer dummy)
+{
+	GtkComboText *ct = GTK_COMBO_TEXT (w);
+
+	if (ct->cached_entry)
+		gtk_widget_set_state (ct->cached_entry, ct->cache_mouse_state);
+	ct->cached_entry = NULL;
+
+	return FALSE;
 }
 
 void
@@ -147,6 +165,7 @@ gtk_combo_text_construct (GtkComboText *ct, gboolean const is_scrolled)
 
 	/* Probably irrelevant, but lets be careful */
 	ct->cache_mouse_state = GTK_STATE_NORMAL;
+	ct->cached_entry = NULL;
 
 	entry = ct->entry = gtk_entry_new ();
 	list = ct->list = gtk_list_new ();
@@ -173,5 +192,8 @@ gtk_combo_text_new (gboolean const is_scrolled)
 
 	ct = gtk_type_new (gtk_combo_text_get_type ());
 	gtk_combo_text_construct (ct, is_scrolled);
+	gtk_signal_connect (GTK_OBJECT (ct), "pop_down_done",
+			    GTK_SIGNAL_FUNC (cb_pop_down), NULL);
 	return GTK_WIDGET (ct);
 }
+

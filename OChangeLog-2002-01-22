@@ -1,3 +1,10 @@
+2000-04-09  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook.[ch] (workbook_class_init): Put "cell_changed"
+	signal back in.
+
+	* src/sheet.c (sheet_load_cell_val): Ditto.
+
 2000-04-06  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-style.c (sheet_style_relocate): use range_translate to

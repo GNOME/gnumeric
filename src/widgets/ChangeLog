@@ -1,3 +1,27 @@
+2000-04-09  Jon K Hellan  <hellan@acm.org>
+
+	* gtk-combo-text.[ch]: Fix problem with mouseover: Mouseover from
+	last time popup was up persists if popup was last dismissed with
+	Escape. 
+	
+	* gtk-combo-text.h (_GtkComboText): Add member to remember which
+	entry widget we are caching.
+
+	* gtk-combo-text.c (gtk_combo_text_destroy): Disconnect
+	cb_pop_down.
+	(cb_enter): Remember which entry widget we are caching.
+	(cb_pop_down): New callback function. Forget cached entry widget.
+	(gtk_combo_text_construct): Note that we're not yet caching any
+	entry widget.
+	(gtk_combo_text_new): Connect cb_pop_down to pop_down_done.
+
+	* gtk-combo-box.c (gtk_combo_popup_tear_off): Add missing cast to
+	kill warning.
+	(gtk_combo_tearoff_bg_copy): It's not in use. #ifdef 0 it, and add
+	comment about when it would be needed.
+	(gtk_combo_popup_reparent): Add FIXME comment about code which
+	isn't used, but will be needed.
+
 2000-04-07  Morten Welinder  <terra@diku.dk>
 
 	* widget-pixmap-combo.c (pixmap_combo_destroy): Unref, not destroy.
