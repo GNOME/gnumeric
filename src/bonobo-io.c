@@ -2,7 +2,7 @@
  * bonobo-io.c: Workbook IO using Bonobo storages.
  *
  * Author:
- *   Michael Meeks <michael@helixcode.com>
+ *   Michael Meeks <michael@ximian.com>
  *
  * Copyright 2000, Helix Code, Inc.
  */
