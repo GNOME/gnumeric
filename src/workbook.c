@@ -2452,6 +2452,10 @@ sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet)
 		workbook_expr_unrelocate_free (workbook_expr_relocate (wb, &rinfo));
 	}
 
+	/* Clear the cliboard to avoid dangling references to the deleted sheet */
+	if (current_sheet == application_clipboard_sheet_get ())
+		application_clipboard_clear ();
+
 	/*
 	 * All is fine, remove the sheet
 	 */

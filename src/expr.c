@@ -1415,6 +1415,11 @@ cellref_relocate (CellRef * const ref,
 		(rinfo->origin_sheet == pos->sheet) &&
 		range_contains (&rinfo->origin, pos->eval.col, pos->eval.row);
 
+	/* All references should be valid initially.  We assume that later. */
+	if (col < 0 || col >= SHEET_MAX_COLS ||
+	    row < 0 || row >= SHEET_MAX_ROWS)
+		return CELLREF_RELOCATE_ERR;
+
 	/* Case (a) */
 	if (!from_inside && !to_inside)
 		return CELLREF_NO_RELOCATE;

@@ -2516,6 +2516,10 @@ sheet_destroy (Sheet *sheet)
 
 	sheet_destroy_contents (sheet);
 
+	/* Clear the cliboard to avoid dangling references to the deleted sheet */
+	if (sheet == application_clipboard_sheet_get ())
+		application_clipboard_clear ();
+
 	dependency_data_destroy (sheet);
 	sheet->deps = NULL;
 
