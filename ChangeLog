@@ -1,3 +1,10 @@
+2002-05-22  Jody Goldberg <jody@gnome.org>
+
+	* src/clipboard.c (clipboard_paste_region) : remove
+	  PASTE_EXPR_RELOCATE.  It was added so that sorting cells with
+	  relative references would change, but it was not well considered and
+	  causes breakage.
+
 2002-05-21  Morten Welinder  <terra@diku.dk>
 
 	* src/func-builtin.c (func_builtin_init, shutdown_cat): Use plain

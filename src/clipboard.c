@@ -378,18 +378,9 @@ clipboard_paste_region (WorkbookControl *wbc,
 			rwinfo.type = GNM_EXPR_REWRITE_RELOCATE;
 			rinfo = &rwinfo.u.relocate;
 			rinfo->origin_sheet = rinfo->target_sheet = pt->sheet;
-
-			if (pt->paste_flags & PASTE_EXPR_RELOCATE) {
-				rinfo->origin.start = content->base;
-				rinfo->origin.end.col = content->base.col + content->cols - 1;
-				rinfo->origin.end.row = content->base.row + content->rows - 1;
-				rinfo->col_offset = left - content->base.col;
-				rinfo->row_offset = top - content->base.row;
-			} else {
-				rinfo->origin = pt->range;
-				rinfo->col_offset = 0;
-				rinfo->row_offset = 0;
-			}
+			rinfo->origin = pt->range;
+			rinfo->col_offset = 0;
+			rinfo->row_offset = 0;
 
 			/* Move the styles on here so we get correct formats before recalc */
 			if (pt->paste_flags & PASTE_FORMATS) {
@@ -435,13 +426,8 @@ clipboard_paste_region (WorkbookControl *wbc,
 				}
 
 				rinfo->pos.sheet = pt->sheet;
-				if (pt->paste_flags & PASTE_EXPR_RELOCATE) {
-					rinfo->pos.eval.col = content->base.col + c_copy->col_offset;
-					rinfo->pos.eval.row = content->base.row + c_copy->row_offset;
-				} else {
-					rinfo->pos.eval.col = target_col;
-					rinfo->pos.eval.row = target_row;
-				}
+				rinfo->pos.eval.col = target_col;
+				rinfo->pos.eval.row = target_row;
 
 				paste_cell (pt->sheet, target_col, target_row,
 					    &rwinfo, c_copy, pt->paste_flags);

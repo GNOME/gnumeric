@@ -18,22 +18,20 @@ enum {
 	/* Whether the paste transposes or not */
 	PASTE_TRANSPOSE		= 1 << 8,
 
-	PASTE_EXPR_RELOCATE	= 1 << 9,
-
-	PASTE_LINK              = 1 << 10,
+	PASTE_LINK              = 1 << 9,
 
 	/* If copying a range that includes blank cells, this
 	   prevents pasting blank cells over existing data */
-	PASTE_SKIP_BLANKS       = 1 << 11,
+	PASTE_SKIP_BLANKS       = 1 << 10,
 
 	/* Do not paste merged regions (probably not needed) */
-	PASTE_DONT_MERGE        = 1 << 12,
+	PASTE_DONT_MERGE        = 1 << 11,
 
 	/* Do not clear comments */
-	PASTE_IGNORE_COMMENTS   = 1 << 13,
+	PASTE_IGNORE_COMMENTS   = 1 << 12,
 
 	/* Update the row height when pasting? (for large fonts, etc.) */
-	PASTE_UPDATE_ROW_HEIGHT = 1 << 14
+	PASTE_UPDATE_ROW_HEIGHT = 1 << 13
 };
 
 #define PASTE_ALL_TYPES (PASTE_CONTENT | PASTE_FORMATS | PASTE_COMMENTS)
