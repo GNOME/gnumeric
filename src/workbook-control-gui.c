@@ -4619,6 +4619,7 @@ static gchar *send_menu_item_i18n[] = {N_("Send"), N_("Send the current file in 
 #endif
 #endif
 
+#ifdef WITH_BONOBO
 static void
 custom_uic_destroy (gpointer data)
 {
@@ -4627,6 +4628,7 @@ custom_uic_destroy (gpointer data)
 	bonobo_ui_component_unset_container (uic, NULL);
 	bonobo_object_unref (BONOBO_OBJECT (uic));
 }
+#endif
 
 void
 workbook_control_gui_init (WorkbookControlGUI *wbcg,

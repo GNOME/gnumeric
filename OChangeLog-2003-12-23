@@ -1,5 +1,14 @@
 2002-08-17  Jon K Hellan  <hellan@acm.org>
 
+	* src/workbook-control-gui.c (custom_uic_destroy): #ifdef
+	WITH_BONOBO.
+
+	* src/item-grid.c (item_grid_draw): Fix typo.
+
+	* src/print-cell.c (print_cell_range): Ditto.
+
+2002-08-17  Jon K Hellan  <hellan@acm.org>
+
 	* configure.in: Make bonobo version link with libgsf-gnome-1.
 
 	* src/Makefile.am (gnumeric_LDADD): Ditto.

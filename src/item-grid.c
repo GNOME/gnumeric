@@ -658,7 +658,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		g_slist_free (merged_used);
 	if (merged_active_seen != NULL) /* ranges whose bottoms are below the view */
 		g_slist_free (merged_active_seen);
-	if (merged_unused != NULL);	/* merges in hidden rows */
+	if (merged_unused != NULL)	/* merges in hidden rows */
 		g_slist_free (merged_unused);
 	g_return_if_fail (merged_active == NULL);
 }
