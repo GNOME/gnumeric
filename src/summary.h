@@ -19,11 +19,13 @@ typedef enum { SUMMARY_STRING, SUMMARY_INT, SUMMARY_TIME } SummaryItemType;
 typedef enum { SUMMARY_I_TITLE,
 	       SUMMARY_I_SUBJECT,
 	       SUMMARY_I_AUTHOR,
+	       SUMMARY_I_KEYWORDS,
+	       SUMMARY_I_COMMENTS,
+	       SUMMARY_I_TEMPLATE,
+	       SUMMARY_I_LASTAUTHOR,
 	       SUMMARY_I_MANAGER,
 	       SUMMARY_I_CATEGORY,
-	       SUMMARY_I_KEYWORDS,
 	       SUMMARY_I_APP,
-	       SUMMARY_I_COMMENTS,
 	       SUMMARY_I_MAX } SummaryItemBuiltin;
 
 /* Builtin names: use summary_item_name[SUMMARY_I_TITLE] */

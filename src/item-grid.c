@@ -16,6 +16,7 @@
 #include "cursors.h"
 #include "gnumeric-util.h"
 #include "clipboard.h"
+#include "main.h"
 
 static GnomeCanvasItem *item_grid_parent_class;
 
@@ -40,14 +41,31 @@ item_grid_destroy (GtkObject *object)
 		(*GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)(object);
 }
 
+struct {
+	gint         width;
+	GdkLineStyle style;
+} static style_border_data[] = {
+	{ 0, GDK_LINE_SOLID },
+	{ 1, GDK_LINE_SOLID },
+	{ 2, GDK_LINE_SOLID },
+	{ 1, GDK_LINE_DOUBLE_DASH },
+	{ 1, GDK_LINE_ON_OFF_DASH },
+	{ 3, GDK_LINE_SOLID },
+	{ 4, GDK_LINE_SOLID },
+	{ 1, GDK_LINE_DOUBLE_DASH },
+	{ 1, GDK_LINE_ON_OFF_DASH },	
+	{ -1, GDK_LINE_SOLID} /* heffalump trap */
+};
+
 static void
 item_grid_realize (GnomeCanvasItem *item)
 {
 	GnomeCanvas *canvas = item->canvas;
 	GdkVisual *visual;
 	GdkWindow *window;
-	ItemGrid *item_grid;
-	GdkGC *gc;
+	ItemGrid  *item_grid;
+	GdkGC     *gc;
+	gint       i;
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)(item);
@@ -65,12 +83,27 @@ item_grid_realize (GnomeCanvasItem *item)
 	item_grid->grid_color = gs_light_gray;
 	item_grid->default_color = gs_black;
 
+	for (i = 0; i < BORDER_MAX; i++) {
+		GdkGC *b_gc = gdk_gc_new (window);
+
+		if (style_border_data[i].width < 0)
+			g_warning ("Serious style error");
+
+		gdk_gc_set_line_attributes (b_gc, style_border_data[i].width,
+					    style_border_data[i].style,
+					    GDK_CAP_BUTT, GDK_JOIN_MITER);
+
+		gdk_gc_set_foreground (b_gc, &item_grid->default_color);
+		gdk_gc_set_background (b_gc, &item_grid->background);
+
+		item_grid->border_gc[i] = b_gc;
+	}
+
 	gdk_gc_set_foreground (gc, &item_grid->grid_color);
 	gdk_gc_set_background (gc, &item_grid->background);
 
 	gdk_gc_set_foreground (item_grid->fill_gc, &item_grid->background);
 	gdk_gc_set_background (item_grid->fill_gc, &item_grid->grid_color);
-
 
 	/* Find out how we need to draw the selection with the current visual */
 	visual = gtk_widget_get_visual (GTK_WIDGET (canvas));
@@ -91,6 +124,7 @@ static void
 item_grid_unrealize (GnomeCanvasItem *item)
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
+	gint i;
 
 	gdk_gc_unref (item_grid->grid_gc);
 	gdk_gc_unref (item_grid->fill_gc);
@@ -98,6 +132,9 @@ item_grid_unrealize (GnomeCanvasItem *item)
 	item_grid->grid_gc = 0;
 	item_grid->fill_gc = 0;
 	item_grid->gc = 0;
+
+	for (i = 0; i < BORDER_MAX; i++)
+		gdk_gc_unref (item_grid->border_gc[i]);
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)(item);
@@ -214,6 +251,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 {
 	GdkGC       *gc     = item_grid->gc;
 	int         count;
+	int         w, h;
 
 	/* setup foreground */
 	gdk_gc_set_foreground (gc, &item_grid->default_color);
@@ -229,6 +267,8 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	}
 
 
+	w = cell->col->pixels;
+	h = cell->row->pixels;
 	if ((cell->style->valid_flags & STYLE_PATTERN) && cell->style->pattern){
 #if 0
 		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
@@ -242,11 +282,42 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 		gdk_gc_set_fill (gc, GDK_STIPPLED);
 #endif
 		gdk_draw_rectangle (drawable, gc, TRUE,
-				    x1, y1,
-				    cell->col->pixels,
-				    cell->row->pixels);
+				    x1, y1, w, h);
+				    
 		gdk_gc_set_fill (gc, GDK_SOLID);
 		gdk_gc_set_stipple (gc, NULL);
+	}
+
+	if ((gnumeric_debugging > 0) &&
+	    (cell->style->valid_flags & STYLE_BORDER) &&
+	    cell->style->border) {
+		StyleBorder     *b = cell->style->border;
+		GdkGC           *gc;
+		StyleBorderType  t;
+
+		t = b->type[STYLE_TOP];
+		if (t != BORDER_NONE) {
+			gc = item_grid->border_gc[b->type[STYLE_TOP]];
+			gdk_draw_line (drawable, gc, x1, y1, x1 + w, y1);
+		}
+
+		t = b->type[STYLE_BOTTOM];
+		if (t != BORDER_NONE) {
+			gc = item_grid->border_gc[b->type[STYLE_BOTTOM]];
+			gdk_draw_line (drawable, gc, x1, y1 + h, x1 + w, y1 + h);
+		}
+
+		t = b->type[STYLE_LEFT];
+		if (t != BORDER_NONE) {
+			gc = item_grid->border_gc[b->type[STYLE_LEFT]];
+			gdk_draw_line (drawable, gc, x1, y1, x1, y1 + h);
+		}
+
+		t = b->type[STYLE_RIGHT];
+		if (t != BORDER_NONE) {
+			gc = item_grid->border_gc[b->type[STYLE_RIGHT]];
+			gdk_draw_line (drawable, gc, x1 + w, y1, x1 + w, y1 + h);
+		}
 	}
 
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
@@ -258,7 +329,7 @@ static void
 item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
-	Sheet *sheet = item_grid->sheet;
+	Sheet *sheet   = item_grid->sheet;
 	GdkGC *grid_gc = item_grid->grid_gc;
 	Cell  *cell;
 	int end_x, end_y;

@@ -9,6 +9,9 @@ Michael
 	* New style support so we can do
 		* Colours
 		* Fonts etc.
+	* Summary:
+		* implement & test summary write,
+		* beef up the number of recognised tokens
 	* Cell borders...
 	* Sort out biff padding =>
 	* Sort out better versioning scheme & helper macros.

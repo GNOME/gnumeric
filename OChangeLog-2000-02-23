@@ -1,3 +1,12 @@
+1999-07-28  Michael Meeks  <michael@edenproject.org>
+
+	* src/item-grid.h: Added border_gc[BORDER_MAX] to ItemGrid.
+
+	* src/item-grid.c (item_grid_draw_cell): Border rendering code.
+	Make rendering conditional on debug - this looks awful.
+	(item_grid_realize): ditto + struct of types in style_border_data.
+	(item_grid_unrealize): clean up after myself.
+
 1999-07-27  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/fn-date.c : Add EOMONTH, and partial WORKDAY.
