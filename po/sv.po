@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-05-15 08:40+0200\n"
-"PO-Revision-Date: 2003-05-15 08:41+0200\n"
+"POT-Creation-Date: 2003-05-16 10:17+0200\n"
+"PO-Revision-Date: 2003-05-16 10:19+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -19374,7 +19374,7 @@ msgid "_Regression"
 msgstr "_Regression"
 
 #: src/GNOME_Gnumeric.xml.h:316 src/dialogs/autocorrect.glade.h:13
-#: src/dialogs/dialog-stf.glade.h:66 src/dialogs/pivottable.glade.h:12
+#: src/dialogs/dialog-stf.glade.h:69 src/dialogs/pivottable.glade.h:12
 #: src/workbook-control-gui.c:3346
 msgid "_Remove"
 msgstr "_Ta bort"
@@ -20683,7 +20683,7 @@ msgid "Re_place:"
 msgstr "Ers_ätt:"
 
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/consolidate.glade.h:26
-#: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:6
+#: src/dialogs/dialog-stf.glade.h:64 src/dialogs/names.glade.h:6
 #: src/dialogs/solver.glade.h:27
 msgid "_Add"
 msgstr "_Lägg till"
@@ -20985,8 +20985,8 @@ msgid "Cust_om"
 msgstr "_Anpassad"
 
 #: src/dialogs/cell-format.glade.h:28 src/dialogs/dialog-stf-export.glade.h:17
-#: src/dialogs/dialog-stf-format-page.c:190
-#: src/dialogs/dialog-stf-format-page.c:399
+#: src/dialogs/dialog-stf-format-page.c:213
+#: src/dialogs/dialog-stf-format-page.c:424
 msgid "Custom"
 msgstr "Anpassad"
 
@@ -21550,7 +21550,7 @@ msgstr "Var (stickprov)"
 msgid "Varp (population)"
 msgstr "Varp (population)"
 
-#: src/dialogs/consolidate.glade.h:27 src/dialogs/dialog-stf.glade.h:63
+#: src/dialogs/consolidate.glade.h:27 src/dialogs/dialog-stf.glade.h:66
 msgid "_Clear"
 msgstr "_Töm"
 
@@ -23189,7 +23189,7 @@ msgstr "Radslut:"
 msgid "Macintosh (carriage return)"
 msgstr "Macintosh (vagnretur)"
 
-#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:36
+#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:37
 msgid "Never"
 msgstr "Aldrig"
 
@@ -23253,7 +23253,7 @@ msgstr "Okända tecken:"
 msgid "Windows (carriage return + linefeed)"
 msgstr "Windows (vagnretur + radmatning)"
 
-#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:69
+#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:72
 msgid "`"
 msgstr "\""
 
@@ -23262,16 +23262,16 @@ msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr ""
 "Automatisk upptäckt hittade inte några kolumner i texten. Försök manuellt"
 
-#: src/dialogs/dialog-stf-main-page.c:101
+#: src/dialogs/dialog-stf-main-page.c:112
 #, c-format
-msgid "%d lines to import"
-msgstr "%d rader att importera"
+msgid "%d of %d lines to import"
+msgstr "%d av %d rader att importera"
 
-#: src/dialogs/dialog-stf-main-page.c:247
+#: src/dialogs/dialog-stf-main-page.c:298
 msgid "LINES TOO LONG!"
 msgstr "RADER FÖR LÅNGA!"
 
-#: src/dialogs/dialog-stf-main-page.c:274
+#: src/dialogs/dialog-stf-main-page.c:325
 #, c-format
 msgid "Data (from %s)"
 msgstr "Data (från %s)"
@@ -23315,11 +23315,11 @@ msgstr "An_passad"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid ""
-"Character interpreted as quote character. If the separation character is "
-"encountered within quotes it will be ignored."
+"Character interpreted as quote character. If a termination or separation "
+"character is encountered within quotes it will be ignored."
 msgstr ""
-"Tecken som tolkas som citattecken. Om skiljetecknet finns mellan citattecken "
-"kommer det att ignoreras."
+"Tecken tolkas som citattecken. Om skiljetecken eller termineringstecken "
+"finns mellan citattecken kommer det att ignoreras."
 
 #: src/dialogs/dialog-stf.glade.h:12
 msgid "Clear list of columns"
@@ -23398,22 +23398,18 @@ msgid "Formatting for the selected column"
 msgstr "Formateringen på den markerade cellen"
 
 #: src/dialogs/dialog-stf.glade.h:29
-msgid "Formatting options"
-msgstr "Alternativ för formatering"
-
-#: src/dialogs/dialog-stf.glade.h:30
 msgid "Fr_om line:"
 msgstr "Fr_ån rad:"
 
-#: src/dialogs/dialog-stf.glade.h:31
+#: src/dialogs/dialog-stf.glade.h:30
 msgid "H_yphen (-)"
 msgstr "B_indestreck (-)"
 
-#: src/dialogs/dialog-stf.glade.h:32
+#: src/dialogs/dialog-stf.glade.h:31
 msgid "Importing structured text"
 msgstr "Importerar strukturerad text"
 
-#: src/dialogs/dialog-stf.glade.h:33
+#: src/dialogs/dialog-stf.glade.h:32
 msgid ""
 "Left click to create a new column, right click on a column border to delete "
 "an existing column or hold the left mouse button on a column border and drag "
@@ -23423,67 +23419,79 @@ msgstr ""
 "att ta bort en existerande kolumn, eller håll vänster musknapp på en "
 "kolumnkant och dra för att ändra storlek på en kolumn."
 
+#: src/dialogs/dialog-stf.glade.h:33
+msgid "Line terminators"
+msgstr "Radslut"
+
 #: src/dialogs/dialog-stf.glade.h:34
 msgid "Lines to import"
 msgstr "Rader att importera"
 
 #: src/dialogs/dialog-stf.glade.h:35
+msgid "List of characters that separate lines (unless quoted)."
+msgstr "Lista på tecken som separerar rader (om inte citerade)"
+
+#: src/dialogs/dialog-stf.glade.h:36
 msgid "Misc"
 msgstr "Övrigt"
 
-#: src/dialogs/dialog-stf.glade.h:37
+#: src/dialogs/dialog-stf.glade.h:38
 msgid "Number of lines to import"
 msgstr "Antal rader att importera"
 
-#: src/dialogs/dialog-stf.glade.h:38
+#: src/dialogs/dialog-stf.glade.h:39
 msgid "On left side only"
 msgstr "Endast på vänster sida"
 
-#: src/dialogs/dialog-stf.glade.h:39
+#: src/dialogs/dialog-stf.glade.h:40
 msgid "On right side only"
 msgstr "Endast på höger sida"
 
-#: src/dialogs/dialog-stf.glade.h:40
+#: src/dialogs/dialog-stf.glade.h:41
 msgid "Original data type:"
 msgstr "Ursprunglig datatyp:"
 
-#: src/dialogs/dialog-stf.glade.h:41
+#: src/dialogs/dialog-stf.glade.h:42
+msgid "Overall formatting"
+msgstr "Generell formatering"
+
+#: src/dialogs/dialog-stf.glade.h:43
 msgid "P_ipe (|)"
 msgstr "R_ör (|)"
 
-#: src/dialogs/dialog-stf.glade.h:42
+#: src/dialogs/dialog-stf.glade.h:44
 msgid "Per column formatting"
 msgstr "Formatering per kolumn"
 
-#: src/dialogs/dialog-stf.glade.h:43
+#: src/dialogs/dialog-stf.glade.h:45
 msgid "Processing ends at this line, any subsequent lines will be ignored."
 msgstr ""
 "Bearbetning slutar vid denna rad, alla efterföljande rader kommer att "
 "ignoreras."
 
-#: src/dialogs/dialog-stf.glade.h:44
+#: src/dialogs/dialog-stf.glade.h:46
 msgid "Remove selected column"
 msgstr "Ta bort markerade kolumn"
 
-#: src/dialogs/dialog-stf.glade.h:45
+#: src/dialogs/dialog-stf.glade.h:47
 msgid "S_ee two separators as one"
 msgstr "B_etrakta två avskiljare som en"
 
-#: src/dialogs/dialog-stf.glade.h:46
+#: src/dialogs/dialog-stf.glade.h:48
 msgid "S_pace"
 msgstr "Mellansla_g"
 
-#: src/dialogs/dialog-stf.glade.h:47
+#: src/dialogs/dialog-stf.glade.h:49
 msgid "See two successive separators as one."
 msgstr "Betrakta två efterföljande avskiljare som en."
 
-#: src/dialogs/dialog-stf.glade.h:48
+#: src/dialogs/dialog-stf.glade.h:50
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 "Betrakta två efterföljande textindikatorer som en som inte avslutar cellen."
 
-#: src/dialogs/dialog-stf.glade.h:49
+#: src/dialogs/dialog-stf.glade.h:51
 msgid ""
 "Select the format for each column. You can click in the column list on the "
 "left or in the example to select a column. You can then enter a custom "
@@ -23493,7 +23501,7 @@ msgstr ""
 "vänster eller i exemplet för att välja en kolumn. Du kan sedan ange ett "
 "anpassat format eller välja ett från listan till höger."
 
-#: src/dialogs/dialog-stf.glade.h:50
+#: src/dialogs/dialog-stf.glade.h:52
 msgid ""
 "Select the separators that appear in the text (you can choose multiple "
 "separators if desired and also enter a custom one)"
@@ -23501,39 +23509,43 @@ msgstr ""
 "Välj de avskiljare som finns i texten (du kan välja flera avskiljare om så "
 "önskas och också ange en anpassad)"
 
-#: src/dialogs/dialog-stf.glade.h:51
+#: src/dialogs/dialog-stf.glade.h:53
 msgid "Select the structure of the text that most closely matches the data."
 msgstr "Välj strukturen på texten som bäst överensstämmer med datan."
 
-#: src/dialogs/dialog-stf.glade.h:52
+#: src/dialogs/dialog-stf.glade.h:54
 msgid "Semicolo_n (;)"
 msgstr "Semikolo_n (;)"
 
-#: src/dialogs/dialog-stf.glade.h:53
+#: src/dialogs/dialog-stf.glade.h:55
 msgid "Separation customization"
 msgstr "Anpassning av avskiljare"
 
-#: src/dialogs/dialog-stf.glade.h:54
+#: src/dialogs/dialog-stf.glade.h:56
 msgid "Separators"
 msgstr "Avskiljare"
 
-#: src/dialogs/dialog-stf.glade.h:55
+#: src/dialogs/dialog-stf.glade.h:57
 msgid "Set the end of this column"
 msgstr "Ställ in slutet på denna kolumn"
 
-#: src/dialogs/dialog-stf.glade.h:56
+#: src/dialogs/dialog-stf.glade.h:58
 msgid "Slas_h (/)"
 msgstr "Sne_dstreck (/)"
 
-#: src/dialogs/dialog-stf.glade.h:57
+#: src/dialogs/dialog-stf.glade.h:59
+msgid "Source Format"
+msgstr "Källformat"
+
+#: src/dialogs/dialog-stf.glade.h:60
 msgid "Ta_b"
 msgstr "Ta_bb"
 
-#: src/dialogs/dialog-stf.glade.h:58
+#: src/dialogs/dialog-stf.glade.h:61
 msgid "Te_xt indicator: "
 msgstr "Te_xtindikator: "
 
-#: src/dialogs/dialog-stf.glade.h:59
+#: src/dialogs/dialog-stf.glade.h:62
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting."
@@ -23541,27 +23553,27 @@ msgstr ""
 "Plocka bort inledande och avslutande blanksteg från varje kolumn, om du är "
 "osäker bör du låta detta alternativ vara kvar vid sin standardinställning."
 
-#: src/dialogs/dialog-stf.glade.h:60
+#: src/dialogs/dialog-stf.glade.h:63
 msgid "Trim:"
 msgstr "Plocka bort:"
 
-#: src/dialogs/dialog-stf.glade.h:62
+#: src/dialogs/dialog-stf.glade.h:65
 msgid "_Adjacent text indicators escaped"
 msgstr "_Intilliggande textindikatorer med escape-tecken"
 
-#: src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf.glade.h:67
 msgid "_Colon (:)"
 msgstr "_Kolon (:)"
 
-#: src/dialogs/dialog-stf.glade.h:65
+#: src/dialogs/dialog-stf.glade.h:68
 msgid "_Format:"
 msgstr "_Format:"
 
-#: src/dialogs/dialog-stf.glade.h:67
+#: src/dialogs/dialog-stf.glade.h:70
 msgid "_Separated"
 msgstr "_Åtskiljda"
 
-#: src/dialogs/dialog-stf.glade.h:68
+#: src/dialogs/dialog-stf.glade.h:71
 msgid "_To line: "
 msgstr "_Till rad: "
 
@@ -28276,405 +28288,403 @@ msgstr "#OMKALK!"
 msgid "Expecting a single range"
 msgstr "Förväntar sammanhängande område"
 
-#: src/widgets/widget-charmap-selector.c:80
+#: src/widgets/widget-charmap-selector.c:69
 msgid "Arabic"
 msgstr "Arabiska"
 
-#: src/widgets/widget-charmap-selector.c:81
+#: src/widgets/widget-charmap-selector.c:70
 msgid "Baltic"
 msgstr "Baltiska"
 
-#: src/widgets/widget-charmap-selector.c:82
+#: src/widgets/widget-charmap-selector.c:71
 msgid "Central European"
 msgstr "Centraleuropeiska"
 
-#: src/widgets/widget-charmap-selector.c:83
+#: src/widgets/widget-charmap-selector.c:72
 msgid "Chinese"
 msgstr "Chinesiska"
 
-#: src/widgets/widget-charmap-selector.c:84
+#: src/widgets/widget-charmap-selector.c:73
 msgid "Cyrillic"
 msgstr "Kyrilliska"
 
-#: src/widgets/widget-charmap-selector.c:85
+#: src/widgets/widget-charmap-selector.c:74
 msgid "Greek"
 msgstr "Grekiska"
 
-#: src/widgets/widget-charmap-selector.c:86
+#: src/widgets/widget-charmap-selector.c:75
 msgid "Hebrew"
 msgstr "Hebreiska"
 
-#: src/widgets/widget-charmap-selector.c:87
+#: src/widgets/widget-charmap-selector.c:76
 msgid "Indian"
 msgstr "Indiska"
 
-#: src/widgets/widget-charmap-selector.c:88
+#: src/widgets/widget-charmap-selector.c:77
 msgid "Japanese"
 msgstr "Japanska"
 
-#: src/widgets/widget-charmap-selector.c:89
+#: src/widgets/widget-charmap-selector.c:78
 msgid "Korean"
 msgstr "Koreanska"
 
-#: src/widgets/widget-charmap-selector.c:90
+#: src/widgets/widget-charmap-selector.c:79
 msgid "Turkish"
 msgstr "Turkiska"
 
-#: src/widgets/widget-charmap-selector.c:91
+#: src/widgets/widget-charmap-selector.c:80
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/widgets/widget-charmap-selector.c:92
+#: src/widgets/widget-charmap-selector.c:81
 msgid "Vietnamese"
 msgstr "Vietnamesiska"
 
-#: src/widgets/widget-charmap-selector.c:93
+#: src/widgets/widget-charmap-selector.c:82
 msgid "Western"
 msgstr "Västlig"
 
-#: src/widgets/widget-charmap-selector.c:94
+#: src/widgets/widget-charmap-selector.c:83
 msgid "Other"
 msgstr "Annan"
 
-#: src/widgets/widget-charmap-selector.c:108
+#: src/widgets/widget-charmap-selector.c:113
 msgid "Arabic (IBM-864)"
 msgstr "Arabiska (IBM-864)"
 
-#: src/widgets/widget-charmap-selector.c:109
+#: src/widgets/widget-charmap-selector.c:114
 msgid "Arabic (IBM-864-I)"
 msgstr "Arabiska (IBM-864-I)"
 
-#: src/widgets/widget-charmap-selector.c:110
+#: src/widgets/widget-charmap-selector.c:115
 msgid "Arabic (ISO-8859-6)"
 msgstr "Arabiska (ISO-8859-6)"
 
-#: src/widgets/widget-charmap-selector.c:111
+#: src/widgets/widget-charmap-selector.c:116
 msgid "Arabic (ISO-8859-6-E)"
 msgstr "Arabiska (ISO-8859-6-E)"
 
-#: src/widgets/widget-charmap-selector.c:113
+#: src/widgets/widget-charmap-selector.c:118
 msgid "Arabic (ISO-8859-6-I)"
 msgstr "Arabiska (ISO-8859-6-I)"
 
-#: src/widgets/widget-charmap-selector.c:114
+#: src/widgets/widget-charmap-selector.c:119
 msgid "Arabic (MacArabic)"
 msgstr "Arabiska (MacArabic)"
 
-#: src/widgets/widget-charmap-selector.c:115
+#: src/widgets/widget-charmap-selector.c:120
 msgid "Arabic (Windows-1256)"
 msgstr "Arabiska (Windows-1256)"
 
-#: src/widgets/widget-charmap-selector.c:116
+#: src/widgets/widget-charmap-selector.c:121
 msgid "Armenian (ARMSCII-8)"
 msgstr "Armeniska (ARMSCII-8)"
 
-#: src/widgets/widget-charmap-selector.c:117
+#: src/widgets/widget-charmap-selector.c:122
 msgid "Baltic (ISO-8859-13)"
 msgstr "Baltiska (ISO-8859-13)"
 
-#: src/widgets/widget-charmap-selector.c:118
+#: src/widgets/widget-charmap-selector.c:123
 msgid "Baltic (ISO-8859-4)"
 msgstr "Baltiska (ISO-8859-4)"
 
-#: src/widgets/widget-charmap-selector.c:119
+#: src/widgets/widget-charmap-selector.c:124
 msgid "Baltic (Windows-1257)"
 msgstr "Baltiska (Windows-1257)"
 
-#: src/widgets/widget-charmap-selector.c:120
+#: src/widgets/widget-charmap-selector.c:125
 msgid "Celtic (ISO-8859-14)"
 msgstr "Keltiska (ISO-8859-14)"
 
-#: src/widgets/widget-charmap-selector.c:121
+#: src/widgets/widget-charmap-selector.c:126
 msgid "Central European (IBM-852)"
 msgstr "Centraleuropeiska (IBM-852)"
 
-#: src/widgets/widget-charmap-selector.c:122
+#: src/widgets/widget-charmap-selector.c:127
 msgid "Central European (ISO-8859-2)"
 msgstr "Celntraleuropeiska (ISO-8859-2)"
 
-#: src/widgets/widget-charmap-selector.c:123
+#: src/widgets/widget-charmap-selector.c:128
 msgid "Central European (MacCE)"
 msgstr "Centraleuropeiska (MacCE)"
 
-#: src/widgets/widget-charmap-selector.c:124
+#: src/widgets/widget-charmap-selector.c:129
 msgid "Central European (Windows-1250)"
 msgstr "Centraleuropeiska (Windows-1250)"
 
-#: src/widgets/widget-charmap-selector.c:125
+#: src/widgets/widget-charmap-selector.c:130
 msgid "Chinese Simplified (GB18030)"
 msgstr "Kinesiska förenklad (GB18030)"
 
-#: src/widgets/widget-charmap-selector.c:126
+#: src/widgets/widget-charmap-selector.c:131
 msgid "Chinese Simplified (GB2312)"
 msgstr "Kinesiska förenklad (GB2312)"
 
-#: src/widgets/widget-charmap-selector.c:127
+#: src/widgets/widget-charmap-selector.c:132
 msgid "Chinese Simplified (GBK)"
 msgstr "Kinesiska förenklad (GBK)"
 
-#: src/widgets/widget-charmap-selector.c:128
+#: src/widgets/widget-charmap-selector.c:133
 msgid "Chinese Simplified (HZ)"
 msgstr "Kinesiska förenklad (HZ)"
 
-#: src/widgets/widget-charmap-selector.c:129
+#: src/widgets/widget-charmap-selector.c:134
 msgid "Chinese Simplified (Windows-936)"
 msgstr "Kinesiska förenklad (Windows-936)"
 
-#: src/widgets/widget-charmap-selector.c:130
+#: src/widgets/widget-charmap-selector.c:135
 msgid "Chinese Traditional (Big5)"
 msgstr "Kinesiska traditionell (Big5)"
 
-#: src/widgets/widget-charmap-selector.c:131
+#: src/widgets/widget-charmap-selector.c:136
 msgid "Chinese Traditional (Big5-HKSCS)"
 msgstr "Kinesiska traditionell (Big5-HKSCS)"
 
-#: src/widgets/widget-charmap-selector.c:132
+#: src/widgets/widget-charmap-selector.c:137
 msgid "Chinese Traditional (EUC-TW)"
 msgstr "Kinesiska traditionell (EUC-TW)"
 
-#: src/widgets/widget-charmap-selector.c:133
+#: src/widgets/widget-charmap-selector.c:138
 msgid "Croatian (MacCroatian)"
 msgstr "Croatiska (MacCroatian)"
 
-#: src/widgets/widget-charmap-selector.c:134
+#: src/widgets/widget-charmap-selector.c:139
 msgid "Cyrillic (IBM-855)"
 msgstr "Kyrilliska (IBM-855)"
 
-#: src/widgets/widget-charmap-selector.c:135
+#: src/widgets/widget-charmap-selector.c:140
 msgid "Cyrillic (ISO-8859-5)"
 msgstr "Kyrilliska (ISO-8859-5)"
 
-#: src/widgets/widget-charmap-selector.c:136
+#: src/widgets/widget-charmap-selector.c:141
 msgid "Cyrillic (ISO-IR-111)"
 msgstr "Kyrilliska (ISO-IR-111)"
 
-#: src/widgets/widget-charmap-selector.c:137
+#: src/widgets/widget-charmap-selector.c:142
 msgid "Cyrillic (KOI8-R)"
 msgstr "Kyrilliska (KOI8-R)"
 
-#: src/widgets/widget-charmap-selector.c:138
+#: src/widgets/widget-charmap-selector.c:143
 msgid "Cyrillic (MacCyrillic)"
 msgstr "Kyrilliska (MacCyrillic)"
 
-#: src/widgets/widget-charmap-selector.c:139
+#: src/widgets/widget-charmap-selector.c:144
 msgid "Cyrillic (Windows-1251)"
 msgstr "Kyrilliska (Windows-1251)"
 
-#: src/widgets/widget-charmap-selector.c:140
+#: src/widgets/widget-charmap-selector.c:145
 msgid "Russian (CP-866)"
 msgstr "Ryska (CP-866)"
 
-#: src/widgets/widget-charmap-selector.c:141
+#: src/widgets/widget-charmap-selector.c:146
 msgid "Ukrainian (KOI8-U)"
 msgstr "Ukrainska (KOI8-U)"
 
-#: src/widgets/widget-charmap-selector.c:142
+#: src/widgets/widget-charmap-selector.c:147
 msgid "Ukrainian (MacUkrainian)"
 msgstr "Ukrainska (MacUkrainian)"
 
-#: src/widgets/widget-charmap-selector.c:143
+#: src/widgets/widget-charmap-selector.c:148
 msgid "English (ASCII)"
 msgstr "Engelska (ASCII)"
 
-#: src/widgets/widget-charmap-selector.c:144
+#: src/widgets/widget-charmap-selector.c:149
 msgid "Farsi (MacFarsi)"
 msgstr "Farsi (MacFarsi)"
 
-#: src/widgets/widget-charmap-selector.c:145
+#: src/widgets/widget-charmap-selector.c:150
 msgid "Georgian (GEOSTD8)"
 msgstr "Georgiska (GEOSTD8)"
 
-#: src/widgets/widget-charmap-selector.c:146
+#: src/widgets/widget-charmap-selector.c:151
 msgid "Greek (ISO-8859-7)"
 msgstr "Grekiska (ISO-8859-7)"
 
-#: src/widgets/widget-charmap-selector.c:147
+#: src/widgets/widget-charmap-selector.c:152
 msgid "Greek (MacGreek)"
 msgstr "Grekiska (MacGreek)"
 
-#: src/widgets/widget-charmap-selector.c:148
+#: src/widgets/widget-charmap-selector.c:153
 msgid "Greek (Windows-1253)"
 msgstr "Grekiska (Windows-1253)"
 
-#: src/widgets/widget-charmap-selector.c:149
+#: src/widgets/widget-charmap-selector.c:154
 msgid "Gujarati (MacGujarati)"
 msgstr "Gujarati (MacGujarati)"
 
-#: src/widgets/widget-charmap-selector.c:150
+#: src/widgets/widget-charmap-selector.c:155
 msgid "Gurmukhi (MacGurmukhi)"
 msgstr "Gurmukhi (MacGurmukhi)"
 
-#: src/widgets/widget-charmap-selector.c:151
+#: src/widgets/widget-charmap-selector.c:156
 msgid "Hebrew (IBM-862)"
 msgstr "Hebreiska (IBM-862)"
 
-#: src/widgets/widget-charmap-selector.c:152
+#: src/widgets/widget-charmap-selector.c:157
 msgid "Hebrew (ISO-8859-8-E)"
 msgstr "Hebreiska (ISO-8859-8-E)"
 
-#: src/widgets/widget-charmap-selector.c:153
+#: src/widgets/widget-charmap-selector.c:158
 msgid "Hebrew (ISO-8859-8-I)"
 msgstr "Hebreiska (ISO-8859-8-I)"
 
-#: src/widgets/widget-charmap-selector.c:154
+#: src/widgets/widget-charmap-selector.c:159
 msgid "Hebrew (MacHebrew)"
 msgstr "Hebreiska (MacHebrew)"
 
-#: src/widgets/widget-charmap-selector.c:155
+#: src/widgets/widget-charmap-selector.c:160
 msgid "Hebrew (Windows-1255)"
 msgstr "Hebreiska (Windows-1253)"
 
-#: src/widgets/widget-charmap-selector.c:156
+#: src/widgets/widget-charmap-selector.c:161
 msgid "Hindi (MacDevanagari)"
 msgstr "Hindi (MacDevanagari)"
 
-#: src/widgets/widget-charmap-selector.c:157
+#: src/widgets/widget-charmap-selector.c:162
 msgid "Icelandic (MacIcelandic)"
 msgstr "Isländska (MacIcelandic)"
 
-#: src/widgets/widget-charmap-selector.c:158
+#: src/widgets/widget-charmap-selector.c:163
 msgid "Japanese (EUC-JP)"
 msgstr "Japanska (EUC-JP)"
 
-#: src/widgets/widget-charmap-selector.c:159
+#: src/widgets/widget-charmap-selector.c:164
 msgid "Japanese (ISO-2022-JP)"
 msgstr "Japanska (ISO-2022-JP)"
 
-#: src/widgets/widget-charmap-selector.c:160
+#: src/widgets/widget-charmap-selector.c:165
 msgid "Japanese (Shift_JIS)"
 msgstr "Japanska (Shift_JIS)"
 
-#: src/widgets/widget-charmap-selector.c:161
+#: src/widgets/widget-charmap-selector.c:166
 msgid "Korean (EUC-KR)"
 msgstr "Koreanska (EUC-KR)"
 
-#: src/widgets/widget-charmap-selector.c:162
+#: src/widgets/widget-charmap-selector.c:167
 msgid "Korean (ISO-2022-KR)"
 msgstr "Koreanska (ISO-2022-KR)"
 
-#: src/widgets/widget-charmap-selector.c:163
+#: src/widgets/widget-charmap-selector.c:168
 msgid "Korean (JOHAB)"
 msgstr "Koreanska (JOHAB)"
 
-#: src/widgets/widget-charmap-selector.c:164
+#: src/widgets/widget-charmap-selector.c:169
 msgid "Korean (UHC)"
 msgstr "Koreanska (UHC)"
 
-#: src/widgets/widget-charmap-selector.c:165
+#: src/widgets/widget-charmap-selector.c:170
 msgid "Nordic (ISO-8859-10)"
 msgstr "Nordiska (ISO-8859-10)"
 
-#: src/widgets/widget-charmap-selector.c:166
+#: src/widgets/widget-charmap-selector.c:171
 msgid "Romanian (MacRomanian)"
 msgstr "Rumänska (MacRomanian)"
 
-#: src/widgets/widget-charmap-selector.c:167
+#: src/widgets/widget-charmap-selector.c:172
 msgid "Romanian (ISO-8859-16)"
 msgstr "Rumänska (ISO-8859-16)"
 
-#: src/widgets/widget-charmap-selector.c:168
+#: src/widgets/widget-charmap-selector.c:173
 msgid "South European (ISO-8859-3)"
 msgstr "Sydeuropeiska (ISO-8859-3)"
 
-#: src/widgets/widget-charmap-selector.c:169
+#: src/widgets/widget-charmap-selector.c:174
 msgid "Thai (TIS-620)"
 msgstr "Thai (TIS-620)"
 
-#: src/widgets/widget-charmap-selector.c:170
+#: src/widgets/widget-charmap-selector.c:175
 msgid "Turkish (IBM-857)"
 msgstr "Turkiska (IBM-857)"
 
-#: src/widgets/widget-charmap-selector.c:171
+#: src/widgets/widget-charmap-selector.c:176
 msgid "Turkish (ISO-8859-9)"
 msgstr "Turkiska (ISO-8859-9)"
 
-#: src/widgets/widget-charmap-selector.c:172
+#: src/widgets/widget-charmap-selector.c:177
 msgid "Turkish (MacTurkish)"
 msgstr "Turkiska (MacTurkish)"
 
-#: src/widgets/widget-charmap-selector.c:173
+#: src/widgets/widget-charmap-selector.c:178
 msgid "Turkish (Windows-1254)"
 msgstr "Turkiska (Windows-1254)"
 
-#: src/widgets/widget-charmap-selector.c:174
+#: src/widgets/widget-charmap-selector.c:179
 msgid "Unicode (UTF-7)"
 msgstr "Unicode (UTF-7)"
 
-#: src/widgets/widget-charmap-selector.c:175
+#: src/widgets/widget-charmap-selector.c:180
 msgid "Unicode (UTF-8)"
 msgstr "Unicode (UTF-8)"
 
-#. Test encoding that surely does not exist.
-#. {"Unicode (UTF-9)",                    "UTF-9",                 LG_UNICODE},
-#: src/widgets/widget-charmap-selector.c:178
+#: src/widgets/widget-charmap-selector.c:181
 msgid "Unicode (UTF-16BE)"
 msgstr "Unicode (UTF-16BE)"
 
-#: src/widgets/widget-charmap-selector.c:179
+#: src/widgets/widget-charmap-selector.c:182
 msgid "Unicode (UTF-16LE)"
 msgstr "Unicode (UTF-16LE)"
 
-#: src/widgets/widget-charmap-selector.c:180
+#: src/widgets/widget-charmap-selector.c:183
 msgid "Unicode (UTF-32BE)"
 msgstr "Unicode (UTF-32BE)"
 
-#: src/widgets/widget-charmap-selector.c:181
+#: src/widgets/widget-charmap-selector.c:184
 msgid "Unicode (UTF-32LE)"
 msgstr "Unicode (UTF-32LE)"
 
-#: src/widgets/widget-charmap-selector.c:182
+#: src/widgets/widget-charmap-selector.c:185
 msgid "User Defined"
 msgstr "Egendefinierad"
 
-#: src/widgets/widget-charmap-selector.c:183
+#: src/widgets/widget-charmap-selector.c:186
 msgid "Vietnamese (TCVN)"
 msgstr "Vietnamesiska (TVCN)"
 
-#: src/widgets/widget-charmap-selector.c:184
+#: src/widgets/widget-charmap-selector.c:187
 msgid "Vietnamese (VISCII)"
 msgstr "Vietnamesiska (VISCII)"
 
-#: src/widgets/widget-charmap-selector.c:185
+#: src/widgets/widget-charmap-selector.c:188
 msgid "Vietnamese (VPS)"
 msgstr "Vietnamesiska (VPS)"
 
-#: src/widgets/widget-charmap-selector.c:186
+#: src/widgets/widget-charmap-selector.c:189
 msgid "Vietnamese (Windows-1258)"
 msgstr "Vietnamesiska (Windows-1258)"
 
-#: src/widgets/widget-charmap-selector.c:187
+#: src/widgets/widget-charmap-selector.c:190
 msgid "Visual Hebrew (ISO-8859-8)"
 msgstr "Visuell Hebreiska (ISO-8859-8)"
 
-#: src/widgets/widget-charmap-selector.c:188
+#: src/widgets/widget-charmap-selector.c:191
 msgid "Western (IBM-850)"
 msgstr "Västlig (IBM-850)"
 
-#: src/widgets/widget-charmap-selector.c:189
+#: src/widgets/widget-charmap-selector.c:192
 msgid "Western (ISO-8859-1)"
 msgstr "Västlig (ISO-8859-1)"
 
-#: src/widgets/widget-charmap-selector.c:190
+#: src/widgets/widget-charmap-selector.c:193
 msgid "Western (ISO-8859-15)"
 msgstr "Västlig (ISO-8859-15)"
 
-#: src/widgets/widget-charmap-selector.c:191
+#: src/widgets/widget-charmap-selector.c:194
 msgid "Western (MacRoman)"
 msgstr "Västlig (MacRoman)"
 
-#: src/widgets/widget-charmap-selector.c:192
+#: src/widgets/widget-charmap-selector.c:195
 msgid "Western (Windows-1252)"
 msgstr "Västlig (Windows-1252)"
 
-#: src/widgets/widget-charmap-selector.c:392
+#: src/widgets/widget-charmap-selector.c:404
 msgid "Locale: "
 msgstr "Locale: "
 
-#: src/widgets/widget-charmap-selector.c:430
+#: src/widgets/widget-charmap-selector.c:444
 msgid "Conversion Direction"
 msgstr "Konverteringsriktning"
 
-#: src/widgets/widget-charmap-selector.c:431
+#: src/widgets/widget-charmap-selector.c:445
 msgid "This value determines which iconv test to perform."
 msgstr "Det här värdet avgör vilket ikonv-test som skall utföras."
 
@@ -29099,6 +29109,9 @@ msgstr "Filen är inte en Gnumeric-arbetsboksfil"
 #: src/xml-io.c:3861
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "Formatting options"
+#~ msgstr "Alternativ för formatering"
 
 #~ msgid "Helvetica"
 #~ msgstr "Helvetica"
