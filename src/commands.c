@@ -3973,16 +3973,11 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdReorganizeSheets, cmd_reorganize_sheets);
 
 static void
-delete_pristine_sheets (gpointer data, gpointer dummy)
+cmd_reorganize_sheets_delete_sheets (gpointer data, gpointer dummy)
 {
 	Sheet *sheet = data;
-	g_return_if_fail (sheet->pristine);
-/*
- * Why only pristine? Suppose we undo this (and rebuild the sheet) the sheet pointer will
- * have changed therefore we would also need to fix all commands that may refer to that 
- * sheet pointer... 
- */
-	workbook_sheet_delete (sheet);
+
+	command_undo_sheet_delete (sheet);
 }
 
 static gboolean
@@ -3992,7 +3987,7 @@ cmd_reorganize_sheets_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	g_slist_foreach (me->new_sheets, delete_pristine_sheets, NULL);
+	g_slist_foreach (me->new_sheets, cmd_reorganize_sheets_delete_sheets, NULL);
 	g_slist_free (me->new_sheets);	
 	me->new_sheets = NULL;
 
@@ -4364,11 +4359,8 @@ cmd_analysis_tool_finalize (GObject *cmd)
 
 	me->engine (me->dao, me->specs, TOOL_ENGINE_CLEAN_UP, NULL);
 
-	if (me->specs)
-		g_free (me->specs);
-	if (me->dao)
-		g_free (me->dao);
-
+	g_free (me->specs);
+	g_free (me->dao);
 	if (me->old_content)
 		cellregion_free (me->old_content);
 

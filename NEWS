@@ -1,5 +1,8 @@
 Gnumeric 1.1.2
 
+Andreas:
+	* Make Single-Factor ANOVA undoable.
+
 Jukka:
 	* More solver improvements
 

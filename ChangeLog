@@ -1,3 +1,10 @@
+2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c (delete_pristine_sheets) : rename to 
+	  cmd_reorganize_sheets_delete_sheets and use command_undo_sheet_delete
+	  rather than workbook_sheet_delete.
+	(cmd_analysis_tool_finalize) : shorten code.
+
 2002-03-11  Jody Goldberg <jody@gnome.org>
 
 	* src/gui-util.c (color_combo_get_style_color) : changes to color combo.
