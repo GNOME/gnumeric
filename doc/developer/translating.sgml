@@ -50,7 +50,7 @@
   <title>Dealing with currency formats</title>
 
     <para>
-      Gnumeric uses the locale information to distinguish whith
+      Gnumeric uses the locale information to distinguish which
       character is used as a thousand separator and which one is used
       as a decimal separator.  On the number formatting strings, use
       your country decimal separator as the decimal separator.  For
