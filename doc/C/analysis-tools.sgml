@@ -83,7 +83,7 @@ Common output options of the data analysis tools
      variances of given variables. The variables are specified by the
      `Input Range:' entry.  The given range can be grouped into the variables either
      by columns, by rows or by areas.  The `Alpha:' entry specifies the 
-     significance level which is by default 5&percent;.</para>
+     significance level which is by default 5&#037;.</para>
 
      <para>If you have labels, for example the names of the variables,
      in the first row or first column of the given range, or in the 
@@ -93,7 +93,7 @@ Common output options of the data analysis tools
      <para>The results of this analysis of variance are presented in 
      a standard ANOVA table. The `F critical'
      value is the largest value of F that is statistically significant
-     using the given significance level (''Alpha'').</para>
+     using the given significance level ('Alpha').</para>
 
      <para>This tool also calculates the count, sum, average,
      and the variance of each variable.</para>
@@ -206,33 +206,32 @@ Common output options of the data analysis tools
      <title>Correlation Tool</title>
 
   <figure id="correlation-tool-dialog">
-    <title>The Correlation Tool Dialog.</title>
+    <title>Correlation Tool Dialog</title>
     <screenshot>
 <mediaobject>
 <imageobject>
 <imagedata fileref="images/analysistools-correlation.png" format="PNG">
 </imageobject>
 <textobject>
-<phrase>Screenshot of the Correlation Tool dialog</phrase>
+<phrase>Screenshot of the correlation tool dialog</phrase>
 </textobject>
 </mediaobject>
     </screenshot>
   </figure>
 
-     <para>The correlation tool calculates the pairwise correlation 
-     coefficients of the
+     <para>The correlation tool calculates the pairwise Pearson 
+     correlation coefficients of the
      given variables.  Use this tool to calculate any number of
      correlation coefficients at the same time.  The variables for
-     which the correlations are calculated are specified by the ``Input
-     Range:'' entry.  The given range can be grouped either by
-     columns or by rows.</para>
+     which the correlations are calculated are specified by the `Input
+     Range:' entry. The input range can consist of either a single 
+     range or a comma separated list of ranges. The given range or 
+     ranges can be grouped by columns, by rows, or by areas.</para>
 
-     <para>If you have labels, for example the names of the variables,
-     in the first row of the given range, you should check the
-     ``Labels'' checkbox.  This leaves the first row (or the first
-     column if the data is grouped by rows) of the input range out of
-     the analysis.  In addition, the names of the variables are
-     printed in the output table.</para>
+     <para>If the first row or column of the given ranges, or the 
+     first field of each area contains labels,  the
+     `Labels' checkbox should be checked.
+     </para>
 
   <figure id="correlation-example-1">
     <title>Some Example Data</title>
@@ -242,7 +241,7 @@ Common output options of the data analysis tools
 <imagedata fileref="images/analysistools-correlation-ex1.png" format="PNG">
 </imageobject>
 <textobject>
-<phrase>Some Example Data</phrase>
+<phrase>Some example data</phrase>
 </textobject>
 </mediaobject>
     </screenshot>
@@ -254,41 +253,45 @@ Common output options of the data analysis tools
      three variables, one each in columns A, B, and C.
      Both variables have 10 values in rows 2 to 11 with labels in row 1
      (see <xref linkend="correlation-example-1">).</para>
-
-     <para>First
-     you should enter A1:B11 in the ``Input Range:'' entry by typing 
+<orderedlist>
+     <listitem><para>
+     Enter A1:B11 in the `Input Range:' entry by typing 
      this directly into the entry or clicking in the entry field and 
-     then selecting that range on the sheet. 
-     Select the ``Columns'' radio button next to the ``Grouped By:''
-     label, since each variable is in its own column. Check the ``Labels''
-     checkbox since the first row contains labels. Specify the output 
-     options described above and press the OK button. (see 
-     <xref linkend="correlation-example-2">).</para>
-     
-     <para>The results are printed into a table where each column and
-     row is labeled according to the names of the variables.  If the
+     then selecting that range on the sheet. In the latter case the 
+     entry will also contain the sheet name. </para></listitem>
+     <listitem><para>
+     Select the `Columns' radio button next to `Grouped By:', 
+     since each variable is in its own column.</para></listitem>
+     <listitem><para> Check the `Labels'
+     checkbox since the first row contains labels. (see 
+     <xref linkend="correlation-example-2">).</para></listitem>
+     <listitem><para> Specify the output 
+     options as described above.</para></listitem>
+     <listitem><para> Press the OK button. </para></listitem>
+</orderedlist>
+     <para>The calculated correlations are given in a table with each column and
+     row labeled with the names of the variables.  If the
      names are not given in the input range, Gnumeric generates them.
-     The calculated correlations are given in the table.
-     For example, the correlation of the previous example, i.e,
-     correlation between a variable in a column A and B, can be read
+     In our example, the 
+     correlation between the variables in column A and B, can be found
      in the second column and third row of the results table (see 
      <xref linkend="correlation-example-3">).</para>
  </example>
   <figure id="correlation-example-2">
-    <title>The Completed Dialog</title>
+    <title>Completed Correlation Dialog</title>
     <screenshot>
 <mediaobject>
 <imageobject>
 <imagedata fileref="images/analysistools-correlation-ex2.png" format="PNG">
 </imageobject>
 <textobject>
-<phrase>Screenshot of the completed Correlation Dialog</phrase>
+<phrase>Screenshot of the completed correlation tool dialog</phrase>
 </textobject>
 </mediaobject>
     </screenshot>
   </figure>
   <figure id="correlation-example-3">
-    <title>The Result</title>
+    <title>Correlation Tool Output</title>
     <screenshot>
 <mediaobject>
 <imageobject>
@@ -306,48 +309,90 @@ Common output options of the data analysis tools
      <title>Covariance Tool</title>
 
   <figure id="covariance-tool-dialog">
-    <title>The Covariance Tool Dialog.</title>
+    <title>Covariance Tool Dialog</title>
     <screenshot>
 <mediaobject>
 <imageobject>
 <imagedata fileref="images/analysistools-covariance.png" format="PNG">
 </imageobject>
 <textobject>
-<phrase>Screenshot of the Covariance Tools dialog</phrase>
+<phrase>Screenshot of the covariance tool dialog</phrase>
 </textobject>
 </mediaobject>
     </screenshot>
   </figure>
 
-     <para>The covariance tool calculates pairwise covariances of given
-     variables.  Use this tool to calculate any number of covariances
-     at the same time.  The variables for which the covariances are
-     calculated are specified by the ``Input Range:'' entry.  The given
-     range can be grouped either by columns or by rows.</para>
+     <para>The covariance tool calculates the pairwise 
+     covariance coefficients of the
+     given variables.  Use this tool to calculate any number of
+     covariance coefficients at the same time.  The variables for
+     which the covariances are calculated are specified by the `Input
+     Range:' entry. The input range can consist of either a single 
+     range or a comma separated list of ranges. The given range or 
+     ranges can be grouped by columns, by rows, or by areas.</para>
 
-     <para>For example, you want to calculate the covariance of two
-     variables, one in a column A and the other in a column B.  Both
-     variables have 10 values in rows between one and ten.  First you
-     should enter A1:B10 to the ``Input Range:'' entry.  Secondly,
-     select the ``Columns'' radio button next to the ``Grouped By:''
-     label.  Then specify the output options described above and press
-     the OK button.</para>
+     <para>If the first row or column of the given ranges, or the 
+     first field of each area contains labels,  the
+     `Labels' checkbox should be checked.
+     </para>
 
-     <para>If you have labels, for example the names of the variables,
-     in the first row of the given range, you should check the
-     ``Labels'' checkbox.  This leaves the first row (or the first
-     column if the data is grouped by rows) of the input range out of
-     the analysis.  In addition, the names of the variables are
-     printed in the output table.</para>
+  <figure id="covariance-example-1">
+    <title>Some Example Data</title>
+    <screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-covariance-ex1.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Some example data</phrase>
+</textobject>
+</mediaobject>
+    </screenshot>
+  </figure>
 
-     <para>The results are printed into a table where each column and
-     row is labeled according to the names of the variables.  If the
+ <example id="usingcovariancetool">
+ <title>Using The Covariance Tool</title>
+    <para>For example, you want to calculate the covariance between
+     three variables, one each in columns A, B, and C.
+     Both variables have 10 values in rows 2 to 11 with labels in row 1
+     (see <xref linkend="covariance-example-1">).</para>
+<orderedlist>
+     <listitem><para>
+     Enter A1:B11 in the `Input Range:' entry by typing 
+     this directly into the entry or clicking in the entry field and 
+     then selecting that range on the sheet. In the latter case the 
+     entry will also contain the sheet name. </para></listitem>
+     <listitem><para>
+     Select the `Columns' radio button next to `Grouped By:', 
+     since each variable is in its own column.</para></listitem>
+     <listitem><para> Check the `Labels'
+     checkbox since the first row contains labels.
+     </para></listitem>
+     <listitem><para> Specify the output 
+     options as described above.</para></listitem>
+     <listitem><para> Press the OK button. </para></listitem>
+</orderedlist>
+     <para>The calculated covariances are given in a table with each column and
+     row labeled with the names of the variables.  If the
      names are not given in the input range, Gnumeric generates them.
-     The calculated covariances are given in the table.  For
-     example, the covariance of the previous example, i.e, covariance
-     between a variable in a column A and B, can be read in the second
-     column and third row of the results table (below the column
-     labeled ``Column 1'' and in the row labeled ``Column 2'').</para>
+     In our example, the 
+     covariance between the variables in column A and B, can be found
+     in the second column and third row of the results table (see 
+     <xref linkend="covariance-example-2">).</para>
+ </example>
+  <figure id="covariance-example-2">
+    <title>Covariance Tool Output</title>
+    <screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-covariance-ex2.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Screenshot of the results output</phrase>
+</textobject>
+</mediaobject>
+    </screenshot>
+  </figure>
   </sect1>
 
 
@@ -355,59 +400,91 @@ Common output options of the data analysis tools
      <title>Descriptive Statistics Tool</title>
 
   <figure id="descriptive-statistics-tool-dialog">
-    <title>The Descriptive Statistics Tool Dialog.</title>
+    <title>Descriptive Statistics Tool Dialog.</title>
     <screenshot>
 <mediaobject>
 <imageobject>
 <imagedata fileref="images/analysistools-descstats.png" format="PNG">
 </imageobject>
 <textobject>
-<phrase>Screenshot of the Descriptive Statistics Tools dialog</phrase>
+<phrase>Screenshot of the descriptive statistics tools dialog</phrase>
 </textobject>
 </mediaobject>
     </screenshot>
   </figure>
 
-     <para>The descriptive statistics tool calculates some statistical
-     information of the given variables.  Use this tool to calculate
-     general statistical measures and confidence levels for mean for
-     any number variables at the same time.  The variables for which
-     the statistical analysis is made are specified by the ``Input
-     Range:'' entry.  The given range can be grouped either by
-     columns or by rows.</para>
+     <para>The descriptive statistics tool calculates various statistics 
+     for the given variables and a confidence interval for the population
+     mean. The variables are specified via the `Input
+     Range:' entry.  The given range or list of ranges can be grouped into 
+     variables by columns, rows, or areas.</para>
 
      <para>This tool can produce four different kinds of statistical
-     data.  The summary statistics is produced if the button
-     ``Summary Statistics'' is checked.  This tool calculates the
+     data.
+     </para>
+     <itemizedlist>
+     <listitem><para>If the `Summary Statistics' checkbutton is checked,  
+     this tool calculates the
      mean, standard error, median, mode, standard deviation, sample
      variance, kurtosis, skewness, range, minimum, maximum, sum, and
-     count for each given variable.</para>
-
-     <para>If ``Confidence Interval for the Mean'' button is checked, the
-     tool calculates  confidence intervals for the mean of each variable.
-     You should specify the confidence level in the entry
-     box.  The default value is to calculate the confidence level of
-     95&percnt;.</para> 
+     count for each variable.</para>
+     </listitem>
+     <listitem><para>If the `Confidence Interval for the Mean' button is 
+     checked, the tool calculates  confidence intervals for the population
+     mean of each variable.
+     Specify the confidence level in the entry box.  The default confidence 
+     level is 95&#037;.</para> 
 
      <note><para>The interval given will usually be wider than the 
-     interval obtained using the CONFIDENCE function since that function
-     assumes that the population standard deviation is known while this tool
-     estimates the population standard deviation by the sample standard
-     deviation.</para></note>
+     interval obtained using the CONFIDENCE function. The CONFIDENCE function
+     assumes that the population standard deviation is known. This tool
+     estimates the population standard deviation using the sample standard
+     deviation.</para></note></listitem>
 
-     <para>If ``Kth Largest:'' button is checked, the tool finds
-     the kth largest value of each of the variables.  Specify the k in
-     the entry box next to the check button.</para>
+     <listitem><para>If the `Kth Largest:' button is checked, the tool finds
+     the <parameter>k</parameter>th largest value of each of the variables.  Specify 
+     <parameter>k</parameter> in
+     the entry box next to the check button. The default is 1.
+     </para></listitem>
 
-     <para>If ``Kth Smallest:'' button is checked, the tool finds
-     the kth smallest value of each of the variables.  Specify the k in
-     the entry box next to the check button.</para>
-
-     <para>If you have labels, for example the names of the variables,
-     in the first row (or column) of the given range, you should check the
-     ``Labels'' button.  This leaves the first row (or column)  of
-     the input range out of the analysis.  In addition, the names of
-     the variables are printed in the output table.</para>
+     <listitem><para>If the `Kth Smallest:' button is checked, the tool finds
+     the <parameter>k</parameter>th smallest value of each of the variables.  Specify 
+     <parameter>k</parameter> in
+     the entry box next to the check button. The default is 1.
+     </para></listitem>
+     </itemizedlist>
+     <para>If the first entry for each variable contains the label,
+     check the `Labels' button.
+     </para>
+  <figure id="descstats-example-1">
+    <title>Some Example Data</title>
+    <screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-descstats-ex1.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Some example data</phrase>
+</textobject>
+</mediaobject>
+    </screenshot>
+  </figure>
+     <para><xref linkend="descstats-example-1"> shows some example data and 
+     <xref linkend="descstats-example-2"> the corresponding output.
+     </para>
+  <figure id="descstats-example-2">
+    <title>Descriptive Statistics Tool Output</title>
+    <screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-descstats-ex2.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Screenshot of the results output</phrase>
+</textobject>
+</mediaobject>
+    </screenshot>
+  </figure>
   </sect1>
 
   <sect1 id="exp-smoothing-tool">
