@@ -244,6 +244,7 @@ sheet_object_init (GObject *object)
 	so->type = SHEET_OBJECT_ACTION_STATIC;
 	so->sheet = NULL;
 	so->is_visible = TRUE;
+	so->move_with_cells = TRUE;
 
 	/* Store the logical position as A1 */
 	so->anchor.cell_bound.start.col = so->anchor.cell_bound.start.row = 0;
@@ -798,6 +799,8 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 		Range       *r  = &so->anchor.cell_bound;
 
 		next = ptr->next;
+		if (!so->move_with_cells)
+			continue;
 		if (range_contains (&rinfo->origin,
 				    r->start.col, r->start.row)) {
 			/* FIXME : just moving the range is insufficent for all anchor types */

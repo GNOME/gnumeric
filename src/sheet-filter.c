@@ -579,6 +579,13 @@ filter_field_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 }
 
 static void
+filter_field_init (SheetObject *so)
+{
+	/* keep the arrows from wandering with their cells */
+	so->move_with_cells = FALSE;
+}
+
+static void
 filter_field_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
@@ -596,7 +603,8 @@ filter_field_class_init (GObjectClass *object_class)
 }
 
 GSF_CLASS (GnmFilterField, filter_field,
-	   filter_field_class_init, NULL, SHEET_OBJECT_TYPE);
+	   filter_field_class_init, filter_field_init,
+	   SHEET_OBJECT_TYPE);
 
 /*****************************************************************************/
 

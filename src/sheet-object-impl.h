@@ -18,7 +18,8 @@ struct _SheetObject {
 	Sheet             *sheet;
 	GList             *realized_list;
 	SheetObjectAnchor  anchor;
-	gboolean	   is_visible;
+	unsigned	   is_visible;
+	unsigned	   move_with_cells;
 };
 
 typedef struct {

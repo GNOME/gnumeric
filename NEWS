@@ -35,6 +35,7 @@ Jody:
 	* Extend layout engine in GogChart.
 	* Nice redraw speedup for images and charts.
 	* Fix undo bug for moving merged regions (yummy).
+	* Support Move with cells flag for sheet object.
 
 Morten:
 	* New function COLUMNNUMBER.

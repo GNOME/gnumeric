@@ -1,4 +1,10 @@
-2003-05-31  Jody Goldberg <jody@gnome.org>
+2003-06-01  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object.c (sheet_objects_relocate) : check for
+	  move_with_cells.
+	(sheet_object_init) : init move_with_cells.
+
+	* src/sheet-filter.c (filter_field_init) : new.
 
 	* src/workbook-control-gui.c (cb_auto_filter) : update the menu when
 	  adding or removing a filter.
