@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-08-17 16:56-0500\n"
+"POT-Creation-Date: 1999-08-20 20:08-0500\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@ldsol.com>\n"
 "Language-Team: GNOME French Team <gnomefr@gnomefr.traduc.org>\n"
@@ -308,7 +308,7 @@ msgid "ERROR"
 msgstr "ERREUR"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:755
+#: src/cell.c:125 src/cell.c:756
 msgid "Circular reference"
 msgstr "Référence circulaire"
 
@@ -612,7 +612,7 @@ msgid "Left"
 msgstr "Gauche"
 
 #: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
-#: src/workbook.c:1128
+#: src/workbook.c:1137
 msgid "Center"
 msgstr "Centre"
 
@@ -720,7 +720,7 @@ msgstr "trop de clauses"
 msgid "Need at least one clause"
 msgstr "Au moins une clause est nécessaire"
 
-#: src/dialog-cell-sort.c:314 src/workbook.c:1484
+#: src/dialog-cell-sort.c:314 src/workbook.c:1493
 msgid "Selection must be a single range"
 msgstr "La sélection doit être un intervalle unique"
 
@@ -1005,11 +1005,11 @@ msgstr "ent"
 msgid "bool"
 msgstr "bool"
 
-#: src/dialog-solver.c:41 src/workbook.c:1594
+#: src/dialog-solver.c:41 src/workbook.c:1603
 msgid "Max"
 msgstr "Max"
 
-#: src/dialog-solver.c:42 src/workbook.c:1593
+#: src/dialog-solver.c:42 src/workbook.c:1602
 msgid "Min"
 msgstr "Min"
 
@@ -7070,80 +7070,80 @@ msgstr "La fonction n'existe pas"
 msgid "Calling non-function"
 msgstr "Appel à une non-fonction"
 
-#: src/gnumeric-sheet.c:946
+#: src/gnumeric-sheet.c:981
 msgid "Solid"
 msgstr "Solide"
 
-#: src/gnumeric-sheet.c:949
+#: src/gnumeric-sheet.c:984
 #, c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:952
+#: src/gnumeric-sheet.c:987
 #, c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:955
+#: src/gnumeric-sheet.c:990
 #, c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:958
+#: src/gnumeric-sheet.c:993
 #, c-format
 msgid "12.5%"
 msgstr "12.5%"
 
-#: src/gnumeric-sheet.c:961
+#: src/gnumeric-sheet.c:996
 #, c-format
 msgid "6.25%"
 msgstr "6.25%"
 
-#: src/gnumeric-sheet.c:964
+#: src/gnumeric-sheet.c:999
 msgid "Horizontal Stripe"
 msgstr "Rayures Horizontales"
 
-#: src/gnumeric-sheet.c:967
+#: src/gnumeric-sheet.c:1002
 msgid "Vertical Stripe"
 msgstr "Rayures Verticales"
 
-#: src/gnumeric-sheet.c:970
+#: src/gnumeric-sheet.c:1005
 msgid "Reverse Diagonal Stripe"
 msgstr "Rayures Diagonales Inversées"
 
-#: src/gnumeric-sheet.c:973
+#: src/gnumeric-sheet.c:1008
 msgid "Diagonal Stripe"
 msgstr "Rayures Diagonales"
 
-#: src/gnumeric-sheet.c:976
+#: src/gnumeric-sheet.c:1011
 msgid "Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:979
+#: src/gnumeric-sheet.c:1014
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:982
+#: src/gnumeric-sheet.c:1017
 msgid "Thin Horizontal Stripe"
 msgstr "Rayures Horizontales Fines"
 
-#: src/gnumeric-sheet.c:985
+#: src/gnumeric-sheet.c:1020
 msgid "Thin Vertical Stripe"
 msgstr "Rayures Verticales Fines"
 
-#: src/gnumeric-sheet.c:988
+#: src/gnumeric-sheet.c:1023
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Rayures Diagonales Fines Inversées"
 
-#: src/gnumeric-sheet.c:991
+#: src/gnumeric-sheet.c:1026
 msgid "Thin Diagonal Stripe"
 msgstr "Bande Diagonale Fine"
 
-#: src/gnumeric-sheet.c:994
+#: src/gnumeric-sheet.c:1029
 msgid "Thin Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:997
+#: src/gnumeric-sheet.c:1032
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
@@ -7195,7 +7195,7 @@ msgstr ""
 "dans cette région. Voulez-vous remplacer le contenu des cellules de cette "
 "région?"
 
-#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1116
+#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1125
 msgid "Copy"
 msgstr "Copier"
 
@@ -7227,11 +7227,11 @@ msgstr "Décaler vers le bas et déplacer"
 msgid "Shift cells right and move"
 msgstr "Décaler vers la droite et déplacer"
 
-#: src/item-grid.c:599 src/workbook.c:1113
+#: src/item-grid.c:599 src/workbook.c:1122
 msgid "Cut"
 msgstr "Couper"
 
-#: src/item-grid.c:601 src/workbook.c:1119
+#: src/item-grid.c:601 src/workbook.c:1128
 msgid "Paste"
 msgstr "Coller"
 
@@ -7398,7 +7398,12 @@ msgstr "date"
 msgid "time"
 msgstr "date"
 
-#: src/sheet-object-container.c:136
+#: src/sheet-object-container.c:187 src/workbook.c:901
+#, fuzzy
+msgid "Select an object"
+msgstr "Créer une nouvelle ligne"
+
+#: src/sheet-object-container.c:290
 msgid "Object server"
 msgstr "Serveur d'objets"
 
@@ -7412,36 +7417,36 @@ msgstr "Ligne: %d"
 msgid "Column: %s"
 msgstr "Colonne: %s"
 
-#: src/sheet.c:827
+#: src/sheet.c:828
 msgid "Internal ERROR"
 msgstr "Erreur interne"
 
-#: src/sheet.c:2967
+#: src/sheet.c:2968
 msgid "The command `"
 msgstr "La commande `"
 
-#: src/sheet.c:2969
+#: src/sheet.c:2970
 msgid "' cannot be performed with multiple selections"
 msgstr "' ne peut pas être effectuée avec des sélections multiples"
 
-#: src/sheet.c:2984
+#: src/sheet.c:2985
 msgid "copy"
 msgstr "copier"
 
-#: src/sheet.c:3009
+#: src/sheet.c:3010
 msgid "cut"
 msgstr "couper"
 
-#: src/sheet.c:3065
+#: src/sheet.c:3066
 msgid "paste"
 msgstr "coller"
 
-#: src/sheet.c:4078
+#: src/sheet.c:4232
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Je n'ai pas pu activer l'objet %s"
 
-#: src/sheet.c:4090
+#: src/sheet.c:4244
 msgid "I was unable to the bind object"
 msgstr "Je n'ai pas pu associer l'objet"
 
@@ -7473,7 +7478,7 @@ msgstr "#NUM!"
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/widget-font-selector.c:118 src/workbook.c:1136
+#: src/widget-font-selector.c:118 src/workbook.c:1145
 msgid "Bold"
 msgstr "Gras"
 
@@ -7481,457 +7486,457 @@ msgstr "Gras"
 msgid "Bold italic"
 msgstr "Gras Italique"
 
-#: src/widget-font-selector.c:120 src/workbook.c:1139
+#: src/widget-font-selector.c:120 src/workbook.c:1148
 msgid "Italic"
 msgstr "Italique"
 
-#: src/workbook.c:453
+#: src/workbook.c:457
 msgid "Warning"
 msgstr "Avertissement"
 
-#: src/workbook.c:461
+#: src/workbook.c:466
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
 "La feuille de calcul %s a des changements non enregistrés; les enregistrer "
 "maintenant?"
 
-#: src/workbook.c:464
+#: src/workbook.c:469
 msgid "Workbook has unsaved changes, save them?"
 msgstr ""
 "La feuille de calcul a des changements non enregistrés; les enregistrer "
 "maintenant?"
 
-#: src/workbook.c:663
+#: src/workbook.c:668
 msgid "Insert cols"
 msgstr "Insérer colonnes"
 
-#: src/workbook.c:682
+#: src/workbook.c:687
 msgid "Insert rows"
 msgstr "Insérer lignes"
 
-#: src/workbook.c:778
+#: src/workbook.c:783
 msgid ">mm/dd/yyyy"
 msgstr ">dd/mm/yyyy"
 
-#: src/workbook.c:797
+#: src/workbook.c:802
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:905
+#: src/workbook.c:910
 msgid "_New"
 msgstr "_Nouveau"
 
-#: src/workbook.c:905
+#: src/workbook.c:910
 msgid "Create a new spreadsheet"
 msgstr "Créer une nouvelle feuille"
 
-#: src/workbook.c:909
+#: src/workbook.c:914
 msgid "_Import"
 msgstr "_Importer"
 
-#: src/workbook.c:909
+#: src/workbook.c:914
 msgid "Imports a file"
 msgstr "Importe un fichier"
 
-#: src/workbook.c:915
+#: src/workbook.c:920
 msgid "Su_mmary..."
 msgstr "Résu_mé..."
 
-#: src/workbook.c:915
+#: src/workbook.c:920
 msgid "Summary information"
 msgstr "Informations résumées"
 
-#: src/workbook.c:920
+#: src/workbook.c:925
 msgid "Plu_g-ins..."
 msgstr "Plu_g-ins..."
 
-#: src/workbook.c:920
+#: src/workbook.c:925
 msgid "Gnumeric plugins"
 msgstr "plugins Gnumeric"
 
-#: src/workbook.c:941
+#: src/workbook.c:946
 msgid "_All"
 msgstr "_Tous"
 
-#: src/workbook.c:942
+#: src/workbook.c:947
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Efface les cellules sélectionnées: formats, commentaires et contenu"
 
-#: src/workbook.c:944
+#: src/workbook.c:949
 msgid "_Formats"
 msgstr "_Formats"
 
-#: src/workbook.c:945
+#: src/workbook.c:950
 msgid "Clear the selected cells' formats"
 msgstr "Effacer les formats des cellules sélectionnées"
 
-#: src/workbook.c:946
+#: src/workbook.c:951
 msgid "_Comments"
 msgstr "_Commentaires"
 
-#: src/workbook.c:947
+#: src/workbook.c:952
 msgid "Clear the selected cells' comments"
 msgstr "Effacer les commentaires des cellules sélectionnées"
 
-#: src/workbook.c:948
+#: src/workbook.c:953
 msgid "_Content"
 msgstr "_Contenu"
 
-#: src/workbook.c:949
+#: src/workbook.c:954
 msgid "Clear the selected cells' contents"
 msgstr "Effacer le contenu des cellules sélectionnées"
 
-#: src/workbook.c:957
+#: src/workbook.c:962
 msgid "P_aste special..."
 msgstr "Coll_age spécial..."
 
-#: src/workbook.c:958
+#: src/workbook.c:963
 msgid "C_lear"
 msgstr "Vi_der"
 
-#: src/workbook.c:959
+#: src/workbook.c:964
 msgid "Clear the selected cell(s)"
 msgstr "Vider la(les) cellule(s) sélectionnée(s)"
 
-#: src/workbook.c:963
+#: src/workbook.c:968
 msgid "_Select All"
 msgstr "Tout _sélectionner"
 
-#: src/workbook.c:964
+#: src/workbook.c:969
 msgid "Select all cells in the spreadsheet"
 msgstr "Sélectionner toutes les cellules dans la feuille"
 
-#: src/workbook.c:966
+#: src/workbook.c:971
 msgid "_Goto cell..."
 msgstr "_Aller à la cellule..."
 
-#: src/workbook.c:967
+#: src/workbook.c:972
 msgid "Jump to a specified cell"
 msgstr "Aller à une cellule spécifique"
 
-#: src/workbook.c:973
+#: src/workbook.c:978
 msgid "Insert object..."
 msgstr "Insérer objet..."
 
-#: src/workbook.c:974
+#: src/workbook.c:979
 msgid "Inserts a Bonobo object"
 msgstr "Insérer un objet Bonobo"
 
-#: src/workbook.c:981
+#: src/workbook.c:986
 msgid "_Define cell names"
 msgstr "_Définir les noms de cellules"
 
-#: src/workbook.c:985
+#: src/workbook.c:990
 msgid "_Recalculate"
 msgstr "_Recalculer"
 
-#: src/workbook.c:986
+#: src/workbook.c:991
 msgid "Recalculate the spreadsheet"
 msgstr "Recalculer la feuille"
 
-#: src/workbook.c:994
+#: src/workbook.c:999
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/workbook.c:995
+#: src/workbook.c:1000
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoomer en avant ou en arrière"
 
-#: src/workbook.c:1002
+#: src/workbook.c:1007
 msgid "Current _date"
 msgstr "_Date courante"
 
-#: src/workbook.c:1003
+#: src/workbook.c:1008
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Insérer la date courante dans la(les) cellule(s) sélectionnée(s)"
 
-#: src/workbook.c:1006
+#: src/workbook.c:1011
 msgid "Current _time"
 msgstr "_Heure courante"
 
-#: src/workbook.c:1007
+#: src/workbook.c:1012
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Insérer l'heure courante dans la(les) cellule(s) sélectionnée(s)"
 
-#: src/workbook.c:1014 src/workbook.c:1060
+#: src/workbook.c:1019 src/workbook.c:1065
 msgid "_Sheet"
 msgstr "_Feuille"
 
-#: src/workbook.c:1014
+#: src/workbook.c:1019
 msgid "Insert a new spreadsheet"
 msgstr "Insérer une nouvelle feuille"
 
-#: src/workbook.c:1016 src/workbook.c:1054
+#: src/workbook.c:1021 src/workbook.c:1059
 msgid "_Cells..."
 msgstr "_Cellules..."
 
-#: src/workbook.c:1016
+#: src/workbook.c:1021
 msgid "Insert new cells"
 msgstr "Insérer de nouvelles cellules"
 
-#: src/workbook.c:1018
+#: src/workbook.c:1023
 msgid "_Rows"
 msgstr "_Lignes"
 
-#: src/workbook.c:1018
+#: src/workbook.c:1023
 msgid "Insert new rows"
 msgstr "Insérer de nouvelles lignes"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1025
 msgid "C_olumns"
 msgstr "C_olonnes"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1025
 msgid "Insert new columns"
 msgstr "Insérer de nouvelles colonnes"
 
-#: src/workbook.c:1025
+#: src/workbook.c:1030
 msgid "_Add/modify comment..."
 msgstr "_Ajouter/modifier commentaire"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1031
 msgid "Edit the selected cell's comment"
 msgstr "Editer le commentaire de la cellule sélectionnée"
 
-#: src/workbook.c:1027
+#: src/workbook.c:1032
 msgid "_Special"
 msgstr "_Spécial"
 
-#: src/workbook.c:1036 src/workbook.c:1042
+#: src/workbook.c:1041 src/workbook.c:1047
 msgid "_Autoadjust"
 msgstr "_Ajuster automatiquement"
 
-#: src/workbook.c:1037
+#: src/workbook.c:1042
 msgid "_Width"
 msgstr "_Largeur"
 
-#: src/workbook.c:1043
+#: src/workbook.c:1048
 msgid "_Height"
 msgstr "_Hauteur"
 
-#: src/workbook.c:1048
+#: src/workbook.c:1053
 msgid "_Change name"
 msgstr "_Changer nom"
 
-#: src/workbook.c:1055
+#: src/workbook.c:1060
 msgid "Modify the formatting of the selected cells"
 msgstr "Modifier le formatage des cellules sélectionnées"
 
-#: src/workbook.c:1058
+#: src/workbook.c:1063
 msgid "C_olumn"
 msgstr "C_olonne"
 
-#: src/workbook.c:1059
+#: src/workbook.c:1064
 msgid "_Row"
 msgstr "_Ligne"
 
-#: src/workbook.c:1067
+#: src/workbook.c:1072
 msgid "_Sort..."
 msgstr "_Tri..."
 
-#: src/workbook.c:1068
+#: src/workbook.c:1073
 msgid "Sort the selected cells"
 msgstr "Trie les cellules sélectionnées"
 
-#: src/workbook.c:1069
+#: src/workbook.c:1074
 msgid "_Goal Seek..."
 msgstr "_Résolveur..."
 
-#: src/workbook.c:1071
+#: src/workbook.c:1076
 msgid "_Solver..."
 msgstr "_Solveur..."
 
-#: src/workbook.c:1073
+#: src/workbook.c:1078
 msgid "_Data Analysis..."
 msgstr "Analyse des _Données..."
 
-#: src/workbook.c:1087
+#: src/workbook.c:1092
 msgid "_Insert"
 msgstr "_Insérer"
 
-#: src/workbook.c:1088
+#: src/workbook.c:1093
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:1089
+#: src/workbook.c:1094
 msgid "_Tools"
 msgstr "_Outils"
 
-#: src/workbook.c:1098
+#: src/workbook.c:1107
 msgid "New"
 msgstr "Nouveau"
 
-#: src/workbook.c:1098
+#: src/workbook.c:1107
 msgid "Creates a new sheet"
 msgstr "Crée une nouvelle feuille"
 
-#: src/workbook.c:1101
+#: src/workbook.c:1110
 msgid "Open"
 msgstr "Ouvrir"
 
-#: src/workbook.c:1101
+#: src/workbook.c:1110
 msgid "Opens an existing workbook"
 msgstr "Ouvrir une feuille existante"
 
-#: src/workbook.c:1104
+#: src/workbook.c:1113
 msgid "Save"
 msgstr "Enregistrer"
 
-#: src/workbook.c:1104
+#: src/workbook.c:1113
 msgid "Saves the workbook"
 msgstr "Enregistrer la feuille"
 
 #: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
-#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1107
+#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1116
 msgid "Print"
 msgstr "Imprimer"
 
-#: src/workbook.c:1107
+#: src/workbook.c:1116
 msgid "Prints the workbook"
 msgstr "Imprimer la feuille"
 
-#: src/workbook.c:1113
+#: src/workbook.c:1122
 msgid "Cuts the selection to the clipboard"
 msgstr "Coupe la sélection vers le presse-papier"
 
-#: src/workbook.c:1116
+#: src/workbook.c:1125
 msgid "Copies the selection to the clipboard"
 msgstr "Copie la sélection vers presse-papier"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1128
 msgid "Pastes the clipboard"
 msgstr "Colle le contenu du presse-papier"
 
-#: src/workbook.c:1125
+#: src/workbook.c:1134
 msgid "Left align"
 msgstr "Aligner à gauche"
 
-#: src/workbook.c:1125
+#: src/workbook.c:1134
 msgid "Left justifies the cell contents"
 msgstr "Justifier à gauche le contenu des cellules"
 
-#: src/workbook.c:1128
+#: src/workbook.c:1137
 msgid "Centers the cell contents"
 msgstr "Centrer le contenu des cellules"
 
-#: src/workbook.c:1131
+#: src/workbook.c:1140
 msgid "Right align"
 msgstr "Aligner à droite"
 
-#: src/workbook.c:1131
+#: src/workbook.c:1140
 msgid "Right justifies the cell contents"
 msgstr "Justifier à droite le contenu des cellules"
 
-#: src/workbook.c:1136
+#: src/workbook.c:1145
 msgid "Sets the bold font"
 msgstr "Définir une police grasse"
 
-#: src/workbook.c:1139
+#: src/workbook.c:1148
 msgid "Makes the font italic"
 msgstr "Utiliser une police italique"
 
-#: src/workbook.c:1146
+#: src/workbook.c:1155
 msgid "Graphic"
 msgstr "Graphique"
 
-#: src/workbook.c:1146
+#: src/workbook.c:1155
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Créer un graphique dans la feuille"
 
-#: src/workbook.c:1150
+#: src/workbook.c:1159
 msgid "Line"
 msgstr "Ligne"
 
-#: src/workbook.c:1150
+#: src/workbook.c:1159
 msgid "Creates a line object"
 msgstr "Créer une nouvelle ligne"
 
-#: src/workbook.c:1153
+#: src/workbook.c:1162
 msgid "Arrow"
 msgstr "Flèche"
 
-#: src/workbook.c:1153
+#: src/workbook.c:1162
 msgid "Creates an arrow object"
 msgstr "Créer une nouvelle flèche"
 
-#: src/workbook.c:1156
+#: src/workbook.c:1165
 msgid "Rectangle"
 msgstr "Rectangle"
 
-#: src/workbook.c:1156
+#: src/workbook.c:1165
 msgid "Creates a rectangle object"
 msgstr "Créer un nouveau rectangle"
 
-#: src/workbook.c:1159
+#: src/workbook.c:1168
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: src/workbook.c:1159
+#: src/workbook.c:1168
 msgid "Creates an ellipse object"
 msgstr "Créer une nouvelle ellipse"
 
-#: src/workbook.c:1377
+#: src/workbook.c:1386
 msgid "You should introduce a valid cell name"
 msgstr "Vous devez introduire un nom de cellule valide"
 
-#: src/workbook.c:1386
+#: src/workbook.c:1395
 msgid "Column out of range"
 msgstr "Colonne invalide"
 
-#: src/workbook.c:1392
+#: src/workbook.c:1401
 msgid "Row number out of range"
 msgstr "Numéro de ligne invalide"
 
-#: src/workbook.c:1592
+#: src/workbook.c:1601
 msgid "Sum"
 msgstr "Somme"
 
-#: src/workbook.c:1595
+#: src/workbook.c:1604
 msgid "Average"
 msgstr "Moyenne"
 
-#: src/workbook.c:1596
+#: src/workbook.c:1605
 msgid "Count"
 msgstr "Compte"
 
-#: src/workbook.c:2009
+#: src/workbook.c:2018
 msgid "Untitled.gnumeric"
 msgstr "SansTitre.gnumeric"
 
-#: src/workbook.c:2098
+#: src/workbook.c:2119
 msgid "Zoom out"
 msgstr "Zoom arrière"
 
-#: src/workbook.c:2105
+#: src/workbook.c:2126
 msgid "Zoom in"
 msgstr "Zoom avant"
 
-#: src/workbook.c:2200
+#: src/workbook.c:2221
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Voulez-vous vraiment enlever la feuille nommée `%s' "
 
-#: src/workbook.c:2219
+#: src/workbook.c:2240
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr ""
 "D'autres feuilles dépendent de valeurs de cette feuille, je ne peux pas "
 "l'enlever"
 
-#: src/workbook.c:2239
+#: src/workbook.c:2260
 msgid "Add another sheet"
 msgstr "Ajouter une autre feuille"
 
-#: src/workbook.c:2240
+#: src/workbook.c:2261
 msgid "Remove this sheet"
 msgstr "Enlever cette feuille"
 
-#: src/workbook.c:2506 src/workbook.c:2541
+#: src/workbook.c:2527 src/workbook.c:2562
 #, c-format
 msgid "Sheet%d"
 msgstr "Feuille %d"
 
-#: src/workbook.c:2614
+#: src/workbook.c:2635
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 

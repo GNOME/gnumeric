@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-08-17 16:56-0500\n"
+"POT-Creation-Date: 1999-08-20 20:08-0500\n"
 "Content-Type: text/plain; charset=\n"
 "Date: 1999-04-30 12:12:02+0000\n"
 "From: Bobo Rajec,BSP Consulting,+42 7 5330 017,, <bobo@bobo.bspc.sk>\n"
@@ -328,7 +328,7 @@ msgid "ERROR"
 msgstr "CHYBA"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:755
+#: src/cell.c:125 src/cell.c:756
 msgid "Circular reference"
 msgstr ""
 
@@ -636,7 +636,7 @@ msgid "Left"
 msgstr "Doµava"
 
 #: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
-#: src/workbook.c:1128
+#: src/workbook.c:1137
 msgid "Center"
 msgstr "Na stred"
 
@@ -747,7 +747,7 @@ msgstr ""
 msgid "Need at least one clause"
 msgstr ""
 
-#: src/dialog-cell-sort.c:314 src/workbook.c:1484
+#: src/dialog-cell-sort.c:314 src/workbook.c:1493
 msgid "Selection must be a single range"
 msgstr ""
 
@@ -1046,11 +1046,11 @@ msgstr "Percentá"
 msgid "bool"
 msgstr "_Nástroje"
 
-#: src/dialog-solver.c:41 src/workbook.c:1594
+#: src/dialog-solver.c:41 src/workbook.c:1603
 msgid "Max"
 msgstr "Max"
 
-#: src/dialog-solver.c:42 src/workbook.c:1593
+#: src/dialog-solver.c:42 src/workbook.c:1602
 msgid "Min"
 msgstr "Min"
 
@@ -5014,88 +5014,88 @@ msgstr "Funkcia neexistuje"
 msgid "Calling non-function"
 msgstr "Volanie èohosi, èo nie je funkcia"
 
-#: src/gnumeric-sheet.c:946
+#: src/gnumeric-sheet.c:981
 #, fuzzy
 msgid "Solid"
 msgstr "Tuèné"
 
-#: src/gnumeric-sheet.c:949
+#: src/gnumeric-sheet.c:984
 #, c-format
 msgid "75%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:952
+#: src/gnumeric-sheet.c:987
 #, c-format
 msgid "50%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:955
+#: src/gnumeric-sheet.c:990
 #, c-format
 msgid "25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:958
+#: src/gnumeric-sheet.c:993
 #, c-format
 msgid "12.5%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:961
+#: src/gnumeric-sheet.c:996
 #, c-format
 msgid "6.25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:964
+#: src/gnumeric-sheet.c:999
 #, fuzzy
 msgid "Horizontal Stripe"
 msgstr "Vodorovné èiary"
 
-#: src/gnumeric-sheet.c:967
+#: src/gnumeric-sheet.c:1002
 #, fuzzy
 msgid "Vertical Stripe"
 msgstr "Zvislé èiary"
 
-#: src/gnumeric-sheet.c:970
+#: src/gnumeric-sheet.c:1005
 msgid "Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/gnumeric-sheet.c:973
+#: src/gnumeric-sheet.c:1008
 #, fuzzy
 msgid "Diagonal Stripe"
 msgstr "Diagonálne èiary"
 
-#: src/gnumeric-sheet.c:976
+#: src/gnumeric-sheet.c:1011
 #, fuzzy
 msgid "Diagonal Crosshatch"
 msgstr "Diagonálne èiary"
 
-#: src/gnumeric-sheet.c:979
+#: src/gnumeric-sheet.c:1014
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:982
+#: src/gnumeric-sheet.c:1017
 #, fuzzy
 msgid "Thin Horizontal Stripe"
 msgstr "Vodorovné èiary"
 
-#: src/gnumeric-sheet.c:985
+#: src/gnumeric-sheet.c:1020
 #, fuzzy
 msgid "Thin Vertical Stripe"
 msgstr "Zvislé èiary"
 
-#: src/gnumeric-sheet.c:988
+#: src/gnumeric-sheet.c:1023
 msgid "Thin Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/gnumeric-sheet.c:991
+#: src/gnumeric-sheet.c:1026
 #, fuzzy
 msgid "Thin Diagonal Stripe"
 msgstr "Diagonálne èiary"
 
-#: src/gnumeric-sheet.c:994
+#: src/gnumeric-sheet.c:1029
 msgid "Thin Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:997
+#: src/gnumeric-sheet.c:1032
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
@@ -5149,7 +5149,7 @@ msgstr ""
 "Presúvané bunky prepí¹u obsah existujúcich buniek\n"
 "v tomto rozsahu. Chcete nahradi» obsah buniek v tomto regióne?"
 
-#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1116
+#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1125
 msgid "Copy"
 msgstr "Skopíruj"
 
@@ -5181,11 +5181,11 @@ msgstr "Posuò bunky dole a presuò"
 msgid "Shift cells right and move"
 msgstr "Posuò bunky doprava a presuò"
 
-#: src/item-grid.c:599 src/workbook.c:1113
+#: src/item-grid.c:599 src/workbook.c:1122
 msgid "Cut"
 msgstr "Vysekni"
 
-#: src/item-grid.c:601 src/workbook.c:1119
+#: src/item-grid.c:601 src/workbook.c:1128
 msgid "Paste"
 msgstr "Vlo¾"
 
@@ -5359,7 +5359,12 @@ msgstr "Dátumy"
 msgid "time"
 msgstr "Èas"
 
-#: src/sheet-object-container.c:136
+#: src/sheet-object-container.c:187 src/workbook.c:901
+#, fuzzy
+msgid "Select an object"
+msgstr "Nakreslí èiaru"
+
+#: src/sheet-object-container.c:290
 msgid "Object server"
 msgstr ""
 
@@ -5373,38 +5378,38 @@ msgstr "Riadok: %d"
 msgid "Column: %s"
 msgstr "Ståpec: %s"
 
-#: src/sheet.c:827
+#: src/sheet.c:828
 #, fuzzy
 msgid "Internal ERROR"
 msgstr "Chyba v syntaxi"
 
-#: src/sheet.c:2967
+#: src/sheet.c:2968
 msgid "The command `"
 msgstr "Príkaz `"
 
-#: src/sheet.c:2969
+#: src/sheet.c:2970
 #, fuzzy
 msgid "' cannot be performed with multiple selections"
 msgstr "' sa nedá vykona» s viacnásobným výberom"
 
-#: src/sheet.c:2984
+#: src/sheet.c:2985
 msgid "copy"
 msgstr "Skopíruj"
 
-#: src/sheet.c:3009
+#: src/sheet.c:3010
 msgid "cut"
 msgstr "Vysekni"
 
-#: src/sheet.c:3065
+#: src/sheet.c:3066
 msgid "paste"
 msgstr "Vlo¾"
 
-#: src/sheet.c:4078
+#: src/sheet.c:4232
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Objekt %s sa nedá aktivova»"
 
-#: src/sheet.c:4090
+#: src/sheet.c:4244
 msgid "I was unable to the bind object"
 msgstr "Objekt sa nedá naviaza»"
 
@@ -5436,7 +5441,7 @@ msgstr ""
 msgid "#N/A"
 msgstr ""
 
-#: src/widget-font-selector.c:118 src/workbook.c:1136
+#: src/widget-font-selector.c:118 src/workbook.c:1145
 msgid "Bold"
 msgstr "Tuèné"
 
@@ -5444,459 +5449,459 @@ msgstr "Tuèné"
 msgid "Bold italic"
 msgstr ""
 
-#: src/widget-font-selector.c:120 src/workbook.c:1139
+#: src/widget-font-selector.c:120 src/workbook.c:1148
 msgid "Italic"
 msgstr "Kurzíva"
 
-#: src/workbook.c:453
+#: src/workbook.c:457
 msgid "Warning"
 msgstr "Varovanie"
 
-#: src/workbook.c:461
+#: src/workbook.c:466
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Zo¹it %s obsahuje zmeny, ktoré neboli ulo¾ené, ulo¾i» ?"
 
-#: src/workbook.c:464
+#: src/workbook.c:469
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Zo¹it obsahuje zmeny, ktoré neboli ulo¾ené, ulo¾i» ?"
 
-#: src/workbook.c:663
+#: src/workbook.c:668
 msgid "Insert cols"
 msgstr "Vlo¾ ståpce"
 
-#: src/workbook.c:682
+#: src/workbook.c:687
 msgid "Insert rows"
 msgstr "Vlo¾ riadky"
 
-#: src/workbook.c:778
+#: src/workbook.c:783
 msgid ">mm/dd/yyyy"
 msgstr ""
 
-#: src/workbook.c:797
+#: src/workbook.c:802
 msgid ">hh:mm"
 msgstr ""
 
-#: src/workbook.c:905
+#: src/workbook.c:910
 msgid "_New"
 msgstr "_Nový"
 
-#: src/workbook.c:905
+#: src/workbook.c:910
 msgid "Create a new spreadsheet"
 msgstr "Vytvorí nový zo¹it"
 
-#: src/workbook.c:909
+#: src/workbook.c:914
 #, fuzzy
 msgid "_Import"
 msgstr "_Triedenie"
 
-#: src/workbook.c:909
+#: src/workbook.c:914
 #, fuzzy
 msgid "Imports a file"
 msgstr "Nemo¾né!"
 
-#: src/workbook.c:915
+#: src/workbook.c:920
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:915
+#: src/workbook.c:920
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:920
+#: src/workbook.c:925
 msgid "Plu_g-ins..."
 msgstr "P_rídavky"
 
-#: src/workbook.c:920
+#: src/workbook.c:925
 msgid "Gnumeric plugins"
 msgstr "Pridané funkcie"
 
-#: src/workbook.c:941
+#: src/workbook.c:946
 msgid "_All"
 msgstr "_V¹etko"
 
-#: src/workbook.c:942
+#: src/workbook.c:947
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Vyma¾e formáty, komentáre a obsah vybraných buniek"
 
-#: src/workbook.c:944
+#: src/workbook.c:949
 msgid "_Formats"
 msgstr "_Formáty"
 
-#: src/workbook.c:945
+#: src/workbook.c:950
 msgid "Clear the selected cells' formats"
 msgstr "Vyma¾e formátovanie vybraných buniek"
 
-#: src/workbook.c:946
+#: src/workbook.c:951
 msgid "_Comments"
 msgstr "_Komentáre"
 
-#: src/workbook.c:947
+#: src/workbook.c:952
 msgid "Clear the selected cells' comments"
 msgstr "Vyma¾e komentáre vybraných buniek"
 
-#: src/workbook.c:948
+#: src/workbook.c:953
 msgid "_Content"
 msgstr "_Obsah"
 
-#: src/workbook.c:949
+#: src/workbook.c:954
 msgid "Clear the selected cells' contents"
 msgstr "Vyma¾e obsah vybraných buniek"
 
-#: src/workbook.c:957
+#: src/workbook.c:962
 msgid "P_aste special..."
 msgstr "Vlo¾ _inak..."
 
-#: src/workbook.c:958
+#: src/workbook.c:963
 msgid "C_lear"
 msgstr "_Vyma¾"
 
-#: src/workbook.c:959
+#: src/workbook.c:964
 msgid "Clear the selected cell(s)"
 msgstr "Vyma¾e vybrané bunky"
 
-#: src/workbook.c:963
+#: src/workbook.c:968
 msgid "_Select All"
 msgstr "V_yber v¹etko"
 
-#: src/workbook.c:964
+#: src/workbook.c:969
 msgid "Select all cells in the spreadsheet"
 msgstr "Vyberie v¹etky bunky v zo¹ite"
 
-#: src/workbook.c:966
+#: src/workbook.c:971
 #, fuzzy
 msgid "_Goto cell..."
 msgstr "_Skoè na bunku..."
 
-#: src/workbook.c:967
+#: src/workbook.c:972
 msgid "Jump to a specified cell"
 msgstr "Skoèí na zadanú bunku"
 
-#: src/workbook.c:973
+#: src/workbook.c:978
 msgid "Insert object..."
 msgstr "Vlo¾ objekt..."
 
-#: src/workbook.c:974
+#: src/workbook.c:979
 msgid "Inserts a Bonobo object"
 msgstr "Vlo¾í Bonono objekt"
 
-#: src/workbook.c:981
+#: src/workbook.c:986
 msgid "_Define cell names"
 msgstr "_Definuje mená buniek"
 
-#: src/workbook.c:985
+#: src/workbook.c:990
 msgid "_Recalculate"
 msgstr "_Prepoèítaj"
 
-#: src/workbook.c:986
+#: src/workbook.c:991
 msgid "Recalculate the spreadsheet"
 msgstr "Prepoèíta zo¹it"
 
-#: src/workbook.c:994
+#: src/workbook.c:999
 msgid "_Zoom..."
 msgstr "_Mierka"
 
-#: src/workbook.c:995
+#: src/workbook.c:1000
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zmení zväè¹enie/zmen¹enie zo¹itu"
 
-#: src/workbook.c:1002
+#: src/workbook.c:1007
 msgid "Current _date"
 msgstr "Aktuálny dátu_m"
 
-#: src/workbook.c:1003
+#: src/workbook.c:1008
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Vlo¾í aktuálny dátum do vybraných buniek"
 
-#: src/workbook.c:1006
+#: src/workbook.c:1011
 msgid "Current _time"
 msgstr "Aktuálny èa_s"
 
-#: src/workbook.c:1007
+#: src/workbook.c:1012
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Vlo¾í aktuálny èas do vybraných buniek"
 
-#: src/workbook.c:1014 src/workbook.c:1060
+#: src/workbook.c:1019 src/workbook.c:1065
 msgid "_Sheet"
 msgstr "_Zo¹it"
 
-#: src/workbook.c:1014
+#: src/workbook.c:1019
 msgid "Insert a new spreadsheet"
 msgstr "Vlo¾í nový zo¹it"
 
-#: src/workbook.c:1016 src/workbook.c:1054
+#: src/workbook.c:1021 src/workbook.c:1059
 msgid "_Cells..."
 msgstr "_Bunky..."
 
-#: src/workbook.c:1016
+#: src/workbook.c:1021
 msgid "Insert new cells"
 msgstr "Vlo¾í nové bunky"
 
-#: src/workbook.c:1018
+#: src/workbook.c:1023
 msgid "_Rows"
 msgstr "_Riadky"
 
-#: src/workbook.c:1018
+#: src/workbook.c:1023
 msgid "Insert new rows"
 msgstr "Vlo¾í nové riadky"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1025
 msgid "C_olumns"
 msgstr "_Ståpce"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1025
 msgid "Insert new columns"
 msgstr "Vlo¾í nové ståpce"
 
-#: src/workbook.c:1025
+#: src/workbook.c:1030
 #, fuzzy
 msgid "_Add/modify comment..."
 msgstr "_Pridaj/modifikuj komentár"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1031
 msgid "Edit the selected cell's comment"
 msgstr "Edituje obsah vybranej bunky"
 
-#: src/workbook.c:1027
+#: src/workbook.c:1032
 msgid "_Special"
 msgstr "_Iné"
 
-#: src/workbook.c:1036 src/workbook.c:1042
+#: src/workbook.c:1041 src/workbook.c:1047
 msgid "_Autoadjust"
 msgstr "_Automatické prispôsobenie"
 
-#: src/workbook.c:1037
+#: src/workbook.c:1042
 msgid "_Width"
 msgstr "©írka"
 
-#: src/workbook.c:1043
+#: src/workbook.c:1048
 msgid "_Height"
 msgstr "_Vý¹ka"
 
-#: src/workbook.c:1048
+#: src/workbook.c:1053
 msgid "_Change name"
 msgstr "_Zmeò meno"
 
-#: src/workbook.c:1055
+#: src/workbook.c:1060
 msgid "Modify the formatting of the selected cells"
 msgstr "Modifikuje formát vybraných buniek"
 
-#: src/workbook.c:1058
+#: src/workbook.c:1063
 msgid "C_olumn"
 msgstr "_Ståpec"
 
-#: src/workbook.c:1059
+#: src/workbook.c:1064
 msgid "_Row"
 msgstr "_Riadok"
 
-#: src/workbook.c:1067
+#: src/workbook.c:1072
 #, fuzzy
 msgid "_Sort..."
 msgstr "Rie¹enia"
 
-#: src/workbook.c:1068
+#: src/workbook.c:1073
 msgid "Sort the selected cells"
 msgstr "Utriedi vybrané bunky"
 
-#: src/workbook.c:1069
+#: src/workbook.c:1074
 msgid "_Goal Seek..."
 msgstr "_Hµadanie cieµa"
 
-#: src/workbook.c:1071
+#: src/workbook.c:1076
 msgid "_Solver..."
 msgstr "Rie¹enia"
 
-#: src/workbook.c:1073
+#: src/workbook.c:1078
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1087
+#: src/workbook.c:1092
 msgid "_Insert"
 msgstr "_Vlo¾"
 
-#: src/workbook.c:1088
+#: src/workbook.c:1093
 msgid "F_ormat"
 msgstr "F_ormát"
 
-#: src/workbook.c:1089
+#: src/workbook.c:1094
 msgid "_Tools"
 msgstr "_Nástroje"
 
-#: src/workbook.c:1098
+#: src/workbook.c:1107
 msgid "New"
 msgstr "Nový"
 
-#: src/workbook.c:1098
+#: src/workbook.c:1107
 msgid "Creates a new sheet"
 msgstr "Vytvorí nový zo¹it"
 
-#: src/workbook.c:1101
+#: src/workbook.c:1110
 msgid "Open"
 msgstr "Otvor"
 
-#: src/workbook.c:1101
+#: src/workbook.c:1110
 msgid "Opens an existing workbook"
 msgstr "Otvorí existujúci zo¹it"
 
-#: src/workbook.c:1104
+#: src/workbook.c:1113
 msgid "Save"
 msgstr "Ulo¾"
 
-#: src/workbook.c:1104
+#: src/workbook.c:1113
 msgid "Saves the workbook"
 msgstr "Ulo¾í zo¹it"
 
 #: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
-#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1107
+#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1116
 #, fuzzy
 msgid "Print"
 msgstr "Percentá"
 
-#: src/workbook.c:1107
+#: src/workbook.c:1116
 #, fuzzy
 msgid "Prints the workbook"
 msgstr "Ulo¾í zo¹it"
 
-#: src/workbook.c:1113
+#: src/workbook.c:1122
 msgid "Cuts the selection to the clipboard"
 msgstr "Vysekne výber do schránky"
 
-#: src/workbook.c:1116
+#: src/workbook.c:1125
 msgid "Copies the selection to the clipboard"
 msgstr "Vlo¾í výber do schránky"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1128
 msgid "Pastes the clipboard"
 msgstr "Vlo¾í obsah schránky"
 
-#: src/workbook.c:1125
+#: src/workbook.c:1134
 msgid "Left align"
 msgstr "Zarovnaj doµava"
 
-#: src/workbook.c:1125
+#: src/workbook.c:1134
 msgid "Left justifies the cell contents"
 msgstr "Zarovná obsah buniek doµava"
 
-#: src/workbook.c:1128
+#: src/workbook.c:1137
 msgid "Centers the cell contents"
 msgstr "Zarovná obsah buniek na stred"
 
-#: src/workbook.c:1131
+#: src/workbook.c:1140
 msgid "Right align"
 msgstr "Zarovnaj doprava"
 
-#: src/workbook.c:1131
+#: src/workbook.c:1140
 msgid "Right justifies the cell contents"
 msgstr "Zarovná obsah buniek doprava"
 
-#: src/workbook.c:1136
+#: src/workbook.c:1145
 msgid "Sets the bold font"
 msgstr "Zmení písmo na tuèné"
 
-#: src/workbook.c:1139
+#: src/workbook.c:1148
 msgid "Makes the font italic"
 msgstr "Zmení písmo na kurzívu"
 
-#: src/workbook.c:1146
+#: src/workbook.c:1155
 msgid "Graphic"
 msgstr "Obrázok"
 
-#: src/workbook.c:1146
+#: src/workbook.c:1155
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Vlo¾í obrázok do dokumentu"
 
-#: src/workbook.c:1150
+#: src/workbook.c:1159
 msgid "Line"
 msgstr "Èiara"
 
-#: src/workbook.c:1150
+#: src/workbook.c:1159
 msgid "Creates a line object"
 msgstr "Nakreslí èiaru"
 
-#: src/workbook.c:1153
+#: src/workbook.c:1162
 msgid "Arrow"
 msgstr "©ípka"
 
-#: src/workbook.c:1153
+#: src/workbook.c:1162
 msgid "Creates an arrow object"
 msgstr "Nakreslí ¹ípku"
 
-#: src/workbook.c:1156
+#: src/workbook.c:1165
 msgid "Rectangle"
 msgstr "Obdå¾nik"
 
-#: src/workbook.c:1156
+#: src/workbook.c:1165
 msgid "Creates a rectangle object"
 msgstr "Nakreslí obdå¾nik"
 
-#: src/workbook.c:1159
+#: src/workbook.c:1168
 msgid "Ellipse"
 msgstr "Elipsa"
 
-#: src/workbook.c:1159
+#: src/workbook.c:1168
 msgid "Creates an ellipse object"
 msgstr "Nakreslí elipsu"
 
-#: src/workbook.c:1377
+#: src/workbook.c:1386
 msgid "You should introduce a valid cell name"
 msgstr "Mali by ste zada» platné meno bunky"
 
-#: src/workbook.c:1386
+#: src/workbook.c:1395
 msgid "Column out of range"
 msgstr "Ståpec mimo rozsah"
 
-#: src/workbook.c:1392
+#: src/workbook.c:1401
 msgid "Row number out of range"
 msgstr "Èíslo riadku mimo rozsah"
 
-#: src/workbook.c:1592
+#: src/workbook.c:1601
 msgid "Sum"
 msgstr "Súèet"
 
-#: src/workbook.c:1595
+#: src/workbook.c:1604
 msgid "Average"
 msgstr "Priemer"
 
-#: src/workbook.c:1596
+#: src/workbook.c:1605
 msgid "Count"
 msgstr "Poèet"
 
-#: src/workbook.c:2009
+#: src/workbook.c:2018
 msgid "Untitled.gnumeric"
 msgstr "bez-mena.gnumeric"
 
-#: src/workbook.c:2098
+#: src/workbook.c:2119
 msgid "Zoom out"
 msgstr "Zmen¹i"
 
-#: src/workbook.c:2105
+#: src/workbook.c:2126
 msgid "Zoom in"
 msgstr "Zväè¹i"
 
-#: src/workbook.c:2200
+#: src/workbook.c:2221
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Ste si istý, ¾e chcete odstráni» list nazvaný `%s' "
 
-#: src/workbook.c:2219
+#: src/workbook.c:2240
 #, fuzzy
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr "Iné listy závisia na hodnotách v tomto liste, nemô¾em ho odstráni»"
 
-#: src/workbook.c:2239
+#: src/workbook.c:2260
 msgid "Add another sheet"
 msgstr "Pridaj ïal¹í list"
 
-#: src/workbook.c:2240
+#: src/workbook.c:2261
 msgid "Remove this sheet"
 msgstr "Odstráò tento list"
 
-#: src/workbook.c:2506 src/workbook.c:2541
+#: src/workbook.c:2527 src/workbook.c:2562
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "List %d"
 
-#: src/workbook.c:2614
+#: src/workbook.c:2635
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 

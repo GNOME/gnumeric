@@ -2557,11 +2557,12 @@ workbook_new_with_sheets (int sheet_count)
 
 	for (i = 1; i <= sheet_count; i++){
 		Sheet *sheet;
-		char name [80];
+		char *name;
 
-		snprintf (name, sizeof (name), _("Sheet%d"), i);
+		name = g_strdup_printf (_("Sheet%d"), i);
 		sheet = sheet_new (wb, name);
 		workbook_attach_sheet (wb, sheet);
+		g_free (name);
 	}
 
 	workbook_focus_current_sheet (wb);

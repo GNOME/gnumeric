@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 1999-08-17 16:56-0500\n"
+"POT-Creation-Date: 1999-08-20 20:08-0500\n"
 "PO-Revision-Date: 1999-06-01 11:20+0100\n"
 "Last-Translator: Vladimir Vuksan <vuksan@veus.hr>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -314,7 +314,7 @@ msgid "ERROR"
 msgstr "GRE©KA"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:755
+#: src/cell.c:125 src/cell.c:756
 msgid "Circular reference"
 msgstr ""
 
@@ -622,7 +622,7 @@ msgid "Left"
 msgstr "Lijevo"
 
 #: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
-#: src/workbook.c:1128
+#: src/workbook.c:1137
 msgid "Center"
 msgstr "Centrirano"
 
@@ -733,7 +733,7 @@ msgstr ""
 msgid "Need at least one clause"
 msgstr ""
 
-#: src/dialog-cell-sort.c:314 src/workbook.c:1484
+#: src/dialog-cell-sort.c:314 src/workbook.c:1493
 msgid "Selection must be a single range"
 msgstr ""
 
@@ -1028,11 +1028,11 @@ msgstr "Postotak"
 msgid "bool"
 msgstr "_Alati"
 
-#: src/dialog-solver.c:41 src/workbook.c:1594
+#: src/dialog-solver.c:41 src/workbook.c:1603
 msgid "Max"
 msgstr "Max"
 
-#: src/dialog-solver.c:42 src/workbook.c:1593
+#: src/dialog-solver.c:42 src/workbook.c:1602
 msgid "Min"
 msgstr "Min"
 
@@ -4992,88 +4992,88 @@ msgstr "Funkcija ne postoji"
 msgid "Calling non-function"
 msgstr ""
 
-#: src/gnumeric-sheet.c:946
+#: src/gnumeric-sheet.c:981
 #, fuzzy
 msgid "Solid"
 msgstr "Zadebljano"
 
-#: src/gnumeric-sheet.c:949
+#: src/gnumeric-sheet.c:984
 #, c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:952
+#: src/gnumeric-sheet.c:987
 #, c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:955
+#: src/gnumeric-sheet.c:990
 #, c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:958
+#: src/gnumeric-sheet.c:993
 #, fuzzy, c-format
 msgid "12.5%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:961
+#: src/gnumeric-sheet.c:996
 #, fuzzy, c-format
 msgid "6.25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:964
+#: src/gnumeric-sheet.c:999
 #, fuzzy
 msgid "Horizontal Stripe"
 msgstr "Vodoravne linije"
 
-#: src/gnumeric-sheet.c:967
+#: src/gnumeric-sheet.c:1002
 #, fuzzy
 msgid "Vertical Stripe"
 msgstr "Okomite linije"
 
-#: src/gnumeric-sheet.c:970
+#: src/gnumeric-sheet.c:1005
 msgid "Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/gnumeric-sheet.c:973
+#: src/gnumeric-sheet.c:1008
 #, fuzzy
 msgid "Diagonal Stripe"
 msgstr "Dijagonalne linije"
 
-#: src/gnumeric-sheet.c:976
+#: src/gnumeric-sheet.c:1011
 #, fuzzy
 msgid "Diagonal Crosshatch"
 msgstr "Dijagonalne linije"
 
-#: src/gnumeric-sheet.c:979
+#: src/gnumeric-sheet.c:1014
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:982
+#: src/gnumeric-sheet.c:1017
 #, fuzzy
 msgid "Thin Horizontal Stripe"
 msgstr "Vodoravne linije"
 
-#: src/gnumeric-sheet.c:985
+#: src/gnumeric-sheet.c:1020
 #, fuzzy
 msgid "Thin Vertical Stripe"
 msgstr "Okomite linije"
 
-#: src/gnumeric-sheet.c:988
+#: src/gnumeric-sheet.c:1023
 msgid "Thin Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/gnumeric-sheet.c:991
+#: src/gnumeric-sheet.c:1026
 #, fuzzy
 msgid "Thin Diagonal Stripe"
 msgstr "Dijagonalne linije"
 
-#: src/gnumeric-sheet.c:994
+#: src/gnumeric-sheet.c:1029
 msgid "Thin Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:997
+#: src/gnumeric-sheet.c:1032
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
@@ -5125,7 +5125,7 @@ msgid ""
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1116
+#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1125
 msgid "Copy"
 msgstr "Kopiraj"
 
@@ -5157,11 +5157,11 @@ msgstr ""
 msgid "Shift cells right and move"
 msgstr ""
 
-#: src/item-grid.c:599 src/workbook.c:1113
+#: src/item-grid.c:599 src/workbook.c:1122
 msgid "Cut"
 msgstr "Izre¾i"
 
-#: src/item-grid.c:601 src/workbook.c:1119
+#: src/item-grid.c:601 src/workbook.c:1128
 msgid "Paste"
 msgstr "Umetni"
 
@@ -5336,7 +5336,12 @@ msgstr "Datum"
 msgid "time"
 msgstr "Vrijeme"
 
-#: src/sheet-object-container.c:136
+#: src/sheet-object-container.c:187 src/workbook.c:901
+#, fuzzy
+msgid "Select an object"
+msgstr "Umeæe Bonobo objekt"
+
+#: src/sheet-object-container.c:290
 msgid "Object server"
 msgstr ""
 
@@ -5350,37 +5355,37 @@ msgstr "Red: %d"
 msgid "Column: %s"
 msgstr "Stupac: %s"
 
-#: src/sheet.c:827
+#: src/sheet.c:828
 #, fuzzy
 msgid "Internal ERROR"
 msgstr "Gre¹ka u sintaksi"
 
-#: src/sheet.c:2967
+#: src/sheet.c:2968
 msgid "The command `"
 msgstr ""
 
-#: src/sheet.c:2969
+#: src/sheet.c:2970
 msgid "' cannot be performed with multiple selections"
 msgstr ""
 
-#: src/sheet.c:2984
+#: src/sheet.c:2985
 msgid "copy"
 msgstr "kopiraj"
 
-#: src/sheet.c:3009
+#: src/sheet.c:3010
 msgid "cut"
 msgstr "izre¾i"
 
-#: src/sheet.c:3065
+#: src/sheet.c:3066
 msgid "paste"
 msgstr "zalijepi"
 
-#: src/sheet.c:4078
+#: src/sheet.c:4232
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Ne mogu aktivirati objekt %s"
 
-#: src/sheet.c:4090
+#: src/sheet.c:4244
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -5413,7 +5418,7 @@ msgstr "#BROJ!"
 msgid "#N/A"
 msgstr ""
 
-#: src/widget-font-selector.c:118 src/workbook.c:1136
+#: src/widget-font-selector.c:118 src/workbook.c:1145
 msgid "Bold"
 msgstr "Zadebljano"
 
@@ -5421,459 +5426,459 @@ msgstr "Zadebljano"
 msgid "Bold italic"
 msgstr ""
 
-#: src/widget-font-selector.c:120 src/workbook.c:1139
+#: src/widget-font-selector.c:120 src/workbook.c:1148
 msgid "Italic"
 msgstr "Nako¹eno"
 
-#: src/workbook.c:453
+#: src/workbook.c:457
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: src/workbook.c:461
+#: src/workbook.c:466
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook.c:464
+#: src/workbook.c:469
 msgid "Workbook has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook.c:663
+#: src/workbook.c:668
 msgid "Insert cols"
 msgstr "Umetni stupce"
 
-#: src/workbook.c:682
+#: src/workbook.c:687
 msgid "Insert rows"
 msgstr "Umetni redove"
 
-#: src/workbook.c:778
+#: src/workbook.c:783
 msgid ">mm/dd/yyyy"
 msgstr ""
 
-#: src/workbook.c:797
+#: src/workbook.c:802
 msgid ">hh:mm"
 msgstr ""
 
-#: src/workbook.c:905
+#: src/workbook.c:910
 msgid "_New"
 msgstr " Nova"
 
-#: src/workbook.c:905
+#: src/workbook.c:910
 msgid "Create a new spreadsheet"
 msgstr "Stvori novu tablicu"
 
-#: src/workbook.c:909
+#: src/workbook.c:914
 #, fuzzy
 msgid "_Import"
 msgstr "_Sortiraj"
 
-#: src/workbook.c:909
+#: src/workbook.c:914
 #, fuzzy
 msgid "Imports a file"
 msgstr "Nemoguæe!"
 
-#: src/workbook.c:915
+#: src/workbook.c:920
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:915
+#: src/workbook.c:920
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:920
+#: src/workbook.c:925
 msgid "Plu_g-ins..."
 msgstr ""
 
-#: src/workbook.c:920
+#: src/workbook.c:925
 msgid "Gnumeric plugins"
 msgstr ""
 
-#: src/workbook.c:941
+#: src/workbook.c:946
 msgid "_All"
 msgstr "_Sve"
 
-#: src/workbook.c:942
+#: src/workbook.c:947
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Obri¹i formate, komentare i sadr¾aj izabranih æelija"
 
-#: src/workbook.c:944
+#: src/workbook.c:949
 msgid "_Formats"
 msgstr " Formati"
 
-#: src/workbook.c:945
+#: src/workbook.c:950
 msgid "Clear the selected cells' formats"
 msgstr "Obri¹i formate izabranih æelija"
 
-#: src/workbook.c:946
+#: src/workbook.c:951
 msgid "_Comments"
 msgstr " Komentare"
 
-#: src/workbook.c:947
+#: src/workbook.c:952
 msgid "Clear the selected cells' comments"
 msgstr "Obri¹i"
 
-#: src/workbook.c:948
+#: src/workbook.c:953
 msgid "_Content"
 msgstr " Sadr¾aj"
 
-#: src/workbook.c:949
+#: src/workbook.c:954
 msgid "Clear the selected cells' contents"
 msgstr "Obri¹i komentare izabranih æelija"
 
-#: src/workbook.c:957
+#: src/workbook.c:962
 msgid "P_aste special..."
 msgstr ""
 
-#: src/workbook.c:958
+#: src/workbook.c:963
 msgid "C_lear"
 msgstr "O_bri¹i"
 
-#: src/workbook.c:959
+#: src/workbook.c:964
 msgid "Clear the selected cell(s)"
 msgstr "Obri¹i sve iz izabrane æelije(a)"
 
-#: src/workbook.c:963
+#: src/workbook.c:968
 msgid "_Select All"
 msgstr "_Izaberi Sve"
 
-#: src/workbook.c:964
+#: src/workbook.c:969
 msgid "Select all cells in the spreadsheet"
 msgstr "Izaberi sve æelije u proraèunskoj tablici"
 
-#: src/workbook.c:966
+#: src/workbook.c:971
 #, fuzzy
 msgid "_Goto cell..."
 msgstr "_Idi u æeliju.."
 
-#: src/workbook.c:967
+#: src/workbook.c:972
 msgid "Jump to a specified cell"
 msgstr "Skoèi do izabrane æelije"
 
-#: src/workbook.c:973
+#: src/workbook.c:978
 msgid "Insert object..."
 msgstr "Umetni objekt..."
 
-#: src/workbook.c:974
+#: src/workbook.c:979
 msgid "Inserts a Bonobo object"
 msgstr "Umeæe Bonobo objekt"
 
-#: src/workbook.c:981
+#: src/workbook.c:986
 msgid "_Define cell names"
 msgstr ""
 
-#: src/workbook.c:985
+#: src/workbook.c:990
 msgid "_Recalculate"
 msgstr ""
 
-#: src/workbook.c:986
+#: src/workbook.c:991
 msgid "Recalculate the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:994
+#: src/workbook.c:999
 msgid "_Zoom..."
 msgstr "_Uveæaj/Umanji..."
 
-#: src/workbook.c:995
+#: src/workbook.c:1000
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
-#: src/workbook.c:1002
+#: src/workbook.c:1007
 msgid "Current _date"
 msgstr "Trenutni _datum"
 
-#: src/workbook.c:1003
+#: src/workbook.c:1008
 msgid "Insert the current data into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:1006
+#: src/workbook.c:1011
 msgid "Current _time"
 msgstr "Trenutno _vrijeme"
 
-#: src/workbook.c:1007
+#: src/workbook.c:1012
 msgid "Insert the current time into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:1014 src/workbook.c:1060
+#: src/workbook.c:1019 src/workbook.c:1065
 msgid "_Sheet"
 msgstr "_List"
 
-#: src/workbook.c:1014
+#: src/workbook.c:1019
 msgid "Insert a new spreadsheet"
 msgstr ""
 
-#: src/workbook.c:1016 src/workbook.c:1054
+#: src/workbook.c:1021 src/workbook.c:1059
 msgid "_Cells..."
 msgstr ""
 
-#: src/workbook.c:1016
+#: src/workbook.c:1021
 msgid "Insert new cells"
 msgstr "Umetni nove æelije"
 
-#: src/workbook.c:1018
+#: src/workbook.c:1023
 msgid "_Rows"
 msgstr "_Redove"
 
-#: src/workbook.c:1018
+#: src/workbook.c:1023
 msgid "Insert new rows"
 msgstr "Umetni nove redove"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1025
 msgid "C_olumns"
 msgstr "_Stupce"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1025
 msgid "Insert new columns"
 msgstr "Umetni nove stupce"
 
-#: src/workbook.c:1025
+#: src/workbook.c:1030
 #, fuzzy
 msgid "_Add/modify comment..."
 msgstr "_Dodaj/promijeni komentar"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1031
 msgid "Edit the selected cell's comment"
 msgstr "Promijeni komentar u izabranoj æeliji"
 
-#: src/workbook.c:1027
+#: src/workbook.c:1032
 msgid "_Special"
 msgstr "_Posebno"
 
-#: src/workbook.c:1036 src/workbook.c:1042
+#: src/workbook.c:1041 src/workbook.c:1047
 msgid "_Autoadjust"
 msgstr ""
 
-#: src/workbook.c:1037
+#: src/workbook.c:1042
 msgid "_Width"
 msgstr "©_irina"
 
-#: src/workbook.c:1043
+#: src/workbook.c:1048
 msgid "_Height"
 msgstr "_Visina"
 
-#: src/workbook.c:1048
+#: src/workbook.c:1053
 msgid "_Change name"
 msgstr "Promijeni _ime"
 
-#: src/workbook.c:1055
+#: src/workbook.c:1060
 msgid "Modify the formatting of the selected cells"
 msgstr "Promijeni format izabranih æelija"
 
-#: src/workbook.c:1058
+#: src/workbook.c:1063
 msgid "C_olumn"
 msgstr "S_tupac"
 
-#: src/workbook.c:1059
+#: src/workbook.c:1064
 msgid "_Row"
 msgstr "_Red"
 
-#: src/workbook.c:1067
+#: src/workbook.c:1072
 #, fuzzy
 msgid "_Sort..."
 msgstr "_Sortiraj"
 
-#: src/workbook.c:1068
+#: src/workbook.c:1073
 msgid "Sort the selected cells"
 msgstr "Sortiraj izabrane æelije"
 
-#: src/workbook.c:1069
+#: src/workbook.c:1074
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/workbook.c:1071
+#: src/workbook.c:1076
 msgid "_Solver..."
 msgstr ""
 
-#: src/workbook.c:1073
+#: src/workbook.c:1078
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1087
+#: src/workbook.c:1092
 msgid "_Insert"
 msgstr "_Umetni"
 
-#: src/workbook.c:1088
+#: src/workbook.c:1093
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:1089
+#: src/workbook.c:1094
 msgid "_Tools"
 msgstr "_Alati"
 
-#: src/workbook.c:1098
+#: src/workbook.c:1107
 msgid "New"
 msgstr "Nova bilje¾nica"
 
-#: src/workbook.c:1098
+#: src/workbook.c:1107
 msgid "Creates a new sheet"
 msgstr "Stvara novi list"
 
-#: src/workbook.c:1101
+#: src/workbook.c:1110
 msgid "Open"
 msgstr "Otvori"
 
-#: src/workbook.c:1101
+#: src/workbook.c:1110
 msgid "Opens an existing workbook"
 msgstr "Otvora postojeæu bilje¾nicu"
 
-#: src/workbook.c:1104
+#: src/workbook.c:1113
 msgid "Save"
 msgstr "Spremi"
 
-#: src/workbook.c:1104
+#: src/workbook.c:1113
 msgid "Saves the workbook"
 msgstr "Sprema bilje¾nicu"
 
 #: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
-#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1107
+#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1116
 #, fuzzy
 msgid "Print"
 msgstr "Postotak"
 
-#: src/workbook.c:1107
+#: src/workbook.c:1116
 #, fuzzy
 msgid "Prints the workbook"
 msgstr "Sprema bilje¾nicu"
 
-#: src/workbook.c:1113
+#: src/workbook.c:1122
 msgid "Cuts the selection to the clipboard"
 msgstr ""
 
-#: src/workbook.c:1116
+#: src/workbook.c:1125
 msgid "Copies the selection to the clipboard"
 msgstr ""
 
-#: src/workbook.c:1119
+#: src/workbook.c:1128
 msgid "Pastes the clipboard"
 msgstr ""
 
-#: src/workbook.c:1125
+#: src/workbook.c:1134
 msgid "Left align"
 msgstr "Lijevo poravnano"
 
-#: src/workbook.c:1125
+#: src/workbook.c:1134
 msgid "Left justifies the cell contents"
 msgstr ""
 
-#: src/workbook.c:1128
+#: src/workbook.c:1137
 msgid "Centers the cell contents"
 msgstr ""
 
-#: src/workbook.c:1131
+#: src/workbook.c:1140
 msgid "Right align"
 msgstr "Desno poravnano"
 
-#: src/workbook.c:1131
+#: src/workbook.c:1140
 msgid "Right justifies the cell contents"
 msgstr ""
 
-#: src/workbook.c:1136
+#: src/workbook.c:1145
 msgid "Sets the bold font"
 msgstr "Namje¹ta zadebljano pismo"
 
-#: src/workbook.c:1139
+#: src/workbook.c:1148
 msgid "Makes the font italic"
 msgstr ""
 
-#: src/workbook.c:1146
+#: src/workbook.c:1155
 msgid "Graphic"
 msgstr "Slika"
 
-#: src/workbook.c:1146
+#: src/workbook.c:1155
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Stvara grafiku u tablici"
 
-#: src/workbook.c:1150
+#: src/workbook.c:1159
 msgid "Line"
 msgstr "Linija"
 
-#: src/workbook.c:1150
+#: src/workbook.c:1159
 msgid "Creates a line object"
 msgstr ""
 
-#: src/workbook.c:1153
+#: src/workbook.c:1162
 msgid "Arrow"
 msgstr "Strelica"
 
-#: src/workbook.c:1153
+#: src/workbook.c:1162
 msgid "Creates an arrow object"
 msgstr ""
 
-#: src/workbook.c:1156
+#: src/workbook.c:1165
 msgid "Rectangle"
 msgstr "Èetverokut"
 
-#: src/workbook.c:1156
+#: src/workbook.c:1165
 msgid "Creates a rectangle object"
 msgstr ""
 
-#: src/workbook.c:1159
+#: src/workbook.c:1168
 msgid "Ellipse"
 msgstr "Elipsa"
 
-#: src/workbook.c:1159
+#: src/workbook.c:1168
 msgid "Creates an ellipse object"
 msgstr ""
 
-#: src/workbook.c:1377
+#: src/workbook.c:1386
 msgid "You should introduce a valid cell name"
 msgstr ""
 
-#: src/workbook.c:1386
+#: src/workbook.c:1395
 msgid "Column out of range"
 msgstr "Broj stupca je izvan raspona"
 
-#: src/workbook.c:1392
+#: src/workbook.c:1401
 msgid "Row number out of range"
 msgstr "Broj reda je izvan raspona"
 
-#: src/workbook.c:1592
+#: src/workbook.c:1601
 msgid "Sum"
 msgstr "Zbroj"
 
-#: src/workbook.c:1595
+#: src/workbook.c:1604
 msgid "Average"
 msgstr ""
 
-#: src/workbook.c:1596
+#: src/workbook.c:1605
 msgid "Count"
 msgstr ""
 
-#: src/workbook.c:2009
+#: src/workbook.c:2018
 msgid "Untitled.gnumeric"
 msgstr "Bezimen.gnumeric"
 
-#: src/workbook.c:2098
+#: src/workbook.c:2119
 msgid "Zoom out"
 msgstr "Umanji"
 
-#: src/workbook.c:2105
+#: src/workbook.c:2126
 msgid "Zoom in"
 msgstr "Uveæaj"
 
-#: src/workbook.c:2200
+#: src/workbook.c:2221
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Da li ste sigurni da ¾elite ukloniti list pod `%s' "
 
-#: src/workbook.c:2219
+#: src/workbook.c:2240
 #, fuzzy
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr "Drugi listovi ovise o vrijednostima na ovom listu, ne mogu ga ukloniti"
 
-#: src/workbook.c:2239
+#: src/workbook.c:2260
 msgid "Add another sheet"
 msgstr "Dodaj novi list"
 
-#: src/workbook.c:2240
+#: src/workbook.c:2261
 msgid "Remove this sheet"
 msgstr "Ukloni ovaj list"
 
-#: src/workbook.c:2506 src/workbook.c:2541
+#: src/workbook.c:2527 src/workbook.c:2562
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "List %d"
 
-#: src/workbook.c:2614
+#: src/workbook.c:2635
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 

@@ -1,3 +1,8 @@
+1999-08-21  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook.c (workbook_new_with_sheets): Fixed hardcoded
+	buffer. 
+
 1999-08-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/finfuns.xls: Made all the dates to use DATE() function
