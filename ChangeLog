@@ -1,5 +1,8 @@
 2001-02-23  Jody Goldberg <jgoldberg@home.com>
 
+	* src/print-cell.c (print_cell_range) : Use the hide_grid from the
+	  print flags not the sheet itself.
+
 	* src/print.c (print_page_cells) : We now pass 'HideGridLines' so
 	  invert the logic.
 

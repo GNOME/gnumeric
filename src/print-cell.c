@@ -670,7 +670,7 @@ print_cell_range (GnomePrintContext *context,
 	MStyle const **styles;
 	StyleBorder const **borders, **prev_vert;
 	StyleBorder const *none =
-		sheet->hide_grid ? NULL : style_border_none ();
+		hide_grid ? NULL : style_border_none ();
 
 	Range     view;
 	gboolean  first_row;
@@ -717,7 +717,7 @@ print_cell_range (GnomePrintContext *context,
 	next_sr.styles	 = sr.styles + n;
 	sr.start_col	 = next_sr.start_col	 = start_col;
 	sr.end_col	 = next_sr.end_col	 = end_col;
-	sr.hide_grid = next_sr.hide_grid = sheet->hide_grid;
+	sr.hide_grid = next_sr.hide_grid = hide_grid;
 
 	/* Init the areas that sheet_style_get_row will not */
 	for (col = start_col-1 ; col <= end_col+1; ++col)
