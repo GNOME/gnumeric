@@ -1,3 +1,12 @@
+1999-04-12  Michael Meeks <michael@imaginator.com>
+
+	* ole.c: Added 'biff' command.
+	Added type file loader/parser and helper function.
+
+	* biff-types.h: Created
+
+	* ms-excel-biff.h: Moved types out.
+
 1999-04-11  Michael Meeks <michael@imaginator.com>
 
 	* ole.c: Major update, interactive mode, help, dump command
