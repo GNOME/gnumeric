@@ -93,7 +93,7 @@ init_vector_corba_class (void)
 	vector_epv.count          = impl_vector_count;
 	vector_epv.set_notify     = impl_vector_set_notify;
 
-	vector_vepv.GNOME_Unknown_epv = &gnome_object_epv;
+	vector_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
 	vector_vepv.GNOME_Gnumeric_Vector_epv = &vector_epv;
 }
 

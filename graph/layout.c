@@ -95,8 +95,8 @@ init_layout_corba_class (void)
 	layout_epv.reset_series = &impl_reset_series;
 	layout_epv.add_series   = &impl_add_series;
 
-	layout_vepv.GNOME_Unknown_epv = &gnome_object_epv;
-	layout_vepv.GNOME_Embeddable_epv = &gnome_embeddable_epv;
+	layout_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
+	layout_vepv.GNOME_Embeddable_epv = gnome_embeddable_get_epv ();
 	layout_vepv.GNOME_Graph_Layout_epv = &layout_epv;
 }
 

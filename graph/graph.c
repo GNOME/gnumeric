@@ -447,7 +447,7 @@ init_graph_corba_class (void)
 	/*
 	 * The Vepv
 	 */
-	graph_vepv.GNOME_Unknown_epv = &gnome_object_epv;
+	graph_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
 	graph_vepv.GNOME_Graph_Chart_epv = &graph_epv;
 }
 
