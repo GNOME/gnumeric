@@ -3,7 +3,7 @@
  *
  *     Authors: Mark Probst
  *              Ariel Rios <ariel@arcavia.com>
- *	   Copyright Mark Probst, Ariel Rios 2000
+ *	   Copyright Mark Probst, Ariel Rios 2000, 2001
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,16 +52,6 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
  */
 static EvalPos const *eval_pos = NULL;
 
-gboolean
-has_gnumeric_been_compiled_with_guile_support (void)
-{
-#ifdef HAVE_GUILE
- 	return TRUE;
-#else
-        return FALSE;
-#endif
-	
-}
 
 static Value*
 func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
@@ -213,13 +203,7 @@ plugin_init_general (ErrorInfo **ret_error)
 	char *name, *dir;
 
 	*ret_error = NULL;
-
-	if (!has_gnumeric_been_compiled_with_guile_support ()) {
-		*ret_error = error_info_new_str (
-		             _("Gnumeric has not been compiled with support for guile."));
-		return;
-	}
-
+	
 	 scm_init_guile ();
 	
 	/* Initialize just in case. */
