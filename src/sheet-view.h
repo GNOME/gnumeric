@@ -31,8 +31,12 @@ struct _SheetView {
 	gboolean         enable_insert_rows		: 1;
 	gboolean         enable_insert_cols		: 1;
 	gboolean         enable_insert_cells		: 1;
-	gboolean	 selection_content_changed	: 1;
 	gboolean	 reposition_selection		: 1;
+
+	/* TODO : these should be replaced with Dependents when we support
+	 * format based dependents
+	 */
+	gboolean	 selection_content_changed	: 1;
 	struct {
 		gboolean location;
 		gboolean content; /* entered content NOT value */

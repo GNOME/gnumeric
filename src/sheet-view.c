@@ -427,7 +427,7 @@ sv_flag_status_update_pos (SheetView *sv, CellPos const *pos)
 	/* if a part of the selected region changed value update
 	 * the auto expressions
 	 */
-	if (sv_is_cell_selected (sv, pos->col, pos->row))
+	if (sv_is_pos_selected (sv, pos->col, pos->row))
 		sv->selection_content_changed = TRUE;
 
 	/* If the edit cell changes value update the edit area
@@ -541,7 +541,7 @@ sv_update (SheetView *sv)
 static Value *
 fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *sv)
 {
-	if (!sv_is_cell_selected (sv, col, row))
+	if (!sv_is_pos_selected (sv, col, row))
 		return VALUE_TERMINATE;
 	else
 		return NULL;

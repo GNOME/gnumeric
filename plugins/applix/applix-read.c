@@ -1113,26 +1113,63 @@ applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
 	return 0;
 }
 
-static int
+static gboolean
 applix_read_sheet_table (ApplixReadState *state)
 {
 	unsigned char *ptr;
 	while (NULL != (ptr = applix_get_line (state)))
 	       if (!a_strncmp (ptr, "END SHEETS TABLE"))
-		       return 0;
+		       return FALSE;
 #warning TODO
-	return 1;
+	return TRUE;
 }
 
-static int
+static gboolean
 applix_read_header_footer (ApplixReadState *state)
 {
 	unsigned char *ptr;
 	while (NULL != (ptr = applix_get_line (state)))
 	       if (!a_strncmp (ptr, "Headers And Footers End"))
-		       return 0;
-	return 1;
+		       return FALSE;
+	return TRUE;
 }
+
+static gboolean
+applix_read_relative_name (ApplixReadState *state, char *buffer)
+{
+	char *end;
+
+	/* .ABCDe. Coordinate: A:B2..A:C4 */
+	/* Spec guarantees that there are no dots in the name */
+	buffer = strchr (buffer, '.');
+	if (buffer == NULL)
+		return TRUE;
+	end = strchr (++buffer, '.');
+	if (end == NULL)
+		return TRUE;
+	*end = '\0';
+#if 0
+	GnmExpr *expr = gnm_expr_parse_str (expr_string+1,
+		parse_pos_init_cell (&pos, cell),
+		GNM_EXPR_PARSE_USE_APPLIX_REFERENCE_CONVENTIONS |
+		GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
+		&perr);
+#endif
+	puts (buffer);
+	return FALSE;
+}
+
+static gboolean
+applix_read_absolute_name (ApplixReadState *state, char *buffer)
+{
+	/* .abcdE. tCol:0 tRow:0 tSheet:0 bCol:1 bRow:2 bSheet: 0 tColAbs:0 tRowAbs:0 tSheetAbs:1 bColAbs:0 bRowAbs:0 bSheetAbs:1 */
+	/* Spec guarantees that there are no dots in the name */
+	puts (buffer);
+	return FALSE;
+}
+
+#define ABS_NAMED_RANGE	"Named Range, Name:"
+#define REL_NAMED_RANGE	"Relative Named Range, Name:"
 
 static int
 applix_read_impl (ApplixReadState *state)
@@ -1235,6 +1272,12 @@ applix_read_impl (ApplixReadState *state)
 		} else if (!a_strncmp (buffer, "SHEETS TABLE")) {
 			if (applix_read_sheet_table (state))
 				return applix_parse_error (state, "sheet table");
+		} else if (!a_strncmp (buffer, ABS_NAMED_RANGE)) {
+			if (applix_read_absolute_name (state, buffer + sizeof (ABS_NAMED_RANGE)))
+				return applix_parse_error (state, "Absolute named range");
+		} else if (!a_strncmp (buffer, REL_NAMED_RANGE)) {
+			if (applix_read_relative_name (state, buffer + sizeof (REL_NAMED_RANGE)))
+				return applix_parse_error (state, "Absolute named range");
 		} else if (!a_strncmp (buffer, "Row List")) {
 			if (applix_read_row_list (state, buffer + sizeof ("Row List")))
 				return applix_parse_error (state, "row list");

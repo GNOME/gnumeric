@@ -1,3 +1,20 @@
+2002-06-22  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.h : support constructed ranges.
+	* src/parser.y (parser_sheet_by_name) : ditto.
+	* src/expr-name.c (name_refer_circular) : ditto.
+
+	* src/expr.c (do_gnm_expr_unref) : support range_ctor and reorder to
+	  produce a better jump table.
+	(gnm_expr_equal) : ditto.
+	(do_expr_as_string) : ditto.
+	(gnm_expr_rewrite) : ditto.
+	(ets_hash) : ditto.
+	(ets_equal) : ditto.
+	(expr_tree_sharer_share) : ditto.
+	(expr_eval_real) : ditto and use gnm_expr_extract_ref.
+	(gnm_expr_extract_ref) : new.
+
 2002-06-21  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-view.c (workbook_view_new) : add views of all existing

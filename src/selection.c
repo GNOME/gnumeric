@@ -29,6 +29,212 @@
 #include "sheet-control.h"
 #include <libgnome/gnome-i18n.h>
 
+/**
+ * sv_is_pos_selected :
+ * @sv :
+ * @col :
+ * @row :
+ *
+ * Returns TRUE if the supplied position is selected in view @sv.
+ **/
+gboolean
+sv_is_pos_selected (SheetView const *sv, int col, int row)
+{
+	GList *ptr;
+	Range const *sr;
+
+	for (ptr = sv->selections; ptr != NULL ; ptr = ptr->next) {
+		sr = ptr->data;
+		if (range_contains (sr, col, row))
+			return TRUE;
+	}
+	return FALSE;
+}
+
+/**
+ * sv_is_range_selected :
+ * @sv :
+ * @r  :
+ * 
+ * Returns TRUE If @r overlaps with any part of the selection in @sv.
+ **/
+gboolean
+sv_is_range_selected (SheetView const *sv, Range const *r)
+{
+	GList *ptr;
+	Range const *sr;
+
+	for (ptr = sv->selections; ptr != NULL ; ptr = ptr->next){
+		sr = ptr->data;
+		if (range_overlap (sr, r))
+			return TRUE;
+	}
+	return FALSE;
+}
+
+/**
+ * sv_is_full_range_selected :
+ *
+ * @sv :
+ * @r :
+ *
+ * Returns TRUE if all of @r is contained by the selection in @sv.
+ **/
+gboolean
+sv_is_full_range_selected (SheetView const *sv, Range const *r)
+{
+	GList *ptr;
+	Range const *sr;
+
+	for (ptr = sv->selections; ptr != NULL ; ptr = ptr->next) {
+		sr = ptr->data;
+		if (range_contained (r, sr))
+			return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+ * sv_is_colrow_selected :
+ * @sv : containing the selection
+ * @colrow: The column or row number we are interested in.
+ * @is_col: A flag indicating whether this it is a column or a row.
+ *
+ * Searches the selection list to see whether the entire col/row specified is
+ * contained by the section regions.  Since the selection is stored as the set
+ * overlapping user specifed regions we can safely search for the range directly.
+ *
+ * Eventually to be completely correct and deal with the case of someone manually
+ * selection an entire col/row, in separate chunks,  we will need to do something
+ * more advanced.
+ */
+gboolean
+sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
+{
+	GList *l;
+	for (l = sv->selections; l != NULL; l = l->next) {
+		Range const *ss = l->data;
+
+		if (is_col) {
+			if (ss->start.row == 0 &&
+			    ss->end.row >= SHEET_MAX_ROWS-1 &&
+			    ss->start.col <= colrow && colrow <= ss->end.col)
+				return TRUE;
+		} else {
+			if (ss->start.col == 0 &&
+			    ss->end.col >= SHEET_MAX_COLS-1 &&
+			    ss->start.row <= colrow && colrow <= ss->end.row)
+				return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+/**
+ * sv_is_full_colrow_selected
+ * @sv :
+ * @is_cols :
+ * @index :
+ *
+ * Returns TRUE if all of the selected cols/rows in the selection
+ * 	are fully selected and the selection contains the specified col.
+ **/
+gboolean
+sv_is_full_colrow_selected (SheetView const *sv, gboolean is_cols, int index)
+{
+	GList *l;
+	gboolean found = FALSE;
+
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
+
+	for (l = sv->selections; l != NULL; l = l->next){
+		Range const *r = l->data;
+		if (is_cols) {
+			if (r->start.row > 0 || r->end.row < SHEET_MAX_ROWS - 1)
+				return FALSE;
+			if (r->start.col <= index && index <= r->end.col)
+				found = TRUE;
+		} else {
+			if (r->start.col > 0 || r->end.col < SHEET_MAX_COLS - 1)
+				return FALSE;
+			if (r->start.row <= index && index <= r->end.row)
+				found = TRUE;
+		}
+	}
+
+	return found;
+}
+
+/**
+ * sheet_col_selection_type :
+ * @sv :
+ * @col :
+ *
+ * Returns How much of column @col is selected in @sv.
+ **/
+ColRowSelectionType
+sheet_col_selection_type (SheetView const *sv, int col)
+{
+	GList *ptr;
+	Range const *sr;
+	int ret = COL_ROW_NO_SELECTION;
+
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), COL_ROW_NO_SELECTION);
+
+	if (sv->selections == NULL)
+		return COL_ROW_NO_SELECTION;
+
+	for (ptr = sv->selections; ptr != NULL; ptr = ptr->next) {
+		sr = ptr->data;
+
+		if (sr->start.col > col || sr->end.col < col)
+			continue;
+
+		if (sr->start.row == 0 &&
+		    sr->end.row == SHEET_MAX_ROWS-1)
+			return COL_ROW_FULL_SELECTION;
+
+		ret = COL_ROW_PARTIAL_SELECTION;
+	}
+
+	return ret;
+}
+
+/**
+ * sheet_col_selection_type :
+ * @sv :
+ * @col :
+ *
+ * Returns How much of column @col is selected in @sv.
+ **/
+ColRowSelectionType
+sheet_row_selection_type (SheetView const *sv, int row)
+{
+	GList *ptr;
+	Range const *sr;
+	int ret = COL_ROW_NO_SELECTION;
+
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), COL_ROW_NO_SELECTION);
+
+	if (sv->selections == NULL)
+		return COL_ROW_NO_SELECTION;
+
+	for (ptr = sv->selections; ptr != NULL; ptr = ptr->next) {
+		sr = ptr->data;
+
+		if (sr->start.row > row || sr->end.row < row)
+			continue;
+
+		if (sr->start.col == 0 &&
+		    sr->end.col == SHEET_MAX_COLS-1)
+			return COL_ROW_FULL_SELECTION;
+
+		ret = COL_ROW_PARTIAL_SELECTION;
+	}
+
+	return ret;
+}
+
 /*
  * Quick utility routine to test intersect of line segments.
  * Returns : 5 sA == sb eA == eb	a == b
@@ -172,68 +378,6 @@ sv_selection_extend_to (SheetView *sv, int col, int row)
 		if (wb_view_cur_sheet (view) == sv->sheet)
 			wb_view_selection_desc (view, FALSE, NULL);
 	});
-}
-
-gboolean
-sv_is_cell_selected (SheetView const *sv, int col, int row)
-{
-	GList *list;
-
-	for (list = sv->selections; list; list = list->next){
-		Range const *ss = list->data;
-
-		if (range_contains (ss, col, row))
-			return TRUE;
-	}
-	return FALSE;
-}
-
-void
-sheet_selection_redraw (SheetView const *sv)
-{
-	GList *sel;
-
-	for (sel = sv->selections; sel; sel = sel->next){
-		Range const *r = sel->data;
-
-		SHEET_VIEW_FOREACH_CONTROL (sv, control,
-			sc_redraw_range (control, r);
-			sc_redraw_headers (control, TRUE, TRUE, r););
-	}
-}
-
-/*
- * TRUE : If the range overlaps with any part of the selection
- */
-gboolean
-sv_is_range_selected (SheetView const *sv, Range const *r)
-{
-	GList *list;
-
-	for (list = sv->selections; list; list = list->next){
-		Range const *ss = list->data;
-
-		if (range_overlap (ss, r))
-			return TRUE;
-	}
-	return FALSE;
-}
-
-/*
- * TRUE : If entire range is contained in the selection
- */
-gboolean
-sv_is_full_range_selected (SheetView const *sv, Range const *r)
-{
-	GList *list;
-
-	for (list = sv->selections; list; list = list->next){
-		Range const *ss = list->data;
-
-		if (range_contained (r, ss))
-			return TRUE;
-	}
-	return FALSE;
 }
 
 static void
@@ -866,42 +1010,6 @@ selection_to_string (SheetView *sv, gboolean include_sheet_name_prefix)
 	return output;
 }
 
-/*
- * sv_is_colrow_selected :
- * @sv : containing the selection
- * @colrow: The column or row number we are interested in.
- * @is_col: A flag indicating whether this it is a column or a row.
- *
- * Searches the selection list to see whether the entire col/row specified is
- * contained by the section regions.  Since the selection is stored as the set
- * overlapping user specifed regions we can safely search for the range directly.
- *
- * Eventually to be completely correct and deal with the case of someone manually
- * selection an entire col/row, in separate chunks,  we will need to do something
- * more advanced.
- */
-gboolean
-sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
-{
-	GList *l;
-	for (l = sv->selections; l != NULL; l = l->next) {
-		Range const *ss = l->data;
-
-		if (is_col) {
-			if (ss->start.row == 0 &&
-			    ss->end.row >= SHEET_MAX_ROWS-1 &&
-			    ss->start.col <= colrow && colrow <= ss->end.col)
-				return TRUE;
-		} else {
-			if (ss->start.col == 0 &&
-			    ss->end.col >= SHEET_MAX_COLS-1 &&
-			    ss->start.row <= colrow && colrow <= ss->end.row)
-				return TRUE;
-		}
-	}
-	return FALSE;
-}
-
 /**
  * selection_foreach_range :
  * @sv : The whose selection is being iterated.
@@ -1115,93 +1223,3 @@ sv_selection_walk_step (SheetView *sv,
 	sv_make_cell_visible (sv, destination.col, destination.row, TRUE);
 }
 
-ColRowSelectionType
-sheet_col_selection_type (SheetView const *sv, int col)
-{
-	GList *l;
-	int ret = COL_ROW_NO_SELECTION;
-
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), COL_ROW_NO_SELECTION);
-
-	if (sv->selections == NULL)
-		return COL_ROW_NO_SELECTION;
-
-	for (l = sv->selections; l != NULL; l = l->next){
-		Range *ss = l->data;
-
-		if (ss->start.col > col ||
-		    ss->end.col < col)
-			continue;
-
-		if (ss->start.row == 0 &&
-		    ss->end.row == SHEET_MAX_ROWS-1)
-			return COL_ROW_FULL_SELECTION;
-
-		ret = COL_ROW_PARTIAL_SELECTION;
-	}
-
-	return ret;
-}
-
-ColRowSelectionType
-sheet_row_selection_type (SheetView const *sv, int row)
-{
-	GList *l;
-	int ret = COL_ROW_NO_SELECTION;
-
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), COL_ROW_NO_SELECTION);
-
-	if (sv->selections == NULL)
-		return COL_ROW_NO_SELECTION;
-
-	for (l = sv->selections; l != NULL; l = l->next) {
-		Range *ss = l->data;
-
-		if (ss->start.row > row ||
-		    ss->end.row < row)
-			continue;
-
-		if (ss->start.col == 0 &&
-		    ss->end.col == SHEET_MAX_COLS-1)
-			return COL_ROW_FULL_SELECTION;
-
-		ret = COL_ROW_PARTIAL_SELECTION;
-	}
-
-	return ret;
-}
-
-/**
- * sheet_selection_full_cols :
- * @sv :
- * @is_cols :
- * @index :
- *
- * returns TRUE if all of the selected cols/rows in the selection
- * 	are fully selected and the selection contains the specified col.
- */
-gboolean
-sheet_selection_full_cols_rows (SheetView const *sv, gboolean is_cols, int index)
-{
-	GList *l;
-	gboolean found = FALSE;
-
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
-
-	for (l = sv->selections; l != NULL; l = l->next){
-		Range const *r = l->data;
-		if (is_cols) {
-			if (r->start.row > 0 || r->end.row < SHEET_MAX_ROWS - 1)
-				return FALSE;
-			if (r->start.col <= index && index <= r->end.col)
-				found = TRUE;
-		} else {
-			if (r->start.col > 0 || r->end.col < SHEET_MAX_COLS - 1)
-				return FALSE;
-			if (r->start.row <= index && index <= r->end.row)
-				found = TRUE;
-		}
-	}
-
-	return found;
-}

@@ -1,9 +1,22 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * expr.c: Expression evaluation in Gnumeric
+ * expr.c : Expression evaluation in Gnumeric
  *
- * Author:
- *   Miguel de Icaza (miguel@gnu.org).
+ * Copyright (C) 2001-2002 Jody Goldberg (jody@gnome.org)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -301,24 +314,6 @@ gnm_expr_new_set (GnmExprList *set)
 	return (GnmExpr *)ans;
 }
 
-static Cell *
-expr_array_corner (GnmExpr const *expr,
-			Sheet const *sheet, CellPos const *pos)
-{
-	Cell *corner = sheet_cell_get (sheet,
-		pos->col - expr->array.x, pos->row - expr->array.y);
-
-	/* Sanity check incase the corner gets removed for some reason */
-	g_return_val_if_fail (corner != NULL, NULL);
-	g_return_val_if_fail (cell_has_expr (corner), NULL);
-	g_return_val_if_fail (corner->base.expression != (void *)0xdeadbeef, NULL);
-	g_return_val_if_fail (corner->base.expression->any.oper == GNM_EXPR_OP_ARRAY, NULL);
-	g_return_val_if_fail (corner->base.expression->array.x == 0, NULL);
-	g_return_val_if_fail (corner->base.expression->array.y == 0, NULL);
-
-	return corner;
-}
-
 /***************************************************************************/
 
 /**
@@ -341,11 +336,10 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		return;
 
 	switch (expr->any.oper) {
-	case GNM_EXPR_OP_CELLREF:
-		break;
-
-	case GNM_EXPR_OP_CONSTANT:
-		value_release ((Value *)expr->constant.value);
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_ANY_BINARY:
+		do_gnm_expr_unref (expr->binary.value_a);
+		do_gnm_expr_unref (expr->binary.value_b);
 		break;
 
 	case GNM_EXPR_OP_FUNCALL:
@@ -357,25 +351,28 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		expr_name_unref (expr->name.name);
 		break;
 
-	case GNM_EXPR_OP_ANY_BINARY:
-		do_gnm_expr_unref (expr->binary.value_a);
-		do_gnm_expr_unref (expr->binary.value_b);
+	case GNM_EXPR_OP_CONSTANT:
+		value_release ((Value *)expr->constant.value);
+		break;
+
+	case GNM_EXPR_OP_CELLREF:
 		break;
 
 	case GNM_EXPR_OP_ANY_UNARY:
 		do_gnm_expr_unref (expr->unary.value);
 		break;
+
 	case GNM_EXPR_OP_ARRAY:
 		if (expr->array.x == 0 && expr->array.y == 0) {
 			if (expr->array.corner.value)
 				value_release (expr->array.corner.value);
 			do_gnm_expr_unref (expr->array.corner.expr);
 		}
-		break;
+		
+
 	case GNM_EXPR_OP_SET:
 		gnm_expr_list_unref (expr->set.set);
 		break;
-
 	default:
 		g_warning ("do_gnm_expr_unref error.");
 		break;
@@ -433,6 +430,7 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 		return FALSE;
 
 	switch (a->any.oper) {
+	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_ANY_BINARY:
 		return	gnm_expr_equal (a->binary.value_a, b->binary.value_a) &&
 			gnm_expr_equal (a->binary.value_b, b->binary.value_b);
@@ -486,58 +484,6 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 }
 
 /**
- * gnm_expr_implicit_intersection :
- * @ei: EvalInfo containing valid fd!
- * @v: a VALUE_CELLRANGE
- *
- * Handle the implicit union of a single row or column with the eval position.
- *
- * NOTE : We do not need to know if this is expression is being evaluated as an
- * array or not because we can differentiate based on the required type for the
- * argument.
- *
- * Always release the value passed in.
- *
- * Return value:
- *     If the intersection succeeded return a duplicate of the value
- *     at the intersection point.  This value needs to be freed.
- **/
-Value *
-gnm_expr_implicit_intersection (EvalPos const *pos, Value *v)
-{
-	Value *res = NULL;
-	Range rng;
-	Sheet *start_sheet, *end_sheet;
-
-	/* handle inverted ranges */
-	value_cellrange_normalize (pos, v, &start_sheet, &end_sheet, &rng);
-
-	if (start_sheet == end_sheet) {
-		if (rng.start.row == rng.end.row) {
-			int const c = pos->eval.col;
-			if (rng.start.col <= c && c <= rng.end.col) {
-				Value const *tmp = value_area_get_x_y (pos, v,
-					c - rng.start.col, 0);
-				if (tmp != NULL)
-					res = value_duplicate (tmp);
-			}
-		}
-
-		if (rng.start.col == rng.end.col) {
-			int const r = pos->eval.row;
-			if (rng.start.row <= r && r <= rng.end.row) {
-				Value const *tmp = value_area_get_x_y (pos, v,
-					0, r - rng.start.row);
-				if (tmp != NULL)
-					res = value_duplicate (tmp);
-			}
-		}
-	}
-	value_release (v);
-	return res;
-}
-
-/**
  * gnm_expr_array_intersection :
  * @v: a VALUE_ARRAY
  *
@@ -566,6 +512,71 @@ cb_range_eval (Sheet *sheet, int col, int row, Cell *cell, void *ignore)
 	return NULL;
 }
 
+static Cell *
+expr_array_corner (GnmExpr const *expr,
+			Sheet const *sheet, CellPos const *pos)
+{
+	Cell *corner = sheet_cell_get (sheet,
+		pos->col - expr->array.x, pos->row - expr->array.y);
+
+	/* Sanity check incase the corner gets removed for some reason */
+	g_return_val_if_fail (corner != NULL, NULL);
+	g_return_val_if_fail (cell_has_expr (corner), NULL);
+	g_return_val_if_fail (corner->base.expression != (void *)0xdeadbeef, NULL);
+	g_return_val_if_fail (corner->base.expression->any.oper == GNM_EXPR_OP_ARRAY, NULL);
+	g_return_val_if_fail (corner->base.expression->array.x == 0, NULL);
+	g_return_val_if_fail (corner->base.expression->array.y == 0, NULL);
+
+	return corner;
+}
+
+static gboolean
+gnm_expr_extract_ref (CellRef *res, GnmExpr const *expr, EvalPos const *pos)
+{
+	switch (expr->any.oper) {
+	case GNM_EXPR_OP_FUNCALL : {
+		gboolean failed = TRUE;
+		Value *v;
+		FunctionEvalInfo ei;
+		ei.pos = pos;
+		ei.func_call = (GnmExprFunction const *)expr;
+
+		v = function_call_with_list (&ei, expr->func.arg_list);
+		if (v != NULL) {
+			if (v->type == VALUE_CELLRANGE &&
+			    cellref_equal (&v->v_range.cell.a, &v->v_range.cell.b)) {
+				*res = v->v_range.cell.a;
+				failed = FALSE;
+			}
+			value_release (v);
+		}
+		return failed;
+	}
+
+	case GNM_EXPR_OP_CELLREF :
+		*res = expr->cellref.ref;
+		return FALSE;
+
+	case GNM_EXPR_OP_CONSTANT: {
+		Value const *v = expr->constant.value;
+		if (v->type == VALUE_CELLRANGE &&
+		    cellref_equal (&v->v_range.cell.a, &v->v_range.cell.b)) {
+			*res = v->v_range.cell.a;
+			return FALSE;
+		}
+		return TRUE;
+	}
+
+	case GNM_EXPR_OP_NAME:
+		if (!expr->name.name->active || expr->name.name->builtin)
+			return TRUE;
+		return gnm_expr_extract_ref (res, expr->name.name->t.expr_tree, pos);
+	default :
+		break;
+	}
+	return TRUE;
+}
+
 static Value *
 expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 		GnmExprEvalFlags flags)
@@ -587,7 +598,7 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 		a = expr_eval_real (expr->binary.value_a, pos, flags);
 		if (a != NULL) {
 			if (a->type == VALUE_CELLRANGE) {
-				a = gnm_expr_implicit_intersection (pos, a);
+				a = value_intersection (a, pos);
 				if (a == NULL)
 					return value_new_error (pos, gnumeric_err_VALUE);
 			} else if (a->type == VALUE_ARRAY) {
@@ -602,7 +613,7 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 		if (b != NULL) {
 			Value *res = NULL;
 			if (b->type == VALUE_CELLRANGE) {
-				b = gnm_expr_implicit_intersection (pos, b);
+				b = value_intersection (b, pos);
 				if (b == NULL)
 					res = value_new_error (pos, gnumeric_err_VALUE);
 			} else if (b->type == VALUE_ARRAY) {
@@ -692,7 +703,7 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
-			a = gnm_expr_implicit_intersection (pos, a);
+			a = value_intersection (a, pos);
 			if (a == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
 		} else if (a->type == VALUE_ARRAY) {
@@ -724,7 +735,7 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 
 		/* Handle implicit intersection */
 		if (b->type == VALUE_CELLRANGE) {
-			b = gnm_expr_implicit_intersection (pos, a);
+			b = value_intersection (a, pos);
 			if (b == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
 		} else if (b->type == VALUE_ARRAY) {
@@ -851,7 +862,7 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
-			a = gnm_expr_implicit_intersection (pos, a);
+			a = value_intersection (a, pos);
 			if (a == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
 		} else if (a->type == VALUE_ARRAY) {
@@ -1074,6 +1085,16 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 	}
 	case GNM_EXPR_OP_SET:
 		g_warning ("Not implemented until 1.1");
+		break;
+
+	case GNM_EXPR_OP_RANGE_CTOR: {
+			CellRef a, b;
+			if (gnm_expr_extract_ref (&a, expr->binary.value_a, pos) ||
+			    gnm_expr_extract_ref (&b, expr->binary.value_b, pos))
+				return value_new_error (pos, gnumeric_err_REF);
+			return value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
+		}
+		break;
 	}
 
 	return value_new_error (pos, _("Unknown evaluation error"));
@@ -1143,7 +1164,8 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		{ "+",  5, 0, 0 }, /* Unary +  */
 		{ "%",  5, 0, 0 }, /* Percentage (NOT MODULO) */
 		{ NULL, 0, 0, 0 }, /* Array    */
-		{ NULL, 0, 0, 0 }  /* Set      */
+		{ NULL, 0, 0, 0 },  /* Set      */
+		{ NULL, 0, 0, 0 }  /* Range Ctor */
 	};
 	int const op = expr->any.oper;
 
@@ -1280,6 +1302,19 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 
 	case GNM_EXPR_OP_SET:
 		return gnm_expr_list_as_string (expr->set.set, pp);
+
+	case GNM_EXPR_OP_RANGE_CTOR: {
+		char *a, *b, *res;
+
+		a = do_expr_as_string (expr->binary.value_a, pp, 0);
+		b = do_expr_as_string (expr->binary.value_b, pp, 0);
+
+		res = g_strconcat (a, ":", b, NULL);
+
+		g_free (a);
+		g_free (b);
+		return res;
+	}
 	}
 
 	g_assert_not_reached ();
@@ -1529,6 +1564,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 	g_return_val_if_fail (expr != NULL, NULL);
 
 	switch (expr->any.oper) {
+	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_ANY_BINARY: {
 		GnmExpr const *a = gnm_expr_rewrite (expr->binary.value_a, rwinfo);
 		GnmExpr const *b = gnm_expr_rewrite (expr->binary.value_b, rwinfo);
@@ -2025,6 +2061,7 @@ ets_hash (gconstpointer key)
 	guint h = (guint)(expr->any.oper);
 
 	switch (expr->any.oper){
+	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_ANY_BINARY:
 		return ((GPOINTER_TO_INT (expr->binary.value_a) * 7) ^
 			(GPOINTER_TO_INT (expr->binary.value_b) * 3) ^
@@ -2080,6 +2117,7 @@ ets_equal (gconstpointer _a, gconstpointer _b)
 		return FALSE;
 
 	switch (ea->any.oper){
+	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_ANY_BINARY:
 		return (ea->binary.value_a == eb->binary.value_a &&
 			ea->binary.value_b == eb->binary.value_b);
@@ -2149,6 +2187,7 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 
 	/* First share all sub-expressions.  */
 	switch (e->any.oper) {
+	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_ANY_BINARY:
 		((GnmExpr*)e)->binary.value_a =
 			expr_tree_sharer_share (es, e->binary.value_a);

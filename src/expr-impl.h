@@ -78,14 +78,14 @@ union _GnmExpr {
 		int       ref_count;
 	} any;
 
-	GnmExprConstant	constant;
-	GnmExprFunction	func;
-	GnmExprUnary	unary;
-	GnmExprBinary	binary;
-	GnmExprName	name;
-	GnmExprCellRef	cellref;
-	GnmExprArray	array;
-	GnmExprSet	set;
+	GnmExprConstant		constant;
+	GnmExprFunction		func;
+	GnmExprUnary		unary;
+	GnmExprBinary		binary;
+	GnmExprName		name;
+	GnmExprCellRef		cellref;
+	GnmExprArray		array;
+	GnmExprSet		set;
 };
 
 #define gnm_expr_constant_init(expr, val)	\

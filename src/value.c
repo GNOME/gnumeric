@@ -1052,6 +1052,58 @@ value_set_fmt (Value *v, StyleFormat const *fmt)
 	VALUE_FMT (v) = (StyleFormat *)fmt;
 }
 
+/**
+ * value_intersection :
+ * @v: a VALUE_CELLRANGE
+ * @ei: EvalInfo containing valid fd!
+ *
+ * Handle the implicit union of a single row or column with the eval position.
+ *
+ * NOTE : We do not need to know if this is expression is being evaluated as an
+ * array or not because we can differentiate based on the required type for the
+ * argument.
+ *
+ * Always release the value passed in.
+ *
+ * Return value:
+ *     If the intersection succeeded return a duplicate of the value
+ *     at the intersection point.  This value needs to be freed.
+ **/
+Value *
+value_intersection (Value *v, EvalPos const *pos)
+{
+	Value *res = NULL;
+	Range rng;
+	Sheet *start_sheet, *end_sheet;
+
+	/* handle inverted ranges */
+	value_cellrange_normalize (pos, v, &start_sheet, &end_sheet, &rng);
+
+	if (start_sheet == end_sheet) {
+		if (rng.start.row == rng.end.row) {
+			int const c = pos->eval.col;
+			if (rng.start.col <= c && c <= rng.end.col) {
+				Value const *tmp = value_area_get_x_y (pos, v,
+					c - rng.start.col, 0);
+				if (tmp != NULL)
+					res = value_duplicate (tmp);
+			}
+		}
+
+		if (rng.start.col == rng.end.col) {
+			int const r = pos->eval.row;
+			if (rng.start.row <= r && r <= rng.end.row) {
+				Value const *tmp = value_area_get_x_y (pos, v,
+					0, r - rng.start.row);
+				if (tmp != NULL)
+					res = value_duplicate (tmp);
+			}
+		}
+	}
+	value_release (v);
+	return res;
+}
+
 /****************************************************************************/
 
 gboolean

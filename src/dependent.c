@@ -777,6 +777,8 @@ link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 			res |= link_expr_dep (dep, pos, l->data);
 		return res;
 	}
+	case GNM_EXPR_OP_RANGE_CTOR:
+		return DEPENDENT_NO_FLAG; /* handled at run time */
 
 	default:
 		g_warning ("Unknown Operation type, dependencies lost");

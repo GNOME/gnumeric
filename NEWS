@@ -17,9 +17,10 @@ Jody:
 	* Fix goto dialog's handling of invalid addresses.
 	* forward port missing patched from 1.0
 	* Finally add SheetView
-	* move animated cursor selection to sheetview
-	* handle enabling paste special on an application level
-	* move selection to sheetview
+	* Move animated cursor selection to sheetview
+	* Handle enabling paste special on an application level
+	* Move selection to SheetView
+	* Parse and evaluate constructed references, no depends yet.
 
 Jukka:
 	* More solver enhancements:

@@ -735,7 +735,7 @@ function_marshal_arg (FunctionEvalInfo *ei,
 	case 'f':
 	case 'b':
 		if (v->type == VALUE_CELLRANGE) {
-			v = gnm_expr_implicit_intersection (ei->pos, v);
+			v = value_intersection (v, ei->pos);
 			if (v == NULL)
 				break;
 		} else if (v->type == VALUE_ARRAY) {
@@ -767,7 +767,7 @@ function_marshal_arg (FunctionEvalInfo *ei,
 
 	case 's':
 		if (v->type == VALUE_CELLRANGE) {
-			v = gnm_expr_implicit_intersection (ei->pos, v);
+			v = value_intersection (v, ei->pos);
 			if (v == NULL)
 				break;
 		} else if (v->type == VALUE_ARRAY) {
@@ -825,7 +825,7 @@ function_marshal_arg (FunctionEvalInfo *ei,
 
 	case 'S':
 		if (v->type == VALUE_CELLRANGE) {
-			v = gnm_expr_implicit_intersection (ei->pos, v);
+			v = value_intersection (v, ei->pos);
 			if (v == NULL)
 				break;
 		} else if (v->type == VALUE_ARRAY) {

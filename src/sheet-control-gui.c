@@ -406,7 +406,7 @@ scg_colrow_size_set (SheetControlGUI *scg,
 	/* If all cols/rows in the selection are completely selected
 	 * then resize all of them, otherwise just resize the selected col/row.
 	 */
-	if (!sheet_selection_full_cols_rows (sv, is_cols, index)) {
+	if (!sv_is_full_colrow_selected (sv, is_cols, index)) {
 		ColRowIndexList *s = colrow_get_index_list (index, index, NULL);
 		cmd_resize_colrow (wbc, sv->sheet, is_cols, s, new_size_pixels);
 	} else

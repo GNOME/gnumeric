@@ -1,3 +1,9 @@
+2002-06-22  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (ms_excel_parse_formula) : enable mem_func
+	  support.
+	(binary_ops) : use range_ctor for RANGE.
+
 2002-06-20  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_excel_workbook_new) : store the workbookview.

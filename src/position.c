@@ -284,7 +284,7 @@ RangeRef *value_to_rangeref    (Value *v, gboolean release)
  */
 void
 rangeref_normalize (EvalPos const *ep, RangeRef const *ref,
-			   Sheet **start_sheet, Sheet **end_sheet, Range *dest)
+		    Sheet **start_sheet, Sheet **end_sheet, Range *dest)
 {
 	g_return_if_fail (ref != NULL);
 	g_return_if_fail (ep != NULL);

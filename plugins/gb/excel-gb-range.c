@@ -151,8 +151,6 @@ excel_gb_range_select (GBRunEvalContext *ec,
 				range->range.end.col,
 				range->range.end.row);
 
-	sheet_selection_redraw (range->sheet);
-
 	return gb_value_new_empty ();
 }
 

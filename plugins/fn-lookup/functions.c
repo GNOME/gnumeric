@@ -976,17 +976,11 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 	else if (a.row >= SHEET_MAX_ROWS || a.col >= SHEET_MAX_COLS)
 		return value_new_error (ei->pos, gnumeric_err_REF);
 
-	/* Special case of a single cell */
-	if (width == 1 && height == 1) {
-		/* FIXME FIXME : do we need to check for recalc here ?? */
-		Cell const * c =
-		    sheet_cell_fetch (eval_sheet (a.sheet, ei->pos->sheet),
-				      a.col, a.row);
-		return value_duplicate (c->value);
-	}
-
 	b.row += width-1;
 	b.col += height-1;
+	if (b.row >= SHEET_MAX_ROWS || b.col >= SHEET_MAX_COLS)
+		return value_new_error (ei->pos, gnumeric_err_REF);
+
 	return value_new_cellrange (&a, &b, ei->pos->eval.col, ei->pos->eval.row);
 }
 

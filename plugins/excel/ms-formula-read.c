@@ -697,7 +697,7 @@ static GnmExprOp const binary_ops [] = {
 /* FIXME: These need implementing ... */
 	GNM_EXPR_OP_ADD,	/* 0x0f, ptgIsect : Intersection */
 	GNM_EXPR_OP_ADD,	/* 0x10, ptgUnion : Union */
-	GNM_EXPR_OP_ADD,	/* 0x11, ptgRange : Range */
+	GNM_EXPR_OP_RANGE_CTOR	/* 0x11, ptgRange : Range */
 };
 
 static GnmExprOp const unary_ops [] = {
@@ -1218,12 +1218,10 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		}
 		break;
 
-#if 0
 		case FORMULA_PTG_MEM_FUNC:
 			/* Can I just ignore this ? */
-			ptg_length = 2 + GSF_LE_GET_GUINT16 (cur);
+			ptg_length = 2; /* + GSF_LE_GET_GUINT16 (cur); */
 			break;
-#endif
 
 		case FORMULA_PTG_REF_ERR:
 			ptg_length = (ver >= MS_BIFF_V8) ? 4 : 3;

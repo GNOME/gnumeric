@@ -30,7 +30,8 @@ typedef enum {
 	GNM_EXPR_OP_UNARY_PLUS,	/* Mark as positive */
 	GNM_EXPR_OP_PERCENTAGE,	/* Percentage (value/100) */
 	GNM_EXPR_OP_ARRAY,	/* Array access */
-	GNM_EXPR_OP_SET		/* A set of expressions */
+	GNM_EXPR_OP_SET,	/* A set of expressions */
+	GNM_EXPR_OP_RANGE_CTOR	/* A constructed range eg A1:index(1,2) */
 } GnmExprOp;
 
 /* Shorthands for case statements.  Easy to read, easy to maintain.  */
@@ -40,18 +41,18 @@ typedef enum {
 	case GNM_EXPR_OP_EXP: case GNM_EXPR_OP_CAT
 #define GNM_EXPR_OP_ANY_UNARY GNM_EXPR_OP_UNARY_NEG: case GNM_EXPR_OP_UNARY_PLUS : case GNM_EXPR_OP_PERCENTAGE
 
-GnmExpr const *gnm_expr_new_constant (Value *v);
-GnmExpr const *gnm_expr_new_unary    (GnmExprOp op, GnmExpr const *e);
-GnmExpr const *gnm_expr_new_binary   (GnmExpr const *l, GnmExprOp op,
-				      GnmExpr const *r);
-GnmExpr const *gnm_expr_new_funcall  (FunctionDefinition *func,
-				      GnmExprList *args);
-GnmExpr const *gnm_expr_new_name     (GnmNamedExpr *name,
-				      Sheet *sheet_scope, Workbook *wb_scope);
-GnmExpr const *gnm_expr_new_cellref  (CellRef const *cr);
-GnmExpr const *gnm_expr_new_array    (int x, int y, int cols, int rows,
-				      GnmExpr const *expr);
-GnmExpr const *gnm_expr_new_set	     (GnmExprList *args);
+GnmExpr const *gnm_expr_new_constant	(Value *v);
+GnmExpr const *gnm_expr_new_unary	(GnmExprOp op, GnmExpr const *e);
+GnmExpr const *gnm_expr_new_binary	(GnmExpr const *l, GnmExprOp op,
+					 GnmExpr const *r);
+GnmExpr const *gnm_expr_new_funcall	(FunctionDefinition *func,
+					 GnmExprList *args);
+GnmExpr const *gnm_expr_new_name	(GnmNamedExpr *name,
+					 Sheet *sheet_scope, Workbook *wb_scope);
+GnmExpr const *gnm_expr_new_cellref	(CellRef const *cr);
+GnmExpr const *gnm_expr_new_array	(int x, int y, int cols, int rows,
+					 GnmExpr const *expr);
+GnmExpr const *gnm_expr_new_set		(GnmExprList *args);
 
 GnmExpr const *gnm_expr_first_func   (GnmExpr const *expr);
 Value	      *gnm_expr_get_range    (GnmExpr const *expr) ;
@@ -103,7 +104,6 @@ Value *gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 
 /* minor utilities, these _will_ change to support implicit iteration  */
 Value *gnm_expr_array_intersection    (Value *v);
-Value *gnm_expr_implicit_intersection (EvalPos const *pos, Value *v);
 
 /*****************************************************************************/
 

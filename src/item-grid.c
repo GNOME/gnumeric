@@ -242,7 +242,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 	SheetView const *sv = ((SheetControl *) ig->scg)->view;
 	gboolean const is_selected = draw_selection &&
 		(sv->edit_pos.col != col || sv->edit_pos.row != row) &&
-		sv_is_cell_selected (sv, col, row);
+		sv_is_pos_selected (sv, col, row);
 	gboolean const has_back =
 		gnumeric_background_set_gc (style, gc,
 					    ig->canvas_item.canvas,

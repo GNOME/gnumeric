@@ -420,7 +420,7 @@ int yyparse (void);
 	} sheet;
 }
 %type  <list>	opt_exp arg_list array_row, array_cols
-%type  <expr>	exp array_exp string_opt_quote cellref
+%type  <expr>	exp array_exp function string_opt_quote cellref
 %token <expr>	STRING QUOTED_STRING CONSTANT CELLREF GTE LTE NE AND OR NOT
 %token		SEPARATOR INVALID_TOKEN
 %type  <sheet>	sheetref opt_sheetref
@@ -490,25 +490,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		free_expr_list_list ($2);
 	}
 
-	| STRING '(' arg_list ')' {
-		char const *name = $1->constant.value->v_str.val->str;
-		FunctionDefinition *f = func_lookup_by_name (name,
-			state->pos->wb);
-
-		/* THINK TODO: Do we want to make this workbook-local??  */
-		if (f == NULL && state->create_placeholder_for_unknown_func)
-			f = function_add_placeholder (name, "");
-
-		unregister_allocation ($3);
-		unregister_allocation ($1); gnm_expr_unref ($1);
-
-		if (f == NULL) {
-			gnm_expr_list_unref ($3);
-			YYERROR;
-		} else {
-			$$ = register_expr_allocation (gnm_expr_new_funcall (f, $3));
-		}
-	}
+	| function
 	| sheetref string_opt_quote {
 		GnmNamedExpr *expr_name = NULL;
 		char const *name = $2->constant.value->v_str.val->str;
@@ -574,6 +556,27 @@ exp:	  CONSTANT 	{ $$ = $1; }
 			unregister_allocation ($2); gnm_expr_unref ($2);
 		}
 	        $$ = register_expr_allocation (gnm_expr_new_name (expr_name, NULL, pos.wb));
+	}
+	;
+
+function : STRING '(' arg_list ')' {
+		char const *name = $1->constant.value->v_str.val->str;
+		FunctionDefinition *f = func_lookup_by_name (name,
+			state->pos->wb);
+
+		/* THINK TODO: Do we want to make this workbook-local??  */
+		if (f == NULL && state->create_placeholder_for_unknown_func)
+			f = function_add_placeholder (name, "");
+
+		unregister_allocation ($3);
+		unregister_allocation ($1); gnm_expr_unref ($1);
+
+		if (f == NULL) {
+			gnm_expr_list_unref ($3);
+			YYERROR;
+		} else {
+			$$ = register_expr_allocation (gnm_expr_new_funcall (f, $3));
+		}
 	}
 	;
 
@@ -670,6 +673,10 @@ cellref:  CELLREF {
 		gnm_expr_unref ($5);
 		gnm_expr_unref ($2);
 	}
+
+	| CELLREF RANGE_SEP function  { $$ = build_binop ($1, GNM_EXPR_OP_RANGE_CTOR, $3); }
+	| function RANGE_SEP function { $$ = build_binop ($1, GNM_EXPR_OP_RANGE_CTOR, $3); }
+	| function RANGE_SEP CELLREF  { $$ = build_binop ($1, GNM_EXPR_OP_RANGE_CTOR, $3); }
 	;
 
 arg_list: exp {
