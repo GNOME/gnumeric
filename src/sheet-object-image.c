@@ -25,6 +25,8 @@ typedef struct {
 	char const   *type;
 	guint8       *data;
 	guint32	      data_len;
+
+	gboolean dumped;
 } SheetObjectImage;
 
 typedef struct {
@@ -68,53 +70,48 @@ sheet_object_image_finalize (GObject *object)
 	G_OBJECT_CLASS (sheet_object_image_parent_class)->finalize (object);
 }
 
-static GObject *
-sheet_object_image_new_view (SheetObject *so, SheetControlGUI *scg)
+/**
+ * be sure to unref the result if it is non-NULL
+ */
+static GdkPixbuf *
+soi_get_pixbuf (SheetObjectImage *soi, double scale)
 {
-	/* FIXME : this is bogus */
-	GnumericCanvas *gcanvas = scg_pane (scg, 0);
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
-	GnomeCanvasItem *item = NULL;
 	GError *err = NULL;
 	guint8 *data;
 	guint32 data_len;
-
 	GdkPixbufLoader *loader;
+	GdkPixbuf	*res = NULL;
 
-	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (so), NULL);
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
+	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (soi), NULL);
 
 	data     = soi->data;
 	data_len = soi->data_len;
 
 #warning Add optional use of libwmf here to handle wmf
 	loader = gdk_pixbuf_loader_new ();
-	if (gdk_pixbuf_loader_write (loader, soi->data, soi->data_len, &err))
-		item = gnome_canvas_item_new (gcanvas->object_group,
-			GNOME_TYPE_CANVAS_PIXBUF,
-			"pixbuf",	gdk_pixbuf_loader_get_pixbuf (loader),
-			NULL);
-	else {
-		static int count = 0;
-		char *filename = g_strdup_printf ("unknown%d",  count++);
-		FILE *file = fopen (filename, "w");
-		if (file != NULL) {
-			fwrite (soi->data, soi->data_len, 1, file);
-			fclose (file);
-		}
-		g_free (filename);
 
-		if (err != NULL) {
-			g_warning (err-> message);
-			g_error_free (err);
-			err = NULL;
+	if (!gdk_pixbuf_loader_write (loader, soi->data, soi->data_len, &err)) {
+
+		if (!soi->dumped) {
+			static int count = 0;
+			char *filename = g_strdup_printf ("unknown%d",  count++);
+			FILE *file = fopen (filename, "w");
+			if (file != NULL) {
+				fwrite (soi->data, soi->data_len, 1, file);
+				fclose (file);
+			}
+			g_free (filename);
+
+			if (err != NULL) {
+				g_warning (err-> message);
+				g_error_free (err);
+				err = NULL;
+			}
+			soi->dumped = TRUE;
 		}
-		item = gnome_canvas_item_new (gcanvas->object_group,
-			GNOME_TYPE_CANVAS_RECT,
-			"fill_color",		"white",
-			"outline_color",	"black",
-			"width_units",		1.,
-			NULL);
+	} else {
+		res = gdk_pixbuf_loader_get_pixbuf (loader),
+		g_object_ref (G_OBJECT (res));
 	}
 
 	gdk_pixbuf_loader_close (loader, &err);
@@ -124,6 +121,34 @@ sheet_object_image_new_view (SheetObject *so, SheetControlGUI *scg)
 		err = NULL;
 	}
 	g_object_unref (G_OBJECT (loader));
+	return res;
+}
+
+static GObject *
+sheet_object_image_new_view (SheetObject *so, SheetControlGUI *scg)
+{
+	/* FIXME : this is bogus */
+	GnumericCanvas *gcanvas = scg_pane (scg, 0);
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	GnomeCanvasItem *item = NULL;
+	GdkPixbuf	*pixbuf;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (so), NULL);
+	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
+
+	pixbuf = soi_get_pixbuf (soi, 1.);
+	if (pixbuf != NULL)
+		item = gnome_canvas_item_new (gcanvas->object_group,
+			GNOME_TYPE_CANVAS_PIXBUF,
+			"pixbuf", pixbuf,
+			NULL);
+	else
+		item = gnome_canvas_item_new (gcanvas->object_group,
+			GNOME_TYPE_CANVAS_RECT,
+			"fill_color",		"white",
+			"outline_color",	"black",
+			"width_units",		1.,
+			NULL);
 
 	scg_object_register (so, item);
 	return G_OBJECT (item);
@@ -204,6 +229,7 @@ sheet_object_image_print (SheetObject const *so, GnomePrintContext *ctx,
 			  double base_x, double base_y)
 {
 	SheetObjectImage *soi;
+	GdkPixbuf	 *pixbuf;
 	double coords [4];
 
 	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (so));
@@ -214,7 +240,7 @@ sheet_object_image_print (SheetObject const *so, GnomePrintContext *ctx,
 
 	gnome_print_gsave (ctx);
 
-#if 0
+	pixbuf = soi_get_pixbuf (soi, 1.);
 	if (gdk_pixbuf_get_has_alpha (pixbuf))
 		gnome_print_rgbaimage  (ctx,
 					gdk_pixbuf_get_pixels    (pixbuf),
@@ -227,7 +253,7 @@ sheet_object_image_print (SheetObject const *so, GnomePrintContext *ctx,
 				       gdk_pixbuf_get_width     (pixbuf),
 				       gdk_pixbuf_get_height    (pixbuf),
 				       gdk_pixbuf_get_rowstride (pixbuf));
-#endif
+	g_object_unref (G_OBJECT (pixbuf));
 
 	gnome_print_grestore (ctx);
 }
@@ -261,6 +287,7 @@ sheet_object_image_init (GObject *obj)
 	SheetObject *so;
 
 	soi = SHEET_OBJECT_IMAGE (obj);
+	soi->dumped = FALSE;
 
 	so = SHEET_OBJECT (obj);
 	so->anchor.direction = SO_DIR_NONE_MASK;
