@@ -7,6 +7,7 @@ PERL_PROGRAMS_TARGET = perl.so
 
 gnperldir = $(gnumeric_datadir)/perl
 PERL_CFLAGS = -I../.. $(PERL_CCCDLFLAGS)	\
+    -DPLUGIN_ID=\"Gnumeric_perl\"		\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(PERL_CCOPTS)				\
