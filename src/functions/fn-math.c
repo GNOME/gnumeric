@@ -29,7 +29,7 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 			 Cell *cell, void *user_data)
 {
         math_sums_t *mm = user_data;
-        gnum_float     x;
+        gnum_float  x;
 	gpointer    p;
 
 	if (cell == NULL || cell->value == NULL)
@@ -37,7 +37,7 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 
         switch (cell->value->type) {
 	case VALUE_ERROR:
-		return value_terminate();
+		return value_terminate ();
 
 	case VALUE_BOOLEAN:
 	        x = cell->value->v_bool.val ? 1 : 0;
@@ -53,9 +53,9 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 	        return NULL;
 	}
 
-	p = g_new(gnum_float, 1);
+	p = g_new (gnum_float, 1);
 	*((gnum_float *) p) = x;
-	mm->list = g_slist_append(mm->list, p);
+	mm->list = g_slist_append (mm->list, p);
 	mm->num++;
 
 	return NULL;
@@ -68,7 +68,7 @@ typedef struct {
         int                 num;
         int                 total_num;
         gboolean            actual_range;
-        gnum_float             sum;
+        gnum_float          sum;
         GSList              *current;
 } math_criteria_t;
 
@@ -101,16 +101,16 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 	        return NULL;
 	}
 
-	if (mm->fun(v, mm->test_value)) {
+	if (mm->fun (v, mm->test_value)) {
 	        if (mm->actual_range) {
 		        mm->list = g_slist_append (mm->list,
 				GINT_TO_POINTER (mm->total_num));
-			value_release(v);
+			value_release (v);
 		} else
 		        mm->list = g_slist_append (mm->list, v);
 		mm->num++;
 	} else
-	        value_release(v);
+	        value_release (v);
 
 	return NULL;
 }
@@ -189,37 +189,39 @@ static char *help_lcm = {
 	   "@SEEALSO=GCD")
 };
 
-static Value *
-callback_function_lcm (const EvalPos *ep, Value *value, void *closure)
+static int
+range_lcm (const gnum_float *xs, int n, gnum_float *res)
 {
-	Value *result = closure;
+	if (n > 0) {
+		int i;
+		int lcm_so_far = 1;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	        if (value->v_int.val < 1)
-		        return value_terminate();
-	        result->v_int.val /= gcd(result->v_int.val, value->v_int.val);
-		result->v_int.val *= value->v_int.val;
-		break;
-	case VALUE_EMPTY:
-	default:
-	        return value_terminate();
-	}
-
-	return NULL;
+		for (i = 0; i < n; i++) {
+			gnum_float x = xs[i];
+			if (x <= 0)
+				return 1;
+			else {
+				int xi = (int) floor (x);
+				lcm_so_far /= gcd (lcm_so_far, xi);
+				lcm_so_far *= xi;
+			}
+		}
+		*res = lcm_so_far;
+		return 0;
+	} else
+		return 1;
 }
 
 static Value *
 gnumeric_lcm (FunctionEvalInfo *ei, GList *nodes)
 {
-	Value *result = value_new_int (1);
+	return float_range_function (nodes, ei,
+				     range_lcm,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     gnumeric_err_NUM);
 
-	if (function_iterate_argument_values (ei->pos, callback_function_lcm,
-					      result, nodes,
-					      TRUE, TRUE) != NULL)
-	    return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	return result;
 }
 
 /***************************************************************************/
@@ -288,7 +290,7 @@ static char *help_acosh = {
 	   "@DESCRIPTION="
 	   "ACOSH  function  calculates  the inverse hyperbolic "
 	   "cosine of @x; that is the value whose hyperbolic cosine is "
-	   "@x. If @x is less than 1.0, acosh() returns the NUM! error. "
+	   "@x. If @x is less than 1.0, ACOSH() returns the NUM! error. "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -512,16 +514,16 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 	items.list = NULL;
 	items.actual_range = FALSE;
 
-	if ((!VALUE_IS_NUMBER(argv[1]) && argv[1]->type != VALUE_STRING)
+	if ((!VALUE_IS_NUMBER (argv[1]) && argv[1]->type != VALUE_STRING)
 	    || (range->type != VALUE_CELLRANGE))
 	        return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	if (VALUE_IS_NUMBER(argv[1])) {
+	if (VALUE_IS_NUMBER (argv[1])) {
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
 		items.test_value = argv[1];
 	} else {
-	        parse_criteria(argv[1]->v_str.val->str,
-			       &items.fun, &items.test_value);
+	        parse_criteria (argv[1]->v_str.val->str,
+				&items.fun, &items.test_value);
 		tmpval = items.test_value;
 	}
 
@@ -547,7 +549,7 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 		value_release (list->data);
 		list = list->next;
 	}
-	g_slist_free(items.list);
+	g_slist_free (items.list);
 
 	return value_new_int (items.num);
 }
@@ -582,7 +584,7 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 			 Cell *cell, void *user_data)
 {
         math_criteria_t *mm = user_data;
-	gnum_float         v = 0.;
+	gnum_float       v = 0.;
 
 	/* If we have finished the list there is no need to bother */
 	if (mm->current == NULL)
@@ -606,7 +608,7 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 			break;
 
 		default:
-			return value_terminate();
+			return value_terminate ();
 		}
 	mm->sum += v;
 	mm->current = mm->current->next;
@@ -623,7 +625,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 
 	math_criteria_t items;
 	Value          *ret;
-	gnum_float         sum;
+	gnum_float      sum;
 	GSList         *list;
 
 	items.num  = 0;
@@ -637,12 +639,12 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	/* If the criteria is a number test for equality else the parser
 	 * will evaluate the condition as a string
 	 */
-	if (VALUE_IS_NUMBER(argv[1])) {
+	if (VALUE_IS_NUMBER (argv[1])) {
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
 		items.test_value = argv[1];
 	} else {
-	        parse_criteria(argv[1]->v_str.val->str,
-			       &items.fun, &items.test_value);
+	        parse_criteria (argv[1]->v_str.val->str,
+				&items.fun, &items.test_value);
 		tmpval = items.test_value;
 	}
 
@@ -700,7 +702,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	      sum = items.sum;
 	}
 
-	g_slist_free(items.list);
+	g_slist_free (items.list);
 
 	return value_new_float (sum);
 }
@@ -1331,7 +1333,7 @@ static Value *
 gnumeric_randnegbinom (FunctionEvalInfo *ei, Value **argv)
 {
 	gnum_float p = value_get_as_float (argv[0]);
-	int     failures = value_get_as_int (argv[1]);
+	int failures = value_get_as_int (argv[1]);
 
 	if (p < 0 || p > 1 || failures < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1438,7 +1440,7 @@ gnumeric_sqrt (FunctionEvalInfo *ei, Value **argv)
 	if (x < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (sqrt(x));
+	return value_new_float (sqrt (x));
 }
 
 /***************************************************************************/
@@ -1762,8 +1764,8 @@ gnumeric_even (FunctionEvalInfo *ei, Value **argv)
 	        sign = -1;
 		number = -number;
 	}
-	ceiled = ceil(number);
-	if (fmod(ceiled, 2) == 0)
+	ceiled = ceil (number);
+	if (fmod (ceiled, 2) == 0)
 	        if (number > ceiled)
 		        return value_new_int ((int) (sign * (ceiled + 2)));
 		else
@@ -1800,8 +1802,8 @@ gnumeric_odd (FunctionEvalInfo *ei, Value **argv)
 	        sign = -1;
 		number = -number;
 	}
-	ceiled = ceil(number);
-	if (fmod(ceiled, 2) == 1)
+	ceiled = ceil (number);
+	if (fmod (ceiled, 2) == 1)
 	        if (number > ceiled)
 		        return value_new_int ((int) (sign * (ceiled + 2)));
 		else
@@ -1842,7 +1844,7 @@ gnumeric_factdouble (FunctionEvalInfo *ei, Value **argv)
 	if (number < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM );
 
-	for (n = number; n > 0; n-= 2)
+	for (n = number; n > 0; n -= 2)
 	        product *= n;
 
 	return value_new_float (product);
@@ -2148,11 +2150,11 @@ gnumeric_mround (FunctionEvalInfo *ei, Value **argv)
 		multiple = -multiple;
 	}
 
-	mod = fmod(number, multiple);
+	mod = fmod (number, multiple);
 	div = number-mod;
 
         return value_new_float (sign * (
-		div + ((mod + accuracy_limit >= multiple/2) ? multiple : 0)));
+		div + ((mod + accuracy_limit >= multiple / 2) ? multiple : 0)));
 }
 
 /***************************************************************************/
@@ -2200,10 +2202,7 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 
 	dec = largest;
 	n = value_get_as_int (argv[0]);
-	if (argv[1] == NULL)
-	        form = 0;
-	else
-	        form = value_get_as_int (argv[1]);
+	form = argv[1] ? value_get_as_int (argv[1]) : 0;
 
 	if (n < 0 || n > 3999)
 		return value_new_error (ei->pos, gnumeric_err_VALUE );
@@ -2214,24 +2213,24 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 	if (form < 0 || form > 4)
 		return value_new_error (ei->pos, gnumeric_err_NUM );
 
-	for (i = j = 0; dec > 1; dec /= 10, j+=2){
-	        for (; n > 0; i++){
-		        if (n >= dec){
+	for (i = j = 0; dec > 1; dec /= 10, j += 2) {
+	        for (; n > 0; i++) {
+		        if (n >= dec) {
 			        buf[i] = letter [j];
 				n -= dec;
-			} else if (n >= dec - dec/10){
-			        buf [i++] = letter [j+2];
+			} else if (n >= dec - dec / 10) {
+			        buf [i++] = letter [j + 2];
 				buf [i] = letter [j];
-				n -= dec - dec/10;
-			} else if (n >= dec/2){
-			        buf [i] = letter [j+1];
-				n -= dec/2;
-			} else if (n >= dec/2 - dec/10){
-			        buf [i++] = letter [j+2];
-				buf [i] = letter [j+1];
-				n -= dec/2 - dec/10;
-			} else if (dec == 10){
-			        buf [i] = letter [j+2];
+				n -= dec - dec / 10;
+			} else if (n >= dec / 2) {
+			        buf [i] = letter [j + 1];
+				n -= dec / 2;
+			} else if (n >= dec / 2 - dec / 10) {
+			        buf [i++] = letter [j + 2];
+				buf [i] = letter [j + 1];
+				n -= dec / 2 - dec / 10;
+			} else if (dec == 10) {
+			        buf [i] = letter [j + 2];
 				n--;
 			} else
 			        break;
@@ -2242,35 +2241,35 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 
 	if (form > 0) {
 	        /* Replace ``XLV'' with ``VL'' */
-	        if ((p = strstr(buf, "XLV")) != NULL) {
+	        if ((p = strstr (buf, "XLV")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'L';
 			for ( ; *p; p++)
 			        *p = *(p+1);
 		}
 	        /* Replace ``XCV'' with ``VC'' */
-	        if ((p = strstr(buf, "XCV")) != NULL) {
+	        if ((p = strstr (buf, "XCV")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'C';
 			for ( ; *p; p++)
 			        *p = *(p+1);
 		}
 	        /* Replace ``CDL'' with ``LD'' */
-	        if ((p = strstr(buf, "CDL")) != NULL) {
+	        if ((p = strstr (buf, "CDL")) != NULL) {
 		        *p++ = 'L';
 			*p++ = 'D';
 			for ( ; *p; p++)
 			        *p = *(p+1);
 		}
 	        /* Replace ``CML'' with ``LM'' */
-	        if ((p = strstr(buf, "CML")) != NULL) {
+	        if ((p = strstr (buf, "CML")) != NULL) {
 		        *p++ = 'L';
 			*p++ = 'M';
 			for ( ; *p; p++)
 			        *p = *(p+1);
 		}
 	        /* Replace ``CMVC'' with ``LMVL'' */
-	        if ((p = strstr(buf, "CMVC")) != NULL) {
+	        if ((p = strstr (buf, "CMVC")) != NULL) {
 		        *p++ = 'L';
 			*p++ = 'M';
 			*p++ = 'V';
@@ -2279,35 +2278,35 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 	}
 	if (form == 1) {
 	        /* Replace ``CDXC'' with ``LDXL'' */
-	        if ((p = strstr(buf, "CDXC")) != NULL) {
+	        if ((p = strstr (buf, "CDXC")) != NULL) {
 		        *p++ = 'L';
 			*p++ = 'D';
 			*p++ = 'X';
 			*p++ = 'L';
 		}
 	        /* Replace ``CDVC'' with ``LDVL'' */
-	        if ((p = strstr(buf, "CDVC")) != NULL) {
+	        if ((p = strstr (buf, "CDVC")) != NULL) {
 		        *p++ = 'L';
 			*p++ = 'D';
 			*p++ = 'V';
 			*p++ = 'L';
 		}
 	        /* Replace ``CMXC'' with ``LMXL'' */
-	        if ((p = strstr(buf, "CMXC")) != NULL) {
+	        if ((p = strstr (buf, "CMXC")) != NULL) {
 		        *p++ = 'L';
 			*p++ = 'M';
 			*p++ = 'X';
 			*p++ = 'L';
 		}
 	        /* Replace ``XCIX'' with ``VCIV'' */
-	        if ((p = strstr(buf, "XCIX")) != NULL) {
+	        if ((p = strstr (buf, "XCIX")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'C';
 			*p++ = 'I';
 			*p++ = 'V';
 		}
 	        /* Replace ``XLIX'' with ``VLIV'' */
-	        if ((p = strstr(buf, "XLIX")) != NULL) {
+	        if ((p = strstr (buf, "XLIX")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'L';
 			*p++ = 'I';
@@ -2316,28 +2315,28 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 	}
 	if (form > 1) {
 	        /* Replace ``XLIX'' with ``IL'' */
-	        if ((p = strstr(buf, "XLIX")) != NULL) {
+	        if ((p = strstr (buf, "XLIX")) != NULL) {
 		        *p++ = 'I';
 			*p++ = 'L';
 			for ( ; *p; p++)
 			        *p = *(p+2);
 		}
 	        /* Replace ``XCIX'' with ``IC'' */
-	        if ((p = strstr(buf, "XCIX")) != NULL) {
+	        if ((p = strstr (buf, "XCIX")) != NULL) {
 		        *p++ = 'I';
 			*p++ = 'C';
 			for ( ; *p; p++)
 			        *p = *(p+2);
 		}
 	        /* Replace ``CDXC'' with ``XD'' */
-	        if ((p = strstr(buf, "CDXC")) != NULL) {
+	        if ((p = strstr (buf, "CDXC")) != NULL) {
 		        *p++ = 'X';
 			*p++ = 'D';
 			for ( ; *p; p++)
 			        *p = *(p+2);
 		}
 	        /* Replace ``CDVC'' with ``XDV'' */
-	        if ((p = strstr(buf, "CDVC")) != NULL) {
+	        if ((p = strstr (buf, "CDVC")) != NULL) {
 		        *p++ = 'X';
 			*p++ = 'D';
 			*p++ = 'V';
@@ -2345,14 +2344,14 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 			        *p = *(p+1);
 		}
 	        /* Replace ``CDIC'' with ``XDIX'' */
-	        if ((p = strstr(buf, "CDIC")) != NULL) {
+	        if ((p = strstr (buf, "CDIC")) != NULL) {
 		        *p++ = 'X';
 			*p++ = 'D';
 			*p++ = 'I';
 			*p++ = 'X';
 		}
 	        /* Replace ``LMVL'' with ``XMV'' */
-	        if ((p = strstr(buf, "LMVL")) != NULL) {
+	        if ((p = strstr (buf, "LMVL")) != NULL) {
 		        *p++ = 'X';
 			*p++ = 'M';
 			*p++ = 'V';
@@ -2360,14 +2359,14 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 			        *p = *(p+1);
 		}
 	        /* Replace ``CMIC'' with ``XMIX'' */
-	        if ((p = strstr(buf, "CMIC")) != NULL) {
+	        if ((p = strstr (buf, "CMIC")) != NULL) {
 		        *p++ = 'X';
 			*p++ = 'M';
 			*p++ = 'I';
 			*p++ = 'X';
 		}
 	        /* Replace ``CMXC'' with ``XM'' */
-	        if ((p = strstr(buf, "CMXC")) != NULL) {
+	        if ((p = strstr (buf, "CMXC")) != NULL) {
 		        *p++ = 'X';
 			*p++ = 'M';
 			for ( ; *p; p++)
@@ -2376,28 +2375,28 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 	}
 	if (form > 2) {
 	        /* Replace ``XDV'' with ``VD'' */
-	        if ((p = strstr(buf, "XDV")) != NULL) {
+	        if ((p = strstr (buf, "XDV")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'D';
 			for ( ; *p; p++)
 			        *p = *(p+1);
 		}
 	        /* Replace ``XDIX'' with ``VDIV'' */
-	        if ((p = strstr(buf, "XDIX")) != NULL) {
+	        if ((p = strstr (buf, "XDIX")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'D';
 			*p++ = 'I';
 			*p++ = 'V';
 		}
 	        /* Replace ``XMV'' with ``VM'' */
-	        if ((p = strstr(buf, "XMV")) != NULL) {
+	        if ((p = strstr (buf, "XMV")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'M';
 			for ( ; *p; p++)
 			        *p = *(p+1);
 		}
 	        /* Replace ``XMIX'' with ``VMIV'' */
-	        if ((p = strstr(buf, "XMIX")) != NULL) {
+	        if ((p = strstr (buf, "XMIX")) != NULL) {
 		        *p++ = 'V';
 			*p++ = 'M';
 			*p++ = 'I';
@@ -2406,14 +2405,14 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 	}
 	if (form == 4) {
 	        /* Replace ``VDIV'' with ``ID'' */
-	        if ((p = strstr(buf, "VDIV")) != NULL) {
+	        if ((p = strstr (buf, "VDIV")) != NULL) {
 		        *p++ = 'I';
 			*p++ = 'D';
 			for ( ; *p; p++)
 			        *p = *(p+2);
 		}
 	        /* Replace ``VMIV'' with ``IM'' */
-	        if ((p = strstr(buf, "VMIV")) != NULL) {
+	        if ((p = strstr (buf, "VMIV")) != NULL) {
 		        *p++ = 'I';
 			*p++ = 'M';
 			for ( ; *p; p++)
@@ -2459,7 +2458,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
         Value      *values_y = argv[1];
 	math_sums_t items_x, items_y;
 	Value      *ret;
-	gnum_float     sum;
+	gnum_float  sum;
 	GSList     *list1, *list2;
 
 	items_x.num  = 0;
@@ -2515,7 +2514,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 	list2 = items_y.list;
 	sum = 0;
 	while (list1 != NULL) {
-	        gnum_float  x, y;
+	        gnum_float x, y;
 
 		x = *((gnum_float *) list1->data);
 		y = *((gnum_float *) list2->data);
@@ -2572,7 +2571,7 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
         Value      *values_y = argv[1];
 	math_sums_t items_x, items_y;
 	Value      *ret;
-	gnum_float     sum;
+	gnum_float  sum;
 	GSList     *list1, *list2;
 
 	items_x.num  = 0;
@@ -2684,7 +2683,7 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
         Value      *values_y = argv[1];
 	math_sums_t items_x, items_y;
 	Value      *ret;
-	gnum_float     sum;
+	gnum_float  sum;
 	GSList     *list1, *list2;
 
 	items_x.num  = 0;
@@ -2820,7 +2819,7 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GList *expr_node_list)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
 
-	fun_nbr = value_get_as_int(val);
+	fun_nbr = value_get_as_int (val);
 	value_release (val);
 	if (fun_nbr < 1 || fun_nbr > 11)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -2829,28 +2828,17 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GList *expr_node_list)
 	expr_node_list = expr_node_list->next;
 
 	switch (fun_nbr) {
-	case 1:
-	        return gnumeric_average(ei, expr_node_list);
-	case 2:
-	        return gnumeric_count(ei, expr_node_list);
-	case 3:
-		return gnumeric_counta(ei, expr_node_list);
-	case 4:
-		return gnumeric_max(ei, expr_node_list);
-	case 5:
-		return gnumeric_min(ei, expr_node_list);
-	case 6:
-	        return gnumeric_product(ei, expr_node_list);
-	case 7:
-	        return gnumeric_stdev(ei, expr_node_list);
-	case 8:
-	        return gnumeric_stdevp(ei, expr_node_list);
-	case 9:
-	        return gnumeric_sum(ei, expr_node_list);
-	case 10:
-	        return gnumeric_var(ei, expr_node_list);
-	case 11:
-	        return gnumeric_varp(ei, expr_node_list);
+	case 1:  return gnumeric_average (ei, expr_node_list);
+	case 2:  return gnumeric_count (ei, expr_node_list);
+	case 3:  return gnumeric_counta (ei, expr_node_list);
+	case 4:  return gnumeric_max (ei, expr_node_list);
+	case 5:  return gnumeric_min (ei, expr_node_list);
+	case 6:  return gnumeric_product (ei, expr_node_list);
+	case 7:  return gnumeric_stdev (ei, expr_node_list);
+	case 8:  return gnumeric_stdevp (ei, expr_node_list);
+	case 9:  return gnumeric_sum (ei, expr_node_list);
+	case 10: return gnumeric_var (ei, expr_node_list);
+	case 11: return gnumeric_varp (ei, expr_node_list);
 	}
 
 	return NULL;
@@ -2893,11 +2881,11 @@ callback_function_seriessum (const EvalPos *ep, Value *value,
 	gnum_float coefficient;
 
 	if (!VALUE_IS_NUMBER (value))
-		return value_terminate();
+		return value_terminate ();
 
 	coefficient = value_get_as_float (value);
 
-	mm->sum += coefficient * pow(mm->x, mm->n);
+	mm->sum += coefficient * pow (mm->x, mm->n);
 	mm->n += mm->m;
 
 	return NULL;
@@ -2909,7 +2897,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
         math_seriessum_t p;
         ExprTree         *tree;
 	Value            *val;
-	gnum_float          x, n, m;
+	gnum_float       x, n, m;
 
 	if (nodes == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -2921,7 +2909,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 
 	val = eval_expr (ei->pos, tree, EVAL_STRICT);
 	if (!val) return NULL;
-	if (! VALUE_IS_NUMBER(val)) {
+	if (!VALUE_IS_NUMBER (val)) {
 		value_release (val);
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
@@ -2937,12 +2925,12 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 
 	val = eval_expr (ei->pos, tree, EVAL_STRICT);
 	if (!val) return NULL;
-	if (! VALUE_IS_NUMBER(val)) {
+	if (! VALUE_IS_NUMBER (val)) {
 		value_release (val);
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
 
-	n = value_get_as_int(val);
+	n = value_get_as_int (val);
 	value_release (val);
 
 	nodes = nodes->next;
@@ -2956,12 +2944,12 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 
 	val = eval_expr (ei->pos, tree, EVAL_STRICT);
 	if (!val) return NULL;
-	if (! VALUE_IS_NUMBER(val)) {
+	if (! VALUE_IS_NUMBER (val)) {
 		value_release (val);
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
 
-	m = value_get_as_float(val);
+	m = value_get_as_float (val);
 	value_release (val);
 	nodes = nodes->next;
 
@@ -3000,14 +2988,14 @@ static char *help_minverse = {
 
 
 static Value *
-callback_function_mmult_validate(Sheet *sheet, int col, int row,
-				 Cell *cell, void *user_data)
+callback_function_mmult_validate (Sheet *sheet, int col, int row,
+				  Cell *cell, void *user_data)
 {
         int * item_count = user_data;
 
 	if (cell == NULL || cell->value == NULL ||
-	    !VALUE_IS_NUMBER(cell->value))
-	        return value_terminate();
+	    !VALUE_IS_NUMBER (cell->value))
+	        return value_terminate ();
 
 	++(*item_count);
 	return NULL;
@@ -3076,14 +3064,14 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 
 	matrix = g_new (gnum_float, rows*cols);
 	inverse = g_new (gnum_float, rows*cols);
-	for (c=0; c<cols; c++)
-	        for (r=0; r<rows; r++) {
+	for (c = 0; c < cols; c++)
+	        for (r = 0; r < rows; r++) {
 		        Value const * a =
 			      value_area_get_x_y (ep, values, c, r);
-		        *(matrix + r + c*cols) = value_get_as_float(a);
+		        *(matrix + r + c * cols) = value_get_as_float (a);
 		}
 
-	if (minverse(matrix, cols, inverse)) {
+	if (minverse (matrix, cols, inverse)) {
 	        g_free (matrix);
 	        g_free (inverse);
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -3092,12 +3080,12 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 	g_free (matrix);
 	res = value_new_array_non_init (cols, rows);
 
-	for (c = 0; c < cols; ++c){
-		res->v_array.vals [c] = g_new (Value *, rows);
-		for (r = 0; r < rows; ++r){
+	for (c = 0; c < cols; ++c) {
+		res->v_array.vals[c] = g_new (Value *, rows);
+		for (r = 0; r < rows; ++r) {
 			gnum_float tmp;
 
-			tmp = *(inverse + r + c*rows);
+			tmp = *(inverse + r + c * rows);
 			res->v_array.vals[c][r] = value_new_float (tmp);
 		}
 	}
@@ -3139,7 +3127,7 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 	if (validate_range_numeric_matrix (ep, values_a, &rows_a, &cols_a,
 					   &error_string) ||
 	    validate_range_numeric_matrix (ep, values_b, &rows_b, &cols_b,
-					   &error_string)){
+					   &error_string)) {
 		return value_new_error (ei->pos, error_string);
 	}
 
@@ -3153,27 +3141,27 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 	B = g_new (gnum_float, cols_b * rows_b);
 	product = g_new (gnum_float, rows_a * cols_b);
 
-	for (c=0; c<cols_a; c++)
-	        for (r=0; r<rows_a; r++) {
+	for (c = 0; c < cols_a; c++)
+	        for (r = 0; r < rows_a; r++) {
 		        Value const * a =
 			     value_area_get_x_y (ep, values_a, c, r);
-		        A[r + c*rows_a] = value_get_as_float (a);
+		        A[r + c * rows_a] = value_get_as_float (a);
 		}
 
-	for (c=0; c<cols_b; c++)
-	        for (r=0; r<rows_b; r++) {
+	for (c = 0; c < cols_b; c++)
+	        for (r = 0; r < rows_b; r++) {
 		        Value const * b =
 			     value_area_get_x_y (ep, values_b, c, r);
-		        B[r + c*rows_b] = value_get_as_float (b);
+		        B[r + c * rows_b] = value_get_as_float (b);
 		}
 
 	mmult (A, B, cols_a, rows_a, cols_b, product);
 
-	for (c=0; c<cols_b; c++) {
+	for (c = 0; c < cols_b; c++) {
 	        res->v_array.vals[c] = g_new (Value *, rows_a);
-	        for (r=0; r<rows_a; r++)
+	        for (r = 0; r < rows_a; r++)
 		        res->v_array.vals[c][r] =
-			    value_new_float (product [r + c*rows_a]);
+			    value_new_float (product [r + c * rows_a]);
 	}
 	g_free (A);
 	g_free (B);
@@ -3226,18 +3214,18 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
 	if (cols != rows || !rows || !cols)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	matrix = g_new (gnum_float, rows*cols);
-	for (c=0; c<cols; c++)
-	        for (r=0; r<rows; r++) {
+	matrix = g_new (gnum_float, rows * cols);
+	for (c = 0; c < cols; c++)
+	        for (r = 0; r < rows; r++) {
 		        Value const * a =
 			      value_area_get_x_y (ep, values, c, r);
-		        *(matrix + r + c*cols) = value_get_as_float(a);
+		        *(matrix + r + c * cols) = value_get_as_float (a);
 		}
 
-	res = mdeterm(matrix, cols);
+	res = mdeterm (matrix, cols);
 	g_free (matrix);
 
-	return value_new_float(res);
+	return value_new_float (res);
 }
 
 /***************************************************************************/

@@ -1,6 +1,7 @@
 2001-07-12  Morten Welinder  <terra@diku.dk>
 
 	* fn-math.c (gnumeric_multinomial): Cleanup.
+	(gnumeric_lcm): Fix.
 
 2001-07-07  Morten Welinder  <terra@diku.dk>
 

@@ -19,6 +19,7 @@ Morten:
 	* Improve bsd support.
 	* Fix CONCATENATE.
 	* Fix MULTINOMIAL.
+	* Fix LCM.
 
 Rodrigo:
 	* Update gda support.
