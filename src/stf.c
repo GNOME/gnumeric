@@ -440,28 +440,44 @@ stf_write_csv (GOFileSaver const *fs, IOContext *context,
 static gboolean
 csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
+	/* Rough and ready heuristic.  If the first 80 bytes have no
+	 * nuls this may be text */
+	const int N = 80;
+
 	if (pl == FILE_PROBE_CONTENT) {
-		/* Rough and ready heuristic.  If the first 80 bytes have no
-		 * nuls this may be text */
 		guint8 const *header;
 		int i;
+		const char *enc;
+		char *header_utf8;
+		const char *p;
 
 		if (gsf_input_seek (input, 0, G_SEEK_SET))
 			return FALSE;
 		i = gsf_input_remaining (input);
-		if (i > 80)
-			i = 80;
+		if (i > N) i = N;
 		if (NULL == (header = gsf_input_read (input, i, NULL)))
 			return FALSE;
-		while (i-- > 0)
-			if (*header++ == 0)
-				return FALSE;
-		return TRUE;
+
+		enc = go_guess_encoding (header, i, NULL, &header_utf8);
+		if (!enc)
+			return FALSE;
+
+		for (p = header_utf8; *p; p = g_utf8_next_char (p)) {
+			gunichar uc = g_utf8_get_char (p);
+			if (!g_unichar_isprint (uc)) {
+				p = NULL;
+				break;
+			}
+		}
+
+		g_free (header_utf8);
+		return p == NULL;
 	} else {
 		char const *name = gsf_input_name (input);
 		if (name == NULL)
 			return FALSE;
 		name = gsf_extension_pointer (name);
+		g_print ("Extension [%s]\n", name ? name : "(null)");
 		return (name != NULL &&
 			(g_ascii_strcasecmp (name, "csv") == 0 ||
 			 g_ascii_strcasecmp (name, "tsv") == 0 ||

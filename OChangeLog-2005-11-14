@@ -1,3 +1,8 @@
+2005-04-01  Morten Welinder  <terra@gnome.org>
+
+	* src/stf.c (csv_tsv_probe): In the content phase, decode to UTF-8
+	before testing.  (Fixes #167191.)
+
 2005-04-01  Jon K Hellan  <hellan@acm.org>
 
 	* src/gnm-so-filled.c (gnm_so_polygon_write_xml_dom) 

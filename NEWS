@@ -72,6 +72,7 @@ Morten:
 	* When we reopen insert->image, start in the directory we were
 	  last time.  [#143188]
 	* Fix conversion problems with stf export.  [#126513]
+	* Improve text import for strange encodings.  [#167191]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
