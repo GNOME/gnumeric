@@ -206,13 +206,12 @@ set_menu_to_default (CharmapChooser *data)
 GtkWidget *
 make_charmap_chooser (CharmapChooser *data)
 {
-	g_return_val_if_fail (data != NULL, NULL);
-	
         GtkWidget *item;
 	GtkMenu *menu;
 	LGroupInfo *lgroup = lgroups;
 	GtkWidget *box;
 
+	g_return_val_if_fail (data != NULL, NULL);
 
 	data->encoding_classes = GTK_OPTION_MENU(gtk_option_menu_new());
 
