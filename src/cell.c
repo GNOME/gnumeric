@@ -146,14 +146,15 @@ cell_destroy (Cell *cell)
  * it should not be used by anyone. It is an internal
  * function.
  **/
-void
+gboolean
 cell_eval_content (Cell *cell)
 {
 	Value   *v;
 	EvalPos	 pos;
+	int	 max_iterate = 100;
 
 	if (!cell_has_expr (cell))
-		return;
+		return TRUE;
 
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 1) {
@@ -166,8 +167,29 @@ cell_eval_content (Cell *cell)
 	}
 #endif
 
-	v = eval_expr (eval_pos_init_cell (&pos, cell),
-		       cell->base.expression, EVAL_STRICT);
+	if (cell->base.flags & DEPENDENT_BEING_CALCULATED) {
+		/* Init to 0 */
+		if (cell->value->type == VALUE_ERROR) {
+			value_release (cell->value);
+			cell->value = value_new_int (0);
+		} else if (cell->value == NULL)
+			cell->value = value_new_int (0);
+		cell->base.flags &= ~DEPENDENT_BEING_CALCULATED;
+		puts ("bottom iterate");
+		return FALSE;
+	}
+
+	eval_pos_init_cell (&pos, cell);
+iterate :
+	cell->base.flags |= DEPENDENT_BEING_CALCULATED;
+	v = eval_expr (&pos, cell->base.expression, EVAL_STRICT);
+
+	if (cell->base.flags & DEPENDENT_BEING_CALCULATED)
+		cell->base.flags &= ~DEPENDENT_BEING_CALCULATED;
+	else if (max_iterate-- > 0) {
+		printf ("start iterate %d\n", max_iterate);
+		goto iterate;
+	}
 
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 1) {
@@ -184,6 +206,7 @@ cell_eval_content (Cell *cell)
 
 	cell_assign_value (cell, v, NULL);
 	sheet_redraw_cell (cell);
+	return TRUE;
 }
 
 /*

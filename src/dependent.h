@@ -47,9 +47,9 @@ void cb_dependent_queue_recalc	 (Dependent *dep, gpointer ignore);
 
 void cell_add_dependencies	 (Cell *cell);
 void cell_drop_dependencies	 (Cell *cell);
-void cell_eval			 (Cell *cell);
 void cell_queue_recalc		 (Cell const *cell);
 void cell_foreach_dep		 (Cell const *cell, DepFunc func, gpointer user);
+gboolean cell_eval		 (Cell *cell);
 
 void sheet_region_queue_recalc	 (Sheet const *sheet, Range const *range);
 /* Do we need this ?

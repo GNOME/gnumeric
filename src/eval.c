@@ -771,14 +771,17 @@ cell_drop_dependencies (Cell *cell)
 				  cell->base.expression, REMOVE_DEPS);
 }
 
-void
+gboolean
 cell_eval (Cell *cell)
 {
-	g_return_if_fail (cell != NULL);
+	g_return_val_if_fail (cell != NULL, TRUE);
 	if (cell->base.flags & DEPENDENT_NEEDS_RECALC) {
-		cell->base.flags &= ~DEPENDENT_NEEDS_RECALC;
-		cell_eval_content (cell);
+		if (cell_eval_content (cell))
+			cell->base.flags &= ~DEPENDENT_NEEDS_RECALC;
+		else
+			return FALSE;
 	}
+	return TRUE;
 }
 
 /**
@@ -1131,15 +1134,23 @@ workbook_recalc (Workbook *wb)
 		if (dep->flags & DEPENDENT_NEEDS_RECALC) {
 			int const t = (dep->flags & DEPENDENT_TYPE_MASK);
 
-			dep->flags &= ~DEPENDENT_NEEDS_RECALC;
-
 			if (t != DEPENDENT_CELL) {
 				DependentClass *klass = g_ptr_array_index (dep_classes, t);
 
 				g_return_if_fail (klass);
 				(*klass->eval) (dep);
-			} else
-				cell_eval_content (DEP_TO_CELL (dep));
+
+				dep->flags &= ~DEPENDENT_NEEDS_RECALC;
+
+			} else {
+				gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
+
+				/* This should always be the top of the stack */
+				g_return_if_fail (finished);
+
+				/* Don't clear flag until after in case we iterate */
+				dep->flags &= ~DEPENDENT_NEEDS_RECALC;
+			}
 		}
 	}
 }

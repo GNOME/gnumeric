@@ -80,7 +80,7 @@ gboolean wb_view_save        (WorkbookView *wbv, WorkbookControl *wbc);
 gboolean wb_view_open        (WorkbookView *wbv, WorkbookControl *wbc,
                               char const *file_name);
 gboolean wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
-                              GnumFileOpener *fo, char const *file_name);
+                              GnumFileOpener const *fo, char const *file_name);
 
 #define WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control, code)			\
 do {										\

@@ -1,3 +1,14 @@
+2001-05-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-view.c (wb_view_open_custom) : fix logic to avoid
+	  adding a bogus view.
+
+2001-05-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/eval.c (workbook_recalc) : don't clear the flag until after the
+	  calc is complete in case there is a cycle.
+	(cell_eval) : ditto.
+
 2001-05-24  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-gui.c (sheet_to_page_index): Rename view to

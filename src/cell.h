@@ -41,11 +41,10 @@ struct _Cell {
 /**
  * Manage cells
  */
-Cell       *cell_copy                    (Cell const *cell);
-void        cell_destroy                 (Cell *cell);
-void        cell_relocate                (Cell *cell, ExprRewriteInfo *rwinfo);
-void        cell_eval_content            (Cell *cell);
-void        cell_content_changed         (Cell *cell);
+Cell	 *cell_copy	    (Cell const *cell);
+void	  cell_destroy      (Cell *cell);
+void	  cell_relocate     (Cell *cell, ExprRewriteInfo *rwinfo);
+gboolean  cell_eval_content (Cell *cell);
 
 /**
  * Cell state checking
