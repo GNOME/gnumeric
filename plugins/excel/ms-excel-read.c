@@ -919,7 +919,7 @@ EXCEL_PALETTE_ENTRY const excel_default_palette[EXCEL_DEF_PAL_LEN] = {
 };
 
 static ExcelPalette *
-ms_excel_default_palette ()
+ms_excel_default_palette (void)
 {
 	static ExcelPalette *pal = NULL;
 
@@ -4322,4 +4322,11 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	}
 
 	gnumeric_io_error_read (context, _("Unable to locate valid MS Excel workbook"));
+}
+
+
+void
+ms_excel_read_cleanup (void)
+{
+	ms_excel_palette_destroy (ms_excel_default_palette ());
 }

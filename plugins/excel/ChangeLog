@@ -1,3 +1,12 @@
+2001-04-01  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (ms_excel_default_palette): Fix prototype.
+	(ms_excel_read_cleanup): New function.
+
+	* ms-excel-util.c (destroy_xl_font_widths): New function.
+
+	* boot.c (plugin_cleanup): New function.
+
 2001-03-31  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* .cvsignore: Added *.lo and *.la.

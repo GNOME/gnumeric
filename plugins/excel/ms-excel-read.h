@@ -127,4 +127,6 @@ extern void          ms_excel_unexpected_biff (BiffQuery *q,
 					       char const *state,
 					       int debug_level);
 
+void ms_excel_read_cleanup (void);
+
 #endif

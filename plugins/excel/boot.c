@@ -24,6 +24,8 @@
 #include "excel.h"
 #include "ms-summary.h"
 #include "boot.h"
+#include "ms-excel-util.h"
+#include "ms-excel-read.h"
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -53,8 +55,9 @@ MsExcelReadGbFn ms_excel_read_gb = NULL;
 
 gboolean excel_file_probe (FileOpener const *fo, const char *filename);
 void excel_file_open (FileOpener const *fo, IOContext *context, WorkbookView *new_wb_view, const char *filename);
-void excel98_file_save (FileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
+void excel97_file_save (FileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
 void excel95_file_save (FileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
+void plugin_cleanup (void);
 
 gboolean
 excel_file_probe (FileOpener const *fo, const char *filename)
@@ -184,4 +187,16 @@ excel95_file_save (FileSaver const *fs, IOContext *context,
                    WorkbookView *wb_view, const char *filename)
 {
 	excel_save (context, wb_view, filename, MS_BIFF_V7);
+}
+
+
+/*
+ * Cleanup allocations made by this plugin.
+ * (Called right before we are unloaded.)
+ */
+void
+plugin_cleanup (void)
+{
+	destroy_xl_font_widths ();
+	ms_excel_read_cleanup ();
 }
