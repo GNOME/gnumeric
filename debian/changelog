@@ -1,3 +1,11 @@
+gnumeric1.0 (1.0.12-3) unstable; urgency=medium
+
+  * Updated build dependencies to reflect libgal23 being the current gal in
+    sid.
+  * Updated Standards-Version.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 26 Mar 2003 07:05:49 +0100
+
 gnumeric1.0 (1.0.12-2) unstable; urgency=medium
 
   * After consulting with upstream, decided to move to Gnumeric 1.1.x as the 

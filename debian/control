@@ -5,11 +5,11 @@ Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
 Build-Depends: debhelper (>= 3.0), libtool, gettext, bison, flex,
  docbook-utils, gnome-doc-tools, scrollkeeper,
  libglib1.2-dev (>= 1.2.10-3), libgnome-dev (>= 1.4.2-4),
- libglade-gnome0-dev (>= 1:0.17-2.7), libgal-dev (>= 0.22-1),
+ libglade-gnome0-dev (>= 1:0.17-2.7), libgal-dev (>= 0.24-1),
  libgnomeprint-dev (>= 0.36-5), libxml-dev (>= 1.8.14), libole2-dev (>= 0.2.4),
  libbonobo-dev (>= 1.0.22-2.1),
  python2.2-dev (>= 2.2-1), libgda-dev (>= 0.2.96-3.1)
-Standards-Version: 3.5.8
+Standards-Version: 3.5.9
 
 Package: gnumeric1.0
 Architecture: any
