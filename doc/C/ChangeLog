@@ -1,3 +1,9 @@
+2002-11-01  Kevin Breit  <mrproper@ximian.com>
+
+	* keybinding-appendix.xml: Added to CVS.  This lists the keystrokes which aren't listed in the menus.
+
+	* gnumeric.xml: Added a keybinding file.
+
 2002-10-27  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.10

@@ -1,0 +1,76 @@
+<sect1 id="keybinding">
+  <title>Gnumeric Keybindings</title>
+  <para>
+    Keybindings are combinations of keystrokes which tell an application to
+    run a task.  These can greatly speed-up the user's interactions
+    with an application.  Some of the most common ones are
+    <keycombo>
+      <keycap>Ctrl</keycap>
+      <keycap>s</keycap>
+    </keycombo>
+    to save a file or
+    <keycombo>
+      <keycap>Ctrl</keycap>
+      <keycap>q</keycap>
+    </keycombo>
+    to quit the application.  <application>Gnumeric</application> also
+    comes with keybindings to make your spreadsheet exprience faster.
+  </para>
+
+  <para>
+    Normally, keybindings are next to a command in a menu.  For
+    example, if 
+    <menuchoice>
+      <guimenuitem>Save</guimenuitem>
+    </menuchoice>
+    has
+    <keycombo>
+      <keycap>Ctl</keycap>
+      <keycap>s</keycap>
+    </keycombo>
+    next to it, that means that
+    <keycombo>
+      <keycap>Ctl</keycap>
+      <keycap>s</keycap>
+    </keycombo>
+    can be typed at the same time to save your file.  However, some
+    keystrokes aren't listed in the menus.  They are as follows:
+  </para>
+
+  <itemizedlist>
+    <listitem>
+      <para>
+	<keycap>F2</keycap> sets the current cell for editing.  The
+	cursor is inserted at the end of the current text.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>F3</keycap> opens the <interface>Load file</interface>
+	dialog window.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>F5</keycap> opens the <interface>Go to</interface>
+	dialog window which allows you to jump to a specified cell.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>F6</keycap> opens the <interface>Search and
+	Replace</interface> dialog where you can search through your
+	spreadsheets for text strings and replace them with something
+	else.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>F7</keycap> opens the <interface>Search
+	Center</interface>.  The <interface>Search Center</interface>
+	allows you to search through your spreadsheets for text
+	strings.
+      </para>
+    </listitem>
+  </itemizedlist>
+</sect1>

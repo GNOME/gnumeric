@@ -30,6 +30,7 @@ GNU oleo">
 <!ENTITY graphs         SYSTEM "graphs.xml">
 <!ENTITY authors	SYSTEM "authors.xml">
 <!ENTITY license	SYSTEM "license.xml">
+<!ENTITY keybinding     SYSTEM "keybinding-appendix.xml">
 <!ENTITY fdl            SYSTEM "fdl-appendix.xml">
 ]>
 
@@ -168,8 +169,7 @@ GNU oleo">
     <title>Tutorials</title>
     <para>Nothing yet, will be some walkthroughs eventually.</para>
   </chapter>
--->
-<!--
+
   <chapter id="cell-elements">
     <title>Drawing on a worksheet</title>
     <para>boxes, labels, etc eventually.</para>
@@ -195,6 +195,10 @@ GNU oleo">
     &functions;
   </chapter>
 
+  <chapter id="keybinding">
+    <title>Gnumeric Keybinding Reference</title>
+    &functions;
+  </chapter>
 <!-- appendix: free documentation license -->
 
 &fdl;
