@@ -167,6 +167,7 @@ Dialogs
     : Editing nested functions.  How best to express this.
     : Switching between multiple function at the same level.
     : Don't ask to fill arguments for functions without arguments.
+    : Selecting a function with more than one optional arg shows only the first.
 - Import Dialog
     : Rewrite main page preview (see Bug #66393)
 

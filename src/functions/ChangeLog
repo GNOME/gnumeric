@@ -1,3 +1,13 @@
+2002-01-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* fn-financial.c : change oem to eom, don't release null maturity
+	  or settlement. Implement `xl' selector
+	(coupdaybs) : fix documentation
+	(coupncd) : fix documentation
+	(couppcd) : fix documentation
+	(coupdayscd) : fix documentation
+	(coupdays) :  fix documentation
+	
 2002-01-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.2

@@ -1,3 +1,11 @@
+2002-01-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/datetime.c : change oem to eom
+	(days_between_dep_basis) : fix basis == 0, add `in_order' flag
+	(adjust_dates_basis) : fix basis == 0
+	(coupdays) : fix basis == 2, 3 and partially fix to 
+	  basis == 1
+
 2002-01-15  Morten Welinder  <terra@diku.dk>
 
 	* src/GNOME_Gnumeric.xml, src/workbook-control-gui.c: support
