@@ -110,8 +110,8 @@ static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
 	  {{"1",""}, { "13",""}, { "34",""}}},
 	 {{{"",""}, { "",""}, { "|","|"}},
 	  {{"","|b|"}, { "14",""}, { "|","|"}},
-	  {{"","|b:"}, { "15",""}, { "|",":"}}}},
-	{{{{"",""}, { "","|"}, { "",""}},
+	  {{"","|b:"}, { "|b:",""}, { "|",":"}}}},
+	{{{{"",""}, { "",""}, { "",""}},
 	  {{"",""}, { "|",""}, { "35",""}},
 	  {{"","|"}, { "17",""}, { "36",""}}},
 	 {{{"","|"}, { "|",""}, { "37",""}},
@@ -119,13 +119,13 @@ static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
 	  {{"4",""}, { "19",""}, { "39",""}}},
 	 {{{"","|b|"}, { "20",""}, { "|","|"}},
 	  {{"5",""}, { "21",""}, { "|","|"}},
-	  {{"6",""}, { "22",""}, { "40",""}}}},
+	  {{"|b:",""}, { "22",""}, { "40",""}}}},
 	{{{{"",""}, { "23",""}, { ":t|",""}},
 	  {{"|",""}, { "24",""}, { ":t|",""}},
-	  {{"",""}, { "",""}, { "41",""}}},
-	 {{{"7",""}, { "26",""}, { "42",""}},
+	  {{"",""}, { "",""}, { ":t:",""}}},
+	 {{{"7",""}, { "26",""}, { ":t|",""}},
 	  {{"8",""}, { "27",""}, { "43",""}},
-	  {{"",""}, { "28",""}, { "44",""}}},
+	  {{"",""}, { "",""}, { ":t:",""}}},
 	 {{{":b|",""}, { "29",""}, { ":","|"}},
 	  {{":b|",""}, { "30",""}, { "45",""}},
 	  {{"10",""}, { "31",""}, { ":",":"}}}}
@@ -215,8 +215,6 @@ latex2e_write_file_header(FILE *fp)
 "%%  In addition the following commands need to be executed in the   %%\n"
 "%%  preamble:                                                       %%\n"
 "%%                                                                  %%\n"
-"%%  \\newlength{\\gnumericTableWidth}                                 %%\n"
-"%%  \\newlength{\\gnumericTableWidthComplete}                         %%\n"
 "%%                                                                  %%\n"
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 "\n"
@@ -259,8 +257,6 @@ latex2e_write_file_header(FILE *fp)
 "\n"
 "	\\begin{document}\n"
 "\n"
-"        \\newlength{\\gnumericTableWidth}\n"
-"        \\newlength{\\gnumericTableWidthComplete}\n"
 "\n"
 "%%  End of the preamble for the standalone. The next section is for %%\n"
 "%%  documents which are included into other LaTeX2e files.          %%\n"
@@ -289,6 +285,11 @@ latex2e_write_file_header(FILE *fp)
 "\n"
 "\\providecommand{\\gnumericPB}[1]%\n"
 "{\\let\\gnumericTemp=\\\\#1\\let\\\\=\\gnumericTemp\\hspace{0pt}}\n"
+" \\ifundefined{gnumericTableWidthDefined}"
+"        \\newlength{\\gnumericTableWidth}\n"
+"        \\newlength{\\gnumericTableWidthComplete}\n"
+"        \\def\\gnumericTableWidthDefined{}\n"
+" \\fi\n"
 "\n"
 "%%  The default table format retains the relative column widths of  %%\n"
 "%%  gnumeric. They can easily be changed to c, r or l. In that case %%\n"

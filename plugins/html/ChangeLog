@@ -1,3 +1,10 @@
+2002-08-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=92367
+	* latex.c: adjust corner connectors
+	(latex2e_write_file_header) : don't require
+	  length definition for files that are being input
+
 2002-08-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.8
