@@ -201,6 +201,7 @@ oo_row_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 	if (repeat_flag)
 		state->pos.eval.row += repeat_count -1;
 }
+
 static char const *
 oo_cellref_parse (CellRef *ref, char const *start, ParsePos const *pp)
 {

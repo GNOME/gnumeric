@@ -1,3 +1,8 @@
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_sheetref_parse) : new.
+	(applix_rangeref_parse) : new.
+
 2002-09-27  Jody Goldberg <jody@gnome.org>
 
 	* applix-read.c (applix_rangeref_parse) : new.

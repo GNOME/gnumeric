@@ -143,6 +143,28 @@ applix_parse_value (char *buf, char **follow)
 }
 
 static char const *
+applix_sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb)
+{
+	char const *end, *begin;
+	char *name;
+
+	begin = end = (*start == '$') ? start + 1 : start;
+	while (*end && g_ascii_isalnum (*end))
+		end++;
+
+	if (*end != ':') {
+		*sheet = NULL;
+		return start;
+	}
+
+	name = g_alloca (1 + end - begin);
+	strncpy (name, begin, end-begin);
+	name [end-begin] = '\0';
+	*sheet = workbook_sheet_by_name (wb, name);
+	return *sheet != NULL ? end : start;
+}
+
+static char const *
 applix_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 {
 	char const *ptr = start, *tmp1, *tmp2;
@@ -153,20 +175,16 @@ applix_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 
 	/* TODO : Does not handle external references */
 
-	ptr = sheetref_parse (start, &res->a.sheet, wb, TRUE);
-	/* just in case a sheet has a valid reference as a name */
-	if (ptr != start && *ptr != '!')
-		ptr = start;
-	else
-		ptr++;
-	tmp1 = col_parse (++ptr, &res->a.col, &res->a.col_relative);
-	if (tmp1++ == ptr)
+	ptr = applix_sheetref_parse (start, &res->a.sheet, wb);
+	if (ptr == NULL)
+		return start; /* TODO error unknown sheet */
+	if (*ptr == ':') ptr++;
+	tmp1 = col_parse (ptr, &res->a.col, &res->a.col_relative);
+	if (tmp1 == ptr)
 		return start;
 	tmp2 = row_parse (tmp1, &res->a.row, &res->a.row_relative);
 	if (tmp2 == tmp1)
 		return start;
-
-	/* prepare as if its a singleton, in case we want to fall back */
 	if (res->a.col_relative)
 		res->a.col -= pp->eval.col;
 	if (res->a.row_relative)
@@ -175,20 +193,18 @@ applix_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 		res->b = res->a;
 		return tmp2;
 	}
+
 	start = tmp2;
-	ptr = sheetref_parse (start+2, &res->b.sheet, wb, TRUE);
-	/* just in case a sheet has a valid reference as a name */
-	if (ptr != start+2 && *ptr != '!')
-		ptr = start+2;
-	else
-		ptr++;
-	tmp1 = col_parse (++ptr, &res->b.col, &res->b.col_relative);
-	if (tmp1++ == ptr)
+	ptr = applix_sheetref_parse (start+2, &res->b.sheet, wb);
+	if (ptr == NULL)
+		return start; /* TODO error unknown sheet */
+	if (*ptr == ':') ptr++;
+	tmp1 = col_parse (ptr, &res->b.col, &res->b.col_relative);
+	if (tmp1 == ptr)
 		return start;
 	tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
 	if (tmp2 == tmp1)
 		return start;
-
 	if (res->b.col_relative)
 		res->b.col -= pp->eval.col;
 	if (res->b.row_relative)
@@ -1061,7 +1077,7 @@ applix_read_cells (ApplixReadState *state)
 						GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS |
 						GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
 						&applix_rangeref_parse,
-						&perr);
+						parse_error_init (&perr));
 
 				if (expr == NULL) {
 					(void) applix_parse_error (state, _("%s!%s : unable to parse '%s'\n     %s"),

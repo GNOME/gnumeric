@@ -1,5 +1,16 @@
 2002-09-29  Jody Goldberg <jody@gnome.org>
 
+	* src/parse-util.c (gnm_1_0_rangeref_parse) : fix handling of error in
+	  3d ref.
+	(rangeref_parse) : ditto.
+
+2002-09-29  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (gnm_1_0_rangeref_parse) : fix.
+	(wbref_parse) : implement.
+
+2002-09-29  Jody Goldberg <jody@gnome.org>
+
 	* src/parse-util.c (wbref_parse) : document and fix a bit.  still
 	  untested.
 	(rangeref_parse) : touch up a bit.
