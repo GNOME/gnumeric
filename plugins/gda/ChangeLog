@@ -1,3 +1,8 @@
+2001-02-25  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin-gda.c, plugin.xml:
+	Used "function_group" service.
+
 2001-02-23  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.63

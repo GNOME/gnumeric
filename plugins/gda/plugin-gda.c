@@ -160,25 +160,9 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 	return ret;
 }
 
-gboolean
-plugin_can_deactivate_general (void)
-{
-	FunctionDefinition *func;
-
-	func = func_lookup_by_name ("execSQL", NULL);
-	return func != NULL && func_get_ref_count (func) <= 1;
-}
-
 void
-plugin_cleanup_general (ErrorInfo **ret_error)
+plugin_cleanup (void)
 {
-	FunctionDefinition *func;
-
-	*ret_error = NULL;
-	func = func_lookup_by_name ("execSQL", NULL);
-	if (func)
-		func_unref (func);
-
 	/* close the connection pool */
 	if (IS_GDA_CONNECTION_POOL(connection_pool)) {
 		gda_connection_pool_close_all(connection_pool);
@@ -187,14 +171,7 @@ plugin_cleanup_general (ErrorInfo **ret_error)
 	}
 }
 
-void
-plugin_init_general (ErrorInfo **ret_error)
-{
-	FunctionCategory *cat;
-
-	*ret_error = NULL;
-	/* register functions */
-	cat = function_get_category_with_translation ("Database", _("Database"));
-	
-	function_add_args(cat, "execSQL", "ssss", "dsn,username,password,sql", &help_execSQL, gnumeric_execSQL);
-}
+ModulePluginFunctionInfo gdaif_functions[] = {
+	{"execSQL", "ssss", "dsn,username,password,sql", &help_execSQL, &gnumeric_execSQL, NULL},
+	{NULL}
+};

@@ -6,7 +6,13 @@
 		<attribute name="module_file" value="gdaif.so"/>
 	</loader>
 	<services>
-		<service type="general"></service>
+		<service type="function_group" id="gdaif">
+			<category name="Database"/>
+			<category xml:lang="pl" name="Baza danych"/>
+			<functions>
+				<function name="execSQL"/>
+			</functions>
+		</service>
 	</services>
 </plugin>
 </gnumeric_plugin_group>
