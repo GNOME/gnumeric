@@ -500,6 +500,15 @@ value_cellrange_get_as_string (const Value *value, gboolean use_relative_syntax)
 char *
 value_get_as_string (const Value *value)
 {
+	struct lconv *locinfo;
+	
+	separator = ",";
+	locinfo = localeconv ();
+	if (locinfo->decimal_point &&
+	    locinfo->decimal_point [0] == ',' &&
+	    locinfo->decimal_point [1] == 0)
+		separator = ";";
+
 	switch (value->type){
 	case VALUE_STRING:
 		return g_strdup (value->v.str->str);
@@ -524,7 +533,7 @@ value_get_as_string (const Value *value)
 						      v->type == VALUE_INTEGER,
 						      "Duff Array contents");
 				if (lpx)
-					g_string_sprintfa (str, ",");
+					g_string_sprintfa (str, separator);
 				if (v->type == VALUE_STRING)
 					g_string_sprintfa (str, "\"%s\"",
 							   v->v.str->str);
@@ -532,7 +541,7 @@ value_get_as_string (const Value *value)
 					g_string_sprintfa (str, "%g",
 							   value_get_as_float (v));
 			}
-			if (lpy<value->v.array.y-1)
+			if (lpy < value->v.array.y-1)
 				g_string_sprintfa (str, ";");
 		}
 		g_string_sprintfa (str, "}");

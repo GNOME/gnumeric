@@ -1,3 +1,12 @@
+1999-07-19  Andreas Voegele <andreas.voegele@gmx.de>
+
+	* src/parser.y (gnumeric_unsafe_expr_parser): Use the locale to
+	figure out the correct separator
+
+	* src/file.c (workbook_read): According to the GNU libc
+	documentaiton retrieving the current locale should be done by
+	passing NULL to setlocale as the locale argument.
+
 1999-07-17  Michael Meeks  <michael@edenproject.org>
 
 	* src/workbook.c (workbook_setup_edit_area): Enabled function

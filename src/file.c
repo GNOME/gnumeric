@@ -147,7 +147,8 @@ workbook_read (const char *filename)
 	g_return_val_if_fail (filename != NULL, NULL);
 
 	/* Files are expected to be in standard C format.  */
-	oldlocale = g_strdup (setlocale (LC_NUMERIC, "C"));
+	oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
 
 	for (l = gnumeric_file_openers; l; l = l->next){
 		const FileOpener *fo = l->data;
@@ -230,7 +231,8 @@ workbook_import (Workbook *parent, const char *filename)
 			int sel_row = GPOINTER_TO_INT (clist->selection->data);
 
 			/* Files are expected to be in standard C format.  */
-			oldlocale = g_strdup (setlocale (LC_NUMERIC, "C"));
+			oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
+			setlocale (LC_NUMERIC, NULL);
 
 			fo = gtk_clist_get_row_data (clist, sel_row);
 			w = fo->open (filename);
@@ -422,8 +424,9 @@ workbook_save_as (Workbook *wb)
 				workbook_set_filename (wb, name);
 
 				/* Files are expected to be in standard C format.  */
-				oldlocale = g_strdup (setlocale (LC_NUMERIC, "C"));
-
+				oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
+				setlocale (LC_NUMERIC, "C");
+					
 				current_saver->save (wb, wb->filename);
 
 				setlocale (LC_NUMERIC, oldlocale);

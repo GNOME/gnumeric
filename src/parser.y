@@ -69,7 +69,8 @@ static const char **parser_desired_format;
 
 /* Locale info.  */
 static char parser_decimal_point;
-
+static char parser_separator;
+ 
 static ExprTree **parser_result;
 
 #define p_new(type) ((type *) alloc_buffer ((unsigned) sizeof (type)))
@@ -111,6 +112,7 @@ build_array_formula (ExprTree * func,
 %type  <list>     arg_list
 %token <tree>     NUMBER STRING FUNCALL CONSTANT CELLREF GTE LTE NE
 %token <sheetref> SHEETREF
+%token            SEPARATOR
 %type  <tree>     cellref
 
 %left '&'
@@ -124,7 +126,7 @@ build_array_formula (ExprTree * func,
 %%
 line:	  exp           { *parser_result = $1; }
 
-        | '{' exp '}' '(' NUMBER ',' NUMBER ')' '[' NUMBER ']' '[' NUMBER ']' {
+        | '{' exp '}' '(' NUMBER SEPARATOR NUMBER ')' '[' NUMBER ']' '[' NUMBER ']' {
 		*parser_result = build_array_formula ($2, $5, $7, $10, $13) ;
 	}
 
@@ -194,7 +196,7 @@ arg_list: exp {
 		$$ = g_list_prepend (NULL, $1);
 		alloc_glist ($$);
         }
-	| exp ',' arg_list {
+	| exp SEPARATOR arg_list {
 		forget_glist ($3);
 		$$ = g_list_prepend ($3, $1);
 		alloc_glist ($$);
@@ -417,9 +419,12 @@ int yylex (void)
                 parser_expr++;
 
 	c = *parser_expr++;
-        if (c == '(' || c == ',' || c == ')')
+        if (c == '(' || c == ')')
                 return c;
 
+	if (c == parser_separator)
+		return SEPARATOR;
+	
 	/* Translate locale's decimal marker into a dot.  */
 	if (c == parser_decimal_point)
 		c = '.';
@@ -437,7 +442,7 @@ int yylex (void)
 
 		digits = 1;
 		while (isdigit ((unsigned char)*tmp) ||
-		       (!is_float && *tmp=='.' && ++is_float)) {
+		       (!is_float && *tmp == parser_decimal_point && ++is_float)){
 			tmp++;
 			digits++;
 		}
@@ -716,6 +721,11 @@ gnumeric_unsafe_expr_parser (const char *expr, Sheet *sheet, guint eval_col, gui
 	else
 		parser_decimal_point = '.';
 
+	if (parser_decimal_point == ',')
+		parser_separator = ';';
+	else
+		parser_separator = ',';
+		
 	yyparse ();
 
 	if (parser_error == PARSE_OK)
