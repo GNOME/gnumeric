@@ -39,6 +39,9 @@ features+= --with-python=python2.2
 
 # Bonobo allows us to use parts of other applications as components via
 # CORBA, and allows us to work as a component for other applications.
+#
+# Once we get Gtk+ 2.4, be aware of 
+# http://bugzilla.gnome.org/show_bug.cgi?id=117579 
 
 features+= --with-bonobo
 
@@ -103,7 +106,9 @@ build-stamp:
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f build-stamp configure-stamp debian/*substvars debian/*~ 
+	rm -f build-stamp configure-stamp debian/*substvars debian/*~ \
+		debian/buildinfo
+
 	rm -rf debian/tmp build
 
 	# Update config.{sub,guess} from autotools-dev, if possible.
@@ -245,6 +250,8 @@ binary-arch: build install
 #	dh_perl -a
 
 	dh_shlibdeps -a
+
+	dh_buildinfo
 
 	dh_gencontrol -a
 	dh_md5sums -a
