@@ -1,3 +1,8 @@
+2005-02-09  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (xbase_field_as_value): strtognum has been renamed to
+	gnm_strto. Update accordingly.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0
