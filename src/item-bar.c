@@ -104,9 +104,9 @@ item_bar_reconfigure (GnomeCanvasItem *item)
 static char *
 get_row_name (int n)
 {
-	static char x [32];
+	static char x [4 * sizeof (int)];
 
-	g_assert (n < 65536);
+	g_assert (n < SHEET_MAX_ROWS);
 
 	sprintf (x, "%d", n + 1);
 	return x;
@@ -117,7 +117,7 @@ get_col_name (int n)
 {
 	static char x [3];
 
-	g_assert (n < 256);
+	g_assert (n < SHEET_MAX_COLS);
 	
 	if (n <= 'z'-'a') {
 		x [0] = n + 'A';

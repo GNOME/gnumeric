@@ -791,7 +791,7 @@ workbook_setup_edit_area (Workbook *wb)
 }
 
 
-struct {
+static struct {
 	char *displayed_name;
 	char *function;
 } quick_compute_routines [] = {

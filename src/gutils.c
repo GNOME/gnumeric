@@ -66,7 +66,7 @@ int_get_from_range (char *start, char *end, int_t *t)
 char *
 cell_name (int col, int row)
 {
-	static char buffer [10];
+	static char buffer [2 + 4 * sizeof (long)];
 	char *p = buffer;
 	
 	if (col <= 'Z'-'A'){
@@ -86,7 +86,7 @@ cell_name (int col, int row)
 char *
 cellref_name (CellRef *cell_ref, int eval_col, int eval_row)
 {
-	static char buffer [20];
+	static char buffer [sizeof (long) * 4];
 	char *p = buffer;
 	int col, row;
 	

@@ -491,7 +491,7 @@ typedef enum {
 	IG_SEPARATOR,
 } popup_types;
 
-struct {
+static struct {
 	char         *name;
 	void         (*fn)(GtkWidget *widget, ItemGrid *item_grid);
 	popup_types  type;

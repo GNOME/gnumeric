@@ -442,7 +442,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 
 	case FILL_STRING_WITH_NUMBER: {
 		FillItem *last = fi->group_last;
-		char buffer [50], *v;
+		char buffer [sizeof (int) * 4], *v;
 		int i;
 		
 		i = last->v.numstr.num + idx * last->delta.d_int;

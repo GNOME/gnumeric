@@ -303,7 +303,7 @@ button_select_all (GtkWidget *the_button, SheetView *sheet_view)
 static void
 set_tip_label (SheetView *sheet_view, char *format, GtkAdjustment *adj, int horizontal)
 {
-	char buffer [40];
+	char buffer [20 + sizeof (long) * 4];
 
 	if (horizontal)
 		snprintf (buffer, sizeof (buffer), format, col_name (adj->value));
