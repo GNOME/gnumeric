@@ -1,5 +1,7 @@
 1999-08-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* samples/finfuns.xls: Fixed the test of MIRR.
+
 	* src/functions/fn-financial.c: Implemented FVSCHEDULE().
 	
 1999-08-24  Jukka-Pekka Iivonen  <iivonen@iki.fi>
