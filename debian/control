@@ -2,15 +2,14 @@ Source: gnumeric
 Section: math
 Priority: optional
 Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
-Build-Depends: debhelper (>= 3.0), dh-buildinfo, gettext, bison, flex,
- scrollkeeper, intltool (>= 0.28), yelp,
+Build-Depends: debhelper (>= 4.1.87), dh-buildinfo, gettext, bison, flex,
+ scrollkeeper, yelp, libxml-parser-perl,
  libglib2.0-dev (>= 2.0.6-1), libgsf-1-dev (>= 1.8.2-3),
  libgtk2.0-dev (>= 2.2.2-1), libxml2-dev (>= 2.4.23-2),
  libglade2-dev (>= 2.0.0-2), libgnomecanvas2-dev (>= 2.0.2-1),
  libgtk2.0-dev (>= 2.2.0-1),
  libgnome2-dev (>= 2.4.0-2), libgnomeui-dev (>= 2.4.0-2),
  libgnomeprint2.2-dev (>= 2.4.2), libgnomeprintui2.2-dev (>= 2.4.2),
- libbonobo2-dev (>= 2.4.0), libbonoboui2-dev (>= 2.4.0),
  libgsf-gnome-1-dev (>= 1.8.2-3),
  libart-2.0-dev (>= 2.3.11-1),
  python2.3-dev, python-gtk2-dev,
@@ -19,7 +18,7 @@ Standards-Version: 3.6.1
 
 Package: gnumeric
 Architecture: any
-Depends: ${shlibs:Depends}, gsfonts, gconf2
+Depends: ${shlibs:Depends}, gsfonts, ${misc:Depends}
 Suggests: gnumeric-doc (>= ${Upstream-Version}), gnumeric-plugins-extra
 Conflicts: gnumeric1.0, gnumeric1.0-doc, gnumeric-doc (<< ${Upstream-Version})
 Replaces: zh-trans (<< 0.8-1), gnumeric1.0

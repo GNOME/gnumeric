@@ -1,3 +1,21 @@
+gnumeric (1.2.5-1) unstable; urgency=medium
+
+  * New upstream release.
+    Includes some images that were previously missing from the documentation
+    and fixes some file references in the documentation. (Closes: #227524)
+  * Put documentation under /usr/share/gnome/help so images work; symlink
+    to it from /usr/share/gnumeric/*/... so that help buttons in dialogs work. 
+    (Closes: #227630)
+  * No longer build with bonobo, after consulting upstream. (Closes: #115828)
+  * [debian/control] Dropped bonobo build dependencies.
+  * [debian/rules, debian/gnumeric.postinst, debian/gnumeric.prerm] Use
+    dh_gconf for schema (de)registration.
+  * [debian/control] Bumped debhelper build dependency so we have a working
+    dh_gconf; use ${misc:Depends}. Replaced intltool build dependency by
+    libxml-parser-perl  one.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 19 Jan 2004 08:24:53 +0100
+
 gnumeric (1.2.4-4) unstable; urgency=medium
 
   * [src/dialogs/dialog-printer-setup.c, src/dialogs/dialog-stf-format-page.c]
