@@ -15,4 +15,6 @@ libsolver_a_SOURCES =				\
 	api.c					\
 	api.h					\
 	solver.c				\
-	reports.c				
+	reports.c				\
+	reports-write.h				\
+	reports-write.c

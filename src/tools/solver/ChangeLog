@@ -1,5 +1,10 @@
 2002-03-18  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* reports-write.[ch]: Created.  reports-write.c should contain
+	writing only.  The logic will move into reports.c.
+
+	* reports.c: Moved lots of stuff to reports-write.c.
+
 	* solver.c: Started adding support for QP.
 
 2002-03-17  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
