@@ -1079,11 +1079,11 @@ format_template_transform_edges (FormatTemplate const *origft)
 				subiterator = g_slist_next (subiterator);
 			}
 
-			tmp = g_slist_next (iterator);
 			ft->members = g_slist_remove (ft->members, iterator->data);
-			iterator = tmp;
-		} else
-			iterator = g_slist_next (iterator);
+			format_template_member_free (iterator->data);
+		}
+
+		iterator = g_slist_next (iterator);
 	}
 	return ft;
 }
