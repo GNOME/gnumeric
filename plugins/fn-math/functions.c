@@ -1110,6 +1110,59 @@ gnumeric_pi (struct FunctionDefinition *i, Value *argv [], char **error_string)
 	return value_float (M_PI);
 }
 
+static char *help_trunc = {
+	N_("@FUNCTION=TRUNC\n"
+	   "@SYNTAX=TRUNC(number[,digits])\n"
+
+	   "@DESCRIPTION=The TRUNC function returns the value of number "
+	   "truncated to the number of digits specified.  If digits is omited "
+	   "then digits defaults to zero."
+	   "\n"
+
+	   "\n"
+	   "@SEEALSO=")
+};
+static Value *
+gnumeric_trunc (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	Value *number;
+	int args = g_list_length (expr_node_list);
+	int decimals = 0;
+	double v, integral, fraction;
+	
+	if (args < 1 || args > 2){
+		*error_string = _("Invalid number of arguments");
+		return NULL;
+	}
+
+	number = eval_expr (tsheet, (ExprTree *) expr_node_list->data, eval_col, eval_row, error_string);
+	if (!number)
+		return NULL;
+
+	v = number->v.v_float;
+	value_release (number);
+	
+	if (args == 2){
+		Value *value;
+
+		value = eval_expr (tsheet, (ExprTree *) expr_node_list->next->data, eval_col, eval_row, error_string);
+		if (!value){
+			return NULL;
+		}
+		
+		decimals = value_get_as_int (value);
+		value_release (value);
+	}
+
+	fraction = modf (v, &integral);
+	if (decimals){
+		double pot = pow (10, decimals);
+		
+		return value_float (integral + floor (fraction * pot) / pot);
+	} else
+		return value_float (integral);
+}
+
 FunctionDefinition math_functions [] = {
 	{ "abs",     "f",    "number",    &help_abs,   NULL, gnumeric_abs },
 	{ "acos",    "f",    "number",    &help_acos,  NULL, gnumeric_acos },
@@ -1148,7 +1201,8 @@ FunctionDefinition math_functions [] = {
 	{ "sum",     0,      "number",    &help_sum,     gnumeric_sum, NULL },
 	{ "tan",     "f",    "number",    &help_tan,     NULL, gnumeric_tan },
 	{ "tanh",    "f",    "number",    &help_tanh,    NULL, gnumeric_tanh },
-	{ "pi",      "",     "",          &help_pi,      NULL,gnumeric_pi },
+	{ "trunc",   "f",    "number",    &help_trunc,   gnumeric_trunc, NULL },
+	{ "pi",      "",     "",          &help_pi,      NULL, gnumeric_pi },
 	{ NULL, NULL },
 };
 

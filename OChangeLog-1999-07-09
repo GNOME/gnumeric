@@ -1,5 +1,7 @@
 1999-02-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/fn-math.c (gnumeric_trunc): Implement TRUNC.
+
 	* src/func.c (function_iterate_argument_values): Do not evaluate a
 	subexpression if the previous expression failed due to an error.
 	Basically: add a check to the eval return value.   
