@@ -44,6 +44,9 @@ struct _WorkbookPrivate {
 	/* While editing these should be visible */
 	GtkWidget *ok_button, *cancel_button;
 
+	/* While not editing these should be visible */
+	GtkWidget *func_button;
+
         /* The status bar */
         GnomeAppBar *appbar;
 

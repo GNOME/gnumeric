@@ -1,3 +1,16 @@
+2000-05-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c : Fix typo that was calling undo for redo toolbar.
+	({redo,undo}_cmd) : Use workbook_finish_editing directly.
+	(cb_auto{function,sum}) : If we are already editing do not start.
+	  When the wizard is in place bring it up.
+	(workbook_start_editing_at_cursor) : Make the '=' insensitive while
+	  editing.
+	(workbook_finish_editing) : Make the '=' sensitive.
+	(sheet_action_delete_sheet) : Fix typo and rename parm
+	  'current_sheet' -> 'sheet' to avoid confision with
+	  workbook->current_sheet.
+
 2000-05-04  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/rendered-value.c :

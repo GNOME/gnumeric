@@ -624,14 +624,14 @@ cancel_input (GtkWidget *IGNORED, Workbook *wb)
 static void
 undo_cmd (GtkWidget *widget, Workbook *wb)
 {
-	cancel_input (NULL /* ignored */, wb);
+	workbook_finish_editing (wb, FALSE);
 	command_undo (workbook_command_context_gui (wb), wb);
 }
 
 static void
 redo_cmd (GtkWidget *widget, Workbook *wb)
 {
-	cancel_input (NULL /* ignored */, wb);
+	workbook_finish_editing (wb, FALSE);
 	command_redo (workbook_command_context_gui (wb), wb);
 }
 
@@ -1017,9 +1017,14 @@ sort_cmd (Workbook *wb, int asc)
 static void
 cb_autofunction (GtkWidget *widget, Workbook *wb)
 {
-	GtkEntry *entry = GTK_ENTRY (wb->priv->edit_line);
-	gchar *txt = gtk_entry_get_text (entry);
+	GtkEntry *entry;
+	gchar const *txt;
 
+	if (wb->editing)
+		return;
+
+	entry = GTK_ENTRY (wb->priv->edit_line);
+	txt = gtk_entry_get_text (entry);
 	if (strncmp (txt, "=", 1)) {
 		workbook_start_editing_at_cursor (wb, TRUE, TRUE);
 		gtk_entry_set_text (entry, "=");
@@ -1037,9 +1042,14 @@ cb_autofunction (GtkWidget *widget, Workbook *wb)
 static void
 autosum_cmd (GtkWidget *widget, Workbook *wb)
 {
-	GtkEntry *entry = GTK_ENTRY (wb->priv->edit_line);
-	gchar *txt = gtk_entry_get_text (entry);
+	GtkEntry *entry;
+	gchar *txt;
 
+	if (wb->editing)
+		return;
+
+	entry = GTK_ENTRY (wb->priv->edit_line);
+	txt = gtk_entry_get_text (entry);
 	if (strncmp (txt, "=sum(", 5)) {
 		workbook_start_editing_at_cursor (wb, TRUE, TRUE);
 		gtk_entry_set_text (entry, "=sum()");
@@ -1458,7 +1468,7 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 		undo_cmd, GNOME_STOCK_PIXMAP_UNDO),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Redo"), N_("Redo the operation"),
-		undo_cmd, GNOME_STOCK_PIXMAP_REDO),
+		redo_cmd, GNOME_STOCK_PIXMAP_REDO),
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -1850,13 +1860,13 @@ misc_output (GtkWidget *widget, Workbook *wb)
 static void
 workbook_setup_edit_area (Workbook *wb)
 {
-	GtkWidget *function_button;
 	GtkWidget *pix, *deps_button, *box, *box2;
 
 	wb->priv->selection_descriptor     = gtk_entry_new ();
 	wb->priv->ok_button     = gtk_button_new ();
 	wb->priv->cancel_button = gtk_button_new ();
-	wb->priv->edit_line  = gtk_entry_new ();
+	wb->priv->func_button	= gtk_button_new ();
+	wb->priv->edit_line	= gtk_entry_new ();
 	box           = gtk_hbox_new (0, 0);
 	box2          = gtk_hbox_new (0, 0);
 
@@ -1879,17 +1889,16 @@ workbook_setup_edit_area (Workbook *wb)
 			    GTK_SIGNAL_FUNC (accept_input), wb);
 
 	/* Auto function */
-	function_button = gtk_button_new ();
 	pix = gnome_pixmap_new_from_xpm_d (equal_sign_xpm);
-	gtk_container_add (GTK_CONTAINER (function_button), pix);
-	GTK_WIDGET_UNSET_FLAGS (function_button, GTK_CAN_FOCUS);
-	gtk_signal_connect (GTK_OBJECT (function_button), "clicked",
+	gtk_container_add (GTK_CONTAINER (wb->priv->func_button), pix);
+	GTK_WIDGET_UNSET_FLAGS (wb->priv->func_button, GTK_CAN_FOCUS);
+	gtk_signal_connect (GTK_OBJECT (wb->priv->func_button), "clicked",
 			    GTK_SIGNAL_FUNC (cb_autofunction), wb);
 
 	gtk_box_pack_start (GTK_BOX (box2), wb->priv->selection_descriptor, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), wb->priv->cancel_button, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), wb->priv->ok_button, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (box), function_button, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (box), wb->priv->func_button, 0, 0, 0);
 
 	/* Dependency + Style debugger */
 	if (gnumeric_debugging > 9 ||
@@ -2793,10 +2802,10 @@ sheet_action_add_sheet (GtkWidget *widget, Sheet *current_sheet)
  * Invoked when the user selects the option to remove a sheet
  */
 static void
-sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet)
+sheet_action_delete_sheet (GtkWidget *ignored, Sheet *sheet)
 {
 	GtkWidget *d, *button_no;
-	Workbook *wb = current_sheet->workbook;
+	Workbook *wb = sheet->workbook;
 	char *message;
 	int r;
 
@@ -2808,7 +2817,7 @@ sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet)
 
 	message = g_strdup_printf (
 		_("Are you sure you want to remove the sheet called `%s'?"),
-		current_sheet->name_unquoted);
+		sheet->name_unquoted);
 
 	d = gnome_message_box_new (
 		message, GNOME_MESSAGE_BOX_QUESTION,
@@ -2824,9 +2833,9 @@ sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet)
 	if (r != 0)
 		return;
 
-	workbook_delete_sheet (current_sheet);
+	workbook_delete_sheet (sheet);
 	workbook_recalc_all (wb);
-	sheet_update (current_sheet);
+	sheet_update (wb->current_sheet);
 }
 
 /*
@@ -3625,6 +3634,7 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 	gtk_widget_set_sensitive (wb->priv->cancel_button, TRUE);
 
 	/* Toolbars are insensitive while editing */
+	gtk_widget_set_sensitive (wb->priv->func_button, FALSE);
 	gtk_widget_set_sensitive (wb->priv->standard_toolbar, FALSE);
 	gtk_widget_set_sensitive (wb->priv->format_toolbar, FALSE);
 }
@@ -3652,6 +3662,7 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 	gtk_widget_set_sensitive (wb->priv->cancel_button, FALSE);
 
 	/* Toolbars are insensitive while editing */
+	gtk_widget_set_sensitive (wb->priv->func_button, TRUE);
 	gtk_widget_set_sensitive (wb->priv->standard_toolbar, TRUE);
 	gtk_widget_set_sensitive (wb->priv->format_toolbar, TRUE);
 

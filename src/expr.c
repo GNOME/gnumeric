@@ -967,24 +967,29 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 			if (a != NULL)
 				value_release (a);
 
-			/* Store real result (cast away const)*/
-			/* FIXME : Call a wrapper routine that will iterate over the
-			 * the array and evaluate the expression for all elements
+			/*
+			 * FIXME : Call a wrapper routine that will iterate
+			 * over the the array and evaluate the expression for
+			 * all elements
 			 *
-			 * Figure out when to iterate and when to do array operations.
+			 * Figure out when to iterate and when to do array
+			 * operations.
 			 * ie
-			 * A1:A3 = '=B1:B3^2'  Will iterate over all the elements and
-			 *     re-evaluate.
+			 * 	A1:A3 = '=B1:B3^2'
+			 * Will iterate over all the elements and re-evaluate.
 			 * whereas
-			 * A1:A3 = '=bob(B1:B3)'  Will call bob once if it returns an
-			 *     array.
+			 *	 A1:A3 = '=bob(B1:B3)'
+			 * Will call bob once if it returns an array.
 			 *
-			 * This may be as simple as evaluating the corner.  If that is
-			 * is an array return the result, else build an array and
-			 * iterate over the elements, but that theory needs validation.
+			 * This may be as simple as evaluating the corner.  If
+			 * that is is an array return the result, else build an
+			 * array and iterate over the elements, but that theory
+			 * needs validation.
 			 */
 			a = eval_expr_real (pos, tree->array.corner.func.expr,
 					    EVAL_PERMIT_NON_SCALAR);
+
+			/* Store real result (cast away const)*/
 			*((Value **)&(tree->array.corner.func.value)) = a;
 		} else {
 			ExprTree const * const array =
@@ -1176,7 +1181,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePos const *pp,
 		{ NULL, 0, 0, 0 }, /* Var      */
 		{ "-",  5, 0, 0 }, /* Unary - */
 		{ "+",  5, 0, 0 }, /* Unary + */
-		{ "%",  5, 0, 0 },
+		{ "%",  5, 0, 0 }, /* Percentage (NOT MODULO) */
 		{ NULL, 0, 0, 0 }  /* Array    */
 	};
 	int op;
@@ -1191,8 +1196,10 @@ do_expr_decode_tree (ExprTree *tree, ParsePos const *pp,
 
 		prec = operations[op].prec;
 
-		a = do_expr_decode_tree (tree->binary.value_a, pp, prec - operations[op].assoc_left);
-		b = do_expr_decode_tree (tree->binary.value_b, pp, prec - operations[op].assoc_right);
+		a = do_expr_decode_tree (tree->binary.value_a, pp,
+					 prec - operations[op].assoc_left);
+		b = do_expr_decode_tree (tree->binary.value_b, pp,
+					 prec - operations[op].assoc_right);
 		opname = operations[op].name;
 
 		if (prec <= paren_level)
@@ -1211,7 +1218,8 @@ do_expr_decode_tree (ExprTree *tree, ParsePos const *pp,
 		int prec;
 
 		prec = operations[op].prec;
-		a = do_expr_decode_tree (tree->unary.value, pp, operations[op].prec);
+		a = do_expr_decode_tree (tree->unary.value, pp,
+					 operations[op].prec);
 		opname = operations[op].name;
 
 		if (tree->any.oper != OPER_PERCENT) {
