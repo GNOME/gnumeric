@@ -1368,7 +1368,7 @@ msgstr "Du skal opgive et gyldige cellenavn i 'Ved at ændre celler'"
 #.
 #: src/dialogs/advanced-filter.glade.h:7
 msgid "Advanced Filter"
-msgstr "Advanceret filter"
+msgstr "Avanceret filter"
 
 #: src/dialogs/advanced-filter.glade.h:8
 msgid "Action"
