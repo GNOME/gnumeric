@@ -666,8 +666,8 @@ dialog_formula_guru (WorkbookControlGUI *wbcg)
 
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	cell = sheet_cell_get (sheet,
-			       sheet->cursor.edit_pos.col,
-			       sheet->cursor.edit_pos.row);
+			       sheet->edit_pos.col,
+			       sheet->edit_pos.row);
 
 	if (cell != NULL && cell_has_expr (cell))
 		expr = expr_tree_first_func (cell->base.expression);

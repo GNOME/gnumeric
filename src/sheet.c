@@ -38,7 +38,7 @@
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 
-#define GNUMERIC_SHEET_CONTROL_GUI(p) GNUMERIC_SHEET (SHEET_CONTROL_GUI(p)->canvas)
+#define GNUMERIC_SHEET_CONTROL_GUI(p) GNUMERIC_SHEET (SHEET_CONTROL_GUI (p)->canvas)
 
 static void sheet_redraw_partial_row (Sheet const *sheet, int const row,
 				      int const start_col, int const end_col);
@@ -415,7 +415,7 @@ sheet_update_zoom_controls (Sheet *sheet)
 	WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
 	{
 		if (wb_view_cur_sheet (view) == sheet) {
-			WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
+			WORKBOOK_VIEW_FOREACH_CONTROL (view, control,
 				wb_control_zoom_feedback (control););
 		}
 	});
@@ -516,7 +516,7 @@ sheet_col_add (Sheet *sheet, ColRowInfo *cp)
 
 	if (*segment == NULL)
 		*segment = g_new0 (ColRowSegment, 1);
-	(*segment)->info[COLROW_SUB_INDEX(col)] = cp;
+	(*segment)->info[COLROW_SUB_INDEX (col)] = cp;
 
 	if (col > sheet->cols.max_used){
 		sheet->cols.max_used = col;
@@ -535,7 +535,7 @@ sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 
 	if (*segment == NULL)
 		*segment = g_new0 (ColRowSegment, 1);
-	(*segment)->info[COLROW_SUB_INDEX(row)] = rp;
+	(*segment)->info[COLROW_SUB_INDEX (row)] = rp;
 
 	if (rp->pos > sheet->rows.max_used){
 		sheet->rows.max_used = row;
@@ -554,7 +554,7 @@ sheet_col_get_info (Sheet const *sheet, int const col)
 
 	segment = COLROW_GET_SEGMENT (&(sheet->cols), col);
 	if (segment != NULL) {
-		ci = segment->info[COLROW_SUB_INDEX(col)];
+		ci = segment->info[COLROW_SUB_INDEX (col)];
 		if (ci != NULL)
 			return ci;
 	}
@@ -571,9 +571,9 @@ sheet_row_get_info (Sheet const *sheet, int const row)
 	g_return_val_if_fail (row >= 0, NULL);
 	g_return_val_if_fail (row < SHEET_MAX_ROWS, NULL);
 
-	segment = COLROW_GET_SEGMENT(&(sheet->rows), row);
+	segment = COLROW_GET_SEGMENT (&(sheet->rows), row);
 	if (segment != NULL) {
-		ri = segment->info[COLROW_SUB_INDEX(row)];
+		ri = segment->info[COLROW_SUB_INDEX (row)];
 		if (ri != NULL)
 			return ri;
 	}
@@ -618,8 +618,8 @@ sheet_flag_status_update_cell (Cell const *cell)
 	/* If the edit cell changes value update the edit area
 	 * and the format toolbar
 	 */
-	if (pos->col == sheet->cursor.edit_pos.col &&
-	    pos->row == sheet->cursor.edit_pos.row) {
+	if (pos->col == sheet->edit_pos.col &&
+	    pos->row == sheet->edit_pos.row) {
 		sheet->priv->edit_pos.content_changed =
 		sheet->priv->edit_pos.format_changed  = TRUE;
 	}
@@ -658,7 +658,7 @@ sheet_flag_status_update_range (Sheet const *sheet, Range const *range)
 	/* If the edit cell changes value update the edit area
 	 * and the format toolbar
 	 */
-	if (range_contains(range, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row)) {
+	if (range_contains (range, sheet->edit_pos.col, sheet->edit_pos.row)) {
 		sheet->priv->edit_pos.content_changed =
 		sheet->priv->edit_pos.format_changed = TRUE;
 	}
@@ -674,7 +674,7 @@ sheet_flag_status_update_range (Sheet const *sheet, Range const *range)
 void
 sheet_flag_format_update_range (Sheet const *sheet, Range const *range)
 {
-	if (range_contains(range, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row))
+	if (range_contains (range, sheet->edit_pos.col, sheet->edit_pos.row))
 		sheet->priv->edit_pos.format_changed = TRUE;
 }
 
@@ -789,13 +789,13 @@ sheet_update (Sheet const *sheet)
 
 	/* FIXME : decide whether to do this here or in workbook view */
 	if (p->edit_pos.location_changed) {
-		char const *new_pos = cell_pos_name (&sheet->cursor.edit_pos);
+		char const *new_pos = cell_pos_name (&sheet->edit_pos);
 
 		p->edit_pos.location_changed = FALSE;
 		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
 		{
 			if (wb_view_cur_sheet (view) == sheet) {
-				WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
+				WORKBOOK_VIEW_FOREACH_CONTROL (view, control,
 					wb_control_selection_descr_set (control, new_pos););
 			}
 		});
@@ -928,7 +928,7 @@ sheet_get_extent (Sheet const *sheet)
 
 	g_return_val_if_fail (IS_SHEET (sheet), r);
 
-	g_hash_table_foreach(sheet->cell_hash, &sheet_get_extent_cb, &r);
+	g_hash_table_foreach (sheet->cell_hash, &sheet_get_extent_cb, &r);
 
 	if (r.start.col >= SHEET_MAX_COLS - 2)
 		r.start.col = 0;
@@ -1310,7 +1310,7 @@ sheet_redraw_cell_region (Sheet const *sheet,
 			/* skip segments with no cells */
 		} else if (row == COLROW_SEGMENT_START (row)) {
 			ColRowSegment const * const segment =
-				COLROW_GET_SEGMENT(&(sheet->rows), row);
+				COLROW_GET_SEGMENT (&(sheet->rows), row);
 			if (segment == NULL)
 				row = COLROW_SEGMENT_END (row);
 		}
@@ -1424,13 +1424,23 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 				int count, gboolean jump_to_boundaries)
 {
 	gboolean find_nonblank = sheet_is_cell_empty (sheet, start_col, row);
-	int new_col = start_col, prev_col = start_col;
 	gboolean keep_looking = FALSE;
+	int new_col, prev_col;
 	int iterations = 0;
+	CellPos	pos;
+	Range const *merged;
 
-	g_return_val_if_fail (sheet != NULL, start_col);
 	/* Jumping to bounds requires steping cell by cell */
 	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_col);
+	g_return_val_if_fail (IS_SHEET (sheet), start_col);
+
+	pos.col = start_col;
+	pos.row = row;
+	merged = sheet_region_get_merged_cell (sheet, &pos);
+
+	if (merged != NULL)
+		start_col = (count > 0) ? merged->end.col : merged->start.col;
+	new_col = prev_col = start_col;
 
 	do {
 		new_col += count;
@@ -1463,6 +1473,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 		}
 	} while (keep_looking || sheet_col_is_hidden (sheet, new_col));
 
+
 	return new_col;
 }
 
@@ -1491,12 +1502,23 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 			      int count, gboolean jump_to_boundaries)
 {
 	gboolean find_nonblank = sheet_is_cell_empty (sheet, col, start_row);
-	int new_row = start_row, prev_row = start_row;
 	gboolean keep_looking = FALSE;
+	int new_row, prev_row;
 	int iterations = 0;
+	CellPos	pos;
+	Range const *merged;
 
 	/* Jumping to bounds requires steping cell by cell */
 	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_row);
+	g_return_val_if_fail (IS_SHEET (sheet), start_row);
+
+	pos.col = col;
+	pos.row = start_row;
+	merged = sheet_region_get_merged_cell (sheet, &pos);
+
+	if (merged != NULL)
+		start_row = (count > 0) ? merged->end.row : merged->start.row;
+	new_row = prev_row = start_row;
 
 	do {
 		new_row += count;
@@ -1656,7 +1678,7 @@ sheet_col_get (Sheet const *sheet, int const pos)
 
 	segment = COLROW_GET_SEGMENT (&(sheet->cols), pos);
 	if (segment != NULL)
-		return segment->info [COLROW_SUB_INDEX(pos)];
+		return segment->info [COLROW_SUB_INDEX (pos)];
 	return NULL;
 }
 /**
@@ -1692,7 +1714,7 @@ sheet_row_get (Sheet const *sheet, int const pos)
 
 	segment = COLROW_GET_SEGMENT (&(sheet->rows), pos);
 	if (segment != NULL)
-		return segment->info [COLROW_SUB_INDEX(pos)];
+		return segment->info [COLROW_SUB_INDEX (pos)];
 	return NULL;
 }
 
@@ -1723,7 +1745,7 @@ sheet_row_fetch (Sheet *sheet, int pos)
  * callbacks are only invoked for existing cells.
  *
  * Return value:
- *    non-NULL on error, or value_terminate() if some invoked routine requested
+ *    non-NULL on error, or value_terminate () if some invoked routine requested
  *    to stop (by returning non-NULL).
  *
  * NOTE: between 0.56 and 0.57, the traversal order changed.  The order is now
@@ -1770,13 +1792,13 @@ sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
 				/* skip segments with no cells */
 				if (i == COLROW_SEGMENT_START (i)) {
 					ColRowSegment const *segment =
-						COLROW_GET_SEGMENT(&(sheet->rows), i);
+						COLROW_GET_SEGMENT (&(sheet->rows), i);
 					if (segment == NULL)
-						i = COLROW_SEGMENT_END(i);
+						i = COLROW_SEGMENT_END (i);
 				}
 			} else {
 				for (j = start_col; j <= end_col; ++j) {
-					cont = (*callback)(sheet, j, i, NULL, closure);
+					cont = (*callback) (sheet, j, i, NULL, closure);
 					if (cont != NULL)
 						return cont;
 				}
@@ -1796,14 +1818,14 @@ sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
 				/* skip segments with no cells */
 				if (j == COLROW_SEGMENT_START (j)) {
 					ColRowSegment const *segment =
-						COLROW_GET_SEGMENT(&(sheet->cols), j);
+						COLROW_GET_SEGMENT (&(sheet->cols), j);
 					if (segment == NULL)
-						j = COLROW_SEGMENT_END(j);
+						j = COLROW_SEGMENT_END (j);
 				}
 				continue;
 			}
 
-			cont = (*callback)(sheet, j, i, cell, closure);
+			cont = (*callback) (sheet, j, i, cell, closure);
 			if (cont != NULL)
 				return cont;
 		}
@@ -2011,7 +2033,7 @@ cb_free_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 static void
 sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 {
-	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT(&(sheet->cols), col);
+	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT (&(sheet->cols), col);
 	int const sub = COLROW_SUB_INDEX (col);
 	ColRowInfo *ci = NULL;
 
@@ -2045,8 +2067,8 @@ sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 static void
 sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 {
-	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT(&(sheet->rows), row);
-	int const sub = COLROW_SUB_INDEX(row);
+	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT (&(sheet->rows), row);
+	int const sub = COLROW_SUB_INDEX (row);
 	ColRowInfo *ri = NULL;
 	if (*segment == NULL)
 		return;
@@ -2283,9 +2305,9 @@ sheet_regen_adjacent_spans (Sheet *sheet,
 			/* skip segments with no cells */
 			if (row == COLROW_SEGMENT_START (row)) {
 				ColRowSegment const *segment =
-					COLROW_GET_SEGMENT(&(sheet->rows), row);
+					COLROW_GET_SEGMENT (&(sheet->rows), row);
 				if (segment == NULL)
-					row = COLROW_SEGMENT_END(row);
+					row = COLROW_SEGMENT_END (row);
 			}
 			continue;
 		}
@@ -2391,7 +2413,7 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 		sheet_cell_foreach_range (sheet, TRUE,
 					  start_col, start_row, end_col, end_row,
 					  &cb_empty_cell,
-					  GINT_TO_POINTER(!(clear_flags & CLEAR_COMMENTS)));
+					  GINT_TO_POINTER (!(clear_flags & CLEAR_COMMENTS)));
 
 		sheet_regen_adjacent_spans (sheet,
 					    start_col, start_row,
@@ -2427,11 +2449,12 @@ void
 sheet_set_edit_pos (Sheet *sheet, int col, int row)
 {
 	int old_col, old_row;
+	Range const *merged;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
-	old_col = sheet->cursor.edit_pos.col;
-	old_row = sheet->cursor.edit_pos.row;
+	old_col = sheet->edit_pos.col;
+	old_row = sheet->edit_pos.row;
 
 	if (old_col != col || old_row != row) {
 		sheet->priv->edit_pos.location_changed =
@@ -2441,11 +2464,20 @@ sheet_set_edit_pos (Sheet *sheet, int col, int row)
 		/* Redraw before change */
 		sheet_redraw_cell_region (sheet,
 					  old_col, old_row, old_col, old_row);
-		sheet->cursor.edit_pos.col = col;
-		sheet->cursor.edit_pos.row = row;
+		sheet->edit_pos_real.col = col;
+		sheet->edit_pos_real.row = row;
 
-		/* Redraw after change */
-		sheet_redraw_cell_region (sheet, col, row, col, row);
+		/* Redraw after change (handling merged cells) */
+		merged = sheet_region_get_merged_cell (sheet, &sheet->edit_pos_real);
+		if (merged != NULL) {
+			sheet_redraw_cell_region (sheet,
+				merged->start.col, merged->start.row,
+				merged->end.col, merged->end.row);
+			sheet->edit_pos = merged->start;
+		} else {
+			sheet_redraw_cell_region (sheet, col, row, col, row);
+			sheet->edit_pos = sheet->edit_pos_real;
+		}
 	}
 }
 
@@ -2460,23 +2492,23 @@ sheet_cursor_set (Sheet *sheet,
 	g_return_if_fail (IS_SHEET (sheet));
 
 #if 0
-	fprintf (stderr, "extend to %s%d\n", col_name(col), row+1);
-	fprintf (stderr, "edit %s%d\n", col_name(sheet->cursor.edit_pos.col), sheet->cursor.edit_pos.row+1);
-	fprintf (stderr, "base %s%d\n", col_name(sheet->cursor.base_corner.col), sheet->cursor.base_corner.row+1);
-	fprintf (stderr, "move %s%d\n", col_name(sheet->cursor.move_corner.col), sheet->cursor.move_corner.row+1);
+	fprintf (stderr, "extend to %s%d\n", col_name (col), row+1);
+	fprintf (stderr, "edit %s%d\n", col_name (sheet->edit_pos.col), sheet->edit_pos.row+1);
+	fprintf (stderr, "base %s%d\n", col_name (sheet->cursor.base_corner.col), sheet->cursor.base_corner.row+1);
+	fprintf (stderr, "move %s%d\n", col_name (sheet->cursor.move_corner.col), sheet->cursor.move_corner.row+1);
 #endif
 
 #if 0
 	/* Be sure that the edit_pos is contained in the new_sel area */
-	if (sheet->cursor.edit_pos.col < ss->start.col)
-		sheet->cursor.edit_pos.col = ss->start.col;
-	else if (sheet->cursor.edit_pos.col > ss->end.col)
-		sheet->cursor.edit_pos.col = ss->end.col;
+	if (sheet->edit_pos.col < ss->start.col)
+		sheet->edit_pos.col = ss->start.col;
+	else if (sheet->edit_pos.col > ss->end.col)
+		sheet->edit_pos.col = ss->end.col;
 
-	if (sheet->cursor.edit_pos.row < ss->start.row)
-		sheet->cursor.edit_pos.row = ss->start.row;
-	else if (sheet->cursor.edit_pos.row > ss->end.row)
-		sheet->cursor.edit_pos.row = ss->end.row;
+	if (sheet->edit_pos.row < ss->start.row)
+		sheet->edit_pos.row = ss->start.row;
+	else if (sheet->edit_pos.row > ss->end.row)
+		sheet->edit_pos.row = ss->end.row;
 #endif
 
 	/* Change the edit position */
@@ -2681,9 +2713,9 @@ colrow_move (Sheet *sheet,
 	     int const old_pos, int const new_pos)
 {
 	gboolean const is_cols = (info_collection == &sheet->cols);
-	ColRowSegment *segment = COLROW_GET_SEGMENT(info_collection, old_pos);
+	ColRowSegment *segment = COLROW_GET_SEGMENT (info_collection, old_pos);
 	ColRowInfo *info = (segment != NULL) ?
-		segment->info [COLROW_SUB_INDEX(old_pos)] : NULL;
+		segment->info [COLROW_SUB_INDEX (old_pos)] : NULL;
 
 	GList *cells = NULL;
 	Cell  *cell;
@@ -3370,16 +3402,16 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 	 */
 	for (i = from ; i < to ; ++i) {
 		ColRowSegment const *segment =
-			COLROW_GET_SEGMENT(&(sheet->rows), i);
+			COLROW_GET_SEGMENT (&(sheet->rows), i);
 
 		if (segment != NULL) {
-			ColRowInfo const *ri = segment->info[COLROW_SUB_INDEX(i)];
+			ColRowInfo const *ri = segment->info[COLROW_SUB_INDEX (i)];
 			if (ri == NULL)
 				pts += default_size;
 			else if (ri->visible)
 				pts += ri->size_pts;
 		} else {
-			int segment_end = COLROW_SEGMENT_END(i)+1;
+			int segment_end = COLROW_SEGMENT_END (i)+1;
 			if (segment_end > to)
 				segment_end = to;
 			pts += default_size * (segment_end - i);
@@ -3588,7 +3620,7 @@ sheet_clone_style_region (Sheet *sheet, StyleRegion const *region)
 {
 	g_return_if_fail (region->style != NULL);
 
-	sheet_style_attach (sheet, region->range, mstyle_copy(region->style));
+	sheet_style_attach (sheet, region->range, mstyle_copy (region->style));
 }
 
 static void
@@ -3633,8 +3665,8 @@ sheet_clone_selection (Sheet const *src, Sheet *dst)
 	}
 	g_list_free (selections);
 	sheet_selection_add_range (dst,
-				   src->cursor.edit_pos.col,
-				   src->cursor.edit_pos.row,
+				   src->edit_pos.col,
+				   src->edit_pos.row,
 				   src->cursor.base_corner.col,
 				   src->cursor.base_corner.row,
 				   src->cursor.move_corner.col,
@@ -3867,6 +3899,28 @@ sheet_region_get_merged (Sheet *sheet, Range const *range)
 	}
 
 	return res;
+}
+
+/**
+ * sheet_region_get_merged_cell :
+ *
+ * If the CellPos is contained in the a merged region return the range.
+ * The Range should NOT be freed.
+ */
+Range const *
+sheet_region_get_merged_cell (Sheet *sheet, CellPos const *pos)
+{
+	GSList *ptr;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (pos != NULL, NULL);
+
+	for (ptr = sheet->list_merged ; ptr != NULL ; ptr = ptr->next) {
+		Range const * const range = ptr->data;
+		if (range_contains (range, pos->col, pos->row))
+			return range;
+	}
+	return NULL;
 }
 
 /**

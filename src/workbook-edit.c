@@ -111,11 +111,11 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 		 * TODO: What should we do in case of failure ?
 		 * maybe another parameter that will force an end ?
 		 */
-		cmd_set_text (wbc, sheet, &sheet->cursor.edit_pos, txt);
+		cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
 	} else {
 		/* Redraw the cell contents in case there was a span */
-		int const c = sheet->cursor.edit_pos.col;
-		int const r = sheet->cursor.edit_pos.row;
+		int const c = sheet->edit_pos.col;
+		int const r = sheet->edit_pos.row;
 		sheet_redraw_cell_region (sheet, c, r, c, r);
 
 		/* Reload the entry widget with the original contents */
@@ -213,8 +213,8 @@ workbook_start_editing_at_cursor (WorkbookControlGUI *wbcg,
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	g_return_if_fail (sheet != NULL);
 
-	col = sheet->cursor.edit_pos.col;
-	row = sheet->cursor.edit_pos.row;
+	col = sheet->edit_pos.col;
+	row = sheet->edit_pos.row;
 
 	application_clipboard_unant ();
 	workbook_edit_set_sensitive (wbcg, TRUE, FALSE);

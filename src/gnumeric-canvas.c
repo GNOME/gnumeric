@@ -113,12 +113,11 @@ move_cursor_horizontal (GnumericSheet *gsheet, int count,
 			gboolean jump_to_boundaries)
 {
 	Sheet *sheet = gsheet->scg->sheet;
-	int const new_col =
-	    sheet_find_boundary_horizontal (sheet,
-					    sheet->cursor.edit_pos.col,
-					    sheet->cursor.edit_pos.row,
-					    count, jump_to_boundaries);
-	move_cursor (gsheet, new_col, sheet->cursor.edit_pos.row, TRUE);
+	int const new_col = sheet_find_boundary_horizontal (sheet,
+		sheet->edit_pos_real.col,
+		sheet->edit_pos_real.row,
+		count, jump_to_boundaries);
+	move_cursor (gsheet, new_col, sheet->edit_pos_real.row, TRUE);
 }
 
 static void
@@ -144,12 +143,11 @@ move_cursor_vertical (GnumericSheet *gsheet, int count,
 		      gboolean jump_to_boundaries)
 {
 	Sheet *sheet = gsheet->scg->sheet;
-	int const new_row =
-	    sheet_find_boundary_vertical (sheet,
-					  sheet->cursor.edit_pos.col,
-					  sheet->cursor.edit_pos.row,
-					  count, jump_to_boundaries);
-	move_cursor (gsheet, sheet->cursor.edit_pos.col, new_row, TRUE);
+	int const new_row = sheet_find_boundary_vertical (sheet,
+		sheet->edit_pos_real.col,
+		sheet->edit_pos_real.row,
+		count, jump_to_boundaries);
+	move_cursor (gsheet, sheet->edit_pos_real.col, new_row, TRUE);
 }
 
 static void
@@ -293,8 +291,8 @@ start_cell_selection (GnumericSheet *gsheet)
 {
 	Sheet *sheet = gsheet->scg->sheet;
 	start_cell_selection_at (gsheet,
-				 sheet->cursor.edit_pos.col,
-				 sheet->cursor.edit_pos.row);
+				 sheet->edit_pos_real.col,
+				 sheet->edit_pos_real.row);
 }
 
 void
@@ -671,7 +669,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			move_cursor (gsheet, 0, 0, TRUE);
 		else
-			(*movefn_horizontal)(gsheet, -sheet->cursor.edit_pos.col, FALSE);
+			(*movefn_horizontal)(gsheet, -sheet->edit_pos.col, FALSE);
 		break;
 
 	case GDK_KP_Delete:

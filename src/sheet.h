@@ -32,9 +32,10 @@ struct _Sheet {
 
 	GHashTable  *cell_hash;	/* The cells in hashed format */
 
+	CellPos	 edit_pos;	/* Cell that would be edited */
+	CellPos	 edit_pos_real;	/* Even in the middle of a merged cell */
+
 	struct {
-		/* Cell that would be edited */
-		CellPos	 edit_pos;
 		/* Static corner to rubber band the selecton range around */
 		CellPos	 base_corner;
 		/* Corner that is moved when the selection range is extended */
@@ -311,6 +312,7 @@ gboolean     sheet_region_merge		(CommandContext *cc,
 gboolean     sheet_region_unmerge	(CommandContext *cc,
 					 Sheet *sheet, Range const *r);
 GSList      *sheet_region_get_merged	(Sheet *sheet, Range const *r);
+Range const * sheet_region_get_merged_cell (Sheet *sheet, CellPos const *pos);
 Range const *sheet_region_is_merge_cell (Sheet const *sheet, CellPos const *pos);
 void	     sheet_region_adjacent_merge(Sheet const *sheet, CellPos const *pos,
 					 Range const **left, Range const **right);

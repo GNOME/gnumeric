@@ -170,8 +170,8 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 	sheet = wbv->current_sheet;
 	if (sheet != NULL) {
 		MStyle *mstyle = sheet_style_compute (sheet,
-			sheet->cursor.edit_pos.col,
-			sheet->cursor.edit_pos.row);
+			sheet->edit_pos.col,
+			sheet->edit_pos.row);
 
 		if (wbv->current_format != NULL) {
 			mstyle_unref (wbv->current_format);
@@ -239,8 +239,8 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 		ExprArray const* ar;
 
 		cell = sheet_cell_get (sheet,
-				       sheet->cursor.edit_pos.col,
-				       sheet->cursor.edit_pos.row);
+				       sheet->edit_pos.col,
+				       sheet->edit_pos.row);
 
 		if (cell) {
 			text = cell_get_entered_text (cell);
@@ -267,8 +267,8 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 		/* This is intended for screen reading software etc. */
 		gtk_signal_emit_by_name (GTK_OBJECT (sheet->workbook), "cell_changed",
 					 sheet, text,
-					 sheet->cursor.edit_pos.col,
-					 sheet->cursor.edit_pos.row);
+					 sheet->edit_pos.col,
+					 sheet->edit_pos.row);
 
 		if (optional_wbc == NULL) {
 			WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,

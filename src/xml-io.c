@@ -539,8 +539,8 @@ xml_write_selection_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 	}
 	g_list_free (copy);
 
-	xml_set_value_int (tree, "CursorCol", sheet->cursor.edit_pos.col);
-	xml_set_value_int (tree, "CursorRow", sheet->cursor.edit_pos.row);
+	xml_set_value_int (tree, "CursorCol", sheet->edit_pos.col);
+	xml_set_value_int (tree, "CursorRow", sheet->edit_pos.row);
 }
 
 /*

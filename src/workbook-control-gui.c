@@ -1269,7 +1269,7 @@ cb_insert_current_date (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	cmd_set_date_time (wbc, sheet, &sheet->cursor.edit_pos, TRUE);
+	cmd_set_date_time (wbc, sheet, &sheet->edit_pos, TRUE);
 }
 
 static void
@@ -1277,7 +1277,7 @@ cb_insert_current_time (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	cmd_set_date_time (wbc, sheet, &sheet->cursor.edit_pos, FALSE);
+	cmd_set_date_time (wbc, sheet, &sheet->edit_pos, FALSE);
 }
 
 static void
@@ -1371,7 +1371,7 @@ cb_insert_comment (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	dialog_cell_comment (wbcg, sheet, &sheet->cursor.edit_pos);
+	dialog_cell_comment (wbcg, sheet, &sheet->edit_pos);
 }
 
 /****************************************************************************/
@@ -2449,7 +2449,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event,
 				/* Be careful to use the editing sheet */
 				gboolean const trouble =
 					cmd_area_set_text (WORKBOOK_CONTROL (wbcg),
-						eval_pos_init (&pos, sheet, &sheet->cursor.edit_pos),
+						eval_pos_init (&pos, sheet, &sheet->edit_pos),
 						text, is_array);
 
 				/*

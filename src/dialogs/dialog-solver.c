@@ -730,7 +730,7 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (param->target_cell == NULL)
 	        target_entry_str =
-			g_strdup (cell_pos_name (&sheet->cursor.edit_pos));
+			g_strdup (cell_pos_name (&sheet->edit_pos));
 	else
 	        target_entry_str =
 			g_strdup (cell_name (param->target_cell));

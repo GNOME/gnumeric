@@ -247,8 +247,8 @@ sheet_view_set_zoom_factor (SheetControlGUI *scg, double factor)
 		/* Ensure that the current cell remains visible when we zoom */
 		gnumeric_sheet_make_cell_visible
 			(gsheet,
-			 scg->sheet->cursor.edit_pos.col,
-			 scg->sheet->cursor.edit_pos.row,
+			 scg->sheet->edit_pos.col,
+			 scg->sheet->edit_pos.row,
 			 TRUE);
 
 	sheet_view_update_cursor_pos (scg);
@@ -334,8 +334,8 @@ sheet_view_make_edit_pos_visible (SheetControlGUI const *scg)
 
 	gnumeric_sheet_make_cell_visible
 		(gsheet,
-		 scg->sheet->cursor.edit_pos.col,
-		 scg->sheet->cursor.edit_pos.row,
+		 scg->sheet->edit_pos.col,
+		 scg->sheet->edit_pos.row,
 		 TRUE);
 
 }

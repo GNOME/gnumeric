@@ -1,4 +1,19 @@
+2000-12-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_find_boundary_horizontal) : support merged cells.
+	(sheet_find_boundary_vertical) : ditto.
+	(sheet_set_edit_pos) : Add edit_pos vs edit_pos_real to improve merged
+	  cell support.
+	(sheet_region_get_merged_cell) : new function.
+
+	* src/gnumeric-sheet.c (move_cursor_horizontal) : Use edit_pos_real to
+	  improve handling for merged cells.
+	(move_cursor_vertical) : Ditto.
+	(start_cell_selection) : Ditto.
+
 2000-12-16  Jody Goldberg <jgoldberg@home.com>
+
+	s/Sheet::cursor::edit_pos/Sheet::edit_pos/
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_new) : No need to pass in the
 	  col/row items.  They are available from the sheet control.

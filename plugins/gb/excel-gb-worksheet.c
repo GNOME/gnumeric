@@ -56,7 +56,7 @@ excel_gb_worksheet_activecell (GBRunEvalContext *ec,
 
 	sheet = EXCEL_GB_WORKSHEET (object)->sheet;
 
-	tmp.start = sheet->cursor.edit_pos;
+	tmp.start = sheet->edit_pos;
 	tmp.end   = tmp.start;
 
 	range = excel_gb_range_new (ec, sheet, tmp);

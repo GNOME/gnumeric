@@ -123,8 +123,8 @@ change_selection_font (WorkbookControlGUI *wbcg,
 
 	new_style = mstyle_new ();
 	current_style = sheet_style_compute (sheet,
-		sheet->cursor.edit_pos.col,
-		sheet->cursor.edit_pos.row);
+		sheet->edit_pos.col,
+		sheet->edit_pos.row);
 
 	if (bold)
 		mstyle_set_font_bold (new_style,

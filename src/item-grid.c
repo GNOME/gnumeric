@@ -210,8 +210,8 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 	GdkGC  * const gc = grid->empty_gc;
 	Cell const *cell = sheet_cell_get (sheet, range->start.col, range->start.row);
 	MStyle *mstyle = sheet_style_compute (sheet, range->start.col, range->start.row);
-	gboolean const is_selected = (sheet->cursor.edit_pos.col != range->start.col ||
-				      sheet->cursor.edit_pos.row != range->start.row) &&
+	gboolean const is_selected = (sheet->edit_pos.col != range->start.col ||
+				      sheet->edit_pos.row != range->start.row) &&
 				     sheet_is_full_range_selected (sheet, range);
 	gboolean const no_background = !gnumeric_background_set_gc (mstyle, gc,
 			grid->canvas_item.canvas, is_selected);
@@ -300,7 +300,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *item_grid,
 
 	gboolean const is_selected =
 		scg->current_object == NULL && scg->new_object == NULL &&
-		!(sheet->cursor.edit_pos.col == col && sheet->cursor.edit_pos.row == row) &&
+		!(sheet->edit_pos.col == col && sheet->edit_pos.row == row) &&
 		sheet_is_cell_selected (sheet, col, row);
 
 	if (gnumeric_background_set_gc (mstyle, gc, item_grid->canvas_item.canvas, is_selected))
@@ -895,8 +895,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				sheet_make_cell_visible (scg->sheet,
-							 scg->sheet->cursor.edit_pos.col,
-							 scg->sheet->cursor.edit_pos.row);
+							 scg->sheet->edit_pos.col,
+							 scg->sheet->edit_pos.row);
 
 			wb_view_selection_desc (wb_control_view (
 				WORKBOOK_CONTROL (scg->wbcg)), TRUE, NULL);

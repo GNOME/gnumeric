@@ -2266,8 +2266,8 @@ dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition
                 return;
 
 	edit_cell = sheet_cell_get (sheet,
-				    sheet->cursor.edit_pos.col,
-				    sheet->cursor.edit_pos.row);
+				    sheet->edit_pos.col,
+				    sheet->edit_pos.row);
 
 	sample_val = (edit_cell) ? edit_cell->value : NULL;
 	mstyle = sheet_selection_get_unique_style (sheet, borders);

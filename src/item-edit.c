@@ -495,8 +495,8 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_edit->scg = item_edit->item_grid->scg;
 	sheet = item_edit->scg->sheet;
 	item_edit->entry = GTK_ENTRY (workbook_get_entry (item_edit->scg->wbcg));
-	item_edit->col = sheet->cursor.edit_pos.col;
-	item_edit->row = sheet->cursor.edit_pos.row;
+	item_edit->col = sheet->edit_pos.col;
+	item_edit->row = sheet->edit_pos.row;
 
 	entry = item_edit->entry;
 	item_edit->signal_changed = gtk_signal_connect (

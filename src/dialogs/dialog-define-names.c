@@ -448,8 +448,8 @@ cb_name_guru_add (NameGuruState *state)
 		return TRUE;
 
 	pp = parse_pos_init (&pos, state->wb, state->sheet,
-			     state->sheet->cursor.edit_pos.col,
-			     state->sheet->cursor.edit_pos.row);
+			     state->sheet->edit_pos.col,
+			     state->sheet->edit_pos.row);
 
 	expr_name = expr_name_lookup (pp, name);
 

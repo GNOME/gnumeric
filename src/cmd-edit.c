@@ -71,9 +71,9 @@ cmd_select_cur_row (Sheet *sheet)
 
 	sheet_selection_reset_only (sheet);
 	sheet_selection_add_range (sheet,
-		sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row,
-		0, sheet->cursor.edit_pos.row,
-		SHEET_MAX_COLS-1, sheet->cursor.edit_pos.row);
+		sheet->edit_pos.col, sheet->edit_pos.row,
+		0, sheet->edit_pos.row,
+		SHEET_MAX_COLS-1, sheet->edit_pos.row);
 	sheet_update (sheet);
 }
 
@@ -91,9 +91,9 @@ cmd_select_cur_col (Sheet *sheet)
 
 	sheet_selection_reset_only (sheet);
 	sheet_selection_add_range (sheet,
-		sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row,
-		sheet->cursor.edit_pos.col, 0,
-		sheet->cursor.edit_pos.col, SHEET_MAX_ROWS-1);
+		sheet->edit_pos.col, sheet->edit_pos.row,
+		sheet->edit_pos.col, 0,
+		sheet->edit_pos.col, SHEET_MAX_ROWS-1);
 	sheet_update (sheet);
 }
 
@@ -113,8 +113,8 @@ cmd_select_cur_array (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	col = sheet->cursor.edit_pos.col;
-	row = sheet->cursor.edit_pos.row;
+	col = sheet->edit_pos.col;
+	row = sheet->edit_pos.row;
 	array = cell_is_array (sheet_cell_get (sheet, col, row));
 
 	if (array == NULL)
@@ -162,8 +162,8 @@ cmd_select_cur_depends (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	cur_cell = sheet_cell_get (sheet,
-				   sheet->cursor.edit_pos.col,
-				   sheet->cursor.edit_pos.row);
+				   sheet->edit_pos.col,
+				   sheet->edit_pos.row);
 	if (cur_cell == NULL)
 		return;
 
@@ -255,8 +255,8 @@ cmd_select_cur_inputs (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	cell = sheet_cell_get (sheet,
-			       sheet->cursor.edit_pos.col,
-			       sheet->cursor.edit_pos.row);
+			       sheet->edit_pos.col,
+			       sheet->edit_pos.row);
 
 	if (cell == NULL || !cell_has_expr (cell))
 		return;

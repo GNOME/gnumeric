@@ -114,8 +114,8 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 		return;
 
 	sheet_selection_set (sheet,
-			     sheet->cursor.edit_pos.col,
-			     sheet->cursor.edit_pos.row,
+			     sheet->edit_pos.col,
+			     sheet->edit_pos.row,
 			     sheet->cursor.base_corner.col,
 			     sheet->cursor.base_corner.row,
 			     col, row);
@@ -1178,7 +1178,7 @@ sheet_selection_walk_step (Sheet *sheet,
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (sheet->selections != NULL);
 
-	current = sheet->cursor.edit_pos;
+	current = sheet->edit_pos;
 
 	if (horizontal)
 		inc_x = diff;
