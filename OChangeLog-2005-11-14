@@ -1,3 +1,8 @@
+2005-02-09  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (TPUT_CMD, marker_ok, marker_fail, marker_no): Nuke.
+	(BIG_CHECKING): New m4 macro, used to emphasize some of the checks.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Post release bump
