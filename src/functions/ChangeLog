@@ -1,3 +1,7 @@
+2001-11-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	* fn-database.c (parse_database_criteria) use sheet from 
+	  criteria range
+
 2001-11-25  Jody Goldberg <jody@gnome.org>
 
 	* fn-eng.c (gnumeric_improduct) : s/GList/ExprList/

@@ -293,7 +293,7 @@ parse_database_criteria (const EvalPos *ep, Value *database,
 	int   b_col, b_row, e_col, e_row;
 	int   *field_ind;
 
-	sheet = eval_sheet (database->v_range.cell.a.sheet, ep->sheet);
+	sheet = eval_sheet (criteria->v_range.cell.a.sheet, ep->sheet);
 	b_col = criteria->v_range.cell.a.col;
 	b_row = criteria->v_range.cell.a.row;
 	e_col = criteria->v_range.cell.b.col;
