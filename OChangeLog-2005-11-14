@@ -1,3 +1,10 @@
+2002-12-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am: Dropped config.rpath from EXTRA_DIST - it's nowhere to
+	be found. Added the intltool .in scripts to EXTRA_DIST so they're 
+	available in the distcheck tree.
+	* Makefile.am, configure.in: Use the macros dir rather than the m4 one.
+
 2002-11-24  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (gnumeric_xml_read_workbook) : Use the new parser

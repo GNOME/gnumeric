@@ -1,4 +1,4 @@
-SUBDIRS = m4   . po macros idl src plugins doc icons templates tools omf-install
+SUBDIRS = . po macros idl src plugins doc icons templates tools omf-install
 
 XML_I18N_XML_KIND = --pass-through
 
@@ -40,7 +40,7 @@ oafdir = $(datadir)/oaf
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 oaf_in_files = GNOME_Gnumeric.oaf.in
 
-EXTRA_DIST = config.rpath mkinstalldirs  \
+EXTRA_DIST = mkinstalldirs  \
 	gnumeric.desktop.in gnumeric.spec.in gnumericConf.sh.in		\
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 			\
 	gnumeric.xsd							\
@@ -48,6 +48,9 @@ EXTRA_DIST = config.rpath mkinstalldirs  \
 	xml-i18n-extract.in	\
 	xml-i18n-merge.in	\
 	xml-i18n-update.in	\
+	intltool-extract.in	\
+	intltool-merge.in	\
+	intltool-update.in	\
 	$(oaf_in_files)
 
 if BONOBO
@@ -91,4 +94,4 @@ dist-hook: gnumeric.spec
 
 
 
-ACLOCAL_AMFLAGS = -I m4
+ACLOCAL_AMFLAGS = -I macros
