@@ -10,6 +10,7 @@ Release Critical
 
     - Add an idle handler at start up to check for availablity of
       evo and guppi.  They should only be enabled if they are available.
+    - Almer's reported autoscroll bound bug.
 
 Pending Patches
 ---------------
@@ -27,7 +28,6 @@ Long term breakage
 
 - Panes 
     : cursor dragging only affects src pane.
-    : XL export
     : support horizontal or vertical only
 
 - support negative durations with [h]
