@@ -1,3 +1,12 @@
+2001-10-26  Wayne Schuller  <k_wayne@linuxpower.org>
+
+	* dialog-printer-setup.c: (display_hf_preview), (header_changed),
+	(footer_changed), (fill_hf), (do_setup_hf_menus),
+	(hf_customize_apply), (hf_customize_help), (do_hf_customize),
+	(do_setup_hf), (do_print_destroy_cb), (printer_setup_state_new): Don't
+	  open multiples dialogs, set parent correctly, destroy when print setup
+	  gets destroyed, code cleanups.
+
 2001-10-26  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search.c (dialog_search): Make Enter start the search.

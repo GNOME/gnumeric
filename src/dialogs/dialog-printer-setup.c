@@ -126,6 +126,10 @@ typedef struct {
 	PrintHF *header;
 	PrintHF *footer;
 
+	/* The header and footer customize dialogs. */
+	GtkWidget *customize_header;
+	GtkWidget *customize_footer;
+
 	/* The header and footer preview widgets. */
 	HFPreviewInfo *pi_header;
 	HFPreviewInfo *pi_footer;
@@ -849,17 +853,19 @@ do_setup_margin (PrinterSetupState *state)
 			TRUE);
 }
 
-/* Display the header or footer sample in the print setup dialog.
- * Currently we use three labels for each part of the header or footer.
+/* Display the header or footer preview in the print setup dialog.
+ * Use the canvas widget in the HFPreviewInfo struct.
  *
  */
 static void
-display_hf_sample (PrinterSetupState *state, gboolean header)
+display_hf_preview (PrinterSetupState *state, gboolean header)
 {
 	gchar *text = NULL;
 	PrintHF *sample = NULL;
 	HFRenderInfo *hfi;
 	HFPreviewInfo *pi;
+
+	g_return_if_fail(state != NULL);
 
 	hfi = hf_render_info_new ();
 
@@ -898,7 +904,7 @@ header_changed (GtkObject *object, PrinterSetupState *state)
 	print_hf_free (state->header);
 	state->header = print_hf_copy (format);
 
-	display_hf_sample (state, TRUE);
+	display_hf_preview (state, TRUE);
 }
 
 static void
@@ -909,7 +915,7 @@ footer_changed (GtkObject *object, PrinterSetupState *state)
 	print_hf_free (state->footer);
 	state->footer = print_hf_copy (format);
 
-	display_hf_sample (state, FALSE);
+	display_hf_preview (state, FALSE);
 }
 
 static void
@@ -975,7 +981,10 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GtkSignalFunc callback, gb
 	}
 
 	/* Add menu option to customize the header/footer. */
-	res = g_strdup_printf("Customize %s", header ? "header" : "footer");
+	if (header) 
+		res = g_strdup_printf(_("Customize header"));
+	else
+		res = g_strdup_printf(_("Customize footer"));
 	li = gtk_menu_item_new_with_label (res);
 	gtk_widget_show (li);
 	gtk_container_add (GTK_CONTAINER (menu), li);
@@ -991,8 +1000,13 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GtkSignalFunc callback, gb
 static void
 do_setup_hf_menus (PrinterSetupState *state)
 {
-	GtkOptionMenu *header = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "option-menu-header"));
-	GtkOptionMenu *footer = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "option-menu-footer"));
+	GtkOptionMenu *header;
+	GtkOptionMenu *footer;
+
+	g_return_if_fail(state != NULL);
+
+	header = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "option-menu-header"));
+	footer = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "option-menu-footer"));
 
 	if (state->header)
 		fill_hf (state, header, GTK_SIGNAL_FUNC (header_changed), TRUE);
@@ -1014,6 +1028,8 @@ hf_customize_apply (GnomePropertyBox *dialog, gint page_num, PrinterSetupState *
 	char *left_format, *right_format, *middle_format;
 	PrintHF **config = NULL;
 	gboolean header;
+
+	g_return_if_fail(state != NULL);
 
 	gui = glade_get_widget_tree (GTK_WIDGET (dialog));
 
@@ -1045,28 +1061,17 @@ hf_customize_apply (GnomePropertyBox *dialog, gint page_num, PrinterSetupState *
 	print_hf_register (*config);
 
 	do_setup_hf_menus (state);
-	display_hf_sample (state, header);
+	display_hf_preview (state, header);
 }
 
 /* FIXME: Finish. */
 static void
 hf_customize_help (GnomePropertyBox *dialog, gint page_num, gpointer data)
 {
+#if 0
 	GnomeHelpMenuEntry help_ref = { "gnumeric", "customize_hf.html" };
 	gnome_help_display (NULL, &help_ref);
-}
-
-/* FIXME: Finish. */
-static void
-hf_customize_close (GnomePropertyBox *dialog, gint page_num, gpointer data)
-{
-	/* FIXME: Remove the data in the dialog? */
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-
-
-	/* gtk_object_unref (GTK_OBJECT (gui)); ?? */
-
+#endif
 }
 
 /*
@@ -1082,15 +1087,22 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	GtkLabel *label;
 	PrintHF **config = NULL;
 
+	/* Check if this dialog isn't already created. */
+	if (header)
+		dialog = state->customize_header;
+	else
+		dialog = state->customize_footer;
+
+	if (dialog != NULL) {
+		gdk_window_show (dialog->window);
+		gdk_window_raise (dialog->window);
+		return;
+	}
+
 	gui = gnumeric_glade_xml_new (state->wbcg, "hf-config.glade");
 
         if (gui == NULL)
                 return;
-
-	if (header)
-		config = &state->header;
-	else
-		config = &state->footer;
 
 	left   = GTK_ENTRY (glade_xml_get_widget (gui, "left-format"));
 	middle = GTK_ENTRY (glade_xml_get_widget (gui, "middle-format"));
@@ -1098,18 +1110,22 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	label  = GTK_LABEL (glade_xml_get_widget (gui, "tab-label"));
 	dialog = glade_xml_get_widget (gui, "hf-config");
 
+	if (header) {
+		config = &state->header;
+		state->customize_header = dialog;
+		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom header configuration"));
+		gtk_label_set_text (label, _("Customize header"));
+		
+	} else {
+		config = &state->footer;
+		state->customize_footer = dialog;
+		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom footer configuration"));
+		gtk_label_set_text (label, _("Customize footer"));
+	}
 
 	gtk_entry_set_text (left, (*config)->left_format);
 	gtk_entry_set_text (middle, (*config)->middle_format);
 	gtk_entry_set_text (right, (*config)->right_format);
-
-	if (header) {
-		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom header configuration"));
-		gtk_label_set_text(label, "Customize header");
-	} else {
-		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom footer configuration"));
-		gtk_label_set_text(label, "Customize footer");
-	}
 
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (left));
@@ -1117,8 +1133,13 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (right));
 
 	gtk_signal_connect (GTK_OBJECT (dialog), "apply", GTK_SIGNAL_FUNC (hf_customize_apply), state);
-	gtk_signal_connect (GTK_OBJECT (dialog), "destroy", GTK_SIGNAL_FUNC (hf_customize_close), NULL);
 	gtk_signal_connect (GTK_OBJECT (dialog), "help", GTK_SIGNAL_FUNC (hf_customize_help), NULL);
+
+	if (header) 
+		gtk_signal_connect (GTK_OBJECT (dialog), "destroy", GTK_SIGNAL_FUNC (gtk_widget_destroyed), &state->customize_header);
+	else
+		gtk_signal_connect (GTK_OBJECT (dialog), "destroy", GTK_SIGNAL_FUNC (gtk_widget_destroyed), &state->customize_footer);
+
 
 	/* Remember whether it is customizing header or footer. */
 	gtk_object_set_data (GTK_OBJECT (dialog), "header", GINT_TO_POINTER (header));
@@ -1137,10 +1158,9 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 			GTK_OBJECT (dialog));
 
 	/* Let them begin typing into the first entry widget. */
-	gtk_widget_grab_focus(GTK_WIDGET(left));
+	gtk_widget_grab_focus (GTK_WIDGET(left));
 
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-			wb_control_gui_toplevel (state->wbcg));
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (state->dialog));
 
 	gtk_widget_show (dialog);
 }
@@ -1172,7 +1192,7 @@ footer_preview_event(GnomeCanvas *canvas, GdkEvent *event, PrinterSetupState *st
 	return TRUE;
 }
 
-/* create_hf_sample_canvas
+/* create_hf_preview_canvas
  * Creates the canvas to do a header or footer preview in the print setup.
  *
  */
@@ -1279,6 +1299,8 @@ create_hf_preview_canvas(PrinterSetupState *state, gboolean header)
 static void
 do_setup_hf (PrinterSetupState *state)
 {
+	g_return_if_fail(state != NULL);
+
 	state->header = print_hf_copy (state->pi->header ? state->pi->header :
 				     hf_formats->data);
 	state->footer = print_hf_copy (state->pi->footer ? state->pi->footer :
@@ -1289,8 +1311,8 @@ do_setup_hf (PrinterSetupState *state)
 	create_hf_preview_canvas(state, TRUE);
 	create_hf_preview_canvas(state, FALSE);
 
-	display_hf_sample (state, TRUE); /* FIXME: s/sample/preview/g */
-	display_hf_sample (state, FALSE);
+	display_hf_preview (state, TRUE);
+	display_hf_preview (state, FALSE);
 }
 
 static void
@@ -1590,6 +1612,13 @@ do_print_destroy_cb (GtkWidget *button, PrinterSetupState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 	wbcg_edit_finish (state->wbcg, FALSE);
+
+	if (state->customize_header)
+		gnome_dialog_close(state->customize_header);
+
+	if (state->customize_footer)
+		gnome_dialog_close(state->customize_footer);
+
 	printer_setup_state_free (state);
 }
 
@@ -1650,6 +1679,8 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->pi    = sheet->print_info;
 	state->current_paper = NULL;
 	state->current_orientation = -1;
+	state->customize_header = NULL;
+	state->customize_footer = NULL;
 
 	do_setup_main_dialog (state);
 	do_setup_margin (state);
