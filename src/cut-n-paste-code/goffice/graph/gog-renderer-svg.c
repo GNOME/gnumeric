@@ -46,6 +46,9 @@ struct _GogRendererSvg {
 	GogRenderer base;
 
 	xmlDocPtr doc;
+	xmlNodePtr defs;
+	GHashTable *table;
+	gint grad, pat, img;
 };
 
 typedef GogRendererClass GogRendererSvgClass;
@@ -107,7 +110,7 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, gboo
 	GogStyle const *style = renderer->cur_style;
 	gboolean with_outline = (!narrow && style->outline.width >= 0.);
 	xmlNodePtr node;
-	char *buf;
+	char *buf, *name, *id;
 	int opacity;
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE || with_outline) {
@@ -154,6 +157,101 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, gboo
 			break;
 
 		case GOG_FILL_STYLE_GRADIENT:
+			id = g_strdup_printf ("g_%x_%x_%x", style->fill.u.gradient.dir, style->fill.u.gradient.start, style->fill.u.gradient.end);
+			name = (char*) g_hash_table_lookup (prend->table, id);
+			if (!name) {
+				double x1, y1, x2, y2;
+				GOColor start, end;
+				xmlNodePtr child, stop;
+				name = g_strdup_printf ("grad%d", prend->grad++);
+				g_hash_table_insert (prend->table, id, name);
+				if (style->fill.u.gradient.dir < 4) {
+					x1 = y1 = x2 = 0;
+					y2 = 1;
+				} else if (style->fill.u.gradient.dir < 8) {
+					x1 = y1 = y2 = 0;
+					x2 = 1;
+				} else if (style->fill.u.gradient.dir < 12) {
+					x1 = y1 = 0;
+					x2 = y2 = 1;
+				} else {
+					x1 = y2 = 1;
+					x2 = y1 = 0;
+				}
+				child = xmlNewDocNode (prend->doc, NULL, CC2XML ("linearGradient"), NULL);
+				xmlAddChild (prend->defs, child);
+				xmlNewProp (child, CC2XML ("id"), CC2XML (name));
+				xmlNewProp (child, CC2XML ("gradientUnits"), CC2XML ("objectBoundingBox"));
+				switch (style->fill.u.gradient.dir % 4) {
+				case 0:
+					buf = (char*) "pad";
+					start = style->fill.u.gradient.start;
+					end = style->fill.u.gradient.end;
+					break;
+				case 1:
+					buf = (char*) "pad";
+					start = style->fill.u.gradient.end;
+					end = style->fill.u.gradient.start;
+					break;
+				case 2:
+					buf = (char*) "reflect";
+					start = style->fill.u.gradient.start;
+					end = style->fill.u.gradient.end;
+					x2 = x1 + (x2 - x1) / 2;
+					y2 = y1 + (y2 - y1) / 2;
+					break;
+				default:
+					buf = (char*) "reflect";
+					start = style->fill.u.gradient.end;
+					end = style->fill.u.gradient.start;
+					x2 = x1 + (x2 - x1) / 2;
+					y2 = y1 + (y2 - y1) / 2;
+					break;
+				}
+				xmlNewProp (child, CC2XML ("spreadMethod"), CC2XML (buf));
+				buf = g_strdup_printf ("%g", x1);
+				xmlNewProp (child, CC2XML ("x1"), CC2XML (buf));
+				g_free (buf);
+				buf = g_strdup_printf ("%g", y1);
+				xmlNewProp (child, CC2XML ("y1"), CC2XML (buf));
+				g_free (buf);
+				buf = g_strdup_printf ("%g", x2);
+				xmlNewProp (child, CC2XML ("x2"), CC2XML (buf));
+				g_free (buf);
+				buf = g_strdup_printf ("%g", y2);
+				xmlNewProp (child, CC2XML ("y2"), CC2XML (buf));
+				g_free (buf);
+				stop = xmlNewDocNode (prend->doc, NULL, CC2XML ("stop"), NULL);
+				xmlAddChild (child, stop);
+				xmlNewProp (stop, CC2XML ("offset"), CC2XML ("0"));
+				buf = g_strdup_printf ("#%06x", start >> 8);
+				xmlNewProp (stop, CC2XML ("stop-color"), CC2XML (buf));
+				g_free (buf);
+				opacity = start & 0xff;
+				if (opacity != 255) {
+					buf = g_strdup_printf ("%g", (double) opacity / 255.);
+					xmlNewProp (stop, CC2XML ("stop-opacity"), CC2XML (buf));
+					g_free (buf);
+				}
+				stop = xmlNewDocNode (prend->doc, NULL, CC2XML ("stop"), NULL);
+				xmlAddChild (child, stop);
+				xmlNewProp (stop, CC2XML ("offset"), CC2XML ("1"));
+				buf = g_strdup_printf ("#%06x", end >> 8);
+				xmlNewProp (stop, CC2XML ("stop-color"), CC2XML (buf));
+				g_free (buf);
+				opacity = end & 0xff;
+				if (opacity != 255) {
+					buf = g_strdup_printf ("%g", (double) opacity / 255.);
+					xmlNewProp (stop, CC2XML ("stop-opacity"), CC2XML (buf));
+					g_free (buf);
+				}
+				buf = g_strdup_printf ("url(#%s)", name);
+			} else {
+				buf = g_strdup_printf ("url(#%s)", name);
+				g_free (id);
+			}
+			xmlNewProp (node, CC2XML ("fill"), CC2XML (buf));
+			g_free (buf);
 			break;
 
 		case GOG_FILL_STYLE_IMAGE:
@@ -256,8 +354,12 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 	xmlNewDtd (prend->doc,
 		   CC2XML ("svg"), CC2XML ("-//W3C//DTD SVG 1.1//EN"),
 		   CC2XML ("http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"));
-	prend->doc->children = xmlNewDocNode (prend->doc, NULL, "svg", NULL);
-
+	prend->doc->children = xmlNewDocNode (prend->doc, NULL, CC2XML ("svg"), NULL);
+	prend->defs = xmlNewDocNode (prend->doc, NULL, CC2XML ("defs"), NULL);
+	xmlAddChild (prend->doc->children, prend->defs);
+	prend->table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	prend->grad = prend->pat = prend->img = 0;
+	
 	namespace = xmlNewNs (prend->doc->children, CC2XML ("http://www.w3.org/2000/svg"), NULL);
 	xmlSetNs (prend->doc->children, namespace);
 	xmlNewProp (prend->doc->children, CC2XML ("version"), CC2XML ("1.1"));
@@ -278,11 +380,16 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 	gog_view_size_allocate (prend->base.view, &allocation);
 	gog_view_render	(prend->base.view, NULL);
 
+	if (!g_hash_table_size (prend->table)) {
+		xmlUnlinkNode (prend->defs);
+		xmlFreeNode (prend->defs);
+	}
 	xmlIndentTreeOutput = TRUE;
 	if (gsf_xmlDocFormatDump (output, prend->doc, "UTF-8", TRUE) < 0)
 		success = FALSE;
 
 	xmlFreeDoc (prend->doc);
+	g_hash_table_destroy (prend->table);
 	setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 	g_object_unref (prend);

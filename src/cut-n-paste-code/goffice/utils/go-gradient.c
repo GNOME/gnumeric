@@ -164,16 +164,12 @@ go_gradient_setup (ArtGradientLinear *gradient,
 		gradient->b = 0.;
 		gradient->c = -(gradient->a * x0 + gradient->b * y0);
 	} else if (dir < 12) {
-		double d = dx * dx + dy * dy;
-		if (!d) d = 1;
-		gradient->a = dx / d;
-		gradient->b = dy / d;
+		gradient->a = .5 / (dx ? dx : 1);
+		gradient->b = .5 / (dy ? dy : 1);
 		gradient->c = -(gradient->a * x0 + gradient->b * y0);
 	} else {
-		double d = dx * dx + dy * dy;
-		if (!d) d = 1;
-		gradient->a = -dx / d;
-		gradient->b = dy / d;
+		gradient->a = -.5 / (dx ? dx : 1);
+		gradient->b = .5 / (dy ? dy : 1);
 		/* Note: this gradient is anchored at (x1,y0).  */
 		gradient->c = -(gradient->a * x1 + gradient->b * y0);
 	}

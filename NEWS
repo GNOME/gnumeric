@@ -6,6 +6,9 @@ Adrian Custer:
 J.H.M. Dassen (Ray):
 	* Update debian control files.
 
+Jean Brefort:
+	* Gradient support for svg exporter.
+
 Jody:
 	* Fix infinite loop on empty axis under solaris.
 	* Fix leak loading charts.
@@ -18,6 +21,8 @@ Jody:
 	* Fix xls export of operand classes
 	* Minor packaging bug in corba plugin
 	* Accept blank lines in text to cols.
+	* Provide a cleaner work around for 
+	    http://bugzilla.gnome.org/show_bug.cgi?id=121543
 
 Morten:
 	* Invalid memory read in marker combo.

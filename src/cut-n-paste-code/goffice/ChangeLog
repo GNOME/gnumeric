@@ -1,3 +1,15 @@
+2003-09-21  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-renderer-pixbuf.c (make_layout) : scale the font size
+	  manually to work around.
+	    http://bugzilla.gnome.org/show_bug.cgi?id=121543
+
+2003-09-15 Jean Brefort <jean.brefort@ac-dijon.fr>
+
+	* graph/gog-renderer-svg.c : added gradient support.
+
+	* utils/go-gradient.c (go_gradient_setup): changed vector for oblique gradients.
+
 2003-09-20  Jody Goldberg <jody@gnome.org>
 
 	* graph/plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_axis_bounds) :

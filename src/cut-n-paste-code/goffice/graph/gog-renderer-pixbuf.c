@@ -221,6 +221,7 @@ make_layout (GogRendererPixbuf *prend, char const *text)
 	PangoLayout *layout;
 	PangoAttribute *attr;
 	PangoAttrList  *attrs = NULL;
+	PangoFontDescription const *fd = prend->base.cur_style->font.font->desc;
 
 	if (prend->pango_context == NULL)
 		prend->pango_context = pango_ft2_get_context (
@@ -228,31 +229,27 @@ make_layout (GogRendererPixbuf *prend, char const *text)
 			application_display_dpi_get (FALSE));
 
 	gog_debug (0, {
-		char *msg = pango_font_description_to_string (
-			prend->base.cur_style->font.font->desc);
+		char *msg = pango_font_description_to_string (fd);
 		g_warning (msg);
 		g_free (msg);
 	});
 
-	attrs = pango_attr_list_new ();
+	layout = pango_layout_new (prend->pango_context);
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_font_description (layout, fd);
 
 	/*
-	 * Note the order there: first font description, then scale.
+	 * Manually scale the font size to compensate for
 	 * Before the fix to http://bugzilla.gnome.org/show_bug.cgi?id=121543
 	 * the scale would otherwise be ignored.
 	 */
-	attr = pango_attr_font_desc_new (prend->base.cur_style->font.font->desc);
+	attr = pango_attr_size_new (prend->base.zoom *
+		pango_font_description_get_size (fd));
 	attr->start_index = 0;
 	attr->end_index = -1;
-	pango_attr_list_insert (attrs, attr);
 
-	attr = pango_attr_scale_new (prend->base.zoom);
-	attr->start_index = 0;
-	attr->end_index = -1;
+	attrs = pango_attr_list_new ();
 	pango_attr_list_insert (attrs, attr);
-
-	layout = pango_layout_new (prend->pango_context);
-	pango_layout_set_text (layout, text, -1);
 	pango_layout_set_attributes (layout, attrs);
 	pango_attr_list_unref (attrs);
 
