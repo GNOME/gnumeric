@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2000-11-03 01:33+0100\n"
+"POT-Creation-Date: 2000-11-07 01:36+0100\n"
 "PO-Revision-Date: 2000-11-03 02:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -58,23 +58,23 @@ msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Læser og skriver information gemt i Data Interchange Format'et (*.dif)"
 
-#: plugins/excel/boot.c:126
+#: plugins/excel/boot.c:127
 msgid "Saving over old files disabled for safety"
 msgstr "Overskrivning af gamle filer er slået fra af sikkerhedsgrunde"
 
-#: plugins/excel/boot.c:137
+#: plugins/excel/boot.c:138
 msgid "Can't open"
 msgstr "Kan ikke åbne"
 
-#: plugins/excel/boot.c:180
+#: plugins/excel/boot.c:181
 msgid "Microsoft(R) Excel file format"
 msgstr "Microsoft(R) Excel-filformat"
 
-#: plugins/excel/boot.c:184
+#: plugins/excel/boot.c:185
 msgid "Excel(R) 97 file format"
 msgstr "Excel(R) 97-filformat"
 
-#: plugins/excel/boot.c:188
+#: plugins/excel/boot.c:189
 msgid "Excel(R) 95 file format"
 msgstr "Excel(R) 95-filformat"
 
@@ -83,7 +83,7 @@ msgid "#UNKNOWN!"
 msgstr "#UKENDT!"
 
 #: plugins/excel/ms-excel-read.c:600 plugins/lotus-123/lotus.c:196
-#: plugins/oleo/oleo.c:44 src/workbook.c:576
+#: plugins/oleo/oleo.c:44 src/workbook.c:565
 #, c-format
 msgid "Sheet%d"
 msgstr "Ark%d"
@@ -137,7 +137,7 @@ msgstr "Database tilgang"
 msgid "Enables database access"
 msgstr "Aktiverer database tilgang"
 
-#: plugins/guile/plugin.c:49 src/func.c:547 src/functions/fn-information.c:585
+#: plugins/guile/plugin.c:47 src/func.c:547 src/functions/fn-information.c:585
 #: src/functions/fn-information.c:653 src/functions/fn-information.c:680
 #: src/functions/fn-information.c:706 src/functions/fn-information.c:755
 #: src/functions/fn-information.c:784 src/functions/fn-information.c:847
@@ -146,27 +146,27 @@ msgid "Invalid number of arguments"
 msgstr "Ugyldigt antal argumenter"
 
 #. FIXME : This looks like a leak (JEG 4/4/00)
-#: plugins/guile/plugin.c:54 plugins/guile/plugin.c:59
+#: plugins/guile/plugin.c:52 plugins/guile/plugin.c:57
 msgid "First argument to SCM must be a Guile expression"
 msgstr "Første argument til SCM skal være et Guile udtryk"
 
-#: plugins/guile/plugin.c:63
+#: plugins/guile/plugin.c:61
 msgid "Undefined scheme function"
 msgstr "Udefineret skema funktion"
 
-#: plugins/guile/plugin.c:81
+#: plugins/guile/plugin.c:79
 msgid "Could not evaluate argument"
 msgstr "Kunne ikke evaluere argument"
 
-#: plugins/guile/plugin.c:246
+#: plugins/guile/plugin.c:244
 msgid "Gnumeric has not been compiled with support for guile."
 msgstr "Gnumeric er ikke oversat med understøttelse for Guile."
 
-#: plugins/guile/plugin.c:275
+#: plugins/guile/plugin.c:273
 msgid "Guile Plugin"
 msgstr "Guile-indstik"
 
-#: plugins/guile/plugin.c:276
+#: plugins/guile/plugin.c:274
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
 msgstr "Denne indstik aktiverer Guile(scheme) understøttelse"
 
@@ -1263,7 +1263,7 @@ msgid "Undo Clear"
 msgstr "Fortryd rydning"
 
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1014 src/sheet.c:2377
+#: src/commands.c:1014 src/sheet.c:2369
 msgid "Clear"
 msgstr "Ryd"
 
@@ -2093,8 +2093,8 @@ msgstr ""
 msgid "Negat_ive number:"
 msgstr "_Negativt nummer:"
 
-#: po/tmp/cell-format.glade.h:46 src/dialogs/dialog-cell-format.c:1210
-#: src/dialogs/dialog-cell-format.c:1272 src/dialogs/dialog-paste-special.c:32
+#: po/tmp/cell-format.glade.h:46 src/dialogs/dialog-cell-format.c:1208
+#: src/dialogs/dialog-cell-format.c:1270 src/dialogs/dialog-paste-special.c:32
 msgid "None"
 msgstr "Ingen"
 
@@ -2826,28 +2826,28 @@ msgstr "Du skal opgive et gyldig antal minutter i indtastningen"
 msgid "Cell comment"
 msgstr "Cellekommentar"
 
-#: src/dialogs/dialog-cell-format.c:401
+#: src/dialogs/dialog-cell-format.c:400
 msgid ";[Red]"
 msgstr ";[Red]"
 
-#: src/dialogs/dialog-cell-format.c:403
+#: src/dialogs/dialog-cell-format.c:402
 msgid "_);("
 msgstr "_);("
 
-#: src/dialogs/dialog-cell-format.c:405
+#: src/dialogs/dialog-cell-format.c:404
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
 #. There must be a better way than this
-#: src/dialogs/dialog-cell-format.c:1206 src/dialogs/dialog-cell-format.c:1273
+#: src/dialogs/dialog-cell-format.c:1204 src/dialogs/dialog-cell-format.c:1271
 msgid "Single"
 msgstr "Enkel"
 
-#: src/dialogs/dialog-cell-format.c:1208 src/dialogs/dialog-cell-format.c:1274
+#: src/dialogs/dialog-cell-format.c:1206 src/dialogs/dialog-cell-format.c:1272
 msgid "Double"
 msgstr "Dobbel"
 
-#: src/dialogs/dialog-cell-format.c:2078
+#: src/dialogs/dialog-cell-format.c:2072
 msgid "Format Cells"
 msgstr "Formatér celler"
 
@@ -3175,12 +3175,12 @@ msgstr "Er du sikker på at du ønsker af fortryde?"
 #. * DO NOT compile it as part of your application.
 #.
 #: po/tmp/dialog-stf-export.glade.h:7
-msgid "&lt;- Remove"
-msgstr "&lt;- Fjern"
+msgid "<- Remove"
+msgstr "<- Fjern"
 
 #: po/tmp/dialog-stf-export.glade.h:8
-msgid "&lt;- Remove all"
-msgstr "&lt;- Fjern alle"
+msgid "<- Remove all"
+msgstr "<- Fjern alle"
 
 #.
 #. * Translatable strings file generated by extract-ui.
@@ -3188,16 +3188,16 @@ msgstr "&lt;- Fjern alle"
 #. * DO NOT compile it as part of your application.
 #.
 #: po/tmp/dialog-stf-export.glade.h:9 po/tmp/dialog-stf.glade.h:7
-msgid "&quot;"
-msgstr "&quot;"
+msgid "\""
+msgstr "\""
 
 #: po/tmp/dialog-stf-export.glade.h:10
-msgid "Add -&gt;"
-msgstr "Tilføj -&gt;"
+msgid "Add ->"
+msgstr "Addér ->"
 
 #: po/tmp/dialog-stf-export.glade.h:11
-msgid "Add all -&gt;"
-msgstr "Tilføj alle -&gt;"
+msgid "Add all ->"
+msgstr "Tilføj alle ->"
 
 #: po/tmp/dialog-stf-export.glade.h:12
 msgid "Available sheets"
@@ -3276,7 +3276,8 @@ msgstr "Data (fra %s)"
 msgid ""
 "Actual processing will start at this line, any previous lines will be ignored"
 msgstr ""
-"Egentlig behandling vil starte med denne linje, alle foregående linjer vil blive ignoreret"
+"Egentlig behandling vil starte med denne linje, alle foregående linjer vil "
+"blive ignoreret"
 
 #: po/tmp/dialog-stf.glade.h:9
 msgid "Add a new column"
@@ -3303,8 +3304,8 @@ msgid ""
 "Character interpreted as quote character. If the separation character is "
 "encountered within quotes it will be ignored"
 msgstr ""
-"Tegnet fortolkes som et citations-tegn. Hvis adskillelsestegnet mødes "
-"mellem citationstegn, ignoreres det."
+"Tegnet fortolkes som et citations-tegn. Hvis adskillelsestegnet mødes mellem "
+"citationstegn, ignoreres det."
 
 #: po/tmp/dialog-stf.glade.h:15
 msgid "Clear list of columns"
@@ -3404,8 +3405,8 @@ msgid ""
 "to resize a column"
 msgstr ""
 "Venstreklik for at oprette en ny kolonne, højreklik på en kolonnekant for at "
-"slette en eksisterende kolonne, eller hold venstre museknap på en kolonnekant "
-"og træk for at ændre størrelse på en kolonne"
+"slette en eksisterende kolonne, eller hold venstre museknap på en "
+"kolonnekant og træk for at ændre størrelse på en kolonne"
 
 #: po/tmp/dialog-stf.glade.h:38
 msgid "Lines to import"
@@ -3454,8 +3455,7 @@ msgstr "Se to successive adskillelsestegn som ét"
 #: po/tmp/dialog-stf.glade.h:49
 msgid ""
 "See two successive text indicators as one that does not terminate the cell"
-msgstr ""
-"Brug to følgende tekst-indikatorer som én der ikke afslutter cellen"
+msgstr "Brug to følgende tekst-indikatorer som én der ikke afslutter cellen"
 
 #: po/tmp/dialog-stf.glade.h:50
 msgid ""
@@ -3518,7 +3518,6 @@ msgid ""
 msgstr ""
 "Fjern indledende og afsluttende mellemrum fra hver kolonne, hvis du er "
 "usikker bør du lade dette være som det var oprindeligt"
-
 
 #: po/tmp/dialog-stf.glade.h:63
 msgid "_Adjacent text indicators escaped"
@@ -3839,7 +3838,7 @@ msgstr "Række- og kolonnehoveder"
 msgid "Scale"
 msgstr "Skalér"
 
-#: po/tmp/print.glade.h:31 src/functions/fn-sheet.c:135 src/workbook.c:1074
+#: po/tmp/print.glade.h:31 src/functions/fn-sheet.c:135 src/workbook.c:1081
 msgid "Sheet"
 msgstr "Ark"
 
@@ -4118,8 +4117,8 @@ msgid "Company"
 msgstr "Virksomhed"
 
 #: po/tmp/summary.glade.h:11
-msgid "Document Summary Information"
-msgstr "Dokument sammendragsinfo"
+msgid "Document Summary Information\n"
+msgstr "Dokument sammendragsinfo\n"
 
 #: po/tmp/summary.glade.h:12
 msgid "Keywords"
@@ -4316,22 +4315,22 @@ msgid "yellow"
 msgstr "gul"
 
 #. Is it a boolean
-#: src/format.c:1625 src/number-match.c:942 src/value-sheet.c:33
+#: src/format.c:1620 src/number-match.c:942 src/value-sheet.c:33
 #: src/value.c:235 src/value.c:466
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1625 src/number-match.c:944 src/value-sheet.c:33
+#: src/format.c:1620 src/number-match.c:944 src/value-sheet.c:33
 #: src/value.c:237 src/value.c:466
 msgid "FALSE"
 msgstr "FALSE"
 
 #. Array of arrays ??
-#: src/format.c:1638
+#: src/format.c:1633
 msgid "ARRAY"
 msgstr "ARRAY"
 
-#: src/format.c:1704 src/format.c:1783 src/format.c:1792 src/format.c:1854
+#: src/format.c:1699 src/format.c:1778 src/format.c:1787 src/format.c:1849
 msgid "General"
 msgstr "Generelt"
 
@@ -7443,8 +7442,8 @@ msgid ""
 "@SEEALSO=ACCRINTM"
 msgstr ""
 "@FUNCTION=ACCRINT\n"
-"@SYNTAX=ACCRINT(udstedelse,første_rente,anbringelse,rente,pari,frekvens"
-"[,basis])\n"
+"@SYNTAX=ACCRINT(udstedelse,første_rente,anbringelse,rente,pari,frekvens[,basi"
+"s])\n"
 "@DESCRIPTION=ACCRINT beregner den påløbne rente for et værdipapir som "
 "udbetaler periodisk rente. @rente er værdipapirets pålydende årlige rente og "
 "@pari er værdipapirets pålydende værdi. @basis er den type "
@@ -8609,8 +8608,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDFPRICE\n"
-"@SYNTAX=ODDFPRICE(anbringelse,forfald,udstedelse,første_kupon,rente,ydelse,"
-"indfrielse,frekvens,basis)\n"
+"@SYNTAX=ODDFPRICE(anbringelse,forfald,udstedelse,første_kupon,rente,ydelse,in"
+"dfrielse,frekvens,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8627,8 +8626,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDFYIELD\n"
-"@SYNTAX=ODDFYIELD(anbringelse,forfald,udstedelse,første_kupon,rente,pris,"
-"indfrielse,frekvens,basis)\n"
+"@SYNTAX=ODDFYIELD(anbringelse,forfald,udstedelse,første_kupon,rente,pris,indf"
+"rielse,frekvens,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8645,8 +8644,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDLPRICE\n"
-"@SYNTAX=ODDLPRICE(anbringelse,forfald,sidste_rente,rente,ydelse,indfrielse,"
-"frekvens,basis)\n"
+"@SYNTAX=ODDLPRICE(anbringelse,forfald,sidste_rente,rente,ydelse,indfrielse,fr"
+"ekvens,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8663,8 +8662,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDLYIELD\n"
-"@SYNTAX=ODDLYIELD(anbringelse,forfald,sidste_rente,rente,pris,indfrielse,"
-"frekvens,basis)\n"
+"@SYNTAX=ODDLYIELD(anbringelse,forfald,sidste_rente,rente,pris,indfrielse,frek"
+"vens,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -14776,7 +14775,7 @@ msgid "Plugin is still in use."
 msgstr "Indstik er stadig i brug."
 
 #: src/print-info.c:21 src/print-info.c:24 src/print-info.c:25
-#: src/print-info.c:274
+#: src/print-info.c:278
 msgid "Page &[PAGE]"
 msgstr "Side &[PAGE]"
 
@@ -14785,7 +14784,7 @@ msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Side &[PAGE] af &[PAGES]"
 
 #: src/print-info.c:23 src/print-info.c:24 src/print-info.c:25
-#: src/print-info.c:27 src/print-info.c:273
+#: src/print-info.c:27 src/print-info.c:277
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
@@ -14793,60 +14792,60 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:436
+#: src/print-info.c:440
 msgid "pts"
 msgstr "pkt"
 
-#: src/print-info.c:436
+#: src/print-info.c:440
 msgid "points"
 msgstr "punkter"
 
-#: src/print-info.c:437
+#: src/print-info.c:441
 msgid "mm"
 msgstr "mm"
 
-#: src/print-info.c:437
+#: src/print-info.c:441
 msgid "millimeter"
 msgstr "millimeter"
 
 #. 1in = 25.4mm, exact
-#: src/print-info.c:438
+#: src/print-info.c:442
 msgid "cm"
 msgstr "cm"
 
-#: src/print-info.c:438
+#: src/print-info.c:442
 msgid "centimeter"
 msgstr "centimeter"
 
-#: src/print-info.c:439
+#: src/print-info.c:443
 msgid "In"
 msgstr "Tm"
 
-#: src/print-info.c:439
+#: src/print-info.c:443
 msgid "inch"
 msgstr "tommer"
 
-#: src/print-info.c:529
+#: src/print-info.c:533
 msgid "Sheet 1"
 msgstr "Ark 1"
 
-#: src/print-info.c:592
+#: src/print-info.c:596
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:593
+#: src/print-info.c:597
 msgid "page"
 msgstr "side"
 
-#: src/print-info.c:594
+#: src/print-info.c:598
 msgid "pages"
 msgstr "sider"
 
-#: src/print-info.c:595
+#: src/print-info.c:599
 msgid "date"
 msgstr "dato"
 
-#: src/print-info.c:596
+#: src/print-info.c:600
 msgid "time"
 msgstr "tid"
 
@@ -14917,19 +14916,19 @@ msgstr "Række: %d"
 msgid "Column: %s"
 msgstr "Kolonne: %s"
 
-#: src/sheet.c:2814 src/sheet.c:2824
+#: src/sheet.c:2806 src/sheet.c:2816
 msgid "Insert Columns"
 msgstr "Indsæt kolonner"
 
-#: src/sheet.c:2895
+#: src/sheet.c:2887
 msgid "Delete Columns"
 msgstr "Slet kolonner"
 
-#: src/sheet.c:2965 src/sheet.c:2975
+#: src/sheet.c:2957 src/sheet.c:2967
 msgid "Insert Rows"
 msgstr "Indsæt rækker"
 
-#: src/sheet.c:3046
+#: src/sheet.c:3038
 msgid "Delete Rows"
 msgstr "Slet rækker"
 
@@ -15066,10 +15065,12 @@ msgstr "Fejl under forsøg på at forkonvertere fil"
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
-"The character '%c' (ASCII decimal %d) was encountered"
+"The character '%c' (ASCII decimal %d) was encountered.\n"
+"Most likely your locale settings are wrong."
 msgstr ""
-"Denne fil synes ikke at være en gyldig tekstfil. Tegnet "
-"'%c' (ASCII decimalt %d) blev læst"
+"Denne fil synes ikke at være en gyldig tekstfil.\n"
+"Tegnet '%c' (ASCII decimalt %d) blev læst.Dine locale-indstillinger er "
+"højstsandsynlig forkerte."
 
 #: src/stf.c:184
 msgid "Parse error while trying to parse data into sheet"
@@ -15974,36 +15975,36 @@ msgstr "Min"
 msgid "Max"
 msgstr "Maks"
 
-#: src/workbook.c:512
+#: src/workbook.c:501
 #, c-format
 msgid "Book%d.gnumeric"
 msgstr "Bog%d.gnumeric"
 
-#: src/workbook.c:1218
+#: src/workbook.c:1225
 msgid "Sheet name"
 msgstr "Arknavn"
 
-#: src/workbook.c:1219
+#: src/workbook.c:1226
 msgid "must have at least 1 letter"
 msgstr "skal have mindst 1 bogstav"
 
-#: src/workbook.c:1226
+#: src/workbook.c:1233
 msgid "Duplicate Sheet name"
 msgstr "Duplikeret arknavn"
 
-#: src/xml-io.c:3355
+#: src/xml-io.c:3421
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ugyldigt xml klipbordsdata. Er træet tomt?"
 
-#: src/xml-io-autoft.c:459 src/xml-io.c:3398
+#: src/xml-io-autoft.c:459 src/xml-io.c:3464
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml fil. Er træet tomt?"
 
-#: src/xml-io.c:3407
+#: src/xml-io.c:3473
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Er ikke en Gnumeric arbejdsbogsfil"
 
-#: src/xml-io.c:3466
+#: src/xml-io.c:3532
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
@@ -16463,3 +16464,12 @@ msgstr "Fortryd"
 #: po/tmp/gnumeric.xml.h:231
 msgid "_View"
 msgstr "_Vis"
+
+#~ msgid "&lt;- Remove"
+#~ msgstr "&lt;- Fjern"
+
+#~ msgid "&quot;"
+#~ msgstr "&quot;"
+
+#~ msgid "Add -&gt;"
+#~ msgstr "Tilføj -&gt;"
