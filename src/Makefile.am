@@ -204,7 +204,6 @@ gnumeric_bonobo_SOURCES =			\
 	corba-sheet.c				\
 	corba-workbook.c			\
 	corba-workbook-factory.c		\
-	$(GNUMERIC_CORBA_GENERATED)		\
 	$(GNUMERIC_BASE_SOURCES)		\
 	$(GNUMERIC_BONOBO_SOURCES)
 
