@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-06-25 19:48-0400\n"
-"PO-Revision-Date: 2003-05-29 23:41+0200\n"
+"PO-Revision-Date: 2003-06-27 17:54+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -85,7 +85,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Poskytuje skriptovací rozhraní CORBA"
 
 #: plugins/derivatives/options.c:142
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
@@ -1032,22 +1032,18 @@ msgstr ""
 "kódováním."
 
 #: plugins/excel/ms-excel-write.c:3751
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95.It only supports %"
 "d rows, and this workbook has %d"
-msgstr ""
-"Při ukládání ve formátu Excel 95 bude něco z obsahu ztraceno. Tento formát "
-"podporuje pouze %d řádků, tento sešit jich má %d."
+msgstr "Při ukládání jako MS Excel (tm) 95 bude něco z obsahu ztraceno. Tento formát podporuje pouze %d řádků, tento sešit jich má %d"
 
 #: plugins/excel/ms-excel-write.c:3758
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm).It only supports %d "
 "rows, and this workbook has %d"
-msgstr ""
-"Při ukládání ve formátu Excel bude něco z obsahu ztraceno. Tento formát "
-"podporuje pouze %d řádků, tento sešit jich má %d."
+msgstr "Při ukládání ve jako MS Excel (tm) bude něco z obsahu ztraceno. Tento formát podporuje pouze %d řádků, tento sešit jich má %d"
 
 #: plugins/excel/ms-excel-write.c:4162
 msgid "Couldn't open stream 'Book' for writing\n"
@@ -1474,7 +1470,6 @@ msgstr ""
 "@SEEALSO=IMLN"
 
 #: plugins/fn-complex/functions.c:506
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -1493,10 +1488,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(komplex_číslo)\n"
-"@DESCRIPTION=IMARGUMENT vrací argument theta komplexního čísla.\n"
+"@DESCRIPTION=IMARGUMENT vrací argument theta komplexního čísla, tj. úhel v radiánech od reálné osy k reprezentaci čísla v polárních souřadnicích.\n"
 "\n"
-"* Pokud @komplex_číslo není platné komplexní číslo, IMARGUMENT vrátí chybu "
-"#VALUE!\n"
+"* Pokud @komplex_číslo není platné komplexní číslo, IMARGUMENT vrátí chybu #VALUE!\n"
 "* Tato funkce je kompatibilní s Excelem. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -2390,7 +2384,6 @@ msgid "Functions for complex numbers"
 msgstr "Funkce pro komplexní čísla"
 
 #: plugins/fn-database/functions.c:264
-#, fuzzy
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -2441,29 +2434,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(databáze,pole,kritéria)\n"
-"@DESCRIPTION=DAVERAGE vrací průměr hodnot v seznamu nebo databázi, které "
-"vyhovují zadaným podmínkám.\n"
+"@DESCRIPTION=DAVERAGE vrací průměr hodnot v seznamu nebo databázi, které vyhovují zadaným podmínkám.\n"
 "\n"
-"@databáze je oblast buněk, ve kterých řádky podobných informací představují "
-"záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro "
-"každý sloupec.\n"
+"@databáze je oblast buněk, ve kterých řádky souvisejících informací představují záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro každý sloupec.\n"
 "\n"
-"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná "
-"hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis "
-"sloupce. Například \"Věk\" vás odkáže na sloupec, který má v oblasti "
-"@databáze nadpis \"Věk\".\n"
+"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis sloupce. Například \"Věk\" odkazuje na sloupec, který má v oblasti @databáze nadpis \"Věk\".\n"
 "\n"
-"@kritéria představují oblast buněk, které obsahují zadané podmínky. První "
-"řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria "
-"určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". "
-"Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo "
-"\"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy "
-"řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek "
-"započítán (technicky řečeno je proveden logickýsoučet (OR) mezi řádky v "
-"@kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být "
-"každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval"
-"(opět technicky řečeno je proveden logický součin (AND) mezi sloupci na "
-"každém řádku v @kritériích). \n"
+"@kritéria představují oblast buněk, které obsahují zadané podmínky. První řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo \"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek započítán (technicky řečeno je proveden logický součet (OR) mezi řádky v @kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval (opět technicky řečeno je proveden logický součin (AND) mezi sloupci na každém řádku v @kritériích). \n"
 "@EXAMPLES=\n"
 "Předpokládejme že v oblasti A1:C7 se vyskytují následující hodnoty:\n"
 "Jméno   Věk     Plat\n"
@@ -2474,12 +2451,11 @@ msgstr ""
 "Susan   37      42932\n"
 "Jill    45      45324\n"
 "\n"
-"Dále obsahují buňky A9:B11 následující hodnoty:\n"
+"Dále buňky A9:B11 obsahují následující hodnoty:\n"
 "Věk     Plat\n"
 "<30\n"
 ">40     >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DAVERAGE(A1:C7, \"Plat\", A9:A11) se rovná 42296.3333.\n"
 "DAVERAGE(A1:C7, \"Věk\", A9:A11) se rovná 39.\n"
 "DAVERAGE(A1:C7, \"Plat\", A9:B11) se rovná 40782.5.\n"
@@ -2488,7 +2464,6 @@ msgstr ""
 "@SEEALSO=DCOUNT"
 
 #: plugins/fn-database/functions.c:336
-#, fuzzy
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -2538,29 +2513,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(databáze,pole,kritéria)\n"
-"@DESCRIPTION=DCOUNT vrací počet buněk, které obsahují čísla, v databázi, "
-"která vyhovuje zadaným podmínkám.\n"
+"@DESCRIPTION=DCOUNT vrací počet buněk, které obsahují čísla v databázi, které vyhovují zadaným podmínkám.\n"
 "\n"
-"@databáze je oblast buněk, ve kterých řádky podobných informací představují "
-"záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro "
-"každý sloupec.\n"
+"@databáze je oblast buněk, ve kterých řádky souvisejících informací představují záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro každý sloupec.\n"
 "\n"
-"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná "
-"hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis "
-"sloupce. Například \"Věk\" vás odkáže na sloupec, který má v oblasti "
-"@databáze nadpis \"Věk\".\n"
+"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis sloupce. Například \"Věk\" odkazuje na sloupec, který má v oblasti @databáze nadpis \"Věk\".\n"
 "\n"
-"@kritéria představují oblast buněk, které obsahují zadané podmínky. První "
-"řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria "
-"určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". "
-"Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo "
-"\"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy "
-"řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek "
-"započítán (technicky řečeno je proveden logickýsoučet (OR) mezi řádky v "
-"@kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být "
-"každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval"
-"(opět technicky řečeno je proveden logický součin (AND) mezi sloupci na "
-"každém řádku v @kritériích). \n"
+"@kritéria představují oblast buněk, které obsahují zadané podmínky. První řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo \"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek započítán (technicky řečeno je proveden logický součet (OR) mezi řádky v @kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval (opět technicky řečeno je proveden logický součin (AND) mezi sloupci na každém řádku v @kritériích). \n"
 "@EXAMPLES=\n"
 "Předpokládejme že v oblasti A1:C7 se vyskytují následující hodnoty:\n"
 "Jméno   Věk     Plat\n"
@@ -2571,12 +2530,11 @@ msgstr ""
 "Susan   37      42932\n"
 "Jill    45      45324\n"
 "\n"
-"Dále obsahují buňky A9:B11 následující hodnoty:\n"
+"Dále buňky A9:B11 obsahují následující hodnoty:\n"
 "Věk     Plat\n"
 "<30\n"
 ">40     >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DCOUNT(A1:C7, \"Plat\", A9:A11) se rovná 3.\n"
 "DCOUNT(A1:C7, \"Plat\", A9:B11) se rovná 2.\n"
 "DCOUNT(A1:C7, \"Jméno\", A9:B11) se rovná 0.\n"
@@ -2584,7 +2542,6 @@ msgstr ""
 "@SEEALSO=DAVERAGE"
 
 #: plugins/fn-database/functions.c:407
-#, fuzzy
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -2634,29 +2591,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(databáze,pole,kritéria)\n"
-"@DESCRIPTION=DCOUNTA vrací počet buněk, které obsahují data, v databázi, "
-"která vyhovuje zadaným podmínkám.\n"
+"@DESCRIPTION=DCOUNTA vrací počet buněk, které obsahují data v databázi, která vyhovují zadaným podmínkám.\n"
 "\n"
-"@databáze je oblast buněk, ve kterých řádky podobných informací představují "
-"záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro "
-"každý sloupec.\n"
+"@databáze je oblast buněk, ve kterých řádky podobných informací představují záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro každý sloupec.\n"
 "\n"
-"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná "
-"hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis "
-"sloupce. Například \"Věk\" vás odkáže na sloupec, který má v oblasti "
-"@databáze nadpis \"Věk\".\n"
+"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis sloupce. Například \"Věk\" odkazuje na sloupec, který má v oblasti @databáze nadpis \"Věk\".\n"
 "\n"
-"@kritéria představují oblast buněk, které obsahují zadané podmínky. První "
-"řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria "
-"určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". "
-"Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo "
-"\"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy "
-"řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek "
-"započítán (technicky řečeno je proveden logickýsoučet (OR) mezi řádky v "
-"@kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být "
-"každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval"
-"(opět technicky řečeno je proveden logický součin (AND) mezi sloupci na "
-"každém řádku v @kritériích). \n"
+"@kritéria představují oblast buněk, které obsahují zadané podmínky. První řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo \"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek započítán (technicky řečeno je proveden logický součet (OR) mezi řádky v @kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval (opět technicky řečeno je proveden logický součin (AND) mezi sloupci na každém řádku v @kritériích). \n"
 "@EXAMPLES=\n"
 "Předpokládejme že v oblasti A1:C7 se vyskytují následující hodnoty:\n"
 "Jméno   Věk     Plat\n"
@@ -2667,12 +2608,11 @@ msgstr ""
 "Susan   37      42932\n"
 "Jill    45      45324\n"
 "\n"
-"Dále obsahují buňky A9:B11 následující hodnoty:\n"
+"Dále buňky A9:B11 obsahují následující hodnoty:\n"
 "Věk     Plat\n"
 "<30\n"
 ">40     >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DCOUNTA(A1:C7, \"Plat\", A9:A11) se rovná 3.\n"
 "DCOUNTA(A1:C7, \"Plat\", A9:B11) se rovná 2.\n"
 "DCOUNTA(A1:C7, \"Jméno\", A9:B11) se rovná 2.\n"
@@ -2680,7 +2620,6 @@ msgstr ""
 "@SEEALSO=DAVERAGE"
 
 #: plugins/fn-database/functions.c:476
-#, fuzzy
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -2732,29 +2671,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(databáze,pole,kritéria)\n"
-"@DESCRIPTION=DGET vrací jedinou hodnotu ze sloupce, který odpovídá zadaným "
-"kritériím.\n"
+"@DESCRIPTION=DGET vrací jedinou hodnotu ze sloupce, který odpovídá zadaným kritériím.\n"
 "\n"
-"@databáze je oblast buněk, ve kterých řádky podobných informací představují "
-"záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro "
-"každý sloupec.\n"
+"@databáze je oblast buněk, ve kterých řádky podobných informací představují záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro každý sloupec.\n"
 "\n"
-"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná "
-"hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis "
-"sloupce. Například \"Věk\" vás odkáže na sloupec, který má v oblasti "
-"@databáze nadpis \"Věk\".\n"
+"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis sloupce. Například \"Věk\" odkazuje na sloupec, který má v oblasti @databáze nadpis \"Věk\".\n"
 "\n"
-"@kritéria představují oblast buněk, které obsahují zadané podmínky. První "
-"řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria "
-"určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". "
-"Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo "
-"\"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy "
-"řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek "
-"započítán (technicky řečeno je proveden logickýsoučet (OR) mezi řádky v "
-"@kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být "
-"každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval"
-"(opět technicky řečeno je proveden logický součin (AND) mezi sloupci na "
-"každém řádku v @kritériích). \n"
+"@kritéria představují oblast buněk, které obsahují zadané podmínky. První řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo \"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek započítán (technicky řečeno je proveden logický součet (OR) mezi řádky v @kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval (opět technicky řečeno je proveden logický součin (AND) mezi sloupci na každém řádku v @kritériích). \n"
 "@EXAMPLES=\n"
 "Předpokládejme že v oblasti A1:C7 se vyskytují následující hodnoty:\n"
 "Jméno   Věk     Plat\n"
@@ -2770,19 +2693,15 @@ msgstr ""
 "<30\n"
 ">40     >46000\n"
 "\n"
-"* Pokud žádná z položek neodpovídá podmínkám, vrací funkce DGET chybu "
-"#VALUE!.\n"
-"* Pokud odpovídá podmínkám více než jedna položka, vrací funkce DGET chybu "
-"#NUM!.\n"
+"* Pokud žádná z položek neodpovídá podmínkám, vrací funkce DGET chybu #VALUE!.\n"
+"* Pokud odpovídá podmínkám více než jedna položka, vrací funkce DGET chybu #NUM!.\n"
 "\n"
-"@EXAMPLES=\n"
 "DGET(A1:C7, \"Plat\", A9:A10) se rovná 34323.\n"
 "DGET(A1:C7, \"Jméno\", A9:A10) se rovná \"Clark\".\n"
 "\n"
 "@SEEALSO=DCOUNT"
 
 #: plugins/fn-database/functions.c:557
-#, fuzzy
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -2832,29 +2751,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(databáze,pole,kritéria)\n"
-"@DESCRIPTION=DMAX vrací nejvyšší číslo ze sloupce, které odpovídá zadaným "
-"podmínkám.\n"
+"@DESCRIPTION=DMAX vrací nejvyšší číslo ze sloupce, které odpovídá zadaným podmínkám.\n"
 "\n"
-"@databáze je oblast buněk, ve kterých řádky podobných informací představují "
-"záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro "
-"každý sloupec.\n"
+"@databáze je oblast buněk, ve kterých řádky podobných informací představují záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro každý sloupec.\n"
 "\n"
-"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná "
-"hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis "
-"sloupce. Například \"Věk\" vás odkáže na sloupec, který má v oblasti "
-"@databáze nadpis \"Věk\".\n"
+"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis sloupce. Například \"Věk\" odkazuje na sloupec, který má v oblasti @databáze nadpis \"Věk\".\n"
 "\n"
-"@kritéria představují oblast buněk, které obsahují zadané podmínky. První "
-"řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria "
-"určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". "
-"Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo "
-"\"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy "
-"řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek "
-"započítán (technicky řečeno je proveden logickýsoučet (OR) mezi řádky v "
-"@kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být "
-"každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval"
-"(opět technicky řečeno je proveden logický součin (AND) mezi sloupci na "
-"každém řádku v @kritériích). \n"
+"@kritéria představují oblast buněk, které obsahují zadané podmínky. První řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo \"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek započítán (technicky řečeno je proveden logický součet (OR) mezi řádky v @kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval (opět technicky řečeno je proveden logický součin (AND) mezi sloupci na každém řádku v @kritériích). \n"
 "@EXAMPLES=\n"
 "Předpokládejme že v oblasti A1:C7 se vyskytují následující hodnoty:\n"
 "Jméno   Věk     Plat\n"
@@ -2865,12 +2768,11 @@ msgstr ""
 "Susan   37      42932\n"
 "Jill    45      45324\n"
 "\n"
-"Dále obsahují buňky A9:B11 následující hodnoty:\n"
+"Dále buňky A9:B11 obsahují následující hodnoty:\n"
 "Věk     Plat\n"
 "<30\n"
 ">40     >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DMAX(A1:C7, \"Plat\", A9:A11) se rovná 47242.\n"
 "DMAX(A1:C7, \"Věk\", A9:A11) se rovná 45.\n"
 "DMAX(A1:C7, \"Věk\", A9:B11) se rovná 43.\n"
@@ -2878,7 +2780,6 @@ msgstr ""
 "@SEEALSO=DMIN"
 
 #: plugins/fn-database/functions.c:630
-#, fuzzy
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -2927,29 +2828,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(databáze,pole,kritéria)\n"
-"@DESCRIPTION=DMIN vrací nejnižší číslo ze sloupce, které odpovídá zadaným "
-"podmínkám.\n"
+"@DESCRIPTION=DMIN vrací nejnižší číslo ze sloupce, které odpovídá zadaným podmínkám.\n"
 "\n"
-"@databáze je oblast buněk, ve kterých řádky podobných informací představují "
-"záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro "
-"každý sloupec.\n"
+"@databáze je oblast buněk, ve kterých řádky podobných informací představují záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro každý sloupec.\n"
 "\n"
-"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná "
-"hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis "
-"sloupce. Například \"Věk\" vás odkáže na sloupec, který má v oblasti "
-"@databáze nadpis \"Věk\".\n"
+"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis sloupce. Například \"Věk\" odkazuje na sloupec, který má v oblasti @databáze nadpis \"Věk\".\n"
 "\n"
-"@kritéria představují oblast buněk, které obsahují zadané podmínky. První "
-"řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria "
-"určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". "
-"Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo "
-"\"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy "
-"řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek "
-"započítán (technicky řečeno je proveden logickýsoučet (OR) mezi řádky v "
-"@kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být "
-"každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval"
-"(opět technicky řečeno je proveden logický součin (AND) mezi sloupci na "
-"každém řádku v @kritériích). \n"
+"@kritéria představují oblast buněk, které obsahují zadané podmínky. První řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo \"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek započítán (technicky řečeno je proveden logický součet (OR) mezi řádky v @kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval (opět technicky řečeno je proveden logický součin (AND) mezi sloupci na každém řádku v @kritériích). \n"
 "@EXAMPLES=\n"
 "Předpokládejme že v oblasti A1:C7 se vyskytují následující hodnoty:\n"
 "Jméno   Věk     Plat\n"
@@ -2965,14 +2850,12 @@ msgstr ""
 "<30\n"
 ">40     >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DMIN(A1:C7, \"Plat\", A9:B11) se rovná 34323.\n"
 "DMIN(A1:C7, \"Věk\", A9:B11) se rovná 29.\n"
 "\n"
 "@SEEALSO=DMAX"
 
 #: plugins/fn-database/functions.c:700
-#, fuzzy
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -3020,29 +2903,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(databáze,pole,kritéria)\n"
-"@DESCRIPTION=DPRODUCT vrací součin těch čísel ve sloupci, které vyhovují "
-"zadaným podmínkám.\n"
+"@DESCRIPTION=DPRODUCT vrací součin těch čísel ve sloupci, které vyhovují zadaným podmínkám.\n"
 "\n"
-"@databáze je oblast buněk, ve kterých řádky podobných informací představují "
-"záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro "
-"každý sloupec.\n"
+"@databáze je oblast buněk, ve kterých řádky podobných informací představují záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro každý sloupec.\n"
 "\n"
-"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná "
-"hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis "
-"sloupce. Například \"Věk\" vás odkáže na sloupec, který má v oblasti "
-"@databáze nadpis \"Věk\".\n"
+"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis sloupce. Například \"Věk\" odkazuje na sloupec, který má v oblasti @databáze nadpis \"Věk\".\n"
 "\n"
-"@kritéria představují oblast buněk, které obsahují zadané podmínky. První "
-"řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria "
-"určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". "
-"Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo "
-"\"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy "
-"řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek "
-"započítán (technicky řečeno je proveden logickýsoučet (OR) mezi řádky v "
-"@kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být "
-"každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval"
-"(opět technicky řečeno je proveden logický součin (AND) mezi sloupci na "
-"každém řádku v @kritériích). \n"
+"@kritéria představují oblast buněk, které obsahují zadané podmínky. První řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo \"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek započítán (technicky řečeno je proveden logický součet (OR) mezi řádky v @kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval (opět technicky řečeno je proveden logický součin (AND) mezi sloupci na každém řádku v @kritériích). \n"
 "@EXAMPLES=\n"
 "Předpokládejme že v oblasti A1:C7 se vyskytují následující hodnoty:\n"
 "Jméno   Věk     Plat\n"
@@ -3053,18 +2920,16 @@ msgstr ""
 "Susan   37      42932\n"
 "Jill    45      45324\n"
 "\n"
-"Dále obsahují buňky A9:B11 následující hodnoty:\n"
+"Dále buňky A9:B11 obsahují následující hodnoty:\n"
 "Věk     Plat\n"
 "<30\n"
 ">40     >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DPRODUCT(A1:C7, \"Věk\", A9:B11) se rovná 1247.\n"
 "\n"
 "@SEEALSO=DSUM"
 
 #: plugins/fn-database/functions.c:770
-#, fuzzy
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -3114,30 +2979,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(databáze,pole,kritéria)\n"
-"@DESCRIPTION=DSTDEV vrací odhad standardní odchylky statistického souboru na "
-"základě vzorku. Statistický soubor se skládá z čísel, které vyhovují zadaným "
-"podmínkám.\n"
+"@DESCRIPTION=DSTDEV vrací odhad standardní odchylky statistického souboru na základě vzorku. Statistický soubor se skládá z čísel, které vyhovují zadaným podmínkám.\n"
 "\n"
-"@databáze je oblast buněk, ve kterých řádky podobných informací představují "
-"záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro "
-"každý sloupec.\n"
+"@databáze je oblast buněk, ve kterých řádky podobných informací představují záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro každý sloupec.\n"
 "\n"
-"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná "
-"hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis "
-"sloupce. Například \"Věk\" vás odkáže na sloupec, který má v oblasti "
-"@databáze nadpis \"Věk\".\n"
+"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis sloupce. Například \"Věk\" odkazuje na sloupec, který má v oblasti @databáze nadpis \"Věk\".\n"
 "\n"
-"@kritéria představují oblast buněk, které obsahují zadané podmínky. První "
-"řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria "
-"určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". "
-"Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo "
-"\"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy "
-"řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek "
-"započítán (technicky řečeno je proveden logickýsoučet (OR) mezi řádky v "
-"@kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být "
-"každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval"
-"(opět technicky řečeno je proveden logický součin (AND) mezi sloupci na "
-"každém řádku v @kritériích). \n"
+"@kritéria představují oblast buněk, které obsahují zadané podmínky. První řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo \"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek započítán (technicky řečeno je proveden logický součet (OR) mezi řádky v @kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval (opět technicky řečeno je proveden logický součin (AND) mezi sloupci na každém řádku v @kritériích). \n"
 "@EXAMPLES=\n"
 "Předpokládejme že v oblasti A1:C7 se vyskytují následující hodnoty:\n"
 "Jméno   Věk     Plat\n"
@@ -3148,19 +2996,17 @@ msgstr ""
 "Susan   37      42932\n"
 "Jill    45      45324\n"
 "\n"
-"Dále obsahují buňky A9:B11 následující hodnoty:\n"
+"Dále buňky A9:B11 obsahují následující hodnoty:\n"
 "Věk     Plat\n"
 "<30\n"
 ">40     >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DSTDEV(A1:C7, \"Věk\", A9:B11) se rovná 9.89949.\n"
 "DSTDEV(A1:C7, \"Plat\", A9:B11) se rovná 9135.112506.\n"
 "\n"
 "@SEEALSO=DSTDEVP"
 
 #: plugins/fn-database/functions.c:841
-#, fuzzy
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -3210,30 +3056,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(databáze,pole,kritéria)\n"
-"@DESCRIPTION=DSTDEVP vrací standardní odchylku statistického souboru na "
-"základě celého statistického souboru. Statistický soubor se skládá z čísel, "
-"které vyhovují zadaným podmínkám.\n"
+"@DESCRIPTION=DSTDEVP vrací standardní odchylku statistického souboru na základě celého statistického souboru. Statistický soubor se skládá z čísel, které vyhovují zadaným podmínkám.\n"
 "\n"
-"@databáze je oblast buněk, ve kterých řádky podobných informací představují "
-"záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro "
-"každý sloupec.\n"
+"@databáze je oblast buněk, ve kterých řádky podobných informací představují záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro každý sloupec.\n"
 "\n"
-"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná "
-"hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis "
-"sloupce. Například \"Věk\" vás odkáže na sloupec, který má v oblasti "
-"@databáze nadpis \"Věk\".\n"
+"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis sloupce. Například \"Věk\" odkazuje na sloupec, který má v oblasti @databáze nadpis \"Věk\".\n"
 "\n"
-"@kritéria představují oblast buněk, které obsahují zadané podmínky. První "
-"řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria "
-"určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". "
-"Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo "
-"\"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy "
-"řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek "
-"započítán (technicky řečeno je proveden logickýsoučet (OR) mezi řádky v "
-"@kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být "
-"každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval"
-"(opět technicky řečeno je proveden logický součin (AND) mezi sloupci na "
-"každém řádku v @kritériích). \n"
+"@kritéria představují oblast buněk, které obsahují zadané podmínky. První řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo \"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek započítán (technicky řečeno je proveden logický součet (OR) mezi řádky v @kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval (opět technicky řečeno je proveden logický součin (AND) mezi sloupci na každém řádku v @kritériích). \n"
 "@EXAMPLES=\n"
 "Předpokládejme že v oblasti A1:C7 se vyskytují následující hodnoty:\n"
 "Jméno   Věk     Plat\n"
@@ -3244,19 +3073,17 @@ msgstr ""
 "Susan   37      42932\n"
 "Jill    45      45324\n"
 "\n"
-"Dále obsahují buňky A9:B11 následující hodnoty:\n"
+"Dále buňky A9:B11 obsahují následující hodnoty:\n"
 "Věk     Plat\n"
 "<30\n"
 ">40     >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DSTDEVP(A1:C7, \"Věk\", A9:B11) se rovná 7.\n"
 "DSTDEVP(A1:C7, \"Plat\", A9:B11) se rovná 6459.5.\n"
 "\n"
 "@SEEALSO=DSTDEV"
 
 #: plugins/fn-database/functions.c:912
-#, fuzzy
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -3305,29 +3132,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(databáze,pole,kritéria)\n"
-"@DESCRIPTION=DSUM vrací součet čísel ve sloupci, které vyhovují zadaným "
-"podmínkám.\n"
+"@DESCRIPTION=DSUM vrací součet čísel ve sloupci, které vyhovují zadaným podmínkám.\n"
 "\n"
-"@databáze je oblast buněk, ve kterých řádky podobných informací představují "
-"záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro "
-"každý sloupec.\n"
+"@databáze je oblast buněk, ve kterých řádky podobných informací představují záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro každý sloupec.\n"
 "\n"
-"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná "
-"hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis "
-"sloupce. Například \"Věk\" vás odkáže na sloupec, který má v oblasti "
-"@databáze nadpis \"Věk\".\n"
+"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis sloupce. Například \"Věk\" odkazuje na sloupec, který má v oblasti @databáze nadpis \"Věk\".\n"
 "\n"
-"@kritéria představují oblast buněk, které obsahují zadané podmínky. První "
-"řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria "
-"určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". "
-"Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo "
-"\"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy "
-"řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek "
-"započítán (technicky řečeno je proveden logickýsoučet (OR) mezi řádky v "
-"@kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být "
-"každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval"
-"(opět technicky řečeno je proveden logický součin (AND) mezi sloupci na "
-"každém řádku v @kritériích). \n"
+"@kritéria představují oblast buněk, které obsahují zadané podmínky. První řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo \"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek započítán (technicky řečeno je proveden logický součet (OR) mezi řádky v @kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval (opět technicky řečeno je proveden logický součin (AND) mezi sloupci na každém řádku v @kritériích). \n"
 "@EXAMPLES=\n"
 "Předpokládejme že v oblasti A1:C7 se vyskytují následující hodnoty:\n"
 "Jméno   Věk     Plat\n"
@@ -3338,19 +3149,17 @@ msgstr ""
 "Susan   37      42932\n"
 "Jill    45      45324\n"
 "\n"
-"Dále obsahují buňky A9:B11 následující hodnoty:\n"
+"Dále buňky A9:B11 obsahují následující hodnoty:\n"
 "Věk     Plat\n"
 "<30\n"
 ">40     >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DSUM(A1:C7, \"Věk\", A9:B11) se rovná 72.\n"
 "DSUM(A1:C7, \"Plat\", A9:B11) se rovná 81565.\n"
 "\n"
 "@SEEALSO=DPRODUCT"
 
 #: plugins/fn-database/functions.c:983
-#, fuzzy
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -3400,30 +3209,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(databáze,pole,kritéria)\n"
-"@DESCRIPTION=DVAR vrací odhad rozptylu statistického souboru na základě "
-"vzorku. Statistický soubor se skládá z čísel, které odpovídají zadaným "
-"podmínkám.\n"
+"@DESCRIPTION=DVAR vrací odhad rozptylu statistického souboru na základě vzorku. Statistický soubor se skládá z čísel, které odpovídají zadaným podmínkám.\n"
 "\n"
-"@databáze je oblast buněk, ve kterých řádky podobných informací představují "
-"záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro "
-"každý sloupec.\n"
+"@databáze je oblast buněk, ve kterých řádky podobných informací představují záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro každý sloupec.\n"
 "\n"
-"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná "
-"hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis "
-"sloupce. Například \"Věk\" vás odkáže na sloupec, který má v oblasti "
-"@databáze nadpis \"Věk\".\n"
+"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis sloupce. Například \"Věk\" odkazuje na sloupec, který má v oblasti @databáze nadpis \"Věk\".\n"
 "\n"
-"@kritéria představují oblast buněk, které obsahují zadané podmínky. První "
-"řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria "
-"určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". "
-"Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo "
-"\"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy "
-"řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek "
-"započítán (technicky řečeno je proveden logickýsoučet (OR) mezi řádky v "
-"@kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být "
-"každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval"
-"(opět technicky řečeno je proveden logický součin (AND) mezi sloupci na "
-"každém řádku v @kritériích). \n"
+"@kritéria představují oblast buněk, které obsahují zadané podmínky. První řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo \"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek započítán (technicky řečeno je proveden logický součet (OR) mezi řádky v @kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval (opět technicky řečeno je proveden logický součin (AND) mezi sloupci na každém řádku v @kritériích). \n"
 "@EXAMPLES=\n"
 "Předpokládejme že v oblasti A1:C7 se vyskytují následující hodnoty:\n"
 "Jméno   Věk     Plat\n"
@@ -3434,19 +3226,17 @@ msgstr ""
 "Susan   37      42932\n"
 "Jill    45      45324\n"
 "\n"
-"Dále obsahují buňky A9:B11 následující hodnoty:\n"
+"Dále buňky A9:B11 obsahují následující hodnoty:\n"
 "Věk     Plat\n"
 "<30\n"
 ">40     >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DVAR(A1:C7, \"Věk\", A9:B11) se rovná 98.\n"
 "DVAR(A1:C7, \"Plat\", A9:B11) se rovná 83450280.5.\n"
 "\n"
 "@SEEALSO=DVARP"
 
 #: plugins/fn-database/functions.c:1054
-#, fuzzy
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -3496,30 +3286,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(databáze,pole,kritéria)\n"
-"@DESCRIPTION=DVARP vrací rozptyl statistického souboru na základě celého "
-"statistického souboru. Statistický soubor se skládá z čísel, které "
-"odpovídají zadaným podmínkám.\n"
+"@DESCRIPTION=DVARP vrací rozptyl statistického souboru na základě celého statistického souboru. Statistický soubor se skládá z čísel, která odpovídají zadaným podmínkám.\n"
 "\n"
-"@databáze je oblast buněk, ve kterých řádky podobných informací představují "
-"záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro "
-"každý sloupec.\n"
+"@databáze je oblast buněk, ve kterých řádky podobných informací představují záznamy a sloupce dat jsou pole. První řádek databáze obsahuje nadpisy pro každý sloupec.\n"
 "\n"
-"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná "
-"hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis "
-"sloupce. Například \"Věk\" vás odkáže na sloupec, který má v oblasti "
-"@databáze nadpis \"Věk\".\n"
+"@pole udává, který sloupec je ve funkci použit. Pokud je @pole celočíselná hodnota, například 2, je použit druhý sloupec. Pole může být také nadpis sloupce. Například \"Věk\" odkazuje na sloupec, který má v oblasti @databáze nadpis \"Věk\".\n"
 "\n"
-"@kritéria představují oblast buněk, které obsahují zadané podmínky. První "
-"řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria "
-"určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". "
-"Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo "
-"\"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy "
-"řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek "
-"započítán (technicky řečeno je proveden logickýsoučet (OR) mezi řádky v "
-"@kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být "
-"každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval"
-"(opět technicky řečeno je proveden logický součin (AND) mezi sloupci na "
-"každém řádku v @kritériích). \n"
+"@kritéria představují oblast buněk, které obsahují zadané podmínky. První řádek @kritérií by měl obsahovat nadpisy polí, pro která jsou kritéria určena. Buňky pod nadpisy udávají podmínky, například \">3\" nebo \"<9\". Podmínku rovnosti lze zadat jednoduše zadáním hodnoty, např. \"3\" nebo \"Honza\". Každý řádek v @kritériích udává samostatnou podmínku, pokud tedy řádek v @databázi vyhovuje jednomu z řádků v @kritériích, pak je řádek započítán (technicky řečeno je proveden logický součet (OR) mezi řádky v @kritériích). Pokud @kritéria zahrnují více než jeden sloupec, pak musí být každá z podmínek v těchto sloupcích pravdivá, aby řádek z databáze vyhovoval (opět technicky řečeno je proveden logický součin (AND) mezi sloupci na každém řádku v @kritériích). \n"
 "@EXAMPLES=\n"
 "Předpokládejme že v oblasti A1:C7 se vyskytují následující hodnoty:\n"
 "Jméno   Věk     Plat\n"
@@ -3535,7 +3308,6 @@ msgstr ""
 "<30\n"
 ">40     >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DVARP(A1:C7, \"Věk\", A9:B11) se rovná 49.\n"
 "DVARP(A1:C7, \"Plat\", A9:B11) se rovná 41725140.25.\n"
 "\n"
@@ -3614,13 +3386,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (rok,měsíc,den)\n"
-"@DESCRIPTION=Vypočítá počet dní od 1. 1. 1900 (sériové číslo data) pro daný "
-"rok, měsíc a den.\n"
+"@DESCRIPTION=DATE vypočítá počet dní od 1. 1. 1900 (sériové číslo data) pro daný rok, měsíc a den.\n"
 "\n"
-"* Pokud je @měsíc menší než 1 nebo větší než 12, bude automaticky opraven. "
-"Podobně pak v případě @dne.\n"
-"* @rok by měl mít hodnotu minimálně 1900. Pokud @rok je menší než 1900, "
-"použije se 1900 + @rok.\n"
+"* Pokud je @měsíc menší než 1 nebo větší než 12, bude automaticky opraven. Podobně pak v případě @dne.\n"
+"* @rok by měl mít hodnotu minimálně 1900. Pokud @rok je menší než 1900, použije se 1900 + @rok.\n"
 "* Pokud není zadaný datum platný, funkce DATE vrací chybu #NUM!.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "@EXAMPLES=\n"
@@ -3796,8 +3565,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
-"@DESCRIPTION=Vrací sériové číslo dnešního dne (počet uplynulých dní od 1. "
-"ledna 1900).\n"
+"@DESCRIPTION=TODAY vrací sériové číslo dnešního dne (počet uplynulých dní od 1. ledna 1900).\n"
 "\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
@@ -3829,12 +3597,10 @@ msgid ""
 "@SEEALSO=TODAY"
 msgstr ""
 "@FUNCTION=NOW\n"
-"@SYNTAX=NOW()\n"
-"@DESCRIPTION=Vrací sériové číslo pro datum a čas v momentě výpočtu.\n"
+"@SYNTAX=NOW ()\n"
+"@DESCRIPTION=NOW vrací sériové číslo pro datum a čas v momentě výpočtu.\n"
 "\n"
-"Sériové čísla jsou v aplikaci Gnumeric reprezentovaná takto: Celočíselná "
-"část představuje počet dní od 1. ledna 1900. Desetinná část představuje "
-"zlomek dne a je mapovaná na hodiny, minuty a sekundy.\n"
+"Sériové čísla jsou v aplikaci Gnumeric reprezentovaná takto: Celočíselná část představuje počet dní od 1. ledna 1900. Desetinná část představuje zlomek dne a je mapovaná na hodiny, minuty a sekundy.\n"
 "\n"
 "Například: .0 představuje začátek dne a 0.5 představuje poledne.\n"
 "\n"
@@ -3858,8 +3624,8 @@ msgid ""
 "@SEEALSO=HOUR"
 msgstr ""
 "@FUNCTION=TIME\n"
-"@SYNTAX=TIME(hodiny,minuty,sekundy)\n"
-"@DESCRIPTION=Vrací zlomek představující čas v rámci dne.\n"
+"@SYNTAX=TIME (hodiny,minuty,sekundy)\n"
+"@DESCRIPTION=TIME vrací zlomek představující čas v rámci dne.\n"
 "\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
@@ -3885,7 +3651,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (textový_čas)\n"
-"@DESCRIPTION=Vrací zlomek reprezentující čas v rámci dne, číslo mezi 0 a 1.\n"
+"@DESCRIPTION=TIMEVALUE vrací zlomek reprezentující čas v rámci dne, číslo mezi 0 a 1.\n"
 "\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
@@ -3896,7 +3662,6 @@ msgstr ""
 "@SEEALSO=HOUR"
 
 #: plugins/fn-date/functions.c:526
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (date)\n"
@@ -3913,13 +3678,11 @@ msgid ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 "@FUNCTION=HOUR\n"
-"@SYNTAX=HOUR (sériové_číslo)\n"
-"@DESCRIPTION=Převádí sériové číslo na hodinu. Hodina je vrácena jako celé "
-"číslo v intervalu od 0 (12:00 AM) do 23 (11:00 PM).\n"
+"@SYNTAX=HOUR (datum)\n"
+"@DESCRIPTION=HOUR převádí sériové číslo na hodinu. Hodina je vrácena jako celé číslo v intervalu od 0 (12:00 AM) do 23 (11:00 PM).\n"
 "\n"
-"* Poznámka: Aplikace Gnumeric pro vás vykoná standardní převod řetězce na "
-"sériové číslo, takže můžete zadat datum jako řetězec. * Tato funkce je "
-"kompatibilní s Excelem.\n"
+"* Poznámka: Aplikace Gnumeric pro vás vykoná standardní převod řetězce na sériové číslo, takže můžete zadat datum jako řetězec.\n"
+"* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
 "HOUR(0.128472) se rovná 3.\n"
@@ -3927,7 +3690,6 @@ msgstr ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
 #: plugins/fn-date/functions.c:555
-#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (date)\n"
@@ -3944,12 +3706,10 @@ msgid ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 "@FUNCTION=MINUTE\n"
-"@SYNTAX=MINUTE (sériové_číslo)\n"
-"@DESCRIPTION=Převádí sériové číslo na minuty. Minuta je vrácena jako celé "
-"číslo v intervalu od 0 do 59.\n"
+"@SYNTAX=MINUTE (datum)\n"
+"@DESCRIPTION=MINUTE převádí sériové číslo na minuty. Minuta je vrácena jako celé číslo v intervalu od 0 do 59.\n"
 "\n"
-"* Poznámka: Aplikace Gnumeric vykoná standardní převod řetězce na sériové "
-"číslo, takže můžete zadat datum jako řetězec.\n"
+"* Poznámka: Aplikace Gnumeric vykoná standardní převod řetězce na sériové číslo, takže můžete zadat datum jako řetězec.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3958,7 +3718,6 @@ msgstr ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
 #: plugins/fn-date/functions.c:585
-#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (date)\n"
@@ -3975,12 +3734,10 @@ msgid ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 "@FUNCTION=SECOND\n"
-"@SYNTAX=SECOND(sériové_číslo)\n"
-"@DESCRIPTION=Převádí sériové číslo na sekundy. Sekunda je vrácena jako celé "
-"číslo v intervalu od 0 do 59.\n"
+"@SYNTAX=SECOND (datum)\n"
+"@DESCRIPTION=SECOND převádí sériové číslo na sekundy. Sekunda je vrácena jako celé číslo v intervalu od 0 do 59.\n"
 "\n"
-"* Poznámka: Aplikace Gnumeric vykoná standardní převod řetězce na sériové "
-"číslo, takže můžete zadat datum jako řetězec.\n"
+"* Poznámka: Aplikace Gnumeric vykoná standardní převod řetězce na sériové číslo, takže můžete zadat datum jako řetězec.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3989,7 +3746,6 @@ msgstr ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
 #: plugins/fn-date/functions.c:615
-#, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (date)\n"
@@ -4005,11 +3761,10 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 "@FUNCTION=YEAR\n"
-"@SYNTAX=YEAR(sériové_číslo)\n"
-"@DESCRIPTION=Převádí sériové číslo na rok.\n"
+"@SYNTAX=YEAR (datum)\n"
+"@DESCRIPTION=YEAR převádí sériové číslo na rok.\n"
 "\n"
-"* Poznámka: Aplikace Gnumeric vykoná standardní převod řetězce na sériové "
-"číslo, takže můžete zadat datum jako řetězec.\n"
+"* Poznámka: Aplikace Gnumeric vykoná standardní převod řetězce na sériové číslo, takže můžete zadat datum jako řetězec.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -4018,7 +3773,6 @@ msgstr ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
 #: plugins/fn-date/functions.c:646
-#, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (date)\n"
@@ -4034,11 +3788,10 @@ msgid ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=MONTH\n"
-"@SYNTAX=MONTH(sériové_číslo)\n"
-"@DESCRIPTION=Převádí sériové číslo na měsíc.\n"
+"@SYNTAX=MONTH (datum)\n"
+"@DESCRIPTION=MONTH převádí sériové číslo na měsíc.\n"
 "\n"
-"* Poznámka: Aplikace Gnumeric vykoná standardní převod řetězce na sériové "
-"číslo, takže můžete zadat datum jako řetězec.\n"
+"* Poznámka: Aplikace Gnumeric vykoná standardní převod řetězce na sériové číslo, takže můžete zadat datum jako řetězec.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -4047,7 +3800,6 @@ msgstr ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
 #: plugins/fn-date/functions.c:677
-#, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (date)\n"
@@ -4063,20 +3815,18 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=DAY\n"
-"@SYNTAX=DAY(sériové_číslo)\n"
-"@DESCRIPTION=Převádí sériové číslo na den měsíce.\n"
+"@SYNTAX=DAY (datum)\n"
+"@DESCRIPTION=DAY převádí sériové číslo na den měsíce.\n"
 "\n"
-"* Poznámka: Aplikace Gnumeric vykoná standardní převod řetězce na sériové "
-"číslo, takže můžete zadat datum jako řetězec.\n"
+"* Poznámka: Aplikace Gnumeric vykoná standardní převod řetězce na sériové číslo, takže můžete zadat datum jako řetězec.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
-"day (\"10/24/1968\") se rovná 24.\n"
+"DAY (\"10/24/1968\") se rovná 24.\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: plugins/fn-date/functions.c:708
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (date[, method])\n"
@@ -4099,8 +3849,8 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=WEEKDAY\n"
-"@SYNTAX=WEEKDAY(sériové_číslo[, metoda])\n"
-"@DESCRIPTION=Převádí sériové číslo na den v týdnu.\n"
+"@SYNTAX=WEEKDAY (datum[, metoda])\n"
+"@DESCRIPTION=WEEKDAY převádí sériové číslo na den v týdnu.\n"
 "\n"
 "Tato funkce vrací celé číslo představující den v týdnu.\n"
 "@metoda určuje způsob číslování. Výchozí je 1.\n"
@@ -4109,8 +3859,7 @@ msgstr ""
 "  Pokud @metoda=2: Pondělí je 1, úterý je 2, atd.\n"
 "  Pokud @metoda=3: Pondělí je 0, úterý je 1, atd.\n"
 "\n"
-"* Poznámka: Aplikace Gnumeric vykoná standardní převod řetězce na sériové "
-"číslo, takže můžete zadat datum jako řetězec.\n"
+"* Poznámka: Aplikace Gnumeric vykoná standardní převod řetězce na sériové číslo, takže můžete zadat datum jako řetězec.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -4231,7 +3980,6 @@ msgid "Unimplemented"
 msgstr "Neimplementováno"
 
 #: plugins/fn-date/functions.c:974
-#, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -4248,9 +3996,8 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 "@FUNCTION=NETWORKDAYS\n"
-"@SYNTAX=NETWORKDAYS(poč_datum,kon_datum,svátky)\n"
-"@DESCRIPTION=Vrací počet dní mezi @poč_datem a @kon_datem, které nejsou ani "
-"víkend ani svátky. Svátky je možné nepovinně uvést v parametru @svátky.\n"
+"@SYNTAX=NETWORKDAYS (poč_datum,kon_datum,svátky)\n"
+"@DESCRIPTION=NETWORKDAYS vrací počet dní mezi @poč_datem a @kon_datem, které nejsou ani víkend ani svátky. Svátky je možné nepovinně uvést v parametru @svátky.\n"
 "\n"
 "* Pokud @poč_datum nebo @kon_datum není platné, vrací funkce chybu #NUM!.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
@@ -4261,7 +4008,6 @@ msgstr ""
 "@SEEALSO=WORKDAY"
 
 #: plugins/fn-date/functions.c:1099
-#, fuzzy
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -4283,20 +4029,15 @@ msgstr ""
 "@SYNTAX=ISOWEEKNUM (datum)\n"
 "@DESCRIPTION=ISOWEEKNUM vrací číslo týdne podle normy ISO 8601 pro @datum.\n"
 "\n"
-"Týden podle ISO 8601 začíná v pondělí. Týdny se číslují od 1. Týden na "
-"rozhraní roků se počítá do roku, kam patří většina dní. To znamená, že 31. "
-"prosinec může být v 1. týdnu dalšího roku a 1. leden může patřit do týdne 52 "
-"nebo 53 předcházejícího roku. Funkce ISOWEEKNUM vrací číslo týdne, zatímco "
-"funkce ISOYEAR vrací rok, do kterého daný týden spadá.\n"
+"Týden podle ISO 8601 začíná v pondělí. Týdny se číslují od 1. Týden obsahující dny ze dvou různých roků se počítá do roku, kam patří většina dní. To znamená, že 31. prosinec může být v 1. týdnu dalšího roku a 1. leden může patřit do týdne 52 nebo 53 předcházejícího roku. Funkce ISOWEEKNUM vrací číslo týdne.\n"
 "\n"
-"* Pokud není @datum platný, vrací funkce chybu #NUM!.\n"
+"* Pokud není @datum platné, vrací funkce chybu #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "Pokud A1 obsahuje 21/12/00, pak ISOWEEKNUM(A1)=51\n"
 "@SEEALSO=WEEKNUM, ISOYEAR"
 
 #: plugins/fn-date/functions.c:1133
-#, fuzzy
 msgid ""
 "@FUNCTION=ISOYEAR\n"
 "@SYNTAX=ISOYEAR (date)\n"
@@ -4314,23 +4055,18 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 "@FUNCTION=ISOYEAR\n"
-"@SYNTAX=ISOYEAR(datum)\n"
+"@SYNTAX=ISOYEAR (datum)\n"
 "@DESCRIPTION=ISOYEAR vrací rok podle normy ISO 8601 pro @datum.\n"
 "\n"
-"Týden podle ISO 8601 začíná v pondělí. Týdny se číslují od 1. Týden na "
-"rozhraní roků se počítá do roku, kam patří většina dní. To znamená, že 31. "
-"prosinec může být v 1. týdnu dalšího roku a 1. leden může patřit do týdne 52 "
-"nebo 53 předcházejícího roku. Funkce ISOYEAR vrací rok, zatímco funkce "
-"ISOWEEKNUM vrací číslo týdne, do kterého daný datum spadá.\n"
+"Týden podle ISO 8601 začíná v pondělí. Týdny se číslují od 1. Týden obsahující dny ze dvou různých roků se počítá do roku, kam patří většina dní. To znamená, že 31. prosinec může být v 1. týdnu dalšího roku a 1. leden může patřit do týdne 52 nebo 53 předcházejícího roku. Funkce ISOYEAR vrací rok, ke kterému je týden přiřazen.\n"
 "\n"
-"* Pokud není @datum platný, vrací funkce chybu #NUM!.\n"
+"* Pokud není @datum platné, vrací funkce chybu #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "Pokud A1 obsahuje 12/31/2001, pak ISOYEAR(A1)=2002\n"
 "@SEEALSO=ISOWEEKNUM"
 
 #: plugins/fn-date/functions.c:1180
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -4354,27 +4090,23 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 "@FUNCTION=WEEKNUM\n"
-"@SYNTAX=WEEKNUM(datum, metoda)\n"
+"@SYNTAX=WEEKNUM (datum, metoda)\n"
 "@DESCRIPTION=WEEKNUM vrací číslo týdne pro @datum podle dané @metody.\n"
 "\n"
 "@metoda je standardně 1.\n"
 "\n"
-"  Pokud @metoda=1, týden začíná v neděli a dny před první nedělí jsou týden "
-"0.\n"
-"  Pokud @metoda=2, týden začíná v pondělí a dny před prvním pondělkem jsou "
-"týden 0.\n"
+"  Pokud @metoda=1, týden začíná v neděli a dny před první nedělí jsou týden 0.\n"
+"  Pokud @metoda=2, týden začíná v pondělí a dny před prvním pondělkem jsou týden 0.\n"
 "  Pokud @metoda=150, vrací se týden podle normy ISO 8601.\n"
 "\n"
-"* Tato funkce vrací chybu #NUM!, pokud je datum nebo metoda neplatná.\n"
-"* Tato funkce je kompatibilní s Excelem až na to, že Excel nepodporuje čísla "
-"týdnů podle normy ISO 8601.\n"
+"* Tato funkce vrací chybu #NUM!, pokud je @datum nebo @metoda neplatná.\n"
+"* Tato funkce je kompatibilní s Excelem až na to, že Excel nepodporuje čísla týdnů podle normy ISO 8601.\n"
 "\n"
 "@EXAMPLES=\n"
 "Pokud A1 obsahuje 21/12/00, pak WEEKNUM(A1,2)=51\n"
 "@SEEALSO=ISOWEEKNUM"
 
 #: plugins/fn-date/functions.c:1225
-#, fuzzy
 msgid ""
 "@FUNCTION=YEARFRAC\n"
 "@SYNTAX=YEARFRAC (start_date, end_date, basis)\n"
@@ -4386,9 +4118,8 @@ msgid ""
 "@SEEALSO=DATEDIF"
 msgstr ""
 "@FUNCTION=YEARFRAC\n"
-"@SYNTAX=WEEKNUM(poč_datum,kon_datum,základ)\n"
-"@DESCRIPTION=YEARFRAC vrací počet celých dní mezi počátečním datem "
-"@poč_datum a koncovým datem @kon_datum podle @základu.\n"
+"@SYNTAX=YEARFRAC (poč_datum,kon_datum,základ)\n"
+"@DESCRIPTION=YEARFRAC vrací počet celých dní mezi počátečním datem @poč_datum a koncovým datem @kon_datum podle @základu.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -4403,7 +4134,6 @@ msgid "date_str"
 msgstr "řetězec_datum"
 
 #: plugins/fn-date/functions.c:1254
-#, fuzzy
 msgid "date1,date2,interval"
 msgstr "datum1,datum2,interval"
 
@@ -4421,9 +4151,8 @@ msgid "date1,date2,method"
 msgstr "datum1,datum2,metoda"
 
 #: plugins/fn-date/functions.c:1266
-#, fuzzy
 msgid "date,months"
-msgstr "poč_datum,měsíce"
+msgstr "datum,měsíce"
 
 #: plugins/fn-date/functions.c:1270
 msgid "start_date,months"
@@ -4850,7 +4579,6 @@ msgstr ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: plugins/fn-eng/functions.c:456
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -4869,11 +4597,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
-"@DESCRIPTION=Funkce BESSELK vrací výsledek Neumannovy, Weberovy nebo "
-"Besselovy funkce.\n"
-"\n"
-"@x je hodnota, pro kterou se funkce vyhodnocuje, @y je řád Besselovy funkce; "
-"pokud není celočíselné, pak je desetinná část oříznuta.\n"
+"@DESCRIPTION=Funkce BESSELK vrací výsledek Neumannovy, Weberovy nebo Besselovy funkce. @x je hodnota, pro kterou se funkce vyhodnocuje, @y je řád Besselovy funkce; pokud není celočíselné, pak je desetinná část oříznuta.\n"
 "\n"
 "* Pokud není @x nebo @y číslo, vrací funkce chybu #VALUE!.\n"
 "* Pokud je @y < 0, vrací funkce chybu #NUM!.\n"
@@ -4885,7 +4609,6 @@ msgstr ""
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
 #: plugins/fn-eng/functions.c:493
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -4904,11 +4627,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
-"@DESCRIPTION=Funkce BESSELJ vrací výsledek Neumannovy, Weberovy nebo "
-"Besselovy funkce.\n"
-"\n"
-"@x je hodnota, pro kterou se funkce vyhodnocuje, @y je řád Besselovy funkce; "
-"pokud není celočíselné, pak je desetinná část oříznuta.\n"
+"@DESCRIPTION=Funkce BESSELJ vrací výsledek Besselovy funkce, @x je hodnota, pro kterou se funkce vyhodnocuje. @y je řád Besselovy funkce; pokud není celočíselné, pak je desetinná část oříznuta.\n"
 "\n"
 "* Pokud není @x nebo @y číslo, vrací funkce chybu #VALUE!.\n"
 "* Pokud je @y < 0, vrací funkce chybu #NUM!.\n"
@@ -4917,10 +4636,9 @@ msgstr ""
 "@EXAMPLES=\n"
 "BESSELJ(0.89,3) se rovná 0.013974004.\n"
 "\n"
-"@SEEALSO=BESSELJ,BESSELK,BESSELY"
+"@SEEALSO=BESSELI,BESSELK,BESSELY"
 
 #: plugins/fn-eng/functions.c:529
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -4941,11 +4659,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
-"@DESCRIPTION=Funkce BESSELY vrací výsledek Neumannovy, Weberovy nebo "
-"Besselovy funkce.\n"
+"@DESCRIPTION=Funkce BESSELY vrací výsledek Neumannovy, Weberovy nebo Besselovy funkce.\n"
 "\n"
-"@x je hodnota, pro kterou se funkce vyhodnocuje, @y je řád Besselovy funkce; "
-"pokud není celočíselné, pak je desetinná část oříznuta.\n"
+"@x je hodnota, pro kterou se funkce vyhodnocuje, @y je řád Besselovy funkce; pokud není celočíselné, pak je desetinná část oříznuta.\n"
 "\n"
 "* Pokud není @x nebo @y číslo, vrací funkce chybu #VALUE!.\n"
 "* Pokud je @y < 0, vrací funkce chybu #NUM!.\n"
@@ -4954,7 +4670,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "BESSELY(4,2) se rovná 0.215903595.\n"
 "\n"
-"@SEEALSO=BESSELJ,BESSELK,BESSELY"
+"@SEEALSO=BESSELI,BESSELJ,BESSELK"
 
 #: plugins/fn-eng/functions.c:568
 msgid ""
@@ -5263,7 +4979,6 @@ msgstr ""
 "@SEEALSO=ERF"
 
 #: plugins/fn-eng/functions.c:1060
-#, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -5281,8 +4996,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
-"@DESCRIPTION=Funkce DELTA testuje dva parametry na numerickou ekvivalenci, "
-"vrací 1 při rovnosti.\n"
+"@DESCRIPTION=Funkce DELTA testuje dva parametry na numerickou ekvivalenci, vrací 1 při rovnosti.\n"
 "\n"
 "* @y je nepovinné a jeho výchozí hodnota je 0.\n"
 "* Pokud není jeden z parametrů číslo, vrací se chyba #VALUE!.\n"
@@ -5965,7 +5679,6 @@ msgstr ""
 "@SEEALSO=SLN,SYD"
 
 #: plugins/fn-financial/functions.c:1008
-#, fuzzy
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -5997,28 +5710,23 @@ msgid ""
 "@SEEALSO=SYD"
 msgstr ""
 "@FUNCTION=SLN\n"
-"@SYNTAX=SLN(náklady,zůstatek,životnost)\n"
+"@SYNTAX=SLN(náklady,hodnota_zůstatku,životnost)\n"
 "@DESCRIPTION=Funkce SLN určuje lineární odpis aktiva za jedno období.\n"
 "\n"
-"@náklady představují počáteční cenu aktiva, @zůstatek je hodnota aktiva na "
-"konci životnosti a @životnost představuje počet období, po které je aktivum "
-"odepisováno. Tato metoda odpisu rozdělí náklady stejnoměrně po celou dobu "
-"celou životnosti aktiva.\n"
+"@náklady představují cenu, kterou jste za aktivum zaplatili, @hodnota_zůstatku je hodnota aktiva na konci životnosti a @životnost představuje počet období, po které je aktivum odepisováno. Tato metoda odpisu rozdělí náklady stejnoměrně po celou dobu celou životnosti aktiva.\n"
 "\n"
 "Vzorec pro lineární odpis je následující:\n"
 "\n"
 "Náklady na odpis = ( @náklady - @hodnota_zůstatku ) / @životnost\n"
 "\n"
-"@náklady představují cenu aktiva při pořízení (tržní cena). "
-"@hodnota_zůstatku představuje cenu získanou odprodejem na konci životnosti "
-"aktiva. @životnost znamená očekávanou životnost aktiva.\n"
+"@náklady představují cenu aktiva při pořízení (tržní cena).\n"
+"@hodnota_zůstatku představuje cenu získanou odprodejem na konci životnosti aktiva.\n"
+"@životnost znamená očekávanou životnost aktiva.\n"
 "\n"
 "* Pokud je @životnost <= 0, funkce SLN vrací chybu #NUM!\n"
 "\n"
 "@EXAMPLES=\n"
-"Předpokládejme, že vaše společnost koupí nový stroj za $10 000, jehož "
-"zůstatková cena je $700 a životnost trvá 10 let. Roční odpis SLN je "
-"vypočítán jako:\n"
+"Předpokládejme, že vaše společnost koupí nový stroj za $10 000, jehož zůstatková cena je $700 a životnost trvá 10 let. Roční odpis SLN je vypočítán jako:\n"
 "=SLN(10000, 700, 10)\n"
 "To znamená, že roční odpis bude $930.\n"
 "@SEEALSO=SYD"
@@ -6087,7 +5795,6 @@ msgstr ""
 "@SEEALSO=SLN"
 
 #: plugins/fn-financial/functions.c:1122
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -6106,14 +5813,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(zlomek_dolaru,zlomek)\n"
-"@DESCRIPTION=DOLLARDE převádí cenu v dolarech vyjádřenou jako zlomek na cenu "
-"v dolarech vyjádřenou jako desetinné číslo.\n"
+"@DESCRIPTION=DOLLARDE převádí cenu v dolarech vyjádřenou jako zlomek na cenu v dolarech vyjádřenou jako desetinné číslo.\n"
 "\n"
 "@zlomek_dolaru je převáděný zlomek. @zlomek je dělitel zlomku.\n"
 "\n"
 "* Pokud není @zlomek celé číslo, je oříznut.\n"
 "* Pokud je @zlomek <= 0, DOLLARDE vrací chybu #NUM!. \n"
-"@EXAMPLES=\n"
+"\n"
+"  @EXAMPLES=\n"
 "\n"
 "@SEEALSO=DOLLARFR"
 
@@ -6284,7 +5991,6 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: plugins/fn-financial/functions.c:1512
-#, fuzzy
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -6308,20 +6014,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(hodnoty[,odhad])\n"
-"@DESCRIPTION=IRR počítá vnitřní míru výnosnosti investice. Tato funkce má "
-"blízký vztah k funkci pro čistou současnou hodnotu (NPV). Funkce IRR je "
-"úroková míra pro sérii peněžních toků, kde čistá současná hodnota je nula.\n"
+"@DESCRIPTION=IRR počítá vnitřní míru výnosnosti investice. Tato funkce má blízký vztah k funkci pro čistou současnou hodnotu (NPV). Funkce IRR je úroková míra pro sérii peněžních toků, kde čistá současná hodnota je nula.\n"
 "\n"
-"@hodnoty obsahují sérii peněžních toků generovaných investicí. Platby by se "
-"měly objevovat pravidelně. Nepovinný @odhad znamená počáteční hodnotu "
-"použitou pro výpočet IRR. Nemusíte ji používat, je uvedená pouze pro "
-"kompatibilitu s aplikací Excel.\n"
+"@hodnoty obsahují sérii peněžních toků generovaných investicí. K platbám by mělo docházet pravidelně. Nepovinný @odhad znamená počáteční hodnotu použitou pro výpočet IRR. Nemusíte ji používat, je uvedená pouze pro kompatibilitu s Excelem.\n"
 "\n"
 "* Tato funkce je kompatibilní s Excelem. \n"
 "\n"
 "@EXAMPLES=\n"
-"Předpokládejme, že buňky A1:A8 obsahují čísla -32432, 5324, 7432, 9332, "
-"12324, 4334, 1235, -3422. Pak\n"
+"Předpokládejme, že buňky A1:A8 obsahují čísla -32432, 5324, 7432, 9332, 12324, 4334, 1235, -3422. Pak\n"
 "IRR(A1:A8) se rovná 0.04375. \n"
 "@SEEALSO=FV,NPV,PV"
 
@@ -6407,7 +6107,6 @@ msgstr ""
 "@SEEALSO=NPV,PV"
 
 #: plugins/fn-financial/functions.c:1790
-#, fuzzy
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -6434,23 +6133,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(hodnoty,data[,odhad])\n"
-"@DESCRIPTION=XIRR počítá vnitřní výnosové procento návratnosti investice pro "
-"ne nutně periodické platby. Tato funkce má blízký vztah k funkci pro čistou "
-"současnou hodnotu (NPV a XNPV). XIRR je úroková míra pro sérii peněžních "
-"toků, kde XNPV je nula. \n"
+"@DESCRIPTION=XIRR počítá vnitřní výnosové procento návratnosti investice pro ne nutně periodické platby. Tato funkce má blízký vztah k funkci pro čistou současnou hodnotu (NPV a XNPV). XIRR je úroková míra pro sérii peněžních toků, kde XNPV je nula. \n"
 "\n"
-"@hodnoty obsahují sérii peněžních toků generovaných investicí. @data "
-"obsahují termíny plateb. První datum popisuje datum první platby, takže "
-"všechny další termíny by měly být až po tomto datu. Nepovinný @odhad je "
-"počáteční hodnota použitá pro vypočtení XIRR. Nemusíte ji používat, je "
-"uvedená pouze pro kompatibilitu s aplikací Excel.\n"
+"@hodnoty obsahují sérii peněžních toků generovaných investicí. @data obsahují termíny plateb. První datum popisuje datum první platby, takže všechny další termíny by měly být až po tomto datu. Nepovinný @odhad je počáteční hodnota použitá pro vypočtení XIRR. Nemusíte ji používat, je uvedená pouze pro kompatibilitu s Excelem.\n"
 "\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
-"Předpokládejme, že buňky A1:A5 obsahují čísla -6000, 2134, 1422, 1933, a "
-"1422, a že buňky B1:B5 obsahují data \"1999-01-15\", \"1999-04-04\", \"1999-"
-"05-09\", \"2000-03-12\", a \"2000-05-1\". Pak\n"
+"Předpokládejme, že buňky A1:A5 obsahují čísla -6000, 2134, 1422, 1933, a 1422, a že buňky B1:B5 obsahují data \"1999-01-15\", \"1999-04-04\", \"1999-05-09\", \"2000-03-12\", a \"2000-05-1\". Pak\n"
 "XIRR(A1:A5,B1:B5) se rovná 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 
@@ -6570,7 +6260,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2021
-#, fuzzy
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -6593,8 +6282,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(úrok,per,poč_období,souč_hodnota[,bud_hodnota,typ])\n"
-"@DESCRIPTION=PPMT počítá hodnotu základní jistiny v anuitní splátce "
-"investice za dané období na základě pravidelných splátek.\n"
+"@DESCRIPTION=PPMT počítá hodnotu základní jistiny v anuitní splátce investice za dané období na základě pravidelných splátek.\n"
 "\n"
 "Vzorec je:\n"
 "PPMT(per) = PMT - IPMT(per)\n"
@@ -6650,6 +6338,7 @@ msgstr ""
 "před koncem 12. roku se vám suma zdvojnásobí.\n"
 "@SEEALSO=PPMT,PV,FV"
 
+# FIXME: @issue?
 #: plugins/fn-financial/functions.c:2124
 #, fuzzy
 msgid ""
@@ -6703,7 +6392,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2180
-#, fuzzy
 msgid ""
 "@FUNCTION=G_DURATION\n"
 "@SYNTAX=G_DURATION(rate,pv,fv)\n"
@@ -6722,10 +6410,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=G_DURATION\n"
 "@SYNTAX=G_DURATION(úrok,pv,fv)\n"
-"@DESCRIPTION=DURATION počítá počet období, za které investice získá danou "
-"hodnotu. Tato funkce je podobná funkcím FV a PV s tím rozdílem, že není "
-"potřeba určovat směr peněžního toku, např. -100 pro peněžní odtok a +100 pro "
-"peněžní přítok.\n"
+"@DESCRIPTION=DURATION počítá počet období, za které investice získá danou hodnotu. Tato funkce je podobná funkcím FV a PV s tím rozdílem, že není potřeba určovat směr peněžního toku, např. -100 pro peněžní odtok a +100 pro peněžní přítok.\n"
 "\n"
 "* Pokud je @úrok <= 0, vrací funkce G_DURATION chybu #DIV0.\n"
 "* Pokud je @fv = 0 nebo @pv = 0, vrací funkce G_DURATION chybu #DIV0.\n"
@@ -6733,7 +6418,7 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=PPMT,PV,FV"
+"@SEEALSO=PPMT,PV,FV,DURATION,MDURATION"
 
 #: plugins/fn-financial/functions.c:2221
 msgid ""
@@ -7192,7 +6877,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2842
-#, fuzzy
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -7220,15 +6904,10 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDLPRICE\n"
-"@SYNTAX=ODDLPRICE(vyrovnání,splatnost,poslední_úrok,úrok,výnos,zaruč_cena,"
-"frekvence[,základna])\n"
-"@DESCRIPTION=ODDLPRICE počítá cenu za $100 nominální hodnoty cenného papíru, "
-"který má neobvyklou periodu posledního kupónu.\n"
+"@SYNTAX=ODDLPRICE(vyrovnání,splatnost,poslední_úrok,úrok,výnos,zaruč_cena,frekvence[,základna])\n"
+"@DESCRIPTION=ODDLPRICE počítá cenu za $100 nominální hodnoty cenného papíru, který má neobvyklou periodu posledního kupónu.\n"
 "\n"
-"@vyrovnání představuje datum vyrovnání. @splatnost je datum splatnosti. "
-"@emise je datum emise cenného papíru. @frekvence představuje počet kupónů za "
-"rok. Možné hodnoty jsou: 1 = roční, 2 = pololetní, 4 = čtvrtletní. @základna "
-"je typ systému počítání dnů, který se má použít:\n"
+"@vyrovnání představuje datum vyrovnání. @splatnost je datum splatnosti. @frekvence představuje počet kupónů za rok. Možné hodnoty jsou: 1 = roční, 2 = pololetní, 4 = čtvrtletní. @základna je typ systému počítání dnů, který se má použít:\n"
 "\n"
 "  0  US 30/360\n"
 "  1  skutečné dny/skutečné dny\n"
@@ -7236,11 +6915,9 @@ msgstr ""
 "  3  skutečné dny/365\n"
 "  4  Evropský 30/360\n"
 "\n"
-"* Pokud je frekvence jiná než 1, 2, nebo 4, vrací funkce ODDLPRICE chybu "
-"#NUM!\n"
+"* Pokud je frekvence jiná než 1, 2, nebo 4, vrací funkce ODDLPRICE chybu #NUM!\n"
 "* Pokud není @základna uvedena, použije se US 30/360.\n"
-"* Pokud je @základna < 0 nebo @základna > 4, funkce ODDLPRICE vrací chybu "
-"#NUM!.\n"
+"* Pokud @základna není mezi 0 a 4, funkce ODDLPRICE vrací chybu #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7656,7 +7333,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3247
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -7697,8 +7373,7 @@ msgstr ""
 "@splatnost je datum splatnosti.\n"
 "@frekvence je počet kuponů za rok.\n"
 "@eom = TRUE znamená zvláštní zpracování data splatnosti na konci měsíce.\n"
-"Možné hodnoty @frekvence jsou: 1 = roční, 2 = pololetní, 4 = čtvrtletní, a "
-"pokud je zadán @eom, pak 6 = dvojměsíční, 12 = měsíční.\n"
+"Možné hodnoty @frekvence jsou: 1 = roční, 2 = pololetní, 4 = čtvrtletní, 6 = dvouměsíční, 12 = měsíční.\n"
 "@základna je typ systému počítání dnů, který se má použít:\n"
 "\n"
 "  0  US/MSRB 30/360 (MSRB Pravidlo G33 (e))\n"
@@ -7712,8 +7387,7 @@ msgstr ""
 "\n"
 "* Pokud je frekvence neplatná, vrací funkce COUPPCD chybu #NUM!\n"
 "* Pokud není @základna uvedena, použije se US 30/360.\n"
-"* Pokud je @základna < 0 nebo @základna > 5, funkce COUPPCD vrací chybu "
-"#NUM!.\n"
+"* Pokud je @základna neplatná, funkce COUPPCD vrací chybu #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 31-Srp-2002\n"
@@ -7855,7 +7529,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3435
-#, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -7883,8 +7556,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(vyrovnání,splatnost,kupón,výnos,frekvence[,základna])\n"
-"@DESCRIPTION=MDURATION vrací trvání cenného papíru podle Macauleyho pro "
-"cenný papír s nominální hodnotou 100.\n"
+"@DESCRIPTION=MDURATION vrací trvání cenného papíru podle Macauleyho pro cenný papír s nominální hodnotou 100.\n"
 "\n"
 "@základna je typ systému počítání dnů, který se má použít:\n"
 "\n"
@@ -7895,16 +7567,14 @@ msgstr ""
 "  4  Evropský 30/360\n"
 "  5  Evropský+ 30/360\n"
 "\n"
-"* Pokud datum @vyrovnání nebo @splatnosti není platné, vrací funkce "
-"MDURATION chybu #NUM!\n"
-"* Pokud je frekvence neplatná, vrací funkce MDURATION chybu #NUM!\n"
+"* Pokud datum @vyrovnání nebo @splatnosti není platné, vrací funkce MDURATION chybu #NUM!\n"
+"* Pokud je @frekvence jiná než 1, 2 nebo 4, vrací funkce MDURATION chybu #NUM!\n"
 "* Pokud není @základna uvedena, použije se US 30/360.\n"
-"* Pokud je @základna < 0 nebo @základna > 5, funkce MDURATION vrací chybu "
-"#NUM!.\n"
+"* Pokud @základna není mezi 0 a 4, funkce MDURATION vrací chybu #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=DURATION,G_DURATION"
 
 #: plugins/fn-financial/functions.c:3493
 msgid ""
@@ -7941,9 +7611,8 @@ msgstr ""
 "@SEEALSO=DB"
 
 #: plugins/fn-financial/plugin.xml.in.h:1
-#, fuzzy
 msgid "Finance"
-msgstr "Finanční"
+msgstr "Finance"
 
 #: plugins/fn-financial/plugin.xml.in.h:2
 msgid "Financial Functions"
@@ -8193,7 +7862,6 @@ msgstr ""
 "@SEEALSO=ISERROR"
 
 #: plugins/fn-info/functions.c:1409
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
@@ -8215,9 +7883,9 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 "@FUNCTION=ERROR.TYPE\n"
-"@SYNTAX=ERROR(hodnota)\n"
-"@DESCRIPTION=ERROR.TYPE vrací číslo chyby podle dané chybové hodnoty. Čísla "
-"chybových hodnot jsou:\n"
+"@SYNTAX=ERROR.TYPE(hodnota)\n"
+"@DESCRIPTION=ERROR.TYPE vrací číslo chyby podle dané chybové hodnoty. Čísla chybových hodnot jsou:\n"
+"\n"
 "#DIV/0!  \t\t2\n"
 "#VALUE!  \t\t3\n"
 "#REF!    \t\t4\n"
@@ -8537,7 +8205,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1795
-#, fuzzy
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -8553,8 +8220,7 @@ msgstr ""
 "@SYNTAX=GETENV(řetězec)\n"
 "@DESCRIPTION=GETENV vrací hodnotu proměnné prostředí.\n"
 "\n"
-"* Pokud proměnná uvedená parametrem @řetězec neexistuje, vrací se chyba #N/"
-"A!. Uvědomte si, že v názvech proměnných se rozlišují velká a malá písmena.\n"
+"* Pokud proměnná uvedená parametrem @řetězec neexistuje, vrací se chyba #N/A!. Uvědomte si, že v názvech proměnných se rozlišují velká a malá písmena.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8612,7 +8278,6 @@ msgid "Information Functions"
 msgstr "Informační funkce"
 
 #: plugins/fn-logical/functions.c:44
-#, fuzzy
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -8638,11 +8303,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
-"@DESCRIPTION=AND implementuje logické AND: výsledek je TRUE, pokud jsou "
-"všechny výrazy vyhodnocené jako TRUE, jinak se vrací FALSE.\n"
+"@DESCRIPTION=AND implementuje logické AND: výsledek je TRUE, pokud jsou všechny výrazy vyhodnoceny jako TRUE, jinak se vrací FALSE.\n"
 "\n"
-"@b1 až @bN jsou výrazy, které by měly mít za výsledek TRUE nebo FALSE. Pokud "
-"je výsledkem číslo, 0 se chápe jako FALSE a vše ostatní jako TRUE.\n"
+"@b1 až @bN jsou výrazy, které by měly mít za výsledek TRUE nebo FALSE. Pokud je výsledkem celé nebo desetinné číslo, 0 se chápe jako FALSE a vše ostatní jako TRUE.\n"
 "\n"
 "* Pokud hodnoty obsahují řetězce nebo prázdné buňky, jsou ignorovány.\n"
 "* Pokud nebyly zadány žádné logické hodnoty, funkce vrací chybu #VALUE!.\n"
@@ -8690,7 +8353,6 @@ msgid "Type Mismatch"
 msgstr "Neshodné typy"
 
 #: plugins/fn-logical/functions.c:134
-#, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -8713,11 +8375,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
-"@DESCRIPTION=OR implementuje logické OR: výsledek je TRUE, pokud je alespoň "
-"jedna z hodnot vyhodnocena jako TRUE.\n"
+"@DESCRIPTION=OR implementuje logické OR: výsledek je TRUE, pokud je alespoň jedna z hodnot vyhodnocena jako TRUE.\n"
 "\n"
-"@b1 až @bN jsou výrazy, které by měly mít za výsledek TRUE nebo FALSE. Pokud "
-"je výsledkem číslo, 0 se chápe jako FALSE a vše ostatní jako TRUE.\n"
+"@b1 až @bN jsou výrazy, které by měly mít za výsledek TRUE nebo FALSE. Pokud je výsledkem celé nebo desetinné číslo, 0 se chápe jako FALSE a vše ostatní jako TRUE.\n"
 "\n"
 "* Pokud hodnoty obsahují řetězce nebo prázdné buňky, jsou ignorovány.\n"
 "* Pokud nebyly zadány žádné logické hodnoty, funkce vrací chybu #VALUE!.\n"
@@ -8730,7 +8390,6 @@ msgstr ""
 "@SEEALSO=AND, NOT"
 
 #: plugins/fn-logical/functions.c:193
-#, fuzzy
 msgid ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
@@ -8751,11 +8410,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
-"@DESCRIPTION=XOR implementuje logické exkluzivní OR: výsledek je TRUE, pokud "
-"je lichý počet parametrů vyhodnocen jako TRUE.\n"
+"@DESCRIPTION=XOR implementuje logické exkluzivní OR: výsledek je TRUE, pokud je lichý počet parametrů vyhodnocen jako TRUE.\n"
 "\n"
-"@b1 až @bN jsou výrazy, které by měly mít za výsledek TRUE nebo FALSE. Pokud "
-"je výsledkem číslo, 0 se chápe jako FALSE a vše ostatní jako TRUE.\n"
+"@b1 až @bN jsou výrazy, které by měly mít za výsledek TRUE nebo FALSE. Pokud je výsledkem celé nebo desetinné číslo, 0 se chápe jako FALSE a vše ostatní jako TRUE.\n"
 "\n"
 "* Pokud hodnoty obsahují řetězce nebo prázdné buňky, jsou ignorovány.\n"
 "* Pokud nebyly zadány žádné logické hodnoty, funkce vrací chybu #VALUE!.\n"
@@ -8899,12 +8556,10 @@ msgid "Functions for manipulating truth values"
 msgstr "Funkce pro práci s pravdivostními hodnotami"
 
 #: plugins/fn-logical/plugin.xml.in.h:2
-#, fuzzy
 msgid "Logic"
 msgstr "Logické"
 
 #: plugins/fn-logical/plugin.xml.in.h:3
-#, fuzzy
 msgid "Logic Functions"
 msgstr "Logické funkce"
 
@@ -8966,7 +8621,6 @@ msgstr ""
 "@SEEALSO=COLUMNNUMBER"
 
 #: plugins/fn-lookup/functions.c:431
-#, fuzzy
 msgid ""
 "@FUNCTION=AREAS\n"
 "@SYNTAX=AREAS(reference)\n"
@@ -9015,7 +8669,6 @@ msgstr ""
 "@SEEALSO=IF"
 
 #: plugins/fn-lookup/functions.c:557
-#, fuzzy
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -9036,13 +8689,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(hodnota,oblast,sloupec[,přibližně,jako_index])\n"
-"@DESCRIPTION=Funkce VLOOKUP najde řádek v oblasti, jehož první sloupec má "
-"podobnou hodnotu. Pokud není @přibližně TRUE, najde řádek s přesně stejnou "
-"hodnotou. Pokud je @přibližně TRUE, pak musí být hodnoty tříděné vzestupně, "
-"aby funkce správně fungovala; v takovém případě najde řádek s hodnotou menší "
-"než @hodnota. Vrací hodnotu v nalezeném řádku a v sloupci @sloupec relativně "
-"od 1 do oblasti @oblast. Pokud je nastaveno @jako_index, vrací funkce "
-"odpovídající posun, a ne hodnotu.\n"
+"@DESCRIPTION=Funkce VLOOKUP najde řádek v oblasti, jehož první sloupec je podobný @hodnotě. Pokud není @přibližně TRUE, najde řádek s přesně stejnou hodnotou. Pokud je @přibližně TRUE, pak musí být hodnoty tříděné vzestupně, aby funkce správně fungovala; v takovém případě najde řádek s hodnotou menší než @hodnota. Vrací hodnotu v nalezeném řádku a v sloupci @sloupec relativně od 1 do oblasti @oblast. Pokud je nastaveno @jako_index, vrací funkce odpovídající posun od 0 a ne hodnotu.\n"
 "\n"
 "* Pokud je @sloupec < 0, vrací funkce VLOOKUP chybu #NUM!.\n"
 "* Pokud je @sloupec mimo @oblast, vrací funkce VLOOKUP chybu #REF!.\n"
@@ -9052,7 +8699,6 @@ msgstr ""
 "@SEEALSO=HLOOKUP"
 
 #: plugins/fn-lookup/functions.c:615
-#, fuzzy
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
@@ -9073,13 +8719,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(hodnota,oblast,řádek[,přibližně,jako_index])\n"
-"@DESCRIPTION=Funkce HLOOKUP najde sloupec v oblasti, jehož první řádek má "
-"podobnou hodnotu. Pokud není @přibližně TRUE, najde sloupec s přesně stejnou "
-"hodnotou. Pokud je @přibližně TRUE, pak musí být hodnoty tříděné vzestupně, "
-"aby funkce správně fungovala; v takovém případě najde sloupec s hodnotou "
-"menší než @hodnota. Vrací hodnotu v nalezeném sloupci a v řádku @řádek "
-"relativně od 1 do oblasti @oblast. Pokud je nastaveno @jako_index, vrací "
-"funkce odpovídající posun, a ne hodnotu.\n"
+"@DESCRIPTION=Funkce HLOOKUP najde sloupec v oblasti, jehož první řádek je podobný @hodnotě. Pokud není @přibližně TRUE, najde sloupec s přesně stejnou hodnotou. Pokud je @přibližně TRUE, pak musí být hodnoty tříděné vzestupně, aby funkce správně fungovala; v takovém případě najde sloupec s hodnotou menší než @hodnota. Vrací hodnotu v nalezeném sloupci a v řádku @řádek relativně od 1 do oblasti @oblast. Pokud je nastaveno @jako_index, vrací funkce odpovídající posun od 0 a ne hodnotu.\n"
 "\n"
 "* Pokud je @řádek < 0, vrací funkce HLOOKUP chybu #NUM!.\n"
 "* Pokud je @řádek mimo @oblast, vrací funkce HLOOKUP chybu #REF!.\n"
@@ -9089,7 +8729,6 @@ msgstr ""
 "@SEEALSO=VLOOKUP"
 
 #: plugins/fn-lookup/functions.c:674
-#, fuzzy
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1[,vector2])\n"
@@ -9108,12 +8747,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(hodnota,vektor1,vektor2)\n"
-"@DESCRIPTION=Funkce LOOKUP najde index řádku 'hodnoty' ve @vektoru1 a vrátí "
-"obsah hodnota2 v řádku s tímto indexem. Pokud je oblast spíše delší než "
-"širší, pak je směr hledání otočen. Je možné alternativně použít jedno pole.\n"
+"@DESCRIPTION=Funkce LOOKUP najde index řádku @hodnoty ve @vektoru1 a vrátí obsah @vektoru2 v řádku s tímto indexem. Je možné alternativně použít jedno pole pro @vektor1. Pokud je oblast spíše delší než širší, pak je směr hledání otočen.\n"
 "\n"
-"* Pokud funkce LOOKUP nemůže nalézt @hodnotu, použije nejbližší menší "
-"hodnotu.\n"
+"* Pokud funkce LOOKUP nemůže nalézt @hodnotu, použije nejbližší menší hodnotu.\n"
 "* Data musí být setříděna.\n"
 "* Pokud je @hodnota menší než první hodnota, vrací funkce chybu #N/A\n"
 "\n"
@@ -9122,7 +8758,6 @@ msgstr ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
 #: plugins/fn-lookup/functions.c:737
-#, fuzzy
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -9149,16 +8784,13 @@ msgstr ""
 "@SYNTAX=MATCH(nalézt,vektor[,typ])\n"
 "@DESCRIPTION=Funkce MATCH najde index řádku @nalézt ve @vektoru a vrátí ho.\n"
 "\n"
-"Pokud je oblast spíše delší než širší, je směr hledání otočen. Je možné "
-"alternativně použít jedno pole.\n"
+"Pokud je oblast spíše delší než širší, je směr hledání otočen. Je možné alternativně použít jedno pole.\n"
 "\n"
-"* Parametr @typ, který je má výchozí hodnotu +1, určuje typ hledaní:\n"
-"* Pokud je @typ = 1,  najde se největší hodnota <= @nalézt\n"
-"* Pokud je @typ = 0,  najde se první hodnota = @nalézt.\n"
+"* Parametr @typ, který je má výchozí hodnotu +1, určuje typ hledání:\n"
+"* Pokud je @typ = 1, najde se největší hodnota <= @nalézt\n"
+"* Pokud je @typ = 0, najde se první hodnota == @nalézt.\n"
 "* Pokud je @typ = -1, najde se nejmenší hodnota >= @nalézt.\n"
-"* Pro typ 0 mohou být data v libovolném pořadí. Pro typy -1 a +1 musí být "
-"data setříděna. (A v tomto případě používá funkce MATCH binární hledání pro "
-"nalezení indexu.)\n"
+"* Pro @typ 0 mohou být data v libovolném pořadí. Pro @typ -1 a +1 musí být data setříděna. (A v tomto případě používá funkce MATCH binární hledání pro nalezení indexu.)\n"
 "* Pokud není @nalézt nalezeno, vrací se chyba #N/A.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -9166,7 +8798,6 @@ msgstr ""
 "@SEEALSO=LOOKUP"
 
 #: plugins/fn-lookup/functions.c:797
-#, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -9184,10 +8815,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[formát])\n"
-"@DESCRIPTION=Funkce INDIRECT vrací obsah buňky odkazované pomocí řetězce "
-"@ref_text. Řetězec udává odkaz na jednu buňku buď ve formátu A1 nebo R1C1. "
-"Formát se nastavuje pomocí logické proměnné @formát, která má výchozí "
-"hodnotu odpovídající formátu A1.\n"
+"@DESCRIPTION=Funkce INDIRECT vrací obsah buňky odkazované pomocí řetězce @ref_text. Řetězec udává odkaz na jednu buňku buď ve formátu A1 nebo R1C1. Formát se nastavuje pomocí logické proměnné @formát, která má výchozí hodnotu odpovídající formátu A1.\n"
 "\n"
 "* Pokud není @ref_text platný odkaz, vrací se chyba #REF! \n"
 "\n"
@@ -9228,7 +8856,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-lookup/functions.c:907
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -9245,8 +8872,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([odkaz])\n"
-"@DESCRIPTION=Funkce COLUMN vrací pole čísel sloupců s výchozím parametrem "
-"obsahujícím umístění buňky.\n"
+"@DESCRIPTION=Funkce COLUMN vrací číslo sloupce aktuální buňky, pokud není zadán @odkaz. V tom případe vrací pole čísel sloupců všech buněk v @odkazu.\n"
 "\n"
 "* Pokud není @odkaz pole ani odkaz, vrací se chyba #VALUE!.\n"
 "\n"
@@ -9310,7 +8936,6 @@ msgstr ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 
 #: plugins/fn-lookup/functions.c:1019
-#, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -9326,10 +8951,8 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS"
 msgstr ""
 "@FUNCTION=OFFSET\n"
-"@SYNTAX=OFFSET(rozsah,řádek,sloupec,výška,šířka)\n"
-"@DESCRIPTION=Funkce OFFSET vrací oblast buněk. Ten začíná na relativní "
-"pozici (@sloupec,@řádek) v @oblasti, a je vysoký jako @výška a široký jako "
-"@šířka.\n"
+"@SYNTAX=OFFSET(rozsah,řádek,sloupec[,výška[,šířka]])\n"
+"@DESCRIPTION=Funkce OFFSET vrací oblast buněk. Ten začíná na relativní pozici (@sloupec,@řádek) v @oblasti, a je vysoký @výška a široký @šířka.\n"
 "\n"
 "* Pokud oblast není ani odkaz ani oblast, vrací se chyba #VALUE!.\n"
 "* Pokud není uvedena ani výška ani šířka, použije se výška a šířka odkazu.\n"
@@ -9366,7 +8989,6 @@ msgstr ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
 #: plugins/fn-lookup/functions.c:1130
-#, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -9498,7 +9120,6 @@ msgid "Lookup Functions"
 msgstr "Vyhledávací funkce"
 
 #: plugins/fn-math/functions.c:141
-#, fuzzy
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -9741,7 +9362,6 @@ msgstr ""
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:424
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -9760,16 +9380,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=Funkce ATANH počítá inverzní hyperbolický tangens @x; což je "
-"hodnota, jejíž hyperbolický tangens je @x.\n"
+"@DESCRIPTION=Funkce ATANH počítá inverzní hyperbolický tangens @x; což je hodnota, jejíž hyperbolický tangens je @x.\n"
 "\n"
-"* Pokud je absolutní hodnota @x větší než 1.0, funkce ATANH vrací chybu "
-"#NUM!.\n"
+"* Pokud je absolutní hodnota @x větší než 1.0, funkce ATANH vrací chybu #NUM!.\n"
 "* Tato funkce je kompatibilní s Excelem. \n"
 "\n"
 "@EXAMPLES=\n"
 "ATANH(0.5) se rovná 0.549306.\n"
-" ATANH(0.8) se rovná 1.098612.\n"
+"ATANH(0.8) se rovná 1.098612.\n"
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
@@ -10084,7 +9702,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-math/functions.c:917
-#, fuzzy
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -10099,14 +9716,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
-"@DESCRIPTION=Funkce BETA vrací hodnotu matematické funkce beta rozšířené na "
-"všechna reálná čísla a nezáporná celá čísla.\n"
+"@DESCRIPTION=Funkce BETA vrací hodnotu matematické funkce beta rozšířené na všechna reálná čísla kromě 0 a záporných celých čísel.\n"
 "\n"
-"* Pokud @a nebo @b jsou nekladná celá čísla, funkce BETA vrací chybu #NUM!.\n"
+"* Pokud @a nebo @b jsou 0 nebo záporná celá čísla, funkce BETA vrací chybu #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=BETA,GAMMALN"
+"@SEEALSO=BETALN,GAMMA"
 
 #: plugins/fn-math/functions.c:944
 msgid ""
@@ -10359,7 +9975,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG"
 
 #: plugins/fn-math/functions.c:1217
-#, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -11289,7 +10904,6 @@ msgstr ""
 "@SEEALSO=COUNT,SUM"
 
 #: plugins/fn-math/functions.c:2695
-#, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -11306,11 +10920,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matice)\n"
-"@DESCRIPTION=Funkce MINVERSE vrací inverzní matici k dané matici.\n"
+"@DESCRIPTION=Funkce MINVERSE vrací inverzní matici k @matici.\n"
 "\n"
 "* Pokud není možné @matici invertovat, funkce MINVERSE vrací chybu #NUM!.\n"
-"* Pokud @matice neobsahuje stejný počet sloupců a řádků, funkce MINVERSE "
-"vrací chybu #VALUE!.\n"
+"* Pokud @matice neobsahuje stejný počet sloupců a řádků, funkce MINVERSE vrací chybu #VALUE!.\n"
 "* Tato funkce je kompatibilní s Excelem. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -11499,12 +11112,10 @@ msgstr "Matematické funkce"
 
 #. *************************************************************************
 #: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:124
-#, fuzzy
 msgid "Mathematics"
-msgstr "Odpovídající"
+msgstr "Matematické"
 
 #: plugins/fn-random/functions.c:49
-#, fuzzy
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -11524,7 +11135,7 @@ msgstr ""
 "* Tato funkce je kompatibilní s Excelem. \n"
 "\n"
 "@EXAMPLES=\n"
-"RAND() vrací náhodné číslo větší než 0, ale menší než 1.\n"
+"RAND() vrací náhodné číslo větší než 0 ale menší než 1.\n"
 "\n"
 "@SEEALSO=RANDBETWEEN"
 
@@ -11701,7 +11312,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:350
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -11718,8 +11328,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,neúspěchy)\n"
-"@DESCRIPTION=RANDNEGBINOM vrací náhodné číslo podle záporného binomického "
-"rozdělení.\n"
+"@DESCRIPTION=RANDNEGBINOM vrací náhodné číslo podle záporného binomického rozdělení.\n"
 "\n"
 "* Pokud je @p < 0 nebo @p > 1, funkce RANDNEGBINOM vrací chybu #NUM!.\n"
 "* Pokud je @neúspěchy < 0, funkce RANDNEGBINOM vrací chybu #NUM!. \n"
@@ -12098,7 +11707,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:780
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDLOG\n"
 "@SYNTAX=RANDLOG(p)\n"
@@ -12163,7 +11771,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:854
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDGUMBEL\n"
 "@SYNTAX=RANDGUMBEL(a,b[,type])\n"
@@ -12181,11 +11788,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDGUMBEL\n"
 "@SYNTAX=RANDGUMBEL(a,b[,typ])\n"
-"@DESCRIPTION=RANDGUMBEL vrací náhodné číslo podle Gumbelova rozdělení Typu I "
-"nebo Typu II. Parametr @typ může nabývat hodnoty buď 1 nebo 2 a udává typ "
-"rozdělení  (Typ I nebo Typ II).\n"
+"@DESCRIPTION=RANDGUMBEL vrací náhodné číslo podle Gumbelova rozdělení Typu I nebo Typu II. Parametr @typ může nabývat hodnoty buď 1 nebo 2 a udává typ rozdělení (Typ I nebo Typ II).\n"
 "\n"
-"* Pokud @typ není buď 1 nebo 2, funkce RANDGUMBEL vrací chybu #NUM!.\n"
+"* Pokud @typ není 1 ani 2, funkce RANDGUMBEL vrací chybu #NUM!.\n"
 "* Pokud je @typ vynechán, předpokládá se Typ I.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -12194,7 +11799,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:890
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDLEVY\n"
 "@SYNTAX=RANDLEVY(c,alpha[,beta])\n"
@@ -12214,8 +11818,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDLEVY\n"
 "@SYNTAX=RANDLEVY(c,alfa[,beta])\n"
-"@DESCRIPTION=RANDLEVY vrací náhodné číslo podle Levyho rozdělení. Pokud je "
-"@beta vynecháno, předpokládá se 0.\n"
+"@DESCRIPTION=RANDLEVY vrací náhodné číslo podle Levyho rozdělení. Pokud je @beta vynecháno, předpokládá se 0.\n"
 "\n"
 "* Při @alfa = 1, @beta=0 se získá Lorentzovo rozdělení.\n"
 "* Při @alfa = 2, @beta=0 se získá Gaussovo rozdělení.\n"
@@ -12229,7 +11832,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:925
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDEXPPOW\n"
 "@SYNTAX=RANDEXPPOW(a,b)\n"
@@ -12249,15 +11851,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDEXPPOW\n"
 "@SYNTAX=RANDEXPPOW(a,b)\n"
-"@DESCRIPTION=RANDEXPPOW vrací náhodnou veličinu z exponenciálního mocninného "
-"rozdělení s parametrem stupnice @a a exponentem @b. Rozdělení je definováno "
-"jako\n"
+"@DESCRIPTION=RANDEXPPOW vrací náhodnou veličinu z exponenciálního mocninného rozdělení s parametrem stupnice @a a exponentem @b. Rozdělení je definováno jako\n"
 "\n"
 "\tp(x) dx = {1 nad 2 a Gama(1+1/b)} exp(-|x/a|^b) dx, pro x >= 0.\n"
 "\n"
 "* Pro @b = 1 je toto rozdělení redukováno na Laplaceho rozdělení.\n"
-"* Pro @b = 2 má rozdělení stejný tvar jako Gaussovo rozdělení, ale s a = sqrt"
-"{2} sigma.\n"
+"* Pro @b = 2 má rozdělení stejný tvar jako Gaussovo rozdělení, s sigma = a/sqrt(2).\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDEXPPOW(0.5,0.1).\n"
@@ -12303,7 +11902,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:984
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDGAUSSIANTAIL\n"
 "@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
@@ -12328,19 +11926,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDGAUSSIANTAIL\n"
 "@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
-"@DESCRIPTION=RANDGAUSSIANTAIL vrací náhodnou veličinu z horního konce "
-"Gaussova rozdělení se standardní odchylkou sigma. Vrácené hodnoty jsou vyšší "
-"než spodní limit @a, který musí být kladný. Metoda je založená na známém "
-"Marsagliově algoritmu rectangle-wedge-tail. (Ann Math Stat 32, 894-899 "
-"(1961)), s aspektem popsaným v Knuth, v2, 3. vyd., str. 139, 586 (cvičení "
-"11).\n"
+"@DESCRIPTION=RANDGAUSSIANTAIL vrací náhodnou veličinu z horního konce Gaussova rozdělení se standardní odchylkou @sigma. Vrácené hodnoty jsou vyšší než spodní limit @a, který musí být kladný. Metoda je založená na známém Marsagliově algoritmu rectangle-wedge-tail. (Ann Math Stat 32, 894-899 (1961)), s tímto aspektem popsaným v Knuth, v2, 3. vyd., str. 139, 586 (cvičení 11).\n"
 "\n"
 "Rozdělení pravděpodobnosti pro Gaussovy náhodné veličiny na konci je\n"
 "\n"
 "\tp(x) dx = {1 nad N(a;sigma)} exp (- x^2/(2 sigma^2)) dx,\n"
 "\n"
-"pro x > a, kde N(a;sigma) je normalizační konstanta, N(a;sigma) = (1/2) erfc"
-"(a / sqrt(2 sigma^2)).\n"
+"pro x > a, kde N(a;sigma) je normalizační konstanta, N(a;sigma) = (1/2) erfc(a / sqrt(2 sigma^2)).\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDGAUSSIANTAIL(0.5,0.1).\n"
@@ -12348,7 +11940,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:1020
-#, fuzzy
 msgid ""
 "@FUNCTION=SIMTABLE\n"
 "@SYNTAX=SIMTABLE(d1, d2, ..., dN)\n"
@@ -12381,28 +11972,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIMTABLE\n"
 "@SYNTAX=SIMTABLE(d1, d2, ..., dN)\n"
-"@DESCRIPTION=SIMTABLE vrací jednu z hodnot zadaných v seznamu parametrů, v "
-"závislosti na čísle kola simulačního nástroje. Pokud není simulační nástroj "
-"aktivován, vrací funkce SIMTABLE @d1.\n"
+"@DESCRIPTION=SIMTABLE vrací jednu z hodnot zadaných v seznamu parametrů, v závislosti na čísle kola simulačního nástroje. Pokud není simulační nástroj aktivován, vrací funkce SIMTABLE @d1.\n"
 "\n"
-"Se simulačním nástrojem a funkcí SIMTABLE můžete testovat dané rozhodovací "
-"proměnné. Každá funkce SIMTABLE obsahuje možné hodnoty simulační proměnné. "
-"Ve většině platných simulačních modelech byste měli mít stejný počet hodnot "
-"@dN pro všechny rozhodovací proměnné. Pokud simulace běží více kol, než "
-"kolik je definovaných hodnot, vrátí funkce SIMTABLE chybu #N/A!. (např. "
-"pokud A1 obsahuje \"=SIMTABLE(1)\" a A2 obsahuje \"=SIMTABLE(1,2)\", A1 bude "
-"vracet chybu #N/A! při druhém kole).\n"
+"Se simulačním nástrojem a funkcí SIMTABLE můžete testovat dané rozhodovací proměnné. Každá funkce SIMTABLE obsahuje možné hodnoty simulační proměnné. Ve většině platných simulačních modelech byste měli mít stejný počet hodnot @dN pro všechny rozhodovací proměnné. Pokud simulace běží více kol, než kolik je definovaných hodnot, vrátí funkce SIMTABLE chybu #N/A!. (např. pokud A1 obsahuje \"=SIMTABLE(1)\" a A2 obsahuje \"=SIMTABLE(1,2)\", A1 bude vracet chybu #N/A! při druhém kole).\n"
 "\n"
-"Postupné použití simulačního nástroje také vyžaduje, aby byla do simulačního "
-"nástroje zadána alespoň jedna vstupní proměnná obsahující funkci RAND() nebo "
-"podobnou funkci. Během každého kola iteruje simulační nástroj zadaný počet "
-"pokusů a znovu vyhodnocuje všechny proměnné. Během každé iterace jsou "
-"uloženy hodnoty výstupních proměnných, a když je kolo dokončeno, jsou z "
-"těchto hodnot vytvořeny podrobné statistické informace.\n"
+"Postupné použití simulačního nástroje také vyžaduje, aby byla do simulačního nástroje zadána alespoň jedna vstupní proměnná obsahující funkci RAND() nebo jinou funkci RAND<název distribuce>(). Během každého kola iteruje simulační nástroj zadaný počet pokusů a znovu vyhodnocuje všechny proměnné. Během každé iterace jsou uloženy hodnoty výstupních proměnných, a když je kolo dokončeno, jsou z těchto hodnot vytvořeny podrobné statistické informace.\n"
 "\n"
 "@EXAMPLES=\n"
-"SIMTABLE(TRUE,FALSE) vrací TRUE při prvním kole simulace a FALSE při druhém "
-"kole.\n"
+"SIMTABLE(TRUE,FALSE) vrací TRUE při prvním kole simulace a FALSE při druhém kole.\n"
 "SIMTABLE(223,225,227,229) vrací 227 při simulačním kole č. 3.\n"
 "\n"
 "@SEEALSO="
@@ -12524,7 +12101,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
 
 #: plugins/fn-stat/functions.c:221
-#, fuzzy
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -12544,16 +12120,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
-"@DESCRIPTION=VAR odhaduje rozptyl výběru z populaci. Pro získání skutečného "
-"rozptylu celé populace použijte @VARP.\n"
+"@DESCRIPTION=VAR odhaduje rozptyl výběru z populace. Pro získání skutečného rozptylu celé populace použijte @VARP.\n"
 "\n"
-"* Funkce VAR je též známá jako N-1-variance. Při rozumných podmínkách to je "
-"nejpravděpodobnější odhad skutečného rozptylu.\n"
+"* Funkce VAR je též známá jako N-1-variance. Při rozumných podmínkách to je nejpravděpodobnější odhad skutečného rozptylu.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
-"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, "
-"25.9, a 40.1. Pak\n"
+"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, 25.9, a 40.1. Pak\n"
 "VAR(A1:A5) se rovná 117.64.\n"
 "\n"
 "@SEEALSO=VARP,STDEV"
@@ -12841,7 +12414,6 @@ msgstr ""
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
 #: plugins/fn-stat/functions.c:632
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stddev)\n"
@@ -12860,13 +12432,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,průměr,odch)\n"
-"@DESCRIPTION=Funkce LOGNORMDIST vrací lognormální rozdělení. @x je hodnota, "
-"pro kterou se počítá, @průměr je průměr rozdělení, a @odch je směrodatná "
-"odchylka rozdělení.\n"
+"@DESCRIPTION=Funkce LOGNORMDIST vrací lognormální rozdělení. @x je hodnota, pro kterou se distribuce počítá, @průměr je průměr rozdělení, a @odch je standardní odchylka rozdělení.\n"
 "\n"
 "* Pokud je @odch = 0, funkce LOGNORMDIST vrací chybu #DIV/0!.\n"
-"* Pokud je @x <= 0, @průměr < 0 nebo @odch < 0, funkce LOGNORMDIST vrací "
-"chybu #NUM!.\n"
+"* Pokud je @x <= 0, @průměr < 0 nebo @odch < 0, funkce LOGNORMDIST vrací chybu #NUM!.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -12875,7 +12444,6 @@ msgstr ""
 "@SEEALSO=NORMDIST"
 
 #: plugins/fn-stat/functions.c:672
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stddev)\n"
@@ -12894,13 +12462,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,průměr,odchylka)\n"
-"@DESCRIPTION=Funkce LOGINV vrací inverzní hodnotu lognormálního "
-"kumulativního rozdělení. @p je daná pravděpodobnost odpovídající normálnímu "
-"rozdělení, @průměr je aritmetický průměr rozdělení a @odchylka je směrodatná "
-"odchylka rozdělení.\n"
+"@DESCRIPTION=Funkce LOGINV vrací inverzní hodnotu lognormálního kumulativního rozdělení. @p je daná pravděpodobnost odpovídající normálnímu rozdělení, @průměr je aritmetický průměr rozdělení a @odchylka je směrodatná odchylka rozdělení.\n"
 "\n"
-"* Pokud je @p < 0 nebo @p > 1 nebo @odchylka <= 0, funkce LOGINV vrací chybu "
-"#VALUE!.\n"
+"* Pokud je @p < 0 nebo @p > 1 nebo @odchylka <= 0, funkce LOGINV vrací chybu #VALUE!.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -13118,7 +12682,6 @@ msgstr ""
 "@SEEALSO=SUM, COUNT"
 
 #: plugins/fn-stat/functions.c:952
-#, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -13137,20 +12700,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
-"@DESCRIPTION=MIN vrací hodnotu nejmenšího prvku z parametrů. Záporná čísla "
-"jsou chápána jako menší jako kladná.\n"
+"@DESCRIPTION=MIN vrací hodnotu nejmenšího prvku z parametrů. Záporná čísla jsou chápána jako menší než kladná.\n"
 "\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
-"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, "
-"25.9, a 40.1. Pak\n"
+"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, 25.9, a 40.1. Pak\n"
 "MIN(A1:A5) se rovná 11.4.\n"
 "\n"
 "@SEEALSO=MAX,ABS"
 
 #: plugins/fn-stat/functions.c:994
-#, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -13169,20 +12729,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
-"@DESCRIPTION=MAX vrací hodnotu největšího prvku z parametrů. Záporná čísla "
-"jsou chápána jako menší jako kladná.\n"
+"@DESCRIPTION=MAX vrací hodnotu největšího prvku z parametrů. Záporná čísla jsou chápána jako menší než kladná.\n"
 "\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
-"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, "
-"25.9, a 40.1. Pak\n"
+"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, 25.9, a 40.1. Pak\n"
 "MAX(A1:A5) se rovná 40.1.\n"
 "\n"
 "@SEEALSO=MIN,ABS"
 
 #: plugins/fn-stat/functions.c:1036
-#, fuzzy
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -13208,16 +12765,14 @@ msgstr ""
 "@SYNTAX=SKEW(n1, n2, ...)\n"
 "@DESCRIPTION=SKEW vrací nestranný odhad šikmosti rozdělení.\n"
 "\n"
-"To má skutečná smysl pouze v případě, že má rozdělení třetí moment. Šikmost "
-"symetrického (např. normálního) rozdělení je 0.\n"
+"To má skutečná smysl pouze v případě, že má rozdělení třetí moment. Šikmost symetrického (např. normálního) rozdělení je 0.\n"
 "\n"
 "* Řetězce a prázdné buňky jsou jednoduše ignorovány.\n"
 "* Pokud je zadáno méně než 3 čísla, funkce SKEW vrací chybu #DIV/0!.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
-"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, "
-"25.9, a 40.1. Pak\n"
+"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, 25.9, a 40.1. Pak\n"
 "SKEW(A1:A5) se rovná 0.976798268.\n"
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
@@ -13500,7 +13055,6 @@ msgstr ""
 "@SEEALSO=CHIDIST,CHIINV"
 
 #: plugins/fn-stat/functions.c:1514
-#, fuzzy
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -13520,11 +13074,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alfa,beta[,a,b])\n"
-"@DESCRIPTION=Funkce BETADIST vrací kumulativní beta rozdělení. @a je "
-"nepovinná spodní hranice @x a @b je nepovinná horní hranice @x. Pokud není "
-"@a uvedeno, funkce BETADIST použije 0. Pokud není @b uvedeno, funkce "
-"BETADIST použije 1.\n"
-"\n"
+"@DESCRIPTION=Funkce BETADIST vrací kumulativní beta rozdělení. @a je nepovinná spodní hranice @x a @b je nepovinná horní hranice @x.\n"
+"* Pokud není @a uvedeno, funkce BETADIST použije 0\n"
+"* Pokud není @b uvedeno, funkce BETADIST použije 1.\n"
 "* Pokud je @x < @a nebo @x > @b, funkce BETADIST vrací chybu #NUM!.\n"
 "* Pokud je @alfa <= 0 nebo @beta <= 0, funkce BETADIST vrací chybu #NUM!.\n"
 "* Pokud je @a >= @b, funkce BETADIST vrací chybu #NUM!. \n"
@@ -13536,7 +13088,6 @@ msgstr ""
 "@SEEALSO=BETAINV"
 
 #: plugins/fn-stat/functions.c:1555
-#, fuzzy
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -13558,11 +13109,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alfa,beta[,a,b])\n"
-"@DESCRIPTION=Funkce BETAINV vrací inverzní hodnotu ke kumulativnímu beta "
-"rozdělení. @a je nepovinná spodní hranice @x a @b je nepovinná horní hranice "
-"@x. Pokud není @a uvedeno, funkce BETAINV použije 0. Pokud není @b uvedeno, "
-"funkce BETAINV použije 1.\n"
-"\n"
+"@DESCRIPTION=Funkce BETAINV vrací inverzní hodnotu ke kumulativnímu beta rozdělení. @a je nepovinná spodní hranice @x a @b je nepovinná horní hranice @x.\n"
+"* Pokud není @a uvedeno, funkce BETAINV použije 0.\n"
+"* Pokud není @b uvedeno, funkce BETAINV použije 1.\n"
 "* Pokud je @p < 0 nebo @p > 1, funkce BETAINV vrací chybu #NUM!.\n"
 "* Pokud je @alfa <= 0 nebo @beta <= 0, funkce BETAINV vrací chybu #NUM!.\n"
 "* Pokud je @a >= @b, funkce BETAINV vrací chybu #NUM! \n"
@@ -13716,7 +13265,6 @@ msgstr ""
 "@SEEALSO=FDIST"
 
 #: plugins/fn-stat/functions.c:1882
-#, fuzzy
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -13738,10 +13286,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,pokusy,p,kumulativní)\n"
-"@DESCRIPTION=Funkce BINOMDIST vrací binomické rozdělení. @n je počet "
-"úspěšných pokusů, @pokusy je celkový počet nezávislých pokusů, @p je "
-"pravděpodobnost úspěšného pokusu a @kumulativní popisuje, zda vrátit součet "
-"hodnot binomické funkce od 0 do @n.\n"
+"@DESCRIPTION=Funkce BINOMDIST vrací binomické rozdělení. @n je počet úspěšných pokusů, @pokusy je celkový počet nezávislých pokusů, @p je pravděpodobnost úspěšného pokusu a @kumulativní popisuje, zda vrátit součet hodnot binomické funkce od 0 do @n.\n"
 "\n"
 "* Pokud není @n nebo @pokusy celé číslo, je oříznuto.\n"
 "* Pokud je @n < 0 nebo @pokusy < 0, funkce BINOMDIST vrací chybu #NUM!.\n"
@@ -13783,7 +13328,6 @@ msgstr ""
 "@SEEALSO=RANDCAUCHY"
 
 #: plugins/fn-stat/functions.c:1968
-#, fuzzy
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -13805,9 +13349,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(pokusy,p,alfa)\n"
-"@DESCRIPTION=Funkce CRITBINOM vrací nejmenší hodnotu, pro kterou je "
-"distribuční funkce větší nebo rovna dané hodnotě. @n je počet pokusů, @p je "
-"pravděpodobnost úspěchu a @alfa je hodnota kritéria.\n"
+"@DESCRIPTION=Funkce CRITBINOM vrací nejmenší hodnotu, pro kterou je distribuční funkce větší nebo rovna dané hodnotě. @n je počet pokusů, @p je pravděpodobnost úspěchu a @alfa je hodnota kritéria.\n"
 "\n"
 "* Pokud není @pokusy celé číslo, je oříznuto.\n"
 "* Pokud je @pokusy < 0, funkce CRITBINOM vrací chybu #NUM!.\n"
@@ -13919,7 +13461,6 @@ msgstr ""
 "@SEEALSO=AVERAGE"
 
 #: plugins/fn-stat/functions.c:2123
-#, fuzzy
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stddev)\n"
@@ -13937,9 +13478,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,průměr,odchylka)\n"
-"@DESCRIPTION=Funkce STANDARDIZE vrací normalizovanou hodnotu. @x je číslo, "
-"které se má normalizovat, @průměr je průměr rozdělení, @odchylka je "
-"směrodatná odchylka rozdělení.\n"
+"@DESCRIPTION=Funkce STANDARDIZE vrací normalizovanou hodnotu. @x je číslo, které se má normalizovat, @průměr je průměr rozdělení, @odchylka je standardní odchylka rozdělení.\n"
 "\n"
 "* Pokud je odchylka 0, funkce STANDARDIZE vrací chybu #DIV/0!.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
@@ -13992,7 +13531,6 @@ msgstr ""
 "@SEEALSO=POISSON"
 
 #: plugins/fn-stat/functions.c:2207
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stddev,cumulative)\n"
@@ -14010,9 +13548,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,průměr,odchylka,kumulativní)\n"
-"@DESCRIPTION=Funkce NORMDIST vrací normální rozdělení. @x je hodnota, pro "
-"kterou chceme rozdělení, @průměr je průměr rozdělení, @odchylka je "
-"směrodatná odchylka.\n"
+"@DESCRIPTION=Funkce NORMDIST vrací normální kumulativní rozdělení. @x je hodnota, pro kterou chceme rozdělení, @průměr je průměr rozdělení, @odchylka je standardní odchylka.\n"
 "\n"
 "* Pokud je @odchylka 0, funkce NORMDIST vrací chybu #DIV/0!.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
@@ -14023,7 +13559,6 @@ msgstr ""
 "@SEEALSO=POISSON"
 
 #: plugins/fn-stat/functions.c:2252
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stddev)\n"
@@ -14042,12 +13577,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,průměr,odchylka)\n"
-"@DESCRIPTION=Funkce NORMINV vrací inverzní normální kumulativní rozdělení. "
-"@p je daná pravděpodobnost odpovídající normálnímu rozdělení, @průměr je "
-"aritmetický průměr rozdělení a @odchylka je směrodatná odchylka rozdělení.\n"
+"@DESCRIPTION=Funkce NORMINV vrací inverzní normální kumulativní rozdělení. @p je daná pravděpodobnost odpovídající normálnímu rozdělení, @průměr je aritmetický průměr rozdělení a @odchylka je standardní odchylka rozdělení.\n"
 "\n"
-"* Pokud je @p < 0 nebo @p > 1 nebo @odchylka <= 0, funkce NORMINV vrací "
-"chybu #NUM!.\n"
+"* Pokud je @p < 0 nebo @p > 1 nebo @odchylka <= 0, funkce NORMINV vrací chybu #NUM!.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -14056,7 +13588,6 @@ msgstr ""
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
 #: plugins/fn-stat/functions.c:2290
-#, fuzzy
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -14192,7 +13723,6 @@ msgstr ""
 "@SEEALSO=STDEV"
 
 #: plugins/fn-stat/functions.c:2426
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -14306,7 +13836,6 @@ msgstr ""
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
 #: plugins/fn-stat/functions.c:2559
-#, fuzzy
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -14329,19 +13858,16 @@ msgstr ""
 "@DESCRIPTION=MEDIAN vrací medián dané množiny.\n"
 "\n"
 "* Řetězce a prázdné buňky jsou jednoduše ignorovány.\n"
-"* Pokud je zadaný sudý počet čísel, funkce MEDIAN vrací průměr dvou čísel "
-"uprostřed.\n"
+"* Pokud je zadaný sudý počet čísel, funkce MEDIAN vrací průměr dvou čísel uprostřed.\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
-"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, "
-"25.9, a 40.1. Pak\n"
+"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, 25.9, a 40.1. Pak\n"
 "MEDIAN(A1:A5) se rovná 21.3.\n"
 "\n"
-"@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
+"@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM"
 
 #: plugins/fn-stat/functions.c:2593
-#, fuzzy
 msgid ""
 "@FUNCTION=SSMEDIAN\n"
 "@SYNTAX=SSMEDIAN(array[,interval)]\n"
@@ -14362,21 +13888,20 @@ msgid ""
 "\n"
 "@SEEALSO=MEDIAN"
 msgstr ""
-"@FUNCTION=PERCENTILE\n"
-"@SYNTAX=PERCENTILE(pole,k)\n"
-"@DESCRIPTION=Funkce PERCENTILE vrací 100*@k-ty percentil daných hodnot (t. "
-"j., číslo x, které je část @k počtu hodnot menších než x).\n"
+"@FUNCTION=SSMEDIAN\n"
+"@SYNTAX=SSMEDIAN(pole[,interval])\n"
+"@DESCRIPTION=Funkce SSMEDIAN vrací medián seskupených dat, jak se často určuje ve společenských vědách. Předpokládá se, že data zadaná v @poli jsou výsledek seskupení dat do intervalů délky @interval\n"
 "\n"
-"* Pokud je @pole prázdné, funkce PERCENTILE vrací chybu #NUM!.\n"
-"* Pokud je @k < 0 nebo @k > 1, funkce PERCENTILE vrací chybu #NUM!.\n"
-"* Tato funkce je kompatibilní s Excelem.\n"
+"* Pokud není @interval zadán, funkce SSMEDIAN použije 1.\n"
+"* Pokud je @pole prázdné, funkce SSMEDIAN vrací chybu #NUM!.\n"
+"* Pokud je @interval <= 0, funkce SSMEDIAN vrací chybu #NUM!.\n"
+"* Funkced SSMEDIAN nekontroluje, jestli jsou data od sebe vzdálena alespoň @interval.\n"
 "\n"
 "@EXAMPLES=\n"
-"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, "
-"25.9, a 40.1. Pak\n"
-"PERCENTILE(A1:A5,0.42) se rovná 20.02.\n"
+"Předpokládejme, že buňky A1, A2, A3 obsahují čísla 7, 8, 8. Pak\n"
+"SSMEDIAN(A1:A3, 1) se rovná 7.75.\n"
 "\n"
-"@SEEALSO=QUARTILE"
+"@SEEALSO=MEDIAN"
 
 #: plugins/fn-stat/functions.c:2696
 msgid ""
@@ -14684,22 +14209,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(číslo1,číslo2,...)\n"
-"@DESCRIPTION=VARA vrací rozptyl založený na výběru. Čísla, text a logické "
-"hodnoty jsou započteny. Pokud buňka obsahuje text nebo je parametr "
-"vyhodnocen jako FALSE, je započten jako 0. Pokud je parametr vyhodnocen jako "
-"TRUE, je započten jako 1. Prázdné buňky nejsou započteny.\n"
+"@DESCRIPTION=VARA vrací rozptyl založený na výběru. Čísla, text a logické hodnoty jsou započteny. Pokud buňka obsahuje text nebo je parametr vyhodnocen jako FALSE, je započten jako 0. Pokud je parametr vyhodnocen jako TRUE, je započten jako 1. Prázdné buňky nejsou započteny.\n"
 "\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
-"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla a řetězce 11.4, "
-"17.3, \"missing\", 25.9, a 40.1. Pak\n"
+"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla a řetězce 11.4, 17.3, \"missing\", 25.9, a 40.1. Pak\n"
 "VARA(A1:A5) se rovná 228.613.\n"
 "\n"
 "@SEEALSO=VAR,VARPA"
 
 #: plugins/fn-stat/functions.c:3286
-#, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -14720,19 +14240,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(číslo1,číslo2,...)\n"
-"@DESCRIPTION=VARPA vrací rozptyl celého statistického souboru. Čísla, text a "
-"logické hodnoty jsou započteny. Pokud buňka obsahuje text nebo je parametr "
-"vyhodnocen jako FALSE, je započten jako 0. Pokud je parametr vyhodnocen jako "
-"TRUE, je započten jako 1. Prázdné buňky nejsou započteny.\n"
+"@DESCRIPTION=VARPA vrací rozptyl celého statistického souboru. Čísla, text a logické hodnoty jsou započteny. Pokud buňka obsahuje text nebo je parametr vyhodnocen jako FALSE, je započten jako 0. Pokud je parametr vyhodnocen jako TRUE, je započten jako 1. Prázdné buňky nejsou započteny.\n"
 "\n"
 "* Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
-"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla řetězce 11.4, 17.3, "
-"\"missing\", 25.9, a 40.1. Pak\n"
+"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla řetězce 11.4, 17.3, \"missing\", 25.9, a 40.1. Pak\n"
 "VARPA(A1:A5) se rovná 182.8904.\n"
 "\n"
-"@SEEALSO=VARP,VARP"
+"@SEEALSO=VARA,VARP"
 
 #: plugins/fn-stat/functions.c:3322
 msgid ""
@@ -15054,7 +14570,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-stat/functions.c:3902
-#, fuzzy
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -15087,26 +14602,16 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 "@FUNCTION=LINEST\n"
-"@SYNTAX=LINEST(známe_y[,známe_x[,konst[,stat]]])\n"
-"@DESCRIPTION=Funkce LINEST počítá přímku \"nejmenších čtverců\" pro zadané "
-"data @známe_y. Parametr @známe_x obsahuje odpovídající x-ové hodnoty, kde "
-"y=mx+b.\n"
+"@SYNTAX=LINEST(známé_y[,známé_x[,konst[,stat]]])\n"
+"@DESCRIPTION=Funkce LINEST počítá přímku \"nejmenších čtverců\", která nejlépe odpovídá vašim datům v @známé_y. Parametr @známé_x obsahuje odpovídající x-ové hodnoty, kde y=mx+b.\n"
 "\n"
-"Funkce LINEST vrací pole o dvou sloupcích a jednom řádku. Sklon (m) regresní "
-"přímky y=mx+b je dán prvním sloupcem a průnik s y (b) v druhém. \n"
-"Pokud je @stat TRUE, budou vráceny extra statistické informace. Tyto "
-"informace jsou napsány pod koeficienty regresní křivky ve výsledném poli. "
-"Obsahují čtyři řádky dat. V prvním řádku jsou hodnoty směrodatné chyby pro "
-"koeficienty  m1, (m2, ...), b. V druhém řádku jsou R^2 a směrodatná chyba "
-"odhadu y. V třetím řádku jsou pozorované F-hodnoty a stupně volnosti. "
-"Poslední řádek obsahuje regresní součet čtverců a reziduální součet "
-"čtverců.\n"
+"Funkce LINEST vrací pole o dvou sloupcích a jednom řádku. Sklon (m) regresní přímky y=mx+b je dán prvním sloupcem a průnik s y (b) v druhém.\n"
 "\n"
-"* Pokud není uvedené @známe_x, použije se pole {1, 2, 3, ...}\n"
-"* Pokud mají @známe_y a @známe_x nestejný počet datových hodnot, funkce "
-"LINEST vrací chybu #NUM!.\n"
-"Pokud je @konst FALSE, křivka bude procházet počátkem, t. j., b bude 0. "
-"Výchozí hodnota je TRUE.\n"
+"Pokud je @stat TRUE, budou vráceny extra statistické informace. Tyto informace jsou napsány pod koeficienty regresní křivky ve výsledném poli. Obsahují čtyři řádky dat. V prvním řádku jsou hodnoty směrodatné chyby pro koeficienty  m1, (m2, ...), b. V druhém řádku jsou R^2 a směrodatná chyba odhadu y. V třetím řádku jsou pozorované F-hodnoty a stupně volnosti. Poslední řádek obsahuje regresní součet čtverců a reziduální součet čtverců.\n"
+"\n"
+"* Pokud není uvedené @známé_x, použije se pole {1, 2, 3, ...}\n"
+"* Pokud mají @známé_y a @známé_x různý počet datových hodnot, funkce LINEST vrací chybu #NUM!.\n"
+"* Pokud je @konst FALSE, křivka bude procházet počátkem, t. j., b bude 0. Výchozí hodnota je TRUE.\n"
 "* Výchozí hodnota @stat je FALSE.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -15243,7 +14748,6 @@ msgstr ""
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 
 #: plugins/fn-stat/functions.c:4549
-#, fuzzy
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
@@ -15269,26 +14773,21 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 "@FUNCTION=TREND\n"
-"@SYNTAX=TREND(známe_y[,známe_x],nové_x])\n"
-"@DESCRIPTION=Funkce TREND odhaduje funkční hodnoty v dané množině bodů "
-"pomocí metody \"nejmenších čtverců\". @známe_y jsou hodnoty y, kde y=mx+b a "
-"@známe_x obsahuje odpovídající hodnoty x. @nové_x obsahuje hodnoty x, ve "
-"kterých se mají spočítat hodnoty y.\n"
+"@SYNTAX=TREND(známé_y[,známé_x[,nové_x[,konst]]])\n"
+"@DESCRIPTION=Funkce TREND odhaduje budoucí hodnoty v dané množině bodů pomocí metody \"nejmenších čtverců\". @známé_y jsou hodnoty y, kde y=mx+b a @známé_x obsahuje odpovídající hodnoty x. @nové_x obsahuje hodnoty x, ve kterých se mají spočítat hodnoty y. Pokud je @konst FALSE, bude úsečka procházet počátkem, tj. b bude 0.\n"
 "\n"
-"* Pokud není uvedeno @známe_x, použije se pole {1, 2, 3, ...}.\n"
-"* Pokud není uvedeno @nové_x, předpokládá se stejné jako @známe_x.\n"
-"* Pokud nemají @známe_y a @známe_x stejný počet hodnot, funkce TREND vrací "
-"chybu #NUM!. \n"
+"* Pokud není uvedeno @známé_x, použije se pole {1, 2, 3, ...}.\n"
+"* Pokud není uvedeno @nové_x, předpokládá se stejné jako @známé_x.\n"
+"* Pokud není uvedeno @konst, předpokládá se TRUE.\n"
+"* Pokud nemají @známe_y a @známe_x stejný počet hodnot, funkce TREND vrací chybu #NUM!. \n"
 "\n"
 "@EXAMPLES=\n"
-"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, "
-"25.9, a 40.1, a buňky B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, a 42.7. Pak\n"
+"Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, 25.9, a 40.1, a buňky B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, a 42.7. Pak\n"
 "TREND(A1:A5,B1:B5) se rovná 156.52.\n"
 "\n"
 "@SEEALSO=LINEST"
 
 #: plugins/fn-stat/functions.c:4664
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -15319,32 +14818,21 @@ msgid ""
 "@SEEALSO=GROWTH,TREND"
 msgstr ""
 "@FUNCTION=LOGEST\n"
-"@SYNTAX=LOGEST(známe_y[,známe_x,konst,stat])\n"
-"@DESCRIPTION=Funkce LOGEST aplikuje metodu \"nejmenších čtverců\" pro "
-"přizpůsobení exponenciální křivky ve tvaru\n"
+"@SYNTAX=LOGEST(známé_y[,známé_x,konst,stat])\n"
+"@DESCRIPTION=Funkce LOGEST aplikuje metodu \"nejmenších čtverců\" pro přizpůsobení exponenciální křivky ve tvaru\n"
 "\n"
 "\ty = b * m{1}^x{1} * m{2}^x{2}... na vaše data.\n"
 "\n"
-"Pokud má parametr @stat hodnotu TRUE, budou vráceny extra statistické "
-"informace. Tyto dodatečné informace jsou zapsány pod koeficienty regresní "
-"křivky ve výsledném poli. Dodatečné informace se sestávají ze čtyř řádků "
-"dat. V prvním řádku se nachází hodnoty standardní chyby pro koeficienty m1, "
-"(m2, ...) a b . Ve druhém řádku se nacházejí čtverce R a standardní chyba "
-"odhadu y. Třetí řádek obsahuje pozorované F-hodnoty a stupně volnosti. "
-"Poslední řádek obsahuje regresní součet čtverců a reziduální součet "
-"čtverců.\n"
+"Pokud má parametr @stat hodnotu TRUE, budou vráceny extra statistické informace. Tyto dodatečné informace jsou zapsány pod koeficienty regresní křivky ve výsledném poli. Dodatečné informace se sestávají ze čtyř řádků dat. V prvním řádku se nachází hodnoty standardní chyby pro koeficienty m1, (m2, ...) a b . Ve druhém řádku se nacházejí čtverce R a standardní chyba odhadu y. Třetí řádek obsahuje pozorované F-hodnoty a stupně volnosti. Poslední řádek obsahuje regresní součet čtverců a reziduální součet čtverců.\n"
 "\n"
-"* Pokud je vynecháno @známe_x, použije se pole {1, 2, 3, ...}. Funkce LOGEST "
-"vrací pole { m{n},m{n-1}, ...,m{1},b }.\n"
-"* Pokud @známe_y a @známe_x mají nestejný počet prvků, funkce LOGEST vrací "
-"chybu #NUM!.\n"
-"* Pokud má @konst hodnotu FALSE, křivku bude nutně procházet bodem (0,1), "
-"tedy b bude jedna. Výchozí hodnota je TRUE.\n"
+"* Pokud je vynecháno @známé_x, použije se pole {1, 2, 3, ...}. Funkce LOGEST vrací pole { m{n},m{n-1}, ...,m{1},b }.\n"
+"* Pokud @známé_y a @známé_x mají různý počet prvků, funkce LOGEST vrací chybu #NUM!.\n"
+"* Pokud má @konst hodnotu FALSE, křivka bude procházet bodem (0,1), tj. b bude jedna. Výchozí hodnota je TRUE.\n"
 "* Výchozí hodnota parametru @stat je FALSE.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=LOGEST,GROWTH,TREND"
+"@SEEALSO=GROWTH,TREND"
 
 #: plugins/fn-stat/functions.c:4916
 msgid ""
@@ -15842,9 +15330,8 @@ msgid "f,t,p"
 msgstr "f,t,p"
 
 #: plugins/fn-stat/functions.c:5837
-#, fuzzy
 msgid "x,mean,stddev,cumulative"
-msgstr "x,průměr,odchylka,kumulativní"
+msgstr "x,průměr,stdodchylka,kumulativní"
 
 #: plugins/fn-stat/functions.c:5852
 msgid "array,k"
@@ -15868,7 +15355,7 @@ msgstr "pole,kvart"
 
 #: plugins/fn-stat/functions.c:5883
 msgid "array,interval"
-msgstr ""
+msgstr "pole,interval"
 
 #: plugins/fn-stat/functions.c:5911
 msgid "x,dof,tails"
@@ -15947,7 +15434,6 @@ msgstr ""
 "@SEEALSO=CODE"
 
 #: plugins/fn-string/functions.c:102
-#, fuzzy
 msgid ""
 "@FUNCTION=UNICHAR\n"
 "@SYNTAX=UNICHAR(x)\n"
@@ -15962,11 +15448,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=UNICHAR\n"
 "@SYNTAX=UNICHAR(x)\n"
-"@DESCRIPTION=UNICHAR vrací znak ve tvaru Unicode reprezentovaný číslem @x.\n"
+"@DESCRIPTION=UNICHAR vrací znak Unicode reprezentovaný číslem @x.\n"
 "\n"
 "@EXAMPLES=\n"
 "UNICHAR(65) se rovná A.\n"
-"CHAR(8232) se rovná chybě na konci řádku.\n"
+"CHAR(8232) se rovná chybě návratu vozíku.\n"
 "\n"
 "@SEEALSO=CHAR,UNICODE,CODE"
 
@@ -16045,7 +15531,6 @@ msgstr ""
 "@SEEALSO=LEN, SEARCH, DELTA"
 
 #: plugins/fn-string/functions.c:230
-#, fuzzy
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -16060,7 +15545,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(řetězec)\n"
-"@DESCRIPTION=LEN vrací délku @řetězce v znacích.\n"
+"@DESCRIPTION=LEN vrací délku @řetězce ve znacích.\n"
 "\n"
 "Tato funkce je kompatibilní s Excelem.\n"
 "\n"
@@ -16198,7 +15683,6 @@ msgstr ""
 "@SEEALSO=LOWER"
 
 #: plugins/fn-string/functions.c:421
-#, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -16214,7 +15698,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(řetězec1[,řetězec2...])\n"
-"@DESCRIPTION=CONCATENATE vrací spojené řetězce.\n"
+"@DESCRIPTION=CONCATENATE vrací řetězec získaný spojením daných řetězců.\n"
 "\n"
 "Tato funkce je kompatibilní s Excelem.\n"
 "\n"
@@ -16539,7 +16023,6 @@ msgstr ""
 "@SEEALSO=FIXED, TEXT, VALUE"
 
 #: plugins/fn-string/functions.c:1058
-#, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(search_string,text[,start_num])\n"
@@ -16565,20 +16048,13 @@ msgid ""
 "@SEEALSO=FIND"
 msgstr ""
 "@FUNCTION=SEARCH\n"
-"@SYNTAX=SEARCH(text,v[,poč_číslo])\n"
-"@DESCRIPTION=SEARCH vrací umístění znaku nebo řetězce v jiném řetězci. @text "
-"je hledaný znak nebo řetězec. @v je řetězec, ve kterém se má hledat. "
-"@start_číslo je počáteční pozice hledání ve @v. Pokud není @start_číslo "
-"uvedeno, předpokládá se 1. Hledaní nerozlišuje velikost písmen.\n"
+"@SYNTAX=SEARCH(hledaný_řetězec,text[,poč_číslo])\n"
+"@DESCRIPTION=SEARCH vrací umístění @hledaného_řetězce v @textu. Hledání začíná znakem @start_číslo textu @text. Pokud není @start_číslo uvedeno, předpokládá se 1. Hledaní nerozlišuje velikost písmen.\n"
 "\n"
-"@text může obsahovat divoké karty (*) a (?) a tím lépe kontrolovat hledání.. "
-"Otazník odpovídá libovolnému znaku a hvězdička odpovídá libovolnému, včetně "
-"prázdnému, řetězci. Pokud chcete hledat přímo divokou kartu, použijte znak "
-"tilda (~) před znakem divoké karty.\n"
+"@hledaný_řetězec může obsahovat zástupné znaky (*) a (?). Otazník odpovídá libovolnému znaku a hvězdička odpovídá libovolnému řetězci včetně prázdného. Pokud chcete hledat přímo zástupný znak, použijte před ním znak tilda (~).\n"
 "\n"
-"* Pokud není @text nalezen, funkce SEARCH vrací chybu #VALUE!\n"
-"* Pokud je @start_číslo menší než 1 nebo větší než délka @v, funkce SEARCH "
-"vrací chybu #VALUE!.\n"
+"* Pokud není @hledaný_řetězec nalezen, funkce SEARCH vrací chybu #VALUE!\n"
+"* Pokud je @start_číslo menší než 1 nebo větší než délka @textu, funkce SEARCH vrací chybu #VALUE!.\n"
 "Tato funkce je kompatibilní s Excelem.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -16625,7 +16101,7 @@ msgstr "text,počet"
 
 #: plugins/fn-string/functions.c:1183
 msgid "search_string,text,start_num"
-msgstr ""
+msgstr "hledaný_řetězec,text,počáteční_číslo"
 
 #: plugins/fn-string/functions.c:1186
 msgid "text,old,new,num"
@@ -16755,9 +16231,8 @@ msgid "Format: readDBTable(dsn,user,password,table)"
 msgstr "Formát: readDBTable(dsn,uživatel,heslo,tabulka)"
 
 #: plugins/gda/plugin.xml.in.h:2
-#, fuzzy
 msgid "Database functions for retrieval of data from a database."
-msgstr "Databázové funkce pro získávání dat z databází"
+msgstr "Databázové funkce pro získávání dat z databází."
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
@@ -16836,13 +16311,12 @@ msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
 #: plugins/html/plugin.xml.in.h:9
-#, fuzzy
 msgid "XHTML (*.html)"
-msgstr "XHTML (*.xhtml)"
+msgstr "XHTML (*.html)"
 
 #: plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
-msgstr ""
+msgstr "Rozsah XHTML - pro export do schránky"
 
 #: plugins/lotus-123/boot.c:61
 msgid "Error while reading lotus workbook."
@@ -16980,7 +16454,6 @@ msgstr ""
 
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -16998,13 +16471,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=Funkce NT_MU (Möbius mu) vrací \n"
+"@DESCRIPTION=Funkce NT_MU (Möbiova funkce mu) vrací \n"
 "0  pokud je @n dělitelné druhou mocninou prvočísla.\n"
 "Jinak vrací: \n"
 "\n"
-"-1 pokud má @n lichý počet různých prvočinitelů.\n"
-"1 pokud má @n sudý počet různých prvočinitelů.\n"
-"Pokud @n=1, pak funkce vrací 1\n"
+"  -1 pokud má @n lichý počet různých prvočinitelů.\n"
+"   1 pokud má @n sudý počet různých prvočinitelů.\n"
+"\n"
+"* Pokud @n=1, pak funkce vrací 1.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
@@ -17186,13 +16660,10 @@ msgid "Number Theory"
 msgstr "Teorie čísel"
 
 #: plugins/numtheory/plugin.xml.in.h:3
-#, fuzzy
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also holds "
 "some simple bitwise operations."
-msgstr ""
-"Několik základních nástrojů pro prvočísla, pi, phi, sigma. Obsahuje také "
-"některé základní bitové operace"
+msgstr "Několik základních nástrojů pro prvočísla, pi, phi, sigma. Obsahuje také některé základní bitové operace."
 
 #: plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
@@ -17221,14 +16692,12 @@ msgid "Unable to parse '%s' because '%s'"
 msgstr "Nelze zpracovat '%s' kvůli '%s'"
 
 #: plugins/openoffice/openoffice-read.c:496
-#, fuzzy
 msgid "Invalid array expression does not specify number of columns."
-msgstr "Neplatný výraz pole, neudává počet sloupců"
+msgstr "Neplatný výraz pole, neudává počet sloupců."
 
 #: plugins/openoffice/openoffice-read.c:499
-#, fuzzy
 msgid "Invalid array expression does not specify number of rows."
-msgstr "Neplatný výraz pole, neudává počet řádků"
+msgstr "Neplatný výraz pole, neudává počet řádků."
 
 #: plugins/openoffice/openoffice-read.c:747
 #, c-format
@@ -17538,7 +17007,7 @@ msgid "Hello World"
 msgstr "Nazdar světe"
 
 #: plugins/uihello/uihello.c:24
-#, fuzzy, c-format
+#, c-format
 msgid "This is message from the \"%s\" plugin."
 msgstr "Toto je zpráva ze zásuvného modulu \"%s\"."
 
@@ -17577,9 +17046,8 @@ msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nová generace V/V XML subsystému založená na sax"
 
 #: plugins/xml_sax/plugin.xml.in.h:4
-#, fuzzy
 msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-msgstr "EXPERIMENTÁLNÍ XML Gnumeric (*.gnumeric)"
+msgstr "NEDOKONČENÉ XML Gnumeric (*.gnumeric)"
 
 #: plugins/xml_sax/xml-sax-read.c:299
 #, c-format
@@ -17595,11 +17063,11 @@ msgid ""
 "This setting determines whether created LaTeX files use UTF-8 (unicode) or "
 "ISO-8859-1 (Latin1). To use the UTF-8 files, you must have the ucs LaTeX "
 "package installed."
-msgstr ""
+msgstr "Toto nastavení určuje, jestli vytvářené soubory LaTeX používají UTF-8 (unicode) nebo ISO-8859-1 (Latin1). Pro použití souborů UTF-8 musíte mít nainstalován balík LaTeXu ucs."
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
 msgid "Use UTF-8 in LaTeX Export"
-msgstr ""
+msgstr "Používat UTF-8 v exportu do LaTeXu"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid "Activate New Plugins"
@@ -17666,14 +17134,12 @@ msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximální délka seznamu nedávno použitých funkcí"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
-#, fuzzy
 msgid "Page Footer"
-msgstr "Pořadí stránek"
+msgstr "Patička stránky"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
-#, fuzzy
 msgid "Page Header"
-msgstr "Pořadí stránek"
+msgstr "Hlavička stránky"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:19
 msgid "Print Config"
@@ -17713,13 +17179,13 @@ msgstr "Nastavení gnome-print. Neměňte tuto proměnnou."
 msgid ""
 "The default page footer for new documents that can be modified using the "
 "page setup dialog."
-msgstr ""
+msgstr "Implicitní patička stránky pro nové dokumenty, která může být upravena pomocí dialogu nastavení stránky."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:26
 msgid ""
 "The default page header for new documents that can be modified using the "
 "page setup dialog."
-msgstr ""
+msgstr "Implicitní hlavička stránky pro nové dokumenty, která může být upravena pomocí dialogu nastavení stránky."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:27
 msgid ""
@@ -17946,9 +17412,8 @@ msgid "Sort is Case-Sensitive"
 msgstr "Rozlišovat velikost písmen při třídění"
 
 #: schemas/gnumeric-general.schemas.in.h:31
-#, fuzzy
 msgid "Sorting Preserves Formats"
-msgstr "Zachovat formát při třídění"
+msgstr "Třídění zachovává formát"
 
 #: schemas/gnumeric-general.schemas.in.h:32
 msgid "The default font is bold."
@@ -17988,15 +17453,11 @@ msgid "The number of sheets initially created in a new workbook."
 msgstr "Počet zpočátku vytvořených listů v novém sešitu."
 
 #: schemas/gnumeric-general.schemas.in.h:40
-#, fuzzy
 msgid ""
 "This integer (between 0 and 9) specifies the amount of compression performed "
 "by Gnumeric when saving files in the default file format. 0 is no "
 "compression while 9 is maximum compression."
-msgstr ""
-"Toto celé číslo (v intervalu 0 až 9) udává úroveň komprimace provedené "
-"aplikací Gnumeric při ukládání souboru ve výchozím formátu. 0 znamená bez "
-"komprimace, 9 znamená maximální komprimaci."
+msgstr "Toto celé číslo (mezi 0 a 9) udává úroveň komprimace prováděné aplikací Gnumeric při ukládání souboru ve výchozím formátu. 0 znamená bez komprimace, 9 znamená maximální komprimaci."
 
 #: schemas/gnumeric-general.schemas.in.h:41
 msgid ""
@@ -18042,17 +17503,14 @@ msgstr ""
 "jejich vrácení."
 
 #: schemas/gnumeric-general.schemas.in.h:46
-#, fuzzy
 msgid ""
 "This value determines whether the default font for a new workbook is bold."
-msgstr "Tato hodnota určuje, zdali má být výchozí písmo pro nový sešit tučné."
+msgstr "Tato hodnota určuje, zdali je výchozí písmo pro nový sešit tučné."
 
 #: schemas/gnumeric-general.schemas.in.h:47
-#, fuzzy
 msgid ""
 "This value determines whether the default font for a new workbook is italic."
-msgstr ""
-"Tato hodnota určuje, zdali má být výchozí písmo pro nový sešit skloněné."
+msgstr "Tato hodnota určuje, zdali je výchozí písmo pro nový sešit kurzíva."
 
 #: schemas/gnumeric-general.schemas.in.h:48
 msgid ""
@@ -18201,9 +17659,8 @@ msgid "C_ells..."
 msgstr "_Buňky..."
 
 #: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3621
-#, fuzzy
 msgid "C_hart..."
-msgstr "Graf"
+msgstr "_Graf..."
 
 #: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3516
 msgid "C_lear"
@@ -18246,9 +17703,8 @@ msgid "Change width of the selected columns"
 msgstr "Změní šířku vybraných sloupců"
 
 #: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:4077
-#, fuzzy
 msgid "Chart Guru"
-msgstr "Výstup grafu"
+msgstr "Guru grafů"
 
 #: src/GNOME_Gnumeric.xml.h:32 src/workbook-object-toolbar.c:146
 msgid "Checkbox"
@@ -18275,9 +17731,8 @@ msgid "Close the current file"
 msgstr "Zavře aktuální soubor"
 
 #: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3522
-#, fuzzy
 msgid "Co_mment..."
-msgstr "Ko_mentáře"
+msgstr "Ko_mentáře..."
 
 #: src/GNOME_Gnumeric.xml.h:39 src/dialogs/print.glade.h:7
 #: src/workbook-control-gui.c:3416
@@ -18297,37 +17752,26 @@ msgid "Combo Box"
 msgstr "Combo Box"
 
 #: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3789
-#, fuzzy
 msgid "Comparing two population means for two paired samples: t-test"
-msgstr ""
-"Porovnání průměrů dvou statistických souborů pro dva párové výběry.: t-test"
+msgstr "Porovnání dvou statistických souborů pro dva párové výběry: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3793
-#, fuzzy
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test"
-msgstr ""
-"Porovnání průměrů dvou statistických souborů pro dva nepárové výběry ze "
-"statistického souboru se stejným rozptylem.: t-test"
+msgstr "Porovnání průměrů dvou statistických souborů pro dva nepárové výběry ze statistického souboru se stejným rozptylem: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3798
-#, fuzzy
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test"
-msgstr ""
-"Porovnání průměrů dvou statistických souborů pro dva nepárové výběry ze "
-"statistického souboru s různým rozptylem.: t-test"
+msgstr "Porovnání průměrů dvou statistických souborů pro dva nepárové výběry ze statistického souboru s různým rozptylem: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:46 src/workbook-control-gui.c:3803
-#, fuzzy
 msgid ""
 "Comparing two population means from populations with known variances or "
 "using a large sample: z-test"
-msgstr ""
-"Porovnání průměrů dvou statistických souborů se známými rozptyly nebo pomocí "
-"velkého výběru.: z-test"
+msgstr "Porovnání průměrů dvou statistických souborů se známými rozptyly nebo pomocí velkého výběru: z-test"
 
 #: src/GNOME_Gnumeric.xml.h:47 src/workbook-control-gui.c:3846
 msgid "Comparing two population variances"
@@ -18728,7 +18172,6 @@ msgstr "Titulek"
 
 #: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:3622
 #: src/workbook-control-gui.c:4078
-#, fuzzy
 msgid "Launch the Chart Guru"
 msgstr "Spustit Guru grafů"
 
@@ -19182,12 +18625,10 @@ msgid "Undo the last action"
 msgstr "Vrátí zpět poslední akci"
 
 #: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3792
-#, fuzzy
 msgid "Unpaired Samples, _Equal Variances: T-Test"
 msgstr "Nepárové výběry, st_ejné rozptyly: T-Test"
 
 #: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:3797
-#, fuzzy
 msgid "Unpaired Samples, _Unequal Variances: T-Test"
 msgstr "Nepárové výběry, rů_zné rozptyly: T-Test"
 
@@ -19396,9 +18837,8 @@ msgid "_Manage Sheets..."
 msgstr "_Správa listů..."
 
 #: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3459
-#, fuzzy
 msgid "_Merge..."
-msgstr "Sloučit..."
+msgstr "_Sloučit..."
 
 #: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3779
 msgid "_Moving Average"
@@ -20132,9 +19572,8 @@ msgid "Page Setup For All Sheets"
 msgstr "Nastavení stránky pro všechny listy"
 
 #: src/commands.c:5502
-#, fuzzy
 msgid "has a circular reference"
-msgstr "'%s' obsahuje cyklický odkaz"
+msgstr "obsahuje cyklický odkaz"
 
 #: src/commands.c:5525
 #, c-format
@@ -20169,9 +19608,8 @@ msgstr "Legenda"
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:115
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:130
-#, fuzzy
 msgid "Title"
-msgstr "Titulek:"
+msgstr "Titulek"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
 msgid "H"
@@ -20206,9 +19644,8 @@ msgid "Configure Graph"
 msgstr "Nastavte graf"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1081
-#, fuzzy
 msgid "_Plot Type"
-msgstr "Typ grafu"
+msgstr "_Typ grafu"
 
 #. Set up sample button
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1171
@@ -20227,11 +19664,11 @@ msgstr "Popis"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:1
 msgid "GNOME Office Graph"
-msgstr ""
+msgstr "Graf GNOME Office"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:2
 msgid "TODO : Unfinished"
-msgstr ""
+msgstr "TODO : Nedokončeno"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/consolidate.glade.h:26
@@ -20246,9 +19683,8 @@ msgid "_Bottom"
 msgstr "_Dole"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
-#, fuzzy
 msgid "_Decrease"
-msgstr "Snížení"
+msgstr "_Snížení"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
 #: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:31
@@ -20256,14 +19692,12 @@ msgid "_Delete"
 msgstr "O_dstranit"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:7
-#, fuzzy
 msgid "_Increase"
-msgstr "Zvýšení"
+msgstr "Z_výšení"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:8
-#, fuzzy
 msgid "_Order"
-msgstr "Okraje"
+msgstr "_Řád"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:9
 #: src/dialogs/autoformat.glade.h:24 src/dialogs/cell-format.glade.h:107
@@ -20271,9 +19705,8 @@ msgid "_Top"
 msgstr "Na_hoře"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:111
-#, fuzzy
 msgid "_Text:"
-msgstr "Text"
+msgstr "_Text:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
 msgid "Plot Engine"
@@ -20284,9 +19717,8 @@ msgid "Plot Type"
 msgstr "Typ grafu"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:319
-#, fuzzy
 msgid "Chart Theme"
-msgstr "Graf"
+msgstr "Téma grafu"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:160
 msgid "Series"
@@ -20294,9 +19726,8 @@ msgstr "Řady"
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:142
 #: src/dialogs/dialog-stf.glade.h:19
-#, fuzzy
 msgid "Data"
-msgstr "_Data"
+msgstr "Data"
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:145
 #: src/dialogs/pivottable.glade.h:4
@@ -20337,28 +19768,24 @@ msgid "Configure Filled Object"
 msgstr "Nastavit vyplněný objekt"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:5
-#, fuzzy
 msgid "Fill _Color:"
 msgstr "_Barva vyplnění:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
-#, fuzzy
 msgid "Gradient"
-msgstr "Tisknout"
+msgstr "Přechod"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
 msgid "Gradient:"
-msgstr ""
+msgstr "Přechod:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-#, fuzzy
 msgid "Image"
-msgstr "_Obrázek..."
+msgstr "Obrázek"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-#, fuzzy
 msgid "Left to right"
-msgstr "Zarovnat doleva"
+msgstr "Zleva doprava"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 #: src/dialogs/cell-format.glade.h:52 src/dialogs/dialog-cell-format.c:72
@@ -20367,9 +19794,8 @@ msgid "None"
 msgstr "Nic"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
-#, fuzzy
 msgid "Not available..."
-msgstr "< Není k dispozici >"
+msgstr "Není k dispozici..."
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 #: src/dialogs/so-fill.glade.h:4
@@ -20382,14 +19808,12 @@ msgid "Pattern"
 msgstr "Vzorek"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-#, fuzzy
 msgid "S_tart Color:"
-msgstr "_Barva:"
+msgstr "_Počáteční barva:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
-#, fuzzy
 msgid "Select an _image file:"
-msgstr "Vybere celý sloupec"
+msgstr "Vybere soubor _obrázku:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 #: src/dialogs/cell-format.glade.h:66
@@ -20398,35 +19822,31 @@ msgstr "Plné"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
 msgid "Stretched"
-msgstr ""
+msgstr "Roztažený"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-#, fuzzy
 msgid "Top left to bottom right"
-msgstr "Přesun objektu dolů"
+msgstr "Shora vlevo dolů doprava"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
 msgid "Top right to bottom left"
-msgstr ""
+msgstr "Shora vpravo dolů doleva"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
-#, fuzzy
 msgid "Top to bottom"
-msgstr "Nahoře a dole"
+msgstr "Shora dolů"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 msgid "Wallpaper"
-msgstr ""
+msgstr "Tapeta"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
-#, fuzzy
 msgid "_End Color:"
-msgstr "_Barva:"
+msgstr "_Koncová barva:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-#, fuzzy
 msgid "_Fill type:"
-msgstr "_Typ souboru:"
+msgstr "_Typ výplně:"
 
 #. outline colour
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:147
@@ -20438,9 +19858,8 @@ msgid "Transparent"
 msgstr "Průhledný"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:291
-#, fuzzy
 msgid "Select an image file"
-msgstr "Vybere celý sloupec"
+msgstr "Vybrat soubor obrázku"
 
 #. An MS Excel-ish theme * TODO : have a look at apple's themes
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:229
@@ -20450,9 +19869,8 @@ msgstr "Výchozí"
 
 #. guppi theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:260
-#, fuzzy
 msgid "Guppi"
-msgstr "Seskupit"
+msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
@@ -20625,22 +20043,20 @@ msgid "Stacked Columns"
 msgstr "Sloupce nad sebou"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
-#, fuzzy
 msgid "Bar and Column charts"
-msgstr "Hlavičky řádků a s_loupců"
+msgstr "Pruhové a sloupcové grafy"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
 msgid "Bar/Col Charts"
-msgstr ""
+msgstr "Pruhové/sloupcové grafy"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
-#, fuzzy
 msgid "Bar/Col plotting engine"
 msgstr "Engine kreslení pruhů/sloupců"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
 msgid "Default Bar/Col plot types"
-msgstr ""
+msgstr "Implicitní typy kreslení pruhů/sloupců"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
 msgid "Degrees counter clockwise from 3 O'Clock"
@@ -20729,19 +20145,16 @@ msgid "Split Pie"
 msgstr "Rozdělený koláč"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:1
-#, fuzzy
 msgid "Default pie types"
-msgstr "Výchozí interpretr"
+msgstr "Výchozí typ koláče"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:2
-#, fuzzy
 msgid "Pie Charts"
-msgstr "Kreslení koláčových grafů"
+msgstr "Koláčové grafy"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:3
-#, fuzzy
 msgid "Pie charts"
-msgstr "Kreslení koláčových grafů"
+msgstr "Koláčové grafy"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:4
 msgid "Pie plotting engine"
@@ -21005,9 +20418,8 @@ msgstr "Seskupit podle:"
 #: src/dialogs/histogram.glade.h:13 src/dialogs/moving-averages.glade.h:10
 #: src/dialogs/random-generation.glade.h:7 src/dialogs/rank.glade.h:6
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:9
-#, fuzzy
 msgid "O_ptions"
-msgstr "Možnosti"
+msgstr "_Možnosti"
 
 #: src/dialogs/anova-one.glade.h:9 src/dialogs/anova-two.glade.h:10
 #: src/dialogs/correlation.glade.h:6 src/dialogs/covariance.glade.h:6
@@ -21032,9 +20444,8 @@ msgid "Retain Output Range Formatting"
 msgstr "Neměnit formát ve výstupní oblasti"
 
 #: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:12
-#, fuzzy
 msgid "_Alpha = "
-msgstr "_Alfa:"
+msgstr "_Alfa = "
 
 #: src/dialogs/anova-one.glade.h:12 src/dialogs/correlation.glade.h:8
 #: src/dialogs/covariance.glade.h:8 src/dialogs/descriptive-stats.glade.h:18
@@ -21051,9 +20462,8 @@ msgstr "Obl_asti"
 #: src/dialogs/mean-tests.glade.h:20 src/dialogs/moving-averages.glade.h:15
 #: src/dialogs/rank.glade.h:13 src/dialogs/regression.glade.h:15
 #: src/dialogs/sampling.glade.h:19
-#, fuzzy
 msgid "_Input"
-msgstr "Vstup"
+msgstr "V_stup"
 
 #: src/dialogs/anova-one.glade.h:15 src/dialogs/anova-two.glade.h:14
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
@@ -21085,9 +20495,8 @@ msgstr "Titu_lky"
 #: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:18
 #: src/dialogs/random-generation.glade.h:14 src/dialogs/rank.glade.h:17
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:22
-#, fuzzy
 msgid "_Output"
-msgstr "Výstup"
+msgstr "V_ýstup"
 
 #: src/dialogs/anova-two.glade.h:3 src/dialogs/descriptive-stats.glade.h:4
 #: src/dialogs/random-generation.glade.h:2 src/dialogs/sampling.glade.h:2
@@ -21099,9 +20508,8 @@ msgid "ANOVA - Two-Factor"
 msgstr "ANOVA - Dva faktory"
 
 #: src/dialogs/anova-two.glade.h:8
-#, fuzzy
 msgid "Number of Rows _Per Sample:"
-msgstr "P_očet pokusů:"
+msgstr "Počet řádků _na vzorek:"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
@@ -21280,9 +20688,8 @@ msgid "Autoformat"
 msgstr "Automatický formát"
 
 #: src/dialogs/autoformat.glade.h:10
-#, fuzzy
 msgid "C_ategory:"
-msgstr "Kategorie:"
+msgstr "_Kategorie:"
 
 #: src/dialogs/autoformat.glade.h:11
 msgid "Category:"
@@ -21945,9 +21352,8 @@ msgid "Shift cells _up"
 msgstr "Posunout buňky nahor_u"
 
 #: src/dialogs/descriptive-stats.glade.h:1
-#, fuzzy
 msgid "(1 - alpha) = "
-msgstr "(1 - alfa):"
+msgstr "(1 - alfa) = "
 
 #: src/dialogs/descriptive-stats.glade.h:3
 msgid ".95"
@@ -21964,7 +21370,7 @@ msgstr "Popisná statistika"
 
 #: src/dialogs/descriptive-stats.glade.h:10
 msgid "K = "
-msgstr ""
+msgstr "K = "
 
 #: src/dialogs/descriptive-stats.glade.h:11
 msgid "Kth Largest"
@@ -22037,14 +21443,12 @@ msgstr "John Gotts, balíčky RPM."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:64
-#, fuzzy
 msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, Gnumeric hacker."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:67
-#, fuzzy
 msgid "Jon Kåre Hellan, Gnumeric hacker."
 msgstr "Jon Kåre Hellan, Gnumeric hacker."
 
@@ -22349,9 +21753,8 @@ msgid "Feb"
 msgstr "Úno"
 
 #: src/dialogs/dialog-autoformat.c:70
-#, fuzzy
 msgid "Mar"
-msgstr "*Bře"
+msgstr "Bře"
 
 #: src/dialogs/dialog-autoformat.c:70 src/dialogs/dialog-autoformat.c:74
 #: src/tools/analysis-tools.c:3359 src/tools/analysis-tools.c:3369
@@ -22660,9 +22063,8 @@ msgid "Prepare an email"
 msgstr "Připravit email"
 
 #: src/dialogs/dialog-hyperlink.c:203
-#, fuzzy
 msgid "_Web Link"
-msgstr "Vložit odkaz"
+msgstr "Odkaz na _WWW"
 
 #: src/dialogs/dialog-hyperlink.c:205
 msgid "Browse to the specified URL"
@@ -22752,9 +22154,8 @@ msgid "Formats"
 msgstr "Formáty"
 
 #: src/dialogs/dialog-paste-special.c:49
-#, fuzzy
 msgid "Add"
-msgstr "Přičíst "
+msgstr "Přičíst"
 
 #: src/dialogs/dialog-paste-special.c:50
 msgid "Subtract"
@@ -23593,7 +22994,7 @@ msgstr ""
 #: src/dialogs/dialog-stf-fixed-page.c:113
 #, c-format
 msgid "You cannot have more than %d columns in this version of Gnumeric."
-msgstr ""
+msgstr "V této verzi Gnumeric nemůžete mít více než %d sloupců."
 
 #: src/dialogs/dialog-stf-main-page.c:136
 #, c-format
@@ -23603,7 +23004,7 @@ msgstr "%d z %d řádků pro import"
 #: src/dialogs/dialog-stf-main-page.c:157
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
-msgstr ""
+msgstr "Data nejsou v kódování %s platná; vyberte prosíém jiné kódování."
 
 #: src/dialogs/dialog-stf-main-page.c:375
 #, c-format
@@ -23644,21 +23045,18 @@ msgstr "Vy_křičník (!)"
 
 #: src/dialogs/dialog-stf.glade.h:10
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "C_ustom"
 msgstr "V_lastní"
 
 #: src/dialogs/dialog-stf.glade.h:12
-#, fuzzy
 msgid ""
 "Character interpreted as quote character. If a termination or separation "
 "character is encountered within quotes it will be considered part of the "
 "column text."
-msgstr ""
-"Znak interpretovaný jako uvozovky. Pokud se ukončovací nebo oddělovací znak "
-"najde v uvozovkách, je ignorovnán."
+msgstr "Znak interpretovaný jako uvozovky. Pokud se ukončovací nebo oddělovací znak najde mezi uvozovkami, bude považován za součást textu sloupce."
 
 #: src/dialogs/dialog-stf.glade.h:13
 msgid "Clear list of columns"
@@ -23677,9 +23075,8 @@ msgid "Columns"
 msgstr "Sloupce"
 
 #: src/dialogs/dialog-stf.glade.h:18
-#, fuzzy
 msgid "Custom separator, this can be any character."
-msgstr "Vlastní oddělovač, může to být libovolný znak"
+msgstr "Vlastní oddělovač, může to být libovolný znak."
 
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "Define the width of each column manually."
@@ -23693,9 +23090,8 @@ msgstr ""
 "Každý sloupec textu je oddělený 'oddělovacím' znakem, například středníkem."
 
 #: src/dialogs/dialog-stf.glade.h:22
-#, fuzzy
 msgid "Encoding:"
-msgstr "Závazný"
+msgstr "Kódování:"
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -23703,17 +23099,15 @@ msgstr "Konec"
 
 #: src/dialogs/dialog-stf.glade.h:24
 msgid "F_inish"
-msgstr ""
+msgstr "_Dokončit"
 
 #: src/dialogs/dialog-stf.glade.h:25
-#, fuzzy
 msgid "Fixed"
-msgstr "Soubor/"
+msgstr "Pevný"
 
 #: src/dialogs/dialog-stf.glade.h:26
-#, fuzzy
 msgid "Format"
-msgstr "F_ormát"
+msgstr "Formát"
 
 #: src/dialogs/dialog-stf.glade.h:27
 msgid "Fr_om line:"
@@ -23725,16 +23119,15 @@ msgstr "Pom_lčka (-)"
 
 #: src/dialogs/dialog-stf.glade.h:29
 msgid "Line breaks:"
-msgstr ""
+msgstr "Lámání řádek:"
 
 #: src/dialogs/dialog-stf.glade.h:30
 msgid "Lines to import"
 msgstr "Řádky pro import"
 
 #: src/dialogs/dialog-stf.glade.h:31
-#, fuzzy
 msgid "Main"
-msgstr "Min"
+msgstr "Hlavní"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid "Number of lines to import"
@@ -23812,9 +23205,8 @@ msgid "Source Format"
 msgstr "Formát zdroje"
 
 #: src/dialogs/dialog-stf.glade.h:51
-#, fuzzy
 msgid "Source Locale:"
-msgstr "Zdrojové oblasti"
+msgstr "Zdrojové locale:"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "Ta_b"
@@ -23825,23 +23217,22 @@ msgid "Te_xt indicator: "
 msgstr "Indikátor te_xtu:"
 
 #: src/dialogs/dialog-stf.glade.h:54
-#, fuzzy
 msgid "Text indicator"
-msgstr "Indikátor te_xtu:"
+msgstr "Indikátor textu"
 
 #: src/dialogs/dialog-stf.glade.h:55
 msgid "The carriage return character (ASCII code 13) breaks lines"
-msgstr ""
+msgstr "Řádky ukončuje znak návratu vozíku (ASCII kód 13)"
 
 #: src/dialogs/dialog-stf.glade.h:56
 msgid "The line feed character (ASCII code 10) breaks lines"
-msgstr ""
+msgstr "Řádky ukončuje znak posunu řádku (ASCII kód 10)"
 
 #: src/dialogs/dialog-stf.glade.h:57
 msgid ""
 "The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
 "lines"
-msgstr ""
+msgstr "Řádky ukončuje sekvence návrat vozíku a posun řádku (ASCII kódy 13 a 10)"
 
 #: src/dialogs/dialog-stf.glade.h:58
 msgid ""
@@ -23864,13 +23255,12 @@ msgid "_Colon (:)"
 msgstr "Dvo_jtečka (:)"
 
 #: src/dialogs/dialog-stf.glade.h:64
-#, fuzzy
 msgid "_Fixed width"
 msgstr "_Pevná šířka"
 
 #: src/dialogs/dialog-stf.glade.h:65
 msgid "_Macintosh (CR)"
-msgstr ""
+msgstr "_Macintosh (CR)"
 
 #: src/dialogs/dialog-stf.glade.h:67
 msgid "_Separated"
@@ -23882,15 +23272,15 @@ msgstr "_Do řádku:"
 
 #: src/dialogs/dialog-stf.glade.h:69
 msgid "_Unix (LF)"
-msgstr ""
+msgstr "_Unix (LF)"
 
 #: src/dialogs/dialog-stf.glade.h:70
 msgid "_Windows (CR+LF)"
-msgstr ""
+msgstr "_Windows (CR+LF)"
 
 #: src/dialogs/dialog-stf.glade.h:72
 msgid "dialog1"
-msgstr ""
+msgstr "dialog1"
 
 #: src/dialogs/dialog-tabulate.c:146
 msgid "Tabulation"
@@ -23941,7 +23331,7 @@ msgid ""
 "Multi-display support in Gnumeric has been turned off due to multiple bugs "
 "in GTK+, libgnomeui, libgnomeprintui, libbonoboui, and Gnumeric at the time "
 "of writing, ultimo May 2003."
-msgstr ""
+msgstr "Podpora více displejů v Gnumericu byla vypnuta kvůli několika chybám v GTK+, libgnomeui, libgnomeprintui, libbonoboui a Gnumericu v době psaní, květnu 2003."
 
 #: src/dialogs/dialog-view.c:93
 #, c-format
@@ -24086,14 +23476,12 @@ msgid "Size:"
 msgstr "Velikost:"
 
 #: src/dialogs/format-selector.glade.h:2
-#, fuzzy
 msgid "<b>Preview</b>"
-msgstr "Náhled"
+msgstr "<b>Náhled</b>"
 
 #: src/dialogs/format-selector.glade.h:3
-#, fuzzy
 msgid "Ca_tegories:"
-msgstr "Kategorie:"
+msgstr "_Kategorie:"
 
 #: src/dialogs/format-selector.glade.h:4
 msgid "Deci_mal places:"
@@ -24101,51 +23489,47 @@ msgstr "Počet desetinných _míst:"
 
 #: src/dialogs/format-selector.glade.h:5
 msgid "Display amounts in traditional accounting styles."
-msgstr ""
+msgstr "Zobrazovat částky v tradičních účetních stylech."
 
 #: src/dialogs/format-selector.glade.h:6
 msgid "Display and input values as strings with no interpretation."
-msgstr ""
+msgstr "Zobrazovat a vkládat hodnoty jako řetězce bez interpretace."
 
 #: src/dialogs/format-selector.glade.h:7
 msgid "Display currency amounts."
-msgstr ""
+msgstr "Zobrazovat finanční částky."
 
 #: src/dialogs/format-selector.glade.h:8
 msgid "Display dates and optionally times of day."
-msgstr ""
+msgstr "Zobrazovat data a volitelně čas."
 
 #: src/dialogs/format-selector.glade.h:9
 msgid "Display numeric values with a fixed number of decimals."
-msgstr ""
+msgstr "Zobrazovat číselné hodnoty s pevným počtem desetinných míst."
 
 #: src/dialogs/format-selector.glade.h:10
-#, fuzzy
 msgid "Display times of day."
-msgstr "Zobrazit _přehledy"
+msgstr "Zobrazit časy."
 
 #: src/dialogs/format-selector.glade.h:11
 msgid "Display values as closest fractional approximation."
-msgstr ""
+msgstr "Zobrazovat hodnoty jako nejbližší finanční aproximaci."
 
 #: src/dialogs/format-selector.glade.h:12
-#, fuzzy
 msgid "Display values as percentages."
-msgstr "Zobrazit hodnotu stejně jak byla zadaná"
+msgstr "Zobrazit hodnotu jako procenta."
 
 #: src/dialogs/format-selector.glade.h:13
 msgid "Display values with power-of-ten scaling."
-msgstr ""
+msgstr "Zobrazovat hodnoty s posunem v mocninách deseti."
 
 #: src/dialogs/format-selector.glade.h:14
-#, fuzzy
 msgid "Format c_ode:"
-msgstr "_Formát:"
+msgstr "_Kód formátu:"
 
 #: src/dialogs/format-selector.glade.h:15
-#, fuzzy
 msgid "Negative number _format:"
-msgstr "Formát záporného čísla"
+msgstr "Formát zá_porného čísla:"
 
 #: src/dialogs/format-selector.glade.h:16
 msgid "S_ymbol:"
@@ -24153,11 +23537,11 @@ msgstr "S_ymbol:"
 
 #: src/dialogs/format-selector.glade.h:17
 msgid "Select an appropriate format automatically."
-msgstr ""
+msgstr "Automaticky vybrat vhodný formát."
 
 #: src/dialogs/format-selector.glade.h:18
 msgid "Specify an XL-style format directly"
-msgstr ""
+msgstr "Přímo určit formát stylu XL"
 
 #: src/dialogs/format-selector.glade.h:19
 msgid "_Format:"
@@ -24278,19 +23662,16 @@ msgstr "Ma_x:"
 
 #: src/dialogs/histogram.glade.h:11 src/dialogs/mean-tests.glade.h:8
 #: src/dialogs/moving-averages.glade.h:8 src/dialogs/sampling.glade.h:7
-#, fuzzy
 msgid "New _Sheet"
-msgstr "Nový list"
+msgstr "Nový _list"
 
 #: src/dialogs/histogram.glade.h:12 src/dialogs/mean-tests.glade.h:9
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/sampling.glade.h:8
-#, fuzzy
 msgid "New _Workbook"
-msgstr "Nový sešit"
+msgstr "Nový _sešit"
 
 #: src/dialogs/histogram.glade.h:14 src/dialogs/moving-averages.glade.h:11
 #: src/dialogs/sampling.glade.h:10
-#, fuzzy
 msgid "Output _Range:"
 msgstr "Výstupní _oblast:"
 
@@ -24299,52 +23680,44 @@ msgid "Pareto (_Sorted)"
 msgstr "Pareto (_Tříděná)"
 
 #: src/dialogs/histogram.glade.h:16
-#, fuzzy
 msgid "Retain Output Range _Comments"
-msgstr "Neměnit komentáře ve výstupní oblasti"
+msgstr "Neměnit _komentáře ve výstupní oblasti"
 
 #: src/dialogs/histogram.glade.h:17
-#, fuzzy
 msgid "Retain Output Range _Formatting"
-msgstr "Neměnit formát ve výstupní oblasti"
+msgstr "Neměnit _formát ve výstupní oblasti"
 
 #: src/dialogs/histogram.glade.h:19
-#, fuzzy
 msgid "_Autofit Columns"
-msgstr "A_utomatická úprava šířky sloupců"
+msgstr "A_utomaticky přizpůsobit šířku sloupců"
 
 #: src/dialogs/histogram.glade.h:20
-#, fuzzy
 msgid "_Bins"
-msgstr "Třídy"
+msgstr "_Třídy"
 
 #: src/dialogs/histogram.glade.h:21
 msgid "_Calculated Bins"
 msgstr "_Vypočtené třídy"
 
 #: src/dialogs/histogram.glade.h:22
-#, fuzzy
 msgid "_Chart Output"
-msgstr "Výstup grafu"
+msgstr "_Výstup grafu"
 
 #: src/dialogs/histogram.glade.h:23
-#, fuzzy
 msgid "_Clear Output Range"
-msgstr "Vyčistit výstupní oblast"
+msgstr "_Vyčistit výstupní oblast"
 
 #: src/dialogs/histogram.glade.h:26
 msgid "_N:"
 msgstr "_N:"
 
 #: src/dialogs/histogram.glade.h:28
-#, fuzzy
 msgid "_Percentages"
-msgstr "_Procento"
+msgstr "_Procenta"
 
 #: src/dialogs/histogram.glade.h:29
-#, fuzzy
 msgid "_Predetermined Bins"
-msgstr "_Dopředu určené třídy"
+msgstr "Pře_dem určené třídy"
 
 #: src/dialogs/hyperlink.glade.h:2
 msgid "<small>Optional</small>"
@@ -24403,7 +23776,6 @@ msgid "E_qual"
 msgstr "_Shodné"
 
 #: src/dialogs/mean-tests.glade.h:7
-#, fuzzy
 msgid "Hypothesized Mean _Difference:"
 msgstr "H_ypotetický rozdíl průměrů:"
 
@@ -24416,18 +23788,16 @@ msgid "Testing the Difference of 2 Means"
 msgstr "Test rozdílu dvou průměrů"
 
 #: src/dialogs/mean-tests.glade.h:14
-#, fuzzy
 msgid "Variable _1 Population Variance:"
-msgstr "Rozptyl populace proměnné 1:"
+msgstr "Rozptyl populace proměnné _1:"
 
 #: src/dialogs/mean-tests.glade.h:15 src/dialogs/variance-tests.glade.h:12
 msgid "Variable _1 Range:"
 msgstr "Oblast proměnné _1:"
 
 #: src/dialogs/mean-tests.glade.h:16
-#, fuzzy
 msgid "Variable _2 Population Variance:"
-msgstr "Rozptyl populace proměnné 2:"
+msgstr "Rozptyl populace proměnné _2:"
 
 #: src/dialogs/mean-tests.glade.h:17 src/dialogs/variance-tests.glade.h:13
 msgid "Variable _2 Range:"
@@ -24438,9 +23808,8 @@ msgid "Variables are:"
 msgstr "Proměnné jsou:"
 
 #: src/dialogs/mean-tests.glade.h:19
-#, fuzzy
 msgid "_Alpha ="
-msgstr "_Alfa:"
+msgstr "_Alfa = "
 
 #: src/dialogs/mean-tests.glade.h:21
 msgid "_Known"
@@ -24451,47 +23820,40 @@ msgid "_Paired"
 msgstr "_Párové"
 
 #: src/dialogs/mean-tests.glade.h:26
-#, fuzzy
 msgid "_Population Variances are:"
-msgstr "Rozptyly populací jsou:"
+msgstr "_Rozptyly populací jsou:"
 
 #: src/dialogs/mean-tests.glade.h:27
-#, fuzzy
 msgid "_Populations"
-msgstr "_Možnosti"
+msgstr "_Populace"
 
 #: src/dialogs/mean-tests.glade.h:28
-#, fuzzy
 msgid "_Test"
-msgstr "z-Test"
+msgstr "_Test"
 
 #: src/dialogs/mean-tests.glade.h:29
 msgid "_Unequal"
 msgstr "_Nerovné"
 
 #: src/dialogs/mean-tests.glade.h:30
-#, fuzzy
 msgid "_Unknown"
-msgstr "Neznámý"
+msgstr "_Neznámý"
 
 #: src/dialogs/mean-tests.glade.h:31
-#, fuzzy
 msgid "_Unpaired"
 msgstr "Nepá_rové"
 
 #: src/dialogs/merge.glade.h:1
-#, fuzzy
 msgid "Merge _Range:"
-msgstr "Spojit oblast:"
+msgstr "Spojit _oblast:"
 
 #: src/dialogs/merge.glade.h:2
 msgid "Merge..."
 msgstr "Sloučit..."
 
 #: src/dialogs/merge.glade.h:3
-#, fuzzy
 msgid "_Merge"
-msgstr "Sloučit"
+msgstr "_Sloučit"
 
 #: src/dialogs/moving-averages.glade.h:2
 msgid "3"
@@ -24638,9 +24000,8 @@ msgid "Apply _to:"
 msgstr "Použít _na:"
 
 #: src/dialogs/print.glade.h:5
-#, fuzzy
 msgid "Apply to _all sheets of this workbook."
-msgstr "Použít n_a všechny listy."
+msgstr "Použít n_a všechny listy tohoto sešitu."
 
 #: src/dialogs/print.glade.h:6
 msgid "Center on page"
@@ -24688,7 +24049,7 @@ msgstr "Hlavičky řádků a s_loupců"
 
 #: src/dialogs/print.glade.h:19
 msgid "Save as Default Settings"
-msgstr ""
+msgstr "Uložit jako implicitní nastavení"
 
 #: src/dialogs/print.glade.h:20
 msgid "Scale"
@@ -24775,9 +24136,8 @@ msgid "_Distribution:"
 msgstr "_Rozdělení:"
 
 #: src/dialogs/random-generation.glade.h:16
-#, fuzzy
 msgid "_Random Numbers"
-msgstr "Náhodná čísla"
+msgstr "_Náhodná čísla"
 
 #: src/dialogs/rank.glade.h:2
 msgid "Average _Rank"
@@ -25005,9 +24365,8 @@ msgid "The search text is a regular expression"
 msgstr "Hledaný text je regulární výraz"
 
 #: src/dialogs/search-replace.glade.h:33 src/dialogs/search.glade.h:27
-#, fuzzy
 msgid "The search text is taken literally."
-msgstr "Hledaný text se chápe tak, jak je"
+msgstr "Hledaný text se chápe tak, jak je."
 
 #: src/dialogs/search-replace.glade.h:34
 msgid "Turn unparsable entries into string values"
@@ -25806,9 +25165,8 @@ msgid "Is not an autoformat template file"
 msgstr "Není šablona automatického formátu"
 
 #: src/format-template.c:493
-#, fuzzy
 msgid "Invalid xml file. Tree is empty?"
-msgstr "Neplatný XML soubor. Strom je prázdný?"
+msgstr "Neplatný soubor xml. Strom je prázdný?"
 
 #: src/format-template.c:826
 #, c-format
@@ -26526,7 +25884,6 @@ msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr "Communaute Financiere Africaine BCEAO, Franky"
 
 #: src/formats.c:535
-#, fuzzy
 msgid "Palladium, Ounces"
 msgstr "Paladium, Unce"
 
@@ -26616,7 +25973,6 @@ msgstr ""
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 
 #: src/func-builtin.c:103
-#, fuzzy
 msgid ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
@@ -26628,8 +25984,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
-"@DESCRIPTION=Vrací verzi aplikace Gnumeric jako řetězec.\n"
-"@EXAMPLES=\n"
+"@DESCRIPTION=Funkce GNUMERIC_VERSION vrací verzi aplikace Gnumeric jako řetězec.@EXAMPLES=\n"
 "GNUMERIC_VERSION().\n"
 "\n"
 "@SEEALSO="
@@ -26704,9 +26059,8 @@ msgid "Format as alternative Number"
 msgstr "Formát jako alternativní Číslo"
 
 #: src/gui-clipboard.c:114
-#, fuzzy
 msgid "clipboard"
-msgstr "Schránka"
+msgstr "schránka"
 
 #: src/gui-clipboard.c:122
 msgid "Parse error while trying to parse data into cellregion"
@@ -26949,7 +26303,6 @@ msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "Skončit hned po načtení vybraných sešitů (vhodné pro testování)."
 
 #: src/main-application.c:112
-#, fuzzy
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -26962,15 +26315,15 @@ msgid ""
 "\n"
 "-- The Gnumeric Team."
 msgstr ""
-"Děkujeme, že používáte aplikaci Gnumeric.\n"
+"Děkujeme, že používáte aplikaci Gnumeric!\n"
 "\n"
 "Verze, kterou právě používáte, je už dost stará.\n"
-"Skoro určitě bylo mezitím opraveno mnoho chyb\n"
-"a přidáno mnoho nových funkcí.\n"
+"Pravděpodobně bylo mezitím opraveno mnoho chyb\n"
+"a byly přidány nové funkce.\n"
 "\n"
-"Prosím, zamyslete se nad přechodem na novější\n"
-"verzi předtím, než budete oznamovat nějaké chyby.\n"
-"Podrobnosti naleznete na http://www.gnumeric.org.\n"
+"Prosím, zamyslete se nad přechodem na novější verzi předtím,\n"
+"než budete oznamovat nějaké chyby. Podrobnosti naleznete na\n"
+"http://www.gnome.org/projects/gnumeric/\n"
 "\n"
 "-- Tým aplikace Gnumeric."
 
@@ -27545,9 +26898,8 @@ msgid "Clear Co_ntents"
 msgstr "Vymazat _obsah"
 
 #: src/sheet-control-gui.c:1508
-#, fuzzy
 msgid "Edit Co_mment..."
-msgstr "Ko_mentáře"
+msgstr "Upravit Ko_mentáře..."
 
 #: src/sheet-control-gui.c:1514
 msgid "_Format Cells..."
@@ -27629,7 +26981,6 @@ msgstr "Rádiový přepínač"
 
 #. Oh, yeah?
 #: src/sheet-style.c:446
-#, fuzzy
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -27637,7 +26988,7 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 "Toto je speciální verze aplikace Gnumeric. Byla sestavena\n"
-"s podporou velmi velkého počtu řádků. Přístup ke sloupci\n"
+"s podporou velmi velkého počtu sloupcí. Přístup ke sloupci\n"
 "s názvem TRUE může kolidovat s konstantou stejného názvu.\n"
 "Očekávejte podivné chování."
 
@@ -27694,7 +27045,7 @@ msgstr "Chyba při pokusu o zpracování dat do listu"
 
 #: src/stf.c:352
 msgid "That file is not in the given encoding."
-msgstr ""
+msgstr "Tento soubor není v daném kódování."
 
 #: src/stf.c:369
 msgid "Parse error while trying to parse data into sheet"
@@ -27790,7 +27141,6 @@ msgid "Descriptive Statistics (%s)"
 msgstr "Popisná statistika (%s)"
 
 #: src/tools/analysis-tools.c:1251
-#, fuzzy
 msgid "The requested sample size is too large for a periodic sample."
 msgstr "Požadovaná velikost výběru je příliš velká pro periodický výběr."
 
@@ -27917,7 +27267,6 @@ msgstr ""
 "Musí jich být alespoň tolik, co volných proměnných."
 
 #: src/tools/analysis-tools.c:2219
-#, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  All numerical precision was lost in the computation."
@@ -27971,13 +27320,12 @@ msgid ""
 msgstr "Pravděpodobnost absolutní hodnoty pozorování je větší než t-hodnoty."
 
 #: src/tools/analysis-tools.c:2409
-#, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  Treat the regression result with great care!"
 msgstr ""
 "Dvě nebo více nezávislých proměnných jsou téměř lineárně závislé.\n"
-"Nespoléhejte se na výsledek regrese!"
+"Používejte výsledek regrese hodně opatrně!"
 
 #: src/tools/analysis-tools.c:2424
 #, c-format
@@ -28212,23 +27560,19 @@ msgid "Random Numbers"
 msgstr "Náhodná čísla"
 
 #: src/tools/scenarios.c:628
-#, fuzzy
 msgid "Result Cells:"
-msgstr "Buňka výsledku"
+msgstr "Buňky výsledku:"
 
 #: src/tools/scenarios.c:695 src/tools/scenarios.c:731
-#, fuzzy
 msgid "Scenario Summary"
-msgstr "Zobrazení Scénáře"
+msgstr "Souhrn scénáře"
 
 #. Titles.
 #: src/tools/scenarios.c:698
-#, fuzzy
 msgid "Current Values"
-msgstr "Současná hodnota:"
+msgstr "Současné hodnoty"
 
 #: src/tools/scenarios.c:699
-#, fuzzy
 msgid "Changing Cells:"
 msgstr "Měnící se buňky:"
 
@@ -28344,7 +27688,6 @@ msgid "Not Binding"
 msgstr "Nezávazný"
 
 #: src/tools/solver/reports-write.c:180 src/tools/solver/reports-write.c:890
-#, fuzzy
 msgid "Assume that all variables are integers."
 msgstr "Předpokládat, že všechny proměnné jsou celočíselné."
 
@@ -28454,7 +27797,6 @@ msgid "Performance Report"
 msgstr "Výkaz o výkonu"
 
 #: src/tools/solver/reports-write.c:520
-#, fuzzy
 msgid "Number of Iterations"
 msgstr "Počet iterací"
 
@@ -28498,12 +27840,10 @@ msgid "Variables"
 msgstr "Proměnné"
 
 #: src/tools/solver/reports-write.c:573
-#, fuzzy
 msgid "Integer Constraints"
 msgstr "Celočíselná omezení"
 
 #: src/tools/solver/reports-write.c:574
-#, fuzzy
 msgid "Boolean Constraints"
 msgstr "Pravdivostní omezení"
 
@@ -28763,72 +28103,65 @@ msgstr "#PŘEPOČ!"
 
 #. This is the default custom color
 #: src/widgets/color-palette.c:375
-#, fuzzy
 msgid "custom"
-msgstr "Vlastní"
+msgstr "vlastní"
 
 #. "Custom" color - we'll pop up a GnomeColorPicker
 #: src/widgets/color-palette.c:417
-#, fuzzy
 msgid "Custom Color:"
-msgstr "Upravit zápatí"
+msgstr "Vlastní barva:"
 
 #: src/widgets/color-palette.c:425
-#, fuzzy
 msgid "Choose Custom Color"
-msgstr "Vyberte listy, které chcete exportovat"
+msgstr "Vyberte vlastní barvu"
 
 #: src/widgets/color-palette.c:558
-#, fuzzy
 msgid "black"
-msgstr "Nepřesný"
+msgstr "černá"
 
 #: src/widgets/color-palette.c:559
 msgid "light brown"
-msgstr ""
+msgstr "světle hnědá"
 
 #: src/widgets/color-palette.c:560
 msgid "brown gold"
-msgstr ""
+msgstr "zlatohnědá"
 
 #: src/widgets/color-palette.c:561
 msgid "dark green #2"
-msgstr ""
+msgstr "tmavě zelená #2"
 
 #: src/widgets/color-palette.c:562
-#, fuzzy
 msgid "navy"
-msgstr "Pondělí"
+msgstr "námořní modř"
 
 #: src/widgets/color-palette.c:563 src/widgets/color-palette.c:619
 msgid "dark blue"
-msgstr ""
+msgstr "tmavě modrá"
 
 #: src/widgets/color-palette.c:564
 msgid "purple #2"
-msgstr ""
+msgstr "fialová #2"
 
 #: src/widgets/color-palette.c:565
 msgid "very dark gray"
-msgstr ""
+msgstr "velice tmavě šedá"
 
 #: src/widgets/color-palette.c:568 src/widgets/color-palette.c:624
 msgid "dark red"
-msgstr ""
+msgstr "tmavě červená"
 
 #: src/widgets/color-palette.c:569
-#, fuzzy
 msgid "red-orange"
-msgstr "oblast"
+msgstr "červenooranžová"
 
 #: src/widgets/color-palette.c:570
-#, fuzzy
 msgid "gold"
-msgstr "Tučné"
+msgstr "zlatá"
 
 #: src/widgets/color-palette.c:571
 msgid "dark green"
-msgstr ""
+msgstr "tmavě zelená"
 
 #: src/widgets/color-palette.c:572 src/widgets/color-palette.c:625
 #, fuzzy
@@ -28836,28 +28169,24 @@ msgid "dull blue"
 msgstr "Hodnota buňky"
 
 #: src/widgets/color-palette.c:573 src/widgets/color-palette.c:626
-#, fuzzy
 msgid "blue"
-msgstr "Modrá"
+msgstr "modrá"
 
 #: src/widgets/color-palette.c:574
 msgid "dull purple"
 msgstr ""
 
 #: src/widgets/color-palette.c:575
-#, fuzzy
 msgid "dark gray"
-msgstr "pole"
+msgstr "tmavě šedá"
 
 #: src/widgets/color-palette.c:578
-#, fuzzy
 msgid "red"
-msgstr "Červená"
+msgstr "červená"
 
 #: src/widgets/color-palette.c:579
-#, fuzzy
 msgid "orange"
-msgstr "oblast"
+msgstr "oranžová"
 
 #: src/widgets/color-palette.c:580
 #, fuzzy
@@ -28874,132 +28203,119 @@ msgstr ""
 
 #: src/widgets/color-palette.c:583
 msgid "sky blue #2"
-msgstr ""
+msgstr "nebesky modrá #2"
 
 #: src/widgets/color-palette.c:584 src/widgets/color-palette.c:623
 msgid "purple"
-msgstr ""
+msgstr "fialová"
 
 #: src/widgets/color-palette.c:585
-#, fuzzy
 msgid "gray"
-msgstr "pole"
+msgstr "šedá"
 
 #: src/widgets/color-palette.c:588 src/widgets/color-palette.c:620
-#, fuzzy
 msgid "magenta"
-msgstr "Fialová"
+msgstr "magenta"
 
 #: src/widgets/color-palette.c:589
 msgid "bright orange"
-msgstr ""
+msgstr "jasně oranžová"
 
 #: src/widgets/color-palette.c:590 src/widgets/color-palette.c:621
-#, fuzzy
 msgid "yellow"
 msgstr "Žlutá"
 
 #: src/widgets/color-palette.c:591
-#, fuzzy
 msgid "green"
-msgstr "Zelená"
+msgstr "zelená"
 
 #: src/widgets/color-palette.c:592 src/widgets/color-palette.c:622
-#, fuzzy
 msgid "cyan"
-msgstr "Modrozelená"
+msgstr "modrozelená"
 
 #: src/widgets/color-palette.c:593
 msgid "bright blue"
-msgstr ""
+msgstr "jasně modrá"
 
 #: src/widgets/color-palette.c:594 src/widgets/color-palette.c:611
 msgid "red purple"
-msgstr ""
+msgstr "červenofialová"
 
 #: src/widgets/color-palette.c:595
 msgid "light gray"
-msgstr ""
+msgstr "světle šedá"
 
 #: src/widgets/color-palette.c:598 src/widgets/color-palette.c:615
-#, fuzzy
 msgid "pink"
-msgstr "Hypertextový odkaz"
+msgstr "růžová"
 
 #: src/widgets/color-palette.c:599
-#, fuzzy
 msgid "light orange"
-msgstr "Zarovnat doprava"
+msgstr "světle oranžová"
 
 #: src/widgets/color-palette.c:600 src/widgets/color-palette.c:612
 msgid "light yellow"
-msgstr ""
+msgstr "světle žlutá"
 
 #: src/widgets/color-palette.c:601
-#, fuzzy
 msgid "light green"
-msgstr "Zarovnat doprava"
+msgstr "světle zelená"
 
 #: src/widgets/color-palette.c:602
-#, fuzzy
 msgid "light cyan"
-msgstr "Zarovnat doprava"
+msgstr "světle modrozelená"
 
 #: src/widgets/color-palette.c:603 src/widgets/color-palette.c:613
 msgid "light blue"
-msgstr ""
+msgstr "světle modrá"
 
 #: src/widgets/color-palette.c:604 src/widgets/color-palette.c:617
 msgid "light purple"
-msgstr ""
+msgstr "světle fialová"
 
 #: src/widgets/color-palette.c:605
-#, fuzzy
 msgid "white"
-msgstr "Bílá"
+msgstr "bílá"
 
 #: src/widgets/color-palette.c:610
 msgid "purplish blue"
-msgstr ""
+msgstr "modrá do fialova"
 
 #: src/widgets/color-palette.c:614
 msgid "dark purple"
-msgstr ""
+msgstr "tmavě fialová"
 
 #: src/widgets/color-palette.c:616
-#, fuzzy
 msgid "sky blue"
-msgstr "Podle hodnoty"
+msgstr "nebesky modrá"
 
 #: src/widgets/gnumeric-expr-entry.c:1239
 msgid "Expecting a single range"
 msgstr "Očekává se jedna oblast"
 
 #: src/widgets/gnumeric-optionmenu.c:199
-#, fuzzy
 msgid "Menu"
-msgstr "Průměr"
+msgstr "Menu"
 
 #: src/widgets/gnumeric-optionmenu.c:200
 msgid "The menu of options"
-msgstr ""
+msgstr "Menu možností"
 
 #: src/widgets/gnumeric-optionmenu.c:206
 msgid "Indicator Size"
-msgstr ""
+msgstr "Velikost indikátoru"
 
 #: src/widgets/gnumeric-optionmenu.c:207
 msgid "Size of dropdown indicator"
-msgstr ""
+msgstr "Velikost indikátoru rozbalení"
 
 #: src/widgets/gnumeric-optionmenu.c:212
-#, fuzzy
 msgid "Indicator Spacing"
-msgstr "Interní výplň"
+msgstr "Výplň indikátoru"
 
 #: src/widgets/gnumeric-optionmenu.c:213
 msgid "Spacing around indicator"
-msgstr ""
+msgstr "Výplň kolem indikátoru"
 
 #: src/widgets/widget-charmap-selector.c:69
 msgid "Arabic"
@@ -29407,29 +28723,24 @@ msgid "Bold italic"
 msgstr "Tučné skloněné"
 
 #: src/widgets/widget-format-selector.c:61
-#, fuzzy
 msgid "Currency"
-msgstr "_Měna"
+msgstr "Měna"
 
 #: src/widgets/widget-format-selector.c:62
-#, fuzzy
 msgid "Accounting"
-msgstr "Úč_etnictví"
+msgstr "Účetnictví"
 
 #: src/widgets/widget-format-selector.c:66
-#, fuzzy
 msgid "Fraction"
-msgstr "_Zlomek"
+msgstr "Zlomek"
 
 #: src/widgets/widget-format-selector.c:67
-#, fuzzy
 msgid "Scientific"
-msgstr "_Vědecké"
+msgstr "Vědecké"
 
 #: src/widgets/widget-format-selector.c:69
-#, fuzzy
 msgid "Special"
-msgstr "S_peciální"
+msgstr "Speciální"
 
 #: src/widgets/widget-format-selector.c:908
 msgid "Negative Number Format"
@@ -29440,37 +28751,32 @@ msgid "Number Formats"
 msgstr "Formáty čísla"
 
 #: src/widgets/widget-locale-selector.c:64
-#, fuzzy
 msgid "Western Europe"
-msgstr "Západní"
+msgstr "Západní Evropa"
 
 #: src/widgets/widget-locale-selector.c:65
-#, fuzzy
 msgid "Eastern Europe"
-msgstr "Středoevropské"
+msgstr "Východní Evropa"
 
 #: src/widgets/widget-locale-selector.c:66
 msgid "North America"
-msgstr ""
+msgstr "Severní Amerika"
 
 #: src/widgets/widget-locale-selector.c:67
 msgid "South & Central America"
-msgstr ""
+msgstr "Jižní a střední Amerika"
 
 #: src/widgets/widget-locale-selector.c:68
-#, fuzzy
 msgid "Asia"
-msgstr "sigma"
+msgstr "Ásie"
 
 #: src/widgets/widget-locale-selector.c:69
-#, fuzzy
 msgid "Africa"
-msgstr "Arabské"
+msgstr "Afrika"
 
 #: src/widgets/widget-locale-selector.c:70
-#, fuzzy
 msgid "Australia"
-msgstr "Austrálie, Dolary"
+msgstr "Austrálie"
 
 #.
 #. * The format here is "Country/Language (locale)" or just
@@ -29482,340 +28788,308 @@ msgstr "Austrálie, Dolary"
 #.
 #: src/widgets/widget-locale-selector.c:102
 msgid "United States/English (C)"
-msgstr ""
+msgstr "Spojené státy americké/angličtina (C)"
 
 #: src/widgets/widget-locale-selector.c:103
-#, fuzzy
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "Jižní Afrika, Rand"
+msgstr "Jižní Afrika Afrikaans (af_ZA)"
 
 #: src/widgets/widget-locale-selector.c:104
 msgid "Ethiopia/Amharic (am_ET)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:105
-#, fuzzy
 msgid "United Arab Emirates (ar_AE)"
-msgstr "Spojené Arabské Emiráty, Dirhamy"
+msgstr "Spojené Arabské Emiráty (ar_AE)"
 
 #: src/widgets/widget-locale-selector.c:106
-#, fuzzy
 msgid "Bahrain (ar_BH)"
-msgstr "Bahrajn, Dináry"
+msgstr "Bahrajn (ar_BH)"
 
 #: src/widgets/widget-locale-selector.c:107
 msgid "Algeria (ar_DZ)"
-msgstr ""
+msgstr "Alžírsko (ar_DZ)"
 
 #: src/widgets/widget-locale-selector.c:108
 msgid "Egypt (ar_EG)"
-msgstr ""
+msgstr "Egypt (ar_EG)"
 
 #: src/widgets/widget-locale-selector.c:109
 msgid "India/Arabic (ar_IN)"
-msgstr ""
+msgstr "Indie/arabština (ar_IN)"
 
 #: src/widgets/widget-locale-selector.c:110
 msgid "Iraq (ar_IQ)"
-msgstr ""
+msgstr "Irák (ar_IQ)"
 
 #: src/widgets/widget-locale-selector.c:111
-#, fuzzy
 msgid "Jordan (ar_JO)"
-msgstr "Jordánsko, Dináry"
+msgstr "Jordánsko (ar_JO)"
 
 #: src/widgets/widget-locale-selector.c:112
-#, fuzzy
 msgid "Kuwait (ar_KW)"
-msgstr "Kuvajt, Dináry"
+msgstr "Kuvajt (ar_KW)"
 
 #: src/widgets/widget-locale-selector.c:113
 msgid "Lebanon (ar_LB)"
-msgstr ""
+msgstr "Libanon (ar_LB)"
 
 #: src/widgets/widget-locale-selector.c:114
-#, fuzzy
 msgid "Libya (ar_LY)"
-msgstr "Libye, Dináry"
+msgstr "Libye (ar_LY)"
 
 #: src/widgets/widget-locale-selector.c:115
 msgid "Morocco (ar_MA)"
-msgstr ""
+msgstr "Maroko (ar_MA)"
 
 #: src/widgets/widget-locale-selector.c:116
 msgid "Oman (ar_OM)"
-msgstr ""
+msgstr "Omán (ar_OM)"
 
 #: src/widgets/widget-locale-selector.c:117
 msgid "Qatar (ar_QA)"
-msgstr ""
+msgstr "Katar (ar_QA)"
 
 #: src/widgets/widget-locale-selector.c:118
-#, fuzzy
 msgid "Saudi Arabia (ar_SA)"
-msgstr "Saúdská Arábie, Riyaly"
+msgstr "Saúdská Arábie (ar_SA)"
 
 #: src/widgets/widget-locale-selector.c:119
-#, fuzzy
 msgid "Sudan (ar_SD)"
-msgstr "Súdán, Dináry"
+msgstr "Súdán (ar_SD)"
 
 #: src/widgets/widget-locale-selector.c:120
 msgid "Syria (ar_SY)"
-msgstr ""
+msgstr "Sýrie (ar_SY)"
 
 #: src/widgets/widget-locale-selector.c:121
-#, fuzzy
 msgid "Tunisia (ar_TN)"
-msgstr "Tunisko, Dináry"
+msgstr "Tunisko (ar_TN)"
 
 #: src/widgets/widget-locale-selector.c:122
 msgid "Yemen (ar_YE)"
-msgstr ""
+msgstr "Jemen (ar_YE)"
 
 #: src/widgets/widget-locale-selector.c:123
-#, fuzzy
 msgid "Azerbaijan (az_AZ)"
-msgstr "Ázerbájdžán, Manaty"
+msgstr "Ázerbájdžán (az_AZ)"
 
 #: src/widgets/widget-locale-selector.c:124
-#, fuzzy
 msgid "Belarus (be_BY)"
-msgstr "Bělorusko, Rubly"
+msgstr "Bělorusko (be_BY)"
 
 #: src/widgets/widget-locale-selector.c:125
-#, fuzzy
 msgid "Bulgaria (bg_BG)"
-msgstr "Bulharsko, Leva"
+msgstr "Bulharsko (bg_BG)"
 
 #: src/widgets/widget-locale-selector.c:126
-#, fuzzy
 msgid "Bangladesh (bn_BD)"
-msgstr "Bangladéš, Taka"
+msgstr "Bangladéš (bn_BD)"
 
 #: src/widgets/widget-locale-selector.c:127
 msgid "India/Bengali (bn_IN)"
-msgstr ""
+msgstr "Indie/bengálština (bn_IN)"
 
 #: src/widgets/widget-locale-selector.c:128
 msgid "France/Breton (br_FR)"
-msgstr ""
+msgstr "Francie/bretonština (br_FR)"
 
 #: src/widgets/widget-locale-selector.c:129
-#, fuzzy
 msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr "Bosna a Hercegovina, Směnitelná marka"
+msgstr "Bosna a Hercegovina (bs_BA)"
 
 #: src/widgets/widget-locale-selector.c:130
 msgid "Spain/Catalan (ca_ES)"
-msgstr ""
+msgstr "Španělsko/katalánština (ca_ES)"
 
 #: src/widgets/widget-locale-selector.c:131
-#, fuzzy
 msgid "Czech Republic (cs_CZ)"
-msgstr "Česká republika, Koruny"
+msgstr "Česká republika (cs_CZ)"
 
 #: src/widgets/widget-locale-selector.c:132
 msgid "Great Britain/Welsh (cy_GB)"
-msgstr ""
+msgstr "Velká Británie/Velština (cy_GB)"
 
 #: src/widgets/widget-locale-selector.c:133
-#, fuzzy
 msgid "Denmark (da_DK)"
-msgstr "Dánsko, Koruny"
+msgstr "Dánsko (da_DK)"
 
 #: src/widgets/widget-locale-selector.c:134
 msgid "Austria (de_AT)"
-msgstr ""
+msgstr "Rakousko (de_AT)"
 
 #: src/widgets/widget-locale-selector.c:135
 msgid "Belgium/German (de_BE)"
-msgstr ""
+msgstr "Belgie/němčina (de_BE)"
 
 #: src/widgets/widget-locale-selector.c:136
-#, fuzzy
 msgid "Switzerland/German (de_CH)"
-msgstr "Švýcarsko, Franky"
+msgstr "Švýcarsko/němčina (de_CH)"
 
 #: src/widgets/widget-locale-selector.c:137
 msgid "Germany (de_DE)"
-msgstr ""
+msgstr "Německo (de_DE)"
 
 #: src/widgets/widget-locale-selector.c:138
 msgid "Luxembourg/German (de_LU)"
-msgstr ""
+msgstr "Lucembursko/němčina (de_LU)"
 
 #: src/widgets/widget-locale-selector.c:139
 msgid "Greece (el_GR)"
-msgstr ""
+msgstr "Řecko (el_GR)"
 
 #: src/widgets/widget-locale-selector.c:140
 msgid "Australia (en_AU)"
-msgstr ""
+msgstr "Austrálie (en_AU)"
 
 #: src/widgets/widget-locale-selector.c:141
 msgid "Botswana (en_BW)"
-msgstr ""
+msgstr "Botswana (en_BW)"
 
 #: src/widgets/widget-locale-selector.c:142
 msgid "Canada/English (en_CA)"
-msgstr ""
+msgstr "Kanada/angličtina (en_CA)"
 
 #: src/widgets/widget-locale-selector.c:143
 msgid "Great Britain (en_GB)"
-msgstr ""
+msgstr "Velká Británie (en_GB)"
 
 #: src/widgets/widget-locale-selector.c:144
 msgid "Hong Kong/English (en_HK)"
-msgstr ""
+msgstr "Hong Kong/angličtina (en_HK)"
 
 #: src/widgets/widget-locale-selector.c:145
 msgid "Ireland (en_IE)"
-msgstr ""
+msgstr "Irsko (en_IE)"
 
 #: src/widgets/widget-locale-selector.c:146
-#, fuzzy
 msgid "India/English (en_IN)"
-msgstr "Anglické (ASCII)"
+msgstr "Indie/angličtina (en_IN)"
 
 #: src/widgets/widget-locale-selector.c:147
-#, fuzzy
 msgid "New Zealand (en_NZ)"
-msgstr "Nový Zéland, Dolary"
+msgstr "Nový Zéland (en_NZ)"
 
 #: src/widgets/widget-locale-selector.c:148
-#, fuzzy
 msgid "Philippines (en_PH)"
-msgstr "Filipíny, Peseta"
+msgstr "Filipíny (en_PH)"
 
 #: src/widgets/widget-locale-selector.c:149
 msgid "Singapore/English (en_SG)"
-msgstr ""
+msgstr "Singapur/angličtina (en_SG)"
 
 #: src/widgets/widget-locale-selector.c:150
 msgid "United States/English (en_US)"
-msgstr ""
+msgstr "Spojené státy americké/angličtina (en_US)"
 
 #: src/widgets/widget-locale-selector.c:151
-#, fuzzy
 msgid "South Africa/English (en_ZA)"
-msgstr "Jižní Afrika, Rand"
+msgstr "Jižní Afrika/angličtina (en_ZA)"
 
 #: src/widgets/widget-locale-selector.c:152
 msgid "Zimbabwe (en_ZW)"
-msgstr ""
+msgstr "Zimbabwe (en_ZW)"
 
 #: src/widgets/widget-locale-selector.c:153
 msgid "Esperanto (eo_EO)"
-msgstr ""
+msgstr "Esperanto (eo_EO)"
 
 #: src/widgets/widget-locale-selector.c:154
-#, fuzzy
 msgid "Argentina (es_AR)"
-msgstr "Argentina, Peseta"
+msgstr "Argentina (es_AR)"
 
 #: src/widgets/widget-locale-selector.c:155
 msgid "Bolivia (es_BO)"
-msgstr ""
+msgstr "Bolívie (es_BO)"
 
 #: src/widgets/widget-locale-selector.c:156
-#, fuzzy
 msgid "Chile (es_CL)"
-msgstr "Čile, Peseta"
+msgstr "Čile (es_CL)"
 
 #: src/widgets/widget-locale-selector.c:157
-#, fuzzy
 msgid "Colombia (es_CO)"
-msgstr "Kolumbie, Peseta"
+msgstr "Kolumbie (es_CO)"
 
 #: src/widgets/widget-locale-selector.c:158
-#, fuzzy
 msgid "Costa Rica (es_CR)"
-msgstr "Kostarika, Kolony"
+msgstr "Kostarika (es_CR)"
 
 #: src/widgets/widget-locale-selector.c:159
-#, fuzzy
 msgid "Dominican Republic (es_DO)"
-msgstr "Dominikánská republika, Peseta"
+msgstr "Dominikánská republika (es_DO)"
 
 #: src/widgets/widget-locale-selector.c:160
 msgid "Ecuador (es_EC)"
-msgstr ""
+msgstr "Ekvádor (es_EC)"
 
 #: src/widgets/widget-locale-selector.c:161
-#, fuzzy
 msgid "Spain (es_ES)"
-msgstr "Vzorkování (%s)"
+msgstr "Španělsko (es_ES)"
 
 #: src/widgets/widget-locale-selector.c:162
-#, fuzzy
 msgid "Guatemala (es_GT)"
-msgstr "Guatemala, Quetzaly"
+msgstr "Guatemala (es_GT)"
 
 #: src/widgets/widget-locale-selector.c:163
-#, fuzzy
 msgid "Honduras (es_HN)"
-msgstr "Honduras, Lempira"
+msgstr "Honduras (es_HN)"
 
 #: src/widgets/widget-locale-selector.c:164
-#, fuzzy
 msgid "Mexico (es_MX)"
-msgstr "Mexiko, Peseta"
+msgstr "Mexiko (es_MX)"
 
 #: src/widgets/widget-locale-selector.c:165
 msgid "Nicaragua (es_NI)"
-msgstr ""
+msgstr "Nikaragua (es_NI)"
 
 #: src/widgets/widget-locale-selector.c:166
 msgid "Panama (es_PA)"
-msgstr ""
+msgstr "Panama (es_PA)"
 
 #: src/widgets/widget-locale-selector.c:167
 msgid "Peru (es_PE)"
-msgstr ""
+msgstr "Peru (es_PE)"
 
 #: src/widgets/widget-locale-selector.c:168
 msgid "Puerto Rico (es_PR)"
-msgstr ""
+msgstr "Portoriko (es_PR)"
 
 #: src/widgets/widget-locale-selector.c:169
 msgid "Paraguay (es_PY)"
-msgstr ""
+msgstr "Paraguay (es_PY)"
 
 #: src/widgets/widget-locale-selector.c:170
-#, fuzzy
 msgid "El Salvador (es_SV)"
-msgstr "El Salvador, Kolony"
+msgstr "El Salvador (es_SV)"
 
 #: src/widgets/widget-locale-selector.c:171
 msgid "United States/Spanish (es_US)"
-msgstr ""
+msgstr "Spojené státy americké/španělština (es_US)"
 
 #: src/widgets/widget-locale-selector.c:172
-#, fuzzy
 msgid "Uruguay (es_UY)"
-msgstr "Uruguay, Peseta"
+msgstr "Uruguay (es_UY)"
 
 #: src/widgets/widget-locale-selector.c:173
-#, fuzzy
 msgid "Venezuela (es_VE)"
-msgstr "Venezuela, Bolivares"
+msgstr "Venezuela (es_VE)"
 
 #: src/widgets/widget-locale-selector.c:174
 msgid "Estonia (et_EE)"
-msgstr ""
+msgstr "Estonsko (et_EE)"
 
+# FIXME: spain
 #: src/widgets/widget-locale-selector.c:175
 msgid "spain/Basque (eu_ES)"
-msgstr ""
+msgstr "Španělsko/baskičtina (eu_ES)"
 
 #: src/widgets/widget-locale-selector.c:176
 msgid "Iran (fa_IR)"
-msgstr ""
+msgstr "Írán (fa_IR)"
 
 #: src/widgets/widget-locale-selector.c:177
 msgid "Finland/Finnish (fi_FI)"
-msgstr ""
+msgstr "Finsko/finština (fi_FI)"
 
 #: src/widgets/widget-locale-selector.c:178
 msgid "Faroe Islands (fo_FO)"
@@ -29823,28 +29097,27 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:179
 msgid "Belgium/French (fr_BE)"
-msgstr ""
+msgstr "Belgie/Francouzština (fr_BE)"
 
 #: src/widgets/widget-locale-selector.c:180
 msgid "Canada/French (fr_CA)"
-msgstr ""
+msgstr "Kanada/francouzština (fr_CA)"
 
 #: src/widgets/widget-locale-selector.c:181
-#, fuzzy
 msgid "Switzerland/French (fr_CH)"
-msgstr "Švýcarsko, Franky"
+msgstr "Švýcarsko/francouzština (fr_CH)"
 
 #: src/widgets/widget-locale-selector.c:182
 msgid "France (fr_FR)"
-msgstr ""
+msgstr "Francie (fr_FR)"
 
 #: src/widgets/widget-locale-selector.c:183
 msgid "Ireland/Gaelic (ga_IE)"
-msgstr ""
+msgstr "Irsko/galština (ga_IE)"
 
 #: src/widgets/widget-locale-selector.c:184
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
-msgstr ""
+msgstr "Velká Británie/Skotská galština (gd_GB)"
 
 #: src/widgets/widget-locale-selector.c:185
 msgid "Spain/Galician (gl_ES)"
@@ -29856,118 +29129,111 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:187
 msgid "India/Hindu (hi_IN)"
-msgstr ""
+msgstr "Indie/Hindština (hi_IN)"
 
 #: src/widgets/widget-locale-selector.c:188
 msgid "Croatia (hr_HR)"
-msgstr ""
+msgstr "Chorvatsko (hr_HR)"
 
 #: src/widgets/widget-locale-selector.c:189
 msgid "Hungary (hu_HU)"
-msgstr ""
+msgstr "Maďarsko (hu_HU)"
 
 #: src/widgets/widget-locale-selector.c:190
-#, fuzzy
 msgid "Armenia (hy_AM)"
-msgstr "Arménské (ARMSCII-8)"
+msgstr "Arménie (hy_AM)"
 
 #: src/widgets/widget-locale-selector.c:191
 msgid "(i18n)"
-msgstr ""
+msgstr "(i18n)"
 
 #: src/widgets/widget-locale-selector.c:192
-#, fuzzy
 msgid "Indonesia (id_ID)"
-msgstr "Indonésie, Rupie"
+msgstr "Indonésie (id_ID)"
 
 #: src/widgets/widget-locale-selector.c:193
 msgid "Iceland (is_IS)"
-msgstr ""
+msgstr "Island (is_IS)"
 
 #: src/widgets/widget-locale-selector.c:194
 msgid "(iso14651_t1)"
-msgstr ""
+msgstr "(iso14651_t1)"
 
 #: src/widgets/widget-locale-selector.c:195
 msgid "Switzerland/Italian (it_CH)"
-msgstr ""
+msgstr "Švýcarsko/italština (it_CH)"
 
 #: src/widgets/widget-locale-selector.c:196
 msgid "Italy (it_IT)"
-msgstr ""
+msgstr "Itálie (it_IT)"
 
 #: src/widgets/widget-locale-selector.c:197
 msgid "Israel/Hebrew (iw_IL)"
-msgstr ""
+msgstr "Izrael/Hebrejština (iw_IL)"
 
 #: src/widgets/widget-locale-selector.c:198
-#, fuzzy
 msgid "Japan (ja_JP)"
-msgstr "Japonské (EUC-JP)"
+msgstr "Japonsko (ja_JP)"
 
 #: src/widgets/widget-locale-selector.c:199
-#, fuzzy
 msgid "Georgia (ka_GE)"
-msgstr "Georgian (GEOSTD8)"
+msgstr "Georgia (ka_GE)"
 
 #: src/widgets/widget-locale-selector.c:200
 msgid "Greenland (kl_GL)"
-msgstr ""
+msgstr "Grónsko (kl_GL)"
 
 #: src/widgets/widget-locale-selector.c:201
-#, fuzzy
 msgid "Korea (ko_KR)"
-msgstr "Korejské (EUC-KR)"
+msgstr "Korea (ko_KR)"
 
 #: src/widgets/widget-locale-selector.c:202
 msgid "Great Britain/Cornish (kw_GB)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:203
-#, fuzzy
 msgid "Lithuania (lt_LT)"
-msgstr "Litva, Litai"
+msgstr "Litva (lt_LT)"
 
 #: src/widgets/widget-locale-selector.c:204
-#, fuzzy
 msgid "Latvia (lv_LV)"
-msgstr "Lotyšsko, Lati"
+msgstr "Lotyšsko (lv_LV)"
 
 #: src/widgets/widget-locale-selector.c:205
 msgid "New Zealand/Maori (mi_NZ)"
-msgstr ""
+msgstr "Nový zéland/maorština (mi_NZ)"
 
 #: src/widgets/widget-locale-selector.c:206
 msgid "Macedonia (mk_MK)"
-msgstr ""
+msgstr "Makedonština (mk_MK)"
 
 #: src/widgets/widget-locale-selector.c:207
 msgid "India/Marathi (mr_IN)"
-msgstr ""
+msgstr "Indie/Marathi (mr_IN)"
 
 #: src/widgets/widget-locale-selector.c:208
 msgid "Malaysia (ms_MY)"
-msgstr ""
+msgstr "Malajsie (ms_MY)"
 
 #: src/widgets/widget-locale-selector.c:209
 msgid "Malta (mt_MT)"
-msgstr ""
+msgstr "Malta (mt_MT)"
 
 #: src/widgets/widget-locale-selector.c:210
 msgid "Belgium/Flemish (nl_BE)"
-msgstr ""
+msgstr "Belgie/vlámština (nl_BE)"
 
 #: src/widgets/widget-locale-selector.c:211
 msgid "The Netherlands (nl_NL)"
-msgstr ""
+msgstr "Nizozemsko (nl_NL)"
 
 #: src/widgets/widget-locale-selector.c:212
 msgid "Norway/Nynorsk (nn_NO)"
-msgstr ""
+msgstr "Norsko/Nynorsk (nn_NO)"
 
 #: src/widgets/widget-locale-selector.c:213
 msgid "Norway/Bokmal (no_NO)"
-msgstr ""
+msgstr "Norsko/Bokmal (no_NO)"
 
 #: src/widgets/widget-locale-selector.c:214
 msgid "France/Occitan (oc_FR)"
@@ -29975,83 +29241,75 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:215
 msgid "Poland (pl_PL)"
-msgstr ""
+msgstr "Polsko (pl_PL)"
 
 #: src/widgets/widget-locale-selector.c:216
 msgid "Brazil (pt_BR)"
-msgstr ""
+msgstr "Brazílie (pt_BR)"
 
 #: src/widgets/widget-locale-selector.c:217
 msgid "Portugal (pt_PT)"
-msgstr ""
+msgstr "Portugalsko (pt_PT)"
 
 #: src/widgets/widget-locale-selector.c:218
 msgid "Romania (ro_RO)"
-msgstr ""
+msgstr "Rumunsko (ro_RO)"
 
 #: src/widgets/widget-locale-selector.c:219
-#, fuzzy
 msgid "Russia (ru_RU)"
-msgstr "Ruské (CP-866)"
+msgstr "Rusko (ru_RU)"
 
 #: src/widgets/widget-locale-selector.c:220
-#, fuzzy
 msgid "Ukraine/Russian (ru_UA)"
-msgstr "Ukrajinské (KOI8-U)"
+msgstr "Ukrajina/ruština (ru_UA)"
 
 #: src/widgets/widget-locale-selector.c:221
 msgid "Norway/Saami (se_NO)"
-msgstr ""
+msgstr "Norsko/Saami (se_NO)"
 
 #: src/widgets/widget-locale-selector.c:222
-#, fuzzy
 msgid "Slovakia (sk_SK)"
-msgstr "Slovensko, Koruny"
+msgstr "Slovensko (sk_SK)"
 
 #: src/widgets/widget-locale-selector.c:223
-#, fuzzy
 msgid "Slovenia (sl_SI)"
-msgstr "Slovinsko, Tolary"
+msgstr "Slovinsko (sl_SI)"
 
 #: src/widgets/widget-locale-selector.c:224
-#, fuzzy
 msgid "Albania (sq_AL)"
-msgstr "Albánie, Lek"
+msgstr "Albánie (sq_AL)"
 
 #: src/widgets/widget-locale-selector.c:225
-#, fuzzy
 msgid "Yugoslavia (sr_YU)"
-msgstr "Jugoslávie, Nové dináry"
+msgstr "Jugoslávie (sr_YU)"
 
 #: src/widgets/widget-locale-selector.c:226
 msgid "Finland/Swedish (sv_FI)"
-msgstr ""
+msgstr "Finsko/švédština (sv_FI)"
 
 #: src/widgets/widget-locale-selector.c:227
 msgid "Sweden (sv_SE)"
-msgstr ""
+msgstr "Švédsko (sv_SE)"
 
 #: src/widgets/widget-locale-selector.c:228
 msgid "India/Tamil (ta_IN)"
-msgstr ""
+msgstr "Indie/Tamil (ta_IN)"
 
 #: src/widgets/widget-locale-selector.c:229
 msgid "India/Telugu (te_IN)"
-msgstr ""
+msgstr "Indie/Telugu (te_IN)"
 
 #: src/widgets/widget-locale-selector.c:230
-#, fuzzy
 msgid "Tajikistan (tg_TJ)"
-msgstr "Tadžikistán, Rubly"
+msgstr "Tadžikistán (tg_TJ)"
 
 #: src/widgets/widget-locale-selector.c:231
-#, fuzzy
 msgid "Thailand (th_TH)"
-msgstr "Thajsko, Bahty"
+msgstr "Thajsko (th_TH)"
 
 #: src/widgets/widget-locale-selector.c:232
 msgid "Eritrea (ti_ER)"
-msgstr ""
+msgstr "Eritrea (ti_ER)"
 
 #: src/widgets/widget-locale-selector.c:233
 msgid "Ethiopia/Tigrinya (ti_ET)"
@@ -30063,35 +29321,31 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:235
 msgid "Turkey (tr_TR)"
-msgstr ""
+msgstr "Turecko (tr_TR)"
 
 #: src/widgets/widget-locale-selector.c:236
 msgid "Russia/Tatar (tt_RU)"
-msgstr ""
+msgstr "Rusko/tataršina (tt_RU)"
 
 #: src/widgets/widget-locale-selector.c:237
-#, fuzzy
 msgid "Ukraine (uk_UA)"
-msgstr "Ukrajinské (KOI8-U)"
+msgstr "Ukrajina (uk_UA)"
 
 #: src/widgets/widget-locale-selector.c:238
-#, fuzzy
 msgid "Pakistan (ur_PK)"
-msgstr "Pákistán, Rupie"
+msgstr "Pákistán (ur_PK)"
 
 #: src/widgets/widget-locale-selector.c:239
-#, fuzzy
 msgid "Uzbekistan (uz_UZ)"
-msgstr "Uzbekistán, Sumy"
+msgstr "Uzbekistán (uz_UZ)"
 
 #: src/widgets/widget-locale-selector.c:240
-#, fuzzy
 msgid "Vietnam (vi_VN)"
-msgstr "Vietnamské (TVCN)"
+msgstr "Vietnam (vi_VN)"
 
 #: src/widgets/widget-locale-selector.c:241
 msgid "Belgium/Walloon (wa_BE)"
-msgstr ""
+msgstr "Belgie/valonština (wa_BE)"
 
 #: src/widgets/widget-locale-selector.c:242
 msgid "United States/Yiddish (yi_US)"
@@ -30099,24 +29353,23 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:243
 msgid "China (zh_CN)"
-msgstr ""
+msgstr "Čína (zh_CN)"
 
 #: src/widgets/widget-locale-selector.c:244
 msgid "Hong Kong/Chinese (zh_HK)"
-msgstr ""
+msgstr "Hong Kong/čínština (zh_HK)"
 
 #: src/widgets/widget-locale-selector.c:245
 msgid "Singapore/Chinese (zh_SG)"
-msgstr ""
+msgstr "Singapur/čínština (zh_SG)"
 
 #: src/widgets/widget-locale-selector.c:246
 msgid "Taiwan (zh_TW)"
-msgstr ""
+msgstr "Taiwan (zh_TW)"
 
 #: src/widgets/widget-locale-selector.c:435
-#, fuzzy
 msgid "Current Locale: "
-msgstr "Současná hodnota:"
+msgstr "Aktuální locale: "
 
 #: src/workbook-cmd-format.c:49
 msgid "Add Borders"
@@ -30202,18 +29455,17 @@ msgstr "Znovu"
 #: src/workbook-control-gui.c:1727
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
-msgstr ""
+msgstr "Uložit změny do sešitu '%s' před zavřením?"
 
 #: src/workbook-control-gui.c:1731
 msgid "Save changes to workbook before closing?"
-msgstr ""
+msgstr "Uložit změny do sešitu před zavřením?"
 
 #: src/workbook-control-gui.c:1737
 msgid "If you close without saving, changes will be discarded."
-msgstr ""
+msgstr "Pokud zavřete bez uložení, budou změny zahozeny."
 
 #: src/workbook-control-gui.c:1743
-#, fuzzy
 msgid "Discard all"
 msgstr "Zahodit vše"
 
@@ -30223,17 +29475,14 @@ msgid "Discard"
 msgstr "Zahodit"
 
 #: src/workbook-control-gui.c:1747
-#, fuzzy
 msgid "Save all"
 msgstr "Uložit vše"
 
 #: src/workbook-control-gui.c:1749 src/workbook-control-gui.c:1756
-#, fuzzy
 msgid "Don't quit"
 msgstr "Nekončit"
 
 #: src/workbook-control-gui.c:1764
-#, fuzzy
 msgid "Don't close"
 msgstr "Nezavírat"
 
@@ -30380,19 +29629,16 @@ msgid "Send the current file in email"
 msgstr "Pošle aktuální soubor elektronickou poštou"
 
 #: src/workbook-control-gui.c:5422 src/workbook-control-gui.c:5437
-#, fuzzy
 msgid "_Re-Edit"
-msgstr "Znovu upravit"
+msgstr "Znovu _upravit"
 
 #: src/workbook-control-gui.c:5423 src/workbook-control-gui.c:5428
-#, fuzzy
 msgid "_Discard"
-msgstr "Zahodit"
+msgstr "Za_hodit"
 
 #: src/workbook-control-gui.c:5427 src/workbook-control-gui.c:5438
-#, fuzzy
 msgid "_Accept"
-msgstr "Přijmout"
+msgstr "_Přijmout"
 
 #: src/workbook-control.c:229
 msgid "Define Name"
@@ -30505,9 +29751,9 @@ msgid "Internal ERROR"
 msgstr "Interní CHYBA"
 
 #: src/workbook-view.c:552
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open '%s' for writing: %s"
-msgstr "Nelze otevřít '%s' : %s"
+msgstr "Nemohou otevřít '%s' pro zápis: %s"
 
 #: src/workbook-view.c:576
 #, c-format
@@ -30519,9 +29765,8 @@ msgstr "Nastala nevysvětlená chyba při ukládání %s"
 #. * gnumeric `echo -e '\377\376'`
 #.
 #: src/workbook-view.c:583 src/workbook-view.c:826
-#, fuzzy
 msgid "The filename given is not valid in the current encoding."
-msgstr "Zadaný název soubor je neplatný."
+msgstr "Zadaný název souboru není v aktuálním kódování platný."
 
 #: src/workbook-view.c:668
 msgid "Default file saver is not available."
@@ -30586,23 +29831,8 @@ msgstr "Souborový formát Gnumeric XML"
 #~ msgid "Maths / Trig."
 #~ msgstr "Matematické / Trigonometrické"
 
-#~ msgid "x,meean,stdev"
-#~ msgstr "x,průměr,odchylka"
-
-#~ msgid "p,mean,stdev"
-#~ msgstr "p,průměr,odchylka"
-
-#~ msgid "find,within,start_num"
-#~ msgstr "nalézt,v,poč_číslo"
-
 #~ msgid "Is not an Gnumeric Workbook file"
 #~ msgstr "Není soubor se sešitem Gnumeric"
-
-#~ msgid "Graph Guru"
-#~ msgstr "Guru grafů"
-
-#~ msgid "Launch the Graph Guru"
-#~ msgstr "Spustit Guru grafů"
 
 #~ msgid "_Add / Modify comment..."
 #~ msgstr "Přid_at / upravit komentář..."
@@ -30798,12 +30028,6 @@ msgstr "Souborový formát Gnumeric XML"
 
 #~ msgid "Column formatting"
 #~ msgstr "Formátování sloupců"
-
-#, fuzzy
-#~ msgid "Customize the columns using the buttons or the mouse"
-#~ msgstr ""
-#~ "Upravte sloupce pomocí myši nebo tlačítek (instrukce se zobrazí při "
-#~ "najetí kurzorem myši nad příklad)"
 
 #~ msgid "Data type and number of lines"
 #~ msgstr "Typ dat a počet řádků"
