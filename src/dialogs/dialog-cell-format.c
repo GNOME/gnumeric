@@ -2278,6 +2278,7 @@ cb_validation_rebuild (void *ignored, FormatState *state)
 static void
 fmt_dialog_init_validation_page (FormatState *state)
 {
+	Validation const *v = NULL;
 	g_return_if_fail (state != NULL);
 
 	/* Setup widgets */
@@ -2328,7 +2329,9 @@ fmt_dialog_init_validation_page (FormatState *state)
 		G_CALLBACK (cb_validation_rebuild), state);
 
 	/* Initialize */
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION)) {
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION))
+		v = mstyle_get_validation (state->style);
+	if (v != NULL) {
 		Validation const *v = mstyle_get_validation (state->style);
 		ParsePos pp;
 
