@@ -5,4 +5,4 @@ INCLUDES = \
 
 gnumeric_plugin_LTLIBRARIES = gnum_text.la
 gnum_text_la_LDFLAGS = -module -avoid-version
-gnum_text_la_SOURCES = text-io.h text-io.c
+gnum_text_la_SOURCES = text-io.c

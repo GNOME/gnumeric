@@ -1,3 +1,7 @@
+2000-05-06  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am (gnum_text_la_SOURCES) : Remove text-io.h
+
 2000-05-02  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* text-io.c 
