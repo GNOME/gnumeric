@@ -1,5 +1,9 @@
 2000-05-16  Karl Eichwalder  <ke@suse.de>
 
+	* NEWS (Translations): Add gl.
+
+2000-05-16  Karl Eichwalder  <ke@suse.de>
+
 	* gnumeric.spec.in: Use %{version}, %{name} and %{sysconfdir} more
 	consistently. Avoid long lines.
 
