@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "format.h"
 
@@ -28,6 +29,11 @@ static GtkWidget *font_widget;
 static GSList *hradio_list;
 static GSList *vradio_list;
 static GtkWidget *auto_return;
+
+/* These points to the radio buttons of the coloring page */
+static GSList *foreground_radio_list;
+static GSList *background_radio_list;
+static GdkPixmap *patterns [GNUMERIC_SHEET_PATTERNS];
 
 /* Points to the first cell in the selection */
 static Cell *first_cell;
@@ -476,6 +482,11 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 	gtk_table_attach (t, auto_return, 0, 3, 2, 3, 0, 0, 0, 0);
 	
 	/* Check if all cells have the same properties */
+	/*
+	 * FIXME: This should check the cells *AND* the
+	 * style regions to figure out what to check and what
+	 * not, right now this is broken in that regard
+	 */
 	if (cells){
 		ha    = ((Cell *) (cells->data))->style->halign;
 		va    = ((Cell *) (cells->data))->style->valign;
@@ -509,7 +520,7 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 				}
 
 			if (autor)
-				gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (auto_return));
+				gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (auto_return), 1);
 		}
 	}
 
@@ -551,6 +562,7 @@ apply_align_format (Style *style, Sheet *sheet, CellList *cells)
 	style->halign = halign;
 	style->valign = valign;
 	style->orientation = ORIENT_HORIZ;
+	style->fit_in_cell = autor;
 	style->valid_flags |= STYLE_ALIGN;
 }
 
@@ -613,14 +625,147 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 	style->font = style_font_new (font_name, 10); 
 }
 
+static GtkWidget *
+create_foreground_radio (GtkWidget *prop_win)
+{
+	GtkWidget *frame, *table, *r1, *r2;
+	int e = GTK_FILL | GTK_EXPAND;
+	
+	frame = gtk_frame_new (_("Text color"));
+        table = gtk_table_new (2, 2, 0);
+	gtk_container_add (GTK_CONTAINER (frame), table);
+
+	r1 = gtk_radio_button_new_with_label (NULL, _("None"));
+	foreground_radio_list = GTK_RADIO_BUTTON (r1)->group;
+	r2 = gtk_radio_button_new_with_label (foreground_radio_list,
+					      _("Use this color"));
+
+	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 0, 0);
+/*	gtk_table_attach (GTK_TABLE (table), cs, 1, 2, 1, 2, 0, 0, 0, 0); */
+
+	return frame;
+}
+
+static void
+create_stipples (GnomeCanvas *canvas)
+{
+	GnomeCanvasGroup *group;
+	GdkWindow *window;
+	int i;
+
+	group = GNOME_CANVAS_GROUP (gnome_canvas_root (canvas));
+	window = GTK_WIDGET (canvas)->window;
+	
+	for (i = 0; i < GNUMERIC_SHEET_PATTERNS; i++){
+		GnomeCanvasRE *item;
+		int x, y;
+
+		x = i % 7;
+		y = i / 7;
+		
+		item = GNOME_CANVAS_RE (gnome_canvas_item_new (
+			group,
+			gnome_canvas_rect_get_type (),
+			"x1",           (double) x * 1.0 + 0.1,
+			"y1",           (double) y * 1.0 + 0.1,
+			"x2",           (double) x * 1.0 + 1.2,
+			"y2",           (double) y * 1.0 + 1.2,
+			"fill_color",   "black",
+			"width_pixels", (int) 1,
+			NULL));
+#if 0
+		patterns [i] = gdk_bitmap_create_from_data (
+			window, gnumeric_sheet_patterns [i].pattern, 8, 8);
+
+		gdk_gc_set_stipple (item->fill_gc, patterns [i]);
+		gdk_gc_set_fill (item->fill_gc, GDK_STIPPLED);
+#endif
+	}
+}
+
+static GtkWidget *
+create_pattern_preview (GtkWidget *prop_win)
+{
+	GnomeCanvas *canvas;
+
+	canvas = (GnomeCanvas *) gnome_canvas_new ();
+	
+	gnome_canvas_set_scroll_region (canvas, 0.0, 0.0, 14.0, 4.0);
+	gnome_canvas_set_size (canvas, 112, 112);
+	gtk_signal_connect_after (
+		GTK_OBJECT (canvas), "realize",
+		GTK_SIGNAL_FUNC (create_stipples), NULL);
+
+	return GTK_WIDGET (canvas);
+}
+
+static GtkWidget *
+create_background_radio (GtkWidget *prop_win)
+{
+	GtkWidget *frame, *table, *r1, *r2, *r3, *cs1, *cs2, *p;
+	int e = GTK_FILL | GTK_EXPAND;
+	
+	frame = gtk_frame_new (_("Background configuration"));
+        table = gtk_table_new (2, 2, 0);
+	gtk_container_add (GTK_CONTAINER (frame), table);
+
+	/* The radio buttons */
+	r1 = gtk_radio_button_new_with_label (NULL, _("None"));
+	background_radio_list = GTK_RADIO_BUTTON (r1)->group;
+	r2 = gtk_radio_button_new_with_label (background_radio_list,
+					      _("Use solid color"));
+	r3 = gtk_radio_button_new_with_label (background_radio_list,
+					      _("Use a pattern"));
+
+	/* The color selectors */
+	cs1 = gtk_label_new ("color selector goes here");
+	cs2 = gtk_label_new ("color selector goes here");
+
+	/* Create the pattern preview */
+	p = create_pattern_preview (prop_win);
+	
+	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), r3, 0, 1, 2, 3, e, 0, 0, 0);
+
+	gtk_table_attach (GTK_TABLE (table), cs1, 1, 2, 1, 2, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), cs2, 1, 2, 2, 3, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), p, 0, 2, 3, 4, 0, 0, 0, 0);
+	return frame;
+}
+
+static GtkWidget *
+create_coloring_page (GtkWidget *prop_win, CellList *cells)
+{
+	GtkTable *t;
+	GtkWidget *fore, *back;
+	int e = GTK_FILL | GTK_EXPAND;
+	
+	t = (GtkTable *) gtk_table_new (0, 0, 0);
+	fore = create_foreground_radio (prop_win);
+	back = create_background_radio (prop_win);
+
+	gtk_table_attach (t, fore, 0, 1, 0, 1, e, 0, 4, 4);
+	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4);
+	gtk_widget_show_all (GTK_WIDGET (t));
+	return GTK_WIDGET (t);
+}
+
+static void
+apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
+{
+}
+
 static struct {
 	char      *title;
 	GtkWidget *(*create_page)(GtkWidget *prop_win, CellList *cells);
 	void      (*apply_page)(Style *style, Sheet *sheet, CellList *cells);
 } cell_format_pages [] = {
-	{ N_("Number"),    create_number_format_page,  apply_number_formats },
-	{ N_("Alignment"), create_align_page,          apply_align_format   },
-	{ N_("Font"),      create_font_page,           apply_font_format    },
+	{ N_("Number"),    create_number_format_page,  apply_number_formats  },
+	{ N_("Alignment"), create_align_page,          apply_align_format    },
+	{ N_("Font"),      create_font_page,           apply_font_format     },
+	{ N_("Coloring"),  create_coloring_page,       apply_coloring_format },
 	{ NULL, NULL }
 };
 

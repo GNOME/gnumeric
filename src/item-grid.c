@@ -180,6 +180,16 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		
 	cell = sheet_cell_get (sheet, col, row);
 
+#if 0
+	/* Debugging code for testing the stipples */
+	gdk_gc_set_stipple (gc, GNUMERIC_SHEET (canvas)->patterns [col % 8]);
+	gdk_gc_set_foreground (gc, &gs_black);
+	gdk_gc_set_background (gc, &gs_white);
+	gdk_gc_set_fill (gc, GDK_STIPPLED);
+	
+	gdk_draw_rectangle (drawable, gc, TRUE,
+			    x1+1, y1+1, width-2, height-2);
+#endif
 	/*
 	 * If the cell does not exist, there is little to do: only
 	 * check if we should paint it as a selected cell

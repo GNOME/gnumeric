@@ -1,5 +1,13 @@
 1998-09-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/cell.c (cell_set_alignment): Bug fix:  optimize only if
+	auto_return is the same value that we have set
+
+	* src/gnumeric-sheet.c: Define lots of cool patterns.  Where cool
+	in this sentence is defined as 13 (to leave room for the solid
+	pattern). 
+	(gnumeric_sheet_realize): Create the pattern stipples here. 
+
 	* src/file.c (workbook_save_as, workbook_save,
 	dialog_query_load_file): New file, new routines to deal with file
 	save and file load dialog boxes.

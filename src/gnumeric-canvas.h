@@ -11,6 +11,14 @@
 #define GNUMERIC_SHEET_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), GNUMERIC_TYPE_SHEET))
 #define GNUMERIC_IS_SHEET(o)    (GTK_CHECK_TYPE((o), GNUMERIC_TYPE_SHEET))
 
+#define GNUMERIC_SHEET_PATTERNS 13
+typedef struct {
+	char *name;
+	char pattern [8];
+} gnumeric_sheet_pattern_t;
+
+extern gnumeric_sheet_pattern_t gnumeric_sheet_patterns [GNUMERIC_SHEET_PATTERNS];
+
 typedef struct {
 	GnomeCanvas canvas;
 
@@ -36,6 +44,8 @@ typedef struct {
 	ItemCursor  *selection;
 	ItemBar     *colbar;
 	ItemBar     *rowbar;
+
+	GdkPixmap   *patterns [GNUMERIC_SHEET_PATTERNS];
 } GnumericSheet;
 
 GtkType    gnumeric_sheet_get_type               (void);

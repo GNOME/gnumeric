@@ -58,8 +58,9 @@ cell_set_alignment (Cell *cell, int halign, int valign, int orient, int auto_ret
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->style != NULL);
 
-	if ((cell->style->halign == halign) &&
-	    (cell->style->valign == valign) &&
+	if ((cell->style->halign      == halign) &&
+	    (cell->style->valign      == valign) &&
+	    (cell->style->fit_in_cell == auto_return) &&
 	    (cell->style->orientation == orient))
 		return;
 

@@ -70,7 +70,6 @@ item_cursor_realize (GnomeCanvasItem *item)
 {
 	ItemCursor *item_cursor;
 	GdkWindow  *window;
-	GdkGC      *gc;
 	
 	if (GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->realize)(item);
@@ -78,7 +77,7 @@ item_cursor_realize (GnomeCanvasItem *item)
 	item_cursor = ITEM_CURSOR (item);
 	window = GTK_WIDGET (item->canvas)->window;
 
-	gc = item_cursor->gc = gdk_gc_new (window);
+	item_cursor->gc = gdk_gc_new (window);
 
 	gnumeric_sheet_color_alloc (item->canvas);
 

@@ -13,10 +13,6 @@ INCLUDES = 			\
 GNOME_XML_LIB = -lxml
 
 GNUMERIC_BASE_SOURCES =		\
-	sheet.c			\
-	sheet.h			\
-	sheet-view.c		\
-	sheet-view.h		\
 	cell.h			\
 	cell.c			\
 	clipboard.c		\
@@ -32,7 +28,6 @@ GNUMERIC_BASE_SOURCES =		\
 	expr.c			\
 	expr.h			\
 	file.c			\
-	file.h			\
 	func.c			\
 	func.h			\
 	fn-sheet.c		\
@@ -56,8 +51,10 @@ GNUMERIC_BASE_SOURCES =		\
 	item-grid.c		\
 	item-grid.h		\
 	parser.y		\
-	\
-	\
+	sheet.c			\
+	sheet.h			\
+	sheet-view.c		\
+	sheet-view.h		\
 	str.c			\
 	str.h			\
 	style.c			\

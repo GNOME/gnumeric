@@ -5,7 +5,7 @@
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
-
+#include "xml-io.h"
 #include "pixmaps.h"
 
 /* The locations within the main table in the workbook */
