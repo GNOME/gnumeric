@@ -1,5 +1,9 @@
 2001-04-23  Morten Welinder  <terra@diku.dk>
 
+	* src/xml-io.c (xml_read_style): Compare against right version.
+
+2001-04-23  Morten Welinder  <terra@diku.dk>
+
 	* src/number-match.c (compute_value): Handle negative numbers(!).
   	Handle overflow better.
 

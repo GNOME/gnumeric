@@ -1470,7 +1470,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 	MStyle     *mstyle;
 
 	mstyle = (ctxt->version >= GNUM_XML_V6 ||
-		  ctxt->version <= GNUM_XML_V1)
+		  ctxt->version <= GNUM_XML_V2)
 		? mstyle_new_default ()
 		: mstyle_new ();
 
