@@ -4,12 +4,15 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Why is stf text import not poping up a dialog ?
 
 Long term breakage
 ------------------
+- Copy with destination larger than source does not duplicate the styles.
+
 - border style double_line does handle all of the different intersection cases.
+
 - 'General' numbers need to be formated based on the width of the cell.
+
 - when guess the format of a possible value we should try the format associated
   with the cell FIRST rather than later.  eg enter '10-1' (without quotes) in a
   cell with an assigned format of Text.  This should be treated as text.  Instead
