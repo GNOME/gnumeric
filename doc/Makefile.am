@@ -27,11 +27,16 @@ TEXT_FILES =			\
 	Future-Roadmap		\
 	saving.txt
 
+PERL_SCRIPTS = 
+	make-index.pl		\
+	make-docbook.pl	
+
 EXTRA_DIST = \
 	$(SGML_FILES)		\
+	$(PERL_SCRIPTS)		\
 	$(TEXT_FILES)
 
-all: gnumeric.html
+all: 
 
 gnumeric.html: gnumeric/gnumeric.html
 	-cp gnumeric/gnumeric.html .
