@@ -36,7 +36,7 @@
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
 
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <math.h>
 #include <string.h>
 

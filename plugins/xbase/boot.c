@@ -6,7 +6,7 @@
  *    Sean Atkinson <sca20@cam.ac.uk>
  **/
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "xbase.h"
 

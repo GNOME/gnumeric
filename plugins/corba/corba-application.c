@@ -34,7 +34,7 @@
 #include <io-context.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 
 #include <bonobo.h>
 

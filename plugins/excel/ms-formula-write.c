@@ -33,7 +33,7 @@
 #include <io-context.h>
 
 #include <gsf/gsf-utils.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
 #define FORMULA_DEBUG 0
@@ -530,12 +530,11 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 
 	for (ptr = expr->func.arg_list ; ptr != NULL; ptr = ptr->next, num_args++)
 		if (num_args >= max_args) { 
-#warning After string freeze add the function name and the other string
 			gnm_io_warning (pd->ewb->io_context, 
 				((max_args == 128) 
-				? _("Too many arguments for function, MS Excel expects exactly %d and we have more")
-				: "Too many args for function, MS Excel only handle %d"),
-				max_args);
+				? _("Too many arguments for function '%s', MS Excel expects exactly %d and we have %d")
+				: _("Too many arguments for function '%s', MS Excel can only handle %d not %d")),
+				ef->efunc->name, max_args, num_args);
 			break;
 		} else { /* convert the args */
 			if (arg_types != NULL && *arg_types) {

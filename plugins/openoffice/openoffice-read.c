@@ -43,7 +43,7 @@
 #include <command-context.h>
 #include <io-context.h>
 
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-infile.h>

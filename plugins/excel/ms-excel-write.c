@@ -14,7 +14,7 @@
  * FIXME: Check for errors and propagate upward. We've only started.
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <string.h>
 #include "ms-formula-write.h"
