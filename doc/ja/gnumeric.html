@@ -1,0 +1,2265 @@
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>Gnumeric's user manual</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="NEXT"
+TITLE="Entering data."
+HREF="editing.html"></HEAD
+><BODY
+><DIV
+CLASS="BOOK"
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="TITLE"
+><A
+NAME="AEN2"
+>Gnumeric's user manual</A
+></H1
+><H3
+CLASS="AUTHOR"
+>Miguel de Icaza
+	  Amozurrutia</H3
+><DIV
+CLASS="AFFILIATION"
+><P
+CLASS="LITERALLAYOUT"
+>	&nbsp;&nbsp;&nbsp;&nbsp;<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:miguel@gnu.org"
+>miguel@gnu.org</A
+>&#62;</TT
+><br>
+	&nbsp;&nbsp;</P
+></DIV
+><H3
+CLASS="AUTHOR"
+>Adrian Likins</H3
+><DIV
+CLASS="AFFILIATION"
+><P
+CLASS="LITERALLAYOUT"
+>	&nbsp;&nbsp;&nbsp;&nbsp;<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:adrian@gimp.org"
+>adrian@gimp.org</A
+>&#62;</TT
+><br>
+	&nbsp;&nbsp;</P
+></DIV
+><P
+CLASS="COPYRIGHT"
+><A
+HREF="ln20.html"
+>Copyright</A
+> © 1998, 1999 by <SPAN
+CLASS="HOLDER"
+>Miguel de Icaza (n.)</SPAN
+></P
+><HR></DIV
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+>1. <A
+HREF="editing.html"
+>Entering data.</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="editing.html#AEN28"
+>Strings and numbers</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="editing.html#ENTERING-DATES-AND-NUMBERS"
+>Dates and Numbers</A
+></DT
+><DT
+><A
+HREF="editing.html#AEN46"
+>Editing of cells.</A
+></DT
+><DT
+><A
+HREF="editing.html#AEN57"
+>Editing commands</A
+></DT
+></DL
+></DD
+><DT
+><A
+HREF="formulas.html"
+>Formulas</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="formulas.html#AEN90"
+>Syntax</A
+></DT
+><DT
+><A
+HREF="formulas.html#AEN97"
+>Using Functions</A
+></DT
+></DL
+></DD
+><DT
+><A
+HREF="cell-referencing.html"
+>Cell Referencing</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="cell-referencing.html#AEN114"
+>Absolute cell referencing</A
+></DT
+><DT
+><A
+HREF="cell-referencing.html#AEN121"
+>Referencing multiple cells</A
+></DT
+><DT
+><A
+HREF="cell-referencing.html#AEN147"
+>Referencing cells on other sheets</A
+></DT
+></DL
+></DD
+><DT
+><A
+HREF="x154.html"
+>Selecting Cells While Entering Formulas.</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="x154.html#AEN164"
+>Entering data into a formula with the mouse</A
+></DT
+><DT
+><A
+HREF="x154.html#AEN178"
+>Entering data into a formula with the keyboard.</A
+></DT
+></DL
+></DD
+><DT
+><A
+HREF="x200.html"
+>Copying and moving cells</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="x200.html#AEN208"
+>Using the mouse to drag the selection</A
+></DT
+><DT
+><A
+HREF="x200.html#AEN223"
+>Right Click Options</A
+></DT
+><DT
+><A
+HREF="x200.html#AEN236"
+>Move and copy right click menu options</A
+></DT
+></DL
+></DD
+><DT
+><A
+HREF="editing-selections.html"
+>Editing cells using the selection</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="editing-selections.html#AEN274"
+>Simple Selections</A
+></DT
+><DT
+><A
+HREF="editing-selections.html#AEN287"
+>Selecting multiple cells</A
+></DT
+><DT
+><A
+HREF="editing-selections.html#AEN299"
+>Discontinuous selections</A
+></DT
+><DT
+><A
+HREF="editing-selections.html#AEN309"
+>Keyboard Shortcuts</A
+></DT
+><DT
+><A
+HREF="editing-selections.html#AEN357"
+>Filling a region with the same text or value.</A
+></DT
+></DL
+></DD
+><DT
+><A
+HREF="autofill.html"
+>Autofill</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="autofill.html#AEN407"
+>Filling with Dates</A
+></DT
+><DT
+><A
+HREF="autofill.html#AEN429"
+>String And Number autofill</A
+></DT
+><DT
+><A
+HREF="autofill.html#AEN438"
+>Formula autofill</A
+></DT
+><DT
+><A
+HREF="autofill.html#AEN452"
+>Other Notes on autofill</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>2. <A
+HREF="style.html"
+>Style.</A
+></DT
+><DT
+>3. <A
+HREF="formatting.html"
+>Cell Formatting</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="formatting.html#AEN466"
+>Cell Formatting</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="formatting.html#FORMAT-DIALOG"
+>The Format Dialog</A
+></DT
+><DT
+><A
+HREF="formatting.html#CHANGING-FONT"
+>Changing the Font</A
+></DT
+><DT
+><A
+HREF="formatting.html#AEN520"
+>Changing the cell's Color</A
+></DT
+><DT
+><A
+HREF="formatting.html#AEN558"
+>Cell content justification and alignment</A
+></DT
+><DT
+><A
+HREF="formatting.html#NUMBER-FORMAT-BOLD-ITALICS"
+>Cell Formatting options on the buttonbar.</A
+></DT
+></DL
+></DD
+><DT
+><A
+HREF="x652.html"
+>Number formatting expressions</A
+></DT
+><DT
+><A
+HREF="x660.html"
+>Date and Time formatting</A
+></DT
+></DL
+></DD
+><DT
+>4. <A
+HREF="worksheet.html"
+>Worksheet overview.</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="worksheet.html#AEN672"
+>The Worksheet</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="worksheet.html#MENU-BAR"
+>The Menu bar</A
+></DT
+><DT
+><A
+HREF="worksheet.html#BUTTONBAR-BUTTONS"
+>The Button Bar</A
+></DT
+><DT
+><A
+HREF="worksheet.html#WORKSHEET-DATA-ENTRY"
+>Data entry area.</A
+></DT
+><DT
+><A
+HREF="worksheet.html#AEN972"
+>The Cell area</A
+></DT
+><DT
+><A
+HREF="worksheet.html#AEN986"
+>The Info Area</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>5. <A
+HREF="files.html"
+>Working with files.</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="files.html#AEN1025"
+>Working with files</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="files.html#AEN1027"
+>Saving files</A
+></DT
+><DT
+><A
+HREF="files.html#AEN1093"
+>File format</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>6. <A
+HREF="tutorials.html"
+>Tutorials</A
+></DT
+><DT
+>7. <A
+HREF="cell-elements.html"
+>Drawing on a worksheet</A
+></DT
+><DT
+>8. <A
+HREF="function-reference.html"
+>Gnumeric Function Reference</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="function-reference.html#AEN1105"
+>Reference</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="r1783.html"
+><A
+NAME="GNUMERIC-POWER"
+></A
+>POWER</A
+> &#8212; </DT
+><DT
+><A
+HREF="r1801.html"
+><A
+NAME="GNUMERIC-SIN"
+></A
+>SIN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r1825.html"
+><A
+NAME="GNUMERIC-SUMX2PY2"
+></A
+>SUMX2PY2</A
+> &#8212; </DT
+><DT
+><A
+HREF="r1844.html"
+><A
+NAME="GNUMERIC-ROMAN"
+></A
+>ROMAN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r1861.html"
+><A
+NAME="GNUMERIC-TANH"
+></A
+>TANH</A
+> &#8212; </DT
+><DT
+><A
+HREF="r1885.html"
+><A
+NAME="GNUMERIC-CHOOSE"
+></A
+>CHOOSE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r1903.html"
+><A
+NAME="GNUMERIC-RANDBETWEEN"
+></A
+>RANDBETWEEN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r1921.html"
+><A
+NAME="GNUMERIC-STDEV"
+></A
+>STDEV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r1940.html"
+><A
+NAME="GNUMERIC-DEC2BIN"
+></A
+>DEC2BIN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r1958.html"
+><A
+NAME="GNUMERIC-SMALL"
+></A
+>SMALL</A
+> &#8212; </DT
+><DT
+><A
+HREF="r1979.html"
+><A
+NAME="GNUMERIC-PPMT"
+></A
+>PPMT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2002.html"
+><A
+NAME="GNUMERIC-TODAY"
+></A
+>TODAY</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2020.html"
+><A
+NAME="GNUMERIC-COUNTIF"
+></A
+>COUNTIF</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2038.html"
+><A
+NAME="GNUMERIC-AVEDEV"
+></A
+>AVEDEV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2056.html"
+><A
+NAME="GNUMERIC-CONVERT"
+></A
+>CONVERT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2158.html"
+><A
+NAME="GNUMERIC-DELTA"
+></A
+>DELTA</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2177.html"
+><A
+NAME="GNUMERIC-ABS"
+></A
+>ABS</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2196.html"
+><A
+NAME="GNUMERIC-ROW"
+></A
+>ROW</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2216.html"
+><A
+NAME="GNUMERIC-QUOTIENT"
+></A
+>QUOTIENT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2233.html"
+><A
+NAME="GNUMERIC-BIN2HEX"
+></A
+>BIN2HEX</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2251.html"
+><A
+NAME="GNUMERIC-MEDIAN"
+></A
+>MEDIAN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2274.html"
+><A
+NAME="GNUMERIC-MONTH"
+></A
+>MONTH</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2295.html"
+><A
+NAME="GNUMERIC-MODE"
+></A
+>MODE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2314.html"
+><A
+NAME="GNUMERIC-FIXED"
+></A
+>FIXED</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2330.html"
+><A
+NAME="GNUMERIC-MOD"
+></A
+>MOD</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2345.html"
+><A
+NAME="GNUMERIC-PERMUT"
+></A
+>PERMUT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2363.html"
+><A
+NAME="GNUMERIC-DURATION"
+></A
+>DURATION</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2382.html"
+><A
+NAME="GNUMERIC-NOMINAL"
+></A
+>NOMINAL</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2405.html"
+><A
+NAME="GNUMERIC-IPMT"
+></A
+>IPMT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2429.html"
+><A
+NAME="GNUMERIC-HEX2BIN"
+></A
+>HEX2BIN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2447.html"
+><A
+NAME="GNUMERIC-IMCONJUGATE"
+></A
+>IMCONJUGATE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2465.html"
+><A
+NAME="GNUMERIC-CLEAN"
+></A
+>CLEAN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2481.html"
+><A
+NAME="GNUMERIC-LOG2"
+></A
+>LOG2</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2501.html"
+><A
+NAME="GNUMERIC-ATAN"
+></A
+>ATAN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2523.html"
+><A
+NAME="GNUMERIC-IMAGINARY"
+></A
+>IMAGINARY</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2540.html"
+><A
+NAME="GNUMERIC-AND"
+></A
+>AND</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2560.html"
+><A
+NAME="GNUMERIC-ODD"
+></A
+>ODD</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2577.html"
+><A
+NAME="GNUMERIC-NORMDIST"
+></A
+>NORMDIST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2595.html"
+><A
+NAME="GNUMERIC-PEARSON"
+></A
+>PEARSON</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2617.html"
+><A
+NAME="GNUMERIC-IMAGINARY"
+></A
+>IMAGINARY</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2634.html"
+><A
+NAME="GNUMERIC-SUM"
+></A
+>SUM</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2652.html"
+><A
+NAME="GNUMERIC-PRODUCT"
+></A
+>PRODUCT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2670.html"
+><A
+NAME="GNUMERIC-COUNTBLANK"
+></A
+>COUNTBLANK</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2687.html"
+><A
+NAME="GNUMERIC-HOUR"
+></A
+>HOUR</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2708.html"
+><A
+NAME="GNUMERIC-FACT"
+></A
+>FACT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2726.html"
+><A
+NAME="GNUMERIC-CORREL"
+></A
+>CORREL</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2746.html"
+><A
+NAME="GNUMERIC-EVEN"
+></A
+>EVEN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2763.html"
+><A
+NAME="GNUMERIC-LARGE"
+></A
+>LARGE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2784.html"
+><A
+NAME="GNUMERIC-NORMINV"
+></A
+>NORMINV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2806.html"
+><A
+NAME="GNUMERIC-STANDARDIZE"
+></A
+>STANDARDIZE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2824.html"
+><A
+NAME="GNUMERIC-TDIST"
+></A
+>TDIST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2843.html"
+><A
+NAME="GNUMERIC-SQRTPI"
+></A
+>SQRTPI</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2860.html"
+><A
+NAME="GNUMERIC-CRITBINOM"
+></A
+>CRITBINOM</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2878.html"
+><A
+NAME="GNUMERIC-HARMEAN"
+></A
+>HARMEAN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2899.html"
+><A
+NAME="GNUMERIC-COVAR"
+></A
+>COVAR</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2919.html"
+><A
+NAME="GNUMERIC-FISHER"
+></A
+>FISHER</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2937.html"
+><A
+NAME="GNUMERIC-SELECTION"
+></A
+>SELECTION</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2953.html"
+><A
+NAME="GNUMERIC-TRIM"
+></A
+>TRIM</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2973.html"
+><A
+NAME="GNUMERIC-CEILING"
+></A
+>CEILING</A
+> &#8212; </DT
+><DT
+><A
+HREF="r2991.html"
+><A
+NAME="GNUMERIC-PROB"
+></A
+>PROB</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3010.html"
+><A
+NAME="GNUMERIC-LOOKUP"
+></A
+>LOOKUP</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3030.html"
+><A
+NAME="GNUMERIC-IMPRODUCT"
+></A
+>IMPRODUCT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3047.html"
+><A
+NAME="GNUMERIC-OR"
+></A
+>OR</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3067.html"
+><A
+NAME="GNUMERIC-ISERROR"
+></A
+>ISERROR</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3085.html"
+><A
+NAME="GNUMERIC-GEOMEAN"
+></A
+>GEOMEAN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3106.html"
+><A
+NAME="GNUMERIC-MINUTE"
+></A
+>MINUTE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3127.html"
+><A
+NAME="GNUMERIC-IMLN"
+></A
+>IMLN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3144.html"
+><A
+NAME="GNUMERIC-TRUNC"
+></A
+>TRUNC</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3161.html"
+><A
+NAME="GNUMERIC-ACOSH"
+></A
+>ACOSH</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3181.html"
+><A
+NAME="GNUMERIC-DPRODUCT"
+></A
+>DPRODUCT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3201.html"
+><A
+NAME="GNUMERIC-HLOOKUP"
+></A
+>HLOOKUP</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3219.html"
+><A
+NAME="GNUMERIC-COSH"
+></A
+>COSH</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3244.html"
+><A
+NAME="GNUMERIC-SUMXMY2"
+></A
+>SUMXMY2</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3263.html"
+><A
+NAME="GNUMERIC-SLN"
+></A
+>SLN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3280.html"
+><A
+NAME="GNUMERIC-REPT"
+></A
+>REPT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3297.html"
+><A
+NAME="GNUMERIC-PI"
+></A
+>PI</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3314.html"
+><A
+NAME="GNUMERIC-IMPOWER"
+></A
+>IMPOWER</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3332.html"
+><A
+NAME="GNUMERIC-DAVERAGE"
+></A
+>DAVERAGE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3352.html"
+><A
+NAME="GNUMERIC-RADIANS"
+></A
+>RADIANS</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3371.html"
+><A
+NAME="GNUMERIC-TRIMMEAN"
+></A
+>TRIMMEAN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3392.html"
+><A
+NAME="GNUMERIC-DMIN"
+></A
+>DMIN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3412.html"
+><A
+NAME="GNUMERIC-ROUNDUP"
+></A
+>ROUNDUP</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3430.html"
+><A
+NAME="GNUMERIC-BETADIST"
+></A
+>BETADIST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3448.html"
+><A
+NAME="GNUMERIC-MROUND"
+></A
+>MROUND</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3468.html"
+><A
+NAME="GNUMERIC-FDIST"
+></A
+>FDIST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3486.html"
+><A
+NAME="GNUMERIC-ASIN"
+></A
+>ASIN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3508.html"
+><A
+NAME="GNUMERIC-ZTEST"
+></A
+>ZTEST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3532.html"
+><A
+NAME="GNUMERIC-PV"
+></A
+>PV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3546.html"
+><A
+NAME="GNUMERIC-FV"
+></A
+>FV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3560.html"
+><A
+NAME="GNUMERIC-IMSIN"
+></A
+>IMSIN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3577.html"
+><A
+NAME="GNUMERIC-LCM"
+></A
+>LCM</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3595.html"
+><A
+NAME="GNUMERIC-LOGNORMDIST"
+></A
+>LOGNORMDIST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3613.html"
+><A
+NAME="GNUMERIC-FLOOR"
+></A
+>FLOOR</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3633.html"
+><A
+NAME="GNUMERIC-CHIINV"
+></A
+>CHIINV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3652.html"
+><A
+NAME="GNUMERIC-ASINH"
+></A
+>ASINH</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3674.html"
+><A
+NAME="GNUMERIC-GAMMAINV"
+></A
+>GAMMAINV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3692.html"
+><A
+NAME="GNUMERIC-LOGINV"
+></A
+>LOGINV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3714.html"
+><A
+NAME="GNUMERIC-RSQ"
+></A
+>RSQ</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3740.html"
+><A
+NAME="GNUMERIC-REPLACE"
+></A
+>REPLACE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3760.html"
+><A
+NAME="GNUMERIC-UPPER"
+></A
+>UPPER</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3777.html"
+><A
+NAME="GNUMERIC-SINH"
+></A
+>SINH</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3802.html"
+><A
+NAME="GNUMERIC-HYPGEOMDIST"
+></A
+>HYPGEOMDIST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3821.html"
+><A
+NAME="GNUMERIC-LOG10"
+></A
+>LOG10</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3841.html"
+><A
+NAME="GNUMERIC-TIME"
+></A
+>TIME</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3858.html"
+><A
+NAME="GNUMERIC-IMARGUMENT"
+></A
+>IMARGUMENT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3874.html"
+><A
+NAME="GNUMERIC-MULTINOMIAL"
+></A
+>MULTINOMIAL</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3891.html"
+><A
+NAME="GNUMERIC-FISHERINV"
+></A
+>FISHERINV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3909.html"
+><A
+NAME="GNUMERIC-OCT2BIN"
+></A
+>OCT2BIN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3927.html"
+><A
+NAME="GNUMERIC-SQRT"
+></A
+>SQRT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3945.html"
+><A
+NAME="GNUMERIC-IMABS"
+></A
+>IMABS</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3963.html"
+><A
+NAME="GNUMERIC-SECOND"
+></A
+>SECOND</A
+> &#8212; </DT
+><DT
+><A
+HREF="r3984.html"
+><A
+NAME="GNUMERIC-COS"
+></A
+>COS</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4008.html"
+><A
+NAME="GNUMERIC-EXP"
+></A
+>EXP</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4028.html"
+><A
+NAME="GNUMERIC-GAMMADIST"
+></A
+>GAMMADIST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4046.html"
+><A
+NAME="GNUMERIC-GCD"
+></A
+>GCD</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4064.html"
+><A
+NAME="GNUMERIC-EFFECT"
+></A
+>EFFECT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4090.html"
+><A
+NAME="GNUMERIC-IMSUB"
+></A
+>IMSUB</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4107.html"
+><A
+NAME="GNUMERIC-OFFSET"
+></A
+>OFFSET</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4127.html"
+><A
+NAME="GNUMERIC-SYD"
+></A
+>SYD</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4144.html"
+><A
+NAME="GNUMERIC-DEGREES"
+></A
+>DEGREES</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4163.html"
+><A
+NAME="GNUMERIC-DATE"
+></A
+>DATE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4182.html"
+><A
+NAME="GNUMERIC-T"
+></A
+>T</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4201.html"
+><A
+NAME="GNUMERIC-MID"
+></A
+>MID</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4219.html"
+><A
+NAME="GNUMERIC-SUBSTITUTE"
+></A
+>SUBSTITUTE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4237.html"
+><A
+NAME="GNUMERIC-IMLOG2"
+></A
+>IMLOG2</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4255.html"
+><A
+NAME="GNUMERIC-RIGHT"
+></A
+>RIGHT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4273.html"
+><A
+NAME="GNUMERIC-OCT2HEX"
+></A
+>OCT2HEX</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4291.html"
+><A
+NAME="GNUMERIC-LEFT"
+></A
+>LEFT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4309.html"
+><A
+NAME="GNUMERIC-LOG"
+></A
+>LOG</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4328.html"
+><A
+NAME="GNUMERIC-PROB"
+></A
+>PROB</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4348.html"
+><A
+NAME="GNUMERIC-DGET"
+></A
+>DGET</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4369.html"
+><A
+NAME="GNUMERIC-WEIBULL"
+></A
+>WEIBULL</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4387.html"
+><A
+NAME="GNUMERIC-SUMIF"
+></A
+>SUMIF</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4405.html"
+><A
+NAME="GNUMERIC-IMSUM"
+></A
+>IMSUM</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4422.html"
+><A
+NAME="GNUMERIC-MIN"
+></A
+>MIN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4441.html"
+><A
+NAME="GNUMERIC-ROUNDDOWN"
+></A
+>ROUNDDOWN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4459.html"
+><A
+NAME="GNUMERIC-HEX2DEC"
+></A
+>HEX2DEC</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4477.html"
+><A
+NAME="GNUMERIC-CHAR"
+></A
+>CHAR</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4494.html"
+><A
+NAME="GNUMERIC-IF"
+></A
+>IF</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4510.html"
+><A
+NAME="GNUMERIC-POISSON"
+></A
+>POISSON</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4528.html"
+><A
+NAME="GNUMERIC-BESSELJ"
+></A
+>BESSELJ</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4548.html"
+><A
+NAME="GNUMERIC-LEN"
+></A
+>LEN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4566.html"
+><A
+NAME="GNUMERIC-DMAX"
+></A
+>DMAX</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4586.html"
+><A
+NAME="GNUMERIC-SUMSQ"
+></A
+>SUMSQ</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4604.html"
+><A
+NAME="GNUMERIC-NORMSDIST"
+></A
+>NORMSDIST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4622.html"
+><A
+NAME="GNUMERIC-DOLLAR"
+></A
+>DOLLAR</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4641.html"
+><A
+NAME="GNUMERIC-CEIL"
+></A
+>CEIL</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4661.html"
+><A
+NAME="GNUMERIC-PROPER"
+></A
+>PROPER</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4679.html"
+><A
+NAME="GNUMERIC-TINV"
+></A
+>TINV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4698.html"
+><A
+NAME="GNUMERIC-NEGBINOMDIST"
+></A
+>NEGBINOMDIST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4720.html"
+><A
+NAME="GNUMERIC-DEC2OCT"
+></A
+>DEC2OCT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4738.html"
+><A
+NAME="GNUMERIC-BIN2DEC"
+></A
+>BIN2DEC</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4756.html"
+><A
+NAME="GNUMERIC-STDEVP"
+></A
+>STDEVP</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4776.html"
+><A
+NAME="GNUMERIC-ROWS"
+></A
+>ROWS</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4796.html"
+><A
+NAME="GNUMERIC-CONCATENATE"
+></A
+>CONCATENATE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4815.html"
+><A
+NAME="GNUMERIC-BESSELY"
+></A
+>BESSELY</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4835.html"
+><A
+NAME="GNUMERIC-VARP"
+></A
+>VARP</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4856.html"
+><A
+NAME="GNUMERIC-DCOUNT"
+></A
+>DCOUNT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4876.html"
+><A
+NAME="GNUMERIC-COUNTA"
+></A
+>COUNTA</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4898.html"
+><A
+NAME="GNUMERIC-DVAR"
+></A
+>DVAR</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4918.html"
+><A
+NAME="GNUMERIC-YEAR"
+></A
+>YEAR</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4939.html"
+><A
+NAME="GNUMERIC-PMT"
+></A
+>PMT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4953.html"
+><A
+NAME="GNUMERIC-RAND"
+></A
+>RAND</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4970.html"
+><A
+NAME="GNUMERIC-DAY"
+></A
+>DAY</A
+> &#8212; </DT
+><DT
+><A
+HREF="r4991.html"
+><A
+NAME="GNUMERIC-KURT"
+></A
+>KURT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5007.html"
+><A
+NAME="GNUMERIC-CHIDIST"
+></A
+>CHIDIST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5026.html"
+><A
+NAME="GNUMERIC-FIND"
+></A
+>FIND</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5046.html"
+><A
+NAME="GNUMERIC-EXACT"
+></A
+>EXACT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5063.html"
+><A
+NAME="GNUMERIC-EDATE"
+></A
+>EDATE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5081.html"
+><A
+NAME="GNUMERIC-CONFIDENCE"
+></A
+>CONFIDENCE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5099.html"
+><A
+NAME="GNUMERIC-LOWER"
+></A
+>LOWER</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5116.html"
+><A
+NAME="GNUMERIC-COMPLEX"
+></A
+>COMPLEX</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5131.html"
+><A
+NAME="GNUMERIC-DSTDEV"
+></A
+>DSTDEV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5151.html"
+><A
+NAME="GNUMERIC-RANK"
+></A
+>RANK</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5168.html"
+><A
+NAME="GNUMERIC-COLUMN"
+></A
+>COLUMN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5188.html"
+><A
+NAME="GNUMERIC-DEVSQ"
+></A
+>DEVSQ</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5206.html"
+><A
+NAME="GNUMERIC-HEX2OCT"
+></A
+>HEX2OCT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5224.html"
+><A
+NAME="GNUMERIC-NOT"
+></A
+>NOT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5243.html"
+><A
+NAME="GNUMERIC-ROUND"
+></A
+>ROUND</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5262.html"
+><A
+NAME="GNUMERIC-VALUE"
+></A
+>VALUE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5281.html"
+><A
+NAME="GNUMERIC-TAN"
+></A
+>TAN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5305.html"
+><A
+NAME="GNUMERIC-AVERAGE"
+></A
+>AVERAGE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5323.html"
+><A
+NAME="GNUMERIC-SIGN"
+></A
+>SIGN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5339.html"
+><A
+NAME="GNUMERIC-NOW"
+></A
+>NOW</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5359.html"
+><A
+NAME="GNUMERIC-SKEW"
+></A
+>SKEW</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5375.html"
+><A
+NAME="GNUMERIC-CODE"
+></A
+>CODE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5392.html"
+><A
+NAME="GNUMERIC-GAMMALN"
+></A
+>GAMMALN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5410.html"
+><A
+NAME="GNUMERIC-GESTEP"
+></A
+>GESTEP</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5428.html"
+><A
+NAME="GNUMERIC-INT"
+></A
+>INT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5448.html"
+><A
+NAME="GNUMERIC-BINOMDIST"
+></A
+>BINOMDIST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5466.html"
+><A
+NAME="GNUMERIC-COMBIN"
+></A
+>COMBIN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5484.html"
+><A
+NAME="GNUMERIC-ERROR"
+></A
+>ERROR</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5502.html"
+><A
+NAME="GNUMERIC-DOLLARDE"
+></A
+>DOLLARDE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5517.html"
+><A
+NAME="GNUMERIC-ERF"
+></A
+>ERF</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5535.html"
+><A
+NAME="GNUMERIC-FINV"
+></A
+>FINV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5553.html"
+><A
+NAME="GNUMERIC-MAX"
+></A
+>MAX</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5572.html"
+><A
+NAME="GNUMERIC-BIN2OCT"
+></A
+>BIN2OCT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5590.html"
+><A
+NAME="GNUMERIC-IMSQRT"
+></A
+>IMSQRT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5607.html"
+><A
+NAME="GNUMERIC-ATAN2"
+></A
+>ATAN2</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5630.html"
+><A
+NAME="GNUMERIC-ACOS"
+></A
+>ACOS</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5651.html"
+><A
+NAME="GNUMERIC-DVARP"
+></A
+>DVARP</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5671.html"
+><A
+NAME="GNUMERIC-NPV"
+></A
+>NPV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5685.html"
+><A
+NAME="GNUMERIC-NORMSINV"
+></A
+>NORMSINV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5707.html"
+><A
+NAME="GNUMERIC-DEC2HEX"
+></A
+>DEC2HEX</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5725.html"
+><A
+NAME="GNUMERIC-IMCOS"
+></A
+>IMCOS</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5742.html"
+><A
+NAME="GNUMERIC-IMDIV"
+></A
+>IMDIV</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5759.html"
+><A
+NAME="GNUMERIC-IMEXP"
+></A
+>IMEXP</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5776.html"
+><A
+NAME="GNUMERIC-DSTDEVP"
+></A
+>DSTDEVP</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5796.html"
+><A
+NAME="GNUMERIC-EXPONDIST"
+></A
+>EXPONDIST</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5814.html"
+><A
+NAME="GNUMERIC-DOLLARFR"
+></A
+>DOLLARFR</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5829.html"
+><A
+NAME="GNUMERIC-DCOUNTA"
+></A
+>DCOUNTA</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5849.html"
+><A
+NAME="GNUMERIC-OCT2DEC"
+></A
+>OCT2DEC</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5867.html"
+><A
+NAME="GNUMERIC-DSUM"
+></A
+>DSUM</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5887.html"
+><A
+NAME="GNUMERIC-LN"
+></A
+>LN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5906.html"
+><A
+NAME="GNUMERIC-COLUMN"
+></A
+>COLUMN</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5926.html"
+><A
+NAME="GNUMERIC-VAR"
+></A
+>VAR</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5946.html"
+><A
+NAME="GNUMERIC-COUNT"
+></A
+>COUNT</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5964.html"
+><A
+NAME="GNUMERIC-ERFC"
+></A
+>ERFC</A
+> &#8212; </DT
+><DT
+><A
+HREF="r5982.html"
+><A
+NAME="GNUMERIC-FACTDOUBLE"
+></A
+>FACTDOUBLE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r6000.html"
+><A
+NAME="GNUMERIC-DATEVALUE"
+></A
+>DATEVALUE</A
+> &#8212; </DT
+><DT
+><A
+HREF="r6017.html"
+><A
+NAME="GNUMERIC-NPER"
+></A
+>NPER</A
+> &#8212; </DT
+><DT
+><A
+HREF="r6031.html"
+><A
+NAME="GNUMERIC-VLOOKUP"
+></A
+>VLOOKUP</A
+> &#8212; </DT
+><DT
+><A
+HREF="r6049.html"
+><A
+NAME="GNUMERIC-SUMX2MY2"
+></A
+>SUMX2MY2</A
+> &#8212; </DT
+><DT
+><A
+HREF="r6068.html"
+><A
+NAME="GNUMERIC-ATANH"
+></A
+>ATANH</A
+> &#8212; </DT
+><DT
+><A
+HREF="r6091.html"
+><A
+NAME="GNUMERIC-IMLOG10"
+></A
+>IMLOG10</A
+> &#8212; </DT
+></DL
+></DD
+></DL
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="editing.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Entering data.</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

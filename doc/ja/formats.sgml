@@ -1,0 +1,47 @@
+<sect1 id="editing-selections">
+  <title>Cell format in Gnumeric</title>
+
+  <para>Gnumeric provides a wide range of formating rules for the data
+  that is entered into the cells.  The numbers are rendered according
+  to a format code that describes the way you want the information to
+  be presented.</para>
+
+  <para>To apply a format to a cell, you need to select the range of
+  cells to which a given style is going to be applied and then invoke
+  the cell format dialog box.  The cell format dialog box can be
+  activated from the main Gnumeric menu bar as Format/Cell or from the
+  context-sensitive menu in the spreadsheet (this is activated by
+  pressing the right button).</para>
+
+  <sect2>
+     <title>Formatting codes</title>
+
+  </sect2>
+
+  <sect2>
+     <title>Conditional formatting codes</title>
+
+  </sect2>
+
+  <sect2>
+     <title>Adding colors to a format</title>
+
+  </sect2>
+
+</sect1>
+
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             
