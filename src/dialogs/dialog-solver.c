@@ -736,7 +736,7 @@ solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 			 &(state->warning_dialog),
 			 GTK_MESSAGE_WARNING, 
 			 _("The maximum number of iterations exceeded. "
-			   "An optimal value could not be found."));
+			   "The optimal value could not be found."));
 		solver_reports (WORKBOOK_CONTROL(state->wbcg),
 				state->sheet, res,
 				FALSE, FALSE, FALSE,
@@ -775,7 +775,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	gint                    i;
 	gboolean                answer, sensitivity, limits, performance;
 	gboolean                program, dual_program;
-	gchar                   *errmsg;
+	gchar                   *errmsg = _("Unknown error.");
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
