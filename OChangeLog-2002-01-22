@@ -1,3 +1,7 @@
+2002-01-23  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : restore the missing lines.
+
 2002-01-22  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-autofill.c (autofill_create_fill_items) : Use
