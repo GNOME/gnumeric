@@ -1,5 +1,10 @@
 2002-10-24  Morten Welinder  <terra@diku.dk>
 
+	* src/search.c (search_replace_string): Avoid matching the empty
+	string at the end of the source after we have done a replacement.
+	(Replace ".*" by "42" in "0.988" should not yield two copies
+	of the replacement.)
+
 	* src/xml-io.c (xml_cell_set_array_expr): Create place-holders for
 	unknown functions (that were presumably known when we saved the
 	file in question).

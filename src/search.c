@@ -425,6 +425,18 @@ search_replace_string (SearchReplace *sr, const char *src)
 				calculate_replacement (sr, src, pmatch);
 			g_string_append (res, replacement);
 			g_free (replacement);
+
+			if (src[pmatch[0].rm_eo] == 0) {
+				/*
+				 * We matched and replaced the last character
+				 * of the string.  Do not continue as we might
+				 * then match the empty string at the end and
+				 * re-add the replacement.  This would happen,
+				 * for example, if you searched for ".*".
+				 */
+				src = "";
+				break;
+			}
 		}
 
 		if (pmatch[0].rm_eo > 0) {
@@ -445,12 +457,9 @@ search_replace_string (SearchReplace *sr, const char *src)
 	g_free (pmatch);
 
 	if (res) {
-		char *tmp;
-
-		g_string_append (res, src);
-		tmp = res->str;
-		g_string_free (res, FALSE);
-		return tmp;
+		if (*src)
+			g_string_append (res, src);
+		return g_string_free (res, FALSE);
 	} else {
 		return NULL;
 	}
