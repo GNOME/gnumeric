@@ -1596,7 +1596,7 @@ msgstr "出力範囲(_O):"
 
 #: src/dialogs/analysis-tools.glade.h:41
 msgid "_Pareto (Sorted)"
-msgstr ""
+msgstr "パレート(_P) (ソート済み)"
 
 #: src/GNOME_Gnumeric.xml.h:255 src/dialogs/analysis-tools.glade.h:42
 #: src/workbook-control-gui.c:2298
@@ -2266,48 +2266,40 @@ msgid "Add the entered area to the list of source areas"
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:3
-#, fuzzy
 msgid "C_opy labels"
-msgstr "値をコピー(_V)"
+msgstr "ラベルをコピー(_O)"
 
 #: src/dialogs/consolidate.glade.h:4
-#, fuzzy
 msgid "Clear the list of source areas"
-msgstr "列のリストを消去"
+msgstr "統合元のリストを消去"
 
 #: src/dialogs/consolidate.glade.h:6
-#, fuzzy
 msgid "D_elete"
-msgstr "削除"
+msgstr "削除(_D)"
 
 #: src/dialogs/consolidate.glade.h:7
 msgid "Data consolidation"
-msgstr ""
+msgstr "データの統合"
 
 #: src/dialogs/consolidate.glade.h:8
-#, fuzzy
 msgid "Delete the currently selected source area"
-msgstr "現在選択されているシートを削除"
+msgstr "現在選択されている統合元を削除"
 
 #: src/dialogs/consolidate.glade.h:9
-#, fuzzy
 msgid "Formulas"
 msgstr "公式"
 
 #: src/dialogs/consolidate.glade.h:10
-#, fuzzy
 msgid "In _left column"
-msgstr "列を挿入"
+msgstr "左の列に(_L)"
 
 #: src/dialogs/consolidate.glade.h:11
-#, fuzzy
 msgid "In _top row"
-msgstr "行を挿入"
+msgstr "上の行に(_T)"
 
 #: src/dialogs/consolidate.glade.h:12
-#, fuzzy
 msgid "Labels"
-msgstr "ラベル(_L)"
+msgstr "ラベル"
 
 #: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3321
 msgid "Max"
@@ -2318,26 +2310,24 @@ msgid "Min"
 msgstr "最小"
 
 #: src/dialogs/consolidate.glade.h:15
-#, fuzzy
 msgid "Product"
-msgstr "周期的"
+msgstr "製品"
 
 #: src/dialogs/consolidate.glade.h:16
 msgid "Source areas"
-msgstr ""
+msgstr "統合元"
 
 #: src/dialogs/consolidate.glade.h:17
-#, fuzzy
 msgid "Stdev (sample)"
-msgstr "例"
+msgstr "標本標準偏差"
 
 #: src/dialogs/consolidate.glade.h:18
 msgid "Stdevp (population)"
-msgstr ""
+msgstr "標準偏差"
 
 #: src/dialogs/consolidate.glade.h:20
 msgid "The function to use when consolidating"
-msgstr ""
+msgstr "統合するときに使う関数"
 
 #: src/dialogs/consolidate.glade.h:21
 msgid ""
@@ -2352,31 +2342,28 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:23
-#, fuzzy
 msgid "Values"
 msgstr "値"
 
 #: src/dialogs/consolidate.glade.h:24
 msgid "Var (sample)"
-msgstr ""
+msgstr "標本分散"
 
 #: src/dialogs/consolidate.glade.h:25
 msgid "Varp (population)"
-msgstr ""
+msgstr "母分散"
 
 #: src/dialogs/consolidate.glade.h:27 src/dialogs/dialog-stf.glade.h:63
 msgid "_Clear"
 msgstr "消去(_C)"
 
 #: src/dialogs/consolidate.glade.h:28
-#, fuzzy
 msgid "_Destination :"
-msgstr "説明:"
+msgstr "統合先(_D):"
 
 #: src/dialogs/consolidate.glade.h:29
-#, fuzzy
 msgid "_Function :"
-msgstr "関数"
+msgstr "関数(_F):"
 
 #: src/dialogs/consolidate.glade.h:30
 msgid "_Put :"
@@ -2421,7 +2408,7 @@ msgstr "Sean Atkinson, 関数とX-Baseの取り込み。"
 
 #: src/dialogs/dialog-about.c:31
 msgid "Grandma Chema Celorio, Tester and sheet copy."
-msgstr ""
+msgstr "Grandma Chema Celorio, テスタとシートコピー。"
 
 #: src/dialogs/dialog-about.c:32
 msgid "Frank Chiulli, OLE support."
@@ -2433,7 +2420,7 @@ msgstr "Kenneth Christiansen, i18n, その他"
 
 #: src/dialogs/dialog-about.c:34
 msgid "Zbigniew Chyla, plugin system, i18n."
-msgstr ""
+msgstr "Zbigniew Chyla, プラグインシステム, i18n。"
 
 #: src/dialogs/dialog-about.c:35
 msgid "Tom Dyas, plugin support."
@@ -3050,9 +3037,8 @@ msgid "Clear Background"
 msgstr "背景を消去"
 
 #: src/dialogs/dialog-cell-sort.c:84 src/dialogs/dialog-cell-sort.c:89
-#, fuzzy, c-format
 msgid "Row %s"
-msgstr "%d 行"
+msgstr "行 %s"
 
 #: src/dialogs/dialog-cell-sort.c:202
 msgid "Ascending"
@@ -3517,9 +3503,8 @@ msgstr ""
 "\"の選択に依存します。"
 
 #: src/dialogs/dialog-stf-export.glade.h:17
-#, fuzzy
 msgid "Exporting structured text"
-msgstr "Gnumeric : 構造化テキストの書き出し"
+msgstr "構造化テキストを書き出しています"
 
 #: src/dialogs/dialog-stf-export.glade.h:18
 msgid "Hyphen (-)"
@@ -3604,7 +3589,7 @@ msgstr "%d 行をインポート"
 
 #: src/dialogs/dialog-stf-main-page.c:210
 msgid "LINES TOO LONG!"
-msgstr ""
+msgstr "行が長すぎです!"
 
 #: src/dialogs/dialog-stf-main-page.c:234
 #, c-format
@@ -3737,9 +3722,8 @@ msgid "H_yphen (-)"
 msgstr "ハイフン(-) (_Y)"
 
 #: src/dialogs/dialog-stf.glade.h:32
-#, fuzzy
 msgid "Importing structured text"
-msgstr "Gnumeric : 構造化テキストの読み込み"
+msgstr "構造化テキストを読み込んでいます"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid ""
@@ -3993,9 +3977,8 @@ msgid "Center section:"
 msgstr "中央部:"
 
 #: src/dialogs/hf-config.glade.h:2
-#, fuzzy
 msgid "Customize header/footer"
-msgstr "フッタをカスタマイズ(_F)"
+msgstr "ヘッダ/フッタのカスタマイズ"
 
 #: src/dialogs/hf-config.glade.h:3
 msgid "Enter the format strings for each section:"
@@ -4034,7 +4017,6 @@ msgid "Define Name"
 msgstr "名前を定義"
 
 #: src/dialogs/names.glade.h:2
-#, fuzzy
 msgid "Define names"
 msgstr "名前を定義"
 
@@ -4411,7 +4393,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:22
 msgid "Miscellanea"
-msgstr ""
+msgstr "その他"
 
 #: src/dialogs/search-replace.glade.h:24
 msgid "Other values"
@@ -4606,9 +4588,8 @@ msgid "Solve"
 msgstr "解く"
 
 #: src/dialogs/solver.glade.h:11
-#, fuzzy
 msgid "Solver Parameters"
-msgstr "Gnumeric ソルバパラメータ"
+msgstr "ソルバパラメータ"
 
 #: src/dialogs/solver.glade.h:12
 msgid "Solver Result"
@@ -4699,23 +4680,20 @@ msgid "A blank cell will be seen as valid"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:2
-#, fuzzy
 msgid "Ac_tion :"
-msgstr "動作"
+msgstr "動作(_T):"
 
 #: src/dialogs/validate.glade.h:3
 msgid "Any Value"
 msgstr "任意の値"
 
 #: src/dialogs/validate.glade.h:4
-#, fuzzy
 msgid "Apply these changes to _other cells with the same settings"
-msgstr "これらの変更を同じ設定の他のセルにも適用する"
+msgstr "これらの変更を同じ設定の他のセルにも適用する(_O)"
 
 #: src/dialogs/validate.glade.h:5
-#, fuzzy
 msgid "Clear All"
-msgstr "すべて消去(_C)"
+msgstr "すべて消去"
 
 #: src/dialogs/validate.glade.h:7
 msgid "Date"
@@ -4730,9 +4708,8 @@ msgid "Give the cell a dropdown combo with all possible valid values"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:10
-#, fuzzy
 msgid "Ignore _blank"
-msgstr "空白を無視する"
+msgstr "空白を無視する(_B)"
 
 #: src/dialogs/validate.glade.h:11
 #, fuzzy
@@ -4759,19 +4736,16 @@ msgid "List"
 msgstr "リスト"
 
 #: src/dialogs/validate.glade.h:16
-#, fuzzy
 msgid "Messa_ge :"
-msgstr "メッセージ"
+msgstr "メッセージ(_G):"
 
 #: src/dialogs/validate.glade.h:17
-#, fuzzy
 msgid "S_how error alert after invalid data is entered"
-msgstr "正しくない値が入力されたらエラー通知を表示する(_S)"
+msgstr "正しくない値が入力されたらエラー通知を表示する(_H)"
 
 #: src/dialogs/validate.glade.h:18
-#, fuzzy
 msgid "Show input _message when cell is selected"
-msgstr "セルが選択されたら入力メッセージを表示する(_S)"
+msgstr "セルが選択されたら入力メッセージを表示する(_M)"
 
 #: src/dialogs/validate.glade.h:19
 msgid "Stop"
@@ -4786,9 +4760,8 @@ msgid "Time"
 msgstr "時間"
 
 #: src/dialogs/validate.glade.h:22
-#, fuzzy
 msgid "Tit_le :"
-msgstr "題名(_T) :"
+msgstr "題名(_L):"
 
 #: src/dialogs/validate.glade.h:23
 msgid "Validation criteria"
@@ -4803,14 +4776,12 @@ msgid "Whole numbers"
 msgstr "すべての番号"
 
 #: src/dialogs/validate.glade.h:26
-#, fuzzy
 msgid "_Allow :"
 msgstr "許可(_A):"
 
 #: src/dialogs/validate.glade.h:27
-#, fuzzy
 msgid "_Condition :"
-msgstr "コロン(:) (_C)"
+msgstr "条件(_C):"
 
 #: src/dialogs/validate.glade.h:28
 msgid "_Error Alert"
@@ -4833,22 +4804,18 @@ msgid "min <= val <= max         (between)"
 msgstr "最小値 <= 値 <= 最大値     (範囲内)"
 
 #: src/dialogs/validate.glade.h:33
-#, fuzzy
 msgid "val != bound                  (not equal to)"
 msgstr "値 != 境界値                   (等しくない)"
 
 #: src/dialogs/validate.glade.h:34
-#, fuzzy
 msgid "val >  bound                  (greater than)"
 msgstr "値 > 境界値                        (大きい)"
 
 #: src/dialogs/validate.glade.h:35
-#, fuzzy
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "値 >= 境界値                      (大きいまたは等しい)"
 
 #: src/dialogs/validate.glade.h:36
-#, fuzzy
 msgid "val <  bound                  (less than)"
 msgstr "値 < 境界値                     (小さい)"
 
@@ -4857,12 +4824,10 @@ msgid "val <= min || max <= val (not between)"
 msgstr "値 <= 最小値 || 最大値 <= 値  (範囲外)"
 
 #: src/dialogs/validate.glade.h:38
-#, fuzzy
 msgid "val <=bound                  (less than or equal to)"
 msgstr "値 <=境界値                    (小さいまたは等しい)"
 
 #: src/dialogs/validate.glade.h:39
-#, fuzzy
 msgid "val == bound                 (equal to)"
 msgstr "値 == 境界値                  (等しい)"
 
@@ -14027,9 +13992,8 @@ msgstr "ファイル形式:"
 
 #. Pack it into file selector
 #: src/gui-file.c:85
-#, fuzzy
 msgid "Import file"
-msgstr "ファイルを読み込みます"
+msgstr "ファイルの読み込み"
 
 #: src/gui-file.c:126
 #, c-format
@@ -14276,9 +14240,8 @@ msgid "Unable to mmap the file, error : %s"
 msgstr "ファイルを mmap できません。エラー: %s"
 
 #: src/plugin-util.c:225 src/plugin-util.c:263
-#, fuzzy, c-format
 msgid "Error while opening file \"%s\" for writing."
-msgstr "ファイルを閉じる際にエラー。エラー: %s"
+msgstr "ファイル\"%s\"の書き込みに開く際にエラー。"
 
 #: src/plugin-util.c:229 src/plugin-util.c:267
 #, fuzzy, c-format
@@ -15470,14 +15433,12 @@ msgid "Unable to create object of type '%s'"
 msgstr "'タイプ%s'のオブジェクトを作成できません"
 
 #: src/workbook-control-gui.c:1919
-#, fuzzy
 msgid "Group"
-msgstr "グループ(_G)"
+msgstr "グループ"
 
 #: src/workbook-control-gui.c:1919
-#, fuzzy
 msgid "Ungroup"
-msgstr "グループ解除(_U)"
+msgstr "グループ解除"
 
 #: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2095
 msgid "_New"
@@ -15810,9 +15771,8 @@ msgid "Change the default column width"
 msgstr "デフォルトの列幅を変更"
 
 #: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:2341
-#, fuzzy
 msgid "H_eight..."
-msgstr "高さ(_H)..."
+msgstr "高さ(_E)..."
 
 #: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2342
 msgid "Change height of the selected rows"
@@ -16067,7 +16027,7 @@ msgstr "グループとアウトライン(_G)"
 
 #: src/GNOME_Gnumeric.xml.h:75 src/workbook-control-gui.c:2527
 msgid "F_ormat"
-msgstr "フォーマット(_O)"
+msgstr "書式(_O)"
 
 #: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2528
 msgid "_Tools"
