@@ -205,11 +205,11 @@ typedef struct {
 	char array_col_separator;
 
 	/* flags */
-	gboolean use_excel_reference_conventions	: 1;
-	gboolean create_placeholder_for_unknown_func	: 1;
-	gboolean force_absolute_col_references		: 1;
-	gboolean force_absolute_row_references		: 1;
-	gboolean force_explicit_sheet_references	: 1;
+	gboolean use_excel_reference_conventions;
+	gboolean create_placeholder_for_unknown_func;
+	gboolean force_absolute_col_references;
+	gboolean force_absolute_row_references;
+	gboolean force_explicit_sheet_references;
 
 	/* The suggested format to use for this expression */
 	StyleFormat **desired_fmt;

@@ -51,6 +51,7 @@ gboolean  gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *expr_entry
 
 /* Convenience functions */
 void gnumeric_expr_entry_set_absolute (GnumericExprEntry *expr_entry);
-ExprTree *gnumeric_expr_entry_parse (GnumericExprEntry *entry, ParsePos const *pp);
+ExprTree *gnumeric_expr_entry_parse (GnumericExprEntry *entry, ParsePos const *pp,
+				     gboolean start_sel);
 
 #endif

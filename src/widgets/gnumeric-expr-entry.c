@@ -729,12 +729,14 @@ gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *ee)
  * gnumeric_expr_entry_parse :
  * @ee : the entry
  * @pp : a parse position
+ * @start_sel : start range selection when things change.
  *
  * Attempts to parse the content of the entry line honouring
  * the flags.
  */
 ExprTree *
-gnumeric_expr_entry_parse (GnumericExprEntry *ee, ParsePos const *pp)
+gnumeric_expr_entry_parse (GnumericExprEntry *ee, ParsePos const *pp,
+			   gboolean start_sel)
 {
 	char const *text;
 	char *str;
@@ -773,7 +775,7 @@ gnumeric_expr_entry_parse (GnumericExprEntry *ee, ParsePos const *pp)
 	str = expr_tree_as_string (expr, pp);
 	if (strcmp (str, text)) {
 		SheetControlGUI *scg = wb_control_gui_cur_sheet (ee->wbcg);
-		if (sc_sheet (SHEET_CONTROL (scg)) == ee->rangesel.sheet) {
+		if (start_sel && sc_sheet (SHEET_CONTROL (scg)) == ee->rangesel.sheet) {
 			Range const *r = &ee->rangesel.range;
 			scg_rangesel_bound (scg,
 				r->start.col, r->start.row,

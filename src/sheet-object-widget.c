@@ -733,7 +733,8 @@ cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 		ParsePos  pp;
 		ExprTree *expr = gnumeric_expr_entry_parse (
 			GNUMERIC_EXPR_ENTRY (state->old_focus),
-			parse_pos_init (&pp, NULL, state->sheet, 0, 0));
+			parse_pos_init (&pp, NULL, state->sheet, 0, 0),
+			FALSE);
 
 		if (expr != NULL)
 			expr_tree_unref (expr);
@@ -770,7 +771,8 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 		ParsePos     pp;
 
 		expr = gnumeric_expr_entry_parse (GNUMERIC_EXPR_ENTRY (state->expression),
-				parse_pos_init (&pp, NULL, so->sheet, 0, 0));
+				parse_pos_init (&pp, NULL, so->sheet, 0, 0),
+				FALSE);
 		if (expr != NULL)
 			dependent_set_expr (&state->swc->dep, expr);
 	}

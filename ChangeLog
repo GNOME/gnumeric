@@ -1,5 +1,9 @@
 2001-12-19  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=67217
+	* src/parser.y (expr_parse_str) : Do not assign bit masked values
+	  directly to bit masked elements.
+
 	* src/commands.c (cmd_paste_cut_redo) : be more specific about what
 	  content needs to be stored.  We only need to store things
 	  outside the origin.

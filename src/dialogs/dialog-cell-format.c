@@ -2011,7 +2011,7 @@ validation_entry_to_expr (Sheet *sheet, GnumericExprEntry *gee)
 {
 	ParsePos pp;
 	return gnumeric_expr_entry_parse (gee, 
-		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0));
+		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0), FALSE);
 }
 
 static void
