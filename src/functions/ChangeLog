@@ -1,3 +1,7 @@
+2001-12-19  Morten Welinder  <terra@diku.dk>
+
+	* fn-date.c (gnumeric_date): Fix xl compatibility.
+
 2001-12-18  Jody Goldberg <jody@gnome.org>
 
 	* fn-date.c (help_datevalue) : fix embarassing typo.

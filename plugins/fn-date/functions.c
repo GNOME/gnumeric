@@ -28,14 +28,15 @@ static char *help_date = {
 	   "@DESCRIPTION="
 	   "DATE returns the number of days since the 1st of january of 1900"
 	   "(the date serial number) for the given year, month and day.\n"
-
-	   "The @day might be negative (to count backwards) and it is relative "
-	   "to the previous @month.  The @years should be at least 1900.  If "
-	   "@years <= 30, it is assumed to be 2000 + @years.  If 30 < "
-	   "@years < 100, it is assumed to be 1900 + @years. "
 	   "\n"
-	   "If the given date is not valid, DATE returns #VALUE! error.\n"
-	   "This function is Excel compatible. "
+	   "If @month < 1 or @month > 12, the year will be corrected.  A "
+	   "similar correction takes place for days.\n"
+	   "\n"
+	   "The @years should be at least 1900.  If "
+	   "@years < 1900, it is assumed to be 1900 + @years.\n"
+	   "\n"
+	   "If the given date is not valid, DATE returns #NUM! error.\n"
+	   "This function is Excel compatible."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "DATE(2001, 3, 30) returns 'Mar 30, 2001'.\n "
@@ -46,38 +47,43 @@ static char *help_date = {
 static Value *
 gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
 	int year, month, day;
 	GDate date;
 
-	year  = floor (value_get_as_float (argv [0]));
-	month = floor (value_get_as_float (argv [1]));
-	day   = floor (value_get_as_float (argv [2]));
+	year  = value_get_as_int (argv [0]);
+	month = value_get_as_int (argv [1]);
+	day   = value_get_as_int (argv [2]);
 
-	/* FIXME: someone should check this.  */
-	if (year <= 30)
-		year += 2000;
-	else if (year < 100)
+	if (year < 0 || year > 9999)
+		goto error;
+
+	if (year < 1900) /* 1900, not 100.  Ick!  */
 		year += 1900;
 
-        if (!g_date_valid_dmy (1, month, year))
-	        return value_new_error (ei->pos, gnumeric_err_VALUE);
+        g_date_clear (&date, 1);
 
-        g_date_clear(&date, 1);
+	g_date_set_dmy (&date, 1, 1, year);
+	if (!g_date_valid (&date))
+		goto error;
 
-	g_date_set_dmy (&date, 1, month, year);
+	if (month > 0)
+		g_date_add_months (&date, month - 1);
+	else
+		g_date_subtract_months (&date, 1 - month);
+	if (!g_date_valid (&date))
+		goto error;
 
 	if (day > 0)
-                g_date_set_day (&date, day);
+                g_date_add_days (&date, day - 1);
 	else
-		g_date_subtract_days (&date, -day + 1);
+		g_date_subtract_days (&date, 1 - day);
+	if (!g_date_valid (&date))
+		goto error;
 
-        if (!g_date_valid (&date))
-		return value_new_error (ei->pos, _("Invalid day"));
+	return value_new_int (datetime_g_to_serial (&date));
 
-	v = value_new_int (datetime_g_to_serial (&date));
-
-	return v;
+ error:
+	return value_new_error (ei->pos, gnumeric_err_NUM);
 }
 
 /***************************************************************************/
