@@ -1,3 +1,8 @@
+1999-03-05  Michael Meeks <michael@imaginator.com>
+
+	* ms-ole.c: Variously made debug conditional on OLE_DEBUG
+	* ms-excel.c: ditto for EXCEL_DEBUG
+
 1999-02-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* ms-ole.c (ms_ole_write_sb): Do not use C++ comments.

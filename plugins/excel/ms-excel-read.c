@@ -31,6 +31,8 @@
 #include "ms-excel.h"
 #include "ms-excel-biff.h"
 
+#define EXCEL_DEBUG 0
+
 /* Forward references */
 static MS_EXCEL_SHEET *ms_excel_sheet_new (MS_EXCEL_WORKBOOK * wb, char *name) ;
 static void ms_excel_workbook_attach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans) ;
@@ -177,9 +179,12 @@ ms_biff_bof_data_new (BIFF_QUERY * q)
 			 * More complicated 
 			 */
 			{
-				printf ("Complicated BIFF version %d\n",
-					BIFF_GETWORD (q->data));
-				dump (q->data, q->length);
+				if (EXCEL_DEBUG>0)
+				{
+					printf ("Complicated BIFF version %d\n",
+						BIFF_GETWORD (q->data));
+					dump (q->data, q->length);
+				}
 				switch (BIFF_GETWORD (q->data))
 				{
 				case 0x0600:
@@ -228,8 +233,9 @@ ms_biff_bof_data_new (BIFF_QUERY * q)
 		/*
 		 * Now store in the directory array: 
 		 */
-		printf ("BOF %x, %d == %d, %d\n", q->opcode, q->length,
-		  ans->version, ans->type);
+		if (EXCEL_DEBUG>0)
+			printf ("BOF %x, %d == %d, %d\n", q->opcode, q->length,
+				ans->version, ans->type);
 	} else {
 		printf ("Not a BOF !\n");
 		ans->version = eBiffVUnknown;
@@ -454,8 +460,9 @@ biff_font_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY *q)
 	}
 	fd->fontname = biff_get_text (q->data + 15, BIFF_GETBYTE (q->data + 14));
 
-	printf ("Insert font '%s' size %d pts\n",
-		fd->fontname, fd->height * 20);
+	if (EXCEL_DEBUG>0)
+		printf ("Insert font '%s' size %d pts\n",
+			fd->fontname, fd->height * 20);
 
 	fd->style_font = 0 ;
         fd->index = g_hash_table_size (wb->font_data) ;
@@ -576,7 +583,8 @@ ms_excel_palette_new (BIFF_QUERY * q)
 		pal->red[lp] = (num & 0x00ff0000) >> 16;
 		pal->green[lp] = (num & 0x0000ff00) >> 8;
 		pal->blue[lp] = (num & 0x000000ff) >> 0;
-		printf ("Colour %d : (%d,%d,%d)\n", lp, pal->red[lp], pal->green[lp], pal->blue[lp]);
+		if (EXCEL_DEBUG>0)
+			printf ("Colour %d : (%d,%d,%d)\n", lp, pal->red[lp], pal->green[lp], pal->blue[lp]);
 		pal->gnum_cols[lp] = 0 ;
 	}
 	return pal;
@@ -644,27 +652,15 @@ static void
 ms_excel_set_cell_colors (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 {
 	MS_EXCEL_PALETTE *p = sheet->wb->palette;
+	StyleColor *fore, *back ;
 	int col;
 
 	if (!p || !xf)
 		return;
 
-	col = xf->foregnd_col;
-	if (col >= 0 && col < sheet->wb->palette->length){
-		/*
-		 * printf ("FG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]); 
-		 */
-		cell_set_foreground (cell, p->red[col], p->green[col], p->blue[col]);
-	} else
-		printf ("FG col out of range %d\n", col);
-	col = xf->backgnd_col;
-	if (col >= 0 && col < sheet->wb->palette->length){
-		/*
-		 * printf ("BG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]); 
-		 */
-		cell_set_background (cell, p->red[col], p->green[col], p->blue[col]);
-	} else
-		printf ("BG col out of range %d\n", col);
+	fore = ms_excel_palette_get (sheet->wb->palette, xf->foregnd_col) ;
+	back = ms_excel_palette_get (sheet->wb->palette, xf->backgnd_col) ;
+	cell_set_color_from_style (cell, fore, back) ;
 }
 
 /**
@@ -1307,8 +1303,8 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		/*
 		  printf ("Cell [%d, %d] = ", EX_GETCOL(q), EX_GETROW(q));
 		  dump (q->data, q->length);
+		  printf ("Rstring\n") ;
 		*/
-		printf ("Rstring\n") ;
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
 				       (txt = biff_get_text (q->data + 8, EX_GETSTRLEN (q))));
 		g_free (txt) ;
@@ -1484,7 +1480,8 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			break;
 		}
 		default:
-			printf ("Unrecognised opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
+			if (EXCEL_DEBUG>0)
+				printf ("Unrecognised opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
 			break;
 		}
 	}
@@ -1763,10 +1760,10 @@ ms_excelReadWorkbook (MS_OLE * file)
 					dump (q->data, q->length);
 					break ;
 				default:
-					printf ("Opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
-				        /*
-					 * dump (q->data, q->length); 
-					 */
+					if (EXCEL_DEBUG>0)
+						printf ("Opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
+					if (EXCEL_DEBUG>2)
+						dump (q->data, q->length); 
 					break;
 				}
 			}

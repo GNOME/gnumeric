@@ -1,3 +1,7 @@
+1999-03-05  Michael Meeks  <michael@imaginator.com>
+
+	* src/cell.c (cell_set_color_from_style): Implemented.
+
 1999-03-03  Michael Meeks  <michael@imaginator.com>
 
 	* plugins/excel/ms-formula.c (parse_data_new): Trap null pointers

@@ -19,6 +19,8 @@
 
 /* Implementational detail - not for global header */
 
+#define OLE_DEBUG 0
+
 /* These take a _guint8_ pointer */
 #define GET_GUINT8(p)  (*(p+0))
 #define GET_GUINT16(p) (*(p+0)+(*(p+1)<<8))
@@ -329,8 +331,11 @@ ms_ole_analyse (MS_OLE *f)
 	if (!read_sbd_list(f)) return 0;
 	f->header.sbf_startblock = PPS_GET_STARTBLOCK(f, PPS_ROOT_BLOCK);
 	if (!read_sbf_list(f)) return 0;
-	dump_header(f);
-	dump_allocation (f);
+	if (OLE_DEBUG>0)
+	{
+		dump_header(f);
+		dump_allocation (f);
+	}
 
 /*	{
 		int lp;
@@ -458,11 +463,12 @@ ms_ole_create (const char *name)
 	f->header.sbf_list = g_new (BBPtr, 1);
 	f->header.sbf_list[0] = 3;
 
-	dump_header(f);
-	dump_allocation (f);
-
+	if (OLE_DEBUG > 0)
 	{
 		int lp;
+		dump_header(f);
+		dump_allocation (f);
+
 		for (lp=0;lp<BB_BLOCK_SIZE/PPS_BLOCK_SIZE;lp++)
 		{
 			printf ("PPS %d type %d, prev %d next %d, dir %d\n", lp, PPS_GET_TYPE(f,lp),

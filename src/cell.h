@@ -116,6 +116,8 @@ void        cell_set_foreground          (Cell *cell, gushort red,
 					  gushort green, gushort blue);
 void        cell_set_background          (Cell *cell, gushort red,
 					  gushort green, gushort blue);
+void        cell_set_color_from_style    (Cell *cell, StyleColor *foreground, 
+					  StyleColor *background) ;
 void        cell_set_pattern             (Cell *cell, int pattern);
 void        cell_set_border              (Cell *cell,
 					  StyleBorderType border_type [4],

@@ -403,6 +403,46 @@ cell_set_background (Cell *cell, gushort red, gushort green, gushort blue)
 	cell_queue_redraw (cell);
 }
 
+/**
+ * Null pointers unset the style.
+ **/
+void
+cell_set_color_from_style (Cell *cell, StyleColor *foreground,
+			   StyleColor *background)
+{
+	g_return_if_fail (cell != NULL);
+	
+	cell_modified (cell);
+
+	if (cell->style->valid_flags & STYLE_FORE_COLOR)
+	{
+		cell->style->valid_flags ^= STYLE_FORE_COLOR ;
+		style_color_unref (cell->style->fore_color);
+	}
+
+	if (cell->style->valid_flags & STYLE_BACK_COLOR)
+	{ 
+		cell->style->valid_flags ^= STYLE_BACK_COLOR ;
+		style_color_unref (cell->style->back_color);
+	}
+
+	if (background)
+	{
+		cell->style->valid_flags |= STYLE_BACK_COLOR;
+		style_color_ref (background) ;
+	}
+	cell->style->back_color = background ;
+
+	if (foreground)
+	{
+		cell->style->valid_flags |= STYLE_FORE_COLOR;
+		style_color_ref (foreground) ;
+	}
+	cell->style->fore_color = foreground ;
+
+	cell_queue_redraw (cell);
+}
+
 
 void
 cell_set_pattern (Cell *cell, int pattern)

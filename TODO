@@ -92,7 +92,11 @@ GNOME Spread Sheet task list
 
 * Excel importing
 
-   Correct Date support.
+   Hash cache functions,
+
+   Sort out setting colours on cells,
+
+   Sort out mul-blank records.
 
    Sensible Unicode support.
 
