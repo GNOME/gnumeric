@@ -1,3 +1,9 @@
+2004-04-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: substitute WARN_CFLAGS as
+	src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile references it
+	directly.
+
 2004-04-01  Jody Goldberg <jody@gnome.org>
 
 	* src/item-edit.c (item_edit_event) : basic cursor position support.
