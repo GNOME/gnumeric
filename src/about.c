@@ -20,20 +20,27 @@ dialog_about (Workbook *wb)
 {
         GtkWidget *about;
         const gchar *authors[] = {
-		"Miguel de Icaza, main programmer.",
-		"Daniel Veillard, XML support.",
-		"Chris Lahey, Number format engine.",
-		"Tom Dyas, Plugin support.",
-		"Federico Mena, Canvas support.",
-		"Adrian Likins, Documentation, debugging",
-		"Jakub Jelinek, Gnumeric hacker",
-		"Michael Meeks, Excel and OLE2 importing",
-		"Sean Atkinson, Excel functions",
-		"Bruno Unna, Excel code",
-		"Mark Probst, Guile support",
-		"Vincent Renardias, CSV support",
+		N_("Miguel de Icaza, main programmer."),
+		N_("Daniel Veillard, XML support."),
+		N_("Chris Lahey, Number format engine."),
+		N_("Tom Dyas, Plugin support."),
+		N_("Federico Mena, Canvas support."),
+		N_("Adrian Likins, Documentation, debugging"),
+		N_("Jakub Jelinek, Gnumeric hacker"),
+		N_("Michael Meeks, Excel and OLE2 importing"),
+		N_("Sean Atkinson, Excel functions"),
+		N_("Bruno Unna, Excel code"),
+		N_("Mark Probst, Guile support"),
+		N_("Vincent Renardias, CSV support"),
 		NULL
 	};
+
+#ifdef ENABLE_NLS
+	{
+ 	    int i=0;
+	    while (authors[i] != NULL) { authors[i]=_(authors[i]); i++; }
+	}
+#endif
 
         about = gnome_about_new (_("Gnumeric"), VERSION,
 				 "(C) 1998 Miguel de Icaza",

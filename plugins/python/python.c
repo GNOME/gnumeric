@@ -2,6 +2,7 @@
  * Rudimentary support for Python in gnumeric.
  */
 
+#include <config.h>
 #include <gnome.h>
 #include <string.h>
 #include "../../src/gnumeric.h"
@@ -95,7 +96,7 @@ marshal_func (FunctionDefinition *fndef, Value *argv[], char **error_string)
 	/* Find the Python code object for this FunctionDefinition. */
 	l = g_list_find_custom(funclist, fndef, (GCompareFunc) fndef_compare);
 	if (!l) {
-		*error_string = "Unable to lookup Python code object.";
+		*error_string = _("Unable to lookup Python code object.");
 		return NULL;
 	}
 	
@@ -111,7 +112,7 @@ marshal_func (FunctionDefinition *fndef, Value *argv[], char **error_string)
 	Py_DECREF (args);
 
 	if (!result){
-		*error_string = "Python exception.";
+		*error_string = _("Python exception.");
 		PyErr_Clear (); /* XXX should popup window with exception info */
 		return NULL;
 	}
@@ -133,13 +134,13 @@ __register_function (PyObject *m, PyObject *py_args)
 		return NULL;
 	
 	if (!PyCallable_Check (codeobj)){
-		PyErr_SetString (PyExc_TypeError, "object must be callable");
+		PyErr_SetString (PyExc_TypeError, _("object must be callable"));
 		return NULL;
 	}
 	
 	fndef = g_new0 (FunctionDefinition, 1);
 	if (!fndef){
-		PyErr_SetString (PyExc_MemoryError, "could not alloc FuncDef");
+		PyErr_SetString (PyExc_MemoryError, _("could not alloc FuncDef"));
 		return NULL;
 	}
 	
@@ -173,7 +174,7 @@ initgnumeric(void)
 {
 	PyImport_AddModule ("gnumeric");
 	Py_InitModule ("gnumeric", gnumeric_funcs);
-	g_print ("Gnumeric/Python module initialized\n");
+	g_print (_("Gnumeric/Python module initialized\n"));
 }  
 
 static int
@@ -186,7 +187,7 @@ int
 init_plugin (PluginData * pd)
 {
 	pd->can_unload = no_unloading_for_me;
-	pd->title = g_strdup ("Python Plugin");
+	pd->title = g_strdup (_("Python Plugin"));
 	
 	
 	/* initialize the python interpreter */

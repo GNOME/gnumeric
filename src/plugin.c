@@ -5,6 +5,7 @@
  *    Tom Dyas (tdyas@romulus.rutgers.edu)
  */
 
+#include <config.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <glib.h>

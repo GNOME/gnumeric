@@ -3,6 +3,8 @@
  * Richard Hestilow <hestgray@ionet.net>
  */
 
+#include <config.h>
+#include <gnome.h>
 #include "stat.h"
 #include <math.h>
 

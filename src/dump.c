@@ -17,7 +17,7 @@ dump_func_help (gpointer key, gpointer value, gpointer user_data)
 	fd = sym->data;
 
 	if (fd->help)
-		fprintf (output_file, "%s\n\n", *(fd->help));
+		fprintf (output_file, "%s\n\n", _( *(fd->help) ) );
 }
 
 void
@@ -26,7 +26,7 @@ dump_functions (char *filename)
 	g_return_if_fail (filename != NULL);
 	
 	if ((output_file = fopen (filename, "w")) == NULL){
-		printf ("Can not create file %s\n", filename);
+		printf (_("Can not create file %s\n"), filename);
 		exit (1);
 	}
 
