@@ -1,3 +1,7 @@
+2004-02-09  Robert Sedak  <robert.sedak@sk.htnet.hr>
+
+	* hr.po: Updated Croatian translation.
+
 2004-02-08  Tomasz K³oczko <kloczek@pld.org.pl>
 
 	* ja.po: Fixed format specyfications (gettext 0.14.x is more strict
