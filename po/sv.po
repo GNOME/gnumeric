@@ -28,8 +28,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-01-02 14:47+0100\n"
-"PO-Revision-Date: 2002-01-02 14:51+0100\n"
+"POT-Creation-Date: 2002-01-03 17:53+0100\n"
+"PO-Revision-Date: 2002-01-03 17:54+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
-#: plugins/mps/mps.c:579 src/xml-io.c:3448
+#: plugins/mps/mps.c:579 src/xml-io.c:3447
 msgid "Reading file..."
 msgstr "Läser fil..."
 
@@ -1015,11 +1015,11 @@ msgstr "EXPERIMENTELL SAX-baserad XML"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nästa generationens xml-system, baserat på sax"
 
-#: plugins/xml_sax/xml-sax-read.c:2228
+#: plugins/xml_sax/xml-sax-read.c:2227
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt () misslyckades."
 
-#: plugins/xml_sax/xml-sax-read.c:2237
+#: plugins/xml_sax/xml-sax-read.c:2236
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet är inte korrekt utformat!"
 
@@ -2526,7 +2526,7 @@ msgstr "Kumulativ %"
 msgid "Error '%s' opening workbook stream"
 msgstr "\"%s\"-fel vid öppning av arbetsboksflöde"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3471
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3470
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ogiltig xml-fil, trädet är tomt?"
 
@@ -6132,7 +6132,7 @@ msgid "Scale"
 msgstr "Skala"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3156
+#: src/workbook.c:1065 src/xml-io.c:3155
 msgid "Sheet"
 msgstr "Blad"
 
@@ -6534,7 +6534,7 @@ msgstr "Gör hjälputtryck"
 
 #: src/dialogs/search-replace.glade.h:21
 msgid "Make string value"
-msgstr "Gör stängvärde"
+msgstr "Gör strängvärde"
 
 #: src/dialogs/search-replace.glade.h:22
 msgid "Match whole words only"
@@ -6635,7 +6635,7 @@ msgstr "Strängar"
 
 #: src/dialogs/search-replace.glade.h:55
 msgid "Turn unparseable entries into string values"
-msgstr "Gör poster som inte kan tolkas till strängar"
+msgstr "Gör strängar av poster som inte kan tolkas"
 
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Close this dialog"
@@ -6647,11 +6647,11 @@ msgstr "Ta bort det aktuella markerade bladet"
 
 #: src/dialogs/sheet-order.glade.h:4
 msgid "Move the currently selected sheet down one position"
-msgstr "Flytta det för tillfället valda bladet ner en position"
+msgstr "Flytta ned det för tillfället valda bladet en position"
 
 #: src/dialogs/sheet-order.glade.h:5
 msgid "Move the currently selected sheet up one position"
-msgstr "Flytta det för tillfället valda bladet upp en position"
+msgstr "Flytta upp det för tillfället valda bladet en position"
 
 #: src/dialogs/sheet-order.glade.h:6
 msgid "Order Sheets"
@@ -6874,7 +6874,7 @@ msgstr "Ett undantag inträffade vid sparande till flöde."
 #: src/file.c:495
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
-"Överskrivning av gamla filer av denna typ är deaktiverad av säkerhetsskäl."
+"Överskrivning av gamla filer av denna typ är deaktiverat av säkerhetsskäl."
 
 #: src/file.c:497
 msgid ""
@@ -18830,7 +18830,7 @@ msgstr "Fel vid öppnande av filen \"%s\" för läsning."
 msgid "Unable to mmap the file."
 msgstr "Kan inte minnesmappa filen."
 
-#: src/plugin-util.c:313 src/xml-io.c:3437
+#: src/plugin-util.c:313 src/xml-io.c:3436
 msgid "Cannot get file size."
 msgstr "Kan inte få tag i filstorleken."
 
@@ -20050,31 +20050,31 @@ msgstr "Är inte en autoformatmallfil"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Fel uppstod när träd skulle byggas från autoformatmallfil"
 
-#: src/xml-io.c:2871
+#: src/xml-io.c:2870
 msgid "Unparsable xml in clipboard"
 msgstr "Otolkningsbar xml i urklipp"
 
-#: src/xml-io.c:2878
+#: src/xml-io.c:2877
 msgid "Clipboard is in unknown format"
 msgstr "Urklipp är i ett okänt format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3282
+#: src/xml-io.c:3281
 msgid "Processing file..."
 msgstr "Bearbetar fil..."
 
-#: src/xml-io.c:3445
+#: src/xml-io.c:3444
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 "Inte tillräckligt med minne för att skapa zlib-dekomprimeringstillstånd."
 
-#: src/xml-io.c:3480
+#: src/xml-io.c:3479
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Är inte en Gnumeric-arbetsboksfil"
 
-#: src/xml-io.c:3537
+#: src/xml-io.c:3536
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
