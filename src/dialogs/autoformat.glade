@@ -102,7 +102,7 @@
 				    <widget class="GtkAccelLabel" id="convertwidget1">
 				      <property name="visible">True</property>
 				      <property name="label" translatable="yes">Apply _Number Formats</property>
-				      <property name="use_underline">False</property>
+				      <property name="use_underline">True</property>
 				      <property name="use_markup">False</property>
 				      <property name="justify">GTK_JUSTIFY_LEFT</property>
 				      <property name="wrap">False</property>
@@ -125,7 +125,7 @@
 				    <widget class="GtkAccelLabel" id="convertwidget2">
 				      <property name="visible">True</property>
 				      <property name="label" translatable="yes">Apply _Borders</property>
-				      <property name="use_underline">False</property>
+				      <property name="use_underline">True</property>
 				      <property name="use_markup">False</property>
 				      <property name="justify">GTK_JUSTIFY_LEFT</property>
 				      <property name="wrap">False</property>
@@ -148,7 +148,7 @@
 				    <widget class="GtkAccelLabel" id="convertwidget3">
 				      <property name="visible">True</property>
 				      <property name="label" translatable="yes">Apply _Fonts</property>
-				      <property name="use_underline">False</property>
+				      <property name="use_underline">True</property>
 				      <property name="use_markup">False</property>
 				      <property name="justify">GTK_JUSTIFY_LEFT</property>
 				      <property name="wrap">False</property>
@@ -171,7 +171,7 @@
 				    <widget class="GtkAccelLabel" id="convertwidget4">
 				      <property name="visible">True</property>
 				      <property name="label" translatable="yes">Apply _Patterns</property>
-				      <property name="use_underline">False</property>
+				      <property name="use_underline">True</property>
 				      <property name="use_markup">False</property>
 				      <property name="justify">GTK_JUSTIFY_LEFT</property>
 				      <property name="wrap">False</property>
@@ -194,7 +194,7 @@
 				    <widget class="GtkAccelLabel" id="convertwidget5">
 				      <property name="visible">True</property>
 				      <property name="label" translatable="yes">Apply _Alignment</property>
-				      <property name="use_underline">False</property>
+				      <property name="use_underline">True</property>
 				      <property name="use_markup">False</property>
 				      <property name="justify">GTK_JUSTIFY_LEFT</property>
 				      <property name="wrap">False</property>
@@ -232,7 +232,7 @@
 					    <widget class="GtkAccelLabel" id="convertwidget5">
 					      <property name="visible">True</property>
 					      <property name="label" translatable="yes">_Left</property>
-					      <property name="use_underline">False</property>
+					      <property name="use_underline">True</property>
 					      <property name="use_markup">False</property>
 					      <property name="justify">GTK_JUSTIFY_LEFT</property>
 					      <property name="wrap">False</property>
@@ -255,7 +255,7 @@
 					    <widget class="GtkAccelLabel" id="convertwidget5">
 					      <property name="visible">True</property>
 					      <property name="label" translatable="yes">_Right</property>
-					      <property name="use_underline">False</property>
+					      <property name="use_underline">True</property>
 					      <property name="use_markup">False</property>
 					      <property name="justify">GTK_JUSTIFY_LEFT</property>
 					      <property name="wrap">False</property>
@@ -278,7 +278,7 @@
 					    <widget class="GtkAccelLabel" id="convertwidget5">
 					      <property name="visible">True</property>
 					      <property name="label" translatable="yes">_Top</property>
-					      <property name="use_underline">False</property>
+					      <property name="use_underline">True</property>
 					      <property name="use_markup">False</property>
 					      <property name="justify">GTK_JUSTIFY_LEFT</property>
 					      <property name="wrap">False</property>
@@ -301,7 +301,7 @@
 					    <widget class="GtkAccelLabel" id="convertwidget5">
 					      <property name="visible">True</property>
 					      <property name="label" translatable="yes">_Bottom</property>
-					      <property name="use_underline">False</property>
+					      <property name="use_underline">True</property>
 					      <property name="use_markup">False</property>
 					      <property name="justify">GTK_JUSTIFY_LEFT</property>
 					      <property name="wrap">False</property>
@@ -334,7 +334,7 @@
 				    <widget class="GtkAccelLabel" id="convertwidget6">
 				      <property name="visible">True</property>
 				      <property name="label" translatable="yes">_Show Gridlines</property>
-				      <property name="use_underline">False</property>
+				      <property name="use_underline">True</property>
 				      <property name="use_markup">False</property>
 				      <property name="justify">GTK_JUSTIFY_LEFT</property>
 				      <property name="wrap">False</property>
@@ -653,8 +653,8 @@
 	  <child>
 	    <widget class="GtkLabel" id="label9">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_Preview</property>
-	      <property name="use_underline">True</property>
+	      <property name="label" translatable="yes">Preview</property>
+	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
@@ -884,8 +884,8 @@
 	  <child>
 	    <widget class="GtkLabel" id="label10">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_Template Details</property>
-	      <property name="use_underline">True</property>
+	      <property name="label" translatable="yes">Template Details</property>
+	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
