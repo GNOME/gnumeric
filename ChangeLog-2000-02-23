@@ -1,5 +1,18 @@
 1999-11-03  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/sheet.c (sheet_insert_col, sheet_insert_row): fiddle styles.
+
+	* src/sheet-style.c (sheet_style_region_link): implement.
+	(sheet_style_stamp_compare): implement.
+	(style_region_new): create. (sheet_style_attach): use it.
+	(style_region_copy): implement.
+	(style_region_destroy): create (sheet_style_region_unlink): use.
+	(sheet_style_insert_colrow): implement.
+
+	* src/ranges.c (range_contained): Make semantics more logical.
+
+1999-11-03  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/sheet-style.c (sheet_style_delete_colrow): Fixup.
 
 	* src/sheet.c (sheet_delete_row, sheet_delete_col): Add style stage.

@@ -3147,14 +3147,17 @@ sheet_insert_col (Sheet *sheet, int col, int count)
 		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
 			     &sheet->cols, i, i + count);
 
-	/* 4. Recompute dependencies */
+	/* 4. Slide all the StyleRegion's right */
+	sheet_style_insert_colrow (sheet, col, count, TRUE);
+
+	/* 5. Recompute dependencies */
 	deps = region_get_dependencies (sheet,
 					col, 0,
 					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	cell_queue_recalc_list (deps, TRUE);
 	workbook_recalc (sheet->workbook);
 
-	/* 5. Redraw */
+	/* 6. Redraw */
 	sheet_redraw_all (sheet);
 }
 
@@ -3282,14 +3285,17 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
 			     &sheet->rows, i, i+count);
 
-	/* 4. Recompute dependencies */
+	/* 4. Slide all the StyleRegion's right */
+	sheet_style_insert_colrow (sheet, row, count, FALSE);
+
+	/* 5. Recompute dependencies */
 	deps = region_get_dependencies (sheet,
 					0, row,
 					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	cell_queue_recalc_list (deps, TRUE);
 	workbook_recalc (sheet->workbook);
 
-	/* 5. Redraw */
+	/* 6. Redraw */
 	sheet_redraw_all (sheet);
 }
 

@@ -153,6 +153,41 @@ list_check_sorted (const GList *list, gboolean as_per_sheet)
 	return TRUE;
 }
 
+static inline StyleRegion *
+style_region_new (const Range *range, MStyle *mstyle)
+{
+	StyleRegion *sr;
+
+	sr = g_new (StyleRegion, 1);
+	sr->stamp = stamp++;
+	sr->range = *range;
+	sr->style = mstyle;
+       
+	return sr;
+}
+
+static inline StyleRegion *
+style_region_copy (const StyleRegion *sra)
+{
+	StyleRegion *sr;
+
+	sr = g_new (StyleRegion, 1);
+	sr->stamp = sra->stamp;
+	sr->range = sra->range;
+	sr->style = sra->style;
+	mstyle_ref (sra->style);
+       
+	return sr;
+}
+
+static inline void
+style_region_destroy (StyleRegion *sr)
+{
+	mstyle_unref (sr->style);
+	sr->style = NULL;
+	g_free (sr);
+}
+
 /**
  * sheet_style_attach_single:
  * @sheet: the sheet
@@ -196,9 +231,34 @@ static void
 sheet_style_region_unlink (Sheet *sheet, StyleRegion *region)
 {
 	STYLE_LIST (sheet) = g_list_remove (STYLE_LIST (sheet), region);
-	mstyle_unref (region->style);
-	region->style = NULL;
-	g_free (region);
+	style_region_destroy (region);
+}
+
+static gint
+sheet_style_stamp_compare (gconstpointer a, gconstpointer b)
+{
+	if (((StyleRegion *)a)->stamp > ((StyleRegion *)b)->stamp)
+		return -1;
+	else if (((StyleRegion *)a)->stamp == ((StyleRegion *)b)->stamp)
+		return 0;
+	else
+		return 1;
+}
+
+static void
+sheet_style_region_link (Sheet *sheet, StyleRegion *region)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (region != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if (!list_check_sorted (STYLE_LIST (sheet), TRUE))
+		g_warning ("order broken before insert");
+
+	STYLE_LIST (sheet) = g_list_insert_sorted (STYLE_LIST (sheet), region,
+						   sheet_style_stamp_compare);
+	if (!list_check_sorted (STYLE_LIST (sheet), TRUE))
+		g_warning ("list_insert_sorted screwed order");
 }
 
 /**
@@ -390,11 +450,7 @@ sheet_style_attach (Sheet  *sheet, Range range,
 	 *  Can we afford to merge on the fly ?
 	 */
 
-	sr = g_new (StyleRegion, 1);
-	sr->stamp = stamp++;
-	sr->range = range;
-	sr->style = mstyle;
-
+	sr = style_region_new (&range, mstyle);
 	STYLE_LIST (sheet) = g_list_prepend (STYLE_LIST (sheet), sr);
 
 	if (STYLE_DEBUG) {
@@ -768,6 +824,88 @@ sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 			    sr->range.start.row < 0 ||
 			    sr->range.end.row < 0)
 				sheet_style_region_unlink (sheet, sr);
+		}
+	}
+
+	sheet_style_cache_flush (sheet);
+}
+
+void
+sheet_style_insert_colrow (Sheet *sheet, int pos, int count,
+			   gboolean is_col)
+{
+	Range  move_range, ignore_range;
+	GList *l, *next;
+
+	g_return_if_fail (pos >= 0);
+	g_return_if_fail (count > 0);
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	move_range   = sheet_get_full_range ();
+	ignore_range = sheet_get_full_range ();
+	if (is_col) {
+		move_range.start.col = pos;
+		ignore_range.end.col = MAX (pos - 1, 0);
+	} else {
+		move_range.start.row = pos;
+		ignore_range.end.row = MAX (pos - 1, 0);
+	}
+
+	/* Don't touch the last 'global' range */
+	for (l = STYLE_LIST (sheet); l && l->next; l = next) {
+		StyleRegion *sr = (StyleRegion *)l->data;
+
+		next = g_list_next (l);
+
+		/* 1. We can ignore anything to left or above of insert */
+		if (pos > 0 && range_contained (&sr->range, &ignore_range))
+			continue;
+
+		/* 2. We simply translate the ranges completely to right or bottom */
+		if (pos == 0 || range_contained (&sr->range, &move_range)) {
+			if (is_col) {
+				sr->range.start.col = MIN (sr->range.start.col + count,
+							   SHEET_MAX_COLS - 1);
+				sr->range.end.col   = MIN (sr->range.end.col + count,
+							   SHEET_MAX_COLS - 1);
+			} else {
+				sr->range.start.row = MIN (sr->range.start.row + count,
+							   SHEET_MAX_ROWS - 1);
+				sr->range.end.row   = MIN (sr->range.end.row + count,
+							   SHEET_MAX_ROWS - 1);
+			}
+			continue;
+		}
+
+		/* 3. An awkward straddle case */
+		{
+			StyleRegion *frag;
+
+			/* 3.1 Create a new style Region */
+			frag = style_region_copy (sr);
+
+			/* 3.2 Split the ranges */
+			if (is_col) {
+				sr->range.end.col     = pos - 1;
+				frag->range.start.col = pos + count;
+				frag->range.end.col   = MIN (frag->range.end.col + count,
+							     SHEET_MAX_COLS - 1);
+			} else {
+				sr->range.end.row     = pos - 1;
+				frag->range.start.row = pos + count;
+				frag->range.end.row   = MIN (frag->range.end.row + count,
+							     SHEET_MAX_ROWS - 1);
+			}
+			
+			/* 3.3 Insert in the correct stamp order */
+			if (is_col) {
+				if (frag->range.start.col <= frag->range.end.col)
+					sheet_style_region_link (sheet, frag);
+			} else {
+				if (frag->range.start.row <= frag->range.end.row)
+					sheet_style_region_link (sheet, frag);
+			}
 		}
 	}
 

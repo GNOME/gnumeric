@@ -383,23 +383,23 @@ range_overlap (Range const *a, Range const *b)
  * @a: 
  * @b: 
  * 
- * Is b totaly contained by a
+ * Is a totaly contained by b
  * 
  * Return value: 
  **/
 gboolean
 range_contained (Range const *a, Range const *b)
 {
-	if (b->start.row < a->start.row)
+	if (a->start.row < b->start.row)
 		return FALSE;
 
-	if (b->end.row > a->end.row)
+	if (a->end.row > b->end.row)
 		return FALSE;
 
-	if (b->start.col < a->start.col)
+	if (a->start.col < b->start.col)
 		return FALSE;
        
-	if (b->end.col > a->end.col)
+	if (a->end.col > b->end.col)
 		return FALSE;
 
 	return TRUE;
