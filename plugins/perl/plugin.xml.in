@@ -5,7 +5,7 @@
 		<_description>Enables the creation of functions in Perl</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="perl.so"/>
+		<attribute name="module_file" value="perl.la:dlname"/>
 	</loader>
 	<services>
 		<service type="general"></service>

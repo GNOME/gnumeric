@@ -5,7 +5,7 @@
 		<_description>Reads LP programs stored in the MPS format (*.mps)</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="mps.so"/>
+		<attribute name="module_file" value="mps.la:dlname"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="mps" priority="1" probe="FALSE"

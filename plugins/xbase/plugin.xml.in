@@ -5,7 +5,7 @@
 		<_description>Imports XBase files</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="xbase.so"/>
+		<attribute name="module_file" value="xbase.la:dlname"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="xbase" priority="100" probe="FALSE">

@@ -5,7 +5,7 @@
 		<_description>Imports Plan Perfect Formatted Documents</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="plan_perfect.so"/>
+		<attribute name="module_file" value="plan_perfect.la:dlname"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="pln" priority="1" probe="FALSE"

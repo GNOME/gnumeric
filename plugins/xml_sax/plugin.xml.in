@@ -5,7 +5,7 @@
 		<_description>The next generation sax based xml I/O subsystem</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="xml_sax.so"/>
+		<attribute name="module_file" value="xml_sax.la:dlname"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="xml_sax" priority="1" probe="FALSE"

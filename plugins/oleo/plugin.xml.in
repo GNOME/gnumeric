@@ -5,7 +5,7 @@
 		<_description>Imports GNU Oleo documents</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="oleo.so"/>
+		<attribute name="module_file" value="oleo.la:dlname"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="oleo" priority="100" probe="FALSE">

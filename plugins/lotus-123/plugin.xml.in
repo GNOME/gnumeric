@@ -5,7 +5,7 @@
 		<_description>Imports Lotus 123 files</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="lotus.so"/>
+		<attribute name="module_file" value="lotus.la:dlname"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="lotus" priority="50" probe="TRUE">
