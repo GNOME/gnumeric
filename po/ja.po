@@ -10,9 +10,9 @@
 #, no-wrap
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.77\n"
-"POT-Creation-Date: 2001-12-03 02:40+0900\n"
-"PO-Revision-Date: 2001-12-03 02:40+0900\n"
+"Project-Id-Version: gnumeric 0.99.0\n"
+"POT-Creation-Date: 2001-12-10 21:16+0900\n"
+"PO-Revision-Date: 2001-12-10 21:16+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "財務関係"
 msgid "Functions related to financial derivatives"
 msgstr "金融関係の関数"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4467
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
 #: plugins/mps/mps.c:571 src/xml-io.c:3423
 msgid "Reading file..."
 msgstr "ファイルの読み込み中..."
@@ -146,7 +146,7 @@ msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
 #: plugins/excel/ms-excel-read.c:563 plugins/lotus-123/lotus.c:190
-#: plugins/oleo/oleo.c:377 plugins/psiconv/psiconv-read.c:496
+#: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:496
 #, c-format
 msgid "Sheet%d"
 msgstr "シート%d"
@@ -166,25 +166,25 @@ msgstr "グラフ%d"
 msgid "Module%d"
 msgstr "モジュール%d"
 
-#: plugins/excel/ms-excel-read.c:4462
+#: plugins/excel/ms-excel-read.c:4460
 msgid "No book or workbook streams found."
 msgstr "ブックあるいはワークブックストリームが見つかりませんでした。"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4626
+#: plugins/excel/ms-excel-read.c:4624
 msgid "Password protected workbooks are not supported yet."
 msgstr "パスワード保護されたワークブックは、まだサポートされていません。"
 
-#: plugins/excel/ms-excel-read.c:4739
+#: plugins/excel/ms-excel-read.c:4737
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "有効な MS Excel のワークブックが見つかりません"
 
-#: plugins/excel/ms-excel-write.c:3479
+#: plugins/excel/ms-excel-write.c:3504
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "この形式には行数が多すぎます (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3707
+#: plugins/excel/ms-excel-write.c:3732
 msgid "Can't open stream for writing\n"
 msgstr "書き出しのストリームが開けません\n"
 
@@ -295,7 +295,7 @@ msgstr ""
 #: src/functions/fn-information.c:766 src/functions/fn-information.c:794
 #: src/functions/fn-information.c:821 src/functions/fn-information.c:872
 #: src/functions/fn-information.c:902 src/functions/fn-information.c:969
-#: src/functions/fn-logical.c:194 src/functions/fn-string.c:322
+#: src/functions/fn-logical.c:194 src/functions/fn-string.c:323
 msgid "Invalid number of arguments"
 msgstr "引数の数が正しくありません"
 
@@ -346,14 +346,10 @@ msgid "Import/Export of HTML, TeX, DVI, roff"
 msgstr "HTML, TeX, DVI, roff のインポート/エキスポート"
 
 #: plugins/html/plugin.xml.in.h:7
-msgid "LaTeX 2.09 (*.tex)"
-msgstr "LaTeX 2.09 (*.tex)"
+msgid "LaTeX (*.tex)"
+msgstr "LaTeX (*.tex)"
 
 #: plugins/html/plugin.xml.in.h:8
-msgid "LaTeX2e (*.tex)"
-msgstr "LaTeX2e (*.tex)"
-
-#: plugins/html/plugin.xml.in.h:9
 msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
@@ -1002,11 +998,11 @@ msgstr "XML 文書がウエルフォーム形式ではありません！"
 msgid "About this application"
 msgstr "このアプリケーションについて"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:2862
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:2860
 msgid "Add an outline group"
 msgstr "アウトライン・グループを追加します"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:2892
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:2890
 msgid "Advanced _Filter..."
 msgstr "高度なフィルタ(_F)..."
 
@@ -1018,27 +1014,27 @@ msgstr "左側の内容を調整してインデントを減らします"
 msgid "Aligns the contents to the left and increases the indent"
 msgstr "左側の内容を調整してインデントを増やします"
 
-#: src/GNOME_Gnumeric.xml.h:6 src/workbook-object-toolbar.c:171
+#: src/GNOME_Gnumeric.xml.h:6 src/workbook-object-toolbar.c:176
 msgid "Arrow"
 msgstr "矢印"
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:2829
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:2827
 msgid "Auto _Correct..."
 msgstr "自動訂正...(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2540
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2538
 msgid "Auto_fill"
 msgstr "自動で埋める(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2541
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2539
 msgid "Automatically fill the current selection"
 msgstr "選択したオブジェクトを自動的に塗りつぶします"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2830
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2828
 msgid "Automatically perform simple spell checking"
 msgstr "自動的に簡単なスペルチェックを行います"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2833
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2831
 msgid "Automatically save the current document at regular intervals"
 msgstr "一定間隔で現在の文書を自動的に保存します"
 
@@ -1059,19 +1055,19 @@ msgid "Borders"
 msgstr "罫線"
 
 #: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:413
-#: src/workbook-object-toolbar.c:149
+#: src/workbook-object-toolbar.c:154
 msgid "Button"
 msgstr "ボタン"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2703
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2701
 msgid "C_ells..."
 msgstr "セル(_E)..."
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2604
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2602
 msgid "C_lear"
 msgstr "消去(_L)"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2807
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2805
 msgid "C_olumn"
 msgstr "列(_O)"
 
@@ -1091,44 +1087,44 @@ msgstr "選択したセルを中央揃えにします"
 msgid "Centers the text in each selection"
 msgstr "セルの内容をそれぞれ中央揃えにします"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2741
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2739
 msgid "Change height of the selected rows"
 msgstr "選択した行の高さを変更します"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2734
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2732
 msgid "Change the default column width"
 msgstr "デフォルトの列幅を変更します"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2753
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2751
 msgid "Change the default row height"
 msgstr "デフォルトの行の高さを変更します"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2562
-#: src/workbook-control-gui.c:2763
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2560
+#: src/workbook-control-gui.c:2761
 msgid "Change the order the sheets are displayed"
 msgstr "シートが表示される順序を変更"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2722
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2720
 msgid "Change width of the selected columns"
 msgstr "選択した列の幅を変更します"
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:153
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:158
 msgid "Checkbox"
 msgstr "チェックボックス"
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2501
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2499
 msgid "Clear the selected cells' comments"
 msgstr "選択されたセルのコメントを消去します"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2504
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2502
 msgid "Clear the selected cells' contents"
 msgstr "選択されたセルの内容を消去します"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2498
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2496
 msgid "Clear the selected cells' formats"
 msgstr "選択されたセルの書式を消去します"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2495
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2493
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "選択されたセルの書式、コメント、その内容を消去します"
 
@@ -1137,11 +1133,11 @@ msgid "Close the current file"
 msgstr "現在のファイルを閉じます"
 
 #: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:4
-#: src/workbook-control-gui.c:2500
+#: src/workbook-control-gui.c:2498
 msgid "Co_mments"
 msgstr "注釈(_M)"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2856
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2854
 msgid "Collapse an outline group"
 msgstr "外側のグループを畳みます"
 
@@ -1153,12 +1149,12 @@ msgstr "コンボボックス"
 msgid "Configure toolbars"
 msgstr "ツールバーを設定します"
 
-#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2910
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2908
 msgid "Consolidate regions using a function"
 msgstr "関数を使用して選択範囲を合成します"
 
 #: src/GNOME_Gnumeric.xml.h:39 src/selection.c:540
-#: src/workbook-control-gui.c:2964
+#: src/workbook-control-gui.c:2962
 msgid "Copy"
 msgstr "コピー"
 
@@ -1166,7 +1162,7 @@ msgstr "コピー"
 msgid "Copy the current selection to the clipboard"
 msgstr "選択範囲をクリップボードにコピーします"
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2590
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2588
 msgid "Copy the selection"
 msgstr "選択範囲をコピーします"
 
@@ -1198,15 +1194,15 @@ msgstr "線の作成"
 msgid "Create a list"
 msgstr "リストの作成"
 
-#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2646
+#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2644
 msgid "Create a new shared view of the workbook"
 msgstr "ワークブックの新規シェアードビューを作成します"
 
-#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2457
+#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2455
 msgid "Create a new spreadsheet"
 msgstr "新規にスプレッドシートを作成します"
 
-#: src/GNOME_Gnumeric.xml.h:51 src/workbook-control-gui.c:2649
+#: src/GNOME_Gnumeric.xml.h:51 src/workbook-control-gui.c:2647
 msgid "Create a new unshared view of the workbook"
 msgstr "ワークブックの新規アンシェアードビューを作成します"
 
@@ -1222,27 +1218,27 @@ msgstr "ラジオボタンの作成"
 msgid "Create an arrow"
 msgstr "矢印オブジェクトの作成"
 
-#: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1316
-#: src/workbook-control-gui.c:2585
+#: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1390
+#: src/workbook-control-gui.c:2583
 msgid "Cu_t"
 msgstr "切り取り(_T)"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2665
 msgid "Current _date"
 msgstr "現在の日付(_D)"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2673
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2671
 msgid "Current _time"
 msgstr "現在時刻(_T)"
 
 #: src/GNOME_Gnumeric.xml.h:58 src/selection.c:566 src/selection.c:569
-#: src/workbook-control-gui.c:2961
+#: src/workbook-control-gui.c:2959
 msgid "Cut"
 msgstr "切り取り"
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:2586
+#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:2584
 msgid "Cut the selection"
 msgstr "選択範囲を切り取ります"
 
@@ -1259,15 +1255,15 @@ msgstr "精度の緩和"
 msgid "Decrease the precision of the selected cells"
 msgstr "選択されたセルの精度を落します"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:2768
+#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:2766
 msgid "Display _Formulas"
 msgstr "公式を表示する(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2871
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2869
 msgid "Display _Outlines"
 msgstr "アウトラインを表示する(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2769
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2767
 msgid "Display the value of a formula or the formula itself"
 msgstr "式の値または式の表示/非表示を切り替えます"
 
@@ -1287,23 +1283,23 @@ msgstr "終了(_X)"
 msgid "Edit a formula in the current cell"
 msgstr "現在のセルの関数を編集します"
 
-#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2682
+#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2680
 msgid "Edit sheet and workbook names"
 msgstr "シートとワークブック名を編集します"
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2760
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2758
 msgid "Edit the name of the current sheet"
 msgstr "現在のシートの名前を編集します"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2712
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2710
 msgid "Edit the selected cell's comment"
 msgstr "セルの注釈を編集します"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2725
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2723
 msgid "Ensure columns are just wide enough to display content"
 msgstr "内容を全て表示できるように列の幅を調整します"
 
-#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2744
+#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2742
 msgid "Ensure rows are just tall enough to display content"
 msgstr "内容を全て表示できるように行の高さを調整します"
 
@@ -1311,11 +1307,11 @@ msgstr "内容を全て表示できるように行の高さを調整します"
 msgid "Exit the program"
 msgstr "プログラムを終了します"
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2931
+#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2929
 msgid "F_ormat"
 msgstr "フォーマット(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:2893
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:2891
 msgid "Filter data with given criteria"
 msgstr "指定された条件でデータをフィルタリングします"
 
@@ -1338,7 +1334,7 @@ msgstr "フォントを変更します"
 msgid "Foreground"
 msgstr "背景"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2812
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2810
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "先にに定義されたテンプレートをセルの書式に適用します"
 
@@ -1351,7 +1347,7 @@ msgid "Format the selected cells as percentages"
 msgstr "選択したセルを百分率 (%) の書式に設定します"
 
 #: src/GNOME_Gnumeric.xml.h:85 src/sheet-object-widget.c:316
-#: src/workbook-object-toolbar.c:144
+#: src/workbook-object-toolbar.c:149
 msgid "Frame"
 msgstr "フレーム"
 
@@ -1363,7 +1359,7 @@ msgstr "関数Guru"
 msgid "Graph Guru"
 msgstr "グラフGuru"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:2740
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:2738
 msgid "H_eight..."
 msgstr "高さ(_E)..."
 
@@ -1371,7 +1367,7 @@ msgstr "高さ(_E)..."
 msgid "Hide _Column Headers"
 msgstr "列ヘッダを隠す(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:2780
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:2778
 msgid "Hide _Gridlines"
 msgstr "網線を隠す(_G)"
 
@@ -1379,19 +1375,19 @@ msgstr "網線を隠す(_G)"
 msgid "Hide _Row Headers"
 msgstr "行ヘッダを隠す(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2774
+#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2772
 msgid "Hide _Zeros"
 msgstr "零を隠す(_Z)"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2728
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2726
 msgid "Hide the selected columns"
 msgstr "選択された列を隠します"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:2747
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:2745
 msgid "Hide the selected rows"
 msgstr "選択された行を隠します"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:2461
+#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:2459
 msgid "Imports a file"
 msgstr "ファイルを読み込みます"
 
@@ -1420,11 +1416,11 @@ msgstr "コンポーネントを挿入します"
 msgid "Insert Shaped Component"
 msgstr "シェープコンポーネントを挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:2554
+#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:2552
 msgid "Insert a new sheet"
 msgstr "新しいシートを挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2695
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2693
 msgid "Insert a new spreadsheet"
 msgstr "新規にスプレッドシートを作成します"
 
@@ -1436,23 +1432,23 @@ msgstr "シェープコンポーネントをスプレッドシートに挿入します"
 msgid "Insert an object into the spreadsheet"
 msgstr "オブジェクトをスプレッドシートに挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2704
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2702
 msgid "Insert new cells"
 msgstr "新規にセルを挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2701
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2699
 msgid "Insert new columns"
 msgstr "新規に列を挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2698
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2696
 msgid "Insert new rows"
 msgstr "新規に行を挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:2668
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:2666
 msgid "Insert the current date into the selected cell(s)"
 msgstr "選択されたセルに現在の日付を挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:2674
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:2672
 msgid "Insert the current time into the selected cell(s)"
 msgstr "選択したセルに現在時刻を挿入します"
 
@@ -1464,7 +1460,7 @@ msgstr "Bonobo オブジェクトを挿入します"
 msgid "Invoke the graph guru to create a graph"
 msgstr "グラフ Guru でグラフを作成します"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2566
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2564
 msgid "Irrevocably remove an entire sheet"
 msgstr "シート全体を削除します。元には戻せません。"
 
@@ -1472,20 +1468,20 @@ msgstr "シート全体を削除します。元には戻せません。"
 msgid "Italicize"
 msgstr "イタリックにする"
 
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2839
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2837
 msgid "Iteratively recalculate to find a target value"
 msgstr "再計算を繰り返し、最適解を見つけます"
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2842
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2840
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "制約条件で再計算を繰り返し、最適解に近づけます"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2630
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2628
 msgid "Jump to a specified cell"
 msgstr "特定のセルへ移動します"
 
 #: src/GNOME_Gnumeric.xml.h:118 src/sheet-object-widget.c:219
-#: src/workbook-object-toolbar.c:141
+#: src/workbook-object-toolbar.c:146
 msgid "Label"
 msgstr "ラベル"
 
@@ -1499,12 +1495,12 @@ msgid "Left justifies the contents of each cell"
 msgstr "セルの内容をそれぞれ左揃えにします"
 
 #: src/GNOME_Gnumeric.xml.h:121 src/dialogs/cell-format.glade.h:56
-#: src/workbook-object-toolbar.c:168
+#: src/workbook-object-toolbar.c:173
 msgid "Line"
 msgstr "直線"
 
 #: src/GNOME_Gnumeric.xml.h:122 src/dialogs/cell-format.glade.h:57
-#: src/workbook-object-toolbar.c:162
+#: src/workbook-object-toolbar.c:167
 msgid "List"
 msgstr "リスト"
 
@@ -1512,15 +1508,15 @@ msgstr "リスト"
 msgid "Lock or unlock the top left cols/rows"
 msgstr "左上のセルのロック/ロック解除を切り替えます"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2550
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2548
 msgid "Make a copy of the current sheet"
 msgstr "現在のシートのコピーを作成します"
 
-#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:2731
+#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:2729
 msgid "Make any hidden columns in the selection visible"
 msgstr "選択範囲の非表示の列を表示します"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:2750
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:2748
 msgid "Make any hidden rows in the selection visible"
 msgstr "選択範囲の非表示の行を表示します"
 
@@ -1549,11 +1545,11 @@ msgstr "結合"
 msgid "Merge a range of cells"
 msgstr "選択したセルを結合します"
 
-#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:2804
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:2802
 msgid "Modify the formatting of the selected cells"
 msgstr "選択されたセルの書式を変更します"
 
-#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:2816
+#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:2814
 msgid "Modify the workbook attributes"
 msgstr "ワークブックの属性を変更します"
 
@@ -1561,19 +1557,19 @@ msgstr "ワークブックの属性を変更します"
 msgid "Money"
 msgstr "金額"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2940
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2938
 msgid "New"
 msgstr "新規"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2645
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2643
 msgid "New _Shared"
 msgstr "新規シェアード(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2648
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2646
 msgid "New _Unshared"
 msgstr "新規アンシェアード(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:2943
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:2941
 msgid "Open"
 msgstr "開く"
 
@@ -1585,11 +1581,11 @@ msgstr "スプレッドシートを開きます"
 msgid "Open an existing workbook"
 msgstr "既存のワークブックを開きます"
 
-#: src/GNOME_Gnumeric.xml.h:142 src/workbook-control-gui.c:2877
+#: src/GNOME_Gnumeric.xml.h:142 src/workbook-control-gui.c:2875
 msgid "Outlines _Below"
 msgstr "下のアウトライン(_B)"
 
-#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:2883
+#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:2881
 msgid "Outlines _Right"
 msgstr "右のアウトライン(_R)"
 
@@ -1602,11 +1598,11 @@ msgid "P_aste Special..."
 msgstr "特殊貼り付け(_A)..."
 
 #: src/GNOME_Gnumeric.xml.h:146 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:2967
+#: src/workbook-control-gui.c:2965
 msgid "Paste"
 msgstr "貼付け"
 
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:2594
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:2592
 msgid "Paste the clipboard"
 msgstr "クリップボードから貼付けます"
 
@@ -1614,26 +1610,26 @@ msgstr "クリップボードから貼付けます"
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "クリップボードの内容やカットバッファを貼り付けます"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:2599
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:2597
 msgid "Paste with optional filters and transformations"
 msgstr "オプションのフィルタを使って変換して貼り付けます"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2777
+#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2710
 #: src/workbook-format-toolbar.c:464
 msgid "Percent"
 msgstr "パーセント"
 
 #: src/GNOME_Gnumeric.xml.h:151 src/dialogs/print.glade.h:18
-#: src/workbook-control-gui.c:2952
+#: src/workbook-control-gui.c:2950
 msgid "Print"
 msgstr "印刷"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2474
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2472
 msgid "Print Pre_view..."
 msgstr "印刷プレビュー(_V)..."
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:2474
-#: src/workbook-control-gui.c:2955
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:2472
+#: src/workbook-control-gui.c:2953
 msgid "Print Preview"
 msgstr "印刷プレビューを表示します"
 
@@ -1657,8 +1653,8 @@ msgstr "ワークブックを印刷します"
 msgid "Radio Button"
 msgstr "ラジオボタン"
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2561
-#: src/workbook-control-gui.c:2762
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2559
+#: src/workbook-control-gui.c:2760
 msgid "Re-_Order Sheets..."
 msgstr "シートの再並び替え(_O)"
 
@@ -1666,27 +1662,27 @@ msgstr "シートの再並び替え(_O)"
 msgid "Re-_Order..."
 msgstr "再並び替え(_O)..."
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2557
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2555
 msgid "Re_name..."
 msgstr "名前変更(_N)..."
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2634
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2632
 msgid "Recalculate"
 msgstr "再計算(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2635
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2633
 msgid "Recalculate the spreadsheet"
 msgstr "表を再計算します"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-object-toolbar.c:174
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-object-toolbar.c:179
 msgid "Rectangle"
 msgstr "矩形"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2579
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2577
 msgid "Redo the undone action"
 msgstr "元に戻した操作をやり直します"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2865
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2863
 msgid "Remove an outline group"
 msgstr "外側のグループを削除します"
 
@@ -1694,7 +1690,7 @@ msgstr "外側のグループを削除します"
 msgid "Remove selected cells, shifting others into their place"
 msgstr "選択されたセルを削除して、その場所に他のセルをずらします"
 
-#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2558
+#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2556
 msgid "Rename the current sheet"
 msgstr "現在のシート名を変更します"
 
@@ -1707,20 +1703,20 @@ msgstr "右"
 msgid "Right justifies the contents of each cell"
 msgstr "セルの内容をそれぞれ右揃えにします"
 
-#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2611
+#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2609
 msgid "S_heet"
 msgstr "シート(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2715
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2713
 msgid "S_pecial"
 msgstr "特別(_P)"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2463
-#: src/workbook-control-gui.c:2946
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2461
+#: src/workbook-control-gui.c:2944
 msgid "Save"
 msgstr "保存"
 
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:2466
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:2464
 msgid "Save _As..."
 msgstr "名前を付けて保存(_A)..."
 
@@ -1736,43 +1732,43 @@ msgstr "現在のファイルを別の名前で保存します"
 msgid "Save the current workbook"
 msgstr "ワークブックを保存します"
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2623
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2621
 msgid "Search and Replace..."
 msgstr "検索と置換..."
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2618
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2616
 msgid "Search for some text"
 msgstr "幾つかの文を検索します"
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2624
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2622
 msgid "Search for some text and replace it with something else"
 msgstr "テキストの検索と何か別のものでそのテキストを置換します"
 
-#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2617
+#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2615
 msgid "Search..."
 msgstr "検索..."
 
-#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2527
+#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2525
 msgid "Select Arra_y"
 msgstr "配列を選択(_Y)"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2512
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2510
 msgid "Select _All"
 msgstr "全て選択(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2522
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2520
 msgid "Select _Column"
 msgstr "列の選択(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2532
+#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2530
 msgid "Select _Depends"
 msgstr "依存セルの選択(_D)"
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2517
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2515
 msgid "Select _Row"
 msgstr "行の選択(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2513
+#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2511
 msgid "Select all cells in the spreadsheet"
 msgstr "スプレッドシート中の全てのセルを選択します"
 
@@ -1780,15 +1776,15 @@ msgstr "スプレッドシート中の全てのセルを選択します"
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "現在編集中のセルに依存するセルを全て選択します"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2528
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2526
 msgid "Select an array of cells"
 msgstr "セル配列を選択します"
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2523
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2521
 msgid "Select an entire column"
 msgstr "列全体を選択します"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2518
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2516
 msgid "Select an entire row"
 msgstr "行全体を選択します"
 
@@ -1796,11 +1792,11 @@ msgstr "行全体を選択します"
 msgid "Setup the page settings for your current printer"
 msgstr "プリンタにあわせてページを設定します"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2994
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2992
 msgid "Sort Ascending"
 msgstr "昇順に並べ替え"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2997
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2995
 msgid "Sort Descending"
 msgstr "降順に並べ替え"
 
@@ -1832,13 +1828,13 @@ msgstr "結合したセルを分割します"
 msgid "Statistical methods"
 msgstr "統計学的手法を適用します"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2480
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2478
 msgid "Su_mmary..."
 msgstr "要約(_M)..."
 
-#: src/GNOME_Gnumeric.xml.h:202 src/analysis-tools.c:3291
-#: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2987
-#: src/workbook-control-gui.c:3609 src/workbook-view.c:517
+#: src/GNOME_Gnumeric.xml.h:202 src/dialogs/consolidate.glade.h:19
+#: src/workbook-control-gui.c:2985 src/workbook-control-gui.c:3607
+#: src/workbook-view.c:517
 msgid "Sum"
 msgstr "合計"
 
@@ -1846,39 +1842,39 @@ msgstr "合計"
 msgid "Sum into the current cell"
 msgstr "現在のセルに総和を挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2481
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2479
 msgid "Summary information"
 msgstr "要約の情報を表示します"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2787
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2785
 msgid "Toggle whether or not to display column headers"
 msgstr "列のヘッダの表示/非表示を切替えます"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2781
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2779
 msgid "Toggle whether or not to display gridlines"
 msgstr "グリッドラインの表示/非表示を切替えます"
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2872
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2870
 msgid "Toggle whether or not to display outline groups"
 msgstr "アウトライン・グループの表示/非表示を切り替えます"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2793
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2791
 msgid "Toggle whether or not to display row headers"
 msgstr "行のヘッダの表示/非表示を切替えます"
 
-#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2775
+#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2773
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "ゼロをブランクとして表示/非表示を切替えます"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2884
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2882
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "左/右の列のアウトラインの表示/非表示を切り替えます"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2878
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2876
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "上/下の行のアウトラインの表示/非表示を切り替えます"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2859
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2857
 msgid "Uncollapse an outline group"
 msgstr "外側のグループを展開します"
 
@@ -1890,15 +1886,15 @@ msgstr "下線"
 msgid "Underlines the text"
 msgstr "文字に下線を付加します"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2575
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2573
 msgid "Undo the last action"
 msgstr "直前の操作を取り消します"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2907
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2905
 msgid "Validate input with preset criteria"
 msgstr "プレセット基準で入力を検証します"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:2655
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:2653
 msgid "Zoom the spreadsheet in or out"
 msgstr "表の拡大/縮小を行います"
 
@@ -1906,29 +1902,29 @@ msgstr "表の拡大/縮小を行います"
 msgid "_About..."
 msgstr "情報(_A)..."
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2711
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2709
 msgid "_Add / Modify comment..."
 msgstr "注釈の追加(_A)/変更..."
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2494
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2492
 msgid "_All"
 msgstr "全て(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2832
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2830
 msgid "_Auto Save..."
 msgstr "自動保存(_A)..."
 
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2724
-#: src/workbook-control-gui.c:2743
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2722
+#: src/workbook-control-gui.c:2741
 msgid "_Auto fit selection"
 msgstr "選択部分の自動フィット(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2811
+#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2809
 msgid "_Autoformat..."
 msgstr "自動書式設定(_A)"
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:2803
+#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:2801
 msgid "_Cells..."
 msgstr "セル(_C)..."
 
@@ -1946,28 +1942,28 @@ msgstr "閉じる(_C)"
 #: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:12
 #: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:7
 #: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2700
+#: src/workbook-control-gui.c:2698
 msgid "_Columns"
 msgstr "列(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2909
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2907
 msgid "_Consolidate..."
 msgstr "合成(_C)..."
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2503
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2501
 msgid "_Content"
 msgstr "内容(_C)"
 
 #: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1022
-#: src/sheet-control-gui.c:1318 src/workbook-control-gui.c:2589
+#: src/sheet-control-gui.c:1392 src/workbook-control-gui.c:2587
 msgid "_Copy"
 msgstr "コピー(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2933
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2931
 msgid "_Data"
 msgstr "データ(_D)"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2845
 msgid "_Data Analysis..."
 msgstr "データ解析(_D)"
 
@@ -1975,12 +1971,12 @@ msgstr "データ解析(_D)"
 msgid "_Define"
 msgstr "名前を定義(_D)"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1336
-#: src/workbook-control-gui.c:2606
+#: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1410
+#: src/workbook-control-gui.c:2604
 msgid "_Delete..."
 msgstr "削除(_D)..."
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2549
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2547
 msgid "_Duplicate"
 msgstr "複製(_D)"
 
@@ -1993,28 +1989,28 @@ msgid "_File"
 msgstr "ファイル(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:238 src/dialogs/cell-format.glade.h:109
-#: src/workbook-control-gui.c:2615
+#: src/workbook-control-gui.c:2613
 msgid "_Fill"
 msgstr "繰り返し(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2905
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2903
 msgid "_Filter"
 msgstr "フィルタ(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2497
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2495
 msgid "_Formats"
 msgstr "書式設定(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:961
-#: src/workbook-control-gui.c:2657
+#: src/workbook-control-gui.c:2655
 msgid "_Freeze Panes"
 msgstr "ペインの圧縮(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2838
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2836
 msgid "_Goal Seek..."
 msgstr "目標探索(_G)..."
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2629
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2627
 msgid "_Goto cell..."
 msgstr "セルに移動(_G)..."
 
@@ -2022,7 +2018,7 @@ msgstr "セルに移動(_G)..."
 msgid "_Group"
 msgstr "グループ(_G)"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2915
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2913
 msgid "_Group and Outline"
 msgstr "グループとアウトライン(_G)"
 
@@ -2030,22 +2026,22 @@ msgstr "グループとアウトライン(_G)"
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1359
-#: src/sheet-control-gui.c:1367 src/workbook-control-gui.c:2727
-#: src/workbook-control-gui.c:2746
+#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1433
+#: src/sheet-control-gui.c:1441 src/workbook-control-gui.c:2725
+#: src/workbook-control-gui.c:2744
 msgid "_Hide"
 msgstr "隠す(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2855
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2853
 msgid "_Hide Detail"
 msgstr "詳細を隠す"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2461
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2459
 msgid "_Import..."
 msgstr "インポート(_I)..."
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2553
-#: src/workbook-control-gui.c:2930
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2551
+#: src/workbook-control-gui.c:2928
 msgid "_Insert"
 msgstr "挿入(_I)"
 
@@ -2053,11 +2049,11 @@ msgstr "挿入(_I)"
 msgid "_Insert new"
 msgstr "新規に挿入(_I)"
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2709
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2707
 msgid "_Name"
 msgstr "名前(_N)"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2457
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2455
 msgid "_New"
 msgstr "新規(_N)"
 
@@ -2069,12 +2065,12 @@ msgstr "オブジェクト(_O)"
 msgid "_Open..."
 msgstr "開く(_O)..."
 
-#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1320
-#: src/workbook-control-gui.c:2593
+#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1394
+#: src/workbook-control-gui.c:2591
 msgid "_Paste"
 msgstr "貼付け(_P)"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:2823
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:2821
 msgid "_Plug-ins..."
 msgstr "プラグイン(_P)..."
 
@@ -2083,26 +2079,26 @@ msgid "_Print..."
 msgstr "印刷(_P)..."
 
 #: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:1028
-#: src/workbook-control-gui.c:2578
+#: src/workbook-control-gui.c:2576
 msgid "_Redo"
 msgstr "やり直し(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/dialogs/autocorrect.glade.h:13
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2565
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2563
 msgid "_Remove"
 msgstr "削除(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:2808
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:2806
 msgid "_Row"
 msgstr "行(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:262 src/dialogs/anova-one.glade.h:14
 #: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
 #: src/dialogs/descriptive-stats.glade.h:20
-#: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:17
+#: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:18
 #: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:19
-#: src/workbook-control-gui.c:2697
+#: src/workbook-control-gui.c:2695
 msgid "_Rows"
 msgstr "行(_R)"
 
@@ -2110,20 +2106,20 @@ msgstr "行(_R)"
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2613
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2611
 msgid "_Select"
 msgstr "選択(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2694
-#: src/workbook-control-gui.c:2809
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2692
+#: src/workbook-control-gui.c:2807
 msgid "_Sheet"
 msgstr "シート(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2858
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2856
 msgid "_Show Detail"
 msgstr "詳細の表示(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2841
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2839
 msgid "_Solver..."
 msgstr "ソルバ(_S)..."
 
@@ -2131,11 +2127,11 @@ msgstr "ソルバ(_S)..."
 msgid "_Sort..."
 msgstr "並べ替え(_S)..."
 
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2752
+#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2750
 msgid "_Standard Height"
 msgstr "標準の高さ(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2733
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2731
 msgid "_Standard Width"
 msgstr "標準の幅 (_S)"
 
@@ -2143,12 +2139,12 @@ msgstr "標準の幅 (_S)"
 msgid "_Toolbars..."
 msgstr "ツールバー(_T)..."
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2932
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2930
 msgid "_Tools"
 msgstr "ツール(_T)"
 
 #: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:1027
-#: src/workbook-control-gui.c:2574
+#: src/workbook-control-gui.c:2572
 msgid "_Undo"
 msgstr "元に戻す(_U)"
 
@@ -2156,13 +2152,13 @@ msgstr "元に戻す(_U)"
 msgid "_Ungroup"
 msgstr "グループ化解除(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1361
-#: src/sheet-control-gui.c:1369 src/workbook-control-gui.c:2730
-#: src/workbook-control-gui.c:2749
+#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1435
+#: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2728
+#: src/workbook-control-gui.c:2747
 msgid "_Unhide"
 msgstr "出す(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2906
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2904
 msgid "_Validate..."
 msgstr "検証(_V)..."
 
@@ -2170,47 +2166,47 @@ msgstr "検証(_V)..."
 msgid "_View"
 msgstr "表示(_V)"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/workbook-control-gui.c:2721
+#: src/GNOME_Gnumeric.xml.h:278 src/workbook-control-gui.c:2719
 msgid "_Width..."
 msgstr "幅(_W)..."
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2815
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2813
 msgid "_Workbook..."
 msgstr "ワークブック(_W)..."
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2654
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2652
 msgid "_Zoom..."
 msgstr "ズーム(_Z)..."
 
-#: src/analysis-tools.c:195
+#: src/analysis-tools.c:194 src/analysis-tools.c:3188
 #, c-format
 msgid "Row %i"
 msgstr "%i 行"
 
-#: src/analysis-tools.c:198
+#: src/analysis-tools.c:197 src/analysis-tools.c:3180
 #, c-format
 msgid "Column %i"
 msgstr "%i 列"
 
-#: src/analysis-tools.c:201
+#: src/analysis-tools.c:200
 #, c-format
 msgid "Bin %i"
 msgstr "Bin %i"
 
-#: src/analysis-tools.c:205
+#: src/analysis-tools.c:204
 #, c-format
 msgid "Area %i"
 msgstr "範囲 %i"
 
-#: src/analysis-tools.c:879 src/analysis-tools.c:882
+#: src/analysis-tools.c:798 src/analysis-tools.c:801
 msgid "Correlations"
 msgstr "相関"
 
-#: src/analysis-tools.c:970 src/analysis-tools.c:973
+#: src/analysis-tools.c:889 src/analysis-tools.c:892
 msgid "Covariances"
 msgstr "共分散"
 
-#: src/analysis-tools.c:1051
+#: src/analysis-tools.c:970
 msgid "Summary Statistics"
 msgstr "統計量一覧"
 
@@ -2221,7 +2217,7 @@ msgstr "統計量一覧"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:1062
+#: src/analysis-tools.c:981
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -2229,52 +2225,53 @@ msgstr ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 
-#: src/analysis-tools.c:1147
+#: src/analysis-tools.c:1066
 msgid "Confidence Interval for the Mean"
 msgstr "平均の信頼範囲"
 
-#: src/analysis-tools.c:1148
+#: src/analysis-tools.c:1067
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr "%g%% CI for the Mean from/to"
 
-#: src/analysis-tools.c:1184 src/dialogs/descriptive-stats.glade.h:9
+#: src/analysis-tools.c:1103 src/dialogs/descriptive-stats.glade.h:9
 msgid "Kth Largest"
 msgstr "K 番目に大きな値"
 
-#: src/analysis-tools.c:1185
+#: src/analysis-tools.c:1104
 #, c-format
 msgid "Largest (%d)"
 msgstr "最大 (%d)"
 
-#: src/analysis-tools.c:1208 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1127 src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Smallest"
 msgstr "K 番目に小さな値"
 
-#: src/analysis-tools.c:1209
+#: src/analysis-tools.c:1128
 #, c-format
 msgid "Smallest (%d)"
 msgstr "最小 (%d)"
 
-#: src/analysis-tools.c:1333 src/analysis-tools.c:3335
+#. POST-RELEASE-FIX:  this should be Rows rather than Sample
+#: src/analysis-tools.c:1252 src/analysis-tools.c:3270
 #: src/dialogs/cell-format.glade.h:72
 msgid "Sample"
 msgstr "例"
 
-#: src/analysis-tools.c:1429 src/analysis-tools.c:1431
-#: src/analysis-tools.c:1547 src/analysis-tools.c:1549
-#: src/analysis-tools.c:1703 src/analysis-tools.c:1705
-#: src/analysis-tools.c:1830 src/analysis-tools.c:1832
-#: src/analysis-tools.c:1965 src/analysis-tools.c:1967
+#: src/analysis-tools.c:1348 src/analysis-tools.c:1350
+#: src/analysis-tools.c:1469 src/analysis-tools.c:1471
+#: src/analysis-tools.c:1630 src/analysis-tools.c:1632
+#: src/analysis-tools.c:1760 src/analysis-tools.c:1762
+#: src/analysis-tools.c:1898 src/analysis-tools.c:1900
 #, c-format
 msgid "Variable %i"
 msgstr "変数 %i"
 
-#: src/analysis-tools.c:1433
+#: src/analysis-tools.c:1352
 msgid "z-Test"
 msgstr "z検定"
 
-#: src/analysis-tools.c:1436
+#: src/analysis-tools.c:1355
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -2284,12 +2281,12 @@ msgstr ""
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 
-#: src/analysis-tools.c:1561 src/analysis-tools.c:1707
-#: src/analysis-tools.c:1834
+#: src/analysis-tools.c:1485 src/analysis-tools.c:1634
+#: src/analysis-tools.c:1764
 msgid "t-Test"
 msgstr "t 検定"
 
-#: src/analysis-tools.c:1564
+#: src/analysis-tools.c:1488
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -2299,7 +2296,7 @@ msgstr ""
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 
-#: src/analysis-tools.c:1710
+#: src/analysis-tools.c:1637
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -2309,7 +2306,7 @@ msgstr ""
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 
-#: src/analysis-tools.c:1837
+#: src/analysis-tools.c:1767
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -2319,11 +2316,11 @@ msgstr ""
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 
-#: src/analysis-tools.c:1974
+#: src/analysis-tools.c:1907
 msgid "F-Test"
 msgstr "F検定"
 
-#: src/analysis-tools.c:1980
+#: src/analysis-tools.c:1913
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -2331,24 +2328,24 @@ msgstr ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 
-#: src/analysis-tools.c:2100 src/analysis-tools.c:2158
+#: src/analysis-tools.c:2033 src/analysis-tools.c:2091
 msgid "Random"
 msgstr "乱数"
 
-#: src/analysis-tools.c:2274
+#: src/analysis-tools.c:2207
 msgid "Not implemented yet.\n"
 msgstr "未だ実装されていません。\n"
 
-#: src/analysis-tools.c:2350
+#: src/analysis-tools.c:2283
 msgid "Y Variable"
 msgstr "Y 変数"
 
-#: src/analysis-tools.c:2409 src/dialogs/dialog-analysis-tools.c:4398
+#: src/analysis-tools.c:2342 src/dialogs/dialog-analysis-tools.c:4392
 #: src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr "回帰"
 
-#: src/analysis-tools.c:2411
+#: src/analysis-tools.c:2344
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -2356,173 +2353,133 @@ msgstr ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 
-#: src/analysis-tools.c:2432
+#: src/analysis-tools.c:2365
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Significance of F"
 
-#: src/analysis-tools.c:2439
+#: src/analysis-tools.c:2372
 #, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 
-#: src/analysis-tools.c:2608
+#: src/analysis-tools.c:2541
 msgid "Moving Averages"
 msgstr "移動平均"
 
-#: src/analysis-tools.c:2686 src/dialogs/dialog-analysis-tools.c:4386
+#: src/analysis-tools.c:2619 src/dialogs/dialog-analysis-tools.c:4380
 msgid "Exponential Smoothing"
 msgstr "指数のスムーズ化"
 
-#: src/analysis-tools.c:2765
+#: src/analysis-tools.c:2698
 msgid "Ranks"
 msgstr "階数"
 
-#: src/analysis-tools.c:2774
+#: src/analysis-tools.c:2707
 msgid "Point"
 msgstr "点"
 
-#: src/analysis-tools.c:2776
+#: src/analysis-tools.c:2709
 msgid "Rank"
 msgstr "階数"
 
-#: src/analysis-tools.c:2861 src/analysis-tools.c:3007
-#: src/analysis-tools.c:3198
+#. We are ready to create the summary table
+#: src/analysis-tools.c:2794 src/analysis-tools.c:2980
+#: src/analysis-tools.c:3240
 msgid "Anova"
 msgstr "分散解析"
 
-#: src/analysis-tools.c:2863 src/dialogs/dialog-analysis-tools.c:4374
+#: src/analysis-tools.c:2796 src/dialogs/dialog-analysis-tools.c:4368
 msgid "Anova: Single Factor"
 msgstr "分散解析: 一元配置"
 
-#: src/analysis-tools.c:2864 src/analysis-tools.c:3201
+#: src/analysis-tools.c:2797 src/analysis-tools.c:3243
 msgid "SUMMARY"
 msgstr "SUMMARY"
 
-#: src/analysis-tools.c:2865
+#: src/analysis-tools.c:2798
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Groups/Count/Sum/Average/Variance"
 
-#: src/analysis-tools.c:2928
+#: src/analysis-tools.c:2861
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 
-#: src/analysis-tools.c:2933 src/analysis-tools.c:3115
+#: src/analysis-tools.c:2866 src/analysis-tools.c:3062
+#: src/analysis-tools.c:3276
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-value/F critical"
 
-#: src/analysis-tools.c:3012
+#: src/analysis-tools.c:2986
 msgid "Anova: Two-Factor Without Replication"
 msgstr "分散解析: 繰り返しのない二元配置"
 
-#: src/analysis-tools.c:3013
+#. POST-RELEASE-FIX:  Next 2 commands should be fused
+#: src/analysis-tools.c:2987 src/analysis-tools.c:3249
+#: src/analysis-tools.c:3259
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SUMMARY/Count/Sum/Average/Variance"
 
-#: src/analysis-tools.c:3025 src/dialogs/dialog-stf-preview.h:19
-#, c-format
-msgid "Column %d"
-msgstr "%d 列"
-
-#: src/analysis-tools.c:3042
-#, c-format
-msgid "Row %d"
-msgstr "%d 行"
-
-#: src/analysis-tools.c:3109
+#: src/analysis-tools.c:3056
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 
-#: src/analysis-tools.c:3200
+#: src/analysis-tools.c:3242
 msgid "Anova: Two-Factor With Replication"
 msgstr "分散解析: 繰り返しのある二元配置"
 
-#: src/analysis-tools.c:3217 src/analysis-tools.c:3288
-#: src/analysis-tools.c:3339 src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3257 src/analysis-tools.c:3264
+#: src/analysis-tools.c:3274 src/dialogs/dialog-autoformat.c:77
 #: src/dialogs/dialog-autoformat.c:81
 msgid "Total"
 msgstr "合計"
 
-#: src/analysis-tools.c:3290 src/dialogs/consolidate.glade.h:5
-#: src/workbook-control-gui.c:3613
-msgid "Count"
-msgstr "回数"
-
-#: src/analysis-tools.c:3292 src/dialogs/consolidate.glade.h:2
-#: src/workbook-control-gui.c:3612
-msgid "Average"
-msgstr "算術平均値"
-
-#: src/analysis-tools.c:3293
-msgid "Variance"
-msgstr "分散"
-
-#: src/analysis-tools.c:3333
+#. POST-RELEASE-FIX:  We should be using / notation for the next 7 commands
+#: src/analysis-tools.c:3267
 msgid "ANOVA"
 msgstr "分散解析"
 
-#: src/analysis-tools.c:3334
+#: src/analysis-tools.c:3268
 msgid "Source of Variation"
 msgstr "変化量のソース"
 
-#: src/analysis-tools.c:3336 src/dialogs/dialog-stf.glade.h:17
+#: src/analysis-tools.c:3271 src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
 msgstr "列"
 
-#: src/analysis-tools.c:3337
+#: src/analysis-tools.c:3272
 msgid "Interaction"
 msgstr "相互作用"
 
-#: src/analysis-tools.c:3338
+#: src/analysis-tools.c:3273
 msgid "Within"
 msgstr "含む"
 
-#: src/analysis-tools.c:3341
-msgid "SS"
-msgstr "SS"
-
-#: src/analysis-tools.c:3348
-msgid "df"
-msgstr "df"
-
-#. Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within
-#. should all be the same
-#: src/analysis-tools.c:3358
-msgid "MS"
-msgstr "MS"
-
-#: src/analysis-tools.c:3365
-msgid "F"
-msgstr "F"
-
-#: src/analysis-tools.c:3371
-msgid "P-value"
-msgstr "P 値"
-
-#: src/analysis-tools.c:3376
-msgid "F crit"
-msgstr "F 棄却限界"
-
-#: src/analysis-tools.c:3509
+#: src/analysis-tools.c:3658
 msgid "More"
 msgstr "以上"
 
 #. { N_("Fourier Analysis"),
 #. dialog_fourier_tool },
-#: src/analysis-tools.c:3543 src/dialogs/dialog-analysis-tools.c:4390
+#: src/analysis-tools.c:3692 src/dialogs/dialog-analysis-tools.c:4384
 #: src/dialogs/histogram.glade.h:5
 msgid "Histogram"
 msgstr "ヒストグラム"
 
-#: src/analysis-tools.c:3548
+#: src/analysis-tools.c:3697
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:3570
+#: src/analysis-tools.c:3722
 msgid "Frequency"
 msgstr "頻度"
 
-#: src/analysis-tools.c:3573
+#: src/analysis-tools.c:3724 src/dialogs/dialog-zoom.glade.h:2
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: src/analysis-tools.c:3727
 #, no-c-format
 msgid "Cumulative %"
 msgstr "進捗 %"
@@ -2544,16 +2501,16 @@ msgstr "Gnumericワークブックファイルがありません"
 msgid "EXPERIMENTAL Bonobo EFS format"
 msgstr "[試験的] Bonobo EFS 形式"
 
-#: src/clipboard.c:297 src/clipboard.c:310 src/clipboard.c:322
-#: src/clipboard.c:330
+#: src/clipboard.c:299 src/clipboard.c:312 src/clipboard.c:324
+#: src/clipboard.c:332
 msgid "Unable to paste"
 msgstr "貼り付けられません"
 
-#: src/clipboard.c:298
+#: src/clipboard.c:300
 msgid "Content can only be pasted by value or by link."
 msgstr "内容は値またはリンクによってのみ引き渡しが可能です。"
 
-#: src/clipboard.c:306
+#: src/clipboard.c:308
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -2564,7 +2521,7 @@ msgstr ""
 "\n"
 "1つのセルを選択するか、元の範囲と同じ形状同じ大きさを選択してください。"
 
-#: src/clipboard.c:318
+#: src/clipboard.c:320
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -2575,7 +2532,7 @@ msgstr ""
 "\n"
 "1つのセルを選択するか、元の範囲と同じ形状同じ大きさを選択してください。"
 
-#: src/clipboard.c:331
+#: src/clipboard.c:333
 msgid "result passes the sheet boundary"
 msgstr "結果はシートの境界を渡す"
 
@@ -2628,285 +2585,285 @@ msgstr "%s に \"%s%s\" を入力"
 msgid "Typing \"%s%s\""
 msgstr "\"%s%s\"を入力"
 
-#: src/commands.c:1092
+#: src/commands.c:1081
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "%2$s の前に %1$d 列を挿入"
 
-#: src/commands.c:1093
+#: src/commands.c:1082
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "%2$s の前に %1$d 列を挿入"
 
-#: src/commands.c:1104
+#: src/commands.c:1093
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "%2$s の前に %1$d 行の挿入"
 
-#: src/commands.c:1105
+#: src/commands.c:1094
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "%2$s の前に %1$d 行の挿入"
 
-#: src/commands.c:1116
+#: src/commands.c:1105
 #, c-format
 msgid "Deleting columns %s"
 msgstr "%s 列の削除"
 
-#: src/commands.c:1117
+#: src/commands.c:1106
 #, c-format
 msgid "Deleting column %s"
 msgstr "%s 行の削除"
 
-#: src/commands.c:1127
+#: src/commands.c:1116
 #, c-format
 msgid "Deleting rows %s"
 msgstr "%s 行の削除"
 
-#: src/commands.c:1128
+#: src/commands.c:1117
 #, c-format
 msgid "Deleting row %s"
 msgstr "%s 行の削除"
 
-#: src/commands.c:1203
+#: src/commands.c:1192
 msgid "Undo Clear"
 msgstr "やり直しの消去"
 
-#: src/commands.c:1282
+#: src/commands.c:1271
 msgid "contents"
 msgstr "内容"
 
-#: src/commands.c:1284
+#: src/commands.c:1273
 msgid "formats"
 msgstr "書式"
 
-#: src/commands.c:1286
+#: src/commands.c:1275
 msgid "comments"
 msgstr "注釈"
 
-#: src/commands.c:1302
+#: src/commands.c:1291
 msgid "all"
 msgstr "全て"
 
-#: src/commands.c:1309
+#: src/commands.c:1298
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "%2$s の中の %s のクリア"
 
-#: src/commands.c:1504
+#: src/commands.c:1493
 #, c-format
 msgid "Changing format of %s"
 msgstr "書式 %s の変更"
 
-#: src/commands.c:1580
+#: src/commands.c:1569
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "シート '%s' を '%s' に改名"
 
-#: src/commands.c:1690
+#: src/commands.c:1679
 msgid "Set Date/Time"
 msgstr "日付/時間の設定"
 
-#: src/commands.c:1707
+#: src/commands.c:1696
 #, c-format
 msgid "Setting current date in %s"
 msgstr "現在の日付を %s に設定"
 
-#: src/commands.c:1708
+#: src/commands.c:1697
 #, c-format
 msgid "Setting current time in %s"
 msgstr "現在の時間を %s に設定"
 
-#: src/commands.c:1816
+#: src/commands.c:1804
 #, c-format
 msgid "Autofitting column %s"
 msgstr "列 %s の自動調整"
 
-#: src/commands.c:1817
+#: src/commands.c:1805
 #, c-format
 msgid "Autofitting row %s"
 msgstr "行 %s の自動調整"
 
-#: src/commands.c:1820
+#: src/commands.c:1808
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "列 %s の幅を %d ピクセルに設定"
 
-#: src/commands.c:1822
+#: src/commands.c:1810
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "行 %s の高さを %d ピクセルに設定"
 
-#: src/commands.c:1827 src/commands.c:1828
+#: src/commands.c:1815 src/commands.c:1816
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "列 %s の自動調整"
 
-#: src/commands.c:1831
+#: src/commands.c:1819
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "列 %s の幅を %d ピクセルに設定"
 
-#: src/commands.c:1833
+#: src/commands.c:1821
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "行 %s の高さを %d ピクセルに設定"
 
-#: src/commands.c:1917
+#: src/commands.c:1905
 #, c-format
 msgid "Sorting %s"
 msgstr "%s を整列中"
 
-#: src/commands.c:2045
+#: src/commands.c:2033
 msgid "Unhide columns"
 msgstr "列を出す"
 
-#: src/commands.c:2045
+#: src/commands.c:2033
 msgid "Hide columns"
 msgstr "列を隠す"
 
-#: src/commands.c:2046
+#: src/commands.c:2034
 msgid "Unhide rows"
 msgstr "行を出す"
 
-#: src/commands.c:2046
+#: src/commands.c:2034
 msgid "Hide rows"
 msgstr "行を隠す"
 
-#: src/commands.c:2130
+#: src/commands.c:2115
 msgid "Expand columns"
 msgstr "列の展開"
 
-#: src/commands.c:2130
+#: src/commands.c:2115
 msgid "Collapse columns"
 msgstr "列を畳む"
 
-#: src/commands.c:2131
+#: src/commands.c:2116
 msgid "Expand rows"
 msgstr "行の展開"
 
-#: src/commands.c:2131
+#: src/commands.c:2116
 msgid "Collapse rows"
 msgstr "行を畳む"
 
-#: src/commands.c:2232
+#: src/commands.c:2185
 msgid "Those columns are already grouped"
 msgstr "これらの列は既にグループ化されています"
 
-#: src/commands.c:2233
+#: src/commands.c:2186
 msgid "Those rows are already grouped"
 msgstr "これらの行は既にグループ化されています"
 
-#: src/commands.c:2236
+#: src/commands.c:2189
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr ""
 "これらの列はグループ化されていません。グループ化を解除することは出来ません"
 
-#: src/commands.c:2237
+#: src/commands.c:2190
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 "これらの行はグループ化されていません。グループ化を解除することは出来ません"
 
-#: src/commands.c:2248
+#: src/commands.c:2201
 #, c-format
 msgid "Group columns %s"
 msgstr "列 %s のグループ化"
 
-#: src/commands.c:2248
+#: src/commands.c:2201
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "%s 列のグループ化解除"
 
-#: src/commands.c:2250
+#: src/commands.c:2203
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "行 %d:%d のグループ化"
 
-#: src/commands.c:2250
+#: src/commands.c:2203
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "行 %d:%d のグループ化解除"
 
-#: src/commands.c:2453
+#: src/commands.c:2403
 #, c-format
 msgid "Moving %s"
 msgstr "%sを移動中"
 
-#: src/commands.c:2462 src/commands.c:2646
+#: src/commands.c:2412 src/commands.c:2593
 msgid "is beyond sheet boundaries"
 msgstr "はシートの限界を超えています"
 
 #. FIXME?
-#: src/commands.c:2617
+#: src/commands.c:2564
 #, c-format
 msgid "Pasting into %s"
 msgstr "%s に貼り付け"
 
 #. Check arrays or merged regions
-#: src/commands.c:2800 src/workbook-control-gui.c:1830
+#: src/commands.c:2747 src/workbook-control-gui.c:1830
 msgid "Autofill"
 msgstr "自動で埋める"
 
 #. Changed in initial redo.
-#: src/commands.c:2823
+#: src/commands.c:2770
 #, c-format
 msgid "Autofilling %s"
 msgstr "%s の自動調整"
 
-#: src/commands.c:2976
+#: src/commands.c:2923
 #, c-format
 msgid "Autoformatting %s"
 msgstr "%s の自動書式調整"
 
-#: src/commands.c:3086
+#: src/commands.c:3033
 #, c-format
 msgid "Unmerging %s"
 msgstr "%s の結合解除"
 
-#: src/commands.c:3224
+#: src/commands.c:3171
 #, c-format
 msgid "Merging %s"
 msgstr "%s の結合"
 
 #. Corrected below.
-#: src/commands.c:3602 src/dialogs/search-replace.glade.h:43
+#: src/commands.c:3549 src/dialogs/search-replace.glade.h:43
 msgid "Search and Replace"
 msgstr "検索と置換"
 
-#: src/commands.c:3698
+#: src/commands.c:3645
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "デフォルトで列の幅を %.2f [pts] に設定"
 
-#: src/commands.c:3699
+#: src/commands.c:3646
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "デフォルトで行の高さを %.2f に設定"
 
 #. Changed in initial redo.
-#: src/commands.c:3784
+#: src/commands.c:3731
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "%s!%s へ合成する"
 
-#: src/commands.c:3899
+#: src/commands.c:3846
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "%s を %0.f%% に縮小"
 
-#: src/commands.c:3968
+#: src/commands.c:3915
 msgid "Insert object"
 msgstr "オブジェクトの挿入"
 
-#: src/commands.c:4026
+#: src/commands.c:3973
 msgid "Delete object"
 msgstr "オブジェクトの削除"
 
-#: src/commands.c:4107
+#: src/commands.c:4054
 msgid "Resize object"
 msgstr "オブジェクトのサイズ変更"
 
-#: src/commands.c:4107
+#: src/commands.c:4054
 msgid "Move object"
 msgstr "オブジェクトの移動"
 
@@ -3110,8 +3067,8 @@ msgstr "単一のレコードのみ(_U)"
 msgid "Data Analysis Tools"
 msgstr "データ解析ツール"
 
-#: src/dialogs/anova-one.glade.h:1 src/dialogs/mean-tests.glade.h:2
-#: src/dialogs/variance-tests.glade.h:1
+#: src/dialogs/anova-one.glade.h:1 src/dialogs/anova-two.glade.h:1
+#: src/dialogs/mean-tests.glade.h:2 src/dialogs/variance-tests.glade.h:1
 msgid "0.05"
 msgstr "0.05"
 
@@ -3127,7 +3084,7 @@ msgstr "分散解析 - 一次元配置"
 msgid "Grouped By:"
 msgstr "グループ化"
 
-#: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:5
+#: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:4
 #: src/dialogs/correlation.glade.h:3 src/dialogs/covariance.glade.h:3
 #: src/dialogs/descriptive-stats.glade.h:7
 #: src/dialogs/fourier-analysis.glade.h:4 src/dialogs/histogram.glade.h:6
@@ -3137,7 +3094,7 @@ msgstr "グループ化"
 msgid "Input"
 msgstr "入力"
 
-#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:6
+#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:5
 #: src/dialogs/correlation.glade.h:4 src/dialogs/covariance.glade.h:4
 #: src/dialogs/descriptive-stats.glade.h:11
 #: src/dialogs/fourier-analysis.glade.h:5 src/dialogs/histogram.glade.h:8
@@ -3148,7 +3105,7 @@ msgstr "入力"
 msgid "N_ew Workbook"
 msgstr "新規ワークブック(_E)"
 
-#: src/dialogs/anova-one.glade.h:6 src/dialogs/anova-two.glade.h:8
+#: src/dialogs/anova-one.glade.h:6 src/dialogs/anova-two.glade.h:7
 #: src/dialogs/correlation.glade.h:5 src/dialogs/covariance.glade.h:5
 #: src/dialogs/descriptive-stats.glade.h:12
 #: src/dialogs/fourier-analysis.glade.h:6 src/dialogs/histogram.glade.h:9
@@ -3159,7 +3116,7 @@ msgstr "新規ワークブック(_E)"
 msgid "Output"
 msgstr "出力"
 
-#: src/dialogs/anova-one.glade.h:7
+#: src/dialogs/anova-one.glade.h:7 src/dialogs/anova-two.glade.h:8
 msgid "_Alpha = "
 msgstr "α(_A) = "
 
@@ -3173,9 +3130,9 @@ msgstr "範囲(_A)"
 #: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:9
 #: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
 #: src/dialogs/descriptive-stats.glade.h:16
-#: src/dialogs/dialog-analysis-tools.c:851
-#: src/dialogs/dialog-analysis-tools.c:3874
-#: src/dialogs/dialog-analysis-tools.c:3950
+#: src/dialogs/dialog-analysis-tools.c:897
+#: src/dialogs/dialog-analysis-tools.c:3876
+#: src/dialogs/dialog-analysis-tools.c:3952
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:13
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:8
 msgid "_Input Range:"
@@ -3213,24 +3170,16 @@ msgstr "新規シート(_E)"
 msgid "_Output Range:"
 msgstr "出力範囲(_O):"
 
-#: src/dialogs/anova-two.glade.h:1
-msgid "(1 - _Alpha) = "
-msgstr "(1 - α)(_A) = "
-
-#: src/dialogs/anova-two.glade.h:2 src/dialogs/regression.glade.h:1
-msgid "0.95"
-msgstr "0.95"
-
-#: src/dialogs/anova-two.glade.h:3 src/dialogs/descriptive-stats.glade.h:3
+#: src/dialogs/anova-two.glade.h:2 src/dialogs/descriptive-stats.glade.h:3
 #: src/dialogs/random-generation.glade.h:1 src/dialogs/sampling.glade.h:1
 msgid "1"
 msgstr "1"
 
-#: src/dialogs/anova-two.glade.h:4
+#: src/dialogs/anova-two.glade.h:3
 msgid "ANOVA - Two-Factor"
 msgstr "分散解析 - 二次元配置"
 
-#: src/dialogs/anova-two.glade.h:7
+#: src/dialogs/anova-two.glade.h:6
 msgid "Number of Rows _Per Sample:"
 msgstr "標本毎の行数(_P):"
 
@@ -3826,7 +3775,7 @@ msgstr "ロック(_L)"
 msgid "_Number"
 msgstr "数値(_N)"
 
-#: src/dialogs/cell-format.glade.h:118
+#: src/dialogs/cell-format.glade.h:118 src/dialogs/histogram.glade.h:17
 msgid "_Percentage"
 msgstr "パーセント(_P)"
 
@@ -3931,7 +3880,7 @@ msgid "Selection has"
 msgstr "選択範囲"
 
 #: src/dialogs/cell-sort.glade.h:9 src/dialogs/dialog-cell-sort.c:503
-#: src/workbook-control-gui.c:2360
+#: src/workbook-control-gui.c:2358
 msgid "Sort"
 msgstr "並べ替え"
 
@@ -3963,6 +3912,10 @@ msgstr "列の幅(pts)(_C):"
 msgid "Add the entered area to the list of source areas"
 msgstr "入力フィールドをソースの一覧に追加"
 
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3610
+msgid "Average"
+msgstr "算術平均値"
+
 #: src/dialogs/consolidate.glade.h:3
 msgid "C_opy labels"
 msgstr "ラベルのコピー(_O)"
@@ -3970,6 +3923,10 @@ msgstr "ラベルのコピー(_O)"
 #: src/dialogs/consolidate.glade.h:4
 msgid "Clear the list of source areas"
 msgstr "ソース領域の一覧をクリアします"
+
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3611
+msgid "Count"
+msgstr "回数"
 
 #: src/dialogs/consolidate.glade.h:6
 msgid "D_elete"
@@ -3999,11 +3956,11 @@ msgstr "最上行の中(_T)"
 msgid "Labels"
 msgstr "ラベル"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3611
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3609
 msgid "Max"
 msgstr "最大"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3610
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3608
 msgid "Min"
 msgstr "最小"
 
@@ -4071,11 +4028,11 @@ msgstr "関数(_F) :"
 msgid "_Put :"
 msgstr "付ける(_P) :"
 
-#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4378
+#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4372
 msgid "Correlation"
 msgstr "相関"
 
-#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4380
+#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4374
 msgid "Covariance"
 msgstr "共分散"
 
@@ -4117,7 +4074,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr "平均の信頼範囲(_M)"
 
 #: src/dialogs/descriptive-stats.glade.h:5
-#: src/dialogs/dialog-analysis-tools.c:4382
+#: src/dialogs/dialog-analysis-tools.c:4376
 msgid "Descriptive Statistics"
 msgstr "記述統計"
 
@@ -4290,67 +4247,67 @@ msgstr "'基準範囲:'に正しいセルの範囲を指定して下さい"
 msgid "You should introduce a valid cell range in 'Copy To:'"
 msgstr "'コピー先:'に正しいセルの範囲を指定して下さい"
 
-#: src/dialogs/dialog-advanced-filter.c:335
+#: src/dialogs/dialog-advanced-filter.c:331
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
 msgstr "'リスト範囲'と'基準範囲'に同じ列番号を指定してください"
 
-#: src/dialogs/dialog-analysis-tools.c:1113
-#: src/dialogs/dialog-analysis-tools.c:1228
+#: src/dialogs/dialog-analysis-tools.c:1103
+#: src/dialogs/dialog-analysis-tools.c:1218
 msgid "The selected input rows must have equal size!"
 msgstr "選択された入力列を同じサイズにして下さい！"
 
-#: src/dialogs/dialog-analysis-tools.c:1117
-#: src/dialogs/dialog-analysis-tools.c:1232
+#: src/dialogs/dialog-analysis-tools.c:1107
+#: src/dialogs/dialog-analysis-tools.c:1222
 msgid "The selected input columns must have equal size!"
 msgstr "選択された入力行を同じサイズにして下さい！"
 
-#: src/dialogs/dialog-analysis-tools.c:1121
-#: src/dialogs/dialog-analysis-tools.c:1236
+#: src/dialogs/dialog-analysis-tools.c:1111
+#: src/dialogs/dialog-analysis-tools.c:1226
 msgid "The selected input areas must have equal size!"
 msgstr "選択された入力範囲を同じサイズにして下さい！"
 
 #. non-numeric probability (DiscreteDistribution) POST-RELEASE-FIX
-#: src/dialogs/dialog-analysis-tools.c:1124
-#: src/dialogs/dialog-analysis-tools.c:1239
-#: src/dialogs/dialog-analysis-tools.c:1366
-#: src/dialogs/dialog-analysis-tools.c:1563
-#: src/dialogs/dialog-analysis-tools.c:1733
-#: src/dialogs/dialog-analysis-tools.c:2139
-#: src/dialogs/dialog-analysis-tools.c:2363
-#: src/dialogs/dialog-analysis-tools.c:2866
-#: src/dialogs/dialog-analysis-tools.c:2871
-#: src/dialogs/dialog-analysis-tools.c:2876
-#: src/dialogs/dialog-analysis-tools.c:2881
-#: src/dialogs/dialog-analysis-tools.c:2886
-#: src/dialogs/dialog-analysis-tools.c:3372
-#: src/dialogs/dialog-analysis-tools.c:3546
-#: src/dialogs/dialog-analysis-tools.c:3824
-#: src/dialogs/dialog-analysis-tools.c:4017
-#: src/dialogs/dialog-analysis-tools.c:4195
-#: src/dialogs/dialog-analysis-tools.c:4225
+#: src/dialogs/dialog-analysis-tools.c:1114
+#: src/dialogs/dialog-analysis-tools.c:1229
+#: src/dialogs/dialog-analysis-tools.c:1356
+#: src/dialogs/dialog-analysis-tools.c:1556
+#: src/dialogs/dialog-analysis-tools.c:1726
+#: src/dialogs/dialog-analysis-tools.c:2134
+#: src/dialogs/dialog-analysis-tools.c:2359
+#: src/dialogs/dialog-analysis-tools.c:2863
+#: src/dialogs/dialog-analysis-tools.c:2868
+#: src/dialogs/dialog-analysis-tools.c:2873
+#: src/dialogs/dialog-analysis-tools.c:2878
+#: src/dialogs/dialog-analysis-tools.c:2883
+#: src/dialogs/dialog-analysis-tools.c:3371
+#: src/dialogs/dialog-analysis-tools.c:3545
+#: src/dialogs/dialog-analysis-tools.c:3826
+#: src/dialogs/dialog-analysis-tools.c:4019
+#: src/dialogs/dialog-analysis-tools.c:4214
+#: src/dialogs/dialog-analysis-tools.c:4219
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "予期しないエラーが発生しました: %d"
 
-#: src/dialogs/dialog-analysis-tools.c:1170
+#: src/dialogs/dialog-analysis-tools.c:1160
 msgid "Could not create the Correlation Tool dialog."
 msgstr "相関関係ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1285
+#: src/dialogs/dialog-analysis-tools.c:1275
 msgid "Could not create the Covariance Tool dialog."
 msgstr "共分散ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1510
+#: src/dialogs/dialog-analysis-tools.c:1503
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "記述統計ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1609
+#: src/dialogs/dialog-analysis-tools.c:1602
 msgid "Could not create the Rank and  Percentile Tools dialog."
 msgstr "ランクと百分率ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1702
+#: src/dialogs/dialog-analysis-tools.c:1695
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -4358,7 +4315,7 @@ msgstr ""
 "変数 1 に対する\n"
 "正しい人口変化を入力して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:1709
+#: src/dialogs/dialog-analysis-tools.c:1702
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -4366,124 +4323,124 @@ msgstr ""
 "変数 2 に対する\n"
 "正しい人口変化を入力して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:1729
+#: src/dialogs/dialog-analysis-tools.c:1722
 msgid "The two input ranges must have the same size."
 msgstr "二つの入力範囲を同じサイズにして下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2011
+#: src/dialogs/dialog-analysis-tools.c:2006
 msgid "Var_iable 1 Range:"
 msgstr "変数 1 の範囲(_I):"
 
-#: src/dialogs/dialog-analysis-tools.c:2012
+#: src/dialogs/dialog-analysis-tools.c:2007
 msgid "_Variable 2 Range:"
 msgstr "変数 2 の範囲(_V):"
 
-#: src/dialogs/dialog-analysis-tools.c:2016
+#: src/dialogs/dialog-analysis-tools.c:2011
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "中間試験ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2132
-#: src/dialogs/dialog-analysis-tools.c:2136
+#: src/dialogs/dialog-analysis-tools.c:2127
+#: src/dialogs/dialog-analysis-tools.c:2131
 msgid "Each variable should have at least 2 observations!"
 msgstr "各変数は最低でも二つの記録が必要です！"
 
-#: src/dialogs/dialog-analysis-tools.c:2252
+#: src/dialogs/dialog-analysis-tools.c:2248
 msgid "Var_iable 1 Range"
 msgstr "変数 1 の範囲(_I)"
 
-#: src/dialogs/dialog-analysis-tools.c:2253
+#: src/dialogs/dialog-analysis-tools.c:2249
 msgid "_Variable 2 Range"
 msgstr "変数 2 の範囲(_V)"
 
-#: src/dialogs/dialog-analysis-tools.c:2257
+#: src/dialogs/dialog-analysis-tools.c:2253
 msgid "Could not create the FTest Tool dialog."
 msgstr "期末試験ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2511
+#: src/dialogs/dialog-analysis-tools.c:2508
 msgid "Could not create the Sampling Tool dialog."
 msgstr "サンプリングツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2548
+#: src/dialogs/dialog-analysis-tools.c:2545
 msgid "Discrete"
 msgstr "離散"
 
-#: src/dialogs/dialog-analysis-tools.c:2548
+#: src/dialogs/dialog-analysis-tools.c:2545
 msgid "_Value And Probability Input Range:"
 msgstr "値と確率の入力範囲(_V):"
 
-#: src/dialogs/dialog-analysis-tools.c:2550
+#: src/dialogs/dialog-analysis-tools.c:2547
 #: src/dialogs/search-replace.glade.h:24
 #: src/widgets/widget-font-selector.c:113
 msgid "Normal"
 msgstr "標準"
 
-#: src/dialogs/dialog-analysis-tools.c:2550
+#: src/dialogs/dialog-analysis-tools.c:2547
 msgid "_Mean:"
 msgstr "平均(_M):"
 
-#: src/dialogs/dialog-analysis-tools.c:2550
+#: src/dialogs/dialog-analysis-tools.c:2547
 msgid "_Standard Deviation:"
 msgstr "標準偏差(_S):"
 
-#: src/dialogs/dialog-analysis-tools.c:2552
+#: src/dialogs/dialog-analysis-tools.c:2549
 msgid "Poisson"
 msgstr "ポアソン"
 
-#: src/dialogs/dialog-analysis-tools.c:2552
+#: src/dialogs/dialog-analysis-tools.c:2549
 msgid "_Lambda:"
 msgstr "ラムダ(_L):"
 
-#: src/dialogs/dialog-analysis-tools.c:2554
+#: src/dialogs/dialog-analysis-tools.c:2551
 msgid "Exponential"
 msgstr "指数"
 
-#: src/dialogs/dialog-analysis-tools.c:2554
+#: src/dialogs/dialog-analysis-tools.c:2551
 msgid "_b Value:"
 msgstr "_b 値(_B):"
 
-#: src/dialogs/dialog-analysis-tools.c:2556
+#: src/dialogs/dialog-analysis-tools.c:2553
 msgid "Binomial"
 msgstr "二項"
 
-#: src/dialogs/dialog-analysis-tools.c:2556
+#: src/dialogs/dialog-analysis-tools.c:2553
+#: src/dialogs/dialog-analysis-tools.c:2555
 #: src/dialogs/dialog-analysis-tools.c:2558
-#: src/dialogs/dialog-analysis-tools.c:2561
 msgid "_p Value:"
 msgstr "_p 値(_P):"
 
-#: src/dialogs/dialog-analysis-tools.c:2556
+#: src/dialogs/dialog-analysis-tools.c:2553
 msgid "N_umber of Trials:"
 msgstr "試行回数(_U):"
 
-#: src/dialogs/dialog-analysis-tools.c:2558
+#: src/dialogs/dialog-analysis-tools.c:2555
 msgid "Negative Binomial"
 msgstr "負の二項"
 
-#: src/dialogs/dialog-analysis-tools.c:2559
+#: src/dialogs/dialog-analysis-tools.c:2556
 msgid "N_umber of Failures"
 msgstr "失敗回数(_U)"
 
-#: src/dialogs/dialog-analysis-tools.c:2561
+#: src/dialogs/dialog-analysis-tools.c:2558
 msgid "Bernoulli"
 msgstr "ベルヌーイ"
 
-#: src/dialogs/dialog-analysis-tools.c:2563
+#: src/dialogs/dialog-analysis-tools.c:2560
 msgid "Uniform"
 msgstr "一様"
 
-#: src/dialogs/dialog-analysis-tools.c:2563
+#: src/dialogs/dialog-analysis-tools.c:2560
 msgid "_Lower Bound:"
 msgstr "下界(_L):"
 
-#: src/dialogs/dialog-analysis-tools.c:2563
+#: src/dialogs/dialog-analysis-tools.c:2560
 msgid "_Upper Bound:"
 msgstr "上界(_U):"
 
-#: src/dialogs/dialog-analysis-tools.c:3048
+#: src/dialogs/dialog-analysis-tools.c:3046
 msgid "Could not create the Random Tool dialog."
 msgstr "乱数ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:3110
+#: src/dialogs/dialog-analysis-tools.c:3108
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -4491,7 +4448,7 @@ msgstr ""
 "この回帰を求めるにはデータ点が少なすぎます。\n"
 "少なくとも自由変数と同じだけのデータ点が必要です。"
 
-#: src/dialogs/dialog-analysis-tools.c:3116
+#: src/dialogs/dialog-analysis-tools.c:3114
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
@@ -4500,40 +4457,40 @@ msgstr ""
 "二つ以上の独立変数が線型依存であるため、回帰が求められません。\n"
 "これらの変数のいずれかを削除してからもう一度回帰を試して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:3123
+#: src/dialogs/dialog-analysis-tools.c:3121
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "回帰の各変数のエントリ数と等しくなければなりません。"
 
-#: src/dialogs/dialog-analysis-tools.c:3223
+#: src/dialogs/dialog-analysis-tools.c:3221
 msgid "_X Variables:"
 msgstr "X 変数(_X):"
 
-#: src/dialogs/dialog-analysis-tools.c:3247
+#: src/dialogs/dialog-analysis-tools.c:3245
 msgid "_Y Variable:"
 msgstr "Y 変数(_Y):"
 
-#: src/dialogs/dialog-analysis-tools.c:3313
+#: src/dialogs/dialog-analysis-tools.c:3312
 msgid "Could not create the Regression Tool dialog."
 msgstr "Regression ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:3485
+#: src/dialogs/dialog-analysis-tools.c:3484
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "指数のスムーズ化ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:3656
+#: src/dialogs/dialog-analysis-tools.c:3655
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "平均移動ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:3706
+#: src/dialogs/dialog-analysis-tools.c:3705
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "フーリエ分析はまだ実装されていません。"
 
-#: src/dialogs/dialog-analysis-tools.c:3749
+#: src/dialogs/dialog-analysis-tools.c:3748
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "フーリエ分析ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:3820
+#: src/dialogs/dialog-analysis-tools.c:3822
 msgid ""
 "Each row of the bin range should contain one numeric value\n"
 "(ignoring the label if applicable)."
@@ -4541,76 +4498,76 @@ msgstr ""
 "二次元範囲の各行には一つの数値\n"
 "(適用可能ならばラベルは無視して下さい) が必要です。"
 
-#: src/dialogs/dialog-analysis-tools.c:3951 src/dialogs/histogram.glade.h:1
+#: src/dialogs/dialog-analysis-tools.c:3953 src/dialogs/histogram.glade.h:1
 msgid "Bin _Range:"
 msgstr "二次元範囲(_R):"
 
-#: src/dialogs/dialog-analysis-tools.c:3955
+#: src/dialogs/dialog-analysis-tools.c:3957
 msgid "Could not create the Histogram Tool dialog."
 msgstr "ヒストグラムツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:4133
+#: src/dialogs/dialog-analysis-tools.c:4135
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "分散解析 (一次元配置) ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:4210
+#: src/dialogs/dialog-analysis-tools.c:4199
 msgid "Each sample must contain the same number of rows."
 msgstr "各々の標本は同じ行数でなければなりません。"
 
-#: src/dialogs/dialog-analysis-tools.c:4215
+#: src/dialogs/dialog-analysis-tools.c:4204
 msgid "Given input range contains non-numeric data."
 msgstr "指定された入力範囲に数値でない値が入っています。"
 
-#: src/dialogs/dialog-analysis-tools.c:4220
+#: src/dialogs/dialog-analysis-tools.c:4209
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 "入力範囲は少なくともデータとラベルの 2 つの列を含まなければなりません。"
 
-#: src/dialogs/dialog-analysis-tools.c:4345
+#: src/dialogs/dialog-analysis-tools.c:4339
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "分散解析 (二次元配置) ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:4376
+#: src/dialogs/dialog-analysis-tools.c:4370
 msgid "Anova: Two-Factor With Or Without Replication"
 msgstr "分散解析: 繰り返しのない/ある二元配置"
 
-#: src/dialogs/dialog-analysis-tools.c:4384
+#: src/dialogs/dialog-analysis-tools.c:4378
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F 検定: 2 標本を使った分散の検定"
 
-#: src/dialogs/dialog-analysis-tools.c:4392
+#: src/dialogs/dialog-analysis-tools.c:4386
 #: src/dialogs/moving-averages.glade.h:5
 msgid "Moving Average"
 msgstr "移動平均"
 
-#: src/dialogs/dialog-analysis-tools.c:4394
+#: src/dialogs/dialog-analysis-tools.c:4388
 #: src/dialogs/random-generation.glade.h:5
 msgid "Random Number Generation"
 msgstr "乱数生成"
 
-#: src/dialogs/dialog-analysis-tools.c:4396 src/dialogs/rank.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:4390 src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
 msgstr "階数と百分位数"
 
-#: src/dialogs/dialog-analysis-tools.c:4400 src/dialogs/sampling.glade.h:9
+#: src/dialogs/dialog-analysis-tools.c:4394 src/dialogs/sampling.glade.h:9
 msgid "Sampling"
 msgstr "サンプリング"
 
-#: src/dialogs/dialog-analysis-tools.c:4402
+#: src/dialogs/dialog-analysis-tools.c:4396
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t 検定: 2 標本による平均の検定"
 
-#: src/dialogs/dialog-analysis-tools.c:4404
+#: src/dialogs/dialog-analysis-tools.c:4398
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t 検定: 等分散を仮定した 2 標本による検定"
 
-#: src/dialogs/dialog-analysis-tools.c:4406
+#: src/dialogs/dialog-analysis-tools.c:4400
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t 検定: 分散が等しくないと仮定した 2 標本による検定"
 
-#: src/dialogs/dialog-analysis-tools.c:4408
+#: src/dialogs/dialog-analysis-tools.c:4402
 msgid "z-Test: Two Sample for Means"
 msgstr "z 検定: 2 標本による平均の検定"
 
@@ -4731,8 +4688,8 @@ msgstr "分類一覧を読み込み中にエラーが発生しました"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:958 src/format.c:1702 src/format.c:1794
-#: src/format.c:1803 src/format.c:1872
+#: src/dialogs/dialog-autoformat.c:958 src/format.c:1664 src/format.c:1756
+#: src/format.c:1765 src/format.c:1834
 msgid "General"
 msgstr "標準"
 
@@ -4870,7 +4827,7 @@ msgid "Value%d"
 msgstr "値 %d"
 
 #: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:131
-#: src/functions/fn-string.c:1251
+#: src/functions/fn-string.c:1215
 msgid "String"
 msgstr "文字列"
 
@@ -5365,6 +5322,11 @@ msgstr ""
 "-adobe-helvetica-medium-r-normal-*-14-*-*-*-p-*-*,-alias-fixed-medium-r-"
 "normal-*-14-*-*-*-c-*-*,*-r-*"
 
+#: src/dialogs/dialog-stf-preview.h:19
+#, c-format
+msgid "Column %d"
+msgstr "%d 列"
+
 #: src/dialogs/dialog-stf.glade.h:3
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
@@ -5649,11 +5611,6 @@ msgstr "終了行(_T)"
 msgid "Workbook Attributes"
 msgstr "ワークブックの属性"
 
-#: src/dialogs/dialog-zoom.glade.h:2
-#, no-c-format
-msgid "%"
-msgstr "%"
-
 #: src/dialogs/dialog-zoom.glade.h:4
 #, no-c-format
 msgid "20_0 %"
@@ -5667,8 +5624,8 @@ msgstr "倍率"
 msgid "Sheets"
 msgstr "シート"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3145
-#: src/workbook-control-gui.c:3201
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3143
+#: src/workbook-control-gui.c:3199
 msgid "Zoom"
 msgstr "ズーム"
 
@@ -6211,6 +6168,10 @@ msgstr "標本の大きさ:"
 #: src/dialogs/random-generation.glade.h:8
 msgid "_Distribution:"
 msgstr "分散(_D):"
+
+#: src/dialogs/regression.glade.h:1
+msgid "0.95"
+msgstr "0.95"
 
 #: src/dialogs/regression.glade.h:2
 msgid "Confidence Level:"
@@ -6890,18 +6851,18 @@ msgid "yellow"
 msgstr "黄"
 
 #. Is it a boolean?
-#: src/format.c:1609 src/number-match.c:1066 src/value-sheet.c:34
-#: src/value.c:247 src/value.c:485
+#: src/format.c:1571 src/number-match.c:1066 src/value-sheet.c:34
+#: src/value.c:248 src/value.c:487
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1609 src/number-match.c:1068 src/value-sheet.c:34
-#: src/value.c:249 src/value.c:485
+#: src/format.c:1571 src/number-match.c:1068 src/value-sheet.c:34
+#: src/value.c:250 src/value.c:487
 msgid "FALSE"
 msgstr "FALSE"
 
 #. Array of arrays ??
-#: src/format.c:1637
+#: src/format.c:1599
 msgid "ARRAY"
 msgstr "配列"
 
@@ -12705,7 +12666,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: src/functions/fn-logical.c:101 src/functions/fn-string.c:502
+#: src/functions/fn-logical.c:101 src/functions/fn-string.c:504
 msgid "Type Mismatch"
 msgstr "型の不一致"
 
@@ -17376,7 +17337,7 @@ msgstr ""
 msgid "Statistics"
 msgstr "統計"
 
-#: src/functions/fn-string.c:27
+#: src/functions/fn-string.c:28
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
@@ -17394,7 +17355,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CODE"
 
-#: src/functions/fn-string.c:53
+#: src/functions/fn-string.c:54
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -17414,7 +17375,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHAR"
 
-#: src/functions/fn-string.c:75
+#: src/functions/fn-string.c:76
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -17438,7 +17399,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEN, SEARCH, DELTA"
 
-#: src/functions/fn-string.c:100
+#: src/functions/fn-string.c:101
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -17458,7 +17419,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHAR, CODE"
 
-#: src/functions/fn-string.c:122
+#: src/functions/fn-string.c:123
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -17480,7 +17441,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/functions/fn-string.c:158
+#: src/functions/fn-string.c:159
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -17501,7 +17462,7 @@ msgstr ""
 "\n"
 "@SEEALSO=UPPER"
 
-#: src/functions/fn-string.c:188
+#: src/functions/fn-string.c:189
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -17523,11 +17484,11 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: src/functions/fn-string.c:214
+#: src/functions/fn-string.c:215
 msgid "Invalid arguments"
 msgstr "引数が不正です"
 
-#: src/functions/fn-string.c:233
+#: src/functions/fn-string.c:234
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -17551,7 +17512,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, LEFT"
 
-#: src/functions/fn-string.c:272
+#: src/functions/fn-string.c:273
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -17571,7 +17532,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER"
 
-#: src/functions/fn-string.c:302
+#: src/functions/fn-string.c:303
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -17591,7 +17552,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
-#: src/functions/fn-string.c:344
+#: src/functions/fn-string.c:345
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -17613,11 +17574,11 @@ msgstr ""
 
 #. FIXME: this and above case should probably have the
 #. same error message.
-#: src/functions/fn-string.c:383
+#: src/functions/fn-string.c:384
 msgid "Out of memory"
 msgstr "メモリが足りません"
 
-#: src/functions/fn-string.c:399
+#: src/functions/fn-string.c:400
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -17638,7 +17599,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:431
+#: src/functions/fn-string.c:432
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -17661,7 +17622,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
-#: src/functions/fn-string.c:473
+#: src/functions/fn-string.c:474
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -17683,7 +17644,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:578
+#: src/functions/fn-string.c:542
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -17704,7 +17665,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER, UPPER"
 
-#: src/functions/fn-string.c:624
+#: src/functions/fn-string.c:588
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -17726,7 +17687,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
-#: src/functions/fn-string.c:674
+#: src/functions/fn-string.c:638
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -17750,7 +17711,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CELL, N, VALUE"
 
-#: src/functions/fn-string.c:700
+#: src/functions/fn-string.c:664
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -17773,11 +17734,11 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR"
 
-#: src/functions/fn-string.c:736
+#: src/functions/fn-string.c:700
 msgid "Type mismatch"
 msgstr "型の不一致"
 
-#: src/functions/fn-string.c:748
+#: src/functions/fn-string.c:712
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -17798,7 +17759,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: src/functions/fn-string.c:794
+#: src/functions/fn-string.c:758
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -17818,7 +17779,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: src/functions/fn-string.c:837
+#: src/functions/fn-string.c:801
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -17842,7 +17803,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: src/functions/fn-string.c:953
+#: src/functions/fn-string.c:917
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -17862,7 +17823,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: src/functions/fn-string.c:1022
+#: src/functions/fn-string.c:986
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -18141,10 +18102,14 @@ msgstr "破棄"
 #.
 #. * xgettext:
 #. * This string must translate to exactly the same strings as the
-#. * 'Print Preview' item in the
+#. * 'Print Preview...' item in the
 #. * 'File' menu
 #.
-#: src/history.c:129 src/history.c:142
+#: src/history.c:129
+msgid "File/Print Preview..."
+msgstr "ファイル(_F)/印刷プレビュー..."
+
+#: src/history.c:142
 msgid "File/Print Preview"
 msgstr "ファイル(_F)/印刷プレビュー"
 
@@ -18152,12 +18117,12 @@ msgstr "ファイル(_F)/印刷プレビュー"
 msgid "File/"
 msgstr "ファイル(_F)/"
 
-#: src/item-bar.c:609
+#: src/item-bar.c:624
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "幅: %.2f pts (%d ピクセル)"
 
-#: src/item-bar.c:612
+#: src/item-bar.c:627
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "高さ: %.2f pts (%d ピクセル)"
@@ -18169,7 +18134,7 @@ msgid ""
 "the contents in this region?"
 msgstr ""
 "ドラッグしたセルは、その範囲のすでに存在するセルの内容を上書きします。\n"
-"この範囲の内容を置き換えてもよろしいですか?"
+"この範囲の内容を置き換えても宜しいですか？"
 
 #: src/item-cursor.c:1019
 msgid "_Move"
@@ -18363,19 +18328,19 @@ msgstr "一致する閉じ括弧が見つかりませんでした"
 msgid "Multiple expressions are not supported in this context"
 msgstr "このコンテキストでは多重式はサポートしていません"
 
-#: src/parser.y:1084
+#: src/parser.y:1085
 msgid "Could not find matching opening parenthesis"
 msgstr "一致する開き括弧が見つかりませんでした"
 
-#: src/parser.y:1088
+#: src/parser.y:1089
 msgid "Could not find matching closing parenthesis"
 msgstr "一致する閉じ丸括弧が見つかりませんでした"
 
-#: src/parser.y:1092
+#: src/parser.y:1093
 msgid "Invalid expression"
 msgstr "不正な正規表現です"
 
-#: src/parser.y:1097
+#: src/parser.y:1098
 #, c-format
 msgid "Unexpected token %c"
 msgstr "予期しないトークン %c"
@@ -18795,17 +18760,17 @@ msgstr "置換する中に不正なバックスラッシュ '\\' があります。"
 msgid "cannot be performed with multiple ranges selected"
 msgstr "複数選択のもとで実行できません"
 
-#: src/sheet-control-gui.c:496
+#: src/sheet-control-gui.c:554
 #, c-format
 msgid "Row: %s"
 msgstr "行: %s"
 
-#: src/sheet-control-gui.c:511
+#: src/sheet-control-gui.c:569
 #, c-format
 msgid "Column: %s"
 msgstr "列: %s"
 
-#: src/sheet-control-gui.c:1322
+#: src/sheet-control-gui.c:1396
 msgid "Paste _Special"
 msgstr "特別貼り付け(_S)"
 
@@ -18816,41 +18781,41 @@ msgstr "特別貼り付け(_S)"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1334
+#: src/sheet-control-gui.c:1408
 msgid "_Insert..."
 msgstr "挿入(_I)..."
 
-#: src/sheet-control-gui.c:1338
+#: src/sheet-control-gui.c:1412
 msgid "_Insert Column(s)"
 msgstr "列を挿入(_I)"
 
-#: src/sheet-control-gui.c:1340
+#: src/sheet-control-gui.c:1414
 msgid "_Delete Column(s)"
 msgstr "列を削除(_D)"
 
-#: src/sheet-control-gui.c:1342
+#: src/sheet-control-gui.c:1416
 msgid "_Insert Row(s)"
 msgstr "行を挿入(_I)"
 
-#: src/sheet-control-gui.c:1344
+#: src/sheet-control-gui.c:1418
 msgid "_Delete Row(s)"
 msgstr "行を削除(_D)"
 
-#: src/sheet-control-gui.c:1347
+#: src/sheet-control-gui.c:1421
 msgid "Clear Co_ntents"
 msgstr "内容を消去(_N)"
 
-#: src/sheet-control-gui.c:1353
+#: src/sheet-control-gui.c:1427
 msgid "_Format Cells..."
 msgstr "セルの書式設定(_F)..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1357
+#: src/sheet-control-gui.c:1431
 msgid "Column _Width..."
 msgstr "列の幅(_W)..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1365
+#: src/sheet-control-gui.c:1439
 msgid "_Row Height..."
 msgstr "行の高さ(_R)..."
 
@@ -18941,35 +18906,35 @@ msgstr "ラベル :"
 msgid "Properties..."
 msgstr "プロパティ..."
 
-#: src/sheet.c:2182
+#: src/sheet.c:2121
 msgid "Target region contains merged cells"
 msgstr "対象範囲は結合セルを含んでいます"
 
-#: src/sheet.c:2244
+#: src/sheet.c:2183
 msgid "cannot operate on merged cells"
 msgstr "結合セルを操作できません"
 
-#: src/sheet.c:2255
+#: src/sheet.c:2194
 msgid "cannot operate on array formulae"
 msgstr "配列式を操作できません"
 
-#: src/sheet.c:3070
+#: src/sheet.c:3048
 msgid "Clear"
 msgstr "消去"
 
-#: src/sheet.c:3406
+#: src/sheet.c:3450
 msgid "Insert Columns"
 msgstr "列を挿入"
 
-#: src/sheet.c:3475
+#: src/sheet.c:3507
 msgid "Delete Columns"
 msgstr "列を削除"
 
-#: src/sheet.c:3540
+#: src/sheet.c:3560
 msgid "Insert Rows"
 msgstr "行を挿入"
 
-#: src/sheet.c:3609
+#: src/sheet.c:3617
 msgid "Delete Rows"
 msgstr "行を削除"
 
@@ -19182,7 +19147,7 @@ msgstr "fontmap2 ファイルには Helvetica に対する適当なエントリがありません。"
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "fontmap2 ファイルが指定された場所に見つかりませんでした。"
 
-#: src/value.c:671
+#: src/value.c:673
 msgid "Terminate"
 msgstr "終端"
 
@@ -19206,16 +19171,16 @@ msgstr "境界線の削除"
 msgid "You entered an invalid column width value.  It must be bigger than 0"
 msgstr "列の幅が適当な値ではありません。0以上でなければなりません"
 
-#: src/workbook-cmd-format.c:189
+#: src/workbook-cmd-format.c:187
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "行の高さが適当な値ではありません。0以上でなければなりません"
 
-#: src/workbook-cmd-format.c:236
+#: src/workbook-cmd-format.c:234
 msgid ""
 "You entered an invalid default column width value.  It must be bigger than 0"
 msgstr "デフォルトの列の幅が正しい値ではありません。0 以上でなければなりません"
 
-#: src/workbook-cmd-format.c:264
+#: src/workbook-cmd-format.c:262
 msgid ""
 "You entered an invalid default row height value.  It must be bigger than 0"
 msgstr ""
@@ -19253,13 +19218,13 @@ msgstr "なし"
 msgid "Un_freeze Panes"
 msgstr "未解凍のペイン(_F)"
 
-#: src/workbook-control-gui.c:1024 src/workbook-control-gui.c:2974
-#: src/workbook-control-gui.c:3157 src/workbook-control-gui.c:3197
+#: src/workbook-control-gui.c:1024 src/workbook-control-gui.c:2972
+#: src/workbook-control-gui.c:3155 src/workbook-control-gui.c:3195
 msgid "Undo"
 msgstr "元に戻す"
 
-#: src/workbook-control-gui.c:1025 src/workbook-control-gui.c:2977
-#: src/workbook-control-gui.c:3165 src/workbook-control-gui.c:3199
+#: src/workbook-control-gui.c:1025 src/workbook-control-gui.c:2975
+#: src/workbook-control-gui.c:3163 src/workbook-control-gui.c:3197
 msgid "Redo"
 msgstr "もう一度"
 
@@ -19333,155 +19298,155 @@ msgstr "表示"
 msgid "Hide"
 msgstr "隠す"
 
-#: src/workbook-control-gui.c:2253
+#: src/workbook-control-gui.c:2251
 msgid "can only be performed on an existing group"
 msgstr "既存のグループにのみ実行可能"
 
-#: src/workbook-control-gui.c:2277
+#: src/workbook-control-gui.c:2275
 msgid "Group"
 msgstr "グループ化"
 
-#: src/workbook-control-gui.c:2277
+#: src/workbook-control-gui.c:2275
 msgid "Ungroup"
 msgstr "グループ化解除"
 
-#: src/workbook-control-gui.c:2463
+#: src/workbook-control-gui.c:2461
 msgid "_Save..."
 msgstr "保存(_S)..."
 
-#: src/workbook-control-gui.c:2466
+#: src/workbook-control-gui.c:2464
 msgid "Save with a new name or format"
 msgstr "新しい名前または書式で保存します"
 
-#: src/workbook-control-gui.c:2533
+#: src/workbook-control-gui.c:2531
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "現在編集中のセルに依存するセルをすべて選択"
 
-#: src/workbook-control-gui.c:2598
+#: src/workbook-control-gui.c:2596
 msgid "P_aste special..."
 msgstr "特殊貼り付け(_A)..."
 
-#: src/workbook-control-gui.c:2607
+#: src/workbook-control-gui.c:2605
 msgid "Remove selected cells, shifting other into their place"
 msgstr "選択されたセルを削除し、その場所に他セルをずらす"
 
-#: src/workbook-control-gui.c:2658
+#: src/workbook-control-gui.c:2656
 msgid "Freeze the top left of the sheet"
 msgstr "シートの左上を固定します"
 
-#: src/workbook-control-gui.c:2681
+#: src/workbook-control-gui.c:2679
 msgid "_Define..."
 msgstr "定義(_D)..."
 
-#: src/workbook-control-gui.c:2686
+#: src/workbook-control-gui.c:2684
 msgid "_Auto generate names..."
 msgstr "名前の自動生成(_A)..."
 
-#: src/workbook-control-gui.c:2687
+#: src/workbook-control-gui.c:2685
 msgid "Use the current selection to create names"
 msgstr "名前の生成のために現在選択しているものを使用する"
 
-#: src/workbook-control-gui.c:2759
+#: src/workbook-control-gui.c:2757
 msgid "_Change name"
 msgstr "名前を変更(_C)"
 
-#: src/workbook-control-gui.c:2786
+#: src/workbook-control-gui.c:2784
 msgid "Hide _Column Header"
 msgstr "列ヘッダを隠す(_C)"
 
-#: src/workbook-control-gui.c:2792
+#: src/workbook-control-gui.c:2790
 msgid "Hide _Row Header"
 msgstr "行ヘッダを隠す(_R)"
 
-#: src/workbook-control-gui.c:2824
+#: src/workbook-control-gui.c:2822
 msgid "Manage available plugin modules."
 msgstr "有効なプラグインの管理を行います"
 
-#: src/workbook-control-gui.c:2848
+#: src/workbook-control-gui.c:2846
 msgid "Statistical methods."
 msgstr "統計学的手法を適用します"
 
-#: src/workbook-control-gui.c:2861
+#: src/workbook-control-gui.c:2859
 msgid "_Group..."
 msgstr "グループ化(_G)..."
 
-#: src/workbook-control-gui.c:2864
+#: src/workbook-control-gui.c:2862
 msgid "_Ungroup..."
 msgstr "グループ化解除(_U)..."
 
-#: src/workbook-control-gui.c:2902
+#: src/workbook-control-gui.c:2900
 msgid "_Sort"
 msgstr "並べ替え(_S)"
 
-#: src/workbook-control-gui.c:2903
+#: src/workbook-control-gui.c:2901
 msgid "Sorts the selected region."
 msgstr "選択された範囲の並べ替え"
 
-#: src/workbook-control-gui.c:2940
+#: src/workbook-control-gui.c:2938
 msgid "Creates a new workbook"
 msgstr "ワークブックの新規作成"
 
-#: src/workbook-control-gui.c:2943
+#: src/workbook-control-gui.c:2941
 msgid "Opens an existing workbook"
 msgstr "既存のワークブックを開く"
 
-#: src/workbook-control-gui.c:2946
+#: src/workbook-control-gui.c:2944
 msgid "Saves the workbook"
 msgstr "ワークブックを保存"
 
-#: src/workbook-control-gui.c:2952
+#: src/workbook-control-gui.c:2950
 msgid "Prints the workbook"
 msgstr "ワークブックを印刷"
 
-#: src/workbook-control-gui.c:2961
+#: src/workbook-control-gui.c:2959
 msgid "Cuts the selection to the clipboard"
 msgstr "選択部分をクリップボードにカット"
 
-#: src/workbook-control-gui.c:2964
+#: src/workbook-control-gui.c:2962
 msgid "Copies the selection to the clipboard"
 msgstr "選択部分をクリップボードにコピー"
 
-#: src/workbook-control-gui.c:2967
+#: src/workbook-control-gui.c:2965
 msgid "Pastes the clipboard"
 msgstr "クリップボードから貼付け"
 
-#: src/workbook-control-gui.c:2974
+#: src/workbook-control-gui.c:2972
 msgid "Undo the operation"
 msgstr "操作を取り消します"
 
-#: src/workbook-control-gui.c:2977
+#: src/workbook-control-gui.c:2975
 msgid "Redo the operation"
 msgstr "操作をやり直します"
 
-#: src/workbook-control-gui.c:2987
+#: src/workbook-control-gui.c:2985
 msgid "Sum into the current cell."
 msgstr "現在のセルで総和をとる。"
 
-#: src/workbook-control-gui.c:2990
+#: src/workbook-control-gui.c:2988
 msgid "Function"
 msgstr "関数"
 
-#: src/workbook-control-gui.c:2990
+#: src/workbook-control-gui.c:2988
 msgid "Edit a function in the current cell."
 msgstr "現在のセルで関数を編集する。"
 
-#: src/workbook-control-gui.c:2994
+#: src/workbook-control-gui.c:2992
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
 msgstr "選択された最初の列にもとづいて選択範囲を昇順に並べ替えます"
 
-#: src/workbook-control-gui.c:2997
+#: src/workbook-control-gui.c:2995
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
 msgstr "選択された最初の列にもとづいて選択範囲を降順に並べ替えます"
 
-#: src/workbook-control-gui.c:3774
+#: src/workbook-control-gui.c:3937
 msgid "Send"
 msgstr "送信"
 
-#: src/workbook-control-gui.c:3774
+#: src/workbook-control-gui.c:3937
 msgid "Send the current file in email"
 msgstr "現在のファイルを E-メールで送信します"
 
@@ -19657,59 +19622,59 @@ msgstr "罫線のセット"
 msgid "Size"
 msgstr "サイズ"
 
-#: src/workbook-object-toolbar.c:141
+#: src/workbook-object-toolbar.c:146
 msgid "Creates a label"
 msgstr "ラベルを作成"
 
-#: src/workbook-object-toolbar.c:144
+#: src/workbook-object-toolbar.c:149
 msgid "Creates a frame"
 msgstr "フレームを作成"
 
-#: src/workbook-object-toolbar.c:149
+#: src/workbook-object-toolbar.c:154
 msgid "Creates a button"
 msgstr "ボタンを作成"
 
-#: src/workbook-object-toolbar.c:153
+#: src/workbook-object-toolbar.c:158
 msgid "Creates a checkbox"
 msgstr "チェックボックスを作成"
 
-#: src/workbook-object-toolbar.c:158
+#: src/workbook-object-toolbar.c:163
 msgid "RadioButton"
 msgstr "ラジオボタン"
 
-#: src/workbook-object-toolbar.c:158
+#: src/workbook-object-toolbar.c:163
 msgid "Creates a radio button"
 msgstr "ラジオボタンを作成"
 
-#: src/workbook-object-toolbar.c:162
+#: src/workbook-object-toolbar.c:167
 msgid "Creates a list"
 msgstr "リストを作成"
 
-#: src/workbook-object-toolbar.c:165
+#: src/workbook-object-toolbar.c:170
 msgid "Combo"
 msgstr "コンボ"
 
-#: src/workbook-object-toolbar.c:165
+#: src/workbook-object-toolbar.c:170
 msgid "Creates a combobox"
 msgstr "コンボボックスを作成"
 
-#: src/workbook-object-toolbar.c:168
+#: src/workbook-object-toolbar.c:173
 msgid "Creates a line object"
 msgstr "直線オブジェクトを作成"
 
-#: src/workbook-object-toolbar.c:171
+#: src/workbook-object-toolbar.c:176
 msgid "Creates an arrow object"
 msgstr "矢印オブジェクトを作成"
 
-#: src/workbook-object-toolbar.c:174
+#: src/workbook-object-toolbar.c:179
 msgid "Creates a rectangle object"
 msgstr "矩形オブジェクトを作成"
 
-#: src/workbook-object-toolbar.c:177
+#: src/workbook-object-toolbar.c:182
 msgid "Ellipse"
 msgstr "楕円"
 
-#: src/workbook-object-toolbar.c:177
+#: src/workbook-object-toolbar.c:182
 msgid "Creates an ellipse object"
 msgstr "楕円オブジェクトを作成"
 
@@ -19789,3 +19754,4 @@ msgstr "Gnumeric XML ファイル形式"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME スプレッドシート"
+
