@@ -36,8 +36,10 @@ EXTRA_DIST +=		\
 .PHONY : html
 html :
 	-mkdir -p html
-	xsltproc -o html/	\
-	--stringparam yelp_chunk_method exslt	\
-	--stringparam yelp_max_chunk_depth 4	\
-	--stringparam yelp_generate_navbar 1 	\
-	$(datadir)/sgml/docbook/yelp/yelp-customization.xsl $(srcdir)/gnumeric.xml
+	xsltproc -o html/gnumeric.html			\
+	    --param db.chunk.chunk_top 0 		\
+	    --param db.chunk.max_depth 4 		\
+	    --stringparam db.chunk.basename gnumeric 	\
+	    --stringparam db2html.admon.graphics_path $(datadir)/yelp/icons/ \
+	    $(datadir)/xml/gnome/xslt/docbook/html/db2html.xsl	\
+	    $(srcdir)/gnumeric.xml

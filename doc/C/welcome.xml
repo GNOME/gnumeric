@@ -481,9 +481,10 @@
 -->
 
 <para>
-    The 1.4.x release is dedicated to the memory of lost colleagues,
-    Chema (Grandma) Celorio who help make <application>Gnumeric</application>
-    as stable as it is,  and Mel Seder who kept us smiling.  They'll be missed.
+    The 1.4.x release is dedicated to the memory of lost colleagues, <emphasis
+    role="bold">Chema (Grandma) Celorio</emphasis> who helped make
+    <application>Gnumeric</application> as stable as it is,  and <emphasis
+    role="bold">Mel Seder</emphasis> who kept us smiling.  They'll be missed.
 </para>
 
 <para>

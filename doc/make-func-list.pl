@@ -38,7 +38,6 @@ while (<>) {
 	print "    </refmeta>\n";
 	print "    <refnamediv>\n";
 	print "      <refname><function>$func</function></refname>\n";
-	print "      <refpurpose></refpurpose>\n";
 	print "    </refnamediv>\n";
 	next;
     }
