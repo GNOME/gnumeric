@@ -62,6 +62,25 @@ application_clipboard_unant (void)
 		sheet_selection_unant (app.clipboard_sheet);
 }
 
+static gboolean
+application_set_selected_sheet (Sheet *sheet)
+{
+	g_return_val_if_fail (sheet != NULL, FALSE);
+
+	application_clipboard_clear ();
+
+	if (gtk_selection_owner_set (sheet->workbook->toplevel,
+				     GDK_SELECTION_PRIMARY,
+				     GDK_CURRENT_TIME)) {
+		app.clipboard_sheet = sheet;
+		return TRUE;
+	}
+
+	g_warning ("Unable to set selection ?");
+
+	return FALSE;
+}
+
 /**
  * application_clipboard_copy:
  *
@@ -74,18 +93,20 @@ application_clipboard_unant (void)
 void
 application_clipboard_copy (Sheet *sheet, Range const *area)
 {
-	application_clipboard_clear ();
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (area != NULL);
 
-	app.clipboard_sheet = sheet;
-	app.clipboard_cut_range = *area;
-	app.clipboard_copied_contents = 
-	    clipboard_copy_cell_range (sheet,
-				       area->start.col, area->start.row,
-				       area->end.col,   area->end.row);
+	if (application_set_selected_sheet (sheet) ) {
+		app.clipboard_cut_range = *area;
+		app.clipboard_copied_contents = 
+		    clipboard_copy_cell_range (sheet,
+					       area->start.col, area->start.row,
+					       area->end.col,   area->end.row);
 
-	workbook_view_set_paste_special_state (sheet->workbook, TRUE);
+		workbook_view_set_paste_special_state (sheet->workbook, TRUE);
 
-	sheet_selection_ant (sheet);
+		sheet_selection_ant (sheet);
+	}
 }
 
 /**
@@ -101,15 +122,17 @@ application_clipboard_copy (Sheet *sheet, Range const *area)
 void
 application_clipboard_cut (Sheet *sheet, Range const *area)
 {
-	application_clipboard_clear ();
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (area != NULL);
 
-	app.clipboard_sheet = sheet;
-	app.clipboard_cut_range = *area;
+	if (application_set_selected_sheet (sheet) ) {
+		app.clipboard_cut_range = *area;
 
-	/* No paste special for copies */
-	workbook_view_set_paste_special_state (sheet->workbook, FALSE);
+		/* No paste special for copies */
+		workbook_view_set_paste_special_state (sheet->workbook, FALSE);
 
-	sheet_selection_ant (sheet);
+		sheet_selection_ant (sheet);
+	}
 }
 
 gboolean
@@ -139,7 +162,7 @@ application_clipboard_area_get (void)
 	 * the clipboard has been cleared so we need to be extra
 	 * safe and only return a range if there is a valid selection
 	 */
-	if (app.clipboard_sheet)
+	if (app.clipboard_sheet != NULL)
 		return &app.clipboard_cut_range;
 	return NULL;
 }
