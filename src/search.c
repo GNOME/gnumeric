@@ -374,13 +374,13 @@ gnm_search_replace_scope_get_type (void)
 {
   static GType etype = 0;
   if (etype == 0) {
-    static const GFlagsValue values[] = {
+    static const GEnumValue values[] = {
       { GNM_SRS_WORKBOOK, (char *)"GNM_SRS_WORKBOOK", (char *)"workbook" },
       { GNM_SRS_SHEET,    (char *)"GNM_SRS_SHEET",    (char *)"sheet" },
       { GNM_SRS_RANGE,    (char *)"GNM_SRS_RANGE",    (char *)"range" },
       { 0, NULL, NULL }
     };
-    etype = g_flags_register_static ("GnmSearchReplaceScope", values);
+    etype = g_enum_register_static ("GnmSearchReplaceScope", values);
   }
   return etype;
 }

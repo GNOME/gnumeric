@@ -69,6 +69,8 @@ Morten:
 	* Don't destroy target file when loading a saver plugin fails.
 	  [#168581].
 	* Make sure we update our window menu when we create a new view.
+	* When we reopen insert->image, start in the directory we were
+	  last time.  [#143188]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

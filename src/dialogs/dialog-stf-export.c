@@ -167,11 +167,11 @@ cb_collect_exported_sheets (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter 
 static void
 stf_export_dialog_finish (TextExportState *state)
 {
-	StfTerminatorType_t	terminator;
-	StfQuotingMode_t	quotingmode;
-	StfTransliterateMode_t	transliteratemode;
-	char *text;
-	gunichar separator;
+	GsfOutputCsvQuotingMode	quotingmode;
+	StfTransliterateMode_t transliteratemode;
+	const char *eol;
+	GString *triggers = g_string_new (" \t");
+	char *separator, *quote;
 
 	state->result = stf_export_options_new ();
 
@@ -182,20 +182,18 @@ stf_export_dialog_finish (TextExportState *state)
 
 	/* What options */
 	switch (gtk_combo_box_get_active (state->format.termination)) {
-	case 0 :  terminator = TERMINATOR_TYPE_LINEFEED; break;
-	case 1 :  terminator = TERMINATOR_TYPE_RETURN; break;
-	case 2 :  terminator = TERMINATOR_TYPE_RETURN_LINEFEED; break;
-	default : terminator = TERMINATOR_TYPE_UNKNOWN; break;
+	default:
+	case 0: eol = "\n"; break;
+	case 1: eol = "\r"; break;
+	case 2: eol = "\r\n"; break;
 	}
-	stf_export_options_set_terminator_type (state->result, terminator);
 
 	switch (gtk_combo_box_get_active (state->format.quote)) {
-	case 0 :  quotingmode = QUOTING_MODE_AUTO; break;
-	case 1 :  quotingmode = QUOTING_MODE_ALWAYS; break;
-	case 2 :  quotingmode = QUOTING_MODE_NEVER; break;
-	default : quotingmode = QUOTING_MODE_UNKNOWN; break;
+	default:
+	case 0: quotingmode = GSF_OUTPUT_CSV_QUOTING_MODE_AUTO; break;
+	case 1: quotingmode = GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS; break;
+	case 2: quotingmode = GSF_OUTPUT_CSV_QUOTING_MODE_NEVER; break;
 	}
-	stf_export_options_set_quoting_mode (state->result, quotingmode);
 
 	switch (gtk_combo_box_get_active (state->format.transliterate)) {
 	case 0 :  transliteratemode = TRANSLITERATE_MODE_TRANS; break;
@@ -207,31 +205,39 @@ stf_export_dialog_finish (TextExportState *state)
 	stf_export_options_set_format_mode (state->result,
 		 gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->format.preserve)));
 
-	text = gtk_editable_get_chars (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (state->format.quotechar))), 0, -1);
-	stf_export_options_set_quoting_char (state->result, g_utf8_get_char (text));
-	g_free (text);
+	quote = gtk_editable_get_chars (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (state->format.quotechar))), 0, -1);
 
-	separator = 0;
 	switch (gtk_combo_box_get_active (state->format.separator)) {
-	case 0 : separator = ' '; break;
-	case 1 : separator = '\t'; break;
-	case 2 : separator = '!'; break;
-	case 3 : separator = ':'; break;
-	case 4 : separator = ','; break;
-	case 5 : separator = '-'; break;
-	case 6 : separator = '|'; break;
-	case 7 : separator = ';'; break;
-	case 8 : separator = '/'; break;
-	case 9 :
-		text = gtk_editable_get_chars (GTK_EDITABLE (state->format.custom), 0, -1);
-		separator = g_utf8_get_char (text);
-		g_free (text);
-		break;
-	default :
-		g_warning ("Unknown separator");
+	case 0: separator = g_strdup (" "); break;
+	case 1: separator = g_strdup ("\t"); break;
+	case 2: separator = g_strdup ("!"); break;
+	case 3: separator = g_strdup (":"); break;
+	default:
+	case 4: separator = g_strdup (","); break;
+	case 5: separator = g_strdup ("-"); break;
+	case 6: separator = g_strdup ("|"); break;
+	case 7: separator = g_strdup (";"); break;
+	case 8: separator = g_strdup ("/"); break;
+	case 9:
+		separator = gtk_editable_get_chars
+			(GTK_EDITABLE (state->format.custom), 0, -1);
 		break;
 	}
-	stf_export_options_set_cell_separator (state->result, separator);
+
+	g_string_append (triggers, eol);
+	g_string_append (triggers, quote);
+	g_string_append (triggers, separator);
+
+	g_object_set (G_OBJECT (state->result->csv),
+		      "eol", eol,
+		      "quote", quote,
+		      "quoting-mode", quotingmode,
+		      "quoting-triggers", triggers->str,
+		      "separator", separator,
+		      NULL);
+	g_free (separator);
+	g_free (quote);
+	g_string_free (triggers, TRUE);
 
 	stf_export_options_set_charset (state->result,
 		go_charmap_sel_get_encoding (GO_CHARMAP_SEL (state->format.charset)));

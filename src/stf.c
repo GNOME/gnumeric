@@ -399,12 +399,6 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 
 /***********************************************************************************/
 
-static gboolean
-stf_write_func (char const *string, GsfOutput *output)
-{
-	return (gsf_output_puts (output, string) >= 0);
-}
-
 static void
 stf_write_workbook (GOFileSaver const *fs, IOContext *context,
 		    gconstpointer wbv, GsfOutput *output)
@@ -420,9 +414,7 @@ stf_write_workbook (GOFileSaver const *fs, IOContext *context,
 		return;
 	}
 
-	stf_export_options_set_write_callback (result,
-		(StfEWriteFunc) stf_write_func, (gpointer) output);
-	if (stf_export (result) == FALSE)
+	if (stf_export (result, output) == FALSE)
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			_("Error while trying to export file as text"));
 	stf_export_options_free (result);
@@ -433,16 +425,13 @@ stf_write_csv (GOFileSaver const *fs, IOContext *context,
 	       gconstpointer wbv, GsfOutput *output)
 {
 	StfExportOptions_t *config = stf_export_options_new ();
-	stf_export_options_set_terminator_type (config, TERMINATOR_TYPE_LINEFEED);
-	stf_export_options_set_cell_separator  (config, ',');
-	stf_export_options_set_quoting_mode    (config, QUOTING_MODE_AUTO);
-	stf_export_options_set_quoting_char    (config, '"');
-	stf_export_options_sheet_list_add      (config,
-						wb_view_cur_sheet (wbv));
-	stf_export_options_set_write_callback  (config,
-		(StfEWriteFunc) stf_write_func, (gpointer) output);
+	g_object_set (config->csv,
+		      "quoting-triggers", ", \t\n\"",
+		      NULL);
+	stf_export_options_sheet_list_add (config,
+					   wb_view_cur_sheet (wbv));
 
-	if (stf_export (config) == FALSE)
+	if (stf_export (config, output) == FALSE)
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			_("Error while trying to write CSV file"));
 	stf_export_options_free (config);

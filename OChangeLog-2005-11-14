@@ -1,3 +1,7 @@
+2005-04-01  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-export.c: Gut.  Use GsfOutputCsv.
+
 2005-03-31  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (regenerate_window_menu): Clean up and allow more
