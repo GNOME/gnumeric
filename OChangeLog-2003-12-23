@@ -1,3 +1,8 @@
+2003-10-13  Jody Goldberg <jody@gnome.org>
+
+	* src/number-match.c (format_match_init) : trivial optimization to
+	  avoid checking against the same regexp multiple times.
+
 2003-10-13  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_fixed_cell, stf_parse_csv_cell,

@@ -129,6 +129,7 @@ gog_plot1_5d_update (GogObject *obj)
 	double old_minimum, old_maximum;
 	unsigned *lengths;
 	GSList *ptr;
+	GOData *index_dim = NULL;
 
 	old_minimum =  model->minimum;
 	old_maximum =  model->maximum;
@@ -151,12 +152,19 @@ gog_plot1_5d_update (GogObject *obj)
 			if (model->maximum < maximum)
 				model->maximum = maximum;
 		}
+		index_dim = GOG_SERIES (series)->values[0].data;
 	}
 	if (model->num_elements != num_elements) {
 		model->num_elements = num_elements;
 		gog_axis_bound_changed (
 			gog_plot1_5d_get_index_axis (model), GOG_OBJECT (model));
 	}
+	if (model->implicit_index ^ (index_dim == NULL)) {
+		model->implicit_index = (index_dim == NULL);
+		gog_axis_bound_changed (
+			gog_plot1_5d_get_index_axis (model), GOG_OBJECT (model));
+	}
+
 	model->num_series = num_series;
 
 	if (num_elements <= 0 || num_series <= 0)

@@ -1762,7 +1762,7 @@ excel_map_pattern_index_from_excel (int const i)
 static void
 excel_read_XF_OLD (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 {
-	BiffXFData *xf = g_new (BiffXFData, 1);
+	BiffXFData *xf = g_new0 (BiffXFData, 1);
 	guint16 data;
         guint8 subdata;
 
@@ -1774,6 +1774,8 @@ excel_read_XF_OLD (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	xf->style_format = (xf->format_idx > 0)
 		? excel_wb_get_fmt (ewb, xf->format_idx) : NULL;
 
+	xf->wrap_text = FALSE;
+	xf->shrink_to_fit = FALSE;
         xf->locked = 0;
         xf->hidden = 0;
         xf->xftype = MS_BIFF_X_STYLE;
@@ -2226,7 +2228,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	cell = sheet_cell_fetch (esheet->sheet, col, row);
 	g_return_if_fail (cell != NULL);
 
-	d (0, fprintf (stderr,"Formula in %s!%s;\n",
+	d (1, fprintf (stderr,"Formula in %s!%s;\n",
 		      cell->base.sheet->name_quoted, cell_name (cell)););
 
 	/* TODO TODO TODO: Wishlist

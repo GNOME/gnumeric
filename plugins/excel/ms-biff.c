@@ -293,18 +293,17 @@ ms_biff_query_peek_next (BiffQuery *q, guint16 *opcode)
 }
 
 /**
- * Returns 0 if has hit end
+ * Returns FALSE if has hit end
  **/
 int
 ms_biff_query_next (BiffQuery *q)
 {
 	guint8 const *data;
-	int ans = 1;
 
 	g_return_val_if_fail (q != NULL, 0);
 
 	if (gsf_input_eof (q->input))
-		return 0;
+		return FALSE;
 
 	if (q->data_malloced) {
 		g_free (q->data);
@@ -320,7 +319,7 @@ ms_biff_query_next (BiffQuery *q)
 	q->streamPos = gsf_input_tell (q->input);
 	data = gsf_input_read (q->input, 4, NULL);
 	if (data == NULL)
-		return 0;
+		return FALSE;
 	q->opcode = GSF_LE_GET_GUINT16 (data);
 	q->length = GSF_LE_GET_GUINT16 (data + 2);
 	q->ms_op  = (q->opcode>>8);
@@ -329,9 +328,11 @@ ms_biff_query_next (BiffQuery *q)
 	/* no biff record should be larger than around 20,000 */
 	g_return_val_if_fail (q->length < 20000, 0);
 
-	if (q->length > 0) 
+	if (q->length > 0) {
 		q->data = (guint8 *)gsf_input_read (q->input, q->length, NULL);
-	else
+		if (q->data == NULL)
+			return FALSE;
+	} else
 		q->data = NULL;
 
 	if (q->is_encrypted) {
@@ -372,12 +373,7 @@ ms_biff_query_next (BiffQuery *q)
 	printf ("Biff read code 0x%x, length %d\n", q->opcode, q->length);
 	dump_biff (q);
 #endif
-	if (!q->length) {
-		q->data = 0;
-		return 1;
-	}
-
-	return ans;
+	return TRUE;
 }
 
 void

@@ -553,6 +553,7 @@ print_regex_error (int ret)
 }
 
 static GSList *format_match_list = NULL;
+static GSList *format_dup_match_list = NULL;
 static GSList *format_failed_match_list = NULL;
 
 void
@@ -630,8 +631,10 @@ format_match_init (void)
 {
 	int i;
 	StyleFormat *fmt;
+	GHashTable *hash;
 
 	currency_date_format_init ();
+	hash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	for (i = 0; cell_formats[i]; i++) {
 		char const * const * p = cell_formats[i];
@@ -643,18 +646,19 @@ format_match_init (void)
 
 			fmt = style_format_new_XL (*p, FALSE);
 			if (fmt->regexp_str != NULL) {
-				/* TODO : we could hash the regexp and only
-				 * check those that are not already in use.  We
-				 * could also keep track of the ones that
-				 * General would match.  and avoid putting them
-				 * in the list too.
-				 */
-				format_match_list = g_slist_append (format_match_list, fmt);
-			} else {
+				/* TODO : * We could keep track of the regexps
+				 * that General would match.  and avoid putting
+				 * them in the list. */
+				if (g_hash_table_lookup (hash, fmt->regexp_str) == NULL) {
+					format_match_list = g_slist_append (format_match_list, fmt);
+					g_hash_table_insert (hash, fmt->regexp_str, fmt);
+				} else
+					format_dup_match_list = g_slist_append (format_dup_match_list, fmt);
+			} else
 				format_failed_match_list = g_slist_append (format_failed_match_list, fmt);
-			}
 		}
 	}
+	g_hash_table_destroy (hash);
 }
 
 void
@@ -665,6 +669,10 @@ format_match_finish (void)
 	for (l = format_match_list; l; l = l->next)
 		style_format_unref (l->data);
 	g_slist_free (format_match_list);
+
+	for (l = format_dup_match_list; l; l = l->next)
+		style_format_unref (l->data);
+	g_slist_free (format_dup_match_list);
 
 	for (l = format_failed_match_list; l; l = l->next)
 		style_format_unref (l->data);

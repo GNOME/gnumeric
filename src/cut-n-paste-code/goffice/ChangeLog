@@ -1,3 +1,11 @@
+2003-10-13  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=122546
+	* graph/plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_update) : Update
+	  the index axis if our labels change.  This problem does not apply to
+	  XY plots because their x bounds will change when a dim is set or
+	  cleared.
+
 2003-10-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.1

@@ -188,20 +188,26 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		i++;
 	}
 
-	scale_x = view->allocation.w / (num_elements - 1);
-	offset_x = view->allocation.x;
+	if (is_area_plot) {
+		scale_x = view->allocation.w / (num_elements - 1);
+		offset_x = view->allocation.x;
+	} else {
+		scale_x = view->allocation.w / num_elements;
+		offset_x = view->allocation.x + scale_x / 2.;
+	}
 	scale_y = view->allocation.h / (val_min - val_max);
 	offset_y = view->allocation.h - scale_y * val_min + view->allocation.y;
 
 	for (j = 1; j <= num_elements; j++) {
 		sum = abs_sum = 0.0;
 
-		if (type == GOG_1_5D_AS_PERCENTAGE)
+		if (type == GOG_1_5D_AS_PERCENTAGE) {
 			for (i = 0; i < num_series; i++)
 				if (finite (vals[i][j-1]))
 					abs_sum += fabs (vals[i][j-1]);
-
-		is_null = (gnumeric_sub_epsilon (abs_sum) <= 0.);
+			is_null = (gnumeric_sub_epsilon (abs_sum) <= 0.);
+		} else
+			is_null = TRUE;
 
 		for (i = 0; i < num_series; i++) {
 			if (j > lengths[i])
