@@ -19,9 +19,6 @@
  * USA
  */
 
-#warning Uses deprecated pango ft2 api
-#undef PANGO_DISABLE_DEPRECATED
-
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/gog-renderer-impl.h>
@@ -370,10 +367,14 @@ make_layout (GogRendererPixbuf *prend, char const *text)
 	PangoAttrList  *attrs = NULL;
 	PangoFontDescription const *fd = prend->base.cur_style->font.font->desc;
 
-	if (prend->pango_context == NULL)
-		prend->pango_context = pango_ft2_get_context (
+	if (prend->pango_context == NULL) {
+		PangoFT2FontMap *font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
+		pango_ft2_font_map_set_resolution (font_map,
 			gnm_app_display_dpi_get (TRUE),
 			gnm_app_display_dpi_get (FALSE));
+		prend->pango_context = pango_ft2_font_map_create_context  (font_map);
+		g_object_unref (font_map);
+	}
 
 	gog_debug (0, {
 		char *msg = pango_font_description_to_string (fd);
@@ -646,6 +647,7 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 	gboolean redraw = TRUE;
 	GogView *view;
 	GogViewAllocation allocation;
+	PangoFT2FontMap *font_map;
 
 	g_return_val_if_fail (prend != NULL, FALSE);
 	g_return_val_if_fail (prend->base.view != NULL, FALSE);
@@ -677,9 +679,12 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 			prend->pango_context = NULL;
 		}
 
-		prend->pango_context = pango_ft2_get_context (
+		font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
+		pango_ft2_font_map_set_resolution (font_map,
 			gnm_app_display_dpi_get (TRUE),
 			gnm_app_display_dpi_get (FALSE));
+		prend->pango_context = pango_ft2_font_map_create_context  (font_map);
+		g_object_unref (font_map);
 
 		/* make sure we dont try to queue an update while updating */
 		prend->base.needs_update = TRUE;

@@ -117,47 +117,12 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkOptionMenu" id="fill_type_menu">
+			<widget class="GtkComboBox" id="fill_type_menu">
 			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="history">0</property>
-
-			  <child>
-			    <widget class="GtkMenu" id="menu1">
-
-			      <child>
-				<widget class="GtkMenuItem" id="none">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">None</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="pattern">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">Pattern</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="gradient">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">Gradient</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="image">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">Image</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
+			  <property name="items" translatable="yes">None
+Pattern
+Gradient
+Image</property>
 			</widget>
 			<packing>
 			  <property name="padding">0</property>
@@ -429,35 +394,10 @@
 			      <property name="yscale">1</property>
 
 			      <child>
-				<widget class="GtkOptionMenu" id="fill_gradient_type">
+				<widget class="GtkComboBox" id="fill_gradient_type">
 				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="history">0</property>
-
-				  <child>
-				    <widget class="GtkMenu" id="menu4">
-
-				      <child>
-					<widget class="GtkMenuItem" id="2_color1">
-					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Fill from start color to end color</property>
-					  <property name="label" translatable="yes">2 Color</property>
-					  <property name="use_underline">True</property>
-					  <signal name="activate" handler="cb_gog_style_gradient_set_2color" last_modification_time="Fri, 08 Aug 2003 03:52:11 GMT"/>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="brightness1">
-					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Fill from start color to a darker/lighter version of that color</property>
-					  <property name="label" translatable="yes">Brightness</property>
-					  <property name="use_underline">True</property>
-					  <signal name="activate" handler="cb_gog_style_gradient_set_1color" last_modification_time="Fri, 08 Aug 2003 03:52:11 GMT"/>
-					</widget>
-				      </child>
-				    </widget>
-				  </child>
+				  <property name="items" translatable="yes">2 Colors
+Brightness</property>
 				</widget>
 			      </child>
 			    </widget>
@@ -642,31 +582,10 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkOptionMenu" id="fill_image_fit">
+			    <widget class="GtkComboBox" id="fill_image_fit">
 			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child>
-				<widget class="GtkMenu" id="menu3">
-
-				  <child>
-				    <widget class="GtkMenuItem" id="stretched">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">stretched</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="wallpaper">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">wallpaper</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
+			      <property name="items" translatable="yes">stretched
+wallpaper</property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>

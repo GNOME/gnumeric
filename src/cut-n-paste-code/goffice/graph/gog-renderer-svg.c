@@ -19,9 +19,6 @@
  * USA
  */
 
-#undef PANGO_DISABLE_DEPRECATED
-#warning "This file uses PANGO_DISABLE_DEPRECATED for pango_ft2_get_context"
-
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-renderer-impl.h>
@@ -420,10 +417,13 @@ make_layout (GogRenderer *rend, char const *text)
 	PangoContext* pango_context;
 	PangoFontDescription const *fd = rend->cur_style->font.font->desc;
 
+	PangoFT2FontMap *font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
 	/*assume horizontal and vertical resolutions are the same*/
-	pango_context = pango_ft2_get_context (
+	pango_ft2_font_map_set_resolution (font_map,
 			GO_IN_TO_PT((double)1. / gog_renderer_pt2r (rend, 1.0)),
 			GO_IN_TO_PT((double)1. / gog_renderer_pt2r (rend, 1.0)));
+	pango_context = pango_ft2_font_map_create_context  (font_map);
+	g_object_unref (font_map);
 
 	gog_debug (0, {
 		char *msg = pango_font_description_to_string (fd);
@@ -435,6 +435,8 @@ make_layout (GogRenderer *rend, char const *text)
 	pango_layout_set_font_description (layout, fd);
 
 	pango_layout_set_text (layout, text, -1);
+
+	g_object_unref (pango_context);
 
 	return layout;
 }

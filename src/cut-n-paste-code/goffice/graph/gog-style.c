@@ -19,9 +19,6 @@
  * USA
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
-
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-styled-object.h>
@@ -42,7 +39,7 @@
 #include <gtk/gtktable.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkrange.h>
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkcombobox.h>
 #include <gtk/gtknotebook.h>
 #include <widgets/widget-font-selector.h>
 #include <gui-file.h>
@@ -509,7 +506,7 @@ cb_gradient_style_changed (GtkWidget *w, StylePrefState *state)
 	GtkWidget *box = glade_xml_get_widget (state->gui,
 		"fill_gradient_brightness_box");
 
-	gboolean two_color = gtk_option_menu_get_history (GTK_OPTION_MENU (w)) == 0;
+	gboolean two_color = gtk_combo_box_get_active (GTK_COMBO_BOX (w)) == 0;
 
 	if (two_color) {
 		style->fill.u.gradient.brightness = -1;
@@ -559,10 +556,10 @@ fill_gradient_init (StylePrefState *state)
 
 	if ((style->fill.type != GOG_FILL_STYLE_GRADIENT) ||
 	    (style->fill.u.gradient.brightness < 0)) {
-		gtk_option_menu_set_history (GTK_OPTION_MENU (type), 0);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (type), 0);
 		gtk_widget_hide (state->fill.gradient.brightness_box);
 	} else {
-		gtk_option_menu_set_history (GTK_OPTION_MENU (type), 1);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (type), 1);
 		gtk_widget_show (state->fill.gradient.brightness_box);
 		gtk_range_set_value (GTK_RANGE (state->fill.gradient.brightness),
 			style->fill.u.gradient.brightness);
@@ -615,7 +612,7 @@ cb_image_style_changed (GtkWidget *w, StylePrefState *state)
 	GogStyle *style = state->style;
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_IMAGE == style->fill.type);
-	style->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+	style->fill.u.image.type = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 	set_style (state);
 }
 
@@ -637,7 +634,7 @@ fill_image_init (StylePrefState *state)
 	state->fill.image.image = NULL;
 
 	if (GOG_FILL_STYLE_IMAGE == style->fill.type) {
-		gtk_option_menu_set_history (GTK_OPTION_MENU (type),
+		gtk_combo_box_set_active (GTK_COMBO_BOX (type),
 			style->fill.u.image.type);
 		gog_style_set_image_preview (style->fill.u.image.image, state);
 		state->fill.image.image = style->fill.u.image.image;
@@ -645,7 +642,8 @@ fill_image_init (StylePrefState *state)
 			g_object_ref (state->fill.image.image);
 		g_object_set_data (G_OBJECT (sample), "filename",
 				   style->fill.u.image.filename);
-	}
+	} else
+		gtk_combo_box_set_active (GTK_COMBO_BOX (type), 0);
 	g_signal_connect (G_OBJECT (type),
 		"changed",
 		G_CALLBACK (cb_image_style_changed), state);
@@ -660,7 +658,7 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 	GtkWidget *w;
 	unsigned page;
 
-	page = gtk_option_menu_get_history (GTK_OPTION_MENU (menu));
+	page = gtk_combo_box_get_active (GTK_COMBO_BOX (menu));
 
 	if (page != style->fill.type &&
 	    GOG_FILL_STYLE_IMAGE == style->fill.type &&
@@ -687,7 +685,7 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 		style->fill.u.gradient.dir = go_combo_pixmaps_get_selected (
 			(GOComboPixmaps*)state->fill.gradient.combo, NULL);
 		w = glade_xml_get_widget (state->gui, "fill_gradient_type");
-		if (gtk_option_menu_get_history (GTK_OPTION_MENU (w))) {
+		if (gtk_combo_box_get_active (GTK_COMBO_BOX (w))) {
 			w = glade_xml_get_widget (state->gui, "fill_gradient_brightness");
 			style->fill.u.gradient.brightness = gtk_range_get_value (GTK_RANGE (w));
 		} else {
@@ -702,7 +700,7 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 			g_object_ref (style->fill.u.image.image);
 		style->fill.u.image.filename = g_object_get_data (G_OBJECT (w), "filename");
 		w = glade_xml_get_widget (state->gui, "fill_image_fit");
-		style->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+		style->fill.u.image.type = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 		break;
 	}
 	style->fill.type = page;
@@ -729,7 +727,7 @@ fill_init (StylePrefState *state, gboolean enable)
 	w = glade_xml_get_widget (state->gui, "fill_notebook");
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (w), state->style->fill.type);
 	w = glade_xml_get_widget (state->gui, "fill_type_menu");
-	gtk_option_menu_set_history (GTK_OPTION_MENU (w), state->style->fill.type);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (w), state->style->fill.type);
 	g_signal_connect (G_OBJECT (w),
 		"changed",
 		G_CALLBACK (cb_fill_type_changed), state);
