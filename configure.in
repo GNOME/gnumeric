@@ -285,10 +285,10 @@ if $try_python; then
 	python_val=
 	AC_CHECK_PROG(python_val, "$python_prog", true, false)
 	if $python_val; then
-		  PY_PREFIX=`python -c 'import sys ; print sys.prefix'`
-		  PY_EXEC_PREFIX=`python -c 'import sys ; print sys.exec_prefix'`
+		  PY_PREFIX=`$python_prog -c 'import sys ; print sys.prefix'`
+		  PY_EXEC_PREFIX=`$python_prog -c 'import sys ; print sys.exec_prefix'`
 		  changequote(<<, >>)dnl
-		  PY_VERSION=`python -c 'import sys ; print sys.version[0:3]'`
+		  PY_VERSION=`$python_prog -c 'import sys ; print sys.version[0:3]'`
 		  changequote([, ])dnl
 		  if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
 			  PY_LIBS="python$PY_VERSION"
