@@ -24,6 +24,7 @@ Release Critical
 
 - PROB sucks right now.
 - load/save of external references
+- String functions need to be UTF8ed.
 
 Pending Patches
 ---------------
