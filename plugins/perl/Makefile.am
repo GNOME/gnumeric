@@ -42,3 +42,7 @@ Perlscriptsdir = $(datadir)/gnumeric/perl
 Perlscripts_DATA = startup.pl
 
 EXTRA_DIST = startup.pl
+
+dist-hook:
+	mkdir $(distdir)/ext
+	cp $(srcdir)/ext/Gnumeric.* $(srcdir)/ext/Makefile.PL.in $(distdir)/ext
