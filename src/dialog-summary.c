@@ -1,3 +1,10 @@
+/**
+ * dialog-summary.c:  Implements the summary info stuff
+ *
+ * Author:
+ *        Michael Meeks <michael@imaginator.com>
+ *
+ **/
 #include <config.h>
 #include <gnome.h>
 #include <glade/glade.h>

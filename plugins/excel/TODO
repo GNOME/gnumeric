@@ -12,13 +12,13 @@ Michael
 		* Fonts etc.
 	* Deep freeze workbook re-calcs / dependencies, and implement in
 	load/save + workbook_do_destroy.
+	* Hack up GDOUBLE_FROM_IEE, and send it to gtk-devel-list@redhat.com
 	* Sort out biff padding =>
 	* Sort out better versioning scheme & helper macros.
 	* Rationalise Missing Argument stuff ... a new value ?
 	* Remove silly name record in writing ( after debugging is done )
-	* Lookup Harvest and see if we can help with doc summary info for
-	searches.
 	* Split panes.
+	* write xml-io support for names.
 	* Use same XML as Office 2000 for elegance (?)
 	* Investigate VB streams, and their lengths.
 	* glib

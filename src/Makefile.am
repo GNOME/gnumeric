@@ -258,7 +258,9 @@ glade_DATA = 				\
 	font-sel.glade			\
 	hf-config.glade			\
 	import.glade			\
-	print.glade 
+	print.glade 			\
+	summary.glade			\
+	names.glade
 
 glade_msgs = 				\
 	font-sel.glade.h		\

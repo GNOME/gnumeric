@@ -1,5 +1,20 @@
 1999-07-22  Michael Meeks  <michael@edenproject.org>
 
+	* src/dialog-define-names.c (dialog_define_names): Removed all the
+	dead code.
+	Lots of new code ... not there yet though.
+	
+	* src/workbook.c: Enabled names menu item.
+
+	* src/dialog-summary.c: add file header.
+
+	* src/Makefile.am (glade_DATA): Added summary.glade and names.glade
+	seems I didn't do this earlier: odd.
+
+	* names.glade: Created.
+	
+1999-07-22  Michael Meeks  <michael@edenproject.org>
+
 	* src/expr-name.c: Stylistic precondition fixes,
 	simplification & workbook integration.
 
