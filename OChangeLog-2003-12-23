@@ -1,3 +1,20 @@
+2003-03-14  Jody Goldberg <jody@gnome.org>
+
+	* src/gutils.h (GNM_SIZEOF_ARRAY) : delete and use G_N_ELEMENTS
+
+2003-03-13  Jody Goldberg <jody@gnome.org>
+
+	* src/stf.c (stf_text_to_columns) : patch warning.
+
+	* src/plugin-service.c : Add ServiceSimple as a convenience base for
+	  plugin services that are only data, no exectution.
+
+	* src/plugin-loader.c (gnumeric_plugin_loader_load_service) : add
+	  simple service as a convenience base class.
+	(gnumeric_plugin_loader_unload_service) : ditto.
+
+	* src/main-application.c : underscores in command line args are ugly.
+
 2003-03-12  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=108225

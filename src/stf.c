@@ -267,7 +267,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 	Sheet		*src_sheet, *target_sheet;
 	Range const	*src;
 	Range		 target;
-	GsfOutput	*buf;
+	GsfOutputMemory	*buf;
 	guint8 const	*data;
 
 	sv    = wb_control_cur_sheet_view (wbc);
@@ -298,9 +298,9 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 		src->end.col, src->end.row,
 		(CellIterFunc) &cb_get_content, buf);
 
-	gsf_output_write (buf, 1, "\0");
-	gsf_output_close (buf);
-	data = gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (buf));
+	gsf_output_write (GSF_OUTPUT (buf), 1, "\0");
+	gsf_output_close (GSF_OUTPUT (buf));
+	data = gsf_output_memory_get_bytes (buf);
 	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (wbc),
 		_("Text to Columns"), data);
 

@@ -20,6 +20,8 @@ Pending Patches
 - validate expression names to ensure that they are not simple values (eg TRUE)
 
 1) graphs							{Jody}
+    1.1) Split plot xml file engine, type, and family plugins	(DONE)
+
 2) stf								{Andreas}
     2.1) UTF-8 cleanliness
     2.2) User specifiable character encoding

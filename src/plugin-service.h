@@ -126,11 +126,18 @@ typedef struct {
 } PluginServiceGObjectLoaderCallbacks;
 
 /****************************************************************************/
+#define GNM_PLUGIN_SERVICE_SIMPLE_TYPE  (plugin_service_simple_get_type ())
+#define GNM_PLUGIN_SERVICE_SIMPLE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_SIMPLE_TYPE, PluginServiceSimple))
+#define GNM_IS_PLUGIN_SERVICE_SIMPLE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_SIMPLE_TYPE))
 
-PluginService  *plugin_service_new (xmlNode *tree, ErrorInfo **ret_error);
+GType plugin_service_simple_get_type (void);
+typedef struct _PluginServiceSimple PluginServiceSimple;
+
+/****************************************************************************/
+
+PluginService  *plugin_service_new (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error);
 char const     *plugin_service_get_id (PluginService *service);
 char const     *plugin_service_get_description (PluginService *service);
-void		plugin_service_set_plugin (PluginService *service, GnmPlugin *plugin);
 GnmPlugin      *plugin_service_get_plugin (PluginService *service);
 gpointer	plugin_service_get_cbs (PluginService *service);
 void		plugin_service_activate (PluginService *service, ErrorInfo **ret_error);

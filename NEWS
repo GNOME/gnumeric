@@ -7,6 +7,7 @@ Jody:
 	* Work on graphs
 	* Fix xbase importer
 	* Add motion compression for high speed scrolling
+	* Fix elapsed hour format
 
 Morten:
 	* Make RenderedValue use a PangoLayout for storing the contents

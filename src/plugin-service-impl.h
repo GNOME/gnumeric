@@ -65,6 +65,14 @@ struct _PluginServiceGObjectLoader {
 	PluginServiceGObjectLoaderCallbacks cbs;
 };
 
+typedef struct{
+	PluginServiceClass plugin_service_class;
+} PluginServiceSimpleClass;
+
+struct _PluginServiceSimple {
+	PluginService plugin_service;
+};
+
 G_END_DECLS
 
 #endif /* GO_GRAPH_ITEM_IMPL_H */

@@ -231,7 +231,6 @@ void
 gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error)
 {
 	GnumericPluginLoaderClass *gnumeric_plugin_loader_class;
-	ErrorInfo *error = NULL;
 	void (*load_service_method) (GnumericPluginLoader *, PluginService *, ErrorInfo **) = NULL;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
@@ -256,20 +255,17 @@ gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService
 	} else if (GNM_IS_PLUGIN_SERVICE_UI (service)) {
 		load_service_method = gnumeric_plugin_loader_class->load_service_ui;
 #endif
+	} else if (GNM_IS_PLUGIN_SERVICE_SIMPLE (service)) {
+		load_service_method = NULL;
 	} else {
-		g_warning ("unknown service type %s", g_type_name_from_instance ((GTypeInstance*)service));
+		*ret_error = error_info_new_printf (_("Service '%s' not supported by loader."),
+			g_type_name_from_instance ((GTypeInstance*)service));
 	}
-	if (load_service_method != NULL) {
-		load_service_method (loader, service, &error);
-		*ret_error = error;
-	} else {
-		*ret_error = error_info_new_str (
-		             _("Service not supported by loader."));
-	}
+	if (load_service_method != NULL)
+		load_service_method (loader, service, ret_error);
 
-	if (*ret_error == NULL) {
+	if (*ret_error == NULL)
 		loader->n_loaded_services++;
-	}
 }
 
 void
@@ -301,16 +297,14 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 	} else if (GNM_IS_PLUGIN_SERVICE_UI (service)) {
 		unload_service_method = gnumeric_plugin_loader_class->unload_service_ui;
 #endif
-	} else {
-		g_warning ("unknown service type %s", g_type_name_from_instance ((GTypeInstance*)service));
-	}
-	if (unload_service_method != NULL) {
-		unload_service_method (loader, service, &error);
-	} else {
-		*ret_error = error_info_new_str (
-		             _("Service not supported by loader."));
-	}
+	} else if (GNM_IS_PLUGIN_SERVICE_SIMPLE (service)) {
+		unload_service_method = NULL;
+	} else
+		*ret_error = error_info_new_printf (_("Service '%s' not supported by loader."),
+			g_type_name_from_instance ((GTypeInstance*)service));
 
+	if (unload_service_method != NULL)
+		unload_service_method (loader, service, &error);
 	if (error == NULL) {
 		g_return_if_fail (loader->n_loaded_services > 0);
 		loader->n_loaded_services--;

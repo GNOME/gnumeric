@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Support for dynamically-loaded Gnumeric plugin components.
  *
@@ -621,7 +622,7 @@ plugin_info_read_dependency_list (xmlNode *tree)
 }
 
 static GSList *
-plugin_info_read_service_list (xmlNode *tree, ErrorInfo **ret_error)
+plugin_info_read_service_list (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 {
 	GSList *service_list = NULL;
 	GSList *error_list = NULL;
@@ -629,15 +630,17 @@ plugin_info_read_service_list (xmlNode *tree, ErrorInfo **ret_error)
 	gint i;
 
 	g_return_val_if_fail (tree != NULL, NULL);
-	g_return_val_if_fail (strcmp (tree->name, "services") == 0, NULL);
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
-	for (i = 0, node = tree->xmlChildrenNode; node != NULL; i++, node = node->next) {
+	node = e_xml_get_child_by_name (tree, (xmlChar *)"services");
+	if (node == NULL)
+		return NULL;
+	node = node->xmlChildrenNode;
+	for (i = 0; node != NULL; i++, node = node->next) {
 		if (strcmp (node->name, "service") == 0) {
 			PluginService *service;
 			ErrorInfo *service_error;
 
-			service = plugin_service_new (node, &service_error);
+			service = plugin_service_new (plugin, node, &service_error);
 
 			if (service != NULL) {
 				g_assert (service_error == NULL);
@@ -705,20 +708,18 @@ plugin_dependency_free (gpointer data)
 }
 
 static void
-plugin_info_read (GnmPlugin *pinfo, const gchar *dir_name, ErrorInfo **ret_error)
+plugin_info_read (GnmPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error)
 {
 	gchar *file_name;
 	xmlDocPtr doc;
 	gchar *id, *name, *description;
-	xmlNode *tree, *information_node, *dependencies_node, *loader_node, *services_node;
-	ErrorInfo *services_error;
-	GSList *service_list;
+	xmlNode *tree, *information_node, *dependencies_node, *loader_node;
 	GSList *dependency_list;
 	gchar *loader_id;
 	GHashTable *loader_attrs;
 	gboolean require_explicit_enabling = FALSE;
 
-	g_return_if_fail (GNM_IS_PLUGIN (pinfo));
+	g_return_if_fail (GNM_IS_PLUGIN (plugin));
 	g_return_if_fail (dir_name != NULL);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
@@ -799,42 +800,38 @@ plugin_info_read (GnmPlugin *pinfo, const gchar *dir_name, ErrorInfo **ret_error
 		loader_id = NULL;
 		loader_attrs = NULL;
 	}
-	services_node = e_xml_get_child_by_name (tree, (xmlChar *)"services");
-	if (services_node != NULL) {
-		service_list = plugin_info_read_service_list (services_node, &services_error);
-	} else {
-		service_list = NULL;
-		services_error = NULL;
-	}
-	if (id != NULL && name != NULL && loader_id != NULL && service_list != NULL &&
+	if (id != NULL && name != NULL && loader_id != NULL &&
 	    id[strspn (id, PLUGIN_ID_VALID_CHARS)] == '\0') {
+		ErrorInfo *services_error = NULL;
 
-		g_assert (services_error == NULL);
+		g_type_module_set_name (G_TYPE_MODULE (plugin), id);
+		plugin->dir_name = g_strdup (dir_name);
+		plugin->id = id;
+		plugin->name = name;
+		plugin->description = description;
+		plugin->require_explicit_enabling = require_explicit_enabling;
+		plugin->is_active = FALSE;
+		plugin->use_refcount = 0;
+		plugin->dependencies = dependency_list;
+		plugin->loader_id = loader_id;
+		plugin->loader_attrs = loader_attrs;
+		plugin->loader = NULL;
+		plugin->services = plugin_info_read_service_list (plugin, tree, &services_error);
 
-		g_type_module_set_name (G_TYPE_MODULE (pinfo), id);
-		pinfo->dir_name = g_strdup (dir_name);
-		pinfo->id = id;
-		pinfo->name = name;
-		pinfo->description = description;
-		pinfo->require_explicit_enabling = require_explicit_enabling;
-		pinfo->is_active = FALSE;
-		pinfo->use_refcount = 0;
-		pinfo->dependencies = dependency_list;
-		pinfo->loader_id = loader_id;
-		pinfo->loader_attrs = loader_attrs;
-		pinfo->loader = NULL;
-		pinfo->services = service_list;
-		GNM_SLIST_FOREACH (pinfo->services, PluginService, service,
-			plugin_service_set_plugin (service, pinfo);
-		);
-		plugin_message (4, "Read plugin.xml file for %s.\n", pinfo->id);
+		if (services_error != NULL) {
+			*ret_error = error_info_new_printf (
+				_("Errors while reading services for plugin with id=\"%s\"."),
+				id);
+			error_info_add_details (*ret_error, services_error);
+		} else if (plugin->services == NULL)
+			*ret_error = error_info_new_printf (
+				_("No services defined for plugin with id=\"%s\"."),
+				id);
+		else
+			plugin_message (4, "Read plugin.xml file for %s.\n", plugin->id);
 	} else {
-		if (id == NULL) {
-			*ret_error = error_info_new_str (_("Plugin has no id."));
-			error_info_free (services_error);
-		} else {
+		if (id != NULL) {
 			GSList *error_list = NULL;
-			ErrorInfo *error;
 
 			if (id[strspn (id, PLUGIN_ID_VALID_CHARS)] != '\0') {
 				GNM_SLIST_PREPEND (error_list, error_info_new_printf (
@@ -848,30 +845,16 @@ plugin_info_read (GnmPlugin *pinfo, const gchar *dir_name, ErrorInfo **ret_error
 				GNM_SLIST_PREPEND (error_list, error_info_new_printf (
 					_("No loader defined or loader id invalid for plugin with id=\"%s\"."), id));
 			}
-			if (service_list == NULL) {
-				if (services_error != NULL) {
-					error = error_info_new_printf (
-					        _("Errors while reading services for plugin with id=\"%s\"."),
-					        id);
-					error_info_add_details (error, services_error);
-				} else {
-					error = error_info_new_printf (
-					        _("No services defined for plugin with id=\"%s\"."),
-					        id);
-				}
-				GNM_SLIST_PREPEND (error_list, error);
-			}
 			g_assert (error_list != NULL);
 			GNM_SLIST_REVERSE (error_list);
 			*ret_error = error_info_new_from_error_list (error_list);
-		}
+		} else
+			*ret_error = error_info_new_str (_("Plugin has no id."));
 
 		g_slist_free_custom (dependency_list, plugin_dependency_free);
-		g_free (pinfo->loader_id);
-		if (pinfo->loader_attrs != NULL) {
-			g_hash_table_destroy (pinfo->loader_attrs);
-		}
-		g_slist_free_custom (service_list, g_object_unref);
+		g_free (plugin->loader_id);
+		if (plugin->loader_attrs != NULL)
+			g_hash_table_destroy (plugin->loader_attrs);
 		g_free (id);
 		g_free (name);
 		g_free (description);
