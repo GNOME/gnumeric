@@ -1,0 +1,16 @@
+This plugin provides Lotus 123 I/O   
+  
+        This was originally written by:
+ 
+                 Jon K. Hellan <Jon.K.Hellan@item.ntnu.no> 
+
+        Adapted to SIAG by;
+  
+                 Ulric Eriksson <ulric@edu.stockholm.se>
+  
+        And then ported to gnumeric, some support code snarfed from Sean Atkinson.
+  
+        More documentation on the Lotus fule format can be found at:
+  
+        http://www.wotsit.org/ OR http://www.lotus.com/
+  

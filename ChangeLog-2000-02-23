@@ -1,5 +1,16 @@
 1999-07-21  Michael Meeks  <michael@edenproject.org>
 
+	* src/widget-font-selector.c (fs_init): Convert g_error to
+	g_warning on missing glade_xml_new.
+
+	* src/Makefile.am (GNUMERIC_CORBA_GENERATED): Make this empty
+	if BONOBO is not installed, should kill peoples Gnumeric.idl
+	problems with luck.
+
+	* configure.in: Add lotus-123
+
+	* plugins/Makefile.am: ditto.
+
 	* src/main.c: Remove xbase include.
 
 1999-07-20  Jody Goldberg  <jgoldberg@home.com>

@@ -189,6 +189,7 @@ plugins/Makefile
 plugins/sample/Makefile
 plugins/excel/Makefile
 plugins/excel/libole2/Makefile
+plugins/lotus-123/Makefile
 plugins/python/Makefile
 plugins/perl/Makefile
 plugins/perl/ext/Makefile.PL

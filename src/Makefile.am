@@ -175,11 +175,15 @@ GNUMERIC_BASE_SOURCES =				\
 	xml-io.c				\
 	xml-io.h
 
+if BONOBO
 GNUMERIC_CORBA_GENERATED = 			\
 	Gnumeric-common.c			\
 	Gnumeric-skels.c			\
 	Gnumeric-stubs.c			\
 	Gnumeric.h
+else
+GNUMERIC_CORBA_GENERATED =
+endif
 
 GNUMERIC_BONOBO_SOURCES = 			\
 	embeddable-grid.c			\
