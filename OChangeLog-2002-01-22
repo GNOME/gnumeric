@@ -1,5 +1,9 @@
 2000-11-13  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-format-toolbar.c (workbook_feedback_set) : Doh!
+
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
 	* src/dialogs/dialog-graph-guru.c (graph_guru_create_vectors_from_range) :
 	  small improvement to vector selection heuristics.
 

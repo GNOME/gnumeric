@@ -876,12 +876,11 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 	char             size_str [40];
 
 	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (style != NULL);
 
 	wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	g_return_if_fail (wb_view != NULL);
 
-	style   = wb_view->current_format;
+	style = wb_view->current_format;
 	g_return_if_fail (style != NULL);
 
 	fontsel = GTK_COMBO_TEXT (wbcg->font_name_selector);
