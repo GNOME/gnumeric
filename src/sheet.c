@@ -2783,6 +2783,9 @@ sheet_destroy_contents (Sheet *sheet)
 	int i;
 	gpointer tmp;
 
+	/* By the time we reach here dependencies should have been shut down */
+	g_return_if_fail (sheet->deps == NULL);
+
 	/* A simple test to see if this has already been run. */
 	if (sheet->hash_merged == NULL)
 		return;
@@ -2806,9 +2809,6 @@ sheet_destroy_contents (Sheet *sheet)
 	/* Clear the row spans 1st */
 	for (i = sheet->rows.max_used; i >= 0 ; --i)
 		row_destroy_span (sheet_row_get (sheet, i));
-
-	/* Unlink expressions from the workbook expr list */
-	dependent_unlink_sheet (sheet);
 
 	/* Remove all the cells */
 	g_hash_table_foreach (sheet->cell_hash,

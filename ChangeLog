@@ -1,3 +1,20 @@
+2002-03-05  Jody Goldberg <jody@gnome.org>
+
+	* src/eval.c (link_single_dep) : flag inter-{sheet,book} references.
+	(link_cellrange_dep) : ditto.
+	(link_expr_dep) : collect the flags.
+	(dependent_link) : and assign them here.
+	(dependent_unlink_sheet) : delete and merge into.
+	(do_deps_destroy) : here.  And use the new inter-{sheet,book} flags to
+	  avoid removing internal links.
+
+	* src/sheet.c (sheet_destroy_contents) : depends are now handled
+	  outside this routine add a precondition.
+
+	* src/main.c : delete style_debugging.
+
+	* src/clipboard.c (clipboard_copy_range) : suppress warning.
+
 2002-03-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/workbook-control-gui.c (workbook_close_if_user_permits) :

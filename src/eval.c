@@ -1,14 +1,13 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * eval.c:  Manage calculation dependencies between objects
  *
- * Copyright (C) 2000,2001
+ * Copyright (C) 2000-2002
  *  Jody Goldberg   (jody@gnome.org)
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of version 2 of the GNU General Public License as published
+ * by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -506,15 +505,24 @@ depsingle_equal (DependencySingle const *a, DependencySingle const *b)
 	return (a->pos.row == b->pos.row && a->pos.col == b->pos.col);
 }
 
-static void
-link_single_dep (Dependent *dep, CellPos const *pos, CellRef const *a)
+static DependentFlags
+link_single_dep (Dependent *dep, CellPos const *pos, CellRef const *ref)
 {
 	DependencySingle lookup;
 	DependencySingle *single;
-	DependencyContainer *deps = eval_sheet (a->sheet, dep->sheet)->deps;
+	DependencyContainer *deps;
+	DependentFlags flag = DEPENDENT_NO_FLAG;
+ 
+	if (ref->sheet != NULL) {
+		if (ref->sheet != dep->sheet)
+			flag = (ref->sheet->workbook != dep->sheet->workbook)
+				? DEPENDENT_GOES_INTERBOOK : DEPENDENT_GOES_INTERSHEET;
+		deps = ref->sheet->deps;
+	} else
+		deps = dep->sheet->deps;
 
 	/* Inserts if it is not already there */
-	cellref_get_abs_pos (a, pos, &lookup.pos);
+	cellref_get_abs_pos (ref, pos, &lookup.pos);
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
 	if (single == NULL) {
 		single  = g_new (DependencySingle, 1);
@@ -523,6 +531,8 @@ link_single_dep (Dependent *dep, CellPos const *pos, CellRef const *a)
 		g_hash_table_insert (deps->single_hash, single, single);
 	} else
 		dep_collection_insert (single->deps, dep);
+
+	return flag;
 }
 
 static void
@@ -602,13 +612,22 @@ unlink_range_dep (DependencyContainer *deps, Dependent *dep,
 	}
 }
 
-static void
+static DependentFlags
 link_cellrange_dep (Dependent *dep, CellPos const *pos,
 		    CellRef const *a, CellRef const *b)
 {
 	DependencyRange range;
-	DependencyContainer *depsa = eval_sheet (a->sheet, dep->sheet)->deps;
-	DependencyContainer *depsb = eval_sheet (b->sheet, dep->sheet)->deps;
+	DependencyContainer *depsa, *depsb;
+	DependentFlags flag = DEPENDENT_NO_FLAG;
+ 
+	if (a->sheet != NULL) {
+		if (a->sheet != dep->sheet)
+			flag = (a->sheet->workbook != a->sheet->workbook)
+				? DEPENDENT_GOES_INTERBOOK : DEPENDENT_GOES_INTERSHEET;
+		depsa = a->sheet->deps;
+		depsb = (a->sheet != b->sheet) ? b->sheet->deps : depsa;
+	} else
+		depsa = depsb = dep->sheet->deps;
 
 	cellref_get_abs_pos (a, pos, &range.range.start);
 	cellref_get_abs_pos (b, pos, &range.range.end);
@@ -619,6 +638,8 @@ link_cellrange_dep (Dependent *dep, CellPos const *pos,
 	/* FIXME: we need to iterate sheets between to be correct */
 	if (depsa != depsb)
 		link_range_dep  (depsb, dep, &range);
+
+	return flag;
 }
 static void
 unlink_cellrange_dep (Dependent *dep, CellPos const *pos,
@@ -639,30 +660,28 @@ unlink_cellrange_dep (Dependent *dep, CellPos const *pos,
 		unlink_range_dep (depsb, dep, &range);
 }
 
-static void
+static DependentFlags
 link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 {
 	switch (tree->any.oper) {
 	case OPER_ANY_BINARY:
-		link_expr_dep (dep, pos, tree->binary.value_a);
-		link_expr_dep (dep, pos, tree->binary.value_b);
-		return;
+		return  link_expr_dep (dep, pos, tree->binary.value_a) |
+			link_expr_dep (dep, pos, tree->binary.value_b);
 	case OPER_ANY_UNARY : return link_expr_dep (dep, pos, tree->unary.value);
 	case OPER_VAR	    : return link_single_dep (dep, pos, &tree->var.ref);
 
 	case OPER_CONSTANT:
+		/* TODO: use implicit intersection */
 		if (VALUE_CELLRANGE == tree->constant.value->type)
-			link_cellrange_dep (dep, pos,
+			return link_cellrange_dep (dep, pos,
 				&tree->constant.value->v_range.cell.a,
 				&tree->constant.value->v_range.cell.b);
-		return;
+		return DEPENDENT_NO_FLAG;
 
-	/*
-	 * FIXME: needs to be taught implicit intersection +
-	 * more cunning handling of argument type matching.
-	 */
+	/* TODO : Can we use argument types to be smarter here ? */
 	case OPER_FUNCALL: {
 		ExprList *l;
+		DependentFlags flag = DEPENDENT_NO_FLAG;
 		if (tree->func.func->link) {
 			EvalPos		 ep;
 			FunctionEvalInfo fei;
@@ -672,15 +691,15 @@ link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 			tree->func.func->link (&fei);
 		}
 		for (l = tree->func.arg_list; l; l = l->next)
-			link_expr_dep (dep, pos, l->data);
-		return;
+			flag |= link_expr_dep (dep, pos, l->data);
+		return flag;
 	}
 
 	case OPER_NAME:
 		expr_name_add_dep (tree->name.name, dep);
 		if (!tree->name.name->builtin && tree->name.name->active)
-			link_expr_dep (dep, pos, tree->name.name->t.expr_tree);
-		return;
+			return link_expr_dep (dep, pos, tree->name.name->t.expr_tree);
+		return DEPENDENT_NO_FLAG;
 
 	case OPER_ARRAY:
 		if (tree->array.x != 0 || tree->array.y != 0) {
@@ -690,31 +709,31 @@ link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 			/* We cannot support array expressions unless
 			 * we have a position.
 			 */
-			g_return_if_fail (pos != NULL);
+			g_return_val_if_fail (pos != NULL, DEPENDENT_NO_FLAG);
 
 			a.col_relative = a.row_relative = FALSE;
 			a.sheet = dep->sheet;
 			a.col   = pos->col - tree->array.x;
 			a.row   = pos->row - tree->array.y;
 
-			link_single_dep (dep, pos, &a);
+			return link_single_dep (dep, pos, &a);
 		} else
 			/* Corner cell depends on the contents of the expr */
-			link_expr_dep (dep, pos, tree->array.corner.expr);
-		return;
+			return link_expr_dep (dep, pos, tree->array.corner.expr);
 
 	case OPER_SET: {
 		ExprList *l;
+		DependentFlag res = DEPENDENT_NO_FLAG;
 
 		for (l = tree->set.set; l; l = l->next)
-			link_expr_dep (dep, pos, l->data);
-		return;
+			res |= link_expr_dep (dep, pos, l->data);
+		return res;
 	}
 
 	default:
 		g_warning ("Unknown Operation type, dependencies lost");
-		break;
 	}
+	return 0;
 }
 
 static void
@@ -824,9 +843,9 @@ dependent_link (Dependent *dep, CellPos const *pos)
 	if (dep->next_dep)
 		dep->next_dep->prev_dep = dep;
 	sheet->deps->dependent_list = dep;
-	dep->flags |= DEPENDENT_IS_LINKED;
-
-	link_expr_dep (dep, pos, dep->expression);
+	dep->flags |=
+		DEPENDENT_IS_LINKED |
+		link_expr_dep (dep, pos, dep->expression);
 }
 
 /**
@@ -834,14 +853,15 @@ dependent_link (Dependent *dep, CellPos const *pos)
  * @dep : the dependent that changed
  * @pos: The optionally NULL position of the dependent.
  *
- * Removes the dependent from the workbook wide list of dependents.
+ * Removes the dependent from its containers set of dependents and always
+ * removes the linkages to what it depends on.
  */
 void
 dependent_unlink (Dependent *dep, CellPos const *pos)
 {
 	static CellPos const dummy = { 0, 0 };
-	g_return_if_fail (dep != NULL);
 
+	g_return_if_fail (dep != NULL);
 	g_return_if_fail (dependent_is_linked (dep));
 	g_return_if_fail (dep->expression != NULL);
 	g_return_if_fail (IS_SHEET (dep->sheet));
@@ -849,13 +869,7 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 	if (pos == NULL)
 		pos = &dummy;
 
-	/* see note in do_deps_destroy */
-	/* A good idea would be to flag dependents with links outside the
-	 * current sheet and book (both) and use that to save time later.
-	 */
 	unlink_expr_dep (dep, pos, dep->expression);
-
-	dep->flags &= ~(DEPENDENT_IS_LINKED | DEPENDENT_NEEDS_RECALC);
 	if (dep->sheet->deps != NULL) {
 		if (dep->sheet->deps->dependent_list == dep)
 			dep->sheet->deps->dependent_list = dep->next_dep;
@@ -864,34 +878,8 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 		if (dep->prev_dep)
 			dep->prev_dep->next_dep = dep->next_dep;
 	}
-}
 
-/**
- * dependent_unlink_sheet :
- * @sheet :
- *
- * An internal routine to remove all expressions associated with a given sheet
- * from the workbook wide expression list.  WARNING : This is a dangerous
- * internal function.  it leaves the dependents in an invalid state.  It is
- * intended for use by sheet_destroy_contents.
- */
-void
-dependent_unlink_sheet (Sheet *sheet)
-{
-	static CellPos const dummy = { 0, 0 };
-
-	g_return_if_fail (IS_SHEET (sheet));
-
-	/* see note in do_deps_destroy */
-	/* A good idea would be to flag dependents with links outside the
-	 * current sheet or book and use that to save time later.
-	 */
-	SHEET_FOREACH_DEPENDENT (sheet, dep, {
-		unlink_expr_dep (dep, dependent_is_cell (dep)
-			? &DEP_TO_CELL (dep)->pos : &dummy,
-			dep->expression);
-		dep->flags &= ~(DEPENDENT_IS_LINKED | DEPENDENT_NEEDS_RECALC);
-	});
+	dep->flags &= ~DEPENDENT_LINK_FLAGS;
 }
 
 /**
@@ -981,7 +969,6 @@ cb_search_rangedeps (gpointer key, gpointer value, gpointer closure)
 	    printf ("%d\n", counter / 100000);
 #endif
 
-	/* No intersection is the common case */
 	if (range_contains (range, c->col, c->row)) {
 		DepFunc	 func = c->func;
 		dep_collection_foreach_dep (deprange->deps, dep,
@@ -1001,14 +988,6 @@ cell_foreach_range_dep (Cell const *cell, DepFunc func, gpointer user)
 		closure.row   = cell->pos.row;
 		closure.func  = func;
 		closure.user  = user;
-
-		/* FIXME FIXME FIXME :
-		 * This call decimates performance
-		 * If this list contains lots of ranges we are toast.  Consider
-		 * subdividing the master list.  A simple fixed bucket scheme is
-		 * probably sufficient (say 64x64) but we could go to something
-		 * adaptive or a simple quad tree.
-		 */
 		g_hash_table_foreach (bucket,
 			&cb_search_rangedeps, &closure);
 	}
@@ -1095,9 +1074,8 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 
 	if (r == NULL) {
 		/* mark the contained depends dirty non recursively */
-		SHEET_FOREACH_DEPENDENT (sheet, dep, {
-			dependent_queue_recalc (dep);
-		});
+		SHEET_FOREACH_DEPENDENT (sheet, dep,
+			dependent_queue_recalc (dep););
 
 		/* look for things that depend on the sheet */
 		for (i = (SHEET_MAX_ROWS-1)/BUCKET_SIZE; i >= 0 ; i--) {
@@ -1219,6 +1197,8 @@ cb_name_invalidate_sheet (gpointer key, gpointer value, gpointer rwinfo)
 static void
 do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 {
+	static CellPos const dummy = { 0, 0 };
+	DependentFlags filter = DEPENDENT_LINK_FLAGS; /* unlink everything */
 	DependencyContainer *deps;
 
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1227,10 +1207,10 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 	if (deps == NULL)
 		return;
 
-	/* We are destroying all the dependencies, there is no need to
-	 * delicately remove individual items from the lists.  The only purpose
-	 * that serves is to validate the state of our data structures.  If
-	 * required this optimization can be disabled for debugging.
+	/* Destroy the records of what depends on this sheet.  There is no need
+	 * to delicately remove individual items from the lists.  The only
+	 * purpose that serves is to validate the state of our data structures.
+	 * If required this optimization can be disabled for debugging.
 	 */
 	sheet->deps = NULL;
 
@@ -1261,6 +1241,26 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 		g_hash_table_destroy (deps->names);
 		deps->names = NULL;
 	}
+
+	/* TODO : when we support inter-app depends we'll need a new flag */
+	/* TODO : Add an 'application quit flag' to ignore interbook too */
+	if (sheet->deps == NULL) {
+		filter = DEPENDENT_GOES_INTERBOOK;
+		if (rwinfo->type == EXPR_REWRITE_SHEET)
+			    filter |= DEPENDENT_GOES_INTERSHEET;
+	}
+
+	/* Now we remove any links from dependents in this sheet to
+	 * to other containers.  If the entire workbook is going away
+	 * just look for inter-book links. (see comment above)
+	 */
+	DEPENDENT_CONTAINER_FOREACH_DEPENDENT (deps, dep, {
+		if (dep->flags & filter)
+			unlink_expr_dep (dep, dependent_is_cell (dep)
+				? &DEP_TO_CELL (dep)->pos : &dummy,
+				dep->expression);
+		dep->flags &= ~DEPENDENT_LINK_FLAGS;
+	});
 
 	g_free (deps);
 }

@@ -62,7 +62,6 @@ extern gboolean EmbeddableGridFactory_init (void);
 
 /* The debugging level */
 int gnumeric_debugging = 0;
-int style_debugging = 0;
 int dependency_debugging = 0;
 int immediate_exit_flag = 0;
 int print_debugging = 0;

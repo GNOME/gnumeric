@@ -21,6 +21,12 @@ typedef struct {
 } DependentClass;
 
 typedef enum {
+	DEPENDENT_NO_FLAG	   = 0,
+
+	/* Types */
+	DEPENDENT_CELL 		   = 0x00000001,
+	DEPENDENT_TYPE_MASK	   = 0x00000fff,
+
 	/* Linked into the workbook wide expression list */
 	DEPENDENT_IS_LINKED	   = 0x00001000,
 	DEPENDENT_NEEDS_RECALC	   = 0x00002000,
@@ -30,10 +36,7 @@ typedef enum {
 
 	DEPENDENT_GOES_INTERSHEET  = 0x00010000,
 	DEPENDENT_GOES_INTERBOOK   = 0x00020000,
-
-	/* Types */
-	DEPENDENT_CELL 		   = 0x00000001,
-	DEPENDENT_TYPE_MASK	   = 0x00000fff
+	DEPENDENT_LINK_FLAGS	   = 0x0003f000
 } DependentFlags;
 
 #define dependent_type(dep)		((dep)->flags & DEPENDENT_TYPE_MASK)
@@ -68,7 +71,6 @@ void	 dependent_set_expr	   (Dependent *dependent, ExprTree *new_expr);
 void	 dependent_set_sheet	   (Dependent *dependent, Sheet *sheet);
 void	 dependent_link		   (Dependent *dep, CellPos const *pos);
 void	 dependent_unlink	   (Dependent *dep, CellPos const *pos);
-void	 dependent_unlink_sheet	   (Sheet *sheet);
 gboolean dependent_eval		   (Dependent *dep);
 void	 dependent_changed	   (Dependent *dep, gboolean queue_recalc);
 void	 cb_dependent_queue_recalc (Dependent *dep, gpointer ignore);
