@@ -1,6 +1,13 @@
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
 2001-06-28  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-excel-util.c (lookup_font_base_char_width_new) : add more safety.
+
 	* ms-excel-write.c (formats_put_magic) : const.
+	(new_sheet) : ignore spans and merges for extent calcs.
 
 	* ms-excel-read.c (ms_excel_read_init) : new function to init the
 	  locale specific date format.

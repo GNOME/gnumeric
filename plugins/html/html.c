@@ -253,7 +253,7 @@ html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
-		Range r = sheet_get_extent (sheet);
+		Range r = sheet_get_extent (sheet, FALSE);
 
 		fprintf (fp, "<TABLE border=1>\n");
 		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name_unquoted);
@@ -322,7 +322,7 @@ html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
-		Range r = sheet_get_extent (sheet);
+		Range r = sheet_get_extent (sheet, FALSE);
 
 		fprintf (fp, "<TABLE border=1>\n");
 		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name_unquoted);

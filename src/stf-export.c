@@ -279,7 +279,7 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 	separator = g_string_new ("");
 	g_string_append_c (separator, export_options->cell_separator);
 
-	r = sheet_get_extent (sheet);
+	r = sheet_get_extent (sheet, FALSE);
 
 	for (row = r.start.row; row <= r.end.row; row++) {
 

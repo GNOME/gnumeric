@@ -1034,12 +1034,24 @@ range_is_infinite (Range const *r)
 	return range_is_full (r, TRUE) || range_is_full (r, TRUE);
 }
 
+/**
+ * range_clip_to_finite :
+ * @range :
+ * @sheet :
+ *
+ * Clip the range to the area of the sheet with content.
+ * WARNING THIS IS EXPENSIVE!
+ */
 void
 range_clip_to_finite (Range *range, Sheet *sheet)
 {
 	Range extent;
 
-	extent = sheet_get_extent (sheet);
+	/* FIXME : This seems expensive.  We should see if there is a faster
+	 * way of doing this.  possibly using a flag for content changes, and
+	 * using the current values as a cache
+	 */
+	extent = sheet_get_extent (sheet, FALSE);
        	if (range->end.col >= SHEET_MAX_COLS - 2)
 		range->end.col = extent.end.col;
 	if (range->end.row >= SHEET_MAX_ROWS - 2)

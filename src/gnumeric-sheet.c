@@ -250,7 +250,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			if (new_row > 0)
 				gnumeric_sheet_set_top_row (gsheet, new_row);
 		} else {
-			Range r = sheet_get_extent (sheet);
+			Range r = sheet_get_extent (sheet, FALSE);
 		
 			/* do the ctrl-end jump to the extent in 2 steps */
 			(*movefn)(gsheet->scg, r.end.col - sheet->edit_pos.col, FALSE, TRUE);

@@ -324,6 +324,7 @@ lookup_font_base_char_width_new (char const * const name, double size_pts,
 	}
 
 	g_return_val_if_fail (xl_font_width_hash != NULL, 10.);
+	g_return_val_if_fail (name != NULL, 10.);
 
 	res = g_hash_table_lookup (xl_font_width_hash, name);
 

@@ -1104,71 +1104,86 @@ sheet_col_row_gutter (Sheet *sheet,
 	SHEET_FOREACH_CONTROL (sheet, control, sc_resize (control););
 }
 
-/**
- * sheet_get_extent_cb:
- *
- * checks the cell to see if should be used to calculate sheet extent
- **/
+struct sheet_extent_data {
+	Range range;
+	gboolean spans_and_merges_extend;
+};
+
 static void
-sheet_get_extent_cb (gpointer ignored, gpointer value, gpointer data)
+cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 {
-	Cell *cell = (Cell *) value;
+	Cell const *cell = (Cell const *) value;
+	struct sheet_extent_data *res = data;
 
-	if (!cell_is_blank (cell)) {
-		Range *range = (Range *)data;
-		CellSpanInfo const *span = NULL;
-		int tmp;
+	if (cell_is_blank (cell))
+		return;
 
-		if (cell->pos.row < range->start.row)
-			range->start.row = cell->pos.row;
+	if (res->range.start.col > cell->pos.col)
+		res->range.start.col = cell->pos.col;
+	else if (res->range.end.col < cell->pos.col)
+		res->range.end.col = cell->pos.col;
 
-		if (cell->pos.row > range->end.row)
-			range->end.row = cell->pos.row;
+	if (res->range.start.row > cell->pos.row)
+		res->range.start.row = cell->pos.row;
+	else if (res->range.end.row < cell->pos.row)
+		res->range.end.row = cell->pos.row;
 
-		/* FIXME : check for merged cells too */
-		span = row_span_get (cell->row_info, cell->pos.col);
-		tmp = (span != NULL) ? span->left : cell->pos.col;
-		if (tmp < range->start.col)
-			range->start.col = tmp;
+	if (!res->spans_and_merges_extend)
+		return;
 
-		tmp = (span != NULL) ? span->right : cell->pos.col;
-		if (tmp > range->end.col)
-			range->end.col = tmp;
+	/* Can not span AND merge */
+	if (cell_is_merged (cell)) {
+		Range const *merged =
+			sheet_merge_is_corner (cell->base.sheet, &cell->pos);
+		res->range = range_union (&res->range, merged);
+	} else {
+		CellSpanInfo const *span =
+			row_span_get (cell->row_info, cell->pos.col);
+		if (NULL != span) {
+			if (res->range.start.col > span->left)
+				res->range.start.col = span->left;
+			if (res->range.end.col < span->right)
+				res->range.end.col = span->right;
+		}
 	}
 }
 
 /**
  * sheet_get_extent:
  * @sheet: the sheet
+ * @spans_and_merges_extend: optionally extend region for spans and merges.
  *
  * calculates the area occupied by cell data.
  *
  * Return value: the range.
  **/
 Range
-sheet_get_extent (Sheet const *sheet)
+sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 {
-	Range r;
+	static Range const dummy = { { 0,0 }, { 0,0 } };
+	struct sheet_extent_data closure;
 
-	r.start.col = SHEET_MAX_COLS - 2;
-	r.start.row = SHEET_MAX_ROWS - 2;
-	r.end.col   = 0;
-	r.end.row   = 0;
+	g_return_val_if_fail (IS_SHEET (sheet), dummy);
 
-	g_return_val_if_fail (IS_SHEET (sheet), r);
+	/* FIXME : Why -2 ??? */
+	closure.range.start.col = SHEET_MAX_COLS - 2;
+	closure.range.start.row = SHEET_MAX_ROWS - 2;
+	closure.range.end.col   = 0;
+	closure.range.end.row   = 0;
+	closure.spans_and_merges_extend = spans_and_merges_extend;
 
-	g_hash_table_foreach (sheet->cell_hash, &sheet_get_extent_cb, &r);
+	g_hash_table_foreach (sheet->cell_hash, &cb_sheet_get_extent, &closure);
 
-	if (r.start.col >= SHEET_MAX_COLS - 2)
-		r.start.col = 0;
-	if (r.start.row >= SHEET_MAX_ROWS - 2)
-		r.start.row = 0;
-	if (r.end.col < 0)
-		r.end.col = 0;
-	if (r.end.row < 0)
-		r.end.row = 0;
+	if (closure.range.start.col >= SHEET_MAX_COLS - 2)
+		closure.range.start.col = 0;
+	if (closure.range.start.row >= SHEET_MAX_ROWS - 2)
+		closure.range.start.row = 0;
+	if (closure.range.end.col < 0)
+		closure.range.end.col = 0;
+	if (closure.range.end.row < 0)
+		closure.range.end.row = 0;
 
-	return r;
+	return closure.range;
 }
 
 /*

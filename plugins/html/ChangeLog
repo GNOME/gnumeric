@@ -1,3 +1,15 @@
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* roff.c (write_wb_roff) : we don't handle spans or merges.
+	* latex.c (latex2e_file_save) : ditto.
+	(latex_file_save) : ditto.
+	* html.c (html32_file_save) : ditto.
+	(html40_file_save) : ditto.
+
 2001-06-27  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.66

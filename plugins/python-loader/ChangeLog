@@ -1,3 +1,12 @@
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* py-gnumeric.c (py_sheet_get_extent_method) : changes to
+	  sheet_get_extent.
+
 2001-06-27  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.66

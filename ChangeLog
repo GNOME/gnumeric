@@ -1,4 +1,10 @@
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
 2001-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am  : Install .desktop file not .in
 
 	* src/formats.c : Add comments re: order assumptions.
 
@@ -7,6 +13,16 @@
 
 	* src/workbook-control-gui.c (sort_by_rows) : fix old bug with sort
 	  tool buttons.
+
+	* src/stf-export.c (stf_export_sheet) : ignore spans and merges.
+
+	* src/ranges.c (range_clip_to_finite) : add comment re: expense.
+
+	* src/print.c (print_sheet) : Include spans and merges when printing.
+	(compute_sheet_pages) : ditto.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : spans are not
+	  relevant here.
 
 2001-06-28  Jody Goldberg <jgoldberg@home.com>
 

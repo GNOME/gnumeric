@@ -1110,7 +1110,7 @@ static CORBA_long
 Sheet_max_cols_used (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet  = sheet_from_servant (servant);
-	Range  extent = sheet_get_extent (sheet);
+	Range  extent = sheet_get_extent (sheet, FALSE);
 
 	return extent.end.col;
 }
@@ -1119,7 +1119,7 @@ static CORBA_long
 Sheet_max_rows_used (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
-	Range  extent = sheet_get_extent (sheet);
+	Range  extent = sheet_get_extent (sheet, FALSE);
 
 	return extent.end.row;
 }

@@ -1,3 +1,11 @@
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* dif.c (dif_file_save) : we don't handle spans or merges.
+
 2001-06-27  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.66

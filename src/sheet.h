@@ -247,7 +247,8 @@ void        sheet_menu_state_enable_insert (Sheet *s,
 
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
 gboolean    sheet_is_pristine             (Sheet const *sheet);
-Range       sheet_get_extent		  (Sheet const *sheet);
+Range       sheet_get_extent		  (Sheet const *sheet,
+					   gboolean spans_and_merges_extend);
 
 /* Sheet information manipulation */
 void        sheet_move_range              (WorkbookControl *context,

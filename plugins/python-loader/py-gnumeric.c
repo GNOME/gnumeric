@@ -1462,7 +1462,7 @@ py_sheet_get_extent_method (py_Sheet_object *self, PyObject *args)
 		return NULL;
 	}
 
-	range = sheet_get_extent (self->sheet);
+	range = sheet_get_extent (self->sheet, FALSE);
 	return py_new_Range_object (&range);
 }
 

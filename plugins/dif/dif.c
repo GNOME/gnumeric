@@ -369,7 +369,7 @@ dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	fputs ("DATA\n0,0\n" "\"\"\n", f);
 
 	/* Process all cells */
-	r = sheet_get_extent (sheet);
+	r = sheet_get_extent (sheet, FALSE);
 	for (row = r.start.row; row <= r.end.row; row++) {
 		fputs ("-1,0\n" "BOT\n", f);
 		for (col = r.start.col; col <= r.end.col; col++) {

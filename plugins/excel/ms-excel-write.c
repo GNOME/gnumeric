@@ -3511,7 +3511,8 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 	g_return_val_if_fail (value, NULL);
 	g_return_val_if_fail (wb, NULL);
 
-	extent = sheet_get_extent (value);
+	/* Ignore spans and merges past the bound */
+	extent = sheet_get_extent (value, FALSE);
 	sheet_style_get_extent (value, &extent);
 
 	sheet->gnum_sheet = value;

@@ -110,7 +110,7 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
-		Range r = sheet_get_extent (sheet);
+		Range range = sheet_get_extent (sheet, FALSE);
 
 		latex_fputs (sheet->name_unquoted, fp);
 		fprintf (fp, "\n\n");
@@ -120,8 +120,8 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		}
 		fprintf (fp, "}\\hline\n");
 
-		for (row = r.start.row; row <= r.end.row; row++) {
-			for (col = r.start.col; col <= r.end.col; col++) {
+		for (row = range.start.row; row <= range.end.row; row++) {
+			for (col = range.start.col; col <= range.end.col; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				if (!cell) {
 					if (col)
@@ -133,7 +133,6 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 					if (!mstyle)
 						break;
-
 					if (col != 0)
 						fprintf (fp, "\t&");
 					else
@@ -210,7 +209,7 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
-		Range range = sheet_get_extent (sheet);
+		Range range = sheet_get_extent (sheet, FALSE);
 
 		latex_fputs (sheet->name_unquoted, fp);
 		fprintf (fp, "\n\n");
@@ -230,17 +229,20 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 						fprintf (fp, "\t\n");
 				} else {
 					MStyle *mstyle = cell_get_mstyle (cell);
+
 					if (!mstyle)
 						break;
 					if (col != 0)
 						fprintf (fp, "\t&");
 					else
 						fprintf (fp, "\t ");
-					if (mstyle_get_align_h (mstyle) & HALIGN_RIGHT)
+					if (mstyle_get_align_h (mstyle) == HALIGN_RIGHT)
 						fprintf (fp, "\\hfill ");
-					if (mstyle_get_align_h (mstyle) & HALIGN_CENTER)
+					else if (mstyle_get_align_h (mstyle) == HALIGN_CENTER ||
+						 /* FIXME : center across selection is wrong */
+						 mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION)
 						fprintf (fp, "\\centering ");	/* doesn't work */
-					if (mstyle_get_align_v (mstyle) & VALIGN_TOP)
+					if (mstyle_get_align_v (mstyle) == VALIGN_TOP)
 						;
 					r = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.red >> 8;
 					g = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.green >> 8;
