@@ -136,10 +136,10 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao_init (&dao, NewSheetOutput);
 	dao.sheet = state->sheet;
 
-	res = scenario_add_new (WORKBOOK_CONTROL (state->wbcg), name,
-				cell_range, (gchar *) gnm_expr_entry_get_text
+	res = scenario_add_new (name, cell_range,
+				(gchar *) gnm_expr_entry_get_text
 				(GNUMERIC_EXPR_ENTRY (state->input_entry)),
-				comment, &dao);
+				comment, state->sheet);
 
 	if (res)
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_WARNING, 

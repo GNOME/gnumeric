@@ -30,12 +30,11 @@ void     scenario_manager_ok (Sheet *sheet);
 void     scenario_show (WorkbookControl        *wbc,
 			gchar                  *name,
 			data_analysis_output_t *dao);
-gboolean scenario_add_new (WorkbookControl        *wbc,
-			   gchar                  *name,
-			   Value                  *changing_cells,
-			   gchar                  *cell_sel_str,
-			   gchar                  *comment,
-			   data_analysis_output_t *dao);
+gboolean scenario_add_new (gchar *name,
+			   Value *changing_cells,
+			   gchar *cell_sel_str,
+			   gchar *comment,
+			   Sheet *sheet);
 gboolean scenario_mark_deleted (GList *scenarios, gchar *name);
 void     scenario_summary (WorkbookControl        *wbc,
 			   Sheet                  *sheet,

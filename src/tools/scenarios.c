@@ -147,12 +147,11 @@ collect_values (Sheet *sheet, scenario_t *s, ValueRange *range)
 }
 
 gboolean
-scenario_add_new (WorkbookControl        *wbc,
-		  gchar                  *name,
-		  Value                  *changing_cells,
-		  gchar                  *cell_sel_str,
-		  gchar                  *comment,
-		  data_analysis_output_t *dao)
+scenario_add_new (gchar *name,
+		  Value *changing_cells,
+		  gchar *cell_sel_str,
+		  gchar *comment,
+		  Sheet *sheet)
 {
 	scenario_t *scenario;
 	int        i, j;
@@ -161,14 +160,13 @@ scenario_add_new (WorkbookControl        *wbc,
 
 	scenario = scenario_new (name, comment);
 
-	res = collect_values (dao->sheet, scenario,
-			      (ValueRange *) changing_cells);
+	res = collect_values (sheet, scenario, (ValueRange *) changing_cells);
 
 	scenario->cell_sel_str = g_strdup (cell_sel_str);
-	dao->sheet->scenarios = g_list_append (dao->sheet->scenarios, 
-					       (gpointer) scenario);
+	sheet->scenarios = g_list_append (sheet->scenarios, 
+					  (gpointer) scenario);
 
-	sheet_redraw_all (dao->sheet, TRUE);
+	sheet_redraw_all (sheet, TRUE);
 
 	return res;
 }
