@@ -31,14 +31,12 @@
 #include "excel.h"
 #include "ms-excel-write.h"
 
-
-
 typedef struct _SHEET    SHEET;
 typedef struct _WORKBOOK WORKBOOK;
 
 struct _SHEET {
-	Sheet    *gnum_sheet;
 	WORKBOOK *wb;
+	Sheet    *gnum_sheet;
 	guint32   streamPos;
 	guint32   boundsheetPos;
 };
@@ -70,7 +68,7 @@ biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver)
 		BIFF_SET_GUINT16(data+1, len);
 		ms_biff_put_var_write (bp, data, 3);
 	} else { /* Byte length */
-		g_return_if_fail (len>255);
+		g_return_if_fail (len<256);
 		BIFF_SET_GUINT8(data, len);
 		ms_biff_put_var_write (bp, data, 1);
 	}
@@ -109,9 +107,9 @@ biff_bof_write (BIFF_PUT *bp, eBiff_version ver,
 	case eBiffV8:
 		bp->ms_op = 8;
 		if (ver == eBiffV8)
-			BIFF_SET_GUINT32 (data, 0x0600);
+			BIFF_SET_GUINT16 (data, 0x0600);
 		else
-			BIFF_SET_GUINT32 (data, 0x0500);
+			BIFF_SET_GUINT16 (data, 0x0500);
 		break;
 	default:
 		g_warning ("Unknown version\n");
@@ -213,45 +211,59 @@ biff_boundsheet_write_last (MS_OLE_STREAM *s, guint32 pos,
 }
 
 static void
-new_sheet (gpointer key, Sheet *value, WORKBOOK *wb)
+write_sheet (BIFF_PUT *bp, SHEET *sheet)
 {
-	SHEET *sheet      = g_new (SHEET, 1);
+	guint8 *data;
+	sheet->streamPos = bp->streamPos; /* (?) */
+
+	biff_bof_write (bp, sheet->wb->ver, eBiffTWorksheet);
+	data = ms_biff_put_len_next (bp, BIFF_NUMBER, 14);
+	EX_SETROW(bp, 0);
+	EX_SETCOL(bp, 0);
+	EX_SETXF (bp, 0);
+	BIFF_SETDOUBLE (bp->data + 6, 1.2345678);
+	ms_biff_put_len_commit (bp);
+
+	biff_eof_write (bp);
+}
+
+static void
+new_sheet (gpointer key, gpointer val, gpointer iwb)
+{
+	SHEET     *sheet = g_new (SHEET, 1);
+	Sheet     *value = (Sheet *)val;
+	WORKBOOK  *wb    = (WORKBOOK *)iwb;
+
 	g_return_if_fail (value);
 	g_return_if_fail (wb);
 
 	sheet->gnum_sheet = value;
 	sheet->streamPos  = 0x0deadbee;
 	sheet->wb         = wb;
-	g_ptr_array_add (wb->sheets, value);
-}
 
-static void
-write_sheet (BIFF_PUT *bp, SHEET *sheet)
-{
-	sheet->streamPos = bp->streamPos; /* (?) */
-
-	biff_bof_write (bp, sheet->wb->ver, eBiffTWorksheet);
-	biff_eof_write (bp);
+	printf ("Workbook  %d %p\n", wb->ver, wb->gnum_wb);
+	g_ptr_array_add (wb->sheets, sheet);
 }
 
 static void
 write_workbook (BIFF_PUT *bp, Workbook *gwb, eBiff_version ver)
 {
 	WORKBOOK *wb = g_new (WORKBOOK, 1);
-	int lp;
+	SHEET    *s  = 0;
+	int       lp;
 
 	wb->ver      = ver;
 	wb->gnum_wb  = gwb;
 	wb->sheets   = g_ptr_array_new ();
 	
-	g_hash_table_foreach (gwb->sheets, (GHFunc)new_sheet, wb->sheets);
+	g_hash_table_foreach (gwb->sheets, new_sheet, wb);
 
 	/* Workbook */
 	biff_bof_write (bp, ver, eBiffTWorkbook);
 
 	for (lp=0;lp<wb->sheets->len;lp++) {
-		SHEET   *s       = g_ptr_array_index (wb->sheets, lp);
-		s->boundsheetPos = biff_boundsheet_write_first (bp, eBiffTWorksheet,
+		s = g_ptr_array_index (wb->sheets, lp);
+	        s->boundsheetPos = biff_boundsheet_write_first (bp, eBiffTWorksheet,
 								s->gnum_sheet->name, wb->ver);
 	}
 

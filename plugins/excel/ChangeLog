@@ -1,5 +1,18 @@
 1999-05-16  Michael Meeks  <michael@imaginator.com>
 
+	* ms-excel-write.c (biff_put_text): Fix silly assertion.
+
+	* ms-excel-read.c: Added debug to reading side,
+	Cleaned conditional debug to use #defines
+
+	* ms-excel-write.c (write_sheet): Save a number in each
+	sheet to stop their destruction.
+
+	* ms-excel-biff.h: Added helper set row,col,xf macros.
+
+	* ms-biff.c (ms_biff_put_var_commit): Fixed.
+	Added streamPos setting on commit.
+
 	* ms-excel-write.c: Large updates.
 
 1999-05-16  Michael Meeks  <michael@imaginator.com>

@@ -1135,6 +1135,7 @@ ms_ole_write_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		
 		dest = GET_BB_START_PTR(s->file, block) + offset;
 
+/* FIXME this isn't right if we are writing having seeked backwards ! */
 		s->size+=cpylen;
 #if OLE_DEBUG > 0
 		printf ("Copy %d bytes to block %d\n", cpylen, block);
