@@ -176,18 +176,23 @@ sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
 	sheet_set_selection (sheet, new);
 	sheet_selection_changed_hook (sheet);
 
-	/*
-	 * Compute the blocks that need to be repainted: those that
-	 * are in the complement of the intersection.
-	 */
-	ranges = range_fragment (&old->user, &new->user);
-	
-	for (l = ranges->next; l; l = l->next){
-		Range *range = l->data;
-
-		sheet_redraw_range (sheet, range);
+	if (range_overlap (&old->user, &new->user)){
+		/*
+		 * Compute the blocks that need to be repainted: those that
+		 * are in the complement of the intersection.
+		 */
+		ranges = range_fragment (&old->user, &new->user);
+		
+		for (l = ranges->next; l; l = l->next){
+			Range *range = l->data;
+			
+			sheet_redraw_range (sheet, range);
+		}
+		range_fragment_free (ranges);
+	} else {
+		sheet_redraw_selection (sheet, old);
+		sheet_redraw_selection (sheet, new);
 	}
-	range_fragment_free (ranges);
 	
 	if (new->user.start.col != old->user.start.col ||
 	    new->user.end.col != old->user.end.col ||

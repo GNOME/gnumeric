@@ -381,10 +381,10 @@ item_cursor_request_redraw (ItemCursor *item_cursor)
 	int x, y, w, h;
 	item_cursor_get_pixel_coords (item_cursor, &x, &y, &w, &h);
 
-	gnome_canvas_request_redraw (canvas, x - 1, y - 2, x + 1, y + h + 1);
-	gnome_canvas_request_redraw (canvas, x - 1, y - 2, x + w + 1, y + 1);
-	gnome_canvas_request_redraw (canvas, x + w - 1, y - 2, x + w + 5, y + h + 5);
-	gnome_canvas_request_redraw (canvas, x - 1, y + h - 2, x + w + 5, y + h + 5);
+	gnome_canvas_request_redraw (canvas, x - 2, y - 2, x + 2, y + h + 2);
+	gnome_canvas_request_redraw (canvas, x - 2, y - 2, x + w + 2, y + 2);
+	gnome_canvas_request_redraw (canvas, x + w - 2, y - 2, x + w + 5, y + h + 5);
+	gnome_canvas_request_redraw (canvas, x - 2, y + h - 2, x + w + 5, y + h + 5);
 }
 
 void
