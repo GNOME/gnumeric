@@ -14,6 +14,7 @@
 #include "func.h"
 #include "goal-seek.h"
 #include "collect.h"
+#include "auto-format.h"
 
 /*
 
@@ -50,7 +51,7 @@ Future value interest factor of annuities
 static float_t
 calculate_pvif (float_t rate, float_t nper)
 {
-	return (pow (1+rate, nper));
+	return (pow (1 + rate, nper));
 }
 
 #if 0
@@ -63,14 +64,14 @@ calculate_fvif (float_t rate, float_t nper)
 static float_t
 calculate_pvifa (float_t rate, float_t nper)
 {
-	return ((1.0 / rate) - (1.0 / (rate * pow (1+rate, nper))));
+	return ((1.0 / rate) - (1.0 / (rate * pow (1 + rate, nper))));
 }
 #endif
 
 static float_t
 calculate_fvifa (float_t rate, float_t nper)
 {
-	return ((pow (1+rate, nper) - 1) / rate);
+	return ((pow (1 + rate, nper) - 1) / rate);
 }
 
 /*
@@ -86,7 +87,7 @@ calculate_principal (float_t starting_principal, float_t payment,
 		     float_t rate, float_t period)
 {
 	return (starting_principal * pow (1.0 + rate, period) + payment *
-		((pow(1+rate, period) - 1) / rate));
+		((pow (1 + rate, period) - 1) / rate));
 }
 
 static float_t
@@ -99,7 +100,7 @@ calculate_pmt (float_t rate, float_t nper, float_t pv, float_t fv, int type)
 	pvif = calculate_pvif (rate,nper);
 	fvifa = calculate_fvifa (rate,nper);
 
-        return (((-1.0) * pv * pvif  - fv ) / ((1.0 + rate * type) * fvifa));
+        return ((-pv * pvif - fv ) / ((1.0 + rate * type) * fvifa));
 }
 
 static float_t
@@ -109,14 +110,14 @@ calculate_npv (float_t rate, float_t *values, int n)
         int     i;
 
 	sum = 0;
-	for (i=0; i<n; i++)
-	        sum += values[i] / pow(1 + rate, i);
+	for (i = 0; i < n; i++)
+	        sum += values[i] / pow (1 + rate, i);
 
 	return sum;
 }
 
 static int
-annual_year_basis(Value *value_date, int basis)
+annual_year_basis (Value *value_date, int basis)
 {
         GDate    *date;
         gboolean leap_year;
@@ -144,7 +145,7 @@ annual_year_basis(Value *value_date, int basis)
 }
 
 static int
-days_monthly_basis(Value *issue_date, Value *maturity_date, int basis)
+days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 {
         GDate    *date_i, *date_m;
 	int      issue_day, issue_month, issue_year;
@@ -181,7 +182,7 @@ days_monthly_basis(Value *issue_date, Value *maturity_date, int basis)
 	switch (basis) {
 	case 0:
 	        if (issue_month == 2 && maturity_month != 2 &&
-		    issue_year == maturity_year){
+		    issue_year == maturity_year) {
 			if (leap_year)
 				return months * 30 + days - 1;
 			else
@@ -191,8 +192,8 @@ days_monthly_basis(Value *issue_date, Value *maturity_date, int basis)
 	case 1:
 	case 2:
 	case 3:
-	        issue = get_serial_date(issue_date);
-	        maturity = get_serial_date(maturity_date);
+	        issue = get_serial_date (issue_date);
+	        maturity = get_serial_date (maturity_date);
 	        return maturity - issue;
 	case 4:
 	        return months * 30 + days;
@@ -296,14 +297,8 @@ gnumeric_accrintm (FunctionEvalInfo *ei, Value **argv)
 	int     basis;
 
 	rate = value_get_as_float (argv[2]);
-	if (argv[3] == NULL)
-	        par = 1000;
-	else
-	        par = value_get_as_float (argv[3]);
-	if (argv[4] == NULL)
-	        basis = 0;
-	else
-	        basis = value_get_as_int (argv[4]);
+	par = argv[3] ? value_get_as_float (argv[3]) : 1000;
+	basis = argv[4] ? value_get_as_int (argv[4]) : 0;
 
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
@@ -353,10 +348,7 @@ gnumeric_intrate (FunctionEvalInfo *ei, Value **argv)
 
 	investment = value_get_as_float (argv[2]);
 	redemption = value_get_as_float (argv[3]);
-	if (argv[4] == NULL)
-	        basis = 0;
-	else
-	        basis = value_get_as_int (argv[4]);
+	basis = argv[4] ? value_get_as_int (argv[4]) : 0;
 
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
@@ -405,10 +397,7 @@ gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 
 	investment = value_get_as_float (argv[2]);
 	discount = value_get_as_float (argv[3]);
-	if (argv[4] == NULL)
-	        basis = 0;
-	else
-	        basis = value_get_as_int (argv[4]);
+	basis = argv[4] ? value_get_as_int (argv[4]) : 0;
 
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
@@ -458,10 +447,7 @@ gnumeric_pricedisc (FunctionEvalInfo *ei, Value **argv)
 
 	discount = value_get_as_float (argv[2]);
 	redemption = value_get_as_float (argv[3]);
-	if (argv[4] == NULL)
-	        basis = 0;
-	else
-	        basis = value_get_as_int (argv[4]);
+	basis = argv[4] ? value_get_as_int (argv[4]) : 0;
 
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
@@ -508,17 +494,14 @@ gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
 
 	discount = value_get_as_float (argv[3]);
 	yield = value_get_as_float (argv[4]);
-	if (argv[5] == NULL)
-	        basis = 0;
-	else
-	        basis = value_get_as_int (argv[5]);
+	basis = argv[5] ? value_get_as_int (argv[5]) : 0;
 
 	dsm = days_monthly_basis (argv[0], argv[1], basis);
 	dim = days_monthly_basis (argv[2], argv[1], basis);
 	a = days_monthly_basis (argv[2], argv[0], basis);
 	b = annual_year_basis (argv[0], basis);
 
-	if (a <= 0 || b <= 0 || dsm <= 0 || dim <= 0 || basis < 0 || 
+	if (a <= 0 || b <= 0 || dsm <= 0 || dim <= 0 || basis < 0 ||
 	    basis > 4)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
@@ -562,10 +545,7 @@ gnumeric_disc (FunctionEvalInfo *ei, Value **argv)
 
 	par = value_get_as_float (argv[2]);
 	redemption = value_get_as_float (argv[3]);
-	if (argv[4] == NULL)
-	        basis = 0;
-	else
-	        basis = value_get_as_int (argv[4]);
+	basis = argv[4] ? value_get_as_int (argv[4]) : 0;
 
 	b = annual_year_basis (argv[0], basis);
 	dsm = days_monthly_basis (argv[0], argv[1], basis);
@@ -623,7 +603,7 @@ gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 	if ( (rate < 0) || (nper <= 0) )
 		return value_new_error (ei->pos, _("effect - domain error"));
 
-        return value_new_float ( pow( (1 + rate/nper) , nper) - 1 );
+        return value_new_float ( pow ( (1 + rate/nper) , nper) - 1 );
 
 }
 
@@ -662,7 +642,7 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 	if ( (rate < 0) || (nper <= 0) )
 		return value_new_error (ei->pos, _("nominal - domain error"));
 
-        return value_new_float ( nper * ( pow( 1 + rate, 1.0/nper ) - 1 ) );
+        return value_new_float ( nper * ( pow ( 1 + rate, 1.0/nper ) - 1 ) );
 
 }
 
@@ -672,7 +652,7 @@ static char *help_ispmt = {
 	N_("@FUNCTION=ISPMT\n"
 	   "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
 	   "@DESCRIPTION="
-	   "ISPMT function returns the interest payed on a given period. "
+	   "ISPMT function returns the interest paid on a given period. "
 	   "\n"
 	   "If @per < 1 or @per > @nper, ISPMT returns #NUM! error. "
 	   "\n"
@@ -731,12 +711,9 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 	salvage = value_get_as_float (argv[1]);
 	life = value_get_as_float (argv[2]);
 	period = value_get_as_float (argv[3]);
-	if (argv[4] == NULL)
-	        month = 12;
-	else
-	        month = value_get_as_float (argv[4]);
+	month = argv[4] ? value_get_as_float (argv[4]) : 12;
 
-	rate = 1 - pow((salvage / cost), (1 / life));
+	rate = 1 - pow ((salvage / cost), (1 / life));
 	rate *= 1000;
 	rate = floor(rate+0.5) / 1000;
 
@@ -745,8 +722,8 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
         if (period == 1)
 	       return value_new_float (total);
 
-	for (i=1; i<life; i++)
-	       if (i == period-1)
+	for (i = 1; i < life; i++)
+	       if (i == period - 1)
 		       return value_new_float ((cost - total) * rate);
 	       else
 		       total += (cost - total) * rate;
@@ -785,15 +762,12 @@ gnumeric_ddb (FunctionEvalInfo *ei, Value **argv)
 	salvage = value_get_as_float (argv[1]);
 	life = value_get_as_float (argv[2]);
 	period = value_get_as_float (argv[3]);
-	if (argv[4] == NULL)
-	        factor = 2;
-	else
-	        factor = value_get_as_float (argv[4]);
+	factor = argv[4] ? value_get_as_float (argv[4]) : 2;
 
 	total = 0;
-	for (i=0; i<life-1; i++) {
-	        float_t period_dep = (cost - total) * (factor/life);
-		if (period-1 == i)
+	for (i = 0; i < life - 1; i++) {
+	        float_t period_dep = (cost - total) * (factor / life);
+		if (period - 1 == i)
 		        return value_new_float (period_dep);
 		else
 		        total += period_dep;
@@ -875,10 +849,10 @@ gnumeric_syd (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t cost, salvage_value, life, period;
 
-	cost   = value_get_as_float (argv [0]);
-	salvage_value = value_get_as_int (argv [1]);
-	life   = value_get_as_float (argv [2]);
-	period = value_get_as_float (argv [3]);
+	cost   = value_get_as_float (argv[0]);
+	salvage_value = value_get_as_int (argv[1]);
+	life   = value_get_as_float (argv[2]);
+	period = value_get_as_float (argv[3]);
 
 	/* Life of an asset cannot be negative */
 	if (life <= 0)
@@ -913,8 +887,8 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 	int     fraction, n, tmp;
 	float_t floored, rest;
 
-	fractional_dollar = value_get_as_float (argv [0]);
-	fraction = value_get_as_int (argv [1]);
+	fractional_dollar = value_get_as_float (argv[0]);
+	fraction = value_get_as_int (argv[1]);
 
 	if (fraction <= 0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -927,7 +901,7 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 	floored = floor (fractional_dollar);
 	rest = fractional_dollar - floored;
 
-	return value_new_float (floored + ((float_t) rest * pow(10,n) /
+	return value_new_float (floored + ((float_t) rest * pow (10,n) /
 					   fraction));
 }
 
@@ -955,8 +929,8 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 	int     fraction, n, tmp;
 	float_t floored, rest;
 
-	fractional_dollar = value_get_as_float (argv [0]);
-	fraction = value_get_as_int (argv [1]);
+	fractional_dollar = value_get_as_float (argv[0]);
+	fraction = value_get_as_int (argv[1]);
 
 	if (fraction <= 0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -970,7 +944,7 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 	rest = fractional_dollar - floored;
 
 	return value_new_float (floored + ((float_t) (rest*fraction) /
-					   pow(10, n)));
+					   pow (10, n)));
 }
 
 /***************************************************************************/
@@ -1014,8 +988,8 @@ gnumeric_mirr (FunctionEvalInfo *ei, Value **argv)
 
 	npv_pos = calculate_npv(rrate, pos_values, n_pos);
 	npv_neg = calculate_npv(frate, neg_values, n_neg);
-	res = pow((-npv_pos * pow(1+rrate, n_pos)) / (npv_neg * (1+frate)), 
-		  (1.0 / (n-1))) - 1.0;
+	res = pow ((-npv_pos * pow (1 + rrate, n_pos)) / (npv_neg * (1 + frate)),
+		  (1.0 / (n - 1))) - 1.0;
 
 	result = value_new_float (res);
 out:
@@ -1055,7 +1029,7 @@ gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 	settlement = get_serial_date (argv[0]);
 	maturity = get_serial_date (argv[1]);
 	discount = value_get_as_float (argv[2]);
-	
+
 	dsm = maturity - settlement;
 
 	if (settlement > maturity || discount < 0 || dsm > 356)
@@ -1100,7 +1074,7 @@ gnumeric_tbillprice (FunctionEvalInfo *ei, Value **argv)
 	settlement = get_serial_date (argv[0]);
 	maturity = get_serial_date (argv[1]);
 	discount = value_get_as_float (argv[2]);
-	
+
 	dsm = maturity - settlement;
 
 	if (settlement > maturity || discount < 0 || dsm > 356)
@@ -1141,7 +1115,7 @@ gnumeric_tbillyield (FunctionEvalInfo *ei, Value **argv)
 	settlement = get_serial_date (argv[0]);
 	maturity = get_serial_date (argv[1]);
 	pr = value_get_as_float (argv[2]);
-	
+
 	dsm = maturity - settlement;
 
 	if (pr <= 0 || dsm <= 0 || dsm > 356)
@@ -1209,11 +1183,11 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	gnumeric_rate_t udata;
 	float_t rate0;
 
-	udata.nper = value_get_as_int (argv [0]);
-	udata.pmt  = value_get_as_float (argv [1]);
-	udata.pv   = value_get_as_float (argv [2]);
-	udata.fv   = argv[3] ? value_get_as_float (argv [3]) : 0.0;
-	udata.type = argv[4] ? value_get_as_int (argv [4]) : 0;
+	udata.nper = value_get_as_int (argv[0]);
+	udata.pmt  = value_get_as_float (argv[1]);
+	udata.pv   = value_get_as_float (argv[2]);
+	udata.fv   = argv[3] ? value_get_as_float (argv[3]) : 0.0;
+	udata.type = argv[4] ? value_get_as_int (argv[4]) : 0;
 	/* Ignore the guess in argv[5].  */
 
 	if (udata.nper <= 0)
@@ -1299,8 +1273,8 @@ irr_npv (float_t rate, float_t *y, void *user_data)
 	n = p->n;
 
 	sum = 0;
-	for (i=0; i<n; i++)
-	        sum += values[i] / pow(1 + rate, i);
+	for (i = 0; i < n; i++)
+	        sum += values[i] / pow (1 + rate, i);
 
 	*y = sum;
 	return GOAL_SEEK_OK;
@@ -1357,11 +1331,11 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 	float_t pvif, fvifa;
 	int type;
 
-	rate = value_get_as_float (argv [0]);
-	nper = value_get_as_float (argv [1]);
-	pmt  = value_get_as_float (argv [2]);
-	fv   = value_get_as_float (argv [3]);
-	type = value_get_as_int (argv [4]);
+	rate = value_get_as_float (argv[0]);
+	nper = value_get_as_float (argv[1]);
+	pmt  = value_get_as_float (argv[2]);
+	fv   = value_get_as_float (argv[3]);
+	type = !!value_get_as_int (argv[4]);
 
 	if (rate <= 0.0)
 		return value_new_error (ei->pos, _("pv - domain error"));
@@ -1370,7 +1344,7 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 	pvif = calculate_pvif (rate, nper);
 	fvifa = calculate_fvifa (rate, nper);
 
-        return value_new_float ( ( (-1.0) * fv - pmt *
+        return value_new_float ( ( -fv - pmt *
 				   ( 1.0 + rate * type ) * fvifa ) / pvif );
 }
 
@@ -1474,8 +1448,8 @@ gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
 	if (p_n != d_n)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	for (i=0; i<p_n; i++)
-	        sum += payments[i] / pow(1+rate, (dates[i]-dates[0])/365.0);
+	for (i = 0; i < p_n; i++)
+	        sum += payments[i] / pow (1 + rate, (dates[i] - dates[0]) / 365.0);
 
 	result = value_new_float (sum);
  out:
@@ -1535,12 +1509,12 @@ xirr_npv (float_t rate, float_t *y, void *user_data)
 	n = p->n;
 
 	sum = 0;
-	for (i=0; i<n; i++) {
+	for (i = 0; i < n; i++) {
 	        float_t d = dates[i] - dates[0];
 
 		if (d < 0)
 		        return GOAL_SEEK_ERROR;
-	        sum += values[i] / pow(1+rate, d/365.0);
+	        sum += values[i] / pow (1 + rate, d / 365.0);
 	}
 
 	*y = sum;
@@ -1609,17 +1583,17 @@ gnumeric_fv (FunctionEvalInfo *ei, Value **argv)
 	float_t pvif, fvifa;
 	int type;
 
-	rate = value_get_as_float (argv [0]);
-	nper = value_get_as_float (argv [1]);
-	pmt  = value_get_as_float (argv [2]);
-	pv   = value_get_as_float (argv [3]);
-	type = value_get_as_int (argv [4]);
+	rate = value_get_as_float (argv[0]);
+	nper = value_get_as_float (argv[1]);
+	pmt  = value_get_as_float (argv[2]);
+	pv   = value_get_as_float (argv[3]);
+	type = !!value_get_as_int (argv[4]);
 
 	pvif = calculate_pvif (rate, nper);
 	fvifa = calculate_fvifa (rate, nper);
 
-        return value_new_float (-1.0 * ((pv * pvif) + pmt *
-					(1.0 + rate * type) * fvifa));
+        return value_new_float (-((pv * pvif) + pmt *
+				  (1.0 + rate * type) * fvifa));
 }
 
 /***************************************************************************/
@@ -1641,17 +1615,11 @@ gnumeric_pmt (FunctionEvalInfo *ei, Value **argv)
 	float_t rate, pv, fv, nper;
 	int type;
 
-	rate = value_get_as_float (argv [0]);
-	nper = value_get_as_float (argv [1]);
-	pv   = value_get_as_float (argv [2]);
-	if (argv[3] == NULL)
-	        fv = 0;
-	else
-	        fv   = value_get_as_float (argv [3]);
-	if (argv[4] == NULL)
-	        type = 0;
-	else
-	        type = value_get_as_int (argv [4]);
+	rate = value_get_as_float (argv[0]);
+	nper = value_get_as_float (argv[1]);
+	pv   = value_get_as_float (argv[2]);
+	fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
+	type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
 
         return value_new_float (calculate_pmt (rate, nper, pv, fv, type));
 }
@@ -1687,18 +1655,12 @@ gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 	float_t pmt;
 	int type;
 
-	rate = value_get_as_float (argv [0]);
-	nper = value_get_as_float (argv [1]);
-	per  = value_get_as_float (argv [2]);
-	pv   = value_get_as_float (argv [3]);
-	if (argv[4] == NULL)
-	        fv = 0;
-	else
-	        fv   = value_get_as_float (argv [4]);
-	if (argv[5] == NULL)
-	        type = 0;
-	else
-	        type = value_get_as_int (argv [5]);
+	rate = value_get_as_float (argv[0]);
+	nper = value_get_as_float (argv[1]);
+	per  = value_get_as_float (argv[2]);
+	pv   = value_get_as_float (argv[3]);
+	fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
+	type = argv[5] ? !!value_get_as_int (argv[5]) : 0;
 
 	/* First calculate the payment */
         pmt = calculate_pmt (rate, nper, pv, fv, type);
@@ -1706,7 +1668,7 @@ gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 	/* Now we need to calculate the amount of money going towards the
 	   principal */
 
-	return value_new_float (-calculate_principal (pv, pmt, rate, per-1) *
+	return value_new_float (-calculate_principal (pv, pmt, rate, per - 1) *
 				rate);
 }
 
@@ -1740,18 +1702,12 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 	float_t ipmt, pmt;
 	int type;
 
-	rate = value_get_as_float (argv [0]);
-	nper = value_get_as_float (argv [1]);
-	per  = value_get_as_float (argv [2]);
-	pv   = value_get_as_float (argv [3]);
-	if (argv[4] == NULL)
-	        fv = 0;
-	else
-	        fv   = value_get_as_float (argv [4]);
-	if (argv[5] == NULL)
-	        type = 0;
-	else
-	        type = value_get_as_int (argv [5]);
+	rate = value_get_as_float (argv[0]);
+	nper = value_get_as_float (argv[1]);
+	per  = value_get_as_float (argv[2]);
+	pv   = value_get_as_float (argv[3]);
+	fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
+	type = argv[5] ? !!value_get_as_int (argv[5]) : 0;
 
 	/* First calculate the payment */
         pmt = calculate_pmt(rate,nper,pv,fv,type);
@@ -1760,7 +1716,7 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 	 * Now we need to calculate the amount of money going towards the
 	 * principal
 	 */
-	ipmt = -calculate_principal (pv, pmt, rate, per-1) * rate;
+	ipmt = -calculate_principal (pv, pmt, rate, per - 1) * rate;
 
 	return value_new_float (pmt - ipmt);
 }
@@ -1784,11 +1740,11 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 	float_t rate, pmt, pv, fv, tmp;
 	int type;
 
-	rate = value_get_as_float (argv [0]);
-	pmt = value_get_as_float (argv [1]);
-	pv = value_get_as_float (argv [2]);
-	fv = value_get_as_float (argv [3]);
-	type = value_get_as_int (argv [4]);
+	rate = value_get_as_float (argv[0]);
+	pmt = value_get_as_float (argv[1]);
+	pv = value_get_as_float (argv[2]);
+	fv = value_get_as_float (argv[3]);
+	type = !!value_get_as_int (argv[4]);
 
 	if (rate <= 0.0)
 		return value_new_error (ei->pos, gnumeric_err_DIV0);
@@ -1823,9 +1779,9 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t rate,pv,fv;
 
-	rate = value_get_as_float (argv [0]);
-	pv = value_get_as_float (argv [1]);
-	fv = value_get_as_float (argv [2]);
+	rate = value_get_as_float (argv[0]);
+	pv = value_get_as_float (argv[1]);
+	fv = value_get_as_float (argv[2]);
 
 	if (rate <= 0)
 		return value_new_error (ei->pos, gnumeric_err_DIV0);
@@ -1862,13 +1818,13 @@ gnumeric_fvschedule (FunctionEvalInfo *ei, Value **argv)
 	Value   *result = NULL;
 	int     i, n;
 
-	pv = value_get_as_float (argv [0]);
+	pv = value_get_as_float (argv[0]);
 	schedule = collect_floats_value (argv[1], ei->pos,
 					 0, &n, &result);
 	if (result)
 		goto out;
 
-	for (i=0; i<n; i++)
+	for (i = 0; i < n; i++)
 	        pv *= 1 + schedule[i];
 
 	result = value_new_float (pv);
@@ -1911,7 +1867,7 @@ static char *help_euro = {
 static Value *
 gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 {
-        char *str = argv [0]->v.str->str;
+        char *str = argv[0]->v.str->str;
 
 	switch (*str) {
 	case 'A':
@@ -2116,119 +2072,185 @@ gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
 void
 finance_functions_init (void)
 {
+	FunctionDefinition *def;
 	FunctionCategory *cat = function_get_category (_("Financial"));
 
-	function_add_args  (cat, "accrint", "???fff|f",
-			    "issue,first_interest,settlement,rate,par,"
-			    "frequency[,basis]",
-			    &help_accrint, gnumeric_accrint);
-	function_add_args  (cat, "accrintm", "??f|ff",
-			    "issue,maturity,rate[,par,basis]",
-			    &help_accrintm, gnumeric_accrintm);
-	function_add_args  (cat, "db", "ffff|f",
-			    "cost,salvage,life,period[,month]",
-			    &help_db, gnumeric_db);
-	function_add_args  (cat, "ddb", "ffff|f",
-			    "cost,salvage,life,period[,factor]",
-			    &help_ddb, gnumeric_ddb);
-        function_add_args  (cat, "disc", "??ff|f",
-			    "settlement,maturity,pr,redemption[,basis]",
-			    &help_disc, gnumeric_disc);
-	function_add_args  (cat, "dollarde", "ff", 
-			    "fractional_dollar,fraction",
-			    &help_dollarde, gnumeric_dollarde);
-	function_add_args  (cat, "dollarfr", "ff",
-			    "decimal_dollar,fraction",
-			    &help_dollarfr, gnumeric_dollarfr);
-	function_add_args  (cat, "duration", "fff", "rate,pv,fv",
-			    &help_duration, gnumeric_duration);
-	function_add_args  (cat, "effect",   "ff",    "rate,nper",
-			    &help_effect,   gnumeric_effect);
-	function_add_args  (cat, "euro", "s", "currency",
-			    &help_euro,     gnumeric_euro);
-	function_add_args  (cat, "fv", "fffff", "rate,nper,pmt,pv,type",
-			    &help_fv,       gnumeric_fv);
-	function_add_args  (cat, "fvschedule", "fA", "pv,schedule",
-			    &help_fvschedule, gnumeric_fvschedule);
-	function_add_args  (cat, "intrate", "??ff|f",
-			    "settlement,maturity,investment,redemption"
-			    "[,basis]",
-			    &help_intrate,  gnumeric_intrate);
-	function_add_args  (cat, "ipmt", "ffff|ff", "rate,per,nper,pv,fv,type",
-			    &help_ipmt,     gnumeric_ipmt);
-	function_add_args  (cat, "irr", "A|f",
-			    "values[,guess]",
-			    &help_irr,      gnumeric_irr);
-	function_add_args  (cat, "ispmt", "ffff",    "rate,per,nper,pv",
-			    &help_ispmt,  gnumeric_ispmt);
-	function_add_args  (cat, "mirr", "Aff",
-			    "values,finance_rate,reinvest_rate",
-			    &help_mirr,     gnumeric_mirr);
-	function_add_args  (cat, "nominal", "ff",    "rate,nper",
-			    &help_nominal,  gnumeric_nominal);
-	function_add_args  (cat, "nper", "fffff", "rate,pmt,pv,fv,type",
-			    &help_nper,     gnumeric_nper);
-        function_add_nodes (cat, "npv",     0,      "",
-			    &help_npv,      gnumeric_npv);
-        function_add_args  (cat, "oddfprice", "????fffff",
-			    "settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency,basis",
-			    &help_oddfprice,  gnumeric_oddfprice);
-        function_add_args  (cat, "oddfyield", "????fffff",
-			    "settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency,basis",
-			    &help_oddfyield,  gnumeric_oddfyield);
-        function_add_args  (cat, "oddlprice", "???fffff",
-			    "settlement,maturity,last_interest,rate,yld,redemption,frequency,basis",
-			    &help_oddlprice,  gnumeric_oddlprice);
-        function_add_args  (cat, "oddlyield", "???fffff",
-			    "settlement,maturity,last_interest,rate,pr,redemption,frequency,basis",
-			    &help_oddlyield,  gnumeric_oddlyield);
-	function_add_args  (cat, "pmt", "fff|ff", "rate,nper,pv[,fv,type]",
-			    &help_pmt,      gnumeric_pmt);
-	function_add_args  (cat, "ppmt", "ffff|ff",
-			    "rate,per,nper,pv[,fv,type]",
-			    &help_ppmt,     gnumeric_ppmt);
-        function_add_args  (cat, "price", "??fff|ff",
-			    "settle,mat,rate,yield,redemption_price,frequency,basis",
-			    &help_price, gnumeric_price);
-	function_add_args  (cat, "pricedisc", "??ff|f",
-			    "settlement,maturity,discount,redemption[,basis]",
-			    &help_pricedisc,  gnumeric_pricedisc);
-	function_add_args  (cat, "pricemat", "???ff|f",
-			    "settlement,maturity,issue,rate,yield[,basis]",
-			    &help_pricemat,  gnumeric_pricemat);
-	function_add_args  (cat, "pv", "fffff", "rate,nper,pmt,fv,type",
-			    &help_pv,       gnumeric_pv);
-	function_add_args  (cat, "rate", "fff|fff",
-			    "rate,nper,pmt,fv,type,guess",
-			    &help_rate,     gnumeric_rate);
-	function_add_args  (cat, "received", "??ff|f",
-			    "settlement,maturity,investment,discount[,basis]",
-			    &help_received,  gnumeric_received);
-	function_add_args  (cat, "sln", "fff", "cost,salvagevalue,life",
-			    &help_sln,      gnumeric_sln);
-	function_add_args  (cat, "syd", "ffff",
-			    "cost,salvagevalue,life,period",
-			    &help_syd,      gnumeric_syd);
-        function_add_args  (cat, "tbilleq", "??f",
-			    "settlement,maturity,discount",
-			    &help_tbilleq,  gnumeric_tbilleq);
-        function_add_args  (cat, "tbillprice", "??f",
-			    "settlement,maturity,discount",
-			    &help_tbillprice, gnumeric_tbillprice);
-        function_add_args  (cat, "tbillyield", "??f",
-			    "settlement,maturity,pr",
-			    &help_tbillyield, gnumeric_tbillyield);
-        function_add_args  (cat, "yield", "??fff|ff",
-			    "settle,mat,rate,price,redemption_price,frequency,basis",
-			    &help_yield, gnumeric_yield);
-        function_add_args  (cat, "yielddisc", "??fff",
-			    "settlement,maturity,pr,redemption,basis",
-			    &help_yielddisc,  gnumeric_yielddisc);
-        function_add_args  (cat, "yieldmat", "???fff",
-			    "settlement,maturity,issue,rate,pr,basis",
-			    &help_yieldmat,  gnumeric_yieldmat);
-        function_add_args  (cat, "xirr", "AA|f", "values,dates[,guess]",
-			    &help_xirr,     gnumeric_xirr);
-        function_add_args  (cat, "xnpv", "fAA", "rate,values,dates",
-			    &help_xnpv,     gnumeric_xnpv);
+	def = function_add_args	 (cat, "accrint", "???fff|f",
+				  "issue,first_interest,settlement,rate,par,"
+				  "frequency[,basis]",
+				  &help_accrint, gnumeric_accrint);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "accrintm", "??f|ff",
+				  "issue,maturity,rate[,par,basis]",
+				  &help_accrintm, gnumeric_accrintm);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "db", "ffff|f",
+				  "cost,salvage,life,period[,month]",
+				  &help_db, gnumeric_db);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "ddb", "ffff|f",
+				  "cost,salvage,life,period[,factor]",
+				  &help_ddb, gnumeric_ddb);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args  (cat, "disc", "??ff|f",
+				  "settlement,maturity,pr,redemption[,basis]",
+				  &help_disc, gnumeric_disc);
+
+	def = function_add_args	 (cat, "dollarde", "ff",
+				  "fractional_dollar,fraction",
+				  &help_dollarde, gnumeric_dollarde);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "dollarfr", "ff",
+				  "decimal_dollar,fraction",
+				  &help_dollarfr, gnumeric_dollarfr);
+
+	def = function_add_args	 (cat, "duration", "fff", "rate,pv,fv",
+				  &help_duration, gnumeric_duration);
+
+	def = function_add_args	 (cat, "effect",   "ff",    "rate,nper",
+				  &help_effect,	  gnumeric_effect);
+	auto_format_function_result (def, AF_PERCENT);
+
+	def = function_add_args	 (cat, "euro", "s", "currency",
+				  &help_euro,	  gnumeric_euro);
+
+	def = function_add_args	 (cat, "fv", "fffff", "rate,nper,pmt,pv,type",
+				  &help_fv,	  gnumeric_fv);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "fvschedule", "fA", "pv,schedule",
+				  &help_fvschedule, gnumeric_fvschedule);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "intrate", "??ff|f",
+				  "settlement,maturity,investment,redemption"
+				  "[,basis]",
+				  &help_intrate,  gnumeric_intrate);
+	auto_format_function_result (def, AF_PERCENT);
+
+	def = function_add_args	 (cat, "ipmt", "ffff|ff", "rate,per,nper,pv,fv,type",
+				  &help_ipmt,	  gnumeric_ipmt);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "irr", "A|f",
+				  "values[,guess]",
+				  &help_irr,	  gnumeric_irr);
+	auto_format_function_result (def, AF_PERCENT);
+
+	def = function_add_args	 (cat, "ispmt", "ffff",	   "rate,per,nper,pv",
+				  &help_ispmt,	gnumeric_ispmt);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "mirr", "Aff",
+				  "values,finance_rate,reinvest_rate",
+				  &help_mirr,	  gnumeric_mirr);
+	auto_format_function_result (def, AF_PERCENT);
+
+	def = function_add_args	 (cat, "nominal", "ff",	   "rate,nper",
+				  &help_nominal,  gnumeric_nominal);
+	auto_format_function_result (def, AF_PERCENT);
+
+	def = function_add_args	 (cat, "nper", "fffff", "rate,pmt,pv,fv,type",
+				  &help_nper,	  gnumeric_nper);
+
+	def = function_add_nodes (cat, "npv",	  0,	  "",
+				  &help_npv,	  gnumeric_npv);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args  (cat, "oddfprice", "????fffff",
+				  "settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency,basis",
+				  &help_oddfprice,  gnumeric_oddfprice);
+
+	def = function_add_args  (cat, "oddfyield", "????fffff",
+				  "settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency,basis",
+				  &help_oddfyield,  gnumeric_oddfyield);
+
+	def = function_add_args  (cat, "oddlprice", "???fffff",
+				  "settlement,maturity,last_interest,rate,yld,redemption,frequency,basis",
+				  &help_oddlprice,  gnumeric_oddlprice);
+
+	def = function_add_args  (cat, "oddlyield", "???fffff",
+				  "settlement,maturity,last_interest,rate,pr,redemption,frequency,basis",
+				  &help_oddlyield,  gnumeric_oddlyield);
+
+	def = function_add_args	 (cat, "pmt", "fff|ff", "rate,nper,pv[,fv,type]",
+				  &help_pmt,	  gnumeric_pmt);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "ppmt", "ffff|ff",
+				  "rate,per,nper,pv[,fv,type]",
+				  &help_ppmt,	  gnumeric_ppmt);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args  (cat, "price", "??fff|ff",
+				  "settle,mat,rate,yield,redemption_price,frequency,basis",
+				  &help_price, gnumeric_price);
+
+	def = function_add_args	 (cat, "pricedisc", "??ff|f",
+				  "settlement,maturity,discount,redemption[,basis]",
+				  &help_pricedisc,  gnumeric_pricedisc);
+
+	def = function_add_args	 (cat, "pricemat", "???ff|f",
+				  "settlement,maturity,issue,rate,yield[,basis]",
+				  &help_pricemat,  gnumeric_pricemat);
+
+	def = function_add_args	 (cat, "pv", "fffff", "rate,nper,pmt,fv,type",
+				  &help_pv,	  gnumeric_pv);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "rate", "fff|fff",
+				  "rate,nper,pmt,fv,type,guess",
+				  &help_rate,	  gnumeric_rate);
+	auto_format_function_result (def, AF_PERCENT);
+
+	def = function_add_args	 (cat, "received", "??ff|f",
+				  "settlement,maturity,investment,discount[,basis]",
+				  &help_received,  gnumeric_received);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "sln", "fff", "cost,salvagevalue,life",
+				  &help_sln,	  gnumeric_sln);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "syd", "ffff",
+				  "cost,salvagevalue,life,period",
+				  &help_syd,	  gnumeric_syd);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args  (cat, "tbilleq", "??f",
+				  "settlement,maturity,discount",
+				  &help_tbilleq,  gnumeric_tbilleq);
+
+	def = function_add_args  (cat, "tbillprice", "??f",
+				  "settlement,maturity,discount",
+				  &help_tbillprice, gnumeric_tbillprice);
+
+	def = function_add_args  (cat, "tbillyield", "??f",
+				  "settlement,maturity,pr",
+				  &help_tbillyield, gnumeric_tbillyield);
+
+	def = function_add_args  (cat, "yield", "??fff|ff",
+				  "settle,mat,rate,price,redemption_price,frequency,basis",
+				  &help_yield, gnumeric_yield);
+
+	def = function_add_args  (cat, "yielddisc", "??fff",
+				  "settlement,maturity,pr,redemption,basis",
+				  &help_yielddisc,  gnumeric_yielddisc);
+
+	def = function_add_args  (cat, "yieldmat", "???fff",
+				  "settlement,maturity,issue,rate,pr,basis",
+				  &help_yieldmat,  gnumeric_yieldmat);
+
+	def = function_add_args	 (cat, "xirr", "AA|f", "values,dates[,guess]",
+				  &help_xirr,	  gnumeric_xirr);
+	auto_format_function_result (def, AF_PERCENT);
+
+	def = function_add_args	 (cat, "xnpv", "fAA", "rate,values,dates",
+				  &help_xnpv,	  gnumeric_xnpv);
+	auto_format_function_result (def, AF_MONETARY);
 }

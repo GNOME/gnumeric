@@ -19,6 +19,7 @@
 #include "application.h"
 #include "print-info.h"
 #include "global-gnome-font.h"
+#include "auto-format.h"
 
 #include "../plugins/excel/boot.h"
 #include <glade/glade.h>
@@ -111,6 +112,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	cursors_init ();
 	global_symbol_init ();
 	constants_init ();
+	auto_format_init ();
 	functions_init ();
 	expr_name_init ();
 	print_init ();
@@ -172,6 +174,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 	excel_shutdown ();
 	print_shutdown ();
+	auto_format_shutdown ();
 	cursors_shutdown ();
 	format_match_finish ();
 	format_color_shutdown ();

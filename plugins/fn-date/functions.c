@@ -11,6 +11,7 @@
 #include "utils.h"
 #include "func.h"
 #include "number-match.h"
+#include "auto-format.h"
 
 #define DAY_SECONDS (3600*24)
 
@@ -836,60 +837,83 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 void
 date_functions_init(void)
 {
+	FunctionDefinition *def;
 	FunctionCategory *cat = function_get_category (_("Date / Time"));
 
-	function_add_args (cat,  "date",           "fff",
-			   "year,month,day",
-			   &help_date,	      gnumeric_date);
-	function_add_args (cat,  "datevalue",      "?",
-			   "date_str",
-			   &help_datevalue,   gnumeric_datevalue);
-	function_add_args (cat,  "day",            "?",
-			   "date",
-			   &help_day,	      gnumeric_day);
-	function_add_args (cat,  "days360",        "??|f",
-			   "date1,date2,method",
-			   &help_days360,     gnumeric_days360);
-	function_add_args (cat,  "edate",          "ff",
-			   "serial_number,months",
-			   &help_edate,       gnumeric_edate);
-	function_add_args (cat,  "eomonth",        "?|f",
-			   "start_date,months",
-			   &help_eomonth,     gnumeric_eomonth);
-	function_add_args (cat,  "hour",           "?",
-			   "time",
-			   &help_hour,        gnumeric_hour );
-	function_add_args (cat,  "minute",         "?",     
-			   "time",
-			   &help_minute,      gnumeric_minute );
-	function_add_args (cat,  "month",          "?",
-			   "date",
-			   &help_month,       gnumeric_month);
-	function_add_args (cat,  "networkdays",    "??|?",
-			   "start_date,end_date,holidays",
-     			   &help_networkdays, gnumeric_networkdays );
-	function_add_args (cat,  "now",            "",
-			   "",
-			   &help_now,         gnumeric_now );
-	function_add_args (cat,  "second",         "?",
-			   "time",
-			   &help_second,      gnumeric_second );
-	function_add_args (cat,  "time",           "fff",
-			   "hours,minutes,seconds",
-			   &help_time,        gnumeric_time );
-	function_add_args (cat,  "timevalue",      "?",
-			   "",
-			   &help_timevalue,   gnumeric_timevalue );
-	function_add_args (cat,  "today",          "",
-			   "",
-			   &help_today,       gnumeric_today );
-	function_add_args (cat,  "weekday",        "?",
-			   "date",
-			   &help_weekday,     gnumeric_weekday);
-	function_add_args (cat,  "workday",        "?f|?",
-			   "date,days,holidays",
-	 		   &help_workday,     gnumeric_workday);
-	function_add_args (cat,  "year",           "?",
-			   "date",
-			   &help_year,        gnumeric_year);
+	def = function_add_args (cat,  "date",           "fff",
+				 "year,month,day",
+				 &help_date,	      gnumeric_date);
+	auto_format_function_result (def, AF_DATE);
+
+	def = function_add_args (cat,  "datevalue",      "?",
+				 "date_str",
+				 &help_datevalue,   gnumeric_datevalue);
+
+	def = function_add_args (cat,  "day",            "?",
+				 "date",
+				 &help_day,	      gnumeric_day);
+
+	def = function_add_args (cat,  "days360",        "??|f",
+				 "date1,date2,method",
+				 &help_days360,     gnumeric_days360);
+
+	def = function_add_args (cat,  "edate",          "ff",
+				 "serial_number,months",
+				 &help_edate,       gnumeric_edate);
+	auto_format_function_result (def, AF_DATE);
+
+	def = function_add_args (cat,  "eomonth",        "?|f",
+				 "start_date,months",
+				 &help_eomonth,     gnumeric_eomonth);
+	auto_format_function_result (def, AF_DATE);
+
+	def = function_add_args (cat,  "hour",           "?",
+				 "time",
+				 &help_hour,        gnumeric_hour );
+
+	def = function_add_args (cat,  "minute",         "?",     
+				 "time",
+				 &help_minute,      gnumeric_minute );
+
+	def = function_add_args (cat,  "month",          "?",
+				 "date",
+				 &help_month,       gnumeric_month);
+
+	def = function_add_args (cat,  "networkdays",    "??|?",
+				 "start_date,end_date,holidays",
+				 &help_networkdays, gnumeric_networkdays );
+
+	def = function_add_args (cat,  "now",            "",
+				 "",
+				 &help_now,         gnumeric_now );
+
+	def = function_add_args (cat,  "second",         "?",
+				 "time",
+				 &help_second,      gnumeric_second );
+
+	def = function_add_args (cat,  "time",           "fff",
+				 "hours,minutes,seconds",
+				 &help_time,        gnumeric_time );
+	auto_format_function_result (def, AF_TIME);
+
+	def = function_add_args (cat,  "timevalue",      "?",
+				 "",
+				 &help_timevalue,   gnumeric_timevalue );
+
+	def = function_add_args (cat,  "today",          "",
+				 "",
+				 &help_today,       gnumeric_today );
+	auto_format_function_result (def, AF_DATE);
+
+	def = function_add_args (cat,  "weekday",        "?",
+				 "date",
+				 &help_weekday,     gnumeric_weekday);
+
+	def = function_add_args (cat,  "workday",        "?f|?",
+				 "date,days,holidays",
+				 &help_workday,     gnumeric_workday);
+
+	def = function_add_args (cat,  "year",           "?",
+				 "date",
+				 &help_year,        gnumeric_year);
 }

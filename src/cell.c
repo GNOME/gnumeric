@@ -73,17 +73,20 @@ cell_set_formula (Cell *cell, const char *text)
 {
 	ExprTree *new_expr;
 	char *error_msg = _("ERROR");
-	const char *desired_format = NULL;
+	char *desired_format = NULL;
 	ParsePosition pp;
+	gboolean may_set_format;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 	g_return_if_fail (gnumeric_char_start_expr_p (*text));
 
+	may_set_format = !cell_has_assigned_format (cell);
+
 	cell_modified (cell);
 	new_expr = expr_parse_string (text+1, /* Ignore leading char (=,@,+) */
 				      parse_pos_cell (&pp, cell),
-				      &desired_format,
+				      may_set_format ? &desired_format : NULL,
 				      &error_msg);
 	cell_cleanout (cell);
 
@@ -98,8 +101,10 @@ cell_set_formula (Cell *cell, const char *text)
 	/* Until the value is recomputed, we put in this value.  */
 	cell->value = value_new_error (NULL, _("Pending recomputation"));
 
-	if (desired_format)
+	if (desired_format) {
 		cell_set_format (cell, desired_format);
+		g_free (desired_format);
+	}
 
 	if (new_expr->oper == OPER_ARRAY) {
 		/* The corner sets up the entire array block */
@@ -1477,4 +1482,51 @@ cell_style_changed (Cell *cell)
 					  cell->row->pos,
 					  cell->col->pos + width,
 					  cell->row->pos);
+}
+
+
+gboolean
+cell_has_assigned_format (const Cell *cell)
+{
+	MStyle *mstyle;
+	gboolean result;
+
+	mstyle = sheet_style_compute (cell->sheet, cell->col->pos,
+				      cell->row->pos);
+	if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
+		const char *format;
+		format = mstyle_get_format (mstyle)->format;
+		/* FIXME: we really should distinguish between "not assigned"
+		   and "assigned General".  */
+		result = (format && strcmp (format, "General") != 0);
+	} else
+		result = FALSE;
+
+	mstyle_unref (mstyle);
+	return result;
+}
+
+
+char *
+cell_get_format (const Cell *cell)
+{
+	MStyle *mstyle;
+	char *result;
+
+	mstyle = sheet_style_compute (cell->sheet, cell->col->pos,
+				      cell->row->pos);
+	if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
+		const char *format;
+		format = mstyle_get_format (mstyle)->format;
+		/* FIXME: we really should distinguish between "not assigned"
+		   and "assigned General".  */
+		if (format && strcmp (format, "General") != 0)
+			result = g_strdup (format);
+		else
+			result = NULL;
+	} else
+		result = NULL;
+
+	mstyle_unref (mstyle);
+	return result;
 }

@@ -13,12 +13,14 @@
 #include "format.h"
 
 /* The various formats */
-char const * const cell_format_general [] = {
+static char const * const
+cell_format_general [] = {
 	N_("General"),
 	NULL
 };
 
-char const * const cell_format_numbers [] = {
+static char const * const
+cell_format_numbers [] = {
 	N_("0"),
 	N_("0.00"),
 	N_("#,##0"),
@@ -31,7 +33,8 @@ char const * const cell_format_numbers [] = {
 	NULL
 };
 
-char const * const cell_format_currency [] = {
+static char const * const
+cell_format_currency [] = {
 	N_("$#,##0_);($#,##0)"),
 	N_("$#,##0_);[Red]($#,##0)"),
 	N_("$#,##0.00_);($#,##0.00)"),
@@ -40,7 +43,8 @@ char const * const cell_format_currency [] = {
 
 };
 
-char const * const cell_format_account [] = {
+static char const * const
+cell_format_account [] = {
 	N_("_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"),
 	N_("_(*#,##0_);_(*(#,##0);_(*\"-\"_);_(@_)"),
 	N_("_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"),
@@ -48,7 +52,8 @@ char const * const cell_format_account [] = {
 	NULL
 };
 
-char const * const cell_format_date [] = {
+static char const * const
+cell_format_date [] = {
 	N_("m/d/yy"),
 	N_("m/d/yyyy"),
 	N_("d-mmm-yy"),
@@ -80,7 +85,8 @@ char const * const cell_format_date [] = {
 	NULL
 };
 
-char const * const cell_format_time [] = {
+static char const * const
+cell_format_time [] = {
 	N_("h:mm AM/PM"),
 	N_("h:mm:ss AM/PM"),
 	N_("h:mm"),
@@ -95,30 +101,35 @@ char const * const cell_format_time [] = {
 	NULL
 };
 
-char const * const cell_format_percent [] = {
+static char const * const
+cell_format_percent [] = {
 	N_("0%"),
 	N_("0.00%"),
 	NULL,
 };
 
-char const * const cell_format_fraction [] = {
+static char const * const
+cell_format_fraction [] = {
 	N_("# ?/?"),
 	N_("# ??/??"),
 	NULL
 };
 
-char const * const cell_format_science [] = {
+static char const * const
+cell_format_science [] = {
 	N_("0.00E+00"),
 	N_("##0.0E+0"),
 	NULL
 };
 
-char const *cell_format_text [] = {
+static char const *
+cell_format_text [] = {
 	"@",
 	NULL,
 };
 
-char const * const * const cell_formats [] = {
+char const * const * const
+cell_formats [] = {
 	cell_format_general,
 	cell_format_numbers,
 	cell_format_currency,

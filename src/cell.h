@@ -195,4 +195,7 @@ gboolean    cell_is_blank		 (Cell *cell);
 /* If a cell has an error value return it */
 Value *     cell_is_error                 (Cell const *cell);
 
+char *      cell_get_format               (const Cell *cell);
+gboolean    cell_has_assigned_format      (const Cell *cell);
+
 #endif /* GNUMERIC_CELL_H */

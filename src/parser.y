@@ -20,6 +20,7 @@
 #include "expr.h"
 #include "sheet.h"
 #include "utils.h"
+#include "auto-format.h"
 
 /* ------------------------------------------------------------------------- */
 /* Allocation with disposal-on-error */
@@ -176,7 +177,7 @@ static int parser_col, parser_row;
 static Workbook *parser_wb;
 
 /* The suggested format to use for this expression */
-static const char **parser_desired_format;
+static char **parser_desired_format;
 
 /* Locale info.  */
 static char parser_decimal_point;
@@ -485,7 +486,7 @@ make_string_return (char const *string, gboolean const possible_number)
 	    format_match (string, &fv, &format)){
 		v = value_new_float (fv);
 		if (parser_desired_format && *parser_desired_format == NULL)
-			*parser_desired_format = format;
+			*parser_desired_format = g_strdup (format);
 	} else
 		v = value_new_string (string);
 
@@ -739,7 +740,7 @@ yyerror (char *s)
 
 ParseErr
 gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
-		      const char **desired_format, ExprTree **result)
+		      char **desired_format, ExprTree **result)
 {
 	struct lconv *locinfo;
 
@@ -778,12 +779,38 @@ gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
 
 	yyparse ();
 
-	if (parser_error == PARSE_OK)
+	if (parser_error == PARSE_OK) {
 		deallocate_assert_empty ();
-	else {
+		if (desired_format) {
+			char *format;
+			EvalPosition pos;
+
+			/*
+			 * FIXME: we *need* the sheet here, even if occasionally
+			 * it is NULL.
+			 */			   
+			pos.sheet = NULL;
+			pos.eval.col = pp->col;
+			pos.eval.row = pp->row;
+			format = auto_format_suggest (*parser_result, &pos);
+			if (format) {
+				/*
+				 * Override the format that came from a
+				 * constant somewhere inside.
+				 */
+				if (*desired_format)
+					g_free (*desired_format);
+				*desired_format = format;
+			}
+		}
+	} else {
 		fprintf (stderr, "Unable to parse '%s'\n", expr);
 		deallocate_all ();
 		*parser_result = NULL;
+		if (desired_format && *desired_format) {
+			g_free (*desired_format);
+			*desired_format = NULL;
+		}
 	}
 
 #ifndef KEEP_DEALLOCATION_STACK_BETWEEN_CALLS

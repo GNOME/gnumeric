@@ -52,6 +52,8 @@ GNUMERIC_BASE_SOURCES =				\
 	analysis-tools.c			\
 	application.c				\
 	application.h				\
+	auto-format.c				\
+	auto-format.h				\
 	border.c				\
 	border.h				\
 	cell.h					\

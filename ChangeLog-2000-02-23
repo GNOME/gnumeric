@@ -1,3 +1,43 @@
+2000-01-16  Morten Welinder  <terra@diku.dk>
+
+	* src/auto-format.c: New file.
+	* src/auto-format.h: New file.
+
+	* src/formats.c (cell_format_general, cell_format_numbers,
+ 	cell_format_currency, cell_format_account, cell_format_date,
+ 	cell_format_time, cell_format_percent, cell_format_fraction,
+ 	cell_format_science, cell_format_text): Make static.
+
+	* src/cell.c (cell_set_formula): Free the format.  Only set format
+ 	if the cell was previously blank.
+	(cell_has_assigned_format, cell_get_format): New functions.
+
+	* src/parser.y (gnumeric_expr_parser): Drop const for
+ 	desired_format.  On error, free the format.
+	(make_string_return): g_strdup the format.
+
+	* src/expr.c (expr_parse_string): Drop const for desired_format.
+
+	* src/functions/fn-financial.c (finance_functions_init): Add
+ 	result types for auto-format.
+
+	* src/functions/fn-date.c (date_functions_init): Add result types
+ 	for auto-format.
+
+	* src/functions/fn-math.c (math_functions_init): Add result types
+ 	for auto-format.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add auto-format.c and
+ 	auto-format.h.
+
+	* src/main.c (gnumeric_main): Init and shutdown for auto_format.
+
+2000-01-16  Morten Welinder  <terra@diku.dk>
+
+	* gnumeric.spec.in (gnome-print): require 0.10.
+
+	* configure.in (gnome-print): require 0.10.
+
 2000-01-16  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/sheet.c (sheet_redraw_range): New function.

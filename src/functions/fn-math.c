@@ -12,7 +12,7 @@
 #include "func.h"
 #include "mathfunc.h"
 #include "collect.h"
-
+#include "auto-format.h"
 
 static int
 gcd (int a, int b)
@@ -3355,10 +3355,13 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *expr_node_list)
 void
 math_functions_init (void)
 {
+	FunctionDefinition *def;
 	FunctionCategory *cat = function_get_category (_("Maths / Trig."));
 
-	function_add_args  (cat, "abs",     "f",
-			    "number",    &help_abs,      gnumeric_abs);
+	def = function_add_args  (cat, "abs",     "f",
+				  "number",    &help_abs,      gnumeric_abs);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
 	function_add_args  (cat, "acos",    "f",
 			    "number",    &help_acos,     gnumeric_acos);
 	function_add_args  (cat, "acosh",   "f",
@@ -3380,11 +3383,16 @@ math_functions_init (void)
 	function_add_args  (cat, "countif", "r?",
 			    "range,criteria",
 			    &help_countif,     gnumeric_countif);
-	function_add_args  (cat, "ceil",    "f",
-			    "number",    &help_ceil,     gnumeric_ceil);
-	function_add_args  (cat, "ceiling", "ff",
-			    "number,significance",
-			    &help_ceiling,     gnumeric_ceiling);
+
+	def = function_add_args  (cat, "ceil",    "f",
+				  "number",    &help_ceil,     gnumeric_ceil);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_args  (cat, "ceiling", "ff",
+				  "number,significance",
+				  &help_ceiling,     gnumeric_ceiling);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
 	function_add_args  (cat, "degrees", "f",
 			    "number",    &help_degrees,  gnumeric_degrees);
 	function_add_args  (cat, "even",    "f",
@@ -3398,13 +3406,19 @@ math_functions_init (void)
 			    &help_factdouble,  gnumeric_factdouble);
 	function_add_args  (cat, "combin",  "ff",
 			    "n,k",       &help_combin,   gnumeric_combin);
-	function_add_args  (cat, "floor",   "f|f",
-			    "number",    &help_floor,    gnumeric_floor);
+
+	def = function_add_args  (cat, "floor",   "f|f",
+				  "number",    &help_floor,    gnumeric_floor);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
 	function_add_nodes (cat, "gcd",     "ff",
 			    "number1,number2",
 			    &help_gcd,         gnumeric_gcd);
-	function_add_args  (cat, "int",     "f",
-			    "number",    &help_int,      gnumeric_int);
+
+	def = function_add_args  (cat, "int",     "f",
+				  "number",    &help_int,      gnumeric_int);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
 	function_add_nodes (cat, "lcm",     0,
 			    "",          &help_lcm,      gnumeric_lcm);
 	function_add_args  (cat, "ln",      "f",
@@ -3418,9 +3432,12 @@ math_functions_init (void)
 			    "number",    &help_log10,    gnumeric_log10);
 	function_add_args  (cat, "mod",     "ff",
 			    "num,denom", &help_mod,      gnumeric_mod);
-	function_add_args  (cat, "mround",  "ff",
-			    "number,multiple",
-			    &help_mround,      gnumeric_mround);
+
+	def = function_add_args  (cat, "mround",  "ff",
+				  "number,multiple",
+				  &help_mround,      gnumeric_mround);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
 	function_add_nodes (cat, "multinomial", 0,
 			    "",          
 			    &help_multinomial, gnumeric_multinomial);
@@ -3445,15 +3462,22 @@ math_functions_init (void)
 	function_add_args  (cat, "roman",      "f|f",
 			    "number[,type]",
 			    &help_roman,       gnumeric_roman);
-	function_add_args  (cat, "round",      "f|f",
-			    "number[,digits]",
-			    &help_round,       gnumeric_round);
-	function_add_args  (cat, "rounddown",  "f|f",
-			    "number,digits",
-			    &help_rounddown,   gnumeric_rounddown);
-	function_add_args  (cat, "roundup",    "f|f",
-			    "number,digits",
-			    &help_roundup,     gnumeric_roundup);
+
+	def = function_add_args  (cat, "round",      "f|f",
+				  "number[,digits]",
+				  &help_round,       gnumeric_round);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_args  (cat, "rounddown",  "f|f",
+				  "number,digits",
+				  &help_rounddown,   gnumeric_rounddown);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_args  (cat, "roundup",    "f|f",
+				  "number,digits",
+				  &help_roundup,     gnumeric_roundup);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
 	function_add_nodes (cat, "seriessum", 0,
 			    "x,n,m,coefficients",
 			    &help_seriessum,   gnumeric_seriessum);
@@ -3470,12 +3494,17 @@ math_functions_init (void)
 	function_add_nodes (cat, "subtotal", 0,
 			    "function_nbr,ref1,ref2,...",
 			    &help_subtotal,    gnumeric_subtotal);
-	function_add_nodes (cat, "sum",     0,
-			    "number1,number2,...",
-			    &help_sum,	       gnumeric_sum);
-	function_add_nodes (cat, "suma",    0,
-			    "number1,number2,...",
-			    &help_suma,	       gnumeric_suma);
+
+	def = function_add_nodes (cat, "sum",     0,
+				  "number1,number2,...",
+				  &help_sum,	       gnumeric_sum);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_nodes (cat, "suma",    0,
+				  "number1,number2,...",
+				  &help_suma,	       gnumeric_suma);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
 	function_add_args  (cat, "sumif",   "r?|r",
 			    "range,criteria[,actual_range]",
 			    &help_sumif,       gnumeric_sumif);
@@ -3497,9 +3526,12 @@ math_functions_init (void)
 			    "number",    &help_tan,      gnumeric_tan);
 	function_add_args  (cat, "tanh",    "f",
 			    "number",    &help_tanh,     gnumeric_tanh);
-	function_add_args  (cat, "trunc",   "f|f",
-			    "number,digits",
-			    &help_trunc,       gnumeric_trunc);
+
+	def = function_add_args  (cat, "trunc",   "f|f",
+				  "number,digits",
+				  &help_trunc,       gnumeric_trunc);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
 	function_add_args  (cat, "pi",      "",
 			    "",          &help_pi,       gnumeric_pi);
 	function_add_args  (cat, "mmult",   "AA",

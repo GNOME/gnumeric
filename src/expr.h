@@ -146,11 +146,11 @@ void        cell_get_abs_col_row   (CellRef const * const cell_ref,
 				    int * const col, int * const row);
 
 ExprTree   *expr_parse_string      (const char *expr, const ParsePosition *pp,
-				    const char **desired_format, char **error_msg);
+				    char **desired_format, char **error_msg);
 /* In parser.y  */
 ParseErr    gnumeric_expr_parser   (const char *expr,
 				    const ParsePosition *pp,
-				    const char **desired_format,
+				    char **desired_format,
 				    ExprTree **result);
 
 ExprTree   *expr_tree_duplicate    (ExprTree *expr);
