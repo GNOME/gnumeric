@@ -43,6 +43,7 @@
 #include "formats.h"
 #include "workbook.h"
 #include "command-context.h"
+#include "xml-io.h"
 
 #include "stf.h"
 #include "dialog-stf.h"
@@ -193,6 +194,8 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 		
 		sheet_style_optimize (sheet, range);
 		sheet_cells_update (sheet, range, TRUE);
+		workbook_set_saveinfo (book, filename, FILE_FL_MANUAL,
+				       gnumeric_xml_write_workbook);
 	} else {
 		workbook_detach_sheet (book, sheet, TRUE);
 	}

@@ -1,5 +1,8 @@
 2000-03-23  Jon K Hellan  <hellan@acm.org>
 
+	* src/stf.c (stf_read_workbook): Set save info, preferred format
+	XML, level manual.
+
 	* src/file.[ch] (file_format_register_save): Add "level" parameter.
 
 	* src/file.h: (FileFormatLevel): Add the enum. At the best level,
