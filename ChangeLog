@@ -1,3 +1,21 @@
+2002-03-27  Jody Goldberg <jody@gnome.org>
+
+	* src/io-context.c (gnm_io_get_password) : new.
+	* src/command-context.c (cmd_context_get_password) : new.
+	* src/workbook-control-gui.c (wbcg_get_password) : new.
+
+2002-03-26  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y (yylex) : make utf8 clean.
+	(find_char) : ditto.
+	(find_matching_close) : ditto.
+
+2002-03-26  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : add schemas dir.
+
+	* src/gnumeric-canvas.c (gnumeric_canvas_new) : disable auto-center.
+
 2002-03-27  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/xml-io.c: Added saving and loading of Solver's options.
