@@ -1563,7 +1563,7 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 		for (m = l; m != NULL; m = m->next) {
 			GString *s = l->data;
 
-			g_string_append (types, s->str);
+			g_string_append_len (types, s->str, s->len);
 			g_string_free (s, TRUE);
 
 			if (m->next)

@@ -1,5 +1,13 @@
 2003-07-15  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_selection_clear): Avoid a pointless strlen.
+
+	* src/clipboard.c (cellregion_to_string): Avoid a silly copy of
+	the result (and a few pointless strlens).
+
+	* src/formats.c (style_format_number): Avoid making a copy of the
+	format.
+
 	* src/format.c (format_number): Fix sign position for fractions.
 	Align fractions.
 	(append_year, append_month, append_day, append_hour,

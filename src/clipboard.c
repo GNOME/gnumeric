@@ -678,16 +678,14 @@ cellregion_to_string (PangoContext *context, CellRegion const *cr)
 			if (++col < cr->cols)
 				g_string_append_c (line, '\t');
 		}
-		g_string_append (all, line->str);
+		g_string_append_len (all, line->str, line->len);
 		if (++row < cr->rows)
 			g_string_append_c (all, '\n');
 	}
 
-	return_val = g_strdup (all->str);
-
 	/* Release, everything we used */
 	g_string_free (line, TRUE);
-	g_string_free (all, TRUE);
+	return_val = g_string_free (all, FALSE);
 
 	for (row = 0; row < cr->rows; row++)
 		g_free (data[row]);

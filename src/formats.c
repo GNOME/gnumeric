@@ -936,9 +936,8 @@ style_format_number (GString *res, FormatCharacteristics const *fmt)
 
 	/* There are negatives */
 	if (fmt->negative_fmt > 0) {
+		size_t prelen = res->len;
 
-		GString *tmp = g_string_new (NULL);
-		g_string_append (tmp, res->str);
 		switch (fmt->negative_fmt) {
 		case 1 : g_string_append (res, ";[Red]");
 			break;
@@ -950,11 +949,9 @@ style_format_number (GString *res, FormatCharacteristics const *fmt)
 			g_assert_not_reached ();
 		};
 
-		g_string_append (res, tmp->str);
+		g_string_append_len (res, res->str, prelen);
 
 		if (fmt->negative_fmt >= 2)
 			g_string_append_c (res, ')');
-		g_string_free (tmp, TRUE);
 	}
-
 }
