@@ -1327,7 +1327,7 @@ cb_back_preview_color (GtkObject *obj, guint r, guint g, guint b, guint a,
 	state->back.back_color.g = g;
 	state->back.back_color.b = b;
 	state->back.back_color.rgba =
-		GNOME_CANVAS_COLOR_A (r>>8, g>>8, b>>8, a>>8);
+		GNOME_CANVAS_COLOR_A (r>>8, g>>8, b>>8, 0x00);
 	draw_pattern_preview (state);
 }
 
@@ -1339,7 +1339,7 @@ cb_pattern_preview_color (GtkObject *obj, guint r, guint g, guint b, guint a,
 	state->back.pattern_color.g = g;
 	state->back.pattern_color.b = b;
 	state->back.pattern_color.rgba =
-		GNOME_CANVAS_COLOR_A (r>>8, g>>8, b>>8, a>>8);
+		GNOME_CANVAS_COLOR_A (r>>8, g>>8, b>>8, 0x00);
 	draw_pattern_preview (state);
 }
 
@@ -1756,7 +1756,7 @@ static void
 cb_border_color (GtkObject *obj, guint r, guint g, guint b, guint a,
 		 FormatState *state)
 {
-	state->border.color.rgba = GNOME_CANVAS_COLOR_A (r>>8, g>>8, b>>8, a>>8);
+	state->border.color.rgba = GNOME_CANVAS_COLOR_A (r>>8, g>>8, b>>8, 0x00);
 }
 
 #undef L
@@ -1788,7 +1788,7 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 	} else {
 		StyleColor const * c = border->color;
 		state->border.edge[i].rgba =
-		    GNOME_CANVAS_COLOR_A (c->red>>8, c->green>>8, c->blue>>8, 0xff);
+		    GNOME_CANVAS_COLOR_A (c->red>>8, c->green>>8, c->blue>>8, 0x00);
 		state->border.edge[i].pattern_index = border->line_type;
 		state->border.edge[i].is_selected = (border->line_type != STYLE_BORDER_NONE);
 	}

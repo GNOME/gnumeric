@@ -22,6 +22,7 @@
 #include "application.h"
 #include "commands.h"
 #include "format.h"
+#include "border.h"
 
 /*
  * Pixmaps
@@ -409,35 +410,83 @@ static PixmapComboElement border_combo_info[] =
 static void
 cb_border_changed (PixmapCombo *pixmap_combo, int index, Workbook *wb)
 {
+	MStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+	int i;
+
+	/* Init the list */
+	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
+		borders [i] = NULL;
+
 	switch (index) {
 	case 11 : /* left */
+		borders [STYLE_BORDER_LEFT] =
+		    style_border_fetch (STYLE_BORDER_THIN, style_color_black (),
+					style_border_get_orientation (MSTYLE_BORDER_LEFT));
+		break;
+
 	case 12 : /* none */
+		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
+			borders [i] = style_border_ref (style_border_none ());
+		break;
+
 	case 13 : /* right */
+		borders [STYLE_BORDER_RIGHT] =
+		    style_border_fetch (STYLE_BORDER_THIN, style_color_black (),
+					style_border_get_orientation (MSTYLE_BORDER_RIGHT));
+		break;
 
 	case 21 : /* all */
-	case 22 : /* outside */
-	case 23 : /* thick_outside */
+		for (i = STYLE_BORDER_HORIZ; i <= STYLE_BORDER_VERT; ++i)
+			borders [i] =
+			    style_border_fetch (STYLE_BORDER_THIN, style_color_black (),
+						style_border_get_orientation (i));
+		/* fall through */
 
-	case 31 : /* bottom */
-	case 32 : /* double_bottom */
-	case 33 : /* thick_bottom */
+	case 22 : /* outside */
+		for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; ++i)
+			borders [i] =
+			    style_border_fetch (STYLE_BORDER_THIN, style_color_black (),
+						style_border_get_orientation (i));
+		break;
+
+	case 23 : /* thick_outside */
+		for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; ++i)
+			borders [i] =
+			    style_border_fetch (STYLE_BORDER_THICK, style_color_black (),
+						style_border_get_orientation (i));
+		break;
 
 	case 41 : /* top_n_bottom */
 	case 42 : /* top_n_double_bottom */
 	case 43 : /* top_n_thick_bottom */
+		borders [STYLE_BORDER_TOP] =
+		    style_border_fetch (STYLE_BORDER_THIN, style_color_black (),
+					style_border_get_orientation (STYLE_BORDER_TOP));
+	    /* Fall through */
+
+	case 31 : /* bottom */
+	case 32 : /* double_bottom */
+	case 33 : /* thick_bottom */
+	{
+		int const tmp = index % 10;
+		StyleBorderType const t =
+		    (tmp == 1) ? STYLE_BORDER_THIN :
+		    (tmp == 2) ? STYLE_BORDER_DOUBLE
+		    : STYLE_BORDER_THICK;
+
+		borders [STYLE_BORDER_BOTTOM] =
+		    style_border_fetch (t, style_color_black (),
+					style_border_get_orientation (STYLE_BORDER_BOTTOM));
 		break;
+	}
 
 	default :
 		g_warning ("Unknown border preset selected (%d)", index);
 		return;
 	}
 
-	g_warning ("Finish the border toolbar");
-#if 0
-	printf ("%s %d\n", sheet->name, index);
 	cmd_format (workbook_command_context_gui (wb),
-		    sheet, mstyle, NULL);
-#endif
+		    wb->current_sheet, NULL, borders);
 }
 
 GtkWidget *
@@ -512,6 +561,7 @@ workbook_create_format_toolbar (Workbook *wb)
 	 * Create the combo boxes
 	 */
 	wb->priv->border_combo = pixmap_combo_new (border_combo_info, 3, 4);
+	/* default to none */
 	pixmap_combo_select_pixmap (PIXMAP_COMBO (wb->priv->border_combo), 1);
 	gtk_widget_show (wb->priv->border_combo);
 	gtk_signal_connect (GTK_OBJECT (wb->priv->border_combo), "changed",

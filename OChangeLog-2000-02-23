@@ -1,3 +1,16 @@
+2000-02-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-cell-format.c (cb_back_preview_color) : Hard code
+	  the alpha channel to 0.
+	(cb_pattern_preview_color) : Ditto.
+	(cb_border_color) : Ditto.
+	(init_border_button) : Ditto.
+
+	* src/widgets/widget-pixmap-combo.c (pixmap_combo_select_pixmap) :
+	  Replace the storing of the new index.
+
+	* src/workbook-format-toolbar.c (cb_border_changed) : Implement.
+
 2000-02-20  Tuomas Kuosmanen  <tigert@gimp.org>
 
 	* src/pixmaps/graphic.xpm: New icon for the "add graph" -button
