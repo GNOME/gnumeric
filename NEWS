@@ -9,6 +9,7 @@ Andreas:
 	* Added new function SSMEDIAN (social science median, or 
           median for grouped data)
 	* Added a locale selector to text import.
+	* Fix 115542 (cs_CZ bug)
 
 Emmanuel Pacaud:
 	* New format selector for stf.

@@ -243,9 +243,9 @@ print_info_new (void)
 	pi = g_new0 (PrintInformation, 1);
 
 	/* We shouldn't need to save the locale but due to bugs elsewhere... */
-	oldlocale = g_strdup (setlocale(LC_NUMERIC, NULL));
+	oldlocale = g_strdup (setlocale(LC_ALL, NULL));
 	pi->print_config = gnome_print_config_default ();
-	setlocale(LC_NUMERIC, oldlocale);
+	setlocale(LC_ALL, oldlocale);
 	g_free(oldlocale);
 
 	/* FIXME: The print_config default configuration is probably not right! */

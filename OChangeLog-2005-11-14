@@ -1,3 +1,8 @@
+2003-06-19  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/print-info.c (print_info_new): protect all parts of the
+	  locale from libcups
+
 2003-06-19  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (format_get_decimal, format_get_thousand): Return a
