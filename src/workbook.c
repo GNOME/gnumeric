@@ -2060,18 +2060,6 @@ workbook_new (void)
 #ifndef ENABLE_BONOBO
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
 	gnome_app_install_menu_hints (GNOME_APP (wb->toplevel), workbook_menu);
-#else
-	{
-		GnomeUIHandlerMenuItem *list;
-		
-		wb->uih = gnome_ui_handler_new ();
-		gnome_ui_handler_set_app (wb->uih, GNOME_APP (wb->toplevel));
-		gnome_ui_handler_create_menubar (wb->uih);
-		list = gnome_ui_handler_menu_parse_uiinfo_list_with_data (workbook_menu, wb);
-		gnome_ui_handler_menu_add_list (wb->uih, "/", list);
-		gnome_ui_handler_menu_free_list (list);
-	}
-#endif
 
 	/* Get the menu items that will be enabled disabled based on
 	 * workbook state.
@@ -2089,6 +2077,24 @@ workbook_new (void)
 	 * there is something to paste */
 	gtk_widget_set_sensitive (wb->menu_item_paste, FALSE);
 	gtk_widget_set_sensitive (wb->menu_item_paste_special, FALSE);
+
+#else
+	{
+		GnomeUIHandlerMenuItem *list;
+		
+		wb->uih = gnome_ui_handler_new ();
+		gnome_ui_handler_set_app (wb->uih, GNOME_APP (wb->toplevel));
+		gnome_ui_handler_create_menubar (wb->uih);
+		list = gnome_ui_handler_menu_parse_uiinfo_list_with_data (workbook_menu, wb);
+		gnome_ui_handler_menu_add_list (wb->uih, "/", list);
+		gnome_ui_handler_menu_free_list (list);
+
+		wb->menu_item_undo		=
+		wb->menu_item_redo		=
+		wb->menu_item_paste		=
+		wb->menu_item_paste_special	= NULL;
+	}
+#endif
 
  	workbook_create_toolbars (wb);
 

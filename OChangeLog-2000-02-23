@@ -1,3 +1,11 @@
+1999-11-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_new) : Disable for bonobo case
+	  until I can figure out how to retrieve menu items in that case
+	  also.
+
+	* src/workbook-view.c (workbook_view_set_paste_state) : Ditto.
+
 1999-11-29  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/expr-name.c (expr_name_add): Add commented out debug.
