@@ -394,7 +394,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 		dialogresult->encoding = pagedata.encoding;
 		pagedata.encoding = NULL;
 
-		dialogresult->rowcount = pagedata.format.renderdata->lines->len;
+		dialogresult->rowcount = pagedata.rowcount;
 
 		dialogresult->parseoptions = pagedata.parseoptions;
 		pagedata.parseoptions = NULL;

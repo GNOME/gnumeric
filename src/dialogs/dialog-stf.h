@@ -113,6 +113,7 @@ typedef struct {
 
 	const char            *source;       /* Where we are reading from (UTF-8) */
 
+	int                    rowcount;
 	int                    longest_line;  /* #characters in longest line.  */
 
 	MainInfo_t            main;

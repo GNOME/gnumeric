@@ -24,11 +24,7 @@
 #include <gtk/gtktooltips.h>
 
 #define LINE_DISPLAY_LIMIT 500
-#define RAW_LINE_DISPLAY_LIMIT 4096
-#define X_OVERFLOW_PROTECT 2048
-
 #define COLUMN_CAPTION N_("Column %d")
-#define MOUSE_SENSITIVITY 5
 
 typedef struct {
 	GtkWidget        *data_container;

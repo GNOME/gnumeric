@@ -784,7 +784,8 @@ stf_parse_general_free (GPtrArray *lines)
 GPtrArray *
 stf_parse_general (StfParseOptions_t *parseoptions,
 		   GStringChunk *lines_chunk,
-		   char const *data, char const *data_end)
+		   char const *data, char const *data_end,
+		   int maxlines)
 {
 	GPtrArray *lines;
 	Source_t src;
@@ -815,6 +816,9 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 
 		g_ptr_array_add (lines, line);
 		src.position += compare_terminator (src.position, parseoptions);
+
+		if (row >= maxlines)
+			break;
 	}
 
 	return lines;
@@ -823,7 +827,8 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 GPtrArray *
 stf_parse_lines (StfParseOptions_t *parseoptions,
 		 GStringChunk *lines_chunk,
-		 const char *data, gboolean with_lineno)
+		 const char *data,
+		 int maxlines, gboolean with_lineno)
 {
 	GPtrArray *lines;
 	int lineno = 1;
@@ -837,7 +842,7 @@ stf_parse_lines (StfParseOptions_t *parseoptions,
 
 		if (with_lineno) {
 			char buf[4 * sizeof (int)];
-			sprintf (buf, "%d", lineno++);
+			sprintf (buf, "%d", lineno);
 			g_ptr_array_add (line,
 					 g_string_chunk_insert (lines_chunk, buf));
 		}
@@ -865,6 +870,10 @@ stf_parse_lines (StfParseOptions_t *parseoptions,
 		}
 
 		g_ptr_array_add (lines, line);
+
+		lineno++;
+		if (lineno >= maxlines)
+			break;
 	}
 	return lines;
 }
@@ -1169,7 +1178,8 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	if (!data_end)
 		data_end = data + strlen (data);
 	lines_chunk = g_string_chunk_new (100 * 1024);
-	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end);
+	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end,
+				   SHEET_MAX_ROWS);
 	for (row = start_row, lrow = 0; lrow < lines->len ; row++, lrow++) {
 		unsigned int lcol, lcol_target = 0;
 		GPtrArray *line = g_ptr_array_index (lines, lrow);
@@ -1220,7 +1230,8 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 	if (!data_end)
 		data_end = data + strlen (data);
 	lines_chunk = g_string_chunk_new (100 * 1024);
-	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end);
+	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end,
+				   SHEET_MAX_ROWS);
 	for (row = 0; row < lines->len; row++) {
 		GPtrArray *line = g_ptr_array_index (lines, row);
 		unsigned int col, targetcol = 0;
@@ -1394,7 +1405,7 @@ stf_parse_options_guess (const char *data)
 
 	res = stf_parse_options_new ();
 	lines_chunk = g_string_chunk_new (100 * 1024);
-	lines = stf_parse_lines (res, lines_chunk, data, FALSE);
+	lines = stf_parse_lines (res, lines_chunk, data, SHEET_MAX_ROWS, FALSE);
 
 	tabcount = count_character (lines, '\t', 0.2);
 	sepcount = count_character (lines, sepchar, 0.2);

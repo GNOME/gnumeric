@@ -75,9 +75,12 @@ main_page_update_preview (StfDialogData *pagedata)
 	GStringChunk *lines_chunk = g_string_chunk_new (100 * 1024);	
 	GPtrArray *lines = stf_parse_lines (pagedata->parseoptions,
 					    lines_chunk,
-					    pagedata->utf8_data, TRUE);
+					    pagedata->utf8_data,
+					    SHEET_MAX_ROWS,
+					    TRUE);
         unsigned int ui;
 
+	pagedata->rowcount = lines->len;
 	pagedata->longest_line = 0;
 	for (ui = 0; ui < lines->len; ui++) {
 		GPtrArray *line = g_ptr_array_index (lines, ui);

@@ -389,7 +389,8 @@ fixed_page_update_preview (StfDialogData *pagedata)
 	trim = parseoptions->trim_spaces;
 	stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_NEVER);
 	lines = stf_parse_general (parseoptions, lines_chunk,
-				   pagedata->cur, pagedata->cur_end);
+				   pagedata->cur, pagedata->cur_end,
+				   LINE_DISPLAY_LIMIT);
 	stf_parse_options_set_trim_spaces (parseoptions, trim);
 
 	stf_preview_set_lines (renderdata, lines_chunk, lines);

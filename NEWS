@@ -13,6 +13,8 @@ Morten:
 	* Fix crash with STF import and gazillions of columns.
 	* Drastically reduce memory usage during STF import with lots of
 	  small fields.
+	* Speed up STF import by now creating field structures for lines
+	  not shown in the preview anyway.
 
 Rodrigo:
 	* Bump requirement to libgda/libgnomedb 1.0.1

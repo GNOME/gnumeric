@@ -98,11 +98,13 @@ int stf_parse_options_fixed_splitpositions_nth         (StfParseOptions_t *parse
 GPtrArray          *stf_parse_general                                 (StfParseOptions_t *parseoptions,
 								       GStringChunk *lines_chunk,
 								       char const *data,
-								       char const *data_end);
+								       char const *data_end,
+								       int maxlines);
 void                stf_parse_general_free                            (GPtrArray *lines);
 GPtrArray          *stf_parse_lines                                   (StfParseOptions_t *parseoptions,
 								       GStringChunk *lines_chunk,
 								       const char *data,
+								       int maxlines,
 								       gboolean with_lineno);
 
 void                stf_parse_options_fixed_autodiscover              (StfParseOptions_t *parseoptions,
