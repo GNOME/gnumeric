@@ -16,7 +16,7 @@
 
 GnmExpr const *
 excel_parse_formula (MSContainer const *container,
-		     ExcelSheet const *esheet,
+		     ExcelReadSheet const *esheet,
 		     int fn_col, int fn_row,
 		     guint8 const *mem, guint16 length,
 		     gboolean shared,

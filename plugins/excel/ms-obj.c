@@ -888,3 +888,60 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, MSObjAttrBag *attrs)
 #endif
 	ms_container_add_obj (container, obj);
 }
+
+/**********************************************************************/
+
+void
+ms_objv8_write_common (BiffPut *bp, int id, int type, gboolean sys)
+{
+	guint8 buf[22];
+	GSF_LE_SET_GUINT16 (buf + 0, 0x15);	/* common record */
+	GSF_LE_SET_GUINT16 (buf + 2, 0x12);	/* len 0x12 */
+	GSF_LE_SET_GUINT16 (buf + 4, type);
+	GSF_LE_SET_GUINT16 (buf + 6, id);
+	/* autofill, locked, with undocumented flag 0x100 */
+	GSF_LE_SET_GUINT16 (buf + 8, sys ? 0x2101 : 0x2001);
+
+	GSF_LE_SET_GUINT32 (buf + 10, 0);
+	/* docs say 0, but n the wild this is some sort of pointer ?*/
+	GSF_LE_SET_GUINT32 (buf + 14, 0);
+	GSF_LE_SET_GUINT32 (buf + 18, 0);
+	ms_biff_put_var_write (bp, buf, sizeof buf);
+}
+
+void
+ms_objv8_write_scrollbar (BiffPut *bp)
+{
+	/* no docs, but some guesses.  See above */
+	static guint8 const data[] = {
+		0x0c, 0,
+		0x14, 0,
+		0, 0,
+		0, 0,
+		0, 0,	/* value */
+		0, 0,	/* min */
+		0x64, 0,/* max */
+		1, 0,	/* increment */
+		0xa, 0,	/* page */
+		0, 0,
+		0x10, 0,
+		1, 0
+	};
+	ms_biff_put_var_write (bp, data, sizeof data);
+}
+
+void
+ms_objv8_write_listbox (BiffPut *bp, gboolean filtered)
+{
+	static guint8 const data[] = {
+		0x13, 0,
+		0xee, 0x1f,	/* totally contradicts docs, see above */
+		0, 0, 0, 0, 1, 0, 1, 3, 0, 0, 2, 0,
+		8, 0, 0x57, 0, 0, 0, 0, 0
+	};
+	guint8 buf[sizeof data];
+	memcpy (buf, data, sizeof data);
+	if (filtered)
+		GSF_LE_SET_GUINT16 (buf + 14, 0xa);
+	ms_biff_put_var_write (bp, buf, sizeof data);
+}

@@ -29,6 +29,7 @@ Jody:
 	* XLS export for validation and Input Messages
 	* Improve handling of validation in format dialog
 	* XL97 export for named expressions
+	* XLS export for autofilters
 
 Jon Kåre:
         * Separate GUI for showing progress and messages before first 

@@ -1962,3 +1962,24 @@ ms_escher_parse (BiffQuery *q, MSContainer *container)
 	d (0, printf ("}; /* Escher '%s'*/\n", drawing_record_name););
 	ms_escher_header_release (&fake_header);
 }
+
+/****************************************************************************/
+
+void
+excel_write_MS_O_DRAWING_GROUP (BiffPut *bp)
+{
+	/* just hard code the data for now nothing seems to change */
+	static guint8 const stock_header[] = {
+		 0xf, 0,    0, 0xf0, 0x52,    0,    0,  0,    0,    0,    6, 0xf0, 0x18,  0,    0,  0,
+		   3, 4,    0,    0,    2,    0,    0,  0,    3,    0,    0,    0,    1,  0,    0,  0,
+		   1, 0,    0,    0,    3,    0,    0,  0, 0x33,    0,  0xb, 0xf0, 0x12,  0,    0,  0,
+		0xbf, 0,    8,    0,    8,    0, 0x81,  1,    9,    0,    0,    8, 0xc0,  1, 0x40,  0,
+		   0, 8, 0x40,    0, 0x1e, 0xf1, 0x10,  0,    0,    0,  0xd,    0,    0,  8,  0xc,  0,
+		   0, 8, 0x17,    0,    0,    8, 0xf7,  0,    0, 0x10
+	};
+
+	guint8 *data = ms_biff_put_len_next (bp, BIFF_MS_O_DRAWING_GROUP,
+					     sizeof stock_header);
+	memcpy (data, stock_header, sizeof stock_header);
+	ms_biff_put_commit (bp);
+}

@@ -52,7 +52,7 @@ void		    gnm_filter_condition_unref 	    (GnmFilterCondition *cond);
 GnmFilter 		 *gnm_filter_new	    (Sheet *sheet, Range const *r);
 void	   		  gnm_filter_free	    (GnmFilter *filter);
 void	   		  gnm_filter_remove	    (GnmFilter *filter);
-GnmFilterCondition const *gnm_filter_get_condition  (GnmFilter *filter, unsigned i);
+GnmFilterCondition const *gnm_filter_get_condition  (GnmFilter const *filter, unsigned i);
 void	   		  gnm_filter_set_condition  (GnmFilter *filter, unsigned i,
 						     GnmFilterCondition *cond,
 						     gboolean apply);

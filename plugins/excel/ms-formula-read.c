@@ -432,7 +432,7 @@ expr_tree_string (char const *str)
 	return gnm_expr_new_constant (value_new_string (str));
 }
 static GnmExpr const *
-expr_tree_error (ExcelSheet const *esheet, int col, int row,
+expr_tree_error (ExcelReadSheet const *esheet, int col, int row,
 		 char const *msg, char const *str)
 {
 	if (esheet != NULL && esheet->sheet != NULL) {
@@ -673,7 +673,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
  * ms_excel_dump_cellname : internal utility to dump the current location safely.
  */
 static void
-ms_excel_dump_cellname (ExcelWorkbook const *ewb, ExcelSheet const *esheet,
+ms_excel_dump_cellname (ExcelWorkbook const *ewb, ExcelReadSheet const *esheet,
 			int fn_col, int fn_row)
 {
 	if (esheet && esheet->sheet && esheet->sheet->name_unquoted)
@@ -762,7 +762,7 @@ excel_formula_parses_ref_sheets (MSContainer const *container, guint8 const *dat
  **/
 GnmExpr const *
 excel_parse_formula (MSContainer const *container,
-		     ExcelSheet const *esheet,
+		     ExcelReadSheet const *esheet,
 		     int fn_col, int fn_row,
 		     guint8 const *mem, guint16 length,
 		     gboolean shared,

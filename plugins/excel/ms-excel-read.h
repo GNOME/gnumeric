@@ -16,8 +16,6 @@
 #include "ms-container.h"
 #include <expr.h>
 
-typedef struct _ExcelSheet	ExcelSheet;
-
 typedef struct {
 	Workbook  *wb;
 	Sheet 	  *first, *last;
@@ -34,14 +32,14 @@ typedef struct {
 	GPtrArray *externname;
 } ExcelSupBook;
 
-struct _ExcelSheet {
+typedef struct {
 	MSContainer container;
 
 	Sheet		*sheet;
 	GHashTable	*shared_formulae, *tables;
 
 	gboolean freeze_panes;
-};
+} ExcelReadSheet;
 
 typedef struct {
 	guint16 index;
@@ -49,7 +47,7 @@ typedef struct {
 	MsBiffFileType type;
 	MsBiffHidden   hidden;
 	char *name;
-	ExcelSheet *sheet;
+	ExcelReadSheet *sheet;
 } BiffBoundsheetData;
 
 typedef struct {
@@ -66,9 +64,9 @@ typedef struct {
 } XLDataTable;
 
 /* Use the upper left corner as the key to a collection of shared formulas */
-XLSharedFormula *excel_sheet_shared_formula (ExcelSheet const *sheet,
+XLSharedFormula *excel_sheet_shared_formula (ExcelReadSheet const *sheet,
 					     CellPos const    *key);
-XLDataTable	*excel_sheet_data_table	    (ExcelSheet const *esheet,
+XLDataTable	*excel_sheet_data_table	    (ExcelReadSheet const *esheet,
 					     CellPos const    *key);
 
 typedef struct {

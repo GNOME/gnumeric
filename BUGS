@@ -51,7 +51,7 @@ Pending Patches
     6.3) Check xl import of unicode names			(DONE)
     6.4) Fix export of unicode for 95 & 97			(DONE)
     6.5) Intersection, union and set export
-    6.6) fix name export now that we understand it
+    6.6) name export
 	6.6.1) Excel 97						(DONE)
 	6.6.2) Excel 95						(DONE)
 	6.6.3) Excel crashes on our xl95 export of names test
@@ -59,7 +59,13 @@ Pending Patches
     6.8) Validation export					(DONE)
 	6.8.1) Clip ranges that are outside the sheet area
 	       for that format
-    6.9) autofilter export
+    6.9) autofilter export					(DONE)
+	6.9.1) Add name						(DONE)
+	6.9.2) autofilterinfo count				(DONE)
+	6.9.3) field info in AUTOFILTER records			(DONE)
+	6.9.4) combos						(DONE)
+	    6.9.4.1) XL95					(DONE)
+	    6.9.4.2) Escher					(DONE)
     6.10) hlink export
 
 8) Reinstate auto-format
@@ -68,8 +74,8 @@ Pending Patches
     8.3) Change commands to infer types.
 
 13) export plugins
-    13.1) UTF-8 -> ??
-    13.2) Use gsf						(DONE)
+    13.1) Use gsf						(DONE)
+    13.2) UTF-8 -> ??
 
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)
@@ -105,6 +111,9 @@ Pending Patches
     21.22) drag scroll for value combos
     21.23) undo/redo for creation
     21.24) undo/redo for condition set change
+    21.25) guess initial region if its a singleton
+    21.26) combo contains start to end of continuous region
+           not just the end of the selected region
 
 22) Add dirty flags to workbook too, adding a sheet should
     make workbook dirty not the new sheet.

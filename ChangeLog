@@ -1,3 +1,9 @@
+2002-12-20  Jody Goldberg <jody@gnome.org>
+
+	* src/stf-parse.c (stf_parse_sheet) : use cell_set_value and simplify.
+
+	* src/clipboard.c (paste_cell) : fix leak.
+
 2002-12-20  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-view.c (wb_view_new_from_input): Add a ref-count

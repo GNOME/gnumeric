@@ -107,10 +107,7 @@ icg_show_gui (IOContextGtk *icg)
 	gtk_box_pack_start (box, GTK_WIDGET (icg->work_bar),
 			    FALSE, FALSE, 0);
 
-	/* Use a POPUP here so that it does not get buried
-	 * as new windows are created.  Tack on a click handler so that a user
-	 * can get rid of the thing */
-	icg->window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_POPUP));
+	icg->window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
 	g_signal_connect (G_OBJECT (icg->window),
 		"button_release_event",
 		G_CALLBACK (cb_hide_splash), NULL);
@@ -278,6 +275,10 @@ icg_inc_files_done (IOContextGtk *icg)
 
 	icg->files_done++;
 	if (icg->window != NULL && icg->file_bar != NULL) {
+		/* If not iconified raise to the top */
+		if (GTK_WIDGET_VISIBLE (icg->window))
+			gtk_window_present (icg->window);
+
 		gtk_progress_bar_set_fraction (icg->file_bar,
 			 (float) icg->files_done / (float) icg->files_total);
 		gtk_progress_bar_set_fraction (icg->work_bar, 0.0);

@@ -1010,7 +1010,7 @@ gnm_filter_remove (GnmFilter *filter)
  *
  **/
 GnmFilterCondition const *
-gnm_filter_get_condition (GnmFilter *filter, unsigned i)
+gnm_filter_get_condition (GnmFilter const *filter, unsigned i)
 {
 	GnmFilterField *field;
 
@@ -1112,18 +1112,3 @@ gnm_filter_contains_row (GnmFilter const *filter, int row)
 
 	return (filter->r.start.row <= row && row <= filter->r.end.row);
 }
-#if 0
-	if (gnumeric_regcomp_XL (&r, needle, REG_ICASE) == REG_OK) {
-		switch (gnumeric_regexec (&r, hay2, 1, &rm, 0)) {
-		case REG_NOMATCH: break;
-		case REG_OK:
-			res = value_new_int (1 + start + rm.rm_so);
-			break;
-		default:
-			g_warning ("Unexpected regexec result");
-		}
-		gnumeric_regfree (&r);
-	} else {
-		g_warning ("Unexpected regcomp result");
-	}
-#endif

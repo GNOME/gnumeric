@@ -1,3 +1,7 @@
+2002-12-17  Jody Goldberg <jody@gnome.org>
+
+	* simulation.c (simulation_tool) : patch minor memory overrun.
+
 2002-12-18  Morten Welinder  <terra@diku.dk>
 
 	* analysis-tools.c (analysis_tool_regression_engine_run): Fix it

@@ -42,7 +42,7 @@ typedef struct {
 	gint32		 max_col, max_row;
 	guint16		 col_xf    [SHEET_MAX_COLS];
 	MStyle		*col_style [SHEET_MAX_COLS];
-} ExcelSheet;
+} ExcelWriteSheet;
 
 struct _ExcelWriteState {
 	BiffPut	      *bp;
@@ -84,6 +84,8 @@ struct _ExcelWriteState {
 		GHashTable *strings;
 		GPtrArray  *indicies;
 	} sst;
+
+	unsigned obj_count;
 };
 
 #define XF_RESERVED 21

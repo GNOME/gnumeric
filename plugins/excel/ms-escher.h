@@ -24,4 +24,11 @@ struct _MSEscherBlip
 void ms_escher_parse     (BiffQuery  *q, MSContainer *container);
 void ms_escher_blip_free (MSEscherBlip *blip);
 
+#if 0
+typedef struct _MSEscherWriter MSEscherWriter;
+MSEscherWriter *ms_escher_writer_new (BiffPut *bp);
+void		ms_escher_writer_commit (MSEscherWriter *ew);
+#endif
+void		excel_write_MS_O_DRAWING_GROUP (BiffPut *bp);
+
 #endif /* GNUMERIC_MS_OFFICE_ESCHER_H */

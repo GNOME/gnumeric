@@ -1,3 +1,29 @@
+2002-12-21  Jody Goldberg <jody@gnome.org>
+
+	* ms-escher.c (excel_write_MS_O_DRAWING_GROUP) : new.
+	* ms-excel-write.c (excel_write_AUTOFILTERINFO) : write the biff8
+	  combos.  Thats it we're done.
+
+2002-12-20  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_AUTOFILTERINFO) : write the fields
+	  to handle the last 1/4 of the puzzle.  The only thing missing now is
+	  exporting the combos for biff8.
+	(excel_write_DOPER) : new.
+
+2002-12-18  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_AUTOFILTERINFO) : new.
+	(write_sheet_head) : use it here to export the 1st 1/4 of autofilters.
+	(excel_write_NAME) : support hidden names.
+	(excel_write_autofilter_names) : create pretend names for the 1st
+	 filter in each sheet.
+	(write_workbook) : use excel_write_autofilter_names to generate the
+	  next 1/4 of autofilters.
+	(excel_write_autofilter_objs) : generate simple biff7 style objects
+	  for the filter combos.
+	(excel_write_sheet) : Use excel_write_autofilter_objs for the next 1/4.
+
 2002-12-17  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-write.c (excel_write_prep_expr) : make it public.

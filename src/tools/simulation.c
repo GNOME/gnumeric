@@ -394,9 +394,7 @@ simulation_tool (WorkbookControl        *wbc,
 		gchar *tmp = dao_find_name (sheet, cell->pos.col,
 					    cell->pos.row);
 		gchar *prefix = _("(Input) ");
-		gchar *buf = g_new (gchar, strlen (tmp) + strlen (prefix) + 1);
-
-		sprintf (buf, "%s %s", prefix, tmp);
+		gchar *buf = g_strdup_printf ("%s %s", prefix, tmp);
 		g_free (tmp);
 		sim->cellnames [i++] = buf;
 	}
