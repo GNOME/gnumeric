@@ -1551,14 +1551,17 @@ static char const *help_tdist = {
 	   "@DESCRIPTION="
 	   "TDIST function returns the Student's t-distribution. @dof is "
 	   "the degree of freedom and @tails is 1 or 2 depending on whether "
-	   "you want one-tailed or two-tailed distribution.\n"
+	   "you want one-tailed or two-tailed distribution."
+	   "@tails = 1 returns the size of teh right tail.\n"
 	   "\n"
 	   "* If @dof < 1 TDIST returns #NUM! error.\n"
 	   "* If @tails is neither 1 or 2 TDIST returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
+	   "* This function is Excel compatible for non-negative @x.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TDIST(2,5,1) equals 0.050969739.\n"
+	   "TDIST(-2,5,1) equals 0.949030261.\n"
+	   "TDIST(0,5,2) equals 1.\n"
 	   "\n"
 	   "@SEEALSO=TINV,TTEST")
 };
@@ -1576,7 +1579,8 @@ gnumeric_tdist (FunctionEvalInfo *ei, GnmValue **argv)
 	if (dof < 1 || (tails != 1 && tails != 2))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (tails * pt (x, dof, FALSE, FALSE));
+	return value_new_float (tails * pt ((tails == 1) ? x : gnumabs(x), 
+					    dof, FALSE, FALSE));
 }
 
 /***************************************************************************/
