@@ -1,5 +1,7 @@
 2002-03-18  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solve.c (lag_solve): Removed.
+
 	* doc.txt: Added the API documentation from the original package.
 
 2002-03-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>

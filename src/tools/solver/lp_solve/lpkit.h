@@ -359,22 +359,8 @@ void       set_col_name (lprec *lp, int column, nstring new_name);
 void       lp_solve_auto_scale (lprec *lp);
 /* Automatic scaling of the problem */
 
-#if 0
-void       unscale (lprec *lp);
-/* Remove all scaling from the problem */
-#endif
-
 SolverStatus lp_solve_solve (lprec *lp);
 /* Solve the problem */
-
-SolverStatus lag_solve (lprec *lp, gnum_float start_bound, int num_iter,
-			gboolean verbose);
-/* Do NumIter iterations with Lagrangian relaxation constraints */
-
-#if 0
-void       lp_solve_reset_basis (lprec *lp);
-/* Reset the basis of a problem, can be usefull in case of degeneracy - JD */
-#endif
 
 gnum_float mat_elm (lprec *lp, int row, int column);
 /* get a single element from the matrix */
