@@ -10,13 +10,14 @@ something that has changed.
 1.     Overview of the Dependencies
 
        The majority of the code related to dependencies can be found in module
-eval.c, and this should be the first reference for functions.
+dependent.c, and this should be the first reference for functions.
 
 1.1    Data structures and their meaning
 
        The main dependency data is anchored on a per-sheet basis using the
-structure DependencyData. This stores all the dependencies for the sheet
-in two hash tables.
+structure GnmDepContainer. This stores all the dependencies for the sheet
+in two hash tables.  In the future other objects may also become containers,
+such as graphs in their own tab.
 
        There are two types of dependencies, single and range. Loosely these
 describe single (ie. = A1 ) cell references vs. large ( ie. = SUM (A1:Z500) )
@@ -26,8 +27,8 @@ member.
 
        The DependencyRange structure defines a range reference. This lists the
 Dependencies ( not neccessarily in this sheet ), that depend on the range
-specified.  Hence to find the cells that depend on a cell you have just altered
-you must search all the range structures in the range_hash for that sheet.
+specified.  Hence to find the dependents that rely on a cell you must search
+all the range structures in the range_hash for that container.
 
        The DependencySingle structure mapping stores the degenerate case of
 a DependencyRange. Essentialy it stores the cells that depend on a unit range.
@@ -93,7 +94,10 @@ information into the sheet in which the cells that are dependended on reside.
 This is essentialy exactly what is expected, given that cell's are linked to
 the cell they depend on. Removing inter-sheet dependencies is also identical
 to normal dependencies, excepting that it is more likely to throw up formulae
-that have not been correctly unlinked in a sheet destroy.
+that have not been correctly unlinked in a sheet destroy.  As an optimization
+we flag intersheet and interbook dependencies.  If we are destroying an entire
+sheet or workbook there is no need to be neat and tidy unlinking individual
+depends when the whole structure is going to be deleted.
 
 3.3    What is hashed
 
@@ -107,38 +111,27 @@ already a range in the hash with the same dimensions as a new dependency range
 being added. This accelerates insertion of dependencies, the hash is traversed
 as a simple un-ordered list at all other times.
 
-3.3.2  Why not a direct Cell * -> GList * mapping for DependencySingle ?
+3.3.2  Why not a direct Cell * -> set mapping for DependencySingle ?
 
        This is not done since there is no garentee that cells that have
 dependencies are in existance yet. Hence it is quite valid for A1 to be '=A2'
 before A2 exists. If A2 does not exist then A2 has no Cell structure yet. This
 could be obviated by creating depended cells, but this would be inelegant.
 
+3.3.3 How are depends stored
+	As of 1.1.x we enabled switched from storing lists of dependents in the
+DependentSingle and DepenentRange.  That was a bottleneck when ensuring
+uniqueness if alot of things depended on the same region directly.  The list
+was replaced with a 'microHash'.  A simple hash table that looks like a list
+for small sizes.  It is derived from GHashTable in glib, but simplified to make
+it lighter wieght.
 
-4.     How dependencies are generated and removed
+4.     The lifecycle of dependency records
 
-       The dependencies are both generated and mostly removed by the
-handle_tree_deps function. This traverses the GnmExpr either adding or
-removing dependencies on cells as they are met.
-
-4.1    Handling ExprTrees
-
-       The GnmExpr is recursively traversed by handle_tree_deps and may
-terminate with handle_value_deps terminating in either adding or removing
-dependencies, according to the 'add' parameter.
-
-4.2    Removal of dependencies
-
-       The removal of single dependencies is performed by traversing the
-GnmExpr again, this saves a search of every cell in the dependency hash
-looking for this Cell's position. This relies on sheet_cell_remove_from_hash,
-and sheet_cell_add_to_hash dropping and adding dependencies, and
-formula_unlink / link when a cell's formula is changed, since the original
-GnmExpr is needed to remove its dependencies correctly. The current code
-implements this correctly internaly, but this needs bearing in mind if
-extensive work is done to cell.c.
-
-4.3    Special cases
+	A Dependent is 'linked' if it's dependencies on other things have been
+registered with its container,  and 'unlinked' if not.  Linking takes place by
+traversing the expression tree and registering the single, range, and 3d
+references.  
 
 4.3.1  Implicit intersection
 
@@ -152,7 +145,7 @@ to an adjacent single reference under certain circumstances.
 stored is identical in each cell, the cells may all depend on the corner cell
 using a fast single mapping.
 
-4.3.3  The INDIRECT function
+4.3.3  The INDIRECT function and calculated depends
 
        This is rather a special case; this function returns a value that
 references a different cell, hence the dependency has to be treated rather
