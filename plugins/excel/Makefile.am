@@ -3,7 +3,7 @@ INCLUDES = 						\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
-	-Ilibole2					\
+	-I$(srcdir)/libole2					\
 	$(GNOME_INCLUDEDIR)
 
 noinst_LIBRARIES = libexcel.a
