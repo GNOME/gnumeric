@@ -1,3 +1,7 @@
+2001-12-29 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add example to troff format
+
 2001-12-29  Kevin Breit  <mrproper@ximian.com>
 
 	* gui-elements.sgml: Removed some links because they were breaking the build and I don't know where they link to.

@@ -540,7 +540,8 @@ Totals:,"$5400.00 ","$116400.00 ",($7200.00),
   </figure>  
   </listitem>
   <listitem>
-  <para>Finally select the appropriate format for each input column:</para>
+  <para>Finally select the appropriate format for each input column as in 
+  <xref linkend="file-format-csv-import-ex4">.</para>
   </listitem>
   <listitem><para>
   Click the <quote><guibutton>Finish</guibutton></quote> button 
@@ -559,9 +560,91 @@ Totals:,"$5400.00 ","$116400.00 ",($7200.00),
   into various other common formats. For example, given a TROFF file 
   <replaceable>myfile.me</replaceable>, the command</para>
   <screen>
-  groff -me -t <replaceable>myfile.me</replaceable> ><replaceable>myfile.ps</replaceable>
+  groff -me -t -Tps <replaceable>myfile.me</replaceable> ><replaceable>myfile.ps</replaceable>
   </screen>
   <para>will create a postscript file of the corresponding table.</para>
+  <para>Similarly, the command</para>
+  <screen>
+groff -me -t -Tascii <replaceable>myfile.me</replaceable> ><replaceable>myfile.ascii</replaceable>
+  </screen>
+  <para>creates an <keycap>ascii</keycap> (straight text) file.</para>
+  <example>
+  <title>Creating an <keycap>ASCII</keycap> File</title>
+  <para>If we save <xref linkend="file-format-dvi-ex1"> as a <keycap>troff</keycap> file 
+  <replaceable>hypothetical-sales.me</replaceable> and then execute the command</para>
+  <screen>
+groff -me -t -Tascii <replaceable>hypothetical-sales.me</replaceable> ><replaceable>hypothetical-sales.ascii</replaceable>
+  </screen>
+  <para>then the file <replaceable>hypothetical-sales.ascii</replaceable> contains:</para>
+  <screen>
+
+
+
+
+
+
+
+Sheet 0
+
+
++----------+------------------+-------------+------------+---+
+|          | Operating System |             |            |   |
++----------+------------------+-------------+------------+---+
+|          |       DOS        |    Linux    |    SCO     |   |
++----------+------------------+-------------+------------+---+
+|  January | $1000.00         | $900.00     | $500.00    |   |
++----------+------------------+-------------+------------+---+
+| February | $900.00          | $2500.00    | $300.00    |   |
++----------+------------------+-------------+------------+---+
+|    March | $800.00          | $4100.00    | $100.00    |   |
++----------+------------------+-------------+------------+---+
+|    April | $700.00          | $5700.00    | ($100.00)  |   |
++----------+------------------+-------------+------------+---+
+|      May | $600.00          | $7300.00    | ($300.00)  |   |
++----------+------------------+-------------+------------+---+
+|     June | $500.00          | $8900.00    | ($500.00)  |   |
++----------+------------------+-------------+------------+---+
+|     July | $400.00          | $10500.00   | ($700.00)  |   |
++----------+------------------+-------------+------------+---+
+|   August | $300.00          | $12100.00   | ($900.00)  |   |
++----------+------------------+-------------+------------+---+
+|September | $200.00          | $13700.00   | ($1100.00) |   |
++----------+------------------+-------------+------------+---+
+|  October | $100.00          | $15300.00   | ($1300.00) |   |
++----------+------------------+-------------+------------+---+
+| November | $0.00            | $16900.00   | ($1500.00) |   |
++----------+------------------+-------------+------------+---+
+| December | ($100.00)        | $18500.00   | ($1700.00) |   |
++----------+------------------+-------------+------------+---+
+|          |                  |             |            |   |
++----------+------------------+-------------+------------+---+
+|  Totals: | $5400.00         | $116400.00  | ($7200.00) |   |
++----------+------------------+-------------+------------+---+
+|          |                  |             |            |   |
++----------+------------------+-------------+------------+---+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              1
+
+
+
+  </screen>
+  </example>
   </sect2>
   </sect1>
 
