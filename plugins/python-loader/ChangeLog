@@ -1,3 +1,13 @@
+2004-08-30  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (py_CellRef_object_getattr): Implement col, row,
+	sheet, col_relative, row_relative attributes.
+	(py_RangeRef_get_tuple_method): New. Return a Python tuple of
+	CellRefs. 
+	(py_RangeRef_object_getattr): Implement start and end attributes.
+
+	CellRef, RangeRef, Cell: Note that lifecycle is broken.
+
 2004-08-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.2

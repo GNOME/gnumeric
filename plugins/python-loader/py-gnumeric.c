@@ -92,8 +92,19 @@ Range:
 	- get_tuple
 
 CellRef:
+	Attributes (read-only):
+	- col
+	- row
+	- sheet
+	- col_relative
+	- row_relative
 
 RangeRef:
+	Attributes (read-only):
+	- start
+	- end
+	Methods:
+	- get_tuple
 
 GnmStyle:
 	Methods:
@@ -733,6 +744,11 @@ static PyTypeObject py_Range_object_type = {
  * CellRef
  */
 
+/*
+ * FIXME: The sheet and cells the GnmCellRef refer to may be deleted 
+ * behind our backs.
+ */
+
 struct _py_CellRef_object {
 	PyObject_HEAD
 	GnmCellRef cell_ref;
@@ -752,7 +768,31 @@ py_CellRef_as_CellRef (py_CellRef_object *self)
 static PyObject *
 py_CellRef_object_getattr (py_CellRef_object *self, gchar *name)
 {
-	return Py_FindMethod (py_CellRef_object_methods, (PyObject *) self, name);
+	PyObject *result;
+
+	if (strcmp (name, "col") == 0) {
+		result = Py_BuildValue ((char *) "i", self->cell_ref.col);
+	} else if (strcmp (name, "row") == 0) {
+		result = Py_BuildValue ((char *) "i", self->cell_ref.row);
+	} else if (strcmp (name, "sheet") == 0) {
+		if (self->cell_ref.sheet)
+			result = py_new_Sheet_object (self->cell_ref.sheet);
+		else {
+			Py_INCREF (Py_None);
+			result = Py_None;
+		}
+	} else if (strcmp (name, "col_relative") == 0) {
+		result = Py_BuildValue ((char *) "i", 
+				      self->cell_ref.col_relative ? 1 : 0);
+	} else if (strcmp (name, "row_relative") == 0) {
+		result = Py_BuildValue ((char *) "i", 
+				      self->cell_ref.row_relative ? 1 : 0);
+	} else {
+		result = Py_FindMethod (py_CellRef_object_methods, 
+				      (PyObject *) self, name);
+	}
+
+	return result;
 }
 
 static void
@@ -804,13 +844,22 @@ static PyTypeObject py_CellRef_object_type = {
  * RangeRef
  */
 
+/*
+ * FIXME: The sheet and cells the GnmRangeRef refer to may be deleted 
+ * behind our backs.
+ */
+
 struct _py_RangeRef_object {
 	PyObject_HEAD
 	GnmRangeRef range_ref;
 };
 
+static PyObject *
+py_RangeRef_get_tuple_method (py_RangeRef_object *self, PyObject *args);
+
 static struct PyMethodDef py_RangeRef_object_methods[] = {
-/*	{"get_tuple", (PyCFunction) py_RangePos_get_tuple_method,   METH_VARARGS},*/
+	{(char *) "get_tuple", (PyCFunction) py_RangeRef_get_tuple_method,   
+	 METH_VARARGS},
 	{NULL, NULL}
 };
 
@@ -821,9 +870,28 @@ py_RangeRef_as_RangeRef (py_RangeRef_object *self)
 }
 
 static PyObject *
+py_RangeRef_get_tuple_method (py_RangeRef_object *self, PyObject *args)
+{
+	if (!PyArg_ParseTuple (args, (char *) ":get_tuple")) {
+		return NULL;
+	}
+
+	return Py_BuildValue ((char *) "(O&O&)", 
+			      py_new_CellRef_object, &self->range_ref.a,
+			      py_new_CellRef_object, &self->range_ref.b);
+}
+
+static PyObject *
 py_RangeRef_object_getattr (py_RangeRef_object *self, gchar *name)
 {
-	return Py_FindMethod (py_RangeRef_object_methods, (PyObject *) self, name);
+	if (strcmp (name, "start") == 0) {
+		return py_new_CellRef_object (&self->range_ref.a);
+	} else if (strcmp (name, "end") == 0) {
+		return py_new_CellRef_object (&self->range_ref.a);
+	} else {
+		return Py_FindMethod (py_RangeRef_object_methods,
+				      (PyObject *) self, name);
+	}
 }
 
 static void
@@ -1121,6 +1189,9 @@ static PyTypeObject py_MStyle_object_type = {
  * Cell
  */
 
+/*
+ * FIXME: The GnmCell may be deleted behind our backs.
+ */
 struct _py_Cell_object {
 	PyObject_HEAD
 	GnmCell *cell;
