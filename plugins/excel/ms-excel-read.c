@@ -358,11 +358,11 @@ ms_excel_set_cell_colors (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_DATA *xf)
 static void
 ms_excel_set_cell_font (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_DATA *xf)
 {
-  char font_size[10];	/* I know it may seem excessive. Time will say.  */
+  char font_size[16];	/* I know it may seem excessive. Time will say.  */
   int i;
   GList *ptr = g_list_first (sheet->wb->font_data) ;
   int idx = 0 ;
-  
+
   g_assert (idx!=4) ;
   while (ptr)
     {
@@ -377,7 +377,7 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_DATA *xf)
        * In our first attempt to make it work, let's try to guess the 
        * X font name from the windows name, by letting the first word 
        * of the name be inserted in 0'th position of the X font name.  */
-      for (i=0; fd->fontname[i] != ' '; ++i)
+      for (i=0; fd->fontname[i] != '\0' && fd->fontname[i] != ' '; ++i)
         fd->fontname[i] = tolower (fd->fontname[i]);
       fd->fontname[i] = '\x0';
 	  cell_set_font (cell, font_change_component (cell->style->font->font_name, 1, fd->fontname));
@@ -392,7 +392,7 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_DATA *xf)
 	      cell->style->font->hint_is_bold = 1;
 	    }
 	  /* What about underlining?  */
-      sprintf (font_size, "%d", fd->height/2);
+	  g_assert (snprintf (font_size, 16, "%d", fd->height/2)!=-1) ;
 	  cell_set_font (cell, font_change_component (cell->style->font->font_name, 7, font_size));
       /* delete me: */
       printf ("The new font name is: %s\n", cell->style->font->font_name);
@@ -409,7 +409,7 @@ ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx)
 {
   GList *ptr ;
   int cnt ;
-  
+
   if (xfidx == 0)
     {
       printf ("Normal cell formatting\n") ;
