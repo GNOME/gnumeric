@@ -4,15 +4,15 @@ Priority: optional
 Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
 Build-Depends: debhelper (>= 4.1.87), dh-buildinfo, gettext, bison, flex,
  scrollkeeper, yelp (>= 2.6.1-2), libxml-parser-perl,
- libglib2.0-dev (>= 2.4.1-2), libgsf-1-dev (>= 1.9.1-4),
+ libglib2.0-dev (>= 2.4.1-2), libgsf-1-dev (>= 1.10.1),
  libgtk2.0-dev (>= 2.4.1-4), libxml2-dev (>= 2.6.10-2),
  libglade2-dev (>= 1:2.4.0-1), libgnomecanvas2-dev (>= 2.6.1.1-2),
  libgnome2-dev (>= 2.6.1-2), libgnomeui-dev (>= 2.6.1.1-2),
  libgnomeprint2.2-dev (>= 2.6.1-7), libgnomeprintui2.2-dev (>= 2.6.1-4),
- libgsf-gnome-1-dev (>= 1.9.1-4),
+ libgsf-gnome-1-dev (>= 1.10.1),
  libart-2.0-dev (>= 2.3.16-5),
  python2.3-dev, python-gtk2-dev,
- libgda2-dev (>= 1.0.4-1), libgnomedb2-dev (>= 1.0.4-4)
+ libgda2-dev (>= 1.0.4-1), libgnomedb2-dev (>= 1.0.4-7)
 Standards-Version: 3.6.1
 
 Package: gnumeric
