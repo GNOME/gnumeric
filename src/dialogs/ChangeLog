@@ -1,3 +1,25 @@
+2001-10-06  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (graph_guru_state_destroy) : disconnect the
+	  combo handlers before we destroy the state so that their callbacks
+	  don't trigger during destruction.
+	(vector_state_set_entry) : merge back into.
+	(vector_state_fill) : here.  Use the index rather than a cached
+	  xmlNode *.
+	(vector_state_new) : rename 'index' to 'dim_index' to be clearer.
+	(graph_guru_select_plot) : store the index rather than an xmlNode *.
+	(graph_guru_select_series) : store the index rather than an xmlNode *.
+	(graph_guru_init_data_page) : the graph caches the spec, not us.
+	(graph_guru_get_plot) : new utility.
+	(cb_plot_selection_changed) : use the new utility.
+	(graph_guru_get_series) : new utility.
+	(cb_series_selection_changed) : use the new utility.
+	(cb_series_entry_changed) : support lookup, and warn about renaming.
+	(cb_plot_entry_changed) : support lookup, and warn about renaming.
+	(cb_graph_guru_focus) : use graph_guru_get_series.
+	(dialog_graph_guru) : init the combos to NULL in case we destroy
+	  before initializing them.
+	
 2001-10-06  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search-replace.c (dialog_search, dialog_search_notify):

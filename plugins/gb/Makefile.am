@@ -1,7 +1,7 @@
 INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-    -I$(includedir)	-I$(top_srcdir)/src	\
-    $(GNOME_INCLUDEDIR) $(GB_CFLAGS)
+    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
+    $(GNUMERIC_CFLAGS) $(GB_CFLAGS)
 
 gnum_gbdir = $(gnumeric_plugindir)/gb
 xmldir = $(gnumeric_plugin_gbdir)
@@ -33,7 +33,7 @@ gnum_gb_la_SOURCES =			\
 
 gnum_gb_la_LIBADD =		\
 	$(GB_LIBS)		\
-	$(EXTRA_GNOME_LIBS)	\
+	$(GNUMERIC_LIBS)	\
 	-lm @GLIB_LIBS@ -lgb -lgbrun
 
 xml_in_files = plugin.xml.in

@@ -6,11 +6,11 @@ PERL_PROGRAMS_TARGET = perl.so
 #endif
 
 gnperldir = $(gnumeric_datadir)/perl
-PERL_CFLAGS = -I../.. $(PERL_CCCDLFLAGS)		\
+PERL_CFLAGS = -I../.. $(PERL_CCCDLFLAGS)	\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
-    -I$(top_srcdir)	-I$(top_srcdir)/src	\
+    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(PERL_CCOPTS)				\
-    $(GNOME_INCLUDEDIR)
+    $(GNUMERIC_CFLAGS)
 
 #
 # Do not build the plugin until there is a maintainer

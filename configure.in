@@ -672,10 +672,10 @@ AM_CONDITIONAL(WITH_GDA, $have_gda)
 AC_SUBST(GDA_CFLAGS)
 AC_SUBST(GDA_LIBS)
 
-EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo libole2 gal`
-EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo libole2 gal`
-AC_SUBST(EXTRA_GNOME_LIBS)
-AC_SUBST(EXTRA_GNOME_CFLAGS)
+GNUMERIC_LIBS=`gnome-config --libs gnomeui print libglade $bonobo libole2 gal`
+GNUMERIC_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo libole2 gal`
+AC_SUBST(GNUMERIC_LIBS)
+AC_SUBST(GNUMERIC_CFLAGS)
 
 AM_CONDITIONAL(LIBOLE2_PUBLIC_LIBRARY, false)
 

@@ -1,4 +1,7 @@
-INCLUDES = -I$(includedir) -I$(top_srcdir)/src $(GNOME_INCLUDEDIR)
+INCLUDES = \
+    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
+    $(GNUMERIC_CFLAGS)
 
 gnumeric_plugin_exceldir = $(gnumeric_plugindir)/excel
 xmldir = $(gnumeric_plugin_exceldir)

@@ -1,3 +1,17 @@
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in (EXTRA_GNOME_{CFLAGS,LIBS}) : rename to something
+	  clearer like GNUMERIC_{CFLAGS,LIBS})
+	* **/Makefile.am : Use them in place of EXTRA_* and GNOME_INCLUDEDIR.
+
+2001-10-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-graph.c (gnm_graph_get_spec) : Add a force_update.
+	(gnm_graph_series_delete) : new
+	(gnm_graph_series_set_dimension) : new
+	(gnm_graph_exception) : new.
+	(gnm_graph_vector_from_string) : delete.
+
 2001-10-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-stf-preview.c (stf_preview_new) : Use

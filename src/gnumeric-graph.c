@@ -331,11 +331,6 @@ impl_string_vector_changed (PortableServer_Servant servant,
 	g_warning ("Gnumeric : string vector changed remotely (%p)", vector);
 }
 
-void
-gnm_graph_vector_from_string (GnmGraphVector const *vec, char const *str)
-{
-}
-
 Dependent const *
 gnm_graph_vector_get_dependent (GnmGraphVector const *vec)
 {
@@ -979,8 +974,17 @@ gnm_graph_range_to_vectors (GnmGraph *graph,
 	}
 }
 
+static void
+gnm_graph_clear_xml (GnmGraph *graph)
+{
+	if (graph->xml_doc != NULL) {
+		xmlFreeDoc (graph->xml_doc);
+		graph->xml_doc = NULL;
+	}
+}
+
 xmlDoc *
-gnm_graph_get_spec (GnmGraph *graph)
+gnm_graph_get_spec (GnmGraph *graph, gboolean force_update)
 {
 	CORBA_Environment  ev;
 	MANAGER1(Buffer)  *spec;
@@ -989,6 +993,9 @@ gnm_graph_get_spec (GnmGraph *graph)
 
 	if (graph->manager == CORBA_OBJECT_NIL)
 		return NULL;
+
+	if (!force_update && graph->xml_doc != NULL)
+		return graph->xml_doc;
 
 	CORBA_exception_init (&ev);
 	spec = MANAGER1 (_get_spec) (graph->manager, &ev);
@@ -1002,8 +1009,7 @@ gnm_graph_get_spec (GnmGraph *graph)
 			spec->_buffer, spec->_length, NULL);
 		xmlParseChunk (pctxt, "", 0, TRUE);
 
-		if (graph->xml_doc != NULL)
-			xmlFreeDoc (graph->xml_doc);
+		gnm_graph_clear_xml (graph);
 		graph->xml_doc = pctxt->myDoc;
 
 #if DEBUG_INFO > 0
@@ -1052,7 +1058,7 @@ gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 	CORBA_exception_init (&ev);
 	MANAGER1 (_set_spec) (graph->manager, partial, &ev);
 	if (ev._major == CORBA_NO_EXCEPTION)
-		gnm_graph_get_spec (graph);
+		gnm_graph_get_spec (graph, TRUE);
 	else {
 		g_warning ("'%s' : importing the specification for graph %p",
 			   bonobo_exception_get_text (&ev), graph);
@@ -1100,10 +1106,7 @@ gnm_graph_destroy (GtkObject *obj)
 		g_ptr_array_free (graph->vectors, TRUE);
 		graph->vectors = NULL;
 	}
-	if (graph->xml_doc != NULL) {
-		xmlFreeDoc (graph->xml_doc);
-		graph->xml_doc = NULL;
-	}
+	gnm_graph_clear_xml (graph);
 
 	if (gnm_graph_parent_class->destroy)
 		gnm_graph_parent_class->destroy (obj);
@@ -1220,8 +1223,7 @@ gnm_graph_write_xml (SheetObject const *so,
 		xml_node_set_int (node, "Type", vector->type);
 	}
 
-	if (graph->xml_doc == NULL)
-		gnm_graph_get_spec (graph);
+	gnm_graph_get_spec (graph, TRUE);
 	xmlAddChild (tree, xmlCopyNode (graph->xml_doc->xmlRootNode, TRUE));
 	return FALSE;
 }
@@ -1291,14 +1293,89 @@ gnm_graph_series_add_dimension (xmlNode *series, char const *element)
 	return res;
 }
 
-void
-gnm_graph_series_delete	(GnmGraph *graph, xmlNode *series)
+static char *
+gnm_graph_exception (CORBA_Environment *ev)
 {
+        if (ev->_major == CORBA_USER_EXCEPTION) {
+		if (!strcmp (ev->_repo_id, "IDL:GNOME/Gnumeric/Error:1.0")) {
+                        GNOME_Gnumeric_Error *err = ev->_params;
+                        
+                        if (!err || !err->mesg) {
+                                return "No general exception error message";
+                        } else {
+                                return err->mesg;
+                        }
+                } else {
+                        return ev->_repo_id;
+                }
+        } else
+                return CORBA_exception_id (ev);
 }
 
-void
-gnm_graph_series_set_dimension (GnmGraph *graph,
-				xmlNode *series, xmlChar const *element,
-				char const *expr)
+/**
+ * gnm_graph_series_delete :
+ *
+ * returns TRUE on success
+ */
+gboolean
+gnm_graph_series_delete	(GnmGraph *graph, int series_id)
 {
+	gboolean ok;
+	CORBA_Environment  ev;
+
+	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), FALSE);
+	if (graph->manager == CORBA_OBJECT_NIL)
+		return FALSE;
+
+	CORBA_exception_init (&ev);
+	MANAGER1 (seriesDelete) (graph->manager, series_id, &ev);
+	ok = (ev._major == CORBA_NO_EXCEPTION);
+	if (ok) {
+		gnm_graph_clear_xml (graph);
+	} else {
+		g_warning ("'%s' : deleting a series from graph %p",
+			   gnm_graph_exception (&ev), graph);
+	}
+	CORBA_exception_free (&ev);
+	return ok;
+}
+
+/**
+ * gnm_graph_series_set_dimension :
+ *
+ * returns TRUE on success
+ */
+gboolean
+gnm_graph_series_set_dimension (GnmGraph *graph, GnmGraphVector *vector,
+				int series_id, xmlChar const *element,
+				ExprTree *expr)
+{
+	gboolean ok;
+	CORBA_Environment  ev;
+	int vector_id;
+
+	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), FALSE);
+	if (graph->manager == CORBA_OBJECT_NIL)
+		return FALSE;
+
+	vector_id = (expr == NULL) ? -1
+		: gnm_graph_add_vector (graph, expr, GNM_VECTOR_AUTO,
+			sheet_object_get_sheet (SHEET_OBJECT (graph)));
+
+	/* Future simplification.  If we are changing an unshared dimension we
+	 * can do the substitution in place.  and just tweak the expression.
+	 */
+	CORBA_exception_init (&ev);
+	MANAGER1 (seriesSetDimension) (graph->manager, series_id, element,
+				       vector_id, &ev);
+	ok = (ev._major == CORBA_NO_EXCEPTION);
+	if (ok) {
+		gnm_graph_clear_xml (graph);
+	} else {
+		g_warning ("'%s' : changing a dimension for graph %p",
+			   gnm_graph_exception (&ev), graph);
+	}
+	CORBA_exception_free (&ev);
+
+	return ok;
 }

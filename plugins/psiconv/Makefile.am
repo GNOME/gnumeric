@@ -1,9 +1,9 @@
 # TODO: Use %PSICONV_FLAGS% and %PSICONV_LIBS%
 
 INCLUDES = \
-    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 		\
-    -I$(includedir)	-I$(top_srcdir)/src		\
-    $(GNOME_INCLUDEDIR) $(PSICONV_CFLAGS)
+    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
+    $(GNUMERIC_CFLAGS) $(PSICONV_CFLAGS)
 
 gnumeric_plugin_psiconvdir = $(gnumeric_plugindir)/psiconv
 xmldir = $(gnumeric_plugin_psiconvdir)

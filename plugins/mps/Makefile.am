@@ -1,8 +1,7 @@
 INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\"    \
-    -I$(includedir)     -I$(top_srcdir)/src     \
-    -I$(top_builddir)/src                       \
-    $(GNOME_INCLUDEDIR)
+    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
+    $(GNUMERIC_CFLAGS)
 
 gnumeric_plugin_mpsdir = $(gnumeric_plugindir)/mps
 xmldir = $(gnumeric_plugin_mpsdir)

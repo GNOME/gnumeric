@@ -1,7 +1,7 @@
 INCLUDES = \
-    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 		\
-    -I$(includedir)	-I$(top_srcdir)/src		\
-    $(GNOME_INCLUDEDIR)					\
+    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
+    $(GNUMERIC_CFLAGS)				\
     $(GDA_CFLAGS)
 
 gnumeric_plugin_gdaifdir = $(gnumeric_plugindir)/gdaif

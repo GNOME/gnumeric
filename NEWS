@@ -68,6 +68,9 @@ Wayne Schuller:
 	* Support gray scale patterns when printing.
 	* Improve Header/Footer page for printer setup.
 
+Yukihiro Nakai:
+	* Improve font handling for multi-byte environments.
+
 Zbigniew:
 	* Support for translations in plugin.xml files using xml-i18n-tools
 	  (modified xml file structure a bit).

@@ -3,8 +3,7 @@ INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
         -DGNUMERIC_GLADEDIR=\""$(gnumeric_gladedir)"\"	\
 	-I$(includedir)				 	\
-	$(EXTRA_GNOME_CFLAGS)				\
-	$(GUILE_INCS)
+	$(GNUMERIC_CFLAGS)
 
 noinst_LIBRARIES = libwidgets.a
 

@@ -1,9 +1,9 @@
 gnumeric_guiledir  = $(gnumeric_datadir)/guile
 INCLUDES = 					\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-    -I$(includedir)	-I$(top_srcdir)/src	\
+    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(GUILE_INCS)				\
-    $(GNOME_INCLUDEDIR)
+    $(GNUMERIC_CFLAGS)
 
 gnumeric_plugin_guiledir = $(gnumeric_plugindir)/guile
 xmldir = $(gnumeric_plugin_guiledir)

@@ -1,7 +1,7 @@
 INCLUDES = \
-    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 		\
-    -I$(includedir)	-I$(top_srcdir)/src		\
-    $(GNOME_INCLUDEDIR)
+    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
+    $(GNUMERIC_CFLAGS)
 
 gnumeric_plugin_numtheorydir = $(gnumeric_plugindir)/numtheory
 xmldir = $(gnumeric_plugin_numtheorydir)

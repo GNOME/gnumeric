@@ -1,3 +1,8 @@
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-database.c (find_cells_that_match) : Be less stupid.
+	(find_rows_that_match) : ditto.
+
 2001-09-30  Jody Goldberg <jgoldberg@home.com>
 
 	* fn-information.c (gnumeric_cell) : implement CELL(protected

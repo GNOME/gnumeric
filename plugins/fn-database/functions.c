@@ -335,7 +335,7 @@ find_cells_that_match (Sheet *sheet, Value *database,
 	gboolean add_flag;
 
 	cells = NULL;
-	/* TODO : Why ignore the first row ? */
+	/* TODO : Why ignore the first row ?  What if there is no header ? */
 	first_row = database->v_range.cell.a.row + 1;
 	last_row  = database->v_range.cell.b.row;
 
@@ -368,10 +368,10 @@ find_cells_that_match (Sheet *sheet, Value *database,
 				break;
 		}
 		if (add_flag)
-			cells = g_slist_append (cells, cell);
+			cells = g_slist_prepend (cells, cell);
 	}
 
-	return cells;
+	return g_slist_reverse (cells);
 }
 
 
@@ -447,13 +447,13 @@ row_ok:
 			}
 			p = g_new (gint, 1);
 			*p = row;
-			rows = g_slist_append (rows, (gpointer) p);
+			rows = g_slist_prepend (rows, (gpointer) p);
 filter_row:
 			;
 		}
 	}
 
-	return rows;
+	return g_slist_reverse (rows);
 }
 
 #define DB_ARGUMENT_HELP \

@@ -2,8 +2,7 @@ INCLUDES = 						\
 	-I$(srcdir)/..					\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I$(includedir)				 	\
-	$(EXTRA_GNOME_CFLAGS)				\
-	$(GUILE_INCS)
+	$(GNUMERIC_CFLAGS)
 
 noinst_LIBRARIES = libfunctions.a
 

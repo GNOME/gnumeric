@@ -26,7 +26,7 @@ void	   gnm_graph_clear_vectors	  (GnmGraph *g);
 void	   gnm_graph_arrange_vectors	  (GnmGraph *g);
 void	   gnm_graph_range_to_vectors	  (GnmGraph *g, Sheet *sheet,
 					   Range const *src, gboolean as_cols);
-xmlDoc	  *gnm_graph_get_spec		  (GnmGraph *g);
+xmlDoc	  *gnm_graph_get_spec		  (GnmGraph *g, gboolean force_update);
 void	   gnm_graph_import_specification (GnmGraph *graph, xmlDoc *spec);
 int	   gnm_graph_add_vector	   	  (GnmGraph *graph, ExprTree *expr,
 					   GnmGraphVectorType type, Sheet *s);
@@ -40,15 +40,13 @@ extern char const * const gnm_graph_vector_type_name [];
 
 GtkType	gnm_graph_vector_get_type    (void);
 Dependent const *gnm_graph_vector_get_dependent (GnmGraphVector const *v);
-void	         gnm_graph_vector_from_string   (GnmGraphVector const *v,
-						 char const *str);
 
 /* Series utilities */
 xmlNode *gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *element);
 xmlNode *gnm_graph_series_add_dimension (xmlNode *series, char const *element);
-void	 gnm_graph_series_delete	(GnmGraph *graph, xmlNode *series);
-void	 gnm_graph_series_set_dimension (GnmGraph *graph,
-					 xmlNode *series, xmlChar const *element,
-					 char const *expr);
+gboolean gnm_graph_series_delete	(GnmGraph *graph, int series_id);
+gboolean gnm_graph_series_set_dimension (GnmGraph *graph, GnmGraphVector *vec,
+					 int series_id, xmlChar const *element,
+					 ExprTree *expr);
 
 #endif /* GNUMERIC_GRAPH_H */

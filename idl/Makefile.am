@@ -2,7 +2,7 @@ INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)					\
-	$(EXTRA_GNOME_CFLAGS)
+	$(GNUMERIC_CFLAGS)
 
 if BONOBO
 noinst_LIBRARIES = libGnumericIDL.a

@@ -8,9 +8,9 @@ PP_DATA_TARGET =
 endif
 
 INCLUDES = \
-    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 		\
-    -I$(includedir)	-I$(top_srcdir)/src		\
-    $(GNOME_INCLUDEDIR)
+    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
+    $(GNUMERIC_CFLAGS)
 
 gnumeric_plugin_plan_perfectdir = $(gnumeric_plugindir)/plan_perfect
 xmldir = $(gnumeric_plugin_plan_perfectdir)

@@ -1,9 +1,9 @@
 gnumeric_pythondir = $(gnumeric_datadir)/python
 INCLUDES = \
-    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 		\
-    -I$(includedir)	-I$(top_srcdir)/src		\
-    $(PY_CFLAGS)					\
-    $(GNOME_INCLUDEDIR)
+    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
+    $(PY_CFLAGS)				\
+    $(GNUMERIC_CFLAGS)
 
 gnumeric_plugin_pythondir = $(gnumeric_plugindir)/python
 xmldir = $(gnumeric_plugin_pythondir)

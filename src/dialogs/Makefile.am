@@ -20,8 +20,7 @@ INCLUDES = 								\
 	-I$(top_srcdir)/src						\
 	-I$(srcdir)							\
 	-I$(includedir)				 			\
-	$(EXTRA_GNOME_CFLAGS)						\
-	$(GUILE_INCS)
+	$(GNUMERIC_CFLAGS)
 
 noinst_LIBRARIES = libdialogs.a
 

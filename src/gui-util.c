@@ -437,7 +437,7 @@ gnumeric_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
 
 typedef struct {
 	WorkbookControlGUI *wbcg;
-	char *key;
+	char const *key;
 } KeyedDialogContext;
 
 static void

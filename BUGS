@@ -10,13 +10,16 @@ Release Critical
 
     - Add an idle handler at start up to check for availablity of
       evo and guppi.  They should only be enabled if they are available.
-    - config check for xml-i18n-tool version
+    - config check for xml-i18n-tool version (or should it be
+      intltool ?)
 
 Pending Patches
 ---------------
 
 Long term breakage
 ------------------
+
+- Consistent capitalization of labels.
 
 - Need to figure out accelerators and pixmaps for Search.
 

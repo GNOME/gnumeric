@@ -18,8 +18,7 @@ INCLUDES = 								\
 	-I$(srcdir)/widgets						\
 	-I$(srcdir)/functions						\
 	-I$(srcdir)/dialogs						\
-	$(EXTRA_GNOME_CFLAGS)						\
-	$(GUILE_INCS)
+	$(GNUMERIC_CFLAGS)
 
 GNUMERIC_BASE =					\
 	analysis-tools.c			\
@@ -266,12 +265,9 @@ gnumeric_SOURCES =				\
 	$(GNUMERIC_BONOBO)
 
 gnumeric_LDADD =				\
-	$(gnumeric_libs)			\
-	-lbonobo-print				\
+	$(gnumeric_app_libs)			\
 	../idl/libGnumericIDL.a			\
-	$(EXTRA_GNOME_LIBS)			\
-	$(GNOME_XML_LIB) 			\
-	$(GUILE_LIBS)				\
+	$(GNUMERIC_LIBS)			\
 	$(INTLLIBS)
 else
 gnumeric_SOURCES =				\
@@ -279,16 +275,14 @@ gnumeric_SOURCES =				\
 	normal-args.c
 
 gnumeric_LDADD = 				\
-	$(gnumeric_libs)			\
-	$(EXTRA_GNOME_LIBS)			\
-	$(GNOME_XML_LIB) 			\
-	$(GUILE_LIBS)				\
+	$(gnumeric_app_libs)			\
+	$(GNUMERIC_LIBS)			\
 	$(INTLLIBS)
 endif
 
 gnumeric_LDFLAGS = -export-dynamic
 
-gnumeric_libs =					\
+gnumeric_app_libs =				\
 	dialogs/libdialogs.a			\
 	widgets/libwidgets.a			\
 	functions/libfunctions.a
