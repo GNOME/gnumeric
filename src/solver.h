@@ -15,7 +15,6 @@
 /* Forward references for structures.  */
 typedef struct _SolverOptions SolverOptions;
 typedef struct _SolverConstraint SolverConstraint;
-typedef struct _SolverParameters SolverParameters;
 
 typedef enum {
         SolverMinimize, SolverMaximize, SolverEqualTo
@@ -24,10 +23,10 @@ typedef enum {
 struct _SolverOptions {
         int                max_time_sec;
         int                iterations;
-        gnum_float            precision;
-        gnum_float            tolerance;
-        gnum_float            convergence;
-        gnum_float            equal_to_value;
+        gnum_float         precision;
+        gnum_float         tolerance;
+        gnum_float         convergence;
+        gnum_float         equal_to_value;
         gboolean           assume_linear_model;
         gboolean           assume_non_negative;
         gboolean           automatic_scaling;
@@ -70,6 +69,8 @@ void solver_lp_reports (WorkbookControl *wbc, Sheet *sheet, GSList *ov,
 char *write_constraint_str (int lhs_col, int lhs_row, int rhs_col, int rhs_row,
 			    const char *type_str, int cols, int rows);
 
-void solver_lp_copy (SolverParameters const *src_param, Sheet *new_sheet);
+SolverParameters *solver_lp_new (void);
+void solver_lp_destroy (SolverParameters *);
+SolverParameters *solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet);
 
 #endif

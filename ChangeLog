@@ -1,3 +1,10 @@
+2002-02-25  Morten Welinder  <terra@diku.dk>
+
+	* src/solver-lp.c: Constify.  Plug a few leaks.
+
+	* src/sheet.h (struct _Sheet): Make solver_parameters a pointer.
+	Deal with this everywhere.
+
 2002-02-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.h : delete tool_set_focus

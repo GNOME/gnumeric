@@ -216,12 +216,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->max_object_extent.col = sheet->max_object_extent.row = 0;
 
 	sheet->last_zoom_factor_used = 1.0;
-	sheet->solver_parameters.options.assume_linear_model = TRUE;
-	sheet->solver_parameters.options.assume_non_negative = TRUE;
-	sheet->solver_parameters.input_entry_str = g_strdup ("");
-	sheet->solver_parameters.problem_type = SolverMaximize;
-	sheet->solver_parameters.constraints = NULL;
-	sheet->solver_parameters.target_cell = NULL;
+	sheet->solver_parameters = solver_lp_new ();
 
 	sheet->cols.max_used = -1;
 	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (),
@@ -2884,7 +2879,7 @@ sheet_destroy (Sheet *sheet)
 
 	g_free (sheet->name_quoted);
 	g_free (sheet->name_unquoted);
-	g_free (sheet->solver_parameters.input_entry_str);
+	solver_lp_destroy (sheet->solver_parameters);
 
 	sheet_deps_destroy (sheet);
 	sheet_destroy_contents (sheet);
@@ -4401,7 +4396,8 @@ sheet_duplicate	(Sheet const *src)
 	sheet_object_clone_sheet   (src, dst);
 
 	/* Copy the solver */
-	solver_lp_copy (&src->solver_parameters, dst);
+	solver_lp_destroy (dst->solver_parameters);
+	dst->solver_parameters = solver_lp_copy (src->solver_parameters, dst);
 
 	/* Force a respan and rerender */
 	sheet_set_zoom_factor (dst, src->last_zoom_factor_used, TRUE, TRUE);

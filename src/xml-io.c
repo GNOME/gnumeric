@@ -19,6 +19,7 @@
 #include "sheet-object.h"
 #include "sheet-object-cell-comment.h"
 #include "str.h"
+#include "solver.h"
 #include "print-info.h"
 #include "file.h"
 #include "expr.h"
@@ -1927,7 +1928,7 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 	int              col, row;
 	xmlChar          *s;
 	Sheet *sheet = ctxt->sheet;
-	SolverParameters *param = &sheet->solver_parameters;
+	SolverParameters *param = sheet->solver_parameters;
 
 	tree = e_xml_get_child_by_name (tree, (xmlChar *)"Solver");
 	if (tree == NULL)
@@ -1938,10 +1939,14 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (col >= 0 && row >= 0)
 	        param->target_cell = sheet_cell_fetch (sheet, col, row);
 
-	xml_node_get_int (tree, "ProblemType", (int *) &param->problem_type);
+	{
+		int ptype;
+		xml_node_get_int (tree, "ProblemType", &ptype);
+		param->problem_type = (SolverProblemType)ptype;
+	}
 	s = xml_node_get_cstr (tree, "Inputs");
 	g_free (param->input_entry_str);
-	param->input_entry_str = g_strdup ((gchar *)s);
+	param->input_entry_str = g_strdup ((const gchar *)s);
 	xmlFree (s);
 
 	child = e_xml_get_child_by_name (tree, (xmlChar *)"Constr");
@@ -1992,7 +1997,6 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 	xmlNodePtr       cur;
 	xmlNodePtr       constr;
 	xmlNodePtr       prev = NULL;
-	SolverConstraint *c;
 	GSList           *constraints;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Solver", NULL);
@@ -2012,7 +2016,8 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 
 	constraints = param->constraints;
 	while (constraints) {
-	        c = (SolverConstraint *) constraints->data;
+	        const SolverConstraint *c =
+			(const SolverConstraint *)constraints->data;
 
 		constr = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Constr", NULL);
 		xml_node_set_int (constr, "Lcol", c->lhs.col);
@@ -2218,7 +2223,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	xml_write_merged_regions (ctxt, sheetNode, sheet->list_merged);
 	xml_write_sheet_layout (ctxt, sheetNode, sheet);
 
-	solver = xml_write_solver (ctxt, &sheet->solver_parameters);
+	solver = xml_write_solver (ctxt, sheet->solver_parameters);
 	if (solver)
 		xmlAddChild (sheetNode, solver);
 

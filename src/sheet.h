@@ -4,7 +4,6 @@
 
 #include "gnumeric.h"
 #include "colrow.h"
-#include "solver.h"
 #include <gtk/gtktypeutils.h>
 
 typedef GList ColStyleList;
@@ -68,8 +67,7 @@ struct _Sheet {
 	gboolean    outline_symbols_below;
 	gboolean    outline_symbols_right;
 
-        /* Solver parameters */
-        SolverParameters solver_parameters;
+        SolverParameters *solver_parameters;
 
 	DependencyContainer *deps;
 

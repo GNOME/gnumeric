@@ -14,6 +14,7 @@
 
 #include <gui-util.h>
 #include <func.h>
+#include <solver.h>
 #include <tools.h>
 #include <value.h>
 #include <cell.h>
@@ -195,8 +196,6 @@ dialog_set_sec_button_sensitivity (GtkWidget *dummy, SolverState *state)
 	gtk_widget_set_sensitive (state->add_button, ready);
 	gtk_widget_set_sensitive (state->change_button, select_ready && ready);
 	gtk_widget_set_sensitive (state->delete_button, select_ready);
-
-	return;
 }
 
 
@@ -324,7 +323,6 @@ cb_dialog_add_clicked (GtkWidget *button, SolverState *state)
 				    (GtkDestroyNotify) release_constraint);
 	g_free (texts[0]);
 	gtk_clist_select_row (state->constraint_list, selection, 0 );
-	return;
 }
 
 /**
@@ -361,7 +359,6 @@ dialog_set_main_button_sensitivity (GtkWidget *dummy, SolverState *state)
 	ready = is_cell_ref (state->target_entry, state->sheet, FALSE)
 		&& is_cell_ref (state->change_cell_entry, state->sheet, TRUE);
 	gtk_widget_set_sensitive (state->solve_button, ready);
-	return;
 }
 
 /**
@@ -386,8 +383,6 @@ cb_dialog_set_rhs_sensitivity (GtkWidget *dummy, SolverState *state)
 	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (state->rhs_entry), TRUE);
 	}
-
-	return;
 }
 
 
@@ -478,7 +473,7 @@ restore_original_values (CellList *input_cells, GSList *ov)
 {
         while (ov != NULL) {
 	        const char *str = ov->data;
-	        Cell *cell = (Cell *)input_cells->data;
+	        Cell *cell = input_cells->data;
 
 		sheet_cell_set_text (cell, str);
 		ov = ov->next;
@@ -515,7 +510,6 @@ cb_dialog_cancel_clicked (GtkWidget *button, SolverState *state)
 	}
 
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
 /**
@@ -529,7 +523,6 @@ static void
 cb_dialog_close_clicked (GtkWidget *button, SolverState *state)
 {
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
 /*
@@ -557,10 +550,9 @@ static gint
 check_int_constraints (Value *input_range, GtkCList *constraint_list)
 {
 	gint i;
-	constraint_t * a_constraint;
-
-	for (i = 0;;i++) {
-		a_constraint = (constraint_t * ) gtk_clist_get_row_data (constraint_list, i);
+	
+	for (i = 0; ; i++) {
+		const constraint_t *a_constraint = gtk_clist_get_row_data (constraint_list, i);
 		if (a_constraint == NULL)
 			break;
 		if ((a_constraint->type != CONSTRAINT_INTEGER) &&
@@ -580,19 +572,19 @@ check_int_constraints (Value *input_range, GtkCList *constraint_list)
  *  understand `value' based constraints.
  */
 static void
-convert_constraint_format (constraint_conversion_t * conv)
+convert_constraint_format (constraint_conversion_t *conv)
 {
 	gint i;
-	constraint_t * a_constraint;
-	SolverConstraint *engine_constraint;
 
-	for (i = 0;;i++) {
-		a_constraint = (constraint_t * ) gtk_clist_get_row_data (conv->c_listing, i);
+	for (i = 0; ; i++) {
+		SolverConstraint *engine_constraint;
+		const constraint_t *a_constraint = gtk_clist_get_row_data (conv->c_listing, i);
 		if (a_constraint == NULL)
 			break;
-		engine_constraint = g_new (SolverConstraint,1);
-		engine_constraint->lhs.col  = a_constraint->lhs_value->v_range.cell.a.col;
-		engine_constraint->lhs.row  = a_constraint->lhs_value->v_range.cell.a.row;
+
+		engine_constraint = g_new (SolverConstraint, 1);
+		engine_constraint->lhs.col = a_constraint->lhs_value->v_range.cell.a.col;
+		engine_constraint->lhs.row = a_constraint->lhs_value->v_range.cell.a.row;
 		engine_constraint->rows  = a_constraint->lhs_value->v_range.cell.b.row
 			- a_constraint->lhs_value->v_range.cell.a.row +1;
 		engine_constraint->cols  = a_constraint->lhs_value->v_range.cell.b.col
@@ -617,7 +609,6 @@ convert_constraint_format (constraint_conversion_t * conv)
 			engine_constraint->rows);
 		conv->c_list = g_slist_prepend (conv->c_list, engine_constraint);
 	}
-	return;
 }
 
 /*
@@ -630,7 +621,7 @@ get_constraint_type (const char* type_str)
 {
 	constraint_type_t i;
 
-	for (i=0; constraint_strs_untranslated[i] != NULL; i++)
+	for (i = 0; constraint_strs_untranslated[i] != NULL; i++)
 		if (strcmp (type_str, constraint_strs_untranslated[i]) == 0)
 			return i;
 	return CONSTRAINT_NOSUCH_TYPE;
@@ -646,31 +637,32 @@ get_constraint_type (const char* type_str)
 static void
 revert_constraint_format (constraint_conversion_t * conv)
 {
-	constraint_t * a_constraint;
 	GSList *engine_constraint_list = conv->c_list;
-	SolverConstraint *engine_constraint;
 	gchar *text[2] = {NULL, NULL};
-	Range r;
 
 	while (engine_constraint_list != NULL) {
-		engine_constraint = (SolverConstraint *) engine_constraint_list->data;
-		a_constraint = g_new(constraint_t,1);
+		const SolverConstraint *engine_constraint = engine_constraint_list->data;
+		Range r;
+		constraint_t *a_constraint = g_new (constraint_t, 1);
+
 		r.start.col = engine_constraint->lhs.col;
 		r.start.row = engine_constraint->lhs.row;
 		r.end.col = r.start.col + engine_constraint->cols - 1;
 		r.end.row = r.start.row + engine_constraint->rows - 1;
 		a_constraint->lhs_value = value_new_cellrange_r (conv->sheet, &r);
+
 		r.start.col = engine_constraint->rhs.col;
 		r.start.row = engine_constraint->rhs.row;
 		r.end.col = r.start.col + engine_constraint->cols - 1;
 		r.end.row = r.start.row + engine_constraint->rows - 1;
 		a_constraint->rhs_value = value_new_cellrange_r (conv->sheet, &r);
+
 		a_constraint->type = get_constraint_type (engine_constraint->type);
 		text[0] = engine_constraint->str;
-		gtk_clist_set_row_data_full(conv->c_listing,
-					    gtk_clist_prepend (conv->c_listing, text),
-					    a_constraint,
-					    (GtkDestroyNotify) release_constraint);
+		gtk_clist_set_row_data_full (conv->c_listing,
+					     gtk_clist_prepend (conv->c_listing, text),
+					     a_constraint,
+					     (GtkDestroyNotify) release_constraint);
 		engine_constraint_list = engine_constraint_list->next;
 	}
 }
@@ -688,7 +680,7 @@ save_original_values (CellList *input_cells)
         GSList *ov = NULL;
 
 	while (input_cells != NULL) {
-	        Cell *cell = (Cell *) input_cells->data;
+	        Cell *cell = input_cells->data;
 		char *str;
 
 		str = value_get_as_string (cell->value);
@@ -744,25 +736,26 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	text = gtk_entry_get_text (GTK_ENTRY (state->target_entry));
 	target_range = global_range_parse (state->sheet, text);
 	text = gtk_entry_get_text (GTK_ENTRY (state->change_cell_entry));
-	if (state->sheet->solver_parameters.input_entry_str != NULL)
-		g_free(state->sheet->solver_parameters.input_entry_str);
-	state->sheet->solver_parameters.input_entry_str = g_strdup(text);
+	if (state->sheet->solver_parameters->input_entry_str != NULL)
+		g_free (state->sheet->solver_parameters->input_entry_str);
+	state->sheet->solver_parameters->input_entry_str = g_strdup(text);
 	input_range = global_range_parse (state->sheet, text);
 
-	state->sheet->solver_parameters.target_cell = sheet_cell_fetch (state->sheet,
-					target_range->v_range.cell.a.col,
-					target_range->v_range.cell.a.row );
+	state->sheet->solver_parameters->target_cell =
+		sheet_cell_fetch (state->sheet,
+				  target_range->v_range.cell.a.col,
+				  target_range->v_range.cell.a.row );
 	result = workbook_foreach_cell_in_range (pos, input_range,
 		FALSE, grab_cells, &input_cells);
 
-	state->sheet->solver_parameters.input_cells = input_cells;
+	state->sheet->solver_parameters->input_cells = input_cells;
 
-	state->sheet->solver_parameters.problem_type =
+	state->sheet->solver_parameters->problem_type =
 		gnumeric_glade_group_value (state->gui, problem_type_group);
-	state->sheet->solver_parameters.options.assume_linear_model =
+	state->sheet->solver_parameters->options.assume_linear_model =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 			glade_xml_get_widget (state->gui, "lin_model_button")));
-	state->sheet->solver_parameters.options.assume_non_negative =
+	state->sheet->solver_parameters->options.assume_non_negative =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 			glade_xml_get_widget (state->gui, "non_neg_button")));
 	answer = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
@@ -780,21 +773,21 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 		conv.sheet = state->sheet;
 		conv.c_listing = state->constraint_list;
 		convert_constraint_format (&conv);
-		if (state->sheet->solver_parameters.constraints != NULL) {
-			g_slist_foreach (state->sheet->solver_parameters.constraints,
-                                             cb_destroy, NULL);
-			g_slist_free (state->sheet->solver_parameters.constraints);
-			state->sheet->solver_parameters.constraints = NULL;
+		if (state->sheet->solver_parameters->constraints != NULL) {
+			g_slist_foreach (state->sheet->solver_parameters->constraints,
+					 cb_destroy, NULL);
+			g_slist_free (state->sheet->solver_parameters->constraints);
+			state->sheet->solver_parameters->constraints = NULL;
 		}
-		state->sheet->solver_parameters.constraints = conv.c_list;
+		state->sheet->solver_parameters->constraints = conv.c_list;
 
 		state->ov_target = value_get_as_float
-			(state->sheet->solver_parameters.target_cell->value);
+			(state->sheet->solver_parameters->target_cell->value);
 		state->ov = save_original_values (input_cells);
 		state->ov_stack = g_slist_prepend (state->ov_stack, state->ov);
 		state->ov_cell_stack = g_slist_prepend (state->ov_cell_stack, input_cells);
 
-	        if (state->sheet->solver_parameters.options.assume_linear_model) {
+	        if (state->sheet->solver_parameters->options.assume_linear_model) {
 			int res;
 			gnum_float  *opt_x, *sh_pr;
 			gboolean ilp;
@@ -855,9 +848,6 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 		value_release (target_range);
 	if (input_range != NULL)
 		value_release (input_range);
-
-
-	return;
 }
 
 
@@ -1027,25 +1017,25 @@ dialog_init (SolverState *state)
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "lin_model_button")),
-			state->sheet->solver_parameters.options.assume_linear_model);
+			state->sheet->solver_parameters->options.assume_linear_model);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "non_neg_button")),
-			state->sheet->solver_parameters.options.assume_non_negative);
-	if (state->sheet->solver_parameters.input_entry_str != NULL)
+			state->sheet->solver_parameters->options.assume_non_negative);
+	if (state->sheet->solver_parameters->input_entry_str != NULL)
 		gtk_entry_set_text (GTK_ENTRY(state->change_cell_entry),
-				    state->sheet->solver_parameters.input_entry_str );
-	if (state->sheet->solver_parameters.target_cell != NULL)
+				    state->sheet->solver_parameters->input_entry_str );
+	if (state->sheet->solver_parameters->target_cell != NULL)
 		gtk_entry_set_text (GTK_ENTRY(state->target_entry),
-				    cell_name(state->sheet->solver_parameters.target_cell));
+				    cell_name(state->sheet->solver_parameters->target_cell));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "max_button")),
-			state->sheet->solver_parameters.problem_type == SolverMaximize);
+			state->sheet->solver_parameters->problem_type == SolverMaximize);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "min_button")),
-			state->sheet->solver_parameters.problem_type == SolverMinimize);
+			state->sheet->solver_parameters->problem_type == SolverMinimize);
 
 	conv.c_listing = state->constraint_list;
-	conv.c_list = state->sheet->solver_parameters.constraints;
+	conv.c_list = state->sheet->solver_parameters->constraints;
 	conv.sheet = state->sheet;
 	revert_constraint_format (&conv);
 
@@ -1101,6 +1091,4 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 			       SOLVER_KEY);
 
 	gtk_widget_show (state->dialog);
-
-        return;
 }
