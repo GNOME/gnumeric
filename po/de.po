@@ -19,25 +19,24 @@
 # #VALUE! == #WERT!
 #
 # TODO:
-# "ausgewählt" durch "markiert" ersetzen.
+#     "ausgewählt" durch "markiert" ersetzen.
 # 2000-07-31 20:32:32 CEST
-# I'm still looking for somebody who's willing to take over this message file.
-# Send email to gnome-de@gnome.org.
-# -ke-
+#     I'm still looking for somebody who's willing to take over this message file.
+#     Send email to gnome-de@gnome.org.
+#     -ke-
 # 2000-04-15 19:36:06 CEST
-# Tooltipps bitte infinitisch formulieren.
-# -ke-
+#     Tooltipps bitte infinitisch formulieren.
+#     -ke-
 # 1999-09-14 18:54:55 CEST
-# Somebody else familiar with Excel is welcome to add missing strings and/or 
-# to
-# correct existing translation...
-# -ke-
+#     Somebody else familiar with Excel is welcome to add missing strings and/or 
+#     to correct existing translations...
+#     -ke-
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62cvs\n"
-"POT-Creation-Date: 2001-02-10 18:47+0100\n"
-"PO-Revision-Date: 2001-02-10 19:39+01:00\n"
+"POT-Creation-Date: 2001-02-11 06:59+0100\n"
+"PO-Revision-Date: 2001-02-11 07:50+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -85,34 +84,34 @@ msgstr "Excel(R) 97 Dateiformat"
 msgid "Excel(R) 95 file format"
 msgstr "Excel(R) 95 Dateiformat"
 
-#: plugins/excel/ms-excel-read.c:432
+#: plugins/excel/ms-excel-read.c:433
 msgid "#UNKNOWN!"
 msgstr "#UNBEKANNT!"
 
-#: plugins/excel/ms-excel-read.c:603 plugins/lotus-123/lotus.c:194
+#: plugins/excel/ms-excel-read.c:604 plugins/lotus-123/lotus.c:194
 #: plugins/oleo/oleo.c:44
 #, c-format
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:3885
+#: plugins/excel/ms-excel-read.c:3917
 msgid "No book or workbook streams found."
 msgstr "Keine book- oder workbook-Streams gefunden."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4179
+#: plugins/excel/ms-excel-read.c:4211
 msgid "Password protected workbooks are not supported yet."
 msgstr "Passwortgeschützte Arbeitsbücher werden noch nicht unterstützt."
 
-#: plugins/excel/ms-excel-read.c:4300
+#: plugins/excel/ms-excel-read.c:4332
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kann kein gültiges MS-Excel-Arbeitsbuch auffinden."
 
-#: plugins/excel/ms-excel-write.c:3502
+#: plugins/excel/ms-excel-write.c:3500
 msgid "Too many rows for this format"
 msgstr "Zu viele Zeilen für dieses Format."
 
-#: plugins/excel/ms-excel-write.c:3586
+#: plugins/excel/ms-excel-write.c:3584
 msgid "Can't open stream for writing\n"
 msgstr "Es ist nicht möglich, einen Stream zum Schreiben zu öffen.\n"
 
@@ -152,12 +151,11 @@ msgstr ""
 
 #: plugins/gda/plugin-gda.c:136
 msgid "Format: execSQL(dsn,user,password,sql)"
-msgstr ""
+msgstr "Format: execSQL(dsn,benutzer,passwort,sql)"
 
 #: plugins/gda/plugin-gda.c:142
-#, fuzzy
 msgid "Error: could not initialize connection pool"
-msgstr "Konnte die Gnumeric-Arbeitsbuch-Factory nicht initialisieren"
+msgstr "Fehler: Es war nicht möglich, den Verbindungspool zu initialisieren."
 
 #: plugins/gda/plugin-gda.c:147
 #, c-format
@@ -175,7 +173,7 @@ msgstr "Datenbank"
 #: src/functions/fn-information.c:783 src/functions/fn-information.c:846
 #: src/functions/fn-logical.c:196 src/functions/fn-string.c:343
 msgid "Invalid number of arguments"
-msgstr "Ungültige Argumentenanzahl"
+msgstr "Ungültige Anzahl an Argumenten"
 
 #. FIXME : This looks like a leak (JEG 4/4/00)
 #: plugins/guile/plugin.c:70 plugins/guile/plugin.c:75
@@ -812,7 +810,7 @@ msgstr "Prozent"
 #: src/analysis-tools.c:2386 src/analysis-tools.c:2554
 #: src/analysis-tools.c:2733
 msgid "Anova"
-msgstr ""
+msgstr "Anova"
 
 #: src/analysis-tools.c:2391 src/dialogs/analysis-tools.glade.h:3
 #: src/dialogs/dialog-analysis-tools.c:83
@@ -879,7 +877,7 @@ msgstr "Varianz"
 
 #: src/analysis-tools.c:2823
 msgid "ANOVA"
-msgstr ""
+msgstr "ANOVA"
 
 #: src/analysis-tools.c:2824
 msgid "Source of Variation"
@@ -927,9 +925,11 @@ msgstr ""
 msgid "Histogram"
 msgstr "Histogramm"
 
+# = numerisch?
+# 2001-02-11 07:05:07 CET -ke-
 #: src/analysis-tools.c:2883
 msgid "Bin"
-msgstr ""
+msgstr "Num"
 
 #: src/analysis-tools.c:2884
 msgid "Frequency"
@@ -945,7 +945,7 @@ msgstr "Kumulative %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Fehler »%s« beim Öffnen des workbook-Streams"
 
-#: src/bonobo-io.c:471 src/xml-io-autoft.c:427 src/xml-io.c:3199
+#: src/bonobo-io.c:471 src/xml-io-autoft.c:427 src/xml-io.c:3216
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ungültige XML-Datei. Ist der Baum leer?"
 
@@ -2712,9 +2712,8 @@ msgid "37"
 msgstr "37"
 
 #: src/dialogs/dialog-autoformat.c:74
-#, fuzzy
 msgid "81"
-msgstr "1"
+msgstr "81"
 
 #: src/dialogs/dialog-autoformat.c:536
 #, c-format
@@ -3125,12 +3124,8 @@ msgid "Always"
 msgstr "Immer"
 
 #: src/dialogs/dialog-stf-export.glade.h:8
-#, fuzzy
 msgid "Automatic (puts quotes where needed)"
-msgstr ""
-"Automatisch (wenn nötig, Anführungszeichen setzen)\n"
-"Immer\n"
-"Nie\n"
+msgstr "Automatisch (wenn nötig, Anführungszeichen setzen)"
 
 #: src/dialogs/dialog-stf-export.glade.h:9
 msgid "Available sheets"
@@ -3270,6 +3265,8 @@ msgstr "Daten (von %s)"
 msgid ""
 "Actual processing will start at this line, any previous lines will be ignored"
 msgstr ""
+"Die tatsächliche Verarbeitung wird bei dieser Zeile beginnen, alle vorangehenden\n"
+"werden ignoriert werden."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -3281,7 +3278,7 @@ msgstr "Immer (beide Seiten)"
 
 #: src/dialogs/dialog-stf.glade.h:6
 msgid "Attempt to recognize columns in the text automatically"
-msgstr ""
+msgstr "Versuchen, die Spalten im Text automatisch zu erkennen"
 
 #: src/dialogs/dialog-stf.glade.h:7
 msgid "Auto Column _Discovery"
@@ -3300,6 +3297,9 @@ msgid ""
 "Character interpreted as quote character. If the separation character is "
 "encountered within quotes it will be ignored"
 msgstr ""
+"Zeichen, das als Quote-Zeichen (Anführungszeichen) interpretiert wird.\n"
+"Wenn das Trennzeichen innerhalb der Quote-Zeichen angetroffen wird, wird es\n"
+"ignoriert."
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "Clear list of columns"
@@ -3348,6 +3348,8 @@ msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon"
 msgstr ""
+"Die Spalten im Text sind durch ein Trennzeichen voneinander abgetrennt, z. B.\n"
+"durch ein Semikolon."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -3431,6 +3433,8 @@ msgstr "Je Spalte formatieren"
 #: src/dialogs/dialog-stf.glade.h:43
 msgid "Processing ends at this line, any subsequent lines will be ignored"
 msgstr ""
+"Die Verarbeitung endet bei dieser Zeile; alle folgenden Zeilen werden ignoriert\n"
+"werden."
 
 #: src/dialogs/dialog-stf.glade.h:44
 msgid "Remove selected column"
@@ -3454,16 +3458,14 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:49
-#, fuzzy
 msgid ""
 "Select the format for each column. You can click in the column list on the "
 "left or in the example to select a column. You can then enter a custom "
 "format or select one from the list on the right."
 msgstr ""
 "Das Format für jede Spalte wählen. Sie können auf die Spaltenliste links\n"
-"klicken, um eine Spalte zu wählen, oder Sie können in die Vorschau klicken.\n"
-"Dann können Sie ein eigenes Format eingeben oder eines von der Liste rechts\n"
-"wählen."
+"klicken, um eine Spalte zu markieren.  Dann können Sie ein benutzerdefiniertes\n"
+"Format eingeben oder eines aus der Liste rechts wählen."
 
 #: src/dialogs/dialog-stf.glade.h:50
 msgid ""
@@ -3512,6 +3514,8 @@ msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting"
 msgstr ""
+"Führende und anhängende Leerzeichen von jeder Spalte entfernen; wenn Sie sich\n"
+"unsicher sind, sollten Sie diese Einstellung bei dem Vorgabewert belassen."
 
 #: src/dialogs/dialog-stf.glade.h:62
 msgid "_Adjacent text indicators escaped"
@@ -3688,7 +3692,7 @@ msgstr "Name:"
 
 #: src/dialogs/names.glade.h:4
 msgid "Scope :"
-msgstr ""
+msgstr "Reichweite:"
 
 #: src/dialogs/names.glade.h:6 src/dialogs/solver.glade.h:16
 msgid "_Delete"
@@ -3716,15 +3720,15 @@ msgstr "Aktive Plugins"
 
 #: src/dialogs/plugin-manager.glade.h:5
 msgid "Available inactive plugins"
-msgstr ""
+msgstr "Verfügbare nicht-aktive Plugins"
 
 #: src/dialogs/plugin-manager.glade.h:6
 msgid "Deactivate all plugins"
-msgstr ""
+msgstr "Alle Plugins deaktivieren"
 
 #: src/dialogs/plugin-manager.glade.h:7
 msgid "Deactivate plugin"
-msgstr ""
+msgstr "Plugin deaktivieren"
 
 #: src/dialogs/plugin-manager.glade.h:8
 msgid "Description"
@@ -3839,7 +3843,7 @@ msgstr "Druck"
 msgid "Print _area:"
 msgstr "_Bereich drucken:"
 
-#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1206
+#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1240
 msgid "Print preview"
 msgstr "Druckvorschau"
 
@@ -3860,7 +3864,7 @@ msgid "Scale"
 msgstr "Skalierung"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:135
-#: src/workbook.c:1019 src/xml-io.c:2888
+#: src/workbook.c:1019 src/xml-io.c:2905
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -3984,9 +3988,8 @@ msgid "By"
 msgstr "Durch"
 
 #: src/dialogs/search-replace.glade.h:5
-#, fuzzy
 msgid "Change cells containing"
-msgstr "Beschränkung ändern"
+msgstr "Zellen ändern, die beinhalten"
 
 #: src/dialogs/search-replace.glade.h:6 src/dialogs/summary.glade.h:3
 msgid "Comments"
@@ -4002,7 +4005,7 @@ msgstr "Aktuelles Blatt"
 
 #: src/dialogs/search-replace.glade.h:9
 msgid "Do not consider matches in the middle of words"
-msgstr ""
+msgstr "Treffer in der Wortmitte nicht berücksichtigen"
 
 #: src/dialogs/search-replace.glade.h:10
 msgid "Do not perform this replacement"
@@ -4018,7 +4021,7 @@ msgstr "Gesamtes Arbeitsbuch"
 
 #: src/dialogs/search-replace.glade.h:13
 msgid "Error behaviour"
-msgstr ""
+msgstr "Fehlerverhalten"
 
 #: src/dialogs/search-replace.glade.h:14
 msgid "Expressions"
@@ -4054,7 +4057,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:22
 msgid "Miscellanea"
-msgstr ""
+msgstr "Weitere Sachen"
 
 #: src/dialogs/search-replace.glade.h:24
 msgid "Other values"
@@ -4066,7 +4069,7 @@ msgstr "Änderungen in den Kommentaren der Zellen durchführen"
 
 #: src/dialogs/search-replace.glade.h:26
 msgid "Perform changes within expressions"
-msgstr ""
+msgstr "Änderungen in den Ausdrücken durchführen"
 
 #: src/dialogs/search-replace.glade.h:27
 msgid "Perform changes within non-string values"
@@ -4074,11 +4077,11 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:28
 msgid "Perform changes within string values"
-msgstr ""
+msgstr "Änderungen innerhalb der Werte der Zeichenketten durchführen"
 
 #: src/dialogs/search-replace.glade.h:29
 msgid "Perform no more replacements"
-msgstr ""
+msgstr "Keine weiteren Ersetzungen durchführen"
 
 #: src/dialogs/search-replace.glade.h:30
 msgid "Perform this replacement"
@@ -4086,7 +4089,7 @@ msgstr "Diese Ersetzung durchführen"
 
 #: src/dialogs/search-replace.glade.h:31
 msgid "Plain text"
-msgstr ""
+msgstr "Reiner Text"
 
 #: src/dialogs/search-replace.glade.h:32
 msgid "Preserve case"
@@ -4094,11 +4097,11 @@ msgstr "Groß-/Kleinschreibung bewahren"
 
 #: src/dialogs/search-replace.glade.h:33
 msgid "Query"
-msgstr ""
+msgstr "Anfrage"
 
 #: src/dialogs/search-replace.glade.h:34
 msgid "Query for replacement"
-msgstr ""
+msgstr "Anfrage nach Ersetzung"
 
 #: src/dialogs/search-replace.glade.h:36
 msgid "Regular expression"
@@ -4112,10 +4115,11 @@ msgstr "Ersetzen durch"
 msgid "Replacing"
 msgstr "Ersetzung"
 
+# Checkit
+# 2001-02-11 07:31:22 CET -ke-
 #: src/dialogs/search-replace.glade.h:39
-#, fuzzy
 msgid "Scope"
-msgstr "kopieren"
+msgstr "Reichweite"
 
 #: src/dialogs/search-replace.glade.h:40
 msgid "Search"
@@ -4123,15 +4127,15 @@ msgstr "Suchen"
 
 #: src/dialogs/search-replace.glade.h:42
 msgid "Search and replace in all cells in the workbook"
-msgstr ""
+msgstr "Suchen und ersetzen in allen Zellen des Arbeitsbuchs"
 
 #: src/dialogs/search-replace.glade.h:43
 msgid "Search and replace in current sheet only"
-msgstr ""
+msgstr "Suchen und ersetzen nur im aktuellen Blatt"
 
 #: src/dialogs/search-replace.glade.h:44
 msgid "Search and replace in specified range only"
-msgstr ""
+msgstr "Suchen und ersetzen nur im angegebenen Bereich"
 
 #: src/dialogs/search-replace.glade.h:45
 msgid "Search for"
@@ -4139,7 +4143,7 @@ msgstr "Suchen nach"
 
 #: src/dialogs/search-replace.glade.h:46
 msgid "Skip cells that that would result in errors"
-msgstr ""
+msgstr "Alle Zellen überspringen, die einen Fehler hervorrufen würden"
 
 #: src/dialogs/search-replace.glade.h:47
 msgid "Strings"
@@ -4336,7 +4340,7 @@ msgstr "Ein Wert"
 
 #: src/dialogs/validate.glade.h:2
 msgid "Apply these changes to other cells with the same settings"
-msgstr ""
+msgstr "Diese Änderungen auch auf die Zellen anwenden, die die gleichen Einstellungen haben"
 
 #: src/dialogs/validate.glade.h:4
 msgid "Data Validation"
@@ -4366,7 +4370,7 @@ msgstr "Eingabebereich:"
 #: src/dialogs/validate.glade.h:10 src/gnumeric.xml.h:112
 #: src/workbook-object-toolbar.c:144
 msgid "List"
-msgstr ""
+msgstr "Liste"
 
 #: src/dialogs/validate.glade.h:11
 msgid "St_yle:"
@@ -4374,7 +4378,7 @@ msgstr "_Stil:"
 
 #: src/dialogs/validate.glade.h:12
 msgid "Stop"
-msgstr ""
+msgstr "Stopp"
 
 #: src/dialogs/validate.glade.h:13
 msgid "Text length"
@@ -4394,7 +4398,7 @@ msgstr "Warnung"
 
 #: src/dialogs/validate.glade.h:17
 msgid "Whole numbers"
-msgstr ""
+msgstr "Ganze Zahlen"
 
 #: src/dialogs/validate.glade.h:18
 msgid "_Allow:"
@@ -4406,11 +4410,11 @@ msgstr "A_lles leeren"
 
 #: src/dialogs/validate.glade.h:20
 msgid "_Error Alert"
-msgstr ""
+msgstr "_Fehlerwarnung"
 
 #: src/dialogs/validate.glade.h:21
 msgid "_Error message:"
-msgstr ""
+msgstr "_Fehlermeldung:"
 
 #: src/dialogs/validate.glade.h:22
 msgid "_In-cell dropdown"
@@ -4427,7 +4431,7 @@ msgstr "_Einstellungen"
 
 #: src/dialogs/validate.glade.h:25
 msgid "_Show error alert after invalid data is entered"
-msgstr ""
+msgstr "Fehlerwarnung nach der Eingabe ungültiger Daten an_zeigen"
 
 #: src/dialogs/validate.glade.h:26
 msgid "_Show input message when cell is selected"
@@ -4442,37 +4446,32 @@ msgid "_Title:"
 msgstr "_Titel:"
 
 #: src/dialogs/validate.glade.h:29
-#, fuzzy
 msgid "label11"
-msgstr "_Beschriftungen"
+msgstr "beschriftung11"
 
 #: src/dialogs/validate.glade.h:30
-#, fuzzy
 msgid "label12"
-msgstr "_Beschriftungen"
+msgstr "beschriftung12"
 
 #: src/dialogs/validate.glade.h:31
 msgid "min <= val <= max         (between)"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:32
-#, fuzzy
 msgid "val != bound                 (not equal to)"
-msgstr "                         "
+msgstr ""
 
 #: src/dialogs/validate.glade.h:33
-#, fuzzy
 msgid "val >  bound                 (greater than)"
-msgstr "                         "
+msgstr ""
 
 #: src/dialogs/validate.glade.h:34
 msgid "val >=bound                 (greater than or equal to)"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:35
-#, fuzzy
 msgid "val <  bound                 (less than)"
-msgstr "                         "
+msgstr ""
 
 #: src/dialogs/validate.glade.h:36
 msgid "val <= min || max <= val (not between)"
@@ -4483,9 +4482,8 @@ msgid "val <=bound                 (less than or equal to)"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:38
-#, fuzzy
 msgid "val == bound                (equal to)"
-msgstr "                         "
+msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "Notebook"
@@ -4573,12 +4571,11 @@ msgstr ""
 "Es kann in der Datei %s nicht gespeichert werden\n"
 "%%s"
 
+# Checkit
+# 2001-02-11 07:39:25 CET -ke-
 #: src/file.c:413
-#, fuzzy
 msgid "There are no file savers loaded"
-msgstr ""
-"Tut mir leid, es sind keine Dateispeicherer geladen.\n"
-"Ich kann nicht speichern."
+msgstr "Es sind keine Dateispeicherer geladen."
 
 #: src/format.c:568
 msgid "black"
@@ -5674,9 +5671,8 @@ msgid "St.Helena pound"
 msgstr "St.-Helena-Pfund"
 
 #: src/formats.c:382
-#, fuzzy
 msgid "[$SIT]"
-msgstr "[$ITL]"
+msgstr ""
 
 #: src/formats.c:382
 msgid "Slovenia tolar"
@@ -5959,9 +5955,9 @@ msgid "[Red]"
 msgstr "[Red]"
 
 #: src/func.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create file %s\n"
-msgstr "Kann Datei %s nicht erzeugen\n"
+msgstr "Es ist nicht möglich, die Datei %s anzulegen\n"
 
 #: src/func.c:270
 msgid "Unknown Function"
@@ -11575,9 +11571,8 @@ msgid ""
 msgstr ""
 
 #: src/gnumeric-util.c:190 src/gnumeric-util.c:225
-#, fuzzy
 msgid "Unknown error"
-msgstr "Unbekannter GB-Fehler"
+msgstr "Unbekannter Fehler"
 
 #: src/gnumeric-util.c:228
 msgid "Gnumeric error message"
@@ -11829,9 +11824,8 @@ msgid "Unknown plugin name."
 msgstr "Unbekannter Pluginname."
 
 #: src/plugin.c:276
-#, fuzzy
 msgid "Unknown activation type."
-msgstr "Unbekannter Python-Typ"
+msgstr "Unbekannter Aktivierungs-Typ"
 
 #: src/plugin.c:396
 #, c-format
@@ -11887,16 +11881,16 @@ msgstr "Dateiname des Modules:"
 #: src/plugin.c:1023
 #, c-format
 msgid "Module file \"%s\" doesn't exist."
-msgstr ""
+msgstr "Die Moduldatei »%s« existiert nicht."
 
 #: src/plugin.c:1029
 msgid "Module file name not given."
-msgstr ""
+msgstr "Kein Dateiname des Moduls angegeben."
 
 #: src/plugin.c:1082
-#, fuzzy, c-format
+#, c-format
 msgid "Function init_plugin inside \"%s\" returned error."
-msgstr "»init_plugin« gibt Fehler zurück."
+msgstr "Die Funktion init_plugin innerhalb von »%s« gibt Fehler zurück."
 
 #: src/plugin.c:1089
 #, c-format
@@ -11904,11 +11898,9 @@ msgid "Unable to open module file \"%s\": %s"
 msgstr "Die Modul-Datei »%s« kann nicht geöffnet werden: %s"
 
 #: src/plugin.c:1094
-#, fuzzy, c-format
+#, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
-msgstr ""
-"Kann Plugin »%s« nicht öffnen.\n"
-"Version des Plugins »%s« unterscheidet sich von der der Anwendung »%s«."
+msgstr "Version des Plugins »%s« unterscheidet sich von der der Anwendung »%s«."
 
 #: src/plugin.c:1098
 #, c-format
@@ -11941,9 +11933,9 @@ msgid "Dynamic module loading is not supported in this system."
 msgstr ""
 
 #: src/plugin.c:1145
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to close module file \"%s\": %s"
-msgstr "Diese Modul-Datei kann nicht geöffnet werden: "
+msgstr "Es ist nicht möglich, die Modul-Datei »%s« zu schließen: %s"
 
 #: src/print-info.c:21 src/print-info.c:24 src/print-info.c:25
 #: src/print-info.c:278
@@ -12004,27 +11996,27 @@ msgid "time"
 msgstr "Zeit"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:513
+#: src/print.c:547
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1002 src/workbook-control-gui.c:2613
+#: src/print.c:1036 src/workbook-control-gui.c:2613
 msgid "Selection must be a single range"
 msgstr "Auswahl muss ein einzelner Bereich sein"
 
-#: src/print.c:1119
+#: src/print.c:1153
 msgid "Print Sheets"
 msgstr "Blätter drucken"
 
-#: src/print.c:1129
+#: src/print.c:1163
 msgid "Act_ive sheet"
 msgstr "Akt_ives Blatt"
 
-#: src/print.c:1129
+#: src/print.c:1163
 msgid "S_heets"
 msgstr "_Blätter"
 
-#: src/print.c:1216
+#: src/print.c:1250
 msgid "Printing failed"
 msgstr "Drucken ist fehlgeschlagen"
 
@@ -13350,15 +13342,15 @@ msgstr "muss wenigstens einen Buchstaben haben"
 msgid "There is already a sheet named '%s'"
 msgstr "Es gibt bereits ein Blatt mit dem Namen »%s«"
 
-#: src/xml-io.c:3155
+#: src/xml-io.c:3172
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ungültige XML-Zwischenablagedatei. Ist der Baum leer?"
 
-#: src/xml-io.c:3208
+#: src/xml-io.c:3225
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 
-#: src/xml-io.c:3269
+#: src/xml-io.c:3286
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
 
@@ -13630,7 +13622,8 @@ msgstr "Ein Bonobo-Objekt einfügen"
 # 2001-02-10 19:31:00 CET -ke-
 #: src/gnumeric.xml.h:102
 msgid "Invoke the graph guru to create a graph"
-msgstr "Den Grafen-Druiden zur Unterstützung beim Erzeugen einer Grafik aufrufen"
+msgstr ""
+"Den Grafen-Druiden zur Unterstützung beim Erzeugen einer Grafik aufrufen"
 
 #: src/gnumeric.xml.h:104
 #, fuzzy
@@ -13864,9 +13857,6 @@ msgstr "_Speichern"
 msgid "_View"
 msgstr "_Ansicht"
 
-#~ msgid "Imports version 4.[234] spreadsheets"
-#~ msgstr "Importiert Version 4.[234] Tebellen"
-
 #~ msgid "Data Interchange Format (CSV) module"
 #~ msgstr "Modul: Data Interchange Format Import (CSV)"
 
@@ -13875,9 +13865,6 @@ msgstr "_Ansicht"
 #~ msgstr ""
 #~ "Lesen und Schreiben von Informationen, die im Data Interchange Format "
 #~ "(*.dif) gespeichert sind"
-
-#~ msgid "Gnome Basic"
-#~ msgstr "GNOME Basic"
 
 #~ msgid "Enables Gnome Basic support"
 #~ msgstr "Unterstützung für GNOME Basic aktivieren"
@@ -13901,29 +13888,17 @@ msgstr "_Ansicht"
 #~ msgid "Imports GNU Oleo documents"
 #~ msgstr "»GNU Oleo«-Dokumenten importieren"
 
-#~ msgid "Perl"
-#~ msgstr "Perl"
-
 #~ msgid "Enables the creation of functions in PERL"
 #~ msgstr "Erzeugen von Funktionen in Perl einschalten"
 
 #~ msgid "Imports Plan Perfect Formatted Documents"
 #~ msgstr "Dokumente im »Plan Perfect«-Format (PLN) importieren"
 
-#~ msgid "SC/XSpread "
-#~ msgstr "SC/XSpread "
-
 #~ msgid "Imports SC/XSpread files"
 #~ msgstr "Importiert SC/XSpread-Dateien"
 
-#~ msgid "MultiPlan (SYLK)"
-#~ msgstr "MultiPlan (SYLK)"
-
 #~ msgid "Imports MultiPlan (SYLK) files"
 #~ msgstr "Import von MultiPlan-Dateien (SYLK)"
-
-#~ msgid "XBase"
-#~ msgstr "XBase"
 
 #~ msgid "Imports XBase files"
 #~ msgstr "Import von XBase-Dateien"
@@ -14097,16 +14072,8 @@ msgstr "_Ansicht"
 #~ msgstr "Einfach"
 
 #, fuzzy
-#~ msgid "\"\n"
-#~ msgstr "\""
-
-#, fuzzy
 #~ msgid "pts\n"
 #~ msgstr "pt"
-
-#, fuzzy
-#~ msgid "mm\n"
-#~ msgstr "mm"
 
 #~ msgid "_Object..."
 #~ msgstr "_Objekt..."
