@@ -1,3 +1,8 @@
+2002-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export.glade : run through glade-2
+	* dialog-stf.glade : run through glade-2
+
 2002-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-formula-guru.c (dialog_formula_guru_update_this_parent):
