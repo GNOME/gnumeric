@@ -26,19 +26,19 @@ typedef struct {
 static ORDER_BOX *
 order_box_new (GtkWidget *parent, char *frame_text, char *default_text)
 {
-	ORDER_BOX *this = g_new (ORDER_BOX,1) ;
-	GtkWidget *box = gtk_hbox_new(0,0) ;
+	ORDER_BOX *this = g_new (ORDER_BOX,1);
+	GtkWidget *box = gtk_hbox_new(0,0);
 
-	this->main_frame = gtk_frame_new (frame_text) ;
+	this->main_frame = gtk_frame_new (frame_text);
 	this->asc = 1 ;
 	{
 		GtkTable *tt ;
 		tt = GTK_TABLE (gtk_table_new (0, 0, 0));
 		gtk_table_attach (tt, gtk_label_new (_("Column:")), 0, 1, 0, 1, 0, 0, 2, 0);
-		this->rangetext = gtk_entry_new_with_max_length (5) ;
-		gtk_entry_set_text (GTK_ENTRY(this->rangetext), default_text) ;
+		this->rangetext = gtk_entry_new_with_max_length (5);
+		gtk_entry_set_text (GTK_ENTRY(this->rangetext), default_text);
 		gtk_table_attach (tt, this->rangetext, 1, 2, 0, 1, 0, 0, 0, 2);
-//		gtk_table_attach (tt, this->rangetext, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 2);
+/*		gtk_table_attach (tt, this->rangetext, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 2); */
 		gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(tt), TRUE, FALSE, 2); 
 /*		gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(this->rangetext), TRUE, FALSE, 2); */
 	}
@@ -59,7 +59,7 @@ order_box_new (GtkWidget *parent, char *frame_text, char *default_text)
 
 		gtk_box_pack_start (GTK_BOX(box), this->asc_desc, TRUE, FALSE, 0);
 	}
-	gtk_container_add (GTK_CONTAINER(this->main_frame), box) ;
+	gtk_container_add (GTK_CONTAINER(this->main_frame), box);
 	gtk_box_pack_start (GTK_BOX(parent), GTK_WIDGET(this->main_frame), TRUE, TRUE, 0);
 	return this ;
 }
@@ -67,7 +67,7 @@ order_box_new (GtkWidget *parent, char *frame_text, char *default_text)
 static void
 order_box_set_default (ORDER_BOX *this)
 {
-	gtk_widget_grab_focus (this->rangetext) ;
+	gtk_widget_grab_focus (this->rangetext);
 }
 
 /**
@@ -76,8 +76,8 @@ order_box_set_default (ORDER_BOX *this)
 static char *
 order_box_get_text (ORDER_BOX *this, int *asc)
 {
-	*asc = gtk_radio_group_get_selected (this->group) ;
-	return gtk_editable_get_chars (GTK_EDITABLE (this->rangetext), 0, -1) ;
+	*asc = gtk_radio_group_get_selected (this->group);
+	return gtk_editable_get_chars (GTK_EDITABLE (this->rangetext), 0, -1);
 }
 
 typedef struct {
@@ -105,11 +105,11 @@ compare_values (const SORT_DATA *ain, const SORT_DATA *bin, int clause)
 	cb = bin->cells[bin->clauses[clause].col_offset] ;
 
 	if (!ca)
-		a = value_int (0) ;
+		a = value_int (0);
 	else
 		a = ca->value ;
 	if (!cb)
-		b = value_int (0) ;
+		b = value_int (0);
 	else
 		b = cb->value ;
 
@@ -123,8 +123,8 @@ compare_values (const SORT_DATA *ain, const SORT_DATA *bin, int clause)
 		case VALUE_INTEGER:
 		{
 			float_t fa, fb ;
-			fa = value_get_as_double (a) ;
-			fb = value_get_as_double (b) ;
+			fa = value_get_as_double (a);
+			fb = value_get_as_double (b);
 			if      (fa<fb)  ans=-1 ;
 			else if (fa==fb) ans= 0 ;
 			else             ans= 1 ;
@@ -136,18 +136,18 @@ compare_values (const SORT_DATA *ain, const SORT_DATA *bin, int clause)
 		}
 		break ;
 	default: {
-			switch (b->type) {
+			switch (b->type){
 			case VALUE_FLOAT:
 			case VALUE_INTEGER:
 				ans = 1 ;
 				break ;
 			default: {
 					char *sa, *sb ;
-					sa  = value_string (a) ;
-					sb  = value_string (b) ;
-					ans = strcasecmp (sa, sb) ;
-					g_free (sa) ;
-					g_free (sb) ;
+					sa  = value_string (a);
+					sb  = value_string (b);
+					ans = strcasecmp (sa, sb);
+					g_free (sa);
+					g_free (sb);
 					break ;
 				}
 			}
@@ -158,7 +158,7 @@ compare_values (const SORT_DATA *ain, const SORT_DATA *bin, int clause)
 /*	fans = ans ; */
 	if (ans == 0)
 		if (clause<ain->num_clause-1)
-			fans = compare_values (ain, bin, ++clause) ;
+			fans = compare_values (ain, bin, ++clause);
 		else
 			fans = ans ;
 	else if (ans < 0)
@@ -167,9 +167,9 @@ compare_values (const SORT_DATA *ain, const SORT_DATA *bin, int clause)
 		fans = ain->clauses[clause].asc?-1:1 ;
 
 	if (!ca)
-		value_release (a) ;
+		value_release (a);
 	if (!cb)
-		value_release (b) ;
+		value_release (b);
 
 	return fans ;
 }
@@ -177,7 +177,7 @@ compare_values (const SORT_DATA *ain, const SORT_DATA *bin, int clause)
 static int
 qsort_func (const SORT_DATA *a, const SORT_DATA *b)
 {
-	return compare_values (a, b, 0) ;
+	return compare_values (a, b, 0);
 }
 
 static void
@@ -189,40 +189,40 @@ sort_cell_range (Sheet *sheet, CLAUSE_DATA *clauses, int num_clause, int start_c
 
 	height = end_row - start_row + 1 ;
 	width  = end_col - start_col + 1 ;
-	array = g_new (SORT_DATA, height) ;
+	array = g_new (SORT_DATA, height);
 
-	for (lp=0;lp<height;lp++) {
+	for (lp = 0; lp < height; lp++){
 		array[lp].sheet   = sheet ;
 		array[lp].clauses = clauses ;
 		array[lp].num_clause = num_clause ;
 		array[lp].col     = start_col ;
 		array[lp].row     = start_row + lp ;
-		array[lp].cells   = g_new (Cell *, width) ;
-		for (lp2=0;lp2<width;lp2++) {
+		array[lp].cells   = g_new (Cell *, width);
+		for (lp2 = 0;lp2 < width; lp2++){
 			Cell *cell ;
 			cell = sheet_cell_get (sheet,
-					       start_col+lp2, start_row + lp) ;
+					       start_col+lp2, start_row + lp);
 			array[lp].cells[lp2] = cell ;
 			if (cell)
-				sheet_cell_remove (sheet, cell) ;
+				sheet_cell_remove (sheet, cell);
 		}
 	}
 
-	qsort (array, height, sizeof(SORT_DATA), qsort_func) ;
-//	       (int *(const void *, const void *))qsort_func) ;
+	qsort (array, height, sizeof(SORT_DATA), qsort_func);
+/*	       (int *(const void *, const void *))qsort_func); */
 	{
 		Cell *cell ;
-		for (lp=0;lp<height;lp++) {
-			for (lp2=0;lp2<width;lp2++) {
+		for (lp = 0; lp < height; lp++){
+			for (lp2 = 0; lp2 < width; lp2++) {
 				cell = array[lp].cells[lp2] ;
-/*				printf ("%s\n", cell?value_string(cell->value):"Null") ; */
+/*				printf ("%s\n", cell?value_string(cell->value):"Null"); */
 				if (cell)
-					sheet_cell_add (sheet, cell, start_col + lp2, start_row + lp) ;
+					sheet_cell_add (sheet, cell, start_col + lp2, start_row + lp);
 			}
-			g_free (array[lp].cells) ;
+			g_free (array [lp].cells);
 		}
 	}
-	g_free (array) ;
+	g_free (array);
 }
 
 /*
@@ -238,15 +238,15 @@ dialog_cell_sort (Workbook *wb, Sheet *sheet)
 	ORDER_BOX *clauses[2] ;
 	char      *txt ;
 
-	g_return_if_fail (wb) ;
-	g_return_if_fail (sheet) ;
+	g_return_if_fail (wb);
+	g_return_if_fail (sheet);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	if (!sheet_selection_first_range(sheet, &base_col, &base_row,
 					 &start_col, &start_row,
 					 &end_col, &end_row)) {
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("Selection must be a single range")) ;
+				 _("Selection must be a single range"));
 		return ;
 	}
 	if (end_row >= SHEET_MAX_ROWS-2 ||
@@ -264,45 +264,45 @@ dialog_cell_sort (Workbook *wb, Sheet *sheet)
 		dialog = gnome_dialog_new (_("Sort Cells"),
 					   GNOME_STOCK_BUTTON_OK,
 					   GNOME_STOCK_BUTTON_CANCEL,
-					   NULL) ;
+					   NULL);
 	
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (wb->toplevel)) ;
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (wb->toplevel));
 		
-		clauses[0] = order_box_new (GNOME_DIALOG (dialog)->vbox, _("Sort by"), col_name(start_col)) ;
-		gtk_widget_show_all (dialog) ;
-		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE) ;
-		order_box_set_default (clauses[0]) ;
+		clauses[0] = order_box_new (GNOME_DIALOG (dialog)->vbox, _("Sort by"), col_name(start_col));
+		gtk_widget_show_all (dialog);
+		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+		order_box_set_default (clauses[0]);
 		
-		button = gtk_button_new_with_label ("Add clause") ;
-		gtk_box_pack_start (GTK_BOX(GNOME_DIALOG(dialog)->vbox), button, TRUE, TRUE, 0) ;
+		button = gtk_button_new_with_label ("Add clause");
+		gtk_box_pack_start (GTK_BOX(GNOME_DIALOG(dialog)->vbox), button, TRUE, TRUE, 0);
 		
 		if (gnome_dialog_run (GNOME_DIALOG (dialog)) == 0) 
 		{
 			CLAUSE_DATA *array ;
-			array = g_new (CLAUSE_DATA, num_clause) ;
+			array = g_new (CLAUSE_DATA, num_clause);
 			for (lp=0;lp<num_clause;lp++) {
 				int col ;
 				char *txt = order_box_get_text (clauses[lp],
-								&array[lp].asc) ;
-				col = col_from_name (txt) ;
+								&array[lp].asc);
+				col = col_from_name (txt);
 				if (col<start_col || col>end_col) {
 					gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-							 _("Column must be within range")) ;
+							 _("Column must be within range"));
 					retry = 1 ;
 				}
 				array[lp].col_offset = col - start_col ;
-				g_free (txt) ;
+				g_free (txt);
 			}
 			if (!retry)
 				sort_cell_range (sheet, array, num_clause,
 						 start_col, start_row,
-						 end_col, end_row) ;
+						 end_col, end_row);
 		}
 		else
 			retry = 0 ;
 		gtk_object_destroy (GTK_OBJECT (dialog));
 	}
-	while (retry) ;
+	while (retry);
 }
 
 
