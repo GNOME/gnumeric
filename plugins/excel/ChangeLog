@@ -1,3 +1,7 @@
+2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* boot.c (excel_file_probe): Added FileProbeLevel argument.
+
 2001-05-27  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-write.c (write_window2) :

@@ -53,14 +53,14 @@ gint ms_excel_object_debug = 0;
 
 MsExcelReadGbFn ms_excel_read_gb = NULL;
 
-gboolean excel_file_probe (GnumFileOpener const *fo, const char *filename);
+gboolean excel_file_probe (GnumFileOpener const *fo, const char *filename, FileProbeLevel pl);
 void excel_file_open (GnumFileOpener const *fo, IOContext *context, WorkbookView *new_wb_view, const char *filename);
 void excel97_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
 void excel95_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
 void plugin_cleanup (void);
 
 gboolean
-excel_file_probe (GnumFileOpener const *fo, const char *filename)
+excel_file_probe (GnumFileOpener const *fo, const char *filename, FileProbeLevel pl)
 {
 	MsOle    *file;
 
