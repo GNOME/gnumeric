@@ -75,7 +75,7 @@ struct _ExprName {
 	Operation const oper;
 	int       ref_count;
 
-	NamedExpression const *name;
+	NamedExpression *name;
 };
 
 struct _ExprVar {
@@ -127,20 +127,6 @@ struct _FunctionEvalInfo {
 	FunctionDefinition const *func_def;
 };
 
-/*
- * Built in / definable sheet names.
- */
-struct _NamedExpression {
-	String       *name;
-	Workbook     *wb;
-	Sheet        *sheet;
-	gboolean      builtin;
-	union {
-		ExprTree     *expr_tree;
-		FunctionArgs *expr_func;
-	} t;
-};
-
 ExprTree   *expr_parse_string      (char const *expr, ParsePos const *pp,
 				    StyleFormat **desired_format,
 				    ParseError *error);
@@ -152,7 +138,7 @@ ExprTree   *expr_tree_new_error    (char const *txt);
 ExprTree   *expr_tree_new_unary    (Operation op, ExprTree *e);
 ExprTree   *expr_tree_new_binary   (ExprTree *l, Operation op, ExprTree *r);
 ExprTree   *expr_tree_new_funcall  (FunctionDefinition *func, GList *args);
-ExprTree   *expr_tree_new_name     (NamedExpression const *name);
+ExprTree   *expr_tree_new_name     (NamedExpression *name);
 ExprTree   *expr_tree_new_var      (CellRef const *cr);
 ExprTree   *expr_tree_new_array	   (int x, int y, int rows, int cols);
 
@@ -198,9 +184,8 @@ typedef enum
     EVAL_PERMIT_EMPTY = 0x2
 } ExprEvalFlags;
 
-Value       *eval_expr (EvalPos const *pos,
-			ExprTree const *tree,
-			ExprEvalFlags flags);
+Value       *expr_eval (ExprTree const *tree,
+			EvalPos const *pos, ExprEvalFlags flags);
 
 Value	    *expr_array_intersection (Value *v);
 Value       *expr_implicit_intersection (EvalPos const *pos,

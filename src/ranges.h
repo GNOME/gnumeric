@@ -52,38 +52,13 @@
 #define range_valid(r)          ((r)->start.col <= (r)->end.col && \
 				 (r)->start.row <= (r)->end.row)
 
-typedef enum {
-        RANGE_CREATE_EMPTY_CELLS,  /* call for each cell, creating non-existing cells      */
-	RANGE_ONLY_EXISTING_CELLS, /* call for each existing cell                          */
-	RANGE_ALL_CELLS            /* call for each cell, do not create non-existing cells */
-} range_list_foreach_t;
-
 Range	   *range_init_full_sheet   (Range *r);
 Range      *range_init              (Range *r, int start_col, int start_row,
 				     int end_col, int end_row);
 Value      *range_parse             (Sheet *sheet, char const *range, gboolean strict);
 int         parse_range 	    (char const *text, int *start_col, int *start_row,
 				     int *end_col, int *end_row);
-GSList     *range_list_parse        (Sheet *sheet, char const *cell_name_str, gboolean strict);
 void        range_list_destroy      (GSList *ranges);
-void        range_list_foreach_full (GSList *ranges,
-				     void (*callback)(Cell *cell, void *data),
-				     void *data, range_list_foreach_t the_type);
-void        range_list_foreach_all  (GSList *ranges,
-				     void (*callback)(Cell *cell, void *data),
-				     void *data);
-void        range_list_foreach      (GSList *ranges,
-				     void (*callback)(Cell *cell, void *data),
-				     void *data);
-void        range_list_foreach_area (Sheet *sheet, GSList *ranges,
-				     void (*callback)(Sheet       *sheet,
-						      Range const *range,
-						      gpointer     user_data),
-				     gpointer user_data);
-
-/* deprecated */
-void        ranges_set_style        (Sheet  *sheet, GSList *ranges,
-				     MStyle *mstyle);
 
 int	    range_width		(Range const *r);
 int	    range_height	(Range const *r);
@@ -105,7 +80,7 @@ gboolean    range_translate     (Range *range, int col_offset, int row_offset);
 gboolean    range_transpose     (Range *range, CellPos const *origin);
 
 /* TODO : Do these 2 belong here ? or in sheet.h
- * Probably sheet.h but that is overful.
+ * Probably sheet.h but that is overfull.
  */
 gboolean    range_trim		(Sheet const *sheet, Range *r,
 				 gboolean cols);

@@ -526,9 +526,8 @@ checkbox_eval (Dependent *dep)
 	EvalPos pos;
 	gboolean err, result;
 
-	pos.sheet = dep->sheet;
-	pos.eval.row = pos.eval.col = 0;
-	v = eval_expr (&pos, dep->expression, EVAL_STRICT);
+	v = expr_eval (dep->expression,
+		eval_pos_init_dep (&pos, dep), EVAL_STRICT);
 	result = value_get_as_bool (v, &err);
 	value_release (v);
 	if (!err) {
@@ -965,11 +964,13 @@ radio_button_eval (Dependent *dep)
 {
 	Value *v;
 	EvalPos pos;
-	gboolean err, result;
+	gboolean err;
+	int result;
 
-	pos.sheet = dep->sheet;
-	pos.eval.row = pos.eval.col = 0;
-	v = eval_expr (&pos, dep->expression, EVAL_STRICT);
+	v = expr_eval (dep->expression,
+		eval_pos_init_dep (&pos, dep), EVAL_STRICT);
+	result = value_get_as_int (v);
+	value_release (v);
 	if (!err) {
 		/* FIXME : finish this when I have a better idea of a group */
 		/* SheetWidgetRadioButton *swrb = DEP_TO_RADIO_BUTTON (dep); */
@@ -1091,11 +1092,13 @@ list_eval (Dependent *dep)
 {
 	Value *v;
 	EvalPos pos;
-	gboolean err, result;
+	gboolean err;
+	int result;
 
-	pos.sheet = dep->sheet;
-	pos.eval.row = pos.eval.col = 0;
-	v = eval_expr (&pos, dep->expression, EVAL_STRICT);
+	v = expr_eval (dep->expression,
+		eval_pos_init_dep (&pos, dep), EVAL_STRICT);
+	result = value_get_as_int (v);
+	value_release (v);
 	if (!err) {
 		SheetWidgetList *swl = DEP_TO_LIST (dep);
 	}
@@ -1188,11 +1191,13 @@ combo_input_eval (Dependent *dep)
 {
 	Value *v;
 	EvalPos pos;
-	gboolean err, result;
+	gboolean err;
+	int result;
 
-	pos.sheet = dep->sheet;
-	pos.eval.row = pos.eval.col = 0;
-	v = eval_expr (&pos, dep->expression, EVAL_STRICT);
+	v = expr_eval (dep->expression,
+		eval_pos_init_dep (&pos, dep), EVAL_STRICT);
+	result = value_get_as_int (v);
+	value_release (v);
 	if (!err) {
 		SheetWidgetCombo *swc = DEP_TO_COMBO_INPUT (dep);
 	}
@@ -1212,11 +1217,13 @@ combo_output_eval (Dependent *dep)
 {
 	Value *v;
 	EvalPos pos;
-	gboolean err, result;
+	gboolean err;
+	int result;
 
-	pos.sheet = dep->sheet;
-	pos.eval.row = pos.eval.col = 0;
-	v = eval_expr (&pos, dep->expression, EVAL_STRICT);
+	v = expr_eval (dep->expression,
+		eval_pos_init_dep (&pos, dep), EVAL_STRICT);
+	result = value_get_as_int (v);
+	value_release (v);
 	if (!err) {
 		SheetWidgetCombo *swc = DEP_TO_COMBO_OUTPUT (dep);
 	}

@@ -36,7 +36,8 @@ main ()
 			printf ("parse error: %s\n", perr.message);
 			continue;
 		}
-		v = eval_expr (NULL, node, 0, 0, &error);
+		/* This is wrong, make a parsepos */
+		v = expr_eval (node, NULL, &error);
 		if (v == NULL){
 			printf ("eval error: %s\n", error);
 			continue;

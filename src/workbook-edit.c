@@ -147,9 +147,9 @@ wbcg_edit_validate (WorkbookControlGUI *wbcg, MStyle const *mstyle,
 		
 		if (!val) {
 			EvalPos ep;
-
-			eval_pos_init (&ep, sheet, &sheet->edit_pos);
-			v = eval_expr (&ep, tree, 0);
+			v = expr_eval (tree,
+				eval_pos_init (&ep, sheet, &sheet->edit_pos),
+				0);
 		} else
 			v = val;
 

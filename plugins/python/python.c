@@ -702,7 +702,7 @@ marshal_func_nodes (FunctionEvalInfo *ei, GList *nodes)
 
 	/* Now, the actual arguments */
 	for (i = 0, l = nodes; i < argc && l; i++, l = l->next) {
-		ev = eval_expr (ei->pos, l->data, EVAL_PERMIT_NON_SCALAR);
+		ev = expr_eval (l->data, ei->pos, EVAL_PERMIT_NON_SCALAR);
 		/* ref is stolen from us */
 		PyTuple_SetItem (args, i + 1, value_to_python (ev));
 		value_release (ev);

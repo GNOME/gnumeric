@@ -142,33 +142,19 @@ cellref_equal (CellRef const *a, CellRef const *b)
 		(a->sheet == b->sheet);
 }
 
-void
-cellref_make_abs (CellRef *dest, CellRef const *src, EvalPos const *ep)
-{
-	g_return_if_fail (dest != NULL);
-	g_return_if_fail (src != NULL);
-	g_return_if_fail (ep != NULL);
-
-	*dest = *src;
-	if (src->col_relative)
-		dest->col += ep->eval.col;
-
-	if (src->row_relative)
-		dest->row += ep->eval.row;
-
-	dest->row_relative = dest->col_relative = FALSE;
-}
-
 int
 cellref_get_abs_col (CellRef const *ref, EvalPos const *pos)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (pos != NULL, 0);
 
-	if (ref->col_relative)
-		return pos->eval.col + ref->col;
+	if (ref->col_relative) {
+		int res = (pos->eval.col + ref->col) % SHEET_MAX_COLS;
+		if (res < 0)
+			return res + SHEET_MAX_COLS;
+		return res;
+	}
 	return ref->col;
-
 }
 
 int
@@ -177,8 +163,12 @@ cellref_get_abs_row (CellRef const *ref, EvalPos const *pos)
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (pos != NULL, 0);
 
-	if (ref->row_relative)
-		return pos->eval.row + ref->row;
+	if (ref->row_relative) {
+		int res = (pos->eval.row + ref->row) % SHEET_MAX_ROWS;
+		if (res < 0)
+			return res + SHEET_MAX_ROWS;
+		return res;
+	}
 	return ref->row;
 }
 
@@ -190,14 +180,41 @@ cellref_get_abs_pos (CellRef const *cell_ref,
 	g_return_if_fail (cell_ref != NULL);
 	g_return_if_fail (res != NULL);
 
-	if (cell_ref->col_relative)
-		res->col = cell_ref->col + pos->col;
-	else
+	if (cell_ref->col_relative) {
+		res->col = (cell_ref->col + pos->col) % SHEET_MAX_COLS;
+		if (res->col < 0)
+			res->col += SHEET_MAX_COLS;
+	} else
 		res->col = cell_ref->col;
 
-	if (cell_ref->row_relative)
-		res->row = cell_ref->row + pos->row;
-	else
+	if (cell_ref->row_relative) {
+		res->row = (cell_ref->row + pos->row) % SHEET_MAX_ROWS;
+		if (res->row < 0)
+			res->row += SHEET_MAX_ROWS;
+	} else
 		res->row = cell_ref->row;
+}
+
+void
+cellref_make_abs (CellRef *dest, CellRef const *src, EvalPos const *ep)
+{
+	g_return_if_fail (dest != NULL);
+	g_return_if_fail (src != NULL);
+	g_return_if_fail (ep != NULL);
+
+	*dest = *src;
+	if (src->col_relative) {
+		dest->col = (dest->col + ep->eval.col) % SHEET_MAX_COLS;
+		if (dest->col < 0)
+			dest->col += SHEET_MAX_COLS;
+	}
+
+	if (src->row_relative) {
+		dest->row = (dest->row + ep->eval.row) % SHEET_MAX_ROWS;
+		if (dest->row < 0)
+			dest->col += SHEET_MAX_ROWS;
+	}
+
+	dest->row_relative = dest->col_relative = FALSE;
 }
 

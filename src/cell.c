@@ -210,7 +210,7 @@ cell_eval_content (Cell *cell)
 	max_iteration = cell->base.sheet->workbook->iteration.max_number;
 
 iterate :
-	v = eval_expr (&pos, cell->base.expression, EVAL_STRICT);
+	v = expr_eval (cell->base.expression, &pos, EVAL_STRICT);
 	if (v == NULL)
 		v = value_new_error (&pos, "Internal error");
 

@@ -111,7 +111,6 @@ gnum_float  value_get_as_float        (Value const *v);
 
 Value       *value_error_set_pos      (ValueErr *err, EvalPos const *pos);
 
-char *value_cellrange_get_as_string   (Value const *v, gboolean use_relative);
 void  value_cellrange_normalize	      (EvalPos const *ep, Value const *v,
 				       Sheet **start_sheet,
 				       Sheet **end_sheet,

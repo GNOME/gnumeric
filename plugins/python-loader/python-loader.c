@@ -543,7 +543,7 @@ call_python_function_nodes (FunctionEvalInfo *ei, GList *expr_tree_list)
 	n_args = g_list_length (expr_tree_list);
 	values = g_new (Value *, n_args);
 	for (i = 0, l = expr_tree_list; l != NULL; i++, l = l->next) {
-		values[i] = eval_expr (ei->pos, (ExprTree *) l->data, EVAL_PERMIT_NON_SCALAR);
+		values[i] = expr_eval (l->data, ei->pos, EVAL_PERMIT_NON_SCALAR);
 	}
 	ret_value = call_python_function (python_fn, ei->pos, n_args, values);
 	for (i = 0; i < n_args; i++) {

@@ -15,6 +15,7 @@
 #include "cell.h"
 #include "str.h"
 #include "sheet.h"
+#include "expr-name.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -453,7 +454,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GList *l)
 	if (argc < 1 || !l->data)
 		return value_new_error (ei->pos, _("#ARG!"));
 
-	v = eval_expr (ei->pos, l->data, EVAL_STRICT);
+	v = expr_eval (l->data, ei->pos, EVAL_STRICT);
 	if (!v)
 		return NULL;
 
@@ -469,7 +470,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GList *l)
 	while (l){
 		index--;
 		if (!index)
-			return eval_expr (ei->pos, l->data, EVAL_PERMIT_NON_SCALAR);
+			return expr_eval (l->data, ei->pos, EVAL_PERMIT_NON_SCALAR);
 		l = g_list_next (l);
 	}
 	return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -768,7 +769,7 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 			expr = tmp;
 		}
 		if (expr->any.oper == OPER_VAR) {
-			Value *res = eval_expr (ei->pos, expr, EVAL_STRICT);
+			Value *res = expr_eval (expr, ei->pos, EVAL_STRICT);
 			expr_tree_unref (expr);
 			return res;
 		} else if (expr->any.oper == OPER_CONSTANT) {

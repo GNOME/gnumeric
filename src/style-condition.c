@@ -48,7 +48,7 @@ style_condition_expr_dep_eval (Dependent *dep)
 		ep.eval.row = ep.eval.col = 0;
 		ep.sheet = dep->sheet;
 			
-		sce->val = eval_expr (&ep, dep->expression, 0);
+		sce->val = expr_eval (dep->expression, &ep, 0);
 	}
 }
 

@@ -53,6 +53,11 @@ cellref_name (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname
 		col = cell_ref->col;
 	}
 
+	/* ICK!  XL compatibility kludge */
+	col %= SHEET_MAX_COLS;
+	if (col < 0)
+		col += SHEET_MAX_COLS;
+
 	if (col <= 'Z'-'A'){
 		*p++ = col + 'A';
 	} else {
@@ -68,6 +73,11 @@ cellref_name (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname
 		*p++ = '$';
 		row = cell_ref->row;
 	}
+
+	/* ICK!  XL compatibility kludge */
+	row %= SHEET_MAX_ROWS;
+	if (row < 0)
+		row += SHEET_MAX_ROWS;
 
 	sprintf (p, "%d", row+1);
 

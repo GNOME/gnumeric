@@ -10,6 +10,7 @@
 #include "ranges.h"
 #include "numbers.h"
 #include "expr.h"
+#include "expr-name.h"
 #include "sheet.h"
 #include "sheet-style.h"
 #include "parse-util.h"
@@ -133,160 +134,6 @@ range_list_destroy (GSList *ranges)
 	g_slist_free (ranges);
 }
 
-
-/**
- * range_list_parse:
- * @sheet: Sheet where the range specification is relatively parsed to
- * @range_spec: a range or list of ranges to parse (ex: "A1", "A1:B1,C2,D2:D4")
- * @strict: whether we should be strict during the parsing or allow for trailing garbage
- *
- * Parses a list of ranges, relative to the @sheet and returns a list with the
- * results.
- *
- * Returns a GSList containing Values of type VALUE_CELLRANGE, or NULL on failure
- */
-GSList *
-range_list_parse (Sheet *sheet, char const *range_spec, gboolean strict)
-{
-
-	char *copy, *range_copy, *r;
-	GSList *ranges = NULL;
-
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (range_spec != NULL, NULL);
-
-	range_copy = copy = g_strdup (range_spec);
-
-	while ((r = strtok (range_copy, ",")) != NULL){
-		Value *v;
-
-		v = range_parse (sheet, r, strict);
-		if (!v){
-			range_list_destroy (ranges);
-			g_free (copy);
-			return NULL;
-		}
-
-		ranges = g_slist_prepend (ranges, v);
-		range_copy = NULL;
-	}
-
-	g_free (copy);
-
-	return ranges;
-}
-
-/**
- * range_list_foreach_full:
- *
- * foreach cell in the range, make sure it exists, and invoke the routine
- * @callback on the resulting cell, passing @data to it
- *
- */
-void
-range_list_foreach_full (GSList *ranges, void (*callback)(Cell *cell, void *data),
-			 void *data, range_list_foreach_t the_type)
-{
-	GSList *l;
-
-	{
-		static int message_shown;
-
-		if (!message_shown){
-			g_warning ("This routine should also iterate "
-				   "through the sheets in the ranges");
-			message_shown = TRUE;
-		}
-	}
-
-	for (l = ranges; l; l = l->next){
-		Value *value = l->data;
-		CellRef a, b;
-		int col, row;
-
-		g_assert (value->type == VALUE_CELLRANGE);
-
-		/*
-		 * FIXME : Are these ranges normalized ?
-		 *         Are they absolute ?
-		 */
-		a = value->v_range.cell.a;
-		b = value->v_range.cell.b;
-
-		for (col = a.col; col <= b.col; col++)
-			for (row = a.row; row < b.row; row++){
-				Cell *cell;
-
-				if (the_type == RANGE_CREATE_EMPTY_CELLS)
-					cell = sheet_cell_fetch (a.sheet, col, row);
-				else
-					cell = sheet_cell_get (a.sheet, col, row);
-				if (cell || (the_type == RANGE_ALL_CELLS))
-					(*callback)(cell, data);
-			}
-	}
-}
-
-void
-range_list_foreach_all (GSList *ranges,
-			void (*callback)(Cell *cell, void *data),
-			void *data)
-{
-	range_list_foreach_full (ranges, callback, data, RANGE_CREATE_EMPTY_CELLS);
-}
-
-void
-range_list_foreach (GSList *ranges, void (*callback)(Cell *cell, void *data),
-		    void *data)
-{
-	range_list_foreach_full (ranges, callback, data, RANGE_ONLY_EXISTING_CELLS);
-}
-
-/**
- * range_list_foreach_full:
- * @sheet:     The current sheet.
- * @ranges:    The list of ranges.
- * @callback:  The user function
- * @user_data: Passed to callback intact.
- *
- * Iterates over the ranges calling the callback with the
- * range, sheet and user data set
- **/
-void
-range_list_foreach_area (Sheet *sheet, GSList *ranges,
-			 void (*callback)(Sheet       *sheet,
-					  Range const *range,
-					  gpointer     user_data),
-			 gpointer user_data)
-{
-	GSList *l;
-
-	g_return_if_fail (IS_SHEET (sheet));
-
-	for (l = ranges; l; l = l->next) {
-		Value *value = l->data;
-		Sheet *s;
-		Range   range;
-
-		g_assert (value->type == VALUE_CELLRANGE);
-
-		/*
-		 * FIXME : Are these ranges normalized ?
-		 *         Are they absolute ?
-		 */
-		range.start.col = value->v_range.cell.a.col;
-		range.start.row = value->v_range.cell.a.row;
-		range.end.col   = value->v_range.cell.b.col;
-		range.end.row   = value->v_range.cell.b.row;
-
-		s = sheet;
-		if (value->v_range.cell.b.sheet)
-			s = value->v_range.cell.b.sheet;
-		if (value->v_range.cell.a.sheet)
-			s = value->v_range.cell.a.sheet;
-		callback (s, &range, user_data);
-	}
-}
 
 /**
  * range_adjacent:
@@ -853,40 +700,33 @@ range_normalize (Range *src)
  * Return value: TRUE if the range was totally empty, else FALSE.
  **/
 gboolean
-range_trim(Sheet const *sheet, Range *range, gboolean cols)
+range_trim (Sheet const *sheet, Range *range, gboolean cols)
 {
-	int original_value, low, *mid, *high;
+	int start, *move;
 
 	/* Setup the pointers to the fields which will
 	 * be changed (to remove the empty cells)
 	 */
 	if (cols) {
-		mid = &range->start.col;
-		high = &range->end.col;
+		start = range->start.col;
+		move = &range->end.col;
+		range->start.col = *move;
 	} else {
-		mid = &range->start.row;
-		high = &range->end.row;
+		start = range->start.row;
+		move = &range->end.row;
+		range->start.row = *move;
 	}
 
-	/* Preform a kind of binary search to find the last
-	 * row/col which is not empty.
-	 */
-	original_value = low = *mid;
-	while (1) {
-		*mid = (low + *high + 1) / 2; /* Middle Cell (Round up) */
+	for (; *move >= start ; (*move)--)
+		if (!sheet_is_region_empty ((Sheet *)sheet, range))
+			break;
 
-		if (sheet_is_region_empty ((Sheet *)sheet, range)) {
-			if (*high == low)
-				return TRUE; /* Range is totally empty */
-			*high = *mid - 1;
-		} else {
-			if (*high == low) {
-				*mid = original_value;
-				return FALSE;
-			}
-			low = *mid;
-		}
-	}
+	if (cols)
+		range->start.col = start;
+	else
+		range->start.row = start;
+
+	return *move < start;
 }
 
 /**
@@ -991,21 +831,6 @@ range_clip_to_finite (Range *range, Sheet *sheet)
 		range->end.col = extent.end.col;
 	if (range->end.row >= SHEET_MAX_ROWS - 2)
 		range->end.row = extent.end.row;
-}
-
-static void
-range_style_apply_cb (Sheet *sheet, Range const *range, gpointer user_data)
-{
-	mstyle_ref ((MStyle *)user_data);
-	sheet_style_apply_range (sheet, range, (MStyle *)user_data);
-}
-
-void
-ranges_set_style (Sheet *sheet, GSList *ranges, MStyle *mstyle)
-{
-	range_list_foreach_area (sheet, ranges,
-				 range_style_apply_cb, mstyle);
-	mstyle_unref (mstyle);
 }
 
 int

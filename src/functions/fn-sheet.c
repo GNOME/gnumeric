@@ -48,15 +48,13 @@ accumulate_regions (Sheet *sheet,  Range const *r, gpointer closure)
 	/* Fill it in */
 	/* start */
 	a.sheet = sheet;
-	a.col_relative = 0;
-	a.row_relative = 0;
+	a.col_relative = a.row_relative = FALSE;
 	a.col = r->start.col;
 	a.row = r->start.row;
 
 	/* end */
 	b.sheet = sheet;
-	b.col_relative = 0;
-	b.row_relative = 0;
+	b.col_relative = b.row_relative = FALSE;
 	b.col = r->end.col;
 	b.row = r->end.row;
 

@@ -653,7 +653,7 @@ xml_write_names (XmlParseContext *ctxt, GList *names)
 		xmlNewChild (tmp, ctxt->ns, "name", tstr);
 		if (tstr) xmlFree (tstr);
 
-		text = expr_name_value (expr_name);
+		text = expr_name_as_string (expr_name, NULL);
 		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
 		xmlNewChild (tmp, ctxt->ns, "value", tstr);
 		if (tstr) xmlFree (tstr);
@@ -667,44 +667,54 @@ xml_write_names (XmlParseContext *ctxt, GList *names)
 }
 
 static void
-xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree, Workbook *wb,
-		Sheet *sheet)
+xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
+		Workbook *wb, Sheet *sheet)
 {
-	xmlNodePtr child;
+	xmlNode *id;
+	xmlNode *expr;
+	xmlNode *position;
+	xmlNode *name = e_xml_get_child_by_name (tree, "Names");
+	xmlChar *name_str, *expr_str;
 
-	g_return_if_fail (ctxt != NULL);
-	g_return_if_fail (tree != NULL);
+	if (name == NULL)
+		return;
 
-	child = tree->xmlChildrenNode;
-	while (child) {
-		char *name  = NULL;
-		if (child->name && !strcmp (child->name, "Name")) {
-			xmlNodePtr bits;
+	for (name = name->xmlChildrenNode; name ; name = name->next) {
+		ParseError  perr;
+		ParsePos    pp;
 
-			bits = child->xmlChildrenNode;
-			while (bits) {
+		if (name->name == NULL || strcmp (name->name, "Name"))
+			continue;
 
-				if (!strcmp (bits->name, "name")) {
-					name = xmlNodeGetContent (bits);
-				} else {
-					char     *txt;
-					ParseError  perr;
-					g_return_if_fail (name != NULL);
+		id = e_xml_get_child_by_name (name, "name");
+		expr = e_xml_get_child_by_name (name, "value");
+		position = e_xml_get_child_by_name (name, "position");
 
-					txt = xmlNodeGetContent (bits);
-					g_return_if_fail (txt != NULL);
-					g_return_if_fail (!strcmp (bits->name, "value"));
+		g_return_if_fail (id != NULL && expr != NULL);
 
-					if (!expr_name_create (wb, sheet, name, txt, &perr))
-						g_warning (perr.message);
-					parse_error_free (&perr);
+		name_str = xmlNodeGetContent (id);
+		expr_str = xmlNodeGetContent (expr);
+		g_return_if_fail (name_str != NULL && expr_str != NULL);
 
-					xmlFree (txt);
+		parse_pos_init (&pp, wb, sheet, 0, 0);
+		if (position != NULL) {
+			char *pos_txt = xmlNodeGetContent (position);
+			if (pos_txt != NULL) {
+				CellRef tmp;
+				if (cellref_a1_get (&tmp, pos_txt, &pp.eval)) {
+					pp.eval.col = tmp.col;
+					pp.eval.row = tmp.row;
 				}
-				bits = bits->next;
+				xmlFree (pos_txt);
 			}
 		}
-		child = child->next;
+
+		if (!expr_name_create (&pp, name_str, expr_str, &perr))
+			g_warning (perr.message);
+		parse_error_free (&perr);
+
+		xmlFree (name_str);
+		xmlFree (expr_str);
 	}
 }
 
@@ -2581,9 +2591,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_read_merged_regions (ctxt, tree);
 	xml_read_selection_info (ctxt, tree);
 
-	child = e_xml_get_child_by_name (tree, "Names");
-	if (child)
-		xml_read_names (ctxt, child, NULL, sheet);
+	xml_read_names (ctxt, child, NULL, sheet);
 
 	child = e_xml_get_child_by_name (tree, "Objects");
 	if (child != NULL) {
@@ -2953,9 +2961,7 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 	 * Now read names which can have inter-sheet references
 	 * to these sheet titles
 	 */
-	child = e_xml_get_child_by_name (tree, "Names");
-	if (child)
-		xml_read_names (ctxt, child, wb, NULL);
+	xml_read_names (ctxt, tree, wb, NULL);
 
 	child = e_xml_get_child_by_name (tree, "Sheets");
 

@@ -143,7 +143,6 @@ static gboolean
 xml_sax_attr_cellpos (CHAR const * const *attrs, char const *name, CellPos *val)
 {
 	CellPos tmp;
-	int dummy;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -152,7 +151,7 @@ xml_sax_attr_cellpos (CHAR const * const *attrs, char const *name, CellPos *val)
 	if (strcmp (attrs[0], name))
 		return FALSE;
 
-	if (!parse_cell_name (attrs[1], &tmp.col, &tmp.row, TRUE, &dummy)) {
+	if (!parse_cell_name (attrs[1], &tmp.col, &tmp.row, TRUE, NULL)) {
 		g_warning ("Invalid attribute '%s', expected cellpos, received '%s'",
 			   name, attrs[1]);
 		return FALSE;
@@ -239,6 +238,7 @@ STATE_WB,
                 STATE_NAMES_NAME,
                         STATE_NAMES_NAME_NAME,
                         STATE_NAMES_NAME_VALUE,
+                        STATE_NAMES_NAME_POSITION,
 	STATE_WB_GEOMETRY,
 	STATE_WB_SHEETS,
 		STATE_SHEET,
@@ -250,6 +250,7 @@ STATE_WB,
 				STATE_SHEET_NAMES_NAME,
 					STATE_SHEET_NAMES_NAME_NAME,
 					STATE_SHEET_NAMES_NAME_VALUE,
+					STATE_SHEET_NAMES_NAME_POSITION,
 			STATE_SHEET_PRINTINFO,
                                 STATE_PRINT_MARGINS,
 					STATE_PRINT_MARGIN_TOP,
@@ -334,6 +335,7 @@ static char const * const xmlSax_state_names[] =
                 "gmr:Name",
                         "gmr:name",
                         "gmr:value",
+                        "gmr:position",
 	"gmr:Geometry",
 	"gmr:Sheets",
 		"gmr:Sheet",
@@ -345,6 +347,7 @@ static char const * const xmlSax_state_names[] =
 				"gmr:Name",
 					"gmr:name",
 					"gmr:value",
+					"gmr:position",
 			"gmr:PrintInformation",
 				"gmr:Margins",
 					"gmr:top",
@@ -446,6 +449,7 @@ typedef struct _XMLSaxParseState
 	struct {
 		char *name;
 		char *value;
+		char *position;
 	} name;
 	
 	gboolean  style_range_init;
@@ -1387,8 +1391,17 @@ xml_sax_finish_parse_wb_names_name (XMLSaxParseState *state)
 	
 	if (state->version >= GNUM_XML_V7) {
 		ParseError  perr;
+		ParsePos    pos;
 		
-		if (!expr_name_create (state->wb, NULL, state->name.name,
+		parse_pos_init (&pos, NULL, state->sheet, 0, 0);
+		if (state->name.position) {
+			CellRef tmp;
+			if (cellref_a1_get (&tmp, state->name.position, &pos.eval)) {
+				pos.eval.col = tmp.col;
+				pos.eval.row = tmp.row;
+			}
+		}
+		if (!expr_name_create (&pos, state->name.name,
 				       state->name.value, &perr))
 			g_warning (perr.message);
 		parse_error_free (&perr);
@@ -1403,25 +1416,44 @@ xml_sax_finish_parse_wb_names_name (XMLSaxParseState *state)
 		g_warning ("Can't process named expression '%s'. Ignoring!", state->name.name);
 	}
 
-	g_free (state->name.name);
+	if (state->name.position) {
+		g_free (state->name.position);
+		state->name.position = NULL;
+	}
+
 	g_free (state->name.value);
-	state->name.name = NULL;
 	state->name.value = NULL;
+	g_free (state->name.name);
+	state->name.name = NULL;
 }
 
 static void
 xml_sax_finish_parse_sheet_names_name (XMLSaxParseState *state)
 {
 	ParseError  perr;
+	ParsePos    pos;
 	
 	g_return_if_fail (state->name.name != NULL);
 	g_return_if_fail (state->name.value != NULL);
 
-	if (!expr_name_create (NULL, state->sheet, state->name.name,
+	parse_pos_init (&pos, NULL, state->sheet, 0, 0);
+	if (state->name.position) {
+		CellRef tmp;
+		if (cellref_a1_get (&tmp, state->name.position, &pos.eval)) {
+			pos.eval.col = tmp.col;
+			pos.eval.row = tmp.row;
+		}
+	}
+
+	if (!expr_name_create (&pos, state->name.name,
 			       state->name.value, &perr))
 		g_warning (perr.message);
 	parse_error_free (&perr);
-			  
+
+	if (state->name.position) {
+		g_free (state->name.position);
+		state->name.position = NULL;
+	}
 	g_free (state->name.name);
 	g_free (state->name.value);
 	state->name.name = NULL;
@@ -1444,6 +1476,11 @@ xml_sax_name (XMLSaxParseState *state)
 	case STATE_NAMES_NAME_VALUE:
 		g_return_if_fail (state->name.value == NULL);
 		state->name.value = g_strndup (content, len);
+		break;
+	case STATE_SHEET_NAMES_NAME_POSITION:
+	case STATE_NAMES_NAME_POSITION:
+		g_return_if_fail (state->name.position == NULL);
+		state->name.position = g_strndup (content, len);
 		break;
 	default:
 		return;
@@ -1579,6 +1616,7 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 	case STATE_SHEET_NAMES_NAME:
 		if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES_NAME_NAME)) {
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES_NAME_VALUE)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES_NAME_POSITION)) {
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
@@ -1722,6 +1760,7 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 	case STATE_NAMES_NAME:
 		if (xml_sax_switch_state (state, name, STATE_NAMES_NAME_NAME)) {
 		} else if (xml_sax_switch_state (state, name, STATE_NAMES_NAME_VALUE)) {
+		} else if (xml_sax_switch_state (state, name, STATE_NAMES_NAME_POSITION)) {
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
@@ -1803,6 +1842,7 @@ xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 		break;
 	case STATE_SHEET_NAMES_NAME_NAME :
 	case STATE_SHEET_NAMES_NAME_VALUE :
+	case STATE_SHEET_NAMES_NAME_POSITION :
 		xml_sax_name (state);
 		g_string_truncate (state->content, 0);
 		break;
@@ -1840,6 +1880,7 @@ xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 		break;
 	case STATE_NAMES_NAME_NAME :
 	case STATE_NAMES_NAME_VALUE :
+	case STATE_NAMES_NAME_POSITION :
 		xml_sax_name (state);
 		g_string_truncate (state->content, 0);
 		break;
@@ -1867,6 +1908,7 @@ xml_sax_characters (XMLSaxParseState *state, const CHAR *chars, int len)
 	case STATE_SHEET_ZOOM :
 	case STATE_SHEET_NAMES_NAME_NAME :
 	case STATE_SHEET_NAMES_NAME_VALUE :
+	case STATE_SHEET_NAMES_NAME_POSITION :
 	case STATE_PRINT_MARGIN_TOP :
 	case STATE_PRINT_MARGIN_BOTTOM :
 	case STATE_PRINT_MARGIN_LEFT :
@@ -1882,6 +1924,7 @@ xml_sax_characters (XMLSaxParseState *state, const CHAR *chars, int len)
 	case STATE_SHEET_MERGE :
 	case STATE_NAMES_NAME_NAME :
 	case STATE_NAMES_NAME_VALUE :
+	case STATE_NAMES_NAME_POSITION :
 		while (len-- > 0)
 			g_string_append_c (state->content, *chars++);
 
@@ -1912,7 +1955,7 @@ xml_sax_start_document (XMLSaxParseState *state)
 	state->attribute.type = -1;
 	state->attributes = NULL;
 
-	state->name.name = state->name.value = NULL;
+	state->name.name = state->name.value = state->name.position = NULL;
 
 	state->style_range_init = FALSE;
 	state->style = NULL;

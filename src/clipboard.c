@@ -108,7 +108,7 @@ apply_paste_oper_to_values (Cell const *old_cell, Cell const *copied_cell,
 	expr.binary.value_a = &arg_a;
 	expr.binary.value_b = &arg_b;
 
-	return eval_expr (eval_pos_init_cell (&pos, new_cell), &expr, EVAL_STRICT);
+	return expr_eval (&expr, eval_pos_init_cell (&pos, new_cell), EVAL_STRICT);
 }
 
 static void

@@ -638,7 +638,7 @@ function_marshal_arg (FunctionEvalInfo *ei,
 					 ei->pos->eval.row);
 	else
 		/* force scalars whenever we are certain */
-		v = eval_expr (ei->pos, t,
+		v = expr_eval (t, ei->pos,
 			       (arg_type == 'r' || arg_type == 'a' ||
 				arg_type == 'A' || arg_type == '?')
 			       ? EVAL_PERMIT_NON_SCALAR : EVAL_STRICT);
@@ -1014,7 +1014,7 @@ function_iterate_argument_values (const EvalPos      *ep,
 
 		/* Permit empties and non scalars. We don't know what form the
 		 * function wants its arguments */
-		val = eval_expr (ep, tree, EVAL_PERMIT_NON_SCALAR|EVAL_PERMIT_EMPTY);
+		val = expr_eval (tree, ep, EVAL_PERMIT_NON_SCALAR|EVAL_PERMIT_EMPTY);
 
 		if (val == NULL)
 			continue;

@@ -1817,11 +1817,7 @@ cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
 
 	Range const *sel = selection_first_range (sheet, wbc, _("Autofill"));
 	if (sel) {
-		Range template;
-
-		range_init (&template,
-			    sel->start.col, sel->start.row,
-			    sel->end.col, sel->end.row);
+		Range template = *sel;
 
 		/* This could be more efficient, but it is not important */
 		if (range_trim (sheet, &template, TRUE) ||

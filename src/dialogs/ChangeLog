@@ -1,3 +1,18 @@
+2001-10-25  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-define-names.c (cb_scope_changed) : rework scope handler.
+	(name_guru_display_scope) : ditto.
+	(name_guru_set_expr) : ditto.
+	(cb_name_guru_add) : support error messages, fix updating.
+
+2001-10-21  Wayne Schuller <k_wayne@linuxpower.org>
+
+	* dialog-printer-setup.c : New canvas based header and footer preview
+	  widget. The customize header/footer widget now also uses a
+	  GnomePropertyBox for UI consistency.
+	* print.glade : Updated.
+	* hf-config.glade : Updated.
+
 2001-10-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c : remove `strict' 

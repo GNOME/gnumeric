@@ -396,7 +396,7 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 
 			/* look for patterns in the dates */
 			if (fi->type == FILL_DAYS)
-				fi->type =(g_date_day (prev) != g_date_day (cur))
+				fi->type = (g_date_day (prev) != g_date_day (cur))
 					? FILL_NUMBER
 					: ((g_date_month (prev) != g_date_month (cur))
 					?  FILL_MONTHS : FILL_YEARS);

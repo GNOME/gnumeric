@@ -1,3 +1,8 @@
+2001-10-23  Jody Goldberg <jgoldberg@home.com>
+
+	* python-loader.c (call_python_function_nodes) :
+	s/eval_expr/expr_eval/
+
 2001-10-18  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.72

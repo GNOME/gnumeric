@@ -32,6 +32,7 @@
 #include "workbook-view.h"
 #include "workbook-private.h"
 #include "expr.h"
+#include "expr-name.h"
 #include "cell.h"
 #include "sheet.h"
 
@@ -256,7 +257,7 @@ cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
 	if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
 		GSList listrec;
 		listrec.next = NULL;
-		listrec.data =dep;
+		listrec.data = dep;
 		dependent_queue_recalc_list (&listrec);
 	}
 }
@@ -586,9 +587,11 @@ handle_tree_deps (Dependent *dep, CellPos const *pos,
 	}
 
 	case OPER_NAME:
-		if (tree->name.name->builtin) {
-			/* FIXME: insufficiently flexible dependancy code (?) */
-		} else
+		if (operation == ADD_DEPS)
+			expr_name_add_dep (tree->name.name, dep);
+		else
+			expr_name_remove_dep (tree->name.name, dep);
+		if (!tree->name.name->builtin)
 			handle_tree_deps (dep, pos, tree->name.name->t.expr_tree, operation);
 		return;
 
@@ -602,7 +605,7 @@ handle_tree_deps (Dependent *dep, CellPos const *pos,
 			 */
 			g_return_if_fail (pos != NULL);
 
-			a.col_relative = a.row_relative = 0;
+			a.col_relative = a.row_relative = FALSE;
 			a.sheet = dep->sheet;
 			a.col   = pos->col - tree->array.x;
 			a.row   = pos->row - tree->array.y;

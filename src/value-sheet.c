@@ -87,59 +87,6 @@ value_dump (Value const *value)
 	}
 }
 
-static void
-encode_cellref (GString *dest, CellRef const *ref, gboolean use_relative_syntax)
-{
-	if (ref->sheet){
-		g_string_append (dest, ref->sheet->name_quoted);
-		g_string_append_c (dest, '!');
-	}
-	if (use_relative_syntax && !ref->col_relative)
-		g_string_append_c (dest, '$');
-	g_string_append (dest, col_name (ref->col));
-
-	if (use_relative_syntax && !ref->row_relative)
-		g_string_append_c (dest, '$');
-	g_string_append (dest, row_name (ref->row));
-}
-
-
-/*
- * value_cellrange_get_as_string:
- * @value: a value containing a VALUE_CELLRANGE
- * @use_relative_syntax: true if you want the result to contain relative indicators
- *
- * Returns: a string reprensenting the Value, for example:
- * use_relative_syntax == TRUE: $a$4:$b$1
- * use_relative_syntax == FALSE: a4:b1
- */
-char *
-value_cellrange_get_as_string (Value const *value, gboolean use_relative_syntax)
-{
-	GString *str;
-	char *ans;
-	CellRef const *a, *b;
-
-	g_return_val_if_fail (value != NULL, NULL);
-	g_return_val_if_fail (value->type == VALUE_CELLRANGE, NULL);
-
-	a = &value->v_range.cell.a;
-	b = &value->v_range.cell.b;
-
-	str = g_string_new ("");
-	encode_cellref (str, a, use_relative_syntax);
-
-	/* FIXME : should we normalize ? */
-	if ((a->col != b->col) || (a->row != b->row) ||
-	    (a->col_relative != b->col_relative) || (a->sheet != b->sheet)){
-		g_string_append_c (str, ':');
-
-		encode_cellref (str, b, use_relative_syntax);
-	}
-	ans = str->str;
-	g_string_free (str, FALSE);
-	return ans;
-}
 
 int
 value_area_get_width (EvalPos const *ep, Value const *v)

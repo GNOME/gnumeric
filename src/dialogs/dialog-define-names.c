@@ -4,7 +4,7 @@
  * dialog-define-name.c: Edit named regions.
  *
  * Author:
- * 	Jody Goldberg <jgoldberg@home.com>
+ *	Jody Goldberg <jgoldberg@home.com>
  *	Michael Meeks <michael@imaginator.com>
  *	Chema Celorio <chema@celorio.com>
  */
@@ -28,18 +28,13 @@
 #define LIST_KEY "name_list_data"
 #define DEFINE_NAMES_KEY "define-names-dialog"
 
-typedef enum {
-	NAME_GURU_SCOPE_SHEET,
-	NAME_GURU_SCOPE_WORKBOOK,
-} NameGuruScope;
-
 typedef struct {
 	GladeXML  *gui;
 	GtkWidget *dialog;
 	GtkList   *list;
 	GtkEntry  *name;
 	GnumericExprEntry *expr_text;
-	GtkCombo  *scope;
+	GtkToggleButton *sheet_scope;
 	GList     *expr_names;
 	NamedExpression *cur_name;
 
@@ -52,9 +47,16 @@ typedef struct {
 	Sheet	  *sheet;
 	Workbook  *wb;
 	WorkbookControlGUI  *wbcg;
+	ParsePos   pp;
 
 	gboolean updating;
 } NameGuruState;
+
+static gboolean
+name_guru_scope_is_sheet (NameGuruState *state)
+{
+	return gtk_toggle_button_get_active (state->sheet_scope);
+}
 
 /**
  * name_guru_warned_if_used:
@@ -68,93 +70,28 @@ typedef struct {
 static gboolean
 name_guru_warn (NameGuruState *state)
 {
-	static gboolean warned = FALSE;
-	if (!warned)
-		g_warning ("Implement me !. name_guru_warned_if_used\n");
-	warned = TRUE;
-
-	return TRUE;
-}
-
-/**
- * name_guru_scope_change:
- * @state:
- * @scope:
- *
- * Change the scope of state->cur_name. Ask the user if we want to procede with the
- * change if we are going to invalidate expressions in the sheet.
- *
- * Return Value: FALSE, if the user cancels the scope change
- **/
-static gboolean
-name_guru_scope_change (NameGuruState *state, NameGuruScope scope)
-{
-	NamedExpression *expression;
-
-	g_return_val_if_fail (state != NULL, FALSE);
-	expression = state->cur_name;
-	if (expression == NULL)
-		return TRUE;
-
-	/* get the current values for the expression */
-	if (scope == NAME_GURU_SCOPE_WORKBOOK) {
-		expr_name_sheet2wb (expression);
-	}
-
-	if (scope == NAME_GURU_SCOPE_SHEET) {
-		if (!name_guru_warn (state))
-			return FALSE;
-
-		expr_name_wb2sheet (expression, state->sheet);
-	}
-
 	return TRUE;
 }
 
 static void
-cb_scope_changed (GtkEntry *entry, NameGuruState *state)
+cb_scope_changed (GtkToggleButton *button, NameGuruState *state)
 {
-	NamedExpression *expression;
-
-	if (state->updating)
+	if (state->updating || state->cur_name == NULL)
 		return;
-
-	expression = state->cur_name;
-	if (expression == NULL)
-		return;
-
-	if (!name_guru_scope_change (state,
-				     (expression->sheet == NULL) ?
-				     NAME_GURU_SCOPE_SHEET :
-				     NAME_GURU_SCOPE_WORKBOOK))
-		g_print ("Here we toggle the scope back to what it was\n"
-			 "The user cancelled the scope change.\n");
-
+	expr_name_set_scope (state->cur_name,
+		name_guru_scope_is_sheet (state) ? state->sheet : NULL);
 }
 
 static void
-name_guru_init_scope (NameGuruState *state)
+name_guru_display_scope (NameGuruState *state)
 {
-	NamedExpression *expression;
-	GList *list = NULL;
+	NamedExpression const *nexpr = state->cur_name;
 
-	expression  = state->cur_name;
-	if (expression != NULL && expression->wb) {
-		list = g_list_prepend (list, state->sheet->name_unquoted);
-		list = g_list_prepend (list, _("Workbook"));
-	} else {
-		list = g_list_prepend (list, _("Workbook"));
-		list = g_list_prepend (list, state->sheet->name_unquoted);
-	}
-
-	state->cur_name = NULL;
 	state->updating = TRUE;
-	gtk_combo_set_popdown_strings (state->scope, list);
-	g_list_free (list);
+	gtk_toggle_button_set_active (state->sheet_scope,
+		(nexpr != NULL && nexpr->pos.sheet != NULL));
 	state->updating = FALSE;
-	state->cur_name = expression;
 }
-
 
 static void cb_name_guru_select_name (GtkWidget *list, NameGuruState *state);
 
@@ -168,11 +105,7 @@ static void cb_name_guru_select_name (GtkWidget *list, NameGuruState *state);
 static void
 name_guru_set_expr (NameGuruState *state, NamedExpression *expr_name)
 {
-	g_return_if_fail (state != NULL);
-
-	/* Don't recur.  */
 	state->updating = TRUE;
-
 	if (expr_name) {
 		gchar *txt;
 
@@ -180,20 +113,16 @@ name_guru_set_expr (NameGuruState *state, NamedExpression *expr_name)
 		gtk_entry_set_text (state->name, expr_name->name->str);
 
 		/* Display the expr_text */
-		txt = expr_name_value (expr_name);
+		txt = expr_name_as_string (expr_name, &state->pp);
 		gtk_entry_set_text (GTK_ENTRY (state->expr_text), txt);
 		g_free (txt);
 	} else {
 		gtk_entry_set_text (state->name, "");
 		gtk_entry_set_text (GTK_ENTRY (state->expr_text), "");
 	}
-
-	/* unblock them */
 	state->updating = FALSE;
 
-	/* Init the scope combo box */
-	name_guru_init_scope (state);
-
+	name_guru_display_scope (state);
 }
 
 /**
@@ -292,16 +221,14 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 		name_guru_clear_selection (state);
 }
 
-
-
 /**
- * name_guru_update_sensitivity_cb:
+ * cb_name_guru_update_sensitivity:
  * @dummy:
  * @state:
  *
  **/
 static void
-name_guru_update_sensitivity_cb (GtkWidget *dummy, NameGuruState *state)
+cb_name_guru_update_sensitivity (GtkWidget *dummy, NameGuruState *state)
 {
 	name_guru_update_sensitivity (state, FALSE);
 }
@@ -334,7 +261,6 @@ cb_name_guru_select_name (GtkWidget *list, NameGuruState *state)
 
 	name_guru_set_expr (state, expr_name);
 	name_guru_update_sensitivity (state, FALSE);
-
 }
 
 
@@ -350,15 +276,15 @@ name_guru_populate_list (NameGuruState *state)
 	state->cur_name = NULL;
 
 	g_list_free (state->expr_names);
-	state->expr_names = expr_name_list (state->wb, state->sheet, FALSE);
+	state->expr_names = sheet_get_available_names (state->sheet);
 
 	list = GTK_CONTAINER (state->list);
 	for (names = state->expr_names ; names != NULL ; names = g_list_next (names)) {
 		NamedExpression *expr_name = names->data;
 		GtkWidget *li;
-		if (expr_name->sheet != NULL) {
+		if (expr_name->pos.sheet != NULL) {
 			char *name = g_strdup_printf ("%s!%s",
-						      expr_name->sheet->name_unquoted,
+						      expr_name->pos.sheet->name_unquoted,
 						      expr_name->name->str);
 			li = gtk_list_item_new_with_label (name);
 			g_free (name);
@@ -369,29 +295,6 @@ name_guru_populate_list (NameGuruState *state)
 	}
 	gtk_widget_show_all (GTK_WIDGET (state->list));
 	name_guru_update_sensitivity (state, TRUE);
-}
-
-/**
- * name_guru_scope_get:
- * @state:
- *
- * Get the selected Scope from the combo box
- *
- * Return Value:
- **/
-static NameGuruScope
-name_guru_scope_get (NameGuruState *state)
-{
-	gchar *text;
-
-	text = gtk_entry_get_text (GTK_ENTRY (state->scope->entry));
-
-	g_return_val_if_fail (text != NULL, NAME_GURU_SCOPE_WORKBOOK);
-
-	if (strcmp (text, _("Workbook"))==0)
-	    return NAME_GURU_SCOPE_WORKBOOK;
-	else
-	    return NAME_GURU_SCOPE_SHEET;
 }
 
 
@@ -435,10 +338,10 @@ static gboolean
 cb_name_guru_add (NameGuruState *state)
 {
 	NamedExpression *expr_name;
-	ParsePos      pos, *pp;
 	ParseError    perr;
 	ExprTree *expr;
 	char const *name, *expr_text, *tmp;
+	gboolean dirty = FALSE;
 
 	g_return_val_if_fail (state != NULL, FALSE);
 
@@ -448,19 +351,11 @@ cb_name_guru_add (NameGuruState *state)
 	if (!name || (name[0] == '\0'))
 		return TRUE;
 
-	pp = parse_pos_init (&pos, state->wb, state->sheet, 0, 0);
-	/*
-	 * expr name uses 0,0 for now.  Figure out what to do with this
-	 * eventually.
-			     state->sheet->edit_pos.col,
-			     state->sheet->edit_pos.row);
-         */
-
-	expr_name = expr_name_lookup (pp, name);
+	expr_name = expr_name_lookup (&state->pp, name);
 
 	if (NULL != (tmp = gnumeric_char_start_expr_p (expr_text)))
 		expr_text = tmp;
-	expr = expr_parse_string (expr_text, pp, NULL, &perr);
+	expr = expr_parse_string (expr_text, &state->pp, NULL, &perr);
 
 	/* If the expression is invalid */
 	if (expr == NULL) {
@@ -470,28 +365,35 @@ cb_name_guru_add (NameGuruState *state)
 		return FALSE;
 	} else if (expr_name) {
 		if (!expr_name->builtin) {
-			/* This means that the expresion was updated updated.
+			/* This means that the expresion was updated.
 			 * FIXME: if the scope has been changed too, call scope
 			 * chaned first.
 			 */
-			expr_tree_unref (expr_name->t.expr_tree);
-			expr_name->t.expr_tree = expr;
+			expr_name_set_expr (expr_name, expr);
+			dirty = TRUE;
 		} else
 			gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 _("You cannot redefine a builtin name."));
 	} else {
 		char *error = NULL;
-		if (name_guru_scope_get (state) == NAME_GURU_SCOPE_WORKBOOK)
-			expr_name = expr_name_add (state->wb, NULL, name, expr, &error);
+		ParsePos pos;
+		if (name_guru_scope_is_sheet (state))
+			parse_pos_init (&pos, NULL, state->sheet,
+					state->pp.eval.col,
+					state->pp.eval.row);
 		else
-			expr_name = expr_name_add (NULL, state->sheet, name, expr, &error);
+			parse_pos_init (&pos, state->wb, NULL,
+					state->pp.eval.col,
+					state->pp.eval.row);
 
+		expr_name = expr_name_add (&pos, name, expr, &error);
 		if (expr_name == NULL) {
 			g_return_val_if_fail (error != NULL, FALSE);
 			gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR, error);
 			gtk_widget_grab_focus (GTK_WIDGET (state->expr_text));
 			return FALSE;
 		}
+		dirty = TRUE;
 	}
 
 	g_return_val_if_fail (expr_name != NULL, FALSE);
@@ -499,6 +401,9 @@ cb_name_guru_add (NameGuruState *state)
 	gtk_list_clear_items (state->list, 0, -1);
 	name_guru_populate_list (state);
 	gtk_widget_grab_focus (GTK_WIDGET (state->name));
+
+	if (dirty)
+		sheet_set_dirty (state->sheet, TRUE);
 
 	return TRUE;
 }
@@ -595,6 +500,11 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
         if (state->gui == NULL)
                 return TRUE;
 
+	parse_pos_init (&state->pp, state->wb, state->sheet,
+			state->sheet->edit_pos.col,
+			state->sheet->edit_pos.row);
+
+
 	state->dialog = glade_xml_get_widget (state->gui, "NameGuru");
 	table2 = GTK_TABLE (glade_xml_get_widget (state->gui, "table2"));
 	state->name  = GTK_ENTRY (glade_xml_get_widget (state->gui, "name"));
@@ -604,16 +514,19 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 	gtk_widget_show (GTK_WIDGET (state->expr_text));
-	state->scope = GTK_COMBO (glade_xml_get_widget (state->gui, "scope_combo"));
-	state->list  = GTK_LIST  (glade_xml_get_widget (state->gui, "name_list"));
+	state->sheet_scope = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "sheet_scope"));
+	state->list  = GTK_LIST (glade_xml_get_widget (state->gui, "name_list"));
 	state->expr_names = NULL;
 	state->cur_name   = NULL;
 	state->updating   = FALSE;
 
 	/* Init the scope combo box */
-	name_guru_init_scope (state);
-	gtk_signal_connect (GTK_OBJECT (state->scope->entry), "changed",
-			    GTK_SIGNAL_FUNC (cb_scope_changed), state);
+	gtk_label_set_text (GTK_LABEL (GTK_BIN (state->sheet_scope)->child),
+		state->sheet->name_unquoted);
+	name_guru_display_scope (state);
+	gtk_signal_connect (GTK_OBJECT (state->sheet_scope),
+		"toggled",
+		GTK_SIGNAL_FUNC (cb_scope_changed), state);
 
 	state->ok_button     = name_guru_init_button (state, "ok_button");
 	state->close_button  = name_guru_init_button (state, "close_button");
@@ -628,20 +541,18 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_name_guru_destroy), state);
 	gtk_signal_connect (GTK_OBJECT (state->name), "changed",
-			    GTK_SIGNAL_FUNC (name_guru_update_sensitivity_cb), state);
+			    GTK_SIGNAL_FUNC (cb_name_guru_update_sensitivity), state);
 	/* We need to connect after because this is an expresion, and it will
 	 * be changed by the mouse selecting a range, update after the entry
 	 * is updated with the new text.
 	 */
 	gtk_signal_connect_after (GTK_OBJECT (state->expr_text), "changed",
-				  GTK_SIGNAL_FUNC (name_guru_update_sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (cb_name_guru_update_sensitivity), state);
 
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE(state->name));
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->expr_text));
-	gnumeric_combo_enters (GTK_WINDOW (state->dialog),
-			       state->scope);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       DEFINE_NAMES_KEY);
 
@@ -673,7 +584,7 @@ dialog_define_names (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, DEFINE_NAMES_KEY))
 		return;
 
-	state = g_new (NameGuruState, 1);
+	state = g_new0 (NameGuruState, 1);
 	if (name_guru_init (state, wbcg)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Could not create the Name Guru."));

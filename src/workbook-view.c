@@ -363,8 +363,9 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (wbv->auto_expr != NULL);
 
-	v = eval_expr (eval_pos_init (&ep, wbv->current_sheet, &cp),
-		       wbv->auto_expr, EVAL_STRICT);
+	v = expr_eval (wbv->auto_expr,
+		       eval_pos_init (&ep, wbv->current_sheet, &cp),
+		       EVAL_STRICT);
 
 	if (wbv->auto_expr_value_as_string)
 		g_free (wbv->auto_expr_value_as_string);

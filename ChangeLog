@@ -1,3 +1,31 @@
+2001-10-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/ranges.c (range_trim) : decrease lobotomization factor.
+
+2001-10-23  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr-name.c (named_expr_new) : renamed from add_real, simplified
+	  interface.
+	(expr_name_add) : take and store a parse position.
+	(expr_name_create) : ditto.
+	(expr_name_destroy) : adjust to stored parsepos.
+	(expr_name_unlink) : ditto.
+	(expr_name_sheet2wb) : ditto.
+	(expr_name_init) : ditto.
+	(expr_name_as_string) : renamed from expr_name_value.
+	(expr_name_eval) : renamed from eval_expr_name.
+
+	s/eval_expr/expr_eval/
+
+	* src/expr.c (do_expr_tree_to_string) : Use value_as_string in most
+	  places.
+	* src/value-sheet.c (value_cellrange_get_as_string) : delete bogus
+	  useless arg.
+	(encode_cellref) : delete redundant.
+
+	* src/parse-util.c (cellref_name) : ICK!  XL wraps relative references
+	  that are out of bounds.
+
 2001-10-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/ranges.c/h (global_range_parse) : remove `strict' argument
@@ -9,7 +37,6 @@
 	(global_range_list_parse) : new routine, analogue 
 	  to range_list_parse but calling global_range_parse rather than 
 	  range_parse (for analysis tools)
-
 
 2001-10-23  Almer S. Tigelaar  <almer@gnome.org>
 

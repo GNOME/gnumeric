@@ -37,8 +37,8 @@ Optionally:
 	gb		== 0.0.19  (Gnome Basic for macros)
 	gda		>= 0.2.11  (GDA plugin, for accessing databases)
 	guile		>= 1.5     ("Soon" to be releated Guile version)
-	guppi		== CVS module guppi3
-	evolution	== CVS
+	guppi		>= 0.40.0  (corresponds to 0.72)
+	evolution	>= beta3
 
 Notes regarding plugins
 -----------------------
@@ -193,7 +193,3 @@ documentation for these:
      o Gnumeric command line debug arguments.
 	- dump-func-defs
 	- debug
-	- debug_excel_read
-	- debug_excel_formulas
-	- debug_excel_color
-	- debug_excel_chart

@@ -112,7 +112,7 @@ expr_tree_new_binary (ExprTree *l, Operation op, ExprTree *r)
 }
 
 ExprTree *
-expr_tree_new_name (NamedExpression const *name)
+expr_tree_new_name (NamedExpression *name)
 {
 	ExprName *ans;
 
@@ -123,6 +123,7 @@ expr_tree_new_name (NamedExpression const *name)
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = OPER_NAME;
 	ans->name = name;
+	expr_name_ref (name);
 
 	return (ExprTree *)ans;
 }
@@ -247,6 +248,7 @@ do_expr_tree_unref (ExprTree *expr)
 	}
 
 	case OPER_NAME:
+		expr_name_unref (expr->name.name);
 		break;
 
 	case OPER_ANY_BINARY:
@@ -471,7 +473,7 @@ cb_range_eval (Sheet *sheet, int col, int row, Cell *cell, void *ignore)
 }
 
 static Value *
-eval_expr_real (EvalPos const *pos, ExprTree const *expr,
+expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 		ExprEvalFlags flags)
 {
 	Value *res = NULL, *a = NULL, *b = NULL;
@@ -488,7 +490,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 	case OPER_LTE: {
 		ValueCompare comp;
 
-		a = eval_expr_real (pos, expr->binary.value_a, flags);
+		a = expr_eval_real (expr->binary.value_a, pos, flags);
 		if (a != NULL) {
 			if (a->type == VALUE_CELLRANGE) {
 				a = expr_implicit_intersection (pos, a);
@@ -502,7 +504,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 				return a;
 		}
 
-		b = eval_expr_real (pos, expr->binary.value_b, flags);
+		b = expr_eval_real (expr->binary.value_b, pos, flags);
 		if (b != NULL) {
 			Value *res = NULL;
 			if (b->type == VALUE_CELLRANGE) {
@@ -591,7 +593,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 		 */
 
 	        /* Guarantees a != NULL */
-		a = eval_expr (pos, expr->binary.value_a,
+		a = expr_eval (expr->binary.value_a, pos,
 			       flags & (~EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
@@ -623,7 +625,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 		}
 
 	        /* Guarantees that b != NULL */
-		b = eval_expr (pos, expr->binary.value_b,
+		b = expr_eval (expr->binary.value_b, pos,
 			       flags & (~EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
@@ -756,7 +758,8 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 	case OPER_UNARY_NEG:
 	case OPER_UNARY_PLUS:
 	        /* Garantees that a != NULL */
-		a = eval_expr (pos, expr->unary.value, flags & (~EVAL_PERMIT_EMPTY));
+		a = expr_eval (expr->unary.value, pos,
+			flags & (~EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
@@ -792,10 +795,10 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 		return res;
 
 	case OPER_CONCAT:
-		a = eval_expr_real (pos, expr->binary.value_a, flags);
+		a = expr_eval_real (expr->binary.value_a, pos, flags);
 		if (a != NULL && a->type == VALUE_ERROR)
 			return a;
-		b = eval_expr_real (pos, expr->binary.value_b, flags);
+		b = expr_eval_real (expr->binary.value_b, pos, flags);
 		if (b != NULL && b->type == VALUE_ERROR) {
 			if (a != NULL)
 				value_release (a);
@@ -826,7 +829,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 		return eval_funcall (pos, expr, flags);
 
 	case OPER_NAME:
-		return eval_expr_name (pos, expr->name.name, flags);
+		return expr_name_eval (expr->name.name, pos, flags);
 
 	case OPER_VAR: {
 		CellRef const * const ref = &expr->var.ref;
@@ -926,7 +929,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 			 * array and iterate over the elements, but that theory
 			 * needs validation.
 			 */
-			a = eval_expr_real (pos, expr->array.corner.expr,
+			a = expr_eval_real (expr->array.corner.expr, pos,
 					    EVAL_PERMIT_NON_SCALAR);
 
 			/* Store real result (cast away const)*/
@@ -972,10 +975,10 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 }
 
 Value *
-eval_expr (EvalPos const *pos, ExprTree const *expr,
+expr_eval (ExprTree const *expr, EvalPos const *pos,
 	   ExprEvalFlags flags)
 {
-	Value * res = eval_expr_real (pos, expr, flags);
+	Value * res = expr_eval_real (expr, pos, flags);
 
 	if (res == NULL)
 		return (flags & EVAL_PERMIT_EMPTY)
@@ -1130,69 +1133,43 @@ do_expr_tree_to_string (ExprTree const *expr, ParsePos const *pp,
 	case OPER_NAME:
 		return g_strdup (expr->name.name->name->str);
 
-	case OPER_VAR: {
-		CellRef const *cell_ref = &expr->var.ref;
-		return cellref_name (cell_ref, pp, FALSE);
-	}
+	case OPER_VAR:
+		return cellref_name (&expr->var.ref, pp, FALSE);
 
 	case OPER_CONSTANT: {
-		Value *v = expr->constant.value;
-
-		switch (v->type) {
-		case VALUE_CELLRANGE: {
-			char *a, *b, *res;
-
-			a = cellref_name (&v->v_range.cell.a, pp, FALSE);
+		char *res;
+		Value const *v = expr->constant.value;
+		if (v->type == VALUE_STRING)
+			return gnumeric_strescape (v->v_str.val->str);
+		if (v->type == VALUE_CELLRANGE) {
+			char *b, *a = cellref_name (&v->v_range.cell.a, pp, FALSE);
+			if (cellref_equal (&v->v_range.cell.a, &v->v_range.cell.b))
+				return a;
 			b = cellref_name (&v->v_range.cell.b, pp,
-					  v->v_range.cell.a.sheet ==
-					  v->v_range.cell.b.sheet);
-
+				v->v_range.cell.a.sheet == v->v_range.cell.b.sheet);
 			res = g_strconcat (a, ":", b, NULL);
-
 			g_free (a);
 			g_free (b);
+		} else {
+			res = value_get_as_string (v);
 
-			return res;
+			/* If the number has a sign, pretend that it is the result of
+			 * OPER_UNARY_{NEG,PLUS}.  It is not clear how we would
+			 * currently get negative numbers here, but some loader might
+			 * do it.
+			 */
+			if ((v->type == VALUE_INTEGER || v->type == VALUE_FLOAT) &&
+			    (res [0] == '-' || res [0] == '+') &&
+			    operations [OPER_UNARY_NEG].prec <= paren_level) {
+				char *new_res = g_strconcat ("(", res, ")", NULL);
+				g_free (res);
+				return new_res;
+			}
 		}
-
-		case VALUE_STRING:
-			return gnumeric_strescape (v->v_str.val->str);
-
-		case VALUE_EMPTY:
-			return g_strdup ("");
-
-		case VALUE_ERROR:
-			return g_strdup (v->v_err.mesg->str);
-
-		case VALUE_BOOLEAN:
-		case VALUE_INTEGER:
-		case VALUE_FLOAT: {
-			char *res, *vstr;
-			vstr = value_get_as_string (v);
-
-			/* If the number has a sign, pretend that it is the
-			   result of OPER_UNARY_{NEG,PLUS}.  It is not clear how we would
-			   currently get negative numbers here, but some
-			   loader might do it.  */
-			if ((vstr[0] == '-' || vstr[0] == '+') &&
-			    operations[OPER_UNARY_NEG].prec <= paren_level) {
-				res = g_strconcat ("(", vstr, ")", NULL);
-				g_free (vstr);
-			} else
-				res = vstr;
-			return res;
-		}
-
-		case VALUE_ARRAY:
-			return value_get_as_string (v);
-
-		default:
-			g_assert_not_reached ();
-			return NULL;
-		}
+		return res;
 	}
-	case OPER_ARRAY:
-	{
+
+	case OPER_ARRAY: {
 		int const x = expr->array.x;
 		int const y = expr->array.y;
 		char *res;

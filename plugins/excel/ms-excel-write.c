@@ -44,6 +44,7 @@
 #include <workbook.h>
 #include <io-context.h>
 #include <expr.h>
+#include <expr-name.h>
 #include <gutils.h>
 #include <str.h>
 
@@ -3334,8 +3335,6 @@ write_rowinfo (BiffPut *bp, ExcelSheet *sheet, guint32 row, guint32 last_col)
 		options |= 0x10;
 	if (!ri->visible)
 		options |= 0x20;
-	if (!ri->visible)
-		options |= 0x20;
 	if (ri->hard_size)
 		options |= 0x40;
 
@@ -3348,7 +3347,7 @@ write_rowinfo (BiffPut *bp, ExcelSheet *sheet, guint32 row, guint32 last_col)
 	pos = bp->streamPos;
 	MS_OLE_SET_GUINT16 (data +  0, row);     /* Row number */
 	MS_OLE_SET_GUINT16 (data +  2, 0);       /* first def. col */
-	MS_OLE_SET_GUINT16 (data +  4, last_col);   /* last  def. col */
+	MS_OLE_SET_GUINT16 (data +  4, last_col);/* last  def. col */
 	MS_OLE_SET_GUINT16 (data +  6, height);	 /* height */
 	MS_OLE_SET_GUINT16 (data +  8, 0x00);    /* undocumented */
 	MS_OLE_SET_GUINT16 (data + 10, 0x00);    /* reserved */

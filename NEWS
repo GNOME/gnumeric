@@ -13,10 +13,15 @@ Jody:
 	* LOG is valid with base > 0 && base != 1
 	* Clean out some unused code.
 	* Fix redo of unmerge to handle redraw spans.
+	* Improve Name Support.
 
 Morten:
 	* Improve goal seek.
 	* Fixed parsing of numbers is scientific context.
+
+Wayne Schuller:
+	* Much improved header/footer preview canvas.
+	* Improve UI for customizing print header/footer.
 
 --------------------------------------------------------------------------
 Gnumeric 0.72

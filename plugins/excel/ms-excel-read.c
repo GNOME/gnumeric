@@ -830,25 +830,23 @@ biff_name_data_get_name (ExcelSheet const *esheet, int idx)
 
 	if (bnd->type == BNDStore && bnd->v.store.data) {
 		ExprTree *tree = ms_excel_parse_formula (esheet,
-							 bnd->v.store.data,
-							 0, 0, FALSE,
-							 bnd->v.store.len,
-							 NULL);
+			bnd->v.store.data, 0, 0, FALSE,
+			bnd->v.store.len, NULL);
 
 		bnd->type = BNDName;
 		g_free (bnd->v.store.data);
 
 		if (tree) {
-			char *duff = "Some Error";
-			bnd->v.name = (bnd->sheet_index > 0)
-				? expr_name_add (NULL, esheet->gnum_sheet,
-						  bnd->name, tree, &duff)
-				: expr_name_add (esheet->wb->gnum_wb, NULL,
-						 bnd->name, tree, &duff);
+			ParsePos pp;
+			if (bnd->sheet_index > 0)
+				parse_pos_init (&pp, NULL, esheet->gnum_sheet, 0,0);
+			else
+				parse_pos_init (&pp, esheet->wb->gnum_wb, NULL, 0,0);
+
+			bnd->v.name = expr_name_add (&pp, bnd->name, tree, NULL);
 
 			if (!bnd->v.name)
-				printf ("Error: '%s' for name '%s'\n", duff,
-					bnd->name);
+				printf ("Error: for name '%s'\n", bnd->name);
 #ifndef NO_DEBUG_EXCEL
 			else if (ms_excel_read_debug > 1) {
 				ParsePos ep;

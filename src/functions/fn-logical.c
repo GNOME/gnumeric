@@ -194,7 +194,7 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 					_("Invalid number of arguments"));
 
 	/* Compute the if part */
-	value = eval_expr (ei->pos, (ExprTree *) expr_node_list->data, EVAL_STRICT);
+	value = expr_eval (expr_node_list->data, ei->pos, EVAL_STRICT);
 	if (VALUE_IS_EMPTY_OR_ERROR(value))
 		return value;
 
@@ -219,7 +219,7 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 	}
 
 	/* Return the result */
-	return eval_expr (ei->pos, expr, EVAL_PERMIT_NON_SCALAR);
+	return expr_eval (expr, ei->pos, EVAL_PERMIT_NON_SCALAR);
 }
 
 /***************************************************************************/

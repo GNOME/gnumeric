@@ -460,33 +460,38 @@ value_get_as_checked_bool (Value const *v)
 	return result;
 }
 
-/*
+/**
+ * value_get_as_string :
+ * @v :
+ *
  * simplistic value rendering
+ *
+ * Returns a string that must be freed.
  */
 char *
-value_get_as_string (Value const *value)
+value_get_as_string (Value const *v)
 {
-	if (value == NULL)
+	if (v == NULL)
 		return g_strdup ("");
 
-	switch (value->type){
+	switch (v->type){
 	case VALUE_EMPTY:
 		return g_strdup ("");
 
 	case VALUE_ERROR:
-		return g_strdup (value->v_err.mesg->str);
+		return g_strdup (v->v_err.mesg->str);
 
 	case VALUE_BOOLEAN:
-		return g_strdup (value->v_bool.val ? _("TRUE") : _("FALSE"));
+		return g_strdup (v->v_bool.val ? _("TRUE") : _("FALSE"));
 
 	case VALUE_STRING:
-		return g_strdup (value->v_str.val->str);
+		return g_strdup (v->v_str.val->str);
 
 	case VALUE_INTEGER:
-		return g_strdup_printf ("%d", value->v_int.val);
+		return g_strdup_printf ("%d", v->v_int.val);
 
 	case VALUE_FLOAT:
-		return g_strdup_printf ("%.*g", DBL_DIG, value->v_float.val);
+		return g_strdup_printf ("%.*g", DBL_DIG, v->v_float.val);
 
 	case VALUE_ARRAY: {
 		char const row_sep = format_get_arg_sep ();
@@ -495,9 +500,9 @@ value_get_as_string (Value const *value)
 		int x, y;
 		char *ans;
 
-		for (y = 0; y < value->v_array.y; y++){
-			for (x = 0; x < value->v_array.x; x++){
-				Value const *v = value->v_array.vals [x][y];
+		for (y = 0; y < v->v_array.y; y++){
+			for (x = 0; x < v->v_array.x; x++){
+				Value const *v = v->v_array.vals [x][y];
 
 				g_return_val_if_fail (v->type == VALUE_STRING ||
 						      v->type == VALUE_FLOAT ||
@@ -512,7 +517,7 @@ value_get_as_string (Value const *value)
 					g_string_sprintfa (str, "%g",
 							   value_get_as_float (v));
 			}
-			if (y < value->v_array.y-1)
+			if (y < v->v_array.y-1)
 				g_string_append_c (str, col_sep);
 		}
 		g_string_sprintfa (str, "}");
@@ -521,11 +526,23 @@ value_get_as_string (Value const *value)
 		return ans;
 	}
 
-	case VALUE_CELLRANGE:
-		return value_cellrange_get_as_string (value, TRUE);
+	case VALUE_CELLRANGE: {
+		char *a = cellref_name (&v->v_range.cell.a, NULL, FALSE);
+		char *b = cellref_name (&v->v_range.cell.b, NULL, FALSE);
+		char *res = g_strconcat (a, ":", b, NULL);
+
+		g_free (a);
+		g_free (b);
+
+		/* This is a fallback that should never be called.
+		 * without a parsepos we can not resolve relative references.
+		 */
+		g_warning ("value_as_string called for a cellrange ?");
+		return res;
+	}
 
 	default:
-		g_warning ("value_string problem\n");
+		g_warning ("value_get_as_string problem\n");
 		break;
 	}
 

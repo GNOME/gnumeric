@@ -5,42 +5,43 @@
 #include "expr.h"
 #include "parse-util.h"
 
-/* Initialise builtins */
-void      expr_name_init       (void);
+struct _NamedExpression {
+	int	    ref_count;
+	String     *name;
+	ParsePos    pos;
+	GHashTable *dependents;
 
-/* Attach a name to a workbook */
-NamedExpression *expr_name_add        (Workbook *wb, Sheet *sheet, const char *name,
-				       ExprTree *expr, char **error_msg);
+	gboolean    builtin;
+	union {
+		ExprTree     *expr_tree;
+		FunctionArgs *expr_func;
+	} t;
+};
 
-/* Convenience function to parse the name */
-NamedExpression *expr_name_create     (Workbook *wb, Sheet *sheet, const char *name,
-				       const char *value, ParseError *error);
+NamedExpression *expr_name_lookup (ParsePos const *pos, char const *name);
+NamedExpression *expr_name_add    (ParsePos const *pp, char const *name,
+				   ExprTree *expr, char **error_msg);
+NamedExpression *expr_name_create (ParsePos const *pp, char const *name,
+				   char const *expr_str, ParseError *error);
 
-/* Lookup - use sparingly */
-NamedExpression *expr_name_lookup     (const ParsePos *pos, const char *name);
+void	 expr_name_ref	      (NamedExpression *exprn);
+void	 expr_name_unref      (NamedExpression *exprn);
+void     expr_name_remove     (NamedExpression *exprn);
+Value   *expr_name_eval       (NamedExpression const *ne,
+			       EvalPos const* pos, ExprEvalFlags flags);
+char    *expr_name_as_string  (NamedExpression const *ne, ParsePos const *pp);
+gboolean expr_name_set_scope  (NamedExpression *ne, Sheet *sheet);
+void	 expr_name_set_expr   (NamedExpression *ne, ExprTree *new_expr);
+void	 expr_name_add_dep    (NamedExpression *ne, Dependent *dep);
+void	 expr_name_remove_dep (NamedExpression *ne, Dependent *dep);
 
-/* Remove a name from its parent workbook / sheet */
-void      expr_name_remove     (NamedExpression *exprn);
+GList	 *expr_name_list_destroy	  (GList *names);
+void      expr_name_invalidate_refs_name  (NamedExpression *ne);
+void      expr_name_invalidate_refs_sheet (Sheet const *sheet);
+void      expr_name_invalidate_refs_wb	  (Workbook const *wb);
 
-/* Destroy the local scope's names */
-GList	 *expr_name_list_destroy (GList *names);
+void expr_name_init       (void);
 
-/* Scan ALL names in the application, and invalidate any to the target */
-void      expr_name_invalidate_refs_name (NamedExpression *exprn);
-void      expr_name_invalidate_refs_sheet (const Sheet *sheet);
-void      expr_name_invalidate_refs_wb (const Workbook *wb);
-
-/* Get all a workbooks names */
-GList    *expr_name_list       (Workbook *wb, Sheet *sheet, gboolean builtins_too);
-
-/* Evaluate the name's expression */
-Value    *eval_expr_name       (EvalPos const * const pos, const NamedExpression *exprn,
-				ExprEvalFlags const flags);
-
-char     *expr_name_value      (const NamedExpression *expr_name);
-
-/* Change the scope of a NamedExpression */
-gboolean expr_name_sheet2wb (NamedExpression *expression);
-gboolean expr_name_wb2sheet (NamedExpression *expression, Sheet *sheet);
+GList *sheet_get_available_names (Sheet const *sheet);
 
 #endif /* GNUMERIC_EXPR_NAME_H */

@@ -131,6 +131,7 @@ gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 	GNOME_Gnumeric_Scalar_Seq *values;
 	Value *v = vector->value;
 
+	eval_pos_init_dep (&pos, &vector->dep);
 	len = vector->is_column
 		? value_area_get_height (&pos, v)
 		: value_area_get_width (&pos, v);
@@ -161,9 +162,9 @@ gnm_graph_vector_seq_string (GnmGraphVector *vector)
 	GNOME_Gnumeric_String_Seq *values;
 	Value *v = vector->value;
 
-	len = (v == NULL)
-		? 1 
-		: (vector->is_column
+	eval_pos_init_dep (&pos, &vector->dep);
+	len = (v == NULL) ? 1 :
+		(vector->is_column
 		   ? value_area_get_height (&pos, v)
 		   : value_area_get_width (&pos, v));
 	values = GNOME_Gnumeric_String_Seq__alloc ();
@@ -205,8 +206,8 @@ gnm_graph_vector_eval (Dependent *dep)
 		value_release (vector->value);
 	if (vector->type == GNM_VECTOR_STRING)
 		flags |= EVAL_PERMIT_EMPTY;
-	vector->value = eval_expr (eval_pos_init_dep (&ep, &vector->dep),
-				   vector->dep.expression, flags);
+	vector->value = expr_eval (vector->dep.expression,
+		eval_pos_init_dep (&ep, &vector->dep), flags);
 
 	CORBA_exception_init (&ev);
 	switch (vector->type) {
@@ -643,22 +644,17 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 
 	if (type == GNM_VECTOR_STRING || type == GNM_VECTOR_AUTO)
 		flags |= EVAL_PERMIT_EMPTY;
-	vector->value = eval_expr (eval_pos_init_dep (&ep, &vector->dep),
-				   vector->dep.expression, flags);
+	vector->value = expr_eval (vector->dep.expression,
+		eval_pos_init_dep (&ep, &vector->dep), flags);
 
-	switch (type) {
-	case GNM_VECTOR_AUTO :
-		type = (value_area_foreach (&ep, vector->value,
-				&cb_check_range_for_pure_string, NULL) != NULL)
-			? GNM_VECTOR_SCALAR : GNM_VECTOR_STRING;
-		break;
-	case GNM_VECTOR_SCALAR :
-	case GNM_VECTOR_STRING :
-		break;
-	default :
-		g_warning ("Unknown vector type");
-		type = GNM_VECTOR_SCALAR;
-	};
+	if (type == GNM_VECTOR_AUTO) {
+		if (vector->value == NULL ||
+		    value_area_foreach (&ep, vector->value,
+			&cb_check_range_for_pure_string, NULL) != NULL)
+			type = GNM_VECTOR_SCALAR;
+		else
+			type = GNM_VECTOR_STRING;
+	}
 
 	vector->is_column = (vector->value != NULL &&
 			     value_area_get_width (&ep, vector->value) == 1);
@@ -819,6 +815,10 @@ gnm_graph_range_to_vectors (GnmGraph *graph,
 		range_has_header (sheet, src, as_cols);
 	Range vector = *src;
 	CellRef header;
+
+	if (range_trim (sheet, &vector, TRUE) ||
+	    range_trim (sheet, &vector, FALSE))
+		return;
 
 	header.sheet = sheet;
 	header.col_relative = header.row_relative = FALSE;

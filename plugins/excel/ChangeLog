@@ -1,3 +1,10 @@
+2001-10-23  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (write_rowinfo) : duplicate code.
+
+	* ms-excel-read.c (biff_name_data_get_name) : adjust to new named
+	  expression api.
+
 2001-10-22  Almer S. Tigelaar  <almer@gnome.org>
 
 	* ms-excel-read.c (ms_excel_read_cf): Adjust for

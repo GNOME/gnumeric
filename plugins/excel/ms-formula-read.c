@@ -4,29 +4,26 @@
  * Author:
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
+ * (C) 1998-2001 Michael Meeks
  */
+#include <config.h>
+#include "ms-formula-read.h"
+#include "excel.h"
+#include "ms-biff.h"
+#include "formula-types.h"
+#include "boot.h"
+#include <gnumeric.h>
+#include <gutils.h>
+#include <func.h>
+#include <value.h>
+#include <expr-name.h>
+#include <str.h>
+#include <parse-util.h>
+#include <sheet.h>
 
 #include <fcntl.h>
 #include <assert.h>
 #include <stdio.h>
-
-#include <config.h>
-#include <gnome.h>
-#include "boot.h"
-#include "gnumeric.h"
-#include "func.h"
-#include "value.h"
-#include "gutils.h"
-#include "sheet.h"
-#include "str.h"
-
-#include "parse-util.h"
-
-#include "excel.h"
-#include "ms-biff.h"
-#include "ms-formula-read.h"
-#include "formula-types.h"
 
 /* #define NO_DEBUG_EXCEL */
 
