@@ -88,6 +88,15 @@ value_new_cellrange (const CellRef *a, const CellRef *b)
 	v->v.cell_range.cell_a = *a;
 	v->v.cell_range.cell_b = *b;
 
+	if (a->col > b->col) {
+		v->v.cell_range.cell_a.col = b->col;
+		v->v.cell_range.cell_b.col = a->col;
+	}
+	if (a->row > b->row) {
+		v->v.cell_range.cell_a.row = b->row;
+		v->v.cell_range.cell_b.row = a->row;
+	}
+
 	return v;
 }
 

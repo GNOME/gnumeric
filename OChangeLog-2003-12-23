@@ -1,3 +1,8 @@
+2000-02-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/value.c (value_new_cellrange) : Normalize ranges
+	  to ensure that start <= end.
+
 2000-02-28  Morten Welinder  <terra@diku.dk>
 
 	* src/datetime.c (datetime_serial_raw_to_serial): Use floor.
