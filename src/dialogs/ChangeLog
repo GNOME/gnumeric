@@ -1,3 +1,7 @@
+2000-06-19  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* print-glade.h: Add comment to please xgettext.
+	
 2000-06-19  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-function-wizard.c (formula_guru_init) : Move the expression
