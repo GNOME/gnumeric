@@ -1,5 +1,14 @@
 2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_reorganize_sheets): add
+	  argument to call of workbook_sheet_rename_check
+	* src/workbook.c (workbook_sheet_rename_check):
+	  ignore sheets to be deleted
+	* src/workbook.c (workbook_sheet_rename_check):
+	  add argument
+
+2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/commands.c: revert all the sheet pointer/index
 	  changes thoughout
 

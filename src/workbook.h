@@ -47,6 +47,7 @@ gboolean    workbook_sheet_rename        (Workbook *wb,
 gboolean    workbook_sheet_rename_check  (Workbook *wb,
 					  GSList *sheet_indices,
 					  GSList *new_names,
+					  GSList *sheet_indices_deleted,
 					  CommandContext *cc);
 gboolean    workbook_sheet_change_protection  (Workbook *wb,
 					  GSList *sheets,

@@ -1214,6 +1214,7 @@ workbook_sheet_get_free_name (Workbook *wb,
 gboolean    workbook_sheet_rename_check  (Workbook *wb,
 					  GSList *sheet_indices,
 					  GSList *new_names,
+					  GSList *sheet_indices_deleted,
 					  CommandContext *cc)
 {
 	GSList *sheet_index = sheet_indices;
@@ -1276,7 +1277,13 @@ gboolean    workbook_sheet_rename_check  (Workbook *wb,
 					GSList *tmp_sheets = g_slist_find 
 						(sheet_indices, 
 						 GINT_TO_POINTER(tmp->index_in_wb));
-					
+					if (NULL == tmp_sheets) {
+					/* Perhaps it is a sheet to be deleted */					
+						tmp_sheets = g_slist_find 
+						    (sheet_indices_deleted, 
+						     GINT_TO_POINTER(tmp->index_in_wb));
+					}
+
 					if (NULL == tmp_sheets) {
 						gnumeric_error_invalid 
 							(cc,

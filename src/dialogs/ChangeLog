@@ -1,5 +1,12 @@
 2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=119287
+	* dialog-sheet-order.c (cb_ok_clicked): don't allow
+	  users to delete all existing sheets (even if they
+	  create some new ones)
+
+2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* dialog-sheet-order.c (cb_ok_clicked): fix typo
 
 2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>

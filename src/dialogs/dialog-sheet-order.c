@@ -654,35 +654,14 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	if (new_order == NULL) {
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("You may not delete all sheets in a workbook!"));
-		/* clean-up */
-		g_slist_free (deleted_sheets);
-		deleted_sheets = NULL;
-		g_slist_free (new_order);
-		new_order = NULL;
-		g_slist_free (changed_names);
-		changed_names = NULL;
-		g_slist_foreach (new_names, (GFunc)g_free, NULL);
-		g_slist_free (new_names);
-		new_names = NULL;
-
-		g_slist_free (color_changed);
-		color_changed = NULL;
-		for (list = new_colors_back; list != NULL; list = list->next)
-			if (list->data)
-				gdk_color_free ((GdkColor *)list->data);
-		g_slist_free (new_colors_back);
-		new_colors_back = NULL;
-		for (list = new_colors_fore; list != NULL; list = list->next)
-			if (list->data)
-				gdk_color_free ((GdkColor *)list->data);
-		g_slist_free (new_colors_fore);
-		new_colors_fore = NULL;
-
-		g_slist_free (protection_changed);
-		protection_changed = NULL;
-		g_slist_free (new_locks);
-		new_locks = NULL;
-		return;
+		goto cleanup;
+	}
+	if (workbook_sheet_count (wb) == g_slist_length (deleted_sheets) ) {
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+				 _("To replace all exisiting sheets, please "
+				   "delete the current workbook and create "
+				   "a new one!"));
+		goto cleanup;
 	}
 
 	this_new = new_order;
@@ -720,6 +699,38 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 		g_signal_handler_unblock (G_OBJECT (wb),
 					  state->sheet_order_changed_listener);
 	}
+
+	return;
+
+ cleanup:
+	g_slist_free (deleted_sheets);
+	deleted_sheets = NULL;
+	g_slist_free (new_order);
+	new_order = NULL;
+	g_slist_free (changed_names);
+	changed_names = NULL;
+	g_slist_foreach (new_names, (GFunc)g_free, NULL);
+	g_slist_free (new_names);
+	new_names = NULL;
+	
+	g_slist_free (color_changed);
+	color_changed = NULL;
+	for (list = new_colors_back; list != NULL; list = list->next)
+		if (list->data)
+			gdk_color_free ((GdkColor *)list->data);
+	g_slist_free (new_colors_back);
+	new_colors_back = NULL;
+	for (list = new_colors_fore; list != NULL; list = list->next)
+		if (list->data)
+			gdk_color_free ((GdkColor *)list->data);
+	g_slist_free (new_colors_fore);
+	new_colors_fore = NULL;
+	
+	g_slist_free (protection_changed);
+	protection_changed = NULL;
+	g_slist_free (new_locks);
+	new_locks = NULL;
+	return;
 }
 
 static void

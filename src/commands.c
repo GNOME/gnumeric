@@ -4758,7 +4758,9 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *new_order,
 	}
 
 	
-	if (!workbook_sheet_rename_check (me->wb, me->changed_names, me->new_names, 
+	if (!workbook_sheet_rename_check (me->wb, me->changed_names, 
+					  me->new_names, 
+					  me->deleted_sheets,
 					 COMMAND_CONTEXT (wbc))) {
 		g_object_unref (obj);
 		return TRUE;
