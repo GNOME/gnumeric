@@ -420,7 +420,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		int buffer_size;
 
 		xmlChar *buffer = xml_cellregion_write (wbc, clipboard, &buffer_size);
-		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
+		gtk_selection_data_set (selection_data, selection_data->target, 8,
 					(guchar *) buffer, buffer_size);
 		xmlFree (buffer);
 		to_gnumeric = TRUE;
@@ -432,7 +432,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 							   saver_id,
 							   &buffer_size);
 		gtk_selection_data_set (selection_data,
-					GDK_SELECTION_TYPE_STRING, 8,
+					selection_data->target, 8,
 					(guchar *) buffer, buffer_size);
 		g_free (buffer);
 	} else {

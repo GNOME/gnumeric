@@ -1,3 +1,8 @@
+2003-06-24  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (x_clipboard_get_cb): Call
+	gtk_selection_data_set with correct data flavour.
+
 2003-06-24  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (application_get_pixbuf): New function.
