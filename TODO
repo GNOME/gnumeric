@@ -9,7 +9,7 @@ Project
     - Switch hard coded states on SAX in to use dynamic 
     - add a parallel i/o mechanism for SAX based i/o to sheet object
     - a SAXOut struct and utils as a wrapper for FILE/gnome-vfs & indent info
-    - xml_ng out using ^^
+    - xml_sax out using ^^
 
 
 Optimizations, Polish and Extensions

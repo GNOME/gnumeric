@@ -28,11 +28,13 @@
 #include "gnumeric-util.h"
 #include "application.h"
 #include "sheet.h"
+#include "sheet-merge.h"
 #include "sheet-style.h"
 #include "str.h"
 #include "format.h"
 #include "expr.h"
 #include "value.h"
+#include "ranges.h"
 #include "mstyle.h"
 #include "position.h"
 #include "cell.h"
@@ -221,19 +223,21 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 	if (sheet != NULL) {
 		char buffer [10 + 2 * 4 * sizeof (int)];
 		char const *sel_descr = buffer;
-		Range const *ss;
+		Range const *r, *m;
 		
 		g_return_if_fail (IS_SHEET (sheet));
 		g_return_if_fail (sheet->selections);
 
-		ss = sheet->selections->data;
+		r = sheet->selections->data;
 
-		if (use_pos)
-			sel_descr = cell_pos_name (&ss->start);
+		if (use_pos || range_is_singleton (r) ||
+		    (NULL != (m = sheet_merge_is_corner (sheet, &r->start)) &&
+		     range_equal (r, m)))
+			sel_descr = cell_pos_name (&r->start);
 		else
 			snprintf (buffer, sizeof (buffer), _("%dLx%dC"),
-				  ss->end.row - ss->start.row + 1,
-				  ss->end.col - ss->start.col + 1);
+				  r->end.row - r->start.row + 1,
+				  r->end.col - r->start.col + 1);
 
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 			wb_control_selection_descr_set (control, sel_descr););
