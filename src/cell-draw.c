@@ -50,12 +50,13 @@ gunichar const zero_width_space = 0x200b;
  *             of the cell.  NOTE This can be asymetric.  Passing
  *             <= 0 will use width / 2
  */
-void
-cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
-	   int x1, int y1, int width, int height, int h_center)
-{
-	GdkRectangle  rect;
 
+static gboolean
+cell_calc_layout (GnmCell const *cell,
+		  int x1, int y1, int width, int height, int h_center,
+		  GdkRectangle  *rect, GdkColor **res_color, gint *res_x, gint *res_y,
+		  PangoLayout **res_layout)
+{
 	ColRowInfo const * const ci = cell->col_info; /* DEPRECATED */
 	ColRowInfo const * const ri = cell->row_info; /* DEPRECATED */
 	int text_base;
@@ -64,13 +65,9 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	int indent;
 	int hoffset;
 
-#ifdef QUANTIFYING
-	quantify_start_recording_data ();
-#endif
-
 	if (rv == NULL) {
 		g_warning ("Serious cell error at '%s'.", cell_name (cell));
-		goto out;
+		return FALSE;
 	}
 
 	layout = rv->layout;
@@ -83,18 +80,16 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	if (height < 0) /* DEPRECATED */
 		height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
 	if (width <= 0 || height <= 0)
-		goto out;
+		return FALSE;
 
 	hoffset = rv->indent_left;
-
+	
 	/* This rectangle has the whole area used by this cell
 	 * excluding the surrounding grid lines and margins */
-	rect.x = x1 + 1 + ci->margin_a;
-	rect.y = y1 + 1 + ri->margin_a;
-	rect.width = width + 1;
-	rect.height = height + 1;
-
-	gdk_gc_set_clip_rectangle (gc, &rect);
+	rect->x = x1 + 1 + ci->margin_a;
+	rect->y = y1 + 1 + ri->margin_a;
+	rect->width = width + 1;
+	rect->height = height + 1;
 
 	/* if a number overflows, do special drawing */
 	if (rv->layout_natural_width > width - indent &&
@@ -172,19 +167,19 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		/* Fall through.  */
 #endif
 	case VALIGN_TOP:
-		text_base = rect.y;
+		text_base = rect->y;
 		break;
 
 	case VALIGN_BOTTOM:
-		text_base = rect.y + MAX (0, height - rv->layout_natural_height);
+		text_base = rect->y + MAX (0, height - rv->layout_natural_height);
 		break;
 
 	case VALIGN_CENTER:
-		text_base = rect.y + MAX (0, (height - rv->layout_natural_height) / 2);
+		text_base = rect->y + MAX (0, (height - rv->layout_natural_height) / 2);
 		break;
 
 	case VALIGN_JUSTIFY:
-		text_base = rect.y;
+		text_base = rect->y;
 		if (!rv->vfilled && height > rv->layout_natural_height) {
 			int line_count = pango_layout_get_line_count (layout);
 			if (line_count > 1) {
@@ -205,14 +200,40 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		 width, rv->layout_natural_width, h_center);
 #endif
 
-	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
-	gdk_gc_set_rgb_fg_color (gc, &rv->color);
+	*res_color = &rv->color;
+	*res_x = rect->x + hoffset;
+	*res_y = text_base;
+	*res_layout = layout;
 
-	gdk_draw_layout (drawable, gc,
-			 rect.x + hoffset, text_base,
-			 layout);
+	return TRUE;
 
- out: ;
+}
+
+
+void
+cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
+	   int x1, int y1, int width, int height, int h_center)
+{
+	GdkRectangle  rect;
+	GdkColor *color; 
+	gint x;
+	gint y;
+	PangoLayout *layout;
+
+#ifdef QUANTIFYING
+	quantify_start_recording_data ();
+#endif
+
+	if (cell_calc_layout (cell, x1, y1, width, height, h_center,
+			      &rect, &color, &x, &y, &layout)) {
+		gdk_gc_set_clip_rectangle (gc, &rect);
+		
+		/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
+		gdk_gc_set_rgb_fg_color (gc, color);
+		
+		gdk_draw_layout (drawable, gc, x, y, layout);
+	}
+
 #ifdef QUANTIFYING
 	quantify_stop_recording_data ();
 #endif

@@ -1,3 +1,8 @@
+2004-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/cell-draw.c (cell_calc_layout): new
+	(cell_draw): move the pango layout code into cell_calc_layout
+
 2004-01-24  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-graphic.c : defaults for color combos are now more
