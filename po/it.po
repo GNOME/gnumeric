@@ -1,8 +1,12 @@
+# Italian translation for GNUMERIC
+# Leandro Noferini <lnoferin@cybervalley.org>
+
+
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
 "POT-Creation-Date: 2000-01-16 17:48-0600\n"
-"PO-Revision-Date: 2000-04-11 13:43+02:00\n"
+"PO-Revision-Date: 2000-04-12 11:11+02:00\n"
 "Last-Translator: Leandro Noferini <lnoferin@cybervalley.org>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -36,26 +40,24 @@ msgstr "SCONOSCIUTO!"
 
 #: plugins/excel/ms-excel-read.c:3488
 msgid "No book or workbook streams found."
-msgstr "??"
+msgstr ""
 
 #. All records after this are encrypted
 #: plugins/excel/ms-excel-read.c:3826
 msgid "Password protected workbooks are not supported yet."
-msgstr "??Workbook?? protetti da password non ancora supportati"
+msgstr "Cartelle di lavoro protette da password non ancora supportate"
 
 #: plugins/excel/ms-formula-read.c:648
-#, fuzzy
 msgid "Unknown Function"
-msgstr "Errore di valutazione sconosciuto"
+msgstr "Funzione sconosciuta"
 
 #: plugins/excel/ms-formula-read.c:700
 msgid "Broken function"
-msgstr "Funione non implementata"
+msgstr "Funzione non implementata"
 
 #: plugins/excel/ms-formula-read.c:1442
-#, fuzzy
 msgid " Unknown formula"
-msgstr "Errore di valutazione sconosciuto"
+msgstr "Formula sconosciuta"
 
 #: plugins/ff-csv/csv-io.c:54
 #, c-format
@@ -79,7 +81,7 @@ msgstr "F_ormatta"
 
 #: plugins/ff-csv/csv-io.c:161
 msgid "Unable to mmap the file"
-msgstr "??"
+msgstr ""
 
 #: plugins/ff-csv/csv-io.c:279
 msgid "Comma Separated Value (CSV) import"
@@ -122,7 +124,6 @@ msgid "DVI TeX file format (via groff)"
 msgstr "File in formato DVI TeX (con groff)"
 
 #: plugins/html/boot.c:84
-#, fuzzy
 msgid "TROFF file format (*.me)"
 msgstr "File formato TROFF (*.me)"
 
@@ -155,7 +156,6 @@ msgid "GNU Oleo import plugin"
 msgstr "Plugin per esportare ed importare file di Oleo di GNU"
 
 #: plugins/python/python.c:104
-#, fuzzy
 msgid "Python exception"
 msgstr "Eccezione Python"
 
@@ -176,7 +176,6 @@ msgid "Python Plugin"
 msgstr "Plugin di Python"
 
 #: plugins/sample/plugin-sample.c:48
-#, fuzzy
 msgid "Sample Plugin"
 msgstr "Plugin per il Campionamento"
 
@@ -193,7 +192,6 @@ msgid "MultiPlan (SYLK) file import module"
 msgstr "Modulo per importare file MultiPlan (SYLK)"
 
 #: plugins/text/text-io.c:312
-#, fuzzy
 msgid "Empty file"
 msgstr "File vuoto"
 
@@ -203,7 +201,7 @@ msgstr "File troppo grande"
 
 #: plugins/text/text-io.c:321
 msgid "Can not mmap the file"
-msgstr "??"
+msgstr ""
 
 #: plugins/text/text-io.c:326
 msgid "NoName"
@@ -345,12 +343,12 @@ msgid "Typing \"%s%s\" in %s"
 msgstr "Digitando \\ \"%s%s\\\" in %s"
 
 #: src/commands.c:585
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Sto inserendo %d colonne prima di %s"
 
 #: src/commands.c:586
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting %d column before %s"
 msgstr "Sto inserendo la %d colonna prima di %s"
 
@@ -371,7 +369,7 @@ msgid "Deleting %d columns (%s:"
 msgstr "Sto cancellando %d colonne (%s:"
 
 #: src/commands.c:616
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting column %s"
 msgstr "Sto cancellando la colonna %s"
 
@@ -810,7 +808,7 @@ msgstr "Intervallo di Input:"
 #: src/dialogs/dialog-analysis-tools.c:1944
 #: src/dialogs/dialog-analysis-tools.c:2030
 msgid "You should introduce a valid cell range in 'Range:'"
-msgstr "Devi inserire un intervallo di celle valido in 'Intervallo':"
+msgstr "Devi inserire un intervallo di celle valido in 'Intervallo:'"
 
 #: src/dialogs/dialog-analysis-tools.c:634
 msgid "Sampling Method:"
@@ -872,7 +870,7 @@ msgstr "Alfa:"
 #: src/dialogs/dialog-analysis-tools.c:1308
 #: src/dialogs/dialog-analysis-tools.c:1650
 msgid "You should introduce a valid cell range in 'Variable 1:'"
-msgstr "Devi inserire un nome di cella valido in 'Variabile 1'"
+msgstr "Devi inserire un nome di cella valido in 'Variabile 1:'"
 
 #: src/dialogs/dialog-analysis-tools.c:897
 #: src/dialogs/dialog-analysis-tools.c:1008
@@ -881,7 +879,7 @@ msgstr "Devi inserire un nome di cella valido in 'Variabile 1'"
 #: src/dialogs/dialog-analysis-tools.c:1319
 #: src/dialogs/dialog-analysis-tools.c:1658
 msgid "You should introduce a valid cell range in 'Variable 2:'"
-msgstr "Devi inserire un intervallo di celle valido in 'Variabile 2':"
+msgstr "Devi inserire un intervallo di celle valido in 'Variabile 2:'"
 
 #: src/dialogs/dialog-analysis-tools.c:1416
 msgid "Number of Variables:"
@@ -972,7 +970,6 @@ msgid "Interval:"
 msgstr "Intervallo:"
 
 #: src/dialogs/dialog-analysis-tools.c:1770
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Range Input:'"
 msgstr "Devi inserire un intervallo di celle valido in 'Intervallo di Input:'"
 
@@ -1006,11 +1003,11 @@ msgstr "Formatta le celle"
 
 #: src/dialogs/dialog-cell-sort.c:138
 msgid "Ascending"
-msgstr "Salendo"
+msgstr "Crescente"
 
 #: src/dialogs/dialog-cell-sort.c:141
 msgid "Descending"
-msgstr "Discendendo"
+msgstr "Decrescente"
 
 #: src/dialogs/dialog-cell-sort.c:454
 msgid "At least one clause is required."
@@ -1018,7 +1015,7 @@ msgstr "È necessaria almeno una condizione."
 
 #: src/dialogs/dialog-cell-sort.c:463
 msgid "Can't add more than the selection length."
-msgstr "Non puoi aggingere oltre la lunghezza selezionata."
+msgstr "Non puoi aggiungere oltre la lunghezza selezionata."
 
 #: src/dialogs/dialog-cell-sort.c:466
 msgid "Maximum number of clauses has been reached."
@@ -1123,7 +1120,7 @@ msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:275
 msgid "Goal Seek..."
-msgstr "Vai a..."
+msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:295
 msgid "Set cell:"
@@ -1143,7 +1140,7 @@ msgstr "Al valore di almeno [opzionale]:"
 
 #: src/dialogs/dialog-goal-seek.c:299
 msgid "But no bigger than [optional]:"
-msgstr "Ma minore di [opzionale]"
+msgstr "Ma minore di [opzionale]:"
 
 #: src/dialogs/dialog-goal-seek.c:358
 msgid "You should introduce a valid cell name in 'Set cell'"
@@ -1258,7 +1255,7 @@ msgstr "Configurazione ad hoc degli header"
 #: src/dialogs/dialog-printer-setup.c:515
 #: Non torna footer
 msgid "Custom footer configuration"
-msgstr "Configurazione ad hoc dei footer"
+msgstr "Configurazione ad hoc dei pie` pagina"
 
 #: src/dialogs/dialog-printer-setup.c:730
 msgid "Print setup"
@@ -1396,7 +1393,7 @@ msgstr "Il problema non è limitato e non può essere risolto"
 #.
 #: src/dialogs/col-width.glade.h:7
 msgid "_Column width:"
-msgstr "Larghezza delle C_olonne"
+msgstr "Larghezza delle _Colonne"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1546,11 +1543,11 @@ msgstr "Pagina"
 #: src/dialogs/print.glade.h:23
 #, fuzzy
 msgid "_Top:"
-msgstr "Alto"
+msgstr "Al_to"
 
 #: src/dialogs/print.glade.h:24
 msgid "He_ader:"
-msgstr ""
+msgstr "_Intestazione"
 
 #: src/dialogs/print.glade.h:25
 msgid "_Bottom:"
@@ -1558,7 +1555,7 @@ msgstr "_Basso"
 
 #: src/dialogs/print.glade.h:26
 msgid "_Footer"
-msgstr ""
+msgstr "_Pie` pagina"
 
 #: src/dialogs/print.glade.h:27
 msgid "Center on page"
@@ -1577,7 +1574,6 @@ msgid "_Left:"
 msgstr "_Sinistra:"
 
 #: src/dialogs/cell-format.glade.h:34 src/dialogs/print.glade.h:31
-#, fuzzy
 msgid "_Right"
 msgstr "_Destra"
 
@@ -1595,27 +1591,27 @@ msgstr "l'esempio va qui"
 
 #: src/dialogs/print.glade.h:38
 msgid "Header"
-msgstr ""
+msgstr "Intestazione"
 
 #: src/dialogs/print.glade.h:39
 msgid "Customize _header"
-msgstr ""
+msgstr "Configura _intestazione"
 
 #: src/dialogs/print.glade.h:40
 msgid "Customize _footer"
-msgstr ""
+msgstr "Configura _pie` pagina"
 
 #: src/dialogs/print.glade.h:41
 msgid "Footer:"
-msgstr ""
+msgstr "Pie` pagina"
 
 #: src/dialogs/print.glade.h:46
 msgid "Headers and footers"
-msgstr ""
+msgstr "Intestazioni e pie` pagina"
 
 #: src/dialogs/print.glade.h:47
 msgid "Print _area:"
-msgstr "Area di stampa:"
+msgstr "_Area di stampa:"
 
 #: src/dialogs/print.glade.h:48
 msgid "Titles to print"
@@ -1753,7 +1749,7 @@ msgstr "_Valuta"
 #: src/dialogs/cell-format.glade.h:10
 #, fuzzy
 msgid "_Accounting"
-msgstr "Contabilità"
+msgstr "Cont_abilità"
 
 #: src/dialogs/cell-format.glade.h:11
 msgid "_Date"
@@ -1943,7 +1939,6 @@ msgid "Font"
 msgstr "Font"
 
 #: src/dialogs/cell-format.glade.h:64
-#, fuzzy
 msgid "Reverse Diagonal"
 msgstr "Diagonali incrociate"
 
@@ -1960,9 +1955,8 @@ msgid "Bottom"
 msgstr "Basso"
 
 #: src/dialogs/cell-format.glade.h:68
-#, fuzzy
 msgid "Diagonal"
-msgstr "Linee diagonali"
+msgstr "Diagonali"
 
 #: src/dialogs/cell-format.glade.h:69
 msgid "Right"
@@ -1978,9 +1972,8 @@ msgid "Inside Vertical"
 msgstr "Verticale"
 
 #: src/dialogs/cell-format.glade.h:73
-#, fuzzy
 msgid "Inside"
-msgstr "Inserisci"
+msgstr "Dentro"
 
 #: src/dialogs/cell-format.glade.h:74
 #, fuzzy
@@ -2199,12 +2192,12 @@ msgstr "_100 %"
 #: src/dialogs/dialog-zoom.glade.h:11
 #, fuzzy, c-format
 msgid "_75 %"
-msgstr "_75%"
+msgstr "_75 %"
 
 #: src/dialogs/dialog-zoom.glade.h:12
 #, fuzzy, c-format
 msgid "_50 %"
-msgstr "_50%"
+msgstr "_50 %"
 
 #: src/dialogs/dialog-zoom.glade.h:13
 #, fuzzy, c-format
@@ -8203,7 +8196,7 @@ msgstr ""
 #. Array of arrays ??
 #: src/format.c:1402
 msgid "ARRAY"
-msgstr "VETTORI"
+msgstr "VETTORE"
 
 #: src/formats.c:18 src/number-match.c:447
 msgid "General"
@@ -9551,3 +9544,5 @@ msgstr "Foglio%d"
 #, fuzzy
 msgid "Gnumeric XML file format"
 msgstr "File Gnumeric in formato XML"
+
+
