@@ -91,16 +91,8 @@ static char *help_exact = {
 static Value *
 gnumeric_exact (FunctionEvalInfo *ei, Value **argv)
 {
-	char *s0, *s1;
-	Value *res;
-
-	s0 = value_get_as_string (argv[0]);
-	s1 = value_get_as_string (argv[1]);
-	res = value_new_bool (strcmp (s0, s1) == 0);
-	g_free (s0);
-	g_free (s1);
-
-	return res;
+	return value_new_bool (strcmp (value_peek_string (argv[0]),
+				       value_peek_string (argv[1])) == 0);
 }
 
 /***************************************************************************/
@@ -121,14 +113,7 @@ static char *help_len = {
 static Value *
 gnumeric_len (FunctionEvalInfo *ei, Value **argv)
 {
-	char *s;
-	Value *res;
-
-	s = value_get_as_string (argv[0]);
-	res = value_new_int (strlen (s));
-	g_free (s);
-
-	return res;
+	return value_new_int (strlen (value_peek_string (argv[0])));
 }
 
 /***************************************************************************/
@@ -382,35 +367,30 @@ static Value *
 gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	char *s, *p, *source;
+	char *s, *p;
+	const char *source;
 	int num;
 	int len;
 
 	num = value_get_as_int (argv[1]);
 	if (num < 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	source = value_get_as_string (argv[0]);
+	source = value_peek_string (argv[0]);
 	len = strlen (source);
 
 	/* Fast special case.  =REPT ("",2^30) should not take long.  */
-	if (len == 0 || num == 0) {
-		g_free (source);
+	if (len == 0 || num == 0)
 		return value_new_string ("");
-	}
 
 	/* Check if the length would overflow.  */
-	if (num >= INT_MAX / len) {
-		g_free (source);
+	if (num >= INT_MAX / len)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	}
 
 	p = s = g_new (gchar, 1 + len * num);
-	if (!p) {
-		g_free (source);
+	if (!p)
 		/* FIXME: this and above case should probably have the
 		   same error message.  */
 		return value_new_error (ei->pos, _("Out of memory"));
-	}
 
 	while (num--) {
 		memcpy (p, source, len);
@@ -419,7 +399,6 @@ gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 	*p = '\0';
 	v = value_new_string (s);
 	g_free (s);
-	g_free (source);
 
 	return v;
 }
@@ -475,31 +454,25 @@ static Value *
 gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 {
 	int count, haystacksize;
-	char *haystack, *needle;
-	Value *res;
+	const char *haystack, *needle;
 
-	needle = value_get_as_string (argv[0]);
-	haystack = value_get_as_string (argv[1]);
+	needle = value_peek_string (argv[0]);
+	haystack = value_peek_string (argv[1]);
 	count = argv[2] ? value_get_as_int (argv[2]) : 1;
 
 	haystacksize = strlen (haystack);
 
 	if (count <= 0 || count > haystacksize) {
-		res = value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	} else {
 		const char *haystart = haystack + (count - 1);
 		const char *p = strstr (haystart, needle);
 		if (p)
-			res = value_new_int (count + (p - haystart));
+			return value_new_int (count + (p - haystart));
 		else
 			/* Really?  */
-			res = value_new_error (ei->pos, gnumeric_err_VALUE);
+			return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
-
-	g_free (needle);
-	g_free (haystack);
-
-	return res;
 }
 
 /***************************************************************************/

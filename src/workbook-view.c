@@ -371,11 +371,10 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	if (wbv->auto_expr_value_as_string)
 		g_free (wbv->auto_expr_value_as_string);
 	if (v) {
-		char *val_str = value_get_as_string (v);
+		const char *val_str = value_peek_string (v);
 		wbv->auto_expr_value_as_string =
 			g_strconcat (wbv->auto_expr_desc, "=", val_str, NULL);
 		value_release (v);
-		g_free (val_str);
 	} else
 		wbv->auto_expr_value_as_string = g_strdup (_("Internal ERROR"));
 

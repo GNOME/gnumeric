@@ -75,7 +75,7 @@ float_compare_desc (const gnum_float *a, const gnum_float *b)
                 return -1;
 }
 
-static void
+void
 set_cell_value (data_analysis_output_t *dao, int col, int row, Value *v)
 {
         Cell *cell;

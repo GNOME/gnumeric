@@ -841,30 +841,25 @@ static char *
 find_name (Sheet *sheet, int col, int row)
 {
         static char *str = NULL;
-        Cell        *cell = NULL;
-	char        *col_str, *row_str;
+	const char  *col_str = "";
+	const char  *row_str = "";
         int         col_n, row_n;
 
 	for (col_n = col - 1; col_n >= 0; col_n--) {
-	        cell = sheet_cell_get (sheet, col_n, row);
-		if (cell && !VALUE_IS_NUMBER (cell->value))
+	        Cell *cell = sheet_cell_get (sheet, col_n, row);
+		if (cell && !VALUE_IS_NUMBER (cell->value)) {
+			col_str = value_peek_string (cell->value);
 		        break;
+		}
 	}
-	if (col_n >= 0)
-	        col_str = value_get_as_string (cell->value);
-	else
-	        col_str = g_strdup ("");
 
 	for (row_n = row - 1; row_n >= 0; row_n--) {
-	        cell = sheet_cell_get (sheet, col, row_n);
-		if (cell && !VALUE_IS_NUMBER (cell->value))
+	        Cell *cell = sheet_cell_get (sheet, col, row_n);
+		if (cell && !VALUE_IS_NUMBER (cell->value)) {
+			row_str = value_peek_string (cell->value);
 		        break;
+		}
 	}
-
-	if (row_n >= 0)
-	        row_str = value_get_as_string (cell->value);
-	else
-	        row_str = g_strdup ("");
 
 	if (str)
 	        g_free (str);
@@ -874,9 +869,6 @@ find_name (Sheet *sheet, int col, int row)
 	        sprintf (str, "%s %s", col_str, row_str);
 	else
 	        sprintf (str, "%s", row_str);
-
-	g_free (col_str);
-	g_free (row_str);
 
 	return str;
 }
@@ -891,7 +883,6 @@ solver_answer_report (WorkbookControl *wbc, Sheet *sheet, GSList *ov,
         CellList               *cell_list = param->input_cells;
 
 	Cell *cell;
-	char *str;
 	int  row, i;
 
 	dao.type = NewSheetOutput;
@@ -923,9 +914,7 @@ solver_answer_report (WorkbookControl *wbc, Sheet *sheet, GSList *ov,
 	/* Set `Final Value' field */
 	cell = sheet_cell_fetch (sheet, param->target_cell->pos.col,
 				 param->target_cell->pos.row);
-	str = value_get_as_string (cell->value);
-	set_cell (&dao, 3, 3, str);
-	g_free (str);
+	set_cell_value (&dao, 3, 3, value_duplicate (cell->value));
 
 	row = 4;
 	set_cell (&dao, 0, row++, _("Adjustable Cells"));
@@ -953,9 +942,7 @@ solver_answer_report (WorkbookControl *wbc, Sheet *sheet, GSList *ov,
 		/* Set `Final Value' column */
 		cell = sheet_cell_fetch (sheet, cell->pos.col,
 					 cell->pos.row);
-		str = value_get_as_string (cell->value);
-		set_cell (&dao, 3, row, str);
-		g_free (str);
+		set_cell_value (&dao, 3, row, value_duplicate (cell->value));
 
 		/* Go to next row */
 	        cell_list = cell_list->next;
@@ -1004,10 +991,8 @@ solver_answer_report (WorkbookControl *wbc, Sheet *sheet, GSList *ov,
 
 			/* Set `Cell Value' column */
 			cell = sheet_cell_fetch (sheet, sc, sr);
-			str = value_get_as_string (cell->value);
 			rhs = value_get_as_float (cell->value);
-			set_cell (&dao, 2, row, str);
-			g_free (str);
+			set_cell_value (&dao, 2, row, value_duplicate (cell->value));
 
 			/* Set `Formula' column */
 			set_cell (&dao, 3, row, c->str);
@@ -1022,7 +1007,7 @@ solver_answer_report (WorkbookControl *wbc, Sheet *sheet, GSList *ov,
 			        set_cell (&dao, 4, row, _("Not Binding"));
 
 			/* Set `Slack' column */
-			set_cell_float (&dao, 5, row, fabs (lhs-rhs));
+			set_cell_float (&dao, 5, row, fabs (lhs - rhs));
 
 			/* Go to next row */
 			++row;
@@ -1082,9 +1067,7 @@ solver_sensitivity_report (WorkbookControl *wbc, Sheet *sheet, gnum_float *x,
 
 		/* Set `Final Value' column */
 		cell = sheet_cell_fetch (sheet, cell->pos.col, cell->pos.row);
-		str = value_get_as_string (cell->value);
-		set_cell (&dao, 2, row, str);
-		g_free (str);
+		set_cell_value (&dao, 2, row, value_duplicate (cell->value));
 
 		/* Set `Reduced Cost' column */
 		set_cell_float (&dao, 3, row, x[i]);
@@ -1131,9 +1114,7 @@ solver_sensitivity_report (WorkbookControl *wbc, Sheet *sheet, gnum_float *x,
 
 		/* Set `Final Value' column */
 		cell = sheet_cell_fetch (sheet, c->lhs.col, c->lhs.row);
-		str = value_get_as_string (cell->value);
-		set_cell (&dao, 2, row, str);
-		g_free (str);
+		set_cell_value (&dao, 2, row, value_duplicate (cell->value));
 
 #if 0
 		/* Set `Shadow Prize' column */
@@ -1142,9 +1123,7 @@ solver_sensitivity_report (WorkbookControl *wbc, Sheet *sheet, gnum_float *x,
 
 		/* Set `R.H. Side Value' column */
 		cell = sheet_cell_fetch (sheet, c->rhs.col, c->rhs.row);
-		str = value_get_as_string (cell->value);
-		set_cell (&dao, 4, row, str);
-		g_free (str);
+		set_cell_value (&dao, 4, row, value_duplicate (cell->value));
 
 		/* Go to next row */
 		++row;

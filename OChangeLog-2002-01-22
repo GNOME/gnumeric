@@ -1,3 +1,24 @@
+2001-05-04  Morten Welinder  <terra@diku.dk>
+
+	* src/analysis-tools.c (set_cell_value): Make public.
+
+	* src/solver-lp.c (solver_sensitivity_report,
+ 	solver_answer_report): Use set_cell_value.
+
+	* src/value.c (value_peek_string): New function.
+
+	* src/expr.c (eval_expr_real): Simplify CONCAT case using
+ 	value_peek_string.
+
+	* src/datetime.c (datetime_value_to_serial_raw): Simplify using
+ 	value_peek_string.
+
+	* src/workbook-view.c (wb_view_auto_expr_recalc): Ditto.
+
+	* src/graph-vector.c (graph_vector_seq_string): Ditto.
+
+	* src/solver-lp.c (find_name): Ditto.
+
 2001-05-04  Almer S. Tigelaar  <almer@gnome.org>
  
  	* src/GNOME_Gnumeric.xml: Correct InsertComment

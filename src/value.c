@@ -522,6 +522,31 @@ value_get_as_string (const Value *value)
 }
 
 /*
+ * Result will stay valid until (a) the value is disposed of, or (b) two
+ * further calls to this function are made.
+ */
+const char *
+value_peek_string (const Value *v)
+{
+	g_return_val_if_fail (v, "");
+
+	if (v->type == VALUE_STRING)
+		return v->v_str.val->str;
+	else {
+		static char *cache[2] = { 0 };
+		static int next = 0;
+		const char *s;
+
+		g_free (cache[next]);
+		s = cache[next] = value_get_as_string (v);
+		next = (next + 1) % (sizeof (cache) / sizeof (cache[0]));
+		return s;
+	}
+}
+
+
+
+/*
  * FIXME FIXME FIXME : Support errors
  */
 int

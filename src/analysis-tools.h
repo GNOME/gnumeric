@@ -94,6 +94,7 @@ void set_cell        (data_analysis_output_t *dao, int col, int row, const char 
 void set_cell_printf (data_analysis_output_t *dao,
 		      int col, int row, const char *fmt, ...)
 		      G_GNUC_PRINTF (4, 5);
+void set_cell_value  (data_analysis_output_t *dao, int col, int row, Value *v);
 void set_cell_float  (data_analysis_output_t *dao,
 		      int col, int row, gnum_float v);
 void set_cell_int    (data_analysis_output_t *dao,

@@ -154,9 +154,8 @@ graph_vector_seq_string (GraphVector *vector)
 		Value const *elem = vector->is_column
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
-		char * tmp = value_get_as_string (elem);
-		values->_buffer [i] = CORBA_string_dup (tmp);
-		g_free (tmp);
+		const char *tmp = value_peek_string (elem);
+		values->_buffer[i] = CORBA_string_dup (tmp);
 	}
 
 	return values;

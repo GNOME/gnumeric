@@ -601,13 +601,9 @@ value_get_as_complex (Value *val, complex_t *res, char *imunit)
 		*imunit = 'i';
 		return 0;
 	} else {
-		char *s;
-		int err;
-
-		s = value_get_as_string (val);
-		err = complex_from_string (res, s, imunit);
-		g_free (s);
-		return err;
+		return complex_from_string (res,
+					    value_peek_string (val),
+					    imunit);
 	}
 }
 

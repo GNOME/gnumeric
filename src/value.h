@@ -107,6 +107,7 @@ ValueCompare value_compare         (const Value *a, const Value *b,
 gboolean     value_get_as_bool         (Value const *v, gboolean *err);
 gboolean     value_get_as_checked_bool (Value const *v);
 char        *value_get_as_string       (const Value *value);
+const char  *value_peek_string         (const Value *v);
 int          value_get_as_int          (const Value *v);
 gnum_float      value_get_as_float        (const Value *v);
 char        *value_cellrange_get_as_string (const Value *value,

@@ -1,5 +1,11 @@
 2001-05-04  Morten Welinder  <terra@diku.dk>
 
+	* fn-string.c (gnumeric_exact, gnumeric_len, gnumeric_rept,
+ 	gnumeric_find): Ditto.
+
+	* fn-eng.c (value_get_as_complex): Simplify using
+ 	value_peek_string.
+
 	* fn-string.c (gnumeric_len, gnumeric_exact, gnumeric_trim):
  	Cleanup.
 	(gnumeric_rept): Un-suckify.
