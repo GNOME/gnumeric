@@ -246,13 +246,13 @@ else
 fi
 
 dnl Check for libole2
-AC_MSG_CHECKING(for libole2 >= 0.1.7						)
+AC_MSG_CHECKING(for libole2 >= 0.2.2						)
 libole2_ok=no
 if gnome-config --libs libole2 > /dev/null 2>&1; then
 	verstxt=`gnome-config --modversion libole2`
 	vers=`echo "$verstxt" | sed -e "s/^libole2-//" | \
 		awk -F. '{ printf "%d", $1 * 10000 + $2 * 100 + $3; }'`
-	if test "$vers" -ge 107; then
+	if test "$vers" -ge 202; then
 		AC_MSG_RESULT($marker_ok found $verstxt)
 		libole2_ok=yes
 	else
