@@ -15984,7 +15984,6 @@ msgstr ""
 # src/functions/fn-lookup.c:1004
 # fitxer: plugins.ca.po.8
 #: plugins/numtheory/numtheory.c:444
-#, fuzzy
 msgid ""
 "@FUNCTION=PFACTOR\n"
 "@SYNTAX=PFACTOR(n)\n"
@@ -15993,25 +15992,19 @@ msgid ""
 "\n"
 "The argument must be at least 2, or else a #VALUE! error is returned.\n"
 "\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME"
 msgstr ""
-"@FUNCTION=BITXOR\n"
-"@SYNTAX=BITXOR(a,b)\n"
-"@DESCRIPTION=La funció BITXOR retorna la funció lògica O-exclusiva bit a bit "
-"dels seus arguments.\n"
-"\n"
-"@EXAMPLES=\n"
-"@SEEALSO=BITOR,BITAND"
 
 # fitxer: plugins.ca.po.8
 #: plugins/numtheory/numtheory.c:476
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
 "@DESCRIPTION=NT_PI function returns the number of primes less than or equal "
 "to @n.\n"
 "\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 msgstr ""
 "@FUNCTION=NT_PI\n"
@@ -16019,6 +16012,7 @@ msgstr ""
 "@DESCRIPTION=La funció NT_PI retorna el nombre de primers menors o iguals a "
 "@n.\n"
 "Aquesta funció només pren un argument.\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
 # src/functions/fn-lookup.c:1004

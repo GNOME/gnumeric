@@ -12849,7 +12849,6 @@ msgid ""
 msgstr ""
 
 #: plugins/numtheory/numtheory.c:444
-#, fuzzy
 msgid ""
 "@FUNCTION=PFACTOR\n"
 "@SYNTAX=PFACTOR(n)\n"
@@ -12860,17 +12859,8 @@ msgid ""
 "\n"
 "@SEEALSO=ITHPRIME"
 msgstr ""
-"@FUNCTION=HYPERLINK\n"
-"@SYNTAX=HYPERLINK(reference)\n"
-"@DESCRIPTION=Προς το παρόν, η HYPERLINK επιστρέφει το 2ο όρισμα, ή, εφόσον "
-"παραλειφθεί, το 1ο όρισμα.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/numtheory/numtheory.c:476
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -12879,13 +12869,6 @@ msgid ""
 "\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 msgstr ""
-"@FUNCTION=ISODD\n"
-"@SYNTAX=ISODD()\n"
-"@DESCRIPTION=Η ISODD επιστρέφει ΑΛΗΘΕΣ εάν ο αριθμός είναι περιττός. Η "
-"συνάρτηση είναι συμβατή με Excel. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=ISEVEN"
 
 #: plugins/numtheory/numtheory.c:505
 #, fuzzy

@@ -1,3 +1,8 @@
+2005-02-15  Jody Goldberg <jody@gnome.org>
+
+	* ca.po, cs.po, da.po, de.po, el.po, en_CA.po, en_GB.po, es.po, et.po,
+	fr.po, gl.po, hr.po, hu.po : remove the bogus fuzzy translations
+
 2005-02-15  Jon K Hellan  <hellan@acm.org>
 
 	* nb.po, no.po: remove the bogus fuzzy translations

@@ -16069,7 +16069,6 @@ msgstr ""
 "@SEEALSO=ITERPRIM, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:444
-#, fuzzy
 msgid ""
 "@FUNCTION=PFACTOR\n"
 "@SYNTAX=PFACTOR(n)\n"
@@ -16080,13 +16079,6 @@ msgid ""
 "\n"
 "@SEEALSO=ITHPRIME"
 msgstr ""
-"@FUNCTION=BITXODER\n"
-"@SYNTAX=BITXODER(a,b)\n"
-"@DESCRIPTION=BITXODER liefert das Ergebnis der bitweisen exklusiven ODER-"
-"Verknüpfung der übergebenen Argumente.\n"
-"\n"
-"@EXAMPLES=\n"
-"@SEEALSO=BITODER,BITUND"
 
 #: plugins/numtheory/numtheory.c:476
 msgid ""
@@ -16095,6 +16087,7 @@ msgid ""
 "@DESCRIPTION=NT_PI function returns the number of primes less than or equal "
 "to @n.\n"
 "\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 msgstr ""
 "@FUNCTION=NT_PI\n"
@@ -16102,6 +16095,7 @@ msgstr ""
 "@DESCRIPTION=NT_PI liefert die Anzahl der Primzahlen, die kleiner als @n "
 "sind.\n"
 "\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITERPRIM, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:505

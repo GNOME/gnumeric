@@ -14501,7 +14501,6 @@ msgstr ""
 "@SEEALSO=NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:393
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -14519,7 +14518,6 @@ msgstr ""
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:444
-#, fuzzy
 msgid ""
 "@FUNCTION=PFACTOR\n"
 "@SYNTAX=PFACTOR(n)\n"
@@ -14530,20 +14528,8 @@ msgid ""
 "\n"
 "@SEEALSO=ITHPRIME"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(tal)\n"
-"@DESCRIPTION=FACTDOUBLE-funktionen returnerer det dobbelte fakultet af et "
-"@tal.\n"
-"Hvis @tal ikke er et heltal, bliver det afkortet. Hvis @tal er negativt, "
-"returnerer FACTDOUBLE en #TAL!-fejl.\n"
-"Denne funktion er Excel-kompatibel. \n"
-"@EXAMPLES=\n"
-"FACTDOUBLE(5) er lig med 15.\n"
-"\n"
-"@SEEALSO=FACT"
 
 #: plugins/numtheory/numtheory.c:476
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -14557,10 +14543,10 @@ msgstr ""
 "@DESCRIPTION=NT_PI-funktionen returnerer antallet af primtal mindre end "
 "eller lig med @n.\n"
 "Denne funktion tager kun mod én parameter.\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:505
-#, fuzzy
 msgid ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
@@ -14577,7 +14563,6 @@ msgstr ""
 "@SEEALSO=BITXOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:527
-#, fuzzy
 msgid ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
@@ -14596,7 +14581,6 @@ msgstr ""
 "@SEEALSO=BITOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:550
-#, fuzzy
 msgid ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
@@ -14613,7 +14597,6 @@ msgstr ""
 "@SEEALSO=BITOR,BITXOR"
 
 #: plugins/numtheory/numtheory.c:573
-#, fuzzy
 msgid ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"

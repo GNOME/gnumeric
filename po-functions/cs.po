@@ -16473,6 +16473,7 @@ msgstr ""
 "\n"
 "Parametr musí být alespoň 2, jinak je vrácena chyba #VALUE!.\n"
 "\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME"
 
 #: plugins/numtheory/numtheory.c:476
@@ -16488,6 +16489,7 @@ msgstr ""
 "@SYNTAX=NT_PI(n)\n"
 "@DESCRIPTION=Funkce NT_PI vrací počet prvočísel menších nebo rovných @n.\n"
 "\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:505
