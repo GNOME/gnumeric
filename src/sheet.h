@@ -66,7 +66,8 @@ typedef enum {
 	SHEET_MODE_CREATE_LINE,
 	SHEET_MODE_CREATE_BOX,
 	SHEET_MODE_CREATE_OVAL,
-	SHEET_MODE_CREATE_ARROW
+	SHEET_MODE_CREATE_ARROW,
+	SHEET_MODE_OBJECT_SELECTED,
 } SheetModeType;
 
 typedef struct {
@@ -293,6 +294,12 @@ void        sheet_set_mode_type           (Sheet *sheet, SheetModeType type);
 void        sheet_fill_selection_with     (Sheet *sheet, char *text);
 
 /*
+ * Hiding/showing the cursor
+ */
+void        sheet_show_cursor             (Sheet *sheet);
+void        sheet_hide_cursor             (Sheet *sheet);
+
+/*
  * Workbook
  */
 Workbook   *workbook_new                 (void);
@@ -320,5 +327,18 @@ void        workbook_recalc_all          (Workbook *wb);
  */
 void     workbook_realized            (Workbook *, GdkWindow *);
 
+/*
+ * Feedback routines
+ */
+typedef enum {
+	WORKBOOK_FEEDBACK_BOLD,
+	WORKBOOK_FEEDBACK_ITALIC
+} WorkbookFeedbackType;
+
+void     workbook_feedback_set        (Workbook *,
+				       WorkbookFeedbackType type,
+				       void *data);
+
 extern   Workbook *current_workbook;
 #endif
+

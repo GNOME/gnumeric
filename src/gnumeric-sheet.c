@@ -12,6 +12,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
+#include "sheet-object.h"
 #include "color.h"
 #include "cursors.h"
 
@@ -515,12 +516,11 @@ selection_expand_vertical (GnumericSheet *gsheet, int dir)
 }
 
 /*
- * key press event handler for the gnumeric sheet
+ * key press event handler for the gnumeric sheet for the sheet mode
  */
 static gint
-gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
+gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
 	Sheet *sheet = gsheet->sheet_view->sheet;
 	Workbook *wb = sheet->workbook;
 	void (*movefn_horizontal) (GnumericSheet *, int);
@@ -703,6 +703,46 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		
 	}
 	return 1;
+}
+
+static gint
+gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
+{
+	Sheet *sheet = gsheet->sheet_view->sheet;
+	
+	switch (event->keyval){
+	case GDK_Escape:
+		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
+		break;
+
+	case GDK_BackSpace:
+	case GDK_Delete:
+		sheet_object_destroy (sheet->current_object);
+		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
+		break;
+
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static gint
+gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
+{
+	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
+	Sheet *sheet = gsheet->sheet_view->sheet;
+	
+	switch (sheet->mode){
+	case SHEET_MODE_SHEET:
+		return gnumeric_sheet_key_mode_sheet (gsheet, event);
+
+	case SHEET_MODE_OBJECT_SELECTED:
+		return gnumeric_sheet_key_mode_object (gsheet, event);
+
+	default:
+		return TRUE;
+	}
 }
 
 GtkWidget *

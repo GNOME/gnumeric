@@ -763,6 +763,9 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		back_green = 0xffff;
 		back_blue  = 0xffff;
 	} else {
+		back_red   = 0;
+		back_green = 0;
+		back_blue  = 0;
 	}
 	
 	/* Apply the color to the cells */

@@ -133,6 +133,7 @@ cell_set_style (Cell *cell, Style *reference_style)
 	g_return_if_fail (reference_style != NULL);
 
 	cell_queue_redraw (cell);
+	style_destroy (cell->style);
 	cell->style = style_duplicate (reference_style);
 	cell_calc_dimensions (cell);
 	cell_queue_redraw (cell);
@@ -240,6 +241,10 @@ cell_set_text (Cell *cell, char *text)
 	if (cell->entered_text)
 		string_unref (cell->entered_text);
 
+	if (cell->value){
+		value_release (cell->value);
+		cell->value = NULL;
+	}
 	cell->entered_text = string_get (text);
 	
 	if (cell->parsed_node){

@@ -7,6 +7,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <string.h>
 #include "gnumeric.h"
 #include "format.h"
 #include "color.h"
@@ -76,9 +77,8 @@ font_compute_hints (StyleFont *font)
 		if (*p == '-'){
 			hyphens++;
 
-			if (hyphens == 3 && (strcmp (p+1, "bold") == 0)){
+			if (hyphens == 3 && (strncmp (p+1, "bold", 4) == 0))
 				font->hint_is_bold = 1;
-			}
 
 			if (hyphens == 4){
 				if (*(p+1) == 'o' || *(p+1) == 'i')
@@ -130,7 +130,6 @@ StyleFont *
 style_font_new (char *font_name, int units)
 {
 	StyleFont *font;
-	StyleFont key;
 
 	g_return_val_if_fail (font_name != NULL, NULL);
 	g_return_val_if_fail (units != 0, NULL);

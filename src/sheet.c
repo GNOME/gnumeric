@@ -724,11 +724,84 @@ sheet_start_editing_at_cursor (Sheet *sheet)
 		cell_set_text (cell, "");
 	}
 }
-	       
+
+/*
+ * sheet_update_controls:
+ *
+ * This routine is ran every time the seleciton has changed.  It checks
+ * what the status of various toolbar feedback controls should be
+ */
+static void
+sheet_update_controls (Sheet *sheet)
+{
+	GList *cells, *l;
+	int   bold_first, italic_first;
+	int   bold_common, italic_common;
+	
+	cells = sheet_selection_to_list (sheet);
+
+	if (cells){
+		Cell *cell = cells->data;
+
+		bold_first = cell->style->font->hint_is_bold;
+		italic_first = cell->style->font->hint_is_italic;
+		
+		l = cells->next;
+	}
+	else
+	{
+		/*
+		 * If no cells are on the selection, use the first cell
+		 * in the range to compute the values
+		 */
+		SheetSelection *ss = sheet->selections->data;
+		Style *style;
+		
+		style = sheet_style_compute (sheet, ss->start_col, ss->start_row);
+		bold_first = style->font->hint_is_bold;
+		italic_first = style->font->hint_is_italic;
+		style_destroy (style);
+			
+		/* Initialize the pointer that is going to be used next */
+		l = cells;
+	}
+
+	bold_common = italic_common = TRUE;
+
+	/* Check every cell on the range */
+	for (; l; l = l->next){
+		Cell *cell = l->data;
+
+		if (italic_first != cell->style->font->hint_is_italic)
+			italic_common = FALSE;
+
+		if (bold_first != cell->style->font->hint_is_bold)
+			bold_common = FALSE;
+
+		if (bold_common == FALSE && italic_common == FALSE)
+			break;
+	}
+	g_list_free (cells);
+
+	/* Update the toolbar */
+	if (bold_common)
+		workbook_feedback_set (
+			sheet->workbook,
+			WORKBOOK_FEEDBACK_BOLD,
+			(void *) bold_first);
+
+	if (italic_common)
+		workbook_feedback_set (
+			sheet->workbook,
+			WORKBOOK_FEEDBACK_ITALIC,
+			(void *) italic_first);
+}
+
 static void
 sheet_selection_changed_hook (Sheet *sheet)
 {
 	sheet_update_auto_expr (sheet);
+	sheet_update_controls  (sheet);
 	workbook_set_region_status (sheet->workbook, sheet_get_selection_name (sheet));
 }
 
@@ -963,6 +1036,30 @@ sheet_col_set_selection (Sheet *sheet, ColRowInfo *ci, int value)
 	}
 }
 
+static void
+sheet_redraw_cols (Sheet *sheet)
+{
+	GList *l;
+	
+	for (l = sheet->sheet_views; l; l = l->next){
+		SheetView *sheet_view = l->data;
+		
+		sheet_view_redraw_columns (sheet_view);
+	}
+}
+
+static void
+sheet_redraw_rows (Sheet *sheet)
+{
+	GList *l;
+	
+	for (l = sheet->sheet_views; l; l = l->next){
+		SheetView *sheet_view = l->data;
+		
+		sheet_view_redraw_rows (sheet_view);
+	}
+}
+
 /* sheet_select_all
  * Sheet: The sheet
  *
@@ -992,6 +1089,10 @@ sheet_select_all (Sheet *sheet)
 
 		sheet_row_set_selection (sheet, ri, 1);
 	}
+
+	/* Queue redraws for columns and rows */
+	sheet_redraw_rows (sheet);
+	sheet_redraw_cols (sheet);
 }
 
 int
@@ -1172,20 +1273,15 @@ sheet_selection_extend_vertical (Sheet *sheet, int n)
 /*
  * Clear the selection from the columns or rows
  */
-static int
+static void
 clean_bar_selection (GList *list)
 {
-	int cleared = 0;
-	
 	for (; list; list = list->next){
 		ColRowInfo *info = (ColRowInfo *)list->data;
 
-		if (info->selected){
+		if (info->selected)
 			info->selected = 0;
-			cleared++;
-		}
 	}
-	return cleared;
 }
 
 /*
@@ -1200,7 +1296,6 @@ void
 sheet_selection_reset_only (Sheet *sheet)
 {
 	GList *list = sheet->selections;
-	GList *l;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet)); 
@@ -1216,20 +1311,12 @@ sheet_selection_reset_only (Sheet *sheet)
 	sheet->walk_info.current = NULL;
 		
 	/* Unselect the column bar */
-	if (clean_bar_selection (sheet->cols_info) > 0)
-		for (l = sheet->sheet_views; l; l = l->next){
-			SheetView *sheet_view = l->data;
-
-			sheet_view_redraw_columns (sheet_view);
-		}
+	clean_bar_selection (sheet->cols_info);
+	sheet_redraw_cols (sheet);
 
 	/* Unselect the row bar */
-	if (clean_bar_selection (sheet->rows_info) > 0)
-		for (l = sheet->sheet_views; l; l = l->next){
-			SheetView *sheet_view = l->data;
-
-			sheet_view_redraw_rows (sheet_view);
-		}
+	clean_bar_selection (sheet->rows_info);
+	sheet_redraw_rows (sheet);
 }
 
 /*
@@ -2826,3 +2913,26 @@ sheet_fill_selection_with (Sheet *sheet, char *str)
 	}
 }
 
+void
+sheet_hide_cursor (Sheet *sheet)
+{
+	GList *l; 
+
+	for (l = sheet->sheet_views; l; l = l->next){
+		SheetView *sheet_view = l->data;
+
+		sheet_view_hide_cursor (sheet_view);
+	}
+}
+
+void
+sheet_show_cursor (Sheet *sheet)
+{
+	GList *l; 
+
+	for (l = sheet->sheet_views; l; l = l->next){
+		SheetView *sheet_view = l->data;
+
+		sheet_view_show_cursor (sheet_view);
+	}
+}

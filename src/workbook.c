@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
+#include "sheet-object.h"
 #include "dialogs.h"
 #include "xml-io.h"
 #include "plugin.h"
@@ -103,7 +104,7 @@ center_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-change_selection_font (Workbook *wb, int idx, char *new)
+change_selection_font (Workbook *wb, int idx, char *new[])
 {
 	Sheet *sheet;
 	GList *cells, *l;
@@ -114,22 +115,38 @@ change_selection_font (Workbook *wb, int idx, char *new)
 	for (l = cells; l; l = l->next){
 		Cell *cell = l->data;
 		char *old_name, *new_name;
+		int i;
 		StyleFont *f;
 
-		old_name = cell->style->font->font_name;
-		new_name = font_change_component (old_name, idx, new);
-		f = style_font_new_simple (new_name, cell->style->font->units);
-
-		if (f)
-			cell_set_font_from_style (cell, f);
+		for (i = 0; new [i]; i++){
+			old_name = cell->style->font->font_name;
+			new_name = font_change_component (old_name, idx, new [i]);
+			f = style_font_new_simple (new_name, cell->style->font->units);
+			g_free (new_name);
+			
+			if (f){
+				cell_set_font_from_style (cell, f);
+				break;
+			}
+		}
 	}
+
+	/* FIXME: Should attach the bold style here to the cell range */
+	
 	g_list_free (cells);
 }
 
 static void
 bold_cmd (GtkWidget *widget, Workbook *wb)
 {
-	change_selection_font (wb, 2, "bold");
+	GtkToggleButton *t = GTK_TOGGLE_BUTTON (widget);
+	char *bold_names   [] = { "bold", NULL };
+	char *normal_names [] = { "regular", "medium", "light", NULL };
+
+	if (!t->active)
+		change_selection_font (wb, 2, normal_names);
+	else
+		change_selection_font (wb, 2, bold_names);
 }
 
 static void
@@ -177,7 +194,7 @@ quit_cmd (void)
 static void
 close_cmd (GtkWidget *widget, Workbook *wb)
 {
-	gtk_widget_destroy (wb->toplevel);
+	workbook_destroy (wb);
 }
 
 static void
@@ -204,7 +221,15 @@ cut_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 	
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_cut (sheet);
+	if (sheet->mode == SHEET_MODE_SHEET)
+		sheet_selection_cut (sheet);
+	else {
+		if (sheet->current_object){
+			sheet_object_destroy (sheet->current_object);
+			sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
+		} else
+			printf ("no object selected\n");
+	}
 }
 
 static void
@@ -417,6 +442,7 @@ static GnomeUIInfo workbook_menu [] = {
 	GNOMEUIINFO_END
 };
 
+#define TOOLBAR_BOLD_BUTTON_INDEX 12
 static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("New"), N_("Create a new sheet"),
@@ -796,6 +822,21 @@ workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb)
 		workbook_focus_current_sheet (wb);
 }
 
+void
+workbook_destroy (Workbook *wb)
+{
+	if (wb->filename)
+	       g_free (wb->filename);
+	g_list_free (wb->eval_queue);
+
+	gtk_widget_destroy (wb->toplevel);
+
+	if (wb->auto_expr){
+		expr_tree_unref (wb->auto_expr);
+		string_unref (wb->auto_expr_desc);
+	}
+}
+
 static void
 workbook_close (void)
 {
@@ -943,5 +984,26 @@ workbook_new_with_sheets (int sheet_count)
 void
 workbook_realized (Workbook *workbook, GdkWindow *window)
 {
+}
+
+void
+workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data)
+{
+	GtkToggleButton *t;
+	int set;
+	
+	g_return_if_fail (workbook != NULL);
+	
+	switch (type){
+	case WORKBOOK_FEEDBACK_BOLD:
+		t = GTK_TOGGLE_BUTTON (
+			workbook_toolbar [TOOLBAR_BOLD_BUTTON_INDEX].widget);
+		set = data != NULL;
+
+		gtk_toggle_button_set_state (t, set);
+		break;
+		
+	case WORKBOOK_FEEDBACK_ITALIC:
+	}
 }
 

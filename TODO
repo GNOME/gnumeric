@@ -6,6 +6,10 @@ GNOME Spread Sheet task list
 
 * EDITION
 
+** Object Clipboard
+   If sheet->mode is OBJECT_SELECTED cut/copy/paste should operate on
+   the object.
+
 ** Paste special 
 
   needs some little changes:

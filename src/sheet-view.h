@@ -53,6 +53,9 @@ void        sheet_view_redraw_cell_region    (SheetView *sheet_view,
 void        sheet_view_redraw_rows           (SheetView *sheet_view);
 void        sheet_view_redraw_columns        (SheetView *sheet_view);
 
+void        sheet_view_hide_cursor           (SheetView *sheet_view);
+void        sheet_view_show_cursor           (SheetView *sheet_view);
+
 typedef struct {
 	GtkTableClass parent_class;
 } SheetViewClass;

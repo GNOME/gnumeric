@@ -567,3 +567,18 @@ sheet_view_get_type (void)
 	return sheet_view_type;
 }
 		     
+void
+sheet_view_hide_cursor (SheetView *sheet_view)
+{
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+
+	item_cursor_set_visibility (gsheet->item_cursor, FALSE);
+}
+
+void
+sheet_view_show_cursor (SheetView *sheet_view)
+{
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+
+	item_cursor_set_visibility (gsheet->item_cursor, TRUE);
+}

@@ -12,6 +12,7 @@
 
 static void sheet_finish_object_creation (Sheet *sheet, SheetObject *object);
 static void sheet_object_start_editing   (SheetObject *object);
+static void sheet_object_stop_editing    (SheetObject *object);
 static int  object_event                 (GnomeCanvasItem *item,
 					  GdkEvent *event,
 					  SheetObject *object);
@@ -123,45 +124,6 @@ sheet_object_create_line (Sheet *sheet, int is_arrow, double x1, double y1, doub
 	sheet->objects = g_list_prepend (sheet->objects, so);
 
 	return so;
-}
-
-void
-sheet_object_destroy (SheetObject *object)
-{
-	SheetFilledObject *sfo = (SheetFilledObject *) object;
-	Sheet *sheet;
-	GList *l;
-	
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_SHEET_OBJECT (object));
-
-	sheet = object->sheet;
-	
-	switch (object->type){
-
-	case SHEET_OBJECT_RECTANGLE:
-	case SHEET_OBJECT_ELLIPSE:
-		if (sfo->fill_color)
-			string_unref (sfo->fill_color);
-		/* fall down */
-
-	case SHEET_OBJECT_ARROW:
-	case SHEET_OBJECT_LINE:
-		string_unref (object->color);
-		gnome_canvas_points_free (object->points);
-		break;
-	}
-
-	for (l = object->realized_list; l; l = l->next){
-		GnomeCanvasItem *item = l->data;
-
-		gtk_object_destroy (GTK_OBJECT (item));
-	}
-	g_list_free (l);
-
-	sheet->objects = g_list_remove (sheet->objects, object);
-	
-	g_free (object);
 }
 
 static GnomeCanvasItem *
@@ -345,6 +307,7 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 		break;
 
 	case SHEET_MODE_SHEET:
+	case SHEET_MODE_OBJECT_SELECTED:
 		g_warning ("This sould not happen\n");
 	}
 
@@ -406,6 +369,8 @@ sheet_button_press (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 	
 	sheet->coords = g_list_append (sheet->coords, oc);
 
+	gsheet->sheet_view->temp_item = NULL;
+	
 	gtk_signal_connect (GTK_OBJECT (gsheet), "button_release_event",
 			    GTK_SIGNAL_FUNC (sheet_button_release), sheet);
 	gtk_signal_connect (GTK_OBJECT (gsheet), "motion_notify_event",
@@ -419,8 +384,8 @@ sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
 {
 	GList *l;
 
-	/* Reset the mode */
-	sheet->mode = SHEET_MODE_SHEET;
+	/* Set the mode */
+	sheet_set_mode_type (sheet, SHEET_MODE_OBJECT_SELECTED);
 
 	sheet_release_coords (sheet);
 	
@@ -442,7 +407,24 @@ sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
 
 	}
 }
-			    
+
+/*
+ * sheet_set_mode_type:
+ * @sheet:  The sheet
+ * @mode:   The new mode of operation
+ *
+ * These are the following major mode types:
+ *   Object creation (SHEET_MODE_CREATE_*)
+ *                   These are used during object creation in the sheeet
+ *
+ *   Sheet mode      (SHEET_MODE_SHEET)
+ *                   Regular spreadsheet operations are in place, sheet
+ *                   cursor is displayed.
+ *
+ *   Object editing  (SHEET_MODE_OBJECT_SELECTED)
+ *                   No spreadsheet cursor is active, and edition is directed
+ *                   towards the currently selected object
+ */
 void
 sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 {
@@ -451,14 +433,37 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
+	if (sheet->mode == mode)
+		return;
+	
 	sheet->mode = mode;
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
-		GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 
-		sheet_view->temp_item = NULL;
-		gtk_signal_connect (GTK_OBJECT (gsheet), "button_press_event",
-				    GTK_SIGNAL_FUNC (sheet_button_press), sheet);
+	switch (sheet->mode){
+	case SHEET_MODE_CREATE_OVAL:
+	case SHEET_MODE_CREATE_BOX:		
+	case SHEET_MODE_CREATE_LINE:
+	case SHEET_MODE_CREATE_ARROW:
+		for (l = sheet->sheet_views; l; l = l->next){
+			SheetView *sheet_view = l->data;
+			GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+			
+			sheet_view->temp_item = NULL;
+			gtk_signal_connect (GTK_OBJECT (gsheet), "button_press_event",
+					    GTK_SIGNAL_FUNC (sheet_button_press), sheet);
+		}
+		break;
+
+	case SHEET_MODE_SHEET:
+		sheet_show_cursor (sheet);
+		if (sheet->current_object){
+			sheet_object_stop_editing (sheet->current_object);
+			sheet->current_object = NULL;
+		}
+		break;
+
+	case SHEET_MODE_OBJECT_SELECTED:
+		sheet_hide_cursor (sheet);
+		break;
 	}
 }
 
@@ -483,8 +488,51 @@ sheet_object_stop_editing (SheetObject *object)
 {
 	Sheet *sheet = object->sheet;
 
-	sheet_object_destroy_control_points (sheet);
-	sheet->current_object = NULL;
+	if (object == sheet->current_object)
+		sheet_object_destroy_control_points (sheet);
+}
+
+void
+sheet_object_destroy (SheetObject *object)
+{
+	SheetFilledObject *sfo = (SheetFilledObject *) object;
+	Sheet *sheet;
+	GList *l;
+	
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_SHEET_OBJECT (object));
+
+	sheet = object->sheet;
+
+	sheet_object_stop_editing (object);
+	if (object == sheet->current_object)
+		sheet->current_object = NULL;
+	
+	switch (object->type){
+
+	case SHEET_OBJECT_RECTANGLE:
+	case SHEET_OBJECT_ELLIPSE:
+		if (sfo->fill_color)
+			string_unref (sfo->fill_color);
+		/* fall down */
+
+	case SHEET_OBJECT_ARROW:
+	case SHEET_OBJECT_LINE:
+		string_unref (object->color);
+		gnome_canvas_points_free (object->points);
+		break;
+	}
+
+	for (l = object->realized_list; l; l = l->next){
+		GnomeCanvasItem *item = l->data;
+
+		gtk_object_destroy (GTK_OBJECT (item));
+	}
+	g_list_free (l);
+
+	sheet->objects = g_list_remove (sheet->objects, object);
+
+	g_free (object);
 }
 
 #define POINT(x) (1 << x)
@@ -669,8 +717,10 @@ object_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object)
 		break;
 		
 	case GDK_BUTTON_PRESS:
-		if (object->sheet->current_object)
+		if (object->sheet->current_object){
 			sheet_object_stop_editing (object->sheet->current_object);
+			object->sheet->current_object = NULL;
+		}
 		
 		object->dragging = 1;
 		gnome_canvas_item_grab (item,
@@ -795,6 +845,8 @@ sheet_object_make_current (Sheet *sheet, SheetObject *object)
 
 	if (sheet->current_object == object)
 		return;
+
+	sheet_set_mode_type (sheet, SHEET_MODE_OBJECT_SELECTED);
 	
 	if (sheet->current_object)
 		sheet_object_stop_editing (sheet->current_object);

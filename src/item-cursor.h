@@ -39,6 +39,8 @@ typedef struct {
 	/* Cached values of the last bounding box information used */
 	int      cached_x, cached_y, cached_w, cached_h;
 
+	int      visible;
+	
 	GdkPixmap *stipple;
 } ItemCursor;
 

@@ -34,7 +34,7 @@ typedef struct {
 	GnomeCanvasItemClass parent_class;
 
 	/* Signals emited */
-	void (* selection_changed) (ItemBar *, int column);
+	void (* selection_changed) (ItemBar *, int column, int reset);
 	void (* size_changed)      (ItemBar *, int column, int new_width);
 } ItemBarClass;
 

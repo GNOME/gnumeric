@@ -628,6 +628,7 @@ Workbook *gnumericReadXmlWorkbook(const char *filename) {
     ctxt.nameTable = g_hash_table_new(g_str_hash, g_str_equal);
     ctxt.fontIdx = 1;
     wb = readXmlWorkbook(&ctxt, res->root);
+    wb->filename = g_strdup (filename);
     workbook_recalc(wb);
     g_hash_table_foreach(ctxt.nameTable, nameFree, NULL);
     g_hash_table_destroy(ctxt.nameTable);
@@ -1171,7 +1172,10 @@ static Cell *readXmlCell(parseXmlContextPtr ctxt, xmlNodePtr tree) {
 
     style = readXmlStyle (ctxt, tree->childs, NULL);
     if (style){
+	    Style *old_style = ret->style;
+	    
 	    style_merge_to (style, ret->style);
+	    style_destroy (ret->style);
 	    ret->style = style;
     }
     if (tree->content != NULL){

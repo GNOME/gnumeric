@@ -622,6 +622,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 		
 	case GDK_BUTTON_PRESS:
+		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 		switch (event->button.button){
 		case 1:
 			convert (canvas, event->button.x, event->button.y, &x, &y);

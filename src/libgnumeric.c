@@ -4,7 +4,6 @@
 #include "xml-io.h"
 #include "plugin.h"
 #include "format.h"
-#include "color.h"
 #include "cursors.h"
 #include "dump.h"
 
@@ -56,7 +55,6 @@ main (int argc, char *argv [])
 
 	gnome_init ("Gnumeric", &parser, argc, argv, 0, NULL);
 
-	color_init ();
 	string_init ();
 	style_init ();
 	format_color_init ();

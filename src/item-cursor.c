@@ -173,6 +173,9 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	int draw_external, draw_internal, draw_handle, draw_center, draw_thick;
 	int premove;
 	GdkColor *fore = NULL, *back = NULL;
+
+	if (!item_cursor->visible)
+		return;
 	
 	item_cursor_get_pixel_coords (item_cursor, &xd, &yd,
 				      &cursor_width, &cursor_height);
@@ -598,6 +601,18 @@ item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
 	gnome_canvas_update_now (GNOME_CANVAS (gsheet));
 }
 
+void
+item_cursor_set_visibility (ItemCursor *item_cursor, int visible)
+{
+	g_return_if_fail (IS_ITEM_CURSOR (item_cursor));
+
+	if (item_cursor->visible == visible)
+		return;
+
+	item_cursor->visible = visible;
+	item_cursor_request_redraw (item_cursor);
+}
+
 static gint
 item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -757,6 +772,7 @@ item_cursor_init (ItemCursor *item_cursor)
 	item_cursor->end_row   = 0;
 	item_cursor->start_row = ITEM_CURSOR_SELECTION;
 	item_cursor->tag = -1;
+	item_cursor->visible = 1;
 }
 
 static void
