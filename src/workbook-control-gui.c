@@ -3224,9 +3224,7 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 static void
 wb_jump_to_cell (GtkEntry *entry, WorkbookControlGUI *wbcg)
 {
-	char const *text = gtk_entry_get_text (entry);
-
-	workbook_parse_and_jump (WORKBOOK_CONTROL (wbcg), text);
+	wb_control_parse_and_jump (WORKBOOK_CONTROL (wbcg), gtk_entry_get_text (entry));
 	wb_control_gui_focus_cur_sheet (wbcg);
 }
 
