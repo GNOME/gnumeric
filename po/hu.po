@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
 "POT-Creation-Date: 2003-07-09 16:04+0200\n"
-"PO-Revision-Date: 2003-07-10 10:38+0200\n"
+"PO-Revision-Date: 2003-07-11 12:11+0200\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -22199,9 +22199,8 @@ msgid "Summary report grupped by rounds"
 msgstr ""
 
 #: src/dialogs/simulation.glade.h:19
-#, fuzzy
 msgid "Summary: "
-msgstr "Adatlap"
+msgstr "Összefoglaló: "
 
 #: src/dialogs/simulation.glade.h:20
 #, fuzzy
@@ -22218,9 +22217,8 @@ msgid "_Output Range: "
 msgstr "_Kimeneti tartomány:"
 
 #: src/dialogs/simulation.glade.h:24
-#, fuzzy
 msgid "_Summary"
-msgstr "Adatlap"
+msgstr "Össze_foglaló"
 
 #: src/dialogs/so-arrow.glade.h:1
 #, fuzzy
@@ -22484,7 +22482,7 @@ msgstr "Fájl:"
 
 #: src/dialogs/summary.glade.h:6
 msgid "Summary"
-msgstr "Adatlap"
+msgstr "Összefoglaló"
 
 #: src/dialogs/summary.glade.h:7
 msgid "_Author:"
@@ -27381,13 +27379,12 @@ msgid "Append"
 msgstr ""
 
 #: src/workbook-control-gui.c:647
-#, fuzzy
 msgid "Duplicate"
-msgstr "_Megkettőzés"
+msgstr "Megkettőzés"
 
 #: src/workbook-control-gui.c:648
 msgid "Remove"
-msgstr "Eltávolít"
+msgstr "Eltávolítás"
 
 # #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
 # interfaces/memory.glade.h:40 interfaces/shares.glade.h:56
