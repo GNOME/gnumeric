@@ -557,77 +557,55 @@ workbook_view_new (Workbook *wb)
 	return wbv;
 }
 
-/*
- * Filename is fs encoded, not UTF-8.
- */
 static void
 wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
-		  char const *filename, IOContext *io_context)
+		  char const *uri, IOContext *io_context)
 {
 	char *msg = NULL;
-	char *filename_utf8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+	GError *err = NULL;
+	GsfOutput *output = NULL;
+	char *filename;
 
-	if (filename_utf8) {
-		GError *err = NULL;
-		GsfOutput *output = NULL;
-
-#ifdef WITH_GNOME
-		{
-			GnomeVFSURI * uri = gnome_vfs_uri_new(filename);
-
-			/* cheesy mechanism to prefer stdio */
-			if (uri != NULL && uri->method_string != NULL &&
-			    0 != strcmp ("file", uri->method_string)) {
-				output = (GsfOutput *)gsf_output_gnomevfs_new (filename, &err);
-			} else {
-				output = (GsfOutput *)gsf_output_stdio_new (filename, &err);
-			}
-
-			if (uri != NULL)
-				gnome_vfs_uri_unref (uri);
-		}
-#else
+	filename = go_filename_from_uri (uri);
+	if (filename) {
 		output = (GsfOutput *)gsf_output_stdio_new (filename, &err);
+		g_free (filename);
+	} else {
+#ifdef WITH_GNOME
+		output = (GsfOutput *)gsf_output_gnomevfs_new (uri, &err);
 #endif
+	}
 
-		if (output == NULL) {
-			char *str = g_strdup_printf (_("Can't open '%s' for writing: %s"),
-						     filename_utf8, err->message);
-			gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context), str);
-			g_error_free (err);
-			g_free (str);
-			g_free (filename_utf8);
+	if (output == NULL) {
+		char *str = g_strdup_printf (_("Can't open '%s' for writing: %s"),
+					     uri, err->message);
+		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context), str);
+		g_error_free (err);
+		g_free (str);
+		return;
+	}
+
+	if (output != NULL) {
+		GError const *save_err;
+
+		g_print ("Writing %s\n", uri);
+		gnm_file_saver_save (fs, io_context, wbv, GSF_OUTPUT (output));
+		save_err = gsf_output_error (GSF_OUTPUT (output));
+		if (save_err) {
+			msg = g_strdup (save_err->message);
+			g_object_unref (G_OBJECT (output));
+		} else {
+			g_object_unref (G_OBJECT (output));
 			return;
 		}
-
-		puts (filename);
-		if (output != NULL) {
-			GError const *save_err;
-			gnm_file_saver_save (fs, io_context, wbv, GSF_OUTPUT (output));
-			save_err = gsf_output_error (GSF_OUTPUT (output));
-			if (save_err) {
-				msg = g_strdup (save_err->message);
-				g_object_unref (G_OBJECT (output));
-			} else {
-				g_object_unref (G_OBJECT (output));
-				g_free (filename_utf8);
-				return;
-			}
-		}
-
-		if (msg == NULL)
-			msg = g_strdup_printf (_("An unexplained error happened while saving %s"),
-					       filename_utf8);
-	} else {
-		/*
-		 * This should be quite rare.  To provoke, use
-		 * gnumeric `echo -e '\377\376'`
-		 */
-		msg = g_strdup (_("The filename given is not valid in the current encoding."));
 	}
+
+	if (msg == NULL)
+		msg = g_strdup_printf (_("An unexplained error happened while saving %s"),
+				       uri);
+
 	gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context), msg);
 	g_free (msg);
-	g_free (filename_utf8);
 }
 
 /**

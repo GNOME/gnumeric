@@ -93,6 +93,27 @@ go_shell_arg_to_uri (const char *arg)
 #endif
 }
 
+/**
+ * go_basename_from_uri:
+ * @uri :
+ *
+ * Decode the final path component.  Returns as UTF-8 encoded.
+ **/
+char *
+go_basename_from_uri (const char *uri)
+{
+	char *uri_basename = g_path_get_basename (uri);
+	char *fake_uri = g_strconcat ("file:///", uri_basename, NULL);
+	char *filename = go_filename_from_uri (fake_uri);
+	char *basename = filename ? g_path_get_basename (filename) : NULL;
+	char *basename_utf8 = basename ? g_filename_to_utf8 (basename, -1, NULL, NULL, NULL) : NULL;
+	g_free (uri_basename);
+	g_free (fake_uri);
+	g_free (filename);
+	g_free (basename);
+	return basename_utf8;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static GsfInput *

@@ -28,6 +28,7 @@ G_BEGIN_DECLS
 char *go_filename_from_uri (const char *uri);
 char *go_filename_to_uri (const char *filename);
 char *go_shell_arg_to_uri (const char *arg);
+char *go_basename_from_uri (const char *uri);
 
 GsfInput *go_file_open (char const *uri, GError **err);
 

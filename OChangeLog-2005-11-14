@@ -1,5 +1,9 @@
 2004-06-11  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-view.c (wbv_save_to_file): Make this work with uris.
+
+	* src/history.c (history_item_label): Now gets uri argument.
+
 	* src/workbook.c (workbook_set_uri): Ranamed from
 	workbook_set_filename.
 	(workbook_get_uri): Renamed from workbook_get_filename.
