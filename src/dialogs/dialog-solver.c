@@ -216,8 +216,26 @@ constraint_select_click (G_GNUC_UNUSED GtkWidget      *clist,
 			 G_GNUC_UNUSED GdkEventButton *event,
 			 SolverState    *state)
 {
+	const constraint_t *constr =
+		gtk_clist_get_row_data (state->constraint_list, row);
+	Range range;
+
         state->selected_row = row;
 	dialog_set_sec_button_sensitivity (NULL, state);
+
+	if (constr == NULL)
+		return; /* Fail? */
+
+	range_init_value (&range, constr->lhs_value);
+	gnm_expr_entry_load_from_range (state->lhs_entry, state->sheet,&range);
+
+	if (constr->type != SolverINT || constr->type != SolverBOOL) {
+		range_init_value (&range, constr->rhs_value);
+		gnm_expr_entry_load_from_range (state->rhs_entry,
+						state->sheet, &range);
+	}
+
+	gtk_option_menu_set_history (state->type_combo, constr->type);
 }
 
 /**
