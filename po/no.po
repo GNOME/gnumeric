@@ -1,12 +1,12 @@
 # Norwegian (bokmål dialect) translation of gnumeric.
 # Copyright (C) 1998,1999 Free Software Foundation, Inc.
-# Kjartan Maraas <kmaraas@online.no>, 1998,1999.
+# Kjartan Maraas <kmaraas@online.no>, 1998-2001.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.62\n"
-"POT-Creation-Date: 2001-05-20 11:44-0400\n"
-"PO-Revision-Date: 2001-04-23 14:25-04:00\n"
+"Project-Id-Version: gnumeric 0.66\n"
+"POT-Creation-Date: 2001-05-20 21:54+0200\n"
+"PO-Revision-Date: 2001-05-20 21:26+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -32,6 +32,10 @@ msgid ""
 "(You can turn this safety feature off by setting the\n"
 "enviromental variable GNUMERIC_ENABLE_XL_OVERWRITE)"
 msgstr ""
+"Lagring over gamle Excel filer er deaktivert\n"
+"\n"
+"(Du kan slå av denne sikkerhetsfunksjonen ved å sette\n"
+"miljøvariabelen GNUMERIC_ENABLE_XL_OVERWRITE)"
 
 #: plugins/excel/boot.c:169
 msgid "Can't open"
@@ -510,7 +514,6 @@ msgid "Error while opening xbase file."
 msgstr "Feil under åpning av xbase-fil."
 
 #: plugins/xml_sax/xml-sax-read.c:1738
-#, fuzzy
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt() feilet."
 
@@ -519,14 +522,12 @@ msgid "XML document not well formed!"
 msgstr "XML-dokumentet er ikke riktig utformet!"
 
 #: src/about.c:28
-#, fuzzy
 msgid "Miguel de Icaza, creator."
-msgstr "Miguel de Icaza, hovedprogrammerer."
+msgstr "Miguel de Icaza, creator."
 
 #: src/about.c:29
-#, fuzzy
 msgid "Jody Goldberg, maintainer."
-msgstr "Jody Goldberg, Gnumeric hacker."
+msgstr "Jody Goldberg, maintainer."
 
 #: src/about.c:30
 msgid "Sean Atkinson, functions and X-Base importing."
@@ -534,12 +535,11 @@ msgstr "Sean Atkinson, funksjoner og X-Base import."
 
 #: src/about.c:31
 msgid "Grandma Chema Celorio, Tester and sheet copy."
-msgstr ""
+msgstr "Bestemor Chema Celorio, tester og arkkopi."
 
 #: src/about.c:32
-#, fuzzy
 msgid "Frank Chiulli, OLE support."
-msgstr "Daniel Veillard, XML støtte."
+msgstr "Frank Chiulli, OLE-støtte."
 
 #: src/about.c:33
 msgid "Kenneth Christiansen, i18n, misc stuff."
@@ -547,7 +547,7 @@ msgstr "Kenneth Christiansen, i18n, forskjellig."
 
 #: src/about.c:34
 msgid "Zbigniew Chyla, plugin system, i18n."
-msgstr ""
+msgstr "Zbigniew Chyla, tilleggssystem, i18n."
 
 #: src/about.c:35
 msgid "Tom Dyas, plugin support."
@@ -611,7 +611,7 @@ msgstr "Ariel Rios, Guile støtte."
 
 #: src/about.c:50
 msgid "Arturo Tena, OLE support."
-msgstr ""
+msgstr "Arturo Tena, OLE-støtte."
 
 #: src/about.c:51
 msgid "Almer S. Tigelaar, Gnumeric hacker."
@@ -638,9 +638,8 @@ msgid "Gnumeric"
 msgstr "Gnumeric"
 
 #: src/about.c:73
-#, fuzzy
 msgid "(C) 1998-2001 Miguel de Icaza"
-msgstr "(C) 1998-2000 Miguel de Icaza"
+msgstr "© 1998-2001 Miguel de Icaza"
 
 #: src/about.c:80
 msgid "Gnumeric Home Page"
@@ -648,7 +647,7 @@ msgstr "Gnumeric hjemmeside"
 
 #: src/about.c:82
 msgid "Contract Support"
-msgstr ""
+msgstr "Kontraktstøtte"
 
 #: src/analysis-tools.c:462
 msgid "Correlations"
@@ -658,7 +657,6 @@ msgstr "Korrelasjoner"
 #: src/analysis-tools.c:635 src/analysis-tools.c:790 src/analysis-tools.c:907
 #: src/analysis-tools.c:925 src/analysis-tools.c:947 src/analysis-tools.c:2271
 #: src/analysis-tools.c:2410 src/analysis-tools.c:2573
-#: src/dialogs/dialog-stf-preview.h:19
 #, c-format
 msgid "Column %d"
 msgstr "Kolonne %d"
@@ -688,8 +686,8 @@ msgstr "Sammendragsstatistikk"
 #.
 #: src/analysis-tools.c:799
 msgid ""
-"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
-"Skewness/Range/Minimum/Maximum/Sum/Count"
+"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample "
+"Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 
 #: src/analysis-tools.c:900
@@ -697,7 +695,6 @@ msgid "Confidence Level"
 msgstr "Konfidensnivå"
 
 #: src/analysis-tools.c:912
-#, c-format
 msgid "Confidence Level (%g%%)"
 msgstr "Konfidensnivå (%g%%)"
 
@@ -753,16 +750,16 @@ msgstr "t-test"
 
 #: src/analysis-tools.c:1280
 msgid ""
-"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
-"df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
-"two-tail"
+"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean "
+"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
+"two-tail/t Critical two-tail"
 msgstr ""
 
 #: src/analysis-tools.c:1418
 msgid ""
-"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/df/"
-"t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
-"two-tail"
+"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean "
+"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
+"two-tail/t Critical two-tail"
 msgstr ""
 
 #: src/analysis-tools.c:1535
@@ -797,8 +794,9 @@ msgstr "Regresjon"
 
 #: src/analysis-tools.c:1966
 msgid ""
-"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
-"Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
+"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R "
+"Square/Standard "
+"Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
 #: src/analysis-tools.c:1985
@@ -990,7 +988,7 @@ msgstr "Kunne ikke lime inn"
 
 #: src/clipboard.c:275
 msgid "Content can only be pasted by value or by link."
-msgstr ""
+msgstr "Innhold kan kun limes inn etter verdi eller med lenke."
 
 #: src/clipboard.c:283
 #, c-format
@@ -1039,24 +1037,24 @@ msgid "Paste"
 msgstr "Lim inn"
 
 #: src/cmd-edit.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "Shift rows %d:%d"
-msgstr "Sletter %d rader %d:%d"
+msgstr "Flytt rader %d:%d"
 
 #: src/cmd-edit.c:402
-#, fuzzy, c-format
+#, c-format
 msgid "Shift row %d"
-msgstr "Flytt celler ne_d og kopier"
+msgstr "Flytt rad %d"
 
 #: src/cmd-edit.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "Shift columns %s"
-msgstr "Ta frem kolonner"
+msgstr "Flytt kolonner %s"
 
 #: src/cmd-edit.c:439
-#, fuzzy, c-format
+#, c-format
 msgid "Shift column %s"
-msgstr "Ta frem kolonner"
+msgstr "Flytt kolonne %s"
 
 #: src/commands.c:634 src/commands.c:729
 msgid "Set Text"
@@ -1118,29 +1116,25 @@ msgid "Undo Clear"
 msgstr "Angre tøm"
 
 #: src/commands.c:1301
-#, fuzzy
 msgid "contents"
-msgstr "Innhold"
+msgstr "innhold"
 
 #: src/commands.c:1303
-#, fuzzy
 msgid "formats"
-msgstr "Formater"
+msgstr "formater"
 
 #: src/commands.c:1305
-#, fuzzy
 msgid "comments"
-msgstr "Kommentarer"
+msgstr "kommentarer"
 
 #: src/commands.c:1321
-#, fuzzy
 msgid "all"
-msgstr "høy"
+msgstr "alle"
 
 #: src/commands.c:1328
-#, fuzzy, c-format
+#, c-format
 msgid "Clearing %s in %s"
-msgstr "Skriver \"%s%s\" i %s"
+msgstr "Sletter %s i %s"
 
 #: src/commands.c:1603
 #, c-format
@@ -1178,39 +1172,39 @@ msgid "Setting current time in %s"
 msgstr "Setter aktiv tid i %s"
 
 #: src/commands.c:1849
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting column %s"
-msgstr "Sletter kolonne %s"
+msgstr "Tilpasser kolonne %s automatisk"
 
 #: src/commands.c:1850
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting row %s"
-msgstr "Sletter rad %d"
+msgstr "Tilpasser rad %s automatisk"
 
 #: src/commands.c:1853
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of column %s to %d pixels"
-msgstr "Setter bredden for kolonnene"
+msgstr "Setter bredden for rad %s til %d piksler"
 
 #: src/commands.c:1855
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of row %s to %d pixels"
-msgstr "Setter høyden for radene"
+msgstr "Setter høyden for rad %s til %d piksler"
 
 #: src/commands.c:1860 src/commands.c:1861
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting columns %s"
-msgstr "Sletter kolonne %s"
+msgstr "Tilpasser kolonner %s automatisk"
 
 #: src/commands.c:1864
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of columns %s to %d pixels"
-msgstr "Setter bredden for kolonnene"
+msgstr "Setter bredden for kolonner %s til %d piksler"
 
 #: src/commands.c:1866
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of rows %s to %d pixels"
-msgstr "Setter høyden for radene"
+msgstr "Setter høyden for rader %s til %d piksler"
 
 #: src/commands.c:1951
 #, c-format
@@ -1256,7 +1250,7 @@ msgstr "Flytter %s"
 
 #: src/commands.c:2376 src/commands.c:2560
 msgid "is beyond sheet boundaries"
-msgstr ""
+msgstr "er utenfor arkgrensen"
 
 #. FIXME?
 #: src/commands.c:2531
@@ -1271,24 +1265,24 @@ msgstr "Autofyll"
 
 #. Changed in initial redo.
 #: src/commands.c:2717
-#, fuzzy, c-format
+#, c-format
 msgid "Autofilling %s"
-msgstr "Autofyll"
+msgstr "Autofyller %s"
 
 #: src/commands.c:2870
-#, fuzzy, c-format
+#, c-format
 msgid "Autoformatting %s"
-msgstr "Autoformat"
+msgstr "Autoformaterer %s"
 
 #: src/commands.c:2979
-#, fuzzy, c-format
+#, c-format
 msgid "Unmerging %s"
-msgstr "Separer celler"
+msgstr "Separerer %s"
 
 #: src/commands.c:3117
-#, fuzzy, c-format
+#, c-format
 msgid "Merging %s"
-msgstr "Flytter %s"
+msgstr "Fletter %s"
 
 #. Corrected below.
 #: src/commands.c:3555 src/dialogs/search-replace.glade.h:41
@@ -1296,19 +1290,18 @@ msgid "Search and Replace"
 msgstr "Søk og erstatt"
 
 #: src/commands.c:3651
-#, fuzzy, c-format
+#, c-format
 msgid "Setting default width of columns to %.2fpts"
-msgstr "Setter standard bredde for kolonnene til %.2f"
+msgstr "Setter standard bredde for kolonnene til %.2fpts"
 
 #: src/commands.c:3652
-#, fuzzy, c-format
+#, c-format
 msgid "Setting default height of rows to %.2fpts"
-msgstr "Setter standard høyde for radene til %.2f"
+msgstr "Setter standard høyde for radene til %.2fpts"
 
 #: src/commands.c:3766
-#, c-format
 msgid "Zoom %s to %.0f%%"
-msgstr ""
+msgstr "Zoom %s til %.0f%%"
 
 #: src/corba-args.c:28
 msgid "Oaf options"
@@ -1920,9 +1913,8 @@ msgid "Color"
 msgstr "Farge"
 
 #: src/dialogs/cell-format.glade.h:21
-#, fuzzy
 msgid "Color :"
-msgstr "Farge"
+msgstr "Farge :"
 
 #: src/dialogs/cell-format.glade.h:22
 msgid "Control"
@@ -3307,9 +3299,8 @@ msgstr ""
 "er avhengig av om verdien er valgt for sitering."
 
 #: src/dialogs/dialog-stf-export.glade.h:17
-#, fuzzy
 msgid "Exporting structured text"
-msgstr "Gnumeric : Eksporterer strukturert tekst"
+msgstr "Eksporterer strukturert tekst"
 
 #: src/dialogs/dialog-stf-export.glade.h:18
 msgid "Hyphen (-)"
@@ -3526,9 +3517,8 @@ msgid "H_yphen (-)"
 msgstr "H_yphen (-)"
 
 #: src/dialogs/dialog-stf.glade.h:32
-#, fuzzy
 msgid "Importing structured text"
-msgstr "Gnumeric: Importerer strukturert tekst"
+msgstr "Importerer strukturert tekst"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid ""
@@ -3787,9 +3777,8 @@ msgid "Center section:"
 msgstr "Midtre del:"
 
 #: src/dialogs/hf-config.glade.h:2
-#, fuzzy
 msgid "Customize header/footer"
-msgstr "Rediger _bunntekst"
+msgstr "Tilpass topp-/bunntekst"
 
 #: src/dialogs/hf-config.glade.h:3
 msgid "Enter the format strings for each section:"
@@ -3836,7 +3825,6 @@ msgid "Define Name"
 msgstr "Definer navn"
 
 #: src/dialogs/names.glade.h:2
-#, fuzzy
 msgid "Define names"
 msgstr "Definer navn"
 
@@ -3915,9 +3903,8 @@ msgid "Name"
 msgstr "Navn"
 
 #: src/dialogs/plugin-manager.glade.h:14
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "Gnumeric tilleggsbehandler"
+msgstr "Tilleggshåndterer"
 
 #: src/dialogs/print.glade.h:2
 #, no-c-format
@@ -4281,9 +4268,8 @@ msgid "Search"
 msgstr "Søk"
 
 #: src/dialogs/search-replace.glade.h:42
-#, fuzzy
 msgid "Search and Replace Query"
-msgstr "Søk og erstatt"
+msgstr "Søk og erstatt spørring"
 
 #: src/dialogs/search-replace.glade.h:43
 msgid "Search and replace in all cells in the workbook"
@@ -4410,13 +4396,12 @@ msgid "Solve"
 msgstr "Løs"
 
 #: src/dialogs/solver.glade.h:11
-#, fuzzy
 msgid "Solver Parameters"
-msgstr "Parametere for Gnumeric problemløser"
+msgstr "Parametere for problemløser"
 
 #: src/dialogs/solver.glade.h:12
 msgid "Solver Result"
-msgstr ""
+msgstr "Resultat fra problemløser"
 
 #: src/dialogs/solver.glade.h:13
 msgid "Subject to the Constraints:"
@@ -4500,7 +4485,7 @@ msgstr "Tittel"
 
 #: src/dialogs/validate.glade.h:1
 msgid "A blank cell will be seen as valid"
-msgstr ""
+msgstr "En tom celle vil bli sett på som gyldig"
 
 #: src/dialogs/validate.glade.h:2
 msgid "Ac_tion :"
@@ -4528,7 +4513,7 @@ msgstr "Desimal"
 
 #: src/dialogs/validate.glade.h:9
 msgid "Give the cell a dropdown combo with all possible valid values"
-msgstr ""
+msgstr "Gi cellen en nedtrekks-kombo med alle mulige gyldige verdier"
 
 #: src/dialogs/validate.glade.h:10
 msgid "Ignore _blank"
@@ -4543,9 +4528,8 @@ msgid "Information"
 msgstr "Informasjon"
 
 #: src/dialogs/validate.glade.h:13
-#, fuzzy
 msgid "Input Validation"
-msgstr "Datavalidering"
+msgstr "Inndatavalidering"
 
 #: src/dialogs/validate.glade.h:14
 msgid "Input _Message :"
@@ -4709,7 +4693,6 @@ msgid "Unknown evaluation error"
 msgstr "Ukjent evalueringsfeil"
 
 #: src/file.c:418
-#, c-format
 msgid ""
 "Could not read file %s\n"
 "%%s"
@@ -4718,7 +4701,6 @@ msgstr ""
 "%%s"
 
 #: src/file.c:459 src/file.c:496
-#, c-format
 msgid ""
 "Could not save to file %s\n"
 "%%s"
@@ -6124,7 +6106,6 @@ msgstr "Ukjent funksjon"
 msgid "Function does not exist"
 msgstr "Funksjonen eksisterer ikke"
 
-#. *************************************************************************
 #: src/functions/fn-database.c:493
 msgid ""
 "@FUNCTION=DAVERAGE\n"
@@ -6136,17 +6117,6 @@ msgstr ""
 "@SYNTAX=DAVERAGE(database,felt,kriterie)\n"
 "@DESCRIPTION=DAVERAGE-funksjonen returnerer gjennomsnittet av verdiene i en "
 "liste eller en database som passer til de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:501
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:562
 msgid ""
@@ -6160,16 +6130,6 @@ msgstr ""
 "@DESCRIPTION=DCOUNT-funksjonen teller cellene som inneholder tall i en "
 "database som passer de oppgitte betingelsene. \n"
 
-#: src/functions/fn-database.c:570
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
-
 #: src/functions/fn-database.c:623
 msgid ""
 "@FUNCTION=DCOUNTA\n"
@@ -6181,16 +6141,6 @@ msgstr ""
 "@SYNTAX=DCOUNTA(database,felt,kriterie)\n"
 "@DESCRIPTION=DCOUNTA-funksjonen teller cellene som inneholder data i en "
 "database som passer de oppgitte betingelsene. \n"
-
-#: src/functions/fn-database.c:631
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:681
 msgid ""
@@ -6204,17 +6154,6 @@ msgstr ""
 "@DESCRIPTION=DGET-funksjonen returnerer en enkelt verdi fra en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:689
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:749
 msgid ""
 "@FUNCTION=DMAX\n"
@@ -6226,16 +6165,6 @@ msgstr ""
 "@SYNTAX=DMAX(database,felt,kriterie)\n"
 "@DESCRIPTION=DMAX-funksjonen returnerer det største tallet i en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:757
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
 
 #: src/functions/fn-database.c:820
 msgid ""
@@ -6249,15 +6178,6 @@ msgstr ""
 "@DESCRIPTION=DMIN-funksjonen returnerer det minste tallet i en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:828
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:890
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -6269,14 +6189,6 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,felt,kriterie)\n"
 "@DESCRIPTION=DPRODUCT-funksjonen returnerer produktet av tallene i en "
 "kolonne som tilfredstiller de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:898
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
 
 #: src/functions/fn-database.c:957
 msgid ""
@@ -6292,15 +6204,6 @@ msgstr ""
 "en populasjon basert på et utvalg. Populasjonen består av tall som til- "
 "fredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:966
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1023
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -6315,15 +6218,6 @@ msgstr ""
 "basert på hele populasjonen. Populasjonenen består av tall som til- "
 "fredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:1032
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1091
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -6335,15 +6229,6 @@ msgstr ""
 "@SYNTAX=DSUM(database,felt,kriterie)\n"
 "@DESCRIPTION=DSUM-funksjonen returnerer summen av tallene i en kolonne som "
 "møter de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:1099
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
 
 #: src/functions/fn-database.c:1158
 msgid ""
@@ -6359,15 +6244,6 @@ msgstr ""
 "basert på et utvalg. Populasjonene består av tall som møter de spesifiserte "
 "betingelsene. \n"
 
-#: src/functions/fn-database.c:1167
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1226
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -6381,15 +6257,6 @@ msgstr ""
 "@DESCRIPTION=DVARP-funksjonen returnerer variansen til en populasjon basert "
 "på hele populasjonene. Populasjonene består av tall som møter de "
 "spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:1235
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
 
 #: src/functions/fn-database.c:1295
 msgid ""
@@ -6418,8 +6285,8 @@ msgstr "Database"
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
-"@DESCRIPTION=Computes the number of days since the 1st of january of 1900"
-"(the date serial number) for the given year, month and day.\n"
+"@DESCRIPTION=Computes the number of days since the 1st of january of "
+"1900(the date serial number) for the given year, month and day.\n"
 "The @day might be negative (to count backwards) and it is relative to the "
 "previous @month.  The @years should be at least 1900.\n"
 "@EXAMPLES=\n"
@@ -6466,8 +6333,8 @@ msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
 "@DESCRIPTION=DATEDIF returns the difference between two dates.  @interval is "
-"one of six possible values:  \"y\", \"m\", \"d\", \"ym\", \"md\", and \"yd"
-"\".\n"
+"one of six possible values:  \"y\", \"m\", \"d\", \"ym\", \"md\", and "
+"\"yd\".\n"
 "The first three options will return the number of complete years, months, or "
 "days, respectively, between the two dates specified.\n"
 "\"ym\" will return the number of full months between the two dates, not "
@@ -6759,8 +6626,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DAYS360\n"
 "@SYNTAX=DAYS360 (dato1,dato2,metode)\n"
-"@DESCRIPTION=Returnerer antall dager fra @dato1 til @dato2 etter en 360-"
-"dagers kalendar hvor alle måneder tenkes å ha 30 dager.\n"
+"@DESCRIPTION=Returnerer antall dager fra @dato1 til @dato2 etter en "
+"360-dagers kalendar hvor alle måneder tenkes å ha 30 dager.\n"
 "Hvis @metode er sann, vil Europeisk metode brukes. I dette tilfellet, hvis "
 "dagen i måneden er 31, vil den bli betraktet som 30.\n"
 "Hvis @metode er usann eller utelatt, vil USA's metode brukes.  Dette er en "
@@ -7219,8 +7086,8 @@ msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
 "@DESCRIPTION=BESSELJ function returns the bessel function with @x is where "
-"the function is evaluated. @y is the order of the bessel function, if non-"
-"integer it is truncated.\n"
+"the function is evaluated. @y is the order of the bessel function, if "
+"non-integer it is truncated.\n"
 "If @x or @y are not numeric a #VALUE! error is returned.  If @y < 0 a #NUM! "
 "error is returned. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -7468,8 +7335,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(itall)\n"
-"@DESCRIPTION=IMLN returnerer den naturlige logaritmen av et komplekst "
-"tall. \n"
+"@DESCRIPTION=IMLN returnerer den naturlige logaritmen av et komplekst tall. "
+"\n"
 "Resultatet vil ha en imaginær del mellom -pi og +pi. Den naturlige \n"
 "logaritmen er ikke definert unikt med komplekse tall. Du vil kanskje måtte \n"
 "legge til eller trekke fra en lik multippel av pi til den imaginære delen.)\n"
@@ -8281,8 +8148,8 @@ msgid ""
 "The formula used for straight line depriciation is:\n"
 "Depriciation expense = ( @cost - @salvage_value ) / @life\n"
 "\t@cost = cost of an asset when acquired (market value).\t@salvage_value = "
-"amount you get when asset sold at the end of the assets's useful life."
-"\t@life = anticipated life of an asset.\n"
+"amount you get when asset sold at the end of the assets's useful "
+"life.\t@life = anticipated life of an asset.\n"
 "@EXAMPLES=\n"
 "For example, lets suppose your company purchases a new machine for $10,000, "
 "which has a salvage value of $700 and will have a useful life of 10 years. "
@@ -8409,8 +8276,8 @@ msgid ""
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
 "@DESCRIPTION=TBILLPRICE function returns the price per $100 value for a "
 "treasury bill where @settlement is the settlement date and @maturity is the "
-"maturity date of the bill.  @discount is the treasury bill's discount "
-"rate. \n"
+"maturity date of the bill.  @discount is the treasury bill's discount rate. "
+"\n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLPRICE returns #NUM! error. If @discount is "
 "negative, TBILLPRICE returns #NUM! error. \n"
@@ -8478,8 +8345,8 @@ msgid ""
 "periodic interest rate, @nper is the number of periods used for compounding. "
 "@pmt is the payment made each period, @fv is the future value and @type is "
 "when the payment is made. If @type = 1 then the payment is made at the "
-"begining of the period. If @type = 0 it is made at the end of each period."
-"@EXAMPLES=\n"
+"begining of the period. If @type = 0 it is made at the end of each "
+"period.@EXAMPLES=\n"
 "\n"
 "@SEEALSO=FV"
 msgstr ""
@@ -8528,14 +8395,14 @@ msgid ""
 "@values contains the serie of cash flow generated by the investment.  @dates "
 "contains the dates of the payments.  The first date describes the payment "
 "day of the initial payment and thus all the other dates should be after this "
-"date. The optional @guess is the initial value used in calculating the "
-"XIRR.  You do not have to use that, it is only provided for the Excel "
+"date. The optional @guess is the initial value used in calculating the XIRR. "
+" You do not have to use that, it is only provided for the Excel "
 "compatibility. \n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, "
-"1933, and 1422, and the cells B1:B5 contain the dates \"1999-01-15\", \"1999-"
-"04-04\", \"1999-05-09\", \"2000-03-12\", and \"2000-05-1\". Then\n"
+"1933, and 1422, and the cells B1:B5 contain the dates \"1999-01-15\", "
+"\"1999-04-04\", \"1999-05-09\", \"2000-03-12\", and \"2000-05-1\". Then\n"
 "XIRR(A1:A5,B1:B5) returns 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 msgstr ""
@@ -8742,8 +8609,8 @@ msgstr ""
 #: src/functions/fn-financial.c:2508
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
-"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
-"frequency,basis)\n"
+"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,f"
+"requency,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8753,8 +8620,8 @@ msgstr ""
 #: src/functions/fn-financial.c:2526
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
-"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
-"frequency,basis)\n"
+"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequ"
+"ency,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8764,8 +8631,8 @@ msgstr ""
 #: src/functions/fn-financial.c:2544
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
-"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
-"frequency,basis)\n"
+"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,freque"
+"ncy,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8775,8 +8642,8 @@ msgstr ""
 #: src/functions/fn-financial.c:2562
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
-"@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,"
-"basis)\n"
+"@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)"
+"\n"
 "@DESCRIPTION=Returns the depreciation for each accounting period.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8799,8 +8666,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=AMORLINC\n"
-"@SYNTAX=AMORLINC(kost,kjøpsdato,første_periode,gjenstående,periode,rate,"
-"basis)\n"
+"@SYNTAX=AMORLINC(kost,kjøpsdato,første_periode,gjenstående,periode,rate,basis"
+")\n"
 "@DESCRIPTION=Returnerer avskrivning for hver regnskapsperiode.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -9927,8 +9794,8 @@ msgstr ""
 "@SYNTAX=ACOSH(x)\n"
 "@DESCRIPTION=ACOSH-funksjonen beregner det inverse hyperbolske kosinus av "
 "@x; det vil si verdien hvis hyperbolske kosinus er @x. Hvis @x er mindre enn "
-"1.0, returnerer acosh() en #NUM!-feil. Denne funksjonen er Excel "
-"kompatibel. \n"
+"1.0, returnerer acosh() en #NUM!-feil. Denne funksjonen er Excel kompatibel. "
+"\n"
 "@EXAMPLES=\n"
 "ACOSH(2) er lik 1.31696.\n"
 "ACOSH(5.3) er lik 2.35183.\n"
@@ -9975,8 +9842,8 @@ msgstr ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
 "@DESCRIPTION=ASINH beregner det inverse hyperbolske sinus av x; det vil si "
-"verdien hvis hyperbolske sinus er @x. Denne funksjonen er Excel "
-"kompatibel. \n"
+"verdien hvis hyperbolske sinus er @x. Denne funksjonen er Excel kompatibel. "
+"\n"
 "@EXAMPLES=\n"
 "ASINH(0.5) er lik 0.481212.\n"
 "ASINH(1.0) equals 0.881374.\n"
@@ -10040,8 +9907,8 @@ msgid ""
 "@DESCRIPTION=ATAN2 function calculates the arc tangent of the two variables "
 "@b1 and @b2.  It is similar to calculating the arc tangent of @b2 / @b1, "
 "except that the signs of both arguments are used to determine the quadrant "
-"of the result. The result is in radians. This function is Excel "
-"compatible. \n"
+"of the result. The result is in radians. This function is Excel compatible. "
+"\n"
 "@EXAMPLES=\n"
 "ATAN2(0.5,1.0) equals 1.107149.\n"
 "ATAN2(-0.5,2.0) equals 1.815775.\n"
@@ -10749,8 +10616,8 @@ msgstr ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(verdi1, verdi2, ...)\n"
 "@DESCRIPTION=SUMSQ returnerer summen av kvadratene til alle verdier og "
-"celler som refereres i argumentlisten. Denne funksjonen er Excel "
-"kompatibel. \n"
+"celler som refereres i argumentlisten. Denne funksjonen er Excel kompatibel. "
+"\n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
 "43. Da får vi at\n"
@@ -10955,8 +10822,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
-"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a "
-"@number. \n"
+"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a @number. "
+"\n"
 "If @number is not an integer, it is truncated. If @number is negative "
 "FACTDOUBLE returns #NUM! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -10990,8 +10857,8 @@ msgstr ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
 "@DESCRIPTION=QUOTIENT-funksjonen returnerer heltallsdelen av en divisjon. "
-"@num er dividenden og @den er divisor. Denne funksjonen er Excel "
-"kompatibel. \n"
+"@num er dividenden og @den er divisor. Denne funksjonen er Excel kompatibel. "
+"\n"
 "@EXAMPLES=\n"
 "QUOTIENT(23,5) er lik 4.\n"
 "\n"
@@ -11449,8 +11316,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
-"@DESCRIPTION=MINVERSE function returns the inverse matrix of a given "
-"matrix. \n"
+"@DESCRIPTION=MINVERSE function returns the inverse matrix of a given matrix. "
+"\n"
 "If the @matrix cannot be inverted, MINVERSE returns #NUM! error. If the "
 "@matrix does not contain equal number of columns and rows, MINVERSE returns "
 "#VALUE! error. This function is Excel compatible. \n"
@@ -11650,8 +11517,8 @@ msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
 "@DESCRIPTION=STDEV returns standard deviation of a set of numbers treating "
-"these numbers as members of a population. This function is Excel "
-"compatible. \n"
+"these numbers as members of a population. This function is Excel compatible. "
+"\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1.  Then\n"
@@ -11939,8 +11806,8 @@ msgid ""
 "@DESCRIPTION=MODE returns the most common number of the data set. If the "
 "data set has many most common numbers MODE returns the first one of them. \n"
 "Strings and empty cells are simply ignored. If the data set does not contain "
-"any duplicates MODE returns #N/A! error. This function is Excel "
-"compatible. \n"
+"any duplicates MODE returns #N/A! error. This function is Excel compatible. "
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=AVERAGE,MEDIAN"
@@ -12073,8 +11940,8 @@ msgstr ""
 "@SYNTAX=SUM(verdi1, verdi2, ...)\n"
 "@DESCRIPTION=AVERAGE beregner gjennomsnittet av alle verdiene og cellene "
 "referert i argumentlisten. Dette er ekvivalent til summen av alle "
-"argumentene delt på antall argumenter. Denne funksjonen er Excel "
-"kompatibel. \n"
+"argumentene delt på antall argumenter. Denne funksjonen er Excel kompatibel. "
+"\n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
 "25.9, og 40.1.  Da får vi\n"
@@ -12283,8 +12150,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
-"@DESCRIPTION=CHIDIST function returns the one-tailed probability of the chi-"
-"squared distribution. @dof is the number of degrees of freedom.\n"
+"@DESCRIPTION=CHIDIST function returns the one-tailed probability of the "
+"chi-squared distribution. @dof is the number of degrees of freedom.\n"
 "If @dof is non-integer it is truncated. If @dof < 1 CHIDIST returns #NUM! "
 "error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -12294,8 +12161,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
-"@DESCRIPTION=CHIDIST returnerer den enhalede sannsynligheten til den chi-"
-"opphøyede distribusjonen. @dof er antall grader av frihet.\n"
+"@DESCRIPTION=CHIDIST returnerer den enhalede sannsynligheten til den "
+"chi-opphøyede distribusjonen. @dof er antall grader av frihet.\n"
 "Hvis @dof ikke er et heltall, blir det avkortet. Hvis @dof < 1 returnerer \n"
 "CHIDIST en #NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
@@ -12331,8 +12198,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
-"@DESCRIPTION=CHITEST function returns the test for independence of chi-"
-"squared distribution.\n"
+"@DESCRIPTION=CHITEST function returns the test for independence of "
+"chi-squared distribution.\n"
 "@actual_range is a range that contains the observed data points. "
 "@theoretical_range is a range that contains the expected values of the data "
 "points. This function is Excel compatible. \n"
@@ -12342,8 +12209,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(faktisk_område,teoretisk_område)\n"
-"@DESCRIPTION=CHITEST-funksjonen returnerer uavhengighetstesten til den chi-"
-"opphøyede distribusjonen.\n"
+"@DESCRIPTION=CHITEST-funksjonen returnerer uavhengighetstesten til den "
+"chi-opphøyede distribusjonen.\n"
 "@faktisk_område er et område som inneholder de observerte datapunktene. "
 "@teoretisk_område er et område som inneholder de forventede verdiene til "
 "datapunktene. Denne funksjonen er Excel kompatibel. \n"
@@ -12373,8 +12240,8 @@ msgstr ""
 "Hvis @a ikke er gitt bruker BETADIST 0. Hvis @b ikke er gitt bruker BETADIST "
 "1. Hvis @x < @a eller @x > @b, returnerer BETADIST en #NUM!-feil. Hvis "
 "@alpha <= 0 eller @beta <= 0, returnerer BETADIST en #NUM!-feil. Hvis @a >= "
-"@b returnerer BETADIST en #NUM!-feil. Denne funksjonen er Excel "
-"kompatibel. \n"
+"@b returnerer BETADIST en #NUM!-feil. Denne funksjonen er Excel kompatibel. "
+"\n"
 "@EXAMPLES=\n"
 "BETADIST(0.12,2,3) er lik 0.07319808.\n"
 "\n"
@@ -12415,8 +12282,8 @@ msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
 "@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is "
-"the degree of freedom and @tails is 1 or 2 depending on whether you want one-"
-"tailed or two-tailed distribution.\n"
+"the degree of freedom and @tails is 1 or 2 depending on whether you want "
+"one-tailed or two-tailed distribution.\n"
 "If @dof < 1 TDIST returns #NUM! error. If @tails is neither 1 or 2 TDIST "
 "returns #NUM! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -12427,8 +12294,8 @@ msgstr ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,haler)\n"
 "@DESCRIPTION=TDIST returnerer Student-t distribusjonen. @dof er graden av "
-"frihet og @haler er 1 eller 2 avhengig av om du ønsker en en-halet eller to-"
-"halet distribusjon.\n"
+"frihet og @haler er 1 eller 2 avhengig av om du ønsker en en-halet eller "
+"to-halet distribusjon.\n"
 "Hvis @dof < 1 returnerer TDIST en #NUM!-feil. Hvis @haler er hverken 1 eller "
 "2 returnerer TDIST en #NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
@@ -12440,8 +12307,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
-"@DESCRIPTION=TINV function returns the inverse of the two-tailed Student's t-"
-"distribution.\n"
+"@DESCRIPTION=TINV function returns the inverse of the two-tailed Student's "
+"t-distribution.\n"
 "If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -12649,8 +12516,8 @@ msgstr ""
 "antall hendelser, @mean er den forventede numeriske verdien, @kumulativ "
 "beskriver om summen av poisson funksjonen skal returneres fra 0 til @x.\n"
 "Hvis @x ikke er et heltall, blir de avkortet. Hvis xn <= 0 returnerer "
-"POISSON en #NUM!-feil. Hvis @middelverdi <= 0 returnerer POISSON en #NUM!-"
-"feil. Denne funksjonen er Excel kompatibel.\n"
+"POISSON en #NUM!-feil. Hvis @middelverdi <= 0 returnerer POISSON en "
+"#NUM!-feil. Denne funksjonen er Excel kompatibel.\n"
 "@EXAMPLES=\n"
 "POISSON(3,6,0) er lik 0.089235078.\n"
 "\n"
@@ -12688,8 +12555,8 @@ msgid ""
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
 "@DESCRIPTION=WEIBULL function returns the Weibull distribution. If the "
 "@cumulative boolean is true it will return: 1 - exp (-(@x/@beta)^@alpha), "
-"otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/"
-"@beta^@alpha)). \n"
+"otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * "
+"exp(-(@x/@beta^@alpha)). \n"
 "If @x < 0 WEIBULL returns #NUM! error. If @alpha <= 0 or @beta <= 0 WEIBULL "
 "returns #NUM! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -13073,11 +12940,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
-"@DESCRIPTION=STEYX function returns the standard error of the predicted y-"
-"value for each x in the regression.\n"
+"@DESCRIPTION=STEYX function returns the standard error of the predicted "
+"y-value for each x in the regression.\n"
 "If @known_y's and @known_x's are empty or have a different number of "
-"arguments then STEYX returns #N/A! error. This function is Excel "
-"compatible. \n"
+"arguments then STEYX returns #N/A! error. This function is Excel compatible. "
+"\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, "
@@ -13149,8 +13016,8 @@ msgstr ""
 "Tall tekst og logiske verdier tas med i beregningen også. Hvis cellen "
 "inneholder tekst eller argumentene evalueres til FALSK, regnes de som "
 "verdien null (0). Hvis argumentet evalueres til SANN regnes det som en (1). "
-"Merk at tomme celler ikke telles med. Denne funksjonen er Excel "
-"kompatibel. \n"
+"Merk at tomme celler ikke telles med. Denne funksjonen er Excel kompatibel. "
+"\n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
 "17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
@@ -13500,8 +13367,8 @@ msgid ""
 "in the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
-"the standard error for the y estimate.  The third row contains the F-"
-"observed value and the degrees of freedom.  The last row contains the "
+"the standard error for the y estimate.  The third row contains the "
+"F-observed value and the degrees of freedom.  The last row contains the "
 "regression sum of squares and the residual sum of squares. \n"
 "The default of @stat is FALSE.\n"
 "@EXAMPLES=\n"
@@ -13515,9 +13382,9 @@ msgid ""
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
 "@DESCRIPTION=TREND function estimates future values of a given data set "
 "using the ``least squares'' line that best fit to your data. @known_y's is "
-"the y-values where y=mx+b and @known_x's contains the corresponding x-"
-"values.  @new_x's contains the x-values for which you want to estimate the y-"
-"values. \n"
+"the y-values where y=mx+b and @known_x's contains the corresponding "
+"x-values.  @new_x's contains the x-values for which you want to estimate the "
+"y-values. \n"
 "If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is "
 "omitted, it is assumed to be the same as @known_x's. If @known_y's and "
 "@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
@@ -13548,8 +13415,8 @@ msgid ""
 "in the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
-"the standard error for the y estimate.  The third row contains the F-"
-"observed value and the degrees of freedom.  The last row contains the "
+"the standard error for the y estimate.  The third row contains the "
+"F-observed value and the degrees of freedom.  The last row contains the "
 "regression sum of squares and the residual sum of squares. \n"
 "The default of @stat is FALSE.\n"
 "@EXAMPLES=\n"
@@ -14152,7 +14019,6 @@ msgid "Unable to open file '%s'"
 msgstr "Kunne ikke åpne fil '%s'"
 
 #: src/gui-file.c:95
-#, c-format
 msgid ""
 "Could not import file %s\n"
 "%%s"
@@ -14360,6 +14226,16 @@ msgid ""
 "\n"
 "-- The Gnumeric Team."
 msgstr ""
+"Takk for at du bruker Gnumeric\n"
+"\n"
+"Denne versjonen av Gnumeric er ganske gammel etter hvert.\n"
+"Det er sannsynlig at mange feil er rettet opp og at nye\n"
+"funksjoner er lagt til siden denne kom ut.\n"
+"\n"
+"Vennligst vurder å oppgradere før du rapporterer feil.\n"
+"Se http://www.gnumeric.org/ for detaljer.\n"
+"\n"
+"-- Gnumeric utviklerene."
 
 #: src/number-match.c:618
 msgid "#NULL!"
@@ -14430,16 +14306,15 @@ msgstr "Kan ikke finne filstørrelse."
 #, c-format
 msgid "File contain plugin info with invalid id (%s), expected %s."
 msgstr ""
+"Filen inneholder informasjon om tillegg med ugyldig id (%s), forventet %s."
 
 #: src/plugin.c:243
-#, fuzzy
 msgid "Couldn't read plugin info from file."
-msgstr "Kan ikke lese gruppeinfofil for tillegg (\"%s\")."
+msgstr "Kan ikke lese informasjon om tillegg fra fil."
 
 #: src/plugin.c:293 src/plugin.c:370
-#, fuzzy
 msgid "Unknown name"
-msgstr "Ukjent navn på tillegg."
+msgstr "Ukjent navn"
 
 #: src/plugin.c:521
 #, c-format
@@ -14461,14 +14336,14 @@ msgid "Unspecified loader type."
 msgstr "Uspesifisert lastertype."
 
 #: src/plugin.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "Can't read plugin info file (\"%s\")."
-msgstr "Kan ikke lese gruppeinfofil for tillegg (\"%s\")."
+msgstr "Kan ikke lese informasjonsfil for tillegg (\"%s\")."
 
 #: src/plugin.c:734
-#, fuzzy, c-format
+#, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr "Filen \"%s\" er ikke en gyldig gruppeinfofil for tillegg."
+msgstr "Filen \"%s\" er ikke en gyldig informasjonsfil for tillegg."
 
 #: src/plugin.c:798
 msgid "Plugin has no id."
@@ -14506,7 +14381,7 @@ msgstr "Feil under initiering av tilleggslaster (\"%s\")."
 #: src/plugin.c:1021
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be activated."
-msgstr ""
+msgstr "Er avhengig av tillegg med it=\"%s\" som ikke kunne aktiveres."
 
 #: src/plugin.c:1028 src/plugin.c:1216
 #, c-format
@@ -14530,7 +14405,7 @@ msgstr "Kan ikke laste tilleggslaster."
 #: src/plugin.c:1209
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be loaded."
-msgstr ""
+msgstr "Er avhengig av tillegg med id=\"%s\" som ikke kunne lastes."
 
 #: src/plugin.c:1292
 #, c-format
@@ -14700,9 +14575,8 @@ msgid "&[PAGE]"
 msgstr "&[SIDE]"
 
 #: src/print.c:1041
-#, fuzzy
 msgid "Print Region"
-msgstr "Forhåndsvisning"
+msgstr "Skriv ut område"
 
 #: src/print.c:1158
 msgid "Print Sheets"
@@ -15019,17 +14893,6 @@ msgstr "Pris"
 #: src/solver-lp.c:1098
 msgid "R.H. Side"
 msgstr "Høyre side"
-
-#. Some nice warning messages
-#: src/stf-parse.c:32
-#, fuzzy, c-format
-msgid "Too many rows in data to parse: %d"
-msgstr "For mange rader for dette formatet"
-
-#: src/stf-parse.c:33
-#, c-format
-msgid "Too many columns in data to parse: %d"
-msgstr ""
 
 #: src/stf.c:133
 msgid "Error while trying to memory map file"
@@ -16059,7 +15922,7 @@ msgstr "S_kjul detaljer"
 
 #: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2385
 msgid "Collapse an outline group"
-msgstr ""
+msgstr "Slå sammen en disposisjonsgruppe"
 
 #: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:2387
 msgid "_Show Detail"
@@ -16067,7 +15930,7 @@ msgstr "Vi_s detaljer"
 
 #: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2388
 msgid "Uncollapse an outline group"
-msgstr ""
+msgstr "Bryt opp en disposisjonsgruppe"
 
 #: src/workbook-control-gui.c:2390
 msgid "_Group..."
@@ -16668,21 +16531,6 @@ msgstr "_Avgrupper..."
 msgid "_View"
 msgstr "_Vis"
 
-#~ msgid "Saving over old Excel files disabled for safety"
-#~ msgstr "Lagring over gamle Excel-filer slås av for sikkerhets skyld"
-
-#~ msgid "Gnumeric Support page"
-#~ msgstr "Gnumeric supportside"
-
-#~ msgid "Format cells"
-#~ msgstr "Formater celler"
-
-#~ msgid "Merge Cells"
-#~ msgstr "Sammenføy celler"
-
-#~ msgid "Gnumeric: Autoformat"
-#~ msgstr "Gnumeric: Autoformat"
-
 #~ msgid "C_olor"
 #~ msgstr "Far_ge"
 
@@ -16704,6 +16552,24 @@ msgstr "_Vis"
 #~ msgid "_No Color"
 #~ msgstr "I_ngen farge"
 
+#~ msgid "Can't read plugin #%d info."
+#~ msgstr "Kan ikke lese info fra tillegg #%d"
+
+#~ msgid "Saving over old Excel files disabled for safety"
+#~ msgstr "Lagring over gamle Excel-filer slås av for sikkerhets skyld"
+
+#~ msgid "Gnumeric Support page"
+#~ msgstr "Gnumeric supportside"
+
+#~ msgid "Format cells"
+#~ msgstr "Formater celler"
+
+#~ msgid "Merge Cells"
+#~ msgstr "Sammenføy celler"
+
+#~ msgid "Gnumeric: Autoformat"
+#~ msgstr "Gnumeric: Autoformat"
+
 #~ msgid "Gnumeric: Input Validation"
 #~ msgstr "Gnumeric: Bekrefting av inndata"
 
@@ -16712,9 +16578,6 @@ msgstr "_Vis"
 
 #~ msgid "ERROR"
 #~ msgstr "FEIL"
-
-#~ msgid "Can't read plugin #%d info."
-#~ msgstr "Kan ikke lese info fra tillegg #%d"
 
 #~ msgid "Selection must be a single range"
 #~ msgstr "Utvalget må bestå av et enkelt område"
@@ -16904,8 +16767,8 @@ msgstr "_Vis"
 #~ msgstr "Importerer en Lotus 123 fil"
 
 #~ msgid ""
-#~ "Several basic utilities for prime numbers, pi, phi, sigma. It also hold "
-#~ "some simple bitwise operations"
+#~ "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
+#~ "simple bitwise operations"
 #~ msgstr ""
 #~ "Flere grunnleggende verktøy for primtall, pi, phi, sigma. Har også noen "
 #~ "enkle bitvise operasjoner"
