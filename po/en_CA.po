@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-08 12:53-0500\n"
-"PO-Revision-Date: 2005-02-08 11:36-0400\n"
+"POT-Creation-Date: 2005-02-10 12:52-0500\n"
+"PO-Revision-Date: 2005-02-10 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -1546,7 +1546,7 @@ msgstr "Financial Derivatives"
 msgid "Functions related to financial derivatives"
 msgstr "Functions related to financial derivatives"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5838
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5840
 #: plugins/mps/mps.c:547 src/xml-io.c:3986
 msgid "Reading file..."
 msgstr "Reading file..."
@@ -1671,12 +1671,12 @@ msgstr "Chart%d"
 msgid "Module%d"
 msgstr "Module%d"
 
-#: plugins/excel/ms-excel-read.c:2924
+#: plugins/excel/ms-excel-read.c:2928
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Failure parsing name '%s'"
 
-#: plugins/excel/ms-excel-read.c:3020
+#: plugins/excel/ms-excel-read.c:3024
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1685,7 +1685,7 @@ msgstr ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
 
-#: plugins/excel/ms-excel-read.c:3026
+#: plugins/excel/ms-excel-read.c:3030
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1694,15 +1694,15 @@ msgstr ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 
-#: plugins/excel/ms-excel-read.c:5145
+#: plugins/excel/ms-excel-read.c:5147
 msgid "external references"
 msgstr "external references"
 
-#: plugins/excel/ms-excel-read.c:5169
+#: plugins/excel/ms-excel-read.c:5171
 msgid "No password supplied"
 msgstr "No password supplied"
 
-#: plugins/excel/ms-excel-read.c:6064
+#: plugins/excel/ms-excel-read.c:6066
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Unable to locate valid MS Excel workbook"
 
@@ -1716,7 +1716,7 @@ msgstr ""
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 
-#: plugins/excel/ms-excel-write.c:4202
+#: plugins/excel/ms-excel-write.c:4214
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1725,7 +1725,7 @@ msgstr ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
 "d rows, and this workbook has %d"
 
-#: plugins/excel/ms-excel-write.c:4209
+#: plugins/excel/ms-excel-write.c:4221
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1734,11 +1734,11 @@ msgstr ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
 "rows, and this workbook has %d"
 
-#: plugins/excel/ms-excel-write.c:4974
+#: plugins/excel/ms-excel-write.c:4986
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Couldn't open stream 'Book' for writing\n"
 
-#: plugins/excel/ms-excel-write.c:4994
+#: plugins/excel/ms-excel-write.c:5006
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Couldn't open stream 'Workbook' for writing\n"
 
@@ -5118,7 +5118,7 @@ msgstr "date1,date2,interval"
 #: plugins/fn-date/functions.c:1280 plugins/fn-date/functions.c:1284
 #: plugins/fn-date/functions.c:1292 plugins/fn-date/functions.c:1296
 #: plugins/fn-date/functions.c:1309 plugins/fn-date/functions.c:1313
-#: src/print-info.c:488
+#: src/print-info.c:479
 msgid "date"
 msgstr "date"
 
@@ -5135,7 +5135,7 @@ msgid "start_date,months"
 msgstr "start_date,months"
 
 #: plugins/fn-date/functions.c:1244 plugins/fn-date/functions.c:1248
-#: plugins/fn-date/functions.c:1264 src/print-info.c:489
+#: plugins/fn-date/functions.c:1264 src/print-info.c:480
 msgid "time"
 msgstr "time"
 
@@ -9782,7 +9782,7 @@ msgstr ""
 "@SEEALSO=TRUE"
 
 #: plugins/fn-logical/functions.c:333 plugins/fn-logical/functions.c:337
-#: plugins/fn-logical/functions.c:357 plugins/fn-math/functions.c:3331
+#: plugins/fn-logical/functions.c:357 plugins/fn-math/functions.c:3258
 #: plugins/fn-stat/functions.c:5635 plugins/fn-stat/functions.c:5639
 #: plugins/fn-stat/functions.c:5643 plugins/fn-stat/functions.c:5681
 #: plugins/fn-stat/functions.c:5684 plugins/fn-stat/functions.c:5693
@@ -9801,24 +9801,24 @@ msgid "number,number,"
 msgstr "number,number,"
 
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:341 plugins/fn-math/functions.c:3163
-#: plugins/fn-math/functions.c:3167 plugins/fn-math/functions.c:3170
-#: plugins/fn-math/functions.c:3173 plugins/fn-math/functions.c:3176
-#: plugins/fn-math/functions.c:3179 plugins/fn-math/functions.c:3182
-#: plugins/fn-math/functions.c:3188 plugins/fn-math/functions.c:3197
-#: plugins/fn-math/functions.c:3206 plugins/fn-math/functions.c:3214
-#: plugins/fn-math/functions.c:3217 plugins/fn-math/functions.c:3220
-#: plugins/fn-math/functions.c:3223 plugins/fn-math/functions.c:3226
-#: plugins/fn-math/functions.c:3231 plugins/fn-math/functions.c:3235
-#: plugins/fn-math/functions.c:3241 plugins/fn-math/functions.c:3251
-#: plugins/fn-math/functions.c:3258 plugins/fn-math/functions.c:3261
-#: plugins/fn-math/functions.c:3267 plugins/fn-math/functions.c:3270
-#: plugins/fn-math/functions.c:3283 plugins/fn-math/functions.c:3289
-#: plugins/fn-math/functions.c:3295 plugins/fn-math/functions.c:3316
-#: plugins/fn-math/functions.c:3319 plugins/fn-math/functions.c:3322
-#: plugins/fn-math/functions.c:3325 plugins/fn-math/functions.c:3328
-#: plugins/fn-math/functions.c:3341 plugins/fn-math/functions.c:3353
-#: plugins/fn-math/functions.c:3356 plugins/fn-stat/functions.c:5705
+#: plugins/fn-logical/functions.c:341 plugins/fn-math/functions.c:3090
+#: plugins/fn-math/functions.c:3094 plugins/fn-math/functions.c:3097
+#: plugins/fn-math/functions.c:3100 plugins/fn-math/functions.c:3103
+#: plugins/fn-math/functions.c:3106 plugins/fn-math/functions.c:3109
+#: plugins/fn-math/functions.c:3115 plugins/fn-math/functions.c:3124
+#: plugins/fn-math/functions.c:3133 plugins/fn-math/functions.c:3141
+#: plugins/fn-math/functions.c:3144 plugins/fn-math/functions.c:3147
+#: plugins/fn-math/functions.c:3150 plugins/fn-math/functions.c:3153
+#: plugins/fn-math/functions.c:3158 plugins/fn-math/functions.c:3162
+#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3178
+#: plugins/fn-math/functions.c:3185 plugins/fn-math/functions.c:3188
+#: plugins/fn-math/functions.c:3194 plugins/fn-math/functions.c:3197
+#: plugins/fn-math/functions.c:3210 plugins/fn-math/functions.c:3216
+#: plugins/fn-math/functions.c:3222 plugins/fn-math/functions.c:3243
+#: plugins/fn-math/functions.c:3246 plugins/fn-math/functions.c:3249
+#: plugins/fn-math/functions.c:3252 plugins/fn-math/functions.c:3255
+#: plugins/fn-math/functions.c:3268 plugins/fn-math/functions.c:3280
+#: plugins/fn-math/functions.c:3283 plugins/fn-stat/functions.c:5705
 #: plugins/fn-stat/functions.c:5708 plugins/fn-stat/functions.c:5726
 #: plugins/fn-stat/functions.c:5804 plugins/fn-string/functions.c:1127
 #: plugins/fn-string/functions.c:1130
@@ -10406,7 +10406,7 @@ msgstr "val,range,approx"
 msgid "ref,row,col,height,width"
 msgstr "ref,row,col,height,width"
 
-#: plugins/fn-lookup/functions.c:1260 plugins/fn-math/functions.c:3369
+#: plugins/fn-lookup/functions.c:1260 plugins/fn-math/functions.c:3296
 msgid "array"
 msgstr "array"
 
@@ -10422,7 +10422,7 @@ msgstr "Lookup"
 msgid "Lookup Functions"
 msgstr "Lookup Functions"
 
-#: plugins/fn-math/functions.c:142
+#: plugins/fn-math/functions.c:91
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -10452,7 +10452,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LCM"
 
-#: plugins/fn-math/functions.c:194
+#: plugins/fn-math/functions.c:143
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -10486,7 +10486,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GCD"
 
-#: plugins/fn-math/functions.c:251
+#: plugins/fn-math/functions.c:200
 msgid ""
 "@FUNCTION=HYPOT\n"
 "@SYNTAX=HYPOT(number1,number2,...)\n"
@@ -10508,7 +10508,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,MAX"
 
-#: plugins/fn-math/functions.c:278
+#: plugins/fn-math/functions.c:227
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -10538,7 +10538,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, FLOOR, INT, MOD"
 
-#: plugins/fn-math/functions.c:303
+#: plugins/fn-math/functions.c:252
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -10570,7 +10570,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:337
+#: plugins/fn-math/functions.c:286
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -10600,7 +10600,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 
-#: plugins/fn-math/functions.c:370
+#: plugins/fn-math/functions.c:319
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -10630,7 +10630,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:403
+#: plugins/fn-math/functions.c:352
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -10658,7 +10658,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:427
+#: plugins/fn-math/functions.c:376
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -10688,7 +10688,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:452
+#: plugins/fn-math/functions.c:401
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -10720,7 +10720,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:485
+#: plugins/fn-math/functions.c:434
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -10754,7 +10754,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:513
+#: plugins/fn-math/functions.c:462
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -10780,7 +10780,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEILING, FLOOR, ABS, INT, MOD"
 
-#: plugins/fn-math/functions.c:537
+#: plugins/fn-math/functions.c:486
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -10816,7 +10816,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUMIF"
 
-#: plugins/fn-math/functions.c:608
+#: plugins/fn-math/functions.c:561
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -10858,7 +10858,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNTIF, SUM"
 
-#: plugins/fn-math/functions.c:752
+#: plugins/fn-math/functions.c:679
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x[,significance])\n"
@@ -10889,97 +10889,97 @@ msgstr ""
 "CEILING(123.123,3) equals 126.\n"
 "\n"
 "@SEEALSO=CEIL, FLOOR, ABS, INT, MOD"
+
+#: plugins/fn-math/functions.c:726
+msgid ""
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(x)\n"
+"@DESCRIPTION=COS function returns the cosine of @x, where @x is given in "
+"radians.\n"
+"\n"
+"* This function is Excel compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"COS(0.5) equals 0.877583.\n"
+"COS(1) equals 0.540302.\n"
+"\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(x)\n"
+"@DESCRIPTION=COS function returns the cosine of @x, where @x is given in "
+"radians.\n"
+"\n"
+"* This function is Excel compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"COS(0.5) equals 0.877583.\n"
+"COS(1) equals 0.540302.\n"
+"\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
+
+#: plugins/fn-math/functions.c:750
+msgid ""
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(x)\n"
+"@DESCRIPTION=COSH function returns the hyperbolic cosine of @x, which is "
+"defined mathematically as\n"
+"\n"
+"\t(exp(@x) + exp(-@x)) / 2.\n"
+"\n"
+"* @x is in radians.\n"
+"* This function is Excel compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"COSH(0.5) equals 1.127626.\n"
+"COSH(1) equals 1.543081.\n"
+"\n"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
+msgstr ""
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(x)\n"
+"@DESCRIPTION=COSH function returns the hyperbolic cosine of @x, which is "
+"defined mathematically as\n"
+"\n"
+"\t(exp(@x) + exp(-@x)) / 2.\n"
+"\n"
+"* @x is in radians.\n"
+"* This function is Excel compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"COSH(0.5) equals 1.127626.\n"
+"COSH(1) equals 1.543081.\n"
+"\n"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
+
+#: plugins/fn-math/functions.c:775
+msgid ""
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(x)\n"
+"@DESCRIPTION=DEGREES computes the number of degrees equivalent to @x "
+"radians.\n"
+"\n"
+"* This function is Excel compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"DEGREES(2.5) equals 143.2394.\n"
+"\n"
+"@SEEALSO=RADIANS, PI"
+msgstr ""
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(x)\n"
+"@DESCRIPTION=DEGREES computes the number of degrees equivalent to @x "
+"radians.\n"
+"\n"
+"* This function is Excel compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"DEGREES(2.5) equals 143.2394.\n"
+"\n"
+"@SEEALSO=RADIANS, PI"
 
 #: plugins/fn-math/functions.c:799
 msgid ""
-"@FUNCTION=COS\n"
-"@SYNTAX=COS(x)\n"
-"@DESCRIPTION=COS function returns the cosine of @x, where @x is given in "
-"radians.\n"
-"\n"
-"* This function is Excel compatible.\n"
-"\n"
-"@EXAMPLES=\n"
-"COS(0.5) equals 0.877583.\n"
-"COS(1) equals 0.540302.\n"
-"\n"
-"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
-msgstr ""
-"@FUNCTION=COS\n"
-"@SYNTAX=COS(x)\n"
-"@DESCRIPTION=COS function returns the cosine of @x, where @x is given in "
-"radians.\n"
-"\n"
-"* This function is Excel compatible.\n"
-"\n"
-"@EXAMPLES=\n"
-"COS(0.5) equals 0.877583.\n"
-"COS(1) equals 0.540302.\n"
-"\n"
-"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
-
-#: plugins/fn-math/functions.c:823
-msgid ""
-"@FUNCTION=COSH\n"
-"@SYNTAX=COSH(x)\n"
-"@DESCRIPTION=COSH function returns the hyperbolic cosine of @x, which is "
-"defined mathematically as\n"
-"\n"
-"\t(exp(@x) + exp(-@x)) / 2.\n"
-"\n"
-"* @x is in radians.\n"
-"* This function is Excel compatible.\n"
-"\n"
-"@EXAMPLES=\n"
-"COSH(0.5) equals 1.127626.\n"
-"COSH(1) equals 1.543081.\n"
-"\n"
-"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
-msgstr ""
-"@FUNCTION=COSH\n"
-"@SYNTAX=COSH(x)\n"
-"@DESCRIPTION=COSH function returns the hyperbolic cosine of @x, which is "
-"defined mathematically as\n"
-"\n"
-"\t(exp(@x) + exp(-@x)) / 2.\n"
-"\n"
-"* @x is in radians.\n"
-"* This function is Excel compatible.\n"
-"\n"
-"@EXAMPLES=\n"
-"COSH(0.5) equals 1.127626.\n"
-"COSH(1) equals 1.543081.\n"
-"\n"
-"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
-
-#: plugins/fn-math/functions.c:848
-msgid ""
-"@FUNCTION=DEGREES\n"
-"@SYNTAX=DEGREES(x)\n"
-"@DESCRIPTION=DEGREES computes the number of degrees equivalent to @x "
-"radians.\n"
-"\n"
-"* This function is Excel compatible.\n"
-"\n"
-"@EXAMPLES=\n"
-"DEGREES(2.5) equals 143.2394.\n"
-"\n"
-"@SEEALSO=RADIANS, PI"
-msgstr ""
-"@FUNCTION=DEGREES\n"
-"@SYNTAX=DEGREES(x)\n"
-"@DESCRIPTION=DEGREES computes the number of degrees equivalent to @x "
-"radians.\n"
-"\n"
-"* This function is Excel compatible.\n"
-"\n"
-"@EXAMPLES=\n"
-"DEGREES(2.5) equals 143.2394.\n"
-"\n"
-"@SEEALSO=RADIANS, PI"
-
-#: plugins/fn-math/functions.c:872
-msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
 "@DESCRIPTION=EXP computes the value of e (the base of natural logarithms) "
@@ -11004,7 +11004,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:895
+#: plugins/fn-math/functions.c:822
 msgid ""
 "@FUNCTION=EXPM1\n"
 "@SYNTAX=EXPM1(x)\n"
@@ -11026,7 +11026,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LN1P"
 
-#: plugins/fn-math/functions.c:916
+#: plugins/fn-math/functions.c:843
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -11052,7 +11052,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:953
+#: plugins/fn-math/functions.c:880
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -11082,7 +11082,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETALN,GAMMALN"
 
-#: plugins/fn-math/functions.c:983
+#: plugins/fn-math/functions.c:910
 msgid ""
 "@FUNCTION=BETALN\n"
 "@SYNTAX=BETALN(a,b)\n"
@@ -11108,7 +11108,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETA,GAMMALN"
 
-#: plugins/fn-math/functions.c:1012
+#: plugins/fn-math/functions.c:939
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -11140,7 +11140,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1045
+#: plugins/fn-math/functions.c:972
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x[,significance])\n"
@@ -11174,7 +11174,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, ABS, INT, MOD"
 
-#: plugins/fn-math/functions.c:1089
+#: plugins/fn-math/functions.c:1016
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -11202,7 +11202,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
-#: plugins/fn-math/functions.c:1114
+#: plugins/fn-math/functions.c:1041
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -11232,7 +11232,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:1148
+#: plugins/fn-math/functions.c:1075
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -11258,7 +11258,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:1177
+#: plugins/fn-math/functions.c:1104
 msgid ""
 "@FUNCTION=LN1P\n"
 "@SYNTAX=LN1P(x)\n"
@@ -11284,7 +11284,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, EXPM1"
 
-#: plugins/fn-math/functions.c:1206
+#: plugins/fn-math/functions.c:1133
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -11318,7 +11318,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP"
 
-#: plugins/fn-math/functions.c:1242
+#: plugins/fn-math/functions.c:1169
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -11342,7 +11342,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: plugins/fn-math/functions.c:1268
+#: plugins/fn-math/functions.c:1195
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -11368,7 +11368,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: plugins/fn-math/functions.c:1297
+#: plugins/fn-math/functions.c:1224
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -11396,7 +11396,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, INT, ABS"
 
-#: plugins/fn-math/functions.c:1348
+#: plugins/fn-math/functions.c:1275
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -11422,7 +11422,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI,DEGREES"
 
-#: plugins/fn-math/functions.c:1372
+#: plugins/fn-math/functions.c:1299
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -11448,7 +11448,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:1395
+#: plugins/fn-math/functions.c:1322
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -11478,7 +11478,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: plugins/fn-math/functions.c:1419
+#: plugins/fn-math/functions.c:1346
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -11504,7 +11504,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POWER"
 
-#: plugins/fn-math/functions.c:1447
+#: plugins/fn-math/functions.c:1374
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -11536,7 +11536,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1479
+#: plugins/fn-math/functions.c:1406
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -11566,7 +11566,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1510
+#: plugins/fn-math/functions.c:1437
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -11592,7 +11592,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM"
 
-#: plugins/fn-math/functions.c:1539
+#: plugins/fn-math/functions.c:1466
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -11618,7 +11618,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1567
+#: plugins/fn-math/functions.c:1494
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -11644,7 +11644,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1590
+#: plugins/fn-math/functions.c:1517
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -11674,7 +11674,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1613
+#: plugins/fn-math/functions.c:1540
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -11702,7 +11702,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: plugins/fn-math/functions.c:1638
+#: plugins/fn-math/functions.c:1565
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -11734,7 +11734,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: plugins/fn-math/functions.c:1674
+#: plugins/fn-math/functions.c:1601
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -11762,7 +11762,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: plugins/fn-math/functions.c:1713
+#: plugins/fn-math/functions.c:1640
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -11790,7 +11790,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: plugins/fn-math/functions.c:1752
+#: plugins/fn-math/functions.c:1679
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -11820,7 +11820,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: plugins/fn-math/functions.c:1790
+#: plugins/fn-math/functions.c:1717
 msgid ""
 "@FUNCTION=FIB\n"
 "@SYNTAX=FIB(number)\n"
@@ -11846,7 +11846,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1838
+#: plugins/fn-math/functions.c:1765
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denominator)\n"
@@ -11872,7 +11872,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MOD"
 
-#: plugins/fn-math/functions.c:1870
+#: plugins/fn-math/functions.c:1797
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -11901,81 +11901,81 @@ msgstr ""
 "SIGN(0) equals 0.\n"
 "\n"
 "@SEEALSO="
+
+#: plugins/fn-math/functions.c:1831
+msgid ""
+"@FUNCTION=SQRTPI\n"
+"@SYNTAX=SQRTPI(number)\n"
+"@DESCRIPTION=SQRTPI function returns the square root of a @number multiplied "
+"by pi.\n"
+"\n"
+"* This function is Excel compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"SQRTPI(2) equals 2.506628275.\n"
+"\n"
+"@SEEALSO=PI"
+msgstr ""
+"@FUNCTION=SQRTPI\n"
+"@SYNTAX=SQRTPI(number)\n"
+"@DESCRIPTION=SQRTPI function returns the square root of a @number multiplied "
+"by pi.\n"
+"\n"
+"* This function is Excel compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"SQRTPI(2) equals 2.506628275.\n"
+"\n"
+"@SEEALSO=PI"
+
+#: plugins/fn-math/functions.c:1860
+msgid ""
+"@FUNCTION=ROUNDDOWN\n"
+"@SYNTAX=ROUNDDOWN(number[,digits])\n"
+"@DESCRIPTION=ROUNDDOWN function rounds a given @number down. @number is the "
+"number you want rounded down and @digits is the number of digits to which "
+"you want to round that number.\n"
+"\n"
+"* If @digits is greater than zero, @number is rounded down to the given "
+"number of digits.\n"
+"* If @digits is zero or omitted, @number is rounded down to the nearest "
+"integer.\n"
+"* If @digits is less than zero, @number is rounded down to the left of the "
+"decimal point.\n"
+"* This function is Excel compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"ROUNDDOWN(5.5) equals 5.\n"
+"ROUNDDOWN(-3.3) equals -4.\n"
+"ROUNDDOWN(1501.15,1) equals 1501.1.\n"
+"ROUNDDOWN(1501.15,-2) equals 1500.0.\n"
+"\n"
+"@SEEALSO=ROUND,ROUNDUP"
+msgstr ""
+"@FUNCTION=ROUNDDOWN\n"
+"@SYNTAX=ROUNDDOWN(number[,digits])\n"
+"@DESCRIPTION=ROUNDDOWN function rounds a given @number down. @number is the "
+"number you want rounded down and @digits is the number of digits to which "
+"you want to round that number.\n"
+"\n"
+"* If @digits is greater than zero, @number is rounded down to the given "
+"number of digits.\n"
+"* If @digits is zero or omitted, @number is rounded down to the nearest "
+"integer.\n"
+"* If @digits is less than zero, @number is rounded down to the left of the "
+"decimal point.\n"
+"* This function is Excel compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"ROUNDDOWN(5.5) equals 5.\n"
+"ROUNDDOWN(-3.3) equals -4.\n"
+"ROUNDDOWN(1501.15,1) equals 1501.1.\n"
+"ROUNDDOWN(1501.15,-2) equals 1500.0.\n"
+"\n"
+"@SEEALSO=ROUND,ROUNDUP"
 
 #: plugins/fn-math/functions.c:1904
 msgid ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI function returns the square root of a @number multiplied "
-"by pi.\n"
-"\n"
-"* This function is Excel compatible.\n"
-"\n"
-"@EXAMPLES=\n"
-"SQRTPI(2) equals 2.506628275.\n"
-"\n"
-"@SEEALSO=PI"
-msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI function returns the square root of a @number multiplied "
-"by pi.\n"
-"\n"
-"* This function is Excel compatible.\n"
-"\n"
-"@EXAMPLES=\n"
-"SQRTPI(2) equals 2.506628275.\n"
-"\n"
-"@SEEALSO=PI"
-
-#: plugins/fn-math/functions.c:1933
-msgid ""
-"@FUNCTION=ROUNDDOWN\n"
-"@SYNTAX=ROUNDDOWN(number[,digits])\n"
-"@DESCRIPTION=ROUNDDOWN function rounds a given @number down. @number is the "
-"number you want rounded down and @digits is the number of digits to which "
-"you want to round that number.\n"
-"\n"
-"* If @digits is greater than zero, @number is rounded down to the given "
-"number of digits.\n"
-"* If @digits is zero or omitted, @number is rounded down to the nearest "
-"integer.\n"
-"* If @digits is less than zero, @number is rounded down to the left of the "
-"decimal point.\n"
-"* This function is Excel compatible.\n"
-"\n"
-"@EXAMPLES=\n"
-"ROUNDDOWN(5.5) equals 5.\n"
-"ROUNDDOWN(-3.3) equals -4.\n"
-"ROUNDDOWN(1501.15,1) equals 1501.1.\n"
-"ROUNDDOWN(1501.15,-2) equals 1500.0.\n"
-"\n"
-"@SEEALSO=ROUND,ROUNDUP"
-msgstr ""
-"@FUNCTION=ROUNDDOWN\n"
-"@SYNTAX=ROUNDDOWN(number[,digits])\n"
-"@DESCRIPTION=ROUNDDOWN function rounds a given @number down. @number is the "
-"number you want rounded down and @digits is the number of digits to which "
-"you want to round that number.\n"
-"\n"
-"* If @digits is greater than zero, @number is rounded down to the given "
-"number of digits.\n"
-"* If @digits is zero or omitted, @number is rounded down to the nearest "
-"integer.\n"
-"* If @digits is less than zero, @number is rounded down to the left of the "
-"decimal point.\n"
-"* This function is Excel compatible.\n"
-"\n"
-"@EXAMPLES=\n"
-"ROUNDDOWN(5.5) equals 5.\n"
-"ROUNDDOWN(-3.3) equals -4.\n"
-"ROUNDDOWN(1501.15,1) equals 1501.1.\n"
-"ROUNDDOWN(1501.15,-2) equals 1500.0.\n"
-"\n"
-"@SEEALSO=ROUND,ROUNDUP"
-
-#: plugins/fn-math/functions.c:1977
-msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
 "@DESCRIPTION=ROUND function rounds a given number.\n"
@@ -12020,7 +12020,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2018
+#: plugins/fn-math/functions.c:1945
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -12068,7 +12068,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: plugins/fn-math/functions.c:2062
+#: plugins/fn-math/functions.c:1989
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -12102,7 +12102,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2116
+#: plugins/fn-math/functions.c:2043
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -12146,7 +12146,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:2382
+#: plugins/fn-math/functions.c:2309
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -12188,14 +12188,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2438 plugins/fn-math/functions.c:2458
-#: plugins/fn-math/functions.c:2551 plugins/fn-math/functions.c:2571
-#: plugins/fn-math/functions.c:2662 plugins/fn-math/functions.c:2682
+#: plugins/fn-math/functions.c:2365 plugins/fn-math/functions.c:2385
+#: plugins/fn-math/functions.c:2478 plugins/fn-math/functions.c:2498
+#: plugins/fn-math/functions.c:2589 plugins/fn-math/functions.c:2609
 #: plugins/fn-stat/functions.c:2933 plugins/fn-stat/functions.c:2963
 msgid "Array version not implemented!"
 msgstr "Array version not implemented!"
 
-#: plugins/fn-math/functions.c:2496
+#: plugins/fn-math/functions.c:2423
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -12237,7 +12237,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: plugins/fn-math/functions.c:2607
+#: plugins/fn-math/functions.c:2534
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -12279,7 +12279,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2720
+#: plugins/fn-math/functions.c:2647
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -12313,7 +12313,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-math/functions.c:2778
+#: plugins/fn-math/functions.c:2705
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -12341,7 +12341,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: plugins/fn-math/functions.c:2921
+#: plugins/fn-math/functions.c:2848
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -12367,7 +12367,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: plugins/fn-math/functions.c:2997
+#: plugins/fn-math/functions.c:2924
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -12401,7 +12401,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: plugins/fn-math/functions.c:3044
+#: plugins/fn-math/functions.c:2971
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -12439,11 +12439,11 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: plugins/fn-math/functions.c:3185
+#: plugins/fn-math/functions.c:3112
 msgid "xnum,ynum"
 msgstr "xnum,ynum"
 
-#: plugins/fn-math/functions.c:3191 plugins/fn-math/functions.c:3194
+#: plugins/fn-math/functions.c:3118 plugins/fn-math/functions.c:3121
 #: plugins/fn-random/functions.c:1102 plugins/fn-random/functions.c:1123
 #: plugins/fn-random/functions.c:1129 plugins/fn-random/functions.c:1168
 #: plugins/fn-random/functions.c:1183 plugins/fn-random/functions.c:1186
@@ -12451,67 +12451,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3202
+#: plugins/fn-math/functions.c:3129
 msgid "range,criteria"
 msgstr "range,criteria"
 
-#: plugins/fn-math/functions.c:3210
+#: plugins/fn-math/functions.c:3137
 msgid "number,significance"
 msgstr "number,significance"
 
-#: plugins/fn-math/functions.c:3238 plugins/fn-stat/functions.c:5819
+#: plugins/fn-math/functions.c:3165 plugins/fn-stat/functions.c:5819
 msgid "n,k"
 msgstr "n,k"
 
-#: plugins/fn-math/functions.c:3245
+#: plugins/fn-math/functions.c:3172
 msgid "number,number"
 msgstr "number,number"
 
-#: plugins/fn-math/functions.c:3264
+#: plugins/fn-math/functions.c:3191
 msgid "number,base"
 msgstr "number,base"
 
-#: plugins/fn-math/functions.c:3273 plugins/fn-math/functions.c:3292
+#: plugins/fn-math/functions.c:3200 plugins/fn-math/functions.c:3219
 msgid "numerator,denominator"
 msgstr "numerator,denominator"
 
-#: plugins/fn-math/functions.c:3276
+#: plugins/fn-math/functions.c:3203
 msgid "number,multiple"
 msgstr "number,multiple"
 
-#: plugins/fn-math/functions.c:3286
+#: plugins/fn-math/functions.c:3213
 msgid "base,exponent"
 msgstr "base,exponent"
 
-#: plugins/fn-math/functions.c:3298
+#: plugins/fn-math/functions.c:3225
 msgid "number,type"
 msgstr "number,type"
 
-#: plugins/fn-math/functions.c:3301 plugins/fn-math/functions.c:3305
-#: plugins/fn-math/functions.c:3309 plugins/fn-math/functions.c:3359
+#: plugins/fn-math/functions.c:3228 plugins/fn-math/functions.c:3232
+#: plugins/fn-math/functions.c:3236 plugins/fn-math/functions.c:3286
 msgid "number,digits"
 msgstr "number,digits"
 
-#: plugins/fn-math/functions.c:3313
+#: plugins/fn-math/functions.c:3240
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,coefficients"
 
-#: plugins/fn-math/functions.c:3335
+#: plugins/fn-math/functions.c:3262
 msgid "range,criteria,actual_range"
 msgstr "range,criteria,actual_range"
 
-#: plugins/fn-math/functions.c:3338
+#: plugins/fn-math/functions.c:3265
 msgid "range,range,"
 msgstr "range,range,"
 
-#: plugins/fn-math/functions.c:3344 plugins/fn-math/functions.c:3347
-#: plugins/fn-math/functions.c:3350 plugins/fn-math/functions.c:3366
+#: plugins/fn-math/functions.c:3271 plugins/fn-math/functions.c:3274
+#: plugins/fn-math/functions.c:3277 plugins/fn-math/functions.c:3293
 #: plugins/fn-stat/functions.c:5678 plugins/fn-stat/functions.c:5687
 #: plugins/fn-stat/functions.c:5810 plugins/fn-stat/functions.c:5866
 msgid "array1,array2"
 msgstr "array1,array2"
 
-#: plugins/fn-math/functions.c:3372 plugins/fn-math/functions.c:3376
+#: plugins/fn-math/functions.c:3299 plugins/fn-math/functions.c:3303
 msgid "array,matrix_type,bandsize"
 msgstr "array,matrix_type,bandsize"
 
@@ -18804,7 +18804,7 @@ msgstr "Error while opening xbase file."
 
 #: plugins/xbase/boot.c:176 src/dialogs/dialog-goto-cell.c:289
 #: src/dialogs/dialog-search.c:409 src/dialogs/dialog-stf-export.c:444
-#: src/dialogs/print.glade.h:21 src/commands.c:4966 src/print-info.c:407
+#: src/dialogs/print.glade.h:21 src/commands.c:4966 src/print-info.c:398
 #: src/workbook.c:1091 src/xml-io.c:3576
 msgid "Sheet"
 msgstr "Sheet"
@@ -25377,24 +25377,24 @@ msgid "Variable"
 msgstr "Variable"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:247
-#: src/workbook-control-gui.c:1829
+#: src/workbook-control-gui.c:1832
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1831
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1834
 msgid "Average"
 msgstr "Average"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:249
-#: src/workbook-control-gui.c:1830
+#: src/workbook-control-gui.c:1833
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/dialog-simulation.c:316
+#: src/dialogs/dialog-simulation.c:317
 msgid "Invalid variable range was given"
 msgstr "Invalid variable range was given"
 
-#: src/dialogs/dialog-simulation.c:330
+#: src/dialogs/dialog-simulation.c:331
 msgid ""
 "First round number should be greater or equal than the number of the last "
 "round."
@@ -25402,7 +25402,7 @@ msgstr ""
 "First round number should be greater or equal than the number of the last "
 "round."
 
-#: src/dialogs/dialog-simulation.c:421
+#: src/dialogs/dialog-simulation.c:422
 msgid "Could not create the Simulation dialog."
 msgstr "Could not create the Simulation dialogue."
 
@@ -28218,7 +28218,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Range"
 
-#: src/tools/simulation.c:257 src/workbook-control-gui.c:1832
+#: src/tools/simulation.c:257 src/workbook-control-gui.c:1835
 msgid "Count"
 msgstr "Count"
 
@@ -30686,15 +30686,15 @@ msgstr "Shift Righ_t and Move"
 msgid "C_ancel"
 msgstr "C_ancel"
 
-#: src/main-application.c:58 src/ssconvert.c:43 src/ssindex.c:51
+#: src/main-application.c:58 src/ssconvert.c:44 src/ssindex.c:51
 msgid "Display Gnumeric's version"
 msgstr "Display Gnumeric's version"
 
-#: src/main-application.c:60 src/ssconvert.c:46 src/ssindex.c:54
+#: src/main-application.c:60 src/ssconvert.c:47 src/ssindex.c:54
 msgid "Set the root library directory"
 msgstr "Set the root library directory"
 
-#: src/main-application.c:62 src/ssconvert.c:48 src/ssindex.c:56
+#: src/main-application.c:62 src/ssconvert.c:49 src/ssindex.c:56
 msgid "Adjust the root data directory"
 msgstr "Adjust the root data directory"
 
@@ -30965,49 +30965,49 @@ msgstr "Act_ive sheet"
 msgid "S_heets"
 msgstr "S_heets"
 
-#: src/print-info.c:157 src/print-info.c:160 src/print-info.c:161
-#: src/print-info.c:272
+#: src/print-info.c:148 src/print-info.c:151 src/print-info.c:152
+#: src/print-info.c:263
 msgid "Page &[PAGE]"
 msgstr "Page &[PAGE]"
 
-#: src/print-info.c:158 src/print-info.c:163
+#: src/print-info.c:149 src/print-info.c:154
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Page &[PAGE] of &[PAGES]"
 
-#: src/print-info.c:159 src/print-info.c:160 src/print-info.c:161
-#: src/print-info.c:163 src/print-info.c:266
+#: src/print-info.c:150 src/print-info.c:151 src/print-info.c:152
+#: src/print-info.c:154 src/print-info.c:257
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
-#: src/print-info.c:161 src/print-info.c:162 src/print-info.c:163
+#: src/print-info.c:152 src/print-info.c:153 src/print-info.c:154
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:466
+#: src/print-info.c:457
 msgid "File Name"
 msgstr "File Name"
 
-#: src/print-info.c:477
+#: src/print-info.c:468
 msgid "Path "
 msgstr "Path "
 
-#: src/print-info.c:485
+#: src/print-info.c:476
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:486
+#: src/print-info.c:477
 msgid "page"
 msgstr "page"
 
-#: src/print-info.c:487
+#: src/print-info.c:478
 msgid "pages"
 msgstr "pages"
 
-#: src/print-info.c:490
+#: src/print-info.c:481
 msgid "file"
 msgstr "file"
 
-#: src/print-info.c:491
+#: src/print-info.c:482
 msgid "path"
 msgstr "path"
 
@@ -31320,27 +31320,31 @@ msgstr "Copy"
 msgid "Cut"
 msgstr "Cut"
 
-#: src/ssconvert.c:51 src/ssindex.c:59 src/ssindex.c:61 src/ssindex.c:63
+#: src/ssconvert.c:52 src/ssindex.c:59 src/ssindex.c:61 src/ssindex.c:63
 msgid "Optionally specify an encoding for imported content"
 msgstr "Optionally specify an encoding for imported content"
 
-#: src/ssconvert.c:51 src/ssindex.c:63
+#: src/ssconvert.c:52 src/ssindex.c:63
 msgid "ENCODING"
 msgstr "ENCODING"
 
-#: src/ssconvert.c:53
+#: src/ssconvert.c:54
+msgid "Optionally specify which importer to use"
+msgstr "Optionally specify which importer to use"
+
+#: src/ssconvert.c:56
 msgid "Optionally specify which exporter to use"
 msgstr "Optionally specify which exporter to use"
 
-#: src/ssconvert.c:55
+#: src/ssconvert.c:58
 msgid "List the available exporters"
 msgstr "List the available exporters"
 
-#: src/ssconvert.c:57
+#: src/ssconvert.c:60
 msgid "List the available importers"
 msgstr "List the available importers"
 
-#: src/ssconvert.c:59
+#: src/ssconvert.c:62
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
@@ -31348,7 +31352,7 @@ msgstr ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
 
-#: src/ssconvert.c:107
+#: src/ssconvert.c:111
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -31357,7 +31361,7 @@ msgstr ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 
-#: src/ssconvert.c:131
+#: src/ssconvert.c:135
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -31366,7 +31370,7 @@ msgstr ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 
-#: src/ssconvert.c:138
+#: src/ssconvert.c:142
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -31375,7 +31379,16 @@ msgstr ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 
-#: src/ssconvert.c:152
+#: src/ssconvert.c:149
+#, c-format
+msgid ""
+"Unknown importer '%s'.\n"
+"Try --list-importers to see a list of possibilities.\n"
+msgstr ""
+"Unknown importer '%s'.\n"
+"Try --list-importers to see a list of possibilities.\n"
+
+#: src/ssconvert.c:166
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -31384,7 +31397,7 @@ msgstr ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved."
 
-#: src/ssconvert.c:183
+#: src/ssconvert.c:197
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -32143,11 +32156,11 @@ msgstr "_New View..."
 msgid "Create a new view of the workbook"
 msgstr "Create a new view of the workbook"
 
-#: src/wbcg-actions.c:1640 src/workbook-control-gui.c:1022
+#: src/wbcg-actions.c:1640 src/workbook-control-gui.c:1025
 msgid "_Freeze Panes"
 msgstr "_Freeze Panes"
 
-#: src/wbcg-actions.c:1641 src/workbook-control-gui.c:1025
+#: src/wbcg-actions.c:1641 src/workbook-control-gui.c:1028
 msgid "Freeze the top left of the sheet"
 msgstr "Freeze the top left of the sheet"
 
@@ -32653,7 +32666,7 @@ msgid "Remove an outline group"
 msgstr "Remove an outline group"
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1877 src/workbook-control-gui.c:1033
+#: src/wbcg-actions.c:1877 src/workbook-control-gui.c:1036
 msgid "Add _Auto Filter"
 msgstr "Add _Auto Filter"
 
@@ -32687,7 +32700,7 @@ msgid "Import the text from a file"
 msgstr "Import the text from a file"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1892 src/workbook-control-gui.c:1828
+#: src/wbcg-actions.c:1892 src/workbook-control-gui.c:1831
 #: src/workbook-view.c:542
 msgid "Sum"
 msgstr "Sum"
@@ -33263,77 +33276,77 @@ msgstr "Remove"
 msgid "Rename"
 msgstr "Rename"
 
-#: src/workbook-control-gui.c:1021
+#: src/workbook-control-gui.c:1024
 msgid "Un_freeze Panes"
 msgstr "Un_freeze Panes"
 
-#: src/workbook-control-gui.c:1024
+#: src/workbook-control-gui.c:1027
 msgid "Unfreeze the top left of the sheet"
 msgstr "Unfreeze the top left of the sheet"
 
-#: src/workbook-control-gui.c:1032
+#: src/workbook-control-gui.c:1035
 msgid "Remove _Auto Filter"
 msgstr "Remove _Auto Filter"
 
-#: src/workbook-control-gui.c:1035
+#: src/workbook-control-gui.c:1038
 msgid "Remove a filter"
 msgstr "Remove a filter"
 
-#: src/workbook-control-gui.c:1036
+#: src/workbook-control-gui.c:1039
 msgid "Add a filter"
 msgstr "Add a filter"
 
-#: src/workbook-control-gui.c:1047
+#: src/workbook-control-gui.c:1050
 msgid "_Undo"
 msgstr "_Undo"
 
-#: src/workbook-control-gui.c:1048
+#: src/workbook-control-gui.c:1051
 msgid "_Redo"
 msgstr "_Redo"
 
-#: src/workbook-control-gui.c:1176
+#: src/workbook-control-gui.c:1179
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Save changes to workbook '%s' before closing?"
 
-#: src/workbook-control-gui.c:1180
+#: src/workbook-control-gui.c:1183
 msgid "Save changes to workbook before closing?"
 msgstr "Save changes to workbook before closing?"
 
-#: src/workbook-control-gui.c:1186
+#: src/workbook-control-gui.c:1189
 msgid "If you close without saving, changes will be discarded."
 msgstr "If you close without saving, changes will be discarded."
 
-#: src/workbook-control-gui.c:1193
+#: src/workbook-control-gui.c:1196
 msgid "Discard all"
 msgstr "Discard all"
 
-#: src/workbook-control-gui.c:1195 src/workbook-control-gui.c:1204
-#: src/workbook-control-gui.c:1212
+#: src/workbook-control-gui.c:1198 src/workbook-control-gui.c:1207
+#: src/workbook-control-gui.c:1215
 msgid "Discard"
 msgstr "Discard"
 
-#: src/workbook-control-gui.c:1197
+#: src/workbook-control-gui.c:1200
 msgid "Save all"
 msgstr "Save all"
 
-#: src/workbook-control-gui.c:1199 src/workbook-control-gui.c:1206
+#: src/workbook-control-gui.c:1202 src/workbook-control-gui.c:1209
 msgid "Don't quit"
 msgstr "Don't quit"
 
-#: src/workbook-control-gui.c:1214
+#: src/workbook-control-gui.c:1217
 msgid "Don't close"
 msgstr "Don't close"
 
-#: src/workbook-control-gui.c:2235 src/workbook-control-gui.c:2250
+#: src/workbook-control-gui.c:2238 src/workbook-control-gui.c:2253
 msgid "_Re-Edit"
 msgstr "_Re-Edit"
 
-#: src/workbook-control-gui.c:2236 src/workbook-control-gui.c:2241
+#: src/workbook-control-gui.c:2239 src/workbook-control-gui.c:2244
 msgid "_Discard"
 msgstr "_Discard"
 
-#: src/workbook-control-gui.c:2240 src/workbook-control-gui.c:2251
+#: src/workbook-control-gui.c:2243 src/workbook-control-gui.c:2254
 msgid "_Accept"
 msgstr "_Accept"
 
