@@ -391,7 +391,7 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 	*ret_error = NULL;
 	id_str = e_xml_get_string_prop_by_name (tree, "id");
 	priority = e_xml_get_uint_prop_by_name_with_default (tree, "priority", 50);
-	priority = MIN (priority, 100);
+	priority = MIN (priority, (guint)100);
 	has_probe = e_xml_get_bool_prop_by_name_with_default (tree, "probe", TRUE);
 	can_open = e_xml_get_bool_prop_by_name_with_default (tree, "open", TRUE);
 	can_import = e_xml_get_bool_prop_by_name_with_default (tree, "import", FALSE);

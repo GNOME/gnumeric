@@ -1,5 +1,12 @@
 2001-09-06  Morten Welinder  <terra@diku.dk>
 
+	* src/*.c: Fix MIX/MAX usage to always have identical argument
+ 	types.
+
+	* src/xml-io.c (xml_parse_ctx_new): Fix version.
+
+2001-09-06  Morten Welinder  <terra@diku.dk>
+
 	* src/eval.c (dependent_changed): Remove "pos" argument which is
  	always NULL.  All callers changed.
 

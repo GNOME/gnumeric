@@ -45,7 +45,6 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gdk/gdkx.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-cursors.h>
 #include <string.h>
@@ -329,7 +328,7 @@ scg_scrollbar_config (SheetControl const *sc)
 	va->upper = max_row;
 	va->value = gcanvas->first.row;
 	va->page_size = last_row - gcanvas->first.row;
-	va->page_increment = MAX (va->page_size - 3, 1);
+	va->page_increment = MAX (va->page_size - 3.0, 1.0);
 	va->step_increment = 1;
 
 	if (max_col < sheet->cols.max_used)
@@ -339,7 +338,7 @@ scg_scrollbar_config (SheetControl const *sc)
 	ha->upper = max_col;
 	ha->page_size = last_col - gcanvas->first.col;
 	ha->value = gcanvas->first.col;
-	ha->page_increment = MAX (ha->page_size - 3, 1);
+	ha->page_increment = MAX (ha->page_size - 3.0, 1.0);
 	ha->step_increment = 1;
 
 	gtk_adjustment_changed (va);

@@ -13,15 +13,6 @@ Release Critical
 
     - Check version in xml_parse_ctx_new.
 
-    - Fix the following uses of MIN/MAX with mismatching types:
-                dialog-printer-setup.c:149
-                dialog-printer-setup.c:794
-                dialog-printer-setup.c:803
-                io-context.c:289
-                plugin-service.c:394
-                sheet-control-gui.c:332
-                sheet-control-gui.c:342
-
 Pending Patches
 ---------------
 

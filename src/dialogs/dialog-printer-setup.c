@@ -146,7 +146,7 @@ spin_button_set_bound (GtkSpinButton *spin, double space_to_grow,
 	space_to_grow = unit_convert (space_to_grow, space_unit, spin_unit);
 
 	if (space_to_grow + EPSILON < 0) {
-		double shrink = MIN (-space_to_grow, adjustment->value);
+		double shrink = MIN (-space_to_grow, (double)adjustment->value);
 
 		space_to_grow += shrink;
 		adjustment->upper = adjustment->value - shrink;
@@ -791,7 +791,7 @@ do_setup_margin (PrinterSetupState *state)
 			       pm->header.points,
 			       displayed_unit);
 	unit_editor_configure (&state->margins.header, state, "spin-header",
-			       MAX (pm->top.points - pm->header.points, 0),
+			       MAX (pm->top.points - pm->header.points, 0.0),
 			       displayed_unit);
 	unit_editor_configure (&state->margins.left, state, "spin-left",
 			       pm->left.points, displayed_unit);
@@ -800,7 +800,7 @@ do_setup_margin (PrinterSetupState *state)
 	unit_editor_configure (&state->margins.bottom, state, "spin-bottom",
 			       pm->footer.points, displayed_unit);
 	unit_editor_configure (&state->margins.footer, state, "spin-footer",
-			       MAX (pm->bottom.points - pm->footer.points, 0),
+			       MAX (pm->bottom.points - pm->footer.points, 0.0),
 			       displayed_unit);
 
 	container = GTK_BOX (glade_xml_get_widget (state->gui,

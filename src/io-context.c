@@ -286,7 +286,7 @@ file_io_progress_set (IOContext *io_context, const gchar *file_name, FILE *f)
 	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_FILE;
 	io_context->helper.v.file.f = f;
 	if (stat (file_name, &sbuf) == 0) {
-		io_context->helper.v.file.size = MAX ((glong) sbuf.st_size, 1);
+		io_context->helper.v.file.size = MAX ((glong)sbuf.st_size, (glong)1);
 	} else {
 		io_context->helper.v.file.size = LONG_MAX;
 	}
