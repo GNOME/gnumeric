@@ -37,6 +37,7 @@ Morten:
 	* Clean out workarounds for old libraries.
 	* Avoid GnomeFont in printing.
 	* Fix .dbf import of floating point values.  [#166311]
+	* Plug xls save leak.  [#166561]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.2

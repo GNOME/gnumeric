@@ -1319,12 +1319,12 @@ excel_font_new (GnmStyle const *base_style)
 static void
 excel_font_overlay_pango (ExcelFont *efont, GSList *pango)
 {
-	PangoColor const *c;
-	PangoAttribute *attr;
 	GSList *ptr;
 
 	for (ptr = pango ; ptr != NULL ; ptr = ptr->next) {
-		attr = (PangoAttribute *)(ptr->data);
+		PangoAttribute *attr = ptr->data;
+		PangoColor const *c;
+
 		switch (attr->klass->type) {
 		case PANGO_ATTR_FAMILY :
 			g_free (efont->font_name_copy);
@@ -1365,6 +1365,8 @@ excel_font_overlay_pango (ExcelFont *efont, GSList *pango)
 		default :
 			break; /* ignored */
 		}
+
+		pango_attribute_destroy (attr);
 	}
 	g_slist_free (pango);
 }
