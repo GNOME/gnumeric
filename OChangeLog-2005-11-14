@@ -1,3 +1,8 @@
+2003-12-18  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_workbook_read) : fix xml import of manual recalc
+	  flag.
+
 2003-12-17  Jody Goldberg <jody@gnome.org>
 
 	* src/number-match.c (value_is_error) : no need to use strncmp

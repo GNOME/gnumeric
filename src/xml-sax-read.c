@@ -352,7 +352,7 @@ xml_sax_calculation (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml_sax_attr_bool (attrs, "ManualRecalc", &b))
-			workbook_autorecalc_enable (state->wb, b);
+			workbook_autorecalc_enable (state->wb, !b);
 		else if (xml_sax_attr_bool (attrs, "EnableIteration", &b))
 			workbook_iteration_enabled (state->wb, b);
 		else if (xml_sax_attr_int  (attrs, "MaxIterations", &i))

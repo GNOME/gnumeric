@@ -3885,7 +3885,7 @@ xml_workbook_read (IOContext *context,
 		double	 d;
 
 		if (xml_node_get_bool (child, "ManualRecalc", &b))
-			workbook_autorecalc_enable (ctxt->wb, b);
+			workbook_autorecalc_enable (ctxt->wb, !b);
 		if (xml_node_get_bool   (child, "EnableIteration", &b))
 			workbook_iteration_enabled (ctxt->wb, b);
 		if (xml_node_get_int    (child, "MaxIterations", &i))
