@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-12-22 14:00-0500\n"
-"PO-Revision-Date: 2002-12-16 13:25+0200\n"
+"POT-Creation-Date: 2002-12-24 16:43+0100\n"
+"PO-Revision-Date: 2002-12-24 16:45+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16334,12 +16334,12 @@ msgstr "Format: execSQL(dsn,användare,lösenord,sql)"
 msgid "Error: could not initialize connection pool"
 msgstr "Fel: kunde inte initiera anslutningspool"
 
-#: plugins/gda/plugin-gda.c:125
+#: plugins/gda/plugin-gda.c:129
 #, c-format
 msgid "Error: could not open connection to %s"
 msgstr "Fel: kunde inte öppna anslutning till %s"
 
-#: plugins/gda/plugin-gda.c:135
+#: plugins/gda/plugin-gda.c:139
 msgid "Error: no recordsets were returned"
 msgstr "Fel: inga postsamlingar returnerades"
 
@@ -18167,7 +18167,7 @@ msgid "Show all filtered and hidden rows"
 msgstr "Visa alla filtrerade och dolda rader"
 
 #: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3856
-#: schemas/gnumeric-general.schemas.in.h:28
+#: schemas/gnumeric-general.schemas.in.h:27
 msgid "Sort Ascending"
 msgstr "Sortera stigande"
 
@@ -20906,16 +20906,12 @@ msgstr "Morten Welinder, Gnumeric-hacker."
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/dialogs/dialog-about.c:108
-msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
-msgstr "© 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
-
-#: src/dialogs/dialog-about.c:109
+#: src/dialogs/dialog-about.c:110
 msgid "A production ready spreadsheet"
 msgstr "Ett kalkylprogram för skarp användning"
 
 #. Translate the following string with the names of all translators for this locale.
-#: src/dialogs/dialog-about.c:112
+#: src/dialogs/dialog-about.c:113
 msgid "This is an untranslated version of Gnumeric."
 msgstr ""
 "Christian Rose\n"
@@ -20924,11 +20920,11 @@ msgstr ""
 "Andreas Hydén\n"
 "Skicka synpunkter på översättningen till sv@li.org."
 
-#: src/dialogs/dialog-about.c:117
+#: src/dialogs/dialog-about.c:118
 msgid "Gnumeric Home Page"
 msgstr "Gnumerics hemsida"
 
-#: src/dialogs/dialog-about.c:123
+#: src/dialogs/dialog-about.c:124
 msgid "Contract Support"
 msgstr "Kontraktsupport"
 
@@ -25412,7 +25408,7 @@ msgstr "Skapade områden använder enkla referenser"
 
 #: src/parser.y:359 src/parser.y:372
 msgid "All entries in the set must be references"
-msgstr ""
+msgstr "iAlla poster i mängden måste vara referenser"
 
 #: src/parser.y:460
 #, c-format
@@ -25421,7 +25417,7 @@ msgstr "Okänt blad \"%s\""
 
 #: src/parser.y:556
 msgid "() is an invalid expression"
-msgstr "() är ett Ogiltigt uttryck"
+msgstr "() är ett ogiltigt uttryck"
 
 #: src/parser.y:589 src/parser.y:611
 #, c-format
@@ -25457,7 +25453,7 @@ msgstr "Talet är utanför intervallet"
 
 #: src/parser.y:1120
 msgid "Improperly formatted error token"
-msgstr ""
+msgstr "Oriktigt formatterad feltoken"
 
 #: src/parser.y:1283
 msgid "Multiple expressions are not supported in this context"
@@ -26127,7 +26123,7 @@ msgstr "Text till kolumner"
 #: src/stf.c:279
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
-msgstr ""
+msgstr "Endast en kolumn med <b>indata</b> kan tolkas åt gången, inte %d"
 
 #: src/stf.c:310
 msgid "Error while trying to parse data into sheet"
@@ -26641,12 +26637,16 @@ msgid ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
 "last round # is too high)."
 msgstr ""
+"Indatavariabeln ger inget numeriskt värde. Kontrollera modellen (kanske du "
+"har för många rundor)."
 
 #: src/tools/simulation.c:126
 msgid ""
 "Output variable did not yield to a numeric value. Check the output variables "
 "in your model (maybe your last round # is too high)."
 msgstr ""
+"Utdatavariabeln ger inget numeriskt värde. Kontrollera utdatavariablerna i "
+"dim modell (kanske du har för många rundor)."
 
 #: src/tools/simulation.c:242
 msgid "Simulation Report"
@@ -26662,7 +26662,7 @@ msgstr "Median"
 
 #: src/tools/simulation.c:259
 msgid "Std. Dev."
-msgstr ""
+msgstr "Std.Av."
 
 #: src/tools/simulation.c:260
 msgid "Variance"
@@ -27520,9 +27520,8 @@ msgstr "Ett oförklarligt fel inträffade vid sparande av %s"
 #. * gnumeric `echo -e '\377\376'`
 #.
 #: src/workbook-view.c:572 src/workbook-view.c:797
-#, fuzzy
 msgid "The filename given is not valid."
-msgstr "Värdet som är angivet i \"Till värde:\" är inte giltigt."
+msgstr "Det givna filnamnet är inte giltigt."
 
 #: src/workbook-view.c:656
 msgid "Default file saver is not available."
@@ -27533,9 +27532,9 @@ msgid "Unsupported file format."
 msgstr "Filformatet stöds inte."
 
 #: src/workbook-view.c:790
-#, fuzzy, c-format
+#, c-format
 msgid "An unexplained error happened while opening %s"
-msgstr "Ett oförklarligt fel inträffade vid öppnande av \"%s\""
+msgstr "Ett oförklarat fel inträffade vid öppnande av %s"
 
 #: src/workbook.c:448
 #, c-format
@@ -27555,459 +27554,453 @@ msgid "You may not use this name twice"
 msgstr "Du kan inte använda detta namn två gånger"
 
 #: src/xml-io.c:3622
-#, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
-msgstr "Är inte en Gnumeric-arbetsboksfil"
+msgstr "Filen är inte en Gnumeric-arbetsboksfil"
 
 #: src/xml-io.c:3691
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
 #: schemas/plot-types.xml.in.h:1
-#, fuzzy
 msgid "3 series"
-msgstr "Serier"
+msgstr "3 serier"
 
 #: schemas/plot-types.xml.in.h:2
 msgid "3D Adjacent Bars"
-msgstr ""
+msgstr "#D närliggande stolpar"
 
 #: schemas/plot-types.xml.in.h:3
-#, fuzzy
 msgid "3D Adjacent Columns"
-msgstr "Ta bort kolumner"
+msgstr "#D närliggande kolumner"
 
 #: schemas/plot-types.xml.in.h:4
-#, fuzzy
 msgid "3D Percentage Bars"
-msgstr "_Procent"
+msgstr "3D procentstolpar"
 
 #: schemas/plot-types.xml.in.h:5
-#, fuzzy
 msgid "3D Percentage Columns"
-msgstr "Ta bort kolumner"
+msgstr "3D procentkolumner"
 
 #: schemas/plot-types.xml.in.h:6
-#, fuzzy
 msgid "3D Percentage Lines"
-msgstr "_Procent"
+msgstr "3D procentlinjer"
 
 #: schemas/plot-types.xml.in.h:7
 msgid "3D Pie"
-msgstr ""
+msgstr "3D cirkel"
 
 #: schemas/plot-types.xml.in.h:8
 msgid "3D Split Pie"
-msgstr ""
+msgstr "3D uppdelad cirkel"
 
 #: schemas/plot-types.xml.in.h:9
 msgid "3D Stacked Bars"
-msgstr ""
+msgstr "3D staplade stolpar"
 
 #: schemas/plot-types.xml.in.h:10
-#, fuzzy
 msgid "3D Stacked Columns"
-msgstr "Ta bort kolumner"
+msgstr "3D staplade kolumner"
 
 #: schemas/plot-types.xml.in.h:11
 msgid "3D Stacked Lines"
-msgstr ""
+msgstr "3D staplade linjer"
 
 #: schemas/plot-types.xml.in.h:12
-#, fuzzy
 msgid "3D lines"
-msgstr "Divisionslinjer"
+msgstr "3D linjer"
 
 #: schemas/plot-types.xml.in.h:13
-#, fuzzy
 msgid "4 series"
-msgstr "Serier"
+msgstr "4 serier"
 
 #: schemas/plot-types.xml.in.h:14
 msgid "4 series (2)"
-msgstr ""
+msgstr "4 serier (2)"
 
 #: schemas/plot-types.xml.in.h:15
-#, fuzzy
 msgid "5 series"
-msgstr "Serier"
+msgstr "5 serier"
 
 #: schemas/plot-types.xml.in.h:16
 msgid "Adjacent Bars"
-msgstr ""
+msgstr "Närliggande stolpar"
 
 #: schemas/plot-types.xml.in.h:17
-#, fuzzy
 msgid "Adjacent Columns"
-msgstr "Infoga kolumner"
+msgstr "Närliggande kolumner"
 
 #: schemas/plot-types.xml.in.h:18
 msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
 msgstr ""
+"Närliggande horisontella 3D-stolpar grupperade i huvud- och delkategorier."
 
 #: schemas/plot-types.xml.in.h:19
 msgid "Adjacent horizontal bars grouped by major and minor categories."
 msgstr ""
+"Närliggande horisontella stolpar grupperade i huvud- och delkategorier."
 
 #: schemas/plot-types.xml.in.h:20
 msgid "Adjacent vertical 3D columns grouped by major and minor category."
-msgstr ""
+msgstr "Närliggande vertikala 3D-stolpar grupperade i huvud- och delkategori."
 
 #: schemas/plot-types.xml.in.h:21
 msgid "Adjacent vertical columns grouped by major and minor category."
-msgstr ""
+msgstr "Närliggande vertikala stolpar grupperade i huvud- och delkategori."
 
 #: schemas/plot-types.xml.in.h:22
 msgid "Bar"
-msgstr ""
+msgstr "Stolpe"
 
 #: schemas/plot-types.xml.in.h:23
-#, fuzzy
 msgid "Bubble"
-msgstr "Dubbel"
+msgstr "Bubbel"
 
 #: schemas/plot-types.xml.in.h:24
 msgid "Category versus value as lines in pseudo-3D."
-msgstr ""
+msgstr "Kategori mot värde som linjer i pseudo-3D."
 
 #: schemas/plot-types.xml.in.h:25
 msgid "Category versus value, with markers at each point."
-msgstr ""
+msgstr "Kategori mot värde med markörer i varje punkt."
 
 #: schemas/plot-types.xml.in.h:26
 msgid "Category versus value."
-msgstr ""
+msgstr "Kategori mot värde."
 
 #: schemas/plot-types.xml.in.h:28
 msgid "High, Low, Close."
-msgstr ""
+msgstr "Högsta, lägsta, slut."
 
 #: schemas/plot-types.xml.in.h:29
 msgid ""
 "Interpolate between multi-dimensional points,with markers at each point."
 msgstr ""
+"Interpolera mellan multidimensionella punkter, med markörer i varje punkt."
 
 #: schemas/plot-types.xml.in.h:30
 msgid "Interpolate between multi-dimensional points."
-msgstr ""
+msgstr "Interpolera mellan multidimensionella punkter."
 
 #: schemas/plot-types.xml.in.h:31
 msgid "Interpolated points"
-msgstr ""
+msgstr "Interpolerade punkter"
 
 #: schemas/plot-types.xml.in.h:33
 msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
 msgstr ""
+"Interpolera linjärt mellan multidimensionella punkter, med markörer i varje "
+"punkt."
 
 #: schemas/plot-types.xml.in.h:34
 msgid "Linearly interpolate between multi-dimensional points."
-msgstr ""
+msgstr "Interpolera linjärt mellan multidimensionella punkter."
 
 #: schemas/plot-types.xml.in.h:35
 msgid "Linearly interpolated points"
-msgstr ""
+msgstr "Linjärt interpolerade punkter"
 
 #: schemas/plot-types.xml.in.h:36
 msgid ""
 "Major totals as percentages with each wedge subdivided intosecondary pies."
 msgstr ""
+"Huvudresultat som procentsatser med varje tårtbit uppdelad i underordnade "
+"cirklar."
 
 #: schemas/plot-types.xml.in.h:37
 msgid ""
 "Major totals as percentages with each wedge subdivided intosecondary stacked "
 "bars."
 msgstr ""
+"Huvudresultat som procentsatser med varje tårtbit uppdelad i underordnade "
+"staplade stolpar."
 
 #: schemas/plot-types.xml.in.h:38
 msgid "Marked interpolated points"
-msgstr ""
+msgstr "Markerade interpolerade punkter"
 
 #: schemas/plot-types.xml.in.h:39
 msgid "Marked linearly interpolated points"
-msgstr ""
+msgstr "Markerade linjärt interpolerade punkter"
 
 #: schemas/plot-types.xml.in.h:40
-#, fuzzy
 msgid "Marked lines"
-msgstr "R_utnät"
+msgstr "Markerade linjer"
 
 #: schemas/plot-types.xml.in.h:41
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D horizontal "
 "bars, grouped by major category."
 msgstr ""
+"Delkategorier staplade som procent av delsumman, i horisontella 3D-stolpar, "
+"grupperade efter huvudkategori."
 
 #: schemas/plot-types.xml.in.h:42
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D vertical "
 "bars, grouped by major category."
 msgstr ""
+"Delkategorier staplade som procent av delsumman, i vertikala 3D-stolpar, "
+"grupperade efter huvudkategori."
 
 #: schemas/plot-types.xml.in.h:43
 msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
 msgstr ""
+"Delkategorier staplade som procent av delsumman, i horisontella stolpar, "
+"grupperade efter huvudkategori."
 
 #: schemas/plot-types.xml.in.h:44
 msgid ""
 "Minor categories stacked as percentages of the minor total, in lines, "
 "grouped by major category, with markers at each point."
 msgstr ""
+"Delkategorier staplade som procent av delsumman, i linjer, grupperade efter "
+"huvudkategori, med markörer i varje punkt."
 
 #: schemas/plot-types.xml.in.h:45
 msgid ""
 "Minor categories stacked as percentages of the minor total, in lines, "
 "grouped by major category."
 msgstr ""
+"Delkategorier staplade som procent av delsumman, i linjer, grupperade efter "
+"huvudkategori."
 
 #: schemas/plot-types.xml.in.h:46
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
+"Delkategorier staplade som procent av delsumman, i vertikala kolumner, "
+"grupperade efter huvudkategori."
 
 #: schemas/plot-types.xml.in.h:47
 msgid ""
 "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
+"Delkategorier staplade i horisontella 3D-stolpar, grupperade efter "
+"huvudkategori."
 
 #: schemas/plot-types.xml.in.h:48
 msgid ""
 "Minor categories stacked in horizontal bars that are grouped by major "
 "category."
 msgstr ""
+"Delkategorier staplade i horisontella stolpar som är grupperade efter "
+"huvudkategori."
 
 #: schemas/plot-types.xml.in.h:49
 msgid ""
 "Minor categories stacked in lines that are grouped by major category, with "
 "markers at each point."
 msgstr ""
+"Delkategorier staplade i linjer grupperade efter huvudkategori, med markörer "
+"i varje punkt."
 
 #: schemas/plot-types.xml.in.h:50
 msgid "Minor categories stacked in lines that are grouped by major category."
-msgstr ""
+msgstr "Delkategorier staplade i linjer grupperade efter huvudkategori."
 
 #: schemas/plot-types.xml.in.h:51
 msgid ""
 "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
+"Delkategorier staplade i vertikala 3D-kolumner, grupperade efter "
+"huvudkategori."
 
 #: schemas/plot-types.xml.in.h:52
 msgid ""
 "Minor categories stacked in vertical columns that are grouped by major "
 "category."
 msgstr ""
+"Delkategorier staplade i vertikala kolumner som är grupperade efter "
+"huvudkategori."
 
 #: schemas/plot-types.xml.in.h:53
-#, fuzzy
 msgid "Multi-pie"
-msgstr "Multiplikator"
+msgstr "Multicirkel"
 
 #: schemas/plot-types.xml.in.h:54
-#, fuzzy
 msgid "Multi-pie-bars"
-msgstr "Multiplikator"
+msgstr "Multicirkel-stolpar"
 
 #: schemas/plot-types.xml.in.h:55
-#, fuzzy
 msgid "Percentage Bars"
-msgstr "_Procent"
+msgstr "Procentstolpar"
 
 #: schemas/plot-types.xml.in.h:56
-#, fuzzy
 msgid "Percentage Columns"
-msgstr "Ta bort kolumner"
+msgstr "Procentkolumner"
 
 #: schemas/plot-types.xml.in.h:57
-#, fuzzy
 msgid "Percentage lines"
-msgstr "_Procent"
+msgstr "Procentlinjer"
 
 #: schemas/plot-types.xml.in.h:58
 msgid "Percentage of each contributor in 3D pie."
-msgstr ""
+msgstr "Procentsats för varje bidrag i 3D-cirkel."
 
 #: schemas/plot-types.xml.in.h:59
 msgid "Percentage of each contributor with 3D wedges split apart."
-msgstr ""
+msgstr "Procentsats för varje bidrag med uppdelade 3D-tårtbitar."
 
 #: schemas/plot-types.xml.in.h:60
 msgid "Percentage of each contributor with wedges split apart."
-msgstr ""
+msgstr "Procentsats för varje bidrag med uppdelade tårtbitar."
 
 #: schemas/plot-types.xml.in.h:61
 msgid "Percentage of each contributor."
-msgstr ""
+msgstr "Procentsats för varje bidrag."
 
 #: schemas/plot-types.xml.in.h:62
-#, fuzzy
 msgid "Pie"
-msgstr "Pris"
+msgstr "Cirkel"
 
 #: schemas/plot-types.xml.in.h:63
 msgid "Plot X, Y and bubble size."
-msgstr ""
+msgstr "Plotta X, Y och bubbelstorlek."
 
 #: schemas/plot-types.xml.in.h:64
 msgid "Plot one series per axis."
-msgstr ""
+msgstr "Plotta en serie per axel."
 
 #: schemas/plot-types.xml.in.h:65
-#, fuzzy
 msgid "Points"
-msgstr "Punkt"
+msgstr "Punkter"
 
 #: schemas/plot-types.xml.in.h:66
-#, fuzzy
 msgid "Scatter"
-msgstr "Mönster"
+msgstr "Spridning"
 
 #: schemas/plot-types.xml.in.h:67
-#, fuzzy
 msgid "Split Pie"
-msgstr "Sampling"
+msgstr "Uppdelad cirkel"
 
 #: schemas/plot-types.xml.in.h:68
 msgid "Stacked Bars"
-msgstr ""
+msgstr "Staplade stolpar"
 
 #: schemas/plot-types.xml.in.h:69
-#, fuzzy
 msgid "Stacked Columns"
-msgstr "Ta bort kolumner"
+msgstr "Staplade kolumner"
 
 #: schemas/plot-types.xml.in.h:70
 msgid "Stacked lines"
-msgstr ""
+msgstr "Staplade linjer"
 
 #: schemas/plot-types.xml.in.h:71
-#, fuzzy
 msgid "Stock"
-msgstr "Stopp"
+msgstr "Aktie"
 
 #: schemas/plot-types.xml.in.h:72
 msgid "Volume, High, Low, Close."
-msgstr ""
+msgstr "Volym, högst, lägst, slut."
 
 #: schemas/plot-types.xml.in.h:73
 msgid "Volume, Open, High, Low, Close."
-msgstr ""
+msgstr "Volym, start, högst, lägst, slut."
 
 #: schemas/plot-types.xml.in.h:74
 msgid "open, High, Low, Close."
-msgstr ""
+msgstr "Start, högst, lägst, slut."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
-#, fuzzy
 msgid "Activate New Plugins"
-msgstr "A_ktivera insticksmodul"
+msgstr "Aktivera nya insticksmoduler"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:2
 msgid "Allow Unfocused Range Selections"
-msgstr ""
+msgstr "Tillåt ofokuserade områdesval"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:3
-#, fuzzy
 msgid "Apply print-setup to all sheets"
-msgstr "Tillämpa på _alla blad."
+msgstr "Tillämpa skrivarinställningar på alla blad"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
-#, fuzzy
 msgid "Autocorrect First Letter"
-msgstr "_Första bokstaven"
+msgstr "Autorätta första bokstaven"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:5
-#, fuzzy
 msgid "Autocorrect Initial Caps"
-msgstr "Autorätta undantag"
+msgstr "Autorätta stor bokstav i början"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:6
 msgid "Autocorrect Names od Days"
-msgstr ""
+msgstr "Autorätta namn på dagar"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:7
-#, fuzzy
 msgid "Autocorrect Replace"
-msgstr "Autokorrigering"
+msgstr "Autorätta Ersätt"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:8
 msgid "Autocorrect first letter"
-msgstr ""
+msgstr "Autorätta första bokstaven"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:9
-#, fuzzy
 msgid "Autocorrect initial caps"
-msgstr "Autorätta undantag"
+msgstr "Autorätta stor bokstav i början"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:10
-#, fuzzy
 msgid "Autocorrect names of days"
-msgstr "Inför stor bokstav på veckodags_namn"
+msgstr "Autorätta namn på dagar"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:11
-#, fuzzy
 msgid "Autocorrect replace"
-msgstr "Autokorrigering"
+msgstr "Autorätta Ersätt"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:12
-#, fuzzy
 msgid "List of Active Plugins."
-msgstr "Aktiva insticksmoduler"
+msgstr "Lista över aktiva insticksmoduler."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:13
 msgid "List of Extra Autoformat Directories."
-msgstr ""
+msgstr "Lista över extra autoformat-kataloger."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:14
 msgid "List of Extra Plugin Directories."
-msgstr ""
+msgstr "Lista över extra insticksmodulkataloger."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:15
-#, fuzzy
 msgid "List of First Letter Exceptions"
-msgstr "Autorätta undantag"
+msgstr "Lista över undantag för första tecken"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:16
 msgid "List of Init Caps Exceptions"
-msgstr ""
+msgstr "Lista över undantag för stor bokstav"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "List of Known Plugins."
-msgstr ""
+msgstr "Lista över kända insticksmoduler"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
 msgid "List of Plugin File States."
-msgstr ""
+msgstr "Lista över filtillstånd för insticksmoduler."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:19
 msgid "List of recently used functions."
-msgstr ""
+msgstr "Lista över nyligen använda funktioner."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:20
 msgid "Maximum Length of Recently Used Functions List"
-msgstr ""
+msgstr "Maximal längd på lista över nyligen använda funktioner"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:21
 msgid "Print-to Filename"
-msgstr ""
+msgstr "Utskriftsfilnamn"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:22
-#, fuzzy
 msgid "Printer"
-msgstr "Skriv ut"
+msgstr "Skrivare"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:23
-#, fuzzy
 msgid "Printer Backend"
-msgstr "Utskrift misslyckades"
+msgstr "Utskriftsmotor"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:24
-#, fuzzy
 msgid "Printing Command"
-msgstr "Utskrift misslyckades"
+msgstr "Utskriftskommando"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:25
 msgid ""
@@ -28015,32 +28008,36 @@ msgid ""
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even the entry does not have keyboard focus."
 msgstr ""
+"En del dialoger innehåller bara ett indatafält som tillåter områdesurval i "
+"arbetsboken. Med variablen satt till SANT skickas urval till det här fältet "
+"även om fältet inte har fokus."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:26
 msgid "System Directory for Autoformats"
-msgstr ""
+msgstr "Systemkatalog för autoformat"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:27
 msgid ""
 "The autocorrect engine does not correct the first letter for words in this "
 "list."
-msgstr ""
+msgstr "Autorättaren rättar inte det första tecknet för ord i denna listan."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:28
 msgid ""
 "The autocorrect engine does not correct the inital caps for words in this "
 "list."
-msgstr ""
+msgstr "Autorättaren rättar inte stor bokstav för ord i denna listan."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:29
 msgid "The backend used in gnome-print. Do not edit this variable."
-msgstr ""
+msgstr "Utskriftsmotorn som används i gnome-print. Ändra inte denna variabeln."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:30
 msgid ""
 "The configuration name of the printer in gnome-print. Do not edit this "
 "variable."
 msgstr ""
+"Konfigurationsnamnet för skrivaren i gnome-print. Ändra inte denna variabeln."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "The custom printing command (lpr, xpp, ...)"
@@ -28122,11 +28119,6 @@ msgstr "Gnumeric: Autoformat"
 msgid "lpr Printer"
 msgstr "Skriv ut"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:47
-#, fuzzy
-msgid "output.ps"
-msgstr "Utdata"
-
 #: schemas/gnumeric-general.schemas.in.h:1
 msgid "Auto Expression Recalculation Lag"
 msgstr ""
@@ -28180,15 +28172,11 @@ msgid "Default font name"
 msgstr "Definiera namn"
 
 #: schemas/gnumeric-general.schemas.in.h:12
-msgid "Helvetica"
-msgstr ""
-
-#: schemas/gnumeric-general.schemas.in.h:13
 #, fuzzy
 msgid "Horizontal DPI"
 msgstr "Vågrätt"
 
-#: schemas/gnumeric-general.schemas.in.h:14
+#: schemas/gnumeric-general.schemas.in.h:13
 msgid ""
 "If this value is positive, auto expressions are recalculated within that "
 "many millesecond after a change. If it is negative they are recalculated "
@@ -28196,135 +28184,135 @@ msgid ""
 "defined as the end of a period of that size after a change with no changes."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:15
+#: schemas/gnumeric-general.schemas.in.h:14
 msgid "Length of File History"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:16
+#: schemas/gnumeric-general.schemas.in.h:15
 msgid "Length of the Undo Descriptors"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:17
+#: schemas/gnumeric-general.schemas.in.h:16
 msgid "List of recently used files"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:18
+#: schemas/gnumeric-general.schemas.in.h:17
 msgid "Live Scrolling"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:19
+#: schemas/gnumeric-general.schemas.in.h:18
 #, fuzzy
 msgid "Maximal Undo Size"
 msgstr "Maximera"
 
-#: schemas/gnumeric-general.schemas.in.h:20
+#: schemas/gnumeric-general.schemas.in.h:19
 #, fuzzy
 msgid "Number of Automatic Clauses"
 msgstr "Antal _misslyckanden"
 
-#: schemas/gnumeric-general.schemas.in.h:21
+#: schemas/gnumeric-general.schemas.in.h:20
 #, fuzzy
 msgid "Number of Undo Items"
 msgstr "Antal rader att importera"
 
-#: schemas/gnumeric-general.schemas.in.h:22
+#: schemas/gnumeric-general.schemas.in.h:21
 msgid "Screen resolution in the horizontal direction."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:23
+#: schemas/gnumeric-general.schemas.in.h:22
 msgid "Screen resolution in the vertical direction."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:24
+#: schemas/gnumeric-general.schemas.in.h:23
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to perform a "
 "case-sensitive sort and determine the initial state of the case-sensitive "
 "checkbox in the sort dialog."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:25
+#: schemas/gnumeric-general.schemas.in.h:24
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to preserve "
 "the cell formats while sorting and determines the initial state of the "
 "preserve-formats checkbox in the sort dialog."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:26
+#: schemas/gnumeric-general.schemas.in.h:25
 msgid "Show Sheet Name in Undo List"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:27
+#: schemas/gnumeric-general.schemas.in.h:26
 msgid ""
 "Some file formats can contain only a single sheet. This variable determines "
 "whether the user will be warned if only a single sheet of a multi-sheet "
 "workbook is being saved."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:29
+#: schemas/gnumeric-general.schemas.in.h:28
 #, fuzzy
 msgid "Sort Preserve Formats"
 msgstr "_Bevarar format"
 
-#: schemas/gnumeric-general.schemas.in.h:30
+#: schemas/gnumeric-general.schemas.in.h:29
 #, fuzzy
 msgid "Sort is Case-Sensitive"
 msgstr "Gör skillnad på gemener/VERSALER"
 
-#: schemas/gnumeric-general.schemas.in.h:31
+#: schemas/gnumeric-general.schemas.in.h:30
 #, fuzzy
 msgid "The default font is bold."
 msgstr "Standardbredden för kolumner måste vara > %d."
 
-#: schemas/gnumeric-general.schemas.in.h:32
+#: schemas/gnumeric-general.schemas.in.h:31
 #, fuzzy
 msgid "The default font is italic."
 msgstr "Listintervallet är ogiltigt."
 
-#: schemas/gnumeric-general.schemas.in.h:33
+#: schemas/gnumeric-general.schemas.in.h:32
 msgid "The default font name for new workbooks."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:34
+#: schemas/gnumeric-general.schemas.in.h:33
 msgid "The default font size for new workbooks."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:35
+#: schemas/gnumeric-general.schemas.in.h:34
 msgid ""
 "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:36
+#: schemas/gnumeric-general.schemas.in.h:35
 msgid "The initial zoom factor for new workbooks."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:37
+#: schemas/gnumeric-general.schemas.in.h:36
 msgid "The number of files kept in the `recent' section of the file menu."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:38
+#: schemas/gnumeric-general.schemas.in.h:37
 msgid "The number of sheets initially created in a new workbook."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:39
+#: schemas/gnumeric-general.schemas.in.h:38
 msgid ""
 "This integer (between 0 and 9) gives the amount compression performed by "
 "Gnumeric when saving files in the default file format. 0 is no compression "
 "while 9 is maximum compression."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:40
+#: schemas/gnumeric-general.schemas.in.h:39
 msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
 "screen size covered by the default window."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:41
+#: schemas/gnumeric-general.schemas.in.h:40
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:42
+#: schemas/gnumeric-general.schemas.in.h:41
 #, fuzzy
 msgid ""
 "This option determines the initial state of the sort-order button in the "
@@ -28333,7 +28321,7 @@ msgstr ""
 "Objekten på denna sida anpassar de ursprungliga inställningarna för "
 "sorteringsdialogen och beteendet på verktygsradsknapparna."
 
-#: schemas/gnumeric-general.schemas.in.h:43
+#: schemas/gnumeric-general.schemas.in.h:42
 msgid ""
 "This value determines the length of the undo chain. Each editing action has "
 "a size associate with it, to compare it with the memory requirements of a "
@@ -28341,58 +28329,65 @@ msgid ""
 "total size exceeds this configurable value."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:44
+#: schemas/gnumeric-general.schemas.in.h:43
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:45
+#: schemas/gnumeric-general.schemas.in.h:44
 msgid ""
 "This value determines whether the default font for a new workbook bold is."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:46
+#: schemas/gnumeric-general.schemas.in.h:45
 msgid ""
 "This value determines whether the default font for a new workbook italic is."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:47
+#: schemas/gnumeric-general.schemas.in.h:46
 msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:48
+#: schemas/gnumeric-general.schemas.in.h:47
 msgid ""
 "This value is indicative of the maximum length of the command descriptors in "
 "the undo and redo chains."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:49
+#: schemas/gnumeric-general.schemas.in.h:48
 msgid "This variable determines whether autocompletion is set on."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:50
+#: schemas/gnumeric-general.schemas.in.h:49
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:51
+#: schemas/gnumeric-general.schemas.in.h:50
 #, fuzzy
 msgid "Vertical DPI"
 msgstr "_Lodrätt"
 
-#: schemas/gnumeric-general.schemas.in.h:52
+#: schemas/gnumeric-general.schemas.in.h:51
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:53
+#: schemas/gnumeric-general.schemas.in.h:52
 msgid ""
 "When selecting a sort region in the sort dialog, search clauses are "
 "automatically added. This number determines the maximum number of clauses to "
 "be added automatically."
 msgstr ""
+
+#~ msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
+#~ msgstr "© 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
+
+#, fuzzy
+#~ msgid "output.ps"
+#~ msgstr "Utdata"
 
 #~ msgid "#3D MULT?"
 #~ msgstr "#3D MULT?"
