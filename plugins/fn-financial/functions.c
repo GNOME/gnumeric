@@ -3390,7 +3390,34 @@ static const char *help_mduration = {
 static Value *
 gnumeric_mduration (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate      *nSettle, *nMat;
+	gnum_float fCoup, fYield;
+	gint       nFreq, nBase;
+        gnum_float fNumOfCoups;
+	Value      *result;
+
+        nSettle    = datetime_value_to_g (argv[0]);
+        nMat       = datetime_value_to_g (argv[1]);
+	fCoup      = value_get_as_float (argv[2]);
+	fYield     = value_get_as_float (argv[3]);
+	nFreq      = value_get_as_float (argv[4]);
+        nBase      = argv[5] ? value_get_as_int (argv[5]) : 0;
+
+        if ( nBase < 0 || nBase > 4 || nSettle == NULL || nMat == NULL
+	     || (nFreq != 1 && nFreq != 2 && nFreq != 4) ) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	fNumOfCoups = coupnum (nSettle, nMat, nFreq, nBase, FALSE);
+	result      = get_mduration (nSettle, nMat, fCoup, fYield, nFreq,
+				     nBase, fNumOfCoups);
+
+ out:
+	datetime_g_free (nSettle);
+	datetime_g_free (nMat);
+
+	return result;
 }
 
 /***************************************************************************/

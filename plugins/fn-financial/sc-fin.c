@@ -202,6 +202,36 @@ GetZw ( gnum_float fZins, gnum_float fZzr, gnum_float fRmz, gnum_float fBw,
         return -fZw;
 }
 
+static gnum_float
+Duration (GDate *nSettle, GDate *nMat, gnum_float fCoup, gnum_float fYield,
+	  gint nFreq, gint nBase, gnum_float fNumOfCoups)
+{
+        gnum_float  fYearfrac   = GetYearFrac ( nSettle, nMat, nBase );
+        gnum_float  fDur        = 0.0;
+	gnum_float  t, p        = 0.0;
+
+        const gnum_float f100   = 100.0;
+
+        fCoup  *= f100 / (gnum_float) nFreq; /* fCoup is used as cash flow */
+        fYield /= nFreq;
+        fYield += 1.0;
+
+        for ( t = 1.0 ; t < fNumOfCoups ; t++ )
+                fDur += t * ( fCoup ) / pow ( fYield, t );
+
+        fDur += fNumOfCoups * ( fCoup + f100 ) / pow ( fYield, fNumOfCoups );
+
+        for ( t = 1.0 ; t < fNumOfCoups ; t++ )
+                p += fCoup / pow ( fYield, t );
+
+        p += ( fCoup + f100 ) / pow ( fYield, fNumOfCoups );
+
+        fDur /= p;
+        fDur /= (gnum_float) nFreq;
+
+        return ( fDur );
+}
+
 /***************************************************************************/
 
 Value *
@@ -350,30 +380,22 @@ Value *    get_duration  (GDate *nSettle, GDate *nMat, gnum_float fCoup,
 			  gnum_float fYield, gint nFreq, gint nBase,
 			  gnum_float fNumOfCoups)
 {
-        gnum_float  fYearfrac   = GetYearFrac ( nSettle, nMat, nBase );
-        gnum_float  fDur        = 0.0;
-	gnum_float  t, p        = 0.0;
+        return value_new_float ( Duration (nSettle, nMat, fCoup, fYield, nFreq,
+					   nBase, fNumOfCoups) );
+}
 
-        const gnum_float f100   = 100.0;
+/***************************************************************************/
 
-        fCoup  *= f100 / (gnum_float) nFreq; /* fCoup is used as cash flow */
-        fYield /= nFreq;
-        fYield += 1.0;
+Value *    get_mduration (GDate *nSettle, GDate *nMat, gnum_float fCoup,
+			  gnum_float fYield, gint nFreq, gint nBase,
+			  gnum_float fNumOfCoups)
+{
+	gnum_float fRet = Duration (nSettle, nMat, fCoup, fYield, nFreq, nBase,
+				    fNumOfCoups);
 
-        for ( t = 1.0 ; t < fNumOfCoups ; t++ )
-                fDur += t * ( fCoup ) / pow ( fYield, t );
+	fRet /= 1.0 + ( fYield / (gnum_float) nFreq );
 
-        fDur += fNumOfCoups * ( fCoup + f100 ) / pow ( fYield, fNumOfCoups );
-
-        for ( t = 1.0 ; t < fNumOfCoups ; t++ )
-                p += fCoup / pow ( fYield, t );
-
-        p += ( fCoup + f100 ) / pow ( fYield, fNumOfCoups );
-
-        fDur /= p;
-        fDur /= (gnum_float) nFreq;
-
-        return value_new_float ( fDur );
+        return value_new_float ( fRet );
 }
 
 /***************************************************************************/

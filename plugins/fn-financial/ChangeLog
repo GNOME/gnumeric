@@ -1,8 +1,10 @@
 2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
-	* functions (gnumeric_cumprinc, gnumeric_cumipmt): Implemented.
+	* functions (gnumeric_cumprinc, gnumeric_cumipmt, gnumeric_mduration):
+	Implemented.
 
-	* sc-fin.c (GetRmz,GetZw,get_cumprinc,get_cumipmt): Added.
+	* sc-fin.c (GetRmz,GetZw,Duration,get_cumprinc,get_cumipmt,
+	get_mduration): Added.
 
 2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
