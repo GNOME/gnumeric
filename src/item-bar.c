@@ -412,12 +412,12 @@ colrow_tip_setlabel (ItemBar *item_bar, gboolean const is_vertical, int const si
 static void
 item_bar_end_resize (ItemBar *item_bar, int new_size)
 {
+	if (new_size > 0)
+		gtk_signal_emit (GTK_OBJECT (item_bar),
+				 item_bar_signals [SIZE_CHANGED],
+				 item_bar->resize_pos,
+				 new_size);
 	if (item_bar->resize_guide) {
-		if (new_size > 0)
-			gtk_signal_emit (GTK_OBJECT (item_bar),
-					 item_bar_signals [SIZE_CHANGED],
-					 item_bar->resize_pos,
-					 new_size);
 		gtk_object_destroy (item_bar->resize_guide);
 		item_bar->resize_guide = NULL;
 	}
@@ -426,6 +426,7 @@ item_bar_end_resize (ItemBar *item_bar, int new_size)
 		item_bar->tip = NULL;
 	}
 	item_bar->start_selection = -1;
+
 	item_bar->resize_pos = -1;
 }
 
@@ -592,9 +593,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button == 3)
 			break;
 
-		/* This will only happen if we did not double click */
-		gnome_canvas_item_ungrab (item, e->button.time);
-		item_bar_end_resize (item_bar, item_bar->resize_width);
+		if (item_bar->resize_pos >= 0) {
+			gnome_canvas_item_ungrab (item, e->button.time);
+			item_bar_end_resize (item_bar, item_bar->resize_width);
+		}
 		break;
 
 	default:
