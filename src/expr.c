@@ -1217,7 +1217,7 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 	int tmp;
 	int col = ref->col;
 	int row = ref->row;
-	Sheet const *ref_sheet = (ref->sheet != NULL) ? ref->sheet : rinfo->pos.sheet;
+	Sheet *ref_sheet = (ref->sheet != NULL) ? ref->sheet : rinfo->pos.sheet;
 
 	if (ref->col_relative) 
 		col += rinfo->pos.eval.col;

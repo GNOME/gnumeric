@@ -1364,9 +1364,6 @@ fmt_dialog_init_font_page (FormatState *state)
  		case UNDERLINE_NONE   : uline_str = _("None"); break;
  		case UNDERLINE_SINGLE : uline_str = _("Single"); break;
  		case UNDERLINE_DOUBLE : uline_str = _("Double"); break;
-		case UNDERLINE_NONE : val = _("None"); break;
-		case UNDERLINE_SINGLE :val = _("Single"); break;
-		case UNDERLINE_DOUBLE :val = _("Double"); break;
 		};
 		font_selector_set_underline (state->font.selector,
 			mstyle_get_font_uline (state->style));
@@ -1374,9 +1371,9 @@ fmt_dialog_init_font_page (FormatState *state)
  		uline_str = "";
  	gnm_combo_text_set_text	(GNM_COMBO_TEXT (uline), uline_str,
  		GNM_COMBO_TEXT_FROM_TOP);
- 	g_signal_connect (GTK_OBJECT (uline),
+ 	gtk_signal_connect (GTK_OBJECT (uline),
  		"entry_changed",
- 		G_CALLBACK (cb_font_underline_changed), state);
+ 		GTK_SIGNAL_FUNC (cb_font_underline_changed), state);
  	gtk_widget_show_all (uline);
 
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_STRIKETHROUGH))
