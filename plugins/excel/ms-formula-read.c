@@ -1275,11 +1275,15 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			{
 				str = biff_get_text (cur+2, MS_OLE_GET_GUINT16(cur), &len) ;
 				ptg_length = 2 + len ;
-/*				printf ("v8+ PTG_STR '%s'\n", str) ; */
+#if 0
+				printf ("v8+ PTG_STR '%s'\n", str) ;
+#endif
 			} else {
 				str = biff_get_text (cur+1, MS_OLE_GET_GUINT8(cur), &len) ;
 				ptg_length = 1 + len ;
-/*				printf ("<v7 PTG_STR '%s' len %d ptglen %d\n", str, len, ptg_length) ; */
+#if 0
+				printf ("<v7 PTG_STR '%s' len %d ptglen %d\n", str, len, ptg_length);
+#endif
 			}
 			if (!str) str = g_strdup("");
 			parse_list_push_raw (&stack, value_new_string (str));

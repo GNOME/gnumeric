@@ -341,7 +341,8 @@ write_cellref_v8 (PolishData *pd, const CellRef *ref,
 static void
 write_string (PolishData *pd, const gchar *txt)
 {
-	if (!txt || txt[0] == '\0')
+	/* FIXME : Check this logic.  Why would we pass a NULL ? */
+	if (txt == NULL)
 		push_guint8 (pd, FORMULA_PTG_MISSARG);
 	else {
 		push_guint8 (pd, FORMULA_PTG_STR);
