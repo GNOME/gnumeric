@@ -46,6 +46,7 @@
 #include "format.h"
 #include "selection.h"
 #include "ranges.h"
+#include "parse-util.h"
 
 #include <gsf/gsf-input.h>
 #include <ctype.h>
@@ -237,7 +238,8 @@ cb_get_content (Sheet *sheet, int col, int row,
 	if (cell_has_expr (cell)) {
 		ParsePos pp;
 		tmp = gnm_expr_as_string (cell->base.expression,
-			parse_pos_init_cell (&pp, cell));
+			parse_pos_init_cell (&pp, cell),
+			gnm_expr_conventions_default);
 	} else if (VALUE_FMT (cell->value) != NULL)
 		tmp = format_value (NULL, cell->value, NULL, -1);
 	else

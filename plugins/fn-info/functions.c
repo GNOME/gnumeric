@@ -1177,9 +1177,9 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 
 		if (cell && cell_has_expr (cell)) {
 			ParsePos pos;
-			char * expr_string =
-			    gnm_expr_as_string (cell->base.expression,
-				parse_pos_init_cell (&pos, cell));
+			char *expr_string = gnm_expr_as_string (cell->base.expression,
+				parse_pos_init_cell (&pos, cell),
+				gnm_expr_conventions_default);
 			return value_new_string_nocopy (expr_string);
 		}
 	}

@@ -66,7 +66,8 @@ gboolean  gnm_expr_is_shared 	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_rangeref 	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_err 	     (GnmExpr const *expr, char const *err);
 gboolean  gnm_expr_equal	     (GnmExpr const *a, GnmExpr const *b);
-char	 *gnm_expr_as_string	     (GnmExpr const *expr, ParsePos const *fp);
+char	 *gnm_expr_as_string	     (GnmExpr const *expr, ParsePos const *fp,
+				      GnmExprConventions const *fmt);
 void	  gnm_expr_get_boundingbox   (GnmExpr const *expr, Range *bound);
 GSList	 *gnm_expr_referenced_sheets (GnmExpr const *expr);
 gboolean  gnm_expr_containts_subtotal(GnmExpr const *expr);
@@ -110,7 +111,7 @@ Value *gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 void 	 gnm_expr_list_unref	  (GnmExprList *list);
 gboolean gnm_expr_list_equal	  (GnmExprList const *a, GnmExprList const *b);
 char    *gnm_expr_list_as_string  (GnmExprList const *list, ParsePos const *p,
-				   char const *prefix);
+				   char const *prefix, GnmExprConventions const *fmt);
 
 /*****************************************************************************/
 

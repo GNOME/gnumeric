@@ -474,11 +474,12 @@ expr_name_remove (GnmNamedExpr *nexpr)
  * returns a string that the caller needs to free.
  */
 char *
-expr_name_as_string (GnmNamedExpr const *nexpr, ParsePos const *pp)
+expr_name_as_string (GnmNamedExpr const *nexpr, ParsePos const *pp,
+		     GnmExprConventions const *fmt)
 {
 	if (pp == NULL)
 		pp = &nexpr->pos;
-	return gnm_expr_as_string (nexpr->expr_tree, pp);
+	return gnm_expr_as_string (nexpr->expr_tree, pp, fmt);
 }
 
 Value *

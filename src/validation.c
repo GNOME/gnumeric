@@ -277,7 +277,8 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			}
 
 			expr_str = gnm_expr_as_string (expr,
-				parse_pos_init_evalpos (&pp, &ep));
+				parse_pos_init_evalpos (&pp, &ep),
+				gnm_expr_conventions_default);
 			msg = g_strdup_printf (_("%s is not true."), expr_str);
 			g_free (expr_str);
 			gnm_expr_unref (expr);

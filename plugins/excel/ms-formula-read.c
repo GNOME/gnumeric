@@ -1555,7 +1555,7 @@ excel_parse_formula (MSContainer const *container,
 		ParsePos pp;
 		GnmExpr const *expr = parse_list_pop (&stack);
 		parse_pos_init (&pp, NULL, esheet->sheet, fn_col, fn_row);
-		puts (gnm_expr_as_string (expr, &pp));
+		puts (gnm_expr_as_string (expr, &pp, gnm_expr_conventions_default));
 		return expr;
 	}
 #endif

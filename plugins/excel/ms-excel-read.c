@@ -162,7 +162,7 @@ ms_sheet_parse_expr_internal (ExcelSheet *esheet, guint8 const *data, int length
 		Sheet *sheet = esheet->sheet;
 		Workbook *wb = (sheet == NULL) ? esheet->container.ewb->gnum_wb : NULL;
 
-		tmp = gnm_expr_as_string (expr, parse_pos_init (&pp, wb, sheet, 0, 0));
+		tmp = gnm_expr_as_string (expr, parse_pos_init (&pp, wb, sheet, 0, 0), gnm_expr_conventions_default);
 		puts (tmp);
 		g_free (tmp);
 	}
@@ -2670,7 +2670,7 @@ excel_parse_name (ExcelWorkbook *ewb, Sheet *sheet, char *name,
 			char *tmp;
 			ParsePos pp;
 
-			tmp = gnm_expr_as_string (expr, parse_pos_init (&pp, ewb->gnum_wb, NULL, 0, 0));
+			tmp = gnm_expr_as_string (expr, parse_pos_init (&pp, ewb->gnum_wb, NULL, 0, 0), gnm_expr_conventions_default);
 			fprintf (stderr, "%s\n", tmp);
 			g_free (tmp);
 		});

@@ -938,7 +938,7 @@ gnm_expr_entry_load_from_dep (GnumericExprEntry *gee, Dependent const *dep)
 	if (dep->expression != NULL) {
 		ParsePos pp;
 		char *text = gnm_expr_as_string (dep->expression,
-			parse_pos_init_dep (&pp, dep));
+			parse_pos_init_dep (&pp, dep), gnm_expr_conventions_default);
 
 		gee_rangesel_reset (gee);
 		gtk_entry_set_text (gee->entry, text);
@@ -966,7 +966,8 @@ gnm_expr_entry_load_from_expr (GnumericExprEntry *gee,
 	g_return_if_fail (gee->freeze_count == 0);
 
 	if (expr != NULL) {
-		char *text = gnm_expr_as_string (expr, pp);
+		char *text = gnm_expr_as_string (expr, pp,
+				gnm_expr_conventions_default);
 		gee_rangesel_reset (gee);
 		gtk_entry_set_text (gee->entry, text);
 		gee->rangesel.text_end = strlen (text);
@@ -1201,7 +1202,7 @@ gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
 	}
 
 	/* Reset the entry in case something changed */
-	str = gnm_expr_as_string (expr, pp);
+	str = gnm_expr_as_string (expr, pp, gnm_expr_conventions_default);
 	if (strcmp (str, text)) {
 		SheetControlGUI *scg = wbcg_cur_scg (gee->wbcg);
 		Rangesel const *rs = &gee->rangesel;

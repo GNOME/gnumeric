@@ -27,7 +27,8 @@ void	 expr_name_unref      (GnmNamedExpr *nexpr);
 void     expr_name_remove     (GnmNamedExpr *nexpr);
 Value   *expr_name_eval       (GnmNamedExpr const *ne, EvalPos const *ep,
 			       GnmExprEvalFlags flags);
-char    *expr_name_as_string  (GnmNamedExpr const *ne, ParsePos const *pp);
+char    *expr_name_as_string  (GnmNamedExpr const *ne, ParsePos const *pp,
+			       GnmExprConventions const *fmt);
 gboolean expr_name_set_scope  (GnmNamedExpr *ne, Sheet *sheet);
 void	 expr_name_set_expr   (GnmNamedExpr *ne, GnmExpr const *new_expr);
 void	 expr_name_add_dep    (GnmNamedExpr *ne, Dependent *dep);

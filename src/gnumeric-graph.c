@@ -1008,7 +1008,8 @@ gnm_graph_write_xml (SheetObject const *so,
 		if (vector == NULL)
 			continue;
 		expr_str = gnm_expr_as_string (vector->dep.expression,
-			parse_pos_init_dep (&pp, &vector->dep));
+			parse_pos_init_dep (&pp, &vector->dep),
+			gnm_expr_conventions_default);
 		encoded_expr_str = xmlEncodeEntitiesReentrant (ctxt->doc,
 			(xmlChar *)expr_str);
 		node = xmlNewChild (vectors, ctxt->ns, (xmlChar *)"Vector",

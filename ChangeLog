@@ -1,3 +1,8 @@
+2002-12-04  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c (gnm_expr_as_string) : Add a currently useless
+	  conventions argument for future use.
+
 2002-12-03  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (sheet_control_gui_new) : take a wbcg as a

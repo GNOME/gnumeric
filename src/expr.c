@@ -1120,7 +1120,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
  */
 static char *
 do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
-		   int paren_level)
+		   int paren_level, GnmExprConventions const *fmt)
 {
 	static struct {
 		char const *name;
@@ -1162,9 +1162,9 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		int const prec = operations[op].prec;
 
 		a = do_expr_as_string (expr->binary.value_a, pp,
-				       prec - operations[op].assoc_left);
+				       prec - operations[op].assoc_left, fmt);
 		b = do_expr_as_string (expr->binary.value_b, pp,
-				       prec - operations[op].assoc_right);
+				       prec - operations[op].assoc_right, fmt);
 		opname = operations[op].name;
 
 		if (prec <= paren_level)
@@ -1183,7 +1183,7 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		int const prec = operations[op].prec;
 
 		a = do_expr_as_string (expr->unary.value, pp,
-				       operations[op].prec);
+				       operations[op].prec, fmt);
 		opname = operations[op].name;
 
 		if (expr->any.oper != GNM_EXPR_OP_PERCENTAGE) {
@@ -1206,7 +1206,7 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 
 		if (arg_list != NULL)
 			return gnm_expr_list_as_string (arg_list, pp,
-				gnm_func_get_name (expr->func.func));
+				gnm_func_get_name (expr->func.func), fmt);
 		else
 			return g_strconcat (gnm_func_get_name (expr->func.func),
 					    "()", NULL);
@@ -1271,28 +1271,29 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 				tmp_pos.eval.row = pp->eval.row - y;
 				return do_expr_as_string (
 					corner->base.expression->array.corner.expr,
-					&tmp_pos, 0);
+					&tmp_pos, 0, fmt);
 			} else
 				return g_strdup ("<ERROR>");
 		} else
 			return do_expr_as_string (
-				expr->array.corner.expr, pp, 0);
+				expr->array.corner.expr, pp, 0, fmt);
         }
 
 	case GNM_EXPR_OP_SET:
-		return gnm_expr_list_as_string (expr->set.set, pp, "");
+		return gnm_expr_list_as_string (expr->set.set, pp, "", fmt);
 	};
 
 	return g_strdup ("0");
 }
 
 char *
-gnm_expr_as_string (GnmExpr const *expr, ParsePos const *pp)
+gnm_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
+		    GnmExprConventions const *fmt)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
 
-	return do_expr_as_string (expr, pp, 0);
+	return do_expr_as_string (expr, pp, 0, fmt);
 }
 
 typedef enum {
@@ -2142,7 +2143,7 @@ gnm_expr_list_eq (GnmExprList const *la, GnmExprList const *lb)
 
 char *
 gnm_expr_list_as_string (GnmExprList const *list, ParsePos const *pp,
-			 char const *prefix)
+			 char const *prefix, GnmExprConventions const *fmt)
 {
 	int i, len = 0, *lengths;
 	int argc = gnm_expr_list_length ((GnmExprList *)list);
@@ -2155,7 +2156,7 @@ gnm_expr_list_as_string (GnmExprList const *list, ParsePos const *pp,
 	args = g_alloca (sizeof (char *) * argc);
 	lengths = g_alloca (sizeof (int) * argc);
 	for (l = list; l; l = l->next, i++) {
-		args[i] = do_expr_as_string (l->data, pp, 0);
+		args[i] = do_expr_as_string (l->data, pp, 0, fmt);
 		len += 1 + (lengths[i] = strlen (args[i]));
 	}
 	i = strlen (prefix);
@@ -2412,7 +2413,7 @@ cb_expression_pool_leak (gpointer data, __attribute__((unused)) gpointer user)
 	pp.eval.row = 0;
 	pp.sheet = NULL;
 	pp.wb = NULL;
-	s = gnm_expr_as_string (expr, &pp);
+	s = gnm_expr_as_string (expr, &pp, gnm_expr_conventions_default);
 	fprintf (stderr, "Leaking expression at %p: %s.\n", expr, s);
 	g_free (s);
 }

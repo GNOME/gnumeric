@@ -127,7 +127,8 @@ name_guru_set_expr (NameGuruState *state, GnmNamedExpr *nexpr)
 {
 	state->updating = TRUE;
 	if (nexpr) {
-		char *txt = expr_name_as_string (nexpr, &state->pp);
+		char *txt = expr_name_as_string (nexpr, &state->pp,
+				 gnm_expr_conventions_default);
 		gnm_expr_entry_load_from_text  (state->expr_entry, txt);
 		g_free (txt);
 		gtk_entry_set_text (state->name, nexpr->name->str);

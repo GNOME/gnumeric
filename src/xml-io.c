@@ -613,12 +613,12 @@ xml_write_style (XmlParseContext *ctxt,
 
 		parse_pos_init (&pp, ctxt->wb, ctxt->sheet, 0, 0);
 		if (v->expr[0] != NULL &&
-		    (tmp = gnm_expr_as_string (v->expr[0], &pp)) != NULL) {
+		    (tmp = gnm_expr_as_string (v->expr[0], &pp, gnm_expr_conventions_default_1_0)) != NULL) {
 			xmlNewChild (child, child->ns, (xmlChar const *)"Expression0", (xmlChar *)tmp);
 			g_free (tmp);
 		}
 		if (v->expr[1] != NULL &&
-		    (tmp = gnm_expr_as_string (v->expr[1], &pp)) != NULL) {
+		    (tmp = gnm_expr_as_string (v->expr[1], &pp, gnm_expr_conventions_default_1_0)) != NULL) {
 			xmlNewChild (child, child->ns, (xmlChar const *)"Expression1", (xmlChar *)tmp);
 			g_free (tmp);
 		}
@@ -651,7 +651,7 @@ cb_xml_write_name (gpointer key, GnmNamedExpr *nexpr, XMLWriteNames *user)
 	if (txt)
 		xmlFree (txt);
 
-	expr_str = expr_name_as_string (nexpr, NULL);
+	expr_str = expr_name_as_string (nexpr, NULL, gnm_expr_conventions_default_1_0);
 	txt = xmlEncodeEntitiesReentrant (user->ctxt->doc, (xmlChar const *)expr_str);
 	xmlNewChild (nameNode, user->ctxt->ns, (xmlChar const *)"value", txt);
 	if (txt)
@@ -1630,7 +1630,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos c
 		if (cell_has_expr (cell)) {
 			char *tmp;
 
-			tmp = gnm_expr_as_string (cell->base.expression, pp);
+			tmp = gnm_expr_as_string (cell->base.expression, pp, gnm_expr_conventions_default_1_0);
 			text = (xmlChar *)g_strconcat ("=", tmp, NULL);
 			g_free (tmp);
 		} else
@@ -3307,15 +3307,6 @@ xml_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	xmlFreeDoc (res);
 	return ret;
 }
-
-static void
-gnumeric_xml_set_compression (xmlDoc *doc, int compression)
-{
-	if (compression < 0)
-		compression = gnm_app_prefs->xml_compression_level;
-	xmlSetDocCompressMode (doc, compression);
-}
-
 
 /*
  * Open an XML file and read a Workbook

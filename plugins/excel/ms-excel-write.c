@@ -2416,9 +2416,11 @@ write_cell (ExcelWriteState *ewb, ExcelSheet *esheet, Cell const *cell, unsigned
 		ParsePos tmp;
 		fprintf (stderr, "Writing cell at %s '%s' = '%s', xf = 0x%x\n",
 			cell_name (cell),
-			(cell_has_expr (cell) ?
-			 gnm_expr_as_string (cell->base.expression,
-					     parse_pos_init_cell (&tmp, cell)) : "none"),
+			(cell_has_expr (cell)
+			 ?  gnm_expr_as_string (cell->base.expression,
+				parse_pos_init_cell (&tmp, cell),
+				gnm_expr_conventions_default)
+			 : "none"),
 			(cell->value ?
 			 value_get_as_string (cell->value) : "empty"), xf);
 	});

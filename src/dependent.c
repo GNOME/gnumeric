@@ -144,11 +144,11 @@ dependent_set_expr (Dependent *dep, GnmExpr const *new_expr)
 	parse_pos_init_dep (&pos, dep);
 	dependent_debug_name (dep, stdout);
 
-	str = gnm_expr_as_string (new_expr, &pos);
+	str = gnm_expr_as_string (new_expr, &pos, gnm_expr_conventions_default);
 	printf(" new = %s\n", str);
 	g_free (str);
 
-	str = gnm_expr_as_string (dep->expression, &pos);
+	str = gnm_expr_as_string (dep->expression, &pos, gnm_expr_conventions_default);
 	printf("\told = %s\n", str);
 	g_free (str);
 }
@@ -1096,7 +1096,7 @@ cell_eval_content (Cell *cell)
 	{
 		ParsePos pp;
 		char *str = gnm_expr_as_string (cell->base.expression,
-			parse_pos_init_cell (&pp, cell));
+			parse_pos_init_cell (&pp, cell), gnm_expr_conventions_default);
 		printf ("{\nEvaluating %s: %s;\n", cell_name (cell), str);
 		g_free (str);
 	}

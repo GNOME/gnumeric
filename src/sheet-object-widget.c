@@ -894,7 +894,8 @@ sheet_widget_scrollbar_write_xml (SheetObject const *so,
 	if (swb->dep.expression != NULL) {
 		ParsePos pos;
 		char *val = gnm_expr_as_string (swb->dep.expression,
-			parse_pos_init (&pos, NULL, so->sheet, 0, 0));
+			parse_pos_init (&pos, NULL, so->sheet, 0, 0),
+			gnm_expr_conventions_default);
 		xml_node_set_cstr (tree, "Input", val);
 	}
 
@@ -1345,7 +1346,8 @@ sheet_widget_checkbox_write_xml (SheetObject const *so,
 	if (swc->dep.expression != NULL) {
 		ParsePos pos;
 		char *val = gnm_expr_as_string (swc->dep.expression,
-			parse_pos_init (&pos, NULL, so->sheet, 0, 0));
+			parse_pos_init (&pos, NULL, so->sheet, 0, 0),
+			gnm_expr_conventions_default);
 		xml_node_set_cstr (tree, "Input", val);
 	}
 
