@@ -90,4 +90,142 @@
       </orderedlist>
     </para>
   </sect2>
+  <sect2 id="graphing-advanced">
+    <title>Advanced Graphing</title>
+    <para>
+      In no way does graphing in <application>Gnumeric</application>
+      stop with a simple graph.  In the graphs you make, you can
+      customize it.  For example, you can say which cells define the
+      ranges or labels.  If a label for a field is in paraenthesis, it
+      means that field is optional.
+    </para>
+    <sect3 id="graphing-advanced-data-ranges">
+      <title>Selecting Data Ranges</title>
+      <para>
+	In the second step of the graphing assistant, you'll find you
+	can customize the ranges which are taken into account for
+	drawing the graph.
+      </para>
+      <para>
+	At the top of the window is a preview of the graph.  Below
+	that are your settings.  When you change a setting, the sample
+	graph will change automatically to reflect your
+	customizations.
+      </para>
+      <sect4 id="graphing-advanced-data-ranges-plot">
+	<title>Plot</title>
+	<para>
+	  A graph is made up of plots.  Currently,
+	  <application>Gnumeric</application> can only generate one
+	  graph from a spreadsheet.  However, you can import an
+	  <application>Excel</application> spreadsheet to use multiple
+	  plots.  You can customize the data ranges of each plot.
+	</para>
+      </sect4>
+      <sect4 id="graphing-advanced-data-ranges-plot">
+	<title>Series</title>
+	<para>
+	  A <xref linkend="graphing-advanced-data-ranges-plot"> is
+	    made up of a group of series.  A series is each item that is
+	    to be graphed.
+	    <example id="series-example">
+	      <title>Series Example</title>
+	      <para>
+		A small Boston based software company is doing a
+		spreadsheet for their montly income and spendings.
+		The month goes on the x-axis while the dollars spent a
+		month goes on the y-axis.  Two bars are drawn for each
+		month: in and out.  In and out are the two series.
+	      </para>
+	    </example>
+	    You can customize the ranges for every series included in
+	    your graph.
+	</para>
+      </sect4>
+      <sect4 id="graphing-advanced-data-ranges-name">
+	<title>Name Data Range</title>
+	<para>
+	  The <guilabel>Name</guilabel> field defines what the name of
+	  each series is.  This is reflected in the legend.  Per
+	  the <xref linkend="series-example">, the name for the first
+	  series would be in.
+	</para>
+	<para>
+	  The name field takes two arguements.  The first is the sheet
+	  name.  The second is the cell which the name is derived
+	  from.  In the cell definition, the row and columns are both
+	  preficed with a $.  The two arguements are separated by an
+	  exclamation mark.
+	  <example id="name-example">
+	    <title>Name Example</title>
+	    <para>
+	      A name needs to be derived from Sheet1 and cell B1.  The
+	      name field would include:
+	      <programlisting>
+		Sheet1!$B$1
+	      </programlisting>
+	    </para>
+	  </example>
+	</para>
+      </sect4>
+      <sect4 id="graphing-advanced-data-ranges-values">
+	<title>Values Data Range</title>
+	<para>
+	  The <guilabel>Values</guilabel> field defines which data
+	  should be included in the graph.  The
+	  <guilabel>Values</guilabel> field takes two arguements.  The
+	  first being the sheet name.  The second being either a
+	  single, multiple, or range of cells to use.  The row and
+	  column of each cell needs to be prefaced by a $.
+	  <example id="graphing-advanced-data-ranges-values-example">
+	    <title>Values Example</title>
+	    <para>
+	      A series needs to have information graphed from Sheet1,
+	      using cells B2 through B13.  The following would be
+	      inserted into <guilabel>Values</guilabel>:
+	      <programlisting>
+		Sheet1!$B$2:$B$13
+	      </programlisting>
+	    </para>
+	  </example>
+	</para>
+      </sect4>
+      <sect4 id="graphing-advanced-data-ranges-cat-labels">
+	<title>Category Labels Data Range</title>
+	<para>
+	  The <guilabel>Category Labels</guilabel> field sets what
+	  cells are used to derive the labels on the x-axis.  The
+	  <guilabel>Category Labels</guilabel> takes two arguements.  The
+	  first being the sheet name.  The second being either a
+	  single, multiple, or range of cells to use.  The row and
+	  column of each cell needs to be prefaced by a $.
+	  <example
+	  id="graphing-advanced-data-ranges-cat-labels-example">
+	    <title>Category Labels Example</title>
+	    <para>
+	      A graph needs to be generated that uses labels defined
+	      on Sheet1, using cells A2 or A13.  The following would
+	      be inserted into <guilabel>Category Labels</guilabel>:
+	      <programlisting>
+		Sheet1$A$2:$A$13
+	      </programlisting>
+	    </para>
+	  </example>
+	</para>
+      </sect4>
+    </sect3>
+    <sect3 id="graphing-advanced-cus-graph">
+      <title>Customizing Graph Layout</title>
+      <para>
+	The graph layout can be customized using the third step of the
+	graphing assistant.
+      </para>
+      <para>
+	At this time, only the legend position can be edited.  This is
+	done by selecting the <guibutton>Position radio
+	buttons</guibutton> at the bottom of the window.  The demo
+	graph will be updated accordingly.
+      </para>
+    </sect3>
+  </sect2>
 </sect1>
