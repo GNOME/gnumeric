@@ -239,12 +239,14 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 			    SheetView *sv, GnmRange const *area,
 			    gboolean animate_cursor)
 {
+	Sheet *sheet;
+
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (area != NULL);
 	g_return_if_fail (app != NULL);
 
 	gnm_app_clipboard_clear (FALSE);
-	Sheet *sheet = sv_sheet (sv);
+	sheet = sv_sheet (sv);
 	g_free (app->clipboard_cut_range);
 	app->clipboard_cut_range = range_dup (area);
 	sv_weak_ref (sv, &(app->clipboard_sheet_view));
