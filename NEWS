@@ -3,6 +3,7 @@ Gnumeric 1.2.2
 Andreas:
 	* Updated some docs.
 	* Also use fallback-fonts for the page decorations when printing.
+	http://bugzilla.gnome.org/show_bug.cgi?id=122034
 	* Add default header/footer font selector to preference dialog.
 	http://bugzilla.gnome.org/show_bug.cgi?id=125361
 	* Fix printing from Page Setup dialog.
@@ -75,6 +76,9 @@ Morten:
 
 Rodrigo:
 	* Bump requirement to libgda/libgnomedb 1.0.1
+
+J.H.M. Dassen (Ray):
+    	* Include several missing images in the documentation. (Debian #218580)
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.1
