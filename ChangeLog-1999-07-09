@@ -1,3 +1,9 @@
+1999-06-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/file.c (dialog_query_load_file): 
+	(workbook_save_as): Prettify these.  Thanks to Andrew for pointing
+	this out.
+
 1999-06-01  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-stat.c (gnumeric_kurt): Fix crashes and leaks.
