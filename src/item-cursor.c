@@ -902,8 +902,6 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 static gboolean
 item_cursor_target_region_ok (ItemCursor *ic)
 {
-	int v;
-	GtkWidget	*message;
 	GnomeCanvasItem *gci = GNOME_CANVAS_ITEM (ic);
 	SheetControl	*sc = (SheetControl *) ic->scg;
 
@@ -913,18 +911,12 @@ item_cursor_target_region_ok (ItemCursor *ic)
 	if (sheet_is_region_empty_or_selected (sc->sheet, &ic->pos))
 		return TRUE;
 
-	message = gtk_message_dialog_new (wbcg_toplevel (ic->scg->wbcg),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_WARNING,
-		GTK_BUTTONS_YES_NO,
-		_("The cells dragged will overwrite the contents of the\n"
-		  "existing cells in that range.  Do you want me to replace\n"
-		  "the contents in this region?"));
-	v = gtk_dialog_run (GTK_DIALOG (message));
-
-	if (v == 0)
-		return TRUE;
-	return FALSE;
+	return gnumeric_dialog_question_yes_no 
+		(ic->scg->wbcg,
+		 _("The cells dragged will overwrite the contents of the\n"
+		   "existing cells in that range.  Do you want me to replace\n"
+		   "the contents in this region?"),
+		 TRUE);
 }
 
 typedef enum {

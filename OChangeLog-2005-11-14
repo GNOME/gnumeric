@@ -1,5 +1,9 @@
 2002-04-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/item-cursor.c (item_cursor_target_region_ok) : fix message dialog
+
+2002-04-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/mstyle.c (mstyle_new_default) : protect against faulty
 	  schema installation
 	* src/style.c (font_init) : protect against faulty
