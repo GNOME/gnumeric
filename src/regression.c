@@ -10,6 +10,7 @@
 #include <glib.h>
 #include <math.h>
 #include <string.h>
+#include <stdlib.h>
 #include "regression.h"
 
 #define ALLOC_MATRIX(var,dim1,dim2)			\

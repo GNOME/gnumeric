@@ -1,3 +1,18 @@
+2001-06-21  Morten Welinder  <terra@diku.dk>
+
+	* src/summary.c: #include <string.h> for strlen.
+
+	* src/search.c (calculate_replacement): Warning killer.
+
+	* src/regression.c: #include <stdlib.h> for abs.
+
+	* src/plugin-loader-module.c: #include <string.h> for strcmp.
+
+	* src/formats.c (cell_format_fraction): Avoid accidental use of
+ 	trigraph.
+
+	* src/complete.c: #include <stdlib.h> for abort.
+
 2001-06-21  Almer S. Tigelaar  <almer@gnome.org>
  
  	* src/gnumeric-sheet.c (border_mutate): New, toggles

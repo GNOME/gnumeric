@@ -14,6 +14,8 @@
 #include "auto-format.h"
 
 #include <math.h>
+#include <string.h>
+#include <stdlib.h>
 
 #define DAY_SECONDS (3600*24)
 

@@ -22,6 +22,8 @@
 
 #include <sys/utsname.h>
 #include <math.h>
+#include <stdlib.h>
+#include <string.h>
 
 enum Value_Class {
 	VALUE_CLASS_NUMBER  = 1,
@@ -105,7 +107,7 @@ static translate_t translate_table[] = {
 	{ "0.00%", "P2" },
 	{ "0.00e+00", "S2" },
 	{ "# ?/?", "G" },
-	{ "# ??/??", "G" },
+	{ "# ?" "?/?" "?", "G" },   /* Don't accidentally use trigraphs here.  */
 	{ "m/d/yy", "D4" },
 	{ "m/d/yy h:mm", "D4" },
 	{ "mm/dd/yy", "D4" },

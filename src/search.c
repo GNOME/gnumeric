@@ -286,8 +286,10 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 
 		if (is_upper) {
 			unsigned char *p = (unsigned char *)res;
-			while (*p)
-				*p++ = toupper (*p);
+			while (*p) {
+				*p = toupper (*p);
+				p++;
+			}
 		} else if (is_capital) {
 			gboolean up = TRUE;
 			unsigned char *p = (unsigned char *)res;

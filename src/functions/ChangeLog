@@ -1,3 +1,16 @@
+2001-06-21  Morten Welinder  <terra@diku.dk>
+
+	* fn-stat.c: #include <string.h> for memset.
+
+	* fn-lookup.c: #include <stdlib.h> for abs.
+
+	* fn-information.c (translate_table): Fix accidental use of
+ 	trigraph.
+	#include <stdlib.h> for abs and <string.h> for strcmp.
+
+	* fn-date.c: #include <string.h> for strcmp and <stdlib.h> for
+ 	abort.
+
 2001-06-15  Jody Goldberg <jgoldberg@home.com>
 
 	* fn-database.c (criteria_test_*) : protect against NULL.

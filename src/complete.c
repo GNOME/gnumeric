@@ -24,6 +24,7 @@
 #include <gal/util/e-util.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define PARENT_TYPE (gtk_object_get_type ())
 #define ACC(o) (COMPLETE_CLASS (GTK_OBJECT (o)->klass))

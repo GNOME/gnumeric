@@ -6,13 +6,14 @@
  *
  * (C) 1999 Michael Meeks
  */
+#include <config.h>
+#include <glib.h>
 #include <stdio.h>
 #include <time.h>
-#include <config.h>
-#include <ctype.h>
-#include <glib.h>
 #include "summary.h"
 #include "gutils.h"
+#include <ctype.h>
+#include <string.h>
 
 /*
  *  NOTE:
@@ -134,8 +135,8 @@ summary_item_as_text (const SummaryItem *sit)
 
 	case SUMMARY_TIME:
 		time = (time_t)sit->v.time.tv_sec;
-		ch_time = ctime(&time);
-		ch_time[strlen(ch_time)-1] = '\0';
+		ch_time = ctime (&time);
+		ch_time[strlen (ch_time) - 1] = '\0';
 		return g_strdup (ch_time);
 
 	default:

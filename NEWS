@@ -33,6 +33,7 @@ Morten:
 	* Fix PV.
 	* Applied some much-needed TLC to fn-financial.c and fn-eng.c.
 	* Speed-up Gnumeric function calls.
+	* Killed a zillion problems pointed out by gcc 3.0 warnings.
 
 Zbigniew:
 	* More work on plugin system.

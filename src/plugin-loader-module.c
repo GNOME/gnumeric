@@ -18,6 +18,7 @@
 #include "plugin-service.h"
 #include "plugin-loader.h"
 #include "plugin-loader-module.h"
+#include <string.h>
 
 struct _GnumericPluginLoaderModule {
 	GnumericPluginLoader loader;

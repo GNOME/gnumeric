@@ -121,7 +121,7 @@ cell_format_percent [] = {
 static char const * const
 cell_format_fraction [] = {
 	"# ?/?",
-	"# ??/??",
+	"# ?" "?/?" "?",  /* Don't accidentally use trigraph.  */
 	NULL
 };
 

@@ -16,6 +16,7 @@
 #include "sheet.h"
 
 #include <string.h>
+#include <stdlib.h>
 
 /* Useful routines for multiple functions */
 static gboolean

@@ -19,6 +19,7 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 
 static guint
 float_hash (const gnum_float *d)
