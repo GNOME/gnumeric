@@ -38,10 +38,11 @@ Morten:
 	* Cleanup analysis tool code.
 	* Eliminate many fixed limits in the code.  (Still some to go.)
 	* Rewrote SUMPRODUCT.
-	* Fix array and range traversal order, thus fixing all strict
+	* Fixed array and range traversal order, thus fixing all strict
 	  range functions.  (SUM, MIN, ...)
-	* Fix many bogusities in xbase plugin.
+	* Fixed many bogusities in xbase plugin.
 	* Cleanup limits in numtheory.  Added BITXOR.
+	* Fixed RATE, SLD, and SYD.
 
 Pablo De Napoli:
 	* New NT_MU function in numtheory.

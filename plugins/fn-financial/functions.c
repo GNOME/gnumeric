@@ -1191,7 +1191,7 @@ gnumeric_sln (FunctionEvalInfo *ei, Value **argv)
 	float_t cost,salvage_value,life;
 
 	cost = value_get_as_float (argv[0]);
-	salvage_value = value_get_as_int (argv[1]);
+	salvage_value = value_get_as_float (argv[1]);
 	life = value_get_as_float (argv[2]);
 
 	/* Life of an asset cannot be negative */
@@ -1244,7 +1244,7 @@ gnumeric_syd (FunctionEvalInfo *ei, Value **argv)
 	float_t cost, salvage_value, life, period;
 
 	cost   = value_get_as_float (argv[0]);
-	salvage_value = value_get_as_int (argv[1]);
+	salvage_value = value_get_as_float (argv[1]);
 	life   = value_get_as_float (argv[2]);
 	period = value_get_as_float (argv[3]);
 
@@ -1590,7 +1590,7 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	udata.pv   = value_get_as_float (argv[2]);
 	udata.fv   = argv[3] ? value_get_as_float (argv[3]) : 0.0;
 	udata.type = argv[4] ? value_get_as_int (argv[4]) : 0;
-	rate0 = argv[5] ?  value_get_as_int (argv[5]) : 0.1;
+	rate0 = argv[5] ?  value_get_as_float (argv[5]) : 0.1;
 
 	if (udata.nper <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1598,6 +1598,13 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	if (udata.type != 0 && udata.type != 1)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
+#if 0
+	/*
+	 * Mark Copper <ad8854@wayne.edu> submits that the following
+	 * special case is not worth the effort and risk of being
+	 * incorrect since the goal seek below will converge really
+	 * fast in this case.
+	 */
 	if (udata.pmt == 0) {
 		if (udata.pv == 0 || udata.pv * udata.fv > 0)
 			return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1607,6 +1614,7 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 						     1.0 / udata.nper) - 1);
 		}
 	}
+#endif
 
 #if 0
 	printf ("Guess = %.15g\n", rate0);

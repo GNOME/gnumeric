@@ -1,3 +1,10 @@
+2000-08-29  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-financial.c (gnumeric_sln): Value arg is float,
+ 	not int.
+	(gnumeric_syd): Ditto.
+	(gnumeric_rate): Rate guess is float, not int.
+
 2000-08-28  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-financial.c (gnumeric_rate): Fix special case.
