@@ -184,8 +184,8 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 			return status;
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("x0 = %.20g\n", x0);
-		printf ("                                        y0 = %.20g\n", y0);
+		printf ("x0 = %.20" GNUM_FORMAT_g "\n", x0);
+		printf ("                                        y0 = %.20" GNUM_FORMAT_g "\n", y0);
 #endif
 
 		if (update_data (x0, y0, data))
@@ -223,8 +223,8 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		stepsize = fabs (x1 - x0) / (fabs (x0) + fabs (x1));
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("                                        df0 = %.20g\n", df0);
-		printf ("                                        ss = %.20g\n", stepsize);
+		printf ("                                        df0 = %.20" GNUM_FORMAT_g "\n", df0);
+		printf ("                                        ss = %.20" GNUM_FORMAT_g "\n", stepsize);
 #endif
 
 		x0 = x1;
@@ -272,7 +272,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 		/ (fabs (data->xpos) + fabs (data->xneg));
 
 	/* log_2 (10) = 3.3219 < 4.  */
-	for (iterations = 0; iterations < 100 + DBL_DIG * 4; iterations++) {
+	for (iterations = 0; iterations < 100 + GNUM_DIG * 4; iterations++) {
 		gnum_float xmid, ymid;
 		GoalSeekStatus status;
 		enum { M_SECANT, M_RIDDER, M_NEWTON, M_MIDPOINT } method;
@@ -376,8 +376,8 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 			default: themethod = "?";
 			}
 
-			printf ("xmid = %.20g (%s)\n", xmid, themethod);
-			printf ("                                        ymid = %.20g\n", ymid);
+			printf ("xmid = %.20" GNUM_FORMAT_g " (%s)\n", xmid, themethod);
+			printf ("                                        ymid = %.20" GNUM_FORMAT_g "\n", ymid);
 		}
 #endif
 
@@ -389,7 +389,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 			/ (fabs (data->xpos) + fabs (data->xneg));
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("                                          ss = %.20g\n", stepsize);
+		printf ("                                          ss = %.20" GNUM_FORMAT_g "\n", stepsize);
 #endif
 
 		if (stepsize < data->precision) {
@@ -434,8 +434,8 @@ goal_seek_trawl_uniformly (GoalSeekFunction f,
 			continue;
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("x = %.20g\n", x);
-		printf ("                                        y = %.20g\n", y);
+		printf ("x = %.20" GNUM_FORMAT_g "\n", x);
+		printf ("                                        y = %.20" GNUM_FORMAT_g "\n", y);
 #endif
 
 		if (update_data (x, y, data))
@@ -475,8 +475,8 @@ goal_seek_trawl_normally (GoalSeekFunction f,
 			continue;
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("x = %.20g\n", x);
-		printf ("                                        y = %.20g\n", y);
+		printf ("x = %.20" GNUM_FORMAT_g "\n", x);
+		printf ("                                        y = %.20" GNUM_FORMAT_g "\n", y);
 #endif
 
 		if (update_data (x, y, data))

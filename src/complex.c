@@ -44,7 +44,7 @@ complex_to_string (const complex_t *src, const char *reformat,
 		} else if (src->im == -1) {
 			sign = "-";
 		} else {
-			im_buffer = g_strdup_printf (reformat, src->im);
+			im_buffer = g_strdup_printf (imformat, src->im);
 			if (re_buffer && *im_buffer != '-' && *im_buffer != '+')
 				sign = (src->im >= 0) ? "+" : "-";
 		}
@@ -95,7 +95,7 @@ complex_from_string (complex_t *dst, const char *src, char *imunit)
 	}
 
 	errno = 0;
-	x = strtod (src, &end);
+	x = strtognum (src, &end);
 	if (src == end || errno == ERANGE)
 		return -1;
 	src = end;
@@ -120,7 +120,7 @@ complex_from_string (complex_t *dst, const char *src, char *imunit)
 		return 0;
 	}
 
-	y = strtod (src, &end);
+	y = strtognum (src, &end);
 	if (src == end || errno == ERANGE)
 		return -1;
 	src = end;

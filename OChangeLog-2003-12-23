@@ -1,3 +1,21 @@
+2002-02-19  Morten Welinder  <terra@diku.dk>
+
+	* src/numbers.h (modfgnum, strtgnum, GNUM_FORMAT_[eEfg],
+ 	GNUM_DIG): New stuff.
+
+  	* .../*.[cy]: All relevant strtod changed to strtognum; modf to
+ 	modfgnum; DBL_DIG to GNUM_DIG; formats changed to use
+ 	GNUM_FORMAT_...
+
+	* src/gutils.c (strtognum): If needed, define a version here.
+
+	* src/complex.c (complex_to_string): Use right format for
+ 	imaginary part.
+
+	* configure.in: Add support for --with-long-double.
+
+	* acconfig.h: Add WITH_LONG_DOUBLE.
+
 2002-02-19  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=69362

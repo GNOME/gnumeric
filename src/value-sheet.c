@@ -43,7 +43,7 @@ value_dump (Value const *value)
 		break;
 
 	case VALUE_FLOAT:
-		printf ("Float: %f\n", value->v_float.val);
+		printf ("Float: %" GNUM_FORMAT_f "\n", value->v_float.val);
 		break;
 
 	case VALUE_ARRAY: {

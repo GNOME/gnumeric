@@ -71,7 +71,7 @@ format_get_decimal (void)
 	if (lc == NULL)
 		lc = localeconv ();
 
-	/* NOTE : Use decimal_point _not_ mon_decimal_point.  strtod uses this
+	/* NOTE : Use decimal_point _not_ mon_decimal_point.  strtognum uses this
 	 * and we get very confused when they are different (eg ru_RU)
 	 */
 	res = lc->decimal_point[0];
@@ -490,7 +490,7 @@ format_compile (StyleFormat *format)
 
 			/* fall back on 0 for errors */
 			errno = 0;
-			entry->restriction_value = strtod (begin, (char **)&end);
+			entry->restriction_value = strtognum (begin, (char **)&end);
 			if (errno == ERANGE || begin == end)
 				entry->restriction_value = 0.;
 			break;
@@ -667,7 +667,7 @@ render_number (GString *result,
 		gnum_float delta = 5 * gpow10 (-right_allowed - 1);
 		number += delta;
 	}
-	frac_part = modf (gnumeric_add_epsilon (number), &int_part);
+	frac_part = modfgnum (gnumeric_add_epsilon (number), &int_part);
 
 	*num = '\0';
 	group = (info->group_thousands) ? 3 : -1;
@@ -1084,7 +1084,7 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 				else
 					break;
 
-			sprintf (buffer, is_lower ? "%s%.*e" : "%s%.*E",
+			sprintf (buffer, is_lower ? "%s%.*" GNUM_FORMAT_e : "%s%.*E" GNUM_FORMAT_E,
 				 info.negative ? "-" :
 				 shows_plus ? "+" : "",
 				 prec, number);
@@ -1418,7 +1418,7 @@ fmt_general_float (gnum_float val, float col_width)
 	int log_val, prec;
 
 	if (col_width < 0.)
-		return g_strdup_printf ("%.*g", DBL_DIG, val);
+		return g_strdup_printf ("%.*" GNUM_FORMAT_g, GNUM_DIG, val);
 
 	if (val < 0.) {
 		/* leave space for minus sign */
@@ -1460,11 +1460,11 @@ fmt_general_float (gnum_float val, float col_width)
 
 	if (prec < 1)
 		prec = 1;
-	else if (prec > DBL_DIG)
-		prec = DBL_DIG;
+	else if (prec > GNUM_DIG)
+		prec = GNUM_DIG;
 
 	/* FIXME : glib bug.  it does not handle G, use g (fixed in 1.2.9) */
-	return g_strdup_printf ("%.*g", prec, val);
+	return g_strdup_printf ("%.*" GNUM_FORMAT_g, prec, val);
 }
 
 /**
@@ -1490,7 +1490,7 @@ fmt_general_int (int val, int col_width)
 		if (log_val > col_width)
 			/* FIXME : glib bug.  it does not handle G, use g */
 			/* Decrease available width by 5 to account for .+E00 */
-			return g_strdup_printf ("%.*g", col_width - 5, (double)val);
+			return g_strdup_printf ("%.*" GNUM_FORMAT_g, col_width - 5, (double)val);
 	}
 	return g_strdup_printf ("%d", val);
 }
@@ -1597,7 +1597,7 @@ number_format_init (void)
 {
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	/* FIXME: should be related to gnum_float, not double:  */
-	beyond_precision = gpow10 (DBL_DIG + 1);
+	beyond_precision = gpow10 (GNUM_DIG + 1);
 }
 
 void

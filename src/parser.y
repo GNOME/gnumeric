@@ -808,14 +808,14 @@ yylex (void)
 		if (c == state->decimal_point || tolower (c) == 'e') {
 			/* This is float */
 			char *end;
-			double d;
+			gnum_float d;
 
 			errno = 0;
-			d = strtod (start, &end);
+			d = strtognum (start, &end);
 			if (start == end) {
 				g_warning ("%s is not a double, but was expected to be one", start);
 			}  else if (errno != ERANGE) {
-				v = value_new_float ((gnum_float)d);
+				v = value_new_float (d);
 				state->expr_text = end;
 			} else if (tolower (c) != 'e') {
 				gnumeric_parse_error (
@@ -853,12 +853,12 @@ yylex (void)
 				v = value_new_int (l);
 				state->expr_text = end;
 			} else if (l == LONG_MIN || l == LONG_MAX) {
-				double d;
+				gnum_float d;
 
 				errno = 0;
-				d = strtod (start, &end);
+				d = strtognum (start, &end);
 				if (errno != ERANGE) {
-					v = value_new_float ((gnum_float)d);
+					v = value_new_float (d);
 					state->expr_text = end;
 				} else {
 					gnumeric_parse_error (

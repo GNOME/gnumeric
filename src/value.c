@@ -284,12 +284,12 @@ value_new_from_string (ValueType t, char const *str, StyleFormat *sf)
 
 	case VALUE_FLOAT: {
 		char *end;
-		double d;
+		gnum_float d;
 
 		errno = 0;
-		d = strtod (str, &end);
+		d = strtognum (str, &end);
 		if (str != end && *end == '\0' && errno != ERANGE)
-			res = value_new_float ((gnum_float)d);
+			res = value_new_float (d);
 		break;
 	}
 
@@ -525,7 +525,7 @@ value_get_as_string (Value const *v)
 		return g_strdup_printf ("%d", v->v_int.val);
 
 	case VALUE_FLOAT:
-		return g_strdup_printf ("%.*g", DBL_DIG, v->v_float.val);
+		return g_strdup_printf ("%.*" GNUM_FORMAT_g, GNUM_DIG, v->v_float.val);
 
 	case VALUE_ARRAY: {
 		char const row_sep = format_get_arg_sep ();
@@ -548,7 +548,7 @@ value_get_as_string (Value const *v)
 					g_string_sprintfa (str, "\"%s\"",
 							   val->v_str.val->str);
 				else
-					g_string_sprintfa (str, "%g",
+					g_string_sprintfa (str, "%" GNUM_FORMAT_g,
 							   value_get_as_float (val));
 			}
 			if (y < v->v_array.y-1)

@@ -25,6 +25,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <gal/util/e-util.h>
+#ifdef HAVE_FLOATINGPOINT_H
+#include <floatingpoint.h>
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -544,5 +547,62 @@ gnumeric_strescape (const char *string)
 
 	return escaped;
 }
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef NEED_FAKE_MODFL
+gnum_float
+fake_modfl (gnum_float x, gnum_float *iptr)
+{
+	double di;
+	gnum_float res;
+
+	res = modf (x, &di);
+	*iptr = di;
+	return res;
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+#if defined(WITH_LONG_DOUBLE) && !defined(HAVE_STRTOLD)
+
+gnum_float
+strtognum (const char *str, char **end)
+{
+	gnum_float res;
+#if defined(HAVE_STRING_TO_DECIMAL) && defined(HAVE_DECIMAL_TO_QUADRUPLE)
+	decimal_record dr;
+	enum decimal_string_form form;
+	decimal_mode dm;
+	fp_exception_field_type excp;
+	char *echar;
+
+	string_to_decimal ((char **)&str, strlen (str),
+			   0, &dr, &form, &echar);
+	if (end) *end = (char *)str;
+
+	if (form == invalid_form) {
+		errno = EINVAL;
+		return 0.0;
+	}
+
+	dm.rd = fp_nearest;
+	dm.df = floating_form;
+	dm.ndigits = GNUM_DIG;
+	decimal_to_quadruple (&res, &dm, &dr, &excp);
+#else
+	static gboolean warned = FALSE;
+	if (!warned) {
+		warned = TRUE;
+		g_warning (_("This version of Gnumeric has been compiled with inadequate precision in strtognum."));
+	}
+
+	res = strtod (str, end);
+#endif
+	return res;
+}
+
+#endif
 
 /* ------------------------------------------------------------------------- */

@@ -51,6 +51,7 @@ Morten:
 	* Fix validation's use of abs to be fabs.
 	* Improve random number generation using /dev/urandom device.
 	* Fix Oleo plugin's isdigit usage.
+	* Support for --with-long-double
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.3

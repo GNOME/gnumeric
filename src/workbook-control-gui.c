@@ -705,7 +705,7 @@ cb_change_zoom (GtkWidget *caller, char *new_zoom, WorkbookControlGUI *wbcg)
 	if (sheet == NULL || wbcg->updating_ui)
 		return TRUE;
 
-	errno = 0; /* strtod sets errno, but does not clear it.  */
+	errno = 0; /* strtol sets errno, but does not clear it.  */
 	factor = strtol (new_zoom, &end, 10);
 	if (new_zoom != end && errno != ERANGE && factor == (gnum_float)factor)
 		/* The GSList of sheet passed to cmd_zoom will be freed by cmd_zoom,

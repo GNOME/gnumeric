@@ -278,7 +278,7 @@ gnumeric_char_start_expr_p (char const * c)
 		 * just checks for C-syntax numbers.
 		 */
 		errno = 0;
-		(void) strtod (c, &end);
+		(void) strtognum (c, &end);
 		if (errno || *end != 0 || end == c)
 			return (c0 == '+') ? c + 1 : c;
 		/* Otherwise, it's a number.  */

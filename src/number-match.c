@@ -860,7 +860,7 @@ compute_value (char const *s, const regmatch_t *mp,
 			char *exppart = NULL;
 			if (*str == decimal) {
 				char *end;
-				errno = 0; /* strtod sets errno, but does not clear it.  */
+				errno = 0; /* strtognum sets errno, but does not clear it.  */
 				if (seconds < 0) {
 					gnum_float fraction;
 
@@ -871,14 +871,14 @@ compute_value (char const *s, const regmatch_t *mp,
 						*end = 0;
 					}
 
-					fraction = strtod (str, &end);
+					fraction = strtognum (str, &end);
 					if (is_neg)
 						number -= fraction;
 					else
 						number += fraction;
 					is_number = TRUE;
 				} else
-					seconds += strtod (str, &end);
+					seconds += strtognum (str, &end);
 			}
 			if (exppart) {
 				char *end;
@@ -1094,16 +1094,16 @@ format_match_simple (char const *text)
 	/* Is it a double?  */
 	{
 		char *end;
-		double d;
+		gnum_float d;
 
-		errno = 0; /* strtod sets errno, but does not clear it.  */
-		d = strtod (text, &end);
-		if (text != end && errno != ERANGE && d == (gnum_float)d) {
+		errno = 0; /* strtognum sets errno, but does not clear it.  */
+		d = strtognum (text, &end);
+		if (text != end && errno != ERANGE) {
 			/* Allow and ignore spaces at the end.  */
 			while (*end == ' ')
 				end++;
 			if (*end == '\0')
-				return value_new_float ((gnum_float)d);
+				return value_new_float (d);
 		}
 	}
 

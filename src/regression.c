@@ -32,17 +32,17 @@
        g_free (var);					\
   } while (0)
 
-#define PRINT_MATRIX(var,dim1,dim2)			\
-  do {							\
-	int _i, _j, _d1, _d2;				\
-	_d1 = (dim1);					\
-	_d2 = (dim2);					\
-	for (_i = 0; _i < _d1; _i++)			\
-	  {						\
-	    for (_j = 0; _j < _d2; _j++)		\
-	      fprintf (stderr, "%20.10f", var[_i][_j]);	\
-	    fprintf (stderr, "\n");			\
-	  }						\
+#define PRINT_MATRIX(var,dim1,dim2)					\
+  do {									\
+	int _i, _j, _d1, _d2;						\
+	_d1 = (dim1);							\
+	_d2 = (dim2);							\
+	for (_i = 0; _i < _d1; _i++)					\
+	  {								\
+	    for (_j = 0; _j < _d2; _j++)				\
+	      fprintf (stderr, "%20.10" GNUM_FORMAT_f, var[_i][_j]);	\
+	    fprintf (stderr, "\n");					\
+	  }								\
   } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -242,7 +242,10 @@ general_linear_regression (gnum_float **xss, int xdim,
 
 		/* FIXME: we ought to have a devsq variant that does not
 		   recompute the mean.  */
-		err = range_devsq (ys, n, &ss_total);
+		if (xss[0])
+			err = range_sumsq (ys, n, &ss_total);
+		else
+			err = range_devsq (ys, n, &ss_total);
 		g_assert (err == 0);
 
 		extra_stat->xbar = g_new (gnum_float, n);
