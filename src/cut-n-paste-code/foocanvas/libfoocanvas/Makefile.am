@@ -12,7 +12,7 @@ INCLUDES = \
 	-DG_LOG_DOMAIN=\"Foocanvas\"			\
 	-DVERSION=\"$(VERSION)\"
 
-lib_LIBRARIES = libfoocanvas.a
+noinst_LIBRARIES = libfoocanvas.a
 
 RENDER_LIBS=
 NULL=

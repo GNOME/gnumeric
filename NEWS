@@ -25,6 +25,9 @@ Jody:
 	* Begin support for pivot tables
 	* Full support for SUBTOTAL magic
 	* Fix sneaky bug between sheetobjects and frozen panes
+	* Fix removal of placeholder names
+	* XLS export for validation and Input Messages
+	* Improve handling of validation in format dialog
 
 Jon Kåre:
         * Separate GUI for showing progress and messages before first 

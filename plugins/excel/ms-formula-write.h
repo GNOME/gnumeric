@@ -17,7 +17,8 @@
 #include "formula-types.h"
 
 guint32 excel_write_formula    (ExcelWriteState *ewb, GnmExpr const *expr,
-				Sheet *sheet, int fn_col, int fn_row);
+				Sheet *sheet, int fn_col, int fn_row,
+				gboolean shared);
 
 void excel_write_prep_expressions (ExcelWriteState *ewb);
 

@@ -169,9 +169,9 @@ excel_write_prep_expressions (ExcelWriteState *ewb)
 
 /****************************************************************************/
 
-#define OP_REF(o)   (o + FORMULA_CLASS_REF)
-#define OP_VALUE(o) (o + FORMULA_CLASS_VALUE)
-#define OP_ARRAY(o) (o + FORMULA_CLASS_ARRAY)
+#define OP_REF(o)   ((o) + FORMULA_CLASS_REF)
+#define OP_VALUE(o) ((o) + FORMULA_CLASS_VALUE)
+#define OP_ARRAY(o) ((o) + FORMULA_CLASS_ARRAY)
 
 /* Parse it into memory, unlikely to be too big */
 typedef struct {
@@ -181,7 +181,8 @@ typedef struct {
 	GSList		*arrays; /* A list of Value *'s ? */
 } PolishData;
 
-static void write_node (PolishData *pd, GnmExpr const *expr, int paren_level);
+static void write_node (PolishData *pd, GnmExpr const *expr,
+			int paren_level, gboolean shared);
 
 static void
 push_guint8 (PolishData *pd, guint8 b)
@@ -207,15 +208,18 @@ push_guint32 (PolishData *pd, guint32 b)
 
 static void
 write_cellref_v7 (PolishData *pd, CellRef const *ref,
-		  guint8 *out_col, guint8 *out_row)
+		  guint8 *out_col, guint8 *out_row, gboolean shared)
 {
 	guint    row, col;
 
-	if (ref->col_relative)
+	if (shared)
+		col = ref->col & 0xff;
+	else if (ref->col_relative)
 		col = ref->col + pd->col;
 	else
 		col = ref->col;
-	if (ref->row_relative)
+
+	if (ref->row_relative && !shared)
 		row = ref->row + pd->row;
 	else
 		row = ref->row;
@@ -231,15 +235,18 @@ write_cellref_v7 (PolishData *pd, CellRef const *ref,
 
 static void
 write_cellref_v8 (PolishData *pd, CellRef const *ref,
-		  guint8 *out_col, guint8 *out_row)
+		  guint8 *out_col, guint8 *out_row, gboolean shared)
 {
 	guint    row, col;
 
-	if (ref->col_relative)
+	if (shared)
+		col = ref->col & 0xff;
+	else if (ref->col_relative)
 		col = ref->col + pd->col;
 	else
 		col = ref->col;
-	if (ref->row_relative)
+
+	if (ref->row_relative && !shared)
 		row = ref->row + pd->row;
 	else
 		row = ref->row;
@@ -261,7 +268,8 @@ write_string (PolishData *pd, gchar const *txt)
 }
 
 static void
-excel_formula_write_CELLREF (PolishData *pd, CellRef const *ref, Sheet *sheet_b)
+excel_formula_write_CELLREF (PolishData *pd, CellRef const *ref,
+			     Sheet *sheet_b, gboolean shared)
 {
 	guint8 data[24];
 
@@ -271,12 +279,12 @@ excel_formula_write_CELLREF (PolishData *pd, CellRef const *ref, Sheet *sheet_b)
 	if (ref->sheet == NULL) {
 		g_return_if_fail (sheet_b == NULL);
 
-		push_guint8 (pd, OP_VALUE (FORMULA_PTG_REF));
+		push_guint8 (pd, OP_VALUE (shared ? FORMULA_PTG_REFN : FORMULA_PTG_REF));
 		if (pd->ewb->bp->version <= MS_BIFF_V7) {
-			write_cellref_v7 (pd, ref, data + 2, data);
+			write_cellref_v7 (pd, ref, data + 2, data, shared);
 			ms_biff_put_var_write (pd->ewb->bp, data, 3);
 		} else {
-			write_cellref_v8 (pd, ref, data + 2, data);
+			write_cellref_v8 (pd, ref, data + 2, data, shared);
 			ms_biff_put_var_write (pd->ewb->bp, data, 4);
 		}
 	} else {
@@ -296,32 +304,33 @@ excel_formula_write_CELLREF (PolishData *pd, CellRef const *ref, Sheet *sheet_b)
 			GSF_LE_SET_GUINT32 (data +  6, 0x0);
 			GSF_LE_SET_GUINT16 (data + 10, idx_a);
 			GSF_LE_SET_GUINT16 (data + 12, idx_b);
-			write_cellref_v7 (pd, ref, data + 16, data + 14);
+			write_cellref_v7 (pd, ref, data + 16, data + 14, FALSE);
 			ms_biff_put_var_write (pd->ewb->bp, data, 17);
 		} else {
 			guint16 extn_idx = excel_write_get_externsheet_idx (
 						pd->ewb, ref->sheet, sheet_b);
 			GSF_LE_SET_GUINT16 (data, extn_idx);
-			write_cellref_v8 (pd, ref, data + 4, data + 2);
+			write_cellref_v8 (pd, ref, data + 4, data + 2, FALSE);
 			ms_biff_put_var_write (pd->ewb->bp, data, 6);
 		}
 	}
 }
 
 static void
-excel_formula_write_AREA (PolishData *pd, CellRef const *a, CellRef const *b)
+excel_formula_write_AREA (PolishData *pd, CellRef const *a, CellRef const *b,
+			  gboolean shared)
 {
 	guint8 data[24];
 
 	if (a->sheet == NULL && b->sheet == NULL) {
-		push_guint8 (pd, OP_REF (FORMULA_PTG_AREA));
+		push_guint8 (pd, OP_VALUE (shared ? FORMULA_PTG_AREAN : FORMULA_PTG_AREA));
 		if (pd->ewb->bp->version <= MS_BIFF_V7) {
-			write_cellref_v7 (pd, a, data + 4, data);
-			write_cellref_v7 (pd, b, data + 5, data + 2);
+			write_cellref_v7 (pd, a, data + 4, data, shared);
+			write_cellref_v7 (pd, b, data + 5, data + 2, shared);
 			ms_biff_put_var_write (pd->ewb->bp, data, 6);
 		} else {
-			write_cellref_v8 (pd, a, data + 4, data + 0);
-			write_cellref_v8 (pd, b, data + 6, data + 2);
+			write_cellref_v8 (pd, a, data + 4, data + 0, shared);
+			write_cellref_v8 (pd, b, data + 6, data + 2, shared);
 			ms_biff_put_var_write (pd->ewb->bp, data, 8);
 		}
 		return;
@@ -353,23 +362,23 @@ excel_formula_write_AREA (PolishData *pd, CellRef const *a, CellRef const *b)
 			GSF_LE_SET_GUINT32 (data +  6, 0x0);
 			GSF_LE_SET_GUINT16 (data + 10, idx_a);
 			GSF_LE_SET_GUINT16 (data + 12, idx_b);
-			write_cellref_v7 (pd, a, data + 18, data + 14);
-			write_cellref_v7 (pd, b, data + 19, data + 16);
+			write_cellref_v7 (pd, a, data + 18, data + 14, FALSE);
+			write_cellref_v7 (pd, b, data + 19, data + 16, FALSE);
 			ms_biff_put_var_write (pd->ewb->bp, data, 20);
 		} else {
 			guint16 extn_idx = excel_write_get_externsheet_idx (
 						pd->ewb, a->sheet, b->sheet);
 			GSF_LE_SET_GUINT16 (data, extn_idx);
-			write_cellref_v8 (pd, a, data + 6, data + 2);
-			write_cellref_v8 (pd, b, data + 8, data + 4);
+			write_cellref_v8 (pd, a, data + 6, data + 2, FALSE);
+			write_cellref_v8 (pd, b, data + 8, data + 4, FALSE);
 			ms_biff_put_var_write (pd->ewb->bp, data, 10);
 		}
 	} else
-		excel_formula_write_CELLREF (pd, a, b->sheet);
+		excel_formula_write_CELLREF (pd, a, b->sheet, shared);
 }
 
 static void
-write_funcall (PolishData *pd, GnmExpr const *expr)
+write_funcall (PolishData *pd, GnmExpr const *expr, gboolean shared)
 {
 	GnmExprList *args;
 	gint     num_args = 0;
@@ -403,7 +412,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr)
 	}
 
 	for (args = expr->func.arg_list ; args != NULL; ) {
-		write_node (pd, args->data, 0);
+		write_node (pd, args->data, 0, shared);
 		num_args++;
 		args = args->next;
 		if (ef->fd != NULL && args != NULL && num_args == ef->fd->num_args) {
@@ -475,7 +484,7 @@ excel_formula_write_NAME_v7 (PolishData *pd, GnmExpr const *expr)
 }
 
 static void
-write_node (PolishData *pd, GnmExpr const *expr, int paren_level)
+write_node (PolishData *pd, GnmExpr const *expr, int paren_level, gboolean shared)
 {
 	static struct {
 		guint8 xl_op;
@@ -518,9 +527,9 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level)
 		int const prec = operations[op].prec;
 
 		write_node  (pd, expr->binary.value_a,
-			     prec - operations[op].assoc_left);
+			     prec - operations[op].assoc_left, shared);
 		write_node  (pd, expr->binary.value_b,
-			     prec - operations[op].assoc_right);
+			     prec - operations[op].assoc_right, shared);
 		push_guint8 (pd, operations[op].xl_op);
 		if (prec <= paren_level)
 			push_guint8 (pd, FORMULA_PTG_PAREN);
@@ -528,7 +537,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level)
 	}
 
 	case GNM_EXPR_OP_FUNCALL :
-		write_funcall (pd, expr);
+		write_funcall (pd, expr, shared);
 		break;
 
         case GNM_EXPR_OP_CONSTANT : {
@@ -584,7 +593,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level)
 
 		case VALUE_CELLRANGE:
 			excel_formula_write_AREA (pd, &v->v_range.cell.a,
-						  &v->v_range.cell.b);
+						  &v->v_range.cell.b, shared);
 			break;
 
                 /* See S59E2B.HTM for some really duff docs */
@@ -618,7 +627,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level)
 	case GNM_EXPR_OP_ANY_UNARY : {
 		int const prec = operations[op].prec;
 
-		write_node (pd, expr->unary.value, operations[op].prec);
+		write_node (pd, expr->unary.value, operations[op].prec, shared);
 		push_guint8 (pd, operations[op].xl_op);
 		if (prec <= paren_level)
 			push_guint8 (pd, FORMULA_PTG_PAREN);
@@ -626,7 +635,8 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level)
 	}
 
 	case GNM_EXPR_OP_CELLREF :
-		excel_formula_write_CELLREF (pd, &expr->cellref.ref, NULL);
+		excel_formula_write_CELLREF (pd, &expr->cellref.ref,
+					     NULL, shared);
 		break;
 
 	case GNM_EXPR_OP_NAME :
@@ -705,7 +715,7 @@ write_arrays (PolishData *pd)
 
 guint32
 excel_write_formula (ExcelWriteState *ewb, GnmExpr const *expr,
-		     Sheet *sheet, int fn_col, int fn_row)
+		     Sheet *sheet, int fn_col, int fn_row, gboolean shared)
 {
 	PolishData pd;
 	unsigned start;
@@ -721,7 +731,7 @@ excel_write_formula (ExcelWriteState *ewb, GnmExpr const *expr,
 	pd.arrays = NULL;
 
 	start = ewb->bp->length;
-	write_node (&pd, expr, 0);
+	write_node (&pd, expr, 0, shared);
 	len = ewb->bp->length - start;
 
 	write_arrays (&pd);

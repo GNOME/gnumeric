@@ -33,6 +33,8 @@
 #include <sheet-object-cell-comment.h>
 #include <application.h>
 #include <style.h>
+#include <validation.h>
+#include <input-msg.h>
 #include <sheet-style.h>
 #include <format.h>
 #include <libgnumeric.h>
@@ -92,7 +94,7 @@ excel_write_string_len (guint8 const *str, unsigned *bytes)
 
 /**
  * excel_write_string :
- * @bp : 
+ * @bp :
  * @txt :
  * @flags :
  *
@@ -254,7 +256,7 @@ excel_write_BOF (BiffPut *bp, MsBiffFileType type)
 	/* Magic version numbers: build date etc. */
 	switch (bp->version) {
 	case MS_BIFF_V8:
-		GSF_LE_SET_GUINT16 (data+4, 0x277c);
+		GSF_LE_SET_GUINT16 (data+4, 0x239f);
 		GSF_LE_SET_GUINT16 (data+6, 0x07cd);
 		GSF_LE_SET_GUINT32 (data+ 8, 0x000040c1);
 		GSF_LE_SET_GUINT16 (data+12, 0x00000106);
@@ -362,7 +364,7 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelSheet *container)
 			GSF_LE_SET_GUINT8 (data, len);
 			GSF_LE_SET_GUINT8 (data + 1, 3); /* undocumented */
 			ms_biff_put_var_write (ewb->bp, data, 2);
-			excel_write_string (ewb->bp, 
+			excel_write_string (ewb->bp,
 				esheet->gnum_sheet->name_unquoted,
 				STR_NO_LENGTH);
 		}
@@ -619,6 +621,206 @@ excel_write_MERGECELLS (BiffPut *bp, ExcelSheet *esheet)
 	ms_biff_put_commit (bp);
 }
 
+/****************************************************************************/
+
+typedef struct {
+	Validation  *v;
+	GnmInputMsg *msg;
+	GSList	    *ranges;
+} ValInputPair;
+
+static guint
+vip_hash (ValInputPair const *vip)
+{
+	/* bogus, but who cares */
+	return GPOINTER_TO_UINT (vip->v) ^ GPOINTER_TO_UINT (vip->msg);
+}
+
+static gint
+vip_equal (ValInputPair const *a, ValInputPair const *b)
+{
+	return a->v == b->v && a->msg == b->msg;
+}
+
+static void
+excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelSheet *esheet)
+{
+	GSList *ptr;
+	BiffPut *bp = esheet->ewb->bp;
+	guint16 range_count;
+	guint32 options;
+	guint8 data[8];
+	int col, row;
+	Range const *r;
+
+	ms_biff_put_var_next (bp, BIFF_DV);
+
+	options = 0;
+	if (vip->v != NULL) {
+		switch (vip->v->type) {
+		case VALIDATION_TYPE_ANY:		options = 0; break;
+		case VALIDATION_TYPE_AS_INT:		options = 1; break;
+		case VALIDATION_TYPE_AS_NUMBER:		options = 2; break;
+		case VALIDATION_TYPE_IN_LIST:		options = 3; break;
+		case VALIDATION_TYPE_AS_DATE:		options = 4; break;
+		case VALIDATION_TYPE_AS_TIME:		options = 5; break;
+		case VALIDATION_TYPE_TEXT_LENGTH:	options = 6; break;
+		case VALIDATION_TYPE_CUSTOM:		options = 7; break;
+		default : g_warning ("EXCEL : Unknown contraint type %d",
+				     vip->v->type);
+		};
+
+		switch (vip->v->style) {
+		case VALIDATION_STYLE_NONE: break;
+		case VALIDATION_STYLE_STOP:	options |= (0 << 4); break;
+		case VALIDATION_STYLE_WARNING:	options |= (1 << 4); break;
+		case VALIDATION_STYLE_INFO:	options |= (2 << 4); break;
+		default : g_warning ("EXCEL : Unknown validation style %d",
+				     vip->v->style);
+		};
+
+		switch (vip->v->op) {
+		case VALIDATION_OP_BETWEEN:	options |= (0 << 20); break;
+		case VALIDATION_OP_NOT_BETWEEN:	options |= (1 << 20); break;
+		case VALIDATION_OP_EQUAL:	options |= (2 << 20); break;
+		case VALIDATION_OP_NOT_EQUAL:	options |= (3 << 20); break;
+		case VALIDATION_OP_GT:		options |= (4 << 20); break;
+		case VALIDATION_OP_LT:		options |= (5 << 20); break;
+		case VALIDATION_OP_GTE:		options |= (6 << 20); break;
+		case VALIDATION_OP_LTE:		options |= (7 << 20); break;
+		default : g_warning ("EXCEL : Unknown contraint operator %d",
+				     vip->v->op);
+		};
+		if (vip->v->allow_blank)
+			options |= 0x100;
+		if (vip->v->use_dropdown)
+			options |= 0x200;
+		if (vip->v->style != VALIDATION_STYLE_NONE)
+			options |= 0x80000;
+	}
+
+	if (vip->msg != NULL)
+		options |= 0x40000;
+
+	GSF_LE_SET_GUINT32 (data, options);
+	ms_biff_put_var_write (bp, data, 4);
+
+	excel_write_string (bp,
+		vip->msg ? gnm_input_msg_get_title (vip->msg) : "",
+		STR_TWO_BYTE_LENGTH);
+	excel_write_string (bp,
+		vip->v ? vip->v->title->str : "",
+		STR_TWO_BYTE_LENGTH);
+	excel_write_string (bp,
+		vip->msg ? gnm_input_msg_get_msg (vip->msg) : "",
+		STR_TWO_BYTE_LENGTH);
+	excel_write_string (bp,
+		vip->v ? vip->v->msg->str : "",
+		STR_TWO_BYTE_LENGTH);
+
+	/* Things seem to parse relative to the top left of the first range */
+	r = vip->ranges->data;
+	col = r->start.col;
+	row = r->start.row;
+
+	GSF_LE_SET_GUINT16 (data  , 0); /* bogus len fill in later */
+	GSF_LE_SET_GUINT16 (data+2, 0); /* Undocumented, use 0 for now */
+	ms_biff_put_var_write (bp, data, 4);
+
+	if (vip->v != NULL && vip->v->expr[0] != NULL) {
+		unsigned pos = bp->curpos;
+		guint16 len = excel_write_formula (esheet->ewb,
+			vip->v->expr[0], esheet->gnum_sheet, col, row, TRUE);
+		unsigned end_pos = bp->curpos;
+		ms_biff_put_var_seekto (bp, pos-4);
+		GSF_LE_SET_GUINT16 (data, len);
+		ms_biff_put_var_write (bp, data, 2);
+		ms_biff_put_var_seekto (bp, end_pos);
+	}
+
+	GSF_LE_SET_GUINT16 (data  , 0); /* bogus len fill in later */
+	GSF_LE_SET_GUINT16 (data+2, 0); /* Undocumented, use 0 for now */
+	ms_biff_put_var_write (bp, data, 4);
+	if (vip->v != NULL && vip->v->expr[1] != NULL) {
+		unsigned pos = bp->curpos;
+		guint16 len = excel_write_formula (esheet->ewb,
+			vip->v->expr[1], esheet->gnum_sheet, col, row, TRUE);
+		unsigned end_pos = bp->curpos;
+		ms_biff_put_var_seekto (bp, pos-4);
+		GSF_LE_SET_GUINT16 (data, len);
+		ms_biff_put_var_write (bp, data, 2);
+		ms_biff_put_var_seekto (bp, end_pos);
+	}
+
+	range_count = g_slist_length (vip->ranges);
+	GSF_LE_SET_GUINT16 (data, range_count);
+	ms_biff_put_var_write (bp, data, 2);
+	for (ptr = vip->ranges; ptr != NULL ; ptr = ptr->next) {
+		Range const *r = ptr->data;
+		GSF_LE_SET_GUINT16 (data+0, r->start.row);
+		GSF_LE_SET_GUINT16 (data+2, r->end.row >= MsBiffMaxRowsV8 ? (MsBiffMaxRowsV8-1) : r->end.row);
+		GSF_LE_SET_GUINT16 (data+4, r->start.col);
+		GSF_LE_SET_GUINT16 (data+6, r->end.col >= 256 ? 255 : r->end.col);
+		ms_biff_put_var_write (bp, data, 8);
+	}
+	ms_biff_put_commit (bp);
+
+	g_slist_free (vip->ranges);
+}
+
+static void
+excel_write_DVAL (BiffPut *bp, ExcelSheet *esheet)
+{
+	StyleList *valids, *ptr;
+	StyleRegion const *sr;
+	GHashTable *group;
+	guint8 *data;
+	unsigned i;
+	ValInputPair key, *tmp;
+
+	valids = sheet_style_get_validation_list (esheet->gnum_sheet, NULL);
+	if (valids == NULL)
+		return;
+
+	/* We store input msg and validation as distinct items, XL merges them
+	 * find the pairs, and the regions that use them */
+	group = g_hash_table_new_full ((GHashFunc)&vip_hash,
+				       (GCompareFunc)&vip_equal, g_free, NULL);
+	for (ptr = valids; ptr != NULL ; ptr = ptr->next) {
+		sr = ptr->data;
+
+#warning clip out anything entirely out of bounds
+		/* Clip here to avoid creating a DV record if there are no regions */
+
+		key.v   = mstyle_get_validation (sr->style);
+		key.msg = mstyle_get_input_msg (sr->style);
+		tmp = g_hash_table_lookup (group, &key);
+		if (tmp == NULL) {
+			tmp = g_new (ValInputPair, 1);
+			tmp->v = key.v;
+			tmp->msg = key.msg;
+			tmp->ranges = NULL;
+			g_hash_table_insert (group, tmp, tmp);
+		}
+		tmp->ranges = g_slist_prepend (tmp->ranges, (gpointer)&sr->range);
+	}
+
+	i = g_hash_table_size (group);
+	data = ms_biff_put_len_next (bp, BIFF_DVAL, 18);
+	GSF_LE_SET_GUINT16 (data +  0, 0); /* !cached, for mystery 2 bytes ? */
+	GSF_LE_SET_GUINT32 (data +  2, 0); /* input X coord */
+	GSF_LE_SET_GUINT32 (data +  6, 0); /* input Y coord */
+	/* lie and say there is no drop down, this will require the user to
+	 * move off the cell and back on to see it I think */
+	GSF_LE_SET_GUINT32 (data +  10, 0xffffffff);
+	GSF_LE_SET_GUINT32 (data +  14, i);	/* how many validations */
+	ms_biff_put_commit (bp);
+
+	g_hash_table_foreach (group, (GHFunc) excel_write_DV, esheet);
+	g_hash_table_destroy (group);
+	style_list_free (valids);
+}
+
 static int
 excel_write_builtin_name (char const *ptr, MsBiffVersion version)
 {
@@ -674,7 +876,7 @@ excel_write_NAME_v7 (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 		GSF_LE_SET_GUINT8  (data + 14, builtin_index);    /* name_len */
 		ms_biff_put_var_write (ewb->bp, data, 15);
 	} else {
-		excel_write_string_len (name, &name_len); 
+		excel_write_string_len (name, &name_len);
 		GSF_LE_SET_GUINT8 (data + 3, name_len); /* name_len */
 		ms_biff_put_var_write (ewb->bp, data, 14);
 		excel_write_string (ewb->bp, name, STR_NO_LENGTH);
@@ -682,7 +884,7 @@ excel_write_NAME_v7 (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 
 	if (!expr_name_is_placeholder (nexpr)) {
 		guint16 expr_len = excel_write_formula (ewb, nexpr->expr_tree,
-							nexpr->pos.sheet, 0, 0);
+							nexpr->pos.sheet, 0, 0, TRUE);
 		ms_biff_put_var_seekto (ewb->bp, 4);
 		GSF_LE_SET_GUINT16 (data, expr_len);
 		ms_biff_put_var_write (ewb->bp, data, 2);
@@ -1648,7 +1850,7 @@ style_color_to_pal_index (StyleColor *color, ExcelWriteState *ewb,
 				idx = PALETTE_AUTO_FONT;
 		else
 			idx = PALETTE_AUTO_PATTERN;
-	} else 
+	} else
 		idx = palette_get_index	(ewb, style_color_to_rgb888 (color));
 
 	return idx;
@@ -2120,7 +2322,7 @@ excel_write_map_errcode (Value const *v)
 
 /**
  * excel_write_value
- * @ewb 
+ * @ewb
  * @v   value
  * @col column
  * @row row
@@ -2313,7 +2515,8 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelSheet *esheet, Cell const *cell,
 	GSF_LE_SET_GUINT32 (data + 16, 0x0);
 	GSF_LE_SET_GUINT16 (data + 20, 0x0); /* bogus len, fill in later */
 	ms_biff_put_var_write (ewb->bp, data, 22);
-	len = excel_write_formula (ewb, expr, esheet->gnum_sheet, col, row);
+	len = excel_write_formula (ewb, expr, esheet->gnum_sheet,
+				   col, row, FALSE); /* unshared for now */
 
 	ms_biff_put_var_seekto (ewb->bp, 20);
 	GSF_LE_SET_GUINT16 (lendat, len);
@@ -2333,7 +2536,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelSheet *esheet, Cell const *cell,
 		GSF_LE_SET_GUINT16 (data+12, 0); /* bogus len, fill in later */
 		ms_biff_put_var_write (ewb->bp, data, 14);
 		len = excel_write_formula (ewb, expr->array.corner.expr,
-					   esheet->gnum_sheet, col, row);
+					   esheet->gnum_sheet, col, row, TRUE);
 
 		ms_biff_put_var_seekto (ewb->bp, 12);
 		GSF_LE_SET_GUINT16 (lendat, len);
@@ -2555,7 +2758,7 @@ excel_write_margin (BiffPut *bp, guint16 op, double points)
  * @style	the src of the font to use
  * @is_default  if true, this is for the default width.
  *
- * Utility 
+ * Utility
  */
 static double
 style_get_char_width (MStyle const *style, gboolean is_default)
@@ -3118,7 +3321,12 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelSheet *esheet)
 
 	excel_write_SCL (esheet);
 	excel_write_SELECTION (ewb->bp, esheet);
+
+	/* These are actually specific to >= biff8
+	 * but it can't hurt to have them here
+	 * things will just ignore them */
 	excel_write_MERGECELLS (ewb->bp, esheet);
+	excel_write_DVAL (ewb->bp, esheet);
 
 /* See: S59D90.HTM: Global Column Widths...  not cricual.
 	data = ms_biff_put_len_next (ewb->bp, BIFF_GCW, 34);
@@ -3380,6 +3588,9 @@ write_workbook (ExcelWriteState *ewb)
 
 		data = ms_biff_put_len_next (bp, BIFF_DSF, 2);
 		GSF_LE_SET_GUINT16 (data, ewb->double_stream_file ? 1 : 0);
+		ms_biff_put_commit (bp);
+
+		ms_biff_put_len_next (bp, BIFF_XL9FILE, 0);
 		ms_biff_put_commit (bp);
 
 		/* See: S59E09.HTM */

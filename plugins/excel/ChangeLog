@@ -1,3 +1,24 @@
+2002-12-13  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c : Tack on a 'shared' flag in alot of places to
+	control the use of _REF/_AREA vs _REFN/_AREAN
+
+	* ms-excel-write.c (excel_write_BOF) : bump generated BOF to look like
+	  MS excel 2k.
+	(vip_hash) : new.
+	(vip_equal) : new.
+	(excel_write_DV) : new.
+	(excel_write_DVAL) : new.
+	(excel_write_NAME_v7) : export names using shared formula conventions.
+	(excel_write_sheet) : export validation.
+	(write_workbook) :  add a XL9FILE flag.
+
+	* ms-excel-read.c (excel_read_DV) : several small tweaks
+	  1) string lengths are 2 bytes
+	  2) Use the option flags to enable/disable input msg and validation
+	  3) Parse expressions relative to the top left of the first range
+	  4) Parse as shared expressions
+
 2002-12-13  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (excel_read_HLINK): Fix typo.

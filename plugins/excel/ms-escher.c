@@ -3,7 +3,7 @@
 /*
  * ms-escher.c: MS Office drawing layer support
  *
- * Copyright (C) 2000-2001
+ * Copyright (C) 2000-2002
  *	Jody Goldberg (jody@gnome.org)
  *	Michael Meeks (mmeeks@gnu.org)
  *

@@ -85,3 +85,15 @@ gnm_input_msg_new (char const *msg, char const *title)
 
 	return res;
 }
+
+char const *
+gnm_input_msg_get_msg (GnmInputMsg const *imsg)
+{
+	return imsg->msg->str;
+}
+
+char const  *
+gnm_input_msg_get_title (GnmInputMsg const *imsg)
+{
+	return imsg->title->str;
+}

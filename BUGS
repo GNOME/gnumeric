@@ -14,6 +14,8 @@ Release Critical
       5. Save.
       ==> #NOM? ends up in file.
 
+    - handle request to filter singleton
+
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
@@ -36,14 +38,22 @@ Pending Patches
     2.4) Provide an optional mechanism for specifying the target location
          useful for text to columns, and import into sheet
     2.5) A help button
+
 3) hlinks
-    3.1) Finish the edit dialog to load and store results
+    3.1) Finish the edit dialog to load and store results (easy project)
     3.2) Figure out import semantics of the other 2 XL types
+
 5) zip based format
-    5.1) move existing code into plugin
+    5.1) move existing code into plugin (depends on 7)
     5.2) work on sax-ish exporter
-    5.4) should extend the format api to contain (not support) all of the
-        opencalc flags.
+    5.3) convert xml-sax to use gsf sax helper
+    5.3) extend format api to contain opencalc flags.
+    5.4) Autocolors Export/import them to/from gnumeric format.
+    5.5) it would be nice to store custom colours too
+    5.6) merge the myriad bits of layout into 1
+    5.7) Evaluate change to styles, formats and fonts to
+         predeclare then associate with a range.
+
 6) XL
     6.1) biff7 externsheet records in charts			(DONE)
     6.2) 97 export						(DONE)
@@ -52,7 +62,9 @@ Pending Patches
     6.5) Intersection, union and set export
     6.6) fix name export now that we sorta understand it
     6.7) non-ole import (Nick Lamb is working on this)		(DONE)
-    6.8) Validation export
+    6.8) Validation export					(DONE)
+	6.8.1) Clip ranges that are outside the sheet area
+	       for that format
     6.9) autofilter export
 
 7) Expr Parser
@@ -99,7 +111,9 @@ Pending Patches
     21.19) Change value entries in expr dialog into combos
     21.20) editable enters for expr dialog value entries
     21.21) 2nd value in expr dialog only if 1st is active
-    21.21) drag scroll for value combos
+    21.22) drag scroll for value combos
+    21.23) undo/redo for creation
+    21.24) undo/redo for condition set change
 
 22) Add dirty flags to workbook too, adding a sheet should
     make workbook dirty not the new sheet.
@@ -118,12 +132,7 @@ UTF-8:
     - Window titles.
     - format precompile
 
-Bonobo component
-    Install it in libexec					(DONE)
-    Investigate warnings 					(DONE)
-
-Autocolors
-    Export/import them to/from gnumeric format.
+- Put a pango layout in rendered value
 
 Possibly Post 1.2 Targets
 -------------------------
@@ -132,7 +141,6 @@ Possibly Post 1.2 Targets
 - validation from list (generalize filter combos)
 - clipboard handlers in plugins
 - input message				(Stored)
-- Put a pango layout in rendered value
 - load/save of external references
 - all the merged cell singleton bugs
 
@@ -242,6 +250,7 @@ Misc stuff that should be fixed
     : Add keyboard controls for the control points
     : Add object control for resize to disable invalid sizes.
     : Add 'is_printable' flag and import
+    : Add ability to fix aspect ratio of drag resize
     : research the other xl object flags.
 
 Dialogs
@@ -301,3 +310,7 @@ Finished
     16.3) implement 'clicked' for numbers callbacks		(DONE)
 17) 3D reference fixes on sheet deletion			(DONE)
 18) 'discard' for invalid expressions enters text as string	(DONE)
+23) Bonobo component						(DONE)
+    23.1) Install it in libexec					(DONE)
+    23.2) Investigate warnings 					(DONE)
+

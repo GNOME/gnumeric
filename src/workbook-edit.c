@@ -380,9 +380,14 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		wbcg->auto_complete = NULL;
 
 	/* Give the focus to the edit line */
-	if (!cursorp)
-		gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
-				      GTK_WIDGET (wbcg_get_entry (wbcg)));
+	if (!cursorp) {
+		GtkEntry *w = wbcg_get_entry (wbcg);
+		gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), GTK_WIDGET (w));
+		/* the gtk-entry-select-on-focus property of GtkEntry is not
+		 * what we want here.  Rather than trying some gtk-2.2 specific
+		 * magic just undo the selection change here */
+		gtk_editable_select_region (GTK_EDITABLE (w), -1, -1);
+	}
 
 	wbcg->wb_control.editing = TRUE;
 	wbcg->wb_control.editing_sheet = sv->sheet;

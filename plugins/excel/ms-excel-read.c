@@ -7,7 +7,6 @@
  *    Michael Meeks (michael@ximian.com)
  *
  * (C) 1998-2002 Michael Meeks, Jody Goldberg
- * unicode and national language support (C) 2001 by Vlad Harchev <hvv@hippo.ru>
  **/
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
@@ -3917,7 +3916,7 @@ excel_read_DV (BiffQuery *q, ExcelSheet *esheet)
 	guint32	options, len;
 	guint8 const *data, *expr1_dat, *expr2_dat;
 	guint8 const *end = q->data + q->length;
-	int i;
+	int i, col, row;
 	Range r;
 	ValidationStyle style;
 	ValidationType  type;
@@ -3930,19 +3929,19 @@ excel_read_DV (BiffQuery *q, ExcelSheet *esheet)
 	data = q->data + 4;
 
 	g_return_if_fail (data+3 <= end);
-	input_title = biff_get_text (data + 2, GSF_LE_GET_GUINT8 (data), &len);
+	input_title = biff_get_text (data + 2, GSF_LE_GET_GUINT16 (data), &len);
 	data += len + 2; if (len == 0) data++;
 
 	g_return_if_fail (data+3 <= end);
-	error_title = biff_get_text (data + 2, GSF_LE_GET_GUINT8 (data), &len);
+	error_title = biff_get_text (data + 2, GSF_LE_GET_GUINT16 (data), &len);
 	data += len + 2; if (len == 0) data++;
 
 	g_return_if_fail (data+3 <= end);
-	input_msg = biff_get_text (data + 2, GSF_LE_GET_GUINT8 (data), &len);
+	input_msg = biff_get_text (data + 2, GSF_LE_GET_GUINT16 (data), &len);
 	data += len + 2; if (len == 0) data++;
 
 	g_return_if_fail (data+3 <= end);
-	error_msg = biff_get_text (data + 2, GSF_LE_GET_GUINT8 (data), &len);
+	error_msg = biff_get_text (data + 2, GSF_LE_GET_GUINT16 (data), &len);
 	data += len + 2; if (len == 0) data++;
 
 	d (1, {
@@ -3954,13 +3953,13 @@ excel_read_DV (BiffQuery *q, ExcelSheet *esheet)
 
 	g_return_if_fail (data+2 <= end);
 	expr1_len = GSF_LE_GET_GUINT16 (data);
-	d (5, fprintf (stderr,"Unknown = %hx\n", GSF_LE_GET_GUINT16 (data+2)););
+	d (5, fprintf (stderr,"Unknown1 = %hx\n", GSF_LE_GET_GUINT16 (data+2)););
 	expr1_dat = data  + 4;	/* TODO : What are the missing 2 bytes ? */
 	data += expr1_len + 4;
 
 	g_return_if_fail (data+2 <= end);
 	expr2_len = GSF_LE_GET_GUINT16 (data);
-	d (5, fprintf (stderr,"Unknown = %hx\n", GSF_LE_GET_GUINT16 (data+2)););
+	d (5, fprintf (stderr,"Unknown2 = %hx\n", GSF_LE_GET_GUINT16 (data+2)););
 	expr2_dat = data  + 4;	/* TODO : What are the missing 2 bytes ? */
 	data += expr2_len + 4;
 
@@ -3998,6 +3997,8 @@ excel_read_DV (BiffQuery *q, ExcelSheet *esheet)
 			   (options >> 4) & 0x07);
 		return;
 	};
+	if (!(options & 0x80000))
+		style = VALIDATION_STYLE_NONE;
 
 	switch ((options >> 20) & 0x0f) {
 	case 0:	op = VALIDATION_OP_BETWEEN;	break;
@@ -4015,12 +4016,22 @@ excel_read_DV (BiffQuery *q, ExcelSheet *esheet)
 		return;
 	};
 
+	if (ranges != NULL) {
+		Range const *r = ranges->data;
+		col = r->start.col;
+		row = r->start.row;
+	} else
+		col = row = 0;
+
 	if (expr1_len > 0)
-		expr1 = ms_sheet_parse_expr_internal (esheet,
-			expr1_dat, expr1_len);
+		expr1 = excel_parse_formula (&esheet->container, esheet,
+			col, row,
+			expr1_dat, expr1_len, TRUE, NULL);
+
 	if (expr2_len > 0)
-		expr2 = ms_sheet_parse_expr_internal (esheet,
-			expr2_dat, expr2_len);
+		expr2 = excel_parse_formula (&esheet->container, esheet,
+			col, row,
+			expr2_dat, expr2_len, TRUE, NULL);
 
 	d (1, fprintf (stderr,"style = %d, type = %d, op = %d\n",
 		       style, type, op););
@@ -4029,9 +4040,13 @@ excel_read_DV (BiffQuery *q, ExcelSheet *esheet)
 	mstyle_set_validation (mstyle,
 		validation_new (style, type, op, error_title, error_msg,
 			expr1, expr2, options & 0x0100, options & 0x0200));
-	if (input_msg != NULL || input_title != NULL)
-	mstyle_set_input_msg (mstyle,
-		gnm_input_msg_new (input_msg, input_title));
+	if (options & 0x40000)
+		mstyle_set_input_msg (mstyle,
+			gnm_input_msg_new (input_msg, input_title));
+	else {
+		g_free (input_msg);
+		g_free (input_title);
+	}
 
 	for (ptr = ranges; ptr != NULL ; ptr = ptr->next) {
 		Range *r = ptr->data;

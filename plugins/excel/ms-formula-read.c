@@ -1336,13 +1336,13 @@ excel_parse_formula (MSContainer const *container,
 				getRefV8 (&ref,
 					  GSF_LE_GET_GUINT16(cur),
 					  GSF_LE_GET_GUINT16(cur + 2),
-					  fn_col, fn_row, shared);
+					  fn_col, fn_row, ptgbase == FORMULA_PTG_REFN);
 				ptg_length = 4;
 			} else {
 				getRefV7 (&ref,
 					  GSF_LE_GET_GUINT8(cur+2),
 					  GSF_LE_GET_GUINT16(cur),
-					  fn_col, fn_row, shared);
+					  fn_col, fn_row, ptgbase == FORMULA_PTG_REFN);
 				ptg_length = 3;
 			}
 			parse_list_push (&stack, gnm_expr_new_cellref (&ref));
@@ -1355,21 +1355,21 @@ excel_parse_formula (MSContainer const *container,
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16(cur+0),
 					  GSF_LE_GET_GUINT16(cur+4),
-					  fn_col, fn_row, shared);
+					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
 				getRefV8 (&last,
 					  GSF_LE_GET_GUINT16(cur+2),
 					  GSF_LE_GET_GUINT16(cur+6),
-					  fn_col, fn_row, shared);
+					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
 				ptg_length = 8;
 			} else {
 				getRefV7 (&first,
 					  GSF_LE_GET_GUINT8(cur+4),
 					  GSF_LE_GET_GUINT16(cur+0),
-					  fn_col, fn_row, shared);
+					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
 				getRefV7 (&last,
 					  GSF_LE_GET_GUINT8(cur+5),
 					  GSF_LE_GET_GUINT16(cur+2),
-					  fn_col, fn_row, shared);
+					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
 				ptg_length = 6;
 			}
 

@@ -66,7 +66,7 @@ sub copy_subsystem {
 	    push @sources, split (' ', $line) if $line ne '';
 	}
 
-	s/LTLIBRARIES/LIBRARIES/;
+	s/lib_LTLIBRARIES/noinst_LIBRARIES/;
 	s/_la_/_a_/;
 	s/\.la/\.a/;
 

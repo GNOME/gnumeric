@@ -2397,23 +2397,20 @@ cb_validation_error_action_deactivate (G_GNUC_UNUSED GtkMenuShell *ignored,
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg), flag);
 
 	if (flag) {
-		const char *s = NULL;
+		char const *s = NULL;
 
 		switch (index) {
-		case 1 : s = "gnome-error.png";		break;
-		case 2 : s = "gnome-warning.png";	break;
-		case 3 : s = "gnome-info.png";		break;
+		case 1 : s = GTK_STOCK_DIALOG_ERROR;	break;
+		case 2 : s = GTK_STOCK_DIALOG_WARNING;	break;
+		case 3 : s = GTK_STOCK_DIALOG_INFO;	break;
 		default :
 			 g_warning ("Unknown validation style");
 			 return;
 		}
 
-	     	if (s != NULL) {
-			GdkPixbuf *pixbuf = gnumeric_load_pixbuf (s);
-			g_return_if_fail (pixbuf != NULL);
-			gtk_image_set_from_pixbuf (state->validation.error.image, pixbuf);
-			g_object_ref (G_OBJECT (pixbuf));
-		}
+	     	if (s != NULL)
+			gtk_image_set_from_stock (state->validation.error.image,
+						  s, GTK_ICON_SIZE_MENU);
 		gtk_widget_show (GTK_WIDGET (state->validation.error.image));
 	} else
 		gtk_widget_hide (GTK_WIDGET (state->validation.error.image));
@@ -2599,7 +2596,8 @@ fmt_dialog_init_validation_page (FormatState *state)
 		gtk_toggle_button_set_active (state->validation.allow_blank,  v->allow_blank);
 		gtk_toggle_button_set_active (state->validation.use_dropdown, v->use_dropdown);
 
-		parse_pos_init (&pp, state->sheet->workbook, state->sheet, 0, 0);
+		parse_pos_init (&pp, state->sheet->workbook, state->sheet,
+			state->sv->edit_pos.col, state->sv->edit_pos.row);
 		gnm_expr_entry_load_from_expr (state->validation.expr0.entry,
 			v->expr[0], &pp);
 		gnm_expr_entry_load_from_expr (state->validation.expr1.entry,

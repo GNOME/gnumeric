@@ -1,3 +1,22 @@
+2002-12-13  Jody Goldberg <jody@gnome.org>
+
+	* src/input-msg.c (gnm_input_msg_get_msg) : new.
+	(gnm_input_msg_get_title) : new.
+
+2002-12-12  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-style.c (cb_hash_to_list) : improve placement of debug
+	  info to ignore irrelevent ranges that were merged into something else.
+
+	* tools/import-foocanvas : do not install foocanvas
+
+	* src/sheet-style.c (sheet_style_get_validation_list) : new.
+	(cb_style_list_add_validation) : simple filter.
+	(cb_style_list_add_node) : generalize slightly to make the comparison
+	  routine dynamic.
+	(cb_hash_merge_horiz) : ditto.
+	(sheet_style_get_list) : adjust to the new generalized utilities.
+
 2002-12-13  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (gnumeric_xml_read_workbook): Grammar fix.

@@ -1767,12 +1767,17 @@ style_region_free (StyleRegion *sr)
 	g_free (sr);
 }
 
+typedef struct {
+	GHashTable *cache;
+	gboolean (*style_equal) (MStyle const *a, MStyle const *b);
+} StyleListMerge;
+
 static void
 cb_style_list_add_node (MStyle *style,
 			int corner_col, int corner_row, int width, int height,
 			Range const *apply_to, gpointer user)
 {
-	GHashTable *cache = user;
+	StyleListMerge *mi = user;
 	StyleRegion *sr = NULL;
 	CellPos	key;
 	Range range;
@@ -1805,20 +1810,20 @@ cb_style_list_add_node (MStyle *style,
 	key.col = range.end.col;
 	key.row = range.start.row - 1;
 	if (key.row >= 0 &&
-	    (sr = (StyleRegion *)g_hash_table_lookup (cache, &key)) != NULL &&
-	    sr->range.start.col == range.start.col && mstyle_equal (sr->style, style)) {
-		g_hash_table_remove (cache, &key);
+	    (sr = (StyleRegion *)g_hash_table_lookup (mi->cache, &key)) != NULL &&
+	    sr->range.start.col == range.start.col && (mi->style_equal) (sr->style, style)) {
+		g_hash_table_remove (mi->cache, &key);
 		sr->range.end.row = range.end.row;
 	} else
 		sr = style_region_new (&range, style);
 
-	g_hash_table_insert (cache, &sr->range.end, sr);
+	g_hash_table_insert (mi->cache, &sr->range.end, sr);
 }
 
 static gboolean
-cb_hash_merge_horiz (gpointer hash_key, gpointer value, gpointer user_data)
+cb_hash_merge_horiz (gpointer hash_key, gpointer value, gpointer user)
 {
-	GHashTable *cache = user_data;
+	StyleListMerge *mi = user;
 	StyleRegion *sr = value, *srh;
 	CellPos	key;
 
@@ -1837,8 +1842,8 @@ cb_hash_merge_horiz (gpointer hash_key, gpointer value, gpointer user_data)
 	do {
 		key.col = sr->range.start.col - 1;
 		if (key.col >= 0 &&
-		    (srh = (StyleRegion *)g_hash_table_lookup (cache, &key)) != NULL &&
-		    srh->range.start.row == sr->range.start.row && mstyle_equal (sr->style, srh->style)) {
+		    (srh = (StyleRegion *)g_hash_table_lookup (mi->cache, &key)) != NULL &&
+		    srh->range.start.row == sr->range.start.row && (mi->style_equal) (sr->style, srh->style)) {
 			g_return_val_if_fail (srh->range.start.col >= 0, FALSE);
 			sr->range.start.col = srh->range.start.col;
 			srh->range.start.col = -1;
@@ -1854,15 +1859,15 @@ cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
 	StyleList **res = user_data;
 	StyleRegion *sr = value;
 
-#ifdef DEBUG_STYLE_LIST
-	range_dump (&sr->range, "\n");
-#endif
-
 	/* Already merged */
 	if (sr->range.start.col < 0) {
 		style_region_free (sr);
 		return TRUE;
 	}
+
+#ifdef DEBUG_STYLE_LIST
+	range_dump (&sr->range, "\n");
+#endif
 
 	*res = g_slist_prepend (*res, value);
 	return FALSE;
@@ -1881,20 +1886,79 @@ StyleList *
 sheet_style_get_list (Sheet const *sheet, Range const *r)
 {
 	StyleList *res = NULL;
-	GHashTable *cache = g_hash_table_new ((GHashFunc)&cellpos_hash,
-					      (GCompareFunc)&cellpos_cmp);
+	StyleListMerge mi;
+
+	mi.style_equal = mstyle_equal;
+	mi.cache = g_hash_table_new ((GHashFunc)&cellpos_hash,
+				     (GCompareFunc)&cellpos_cmp);
+
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, r,
-		      cb_style_list_add_node, cache);
+		      cb_style_list_add_node, &mi);
 #ifdef DEBUG_STYLE_LIST
 	fprintf(stderr, "=========\n");
 #endif
-	g_hash_table_foreach_remove (cache, cb_hash_merge_horiz, cache);
-	g_hash_table_foreach_remove (cache, cb_hash_to_list, &res);
+	g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
+	g_hash_table_foreach_remove (mi.cache, cb_hash_to_list, &res);
 #ifdef DEBUG_STYLE_LIST
 	fprintf(stderr, "=========\n");
 #endif
-	g_hash_table_destroy (cache);
+	g_hash_table_destroy (mi.cache);
+
+	return res;
+}
+
+static void
+cb_style_list_add_validation (MStyle *style,
+			      int corner_col, int corner_row,
+			      int width, int height,
+			      Range const *apply_to, gpointer user)
+{
+	/* collect only the area with validation */
+	if (NULL != mstyle_get_validation (style) ||
+	    NULL != mstyle_get_input_msg (style))
+		cb_style_list_add_node (style,
+			corner_col, corner_row, width, height, apply_to, user);
+}
+
+static gboolean
+style_validation_equal (MStyle const *a, MStyle const *b)
+{
+	return	mstyle_get_validation (a) == mstyle_get_validation (b) &&
+		mstyle_get_input_msg (a) == mstyle_get_input_msg (b);
+}
+
+/**
+ * sheet_style_get_validation_list :
+ *
+ * @sheet :
+ * @range :
+ *
+ * Get a list of areas with validation
+ * Caller is responsible for freeing.
+ */
+StyleList *
+sheet_style_get_validation_list (Sheet const *sheet, Range const *r)
+{
+	StyleList *res = NULL;
+	StyleListMerge mi;
+
+	mi.style_equal = style_validation_equal;
+	mi.cache = g_hash_table_new ((GHashFunc)&cellpos_hash,
+				     (GCompareFunc)&cellpos_cmp);
+
+	foreach_tile (sheet->style_data->styles,
+		      TILE_TOP_LEVEL, 0, 0, r,
+		      cb_style_list_add_validation, &mi);
+#ifdef DEBUG_STYLE_LIST
+	fprintf(stderr, "=========\n");
+#endif
+	g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
+	g_hash_table_foreach_remove (mi.cache, cb_hash_to_list, &res);
+#ifdef DEBUG_STYLE_LIST
+	fprintf(stderr, "=========\n");
+#endif
+	g_hash_table_destroy (mi.cache);
 
 	return res;
 }

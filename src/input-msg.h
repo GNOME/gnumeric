@@ -8,7 +8,9 @@
 #define GNM_INPUT_MSG(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_INPUT_MSG_TYPE, GnmInputMsg))
 #define GNM_IS_INPUT_MSG(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_INPUT_MSG_TYPE))
 
-GType	     gnm_input_msg_get_type (void);
-GnmInputMsg *gnm_input_msg_new	    (char const *msg, char const *title);
+GType	     gnm_input_msg_get_type  (void);
+GnmInputMsg *gnm_input_msg_new	     (char const *msg, char const *title);
+char const  *gnm_input_msg_get_msg   (GnmInputMsg const *msg);
+char const  *gnm_input_msg_get_title (GnmInputMsg const *msg);
 
 #endif /* GNM_INPUT_MSG_H */

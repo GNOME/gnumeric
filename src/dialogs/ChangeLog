@@ -1,3 +1,10 @@
+2002-12-13  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (cb_validation_error_action_deactivate) : Use
+	  stock images directly.
+	* cell-format.glade : fix image discrepancy between menu and display
+	  of validation style error.
+
 2002-12-12  Morten Welinder  <terra@diku.dk>
 
 	* function-select.glade: Don't start as visible.
