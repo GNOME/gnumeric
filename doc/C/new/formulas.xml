@@ -1,0 +1,163 @@
+<sect1 id="formulas">
+  <title>Formulas</title>
+  
+  <para>
+    Formulas are the key to making a powerful spreadsheet. A formula
+    can perform calculations on almost anything, including single
+    numbers, cells of data ("cell references"), ranges of cells,
+    arrays of cells, and more.
+ </para>
+    
+  <sect2>
+    <title>Syntax</title>
+    
+    <para> Formulas are distinguished from regular data by an equals
+      sign, '=,' as the first character. Everything following a '=' is
+      evaluated as a formula, not a string or a number. 
+    </para>
+
+<tip>
+<title>Alternate Beginnings for Formulas</title>
+<para>
+      To accomodate those more familiar with Lotus spreadsheets,
+      Gnumeric recognizes the at symbol as the beginning of a formula.
+      The plus and minus characters (+ and -) may also start formulas
+      that involve calculation, but when used in front of a single
+      number indicate the sign of the number.
+   </para>    
+ </tip>
+    <para> The simplest formulas just use the standard math operator
+     and symbols.  Addition, subtraction, multiplication, and division
+     are represented by +, -, *, and /, just as you would expect.  +,-
+     can be placed in front of numbers to indicate sign, as
+     well.
+    </para>
+      
+    <example id="standardoperators">
+      <title>Examples of standard operators</title>
+      <programlisting>
+	=5+5            returns 10.
+	
+	=5-4            returns 1.
+	
+	=-5             returns -5.
+	
+	=5*5            returns 25.
+	
+	=(5*5)+11       returns 36.
+	
+	=(5*5)+(49/7)    returns 32.
+      </programlisting>
+    </example>
+  </sect2>
+  
+  
+  <sect2>
+    <title>Using Functions</title>
+    
+    <para>Most of the standard math, business, statistical, and
+      scientific calculations are implemented in terms of
+      functions. Functions are in the form of:</para>
+    
+    <example id="basicfunctionsyntax">
+      <title>Basic Function syntax</title>
+      <programlisting>
+	=FUNCTION(ARGUMENTS)
+      </programlisting>
+    </example>
+    
+    <para> While the documentation generally refers to functions and
+      to cells in capital letters, their use is not actually case
+      sensitive.</para>
+	
+	<example id="functionsyntax">
+	  <title>Some examples of function syntax</title>
+	  <programlisting>
+	    =SUM(A1,A2,A4,B5)
+	    
+            =AVERAGE(A1:A16)
+	    
+            =EXP(1)
+	    
+	    =PI()
+	    
+            =MIN(A1,A2,B6)
+	  </programlisting>
+	</example>
+
+	<para>Where a function takes multiple arguments such as the
+	SUM example, the number of arguments effectively unlimited.</para>
+  </sect2>
+
+  <sect2 id="formulas-names">
+  <title>Names</title>
+  <para>Names help to simplify complex formulae. A name is assinged to
+  a formula which will be evaluated when it is referred to in another
+  formula. Names are particularly useful for labeling cell ranges.</para>
+
+	<example id="namesyntax">
+	<title>Examples of name usage</title>
+	<para>If DataBase is defined as '$A$1:$B$500' and
+	E_Constant is defined as 2.71828182845 then we can have:</para>
+  	  <programlisting>
+	    =VLOOKUP (C1, "gnu", DataBase, 2, 0)
+
+	    =LN(E_Constant)
+
+	    =SUM(DataBase, E_Constant)
+	  </programlisting>
+	</example>
+
+  <para>Names are defined using the <guimenu>Insert</guimenu>
+  <guimenuitem>Name</guimenuitem> dialog. This allows manipulation of
+  all the names in the related workbook. A name is restrained from taking
+  that of a function, since this would cause confusion.</para>
+
+  <para>In addition to the names you define there are built in names:</para>  <itemizedlist>
+    <listitem><para>"Sheet_Title:" this returns the name of the current sheet</para></listitem>
+  </itemizedlist>
+
+  </sect2>
+
+  <sect2>
+    <title>Array Formulas</title>
+    
+    <para>It is periodically useful or necessary to have an expression return
+    a matrix rather than a single value.  The first example most people think
+    of are matrix operations such as multiplication, transpose, and inverse.
+    A less obvious usage is for data retrieval routines (databases, realtime
+    data-feeds) or functions with vector results (yield curve calculations).
+    </para>
+    
+    <example id="arrayformulacreate">
+      <title>Entering an Array Formula</title>
+	<para>An array formula is currently entered by selecting the single
+	range in which to store the result, entering the array formula,
+	and hitting the magic combination, Ctrl-Shift-Enter.
+	</para>
+	<para>The result is displayed as :</para>
+
+      <programlisting>
+	={FUNCTION(ARGUMENTS)}(num_rows, num_cols)[row number][col number]
+      </programlisting>
+    </example>
+  </sect2>
+</sect1>
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         
+

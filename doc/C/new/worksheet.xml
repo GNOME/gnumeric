@@ -78,7 +78,7 @@
     <para>
       The Cancel button 
       <guibutton>
-	<inlinegraphic fileref="figures/worksheet-data-4.png" />
+	<inlinegraphic fileref="figures/worksheet-data-4.png" format="PNG"/>
       </guibutton>
       can be used to cancel the current edit and to restore the cell contents to
       the previous state. If a user decides in the middle of an edit
@@ -101,7 +101,7 @@
       
       <para>The confirm button
       <guibutton>
-	<inlinegraphic fileref="figures/worksheet-data-3"
+	<inlinegraphic fileref="figures/worksheet-data-3.png"
 		       format="PNG" />
 	</guibutton>.
       can be used to finish the edit of a cell and enter the edit into the

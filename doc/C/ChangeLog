@@ -1,5 +1,12 @@
 2002-01-26  Kevin Breit  <mrproper@ximian.com>
 
+	* formulas.sgml: Added, made XML compatible
+
+	* new/editing.xml: XMLized and added to CVS
+
+	* new/gnumeric.xml: Enabled the editing section
+	Enabled formulas
+
 	* new/worksheet.xml: This file builds properly now
 
 2002-01-25  Kevin Breit  <mrproper@ximian.com>

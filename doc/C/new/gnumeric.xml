@@ -9,11 +9,11 @@ GNU oleo">
 <!ENTITY menus		SYSTEM "menus.xml">
 <!ENTITY toolbars	SYSTEM "toolbars.xml">
 <!ENTITY worksheet	SYSTEM "worksheet.xml">
+<!ENTITY editing	SYSTEM "editing.xml">
 <!--
-<!ENTITY editing	SYSTEM "editing.sgml">
 <!ENTITY numberformat	SYSTEM "number-format.sgml">
-<!ENTITY formulas	SYSTEM "formulas.sgml">
 -->
+<!ENTITY formulas	SYSTEM "formulas.sgml">
 <!ENTITY cellrefer	SYSTEM "cell_refer.xml">
 <!ENTITY selections	SYSTEM "selections.xml">
 <!ENTITY copying-moving	SYSTEM "copying-moving.xml">
@@ -101,12 +101,12 @@ GNU oleo">
     </title>
     &worksheet;
   </chapter>
-<!--  
+
   <chapter id="editing">
     <title>Entering data</title>
     &editing;
   </chapter>
--->
+
   <chapter id="copying-moving">
     <title>Copying and Moving</title>
     &copying-moving;
