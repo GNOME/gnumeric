@@ -198,7 +198,7 @@ range_already_in_sort_criteria(gint start, gint end, SortFlowState *state)
 
 
 static void
-build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFlowState *state);
+build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFlowState *state, int used);
 
 static void
 cb_sort_field_menu_activate(GtkWidget *item, AddSortFieldMenuState *menu_state)
@@ -210,7 +210,7 @@ cb_sort_field_menu_activate(GtkWidget *item, AddSortFieldMenuState *menu_state)
 				menu_state->end,
 				menu_state->index,
 				menu,
-				menu_state->state);
+				menu_state->state, 0);
 	  menu_state->done_submenu = TRUE;
   }
 }
@@ -273,7 +273,7 @@ cb_sort_field_selection(GtkWidget *item, AddSortFieldMenuState *menu_state)
 }
 
 static void
-build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFlowState *state)
+build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFlowState *state, int used)
 {
 	Sheet *sheet = state->sel->v_range.cell.a.sheet;
 	GtkWidget *item;
@@ -285,13 +285,18 @@ build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFl
 	char *str_end;
 	AddSortFieldMenuState *menu_state;
 	gint menu_size;
-	gint submenu_size;
 	
 	menu_size = 1 + end - start;
-	if (MAX_MENU_SIZE < menu_size) {
+	if (MAX_MENU_SIZE < menu_size - used) {
+		gint submenu_size;
+		gint balanced_submenu_size;
 		
-		submenu_size = (menu_size + MAX_MENU_SIZE + 1) / MAX_MENU_SIZE;
-		
+		submenu_size = (menu_size + MAX_MENU_SIZE - 1) / MAX_MENU_SIZE;
+		balanced_submenu_size = sqrt((double) 
+					     (menu_size + MAX_MENU_SIZE - 1));
+		if (balanced_submenu_size > submenu_size)
+			submenu_size = balanced_submenu_size;
+
 		for (i = start; i <= end; i+=submenu_size) {
 			this_end = i + submenu_size - 1;
 			if (this_end > end)
@@ -772,7 +777,8 @@ build_sort_field_base_menu (SortFlowState *state)
 		index = state->sel->v_range.cell.a.col;
 	}
 
-	build_sort_field_menu (start, end, index, menu, state);
+	build_sort_field_menu (start, end, index, menu, state, 
+			       state->sort_items);
 
 	items = gtk_container_get_children (GTK_CONTAINER (menu));
 

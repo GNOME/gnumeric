@@ -1,5 +1,11 @@
 2003-12-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* dialog-cell-sort.c (build_sort_field_menu): balance the size
+	of the submenus with the size of the main menu and don't introduce 
+	submenus if there are only a few items left.
+
+2003-12-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* cell-sort.glade: add horizontal scollbars to the treeview to
 	  work around a GTK bug.
 	* dialog-cell-sort.c (header_name): new
