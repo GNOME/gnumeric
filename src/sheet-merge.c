@@ -184,9 +184,9 @@ sheet_merge_remove (Sheet *sheet, Range const *r, CommandContext *cc)
 	if (comment != NULL)
 		sheet_object_update_bounds (SHEET_OBJECT (comment), NULL);
 
-	g_free (r_copy);
 	sheet_flag_status_update_range (sheet, r);
 	SHEET_FOREACH_VIEW (sheet, sv, sv->reposition_selection = TRUE;);
+	g_free (r_copy);
 	return FALSE;
 }
 

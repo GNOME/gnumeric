@@ -1,5 +1,11 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=114079.
+	* src/colrow.c (colrow_get_states) : a difference in the default state
+	  will also split a run. (fixes crash #2)
+	* src/sheet-merge.c (sheet_merge_remove) : don't free range until
+	  after we're through using r.  Just in case they are the same.
+
 	* src/workbook-control-gui.c (cb_view_freeze_panes) : base the
 	  decision to use default position on the last visible, not last full.
 

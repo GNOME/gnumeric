@@ -342,7 +342,8 @@ colrow_get_states (Sheet *sheet, gboolean is_cols, int first, int last)
 		}
 
 		/* If state changed, start a new block */
-		if (cur_state.size_pts	    != run_state.size_pts ||
+		if (cur_state.is_default    != run_state.is_default ||
+		    cur_state.size_pts	    != run_state.size_pts ||
 		    cur_state.outline_level != run_state.outline_level ||
 		    cur_state.is_collapsed  != run_state.is_collapsed ||
 		    cur_state.hard_size	    != run_state.hard_size ||
