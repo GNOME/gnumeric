@@ -1,3 +1,9 @@
+2002-05-28  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* reports-write.c (solver_performance_report): Add printing of
+	some options used.
+	* reports-write.c (solver_answer_report): Ditto.
+
 2002-05-27  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.c (solver_lp_copy): Fixed.

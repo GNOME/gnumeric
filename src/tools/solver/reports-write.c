@@ -255,6 +255,15 @@ solver_answer_report (WorkbookControl *wbc,
 	dao_autofit_these_columns (&dao, 0, 5);
 
 	/*
+	 * Check if assume integer is on.
+	 */
+	if (res->param->options.assume_discrete) {
+	        dao_set_cell (&dao, 1, 18 + vars + i,
+			      _("Assume that all variables are integer."));
+	}
+
+
+	/*
 	 * Fill in the titles.
 	 */
 
@@ -566,7 +575,7 @@ solver_performance_report (WorkbookControl *wbc,
 			   SolverResults   *res)
 {
         data_analysis_output_t dao;
-	int                    mat_size, zeros;
+	int                    mat_size, zeros, i;
 	struct                 utsname unamedata;
 	Value                  *v;
 	gchar                  model_name [256], cpu_mhz [256];
@@ -742,11 +751,32 @@ solver_performance_report (WorkbookControl *wbc,
 	 * Fill in the labels of `Options' section.
 	 */
 	/* Set the labels. */
+	dao_set_bold (&dao, 1, 27, 1, 29);
 	dao_set_cell (&dao, 1, 27, _("Algorithm:"));
-	dao_set_bold (&dao, 1, 27, 1, 27);
 
 	/* Set the `Algorithm'. */
 	dao_set_cell (&dao, 2, 27, _("LP Solve 3.2"));
+
+
+	/* Set the `Assumptions'. */
+	dao_set_cell (&dao, 1, 28, _("Model Assumptions:"));
+	i = 0;
+
+	if (res->param->options.assume_discrete) {
+	        dao_set_cell (&dao, 2 + i++, 28, _("Discrete"));
+	}
+
+	if (res->param->options.assume_non_negative) {
+	        dao_set_cell (&dao, 2 + i++, 28, _("Non-Negative"));
+	}
+
+	/* Set `Autoscaling'. */
+	dao_set_cell (&dao, 1, 29, _("Autoscaling:"));
+	if (res->param->options.automatic_scaling)
+	        dao_set_cell (&dao, 2, 29, _("Yes"));
+	else
+	        dao_set_cell (&dao, 2, 29, _("No"));
+
 
 
 	/*
@@ -890,6 +920,26 @@ solver_program_report (WorkbookControl *wbc,
 	 */
 
 	dao_autofit_these_columns (&dao, 0, max_col*3 + 2);
+
+
+	/*
+	 * Check if assume integer is on.
+	 */
+	if (res->param->options.assume_discrete) {
+	        dao_set_cell (&dao, 1, row + 1,
+			      _("Assume that all variables are integer."));
+		row++;
+	}
+
+	/*
+	 * Check if assume non-negative is on.
+	 */
+	if (res->param->options.assume_non_negative) {
+	        dao_set_cell (&dao, 1, row + 1,
+			      _("Assume that all variables take only positive "
+				"values."));
+	}
+
 
 	/*
 	 * Fill in the titles.

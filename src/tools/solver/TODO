@@ -9,17 +9,16 @@
 	* Add `equal to' option for target cell.
 	* Add `in range' option for target cell.
 	* Improve the usability of the dialog (e.g. focus issues).
+	* Fix groupping.
 	* Performance reporting:
 	  - Add status.
-	  - Add options used (Max/min, non-neg, int, scaling, max it/t).
+	  - Add options used (Max/min, max it/t).
 	  - Clean up.
 	* Program reporting:
 	  - Check that SHEET_MAX_COLS cannot be exceeded.
 	* MPS plugin:
 	  - Improve BOUNDS support.
 	  - Fix bug: If obj. fn. (N) is not last, the indexes get of by 1.
-	* Reporting:
-	  - Add info whether assume discrete was on or off.
 	* Update user documentation.
 
 1.2 Later versions
