@@ -1,5 +1,19 @@
 1998-07-30  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* src/sheet.c (canvas_bar_realized): 
+	* src/gnumeric-sheet.c (gnumeric_sheet_realize): Neat X hack:  set
+	the window backing pixmap to NULL, so that the window does not get
+	cleared when it receives an exposure event.  It will just leave
+	whatever bits were on the window when the expose happened.  This
+	allows us to avoid flicker.  *** MIGUEL, LOOK AT THIS ***
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_make_cell_visible): Fixed
+	width/height confusion (cut&paste bug).
+
+	* src/sheet.c (new_canvas_bar): Set outrageously big scrolling
+	limits.  This has to be fixed to use the real sheet's dimensions.
+	(sheet_new): Use correct table expansion parameters.
+
 	* src/sheet.c (sheet_set_zoom_factor): Use gnome_canvas_scroll_to().
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_set_top_row): Scroll using

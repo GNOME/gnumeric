@@ -165,6 +165,13 @@ sheet_init_dummy_stuff (Sheet *sheet)
 	}
 }
 
+static void
+canvas_bar_realized (GtkWidget *widget, gpointer data)
+{
+	/* MIGUEL: look at this */
+	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
+}
+
 static GtkWidget *
 new_canvas_bar (Sheet *sheet, GtkOrientation o, GnomeCanvasItem **itemp)
 {
@@ -175,12 +182,20 @@ new_canvas_bar (Sheet *sheet, GtkOrientation o, GnomeCanvasItem **itemp)
 	
 	canvas = gnome_canvas_new ();
 
+	gtk_signal_connect (GTK_OBJECT (canvas), "realize",
+			    (GtkSignalFunc) canvas_bar_realized,
+			    NULL);
+
+	/* FIXME: need to set the correct scrolling regions.  This will do for now */
+
 	if (o == GTK_ORIENTATION_VERTICAL){
 		w = 60;
 		h = 1;
+		gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, w, 1000000);
 	} else {
 		w = 1;
 		h = 20;
+		gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, 1000000, h);
 	}
 	gnome_canvas_set_size (GNOME_CANVAS (canvas), w, h);
 	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
@@ -306,7 +321,9 @@ sheet_new (Workbook *wb, char *name)
 	sheet->col_canvas = new_canvas_bar (sheet, GTK_ORIENTATION_HORIZONTAL, &sheet->col_item);
 	gtk_table_attach (GTK_TABLE (sheet->toplevel), sheet->col_canvas,
 			  1, 2, 0, 1,
-			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_FILL,
+			  0, 0);
 	gtk_signal_connect (GTK_OBJECT (sheet->col_item), "selection_changed",
 			    GTK_SIGNAL_FUNC (sheet_col_selection_changed),
 			    sheet);
@@ -317,7 +334,9 @@ sheet_new (Workbook *wb, char *name)
 	sheet->row_canvas = new_canvas_bar (sheet, GTK_ORIENTATION_VERTICAL, &sheet->row_item);
 	gtk_table_attach (GTK_TABLE (sheet->toplevel), sheet->row_canvas,
 			  0, 1, 1, 2,
-			  0, GTK_FILL | GTK_EXPAND, 0, 0);
+			  GTK_FILL,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  0, 0);
 	gtk_signal_connect (GTK_OBJECT (sheet->row_item), "selection_changed",
 			    GTK_SIGNAL_FUNC (sheet_row_selection_changed),
 			    sheet);
@@ -336,14 +355,16 @@ sheet_new (Workbook *wb, char *name)
 	
 	gtk_table_attach (GTK_TABLE (sheet->toplevel), sheet->sheet_view,
 			  1, 2, 1, 2,
-			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  0, 0);
 
 	/* The select-all button */
 	select_all = gtk_button_new ();
 	gtk_table_attach (GTK_TABLE (sheet->toplevel), select_all,
 			  0, 1, 0, 1,
-			  GTK_FILL | GTK_EXPAND,
-			  GTK_FILL | GTK_EXPAND,
+			  GTK_FILL,
+			  GTK_FILL,
 			  0, 0);
 	gtk_signal_connect (GTK_OBJECT (select_all), "clicked",
 			    GTK_SIGNAL_FUNC (button_select_all), sheet);
@@ -358,12 +379,16 @@ sheet_new (Workbook *wb, char *name)
 	/* Attach the horizontal scroll */
 	gtk_table_attach (GTK_TABLE (sheet->toplevel), sheet->hs,
 			  1, 2, 2, 3,
-			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_FILL,
+			  0, 0);
 
 	/* Attach the vertical scroll */
 	gtk_table_attach (GTK_TABLE (sheet->toplevel), sheet->vs,
 			  2, 3, 1, 2,
-			  0, GTK_FILL | GTK_EXPAND, 0, 0);
+			  GTK_FILL,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  0, 0);
 	
 	sheet_set_zoom_factor (sheet, 1.0);
 	return sheet;

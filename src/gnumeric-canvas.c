@@ -597,6 +597,9 @@ gnumeric_sheet_realize (GtkWidget *widget)
 {
 	if (GTK_WIDGET_CLASS (sheet_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (sheet_parent_class)->realize)(widget);
+
+	/* MIGUEL: look at this */
+	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
 }
 
 void
@@ -734,7 +737,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 		new_top_row = row;
 	} else if (row > gsheet->last_visible_row){
 		ColRowInfo *ri;
-		int width = canvas->width;
+		int height = canvas->height;
 		int first_row = row;
 		int allocated = 0;
 
@@ -745,7 +748,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 			first_row--;
 			ri = sheet_row_get_info (sheet, first_row);
 			allocated += ri->pixels;
-		} while ((first_row > 0) && (width - allocated > 0));
+		} while ((first_row > 0) && (height - allocated > 0));
 		
 		new_top_row = first_row+1;
 	} else
