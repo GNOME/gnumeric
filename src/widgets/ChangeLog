@@ -1,7 +1,7 @@
 2000-04-05  Jody Goldberg <jgoldberg@home.com>
 
 	* gtk-combo-text.c (elements_free) : New routine.
-	(gtk_combo_test_finalize) : Ditto.
+	(gtk_combo_text_destroy) : Ditto.
 	(gtk_combo_text_class_init) : Install a destructor.
 
 2000-03-29  Jon K Hellan  <hellan@acm.org>

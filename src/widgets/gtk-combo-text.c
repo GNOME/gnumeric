@@ -9,11 +9,7 @@ static GtkObjectClass *gtk_combo_text_parent_class;
 static gboolean
 elements_free (gpointer	key, gpointer value, gpointer user_data)
 {
-#ifdef BROKEN
 	g_free (key);
-#endif
-	/* This works */
-	/* puts (key); */
 	return TRUE;
 }
 
@@ -131,8 +127,10 @@ gtk_combo_text_add_item (GtkComboText *ct,
 	listitem = gtk_list_item_new_with_label (item);
 	gtk_widget_show (listitem);
 
+#if 0
 	gtk_object_set_data_full (GTK_OBJECT (listitem), "value",
 				  value_copy, g_free);
+#endif
 	gtk_signal_connect (GTK_OBJECT (listitem), "select",
 			    GTK_SIGNAL_FUNC (list_select_cb),
 			    (gpointer) ct);
