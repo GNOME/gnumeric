@@ -37,8 +37,6 @@ Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
     : fraction matching
 
-    : F4 is not working {gtk #151541, fixed 2004-11-28, 2.5.6)
-
     http://bugzilla.gnome.org/show_bug.cgi?id=151610
     : crash 	: fixed
     : we mis-import multiple axis sets
