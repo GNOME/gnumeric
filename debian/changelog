@@ -1,3 +1,13 @@
+gnumeric (1.2.4-2) unstable; urgency=medium
+
+  * [debian/control] Added build dependency on yelp for yelp-pregenerate.
+  * [debian/rules] Simplify things by using dh_link.
+  * [debian/rules] Speed up documentation access with yelp by including 
+    prerendered HTML in gnumeric-doc. (Closes: #225706)
+  * [debian/gnumeric-doc.doc-base] Back; updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  1 Jan 2004 21:59:03 +0100
+
 gnumeric (1.2.4-1) unstable; urgency=medium
 
   * New upstream release.

@@ -98,6 +98,7 @@ build-stamp:
 	dh_testdir
 
 	cd build && $(MAKE)
+	cd doc/C && yelp-pregenerate gnumeric.xml
 
 	touch build-stamp
 
@@ -125,7 +126,7 @@ clean:
 	-rm -f po/*.gmo
 
 	# Clean out files generated as part of the documentation generation
-	-rm -f doc/C/index.html omf-install/gnumeric-C.omf
+	-rm -f doc/C/index.html doc/C/gnumeric.html omf-install/gnumeric-C.omf
 	-rm -rf doc/C/gnumeric doc/C/DBTOHTML_OUTPUT_DIR*
 
 	-rm -rf aclocal.m4 config.h.in stamp-h.in autom4te.cache \
@@ -149,6 +150,9 @@ install: build
 		sysconfdir=`pwd`/../debian/tmp/etc \
 		localstatedir=`pwd`/../debian/tmp/var/lib \
 		libexecdir=`pwd`/../debian/tmp/usr/bin
+
+	# Copy the prerendered manual
+	cp doc/C/gnumeric.html `pwd`/debian/tmp/usr/share/gnumeric/*-bonobo/share/gnome/help/gnumeric/C
 
 	# Plugins are not intended as stand-alone executables
 	find `pwd`/debian/tmp/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
@@ -174,13 +178,11 @@ install: build
 	$(INSTALL) -m 644 debian/gnome-gnumeric.xpm `pwd`/debian/tmp/usr/share/pixmaps/
 
 	dh_install --sourcedir=debian/tmp --list-missing
-	cd debian/gnumeric && \
-		for idl in usr/share/gnumeric/*/idl/*.idl; do \
-			(cd usr/share/idl && ln -s `echo $$idl | sed -e 's,^usr/share,..,'` .); \
-		done
-	cd debian/gnumeric-doc/usr/share/gnumeric/*/share/gnome/help/gnumeric/C && \
-		mkdir stylesheet && cd stylesheet && \
-		ln -s ../../../../../../../../pixmaps/gnome-logo-icon.png .
+
+	dh_link usr/share/gnumeric/$(upstreamversion)-bonobo/idl/GNOME_Gnumeric.idl usr/share/idl/GNOME_Gnumeric.idl
+
+	dh_link -pgnumeric-doc usr/share/gnumeric/$(upstream-version)-bonobo/share/gnome/help/gnumeric/C/stylesheet/gnome-logo-icon.png usr/share/pixmaps/gnome-logo-icon.png
+	dh_link -pgnumeric-doc usr/share/gnumeric/$(upstreamversion)-bonobo/share/gnome/help/gnumeric/C/gnumeric.html usr/share/doc/gnumeric-doc/gnumeric.html
 
 	# Remove a broken/superfluous link
 	rm -f debian/tmp/usr/share/gnumeric/*/gnome
@@ -192,6 +194,7 @@ install: build
 	while read l ; do \
 		rm -rvf debian/gnumeric/$$l ; \
 	done < debian/gnumeric-plugins-extra.install
+
 	# Remove dirs that are now empty
 	-find debian/gnumeric -type d -depth | xargs rmdir >/dev/null 2>&1
 
