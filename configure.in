@@ -1,6 +1,6 @@
 -*- mode: m4 -*-
 AC_PREREQ(2.52)
-AC_INIT(gnumeric, 1.1.4,
+AC_INIT(gnumeric, 1.1.5,
 	http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric)
 
 AC_CONFIG_SRCDIR(src/sheet.h)
@@ -201,7 +201,7 @@ AC_ARG_WITH(excel,
 	fi
 )
 if test "$try_ole" = "true"; then
-	PKG_CHECK_MODULES(LIBOLE2, [libole2-2.0 >= 2.2.7],
+	PKG_CHECK_MODULES(LIBOLE2, [libole2-2.0 >= 2.2.7 libgsf-1 >= 0.0.0],
 		[excel_msg="yes"],
 		[excel_msg="NO.  libole2 problem"])
 fi
