@@ -346,7 +346,6 @@ cb_tool_cancel_clicked (GtkWidget *button, GenericToolState *state)
 {
 	simulation_tool_destroy (current_sim);
 	gtk_widget_destroy (state->dialog);
-	g_free (state);
 }
 
 static void

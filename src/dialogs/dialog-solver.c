@@ -62,6 +62,7 @@ typedef struct {
 	GnumericExprEntry   *lhs_entry;
 	GnumericExprEntry   *rhs_entry;
 	GtkOptionMenu       *type_combo;
+	GtkOptionMenu       *algorithm_combo;
 	GtkCList            *constraint_list;
 	gint                selected_row;
 	gnum_float          ov_target;
@@ -89,6 +90,17 @@ static char const * constraint_strs_untranslated[] = {
 	NULL
 };
 #endif
+
+typedef struct {
+	char const            *name;
+	SolverLPAlgorithmType type;
+} algorithm_def_t;
+
+static algorithm_def_t algorithm_defs [] = {
+	{ N_("Revised Simplex (GLPK 3.2)"), GLPKSimplex },
+	{ N_("Simplex (LP Solve 3.2)"), LPSolve },
+	{ NULL, 0 }
+};
 
 typedef struct {
 	GtkCList *c_listing;
@@ -185,7 +197,6 @@ dialog_set_sec_button_sensitivity (GtkWidget *dummy, SolverState *state)
 	gtk_widget_set_sensitive (state->change_button, select_ready && ready);
 	gtk_widget_set_sensitive (state->delete_button, select_ready);
 }
-
 
 /**
  * constraint_select_click:
@@ -847,6 +858,18 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 		gnumeric_glade_group_value (state->gui, problem_type_group);
 	param->options.model_type =
 		gnumeric_glade_group_value (state->gui, model_type_group);
+
+	for (i = 0; algorithm_defs [i].name; i++) {
+		GtkEntry             *entry = GTK_ENTRY 
+			(GTK_COMBO (state->algorithm_combo)->entry);
+		G_CONST_RETURN gchar *name = gtk_entry_get_text (entry);
+
+		if (strcmp (algorithm_defs [i].name, name) == 0) {
+			param->options.algorithm = algorithm_defs [i].type;
+			break;
+		}
+	}
+
 	param->options.assume_non_negative = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui,
 							  "non_neg_button")));
@@ -953,6 +976,16 @@ dialog_init (SolverState *state)
 	GtkTable                *table;
 	constraint_conversion_t conv;
 	SolverParameters        *param;
+	static GList            *alg_name_list = NULL;
+
+	if (alg_name_list == NULL) {
+		int i;
+
+		for (i = 0; algorithm_defs [i].name; i++)
+			alg_name_list = g_list_append
+				(alg_name_list,
+				 (gpointer) algorithm_defs [i].name);
+	}
 
 	param = state->sheet->solver_parameters;
 
@@ -1033,6 +1066,12 @@ dialog_init (SolverState *state)
 	gtk_widget_show (GTK_WIDGET (state->change_cell_entry));
 	g_signal_connect_after (G_OBJECT (state->change_cell_entry), "changed",
 		G_CALLBACK (dialog_set_main_button_sensitivity), state);
+
+	/* Algorithm */
+	state->algorithm_combo = GTK_OPTION_MENU
+		(glade_xml_get_widget (state->gui, "algorithm_combo"));
+	gtk_combo_set_popdown_strings (GTK_COMBO (state->algorithm_combo),
+				       alg_name_list);
 
 	/* Options */
 	state->max_iter_entry = glade_xml_get_widget (state->gui,

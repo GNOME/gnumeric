@@ -1,3 +1,10 @@
+2002-08-17  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-solver.c (dialog_init): Implemented the algorithm
+	selection.
+
+	* solver.glade: related changes.
+
 2002-08-16  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-cell-format.c: #if 0 static variable fmt_dialog_currency.

@@ -1,6 +1,6 @@
 -*- mode: m4 -*-
 AC_PREREQ(2.52)
-AC_INIT(gnumeric, 1.1.6,
+AC_INIT(gnumeric, 1.1.8,
 	http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric)
 
 AC_CONFIG_SRCDIR(src/sheet.h)
@@ -657,6 +657,8 @@ src/pixmaps/Makefile
 src/widgets/Makefile
 src/tools/Makefile
 src/tools/solver/Makefile
+src/tools/solver/glpk/Makefile
+src/tools/solver/glpk/source/Makefile
 src/tools/solver/lp_solve/Makefile
 doc/Makefile
 doc/C/Makefile
