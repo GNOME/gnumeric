@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.54\n"
-"POT-Creation-Date: 2000-10-10 11:30-0400\n"
-"PO-Revision-Date: 2000-09-21 22:39+02:00\n"
+"POT-Creation-Date: 2000-10-14 04:17+0200\n"
+"PO-Revision-Date: 2000-10-15 02:00+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -84,7 +84,7 @@ msgid "#UNKNOWN!"
 msgstr "#UKJENT!"
 
 #: plugins/excel/ms-excel-read.c:599 plugins/html/html.c:410
-#: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3552
+#: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3551
 #, c-format
 msgid "Sheet%d"
 msgstr "Ark%d"
@@ -1056,7 +1056,7 @@ msgid "Rank"
 msgstr "Grad"
 
 #: src/analysis-tools.c:2202 src/analysis-tools.c:2228
-#: src/workbook-format-toolbar.c:376
+#: src/workbook-format-toolbar.c:390
 msgid "Percent"
 msgstr "Prosent"
 
@@ -1187,11 +1187,13 @@ msgid "Error while trying to pre-convert clipboard data"
 msgstr "Feil under forsÅ¯k pÅÂ ÅÂ pre-konvertere data fra utklippstavlen"
 
 #: src/clipboard.c:610
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The data on the clipboard does not seem to be valid text.\n"
 "The character '%c' (ASCII decimal %d) was encountered"
-msgstr "Data fra utklippstavlen ser ikke ut til ÅÂ vÅÊre en gyldig tekst"
+msgstr ""
+"Data fra utklippstavlen ser ikke ut til Â vÊre gyldig tekst.\n"
+"Tegnet '%c' (ASCII desimal %d) ble funnet"
 
 #: src/clipboard.c:630
 msgid "Parse error while trying to parse data into cellregion"
@@ -1369,10 +1371,6 @@ msgstr "Autofyll"
 #: src/corba-args.c:25
 msgid "Oaf options"
 msgstr "Oaf alternativer"
-
-#: src/corba-args.c:35
-msgid "Could not initialize the Gnumeric Workbook factory"
-msgstr "Kunne ikke initialisere Gnumeric's arbeidsbok \"factory\""
 
 #: src/dates.c:14
 msgid "*Sun"
@@ -2208,7 +2206,7 @@ msgstr "Sup_erskript"
 msgid "Su_bscript"
 msgstr "Su_bskript"
 
-#: src/dialogs/cell-format.glade.h:64 src/workbook-format-toolbar.c:642
+#: src/dialogs/cell-format.glade.h:64 src/workbook-format-toolbar.c:652
 msgid "Font"
 msgstr "Skrifttype"
 
@@ -2216,7 +2214,7 @@ msgstr "Skrifttype"
 msgid "Reverse Diagonal"
 msgstr "Omvendt diagonal"
 
-#: src/dialogs/cell-format.glade.h:66 src/workbook-format-toolbar.c:493
+#: src/dialogs/cell-format.glade.h:66 src/workbook-format-toolbar.c:507
 msgid "Left"
 msgstr "Venstre"
 
@@ -2224,7 +2222,7 @@ msgstr "Venstre"
 msgid "Top"
 msgstr "Åÿverst"
 
-#: src/dialogs/cell-format.glade.h:68 src/workbook-format-toolbar.c:501
+#: src/dialogs/cell-format.glade.h:68 src/workbook-format-toolbar.c:515
 msgid "Bottom"
 msgstr "Nederst"
 
@@ -2232,7 +2230,7 @@ msgstr "Nederst"
 msgid "Diagonal"
 msgstr "Diagonal"
 
-#: src/dialogs/cell-format.glade.h:70 src/workbook-format-toolbar.c:495
+#: src/dialogs/cell-format.glade.h:70 src/workbook-format-toolbar.c:509
 msgid "Right"
 msgstr "HÅ¯yre"
 
@@ -2393,8 +2391,8 @@ msgstr "SmÅÂ sirkler"
 msgid "Foreground Solid"
 msgstr "Helfylt forgrunn"
 
-#: src/dialogs/cell-format.glade.h:116 src/workbook-format-toolbar.c:705
-#: src/workbook-format-toolbar.c:737
+#: src/dialogs/cell-format.glade.h:116 src/workbook-format-toolbar.c:715
+#: src/workbook-format-toolbar.c:747
 msgid "Background"
 msgstr "Bakgrunn"
 
@@ -5754,7 +5752,7 @@ msgid "[Red]"
 msgstr "[RÅ¯d]"
 
 #: src/func.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create file %s\n"
 msgstr "Kan ikke opprette fil %s\n"
 
@@ -5778,17 +5776,6 @@ msgstr ""
 "@DESCRIPTION=DAVERAGE-funksjonen returnerer gjennomsnittet av verdiene i en "
 "liste eller en database som passer til de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:500
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:561
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5800,16 +5787,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,felt,kriterie)\n"
 "@DESCRIPTION=DCOUNT-funksjonen teller cellene som inneholder tall i en "
 "database som passer de oppgitte betingelsene. \n"
-
-#: src/functions/fn-database.c:569
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:622
 msgid ""
@@ -5823,16 +5800,6 @@ msgstr ""
 "@DESCRIPTION=DCOUNTA-funksjonen teller cellene som inneholder data i en "
 "database som passer de oppgitte betingelsene. \n"
 
-#: src/functions/fn-database.c:630
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:680
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5844,17 +5811,6 @@ msgstr ""
 "@SYNTAX=DGET(database,felt,kriterie)\n"
 "@DESCRIPTION=DGET-funksjonen returnerer en enkelt verdi fra en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:688
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:748
 msgid ""
@@ -5868,16 +5824,6 @@ msgstr ""
 "@DESCRIPTION=DMAX-funksjonen returnerer det stÅ¯rste tallet i en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:756
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:819
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5890,15 +5836,6 @@ msgstr ""
 "@DESCRIPTION=DMIN-funksjonen returnerer det minste tallet i en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:827
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:889
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -5910,14 +5847,6 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,felt,kriterie)\n"
 "@DESCRIPTION=DPRODUCT-funksjonen returnerer produktet av tallene i en "
 "kolonne som tilfredstiller de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:897
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
 
 #: src/functions/fn-database.c:956
 msgid ""
@@ -5933,15 +5862,6 @@ msgstr ""
 "en populasjon basert pÅÂ et utvalg. Populasjonen bestÅÂr av tall som til- "
 "fredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:965
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1022
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5956,15 +5876,6 @@ msgstr ""
 "basert pÅÂ hele populasjonen. Populasjonenen bestÅÂr av tall som til- "
 "fredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:1031
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1090
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -5976,15 +5887,6 @@ msgstr ""
 "@SYNTAX=DSUM(database,felt,kriterie)\n"
 "@DESCRIPTION=DSUM-funksjonen returnerer summen av tallene i en kolonne som "
 "mÅ¯ter de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:1098
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
 
 #: src/functions/fn-database.c:1157
 msgid ""
@@ -6000,15 +5902,6 @@ msgstr ""
 "basert pÅÂ et utvalg. Populasjonene bestÅÂr av tall som mÅ¯ter de "
 "spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:1166
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1225
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -6022,15 +5915,6 @@ msgstr ""
 "@DESCRIPTION=DVARP-funksjonen returnerer variansen til en populasjon basert "
 "pÅÂ hele populasjonene. Populasjonene bestÅÂr av tall som mÅ¯ter de "
 "spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:1234
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
 
 #: src/functions/fn-database.c:1294
 msgid ""
@@ -8676,7 +8560,7 @@ msgid "%s version %s"
 msgstr "%s versjon %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/functions/fn-information.c:320 src/workbook-format-toolbar.c:710
+#: src/functions/fn-information.c:320 src/workbook-format-toolbar.c:720
 msgid "Automatic"
 msgstr "Automatisk"
 
@@ -13775,7 +13659,7 @@ msgstr ""
 msgid "You cannot change part of an array."
 msgstr "Du kan ikke endre en del av en tabell."
 
-#: src/gnumeric-util.c:713
+#: src/gnumeric-util.c:653
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Kunne ikke ÅÂpne fil '%s'"
@@ -13786,7 +13670,7 @@ msgstr "Kunne ikke ÅÂpne fil '%s'"
 #. * 'Print Preview' item in the
 #. * 'File' menu
 #.
-#: src/history.c:145 src/history.c:158
+#: src/history.c:144 src/history.c:157
 msgid "File/Print preview"
 msgstr "Fil/ForhÅÂndsvisning"
 
@@ -13804,7 +13688,7 @@ msgstr "H¯yde: %.2f pkt (%d piksler)"
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Bredde: %.2f pkt (%d piksler)"
 
-#: src/item-cursor.c:671
+#: src/item-cursor.c:678
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -13814,162 +13698,162 @@ msgstr ""
 "eksisterende cellene i dette omrÅÂdet. Vil du at jeg skal\n"
 "erstatte innholdet i denne regionen?"
 
-#: src/item-cursor.c:762 src/workbook.c:1631
-msgid "Copy"
-msgstr "Kopier"
+#: src/item-cursor.c:783
+msgid "_Move"
+msgstr "F_lytt"
 
-#: src/item-cursor.c:763
-msgid "Move"
-msgstr "Flytt"
-
-#: src/item-cursor.c:764
-msgid "Copy formats"
-msgstr "Kopier formater"
-
-#: src/item-cursor.c:765
-msgid "Copy values"
-msgstr "Kopier verdier"
-
-#: src/item-cursor.c:766
-msgid "Shift cells down and copy"
-msgstr "Flytt celler ned og kopier"
-
-#: src/item-cursor.c:767
-msgid "Shift cells right and copy"
-msgstr "Flytt celler til hÅ¯yre og kopier"
-
-#: src/item-cursor.c:768
-msgid "Shift cells down and move"
-msgstr "Flytt celled ned og flytt"
-
-#: src/item-cursor.c:769
-msgid "Shift cells right and move"
-msgstr "Flytt celler til hÅ¯yre og flytt"
-
-#: src/item-grid.c:496
-msgid "Cu_t"
-msgstr "Klipp u_t"
-
-#: src/item-grid.c:498
+#: src/item-cursor.c:786 src/item-grid.c:469
 msgid "_Copy"
 msgstr "_Kopier"
 
-#: src/item-grid.c:500
+#: src/item-cursor.c:789
+msgid "Copy _Formats"
+msgstr "KopiÈr _formater"
+
+#: src/item-cursor.c:791
+msgid "Copy _Values"
+msgstr "KopiÈr _verdier"
+
+#: src/item-cursor.c:796
+msgid "Shift _Down and Copy"
+msgstr "Flytt celler ne_d og kopiÈr"
+
+#: src/item-cursor.c:798
+msgid "Shift _Right and Copy"
+msgstr "Flytt celler til h¯yre og kopiÈr"
+
+#: src/item-cursor.c:800
+msgid "Shift Dow_n and Move"
+msgstr "GÂ ned og flytt"
+
+#: src/item-cursor.c:802
+msgid "Shift Righ_t and Move"
+msgstr "Flytt celler til h¯yre og flytt"
+
+#: src/item-cursor.c:807
+msgid "C_ancel"
+msgstr "_Avbryt"
+
+#: src/item-grid.c:467
+msgid "Cu_t"
+msgstr "Klipp u_t"
+
+#: src/item-grid.c:471
 msgid "_Paste"
 msgstr "_Lim inn"
 
-#: src/item-grid.c:502
+#: src/item-grid.c:473
 msgid "Paste _Special"
 msgstr "Lim inn _spesial"
 
-#: src/item-grid.c:507
+#: src/item-grid.c:478
 msgid "_Insert..."
 msgstr "Sett _inn..."
 
-#: src/item-grid.c:509 src/workbook.c:1347
+#: src/item-grid.c:480 src/workbook.c:1347
 msgid "_Delete..."
 msgstr "_Slett..."
 
-#: src/item-grid.c:511
+#: src/item-grid.c:482
 msgid "Clear Co_ntents"
 msgstr "TÅ¯m i_nnhold"
 
-#: src/item-grid.c:516
+#: src/item-grid.c:487
 msgid "_Format Cells..."
 msgstr "Formater _celler..."
 
-#. Column specific functions
-#: src/item-grid.c:520
+#. Column specific (Note some labels duplicate row labels)
+#: src/item-grid.c:491
 msgid "Column _Width..."
 msgstr "_Kolonnebredde..."
 
-#: src/item-grid.c:522 src/item-grid.c:530 src/workbook.c:1450
+#: src/item-grid.c:493 src/item-grid.c:501 src/workbook.c:1450
 #: src/workbook.c:1469
 msgid "_Hide"
 msgstr "_Skjul"
 
-#: src/item-grid.c:524 src/item-grid.c:532 src/workbook.c:1453
+#: src/item-grid.c:495 src/item-grid.c:503 src/workbook.c:1453
 #: src/workbook.c:1472
 msgid "_Unhide"
 msgstr "_Ta frem"
 
-#. Row specific functions (Note some of the labels are duplicated
-#: src/item-grid.c:528
+#. Row specific (Note some labels duplicate col labels)
+#: src/item-grid.c:499
 msgid "_Row Height..."
 msgstr "_RadhÅ¯yde..."
 
-#: src/main.c:79
+#: src/main.c:81
 msgid "Display Gnumeric's version"
 msgstr "Vis Gnumerics versjonsinfo"
 
-#: src/main.c:81
+#: src/main.c:83
 msgid "Set the root library directory"
 msgstr "Sett rotkatalog for biblioteker"
 
-#: src/main.c:83
+#: src/main.c:85
 msgid "Adjust the root data directory"
 msgstr "Juster rotkatalog for data"
 
-#: src/main.c:86
+#: src/main.c:88
 msgid "Dumps the function definitions"
 msgstr "Dumper funksjonsdefinisjonene"
 
-#: src/main.c:86
+#: src/main.c:88
 msgid "FILE"
 msgstr "FIL"
 
-#: src/main.c:89
+#: src/main.c:91
 msgid "Enables some debugging functions"
 msgstr "SlÅÂr pÅÂ noen debugging funksjoner"
 
-#: src/main.c:89 src/main.c:92 src/main.c:94 src/main.c:96 src/main.c:104
-#: src/main.c:108 src/main.c:112 src/main.c:116 src/main.c:120 src/main.c:124
+#: src/main.c:91 src/main.c:94 src/main.c:96 src/main.c:98 src/main.c:106
+#: src/main.c:110 src/main.c:114 src/main.c:118 src/main.c:122 src/main.c:126
 msgid "LEVEL"
 msgstr "NIVÅ≈"
 
-#: src/main.c:92
+#: src/main.c:94
 msgid "Enables some style related debugging functions"
 msgstr "SlÅÂr pÅÂ noen stilrelaterte debugging funksjoner"
 
-#: src/main.c:94
+#: src/main.c:96
 msgid "Enables some dependency related debugging functions"
 msgstr "SlÅÂr pÅÂ noen avhengighetsrelaterte debugging funksjoner"
 
-#: src/main.c:96
+#: src/main.c:98
 msgid "Enables some print debugging behaviour"
 msgstr "SlÂr pÂ noen utskriftsrelaterte debugging funksjoner"
 
-#: src/main.c:99
+#: src/main.c:101
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Avslutt med ÅÈn gang etter ÅÂ ha ÅÂpnet de valgte arbeidsbÅ¯kene (nyttig for "
 "testing)."
 
-#: src/main.c:103 src/main.c:123
+#: src/main.c:105 src/main.c:125
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr "SlÅÂr pÅÂ debugmeldinger under lesing av excel arbeidsbÅ¯ker"
 
-#: src/main.c:107
+#: src/main.c:109
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr "SlÅÂr pÅÂ noen debugging funksjoner under lesing av excel funksjoner"
 
-#: src/main.c:111
+#: src/main.c:113
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr "SlÅÂr pÅÂ debugmeldinger under lesing av farger og mÅ¯nstre fra excel"
 
-#: src/main.c:115
+#: src/main.c:117
 msgid "Enables debugging mesgs while reading excel objects"
 msgstr "SlÅÂr pÅÂ debuggingmeldinger under lesing av objekter fra excel"
 
-#: src/main.c:119
+#: src/main.c:121
 msgid "Enables debugging mesgs while reading excel charts"
 msgstr "SlÅÂr pÅÂ debugmeldinger under lesing av grafer fra excel"
 
-#: src/main.c:127
+#: src/main.c:129
 msgid "Enables extra consistancy checking while reading ole files"
 msgstr "SlÅÂr pÅÂ ekstra sjekk for enhetlighet under lesing av ole filer"
 
-#: src/main.c:156
+#: src/main.c:158
 #, c-format
 msgid ""
 "gnumeric version %s\n"
@@ -13979,6 +13863,14 @@ msgstr ""
 "gnumeric versjon %s\n"
 "datakatalog := %s\n"
 "bibliotekkatalog := %s\n"
+
+#: src/main.c:209
+msgid "Could not initialize Workbook factory"
+msgstr "Kunne ikke initiere arbeidsbok-\"factory\""
+
+#: src/main.c:212
+msgid "Could not initialize EmbeddableGrid factory"
+msgstr "Kunne ikke initialisere EmbeddableGrid-\"factory\""
 
 #: src/number-match.c:584
 msgid "#NULL!"
@@ -14189,9 +14081,8 @@ msgid "Button"
 msgstr "Knapp"
 
 #: src/sheet-object-widget.c:544
-#, fuzzy
 msgid "Checkbox Configure"
-msgstr "KonfigurÈr"
+msgstr "KonfigurÈr avkrysningsboks"
 
 #: src/sheet-object.c:768
 msgid "Configure"
@@ -14357,11 +14248,13 @@ msgstr "Feil under forsÅ¯k pÅÂ ÅÂ pre-konvertere filen"
 #. * Note this buffer was allocated with malloc, not g_malloc
 #.
 #: src/stf.c:143
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
 "The character '%c' (ASCII decimal %d) was encountered"
-msgstr "Denne filen ser ikke ut til ÅÂ vÅÊre en gyldig tekstfil"
+msgstr ""
+"Denne filen ser ikke ut til Â vÊre en gyldig tekstfil.\n"
+"Tegnet '%c' (ASCII desimal %d) ble funnet"
 
 #: src/stf.c:177
 msgid "Parse error while trying to parse data into sheet"
@@ -14434,7 +14327,7 @@ msgstr "kunne ikke finnes pÂ forventet lokasjon"
 msgid "Terminate"
 msgstr "Terminer"
 
-#: src/widgets/widget-font-selector.c:130 src/workbook-format-toolbar.c:338
+#: src/widgets/widget-font-selector.c:130 src/workbook-format-toolbar.c:352
 msgid "Bold"
 msgstr "Uthevet"
 
@@ -14442,7 +14335,7 @@ msgstr "Uthevet"
 msgid "Bold italic"
 msgstr "Fet kursiv"
 
-#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:346
+#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:360
 msgid "Italic"
 msgstr "Kursiv"
 
@@ -14455,143 +14348,143 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "Du oppga en ugyldig verdi for radhÅ¯yde. Den mÅÂ vÅÊre stÅ¯rre enn 0"
 
-#: src/workbook-format-toolbar.c:339
+#: src/workbook-format-toolbar.c:353
 msgid "Sets the bold font"
 msgstr "SlÂr pÂ uthevet skrift"
 
-#: src/workbook-format-toolbar.c:347
+#: src/workbook-format-toolbar.c:361
 msgid "Makes the font italic"
 msgstr "SlÅÂr pÅÂ kursiv skrift"
 
-#: src/workbook-format-toolbar.c:354
+#: src/workbook-format-toolbar.c:368
 msgid "Underline"
 msgstr "Understrek"
 
-#: src/workbook-format-toolbar.c:355
+#: src/workbook-format-toolbar.c:369
 msgid "Underlines the font"
 msgstr "Understreker skrifttypen"
 
-#: src/workbook-format-toolbar.c:363
+#: src/workbook-format-toolbar.c:377
 msgid "Left align"
 msgstr "Venstrejuster"
 
-#: src/workbook-format-toolbar.c:363
+#: src/workbook-format-toolbar.c:377
 msgid "Left justifies the cell contents"
 msgstr "Venstrejusterer celleinnholdet"
 
-#: src/workbook-format-toolbar.c:365
+#: src/workbook-format-toolbar.c:379
 msgid "Center"
 msgstr "Senter"
 
-#: src/workbook-format-toolbar.c:365
+#: src/workbook-format-toolbar.c:379
 msgid "Centers the cell contents"
 msgstr "Sentrerer celleinnholdet"
 
-#: src/workbook-format-toolbar.c:367
+#: src/workbook-format-toolbar.c:381
 msgid "Right align"
 msgstr "HÅ¯yrejuster"
 
-#: src/workbook-format-toolbar.c:367
+#: src/workbook-format-toolbar.c:381
 msgid "Right justifies the cell contents"
 msgstr "HÅ¯yrejusterer celleinnholdet"
 
-#: src/workbook-format-toolbar.c:373
+#: src/workbook-format-toolbar.c:387
 msgid "Money format"
 msgstr "Valutaformat"
 
-#: src/workbook-format-toolbar.c:373
+#: src/workbook-format-toolbar.c:387
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Setter formateringen for valgte celler til valuta"
 
-#: src/workbook-format-toolbar.c:376
+#: src/workbook-format-toolbar.c:390
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Setter formateringen for valgte celler til prosent"
 
-#: src/workbook-format-toolbar.c:379
+#: src/workbook-format-toolbar.c:393
 msgid "Thousand separator"
 msgstr "Tusenskilletegn"
 
-#: src/workbook-format-toolbar.c:379
+#: src/workbook-format-toolbar.c:393
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
 "Setter formateringen for valgte celler til ÅÂ inkludere et tusenskilletegn"
 
-#: src/workbook-format-toolbar.c:382
+#: src/workbook-format-toolbar.c:396
 msgid "Add decimals"
 msgstr "Legg til desimaler"
 
-#: src/workbook-format-toolbar.c:382
+#: src/workbook-format-toolbar.c:396
 msgid "Increases the number of decimal numbers displayed"
 msgstr "Åÿker antall desimaler som vises"
 
-#: src/workbook-format-toolbar.c:385
+#: src/workbook-format-toolbar.c:399
 msgid "Remove decimals"
 msgstr "Fjern desimaler"
 
-#: src/workbook-format-toolbar.c:385
+#: src/workbook-format-toolbar.c:399
 msgid "Decreases the number of decimal numbers displayed"
 msgstr "Minsker antallet desimaler som vises"
 
-#: src/workbook-format-toolbar.c:494
+#: src/workbook-format-toolbar.c:508
 msgid "Clear Borders"
 msgstr "Nullstill kanter"
 
-#: src/workbook-format-toolbar.c:497
+#: src/workbook-format-toolbar.c:511
 msgid "All Borders"
 msgstr "Alle kanter"
 
-#: src/workbook-format-toolbar.c:498
+#: src/workbook-format-toolbar.c:512
 msgid "Outside Borders"
 msgstr "Utenfor kanter"
 
-#: src/workbook-format-toolbar.c:499
+#: src/workbook-format-toolbar.c:513
 msgid "Thick Outside Borders"
 msgstr "Tykk utenfor kanter"
 
-#: src/workbook-format-toolbar.c:502
+#: src/workbook-format-toolbar.c:516
 msgid "Double Bottom"
 msgstr "Dobbel bunn"
 
-#: src/workbook-format-toolbar.c:503
+#: src/workbook-format-toolbar.c:517
 msgid "Thick Bottom"
 msgstr "Tykk bunn"
 
-#: src/workbook-format-toolbar.c:505
+#: src/workbook-format-toolbar.c:519
 msgid "Top and Bottom"
 msgstr "Topp og bunn"
 
-#: src/workbook-format-toolbar.c:506
+#: src/workbook-format-toolbar.c:520
 msgid "Top and Double Bottom"
 msgstr "Topp og dobbel bunn"
 
-#: src/workbook-format-toolbar.c:507
+#: src/workbook-format-toolbar.c:521
 msgid "Top and Thick Bottom"
 msgstr "Topp og tykk bunn"
 
-#: src/workbook-format-toolbar.c:669
+#: src/workbook-format-toolbar.c:679
 msgid "Size"
 msgstr "StÅ¯rrelse"
 
-#: src/workbook-format-toolbar.c:692 src/workbook-format-toolbar.c:734
+#: src/workbook-format-toolbar.c:702 src/workbook-format-toolbar.c:744
 msgid "Borders"
 msgstr "Kanter"
 
 #.
 #. * Create the background colour combo box.
 #.
-#: src/workbook-format-toolbar.c:697
+#: src/workbook-format-toolbar.c:707
 msgid "Clear Background"
 msgstr "TÅ¯m bakgrunn"
 
-#: src/workbook-format-toolbar.c:719 src/workbook-format-toolbar.c:740
+#: src/workbook-format-toolbar.c:729 src/workbook-format-toolbar.c:750
 msgid "Foreground"
 msgstr "Forgrunn"
 
-#: src/workbook-format-toolbar.c:729
+#: src/workbook-format-toolbar.c:739
 msgid "Font selector"
 msgstr "Valg av skrifttype"
 
-#: src/workbook-format-toolbar.c:731
+#: src/workbook-format-toolbar.c:741
 msgid "Font Size"
 msgstr "StÅ¯rrelse for skrifttype"
 
@@ -15148,6 +15041,10 @@ msgid "Cuts the selection to the clipboard"
 msgstr "Klipper ut utvalget til utklippstavlen"
 
 #: src/workbook.c:1631
+msgid "Copy"
+msgstr "Kopier"
+
+#: src/workbook.c:1631
 msgid "Copies the selection to the clipboard"
 msgstr "Kopierer utvalget til utklippstavlen"
 
@@ -15211,7 +15108,7 @@ msgstr "Min"
 msgid "Max"
 msgstr "Maks"
 
-#: src/workbook.c:2799
+#: src/workbook.c:2802
 #, c-format
 msgid "Book%d.gnumeric"
 msgstr "Bok%d.gnumeric"
@@ -15426,21 +15323,3 @@ msgstr "Er ikke en autoformat mal"
 
 #~ msgid "_View"
 #~ msgstr "_Vis"
-
-#~ msgid "Create a Graph"
-#~ msgstr "Opprett en graf"
-
-#~ msgid "Invokes the graph guru to help create a graph"
-#~ msgstr "Starter grafikkguruen for Â hjelpe med Â lage en graf"
-
-#~ msgid "Insert Object"
-#~ msgstr "Sett inn objekt"
-
-#~ msgid "Inserts an object into the spreadsheet"
-#~ msgstr "Setter inn et objekt i regnearket"
-
-#~ msgid "Insert shaped object"
-#~ msgstr "Setter inn et formet objekt"
-
-#~ msgid "Inserts a shaped object into the spreadsheet"
-#~ msgstr "Setter inn et formet objekt i regnearket"
