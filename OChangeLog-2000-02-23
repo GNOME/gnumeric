@@ -1,3 +1,9 @@
+2000-01-02  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.h (Sheet): Make generation guint8.
+
+	* src/workbook.h (Workbook): ditto.
+
 2000-01-01  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/xml-io.c (xml_read_cell): Set the cell value to empty

@@ -94,7 +94,7 @@ struct _Workbook {
 	GList      *eval_queue;
 	int        max_iterations;
 
-	int        generation;
+	guint8     generation;
 
 	/* The Symbol table used for naming cell ranges in the workbook */
 	SymbolTable *symbol_names;

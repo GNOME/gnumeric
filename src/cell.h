@@ -89,7 +89,7 @@ struct _Cell {
 
 	CellComment *comment;
 	int         flags;
-	char        generation;
+	guint8      generation;
 };
 
 typedef enum {
