@@ -1250,17 +1250,6 @@ gnumeric_load_pixbuf (char const *filename)
 	return pixbuf;
 }
 
-static void
-add_atk_relation (GtkWidget *w0, GtkWidget *w1, AtkRelationType type)
-{
-	AtkObject *atk0 = gtk_widget_get_accessible(w0);
-	AtkObject *atk1 = gtk_widget_get_accessible(w1);
-	AtkRelationSet *relation_set = atk_object_ref_relation_set (atk0);
-	AtkRelation *relation = atk_relation_new (&atk1, 1, type);
-	atk_relation_set_add (relation_set, relation);
-	g_object_unref (G_OBJECT (relation));
-}
-
 /**
  * gnm_setup_label_atk :
  * @label : #GtkLabel
@@ -1272,6 +1261,8 @@ add_atk_relation (GtkWidget *w0, GtkWidget *w1, AtkRelationType type)
 void
 gnm_setup_label_atk (GtkLabel *label, GtkWidget *target)
 {
-	 add_atk_relation (GTK_WIDGET (label), target, ATK_RELATION_LABEL_FOR);
-	 add_atk_relation (target, GTK_WIDGET (label), ATK_RELATION_LABELLED_BY);
+	AtkObject *label_atk = gtk_widget_get_accessible (GTK_WIDGET (label));
+	AtkObject *target_atk = gtk_widget_get_accessible (target);
+	atk_object_add_relationship (label_atk, ATK_RELATION_LABEL_FOR, target_atk);
+	atk_object_add_relationship (target_atk, ATK_RELATION_LABELLED_BY, label_atk);
 }

@@ -389,7 +389,7 @@ cb_autoformat_destroy (AutoFormatState *state)
 	wbcg_edit_detach_guru (state->wbcg);
 
 	templates_free (state);
-	gtk_object_unref (GTK_OBJECT (state->tooltips));
+	g_object_unref (G_OBJECT (state->tooltips));
 	category_group_list_free (state->category_groups);
 	g_object_unref (G_OBJECT (state->gui));
 	state->gui = NULL;

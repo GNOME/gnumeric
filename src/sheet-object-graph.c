@@ -66,6 +66,29 @@ typedef struct {
 static GObjectClass *parent_klass;
 
 #ifdef NEW_GRAPHS
+static void
+sog_data_set_sheet (SheetObjectGraph *graph, GOData *data, Sheet *sheet)
+{
+	if (IS_GNM_GO_DATA_SCALAR (data))
+		gnm_go_data_scalar_set_sheet (GNM_GO_DATA_SCALAR (data), sheet);
+	else if (IS_GNM_GO_DATA_VECTOR (data))
+		gnm_go_data_vector_set_sheet (GNM_GO_DATA_VECTOR (data), sheet);
+}
+
+static void
+cb_graph_add_data (G_GNUC_UNUSED GOGraph *graph,
+		   GOData *data, SheetObjectGraph *sog)
+{
+	sog_data_set_sheet (sog, data, sog->base.sheet);
+}
+
+static void
+cb_graph_remove_data (G_GNUC_UNUSED GOGraph *graph,
+		      GOData *data, SheetObjectGraph *sog)
+{
+	sog_data_set_sheet (sog, data, NULL);
+}
+
 /**
  * sheet_object_graph_new :
  * @graph : #GOGraph
@@ -78,6 +101,13 @@ sheet_object_graph_new (GOGraph *graph)
 	SheetObjectGraph *so = g_object_new (SHEET_OBJECT_GRAPH_TYPE, NULL);
 	so->graph = graph;
 	g_object_ref (G_OBJECT (so->graph));
+
+	g_signal_connect_object (G_OBJECT (graph),
+		"add_data",
+		G_CALLBACK (cb_graph_add_data), G_OBJECT (so), 0);
+	g_signal_connect_object (G_OBJECT (graph),
+		"remove_data",
+		G_CALLBACK (cb_graph_remove_data), G_OBJECT (so), 0);
 
 	return SHEET_OBJECT (so);
 }
@@ -203,13 +233,9 @@ sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
 
 #ifdef NEW_GRAPHS
 	if (graph->graph != NULL) {
-		GSList *ptr = go_graph_get_inputs (graph->graph);
-		for (; ptr != NULL ; ptr = ptr->next) {
-			if (IS_GNM_GO_DATA_SCALAR (ptr->data))
-				gnm_go_data_scalar_set_sheet (GNM_GO_DATA_SCALAR (ptr->data), sheet);
-			else if (IS_GNM_GO_DATA_VECTOR (ptr->data))
-				gnm_go_data_vector_set_sheet (GNM_GO_DATA_VECTOR (ptr->data), sheet);
-		}
+		GSList *ptr = go_graph_get_data (graph->graph);
+		for (; ptr != NULL ; ptr = ptr->next)
+			sog_data_set_sheet (graph, ptr->data, sheet);
 	}
 #endif
 

@@ -299,14 +299,6 @@ impl_string_vector_changed (PortableServer_Servant servant,
 }
 #endif
 
-Dependent const *
-gnm_graph_vector_get_dependent (GnmGraphVector const *vec)
-{
-	g_return_val_if_fail (IS_GNUMERIC_GRAPH_VECTOR (vec), NULL);
-
-	return &vec->dep;
-}
-
 /******************************************************************************/
 
 #if 0
@@ -606,124 +598,6 @@ gnm_graph_new (void)
 	return graph;
 }
 
-void
-gnm_graph_clear_vectors (GnmGraph *graph)
-{
-	gnm_graph_clear_vectors_internal (graph, TRUE);
-}
-
-void
-gnm_graph_arrange_vectors (GnmGraph *graph)
-{
-#if 0
-	CORBA_Environment  ev;
-	GNOME_Gnumeric_VectorIDs *data, *headers;
-	unsigned i, len = 0;
-
-	g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
-
-	if (graph->manager == CORBA_OBJECT_NIL)
-		return;
-
-	for (i = 0; i < graph->vectors->len ; i++) {
-		GnmGraphVector *vector = g_ptr_array_index (graph->vectors, i);
-		if (!vector->is_header)
-			len++;
-	}
-
-	data = GNOME_Gnumeric_VectorIDs__alloc ();
-	data->_length = data->_maximum = len;
-	data->_buffer = CORBA_sequence_GNOME_Gnumeric_VectorID_allocbuf (len);
-	data->_release = CORBA_TRUE;
-	headers = GNOME_Gnumeric_VectorIDs__alloc ();
-	headers->_length = data->_maximum = len;
-	headers->_buffer = CORBA_sequence_GNOME_Gnumeric_VectorID_allocbuf (len);
-	headers->_release = CORBA_TRUE;
-
-	len = 0;
-	for (i = 0; i < graph->vectors->len ; i++) {
-		GnmGraphVector *vector = g_ptr_array_index (graph->vectors, i);
-		if (!vector->is_header) {
-			data->_buffer[len] = vector->id;
-			headers->_buffer[len] = (vector->header != NULL)
-				? vector->header->id : -1;
-			len++;
-		}
-	}
-
-	CORBA_exception_init (&ev);
-	MANAGER1 (arrangeVectors) (graph->manager, data, headers, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("'%s' : while auto arranging the vectors in graph %p",
-			   bonobo_exception_get_text (&ev), graph);
-	}
-	CORBA_exception_free (&ev);
-	CORBA_free (headers);
-	CORBA_free (data);
-#endif
-}
-
-void
-gnm_graph_range_to_vectors (GnmGraph *graph,
-			    Sheet *sheet,
-			    Range const *src,
-			    gboolean default_to_cols)
-{
-	int i, count;
-	gboolean has_header, as_cols;
-	Range vector = *src;
-	CellRef header;
-
-	if (range_trim (sheet, &vector, TRUE) ||
-	    range_trim (sheet, &vector, FALSE))
-		return;
-
-	/* Special case the handling of a vector rather than a range.
-	 * it should stay in its orientation,  only ranges get split
-	 */
-	as_cols = (src->start.col == src->end.col || default_to_cols);
-	has_header = range_has_header (sheet, src, as_cols, TRUE);
-	header.sheet = sheet;
-	header.col_relative = header.row_relative = FALSE;
-	header.col = vector.start.col;
-	header.row = vector.start.row;
-
-	if (as_cols) {
-		if (has_header)
-			vector.start.row++;
-		count = vector.end.col - vector.start.col;
-		vector.end.col = vector.start.col;
-	} else {
-		if (has_header)
-			vector.start.col++;
-		count = vector.end.row - vector.start.row;
-		vector.end.row = vector.start.row;
-	}
-
-	for (i = 0 ; i <= count ; i++) {
-		int data_id = gnm_graph_add_vector (graph,
-			gnm_expr_new_constant (
-				value_new_cellrange_r (sheet, &vector)),
-			GNM_VECTOR_AUTO, sheet);
-
-		if (has_header) {
-			GnmGraphVector *h_vec, *d_vec;
-			int header_id = gnm_graph_add_vector (graph,
-				gnm_expr_new_cellref (&header),
-				GNM_VECTOR_STRING, sheet);
-			h_vec = g_ptr_array_index (graph->vectors, header_id);
-			h_vec->is_header = TRUE;
-			d_vec = g_ptr_array_index (graph->vectors, data_id);
-			d_vec->header = h_vec;
-		}
-
-		if (as_cols)
-			vector.end.col = vector.start.col = ++header.col;
-		else
-			vector.end.row = vector.start.row = ++header.row;
-	}
-}
-
 static void
 gnm_graph_clear_xml (GnmGraph *graph)
 {
@@ -731,52 +605,6 @@ gnm_graph_clear_xml (GnmGraph *graph)
 		xmlFreeDoc (graph->xml_doc);
 		graph->xml_doc = NULL;
 	}
-}
-
-xmlDoc *
-gnm_graph_get_spec (GnmGraph *graph, gboolean force_update)
-{
-#if 0
-	CORBA_Environment  ev;
-	GNOME_Gnumeric_Buffer *spec;
-
-	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), NULL);
-
-	if (graph->manager == CORBA_OBJECT_NIL)
-		return NULL;
-
-	if (!force_update && graph->xml_doc != NULL)
-		return graph->xml_doc;
-
-	CORBA_exception_init (&ev);
-	spec = MANAGER1 (_get_spec) (graph->manager, &ev);
-	if (ev._major == CORBA_NO_EXCEPTION) {
-		xmlParserCtxtPtr pctxt;
-
-		/* A limit in libxml */
-		g_return_val_if_fail (spec->_length >= 4, NULL);
-
-		pctxt = xmlCreatePushParserCtxt (NULL, NULL,
-			(char const *)spec->_buffer, spec->_length, NULL);
-		xmlParseChunk (pctxt, "", 0, TRUE);
-
-		gnm_graph_clear_xml (graph);
-		graph->xml_doc = pctxt->myDoc;
-
-#if DEBUG_INFO > 0
-		xmlDocDump (stdout, graph->xml_doc);
-#endif
-
-		xmlFreeParserCtxt (pctxt);
-		CORBA_free (spec);
-	} else {
-		g_warning ("'%s' : retrieving the specification for graph %p",
-			   bonobo_exception_get_text (&ev), graph);
-	}
-	CORBA_exception_free (&ev);
-#endif
-
-	return graph->xml_doc;
 }
 
 /**
@@ -821,16 +649,6 @@ gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 	xmlFree (mem);
 	CORBA_exception_free (&ev);
 #endif
-}
-
-GnmGraphVector *
-gnm_graph_get_vector (GnmGraph *graph, int id)
-{
-	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), NULL);
-	g_return_val_if_fail (id >= 0, NULL);
-	g_return_val_if_fail (id < (int)graph->vectors->len, NULL);
-
-	return g_ptr_array_index (graph->vectors, id);
 }
 
 static void
@@ -914,88 +732,6 @@ gnm_graph_user_config (SheetObject *so, SheetControl *sc)
 #endif
 }
 
-static gboolean
-gnm_graph_read_xml (SheetObject *so,
-		    XmlParseContext const *ctxt, xmlNodePtr tree)
-{
-	GnmGraph *graph = GNUMERIC_GRAPH (so);
-	xmlNode *tmp;
-	xmlDoc *doc;
-
-	if (gnm_graph_setup (graph))
-		return TRUE;
-
-	tmp = e_xml_get_child_by_name (tree, (xmlChar *)"Vectors");
-	for (tmp = tmp->xmlChildrenNode; tmp; tmp = tmp->next) {
-		int id, new_id, type;
-		ParsePos pos;
-		GnmExpr const *expr;
-		xmlChar *content;
-
-		if (strcmp (tmp->name, "Vector"))
-			continue;
-
-		content = xmlNodeGetContent (tmp);
-		expr = gnm_expr_parse_str_simple ((gchar *)content,
-			parse_pos_init (&pos, NULL, ctxt->sheet, 0, 0));
-		xmlFree (content);
-
-		g_return_val_if_fail (expr != NULL, TRUE);
-
-		xml_node_get_int (tmp, "ID", &id);
-		xml_node_get_int (tmp, "Type", &type);
-
-		new_id = gnm_graph_add_vector (graph, expr, type, ctxt->sheet);
-
-		g_return_val_if_fail (id == new_id, TRUE);
-	}
-
-	doc = xmlNewDoc ((xmlChar *)"1.0");
-	doc->xmlRootNode = xmlCopyNode (
-		e_xml_get_child_by_name (tree, (xmlChar *)"Graph"), TRUE);
-	gnm_graph_import_specification (graph, doc);
-	xmlFreeDoc (doc);
-
-	return FALSE;
-}
-
-static gboolean
-gnm_graph_write_xml (SheetObject const *so,
-		     XmlParseContext const *ctxt, xmlNodePtr tree)
-{
-	GnmGraph *graph = GNUMERIC_GRAPH (so);
-	xmlNode *vectors;
-	ParsePos pp;
-	unsigned i;
-
-	vectors = xmlNewChild (tree, ctxt->ns, (xmlChar *)"Vectors", NULL);
-	for (i = 0 ; i < graph->vectors->len; i++) {
-		GnmGraphVector *vector = g_ptr_array_index (graph->vectors, i);
-		xmlNode *node;
-		xmlChar *encoded_expr_str;
-		char *expr_str;
-
-		if (vector == NULL)
-			continue;
-		expr_str = gnm_expr_as_string (vector->dep.expression,
-			parse_pos_init_dep (&pp, &vector->dep),
-			gnm_expr_conventions_default);
-		encoded_expr_str = xmlEncodeEntitiesReentrant (ctxt->doc,
-			(xmlChar *)expr_str);
-		node = xmlNewChild (vectors, ctxt->ns, (xmlChar *)"Vector",
-			(xmlChar *)encoded_expr_str);
-		g_free (expr_str);
-		xmlFree (encoded_expr_str);
-
-		xml_node_set_int (node, "ID", i);
-		xml_node_set_int (node, "Type", vector->type);
-	}
-
-	gnm_graph_get_spec (graph, TRUE);
-	xmlAddChild (tree, xmlCopyNode (graph->xml_doc->xmlRootNode, TRUE));
-	return FALSE;
-}
-
 static GObject *
 gnm_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
@@ -1052,48 +788,12 @@ gnm_graph_class_init (GObjectClass *object_class)
 	sheet_object_class->update_bounds = gnm_graph_update_bounds;
 	sheet_object_class->populate_menu = gnm_graph_populate_menu;
 	sheet_object_class->user_config   = gnm_graph_user_config;
-	sheet_object_class->read_xml	  = gnm_graph_read_xml;
-	sheet_object_class->write_xml	  = gnm_graph_write_xml;
 }
 
 GSF_CLASS (GnmGraph, gnm_graph,
 	   gnm_graph_class_init, gnm_graph_init, SHEET_OBJECT_TYPE);
 
 /*****************************************************************************/
-
-/**
- * gnm_graph_series_get_dimension :
- * @series : the xml node holding series info.
- * @target : The name of the dimension we're looking for.
- *
- * A utility routine to find the child Dimension of @series named @target.
- */
-xmlNode *
-gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *target)
-{
-	xmlNode *dim;
-	xmlChar *dim_name;
-
-	g_return_val_if_fail (series != NULL, NULL);
-
-	/* attempt to find the matching dimension */
-	for (dim = series->xmlChildrenNode; dim; dim = dim->next) {
-		if (strcmp (dim->name, "Dimension"))
-			continue;
-		dim_name = xmlGetProp (dim, (xmlChar *)"dim_name");
-		if (dim_name == NULL) {
-			g_warning ("Missing dim_name in series dimension");
-			continue;
-		}
-		if (strcmp (dim_name, target)) {
-			xmlFree (dim_name);
-			continue;
-		}
-		xmlFree (dim_name);
-		return dim;
-	}
-	return NULL;
-}
 
 /**
  * gnm_graph_series_add_dimension :
@@ -1110,19 +810,4 @@ gnm_graph_series_add_dimension (xmlNode *series, char const *dim_name)
 	res = xmlNewChild (series, series->ns, (xmlChar *)"Dimension", NULL);
 	xmlSetProp (res, (xmlChar *)"dim_name", dim_name);
 	return res;
-}
-
-GnmGraphPlot *
-gnm_graph_add_plot (GnmGraph *graph)
-{
-	return NULL;
-}
-
-void
-gnm_graph_remove_plot (GnmGraph *graph, GnmGraphPlot *plot)
-{
-}
-void
-gnm_graph_plot_set_type (GnmGraphPlot *plot, xmlNode *type)
-{
 }

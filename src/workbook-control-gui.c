@@ -5349,6 +5349,7 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 #ifdef NEW_GRAPHS
 #include <goffice/graph/go-plot-data-impl.h>
 #include <goffice/graph/go-data.h>
+#include "graph.h"
 
 static void
 wbcg_plot_data_allocator_allocate (GOPlotDataAllocator *dalloc, GOPlot *plot)
@@ -5365,36 +5366,37 @@ typedef struct {
 
 static void
 cb_graph_dim_editor_update (G_GNUC_UNUSED GnmExprEntry *gee,
+			    G_GNUC_UNUSED gboolean use_requested,
 			    GraphDimEditor *editor)
 {
-	gboolean changed;
+	GOData *data = NULL;
+	Sheet *sheet;
+	SheetControlGUI *scg;
 
-	g_warning ("update");
-#if 0
+	g_object_get (G_OBJECT (gee), "scg", &scg, NULL);
+	sheet = sc_sheet (SHEET_CONTROL (scg));
+
+	g_warning ("expr entry update");
 	/* If we are setting something */
 	if (!gnm_expr_entry_is_blank (editor->entry)) {
 		ParsePos pos;
 		GnmExpr const *expr = gnm_expr_entry_parse (editor->entry,
-			parse_pos_init (&pos, NULL, editor->state->sheet, 0, 0),
+			parse_pos_init (&pos, NULL, sheet, 0, 0),
 			NULL, TRUE);
 
 		/* TODO : add some error dialogs split out
-		 * the code in workbok_edit.
-		 */
-		changed = (expr != NULL);
-	} else
-		/* or we are clearing something optional */
-		changed = (editor->is_optional && editor->vector != NULL);
+		 * the code in workbok_edit.  */
+		if (expr == NULL)
+			return;
 
-	if (changed)
-		go_plot_series_set_dim (editor->series, editor->dim_i, data);
-#endif
-}
+		if (editor->dim_i >= 0)
+			data = gnm_go_data_vector_new_expr (sheet, expr);
+		else
+			data = gnm_go_data_scalar_new_expr (sheet, expr);
+	}
 
-static void
-cb_graph_dim_editor_focus (GtkWidget *w)
-{
-	g_warning ((GTK_WIDGET_HAS_FOCUS (w) ? "has focus %p" : "lost focus %p"), w);
+	/* The SheetObjectGraph does the magic to link things in */
+	go_plot_series_set_dim (editor->series, editor->dim_i, data, NULL);
 }
 
 static gpointer
@@ -5422,9 +5424,6 @@ wbcg_plot_data_allocator_editor (GOPlotDataAllocator *dalloc,
 	g_signal_connect (G_OBJECT (editor->entry),
 		"update",
 		G_CALLBACK (cb_graph_dim_editor_update), editor);
-	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (editor->entry)),
-		"notify::is_focus",
-		G_CALLBACK (cb_graph_dim_editor_focus), editor);
 	g_object_set_data_full (G_OBJECT (editor->entry),
 		"editor", editor, (GDestroyNotify) g_free);
 

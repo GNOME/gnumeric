@@ -1281,7 +1281,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 
 char *
 gnm_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
-		    const GnmExprConventions *fmt)
+		    GnmExprConventions const *fmt)
 {
 	GString *res;
 	g_return_val_if_fail (expr != NULL, NULL);

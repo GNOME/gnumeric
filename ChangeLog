@@ -1,4 +1,13 @@
+2003-04-26  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c (gnm_setup_label_atk) : update.
+
+	* src/workbook-control-gui.c (cb_graph_dim_editor_update) : signature
+	  change for the GnmExprEntry::update signal.
+
 2003-04-25  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump gsf version req to force the use of CVS.
 
 	* src/ranges.c (range_trim) : do a pre-emptive clip to the existing
 	  region to ameliorate the cost.

@@ -206,15 +206,8 @@ load_model_data (SortFlowState *state)
 		append_data (state, i, index);
 }
 
-/**
- * cb_update_add_sensitivity:
- * @dummy:
- * @state:
- *
- **/
 static void
-cb_update_add_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
-			   SortFlowState *state)
+cb_update_add_sensitivity (SortFlowState *state)
 {
         Value *range_add;
 
@@ -234,14 +227,8 @@ cb_update_add_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 		value_release (range_add);
 }
 
-/**
- * cb_update_sensitivity:
- * @dummy:
- * @state:
- *
- **/
 static void
-cb_update_sensitivity (GtkWidget *dummy, SortFlowState *state)
+cb_update_sensitivity (SortFlowState *state)
 {
         Value *range;
 	int items;
@@ -269,7 +256,7 @@ cb_update_sensitivity (GtkWidget *dummy, SortFlowState *state)
 		gtk_widget_set_sensitive (state->ok_button,
 					  (state->sort_items != 0) &&
 					  (items > 1));
-		cb_update_add_sensitivity (dummy, state);
+		cb_update_add_sensitivity (state);
 	}
 }
 
@@ -543,7 +530,7 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 	state->sort_items -= 1;
 	gtk_list_store_remove (state->model, &iter);
 	if (state->sort_items == 0)
-		cb_update_sensitivity (NULL, state);
+		cb_update_sensitivity (state);
 }
 
 static void
@@ -606,7 +593,7 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 	}
 
 	if (state->sort_items == 1)
-		cb_update_sensitivity (NULL, state);
+		cb_update_sensitivity (state);
 }
 
 static void
@@ -682,7 +669,7 @@ dialog_init (SortFlowState *state)
 				  GTK_WIDGET (state->range_entry));
 	gnm_expr_entry_set_update_policy (state->range_entry, GTK_UPDATE_DISCONTINUOUS);
 	gtk_widget_show (GTK_WIDGET (state->range_entry));
-	g_signal_connect (G_OBJECT (state->range_entry),
+	g_signal_connect_swapped (G_OBJECT (state->range_entry),
 		"update",
 		G_CALLBACK (cb_update_sensitivity), state);
 
@@ -700,7 +687,7 @@ dialog_init (SortFlowState *state)
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->add_entry));
 	gtk_widget_show (GTK_WIDGET (state->add_entry));
-	g_signal_connect (G_OBJECT (state->add_entry),
+	g_signal_connect_swapped (G_OBJECT (state->add_entry),
 		"changed",
 		G_CALLBACK (cb_update_add_sensitivity), state);
 
@@ -764,13 +751,13 @@ dialog_init (SortFlowState *state)
 /* Set-up other widgets */
 	state->cell_sort_row_rb = glade_xml_get_widget (state->gui, "cell_sort_row_rb");
 	state->cell_sort_col_rb = glade_xml_get_widget (state->gui, "cell_sort_col_rb");
-	g_signal_connect (G_OBJECT (state->cell_sort_row_rb),
+	g_signal_connect_swapped (G_OBJECT (state->cell_sort_row_rb),
 		"toggled",
 		G_CALLBACK (cb_update_sensitivity), state);
 
 	state->cell_sort_header_check = glade_xml_get_widget (state->gui,
 							      "cell_sort_header_check");
-	g_signal_connect (G_OBJECT (state->cell_sort_header_check),
+	g_signal_connect_swapped (G_OBJECT (state->cell_sort_header_check),
 		"toggled",
 		G_CALLBACK (cb_update_sensitivity), state);
 
@@ -828,7 +815,7 @@ dialog_init (SortFlowState *state)
 		G_CALLBACK (dialog_destroy), state);
 	cb_sort_selection_changed (NULL, state);
 	dialog_load_selection (state);
-	cb_update_sensitivity (NULL, state);
+	cb_update_sensitivity (state);
 
 	return FALSE;
 }

@@ -7,7 +7,7 @@ excel_gb_context_destroy (GtkObject *object)
 {
 	ExcelGBContext *ctx = EXCEL_GB_CONTEXT (object);
 
-	gtk_object_unref (GTK_OBJECT (ctx->control));
+	g_object_unref (G_OBJECT (ctx->control));
 }
 
 static void
@@ -79,7 +79,7 @@ excel_gb_context_new (const char       *module_name,
 
 	ret = excel_gb_context_new_control (module_name, flags, ctl);
 
-	gtk_object_unref (GTK_OBJECT (ctl));
+	g_object_unref (G_OBJECT (ctl));
 
 	return ret;
 }

@@ -1244,6 +1244,7 @@ sv_selection_walk_step (SheetView *sv,
 #ifdef NEW_GRAPHS
 #include <goffice/graph/go-plot-data.h>
 #include <goffice/graph/go-plot.h>
+#include <goffice/graph/go-data.h>
 #include <expr.h>
 #include <graph.h>
 #endif
@@ -1378,7 +1379,7 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 			}
 
 			go_plot_series_set_dim (series, cur_dim,
-				gnm_go_data_vector_new_expr (sheet, as_cols,
+				gnm_go_data_vector_new_expr (sheet,
 					gnm_expr_new_constant (
 						value_new_cellrange_r (sheet, &vector))), NULL);
 
@@ -1386,8 +1387,8 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 			    desc->series.dim[cur_dim].val_type == GO_GRAPH_DIM_VALUE) {
 				first_value_dim = FALSE;
 				go_plot_series_set_name (series,
-					gnm_go_data_scalar_new_expr (sheet,
-						gnm_expr_new_cellref (&header)), NULL);
+					GO_DATA_SCALAR (gnm_go_data_scalar_new_expr (sheet,
+						gnm_expr_new_cellref (&header))), NULL);
 			}
 			cur_dim++;
 

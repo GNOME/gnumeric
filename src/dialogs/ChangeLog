@@ -1,3 +1,8 @@
+2003-04-26  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-sort.c : use connect_swapped, to avoid all the
+	  irritating signature differences to call the same function.
+
 2003-04-22  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf.glade: Improve dialog when resized.  (Bug 111273,

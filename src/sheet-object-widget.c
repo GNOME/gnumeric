@@ -643,7 +643,7 @@ sheet_widget_scrollbar_finalize (GObject *obj)
 
 	dependent_set_expr (&swb->dep, NULL);
 	if (swb->adjustment != NULL) {
-		gtk_object_unref (GTK_OBJECT (swb->adjustment));
+		g_object_unref (G_OBJECT (swb->adjustment));
 		swb->adjustment = NULL;
 	}
 
