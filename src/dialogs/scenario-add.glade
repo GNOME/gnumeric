@@ -4,6 +4,7 @@
 <glade-interface>
 
 <widget class="GtkDialog" id="ScenarioAdd">
+  <property name="border_width">6</property>
   <property name="visible">no</property>
   <property name="title" translatable="yes">Add Scenario</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -11,7 +12,7 @@
   <property name="modal">no</property>
   <property name="allow_shrink">no</property>
   <property name="allow_grow">no</property>
-  <property name="has_separator">True</property>
+  <property name="has_separator">False</property>
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox1">

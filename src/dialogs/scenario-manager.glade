@@ -4,13 +4,14 @@
 <glade-interface>
 
 <widget class="GtkDialog" id="Scenarios">
+  <property name="border_width">6</property>
   <property name="title" translatable="yes">Scenario Manager</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="has_separator">True</property>
+  <property name="has_separator">False</property>
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox1">

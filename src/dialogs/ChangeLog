@@ -1,5 +1,8 @@
 2003-09-23  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* scenario-manager.glade, scenario-add.glade: Add some spacing to
+	look a little bit more like in HIG specs.
+
 	* dialog-analysis-tools.c (scenarios_cancel_clicked_cb): Fix a
 	crash in cancel button.
 
