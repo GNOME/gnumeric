@@ -17,6 +17,7 @@
 # exclusive.
 # 
 
+SUBDIRS = dialogs functions widgets
 
 if BONOBO
 bin_PROGRAMS = gnumeric-bonobo
@@ -194,9 +195,14 @@ gnumeric_bonobo_SOURCES =			\
 
 gnumeric_LDFLAGS = -export-dynamic
 
-gnumeric_LDADD = 				\
+gnumeric_libs =					\
 	../plugins/excel/libexcel.a		\
 	../plugins/excel/libole2/libole2.a 	\
+	dialogs/libdialogs.a			\
+	widgets/libwidgets.a			\
+	functions/libfunctions.a		
+
+gnumeric_LDADD = 				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(GNOME_XML_LIB) 			\
 	$(GUILE_LIBS)				\

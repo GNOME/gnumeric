@@ -22,7 +22,7 @@
 #include "pixmaps.h"
 #include "clipboard.h"
 #include "utils.h"
-#include "widget-editable-label.h"
+#include "widgets/widget-editable-label.h"
 #include "print-info.h"
 #include "ranges.h"
 

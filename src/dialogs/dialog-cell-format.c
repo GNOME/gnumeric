@@ -15,7 +15,7 @@
 #include "format.h"
 #include "formats.h"
 #include "pattern-selector.h"
-#include "widget-font-selector.h"
+#include "widgets/widget-font-selector.h"
 
 /* The main dialog box */
 static GtkWidget *cell_format_prop_win = 0;
