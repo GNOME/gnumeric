@@ -154,6 +154,8 @@ static guint dock_signals[LAST_SIGNAL] = { 0 };
 
 
 
+static GObjectClass *parent_class = NULL;
+
 G_DEFINE_TYPE (GoDock, go_dock, GTK_TYPE_CONTAINER);
 
 static void
@@ -163,6 +165,8 @@ go_dock_class_init (GoDockClass *class)
   GObjectClass *gobject_class;
   GtkWidgetClass *widget_class;
   GtkContainerClass *container_class;
+
+  parent_class = g_type_class_peek_parent (class);
 
   object_class = (GtkObjectClass *) class;
   gobject_class = (GObjectClass *) class;

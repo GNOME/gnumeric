@@ -1,3 +1,11 @@
+2004-01-24  Jon K Hellan  <hellan@acm.org>
+
+	* gui-utils/go-dock.c (go_dock_class_init): Initialize parent_class.
+
+	* gui-utils/go-dock-item.c (go_dock_item_class_init): Ditto.
+
+	* gui-utils/go-dock-band.c (go_dock_band_class_init): Ditto.
+
 2004-01-24  Jody Goldberg <jody@gnome.org>
 
 	* graph/plugins/plot_xy/gog-xy.c : suppress warning

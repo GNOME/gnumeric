@@ -120,6 +120,8 @@ static gint go_dock_item_delete_event   (GtkWidget         *widget,
 
 static guint        dock_item_signals[LAST_SIGNAL] = { 0 };
 
+static GObjectClass *parent_class = NULL;
+
 G_DEFINE_TYPE (GoDockItem, go_dock_item, GTK_TYPE_BIN)
 
 /* Helper functions.  */
@@ -199,6 +201,8 @@ go_dock_item_class_init (GoDockItemClass *klass)
   GObjectClass *gobject_klass;
   GtkWidgetClass *widget_class;
   GtkContainerClass *container_class;
+
+  parent_class = g_type_class_peek_parent (klass);
 
   gobject_klass = (GObjectClass *) klass;
   gobject_klass = (GObjectClass *) klass;

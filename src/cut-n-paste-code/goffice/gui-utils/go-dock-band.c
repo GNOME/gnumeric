@@ -126,6 +126,8 @@ static gboolean check_guint_arg               (GObject *object,
 					       const gchar *name,
 					       guint *value_return);
 
+static GObjectClass *parent_class = NULL;
+
 G_DEFINE_TYPE (GoDockBand, go_dock_band, GTK_TYPE_CONTAINER)
 
 static void
@@ -134,6 +136,8 @@ go_dock_band_class_init (GoDockBandClass *klass)
   GObjectClass *gobject_class;
   GtkWidgetClass *widget_class;
   GtkContainerClass *container_class;
+
+  parent_class = g_type_class_peek_parent (klass);
 
   gobject_class = (GObjectClass *) klass;
   widget_class = (GtkWidgetClass *) klass;
