@@ -1,0 +1,231 @@
+<!-- 
+  This is at the top level to avoid any chapter TOC.
+-->
+
+<para>
+  <application>Gnumeric</application> is a spreadsheet program which
+  intends to be the best spreadsheet available
+  anywhere. <application>Gnumeric</application> was created and is
+  maintained by the <ulink type="http"
+  url="http://www.gnome.org/">GNOME</ulink> project.  This manual
+  describes version 1.2 of Gnumeric.
+</para>
+
+<para>
+  <application>Gnumeric</application> has been developed over many
+  years to become a fully mature
+  program. <application>Gnumeric</application> aims for:
+  <itemizedlist>
+    <listitem>
+      <para>
+	<guilabel>Stability :</guilabel>
+      </para>
+      <para>
+        <application>Gnumeric</application> has undergone significant
+	amounts of testing with a diverse group of users. There is
+	also a large set of test workbooks to validate the quality of
+	the importers. This release can be considered safe for use in
+	a production environment.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+	<guilabel>File compatibility :</guilabel>
+      </para>
+      <para>
+        Transparent access and manipulation of files from other
+        applications is vital in a modern office. The gnumeric file
+        format is simply compressed XML which can be decompressed into
+        text.  <application>Gnumeric</application> can open files from
+        several well known proprietary and free spreadsheets including
+        MS Excel (tm), Lotus 1-2-3 (tm), Applix (tm), OpenOffice.org,
+        Psion, Sylk, XBase Oleo, and
+        HTML. <application>Gnumeric</application> can save files to
+        several versions of the MS Excel (tm) file format and can save
+        tables into LaTeX \longtable, HTML, and roff
+        files. <application>Gnumeric</application> also benefits from
+        a highly configurable text importer and exporter which ensures
+        that data can be transfered smoothly. New formats can easily
+        be added in a modular fashion via a plug-in.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <guilabel>Minimal cost of transition :</guilabel>
+      </para>
+      <para>
+        Learning new and unfamiliar interfaces is an expensive and
+        frustrating process. <application>Gnumeric</application>
+        attempts to offer optional extensions and enough compatibility
+        that a user's familiarity with other applications will still
+        apply.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+	<guilabel>Sufficient feature set :</guilabel>
+      </para>
+      <para>
+        While people quote the statistic that most users only need 20%
+        of the features of the software they use, this statistic does
+        not mean that only 20% of the features are needed. Most users
+        share a common 10% but require distinct features for the rest
+        of their work. Implementing enough of the features to support
+        day to day use by the average spreadsheet user has taken
+        time. <application>Gnumeric</application> attempts to provide
+        full implementations of the features it offers, leaving
+        features unimplemented until a robust and complete
+        implementation exists.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <guilabel>Internationalization :</guilabel>
+      </para>
+      <para>
+	<application>Gnumeric</application> has been translated into
+	29 languages, and is being used by people around the globe
+	with the symbols appropriate for their local setting.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+	<guilabel>Openness and Scalability :</guilabel>
+      </para>
+      <para>
+        Gnumeric is <ulink type="http"
+        url="http://www.gnu.org/philosophy/free-sw.html">free
+        software</ulink> released under the <ulink type="http"
+        url="http://www.gnu.org/copyleft/gpl.html">GNU GPL</ulink>.
+        The core architecture is designed to ensure that it can
+        comfortably scale to moderately large loads (1M cells) while
+        remaining usable on older hardware. The availability of clean,
+        reasonably documented, source code makes it simple to modify
+        the spreadsheet, write custom routines or extend
+        <application>Gnumeric</application> for special needs.
+      </para>
+    </listitem>
+
+  </itemizedlist> 
+</para>
+
+<para>
+  These features of <application>Gnumeric</application> make it
+  versitile and powerful. The screenshot of
+  <application>Gnumeric</application> show in <xref
+  linkend="fig-gnumeric-power-example" /> demonstrates some of the
+  features currently available.
+
+  <figure id="fig-gnumeric-power-example">
+    <title>An example of what Gnumeric can do.</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/gnumeric-power-example.png" 
+              format="PNG" scale="100" />
+        </imageobject>
+        <textobject>
+          <phrase>An image of <application>Gnumeric</application>
+          showing the use of complex formatting, a grahical plot and
+          another GNOME application embedded within a workbook.</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+  </figure>
+
+  <application>Gnumeric</application> currently supports a full
+  complement of calculation functions, formattting options, graph
+  types and drawing options.  <application>Gnumeric</application>
+  allows the direct integration of other GNOME programs.
+  </para>
+
+<para>
+</para>
+
+<para>
+  <guilabel>The new features of Gnumeric 1.2 :</guilabel>
+</para>
+        
+<para>
+  The newest version of <application>Gnumeric</application> includes
+  numerous improvements over the versions in the 1.0 series.
+
+  <itemizedlist>
+
+    <listitem>
+      <para>
+        <guilabel>GTK 2.0 :</guilabel>
+      </para>
+      <para>
+        This version of <application>Gnumeric</application> is based
+        on the second version of the Gimp Tool Kit, the basic
+        libraries of computer code used to build GNOME
+        applications. This second version improves on the first and
+        provides a sound basis for future programming. Users will
+        benefit greatly from this second version of the GTK
+        libraries. <application>Gnumeric</application> is now able to
+        produce characters from a much larger range of languages, has
+        improved icons, is better integrated with GNOME and has other
+        visual improvments like anti-aliased fonts.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <guilabel>Improved functions :</guilabel>
+      </para>
+      <para>
+        This version of <application>Gnumeric</application> includes
+        numerous new functions and statistical routines imported from
+        the <application>R</application> statistical language, from
+        the GNU Scientific Library, and from other sources. The random
+        number generation has been updated.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <guilabel>File Import and Export :</guilabel>
+      </para>
+      <para>
+        The ability to import and export files of different formats
+        has been greatly improved. 
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <guilabel>Graphing :</guilabel>
+      </para>
+      <para>
+        The earlier versions of <application>Gnumeric</application>
+        relied on the <application>Guppi</application> for
+        graphing. This has been changed in the current version which
+        uses a newer framework for the production of graphs. This
+        newer framework should provide quicker graphs and will be a
+        better platform for future development.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <guilabel>Improved Solver :</guilabel>
+      </para>
+      <para>
+        The routines used to obtain soltions to series of linear
+        equations have been reworked and improved.
+      </para>
+    </listitem>
+
+  </itemizedlist>
+
+  For more details on the changes in
+  <application>Gnumeric</application>, refer to the file named NEWS in
+  the source code distribution.
+
+</para>

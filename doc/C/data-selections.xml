@@ -1,0 +1,269 @@
+<sect1 id="sect-data-selections">
+  <title>Selecting Cells and Cell Ranges</title>
+  
+  <para>
+    By selecting multiple cells at once, common operations can be
+    performed on all the cells which have been selected. These
+    operations include data entry, copying the cells, and multiple
+    other operations .
+  </para>
+  
+
+  <sect2 id="simple-selections">
+    <title>Simple Selections</title>
+
+    <para>
+      The simplest selection involves a single cell. Simply clicking
+      with the left hand mouse button while the mouse cursor is over a
+      cell will cause that cell to become selected.
+    </para>
+
+    <para>
+      The selected cell is indicated by a dark double line with a small
+      square in the bottom right corner. The selected cell is the the
+      one that is currently in focus and will take any input for the
+      keyboard.
+    </para>
+
+    <figure id="fig-selected-cell">
+      <title>A selected cell.</title>
+      <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/selection-2.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>An image of a single selected cell.</phrase>
+            </textobject>
+           </mediaobject>
+      </screenshot>
+    </figure>
+
+    <para>
+      To make a cell become the selected cell, simply move the
+      white-cross cursor over the cell and press the left mouse
+      button.
+    </para>
+    
+    <figure id="fig-selecting-cell-by-cursor">
+      <title>Selecting a cell with the mouse cursor.</title>
+      <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/selection-1.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the cursor selecting a cell.</phrase>
+            </textobject>
+           </mediaobject>
+      </screenshot>
+    </figure>
+
+  </sect2>
+
+
+  <sect2 id="selecting-multiple-cells">
+    <title>Selecting Multiple Cells</title>
+
+    <para>
+      Several cells can be selected at once. The selection of multiple
+      cells is indicated by a dark double line around the extents of
+      the selection. The top-left cell appears much like a single
+      selected cell while the rest of the selection is the inverse
+      color.
+    </para>
+
+    <figure id="multicellselect">
+      <title>A multi-cell selection</title>
+      <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/selection-3.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of a contiguous selection of cells.</phrase>
+            </textobject>
+           </mediaobject>
+      </screenshot>
+    </figure>
+    
+  
+  <sect3 id="continuous-selections">
+    <title>Continuous selections</title>
+    
+    <para>
+      To make a continuous selection of cells, click on the cell with
+      the white_cross cursor and drag the extents of the selection
+      until it comprises the area you wish to select, and
+      release.
+    </para>
+    
+    <figure id="multicellsect2">
+      <title>Multiple cells being selected with the cursor.</title> 
+      <screenshot>
+        <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/selection-4.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of a block selection and the mouse cursor.</phrase>
+            </textobject>
+           </mediaobject>
+
+      </screenshot>
+    </figure>
+  </sect3>
+
+  
+  <sect3 id="discontinuous-selections">
+    <title>Discontinuous selections</title>
+    
+    <para>
+      To select a set of cells that may not be continuous, use
+      <keycombo><keycap>Ctrl</keycap></keycombo>+<mousebutton>MB1</mousebutton>
+      and drag to argument an existing selection.  The cells can be
+      added individually or as parts of other selections.
+    </para>
+    
+    <figure id="dicontselect">
+      <title>A discontinuous selection of cells.</title>
+      <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/selection-5.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of a multiple selection.</phrase>
+            </textobject>
+           </mediaobject>
+      </screenshot>
+    </figure>
+    </sect3>
+  </sect2>
+  
+  
+ <sect2 id="data-selections-keyboard">
+    <title>Selections Using the Keyboard</title>
+    
+    <para>
+      The quickest way to make large selections, especially when your
+      already using the keyboard is to just use the keyboard selection
+      tools.  The basic use is to press
+      <keycombo><keycap>Shift</keycap><keycap>arrow</keycap></keycombo>
+      keys to make a new selection.
+    </para>
+    
+    <para>
+      To select an entire row of cells, press Shift+space. This is
+      equivalent to pressing the row label button on the left side of
+      the sheet.
+    </para>
+    
+    <figure id="selectrow">
+      <title>An entire row being selected.</title>
+      <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/selection-8.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of a selected row.</phrase>
+            </textobject>
+           </mediaobject>
+      </screenshot>
+    </figure>
+    
+    
+    <para>
+      To select an entire column of cells, press
+      <keycombo><keycap>Ctrl</keycap><keycap>
+      Space</keycap></keycombo> . This is equivalent to pressing the
+      column label button on the top of the sheet.
+    </para>
+
+    <figure id="selectcol">
+      <title>An entire column being selected.</title>
+      <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/selection-9.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of a selected column.</phrase>
+            </textobject>
+           </mediaobject>
+      </screenshot>
+    </figure>
+    
+    <para>
+      To select the entire sheet, press
+      <keycombo><keycap>Ctrl</keycap><keycap>A</keycap></keycombo>. This
+      is equivalent to pressing the button in the top left corner of
+      the sheet.
+    </para>
+    
+    <figure id="selectall">
+      <title>The entire worksheet being selected.</title>
+      <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/selection-10.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of an entire worksheet selected.</phrase>
+            </textobject>
+           </mediaobject>
+      </screenshot>
+    </figure>
+    
+    
+    <itemizedlist>
+      <listitem>
+	<para>
+	  <keycombo><keycap>Shift</keycap><keycap>Arrow</keycap></keycombo>
+	  : Define selection with cursor keys.
+       </para>
+     </listitem>
+
+      <listitem>
+	<para>
+	  <keycombo><keycap>Ctrl</keycap><keycap>Arrow</keycap></keycombo>
+	  : Jump to the end of the current region.
+        </para>
+      </listitem>
+      
+      <listitem>
+	<para>
+	  <keycombo><keycap>Alt</keycap><keycap>Space</keycap></keycombo>
+	  : Select current row. 
+       </para> 
+     </listitem>
+
+      <listitem>
+	<para>
+	  <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>
+	  : Select current column.
+        </para>
+      </listitem>
+      
+      <listitem>
+	<para>
+	  <keycombo><keycap>Ctrl</keycap><keycap>A</keycap></keycombo>
+	  : Select the entire sheet.
+        </para>
+      </listitem>
+      
+      <listitem>
+	<para>
+	  <keycombo><keycap>Ctrl</keycap><keycap>/</keycap></keycombo>
+	  : Select the array formula arround the current edit position.
+        </para>
+      </listitem>
+
+    </itemizedlist>
+  </sect2>
+  
+
+  
+</sect1>
+

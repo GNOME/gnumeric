@@ -1,0 +1,101 @@
+<sect1 id="sect-morehelp">
+  <title>Getting Help using Gnumeric</title>
+
+  <para>
+    This manual is the most complete source of explanation for
+    <application>Gnumeric</application> and attempts to describe as
+    much of the program as possible. However, this manual is not yet
+    complete and there are many situtations which cannot be explained
+    through a manual. There are several other sources of information
+    which might be helpful.
+  </para>
+
+  <warning>
+    <para>
+      Several of the sources of information below involve talking
+      directly with the people who have created
+      <application>Gnumeric</application>. These people are volunteers
+      who have spend several years working on the program to make it
+      useful. They will all be glad to help you
+      <emphasis>but</emphasis> only if they decide they want to. They
+      are all busy and only volunteer on this project. You can take
+      several steps to make these people want to help you.
+    </para>
+
+    <para>
+      First, please look carefully through this manual to see if you
+      can answer your own question. This can be hard and requires
+      careful thinking but will teach you the most. Second, look at
+      the <application>Gnumeric</application> web site, look on the
+      world wide web for explanations using other spreasheets or look
+      for a book on how to use another spreadsheet. Finally, if you
+      want to meet the developers and ask for their help directly then
+      be nice. If you are using their program, consider introducing
+      yourself and thanking them for their work. Then be polite as you
+      talk to them. They are all nice people but may sound brisk
+      because that is how they talk to each other. These developers
+      will not spend time to make sure you do not become offended
+      because they do not want to offend you. They want to help you
+      quickly and then get back to their own work. Please assume they
+      respect you and want to help you, after all they have written a
+      program for you to use.
+    </para>
+  </warning>
+
+</sect1>
+
+<sect1 id="sect-morehelp-web">
+  <title>The Gnumeric Web Site and Other Web Resources</title>
+
+  <para>
+      
+  </para>
+
+</sect1>
+
+
+
+<sect1 id="sect-morehelp-books">
+  <title>The Gnumeric Web Site</title>
+
+  <para>
+    <application>Gnumeric</application> strives to mimic the behaviour
+    of other spreadsheets so books which explain how to use these
+    other spreadsheets will probably be useful to help understand
+    <application>Gnumeric</application>.
+  </para>
+
+</sect1>
+
+
+<sect1 id="sect-morehelp-maillist">
+  <title>The Gnumeric Mailing List</title>
+
+  <para>
+    
+  </para>
+
+</sect1>
+
+
+
+<sect1 id="sect-morehelp-irc">
+  <title>Joining the Gnumeric Discussion Channel</title>
+
+  <para>
+    
+  </para>
+
+</sect1>
+
+
+
+<sect1 id="sect-morehelp-bugs">
+  <title>Reporting Bugs in the Program</title>
+
+  <para>
+    
+  </para>
+
+</sect1>
+

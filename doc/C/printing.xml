@@ -1,15 +1,16 @@
-<sect1 id="print">
+<sect1 id="sect-printing">
   <title>Printing to a Printer or a File.</title>
-  <para>
-  The <interface>Print dialog</interface> includes some options 
-   related to printing. More detailed options related to printing are in the <interface>
-  Page Setup dialog</interface>, detailed in <xref
-   linkend="print-setup" /> 
-  Press the <guibutton>Print</guibutton>
-  to print out the workbook. Press the <guibutton>Preview</guibutton> 
-  button to display the <interface>Print Preview dialog</interface>. 
 
+  <para>
+    The <interface>Print dialog</interface> includes some options
+    related to printing. More detailed options related to printing are
+    in the <interface> Page Setup dialog</interface>, detailed in
+    <xref linkend="sect-printing-setup" /> Press the
+    <guibutton>Print</guibutton> to print out the workbook. Press the
+    <guibutton>Preview</guibutton> button to display the
+    <interface>Print Preview dialog</interface>.
   </para>
+
   <figure id="print-workbook-fig">
     <title><interface>Print Dialog</interface></title>
     <mediaobject>
@@ -26,35 +27,50 @@
     printer. You can also send the printed document to a
     <keycap>postscript</keycap> file. 
   </para>
+
   <para>
     You may also select a multiple number of copies, or print a subset
     of the pages of the document.
   </para>
+
   <para>
-    If you are not sure which pages you need, click on the preview button to see the layout of the printed document.
-    </para>
-    <para>
+    If you are not sure which pages you need, click on the preview
+    button to see the layout of the printed document.
+  </para>
+
+  <para>
     If you need to change your page size or scale the output to fit
-    properly onto your page, see the <xref linkend="print-setup" />
+    properly onto your page, see the <xref linkend="sect-printing-setup" />
     </para>
+
 </sect1>
 
-<sect1 id="print-setup">
+
+
+<sect1 id="sect-printing-setup">
   <title>Page Setup.</title>
-    <para>
-    The <interface>Page Setup Dialog</interface> can be used to configure
-    various options related to printing out a workbook. Click on <menuchoice> <guimenu>File Menu</guimenu> <guimenuitem>Page Setup</guimenuitem> </menuchoice> to activate the <interface>Page Setup</interface>.
-    </para>
-    <tip>
+  <para>
+    The <interface>Page Setup Dialog</interface> can be used to
+    configure various options related to printing out a
+    workbook. Click on <menuchoice> <guimenu>File Menu</guimenu>
+    <guimenuitem>Page Setup</guimenuitem> </menuchoice> to activate
+    the <interface>Page Setup</interface>.
+  </para>
+
+  <tip>
     <title>TIP</title>
+
     <para>
-    Remember that at any time you can click on the <interface>Print
-    preview</interface> button to see what your document looks like
-    with your selected options. See the <xref linkend="print-preview" />
-     </para>
-     </tip> 
-    <sect2 id="print-setup-page">
+      Remember that at any time you can click on the <interface>Print
+      preview</interface> button to see what your document looks like
+      with your selected options. See the <xref
+      linkend="sect-printing-preview" />
+    </para>
+  </tip> 
+
+  <sect2 id="print-setup-page">
     <title>Page Setup Dialog - Page</title>
+
     <figure id="print-setup-page-fig">
      <title><interface>Page Setup Dialog - Page</interface></title>
       <mediaobject>
@@ -64,21 +80,28 @@
 	</imageobject>
       </mediaobject>
     </figure>
+
     <para>
       Select portrait or landscape to suit the best layout for your
       document.
     </para>
+
     <para>
     Change the scale your image to fit it to your page size
     suitably. The scaling can both enlarge and diminish the size of
     your printed document. 
     </para>
+
     <para>
       The <interface>Fit to</interface> option is not available yet.
     </para>
+
   </sect2>
+
+
   <sect2 id="print-setup-margins">
     <title>Page Setup Dialog - Margins</title>
+
     <figure id="print-setup-margins-fig">
       <title><interface>Page Setup Dialog - Margins</interface></title>
       <mediaobject>
@@ -88,18 +111,24 @@
 	</imageobject>
       </mediaobject>
     </figure>
+
     <para>
       Adjust the margins by clicking on the arrow buttons for each
       margin. You will see the <interface>preview pane</interface>
       follow your changes.
     </para>
+
     <para>
     You may set the margin to be measured in centimetres, millimetres,
     points or inches.
     </para>
+
   </sect2>
+
+
   <sect2 id="print-setup-header">
     <title>Page Setup Dialog - Headers and Footers</title>
+
     <figure id="print-setup-header-fig">
       <title><interface>Print Dialog - Headers and Footers</interface></title>
       <mediaobject>
@@ -109,6 +138,7 @@
 	</imageobject>
       </mediaobject>
     </figure>
+
     <para>
       Click on the option menu to choose from a range of different
       header and footer styles.  Customize the header or footer by
@@ -117,17 +147,23 @@
     
     <tip>
       <title>TIP</title>
+
       <para>
 	Double clicking on the header or footer preview will quickly
 	allow you to customize that header or footer.
       </para>
-     </tip> 
+    </tip> 
     
   </sect2>
+
+
   <sect2 id="print-setup-header-config">
     <title>Customizing Headers and Footers</title>
+
     <figure id="print-setup-header-config-fig">
-      <title><interface>Print Dialog - Customize Header/Footer</interface></title>
+      <title><interface>Print Dialog - Customize Header/Footer</interface>
+      </title>
+
       <mediaobject>
 	<imageobject>
 	  <imagedata fileref="figures/printing-setup-header-config"
@@ -135,12 +171,13 @@
 	</imageobject>
       </mediaobject>	
     </figure>
-    <para>
-    Enter what text you would like to appear in the header or
-    footer. There are a number of special <keycap>opcodes</keycap> for
-    common options. These are:
 
+    <para>
+      Enter what text you would like to appear in the header or
+      footer. There are a number of special <keycap>opcodes</keycap>
+      for common options. These are:
     </para>
+
     <variablelist>
       <varlistentry>
 	<term>&amp;[TAB]</term>
@@ -187,6 +224,7 @@
   
   <sect2 id="print-setup-sheet">
     <title>Page Setup Dialog - Sheet</title>
+
       <figure id="print-setup-sheet-fig">
 	<title><interface>Page Setup Dialog - Sheet</interface></title>
 	<mediaobject>
@@ -204,16 +242,19 @@
       <guilabel>Columns to repeat..</guilabel> field. Instead of
       entering them manually, you can also select columns or rows to
       be repeated using the mouse. 
-      </para>
+    </para>
+
     <warning>
       <title>WARNING</title>
-       <para>Note that the rows and columns must be entered as ranges
-       of cells. That is, if you want to have first row repeated, you
-       must enter <literal>A1:IV1</literal>, not just
-       <literal>1</literal>. Similarly, to have column
-       <literal>A</literal> repeated, you must enter
-       <literal>A1:A65536</literal>. The Gnumeric developers are
-       working on  this shortcoming. 
+
+      <para>
+        Note that the rows and columns must be entered as ranges of
+        cells. That is, if you want to have first row repeated, you
+        must enter <literal>A1:IV1</literal>, not just
+        <literal>1</literal>. Similarly, to have column
+        <literal>A</literal> repeated, you must enter
+        <literal>A1:A65536</literal>. The Gnumeric developers are
+        working on this shortcoming.
       </para>
     </warning>
 
@@ -222,10 +263,12 @@
       grid lines with your document. Unselect the button to hide
       the grid lines from your print output.
     </para>
+
     <para>
       Select <interface>Black and white</interface> to convert the
       colours in your document to a greyscale range.
     </para>
+
     <para>
       Select <interface>Styles with no content</interface> to
       ensure cells with style changes will be printed, even if
@@ -233,13 +276,17 @@
       with the background color changed but no data in them, you
       can select this option to ensure they are in the printed
       output.
-
     </para>
+
   </sect2>
+
 </sect1>
 
-<sect1 id="print-preview">
+
+
+<sect1 id="sect-printing-preview">
   <title>Print Preview.</title>
+
   <para>
     The <interface>Print Preview Dialog</interface> is used to display
     what the printed output will look like. The Print Preview dialog
@@ -314,7 +361,15 @@
    <variablelist>
       <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="figures/print-large.png"></inlinegraphic>
+          <guiicon>
+            <inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="figures/print-large.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the print toolbar button.</phrase>
+            </textobject>
+           </inlinemediaobject>
             Print
           </guiicon>
         </term>
@@ -325,7 +380,15 @@
 
        <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="figures/print-preview-first.png"></inlinegraphic>
+          <guiicon><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="figures/print-preview-first.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the print preview toolbar move to
+              the first page button.</phrase>
+            </textobject>
+           </inlinemediaobject>
           First
           </guiicon>
         </term>
@@ -336,7 +399,15 @@
 
         <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="figures/print-preview-back.png"></inlinegraphic>
+          <guiicon><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="figures/print-preview-back.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the print preview toolbar move back
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
           Back
           </guiicon>
         </term>
@@ -347,7 +418,15 @@
  
         <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="figures/print-preview-next.png"></inlinegraphic>
+          <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/print-preview-next.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the print preview toolbar next page
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
           Next
           </guiicon>
         </term>
@@ -358,7 +437,15 @@
 
          <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="figures/print-preview-last.png"></inlinegraphic>
+          <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/print-preview-last.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the print preview toolbar last page
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
           Last
           </guiicon>
         </term>
@@ -369,7 +456,15 @@
   
        <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="figures/print-preview-zoomin.png"></inlinegraphic>
+          <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/print-preview-zoomin.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the print preview toolbar zoom in
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
           Zoom in
           </guiicon>
         </term>
@@ -380,7 +475,15 @@
 
        <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="figures/print-preview-zoomout.png"></inlinegraphic>
+          <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/print-preview-zoomout.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the print preview toolbar zoom out
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
           Zoom out
           </guiicon>
         </term>
@@ -391,7 +494,15 @@
 
        <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="figures/print-preview-fit.png"></inlinegraphic>
+          <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/print-preview-fit.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the print preview toolbar zoom to fit
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
           Fit
           </guiicon>
         </term>
@@ -402,7 +513,15 @@
 
        <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="figures/print-preview-fitwide.png"></inlinegraphic>
+          <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/print-preview-fitwide.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the print preview toolbar zoom to fit width
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
           Fit Wide
           </guiicon>
         </term>
@@ -413,7 +532,15 @@
 
        <varlistentry>
         <term>
-          <guiicon><inlinegraphic fileref="figures/print-preview-fittall.png"></inlinegraphic>
+          <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/print-preview-fittall.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the print preview toolbar zoom to fit height
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
           Fit Tall
           </guiicon>
         </term>

@@ -1,0 +1,785 @@
+<sect1 id="sect-data-entry">
+  <title>Data Entry.</title>
+
+  <para>
+    There are several ways to add data into a spreadsheet. The
+    simplest data entry technique involves typing the data into a
+    spreadsheet by hand. This is usually necessary the first time that
+    data are introduced into a computer. If the data already exist in
+    a computer file of some kind, a simple way might exist to insert
+    these data into a <application>Gnumeric</application>
+    worksheet. If the data are in a text file, they can be inserted
+    into a worksheet rapidly using the text conversion facilities. If
+    data exist in a spreadsheet file of a different format,
+    <application>Gnumeric</application> may be able to open the file
+    and the data can then be copied where they are wanted.
+  </para>
+
+  <para>
+    This section explains how to enter data by hand into a
+    spreadsheet. The techniques necessary to obtain data from other
+    computer sources are explained in <xref linkend="chapter-files" /> which
+    deals with external data sources.
+  </para>
+    
+  <warning>
+    <para>
+      If the information being entered into
+      <application>Gnumeric</application> cannot be interpreted
+      correclty, <application>Gnumeric</application> will display an
+      error message. The user may then be forced to edit the data
+      before continuing. For example, a formula may be mathematically
+      incorrect if the user has two operators in a row (e.g. =3+*4)
+      and the diaolog will give the user the chance to re-edit the
+      entry or accept the entry as text rather than as a formula. When
+      the formula is corrected, the leading apostrophe can be removed
+      and <application>Gnumeric</application> will re-interpret the
+      entry as a formula.
+    </para>
+  </warning>
+
+  <sect2 id="sect-data-entry-simple">
+    <title>Data Entry by Editing Cells.</title>
+
+    <para>
+      The simplest method to place data in a spreadsheet involves
+      selecting the location for the data, typing the data on a
+      keyboard and then typing the <keysym>Enter</keysym> key to
+      finish the input.
+    </para>
+
+    <procedure>
+      <title>Simple Data Entry</title>
+      <step>
+        <para>
+          Select the cell where you want to enter data by clicking on
+          it with the white cross cursor. This will place the thick
+          `selection' box around that cell.
+        </para>
+      </step>
+
+      <step>
+        <para>
+          Type in the data or formula. The details of this step are
+          presented below for each of the five types of data which can
+          be entered.
+        </para>
+      </step>
+
+      <step>
+        <para>
+          Press the <keysym>Enter</keysym> key. This will complete the
+          input and move the selection box down one cell which will
+          then be able to recieve further input.
+        </para>
+      </step>
+    </procedure>
+
+    <tip>
+      <para>
+        At any time while entering the data and before the
+        <keysym>Enter</keysym> is pressed, the user can cancel the
+        data entry by typing the <keysym>Esc</keysym> key. This will
+        return the spreadsheet to the selection mode and restore the
+        contents previously in the selected cell.
+      </para>
+    </tip>
+
+
+    <tip>
+      <para>
+        Instead of the <keysym>Enter</keysym> key, other keys can be
+        used to input the data in the current cell. These other keys
+        will move the selection box to other locations than does the
+        <keysym>Enter</keysym> key. The <keysym>Tab</keysym> key
+        inputs the entry in the currently selected cell and then moves
+        the selection box one cell to the right of the current
+        cell. The arrow keys input the entry into the currently
+        selected cell and move one cell in the direction of the
+        arrow. The <keysym>Enter</keysym> key can also be used in
+        conjunction with other keys. Typing the
+        <keycombo><keysym>Shift</keysym><keysym>Enter</keysym></keycombo>
+        combination will move the selection upwards after
+        entry. Typing the
+        <keycombo><keysym>Ctrl</keysym><keysym>Enter</keysym></keycombo>
+        combination will re-select the currently selected cell.
+      </para>
+    </tip>
+
+
+    <sect3 id="sect-data-entry-advanced-editing-mode">
+      <title>Advanced Editing Mode</title>
+      
+      <para>
+        After selecting the cell and initially entering the data, the
+        user is in a limited editing mode. The main key for editing
+        mistakes in this mode is the backspace key.
+      </para>
+    
+      <para>
+        For a more complete set of editing options, especially for
+        longer entries, there is an advanced editing mode.  To enter
+        the advanced editing mode, press the <keycap>F2</keycap>
+        function key or click on the editing region. The keyboard
+        focus will then shift from the current cell to the editing
+        region at the top of the worksheet. There, you can use cursor
+        keys to position the cursor within the data in the cell, and
+        have all of the capabilities of the data entry area available.
+      </para>
+
+       <para>
+         For example, you can use:      
+           <variablelist>
+	     <varlistentry>
+	       <term><keycap>Backspace</keycap></term>
+	       <listitem><para>Delete the character to the left of the
+	       cursor.</para></listitem>
+	     </varlistentry>
+	     <varlistentry>
+	       <term><keycap>Cursor keys</keycap></term>
+	       <listitem><para>Move the cursor appropriately.</para></listitem>
+	     </varlistentry>
+	     <varlistentry>
+	       <term><keycap>Ctrl+K</keycap></term>
+	       <listitem><para>Delete to the end of the line</para></listitem>
+	     </varlistentry>
+           </variablelist>
+         See <xref linkend="sect-data-entry" /> For more info on the data
+         entry area.
+       </para>
+
+      <tip>
+        <para>
+          All the normal key bindings for Gnome application entry
+          boxes also apply in the data entry box.
+        </para>
+      </tip>
+
+      <para>
+        After finishing the data entry, pressing the
+        <keycap>Enter</keycap> key will input the data entry and move
+        the selection box downward just like for the simple editing
+        mode.
+      </para>
+
+    </sect3>
+
+  </sect2>
+
+<!-- Below is a section for each data type explaining how to enter it. -->
+
+  <sect2 id="sect-data-entry-text">
+    <title>Entering Text Data</title>
+
+    <para>
+      Text can be entered by selecting a cell, typing the text and
+      then typing the <keysym>Enter</keysym> key. Anything that is not
+      interpreted to be a number, boolean, formula or error will be
+      treated as a text field. To prevent
+      <application>Gnumeric</application> from interpreting an entry
+      as one of these other elements, a leading apostrophe can be
+      added to force the entry to be text. Any entry, no matter what
+      the contents, which starts with a leading apostrophe (') will be
+      considered to be text.
+    </para>
+
+    <tip>
+      <para>
+        Postal codes in the United States are series of five
+        integers. By default, <application>Gnumeric</application>
+        interprets these to be numbers. This interpretation means that
+        the leading zeros used in the postal codes of the northeastern
+        region will be lost by default. To retain these leading zeros,
+        either the code should be entered with a leading apostrophe
+        (e.g. '02917) or the cells should be formatted as text before
+        data entry (see <xref linkend="sect-data-format" /> for an
+        explanation of formatting).
+      </para>
+    </tip>
+
+  </sect2>
+
+
+  <sect2 id="sect-data-entry-numbers">
+    <title>Entering Number Data</title>
+
+    <para>
+      Numbers can be entered like other items. First the cell in which
+      the number should be entered must be selected, then a valid
+      number must be typed in and finally the entry must be inserted
+      using the <keysym>Enter</keysym> key. The valid formats for
+      numbers are presented in <xref linkend="sect-data-numbers" />.
+    </para>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+
+  <sect2 id="sect-data-entry-booleans">
+    <title>Entering Boolean Data</title>
+
+    <para>
+      A boolean can be entered by selecting the cell, typing the
+      boolean (either TRUE or FALSE) and then typing the
+      <keysym>Enter</keysym> key.
+    </para>
+
+  </sect2>
+
+
+  <sect2 id="sect-data-entry-formulas">
+    <title>Entering Formulas</title>
+
+    <para>
+      Formulas can be entered simply by typing a syntactically correct
+      formula in a cell. The correct syntax for formulas is expalined
+      in detail in <xref linkend="sect-data-formulas" />. Formulas
+      begin with an equals sign (=) and contain arithmetic symbols,
+      functions with their arguments and cell references.
+    </para>
+
+    <para>
+      To enter a formula, first the cell must be selected, then the
+      correct formula must be typed, and finally the
+      <keysym>Enter</keysym> key must be typed.
+    </para>
+
+    <warning>
+      <para>
+        If the formula entered into
+        <application>Gnumeric</application> cannot be interpreted
+        correclty, <application>Gnumeric</application> will display an
+        error message giving the user the choice of re-editng the
+        formula or saving the formula as a text field to be edited
+        later. For example, a formula may be mathematically incorrect
+        if the user has two operators in a row (e.g. =3+*4). If the
+        formula is saved as text, when the formula is corrected the
+        leading apostrophe must be
+        removed. <application>Gnumeric</application> will then
+        re-interpret the entry as a formula.
+      </para>
+    </warning>
+
+    <sect3 id="sect-data-entry-formulas-shortcuts-references">
+      <title>Shortcuts for including cell references and ranges in formulas
+      </title>
+
+      <para>
+        Formulas often include cell references or references to ranges
+        of cells as arguments to functions. These references and
+        ranges can be entered into a formula simply by typing in the
+        proper syntax (see <xref
+        linkend="sect-data-formulas-references" /> for more details).
+        But manually entering in cell ranges is slow and
+        cumbersome. In order to speed up the entry of these cell
+        ranges, the mouse and the keyboard arrow keys can be used to
+        select these cell ranges quickly.
+      </para>
+
+      <para>
+        When editing a formula, if the cursor is at a point where a
+        cell refrerence or range would be approrite, the reference or
+        range can be selected using the mouse. If the mouse is used to
+        click on a cell, the refrence of that cell will be entered
+        into a formula. Alternatively, if the mouse is used to drag a
+        selection over a range of cells, that cell range will become
+        part of the formula. The selected range will be highlighted by
+        a border of moving black dashes, commonly called the "marching
+        ants" border.
+      </para>
+
+  <figure id="fig-editing-cell-selection">
+    <title>The highlighted selection</title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/cell-selected.png"
+      format="PNG" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+  
+    <procedure>
+      <title>Using the mouse to enter cell references</title>
+      <step>
+	<para>
+          Begin entering a formula as you would normally. Stop at the
+	  point where a cell reference is appropriate. For example,
+	  example, type <userinput>=exp(</userinput>
+	</para>
+	</step>
+      <step>
+	<para>
+	  Click on the cell you want to reference. Its reference will
+	  be entered into the formula.
+	</para>
+      </step>
+      <step>
+	<para>
+	  To finish the formula, just type in the closing
+	  parenthesis. This will also "unselect" the region.
+	</para>
+      </step>
+    </procedure>
+    
+    <para>The mouse can be used to select a single cell, a continous
+    range of cells or several disjoint ranges of cells just like
+    regular selections. </para>
+
+    <para>If entering lots of formulas or even just entering a few
+    formulas, it is often quickest to use the keyboard to select cells
+    and ranges of cells for use in formulas. Just as reaching a input
+    point allows the user to select cells with the mouse, it is
+    possible to use the keyboard to select cells. Just use the cursor
+    keys and selection modifiers to create a selection.</para>
+
+    <procedure>
+      <title>Using the keyboard to enter cell references</title>
+
+      <step>
+	<para>
+	  Select a cell to enter a formula into. For example A1.
+	</para>
+      </step>
+      <step>
+	<para>Enter a formula, but stop the cursor at a point
+	  where a cell reference is appropriate. For this example,
+	  =SUM( 
+	</para>
+      </step>
+      <step>
+	<para>
+	  Move the selection around with the cursor keys. Move the
+	  selection cursor to cell B1 to start the selection.
+	</para>
+      </step>
+      <step>
+	<para>
+	  Hold down <keycap>Shift</keycap> and move the selection one
+	  cell over and one cell down. Cells B1,B2,C1,C2 should now be
+	  selected and the formula should show =sum(B1:C2
+	</para>
+      </step>
+      <step>
+	<para>
+	  To finish the function, close the parenthesis. The cell should
+	  now show =sum(B1:C2). Press enter and the formula is entered.
+	</para>
+      </step>
+    </procedure>
+
+    <para>To select a range of cell, hold <keycap>Shift</keycap> and
+    move over the desired area.</para>
+
+    <para>To stop entering a selection or to start over, press
+    <keycombo><keycap>Shift</keycap>
+    <keycap>Backspace</keycap></keycombo></para>
+
+
+    </sect3>
+
+  </sect2>
+
+
+  <sect2 id="sect-data-entry-errors">
+    <title>Entering Errors</title>
+
+    <para>
+      Errors are almost never entered directly into a spreadsheet but
+      usually arise from problems which
+      <application>Gnumeric</application> encounters during
+      calculations. A list of errors with their meanings is presented
+      in <xref linkend="sect-data-errors" />.
+    </para>
+
+    <para>
+      In an unusual case where it is needed, an error can be entered
+      by hand like the entry of other elements. First the cell must be
+      selected, then the error must be entered (e.g. #DIV/0!) and
+      finally the <keysym>Enter</keysym> key must be pressed.
+    </para>
+
+  </sect2>
+
+
+<!-- ADVANCED ENTRY -->
+
+
+  <sect2 id="sect-data-entry-advanced">
+    <title>Advanced Data Entry.</title>
+
+    <para>
+      
+    </para>
+
+    <sect3 id="sect-data-entry-large">
+      <title>Entering Large Quantities of Data</title>
+
+      <para>
+        It is sometimes necessary to enter large amounts of data by
+        hand into a spreadsheet. To facilitate this work,
+        <application>Gnumeric</application> provides several
+        techniques to facilitate the entry of large amounts of data.
+      </para>
+
+      <para>
+        If data are to be entered into a series of rows or columns,
+        this region can be selected ahead of time thereby modifying
+        the behaviour of the data entry keys (the
+        <keysym>Enter</keysym>, <keysym>Tab</keysym> and arrow keys). 
+      </para>
+
+      <procedure>
+        <title>Data entry into a region</title>
+
+        <step>
+          <para>
+            Select the region with the mouse. For example, the region
+            from cell C4 to cell E8 can be selected by clicking with
+            the left mouse button on cell C4 and dragging the mouse
+            cursor to cell E8. (More information on complex selections
+            is presented below.)
+          </para>
+        </step>
+
+        <step>
+          <para>
+            Enter data by typing the data and the the
+            <keysym>Enter</keysym> key. If this is done repeatedly,
+            the fifth time the <keysym>Enter</keysym> key is pressed,
+            the selection will not move to cell C9 but will jump up to
+            cell D4.
+          </para>
+        </step>
+
+      </procedure>
+
+      <note>
+        <para>
+          The <keysym>Tab</keysym> key can also be used instead of the
+          <keysym>Enter</keysym> key to move sequentially through the
+          selection.
+        </para>
+      </note>
+
+    </sect3>
+
+
+    <sect3 id="sect-data-entry-large-autocorrect">
+      <title>Automatically correcting simple mistakes</title>
+
+      <para>
+        The entry of large amounts of data into a spreadsheet is
+        tedious work which is prone to repeated
+        mistakes. <application>Gnumeric</application> provides a tool
+        to automatically correct commonly made simple mistakes. The
+        corrections are configured and activated using AutoCorrect
+        Dialog, available via <guimenuitem>Auto Correct</guimenuitem>
+        in the <guimenu>Tools</guimenu> menu.
+      </para>
+
+       <figure id="fig-autocorrect-figure">
+         <title>The Auto Correct dialog.</title>
+         <screenshot>
+           <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/dialog-auto-correct.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the auto-correct dialog.</phrase>
+            </textobject>
+           </mediaobject>
+         </screenshot>
+       </figure>
+
+  <sect4 id="sect-correct-initial-capitals">
+     <title>Correct TWo INitial CApitals</title>
+
+     <para>A common mistake is to hold down the shift key a little bit
+     too long while typing initial letters.  When it happens, you will
+     get two initial capitals instead of one.  If this correction rule
+     is activated, the second letter of words beginning with two
+     capital letters is automatically lowercased.  For example, if you
+     type `TOtal' into a cell it is replaced by `Total'.  Note that if
+     the word contains two capital letters only, it is not
+     replaced.</para>
+
+     <para>It is possible to specify exceptions to this tool.  For
+     example, you do not want the tool to replace the word `PVbonds'
+     when it is typed.  To specify exceptions, press the
+     ``Exceptions...''  button in the dialog.  This should pop up the
+     ``Auto correct exceptions'' dialog.  In this dialog, select the
+     ``INitial CApitals'' page.  In this page, type `PVbonds' into the
+     ``Do not correct'' entry, and press ``Add'' button.  Now the word
+     should be included in the list of exceptions.  To remove a word
+     from the list, select the word and press the ``Remove'' button.
+     If you now press ``Ok'' the exceptions in the list are
+     activated.</para>
+
+  </sect4>
+
+  <sect4 id="sect-correct-first-letter">
+     <title>Capitalize first letter of sentence</title>
+
+     <para>If this correction rule is activated, the first letter of a
+     sentence typed into a cell is capitalized, if it is a lowercase
+     letter in the first place.  Only text that ends to a dot is
+     considered a sentence.</para>
+
+     <para>It is possible to specify exceptions to this tool.  For
+     example, you do not want the tool to capitalize letters after
+     acronym `i.g.'.  To specify exceptions, press the
+     ``Exceptions...''  button in the dialog.  This should pop up the
+     ``Auto correct exceptions'' dialog.  In this dialog, select the
+     ``First letter'' page.  In this page, type `i.g.' into the ``Do
+     not capitalize after'' entry, and press ``Add'' button.  Now the
+     word should be included in the list of exceptions.  To remove a
+     word from the list, select the word and press the ``Remove''
+     button.  If you now press ``Ok'' the exceptions in the list are
+     activated.</para>
+
+  </sect4>
+
+  <sect4 id="sect-correct-capitalize-days">
+     <title>Capitalize names of days</title>
+
+     <para>If this correction rule is activated, the first letter of a
+     name of a day is capitalized automatically.  For example, if you
+     type `monday', it is automatically replaced by `Monday'.</para>
+  </sect4>
+
+
+    </sect3>
+
+    <sect3 id="sect-data-entry-large-series">
+        <title>Entering a regular sequence</title>
+
+        <para>
+          It is often necessary to enter a regular sequence of numbers
+          or a repeated sequence of
+          text. <application>Gnumeric</application> provides several
+          ways to input series and sequences of this kind.
+        </para>
+
+        <para>
+          The simplest way to fill a series with the same element
+          repeated involves entering the element once and dragging the
+          selection box to fill that element repeatedly. For example,
+          the text "employee:" could be input into cell C2. That cell
+          could then be selected. The selection box is a thick white
+          rectangle which surrounds the cell. This selection box has a
+          small white square at the bottom right hand corner. If the
+          mouse cursor is placed above this square box, it changes to
+          a thin cross. If the left hand mouse button is clicked and
+          held, and the mouse dragged to cell C10,
+          <application>Gnumeric</application> will automatically fill
+          all of the cells with the identical string.
+        </para>
+
+        <para>
+          An alternative way to enter data into a region involves
+          first selecting the region, then typing the value and
+          finally typing the
+          <keycombo><keysym>Ctrl</keysym><keysym>Enter</keysym></keycombo>
+          key combination. This will fill the whole region with the
+          identical value which was originally entered.
+        </para>
+
+        <para>
+          A similar method is available to fill sequences of
+          integers. If the example just given was altered so that cell
+          C2 had the number 14 and the <keysym>Ctrl</keysym> key was
+          held during the dragging of the selection,
+          <application>Gnumeric</application> will automatically fill
+          the cells C2 to C10 with the series 14,15,16,...,22.
+        </para>
+
+        <para>
+          More complex series and sequences of data can be entered
+          with a similar mechanism. 
+        </para>
+
+        <para>
+          To do an autofill:
+        </para>
+
+        <procedure>
+	<step>
+	  <para>
+	    Enter a value into the first cell you wish to
+	    autofill. For example, the cell C2 could have the number
+	    "24" entered.
+	  </para>
+	</step>
+
+	<step>
+	  <para>
+	    Enter a second value into the second cell you wish to
+	    autofill. This must be adjacent to the first cell. This
+	    sets the increment to use when autofilling the rest of
+	    your cells. For example, the cell D2 could have the number
+	    "28" entered.
+	  </para>
+	</step>
+
+	<step>
+	  <para>
+	    Select both the cells just entered. At the bottom-right of
+	    the selection should be a small box. Your mouse cursor
+	    will change to a cross-hair when placed over the box.
+	    Press and hold on the box. Drag in the direction, either
+	    vertical or horizonatal, you wish to increment and release
+	    when all the cells are filled. For example, selecting
+	    cells C2 and D2, then dragging the bottom right of the
+	    selection to cell I2 will fill the cells with the sequence
+	    from 24 to 48 with each increment being 4.
+	  </para>
+	</step>
+        </procedure>
+
+        <para>
+          An alternative to the last step involves using the
+          menus. Once the first two values have been input, the whole
+          range to be filled can be selected using the mouse and then
+          the <guimenuitem>Autofill</guimenuitem> selection can be
+          made from the <guimenu>Edit</guimenu> and
+          <guisubmenu>Fill</guisubmenu>. This will automatically
+          complete the series in the selected region.
+        </para>
+
+
+        <para>
+	  <application>Gnumeric</application> is able to increment
+	  several types of data beyond simple integers. The proceedure
+	  is the same as described above but involves different
+	  starting values. <application>Gnumeric</application> can
+	  increment:
+	<variablelist>
+	  <varlistentry>
+	    <term>Integers</term>
+	    <listitem>
+	      <para>
+		1, 2, 3, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Natural Numbers</term>
+	    <listitem>
+	      <para>
+		1.03, 2.05, 3.07, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Weekday Names</term>
+	    <listitem>
+	      <para>
+		Monday, Tuesday, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Weekday Abbreviations</term>
+	    <listitem>
+	      <para>
+		Mon, Tues, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Month Names</term>
+	    <listitem>
+	      <para>
+		January, February, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Month Abbreviations</term>
+	    <listitem>
+	      <para>
+		Jan, Feb, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Strings with Numbers</term>
+	    <listitem>
+	      <para>
+		Item1, Item2, etc
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Dates</term>
+	    <listitem>
+	      <para>
+		11/14/2001, 11/15/2001, etc.
+	      </para>
+	      <para>
+		<application>Gnumeric</application> supports
+		incrementing the date by month, date, or year.
+	      </para>
+		<para>
+		  Note that, While <application>Gnumeric</application>
+		  will increment days of the month, if you do
+		  11/14/2001 and 12/14/2001, it will recognize it as
+		  the same day of the month and increment the month so
+		  the next value would be to 1/14/2002 instead of the
+		  day difference.
+		</para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+        </para>
+
+        <para>
+          <application>Gnumeric</application> can be explicitly told
+          the cells to autofill as in the examples above, but it can
+          also guess the number of cells to fill based on the length
+          of an adjacent column or row. For example, if the cells B2
+          to B10 have information and cell C2 has the integer value
+          "1", then selecting cell C2 and double clicking on the
+          bottom rightmost box of the selection rectangle will fill
+          the value "1" from cell C3 to cell C10.
+        </para>
+
+    </sect3>
+
+
+    <sect3 id="sect-data-entry-large-external">
+      <title>Obtaining data from external sources</title>
+
+      <para>
+        Data are commonly obtained from external sources such as other
+        spreadsheeets or other applications. Data can be obtained from
+        other <application>Gnumeric</application> workbooks or other
+        applications using the mouse to copy data and paste them into
+        a worksheet as is explained in <xref
+        linkend="sect-movecopy-xclipboard" />. Data can also be
+        imported from external files as is explained in <xref
+        linkend="sect-files-openimport" /> and then copied and
+        pasted into the current worksheet with the copy and paste
+        commands as explained in <xref
+        linkend="sect-movecopy-cutandpaste" />.
+      </para>
+
+    </sect3>
+
+  </sect2>
+
+  <sect2 id="sect-data-entry-templates">
+    <title>Using a Format Template</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+   </sect2>
+
+
+</sect1>
+

@@ -1,222 +1,671 @@
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
-"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+  <!ENTITY app "Gnumeric">
+  <!ENTITY appversion "1.2">
+  <!ENTITY manrevision "1.2">
+  <!ENTITY date "June 2003">
+  <!ENTITY file-format-open "Excel 95/97/2000, gnumeric XML, HTML, 
+           comma separated CSV, Applix,  Lotus 1-2-3, GNU oleo">
 
-<!ENTITY file-format-open "Excel 95/97/2000, gnumeric XML, HTML, comma separated CSV, Applix,  Lotus 1-2-3, 
-GNU oleo">
 
-<!ENTITY preface	SYSTEM "preface.xml">
-<!ENTITY gui-elements	SYSTEM "gui-elements.xml">
-<!ENTITY menus		SYSTEM "menus.xml">
-<!ENTITY toolbars	SYSTEM "toolbars.xml">
-<!ENTITY worksheet	SYSTEM "worksheet.xml">
-<!ENTITY editing	SYSTEM "editing.xml">
-<!ENTITY numberformat	SYSTEM "number-format.xml">
-<!ENTITY formulas	SYSTEM "formulas.xml">
-<!ENTITY cellrefer	SYSTEM "cell_refer.xml">
-<!ENTITY selections	SYSTEM "selections.xml">
-<!ENTITY copying-moving	SYSTEM "copying-moving.xml">
-<!ENTITY printing	SYSTEM "printing.xml">
-<!ENTITY autofill	SYSTEM "autofill.xml">
-<!-- This one isn't going to be added quite yet; redundant
-<!ENTITY introduction	SYSTEM "introduction.xml">
--->
-<!ENTITY files		SYSTEM "files.xml">
-<!ENTITY autosave	SYSTEM "autosave.xml">
-<!ENTITY functions	SYSTEM "functions.xml">
-<!ENTITY analysis-tools	SYSTEM "analysis-tools.xml">
-<!ENTITY solver		SYSTEM "solver.xml">
-<!ENTITY autocorrect	SYSTEM "autocorrect.xml">
-<!ENTITY filter		SYSTEM "filter.xml">
-<!ENTITY graphs         SYSTEM "graphs.xml">
-<!ENTITY authors	SYSTEM "authors.xml">
-<!ENTITY license	SYSTEM "license.xml">
-<!ENTITY keybindings    SYSTEM "keybinding-appendix.xml">
-<!ENTITY fdl            SYSTEM "fdl-appendix.xml">
+  <!ENTITY legal                SYSTEM "legal.xml">
+
+  <!ENTITY welcome              SYSTEM "welcome.xml">
+  <!ENTITY manual-usage         SYSTEM "manual-usage.xml">
+  <!ENTITY quick-start          SYSTEM "quick-start.xml">
+
+  <!ENTITY gui-overview	        SYSTEM "gui-overview.xml">
+  <!ENTITY gui-menus            SYSTEM "gui-menus.xml">
+  <!ENTITY gui-toolbars	        SYSTEM "gui-toolbars.xml">
+  <!ENTITY gui-other-elements   SYSTEM "gui-other-elements.xml">
+  <!ENTITY gui-mouse            SYSTEM "gui-mouse.xml">
+
+
+
+  <!ENTITY data-overview        SYSTEM "data-overview.xml">
+  <!ENTITY data-types           SYSTEM "data-types.xml">
+  <!ENTITY data-entry           SYSTEM "data-entry.xml">
+  <!ENTITY data-selections      SYSTEM "data-selections.xml">
+  <!ENTITY data-move-copy       SYSTEM "data-move-copy.xml">
+  <!ENTITY data-delete          SYSTEM "data-delete.xml">
+  <!ENTITY data-insert          SYSTEM "data-insert.xml">
+  <!ENTITY data-format          SYSTEM "data-format.xml">
+  <!ENTITY data-modify          SYSTEM "data-modify.xml">
+  <!ENTITY data-commentNlink    SYSTEM "data-commentNlink.xml">
+
+  <!ENTITY f-worksheets         SYSTEM "worksheets.xml">
+
+  <!ENTITY f-workbooks          SYSTEM "workbooks.xml">
+
+  <!ENTITY graphics-overview    SYSTEM "graphics-overview.xml">
+  <!ENTITY graphics-plots       SYSTEM "graphics-plots.xml">
+  <!ENTITY graphics-images      SYSTEM "graphics-images.xml">
+  <!ENTITY graphics-drawings    SYSTEM "graphics-drawings.xml">
+
+  <!ENTITY datasource           SYSTEM "datasource.xml">
+
+  <!ENTITY files-overview       SYSTEM "files-overview.xml">
+  <!ENTITY files-opening        SYSTEM "files-opening.xml">
+  <!ENTITY files-saving         SYSTEM "files-saving.xml">
+  <!ENTITY files-autosave       SYSTEM "files-autosave.xml">
+
+  <!ENTITY printing             SYSTEM "printing.xml">
+
+  <!ENTITY config-overview      SYSTEM "configuration-overview.xml">
+  <!ENTITY config-toolbars      SYSTEM "configuration-toolbars.xml">
+  <!ENTITY config-preferences   SYSTEM "configuration-preferences.xml">
+  <!ENTITY config-plugins       SYSTEM "configuration-plugins.xml">
+  <!ENTITY config-localization  SYSTEM "configuration-localization.xml">
+
+  <!ENTITY analysis-overview    SYSTEM "analysis-overview.xml">
+  <!ENTITY analysis-statistical SYSTEM "analysis-statistical.xml">
+  <!ENTITY analysis-complexNum  SYSTEM "analysis-complexNumbers.xml">
+  <!ENTITY analysis-solver      SYSTEM "analysis-solver.xml">
+  <!ENTITY analysis-simulation  SYSTEM "analysis-simulation.xml">
+
+  <!ENTITY morehelp             SYSTEM "morehelp.xml">
+
+  <!ENTITY extending-overview   SYSTEM "extending-overview.xml">
+  <!ENTITY extending-functions  SYSTEM "extending-functions.xml">
+  <!ENTITY extending-python     SYSTEM "extending-python.xml">
+  <!ENTITY extending-plugins    SYSTEM "extending-plugins.xml">
+  <!ENTITY extending-code       SYSTEM "extending-code.xml">
+
+  <!ENTITY about-history        SYSTEM "about-history.xml">
+  <!ENTITY about-authors        SYSTEM "about-authors.xml">
+  <!ENTITY about-license        SYSTEM "about-license.xml">
+  <!ENTITY about-compiling      SYSTEM "about-compiling.xml">
+  <!ENTITY about-get-involved   SYSTEM "about-get-involved.xml">
+  
+
+  <!ENTITY function-ref	        SYSTEM "functions.xml">
+
+  <!ENTITY appendix-keybindings SYSTEM "appendix-keybindings.xml">
+  <!ENTITY appendix-glossary    SYSTEM "appendix-glossary.xml">
 ]>
 
-<book id="index">
- <title>The Gnumeric Manual</title>
+
+<!-- 
+      (Do not remove this comment block.)
+  Maintained by the GNOME Documentation Project
+  http://developer.gnome.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Feb 12, 2002
+  
+-->
+<!-- =============Document Header ============================= -->
+<book id="index" lang="en">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+  <title>The Gnumeric Manual, version 1.2</title>
+
   <bookinfo>
-    <releaseinfo>
-      This is release 1.0 of the Gnumeric Manual.
-    </releaseinfo>
+
+<!-- 
+    <abstract>
+      <para>
+        This manual describes <application>Gnumeric</application>, a
+        spreadsheet produced by the GNOME project. The manual provides
+        a brief introduction to spreadsheets, describes exhaustively
+        all of the elements of the program and explains how to use the
+        program.
+      </para>
+    </abstract>
+-->
 
     <copyright>
-      <year>1998, 1999, 2000, 2001, 2002</year>
-      <holder>
-	Miguel de Icaza, Jody Goldberg, Thomas Canty, 
-	Jukka-Pekka Iivonen, Andreas J. Guelzow, Wayne Schuller, 
-	Adrian Custer, Kevin Breit, Aaron Weber, 
-	Alexander Kirillov.
+      <year>2003</year>
+      <holder>Kevin Breit, Adrian Custer, Ray Dassen, 
+              Jody Goldberg, Andreas J. Guelzow, Jon K. Hellan, 
+              Jukka-Pekka Iivonen, Alexander Kirillov.
       </holder> 
     </copyright>
+  <!-- translators: uncomment this:
+    <copyright>
+   	<year>2003</year>
+   	<holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+    </copyright>
+   -->
 
-    <legalnotice id="legalnotice">   
-      <para>
-	Permission is granted to copy, distribute and/or modify this
-	document under the terms of the <link
-	linkend="fdl"><citetitle>GNU Free Documentation
-	License</citetitle></link>, Version 1.1 or any later version
-	published by the Free Software Foundation with no Invariant
-	Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
-	copy of the license can be found in<xref linkend="fdl" />.
-      </para>
+    <copyright>
+      <year>2002</year>
+      <holder>Jody Goldberg, Andreas J. Guelzow, Wayne Schuller, 
+              Adrian Custer, Kevin Breit, Aaron Weber, 
+              Alexander Kirillov, Eric Baudais, Gregory Leblanc.
+      </holder> 
+    </copyright>
+  <!-- translators: uncomment this:
+    <copyright>
+   	<year>2002</year>
+   	<holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+    </copyright>
+   -->
 
+    <copyright>
+      <year>1998</year>
+      <year>1999</year>
+      <year>2000</year>
+      <year>2001</year>
+      <holder>Miguel de Icaza, Thomas Canty, Jukka-Pekka Iivonen,
+              Almer S. Tigelaar, Morten Welinder.
+      </holder> 
+    </copyright>
+  <!-- translators: uncomment this:
+    <copyright>
+        <year>1998</year>
+        <year>1999</year>
+        <year>2000</year>
+   	<year>2001</year>
+   	<holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+    </copyright>
+   -->
+
+    <publisher> 
+      <publishername> GNOME Documentation Project </publishername> 
+    </publisher> 
+
+    <!-- This file  contains link to license for the documentation 
+         (GNU FDL), and other legal stuff such as "NO WARRANTY" 
+         statement. Please do not change any of this. 
+    -->
+    &legal;
+
+    <authorgroup> 
+      <author> 
+        <firstname>Eric</firstname>
+	<surname>Baudais</surname> 
+        <email>baudais@okstate.edu</email>
+      </author>
+      <author> 
+        <firstname>Kevin</firstname>
+	<surname>Breit</surname> 
+        <email>mrproper@ximian.com</email>
+      </author>
+      <author> 
+        <firstname>Thomas</firstname>
+	<surname>Canty</surname> 
+        <email>tommydal@ihug.com.au</email>
+      </author>
+      <author> 
+        <firstname>Adrian</firstname>
+	<surname>Custer</surname> 
+        <email>acuster@nature.berkeley.edu</email>
+      </author>
+      <author> 
+        <firstname>Ray</firstname>
+	<surname>Dassen</surname> 
+        <email>jdassen@debian.org</email>
+      </author>
+      <author>
+        <firstname>Jody</firstname>
+        <surname>Goldberg</surname> 
+        <email>jody@gnome.org</email>
+      </author>
+      <author> 
+        <firstname>Andreas</firstname>
+	<surname>Guelzow</surname> 
+        <email>aguelzow@taliesin.ca</email>
+      </author>
+      <author> 
+        <firstname>Jon K.</firstname>
+	<surname>Hellan</surname> 
+        <email>hellan@acm.org</email>
+      </author>
+      <author> 
+        <firstname>Miguel</firstname>
+	<surname>de Icaza</surname>
+        <email>miguel@gnu.org</email>
+      </author>
+      <author> 
+        <firstname>Jukka-Pekka</firstname>
+	<surname>Iivonen</surname> 
+        <email>jiivonen@hutcs.cs.hut.fi</email>
+      </author>
+      <author> 
+        <firstname>Alexander</firstname>
+	<surname>Kirillov</surname> 
+        <email>kirillov@math.sunysb.edu</email>
+      </author>
+      <author> 
+        <firstname>Gregory</firstname>
+	<surname>Leblanc</surname>
+        <email>gleblanc@linuxweasel.com</email>
+      </author>
+      <author> 
+        <firstname>Wayne</firstname>
+	<surname>Schuller</surname>
+        <email>k_wayne@linuxpower.org</email>
+      </author>
+      <author> 
+        <firstname>Almer S.</firstname>
+	<surname>Tigelaar</surname>
+        <email>almer1@dds.nl</email>
+      </author>
+      <author> 
+        <firstname>Aaron</firstname>
+	<surname>Weber</surname>
+        <email>aaron@ximian.com</email>
+      </author>
+      <author> 
+        <firstname>Morten</firstname>
+	<surname>Welinder</surname>
+        <email>terra@diku.dk</email>
+      </author>
+   <!-- This is appropriate place for other contributors: translators,
+          maintainers,  etc. Commented out by default.
+     <othercredit role="translator">
+       <firstname>Latin</firstname> 
+       <surname>Translator 1</surname> 
+       <affiliation> 
+	  <orgname>Latin Translation Team</orgname> 
+	  <address> <email>translator@gnome.org</email> </address> 
+       </affiliation>
+       <contrib>Latin translation</contrib>
+     </othercredit>
+   -->
+    </authorgroup> 
+
+
+    <revhistory>
+      <revision> 
+	<revnumber>Gnumeric Manual: Version &manrevision;</revnumber> 
+	<date>&date;</date> 
+	<revdescription> 
+	  <para role="author">The Gnumeric Team</para>
+	  <para role="publisher">GNOME Documentation Project</para>
+	</revdescription> 
+      </revision>
+      <revision> 
+	<revnumber>Gnumeric Manual: Version 1.0</revnumber> 
+	<date>January 2002</date> 
+	<revdescription> 
+	  <para role="author">The Gnumeric Team</para>
+	  <para role="publisher">GNOME Documentation Project</para>
+	</revdescription> 
+      </revision>
+      <revision> 
+	<revnumber>Gnumeric Manual: Earlier Versions</revnumber> 
+	<date>1998-2001</date> 
+	<revdescription> 
+	  <para role="author">The Gnumeric Team</para>
+	  <para role="publisher">GNOME Documentation Project</para>
+	</revdescription> 
+      </revision>
+    </revhistory>
+
+    <releaseinfo>This manual describes version &appversion; of &app;.
+    </releaseinfo> 
+    <legalnotice> 
+      <title>Feedback</title> 
       <para>
-	Many of the names used by companies to distinguish their products and
-	services are claimed as trademarks. Where those names appear in any
-	GNOME documentation, and those trademarks are made aware to the members
-	of the GNOME Documentation Project, the names have been printed in initial 
-	caps and a (tm) appended.
+        To report a bug or make a suggestion regarding the &app;
+        application or this manual, follow the directions in the
+        <ulink url="ghelp:gnome-feedback" type="help">GNOME Feedback
+        Page</ulink>.
       </para>
-    </legalnotice>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice> 
   </bookinfo>
 
-
-  <chapter id="preface">
-    <title>Preface</title>
-    &preface;
-  </chapter>
-
-  <chapter id="gui-elements">
-    <title>Elements of the Gnumeric User Interface</title>
-    &gui-elements;
-  </chapter>
-
-  <chapter id="menus">
-    <title>Gnumeric Menus</title>
-    &menus;
-  </chapter>
-
-  <chapter id="toolbars">
-    <title>Gnumeric Toolbars</title>
-    &toolbars;
-  </chapter>
-
-  <chapter id="other-elements">
-    <title>Gnumeric Data Entry area, Cell Grid and Information Area
-    </title>
-    &worksheet;
-  </chapter>
-
-  <chapter id="editing">
-    <title>Entering data</title>
-    &editing;
-  </chapter>
-
-  <chapter id="copying-moving">
-    <title>Copying and Moving</title>
-    &copying-moving;
-  </chapter>
-
-   <chapter id="autofill">
-     <title>Autofill</title>
-     &autofill;
-   </chapter>
-
-   <chapter id="formatting">
-     <title>Cell Formatting</title>
-      &numberformat;
-   </chapter>
-
-  <chapter id="files">
-    <title>Working with files</title>
-    &files;
-  </chapter>
-
-  <chapter id="autosave">
-    <title>Autosave</title>
-    &autosave;
-  </chapter>
-
-  <chapter id="printing">
-    <title>Printing</title>
-    &printing;
-  </chapter>
-
-  <chapter id="filters">
-    <title>Data Filters</title>
-    &filter;
-  </chapter>
-
-  <chapter id="cell-referring">
-    <title>Cell Referencing</title>
-    &cellrefer;
-  </chapter>
-
-  <chapter id="selections">
-    <title>Selections</title>
-    &selections;
-  </chapter>
-
-  <chapter id="solver">
-    <title>Solver</title>
-    &solver;
-  </chapter>
-
-  <chapter id="analysis-tools">
-    <title>Data Analysis Tools</title>
-    &analysis-tools;
-  </chapter>
-
-  <chapter id="autocorrect-tool">
-    <title>Auto Correct Tool</title>
-    &autocorrect;
-  </chapter>
-
-<!-- disabled for now.
-  <chapter id="tutorials">
-    <title>Tutorials</title>
-    <para>Nothing yet, will be some walkthroughs eventually.</para>
-  </chapter>
-
-  <chapter id="cell-elements">
-    <title>Drawing on a worksheet</title>
-    <para>boxes, labels, etc eventually.</para>
-  </chapter>
+<!-- ============= Index         ============================= -->
+<!--
+  <indexterm> 
+    <primary>Gnumeric</primary> 
+  </indexterm>
+  <indexterm> 
+    <primary>GNOME Spreadsheet</primary> 
+  </indexterm> 
+  <indexterm> 
+    <primary>Office</primary> 
+  </indexterm> 
 -->
-  <chapter id="graphs">
-    <title>Graphs</title>
-    &graphs;
+
+<!-- ============= Document Body ============================= -->
+    <!-- Note: keep the chapter introductions presented here 
+         synched up with those in manual-usage.xml -->
+
+  <chapter id="chapter-welcome">
+    <title>Welcome!</title>
+
+    &welcome;
+
   </chapter>
 
-  <chapter id="authors">
-    <title>Authors</title>
-    &authors;
+
+
+  <chapter id="chapter-manual-usage">
+    <title>How to Use this Manual</title>
+
+    &manual-usage;
+
   </chapter>
 
-  <chapter id="license">
-    <title>License</title>
-    &license;
+
+
+  <chapter id="chapter-quick-start">
+    <title>A Quick Introduction</title>
+
+    <para>
+      This chapter of the manual explains the fundamentals of
+      spreadsheets in general and of
+      <application>Gnumeric</application> in particular. The chapter
+      attempts to help new users get started with
+      <application>Gnumeric</application> and provides background for
+      the more detailled explanations in the rest of the manual.
+    </para>
+
+    &quick-start;
+
   </chapter>
 
-  <chapter id="function-reference">
-    <title>Gnumeric Function Reference</title>
-    &functions;
+
+
+  <chapter id="chapter-gui-elements">
+    <title>The Elements of Gnumeric</title>
+
+    <para>
+      This chapter describes all of the pieces of
+      <application>Gnumeric</application> which a user can
+      manipulate. The chapter provides explanations for each of the
+      menus, menu entries, toolbar buttons and other elements of the
+      graphical user interface.
+    </para>
+
+    <note>
+      <para>
+        This chapter has not yet been updated for the 1.2 release of
+        <application>Gnumeric</application> but still describes the
+        earlier releases. The descriptions will still be generally
+        useful to those attempting to understand the menu entries of
+        <application>Gnumeric</application> 1.2. This chapter will be
+        updated as time permits.
+      </para>
+    </note>
+
+    &gui-overview;
+    &gui-menus;
+    &gui-toolbars;
+    &gui-other-elements;
+    &gui-mouse;
+
   </chapter>
 
-  <chapter id="keybinding">
-    <title>Gnumeric Keybinding Reference</title>
-    &keybindings;
-  </chapter>
-<!-- appendix: free documentation license -->
 
-&fdl;
+
+  <chapter id="chapter-data">
+    <title>Working with Data</title>
+
+    <para>
+      This chapter explains the core functionality of
+      <application>Gnumeric</application> including the basic types of
+      data manipulated by <application>Gnumeric</application>, the
+      methods of entering, manipulating and formating data, and the
+      basic tools for analysis of these data. More advanced analysis is
+      described in <xref linkend="chapter-advanced-analysis" />.
+    </para>
+
+    &data-overview;
+    &data-types;
+    &data-entry;
+    &data-selections;
+    &data-move-copy;
+    &data-delete;
+    &data-insert;
+    &data-format;
+    &data-modify;
+    &data-commentNlink;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-advanced-analysis">
+    <title>Advanced Analysis</title>
+
+    <para>
+      This chapter explains many of the advanced analytic tools
+      available in <application>Gnumeric</application> including
+      statistical analysis, linear algebra calculations and simulation
+      analysis.
+    </para>
+
+    &analysis-overview;
+    &analysis-statistical;
+    &analysis-complexNum;
+    &analysis-solver;
+    &analysis-simulation;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-datasource">
+    <title>Using External Data</title>
+
+    <para>
+      This chapter explains how to access and use data which are
+      stored outside of <application>Gnumeric</application>, usually
+      in databases.
+    </para>
+
+    &datasource;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-graphics">
+    <title>Graphics: Plots, Images and Drawings</title>
+
+    <para>
+      This chapter explains how to use
+      <application>Gnumeric</application> to add graphical elements to
+      a worksheet. Data plots allow users to create charts of data in
+      a worksheet including pie charts, bar and column charts and
+      scatterplots. Images in standard computer formats can be added
+      on top of a worksheet. Drawings allow users to add simple
+      graphical elements on top of a worksheet including lines, arrows
+      and simple polygons.
+    </para>
+
+    &graphics-overview;
+    &graphics-plots;
+    &graphics-images;
+    &graphics-drawings;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-worksheets">
+    <title>Managing and Viewing Worksheets</title>
+
+    <para>
+      This chapter explains how to manage worksheets and manipulate
+      the view of the worksheet contents.
+    </para>
+
+    &f-worksheets;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-workbooks">
+    <title>Workbook Settings</title>
+
+    <para>
+      This chapter explains the contents of a
+      <application>Gnumeric</application> workbook which are not part
+      of the worksheets. This includes several settings which apply to
+      the workbook and are saved in the
+      <application>Gnumeric</application> file. Settings which apply
+      to the <application>Gnumeric</application> program itself are
+      called `preferences' and are explained in <xref
+      linkend="chapter-configuring" />.
+    </para>
+
+    &f-workbooks;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-configuring">
+    <title>Configuring Gnumeric</title>
+
+    <para>
+      This chapter explains how to change the default behaviour of
+      <application>Gnumeric</application> including the startup
+      behaviour and default locale (language and number display).
+    </para>
+
+    &config-overview;
+    &config-toolbars;
+    &config-preferences;
+    &config-plugins;
+    &config-localization;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-files">
+    <title>File Opening and Saving</title>
+
+    <para>
+      This chapter explains how to use files in
+      <application>Gnumeric</application> including how to save the
+      current file, how to change the file format of saved files and
+      how to open files from a different format.
+    </para>
+
+    &files-overview;
+    &files-opening;
+    &files-saving;
+    &files-autosave;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-printing">
+    <title>Printing</title>
+
+    <para>
+      This chapter explains how to print spreadsheets, tables and
+      plots from <application>Gnumeric</application> to a printer
+      directly or into Postscript or PDF (both are page description
+      languages).
+    </para>
+
+    &printing;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-morehelp">
+    <title>Getting Help from Other Sources</title>
+
+    <para>
+      This chapter describes other sources of help which are available
+      to users including the <application>Gnumeric</application> web
+      site, the mailing list, and the internet relay chat (IRC)
+      discussion channel. The chapter also explains how to tell the
+      project about a problem with the program.
+    </para>
+
+    &morehelp;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-extending">
+    <title>Extending Gnumeric</title>
+
+    <para>
+      This chapter explains how to go about extending
+      <application>Gnumeric</application> to provide extra
+      functionality. Because <application>Gnumeric</application> is
+      Free Software this is quite easy to do.
+    </para>
+
+    &extending-overview;
+    &extending-functions;
+    &extending-python;
+    &extending-plugins;
+    &extending-code;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-about">
+    <title>About Gnumeric</title>
+
+    <para>
+      This chapter provides some background information on the
+      creation and distribution of
+      <application>Gnumeric</application>.
+    </para>
+
+    &about-history;
+    &about-authors;
+    &about-license;
+    &about-compiling;
+    &about-get-involved;
+
+  </chapter>
+
+
+
+<!-- ============= Appendices ================================ -->
+
+  <appendix id="function-reference">
+    <title>Function Reference</title>
+
+    <para>
+      This appendix provides a list of all the functions which are
+      currently defined in <application>Gnumeric</application>.
+    </para>
+
+    &function-ref;
+
+  </appendix>
+
+
+
+  <appendix id="keybinding">
+    <title>Keybinding Reference</title>
+
+    <para>
+      This appendix lists the keyboard shortcuts which are defined by
+      default in <application>Gnumeric</application>.
+    </para>
+
+    &appendix-keybindings;
+
+  </appendix>
+
+
+<!--
+
+  <appendix id="glossary">
+    <title>Glossary</title>
+
+    <para>
+      This appendix defines certain terms used in this manual.
+    </para>
+
+    &appendix-glossary;
+
+  </appendix>
+
+-->
+
 
 </book>
 
-<!-- Keep this comment at the end of the file
-Local variables:
-mode: sgml
-sgml-omittag:t
-sgml-shorttag:t
-sgml-minimize-attributes:nil
-sgml-always-quote-attributes:t
-sgml-indent-step:2
-sgml-indent-data:t
-sgml-parent-document:nil
-sgml-exposed-tags:nil
-sgml-local-catalogs:nil
-sgml-local-ecat-files:nil
-End:
--->

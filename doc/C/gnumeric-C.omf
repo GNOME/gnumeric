@@ -1,4 +1,4 @@
-<?xml version="1.0" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <omf>
   <resource>
     <creator>
@@ -36,23 +36,34 @@
     </contributor>
 
     <title>
-      The Gnumeric Manual
+      The Gnumeric Manual, version 1.2.
     </title>
+
     <date>
-      2002-05-11
+      2003-05-01
     </date>
-    <version identifier="1.1.5" date="2002-05-11" description="Updated for 1.1.5"/>
+
+    <version identifier="1.2" date="2003-05-01" 
+      description="Updated for 1.2"/>
+
     <subject category="GNOME|Applications|Office"/>
+
     <description>
-      This is the user's manual for Gnumeric, the GNOME spreadsheet.
+      This is the user's manual for Gnumeric, a GNOME spreadsheet.
     </description>
+
     <type>
-      user's guide
+      User's Guide
     </type>
-    <format dtd="-//OASIS//DTD DocBook XML V4.1.2//EN" mime="text/xml"/>
+
+    <format dtd="-//OASIS//DTD DocBook XML V4.2//EN" mime="text/xml"/>
     <identifier url="gnumeric.xml"/>
     <language code="C"/>
     <relation seriesid="c5e3db84-64c3-11d6-85a3-a3e50590e6d1"/>
-    <rights type="GNU FDL" license.version="1.1" license="http://www.gnu.org/licenses/fdl.html" holder="Miguel de Icaza, Jody Goldberg, Thomas Canty, Jukka-Pekka Iivonen, Andreas J. Guelzow, Wayne Schuller, Adrian Custer, Kevin Breit, Aaron Weber, Alexander Kirillov"/>
+    <rights type="GNU FDL" license.version="1.1"
+      license="http://www.gnu.org/licenses/fdl.html" 
+      holder="Miguel de Icaza, Jody Goldberg, Thomas Canty, 
+      Jukka-Pekka Iivonen, Andreas J. Guelzow, Wayne Schuller, 
+      Adrian Custer, Kevin Breit, Aaron Weber, Alexander Kirillov"/>
   </resource>
 </omf>

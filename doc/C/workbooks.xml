@@ -1,0 +1,119 @@
+
+<sect1 id="sect-workbooks">
+  <title>Overview of the File Contents and Settings</title>
+
+  <para>
+    The contents of a <application>Gnumeric</application> file
+    describe all of the elements which can be changed by the
+    user. This sections examines all of the workbook contents which
+    are not part of the worksheets.
+  </para>
+
+  <para>
+    This chapter has not yet been written.
+  </para>
+
+</sect1>
+
+
+<sect1 id="sect-workbooks-docsummary">
+  <title>Document Summary</title>
+
+  <para>
+    A small amount of metadata is associated with each document. These
+    metadata describe the author of the document and other related
+    information.
+  </para>
+
+</sect1>
+
+
+
+
+<sect1 id="sect-workbooks-settings">
+  <title>Document Settings</title>
+
+  <para>
+    
+  </para>
+
+
+  <sect2 id="sect-workbooks-settings-printing">
+    <title>Document Printing Settings</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+  <sect2 id="sect-workbooks-settings-autosave">
+    <title>Document Autosave Settings</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+  <sect2 id="sect-workbooks-settings-autocorect">
+    <title>Document Autocorrection Settings</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+  <sect2 id="sect-workbooks-settings-view">
+    <title>Document View Settings</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+  <sect2 id="sect-workbooks-settings-protection">
+    <title>Document Protection Settings</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+  <sect2 id="sect-workbooks-settings-validation">
+    <title>Document Validation Settings</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+  <sect2 id="sect-workbooks-settings-recalculation">
+    <title>Document Recalculation Lag Settings</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+</sect1>
+
+
+
+
+<sect1 id="sect-workbooks-names">
+  <title>Document Named Elements</title>
+
+  <para>
+      
+  </para>
+
+</sect1>
+
+
+

@@ -1,44 +1,66 @@
 SUBDIRS = figures
 lang = C
 locale = C
-entities = 					\
-	analysis-tools.xml			\
-	appendix-glossary.xml			\
-	authors.xml				\
-	autocorrect.xml				\
-	autofill.xml				\
-	autosave.xml				\
-	cell_refer.xml				\
-	chapter-autofill.xml			\
-	chapter-getting-started.xml		\
-	copying-moving.xml			\
-	editing.xml				\
-	fdl-appendix.xml			\
-	files.xml				\
-	fill-series.xml				\
-	filter.xml				\
-	formulas.xml				\
-	func-footer.xml				\
-	func-header.xml				\
-	gnumeric.xml				\
-	graphs.xml				\
-	gui-elements.xml			\
-	license.xml				\
-	menus.xml				\
-	number-format.xml			\
-	preface.xml				\
-	printing.xml				\
-	scenarios.xml				\
-	selections.xml				\
-	shuffling.xml				\
-	simulation.xml				\
-	solver.xml				\
-	toolbars.xml				\
-	worksheet.xml				\
-	keybinding-appendix.xml
-#	introduction.xml			\
+omffile = gnumeric-C.omf
+entities =  about-authors.xml \
+     about-compiling.xml \
+     about-get-involved.xml \
+     about-history.xml \
+     about-license.xml \
+     analysis-complexNumbers.xml \
+     analysis-overview.xml \
+     analysis-simulation.xml \
+     analysis-solver.xml \
+     analysis-statistical.xml \
+     appendix-glossary.xml \
+     appendix-keybindings.xml \
+     configuration-localization.xml \
+     configuration-overview.xml \
+     configuration-plugins.xml \
+     configuration-preferences.xml \
+     configuration-toolbars.xml \
+     datasource.xml \
+     data-commentNlink.xml \
+     data-delete.xml \
+     data-insert.xml \
+     data-entry.xml \
+     data-format.xml \
+     data-modify.xml \
+     data-move-copy.xml \
+     data-overview.xml \
+     data-selections.xml \
+     data-types.xml \
+     extending-code.xml \
+     extending-functions.xml \
+     extending-overview.xml \
+     extending-plugins.xml \
+     extending-python.xml \
+     files-autosave.xml \
+     files-opening.xml \
+     files-overview.xml \
+     files-saving.xml \
+     gnumeric.xml \
+     graphics-drawings.xml \
+     graphics-images.xml \
+     graphics-overview.xml \
+     graphics-plots.xml \
+     gui-menus.xml \
+     gui-mouse.xml \
+     gui-other-elements.xml \
+     gui-overview.xml \
+     gui-toolbars.xml \
+     legal.xml \
+     manual-usage.xml \
+     morehelp.xml \
+     printing.xml \
+     quick-start.xml \
+     welcome.xml \
+     workbooks.xml \
+     worksheets.xml
 #	functions.xml	# added in gnumeric-doc.make
 
 EXTRA_DIST = gnumeric.1
 
 include $(top_srcdir)/doc/gnumeric-doc.make
+
+

@@ -1,0 +1,122 @@
+<sect1 id="sect-files-saving">
+    <title>Saving Files</title>
+    
+    <para>There are several ways to save a file that is currently
+      open. If the file has been named and already exists (i.e., it is not
+      a new worksheet) the Save function will save the file to the
+      existing name. </para>
+    
+    <para>The Save procedure can be invoked several ways. It is
+      available in the Menubar from the 
+      <guimenu><accel>F</accel>ile</guimenu>/
+      <guimenuitem><accel>S</accel>ave</guimenuitem> menuitem
+	 (see <xref linkend="File-Menu" />). There
+      is also a toolbar <guibutton>Save</guibutton> (see <xref
+      linkend="std-toolbar" />).  All these methods are equivalent.
+    </para>
+
+      <variablelist>
+	<title>Saving a file</title>
+      <varlistentry>
+	  <term>Menubar</term>
+	  <listitem>
+	    <para> 
+	      <guimenu><accel>F</accel>ile</guimenu>/
+	      <guimenuitem><accel>S</accel>ave</guimenuitem>
+ 	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    Standard Toolbar
+	  </term>
+	  <listitem>
+	    <para>
+	      <guiicon>
+		<inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-save.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the save button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+		Save
+	      </guiicon>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    Keyboard Shortcut
+	  </term>
+	  <listitem>
+	    <para>
+	      <keycombo action="seq">
+		<keycombo action="simul">
+		  <keycap>Alt</keycap><keycap>f</keycap>
+		</keycombo>
+		<keycap>s</keycap>
+	      </keycombo>
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+      
+    <para>To save new files, or to rename a file, the
+      <guimenuitem>Save As...</guimenuitem> is used. This will prompt
+      the user for a new filename and path for the file to be saved
+      as.
+    </para>
+    
+      <variablelist>
+	<title>Saving a file as..</title>
+	<varlistentry>
+	  <term>Menubar</term>
+	  <listitem>
+	    <para> 
+	      <guimenu><accel>F</accel>ile</guimenu>/
+	      <guimenuitem>S<accel>a</accel>ve as...</guimenuitem>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    Standard Toolbar
+	  </term>
+	  <listitem>
+	    <para>
+	      <guiicon>
+		<inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-save.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the save button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+		Save
+	      </guiicon>
+	      This calls <guimenuitem>Save as...</guimenuitem> for new unnamed files. 
+	      To rename a file, the menu
+	      or keyboard shortcut needs to be used.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    Keyboard Shortcut
+	  </term>
+	  <listitem>
+	    <para>
+	      <keycombo action="seq">
+		<keycombo action="simul">
+		  <keycap>Alt</keycap><keycap>f</keycap>
+		</keycombo>
+		<keycap>a</keycap>
+	      </keycombo>
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+</sect1>

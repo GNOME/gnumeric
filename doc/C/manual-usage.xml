@@ -1,0 +1,255 @@
+<!--
+    This is all in the top level to skip any chapter TOC. 
+-->
+
+  <para>
+    There are several ways to use this manual. The simplest is to read
+    sequentially through the manual. A quicker way to find the answer
+    to a particular question might be to read the explanation for the
+    organization of the manual which is presented below and then go
+    directly to that section. <!-- TODO: Alternatively, the text of
+    the manual can be searched by using the index. -->
+  </para>
+
+  <para>
+    The chapters of this version of the
+    <application>Gnumeric</application> manual are organized as
+    follows:
+
+    <!-- Note: keep this synched up with the chapter introductions
+         presented in gnumeric.xml -->
+    <itemizedlist>
+      <listitem>
+	<para>
+	  <xref linkend="chapter-quick-start" />: 
+              <guilabel>A Quick Introduction</guilabel>
+        </para>
+        <para>
+          This chapter of the manual explains the fundamentals of
+          spreadsheets in general and of
+          <application>Gnumeric</application> in particular. The
+          chapter attempts to help new users get started with
+          <application>Gnumeric</application> and provides background
+          for the more detailled explanations in the rest of the
+          manual.
+        </para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-gui-elements" />:
+              <guilabel>The Elements of Gnumeric</guilabel>
+        </para>
+        <para>
+          This chapter describes all of the pieces of
+          <application>Gnumeric</application> which a user can
+          manipulate. The chapter provides explanations for each of
+          the menus, menu entries, toolbar buttons and other elements
+          of the graphical user interface.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-data" />: 
+              <guilabel>Working with Data</guilabel>
+        </para>
+        <para>
+          This chapter explains the core functionality of
+          <application>Gnumeric</application> including the basic
+          types of data manipulated by
+          <application>Gnumeric</application>, the methods of
+          entering, manipulating and formating data, and the basic
+          tools for analysis of these data. More advanced analysis is
+          described in <xref linkend="chapter-advanced-analysis" />.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-advanced-analysis" />: 
+              <guilabel>Advanced Analysis</guilabel>
+        </para>
+        <para>
+          This chapter explains many of the advanced analytic tools
+          available in <application>Gnumeric</application> statistical
+          analysis, linear algebra calculations and simulation
+          analysis.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-datasource" />: 
+              <guilabel>Using External Data</guilabel>
+        </para>
+          
+        <para>
+          This chapter explains how to access and use data which are
+          stored outside of <application>Gnumeric</application>,
+          usually in databases.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-graphics" />: 
+              <guilabel>Graphics: Plots and Drawings</guilabel>
+        </para>
+        <para>
+          This chapter explains how to use
+          <application>Gnumeric</application> to add graphical
+          elements to a worksheet. Data plots allow users to create
+          charts of data in a worksheet including pie charts, bar and
+          column charts and scatterplots. Drawings allow users to add
+          simple graphical elements on top of a worksheet including
+          lines, arrows and simple polygons.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-worksheets" />: 
+              <guilabel>Manging and Viewing Worksheets</guilabel>
+        </para>
+        <para>
+          This chapter explains how to manage worksheets and
+          manipulate the view of the worksheet contents.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-workbooks" />: 
+              <guilabel>Workbook Settings</guilabel>
+        </para>
+        <para>
+          This chapter explains the contents of a
+          <application>Gnumeric</application> workbook which are not
+          part of the worksheets. This includes several settings which
+          apply to the workbook and are saved in the
+          <application>Gnumeric</application> file. Settings which
+          apply to the <application>Gnumeric</application> program
+          itself are called `preferences' and are explained in <xref
+          linkend="chapter-configuring" />.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-configuring" />: 
+              <guilabel>Configuring Gnumeric</guilabel>
+        </para>
+        <para>
+          This chapter explains how to change the default behaviour of
+          <application>Gnumeric</application> including the startup
+          behaviour and default locale (language and number display).
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-files" />: 
+              <guilabel>File Opening and Saving</guilabel>
+        </para>
+        <para>
+          This chapter explains how to use files in
+          <application>Gnumeric</application> including how to save
+          the current file, how to change the file format of saved
+          files and how to open files from a different format.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-printing" />: 
+              <guilabel>Printing</guilabel>
+        </para>
+        <para>
+          This chapter explains how to print spreadsheets, tables and
+          plots from <application>Gnumeric</application> to a printer
+          directly or into Postscript or PDF (both are page
+          description languages).
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-morehelp" />: 
+              <guilabel>Getting Help from Other Sources</guilabel>
+        </para>
+        <para>
+          This chapter describes other sources of help which are
+          available to users including the
+          <application>Gnumeric</application> web site, the mailing
+          list, and the internet relay chat (IRC) discussion
+          channel. The chapter also explains how to tell the project
+          about a problem with the program.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-extending" />: 
+              <guilabel>Extending Gnumeric</guilabel>
+        </para>
+        <para>
+          This chapter explains how to go about extending
+          <application>Gnumeric</application> to provide extra
+          functionality. Because <application>Gnumeric</application>
+          is Free Software this is quite easy to do.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-about" />: 
+              <guilabel>About Gnumeric</guilabel>
+        </para>
+        <para>
+          This chapter provides some background information on the
+          creation and distribution of
+          <application>Gnumeric</application>.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="function-reference" />: 
+              <guilabel>Function Reference</guilabel>
+        </para>
+        <para>
+          This appendix provides a list of all the functions which are
+          currently defined in <application>Gnumeric</application>.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="keybinding" />: 
+              <guilabel>Keybinding Reference</guilabel>
+        </para>
+        <para>
+          This appendix lists the keyboard shortcuts which are defined
+          by default in <application>Gnumeric</application>.
+	</para>
+      </listitem>
+
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="glossary" />: 
+              <guilabel>Glossary</guilabel>
+        </para>
+        <para>
+          This appendix defines certain terms used in this manual.
+	</para>
+      </listitem>
+-->
+
+    </itemizedlist>
+  </para>
+
+
+
+

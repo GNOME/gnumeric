@@ -1,0 +1,221 @@
+
+<sect1 id="sect-worksheets-overview">
+  <title>An Overview of Worksheets and Views</title>
+
+  <para>
+    Each workbook (or file) can contain multiple worksheets which hold
+    both the cell grid and graphical objects such as charts and
+    drawing elements. The collection of worksheets can be manipulated
+    allowing the addition, duplication, deletion and re-ordering of
+    worksheets within a workbook. <application>Gnumeric</application>
+    includes several techniques to work simultaneously with several
+    different views of the same workbook, to fix parts of a worksheet
+    and scroll others or to group data within a worksheet for
+    convinient editing and analysis.
+  </para>
+
+  <para>
+    This chapter has not yet been written.
+  </para>
+
+</sect1>
+
+
+<sect1 id="sect-worksheets-colrow">
+  <title>Manipulating Whole Columns and Rows</title>
+
+  <para>
+    This section has not yet been written.
+  </para>
+
+  <sect2 id="sect-worksheets-column">
+    <title>Manipulating Columns</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+   </sect2>
+
+
+  <sect2 id="sect-worksheets-row">
+    <title>Manipulating Rows</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+   </sect2>
+
+
+</sect1>
+
+
+
+
+<sect1 id="sect-worksheets-managing">
+  <title>Managing Worksheets</title>
+
+  <para>
+   
+  </para>
+
+  <para>
+    This section has not yet been written.
+  </para>
+
+  <sect2 id="sect-worksheets-managing-dialog">
+    <title>The Sheet Management Dialog</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+  <sect2 id="sect-worksheets-managing-duplicating">
+    <title>Duplicating a Worksheet</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+
+  <sect2 id="sect-worksheets-managing-adding">
+    <title>Adding a Blank Worksheet</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+
+  <sect2 id="sect-worksheets-managing-renaming">
+    <title>Renaming a Worksheet</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+  <sect2 id="sect-worksheets-managing-removing">
+    <title>Removing Worksheets</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+    <warning>
+      <para>
+        This operation cannot be undone through the undo button and
+        the history mechanism. Deleted sheets are permanently deleted.
+      </para>
+    </warning>
+
+  </sect2>
+
+
+</sect1>
+
+<sect1 id="sect-worksheets-viewing">
+  <title>Viewing Worksheet Contents</title>
+
+  <para>
+   
+  </para>
+
+  <para>
+    This section has not yet been written.
+  </para>
+
+
+  <sect2 id="sect-worksheets-viewing-zoom">
+    <title>Zoom: Changing the Scale of a View</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+
+  <sect2 id="sect-worksheets-viewing-goto">
+    <title>Moving the View</title>
+
+  <!-- Goto Cell -->
+  <!-- Scrolling -->
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+
+
+  <sect2 id="sect-worksheets-viewing-multiple">
+    <title>Having Multiple Views of a Worksheet</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+    <sect3 id="sect-worksheets-viewing-multiple-location">
+      <title>The location of new views</title>
+
+      <para>
+        This section has not yet been written.
+      </para>
+
+    </sect3>
+
+
+    <sect3 id="sect-worksheets-viewing-multiple-sharing">
+      <title>View sharing</title>
+
+      <para>
+        This section has not yet been written.
+      </para>
+
+    </sect3>
+
+
+  </sect2>
+
+
+
+
+  <sect2 id="sect-worksheets-viewing-freezepanes">
+    <title>Freezing a Portion of a Worksheet View</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+
+  </sect2>
+
+
+
+
+  <sect2 id="sect-worksheets-viewing-group">
+    <title>Grouping and Outlining Cells in a Worksheet</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+
+</sect1>
