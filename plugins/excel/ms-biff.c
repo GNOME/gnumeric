@@ -305,7 +305,7 @@ skip_bytes (BiffQuery *q, int start, int count)
  * ms_biff_query_set_decrypt :
  * @q :
  * @password : password in UTF-8 encoding.
- */
+ **/
 gboolean
 ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
 			   char const *password)
@@ -336,6 +336,24 @@ ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
 	skip_bytes (q, 0, gsf_input_tell (q->input));
 
 	return TRUE;
+}
+void
+ms_biff_query_copy_decrypt (BiffQuery *dst, BiffQuery const *src)
+{
+	g_return_if_fail (dst != NULL);
+	g_return_if_fail (src != NULL);
+
+#warning FINISH this
+	switch (src->encryption) {
+	default :
+	case MS_BIFF_CRYPTO_NONE:
+		g_return_if_fail (dst->encryption == MS_BIFF_CRYPTO_NONE);
+		break;
+	case MS_BIFF_CRYPTO_XOR :
+		break;
+	case MS_BIFF_CRYPTO_RC4 :
+		break;
+	};
 }
 
 BiffQuery *

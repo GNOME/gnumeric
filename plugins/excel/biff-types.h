@@ -177,15 +177,15 @@
 #define BIFF_TIPHISTORY			0x0c4	/* Undocumented */
 #define BIFF_SXDI			0x0c5
 #define BIFF_SXDB			0x0c6
-#define BIFF_SXFDB			0x0c7	/* Undocumented */
-#define BIFF_SXDDB			0x0c8	/* Undocumented */
-#define BIFF_SXNUM			0x0c9	/* Undocumented */
-#define BIFF_SXBOOL			0x0ca	/* Undocumented */
-#define BIFF_SXERR			0x0cb	/* Undocumented */
-#define BIFF_SXINT			0x0cc	/* Undocumented */
+#define BIFF_SXFDB			0x0c7	/* guessed */
+#define BIFF_SXDDB			0x0c8	/* guessed */
+#define BIFF_SXNUM			0x0c9	/* guessed */
+#define BIFF_SXBOOL			0x0ca	/* guessed */
+#define BIFF_SXERR			0x0cb	/* guessed */
+#define BIFF_SXINT			0x0cc	/* guessed */
 #define BIFF_SXSTRING			0x0cd
-#define BIFF_SXDTR			0x0ce	/* Undocumented */
-#define BIFF_SXNIL			0x0cf	/* Undocumented */
+#define BIFF_SXDTR			0x0ce	/* guessed */
+#define BIFF_SXNIL			0x0cf	/* guessed */
 #define BIFF_SXTBL			0x0d0
 #define BIFF_SXTBRGIITM			0x0d1
 #define BIFF_SXTBPG			0x0d2
@@ -193,6 +193,7 @@
 #define BIFF_SXIDSTM			0x0d5
 #define BIFF_RSTRING			0x0d6
 #define BIFF_DBCELL			0x0d7
+#define BIFF_SXNUMGROUP			0x0d8	/* from OO : numerical grouping in pivot cache field */
 #define BIFF_BOOKBOOL			0x0da
 #define BIFF_PARAMQRY			0x0dc	/* DUPLICATE dc */
 #define BIFF_SXEXT			0x0dc	/* DUPLICATE dc */
@@ -203,7 +204,7 @@
 #define BIFF_INTERFACEHDR		0x0e1
 #define BIFF_INTERFACEEND		0x0e2
 #define BIFF_SXVS			0x0e3
-#define BIFF_MERGECELLS			0x0e5	/* Undocumented */
+#define BIFF_MERGECELLS			0x0e5	/* guessed */
 #define BIFF_BG_PIC			0x0e9	/* Undocumented */
 #define BIFF_TABIDCONF			0x0ea
 #define BIFF_MS_O_DRAWING_GROUP		0x0eb

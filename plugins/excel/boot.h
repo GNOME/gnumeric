@@ -13,6 +13,7 @@
 #include <glib.h>
 
 extern gint ms_excel_read_debug;
+extern gint ms_excel_pivot_debug;
 extern gint ms_excel_escher_debug;
 extern gint ms_excel_formula_debug;
 extern gint ms_excel_chart_debug;

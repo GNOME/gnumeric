@@ -19,10 +19,7 @@
  * USA
  **/
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
-#include <glib/gstdio.h>
 #include <gnumeric.h>
-#include <string.h>
 
 #include "boot.h"
 #include "ms-formula-read.h"
@@ -32,6 +29,7 @@
 #include "ms-escher.h"
 #include "ms-excel-util.h"
 #include "ms-excel-xf.h"
+#include "ms-pivot.h"
 
 #include <workbook.h>
 #include <workbook-view.h>
@@ -69,6 +67,9 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-utils.h>
+#include <glib/gi18n.h>
+#include <glib/gstdio.h>
+#include <string.h>
 #include <locale.h>
 
 #undef G_LOG_DOMAIN
@@ -6045,6 +6046,9 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		/* check here in case any of the handlers read additional records */
 		prev_was_eof = (q->opcode == BIFF_EOF);
 	}
+
+	excel_read_pivot_caches (ewb, q, gsf_input_container (input));
+
 	ms_biff_query_destroy (q);
 	if (ver)
 		ms_biff_bof_data_destroy (ver);

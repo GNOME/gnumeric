@@ -46,17 +46,12 @@ GNM_PLUGIN_MODULE_HEADER;
  * 1 = enable experimental features
  * >1 increasing levels of detail.
  */
-/* Enables debugging mesgs while reading excel workbooks */
 gint ms_excel_read_debug = 0;
-/* Enables debugging mesgs while reading parsing escher streams */
+gint ms_excel_pivot_debug = 10;
 gint ms_excel_escher_debug = 0;
-/* Enables debugging mesgs while reading excel functions */
 gint ms_excel_formula_debug = 0;
-/* Enables debugging mesgs while reading excel charts */
 gint ms_excel_chart_debug = 0;
-/* Enables debugging mesgs while writing excel workbooks */
 gint ms_excel_write_debug = 0;
-/* Enables debugging mesgs while reading excel objects */
 gint ms_excel_object_debug = 0;
 
 gboolean excel_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl);

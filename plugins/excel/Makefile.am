@@ -39,6 +39,8 @@ excel_la_SOURCES =		\
 	ms-obj.h		\
 	ms-chart.h		\
 	ms-chart.c		\
+	ms-pivot.h		\
+	ms-pivot.c		\
 	rc4.c			\
 	rc4.h			\
 	crypt-md4.c		\

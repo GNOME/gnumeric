@@ -1,3 +1,12 @@
+2005-03-23  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_workbook) : add a hook to read pivot
+	  table caches.  It doesn't do much yet, but it's a start.
+	* ms-biff.c (ms_biff_query_copy_decrypt) : new TODO
+	* boot.c : Add a debug hook for pivots, and remove pointless comments
+	* biff-types.h : update for the pivot table and cache elements
+	* Makefile.am : Add ms-pivot.[ch]
+
 2005-03-23  Morten Welinder  <terra@gnome.org>
 
 	* ms-escher.c (ms_escher_read_OPT): Use g_fopen, not fopen.

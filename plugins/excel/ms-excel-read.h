@@ -117,7 +117,7 @@ struct _ExcelWorkbook {
 
 	ExprTreeSharer   *expr_sharer;
 
-	Workbook            *gnum_wb;
+	Workbook         *gnum_wb;
 };
 
 char     *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length,
