@@ -3,7 +3,7 @@
  * workbook-edit.c: Keeps track of the cell editing process.
  *
  * Author:
- *   Miguel de Icaza (miguel@helixcode.com)
+ *   Miguel de Icaza (miguel@ximian.com)
  *   Jody Goldberg (jody@gnome.org)
  *
  * (C) 2000-2001 Ximian, Inc.
