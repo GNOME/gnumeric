@@ -1481,6 +1481,14 @@ cmd_sort_destroy (GtkObject *cmd)
 	CmdSort *me = CMD_SORT (cmd);
 
 	sort_clause_destroy (me->clauses);
+	if (me->data) {
+		g_free (me->data);
+		me->data = NULL;
+	}
+	if (me->range) {
+		g_free (me->range);
+		me->range = NULL;
+	}
 		
 	gnumeric_command_destroy (cmd);
 }

@@ -6,6 +6,7 @@
 
 	* src/commands.c (cmd_set_date_time_{undo,redo}) : Mark the changed cell for
 	  status update.
+	(cmd_sort_destroy) : Leaks.
 
 	* src/Makefile.am (INCLUDES) : Remove extra '/' at end.
 
