@@ -1,80 +1,103 @@
 <Root>
     <commands>
-	<cmd name="FileNew" _label="_New"
+	<cmd name="FileNew"
+	    _label="_New"
 	    _tip="Create a new spreadsheet"
 	    pixtype="stock" pixname="New"/>
-	<cmd name="FileOpen" _label="_Open"
+	<cmd name="FileOpen"
+	    _label="_Open"
 	    _tip="Open a spreadsheet"
 	    pixtype="stock" pixname="Open"
 	    accel="F3"/>
-	<cmd name="FileImport"	_label="Import..."
+	<cmd name="FileImport"
+	    _label="Import..."
 	    _tip="Imports a file"
 	    pixtype="stock" pixname="Open"/>
-	<cmd name="FileSave" _label="Save"
+	<cmd name="FileSave"
+	    _label="Save"
 	    _tip="Save the current file"
 	    pixtype="stock" pixname="Save"
 	    accel="*Control*s"/>
-	<cmd name="FileSaveAs" _label="Save As"
+	<cmd name="FileSaveAs"
+	    _label="Save As"
 	    _tip="Save the current file with a different name"
 	    pixtype="stock" pixname="Save As"/>
 
-	<cmd name="FilePrintSetup" _label="Print S_etup"
+	<cmd name="FilePrintSetup"
+	    _label="Print S_etup"
 	    _tip="Setup the page settings for your current printer"
 	    pixtype="stock" pixname="Print"/>
-	<cmd name="FilePrint" _label="_Print"
+	<cmd name="FilePrint"
+	    _label="_Print"
 	    _tip="Print the current file"
 	    pixtype="stock" pixname="Print"/>
-	<cmd name="FilePrintPreview" _label="Print Pre_view"
+	<cmd name="FilePrintPreview"
+	    _label="Print Pre_view"
 	    _tip="Print preview"
 	    pixtype="stock" pixname="Gnumeric_PrintPreview"/>
 
-	<cnd name="FileSummary" _label="Su_mmary..."
+	<cmd name="FileSummary"
+	    _label="Su_mmary..."
 	    _tip="Summary information"/>
 
-	<cmd name="FileClose" _label="Close"
+	<cmd name="FileClose"
+	    _label="Close"
 	    _tip="Close the current file"
 	    pixtype="stock" pixname="Close"
 	    accel="*Control*w"/>
-	<cmd name="FileExit" _label="E_xit"
+	<cmd name="FileExit"
+	    _label="E_xit"
 	    _tip="Exit the program"
 	    pixtype="stock" pixname="Exit"
 	    accel="*Control*q"/>
 
-	<cmd name="EditUndo" _label="_Undo"
+	<cmd name="EditUndo"
+	    _label="_Undo"
 	    _tip="Undo the last action"
 	    pixtype="stock" pixname="Undo"
 	    accel="*Control*z"/>
-	<cmd name="EditRedo" _label="_Redo"
+	<cmd name="EditRedo"
+	    _label="_Redo"
 	    _tip="Redo the undone action"
 	    pixtype="stock" pixname="Redo"
 	    accel="*Control*r"/>
 
-	<cmd name="EditCut" _label="Cu_t"
+	<cmd name="EditCut"
+	    _label="Cu_t"
 	    _tip="Cut the selection"
 	    pixtype="stock" pixname="Cut"
 	    accel="*Control*x"/>
-	<cmd name="EditCopy" _label="_Copy"
+	<cmd name="EditCopy"
+	    _label="_Copy"
 	    _tip="Copy the selection"
 	    pixtype="stock" pixname="Copy"
 	    accel="*Control*c"/>
-	<cmd name="EditPaste" _label="_Paste"
+	<cmd name="EditPaste"
+	    _label="_Paste"
 	    _tip="Paste the clipboard"
 	    pixtype="stock" pixname="Paste"
 	    accel="*Control*v"/>
-	<cmd name="EditPasteSpecial" _label="Paste _Special..."
+	<cmd name="EditPasteSpecial"
+	    _label="Paste _Special..."
 	    _tip="Paste with optional filters and transformations"
 	    pixtype="stock" pixname="Paste"/>
 
-	<cmd name="EditClearAll" _label="_All"
+	<cmd name="EditClearAll"
+	    _label="_All"
 	    _tip="Clear the selected cells' formats, comments, and contents"/>
-	<cmd name="EditClearFormats" _label="_Formats"
+	<cmd name="EditClearFormats"
+	    _label="_Formats"
 	    _tip="Clear the selected cells' formats"/>
-	<cmd name="EditClearComments" _label="Co_mments"
+	<cmd name="EditClearComments"
+	    _label="Co_mments"
 	    _tip="Clear the selected cells' comments"/>
-	<cmd name="EditClearContent" _label="_Content"
+	<cmd name="EditClearContent"
+	    _label="_Content"
 	    _tip="Clear the selected cells' contents"/>
 
-	<cmd name="HelpAbout" _label="About..." _tip="About this application"
+	<cmd name="HelpAbout"
+	    _label="About..."
+	    _tip="About this application"
 	    pixtype="stock" pixname="About"/>
     </commands>
 
@@ -122,31 +145,36 @@
 		<menuitem name="EditClearContent" verb=""/>
 	    </submenu>
 
-	    <menuitem name="EditDelete" verb="" _label="_Delete..."
-			_tip="Remove selected cells, shifting others into their place"/>
+	    <menuitem name="EditDelete" verb=""
+		_label="_Delete..."
+		_tip="Remove selected cells, shifting others into their place"/>
 
 	    <menuitem name="EditDeleteSheet" verb=""
-	    _label="De_lete Sheet"
-	    _tip="Irrevocably remove an entire sheet"/>
+		_label="De_lete Sheet"
+		_tip="Irrevocably remove an entire sheet"/>
 
 	    <separator/>
 
 	    <submenu name="Select" _label="_Select...">
 
 		<menuitem name="EditSelectAll" verb=""
-		    _label="Select _All" accel="*Control*a"
+		    _label="Select _All"
+		    accel="*Control*a"
 		    _tip="Select all cells in the spreadsheet"/>
 
 		<menuitem name="EditSelectRow" verb=""
-		    _label="Select _Row" accel="*Shift* "
+		    _label="Select _Row"
+		    accel="*Shift* "
 		    _tip="Select an entire row"/>
 
 		<menuitem name="EditSelectColumn" verb=""
-		    _label="Select _Column" accel="*Control* "
+		    _label="Select _Column"
+		    accel="*Control* "
 		    _tip="Select an entire column"/>
 
 		<menuitem name="EditSelectArray" verb=""
-		    _label="Select Arra_y" accel="*Control*/"
+		    _label="Select Arra_y"
+		    accel="*Control*/"
 		    _tip="Select an array of cells"/>
 
 		<menuitem name="EditSelectDepends" verb=""
@@ -161,48 +189,58 @@
 
 	    <menuitem name="EditRecalc" verb=""
 		_label="_Recalculate"
-		_tip="Recalculate the spreadsheet" accel="F9"/>
+		_tip="Recalculate the spreadsheet"
+		accel="F9"/>
 
 	    <placeholder name="ops"/>
 
 	</submenu>
 
 	<submenu name="View" _label="_View">
-	    <menuitem name="ViewZoom" verb="" _label="_Zoom..."
+	    <menuitem name="ViewZoom" verb=""
+		_label="_Zoom..."
 		_tip="Zoom the spreadsheet in or out"/>
 
-	    <menuitem name="ViewNewShared" verb="" _label="New _Shared"
+	    <menuitem name="ViewNewShared" verb=""
+		_label="New _Shared"
 		_tip="Create a new shared view of the workbook"/>
 
-	    <menuitem name="ViewNewUnshared" verb="" _label="New _Unshared"
+	    <menuitem name="ViewNewUnshared" verb=""
+		_label="New _Unshared"
 		_tip="Create a new unshared view of the workbook"/>
 	</submenu>
 
 	<submenu name="Insert" _label="_Insert">
 
 	    <menuitem name="InsertSheet" verb=""
-		_label="_Sheet" _tip="Insert a new spreadsheet"/>
+		_label="_Sheet"
+		_tip="Insert a new spreadsheet"/>
 
 	    <menuitem name="InsertRows" verb=""
 		pixtype="stock" pixname="Gnumeric_RowAdd"
-		_label="_Rows" _tip="Insert new rows"/>
+		_label="_Rows"
+		_tip="Insert new rows"/>
 
 	    <menuitem name="InsertColumns" verb=""
 		pixtype="stock" pixname="Gnumeric_ColumnAdd"
-		_label="_Columns" _tip="Insert new columns"/>
+		_label="_Columns"
+		_tip="Insert new columns"/>
 
 	    <menuitem name="InsertCells" verb=""
-		_label="_Cells" _tip="Insert new cells"/>
+		_label="_Cells"
+		_tip="Insert new cells"/>
 
 	    <menuitem name="InsertObject" verb=""
 		pixtype="stock" pixname="Gnumeric_InsertShapedComponent"
-		_label="_Object" _tip="Inserts a Bonobo object"/>
+		_label="_Object"
+		_tip="Inserts a Bonobo object"/>
 
 	    <separator/>
 
 	    <submenu name="Names" _label="_Name">
 		<menuitem name="Define" verb="EditNames"
-		    _label="_Define" _tip="Edit sheet and workbook names"/>
+		    _label="_Define"
+		    _tip="Edit sheet and workbook names"/>
 	    </submenu>
 
 	    <menuitem name="InsertComment" verb=""
@@ -383,40 +421,56 @@
     <dockitem name="StandardToolbar" behavior="exclusive" homogeneous="0"
 	band_num="1" look="icon" relief="none">
 
-	<toolitem name="New" pixtype="stock" pixname="New"
-	    _label="New" _tip="Create a new workbook"
+	<toolitem name="New"
+	    pixtype="stock" pixname="New"
+	    _label="New"
+	     _tip="Create a new workbook"
 	    verb="FileNew"/>
 
-	<toolitem name="Open" pixtype="stock" pixname="Open"
-	    _label="Open" _tip="Open an existing workbook"
+	<toolitem name="Open"
+	    pixtype="stock" pixname="Open"
+	    _label="Open"
+	    _tip="Open an existing workbook"
 	    verb="FileOpen"/>
 
-	<toolitem name="Save" pixtype="stock" pixname="Save"
-	    _label="Save" _tip="Save the current workbook"
+	<toolitem name="Save"
+	    pixtype="stock" pixname="Save"
+	    _label="Save"
+	    _tip="Save the current workbook"
 	    verb="FileSave"/>
 
 	<separator/>
 
-	<toolitem name="Print" pixtype="stock" pixname="Print"
-	    _label="Print" _tip="Print the workbook"
+	<toolitem name="Print"
+	    pixtype="stock" pixname="Print"
+	    _label="Print"
+	    _tip="Print the workbook"
 	    verb="FilePrint"/>
 
-	<toolitem name="PrintPreview" pixtype="stock" pixname="Gnumeric_PrintPreview"
-	    _label="Print Preview" _tip="Print preview"
+	<toolitem name="PrintPreview"
+	    pixtype="stock" pixname="Gnumeric_PrintPreview"
+	    _label="Print Preview"
+	    _tip="Print preview"
 	    verb="FilePrintPreview"/>
 
 	<separator/>
 
-	<toolitem name="Cut" pixtype="stock" pixname="Cut"
-	    _label="Cut" _tip="Mark the current selection for movement"
+	<toolitem name="Cut"
+	    pixtype="stock" pixname="Cut"
+	    _label="Cut"
+	    _tip="Mark the current selection for movement"
 	    verb="EditCut"/>
 
-	<toolitem name="Copy" pixtype="stock" pixname="Copy"
-	    _label="Copy" _tip="Copy the current selection to the clipboard"
+	<toolitem name="Copy"
+	    pixtype="stock" pixname="Copy"
+	    _label="Copy"
+	    _tip="Copy the current selection to the clipboard"
 	    verb="EditCopy"/>
 
-	<toolitem name="Paste" pixtype="stock" pixname="Paste"
-	    _label="Paste" _tip="Paste the contents of the clipboard or cut buffer"
+	<toolitem name="Paste"
+	    pixtype="stock" pixname="Paste"
+	    _label="Paste"
+	    _tip="Paste the contents of the clipboard or cut buffer"
 	    verb="EditPaste"/>
 
 	<separator/>
@@ -427,34 +481,48 @@
 
 	<separator/>
 
-	<toolitem name="Sum" pixtype="stock" pixname="Gnumeric_AutoSum"
-	    _label="Sum" _tip="Sum into the current cell"
+	<toolitem name="Sum"
+	    pixtype="stock" pixname="Gnumeric_AutoSum"
+	    _label="Sum"
+	    _tip="Sum into the current cell"
 	    verb="AutoSum"/>
 
-	<toolitem name="FunctionGuru" pixtype="stock" pixname="Gnumeric_FormulaGuru"
-	    _label="Function Guru" _tip="Edit a formula in the current cell"
+	<toolitem name="FunctionGuru"
+	    pixtype="stock" pixname="Gnumeric_FormulaGuru"
+	    _label="Function Guru"
+	    _tip="Edit a formula in the current cell"
 	    verb="FunctionGuru"/>
 
-	<toolitem name="SortAscending" pixtype="stock" pixname="Gnumeric_SortAscending"
-	    _label="Sort Ascending" _tip="Sort the selected region in ascending order based on the first column selected"
+	<toolitem name="SortAscending"
+	    pixtype="stock" pixname="Gnumeric_SortAscending"
+	    _label="Sort Ascending"
+	    _tip="Sort the selected region in ascending order based on the first column selected"
 	    verb="SortAscending"/>
 
-	<toolitem name="SortDescending" pixtype="stock" pixname="Gnumeric_SortDescending"
-	    _label="Sort Descending" _tip="Sort the selected region in descending order based on the first column selected"
+	<toolitem name="SortDescending"
+	    pixtype="stock" pixname="Gnumeric_SortDescending"
+	    _label="Sort Descending"
+	    _tip="Sort the selected region in descending order based on the first column selected"
 	    verb="SortDescending"/>
 
 	<separator/>
 
-	<toolitem name="GraphGuru" pixtype="stock" pixname="Gnumeric_GraphGuru"
-	    _label="Graph Guru" _tip="Invoke the graph guru to create a graph"
+	<toolitem name="GraphGuru"
+	    pixtype="stock" pixname="Gnumeric_GraphGuru"
+	    _label="Graph Guru"
+	    _tip="Invoke the graph guru to create a graph"
 	    verb="GraphGuru" behavior="pack-end"/>
 
-	<toolitem name="InsertComponent" pixtype="stock" pixname="Gnumeric_InsertComponent"
-	    _label="Insert Component" _tip="Insert an object into the spreadsheet"
+	<toolitem name="InsertComponent"
+	    pixtype="stock" pixname="Gnumeric_InsertComponent"
+	    _label="Insert Component"
+	    _tip="Insert an object into the spreadsheet"
 	    verb="InsertComponent" behavior="pack-end"/>
 
-	<toolitem name="InsertShapedComponent" pixtype="stock" pixname="Gnumeric_InsertShapedComponent"
-	    _label="Insert Shaped Component" _tip="Insert a shaped component into the spreadsheet"
+	<toolitem name="InsertShapedComponent"
+	    pixtype="stock" pixname="Gnumeric_InsertShapedComponent"
+	    _label="Insert Shaped Component"
+	    _tip="Insert a shaped component into the spreadsheet"
 	    verb="InsertShapedComponent" behavior="pack-end"/>
 
 	<control name="SheetZoom"
@@ -465,74 +533,103 @@
     <dockitem name="FormatToolbar" band_num="2" behavior="exclusive"
 	homogeneous="0" look="icon" relief="none">
 
-	<control name="FontName"  _tip="Font selector"
-	    vdisplay="button" verb="FontSelect" pixtype="stock"
-	    pixname="Font" _label="Font"/>
+	<control name="FontName"
+	    _tip="Font selector"
+	    vdisplay="button" verb="FontSelect"
+	    pixtype="stock" pixname="Font"
+	    _label="Font"/>
 
 	<control name="FontSize" _tip="Font Size" vdisplay="none"/>
 
-	<toolitem type="toggle" name="FontBold" pixtype="stock" pixname="Bold"
-	    label="Bold" _tip="Make font bold"
+	<toolitem type="toggle" name="FontBold"
+	    pixtype="stock" pixname="Bold"
+	    _label="Bold"
+	    _tip="Make font bold"
 	    _accel="*Control*b"
 	    verb="FontBold"/>
 
-	<toolitem name="FontItalic" pixtype="stock" pixname="Italic"
-	    _label="Italicize" _tip="Makes font italic"
+	<toolitem name="FontItalic"
+	    pixtype="stock" pixname="Italic"
+	    _label="Italicize"
+	    _tip="Makes font italic"
 	    _accel="*Control*i"
 	    verb="FontItalic"/>
 
-	<toolitem name="FontUnderline" pixtype="stock" pixname="Underline"
-	    _label="Underline" _tip="Underlines the text"
+	<toolitem name="FontUnderline"
+	    pixtype="stock" pixname="Underline"
+	    _label="Underline"
+	    _tip="Underlines the text"
 	    _accel="*Control*u"
 	    verb="FontUnderline"/>
 
 	<separator/>
 
-	<toolitem type="toggle" name="Left" pixtype="stock" pixname="Left"
-	    _label="Left" _tip="Left justifies the contents of each cell"
+	<toolitem type="toggle" name="Left"
+	    pixtype="stock" pixname="Left"
+	    _label="Left"
+	    _tip="Left justifies the contents of each cell"
 	    verb="AlignLeft"/>
 
-	<toolitem type="toggle" name="Center" pixtype="stock" pixname="Center"
-	    _label="Center" _tip="Centers the text in each selection"
+	<toolitem type="toggle" name="Center"
+	    pixtype="stock" pixname="Center"
+	    _label="Center"
+	    _tip="Centers the text in each selection"
 	    verb="AlignCenter"/>
 
-	<toolitem type="toggle" name="Right" pixtype="stock" pixname="Right"
-	    _label="Right" _tip="Right justifies the contents of each cell"
+	<toolitem type="toggle" name="Right"
+	    pixtype="stock" pixname="Right"
+	    _label="Right"
+	    _tip="Right justifies the contents of each cell"
 	    verb="AlignRight"/>
 
 	<toolitem type="toggle" name="CenterAcrossSelection"
 	    pixtype="stock" pixname="Gnumeric_CenterAcrossSelection"
-	    _label="CenterAcrossSelection" _tip="Centers across the selected cells"
+	    _label="CenterAcrossSelection"
+	    _tip="Centers across the selected cells"
 	    verb="CenterAcrossSelection"/>
 
-	<toolitem name="Merge" pixtype="stock" pixname="Gnumeric_MergeCells"
-	    _label="Merge" _tip="Merge a range of cells"
+	<toolitem name="Merge"
+	    pixtype="stock" pixname="Gnumeric_MergeCells"
+	    _label="Merge"
+	    _tip="Merge a range of cells"
 	    verb="FormatMergeCells"/>
 
-	<toolitem name="Unmerge" pixtype="stock" pixname="Gnumeric_SplitCells"
-	    _label="Split" _tip="Split merged ranges of cells"
+	<toolitem name="Unmerge"
+	    pixtype="stock" pixname="Gnumeric_SplitCells"
+	    _label="Split"
+	    _tip="Split merged ranges of cells"
 	    verb="FormatUnmergeCells"/>
 
 	<separator/>
 
-	<toolitem name="Money" pixtype="stock" pixname="Gnumeric_FormatAsMoney"
-	    _label="Money" _tip="Format the selected cells as money"
+	<toolitem name="Money"
+	    pixtype="stock" pixname="Gnumeric_FormatAsMoney"
+	    _label="Money"
+	    _tip="Format the selected cells as money"
 	    verb="FormatAsMoney"/>
 
-	<toolitem name="Percent" pixtype="stock" pixname="Gnumeric_FormatAsPercent"
-	    _label="Percent" _tip="Format the selected cells as percentages"
+	<toolitem name="Percent"
+	    pixtype="stock" pixname="Gnumeric_FormatAsPercent"
+	    _label="Percent"
+	    _tip="Format the selected cells as percentages"
 	    verb="FormatAsPercent"/>
 
-	<toolitem name="Thousands" pixtype="stock" pixname="Gnumeric_FormatThousandSeperator"
-	    _label="Right" _tip="Includes a thousands seperator in the selected cells"
+	<toolitem name="Thousands"
+	    pixtype="stock" pixname="Gnumeric_FormatThousandSeperator"
+	    _label="Right"
+	    _tip="Includes a thousands seperator in the selected cells"
 	    verb="FormatWithThousands"/>
 
-	<toolitem name="IncreasePrecision" pixtype="stock" pixname="Gnumeric_FormatAddPrecision"
-	    _label="Increase Precision" _tip="Increase the preceision of the selected cells"
+	<toolitem name="IncreasePrecision"
+	    pixtype="stock" pixname="Gnumeric_FormatAddPrecision"
+	    _label="Increase Precision"
+	    _tip="Increase the preceision of the selected cells"
 	    verb="FormatIncreasePrecision"/>
 
-	<toolitem name="DecreasePrecision" pixtype="stock" pixname="Gnumeric_FormatRemovePrecision"
-	    _label="Decrease Precision" _tip="Decrease the preceision of the selected cells"
+	<toolitem name="DecreasePrecision"
+	    pixtype="stock" pixname="Gnumeric_FormatRemovePrecision"
+	    _label="Decrease Precision"
+	    _tip="Decrease the preceision of the selected cells"
 	    verb="FormatDecreasePrecision"/>
 
 	<separator/>
@@ -547,39 +644,61 @@
     <dockitem name="ObjectToolbar" band_num="2" placement="left"
 	homogeneous="0" look="icon" relief="none">
 
-	<toolitem name="Label" pixtype="stock" pixname="Gnumeric_Label"
+	<toolitem name="Label"
+	    pixtype="stock" pixname="Gnumeric_Label"
 	    look="icon"
-	    _label="Label" _tip="Create a label" verb="CreateLabel"/>
+	    _label="Label"
+	    _tip="Create a label" verb="CreateLabel"/>
 
-	<toolitem name="Frame" pixtype="stock" pixname="Gnumeric_Frame"
-	    _label="Frame" _tip="Create a frame" verb="CreateFrame"/>
+	<toolitem name="Frame"
+	    pixtype="stock" pixname="Gnumeric_Frame"
+	    _label="Frame"
+	    _tip="Create a frame" verb="CreateFrame"/>
 
-	<toolitem name="Frame" pixtype="stock" pixname="Gnumeric_Button"
-	    _label="Button" _tip="Create a button" verb="CreateButton"/>
+	<toolitem name="Frame"
+	    pixtype="stock" pixname="Gnumeric_Button"
+	    _label="Button"
+	    _tip="Create a button" verb="CreateButton"/>
 
-	<toolitem name="Frame" pixtype="stock" pixname="Gnumeric_Checkbutton"
-	    _label="Checkbox" _tip="Create a checkbox" verb="CreateCheckbox"/>
+	<toolitem name="Frame"
+	    pixtype="stock" pixname="Gnumeric_Checkbutton"
+	    _label="Checkbox"
+	    _tip="Create a checkbox" verb="CreateCheckbox"/>
 
-	<toolitem name="Frame" pixtype="stock" pixname="Gnumeric_Radiobutton"
-	    _label="Radio Button" _tip="Create a radio button" verb="CreateRadiobutton"/>
+	<toolitem name="Frame"
+	    pixtype="stock" pixname="Gnumeric_Radiobutton"
+	    _label="Radio Button"
+	    _tip="Create a radio button" verb="CreateRadiobutton"/>
 
-	<toolitem name="List" pixtype="stock" pixname="Gnumeric_List"
-	    _label="List" _tip="Create a list" verb="CreateList"/>
+	<toolitem name="List"
+	    pixtype="stock" pixname="Gnumeric_List"
+	    _label="List"
+	    _tip="Create a list" verb="CreateList"/>
 
-	<toolitem name="Combo" pixtype="stock" pixname="Gnumeric_Combo"
-	    _label="Combo Box" _tip="Create a combo box" verb="CreateCombobox"/>
+	<toolitem name="Combo"
+	    pixtype="stock" pixname="Gnumeric_Combo"
+	    _label="Combo Box"
+	    _tip="Create a combo box" verb="CreateCombobox"/>
 
-	<toolitem name="Line" pixtype="stock" pixname="Gnumeric_Line"
-	    _label="Line" _tip="Create a line" verb="CreateLine"/>
+	<toolitem name="Line"
+	    pixtype="stock" pixname="Gnumeric_Line"
+	    _label="Line"
+	    _tip="Create a line" verb="CreateLine"/>
 
-	<toolitem name="Arrow" pixtype="stock" pixname="Gnumeric_Arrow"
-	    _label="Arrow" _tip="Create a frame" verb="CreateArrow"/>
+	<toolitem name="Arrow"
+	    pixtype="stock" pixname="Gnumeric_Arrow"
+	    _label="Arrow"
+	    _tip="Create a frame" verb="CreateArrow"/>
 
-	<toolitem name="Rectangle" pixtype="stock" pixname="Gnumeric_Rectangle"
-	    _label="Rectangle" _tip="Draw a rectangle" verb="CreateRectangle"/>
+	<toolitem name="Rectangle"
+	    pixtype="stock" pixname="Gnumeric_Rectangle"
+	    _label="Rectangle"
+	    _tip="Draw a rectangle" verb="CreateRectangle"/>
 
-	<toolitem name="Oval" pixtype="stock" pixname="Gnumeric_Oval"
-	    _label="Oval" _tip="Draw an oval" verb="CreateEllipse"/>
+	<toolitem name="Oval"
+	    pixtype="stock" pixname="Gnumeric_Oval"
+	    _label="Oval"
+	    _tip="Draw an oval" verb="CreateEllipse"/>
 
     </dockitem>
 
