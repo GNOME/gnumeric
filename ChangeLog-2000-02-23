@@ -1,3 +1,8 @@
+1999-08-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* samples/statfuns.xls: Updated the tests of LINEST and TREND to
+	cover more possible cases.
+
 1999-08-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (split_time) : Use a integer to avoid problems with
