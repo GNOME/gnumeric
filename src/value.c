@@ -538,7 +538,6 @@ value_get_as_float (const Value *v)
  * accessing an empty cell.  Which are currently
  * 1) v == NULL
  * 2) v->type == VALUE_EMPTY (new)
- * 3) v == string("")
  */
 gboolean
 value_is_empty_cell (Value const *v)
