@@ -105,8 +105,46 @@ graph_guru_clear_sample (GraphGuruState *state)
 }
 
 static void
-vector_state_fill (VectorState *state, xmlNode *vector)
+vector_state_fill (VectorState *vs, xmlNode *series)
 {
+	xmlNode *dim;
+	xmlChar *element;
+	int id;
+
+	g_return_if_fail (!vs->state->updating);
+
+	/* clear beforehand to make error handling simpler */
+	vs->state->updating = TRUE;
+	gnumeric_expr_entry_set_rangesel_from_text (vs->entry,"");
+	gnumeric_expr_entry_set_flags (vs->entry,
+		GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
+	vs->state->updating = FALSE;
+
+	/* attempt to find the matching dimension */
+	for (dim = series->xmlChildrenNode; dim; dim = dim->next) {
+		if (strcmp (dim->name, "Dimension"))
+			continue;
+		element = xmlGetProp (dim, "element");
+		if (element == NULL) {
+			g_warning ("Missing element name in series dimension");
+			continue;
+		}
+		if (strcmp (vs->element, element)) {
+			xmlFree (element);
+			continue;
+		}
+
+		id = e_xml_get_integer_prop_by_name_with_default (dim, "ID", -1);
+		if (id >= 0) {
+			char *content = gnm_graph_vector_as_string (
+				gnm_graph_get_vector (vs->state->graph, id));
+			gnumeric_expr_entry_set_rangesel_from_text (
+				vs->entry, content);
+			gnumeric_expr_entry_set_flags (vs->entry,
+				GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
+			g_free (content);
+		}
+	}
 }
 
 static void
@@ -164,8 +202,6 @@ vector_state_new (GraphGuruState *state, gboolean shared, int indx)
 
 	vs->entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_scg (vs->entry, state->scg);
-	gnumeric_expr_entry_set_flags (vs->entry,
-		GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (vs->entry),
 		1, 2, indx, indx+1, GTK_EXPAND|GTK_FILL, 0, 5, 3);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
@@ -285,22 +321,25 @@ graph_guru_series_name (GraphGuruState *s, xmlNode *series)
 }
 
 static void
-graph_guru_select_series (GraphGuruState *s, xmlNode *xml)
+graph_guru_select_series (GraphGuruState *s, xmlNode *series)
 {
+	int i;
 	char *name;
 
 	if (s->updating)
 		return;
 
-	name = graph_guru_series_name (s, xml);
+	name = graph_guru_series_name (s, series);
 	s->updating = TRUE;
 	gnm_combo_text_set_text (GNM_COMBO_TEXT (s->series_selector), name);
 	s->updating = FALSE;
 
-	if (s->current_series == NULL) {
-	}
+	for (i = s->unshared->len; i--> 0 ; )
+		vector_state_fill (g_ptr_array_index (s->unshared, i), series);
+	for (i = s->shared->len; i--> 0 ; )
+		vector_state_fill (g_ptr_array_index (s->shared, i), series);
 
-	s->current_series = xml;
+	s->current_series = series;
 }
 
 static char *

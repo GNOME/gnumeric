@@ -30,6 +30,7 @@ xmlDoc	  *gnm_graph_get_spec		  (GnmGraph *g);
 void	   gnm_graph_import_specification (GnmGraph *graph, xmlDoc *spec);
 int	   gnm_graph_add_vector	   	  (GnmGraph *graph, ExprTree *expr,
 					   GnmGraphVectorType type, Sheet *s);
+GnmGraphVector *gnm_graph_get_vector	  (GnmGraph *graph, int id);
 
 extern char const * const gnm_graph_vector_type_name [];
 
@@ -37,6 +38,8 @@ extern char const * const gnm_graph_vector_type_name [];
 #define GNUMERIC_GRAPH_VECTOR(o)	(GTK_CHECK_CAST ((o), GNUMERIC_GRAPH_VECTOR_TYPE, GnmGraphVector))
 #define IS_GNUMERIC_GRAPH_VECTOR(o)	(GTK_CHECK_TYPE ((o), GNUMERIC_GRAPH_VECTOR_TYPE))
 
-GtkType	gnm_graph_vector_get_type (void);
+GtkType	gnm_graph_vector_get_type    (void);
+char   *gnm_graph_vector_as_string   (GnmGraphVector const *vec);
+void	gnm_graph_vector_from_string (GnmGraphVector const *vec, char *);
 
 #endif /* GNUMERIC_GRAPH_H */

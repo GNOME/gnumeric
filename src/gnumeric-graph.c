@@ -331,6 +331,27 @@ impl_string_vector_changed (PortableServer_Servant servant,
 	g_warning ("Gnumeric : string vector changed remotely (%p)", vector);
 }
 
+char *
+gnm_graph_vector_as_string (GnmGraphVector const *vector)
+{
+	ParsePos pp;
+	char *expr, *res;
+
+	g_return_val_if_fail (IS_GNUMERIC_GRAPH_VECTOR (vector), g_strdup ("ERROR"));
+
+	expr = expr_tree_as_string (vector->dep.expression,
+		parse_pos_init_dep (&pp, &vector->dep));
+	res = g_strconcat ("=", expr, NULL);
+	g_free (expr);
+
+	return res;
+}
+
+void
+gnm_graph_vector_from_string (GnmGraphVector const *vec, char * str)
+{
+}
+
 /******************************************************************************/
 
 static GtkObjectClass *gnm_graph_vector_parent_class = NULL;
@@ -347,6 +368,10 @@ gnm_graph_get_config_control (GnmGraph *graph, char const *which_control)
 	Bonobo_Control	   control;
 
 	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), NULL);
+
+	/* TODO : restart things if it dies */
+	if (graph->manager == CORBA_OBJECT_NIL)
+		return NULL;
 
 	CORBA_exception_init (&ev);
 	control = MANAGER1 (configure) (graph->manager, which_control, &ev);
@@ -625,6 +650,9 @@ gnm_graph_clear_vectors_internal (GnmGraph *graph, gboolean unsubscribe)
 	if (unsubscribe) {
 		CORBA_Environment ev;
 
+		if (graph->manager == CORBA_OBJECT_NIL)
+			return;
+
 		CORBA_exception_init (&ev);
 		MANAGER1 (clearVectors) (graph->manager, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
@@ -633,7 +661,6 @@ gnm_graph_clear_vectors_internal (GnmGraph *graph, gboolean unsubscribe)
 		}
 		CORBA_exception_free (&ev);
 	}
-
 }
 
 static gboolean
@@ -644,6 +671,9 @@ gnm_graph_subscribe_vector (GnmGraph *graph, GnmGraphVector *vector)
 	gboolean ok;
 
 	CORBA_exception_init (&ev);
+
+	if (graph->manager == CORBA_OBJECT_NIL)
+		return FALSE;
 
 	id = graph->vectors->len;
 	vector->subscriber.any = MANAGER1 (addVector) (
@@ -791,7 +821,7 @@ gnm_graph_setup (GnmGraph *graph, Workbook *wb)
 	} else {
 		graph->manager = Bonobo_Unknown_queryInterface (o, MANAGER_OAF, &ev);
 
-		g_return_val_if_fail (graph->manager != NULL, TRUE);
+		g_return_val_if_fail (graph->manager != CORBA_OBJECT_NIL, TRUE);
 
 		graph->manager_client = bonobo_object_client_from_corba (graph->manager);
 		bonobo_object_release_unref (o, &ev);
@@ -833,6 +863,9 @@ gnm_graph_type_selector (GnmGraph *graph)
 	Bonobo_Control	   control;
 
 	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), NULL);
+
+	if (graph->manager == CORBA_OBJECT_NIL)
+		return FALSE;
 
 	CORBA_exception_init (&ev);
 	control = MANAGER1 (configure) (graph->manager, "Type", &ev);
@@ -888,6 +921,9 @@ gnm_graph_arrange_vectors (GnmGraph *graph)
 			len++;
 		}
 	}
+
+	if (graph->manager == CORBA_OBJECT_NIL)
+		return;
 
 	CORBA_exception_init (&ev);
 	MANAGER1 (arrangeVectors) (graph->manager, data, headers, &ev);
@@ -959,6 +995,9 @@ gnm_graph_get_spec (GnmGraph *graph)
 
 	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), NULL);
 
+	if (graph->manager == CORBA_OBJECT_NIL)
+		return NULL;
+
 	CORBA_exception_init (&ev);
 	spec = MANAGER1 (_get_spec) (graph->manager, &ev);
 	if (ev._major == CORBA_NO_EXCEPTION) {
@@ -1008,6 +1047,9 @@ gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 
 	g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
 
+	if (graph->manager == CORBA_OBJECT_NIL)
+		return;
+
 	xmlDocDumpMemory (spec, &mem, &size);
 
 	partial = MANAGER1(Buffer__alloc) ();
@@ -1024,6 +1066,16 @@ gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 			   bonobo_exception_get_text (&ev), graph);
 	}
 	CORBA_exception_free (&ev);
+}
+
+GnmGraphVector *
+gnm_graph_get_vector (GnmGraph *graph, int id)
+{
+	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), NULL);
+	g_return_val_if_fail (id >= 0, NULL);
+	g_return_val_if_fail (id < (int)graph->vectors->len, NULL);
+
+	return g_ptr_array_index (graph->vectors, id);
 }
 
 static void
