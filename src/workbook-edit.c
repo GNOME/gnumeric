@@ -195,10 +195,17 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 
 		/* NOTE we assign the value BEFORE validating in case
 		 * a validation condition depends on the new value  */
-		if (result == WBC_EDIT_ACCEPT)
-			cmd_set_text (wbc, sheet, &sv->edit_pos, txt,
-				wbcg->edit_line.markup);
-		else
+		if (result == WBC_EDIT_ACCEPT) {
+			/*
+			 * Copy here as callbacks will otherwise mess with
+			 * the list.
+			 */
+			PangoAttrList *res_markup = wbcg->edit_line.markup
+				? pango_attr_list_copy (wbcg->edit_line.markup)
+				: NULL;
+			cmd_set_text (wbc, sheet, &sv->edit_pos, txt, res_markup);
+			if (res_markup) pango_attr_list_unref (res_markup);
+		} else
 			cmd_area_set_text (wbc, sv, txt,
 				result == WBC_EDIT_ACCEPT_ARRAY);
 
@@ -402,6 +409,7 @@ cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
 	{
 		PangoAttrList *new_list = pango_attr_list_new ();
 		GSList *ptr, *attrs = attrs_at_byte (wbcg->edit_line.markup, target_pos_in_bytes);
+
 		for (ptr = attrs; ptr != NULL ; ptr = ptr->next) {
 			PangoAttribute *attr = ptr->data;
 			attr->start_index = 0;

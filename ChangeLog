@@ -1,3 +1,8 @@
+2005-01-10  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-edit.c (wbcg_edit_finish): Copy the resulting
+	markup as editing callbacks will otherwise destroy it.
+
 2005-01-10  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=163408

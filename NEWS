@@ -49,8 +49,9 @@ Morten:
 	  [#161909]
 	* Fix Help->Contents accelerator.  [#162865]
 	* Make general format use "E", not "e", as appropriate.
-	* Simplyfy SUM.  [#131588]
+	* Simplify SUM.  [#131588]
 	* Fix INT(-1) problem.  [#163019]
+	* Fix rich teext re-edit problem.  [#163415].
 
 Uwe Steinmann:
 	* Extend paradox importer to support additional types.
