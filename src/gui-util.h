@@ -119,6 +119,8 @@ char *gnumeric_textview_get_text (GtkTextView *text_view);
 void  gnumeric_textview_set_text (GtkTextView *text_view, char const *txt);
 
 int entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update);
+int entry_to_float_with_format (GtkEntry *entry, gnum_float *the_float, gboolean update,
+				StyleFormat *format);
 int entry_to_int (GtkEntry *entry, gint *the_int, gboolean update);
 void float_to_entry (GtkEntry *entry, gnum_float the_float);
 void int_to_entry (GtkEntry *entry, gint the_int);

@@ -1,5 +1,11 @@
 2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-goal-seek.c (focus_on_entry) : change argument type
+	(cb_dialog_apply_clicked) : handle new expr entry widget, use
+	  entry_to_float_with_format
+
+2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-consolidate.c (is_cell_ref) replace with 
 	  gnm_expr_entry_is_cell_ref
 	(cb_add_clicked) : use gnm_expr_entry_global_range_name

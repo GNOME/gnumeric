@@ -1053,3 +1053,13 @@ gnm_expr_entry_global_range_name (GnumericExprEntry *e, Sheet *sheet)
 	
 	return text;
 }
+
+void 
+gnm_expr_entry_grab_focus (GnumericExprEntry *e, gboolean select_all)
+{
+	gtk_widget_grab_focus (GTK_WIDGET (e->entry));
+	if (select_all) {
+		gtk_entry_set_position (e->entry, 0);
+		gtk_entry_select_region (e->entry, 0, e->entry->text_length);
+	}
+}

@@ -1,3 +1,10 @@
+2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gui-util.h (entry_to_float_with_format) : new
+	* src/gui-util.c (entry_to_float_with_format) : add format to 
+	  entry_to_float
+	(entry_to_float) : wrapper around entry_to_float_with_format
+	
 2002-02-27  Morten Welinder  <terra@diku.dk>
 
 	* src/analysis-tools.c: Use new lower-tail flag for R's q*

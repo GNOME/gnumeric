@@ -65,21 +65,19 @@ typedef struct {
 } GoalSeekState;
 
 
-static void
-focus_on_entry (GtkWidget *entry)
-{
-	gtk_widget_grab_focus (entry);
-	gtk_entry_set_position (GTK_ENTRY (entry), 0);
-	gtk_entry_select_region (GTK_ENTRY (entry), 0,
-				 GTK_ENTRY (entry)->text_length);
-}
-
-
 typedef struct {
 	Cell *xcell, *ycell;
 	gnum_float ytarget;
 } GoalEvalData;
 
+
+static void
+focus_on_entry (GtkEntry *entry)
+{
+		gtk_widget_grab_focus (GTK_WIDGET(entry));
+		gtk_entry_set_position (entry, 0);
+		gtk_entry_select_region (entry, 0, entry->text_length);
+}
 
 static GoalSeekStatus
 goal_seek_eval (gnum_float x, gnum_float *y, void *vevaldata)
@@ -319,14 +317,11 @@ cb_dialog_close_clicked (GtkWidget *button, GoalSeekState *state)
 static void
 cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 {
-	char const *text;
-	char *tmp;
 	char *status_str;
 	char *target_str;
 	char *actual_str;
 	char *solution_str;
 	GoalSeekStatus	status;
-	Value *value;
 	StyleFormat *format;
   	gnum_float  max_range_val = 1e24;
 	Value *error_value, *target;
@@ -336,15 +331,15 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 		gtk_widget_destroy (state->warning_dialog);
 
 	/* set up source */
-	target = global_range_parse (state->sheet,
-		gtk_entry_get_text (GTK_ENTRY (state->set_cell_entry)));
+	target = gnm_expr_entry_parse_as_value (state->set_cell_entry, 
+						state->sheet);
 	if (target == NULL) {
 		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR,
 					  _("You should introduce a valid cell "
 					    "name in 'Set Cell:'!"));
-		focus_on_entry (GTK_WIDGET (state->set_cell_entry));
+		gnm_expr_entry_grab_focus (state->set_cell_entry, TRUE);
 		return;
 	}
 	r = &target->v_range.cell;
@@ -356,20 +351,20 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 					  GTK_MESSAGE_ERROR,
 					  _("The cell named in 'Set Cell:' "
 					    "must contain a formula!"));
-		focus_on_entry (GTK_WIDGET (state->set_cell_entry));
+		gnm_expr_entry_grab_focus (state->set_cell_entry, TRUE);
 		return;
 	}
 
 	/* set up source */
-	target = global_range_parse (state->sheet,
-		gtk_entry_get_text (GTK_ENTRY (state->change_cell_entry)));
+	target = gnm_expr_entry_parse_as_value (state->change_cell_entry, 
+						state->sheet);
 	if (target == NULL) {
 		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR,
 					  _("You should introduce a valid cell "
 					    "name in 'By Changing Cell:'!"));
-		focus_on_entry (GTK_WIDGET (state->change_cell_entry));
+		gnm_expr_entry_grab_focus (state->change_cell_entry, TRUE);
 		return;
 	}
 
@@ -382,57 +377,31 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 					  GTK_MESSAGE_ERROR,
 					  _("The cell named in 'By changing cell' "
 					    "must not contain a formula."));
-		focus_on_entry (GTK_WIDGET (state->change_cell_entry));
+		gnm_expr_entry_grab_focus (state->change_cell_entry, TRUE);
 		return;
 	}
 
-	text = gtk_entry_get_text (GTK_ENTRY (state->to_value_entry));
-	format = mstyle_get_format (cell_get_mstyle (state->set_cell));
-	value = format_match_number (text, format);
-	if (value == NULL){
+
+	format = mstyle_get_format (cell_get_mstyle (state->change_cell));
+	if (entry_to_float_with_format (GTK_ENTRY(state->to_value_entry), 
+					&state->target_value, TRUE, format)){
 		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR,
 					  _("The value given in 'To Value:' "
 					    "is not valid."));
-		focus_on_entry (GTK_WIDGET (state->to_value_entry));
+		focus_on_entry (GTK_ENTRY(state->to_value_entry));
 		return;
 	}
-	state->target_value = value_get_as_float (value);
-	target_str = format_value (NULL, value, NULL, 0);
-	gtk_entry_set_text (GTK_ENTRY (state->to_value_entry), target_str);
-	g_free (target_str);
-	value_release (value);
 
-#warning Move the striping into entry_to_float and use that.
-	format = mstyle_get_format (cell_get_mstyle (state->change_cell));
-	tmp = g_strdup (gtk_entry_get_text (GTK_ENTRY (state->at_least_entry)));
-	g_strstrip (tmp);
-	value = (*tmp) ? format_match_number (tmp, format) : NULL;
-	g_free (tmp);
-
-	if (value != NULL) {
-		state->xmin = value_get_as_float (value);
-		tmp = format_value (NULL, value, NULL, 0);
-		gtk_entry_set_text (GTK_ENTRY (state->at_least_entry), tmp);
-		g_free (tmp);
-		value_release (value);
-	} else {
+	if (entry_to_float_with_format (GTK_ENTRY(state->at_least_entry), 
+					 &state->xmin, TRUE, format)) {
 		state->xmin = - max_range_val;
 		gtk_entry_set_text (GTK_ENTRY (state->at_least_entry), "");
 	}
 
-	tmp = g_strdup (gtk_entry_get_text (GTK_ENTRY (state->at_most_entry)));
-	g_strstrip (tmp);
-	value = (*tmp) ? format_match_number (tmp, format) : NULL;
-	g_free (tmp);
-	if (value != NULL) {
-		state->xmax = value_get_as_float (value);
-		tmp = format_value (NULL, value, NULL, 0);
-		gtk_entry_set_text (GTK_ENTRY (state->at_most_entry), tmp);
-		g_free (tmp);
-		value_release (value);
-	} else {
+	if (entry_to_float_with_format (GTK_ENTRY(state->at_most_entry), &state->xmax, 
+					TRUE, format)) {
   		state->xmax = max_range_val;
 		gtk_entry_set_text (GTK_ENTRY (state->at_most_entry), "");
 	}
@@ -571,7 +540,8 @@ dialog_init (GoalSeekState *state)
 
 	state->change_cell_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->change_cell_entry,
-		GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL,
+		GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL | 
+				  GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL,
 		GNUM_EE_MASK);
 	gnm_expr_entry_set_scg (state->change_cell_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->change_cell_entry),
@@ -594,7 +564,7 @@ dialog_init (GoalSeekState *state)
 	state->old_value = NULL;
 	state->old_cell = NULL;
 
-	gtk_widget_grab_focus (GTK_WIDGET (state->set_cell_entry));
+	gnm_expr_entry_grab_focus (state->set_cell_entry, FALSE);
 
 	return FALSE;
 }

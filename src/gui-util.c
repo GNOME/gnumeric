@@ -1155,10 +1155,20 @@ gnumeric_textview_set_text (GtkTextView *text_view, char const *txt)
  * retrieve a float from an entry field parsing all reasonable formats
  *
  **/
+
+
+#warning FIXME: there is really no reason to have this wrapper
 int
 entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
 {
-	Value *value = format_match_number (gtk_entry_get_text (entry), NULL);
+	return entry_to_float_with_format (entry, the_float, update, NULL);
+}
+
+int
+entry_to_float_with_format (GtkEntry *entry, gnum_float *the_float, gboolean update, 
+			    StyleFormat *format)
+{
+	Value *value = format_match_number (gtk_entry_get_text (entry), format);
 
 	if ((value == NULL) || !VALUE_IS_NUMBER (value)) {
 		*the_float = 0.0;
@@ -1166,7 +1176,7 @@ entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
 	}
 	*the_float = value_get_as_float (value);
 	if (update) {
-		char *tmp = format_value (NULL, value, NULL, 16);
+		char *tmp = format_value (format, value, NULL, 16);
 		gtk_entry_set_text (entry, tmp);
 		g_free (tmp);
 	}
