@@ -1,7 +1,9 @@
 2002-12-13  Morten Welinder  <terra@diku.dk>
 
+	* src/xml-io.c (gnumeric_xml_read_workbook): Grammar fix.
+
 	* src/parse-util.h (struct _GnmExprConventions): New members
-	expr_name_handler and output_sheet_name_sep.
+	expr_name_handler, output_sheet_name_sep, and output_argument_sep.
 
 	* src/expr.c (do_expr_as_string): Use new expr_name_handler is
 	conventions.

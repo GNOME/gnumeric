@@ -2141,15 +2141,23 @@ gnm_expr_list_eq (GnmExprList const *la, GnmExprList const *lb)
 static void
 gnm_expr_list_as_string (GString *target,
 			 GnmExprList const *list, ParsePos const *pp,
-			 const GnmExprConventions *fmt)
+			 const GnmExprConventions *conv)
 {
-	GnmExprList const *l;
-	char sep = format_get_arg_sep ();
+	const char *sep;
+	char arg_sep[2];
+	if (conv->output_argument_sep)
+		sep = conv->output_argument_sep;
+	else {
+		arg_sep[0] = format_get_arg_sep ();
+		arg_sep[1] = 0;
+		sep = arg_sep;
+	}
 
 	g_string_append_c (target, '(');
-	for (l = list; l; l = l->next) {
-		do_expr_as_string (target, l->data, pp, 0, fmt);
-		if (l->next) g_string_append_c (target, sep);
+	while (list) {
+		do_expr_as_string (target, list->data, pp, 0, conv);
+		if (list->next) g_string_append (target, sep);
+		list = list->next;
 	}
 	g_string_append_c (target, ')');
 }

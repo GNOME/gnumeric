@@ -3591,7 +3591,7 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 		if (res != NULL)
 			xmlFreeDoc (res);
 		gnumeric_error_read (COMMAND_CONTEXT (context),
-			_("Is not an Gnumeric Workbook file"));
+			_("The file is not a Gnumeric Workbook file"));
 		return;
 	}
 

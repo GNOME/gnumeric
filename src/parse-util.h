@@ -146,6 +146,9 @@ struct _GnmExprConventions {
 
 	/* Used to separate sheet from name when both are needed.  */
 	const char *output_sheet_name_sep;
+
+	/* If non-null, used to separate elements in lists.  */
+	const char *output_argument_sep;
 };
 
 GnmExprConventions *gnm_expr_conventions_new (void);
