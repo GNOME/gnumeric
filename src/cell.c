@@ -95,6 +95,9 @@ cell_set_formula (Cell *cell, const char *text)
 		return;
 	}
 
+	/* Until the value is recomputed, we put in this value.  */
+	cell->value = value_new_error (NULL, _("Pending recomputation"));
+
 	if (desired_format)
 		cell_set_format (cell, desired_format);
 
@@ -105,14 +108,6 @@ cell_set_formula (Cell *cell, const char *text)
 			   one.  */
 			expr_tree_unref (new_expr->u.array.corner.func.expr);
 			expr_tree_unref (new_expr);
-			/*
-			 *   Reading an xml stream the terminal node may be
-			 * very late in the stream & this value needed for
-			 * the premature recomputation that occurs, hence
-			 * zero it.
-			 */
-			if (!cell->value)
-				cell->value = value_new_int (0);
 			return;
 		}
 
@@ -131,8 +126,6 @@ cell_set_formula (Cell *cell, const char *text)
 					new_expr->u.array.corner.func.expr);
 	} else {
 		cell->parsed_node = new_expr;
-		/* Until the value is recomputed, we put in this value.  */
-		cell->value = value_new_error (NULL, _("Pending recomputation"));
 		cell_formula_changed (cell);
 	}
 }

@@ -1,5 +1,8 @@
 2000-01-15  Morten Welinder  <terra@diku.dk>
 
+	* src/cell.c (cell_set_formula): Set the "Pending recomputation"
+ 	value earlier.
+
 	* src/dialogs/dialog-goal-seek.c (gnumeric_goal_seek): Restore old
  	value of failure.
 	(dialog_goal_seek): Fix restoration on cancel.
