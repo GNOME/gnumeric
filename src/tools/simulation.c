@@ -357,7 +357,7 @@ simulation_tool (WorkbookControl        *wbc,
 		 data_analysis_output_t *dao,
 		 simulation_t           *sim)
 {
-	int          round, i, n_rounds;
+	int          round, i;
 	gnum_float   **outputs;
 	simstats_t   **stats;
 	Sheet        *sheet;
