@@ -16,6 +16,10 @@
 
 1999-11-09  Jody Goldberg <jgoldberg@home.com>
 
+
+	* src/item-bar.c (bar_draw_cell) : Slight color adjustment to make
+	  it easier to see which rows/cols are selected.
+
 	* src/render-ascii.c (cell_region_render_ascii) : Fix typo that was
 	  breaking pasting too the X selection.
 

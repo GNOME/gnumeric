@@ -144,7 +144,7 @@ bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ItemBarSelectionType ty
 
 	case ITEM_BAR_PARTIAL_SELECTION:
 		shadow = GTK_SHADOW_OUT;
-		gc = canvas->style->bg_gc [GTK_STATE_ACTIVE];
+		gc = canvas->style->dark_gc [GTK_STATE_PRELIGHT];
 		font = style_font_gdk_font (gnumeric_default_bold_font);
 		break;
 
