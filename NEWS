@@ -1,6 +1,10 @@
 Jody:
 	* Improve selection to correctly handle overlapping ranges.
 
+Jukka:
+	* Major clean up to the documentation of functions.
+	* Added tons of examples to functions.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.33, 0.34, 0.35

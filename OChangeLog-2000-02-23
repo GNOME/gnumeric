@@ -1,3 +1,8 @@
+1999-09-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialogs/dialog-analysis-tools.c: Bug fix.  Pressing ESC key
+ 	means CANCEL now in the subdialogs.
+
 1999-09-13  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/dialogs/dialog-printer-setup.c (do_setup_page_info): Fix initial display
