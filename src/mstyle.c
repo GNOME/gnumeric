@@ -9,6 +9,28 @@ typedef MStyle PrivateStyle; /* For future */
 
 static guint32 stamp = 0;
 
+const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
+	"--Zero--",
+	"--Conflict--",
+	"Color.Fore",
+	"Color.Back",
+	"Border.Top",
+	"Border.Bottom",
+	"Border.Left",
+	"Border.Right",
+	"Pattern",
+	"--MaxBlank--",
+	"Font.Name",
+	"Font.Bold",
+	"Font.Italic",
+	"Font.Size",
+	"Format",
+	"Align.v",
+	"Align.h",
+	"Orientation",
+	"FitInCell"
+};
+
 static char *
 mstyle_element_dump (const MStyleElement *e)
 {
@@ -17,6 +39,7 @@ mstyle_element_dump (const MStyleElement *e)
 
 	g_return_val_if_fail (e != NULL, g_strdup ("Duff element"));
 
+	
 	switch (e->type) {
 	case MSTYLE_ELEMENT_ZERO:
 		g_string_sprintf (ans, "Unset");

@@ -43,6 +43,7 @@ enum _MStyleElementType {
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX
 };
+extern const char *mstyle_names[MSTYLE_ELEMENT_MAX];
 
 struct _MStyleElement {
 	MStyleElementType type;

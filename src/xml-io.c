@@ -31,8 +31,6 @@ typedef struct {
 	xmlNodePtr parent;	/* used only for g_hash_table_foreach callbacks */
 	Sheet *sheet;		/* the associated sheet */
 	Workbook *wb;		/* the associated sheet */
-	GHashTable *style_table;/* to generate the styles and then the links to it */
-	int style_count;        /* A style number */
 	xmlNodePtr style_node;  /* The node where we insert the styles */
 } parse_xml_context_t;
 
@@ -600,25 +598,29 @@ static char *StyleSideNames[4] =
 };
 
 static xmlNodePtr
-xml_write_style_border (parse_xml_context_t *ctxt, StyleBorder *border)
+xml_write_style_border (parse_xml_context_t *ctxt, MStyleElement *style)
 {
 	xmlNodePtr cur;
 	xmlNodePtr side;
-	int lp;
+	int        i;
        
-	for (lp = 3; lp >= 0; lp--)
-		if (border->type [lp] != BORDER_NONE)
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_RIGHT; i++) {
+		if (style [i].type)
 			break;
-	if (lp < 0)
+	}
+	if (i > MSTYLE_BORDER_RIGHT)
 		return NULL;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleBorder", NULL);
 	
-	for (lp = 0; lp < 4; lp++){
- 		if (border->type[lp] != BORDER_NONE){
- 			side = xmlNewChild (cur, ctxt->ns, StyleSideNames [lp],
- 					    BorderTypes [border->type [lp]]);
- 			xml_set_color_value (side, "Color", border->color [lp]);
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_RIGHT; i++) {
+		if (style [i].type) {
+			StyleBorderType t = style [i].u.border.top->type;
+			StyleColor *col   = style [i].u.border.top->color;
+ 			side = xmlNewChild (cur, ctxt->ns,
+					    StyleSideNames [i - MSTYLE_BORDER_TOP],
+ 					    BorderTypes [t]);
+ 			xml_set_color_value (side, "Color", col);
  		}
 	}
 	return cur;
@@ -627,14 +629,11 @@ xml_write_style_border (parse_xml_context_t *ctxt, StyleBorder *border)
 /*
  * Create a StyleBorder equivalent to the XML subtree of doc.
  */
-static StyleBorder *
-xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree)
+static void
+xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree, MStyleElement *style)
 {
-	StyleBorder *ret;
- 	StyleBorderType style [4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE };
-	StyleColor *color [4] = { NULL, NULL, NULL, NULL };
 	xmlNodePtr side;
-	int lp;
+	int        i;
 
 	if (strcmp (tree->name, "StyleBorder")){
 		fprintf (stderr,
@@ -642,69 +641,77 @@ xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			 tree->name);
 	}
 
- 	for (lp = 0; lp < 4; lp++)
- 	{
- 		if ((side = xml_search_child (tree, StyleSideNames [lp])) != NULL)
- 		{
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_RIGHT; i++) {
+ 		if ((side = xml_search_child (tree,
+					      StyleSideNames [i - MSTYLE_BORDER_TOP])) != NULL) {
  			/* FIXME: need to read the proper type */
- 			style [lp] = BORDER_THICK;
- 			xml_get_color_value (side, "Color", &color [lp]);
+ 			style [i].type = i;
+			style [i].u.border.top = g_new (MStyleBorder, 1);
+			style [i].u.border.top->type = BORDER_THICK;
+ 			xml_get_color_value (side, "Color", &style [i].u.border.top->color);
  		}
 	}
-	
-	ret = style_border_new (style, color);
-
-	return NULL;
 }
 
 /*
  * Create an XML subtree of doc equivalent to the given Style.
  */
 static xmlNodePtr
-xml_write_style (parse_xml_context_t *ctxt, Style *style, int style_idx)
+xml_write_style (parse_xml_context_t *ctxt, MStyleElement *style)
 {
 	xmlNodePtr cur, child;
 
-	if ((style->halign == 0) && (style->valign == 0) &&
-	    (style->orientation == 0) && (style->format == NULL) &&
-	    (style->font == NULL) && (style->border == NULL))
-		return NULL;
-
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Style", NULL);
-	if (style_idx != -1)
-		xml_set_value_int (cur, "No", style_idx);
 	
-	xml_set_value_int (cur, "HAlign", style->halign);
-	xml_set_value_int (cur, "VAlign", style->valign);
-	xml_set_value_int (cur, "Fit", style->fit_in_cell);
-	xml_set_value_int (cur, "Orient", style->orientation);
-	xml_set_value_int (cur, "Shade", style->pattern);
+	if (style [MSTYLE_ALIGN_H].type)
+		xml_set_value_int (cur, "HAlign", style [MSTYLE_ALIGN_H].u.align.h);
+	if (style [MSTYLE_ALIGN_V].type)
+		xml_set_value_int (cur, "VAlign", style [MSTYLE_ALIGN_V].u.align.v);
+	if (style [MSTYLE_FIT_IN_CELL].type)
+		xml_set_value_int (cur, "Fit", style [MSTYLE_FIT_IN_CELL].u.fit_in_cell);
+	if (style [MSTYLE_ORIENTATION].type)
+		xml_set_value_int (cur, "Orient", style [MSTYLE_ORIENTATION].u.orientation);
+	if (style [MSTYLE_PATTERN].type)
+		xml_set_value_int (cur, "Shade", style [MSTYLE_PATTERN].u.pattern);
 
-	if (!style_is_default_fore (style->fore_color))
-		xml_set_color_value (cur, "Fore", style->fore_color);
-
-	if (!style_is_default_back (style->back_color))
-		xml_set_color_value (cur, "Back", style->back_color);
-
-	if (style->format != NULL){
-		xml_set_value (cur, "Format", style->format->format);
+	if (style [MSTYLE_COLOR_FORE].type) {
+		if (!style_is_default_fore (style [MSTYLE_COLOR_FORE].u.color.fore))
+			xml_set_color_value (cur, "Fore", style [MSTYLE_COLOR_FORE].u.color.fore);
 	}
+	if (style [MSTYLE_COLOR_BACK].type) {
+		if (!style_is_default_back (style [MSTYLE_COLOR_BACK].u.color.back))
+			xml_set_color_value (cur, "Back", style [MSTYLE_COLOR_FORE].u.color.back);
+	}
+	if (style [MSTYLE_FORMAT].type)
+		xml_set_value (cur, "Format", style [MSTYLE_FORMAT].u.format->format);
 
-	if (style->font != NULL){
+	if (style [MSTYLE_FONT_NAME].type ||
+	    style [MSTYLE_FONT_BOLD].type ||
+	    style [MSTYLE_FONT_ITALIC].type ||
+	    style [MSTYLE_FONT_SIZE].type) {
+		const char *fontname;
+
+		if (style [MSTYLE_FONT_NAME].type)
+			fontname = style [MSTYLE_FONT_NAME].u.font.name;
+		else /* backwards compatibility */
+			fontname = "Helvetica";
+
 		child = xmlNewChild (cur, ctxt->ns, "Font", 
-				     xmlEncodeEntities(ctxt->doc,
-						       style->font->font_name));
-		xml_set_value_double (child, "Unit", style->font->size);
-		xml_set_value_int (child, "Bold", style->font->is_bold);
-		xml_set_value_int (child, "Italic", style->font->is_italic);
-
+				     xmlEncodeEntities(ctxt->doc, fontname));
+		if (style [MSTYLE_FONT_SIZE].type)
+			xml_set_value_double (child, "Unit",
+					      style [MSTYLE_FONT_SIZE].u.font.size);
+		if (style [MSTYLE_FONT_BOLD].type)
+			xml_set_value_int (child, "Bold",
+					   style [MSTYLE_FONT_BOLD].u.font.bold);
+		if (style [MSTYLE_FONT_ITALIC].type)
+			xml_set_value_int (child, "Italic",
+					   style [MSTYLE_FONT_ITALIC].u.font.italic);
 	}
 
-	if (style->border != NULL){
-		child = xml_write_style_border (ctxt, style->border);
-		if (child)
-			xmlAddChild (cur, child);
-	}
+	child = xml_write_style_border (ctxt, style);
+	if (child)
+		xmlAddChild (cur, child);
 
 	return cur;
 }
@@ -1052,157 +1059,88 @@ xml_read_print_info (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		pi->paper = gnome_paper_with_name (xmlNodeGetContent (child));
 }
 
-static const char *
-font_component (const char *fontname, int idx)
-{
-	int i = 0;
-	const char *p = fontname;
-	
-	for (; *p && i < idx; p++){
-		if (*p == '-')
-			i++;
-	}
-	if (*p == '-')
-		p++;
-
-	return p;
-}
-
-/**
- * style_font_new_from_x11:
- * @fontname: an X11-like font name.
- * @scale: scale desired
- *
- * Tries to guess the fontname, the weight and italization parameters
- * to invoke style_font_new
- *
- * Returns: A valid style font.
- */
-static StyleFont *
-style_font_new_from_x11 (const char *fontname, double units, double scale)
-{
-	StyleFont *sf;
-	char *typeface = "Helvetica";
-	int is_bold = 0;
-	int is_italic = 0;
-	const char *c;
-
-	/*
-	 * FIXME: we should do something about the typeface instead
-	 * of hardcoding it to helvetica.
-	 */
-	
-	c = font_component (fontname, 2);
-	if (strncmp (c, "bold", 4) == 0)
-		is_bold = 1;
-
-	c = font_component (fontname, 3);
-	if (strncmp (c, "o", 1) == 0)
-		is_italic = 1;
-	if (strncmp (c, "i", 1) == 0)
-		is_italic = 1;
-
-	sf = style_font_new (typeface, units, scale, is_bold, is_italic);
-	if (sf == NULL)
-		sf = style_font_new_from (gnumeric_default_font, scale);
-
-	return sf;
-}
-
 /*
  * Create a Style equivalent to the XML subtree of doc.
  */
-static Style *
-xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree, Style * ret)
+static MStyle *
+xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
 	char *prop;
-	int val;
+	int val, i;
 	StyleColor *c;
+	MStyle     *ans;
+	MStyleElement style[MSTYLE_ELEMENT_MAX];
+
+	for (i = MSTYLE_ELEMENT_ZERO; i < MSTYLE_ELEMENT_MAX; i++)
+		style[i].type = MSTYLE_ELEMENT_ZERO;
 
 	if (strcmp (tree->name, "Style")){
 		fprintf (stderr,
 			 "xml_read_style: invalid element type %s, 'Style' expected\n",
 			 tree->name);
 	}
-	if (ret == NULL)
-		ret = style_new_empty ();
-	
-	if (ret == NULL)
-		return NULL;
 
-	if (xml_get_value_int (tree, "HAlign", &val)){
-		ret->halign = val;
-		ret->valid_flags |= STYLE_ALIGN;
+	if (xml_get_value_int (tree, "HAlign", &val)) {
+		style [MSTYLE_ALIGN_H].type = MSTYLE_ALIGN_H;
+		style [MSTYLE_ALIGN_H].u.align.h = val;
 	}
-	if (xml_get_value_int (tree, "Fit", &val)){
-		ret->fit_in_cell = val;
-		ret->valid_flags |= STYLE_ALIGN;
+	if (xml_get_value_int (tree, "Fit", &val)) {
+		style [MSTYLE_FIT_IN_CELL].type = MSTYLE_FIT_IN_CELL;
+		style [MSTYLE_FIT_IN_CELL].u.fit_in_cell = val;
 	}
-	if (xml_get_value_int (tree, "VAlign", &val)){
-		ret->valign = val;
-		ret->valid_flags |= STYLE_ALIGN;
+	if (xml_get_value_int (tree, "VAlign", &val)) {
+		style [MSTYLE_ALIGN_V].type = MSTYLE_ALIGN_V;
+		style [MSTYLE_ALIGN_V].u.align.v = val;
 	}
-	if (xml_get_value_int (tree, "Orient", &val)){
-		ret->orientation = val;
-		ret->valid_flags |= STYLE_ALIGN;
+	if (xml_get_value_int (tree, "Orient", &val)) {
+		style [MSTYLE_ORIENTATION].type = MSTYLE_ORIENTATION;
+		style [MSTYLE_ORIENTATION].u.orientation = val;
 	}
-	if (xml_get_value_int (tree, "Shade", &val)){
-		ret->pattern = val;
-		ret->valid_flags |= STYLE_PATTERN;
+	if (xml_get_value_int (tree, "Shade", &val)) {
+		style [MSTYLE_PATTERN].type = MSTYLE_PATTERN;
+		style [MSTYLE_PATTERN].u.pattern = val;
 	}
-	if (xml_get_color_value (tree, "Fore", &c)){
-		ret->fore_color = c;
-		ret->valid_flags |= STYLE_FORE_COLOR;
+	if (xml_get_color_value (tree, "Fore", &c)) {
+		style [MSTYLE_COLOR_FORE].type = MSTYLE_COLOR_FORE;
+		style [MSTYLE_COLOR_FORE].u.color.fore = c;
 	}
-	if (xml_get_color_value (tree, "Back", &c)){
-		ret->back_color = c;
-		ret->valid_flags |= STYLE_BACK_COLOR;
+	if (xml_get_color_value (tree, "Back", &c)) {
+		style [MSTYLE_COLOR_BACK].type = MSTYLE_COLOR_BACK;
+		style [MSTYLE_COLOR_BACK].u.color.back = c;
 	}
 	prop = xml_value_get (tree, "Format");
-	if (prop != NULL){
-		if (ret->format == NULL){
-			ret->format = style_format_new ((const char *) prop);
-			ret->valid_flags |= STYLE_FORMAT;
-		}
+	if (prop != NULL) {
+		style [MSTYLE_FORMAT].type = MSTYLE_FORMAT;
+		style [MSTYLE_FORMAT].u.format = style_format_new ((const char *) prop);
 		free (prop);
 	}
 
 	child = tree->childs;
-	while (child != NULL){
-		if (!strcmp (child->name, "Font")){
+	while (child != NULL) {
+		if (!strcmp (child->name, "Font")) {
 			char *font;
 			double units = 14;
-			int is_bold = 0;
-			int is_italic = 0;
 			int t;
 				
 			xml_get_value_double (child, "Unit", &units);
 
-			if (xml_get_value_int (child, "Bold", &t))
-				is_bold = t;
-			if (xml_get_value_int (child, "Italic", &t))
-				is_italic = t;
+			if (xml_get_value_int (child, "Bold", &t)) {
+				style [MSTYLE_FONT_BOLD].type = MSTYLE_FONT_BOLD;
+				style [MSTYLE_FONT_BOLD].u.font.bold = t;
+			}
+			if (xml_get_value_int (child, "Italic", &t)) {
+				style [MSTYLE_FONT_ITALIC].type = MSTYLE_FONT_ITALIC;
+				style [MSTYLE_FONT_ITALIC].u.font.italic = t;
+			}
 			
-			font = xmlNodeGetContent(child);
-			if (font != NULL) {
-				StyleFont *sf;
-
-				if (*font == '-'){
-					sf = style_font_new_from_x11 (font, units, 1.0);
-				} else
-					sf = style_font_new (font, units, 1.0, is_bold, is_italic);
-
-				ret->font = sf;
-				free(font);
+			font = xmlNodeGetContent (child);
+			if (font) {
+				style [MSTYLE_FONT_NAME].type = MSTYLE_FONT_NAME;
+				style [MSTYLE_FONT_NAME].u.font.name = font;
 			}
-			if (ret->font){
-				ret->valid_flags |= STYLE_FONT;
-			}
-		} else if (!strcmp (child->name, "StyleBorder")){
-			StyleBorder *sb;
-
-			sb = xml_read_style_border (ctxt, child);
+		} else if (!strcmp (child->name, "StyleBorder")) {
+			xml_read_style_border (ctxt, child, style);
 		} else {
 			fprintf (stderr, "xml_read_style: unknown type '%s'\n",
 				 child->name);
@@ -1210,11 +1148,14 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree, Style * ret)
 		child = child->next;
 	}
 
-	/* Now add defaults to any style that was not loaded */
-	return ret;
+	/* Dead slow for now: should pass array */
+	ans = mstyle_new (NULL);
+	for (i = MSTYLE_ELEMENT_ZERO; i < MSTYLE_ELEMENT_MAX; i++)
+		mstyle_add (ans, style[i]);
+
+	return ans;
 }
 
-#if 0
 /*
  * Create an XML subtree of doc equivalent to the given StyleRegion.
  */
@@ -1224,19 +1165,19 @@ xml_write_style_region (parse_xml_context_t *ctxt, StyleRegion *region)
 	xmlNodePtr cur, child;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleRegion", NULL);
-	xml_set_value_int (cur, "startCol", region->range.start_col);
-	xml_set_value_int (cur, "endCol", region->range.end_col);
-	xml_set_value_int (cur, "startRow", region->range.start_row);
-	xml_set_value_int (cur, "endRow", region->range.end_row);
+	xml_set_value_int (cur, "startCol", region->range.start.col);
+	xml_set_value_int (cur, "startRow", region->range.start.row);
+	xml_set_value_int (cur, "endCol",   region->range.end.col);
+	xml_set_value_int (cur, "endRow",   region->range.end.row);
 
-	if (region->style != NULL){
-		child = xml_write_style (ctxt, region->style);
+	if (region->style != NULL) {
+		child = xml_write_style (ctxt, (MStyleElement *)
+					 region->style->elements->data);
 		if (child)
 			xmlAddChild (cur, child);
 	}
 	return cur;
 }
-#endif
 
 /*
  * Create a StyleRegion equivalent to the XML subtree of doc.
@@ -1245,8 +1186,8 @@ static void
 xml_read_style_region (parse_xml_context_t *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
-	Style *style = NULL;
-	int start_col = 0, start_row = 0, end_col = 0, end_row = 0;
+	MStyle    *style = NULL;
+	Range      range;
 
 	if (strcmp (tree->name, "StyleRegion")){
 		fprintf (stderr,
@@ -1254,17 +1195,17 @@ xml_read_style_region (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			 tree->name);
 		return;
 	}
-	xml_get_value_int (tree, "startCol", &start_col);
-	xml_get_value_int (tree, "startRow", &start_row);
-	xml_get_value_int (tree, "endCol", &end_col);
-	xml_get_value_int (tree, "endRow", &end_row);
+	xml_get_value_int (tree, "startCol", &range.start.col);
+	xml_get_value_int (tree, "startRow", &range.start.row);
+	xml_get_value_int (tree, "endCol",   &range.end.col);
+	xml_get_value_int (tree, "endRow",   &range.end.row);
 	child = tree->childs;
-	if (child != NULL)
-		style = xml_read_style (ctxt, child, NULL);
-/*	if (style != NULL)
-		sheet_style_attach_old (ctxt->sheet, start_col, start_row, end_col,
-		end_row, style);*/
-	g_warning ("read_style_region");
+
+	if (child)
+		style = xml_read_style (ctxt, child);
+
+	if (style)
+		sheet_style_attach (ctxt->sheet, range, style);
 }
 
 /*
@@ -1439,17 +1380,11 @@ xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
 {
 	xmlNodePtr cur;
 	char *text;
-	int style_id;
 
-/*	style_id = GPOINTER_TO_INT (g_hash_table_lookup (ctxt->style_table, cell->style));
-	g_assert (style_id != 0);*/
-	g_warning ("hacked style write");
-	style_id = 0;
-	
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xml_set_value_int (cur, "Col", cell->col->pos);
 	xml_set_value_int (cur, "Row", cell->row->pos);
-	xml_set_value_int (cur, "Style", style_id);
+	xml_set_value_int (cur, "Style", 0); /* Backwards compatible */
 
 	text = cell_get_content (cell);
 	xmlNewChild (cur, ctxt->ns, "Content",
@@ -1462,7 +1397,6 @@ xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
 			    xmlEncodeEntities(ctxt->doc, text));
 		g_free(text);
  	}
-	
 
 	return cur;
 }
@@ -1473,14 +1407,11 @@ xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
 static Cell *
 xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 {
-	Style *style;
 	Cell *ret;
 	xmlNodePtr childs;
 	int row = 0, col = 0;
 	char *content = NULL;
 	char *comment = NULL;
-	gboolean style_read = FALSE;
-	int style_idx;
 	
 	if (strcmp (tree->name, "Cell")){
 		fprintf (stderr,
@@ -1503,50 +1434,8 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		return NULL;
 	}
 
-	/*
-	 * New file format includes an index pointer to the Style
-	 * Old format includes the Style online
-	 */
-	if (xml_get_value_int (tree, "Style", &style_idx)){
-/*		Style *s;
-		
-		style_read = TRUE;
-		s = g_hash_table_lookup (ctxt->style_table, GINT_TO_POINTER (style_idx));
-		if (s) {
-			Style *copy;
-
-*//*
-			 * The main style is the style we read, but this
-			 * style might be incomplete (ie, older formats might
-			 * not have full styles.
-			 *
-			 * so we merge the missing bits from the current cell
-			 * style
-			 *//*
-			copy = style_duplicate (s);
-			style_merge_to (copy, ret->style);
-			style_destroy (ret->style);
-			ret->style = copy;
-		} else {
-			printf ("Error: could not find style %d\n", style_idx);
-			}*/
-		g_warning ("Style read hacked");
-	}
-	
 	childs = tree->childs;
 	while (childs != NULL) {
-		if (!strcmp (childs->name, "Style")) {
-			if (!style_read) {
-/*
-				style = xml_read_style (ctxt, childs, NULL);
-				if (style){
-					style_merge_to (style, ret->style);
-					style_destroy (ret->style);
-					ret->style = style;
-					}*/
-				g_warning ("Hacked");
-			}
-		}
 		if (!strcmp (childs->name, "Content"))
 			content = xmlNodeGetContent(childs);
 		if (!strcmp (childs->name, "Comment")) {
@@ -1601,40 +1490,21 @@ xml_write_cell_to (gpointer key, gpointer value, gpointer data)
 	xmlAddChild (ctxt->parent, cur);
 }
 
-static void
-add_style (gpointer key, gpointer value, gpointer data)
+static xmlNodePtr
+xml_write_styles (parse_xml_context_t *ctxt, GList *l)
 {
-	parse_xml_context_t *ctxt = data;
-	Cell *cell = (Cell *) value;
-	xmlNodePtr child;
+	xmlNodePtr cur;
+
+	g_return_val_if_fail (l != NULL, NULL);
+
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Styles", NULL);
+	while (l) {
+		StyleRegion *sr = l->data;
+		xmlAddChild (cur, xml_write_style_region (ctxt, sr));
+		l = g_list_next (l);
+	}
 	
-/*	if (g_hash_table_lookup (ctxt->style_table, cell->style))
-		return;
-
-	child = xml_write_style (ctxt, cell->style, ctxt->style_count);
-	xmlAddChild (ctxt->style_node, child);
-		     
-	g_hash_table_insert (ctxt->style_table, cell->style, GINT_TO_POINTER (ctxt->style_count));
-	ctxt->style_count++;*/
-	g_warning ("add style hacked");
-	
-}
-
-static void
-xml_cell_styles_init (parse_xml_context_t *ctxt, xmlNodePtr cur, Sheet *sheet)
-{
-	ctxt->style_node = xmlNewChild (cur, ctxt->ns, "CellStyles", NULL);
-
-	ctxt->style_table = g_hash_table_new (style_hash, style_compare);
-	ctxt->style_count = 1;
-
-	g_hash_table_foreach (sheet->cell_hash, add_style, ctxt);
-}
-
-static void
-xml_cell_styles_shutdown (parse_xml_context_t *ctxt)
-{
-	g_hash_table_destroy (ctxt->style_table);
+	return cur;
 }
 
 /*
@@ -1650,6 +1520,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	xmlNodePtr cells;
 	xmlNodePtr objects;
 	xmlNodePtr printinfo;
+	xmlNodePtr styles;
 	GList *l;
 	char str[50];
 
@@ -1678,12 +1549,9 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	printinfo = xml_write_print_info (ctxt, sheet->print_info);
 	if (printinfo)
 		xmlAddChild (cur, printinfo);
-	
-	/*
-	 * Styles used by the cells on this sheet
-	 */
-	xml_cell_styles_init (ctxt, cur, sheet);
-	
+
+	styles = xml_write_styles (ctxt, sheet->style_list);
+
 	/*
 	 * Cols informations.
 	 */
@@ -1736,47 +1604,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	g_hash_table_foreach (sheet->cell_hash, xml_write_cell_to, ctxt);
 	sheet->modified = 0;
 
-	xml_cell_styles_shutdown (ctxt);
-	
 	return cur;
-}
-
-static void
-xml_read_cell_styles (parse_xml_context_t *ctxt, xmlNodePtr tree)
-{
-	xmlNodePtr styles, child;
-
-	ctxt->style_table = g_hash_table_new (g_direct_hash, g_direct_equal);
-	
-	child = xml_search_child (tree, "CellStyles");
-	if (child == NULL)
-		return;
-	
-	for (styles = child->childs; styles; styles = styles->next){
-		Style *s;
-		int style_idx;
-		
-		if (xml_get_value_int (styles, "No", &style_idx)){
-			s = xml_read_style (ctxt, styles, NULL);
-			g_hash_table_insert (
-				ctxt->style_table,
-				GINT_TO_POINTER (style_idx),
-				s);
-		}
-	}
-}
-
-static void
-destroy_style (gpointer key, gpointer value, gpointer data)
-{
-	style_destroy (value);
-}
-
-static void
-xml_dispose_read_cell_styles (parse_xml_context_t *ctxt)
-{
-	g_hash_table_foreach (ctxt->style_table, destroy_style, NULL);
-	g_hash_table_destroy (ctxt->style_table);
 }
 
 static void
@@ -1871,7 +1699,6 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 	xml_read_print_info (ctxt, tree);
 	xml_read_styles (ctxt, tree);
-	xml_read_cell_styles (ctxt, tree);
 	xml_read_cols_info (ctxt, ret, tree);
 	xml_read_rows_info (ctxt, ret, tree);
 
@@ -1895,7 +1722,6 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			cells = cells->next;
 		}
 	}
-	xml_dispose_read_cell_styles (ctxt);
 
 	/* Initialize the ColRowInfo's ->pixels data */
 	sheet_set_zoom_factor (ret, ret->last_zoom_factor_used);

@@ -1,3 +1,25 @@
+1999-10-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/xml-io.c (xml_write_styles): create; untested.
+	(font_component): kill.
+
+1999-10-06  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/xml-io.c (parse_xml_context_t): Remove hash table of styles +
+	style count: redundant now. (xml_write_style): majorly hacked.
+	(xml_write_style_border): ditto. (xml_read_style_region): ditto.
+	(xml_read_style): huge mangle. (xml_read_style_border): ditto.
+	(xml_write_cell): kill style write per cell, (xml_read_cell): ditto, lots.
+	(xml_cell_styles_init): remove; sluggish style hash (add_style): ditto.
+	(xml_sheet_write): kill  (xml_cell_styles_shutdown): die.
+	(xml_sheet_write): kill call.
+	(xml_read_cell_styles): kill (xml_sheet_read): + call.
+	(xml_dispose_read_cell_styles): kill (xml_sheet_read): + call.
+	(destroy_style): die. (style_font_new_from_x11): remove: unused.
+	(xml_sheet_write): add xml_write_styles call.
+
+	* src/mstyle.c: Add array of style names.
+
 1999-10-05  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet.c (sheet_update_controls): Use new workbook_feedback_set.
