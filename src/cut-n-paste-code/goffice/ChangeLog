@@ -1,3 +1,8 @@
+2003-09-13  Jon K Hellan  <hellan@acm.org>
+
+	* graph/gog-legend.c (cb_render_elements): Allow for floating
+	point inaccuracies when deciding if there is room for an element.
+
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-axis.c (gog_axis_editor) : we want font too.

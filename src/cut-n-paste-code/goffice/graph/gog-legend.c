@@ -316,9 +316,11 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	GogView  const   *v = data->view;
 	GogStyle *style = NULL;
 	ArtPoint pos;
+	double epsilon = 0.0001;
 	
 	swatch.y += i * data->step;
-	if (swatch.y > data->bottom)
+	/* Allow for floating point inaccuracy */
+	if (swatch.y > data->bottom + epsilon)
 		return;
 
 #warning FIXME we need to delegate this to the plot to support colour gradients or area vs lines
