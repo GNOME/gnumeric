@@ -17,6 +17,7 @@ Release Critical
 
 - load/save of external references
 - String functions need to be UTF8ed.
+- Search/Replace needs to be UTF8ed.
 
 Pending Patches
 ---------------
