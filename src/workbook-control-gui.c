@@ -79,6 +79,7 @@
 #include <gsf/gsf-impl-utils.h>
 #ifdef WITH_GNOME
 #include <libgnomevfs/gnome-vfs-uri.h>
+#include <gsf-gnome/gsf-input-gnomevfs.h>
 #endif
 
 
@@ -2022,8 +2023,11 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		GList *ptr, *uris = gnome_vfs_uri_list_parse (selection_data->data);
 		for (ptr = uris; ptr != NULL; ptr = ptr->next) {
 			GError *err = NULL;
-			GsfInput *input = go_file_open (ptr->data, &err);
-
+			gchar *uri_str = gnome_vfs_uri_to_string (
+				(const GnomeVFSURI*)(ptr->data),
+				GNOME_VFS_URI_HIDE_NONE);
+			GsfInput *input = go_file_open (uri_str, &err);
+		
 			if (input != NULL) {
 				wbv = wb_view_new_from_input (input, NULL, ioc, NULL);
 				if (wbv != NULL)
@@ -2038,6 +2042,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 				gnumeric_io_error_display (ioc);
 				gnumeric_io_error_clear (ioc);
 			}
+			g_free (uri_str);
 		}
 		gnome_vfs_uri_list_free (uris);
 		g_object_unref (ioc);

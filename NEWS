@@ -48,6 +48,7 @@ Jon Kåre:
 	* Add 'Save As' menu entry for image objects.
 	* Add format chooser to 'Save As' dialog for images and graphs.
 	* Resurrect the Psion Sheet importer.
+	* Fix file drag from nautilus -> gnumeric.
 
 Morten:
 	* Add Ctrl-5 for strike-through.
