@@ -1,3 +1,10 @@
+2003-06-04  Jody Goldberg <jody@gnome.org>
+
+	* dialog-merge.c (dialog_merge) : init the expr entry.
+	    - editable_enters
+	    - assign mnemonic for label
+	    - load current selection.
+
 2003-06-03  Jody Goldberg <jody@gnome.org>
 
 	* dialog-shuffle.c (dialog_shuffle) : set the initial shuffle type

@@ -37,6 +37,7 @@
 #include <value.h>
 #include <workbook-edit.h>
 #include <commands.h>
+#include <selection.h>
 
 #include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>

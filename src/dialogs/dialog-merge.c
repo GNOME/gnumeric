@@ -37,6 +37,7 @@
 #include <ranges.h>
 #include <value.h>
 #include <commands.h>
+#include <selection.h>
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
@@ -314,6 +315,7 @@ dialog_merge (WorkbookControlGUI *wbcg)
 	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
 	GtkTreeSelection  *selection;
+	Range const *r;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -345,10 +347,19 @@ dialog_merge (WorkbookControlGUI *wbcg)
 	table = GTK_TABLE (glade_xml_get_widget (gui, "main_table"));
 	state->zone = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->zone, GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->zone));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (glade_xml_get_widget (gui, "var1-label")),
+				       GTK_WIDGET (state->zone));
 	gtk_table_attach (table, GTK_WIDGET (state->zone),
 			  1, 3, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
+	r = selection_first_range (
+		wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)), NULL, NULL);
+	if (r != NULL)
+		gnm_expr_entry_load_from_range (state->zone,
+			state->sheet, r);
 
 	state->data = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->data, GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
