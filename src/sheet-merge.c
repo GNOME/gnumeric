@@ -140,12 +140,12 @@ sheet_merge_remove (WorkbookControl *wbc, Sheet *sheet, Range const *range)
 
 	g_hash_table_remove (sheet->hash_merged, &r_copy->start);
 	sheet->list_merged = g_slist_remove (sheet->list_merged, r_copy);
-	g_free (r_copy);
 
 	cell = sheet_cell_get (sheet, range->start.col, range->start.row);
 	if (cell != NULL)
 		cell->base.flags &= ~CELL_IS_MERGED;
 
+	g_free (r_copy);
 	sheet->priv->reposition_selection = TRUE;
 	return FALSE;
 }

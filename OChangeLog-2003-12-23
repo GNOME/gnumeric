@@ -1,5 +1,9 @@
 2001-02-01  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-merge.c (sheet_merge_remove) : free the range AFTER we
+	  lookup the cell.  It is possible that the range is the same as the
+	  argument and we still need it.
+
 	* src/item-grid.c (item_grid_draw) : Init the extra horizontals
 	  in the next two rows.
 
