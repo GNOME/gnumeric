@@ -563,7 +563,7 @@ msgid "Unknown data value \"%s\" at line %d. Ignoring."
 msgstr "Valoare date \"%s\" necunoscutã la linia %d. Ignor."
 
 #: plugins/dif/dif.c:219
-#, c-format
+#, fuzzy, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
 msgstr "Valoare tip \"%s\" necunoscutã la linia %d. Ignor."
 
@@ -12354,7 +12354,7 @@ msgid "Delete Rows"
 msgstr "ªterge rânduri"
 
 #: src/commands.c:1344
-#, c-format
+#, fuzzy, c-format
 msgid "Inserting %d columns before %s"
 msgstr "inserarea a %d coloane înainte de %d"
 
@@ -14919,7 +14919,7 @@ msgid "Column %s"
 msgstr "Coloana: %s"
 
 #: src/dialogs/dialog-cell-sort.c:113 src/dialogs/dialog-cell-sort.c:118
-#, c-format
+#, fuzzy, c-format
 msgid "Row %s"
 msgstr "Rândul %d"
 
