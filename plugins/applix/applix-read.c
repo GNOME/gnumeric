@@ -1114,13 +1114,13 @@ applix_read_impl (ApplixReadState *state)
 		return applix_parse_error (state, "Missing dump revision");
 	else if (state->line_len < 0 || 65535 < state->line_len) /* magic sanity check */
 		return applix_parse_error (state, "Invalid line length");
-	else {
-		state->buffer_size = 2 * state->line_len + MAX_END_OF_LINE_SLOP;
-		state->buffer = g_new (gchar, state->buffer_size);
-	}
 
+	state->buffer_size = 2 * state->line_len + MAX_END_OF_LINE_SLOP;
+	state->buffer = g_new (gchar, state->buffer_size);
+
+	/* It appears some docs do not have this */
 	if (1 != fscanf (state->file, "Current Doc Real Name: %127s\n", real_name))
-		return applix_parse_error (state, "Official workbook name");
+		strncpy (real_name, "Unspecified", sizeof (real_name)-1);
 
 #ifndef NO_APPLIX_DEBUG
 	if (debug_applix_read > 0)
