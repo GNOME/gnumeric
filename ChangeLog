@@ -1,3 +1,7 @@
+2002-02-28  Jody Goldberg <jody@gnome.org>
+
+	* src/eval.c (handle_tree_deps) : disregard inactive names.
+
 2002-02-26  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (workbook_control_gui_init) : handle the

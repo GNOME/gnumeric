@@ -1,3 +1,8 @@
+2002-02-28  Jody Goldberg <jody@gnome.org>
+
+	* dialog-define-names.c (name_guru_init) : init the
+	  expr-entry to abs.
+
 2002-02-19  Jody Goldberg <jody@gnome.org>
 
 	* dialog-formula-guru.c (formula_guru_arg_new) : handle resize more
