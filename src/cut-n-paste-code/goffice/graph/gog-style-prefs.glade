@@ -452,7 +452,7 @@
 				      <child>
 					<widget class="GtkMenuItem" id="brightness1">
 					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Fill from start colour to a darker/lighter version of that color</property>
+					  <property name="tooltip" translatable="yes">Fill from start color to a darker/lighter version of that color</property>
 					  <property name="label" translatable="yes">Brightness</property>
 					  <property name="use_underline">True</property>
 					  <signal name="activate" handler="cb_gog_style_gradient_set_1color" last_modification_time="Fri, 08 Aug 2003 03:52:11 GMT"/>
