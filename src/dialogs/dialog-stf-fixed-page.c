@@ -379,17 +379,20 @@ fixed_page_update_preview (StfDialogData *pagedata)
 	StfParseOptions_t *parseoptions = pagedata->parseoptions;
 	RenderData_t *renderdata = pagedata->fixed.renderdata;
 	int i;
+	GStringChunk *lines_chunk;
 	GPtrArray *lines;
 	StfTrimType_t trim;
+
+	lines_chunk = g_string_chunk_new (100 * 1024);
 
 	/* Don't trim on this page.  */
 	trim = parseoptions->trim_spaces;
 	stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_NEVER);
-	lines = stf_parse_general (parseoptions,
+	lines = stf_parse_general (parseoptions, lines_chunk,
 				   pagedata->cur, pagedata->cur_end);
 	stf_parse_options_set_trim_spaces (parseoptions, trim);
 
-	stf_preview_set_lines (renderdata, lines);
+	stf_preview_set_lines (renderdata, lines_chunk, lines);
 
 	for (i = 0; i < renderdata->colcount; i++) {
 		GtkTreeViewColumn *column =

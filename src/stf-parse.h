@@ -96,10 +96,12 @@ int stf_parse_options_fixed_splitpositions_nth         (StfParseOptions_t *parse
 /* USING the stf structs to actually do some parsing, these are the lower-level functions and utility functions */
 
 GPtrArray          *stf_parse_general                                 (StfParseOptions_t *parseoptions,
+								       GStringChunk *lines_chunk,
 								       char const *data,
 								       char const *data_end);
 void                stf_parse_general_free                            (GPtrArray *lines);
 GPtrArray          *stf_parse_lines                                   (StfParseOptions_t *parseoptions,
+								       GStringChunk *lines_chunk,
 								       const char *data,
 								       gboolean with_lineno);
 

@@ -1,3 +1,9 @@
+2003-10-13  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-preview.c (stf_preview_set_lines): Take extra
+	GStringChunk* argument.
+	(stf_preview_set_lines): Be consistent with the column maximum.
+
 2003-10-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.1

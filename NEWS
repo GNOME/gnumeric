@@ -5,6 +5,11 @@ Jody:
 	* Don't install schemas when building an rpm.
 	* Support non-assisted CSV export for ssconvert
 
+Morten:
+	* Fix crash with STF import and gazillions of columns.
+	* Drastically reduce memory usage during STF import with lots of
+	  small fields.
+
 Rodrigo:
 	* Bump requirement to libgda/libgnomedb 1.0.1
 

@@ -93,6 +93,7 @@ stf_preview_new (GtkWidget *data_container,
 	renderdata->startrow       = 1;
 	renderdata->colformats     = g_ptr_array_new ();
 	renderdata->ignore_formats = FALSE;
+	renderdata->lines_chunk    = NULL;
 	renderdata->lines          = NULL;
 
 	renderdata->date_conv	   = date_conv;
@@ -100,8 +101,8 @@ stf_preview_new (GtkWidget *data_container,
 	renderdata->ll =
 		gnumeric_lazy_list_new (render_get_value, renderdata, 0);
 	gnumeric_lazy_list_add_column (renderdata->ll,
-#warning FIXME: we should not need to limit the shown columns to 4 times SHEET_MAX_COLS 
-				       4*SHEET_MAX_COLS,
+#warning "FIXME: we should not need to limit the shown columns to 4 times SHEET_MAX_COLS"
+				       4 * SHEET_MAX_COLS,
 				       G_TYPE_STRING);
 
 	renderdata->tree_view =
@@ -158,29 +159,36 @@ stf_preview_free (RenderData_t *renderdata)
 	stf_preview_colformats_clear (renderdata);
 	g_ptr_array_free (renderdata->colformats, TRUE);
 
-	stf_preview_set_lines (renderdata, NULL);
+	stf_preview_set_lines (renderdata, NULL, NULL);
 	g_object_unref (renderdata->tooltips);
 
 	g_free (renderdata);
 }
 
 void
-stf_preview_set_lines (RenderData_t *renderdata, GPtrArray *lines)
+stf_preview_set_lines (RenderData_t *renderdata,
+		       GStringChunk *lines_chunk,
+		       GPtrArray *lines)
 {
 	unsigned int i;
 	int colcount = 0;
 	
 	g_return_if_fail (renderdata != NULL);
 
-	if (renderdata->lines == lines)
-		return;
-
 	/* Empty the table.  */
 	gnumeric_lazy_list_set_rows (renderdata->ll, 0);
 
-	if (renderdata->lines)
-		stf_parse_general_free (renderdata->lines);
-	renderdata->lines = lines;
+	if (renderdata->lines != lines) {
+		if (renderdata->lines)
+			stf_parse_general_free (renderdata->lines);
+		renderdata->lines = lines;
+	}
+
+	if (renderdata->lines_chunk != lines_chunk) {
+		if (renderdata->lines_chunk)
+			g_string_chunk_free (renderdata->lines_chunk);
+		renderdata->lines_chunk = lines_chunk;
+	}
 
 	if (lines == NULL)
 		return;
@@ -192,6 +200,8 @@ stf_preview_set_lines (RenderData_t *renderdata, GPtrArray *lines)
 
 	if (colcount <= 0)
 		colcount = 1;
+	/* See stf_preview_new.  */
+	colcount = MIN (colcount, 4 * SHEET_MAX_COLS);
 
 	/* Fix number of columns.  */
 	while (renderdata->colcount > colcount)

@@ -59,6 +59,7 @@ g_free (oldlocale);}
 
 /* Source_t struct, used for interchanging parsing information between the low level parse functions */
 typedef struct {
+	GStringChunk *chunk;
 	char const *position;  /* Indicates the current position within data */
 
 	/* Used internally for fixed width parsing */
@@ -179,7 +180,7 @@ void
 stf_parse_options_free (StfParseOptions_t *parseoptions)
 {
 	g_return_if_fail (parseoptions != NULL);
-	
+
 	if (parseoptions->col_import_array)
 		g_free (parseoptions->col_import_array);
 	if (parseoptions->locale)
@@ -547,12 +548,13 @@ stf_parse_csv_is_separator (char const *character, char const *chr, GSList const
  *
  * returns a pointer to the parsed cell contents. (has to be freed by the calling routine)
  **/
-static inline char *
+static char *
 stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 {
 	char const *cur;
 	char const *next = NULL;
-	GString *res;
+	char *res;
+	GString *text;
 	StfTokenType_t ttype;
 
 	g_return_val_if_fail (src != NULL, NULL);
@@ -561,7 +563,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 	cur = src->position;
 	g_return_val_if_fail (cur != NULL, NULL);
 
-	res = g_string_sized_new (30);
+	text = g_string_sized_new (30);
 
 	while (cur && *cur) {
 		char const *here, *there;
@@ -578,7 +580,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 			/* break */   /* fall through */
 		case STF_TOKEN_CHAR:
 			if (here && there)
-				res = g_string_append_len (res, here, there - here);
+				g_string_append_len (text, here, there - here);
 			break;
 		case STF_TOKEN_SEPARATOR:
 			cur = next;
@@ -598,19 +600,27 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 	if (parseoptions->indicator_2x_is_single) {
 		gboolean second = TRUE;
 		gunichar quote = parseoptions->stringindicator;
-		int len = res->len;
+		int len = text->len;
 		char *found;
 
-		while ((found = g_utf8_strrchr (res->str, len, quote))) {
-			len = found - res->str;
+		while ((found = g_utf8_strrchr (text->str, len, quote))) {
+			len = found - text->str;
 			if (second) {
-				res = g_string_erase (res, len, g_utf8_next_char(found)-found);
+				g_string_erase (text, len, g_utf8_next_char(found) - found);
 				second = FALSE;
 			} else
 				second = TRUE;
 		}
 	}
-	return g_string_free (res, FALSE);
+
+#ifdef HAVE_G_STRING_CHUNK_INSERT_LEN
+	res = g_string_chunk_insert_len (src->chunk, text->str, text->len);
+#else
+	res = g_string_chunk_insert (src->chunk, text->str);
+#endif
+	g_string_free (text, TRUE);
+
+	return res;
 }
 
 /*
@@ -663,8 +673,11 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 
 		trim_spaces_inplace (field, parseoptions);
 		g_ptr_array_add (line, field);
-	
+
 	}
+#if 0
+	g_print ("Got a line of %d fields.\n", line->len);
+#endif
 
 	return line;
 }
@@ -672,42 +685,46 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 /**
  * stf_parse_fixed_cell:
  *
- * returns a pointer to the parsed cell contents. (has to be freed by the calling routine)
+ * returns a pointer to the parsed cell contents.
  **/
-static inline char *
+static char *
 stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 {
-	GString *res;
+	char *res;
 	char const *cur;
 	int splitval;
-	int len = 0;
 
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 
 	cur = src->position;
 
-	res = g_string_new (NULL);
 	if (src->splitpos < my_garray_len (parseoptions->splitpositions))
 		splitval = (int) g_array_index (parseoptions->splitpositions, int, src->splitpos);
 	else
 		splitval = -1;
 
-	while (*cur != '\0' && !compare_terminator (cur, parseoptions) && splitval != src->linepos) {
-		g_string_append_unichar (res, g_utf8_get_char (cur));
-
+	while (*cur != 0 && !compare_terminator (cur, parseoptions) && splitval != src->linepos) {
 		src->linepos++;
 	        cur = g_utf8_next_char (cur);
-		len++;
 	}
+
+#ifdef HAVE_G_STRING_CHUNK_INSERT_LEN
+	res = g_string_chunk_insert_len (src->chunk,
+					 src->position,
+					 cur - src->position);
+#else
+	{
+		char save = *cur;
+		*(char *)cur = 0;  /* Ugh! */
+		res = g_string_chunk_insert (src->chunk, src->position);
+		*(char *)cur = save;
+	}
+#endif
 
 	src->position = cur;
 
-	if (len != 0)
-		return g_string_free (res, FALSE);
-
-	g_string_free (res, TRUE);
-	return NULL;
+	return res;
 }
 
 /**
@@ -748,11 +765,7 @@ stf_parse_general_free (GPtrArray *lines)
 	unsigned lineno;
 	for (lineno = 0; lineno < lines->len; lineno++) {
 		GPtrArray *line = g_ptr_array_index (lines, lineno);
-		unsigned field;
-		for (field = 0; field < line->len; field++) {
-			char *text = g_ptr_array_index (line, field);
-			g_free (text);
-		}
+		/* Fields are not free here.  */
 		g_ptr_array_free (line, TRUE);
 	}
 	g_ptr_array_free (lines, TRUE);
@@ -770,6 +783,7 @@ stf_parse_general_free (GPtrArray *lines)
  **/
 GPtrArray *
 stf_parse_general (StfParseOptions_t *parseoptions,
+		   GStringChunk *lines_chunk,
 		   char const *data, char const *data_end)
 {
 	GPtrArray *lines;
@@ -782,6 +796,7 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 	g_return_val_if_fail (stf_parse_options_valid (parseoptions), NULL);
 	g_return_val_if_fail (g_utf8_validate (data, -1, NULL), NULL);
 
+	src.chunk = lines_chunk;
 	src.position = data;
 	row = 0;
 
@@ -806,7 +821,9 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 }
 
 GPtrArray *
-stf_parse_lines (StfParseOptions_t *parseoptions, const char *data, gboolean with_lineno)
+stf_parse_lines (StfParseOptions_t *parseoptions,
+		 GStringChunk *lines_chunk,
+		 const char *data, gboolean with_lineno)
 {
 	GPtrArray *lines;
 	int lineno = 1;
@@ -818,13 +835,29 @@ stf_parse_lines (StfParseOptions_t *parseoptions, const char *data, gboolean wit
 		const char *data0 = data;
 		GPtrArray *line = g_ptr_array_new ();
 
-		if (with_lineno)
-			g_ptr_array_add (line, g_strdup_printf ("%d", lineno++));
+		if (with_lineno) {
+			char buf[4 * sizeof (int)];
+			sprintf (buf, "%d", lineno++);
+			g_ptr_array_add (line,
+					 g_string_chunk_insert (lines_chunk, buf));
+		}
 
 		while (1) {
 			int termlen = compare_terminator (data, parseoptions);
 			if (termlen > 0 || *data == 0) {
-				g_ptr_array_add (line, g_strndup (data0, data - data0));
+#ifdef HAVE_G_STRING_CHUNK_INSERT_LEN
+				g_ptr_array_add (line,
+						 g_string_chunk_insert_len (lines_chunk,
+									    data0,
+									    data - data0));
+#else
+				char save = *data;
+				*(char *)data = 0;  /* Ugh! */
+				g_ptr_array_add (line,
+						 g_string_chunk_insert (lines_chunk,
+									data0));
+				*(char *)data = save;
+#endif
 				data += termlen;
 				break;
 			} else
@@ -1121,6 +1154,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	int row;
 	unsigned int lrow;
 	GnmDateConventions const *date_conv;
+	GStringChunk *lines_chunk;
 	GPtrArray *lines;
 	SETUP_LOCALE_SWITCH;
 
@@ -1134,7 +1168,8 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 
 	if (!data_end)
 		data_end = data + strlen (data);
-	lines = stf_parse_general (parseoptions, data, data_end);
+	lines_chunk = g_string_chunk_new (100 * 1024);
+	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end);
 	for (row = start_row, lrow = 0; lrow < lines->len ; row++, lrow++) {
 		unsigned int lcol, lcol_target = 0;
 		GPtrArray *line = g_ptr_array_index (lines, lrow);
@@ -1145,16 +1180,15 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 				char *text = g_ptr_array_index (line, lcol);
 				if (text) {
 					GnmValue *v;
-					StyleFormat *fmt = mstyle_get_format 
+					StyleFormat *fmt = mstyle_get_format
 						(sheet_style_get (sheet,
-								  start_col + lcol_target, 
+								  start_col + lcol_target,
 								  row));
 					v = format_match (text, fmt, date_conv);
 					if (v == NULL) {
-						v = value_new_string_nocopy (text);
-						g_ptr_array_index (line, lcol) = NULL;
+						v = value_new_string (text);
 					}
-					cell_set_value (sheet_cell_fetch 
+					cell_set_value (sheet_cell_fetch
 							(sheet, start_col + lcol_target, row), v);
 				}
 				lcol_target++;
@@ -1163,6 +1197,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	}
 
 	stf_parse_general_free (lines);
+	g_string_chunk_free (lines_chunk);
 	END_LOCALE_SWITCH;
 	return TRUE;
 }
@@ -1173,6 +1208,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 	CellRegion *cr;
 	CellCopyList *content = NULL;
 	unsigned int row, colhigh = 0;
+	GStringChunk *lines_chunk;
 	GPtrArray *lines;
 	SETUP_LOCALE_SWITCH;
 
@@ -1183,11 +1219,12 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 
 	if (!data_end)
 		data_end = data + strlen (data);
-	lines = stf_parse_general (parseoptions, data, data_end);
+	lines_chunk = g_string_chunk_new (100 * 1024);
+	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end);
 	for (row = 0; row < lines->len; row++) {
 		GPtrArray *line = g_ptr_array_index (lines, row);
 		unsigned int col, targetcol = 0;
-#warning FIXME: We should not just assume the 1900 convention 
+#warning "FIXME: We should not just assume the 1900 convention "
 		GnmDateConventions date_conv = {FALSE};
 
 		for (col = 0; col < line->len; col++) {
@@ -1198,13 +1235,12 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 				if (text) {
 					CellCopy *ccopy;
 					GnmValue *v;
-					StyleFormat *fmt = g_ptr_array_index 
+					StyleFormat *fmt = g_ptr_array_index
 						(parseoptions->formats, col);
 
 					v = format_match (text, fmt, &date_conv);
 					if (v == NULL) {
-						v = value_new_string_nocopy (text);
-						g_ptr_array_index (line, col) = NULL;
+						v = value_new_string (text);
 					}
 
 					ccopy = g_new (CellCopy, 1);
@@ -1224,6 +1260,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 		}
 	}
 	stf_parse_general_free (lines);
+	g_string_chunk_free (lines_chunk);
 
 	END_LOCALE_SWITCH;
 
@@ -1347,6 +1384,7 @@ StfParseOptions_t *
 stf_parse_options_guess (const char *data)
 {
 	StfParseOptions_t *res;
+	GStringChunk *lines_chunk;
 	GPtrArray *lines;
 	int tabcount;
 	int sepcount;
@@ -1355,7 +1393,8 @@ stf_parse_options_guess (const char *data)
 	g_return_val_if_fail (data != NULL, NULL);
 
 	res = stf_parse_options_new ();
-	lines = stf_parse_lines (res, data, FALSE);
+	lines_chunk = g_string_chunk_new (100 * 1024);
+	lines = stf_parse_lines (res, lines_chunk, data, FALSE);
 
 	tabcount = count_character (lines, '\t', 0.2);
 	sepcount = count_character (lines, sepchar, 0.2);
@@ -1401,6 +1440,7 @@ stf_parse_options_guess (const char *data)
 	}
 
 	stf_parse_general_free (lines);
+	g_string_chunk_free (lines_chunk);
 
 	return res;
 }

@@ -1,3 +1,9 @@
+2003-10-13  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_fixed_cell, stf_parse_csv_cell,
+	stf_parse_general, stf_parse_lines): Switch to allocating from a
+	GStringChunk.
+
 2003-10-12  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : remove GTK_DISABLE_DEPRECATED for now.  gtk head has

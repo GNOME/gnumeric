@@ -46,6 +46,7 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 	RenderData_t *renderdata = pagedata->csv.renderdata;
 	GSList *sepstr;
 	GString *sepc = g_string_new (NULL);
+	GStringChunk *lines_chunk;
 	GPtrArray *lines;
 	StfTrimType_t trim;
 
@@ -87,14 +88,16 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 	stf_parse_options_csv_set_duplicates (parseoptions,
 					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_duplicates)));
 
+	lines_chunk = g_string_chunk_new (100 * 1024);
+
 	/* Don't trim on this page.  */
 	trim = parseoptions->trim_spaces;	
 	stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_NEVER);
-	lines = stf_parse_general (parseoptions,
+	lines = stf_parse_general (parseoptions, lines_chunk,
 				   pagedata->cur, pagedata->cur_end);
 	stf_parse_options_set_trim_spaces (parseoptions, trim);
 
-	stf_preview_set_lines (renderdata, lines);
+	stf_preview_set_lines (renderdata, lines_chunk, lines);
 }
 
 /**

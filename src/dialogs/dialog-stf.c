@@ -107,7 +107,7 @@ next_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
 
 	switch (gtk_notebook_get_current_page (data->notebook)) {
 	case DPG_MAIN:
-		stf_preview_set_lines (data->main.renderdata, NULL);
+		stf_preview_set_lines (data->main.renderdata, NULL, NULL);
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.main_separated))) {
 			newpos = DPG_CSV;
 		} else {
@@ -116,12 +116,12 @@ next_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
 		break;
 
 	case DPG_CSV:
-		stf_preview_set_lines (data->csv.renderdata, NULL);
+		stf_preview_set_lines (data->csv.renderdata, NULL, NULL);
 		newpos = DPG_FORMAT;
 		break;
 
         case DPG_FIXED:
-		stf_preview_set_lines (data->fixed.renderdata, NULL);
+		stf_preview_set_lines (data->fixed.renderdata, NULL, NULL);
 		newpos = DPG_FORMAT;
 		break;
 
@@ -143,7 +143,7 @@ back_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
 
 	switch (gtk_notebook_get_current_page (data->notebook)) {
 	case DPG_FORMAT:
-		stf_preview_set_lines (data->format.renderdata, NULL);
+		stf_preview_set_lines (data->format.renderdata, NULL, NULL);
 		if (data->parseoptions->parsetype == PARSE_TYPE_CSV)
 			newpos = DPG_CSV;
 		else
@@ -151,12 +151,12 @@ back_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
 		break;
 
 	case DPG_FIXED:
-		stf_preview_set_lines (data->fixed.renderdata, NULL);
+		stf_preview_set_lines (data->fixed.renderdata, NULL, NULL);
 		newpos = DPG_MAIN;
 		break;
 
 	case DPG_CSV:
-		stf_preview_set_lines (data->csv.renderdata, NULL);
+		stf_preview_set_lines (data->csv.renderdata, NULL, NULL);
 		newpos = DPG_MAIN;
 		break;
 

@@ -72,7 +72,9 @@ static void
 main_page_update_preview (StfDialogData *pagedata)
 {
 	RenderData_t *renderdata = pagedata->main.renderdata;
+	GStringChunk *lines_chunk = g_string_chunk_new (100 * 1024);	
 	GPtrArray *lines = stf_parse_lines (pagedata->parseoptions,
+					    lines_chunk,
 					    pagedata->utf8_data, TRUE);
         unsigned int ui;
 
@@ -83,7 +85,7 @@ main_page_update_preview (StfDialogData *pagedata)
 		pagedata->longest_line = MAX (pagedata->longest_line, thislen);
 	}
 
-	stf_preview_set_lines (renderdata, lines);
+	stf_preview_set_lines (renderdata, lines_chunk, lines);
 }
 
 

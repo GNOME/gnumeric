@@ -329,6 +329,7 @@ format_page_update_preview (StfDialogData *pagedata)
 	unsigned int ui;
 	int i;
 	int col_import_array_len_old, old_part;
+	GStringChunk *lines_chunk;
 
 	stf_preview_colformats_clear (renderdata);
 	for (ui = 0; ui < pagedata->format.formats->len; ui++) {
@@ -336,8 +337,10 @@ format_page_update_preview (StfDialogData *pagedata)
 		stf_preview_colformats_add (renderdata, sf);
 	}
 
-	stf_preview_set_lines (renderdata,
+	lines_chunk = g_string_chunk_new (100 * 1024);
+	stf_preview_set_lines (renderdata, lines_chunk,
 			       stf_parse_general (pagedata->parseoptions,
+						  lines_chunk,
 						  pagedata->cur,
 						  pagedata->cur_end));
 
