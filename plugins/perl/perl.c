@@ -24,14 +24,16 @@ int
 init_plugin(PluginData *pd)
 {
 	char *argv[] = { "", NULL, NULL, NULL };
-	char *name;
+	char *arg;
 
 	/* Initialize Gnumeric plugin information. */
 	pd->can_unload = no_unloading_for_me;
 	pd->title = "Perl Plugin";
 
 	/* Initialize the Perl interpreter. */
-	argv[1] = gnome_unconditional_datadir_file("gnumeric/perl/lib");
+	arg = gnome_unconditional_datadir_file("gnumeric/perl/lib");
+	argv[1] = g_copy_strings("-I", arg, NULL);
+	g_free(arg);
 	argv[2] = gnome_unconditional_datadir_file("gnumeric/perl/startup.pl");
 	gnumeric_perl_interp = perl_alloc();
 	perl_construct(gnumeric_perl_interp);

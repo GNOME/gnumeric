@@ -3,11 +3,6 @@
 #
 
 #
-# We should build in the extension subdirectory as well.
-#
-SUBDIRS = ext
-
-#
 # Where can we find the Gnumeric include files.
 #
 GNUMERIC_SRC_DIR = $(srcdir)/../../src
@@ -30,11 +25,15 @@ plugin_PROGRAMS = perl.so
 .c.o:
 	$(CC) $(CFLAGS) -c $<
 
-perl.so: perl.o xsinit.o
+perl.so: perl.o xsinit.o ext.timestamp
 	$(PERL_LD) $(PERL_LDDLFLAGS) -o perl.so perl.o xsinit.o $(PERL_LDOPTS)
 
 xsinit.c:
 	perl -MExtUtils::Embed -e xsinit -- -o xsinit.c
+
+ext.timestamp:
+	( cd ext ; perl Makefile.PL LIB=$(datadir)/gnumeric/perl/lib )
+	touch ext.timestamp
 
 Perlscriptsdir = $(datadir)/gnumeric/perl
 

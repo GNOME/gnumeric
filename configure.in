@@ -110,9 +110,3 @@ po/Makefile.in
 macros/Makefile
 stamp.h
 ],[sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])
-
-if test "x$perl_val" = "xtrue"; then
-  cd plugins/perl/ext
-  perl Makefile.PL LIB="${datadir}/gnumeric/perl/lib" >/dev/null 2>&1
-  cd ../../..
-fi
