@@ -14,14 +14,13 @@
 
 #include <config.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
 #include <gnome.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <ctype.h>
 #include <fcntl.h>
 #include <errno.h>
 #include "csv-io.h"
@@ -29,42 +28,35 @@
 #include "gnumeric-util.h"
 
 
-static char
-insert_csv_cell (Sheet* sheet, char *string, int start, int end, int col, int row)
+static void
+insert_csv_cell (Sheet* sheet, const char *string, int start, int end, int col, int row)
 {
-	char	*p;
-	int	i;
-	int	ii = 0;
-	Cell	*cell;
+	char *p;
+	Cell *cell;
+	int len;
 
 	if(sheet == NULL)
-		return 0;
+		return;
 
-	if (start > 1 && end > 1){
-		p = g_malloc (end - start + 1);
+	len = end - start + 1;
+	if (len < 0)
+		return;
+	p = g_new (char, len + 1);
+	memcpy (p, string + start, len);
+	p[len] = 0;
 
-		g_assert (p != NULL);
-
-		for (i = start; i <= end; i++){
-			p [ii++] = string [i];
-		}
-		p [ii] = '\0';
-	} else {
-		p = (char*) g_malloc (2);
-		p [0] = string [0];
-		p [1] = '\0';
-	}
-	/*fprintf(stderr,"'%s' at col:%d, row:%d.\n", p, col, row);*/
+#if 0
+	fprintf(stderr,"'%s' at col:%d, row:%d.\n", p, col, row);
+#endif
 
 	if ((cell = sheet_cell_get (sheet, row, col)) == NULL){
 		if ((cell = sheet_cell_new (sheet, row, col)) == 0){
-			return 0;
+			g_free (p);
+			return;
 		}
 	}
 	cell_set_text_simple (cell, p);
-	free (p);
-
-	return 0;
+	g_free (p);
 }
 
 static int
@@ -76,11 +68,13 @@ csv_parse_file (const char *filename,Sheet *sheet)
 	char		*file;	/* data pointer */
 	int		idx, lindex;
 	int		crow=0,ccol=0,mcol=0; /* current/max col/row */
-	int		data=0;
-	int		non_printable=0;
+	gboolean        file_mmaped, data;
 
-	idx = 0;
-	lindex = -1;
+	struct {
+		int non_printables;
+		int lines;
+		int commas;
+	} statistics;
 
 	if ((fd = open (filename, O_RDONLY)) < 0){
 		char *msg;
@@ -96,7 +90,7 @@ csv_parse_file (const char *filename,Sheet *sheet)
 
 	if (fstat (fd, &buf) == -1){
 		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-				 "Can not stat the file");
+				 "Cannot stat the file");
 		close(fd);
 		return 0;
 	}
@@ -109,23 +103,49 @@ csv_parse_file (const char *filename,Sheet *sheet)
 		flen = buf.st_size;
 	}
 
-	if ((file = mmap (NULL, flen, PROT_READ, MAP_PRIVATE, fd, 0)) == (char*)-1){
-		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, "Can not mmap the file");
-		close (fd);
+	file = mmap (NULL, flen, PROT_READ, MAP_PRIVATE, fd, 0);
+	if (file == (char*)-1) {
+		/* mmap failed.  */
+		file_mmaped = FALSE;
+
+		file = g_new (char, flen);
+		if (file) {
+			if (read (fd, file, flen) != flen) {
+				g_free (file);
+				file = 0;
+			}
+		}
+	} else {
+		file_mmaped = TRUE;
+	}
+	close (fd);
+
+	if (!file) {
+		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				 _("Failed to read csv file"));
 		return 0;
 	}
 
-	while (idx <= flen){
-	switch (file [idx]){
+	statistics.non_printables = 0;
+	statistics.lines = 0;
+	statistics.commas = 0;
+
+	idx = 0;
+	lindex = 0;
+	data = FALSE;
+
+	while (idx < flen) {
+	switch (file [idx]) {
 		case '\r':
-			if (file [idx+1] == '\n')
-				idx++;
+			if (idx + 1 == flen || file [idx+1] != '\n')
+				statistics.non_printables++;
+			idx++;
 			break;
 		case '\n':
 			if (data){  /* Non empty line */
 				insert_csv_cell (sheet, file, lindex, idx-1, crow, ccol);
 			}
-			data = 0;
+			data = FALSE;
 			lindex = idx+1;
 			if (ccol > mcol){
 				mcol=ccol;
@@ -133,37 +153,45 @@ csv_parse_file (const char *filename,Sheet *sheet)
 			ccol = 0;
 			crow++;
 			idx++;
+			statistics.lines++;
 			break;
 		case ',':
 			if(data){  /* Non empty cell */
 				insert_csv_cell (sheet, file, lindex, idx-1, crow, ccol);
 			}
-			data = 0;
+			data = FALSE;
 			lindex = idx+1;
 			ccol++;
 			idx++;
+			statistics.commas++;
 			break;
 
 		default:
-			if (file [idx] < 21 || file [idx] > 126){
-				non_printable++;
-				if (non_printable > 10){ /* FIXME: ARBITRARY VALUE */
-					close (fd);
-					return 0;
-				}
-			}
+			if (!isspace ((unsigned char)file[idx]) &&
+			    !isprint ((unsigned char)file[idx]))
+				statistics.non_printables++;
 			idx++;
-			data = 1;
+			data = TRUE;
 			break;
 		}
 	}
 
-	if (sheet){
+	if (sheet) {
 		sheet->max_col_used=mcol;
 		sheet->max_row_used=crow;
 	}
-	munmap (file, flen);
-	close (fd);
+
+	if (file_mmaped)
+		munmap (file, flen);
+	else
+		g_free (file);
+
+	/* Heuristics ahead!  */
+	if (statistics.non_printables > flen / 200 ||
+	    statistics.commas < statistics.lines / 2) {
+		return 0;
+	}
+
 	return 1;
 }
 
@@ -196,7 +224,7 @@ csv_read_workbook (const char* filename)
 static gboolean
 csv_probe (const char *filename)
 {
-	if(csv_parse_file (filename,0) == 1){
+	if(csv_parse_file (filename, NULL) == 1){
 		return TRUE;
 	} else {
 		return FALSE;
@@ -208,7 +236,7 @@ csv_init (void)
 {
 	const char *desc = _("CSV (comma separated values)");
 
-	file_format_register_open (0, desc, csv_probe, csv_read_workbook);
+	file_format_register_open (1, desc, csv_probe, csv_read_workbook);
 	/* file_format_register_save (".csv", desc, gnumericWriteCSVWorkbook);*/
 }
 

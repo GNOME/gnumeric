@@ -1,3 +1,12 @@
+1999-06-25  Morten Welinder  <terra@diku.dk>
+
+	* csv-io.c (insert_csv_cell): Use g_free.  Cleanup the mess.
+	(csv_init): Up priority to 1 -- we have slightly more structure
+ 	than plain text.
+	(csv_parse_file): Fix off-by-one error.  Fix \r logic.  Handle
+ 	foreign locales with more grace.  Handle mmap failures by
+ 	reverting to good old read.
+
 1999-06-14  Morten Welinder  <terra@diku.dk>
 
 	* csv-io.c (csv_read_workbook): Make static.
