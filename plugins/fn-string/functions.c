@@ -956,9 +956,18 @@ gnumeric_substitute (FunctionEvalInfo *ei, GnmValue **argv)
 	char const *text = value_peek_string (argv[0]);
 	char const *old  = value_peek_string (argv[1]);
 	char const *new  = value_peek_string (argv[2]);
-	int num = argv[3] ? value_get_as_int (argv[3]) : 0;
+	int num = 0;
+
+	if (argv[3]) {
+		num = value_get_as_int (argv[3]);
+		if (num <= 0)
+			return value_new_error_VALUE (ei->pos);
+	}
 
 	oldlen = strlen (old);
+	if (oldlen == 0)
+		return value_dup (argv[0]);
+
 	newlen = strlen (new);
 	len = strlen (text);
 	s = g_string_sized_new (len);
