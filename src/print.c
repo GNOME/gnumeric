@@ -266,7 +266,8 @@ print_headers (PrintJobInfo *pj)
 	double y;
 	
 	gnome_print_setfont (pj->print_context, pj->decoration_font);
-
+	gnome_print_setrgbcolor (pj->print_context, 0, 0, 0);
+	
 	y = pj->height - pm->top.points - pj->decoration_font->size;
 	print_hf (pj, pj->pi->header->left_format,   LEFT_HEADER, y);
 	print_hf (pj, pj->pi->header->middle_format, MIDDLE_HEADER, y);
