@@ -688,7 +688,6 @@ plugins/html/Makefile
 plugins/dif/Makefile
 plugins/xml_sax/Makefile
 plugins/applix/Makefile
-plugins/plan-perfect/Makefile
 plugins/psiconv/Makefile
 plugins/mps/Makefile
 plugins/sample_datasource/Makefile
