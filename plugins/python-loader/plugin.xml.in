@@ -7,6 +7,7 @@
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="python_loader.la"/>
 	</loader>
+	<!--
 	<services>
 		<service type="plugin_loader" id="python"></service>
 		<service type="ui" id="console" file="ui-console-menu.xml">
@@ -15,4 +16,5 @@
 			</verbs>
 		</service>
 	</services>
+	--!>
 </plugin>
