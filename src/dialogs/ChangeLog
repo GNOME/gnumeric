@@ -1,3 +1,8 @@
+2004-05-17  Morten Welinder  <terra@gnome.org>
+
+	* dialog-printer-setup.c (fill_hf): Don't set things for undefined
+	column 1.
+
 2004-05-14  Jody Goldberg <jody@gnome.org>
 
 	* names.glade : make the table resizeable and supply a default size to
