@@ -1,5 +1,10 @@
 2000-05-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/xml-io.c (xml_workbook_read) : Set the textdomain as well as the
+	  LC_NUMERIC so that things like TRUE/FALSE do not get translated
+	  while persisting.
+	(xml_workbook_write) : Ditto.
+
 	* src/sheet-style.c (sheet_style_optimize) : We can not merge (in any
 	  dimension) if there is an intervening style that partially overlaps.
 

@@ -2810,7 +2810,7 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	GtkArg *args;
 	guint n_args;
 	GList *sheets, *sheets0;
-	char *oldlocale;
+	char *old_num_locale, *old_msg_locale;
 
 	/*
 	 * General informations about the Sheet.
@@ -2824,8 +2824,10 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 		ctxt->ns = gmr;
 	}
 
-	oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
+	old_msg_locale = textdomain (NULL);
+	textdomain ("C");
 
 	args = workbook_get_attributev (wb, &n_args);
 	child = xml_write_attributes (ctxt, n_args, args);
@@ -2876,8 +2878,9 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 			   (GTK_NOTEBOOK (wb->notebook)));
 	xmlAddChild (cur, child);
 
-	setlocale (LC_NUMERIC, oldlocale);
-	g_free (oldlocale);
+	textdomain (old_msg_locale);
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 
 	return cur;
 }
@@ -2914,7 +2917,7 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 {
 	Sheet *sheet;
 	xmlNodePtr child, c;
-	char *oldlocale;
+	char *old_num_locale, *old_msg_locale;
 	GList *list = NULL;
 
 	if (strcmp (tree->name, "Workbook")){
@@ -2925,8 +2928,10 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 	}
 	ctxt->wb = wb;
 
-	oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
+	old_msg_locale = textdomain (NULL);
+	textdomain ("C");
 
 	child = xml_search_child (tree, "Summary");
 	if (child)
@@ -2993,8 +2998,9 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 			gtk_notebook_set_page (GTK_NOTEBOOK (wb->notebook), tmp);
 	}
 
-	setlocale (LC_NUMERIC, oldlocale);
-	g_free (oldlocale);
+	textdomain (old_msg_locale);
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 
 	return TRUE;
 }
