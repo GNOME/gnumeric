@@ -260,7 +260,7 @@ make_function (GnmExprList **stack, guint16 idx, guint8 *data)
 			txt = g_strdup_printf ("[Function '%s']",
 					       f->name ? f->name : "?");
 			printf ("Unknown %s\n", txt);
-			parse_list_push_expr (stack, gnm_expr_new_error (txt));
+			parse_list_push_expr (stack, gnm_expr_new_constant (value_new_error (NULL, txt)));
 			g_free (txt);
 
 			parse_list_free (&args);

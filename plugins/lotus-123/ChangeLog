@@ -1,3 +1,8 @@
+2002-04-19  Morten Welinder <terra@diku.dk>
+
+	* lotus-formula.c (make_function): Use error constant as
+	expression.  (I.e., don't call "ERROR".)
+
 2002-03-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.2

@@ -52,7 +52,6 @@ GnmExpr const *gnm_expr_new_cellref  (CellRef const *cr);
 GnmExpr const *gnm_expr_new_array    (int x, int y, int cols, int rows);
 GnmExpr const *gnm_expr_new_set	     (GnmExprList *args);
 
-GnmExpr const *gnm_expr_new_error    (char const *txt);
 GnmExpr const *gnm_expr_first_func   (GnmExpr const *expr);
 Value	      *gnm_expr_get_range    (GnmExpr const *expr) ;
 FunctionDefinition *gnm_expr_get_func_def (GnmExpr const *expr);

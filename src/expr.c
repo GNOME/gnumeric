@@ -64,28 +64,6 @@ gnm_expr_new_constant (Value *v)
 }
 
 GnmExpr const *
-gnm_expr_new_error (char const *txt)
-{
-	FunctionDefinition *func;
-	GnmExprList *args = NULL;
-
-	if (strcmp (txt, gnumeric_err_NA) == 0 ||
-	    strcmp (txt, gnumeric_err_DIV0) == 0 ||
-	    strcmp (txt, gnumeric_err_VALUE) == 0 ||
-	    strcmp (txt, gnumeric_err_REF) == 0 ||
-	    strcmp (txt, gnumeric_err_NAME) == 0 ||
-	    strcmp (txt, gnumeric_err_NUM) == 0 ||
-	    strcmp (txt, gnumeric_err_NA) == 0)
-		return gnm_expr_new_constant (value_new_error (NULL, txt));
-
-	func = func_lookup_by_name ("ERROR", NULL);
-	args = gnm_expr_list_prepend (NULL,
-				      gnm_expr_new_constant (value_new_string (txt)));
-	func_ref (func);
-	return gnm_expr_new_funcall (func, args);
-}
-
-GnmExpr const *
 gnm_expr_new_funcall (FunctionDefinition *func, GnmExprList *args)
 {
 	GnmExprFunction *ans;
