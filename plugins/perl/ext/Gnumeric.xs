@@ -66,9 +66,9 @@ perl2value(SV *sv)
     Value *v = NULL;
 
     if (SvIOK(sv)){
-	v = value_new_int ((int_t) SvIV(sv));
+	v = value_new_int ((gnum_int) SvIV(sv));
     } else if (SvNOK(sv)) {
-	v = value_new_float ((float_t) SvNV(sv));
+	v = value_new_float ((gnum_float) SvNV(sv));
     } else if (SvPOK(sv)) {
 	STRLEN size;
 	gchar *s,*tmp;

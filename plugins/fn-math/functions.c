@@ -27,7 +27,7 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 			 Cell *cell, void *user_data)
 {
         math_sums_t *mm = user_data;
-        float_t     x;
+        gnum_float     x;
 	gpointer    p;
 
 	if (cell == NULL || cell->value == NULL)
@@ -51,8 +51,8 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 	        return NULL;
 	}
 
-	p = g_new(float_t, 1);
-	*((float_t *) p) = x;
+	p = g_new(gnum_float, 1);
+	*((gnum_float *) p) = x;
 	mm->list = g_slist_append(mm->list, p);
 	mm->num++;
 
@@ -66,7 +66,7 @@ typedef struct {
         int                 num;
         int                 total_num;
         gboolean            actual_range;
-        float_t             sum;
+        gnum_float             sum;
         GSList              *current;
 } math_criteria_t;
 
@@ -135,7 +135,7 @@ static char *help_gcd = {
 };
 
 static int
-range_gcd (const float_t *xs, int n, float_t *res)
+range_gcd (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n > 0) {
 		int i;
@@ -268,7 +268,7 @@ static char *help_acos = {
 static Value *
 gnumeric_acos (FunctionEvalInfo *ei, Value **args)
 {
-	float_t t;
+	gnum_float t;
 
 	t = value_get_as_float (args [0]);
 	if ((t < -1.0) || (t > 1.0))
@@ -299,7 +299,7 @@ static char *help_acosh = {
 static Value *
 gnumeric_acosh (FunctionEvalInfo *ei, Value **args)
 {
-	float_t t;
+	gnum_float t;
 
 	t = value_get_as_float (args [0]);
 	if (t < 1.0)
@@ -330,7 +330,7 @@ static char *help_asin = {
 static Value *
 gnumeric_asin (FunctionEvalInfo *ei, Value **args)
 {
-	float_t t;
+	gnum_float t;
 
 	t = value_get_as_float (args [0]);
 	if ((t < -1.0) || (t > 1.0))
@@ -411,7 +411,7 @@ static char *help_atanh = {
 static Value *
 gnumeric_atanh (FunctionEvalInfo *ei, Value **args)
 {
-	float_t t;
+	gnum_float t;
 
 	t = value_get_as_float (args [0]);
 	if ((t <= -1.0) || (t >= 1.0))
@@ -580,7 +580,7 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 			 Cell *cell, void *user_data)
 {
         math_criteria_t *mm = user_data;
-	float_t         v = 0.;
+	gnum_float         v = 0.;
 
 	/* If we have finished the list there is no need to bother */
 	if (mm->current == NULL)
@@ -621,7 +621,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 
 	math_criteria_t items;
 	Value          *ret;
-	float_t         sum;
+	gnum_float         sum;
 	GSList         *list;
 
 	items.num  = 0;
@@ -729,7 +729,7 @@ static char *help_ceiling = {
 static Value *
 gnumeric_ceiling (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t number, s;
+        gnum_float number, s;
 
 	number = value_get_as_float (argv[0]);
 	if (argv[1] == NULL)
@@ -858,7 +858,7 @@ static char *help_fact = {
 static Value *
 gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x;
+	gnum_float x;
 	gboolean x_is_integer;
 
 	if (!VALUE_IS_NUMBER (argv[0]))
@@ -871,7 +871,7 @@ gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
 	x_is_integer = (x == floor (x));
 
 	if (x > 12 || !x_is_integer) {
-		float_t res = exp (lgamma (x + 1));
+		gnum_float res = exp (lgamma (x + 1));
 		if (x_is_integer)
 			res = floor (res + 0.5);  /* Round, just in case.  */
 		return value_new_float (res);
@@ -936,7 +936,7 @@ static char *help_floor = {
 static Value *
 gnumeric_floor (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t number, s;
+        gnum_float number, s;
 
 	number = value_get_as_float (argv[0]);
 	if (argv[1] == NULL)
@@ -995,7 +995,7 @@ static char *help_log = {
 static Value *
 gnumeric_log (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t t, base;
+	gnum_float t, base;
 
 	t = value_get_as_float (argv [0]);
 
@@ -1033,7 +1033,7 @@ static char *help_ln = {
 static Value *
 gnumeric_ln (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t t;
+	gnum_float t;
 
 	t = value_get_as_float (argv [0]);
 
@@ -1063,7 +1063,7 @@ static char *help_power = {
 static Value *
 gnumeric_power (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x, y;
+	gnum_float x, y;
 
 	x = value_get_as_float (argv [0]);
 	y = value_get_as_float (argv [1]);
@@ -1096,7 +1096,7 @@ static char *help_log2 = {
 static Value *
 gnumeric_log2 (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t t;
+	gnum_float t;
 
 	t = value_get_as_float (argv [0]);
 	if (t <= 0.0)
@@ -1125,7 +1125,7 @@ static char *help_log10 = {
 static Value *
 gnumeric_log10 (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t t;
+	gnum_float t;
 
 	t = value_get_as_float (argv [0]);
 	if (t <= 0.0)
@@ -1245,7 +1245,7 @@ static char *help_randexp = {
 static Value *
 gnumeric_randexp (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x = value_get_as_float (argv[0]);
+	gnum_float x = value_get_as_float (argv[0]);
 
         return value_new_float (random_exponential (x));
 }
@@ -1268,7 +1268,7 @@ static char *help_randpoisson = {
 static Value *
 gnumeric_randpoisson (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x = value_get_as_float (argv[0]);
+	gnum_float x = value_get_as_float (argv[0]);
 
 	if (x < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1297,7 +1297,7 @@ static char *help_randbinom = {
 static Value *
 gnumeric_randbinom (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t p = value_get_as_float (argv[0]);
+	gnum_float p = value_get_as_float (argv[0]);
 	int     trials = value_get_as_int (argv[1]);
 
 	if (p < 0 || p > 1 || trials < 0)
@@ -1328,7 +1328,7 @@ static char *help_randnegbinom = {
 static Value *
 gnumeric_randnegbinom (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t p = value_get_as_float (argv[0]);
+	gnum_float p = value_get_as_float (argv[0]);
 	int     failures = value_get_as_int (argv[1]);
 
 	if (p < 0 || p > 1 || failures < 0)
@@ -1357,7 +1357,7 @@ static char *help_randbernoulli = {
 static Value *
 gnumeric_randbernoulli (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t p = value_get_as_float (argv[0]);
+	gnum_float p = value_get_as_float (argv[0]);
 
 	if (p < 0 || p > 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1432,7 +1432,7 @@ static char *help_sqrt = {
 static Value *
 gnumeric_sqrt (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x = value_get_as_float (argv[0]);
+	gnum_float x = value_get_as_float (argv[0]);
 	if (x < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
@@ -1611,7 +1611,7 @@ static char *help_product = {
 };
 
 static int
-range_bogusproduct (const float_t *xs, int n, float_t *res)
+range_bogusproduct (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n == 0) {
 		*res = 0;  /* Severe Excel brain damange.  */
@@ -1750,7 +1750,7 @@ static char *help_trunc = {
 static Value *
 gnumeric_trunc (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t number, p10;
+        gnum_float number, p10;
         int digits;
 
 	number = value_get_as_float (argv[0]);
@@ -1783,7 +1783,7 @@ static char *help_even = {
 static Value *
 gnumeric_even (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t number, ceiled;
+        gnum_float number, ceiled;
 	int     sign = 1;
 
 	number = value_get_as_float (argv[0]);
@@ -1821,7 +1821,7 @@ static char *help_odd = {
 static Value *
 gnumeric_odd (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t number, ceiled;
+        gnum_float number, ceiled;
 	int     sign = 1;
 
 	number = value_get_as_float (argv[0]);
@@ -1865,7 +1865,7 @@ gnumeric_factdouble (FunctionEvalInfo *ei, Value **argv)
 {
         int number;
 	int n;
-	float_t product = 1;
+	gnum_float product = 1;
 
 	number = value_get_as_int (argv[0]);
 	if (number < 0)
@@ -1897,7 +1897,7 @@ static char *help_quotient = {
 static Value *
 gnumeric_quotient (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t num, den;
+        gnum_float num, den;
 
 	num = value_get_as_float (argv[0]);
 	den = value_get_as_float (argv[1]);
@@ -1930,7 +1930,7 @@ static char *help_sign = {
 static Value *
 gnumeric_sign (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t n;
+        gnum_float n;
 
 	n = value_get_as_float (argv[0]);
 
@@ -1962,7 +1962,7 @@ static char *help_sqrtpi = {
 static Value *
 gnumeric_sqrtpi (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t n;
+        gnum_float n;
 
 	n = value_get_as_float (argv[0]);
 	if (n < 0)
@@ -2036,7 +2036,7 @@ static char *help_rounddown = {
 static Value *
 gnumeric_rounddown (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t number, p10;
+        gnum_float number, p10;
         int digits;
 
 	number = value_get_as_float (argv[0]);
@@ -2080,7 +2080,7 @@ static char *help_round = {
 static Value *
 gnumeric_round (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t number, p10;
+        gnum_float number, p10;
         int     digits;
 
 	number = value_get_as_float (argv[0]);
@@ -2121,7 +2121,7 @@ static char *help_roundup = {
 static Value *
 gnumeric_roundup (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t number, p10;
+        gnum_float number, p10;
         int digits;
 
 	number = value_get_as_float (argv[0]);
@@ -2159,9 +2159,9 @@ static char *help_mround = {
 static Value *
 gnumeric_mround (FunctionEvalInfo *ei, Value **argv)
 {
-        const float_t accuracy_limit = 0.0000003;
-        float_t number, multiple;
-	float_t div, mod;
+        const gnum_float accuracy_limit = 0.0000003;
+        gnum_float number, multiple;
+	gnum_float div, mod;
 	int     sign = 1;
 
 	number = value_get_as_float (argv[0]);
@@ -2488,7 +2488,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
         Value      *values_y = argv[1];
 	math_sums_t items_x, items_y;
 	Value      *ret;
-	float_t     sum;
+	gnum_float     sum;
 	GSList     *list1, *list2;
 
 	items_x.num  = 0;
@@ -2544,10 +2544,10 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 	list2 = items_y.list;
 	sum = 0;
 	while (list1 != NULL) {
-	        float_t  x, y;
+	        gnum_float  x, y;
 
-		x = *((float_t *) list1->data);
-		y = *((float_t *) list2->data);
+		x = *((gnum_float *) list1->data);
+		y = *((gnum_float *) list2->data);
 		sum += x * x - y * y;
 		list1 = list1->next;
 		list2 = list2->next;
@@ -2601,7 +2601,7 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
         Value      *values_y = argv[1];
 	math_sums_t items_x, items_y;
 	Value      *ret;
-	float_t     sum;
+	gnum_float     sum;
 	GSList     *list1, *list2;
 
 	items_x.num  = 0;
@@ -2658,10 +2658,10 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 	list2 = items_y.list;
 	sum = 0;
 	while (list1 != NULL) {
-	        float_t x, y;
+	        gnum_float x, y;
 
-		x = *((float_t *) list1->data);
-		y = *((float_t *) list2->data);
+		x = *((gnum_float *) list1->data);
+		y = *((gnum_float *) list2->data);
 		sum += x * x + y * y;
 		list1 = list1->next;
 		list2 = list2->next;
@@ -2713,7 +2713,7 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
         Value      *values_y = argv[1];
 	math_sums_t items_x, items_y;
 	Value      *ret;
-	float_t     sum;
+	gnum_float     sum;
 	GSList     *list1, *list2;
 
 	items_x.num  = 0;
@@ -2770,10 +2770,10 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 	list2 = items_y.list;
 	sum = 0;
 	while (list1 != NULL) {
-	        float_t x, y;
+	        gnum_float x, y;
 
-		x = *((float_t *) list1->data);
-		y = *((float_t *) list2->data);
+		x = *((gnum_float *) list1->data);
+		y = *((gnum_float *) list2->data);
 		sum += (x - y) * (x - y);
 		list1 = list1->next;
 		list2 = list2->next;
@@ -2908,10 +2908,10 @@ static char *help_seriessum = {
 };
 
 typedef struct {
-        float_t sum;
-        float_t x;
-        float_t n;
-        float_t m;
+        gnum_float sum;
+        gnum_float x;
+        gnum_float n;
+        gnum_float m;
 } math_seriessum_t;
 
 static Value *
@@ -2919,7 +2919,7 @@ callback_function_seriessum (const EvalPos *ep, Value *value,
 			     void *closure)
 {
 	math_seriessum_t *mm = closure;
-	float_t coefficient;
+	gnum_float coefficient;
 
 	if (!VALUE_IS_NUMBER (value))
 		return value_terminate();
@@ -2938,7 +2938,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
         math_seriessum_t p;
         ExprTree         *tree;
 	Value            *val;
-	float_t          x, n, m;
+	gnum_float          x, n, m;
 
 	if (nodes == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -3090,7 +3090,7 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 	int	c, cols;
         Value   *res;
         Value   *values = argv[0];
-	float_t *matrix, *inverse;
+	gnum_float *matrix, *inverse;
 
 	char const *error_string = NULL;
 
@@ -3103,8 +3103,8 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 	if (cols != rows || !rows || !cols)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	matrix = g_new (float_t, rows*cols);
-	inverse = g_new (float_t, rows*cols);
+	matrix = g_new (gnum_float, rows*cols);
+	inverse = g_new (gnum_float, rows*cols);
 	for (c=0; c<cols; c++)
 	        for (r=0; r<rows; r++) {
 		        Value const * a =
@@ -3124,7 +3124,7 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 	for (c = 0; c < cols; ++c){
 		res->v_array.vals [c] = g_new (Value *, rows);
 		for (r = 0; r < rows; ++r){
-			float_t tmp;
+			gnum_float tmp;
 
 			tmp = *(inverse + r + c*rows);
 			res->v_array.vals[c][r] = value_new_float (tmp);
@@ -3162,7 +3162,7 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
         Value *res;
         Value *values_a = argv[0];
         Value *values_b = argv[1];
-	float_t *A, *B, *product;
+	gnum_float *A, *B, *product;
 	char const *error_string = NULL;
 
 	if (validate_range_numeric_matrix (ep, values_a, &rows_a, &cols_a,
@@ -3178,9 +3178,9 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 
 	res = value_new_array_non_init (cols_b, rows_a);
 
-	A = g_new (float_t, cols_a * rows_a);
-	B = g_new (float_t, cols_b * rows_b);
-	product = g_new (float_t, rows_a * cols_b);
+	A = g_new (gnum_float, cols_a * rows_a);
+	B = g_new (gnum_float, cols_b * rows_b);
+	product = g_new (gnum_float, rows_a * cols_b);
 
 	for (c=0; c<cols_a; c++)
 	        for (r=0; r<rows_a; r++) {
@@ -3240,9 +3240,9 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
 
 	int	r, rows;
 	int	c, cols;
-        float_t res;
+        gnum_float res;
         Value   *values = argv[0];
-	float_t *matrix;
+	gnum_float *matrix;
 
 	char const *error_string = NULL;
 
@@ -3255,7 +3255,7 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
 	if (cols != rows || !rows || !cols)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	matrix = g_new (float_t, rows*cols);
+	matrix = g_new (gnum_float, rows*cols);
 	for (c=0; c<cols; c++)
 	        for (r=0; r<rows; r++) {
 		        Value const * a =
@@ -3296,7 +3296,7 @@ static char *help_sumproduct = {
 static Value *
 gnumeric_sumproduct (FunctionEvalInfo *ei, GList *args)
 {
-	float_t **data;
+	gnum_float **data;
 	Value *result;
 	int i, argc;
 	GList *l;
@@ -3307,7 +3307,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *args)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	argc = g_list_length (args);
-	data = g_new0 (float_t *, argc);
+	data = g_new0 (gnum_float *, argc);
 
 	for (l = args, i = 0; l; l = l->next, i++) {
 		int thissizex, thissizey, x, y;
@@ -3324,7 +3324,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *args)
 		} else if (sizex != thissizex || sizey != thissizey)
 			size_error = TRUE;
 
-		data[i] = g_new (float_t, thissizex * thissizey);
+		data[i] = g_new (gnum_float, thissizex * thissizey);
 		for (y = 0; y < thissizey; y++) {
 			for (x = 0; x < thissizex; x++) {
 				/* FIXME: efficiency worries?  */
@@ -3360,11 +3360,11 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *args)
 		 */
 		result = value_new_error (ei->pos, gnumeric_err_VALUE);
 	} else {
-		float_t sum = 0;
+		gnum_float sum = 0;
 		int j;
 
 		for (j = 0; j < sizex * sizey; j++) {
-			float_t product = data[0][j];
+			gnum_float product = data[0][j];
 			for (i = 1; i < argc; i++)
 				product *= data[i][j];
 			sum += product;

@@ -1361,14 +1361,14 @@ static char *help_convert = {
 
 typedef struct {
         char          *str;
-         float_t c;
+         gnum_float c;
 } eng_convert_unit_t;
 
 
-static float_t
+static gnum_float
 get_constant_of_unit(eng_convert_unit_t units[],
 		     eng_convert_unit_t prefixes[],
-		     char *unit_name, float_t *c, float_t *prefix)
+		     char *unit_name, gnum_float *c, gnum_float *prefix)
 {
         int     i;
 
@@ -1400,9 +1400,9 @@ static Value *
 convert (eng_convert_unit_t units[],
 	 eng_convert_unit_t prefixes[],
 	 char *from_unit, char *to_unit,
-	 float_t n, Value **v, const EvalPos *ep)
+	 gnum_float n, Value **v, const EvalPos *ep)
 {
-        float_t from_c, from_prefix, to_c, to_prefix;
+        gnum_float from_c, from_prefix, to_c, to_prefix;
 
 	if (get_constant_of_unit (units, prefixes, from_unit, &from_c,
 				  &from_prefix)) {
@@ -1601,7 +1601,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 		{ NULL,0.0 }
 	};
 
-	float_t n;
+	gnum_float n;
 	char    *from_unit, *to_unit;
 	Value   *v;
 
@@ -1691,7 +1691,7 @@ static char *help_erf = {
 static Value *
 gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t ans, lower, upper=0.0;
+	gnum_float ans, lower, upper=0.0;
 
 	lower = value_get_as_float (argv [0]);
 	ans = erf(lower);
@@ -1728,7 +1728,7 @@ static char *help_erfc = {
 static Value *
 gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x;
+	gnum_float x;
 
 	x=value_get_as_float (argv [0]);
 

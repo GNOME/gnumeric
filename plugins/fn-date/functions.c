@@ -375,7 +375,7 @@ static char *help_time = {
 static Value *
 gnumeric_time (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t hours, minutes, seconds;
+	gnum_float hours, minutes, seconds;
 
 	hours   = value_get_as_float (argv [0]);
 	minutes = value_get_as_float (argv [1]);
@@ -403,7 +403,7 @@ static char *help_timevalue = {
 static Value *
 gnumeric_timevalue (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t raw;
+	gnum_float raw;
 	if (argv[0]->type == VALUE_ERROR)
 		return value_duplicate (argv[0]);
 
@@ -671,7 +671,7 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 	GDate *date1, *date2;
 	int day1, day2, month1, month2, year1, year2, result;
 	gboolean flipped;
-	float_t serial1, serial2;
+	gnum_float serial1, serial2;
 
 	if (argv[2]) {
 		gboolean err;
@@ -689,7 +689,7 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 	serial1 = datetime_value_to_serial (argv[0]);
 	serial2 = datetime_value_to_serial (argv[1]);
 	if ((flipped = (serial1 > serial2))) {
-		float_t tmp = serial1;
+		gnum_float tmp = serial1;
 		serial1 = serial2;
 		serial2 = tmp;
 	}

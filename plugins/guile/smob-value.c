@@ -82,7 +82,7 @@ make_value (SCM scm)
 		v = value_new_string (SCM_CHARS (scm));
 
 	if ((SCM_NFALSEP (scm_number_p(scm))))
-		v = value_new_float ((float_t) scm_num2dbl(scm, 0));
+		v = value_new_float ((gnum_float) scm_num2dbl(scm, 0));
 
 	if (gh_boolean_p (scm))
 		v = value_new_bool ((gboolean) gh_scm2bool (scm));
@@ -163,7 +163,7 @@ scm_value_new_float (SCM scm)
 
 
 	if ((SCM_NFALSEP (scm_number_p(scm))))
-		v = value_new_float ((float_t) scm_num2dbl(scm, 0));
+		v = value_new_float ((gnum_float) scm_num2dbl(scm, 0));
 
 	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
 	value->v = v;

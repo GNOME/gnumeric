@@ -19,13 +19,13 @@
 #include "auto-format.h"
 
 static guint
-float_hash (const float_t *d)
+float_hash (const gnum_float *d)
 {
         return (guint)((*d) * 100);
 }
 
 static gint
-float_equal (const float_t *a, const float_t *b)
+float_equal (const gnum_float *a, const gnum_float *b)
 {
 	if (*a == *b)
 	        return 1;
@@ -33,7 +33,7 @@ float_equal (const float_t *a, const float_t *b)
 }
 
 static gint
-float_compare (const float_t *a, const float_t *b)
+float_compare (const gnum_float *a, const gnum_float *b)
 {
         if (*a < *b)
                 return -1;
@@ -57,7 +57,7 @@ Value *
 callback_function_stat (const EvalPos *ep, Value *value, void *closure)
 {
 	stat_closure_t *mm = closure;
-	float_t x, dx, dm;
+	gnum_float x, dx, dm;
 
 	if (value != NULL && VALUE_IS_NUMBER (value))
 		x = value_get_as_float (value);
@@ -92,7 +92,7 @@ callback_function_make_list (const EvalPos *ep, Value *value,
 			     void *closure)
 {
 	make_list_t *mm = closure;
-	float_t     x;
+	gnum_float     x;
 	gpointer    p;
 
 	if (value != NULL && VALUE_IS_NUMBER (value))
@@ -100,8 +100,8 @@ callback_function_make_list (const EvalPos *ep, Value *value,
 	else
 	        x = 0.;
 
-	p = g_new (float_t, 1);
-	*((float_t *) p) = x;
+	p = g_new (gnum_float, 1);
+	*((gnum_float *) p) = x;
 	mm->entries = g_slist_append (mm->entries, p);
 	mm->n++;
 
@@ -261,7 +261,7 @@ static char *help_rank = {
 };
 
 typedef struct {
-        float_t x;
+        gnum_float x;
         int     order;
         int     rank;
 } stat_rank_t;
@@ -271,7 +271,7 @@ callback_function_rank (Sheet *sheet, int col, int row,
 			Cell *cell, void *user_data)
 {
         stat_rank_t *p = user_data;
-	float_t     x;
+	gnum_float     x;
 
 	if (cell == NULL || cell->value == NULL)
 	        return NULL;
@@ -351,9 +351,9 @@ static char *help_trimmean = {
 };
 
 static int
-range_trimmean (const float_t *xs, int n, float_t *res)
+range_trimmean (const gnum_float *xs, int n, gnum_float *res)
 {
-	float_t p, sum = 0;
+	gnum_float p, sum = 0;
 	int tc, c, i;
 
 	if (n < 2)
@@ -369,7 +369,7 @@ range_trimmean (const float_t *xs, int n, float_t *res)
 		return 1;
 
 	/* OK, so we ignore the constness here.  Tough.  */
-	qsort ((float_t *) xs, n, sizeof (xs[0]), (void *) &float_compare);
+	qsort ((gnum_float *) xs, n, sizeof (xs[0]), (void *) &float_compare);
 
 	for (i = tc; i < n - tc; i++)
 		sum += xs[i];
@@ -479,7 +479,7 @@ static Value *
 gnumeric_negbinomdist (FunctionEvalInfo *ei, Value **argv)
 {
 	int x, r;
-	float_t p;
+	gnum_float p;
 
 	x = value_get_as_int (argv[0]);
 	r = value_get_as_int (argv[1]);
@@ -512,7 +512,7 @@ static char *help_normsdist = {
 static Value *
 gnumeric_normsdist (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t x;
+        gnum_float x;
 
         x = value_get_as_float (argv[0]);
 
@@ -543,7 +543,7 @@ static char *help_normsinv = {
 static Value *
 gnumeric_normsinv (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t p;
+        gnum_float p;
 
         p = value_get_as_float (argv[0]);
 	if (p < 0 || p > 1)
@@ -578,7 +578,7 @@ static char *help_lognormdist = {
 static Value *
 gnumeric_lognormdist (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t x, mean, stdev;
+        gnum_float x, mean, stdev;
 
         x = value_get_as_float (argv[0]);
         mean = value_get_as_float (argv[1]);
@@ -618,7 +618,7 @@ static char *help_loginv = {
 static Value *
 gnumeric_loginv (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t p, mean, stdev;
+        gnum_float p, mean, stdev;
 
         p = value_get_as_float (argv[0]);
         mean = value_get_as_float (argv[1]);
@@ -652,7 +652,7 @@ static char *help_fisherinv = {
 static Value *
 gnumeric_fisherinv (FunctionEvalInfo *ei, Value **argv)
 {
-       float_t y;
+       gnum_float y;
 
        y = value_get_as_float (argv[0]);
        return value_new_float ((exp (2 * y) - 1.0) / (exp (2 * y) + 1.0));
@@ -682,7 +682,7 @@ static char *help_mode = {
 typedef struct {
        GHashTable *hash_table;
        GSList     *items;
-       float_t    mode;
+       gnum_float    mode;
        int        count;
 } stat_mode_t;
 
@@ -690,7 +690,7 @@ static Value *
 callback_function_mode (const EvalPos *ep, Value *value, void *closure)
 {
        stat_mode_t *mm = closure;
-       float_t  key;
+       gnum_float  key;
        int      *p, count;
 
        if (!VALUE_IS_NUMBER (value))
@@ -950,7 +950,7 @@ static char *help_min = {
 };
 
 static int
-range_min0 (const float_t *xs, int n, float_t *res)
+range_min0 (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n == 0) {
 		*res = 0;
@@ -992,7 +992,7 @@ static char *help_max = {
 };
 
 static int
-range_max0 (const float_t *xs, int n, float_t *res)
+range_max0 (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n == 0) {
 		*res = 0;
@@ -1107,7 +1107,7 @@ static char *help_expondist = {
 static Value *
 gnumeric_expondist (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x, y;
+	gnum_float x, y;
 	int cuml;
 	gboolean err;
 
@@ -1150,7 +1150,7 @@ static char *help_gammaln = {
 static Value *
 gnumeric_gammaln (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x;
+	gnum_float x;
 
 	/* FIXME: the gamma function is defined for all real numbers except
 	 * the integers 0, -1, -2, ...  It is positive (and log(gamma(x)) is
@@ -1188,7 +1188,7 @@ static char *help_gammadist = {
 static Value *
 gnumeric_gammadist (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x, alpha, beta;
+	gnum_float x, alpha, beta;
 	int     cum;
 
 	x = value_get_as_float (argv[0]);
@@ -1228,7 +1228,7 @@ static char *help_gammainv = {
 static Value *
 gnumeric_gammainv (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t p;
+        gnum_float p;
 	int alpha, beta;
 
         p = value_get_as_float (argv[0]);
@@ -1265,7 +1265,7 @@ static char *help_chidist = {
 static Value *
 gnumeric_chidist (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x;
+	gnum_float x;
 	int     dof;
 
 	x = value_get_as_float (argv[0]);
@@ -1299,7 +1299,7 @@ static char *help_chiinv = {
 static Value *
 gnumeric_chiinv (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t p;
+        gnum_float p;
 	int dof;
 
         p = value_get_as_float (argv[0]);
@@ -1345,12 +1345,12 @@ callback_function_chitest_actual (const EvalPos *ep, Value *value,
 				  void *closure)
 {
 	stat_chitest_t *mm = closure;
-	float_t        *p;
+	gnum_float        *p;
 
 	if (!VALUE_IS_NUMBER (value))
 		return value_terminate ();
 
-	p = g_new (float_t, 1);
+	p = g_new (gnum_float, 1);
 	*p = value_get_as_float (value);
 	mm->column = g_slist_append (mm->column, p);
 
@@ -1370,7 +1370,7 @@ typedef struct {
         GSList *next_col;
         int    cols;
         int    rows;
-        float_t sum;
+        gnum_float sum;
 } stat_chitest_t_t;
 
 static Value *
@@ -1378,7 +1378,7 @@ callback_function_chitest_theoretical (const EvalPos *ep, Value *value,
 				       void *closure)
 {
 	stat_chitest_t_t *mm = closure;
-	float_t          a, e, *p;
+	gnum_float          a, e, *p;
 
 	if (!VALUE_IS_NUMBER (value))
 		return value_terminate ();
@@ -1480,7 +1480,7 @@ static char *help_betadist = {
 static Value *
 gnumeric_betadist (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x, alpha, beta, a, b;
+	gnum_float x, alpha, beta, a, b;
 
 	x = value_get_as_float (argv[0]);
 	alpha = value_get_as_float (argv[1]);
@@ -1529,7 +1529,7 @@ static char *help_betainv = {
 static Value *
 gnumeric_betainv (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t p, alpha, beta, a, b;
+	gnum_float p, alpha, beta, a, b;
 
 	p = value_get_as_float (argv[0]);
 	alpha = value_get_as_float (argv[1]);
@@ -1573,7 +1573,7 @@ static char *help_tdist = {
 static Value *
 gnumeric_tdist (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x;
+	gnum_float x;
 	int     dof, tails;
 
 	x = value_get_as_float (argv[0]);
@@ -1611,7 +1611,7 @@ static char *help_tinv = {
 static Value *
 gnumeric_tinv (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t p;
+        gnum_float p;
 	int dof;
 
         p = value_get_as_float (argv[0]);
@@ -1647,7 +1647,7 @@ static char *help_fdist = {
 static Value *
 gnumeric_fdist (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x;
+	gnum_float x;
 	int     dof1, dof2;
 
 	x = value_get_as_float (argv[0]);
@@ -1683,7 +1683,7 @@ static char *help_finv = {
 static Value *
 gnumeric_finv (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t p;
+        gnum_float p;
 	int dof1, dof2;
 
         p = value_get_as_float (argv[0]);
@@ -1726,7 +1726,7 @@ gnumeric_binomdist (FunctionEvalInfo *ei, Value **argv)
 {
 	int n, trials, cuml;
 	gboolean err;
-	float_t p;
+	gnum_float p;
 
 	n = value_get_as_int (argv[0]);
 	trials = value_get_as_int (argv[1]);
@@ -1770,7 +1770,7 @@ static Value *
 gnumeric_critbinom (FunctionEvalInfo *ei, Value **argv)
 {
         int trials;
-        float_t p, alpha;
+        gnum_float p, alpha;
 
         trials = value_get_as_int (argv[0]);
         p = value_get_as_float (argv[1]);
@@ -1882,7 +1882,7 @@ static char *help_confidence = {
 static Value *
 gnumeric_confidence (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x, stddev;
+	gnum_float x, stddev;
 	int size;
 
 	x = value_get_as_float (argv[0]);
@@ -1922,7 +1922,7 @@ static char *help_standardize = {
 static Value *
 gnumeric_standardize (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x, mean, stddev;
+	gnum_float x, mean, stddev;
 
 	x = value_get_as_float (argv[0]);
 	mean = value_get_as_float (argv[1]);
@@ -1961,7 +1961,7 @@ static char *help_weibull = {
 static Value *
 gnumeric_weibull (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t x, alpha, beta;
+        gnum_float x, alpha, beta;
         int cuml;
 	gboolean err;
 
@@ -2006,7 +2006,7 @@ static char *help_normdist = {
 static Value *
 gnumeric_normdist (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t x, mean, stdev;
+        gnum_float x, mean, stdev;
         int cuml;
 	gboolean err;
 
@@ -2052,7 +2052,7 @@ static char *help_norminv = {
 static Value *
 gnumeric_norminv (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t p, mean, stdev;
+        gnum_float p, mean, stdev;
 
         p = value_get_as_float (argv[0]);
 	mean = value_get_as_float (argv[1]);
@@ -2225,7 +2225,7 @@ static char *help_fisher = {
 static Value *
 gnumeric_fisher (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t x;
+        gnum_float x;
 
         if (!VALUE_IS_NUMBER(argv[0]))
                 return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -2264,7 +2264,7 @@ static char *help_poisson = {
 static Value *
 gnumeric_poisson (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t mean;
+	gnum_float mean;
 	int x, cuml;
 	gboolean err;
 
@@ -2360,11 +2360,11 @@ static char *help_median = {
 
 /* Special Excel-meaning of median.  */
 static int
-range_excel_median (const float_t *xs, int n, float_t *res)
+range_excel_median (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n > 0) {
 		/* OK, so we ignore the constness here.  Tough.  */
-		qsort ((float_t *) xs, n, sizeof (xs[0]),
+		qsort ((gnum_float *) xs, n, sizeof (xs[0]),
 		       (void *) &float_compare);
 		if (n & 1)
 			*res = xs[n / 2];
@@ -2411,7 +2411,7 @@ static char *help_large = {
 };
 
 static int
-range_large (const float_t *xs, int n, float_t *res)
+range_large (const gnum_float *xs, int n, gnum_float *res)
 {
 	int k;
 
@@ -2423,7 +2423,7 @@ range_large (const float_t *xs, int n, float_t *res)
 		return 1;
 
 	/* OK, so we ignore the constness here.  Tough.  */
-	qsort ((float_t *)xs, n, sizeof (xs[0]), (void *)&float_compare);
+	qsort ((gnum_float *)xs, n, sizeof (xs[0]), (void *)&float_compare);
 	*res = xs[n - 1 - k];
 	return 0;
 }
@@ -2464,7 +2464,7 @@ static char *help_small = {
 };
 
 static int
-range_small (const float_t *xs, int n, float_t *res)
+range_small (const gnum_float *xs, int n, gnum_float *res)
 {
 	int k;
 
@@ -2476,7 +2476,7 @@ range_small (const float_t *xs, int n, float_t *res)
 		return 1;
 
 	/* OK, so we ignore the constness here.  Tough.  */
-	qsort ((float_t *) xs, n, sizeof (xs[0]), (void *) &float_compare);
+	qsort ((gnum_float *) xs, n, sizeof (xs[0]), (void *) &float_compare);
 	*res = xs[k];
 	return 0;
 }
@@ -2503,14 +2503,14 @@ callback_function_list (Sheet *sheet, int col, int row,
 			Cell *cell, void *user_data)
 {
         stat_list_t *mm = user_data;
-	float_t *p;
+	gnum_float *p;
 
 	if (cell == NULL || cell->value == NULL)
 	        return NULL;
 	if (!VALUE_IS_NUMBER (cell->value))
 		return NULL;
 
-	p = g_new (float_t, 1);
+	p = g_new (gnum_float, 1);
 	*p = value_get_as_float (cell->value);
 	mm->list = g_slist_append (mm->list, p);
 	mm->num++;
@@ -2550,8 +2550,8 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	make_list_t  x_cl, prob_cl;
 	EvalPos ep;
 	Value        *err;
-	float_t      sum, total_sum;
-	float_t      lower_limit, upper_limit;
+	gnum_float      sum, total_sum;
+	gnum_float      lower_limit, upper_limit;
 	GSList       *list1, *list2;
 
 	init_make_list_closure(&x_cl);
@@ -2613,10 +2613,10 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	sum = total_sum = 0;
 
 	while (list1 != NULL) {
-	        float_t  x, prob;
+	        gnum_float  x, prob;
 
-		x = *((float_t *) list1->data);
-		prob = *((float_t *) list2->data);
+		x = *((gnum_float *) list1->data);
+		prob = *((gnum_float *) list2->data);
 
 		if (prob <= 0 || prob > 1)
 		        return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -2670,8 +2670,8 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
         Value       *known_y = argv[0];
         Value       *known_x = argv[1];
 	stat_list_t items_x, items_y;
-	float_t     sum_x, sum_y, sum_xy, sqrsum_x, sqrsum_y;
-	float_t     num, den, k, n;
+	gnum_float     sum_x, sum_y, sum_xy, sqrsum_x, sqrsum_y;
+	gnum_float     num, den, k, n;
 	GSList      *list1, *list2;
 	Value       *ret;
 
@@ -2764,10 +2764,10 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 	sum_xy = 0;
 
 	while (list1 != NULL) {
-	        float_t  x, y;
+	        gnum_float  x, y;
 
-		x = *((float_t *) list1->data);
-		y = *((float_t *) list2->data);
+		x = *((gnum_float *) list1->data);
+		y = *((gnum_float *) list2->data);
 
 		sum_x += x;
 		sum_y += y;
@@ -2822,16 +2822,16 @@ static char *help_ztest = {
 
 typedef struct {
 	guint32 num;
-        float_t x;
-        float_t sum;
-        float_t sqrsum;
+        gnum_float x;
+        gnum_float sum;
+        gnum_float sqrsum;
 } stat_ztest_t;
 
 static Value *
 callback_function_ztest (const EvalPos *ep, Value *value, void *closure)
 {
 	stat_ztest_t *mm = closure;
-	float_t last;
+	gnum_float last;
 
 	if (!VALUE_IS_NUMBER (value))
 		return value_new_error (ep, gnumeric_err_VALUE);
@@ -2851,7 +2851,7 @@ gnumeric_ztest (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	stat_ztest_t p;
 	Value       *status;
-	float_t      stdev;
+	gnum_float      stdev;
 
 	p.num    = 0;
 	p.sum    = 0;
@@ -3149,9 +3149,9 @@ static char *help_percentrank = {
 };
 
 typedef struct {
-        float_t x;
-        float_t smaller_x;
-        float_t greater_x;
+        gnum_float x;
+        gnum_float smaller_x;
+        gnum_float greater_x;
         int     smaller;
         int     greater;
         int     equal;
@@ -3162,7 +3162,7 @@ callback_function_percentrank (const EvalPos *ep, Value *value,
 			       void *user_data)
 {
         stat_percentrank_t *p = user_data;
-	float_t y;
+	gnum_float y;
 
 	if (!VALUE_IS_NUMBER (value))
 		return value_terminate ();
@@ -3187,7 +3187,7 @@ static Value *
 gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 {
         stat_percentrank_t p;
-        float_t            x, k, pr;
+        gnum_float            x, k, pr;
 	int                n;
         int                significance;
 	Value		   *ret;
@@ -3218,10 +3218,10 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (p.equal == 1)
-	        pr = (float_t)p.smaller / (p.smaller + p.greater);
+	        pr = (gnum_float)p.smaller / (p.smaller + p.greater);
 	else if (p.equal == 0) {
-	        float_t a = (x - p.smaller_x) / (p.greater_x - p.smaller_x);
-	        pr = (float_t)(p.smaller + a - 1) / (p.greater + p.smaller - 1.0);
+	        gnum_float a = (x - p.smaller_x) / (p.greater_x - p.smaller_x);
+	        pr = (gnum_float)(p.smaller + a - 1) / (p.greater + p.smaller - 1.0);
 	} else
 	        pr = (p.smaller + 0.5 * p.equal) /
 		  (p.smaller + p.equal + p.greater);
@@ -3263,7 +3263,7 @@ static char *help_percentile = {
 static Value *
 gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t k, *data, fpos;
+        gnum_float k, *data, fpos;
 	int     n, pos;
 	Value   *result = NULL;
 
@@ -3283,7 +3283,7 @@ gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	/* OK, so we ignore the constness here.  Tough.  */
-	qsort ((float_t *) data, n, sizeof (data[0]), (void *) &float_compare);
+	qsort ((gnum_float *) data, n, sizeof (data[0]), (void *) &float_compare);
 
 	fpos = k * (n - 1);
 	pos = (int)fpos;
@@ -3292,7 +3292,7 @@ gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
 		   last number.  FIXME: check.  */
 		result = value_new_float (data[pos]);
 	} else {
-		float_t a, b, des;
+		gnum_float a, b, des;
 		des = fpos - pos;
 		a = data[pos];
 		b = data[pos + 1];
@@ -3337,7 +3337,7 @@ static char *help_quartile = {
 static Value *
 gnumeric_quartile (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t *data = NULL;
+	gnum_float *data = NULL;
 	Value   *result = NULL;
 	int     n;
 
@@ -3352,11 +3352,11 @@ gnumeric_quartile (FunctionEvalInfo *ei, Value **argv)
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 	} else {
 		int quart, ind;
-		float_t test, index;
-		static const float_t q[] = { 0.00, 0.25, 0.50, 0.75, 1.00 };
+		gnum_float test, index;
+		static const gnum_float q[] = { 0.00, 0.25, 0.50, 0.75, 1.00 };
 
 		quart = value_get_as_int (argv[1]);
-		qsort ((float_t *) data, n, sizeof (data[0]), (void *) &float_compare);
+		qsort ((gnum_float *) data, n, sizeof (data[0]), (void *) &float_compare);
 
 		index = q[quart] * (n - 1);
 		ind = (int)index;
@@ -3399,7 +3399,7 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 	stat_closure_t cl;
 	ExprTree       *tree;
 	GList          *expr_node_list;
-	float_t        var1, var2, p;
+	gnum_float        var1, var2, p;
 	int            dof1, dof2;
 	EvalPos   ep;
 	Value         *err;
@@ -3503,7 +3503,7 @@ static Value *
 callback_function_ttest (const EvalPos *ep, Value *value, void *closure)
 {
 	stat_ttest_t *mm = closure;
-	float_t      x;
+	gnum_float      x;
 
 	if (value != NULL && VALUE_IS_NUMBER (value))
 		x = value_get_as_float (value);
@@ -3511,14 +3511,14 @@ callback_function_ttest (const EvalPos *ep, Value *value, void *closure)
 	        x = 0;
 
 	if (mm->first) {
-	        gpointer p = g_new (float_t, 1);
-		*((float_t *) p) = x;
+	        gpointer p = g_new (gnum_float, 1);
+		*((gnum_float *) p) = x;
 		mm->entries = g_slist_append (mm->entries, p);
 	} else {
 	        if (mm->current == NULL)
 			return value_terminate ();
 
-	        *((float_t *) mm->current->data) -= x;
+	        *((gnum_float *) mm->current->data) -= x;
 		mm->current = mm->current->next;
 	}
 
@@ -3533,8 +3533,8 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 	ExprTree      *tree;
 	GList         *expr_node_list;
         int            tails, type;
-	float_t        mean1, mean2, x, p;
-	float_t        s, var1, var2, dof;
+	gnum_float        mean1, mean2, x, p;
+	gnum_float        s, var1, var2, dof;
 	int            n1, n2;
 	EvalPos   ep;
 	Value         *err;
@@ -3548,7 +3548,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 
 	if (type == 1) {
 	        GSList  *current;
-	        float_t sum, dx, dm, M, Q, N;
+	        gnum_float sum, dx, dm, M, Q, N;
 
 	        t_cl.first = TRUE;
 		t_cl.entries = NULL;
@@ -3585,7 +3585,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		dx = dm = M = Q = N = sum = 0;
 
 		while (current != NULL) {
-		        x = *((float_t *) current->data);
+		        x = *((gnum_float *) current->data);
 
 			dx = x - M;
 			dm = dx / (N + 1);
@@ -3663,7 +3663,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		if (type == 2)
 		        dof = n1 + n2 - 2;
 		else {
-		        float_t c;
+		        gnum_float c;
 
 			c = (var1 / n1) / (var1 / n1 + var2 / n2);
 			dof = 1.0 / ((c * c) / (n1 - 1) + ((1 - c) * (1 - c)) / (n2 - 1));
@@ -3711,7 +3711,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	make_list_t  data_cl, bin_cl;
 	EvalPos ep;
 	Value        *err, *res;
-	float_t      *bin_array;
+	gnum_float      *bin_array;
 	int          *count, i;
 
 	init_make_list_closure(&data_cl);
@@ -3746,14 +3746,14 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	if (bin_cl.n == 0)
 	        return value_new_int (data_cl.n);
 
-	bin_array = g_new (float_t, bin_cl.n);
+	bin_array = g_new (gnum_float, bin_cl.n);
 	i = 0;
 	for (current = bin_cl.entries; current != NULL; current=current->next) {
-		float_t *xp = current->data;
+		gnum_float *xp = current->data;
 	        bin_array[i++] = *xp;
 		g_free (xp);
 	}
-	qsort (bin_array, bin_cl.n, sizeof (float_t),
+	qsort (bin_array, bin_cl.n, sizeof (gnum_float),
 	       (void *) &float_compare);
 
 	count = g_new (int, bin_cl.n + 1);
@@ -3761,7 +3761,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	        count[i] = 0;
 
 	for (current=data_cl.entries; current != NULL; current=current->next) {
-		float_t *xp = current->data;
+		gnum_float *xp = current->data;
 		for (i = 0; i < bin_cl.n; i++)
 		        if (*xp <= bin_array[i])
 				break;
@@ -3838,11 +3838,11 @@ static char *help_linest = {
 static Value *
 gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 {
-	float_t           **xss = NULL, *ys = NULL;
+	gnum_float           **xss = NULL, *ys = NULL;
 	Value             *result = NULL;
 	int               nx, ny, dim, i;
 	int               xarg = 0;
-	float_t           *linres = NULL;
+	gnum_float           *linres = NULL;
 	gboolean          affine, stat, err;
 	enum {
 		ARRAY      = 1,
@@ -3886,8 +3886,8 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	if (argv[1] == NULL || (ytype == ARRAY && argv[1]->type != VALUE_ARRAY) ||
 	    (ytype != ARRAY && argv[1]->type != VALUE_CELLRANGE)){
 		dim = 1;
-		xss = g_new (float_t *, 1);
-	        xss[0] = g_new (float_t, ny);
+		xss = g_new (gnum_float *, 1);
+	        xss[0] = g_new (gnum_float, ny);
 	        for (nx = 0; nx < ny; nx++)
 		        xss[0][nx] = nx + 1;
 	}
@@ -3910,7 +3910,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 
 		dim = lastcol - firstcol + 1;
 		copy = value_duplicate (argv[1]);
-		xss = g_new (float_t *, dim);
+		xss = g_new (gnum_float *, dim);
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v_range.cell.a.col = i;
 			copy->v_range.cell.b.col = i;
@@ -3947,7 +3947,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 
 		dim = lastrow - firstrow + 1;
 		copy = value_duplicate (argv[1]);
-		xss = g_new (float_t *, dim);
+		xss = g_new (gnum_float *, dim);
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v_range.cell.a.row = i;
 			copy->v_range.cell.b.row = i;
@@ -3972,7 +3972,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	else { /*Y is none of the above */
 		xarg = 1;
 		dim = 1;
-		xss = g_new (float_t *, dim);
+		xss = g_new (gnum_float *, dim);
 		xss[0] = collect_floats_value (argv[1], ei->pos,
 					       COLLECT_IGNORE_STRINGS |
 					       COLLECT_IGNORE_BOOLS,
@@ -4007,7 +4007,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	} else
 		stat = FALSE;
 
-	linres = g_new (float_t, dim + 1);
+	linres = g_new (gnum_float, dim + 1);
 
 	if (linear_regression (xss, dim, ys, nx, affine,
 			       linres, &extra_stat)) {
@@ -4085,11 +4085,11 @@ static char *help_trend = {
 static Value *
 gnumeric_trend (FunctionEvalInfo *ei, Value *argv[])
 {
-	float_t  *xs = NULL, *ys = NULL, *nxs = NULL;
+	gnum_float  *xs = NULL, *ys = NULL, *nxs = NULL;
 	Value    *result = NULL;
 	int      nx, ny, nnx, i, dim;
 	gboolean affine, err;
-	float_t  linres[2];
+	gnum_float  linres[2];
 
 	ys = collect_floats_value (argv[0], ei->pos,
 				   COLLECT_IGNORE_STRINGS |
@@ -4130,10 +4130,10 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv[])
 						    COLLECT_IGNORE_BOOLS,
 						    &nnx, &result);
 		} else {
-		        xs = g_new (float_t, ny);
+		        xs = g_new (gnum_float, ny);
 			for (nx = 0; nx < ny; nx++)
 			        xs[nx] = nx + 1;
-		        nxs = g_new (float_t, ny);
+		        nxs = g_new (gnum_float, ny);
 			for (nnx = 0; nnx < ny; nnx++)
 			        xs[nnx] = nnx + 1;
 		}
@@ -4206,11 +4206,11 @@ static char *help_logest = {
 static Value *
 gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 {
-	float_t           **xss = NULL, *ys = NULL;
+	gnum_float           **xss = NULL, *ys = NULL;
 	Value             *result = NULL;
 	int               nx, ny, dim, i;
 	int               xarg = 0;
-	float_t           *expres = NULL;
+	gnum_float           *expres = NULL;
 	gboolean          affine, stat, err;
 	regression_stat_t extra_stat;
 	enum {
@@ -4254,8 +4254,8 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	if (argv[1] == NULL || (ytype == ARRAY && argv[1]->type != VALUE_ARRAY) ||
 	    (ytype != ARRAY && argv[1]->type != VALUE_CELLRANGE)){
 		dim = 1;
-		xss = g_new (float_t *, 1);
-	        xss[0] = g_new (float_t, ny);
+		xss = g_new (gnum_float *, 1);
+	        xss[0] = g_new (gnum_float, ny);
 	        for (nx = 0; nx < ny; nx++)
 		        xss[0][nx] = nx + 1;
 	}
@@ -4277,7 +4277,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 
 		dim = lastcol - firstcol + 1;
 		copy = value_duplicate (argv[1]);
-		xss = g_new (float_t *, dim);
+		xss = g_new (gnum_float *, dim);
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v_range.cell.a.col = i;
 			copy->v_range.cell.b.col = i;
@@ -4314,7 +4314,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 
 		dim = lastrow - firstrow + 1;
 		copy = value_duplicate (argv[1]);
-		xss = g_new (float_t *, dim);
+		xss = g_new (gnum_float *, dim);
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v_range.cell.a.row = i;
 			copy->v_range.cell.b.row = i;
@@ -4339,7 +4339,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	else { /*Y is none of the above */
 		xarg = 1;
 		dim = 1;
-		xss = g_new (float_t *, dim);
+		xss = g_new (gnum_float *, dim);
 		xss[0] = collect_floats_value (argv[1], ei->pos,
 					       COLLECT_IGNORE_STRINGS |
 					       COLLECT_IGNORE_BOOLS,
@@ -4374,7 +4374,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	} else
 		stat = FALSE;
 
-	expres = g_new (float_t, dim + 1);
+	expres = g_new (gnum_float, dim + 1);
 	if (exponential_regression (xss, dim, ys, nx, affine,
 			       expres, &extra_stat)) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
@@ -4453,11 +4453,11 @@ static char *help_growth = {
 static Value *
 gnumeric_growth (FunctionEvalInfo *ei, Value *argv[])
 {
-	float_t  *xs = NULL, *ys = NULL, *nxs = NULL;
+	gnum_float  *xs = NULL, *ys = NULL, *nxs = NULL;
 	Value    *result = NULL;
 	gboolean affine, err;
 	int      nx, ny, nnx, i, dim;
-	float_t  expres[2];
+	gnum_float  expres[2];
 
 	affine = TRUE;
 
@@ -4498,10 +4498,10 @@ gnumeric_growth (FunctionEvalInfo *ei, Value *argv[])
 						    COLLECT_IGNORE_BOOLS,
 						    &nnx, &result);
 		} else {
-		        xs = g_new (float_t, ny);
+		        xs = g_new (gnum_float, ny);
 			for (nx = 0; nx < ny; nx++)
 			        xs[nx] = nx + 1;
-		        nxs = g_new (float_t, ny);
+		        nxs = g_new (gnum_float, ny);
 			for (nnx = 0; nnx < ny; nnx++)
 			        nxs[nnx] = nnx + 1;
 		}
@@ -4565,10 +4565,10 @@ static char *help_forecast = {
 static Value *
 gnumeric_forecast (FunctionEvalInfo *ei, Value *argv[])
 {
-	float_t x, *xs = NULL, *ys = NULL;
+	gnum_float x, *xs = NULL, *ys = NULL;
 	Value *result = NULL;
 	int nx, ny, dim;
-	float_t linres[2];
+	gnum_float linres[2];
 
 	x = value_get_as_float (argv[0]);
 
@@ -4632,12 +4632,12 @@ static char *help_intercept = {
 };
 
 static int
-range_intercept (const float_t *xs, const float_t *ys, int n, float_t *res)
+range_intercept (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 {
-	float_t linres[2];
+	gnum_float linres[2];
 	int dim = 1;
 
-	if (linear_regression ((float_t **)&xs, dim, ys, n, 1, linres, NULL))
+	if (linear_regression ((gnum_float **)&xs, dim, ys, n, 1, linres, NULL))
 		return 1;
 
 	*res = linres[0];
@@ -4675,12 +4675,12 @@ static char *help_slope = {
 };
 
 static int
-range_slope (const float_t *xs, const float_t *ys, int n, float_t *res)
+range_slope (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 {
-	float_t linres[2];
+	gnum_float linres[2];
 	int dim = 1;
 
-	if (linear_regression ((float_t **)&xs, dim, ys, n, 1, linres, NULL))
+	if (linear_regression ((gnum_float **)&xs, dim, ys, n, 1, linres, NULL))
 		return 1;
 
 	*res = linres[1];

@@ -510,7 +510,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 	Value *v;
 	gchar *s, *p, *f;
 	gint dec, commas, tmp;
-	float_t num;
+	gnum_float num;
 
 	num = value_get_as_float (argv[0]);
 	if (argv[1])
@@ -1055,7 +1055,7 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	gchar *s;
 	static int barfed = 0;
 
-	float_t x;
+	gnum_float x;
 	int     i, n;
 
 	if (!barfed) {

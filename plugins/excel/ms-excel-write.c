@@ -2288,7 +2288,7 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 	}
 	case VALUE_INTEGER:
 	{
-		int_t vint = v->v_int.val;
+		gnum_int vint = v->v_int.val;
 		guint8 *data;
 
 #ifndef NO_DEBUG_EXCEL
@@ -2313,7 +2313,7 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 	}
 	case VALUE_FLOAT:
 	{
-		float_t val = v->v_float.val;
+		gnum_float val = v->v_float.val;
 		gboolean is_int = ((val - (int)val) == 0.0) &&
 			(((((int)val)<<2)>>2) == ((int)val));
 

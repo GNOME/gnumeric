@@ -181,7 +181,7 @@ parse_criteria(const char *criteria, criteria_test_fun_t *fun,
 	       Value **test_value)
 {
 	char    *p;
-	float_t tmp;
+	gnum_float tmp;
 	int     len;
 
         if (strncmp(criteria, "<=", 2) == 0) {
@@ -514,7 +514,7 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 	GSList      *criterias;
 	GSList      *cells, *current;
 	int         field;
-	float_t     sum;
+	gnum_float     sum;
 	int         count;
 
 	database = argv[0];
@@ -772,7 +772,7 @@ gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 	GSList      *cells, *current;
 	Cell        *cell;
 	int         field;
-	float_t     max;
+	gnum_float     max;
 
 	database = argv[0];
 	criteria = argv[2];
@@ -796,7 +796,7 @@ gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 	max = value_get_as_float (cell->value);
 
 	while (current != NULL) {
-	        float_t v;
+	        gnum_float v;
 
 	        cell = current->data;
 		if (VALUE_IS_NUMBER(cell->value)) {
@@ -840,7 +840,7 @@ gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 	GSList      *cells, *current;
 	Cell        *cell;
 	int         field;
-	float_t     min;
+	gnum_float     min;
 
 	database = argv[0];
 	criteria = argv[2];
@@ -866,7 +866,7 @@ gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 	min = value_get_as_float (cell->value);
 
 	while (current != NULL) {
-	        float_t v;
+	        gnum_float v;
 
 	        cell = current->data;
 		if (VALUE_IS_NUMBER(cell->value)) {
@@ -909,7 +909,7 @@ gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 	GSList      *cells, *current;
 	Cell        *cell;
 	int         field;
-	float_t     product;
+	gnum_float     product;
 
 	database = argv[0];
 	criteria = argv[2];
@@ -936,7 +936,7 @@ gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 	cell = current->data;
 
 	while (current != NULL) {
-	        float_t v;
+	        gnum_float v;
 
 	        cell = current->data;
 		v = value_get_as_float (cell->value);
@@ -1111,7 +1111,7 @@ gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 	GSList      *cells, *current;
 	Cell        *cell;
 	int         field;
-	float_t     sum;
+	gnum_float     sum;
 
 	database = argv[0];
 	criteria = argv[2];
@@ -1137,7 +1137,7 @@ gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 	cell = current->data;
 
 	while (current != NULL) {
-	        float_t v;
+	        gnum_float v;
 
 	        cell = current->data;
 		v = value_get_as_float (cell->value);
