@@ -7,9 +7,10 @@ Andreas:
 Jody:
 	* Fix autosizing of indented content.
 	* Fix jump to bound with end in hidden region.
-	* Hide objects in hidden regions.
+	* Hide objects in hidden regions for display and printing.
 	* LOG is valid with base > 0 && base != 1
 	* Clean out some unused code.
+	* Fix redo of unmerge to handle redraw spans.
 
 Morten:
 	* Improve goal seek.

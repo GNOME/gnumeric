@@ -3015,6 +3015,7 @@ cmd_unmerge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	for (i = 0 ; i < me->unmerged_regions->len ; ++i) {
 		Range const *tmp = &(g_array_index (me->unmerged_regions, Range, i));
+		sheet_redraw_range (me->parent.sheet, tmp);
 		sheet_merge_add (wbc, me->parent.sheet, tmp, FALSE);
 		sheet_range_calc_spans (me->parent.sheet, tmp, SPANCALC_RE_RENDER);
 	}

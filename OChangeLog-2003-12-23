@@ -1,5 +1,10 @@
 2001-10-21  Jody Goldberg <jgoldberg@home.com>
 
+	* src/print.c (print_sheet_objects) : filter hidden objects.
+
+	* src/commands.c (cmd_unmerge_cells_undo) : queue the original region
+	  for a redraw before remerging in case of spans.
+
 	* src/parser.y (gnumeric_parse_error) : Use workbook_sheet_by_name.
 
 	* src/sheet.c (sheet_lookup_by_name) : delete bogus routine.
