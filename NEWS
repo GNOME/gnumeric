@@ -15,20 +15,28 @@ Morten:
 	* Make it possible to hide the statusbar.
 	* A few multihead fixes.
 	* Upgrade to R's development version.
-	* Fix pgeom for small x.  (Fixes precision of GEOMDIST.)
-	* Fix pbinom for very large n.  (Fixes precision of BINOMDIST.)
-	* Replace R's pbeta function.  (Fixes precision of BETADIST,
+	* Fix pgeom for small x.  (Fixes accuracy of GEOMDIST.)
+	* Fix pbinom for very large n.  (Fixes accuracy of BINOMDIST.)
+	* Replace R's pbeta function.  (Fixes accuracy of BETADIST,
 	  BETAINV, FINV.)
-	* Replace R's pcauchy function .  (Fixes precision of CAUCHY.)
-	* Replace R's pf function.  (Fixes precision of FDIST, FTEST, F-test
+	* Replace R's pcauchy function .  (Fixes accuracy of CAUCHY.)
+	* Replace R's pf function.  (Fixes accuracy of FDIST, FTEST, F-test
 	  tool, regression tool, ANOVA tools..)
-	* Replace R's phyper function.  (Fixes precision and evaluation speed
+	* Replace R's phyper function.  (Fixes accuracy and evaluation speed
 	  of HYPERGEOMDIST.)
-	* Fix precision of our versions of various long-double functions
+	* Fix accuracy of our versions of various long-double functions
 	  that Solaris lacks.  (Fixes, for example, ERF.)
-	* Improve precision of FISHER.
-	* Improve precision of EFFECT, NOMINAL, MIRR, IRR, XNPV, NPV, PMT,
+	* Improve accuracy of FISHER.
+	* Improve accuracy of EFFECT, NOMINAL, MIRR, IRR, XNPV, NPV, PMT,
 	  RATE, PV, FV, IPMT, PPMT for small rates.
+
+	(For those worrying over the pile of accuracy fixes above it should
+	be noted that prior versions of Gnumeric were already pretty good,
+	certainly far better than Excel.  Most of the fixes above are for
+	extreme-case arguments where most other software packages will give
+	totally incorrect answers and/or take extremely long time to
+	produce any answer at all.  We are slowly feeding some of these
+	fixes back to, say, the R Project.)
 
 --------------------------------------------------------------------------
 
