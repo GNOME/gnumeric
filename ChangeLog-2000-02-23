@@ -1,3 +1,14 @@
+1999-09-17  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/sheet.c (sheet_row_size_fit): fetch row information, not
+	column information.  Fix the routine.
+
+	* src/workbook-cmd-format.c (workbook_cmd_format_column_auto_fit):
+	(workbook_cmd_format_column_width): 
+	(workbook_cmd_format_row_auto_fit): 
+	(workbook_cmd_format_row_height): Fix the range being scanned to
+	be inclusive.
+
 1999-09-17  Jody Goldberg <jgoldberg@home.com>
 
 	* samples/operator.xls : Updated to be robust in the

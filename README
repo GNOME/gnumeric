@@ -30,7 +30,7 @@ You need:
 	gnome-libs-1.0
 	gnome-print-0.6
 	libxml-1.0
-	libglade-0.2
+	libglade-0.5
 
 Optionally:
 	bonobo-0.1
