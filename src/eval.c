@@ -392,7 +392,7 @@ cell_eval (Cell *cell)
 			Cell *one_cell = l->data;
 
 			if (one_cell->generation != cell->sheet->workbook->generation)
-				cell_queue_recalc (one_cell);
+				eval_queue_cell (one_cell);
 		}
 		g_list_free (deps);
 	}
@@ -867,13 +867,13 @@ cell_get_dependencies (const Cell *cell)
 }
 
 /*
- * cell_queue_recalc:
+ * eval_queue_cell:
  * @cell: the cell that contains the formula that must be recomputed
  *
  * Queues the cell @cell for recalculation.
  */
 void
-cell_queue_recalc (Cell *cell)
+eval_queue_cell (Cell *cell)
 {
 	Workbook *wb;
 
@@ -892,7 +892,7 @@ cell_queue_recalc (Cell *cell)
 }
 
 /*
- * cell_unqueue_from_recalc:
+ * eval_unqueue_cell:
  * @cell: the cell to remove from the recomputation queue
  *
  * Removes a cell that has been previously added to the recomputation
@@ -900,7 +900,7 @@ cell_queue_recalc (Cell *cell)
  * a formula.
  */
 void
-cell_unqueue_from_recalc (Cell *cell)
+eval_unqueue_cell (Cell *cell)
 {
 	Workbook *wb;
 
@@ -915,7 +915,7 @@ cell_unqueue_from_recalc (Cell *cell)
 }
 
 void
-cell_queue_recalc_list (GList *list, gboolean freelist)
+eval_queue_list (GList *list, gboolean freelist)
 {
 	GList *list0 = list;
 	Workbook *wb;
@@ -943,6 +943,36 @@ cell_queue_recalc_list (GList *list, gboolean freelist)
 
 	if (freelist)
 		g_list_free (list0);
+}
+
+/*
+ * eval_unqueue_sheet: Remove all cells from the specified sheet
+ *    from the recalc queue.
+ *
+ * @sheet : the sheet whose cells need to be unqueued.
+ */
+void
+eval_unqueue_sheet (Sheet *sheet)
+{
+	GList *ptr, *next, *queue;
+	Workbook *wb;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	wb = sheet->workbook;
+	queue = wb->eval_queue;
+	for (ptr = queue; ptr != NULL ; ptr = next) {
+		Cell *cell = ptr->data;
+		next = ptr->next;
+
+		if (cell->sheet == sheet) {
+			cell->cell_flags &= ~CELL_QUEUED_FOR_RECALC;
+			queue = g_list_remove_link (queue, ptr);
+			g_list_free_1 (ptr);
+		}
+	}
+	wb->eval_queue = queue;
 }
 
 static Cell *
@@ -1008,7 +1038,7 @@ workbook_recalc (Workbook *wb)
 void
 workbook_recalc_all (Workbook *workbook)
 {
-	cell_queue_recalc_list (workbook->formula_cell_list, FALSE);
+	eval_queue_list (workbook->formula_cell_list, FALSE);
 	workbook_recalc (workbook);
 }
 
@@ -1200,5 +1230,5 @@ sheet_recalc_dependencies (Sheet *sheet)
 			      &cb_single_get_all_depends, &deps);
 
 	if (deps)
-		cell_queue_recalc_list (deps, TRUE);
+		eval_queue_list (deps, TRUE);
 }

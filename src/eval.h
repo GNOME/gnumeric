@@ -13,9 +13,10 @@ void            cell_eval                    (Cell *cell);
 void            cell_add_dependencies        (Cell *cell);
 void            cell_drop_dependencies       (Cell *cell);
 
-void            cell_queue_recalc            (Cell *cell);
-void            cell_unqueue_from_recalc     (Cell *cell);
-void            cell_queue_recalc_list       (GList *list, gboolean freelist);
+void            eval_queue_cell		     (Cell *cell);
+void            eval_queue_list		     (GList *list, gboolean freelist);
+void            eval_unqueue_cell	     (Cell *cell);
+void		eval_unqueue_sheet	     (Sheet *sheet);
 
 /*
  * Return a newly allocated list with Cells inside that

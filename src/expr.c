@@ -329,7 +329,8 @@ expr_tree_shared (ExprTree const *tree)
 }
 
 static Value *
-eval_funcall (EvalPos const *pos, ExprTree const *tree)
+eval_funcall (EvalPos const *pos, ExprTree const *tree,
+	      ExprEvalFlags flags)
 {
 	FunctionEvalInfo ei;
 	Symbol const *sym;
@@ -349,6 +350,7 @@ eval_funcall (EvalPos const *pos, ExprTree const *tree)
 	ei.pos = pos;
 	args = tree->func.arg_list;
 
+	/*if (flags & EVAL_PERMIT_NON_SCALAR)*/
 	return function_call_with_list (&ei, args);
 }
 
@@ -875,7 +877,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 	}
 
 	case OPER_FUNCALL:
-		return eval_funcall (pos, tree);
+		return eval_funcall (pos, tree, flags);
 
 	case OPER_NAME:
 		return eval_expr_name (pos, tree->name.name, flags);

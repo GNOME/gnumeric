@@ -46,7 +46,9 @@ struct _Cell {
 Cell       *cell_copy                    (Cell const *cell);
 void        cell_destroy                 (Cell *cell);
 void        cell_content_changed         (Cell *cell);
-void        cell_relocate                (Cell *cell, gboolean check_bounds);
+void        cell_relocate                (Cell *cell,
+					  gboolean check_bounds,
+					  gboolean unlink);
 
 /**
  * Cell state checking

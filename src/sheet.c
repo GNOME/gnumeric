@@ -1132,7 +1132,8 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 	g_return_if_fail (str != NULL);
 
 	closure.format =
-		parse_text_value_or_expr (pos, str, &closure.val, &closure.expr);
+		parse_text_value_or_expr (pos, str, &closure.val, &closure.expr,
+					  NULL /* TODO : Use edit_pos format ?? */);
 
 	/* Remember the entered text for values */
 	closure.entered_text = (closure.val != NULL) ? string_get (str) : NULL;
@@ -1156,7 +1157,7 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 void
 sheet_cell_set_text (Cell *cell, char const *str)
 {
-	char const * format;
+	char const *format;
 	Value *val;
 	ExprTree *expr;
 	EvalPos pos;
@@ -1165,7 +1166,8 @@ sheet_cell_set_text (Cell *cell, char const *str)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
-	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell), str, &val, &expr);
+	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell), str, &val, &expr,
+					   cell_get_format (cell));
 	if (expr != NULL) {
 		cell_set_expr (cell, expr, format);
 		expr_tree_unref (expr);
@@ -1926,8 +1928,7 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 	if (g_hash_table_lookup_extended (sheet->cell_hash, &cellpos, &original_key, NULL)) {
 		g_hash_table_remove (sheet->cell_hash, &cellpos);
 		g_free (original_key);
-	}
-	else
+	} else
 		g_warning ("Cell not in hash table |\n");
 }
 
@@ -1940,12 +1941,15 @@ sheet_cell_remove_simple (Sheet *sheet, Cell *cell)
 {
 	GList *deps;
 
+	if (cell_needs_recalc(cell))
+		eval_unqueue_cell (cell);
+
 	if (cell_has_expr (cell))
 		sheet_cell_formula_unlink (cell);
 
 	deps = cell_get_dependencies (cell);
 	if (deps)
-		cell_queue_recalc_list (deps, TRUE);
+		eval_queue_list (deps, TRUE);
 
 	sheet_cell_remove_from_hash (sheet, cell);
 
@@ -2038,7 +2042,37 @@ sheet_cell_formula_unlink (Cell *cell)
 
 	/* Just an optimization to avoid an expensive list lookup */
 	if (cell->cell_flags & CELL_QUEUED_FOR_RECALC)
-		cell_unqueue_from_recalc (cell);
+		eval_unqueue_cell (cell);
+}
+
+/**
+ * sheet_formulas_unlink : An internal routine to remove all expressions
+ *      associated with a given sheet from the workbook wide expression list.
+ *
+ * WARNING : This is a dangerous internal function.  it leaves the cells in an
+ *	invalid state.  It is intended for use by sheet_destroy_contents.
+ */
+static void
+sheet_formulas_unlink (Sheet *sheet)
+{
+	GList *ptr, *next, *queue;
+	Workbook *wb;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	wb = sheet->workbook;
+	queue = wb->formula_cell_list;
+	for (ptr = queue; ptr != NULL ; ptr = next) {
+		Cell *cell = ptr->data;
+		next = ptr->next;
+
+		if (cell->sheet == sheet) {
+			queue = g_list_remove_link (queue, ptr);
+			g_list_free_1 (ptr);
+		}
+	}
+	wb->formula_cell_list = queue;
 }
 
 /*
@@ -2124,6 +2158,17 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 	}
 }
 
+static gboolean
+cb_remove_allcells (gpointer key, gpointer value, gpointer flags)
+{
+	Cell *cell = value;
+	cell_drop_dependencies (cell);
+
+	cell->sheet = NULL;
+	cell_destroy (cell);
+	return TRUE;
+}
+
 void
 sheet_destroy_contents (Sheet *sheet)
 {
@@ -2138,12 +2183,21 @@ sheet_destroy_contents (Sheet *sheet)
 	for (i = sheet->rows.max_used; i >= 0 ; --i)
 		row_destroy_span (sheet_row_get (sheet, i));
 
+	/* Remove any pending recalcs */
+	eval_unqueue_sheet (sheet);
+
+	/* Unlink expressions from the workbook expr list */
+	sheet_formulas_unlink (sheet);
+
+	/* Remove all the cells */
+	g_hash_table_foreach_remove (sheet->cell_hash, &cb_remove_allcells, NULL);
+
 	/* Delete in ascending order to avoid decrementing max_used each time */
 	for (i = 0; i <= max_col; ++i)
-		sheet_col_destroy (sheet, i, TRUE);
+		sheet_col_destroy (sheet, i, FALSE);
 
 	for (i = 0; i <= max_row; ++i)
-		sheet_row_destroy (sheet, i, TRUE);
+		sheet_row_destroy (sheet, i, FALSE);
 	
 	/* Free segments too */
 	for (i = COLROW_SEGMENT_INDEX (max_col); i >= 0 ; --i)
@@ -2765,7 +2819,8 @@ colrow_move (Sheet *sheet,
 		cell = cells->data;
 
 		sheet_cell_add_to_hash (sheet, cell);
-		cell_relocate (cell, FALSE);
+		cell_relocate (cell, FALSE, TRUE);
+		cell_content_changed (cell);
 	}
 }
 
@@ -3144,7 +3199,8 @@ sheet_move_range (CommandContext *context,
 			sheet_cell_formula_link (cell);
 
 		/* Move comments */
-		cell_relocate (cell, FALSE);
+		cell_relocate (cell, FALSE, TRUE);
+		cell_content_changed (cell);
 	}
 
 	/* 7. Recompute dependencies */

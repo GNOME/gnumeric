@@ -242,7 +242,7 @@ gnumeric_char_start_expr_p (char const * c)
 }
 
 const char *
-cell_coord_name (int const col, int const row)
+cell_coord_name (int col, int row)
 {
 	static char buffer [2 + 4 * sizeof (long)];
 	char *p = buffer;
@@ -487,6 +487,8 @@ parse_cell_name_list (Sheet *sheet,
  * @text: The text to be parsed.
  * @val : Returns a Value * if the text was a value, otherwise NULL.
  * @expr: Returns an ExprTree * if the text was an expression, otherwise NULL.
+ * @current_format : An optional string with the current number format.  Not
+ *                   fully implemented
  *
  * Returns : A pointer to the optimal format to display the value or
  *     expression result, possibly NULL if there is no preffered format.
@@ -495,8 +497,9 @@ parse_cell_name_list (Sheet *sheet,
  * error is returned.
  */
 char const *
-parse_text_value_or_expr (EvalPos const * pos, char const * const text,
-			  Value **val, ExprTree **expr)
+parse_text_value_or_expr (EvalPos const *pos, char const *text,
+			  Value **val, ExprTree **expr,
+			  char const *current_format /* can be NULL */)
 {
 	char *desired_format = NULL;
 	char const * const expr_start = gnumeric_char_start_expr_p (text);

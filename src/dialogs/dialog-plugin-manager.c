@@ -22,15 +22,13 @@
 #include "plugin.h"
 #include "workbook.h"
 
-#define GLADE_FILE "plugin-manager.glade"
-
 typedef struct
 {
 	Workbook  *workbook;
         GtkWidget *dialog;
         GtkWidget *clist;
-	GtkWidget *file_name_lbl;
-        GtkWidget *desc_text;
+	GtkWidget *path_lbl;
+        GtkWidget *description;
         GtkWidget *size_lbl;
         GtkWidget *modified_lbl;
 } PluginManager;
@@ -93,7 +91,7 @@ refresh_right_frame (PluginData *pd, PluginManager *pm)
 		str = g_strdup (_("File name:"));
 	else
 		str = g_strdup_printf (_("File name: %s"), plugin_data_get_filename (pd));
-	gtk_label_set_text (GTK_LABEL (pm->file_name_lbl), str);
+	gtk_label_set_text (GTK_LABEL (pm->path_lbl), str);
 	g_free (str);
 
 	if (!pd)
@@ -113,16 +111,10 @@ refresh_right_frame (PluginData *pd, PluginManager *pm)
 	gtk_label_set_text (GTK_LABEL (pm->modified_lbl), str);
 	g_free (str);
 
-	gtk_text_set_editable (GTK_TEXT (pm->desc_text), TRUE);
-	gtk_text_freeze (GTK_TEXT (pm->desc_text));
-	gtk_text_backward_delete (GTK_TEXT (pm->desc_text), gtk_text_get_length (GTK_TEXT (pm->desc_text)));
-
-	if (pd && plugin_data_get_descr (pd))
-		gtk_text_insert (GTK_TEXT (pm->desc_text), NULL, NULL, NULL,
-				 plugin_data_get_descr (pd), -1);
-
-	gtk_text_thaw (GTK_TEXT (pm->desc_text));
-	gtk_text_set_editable (GTK_TEXT (pm->desc_text), FALSE);
+	gtk_label_set_text (GTK_LABEL (pm->description),
+			    (pd && plugin_data_get_descr (pd))
+			    ? plugin_data_get_descr (pd)
+			    : "");
 }
 
 /*
@@ -200,12 +192,12 @@ dialog_plugin_manager_impl (Workbook *wb, GladeXML *gui)
 	/* load the dialog from our glade file */
 	pm.dialog        = glade_xml_get_widget (gui, "dialog");
 	pm.clist         = glade_xml_get_widget (gui, "plugin_clist");
-	pm.file_name_lbl = glade_xml_get_widget (gui, "name_lbl");
-	pm.desc_text     = glade_xml_get_widget (gui, "desc_text");
+	pm.path_lbl      = glade_xml_get_widget (gui, "path_lbl");
+	pm.description   = glade_xml_get_widget (gui, "description_lbl");
 	pm.size_lbl      = glade_xml_get_widget (gui, "size_lbl");
 	pm.modified_lbl  = glade_xml_get_widget (gui, "modified_lbl");
 
-	if (!pm.dialog || !pm.clist || !pm.file_name_lbl || !pm.desc_text ||
+	if (!pm.dialog || !pm.clist || !pm.path_lbl || !pm.description ||
 	    !pm.size_lbl || !pm.modified_lbl) {
 		g_warning ("Stale glade file");
 		return;
@@ -222,7 +214,6 @@ dialog_plugin_manager_impl (Workbook *wb, GladeXML *gui)
 	gtk_signal_connect (GTK_OBJECT (pm.dialog), "key_press_event",
 			    GTK_SIGNAL_FUNC (key_event_cb), NULL);
 
-	gtk_text_set_word_wrap (GTK_TEXT (pm.desc_text), TRUE);
 	gtk_clist_column_titles_passive (GTK_CLIST (pm.clist));
 
 	if (GTK_CLIST (pm.clist)->rows > 0) {
@@ -274,7 +265,7 @@ dialog_plugin_manager (Workbook *wb)
 	g_return_if_fail (wb != NULL);
 
 	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				GLADE_FILE);
+				      "plugin-manager.glade");
         if (gui == NULL)
                 return;
 

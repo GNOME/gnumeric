@@ -45,7 +45,7 @@ cell_formula_changed (Cell *cell, gboolean queue_recalc)
 {
 	sheet_cell_formula_link (cell);
 	if (queue_recalc)
-		cell_queue_recalc (cell);
+		eval_queue_cell (cell);
 }
 
 /**
@@ -173,22 +173,24 @@ cell_content_changed (Cell *cell)
 	/* Queue all of the dependencies for this cell */
 	deps = cell_get_dependencies (cell);
 	if (deps)
-		cell_queue_recalc_list (deps, TRUE);
+		eval_queue_list (deps, TRUE);
 
 	sheet_cell_changed (cell);
 }
 
 /*
  * cell_relocate:
- * @cell:           The cell that is changing position
- * @check_bonunds : Should expressions be bounds checked.
+ * @cell	 : The cell that is changing position
+ * @check_bounds : Should expressions be bounds checked.
+ * @unlink	 : Does the cell need to be unlinked from the
+ *                 expression list.
  *
  * This routine is used to move a cell to a different location:
  *
  * Auxiliary items canvas items attached to the cell are moved.
  */
 void
-cell_relocate (Cell *cell, gboolean check_bounds)
+cell_relocate (Cell *cell, gboolean check_bounds, gboolean unlink)
 {
 	g_return_if_fail (cell != NULL);
 
@@ -197,7 +199,8 @@ cell_relocate (Cell *cell, gboolean check_bounds)
 
 	/* 2. If the cell contains a formula, relocate the formula */
 	if (cell_has_expr (cell)) {
-		sheet_cell_formula_unlink (cell);
+		if (unlink)
+			sheet_cell_formula_unlink (cell);
 
 		/*
 		 * WARNING WARNING WARNING
@@ -254,8 +257,6 @@ cell_relocate (Cell *cell, gboolean check_bounds)
 	/* 3. Move any auxiliary canvas items */
 	if (cell->comment)
 		cell_comment_reposition (cell);
-
-	cell_content_changed (cell);
 }
 
 /****************************************************************************/
@@ -287,7 +288,8 @@ cell_set_text (Cell *cell, char const *text)
 	g_return_if_fail (!cell_is_partial_array (cell));
 
 	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell),
-					   text, &val, &expr);
+					   text, &val, &expr,
+					   NULL /* TODO : Use assigned format ? */);
 
 	if (val != NULL) {	/* String was a value */
 		/* If there was a prefered format remember it */
@@ -301,7 +303,6 @@ cell_set_text (Cell *cell, char const *text)
 		cell->u.entered_text = string_get (text);
 		cell->format = fmt;
 		cell_render_value (cell);
-		cell_content_changed (cell);
 	} else {		/* String was an expression */
 		cell_set_expr (cell, expr, format);
 		expr_tree_unref (expr);
@@ -746,8 +747,19 @@ cell_set_format (Cell *cell, char const *format)
 	cell_dirty (cell);
 }
 
-/*
- * This routine drops the formula and just keeps the value
+/**
+ * cell_make_value : drops the expression keeps its value.  Then uses the formatted
+ *      result as if that had been entered.
+ *
+ * NOTE : the cell's expression can not be linked into the expression * list.
+ *
+ * The cell is rendered but spans are not calculated,  the cell is NOT marked for
+ * recalc.
+ *
+ * WARNING : This is an internal routine that does not queue redraws,
+ *           does not auto-resize, and does not calculate spans.
+ *
+ * NOTE : This DOES NOT check for array partitioning.
  */
 void
 cell_make_value (Cell *cell)
@@ -755,7 +767,15 @@ cell_make_value (Cell *cell)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell_has_expr(cell));
 
-	/* FIXME: does this work at all?  -- MW */
-	/* THIS IS CRAP fix soon */
+	expr_tree_unref (cell->u.expression);
+	cell->u.expression = NULL;
+	cell->cell_flags &= ~CELL_HAS_EXPRESSION;
+
+	if (cell->rendered_value == NULL)
+		cell_render_value (cell);
+
+	g_return_if_fail (cell->rendered_value != NULL);
+
+	cell->u.entered_text = string_ref (cell->rendered_value->rendered_text);
 	cell_dirty (cell);
 }

@@ -3,17 +3,10 @@ appropriate for new developers.
 
 Description                                             Difficulty  Integration
 ------------------------------------------------------  ----------  -----------
-- Ability to Create a new sheet that is a copy          Medium      Medium
+- Ability to Create a new sheet that is a copy          Low         Low
   of an existing sheet.
 
 - Financial functions (src/functions/fn-financial.c)    Medium      Very low
-
-- Thoroughly check for division-by-zero and other       Low         Low
-  arithmetic problems in functions, mostly financial.
-
-- Add tests for all kinds of error conditions for       Low         Low
-  functions to samples/regress.gnumeric so we can be
-  sure that we are returning the right error code.
 
 - Save/Restore the values of the last selected colours	Low	    Low
   from the toolbar for background or font.
@@ -24,10 +17,6 @@ Description                                             Difficulty  Integration
 
 - Have the pattern buttons in the format dialog		Medium	    Low
   reflect colour changes.
-
-- Add MS excel like format->autoformat.  A dialog	Low	    Low
-  that will display some canned styles and apply them
-  to the selection.
 
 - Audit the help text for all the functions.  Some are	Low	    Low
   missing or do not conform to the style guides, 

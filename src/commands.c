@@ -506,9 +506,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
 	for (l = me->selection ; l != NULL ; l = l->next) {
 		Range const * const r = l->data;
 		me->old_content = g_slist_prepend (me->old_content,
-			clipboard_copy_cell_range (me->pos.sheet,
-						   r->start.col, r->start.row,
-						   r->end.col, r->end.row));
+			clipboard_copy_cell_range (me->pos.sheet, r));
 
 		/* If there is an expression then this was an array */
 		if (expr != NULL) 
@@ -685,6 +683,7 @@ static gboolean
 cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdInsDelRowCol *me = CMD_INS_DEL_ROW_COL(cmd);
+	Range r;
 	gboolean trouble;
 	int index;
 
@@ -698,13 +697,10 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 
 	me->sizes = sheet_save_row_col_sizes (me->sheet, me->is_cols,
 					      index, me->count);
-	me->contents = (me->is_cols)
-	    ? clipboard_copy_cell_range (me->sheet,
-					 index,			0,
-					 index + me->count - 1,	SHEET_MAX_ROWS-1)
-	    : clipboard_copy_cell_range  (me->sheet,
-					  0,			index,
-					  SHEET_MAX_COLS-1,	index + me->count - 1);
+	me->contents = clipboard_copy_cell_range (me->sheet,
+		(me->is_cols)
+		? range_init (&r, index, 0, index + me->count - 1, SHEET_MAX_ROWS - 1)
+		: range_init (&r, 0, index, SHEET_MAX_COLS-1,	index + me->count - 1));
 
 	if (me->is_insert) {
 		if (me->is_cols)
@@ -901,9 +897,7 @@ cmd_clear_redo (GnumericCommand *cmd, CommandContext *context)
 		Range const * const r = l->data;
 		me->old_content =
 			g_slist_prepend (me->old_content,
-				clipboard_copy_cell_range (me->sheet,
-							   r->start.col, r->start.row,
-							   r->end.col, r->end.row));
+				clipboard_copy_cell_range (me->sheet, r));
 
 		/* We have already checked the arrays */
 		sheet_clear_region (context, me->sheet,
@@ -1729,9 +1723,7 @@ cmd_paste_cut_redo (GnumericCommand *cmd, CommandContext *context)
 
 	/* Store the original contents */
 	me->contents =
-	    clipboard_copy_cell_range (me->info.target_sheet, 
-				       tmp.start.col, tmp.start.row,
-				       tmp.end.col, tmp.end.row);
+	    clipboard_copy_cell_range (me->info.target_sheet,  &tmp);
 
 	/* Make sure the destination is selected */
 	sheet_selection_set (me->info.target_sheet,
@@ -1798,13 +1790,100 @@ cmd_paste_cut (CommandContext *context, ExprRelocateInfo const *info)
 }
 
 /******************************************************************/
+
+#define CMD_PASTE_COPY_TYPE        (cmd_paste_copy_get_type ())
+#define CMD_PASTE_COPY(o)          (GTK_CHECK_CAST ((o), CMD_PASTE_COPY_TYPE, CmdPasteCopy))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	CellRegion *contents;
+	Sheet	   *sheet;
+	Range	    r;
+	int	    paste_flags;
+} CmdPasteCopy;
+
+GNUMERIC_MAKE_COMMAND (CmdPasteCopy, cmd_paste_copy);
+
+static gboolean
+cmd_paste_copy_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
+	CellRegion *contents;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->contents != NULL, TRUE);
+
+	contents = clipboard_copy_cell_range (me->sheet, &(me->r));
+	clipboard_paste_region (context, me->contents, me->sheet,
+				me->r.start.col, me->r.start.row,
+				me->paste_flags, GDK_CURRENT_TIME);
+
+	clipboard_release (me->contents);
+	me->contents = contents;
+
+	sheet_update (me->sheet);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_paste_copy_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->contents == NULL, TRUE);
+
+	sheet_update (me->sheet);
+
+	return FALSE;
+}
+static void
+cmd_paste_copy_destroy (GtkObject *cmd)
+{
+	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
+
+	if (me->contents) {
+		clipboard_release (me->contents);
+		me->contents = NULL;
+	}
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_paste_copy (CommandContext *context, Sheet *sheet, int paste_flags)
+{
+	GtkObject *obj;
+	CmdPasteCopy *me;
+	Range const *r;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_PASTE_COPY_TYPE);
+	me = CMD_PASTE_COPY (obj);
+
+	r = selection_first_range (sheet, FALSE);
+
+	/* Store the specs for the object */
+	me->sheet = sheet;
+	me->r = *r;
+	me->paste_flags = paste_flags;
+
+	me->parent.cmd_descriptor = g_strdup_printf (_("Pasting into %s"), range_name(r));
+
+	/* Register the command object */
+	return command_push_undo (context, sheet->workbook, obj);
+}
+
 /*
  * - Complete colrow resize
+ * - Complete paste copy
  *
  * TODO : Make a list of commands that should have undo support
  *        that do not even have stubs
  *
- * - paste copy
  * - Autofill
  * - SheetObject creation & manipulation.
  */

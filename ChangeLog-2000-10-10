@@ -1,3 +1,53 @@
+2000-05-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (clipboard_copy_cell_range) : Adjust signature to
+	  take a range.
+	(sheet_paste_selection) : Export in preparation for adding undo.
+
+	* src/commands.c (cmd_paste_copy) : Some initial work.  Not used or
+	  complete.
+
+	* src/parse-util.c (parse_text_value_or_expr) : Start passing in the
+	  current format so that we can eventually attempt to match it before
+	  trying all the others.
+
+	* src/sheet.c (sheet_formulas_unlink) : New function.
+	(sheet_destroy_contents) : Optimize.
+
+	* src/dialogs/dialog-plugin-manager.c : Make a bit prettier.
+	* src/dialogs/plugin-manager.glade : Ditto.
+
+2000-05-16  Jody Goldberg <jgoldberg@home.com>
+
+	* plugins/*/*.c : Rationalize the naming scheme.
+
+2000-05-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/eval.[ch] : Rename
+	  cell_queue_recalc      -> eval_queue_cell
+	  cell_queue_recalc_list -> eval_queue_list
+	  cell_unqueue_recalc    -> eval_unqueue_cell
+	(eval_unqueue_sheet) : New function.
+
+	* src/sheet.c (sheet_cell_remove_simple) : Add precautionary removal
+	  of cells from recalc list.  We should not need this in most
+	  instances, but the check is inexpensive so I'll play it safe.
+	(sheet_destroy_contents) : Batch cleanups rather than doing it cell by
+	  cell.
+
+	* src/cell.c (cell_make_value) : Fill in the implementation.
+
+	* src/clipboard.c (paste_cell_flags) : Remove some dead code.
+	  Merged in paste_cell and fixed handling of paste by value.
+
+2000-05-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (paste_cell) : No need to call cell_content_changed
+	  we can queue the recalc for the entire region later.  It is
+	  sufficent to make the cell as changed with sheet_cell_changed.
+	(paste_cell) : It is premature to redraw, we have no yet calculated
+	  spans.  Redraw and respan at the range level, not the cell.
+
 2000-05-20  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.54
