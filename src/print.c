@@ -944,9 +944,8 @@ sheet_print (Sheet *sheet, gboolean preview,
 
 	if (preview) {
 		gboolean landscape = pj->pi->orientation == PRINT_ORIENT_HORIZONTAL;
-		pmp = gnome_print_master_preview_new (gpm,
-						      _("Print preview"),
-						      landscape);
+		pmp = gnome_print_master_preview_new_with_orientation
+			(gpm, _("Print preview"), landscape);
 		gtk_widget_show (GTK_WIDGET (pmp));
 	} else {
 		gnome_print_master_print (gpm);

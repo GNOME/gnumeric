@@ -1,7 +1,7 @@
 2000-04-11  Morten Welinder  <terra@diku.dk>
 
 	* src/print.c (sheet_print): Supply new landscape argument to
- 	previw.
+ 	preview.
 
 2000-04-11  Jody Goldberg <jgoldberg@home.com>
 
