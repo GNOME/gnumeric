@@ -1,5 +1,8 @@
 2000-08-16  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-view.c (workbook_view_set_size) : Back out switch to
+	  set_usize it was disabling shrinking.  Fix this eventually.
+
 	* src/sheet.c (sheet_get_extent) : re-enable the use of
 	  sheet_style_get_extent.
 

@@ -134,9 +134,10 @@ workbook_view_set_size (Workbook const * const wb,
 	int const screen_width = gdk_screen_width ();
 	int const screen_height = gdk_screen_height ();
 
-	gtk_widget_set_usize (wb->notebook,
-			      MIN (screen_width - 64, width_pixels),
-			      MIN (screen_height - 64, height_pixels));
+	/* FIXME : This should really be sizing the notebook */
+	gtk_window_set_default_size (GTK_WINDOW (wb->toplevel),
+				     MIN (screen_width - 64, width_pixels),
+				     MIN (screen_height - 64, height_pixels));
 }
 
 /**
