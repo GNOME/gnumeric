@@ -72,6 +72,10 @@ GNUMERIC_BASE_SOURCES =				\
 	command-context-corba.h			\
 	command-context-gui.c			\
 	command-context-gui.h			\
+	complete.c				\
+	complete.h				\
+	complete-sheet.c			\
+	complete-sheet.h			\
 	complex.h				\
 	complex.c				\
 	corba.h					\

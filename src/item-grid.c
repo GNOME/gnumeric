@@ -375,8 +375,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			 *    there is a span descriptor.
 			 */
 			if (ri->pos == -1 ||
-			    NULL == (span = row_span_get (ri, col)) ||
-			    edit_cell == span->cell) {
+			    NULL == (span = row_span_get (ri, col)) || edit_cell == span->cell) {
 				Cell *cell = sheet_cell_get (sheet, col, row);
 				MStyle *mstyle = item_grid_draw_background (
 					drawable, item_grid, ci, ri,
@@ -641,7 +640,7 @@ create_popup_menu (Sheet *sheet,
 	menu = gtk_menu_new ();
 	item = NULL;
 
-	for (i = 0; item_grid_context_menu [i].name; ++i) {
+	for (i = 0; item_grid_context_menu [i].name; i++) {
 		popup_types const type = item_grid_context_menu [i].type;
 		char const * const pix_name = item_grid_context_menu [i].pixmap;
 
@@ -675,12 +674,12 @@ create_popup_menu (Sheet *sheet,
 			gtk_container_add (GTK_CONTAINER (item), label);
 
 			if (label_accel != GDK_VoidSymbol) {
-			    if (GTK_IS_MENU (menu))
-				    gtk_widget_add_accelerator (item,
-					    "activate_item",
-					    gtk_menu_ensure_uline_accel_group (GTK_MENU (menu)),
-					    label_accel, 0,
-					    GTK_ACCEL_LOCKED);
+				gtk_widget_add_accelerator (
+					item,
+					"activate_item",
+					gtk_menu_ensure_uline_accel_group (GTK_MENU (menu)),
+					label_accel, 0,
+					GTK_ACCEL_LOCKED);
 			}
 			break;
 		}

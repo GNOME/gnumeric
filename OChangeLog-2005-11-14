@@ -1,3 +1,21 @@
+2000-04-25  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/item-edit.c (entry_changed): Call complete_start here;  Pass
+	the text to scan_for_range now.
+	(item_edit_set_arg): Create the complete_sheet object here.
+	(item_edit_destroy): kill it here.
+
+	* src/complete.c: New file.  Implements the abstract
+	auto-completion class;
+
+	* src/complete-sheet.c: New file.  Implements the sheet-based
+	completion code.
+
+	* src/item-edit.c (item_edit_draw_text): Take a GtkStyle instead
+	of a GdkGC.
+
+	* src/item-grid.c (create_popup_menu): Remove unrequired code. 
+
 2000-04-25  Morten Welinder  <terra@diku.dk>
 
 	* src/value.c (value_duplicate): Plug leak.

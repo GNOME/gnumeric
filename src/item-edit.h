@@ -25,7 +25,8 @@ typedef struct {
 	int	  font_height;
 	gboolean  cursor_visible;
 	int       blink_timer;
-
+	int       auto_entry;
+	
 	/*
 	 * When editing, if the cursor is inside a cell name, or a
 	 * cell range, we highlight this on the spreadsheet.
@@ -33,6 +34,9 @@ typedef struct {
 	GnomeCanvasItem *feedback_cursor;
 	Range            feedback_region;
 	gboolean         feedback_disabled;
+
+	/* GtkType: "Complete" */
+	void            *auto_complete;
 } ItemEdit;
 
 GtkType item_edit_get_type (void);
