@@ -111,6 +111,7 @@ Morten:
 	* Improve the support for fractional formats.
 	* Improve auto-format for date differences.
 	* Clean up style format code.
+	* Fix parsing of fractional constants.
 
 --------------------------------------------------------------------------
 

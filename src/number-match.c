@@ -76,25 +76,27 @@ create_option_list (char const *const *list)
 }
 
 typedef enum {
-	MATCH_DAY_FULL 		= 1,
-	MATCH_DAY_NUMBER	= 2,
-	MATCH_MONTH_FULL	= 3,
-	MATCH_MONTH_SHORT	= 4,
-	MATCH_MONTH_NUMBER	= 5,
-	MATCH_YEAR_FULL		= 6,
-	MATCH_YEAR_SHORT	= 7,
-	MATCH_HOUR		= 8,
-	MATCH_MINUTE		= 9,
-	MATCH_SECOND		= 10,
-	MATCH_AMPM		= 11,
-	MATCH_NUMBER		= 12,
-	MATCH_NUMBER_DECIMALS	= 13,
-	MATCH_PERCENT		= 14,
-	MATCH_SKIP		= 15,
-	MATCH_STRING_CONSTANT	= 16,
-	MATCH_CUMMULATIVE_HOURS	= 17,
-	MATCH_CUMMULATIVE_MINUTES= 18,
-	MATCH_CUMMULATIVE_SECONDS= 19
+	MATCH_DAY_FULL 		  = 1,
+	MATCH_DAY_NUMBER	  = 2,
+	MATCH_MONTH_FULL	  = 3,
+	MATCH_MONTH_SHORT	  = 4,
+	MATCH_MONTH_NUMBER	  = 5,
+	MATCH_YEAR_FULL		  = 6,
+	MATCH_YEAR_SHORT	  = 7,
+	MATCH_HOUR		  = 8,
+	MATCH_MINUTE		  = 9,
+	MATCH_SECOND		  = 10,
+	MATCH_AMPM		  = 11,
+	MATCH_NUMBER		  = 12,
+	MATCH_NUMBER_DECIMALS	  = 13,
+	MATCH_PERCENT		  = 14,
+	MATCH_SKIP		  = 15,
+	MATCH_STRING_CONSTANT	  = 16,
+	MATCH_CUMMULATIVE_HOURS	  = 17,
+	MATCH_CUMMULATIVE_MINUTES = 18,
+	MATCH_CUMMULATIVE_SECONDS = 19,
+	MATCH_NUMERATOR           = 20,
+	MATCH_DENOMINATOR         = 21
 } MatchType;
 
 #define append_type(t) do { guint8 x = t; match_types = g_byte_array_append (match_types, &x, 1); } while (0)
@@ -111,6 +113,8 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 	GByteArray *match_types;
 	char *str;
 	gboolean hour_seen = FALSE;
+	gboolean number_seen = FALSE;
+	gboolean fraction = FALSE;
 
 	g_return_val_if_fail (format != NULL, NULL);
 
@@ -178,20 +182,25 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 			break;
 
 		case '#': case '0': case '.': case '+': case '?': {
-			gboolean include_sep = FALSE, include_decimal = FALSE;
+			gboolean include_sep = FALSE;
+			gboolean include_decimal = FALSE;
 
 			while (*format == '#' || *format == '0' || *format == '.' ||
 			       *format == '-' || *format == 'E' || *format == 'e' ||
 			       *format == '+' || *format == '?' || *format == ',') {
-				if (*format == ',')
-					include_sep = TRUE;
-				else if (*format == '.')
-					include_decimal = TRUE;
+				switch (*format) {
+				case ',': include_sep = TRUE; break;
+				case '.': include_decimal = TRUE; break;
+				}
 				format++;
 			}
 			format--;
 
-			append_type (MATCH_NUMBER);
+			if (format[1] == '/' && number_seen)
+				append_type (MATCH_NUMERATOR);
+			else
+				append_type (MATCH_NUMBER);
+
 			if (include_sep) {
 				/* Not strictly correct.
 				 * There should be a limit of 1-3 digits.
@@ -206,8 +215,9 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 				gnumeric_regexp_quote (regexp, format_get_thousand ());
 				g_string_append (regexp, "[0-9]{3})*)");
 				append_type (MATCH_SKIP);
-			} else
+			} else {
 				g_string_append (regexp, "([-+]?[0-9]+)");
+			}
 
 			if (include_decimal) {
 				g_string_append (regexp, "?(");
@@ -215,6 +225,8 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 				g_string_append (regexp, "[0-9]+([Ee][-+]?[0-9]+)?)");
 				append_type (MATCH_NUMBER_DECIMALS);
 			}
+
+			number_seen = TRUE;
 			break;
 		}
 
@@ -346,7 +358,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 			/* FIXME: What is this?  */
 			while (*format)
 				format = g_utf8_next_char (format);
-			format = g_utf8_prev_char (format);;
+			format = g_utf8_prev_char (format);
 			break;
 
 		case 'A': case 'a':
@@ -388,6 +400,25 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 			}
 			break;
 
+		case '/':
+			g_string_append_c (regexp, '/');
+			if (number_seen) {
+				fraction = TRUE;
+				/* Fraction.  Ick.  */
+				if (strncmp (regexp->str, "^([-+]?[0-9]+) ", 15) == 0) {
+					g_string_erase (regexp, 14, 1);
+					g_string_insert (regexp, 13, " +|");
+					/* FIXME: The final regexp won't match a plain digit sequence.  */
+				}
+
+				while (format[1] == '?' || g_ascii_isdigit (format[1]))
+					format++;
+
+				g_string_append (regexp, "([0-9]+) *");
+				append_type (MATCH_DENOMINATOR);
+			}
+			break;
+
 #if 0
 		/* these were here explicitly before adding default.
 		 * Leave them explicit for now as documentation.
@@ -401,7 +432,6 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 		case ']':
 		case '$':
 		case ':':
-		case '/':
 		case '-':
 		case ' ':
 		case '(':
@@ -721,6 +751,7 @@ compute_value (char const *s, const regmatch_t *mp,
 	int month, day, year, year_short;
 	int hours, minutes;
 	gnm_float seconds;
+	int numerator = 0, denominator = 1;
 
 	char const *thousands_sep = format_get_thousand ();
 	char const *decimal = format_get_decimal ();
@@ -767,6 +798,24 @@ compute_value (char const *s, const regmatch_t *mp,
 
 		case MATCH_DAY_NUMBER:
 			day = atoi (str);
+			break;
+
+		case MATCH_NUMERATOR:
+			numerator = atoi (str);
+			break;
+
+		case MATCH_DENOMINATOR:
+			denominator = atoi (str);
+			if (denominator <= 0)
+				return NULL;
+			if (is_neg && numerator < 0)
+				return NULL;
+
+			is_number = TRUE;
+			if (is_neg)
+				number -= numerator / (gnm_float)denominator;
+			else
+				number += numerator / (gnm_float)denominator;
 			break;
 
 		case MATCH_NUMBER:
@@ -1112,16 +1161,18 @@ format_match (char const *text, StyleFormat *cur_fmt,
 		return value_new_string (text + 1);
 
 	if (cur_fmt) {
-		if (style_format_is_text (cur_fmt))
+		switch (cur_fmt->family) {
+		case FMT_TEXT:
 			return value_new_string (text);
-		if (cur_fmt->regexp_str != NULL &&
-		    gnumeric_regexec (&cur_fmt->regexp, text, NM, mp, 0) != REG_NOMATCH &&
-		    NULL != (v = compute_value (text, mp, cur_fmt->match_tags,
-						date_conv))) {
+
+		default:
+			if (cur_fmt->regexp_str != NULL &&
+			    gnumeric_regexec (&cur_fmt->regexp, text, NM, mp, 0) != REG_NOMATCH &&
+			    NULL != (v = compute_value (text, mp, cur_fmt->match_tags,
+							date_conv))) {
 #ifdef DEBUG_NUMBER_MATCH
-			{
 				int i;
-				printf ("matches expression: %s %s\n", cur_fmt->format, cur_fmt->regexp_str);
+				g_print ("matches expression: %s %s\n", cur_fmt->format, cur_fmt->regexp_str);
 				for (i = 0; i < NM; i++) {
 					char *p;
 
@@ -1129,13 +1180,19 @@ format_match (char const *text, StyleFormat *cur_fmt,
 						break;
 
 					p = extract_text (text, &mp[i]);
-					printf ("%d %d->%s\n", mp[i].rm_so, mp[i].rm_eo, p);
+					g_print ("%d %d->%s\n", mp[i].rm_so, mp[i].rm_eo, p);
 				}
-			}
 #endif
 
-			value_set_fmt (v, cur_fmt);
-			return v;
+				value_set_fmt (v, cur_fmt);
+				return v;
+			} else {
+#ifdef DEBUG_NUMBER_MATCH
+				g_print ("does not match expression: %s %s\n",
+					 cur_fmt->format,
+					 cur_fmt->regexp_str ? cur_fmt->regexp_str : "(null)");
+#endif
+			}
 		}
 	}
 

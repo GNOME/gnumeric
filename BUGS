@@ -480,7 +480,6 @@ Misc stuff that should be fixed
     : hour month and year format strings need to be internationalized.
 	eg tt:ss instead of hh:ss for other locales.
     : formats with AM/PM need to be internationalized.
-    : we should parse fractions
     : We do not format fractional seconds correctly.
     : Parsing should handle embedded strings
     : It incorrectly accepts mmm:ss as some sort of minute spec.

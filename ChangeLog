@@ -1,5 +1,9 @@
 2003-07-17  Morten Welinder  <terra@gnome.org>
 
+	* src/number-match.c (format_create_regexp): Approach working
+	state for fractions.
+	(compute_value): Handle fractions.
+
 	* src/workbook-control-gui.c (cb_sheet_label_drag_begin): Get
 	marker from application.
 
