@@ -1,3 +1,7 @@
+2005-02-14  Jody Goldberg <jody@gnome.org>
+
+	* bg.po : remove the bogus fuzzy translations
+
 2005-02-13  Jody Goldberg <jody@gnome.org>
 
 	* el.po : Do not translate the token keys
