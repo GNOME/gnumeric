@@ -49,7 +49,7 @@ static GnmFuncHelp const help_r_pnorm[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PNORM\n"
 	   "@SYNTAX=R.PNORM(x,mu,sigma[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PNORM function returns the cumulative probability density function of the normal distribution.\n"
+	   "@DESCRIPTION=R.PNORM function returns the cumulative distribution function of the normal distribution.\n"
 	   "\n"
 	   "* @mu: mean of the distribution.\n"
 	   "* @sigma: standard deviation of the distribution.\n"
@@ -82,7 +82,7 @@ static GnmFuncHelp const help_r_qnorm[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QNORM\n"
 	   "@SYNTAX=R.QNORM(p,mu,sigma[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QNORM function returns the probability quantile function of the normal distribution.\n"
+	   "@DESCRIPTION=R.QNORM function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the normal distribution.\n"
 	   "\n"
 	   "* @p: probability.\n"
 	   "* @mu: mean of the distribution.\n"
@@ -147,7 +147,7 @@ static GnmFuncHelp const help_r_plnorm[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PLNORM\n"
 	   "@SYNTAX=R.PLNORM(x,logmean,logsd[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PLNORM function returns the cumulative probability density function of the log-normal distribution.\n"
+	   "@DESCRIPTION=R.PLNORM function returns the cumulative distribution function of the log-normal distribution.\n"
 	   "\n"
 	   "* @logmean: mean of the underlying normal distribution.\n"
 	   "* @logsd: standard deviation of the underlying normal distribution.\n"
@@ -180,7 +180,7 @@ static GnmFuncHelp const help_r_qlnorm[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QLNORM\n"
 	   "@SYNTAX=R.QLNORM(x,logmean,logsd[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QLNORM function returns the probability quantile function of the log-normal distribution.\n"
+	   "@DESCRIPTION=R.QLNORM function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the log-normal distribution.\n"
 	   "\n"
 	   "* @logmean: mean of the underlying normal distribution.\n"
 	   "* @logsd: standard deviation of the underlying normal distribution.\n"
@@ -244,7 +244,7 @@ static GnmFuncHelp const help_r_pgamma[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PGAMMA\n"
 	   "@SYNTAX=R.PGAMMA(x,p,scale[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PGAMMA function returns the cumulative probability density function of the gamma distribution.\n"
+	   "@DESCRIPTION=R.PGAMMA function returns the cumulative distribution function of the gamma distribution.\n"
 	   "\n"
 	   "* @p: probability.\n"
 	   "* @scale: the scale parameter of the distribution\n"
@@ -277,7 +277,7 @@ static GnmFuncHelp const help_r_qgamma[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QGAMMA\n"
 	   "@SYNTAX=R.QGAMMA(p,alpha,scale[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QGAMMA function returns the probability quantile function of the gamma distribution.\n"
+	   "@DESCRIPTION=R.QGAMMA function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the gamma distribution.\n"
 	   "\n"
 	   "* @p: probability.\n"
 	   "* @scale: the scale parameter of the distribution\n"
@@ -341,7 +341,7 @@ static GnmFuncHelp const help_r_pbeta[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PBETA\n"
 	   "@SYNTAX=R.PBETA(x,a,b[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PBETA function returns the cumulative probability density function of the beta distribution.\n"
+	   "@DESCRIPTION=R.PBETA function returns the cumulative distribution function of the beta distribution.\n"
 	   "\n"
 	   "* @a: the first shape parameter of the distribution\n"
 	   "* @b: the second scale parameter of the distribution\n"
@@ -374,7 +374,7 @@ static GnmFuncHelp const help_r_qbeta[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QBETA\n"
 	   "@SYNTAX=R.QBETA(alpha,a,b[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QBETA function returns the probability quantile function of the beta distribution.\n"
+	   "@DESCRIPTION=R.QBETA function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the beta distribution.\n"
 	   "\n"
 	   "* @a: the first shape parameter of the distribution\n"
 	   "* @b: the second scale parameter of the distribution\n"
@@ -436,7 +436,7 @@ static GnmFuncHelp const help_r_pt[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PT\n"
 	   "@SYNTAX=R.PT(x,n[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PT function returns the cumulative probability density function of the Student t distribution.\n"
+	   "@DESCRIPTION=R.PT function returns the cumulative distribution function of the Student t distribution.\n"
 	   "\n"
 	   "* @n: the number of degrees of freedom of the distribution\n"
 	   "* @lower_tail: if true (the default), the lower tail of the distribution is considered.\n"
@@ -467,7 +467,7 @@ static GnmFuncHelp const help_r_qt[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QT\n"
 	   "@SYNTAX=R.QT(p,n[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QT function returns the probability quantile function of the Student t distribution.\n"
+	   "@DESCRIPTION=R.QT function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Student t distribution.\n"
 	   "\n"
 	   "* @p: probability.\n"
 	   "* @n: the number of degrees of freedom of the distribution\n"
@@ -530,7 +530,7 @@ static GnmFuncHelp const help_r_pf[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PF\n"
 	   "@SYNTAX=R.PF(x,n1,n2[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PF function returns the cumulative probability density function of the F distribution.\n"
+	   "@DESCRIPTION=R.PF function returns the cumulative distribution function of the F distribution.\n"
 	   "\n"
 	   "* @n1: the first number of degrees of freedom of the distribution\n"
 	   "* @n2: the first number of degrees of freedom of the distribution\n"
@@ -563,7 +563,7 @@ static GnmFuncHelp const help_r_qf[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QF\n"
 	   "@SYNTAX=R.QF(x,n1,n2[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QF function returns the probability quantile function of the F distribution.\n"
+	   "@DESCRIPTION=R.QF function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the F distribution.\n"
 	   "\n"
 	   "* @n1: the first number of degrees of freedom of the distribution\n"
 	   "* @n2: the first number of degrees of freedom of the distribution\n"
@@ -625,7 +625,7 @@ static GnmFuncHelp const help_r_pchisq[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PCHISQ\n"
 	   "@SYNTAX=R.PCHISQ(x,df[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PCHISQ function returns the cumulative probability density function of the chi-square distribution.\n"
+	   "@DESCRIPTION=R.PCHISQ function returns the cumulative distribution function of the chi-square distribution.\n"
 	   "\n"
 	   "* @df: the number of degrees of freedom of the distribution\n"
 	   "* @lower_tail: if true (the default), the lower tail of the distribution is considered.\n"
@@ -656,7 +656,7 @@ static GnmFuncHelp const help_r_qchisq[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QCHISQ\n"
 	   "@SYNTAX=R.QCHISQ(p,df[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QCHISQ function returns the probability quantile function of the chi-square distribution.\n"
+	   "@DESCRIPTION=R.QCHISQ function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the chi-square distribution.\n"
 	   "\n"
 	   "* @p: probability.\n"
 	   "* @df: the number of degrees of freedom of the distribution\n"
@@ -719,7 +719,7 @@ static GnmFuncHelp const help_r_pweibull[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PWEIBULL\n"
 	   "@SYNTAX=R.PWEIBULL(x,shape,scale[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PWEIBULL function returns the cumulative probability density function of the Weibull distribution.\n"
+	   "@DESCRIPTION=R.PWEIBULL function returns the cumulative distribution function of the Weibull distribution.\n"
 	   "\n"
 	   "* @shape: the shape parameter of the distribution\n"
 	   "* @scale: the scale parameter of the distribution\n"
@@ -752,7 +752,7 @@ static GnmFuncHelp const help_r_qweibull[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QWEIBULL\n"
 	   "@SYNTAX=R.QWEIBULL(p,shape,scale[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QWEIBULL function returns the probability quantile function of the Weibull distribution.\n"
+	   "@DESCRIPTION=R.QWEIBULL function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Weibull distribution.\n"
 	   "\n"
 	   "* @p: probability.\n"
 	   "* @shape: the shape parameter of the distribution\n"
@@ -815,7 +815,7 @@ static GnmFuncHelp const help_r_ppois[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PPOIS\n"
 	   "@SYNTAX=R.PPOIS(x,lambda[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PPOIS function returns the cumulative probability density function of the Poisson distribution.\n"
+	   "@DESCRIPTION=R.PPOIS function returns the cumulative distribution function of the Poisson distribution.\n"
 	   "\n"
 	   "* @lambda: the mean of the distribution\n"
 	   "* @lower_tail: if true (the default), the lower tail of the distribution is considered.\n"
@@ -846,7 +846,7 @@ static GnmFuncHelp const help_r_qpois[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QPOIS\n"
 	   "@SYNTAX=R.QPOIS(p,lambda[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QPOIS function returns the probability quantile function of the Poisson distribution.\n"
+	   "@DESCRIPTION=R.QPOIS function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Poisson distribution.\n"
 	   "\n"
 	   "* @p: probability.\n"
 	   "* @lambda: the mean of the distribution\n"
@@ -907,7 +907,7 @@ static GnmFuncHelp const help_r_pexp[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PEXP\n"
 	   "@SYNTAX=R.PEXP(x,scale[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PEXP function returns the cumulative probability density function of the exponential distribution.\n"
+	   "@DESCRIPTION=R.PEXP function returns the cumulative distribution function of the exponential distribution.\n"
 	   "\n"
 	   "* @scale: the scale parameter of the distribution\n"
 	   "* @lower_tail: if true (the default), the lower tail of the distribution is considered.\n"
@@ -938,7 +938,7 @@ static GnmFuncHelp const help_r_qexp[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QEXP\n"
 	   "@SYNTAX=R.QEXP(p,scale[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QEXP function returns the probability quantile function of the exponential distribution.\n"
+	   "@DESCRIPTION=R.QEXP function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the exponential distribution.\n"
 	   "\n"
 	   "* @p: probability.\n"
 	   "* @scale: the scale parameter of the distribution\n"
@@ -1001,7 +1001,7 @@ static GnmFuncHelp const help_r_pbinom[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PBINOM\n"
 	   "@SYNTAX=R.PBINOM(x,n,psuc[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PBINOM function returns the cumulative probability density function of the binomial distribution.\n"
+	   "@DESCRIPTION=R.PBINOM function returns the cumulative distribution function of the binomial distribution.\n"
 	   "\n"
 	   "* @n: the number of trials\n"
 	   "* @psuc: the probability of success in each trial\n"
@@ -1034,7 +1034,7 @@ static GnmFuncHelp const help_r_qbinom[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QBINOM\n"
 	   "@SYNTAX=R.QBINOM(x,n,psuc[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QBINOM function returns the probability quantile function of the binomial distribution.\n"
+	   "@DESCRIPTION=R.QBINOM function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the binomial distribution.\n"
 	   "\n"
 	   "* @n: the number of trials\n"
 	   "* @psuc: the probability of success in each trial\n"
@@ -1098,7 +1098,7 @@ static GnmFuncHelp const help_r_pnbinom[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PNBINOM\n"
 	   "@SYNTAX=R.PNBINOM(x,n,psuc[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PNBINOM function returns the cumulative probability density function of the negative binomial distribution.\n"
+	   "@DESCRIPTION=R.PNBINOM function returns the cumulative distribution function of the negative binomial distribution.\n"
 	   "\n"
 	   "* @n: the number of trials\n"
 	   "* @psuc: the probability of success in each trial\n"
@@ -1131,7 +1131,7 @@ static GnmFuncHelp const help_r_qnbinom[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QNBINOM\n"
 	   "@SYNTAX=R.QNBINOM(p,n,psuc[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QNBINOM function returns the probability quantile function of the negative binomial distribution.\n"
+	   "@DESCRIPTION=R.QNBINOM function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the negative binomial distribution.\n"
 	   "\n"
 	   "* @p: probability.\n"
 	   "* @n: the number of trials\n"
@@ -1198,7 +1198,7 @@ static GnmFuncHelp const help_r_phyper[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PHYPER\n"
 	   "@SYNTAX=R.PHYPER(x,r,b,n[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PHYPER function returns the cumulative probability density function of the hypergeometric distribution.\n"
+	   "@DESCRIPTION=R.PHYPER function returns the cumulative distribution function of the hypergeometric distribution.\n"
 	   "\n"
 	   "* @r: the number of red balls\n"
 	   "* @b: the number of black balls\n"
@@ -1262,7 +1262,7 @@ static GnmFuncHelp const help_r_pgeom[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PGEOM\n"
 	   "@SYNTAX=R.PGEOM(x,psuc[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PGEOM function returns the cumulative probability density function of the geometric distribution.\n"
+	   "@DESCRIPTION=R.PGEOM function returns the cumulative distribution function of the geometric distribution.\n"
 	   "\n"
 	   "* @psuc: the probability of success in each trial\n"
 	   "* @lower_tail: if true (the default), the lower tail of the distribution is considered.\n"
@@ -1293,7 +1293,7 @@ static GnmFuncHelp const help_r_qgeom[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QGEOM\n"
 	   "@SYNTAX=R.QGEOM(p,psuc[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QGEOM function returns the probability quantile function of the geometric distribution.\n"
+	   "@DESCRIPTION=R.QGEOM function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the geometric distribution.\n"
 	   "\n"
 	   "* @p: probability.\n"
 	   "* @psuc: the probability of success in each trial\n"
@@ -1356,7 +1356,7 @@ static GnmFuncHelp const help_r_pcauchy[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PCAUCHY\n"
 	   "@SYNTAX=R.PCAUCHY(x,location,scale[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.PCAUCHY function returns the cumulative probability density function of the Cauchy distribution.\n"
+	   "@DESCRIPTION=R.PCAUCHY function returns the cumulative distribution function of the Cauchy distribution.\n"
 	   "\n"
 	   "* @location: the center of the distribution\n"
 	   "* @scale: the scale parameter of the distribution\n"
@@ -1389,7 +1389,7 @@ static GnmFuncHelp const help_r_qcauchy[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.QCAUCHY\n"
 	   "@SYNTAX=R.QCAUCHY(p,location,scale[,lower_tail,log_p])\n"
-	   "@DESCRIPTION=R.QCAUCHY function returns the probability quantile function of the Cauchy distribution.\n"
+	   "@DESCRIPTION=R.QCAUCHY function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Cauchy distribution.\n"
 	   "\n"
 	   "* @p: probability.\n"
 	   "* @location: the center of the distribution\n"

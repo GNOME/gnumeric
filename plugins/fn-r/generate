@@ -255,8 +255,8 @@ sub distribution {
     my $what = ($func =~ /^d/
 		? "probability density function"
 		: ($func =~ /^p/
-		   ? "cumulative probability density function"
-		   : "probability quantile function"));
+		   ? "cumulative distribution function"
+		   : "probability quantile function, i.e., the inverse of the cumulative distribution function,"));
 
     my $seealso = "";
     my $f1 = substr ($func, 1);
