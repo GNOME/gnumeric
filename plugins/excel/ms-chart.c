@@ -1909,7 +1909,7 @@ BC_R(end)(XLChartHandler const *handle,
 				g_object_set (G_OBJECT (series),
 					"style", style,
 					NULL);
-			if (!series->has_legend)
+			if (!eseries->has_legend)
 				g_object_set (G_OBJECT (series),
 					"has-legend", FALSE,
 					NULL);

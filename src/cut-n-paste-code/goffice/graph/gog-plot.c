@@ -350,12 +350,12 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 
 	if (!plot->vary_style_by_element) {
 		unsigned i = plot->index_num;
-		for (; ptr != NULL ; ptr = ptr->next, i++)
-			if (!only_visible || gog_series_has_legend (ptr->data))
+		for (; ptr != NULL ; ptr = ptr->next)
+			if (!only_visible || gog_series_has_legend (ptr->data)) {
 				func (i, gog_styled_object_get_style (ptr->data),
 				      gog_object_get_name (ptr->data), data);
-
-		g_return_if_fail (i == plot->index_num + plot->full_cardinality);
+				i++;
+			}
 		return;
 	}
 

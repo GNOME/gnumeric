@@ -1,3 +1,12 @@
+2004-05-10  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-plot.c (gog_plot_foreach_elem) : pass the index of the
+	  iteration, not the absolute for has-legend situations
+
+	* graph/gog-series.c (gog_series_set_property) : update cardinality if
+	  has-legend changes.
+	(gog_series_editor) : Add a quick 'show in legend' toggle
+
 2004-05-07  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-theme.c (gog_themes_init) : sync the default theme with

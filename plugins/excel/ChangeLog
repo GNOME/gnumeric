@@ -1,3 +1,8 @@
+2004-05-10  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(end)) : doh!  Use the ExcelSeries::has_legend to
+	  set the GogSeries not the GogSeries on itself.
+
 2004-05-09  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_WINDOW2) : It seems like there can be

@@ -38,6 +38,7 @@
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkspinbutton.h>
+#include <gtk/gtkcheckbutton.h>
 
 #include <string.h>
 
@@ -246,10 +247,16 @@ gog_series_set_property (GObject *obj, guint param_id,
 			 GValue const *value, GParamSpec *pspec)
 {
 	GogSeries *series = GOG_SERIES (obj);
+	gboolean b_tmp;
 
 	switch (param_id) {
 	case SERIES_HAS_LEGEND :
-		series->has_legend = g_value_get_boolean (value);
+		b_tmp = g_value_get_boolean (value);
+		if (series->has_legend ^ b_tmp) {
+			series->has_legend = b_tmp;
+			if (series->plot != NULL)
+				gog_plot_request_cardinality_update (series->plot);
+		}
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -292,6 +299,14 @@ make_dim_editor (GtkTable *table, unsigned row, GtkWidget *editor,
 	gnm_setup_label_atk (label, editor);
 
 	return row + 1;
+}
+
+static void
+cb_show_in_legend (GtkToggleButton *b, GObject *series)
+{
+	g_object_set (series,
+		"has-legend", gtk_toggle_button_get_active (b),
+		NULL);
 }
 
 static gpointer
@@ -346,6 +361,17 @@ gog_series_editor (GogObject *gobj,
 				gog_data_allocator_editor (dalloc, set, i, FALSE),
 				desc->dim[i].name, desc->dim[i].priority, TRUE);
 
+	gtk_table_attach (table, gtk_hseparator_new (),
+		0, 2, row, row+1, GTK_FILL, 0, 5, 3);
+	row++;
+	w = gtk_check_button_new_with_mnemonic ("_Show in Legend");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+		gog_series_has_legend (series));
+	g_signal_connect (G_OBJECT (w),
+		"toggled",
+		G_CALLBACK (cb_show_in_legend), series);
+	gtk_table_attach (table, w,
+		0, 2, row, row+1, GTK_FILL, 0, 5, 3);
 	gtk_widget_show_all (GTK_WIDGET (table));
 
 	w = gtk_notebook_new ();
