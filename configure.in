@@ -56,7 +56,7 @@ dnl Check doc/translating.sgml for a description of how to translate
 dnl and why we have so many translations.
 dnl
 ALL_LINGUAS="ca cs da de en_GB el es es_DO es_GT es_HN es_MX es_PA es_PE es_SV et fi fr ga gl hr hu it ja ko nl no pl pt pt_BR ru sk sv uk zh_CN.GB2312 zh_TW.Big5"
-AM_GNOME_GETTEXT
+AM_GNU_GETTEXT
 # AM_GNOME_GETTEXT above substs $DATADIRNAME
 # this is the directory where the *.{mo,gmo} files are installed
 gnomelocaledir='${prefix}/${DATADIRNAME}/locale'
