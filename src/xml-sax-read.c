@@ -210,6 +210,12 @@ STATE_WB,
 			STATE_WB_SUMMARY_ITEM_NAME,
 			STATE_WB_SUMMARY_ITEM_VALUE_STR,
 			STATE_WB_SUMMARY_ITEM_VALUE_INT,
+	STATE_WB_SHEETNAME_INDEX,
+		STATE_WB_SHEETNAME,
+        STATE_NAMES,
+                STATE_NAMES_NAME,
+                        STATE_NAMES_NAME_NAME,
+                        STATE_NAMES_NAME_VALUE,
 	STATE_WB_GEOMETRY,
 	STATE_WB_SHEETS,
 		STATE_SHEET,
@@ -267,16 +273,12 @@ STATE_WB,
 				STATE_SHEET_MERGE,
 			STATE_SHEET_SOLVER,
 		STATE_SHEET_OBJECTS,
-				STATE_OBJECT_POINTS,
+			STATE_OBJECT_POINTS,
 			STATE_OBJECT_RECTANGLE,
 			STATE_OBJECT_ELLIPSE,
 			STATE_OBJECT_ARROW,
 			STATE_OBJECT_LINE,
 
-	STATE_NAMES,
-		STATE_NAMES_NAME,
-			STATE_NAMES_NAME_NAME,
-			STATE_NAMES_NAME_VALUE,
 	STATE_WB_VIEW,
 
 	STATE_UNKNOWN
@@ -301,6 +303,12 @@ static char const * const xmlSax_state_names[] =
 			"gmr:name",
 			"gmr:val-string",
 			"gmr:val-int",
+	"gmr:SheetNameIndex",
+		"gmr:SheetName",
+        "gmr:Names",
+                "gmr:Name",
+                        "gmr:name",
+                        "gmr:value",
 	"gmr:Geometry",
 	"gmr:Sheets",
 		"gmr:Sheet",
@@ -364,10 +372,6 @@ static char const * const xmlSax_state_names[] =
 				"gmr:Ellipse",
 				"gmr:Arrow",
 				"gmr:Line",
-	"gmr:Names",
-		"gmr:Name",
-			"gmr:name",
-			"gmr:value",
 	"gmr:UIData",
 
 	"Unknown",
@@ -383,9 +387,10 @@ typedef enum
     GNUM_XML_V4,	/* >= 0.57 */
     GNUM_XML_V5,	/* >= 0.58 */
     GNUM_XML_V6,	/* >= 0.62 */
+    GNUM_XML_V7,        /* >= 0.66 */
 
     /* NOTE : Keep this up to date */
-    GNUM_XML_LATEST = GNUM_XML_V6
+    GNUM_XML_LATEST = GNUM_XML_V7
 } GnumericXMLVersion;
 typedef struct _XMLSaxParseState
 {
@@ -492,6 +497,7 @@ xml_sax_wb (XMLSaxParseState *state, CHAR const **attrs)
 				char const * const id;
 				GnumericXMLVersion const version;
 			} GnumericVersions [] = {
+				{ "http://www.gnome.org/gnumeric/v7", GNUM_XML_V7 },	/* 0.66 */
 				{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },	/* 0.62 */
 				{ "http://www.gnome.org/gnumeric/v5", GNUM_XML_V5 },
 				{ "http://www.gnome.org/gnumeric/v4", GNUM_XML_V4 },
@@ -502,15 +508,25 @@ xml_sax_wb (XMLSaxParseState *state, CHAR const **attrs)
 			};
 			int i;
 			for (i = 0 ; GnumericVersions [i].id != NULL ; ++i )
-				if (strcmp (attrs[0], GnumericVersions [i].id) == 0) {
+				if (strcmp (attrs[1], GnumericVersions [i].id) == 0) {
 					if (state->version != GNUM_XML_UNKNOWN)
 						xml_sax_warning (state, "Multiple version specifications.  Assuming %d",
 								state->version);
-					else
+					else {
 						state->version = GnumericVersions [i].version;
+						break;
+					}
 				}
 		} else
 			xml_sax_unknown_attr (state, attrs, "Workbook");
+}
+
+static void
+xml_sax_wb_sheetname (XMLSaxParseState *state)
+{
+	char const * content = state->content->str;
+	Sheet *sheet = sheet_new (state->wb, content);
+	workbook_sheet_attach (state->wb, sheet, NULL);
 }
 
 static void
@@ -687,8 +703,20 @@ xml_sax_sheet_name (XMLSaxParseState *state)
 	char const * content = state->content->str;
 	g_return_if_fail (state->sheet == NULL);
 
-	state->sheet = sheet_new (state->wb, content);
+	/*
+	 * FIXME: Pull this out at some point, so we don't
+	 * have to support < GNUM_XML_V7 anymore
+	 */
+	if (state->version >= GNUM_XML_V7) {
+		state->sheet = workbook_sheet_by_name (state->wb, content);
 
+		if (!state->sheet)
+			xml_sax_fatal_error (state, "SheetNameIndex reading failed");
+	} else {
+		state->sheet = sheet_new (state->wb, content);
+		workbook_sheet_attach (state->wb, state->sheet, NULL);
+	}
+	
 	if (state->display_formulas >= 0)
 		state->sheet->display_formulas = state->display_formulas;
 	if (state->hide_zero >= 0)
@@ -705,8 +733,6 @@ xml_sax_sheet_name (XMLSaxParseState *state)
 		state->sheet->outline_symbols_below = state->outline_symbols_below;
 	if (state->outline_symbols_right >= 0)
 		state->sheet->outline_symbols_right = state->outline_symbols_right;
-
-	workbook_sheet_attach (state->wb, state->sheet, NULL);
 }
 
 static void
@@ -1295,28 +1321,26 @@ xml_sax_object (XMLSaxParseState *state, CHAR const **attrs)
 static void
 xml_sax_finish_parse_wb_names_name (XMLSaxParseState *state)
 {
-	/*ParseError  perr;*/
-	
 	g_return_if_fail (state->name.name != NULL);
 	g_return_if_fail (state->name.value != NULL);
-
-	/* FIXME: Disabled for now.
-	 * The big problem is that we must add the name to the
-	 * workbook right after the sheet has been created and
-	 * before the sheet contents a read.
-	 * (right after sheet_new)
-	 * Problem is that this issue is a little more complex then
-	 * it seems on the surface. The SAX based parser builds
-	 * the workbook on a sheet-for-sheet basis. The parser in
-	 * src/xml-io.c quickly creates all names first, then adds the
-	 * names and then sets the sheet contents. We can't do that
-	 * here.
-	 * -- Almer
-	 *
-	if (!expr_name_create (state->wb, NULL, state->name.name,
-			       state->name.value, &perr))
-		g_warning (perr.message);
-		parse_error_free (&perr);*/
+	
+	if (state->version >= GNUM_XML_V7) {
+		ParseError  perr;
+		
+		if (!expr_name_create (state->wb, NULL, state->name.name,
+				       state->name.value, &perr))
+			g_warning (perr.message);
+		parse_error_free (&perr);
+	} else {
+		/*
+		 * We can't do this for versions < V7. The problem
+		 * is that we really need the SheetNameIndex for this
+		 * to function correctly.
+		 * FIXME: We should fallback to the xml DOM parser
+		 * when this fails.
+		 */
+		g_warning ("Can't process named expression '%s'. Ignoring!", state->name.name);
+	}
 
 	g_free (state->name.name);
 	g_free (state->name.value);
@@ -1410,6 +1434,7 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 	case STATE_WB :
 		if (xml_sax_switch_state (state, name, STATE_WB_ATTRIBUTES)) {
 		} else if (xml_sax_switch_state (state, name, STATE_WB_SUMMARY)) {
+		} else if (xml_sax_switch_state (state, name, STATE_WB_SHEETNAME_INDEX)) {
 		} else if (xml_sax_switch_state (state, name, STATE_WB_GEOMETRY)) {
 			xml_sax_wb_view (state, attrs);
 		} else if (xml_sax_switch_state (state, name, STATE_WB_SHEETS)) {
@@ -1448,6 +1473,12 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 			xml_sax_unknown_state (state, name);
 		break;
 
+	case STATE_WB_SHEETNAME_INDEX :
+		if (xml_sax_switch_state (state, name, STATE_WB_SHEETNAME)) {
+		} else
+			xml_sax_unknown_state (state, name);
+		break;
+		
 	case STATE_WB_SHEETS :
 		if (xml_sax_switch_state (state, name, STATE_SHEET)) {
 			xml_sax_sheet_start (state, attrs);
@@ -1682,6 +1713,11 @@ xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 		g_string_truncate (state->content, 0);
 		break;
 
+	case STATE_WB_SHEETNAME :
+		xml_sax_wb_sheetname (state);
+		g_string_truncate (state->content, 0);
+		break;
+		
 	case STATE_SHEET_NAME :
 		xml_sax_sheet_name (state);
 		g_string_truncate (state->content, 0);
@@ -1756,6 +1792,7 @@ xml_sax_characters (XMLSaxParseState *state, const CHAR *chars, int len)
 	case STATE_WB_SUMMARY_ITEM_NAME :
 	case STATE_WB_SUMMARY_ITEM_VALUE_INT :
 	case STATE_WB_SUMMARY_ITEM_VALUE_STR :
+	case STATE_WB_SHEETNAME :
 	case STATE_SHEET_NAME :
 	case STATE_SHEET_ZOOM :
 	case STATE_SHEET_NAMES_NAME_NAME :

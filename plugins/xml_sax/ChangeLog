@@ -1,5 +1,17 @@
+2001-05-22  Almer S. Tigelaar  <almer@gnome.org>
+
+	* xml-sax-read.c (xml_sax_sheet_name): Don't create
+	sheet here.
+	(xml_sax_wb_sheetname): Create sheet here.
+	(xml_sax_finish_parse_wb_names_name): Fix workbook level
+	name reading.
+	(xml_sax_start_element): Handle new sheetnameindex.
+	(xml_sax_end_element): Idem.
+	(xml_sax_characters): Idem.
+	(xml_sax_wb): Small tweak for correct version reading.
+
 2001-05-21  Almer S. Tigelaar  <almer@gnome.org>
- 
+
  	* xml-sax-read.c (xml_sax_name): Add support for workbook and
  	sheet level names.
  	(xml_sax_finish_parse_wb_names_name): Idem.

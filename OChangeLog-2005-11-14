@@ -1,3 +1,10 @@
+2001-05-22  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/xml-io.c : Bump XML version number.
+	(xml_workbook_write): Write index of sheet names
+	at the beginning of the file and always write
+	latest version number.
+
 2001-05-22  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-edit.c (wbcg_editing_expr): Use renamed function

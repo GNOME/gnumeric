@@ -1,5 +1,8 @@
 Gnumeric 0.66
 
+Almer:
+	* Some work on the SAX importer.
+
 Jody:
 	* Fix ctrl-enter filling.
 

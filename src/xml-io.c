@@ -2827,6 +2827,41 @@ xml_read_selection_clipboard (XmlParseContext *ctxt, xmlNodePtr tree)
 	return cr;
 }
 
+/* These will be searched IN ORDER, so add new versions at the top */
+static const struct {
+	char const * const id;
+	GnumericXMLVersion const version;
+} GnumericVersions [] = {
+	{ "http://www.gnome.org/gnumeric/v7", GNUM_XML_V7 },	/* 0.66 */
+	{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },	/* 0.62 */
+	{ "http://www.gnome.org/gnumeric/v5", GNUM_XML_V5 },
+	{ "http://www.gnome.org/gnumeric/v4", GNUM_XML_V4 },
+	{ "http://www.gnome.org/gnumeric/v3", GNUM_XML_V3 },
+	{ "http://www.gnome.org/gnumeric/v2", GNUM_XML_V2 },
+	{ "http://www.gnome.org/gnumeric/", GNUM_XML_V1 },
+	{ NULL }
+};
+
+xmlNsPtr
+xml_check_version (xmlDocPtr doc, GnumericXMLVersion *version)
+{
+	xmlNsPtr gmr;
+	int i;
+
+	/* Do a bit of checking, get the namespaces, and check the top elem.  */
+	if (doc->xmlRootNode->name == NULL || strcmp (doc->xmlRootNode->name, "Workbook"))
+		return NULL;
+
+	for (i = 0 ; GnumericVersions [i].id != NULL ; ++i ) {
+		gmr = xmlSearchNsByHref (doc, doc->xmlRootNode, GnumericVersions [i].id);
+		if (gmr != NULL) {
+			*version = GnumericVersions [i].version;
+			return gmr;
+		}
+	}
+	return NULL;
+}
+
 /*
  * Create an XML subtree of doc equivalent to the given Workbook.
  */
@@ -2849,7 +2884,11 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 	if (cur == NULL)
 		return NULL;
 	if (ctxt->ns == NULL) {
-		gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/v6", "gmr");
+		/* GnumericVersions[0] is always the first item and
+		 * the most recent version, see table above. Keep the table
+		 * ordered this way!
+		 */
+		gmr = xmlNewNs (cur, GnumericVersions[0].id, "gmr");
 		xmlSetNs(cur, gmr);
 		ctxt->ns = gmr;
 	}
@@ -2871,10 +2910,30 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 	if (child)
 		xmlAddChild (cur, child);
 
+	/* The sheet name index is required for the xml_sax
+	 * importer to work correctly. We don't use it for
+	 * the dom loader! These must be written BEFORE
+	 * the named expressions.
+	 */
+	child = xmlNewChild (cur, ctxt->ns, "SheetNameIndex", NULL);
+	sheets0 = sheets = workbook_sheets (wb);
+	while (sheets) {
+		char *tstr;
+		Sheet *sheet = sheets->data;
+
+		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, sheet->name_unquoted);
+		xmlNewChild (child, ctxt->ns, "SheetName",  tstr);
+		if (tstr)
+			xmlFree (tstr);
+			
+		sheets = g_list_next (sheets);
+	}
+	xmlAddChild (cur, child);
+	
 	child = xml_write_names (ctxt, wb->names);
 	if (child)
 		xmlAddChild (cur, child);
-
+	
 /*	child = xml_write_style (ctxt, &wb->style, -1);
 	if (child)
 	xmlAddChild (cur, child);*/
@@ -2890,7 +2949,7 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 	child = xmlNewChild (cur, ctxt->ns, "Sheets", NULL);
 	ctxt->parent = child;
 
-	sheets0 = sheets = workbook_sheets (wb);
+	sheets = sheets0;
 	while (sheets) {
 		xmlNodePtr cur, parent;
 		Sheet *sheet = sheets->data;
@@ -3044,40 +3103,6 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 	g_free (old_num_locale);
 
 	return TRUE;
-}
-
-/* These will be searched IN ORDER, so add new versions at the top */
-static const struct {
-	char const * const id;
-	GnumericXMLVersion const version;
-} GnumericVersions [] = {
-	{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },	/* 0.62 */
-	{ "http://www.gnome.org/gnumeric/v5", GNUM_XML_V5 },
-	{ "http://www.gnome.org/gnumeric/v4", GNUM_XML_V4 },
-	{ "http://www.gnome.org/gnumeric/v3", GNUM_XML_V3 },
-	{ "http://www.gnome.org/gnumeric/v2", GNUM_XML_V2 },
-	{ "http://www.gnome.org/gnumeric/", GNUM_XML_V1 },
-	{ NULL }
-};
-
-xmlNsPtr
-xml_check_version (xmlDocPtr doc, GnumericXMLVersion *version)
-{
-	xmlNsPtr gmr;
-	int i;
-
-	/* Do a bit of checking, get the namespaces, and check the top elem.  */
-	if (doc->xmlRootNode->name == NULL || strcmp (doc->xmlRootNode->name, "Workbook"))
-		return NULL;
-
-	for (i = 0 ; GnumericVersions [i].id != NULL ; ++i ) {
-		gmr = xmlSearchNsByHref (doc, doc->xmlRootNode, GnumericVersions [i].id);
-		if (gmr != NULL) {
-			*version = GnumericVersions [i].version;
-			return gmr;
-		}
-	}
-	return NULL;
 }
 
 /*
