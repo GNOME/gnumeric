@@ -1,3 +1,7 @@
+1999-06-15  Tomas Ogren  <stric@ing.umu.se>
+
+	* configure.in: Added sv
+
 Mon Jun 14 18:24:40 1999  Morten Welinder  <welinder@rentec.com>
 
 	* src/style.c (style_font_new_simple): Add negative caching.
