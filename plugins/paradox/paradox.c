@@ -193,7 +193,7 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 					}
 					default: {
 						val = value_new_string_nocopy (
-							g_strdup_printf (_("Field type %d is not unsupported."), pxf->px_ftype));
+							g_strdup_printf (_("Field type %d is not supported."), pxf->px_ftype));
 					}
 				}
 				if(val)
