@@ -617,3 +617,39 @@ sheet_view_show_cursor (SheetView *sheet_view)
 
 	item_cursor_set_visibility (gsheet->item_cursor, TRUE);
 }
+
+
+#define TRIANGLE_WIDTH 6
+
+GnomeCanvasItem *
+sheet_view_create_comment_marker (SheetView *sheet_view, int col, int row)
+{
+	GnomeCanvasPoints *points;
+	GnomeCanvasGroup *group;
+	GnomeCanvasItem *i;
+	int x, y;
+	
+	g_return_val_if_fail (sheet_view != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET_VIEW (sheet_view), NULL);
+
+	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (sheet_view->sheet_view)->root);
+	points = gnome_canvas_points_new (3);
+
+	x = sheet_col_get_distance (sheet_view->sheet, 0, col+1);
+	y = 1+sheet_row_get_distance (sheet_view->sheet, 0, row);
+
+	points->coords [0] = x - TRIANGLE_WIDTH;
+	points->coords [1] = y;
+	points->coords [2] = x;
+	points->coords [3] = y;
+	points->coords [4] = x;
+	points->coords [5] = y + TRIANGLE_WIDTH;
+
+	i = gnome_canvas_item_new (
+		group, gnome_canvas_polygon_get_type (),
+		"points",     points,
+		"fill_color", "red",
+		NULL);
+
+	return i;
+}

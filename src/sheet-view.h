@@ -38,23 +38,28 @@ typedef struct {
 	GtkWidget        *tip;
 } SheetView;
 
-GtkType     sheet_view_get_type              (void);
-GtkWidget  *sheet_view_new                   (Sheet *sheet);
+GtkType          sheet_view_get_type              (void);
+GtkWidget       *sheet_view_new                   (Sheet *sheet);
 
-void        sheet_view_set_zoom_factor       (SheetView *sheet_view, double factor);
+void             sheet_view_set_zoom_factor       (SheetView *sheet_view,
+						   double factor);
 
-void        sheet_view_redraw_all            (SheetView *sheet_view);
-void        sheet_view_redraw_cell_region    (SheetView *sheet_view,
-					      int start_col, int start_row,
-					      int end_col, int end_row);
-void        sheet_view_redraw_rows           (SheetView *sheet_view);
-void        sheet_view_redraw_columns        (SheetView *sheet_view);
+void             sheet_view_redraw_all            (SheetView *sheet_view);
+void             sheet_view_redraw_cell_region    (SheetView *sheet_view,
+						   int start_col, int start_row,
+						   int end_col, int end_row);
+void             sheet_view_redraw_rows           (SheetView *sheet_view);
+void             sheet_view_redraw_columns        (SheetView *sheet_view);
 
-void        sheet_view_hide_cursor           (SheetView *sheet_view);
-void        sheet_view_show_cursor           (SheetView *sheet_view);
+void             sheet_view_hide_cursor           (SheetView *sheet_view);
+void             sheet_view_show_cursor           (SheetView *sheet_view);
+
+GnomeCanvasItem *sheet_view_create_comment_marker (SheetView *sheet_view,
+						   int col, int row);
 
 typedef struct {
 	GtkTableClass parent_class;
 } SheetViewClass;
 
 #endif /* GNUMERIC_SHEET_VIEW_H */
+

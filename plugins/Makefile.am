@@ -11,4 +11,4 @@ else
 PERL =
 endif
 
-SUBDIRS = sample $(PYTHON) $(PERL) stat
+SUBDIRS = sample $(PYTHON) $(PERL) stat excel

@@ -12,6 +12,7 @@
 #include "eval.h"
 #include "format.h"
 #include "color.h"
+#include "cursors.h"
 
 static int         redraws_frozen = 0;
 static GHashTable *cell_hash_queue;
@@ -166,6 +167,139 @@ cell_set_style (Cell *cell, Style *reference_style)
 		cell_render_value (cell);
 	cell_calc_dimensions (cell);
 	cell_queue_redraw (cell);
+}
+
+void
+cell_comment_destroy (Cell *cell)
+{
+	CellComment *comment;
+	GList *l;
+	
+	g_return_if_fail (cell != NULL);
+
+	comment = cell->comment;
+	if (!comment)
+		return;
+	cell->comment = NULL;
+
+	/* Free resources */
+	string_unref (comment->comment);
+	
+	for (l = comment->realized_list; l; l = l->next)
+		gtk_object_destroy (l->data);
+	
+	g_free (comment);
+}
+
+static void
+cell_display_comment (Cell *cell)
+{
+	GtkWidget *window, *label;
+	int x, y;
+	
+	g_return_if_fail (cell != NULL);
+
+	window = gtk_window_new (GTK_WINDOW_POPUP);
+	label = gtk_label_new (cell->comment->comment->str);
+	gtk_container_add (GTK_CONTAINER (window), label);
+
+	gdk_window_get_pointer (NULL, &x, &y, NULL);
+	gtk_widget_set_uposition (window, x+10, y+10);
+
+	gtk_widget_show_all (window);
+
+	cell->comment->window = window;
+}
+
+static gint
+cell_popup_comment (gpointer data)
+{
+	Cell *cell = data;
+	
+	cell->comment->timer_tag = -1;
+
+	cell_display_comment (cell);
+	return FALSE;
+}
+
+static int
+cell_comment_clicked (GnomeCanvasItem *item, GdkEvent *event, Cell *cell)
+{
+	GnomeCanvas *canvas = item->canvas;
+
+	switch (event->type){
+	case GDK_BUTTON_RELEASE:
+		if (event->button.button != 1)
+			return FALSE;
+		if (cell->comment->window)
+			return FALSE;
+		cell_display_comment (cell);
+		break;
+
+	case GDK_BUTTON_PRESS:
+		if (event->button.button != 1)
+			return FALSE;
+		break;
+		
+	case GDK_ENTER_NOTIFY:
+		cell->comment->timer_tag = gtk_timeout_add (1000, cell_popup_comment, cell);
+		cursor_set_widget (canvas, GNUMERIC_CURSOR_ARROW);
+		break;
+
+	case GDK_LEAVE_NOTIFY:
+		if (cell->comment->timer_tag != -1){
+			gtk_timeout_remove (cell->comment->timer_tag);
+			cell->comment->timer_tag = -1;
+		}
+		if (cell->comment->window){
+			gtk_object_destroy (GTK_OBJECT (cell->comment->window));
+			cell->comment->window = NULL;
+		}
+		break;
+		
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
+
+void
+cell_set_comment (Cell *cell, char *str)
+{
+	GList *l;
+	int had_comments = FALSE;
+	
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (str != NULL);
+
+	cell_modified (cell);
+
+	cell_comment_destroy (cell);
+
+	cell->comment = g_new (CellComment, 1);
+	cell->comment->realized_list = NULL;
+	cell->comment->timer_tag = -1;
+	cell->comment->window = NULL;
+	
+	cell->comment->comment = string_get (str);
+
+	if (had_comments)
+		cell_queue_redraw (cell);
+
+	for (l = ((Sheet *)cell->sheet)->sheet_views; l; l = l->next){
+		SheetView *sheet_view = SHEET_VIEW (l->data);
+		GnomeCanvasItem *o;
+		
+		o = sheet_view_create_comment_marker (
+			sheet_view, 
+			cell->col->pos, cell->row->pos);
+
+		cell->comment->realized_list = g_list_prepend (
+			cell->comment->realized_list, o);
+
+		gtk_signal_connect (GTK_OBJECT (o), "event",
+				    GTK_SIGNAL_FUNC (cell_comment_clicked), cell);
+	}
 }
 
 void
@@ -429,6 +563,9 @@ cell_copy (Cell *cell)
 	new_cell->style = style_duplicate (new_cell->style);
 	new_cell->value = value_duplicate (new_cell->value);
 
+	new_cell->comment = NULL;
+	cell_set_comment (new_cell, cell->comment->comment->str);
+
 	return new_cell;
 }
 
@@ -446,8 +583,7 @@ cell_destroy (Cell *cell)
 	if (cell->render_color)
 		style_color_unref (cell->render_color);
 
-	if (cell->comment)
-		string_unref (cell->comment);
+	cell_comment_destroy (cell);
 	
 	string_unref  (cell->entered_text);
 	string_unref  (cell->text);
@@ -560,62 +696,50 @@ cell_set_format (Cell *cell, char *format)
 	cell_queue_redraw (cell);
 }
 
-void
-cell_set_comment (Cell *cell, char *str)
-{
-	int had_comments = FALSE;
-	
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (str != NULL);
-
-	cell_modified (cell);
-
-	if (cell->comment){
-		string_unref (cell->comment);
-		had_comments = TRUE;
-	}
-	
-	cell->comment = string_get (str);
-
-	if (had_comments)
-		cell_queue_redraw (cell);
-}
-
 /*
- * cell_formula_relocate:
+ * cell_relocate:
  * @cell:       The cell that is changing position
  * @target_col: The new column
  * @target_row: The new row.
  *
  * This routine is used to move a cell to a different location:
+ *
  * The parsed tree is decoded as if it were evaluated at the new position
  * and then it is reparsed (important only for keeping the ->entered_text
  * information syncronized).
+ *
+ * Auxiliary items canvas items attached to the cell are moved.
  */
 void
-cell_formula_relocate (Cell *cell, int target_col, int target_row)
+cell_relocate (Cell *cell, int target_col, int target_row)
 {
-	char *text, *formula;
-	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->entered_text);
 	g_return_if_fail (cell->parsed_node);
-	
+
+	/* 1. Tag the cell as modified */
 	cell_modified (cell);
 
-	string_unref (cell->entered_text);
+	/* 2. If the cell contains a formula, relocate the formula */
+	if (cell->parsed_node){
+		char *text, *formula;
 	
-	text = expr_decode_tree (cell->parsed_node, target_col, target_row);
+		string_unref (cell->entered_text);
 	
-	formula = g_copy_strings ("=", text, NULL);
-	cell->entered_text = string_get (formula);
+		text = expr_decode_tree (cell->parsed_node, target_col, target_row);
+	
+		formula = g_copy_strings ("=", text, NULL);
+		cell->entered_text = string_get (formula);
 
-	cell_set_formula (cell, formula);
+		cell_set_formula (cell, formula);
 	
-	g_free (formula);
-	g_free (text);
-	
-	cell_formula_changed (cell);
+		g_free (formula);
+		g_free (text);
+		
+		cell_formula_changed (cell);
+	}
+
+	/* 3. Move any auxiliary canvas items */
 }
 
 /*
@@ -1048,31 +1172,6 @@ str_trim_spaces (char *s)
 	return s;
 }
 
-#define TRIANGLE_WIDTH 6
-
-static void
-cell_draw_comment (Cell *cell, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
-{
-	GdkPoint points [3];
-	int width;
-	
-	gdk_gc_set_foreground (gc, &gs_red);
-	gdk_gc_set_background (gc, &gs_red);
-
-	width = cell->col->pixels;
-	y1++;
-	points [0].x = x1 + width;
-	points [0].y = y1;
-	points [1].x = x1 + width;
-	points [1].y = y1 + TRIANGLE_WIDTH;
-	points [2].x = x1 + width - TRIANGLE_WIDTH;
-	points [2].y = y1;
-	gdk_draw_polygon (drawable, gc, TRUE, points, 3);
-
-	gdk_gc_set_background (gc, &gs_white);
-	gdk_gc_set_foreground (gc, &gs_black);
-}
-
 /*
  * Returns the number of columns used for the draw
  */
@@ -1251,10 +1350,6 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 			total += len;
 		} while (halign == HALIGN_FILL && total < rect.width);
 	}
-
-	/* Draw the comment indicator */
-	if (cell->comment)
-		cell_draw_comment (cell, gc, drawable, x1, y1);
 
 	return end_col - start_col + 1;
 }

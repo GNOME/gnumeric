@@ -2276,8 +2276,7 @@ sheet_move_column (Sheet *sheet, ColRowInfo *ci, int new_column)
 		sheet_cell_add_to_hash (sheet, cell);
 		
 		/* If there is a formula, re-render the entered text*/
-		if (cell->parsed_node)
-			cell_formula_relocate (cell, new_column, cell->row->pos);
+		cell_relocate (cell, new_column, cell->row->pos);
 	}
 	g_list_free (column_cells);
 }
@@ -2504,8 +2503,7 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 		/* Relocate the cell */
 		sheet_cell_remove (sheet, cell);
 		sheet_cell_add (sheet, cell, new_column, row);
-		if (cell->parsed_node)
-			cell_formula_relocate (cell, new_column, row);
+		cell_relocate (cell, new_column, row);
 	}
 	g_list_free (l);
 	
@@ -2609,8 +2607,7 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 
 		sheet_cell_add_to_hash (sheet, cell);
 		
-		if (cell->parsed_node)
-			cell_formula_relocate (cell, cell->col->pos, cell->row->pos);
+		cell_relocate (cell, cell->col->pos, cell->row->pos);
 	}
 
 	g_list_free (cell_store);
@@ -2700,8 +2697,7 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 
 		sheet_cell_add_to_hash (sheet, cell);
 
-		if (cell->parsed_node)
-			cell_formula_relocate (cell, cell->col->pos, cell->row->pos);
+		cell_relocate (cell, cell->col->pos, cell->row->pos);
 	}
 	g_list_free (cell_store);
 
@@ -2798,8 +2794,7 @@ sheet_shift_col (Sheet *sheet, int col, int row, int count)
 		}
 
 		sheet_cell_add (sheet, cell, col, new_row);
-		if (cell->parsed_node)
-			cell_formula_relocate (cell, col, new_row);
+		cell_relocate (cell, col, new_row);
 	}
 	g_list_free (cell_list);
 

@@ -18,8 +18,8 @@
 #include "plugin.h"
 #include "pixmaps.h"
 
-#include "io/excel/ms-ole.h"
-#include "io/excel/ms-excel.h"
+#include "../plugins/excel/ms-ole.h"
+#include "../plugins/excel/ms-excel.h"
 
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
@@ -48,7 +48,7 @@ open_cmd (void)
 	char *fname = dialog_query_load_file ();
 	Workbook *wb;
 	
-	{ // Interogate filetype
+	{ 
 	  MS_OLE_FILE *f = new_ms_ole_file(fname) ;
 	  if (f)
 	    {
@@ -569,6 +569,22 @@ insert_current_time_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+workbook_edit_comment (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+	Cell *cell;
+	
+	cell = sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
+
+	if (!cell){
+		cell = sheet_cell_new (sheet, sheet->cursor_col, sheet->cursor_row);
+		cell_set_text (cell, "");
+	}
+	
+	cell_set_comment (cell, "Test comment");
+}
+
+static void
 about_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_about ();
@@ -661,7 +677,9 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
+	{ GNOME_APP_UI_ITEM, N_("_Add/Modify comment"), NULL, workbook_edit_comment },
 	{ GNOME_APP_UI_SUBTREE, N_("_Special"), NULL, workbook_menu_insert_special },
+
 	GNOMEUIINFO_END
 };
 

@@ -47,7 +47,7 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, i
 	
 	if (new_cell->parsed_node){
 		if (paste_flags & PASTE_FORMULAS)
-			cell_formula_relocate (new_cell, target_col, target_row);
+			cell_relocate (new_cell, target_col, target_row);
 		else 
 			cell_make_value (new_cell);
 	}

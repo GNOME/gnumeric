@@ -1,4 +1,4 @@
-SUBDIRS = intl po macros src plugins
+SUBDIRS = intl po macros plugins src 
 
 EXTRA_DIST = gnumeric.desktop README HACKING
 

@@ -1,3 +1,13 @@
+1998-11-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c, src/workbook.c, src/sheet-view.c: Finish cell
+	comment display routines.  Now we only need the dialog box to
+	insert/edit a cell comment.
+
+1998-10-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (cell_set_comment): new implementation.
+
 1998-10-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/fn-date.c (gnumeric_date): Fix longstanding off by one

@@ -2,6 +2,18 @@
 
 GNOME Spread Sheet task list
 
+* Comments
+
+   Comments location needs to be reset on col/row dimenssion changes.
+
+   cell_relocate should also relocate the comment.
+
+* Cell range naming
+
+   Finish implementing.
+
+* Cell references to other sheets.
+
 * Number formatting
 
    The formatting code should take the current GtkFont for the cell

@@ -109,6 +109,7 @@ Makefile
 src/Makefile
 plugins/Makefile
 plugins/sample/Makefile
+plugins/excel/Makefile
 plugins/python/Makefile
 plugins/perl/Makefile
 plugins/perl/ext/Makefile.PL

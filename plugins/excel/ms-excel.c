@@ -471,7 +471,7 @@ static void ms_excel_read_sheet (BIFF_QUERY *q, MS_EXCEL_WORKBOOK *wb,
 
 Workbook *ms_excelReadWorkbook(MS_OLE_FILE *file)
 {
-  MS_EXCEL_WORKBOOK *wb ;
+  MS_EXCEL_WORKBOOK *wb = NULL ;
   xmlNodePtr child ;
 
   if (!ms_ole_analyse_file (file))

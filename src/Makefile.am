@@ -4,7 +4,7 @@
 
 bin_PROGRAMS = gnumeric 
 
-noinst_PROGRAMS = number-match
+#noinst_PROGRAMS = number-match
 
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
@@ -120,7 +120,9 @@ gnumeric_SOURCES =			\
 	$(GNUMERIC_BASE_SOURCES)
 
 gnumeric_LDFLAGS = -export-dynamic
+
 gnumeric_LDADD = 			\
+	../plugins/excel/libexcel.a	\
 	$(GNOME_LIBDIR) 		\
 	$(GNOMEUI_LIBS)			\
 	$(GNOME_XML_LIB) 		\
@@ -136,11 +138,11 @@ dist-hook:
 
 EXTRA_DIST = Gnumeric.idl
 
-number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
+#number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 
 
-number_match_LDADD = 			\
-	$(GNOME_LIBDIR) 		\
-	$(GNOMEUI_LIBS)			\
-	$(GNOME_XML_LIB) 		\
-	$(INTLLIBS)
+#number_match_LDADD = 			\
+#	$(GNOME_LIBDIR) 		\
+#	$(GNOMEUI_LIBS)			\
+#	$(GNOME_XML_LIB) 		\
+#	$(INTLLIBS)

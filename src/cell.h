@@ -24,29 +24,49 @@ typedef struct {
 #define CELL_HAS_COMMENT 2
 #define CELL_FORMAT_SET  4
 
+/**
+ * CellComment:
+ *
+ * Holds the comment string as well as the GnomeCanvasItem marker
+ * that appears on the spreadsheet
+ */
+typedef struct {
+	String          *comment;
+	int             timer_tag;
+	void            *window;
+	
+	/* A list of GnomeCanvasItems, one per SheetView */
+	GList           *realized_list;
+} CellComment;
+
+/**
+ * Cell:
+ *
+ * Definition of a Gnumeric Cell
+ */
 typedef struct {
 	void        *sheet;
 	ColRowInfo  *col;
 	ColRowInfo  *row;
 
 	/* Text as entered by the user */
-	String     *entered_text;
+	String      *entered_text;
 	
 	/* Type of the content and the actual parsed content */
-	ExprTree   *parsed_node;	/* Parse tree with the expression */
-	Value      *value;		/* Last value computed */
-	Style      *style;		/* The Cell's style */
+	ExprTree    *parsed_node;	/* Parse tree with the expression */
+	Value       *value;		/* Last value computed */
+	Style       *style;		/* The Cell's style */
 
-	StyleColor *render_color;       /* If a manually entered color has been selected */
+	StyleColor  *render_color;      /* If a manually entered color has been selected */
 
 	/* computed versions of the cell contents */
-	String     *text;	/* Text rendered and displayed */
-	int        width;	/* Width of text */
-	int        height;	/* Height of text */
+	String      *text;	/* Text rendered and displayed */
+	int         width;	/* Width of text */
+	int         height;	/* Height of text */
 
-	String     *comment;
-	int        flags;
-	char       generation;
+	CellComment *comment;
+	int         flags;
+	char        generation;
 } Cell;
 
 typedef GList CellList;
@@ -87,6 +107,7 @@ void        cell_set_format_simple    (Cell *cell, char *format);
 void        cell_set_font             (Cell *cell, char *font_name);
 void        cell_set_style            (Cell *cell, Style *reference_style);
 void        cell_set_comment          (Cell *cell, char *str);
+void        cell_comment_destroy      (Cell *cell);
 void        cell_set_font_from_style  (Cell *cell, StyleFont *style_font);
 void        cell_set_foreground       (Cell *cell, gushort red, gushort green, gushort blue);
 void        cell_set_background       (Cell *cell, gushort red, gushort green, gushort blue);
@@ -94,7 +115,7 @@ void        cell_set_pattern          (Cell *cell, int pattern);
 void        cell_set_alignment        (Cell *cell, int halign, int valign, int orientation, int auto_return);
 void        cell_set_halign           (Cell *cell, StyleHAlignFlags halign);
 void        cell_set_rendered_text    (Cell *cell, char *rendered_text);
-void        cell_formula_relocate     (Cell *cell, int target_col, int target_row);
+void        cell_relocate             (Cell *cell, int target_col, int target_row);
 void        cell_get_span             (Cell *cell, int *col1, int *col2);
 void        cell_make_value           (Cell *cell);
 void        cell_render_value         (Cell *cell);
