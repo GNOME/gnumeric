@@ -22,7 +22,7 @@ typedef struct _ExcelSheet
 
 	Sheet *gnum_sheet;
 	struct _ExcelWorkbook *wb;
-	GHashTable *shared_formulae;
+	GHashTable *shared_formulae, *tables;
 
 	gboolean freeze_panes : 1;
 } ExcelSheet;
@@ -42,11 +42,19 @@ typedef struct {
 	guint8 *data;
 	guint32 data_len;
 	gboolean is_array;
-} BiffSharedFormula;
+} XLSharedFormula;
+
+typedef struct {
+	CellPos key;
+	guint8 *data;
+	guint32 data_len;
+} XLDataTable;
 
 /* Use the upper left corner as the key to a collection of shared formulas */
-BiffSharedFormula *ms_excel_sheet_shared_formula (ExcelSheet const *sheet,
+XLSharedFormula *ms_excel_sheet_shared_formula	(ExcelSheet const *sheet,
 						  CellPos const    *key);
+XLDataTable	*ms_excel_sheet_data_table	(ExcelSheet const *esheet,
+						 CellPos const    *key);
 
 typedef struct _ExcelPalette
 {

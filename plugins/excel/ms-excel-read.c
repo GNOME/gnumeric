@@ -529,6 +529,23 @@ ms_excel_init_margins (ExcelSheet *esheet)
 	print_info_set_margins (pi, short_points, short_points, points, points);
 }
 
+static void
+excel_shared_formula_free (XLSharedFormula *sf)
+{
+	if (sf != NULL) {
+		g_free (sf->data);
+		g_free (sf);
+	}
+}
+static void
+excel_data_table_free (XLDataTable *dt)
+{
+	if (dt != NULL) {
+		g_free (dt->data);
+		g_free (dt);
+	}
+}
+
 static ExcelSheet *
 ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
 {
@@ -546,12 +563,15 @@ ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
 	if (sheet == NULL)
 		sheet = sheet_new (wb->gnum_wb, sheet_name);
 
-	esheet->wb         = wb;
-	esheet->gnum_sheet = sheet;
-	esheet->freeze_panes		= FALSE;
-	esheet->shared_formulae         =
-		g_hash_table_new ((GHashFunc)&cellpos_hash,
-				  (GCompareFunc)&cellpos_cmp);
+	esheet->wb = wb;
+	esheet->gnum_sheet	= sheet;
+	esheet->freeze_panes	= FALSE;
+	esheet->shared_formulae	= g_hash_table_new_full (
+		(GHashFunc)&cellpos_hash, (GCompareFunc)&cellpos_cmp,
+		NULL, (GDestroyNotify) &excel_shared_formula_free);
+	esheet->tables		= g_hash_table_new_full (
+		(GHashFunc)&cellpos_hash, (GCompareFunc)&cellpos_cmp,
+		NULL, (GDestroyNotify) &excel_data_table_free);
 
 	ms_excel_init_margins (esheet);
 	ms_container_init (&esheet->container, &vtbl, &wb->container);
@@ -1971,16 +1991,6 @@ ms_excel_sheet_insert (ExcelSheet *esheet, int xfidx,
 	}
 }
 
-static gboolean
-biff_shared_formula_destroy (gpointer key, BiffSharedFormula *sf,
-			     gpointer userdata)
-{
-	if (sf != NULL)
-		g_free (sf->data);
-	g_free (sf);
-	return TRUE;
-}
-
 static GnmExpr const *
 ms_excel_formula_shared (BiffQuery *q, ExcelSheet *esheet, Cell *cell)
 {
@@ -1989,7 +1999,7 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *esheet, Cell *cell)
 	gboolean is_array;
 	GnmExpr const *expr;
 	guint8 const *data;
-	BiffSharedFormula *sf;
+	XLSharedFormula *sf;
 
 	if (!ms_biff_query_peek_next (q, &opcode) ||
 	    ((0xff & opcode) != BIFF_SHRFMLA && (0xff & opcode) != BIFF_ARRAY)) {
@@ -2012,7 +2022,7 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *esheet, Cell *cell)
 		esheet->wb, esheet, r.start.col, r.start.row,
 		data, data_len, !is_array, NULL);
 
-	sf = g_new (BiffSharedFormula, 1);
+	sf = g_new (XLSharedFormula, 1);
 
 	/* WARNING: Do NOT use the upper left corner as the hashkey.
 	 *     For some bizzare reason XL appears to sometimes not
@@ -2030,7 +2040,6 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *esheet, Cell *cell)
 
 	d (1, printf ("Shared formula, extent %s\n", range_name (&r)););
 
-	/* Whack in the hash for later */
 	g_hash_table_insert (esheet->shared_formulae, &sf->key, sf);
 
 	g_return_val_if_fail (expr != NULL, FALSE);
@@ -2240,7 +2249,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 		cell_queue_recalc (cell);
 }
 
-BiffSharedFormula *
+XLSharedFormula *
 ms_excel_sheet_shared_formula (ExcelSheet const *esheet,
 			       CellPos const    *key)
 {
@@ -2249,6 +2258,17 @@ ms_excel_sheet_shared_formula (ExcelSheet const *esheet,
 	d (5, printf ("FIND SHARED: %s\n", cellpos_as_string (key)););
 
 	return g_hash_table_lookup (esheet->shared_formulae, key);
+}
+
+XLDataTable *
+ms_excel_sheet_data_table (ExcelSheet const *esheet,
+			   CellPos const    *key)
+{
+	g_return_val_if_fail (esheet != NULL, NULL);
+
+	d (5, printf ("FIND DATA TABLE: %s\n", cellpos_as_string (key)););
+
+	return g_hash_table_lookup (esheet->tables, key);
 }
 
 static void
@@ -2334,11 +2354,12 @@ ms_excel_sheet_destroy (ExcelSheet *esheet, gboolean destroy_gnumeric_sheet)
 	if (esheet == NULL)
 		return;
 	if (esheet->shared_formulae != NULL) {
-		g_hash_table_foreach_remove (esheet->shared_formulae,
-					     (GHRFunc)biff_shared_formula_destroy,
-					     esheet);
 		g_hash_table_destroy (esheet->shared_formulae);
 		esheet->shared_formulae = NULL;
+	}
+	if (esheet->tables != NULL) {
+		g_hash_table_destroy (esheet->tables);
+		esheet->tables = NULL;
 	}
 
 	if (destroy_gnumeric_sheet && esheet->gnum_sheet != NULL) {
@@ -2359,6 +2380,7 @@ ms_wb_parse_expr (MSContainer *container, guint8 const *data, int length)
 	dummy_sheet.wb = (ExcelWorkbook *)container;
 	dummy_sheet.gnum_sheet = NULL;
 	dummy_sheet.shared_formulae = NULL;
+	dummy_sheet.tables = NULL;
 	return ms_sheet_parse_expr_internal (&dummy_sheet, data, length);
 }
 

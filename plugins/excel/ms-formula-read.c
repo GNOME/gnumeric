@@ -544,9 +544,8 @@ static GnmExpr const *
 parse_list_pop (GnmExprList **list)
 {
 	/* Get the head */
-	GnmExprList *tmp = g_slist_nth (*list, 0);
-	if (tmp != NULL)
-	{
+	GnmExprList *tmp = *list;
+	if (tmp != NULL) {
 		GnmExpr const *ans = tmp->data;
 		*list = g_slist_remove (*list, ans);
 		d (5, printf ("Pop 0x%x\n", (int)ans););
@@ -691,16 +690,15 @@ static GnmExprOp const binary_ops [] = {
 	GNM_EXPR_OP_DIV,	/* 0x06, ptgDiv */
 	GNM_EXPR_OP_EXP,	/* 0x07, ptgPower */
 	GNM_EXPR_OP_CAT,	/* 0x08, ptgConcat */
-	GNM_EXPR_OP_LT,	/* 0x09, ptgLT */
+	GNM_EXPR_OP_LT,		/* 0x09, ptgLT */
 	GNM_EXPR_OP_LTE,	/* 0x0a, ptgLTE */
 	GNM_EXPR_OP_EQUAL,	/* 0x0b, ptgEQ */
 	GNM_EXPR_OP_GTE,	/* 0x0c, ptgGTE */
-	GNM_EXPR_OP_GT,	/* 0x0d, ptgGT */
+	GNM_EXPR_OP_GT,		/* 0x0d, ptgGT */
 	GNM_EXPR_OP_NOT_EQUAL,	/* 0x0e, ptgNE */
 
-/* FIXME: These need implementing ... */
 	GNM_EXPR_OP_INTERSECT,	/* 0x0f, ptgIsect : Intersection */
-	GNM_EXPR_OP_ADD,	/* 0x10, ptgUnion : Union */
+	0, /* handled elsewhere	   0x10, ptgUnion : Union */
 	GNM_EXPR_OP_RANGE_CTOR	/* 0x11, ptgRange : Range */
 };
 
@@ -763,7 +761,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		switch (ptgbase) {
 		case FORMULA_PTG_EXPR: {
 			GnmExpr const *expr;
-			BiffSharedFormula *sf;
+			XLSharedFormula *sf;
 			CellPos top_left;
 
 			top_left.row = GSF_LE_GET_GUINT16 (cur+0);
@@ -804,6 +802,10 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			break;
 		}
 
+		case FORMULA_PTG_TBL :
+			ptg_length = 4;
+			break;
+
 		case FORMULA_PTG_ADD :  case FORMULA_PTG_SUB :
 		case FORMULA_PTG_MULT : case FORMULA_PTG_DIV :
 		case FORMULA_PTG_EXP :
@@ -812,7 +814,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		case FORMULA_PTG_EQUAL :
 		case FORMULA_PTG_GTE : case FORMULA_PTG_GT :
 		case FORMULA_PTG_NOT_EQUAL :
-		case FORMULA_PTG_INTERSECT : case FORMULA_PTG_UNION :
+		case FORMULA_PTG_INTERSECT :
 		case FORMULA_PTG_RANGE : {
 			GnmExpr const *r = parse_list_pop (&stack);
 			GnmExpr const *l = parse_list_pop (&stack);
@@ -820,6 +822,24 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 				l,
 				binary_ops [ptgbase - FORMULA_PTG_ADD],
 				r));
+			break;
+		}
+
+		case FORMULA_PTG_UNION : {
+			GnmExpr const *r = parse_list_pop (&stack);
+			GnmExpr const *l = parse_list_pop (&stack);
+
+			/* not exactly legal, but should be reasonable
+			 * XL has union operator we have sets.
+			 */
+			if (l->any.oper != GNM_EXPR_OP_SET) {
+				GnmExprList *args = gnm_expr_list_prepend (NULL, r);
+				args = gnm_expr_list_prepend (args, l);
+				parse_list_push (&stack, gnm_expr_new_set (args));
+			} else {
+				gnm_expr_list_append (l->set.set, r);
+				parse_list_push (&stack, l);
+			}
 			break;
 		}
 
@@ -1292,17 +1312,6 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		}
 
 		case FORMULA_PTG_MEM_AREA :
-			/* read the sub expression */
-			ptg_length = GSF_LE_GET_GUINT16 (cur+4),
-			parse_list_push (&stack, ms_excel_parse_formula (
-				ewb, esheet, fn_col, fn_row, cur+6, ptg_length,
-				shared, array_element));
-
-			/* ignore the cached rectangles */
-			ptg_length += 6 /* 4 reserved 2 len */ + 2 + /* ref count */
-				6 * GSF_LE_GET_GUINT16 (cur + ptg_length);
-			break;
-
 		case FORMULA_PTG_MEM_ERR :
 			/* ignore this, we handle at run time */
 			ptg_length = 6;
@@ -1312,7 +1321,6 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			/* ignore this, we handle at run time */
 			ptg_length = 2;
 			break;
-
 
 		case FORMULA_PTG_NAME_X : { /* FIXME: Not using sheet_idx at all ... */
 			GnmExpr const *tree;

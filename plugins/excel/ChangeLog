@@ -1,5 +1,12 @@
 2002-09-26  Jody Goldberg <jody@gnome.org>
 
+	* ms-formula-read.c (ms_excel_parse_formula) : fix handling of 26 & 27. 
+	  The docs are confusing.  The cached data is appended not to the the
+	  subexpression but to the entire string.  While we're here add a stub
+	  for tables.
+
+2002-09-26  Jody Goldberg <jody@gnome.org>
+
 	* ms-formula-read.c (ms_excel_parse_formula) : supply handling of
 	  pgts 26 & 27.  We can ignore them but they frequently wrap the
 	  intersection operator, the export will be a pain in the butt.
