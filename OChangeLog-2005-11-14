@@ -1,3 +1,14 @@
+2000-10-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_set_text_undo) : Use sheet_clear_region to
+	  ensure that spans get regenerated in neighbouring cells.
+	(cmd_set_date_time_undo) : Ditto.
+
+2000-10-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/number-match.c (format_create_regexp) : Fix typo in regexp.
+	  Be careful to only match 1 or more digits as a number.
+
 2000-10-31  Morten Welinder  <terra@diku.dk>
 
 	* src/parser.y (unregister_allocation): plug leak.

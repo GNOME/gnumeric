@@ -205,7 +205,7 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 				g_string_append_c (regexp, thousands_sep);
 				g_string_append (regexp, "[0-9]{3})*)");
 			} else
-				g_string_append (regexp, "([-+]?[0-9]*)");
+				g_string_append (regexp, "([-+]?[0-9]+)");
 
 			append_type (MATCH_NUMBER);
 			if (include_decimal) {

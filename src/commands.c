@@ -375,7 +375,10 @@ cmd_set_text_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		sheet_cell_set_text (cell, me->text);
 		g_free (me->text);
 	} else if (cell != NULL)
-		sheet_cell_remove (me->pos.sheet, cell, TRUE);
+		sheet_clear_region (wbc, me->pos.sheet, 
+				    me->pos.eval.col, me->pos.eval.row,
+				    me->pos.eval.col, me->pos.eval.row,
+				    CLEAR_VALUES);
 
 	me->text = new_text;
 
@@ -1311,7 +1314,10 @@ cmd_set_date_time_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		g_free (me->contents);
 		me->contents = NULL;
 	} else
-		sheet_cell_remove (sheet, cell, TRUE);
+		sheet_clear_region (wbc, me->pos.sheet, 
+				    me->pos.eval.col, me->pos.eval.row,
+				    me->pos.eval.col, me->pos.eval.row,
+				    CLEAR_VALUES);
 
 	sheet_set_dirty (sheet, TRUE);
 	workbook_recalc (sheet->workbook);

@@ -4,10 +4,13 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Parser: The single character '%' is parsed as an expression '0%'
+
+- Why does the number matching bother comparing against formats that are
+  covered by 'General' ?
 
 - Column resizing and "general".  Double-clicking on column separators to
   autosize columns tends to shrink columns with, say, "=22/3" in them.
+  We should tweak autosize to rerender a cell if it has variable width content.
 
 - format.c: we should resolve all the separators at gnumeric_setlocale time,
   not every time we need them.

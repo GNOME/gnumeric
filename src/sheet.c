@@ -2194,6 +2194,9 @@ sheet_destroy (Sheet *sheet)
  * cb_empty_cell: A callback for sheet_cell_foreach_range
  *     removes/clear all of the cells in the specified region.
  *     Does NOT queue a redraw.
+ *
+ * WARNING : This does NOT regenerate spans that were interupted by
+ * this cell and can now continue.
  */
 static Value *
 cb_empty_cell (Sheet *sheet, int col, int row, Cell *cell, gpointer flag)
