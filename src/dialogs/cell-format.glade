@@ -125,7 +125,7 @@
 	    <name>format_accounting</name>
 	    <height>22</height>
 	    <can_focus>True</can_focus>
-	    <label>_Acounting</label>
+	    <label>_Accounting</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>number</group>
