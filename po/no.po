@@ -1,15 +1,15 @@
 # Norwegian (bokmål dialect) translation of gnumeric.
-# Copyright (C) 1998,1999 Free Software Foundation, Inc.
-# Kjartan Maraas <kmaraas@online.no>, 1998-2001.
+# Copyright (C) 1998-2004 Free Software Foundation, Inc.
+# Kjartan Maraas <kmaraas@gnome.org>, 1998-2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.66\n"
+"Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-28 21:53-0500\n"
-"PO-Revision-Date: 2003-09-07 01:52+0200\n"
-"Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
-"Language-Team: Norwegian <no@li.org>\n"
+"POT-Creation-Date: 2004-01-14 00:06+0100\n"
+"PO-Revision-Date: 2004-01-14 08:44+0100\n"
+"Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
+"Language-Team: Norwegian <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
@@ -31,9 +31,8 @@ msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric regneark"
 
 #: gnumeric.desktop.in.h:2
-#, fuzzy
 msgid "Spreadsheet"
-msgstr "Gnumeric regneark"
+msgstr "Regneark"
 
 #: gnumeric.desktop.in.h:3
 msgid "The GNOME Spreadsheet"
@@ -706,7 +705,7 @@ msgstr "Finansielle derivater"
 msgid "Functions related to financial derivatives"
 msgstr "Funksjoner relatert til finansielle derivater"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5362
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5361
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Leser fil..."
@@ -835,7 +834,7 @@ msgid "Failure parsing name '%s'"
 msgstr "Feil under lesing av navn «%s»"
 
 #: plugins/excel/ms-excel-read.c:2897
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
@@ -844,7 +843,7 @@ msgstr ""
 "Navn «%s» vil gå tapt.\n"
 
 #: plugins/excel/ms-excel-read.c:2903
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
@@ -852,19 +851,19 @@ msgstr ""
 "OLE-lenker er ikke støttet.\n"
 "Navn «%s» vil gå tapt.\n"
 
-#: plugins/excel/ms-excel-read.c:4757
+#: plugins/excel/ms-excel-read.c:4756
 msgid "external references"
 msgstr "eksterne referanser"
 
-#: plugins/excel/ms-excel-read.c:5508
+#: plugins/excel/ms-excel-read.c:5507
 msgid "No password supplied"
 msgstr "Ingen passord oppgitt"
 
-#: plugins/excel/ms-excel-read.c:5512
+#: plugins/excel/ms-excel-read.c:5511
 msgid "Invalid password"
 msgstr "Ugyldig passord"
 
-#: plugins/excel/ms-excel-read.c:5613
+#: plugins/excel/ms-excel-read.c:5612
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finne en gyldig MS Excel arbeidsbok"
 
@@ -875,25 +874,25 @@ msgid ""
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3760
+#: plugins/excel/ms-excel-write.c:3796
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
 "d rows, and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3767
+#: plugins/excel/ms-excel-write.c:3803
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
 "rows, and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4287
+#: plugins/excel/ms-excel-write.c:4323
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kan ikke åpne strøm «Bok» for skriving\n"
 
-#: plugins/excel/ms-excel-write.c:4307
+#: plugins/excel/ms-excel-write.c:4343
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kan ikke åpne strøm «Arbeidsbok» for skriving\n"
 
@@ -14229,7 +14228,7 @@ msgstr "Databasefunksjoner som lar deg hente data fra en database."
 
 #: plugins/gnome-db/plugin-gnomedb.c:24
 msgid "Could not run GNOME database configuration tool"
-msgstr ""
+msgstr "Kunne ikke kjøre databasekonfigurasjonsverktøy for GNOME"
 
 #: plugins/gnome-db/plugin.xml.in.h:1
 msgid "Database UI services plugin"
@@ -14237,7 +14236,7 @@ msgstr ""
 
 #: plugins/gnome-db/plugin.xml.in.h:2
 msgid "GNOME-DB"
-msgstr ""
+msgstr "GNOME-DB"
 
 #: plugins/gnome-db/ui.xml.h:1
 msgid "Data Sources..."
@@ -14329,7 +14328,7 @@ msgstr "XHTML (*.html)"
 
 #: plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
-msgstr ""
+msgstr "XHTML-område - for eksport til utklippstavlen"
 
 #: plugins/lotus-123/boot.c:61
 msgid "Error while reading lotus workbook."
@@ -14368,7 +14367,7 @@ msgstr "Objektiv funksjon:"
 msgid "Constraints:"
 msgstr "Begrensninger:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5740
+#: plugins/mps/mps.c:247 src/commands.c:5736
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -14814,24 +14813,24 @@ msgstr "Forvalgt fortolker"
 
 #: plugins/python-loader/gnm-python.c:130
 #: plugins/python-loader/gnm-python.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import %s."
-msgstr "Kunne ikke laste fil: %s"
+msgstr "Kunne ikke importere %s."
 
 #: plugins/python-loader/gnm-python.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s."
-msgstr "Kunne ikke laste fil: %s"
+msgstr "Kunne ikke finne %s."
 
 #: plugins/python-loader/gnm-python.c:145
 #, c-format
 msgid "Could not initialize Python bindings for Gtk+, etc: %s"
-msgstr ""
+msgstr "Kunne ikke initiere Python-bindinger for Gtk+, etc: %s"
 
 #: plugins/python-loader/gnm-python.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s"
-msgstr "Kunne ikke laste fil: %s"
+msgstr "Kunne ikke finne %s"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -14887,7 +14886,7 @@ msgstr "Python-modulens navn er ikke oppgitt."
 
 #: plugins/python-loader/python-loader.c:106
 msgid "Cannot create new Python interpreter."
-msgstr ""
+msgstr "Kan ikke opprette ny Python-tolker."
 
 #: plugins/python-loader/python-loader.c:127
 #, c-format
@@ -14938,7 +14937,7 @@ msgstr "Ukjent verb: %s"
 #: plugins/python-loader/python-loader.c:745
 #, c-format
 msgid "Not a valid function for verb: %s"
-msgstr ""
+msgstr "Ikke en gyldig funksjon for verb: %s"
 
 #: plugins/python-loader/ui-console-menu.xml.h:1
 msgid "Open the Python console"
@@ -14979,16 +14978,15 @@ msgstr "Ugyldig post %d med lengde %hd"
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
-msgstr ""
+msgstr "Kunne ikke finne PerfectOffice_MAIN strøm. Er dette virkelig en Quattro Pro-fil?"
 
 #: plugins/sample_datasource/plugin.xml.in.h:1
 msgid "A proof of concept external data source"
-msgstr ""
+msgstr "Et eksempel på en ekstern datakilde"
 
 #: plugins/sample_datasource/plugin.xml.in.h:3
-#, fuzzy
 msgid "Sample DataSource"
-msgstr "Datakilder..."
+msgstr "Eksempeldatakilde"
 
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
@@ -15072,7 +15070,7 @@ msgstr "Dette er en melding fra tillegg «%s»."
 msgid "Error while opening xbase file."
 msgstr "Feil under åpning av xbase-fil."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4565
+#: plugins/xbase/boot.c:175 src/commands.c:4561
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
 #: src/xml-io.c:3726
@@ -15141,14 +15139,12 @@ msgid "Autocorrect replace"
 msgstr "Autokorriger erstatt"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:8
-#, fuzzy
 msgid "Default Header/Footer Font Size"
-msgstr "Forvalgt skriftstørrelse"
+msgstr "Forvalgt skriftstørrelse for topp-/bunntekst"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:9
-#, fuzzy
 msgid "Default header/footer font name"
-msgstr "Forvalgt skriftnavn"
+msgstr "Forvalgt skriftnavn for topp-/bunntekst"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:10
 msgid "List of Active Plugins."
@@ -15200,9 +15196,8 @@ msgstr "Utskriftskonfigurasjon"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:22
 #: schemas/gnumeric-general.schemas.in.h:22
-#, fuzzy
 msgid "Sans"
-msgstr "Rangering"
+msgstr "Sans"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:23
 msgid ""
@@ -15232,24 +15227,20 @@ msgid "The configuration of gnome-print. Do not edit this variable."
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:28
-#, fuzzy
 msgid "The default font name for headers and footers."
-msgstr "Forvalgt skrift for nye arbeidsbøker."
+msgstr "Forvalgt skriftnavn for nye topp- og bunntekst."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:29
-#, fuzzy
 msgid "The default font size for headers and footers."
-msgstr "Forvalgt skriftstørrelse for nye arbeidsbøker."
+msgstr "Forvalgt skriftstørrelse for topp- og bunntekst."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:30
-#, fuzzy
 msgid "The default header/footer font is bold."
-msgstr "Forvalgt skrift er fet."
+msgstr "Forvalgt skrift for topp- og bunntekst er fet."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:31
-#, fuzzy
 msgid "The default header/footer font is italic."
-msgstr "Forvalgt skrift er kursiv."
+msgstr "Forvalgt skrift for topp- og bunntekst er kursiv."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:32
 msgid ""
@@ -15930,7 +15921,7 @@ msgstr "Lag et rullefelt"
 #: src/GNOME_Gnumeric.xml.h:69 src/workbook-object-toolbar.c:190
 #, fuzzy
 msgid "Create a spin button"
-msgstr "Lag en knapp"
+msgstr "Lag en "
 
 #: src/GNOME_Gnumeric.xml.h:70 src/workbook-object-toolbar.c:177
 msgid "Create an arrow object"
@@ -16551,9 +16542,8 @@ msgid "Select _Depends"
 msgstr "Velg _avhengigheter"
 
 #: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3413
-#, fuzzy
 msgid "Select _Inputs"
-msgstr "Velg _avhengigheter"
+msgstr "Velg _inndata"
 
 #: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3399
 msgid "Select _Row"
@@ -16564,9 +16554,8 @@ msgid "Select all cells in the spreadsheet"
 msgstr "Velg alle celler i regnearket"
 
 #: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3414
-#, fuzzy
 msgid "Select all the cells are used by the current edit cell"
-msgstr "Velg alle celler som er avhengig av den aktive cellen"
+msgstr "Velg alle celler som er brukes av cellen som redigeres"
 
 #: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3410
 msgid "Select all the cells that depend on the current edit cell"
@@ -17276,467 +17265,465 @@ msgstr "%s er låst. Fjern beskyttelse av arket for å muliggjøre redigering."
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:892 src/commands.c:991 src/commands.c:996
+#: src/commands.c:888 src/commands.c:987 src/commands.c:992
 msgid "Set Text"
 msgstr "Sett tekst"
 
-#: src/commands.c:916
+#: src/commands.c:912
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Skriver «%s%s» i %s"
 
-#: src/commands.c:1114
+#: src/commands.c:1110
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Skriver «%s%s»"
 
-#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3180
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3180
 msgid "Delete Columns"
 msgstr "Slett kolonner"
 
-#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3298
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3298
 msgid "Delete Rows"
 msgstr "Slett rader"
 
-#: src/commands.c:1392
+#: src/commands.c:1388
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Setter inn %d kolonner før %s"
 
-#: src/commands.c:1393
+#: src/commands.c:1389
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Setter inn %d kolonne før %s"
 
-#: src/commands.c:1408
+#: src/commands.c:1404
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Setter inn %d rader før %s"
 
-#: src/commands.c:1409
+#: src/commands.c:1405
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Setter inn %d rad før %s"
 
-#: src/commands.c:1420
+#: src/commands.c:1416
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Sletter kolonner %s"
 
-#: src/commands.c:1421
+#: src/commands.c:1417
 #, c-format
 msgid "Deleting column %s"
 msgstr "Sletter kolonne %s"
 
-#: src/commands.c:1431
+#: src/commands.c:1427
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Sletter rader %s"
 
-#: src/commands.c:1432
+#: src/commands.c:1428
 #, c-format
 msgid "Deleting row %s"
 msgstr "Sletter rad %s"
 
 #. Check for locked cells
-#: src/commands.c:1508 src/commands.c:1512 src/sheet.c:2794
+#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2794
 msgid "Clear"
 msgstr "Tøm"
 
-#: src/commands.c:1584
+#: src/commands.c:1580
 msgid "contents"
 msgstr "innhold"
 
-#: src/commands.c:1586
+#: src/commands.c:1582
 msgid "formats"
 msgstr "formater"
 
-#: src/commands.c:1588
+#: src/commands.c:1584
 msgid "comments"
 msgstr "kommentarer"
 
-#: src/commands.c:1604
+#: src/commands.c:1600
 msgid "all"
 msgstr "alle"
 
-#: src/commands.c:1611
+#: src/commands.c:1607
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Fjerner %s i %s"
 
-#: src/commands.c:1684
+#: src/commands.c:1680
 msgid "Changing Format"
 msgstr "Endrer format"
 
-#: src/commands.c:1811
+#: src/commands.c:1807
 #, c-format
 msgid "Changing format of %s"
 msgstr "Endrer format for %s"
 
-#: src/commands.c:1923
+#: src/commands.c:1919
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Tilpasser kolonne %s automatisk"
 
-#: src/commands.c:1924
+#: src/commands.c:1920
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Tilpasser rad %s automatisk"
 
-#: src/commands.c:1927
+#: src/commands.c:1923
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Setter bredden for rad %s til %d piksler"
 
-#: src/commands.c:1929
+#: src/commands.c:1925
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Setter høyden for rad %s til %d piksler"
 
-#: src/commands.c:1932
+#: src/commands.c:1928
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Setter bredde for kolonne %s til forvalg"
 
-#: src/commands.c:1935
+#: src/commands.c:1931
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Setter høyden for rad %s til forvalg"
 
-#: src/commands.c:1939 src/commands.c:1940
+#: src/commands.c:1935 src/commands.c:1936
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Tilpasser kolonner %s automatisk"
 
-#: src/commands.c:1943
+#: src/commands.c:1939
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Setter bredden for kolonner %s til %d piksler"
 
-#: src/commands.c:1945
+#: src/commands.c:1941
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Setter høyden for rader %s til %d piksler"
 
-#: src/commands.c:1949
+#: src/commands.c:1945
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Setter bredden for kolonner %s til forvalg"
 
-#: src/commands.c:1951
+#: src/commands.c:1947
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Setter høyden for rader %s til forvalg"
 
-#: src/commands.c:2018 src/dialogs/dialog-preferences.c:1504
+#: src/commands.c:2014 src/dialogs/dialog-preferences.c:1504
 msgid "Sorting"
 msgstr "Sorterer"
 
-#: src/commands.c:2038
+#: src/commands.c:2034
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorterer %s"
 
-#: src/commands.c:2170
+#: src/commands.c:2166
 msgid "Unhide columns"
 msgstr "Ta frem kolonner"
 
-#: src/commands.c:2170
+#: src/commands.c:2166
 msgid "Hide columns"
 msgstr "Skjul kolonner"
 
-#: src/commands.c:2171
+#: src/commands.c:2167
 msgid "Unhide rows"
 msgstr "Ta frem rader"
 
-#: src/commands.c:2171
+#: src/commands.c:2167
 msgid "Hide rows"
 msgstr "Skjul rader"
 
-#: src/commands.c:2254
+#: src/commands.c:2250
 msgid "Expand columns"
 msgstr "Utvid kolonner"
 
-#: src/commands.c:2254
+#: src/commands.c:2250
 msgid "Collapse columns"
 msgstr "Slå sammen kolonnene"
 
-#: src/commands.c:2255
+#: src/commands.c:2251
 msgid "Expand rows"
 msgstr "Utvid rader"
 
-#: src/commands.c:2255
+#: src/commands.c:2251
 msgid "Collapse rows"
 msgstr "Slå sammen rader"
 
-#: src/commands.c:2282
+#: src/commands.c:2278
 #, c-format
 msgid "Show column outline %d"
 msgstr "Vis omriss for kolonne %d"
 
-#: src/commands.c:2282
+#: src/commands.c:2278
 #, c-format
 msgid "Show row outline %d"
 msgstr "Vis omriss for rad %d"
 
-#: src/commands.c:2347
+#: src/commands.c:2343
 msgid "Those columns are already grouped"
 msgstr "Kolonnene er allerede gruppert"
 
-#: src/commands.c:2348
+#: src/commands.c:2344
 msgid "Those rows are already grouped"
 msgstr "Radene er allerede gruppert"
 
-#: src/commands.c:2371
+#: src/commands.c:2367
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Kolonnene er ikke gruppert, du kan ikke fjerne gruppering"
 
-#: src/commands.c:2372
+#: src/commands.c:2368
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Radene er ikke gruppert, du kan ikke fjerne gruppering"
 
-#: src/commands.c:2386
+#: src/commands.c:2382
 #, c-format
 msgid "Group columns %s"
 msgstr "Grupper kolonner %s"
 
-#: src/commands.c:2386
+#: src/commands.c:2382
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Fjern gruppering for kolonne %s"
 
-#: src/commands.c:2388
+#: src/commands.c:2384
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Grupper rader %d:%d"
 
-#: src/commands.c:2388
+#: src/commands.c:2384
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Fjern gruppering for rader %d:%d"
 
-#: src/commands.c:2622
+#: src/commands.c:2618
 #, c-format
 msgid "Moving %s"
 msgstr "Flytter %s"
 
-#: src/commands.c:2631 src/commands.c:2842
+#: src/commands.c:2627 src/commands.c:2838
 msgid "is beyond sheet boundaries"
 msgstr "er utenfor arkgrensen"
 
 #. FIXME?
-#: src/commands.c:2786
+#: src/commands.c:2782
 #, c-format
 msgid "Pasting into %s"
 msgstr "Limer inn i %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3019 src/commands.c:3020 src/workbook-control-gui.c:2339
+#: src/commands.c:3015 src/commands.c:3016 src/workbook-control-gui.c:2339
 msgid "Autofill"
 msgstr "Autofyll"
 
 #. Changed in initial redo.
-#: src/commands.c:3043
+#: src/commands.c:3039
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofyller %s"
 
-#: src/commands.c:3193
+#: src/commands.c:3189
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformaterer %s"
 
-#: src/commands.c:3303
+#: src/commands.c:3299
 #, c-format
 msgid "Unmerging %s"
 msgstr "Separerer %s"
 
-#: src/commands.c:3441
+#: src/commands.c:3437
 #, c-format
 msgid "Merging %s"
 msgstr "Fletter %s"
 
 #. Corrected below.
-#: src/commands.c:3823 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3819 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Søk og erstatt"
 
-#: src/commands.c:3920
+#: src/commands.c:3916
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Setter standard bredde for kolonnene til %.2fpkt"
 
-#: src/commands.c:3921
+#: src/commands.c:3917
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Setter standard høyde for radene til %.2fpkt"
 
-#: src/commands.c:4038
+#: src/commands.c:4034
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s til %.0f%%"
 
-#: src/commands.c:4108
+#: src/commands.c:4104
 msgid "Insert object"
 msgstr "Sett inn objekt"
 
-#: src/commands.c:4167
+#: src/commands.c:4163
 msgid "Delete object"
 msgstr "Slett objekt"
 
-#: src/commands.c:4248
+#: src/commands.c:4244
 msgid "Resize object"
 msgstr "Endre størrelse på objekt"
 
-#: src/commands.c:4248
+#: src/commands.c:4244
 msgid "Move object"
 msgstr "Flytt objekt"
 
-#: src/commands.c:4809
+#: src/commands.c:4805
 msgid "Reordering Sheets"
 msgstr "Omplasserer ark"
 
-#: src/commands.c:4812
+#: src/commands.c:4808
 msgid "Renaming Sheets"
 msgstr "Endrer navn på ark"
 
-#: src/commands.c:4815
+#: src/commands.c:4811
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Legger til %i ark"
 
-#: src/commands.c:4819
+#: src/commands.c:4815
 msgid "Changing Tab Colors"
 msgstr "Endrer farge på faner"
 
-#: src/commands.c:4822
+#: src/commands.c:4818
 msgid "Changing Sheet Protection"
 msgstr "Endrer beskyttelse av ark"
 
-#: src/commands.c:4825
+#: src/commands.c:4821
 msgid "Delete sheets"
 msgstr "Slett ark"
 
-#: src/commands.c:4828
+#: src/commands.c:4824
 msgid "Delete a sheet"
 msgstr "Slett et ark"
 
-#: src/commands.c:4831
+#: src/commands.c:4827
 msgid "Reorganizing Sheets"
 msgstr "Omorganiserer ark"
 
-#: src/commands.c:4981
+#: src/commands.c:4977
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Tømmer innhold i %s"
 
-#: src/commands.c:4982
+#: src/commands.c:4978
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Sletter kommentar i %s"
 
-#: src/commands.c:5362
+#: src/commands.c:5358
 #, c-format
 msgid "Merging data into %s"
 msgstr "Fletter data inn i %s"
 
-#: src/commands.c:5464
+#: src/commands.c:5460
 msgid "Changing summary info"
 msgstr "Endrer sammendragsinformasjon"
 
-#: src/commands.c:5555
+#: src/commands.c:5551
 msgid "Raise object"
 msgstr "Hev objekt"
 
-#: src/commands.c:5558
+#: src/commands.c:5554
 msgid "Lower object"
 msgstr "Senk objekt"
 
-#: src/commands.c:5561
+#: src/commands.c:5557
 msgid "Raise object to top"
 msgstr "Hev objekt til topps"
 
-#: src/commands.c:5564
+#: src/commands.c:5560
 msgid "Lower object to bottom"
 msgstr "Senk objekt til bunns"
 
-#: src/commands.c:5679
+#: src/commands.c:5675
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Sideoppsett for %s"
 
-#: src/commands.c:5681
+#: src/commands.c:5677
 msgid "Page Setup For All Sheets"
 msgstr "Sideoppsett for alle ark"
 
-#: src/commands.c:5797
+#: src/commands.c:5793
 msgid "has a circular reference"
 msgstr "har en sirkulær referanse"
 
-#: src/commands.c:5820
+#: src/commands.c:5816
 #, c-format
 msgid "Define Name %s"
 msgstr "Definer navn %s"
 
-#: src/commands.c:5823
+#: src/commands.c:5819
 #, c-format
 msgid "Update Name %s"
 msgstr "Oppdater navn %s"
 
-#: src/commands.c:5887
+#: src/commands.c:5883
 msgid "Add scenario"
 msgstr "Legg til scenario"
 
-#: src/commands.c:5962
+#: src/commands.c:5958
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6026
+#: src/commands.c:6022
 msgid "Shuffle Data"
 msgstr "Bytt om på data"
 
 #. FIXME?
-#: src/commands.c:6137
+#: src/commands.c:6133
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Tekst (%s) til kolonner (%s)"
 
 #. Fill in the header titles.
-#: src/commands.c:6284 src/dialogs/solver.glade.h:24
+#: src/commands.c:6280 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Problemløser"
 
-#: src/commands.c:6371
+#: src/commands.c:6367
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Målsøk (%s)"
 
-#: src/commands.c:6513
+#: src/commands.c:6509
 #, c-format
 msgid "Duplicating %s"
 msgstr "Dupliserer %s"
 
-#: src/commands.c:6593
-#, fuzzy
+#: src/commands.c:6589
 msgid "Tabulating Dependencies"
-msgstr "Tabuler avhengighet"
+msgstr "Tabulerer avhengigheter"
 
-#: src/commands.c:6669
+#: src/commands.c:6665
 msgid "Reconfigure Graph"
-msgstr ""
+msgstr "Konfigurer graf på nytt"
 
 #: src/consolidate.c:773
-#, fuzzy, c-format
+#, c-format
 msgid "Consolidating to (%s)"
-msgstr "Korrelasjon (%s)"
+msgstr "Konsoliderer til (%s)"
 
 #: src/consolidate.c:812 src/consolidate.c:815
-#, fuzzy
 msgid "Data Consolidation"
-msgstr "Konsolidering av data"
+msgstr "Datakonsolidering"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
 #, fuzzy
@@ -17749,55 +17736,45 @@ msgid "<b>Minor Ticks:</b>"
 msgstr "<b>Markør</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
-#, fuzzy
 msgid "I_nside"
-msgstr "Innvendig"
+msgstr "I_nnenfor"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
 msgid "O_utside"
-msgstr "Disposisjon"
+msgstr "_Utenfor"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:567
-#, fuzzy
 msgid "_Cross"
-msgstr "Kryss"
+msgstr "_Kryss"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
-#, fuzzy
 msgid "_High"
-msgstr "Høyde"
+msgstr "_Høy"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
-#, fuzzy
 msgid "_Inside"
-msgstr "Innvendig"
+msgstr "_Innenfor"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
-#, fuzzy
 msgid "_Invert"
-msgstr "Sett _inn"
+msgstr "Snu _om"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
-#, fuzzy
 msgid "_Low"
-msgstr "_Rad"
+msgstr "_Lav"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
-#, fuzzy
 msgid "_Map:"
-msgstr "_Mellomrom:"
+msgstr "_Kart:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
-#, fuzzy
 msgid "_Outside"
-msgstr "Disposisjon"
+msgstr "_Utenfor"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
-#, fuzzy
 msgid "_Show Labels"
-msgstr "_Etiketter"
+msgstr "Vi_s etiketter"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:563
 #: src/dialogs/solver.glade.h:14
@@ -17845,9 +17822,8 @@ msgid "Title"
 msgstr "Tittel"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:189
-#, fuzzy
 msgid "Grid"
-msgstr "Fredag"
+msgstr "Rutenett"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:192
 msgid "X-Axis"
@@ -18200,18 +18176,16 @@ msgstr ""
 #. * 	PlotLine2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:90
-#, fuzzy
 msgid "PlotLine"
-msgstr "Plott"
+msgstr "Plottlinje"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:203
-#, fuzzy
 msgid "PlotArea"
-msgstr "Plott"
+msgstr "Område for plott"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -18349,19 +18323,16 @@ msgid "Percentage Lines"
 msgstr "Prosentlinjer"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
-#, fuzzy
 msgid "Percentage area plot."
-msgstr "Prosentsøyler"
+msgstr "Prosentområdeplott"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:34
-#, fuzzy
 msgid "Percentage line plot."
-msgstr "Prosentkolonner"
+msgstr "Prosentlinjeplott"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:35
-#, fuzzy
 msgid "Stacked Areas"
-msgstr "Stablede søyler"
+msgstr "Stablede områder"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:36
 msgid "Stacked Bars"
@@ -18372,39 +18343,32 @@ msgid "Stacked Columns"
 msgstr "Stablede kolonner"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:38
-#, fuzzy
 msgid "Stacked Lines"
-msgstr "Stablede søyler"
+msgstr "Stablede linjer"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:39
-#, fuzzy
 msgid "Stacked area plot."
-msgstr "Stablede søyler"
+msgstr "Stablet områdeplott."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:40
-#, fuzzy
 msgid "Stacked line plot."
-msgstr "Stablede kolonner"
+msgstr "Stablede linjeplott."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:41
-#, fuzzy
 msgid "Unmarked Lines"
-msgstr "Stablede søyler"
+msgstr "Ikke-markerte linjer"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:42
-#, fuzzy
 msgid "Unmarked Percentage Lines"
-msgstr "Prosentlinjer"
+msgstr "Ikke-markerte prosentlinjer"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:43
-#, fuzzy
 msgid "Unmarked Stacked Lines"
-msgstr "Stablede søyler"
+msgstr "Ikke-markerte stablede linjer"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
-#, fuzzy
 msgid "1.5d Charts"
-msgstr "Plott"
+msgstr "1.5d plott"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
 msgid "Area plotting engine"
@@ -18598,9 +18562,8 @@ msgid "Linearly interpolate between multi-dimensional points."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
-#, fuzzy
 msgid "Markers at each point."
-msgstr "Stablede søyler"
+msgstr "Markører ved hvert punkt."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
 msgid "Plot X, Y and bubble size."
@@ -18611,14 +18574,12 @@ msgid "XY"
 msgstr "XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
-#, fuzzy
 msgid "XY Lines"
-msgstr "Linjer"
+msgstr "XY-linjer"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
-#, fuzzy
 msgid "XY Points"
-msgstr "Punkt"
+msgstr "XY-punkter"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D Scatter charts"
@@ -18637,19 +18598,16 @@ msgid "XY Charts"
 msgstr "XY-plott"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:222
-#, fuzzy
 msgid "none"
-msgstr "Ingen"
+msgstr "ingen"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:223
-#, fuzzy
 msgid "square"
-msgstr "Firkant"
+msgstr "kvadrat"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:224
-#, fuzzy
 msgid "diamond"
-msgstr "Diamant"
+msgstr "diamant"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:225
 #, fuzzy
@@ -18672,19 +18630,16 @@ msgid "triangle left"
 msgstr "område"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:229
-#, fuzzy
 msgid "circle"
-msgstr "Sirkel"
+msgstr "sirkel"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:231
-#, fuzzy
 msgid "cross"
-msgstr "Kryss"
+msgstr "kryss"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:232
-#, fuzzy
 msgid "asterisk"
-msgstr "Lim inn lenke"
+msgstr "asterisk"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:233
 msgid "bar"
@@ -18696,12 +18651,11 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:235
 msgid "butterfly"
-msgstr ""
+msgstr "sommerfugl"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:236
-#, fuzzy
 msgid "hourglass"
-msgstr "Timeglass"
+msgstr "timeglass"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:193
 #: src/dialogs/cell-format.glade.h:71
@@ -19478,7 +19432,6 @@ msgid "<b>Error alerts</b>"
 msgstr "<b>Feilmeldinger</b>"
 
 #: src/dialogs/cell-format.glade.h:16
-#, fuzzy
 msgid "<b>Horizontal alignment</b>"
 msgstr "<b>Horisontal justering</b>"
 
@@ -19499,13 +19452,12 @@ msgid "<b>Style</b>"
 msgstr "<b>Stil</b>"
 
 #: src/dialogs/cell-format.glade.h:22
-#, fuzzy
 msgid "<b>Vertical alignment</b>"
 msgstr "<b>Vertikal justering</b>"
 
 #: src/dialogs/cell-format.glade.h:23
 msgid "<span weight=\"bold\">Criteria</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Kriterie</span>"
 
 #: src/dialogs/cell-format.glade.h:24
 msgid "A_ngle:"
@@ -20034,7 +19986,6 @@ msgstr "John Gotts, rpm pakker."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:66
-#, fuzzy
 msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, Gnumeric hacker."
 
@@ -20538,14 +20489,12 @@ msgid "Source region %s overlaps with the destination region"
 msgstr "Kildeområde %s overlapper med målområdet"
 
 #: src/dialogs/dialog-consolidate.c:331
-#, fuzzy
 msgid "The output range overlaps with the input ranges."
-msgstr "Utdataområdet er ugyldig."
+msgstr "Utdataområdet overlapper med inndataområdet."
 
 #: src/dialogs/dialog-consolidate.c:564
-#, fuzzy
 msgid "Could not create the Consolidate dialog."
-msgstr "Kunne ikke opprette dialog for autolagring."
+msgstr "Kunne ikke opprette dialog for konsolidering."
 
 #: src/dialogs/dialog-define-names.c:359
 msgid "Why would you want to define a name to be #NAME?"
@@ -20565,9 +20514,8 @@ msgid "Could not create the Delete Cell dialog."
 msgstr "Kunne ikke opprette dialog for sletting av celle."
 
 #: src/dialogs/dialog-fill-series.c:267
-#, fuzzy
 msgid "Could not create the Fill Series dialog."
-msgstr "Kunne ikke opprette dialog for problemløser."
+msgstr "Kunne ikke opprette dialog for fyllrekker."
 
 #: src/dialogs/dialog-formula-guru.c:301
 #, c-format
@@ -20910,23 +20858,22 @@ msgid "Internal"
 msgstr "Intervall"
 
 #: src/dialogs/dialog-preferences.c:1507
-#, fuzzy
 msgid "Header/Footer"
-msgstr "Topp- og bunntekst"
+msgstr "Topp-/bunntekst"
 
-#: src/dialogs/dialog-printer-setup.c:860
+#: src/dialogs/dialog-printer-setup.c:861
 msgid "Customize header"
 msgstr "Tilpass topptekst"
 
-#: src/dialogs/dialog-printer-setup.c:862
+#: src/dialogs/dialog-printer-setup.c:863
 msgid "Customize footer"
 msgstr "Tilpass bunntekst"
 
-#: src/dialogs/dialog-printer-setup.c:1012
+#: src/dialogs/dialog-printer-setup.c:1013
 msgid "Custom header configuration"
 msgstr "Egendefinert konfigurasjon av topptekst"
 
-#: src/dialogs/dialog-printer-setup.c:1017
+#: src/dialogs/dialog-printer-setup.c:1018
 msgid "Custom footer configuration"
 msgstr "Egendefinert konfigurasjon av bunntekst"
 
@@ -21215,9 +21162,8 @@ msgid "Results entry did not contain valid cell names."
 msgstr ""
 
 #: src/dialogs/dialog-scenarios.c:633
-#, fuzzy
 msgid "Could not create the Scenarios dialog."
-msgstr "Kunne ikke opprette dialog for problemløser."
+msgstr "Kunne ikke opprette dialog for scenario."
 
 #: src/dialogs/dialog-scenarios.c:650 src/dialogs/scenario-manager.glade.h:10
 #: src/tools/scenarios.c:628
@@ -21642,41 +21588,41 @@ msgstr "_Gjør bredere"
 msgid "_Narrow"
 msgstr "G_jør smalere"
 
-#: src/dialogs/dialog-stf-format-page.c:128
+#: src/dialogs/dialog-stf-format-page.c:129
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:256
+#: src/dialogs/dialog-stf-format-page.c:257
 msgid "Ignore all columns on right"
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:257
+#: src/dialogs/dialog-stf-format-page.c:258
 msgid "Ignore all columns on left"
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:258
+#: src/dialogs/dialog-stf-format-page.c:259
 msgid "Import all columns on right"
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:259
+#: src/dialogs/dialog-stf-format-page.c:260
 msgid "Import all columns on left"
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:260
+#: src/dialogs/dialog-stf-format-page.c:261
 msgid "Copy format to right"
 msgstr "Kopier format til høyre"
 
-#: src/dialogs/dialog-stf-format-page.c:398
+#: src/dialogs/dialog-stf-format-page.c:399
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:401
+#: src/dialogs/dialog-stf-format-page.c:402
 msgid "At most 256 columns can be imported at one time."
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:542
+#: src/dialogs/dialog-stf-format-page.c:543
 #: src/dialogs/dialog-stf-preview.h:27
 #, c-format
 msgid "Column %d"
@@ -21747,9 +21693,8 @@ msgid "Columns"
 msgstr "Kolonner"
 
 #: src/dialogs/dialog-stf.glade.h:14
-#, fuzzy
 msgid "Custom separator, this can be any character."
-msgstr "Egendefinert skilletegn, dette kan være et hvilket som helst tegn"
+msgstr "Tilpasset skilletegn, dette kan være et hvilket som helst tegn."
 
 #: src/dialogs/dialog-stf.glade.h:16
 msgid "Define the width of each column manually."
@@ -22320,7 +22265,7 @@ msgstr "Høy_re del:"
 
 #: src/dialogs/histogram.glade.h:2
 msgid "Bin _Labels"
-msgstr ""
+msgstr "_Etiketter for bøtter"
 
 #: src/dialogs/histogram.glade.h:4
 msgid "C_umulative Percentages"
@@ -22369,21 +22314,19 @@ msgstr "Pareto (_Sortert)"
 #: src/dialogs/histogram.glade.h:16
 #, fuzzy
 msgid "Retain Output Range _Comments"
-msgstr "Behold kommentarer for utdataområde"
+msgstr "Behold _kommentarer for utdataområde"
 
 #: src/dialogs/histogram.glade.h:17
-#, fuzzy
 msgid "Retain Output Range _Formatting"
-msgstr "Behold formatering for utdataområde"
+msgstr "Behold _formatering for utdataområde"
 
 #: src/dialogs/histogram.glade.h:19
 msgid "_Autofit Columns"
 msgstr "Tilp_ass kolonner automatisk"
 
 #: src/dialogs/histogram.glade.h:20
-#, fuzzy
 msgid "_Bins"
-msgstr "Binær"
+msgstr "_Bøtter"
 
 #: src/dialogs/histogram.glade.h:21
 msgid "_Calculated Bins"
@@ -22408,9 +22351,8 @@ msgid "_Percentages"
 msgstr "_Prosent"
 
 #: src/dialogs/histogram.glade.h:29
-#, fuzzy
 msgid "_Predetermined Bins"
-msgstr "Forhåndsbestemte binærverdier"
+msgstr "_Forhåndsbestemte bøtter"
 
 #: src/dialogs/hyperlink.glade.h:2
 msgid "<small>Optional</small>"
@@ -22461,7 +22403,6 @@ msgid "Shift cells _down"
 msgstr "Flytt celler ne_d"
 
 #: src/dialogs/insert-cells.glade.h:5
-#, fuzzy
 msgid "_Insert column(s)"
 msgstr "Sett _inn kolonne(r)"
 
@@ -22748,7 +22689,7 @@ msgstr "Rad og kolonnetitler"
 
 #: src/dialogs/print.glade.h:19
 msgid "Save as Default Settings"
-msgstr ""
+msgstr "Lagre som forvalgte innstillinger"
 
 #: src/dialogs/print.glade.h:20
 msgid "Scale"
@@ -22913,7 +22854,7 @@ msgstr "_Tilfeldig"
 
 #: src/dialogs/scenario-add.glade.h:2
 msgid "Add Scenario"
-msgstr ""
+msgstr "Legg til scenario"
 
 #: src/dialogs/scenario-add.glade.h:3
 msgid "Comment:"
@@ -22924,24 +22865,20 @@ msgid "Scenario name:"
 msgstr "Navn på scenario:"
 
 #: src/dialogs/scenario-manager.glade.h:3
-#, fuzzy
 msgid "<span weight=\"bold\">Changing Cells</span>"
-msgstr "<span weight=\"bold\">Sammendragsinformasjon for dokument</span>"
+msgstr "<span weight=\"bold\">Endring av celler</span>"
 
 #: src/dialogs/scenario-manager.glade.h:4
-#, fuzzy
 msgid "<span weight=\"bold\">Comment</span>"
-msgstr "<span weight=\"bold\">Sammendragsinformasjon for dokument</span>"
+msgstr "<span weight=\"bold\">Kommentar</span>"
 
 #: src/dialogs/scenario-manager.glade.h:5
-#, fuzzy
 msgid "<span weight=\"bold\">Reporting</span>"
-msgstr "<span weight=\"bold\">Sammendragsinformasjon for dokument</span>"
+msgstr "<span weight=\"bold\">Rapportering</span>"
 
 #: src/dialogs/scenario-manager.glade.h:6
-#, fuzzy
 msgid "<span weight=\"bold\">Scenarios</span>"
-msgstr "<span weight=\"bold\">Sammendragsinformasjon for dokument</span>"
+msgstr "<span weight=\"bold\">Scenario</span>"
 
 #: src/dialogs/scenario-manager.glade.h:7
 msgid "Create _Report"
@@ -22966,7 +22903,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Forskjellig</span>"
 
 #: src/dialogs/search-replace.glade.h:4
 msgid "<span weight=\"bold\">Search Text Type</span>"
@@ -23298,24 +23235,20 @@ msgid "Find Min."
 msgstr "Finn minimum"
 
 #: src/dialogs/simulation.glade.h:7
-#, fuzzy
 msgid "First Round #:"
-msgstr "Første runde #: "
+msgstr "Første runde #:"
 
 #: src/dialogs/simulation.glade.h:8
-#, fuzzy
 msgid "Inputs:"
-msgstr "_Inndata:"
+msgstr "Inndata:"
 
 #: src/dialogs/simulation.glade.h:9
-#, fuzzy
 msgid "Iterations:"
-msgstr "Gjennomganger: "
+msgstr "Gjennomganger:"
 
 #: src/dialogs/simulation.glade.h:10
-#, fuzzy
 msgid "Last Round #:"
-msgstr "Siste runde #: "
+msgstr "Siste runde #:"
 
 #: src/dialogs/simulation.glade.h:11 src/tools/solver/reports-write.c:706
 msgid "Max Time:"
@@ -23326,14 +23259,12 @@ msgid "Next Sim."
 msgstr "Neste simulering"
 
 #: src/dialogs/simulation.glade.h:15
-#, fuzzy
 msgid "Outputs:"
-msgstr "Utdata: "
+msgstr "Utdata:"
 
 #: src/dialogs/simulation.glade.h:16
-#, fuzzy
 msgid "Prev. Sim."
-msgstr "Forrige simulering. "
+msgstr "Forrige simulering."
 
 #. Fill in the header titles.
 #: src/dialogs/simulation.glade.h:17 src/tools/simulation.c:349
@@ -23341,31 +23272,28 @@ msgid "Risk Simulation"
 msgstr "Risikosimulering"
 
 #: src/dialogs/simulation.glade.h:18
-#, fuzzy
 msgid "Simulation Summary:"
-msgstr "Simulering: "
+msgstr "Sammendrag for simulering:"
 
 #: src/dialogs/simulation.glade.h:19 src/dialogs/summary.glade.h:6
 msgid "Summary"
 msgstr "Sammendrag"
 
 #: src/dialogs/simulation.glade.h:20
-#, fuzzy
 msgid "Summary of Results:"
-msgstr "Resultatsammendrag: "
+msgstr "Resultatsammendrag:"
 
 #: src/dialogs/simulation.glade.h:22
 msgid "_Options"
 msgstr "_Alternativer"
 
 #: src/dialogs/simulation.glade.h:24
-#, fuzzy
 msgid "_Variables"
-msgstr "Variabler"
+msgstr "_Variabler"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Arrow Length:"
-msgstr ""
+msgstr "Lengde på pil:"
 
 #: src/dialogs/so-arrow.glade.h:2
 msgid "Arrow Tip:"
@@ -23544,7 +23472,7 @@ msgstr "_Endre"
 
 #: src/dialogs/solver.glade.h:29
 msgid "_Create a scenario if the optimal solution is found"
-msgstr ""
+msgstr "_Opprett et scenario hvis optimal løsning blir funnet"
 
 #: src/dialogs/solver.glade.h:31
 msgid "_Do not create scenarios"
@@ -23685,7 +23613,7 @@ msgstr "Plassering"
 
 #: src/dialogs/view.glade.h:5
 msgid "New view will be opened on specified screen"
-msgstr ""
+msgstr "Ingen visning vil åpnes på spesifisert skjerm"
 
 #: src/dialogs/view.glade.h:6
 msgid "Sharing"
@@ -23693,11 +23621,11 @@ msgstr "Deling"
 
 #: src/dialogs/view.glade.h:7
 msgid "Views will have separate cursor locations"
-msgstr ""
+msgstr "Visninger vil ha separate markørlokasjoner"
 
 #: src/dialogs/view.glade.h:8
 msgid "Views will share cursor position"
-msgstr ""
+msgstr "Visninger vil dele markørposisjon"
 
 #: src/dialogs/view.glade.h:9
 msgid "_Shared"
@@ -24000,7 +23928,7 @@ msgstr "Canada, dollar"
 
 #: src/formats.c:415
 msgid "Congo/Kinshasa, Congolese Francs"
-msgstr ""
+msgstr "Kongo/Kinshasa, Konolesiske francs"
 
 #: src/formats.c:416
 msgid "Switzerland, Francs"
@@ -24528,7 +24456,7 @@ msgstr "Samoa, tala"
 
 #: src/formats.c:547
 msgid "Communaute Financiere Africaine BEAC, Francs"
-msgstr ""
+msgstr "Communaute Financiere Africaine BEAC, Francs"
 
 #: src/formats.c:548
 msgid "Silver, Ounces"
@@ -24544,11 +24472,11 @@ msgstr "Øst-Karribia, dollar"
 
 #: src/formats.c:551
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
-msgstr ""
+msgstr "International Monetary Fund (IMF) Special drawing rights"
 
 #: src/formats.c:552
 msgid "Communaute Financiere Africaine BCEAO, Francs"
-msgstr ""
+msgstr "Communaute Financiere Africaine BCEAO, Francs"
 
 #: src/formats.c:553
 msgid "Palladium, Ounces"
@@ -24556,7 +24484,7 @@ msgstr "Palladium, unser"
 
 #: src/formats.c:554
 msgid "Comptoirs Francais du Pacifique Francs"
-msgstr ""
+msgstr "Comptoirs Francais du Pacifique Francs"
 
 #: src/formats.c:555
 msgid "Platinum, Ounces"
@@ -24675,9 +24603,8 @@ msgid "Cell Range"
 msgstr "Celleoråde"
 
 #: src/func.c:681
-#, fuzzy
 msgid "Scalar or Blank"
-msgstr "Skalar eller feil"
+msgstr "Skalar eller tom"
 
 #: src/func.c:683
 msgid "Scalar or Error"
@@ -24737,7 +24664,7 @@ msgstr "Last fil"
 
 #: src/gui-file.c:195
 msgid "Character _encoding:"
-msgstr ""
+msgstr "T_egnkoding:"
 
 #: src/gui-file.c:205
 msgid "File _type:"
@@ -25434,14 +25361,12 @@ msgid "&[DATE]"
 msgstr "&[DATO]"
 
 #: src/print-info.c:533
-#, fuzzy
 msgid "File Name"
-msgstr "Nytt navn"
+msgstr "Filnavn"
 
 #: src/print-info.c:564
-#, fuzzy
 msgid "Path "
-msgstr "Lim inn"
+msgstr "Sti"
 
 #: src/print-info.c:572
 msgid "tab"
@@ -25460,9 +25385,8 @@ msgid "file"
 msgstr "fil"
 
 #: src/print-info.c:578
-#, fuzzy
 msgid "path"
-msgstr "Thatch"
+msgstr "sti"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:577
@@ -25656,16 +25580,15 @@ msgstr "Kunne ikke laste fil: %s"
 
 #: src/sheet-object-graph.c:163
 msgid "Save graph as image"
-msgstr ""
+msgstr "Lagre graf som bilde"
 
 #: src/sheet-object-graph.c:202
 msgid "Sorry, gnumeric can only save graphs as png images"
-msgstr ""
+msgstr "Beklager, gnumeric kan kun lagre grafer som png-bilder"
 
 #: src/sheet-object-graph.c:220
-#, fuzzy
 msgid "_Save as image"
-msgstr "Velg et bilde"
+msgstr "_Lagre som bilde"
 
 #: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
 msgid "Transparent"
@@ -25729,7 +25652,7 @@ msgstr ""
 
 #: src/stf.c:299
 msgid "There is no data to convert"
-msgstr ""
+msgstr "Ingen data å konvertere"
 
 #: src/stf.c:319
 msgid "Error while trying to parse data into sheet"
@@ -25737,7 +25660,7 @@ msgstr "Feil under forsøk på å lese data inn i arket"
 
 #: src/stf.c:362
 msgid "That file is not in the given encoding."
-msgstr ""
+msgstr "Denne filen er ikke i gitt koding."
 
 #: src/stf.c:379
 msgid "Parse error while trying to parse data into sheet"
@@ -25748,7 +25671,6 @@ msgid "Error while trying to write csv file"
 msgstr "Feil under forsøk på å skrive csv-fil"
 
 #: src/stf.c:458
-#, fuzzy
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Komma- eller tabulatorseparerte filer (CSV/TSV)"
 
@@ -25761,9 +25683,8 @@ msgid "Text export (configurable)"
 msgstr "Teksteksport (konfigurerbar)"
 
 #: src/stf.c:470
-#, fuzzy
 msgid "Comma separated values (CSV)"
-msgstr "Komma- eller tabulatorseparerte filer (CSV/TSV)"
+msgstr "Kommaseparerte verdier (CSV)"
 
 #: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3296
 #, c-format
@@ -25947,7 +25868,6 @@ msgstr ""
 "Det må være minst like mange datapunkter som er der frie variabler."
 
 #: src/tools/analysis-tools.c:2213
-#, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  All numerical precision was lost in the computation."
@@ -25998,14 +25918,12 @@ msgid ""
 msgstr ""
 
 #: src/tools/analysis-tools.c:2403
-#, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  Treat the regression result with great care!"
 msgstr ""
-"To eller flere av de uavhengige variablene er lineært avhengig,\n"
-"og regresjonen kan ikke kalkuleres. Fjern en av disse\n"
-"variablene og forsøk regresjonen på nytt."
+"To eller flere av de uavhengige variablene er nesten lineært\n"
+"avhengig. Vær nøye med regresjonsresultatet!"
 
 #: src/tools/analysis-tools.c:2418
 #, c-format
@@ -26207,9 +26125,9 @@ msgid "Report Created: "
 msgstr "Rapport opprettet: "
 
 #: src/tools/fill-series.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "Fill Series (%s)"
-msgstr "Fourierrekker"
+msgstr "Fyllrekker (%s)"
 
 #: src/tools/random-generator.c:107
 msgid ""
@@ -26544,11 +26462,11 @@ msgstr "Elementer"
 
 #: src/tools/solver/reports-write.c:602 src/tools/solver/reports-write.c:604
 msgid "Non-zeros in"
-msgstr ""
+msgstr "Ikke-null i"
 
 #: src/tools/solver/reports-write.c:605
 msgid "Obj. fn"
-msgstr ""
+msgstr "Obj. fn"
 
 #: src/tools/solver/reports-write.c:607
 msgid "Ratio"
@@ -26606,7 +26524,7 @@ msgstr "Automatisk skalering:"
 #. Set the options.
 #: src/tools/solver/reports-write.c:710
 msgid "LP Solve 3.2"
-msgstr ""
+msgstr "LP løs 3.2"
 
 #: src/tools/solver/reports-write.c:719
 msgid "Non-Negative"
@@ -26969,24 +26887,23 @@ msgstr "Meny"
 
 #: src/widgets/gnumeric-optionmenu.c:200
 msgid "The menu of options"
-msgstr ""
+msgstr "Meny med alternativer"
 
 #: src/widgets/gnumeric-optionmenu.c:206
 msgid "Indicator Size"
-msgstr ""
+msgstr "Størrelse på indikator"
 
 #: src/widgets/gnumeric-optionmenu.c:207
 msgid "Size of dropdown indicator"
-msgstr ""
+msgstr "Størrelse på nedtrekksindikator"
 
 #: src/widgets/gnumeric-optionmenu.c:212
-#, fuzzy
 msgid "Indicator Spacing"
-msgstr "Internt fyll"
+msgstr "Mellomrom for indikator"
 
 #: src/widgets/gnumeric-optionmenu.c:213
 msgid "Spacing around indicator"
-msgstr ""
+msgstr "Mellomrom rundt indikator"
 
 #: src/widgets/widget-charmap-selector.c:75
 msgid "Arabic"
@@ -28555,64 +28472,3 @@ msgstr "Feil under lagring av fil"
 #: src/xml-io.c:4254
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
-
-#~ msgid "Failure parsing AutoFilter."
-#~ msgstr "Feil under lesing av AutoFilter."
-
-#~ msgid "Imported %s"
-#~ msgstr "Importerte %s"
-
-#~ msgid "TODO : Unfinished"
-#~ msgstr "TODO: Uferdig"
-
-#~ msgid "Interpolated points"
-#~ msgstr "Interpolerte punkter"
-
-#~ msgid "Results:"
-#~ msgstr "Resultater:"
-
-#~ msgid "Scenarios:"
-#~ msgstr "Scenario:"
-
-#~ msgid "Summary Report:"
-#~ msgstr "Sammendragsrapport:"
-
-#~ msgid "A_utofit columns"
-#~ msgstr "Til_pass kolonner automatisk"
-
-#~ msgid "Inputs: "
-#~ msgstr "Inndata: "
-
-#~ msgid "Max Time:       "
-#~ msgstr "Maks tid:       "
-
-#~ msgid "Output: "
-#~ msgstr "Utdata: "
-
-#~ msgid "Reporting: "
-#~ msgstr "Rapportering: "
-
-#~ msgid "Summary report grupped by rounds"
-#~ msgstr "Sammendragsrapport gruppert etter runder"
-
-#~ msgid "Summary: "
-#~ msgstr "Sammendrag: "
-
-#~ msgid "Variables: "
-#~ msgstr "Variabler: "
-
-#~ msgid "_Output Range: "
-#~ msgstr "Utdata_område: "
-
-#~ msgid "_Summary"
-#~ msgstr "_Sammendrag"
-
-#~ msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-#~ msgstr "UFERDIG Gnumeric XML (*.gnumeric)"
-
-#~ msgid "Sheet 1"
-#~ msgstr "Ark 1"
-
-#, fuzzy
-#~ msgid "XYPlot"
-#~ msgstr "Plott"
