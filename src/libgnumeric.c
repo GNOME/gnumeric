@@ -7,6 +7,9 @@
  *   Miguel de Icaza (miguel@gnu.org)
  */
 #include <config.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <gnome.h>
 #include "gnumeric.h"
 #include "xml-io.h"
@@ -202,6 +205,26 @@ gnumeric_main (void *closure, int argc, char *argv [])
 int
 main (int argc, char *argv [])
 {
+	int fd;
+	
+	/* guile needs stdin, stdout, stderr */
+	fd = open("/dev/null", O_RDONLY);
+	if (fd == 0)
+		fdopen (fd, "r");
+	else
+		close (fd);
+	if (fd <= 2) {
+		for (;;) {
+			fd = open("/dev/null", O_WRONLY);
+			if (fd <= 2)
+				fdopen (fd, "w");
+			else {
+				close (fd);
+				break;
+			}
+		}
+	}
+	
 	scm_boot_guile (argc, argv, gnumeric_main, 0);
 	return 0;
 }

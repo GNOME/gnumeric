@@ -1,3 +1,9 @@
+2000-03-11  Jon K Hellan  <hellan@acm.org>
+
+	* src/main.c (main): Work around guile / gnorba problem: gnorba
+	closes stdin, and scm_boot_guile segfaults if any of the stdio
+	streams are missing. We map the missing streams to /dev/null.
+
 2000-03-10 Alastair McKinstry <mckinstry@computer.org>
 
 	* configure.in (ALL_LINGUAS): Added ga (Irish) translation.
