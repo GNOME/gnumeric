@@ -1,3 +1,9 @@
+2003-07-14  Morten Welinder  <terra@gnome.org>
+
+	* src/auto-format.c (is_date): New function.
+	(do_af_suggest): Be smarter about date differences.  They're
+	common and formatting them as dates is irritating.
+
 2003-07-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_analysis_tool_redo): recalc

@@ -21,6 +21,7 @@
 #include "sheet.h"
 #include "workbook.h"
 #include "format.h"
+#include "formats.h"
 
 /* ------------------------------------------------------------------------- */
 /*
@@ -79,6 +80,21 @@ cb_af_suggest (G_GNUC_UNUSED Sheet *sheet,
 	return NULL;
 }
 
+static gboolean
+is_date (GnmFuncFlags typ, StyleFormat *explicit)
+{
+	switch (typ) {
+	case GNM_FUNC_AUTO_DATE: return TRUE;
+
+	default: return FALSE;
+
+	case AF_EXPLICIT: {
+		FormatCharacteristics info;
+		return (cell_format_classify (explicit, &info) == FMT_DATE);
+	}
+	}
+}
+
 static GnmFuncFlags
 do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 {
@@ -111,7 +127,7 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 		typ1 = do_af_suggest (expr->binary.value_a, epos, &explicit1);
 		typ2 = do_af_suggest (expr->binary.value_b, epos, &explicit2);
 
-		if (typ1 == GNM_FUNC_AUTO_DATE && typ2 == GNM_FUNC_AUTO_DATE)
+		if (is_date (typ1, explicit1) && is_date (typ2, explicit2))
 			return GNM_FUNC_AUTO_UNITLESS;
 		else if (typ1 != GNM_FUNC_AUTO_UNKNOWN && typ1 != GNM_FUNC_AUTO_UNITLESS) {
 			*explicit = explicit1;
