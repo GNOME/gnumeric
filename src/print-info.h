@@ -114,6 +114,8 @@ PrintHF          *print_hf_new           (const char *left_side_format,
 void              print_hf_free          (PrintHF *print_hf);
 PrintHF          *print_hf_copy          (const PrintHF *source);
 PrintHF          *print_hf_register      (PrintHF *hf);
+gboolean          print_hf_same          (const PrintHF *a,
+					  const PrintHF *b);
 
 char             *hf_format_render       (const char *format,
 					  HFRenderInfo *info,
@@ -128,8 +130,10 @@ double      print_unit_get_prefered  (PrintUnit *unit);
 double      unit_convert             (double value, UnitName source, UnitName target);
 UnitName    unit_name_to_unit        (const char *s);
 
+void        print_init               (void);
+void        print_shutdown           (void);
+
 /* Formats known */
 extern GList *hf_formats;
 
 #endif
-

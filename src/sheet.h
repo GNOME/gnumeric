@@ -137,7 +137,7 @@ struct _Sheet {
 	void        *current_object;
 	void        *active_object_frame;
 	
-	
+	gboolean    pristine;
 	gboolean    modified;
 	
         /* Solver parameters */

@@ -1,3 +1,30 @@
+1999-12-19  Michael Meeks  <mmeeks@gnu.org>
+
+	* configure.in: bump version to 0.46.
+
+	* src/dialogs/dialog-printer-setup.c (fill_hf): use print_hf_same,
+	since pointer comparison duff; since item is copied.
+
+	* src/print-info.c (print_hf_same): implement.
+	(print_hf_register): update to use it.
+
+1999-12-18  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/dialogs/dialog-printer-setup.c (do_setup_hf): Grab the
+	header & footer pointer from the sheet's print info if available.
+	(do_setup_hf_menus): only setup the dialog if non-null.
+
+	* src/print-info.c (print_info_new): kill load_formats.
+	init hf_formats. (print_init, print_shutdown): implement.
+
+	* src/main.c (gnumeric_main): add print_init / shutdown.
+
+1999-12-18  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (sheet_new): setup pristine.
+	(sheet_mark_clean, sheet_set_dirty, sheet_is_pristine): improve,
+	thanks to Morten.
+
 1999-12-18  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (xml_read_print_info): Plug leaks.

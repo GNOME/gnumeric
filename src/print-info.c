@@ -27,7 +27,7 @@ static PrintHF predefined_formats [] = {
 	{ NULL, }
 };
 
-GList *hf_formats;
+GList *hf_formats = NULL;
 
 PrintHF *
 print_hf_new (const char *left_side_format,
@@ -50,6 +50,21 @@ print_hf_new (const char *left_side_format,
 	return format;
 }
 
+gboolean
+print_hf_same (const PrintHF *a, const PrintHF *b)
+{
+	if (strcmp (b->left_format, a->left_format))
+		return FALSE;
+	
+	if (strcmp (b->middle_format, a->middle_format)) 
+		return FALSE;
+	
+	if (strcmp (b->right_format, a->right_format))
+		return FALSE;
+
+	return TRUE;
+}
+		
 PrintHF *
 print_hf_register (PrintHF *hf)
 {
@@ -58,24 +73,16 @@ print_hf_register (PrintHF *hf)
 	
 	g_return_val_if_fail (hf != NULL, NULL);
 
-	for (l = hf_formats; l; l = l->next){
-		PrintHF *a = l->data;
-
-		if (strcmp (hf->left_format, a->left_format))
-			continue;
-
-		if (strcmp (hf->middle_format, a->middle_format)) 
-			continue;
-
-		if (strcmp (hf->right_format, a->right_format))
-			return a;
-	}
-
+	for (l = hf_formats; l; l = l->next)
+		if (print_hf_same (hf, l->data))
+			return l->data;
+	
 	newi = print_hf_copy (hf);
 	hf_formats = g_list_append (hf_formats, newi);
 
 	return newi;
 }
+
 
 PrintHF *
 print_hf_copy (const PrintHF *source)
@@ -108,7 +115,7 @@ print_info_free (PrintInformation *pi)
 
 	print_hf_free (pi->header);
 	print_hf_free (pi->footer);
-
+	
 	g_free (pi);
 }
 
@@ -150,9 +157,9 @@ load_hf (const char *type, const char *a, const char *b, const char *c)
 
 	format = g_new (PrintHF, 1);
 
-	format->left_format = gnome_config_get_string (code_a);
+	format->left_format   = gnome_config_get_string (code_a);
 	format->middle_format = gnome_config_get_string (code_b);
-	format->right_format = gnome_config_get_string (code_c);
+	format->right_format  = gnome_config_get_string (code_c);
 
 	g_free (code_a);
 	g_free (code_b);
@@ -190,10 +197,10 @@ load_formats (void)
 	gnome_config_push_prefix ("/Gnumeric/Headers_and_Footers/");
 
 	format_count = gnome_config_get_int ("formats=0");
-	if (format_count == 0){
+	if (format_count == 0) {
 		int i;
 		
-		for (i = 0; predefined_formats [i].left_format; i++){
+		for (i = 0; predefined_formats [i].left_format; i++) {
 			PrintHF *format;
 			
 			format = print_hf_new (
@@ -210,12 +217,13 @@ load_formats (void)
 		return;
 	}
 
-	for (i = 0; i < format_count; i++){
+	for (i = 0; i < format_count; i++) {
 		char *str = g_strdup_printf ("FormatHF-%d", i);
 		PrintHF *format;
 
 		format = load_hf (str, "", "", "");
 		hf_formats = g_list_prepend (hf_formats, format);
+
 		g_free (str);
 	}
 	hf_formats = g_list_reverse (hf_formats);
@@ -305,9 +313,6 @@ print_info_new (void)
 		pi->repeat_left.use = FALSE;
 
 	gnome_config_pop_prefix ();
-
-	load_formats ();
-	
 	gnome_config_sync ();
 
 	return pi;
@@ -352,6 +357,10 @@ save_hf (const char *type, const char *a, const char *b, const char *c)
 	g_free (code_c);
 }
 
+/*
+ *   This can get out of hand, we limit the number of stored
+ * formats.
+ */
 static void
 save_formats (void)
 {
@@ -373,6 +382,17 @@ save_formats (void)
 	}
 
 	gnome_config_pop_prefix ();
+}
+
+static void
+destroy_formats (void)
+{
+	while (hf_formats) {
+		print_hf_free (hf_formats->data);
+		hf_formats = g_list_remove (hf_formats,
+					    hf_formats->data);
+	}
+	hf_formats = NULL;
 }
 
 void
@@ -643,4 +663,17 @@ hf_render_info_destroy (HFRenderInfo *hfi)
 
 	value_release (hfi->date_time);
 	g_free (hfi);
+}
+
+void
+print_init (void)
+{
+	load_formats ();
+}
+
+void
+print_shutdown (void)
+{
+	save_formats ();
+	destroy_formats ();
 }

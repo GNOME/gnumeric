@@ -103,6 +103,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	constants_init ();
 	functions_init ();
 	expr_name_init ();
+	print_init ();
 	plugins_init ();
 
 	/* The statically linked in file formats */
@@ -160,6 +161,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 		gtk_main ();
 
 	excel_shutdown ();
+	print_shutdown ();
 	cursors_shutdown ();
 	format_match_finish ();
 	format_color_shutdown ();

@@ -98,10 +98,10 @@ value_new_array (guint cols, guint rows)
 	v->v.array.y = rows;
 	v->v.array.vals = g_new (Value **, cols);
 
-	for (x = 0; x < cols; x++){
+	for (x = 0; x < cols; x++) {
 		v->v.array.vals [x] = g_new (Value *, rows);
 		for (y = 0; y < rows; y++)
-			v->v.array.vals[x][y] = value_new_int (0);
+			v->v.array.vals [x] [y] = value_new_int (0);
 	}
 	return v;
 }
@@ -117,10 +117,10 @@ value_new_array_empty (guint cols, guint rows)
 	v->v.array.y = rows;
 	v->v.array.vals = g_new (Value **, cols);
 
-	for (x = 0; x < cols; x++){
+	for (x = 0; x < cols; x++) {
 		v->v.array.vals [x] = g_new (Value *, rows);
 		for (y = 0; y < rows; y++)
-			v->v.array.vals[x][y] = NULL;
+			v->v.array.vals [x] [y] = NULL;
 	}
 	return v;
 }
@@ -158,10 +158,10 @@ value_release (Value *value)
 	case VALUE_ARRAY: {
 		guint x, y;
 
-		for (x = 0; x < value->v.array.x; x++){
+		for (x = 0; x < value->v.array.x; x++) {
 			for (y = 0; y < value->v.array.y; y++) {
-				if (value->v.array.vals [x][y])
-					value_release (value->v.array.vals [x][y]);
+				if (value->v.array.vals [x] [y])
+					value_release (value->v.array.vals [x] [y]);
 			}
 			g_free (value->v.array.vals [x]);
 		}
@@ -238,10 +238,10 @@ value_copy_to (Value *dest, const Value *source)
 		dest->v.v_float = source->v.v_float;
 		break;
 
-	case VALUE_ARRAY: {
+	case VALUE_ARRAY:
 		value_array_copy_to (dest, source);
 		break;
-	}
+
 	case VALUE_CELLRANGE:
 		dest->v.cell_range = source->v.cell_range;
 		break;
@@ -547,7 +547,7 @@ value_array_copy_to (Value *v, const Value *src)
 	for (x = 0; x < v->v.array.x; x++) {
 		v->v.array.vals [x] = g_new (Value *, v->v.array.y);
 		for (y = 0; y < v->v.array.y; y++)
-			v->v.array.vals [x][y] = value_duplicate (src->v.array.vals [x][y]);
+			v->v.array.vals [x] [y] = value_duplicate (src->v.array.vals [x][y]);
 	}
 }
 

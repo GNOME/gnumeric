@@ -4,6 +4,8 @@ Michael:
 	* Fixed problems closing workbooks
 	* Add pristine workbook discard
 	* Fixup html export.
+	* Fixed print header/footer setup, users should remove
+	  ~/.gnome/Gnumeric to speedup load.
 
 Jon:
 	* Lots of Excel style export work:

@@ -218,7 +218,8 @@ sheet_new (Workbook *wb, const char *name)
 
 	sheet_corba_setup (sheet);
 
-	sheet_set_dirty (sheet, FALSE);
+	sheet->pristine = TRUE;
+	sheet->modified = FALSE;
 
 	return sheet;
 }
@@ -3052,6 +3053,9 @@ sheet_mark_clean (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
+	if (sheet->modified)
+		sheet->pristine = FALSE;
+
 	sheet->modified = FALSE;
 }
 
@@ -3060,6 +3064,9 @@ sheet_set_dirty (Sheet *sheet, gboolean is_dirty)
 {
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
+
+	if (sheet->modified)
+		sheet->pristine = FALSE;
 
 	sheet->modified = is_dirty;
 }
@@ -3078,21 +3085,7 @@ sheet_is_pristine (Sheet *sheet)
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	if (sheet->cell_hash && g_hash_table_size (sheet->cell_hash) > 0)
-		return FALSE;
-
-	if (g_list_length (sheet->selections) > 1)
-		return FALSE;
-
-	if (g_list_length (sheet->comment_list) > 0)
-		return FALSE;
-
-	if (sheet->dependency_hash &&
-	    g_hash_table_size (sheet->dependency_hash) > 0)
-		return FALSE;
-
-	/* Fairly safe approximation */
-	return TRUE;
+	return sheet->pristine && !sheet->modified;
 }
 
 /**

@@ -384,18 +384,18 @@ fill_hf (dialog_print_info_t *dpi, GtkOptionMenu *om, GtkSignalFunc callback, Pr
 
 	menu = gtk_menu_new ();
 
-	for (i = 0, l = hf_formats; l; l = l ->next, i++){
+	for (i = 0, l = hf_formats; l; l = l->next, i++) {
 		GtkWidget *li;
 		PrintHF *format = l->data;
 		char *left, *middle, *right;
 		char *res;
 
-		if (format == select)
+		if (print_hf_same (format, select))
 			idx = i;
 		
-		left = hf_format_render (format->left_format, hfi, HF_RENDER_PRINT);
+		left   = hf_format_render (format->left_format, hfi, HF_RENDER_PRINT);
 		middle = hf_format_render (format->middle_format, hfi, HF_RENDER_PRINT);
-		right = hf_format_render (format->right_format, hfi, HF_RENDER_PRINT);
+		right  = hf_format_render (format->right_format, hfi, HF_RENDER_PRINT);
 
 		res = g_strdup_printf (
 			"%s%s%s%s%s",
@@ -459,7 +459,7 @@ do_hf_config (const char *title, PrintHF **config)
 
 	v = gnome_dialog_run (GNOME_DIALOG (dialog));
 
-	if (v == 0){
+	if (v == 0) {
 		char *left_format, *right_format, *middle_format;
 
 		left_format   = text_get (left);
@@ -490,8 +490,10 @@ do_setup_hf_menus (dialog_print_info_t *dpi, PrintHF *header_sel, PrintHF *foote
 	GtkOptionMenu *header = GTK_OPTION_MENU (glade_xml_get_widget (dpi->gui, "option-menu-header"));
 	GtkOptionMenu *footer = GTK_OPTION_MENU (glade_xml_get_widget (dpi->gui, "option-menu-footer"));
 
-	fill_hf (dpi, header, GTK_SIGNAL_FUNC (header_changed), header_sel);
-	fill_hf (dpi, footer, GTK_SIGNAL_FUNC (footer_changed), footer_sel);
+	if (header_sel)
+		fill_hf (dpi, header, GTK_SIGNAL_FUNC (header_changed), header_sel);
+	if (footer_sel)
+		fill_hf (dpi, footer, GTK_SIGNAL_FUNC (footer_changed), footer_sel);
 }
 
 static void
@@ -519,8 +521,10 @@ do_footer_config (GtkWidget *button, dialog_print_info_t *dpi)
 static void
 do_setup_hf (dialog_print_info_t *dpi)
 {
-	dpi->header = print_hf_copy (hf_formats->data);
-	dpi->footer = print_hf_copy (hf_formats->data);
+	dpi->header = print_hf_copy (dpi->pi->header ? dpi->pi->header :
+				     hf_formats->data);
+	dpi->footer = print_hf_copy (dpi->pi->footer ? dpi->pi->footer :
+				     hf_formats->data);
 
 	do_setup_hf_menus (dpi, dpi->header, dpi->footer);
 	
