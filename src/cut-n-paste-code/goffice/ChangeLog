@@ -1,3 +1,12 @@
+2004-10-30  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=152765
+	* graph/gog-guru.c (graph_guru_init_format_page): delete_button is
+	really a button now, so connect "clicked" signal instead of
+	"activate".
+	* graph/gog-guru.glade: replace "Delete" menuitem by a button as a
+	workaround of gtk+ bug #155336.
+
 2004-10-29  Morten Welinder  <terra@gnome.org>
 
 	* cut-n-paste/pcre/pcre.c (ord2utf8): Fix ABR.  (Fixed in PCRE

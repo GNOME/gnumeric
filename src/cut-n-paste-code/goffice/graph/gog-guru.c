@@ -1011,7 +1011,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 	s->prec.last  = glade_xml_get_widget (s->gui, "last_precedence");
 
 	g_signal_connect_swapped (G_OBJECT (s->delete_button),
-		"activate",
+		"clicked",
 		G_CALLBACK (cb_graph_guru_delete_item), s);
 	g_signal_connect_swapped (G_OBJECT (s->prec.first),
 		"activate",
