@@ -1,3 +1,10 @@
+2000-10-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_new) : no need for the vbox anymore.
+	  Fix the order of status area initialization in the non-bonobo case.
+
+	* src/workbook-private.h : remove the vbox
+
 2000-10-04  Jon K Hellan  <hellan@acm.org>
 
 	* src/command-context-gui.c (ccg_set_progress): Fix spelling of

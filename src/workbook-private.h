@@ -38,8 +38,6 @@ struct _WorkbookPrivate {
 
 	gboolean during_destruction;
 
-	GtkWidget  *main_vbox;
-
 	GtkWidget  *table;
 	GnomeCanvasItem  *auto_expr_label;
 

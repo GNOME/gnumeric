@@ -2810,6 +2810,9 @@ workbook_new (void)
 	wb->priv->during_destruction = FALSE;
 
 #ifndef ENABLE_BONOBO
+	/* Do BEFORE setting up UI bits in the non-bonobo case */
+	workbook_setup_status_area (wb);
+
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->priv->table);
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
 	gnome_app_install_menu_hints (GNOME_APP (wb->toplevel), workbook_menu);
@@ -2821,10 +2824,7 @@ workbook_new (void)
 	wb->priv->menu_item_redo	  = workbook_menu_edit[1].widget;
 	wb->priv->menu_item_paste_special = workbook_menu_edit[6].widget;
 #else
-	wb->priv->main_vbox = gtk_vbox_new (FALSE, 0);
-	gtk_widget_show (wb->priv->main_vbox);
-	gtk_box_pack_end (GTK_BOX (wb->priv->main_vbox), wb->priv->table, TRUE, TRUE, 0);
-	bonobo_win_set_contents (BONOBO_WIN (wb->toplevel), wb->priv->main_vbox);
+	bonobo_win_set_contents (BONOBO_WIN (wb->toplevel), wb->priv->table);
 
 	wb->priv->workbook_views  = NULL;
 	wb->priv->persist_file    = NULL;
@@ -2845,10 +2845,9 @@ workbook_new (void)
 			component, container, GNOME_DATADIR,
 			"gnumeric.xml", "gnumeric");
 	}
-#endif
-	/* Do after setting up UI bits */
+	/* Do after setting up UI bits in the bonobo case */
 	workbook_setup_status_area (wb);
-
+#endif
 	/* Create before registering verbs so that we can merge some extra. */
  	workbook_create_toolbars (wb);
 
