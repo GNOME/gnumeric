@@ -722,12 +722,17 @@ sheet_update_only_grid (Sheet const *sheet)
 
 	if (p->reposition_selection) {
 		p->reposition_selection = TRUE;
-		sheet_selection_set ((Sheet *)sheet, /* cheat */
-				     sheet->edit_pos.col, sheet->edit_pos.row,
-				     sheet->cursor.base_corner.col,
-				     sheet->cursor.base_corner.row,
-				     sheet->cursor.move_corner.col,
-				     sheet->cursor.move_corner.row);
+                /* when moving we cleared the selection before
+                 * arriving in here.
+                 */
+                if (sheet->selections != NULL)
+			sheet_selection_set ((Sheet *)sheet, /* cheat */
+					     sheet->edit_pos.col,
+					     sheet->edit_pos.row,
+					     sheet->cursor.base_corner.col,
+					     sheet->cursor.base_corner.row,
+					     sheet->cursor.move_corner.col,
+					     sheet->cursor.move_corner.row);
 	}
 
 	if (p->recompute_spans) {
@@ -770,7 +775,7 @@ sheet_update_only_grid (Sheet const *sheet)
 
 	if (p->resize_scrollbar) {
 		SHEET_FOREACH_CONTROL (sheet, control,
-			scg_scrollbar_config (control););
+				       scg_scrollbar_config (control););
 		p->resize_scrollbar = FALSE;
 	}
 }
