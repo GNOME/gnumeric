@@ -1,3 +1,8 @@
+2003-06-30  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+	(committed by Andreas J. Guelzow <aguelzow@taliesin.ca>)
+
+	* format-selector.glade : use a GtkTextView for preview.
+
 2003-07-01  Jody Goldberg <jody@gnome.org>
 
 	* advanced-filter.glade

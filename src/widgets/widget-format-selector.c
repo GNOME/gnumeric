@@ -38,7 +38,7 @@
 #include "widget-format-selector.h"
 
 /* The maximum number of chars in the formatting sample */
-#define FORMAT_PREVIEW_MAX 40
+#define FORMAT_PREVIEW_MAX 25
 
 #define SETUP_LOCALE_SWITCH char *oldlocale = NULL
 
@@ -116,8 +116,11 @@ struct  _NumberFormatSelector {
 	GnmDateConventions const *date_conv;
 
 	struct {
-		GtkLabel	*preview;
-		GtkWidget	*preview_frame;
+		GtkTextView	*preview;
+		GtkWidget	*preview_box;
+		GtkTextBuffer	*preview_buffer;
+		GtkTextTag	*preview_tag;
+
 		GtkWidget	*widget[F_MAX_WIDGET];
 		GtkWidget	*menu;
 		GtkTreeModel	*menu_model;
@@ -226,7 +229,7 @@ draw_format_preview (NumberFormatSelector *nfs, gboolean regen_format)
 	gchar		*preview;
 	StyleFormat	*sf = NULL;
 	StyleColor	*c = NULL;
-	PangoAttrList	*attrs;
+	GtkTextIter	start, end;
 
 	if (regen_format)
 		generate_format (nfs);
@@ -248,17 +251,19 @@ draw_format_preview (NumberFormatSelector *nfs, gboolean regen_format)
 	if (strlen (preview) > FORMAT_PREVIEW_MAX)
 		strcpy (&preview[FORMAT_PREVIEW_MAX - 5], " ...");
 
-	gtk_label_set_text (nfs->format.preview, preview);
-	attrs = pango_attr_list_new ();
+	gtk_text_buffer_set_text (nfs->format.preview_buffer, preview, -1);
 	if (c != NULL) {
-		PangoAttribute	*attr = pango_attr_foreground_new (
-			c->color.red, c->color.green, c->color.blue);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (attrs, attr);
+		g_object_set (G_OBJECT (nfs->format.preview_tag),
+					"foreground-gdk", &(c->color),
+					"foreground-set", TRUE,
+					NULL);
+		gtk_text_buffer_get_bounds (nfs->format.preview_buffer, &start, &end);
+		gtk_text_buffer_apply_tag_by_name (nfs->format.preview_buffer,
+						   "fg", &start, &end);
+		
 		style_color_unref (c);
 	}
-	gtk_label_set_attributes (nfs->format.preview, attrs);
+
 	g_free (preview);
 }
 
@@ -896,8 +901,27 @@ nfs_init (NumberFormatSelector *nfs)
 	nfs->format.negative_format = info.negative_fmt;
 	nfs->format.currency_index = info.currency_symbol_index;
 
-	nfs->format.preview_frame = glade_xml_get_widget (nfs->gui, "preview_frame");
-	nfs->format.preview = GTK_LABEL (glade_xml_get_widget (nfs->gui, "preview"));
+	nfs->format.preview_box = glade_xml_get_widget (nfs->gui, "preview_box");
+	nfs->format.preview = GTK_TEXT_VIEW (glade_xml_get_widget (nfs->gui, "preview"));
+	{
+		PangoFontMetrics *metrics;
+		PangoContext *context;
+		GtkWidget *w = GTK_WIDGET (nfs->format.preview);
+		gint char_width;
+
+		/* request width in number of chars */
+		context = gtk_widget_get_pango_context (w);
+		metrics = pango_context_get_metrics (context,
+						     gtk_widget_get_style(w)->font_desc,
+						     pango_context_get_language (context));
+		char_width = pango_font_metrics_get_approximate_char_width (metrics);
+		gtk_widget_set_size_request (w, PANGO_PIXELS (char_width) * FORMAT_PREVIEW_MAX, -1);
+		pango_font_metrics_unref (metrics);
+	}
+	nfs->format.preview_buffer = gtk_text_view_get_buffer (nfs->format.preview);
+	nfs->format.preview_tag = gtk_text_buffer_create_tag (nfs->format.preview_buffer, "fg",
+							      "foreground-set", FALSE,
+							      NULL);
 
 	nfs->format.menu = glade_xml_get_widget (nfs->gui, "format_menu");
 	populate_menu (nfs);
@@ -928,7 +952,7 @@ nfs_init (NumberFormatSelector *nfs)
 				   nfs->format.widget[F_DECIMAL_LABEL]);
 
 	/* hide preview by default until a value is set */
-	gtk_widget_hide (nfs->format.preview_frame);
+	gtk_widget_hide (nfs->format.preview_box);
 
 	/* setup the structure of the negative type list */
 	nfs->format.negative_types.model = gtk_list_store_new (3,
@@ -1127,7 +1151,7 @@ number_format_selector_set_value (NumberFormatSelector *nfs,
 	}
 	nfs->value = value_duplicate (value);
 
-	gtk_widget_show (nfs->format.preview_frame);
+	gtk_widget_show (nfs->format.preview_box);
 
 	draw_format_preview (nfs, TRUE);
 }

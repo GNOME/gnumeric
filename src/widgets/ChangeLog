@@ -1,3 +1,10 @@
+2003-06-30  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* widget-format-selector.c
+	(draw_format_preview) : handle preview color with text tags.
+	(nfs_init) : use GtkTextView for preview area. Set the requested width
+	of the preview in number of characters.
+
 2003-06-29  Morten Welinder  <terra@gnome.org>
 
 	* widget-format-selector.c
