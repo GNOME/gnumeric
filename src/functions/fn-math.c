@@ -977,6 +977,30 @@ gnumeric_sinh (struct FunctionDefinition *i, Value *argv [], char **error_string
 	return value_float (sinh (value_get_as_double (argv [0])));
 }
 
+static char *help_sqrt = {
+	N_("@FUNCTION=SQRT\n"
+	   "@SYNTAX=SQRT(x)\n"
+
+	   "@DESCRIPTION="
+	   "The SQRT  function  returns  the  square root of x, "
+	   "\n"
+	   "If x is negative returns #NUM!."
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=POW")
+};
+
+static Value *
+gnumeric_sqrt (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	float_t x = value_get_as_double (argv[0]) ;
+	if (x<0) {
+		*error_string = _("#NUM!") ;
+		return NULL ;
+	}
+	return value_float (sqrt(x)) ;
+}
+
 static char *help_sum = {
 	N_("@FUNCTION=SUM\n"
 	   "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1188,6 +1212,7 @@ FunctionDefinition math_functions [] = {
 	{ "radians", "f",    "number",    &help_radians, NULL, gnumeric_radians },
 	{ "sin",     "f",    "number",    &help_sin,     NULL, gnumeric_sin },
 	{ "sinh",    "f",    "number",    &help_sinh,    NULL, gnumeric_sinh },
+	{ "sqrt",    "f",    "number",    &help_sqrt,    NULL, gnumeric_sqrt },
 	{ "sum",     0,      "number",    &help_sum,     gnumeric_sum, NULL },
 	{ "tan",     "f",    "number",    &help_tan,     NULL, gnumeric_tan },
 	{ "tanh",    "f",    "number",    &help_tanh,    NULL, gnumeric_tanh },

@@ -1,6 +1,15 @@
 1999-03-13  Michael Meeks <michael@imaginator.com>
 
-	* src/fn-eng.c (gnumeric_delta): Implemented
+	* src/fn-eng.c (val_to_base, val_to_base_place),
+	(bin/oct/dec/hex 2 bin/oct/dec/hex):
+	Implemented - pending fixes to number storage.
+
+1999-03-13  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-eng.c (gnumeric_delta, gnumeric_sqrtpi),
+	(gnumeric_gestep): Implemented
+	
+	* src/fn-math.c (sqrt): Implemented.
 
 1999-03-13  Michael Meeks <michael@imaginator.com>
 
@@ -46,7 +55,7 @@
 	* src/fn-stat.c (gnumeric_expondist, gnumeric_geomean):
 	Implemented.
 
-1999-03-10  Vladimir Vuksan (vuksan@veus.hr)
+1999-03-10  Vladimir Vuksan <vuksan@veus.hr>
 
 	* src/fn-financial.c: New file.
 
