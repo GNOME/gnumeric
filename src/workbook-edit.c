@@ -127,6 +127,24 @@ workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean 
 		workbook_edit_toolbars_set_sensitive (wbcg, flag2);
 }
 
+static gboolean
+wbcg_edit_error_dialog (WorkbookControlGUI *wbcg, char *str)
+{
+	GnomeDialog *dialog;
+	int ret;
+	
+	dialog = GNOME_DIALOG (
+		gnome_message_box_new (
+		str, GNOME_MESSAGE_BOX_ERROR,
+		_("Edit Expression"), _("Discard Expression"), NULL));
+	/* FIXME: This doesn't seem to have any effect */
+	gnome_dialog_set_default (dialog, 0);
+	gnome_dialog_set_parent (dialog, wbcg->toplevel);
+	ret = gnome_dialog_run (dialog);
+
+	return (ret == 0);
+}
+
 gboolean
 wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 {
@@ -178,6 +196,8 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 							     &pp, TRUE, FALSE, NULL, &perr);
 
 				if (!tree) {
+					gboolean result;
+					
 					/*
 					 * Try adding a single extra paren and see if it helps,
 					 * if an error still occurs we swap back the original
@@ -191,30 +211,29 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 					} else if (real_txt != NULL) {
 						parse_error_free (&perr);
 						perr = perr_paren;
+						g_free (real_txt);
 					}
 
-					/*
-					 * If begin and end char are zero we'll simply
-					 * put the cursor at the end, otherwise we
-					 * select the region indicated.
-					 */
-					if (perr.begin_char == 0 && perr.end_char == 0)
-						gtk_editable_set_position (
-						GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
-					else
-						gtk_entry_select_region (
-							GTK_ENTRY (wbcg_get_entry (wbcg)),
-							perr.begin_char, perr.end_char);
+					result = wbcg_edit_error_dialog (wbcg, perr.message);
 
-					gnome_error_dialog_parented (perr.message, wbcg->toplevel);
-
-					if (real_txt)
-						g_free (real_txt);
-					parse_error_free (&perr);
-
-					gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
+					if (result) {
+						if (perr.begin_char == 0 && perr.end_char == 0)
+							gtk_editable_set_position (
+								GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
+						else
+							gtk_entry_select_region (
+								GTK_ENTRY (wbcg_get_entry (wbcg)),
+								perr.begin_char, perr.end_char);
+						parse_error_free (&perr);
+							
+						gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
 							      GTK_WIDGET (wbcg_get_entry (wbcg)));
-					return FALSE;
+
+						return FALSE;
+					} else {
+						parse_error_free (&perr);
+						return wbcg_edit_finish (wbcg, FALSE);
+					}
 				} else {
 					cmd_set_text (wbc, sheet, &sheet->edit_pos, real_txt ? real_txt : txt);
 					expr_tree_unref (tree);

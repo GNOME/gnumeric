@@ -1,3 +1,11 @@
+2001-08-22  Almer S. Tigelaar  <almer@gnome.org>
+ 
+	* src/workbook-control-gui.c (wbcg_edit_error_dialog) :
+ 	Dialog for displaying errors and giving the user a choice as
+ 	to what action to take.
+ 	(wbcg_edit_finish): Call wbcg_edit_error_dialog and take appropriate
+ 	action depending on the users choice.
+
 2001-08-21  Morten Welinder  <terra@diku.dk>
 
 	* src/style.c (style_font_unref) [AGGRESSIVE_CACHING]: Leave font
