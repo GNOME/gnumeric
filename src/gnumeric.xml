@@ -711,7 +711,7 @@
 	<toolitem name="Arrow"
 	    pixtype="stock" pixname="Gnumeric_Arrow"
 	    _label="Arrow"
-	    _tip="Create a frame" verb="CreateArrow"/>
+	    _tip="Create an arrow" verb="CreateArrow"/>
 
 	<toolitem name="Rectangle"
 	    pixtype="stock" pixname="Gnumeric_Rectangle"
