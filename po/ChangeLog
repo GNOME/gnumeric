@@ -1,5 +1,9 @@
 2003-04-10  Abel Cheung  <maddog@linux.org.hk>
 
+	* zh_TW.po: Updated traditional Chinese translation.
+
+2003-04-10  Abel Cheung  <maddog@linux.org.hk>
+
 	* LEEME.es: Removed.
 	* POTFILES.in: Add some glade files and remove non-existant file.
 	* POTFILES.skip: Remove non-existant file, add src/test-pango.c
