@@ -3,6 +3,7 @@
 
 #include <sys/types.h>
 #include <gnome-xml/tree.h>
+#include <gtk/gtktypeutils.h>
 #include "gnumeric.h"
 #include "error-info.h"
 #include "gutils.h"
