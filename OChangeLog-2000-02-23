@@ -1,5 +1,7 @@
 1998-08-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/parser.y (yylex): Bug fix: allocate the string.
+
 	* src/sheet.c (CRowSort): Sort in the other direction my list of
 	cells.
 	(sheet_cell_foreach_range): Iterate over the lists with ->next,

@@ -86,6 +86,7 @@ line:	  exp           { parser_result = $1;
 	;
 
 exp:	  NUMBER 	{ $$ = $1 }
+	| STRING        { $$ = $1 }
         | CELLREF       { $$ = $1 }
 	| CONSTANT      { $$ = $1 }
 	| exp '+' exp	{
@@ -394,7 +395,8 @@ int yylex (void)
 		return NUMBER;
 	}
 	case '"': {
-		char *string;
+		char *string, *s;
+		int v;
 
                 p = parser_expr;
                 while(*parser_expr && *parser_expr != '"') {
@@ -407,19 +409,20 @@ int yylex (void)
                         return ERROR;
                 }
 		
-		string = (char *) alloca (1 + parser_expr - p);
+		s = string = (char *) alloca (1 + parser_expr - p);
 		while (p != parser_expr){
 			if (*p== '\\'){
 				p++;
-				*string++ = *p++;
+				*s++ = *p++;
 			} else
-				*string++ = *p++;
+				*s++ = *p++;
 			
 		}
-		*string = 0;
+		*s = 0;
 		parser_expr++;
 
-		return return_symbol (string);
+		v = return_symbol (string);
+		return v;
 	}
 	}
 	
