@@ -73,6 +73,7 @@ G_STMT_START { \
 
 guint     gnumeric_strcase_hash  (gconstpointer v);
 gint      gnumeric_strcase_equal (gconstpointer v, gconstpointer v2);
+gint      gnumeric_utf8_collate_casefold (const char *a, const char *b);
 
 /**
  * System and user paths

@@ -297,6 +297,17 @@ gnumeric_strcase_equal (gconstpointer v1, gconstpointer v2)
 	return res;
 }
 
+gint
+gnumeric_utf8_collate_casefold (const char *a, const char *b)
+{
+	char *a2 = g_utf8_casefold (a, -1);
+	char *b2 = g_utf8_casefold (b, -1);
+	int res = g_utf8_collate (a2, b2);
+	g_free (a2);
+	g_free (b2);
+	return res;
+}
+
 /* a char* hash function from ASU */
 guint
 gnumeric_strcase_hash (gconstpointer v)

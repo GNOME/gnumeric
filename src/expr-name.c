@@ -23,6 +23,7 @@
 #include "str.h"
 #include "sheet.h"
 #include "ranges.h"
+#include "gutils.h"
 #include "sheet-style.h"
 
 #include <gdk/gdkkeysyms.h>
@@ -563,7 +564,26 @@ expr_name_is_placeholder (GnmNamedExpr const *nexpr)
 int
 expr_name_by_name (const GnmNamedExpr *a, const GnmNamedExpr *b)
 {
-	return g_utf8_collate (a->name->str, b->name->str);
+	const Sheet *sheeta = a->pos.sheet;
+	const Sheet *sheetb = b->pos.sheet;
+	int res = 0;
+
+	if (sheeta != sheetb) {
+		/* Locals after non-locals.  */
+		if (!sheeta || !sheetb)
+			return (!sheeta) - (!sheetb);
+
+		/* By non-local sheet order.  */
+		res = g_utf8_collate (sheeta->name_case_insensitive,
+				      sheetb->name_case_insensitive);
+	}
+
+	if (res == 0) {
+		/* By name.  */
+		res = gnumeric_utf8_collate_casefold (a->name->str, b->name->str);
+	}
+
+	return res;
 }
 
 /* ---------------------------------------------------------------------- */

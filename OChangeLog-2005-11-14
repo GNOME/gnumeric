@@ -1,3 +1,10 @@
+2002-10-20  Morten Welinder  <terra@diku.dk>
+
+	* src/expr-name.c (expr_name_by_name): Sort case insensitively and
+	take sheets into account.
+
+	* src/gutils.c (gnumeric_utf8_collate_casefold): New function.
+
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
 	* src/auto-format.c (auto_format_init): Make table case sensitive.
