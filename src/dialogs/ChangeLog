@@ -1,5 +1,11 @@
 2003-06-03  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=114312   
+	* advanced-filter.glade : Insert a blank row above the two input lines
+	  so that the table layout matches the doa utils assumptions.
+
+2003-06-03  Jody Goldberg <jody@gnome.org>
+
 	* dialog-define-names.c (name_guru_add) : don't freak out with empty
 	  names.
 

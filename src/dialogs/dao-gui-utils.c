@@ -216,16 +216,3 @@ parse_output (GenericToolState *state, data_analysis_output_t *dao)
 
 	return dao;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
