@@ -56,7 +56,6 @@
 #include <parse-util.h>
 
 #include <gsf/gsf-input-textline.h>
-#include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -287,7 +286,7 @@ applix_read_colormap (ApplixReadState *state)
 
 		iter = pos = buffer + strlen (buffer) - 1;
 		for (count = 6; --count >= 0; pos = iter) {
-			while (--iter > buffer && isdigit ((unsigned char)*iter))
+			while (--iter > buffer && g_ascii_isdigit (*iter))
 				;
 
 			if (iter <= buffer || *iter != ' ')
@@ -435,7 +434,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				continue;
 			}
 
-			if (isdigit ((unsigned char)*sep)) {
+			if (g_ascii_isdigit (*sep)) {
 				StyleHAlignFlags a;
 				switch (*sep) {
 				case '1' : a = HALIGN_LEFT; break;
@@ -492,7 +491,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 						break;
 					}
 
-					if (!isdigit ((unsigned char)sep[1]) ||
+					if (!g_ascii_isdigit (sep[1]) ||
 					    (0 == (id = strtol (sep+1, &end, 10))) ||
 					    sep+1 == end ||
 					    id < 1 || id > 16)
@@ -522,7 +521,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					/* What is 'Gf' ? */
 					if (sep[1] == 'f')
 						sep += 2;
-					else while (isdigit (*(unsigned char *)(++sep)))
+					else while (g_ascii_isdigit (*(++sep)))
 						;
 					break;
 
@@ -954,7 +953,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 				sheet_row_set_size_pixels (sheet, row,
 							  applix_height_to_pixels (height),
 							  TRUE);
-			} while (ptr[0] == ' ' && isdigit ((unsigned char) ptr[1]));
+			} while (ptr[0] == ' ' && g_ascii_isdigit (ptr[1]));
 		} else if (!a_strncmp (buffer, "View Column Widths: ")) {
 			char const *ptr = buffer + 19;
 			char const *tmp;
@@ -975,7 +974,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 				sheet_col_set_size_pixels (sheet, col,
 							   applix_width_to_pixels (width),
 							   TRUE);
-			} while (ptr[0] == ' ' && isalpha ((unsigned char) ptr[1]));
+			} while (ptr[0] == ' ' && g_ascii_isalpha (ptr[1]));
 		}
 	}
 
@@ -1118,7 +1117,7 @@ applix_read_cells (ApplixReadState *state)
 						     (gpointer)expr);
 			} else {
 				const char *key = expr_string + strlen (expr_string);
-				while (key > expr_string && !isspace ((unsigned char)key[-1]))
+				while (key > expr_string && !g_ascii_isspace (key[-1]))
 					key--;
 #if 0
 				printf ("Shared '%s'\n", expr_string);
@@ -1192,7 +1191,7 @@ applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
 			return applix_parse_error (state, "Invalid row format attr index");
 
 	/* Just for kicks they added a trailing space */
-	} while (tmp[0] && isdigit ((unsigned char)tmp[1]));
+	} while (tmp[0] && g_ascii_isdigit (tmp[1]));
 
 	return 0;
 }

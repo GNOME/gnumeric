@@ -53,7 +53,6 @@
 #include <gsf/gsf-outfile.h>
 #include <gsf/gsf-msole-utils.h>
 
-#include <ctype.h>
 #include <math.h>
 
 /* #define NO_DEBUG_EXCEL */
