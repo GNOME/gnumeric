@@ -98,20 +98,20 @@ go_action_combo_disconnect_proxy (GtkAction *action,
 static GtkWidget *
 go_action_combo_create_tool_item (GtkAction *act)
 {
-	GOActionComboText *caction = GO_ACTION_COMBO_TEXT (act);
+	GOActionComboText *taction = GO_ACTION_COMBO_TEXT (act);
 	GOToolComboText *tool = g_object_new (GO_TOOL_COMBO_TEXT_TYPE, NULL);
 	GSList *ptr;
 	int tmp, w = -1;
 
 	tool->combo = (GnmComboText *)gnm_combo_text_new (NULL);
-	if (caction->largest_elem != NULL)
+	if (taction->largest_elem != NULL)
 		w = gnm_measure_string (
 			gtk_widget_get_pango_context (GTK_WIDGET (tool->combo)),
 			gnm_combo_text_get_entry (tool->combo)->style->font_desc, 
-			caction->largest_elem);
-	for (ptr = caction->elements; ptr != NULL ; ptr = ptr->next) {
+			taction->largest_elem);
+	for (ptr = taction->elements; ptr != NULL ; ptr = ptr->next) {
 		gnm_combo_text_add_item	(tool->combo, ptr->data);
-		if (caction->largest_elem == NULL) {
+		if (taction->largest_elem == NULL) {
 			tmp = gnm_measure_string (
 				gtk_widget_get_pango_context (GTK_WIDGET (tool->combo)),
 				gnm_combo_text_get_entry (tool->combo)->style->font_desc, 
@@ -127,6 +127,7 @@ go_action_combo_create_tool_item (GtkAction *act)
 		gnm_combo_text_get_entry (tool->combo), w, -1);
 	g_object_set (G_OBJECT (tool), "visible_vertical", FALSE, NULL);
 
+	gnm_combo_box_set_relief (GNM_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
 	gnm_combo_box_set_tearable (GNM_COMBO_BOX (tool->combo), TRUE);
 	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
@@ -161,15 +162,15 @@ GSF_CLASS (GOActionComboText, go_action_combo_text,
 	   GTK_TYPE_ACTION)
 
 void
-go_action_combo_text_add_item (GOActionComboText *caction, char const *item)
+go_action_combo_text_add_item (GOActionComboText *taction, char const *item)
 {
-	caction->elements = g_slist_append (caction->elements, g_strdup (item));
+	taction->elements = g_slist_append (taction->elements, g_strdup (item));
 }
 
 void
-go_action_combo_text_set_width (GOActionComboText *caction, char const *largest_elem)
+go_action_combo_text_set_width (GOActionComboText *taction, char const *largest_elem)
 {
-	caction->largest_elem = largest_elem;
+	taction->largest_elem = largest_elem;
 }
 
 char const *
@@ -179,7 +180,11 @@ go_action_combo_text_get_entry (GOActionComboText const *a)
 }
 
 void
-go_action_combo_text_set_entry (GOActionComboText *caction, char const *text,
+go_action_combo_text_set_entry (GOActionComboText *taction, char const *text,
 				GOActionComboTextSearchDir dir)
 {
+	GSList *ptr = gtk_action_get_proxies (GTK_ACTION (taction));
+	for ( ; ptr != NULL ; ptr = ptr->next)
+		if (IS_GO_TOOL_COMBO_TEXT (ptr->data))
+			gnm_combo_text_set_text (GO_TOOL_COMBO_TEXT (ptr->data)->combo, text, dir);
 }

@@ -322,6 +322,7 @@ go_action_combo_stack_create_tool_item (GtkAction *a)
 
 	gtk_widget_set_sensitive (GTK_WIDGET (tool), is_sensitive);
 
+	gnm_combo_box_set_relief (GNM_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
 	gnm_combo_box_set_tearable (GNM_COMBO_BOX (tool->combo), TRUE);
 	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));

@@ -1,3 +1,12 @@
+2004-01-24  Jody Goldberg <jody@gnome.org>
+
+	* gui-utils/go-action-combo-text.c (go_action_combo_text_set_entry) :
+	  implement.
+
+	* gui-utils/go-action-combo-stack.c
+	(go_action_combo_stack_create_tool_item) : set the relief here too.
+	  We're close to having a GOActionCombo base for this.
+
 2004-01-23  Jody Goldberg <jody@gnome.org>
 
 	* gui-utils/go-action-combo-stack.c : tweak to make it sorta work.
