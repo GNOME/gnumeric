@@ -1,0 +1,12 @@
+Hello,
+
+The files in this directory (gnumeric/plugins/ff-stf) should no longer be used or worked on, they represent and early version of the STF (Text File Import).
+
+The new STF has been merged into the gnumeric core and can be found in gnumeric/src/ and will be available to you automatically as "Text File import" in the Import dialog.
+
+So, please, don't try to compile, use or modify this code!
+
+Thanks,
+
+Almer. S. Tigelaar.
+almer1@dds.nl

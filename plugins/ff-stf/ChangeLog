@@ -1,3 +1,6 @@
+	The ff-stf plugin is Obsolete, please read README.NOW
+	-----------------------------------------------------
+	
 2000-02-01  Jason Leach  <leach@wam.umd.edu>
 
 	* dialog-stf-format-page.c (format_page_set_col_formatting):

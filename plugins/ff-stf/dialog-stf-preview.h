@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_DIALOG_STF_PREVIEW_H
 #define GNUMERIC_DIALOG_STF_PREVIEW_H
 
+#error "DO _NOT_ USE THE OLD FF-STF PLUGIN! IT IS OBSOLETE, READ README.NOW IN THE gnumeric/plugins/ff-stf DIRECTORY FOR DETAILS"
+
 #include "sheet.h"
 #include "stf.h"
 
