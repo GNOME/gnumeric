@@ -14,14 +14,15 @@
  * directly 
  */
 static int
-gnumeric_check_for_err (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_check_for_err (FunctionEvalInfo *eval_info, GList *expr_node_list)
 {
 	Value * tmp;
+
 	if (g_list_length (expr_node_list) != 1){
-		error_message_set (ei->error, _("Argument mismatch"));
+		error_message_set (eval_info->error, _("Argument mismatch"));
 		return -1;
 	}
-	tmp = eval_expr (ei, (ExprTree *) expr_node_list->data);
+	tmp = eval_expr (eval_info, (ExprTree *) expr_node_list->data);
 
 	if (tmp) {
 		value_release (tmp);
@@ -43,15 +44,16 @@ static char *help_iserror = {
 };
 
 static Value *
-gnumeric_iserror (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_iserror (FunctionEvalInfo *eval_info, GList *expr_node_list)
 {
 	int res;
-	res = gnumeric_check_for_err (ei, expr_node_list);
+	res = gnumeric_check_for_err (eval_info, expr_node_list);
 
 	if (res < 0)
 		return NULL;
+
 	if (res > 0) {
-		error_message_set_small (ei->error, "");
+		error_message_set (eval_info->error, "");
 		return value_new_bool (TRUE);
 	}
 	return value_new_bool (FALSE);
@@ -73,16 +75,18 @@ static char *help_isna = {
  * the error handling mechanism
  */
 static Value *
-gnumeric_isna (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_isna (FunctionEvalInfo *eval_info, GList *expr_node_list)
 {
 	int res;
-	res = gnumeric_check_for_err (ei, expr_node_list);
+
+	res = gnumeric_check_for_err (eval_info, expr_node_list);
 	if (res < 0)
 		return NULL;
+
 	if (res > 0) {
 		gboolean is_NA = (strcmp (gnumeric_err_NA,
-					  error_message_txt(ei->error)) == 0);
-		error_message_set_small (ei->error, "");
+					  error_message_txt(eval_info->error)) == 0);
+		error_message_set (eval_info->error, "");
 		return value_new_bool (is_NA);
 	}
 	return value_new_bool (FALSE);
@@ -100,17 +104,17 @@ static char *help_iserr = {
 };
 
 static Value *
-gnumeric_iserr (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_iserr (FunctionEvalInfo *eval_info, GList *expr_node_list)
 {
 	int res;
-	res = gnumeric_check_for_err (ei, expr_node_list);
+	res = gnumeric_check_for_err (eval_info, expr_node_list);
 
 	if (res < 0)
 		return NULL;
 	if (res > 0) {
 		gboolean is_NA = (strcmp (gnumeric_err_NA,
-					  error_message_txt (ei->error)) == 0);
-		error_message_set_small (ei->error, "");
+					  error_message_txt (eval_info->error)) == 0);
+		error_message_set (eval_info->error, "");
 		return value_new_bool (!is_NA);
 	}
 	return value_new_bool (FALSE);
@@ -129,28 +133,28 @@ static char *help_error_type = {
 };
 
 static Value *
-gnumeric_error_type (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_error_type (FunctionEvalInfo *eval_info, GList *expr_node_list)
 {
 	int retval = 0;
 	
-	if (gnumeric_check_for_err (ei, expr_node_list)) {
-		if (!strcmp (gnumeric_err_NULL, error_message_txt (ei->error)))
+	if (gnumeric_check_for_err (eval_info, expr_node_list)) {
+		if (!strcmp (gnumeric_err_NULL, error_message_txt (eval_info->error)))
 			retval = 1;
-		else if (!strcmp (gnumeric_err_DIV0, error_message_txt (ei->error)))
+		else if (!strcmp (gnumeric_err_DIV0, error_message_txt (eval_info->error)))
 			retval = 2;
-		else if (!strcmp (gnumeric_err_VALUE, error_message_txt (ei->error)))
+		else if (!strcmp (gnumeric_err_VALUE, error_message_txt (eval_info->error)))
 			retval = 3;
-		else if (!strcmp (gnumeric_err_REF, error_message_txt (ei->error)))
+		else if (!strcmp (gnumeric_err_REF, error_message_txt (eval_info->error)))
 			retval = 4;
-		else if (!strcmp (gnumeric_err_NAME, error_message_txt (ei->error)))
+		else if (!strcmp (gnumeric_err_NAME, error_message_txt (eval_info->error)))
 			retval = 5;
-		else if (!strcmp (gnumeric_err_NUM, error_message_txt (ei->error)))
+		else if (!strcmp (gnumeric_err_NUM, error_message_txt (eval_info->error)))
 			retval = 6;
-		else if (!strcmp (gnumeric_err_NA, error_message_txt (ei->error)))
+		else if (!strcmp (gnumeric_err_NA, error_message_txt (eval_info->error)))
 			retval = 7;
 		else
-			return function_error (ei, gnumeric_err_NA);
-		error_message_set_small (ei->error, "");
+			return function_error (eval_info, gnumeric_err_NA);
+		error_message_set (eval_info->error, "");
 	}
 	return value_new_int (retval);
 }
@@ -167,9 +171,9 @@ static char *help_na = {
 };
 
 static Value *
-gnumeric_na (FunctionEvalInfo *ei, Value **argv)
+gnumeric_na (FunctionEvalInfo *eval_info, Value **argv)
 {
-	return function_error (ei, gnumeric_err_NA);
+	return function_error (eval_info, gnumeric_err_NA);
 }
 
 static char *help_error = {
@@ -184,15 +188,12 @@ static char *help_error = {
 };
 
 static Value *
-gnumeric_error (FunctionEvalInfo *ei, Value *argv[])
+gnumeric_error (FunctionEvalInfo *eval_info, Value *argv[])
 {
 	if (argv [0]->type != VALUE_STRING)
-		return function_error (ei, _("Type mismatch"));
+		return function_error (eval_info, _("Type mismatch"));
 
-	/* The error signaling system is broken.  We really cannot allocate a
-	   dynamic error string.  Let's hope the string stays around for long
-	   enough...  */
-	return function_error_alloc (ei, g_strdup (argv [0]->v.str->str));
+	return function_error (eval_info, argv [0]->v.str->str);
 }
 
 void misc_functions_init()

@@ -27,7 +27,7 @@ gnumeric_selection  (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	Value *value;
 	GList *l;
-	int numrange,lp;
+	int numrange, i;
 	Sheet *sheet;
 	
 	/* Type checking */
@@ -35,16 +35,16 @@ gnumeric_selection  (FunctionEvalInfo *ei, GList *expr_node_list)
 		return function_error (ei, _("Invalid number of arguments"));
 
 	sheet = ei->pos.sheet;
-	numrange=g_list_length (sheet->selections);
+	numrange = g_list_length (sheet->selections);
 	value = value_array_new (numrange, 1);
 	
-	lp = 0;
+	i = 0;
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = (SheetSelection *) l->data;
 		Value *single_value;
 		CellRef *cell_ref;
 
-		single_value = value->v.array.vals [lp++][0];
+		single_value = value->v.array.vals [i++][0];
 		single_value->type = VALUE_CELLRANGE;
 
 		/* Fill it in */

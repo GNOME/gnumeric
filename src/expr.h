@@ -169,15 +169,13 @@ typedef Value *(FunctionArgs)  (FunctionEvalInfo *ei, Value **args);
 typedef Value *(FunctionNodes) (FunctionEvalInfo *ei, GList *nodes);
 
 struct _ErrorMessage {
-	const char *err_msg;
-	char       *err_alloced;
-	char        small_err[20];
+	const char *message;
+	char       *alloc;
+	char        small [20];
 };
 
 ErrorMessage *error_message_new       (void);
 void          error_message_set       (ErrorMessage *em, const char *message);
-void          error_message_set_alloc (ErrorMessage *em, char *message);
-void          error_message_set_small (ErrorMessage *em, const char *message);
 gboolean      error_message_is_set    (ErrorMessage *em);
 const char   *error_message_txt       (ErrorMessage *em);
 void          error_message_free      (ErrorMessage *em);

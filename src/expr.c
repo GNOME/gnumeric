@@ -18,147 +18,124 @@
 Value *value_zero = NULL;
 
 EvalPosition *
-eval_pos_init (EvalPosition *fp, Sheet *s, int col, int row)
+eval_pos_init (EvalPosition *eval_pos, Sheet *sheet, int col, int row)
 {
-	g_return_val_if_fail (s, NULL);
-	g_return_val_if_fail (fp, NULL);
-	g_return_val_if_fail (IS_SHEET (s), NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (eval_pos != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	fp->sheet = s;
-	fp->eval_col = col;
-	fp->eval_row = row;
-	return fp;
+	eval_pos->sheet = sheet;
+	eval_pos->eval_col = col;
+	eval_pos->eval_row = row;
+
+	return eval_pos;
 }
 
 EvalPosition *
-eval_pos_cell (EvalPosition *fp, Cell *cell)
+eval_pos_cell (EvalPosition *eval_pos, Cell *cell)
 {
-	g_return_val_if_fail (fp, NULL);
-	g_return_val_if_fail (cell, NULL);
-	g_return_val_if_fail (cell->sheet, NULL);
+	g_return_val_if_fail (eval_pos != NULL, NULL);
+	g_return_val_if_fail (cell != NULL, NULL);
+	g_return_val_if_fail (cell->sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (cell->sheet), NULL);
 
-	return eval_pos_init (fp,
-			      cell->sheet,
-			      cell->col->pos,
-			      cell->row->pos);
+	return eval_pos_init (
+		eval_pos,
+		cell->sheet,
+		cell->col->pos,
+		cell->row->pos);
 }
 
 FunctionEvalInfo *
-func_eval_info_init (FunctionEvalInfo *s, Sheet *sheet, int col, int row)
+func_eval_info_init (FunctionEvalInfo *eval_info, Sheet *sheet, int col, int row)
 {
-	g_return_val_if_fail (s, NULL);
+	g_return_val_if_fail (eval_info != NULL, NULL);
        
-	eval_pos_init (&s->pos, sheet, col, row);
-	s->error = error_message_new ();
-	s->func_def = 0;
-	return s;
+	eval_pos_init (&eval_info->pos, sheet, col, row);
+	eval_info->error = error_message_new ();
+	eval_info->func_def = 0;
+
+	return eval_info;
 }
 
 FunctionEvalInfo *
-func_eval_info_cell (FunctionEvalInfo *s, Cell *cell)
+func_eval_info_cell (FunctionEvalInfo *eval_info, Cell *cell)
 {
-	g_return_val_if_fail (s, NULL);
-	g_return_val_if_fail (cell, NULL);
+	g_return_val_if_fail (eval_info != NULL, NULL);
+	g_return_val_if_fail (cell != NULL, NULL);
 
-	return func_eval_info_init (s,
-				  cell->sheet,
-				  cell->col->pos,
-				  cell->row->pos);
+	return func_eval_info_init (
+		eval_info, cell->sheet,
+		cell->col->pos, cell->row->pos);
 }
 
 FunctionEvalInfo *
-func_eval_info_pos (FunctionEvalInfo *s, const EvalPosition *fp)
+func_eval_info_pos (FunctionEvalInfo *eval_info, const EvalPosition *eval_pos)
 {
-	g_return_val_if_fail (s, NULL);
-	g_return_val_if_fail (fp, NULL);
+	g_return_val_if_fail (eval_info != NULL, NULL);
+	g_return_val_if_fail (eval_pos != NULL, NULL);
 
-	return func_eval_info_init (s,
-				    fp->sheet,
-				    fp->eval_col,
-				    fp->eval_row);
+	return func_eval_info_init (
+		eval_info,
+		eval_pos->sheet,
+		eval_pos->eval_col,
+		eval_pos->eval_row);
 }
 
-ErrorMessage *error_message_new (void)
+ErrorMessage *
+error_message_new (void)
 {
-	ErrorMessage *em = g_new (ErrorMessage, 1);
+	ErrorMessage *error_message = g_new (ErrorMessage, 1);
 
-	em->err_msg      = 0;
-	em->err_alloced  = 0;
-	em->small_err[0] = '\0';
-	return em;
-}
+	error_message->message = NULL;
+	error_message->alloc = NULL;
+	error_message->small [0] = '\0';
 
-#define ERROR_MESSAGE_CLEAN(em) do { em->err_msg = NULL; \
-                                     if (em->err_alloced) { \
-					     g_free (em->err_alloced); \
-					     em->err_alloced = NULL; \
-				     } \
-                                     em->small_err[0] = '\0'; \
-				} while (0)
-
-void
-error_message_set (ErrorMessage *em, const char *message)
-{
-	g_return_if_fail (em);
-	ERROR_MESSAGE_CLEAN (em);
-
-	em->err_msg = message;
+	return error_message;
 }
 
 void
-error_message_set_alloc (ErrorMessage *em, char *message)
+error_message_set (ErrorMessage *error_message, const char *message)
 {
-	g_return_if_fail (em);
-	ERROR_MESSAGE_CLEAN (em);
+	g_return_if_fail (error_message != NULL);
 
-	em->err_alloced  = message;
-}
-
-void
-error_message_set_small (ErrorMessage *em, const char *message)
-{
-	g_return_if_fail (em);
-	g_return_if_fail (message);
-	g_return_if_fail (strlen(message) < 19);
-	ERROR_MESSAGE_CLEAN (em);
-
-	strcpy (em->small_err, message);
+	if (error_message->alloc){
+		g_free (error_message->alloc);
+		error_message->alloc = NULL;
+	}
+	
+	if (strlen (message)+1 < sizeof (error_message->small)){
+		strcpy (error_message->small, message);
+		error_message->message = error_message->small;
+		return;
+	}
+	error_message->alloc = g_strdup (message);
+	error_message->message = error_message->alloc;
 }
 
 const char *
-error_message_txt (ErrorMessage *em)
+error_message_txt (ErrorMessage *error_message)
 {
-	if (!em)
-		return _("Internal Error");
+	g_return_val_if_fail (error_message != NULL, NULL);
 
-	if (em->err_msg)
-		return em->err_msg;
-	if (em->err_alloced)
-		return em->err_msg;
-	return em->small_err;
+	return error_message->message;
 }
 
 /* Can be turned into a #define for speed later */
 gboolean
-error_message_is_set (ErrorMessage *em)
+error_message_is_set (ErrorMessage *error_message)
 {
-	g_return_val_if_fail (em, FALSE);
-	
-	if (em->err_msg || em->err_alloced ||
-	    em->small_err[0] != '\0')
-		return TRUE;
-	return FALSE;
+	g_return_val_if_fail (error_message, FALSE);
+
+	return error_message->message != NULL;
 }
 
 void
-error_message_free (ErrorMessage *em)
+error_message_free (ErrorMessage *error_message)
 {
-	if (em->err_alloced) {
-		g_free (em->err_alloced);
-		em->err_alloced = 0;
-	}
-	g_free (em);
+	if (error_message->alloc)
+		g_free (error_message->alloc);
+	g_free (error_message);
 }
 
 ExprTree *
@@ -236,16 +213,6 @@ function_error (FunctionEvalInfo *fe, char *error_string)
 	g_return_val_if_fail (error_string, NULL);
 
 	error_message_set (fe->error, error_string);
-	return NULL;
-}
-
-Value *
-function_error_alloc (FunctionEvalInfo *fe, char *error_string)
-{
-	g_return_val_if_fail (fe, NULL);
-	g_return_val_if_fail (error_string, NULL);
-
-	error_message_set_alloc (fe->error, error_string);
 	return NULL;
 }
 
@@ -1738,19 +1705,21 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			else
 				a = NULL;
 		}
-		if (a == NULL) /* Seems like errors return NULL */
+		if (a == NULL)
 			return NULL;
 
 		if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY){
 			int const num_x = value_area_get_width (&s->pos, a);
 			int const num_y = value_area_get_height (&s->pos, a);
+
 			if (x < num_x && y < num_y){
 				/* Evaluate relative to the upper left corner */
-				EvalPosition tmp_ep = s->pos; /* blit copy */
+				EvalPosition tmp_ep = s->pos;
 				tmp_ep.eval_col -= x;
 				tmp_ep.eval_row -= y;
-				a = (Value *)value_area_fetch_x_y (&tmp_ep,
-								   a, x, y);
+				a = (Value *)value_area_fetch_x_y (
+					&tmp_ep, 
+					a, x, y);
 			} else
 				return function_error (s, gnumeric_err_NA);
 		} else if (x >= 1 || y >= 1)

@@ -1,3 +1,12 @@
+1999-07-14  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/fn-misc.c (gnumeric_error): Fixed usage of errors with the
+	non-broken setup.
+
+	* src/expr.c (error_message_set): Rewrote the error message logic
+	to be clean and clear.  Simplified and followed the Gnumeric
+	coding conventions.
+
 1999-07-15  Michael Meeks  <michael@edenproject.org>
 
 	* src/summary.c (summary_info_add): Add duplicate entry removal.
