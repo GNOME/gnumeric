@@ -268,6 +268,15 @@ paste_special_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+select_all_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+
+	sheet_select_all (sheet);
+	sheet_redraw_all (sheet);
+}
+
+static void
 goto_cell_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_goto_cell (wb);
@@ -398,6 +407,8 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE, GDK_v, GDK_CONTROL_MASK },
 	{ GNOME_APP_UI_ITEM, N_("P_aste special"), NULL, paste_special_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE },
+	{ GNOME_APP_UI_ITEM, N_("_Select All"), NULL, select_all_cmd, NULL, NULL,
+	  0, 0, GDK_a, GDK_CONTROL_MASK },
 	GNOMEUIINFO_SEPARATOR,
 	{ GNOME_APP_UI_SUBTREE, N_("C_lear"), NULL, &workbook_menu_edit_clear },
 	GNOMEUIINFO_SEPARATOR,

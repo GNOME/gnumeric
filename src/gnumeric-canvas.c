@@ -567,12 +567,6 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 			switch (event->keyval) {
 
-				/* Select all */
-			case GDK_a:
-				sheet_select_all (sheet);
-				sheet_redraw_all (sheet);
-				return 1;
-
 			case GDK_space:
 				sheet_selection_reset_only (sheet);
 				sheet_selection_append_range (
