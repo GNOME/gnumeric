@@ -209,7 +209,6 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		int total = -y;
 		int const real_width = GTK_WIDGET (item->canvas)->allocation.width;
 
-		if (x < 0) x = 0;
 		do {
 			if (element >= SHEET_MAX_ROWS) {
 				GtkWidget *canvas = GTK_WIDGET (item->canvas);
@@ -240,7 +239,6 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		int total = -x;
 		int const real_height = GTK_WIDGET (item->canvas)->allocation.height;
 
-		if (y < 0) y = 0;
 		do {
 			if (element >= SHEET_MAX_COLS) {
 				GtkWidget *canvas = GTK_WIDGET (item->canvas);

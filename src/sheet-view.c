@@ -143,8 +143,6 @@ sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
 	item_bar_fonts_init (ITEM_BAR (sheet_view->row_item), factor);
 
 	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (sheet_view->sheet_view), factor);
-	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (sheet_view->col_canvas), factor);
-	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (sheet_view->row_canvas), factor);
 	
 	gtk_widget_set_usize (GTK_WIDGET (sheet_view->col_canvas),
 			      -1, COLUMN_HEADER_HEIGHT * factor);

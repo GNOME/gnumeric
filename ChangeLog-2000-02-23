@@ -1,5 +1,11 @@
 1999-11-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-view.c (sheet_view_set_zoom_factor) : We are already
+	  manually scaling everything.  Don't do it again by scrolling the
+	  canvas.
+
+	* src/item-bar.c (item_bar_draw) : Burn that silly hack now that the
+	  mysteries have been made clear.  The canvas was auto centering.
 
 	* src/sheet.c (sheet_move_range) : Clear the target region content
 	  and comments before pasting.
