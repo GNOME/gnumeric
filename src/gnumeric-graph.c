@@ -133,7 +133,10 @@ gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 	GNOME_Gnumeric_Scalar_Seq *values;
 	Value *v = vector->value;
 
-	len = value_area_get_height  (&pos, v);
+	len = vector->is_column
+		? value_area_get_height (&pos, v)
+		: value_area_get_width (&pos, v);
+
 	values = GNOME_Gnumeric_Scalar_Seq__alloc ();
 	values->_length = values->_maximum = len;
 	values->_buffer = CORBA_sequence_CORBA_double_allocbuf (len);
@@ -159,7 +162,9 @@ gnm_graph_vector_seq_date (GnmGraphVector *vector)
 	GNOME_Gnumeric_Date_Seq *values;
 	Value *v = vector->value;
 
-	len = value_area_get_height  (&pos, v);
+	len = vector->is_column
+		? value_area_get_height (&pos, v)
+		: value_area_get_width (&pos, v);
 	values = GNOME_Gnumeric_Date_Seq__alloc ();
 	values->_length = values->_maximum = len;
 	values->_buffer = CORBA_sequence_CORBA_long_allocbuf (len);
@@ -184,7 +189,11 @@ gnm_graph_vector_seq_string (GnmGraphVector *vector)
 	GNOME_Gnumeric_String_Seq *values;
 	Value *v = vector->value;
 
-	len = (v != NULL) ? value_area_get_height  (&pos, v) : 1;
+	len = (v == NULL)
+		? 1 
+		: (vector->is_column
+		   ? value_area_get_height (&pos, v)
+		   : value_area_get_width (&pos, v));
 	values = GNOME_Gnumeric_String_Seq__alloc ();
 	values->_length = values->_maximum = len;
 	values->_buffer = CORBA_sequence_CORBA_string_allocbuf (len);

@@ -3,6 +3,10 @@ Gnumeric 0.72
 Almer:
 	* More work on validation.
 
+Jody:
+	* Fix color selectors for drawing objects.
+	* Re-enable support for row vectors in graphs.
+
 Jukka:
 	* Improved COUPDAYS().
 

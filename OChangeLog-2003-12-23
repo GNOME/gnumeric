@@ -1,5 +1,11 @@
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-graph.c (gnm_graph_vector_seq_scalar) : Fix row vectors.
+	(gnm_graph_vector_seq_date) : ditto.
+	(gnm_graph_vector_seq_string) : ditto.
+
+2001-10-10  Jody Goldberg <jgoldberg@home.com>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=62030
 	* src/gui-util.c (color_combo_get_style_color) : new utility.
 	* src/sheet-object-graphic.c (cb_dialog_graphic_clicked) : Use it here.
