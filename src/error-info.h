@@ -3,8 +3,6 @@
 
 #include <glib.h>
 
-typedef struct _ErrorInfo ErrorInfo;
-
 ErrorInfo   *error_info_new_str			  (char const *msg);
 ErrorInfo   *error_info_new_printf		  (char const *msg_format, ...) G_GNUC_PRINTF (1, 2);
 ErrorInfo   *error_info_new_vprintf		  (char const *msg_format, va_list args);
