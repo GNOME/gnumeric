@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.sk\n"
-"POT-Creation-Date: 2003-05-11 22:24-0400\n"
+"POT-Creation-Date: 2003-05-12 17:26-0400\n"
 "PO-Revision-Date: 2003-01-30 11:59+0100\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@kde.org>\n"
 "Language-Team: Slovak <sk-i18n@linux.sk>\n"
@@ -851,7 +851,7 @@ msgstr ""
 "Toto je čiastočne poškodené.\n"
 "Už sme zapísali dĺžku reťazca, ktorý se skrátený kvôli problémom s kódovaním."
 
-#: plugins/excel/ms-excel-write.c:3682
+#: plugins/excel/ms-excel-write.c:3684
 #, c-format
 msgid ""
 "Some content will be lost when saving as excel 95.It only supports %d rows, "
@@ -860,7 +860,7 @@ msgstr ""
 "Pri ukladaní ako excel 95 bude časť obsahu stratená. Podporuje iba %d "
 "riadkov a tento zošit ich má %d"
 
-#: plugins/excel/ms-excel-write.c:3689
+#: plugins/excel/ms-excel-write.c:3691
 #, c-format
 msgid ""
 "Some content will be lost when saving as excel.It only supports %d rows, and "
@@ -869,11 +869,11 @@ msgstr ""
 "Pri ukladaní ako excel bude časť obsahu stratená. Podporuje iba %d riadkov a "
 "tento zošit ich má %d"
 
-#: plugins/excel/ms-excel-write.c:4093
+#: plugins/excel/ms-excel-write.c:4095
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nepodarilo sa otvoriť kanál 'Book' pre zápis\n"
 
-#: plugins/excel/ms-excel-write.c:4113
+#: plugins/excel/ms-excel-write.c:4115
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nepodarilo sa otvoriť kanál 'Workbook' pre zápis\n"
 
@@ -7703,7 +7703,7 @@ msgid ""
 "ADDRESS(5,4,4) equals \"D5\".\n"
 "ADDRESS(5,4,3,FALSE) equals \"R[5]C4\".\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=COLUMNNUMBER"
 msgstr ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(číslo_riadku,číslo_stĺpca[,abs_číslo,a1,text])\n"
@@ -8002,6 +8002,31 @@ msgstr ""
 #: plugins/fn-lookup/functions.c:956
 #, fuzzy
 msgid ""
+"@FUNCTION=COLUMNNUMBER\n"
+"@SYNTAX=COLUMNNUMBER(name)\n"
+"@DESCRIPTION=COLUMNNUMBER function returns an integer corresponding to the "
+"column name supplied as a string.\n"
+"\n"
+"* If @name is invalid, COLUMNNUMBER returns the #VALUE! error.\n"
+"\n"
+"@EXAMPLES=\n"
+"COLUMNNUMBER(\"E\") equals 5.\n"
+"\n"
+"@SEEALSO=ADDRESS"
+msgstr ""
+"@FUNCTION=COLUMNS\n"
+"@SYNTAX=COLUMNS(referencia)\n"
+"@DESCRIPTION=Funkcia COLUMNS vracia počet stĺpcov v oblasti alebo poli "
+"definovanom referenciou.\n"
+"Ak nie je @referencia pole, referencia ani rozsah, vracia #VALUE!.\n"
+"@EXAMPLES=\n"
+"COLUMNS(H2:J3) sa rovná 3.\n"
+"\n"
+"@SEEALSO=COLUMN,ROW,ROWS"
+
+#: plugins/fn-lookup/functions.c:988
+#, fuzzy
+msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
 "@DESCRIPTION=COLUMNS function returns the number of columns in area or array "
@@ -8025,7 +8050,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:981
+#: plugins/fn-lookup/functions.c:1013
 #, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
@@ -8051,7 +8076,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1038
+#: plugins/fn-lookup/functions.c:1070
 #, fuzzy
 msgid ""
 "@FUNCTION=ROW\n"
@@ -8078,7 +8103,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1091
+#: plugins/fn-lookup/functions.c:1123
 #, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
@@ -8103,7 +8128,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1116
+#: plugins/fn-lookup/functions.c:1148
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
@@ -8125,7 +8150,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:1141
+#: plugins/fn-lookup/functions.c:1173
 #, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
@@ -8143,53 +8168,58 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: plugins/fn-lookup/functions.c:1185
+#: plugins/fn-lookup/functions.c:1217
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "číslo_riadku,číslo_stĺpca,abs_počet,a1,text"
 
-#: plugins/fn-lookup/functions.c:1188
+#: plugins/fn-lookup/functions.c:1220
 #, fuzzy
 msgid "reference"
 msgstr "Nas_tavenie..."
 
-#: plugins/fn-lookup/functions.c:1191
+#: plugins/fn-lookup/functions.c:1223
 msgid "index,value,"
 msgstr "index,hodnota,"
 
-#: plugins/fn-lookup/functions.c:1194 plugins/fn-lookup/functions.c:1197
-#: plugins/fn-lookup/functions.c:1221 plugins/fn-lookup/functions.c:1224
+#: plugins/fn-lookup/functions.c:1226 plugins/fn-lookup/functions.c:1232
+#: plugins/fn-lookup/functions.c:1256 plugins/fn-lookup/functions.c:1259
 msgid "ref"
 msgstr "ref"
 
-#: plugins/fn-lookup/functions.c:1200 plugins/fn-lookup/functions.c:1230
+#: plugins/fn-lookup/functions.c:1229
+#, fuzzy
+msgid "colname"
+msgstr "Niektoré meno"
+
+#: plugins/fn-lookup/functions.c:1235 plugins/fn-lookup/functions.c:1265
 msgid "val,range,col_idx,approx,as_index"
 msgstr "hodnota,rozsah,idx_stĺ,pribl,ako_index"
 
-#: plugins/fn-lookup/functions.c:1203
+#: plugins/fn-lookup/functions.c:1238
 msgid "link_location, label"
 msgstr "umiestnenie_odkazu,popis"
 
-#: plugins/fn-lookup/functions.c:1206
+#: plugins/fn-lookup/functions.c:1241
 msgid "ref_string,format"
 msgstr "ref_reťazec,formát"
 
-#: plugins/fn-lookup/functions.c:1209
+#: plugins/fn-lookup/functions.c:1244
 msgid "reference,row,col,area"
 msgstr "referencia,riadok,stĺpec,oblasť"
 
-#: plugins/fn-lookup/functions.c:1212
+#: plugins/fn-lookup/functions.c:1247
 msgid "val,range,range"
 msgstr "hodnota,rozsah,rozsah"
 
-#: plugins/fn-lookup/functions.c:1215
+#: plugins/fn-lookup/functions.c:1250
 msgid "val,range,approx"
 msgstr "hodnota,rozsah,približ"
 
-#: plugins/fn-lookup/functions.c:1218
+#: plugins/fn-lookup/functions.c:1253
 msgid "ref,row,col,height,width"
 msgstr "ref,riadok,stĺpec,výšla,šírka"
 
-#: plugins/fn-lookup/functions.c:1227 plugins/fn-math/functions.c:3269
+#: plugins/fn-lookup/functions.c:1262 plugins/fn-math/functions.c:3269
 msgid "array"
 msgstr "pole"
 
@@ -21501,10 +21531,9 @@ msgstr "Dostupné listy"
 msgid "Bang (!)"
 msgstr "Výkričník (!)"
 
-#: src/dialogs/dialog-stf-export.glade.h:12
-#, fuzzy
-msgid "Charset:"
-msgstr "Graf%d"
+#: src/dialogs/dialog-stf-export.glade.h:12 src/gui-file.c:183
+msgid "Character encoding:"
+msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Choose export formatting"
@@ -21612,7 +21641,7 @@ msgstr "Unix (linefeed)"
 
 #: src/dialogs/dialog-stf-export.glade.h:37
 #, fuzzy
-msgid "Unknown Characters:"
+msgid "Unknown characters:"
 msgstr "Neznámy operátor"
 
 #: src/dialogs/dialog-stf-export.glade.h:38
@@ -24686,10 +24715,6 @@ msgstr "Načítať súbor"
 msgid "File format:"
 msgstr "Formát súboru:"
 
-#: src/gui-file.c:183
-msgid "Character encoding:"
-msgstr ""
-
 #: src/gui-file.c:230
 #, c-format
 msgid ""
@@ -25629,25 +25654,25 @@ msgstr "Vložiť stĺpce"
 msgid "Insert Rows"
 msgstr "Vložiť riadky"
 
-#: src/stf-parse.c:45
+#: src/stf-parse.c:48
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr "Príliš veľa riadkov dát pre spracovanie: %d"
 
-#: src/stf-parse.c:46
+#: src/stf-parse.c:49
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr "Príliš veľa stĺpcov dát pre spracovanie: %d"
 
-#: src/stf.c:111
+#: src/stf.c:112
 msgid "Error while trying to read file"
 msgstr "Chyba pri pokuse o čítanie súboru"
 
-#: src/stf.c:122
+#: src/stf.c:123
 msgid "Error while trying to pre-convert file"
 msgstr "Chyba pri pokuse o prevod súboru"
 
-#: src/stf.c:147
+#: src/stf.c:148
 #, c-format
 msgid ""
 "The file does not appear to use the %s encoding.\n"
@@ -25656,7 +25681,7 @@ msgid ""
 "The next two bytes have (hex) values %02X and %02X."
 msgstr ""
 
-#: src/stf.c:154
+#: src/stf.c:155
 #, c-format
 msgid ""
 "The file does not appear to use the %s encoding.\n"
@@ -25664,7 +25689,7 @@ msgid ""
 "%s.\n"
 msgstr ""
 
-#: src/stf.c:182
+#: src/stf.c:183
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -25675,7 +25700,7 @@ msgstr ""
 "Bol nájdený znak '%s' (ASCII hodnota %d).\n"
 "Vaše nastavenie národného prostredia asi nie je v poriadku."
 
-#: src/stf.c:188
+#: src/stf.c:189
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -25686,37 +25711,37 @@ msgstr ""
 "Bol nájdený znak 0x%d .\n"
 "Vaše nastavenie národného prostredia asi nie je v poriadku."
 
-#: src/stf.c:327 src/stf.c:357
+#: src/stf.c:328 src/stf.c:358
 msgid "Text to Columns"
 msgstr "Text do stĺpcov"
 
-#: src/stf.c:332
+#: src/stf.c:333
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr "Naraz je možné spracovať iba 1 stĺpec <b>vstupu</b>, nie %d"
 
-#: src/stf.c:363
+#: src/stf.c:364
 msgid "Error while trying to parse data into sheet"
 msgstr "Chyba pri pokuse o spracovanie dát do listu"
 
-#: src/stf.c:458
+#: src/stf.c:457
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Chyba pri načítavaní dát do listu"
 
-#: src/stf.c:524
+#: src/stf.c:523
 msgid "Error while trying to write csv file"
 msgstr "Chyba pri zápise csv súboru"
 
-#: src/stf.c:539
+#: src/stf.c:538
 #, fuzzy
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr "Súbory s dátami oddelnými čiarkou alebo tabulátormi (CSV/TSV)"
 
-#: src/stf.c:543
+#: src/stf.c:542
 msgid "Text import (configurable)"
 msgstr "Import textového súboru (nastaviteľné)"
 
-#: src/stf.c:547
+#: src/stf.c:546
 msgid "Text export (configurable)"
 msgstr "Export textového súboru (nastaviteľné)"
 
@@ -27563,9 +27588,13 @@ msgstr "Nemôžete použiť jedno meno dvakrát"
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Nie je súbor so zošitom Gnumeric"
 
-#: src/xml-io.c:3860
+#: src/xml-io.c:3861
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
+
+#, fuzzy
+#~ msgid "Charset:"
+#~ msgstr "Graf%d"
 
 #~ msgid "PLN : Not a PlanPerfect File"
 #~ msgstr "PLN : Nie je súbor PlanPerfect"

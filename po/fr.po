@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.1.17\n"
-"POT-Creation-Date: 2003-05-11 22:24-0400\n"
+"POT-Creation-Date: 2003-05-12 17:26-0400\n"
 "PO-Revision-Date: 2003-02-01 21:11+0100\n"
 "Last-Translator: Olivier Jousselin <oj@marylou.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -1034,7 +1034,7 @@ msgstr ""
 "Une longueur a déjà été affectée à cette chaîne, et elle est tronquée à "
 "cause de problèmes d'encodage."
 
-#: plugins/excel/ms-excel-write.c:3682
+#: plugins/excel/ms-excel-write.c:3684
 #, c-format
 msgid ""
 "Some content will be lost when saving as excel 95.It only supports %d rows, "
@@ -1044,7 +1044,7 @@ msgstr ""
 "Excel 95. Ce format supporte seulement %d colonnes, et votre espace de "
 "travail en comporte %d."
 
-#: plugins/excel/ms-excel-write.c:3689
+#: plugins/excel/ms-excel-write.c:3691
 #, c-format
 msgid ""
 "Some content will be lost when saving as excel.It only supports %d rows, and "
@@ -1054,11 +1054,11 @@ msgstr ""
 "Excel. Ce format supporte seulement %d colonnes, et votre espace de travail "
 "en comporte %d."
 
-#: plugins/excel/ms-excel-write.c:4093
+#: plugins/excel/ms-excel-write.c:4095
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Impossible d'ouvrir le flux « Livre » pour l'écriture\n"
 
-#: plugins/excel/ms-excel-write.c:4113
+#: plugins/excel/ms-excel-write.c:4115
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Impossible d'ouvrir le flux « Classeur » pour l'écriture\n"
 
@@ -8504,6 +8504,7 @@ msgid "Logical Functions"
 msgstr "Fonctions logiques"
 
 #: plugins/fn-lookup/functions.c:327
+#, fuzzy
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -8529,7 +8530,7 @@ msgid ""
 "ADDRESS(5,4,4) equals \"D5\".\n"
 "ADDRESS(5,4,3,FALSE) equals \"R[5]C4\".\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=COLUMNNUMBER"
 msgstr ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(num_lig;num_col[;abs;a1;texte])\n"
@@ -8826,6 +8827,33 @@ msgstr ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
 #: plugins/fn-lookup/functions.c:956
+#, fuzzy
+msgid ""
+"@FUNCTION=COLUMNNUMBER\n"
+"@SYNTAX=COLUMNNUMBER(name)\n"
+"@DESCRIPTION=COLUMNNUMBER function returns an integer corresponding to the "
+"column name supplied as a string.\n"
+"\n"
+"* If @name is invalid, COLUMNNUMBER returns the #VALUE! error.\n"
+"\n"
+"@EXAMPLES=\n"
+"COLUMNNUMBER(\"E\") equals 5.\n"
+"\n"
+"@SEEALSO=ADDRESS"
+msgstr ""
+"@FUNCTION=COLUMNS\n"
+"@SYNTAX=COLUMNS(référence)\n"
+"@DESCRIPTION=La fonction COLUMNS renvoie le nombre de colonnes dans la zone "
+"ou dans le tableau @référence.\n"
+"\n"
+"* Si @référence n'est ni un tableau, ni une référence, ni un intervalle, la "
+"fonction renvoie l'erreur #VALEUR!\n"
+"@EXAMPLES=\n"
+"COLUMNS(H2:J3) vaut 3.\n"
+"\n"
+"@SEEALSO=COLUMN,ROW,ROWS"
+
+#: plugins/fn-lookup/functions.c:988
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -8852,7 +8880,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:981
+#: plugins/fn-lookup/functions.c:1013
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -8878,7 +8906,7 @@ msgstr ""
 "utilisées.\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1038
+#: plugins/fn-lookup/functions.c:1070
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -8906,7 +8934,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1091
+#: plugins/fn-lookup/functions.c:1123
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -8933,7 +8961,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1116
+#: plugins/fn-lookup/functions.c:1148
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
@@ -8954,7 +8982,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:1141
+#: plugins/fn-lookup/functions.c:1173
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -8969,52 +8997,57 @@ msgstr ""
 "@DESCRIPTION=La fonction TRANSPOSE renvoie la transposée de @matrice\n"
 "@SEEALSO=MMULT"
 
-#: plugins/fn-lookup/functions.c:1185
+#: plugins/fn-lookup/functions.c:1217
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "num_ligne;num_col;abs;a1;text"
 
-#: plugins/fn-lookup/functions.c:1188
+#: plugins/fn-lookup/functions.c:1220
 msgid "reference"
 msgstr "référence"
 
-#: plugins/fn-lookup/functions.c:1191
+#: plugins/fn-lookup/functions.c:1223
 msgid "index,value,"
 msgstr "indice;valeur"
 
-#: plugins/fn-lookup/functions.c:1194 plugins/fn-lookup/functions.c:1197
-#: plugins/fn-lookup/functions.c:1221 plugins/fn-lookup/functions.c:1224
+#: plugins/fn-lookup/functions.c:1226 plugins/fn-lookup/functions.c:1232
+#: plugins/fn-lookup/functions.c:1256 plugins/fn-lookup/functions.c:1259
 msgid "ref"
 msgstr "réf"
 
-#: plugins/fn-lookup/functions.c:1200 plugins/fn-lookup/functions.c:1230
+#: plugins/fn-lookup/functions.c:1229
+#, fuzzy
+msgid "colname"
+msgstr "Un nom"
+
+#: plugins/fn-lookup/functions.c:1235 plugins/fn-lookup/functions.c:1265
 msgid "val,range,col_idx,approx,as_index"
 msgstr "valeur;intervalle;ind_colonne;approx;indice"
 
-#: plugins/fn-lookup/functions.c:1203
+#: plugins/fn-lookup/functions.c:1238
 msgid "link_location, label"
 msgstr "empl_lien;étiquette"
 
-#: plugins/fn-lookup/functions.c:1206
+#: plugins/fn-lookup/functions.c:1241
 msgid "ref_string,format"
 msgstr "chaîne_réf;format"
 
-#: plugins/fn-lookup/functions.c:1209
+#: plugins/fn-lookup/functions.c:1244
 msgid "reference,row,col,area"
 msgstr "référence;ligne;col;zone"
 
-#: plugins/fn-lookup/functions.c:1212
+#: plugins/fn-lookup/functions.c:1247
 msgid "val,range,range"
 msgstr "valeur;intervalle;intervalle"
 
-#: plugins/fn-lookup/functions.c:1215
+#: plugins/fn-lookup/functions.c:1250
 msgid "val,range,approx"
 msgstr "valeur;intervalle;approx"
 
-#: plugins/fn-lookup/functions.c:1218
+#: plugins/fn-lookup/functions.c:1253
 msgid "ref,row,col,height,width"
 msgstr "réf;ligne;col;hauteur;largeur"
 
-#: plugins/fn-lookup/functions.c:1227 plugins/fn-math/functions.c:3269
+#: plugins/fn-lookup/functions.c:1262 plugins/fn-math/functions.c:3269
 msgid "array"
 msgstr "tableau"
 
@@ -22412,10 +22445,9 @@ msgstr "Feuilles disponibles"
 msgid "Bang (!)"
 msgstr "Exclamation (!)"
 
-#: src/dialogs/dialog-stf-export.glade.h:12
-#, fuzzy
-msgid "Charset:"
-msgstr "Graphique %d"
+#: src/dialogs/dialog-stf-export.glade.h:12 src/gui-file.c:183
+msgid "Character encoding:"
+msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Choose export formatting"
@@ -22523,7 +22555,7 @@ msgstr "Unix (fin de ligne)"
 
 #: src/dialogs/dialog-stf-export.glade.h:37
 #, fuzzy
-msgid "Unknown Characters:"
+msgid "Unknown characters:"
 msgstr "Opérateur inconnu"
 
 #: src/dialogs/dialog-stf-export.glade.h:38
@@ -25545,10 +25577,6 @@ msgstr "Ouvrir fichier"
 msgid "File format:"
 msgstr "Format de fichier :"
 
-#: src/gui-file.c:183
-msgid "Character encoding:"
-msgstr ""
-
 #: src/gui-file.c:230
 #, c-format
 msgid ""
@@ -26502,25 +26530,25 @@ msgstr "Insérer colonnes"
 msgid "Insert Rows"
 msgstr "Insérer lignes"
 
-#: src/stf-parse.c:45
+#: src/stf-parse.c:48
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr "Trop de lignes dans les données à lire : %d"
 
-#: src/stf-parse.c:46
+#: src/stf-parse.c:49
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr "Trop de colonnes dans les données à lire : %d"
 
-#: src/stf.c:111
+#: src/stf.c:112
 msgid "Error while trying to read file"
 msgstr "Erreur lors de la lecture du fichier"
 
-#: src/stf.c:122
+#: src/stf.c:123
 msgid "Error while trying to pre-convert file"
 msgstr "Erreur lors de la pré-conversion du fichier"
 
-#: src/stf.c:147
+#: src/stf.c:148
 #, c-format
 msgid ""
 "The file does not appear to use the %s encoding.\n"
@@ -26529,7 +26557,7 @@ msgid ""
 "The next two bytes have (hex) values %02X and %02X."
 msgstr ""
 
-#: src/stf.c:154
+#: src/stf.c:155
 #, c-format
 msgid ""
 "The file does not appear to use the %s encoding.\n"
@@ -26537,7 +26565,7 @@ msgid ""
 "%s.\n"
 msgstr ""
 
-#: src/stf.c:182
+#: src/stf.c:183
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -26548,7 +26576,7 @@ msgstr ""
 "Le caractère '%s' (ASCII décimal %d) a été trouvé.\n"
 "Vraisemblablement, vos paramètres de localisation sont incorrects."
 
-#: src/stf.c:188
+#: src/stf.c:189
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -26559,39 +26587,39 @@ msgstr ""
 "L'octet 0x%d a été trouvé.\n"
 "Vraisemblablement, vos paramètres de localisation sont incorrects."
 
-#: src/stf.c:327 src/stf.c:357
+#: src/stf.c:328 src/stf.c:358
 msgid "Text to Columns"
 msgstr "Texte vers colonnes"
 
-#: src/stf.c:332
+#: src/stf.c:333
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr ""
 "Une seule colonne de données d'<b>entrée</b> peut être analysée à la fois, "
 "pas %d"
 
-#: src/stf.c:363
+#: src/stf.c:364
 msgid "Error while trying to parse data into sheet"
 msgstr "Erreur lors de l'insertion de données dans la feuille"
 
-#: src/stf.c:458
+#: src/stf.c:457
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Erreur d'interprétation lors de l'insertion de données dans la feuille"
 
-#: src/stf.c:524
+#: src/stf.c:523
 msgid "Error while trying to write csv file"
 msgstr "Erreur lors de l'écriture du fichier csv"
 
-#: src/stf.c:539
+#: src/stf.c:538
 #, fuzzy
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr "module CSV/TSV (valeurs séparées par des virgules ou des tabulations)"
 
-#: src/stf.c:543
+#: src/stf.c:542
 msgid "Text import (configurable)"
 msgstr "Importation de texte (paramétrable)"
 
-#: src/stf.c:547
+#: src/stf.c:546
 msgid "Text export (configurable)"
 msgstr "Exportation de texte (paramétrable)"
 
@@ -28440,9 +28468,13 @@ msgstr "Vous ne pouvez pas utiliser ce nom deux fois"
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Le fichier n'est pas un fichier classeur Gnumeric"
 
-#: src/xml-io.c:3860
+#: src/xml-io.c:3861
 msgid "Gnumeric XML file format"
 msgstr "Format de fichier Gnumeric XML"
+
+#, fuzzy
+#~ msgid "Charset:"
+#~ msgstr "Graphique %d"
 
 #~ msgid "PLN : Not a PlanPerfect File"
 #~ msgstr "PLN : N'est pas un fichier PlanPerfect"

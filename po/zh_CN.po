@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
-"POT-Creation-Date: 2003-05-11 22:24-0400\n"
+"POT-Creation-Date: 2003-05-12 17:26-0400\n"
 "PO-Revision-Date: 2001-08-10 11:05-0400\n"
 "Last-Translator: Donald Park <xlpark@kankou.cs.uec.ac.jp>\n"
 "Language-Team: Chinese Team\n"
@@ -720,26 +720,26 @@ msgid ""
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3682
+#: plugins/excel/ms-excel-write.c:3684
 #, c-format
 msgid ""
 "Some content will be lost when saving as excel 95.It only supports %d rows, "
 "and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3689
+#: plugins/excel/ms-excel-write.c:3691
 #, c-format
 msgid ""
 "Some content will be lost when saving as excel.It only supports %d rows, and "
 "this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4093
+#: plugins/excel/ms-excel-write.c:4095
 #, fuzzy
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "不能打开写入流\n"
 
-#: plugins/excel/ms-excel-write.c:4113
+#: plugins/excel/ms-excel-write.c:4115
 #, fuzzy
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "不能打开写入流\n"
@@ -7167,7 +7167,7 @@ msgid ""
 "ADDRESS(5,4,4) equals \"D5\".\n"
 "ADDRESS(5,4,3,FALSE) equals \"R[5]C4\".\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=COLUMNNUMBER"
 msgstr ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -7444,6 +7444,29 @@ msgstr ""
 #: plugins/fn-lookup/functions.c:956
 #, fuzzy
 msgid ""
+"@FUNCTION=COLUMNNUMBER\n"
+"@SYNTAX=COLUMNNUMBER(name)\n"
+"@DESCRIPTION=COLUMNNUMBER function returns an integer corresponding to the "
+"column name supplied as a string.\n"
+"\n"
+"* If @name is invalid, COLUMNNUMBER returns the #VALUE! error.\n"
+"\n"
+"@EXAMPLES=\n"
+"COLUMNNUMBER(\"E\") equals 5.\n"
+"\n"
+"@SEEALSO=ADDRESS"
+msgstr ""
+"@FUNCTION=COLUMNS\n"
+"@SYNTAX=COLUMNS(reference)\n"
+"@DESCRIPTION=COLUMNS 函数返回区域或数组参照中的列数. \n"
+"如果 @reference 即不是数组又不是参照或者范围时返回 #VALUE! 错误. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=COLUMN,ROW,ROWS"
+
+#: plugins/fn-lookup/functions.c:988
+#, fuzzy
+msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
 "@DESCRIPTION=COLUMNS function returns the number of columns in area or array "
@@ -7465,7 +7488,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:981
+#: plugins/fn-lookup/functions.c:1013
 #, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
@@ -7492,7 +7515,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1038
+#: plugins/fn-lookup/functions.c:1070
 #, fuzzy
 msgid ""
 "@FUNCTION=ROW\n"
@@ -7516,7 +7539,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1091
+#: plugins/fn-lookup/functions.c:1123
 #, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
@@ -7541,7 +7564,7 @@ msgstr ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 
 # src/fn-math.c:1290
-#: plugins/fn-lookup/functions.c:1116
+#: plugins/fn-lookup/functions.c:1148
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
@@ -7564,7 +7587,7 @@ msgstr ""
 "@SEEALSO="
 
 # src/fn-string.c:84
-#: plugins/fn-lookup/functions.c:1141
+#: plugins/fn-lookup/functions.c:1173
 #, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
@@ -7582,58 +7605,64 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: plugins/fn-lookup/functions.c:1185
+#: plugins/fn-lookup/functions.c:1217
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr ""
 
 # src/dialog-paste-special.c:65
-#: plugins/fn-lookup/functions.c:1188
+#: plugins/fn-lookup/functions.c:1220
 #, fuzzy
 msgid "reference"
 msgstr "选项..."
 
-#: plugins/fn-lookup/functions.c:1191
+#: plugins/fn-lookup/functions.c:1223
 msgid "index,value,"
 msgstr ""
 
 # src/format.c:408
-#: plugins/fn-lookup/functions.c:1194 plugins/fn-lookup/functions.c:1197
-#: plugins/fn-lookup/functions.c:1221 plugins/fn-lookup/functions.c:1224
+#: plugins/fn-lookup/functions.c:1226 plugins/fn-lookup/functions.c:1232
+#: plugins/fn-lookup/functions.c:1256 plugins/fn-lookup/functions.c:1259
 #, fuzzy
 msgid "ref"
 msgstr "红色"
 
-#: plugins/fn-lookup/functions.c:1200 plugins/fn-lookup/functions.c:1230
+# src/workbook.c:1810 src/workbook.c:1838
+#: plugins/fn-lookup/functions.c:1229
+#, fuzzy
+msgid "colname"
+msgstr "一些名"
+
+#: plugins/fn-lookup/functions.c:1235 plugins/fn-lookup/functions.c:1265
 msgid "val,range,col_idx,approx,as_index"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1203
+#: plugins/fn-lookup/functions.c:1238
 msgid "link_location, label"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1206
+#: plugins/fn-lookup/functions.c:1241
 msgid "ref_string,format"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1209
+#: plugins/fn-lookup/functions.c:1244
 msgid "reference,row,col,area"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1212
+#: plugins/fn-lookup/functions.c:1247
 #, fuzzy
 msgid "val,range,range"
 msgstr "数据范围"
 
-#: plugins/fn-lookup/functions.c:1215
+#: plugins/fn-lookup/functions.c:1250
 msgid "val,range,approx"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1218
+#: plugins/fn-lookup/functions.c:1253
 msgid "ref,row,col,height,width"
 msgstr ""
 
 # src/workbook.c:882
-#: plugins/fn-lookup/functions.c:1227 plugins/fn-math/functions.c:3269
+#: plugins/fn-lookup/functions.c:1262 plugins/fn-math/functions.c:3269
 #, fuzzy
 msgid "array"
 msgstr "箭头"
@@ -21523,10 +21552,9 @@ msgstr "可用的表格"
 msgid "Bang (!)"
 msgstr "感叹符(!)"
 
-#: src/dialogs/dialog-stf-export.glade.h:12
-#, fuzzy
-msgid "Charset:"
-msgstr "第 K 个最大的:"
+#: src/dialogs/dialog-stf-export.glade.h:12 src/gui-file.c:183
+msgid "Character encoding:"
+msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Choose export formatting"
@@ -21639,7 +21667,7 @@ msgstr "Unix (换行)"
 # src/expr.c:1044
 #: src/dialogs/dialog-stf-export.glade.h:37
 #, fuzzy
-msgid "Unknown Characters:"
+msgid "Unknown characters:"
 msgstr "不明的演算符"
 
 #: src/dialogs/dialog-stf-export.glade.h:38
@@ -25166,10 +25194,6 @@ msgstr "载入文件"
 msgid "File format:"
 msgstr "文件格式:"
 
-#: src/gui-file.c:183
-msgid "Character encoding:"
-msgstr ""
-
 #: src/gui-file.c:230
 #, c-format
 msgid ""
@@ -26174,26 +26198,26 @@ msgstr "插入列"
 msgid "Insert Rows"
 msgstr "插入行"
 
-#: src/stf-parse.c:45
+#: src/stf-parse.c:48
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr "对数据进行扫描时有太多的行数: %d"
 
-#: src/stf-parse.c:46
+#: src/stf-parse.c:49
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr "对数据进行扫描时有太多的列书: %d"
 
-#: src/stf.c:111
+#: src/stf.c:112
 #, fuzzy
 msgid "Error while trying to read file"
 msgstr "当试图写 csv 文件时出现错误"
 
-#: src/stf.c:122
+#: src/stf.c:123
 msgid "Error while trying to pre-convert file"
 msgstr "当试图预转换文件时出现错误"
 
-#: src/stf.c:147
+#: src/stf.c:148
 #, c-format
 msgid ""
 "The file does not appear to use the %s encoding.\n"
@@ -26202,7 +26226,7 @@ msgid ""
 "The next two bytes have (hex) values %02X and %02X."
 msgstr ""
 
-#: src/stf.c:154
+#: src/stf.c:155
 #, c-format
 msgid ""
 "The file does not appear to use the %s encoding.\n"
@@ -26210,7 +26234,7 @@ msgid ""
 "%s.\n"
 msgstr ""
 
-#: src/stf.c:182
+#: src/stf.c:183
 #, fuzzy, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -26221,7 +26245,7 @@ msgstr ""
 "发现字符 '%c' (ASCII 十进制数 %d).\n"
 "恐怕您的 locale 设置有问题."
 
-#: src/stf.c:188
+#: src/stf.c:189
 #, fuzzy, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -26233,39 +26257,39 @@ msgstr ""
 "恐怕您的 locale 设置有问题."
 
 # src/dialog-delete-cells.c:36
-#: src/stf.c:327 src/stf.c:357
+#: src/stf.c:328 src/stf.c:358
 #, fuzzy
 msgid "Text to Columns"
 msgstr "删除列"
 
-#: src/stf.c:332
+#: src/stf.c:333
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr ""
 
-#: src/stf.c:363
+#: src/stf.c:364
 #, fuzzy
 msgid "Error while trying to parse data into sheet"
 msgstr "当试图把数据扫描进表格时出现语法错误"
 
-#: src/stf.c:458
+#: src/stf.c:457
 msgid "Parse error while trying to parse data into sheet"
 msgstr "当试图把数据扫描进表格时出现语法错误"
 
-#: src/stf.c:524
+#: src/stf.c:523
 msgid "Error while trying to write csv file"
 msgstr "当试图写 csv 文件时出现错误"
 
-#: src/stf.c:539
+#: src/stf.c:538
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr ""
 
-#: src/stf.c:543
+#: src/stf.c:542
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "文本文件输入 (可自订)"
 
-#: src/stf.c:547
+#: src/stf.c:546
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "文本文件输入 (可自订)"
@@ -28245,9 +28269,13 @@ msgid "The file is not a Gnumeric Workbook file"
 msgstr "不是 Gnumeric 工作本文件"
 
 # src/xml-io.c:1637
-#: src/xml-io.c:3860
+#: src/xml-io.c:3861
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 文件格式"
+
+#, fuzzy
+#~ msgid "Charset:"
+#~ msgstr "第 K 个最大的:"
 
 #~ msgid "PLN : Not a PlanPerfect File"
 #~ msgstr "PLN: 不是一个 PlanPerfect 文件"
