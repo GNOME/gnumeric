@@ -606,7 +606,7 @@ wb_view_save_as (WorkbookView *wbv, WorkbookControl *wbc,
 		gnumeric_io_error_display (io_context);
 		success = FALSE;
 	}
-	gtk_object_destroy (GTK_OBJECT (io_context));
+	gtk_object_unref (GTK_OBJECT (io_context));
 
 	return success;
 }
@@ -651,7 +651,7 @@ wb_view_save (WorkbookView *wbv, WorkbookControl *wbc)
 		gnumeric_io_error_display (io_context);
 		success = FALSE;
 	}
-	gtk_object_destroy (GTK_OBJECT (io_context));
+	gtk_object_unref (GTK_OBJECT (io_context));
 
 	return success;
 }

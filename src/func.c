@@ -1022,7 +1022,7 @@ function_iterate_argument_values (const EvalPos      *ep,
 		if (strict && val->type == VALUE_ERROR) {
 			/* Be careful not to make value_terminate into a real value */
 			/* FIXME : Make the new position of the error here */
-			return (val != value_terminate ())? value_duplicate (val) : val;
+			return val;
 		}
 
 		result = function_iterate_do_value (ep, callback, callback_closure,
