@@ -3704,14 +3704,14 @@ show_gui (WorkbookControlGUI *wbcg)
 	int sy = MAX (gdk_screen_height (), 200);
 	int x_loc = 0;
 	int y_loc = 0;
-	gboolean reposition_window;
+	gboolean reposition_window = FALSE;
 
-	reposition_window = x_geometry && wbv && 
+	reposition_window = x_geometry && wbv && wbcg->notebook &&
 		(wbv->preferred_width == 0 && wbv->preferred_height == 0) &&
 		sscanf (x_geometry, "%ix%i+%i+%i", 
 			&wbv->preferred_width, &wbv->preferred_height,
 			&x_loc, &y_loc) > 2;
-	x_geometry = NULL;
+		x_geometry = NULL;
 
 /* Set grid size to preferred width */
 	if (wbv && (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
