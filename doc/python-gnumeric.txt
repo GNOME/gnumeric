@@ -121,6 +121,9 @@ A : Either an Array or a Range.
 | : This designates that the arguments in the token string
     following this character are optional.
 
+For functions which accept an arbitrary number of parameters, give an
+empty parameter_declaration.
+
 Python mapping of Gnumeric values.
 ----------------------------------
 
@@ -134,10 +137,13 @@ VALUE_FLOAT      <=>    Python float
 VALUE_STRING     <=>    Python string
 VALUE_CELLRANGE  <=>    Python CellRange class
 VALUE_EMPTY      <=>    Python None
-VALUE_BOOLEAN     =>    Python integer
+VALUE_BOOLEAN     =>    Python Boolean class
 VALUE_ERROR      <=>    Python Exception class (not yet done)
 VALUE_ARRAY      <=>    Python list of lists. array[y][x] denotes row
                         y, column x of the array.
+
+The classes CellRange, CellRef and Boolean live in the module
+gnumeric_defs, which is imported on startup.
 
 CellRange objects are a tuple of two CellRef objects. The CellRef
 class has the following attributes:
@@ -149,9 +155,12 @@ class has the following attributes:
 The first four are integers (the Python plugin C code enforces
 this). Sheet is not yet implemented.
 
-When we map boolean to integer, we cannot decide if a Python integer
-represents a VALUE_INTEGER or a VALUE_BOOLEAN. If this is found to be
-a problem, we will use a class instead.
+Here is why we use a class for booleans: Many built-in spreadsheet
+functions treat the boolean values TRUE and FALSE differently from the
+integers 0 and 1. So they have to be able to tell whether a Python
+function returned a boolean or an integer. The objects
+gnumeric_defs.TRUE and gnumeric_defs.FALSE are instantiated on
+startup.
 
 Invoking Gnumeric functions from Python
 --------------------------------------
@@ -193,5 +202,5 @@ original VALUE_ERROR.
 Python environment
 ------------------
 
-In the plugin, sys.path is the directory "gnumeric/python" in the
-Gnome directory appended to your regular sys.path.
+The directory "gnumeric/python" in the Gnome directory is appended to
+sys.path.

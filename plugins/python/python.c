@@ -4,11 +4,7 @@
 
 /**
  * TODO:
- * Booleans - Do we need a distinguished data type so that Gnumeric can
- *            recognize that Python is returning a boolean? If so, we can
- *            define a Python boolean class.
  * Cell ranges - The sheet attribute is not yet handled.
- * Varargs
  */
 
 #include <config.h>
@@ -25,6 +21,7 @@
 
 /* Classes we define in Python code, and where we define them. */
 #define GNUMERIC_DEFS_MODULE "gnumeric_defs"
+#define BOOLEAN_CLASS    "Boolean"
 #define CELL_REF_CLASS   "CellRef"
 #define CELL_RANGE_CLASS "CellRange"
 
@@ -165,13 +162,18 @@ range_to_python (Value *v)
  * @v   value union
  *
  * Converts a boolean to Python. Returns owned reference to python object.
- * NOTE: This implementation converts to Python	integer, so it will not
- * be possible to convert back to Gnumeric boolean.
+ * gnumeric_defs.FALSE and gnumeric_defs.TRUE are pre-initialized instances of
+ * the class gnumeric_defs.Boolean.
  */
 static PyObject *
 boolean_to_python (Value *v)
 {
-	return PyInt_FromLong (v->v.v_bool);
+	PyObject *mod;
+
+	if ((mod = PyImport_ImportModule (GNUMERIC_DEFS_MODULE)) == NULL)
+		return NULL;
+
+	return PyObject_GetAttrString (mod, v->v.v_bool ? "TRUE" : "FALSE");
 }
 
 /**
@@ -257,22 +259,22 @@ value_to_python (Value *v)
 
 	switch (v->type) {
 	case VALUE_INTEGER:
-		o = PyInt_FromLong(v->v.v_int);
+		o = PyInt_FromLong (v->v.v_int);
 		break;
 	case VALUE_FLOAT:
-		o = PyFloat_FromDouble(v->v.v_float);
+		o = PyFloat_FromDouble (v->v.v_float);
 		break;
 	case VALUE_STRING:
-		o = PyString_FromString(v->v.str->str);
+		o = PyString_FromString (v->v.str->str);
 		break;
 	case VALUE_CELLRANGE:
-		o = range_to_python(v);
+		o = range_to_python (v);
 		break;
 	case VALUE_EMPTY:
 		Py_INCREF (Py_None);
 		o = Py_None;
 		break;
-	case VALUE_BOOLEAN:	/* Sort of implemented */
+	case VALUE_BOOLEAN:
 		o = boolean_to_python (v);
 		break;
 	case VALUE_ARRAY:
@@ -287,10 +289,58 @@ value_to_python (Value *v)
 }
 
 /**
+ * boolean_check
+ * @o    Python object
+ *
+ * Returns TRUE if object is an instance of gnumeric_defs.Boolean and
+ * FALSE otherwise.
+ * I don't believe this is 100% kosher, but should work in practice. A 100 %
+ * solution seems to require that the boolean class be defined in C.
+ */
+static int
+boolean_check (PyObject *o)
+{
+	PyObject *klass;
+	gchar *s;
+	
+	if (!PyObject_HasAttrString (o, "__class__"))
+		return FALSE;
+	
+	klass = PyObject_GetAttrString  (o, "__class__");
+	s = PyString_AsString (PyObject_Str(klass));
+	Py_XDECREF (klass);
+	return (s != NULL &&
+		strcmp (s, (GNUMERIC_DEFS_MODULE "." BOOLEAN_CLASS)) == 0);
+}
+
+/**
+ * boolean_from_python
+ * @o    Python object
+ *
+ * Converts an instance of gnumeric_defs.Boolean to Gnumeric boolean.
+ * Returns Gnumeric value on success, NULL on failure.
+ */
+static Value *
+boolean_from_python (PyObject *o)
+{
+	PyObject *ret;
+	Value *v;
+	
+	if (!(ret = PyObject_CallMethod (o, "__nonzero__", NULL)))
+		return NULL;
+
+	v = value_new_bool (PyInt_AsLong (ret) ? TRUE : FALSE);
+
+	Py_DECREF (ret);
+	return v;
+}
+
+/**
  * range_check
  * @o    Python object
  *
- * Returns TRUE if object is a Python cell range and FALSE otherwise
+ * Returns TRUE if object is an instance of gnumeric_defs.CellRange and FALSE
+ * otherwise. 
  * I don't believe this is 100% kosher, but should work in practice. A 100 %
  * solution seems to require that the cell range and cell ref classes are
  * defined in C.
@@ -368,10 +418,8 @@ cleanup:
  * range_from_python
  * @o    Python object
  *
- * Converts a Python cell range to Gnumeric. Returns TRUE on success and
- * FALSE on failure.
- * Conforms to calling conventions for converter functions for
- * PyArg_ParseTuple. 
+ * Converts a Python cell range to Gnumeric. Returns Gnumeric value on success,
+ * NULL on failure.
  */
 static Value *
 range_from_python (PyObject *o)
@@ -507,6 +555,8 @@ value_from_python (PyObject *o)
 		v = value_new_float ((float_t) PyFloat_AsDouble (o));
 	} else if (PyString_Check (o)) {
 		v = value_new_string (PyString_AsString (o));
+	} else if (boolean_check (o)) {
+		v = boolean_from_python (o);
 	} else if (array_check (o)) {
 		v = array_from_python (o);
 	} else if (range_check (o)) {
@@ -531,16 +581,20 @@ fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
 	return (fdata->fndef != fndef);
 }
 
+/**
+ * call_function
+ * @ei    Function definition and context
+ * @args  Python arguments tuple
+ *
+ * Call function, with args, and return result as a Gnumeric Value
+ */
 static Value *
-marshal_func (FunctionEvalInfo *ei, Value *argv [])
+call_function (FunctionEvalInfo *ei, PyObject *args)
 {
-	PyObject *args, *result;
+	PyObject *result;
 	FunctionDefinition const * const fndef = ei->func_def;
 	Value *v = NULL;
 	GList *l;
-	int i, min, max, actual;
-	
-	function_def_count_args (fndef, &min, &max);
 	
 	/* Find the Python code object for this FunctionDefinition. */
 	l = g_list_find_custom (funclist, (gpointer)fndef,
@@ -549,26 +603,8 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 		return value_new_error
 			(ei->pos, _("Unable to lookup Python code object."));
 
-	/* Count actual arguments */
-	for (actual = min; actual < max; actual++)
-		if (!argv [actual])
-			break;
-	
-	/* Build the argument list which is a Python tuple. */
-	args = PyTuple_New (actual + 1);
-
-	/* First, the EvalInfo */
-	PyTuple_SetItem (args, 0, PyCObject_FromVoidPtr ((void *) ei, NULL));
-
-	/* Now, the actual arguments */
-	for (i = 0; i < actual; i++) {
-		/* ref is stolen from us */
-		PyTuple_SetItem (args, i + 1, value_to_python (argv [i]));
-	}
-
 	/* Call the Python object. */
 	result = PyEval_CallObject (((FuncData *)(l->data))->codeobj, args);
-	Py_DECREF (args);
 
 	if (result) {
 		v = value_from_python (result);
@@ -578,6 +614,91 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 		v = value_from_exception (ei);
 	}
 
+	return v;
+}
+
+/**
+ * marshal_func_args
+ * @ei    Function definition and context
+ * @argv  Gnumeric argument vector.
+ *
+ * Marshal  a fixed number of arguments and hand them to call_function.
+ * Optional arguments are supported.
+ */
+static Value *
+marshal_func_args (FunctionEvalInfo *ei, Value *argv [])
+{
+	PyObject *args;
+	FunctionDefinition const * const fndef = ei->func_def;
+	Value *v = NULL;
+	int i, min, max, argc;
+	
+	g_return_val_if_fail (ei != NULL, NULL);
+	g_return_val_if_fail (ei->func_def != NULL, NULL);
+
+	function_def_count_args (fndef, &min, &max);
+	
+	/* Count actual arguments */
+	for (argc = min; argc < max; argc++)
+		if (!argv [argc])
+			break;
+	
+	/* Build the argument list which is a Python tuple. */
+	args = PyTuple_New (argc + 1);
+
+	/* First, the EvalInfo */
+	PyTuple_SetItem (args, 0, PyCObject_FromVoidPtr ((void *) ei, NULL));
+
+	/* Now, the actual arguments */
+	for (i = 0; i < argc; i++) {
+		/* ref is stolen from us */
+		PyTuple_SetItem (args, i + 1, value_to_python (argv [i]));
+	}
+
+	v = call_function (ei, args);
+
+	Py_DECREF (args);
+	return v;
+}
+
+/**
+ * marshal_func_nodes
+ * @ei     Function definition and context
+ * @nodes  Argument list
+ *
+ * Marshal a variable number of arguments and hand them to call_function.
+ */
+static Value *
+marshal_func_nodes (FunctionEvalInfo *ei, GList *nodes)
+{
+	PyObject *args;
+	Value *v = NULL, *ev;
+	GList *l;
+	int i, argc;
+	
+	g_return_val_if_fail (ei != NULL, NULL);
+	g_return_val_if_fail (ei->func_def != NULL, NULL);
+
+	/* Count actual arguments */
+	argc = g_list_length (nodes);
+	
+	/* Build the argument list which is a Python tuple. */
+	args = PyTuple_New (argc + 1);
+
+	/* First, the EvalInfo */
+	PyTuple_SetItem (args, 0, PyCObject_FromVoidPtr ((void *) ei, NULL));
+
+	/* Now, the actual arguments */
+	for (i = 0, l = nodes; i < argc && l; i++, l = l->next) {
+		ev = eval_expr (ei->pos, l->data);
+		/* ref is stolen from us */
+		PyTuple_SetItem (args, i + 1, value_to_python (ev));
+		value_release (ev);
+	}
+	
+	v = call_function (ei, args);
+
+	Py_DECREF (args);
 	return v;
 }
 
@@ -621,15 +742,14 @@ apply (PyObject *m, PyObject *py_args)
 	values = g_new0(Value*, num_args);
 	for (i = 0; i < num_args; ++i)
 	{
+		Py_XDECREF (item);
 		item = PySequence_GetItem (seq, i);
 		if (item == NULL)
 			goto cleanup;
-		Py_DECREF (item);
 		values[i] = value_from_python (item);
 		if (PyErr_Occurred ())
 			goto cleanup;
 	}
-	Py_INCREF (item);	/* Otherwise, we would decrement twice. */
 
 	v = function_call_with_values (ei->pos, funcname, num_args, values);
 	if (v->type == VALUE_ERROR) {
@@ -657,6 +777,10 @@ cleanup:
  * @py_args  Argument tuple
  *
  * Make a Python function known to Gnumeric. Returns the Python object None. 
+ *
+ * hmm. How to distinguish between varargs and no args?.
+ *      - Don't distinguish at all?
+ *      - Separate keyword arguments: args and varargs?
  *
  * Signature when called from Python:
  *      gnumeric.register_function (string function_name,
@@ -687,8 +811,15 @@ register_function (PyObject *m, PyObject *py_args)
 	cat   = function_get_category (category_name);
 	help  = g_new (char *, 1);
 	*help = g_strdup (help1);
-	fndef = function_add_args (cat, g_strdup (name), g_strdup (args),
-				   g_strdup (named_args), help, marshal_func);
+	if (*args)
+		fndef = function_add_args (cat, g_strdup (name),
+					   g_strdup (args),
+					   g_strdup (named_args), help,
+					   marshal_func_args);
+	else
+		fndef = function_add_nodes (cat, g_strdup (name), NULL,
+					    g_strdup (named_args), help,
+					    marshal_func_nodes);
 
 	fdata = g_new (FuncData, 1);
 	fdata->fndef   = fndef;

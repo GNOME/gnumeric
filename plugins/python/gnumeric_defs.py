@@ -1,6 +1,23 @@
 # Definitions for the Python plugin for Gnumeric.
 
 import types
+
+class Boolean:
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        if self.__nonzero__():
+            return 'TRUE'
+        else:
+            return 'FALSE'
+
+    def __nonzero__(self):
+        return self.value != 0
+
+TRUE  = Boolean(1)
+FALSE = Boolean(0)
+
 class CellRef:
     def __init__(self, column, row, col_relative=0,
                  row_relative=0, sheet=""):

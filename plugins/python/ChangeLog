@@ -1,3 +1,22 @@
+2000-03-03  Jon K Hellan  <hellan@acm.org>
+
+	* python.c 
+	(value_to_python): Update comment.
+	(boolean_to_python): Use class gnumeric_defs.Boolean - we can now
+	recognize booleans and convert them back.
+	(boolean_check): New function: Checks if object is instance of
+	gnumeric_defs.Boolean.
+	(boolean_from_python): New function: Convert back to VALUE_BOOLEAN.
+	(range_from_python): Remove misleading comment.
+	(value_from_python): Handle boolean.
+	(call_function): Factored out of marshal_func.
+	(marshal_func): Rename to marshal_func_args. Added sanity checks.
+	(marshal_func_nodes): New function. Handles varargs.
+	(register_function): Handle varargs.
+	(apply): Fix refcounting bug.
+
+	* gnumeric_defs.py (Boolean): New class. Implements boolean.
+
 2000-03-02  Jon K Hellan  <hellan@acm.org>
 
 	* python.c (apply): Plug "Value" leak. 
