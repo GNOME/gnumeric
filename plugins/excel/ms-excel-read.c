@@ -3798,26 +3798,22 @@ excel_read_GUTS (BiffQuery *q, ExcelReadSheet *esheet)
 	sheet_colrow_gutter (esheet->sheet, FALSE, row_gut);
 }
 
-#if 0
-/* Status as of September 2004: we cannot use this information in a reasonable
-   way yet, as the current (2.8) gnome-print API is problematic:
-   "the printinfo has a gp printconfig which stores the settings [but] when we
-   set a printer it overrides the previous settings with the printer defaults"
-
-   map a BIFF4 SETUP paper size number to the equivalent libgnomeprint paper
+/* Map a BIFF4 SETUP paper size number to the equivalent libgnomeprint paper
    name or width and height.
-   The mapping can be derived from http://sc.openoffice.org/excelfileformat.pdf
-   and the documentation for the Spreadsheet::WriteExcel perl module.
+   This mapping was derived from http://sc.openoffice.org/excelfileformat.pdf
+   and from the documentation for the Spreadsheet::WriteExcel perl module
+   (http://freshmeat.net/projects/writeexcel/).
  */
 #define PAPER_NAMES_LEN 91
 typedef struct {
 	/* libgnomeprint's name for a physical paper size,
-	 * or its width and heigth in gnomeprint units */
+	 * or its width and height in gnomeprint units */
 	const char *gp_name, *gp_width, *gp_height;
 } paper_size_table_entry;
 
 static paper_size_table_entry const paper_size_table[PAPER_NAMES_LEN] = {
 	{ NULL, NULL, NULL },		/* printer default / undefined */
+
 	{ "USLetter", NULL, NULL },
 	{ "USLetter", NULL, NULL },	/* Letter small */
 	{ NULL, "11in", "17in" },	/* Tabloid */
@@ -3830,16 +3826,111 @@ static paper_size_table_entry const paper_size_table[PAPER_NAMES_LEN] = {
 	{ "A4", NULL, NULL },
 	{ "A4", NULL, NULL },		/* A4 small */
 
-	/* TODO: remainder of table */
+	{ "A5", NULL, NULL },
+	{ "B4", NULL, NULL },
+	{ "B5", NULL, NULL },
+	{ NULL, "8.5in", "13in" },	/* Folio */
+	{ NULL, "215mm", "275mm" },	/* Quarto */
+
+	{ NULL, "10in", "14in" },	/* 10x14 */
+	{ NULL, "11in", "17in" },	/* 11x17 */
+	{ NULL, "8.5in", "11in" },	/* Note */
+	{ NULL, "3.875in", "8.875in" },	/* Envelope #9 */
+	{ NULL, "4.125in", "9.5in" },	/* Envelope #10 */
+		/* FIXME: is this "Envelope_No10"? */
+
+	{ NULL, "4.5in", "10.375in" },	/* Envelope #11 */
+	{ NULL, "4.75in", "11in" },	/* Envelope #12 */
+	{ NULL, "5in", "11.5in" },	/* Envelope #14 */
+	{ NULL, "17in", "22in" },	/* C */
+	{ NULL, "22in", "34in" },	/* D */
+
+	{ NULL, "34in", "44in" },	/* E */
+	{ "DL", NULL, NULL },		/* Envelope DL */
+	{ "C5", NULL, NULL },		/* Envelope C5 */
+	{ "C3", NULL, NULL },		/* Envelope C3 */
+	{ "C4", NULL, NULL },		/* Envelope C4 */
+
+	{ "C6", NULL, NULL },		/* Envelope C6 */
+	{ "C6_C5", NULL, NULL },	/* Envelope C6/C5 */
+	{ "B4", NULL, NULL },
+	{ "B5", NULL, NULL },
+	{ "B6", NULL, NULL },
+
+	{ NULL, "110mm", "230mm" },	/* Envelope Italy */
+	{ NULL, "3.875in", "7.5in" },	/* Envelope Monarch */
+	{ NULL, "3.625in", "6.5in" },	/* 6 1/2 Envelope */
+	{ NULL, "14.875in", "11in" },	/* US Standard Fanfold */
+	{ NULL, "8.5in", "12in" },	/* German Std Fanfold */
+
+	{ NULL, "8.5in", "13in" },	/* German Legal Fanfold */
+	{ "B4", NULL, NULL },		/* Yes, twice... */
+	{ NULL, "100mm", "148mm" },	/* Japanese Postcard */
+	{ NULL, "9in", "11in" },	/* 9x11 */
+	{ NULL, "10in", "11in" },	/* 10x11 */
+
+	{ NULL, "15in", "11in" },	/* 15x11 */
+	{ NULL, "220mm", "220mm" },	/* Envelope Invite */
+	{ NULL, NULL, NULL },		/* undefined */
+	{ NULL, NULL, NULL },		/* undefined */
+	{ NULL, "9.5", "12in" },	/* Letter Extra */
+
+	{ NULL, "9.5", "15in" },	/* Legal Extra */
+	{ NULL, "11.6875in", "18in" },	/* Tabloid Extra */
+	{ NULL, "235mm", "232mm" },	/* A4 Extra */
+	{ "USLetter", NULL, NULL },	/* Letter Transverse */
+	{ "A4", NULL, NULL },		/* A4 Transverse */
+
+	{ NULL, "9.5", "12in" },	/* Letter Extra Transverse */
+	{ NULL, "227mm", "356mm" },	/* Super A/A4 */
+	{ NULL, "305mm", "487mm" },	/* Super B/A3 */
+	{ NULL, "8.5in", "12.6876in" },	/* Letter Plus */
+	{ NULL, "210mm", "330mm" },	/* A4 Plus */
+
+	{ "A5",	NULL, NULL },		/* A5 Transverse */
+	{ "B5", NULL, NULL },		/* B5 (JIS) Transverse */
+	{ NULL, "322mm", "445mm" },	/* A3 Extra */
+	{ NULL, "174mm", "235mm" },	/* A5 Extra */
+	{ NULL, "201mm", "276mm" },	/* B5 (ISO) Extra */
+
+	{ "A2", NULL, NULL },
+	{ "A3", NULL, NULL },		/* A3 Transverse */
+	{ NULL, "322mm", "445mm" },	/* A3 Extra Transverse */
+	{ NULL, "200mm", "148mm" },	/* Dbl. Japanese Postcard */
+	{ "A6", NULL, NULL },
+
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ NULL, "11in", "8.5in" },	/* Letter Rotated */
+
+	{ NULL, "420mm", "297mm" },	/* A3 Rotated */
+	{ NULL, "297mm", "210mm" },	/* A4 Rotated */
+	{ NULL, "210mm", "148mm" },	/* A5 Rotated */
+	{ NULL, "364mm", "257mm" },	/* B4 (JIS) Rotated */
+	{ NULL, "257mm", "182mm" },	/* B5 (JIS) Rotated */
+
+	{ NULL, "148mm", "100mm" },	/* Japanese Postcard Rot. */
+	{ NULL, "148mm", "200mm" },	/* Dbl. Jap. Postcard Rot. */
+	{ NULL, "148mm", "105mm" },	/* A6 Rotated */
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+
+
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ "B6", NULL, NULL },		/* B6 (JIS) */
+	{ NULL, "182mm", "128mm" },	/* B6 (JIS) Rotated */
+	{ NULL, "12in", "11in" },	/* 12x11 */
 };
-#endif
 
 
 static void
 excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	PrintInformation *pi = esheet->sheet->print_info;
-	guint16  grbit; /* , papersize; */
+	guint16  grbit, papersize;
 
 	g_return_if_fail (q->length == 34);
 
@@ -3866,7 +3957,6 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 			pi->scaling.percentage.x = pi->scaling.percentage.y = 100.;
 		}
 
-#if 0
 		papersize = GSF_LE_GET_GUINT16 (q->data + 0);
 		fprintf (stderr,"Paper size %hu\n", papersize);
 
@@ -3880,14 +3970,11 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 			guchar *paper_width = (guchar *)paper_size_table[papersize].gp_width;
 			guchar *paper_height = (guchar *)paper_size_table[papersize].gp_width;
 			if (paper_name != NULL) {
-				gnome_print_config_set(pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_SIZE, (guchar *)paper_name);
+				print_info_set_paper (pi, paper_name);
 			} else if ((paper_width != NULL) && (paper_height != NULL)) {
-				gnome_print_config_set(pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_WIDTH, (guchar *)paper_width);
-				gnome_print_config_set(pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_HEIGHT, (guchar *)paper_height);
+				g_warning ("No gnome-print name for paper size %s x %s - ignoring", paper_width, paper_height);
 			}
-			/* fprintf (stderr,"GPC: %s\n", gnome_print_config_to_string(pi->print_config, 0)); */
 		}
-#endif
 	}
 
 	pi->print_black_and_white = (grbit & 0x8) == 0x8;
