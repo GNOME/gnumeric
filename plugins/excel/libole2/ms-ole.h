@@ -75,11 +75,11 @@ typedef struct {
 #define MsOleDontMmap FALSE
 
 /* Create new OLE file */
-#define ms_ole_create(n,m) ms_ole_create_vfs ((n), (m), MsOleDoMmap, NULL)
+#define ms_ole_create(f,name)    ms_ole_create_vfs ((f), (name), MsOleDoMmap, NULL)
 extern MsOleErr ms_ole_create_vfs  (MsOle **f, const char *name, int try_mmap,
 				    MsOleSysWrappers *wrappers);
 /* Open existing OLE file */
-#define ms_ole_open(n,m) ms_ole_open_vfs ((n), (m), MsOleDoMmap, NULL)
+#define ms_ole_open(f,name)    ms_ole_open_vfs ((f), (name), MsOleDoMmap, NULL)
 extern MsOleErr ms_ole_open_vfs    (MsOle **f, const char *name,
 				    gboolean try_mmap,
 				    MsOleSysWrappers *wrappers);
@@ -130,7 +130,7 @@ struct _MsOleStream
 extern MsOleErr ms_ole_stream_open       (MsOleStream ** const stream, MsOle *f,
 					  const char *path, const char *fname, char mode);
 extern MsOleErr ms_ole_stream_close      (MsOleStream ** const s);
-extern MsOleErr ms_ole_stream_duplicate  (MsOleStream ** const copy,
+extern MsOleErr ms_ole_stream_duplicate  (MsOleStream ** const s,
 					  const MsOleStream * const stream);
 
 

@@ -1,3 +1,7 @@
+1999-12-15  Arturo Tena  <arturo@directmail.org>
+
+	* ms-ole.c, ms-ole.h: more documentation.
+
 1999-12-11  Frank Chiulli  <fchiulli@home.com>
 
 	* ms-ole-summary.c (write_items): Correct the code that keeps track of

@@ -1423,6 +1423,13 @@ new_null_msole ()
 	return f;
 }
 
+
+/**
+ * ms_ole_ref:
+ * @f: filesystem object.
+ * 
+ * Increment by one the count of references to the filesystem.
+ **/
 void
 ms_ole_ref (MsOle *f)
 {
@@ -1430,6 +1437,13 @@ ms_ole_ref (MsOle *f)
 	f->ref_count++;
 }
 
+
+/**
+ * ms_ole_unref:
+ * @f: filesystem object.
+ * 
+ * Decrement by one the count of references to the filesystem.
+ **/
 void
 ms_ole_unref (MsOle *f)
 {
@@ -1437,16 +1451,18 @@ ms_ole_unref (MsOle *f)
 	f->ref_count--;
 }
 
+
 /**
  * ms_ole_open_vfs:
- * @f: FIXME
- * @name: name of OLE2 file to open.
- * @try_mmap: TRUE if try to mmap the OLE2 file.
+ * @f: filesystem object.
+ * @name: path of the filesystem-in-the file on the actual filesystem.
+ * @try_mmap: TRUE if try to mmap(2) the filesystem-in-a-file,
+ *            instead of opening.
  * @wrappers: system functions wrappers, NULL if standard functions are used.
  * 
- * Opens a pre-existing OLE2 file, use ms_ole_create() to create a new file.
+ * Opens the filesystem-in-the-file @name and creates the filesystem object @f.
  * 
- * Return value: a handle to the file or NULL on failure.
+ * Return value: a #MsOleErr code.
  **/
 MsOleErr
 ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
@@ -1552,16 +1568,18 @@ ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
 	return MS_OLE_ERR_OK;
 }
 
+
 /**
  * ms_ole_create_vfs:
- * @f: FIXME
- * @name: filename of new OLE file.
- * @try_mmap: TRUE if try to mmap the OLE2 file.
+ * @f: filesystem object.
+ * @name: path of the filesystem-in-the file on the actual filesystem.
+ * @try_mmap: TRUE if try to mmap(2) the filesystem-in-a-file,
+ *            instead of opening.
  * @wrappers: system functions wrappers, NULL if standard functions are used.
  * 
- * Creates an OLE2 file: @name.
+ * Creates the filesystem-in-the-file @name and creates the filesystem @f.
  *
- * Return value: pointer to new file or NULL on failure.
+ * Return value: a #MsOleErr code.
  **/
 MsOleErr
 ms_ole_create_vfs (MsOle **f, const char *name, gboolean try_mmap,
@@ -1682,11 +1700,12 @@ destroy_pps (GList *l)
 	g_list_free (l);
 }
 
+
 /**
  * ms_ole_destroy:
- * @ptr: OLE2 file handle.
+ * @ptr: filesystem object.
  * 
- * Closes @f and truncates any free blocks.
+ * Closes the filesystem @ptr and truncates any free blocks.
  **/
 void
 ms_ole_destroy (MsOle **ptr)
@@ -1737,6 +1756,14 @@ ms_ole_destroy (MsOle **ptr)
 	*ptr = NULL;
 }
 
+
+/**
+ * ms_ole_dump:
+ * @ptr: memory area to be dumped.
+ * @len: how many bytes will be dumped.
+ * 
+ * Dump @len bytes from the memory area @ptr.
+ **/
 void
 ms_ole_dump (guint8 const *ptr, guint32 len)
 {
@@ -1758,6 +1785,7 @@ ms_ole_dump (guint8 const *ptr, guint32 len)
 		printf ("\n");
 	}
 }
+
 
 /*
  * Redundant stream check function.
@@ -1802,11 +1830,13 @@ check_stream (MsOleStream *s)
 	}
 }
 
+
 static MsOlePos
 tell_pos (MsOleStream *s)
 {
 	return s->position;
 }
+
 
 /*
  * Free the allocation chains, and free up the blocks.
@@ -1892,6 +1922,17 @@ free_allocation (MsOle *f, guint32 startblock, gboolean is_big_block_stream)
 	}
 }
 
+
+/**
+ * ms_ole_lseek:
+ * @s: 
+ * @bytes: 
+ * @type: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 static MsOleSPos
 ms_ole_lseek (MsOleStream *s, MsOleSPos bytes, MsOleSeek type)
 {
@@ -1914,6 +1955,7 @@ ms_ole_lseek (MsOleStream *s, MsOleSPos bytes, MsOleSeek type)
 	s->position = newpos;
 	return newpos;
 }
+
 
 static guint8*
 ms_ole_read_ptr_bb (MsOleStream *s, MsOlePos length)
@@ -1954,6 +1996,7 @@ ms_ole_read_ptr_bb (MsOleStream *s, MsOlePos length)
 	return ans;
 }
 
+
 static guint8*
 ms_ole_read_ptr_sb (MsOleStream *s, MsOlePos length)
 {
@@ -1992,6 +2035,7 @@ ms_ole_read_ptr_sb (MsOleStream *s, MsOlePos length)
 
 	return ans;
 }
+
 
 /*
  *  Returns:
@@ -2046,6 +2090,7 @@ ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 	return 1;
 }
 
+
 static MsOlePos
 ms_ole_read_copy_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 {
@@ -2092,6 +2137,7 @@ ms_ole_read_copy_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 		check_stream (s);
 	return 1;
 }
+
 
 static void
 ms_ole_append_block (MsOleStream *s)
@@ -2158,6 +2204,7 @@ ms_ole_append_block (MsOleStream *s)
 	}
 }
 
+
 /* FIXME: I'm sure these functions should fail gracefully somehow :-) */
 static MsOlePos
 ms_ole_write_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
@@ -2206,6 +2253,7 @@ ms_ole_write_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 
 	return length;
 }
+
 
 static MsOlePos
 ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
@@ -2475,6 +2523,16 @@ path_to_pps (PPS **pps, MsOle *f, const char *path,
 	return MS_OLE_ERR_EXIST;
 }
 
+
+/**
+ * ms_ole_unlink:
+ * @f: filesystem object
+ * @path: path of the stream or directory to unlink.
+ *
+ * Delete the stream or directory @path on the filesystem @f.
+ *
+ * Return value: a #MsOleErr code.
+ **/
 MsOleErr
 ms_ole_unlink (MsOle *f, const char *path)
 {
@@ -2482,6 +2540,17 @@ ms_ole_unlink (MsOle *f, const char *path)
 	return MS_OLE_ERR_NOTEMPTY;
 }
 
+
+/**
+ * ms_ole_directory:
+ * @names:
+ * @f: filesystem object.
+ * @path:
+ *
+ * Gets the names of the streams and directories in a directory.
+ *
+ * Returns: a MsOleErr code.
+ **/
 MsOleErr
 ms_ole_directory (char ***names, MsOle *f, const char *path)
 {
@@ -2520,6 +2589,19 @@ ms_ole_directory (char ***names, MsOle *f, const char *path)
 	return MS_OLE_ERR_OK;
 }
 
+
+/**
+ * ms_ole_stat:
+ * @stat: stat information.
+ * @f: filesystem object
+ * @path:
+ * @file:
+ *
+ * Gets informatino about the stream or a directory which is in the directory
+ * @path and its name is @file.
+ *
+ * Returns: a MsOleErr code
+ **/
 MsOleErr
 ms_ole_stat (MsOleStat *stat, MsOle *f, const char *path,
 	     const char *file)
@@ -2548,15 +2630,15 @@ ms_ole_stat (MsOleStat *stat, MsOle *f, const char *path,
 
 /**
  * ms_ole_stream_open:
- * @stream: FIXME
- * @f: FIXME
- * @path: FIXME
- * @fname: FIXME
- * @mode: mode of opening stream.
+ * @stream: stream object.
+ * @f: filesystem object.
+ * @path:
+ * @fname:
+ * @mode: mode of opening stream ('r' for read only or 'w' for write only).
  * 
- * @mode is 'r' for read only or 'w' for write only.
- * 
- * Return value: handle to an stream.
+ * Opens the stream @path and creates the stream object @stream.
+ *
+ * Return value: a MsOleErr code.
  **/
 MsOleErr
 ms_ole_stream_open (MsOleStream ** const stream, MsOle *f,
@@ -2701,13 +2783,15 @@ ms_ole_stream_open (MsOleStream ** const stream, MsOle *f,
 	return MS_OLE_ERR_OK;
 }
 
+
 /**
- * ms_ole_stream_copy:
- * @s: stream to be copied
+ * ms_ole_stream_duplicate:
+ * @s: stream object copy.
+ * @stream: stream object to be duplicated.
  * 
- * Duplicates stream _handle_ @s
+ * Duplicates the stream object @stream.
  * 
- * Return value: copy of @s
+ * Return value: a MsOleErr code.
  **/
 MsOleErr
 ms_ole_stream_duplicate (MsOleStream **s, const MsOleStream * const stream)
@@ -2727,13 +2811,14 @@ ms_ole_stream_duplicate (MsOleStream **s, const MsOleStream * const stream)
 	return MS_OLE_ERR_OK;
 }
 
+
 /**
  * ms_ole_stream_close:
- * @s: stream handle
+ * @s: stream object to be closed.
  * 
- * Closes stream @s and de-allocates resources.
+ * Closes the stream @s.
  * 
- * Return value: FIXME
+ * Return value: a MsOleErr code.
  **/
 MsOleErr
 ms_ole_stream_close (MsOleStream **s)
