@@ -18,14 +18,13 @@
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 void oleo_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                     WorkbookView *wb_view, const char *filename);
-
+                     WorkbookView *wb_view, GsfInput *input);
 
 void
 oleo_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                WorkbookView *wb_view, const char *filename)
+                WorkbookView *wb_view, GsfInput *input)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 
-	oleo_read (io_context, wb, filename);
+	oleo_read (io_context, wb, input);
 }

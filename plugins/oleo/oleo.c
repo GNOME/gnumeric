@@ -25,10 +25,10 @@
 #include <number-match.h>
 
 #include <libgnome/gnome-i18n.h>
+#include <gsf/gsf-input-textline.h>
 
 #include <ctype.h>
 #include <string.h>
-#include <stdlib.h>
 
 #define OLEO_DEBUG 0
 
@@ -223,7 +223,7 @@ oleo_parse_formula (char const *text, Sheet *sheet, int col, int row)
 }
 
 static void
-oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *crow)
+oleo_deal_with_cell (guint8 *str, Sheet *sheet, int *ccol, int *crow, MStyle *style)
 {
 	Cell *cell;
 	GnmExpr const *expr = NULL;
@@ -311,8 +311,8 @@ oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *cro
  * parse the command as it may update current row/column
  */
 static void
-oleo_deal_with_format (MStyle **style,
-		       char *str, Sheet *sheet, int *ccol, int *crow)
+oleo_deal_with_format (guint8 *str, Sheet *sheet, int *ccol, int *crow,
+		       MStyle **style)
 {
 	char *ptr = str + 1, fmt_string[100];
 	MStyle *mstyle = mstyle_new_default ();
@@ -370,47 +370,29 @@ oleo_new_sheet (Workbook *wb, int idx)
 }
 
 void
-oleo_read (IOContext *io_context, Workbook *wb, gchar const *filename)
+oleo_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 {
-	FILE *f;
 	int sheetidx  = 0;
 	int ccol = 0, crow = 0;
 	Sheet *sheet = NULL;
 	MStyle *style = NULL;
-	char str[2048];
-	ErrorInfo *error;
-
-	f = gnumeric_fopen_error_info (filename, "rb", &error);
-	if (f == NULL) {
-		gnumeric_io_error_info_set (io_context, error);
-		return;
-	}
+	guint8 *line;
+	GsfInputTextline *textline = gsf_input_textline_new (input);
 
 	sheet = oleo_new_sheet (wb, sheetidx++);
 
-	while (1) {
-		char *n;
-		fgets (str, 2000, f);
-		str[2000] = 0;
-		if (feof (f))
-			break;
-
-		n = strchr (str, '\n');
-		if (n)
-			*n = 0;
-		else
-			break;
-
-		switch (str[0]) {
+	while (NULL != (line = gsf_input_textline_ascii_gets (textline))) {
+		switch (line[0]) {
 
 		case '#': /* Comment */
 			break;
 
-		case 'C': oleo_deal_with_cell (str, sheet, style, &ccol, &crow);
+		case 'C': oleo_deal_with_cell (line, sheet, &ccol, &crow, style);
 			break;
 
-		case 'F': oleo_deal_with_format (&style, str, sheet, &ccol, &crow);
+		case 'F': oleo_deal_with_format (line, sheet, &ccol, &crow, &style);
 			break;
+
 		default: /* unknown */
 #if OLEO_DEBUG > 0
 			g_warning ("oleo: Don't know how to deal with %c.",
@@ -420,5 +402,5 @@ oleo_read (IOContext *io_context, Workbook *wb, gchar const *filename)
 		}
 	}
 
-	fclose (f);
+	g_object_unref (G_OBJECT (textline));
 }

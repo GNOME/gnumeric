@@ -1,3 +1,11 @@
+2002-06-08  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (oleo_file_open) : convert to libgsf.
+
+	* oleo.c (oleo_read) : convert to libgsf.
+	(oleo_deal_with_format) : rationalize the calling convention.
+	(oleo_deal_with_cell) : ditto.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4
