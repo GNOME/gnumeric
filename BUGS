@@ -153,17 +153,29 @@ Architecture Changes
 		9.1.1.1.4) grouping symbols
 	    9.1.1.2) row header
 		9.1.1.2.1) grouping symbols
-	9.1.2) item-grid
-	9.1.3) item-cursor
-    9.2) spans
+	9.1.2) item-cursor
+	    9.1.2.1) basic drawing				(DONE)
+	    9.1.2.2) drag
+	    9.1.2.4) re-position the autofill handle
+	9.1.3) item-grid
+	    9.1.3.1) single cells				(DONE)
+	    9.1.3.2) borders
+	    9.1.3.3) spans					(DONE)
+	    9.1.3.4) merges
+	9.1.4) item-edit
+    9.2) spans (cheat swap left/right align)			(DONE)
     9.3) Model
 	9.3.1) Add GtkAction					(DONE)
-	9.3.2) Store state in SCG				(DONE)
-	9.3.3) Store state in sheet or view (where ?)
-	9.3.4) Have action set state and flip GtkWidget dir	(DONE)
-	9.3.5) swap action icon depending on state
-	9.3.6) Add a new style element for text dir
-	9.3.7) Add entry to format dialog to set text dir
+	9.3.2) Store state in scg				(DONE)
+	9.3.3) Store state in view				(DONE)
+	9.3.4) Store state in sheet				(DONE)
+	9.3.5) Update view when sheet changes			(DONE)
+	9.3.6) update sheet-controls when view changes		(DONE)
+	9.3.7) update wbcg when view changes			(DONE)
+	9.3.8) update wbcg when switching tabs 			(DONE)
+	9.3.9) Add a new style element for text dir		(DONE)
+	9.3.10) swap action icon depending on state
+	9.3.11) Add entry to format dialog to set text dir
     9.4) Persistence
 	9.4.1) xml dom
 	    9.4.1.1) in
@@ -174,6 +186,11 @@ Architecture Changes
 	9.4.2) xls
 	    9.4.2.1) 97 in {understood}
 	    9.4.2.2) 97 out
+	9.4.3) csv
+	9.4.4) html
+	9.4.5) latex
+	9.4.6) sylk
+	9.4.7) dif
 
 -------------------------------------------------------------------------------
 Target Features
