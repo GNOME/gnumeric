@@ -251,9 +251,149 @@ gnumeric_hlookup (struct FunctionDefinition *i, Value *argv [], char **error_str
 	return NULL ;
 }
 
+static char *help_column = {
+	N_("@FUNCTION=COLUMN\n"
+	   "@SYNTAX=COLUMN([reference])\n"
+
+	   "@DESCRIPTION="
+	   "The COLUMN function returns an array of the column numbers taking a default argument "
+	   "of the containing cell position."
+	   "\n"
+	   "If reference is neither an array nor a reference nor a range returns #VALUE!."
+	   "\n"
+	   "@SEEALSO=COLUMNS,ROW,ROWS")
+};
+
+/* FIXME: Needs Array support to be enven slightly meaningful */
+static Value *
+gnumeric_column (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	Value *v ;
+
+	if (!expr_node_list || !expr_node_list->data)
+		return value_int(eval_col+1) ;
+
+	v = eval_expr (tsheet, expr_node_list->data, eval_col, eval_row, error_string) ;
+	if (!v)
+		return NULL ;
+	switch (v->type) {
+	case VALUE_CELLRANGE:
+		*error_string = "Arrays not yet supported" ;
+		return NULL ;
+	case VALUE_ARRAY:
+		*error_string = _("Unimplemented\n") ;
+		return NULL ;
+	default:
+		*error_string = _("#VALUE!") ;
+		return NULL ;
+	}
+}
+
+static char *help_columns = {
+	N_("@FUNCTION=COLUMNS\n"
+	   "@SYNTAX=COLUMNS(reference)\n"
+
+	   "@DESCRIPTION="
+	   "The COLUMNS function returns the number of columns in area or array reference."
+	   "\n"
+	   "If reference is neither an array nor a reference nor a range returns #VALUE!."
+	   "\n"
+	   "@SEEALSO=COLUMN,ROW,ROWS")
+};
+
+/* FIXME: Needs Array support to be enven slightly meaningful */
+static Value *
+gnumeric_columns (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	switch (argv[0]->type) {
+	case VALUE_CELLRANGE:
+		return value_int (argv[0]->v.cell_range.cell_b.col - argv[0]->v.cell_range.cell_a.col + 1) ;
+	case VALUE_ARRAY:
+		*error_string = _("Unimplemented\n") ;
+		return NULL ;
+	default:
+		*error_string = _("#VALUE!") ;
+		return NULL ;
+	}
+}
+
+static char *help_row = {
+	N_("@FUNCTION=ROW\n"
+	   "@SYNTAX=ROW([reference])\n"
+
+	   "@DESCRIPTION="
+	   "The ROW function returns an array of the row numbers taking a default argument "
+	   "of the containing cell position."
+	   "\n"
+	   "If reference is neither an array nor a reference nor a range returns #VALUE!."
+	   "\n"
+	   "@SEEALSO=COLUMN,COLUMNS,ROWS")
+};
+
+/* FIXME: Needs Array support to be enven slightly meaningful */
+static Value *
+gnumeric_row (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	Value *v ;
+
+	if (!expr_node_list || !expr_node_list->data)
+		return value_int(eval_row+1) ;
+
+	v = eval_expr (tsheet, expr_node_list->data, eval_col, eval_row, error_string) ;
+	if (!v)
+		return NULL ;
+	switch (v->type) {
+	case VALUE_CELLRANGE:
+		*error_string = "Arrays not yet supported" ;
+		return NULL ;
+	case VALUE_ARRAY:
+		*error_string = _("Unimplemented\n") ;
+		return NULL ;
+	default:
+		*error_string = _("#VALUE!") ;
+		return NULL ;
+	}
+}
+
+static char *help_rows = {
+	N_("@FUNCTION=ROWS\n"
+	   "@SYNTAX=ROWS(reference)\n"
+
+	   "@DESCRIPTION="
+	   "The ROWS function returns the number of rows in area or array reference."
+	   "\n"
+	   "If reference is neither an array nor a reference nor a range returns #VALUE!."
+	   "\n"
+	   "@SEEALSO=COLUMN,ROW,ROWS")
+};
+
+/* FIXME: Needs Array support to be enven slightly meaningful */
+static Value *
+gnumeric_rows (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	switch (argv[0]->type) {
+	case VALUE_CELLRANGE:
+		return value_int (argv[0]->v.cell_range.cell_b.row - argv[0]->v.cell_range.cell_a.row + 1) ;
+	case VALUE_ARRAY:
+		*error_string = _("Unimplemented\n") ;
+		return NULL ;
+	default:
+		*error_string = _("#VALUE!") ;
+		return NULL ;
+	}
+}
+
+
 FunctionDefinition lookup_functions [] = {
+	{ "column",    "?",    "ref",                      &help_column,   gnumeric_column, NULL },
+	{ "columns",   "?",    "ref",                      &help_column,   NULL, gnumeric_columns },
 	{ "hlookup",   "?rf|b","val,range,col_idx,approx", &help_hlookup,  NULL, gnumeric_hlookup },
+	{ "row",       "?",    "ref",                      &help_row,      gnumeric_row, NULL },
+	{ "rows",      "?",    "ref",                      &help_rows,     NULL, gnumeric_rows },
 	{ "vlookup",   "?rf|b","val,range,col_idx,approx", &help_vlookup,  NULL, gnumeric_vlookup },
 	{ NULL, NULL }
 } ;
+
+
+
 

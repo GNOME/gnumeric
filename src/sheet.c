@@ -671,7 +671,7 @@ sheet_update_auto_expr (Sheet *sheet)
 		
 	/* defaults */
 	v = NULL;
-	error = "ERROR";
+	error = _("ERROR");
 	if (wb->auto_expr)
 		v = eval_expr (sheet, wb->auto_expr, 0, 0, &error);
 	

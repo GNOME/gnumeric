@@ -17,7 +17,7 @@ static GHashTable *dependency_hash;
 void
 cell_eval (Cell *cell)
 {
-	char *error_msg = NULL;
+	char *error_msg = _("ERROR") ;
 	Value *v;
 
 	g_return_if_fail (cell != NULL);
