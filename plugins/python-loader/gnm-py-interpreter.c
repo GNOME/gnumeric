@@ -161,8 +161,9 @@ run_print_string (const char *cmd, FILE *stdout_f)
 		PyErr_Clear();
 	if (v && v != Py_None && stdout_f)
 		PyObject_Print (v, stdout_f, Py_PRINT_RAW);
-	if (v)
+	if (v) {
 		Py_DECREF(v);
+	}
 }
 
 void

@@ -1,3 +1,9 @@
+2003-07-22  Morten Welinder  <terra@gnome.org>
+
+	* gnm-py-interpreter.c (run_print_string): Add braces around
+	Py_DECREF call.  (Why don't the python guys code macros like
+	everyone else do?)
+
 2003-07-21  Jon K Hellan  <hellan@acm.org>
 
 	* py-gnumeric.c (py_initgnumeric): Initialize PyTypeObjects
