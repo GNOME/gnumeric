@@ -1,7 +1,10 @@
 2004-08-26  Morten Welinder  <terra@gnome.org>
 
+	* goffice.c (libgoffice_shutdown): Showdown plugin services.
+
 	* graph/gog-plot-engine.c (gog_plot_new_by_name): Handle inactive
-	plugins.
+	plugins.  Mark plugins as used.
+	(gog_plugin_services_shutdown): New function.
 
 2004-08-25  Jody Goldberg <jody@gnome.org>
 

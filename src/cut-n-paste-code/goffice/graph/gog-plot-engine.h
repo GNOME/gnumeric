@@ -52,6 +52,7 @@ GogPlotType   *gog_plot_type_register   (GogPlotFamily *famlily, int col, int ro
 					 char const *description, char const *engine);
 
 void gog_plugin_services_init (void);
+void gog_plugin_services_shutdown (void);
 
 G_END_DECLS
 

@@ -68,4 +68,5 @@ libgoffice_shutdown (void)
 {
 	gog_themes_shutdown ();
 	go_font_shutdown ();
+	gog_plugin_services_shutdown ();
 }

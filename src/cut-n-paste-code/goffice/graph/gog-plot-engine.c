@@ -30,6 +30,8 @@
 
 #include <string.h>
 
+static GSList *refd_plugins;
+
 /***************************************************************************/
 /* Support plot engines in plugins */
 
@@ -78,6 +80,7 @@ gog_plot_new_by_name (char const *id)
 			pending_engines
 			? g_hash_table_lookup (pending_engines, id)
 			: NULL;
+		GnmPlugin *plugin;
 
 		if (!service || !service->is_active)
 			return NULL;
@@ -93,6 +96,13 @@ gog_plot_new_by_name (char const *id)
 		}
 
 		g_return_val_if_fail (type != 0, NULL);
+
+		/*
+		 * The plugin defined a gtype so it must not be unloaded.
+		 */
+		plugin = plugin_service_get_plugin (service);
+		refd_plugins = g_slist_prepend (refd_plugins, plugin);
+		gnm_plugin_use_ref (plugin);
 	}
 
 	return g_object_new (type, NULL);
@@ -331,11 +341,18 @@ GSF_CLASS (GogThemeService, gog_theme_service,
 /***************************************************************************/
 
 void
-gog_plugin_services_init ()
+gog_plugin_services_init (void)
 {
 	plugin_service_define ("plot_engine", &gog_plot_engine_service_get_type);
 	plugin_service_define ("plot_type",   &gog_plot_type_service_get_type);
 	plugin_service_define ("chart_theme",  &gog_theme_service_get_type);
+}
+
+void
+gog_plugin_services_shutdown (void)
+{
+	g_slist_foreach (refd_plugins, (GFunc)gnm_plugin_use_unref, NULL);
+	g_slist_free (refd_plugins);
 }
 
 /***************************************************************************/
