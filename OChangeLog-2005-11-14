@@ -1,3 +1,10 @@
+2004-08-17  Etsushi Kato  <ekato@ees.hokudai.ac.jp>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_press):
+	gtk_im_context_reset(gcanvas->im_context) should be called after
+	checking gtk_im_context_filter_keypress() and GDK_SHIFT_L, GTK_Alt_L,
+	and GDK_Control_L. (bug #148473)
+
 2004-08-17  Jon K Hellan  <hellan@acm.org>
 
 	* src/wbcg-actions.c (cb_insert_image): is_save parameter to

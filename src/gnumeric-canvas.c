@@ -394,7 +394,15 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 			gcanvas->need_im_reset = TRUE;
 			return TRUE;
 		}
-		gtk_im_context_reset (gcanvas->im_context);
+		switch (event->keyval) {
+		case GDK_Shift_L:   case GDK_Shift_R:
+		case GDK_Alt_L:     case GDK_Alt_R:
+		case GDK_Control_L: case GDK_Control_R:
+			break;
+		default:
+			gtk_im_context_reset (gcanvas->im_context);
+			break;
+		}
 		res = gnm_canvas_key_mode_sheet (gcanvas, event);
 	}
 
