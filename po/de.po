@@ -38,8 +38,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.52\n"
-"POT-Creation-Date: 2000-04-15 20:15+0200\n"
-"PO-Revision-Date: 2000-04-15 20:29+02:00\n"
+"POT-Creation-Date: 2000-04-17 06:42+0200\n"
+"PO-Revision-Date: 2000-04-17 06:57+02:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1092,7 +1092,7 @@ msgstr "Sp_ezial"
 msgid "Cust_om"
 msgstr "_Benutzerdefiniert"
 
-#: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:112
+#: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:117
 msgid "Sample"
 msgstr "Beispiel"
 
@@ -1234,7 +1234,7 @@ msgid "_Automatic"
 msgstr "_Automatisch"
 
 #: src/dialogs/cell-format.glade.h:55 src/dialogs/cell-format.glade.h:83
-#: src/dialogs/cell-format.glade.h:92 src/dialogs/dialog-zoom.glade.h:15
+#: src/dialogs/cell-format.glade.h:92 src/dialogs/dialog-zoom.glade.h:21
 msgid "_Custom"
 msgstr "_Benutzerdefiniert"
 
@@ -1362,107 +1362,107 @@ msgstr "Muster"
 msgid "Pick a Pattern color"
 msgstr "Eine Musterfarbe wählen"
 
-#: src/dialogs/cell-format.glade.h:94
-#, c-format
+#: src/dialogs/cell-format.glade.h:95
+#, no-c-format
 msgid "75% grey"
 msgstr "75% grau"
 
-#: src/dialogs/cell-format.glade.h:95
-#, c-format
+#: src/dialogs/cell-format.glade.h:97
+#, no-c-format
 msgid "50% Grey"
 msgstr "50% grau"
 
-#: src/dialogs/cell-format.glade.h:96
-#, c-format
+#: src/dialogs/cell-format.glade.h:99
+#, no-c-format
 msgid "25% Grey"
 msgstr "25% grau"
 
-#: src/dialogs/cell-format.glade.h:97
-#, c-format
+#: src/dialogs/cell-format.glade.h:101
+#, no-c-format
 msgid "12.5% Grey"
 msgstr "12,5% grau"
 
-#: src/dialogs/cell-format.glade.h:98
-#, c-format
+#: src/dialogs/cell-format.glade.h:103
+#, no-c-format
 msgid "6.25% Grey"
 msgstr "6,25% grau"
 
-#: src/dialogs/cell-format.glade.h:99
+#: src/dialogs/cell-format.glade.h:104
 msgid "Horizontal Stripe"
 msgstr "Horizontale Streifen"
 
-#: src/dialogs/cell-format.glade.h:100
+#: src/dialogs/cell-format.glade.h:105
 msgid "Thin Horizontal Stripe"
 msgstr "Dünne horizontale Streifen"
 
-#: src/dialogs/cell-format.glade.h:101
+#: src/dialogs/cell-format.glade.h:106
 msgid "Vertical Stripe"
 msgstr "Vertikale Streifen"
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:107
 msgid "Thin Vertical Stripe"
 msgstr "Dünne vertikale Streifen"
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:108
 msgid "Reverse Diagonal Stripe"
 msgstr "Diagonale Streifen rückwärts"
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:109
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Dünne diagonale Streifen rückwärts"
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:110
 msgid "Diagonal Stripe"
 msgstr "Diagonale Streifen"
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:111
 msgid "Thin Diagonal Stripe"
 msgstr "Dünne diagonale Streifen"
 
-#: src/dialogs/cell-format.glade.h:107
+#: src/dialogs/cell-format.glade.h:112
 msgid "Diagonal Crosshatch"
 msgstr "Diagonale Schraffen"
 
-#: src/dialogs/cell-format.glade.h:108
+#: src/dialogs/cell-format.glade.h:113
 msgid "Thick Diagonal Crosshatch"
 msgstr "Dicke diagonale Schraffen"
 
-#: src/dialogs/cell-format.glade.h:109
+#: src/dialogs/cell-format.glade.h:114
 msgid "Thin Horizontal Crosshatch"
 msgstr "Dünne horizontale Schraffen"
 
-#: src/dialogs/cell-format.glade.h:110
+#: src/dialogs/cell-format.glade.h:115
 msgid "Thin Diagonal Crosshatch"
 msgstr "Dünne diagonale Schraffen"
 
-#: src/dialogs/cell-format.glade.h:111
+#: src/dialogs/cell-format.glade.h:116
 msgid "Solid"
 msgstr "Einfarbig"
 
-#: src/dialogs/cell-format.glade.h:113 src/workbook-format-toolbar.c:623
+#: src/dialogs/cell-format.glade.h:118 src/workbook-format-toolbar.c:623
 #: src/workbook-format-toolbar.c:626
 msgid "Background"
 msgstr "Hintergrund"
 
-#: src/dialogs/cell-format.glade.h:114
+#: src/dialogs/cell-format.glade.h:119
 msgid "_Locked"
 msgstr "Ges_perrt"
 
-#: src/dialogs/cell-format.glade.h:115
+#: src/dialogs/cell-format.glade.h:120
 msgid "_Hidden"
 msgstr "_Verborgen"
 
-#: src/dialogs/cell-format.glade.h:116
+#: src/dialogs/cell-format.glade.h:121
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 "Das Sperren von Zellen oder das Verbergen von Formeln betrifft nur "
 "geschützte Arbeitsblätter."
 
-#: src/dialogs/cell-format.glade.h:117
+#: src/dialogs/cell-format.glade.h:122
 msgid "Worksheet _protected"
 msgstr "Arbeitsblatt ge_schützt"
 
-#: src/dialogs/cell-format.glade.h:118
+#: src/dialogs/cell-format.glade.h:123
 msgid "Protection"
 msgstr "Schutz"
 
@@ -2206,42 +2206,42 @@ msgstr "Vergrößern"
 msgid "Magnification"
 msgstr "Vergrößerung"
 
-#: src/dialogs/dialog-zoom.glade.h:9
-#, c-format
+#: src/dialogs/dialog-zoom.glade.h:10
+#, no-c-format
 msgid "20_0 %"
 msgstr "20_0 %"
 
-#: src/dialogs/dialog-zoom.glade.h:10
-#, c-format
+#: src/dialogs/dialog-zoom.glade.h:12
+#, no-c-format
 msgid "_100 %"
 msgstr "_100 %"
 
-#: src/dialogs/dialog-zoom.glade.h:11
-#, c-format
+#: src/dialogs/dialog-zoom.glade.h:14
+#, no-c-format
 msgid "_75 %"
 msgstr "_75 %"
 
-#: src/dialogs/dialog-zoom.glade.h:12
-#, c-format
+#: src/dialogs/dialog-zoom.glade.h:16
+#, no-c-format
 msgid "_50 %"
 msgstr "_50 %"
 
-#: src/dialogs/dialog-zoom.glade.h:13
-#, c-format
+#: src/dialogs/dialog-zoom.glade.h:18
+#, no-c-format
 msgid "_25 %"
 msgstr "_25 %"
 
-#: src/dialogs/dialog-zoom.glade.h:14
-#, c-format
+#: src/dialogs/dialog-zoom.glade.h:20
+#, no-c-format
 msgid "_Fit Selection %"
 msgstr "Auswahl _einpassen %"
 
-#: src/dialogs/dialog-zoom.glade.h:16
-#, c-format
+#: src/dialogs/dialog-zoom.glade.h:23
+#, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/dialogs/dialog-zoom.glade.h:17 src/print.c:914
+#: src/dialogs/dialog-zoom.glade.h:24 src/print.c:909
 msgid "Sheets"
 msgstr "Blätter"
 
@@ -4507,7 +4507,7 @@ msgstr ""
 #: src/functions/fn-information.c:695 src/functions/fn-information.c:744
 #: src/functions/fn-information.c:773 src/functions/fn-information.c:838
 #: src/functions/fn-logical.c:194 src/functions/fn-lookup.c:469
-#: src/functions/fn-lookup.c:588 src/functions/fn-string.c:342
+#: src/functions/fn-string.c:342
 msgid "Invalid number of arguments"
 msgstr "Ungültige Argumentenanzahl"
 
@@ -6542,7 +6542,136 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2158
+#: src/functions/fn-financial.c:2155
+msgid ""
+"@FUNCTION=AMORDEGRC\n"
+"@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)"
+"\n"
+"@DESCRIPTION=Returns the depreciation for each accounting period.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2173
+msgid ""
+"@FUNCTION=AMORLINC\n"
+"@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
+"@DESCRIPTION=Returns the depreciation for each accounting period.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2191
+msgid ""
+"@FUNCTION=COUPDAYBS\n"
+"@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
+"@DESCRIPTION=Returns the number of days from the beginning of the coupon "
+"period to the settlement date.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2210
+msgid ""
+"@FUNCTION=COUPDAYS\n"
+"@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
+"@DESCRIPTION=Returns the number of days in the coupon period of the "
+"settlement date.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2229
+msgid ""
+"@FUNCTION=COUPDAYSNC\n"
+"@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
+"@DESCRIPTION=Returns the number of days from the settlement date to the next "
+"coupon date.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2248
+msgid ""
+"@FUNCTION=COUPNCD\n"
+"@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
+"@DESCRIPTION=Returns the coupon date following settlement.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2266
+msgid ""
+"@FUNCTION=COUPPCD\n"
+"@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
+"@DESCRIPTION=Returns the coupon date preceeding settlement.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2284
+msgid ""
+"@FUNCTION=COUPNUM\n"
+"@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
+"@DESCRIPTION=Returns the numbers of coupons to be paid between the "
+"settlement and maturity dates, rounded up.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2303
+msgid ""
+"@FUNCTION=CUMIPMT\n"
+"@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
+"@DESCRIPTION=Returns the cumulative interest paid on a loan between "
+"@start_period and @end_period.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2322
+msgid ""
+"@FUNCTION=CUMPRINC\n"
+"@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
+"@DESCRIPTION=Returns the cumulative principal paid on a loan between "
+"@start_period and @end_period.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2341
+msgid ""
+"@FUNCTION=MDURATION\n"
+"@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
+"@DESCRIPTION=Returns the Macauley duration for a security with par value "
+"100.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2360
+msgid ""
+"@FUNCTION=VDB\n"
+"@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
+"@DESCRIPTION=VDB calculates the depreciation of an asset for a given period "
+"or partial period using the double-declining balance method.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=DB"
+msgstr ""
+
+#: src/functions/fn-financial.c:2383
 msgid "Financial"
 msgstr ""
 
@@ -6840,8 +6969,7 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-logical.c:102 src/functions/fn-lookup.c:464
-#: src/functions/fn-lookup.c:472 src/functions/fn-lookup.c:584
-#: src/functions/fn-lookup.c:591 src/functions/fn-string.c:524
+#: src/functions/fn-lookup.c:472 src/functions/fn-string.c:524
 msgid "Type Mismatch"
 msgstr "Unpassende Typen"
 
@@ -6987,7 +7115,7 @@ msgid ""
 "@SEEALSO=LOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:653
+#: src/functions/fn-lookup.c:669
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text, [format])\n"
@@ -7001,7 +7129,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:722
+#: src/functions/fn-lookup.c:738
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference, [row, col, area])\n"
@@ -7013,7 +7141,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:768
+#: src/functions/fn-lookup.c:784
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -7026,7 +7154,7 @@ msgid ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:821
+#: src/functions/fn-lookup.c:837
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -7039,7 +7167,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:846
+#: src/functions/fn-lookup.c:862
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -7053,7 +7181,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:908
+#: src/functions/fn-lookup.c:924
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -7066,7 +7194,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:961
+#: src/functions/fn-lookup.c:977
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -7079,7 +7207,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:986
+#: src/functions/fn-lookup.c:1002
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(reference)\n"
@@ -7091,7 +7219,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:1011
+#: src/functions/fn-lookup.c:1027
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -7101,7 +7229,7 @@ msgid ""
 "@SEEALSO=MMULT"
 msgstr ""
 
-#: src/functions/fn-lookup.c:1061
+#: src/functions/fn-lookup.c:1077
 msgid "Data / Lookup"
 msgstr "Daten / Auffinden"
 
@@ -7201,7 +7329,9 @@ msgid ""
 "that is the value whose hyperbolic sine is @x. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
-"ASINH(0.5) equals 0.481212. ASINH(1.0) equals 0.881374.\n"
+"ASINH(0.5) equals 0.481212.\n"
+"ASINH(1.0) equals 0.881374.\n"
+"\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
@@ -7213,11 +7343,13 @@ msgid ""
 "value whose tangent is @x. Return value is in radians. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
+"ATAN(0.5) equals 0,463648.\n"
+"ATAN(1) equals 0,785398.\n"
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:396
+#: src/functions/fn-math.c:398
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -7226,11 +7358,13 @@ msgid ""
 "@x is greater than 1.0, ATANH returns NUM! error. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
-"ATANH(0.5) equals 0.549306. ATANH(0.8) equals 1.098612.\n"
+"ATANH(0.5) equals 0.549306.\n"
+" ATANH(0.8) equals 1.098612.\n"
+"\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:428
+#: src/functions/fn-math.c:430
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -7240,22 +7374,27 @@ msgid ""
 "of the result. The result is in radians. This function is Excel compatible. "
 "\n"
 "@EXAMPLES=\n"
-"ATAN2(0.5,1.0) equals 1.107149. ATAN2(-0.5,2.0) equals 1.815775.\n"
+"ATAN2(0.5,1.0) equals 1.107149.\n"
+"ATAN2(-0.5,2.0) equals 1.815775.\n"
+"\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:456
+#: src/functions/fn-math.c:458
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
 "@DESCRIPTION=CEIL function rounds @x up to the next nearest integer.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
-"CEIL(0.4) equals 1. CEIL(-1.1) equals -1. CEIL(-2.9) equals -2.\n"
+"CEIL(0.4) equals 1.\n"
+"CEIL(-1.1) equals -1.\n"
+"CEIL(-2.9) equals -2.\n"
+"\n"
 "@SEEALSO=ABS, FLOOR, INT"
 msgstr ""
 
-#: src/functions/fn-math.c:480
+#: src/functions/fn-math.c:482
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -7272,7 +7411,7 @@ msgid ""
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
 
-#: src/functions/fn-math.c:558
+#: src/functions/fn-math.c:560
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -7292,21 +7431,23 @@ msgid ""
 "@SEEALSO=COUNTIF, SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:718
+#: src/functions/fn-math.c:720
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
 "@DESCRIPTION=CEILING function rounds @x up to the nearest multiple of "
-"significance. \n"
+"@significance. \n"
 "If @x or @significance is non-numeric CEILING returns #VALUE! error. If @x "
 "and @significance have different signs CEILING returns #NUM! error. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
-"CEILING(2.43,1) equals 3. CEILING(123.123,3) equals 126.\n"
+"CEILING(2.43,1) equals 3.\n"
+"CEILING(123.123,3) equals 126.\n"
+"\n"
 "@SEEALSO=CEIL"
 msgstr ""
 
-#: src/functions/fn-math.c:759
+#: src/functions/fn-math.c:761
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -7319,7 +7460,7 @@ msgid ""
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/functions/fn-math.c:783
+#: src/functions/fn-math.c:785
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -7327,11 +7468,13 @@ msgid ""
 "defined mathematically as (exp(@x) + exp(-@x)) / 2.   @x is in radians. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
-"COSH(0.5) equals 1.127626. COSH(1) equals 1.543081.\n"
+"COSH(0.5) equals 1.127626.\n"
+"COSH(1) equals 1.543081.\n"
+"\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
 
-#: src/functions/fn-math.c:808
+#: src/functions/fn-math.c:810
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -7343,7 +7486,7 @@ msgid ""
 "@SEEALSO=RADIANS, PI"
 msgstr ""
 
-#: src/functions/fn-math.c:830
+#: src/functions/fn-math.c:832
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -7355,7 +7498,7 @@ msgid ""
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
 
-#: src/functions/fn-math.c:853
+#: src/functions/fn-math.c:855
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -7368,7 +7511,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:902
+#: src/functions/fn-math.c:904
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -7383,7 +7526,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:952
+#: src/functions/fn-math.c:954
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -7397,7 +7540,7 @@ msgid ""
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
 
-#: src/functions/fn-math.c:988
+#: src/functions/fn-math.c:990
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -7411,7 +7554,7 @@ msgid ""
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
 
-#: src/functions/fn-math.c:1014
+#: src/functions/fn-math.c:1016
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -7425,7 +7568,7 @@ msgid ""
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
 
-#: src/functions/fn-math.c:1053
+#: src/functions/fn-math.c:1055
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -7437,7 +7580,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 
-#: src/functions/fn-math.c:1083
+#: src/functions/fn-math.c:1085
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -7450,7 +7593,7 @@ msgid ""
 "@SEEALSO=EXP"
 msgstr ""
 
-#: src/functions/fn-math.c:1117
+#: src/functions/fn-math.c:1119
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -7462,7 +7605,7 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: src/functions/fn-math.c:1145
+#: src/functions/fn-math.c:1147
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -7474,7 +7617,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: src/functions/fn-math.c:1174
+#: src/functions/fn-math.c:1176
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -7488,7 +7631,7 @@ msgid ""
 "@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
 
-#: src/functions/fn-math.c:1222
+#: src/functions/fn-math.c:1224
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -7500,7 +7643,7 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: src/functions/fn-math.c:1244
+#: src/functions/fn-math.c:1246
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -7512,7 +7655,7 @@ msgid ""
 "@SEEALSO=RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1267
+#: src/functions/fn-math.c:1269
 msgid ""
 "@FUNCTION=RandExp\n"
 "@SYNTAX=RandExp(b)\n"
@@ -7523,7 +7666,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1290
+#: src/functions/fn-math.c:1292
 msgid ""
 "@FUNCTION=RandPoisson\n"
 "@SYNTAX=RandPoisson(lambda)\n"
@@ -7534,7 +7677,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1316
+#: src/functions/fn-math.c:1318
 msgid ""
 "@FUNCTION=RandBinom\n"
 "@SYNTAX=RandBinom(p,trials)\n"
@@ -7547,7 +7690,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1346
+#: src/functions/fn-math.c:1348
 msgid ""
 "@FUNCTION=RandNegBinom\n"
 "@SYNTAX=RandNegBinom(p,failures)\n"
@@ -7561,7 +7704,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1377
+#: src/functions/fn-math.c:1379
 msgid ""
 "@FUNCTION=RandBernoulli\n"
 "@SYNTAX=RandBernoulli(p)\n"
@@ -7573,7 +7716,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1405
+#: src/functions/fn-math.c:1407
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -7585,7 +7728,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/functions/fn-math.c:1428
+#: src/functions/fn-math.c:1430
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -7598,7 +7741,7 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: src/functions/fn-math.c:1451
+#: src/functions/fn-math.c:1453
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -7611,7 +7754,7 @@ msgid ""
 "@SEEALSO=POWER"
 msgstr ""
 
-#: src/functions/fn-math.c:1479
+#: src/functions/fn-math.c:1481
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -7625,7 +7768,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1508
+#: src/functions/fn-math.c:1510
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -7642,7 +7785,7 @@ msgid ""
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1539
+#: src/functions/fn-math.c:1541
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -7656,7 +7799,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1569
+#: src/functions/fn-math.c:1571
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -7668,7 +7811,7 @@ msgid ""
 "@SEEALSO=SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:1629
+#: src/functions/fn-math.c:1631
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -7681,7 +7824,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 msgstr ""
 
-#: src/functions/fn-math.c:1666
+#: src/functions/fn-math.c:1668
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -7694,7 +7837,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1693
+#: src/functions/fn-math.c:1695
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -7706,7 +7849,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:1716
+#: src/functions/fn-math.c:1718
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -7719,7 +7862,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:1739
+#: src/functions/fn-math.c:1741
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -7732,7 +7875,7 @@ msgid ""
 "@SEEALSO=SQRTPI"
 msgstr ""
 
-#: src/functions/fn-math.c:1763
+#: src/functions/fn-math.c:1765
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -7746,7 +7889,7 @@ msgid ""
 "@SEEALSO=INT"
 msgstr ""
 
-#: src/functions/fn-math.c:1802
+#: src/functions/fn-math.c:1804
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -7758,7 +7901,7 @@ msgid ""
 "@SEEALSO=ODD"
 msgstr ""
 
-#: src/functions/fn-math.c:1840
+#: src/functions/fn-math.c:1842
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -7770,7 +7913,7 @@ msgid ""
 "@SEEALSO=EVEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1878
+#: src/functions/fn-math.c:1880
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -7784,7 +7927,7 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr ""
 
-#: src/functions/fn-math.c:1916
+#: src/functions/fn-math.c:1918
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -7797,7 +7940,7 @@ msgid ""
 "@SEEALSO=MOD"
 msgstr ""
 
-#: src/functions/fn-math.c:1947
+#: src/functions/fn-math.c:1949
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -7812,7 +7955,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:1981
+#: src/functions/fn-math.c:1983
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -7824,7 +7967,7 @@ msgid ""
 "@SEEALSO=PI"
 msgstr ""
 
-#: src/functions/fn-math.c:2010
+#: src/functions/fn-math.c:2012
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -7839,7 +7982,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: src/functions/fn-math.c:2044
+#: src/functions/fn-math.c:2046
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -7859,7 +8002,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2091
+#: src/functions/fn-math.c:2093
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -7879,7 +8022,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2135
+#: src/functions/fn-math.c:2137
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -7899,7 +8042,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDDOWN"
 msgstr ""
 
-#: src/functions/fn-math.c:2182
+#: src/functions/fn-math.c:2184
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -7915,7 +8058,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2232
+#: src/functions/fn-math.c:2234
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -7937,7 +8080,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:2501
+#: src/functions/fn-math.c:2503
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -7957,14 +8100,14 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2556 src/functions/fn-math.c:2571
-#: src/functions/fn-math.c:2654 src/functions/fn-math.c:2669
-#: src/functions/fn-math.c:2749 src/functions/fn-math.c:2764
+#: src/functions/fn-math.c:2558 src/functions/fn-math.c:2573
+#: src/functions/fn-math.c:2656 src/functions/fn-math.c:2671
+#: src/functions/fn-math.c:2751 src/functions/fn-math.c:2766
 #: src/functions/fn-stat.c:2698 src/functions/fn-stat.c:2728
 msgid "Array version not implemented!"
 msgstr "Feldversion nicht implementiert!"
 
-#: src/functions/fn-math.c:2600
+#: src/functions/fn-math.c:2602
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -7984,7 +8127,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2696
+#: src/functions/fn-math.c:2698
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -8004,7 +8147,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2793
+#: src/functions/fn-math.c:2795
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -8035,7 +8178,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:2886
+#: src/functions/fn-math.c:2888
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -8052,25 +8195,25 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:3009
+#: src/functions/fn-math.c:3011
 msgid ""
 "@FUNCTION=MINVERSE\n"
-"@SYNTAX=MINVERSE(array)\n"
+"@SYNTAX=MINVERSE(matrix)\n"
 "@DESCRIPTION=MINVERSE function returns the inverse matrix of a given matrix. "
 "\n"
-"If the matrix cannot be inverted, MINVERSE returns #NUM! error. If the "
-"matrix does not contain equal number of columns and rows, MINVERSE returns "
+"If the @matrix cannot be inverted, MINVERSE returns #NUM! error. If the "
+"@matrix does not contain equal number of columns and rows, MINVERSE returns "
 "#VALUE! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
 
-#: src/functions/fn-math.c:3057
+#: src/functions/fn-math.c:3059
 msgid "#3D MULT?"
 msgstr "#3D-MULT?"
 
-#: src/functions/fn-math.c:3140
+#: src/functions/fn-math.c:3142
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -8082,12 +8225,12 @@ msgid ""
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:3220
+#: src/functions/fn-math.c:3222
 msgid ""
 "@FUNCTION=MDETERM\n"
-"@SYNTAX=MDETERM(array)\n"
+"@SYNTAX=MDETERM(matrix)\n"
 "@DESCRIPTION=MDETERM function returns the determinant of a given matrix. \n"
-"If the matrix does not contain equal number of columns and rows, MDETERM "
+"If the @matrix does not contain equal number of columns and rows, MDETERM "
 "returns #VALUE! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, B1, ..., B4 "
@@ -8098,7 +8241,7 @@ msgid ""
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:3278
+#: src/functions/fn-math.c:3280
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -8116,7 +8259,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/functions/fn-math.c:3386
+#: src/functions/fn-math.c:3388
 msgid "Maths / Trig."
 msgstr "Mathe / Trig."
 
@@ -9240,7 +9383,7 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 msgstr ""
 
-#: src/functions/fn-stat.c:3356
+#: src/functions/fn-stat.c:3360
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -9256,7 +9399,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:3455
+#: src/functions/fn-stat.c:3459
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -9285,7 +9428,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:3713
+#: src/functions/fn-stat.c:3717
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -9300,7 +9443,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-stat.c:3828
+#: src/functions/fn-stat.c:3832
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -9328,7 +9471,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4085
+#: src/functions/fn-stat.c:4089
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -9349,7 +9492,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:4197
+#: src/functions/fn-stat.c:4201
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -9376,7 +9519,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4439
+#: src/functions/fn-stat.c:4443
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -9396,7 +9539,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4553
+#: src/functions/fn-stat.c:4557
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -9415,7 +9558,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4624
+#: src/functions/fn-stat.c:4628
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -9433,7 +9576,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4673
+#: src/functions/fn-stat.c:4677
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -9448,7 +9591,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:4719
+#: src/functions/fn-stat.c:4723
 msgid "Statistics"
 msgstr "Statistik"
 
@@ -9782,7 +9925,7 @@ msgstr ""
 msgid "Copy"
 msgstr "Kopieren"
 
-#: src/item-cursor.c:748 src/print-preview.c:538
+#: src/item-cursor.c:748
 msgid "Move"
 msgstr "Verschieben"
 
@@ -10037,125 +10180,24 @@ msgstr "Datum"
 msgid "time"
 msgstr "Zeit"
 
-#: src/print-preview.c:374
-msgid "Page: "
-msgstr "Seite:"
-
-#: src/print-preview.c:498
-msgid "_First page"
-msgstr "E_rste Seite"
-
-#: src/print-preview.c:498 src/print-preview.c:526
-msgid "Shows the first page"
-msgstr "Erste Seite anzeigen"
-
-#: src/print-preview.c:501
-msgid "_Previous page"
-msgstr "_Vorangehende Seite"
-
-#: src/print-preview.c:501 src/print-preview.c:529
-msgid "Shows the previous page"
-msgstr "Vorangehende Seite anzeigen"
-
-#: src/print-preview.c:504
-msgid "_Next page"
-msgstr "_Nächste Seite"
-
-#: src/print-preview.c:504 src/print-preview.c:532
-msgid "Shows the next page"
-msgstr "Nächste Seite anzeigen"
-
-#: src/print-preview.c:507
-msgid "_Last page"
-msgstr "_Letzte Seite"
-
-#: src/print-preview.c:507 src/print-preview.c:535
-msgid "Shows the last page"
-msgstr "Letzte Seite anzeigen"
-
-#: src/print-preview.c:512
-msgid "Zoom _in"
-msgstr "_Einzoomen"
-
-#: src/print-preview.c:512
-msgid "Zooms in"
-msgstr "Zoomt ein"
-
-#: src/print-preview.c:513
-msgid "Zoom _out"
-msgstr "_Wegzoomen"
-
-#: src/print-preview.c:513
-msgid "Zooms out"
-msgstr "Zoomt weg"
-
-#: src/print-preview.c:520
-msgid "_View"
-msgstr "_Ansicht"
-
-#: src/print-preview.c:526
-msgid "First"
-msgstr "Erste"
-
-#: src/print-preview.c:529
-msgid "Back"
-msgstr "Zurück"
-
-#: src/print-preview.c:532
-msgid "Next"
-msgstr "Nächste"
-
-#: src/print-preview.c:535
-msgid "Last"
-msgstr "Letzte"
-
-#: src/print-preview.c:539
-msgid "Zoom in"
-msgstr "Einzoomen"
-
-#: src/print-preview.c:539
-msgid "Zooms the page in"
-msgstr "Zoomt auf die Seite zu"
-
-#: src/print-preview.c:540
-msgid "Zoom out"
-msgstr "Wegzoomen"
-
-#: src/print-preview.c:540
-msgid "Zooms the page out"
-msgstr "Zoomt von der Seite weg"
-
-#: src/print-preview.c:559
-#, c-format
-msgid "Preview for %s in %s"
-msgstr "Vorschau für %s in %s"
-
-#: src/print-preview.c:560
-msgid "the sheet"
-msgstr "das Blatt"
-
-#: src/print-preview.c:561
-msgid "the workbook"
-msgstr "dem Arbeitsbuch"
-
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:370
+#: src/print.c:365
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:797 src/workbook.c:1803
+#: src/print.c:792 src/workbook.c:1803
 msgid "Selection must be a single range"
 msgstr "Auswahl muss ein einzelner Bereich sein"
 
-#: src/print.c:907
+#: src/print.c:902
 msgid "Print Sheets"
 msgstr "Blätter drucken"
 
-#: src/print.c:914
+#: src/print.c:909
 msgid "Active sheet"
 msgstr "Aktives Blatt"
 
-#: src/print.c:989 src/workbook.c:1120 src/workbook.c:1441
+#: src/print.c:984 src/workbook.c:1120 src/workbook.c:1441
 msgid "Print preview"
 msgstr "Druckvorschau"
 
@@ -10894,7 +10936,7 @@ msgstr ""
 
 #: src/workbook.c:1363
 msgid "Auto _Correct..."
-msgstr "Auto_Korrektur..."
+msgstr "Auto-_Korrektur..."
 
 #: src/workbook.c:1364
 msgid "Automaticly perform simple spell checking"
@@ -10902,7 +10944,7 @@ msgstr "Automatisch einfache Überprüfung der Rechtschreibung durchführen"
 
 #: src/workbook.c:1366
 msgid "_Auto Save..."
-msgstr "_AutoSpeichern..."
+msgstr "_Auto-Speichern..."
 
 #: src/workbook.c:1367
 msgid "Automaticly save the current document at regular intervals"
@@ -11179,18 +11221,18 @@ msgstr ""
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: src/xml-io.c:2973
+#: src/xml-io.c:2975
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ungültige XML-Zwischenablagedatei. Ist der Baum leer?"
 
-#: src/xml-io.c:3011
+#: src/xml-io.c:3013
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ungültige XML-Datei. Ist der Baum leer?"
 
-#: src/xml-io.c:3023
+#: src/xml-io.c:3025
 msgid "Is not an Workbook file"
 msgstr "Ist keine Arbeitsbuch-Datei"
 
-#: src/xml-io.c:3082
+#: src/xml-io.c:3084
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
