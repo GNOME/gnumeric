@@ -1,3 +1,8 @@
+2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/commands.h (cmd_tabulate): new
+	* src/commands.c (cmd_tabulate*): new
+
 2003-08-03  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/consolidate.c (consolidate_check_destination):

@@ -141,5 +141,6 @@ gboolean cmd_goal_seek (WorkbookControl *wbc,
 
 gboolean cmd_clone_sheet (WorkbookControl *wbc, Sheet *sheet);
 
+gboolean cmd_tabulate (WorkbookControl *wbc, gpointer data);
 
 #endif /* GNUMERIC_COMMANDS_H */

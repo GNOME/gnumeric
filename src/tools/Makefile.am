@@ -36,5 +36,7 @@ libtools_a_SOURCES =					\
 	scenarios.h					\
 	simulation.c					\
 	simulation.h					\
+	tabulate.c					\
+	tabulate.h					\
 	tools.h
 

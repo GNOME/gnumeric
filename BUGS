@@ -430,7 +430,6 @@ Misc stuff that should be fixed
     - Remove sheet. (Done except that the formats are slightly messed up
                      and sheet objects are lost. Neither are references 
                      linked back.)
-    - Tabulate.
     - `Add Scenario' Portion of Solver
     - Sheet object configuration changes.
     - Workbook attr changes

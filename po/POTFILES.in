@@ -312,6 +312,7 @@ src/tools/fill-series.c
 src/tools/random-generator.c
 src/tools/scenarios.c
 src/tools/simulation.c
+src/tools/tabulate.c
 src/tools/solver/reports-write.c
 src/tools/solver/reports.c
 src/tools/solver/solver.c

@@ -1,3 +1,15 @@
+2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-scenarios.c: Put scenario specific fields into
+	  ScenariosState rather than GenericToolState and use 
+	  ScenariosState thoughout
+	* dialog-tabulate.c (tabulation_eval): move to tools/tabulate.c
+	(my_get_format): ditto
+	(do_tabulation): ditto
+	(tabulate_ok_clicked): use cmd_tabulate
+	* tool-dialogs.h: Remove scenario specific fields from 
+	  GenericToolState
+
 2003-08-03  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-consolidate.c (cb_consolidate_ok_clicked): use

@@ -66,6 +66,7 @@
 #include "summary.h"
 #include "auto-format.h"
 #include "tools/dao.h"
+#include "tools/tabulate.h"
 #include "gnumeric-gconf.h"
 #include "scenarios.h"
 #include "data-shuffling.h"
@@ -6493,6 +6494,89 @@ cmd_clone_sheet (WorkbookControl *wbc, Sheet *sheet)
 
 	me->cmd.cmd_descriptor =
 		g_strdup_printf (_("Duplicating %s"), sheet->name_unquoted);
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+/******************************************************************/
+
+
+#define CMD_TABULATE_TYPE        (cmd_tabulate_get_type ())
+#define CMD_TABULATE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_TABULATE_TYPE, CmdTabulate))
+
+typedef struct
+{
+	GnumericCommand cmd;
+	GSList *sheet_idx;
+	tabulate_t *data;
+} CmdTabulate;
+
+GNUMERIC_MAKE_COMMAND (CmdTabulate, cmd_tabulate);
+
+static gboolean
+cmd_tabulate_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdTabulate *me = CMD_TABULATE (cmd);
+	GSList *l;
+	gboolean res = TRUE;
+
+	me->sheet_idx  = g_slist_sort (me->sheet_idx,
+				       cmd_reorganize_sheets_delete_cmp_f);
+
+	for (l = me->sheet_idx; l != NULL; l = l->next) {
+		Sheet *new_sheet 
+			= workbook_sheet_by_index (wb_control_workbook (wbc), 
+						   GPOINTER_TO_INT (l->data));
+		res = res && command_undo_sheet_delete (new_sheet);
+	}
+	return !res;
+}
+
+static gboolean
+cmd_tabulate_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdTabulate *me = CMD_TABULATE (cmd);
+
+	if (me->sheet_idx != NULL) {
+		g_slist_free (me->sheet_idx);
+		me->sheet_idx = NULL;
+	}
+
+	me->sheet_idx = do_tabulation (wbc, me->data);
+
+	return (me->sheet_idx == NULL);
+}
+
+static void
+cmd_tabulate_finalize (GObject *cmd)
+{
+	CmdTabulate *me = CMD_TABULATE (cmd);
+
+	g_free (me->data->cells);
+	g_free (me->data->minima);
+	g_free (me->data->maxima);
+	g_free (me->data->steps);
+	g_free (me->data);
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_tabulate (WorkbookControl *wbc, gpointer data)
+{
+	GObject       *obj;
+	CmdTabulate *me;
+
+	g_return_val_if_fail (data != NULL, TRUE);
+
+	obj = g_object_new (CMD_TABULATE_TYPE, NULL);
+	me = CMD_TABULATE (obj);
+
+	me->cmd.sheet = -1;
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor =
+		g_strdup_printf (_("Tabulating Dependencies"));
+	me->data = data;
+	me->sheet_idx = NULL;
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);

@@ -1,3 +1,8 @@
+2003-08-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* tabulate.[ch]: new
+	* Makefile.am: added tabulate.[ch]
+
 2003-08-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dao.c (dao_set_cell_expr): new

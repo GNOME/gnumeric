@@ -29,6 +29,7 @@
 #include <gui-util.h>
 #include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
+#include <tools/tabulate.h>
 #include <workbook-edit.h>
 #include "ranges.h"
 #include "value.h"
@@ -37,6 +38,7 @@
 #include "workbook.h"
 #include "mathfunc.h"
 #include "cell.h"
+#include "commands.h"
 #include "format.h"
 #include "number-match.h"
 #include "mstyle.h"
@@ -47,218 +49,6 @@
 #include <string.h>
 
 #define TABULATE_KEY "tabulate-dialog"
-
-/* ------------------------------------------------------------------------- */
-
-static Value *
-tabulation_eval (Workbook *wb, int dims,
-		 const gnm_float *x, Cell **xcells, Cell *ycell)
-{
-	int i;
-
-	for (i = 0; i < dims; i++) {
-		cell_set_value (xcells[i], value_new_float (x[i]));
-		cell_queue_recalc (xcells[i]);
-	}
-	workbook_recalc (wb);
-
-	return ycell->value
-		? value_duplicate (ycell->value)
-		: value_new_error_VALUE (NULL);
-}
-
-static StyleFormat const *
-my_get_format (Cell const *cell)
-{
-	StyleFormat const *format = mstyle_get_format (cell_get_mstyle (cell));
-
-	if (style_format_is_general (format) &&
-	    cell->value != NULL && VALUE_FMT (cell->value) != NULL)
-		return VALUE_FMT (cell->value);
-	return format;
-}
-
-static void
-do_tabulation (Workbook *wb,
-	       Cell *target,
-	       int dims,
-	       Cell **cells,
-	       const gnm_float *minima,
-	       const gnm_float *maxima,
-	       const gnm_float *steps,
-	       gboolean with_coordinates)
-{
-	Sheet *sheet = NULL;
-	gboolean sheetdim = (!with_coordinates && dims >= 3);
-	StyleFormat const *targetformat = my_get_format (target);
-	int row = 0;
-
-	gnm_float *values = g_new (gnm_float, dims);
-	int *index = g_new (int, dims);
-	int *counts = g_new (int, dims);
-	Sheet **sheets = NULL;
-	StyleFormat const **formats = g_new (StyleFormat const *, dims);
-
-	{
-		int i;
-		for (i = 0; i < dims; i++) {
-			values[i] = minima[i];
-			index[i] = 0;
-			formats[i] = my_get_format (cells[i]);
-
-			counts[i] = 1 + gnumeric_fake_floor ((maxima[i] - minima[i]) / steps[i]);
-			/* Silently truncate at the edges.  */
-			if (!with_coordinates && i == 0 && counts[i] > SHEET_MAX_COLS - 1) {
-				counts[i] = SHEET_MAX_COLS - 1;
-			} else if (!with_coordinates && i == 1 && counts[i] > SHEET_MAX_ROWS - 1) {
-				counts[i] = SHEET_MAX_ROWS - 1;
-			}
-		}
-	}
-
-	if (sheetdim) {
-		int dim = 2;
-		gnm_float val = minima[dim];
-		StyleFormat const *sf = my_get_format (cells[dim]);
-		int i;
-
-		sheets = g_new (Sheet *, counts[dim]);
-		for (i = 0; i < counts[dim]; i++) {
-			Value *v = value_new_float (val);
-			char *base_name = format_value (sf, v, NULL, -1,
-						workbook_date_conv (wb));
-			char *unique_name =
-				workbook_sheet_get_free_name (wb,
-							      base_name,
-							      FALSE, FALSE);
-
-			g_free (base_name);
-			value_release (v);
-			sheet = sheets[i] = sheet_new (wb, unique_name);
-			g_free (unique_name);
-			workbook_sheet_attach (wb, sheet, NULL);
-
-			val += steps[dim];
-		}
-	} else {
-		char *unique_name =
-			workbook_sheet_get_free_name (wb,
-						      _("Tabulation"),
-						      FALSE, FALSE);
-	        sheet = sheet_new (wb, unique_name);
-		g_free (unique_name);
-		workbook_sheet_attach (wb, sheet, NULL);
-	}
-
-	while (1) {
-		Value *v;
-		Cell *cell;
-		int dim;
-
-		if (with_coordinates) {
-			int i;
-
-			for (i = 0; i < dims; i++) {
-				Value *v = value_new_float (values[i]);
-				value_set_fmt (v, formats[i]);
-				sheet_cell_set_value (
-					sheet_cell_fetch (sheet, i, row), v);
-			}
-
-			cell = sheet_cell_fetch (sheet, dims, row);
-		} else {
-			Sheet *thissheet = sheetdim ? sheets[index[2]] : sheet;
-			int row = (dims >= 1 ? index[0] + 1 : 1);
-			int col = (dims >= 2 ? index[1] + 1 : 1);
-
-			/* Fill-in top header.  */
-			if (row == 1 && dims >= 2) {
-				Value *v = value_new_float (values[1]);
-				value_set_fmt (v, formats[1]);
-				sheet_cell_set_value (
-					sheet_cell_fetch (sheet, col, 0), v);
-			}
-
-			/* Fill-in left header.  */
-			if (col == 1 && dims >= 1) {
-				Value *v = value_new_float (values[0]);
-				value_set_fmt (v, formats[0]);
-				sheet_cell_set_value (
-					sheet_cell_fetch (sheet, 0, row), v);
-			}
-
-			/* Make a horizon line on top between header and table.  */
-			if (row == 1 && col == 1) {
-				MStyle *mstyle = mstyle_new ();
-				Range range;
-				StyleBorder *border;
-
-				range.start.col = 0;
-				range.start.row = 0;
-				range.end.col   = (dims >= 2 ? counts[1] : 1);
-				range.end.row   = 0;
-
-				border = style_border_fetch (STYLE_BORDER_MEDIUM,
-							     style_color_black (),
-							     STYLE_BORDER_HORIZONTAL);
-
-				mstyle_set_border (mstyle, MSTYLE_BORDER_BOTTOM, border);
-				sheet_style_apply_range (sheet, &range, mstyle);
-			}
-
-			/* Make a vertical line on left between header and table.  */
-			if (row == 1 && col == 1) {
-				MStyle *mstyle = mstyle_new ();
-				Range range;
-				StyleBorder *border;
-
-				range.start.col = 0;
-				range.start.row = 0;
-				range.end.col   = 0;
-				range.end.row   = counts[0];;
-
-				border = style_border_fetch (STYLE_BORDER_MEDIUM,
-							     style_color_black (),
-							     STYLE_BORDER_VERTICAL);
-
-				mstyle_set_border (mstyle, MSTYLE_BORDER_RIGHT, border);
-				sheet_style_apply_range (sheet, &range, mstyle);
-			}
-
-			cell = sheet_cell_fetch (thissheet, col, row);
-		}
-
-		v = tabulation_eval (wb, dims, values, cells, target);
-		value_set_fmt (v, targetformat);
-		sheet_cell_set_value (cell, v);
-
-		if (with_coordinates) {
-			row++;
-			if (row >= SHEET_MAX_ROWS)
-				break;
-		}
-
-		for (dim = dims - 1; dim >= 0; dim--) {
-			values[dim] += steps[dim];
-			index[dim]++;
-
-			if (index[dim] == counts[dim]) {
-				index[dim] = 0;
-				values[dim] = minima[dim];
-			} else
-				break;
-		}
-
-		if (dim < 0)
-			break;
-	}
-
-	g_free (values);
-	g_free (index);
-	g_free (counts);
-	g_free (sheets);
-	g_free (formats);
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -389,6 +179,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	int dims = 0;
 	int row;
 	gboolean with_coordinates;
+	tabulate_t *data;
 
 	Cell **cells = g_new (Cell *, dd->source_table->nrows);
 	gnm_float *minima = g_new (gnm_float, dd->source_table->nrows);
@@ -486,14 +277,21 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		with_coordinates = (i == -1) ? TRUE : (gboolean)i;
 	}
 
-	do_tabulation (dd->sheet->workbook,
-		       resultcell,
-		       dims,
-		       cells, minima, maxima, steps,
-		       with_coordinates);
+	data = g_new (tabulate_t, 1);
+	data->target = resultcell;
+	data->dims = dims;
+	data->cells = cells;
+	data->minima = minima;
+	data->maxima = maxima;
+	data->steps = steps;
+	data->with_coordinates = with_coordinates;
 
-	gtk_widget_destroy (GTK_WIDGET (dialog));
+	if (!cmd_tabulate (WORKBOOK_CONTROL (dd->wbcg), data)) { 
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		return;
+	}
 
+	g_free (data);
  error:
 	g_free (minima);
 	g_free (maxima);

@@ -32,6 +32,7 @@ Andreas:
 	* Reduce the occasions when the undo chain is being flushed
 	* Make Edit->Sheet->Remove partly undoable
 	* Add standard output selector to consolidate tool
+	* Make Edit->Fill->Tabulate Dependency undoable
 
 Ben Liblit:
 	* Another attempt at configure time path generation.

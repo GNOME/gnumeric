@@ -54,10 +54,6 @@ struct _GenericToolState {
 	GtkWidget *warning_dialog;
 	GtkWidget *warning;
 	state_destroy_t state_destroy;
-
-/* #warning  FIXME: The following 2 items do not belong into the GenericToolState */
-        scenario_state_t *scenario_state;
-        GtkWidget *name_entry;
 } ;
 
 void     tool_load_selection (GenericToolState *state, gboolean allow_multiple);
