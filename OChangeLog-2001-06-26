@@ -11,6 +11,7 @@
 	* src/stf.c (stf_read_workbook) :  Bring up to date.
 
 	* src/xml-io.c (xml_write_attributes) : Do not use freed memory.
+	(xml_workbook_write) : Free the args.
 
 	* src/item-bar.c (item_bar_event) : Autosizing an empty row/col
 	  returns 0.

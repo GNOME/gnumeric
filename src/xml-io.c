@@ -2831,6 +2831,7 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	child = xml_write_attributes (ctxt, n_args, args);
 	if (child)
 		xmlAddChild (cur, child);
+	g_free (args);
 
 	child = xml_write_summary (ctxt, wb->summary_info);
 	if (child)
