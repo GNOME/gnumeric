@@ -1,3 +1,9 @@
+2000-02-15  Jon K Hellan  <hellan@acm.org>
+
+	* pln.c: include cell.h, workbook.h
+	(pln_parse_sheet): Update from using to sheet_col_set_width to
+	sheet_col_set_size_pixels.
+
 2000-01-29  Jon K Hellan  <hellan@acm.org>
 
 	* pln.c (pln_parse_sheet, pln_read_workbook): Add

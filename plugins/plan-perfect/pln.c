@@ -20,6 +20,8 @@
 #include "plugin.h"
 #include "gnumeric.h"
 #include "file.h"
+#include "cell.h"
+#include "workbook.h"
 #include "command-context.h"
 
 typedef struct {
@@ -768,8 +770,10 @@ pln_parse_sheet (CommandContext *context, FileSource_t *src)
 				cwidth = PLN_WORD(src->cur + ccol * 6 + 8);
 				if ((cwidth != 0) && (ccol <= lastcol))
 				{
-					sheet_col_set_width(src->sheet, ccol,
-						(cwidth & 255) * FONT_WIDTH);
+					sheet_col_set_size_pixels
+						(src->sheet, ccol,
+						 (cwidth & 255) * FONT_WIDTH,
+						 FALSE);
 				}
 			}
 			break;
