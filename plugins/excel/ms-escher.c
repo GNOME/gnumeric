@@ -405,6 +405,7 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 		if (ms_excel_read_debug > 1)
 			write_file ("unknown", data, h->len - header, h->fbt - Blip_START);
 #endif
+		g_free (data);
 		break;
 	}
 

@@ -1,3 +1,7 @@
+2001-03-27  Morten Welinder  <terra@diku.dk>
+
+	* ms-escher.c (ms_escher_read_Blip): Plug leak.
+
 2001-03-20  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* Makefile.am:
