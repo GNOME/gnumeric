@@ -20,7 +20,7 @@
 #include "utils.h"
 #include "goal-seek.h"
 #ifdef HAVE_IEEEFP_H
-#    include <ieeefp.h>
+#include <ieeefp.h>
 #endif
 
 #define MAX_CELL_NAME_LEN  20
@@ -70,10 +70,9 @@ gnumeric_goal_seek (Workbook *wb, Sheet *sheet,
 	GoalEvalData evaldata;
 	GoalSeekStatus status;
 
+	goal_seek_initialise (&seekdata);
 	seekdata.xmin = xmin;
 	seekdata.xmax = xmax;
-	seekdata.precision = 1e-10;
-	seekdata.havexpos = seekdata.havexneg = FALSE;
 
 	evaldata.xcell = change_cell;
 	evaldata.ycell = set_cell;
@@ -105,7 +104,25 @@ gnumeric_goal_seek (Workbook *wb, Sheet *sheet,
 			goto DONE;
 	}
 
-	/* PLAN C: Trawl normally from left.  */
+	/* PLAN C: Trawl normally from middle.  */
+	{
+		float_t sigma, mu;
+		int i;
+
+		sigma = seekdata.xmax - seekdata.xmin;
+		mu = (seekdata.xmax + seekdata.xmin) / 2;
+
+		for (i = 0; i < 5; i++) {
+			sigma /= 10;
+			status = goal_seek_trawl_normally (goal_seek_eval,
+							   &seekdata, &evaldata,
+							   mu, sigma, 30);
+			if (status == GOAL_SEEK_OK)
+				goto DONE;
+		}
+	}
+
+	/* PLAN D: Trawl normally from left.  */
 	{
 		float_t sigma, mu;
 		int i;
@@ -123,31 +140,13 @@ gnumeric_goal_seek (Workbook *wb, Sheet *sheet,
 		}
 	}
 
-	/* PLAN D: Trawl normally from right.  */
+	/* PLAN E: Trawl normally from right.  */
 	{
 		float_t sigma, mu;
 		int i;
 
 		sigma = seekdata.xmax - seekdata.xmin;
 		mu = seekdata.xmax;
-
-		for (i = 0; i < 5; i++) {
-			sigma /= 10;
-			status = goal_seek_trawl_normally (goal_seek_eval,
-							   &seekdata, &evaldata,
-							   mu, sigma, 20);
-			if (status == GOAL_SEEK_OK)
-				goto DONE;
-		}
-	}
-
-	/* PLAN E: Trawl normally from middle.  */
-	{
-		float_t sigma, mu;
-		int i;
-
-		sigma = seekdata.xmax - seekdata.xmin;
-		mu = (seekdata.xmax + seekdata.xmin) / 2;
 
 		for (i = 0; i < 5; i++) {
 			sigma /= 10;
@@ -279,17 +278,17 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
                 xmin_entry = gtk_entry_new_with_max_length (MAX_CELL_NAME_LEN);
                 xmax_entry = gtk_entry_new_with_max_length (MAX_CELL_NAME_LEN);
 
-		set_label    = gtk_label_new (_("Set Cell:"));
+		set_label    = gtk_label_new (_("Set cell:"));
 		target_label = gtk_label_new (_("To value:"));
 		change_label = gtk_label_new (_("By changing cell:"));
 		xmin_label = gtk_label_new (_("To a value of at least [optional]:"));
 		xmax_label = gtk_label_new (_("But no bigger than [optional]:"));
 
-		gtk_misc_set_alignment (GTK_MISC(set_label), 0, 0);
-		gtk_misc_set_alignment (GTK_MISC(target_label), 0, 0);
-		gtk_misc_set_alignment (GTK_MISC(change_label), 0, 0);
-		gtk_misc_set_alignment (GTK_MISC(xmin_label), 0, 0);
-		gtk_misc_set_alignment (GTK_MISC(xmax_label), 0, 0);
+		gtk_misc_set_alignment (GTK_MISC (set_label), 0, 0);
+		gtk_misc_set_alignment (GTK_MISC (target_label), 0, 0);
+		gtk_misc_set_alignment (GTK_MISC (change_label), 0, 0);
+		gtk_misc_set_alignment (GTK_MISC (xmin_label), 0, 0);
+		gtk_misc_set_alignment (GTK_MISC (xmax_label), 0, 0);
 
                 box = gtk_hbox_new (FALSE, 0);
                 entry_box = gtk_vbox_new (FALSE, 0);
@@ -312,18 +311,12 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
                 gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
-		gtk_entry_set_text(GTK_ENTRY (set_entry), set_entry_str);
-		gtk_entry_set_position(GTK_ENTRY (set_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (set_entry), 0,
-					GTK_ENTRY(set_entry)->text_length);
-
+		gtk_entry_set_text (GTK_ENTRY (set_entry), set_entry_str);
+		focus_on_entry (set_entry);
                 gtk_widget_show_all (box);
 	} else {
-		gtk_entry_set_text(GTK_ENTRY (set_entry), set_entry_str);
-		gtk_entry_set_position(GTK_ENTRY (set_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (set_entry), 0,
-					GTK_ENTRY(set_entry)->text_length);
-
+		gtk_entry_set_text (GTK_ENTRY (set_entry), set_entry_str);
+		focus_on_entry (set_entry);
 	        gtk_widget_show (dialog);
 	}
 

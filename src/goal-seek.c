@@ -162,6 +162,19 @@ fake_df (GoalSeekFunction f, float_t x, float_t *dfx, float_t xrelstep,
 	return GOAL_SEEK_OK;
 }
 
+/* ------------------------------------------------------------------------- */
+
+void
+goal_seek_initialise (GoalSeekData *data)
+{
+	data->havexpos = data->havexneg = FALSE;
+	data->xmin = -1e10;
+	data->xmax = +1e10;
+	data->precision = 1e-10;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /*
  * Seek a goal (root) using Newton's iterative method.
  *
@@ -407,10 +420,10 @@ int
 main ()
 {
 	GoalSeekData data;
+
+	goal_seek_initialise (&data);
 	data.xmin = -100;
 	data.xmax = 100;
-	data.precision = 1e-10;
-	data.havexpos = data.havexneg = FALSE;
 
 	goal_seek_newton (f, NULL, &data, NULL, 50.0);
 

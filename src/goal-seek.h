@@ -24,6 +24,8 @@ typedef enum { GOAL_SEEK_OK, GOAL_SEEK_ERROR } GoalSeekStatus;
 
 typedef GoalSeekStatus (*GoalSeekFunction) (float_t x, float_t *y, void *user_data);
 
+void goal_seek_initialise (GoalSeekData *data);
+
 GoalSeekStatus goal_seek_newton (GoalSeekFunction f,
 				 GoalSeekFunction df,
 				 GoalSeekData *data,

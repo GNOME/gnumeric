@@ -1,5 +1,21 @@
 1999-05-23  Morten Welinder  <terra@diku.dk>
 
+	* src/gnumeric-sheet.c (gnumeric_sheet_cursor_set): Make the
+ 	scroll bar reflect the top-left corner's position.  This feels
+ 	more natural.
+	(gnumeric_sheet_set_top_col): Compute visible ranges; do nothing
+ 	until things change.
+	(gnumeric_sheet_set_top_row): Ditto.
+
+	* src/dialog-goal-seek.c (gnumeric_goal_seek): Use
+ 	goal_seek_initialise.
+	(gnumeric_goal_seek): Trawl heavier and earlier in the middle.
+	(dialog_goal_seek): downcase a stray uppercase letter.
+
+	* src/goal-seek.c (goal_seek_initialise): New function.
+
+1999-05-23  Morten Welinder  <terra@diku.dk>
+
 	* src/dialog-goal-seek.c: redesign non-gui part.
 	(dialog_goal_seek): Added entries for xmin and xmax.
 

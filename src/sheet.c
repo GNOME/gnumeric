@@ -1509,7 +1509,7 @@ sheet_selection_is_cell_selected (Sheet *sheet, int col, int row)
 }
 
 /*
- * walk_boundaries: implements the decitions for walking a region
+ * walk_boundaries: implements the decisions for walking a region
  * returns TRUE if the cursor left the boundary region
  */
 static int
@@ -1703,12 +1703,12 @@ static void
 reference_append (GString *result_str, int col, int row)
 {
 	char *row_string = g_strdup_printf ("%d", row);
-	
+
 	g_string_append_c (result_str, '$');
 	g_string_append (result_str, col_name (col));
 	g_string_append_c (result_str, '$');
 	g_string_append (result_str, row_string);
-	
+
 	g_free (row_string);
 }
 
@@ -2014,8 +2014,8 @@ sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row, i
 static gint
 CRowSort (gconstpointer a, gconstpointer b)
 {
-	Cell *ca = (Cell *) a;
-	Cell *cb = (Cell *) b;
+	const Cell *ca = (const Cell *) a;
+	const Cell *cb = (const Cell *) b;
 
 	return ca->row->pos - cb->row->pos;
 }
