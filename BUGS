@@ -62,9 +62,6 @@ Long term breakage
 - format.c: we should resolve all the separators at gnumeric_setlocale time,
   not every time we need them.
 
-- When setting the width of columns, the undo/redo text should be more
-  informative like "Setting width of columns A through E".
-
 - when guessing the format of a possible value we should try the format
   associated with the cell FIRST rather than later.  eg enter '10-1' (without
   quotes) in a cell with an assigned format of Text.  This should be treated as

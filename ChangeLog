@@ -1,4 +1,16 @@
 2001-05-01  Almer S. Tigelaar  <almer@gnome.org>
+ 
+ 	* src/parser.y (yylex): Seek for matching )'s for ('s and
+ 	vice versa.
+ 	(find_bracket): The meat for the above functionality
+ 	(find_char): Split out from yylex, might be useful in other
+ 	places. Currently used to scan for matching quotes.
+	(gnumeric_expr_parser): If the ExprTree is null, assume that
+	an error has occurred, set a general "invalid expression" and
+	mark the whole expression. Also display more detail when both
+	the expression and error message are non-null.
+	
+2001-05-01  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/application.[ch] (application_clipboard_unant): Use
 	sheet_unant.
