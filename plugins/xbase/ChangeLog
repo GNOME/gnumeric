@@ -1,3 +1,9 @@
+2003-02-18  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (xbase_field_as_value) : don't free the string since we're
+	  not copying it.  Handle the case where the encoding was not
+	  specified.
+
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.16

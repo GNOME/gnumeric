@@ -1,3 +1,8 @@
+2003-02-18  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wb_view_new_from_input) : you can't probe
+	  content if there is no probe function.
+
 2003-02-17  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=106148.

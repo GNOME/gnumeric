@@ -35,6 +35,7 @@
 #include "str.h"
 #include "format.h"
 #include "func.h"
+#include "file-priv.h"
 #include "expr.h"
 #include "expr-name.h"
 #include "expr-impl.h"
@@ -703,7 +704,9 @@ wb_view_new_from_input  (GsfInput *input,
 #endif
 				/* A name match needs to be a content match too */
 				if (gnm_file_opener_probe (tmp_fo, input, pl) &&
-				    (pl == FILE_PROBE_CONTENT || gnm_file_opener_probe (tmp_fo, input, FILE_PROBE_CONTENT)))
+				    (pl == FILE_PROBE_CONTENT ||
+				     tmp_fo->probe_func == NULL ||
+				     gnm_file_opener_probe (tmp_fo, input, FILE_PROBE_CONTENT)))
 					optional_fmt = tmp_fo;
 
 				new_input_refs = G_OBJECT (input)->ref_count;

@@ -80,10 +80,12 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 
 	switch (field->type) {
 	case 'C': {
-		val = value_new_string_nocopy (
-			g_convert_with_iconv (g_strchomp (s), -1,
-			      file->char_map, NULL, NULL, NULL));
-		g_free (s);
+		if (file->char_map != (GIConv)-1)
+			val = value_new_string_nocopy (
+				g_convert_with_iconv (g_strchomp (s), -1,
+				      file->char_map, NULL, NULL, NULL));
+		else
+			val = value_new_string_nocopy (g_strchomp (s));
 		return val;
 	}
 	case 'N':

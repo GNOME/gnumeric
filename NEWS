@@ -1,5 +1,12 @@
 Gnumeric 1.1.17
 
+Jody:
+	* Improve handling of files with content type != extension
+	* A few small bugs in XL97 export.
+	* Simplify defining new services
+	* Work on graphs
+	* Fix xbase importer
+
 Morten:
 	* Make RenderedValue use a PangoLayout for storing the contents
 	  of a cell.  (Operation Snappiness, Part 3.)
