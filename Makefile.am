@@ -22,9 +22,12 @@ Mime_DATA = gnumeric.keys gnumeric.mime
 serverdir = $(libdir)/bonobo/servers/
 server_in_files = GNOME_Gnumeric.server.in
 server_DATA	= GNOME_Gnumeric.server
+$(server_in_files): $(server_in_files).in
+	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 @INTLTOOL_SERVER_RULE@
 
-CLEANFILES = intltool-extract intltool-merge intltool-update
+CLEANFILES = intltool-extract intltool-merge intltool-update \
+	 $(server_in_files) $(server_DATA)
 
 EXTRA_DIST = \
 	gnumeric.desktop.in gnumeric.spec.in GNOME_Gnumeric.server.in.in\

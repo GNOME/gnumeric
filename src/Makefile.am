@@ -5,9 +5,9 @@
 SUBDIRS = pixmaps dialogs widgets tools cut-n-paste-code
 
 if WITH_BONOBO
-component = gnumeric-component
+libexec_PROGRAMS = gnumeric-component
 endif
-bin_PROGRAMS = gnumeric $(component) # ssconvert
+bin_PROGRAMS = gnumeric # ssconvert
 #noinst_PROGRAMS = number-match
 
 INCLUDES = 								\

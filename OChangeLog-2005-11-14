@@ -1,5 +1,18 @@
 2002-12-08  Jon K Hellan  <hellan@acm.org>
 
+	* GNOME_Gnumeric.server.in.in: Install gnumeric-component to
+	libexec.
+
+	* src/Makefile.am (libexec_PROGRAMS): Ditto.
+
+	* Makefile.am ($(server_in_files)): Substitute for "@LIBEXECDIR@"
+	in server.in.in file.
+
+	* configure.in (AC_OUTPUT): Don't output GNOME_Gnumeric.server.in,
+	make generates it.
+
+2002-12-08  Jon K Hellan  <hellan@acm.org>
+
 	* src/sheet-filter.c (do_focus_change): New. Copied from
 	gtkwindow.c. Send focus_change event to the list
 	(filter_popup_destroy): New. Move keyboard focus away from the
