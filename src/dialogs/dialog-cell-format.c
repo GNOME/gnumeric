@@ -118,7 +118,7 @@ typedef struct _FormatState
 		GtkBox		*box;
 		GtkWidget	*widget[F_MAX_WIDGET];
 
-		gchar		*spec;	/* in internal (not localized) form */
+		StyleFormat	*spec;
 		gint		 current_type;
 		int		 num_decimals;
 		int		 negative_format;
@@ -610,8 +610,8 @@ cb_separator_toggle (GtkObject *obj, FormatState *state)
 
 static int
 fmt_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
-			 char const * const cur_format,
-			 int select, int *count)
+			  StyleFormat const *cur_format,
+			  int select, int *count)
 {
 	int j;
 
@@ -622,8 +622,7 @@ fmt_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
 		gtk_clist_append (cl, t);
 		g_free (t[0]);
 
-		/* CHECK : Do we really want to be case insensitive ? */
-		if (!g_strcasecmp (formats[j], cur_format))
+		if (!strcmp (formats[j], cur_format->format))
 			select = j + *count;
 	}
 
@@ -728,7 +727,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 			 *      the std formats and the custom formats in the StyleFormat hash.
 			 */
 			if  (page == 11 && select == -1) {
-				char *tmp = style_format_str_as_XL (state->format.spec, TRUE);
+				char *tmp = style_format_as_XL (state->format.spec, TRUE);
 				gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]), tmp);
 				g_free (tmp);
 			} else if (select < 0)
@@ -763,14 +762,14 @@ cb_format_entry (GtkEditable *w, FormatState *state)
 	char *fmt = style_format_delocalize (tmp);
 
 	/* If the format didn't change don't react */
-	if (!g_strcasecmp (state->format.spec, fmt)) {
+	if (!strcmp (state->format.spec->format, fmt)) {
 		g_free (fmt);
 		return;
 	}
 
 	if (state->enable_edit) {
-		g_free (state->format.spec);
-		state->format.spec = fmt;
+		style_format_unref (state->format.spec);
+		state->format.spec = style_format_new_XL (fmt, FALSE);
 		mstyle_set_format_text (state->result, fmt);
 		fmt_dialog_changed (state);
 		state->enable_edit = FALSE;
@@ -891,34 +890,31 @@ fmt_dialog_init_format_page (FormatState *state)
 	GtkWidget *tmp;
 	GtkCList *cl;
 	GtkCombo *combo;
-	char const * name;
+	char const *name;
 	int i, j, page;
 	FormatCharacteristics info;
+	StyleFormat *fmt;
 
 	/* Get the current format */
-	char *format;
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT)) {
-		StyleFormat const *fmt = mstyle_get_format (state->style);
-		format = style_format_as_XL (fmt, FALSE);
-	} else
-		format = g_strdup (cell_formats[0][0]);
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT))
+		fmt = mstyle_get_format (state->style);
+	else
+		fmt = style_format_general ();
 
-	if (!strcmp (format, "General") &&
-	    state->value != NULL &&
-	    VALUE_FMT (state->value) != NULL) {
-		g_free (format);
-		format = style_format_as_XL (VALUE_FMT (state->value), FALSE);
-	}
+	if (style_format_is_general (fmt) &&
+	    state->value != NULL && VALUE_FMT (state->value) != NULL)
+		fmt = VALUE_FMT (state->value);
 
 	state->format.preview = NULL;
-	state->format.spec = format;
+	state->format.spec = fmt;
+	style_format_ref (fmt);
 
 	/* The handlers will set the format family later.  -1 flags that
 	 * all widgets are already hidden. */
 	state->format.current_type = -1;
 
 	/* Attempt to extract general parameters from the current format */
-	if ((page = cell_format_classify (state->format.spec, &info)) < 0)
+	if ((page = cell_format_classify (fmt, &info)) < 0)
 		page = 11; /* Default to custom */
 
 	/* Even if the format was not recognized it has set intelligent defaults */
@@ -2355,7 +2351,7 @@ static gboolean
 cb_fmt_dialog_dialog_destroy (GtkObject *unused, FormatState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
-	g_free (state->format.spec);
+	style_format_unref (state->format.spec);
 	mstyle_unref (state->back.style);
 	mstyle_unref (state->style);
 	mstyle_unref (state->result);

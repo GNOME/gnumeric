@@ -341,8 +341,8 @@ void
 stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 {
 	FormatInfo_t *info;
-	const char * const * const * mainiterator = cell_formats;
-	const char * const * subiterator;
+	char const * const * const * mainiterator = cell_formats;
+	char const * const * subiterator;
 	char *temp[1];
 	int rownumber;
 
