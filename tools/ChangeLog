@@ -1,3 +1,7 @@
+2001-01-03  Morten Welinder <terra@diku.dk>
+
+	* check-header-guards: New tool.
+
 2001-01-02  Morten Welinder <terra@diku.dk>
 
 	* check-cvs-binary: New tool for checking cvs keyword substitution
