@@ -337,7 +337,7 @@ cell_sort_col_name_list (Sheet *sheet, int start_col, int end_col,
 	int i;
 
 	list = NULL;
-	for (i = start_col; i < end_col - start_col + 1; i++) {
+	for (i = start_col; i <= end_col; i++) {
 		str  = cell_sort_col_name (sheet, row, i, header);
 		list = g_list_append (list, (gpointer) str);
 	}
@@ -353,7 +353,7 @@ cell_sort_row_name_list (Sheet *sheet, int start_row, int end_row,
 	int i;
 
 	list = NULL;
-	for (i = start_row; i < end_row - start_row + 1; i++) {
+	for (i = start_row; i <= end_row; i++) {
 		str  = cell_sort_row_name (sheet, i, col, header);
 		list = g_list_append (list, (gpointer) str);
 	}
