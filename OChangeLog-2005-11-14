@@ -1,3 +1,8 @@
+2001-01-24  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/clipboard.c (clipboard_paste_region):
+	Update row heights after pasting a region. Fixes #38176.
+
 2001-01-23  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (cmd_search_replace_do): Implement
