@@ -4,36 +4,11 @@
 #include <gdk/gdk.h>
 #include <libgnomeprint/gnome-font.h>
 
-typedef struct {
-        char     *format;
-	int      want_am_pm;
-        char     restriction_type;
-        int      restriction_value;
-} StyleFormatEntry;
+typedef struct _StyleFont    StyleFont;
+typedef struct _StyleColor   StyleColor;
+typedef struct _StyleElement StyleElement;
 
-typedef struct {
-	int      ref_count;
-        GList    *format_list;  /* Of type StyleFormatEntry. */
-	char     *format;
-} StyleFormat;
-
-typedef struct {
-	int                ref_count;
-	char              *font_name;
-	double             size;
-	double             scale;
-	GnomeDisplayFont  *dfont;
-	GnomeFont         *font;
-
-	unsigned int is_bold:1;
-	unsigned int is_italic:1;
-} StyleFont;
-
-typedef struct {
-	int      ref_count;
-	GdkColor color;
-	char     *name;
-} StyleColor;
+#include "render.h"
 
 /**
  *  The order or the following two records
@@ -59,19 +34,6 @@ typedef enum {
  	STYLE_RIGHT
 } StyleSide;
 
-typedef struct {
-	int      ref_count;
-
-	/**
-	 * if the value is BORDER_NONE, then the respective
-	 * color is not allocated, otherwise, it has a
-	 * valid color.
-	 * NB. Use StyleSide to get orientation
-	 **/
- 	StyleBorderType type[4] ;
- 	StyleColor  *color[4] ;
-} StyleBorder;
-
 /* Alignment definitions */
 typedef enum {
 	HALIGN_GENERAL =     1,
@@ -96,80 +58,87 @@ typedef enum {
 	ORIENT_VERT_VERT_TEXT2 = 8
 } StyleOrientation;
 
-#define STYLE_FORMAT       1
-#define STYLE_FONT         2
-#define STYLE_BORDER       4
-#define STYLE_PATTERN      8
-#define STYLE_ALIGN       16
-#define STYLE_FORE_COLOR  32
-#define STYLE_BACK_COLOR  64
-#define STYLE_MAXIMUM    128
+struct _StyleFont {
+	int                ref_count;
+	char              *font_name;
+	double             size;
+	double             scale;
+	GnomeDisplayFont  *dfont;
+	GnomeFont         *font;
 
-/* Define all of the styles we actually know about */
-#define STYLE_ALL (STYLE_FORMAT | STYLE_FONT | STYLE_BORDER | STYLE_ALIGN | \
-		   STYLE_PATTERN | STYLE_FORE_COLOR | STYLE_BACK_COLOR)
+	unsigned int is_bold:1;
+	unsigned int is_italic:1;
+};
+
+struct _StyleColor {
+	int      ref_count;
+	GdkColor color;
+	char     *name;
+};
+
+typedef enum {
+	/* Delimiter */
+	STYLE_ELEMENT_ZERO = 0,
+	/* Types that are visible in blank cells */
+	        STYLE_COLOR_FORE,
+		STYLE_COLOR_BACK,
+	/* Delimiter */
+	STYLE_ELEMENT_MAX_BLANK,
+	/* Normal types */
+		STYLE_FONT_NAME,
+		STYLE_FONT_BOLD,
+		STYLE_FONT_ITALIC,
+	        STYLE_FONT_SCALE,
+	/* Delimiter */
+	STYLE_ELEMENT_MAX
+} StyleElementType;
+
+struct _StyleElement {
+	StyleElementType type;
+	union {
+		union {
+			StyleColor *fore;
+			StyleColor *back;
+		} color;
+		union {
+			gchar    *name;
+			gboolean  bold;
+			gboolean  italic;
+			gdouble   scale;
+		} font;
+	} u;
+};
 
 typedef struct {
-	StyleFormat   *format;
-	StyleFont     *font;
-	StyleBorder   *border;
-	StyleColor    *fore_color;
-	StyleColor    *back_color;
-
-	unsigned int pattern:4;
-	unsigned int valign:4;
-	unsigned int halign:6;
-	unsigned int orientation:4;
-	unsigned int fit_in_cell:1;
-	
-	unsigned char valid_flags;
+	gchar   *name;
+	guint32  stamp;
+	GArray  *elements;
 } Style;
 
-void           style_init  	      (void);
-void	       style_shutdown         (void);
+typedef struct {
+	int start_col, start_row;
+	int end_col, end_row;
+} Range;
 
-Style         *style_new   	      (void);
-void           style_merge_to         (Style *target, Style *source);
-Style         *style_duplicate        (const Style *style);
-void           style_destroy          (Style *style);
-Style         *style_new_empty        (void);
+typedef struct {
+	Range  range;
+	Style  *style;
+} StyleRegion;
 
-StyleFormat   *style_format_new       (const char *name);
-void           style_format_ref       (StyleFormat *sf);
-void           style_format_unref     (StyleFormat *sf);
-				      
-StyleFont     *style_font_new         (const char *font_name,
-				       double size, double scale,
-				       int bold, int italic);
-StyleFont     *style_font_new_from    (StyleFont *sf, double scale);
-StyleFont     *style_font_new_simple  (const char *font_name,
-				       double size, double scale,
-				       int bold, int italic);
-GdkFont       *style_font_gdk_font    (StyleFont *sf);
-GnomeFont     *style_font_gnome_font  (StyleFont *sf);
-int            style_font_get_height  (StyleFont *sf);
-void           style_font_ref         (StyleFont *sf);
-void           style_font_unref       (StyleFont *sf);
+Style      *style_new         (const gchar *name);
+Style      *style_new_elem    (const gchar *name, StyleElement e);
+Style      *style_new_array   (const gchar *name, const GArray *elements);
+/* No pre-existance checking */
+void        style_add         (Style *st, StyleElement e);
+void        style_add_array   (Style *st, const GArray *elements);
+/* Checks to see if it is alreqady in use */
+void        style_set         (Style *st, StyleElement e);
 
-StyleColor    *style_color_new        (gushort red, gushort green, gushort blue);
-void           style_color_ref        (StyleColor *sc);
-void           style_color_unref      (StyleColor *sc);
+Style      *style_merge       (const Style *sta,  const Style *stb); /* commutative */
+void        style_destroy     (Style *st);
+char        *style_to_string  (const Style *st); /* Debug only ! leaks like a sieve */
 
-StyleBorder   *style_border_new_plain (void);
-void           style_border_ref       (StyleBorder *sb);
-void           style_border_unref     (StyleBorder *sb);
-StyleBorder   *style_border_new       (StyleBorderType const border_type[4],
- 				       StyleColor *border_color[4]);
-
-/*
- * For hashing Styles
- */
-guint          style_hash    (gconstpointer a);
-gint           style_compare (gconstpointer a, gconstpointer b);
-
-extern StyleFont *gnumeric_default_font;
-extern StyleFont *gnumeric_default_bold_font;
-extern StyleFont *gnumeric_default_italic_font;
+RenderInfo *render_merge       (const GList *styles);
+RenderInfo *render_merge_blank (const GList *styles);
 
 #endif /* GNUMERIC_STYLE_H */
-

@@ -142,7 +142,7 @@ format_number_select_row (GtkCList *clist, gint row, gint col, GdkEvent *event, 
 static void
 render_formated_version (char *format)
 {
-	if (!first_cell)
+/*	if (!first_cell)
 		gtk_label_set_text (GTK_LABEL (number_sample), "");
 	else {
 		StyleFormat *style_format;
@@ -158,7 +158,7 @@ render_formated_version (char *format)
 		gtk_label_set_text (GTK_LABEL (number_sample), str);
 		g_free (str);
 		style_format_unref (style_format);
-	}
+		}*/
 }
 
 /*
@@ -185,7 +185,7 @@ format_selected (GtkCList *clist, gint row, gint col, GdkEvent *event, GnomeProp
  *
  * Checks if all the cells in the list share the same format string
  */
-static StyleFormat *
+/*static StyleFormat *
 cells_get_format (CellList *cells)
 {
 	StyleFormat *last_format;
@@ -203,7 +203,7 @@ cells_get_format (CellList *cells)
 	}
 
 	return last_format;
-}
+}*/
 
 /*
  * Creates the lists for the number display with our defaults
@@ -239,98 +239,7 @@ format_code_changed (GtkEntry *entry, GnomePropertyBox *prop_win)
 static GtkWidget *
 create_number_format_page (GtkWidget *prop_win, CellList *cells)
 {
-	StyleFormat *format;
-	GtkWidget *l, *scrolled_list;
-	GtkTable *t, *tt;
-	int i;
-	
-	enum {
-		BOXES_LINE  = 1,
-		INPUT_LINE  = 3,
-	};
-
-	t = (GtkTable *) gtk_table_new (0, 0, 0);
-
-	/* try to select the current format the user is using */
-	format = cells_get_format (cells);
-
-	/* 1. Categories */
-	gtk_table_attach (t, l = gtk_label_new (_("Categories")),
-			  0, 1, BOXES_LINE, BOXES_LINE+1,
-			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
-
-	number_cat_list = my_clist_new ();
-	scrolled_list = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_list),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_container_add (GTK_CONTAINER (scrolled_list), number_cat_list);
-	gtk_table_attach (t, scrolled_list, 0, 1, BOXES_LINE+1, BOXES_LINE+2,
-			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 4, 0);
-
-	/* 1.1 Connect our signal handler */
-	gtk_signal_connect (GTK_OBJECT (number_cat_list), "select_row",
-			    GTK_SIGNAL_FUNC (format_number_select_row), prop_win);
-
-	/* 1.2 Fill the category list */
-	gtk_clist_freeze (GTK_CLIST (number_cat_list));
-	for (i = 0; cell_formats [i].name; i++){
-		gchar *text [1];
-
-		text [0] = _(cell_formats [i].name);
-		
-		gtk_clist_append (GTK_CLIST (number_cat_list), text);
-	}
-	gtk_clist_thaw (GTK_CLIST (number_cat_list));
-	
-	/* 2. Code input and sample display */
-	tt = GTK_TABLE (gtk_table_new (0, 0, 0));
-	
-	/* 2.1 Input line */
-	gtk_table_attach (tt, gtk_label_new (_("Code:")), 0, 1, 0, 1, 0, 0, 2, 0);
-	
-	number_input = gtk_entry_new ();
-	gtk_signal_connect (GTK_OBJECT (number_input), "changed",
-			    GTK_SIGNAL_FUNC (format_code_changed), prop_win);
-
-	gtk_table_attach (tt, number_input, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 2);
-	
-	/* 2.2 Sample */
-	gtk_table_attach (tt, gtk_label_new (_("Sample:")), 0, 1, 1, 2, 0, 0, 2, 0);
-	number_sample = gtk_label_new ("X");
-	gtk_misc_set_alignment (GTK_MISC (number_sample), 0.0, 0.5);
-	gtk_table_attach (tt, number_sample, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 2);
-
-	gtk_table_attach (t, GTK_WIDGET (tt), 0, 2, INPUT_LINE, INPUT_LINE+1,
-			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
-
-	/* 3. Format codes */
-	number_format_list = my_clist_new ();
-	scrolled_list = gtk_scrolled_window_new (NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (scrolled_list), number_format_list);
-	gtk_table_attach (t, l = gtk_label_new (_("Format codes")),
-			  1, 2, BOXES_LINE, BOXES_LINE+1,
-			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
-	gtk_table_attach_defaults (t, scrolled_list, 1, 2, BOXES_LINE + 1, BOXES_LINE + 2);
-	format_list_fill (0);
-
-	/* 3.1 connect the signal handled for row selected */
-	gtk_signal_connect (GTK_OBJECT (number_format_list), "select_row",
-			    GTK_SIGNAL_FUNC (format_selected), prop_win);
-
-
-	/* 3.2: Invoke the current style for the cell if possible */
-	if (format){
-		if (!format_find (format->format))
-		    gtk_entry_set_text (GTK_ENTRY (number_input), format->format);
-	}
-
-
-	/* 4. finish */
-	gtk_widget_show_all (GTK_WIDGET (t));
-	
-	return GTK_WIDGET (t);
+	return NULL;
 }
 
 static void
@@ -341,14 +250,14 @@ apply_number_formats (Style *style, Sheet *sheet, CellList *list)
 	if (!strcmp (str, ""))
 		return;
 
-	for (;list; list = list->next){
+/*	for (;list; list = list->next){
 		Cell *cell = list->data;
 
 		cell_set_format (cell, str);
 	}
 
 	style->valid_flags |= STYLE_FORMAT;
-	style->format = style_format_new (str);
+	style->format = style_format_new (str);*/
 }
 
 typedef struct {
@@ -494,7 +403,7 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 static void
 apply_align_format (Style *style, Sheet *sheet, CellList *cells)
 {
-	int i;
+/*	int i;
 	int halign, valign, autor;
 
 	i = gtk_radio_group_get_selected (hradio_list);
@@ -512,7 +421,7 @@ apply_align_format (Style *style, Sheet *sheet, CellList *cells)
 	style->valign = valign;
 	style->orientation = ORIENT_HORIZ;
 	style->fit_in_cell = autor;
-	style->valid_flags |= STYLE_ALIGN;
+	style->valid_flags |= STYLE_ALIGN;*/
 }
 
 static void
@@ -536,7 +445,7 @@ create_font_page (GtkWidget *prop_win, CellList *cells)
 static void
 apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 {
-	FontSelector *font_sel = FONT_SELECTOR (font_widget);
+/*	FontSelector *font_sel = FONT_SELECTOR (font_widget);
 	GnomeDisplayFont *gnome_display_font;
 	GnomeFont *gnome_font;
 	GList *l;
@@ -549,29 +458,30 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 
 	gnome_font = gnome_display_font->gnome_font;
 	family_name = gnome_font->fontmap_entry->familyname;
-	height = gnome_display_font->gnome_font->size;
+	height = gnome_display_font->gnome_font->size;*/
 
-	style->valid_flags |= STYLE_FONT;
+/*	style->valid_flags |= STYLE_FONT;
 	style->font = style_font_new (
 		family_name,
 		gnome_font->size,
 		sheet->last_zoom_factor_used,
 		gnome_font->fontmap_entry->weight_code >= GNOME_FONT_BOLD,
-		gnome_font->fontmap_entry->italic);
+		gnome_font->fontmap_entry->italic);*/
 		
 	/* Apply the new font to all of the cell rows */
-	for (; cells; cells = cells->next){
+/*	for (; cells; cells = cells->next){
 		Cell *cell = cells->data;
 		
 		cell_set_font_from_style (cell, style->font);
-	}
+		}*/
+
+	g_warning ("Write font stuff at least");
 
 	/* Now apply it to every row in the selection */
-	for (l = sheet->selections; l; l = l->next){
+/*	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
 		GList *rl;
 		
-		/* Special case, the whole spreadsheet */
 		if (ss->start_row == 0 && ss->end_row == SHEET_MAX_ROWS-1)
 			sheet_row_set_internal_height (sheet, &sheet->default_row_style, height);
 
@@ -585,7 +495,7 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 			
 			sheet_row_set_internal_height (sheet, ri, height);
 		}
-	}
+		}*/
 }
 
 
@@ -802,20 +712,20 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 static void
 apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 {
-	double rd, gd, bd, ad;
+/*	double rd, gd, bd, ad;
 	gushort fore_change = FALSE, back_change = FALSE;
 	gushort fore_red=0, fore_green=0, fore_blue=0;
 	gushort back_red=0xff, back_green=0xff, back_blue=0xff;
 
 	Cell *cell;
 
-	/*
+	*
 	 * Let's check the foreground first
-	 */
+	 *
 	switch (gtk_radio_group_get_selected (foreground_radio_list)) {
-	/*
+	*
 	 * case 0 means no foreground
-	 */
+	 *
 	case 0:
 		fore_red   = 0;
 		fore_green = 0;
@@ -823,9 +733,9 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		style->valid_flags &= ~STYLE_FORE_COLOR;
 		fore_change = TRUE;
 		break;
-	/*
+	*
 	 * case 1 means colored foreground
-	 */
+	 *
 	case 1:
 		gnome_color_picker_get_d (GNOME_COLOR_PICKER (foreground_cs), &rd, &gd, &bd, &ad);
 		fore_red   = rd * 65535;
@@ -834,22 +744,22 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		style->valid_flags |= STYLE_FORE_COLOR;
 		fore_change = TRUE;
 		break;
-	/*
+	*
 	 * case 2 means no change
-	 */
+	 *
 	case 2:
 		fore_change = FALSE;
 		break;
 	}
 
-	/*
+	*
 	 * Now, the background
 	 * FIXME: What is going on with the cell patterns?
-	 */
+	 *
 	switch (gtk_radio_group_get_selected (background_radio_list)) {
-	/*
+	*
 	 * case 0 means no background
-	 */
+	 *
 	case 0:
 		back_red   = 0xffff;
 		back_green = 0xffff;
@@ -859,9 +769,9 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		back_change = TRUE;
 		break;
 
-	/*
+	*
 	 * case 1 means solid color background
-	 */
+	 *
 	case 1:
 		gnome_color_picker_get_d (GNOME_COLOR_PICKER (background_cs), &rd, &gd, &bd, &ad);
 
@@ -873,9 +783,9 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		back_change = TRUE;
 		break;
 
-	/*
+	*
 	 * case 2 means a pattern background
-	 */
+	 *
 	case 2:
 		back_red = 0xffff;
 		back_green = 0xffff;
@@ -885,15 +795,15 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		style->valid_flags |= STYLE_PATTERN;
 		back_change = TRUE;
 		break;
-	/*
+	*
 	 * case 3 means no change
-	 */
+	 *
 	case 3:
 		back_change = FALSE;
 		break;
 	}
 
-	/* Apply the color to the cells */
+	* Apply the color to the cells *
 	for (; cells; cells = cells->next){
 		cell = cells->data;
 
@@ -903,7 +813,7 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		}
 		if (back_change==TRUE) {
 			cell_set_background (cell, back_red, back_green, back_blue);
-/*			cell_set_pattern    (cell, 2); */
+*			cell_set_pattern    (cell, 2); *
 		}
 	}
 
@@ -912,7 +822,7 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 	}
 	if (back_change==TRUE) {
 		style->back_color  = style_color_new (back_red, back_green, back_blue);
-	}
+		}*/
 }
 
 static struct {

@@ -111,7 +111,7 @@ sheet_view_font (SheetView *sheet_view, Cell *cell)
 int 
 cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
 {
-	Style        *style = cell->style;
+	const RenderInfo        *style = cell->style;
 	GdkFont      *font;
 	GdkRectangle rect;
 	

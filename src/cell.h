@@ -75,7 +75,8 @@ struct _Cell {
 	/* Type of the content and the actual parsed content */
 	ExprTree    *parsed_node;	/* Parse tree with the expression */
 	Value       *value;		/* Last value computed */
-	Style       *style;		/* The Cell's style */
+	const RenderInfo *style;	/* The Cell's authoratitive cached
+					   rendering info, */
 
 	StyleColor  *render_color;      /* If a manually entered color has been selected */
 
@@ -112,8 +113,9 @@ struct _CellRegion {
 	CellCopyList *list;
 };
 
+/*
 char       *value_format                 (Value *value, StyleFormat *format, char **color);
-
+*/
 void        cell_set_text                (Cell *cell, const char *text);
 void        cell_set_text_simple         (Cell *cell, const char *text);
 void        cell_set_value               (Cell *cell, Value *v);
@@ -125,22 +127,31 @@ void        cell_set_formula_tree_simple (Cell *cell, ExprTree *formula);
 void        cell_set_array_formula       (Sheet *sheet, int rowa, int cola,
 					  int rowb, int colb,
 					  ExprTree *formula);
+/*
 void        cell_set_format              (Cell *cell, const char *format);
 void        cell_set_format_simple       (Cell *cell, const char *format);
 void        cell_set_format_from_style   (Cell *cell, StyleFormat *style_format);
-void        cell_set_font                (Cell *cell, const char *font_name, double points);
+*/
+void        cell_set_font                (Cell *cell, const char *font_name,
+					  double points);
+/*
 void        cell_set_style               (Cell *cell, Style *reference_style);
+*/
 void        cell_set_comment             (Cell *cell, const char *str);
 void        cell_comment_destroy         (Cell *cell);
 void        cell_comment_reposition      (Cell *cell);
+/*
 void        cell_set_font_from_style     (Cell *cell, StyleFont *style_font);
+*/
 char       *cell_get_comment             (Cell *cell);
+
 void        cell_set_foreground          (Cell *cell, gushort red,
 					  gushort green, gushort blue);
 void        cell_set_background          (Cell *cell, gushort red,
 					  gushort green, gushort blue);
 void        cell_set_color_from_style    (Cell *cell, StyleColor *foreground, 
 					  StyleColor *background);
+/*
 void        cell_set_pattern             (Cell *cell, int pattern);
 void        cell_set_border              (Cell *cell,
 					  StyleBorderType const border_type [4],
@@ -148,7 +159,9 @@ void        cell_set_border              (Cell *cell,
 void        cell_set_alignment           (Cell *cell, int halign, int valign,
 					  int orientation, int auto_return);
 void        cell_set_halign              (Cell *cell, StyleHAlignFlags halign);
+*/
 void        cell_set_rendered_text       (Cell *cell, const char *rendered_text);
+
 void        cell_relocate                (Cell *cell,
 					  int col_diff, int row_diff);
 void        cell_get_span                (Cell *cell, int *col1, int *col2);
@@ -169,7 +182,7 @@ int         cell_draw                    (Cell *cell, SheetView *sheet_view,
 					  GdkGC *gc, GdkDrawable *drawable,
 					  int x, int y);
 
-void        calc_text_dimensions         (int is_number, Style *style, const char *text,
+void        calc_text_dimensions         (int is_number, RenderInfo *style, const char *text,
 					  int cell_w, int cell_h, int *h, int *w);
 
 void        cell_realize                 (Cell *cell);
