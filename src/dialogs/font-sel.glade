@@ -50,6 +50,7 @@
     <widget>
       <class>GtkEntry</class>
       <name>font-style-entry</name>
+      <width>80</width>
       <editable>False</editable>
       <text_visible>True</text_visible>
       <text_max_length>0</text_max_length>
@@ -176,6 +177,7 @@
     <widget>
       <class>GtkEntry</class>
       <name>font-name-entry</name>
+      <width>110</width>
       <has_focus>True</has_focus>
       <editable>False</editable>
       <text_visible>True</text_visible>
@@ -201,7 +203,7 @@
       <class>GtkFrame</class>
       <name>frame1</name>
       <border_width>4</border_width>
-      <label>Preview:</label>
+      <label>Preview</label>
       <label_xalign>0</label_xalign>
       <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
       <child>
@@ -228,11 +230,11 @@
 	<widget>
 	  <class>GtkEntry</class>
 	  <name>preview-entry</name>
-	  <can_focus>True</can_focus>
-	  <editable>True</editable>
+	  <height>60</height>
+	  <editable>False</editable>
 	  <text_visible>True</text_visible>
-	  <text_max_length>0</text_max_length>
-	  <text>AaBbCcDdEe12345</text>
+	  <text_max_length>20</text_max_length>
+	  <text>AaBbCcDdEeJj12345</text>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -246,8 +248,8 @@
       <class>GtkScrolledWindow</class>
       <name>scrolledwindow1</name>
       <height>120</height>
-      <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
-      <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+      <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+      <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
       <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
       <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
       <child>
@@ -293,8 +295,8 @@
     <widget>
       <class>GtkScrolledWindow</class>
       <name>scrolledwindow2</name>
-      <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
-      <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+      <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+      <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
       <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
       <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
       <child>
@@ -340,8 +342,8 @@
     <widget>
       <class>GtkScrolledWindow</class>
       <name>scrolledwindow3</name>
-      <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
-      <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+      <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+      <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
       <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
       <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
       <child>
