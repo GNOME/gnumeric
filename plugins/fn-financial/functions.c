@@ -90,20 +90,6 @@ calculate_pvif (gnum_float rate, gnum_float nper)
 	return (powgnum (1 + rate, nper));
 }
 
-#if 0
-static gnum_float
-calculate_fvif (gnum_float rate, gnum_float nper)
-{
-	return (1.0 / calculate_pvif (rate,nper));
-}
-
-static gnum_float
-calculate_pvifa (gnum_float rate, gnum_float nper)
-{
-	return ((1.0 / rate) - (1.0 / (rate * powgnum (1 + rate, nper))));
-}
-#endif
-
 static gnum_float
 calculate_fvifa (gnum_float rate, gnum_float nper)
 {
@@ -116,19 +102,12 @@ calculate_fvifa (gnum_float rate, gnum_float nper)
 }
 
 
-/*
- *
- * Principal for period x is calculated using this formula
- *
- * PR(x) = PR(0) * ( 1 + rate ) ^ x + PMT * ( ( 1 + rate ) ^ x - 1 ) / rate )
- *
- */
 static gnum_float
-calculate_principal (gnum_float starting_principal, gnum_float payment,
-		     gnum_float rate, gnum_float period)
+calculate_interest_part (gnum_float pv, gnum_float pmt,
+			 gnum_float rate, gnum_float per)
 {
-	return (starting_principal * powgnum (1.0 + rate, period) + payment *
-		((powgnum (1 + rate, period) - 1) / rate));
+	return -(pv * powgnum (1 + rate, per) * rate +
+		 pmt * (powgnum (1 + rate, per) - 1));
 }
 
 static gnum_float
@@ -2063,25 +2042,18 @@ static const char *help_ipmt = {
 static Value *
 gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate, nper, per, pv, fv;
-	gnum_float pmt;
-	int type;
-
-	rate = value_get_as_float (argv[0]);
-	per  = value_get_as_float (argv[1]);
-	nper = value_get_as_float (argv[2]);
-	pv   = value_get_as_float (argv[3]);
-	fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
-	type = argv[5] ? !!value_get_as_int (argv[5]) : 0;
+	gnum_float rate = value_get_as_float (argv[0]);
+	gnum_float per  = value_get_as_float (argv[1]);
+	gnum_float nper = value_get_as_float (argv[2]);
+	gnum_float pv   = value_get_as_float (argv[3]);
+	gnum_float fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
+	int type = argv[5] ? !!value_get_as_int (argv[5]) : 0;
 
 	/* First calculate the payment */
-        pmt = calculate_pmt (rate, nper, pv, fv, type);
+        gnum_float pmt = calculate_pmt (rate, nper, pv, fv, type);
+	gnum_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
 
-	/* Now we need to calculate the amount of money going towards the
-	   principal */
-
-	return value_new_float (-calculate_principal (pv, pmt, rate, per - 1) *
-				rate);
+	return value_new_float (ipmt);
 }
 
 /***************************************************************************/
@@ -2113,25 +2085,16 @@ static const char *help_ppmt = {
 static Value *
 gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate, nper, per, pv, fv;
-	gnum_float ipmt, pmt;
-	int type;
-
-	rate = value_get_as_float (argv[0]);
-	per  = value_get_as_float (argv[1]);
-	nper = value_get_as_float (argv[2]);
-	pv   = value_get_as_float (argv[3]);
-	fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
-	type = argv[5] ? !!value_get_as_int (argv[5]) : 0;
+	gnum_float rate = value_get_as_float (argv[0]);
+	gnum_float per  = value_get_as_float (argv[1]);
+	gnum_float nper = value_get_as_float (argv[2]);
+	gnum_float pv   = value_get_as_float (argv[3]);
+	gnum_float fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
+	int type = argv[5] ? !!value_get_as_int (argv[5]) : 0;
 
 	/* First calculate the payment */
-        pmt = calculate_pmt (rate,nper,pv,fv,type);
-
-	/*
-	 * Now we need to calculate the amount of money going towards the
-	 * principal
-	 */
-	ipmt = -calculate_principal (pv, pmt, rate, per - 1) * rate;
+        gnum_float pmt = calculate_pmt (rate, nper, pv, fv, type);
+	gnum_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
 
 	return value_new_float (pmt - ipmt);
 }

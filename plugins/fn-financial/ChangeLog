@@ -1,3 +1,11 @@
+2002-12-01  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_ipmt): Base on calculate_interest_part.
+	(gnumeric_ppmt): Ditto.
+	(calculate_principal): Replaced by...
+	(calculate_interest_part): ...this new function which does not
+	have a rate=0 singularity.
+
 2002-11-24  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (calculate_fvifa): Handle rate==0 here.

@@ -39,6 +39,7 @@ Morten:
 	* Fix FV problem with rate==0.
 	* Fix DAYS360 incompatibility (with XL).
 	* Improve parsing infra-structure.
+	* Fix unnecessary singularities for IPMT and PPMT.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.12
