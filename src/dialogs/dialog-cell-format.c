@@ -91,6 +91,7 @@ typedef struct
 	gboolean	  is_selected;	/* Is it selected */
 	StyleBorderLocation   index;
 	guint		  rgba;
+	gboolean          is_auto_color;
 	gboolean	  is_set;	/* Has the element been changed */
 } BorderPicker;
 
@@ -147,6 +148,7 @@ typedef struct _FormatState
 		BorderPicker	 edge[STYLE_BORDER_EDGE_MAX];
 		ColorPicker      color;
 		guint		 rgba;
+		gboolean         is_auto_color;
 		PatternPicker	 pattern;
 	} border;
 	struct {
@@ -154,7 +156,6 @@ typedef struct _FormatState
 		PreviewGrid     *grid;
 		MStyle          *style;
 
-		gboolean         back_color_is_default;
 		ColorPicker	 back_color;
 		ColorPicker	 pattern_color;
 		PatternPicker	 pattern;
@@ -306,18 +307,43 @@ setup_color_pickers (ColorPicker *picker,
 	             char const * const container,
 		     char const * const default_caption,
 		     char const * const caption,
-		     GdkColor *default_color,
 		     FormatState *state,
 		     GCallback preview_update,
 		     MStyleElementType const e,
-		     MStyle	 *mstyle,
-		     StyleColor *mcolor)
+		     MStyle	 *mstyle)
 {
 	GtkWidget *combo, *box, *frame;
 	ColorGroup *cg;
+	StyleColor *mcolor = NULL;
+	StyleColor *def_sc = NULL;
+	GdkColor *def_gc;
 
-	cg = color_group_fetch (color_group, wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
-	combo = color_combo_new (NULL, default_caption, default_color, cg);
+	/* MSTYLE_ELEMENT_UNSET is abused as representing borders. */
+	if (e != MSTYLE_ELEMENT_UNSET &&
+	    !mstyle_is_element_conflict (mstyle, e))
+		mcolor = mstyle_get_color (mstyle, e);
+
+	switch (e) {
+	case MSTYLE_COLOR_PATTERN:
+	case MSTYLE_ELEMENT_UNSET: /* This is used for borders */
+		def_sc = sheet_style_get_auto_pattern_color (state->sheet);
+		break;
+	case MSTYLE_COLOR_FORE:
+		def_sc = style_color_auto_font ();
+		break;
+	case MSTYLE_COLOR_BACK:
+		def_sc = style_color_auto_back ();
+		break;
+	default:
+		g_warning ("Unhandled mstyle element!");
+	}
+	cg = color_group_fetch
+		(color_group,
+		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
+
+	def_gc = def_sc ? &def_sc->color : &gs_black;
+	
+	combo = color_combo_new (NULL, default_caption, def_gc, cg);
 	g_signal_connect (G_OBJECT (combo),
 		"color_changed",
 		G_CALLBACK (preview_update), state);
@@ -331,26 +357,10 @@ setup_color_pickers (ColorPicker *picker,
 	picker->combo          = combo;
 	picker->preview_update = preview_update;
 
-	switch (e) {
-	case MSTYLE_COLOR_PATTERN: /* Fall through */
-	case MSTYLE_COLOR_FORE:
-		if (!mstyle_is_element_conflict (mstyle, e))
-			mcolor = mstyle_get_color (mstyle, e);
-		break;
-	case MSTYLE_COLOR_BACK:
-		if (!mstyle_is_element_conflict (mstyle, e)
-		    && mstyle_is_element_set (mstyle, MSTYLE_PATTERN)
-		    && mstyle_get_pattern (mstyle) != 0)
-			mcolor = mstyle_get_color (mstyle, e);
-		break;
-	case MSTYLE_ELEMENT_UNSET:
-		mcolor = NULL;
-		break;
-	default: mcolor = NULL; g_warning ("Unhandled mstyle element!");
-	}
-
-	if (mcolor != NULL)
+	if (mcolor && !mcolor->is_auto) 
 		color_combo_set_color (COLOR_COMBO (combo), &mcolor->color);
+	else
+		color_combo_set_color_to_default (COLOR_COMBO (combo));
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
@@ -359,6 +369,9 @@ setup_color_pickers (ColorPicker *picker,
 	box = glade_xml_get_widget (state->gui, container);
 	gtk_box_pack_start (GTK_BOX (box), frame, FALSE, FALSE, 0);
 	gtk_widget_show_all (frame);
+
+	if (def_sc)
+		style_color_unref (def_sc);
 }
 
 /*
@@ -1257,11 +1270,15 @@ cb_font_preview_color (ColorCombo *combo, GdkColor *c,
 		       gboolean is_custom, gboolean by_user, gboolean is_default,
 		       FormatState *state)
 {
+	StyleColor *col;
+	
 	if (!state->enable_edit)
 		return;
 
-	font_selector_set_color (state->font.selector,
-		style_color_new (c->red, c->green, c->blue));
+	col = (is_default
+	       ? style_color_auto_font ()
+	       : style_color_new (c->red, c->green, c->blue));
+	font_selector_set_color (state->font.selector, col);
 }
 
 static void
@@ -1411,32 +1428,17 @@ cb_back_preview_color (ColorCombo *combo, GdkColor *c,
 		       gboolean is_custom, gboolean by_user, gboolean is_default,
 		       FormatState *state)
 {
-	state->back.back_color_is_default = (c == NULL);
-
-	if (c != NULL) {
-		mstyle_set_border (state->back.style, MSTYLE_BORDER_DIAGONAL,
-				   style_border_ref (style_border_none ()));
-		mstyle_set_border (state->back.style, MSTYLE_BORDER_REV_DIAGONAL,
-				   style_border_ref (style_border_none ()));
-
-		mstyle_set_color (state->back.style, MSTYLE_COLOR_BACK,
-				  style_color_new (c->red, c->green, c->blue));
-		mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);
-	} else {
-		StyleBorder *border = style_border_fetch (STYLE_BORDER_THIN, style_color_black (), STYLE_BORDER_DIAGONAL);
-
-		mstyle_set_border (state->back.style, MSTYLE_BORDER_DIAGONAL, style_border_ref (border));
-		mstyle_set_border (state->back.style, MSTYLE_BORDER_REV_DIAGONAL, style_border_ref (border));
-		style_border_unref (border);
-
-		gtk_toggle_button_set_active (state->back.pattern.default_button, TRUE);
-		color_combo_set_color (COLOR_COMBO (state->back.pattern_color.combo), &gs_black);
-
-		mstyle_set_color (state->back.style, MSTYLE_COLOR_BACK,
-				  style_color_new (0xffff, 0xffff, 0xffff));
-		mstyle_set_pattern (state->back.style, 0);
-	}
-
+	StyleColor *sc;
+	
+	g_return_if_fail (c);
+	
+	if (is_default)
+		sc = style_color_auto_back ();
+	else
+		sc = style_color_new (c->red, c->green, c->blue);
+	
+	mstyle_set_color (state->back.style, MSTYLE_COLOR_BACK, sc);
+	mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);
 	draw_pattern_preview (state);
 }
 
@@ -1445,8 +1447,12 @@ cb_pattern_preview_color (ColorCombo *combo, GdkColor *c,
 			  gboolean is_custom, gboolean by_user, gboolean is_default,
 			  FormatState *state)
 {
-	mstyle_set_color (state->back.style, MSTYLE_COLOR_PATTERN,
-			  style_color_new (c->red, c->green, c->blue));
+	StyleColor *col = (is_default
+			   ? sheet_style_get_auto_pattern_color (state->sheet)
+			   : style_color_new (c->red, c->green, c->blue));
+
+	mstyle_set_color (state->back.style, MSTYLE_COLOR_PATTERN, col);
+			  
 	draw_pattern_preview (state);
 }
 
@@ -1454,8 +1460,6 @@ static void
 draw_pattern_selected (FormatState *state)
 {
 	mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);
-      	if (state->back.pattern.cur_index > 1 && state->back.back_color_is_default)
-		color_combo_set_color (COLOR_COMBO (state->back.back_color.combo), &gs_white);
 	draw_pattern_preview (state);
 }
 
@@ -1561,11 +1565,7 @@ static StyleBorder *
 border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
 {
 	BorderPicker const * edge = & state->border.edge[loc];
-	guint8 const r = (guint8) (edge->rgba >> 24);
-	guint8 const g = (guint8) (edge->rgba >> 16);
-	guint8 const b = (guint8) (edge->rgba >>  8);
-	StyleColor *color = style_color_new_i8 (r, g, b);
-
+	StyleColor *color;
 	/* Don't set borders that have not been changed */
 	if (!edge->is_set)
 		return NULL;
@@ -1573,8 +1573,17 @@ border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
 	if (!edge->is_selected)
 		return style_border_ref (style_border_none ());
 
-	return style_border_fetch (state->border.edge[loc].pattern_index, color,
-				   style_border_get_orientation (loc + MSTYLE_BORDER_TOP));
+	if (edge->is_auto_color) {
+		color = sheet_style_get_auto_pattern_color (state->sheet);
+	} else {
+		guint8 const r = (guint8) (edge->rgba >> 24);
+		guint8 const g = (guint8) (edge->rgba >> 16);
+		guint8 const b = (guint8) (edge->rgba >>  8);
+		color = style_color_new_i8 (r, g, b);
+	}
+	return style_border_fetch
+		(state->border.edge[loc].pattern_index, color,
+		 style_border_get_orientation (loc + MSTYLE_BORDER_TOP));
 }
 
 /* See if either the color or pattern for any segment has changed and
@@ -1587,6 +1596,14 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 	gboolean changed = FALSE;
 
 	edge->is_set = TRUE;
+	if (edge->is_auto_color)
+		if (!state->border.is_auto_color) {
+			edge->is_auto_color = state->border.is_auto_color;
+			changed = TRUE;
+		}
+	else if (edge->rgba != state->border.rgba)
+		changed = TRUE;
+
 	if (edge->rgba != state->border.rgba) {
 		edge->rgba = state->border.rgba;
 
@@ -1598,7 +1615,6 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 					"fill_color_rgba", edge->rgba,
 					NULL);
 		}
-		changed = TRUE;
 	}
 	if ((int)edge->pattern_index != state->border.pattern.cur_index) {
 		edge->pattern_index = state->border.pattern.cur_index;
@@ -1891,7 +1907,9 @@ cb_border_color (ColorCombo *combo, GdkColor *c,
 		 gboolean is_custom, gboolean by_user, gboolean is_default,
 		 FormatState *state)
 {
-	state->border.rgba = GNOME_CANVAS_COLOR (c->red>>8, c->green>>8, c->blue>>8);
+	state->border.rgba =
+		GNOME_CANVAS_COLOR (c->red>>8, c->green>>8, c->blue>>8);
+	state->border.is_auto_color = is_default;
 }
 
 #undef L
@@ -1918,12 +1936,14 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 {
 	if (border == NULL) {
 		state->border.edge[i].rgba = 0;
+		state->border.edge[i].is_auto_color = TRUE;
 		state->border.edge[i].pattern_index = STYLE_BORDER_INCONSISTENT;
 		state->border.edge[i].is_selected = TRUE;
 	} else {
 		StyleColor const * c = border->color;
 		state->border.edge[i].rgba =
 		    GNOME_CANVAS_COLOR (c->red>>8, c->green>>8, c->blue>>8);
+		state->border.edge[i].is_auto_color = c->is_auto;
 		state->border.edge[i].pattern_index = border->line_type;
 		state->border.edge[i].is_selected = (border->line_type != STYLE_BORDER_NONE);
 	}
@@ -2568,24 +2588,24 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	setup_color_pickers (&state->border.color, "border_color_group",
 			     "border_color_hbox",
-			     _("Automatic"), _("Border"), &gs_black, state,
+			     _("Automatic"), _("Border"), state,
 			     G_CALLBACK (cb_border_color),
-			     MSTYLE_ELEMENT_UNSET, state->style, NULL);
+			     MSTYLE_ELEMENT_UNSET, state->style);
 	setup_color_pickers (&state->font.color, "fore_color_group",
 			     "font_color_hbox",
-			     _("Automatic"), _("Foreground"), &gs_black, state,
+			     _("Automatic"), _("Foreground"), state,
 			     G_CALLBACK (cb_font_preview_color),
-			     MSTYLE_COLOR_FORE, state->style, NULL);
+			     MSTYLE_COLOR_FORE, state->style);
 	setup_color_pickers (&state->back.back_color, "back_color_group",
 			     "back_color_hbox",
-			     _("Clear Background"), _("Background"), NULL, state,
+			     _("Clear Background"), _("Background"), state,
 			     G_CALLBACK (cb_back_preview_color),
-			     MSTYLE_COLOR_BACK, state->style, NULL);
+			     MSTYLE_COLOR_BACK, state->style);
 	setup_color_pickers (&state->back.pattern_color, "pattern_color_group",
 			     "pattern_color_hbox",
-			     _("Automatic"), _("Pattern"), &gs_black, state,
+			     _("Automatic"), _("Pattern"), state,
 			     G_CALLBACK (cb_pattern_preview_color),
-			     MSTYLE_COLOR_PATTERN, state->style, NULL);
+			     MSTYLE_COLOR_PATTERN, state->style);
 
 	/* Setup the border images */
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {
@@ -2627,7 +2647,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 * Set background to No colour.  This will set states correctly.
 	 */
 	if (!has_back)
-		color_combo_set_color (COLOR_COMBO (state->back.back_color.combo), NULL);
+		color_combo_set_color_to_default (COLOR_COMBO (state->back.back_color.combo));
 
 	/* Setup the images in the border presets */
 	for (i = 0; (name = border_preset_buttons[i]) != NULL; ++i) {

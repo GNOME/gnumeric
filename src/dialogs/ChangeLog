@@ -1,3 +1,16 @@
+2002-03-16  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-cell-format.c (BorderPicker): Add is_auto_color member.
+	(FormatState.border): Ditto.
+	(FormatState.back): Remove back_color_is_default.
+	(setup_color_pickers): Remove default_color, mcolor
+	parameters. Handle autocolors.
+	(cb_font_preview_color, cb_back_preview_color,
+	cb_pattern_preview_color, border_get_mstyle,
+	border_format_has_changed, cb_border_color, init_border_button,
+	fmt_dialog_impl): Handle autocolors.
+	(draw_pattern_selected): Remove old default color handling code.
+
 2002-03-16  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c (setup_color_pickers) : The signal has changed
