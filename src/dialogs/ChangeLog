@@ -1,3 +1,10 @@
+2003-07-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-format-page.c (cb_col_clicked) : deleted
+	(cb_column_popup) : renamed to col_event and simplified
+	(format_page_update_preview): don't use an eventbox but the column
+	  header button
+
 2003-07-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-format-page.c (cb_col_clicked) : check argument

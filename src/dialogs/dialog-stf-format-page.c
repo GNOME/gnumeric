@@ -134,18 +134,6 @@ static void cb_col_check_clicked (GtkToggleButton *togglebutton,
 }
 
 static void
-cb_col_clicked (GtkTreeViewColumn *column, gpointer _i)
-{
-	int i = GPOINTER_TO_INT (_i);
-	StfDialogData *pagedata =
-		g_object_get_data (G_OBJECT (column), "pagedata");
-	
-	g_return_if_fail (GTK_IS_TREE_VIEW_COLUMN (column));
-	
-	activate_column (pagedata, i);
-}
-
-static void
 cb_popup_menu_uncheck_right (GtkWidget *widget, gpointer data)
 {
 	g_warning("Not implemented");
@@ -178,7 +166,7 @@ cb_popup_menu_extend_format (GtkWidget *widget, gpointer data)
 }
 
 static gint
-cb_column_popup (GtkWidget *widget, GdkEventButton *event, gpointer data)
+cb_col_event (GtkWidget *widget, GdkEvent *event, gpointer _col)
 {
 	enum {
 		COLUMN_POPUP_ITEM_IGNORE,
@@ -201,20 +189,18 @@ cb_column_popup (GtkWidget *widget, GdkEventButton *event, gpointer data)
 	if (event->type == GDK_BUTTON_PRESS)
 	{
 		GdkEventButton *event_button = (GdkEventButton *) event;
-		
+		StfDialogData *pagedata =
+			g_object_get_data (G_OBJECT (widget), "pagedata");
+		int index = GPOINTER_TO_INT (_col);
+
+		activate_column (pagedata, index);
+	
 		if (event_button->button == 3)
 		{
 			GtkWidget *menu = gtk_menu_new ();
 			GtkWidget *item;
 			int i;
-			int index = GPOINTER_TO_INT (data);
-			StfDialogData *pagedata =
-				g_object_get_data (G_OBJECT (widget), "pagedata");
-			GtkTreeViewColumn *column =
-				g_object_get_data (G_OBJECT (widget), "column");
-			
-			cb_col_clicked (column, data);
-			
+
 			for (i = 0; column_context_actions [i].text != NULL; i++){
 				int flags = column_context_actions [i].flags;
 				
@@ -244,18 +230,8 @@ cb_column_popup (GtkWidget *widget, GdkEventButton *event, gpointer data)
 			}
 			
 			gnumeric_popup_menu (GTK_MENU(menu), event_button);
-			
-			return TRUE;
 		}
-		if (event_button->button == 1)
-		{
-			GtkTreeViewColumn *column =
-				g_object_get_data (G_OBJECT (widget), "column");
-			
-			cb_col_clicked (column, data);
-			return TRUE;
-		}
-		
+		return TRUE;
 	}
 	
 	return FALSE;
@@ -301,13 +277,8 @@ format_page_update_preview (StfDialogData *pagedata)
 		char * label_text = g_strdup_printf 
 			(pagedata->format.col_header, i+1);
 		GtkWidget *label = gtk_label_new (label_text);
-		GtkWidget *ebox = gtk_event_box_new ();
-		
 		
 		g_free (label_text);
-		
-		gtk_box_pack_start (GTK_BOX(box), check, FALSE, FALSE, 0);
-		
 		
 		pagedata->format.col_import_array[i] = (i < SHEET_MAX_COLS);
 		
@@ -324,29 +295,22 @@ format_page_update_preview (StfDialogData *pagedata)
 				      _("At most 256 columns can be imported "
 					"at one time."));
 		g_object_set_data (G_OBJECT (check), "pagedata", pagedata);
-		gtk_box_pack_start (GTK_BOX(box), ebox, TRUE, TRUE, 0);
-		gtk_container_add (GTK_CONTAINER(ebox), label);
-		gtk_widget_set_sensitive (GTK_WIDGET (box), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (ebox), TRUE);
+		gtk_box_pack_start (GTK_BOX(box), check, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX(box), label, TRUE, TRUE, 0);
 		gtk_widget_show_all (box);
-		
 		
 		gtk_tree_view_column_set_widget (column, box);
 		g_object_set_data (G_OBJECT (column), "pagedata", pagedata);
-		g_object_set_data (G_OBJECT (ebox), "pagedata", pagedata);
-		g_object_set_data (G_OBJECT (ebox), "column", column);
+		g_object_set_data (G_OBJECT (column->button), 
+				   "pagedata", pagedata);
 		g_object_set (G_OBJECT (column), "clickable", TRUE, NULL);
-		g_signal_connect (G_OBJECT (column),
-				  "clicked",
-				  G_CALLBACK (cb_col_clicked),
-				  GINT_TO_POINTER (i));
 		g_signal_connect (G_OBJECT (check),
 				  "toggled",
 				  G_CALLBACK (cb_col_check_clicked),
 				  GINT_TO_POINTER (i));
-		g_signal_connect (G_OBJECT (ebox), 
-				  "button_press_event",
-				  G_CALLBACK (cb_column_popup), 
+		g_signal_connect (G_OBJECT (column->button), 
+				  "event",
+				  G_CALLBACK (cb_col_event), 
 				  GINT_TO_POINTER (i));
 	}
 }
