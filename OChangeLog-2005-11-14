@@ -5,8 +5,9 @@
 
 2005-03-22  Morten Welinder  <terra@gnome.org>
 
-	* templates/autoformat/Makefile.am (install-data-local): There's a
-	world that isn't bash.
+	* templates/autoformat/Makefile.am (install-data-local): Don't use
+	${var#pat} and ${var%pat}; it's POSIX feature, but it doesn't work
+	with Solaris' /bin/sh.
 
 2005-03-22  Morten Welinder  <terra@gnome.org>
 
