@@ -1,3 +1,9 @@
+2001-03-10  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumeric-[vh]scrollbar.c (gnumeric_[vh]scrollbar_button_press) : avoid
+	  generating a spurious signal when pressing on the scrollbar but not
+	  moving.
+
 2001-03-05  Almer S. Tigelaar  <almer@gnome.org>
 
 	* gnumeric-vscrollbar.c, gnumeric-vscrollbar.h : New, vscrollbar widget.

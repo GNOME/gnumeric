@@ -1157,7 +1157,6 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 			if (!*format)
 				--format;
 			break;
-
 		}
 
 		case '-':

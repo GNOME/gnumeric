@@ -20,8 +20,8 @@ typedef enum
 
 typedef struct
 {
-    char const * const symbol;
-    char const * const description;
+    char const *symbol;
+    char const *description;
 } CurrencySymbol;
 
 typedef struct

@@ -42,8 +42,8 @@
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 
-static void sheet_redraw_partial_row (Sheet const *sheet, int const row,
-				      int const start_col, int const end_col);
+static void sheet_redraw_partial_row (Sheet const *sheet, int row,
+				      int start_col, int end_col);
 
 void
 sheet_redraw_all (Sheet const *sheet)
@@ -62,7 +62,7 @@ sheet_redraw_headers (Sheet const *sheet,
 }
 
 void
-sheet_rename (Sheet *sheet, const char *new_name)
+sheet_rename (Sheet *sheet, char const *new_name)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (new_name != NULL);
@@ -106,7 +106,7 @@ sheet_detach_scg (SheetControlGUI *scg)
  * @name            Unquoted name
  */
 Sheet *
-sheet_new (Workbook *wb, const char *name)
+sheet_new (Workbook *wb, char const *name)
 {
 	Sheet  *sheet;
 
@@ -182,6 +182,7 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->hide_grid = FALSE;
 	sheet->hide_col_header = FALSE;
 	sheet->hide_row_header = FALSE;
+	sheet->frozen_corner.col = sheet->frozen_corner.row = -1;
 
 	sheet->names = NULL;
 
@@ -525,7 +526,7 @@ sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 }
 
 ColRowInfo *
-sheet_col_get_info (Sheet const *sheet, int const col)
+sheet_col_get_info (Sheet const *sheet, int col)
 {
 	ColRowInfo *ci = sheet_col_get (sheet, col);
 
@@ -535,7 +536,7 @@ sheet_col_get_info (Sheet const *sheet, int const col)
 }
 
 ColRowInfo *
-sheet_row_get_info (Sheet const *sheet, int const row)
+sheet_row_get_info (Sheet const *sheet, int row)
 {
 	ColRowInfo *ri = sheet_row_get (sheet, row);
 
@@ -1580,7 +1581,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 	return new_row;
 }
 
-static ExprArray const*
+static ExprArray const *
 sheet_is_cell_array (Sheet const *sheet, int const col, int const row)
 {
 	return cell_is_array (sheet_cell_get (sheet, col, row));
@@ -1694,7 +1695,7 @@ sheet_range_splits_array (Sheet const *sheet, Range const *r,
  * Returns an allocated column:  either an existing one, or NULL
  */
 ColRowInfo *
-sheet_col_get (Sheet const *sheet, int const pos)
+sheet_col_get (Sheet const *sheet, int pos)
 {
 	ColRowSegment *segment;
 
@@ -1730,7 +1731,7 @@ sheet_col_fetch (Sheet *sheet, int pos)
  * Returns an allocated row:  either an existing one, or NULL
  */
 ColRowInfo *
-sheet_row_get (Sheet const *sheet, int const pos)
+sheet_row_get (Sheet const *sheet, int pos)
 {
 	ColRowSegment *segment;
 
@@ -2574,7 +2575,7 @@ sheet_update_cursor_pos (Sheet const *sheet)
  *
  **/
 char *
-sheet_name_quote (const char *name_unquoted)
+sheet_name_quote (char const *name_unquoted)
 {
 	int         i, j, quotes_embedded = 0;
 	gboolean    needs_quotes;
@@ -2596,7 +2597,7 @@ sheet_name_quote (const char *name_unquoted)
 	if (needs_quotes) {
 		int  len_quoted = strlen (name_unquoted) + quotes_embedded + 3;
 		char  *ret = g_malloc (len_quoted);
-		const char *src;
+		char const *src;
 		char  *dst;
 
 		*ret = '\'';
@@ -2663,7 +2664,7 @@ sheet_is_pristine (Sheet *sheet)
  * The routine might return NULL.
  */
 Sheet *
-sheet_lookup_by_name (Workbook *wb, const char *name)
+sheet_lookup_by_name (Workbook *wb, char const *name)
 {
 	Sheet *sheet;
 
@@ -3843,4 +3844,9 @@ sheet_duplicate	(Sheet const *src)
 	sheet_redraw_all (dst);
 
 	return dst;
+}
+
+void
+sheet_freeze_panes (Sheet *sheet, CellPos const *pos)
+{
 }

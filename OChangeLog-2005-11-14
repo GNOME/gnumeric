@@ -1,4 +1,12 @@
+2001-03-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c (scg_construct) : lay some ground work for
+	  multiple panes.
+
 2001-03-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_find_{col,row}) : fix off by
+	  one width/height error at far boundary.
 
 	* src/xml-io.c (xml_get_print_unit) : make units case sensitive.
 

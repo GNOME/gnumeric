@@ -11,8 +11,7 @@
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
   <output_main_file>False</output_main_file>
-  <output_translatable_strings>True</output_translatable_strings>
-  <translatable_strings_file>dialog-stf.glade.h</translatable_strings_file>
+  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>

@@ -1422,6 +1422,14 @@ cb_view_zoom (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	sheet_freeze_panes (sheet, &sheet->edit_pos);
+}
+
+static void
 cb_view_new_shared (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -2056,6 +2064,9 @@ static GnomeUIInfo workbook_menu_view [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Zoom..."),
 		N_("Zoom the spreadsheet in or out"),
 		cb_view_zoom),
+	GNOMEUIINFO_ITEM_NONE (N_("_Freeze..."),
+		N_("Freeze the top left of the sheet"),
+		cb_view_freeze_panes),
 	GNOMEUIINFO_ITEM_NONE (N_("New _Shared"),
 		N_("Create a new shared view of the workbook"),
 		cb_view_new_shared),
@@ -2389,6 +2400,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
 
 	BONOBO_UI_UNSAFE_VERB ("ViewZoom", cb_view_zoom),
+	BONOBO_UI_UNSAFE_VERB ("ViewFreezePanes", cb_view_freeze_panes),
 	BONOBO_UI_UNSAFE_VERB ("ViewNewShared", cb_view_new_shared),
 	BONOBO_UI_UNSAFE_VERB ("ViewNewUnshared", cb_view_new_unshared),
 

@@ -18,12 +18,28 @@ struct _SheetControlGUI {
 	Sheet          		*sheet;
 	WorkbookControlGUI	*wbcg;
 
-	GtkWidget        *canvas;
 	GtkWidget	 *select_all_btn;
+	GtkWidget        *canvas;
 	GnomeCanvas      *col_canvas, *row_canvas;
 	GnomeCanvasItem  *col_item, *row_item;
 
-	/* Object group */
+	/* Scrolling information */
+	GtkWidget  *vs, *hs;	/* The scrollbars */
+	GtkObject  *va, *ha;    /* The adjustments */
+	GtkWidget        *tip;	/* Tip for scrolling */
+
+	/* Anted cursors */
+	GList            *anted_cursors;
+	GnomeCanvasGroup *anted_group;
+
+	/* Sliding scroll */
+	SheetControlGUISlideHandler	slide_handler;
+	gpointer   slide_data;
+	int        sliding;	/* a gtk_timeout tag, -1 means not set */
+	int        sliding_col, sliding_row;
+	int        sliding_x, sliding_y;
+
+	/* SheetObject support */
 	GnomeCanvasGroup *object_group;
 	SheetObject	 *new_object;	/* A newly created object that has yet to be realized */
 	SheetObject	 *current_object;
@@ -31,31 +47,9 @@ struct _SheetControlGUI {
 	double		  object_coords [4];
 	double		  last_x, last_y;
 	void        	 *active_object_frame;	/* FIXME remove this */
+	GnomeCanvasItem  *control_points [9]; /* Control points for the current item */
 
-	/* Selection group */
-	GnomeCanvasGroup *selection_group;
-
-	/* Control points for the current item */
-	GnomeCanvasItem  *control_points [9];
-
-	/* Scrolling information */
-	GtkWidget  *vs, *hs;	/* The scrollbars */
-	GtkObject  *va, *ha;    /* The adjustments */
-
-	/* Tip for scrolling */
-	GtkWidget        *tip;
-
-	/* Anted cursor */
-	GList            *anted_cursors;
-
-	/* Sliding scroll */
-	SheetControlGUISlideHandler	slide_handler;
-	gpointer		slide_data;
-	int        sliding;	/* a gtk_timeout tag, -1 means not set */
-	int        sliding_col, sliding_row;
-	int        sliding_x, sliding_y;
-
-	/* Comments */
+	/* Comment  support*/
 	struct {
 		CellComment	*selected;
 		GtkWidget	*item;	/* TODO : make this a canvas item with an arrow */

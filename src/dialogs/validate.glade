@@ -13,8 +13,7 @@
   <output_main_file>False</output_main_file>
   <output_support_files>False</output_support_files>
   <output_build_files>False</output_build_files>
-  <output_translatable_strings>True</output_translatable_strings>
-  <translatable_strings_file>validate.glade.h</translatable_strings_file>
+  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>

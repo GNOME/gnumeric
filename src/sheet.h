@@ -56,6 +56,7 @@ struct _Sheet {
 	gboolean    hide_grid;
 	gboolean    hide_col_header;
 	gboolean    hide_row_header;
+	CellPos	    frozen_corner;
 
         /* Solver parameters */
         SolverParameters solver_parameters;
@@ -71,11 +72,12 @@ struct _Sheet {
 #define SHEET_SIGNATURE 0x12349876
 #define IS_SHEET(x) (((x) != NULL) && ((x)->signature == SHEET_SIGNATURE))
 
-Sheet      *sheet_new			(Workbook *wb, const char *name);
+Sheet      *sheet_new			(Workbook *wb, char const *name);
 Sheet      *sheet_duplicate		(Sheet const *source_sheet);
 void        sheet_destroy		(Sheet *sheet);
 void        sheet_destroy_contents	(Sheet *sheet);
-void        sheet_rename		(Sheet *sheet, const char *new_name);
+void	    sheet_freeze_panes		(Sheet *sheet, CellPos const *pos);
+void        sheet_rename		(Sheet *sheet, char const *new_name);
 
 void        sheet_set_zoom_factor	(Sheet *sheet, double factor,
 					 gboolean force, gboolean respan);
@@ -125,12 +127,12 @@ int	    sheet_find_boundary_vertical   (Sheet *sheet, int move_col, int row,
 					    gboolean jump_to_boundaries);
 
 /* Retrieve information from a col/row */
-ColRowInfo *sheet_col_get_info            (Sheet const *sheet, int const col);
-ColRowInfo *sheet_row_get_info            (Sheet const *sheet, int const row);
+ColRowInfo *sheet_col_get_info            (Sheet const *sheet, int col);
+ColRowInfo *sheet_row_get_info            (Sheet const *sheet, int row);
 
 /* Returns a pointer to a ColRowInfo: existed or NULL */
-ColRowInfo *sheet_col_get                 (Sheet const *sheet, int const pos);
-ColRowInfo *sheet_row_get                 (Sheet const *sheet, int const pos);
+ColRowInfo *sheet_col_get                 (Sheet const *sheet, int pos);
+ColRowInfo *sheet_row_get                 (Sheet const *sheet, int pos);
 
 /* Returns a pointer to a ColRowInfo: existed or freshly created */
 ColRowInfo *sheet_col_fetch               (Sheet *sheet, int pos);
@@ -217,8 +219,8 @@ void        sheet_move_range              (WorkbookControl *context,
 					   ExprRelocateInfo const * rinfo,
 					   GSList **reloc_storage);
 
-char       *sheet_name_quote              (const char *unquoted_name);
-Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
+char       *sheet_name_quote              (char const *unquoted_name);
+Sheet      *sheet_lookup_by_name          (Workbook *wb, char const *name);
 
 /* Utilities for various flavours of cursor */
 void        sheet_stop_cell_selection	     (Sheet *sheet, gboolean clear_string);

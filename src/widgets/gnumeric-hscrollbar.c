@@ -28,8 +28,8 @@
 #include "gnumeric-hscrollbar.h"
 
 enum {
-  OFFSET_CHANGED,
-  LAST_SIGNAL
+	OFFSET_CHANGED,
+	LAST_SIGNAL
 };
 
 static guint hscrollbar_signals[LAST_SIGNAL] = { 0 };
@@ -77,8 +77,9 @@ gnumeric_hscrollbar_button_press (GtkWidget *widget, GdkEventButton *event)
 	GnumericHScrollbar *hs    = GNUMERIC_HSCROLLBAR (widget);
 	GtkRange           *range = GTK_RANGE (widget);
 
-	hs->live = TRUE;
 	if (event->window == range->slider) {
+		hs->live = FALSE;
+
 		/*
 		 * We show a small tooltip which contains
 		 * the toprow so the user knows where the view "lands" when the button
@@ -92,8 +93,8 @@ gnumeric_hscrollbar_button_press (GtkWidget *widget, GdkEventButton *event)
 		
 		gnumeric_position_tooltip (hs->tip, 1);
 		gtk_widget_show_all (gtk_widget_get_toplevel (hs->tip));
-		hs->live = FALSE;
-	}
+	} else
+		hs->live = TRUE;
 
 	return parent_class->button_press_event (widget, event);
 }

@@ -15,8 +15,7 @@
   <main_header_file>gladesource.h</main_header_file>
   <handler_source_file>gladesig.c</handler_source_file>
   <handler_header_file>gladesig.h</handler_header_file>
-  <output_translatable_strings>True</output_translatable_strings>
-  <translatable_strings_file>cell-sort.glade.h</translatable_strings_file>
+  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>

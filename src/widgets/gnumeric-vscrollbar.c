@@ -27,8 +27,8 @@
 #include "gnumeric-vscrollbar.h"
 
 enum {
-  OFFSET_CHANGED,
-  LAST_SIGNAL
+	OFFSET_CHANGED,
+	LAST_SIGNAL
 };
 
 static guint vscrollbar_signals[LAST_SIGNAL] = { 0 };
@@ -75,8 +75,9 @@ gnumeric_vscrollbar_button_press (GtkWidget *widget, GdkEventButton *event)
 	GnumericVScrollbar *vs    = GNUMERIC_VSCROLLBAR (widget);
 	GtkRange           *range = GTK_RANGE (widget);
 
-	vs->live = TRUE;
 	if (event->window == range->slider) {
+		vs->live = FALSE;
+
 		/*
 		 * We show a small tooltip which contains
 		 * the toprow so the user knows where the view "lands" when the button
@@ -90,9 +91,8 @@ gnumeric_vscrollbar_button_press (GtkWidget *widget, GdkEventButton *event)
 		
 		gnumeric_position_tooltip (vs->tip, 1);
 		gtk_widget_show_all (gtk_widget_get_toplevel (vs->tip));
-
-		vs->live = FALSE;
-	}
+	} else
+		vs->live = TRUE;
 	
 	return parent_class->button_press_event (widget, event);
 }

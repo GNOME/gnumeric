@@ -970,17 +970,14 @@ gsheet_compute_visible_region (GnumericSheet *gsheet,
 
 	/* When col/row sizes change we need to do a full recompute */
 	if (full_recompute) {
-		GnomeCanvas *canvas;
-
 		gsheet->col_offset.first =
 			scg_colrow_distance_get (scg, TRUE, 0, gsheet->col.first);
-		canvas = scg->col_item->canvas;
-		gnome_canvas_scroll_to (canvas, gsheet->col_offset.first, 0);
-
+		gnome_canvas_scroll_to (scg->col_item->canvas,
+			gsheet->col_offset.first, 0);
 		gsheet->row_offset.first =
 			scg_colrow_distance_get (scg, FALSE, 0, gsheet->row.first);
-		canvas = scg->row_item->canvas;
-		gnome_canvas_scroll_to (canvas, 0, gsheet->row_offset.first);
+		gnome_canvas_scroll_to (scg->row_item->canvas,
+			0, gsheet->row_offset.first);
 
 		gnome_canvas_scroll_to (GNOME_CANVAS (gsheet),
 					gsheet->col_offset.first,
@@ -1063,7 +1060,7 @@ static int
 gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_first_row)
 {
 	GnomeCanvas *rowc;
-	int row_distance;
+	int row_offset;
 	int x;
 
 	g_return_val_if_fail (gsheet != NULL, 0);
@@ -1071,15 +1068,15 @@ gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_first_row)
 	g_return_val_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS, 0);
 
 	rowc = gsheet->scg->row_item->canvas;
-	row_distance = gsheet->row_offset.first +=
+	row_offset = gsheet->row_offset.first +=
 		scg_colrow_distance_get (gsheet->scg, FALSE, gsheet->row.first, new_first_row);
 	gsheet->row.first = new_first_row;
 
 	/* Scroll the row headers */
 	gnome_canvas_get_scroll_offsets (rowc, &x, NULL);
-	gnome_canvas_scroll_to (rowc, x, row_distance);
+	gnome_canvas_scroll_to (rowc, x, row_offset);
 
-	return row_distance;
+	return row_offset;
 }
 
 void
@@ -1091,14 +1088,14 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_first_row)
 	if (gsheet->row.first != new_first_row) {
 		int x;
 		GnomeCanvas * const canvas = GNOME_CANVAS(gsheet);
-		int const distance = gnumeric_sheet_bar_set_top_row (gsheet,
-					     new_first_row);
+		int const y_offset =
+			gnumeric_sheet_bar_set_top_row (gsheet, new_first_row);
 
 		gsheet_compute_visible_region (gsheet, FALSE);
 
 		/* Scroll the cell canvas */
 		gnome_canvas_get_scroll_offsets (canvas, &x, NULL);
-		gnome_canvas_scroll_to (canvas, x, distance);
+		gnome_canvas_scroll_to (canvas, x, y_offset);
 	}
 }
 
@@ -1106,7 +1103,7 @@ static int
 gnumeric_sheet_bar_set_left_col (GnumericSheet *gsheet, int new_first_col)
 {
 	GnomeCanvas *colc;
-	int col_distance;
+	int col_offset;
 	int y;
 
 	g_return_val_if_fail (gsheet != NULL, 0);
@@ -1114,15 +1111,15 @@ gnumeric_sheet_bar_set_left_col (GnumericSheet *gsheet, int new_first_col)
 	g_return_val_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS, 0);
 
 	colc = gsheet->scg->col_item->canvas;
-	col_distance = gsheet->col_offset.first +=
+	col_offset = gsheet->col_offset.first +=
 		scg_colrow_distance_get (gsheet->scg, TRUE, gsheet->col.first, new_first_col);
 	gsheet->col.first = new_first_col;
 
 	/* Scroll the column headers */
 	gnome_canvas_get_scroll_offsets (colc, NULL, &y);
-	gnome_canvas_scroll_to (colc, col_distance, y);
+	gnome_canvas_scroll_to (colc, col_offset, y);
 
-	return col_distance;
+	return col_offset;
 }
 
 void
@@ -1134,14 +1131,14 @@ gnumeric_sheet_set_left_col (GnumericSheet *gsheet, int new_first_col)
 	if (gsheet->col.first != new_first_col) {
 		int y;
 		GnomeCanvas * const canvas = GNOME_CANVAS(gsheet);
-		int const distance = gnumeric_sheet_bar_set_left_col (gsheet,
-					      new_first_col);
+		int const x_offset =
+			gnumeric_sheet_bar_set_left_col (gsheet, new_first_col);
 
 		gsheet_compute_visible_region (gsheet, FALSE);
 
 		/* Scroll the cell canvas */
 		gnome_canvas_get_scroll_offsets (canvas, NULL, &y);
-		gnome_canvas_scroll_to (canvas, distance, y);
+		gnome_canvas_scroll_to (canvas, x_offset, y);
 	}
 }
 
@@ -1167,7 +1164,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 	Sheet *sheet;
 	int   did_change = 0;
 	int   new_first_col, new_first_row;
-	int   col_distance, row_distance;
+	int   col_offset, row_offset;
 
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (col >= 0);
@@ -1217,7 +1214,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 		new_first_row = gsheet->row.first;
 
 	/* Determine if scrolling is required */
-	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), &col_distance, &row_distance);
+	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), &col_offset, &row_offset);
 
 	if (gsheet->col.first != new_first_col || force_scroll) {
 		if (force_scroll) {
@@ -1225,7 +1222,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 			gsheet->col_offset.first = 0;
 			gsheet->col.first = 0;
 		}
-		col_distance = gnumeric_sheet_bar_set_left_col (gsheet, new_first_col);
+		col_offset = gnumeric_sheet_bar_set_left_col (gsheet, new_first_col);
 		did_change = 1;
 	}
 
@@ -1235,7 +1232,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 			gsheet->row_offset.first = 0;
 			gsheet->row.first = 0;
 		}
-		row_distance = gnumeric_sheet_bar_set_top_row (gsheet, new_first_row);
+		row_offset = gnumeric_sheet_bar_set_top_row (gsheet, new_first_row);
 		did_change = 1;
 	}
 
@@ -1244,7 +1241,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 
 	gsheet_compute_visible_region (gsheet, FALSE);
 
-	gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), col_distance, row_distance);
+	gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), col_offset, row_offset);
 }
 
 static void
@@ -1353,7 +1350,7 @@ gnumeric_sheet_find_col (GnumericSheet *gsheet, int x, int *col_origin)
 			}
 			pixel += tmp;
 		}
-	} while (++col < SHEET_MAX_COLS);
+	} while (++col < SHEET_MAX_COLS-1);
 	if (col_origin)
 		*col_origin = pixel;
 	return SHEET_MAX_COLS-1;
@@ -1397,7 +1394,7 @@ gnumeric_sheet_find_row (GnumericSheet *gsheet, int y, int *row_origin)
 			}
 			pixel += tmp;
 		}
-	} while (++row < SHEET_MAX_ROWS);
+	} while (++row < SHEET_MAX_ROWS-1);
 	if (row_origin)
 		*row_origin = pixel;
 	return SHEET_MAX_ROWS-1;

@@ -12,8 +12,7 @@
   <gettext_support>True</gettext_support>
   <output_main_file>False</output_main_file>
   <output_support_files>False</output_support_files>
-  <output_translatable_strings>True</output_translatable_strings>
-  <translatable_strings_file>col-width.glade.h</translatable_strings_file>
+  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>
