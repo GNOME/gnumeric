@@ -59,6 +59,7 @@
 #include <libxml/parserInternals.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -1578,6 +1579,7 @@ xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		   WorkbookView *wb_view, GsfInput *input)
 {
 	XMLSaxParseState state;
+	char *old_num_locale, *old_monetary_locale;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wb_view));
 	g_return_if_fail (GSF_IS_INPUT (input));
@@ -1609,10 +1611,22 @@ xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	input = maybe_convert (input, FALSE);
 	gsf_input_seek (input, 0, G_SEEK_SET);
 
+	old_num_locale = g_strdup (gnm_setlocale (LC_NUMERIC, NULL));
+	gnm_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (gnm_setlocale (LC_MONETARY, NULL));
+	gnm_setlocale (LC_MONETARY, "C");
+	gnm_set_untranslated_bools ();
+
 	if (!gsf_xml_in_parse (&state.base, input))
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
 	else
 		workbook_queue_all_recalc (state.wb);
+
+	/* gnm_setlocale restores bools to locale translation */
+	gnm_setlocale (LC_MONETARY, old_monetary_locale);
+	g_free (old_monetary_locale);
+	gnm_setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 
 	g_object_unref (input);
 

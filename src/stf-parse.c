@@ -48,11 +48,11 @@
 #define SETUP_LOCALE_SWITCH char *oldlocale = NULL
 
 #define START_LOCALE_SWITCH if (parseoptions->locale) {\
-oldlocale = g_strdup(gnumeric_setlocale (LC_ALL, NULL)); \
-gnumeric_setlocale(LC_ALL, parseoptions->locale);}
+oldlocale = g_strdup(gnm_setlocale (LC_ALL, NULL)); \
+gnm_setlocale(LC_ALL, parseoptions->locale);}
 
 #define END_LOCALE_SWITCH if (oldlocale) {\
-gnumeric_setlocale(LC_ALL, oldlocale);\
+gnm_setlocale(LC_ALL, oldlocale);\
 g_free (oldlocale);}
 
 #define WARN_TOO_MANY_ROWS _("Too many rows in data to parse: %d")

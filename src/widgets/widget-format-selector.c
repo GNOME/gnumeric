@@ -53,7 +53,7 @@
 	if (nfs->locale) {						\
 		currency_date_format_shutdown ();			\
 		oldlocale = g_strdup (setlocale (LC_ALL, NULL));	\
-		gnumeric_setlocale (LC_ALL, nfs->locale);		\
+		gnm_setlocale (LC_ALL, nfs->locale);		\
 		currency_date_format_init ();				\
 	}								\
   } while (0)
@@ -62,7 +62,7 @@
   do {									\
 	if (oldlocale) {						\
 		currency_date_format_shutdown ();			\
-		gnumeric_setlocale (LC_ALL, oldlocale);			\
+		gnm_setlocale (LC_ALL, oldlocale);			\
 		g_free (oldlocale);					\
 		currency_date_format_init ();				\
 	}								\

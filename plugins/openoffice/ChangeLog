@@ -1,3 +1,8 @@
+2003-11-16  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open) : do not translate the
+	  bools.
+
 2003-10-27  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (opencalc_content_dtd) : tack on a few more nodes

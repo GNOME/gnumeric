@@ -67,7 +67,7 @@ static char *lc_TRUE = NULL;
 static char *lc_FALSE = NULL;
 
 char const *
-gnumeric_setlocale (int category, char const *val)
+gnm_setlocale (int category, char const *val)
 {
 	locale_info_cached = FALSE;
 	date_order_cached = FALSE;
@@ -236,6 +236,19 @@ format_boolean (gboolean b)
 	return b ? lc_TRUE : lc_FALSE;
 }
 
+/**
+ * gnm_set_untranslated_bools :
+ * 
+ * Short circuit the current locale so that we can import files
+ * and still produce error messages in the current LC_MESSAGE
+ **/
+void
+gnm_set_untranslated_bools (void)
+{
+	lc_TRUE = "TRUE";
+	lc_FALSE = "FALSE";
+	boolean_cached = TRUE;
+}
 
 /***************************************************************************/
 

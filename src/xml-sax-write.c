@@ -1107,10 +1107,11 @@ xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	state.exprconv	= xml_io_conventions ();
 	state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
-	gnumeric_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (gnumeric_setlocale (LC_MONETARY, NULL));
-	gnumeric_setlocale (LC_MONETARY, "C");
+	old_num_locale = g_strdup (gnm_setlocale (LC_NUMERIC, NULL));
+	gnm_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (gnm_setlocale (LC_MONETARY, NULL));
+	gnm_setlocale (LC_MONETARY, "C");
+	gnm_set_untranslated_bools ();
 
 	gsf_xml_out_start_element (state.output, GMR "Workbook");
 	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:gmr",
@@ -1132,9 +1133,10 @@ xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
 
 	gsf_xml_out_end_element (state.output); /* </Workbook> */
 
-	gnumeric_setlocale (LC_MONETARY, old_monetary_locale);
+	/* gnm_setlocale restores bools to locale translation */
+	gnm_setlocale (LC_MONETARY, old_monetary_locale);
 	g_free (old_monetary_locale);
-	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
+	gnm_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 
 	g_hash_table_destroy (state.expr_map);

@@ -88,6 +88,10 @@ Jody:
 	* Export 'Manual Recalc' flag to xls
 	http://bugzilla.gnome.org/show_bug.cgi?id=126907
 	* Recalc new expressions even when manually recalculating
+	http://bugzilla.gnome.org/show_bug.cgi?id=116090
+	* Support DISPLAY-less function dumping
+	http://bugzilla.gnome.org/show_bug.cgi?id=127095
+	* Problem introduced in 1.2.1 that breaks xml import in other locales
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

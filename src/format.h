@@ -102,7 +102,8 @@ typedef struct {
 void render_number (GString *result, gnm_float number, format_info_t const *info);
 
 /* Locale support routines */
-char const *gnumeric_setlocale      (int category, char const *val);
+void	    gnm_set_untranslated_bools (void);
+char const *gnm_setlocale           (int category, char const *val);
 char const *format_get_currency     (gboolean *precedes, gboolean *space_sep);
 gboolean    format_month_before_day (void);
 char        format_get_arg_sep      (void);
