@@ -3387,6 +3387,7 @@ sheet_colrow_insdel_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
 	else
 		sheet->priv->reposition_objects.row = pos;
 	colrow_set_states (sheet, is_cols, state_start, states);
+	colrow_state_list_destroy (states);
 }
 
 static void

@@ -21,6 +21,4 @@ void sheet_widget_scrollbar_set_details	(SheetObject *so, ExprTree *link,
 					 int value, int min, int max, int inc, int page);
 void sheet_widget_checkbox_set_link	(SheetObject *so, ExprTree *expr);
 
-gboolean sheet_widget_checkbox_switch_link_sheet (SheetObject *so, Sheet *old_sheet, Sheet *new_sheet);
-
 #endif /* GNUMERIC_SHEET_OBJECT_WIDGET_H */

@@ -2119,6 +2119,7 @@ cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	/* Restore the original row heights */
 	colrow_set_states (me->info.target_sheet, FALSE,
 		reverse.origin.start.row, me->saved_sizes);
+	colrow_state_list_destroy (me->saved_sizes);
 	me->saved_sizes = NULL;
 
 	/* Restore the changed expressions */
@@ -2345,6 +2346,7 @@ cmd_paste_copy_impl (GnumericCommand *cmd, WorkbookControl *wbc,
 	if (is_undo) {
 		colrow_set_states (me->dst.sheet, FALSE,
 			me->dst.range.start.row, me->saved_sizes);
+		colrow_state_list_destroy (me->saved_sizes);
 		me->saved_sizes = NULL;
 	} else {
 		me->saved_sizes = colrow_get_states (me->dst.sheet,
@@ -4441,15 +4443,24 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdMergeData *me = CMD_MERGE_DATA (cmd);
 	int i;
 	CellRegion *merge_content;
-	Range merge_range;
 	RangeRef *cell = &me->merge_zone->v_range.cell;
 	PasteTarget pt;
 	GSList *this_field = me->merge_fields;
 	GSList *this_data = me->merge_data;
+	Sheet *source_sheet = cell->a.sheet;
+	GSList *target_sheet;
+	Range target_range;
+	Range source_range;
+	ColRowStateList *state_col;
+	ColRowStateList *state_row;
 	
-	range_init (&merge_range, cell->a.col, cell->a.row,
+	range_init (&target_range, cell->a.col, cell->a.row,
 		    cell->b.col, cell->b.row);
-	merge_content = clipboard_copy_range (cell->a.sheet, &merge_range);
+	merge_content = clipboard_copy_range (source_sheet, &target_range);
+	state_col = colrow_get_states (source_sheet, TRUE, target_range.start.col,
+					   target_range.end.col);
+	state_row = colrow_get_states (source_sheet, FALSE, target_range.start.row,
+					   target_range.end.row);
 
 	for (i = 0; i < me->n; i++) {
 		Sheet *new_sheet;
@@ -4458,27 +4469,23 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 		new_sheet = workbook_sheet_add (me->sheet->workbook, NULL, FALSE);
 		me->sheet_list = g_slist_prepend (me->sheet_list, new_sheet);
-		sheet_object_clone_sheet_in_range (cell->a.sheet, new_sheet, &merge_range);
-		check_boxes = sheet_objects_get (new_sheet, &merge_range, 
+
+		colrow_set_states (new_sheet, TRUE, target_range.start.col, state_col);
+		colrow_set_states (new_sheet, FALSE, target_range.start.row, state_row); 	
+
+		sheet_object_clone_sheet_in_range (source_sheet, new_sheet, &target_range);
+		check_boxes = sheet_objects_get (new_sheet, &target_range, 
 						 sheet_widget_checkbox_get_type ());
-	        a_box = check_boxes;
-		while (a_box) {
-			sheet_widget_checkbox_switch_link_sheet (SHEET_OBJECT (a_box->data),
-								 cell->a.sheet, new_sheet);
-			a_box = a_box->next;
-		}
 		g_slist_free (check_boxes);
 		clipboard_paste_region (me->wbc, paste_target_init (&pt, new_sheet, 
-								&merge_range, PASTE_ALL_TYPES),
+								&target_range, PASTE_ALL_TYPES),
 					merge_content);
 	}
 	me->sheet_list = g_slist_reverse (me->sheet_list);
+	colrow_state_list_destroy (state_col);
+	colrow_state_list_destroy (state_row);
 
 	while (this_field) {
-		Range target_range;
-		Range source_range;
-		Sheet *source_sheet;
-		GSList *target_sheet;
 
 		g_return_val_if_fail (this_data != NULL, TRUE);
 		cell = &((Value *)this_field->data)->v_range.cell;

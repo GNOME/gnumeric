@@ -452,7 +452,11 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 /*
  * NOTE : this is a low level routine it does not redraw or
  *        reposition objects
+ *
+ * NOTE : this does not delete states any longer since it may be used
+ *        for several sheets.
  */
+
 void
 colrow_set_states (Sheet *sheet, gboolean is_cols,
 		   int first, ColRowStateList *states)
@@ -496,8 +500,6 @@ colrow_set_states (Sheet *sheet, gboolean is_cols,
 		offset += rles->length;
 	}
 
-	colrow_state_list_destroy (states);
-
 	/* Notify sheet of pending update */
 	sheet->priv->recompute_visibility = TRUE;
 	if (is_cols) {
@@ -540,6 +542,7 @@ colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
 		}
 
 		colrow_set_states (sheet, is_cols, index->first, ptr->data);
+		colrow_state_list_destroy (ptr->data);
 		selection = selection->prev;
 	}
 

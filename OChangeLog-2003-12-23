@@ -1,3 +1,14 @@
+2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	
+	* src/sheet-object-widget.[ch] (sheet_widget_checkbox_switch_link_sheet) :
+	  delete again (unnecessary after Jody's fix of the root problem)
+	* src/colrow.c (colrow_set_states) : preserve the 
+	  ColRowStateList, it possibly should also be applied to other sheets
+	* src/sheet.c : delete the ColRowStateList after colrow_set_states
+	* src/commands.c : delete the ColRowStateList after colrow_set_states
+	(cmd_merge_data_redo) : preserve column and row widths, etc.
+	
+
 2002-03-13  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-widget.c (sheet_widget_scrollbar_get_ref) : Add a
