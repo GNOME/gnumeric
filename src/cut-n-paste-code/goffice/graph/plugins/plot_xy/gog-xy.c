@@ -120,18 +120,14 @@ gog_2d_plot_update (GogObject *obj)
 	/*adjust bounds to allow large markers or bubbles*/
 	gog_2d_plot_adjust_bounds (model, &x_min, &x_max, &y_min, &y_max);
 	/* add room for error bars */
-	if ((series->x_errors) &&
-		(series->x_errors->type != GOG_ERROR_BAR_TYPE_NONE) &&
-		(series->x_errors->display != GOG_ERROR_BAR_DISPLAY_NONE)) {
+	if (gog_error_bar_is_visible (series->x_errors)) {
 			gog_error_bar_get_minmax (series->x_errors, &tmp_min, &tmp_max);
 			if (x_min > tmp_min)
 				x_min = tmp_min;
 			if (x_max < tmp_max)
 				x_max = tmp_max;
 		}
-	if ((series->y_errors) &&
-		(series->y_errors->type != GOG_ERROR_BAR_TYPE_NONE) &&
-		(series->y_errors->display != GOG_ERROR_BAR_DISPLAY_NONE)) {
+	if (gog_error_bar_is_visible (series->y_errors)) {
 			gog_error_bar_get_minmax (series->y_errors, &tmp_min, &tmp_max);
 			if (y_min > tmp_min)
 				y_min = tmp_min;
