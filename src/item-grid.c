@@ -549,11 +549,13 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 				if (sheet->show_grid) {
 					int offset = 0;
 					/* Do not over write background patterns */
-					if ((col > start_col && sr.top [col - 1] == NULL) ||
-					    (col < end_col && sr.top [col + 1] == NULL))
-						offset = 1;
-					else if (!style_border_is_blank (prev_vert [col]))
+					if (!style_border_is_blank (prev_vert [col]))
 						offset = 1 + prev_vert [col]->end_margin;
+					else if (!style_border_is_blank (sr.vertical [col]))
+						offset = 1 + sr.vertical [col]->end_margin;
+					else if ((col > start_col && sr.top [col - 1] == NULL) ||
+						 (col < end_col && sr.top [col + 1] == NULL))
+						offset = 1;
 
 					gdk_draw_line (drawable, grid_gc, x + offset, y,
 						       x + ci->size_pixels, y);
@@ -576,9 +578,15 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 						offset = 1;
 					else if (top->line_type != STYLE_BORDER_NONE)
 						offset = 1 + top->end_margin;
-					else if ((prev_vert [col] != none && prev_vert [col] != NULL) ||
-						 (col > start_col && sr.top [col - 1] == NULL))
+					else if ((prev_vert [col] != none && prev_vert [col] != NULL))
 						offset = 1;
+					if (col > start_col) {
+						top = sr.top [col - 1];
+						if (top == NULL)
+							offset = 1;
+						else if (top->line_type != STYLE_BORDER_NONE)
+							offset = 1 + top->end_margin;
+					}
 					gdk_draw_line (drawable, grid_gc,
 						       x, y + offset,
 						       x, y + ri->size_pixels);

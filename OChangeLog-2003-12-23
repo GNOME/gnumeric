@@ -1,5 +1,19 @@
 2001-02-01  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-grid.c (item_grid_draw) : Last couple of intersection
+	  cases.  We now draw correctly for the simple cases.  Grid lines are
+	  handled incorrectly.  The error won't show up when drawing, but it
+	  will when we do this for printing.  We should also be more careful
+	  with the intersection cases for borders.  double check using borders
+	  of different colours.
+
+2001-02-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (cb_obj_create_button_release) : Use the new default
+	  size routine.
+
+	* src/sheet-object-impl.h : Add default_{width, height} to class.
+
 	* src/sheet-control-gui.c (scg_object_update_bbox) : when we select a
 	  new object get its position.
 	(cb_control_point_event) : This is a motion event.  Get rid of the
