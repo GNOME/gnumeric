@@ -1,7 +1,7 @@
 AC_INIT(src/gnumeric.h)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(gnumeric,0.58)
+AM_INIT_AUTOMAKE(gnumeric,0.59)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
 
