@@ -594,10 +594,13 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 	if (!selection_is_simple (command_context_gui (),
 				  sheet, _("sort")))
 		return;	
-
+	
+	sel = *(range_copy (selection_first_range (sheet, FALSE)));
 	extent = sheet_get_extent (sheet);
-	sel    = range_intersection (&extent,
-				     selection_first_range (sheet, FALSE));
+       	if (sel.end.col >= SHEET_MAX_COLS - 2)
+		sel.end.col = extent.end.col;
+	if (sel.end.row >= SHEET_MAX_ROWS - 2)
+		sel.end.row = extent.end.row;
 
 	/* Init clauses */
 	sort_flow.max_col_clause = sel.end.col - sel.start.col + 1;
