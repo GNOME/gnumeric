@@ -62,8 +62,6 @@ Gnumeric Spread Sheet task list
   * Filter font list by font encoding.
   * Create a simplistic dialog (to map to font-bold yes/no).
 
-* when copying and entire row or col we should also copy the row/col size.
-
 * when cuting & pasting a cell that is inside a range on another cell grow
   the range of the formula if the cell is pasted in a place where it grows
   it boundaries.
@@ -130,14 +128,7 @@ Gnumeric Spread Sheet task list
 
    Object properties.
 
-** Paste special 
-
-  needs some little changes:
-  - When formulas are pasted with an operation,
-    the new ExprTree should be created with the operation.
-
 ** Style
-
   Protection:
     Bloqued/Hidden
 
@@ -181,7 +172,7 @@ Gnumeric Spread Sheet task list
 
 * Parser
   - fully support R[-1]C[3] type references
-   - Improve error reporting.
+  - Improve error reporting.
 
 * Internals
    When filling large regions (ie, select, enter data, control-enter),
@@ -225,7 +216,7 @@ Gnumeric Spread Sheet task list
 * Html export
   * Export style information for blank cells.
 
-* Graphics component
+* Graph component
   - Scatter plots are not being scaled to the dimensions of the allocated
     size for the graph inside the layout.
   - Stacked, and Stacked 100% are not working for line plots.

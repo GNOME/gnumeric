@@ -1,3 +1,27 @@
+2000-07-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/border.c (style_border_draw) : Improve the look of diagonal double
+	  borders.  They still handle intersections poorly, but this improves
+	  things a bit.
+	(style_border_print) : Ditto.
+
+2000-07-16  Jody Goldberg <jgoldberg@home.com>
+	For : Matt Bissiri <bissiri@eecs.umich.edu>
+
+	* src/clipboard.c: Implemented 'paste link' and 'skip blanks' for paste special.
+	(paste_link): New function.
+	(paste_cell): Do not clear the target cells if PASTE_SKIP_BLANKS is specified.
+	Call paste_link if PASTE_LINK is specified.
+
+	* src/clipboard.h:
+	Added PASTE_LINK and PASTE_SKIP_BLANKS flags.
+
+	* src/dialogs/dialog-paste-special.c:
+	(transpose_cb): Rename transpose_cb -> checkbutton_toggled.
+	(dialog_destroy): New function.
+	(paste_link_set_sensitive): New function.
+	(dialog_paste_special): Add 'paste link' and 'skip blanks' to the dialog.
+
 2000-07-13  Michael Meeks  <michael@helixcode.com>
 
 	* src/main.c (gnumeric_main): remove bonobo_shutdown.

@@ -757,11 +757,6 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		Cell *cell;
 		int col, row;
 
-		if (pos->sheet == NULL) {
-			/* Only the test program requests this */
-			return value_new_float (3.14);
-		}
-
 		ref = &tree->var.ref;
 		cell_get_abs_col_row (ref, &pos->eval, &col, &row);
 

@@ -110,8 +110,7 @@ apply_paste_oper_to_values (Cell const * old_cell, Cell const * copied_cell, int
 		return value_new_float (old_float * copied_float);
 	else if (paste_flags & PASTE_OPER_DIV)
 		return (copied_float == 0.0)
-			? value_new_error (NULL, /* FIXME: Why do value_new_error and value_new_error_str take the EvalPos argument?  The EvalPos is not currently used in those functions. */
-					   gnumeric_err_DIV0)
+			? value_new_error (NULL, gnumeric_err_DIV0)
 			: value_new_float (old_float / copied_float);
 	else
 		g_assert_not_reached ();
@@ -185,6 +184,27 @@ paste_cell_with_operation (Sheet *dest_sheet,
 	}
 
 	sheet_cell_insert (dest_sheet, new_cell, target_col, target_row);
+}
+
+static void
+paste_link (Sheet *dest_sheet,
+	    int source_col, int source_row,
+	    int target_col, int target_row)
+{
+	ExprTree *expr;
+	Cell *new_cell;
+	CellRef source_cell_ref;
+	
+	new_cell = sheet_cell_new (dest_sheet, target_col, target_row);
+	
+	source_cell_ref.sheet = dest_sheet;
+	source_cell_ref.col = source_col;
+	source_cell_ref.row = source_row;
+	source_cell_ref.col_relative = 0;
+	source_cell_ref.row_relative = 0;
+	expr = expr_tree_new_var (&source_cell_ref);
+	
+	sheet_cell_set_expr (new_cell, expr);
 }
 
 /**
@@ -312,7 +332,7 @@ clipboard_paste_region (CommandContext *context,
 		tmp = CLEAR_VALUES|CLEAR_COMMENTS;
 	if (pt->paste_flags & PASTE_FORMATS)
 		tmp |= CLEAR_FORMATS;
-	if (pt->paste_flags & PASTE_OPER_MASK)
+	if (pt->paste_flags & (PASTE_OPER_MASK | PASTE_SKIP_BLANKS))
 		tmp = 0;
 	if (tmp) {
 		int const dst_col = pt->range.start.col;
@@ -385,8 +405,15 @@ clipboard_paste_region (CommandContext *context,
 					rinfo->pos.eval.row = target_row;
 				}
 
-				paste_cell (pt->sheet, target_col, target_row,
-					    &rwinfo, c_copy, pt->paste_flags);
+				if (pt->paste_flags & PASTE_LINK) {
+					int source_col = content->base_col + c_copy->col_offset;
+					int source_row = content->base_row + c_copy->row_offset;
+
+					paste_link (pt->sheet, source_col, source_row,
+						    target_col, target_row);
+				} else
+					paste_cell (pt->sheet, target_col, target_row,
+						    &rwinfo, c_copy, pt->paste_flags);
 			}
 		}
 

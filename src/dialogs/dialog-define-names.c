@@ -25,8 +25,9 @@ typedef struct {
 	GtkList   *list;
 	GtkEntry  *name;
 	GtkEntry  *value;
+	GtkCombo  *scope;
 	GList     *expr_names;
-	gint       selected;
+	NamedExpression *cur_name;
 
 	GtkWidget *ok_button;
 	GtkWidget *add_button;
@@ -34,7 +35,35 @@ typedef struct {
 	GtkWidget *delete_button;
 
 	Workbook  *wb;
+	Sheet	  *sheet;
 } NameGuruState;
+
+static void
+cb_scope_changed (GtkEntry *entry, NameGuruState *state)
+{
+	if (state->cur_name != NULL)
+		puts("changed");
+}
+
+static void
+name_guru_init_scope (NameGuruState *state)
+{
+	NamedExpression *cur = state->cur_name;
+	GList *list = NULL;
+
+	if (cur != NULL && cur->sheet) {
+		list = g_list_prepend (list, _("Workbook"));
+		list = g_list_prepend (list, cur->sheet->name_unquoted);
+	} else {
+		list = g_list_prepend (list, state->sheet->name_unquoted);
+		list = g_list_prepend (list, _("Workbook"));
+	}
+
+	state->cur_name = NULL;
+	gtk_combo_set_popdown_strings (state->scope, list);
+	g_list_free (list);
+	state->cur_name = cur;
+}
 
 static void
 cb_name_guru_select_name (GtkWidget *list, NameGuruState *state)
@@ -50,8 +79,11 @@ cb_name_guru_select_name (GtkWidget *list, NameGuruState *state)
 
 	expr_name = gtk_object_get_data (GTK_OBJECT (sel->data), LIST_KEY);
 
+	g_return_if_fail (expr_name != NULL);
 	g_return_if_fail (expr_name->name != NULL);
 	g_return_if_fail (expr_name->name->str != NULL);
+
+	state->cur_name = expr_name;
 
 	/* Display the name */
 	gtk_entry_set_text (state->name, expr_name->name->str);
@@ -60,6 +92,9 @@ cb_name_guru_select_name (GtkWidget *list, NameGuruState *state)
 	txt = expr_name_value (expr_name);
 	gtk_entry_set_text (state->value, txt);
 	g_free (txt);
+
+	/* Init the scope combo box */
+	name_guru_init_scope (state);
 }
 
 static void
@@ -71,17 +106,25 @@ name_guru_populate_list (NameGuruState *state)
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->list != NULL);
 
-	state->selected   = -1;
+	state->cur_name = NULL;
 	if (state->expr_names != NULL)
 		g_list_free (state->expr_names);
 
-	/* FIXME: scoping issues here */
-	names = state->expr_names = expr_name_list (state->wb, NULL, FALSE);
+	state->expr_names = expr_name_list (state->wb, state->sheet, FALSE);
 
 	list = GTK_CONTAINER (state->list);
-	for (; names != NULL ; names = g_list_next (names)) {
+	for (names = state->expr_names ; names != NULL ; names = g_list_next (names)) {
 		NamedExpression *expr_name = names->data;
-		GtkWidget *li = gtk_list_item_new_with_label (expr_name->name->str);
+		GtkWidget *li;
+
+		if (expr_name->sheet != NULL) {
+			char *name = g_strdup_printf ("%s!%s",
+						      expr_name->sheet->name_unquoted,
+						      expr_name->name->str);
+			li = gtk_list_item_new_with_label (name);
+			g_free (name);
+		} else
+			li = gtk_list_item_new_with_label (expr_name->name->str);
 		gtk_object_set_data (GTK_OBJECT (li), LIST_KEY, expr_name);
 		gtk_container_add (list, li);
 	}
@@ -91,12 +134,10 @@ name_guru_populate_list (NameGuruState *state)
 static void
 cb_name_guru_remove (GtkWidget *ignored, NameGuruState *state)
 {
-	gint i;
 	g_return_if_fail (state != NULL);
 
-	i = state->selected;
-	if (i >= 0) {
-		GList *na = g_list_nth (state->expr_names, i);
+	if (state->cur_name != NULL) {
+		GList *na = g_list_remove (state->expr_names, state->cur_name);
 
 		g_return_if_fail (na != NULL);
 		g_return_if_fail (na->data != NULL);
@@ -132,7 +173,9 @@ cb_name_guru_add (NameGuruState *state)
 	 *
 	 * default to workbook for now.
 	 */
-	pp = parse_pos_init (&pos, state->wb, NULL, 0, 0);
+	pp = parse_pos_init (&pos, state->wb, state->sheet,
+			     state->sheet->cursor.edit_pos.col,
+			     state->sheet->cursor.edit_pos.row);
 
 	expr_name = expr_name_lookup (pp, name);
 
@@ -229,19 +272,27 @@ cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
 }
 
 static gboolean
-name_guru_init (NameGuruState *state)
+name_guru_init (NameGuruState *state, Workbook *wb)
 {
+	state->wb  = wb;
+	state->sheet = wb->current_sheet;
 	state->gui = gnumeric_glade_xml_new (workbook_command_context_gui (state->wb),
 					     "names.glade");
         if (state->gui == NULL)
                 return TRUE;
 
-	state->dialog = glade_xml_get_widget (state->gui, "NamesDialog");
+	state->dialog = glade_xml_get_widget (state->gui, "NameGuru");
 	state->name  = GTK_ENTRY (glade_xml_get_widget (state->gui, "name"));
 	state->value = GTK_ENTRY (glade_xml_get_widget (state->gui, "value"));
+	state->scope = GTK_COMBO (glade_xml_get_widget (state->gui, "scope_combo"));
 	state->list  = GTK_LIST  (glade_xml_get_widget (state->gui, "name_list"));
 	state->expr_names = NULL;
-	state->selected   = -1;
+	state->cur_name   = NULL;
+
+	/* Init the scope combo box */
+	name_guru_init_scope (state);
+	gtk_signal_connect (GTK_OBJECT (state->scope->entry), "changed",
+			    GTK_SIGNAL_FUNC (cb_scope_changed), state);
 
 	state->ok_button = name_guru_init_button (state, "ok_button");
 	state->close_button = name_guru_init_button (state, "close_button");
@@ -261,6 +312,8 @@ name_guru_init (NameGuruState *state)
 				  GTK_EDITABLE(state->name));
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->value));
+	gnumeric_combo_enters (GTK_WINDOW (state->dialog),
+			       state->scope);
 	gnumeric_non_modal_dialog (state->wb, GTK_DIALOG (state->dialog));
 
 	workbook_edit_attach_guru (state->wb, state->dialog);
@@ -276,8 +329,7 @@ dialog_define_names (Workbook *wb)
 	g_return_if_fail (wb != NULL);
 
 	state = g_new (NameGuruState, 1);
-	state->wb  = wb;
-	if (name_guru_init (state)) {
+	if (name_guru_init (state, wb)) {
 		g_free (state);
 		return;
 	}

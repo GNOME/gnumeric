@@ -57,8 +57,17 @@ void function_category_add_func (FunctionCategory *, FunctionDefinition *);
 
 /* These are not supported yet */
 typedef enum {
-	FUNCTION_RECALC_ALWAYS, /* eg now() */
-	FUNCTION_RECALC_ONLOAD  /* functions not fully supported */
+	FUNCTION_RETURNS_ARRAY = 0x01, /* eg transpose(), mmult() */
+	FUNCTION_RECALC_ALWAYS = 0x02, /* eg now() */
+
+	/* For functions that are not exactly compatible with various import
+	 * formats.  We need to recalc their results to avoid changing values
+	 * unexpectedly when we recalc later.  This probably needs to be done
+	 * on a per import format basis.  It may not belong here.
+	 */
+	FUNCTION_RECALC_ONLOAD = 0x04
+
+	/* TODO : Are there other forms or recalc we need to think about ? */
 } FunctionFlags;
 
 struct _FunctionDefinition {

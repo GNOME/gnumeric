@@ -14,7 +14,14 @@ enum {
 
 	/* Whether the paste transposes or not */
 	PASTE_TRANSPOSE		= 1 << 7,
-	PASTE_EXPR_RELOCATE	= 1 << 8
+
+	PASTE_EXPR_RELOCATE	= 1 << 8,
+
+	PASTE_LINK              = 1 << 9,
+
+	/* If copying a range that includes blank cells, this
+	   prevents pasting blank cells over existing data */
+	PASTE_SKIP_BLANKS       = 1 << 10
 };
 
 #define PASTE_ALL_TYPES (PASTE_FORMULAS | PASTE_VALUES | PASTE_FORMATS)
@@ -29,7 +36,7 @@ typedef enum {
 
 typedef struct {
 	int col_offset, row_offset; /* Position of the cell */
-	guint8 type;
+	CellCopyType type;
 	char *comment;
 	union {
 		Cell   *cell;

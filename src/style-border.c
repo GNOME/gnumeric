@@ -329,16 +329,16 @@ style_border_draw (MStyleBorder const * const border, MStyleElementType const t,
 			    { { 0,-1,0,-1}, { 0,1,0,1} }, /* BOTTOM */
 			    { { -1,0,-1,0}, { 1,0,1,0} }, /* LEFT */
 			    { { -1,0,-1,0}, { 1,0,1,0} }, /* RIGHT */
-			    { { 0,1,-1,0}, { 1,0,0,-1} }, /* DIAGONAL */
-			    { { 0,-1,-1,0 },{ 1,0,0,1} }, /* REV_DIAGONAL */
+			    { { 0,-2,-2,0 },{ 2,0,0,2} }, /* REV_DIAGONAL */
+			    { { 0,2,-2,0}, { 2,0,0,-2} }, /* DIAGONAL */
 			};
 			static int const extension_begin[][2][2] = {
 			    { { -1, 0 }, { 1, 0 } }, /* TOP */
 			    { {  1, 0 }, { -1, 0 } }, /* BOTTOM */
 			    { { 0, -1 }, { 0, 1} }, /* LEFT */
 			    { { 0, 1 }, { 0, -1} }, /* RIGHT */
-			    { { 1, 1}, { 1, 1 } }, /* DIAGONAL */
 			    { { -1, -1}, { -1, -1} }, /* REV_DIAGONAL */
+			    { { 1, 1}, { 1, 1 } }, /* DIAGONAL */
 			};
 
 			int const i = t-MSTYLE_BORDER_TOP;
@@ -387,16 +387,16 @@ style_border_print (MStyleBorder const * const border, MStyleElementType const t
 			    { { 0,-1,0,-1}, { 0,1,0,1} }, /* BOTTOM */
 			    { { -1,0,-1,0}, { 1,0,1,0} }, /* LEFT */
 			    { { -1,0,-1,0}, { 1,0,1,0} }, /* RIGHT */
-			    { { 0,1,-1,0}, { 1,0,0,-1} }, /* DIAGONAL */
-			    { { 0,-1,-1,0 },{ 1,0,0,1} }, /* REV_DIAGONAL */
+			    { { 0,-2,-2,0 },{ 2,0,0,2} }, /* REV_DIAGONAL */
+			    { { 0,2,-2,0}, { 2,0,0,-2} }, /* DIAGONAL */
 			};
 			static int const extension_begin[][2][2] = {
 			    { { -1, 0 }, { 1, 0 } }, /* TOP */
 			    { {  1, 0 }, { -1, 0 } }, /* BOTTOM */
 			    { { 0, -1 }, { 0, 1} }, /* LEFT */
 			    { { 0, 1 }, { 0, -1} }, /* RIGHT */
-			    { { 1, 1}, { 1, 1 } }, /* DIAGONAL */
 			    { { -1, -1}, { -1, -1} }, /* REV_DIAGONAL */
+			    { { 1, 1}, { 1, 1 } }, /* DIAGONAL */
 			};
 
 			int const i = t-MSTYLE_BORDER_TOP;

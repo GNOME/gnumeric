@@ -73,8 +73,6 @@ Dialogs
     : Editing nested functions.  How best to express this.
     : Switching between multiple function at the same level.
     : Better communication and handling of parse errors.
-- Name Guru
-    : Ick.  This is very ugly.
 
 Sorting
 -------

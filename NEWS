@@ -22,7 +22,7 @@ Jukka:
 	* Started the implementation of COUPDAYBS and COUPDAYS.
 
 Matthew D. Bissiri:
-	* Paste special arithmetic operations.
+	* Paste special arithmetic operations, skip blanks, paste link.
 
 Michael Levy:
 	* Improve the colour combo box.

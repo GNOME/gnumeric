@@ -1662,21 +1662,27 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_erf = {
 	N_("@FUNCTION=ERF\n"
-	   "@SYNTAX=ERF(lower limit[,upper_limit])\n"
+	   "@SYNTAX=ERF([lower limit,]upper_limit)\n"
 
 	   "@DESCRIPTION="
-	   "ERF function returns the integral of the error function "
-	   "between the limits.  If the @upper_limit ommitted ERF returns "
-	   "the integral between zero and the @lower_limit."
+	   "With a single argument ERF returns the error function, defined as "
+	   "erf(x) = 2/sqrt(pi)* integral from 0 to x of exp(-t*t) dt. "
+	   "If two arguments are supplied, they are the lower and upper "
+	   "limits of the integral."
 	   "\n"
-	   "If either @lower_limit or @upper_limit are not numeric a "
+	   "If either @lower_limit or @upper_limit is not numeric a "
 	   "#VALUE! error is returned.  "
-	   "If either @lower_limit or @upper_limit are < 0 a #NUM! error "
-	   "is returned. "
-	   "This function is Excel compatible. "
+	   "This function is upward-compatible with that in Excel. "
+	   "(If two arguments are supplied, "
+	   "Excel will not allow either to be negative.) "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ERF(0.4) equals 0.428392355.\n"
+	   "ERF(1.6448536269515/SQRT(2)) equals 0.90.\n"
+	   "\n"
+	   "The second example shows that a random variable with a normal "
+	   "distribution has a 90 percent chance of falling within "
+	   "approximately 1.645 standard deviations of the mean."
 	   "\n"
 	   "@SEEALSO=ERFC")
 };
@@ -1688,16 +1694,13 @@ gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
 	float_t ans, lower, upper=0.0;
 
 	lower = value_get_as_float (argv [0]);
-	if (argv [1])
-		upper = value_get_as_float (argv [1]);
-
-	if (lower < 0.0 || upper < 0.0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
 	ans = erf(lower);
 
 	if (argv [1])
-	        ans = erf(upper) - ans;
+	  {
+	    upper = value_get_as_float (argv [1]);
+	    ans = erf(upper) - ans;
+	  }
 	
 	return value_new_float (ans);
 }
@@ -1709,13 +1712,15 @@ static char *help_erfc = {
 	   "@SYNTAX=ERFC(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ERFC function returns the integral of the complimentary "
-	   "error function between the limits 0 and @x."
+	   "The ERFC function returns the complimentary "
+	   "error function, defined as 1 - erf(x). "
+	   "erfc(x) is calculated more accurately than erf(x) for "
+	   "arguments larger than about 0.5."
 	   "\n"
 	   "If @x is not numeric a #VALUE! error is returned.  "
-	   "If @x < 0 a #NUM! error is returned."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ERFC(6) equals 2.15197367e-17.\n"
 	   "\n"
 	   "@SEEALSO=ERF")
 };
@@ -1725,8 +1730,7 @@ gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t x;
 
-	if ((x=value_get_as_float (argv [0]))<0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+	x=value_get_as_float (argv [0]);
 
 	return value_new_float (erfc (x));
 }
