@@ -165,22 +165,20 @@ static const char *help_left = {
 static Value *
 gnumeric_left (FunctionEvalInfo *ei, Value **argv)
 {
-	Value      *v;
-	GString    *res;
 	char const *peek;
-	int         count;
+	int         count, newlen;
 
 	count = argv[1] ? value_get_as_int (argv[1]) : 1;
 
 	if (count < 0)
-		return value_new_error (ei->pos, _("Invalid arguments"));
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	peek = value_peek_string (argv[0]);
-	res  = g_string_new_len (peek, count);
+	if (count >= g_utf8_strlen (peek, -1))
+		return value_new_string (peek);
 
-	v = value_new_string (res->str);
-	g_string_free (res, TRUE);
-	return v;
+	newlen = g_utf8_offset_to_pointer (peek, count) - peek;
+	return value_new_string_nocopy (g_strndup (peek, newlen));
 }
 
 /***************************************************************************/
@@ -202,14 +200,7 @@ static const char *help_lower = {
 static Value *
 gnumeric_lower (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
-	char *s;
-
-	s = g_utf8_strdown (value_peek_string (argv[0]), -1);
-	v = value_new_string (s);
-	g_free (s);
-
-	return v;
+	return value_new_string_nocopy (g_utf8_strdown (value_peek_string (argv[0]), -1));
 }
 
 /***************************************************************************/
@@ -345,7 +336,6 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GnmExprList *nodes)
 				      range_concatenate,
 				      COLLECT_IGNORE_BLANKS,
 				      gnumeric_err_VALUE);
-
 }
 
 /***************************************************************************/
@@ -574,11 +564,11 @@ static const char *help_proper = {
 static Value *
 gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 {
-	unsigned char const *p;
-	GString             *res    = g_string_new ("");
-	gboolean             inword = FALSE;
+	char const *p;
+	GString    *res    = g_string_new ("");
+	gboolean   inword = FALSE;
 
-	p = (unsigned char const *) value_peek_string (argv[0]);
+	p = value_peek_string (argv[0]);
 	while (*p) {
 		gunichar uc = g_utf8_get_char (p);
 
@@ -953,55 +943,63 @@ static const char *help_dollar = {
 static Value *
 gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v, *ag[3];
-	guint len, neg;
-	gchar *s;
-	static int barfed = 0;
+	gboolean precedes, space_sep;
+	char const *curr = format_get_currency (&precedes, &space_sep);
+	char *format, *s;
+	StyleFormat *sf;
+	const char *base_format =
+		"%s#,##0%s%s;(%s#,##0%s)%s;_(%s\"-\"??%s_);_(@_)";
+        gnum_float number = value_get_as_float (argv[0]);
+        int decimals = argv[1] ? value_get_as_int (argv[1]) : 2;
+	gnum_float p10;
+	Value *v;
+	char dotdecimals[1000];
 
-	gnum_float x;
-	int     i, n;
-
-	if (!barfed) {
-		g_warning ("GNUMERIC_DOLLAR is broken, it should use the "
-			   "format_value routine");
-		barfed = 1;
+	if (decimals > 0) {
+		/* ".0000" */
+		decimals = MIN (decimals, (int)sizeof (dotdecimals) - 2); /* FIXME? */
+		dotdecimals[0] = '.';
+		memset (&dotdecimals[1], '0', decimals);
+		dotdecimals[decimals + 1] = 0;
+	} else {
+		dotdecimals[0] = 0;
 	}
-	if (argv[1] != NULL) {
-		x = 0.5;
-		n = value_get_as_int (argv[1]);
-		for (i = 0; i < n; i++)
-			x /= 10;
-		ag[0] = value_new_float (value_get_as_float (argv[0]) + x);
-	} else
-		ag[0] = value_duplicate (argv[0]);
 
-	ag[1] = argv[1];
-	ag[2] = NULL;
+	if (precedes) {
+		char *pre = g_strconcat ("\"", curr, "\"",
+					 (space_sep ? " " : ""),
+					 NULL);
 
-	v = gnumeric_fixed (ei, ag);
-	if (v == NULL)
-		return NULL;
+		format = g_strdup_printf (base_format,
+					  pre, dotdecimals, "",
+					  pre, dotdecimals, "",
+					  pre, "");
+		g_free (pre);
+	} else {
+		char *post = g_strconcat ((space_sep ? " " : ""),
+					  "\"", curr, "\"",
+					  NULL);
 
-	g_assert (v->type == VALUE_STRING);
-
-	len = strlen (v->v_str.val->str);
-	neg = (v->v_str.val->str[0] == '-') ? 1 : 0;
-
-	s = g_new (gchar, len + 2 + neg);
-	strncpy (&s[1], v->v_str.val->str, len);
-
-	string_unref (v->v_str.val);
-	if (neg) {
-		s[0] = '(';
-		s[len + 1] = ')';
+		format = g_strdup_printf (base_format,
+					  "", dotdecimals, post,
+					  "", dotdecimals, post,
+					  "", post);
+		g_free (post);
 	}
-	/* FIXME: should use *lc->currency_symbol */
-	s[neg] = '$';
-	s[len + 1 + neg] = '\0';
-	v->v_str.val = string_get_nocopy (s);
-	value_release (ag[0]);
+	sf = style_format_new_XL (format, FALSE);
+	g_free (format);
+	g_return_val_if_fail (sf != NULL, value_new_error (ei->pos, gnumeric_err_NA));
 
-	return v;
+	/* Since decimals can be negative, round the number.  */
+	p10 = gpow10 (decimals);
+	number = gnumeric_fake_round (number * p10) / p10;
+	v = value_new_float (number);
+	s = format_value (sf, v, NULL, -1);
+	value_release (v);
+
+	style_format_unref (sf);
+
+	return value_new_string_nocopy (s);
 }
 
 /***************************************************************************/
