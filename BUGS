@@ -65,11 +65,10 @@ Printing
 --------
 - cell text wraps differently when printing than displaying due to scaling
   differences in font size.  do we want to eliminate this ?
+- headers and footers should be clipped to a rectangle.
+- add accessors to header and footer sizes to enforce the invariants
+  header >= top margin, footer >= bottom margin.
 
 Widget polishing
 ----------------
-- gtk-combo-text
-    : a value entered directly in the edit field does not handle selection in
-      the list correctly
-
 - Add row (rows ?) for custom colours in the color combo dialog.

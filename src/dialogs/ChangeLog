@@ -1,3 +1,15 @@
+2000-06-13  Jon K Hellan  <hellan@acm.org>
+
+	* print.glade(.h)?: No automatic support in Glade/libglade for
+	underline accelerators in buttons in action area. Remove them from
+	Print, Print Preview and option buttons.
+
+	* dialog-printer-setup.c (do_setup_margin): Convert from Excel
+	semantics for header/footer - measured from top/bottom of sheet -
+	to measuring from bottom of top margin/top of bottom margin.
+	(do_fetch_margins): And vice versa.
+	(do_setup_main_dialog): Silence warning.
+
 2000-06-12  JP Rosevear  <jpr@arcavia.com>
 
 	* dialog-cell-sort.c (dialog_cell_sort_ok): If the region has a

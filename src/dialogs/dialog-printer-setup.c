@@ -704,6 +704,12 @@ unit_editor_configure (UnitInfo *target, dialog_print_info_t *dpi,
 /*
  * Each margin is stored with a unit. We use the top margin unit for display
  * and ignore desired display for the others.
+ *
+ * Header and footer are stored with Excel semantics, but displayed with
+ * more natural semantics. In Excel, both top margin and header are measured
+ * from top of sheet. The Gnumeric user interface presents header as the
+ * band between top margin and the print area. Bottom margin and footer are
+ * handled likewise.
  */
 static void
 do_setup_margin (dialog_print_info_t *dpi)
@@ -741,9 +747,11 @@ do_setup_margin (dialog_print_info_t *dpi)
 				     displayed_unit);
 
 	unit_editor_configure (&dpi->margins.top, dpi, "spin-top",
-			       pm->top.points, displayed_unit);
+			       pm->top.points,
+			       displayed_unit);
 	unit_editor_configure (&dpi->margins.header, dpi, "spin-header",
-			       pm->header.points, displayed_unit);
+			       MAX (pm->header.points - pm->top.points, 0),
+			       displayed_unit);
 	unit_editor_configure (&dpi->margins.left, dpi, "spin-left",
 			       pm->left.points, displayed_unit);
 	unit_editor_configure (&dpi->margins.right, dpi, "spin-right",
@@ -751,7 +759,8 @@ do_setup_margin (dialog_print_info_t *dpi)
 	unit_editor_configure (&dpi->margins.bottom, dpi, "spin-bottom",
 			       pm->bottom.points, displayed_unit);
 	unit_editor_configure (&dpi->margins.footer, dpi, "spin-footer",
-			       pm->footer.points, displayed_unit);
+			       MAX (pm->footer.points - pm->bottom.points, 0),
+			       displayed_unit);
 
 	container = GTK_BOX (glade_xml_get_widget (dpi->gui,
 						   "container-margin-page"));
@@ -1181,7 +1190,9 @@ do_print_preview_cb (GtkWidget *w, dialog_print_info_t *dpi)
 static void
 do_setup_main_dialog (dialog_print_info_t *dpi)
 {
+#if 0
 	int i;
+#endif
 
 	g_return_if_fail (dpi != NULL);
 	g_return_if_fail (dpi->sheet != NULL);
@@ -1311,6 +1322,12 @@ unit_info_to_print_unit (UnitInfo *ui)
 	return u;
 }
 
+/*
+ * Header and footer are stored with Excel semantics, but displayed with
+ * more natural semantics. In Excel, both top margin and header are measured
+ * from top of sheet. The Gnumeric user interface presents header as the
+ * band between top margin and the print area. Bottom margin and footer are
+ * handled likewise.  */
 static void
 do_fetch_margins (dialog_print_info_t *dpi)
 {
@@ -1324,6 +1341,9 @@ do_fetch_margins (dialog_print_info_t *dpi)
 	m->header = unit_info_to_print_unit (&dpi->margins.header);
 	m->footer = unit_info_to_print_unit (&dpi->margins.footer);
 
+	m->header.points += m->top.points;
+	m->footer.points += m->bottom.points;
+	
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "center-horizontal"));
 	dpi->pi->center_horizontally = t->active;
 

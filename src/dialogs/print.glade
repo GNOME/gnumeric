@@ -1942,7 +1942,7 @@ In
 	<name>print</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
-	<label>_Print</label>
+	<label>Print</label>
 	<stock_pixmap>GNOME_STOCK_PIXMAP_PRINT</stock_pixmap>
       </widget>
 
@@ -1951,7 +1951,7 @@ In
 	<name>preview</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
-	<label>Print previe_w</label>
+	<label>Print preview</label>
       </widget>
 
       <widget>
@@ -1959,7 +1959,7 @@ In
 	<name>options</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
-	<label>_Options</label>
+	<label>Options</label>
       </widget>
 
       <widget>
