@@ -21,6 +21,9 @@ static PrintHF predefined_formats [] = {
 	{ "",                 N_("Page &[PAGE] of &[PAGES]"), "" },
 	{ "",                 N_("&[TAB]"),                   "" },
 	{ N_("Page &[PAGE]"), N_("&[TAB]"),                   "" },
+	{ N_("Page &[PAGE]"), N_("&[TAB]"),                   N_("&[DATE]") },
+	{ "",                 N_("&[DATE]"),                  "" },
+	{ N_("&[TAB]"),       N_("Page &[PAGE] of &[PAGES]"), N_("&[DATE]") },
 	{ NULL, }
 };
 
@@ -45,6 +48,33 @@ print_hf_new (const char *left_side_format,
 		format->right_format = g_strdup (right_side_format);
 
 	return format;
+}
+
+PrintHF *
+print_hf_register (PrintHF *hf)
+{
+	GList *l;
+	PrintHF *newi;
+	
+	g_return_val_if_fail (hf != NULL, NULL);
+
+	for (l = hf_formats; l; l = l->next){
+		PrintHF *a = l->data;
+
+		if (strcmp (hf->left_format, a->left_format))
+			continue;
+
+		if (strcmp (hf->middle_format, a->middle_format)) 
+			continue;
+
+		if (strcmp (hf->right_format, a->right_format))
+			return a;
+	}
+
+	newi = print_hf_copy (hf);
+	hf_formats = g_list_append (hf_formats, newi);
+
+	return newi;
 }
 
 PrintHF *
@@ -157,7 +187,7 @@ load_formats (void)
 	int i;
 	
 	/* Fetch header/footer formats */
-	gnome_config_push_prefix ("/Gnumeric/Headers_and_Footers");
+	gnome_config_push_prefix ("/Gnumeric/Headers_and_Footers/");
 
 	format_count = gnome_config_get_int ("formats=0");
 	if (format_count == 0){
@@ -184,6 +214,7 @@ load_formats (void)
 		format = load_hf (str, "", "", "");
 		hf_formats = g_list_prepend (hf_formats, format);
 	}
+	hf_formats = g_list_reverse (hf_formats);
 	
 	gnome_config_pop_prefix ();
 }
@@ -205,7 +236,7 @@ print_info_new (void)
 	
 	pi = g_new0 (PrintInformation, 1);
 
-	gnome_config_push_prefix ("/Gnumeric/Print");
+	gnome_config_push_prefix ("/Gnumeric/Print/");
 	
 	/* Orientation */
 	if (gnome_config_get_bool ("vertical_print=false"))
@@ -301,6 +332,45 @@ save_range (const char *section, PrintRepeatRange *repeat)
 		gnome_config_set_string (section, "");
 }
 
+static void
+save_hf (const char *type, const char *a, const char *b, const char *c)
+{
+	char *code_a = g_strconcat (type, "_left=", a, NULL);
+	char *code_b = g_strconcat (type, "_middle=", b, NULL);
+	char *code_c = g_strconcat (type, "_right=", c, NULL);
+
+	gnome_config_set_string (code_a, a);
+	gnome_config_set_string (code_b, b);
+	gnome_config_set_string (code_c, c);
+	
+	g_free (code_a);
+	g_free (code_b);
+	g_free (code_c);
+}
+
+static void
+save_formats (void)
+{
+	int format_count, i;
+	GList *l;
+	
+	gnome_config_push_prefix ("/Gnumeric/Headers_and_Footers/");
+
+	format_count = g_list_length (hf_formats);
+	gnome_config_set_int ("formats", format_count);
+
+	for (i = 0, l = hf_formats; l; l = l->next, i++){
+		PrintHF *hf = l->data;
+		char *name;
+
+		name = g_strdup_printf ("Format-%d", i);
+		save_hf (name, hf->left_format, hf->middle_format, hf->right_format);
+		g_free (name);
+	}
+
+	gnome_config_pop_prefix ();
+}
+
 void
 print_info_save (PrintInformation *pi)
 {
@@ -330,8 +400,10 @@ print_info_save (PrintInformation *pi)
 
 	save_range ("repeat_top_range", &pi->repeat_top);
 	save_range ("repeat_left_range", &pi->repeat_left);
-	
 	gnome_config_pop_prefix ();
+
+	save_formats ();
+	
 	gnome_config_sync ();
 }
 

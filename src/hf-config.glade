@@ -166,7 +166,7 @@
 
       <widget>
 	<class>GtkText</class>
-	<name>text1</name>
+	<name>left-format</name>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -184,13 +184,13 @@
 	<width>130</width>
 	<height>130</height>
 	<can_focus>True</can_focus>
-	<editable>False</editable>
+	<editable>True</editable>
 	<text></text>
       </widget>
 
       <widget>
 	<class>GtkText</class>
-	<name>text2</name>
+	<name>center-format</name>
 	<child>
 	  <left_attach>1</left_attach>
 	  <right_attach>2</right_attach>
@@ -208,13 +208,13 @@
 	<width>130</width>
 	<height>130</height>
 	<can_focus>True</can_focus>
-	<editable>False</editable>
+	<editable>True</editable>
 	<text></text>
       </widget>
 
       <widget>
 	<class>GtkText</class>
-	<name>text3</name>
+	<name>right-format</name>
 	<child>
 	  <left_attach>2</left_attach>
 	  <right_attach>3</right_attach>
@@ -232,7 +232,7 @@
 	<width>130</width>
 	<height>130</height>
 	<can_focus>True</can_focus>
-	<editable>False</editable>
+	<editable>True</editable>
 	<text></text>
       </widget>
     </widget>

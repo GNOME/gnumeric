@@ -115,6 +115,7 @@ PrintHF          *print_hf_new           (const char *left_side_format,
 				          const char *right_side_format);
 void              print_hf_free          (PrintHF *print_hf);
 PrintHF          *print_hf_copy          (const PrintHF *source);
+PrintHF          *print_hf_register      (PrintHF *hf);
 
 char             *hf_format_render       (const char *format,
 					  HFRenderInfo *info,

@@ -331,11 +331,12 @@ footer_changed (GtkObject *object, dialog_print_info_t *dpi)
  * of existing header/footer formats
  */
 static void
-fill_hf (dialog_print_info_t *dpi, GtkOptionMenu *om, GtkSignalFunc callback)
+fill_hf (dialog_print_info_t *dpi, GtkOptionMenu *om, GtkSignalFunc callback, PrintHF *select)
 {
 	GList *l;
 	HFRenderInfo *hfi;
 	GtkWidget *menu;
+	int i, idx = 0;
 	
 	hfi = hf_render_info_new ();
 	hfi->page = 1;
@@ -343,11 +344,14 @@ fill_hf (dialog_print_info_t *dpi, GtkOptionMenu *om, GtkSignalFunc callback)
 
 	menu = gtk_menu_new ();
 
-	for (l = hf_formats; l; l = l ->next){
+	for (i = 0, l = hf_formats; l; l = l ->next, i++){
 		GtkWidget *li;
 		PrintHF *format = l->data;
 		char *left, *middle, *right;
 		char *res;
+
+		if (format == select)
+			idx = i;
 		
 		left = hf_format_render (format->left_format, hfi, HF_RENDER_PRINT);
 		middle = hf_format_render (format->middle_format, hfi, HF_RENDER_PRINT);
@@ -371,36 +375,118 @@ fill_hf (dialog_print_info_t *dpi, GtkOptionMenu *om, GtkSignalFunc callback)
 		g_free (right);
 	}
 	gtk_option_menu_set_menu (om, menu);
-	gtk_option_menu_set_history (om, 0);
+	gtk_option_menu_set_history (om, idx);
 	
 	hf_render_info_destroy (hfi);
 }
 
 static void
-do_hf_config (GtkWidget *button, GtkOptionMenu *w)
+text_insert (GtkText *text_widget, const char *text)
 {
-	g_error ("This should not be accessible to users in this release");
+	int len = strlen (text);
+	gint pos = 0;
+	
+	gtk_editable_insert_text (GTK_EDITABLE (text_widget), text, len, &pos);
+}
+
+static char *
+text_get (GtkText *text_widget)
+{
+	return gtk_editable_get_chars (GTK_EDITABLE (text_widget), 0, -1);
+}
+
+static PrintHF *
+do_hf_config (const char *title, PrintHF **config)
+{
+	GladeXML *gui = glade_xml_new (GNUMERIC_GLADEDIR "/hf-config.glade", NULL);
+	GtkText *left, *middle, *right;
+	GtkWidget *dialog;
+	PrintHF *ret = NULL;
+	int v;
+	
+	if (!gui){
+		g_warning ("Could not find hf-config.glade");
+		return NULL;
+	}
+	left   = GTK_TEXT (glade_xml_get_widget (gui, "left-format"));
+	middle = GTK_TEXT (glade_xml_get_widget (gui, "center-format"));
+	right  = GTK_TEXT (glade_xml_get_widget (gui, "right-format"));
+	dialog = glade_xml_get_widget (gui, "hf-config");
+	
+	text_insert (left, (*config)->left_format);
+	text_insert (middle, (*config)->middle_format);
+	text_insert (right, (*config)->right_format);
+
+	v = gnome_dialog_run (GNOME_DIALOG (dialog));
+
+	if (v == 0){
+		char *left_format, *right_format, *middle_format;
+
+		left_format   = text_get (left);
+		middle_format = text_get (middle);
+		right_format  = text_get (right);
+
+		print_hf_free (*config);
+		*config = print_hf_new (left_format, middle_format, right_format);
+
+		ret = print_hf_register (*config);
+	}
+
+	if (v != -1)
+		gtk_object_destroy (GTK_OBJECT (dialog));
+	
+	gtk_object_unref (GTK_OBJECT (gui));
+
+	return ret;
+}
+	      
+static void
+do_setup_hf_menus (dialog_print_info_t *dpi, PrintHF *header_sel, PrintHF *footer_sel)
+{
+	GtkOptionMenu *header = GTK_OPTION_MENU (glade_xml_get_widget (dpi->gui, "option-menu-header"));
+	GtkOptionMenu *footer = GTK_OPTION_MENU (glade_xml_get_widget (dpi->gui, "option-menu-footer"));
+
+	fill_hf (dpi, header, GTK_SIGNAL_FUNC (header_changed), header_sel);
+	fill_hf (dpi, footer, GTK_SIGNAL_FUNC (footer_changed), footer_sel);
+}
+
+static void
+do_header_config (GtkWidget *button, dialog_print_info_t *dpi)
+{
+	PrintHF *hf;
+	
+	hf = do_hf_config (_("Custom header configuration"), &dpi->header);
+
+	if (hf)
+		do_setup_hf_menus (dpi, hf, NULL);
+}
+
+static void
+do_footer_config (GtkWidget *button, dialog_print_info_t *dpi)
+{
+	PrintHF *hf;
+	
+	hf = do_hf_config (_("Custom footer configuration"), &dpi->footer);
+
+	if (hf)
+		do_setup_hf_menus (dpi, NULL, hf);
 }
 
 static void
 do_setup_hf (dialog_print_info_t *dpi)
 {
-	GtkOptionMenu *header = GTK_OPTION_MENU (glade_xml_get_widget (dpi->gui, "option-menu-header"));
-	GtkOptionMenu *footer = GTK_OPTION_MENU (glade_xml_get_widget (dpi->gui, "option-menu-footer"));
-
-	fill_hf (dpi, header, GTK_SIGNAL_FUNC (header_changed));
-	fill_hf (dpi, footer, GTK_SIGNAL_FUNC (footer_changed));
-
 	dpi->header = print_hf_copy (hf_formats->data);
 	dpi->footer = print_hf_copy (hf_formats->data);
-		
+
+	do_setup_hf_menus (dpi, dpi->header, dpi->footer);
+	
 	gtk_signal_connect (
 		GTK_OBJECT (glade_xml_get_widget (dpi->gui, "configure-header")),
-		"clicked", GTK_SIGNAL_FUNC (do_hf_config), header);
+		"clicked", GTK_SIGNAL_FUNC (do_header_config), dpi);
 
 	gtk_signal_connect (
 		GTK_OBJECT (glade_xml_get_widget (dpi->gui, "configure-footer")),
-		"clicked", GTK_SIGNAL_FUNC (do_hf_config), footer);
+		"clicked", GTK_SIGNAL_FUNC (do_footer_config), dpi);
 }
 
 static void

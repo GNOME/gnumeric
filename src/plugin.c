@@ -108,15 +108,12 @@ plugin_load_plugins_in_dir (char *directory)
 	closedir (d);
 }
 
-void
-plugins_init(void)
+static void
+load_all_plugins (void)
 {
 	char *plugin_dir;
 	char *home_dir = getenv ("HOME");
 	
-	if (!g_module_supported())
-		return;
-
 	/* Load the user plugins */
 	plugin_dir = g_strconcat (home_dir ? home_dir : "", "/.gnumeric/plugins/", NULL);
 	plugin_load_plugins_in_dir (plugin_dir);
@@ -126,5 +123,14 @@ plugins_init(void)
 	plugin_dir = gnome_unconditional_libdir_file ("gnumeric/plugins/");
 	plugin_load_plugins_in_dir (plugin_dir);
 	g_free (plugin_dir);
+}
+
+void
+plugins_init(void)
+{
+	if (!g_module_supported())
+		return;
+
+	load_all_plugins ();
 }
 

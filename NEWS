@@ -6,6 +6,17 @@ Jukka:
 	* Lots of bug fixes and documentation updates to the data
 	  analysis tools
 
+Jody:
+	* Added TRANSPOSE()
+	* Constification.
+	* SplitArray exception for array formulas support.
+
+Miguel:
+	* New font selector widget for the new gnome-print information.
+
+Rasca:
+	* New EPS exporter.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.29

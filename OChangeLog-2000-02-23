@@ -1,3 +1,11 @@
+1999-07-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/print-info.c (save_hf, print_hf_register): Save the headers
+	and footers.  Implement registration of new formats.
+
+	* src/dialog-printer-setup.c (do_hf_config): Added the editing
+	facility to the formats.
+
 1999-07-12  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/Gnumeric.idl : Add SplitsArray array exception for array-formula
