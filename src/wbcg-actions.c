@@ -1613,6 +1613,12 @@ static GNM_ACTION_DEF (cb_format_row_unhide)
 	cmd_selection_colrow_hide (WORKBOOK_CONTROL (wbcg), FALSE, TRUE);
 }
 
+#ifdef GTK_STOCK_ABOUT
+#define GNM_ABOUT GTK_STOCK_ABOUT
+#else
+#define GNM_ABOUT NULL
+#endif
+
 /* Actions that are always sensitive */
 static GtkActionEntry permanent_actions[] = {
 	{ "MenuFile",		NULL, N_("_File") },
@@ -1665,7 +1671,7 @@ static GtkActionEntry permanent_actions[] = {
 	{ "HelpBug", NULL, N_("Report a _Problem"),
 		NULL, N_("Report problem "),
 		G_CALLBACK (cb_help_bug) },
-	{ "HelpAbout", NULL, N_("_About"),
+	{ "HelpAbout", GNM_ABOUT, N_("_About"),
 		NULL, N_("About this application"),
 		G_CALLBACK (cb_help_about) },
 
