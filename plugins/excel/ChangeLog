@@ -1,3 +1,8 @@
+1999-04-11  Michael Meeks <michael@imaginator.com>
+
+	* ole.c: Major update, interactive mode, help, dump command
+	etc.
+
 1999-04-09  Michael Meeks <michael@imaginator.com>
 
 	* ms-excel.c (ms_excel_workbook_detach): Paranoid NULLing

@@ -4,46 +4,114 @@
 
 #include "ms-ole.h"
 
-static
-MS_OLE_STREAM *
-get_file_handle (char *name)
+static MS_OLE_DIRECTORY *
+get_file_handle (MS_OLE *ole, char *name)
 {
-	return NULL ;
+	MS_OLE_DIRECTORY *dir;
+	if (!name)
+		return NULL;
+	dir = ms_ole_directory_new (ole);
+	while (ms_ole_directory_next(dir)) {
+		if (g_strcasecmp(dir->name, name)==0) {
+			return dir;
+		}
+	}	
+	printf ("Stream '%s' not found\n", name);
+	ms_ole_directory_destroy (dir);
+	return NULL;
 }
 
-static
-void list_files (MS_OLE *ole)
+static void
+list_files (MS_OLE *ole)
 {
-	MS_OLE_DIRECTORY *dir = ms_ole_directory_new (ole) ;
+	MS_OLE_DIRECTORY *dir = ms_ole_directory_new (ole);
 	while (ms_ole_directory_next(dir)) {
-		printf ("'%s' : type %d, length %d bytes\n", dir->name, dir->type, dir->length) ;
+		printf ("'%s' : type %d, length %d bytes\n", dir->name, dir->type, dir->length);
 	}
+}
+
+static void
+syntax_error(char *err)
+{
+	if (err) {
+		printf("Error; '%s'\n",err);
+		exit(1);
+	}
+		
+	printf ("Sytax:\n");
+	printf (" ole <ole-file> [-i] [commands...]\n\n");
+	printf (" -i: Interactive, queries for fresh commands\n\n");
+	printf ("command can be one or all of:\n");
+	printf (" * ls:                   list files\n");
+	printf (" * dump <stream name>:   dump stream\n");
+	printf (" * quit,exit,bye:        exit\n");
+	exit(1);
 }
 
 int main (int argc, char **argv)
 {
-	MS_OLE *ole ;
-	int lp ;
-	for (lp=0;lp<argc;lp++)
-		printf ("Arg %d = '%s'\n", lp, argv[lp]) ;
+	MS_OLE *ole;
+	int lp,exit=0,interact=0;
+	char *buffer = g_new (char, 1024) ;
+
 	if (argc<2)
-	       exit (1) ;
-	printf ("Ole file '%s'\n", argv[1]) ;
-	ole = ms_ole_new (argv[1]) ;
-	for (lp=2;lp<argc;lp++) {
-		if (strcasecmp(argv[lp], "ls")==0) {
-			list_files (ole) ;
-		} else if (strcasecmp(argv[lp], "dump")==0) {
-			MS_OLE_STREAM *stream ;
-			if (lp+1<argc) {
-				stream = get_file_handle (argv[lp+1]) ;
-				
-			} else {
-				printf ("Need a stream name\n") ;
-				return 0 ;
-			}
-		}
+		syntax_error(0);
+
+	printf ("Ole file '%s'\n", argv[1]);
+	ole = ms_ole_new (argv[1]);
+	if (!ole)
+		syntax_error ("Can't open file");
+
+	if (argc>2 && argv[argc-1][0]=='-'
+	    && argv[argc-1][1]=='i') 
+		interact=1;
+	else {
+		char *str=g_strdup(argv[2]) ;
+		for (lp=3;lp<argc;lp++)
+			str=g_strconcat(str," ",argv[lp],NULL); /* Mega leak :-) */
+		buffer = str; /* and again */
 	}
-	ms_ole_destroy (ole) ;
-	return 1 ;
+
+	do
+	{
+		char *ptr;
+		char delim[]=" \t\n";
+
+		if (interact) {
+			fprintf (stdout,"> ");
+			fflush (stdout);
+			fgets (buffer, 1023, stdin);
+		}
+
+		ptr = strtok (buffer, delim);
+		printf ("Command : '%s'\n", ptr);
+		if (g_strcasecmp(ptr, "ls")==0) {
+			list_files (ole);
+		} else if (g_strcasecmp(ptr, "dump")==0) {
+			MS_OLE_DIRECTORY *dir;
+			ptr = strtok (NULL, delim);
+			if ((dir = get_file_handle (ole, ptr)))
+			{
+				MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
+				guint8 *buffer = g_malloc (dir->length);
+				stream->read_copy (stream, buffer, dir->length);
+				printf ("Stream : '%s' length 0x%x\n", ptr, dir->length);
+				if (buffer)
+					dump (buffer, dir->length);
+				else
+					printf ("Failed read\n");
+				ms_ole_stream_close (stream);
+			} else {
+				printf ("Need a stream name\n");
+				return 0;
+			}
+		} else if (g_strcasecmp(ptr,"exit")==0 ||
+			   g_strcasecmp(ptr,"quit")==0 ||
+			   g_strcasecmp(ptr,"bye")==0)
+			exit = 1;
+	}
+	while (!exit && interact);
+
+	ms_ole_destroy (ole);
+	return 1;
 }
