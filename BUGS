@@ -34,9 +34,9 @@ Long term breakage
   content in the region we will fill.
 
 - Panes 
-    : GUI handling of freezing center if the current pos it at the top left.
     : cursor dragging only affects src pane.
-    : Panes : XL export
+    : XL export
+    : support horizontal or vertical only
 
 - support negative durations with [h]
 

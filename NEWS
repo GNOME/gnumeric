@@ -3,8 +3,8 @@ Gnumeric 0.68
 Almer:
 	* Fix backspace key.
 	* Fix autosave dialog.
+	* Improve scrollbars.
 	* Fix double-click autofill.
-	* Fix scrollbars.
 	* Shine-up string functions.
 	* Fix STF for CRLF terminated files.
 	* Fix bounds handling and leakage in STF.
@@ -19,7 +19,9 @@ Jody:
 	* Even more missing files.
 	* Crash after exiting 1 of many shared views.
 	* Bug when printing wrapped text in merged cells.
-	* Enable frozen panes.
+	* Frozen panes.
+	* Some span bugs.
+	* Usability tuning (Thanks to auspex, UnNamed, & jwz)
 
 Morten:
 	* Improve bsd support.
