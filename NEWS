@@ -29,6 +29,8 @@ Morten:
 	* Attempt a fix for psiconv importer to do ISO-8859-1 -> UTF-8
 	  conversion.
 	* Make autofill UTF-8 safe and fix a bug with negative numbers.
+	* Fix FV problem with rate==0.
+	* Fix DAYS360 incompatibility (with XL).
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.12

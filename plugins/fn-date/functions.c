@@ -819,8 +819,9 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 
 	if (argv[2]) {
 		gboolean err;
-		method = value_get_as_bool (argv[2], &err) ? METHOD_EUROPE :
-		  METHOD_US;
+		method = value_get_as_bool (argv[2], &err)
+			? METHOD_EUROPE
+			: METHOD_US;
 		if (err)
 			return value_new_error (ei->pos,
 						_("Unsupported method"));
@@ -846,13 +847,13 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 
 	switch (method) {
 	case METHOD_US:
-		if (month1 == 2 && month2 == 2 &&
-		    g_date_is_last_of_month (date1) &&
-		    g_date_is_last_of_month (date2))
-			day2 = 30;
-
-		if (month1 == 2 && g_date_is_last_of_month (date1))
+		if (month1 == 2 && g_date_is_last_of_month (date1)) {
 			day1 = 30;
+
+			/* No matter how sane this looks, XL does not do it.  */
+			if (0 && month2 == 2 && g_date_is_last_of_month (date2))
+				day2 = 30;
+		}
 
 		if (day2 == 31 && day1 >= 30)
 			day2 = 30;
