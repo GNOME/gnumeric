@@ -434,23 +434,22 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		res = g_new (Value, 1);
 		if (a->type == VALUE_INTEGER && b->type == VALUE_INTEGER){
 			res->type = VALUE_INTEGER;
-			mpz_init (res->v.v_int);
 			
 			switch (tree->oper){
 			case OP_ADD:
-				mpz_add (res->v.v_int, a->v.v_int, b->v.v_int);
+				res->v.v_int = a->v.v_int + b->v.v_int;
 				break;
 				
 			case OP_SUB:
-				mpz_sub (res->v.v_int, a->v.v_int, b->v.v_int);
+				res->v.v_int = a->v.v_int - b->v.v_int;
 				break;
 				
 			case OP_MULT:
-				mpz_mul (res->v.v_int, a->v.v_int, b->v.v_int);
+				res->v.v_int = a->v.v_int * b->v.v_int;
 				break;
 
 			case OP_DIV:
-				if (mpz_cmp_si (b->v.v_int, 0)){
+				if (b->v.v_int == 0){
 					value_release (a);
 					value_release (b);
 					value_release (res);
@@ -458,53 +457,47 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 					return NULL;
 				}
 					
-				mpz_tdivq(res->v.v_int, a->v.v_int,b->v.v_int);
+				res->v.v_int =  a->v.v_int / b->v.v_int;
 				break;
 				
-			case OP_EXP:
-				mpz_set_si (res->v.v_int, 0);
-				g_warning ("INT EXP not implemented yet\n");
+			case OP_EXP: 
+				res->v.v_int = pow (a->v.v_int, b->v.v_int);
 				break;
 			default:
 			}
 		} else {
 			res->type = VALUE_FLOAT;
-			mpf_init (res->v.v_float);
+			res->v.v_float = 0.0;
 			a = value_cast_to_float (a);
 			b = value_cast_to_float (b);
 			
 			switch (tree->oper){
 			case OP_ADD:
-				mpf_add (res->v.v_float,
-					 a->v.v_float, b->v.v_float);
+				res->v.v_float = a->v.v_float + b->v.v_float;
 				break;
 				
 			case OP_SUB:
-				mpf_sub (res->v.v_float,
-					 a->v.v_float, b->v.v_float);
+				res->v.v_float = a->v.v_float - b->v.v_float;
 				break;
 				
 			case OP_MULT:
-				mpf_mul (res->v.v_float,
-					 a->v.v_float, b->v.v_float);
+				res->v.v_float = a->v.v_float * b->v.v_float;
 				break;
 				
 			case OP_DIV:
-				if (mpf_cmp_si (b->v.v_float, 0.0)){
+				if (b->v.v_float == 0.0){
 					value_release (a);
 					value_release (b);
 					value_release (res);
 					*error_string = _("Division by zero");
 					return NULL;
 				}
-					
-				mpf_div (res->v.v_float,
-					 a->v.v_float, b->v.v_float);
+
+				res->v.v_float = a->v.v_float / b->v.v_float;
 				break;
 				
 			case OP_EXP:
-				mpz_set_si (res->v.v_int, 0);
-				g_warning ("FLOAT EXP not implemented yet\n");
+				res->v.v_float = pow (a->v.v_float, b->v.v_float);
 				break;
 			default:
 			}
@@ -568,11 +561,9 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		}
 		res = g_new (Value, 1);
 		if (a->type == VALUE_INTEGER){
-			mpz_init_set (res->v.v_int, a->v.v_int);
-			mpz_neg (res->v.v_int, a->v.v_int);
+			res->v.v_int = -a->v.v_int;
 		} else {
-			mpf_init_set (res->v.v_int, a->v.v_int);
-			mpf_neg (res->v.v_float, a->v.v_float);
+			res->v.v_float = -a->v.v_float;
 		}
 		value_release (a);
 		return res;

@@ -1,5 +1,8 @@
 1998-08-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/expr.c (eval_expr): Implemented exponentiation.
+	Removed the code that used GMP.
+
 	* src/parser.y (yylex): Bug fix: allocate the string.
 
 	* src/sheet.c (CRowSort): Sort in the other direction my list of
