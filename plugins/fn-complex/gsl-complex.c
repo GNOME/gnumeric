@@ -54,6 +54,7 @@
 #include <func.h>
 
 #include <complex.h>
+#include "gsl-complex.h"
 #include <parse-util.h>
 #include <cell.h>
 #include <expr.h>
