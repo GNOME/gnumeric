@@ -34,6 +34,7 @@ Long term breakage
     : change semantics of freeze operation to clarify where to freeze
       (is edit bottom-right of freeze or top left of unfrozen)
     : GUI handling of freezing center if the current pos it at the top left.
+    : cursor dragging only affects src pane.
     : autoscroll 
 	* needs work when going from pane 2 past right of pane 3 to scroll then
 	  coming back to pane 2.  That should scroll pane 3 to the left to feel
