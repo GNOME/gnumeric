@@ -14,3 +14,5 @@ Gnumeric-skels.c
 Gnumeric-skelimpl.c
 Gnumeric-stubs.c
 Gnumeric.h
+portability.h
+my_gnumeric_idl
