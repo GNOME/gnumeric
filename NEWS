@@ -1,6 +1,9 @@
 --------------------------------------------------------------------------
 Gnumeric 0.70
 
+Ariel:
+	* Make guile a proper plugin.
+
 Jody :
 	* Basic support for M-Enter to add embedded newlines.
 
