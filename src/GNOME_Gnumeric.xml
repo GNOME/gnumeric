@@ -349,7 +349,7 @@
 
 	</menu>
 
-	<dockitem name="Standardtoolbar" homogeneous="0" look="icons" relief="none">
+	<dockitem name="StandardToolbar" homogeneous="0" look="icons" relief="none">
 
 		<toolitem type="std" name="New" pixtype="stock" pixname="New"
 		 _label="New" _descr="Create a new workbook"
@@ -383,8 +383,10 @@
 		 verb="EditPaste"/>
 
 		<toolitem type="separator"/>
-		<placeholder name="EditUndo" delimit="none"/>
-		<placeholder name="EditRedo" delimit="none"/>
+
+		<control name="EditUndo"/>
+		<control name="EditRedo"/>
+
 		<toolitem type="separator"/>
 
 		<toolitem type="std" name="Sum" pixtype="stock" pixname="Gnumeric_AutoSum"
@@ -412,7 +414,7 @@
 		 _label="Insert Shaped Component" _descr="Insert a shaped component into the spreadsheet"
 		 verb="InsertShapedComponent"/>
 
-		<placeholder name="Zoom" delimit="none"/>
+		<control name="SheetZoom"/>
 	</dockitem>
 
 	<dockitem name="ObjectToolbar" homogeneous="0" look="icons" relief="none">
