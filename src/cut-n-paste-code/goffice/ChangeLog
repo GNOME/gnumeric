@@ -1,3 +1,7 @@
+2004-10-27  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-style.c (gog_style_gradient_load): fix brightness case.
+
 2004-10-26  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render): fix

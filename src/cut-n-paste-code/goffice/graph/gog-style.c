@@ -1327,18 +1327,18 @@ gog_style_gradient_load (xmlNode *node, GogStyle *style)
 			= go_gradient_dir_from_str (str);
 		xmlFree (str);
 	}
+	str = xmlGetProp (node, "start-color");
+	if (str != NULL) {
+		style->fill.pattern.fore
+			= go_color_from_str (str);
+		xmlFree (str);
+	}
 	str = xmlGetProp (node, "brightness");
 	if (str != NULL) {
 		style->fill.gradient.brightness
 			= g_strtod (str, NULL);
 		xmlFree (str);
 	} else {
-		str = xmlGetProp (node, "start-color");
-		if (str != NULL) {
-			style->fill.pattern.fore
-				= go_color_from_str (str);
-			xmlFree (str);
-		}
 		str = xmlGetProp (node, "end-color");
 		if (str != NULL) {
 			style->fill.pattern.back
