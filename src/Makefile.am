@@ -1,8 +1,8 @@
-CFLAGS += -Wall 	\
+CFLAGS += -g -Wall 	\
 	-Wshadow             -Wpointer-arith  	\
 	-Wmissing-prototypes -Wmissing-declarations 
 
-bin_PROGRAMS = gnumeric test-format
+bin_PROGRAMS = gnumeric test-format test-token
 
 INCLUDES = 			\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
@@ -41,3 +41,13 @@ test_format_SOURCES = format.c
 test_format_LDADD = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS)
+
+test_token_SOURCES = 		\
+	test-token.c		\
+	token.c			\
+	token.h
+
+test_token_LDADD = \
+	$(GNOME_LIBDIR)	\
+	$(GNOMEUI_LIBS) -lgmp
+
