@@ -1,3 +1,8 @@
+2001-06-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (format_compile) : doh!
+	(format_compile) : Assign the default conditions.
+
 2001-06-03  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/stf-parse.c (stf_parse_get_longest_row_width): Fix.

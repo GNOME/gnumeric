@@ -1,4 +1,4 @@
-Gnumeric 0.66
+Gnumeric 0.66 
 
 Almer:
 	* Some work on the SAX importer.
@@ -8,10 +8,11 @@ Almer:
 
 Jody:
 	* Fix ctrl-enter filling.
-	* Reorganize the recalc queue.
+	* Reorganize the recalc queue to speed things up a bit.
 	* Support iteration.
 	* Fix FV arguments.
-	* Some format bugs.
+	* Support conditional number formats.
+	* Obscure referencing bug.
 
 Juan Pablo Mendoza:
 	* Handle {caps,number,scroll}lock.

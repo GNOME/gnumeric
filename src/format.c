@@ -192,7 +192,7 @@ typedef struct {
 struct _StyleFormat {
 	int    ref_count;
 	char  *format;
-        GList *entries;  /* Of type StyleFormatEntry. */
+        GSList *entries;  /* Of type StyleFormatEntry. */
 };
 
 /*
@@ -482,7 +482,8 @@ format_compile (StyleFormat *format)
 {
 	unsigned char const *fmt, *real_start = NULL;
 	StyleFormatEntry *entry = format_entry_ctor ();
-	int num_entries = 1;
+	int num_entries = 1, counter = 0;
+	GSList *ptr;
 
 	for (fmt = format->format; *fmt ; fmt++) {
 		if (NULL == real_start && '[' != *fmt)
@@ -569,15 +570,13 @@ format_compile (StyleFormat *format)
 
 		case 'a': case 'A':
 		case 'p': case 'P':
-			if (tolower (fmt [1]) == 'm') {
+			if (tolower (fmt [1]) == 'm')
 				entry->want_am_pm = TRUE;
-				fmt += 2;
-			}
 			break;
 
 		case ';':
 			format_entry_set_fmt (entry, real_start, fmt);
-			format->entries = g_list_append (format->entries, entry);
+			format->entries = g_slist_append (format->entries, entry);
 			num_entries++;
 
 			entry = format_entry_ctor ();
@@ -590,9 +589,31 @@ format_compile (StyleFormat *format)
 	}
 
 	format_entry_set_fmt (entry, real_start, fmt);
-	format->entries = g_list_append (format->entries, entry);
+	format->entries = g_slist_append (format->entries, entry);
 
-	/* num_entries; */
+	for (ptr = format->entries; ptr && counter++ < 4 ; ptr = ptr->next) {
+		StyleFormatEntry *entry = ptr->data;
+
+		if (entry->restriction_type == '*') {
+			entry->restriction_value = 0.;
+
+			switch (counter) {
+			case 1 : entry->restriction_type =
+					 (num_entries > 2) ? '>' : '.';
+				 break;
+			case 2 : if (num_entries != 2)
+					 entry->restriction_type = '<';
+				 break;
+			case 3 : if (num_entries != 3)
+					 entry->restriction_type = '=';
+				 break;
+			case 4 : if (num_entries != 4)
+					 entry->restriction_type = '@';
+			default :
+				 break;
+			}
+		}
+	}
 }
 
 /*
@@ -605,8 +626,8 @@ format_compile (StyleFormat *format)
 void
 format_destroy (StyleFormat *format)
 {
-	g_list_foreach (format->entries, &format_entry_dtor, NULL);
-	g_list_free (format->entries);
+	g_slist_foreach (format->entries, &format_entry_dtor, NULL);
+	g_slist_free (format->entries);
 	format->entries = NULL;
 }
 
@@ -1473,51 +1494,36 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 }
 
 static gboolean
-check_valid (const StyleFormatEntry *entry, const Value *value)
+style_format_condition (StyleFormatEntry const *entry, Value const *value)
 {
-	switch (value->type){
+	if (entry->restriction_type == '*')
+		return TRUE;
 
+	switch (value->type) {
+	case VALUE_ERROR:
 	case VALUE_STRING:
 		return entry->restriction_type == '@';
 
 	case VALUE_FLOAT:
-		switch (entry->restriction_type){
-
-		case '*':
-			return TRUE;
-		case '<':
-			return value->v_float.val < entry->restriction_value;
-		case '>':
-			return value->v_float.val > entry->restriction_value;
-		case '=':
-			return value->v_float.val == entry->restriction_value;
-		case ',':
-			return value->v_float.val <= entry->restriction_value;
-		case '.':
-			return value->v_float.val >= entry->restriction_value;
-		case '+':
-			return value->v_float.val != entry->restriction_value;
+		switch (entry->restriction_type) {
+		case '<': return value->v_float.val < entry->restriction_value;
+		case '>': return value->v_float.val > entry->restriction_value;
+		case '=': return value->v_float.val == entry->restriction_value;
+		case ',': return value->v_float.val <= entry->restriction_value;
+		case '.': return value->v_float.val >= entry->restriction_value;
+		case '+': return value->v_float.val != entry->restriction_value;
 		default:
 			return FALSE;
 		}
 
 	case VALUE_INTEGER:
-		switch (entry->restriction_type){
-
-		case '*':
-			return TRUE;
-		case '<':
-			return value->v_int.val < entry->restriction_value;
-		case '>':
-			return value->v_int.val > entry->restriction_value;
-		case '=':
-			return value->v_int.val == entry->restriction_value;
-		case ',':
-			return value->v_int.val <= entry->restriction_value;
-		case '.':
-			return value->v_int.val >= entry->restriction_value;
-		case '+':
-			return value->v_int.val != entry->restriction_value;
+		switch (entry->restriction_type) {
+		case '<': return value->v_int.val < entry->restriction_value;
+		case '>': return value->v_int.val > entry->restriction_value;
+		case '=': return value->v_int.val == entry->restriction_value;
+		case ',': return value->v_int.val <= entry->restriction_value;
+		case '.': return value->v_int.val >= entry->restriction_value;
+		case '+': return value->v_int.val != entry->restriction_value;
 		default:
 			return FALSE;
 		}
@@ -1627,7 +1633,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 	char *v = NULL;
 	StyleFormatEntry const *entry;
 	gboolean is_general = FALSE;
-	GList *list;
+	GSList *list;
 
 	if (color)
 		*color = NULL;
@@ -1637,7 +1643,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 	if (format) {
 		/* get format */
 		for (list = format->entries; list; list = list->next)
-			if (check_valid (list->data, value))
+			if (style_format_condition (list->data, value))
 				break;
 
 		/* If nothing matches fall back on the first */
