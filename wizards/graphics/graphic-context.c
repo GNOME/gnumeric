@@ -437,8 +437,8 @@ data_range_new_from_expr (Workbook *wb, const char *name_expr, const char *expre
 
 		if (tree->oper == OPER_CONSTANT){
 			Value *v = tree->u.constant;
-			CellRef *cell_a = &v->v.cell_range.cell_a;
-			CellRef *cell_b = &v->v.cell_range.cell_b;
+			CellRef *cell_a = &v->v_range.cell_a;
+			CellRef *cell_b = &v->v_range.cell_b;
 			Range r;
 			
 			g_assert (tree->u.constant->type == VALUE_CELLRANGE);

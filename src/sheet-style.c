@@ -1436,7 +1436,7 @@ border_check (UniqueClosure *cl, GList *edge_list,
 	frags = range_fragment_list_clip (edge_list, edge_range);
 	for (l = frags; l; l = g_list_next (l)) {
 		Range  *r   = l->data;
-		MStyle *inner_style, *outer_style;
+		MStyle *inner_style, *outer_style = NULL;
 		const MStyleBorder *inner_border = NULL, *outer_border = NULL;
 		CellPos inner, outer;
 		

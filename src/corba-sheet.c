@@ -370,34 +370,34 @@ fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, COR
 
 		case VALUE_BOOLEAN:
 			value->_d = GNOME_Gnumeric_VALUE_BOOLEAN;
-			value->_u.v_bool = cell->value->v.v_bool;
+			value->_u.v_bool = cell->value->v_bool.val;
 			break;
 			
 		case VALUE_ERROR:
 			value->_d = GNOME_Gnumeric_VALUE_ERROR;
-			value->_u.error = CORBA_string_dup (cell->value->v.error.mesg->str);
+			value->_u.error = CORBA_string_dup (cell->value->v_err.mesg->str);
 			break;
 			
 		case VALUE_STRING:
 			value->_d = GNOME_Gnumeric_VALUE_STRING;
-			value->_u.str = CORBA_string_dup (cell->value->v.str->str);
+			value->_u.str = CORBA_string_dup (cell->value->v_str.val->str);
 			break;
 			
 		case VALUE_INTEGER:
 			value->_d = GNOME_Gnumeric_VALUE_INTEGER;
-			value->_u.v_int = cell->value->v.v_int;
+			value->_u.v_int = cell->value->v_int.val;
 			break;
 			
 		case VALUE_FLOAT:
 			value->_d = GNOME_Gnumeric_VALUE_FLOAT;
-			value->_u.v_float = cell->value->v.v_float;
+			value->_u.v_float = cell->value->v_float.val;
 			break;
 				
 		case VALUE_CELLRANGE: {
 			char *a, *b;
 			
-			a = cellref_name (&cell->value->v.cell_range.cell_a, &pp);
-			b = cellref_name (&cell->value->v.cell_range.cell_b, &pp);
+			a = cellref_name (&cell->value->v_range.cell_a, &pp);
+			b = cellref_name (&cell->value->v_range.cell_b, &pp);
 
 			value->_d = GNOME_Gnumeric_VALUE_CELLRANGE;
 			value->_u.cell_range.cell_a = CORBA_string_dup (a);
@@ -929,8 +929,8 @@ Sheet_range_get_values (PortableServer_Servant servant, const CORBA_char *range,
 		
 		g_assert (value->type == VALUE_CELLRANGE);
 
-		a = value->v.cell_range.cell_a;
-		b = value->v.cell_range.cell_b;
+		a = value->v_range.cell_a;
+		b = value->v_range.cell_b;
 
 		cols = abs (b.col - a.col) + 1;
 		rows = abs (b.row - a.row) + 1;
@@ -957,8 +957,8 @@ Sheet_range_get_values (PortableServer_Servant servant, const CORBA_char *range,
 		CellRef a, b;
 		int col, row;
 		
-		a = value->v.cell_range.cell_a;
-		b = value->v.cell_range.cell_b;
+		a = value->v_range.cell_a;
+		b = value->v_range.cell_b;
 
 		for (col = a.col; col <= b.col; col++)
 			for (row = a.row; row < b.row; row++)

@@ -192,22 +192,22 @@ impl_vector_get_vec_values (PortableServer_Servant servant,
 
 			case VALUE_INTEGER:
 				vecvalue._d= GNOME_Gnumeric_VALUE_FLOAT;
-				vecvalue._u.v_float = value->v.v_int;
+				vecvalue._u.v_float = value->v_int.val;
 				break;
 
 			case VALUE_FLOAT:
 				vecvalue._d= GNOME_Gnumeric_VALUE_FLOAT;
-				vecvalue._u.v_float = value->v.v_float;
+				vecvalue._u.v_float = value->v_float.val;
 				break;
 
 			case VALUE_BOOLEAN:
 				vecvalue._d= GNOME_Gnumeric_VALUE_FLOAT;
-				vecvalue._u.v_float = value->v.v_bool;
+				vecvalue._u.v_float = value->v_bool.val;
 				break;
 
 			case VALUE_STRING:
 				vecvalue._d= GNOME_Gnumeric_VALUE_STRING;
-				vecvalue._u.str = CORBA_string_dup (value->v.str->str);
+				vecvalue._u.str = CORBA_string_dup (value->v_str.val->str);
 				break;
 				
 			}

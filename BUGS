@@ -36,14 +36,14 @@ Long term breakage
 - The File->Print Preview icon is too big.  Use the stock version when the next
   release of gnome-libs is made. (tigert is adding to gnome-libs)
 
-- Names : sheet vs workbook, addresses not changing with row/col ins/del.
+- Names : Sheet local vs workbook local vs application global (does that exist ?)
+	: addresses not changing with row/col ins/del.
 
 - All forms of autoscroll should use the timer mechanism from item-grid.
 
 Function Breakage
 -----------------
 - Index  : does not support 0,0 or reference syntax.
-- Offset
 
 Widget polishing
 ----------------

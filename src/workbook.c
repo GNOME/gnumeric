@@ -2097,8 +2097,8 @@ workbook_container_get_object (BonoboObject *container, CORBA_char *item_name,
 
 		range = range_parse (sheet, p, TRUE);
 		if (range){
-			CellRef *a = &range->v.cell_range.cell_a;
-			CellRef *b = &range->v.cell_range.cell_b;
+			CellRef *a = &range->v_range.cell_a;
+			CellRef *b = &range->v_range.cell_b;
 			
 			if ((a->col < 0 || a->row < 0) ||
 			    (b->col < 0 || b->row < 0) ||
@@ -2118,8 +2118,8 @@ workbook_container_get_object (BonoboObject *container, CORBA_char *item_name,
 	 * Do we have further configuration information?
 	 */
 	if (range) {
-		CellRef *a = &range->v.cell_range.cell_a;
-		CellRef *b = &range->v.cell_range.cell_b;
+		CellRef *a = &range->v_range.cell_a;
+		CellRef *b = &range->v_range.cell_b;
 
 		embeddable_grid_set_range (eg, a->col, a->row, b->col, b->row);
 	}
