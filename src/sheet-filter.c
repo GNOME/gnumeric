@@ -50,7 +50,6 @@ typedef struct {
 
 	GnmFilterCondition *cond;
 	GnmFilter   	   *filter;
-	int i;
 } GnmFilterField;
 
 typedef struct {
@@ -109,6 +108,13 @@ gnm_filter_condition_unref (GnmFilterCondition *cond)
 }
 
 /**********************************************************************************/
+
+static int
+filter_field_index (GnmFilterField const *field)
+{
+	return field->parent.anchor.cell_bound.start.col -
+		field->filter->r.start.col;
+}
 
 static void
 filter_field_finalize (GObject *object)
@@ -226,6 +232,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 	GnmFilterCondition *cond = NULL;
 	WorkbookControlGUI *wbcg;
 	GtkWidget *event_widget = gtk_get_event_widget ((GdkEvent *) event);
+	int field_num;
 
 	/* A release inside list accepts */
 	if (event_widget != GTK_WIDGET (list))
@@ -245,6 +252,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 				    0, &label, 1, &val, 2, &type,
 				    -1);
 
+		field_num = filter_field_index (field);
 		switch (type) {
 		case  0 : cond = gnm_filter_condition_new_single (
 				  GNM_FILTER_OP_EQUAL, value_duplicate (val));
@@ -252,7 +260,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 		case  1 : cond = NULL;	break; /* unfilter */
 		case  2 : /* Custom */
 			set_condition = FALSE;
-			dialog_auto_filter (wbcg, field->filter, field->i,
+			dialog_auto_filter (wbcg, field->filter, field_num,
 					    TRUE, field->cond);
 			break;
 		case  3 : cond = gnm_filter_condition_new_single (
@@ -263,7 +271,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 			break;
 		case 10 : /* Top 10 */
 			set_condition = FALSE;
-			dialog_auto_filter (wbcg, field->filter, field->i,
+			dialog_auto_filter (wbcg, field->filter, field_num,
 					    FALSE, field->cond);
 			break;
 
@@ -275,7 +283,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 		g_free (label);
 
 		if (set_condition) {
-			gnm_filter_set_condition (field->filter, field->i,
+			gnm_filter_set_condition (field->filter, field_num,
 						  cond, TRUE);
 			sheet_update (field->filter->sheet);
 		}
@@ -367,7 +375,7 @@ collect_unique_elements (GnmFilterField *field,
 
 	r.start.row++;
 	/* r.end.row =  XL actually extend to the first non-empty element in the list */
-	r.end.col = r.start.col += field->i;
+	r.end.col = r.start.col += filter_field_index (field);
 	uc.has_blank = FALSE;
 	uc.hash = g_hash_table_new (
 			(GHashFunc) value_hash, (GEqualFunc) value_equal);
@@ -483,7 +491,7 @@ cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 	gtk_window_move (GTK_WINDOW (popup),
 		root_x + scg_colrow_distance_get (scg, TRUE,
 			pane->gcanvas->first.col,
-			field->filter->r.start.col + field->i + 1) - req.width,
+			field->parent.anchor.cell_bound.start.col + 1) - req.width,
 		root_y + scg_colrow_distance_get (scg, FALSE,
 			pane->gcanvas->first.row,
 			field->filter->r.start.row + 1));
@@ -531,6 +539,7 @@ filter_field_arrow_format (GnmFilterField *field, GtkWidget *arrow)
 	gtk_arrow_set (GTK_ARROW (arrow),
 		field->cond != NULL ? GTK_ARROW_RIGHT : GTK_ARROW_DOWN,
 		GTK_SHADOW_IN);
+#warning FIXME why does gtk_widget_set_style (arrow, NULL); not restore default
 	if (field->cond != NULL)
 		gtk_widget_modify_fg (arrow, GTK_STATE_NORMAL, &gs_yellow);
 	else
@@ -803,7 +812,7 @@ static void
 filter_field_apply (GnmFilterField *field)
 {
 	GnmFilter *filter = field->filter;
-	int const col = filter->r.start.col + field->i;
+	int const col = field->parent.anchor.cell_bound.start.col;
 	int const start_row = filter->r.start.row + 1;
 	int const end_row = filter->r.end.row;
 
@@ -888,6 +897,32 @@ filter_field_set_active (GnmFilterField *field)
 
 /*************************************************************************/
 
+static void
+gnm_filter_add_field (GnmFilter *filter, int i)
+{
+	/* pretend to fill the cell, then clip the X start later */
+	static SheetObjectAnchorType const anchor_types [4] = {
+		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
+		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
+		SO_ANCHOR_PERCENTAGE_FROM_COLROW_END,
+		SO_ANCHOR_PERCENTAGE_FROM_COLROW_END
+	};
+	static float const offsets [4] = { .0, .0, 0., 0. };
+	Range tmp;
+	SheetObjectAnchor anchor;
+	GnmFilterField *field = g_object_new (filter_field_get_type (), NULL);
+
+	field->filter = filter;
+	tmp.start.row = tmp.end.row = filter->r.start.row;
+	tmp.start.col = tmp.end.col = filter->r.start.col + i;
+	sheet_object_anchor_init (&anchor, &tmp, offsets, anchor_types,
+				  SO_DIR_DOWN_RIGHT);
+	sheet_object_anchor_set (&field->parent, &anchor);
+	sheet_object_set_sheet (&field->parent, filter->sheet);
+	g_ptr_array_add (filter->fields, field);
+	g_object_unref (G_OBJECT (field));
+}
+
 /**
  * gnm_filter_new :
  * @sheet :
@@ -898,18 +933,7 @@ filter_field_set_active (GnmFilterField *field)
 GnmFilter *
 gnm_filter_new (Sheet *sheet, Range const *r)
 {
-	/* pretend to fill the cell, then clip the X start later */
-	static SheetObjectAnchorType const anchor_types [4] = {
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_END,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_END
-	};
-	static float const offsets [4] = { .0, .0, 0., 0. };
 	GnmFilter	*filter;
-	GnmFilterField	*field;
-	SheetObjectAnchor anchor;
-	Range tmp;
 	int i;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -922,19 +946,8 @@ gnm_filter_new (Sheet *sheet, Range const *r)
 	filter->r = *r;
 	filter->fields = g_ptr_array_new ();
 
-	tmp.start.row = tmp.end.row = r->start.row;
-	for (i = 0 ; i < range_width (r); i++) {
-		field = g_object_new (filter_field_get_type (), NULL);
-		field->filter = filter;
-		field->i      = i;
-		tmp.start.col = tmp.end.col = r->start.col + i;
-		sheet_object_anchor_init (&anchor, &tmp, offsets, anchor_types,
-					  SO_DIR_DOWN_RIGHT);
-		sheet_object_anchor_set (&field->parent, &anchor);
-		sheet_object_set_sheet (&field->parent, sheet);
-		g_ptr_array_add (filter->fields, field);
-		g_object_unref (G_OBJECT (field));
-	}
+	for (i = 0 ; i < range_width (r); i++)
+		gnm_filter_add_field (filter, i);
 
 	sheet->filters = g_slist_prepend (sheet->filters, filter);
 
@@ -1080,4 +1093,91 @@ gnm_filter_contains_row (GnmFilter const *filter, int row)
 	g_return_val_if_fail (filter != NULL, FALSE);
 
 	return (filter->r.start.row <= row && row <= filter->r.end.row);
+}
+ 
+/**
+ * sheet_filter_insdel_colrow :
+ * @sheet :
+ * @is_cols :
+ * @is_insert :
+ * @start :
+ * @count :
+ *
+ * Adjust filters as necessary to handle col/row insertions and deletions
+ **/
+void
+sheet_filter_insdel_colrow (Sheet *sheet, gboolean is_cols, gboolean is_insert,
+			    int start, int count)
+{
+	GSList *ptr, *filters;
+	GnmFilter *filter;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	filters = g_slist_copy (sheet->filters);
+	for (ptr = filters; ptr != NULL ; ptr = ptr->next) {
+		filter = ptr->data;
+
+		if (is_cols) {
+			if (start > filter->r.end.col)
+				continue;
+			if (is_insert) {
+				filter->r.end.col += count;
+				if (start >= filter->r.start.col) {
+					while (count--)
+						gnm_filter_add_field (filter,
+							start - filter->r.start.col + count);
+				} else
+					filter->r.start.col += count;
+			} else {
+				if (start <= filter->r.start.col) {
+					filter->r.end.col -= count;
+					if ((start+count) <= filter->r.start.col)
+						filter->r.start.col -= count;
+					else
+						filter->r.start.col = start;
+				} else if ((start+count) > filter->r.end.col)
+					filter->r.end.col = start -1;
+				else
+					filter->r.end.col -= count;
+
+				if (filter->r.end.col < filter->r.end.col)
+					filter = NULL;
+				else
+					g_ptr_array_set_size (filter->fields,
+						range_width (&filter->r));
+			}
+		} else {
+			if (start > filter->r.end.row)
+				continue;
+			if (is_insert) {
+				filter->r.end.row += count;
+				if (start < filter->r.start.row)
+					filter->r.start.row += count;
+			} else {
+				if (start <= filter->r.start.row) {
+					filter->r.end.row -= count;
+					if ((start+count) > filter->r.start.row)
+						/* delete if the dropdowns are wiped */
+						filter->r.start.row = filter->r.end.row + 1;
+					else
+						filter->r.start.row -= count;
+				} else if ((start+count) > filter->r.end.row)
+					filter->r.end.row = start -1;
+				else
+					filter->r.end.row -= count;
+
+				if (filter->r.end.row < filter->r.start.row)
+					filter = NULL;
+			}
+		}
+
+		if (filter == NULL) {
+			gnm_filter_remove (filter);
+			/* the objects are already gone */
+			g_ptr_array_set_size (filter->fields, 0);
+			gnm_filter_free (filter);
+		}
+	}
+	g_slist_free (filters);
 }

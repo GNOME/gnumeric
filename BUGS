@@ -8,6 +8,7 @@ Release Critical
 ----------------
 
     - Add a password dialog to io-context-gtk
+    - clearing a condition is not removing the arrow colour
 
 Pending Patches
 ---------------
@@ -103,7 +104,7 @@ Pending Patches
     21.10) select the current condition in the combos		(DONE)
     21.11) expression filters					(DONE)
     21.12) expression dialog					(DONE)
-    21.13) Handle range changes (cut-n-paste or ins/del col/row)
+    21.13) Handle range changes (cut-n-paste or ins/del col/row)(DONE)
     21.14) Handle the relationship between groups and filters	(DONE)
     21.15) xml import/export					(DONE)
     21.16) Fix cursor redraw after filter			(DONE)
@@ -115,10 +116,11 @@ Pending Patches
     21.22) drag scroll for value combos
     21.23) undo/redo for creation
     21.24) undo/redo for condition set change
-    21.25) guess initial region if its a singleton
-    21.26) combo contains start to end of continuous region
+    21.25) Undo redo support for ins/del col/row with filters
+    21.26) guess initial region if its a singleton
+    21.27) combo contains start to end of continuous region
            not just the end of the selected region
-    21.27) filter changes should dirty things
+    21.28) filter changes should dirty things
 
 22) Add dirty flags to workbook too, adding a sheet should
     make workbook dirty not the new sheet.

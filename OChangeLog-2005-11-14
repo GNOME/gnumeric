@@ -1,3 +1,18 @@
+2002-12-27  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (cellpos_parse) : fix.
+
+	* src/workbook-control-gui.c (cb_auto_filter) : do a sheet update.
+
+	* src/sheet.c (sheet_colrow_insert_finish) : relocate filters.
+	(sheet_colrow_delete_finish) : relocate filters.
+
+	* src/sheet-filter.c : Use the sheetobject anchor as the normative
+	  source of the field index to simplify things.
+	(sheet_filter_insdel_colrow) : new.
+	(gnm_filter_add_field) : new split out from.
+	(gnm_filter_new) : here.
+
 2002-12-27  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (truncate_undo_info): Handle undo_max_number==0

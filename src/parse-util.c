@@ -520,7 +520,7 @@ cellpos_parse (char const *cell_str, CellPos *res, gboolean strict, int *chars_r
 	if (!cell_str)
 		return FALSE;
 
-	if (*cell_str != 0 && !strict)
+	if (*cell_str != 0 && strict)
 		return FALSE;
 
 	if (chars_read)

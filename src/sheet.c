@@ -3034,6 +3034,8 @@ sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos+count);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols,
 				   colrow_max (is_cols));
+	sheet_filter_insdel_colrow (rinfo->origin_sheet, is_cols, TRUE,
+				    pos, count);
 }
 
 static void
@@ -3045,6 +3047,8 @@ sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 	sheet_colrow_insdel_finish (rinfo, is_cols, pos, end, states);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, end);
+	sheet_filter_insdel_colrow (rinfo->origin_sheet, is_cols, FALSE,
+				    pos, count);
 }
 
 /**

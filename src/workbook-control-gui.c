@@ -2813,7 +2813,9 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 				 _("AutoFilter"), _("Requires more than 1 row"));
 			return;
 		}
+#warning Add undo/redo
 		gnm_filter_new	(sv->sheet, src);
+		sheet_update (sv->sheet);
 	} else {
 		/* keep distinct to simplify undo/redo later */
 		gnm_filter_remove (filter);
