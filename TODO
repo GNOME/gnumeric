@@ -43,7 +43,7 @@ Gnumeric Spread Sheet task list
 
 * Implement Even More Functions
 
-    * AREAS, INDEX, INDIRECT, MATCH, GETPIVOTDATA, GROWTH, LOGEST,
+    * AREAS, INDEX, MATCH, GETPIVOTDATA, GROWTH, LOGEST,
       PERCENTILE, QUARTILE, and TREND
     * Finish LINEST
     * ACCRINT, ACCRINTM, AMORDEGRC, AMORLINC, COUPDAYBS, COUPDAYS,
@@ -216,3 +216,8 @@ Office 2000 and 'explorer' compatibility.
   * Improved style architecture
 
     Possibly needed for better Excel export
+
+  * Hack R[-1]C[3] style references into the parser.
+
+  * Hack Array support into the parser.
+
