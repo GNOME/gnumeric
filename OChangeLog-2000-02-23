@@ -1,3 +1,24 @@
+1999-09-16  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/print.c (sheet_print): Update to use gnumeric_porinter_dialog_run.
+	(print_job_info_get): Add range parameter.
+
+	* src/dialogs/Makefile.am (libdialogs_a_SOURCES): Added dialog-printer.[ch]
+
+	* src/dialogs/dialog-printer.[ch]: New thin wrapper of GnomePrinterDialog
+	to handle sheet selection.
+	
+	* src/sheet-object-container.c (sheet_object_container_land): Add
+	comments about what needs doing.
+
+	* src/sheet-object.c (sheet_object_event): renamed.
+	Updated various SheetObject var names to 'so'.
+
+1999-09-15  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/sheet-object-container.c (sheet_object_container_land): Cleaned
+	debug, improved sizing logic.
+
 1999-09-16  Jody Goldberg <jgoldberg@home.com>
 
 	* src/ranges.c (range_dump) : Typo.

@@ -286,7 +286,14 @@ sheet_object_container_land (SheetObject *so, const gchar *fname,
 				    GTK_SIGNAL_FUNC (user_activation_request_cb), so);
 		gtk_signal_connect (GTK_OBJECT (view_frame), "view_activated",
 				    GTK_SIGNAL_FUNC (view_activated_cb), so);
-
+		/*
+		 * We need somehow to grab events from the wrapper in order to be able to
+		 * move the component around easily.
+		 *
+		 * gtk_signal_connect (GTK_OBJECT (gnome_view_frame_get_wrapper (view_frame)),
+		 *                    "event",
+		 *                    GTK_SIGNAL_FUNC (sheet_object_event), so);
+		 */
 
 		/*
 		 * 5. Ask the component how big it wants to be, if it is allowed.
@@ -295,13 +302,9 @@ sheet_object_container_land (SheetObject *so, const gchar *fname,
 			int dx = -1, dy = -1;
 			gnome_view_frame_size_request (view_frame, &dx, &dy);
 
-			if (dx < 8 || dy < 8)
-				g_warning ("Refused to auto-size %s to %d %d",
-					   soc->repoid?soc->repoid:"No ID!", dx, dy);
-			else {
+			if (dx > 0 && dy > 0) {
 				double tlx, tly, brx, bry;
 				
-				printf ("Auto sizing\n");
 				sheet_object_get_bounds (so, &tlx, &tly, &brx, &bry);
 				sheet_object_set_bounds (so,  tlx,  tly, tlx + dx, tly + dy);
 			}

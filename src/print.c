@@ -28,6 +28,7 @@
 #include "print.h"
 #include "print-cell.h"
 #include "print-preview.h"
+#include "dialog-printer.h"
 
 #define MARGIN_X 1
 #define MARGIN_Y 1
@@ -498,7 +499,7 @@ workbook_print_all (Workbook *wb, PrintJobInfo *pj)
 }
 
 static PrintJobInfo *
-print_job_info_get (Sheet *sheet)
+print_job_info_get (Sheet *sheet, PrintRange range)
 {
 	PrintJobInfo *pj;
 	PrintMargins *pm = &sheet->print_info->margins;
@@ -517,7 +518,7 @@ print_job_info_get (Sheet *sheet)
 	 */
 	pj->start_page = 0;
 	pj->end_page = -1;
-	pj->range = PRINT_ALL_SHEETS;
+	pj->range = range;
 	pj->sorted_print = TRUE;
 	pj->n_copies = 1;
 
@@ -583,15 +584,11 @@ sheet_print (Sheet *sheet, gboolean preview,
 	g_return_if_fail (sheet != NULL);
 	
 	if (!preview) {
-		/* FIXME: we need to whack a selection/active/entire
-		   choice in here, with a default, for now force default */
-		printer = gnome_printer_dialog_new_modal ();
-		if (!printer)
+		if (!(printer = gnumeric_printer_dialog_run (&default_range)))
 			return;
 	}
 		
-	pj = print_job_info_get (sheet);
-	pj->range = default_range; /* for now */
+	pj = print_job_info_get (sheet, default_range);
 
 	if (pj->sorted_print) {
 		loop = pj->n_copies;

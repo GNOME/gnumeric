@@ -39,6 +39,8 @@ GtkType sheet_object_get_type   (void);
 void    sheet_object_construct  (SheetObject *sheet_object, Sheet *sheet);
 void    sheet_object_drop_file  (GnumericSheet *gsheet, gint x, gint y,
 				 const char *fname);
+int     sheet_object_event      (GnomeCanvasItem *item, GdkEvent *event,
+				 SheetObject *so);
 
 /* b = bottom, t = top, l = left, r = right */
 void    sheet_object_get_bounds (SheetObject *sheet_object, double *tlx, double *tly,

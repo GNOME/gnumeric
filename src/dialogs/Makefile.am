@@ -28,6 +28,8 @@ libdialogs_a_SOURCES =				\
 	dialog-define-names.c			\
 	dialog-delete-cells.c			\
 	dialog-paste-special.c			\
+	dialog-printer.c			\
+	dialog-printer.h			\
 	dialog-printer-setup.c			\
 	dialog-summary.c			\
 	dialog-solver.c				\
