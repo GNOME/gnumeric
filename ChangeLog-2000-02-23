@@ -1,5 +1,11 @@
 1999-09-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/functions/fn-misc.c, src/functions/fn-information.c: Moved the
+	error functions to information functions file.
+
+	* src/functions/fn-math.c, src/function/fn-lookup.c: Moved TRANSPOSE
+	to lookup functions file.
+	
 	* src/functions/fn-stat.c: Added more examples.
 
 	* src/dialogs/dialog-analysis-tools.c: Bug fix.  Pressing ESC key

@@ -18,19 +18,25 @@ static char *help_and = {
 	   "@SYNTAX=AND(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "Implements the logical AND function: the result is TRUE "
+	   "AND implements the logical AND function: the result is TRUE "
 	   "if all of the expression evaluates to TRUE, otherwise it returns "
 	   "FALSE.\n"
 
-	   "@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. "
-	   "If an integer or floating point value is provided zero is considered "
-	   "FALSE and anything else is TRUE.\n"
+	   "@b1, trough @bN are expressions that should evaluate to TRUE "
+	   "or FALSE.  If an integer or floating point value is provided "
+	   "zero is considered FALSE and anything else is TRUE.\n"
 
 	   "If the values contain strings or empty cells those values are "
-	   "ignored.  If no logical values are provided, then the error '#VALUE!' "
+	   "ignored. "
+	   "If no logical values are provided, then the error '#VALUE!' "
 	   "is returned. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "AND(TRUE,TRUE) equals TRUE.\n"
+	   "AND(TRUE,FALSE) equals FALSE.\n\n"
+	   "Let us assume that A1 holds number five and A2 number one.  Then\n"
+	   "AND(A1>3,A2<2) equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=OR, NOT")
 };
@@ -74,10 +80,13 @@ static char *help_not = {
 	   "@SYNTAX=NOT(number)\n"
 
 	   "@DESCRIPTION="
-	   "Implements the logical NOT function: the result is TRUE if the "
-	   "@number is zero;  otherwise the result is FALSE.\n"
+	   "NOT implements the logical NOT function: the result is TRUE "
+	   "if the @number is zero;  otherwise the result is FALSE.\n"
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "NOT(0) equals TRUE.\n"
+	   "NOT(TRUE) equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=AND, OR")
 };
@@ -98,16 +107,19 @@ static char *help_or = {
 	   "@SYNTAX=OR(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "Implements the logical OR function: the result is TRUE if any of the "
-	   "values evaluated to TRUE.\n"
-	   "@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. "
-	   "If an integer or floating point value is provided zero is considered "
-	   "FALSE and anything else is TRUE.\n"
+	   "OR implements the logical OR function: the result is TRUE if "
+	   "any of the values evaluated to TRUE.\n"
+	   "@b1, trough @bN are expressions that should evaluate to TRUE "
+	   "or FALSE. If an integer or floating point value is provided "
+	   "zero is considered FALSE and anything else is TRUE.\n"
 	   "If the values contain strings or empty cells those values are "
-	   "ignored.  If no logical values are provided, then the error '#VALUE!'"
-	   "is returned."
+	   "ignored.  If no logical values are provided, then the error "
+	   "'#VALUE!' is returned."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "OR(TRUE,FALSE) equals TRUE.\n"
+	   "OR(3>4,4<3) equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=AND, NOT")
 };
@@ -153,11 +165,13 @@ static char *help_if = {
 	   "@DESCRIPTION="
 	   "Use the IF statement to evaluate conditionally other expressions "
 	   "IF evaluates @condition.  If @condition returns a non-zero value "
-	   "the result of the IF expression is the @if-true expression, otherwise "
-	   "IF evaluates to the value of @if-false. "
+	   "the result of the IF expression is the @if-true expression, "
+	   "otherwise IF evaluates to the value of @if-false. "
 	   "If ommitted @if-true defaults to TRUE and @if-false to FALSE."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IF(FALSE,TRUE,FALSE) equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -173,7 +187,8 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 	/* Type checking */
 	args = g_list_length (expr_node_list);
 	if (args < 1 || args > 3)
-		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos,
+					_("Invalid number of arguments"));
 
 	/* Compute the if part */
 	value = eval_expr (ei, (ExprTree *) expr_node_list->data);

@@ -142,6 +142,7 @@ static char *help_gcd = {
 	   "If any of the arguments is less than zero, GCD returns #NUM! "
 	   "error. "
 	   "If any of the arguments is non-integer, it is truncated. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "GCD(470,770) equals to 10.\n"
@@ -193,6 +194,7 @@ static char *help_lcm = {
 	   "\n"
 	   "If any of the arguments is less than one, LCM returns #NUM! "
 	   "error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "LCM(2,13) equlas to 26.\n"
@@ -244,9 +246,10 @@ static char *help_abs = {
 	   "@SYNTAX=ABS(b1)\n"
 
 	   "@DESCRIPTION="
-	   "Implements the Absolute Value function:  the result is "
+	   "ABS implements the Absolute Value function:  the result is "
 	   "to drop the negative sign (if present).  This can be done for "
 	   "integers and floating point numbers."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ABS(7) equals 7.\n"
@@ -268,10 +271,11 @@ static char *help_acos = {
 	   "@SYNTAX=ACOS(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ACOS function calculates the arc cosine of @x; that "
+	   "ACOS function calculates the arc cosine of @x; that "
 	   "is the value whose cosine is @x.  If @x  falls  outside  the "
 	   "range -1 to 1, ACOS fails and returns the NUM! error. "
 	   "The value it returns is in radians. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ACOS(0.1) equals 1.470629.\n"
@@ -299,9 +303,10 @@ static char *help_acosh = {
 	   "@SYNTAX=ACOSH(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ACOSH  function  calculates  the inverse hyperbolic "
+	   "ACOSH  function  calculates  the inverse hyperbolic "
 	   "cosine of @x; that is the value whose hyperbolic cosine is "
 	   "@x. If @x is less than 1.0, acosh() returns the NUM! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ACOSH(2) equals 1.31696.\n"
@@ -329,9 +334,10 @@ static char *help_asin = {
 	   "@SYNTAX=ASIN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ASIN function calculates the arc sine of @x; that is "
+	   "ASIN function calculates the arc sine of @x; that is "
 	   "the value whose sine is @x. If @x falls outside  the  range "
 	   "-1 to 1, ASIN fails and returns the NUM! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ASIN(0.5) equals 0.523599.\n"
@@ -361,6 +367,7 @@ static char *help_asinh = {
 	   "@DESCRIPTION="
 	   "ASINH function calculates the inverse hyperbolic sine of @x; "
 	   "that is the value whose hyperbolic sine is @x. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ASINH(0.5) equals 0.481212."
@@ -382,9 +389,10 @@ static char *help_atan = {
 	   "@SYNTAX=ATAN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ATAN function calculates the arc tangent of @x; that "
-	   " is the value whose tangent is @x."
+	   "ATAN function calculates the arc tangent of @x; that "
+	   "is the value whose tangent is @x."
 	   "Return value is in radians."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -408,6 +416,7 @@ static char *help_atanh = {
 	   "of @x; that is the value whose hyperbolic tangent is @x. "
 	   "If the absolute value of @x is greater than 1.0, ATANH "
 	   "returns NUM! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ATANH(0.5) equals 0.549306."
@@ -440,6 +449,7 @@ static char *help_atan2 = {
 	   "tangent of @b2 / @b1, except that the signs of both arguments "
 	   "are used to determine the quadrant of the result. "
 	   "The result is in radians."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ATAN2(0.5,1.0) equals 1.107149."
@@ -461,8 +471,9 @@ static char *help_ceil = {
 	N_("@FUNCTION=CEIL\n"
 	   "@SYNTAX=CEIL(x)\n"
 
-	   "@DESCRIPTION=The CEIL function rounds @x up to the next nearest "
-	   "integer.\n"
+	   "@DESCRIPTION="
+	   "CEIL function rounds @x up to the next nearest integer.\n"
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "CEIL(0.4) equals 1."
@@ -487,6 +498,7 @@ static char *help_countif = {
 	   "@DESCRIPTION="
 	   "COUNTIF function counts the number of cells in the given @range "
 	   "that meet the given @criteria. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -566,6 +578,7 @@ static char *help_sumif = {
 	   "the given @criteria.  If @actual_range is given, SUMIF sums "
 	   "the values in the @actual_range whose corresponding components "
 	   "in @range meet the given @criteria. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -724,6 +737,7 @@ static char *help_ceiling = {
 	   "#VALUE! error. "
 	   "If @x and @significance have different signs CEILING returns "
 	   "#NUM! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "CEILING(2.43,1) equals 3."
@@ -759,6 +773,7 @@ static char *help_cos = {
 	   "@DESCRIPTION="
 	   "COS function returns the cosine of @x, where @x is given "
            "in radians. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "COS(0.5) equals 0.877583.\n"
@@ -783,6 +798,7 @@ static char *help_cosh = {
 	   "COSH function returns the hyperbolic cosine of @x, which "
 	   "is defined mathematically as (exp(@x) + exp(-@x)) / 2.   "
 	   "@x is in radians. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "COSH(0.5) equals 1.127626."
@@ -805,6 +821,7 @@ static char *help_degrees = {
 
 	   "@DESCRIPTION="
 	   "DEGREES computes the number of degrees equivalent to @x radians."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "DEGREES(2.5) equals 143.2394.\n"
@@ -827,6 +844,7 @@ static char *help_exp = {
 	   "@DESCRIPTION="
 	   "EXP computes the value of e (the base of natural logarithmns) "
 	   "raised to the power of @x. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "EXP(2) equals 7.389056.\n"
@@ -848,6 +866,7 @@ static char *help_fact = {
 
 	   "@DESCRIPTION="
 	   "FACT computes the factorial of @x. ie, @x!"
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "FACT(3) equals 6.\n"
@@ -899,6 +918,7 @@ static char *help_combin = {
 	   "\n"
 	   "Performing this function on a non-integer or a negative number "
            "returns an error.  Also if @n is less than @k returns an error."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "COMBIN(8,6) equals 28.\n"
@@ -946,6 +966,7 @@ static char *help_floor = {
 	   "@DESCRIPTION="
 	   "FLOOR function rounds @x down to the next nearest multiple "
 	   "of @significance.  @significance defaults to 1."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "FLOOR(0.5) equals 0.\n"
@@ -983,6 +1004,7 @@ static char *help_int = {
 	   "where `nearest' implies being closer to zero. "
 	   "INT is equivalent to FLOOR(a) for @a >= 0, and CEIL(a) "
 	   "for @a < 0. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "INT(7.2) equals 7.\n"
@@ -1006,6 +1028,7 @@ static char *help_log = {
 	   "@DESCRIPTION="
 	   "LOG computes the logarithm of @x in the given base @base.  "
 	   "If no @base is given LOG returns the logarithm in base 10. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "LOG(2) equals 0.30103.\n"
@@ -1041,6 +1064,7 @@ static char *help_ln = {
 	   "@DESCRIPTION="
 	   "LN returns the natural logarithm of @x. "
 	   "If @x <= 0, LN returns #NUM! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "LN(7) equals 1.94591.\n"
@@ -1069,6 +1093,7 @@ static char *help_power = {
 
 	   "@DESCRIPTION="
 	   "POWER returns the value of @x raised to the power @y."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "POWER(2,7) equals 128.\n"
@@ -1099,7 +1124,7 @@ static char *help_log2 = {
 	   "@SYNTAX=LOG2(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the base-2 logarithm  of @x. "
+	   "LOG2 computes the base-2 logarithm of @x. "
 	   "If @x <= 0, LOG2 returns #NUM! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -1127,8 +1152,9 @@ static char *help_log10 = {
 	   "@SYNTAX=LOG10(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the base-10 logarithm of @x. "
+	   "LOG10 computes the base-10 logarithm of @x. "
 	   "If @x <= 0, LOG10 returns #NUM! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "LOG10(7) equals 0.845098.\n"
@@ -1157,6 +1183,7 @@ static char *help_mod = {
 	   "@DESCRIPTION="
 	   "MOD function returns the remainder when @divisor is divided "
 	   "into @number. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "MOD returns #DIV/0! if divisor is zero.\n"
 	   "\n"
@@ -1199,6 +1226,7 @@ static char *help_radians = {
 
 	   "@DESCRIPTION="
 	   "RADIANS computes the number of radians equivalent to @x degrees. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "RADIANS(180) equals 3.14159.\n"
@@ -1220,6 +1248,7 @@ static char *help_rand = {
 
 	   "@DESCRIPTION="
 	   "RAND returns a random number between zero and one ([0..1]). "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "RAND() returns a random number greater than zero but less "
@@ -1243,6 +1272,7 @@ static char *help_sin = {
 	   "@DESCRIPTION="
 	   "SIN function returns the sine of @x, where @x is given "
            "in radians."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "SIN(0.5) equals 0.479426.\n"
@@ -1265,6 +1295,7 @@ static char *help_sinh = {
 	   "@DESCRIPTION="
 	   "SINH function returns the hyperbolic sine of @x, "
 	   "which is defined mathematically as (exp(@x) - exp(-@x)) / 2."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "SINH(0.5) equals 0.521095.\n"
@@ -1286,6 +1317,7 @@ static char *help_sqrt = {
 
 	   "@DESCRIPTION="
 	   "SQRT function returns the square root of @x."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "If @x is negative, SQRT returns #NUM! error. "
 	   "\n"
@@ -1314,6 +1346,7 @@ static char *help_sum = {
 	   "@DESCRIPTION="
 	   "SUM computes the sum of all the values and cells referenced "
 	   "in the argument list. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -1373,6 +1406,7 @@ static char *help_sumsq = {
 	   "@DESCRIPTION="
 	   "SUMSQ returns the sum of the squares of all the values and "
 	   "cells referenced in the argument list. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -1402,6 +1436,7 @@ static char *help_multinomial = {
 	   "@DESCRIPTION="
 	   "MULTINOMIAL returns the ratio of the factorial of a sum of "
 	   "values to the product of factorials. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "MULTINOMIAL(2,3,4) equals 1260.\n"
@@ -1461,6 +1496,7 @@ static char *help_product = {
 	   "@DESCRIPTION="
 	   "PRODUCT returns the product of all the values and cells "
 	   "referenced in the argument list. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "PRODUCT(2,5,9) equals 90.\n"
@@ -1487,6 +1523,7 @@ static char *help_tan = {
 	   "@DESCRIPTION="
 	   "TAN function returns the tangent of @x, where @x is "
 	   "given in radians."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TAN(3) equals -0.1425465.\n"
@@ -1507,8 +1544,9 @@ static char *help_tanh = {
 	   "@SYNTAX=TANH(x)\n"
 
 	   "@DESCRIPTION="
-	   " The TANH function returns the hyperbolic tangent of @x, "
-	   " which is defined mathematically as sinh(@x) / cosh(@x). "
+	   "The TANH function returns the hyperbolic tangent of @x, "
+	   "which is defined mathematically as sinh(@x) / cosh(@x). "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TANH(2) equals 0.96402758.\n"
@@ -1532,6 +1570,7 @@ static char *help_pi = {
 	   "PI functions returns the value of Pi. "
 	   "\n"
 	   "This function is called with no arguments."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "PI() equals 3.141593.\n"
@@ -1555,6 +1594,7 @@ static char *help_trunc = {
 	   "TRUNC function returns the value of @number "
 	   "truncated to the number of digits specified. "
 	   "If @digits is omitted then @digits defaults to zero."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TRUNC(3.12) equals 3.\n"
@@ -1591,6 +1631,7 @@ static char *help_even = {
 	   "@DESCRIPTION="
 	   "EVEN function returns the number rounded up to the "
 	   "nearest even integer. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "EVEN(5.4) equals 6.\n"
@@ -1628,6 +1669,7 @@ static char *help_odd = {
 	   "@DESCRIPTION="
 	   "ODD function returns the @number rounded up to the "
 	   "nearest odd integer. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ODD(4.4) equals 5.\n"
@@ -1668,6 +1710,7 @@ static char *help_factdouble = {
 	   "\n"
 	   "If @number is not an integer, it is truncated. "
 	   "If @number is negative FACTDOUBLE returns #NUM! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "FACTDOUBLE(5) equals 15.\n"
@@ -1702,6 +1745,7 @@ static char *help_quotient = {
 	   "@DESCRIPTION="
 	   "QUOTIENT function returns the integer portion "
 	   "of a division. @num is the divided and @den is the divisor. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "QUOTIENT(23,5) equals 4.\n"
@@ -1729,6 +1773,7 @@ static char *help_sign = {
 	   "@DESCRIPTION="
 	   "SIGN function returns 1 if the @number is positive, "
 	   "zero if the @number is 0, and -1 if the @number is negative. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "SIGN(3) equals 1.\n"
@@ -1762,6 +1807,7 @@ static char *help_sqrtpi = {
 	   "@DESCRIPTION="
 	   "SQRTPI function returns the square root of a @number "
 	   "multiplied by pi. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "SQRTPI(2) equals 2.506628275.\n"
@@ -1792,6 +1838,7 @@ static char *help_randbetween = {
 	   "between @bottom and @top.\n"
 	   "If @bottom or @top is non-integer, they are truncated. "
 	   "If @bottom > @top, RANDBETWEEN returns #NUM! error.\n"
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "RANDBETWEEN(3,7).\n"
@@ -1831,6 +1878,7 @@ static char *help_rounddown = {
 	   "nearest integer. "
 	   "If @digits is less than zero, @number is rounded down to the left "
 	   "of the decimal point. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ROUNDDOWN(5.5) equals 5.\n"
@@ -1877,6 +1925,7 @@ static char *help_round = {
 	   "nearest integer. "
 	   "If @digits is less than zero, @number is rounded to the left "
 	   "of the decimal point. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ROUND(5.5) equals 6.\n"
@@ -1920,6 +1969,7 @@ static char *help_roundup = {
 	   "nearest integer. "
 	   "If @digits is less than zero, @number is rounded up to the left "
 	   "of the decimal point. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ROUNDUP(5.5) equals 6.\n"
@@ -1962,6 +2012,7 @@ static char *help_mround = {
 	   "\n"
 	   "If @number and @multiple have different sign, MROUND "
 	   "returns #NUM! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "MROUND(1.7,0.2) equals 1.8.\n"
@@ -2017,6 +2068,7 @@ static char *help_roman = {
 	   "\n"
 	   "If @number is negative or greater than 3999, ROMAN returns "
 	   "#VALUE! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ROMAN(999) equals CMXCIX.\n"
@@ -2283,6 +2335,7 @@ static char *help_sumx2my2 = {
            "\n"
 	   "If @array1 and @array2 have different number of data points, "
 	   "SUMX2MY2 returns #N/A! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -2381,6 +2434,7 @@ static char *help_sumx2py2 = {
            "\n"
 	   "If @array1 and @array2 have different number of data points, "
 	   "SUMX2PY2 returns #N/A! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -2476,6 +2530,7 @@ static char *help_sumxmy2 = {
            "\n"
 	   "If @array1 and @array2 have different number of data points, "
 	   "SUMXMY2 returns #N/A! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -2577,6 +2632,7 @@ static char *help_subtotal = {
 	   "9   SUM\n"
 	   "10   VAR\n"
 	   "11   VARP\n"
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -2659,6 +2715,7 @@ static char *help_seriessum = {
 	   "@m is the increment to the power for each term in the series, and "
 	   "@coefficients is the coefficents by which each successive power "
 	   "of @x is multiplied. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -2771,54 +2828,6 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 
 /***************************************************************************/
 
-static char *help_transpose = {
-	N_("@FUNCTION=TRANSPOSE\n"
-	   "@SYNTAX=TRANSPOSE(matrix)\n"
-
-	   "@DESCRIPTION="
-	   "TRANSPOSE function returns the transpose of the input "
-	   "@matrix."
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=MMULT")
-};
-
-
-static Value *
-gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
-{
-	EvalPosition const * const ep = &ei->pos;
-        Value const * const matrix = argv[0];
-	int	r, c;
-        Value *res;
-
-	int const cols = value_area_get_width (ep, matrix);
-	int const rows = value_area_get_height (ep, matrix);
-
-	/* Return the value directly for a singleton */
-	if (rows == 1 && cols == 1)
-		return value_duplicate(value_area_get_x_y (ep, matrix, 0, 0));
-
-	res = g_new (Value, 1);
-	res->type = VALUE_ARRAY;
-	res->v.array.x = rows;
-	res->v.array.y = cols;
-	res->v.array.vals = g_new (Value **, rows);
-
-	for (r = 0; r < rows; ++r){
-		res->v.array.vals [r] = g_new (Value *, cols);
-		for (c = 0; c < cols; ++c)
-			res->v.array.vals[r][c] = 
-			    value_duplicate(value_area_get_x_y (ep, matrix,
-								c, r));
-	}
-
-	return res;
-}
-
-/***************************************************************************/
-
 static char *help_minverse = {
 	N_("@FUNCTION=MINVERSE\n"
 	   "@SYNTAX=MINVERSE(array)\n"
@@ -2829,6 +2838,7 @@ static char *help_minverse = {
 	   "If the matrix cannot be inverted, MINVERSE returns #NUM! error. "
 	   "If the matrix does not contain equal number of columns and "
 	   "rows, MINVERSE returns #VALUE! error."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -3012,6 +3022,7 @@ static char *help_mmult = {
 	   "MMULT function returns the matrix product of two arrays. The "
 	   "result is an array with the same number of rows as @array1 and the "
 	   "same number of columns as @array2."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -3078,8 +3089,13 @@ static char *help_mdeterm = {
 	   "\n"
 	   "If the matrix does not contain equal number of columns and "
 	   "rows, MDETERM returns #VALUE! error."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, "
+	   "B1, ..., B4 4, 2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and "
+	   "D1, ..., D4 7, 3, 6, and 5.  Then.\n"
+	   "MDETERM(A1:D4) equals 148.\n"
 	   "\n"
 	   "@SEEALSO=MMULT, MINVERSE")
 };
@@ -3201,6 +3217,7 @@ static char *help_sumproduct = {
 	   "\n"
 	   "If array or range arguments do not have the same dimentions, "
 	   "SUMPRODUCT returns #VALUE! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -3444,9 +3461,6 @@ void math_functions_init()
 	function_add_args  (cat, "mmult",   "AA",
 			    "array1,array2",
 			    &help_mmult,       gnumeric_mmult);
-	function_add_args  (cat, "transpose","A",
-			    "array",
-			    &help_transpose,   gnumeric_transpose);
 	function_add_args  (cat, "minverse","A",
 			    "array",
 			    &help_minverse,    gnumeric_minverse);

@@ -23,8 +23,9 @@ static char *help_address = {
 	   "and column numbers. "
 	   "\n"
 	   "If @abs_num is 1 or omitted, ADDRESS returns absolute reference. "
-	   "If @abs_num is 2 ADDRESS returns absolute row and relative column. "
-	   "If @abs_num is 3 ADDRESS returns relative row and absolute column. "
+	   "If @abs_num is 2 ADDRESS returns absolute row and relative "
+	   "column.  If @abs_num is 3 ADDRESS returns relative row and "
+	   "absolute column. "
 	   "If @abs_num is 4 ADDRESS returns relative reference. "
 	   "If @abs_num is greater than 4 ADDRESS returns #NUM! error. "
 	   "\n"
@@ -186,7 +187,7 @@ static char *help_vlookup = {
 	   "@SYNTAX=VLOOKUP(value,range,column,[approximate])\n"
 
 	   "@DESCRIPTION="
-	   "The VLOOKUP function finds the row in range that has a first "
+	   "VLOOKUP function finds the row in range that has a first "
 	   "column similar to value.  If @approximate is not true it finds "
 	   "the row with an exact equivilance.  If @approximate is true, "
 	   "then the values must be sorted in order of ascending value for "
@@ -310,7 +311,8 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 		if (compare == 1){
 			const Value *v;
 
-			v = value_area_fetch_x_y (&ei->pos, args [1], col_idx-1, lp);
+			v = value_area_fetch_x_y (&ei->pos, args [1],
+						  col_idx-1, lp);
 			g_return_val_if_fail (v != NULL, NULL);
 
 			return value_duplicate (v);
@@ -341,7 +343,7 @@ static char *help_hlookup = {
 	   "@SYNTAX=HLOOKUP(value,range,row,[approximate])\n"
 
 	   "@DESCRIPTION="
-	   "The HLOOKUP function finds the col in range that has a first "
+	   "HLOOKUP function finds the col in range that has a first "
 	   "row cell similar to value.  If @approximate is not true it finds "
 	   "the col with an exact equivilance.  If @approximate is true, "
 	   "then the values must be sorted in order of ascending value for "
@@ -393,7 +395,8 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 		if (compare == 1){
 			const Value *v;
 
-			v = value_area_fetch_x_y (&ei->pos, args [1], lp, row_idx-1);
+			v = value_area_fetch_x_y (&ei->pos, args [1],
+						  lp, row_idx-1);
 			g_return_val_if_fail (v != NULL, NULL);
 
 			return value_duplicate (v);
@@ -460,7 +463,8 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 
 	} else if (args[1]->type == VALUE_CELLRANGE) {
 		if (!args[2])
-			return value_new_error (&ei->pos, _("Invalid number of arguments"));
+			return value_new_error (&ei->pos,
+			  _("Invalid number of arguments"));
 
 	} else
 		return value_new_error (&ei->pos, _("Type Mismatch"));
@@ -489,11 +493,15 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 
 		touched = 0;
 		for (lpx=0,lpy=0;lpx<maxx && lpy<maxy;) {
-			const Value *v = value_area_fetch_x_y (&ei->pos, src, lpx, lpy);
+			const Value *v = value_area_fetch_x_y
+			  (&ei->pos, src, lpx, lpy);
 			compare = lookup_similar (v, args[0], next_largest, 1);
 			if (compare == 1)
-				return value_duplicate (value_duplicate (value_area_fetch_x_y (&ei->pos, dest, next_largest_x+x_offset,
-													  next_largest_y+y_offset)));
+				return value_duplicate
+				  (value_duplicate(value_area_fetch_x_y
+						   (&ei->pos, dest,
+						    next_largest_x+x_offset,
+						    next_largest_y+y_offset)));
 			if (compare < 0) {
 				next_largest = v;
 				next_largest_x = lpx;
@@ -510,9 +518,10 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 		if (!next_largest)
 			return value_new_error (&ei->pos, gnumeric_err_NA);
 
-		return value_duplicate (value_area_fetch_x_y (&ei->pos, dest,
-							       next_largest_x+x_offset,
-							       next_largest_y+y_offset));
+		return value_duplicate (value_area_fetch_x_y
+					(&ei->pos, dest,
+					 next_largest_x+x_offset,
+					 next_largest_y+y_offset));
 	}
 }
 
@@ -523,10 +532,10 @@ static char *help_indirect = {
 	   "@SYNTAX=INDIRECT(ref_text, [format])\n"
 
 	   "@DESCRIPTION="
-	   "The INDIRECT function returns the contents of the cell pointed to "
-	   "by the ref_text string. The string specifices a single cell reference "
-	   "the format of which is either A1 or R1C1 style. The style is set by "
-	   "the format boolean, which defaults to the former."
+	   "INDIRECT function returns the contents of the cell pointed to "
+	   "by the ref_text string. The string specifices a single cell "
+	   "reference the format of which is either A1 or R1C1 style. The "
+	   "style is set by the format boolean, which defaults to the former."
 	   "\n"
 	   "If ref_text is not a valid reference returns #REF! "
 	   "\n"
@@ -557,9 +566,11 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 	}
 
 	if (a1_style)
-		error = !cellref_a1_get (&ref, text, ei->pos.eval_col, ei->pos.eval_row);
+		error = !cellref_a1_get (&ref, text, ei->pos.eval_col,
+					 ei->pos.eval_row);
 	else
-		error = !cellref_r1c1_get (&ref, text, ei->pos.eval_col, ei->pos.eval_row);
+		error = !cellref_r1c1_get (&ref, text, ei->pos.eval_col,
+					   ei->pos.eval_row);
 	g_free (text);
 
 	if (error)
@@ -665,8 +676,8 @@ static char *help_offset = {
 	   "and is of height @height and width @width."
 	   "\n"
 	   "If range is neither a reference nor a range returns #VALUE!.  "
-	   "If either height or width is omitted the height or width"
-	   " of the reference is used."
+	   "If either height or width is omitted the height or width "
+	   "of the reference is used."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -821,32 +832,88 @@ gnumeric_hyperlink (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
+static char *help_transpose = {
+	N_("@FUNCTION=TRANSPOSE\n"
+	   "@SYNTAX=TRANSPOSE(matrix)\n"
+
+	   "@DESCRIPTION="
+	   "TRANSPOSE function returns the transpose of the input "
+	   "@matrix."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=MMULT")
+};
+
+
+static Value *
+gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
+{
+	EvalPosition const * const ep = &ei->pos;
+        Value const * const matrix = argv[0];
+	int	r, c;
+        Value *res;
+
+	int const cols = value_area_get_width (ep, matrix);
+	int const rows = value_area_get_height (ep, matrix);
+
+	/* Return the value directly for a singleton */
+	if (rows == 1 && cols == 1)
+		return value_duplicate(value_area_get_x_y (ep, matrix, 0, 0));
+
+	res = g_new (Value, 1);
+	res->type = VALUE_ARRAY;
+	res->v.array.x = rows;
+	res->v.array.y = cols;
+	res->v.array.vals = g_new (Value **, rows);
+
+	for (r = 0; r < rows; ++r){
+		res->v.array.vals [r] = g_new (Value *, cols);
+		for (c = 0; c < cols; ++c)
+			res->v.array.vals[r][c] = 
+			    value_duplicate(value_area_get_x_y (ep, matrix,
+								c, r));
+	}
+
+	return res;
+}
+
+/***************************************************************************/
+
 void lookup_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Data / Lookup"));
 
-	function_add_args  (cat, "address",   "ff|ffs", "row_num,col_num,abs_num,a1,text",
-			   &help_address,  gnumeric_address);
+	function_add_args  (cat, "address",   "ff|ffs",
+			    "row_num,col_num,abs_num,a1,text",
+			    &help_address,  gnumeric_address);
         function_add_nodes (cat, "choose",     0,     "index,value...",
 			    &help_choose,  gnumeric_choose);
 	function_add_nodes (cat, "column",    "?",    "ref",
 			    &help_column,  gnumeric_column);
 	function_add_args  (cat, "columns",   "A",    "ref",
 			    &help_columns, gnumeric_columns);
-	function_add_args  (cat, "hlookup",   "?Af|b","val,range,col_idx,approx",
+	function_add_args  (cat, "hlookup",
+			    "?Af|b","val,range,col_idx,approx",
 			    &help_hlookup, gnumeric_hlookup);
+	function_add_args  (cat, "hyperlink",
+			    "s|?","link_location, contents",
+			    &help_hyperlink, gnumeric_hyperlink);
 	function_add_args  (cat, "indirect",  "s|b","ref_string,format",
 			    &help_indirect, gnumeric_indirect);
 	function_add_args  (cat, "lookup",    "?A|r", "val,range,range",
 			    &help_lookup,  gnumeric_lookup);
-	function_add_args  (cat, "offset",    "rff|ff","ref,row,col,hight,width",
+	function_add_args  (cat, "offset",
+			    "rff|ff","ref,row,col,hight,width",
 			    &help_offset,  gnumeric_offset);
 	function_add_nodes (cat, "row",       "?",    "ref",
 			    &help_row,     gnumeric_row);
 	function_add_args  (cat, "rows",      "A",    "ref",
 			    &help_rows,    gnumeric_rows);
-	function_add_args  (cat, "vlookup",   "?Af|b","val,range,col_idx,approx",
+	function_add_args  (cat, "transpose","A",
+			    "array",
+			    &help_transpose,   gnumeric_transpose);
+	function_add_args  (cat, "vlookup",
+			    "?Af|b","val,range,col_idx,approx",
 			    &help_vlookup, gnumeric_vlookup);
-	function_add_args  (cat, "hyperlink",   "s|?","link_location, contents",
-			    &help_hyperlink, gnumeric_hyperlink);
 }

@@ -69,7 +69,8 @@ static char *help_cell = {
 	   "@SYNTAX=CELL()\n"
 
 	   "@DESCRIPTION="
-	   "CELL Returns information about the formatting, location, or contents of a cell. "
+	   "CELL returns information about the formatting, location, or "
+	   "contents of a cell. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -217,6 +218,7 @@ static char *help_countblank = {
 
            "@DESCRIPTION="
            "COUNTBLANK returns the number of blank cells in a @range. "
+	   "This function is Excel compatible. "
            "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -233,7 +235,7 @@ gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 	int   count;
 
 	range = args[0];
-	sheet = eval_sheet (range->v.cell_range.cell_a.sheet, ei->pos.sheet);
+	sheet = eval_sheet (ei->pos.sheet, ei->pos.sheet);
 	col_a = range->v.cell_range.cell_a.col;
 	col_b = range->v.cell_range.cell_b.col;
 	row_a = range->v.cell_range.cell_a.row;
@@ -256,6 +258,7 @@ static char *help_info = {
 
 	   "@DESCRIPTION="
 	   "INFO returns information about the current operating environment. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -280,10 +283,10 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 		/* Number of active worksheets.  */
 		return value_new_int (1);  /* Good enough... */
 	} else if (!strcasecmp (info_type, "origin")) {
-		/* Absolute A1-style reference, as text, prepended with "$A:" for
-		 * Lotus 1-2-3 release 3.x compatibility. Returns the cell
-		 * reference of the top and leftmost cell visible in the window,
-		 * based on the current scrolling position.
+		/* Absolute A1-style reference, as text, prepended with "$A:"
+		 * for Lotus 1-2-3 release 3.x compatibility. Returns the cell
+		 * reference of the top and leftmost cell visible in the
+		 * window, based on the current scrolling position.
 		 */
 		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "osversion")) {
@@ -291,7 +294,8 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 		struct utsname unamedata;
 
 		if (uname (&unamedata) == -1)
-			return value_new_error (&ei->pos, _("Unknown version"));
+			return value_new_error (&ei->pos,
+						_("Unknown version"));
 		else {
 			char *tmp = g_strdup_printf (_("%s version %s"),
 						     unamedata.sysname,
@@ -326,12 +330,234 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static char *help_iserror = {
+	N_("@FUNCTION=ISERROR\n"
+	   "@SYNTAX=ISERROR(exp)\n"
+
+	   "@DESCRIPTION="
+	   "ISERROR returns a TRUE value if the expression has an error\n"
+	   "This function is Excel compatible. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=ERROR")
+};
+
+/* A utility routine to evaluate a single argument and return any errors
+ * directly 
+ */
+static Value *
+gnumeric_check_for_err (FunctionEvalInfo *eval_info, GList *expr_node_list,
+			Value ** err)
+{
+	Value * tmp;
+
+	if (g_list_length (expr_node_list) != 1) {
+		*err = value_new_error(&eval_info->pos,
+				       _("Argument mismatch"));
+		return NULL;
+	}
+	tmp = eval_expr (eval_info, (ExprTree *) expr_node_list->data);
+
+	if (tmp != NULL) {
+		if (tmp->type == VALUE_ERROR)
+			return tmp;
+		value_release (tmp);
+	}
+	return NULL;
+}
+
+static Value *
+gnumeric_iserror (FunctionEvalInfo *eval_info, GList *expr_node_list)
+{
+	Value * res, *err = NULL;
+	res = gnumeric_check_for_err (eval_info, expr_node_list, &err);
+	if (err != NULL)
+		return err;
+
+	if (res) {
+		value_release (res);
+		return value_new_bool (TRUE);
+	} else
+		return value_new_bool (FALSE);
+}
+
+/***************************************************************************/
+
+static char *help_isna = {
+	N_("@FUNCTION=ISNA\n"
+	   "@SYNTAX=ISNA()\n"
+
+	   "@DESCRIPTION="
+	   "ISNA returns TRUE if the value is the #N/A error value. "
+	   "This function is Excel compatible. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+/*
+ * We need to operator directly in the input expression in order to bypass
+ * the error handling mechanism
+ */
+static Value *
+gnumeric_isna (FunctionEvalInfo *eval_info, GList *expr_node_list)
+{
+	Value * res, *err = NULL;
+	gboolean b;
+
+	res = gnumeric_check_for_err (eval_info, expr_node_list, &err);
+	if (err != NULL)
+		return err;
+
+	b = (res && !strcmp (gnumeric_err_NA, res->v.error.mesg->str));
+	if (res) value_release (res);
+	return value_new_bool (b);
+}
+
+/***************************************************************************/
+
+static char *help_iserr = {
+	N_("@FUNCTION=ISERR\n"
+	   "@SYNTAX=ISERR()\n"
+
+	   "@DESCRIPTION="
+	   "ISERR returns TRUE if the value is any error value except #N/A. "
+	   "This function is Excel compatible. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_iserr (FunctionEvalInfo *eval_info, GList *expr_node_list)
+{
+	Value * res, *err = NULL;
+	gboolean b;
+
+	res = gnumeric_check_for_err (eval_info, expr_node_list, &err);
+	if (err != NULL)
+		return err;
+
+	b = (res && strcmp (gnumeric_err_NA, res->v.error.mesg->str));
+	if (res) value_release (res);
+	return value_new_bool (b);
+}
+
+/***************************************************************************/
+
+static char *help_error_type = {
+	N_("@FUNCTION=ERROR.TYPE\n"
+	   "@SYNTAX=ERROR(exp)\n"
+
+	   "@DESCRIPTION="
+	   "ERROR.TYPE returns an error number corresponding to the given "
+	   "error value.  The error numbers for error values are\n"
+	   "#DIV/0!    2\n"
+	   "#VALUE!    3\n"
+	   "#REF!      4\n"
+	   "#NAME!     5\n"
+	   "#NUM!      6\n"
+	   "#NA!       7\n"
+	   "This function is Excel compatible. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "ERROR.TYPE(NA()) equals 7.\n"
+	   "\n"
+	   "@SEEALSO=ISERROR")
+};
+
+static Value *
+gnumeric_error_type (FunctionEvalInfo *eval_info, GList *expr_node_list)
+{
+	int retval = -1;
+	char const * mesg;
+	Value * res, *err = NULL;
+	res = gnumeric_check_for_err (eval_info, expr_node_list, &err);
+	if (err != NULL)
+		return err;
+	if (res == NULL)
+		return value_new_error (&eval_info->pos, gnumeric_err_NA);
+	
+	mesg = res->v.error.mesg->str;
+	if (!strcmp (gnumeric_err_NULL, mesg))
+		retval = 1;
+	else if (!strcmp (gnumeric_err_DIV0, mesg))
+		retval = 2;
+	else if (!strcmp (gnumeric_err_VALUE, mesg))
+		retval = 3;
+	else if (!strcmp (gnumeric_err_REF, mesg))
+		retval = 4;
+	else if (!strcmp (gnumeric_err_NAME, mesg))
+		retval = 5;
+	else if (!strcmp (gnumeric_err_NUM, mesg))
+		retval = 6;
+	else if (!strcmp (gnumeric_err_NA, mesg))
+		retval = 7;
+	else {
+		value_release (res);
+		return value_new_error (&eval_info->pos, gnumeric_err_NA);
+	}
+
+	value_release (res);
+	return value_new_int (retval);
+}
+
+/***************************************************************************/
+
+static char *help_na = {
+	N_("@FUNCTION=NA\n"
+	   "@SYNTAX=NA()\n"
+
+	   "@DESCRIPTION="
+	   "NA returns the error value #N/A. "
+	   "This function is Excel compatible. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_na (FunctionEvalInfo *eval_info, Value **argv)
+{
+	return value_new_error (&eval_info->pos, gnumeric_err_NA);
+}
+
+/***************************************************************************/
+
+static char *help_error = {
+	N_("@FUNCTION=ERROR\n"
+	   "@SYNTAX=ERROR(text)\n"
+
+	   "@DESCRIPTION="
+	   "ERROR return the specified error\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=ISERROR")
+};
+
+static Value *
+gnumeric_error (FunctionEvalInfo *eval_info, Value *argv[])
+{
+	if (argv [0]->type != VALUE_STRING)
+		return value_new_error (&eval_info->pos, _("Type mismatch"));
+
+	return value_new_error (&eval_info->pos, argv [0]->v.str->str);
+}
+
+/***************************************************************************/
+
 static char *help_isblank = {
 	N_("@FUNCTION=ISBLANK\n"
 	   "@SYNTAX=ISBLANK()\n"
 
 	   "@DESCRIPTION="
 	   "ISBLANK returns TRUE if the value is blank. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -344,7 +570,8 @@ gnumeric_isblank (FunctionEvalInfo *ei, GList *expr_node_list)
 	gboolean result = FALSE;
 	ExprTree *expr;
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos,
+					_("Invalid number of arguments"));
 
 	expr = expr_node_list->data;
 
@@ -378,6 +605,7 @@ static char *help_iseven = {
 
 	   "@DESCRIPTION="
 	   "ISEVEN returns TRUE if the number is even. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -398,6 +626,7 @@ static char *help_islogical = {
 
 	   "@DESCRIPTION="
 	   "ISLOGICAL returns TRUE if the value is a logical value. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -410,7 +639,8 @@ gnumeric_islogical (FunctionEvalInfo *ei, GList *expr_node_list)
 	enum Value_Class cl;
 
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos,
+					_("Invalid number of arguments"));
 
 	cl = get_value_class (ei, expr_node_list->data);
 
@@ -425,6 +655,7 @@ static char *help_isnontext = {
 
 	   "@DESCRIPTION="
 	   "ISNONTEXT Returns TRUE if the value is not text. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -435,7 +666,8 @@ static Value *
 gnumeric_isnontext (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos,
+					_("Invalid number of arguments"));
 
 	return value_new_bool (get_value_class (ei, expr_node_list->data)
 			       != VALUE_CLASS_TEXT);
@@ -449,6 +681,7 @@ static char *help_isnumber = {
 
 	   "@DESCRIPTION="
 	   "ISNUMBER returns TRUE if the value is a number. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -459,7 +692,8 @@ static Value *
 gnumeric_isnumber (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos,
+					_("Invalid number of arguments"));
 
 	return value_new_bool (get_value_class (ei, expr_node_list->data)
 			       == VALUE_CLASS_NUMBER);
@@ -473,6 +707,7 @@ static char *help_isodd = {
 
 	   "@DESCRIPTION="
 	   "ISODD returns TRUE if the number is odd. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -493,6 +728,7 @@ static char *help_isref = {
 
 	   "@DESCRIPTION="
 	   "ISREF returns TRUE if the value is a reference. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -505,7 +741,8 @@ gnumeric_isref (FunctionEvalInfo *ei, GList *expr_node_list)
 	ExprTree *t;
 
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos,
+					_("Invalid number of arguments"));
 
 	t = expr_node_list->data;
 	if (!t)
@@ -522,6 +759,7 @@ static char *help_istext = {
 
 	   "@DESCRIPTION="
 	   "ISTEXT returns TRUE if the value is text. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -532,7 +770,8 @@ static Value *
 gnumeric_istext (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos,
+					_("Invalid number of arguments"));
 
 	return value_new_bool (get_value_class (ei, expr_node_list->data)
 			       == VALUE_CLASS_TEXT);
@@ -547,6 +786,7 @@ static char *help_n = {
 	   "@DESCRIPTION="
 	   "N returns a value converted to a number.  Strings containing "
 	   "text are converted to the zero value. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -584,6 +824,7 @@ static char *help_type = {
 
 	   "@DESCRIPTION="
 	   "TYPE returns a number indicating the data type of a value. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -594,7 +835,8 @@ static Value *
 gnumeric_type (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos,
+					_("Invalid number of arguments"));
 
 	return value_new_int (get_value_class (ei, expr_node_list->data));
 }
@@ -609,40 +851,40 @@ void information_functions_init()
 			    &help_cell, gnumeric_cell);
         function_add_args  (cat, "countblank", "r",  "range",
 			    &help_countblank, gnumeric_countblank);
+	function_add_args  (cat, "error",   "s",  "text",
+			    &help_error,   gnumeric_error);
+	function_add_nodes (cat, "error.type", "", "",
+			    &help_error_type, gnumeric_error_type);
 	function_add_args  (cat, "info", "?", "info_type",
 			    &help_info, gnumeric_info);
-
-	/* Handles args manually */
 	function_add_nodes (cat, "isblank", "?", "value",
 			    &help_isblank, gnumeric_isblank);
-
+	function_add_nodes (cat, "iserr", "",   "",
+			    &help_iserr,   gnumeric_iserr);
+	function_add_nodes (cat, "iserror", "",   "",
+			    &help_iserror, gnumeric_iserror);
 	function_add_args  (cat, "iseven", "?", "value",
 			    &help_iseven, gnumeric_iseven);
-
-	/* Handles args manually */
 	function_add_nodes (cat, "islogical", NULL, "value",
 			    &help_islogical, gnumeric_islogical);
-	/* Handles args manually */
+	function_add_nodes (cat, "isna", "",   "",
+			    &help_isna,    gnumeric_isna);
 	function_add_nodes (cat, "isnontext", NULL, "value",
 			    &help_isnontext, gnumeric_isnontext);
-	/* Handles args manually */
 	function_add_nodes (cat, "isnumber", NULL, "value",
 			    &help_isnumber, gnumeric_isnumber);
-
 	function_add_args  (cat, "isodd", "?", "value",
 			    &help_isodd, gnumeric_isodd);
 	function_add_nodes (cat, "isref", "?", "value",
 			    &help_isref, gnumeric_isref);
-
-	/* Handles args manually */
 	function_add_nodes (cat, "istext", NULL, "value",
 			    &help_istext, gnumeric_istext);
-
 	function_add_args  (cat, "n", "?", "value",
 			    &help_n, gnumeric_n);
-
-	/* Handles args manually */
+	function_add_args  (cat, "na",      "",  "",
+			    &help_na,      gnumeric_na);
 	function_add_nodes (cat, "type",   NULL, "value",
 			    &help_type, gnumeric_type);
 };
+
 

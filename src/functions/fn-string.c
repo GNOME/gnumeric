@@ -414,7 +414,6 @@ gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 static char *help_clean = {
 	N_("@FUNCTION=CLEAN\n"
 	   "@SYNTAX=CLEAN(string)\n"
-
 	   "@DESCRIPTION="
 	   "CLEAN cleans the string from any non-printable characters."
 	   "\n"
@@ -493,7 +492,6 @@ gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 static char *help_fixed = {
 	N_("@FUNCTION=FIXED\n"
 	   "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
-
 	   "@DESCRIPTION="
 	   "FIXED returns @num as a formatted string with @decimals numbers "
 	   "after the decimal point, omitting commas if requested by "
@@ -532,7 +530,8 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 		/*
 	} else if (lc->thousands_sep[1] != '\0') {
 		fprintf (stderr, "thousands_sep:\"%s\"\n", lc->thousands_sep);
-		return value_new_error (&ei->pos, _("Invalid thousands separator"));
+		return value_new_error (&ei->pos,
+		_("Invalid thousands separator"));
 		*/
 	} else if (dec <= 0) { /* no decimal point : just round and pad 0's */
 		dec *= -1;
@@ -883,9 +882,9 @@ static char *help_substitute = {
 	N_("@FUNCTION=SUBSTITUTE\n"
 	   "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
 	   "@DESCRIPTION="
-	   "Replaces @old with @new in @text.  Substitutions are only "
-	   "applied to instance @num of @old in @text, otherwise every "
-	   "one is changed."
+	   "SUBSTITUTE replaces @old with @new in @text.  Substitutions "
+	   "are only applied to instance @num of @old in @text, otherwise "
+	   "every one is changed."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "SUBSTITUTE(\"testing\",\"test\",\"wait\") equals \"waiting\".\n"
@@ -998,7 +997,7 @@ static char *help_dollar = {
 	N_("@FUNCTION=DOLLAR\n"
 	   "@SYNTAX=DOLLAR(num,[decimals])\n"
 	   "@DESCRIPTION="
-	   "Returns @num formatted as currency."
+	   "DOLLAR returns @num formatted as currency."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "DOLLAR(12345) equals \"$12,345.00\".\n"
