@@ -219,12 +219,13 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 						 x, y, width, height);
 				return;
 			}
-			cri = sheet_col_get_info (sheet, element);
 			if (item_bar->resize_pos == element)
 				pixels = item_bar->resize_width;
-			else
+			else {
+				cri = sheet_col_get_info (sheet, element);
 				pixels = cri->pixels;
-
+			}
+			
 			if (total + pixels >= x){
 				str = col_name (element);
 				bar_draw_cell (item_bar, drawable,
@@ -265,10 +266,15 @@ is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_ele
 	sheet = item_bar->sheet_view->sheet;
 
 	for (i = item_bar->first_element; total < pos; i++){
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
+			if (i >= SHEET_MAX_ROWS)
+				return NULL;
 			cri = sheet_row_get_info (sheet, i);
-		else
+		} else {
+			if (i >= SHEET_MAX_COLS)
+				return NULL;
 			cri = sheet_col_get_info (sheet, i);
+		}
 
 		total += cri->pixels;
 		if ((total - 4 < pos) && (pos < total + 4)){
@@ -385,10 +391,15 @@ get_col_from_pos (ItemBar *item_bar, int pos)
 	total = 0;
 	sheet = item_bar->sheet_view->sheet;
 	for (i = item_bar->first_element; total < pos; i++){
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
+			if (i >= SHEET_MAX_ROWS)
+				return i-1;
 			cri = sheet_row_get_info (sheet, i);
-		else
+		} else {
+			if (i >= SHEET_MAX_COLS)
+				return i-1;
 			cri = sheet_col_get_info (sheet, i);
+		}
 
 		total += cri->pixels;
 		if (total > pos)

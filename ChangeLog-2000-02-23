@@ -1,3 +1,27 @@
+1999-11-01  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/item-bar.c (item_bar_draw): Optimize.
+	(is_pointer_on_division): Bug fix for boundary condition. 
+	(get_col_from_pos): ditto.
+
+1999-10-30  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print-preview.c (preview_canvas_event): Reversed the delta
+	computation, to make the scrolling follow what federico
+	suggested. 
+
+	* src/workbook-format-toolbar.c: Change the money format to
+	include decimals.
+
+1999-10-29  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/xml-io.c (xml_init): Rename.
+
+1999-10-25  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/complex.h (GNUMERIC_COMPLEX_PROTO): Fix from Tom Mooney to
+	get the compile settings done correctly.
+
 1999-11-01  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/workbook-format-toolbar.c (modify_cell_format): fix
@@ -111,7 +135,7 @@
 
 	* src/ranges.c (range_contains): kill.
 
-	* src/sheet.h (range_contains): Add ( performance critical ).
+	* src/sheet.h (range_contains): Add (performance critical).
 
 	* src/dialogs/dialog-cell-format.c (create_background_radio): Add pattern
 	reading. (create_coloring_page): update pattern bits.

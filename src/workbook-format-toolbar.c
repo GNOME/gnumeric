@@ -31,7 +31,7 @@
 #include "pixmaps/font.xpm"
 #include "pixmaps/bucket.xpm"
 
-static const char *money_format   = "Default Money Format:$#,##0_);($#,##0)";
+static const char *money_format   = "Default Money Format:$#,##0.00_);($#,##0.00)";
 static const char *percent_format = "Default Percent Format:0.00%";
 
 static void

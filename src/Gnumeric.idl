@@ -275,10 +275,11 @@ module GNOME {
 
 		interface Vector : GNOME::Unknown {
 			exception OutOfRange {};
+			exception Failed {};
 
 			boolean     only_numbers ();
-			DoubleVec   get_numbers    (in short low, in short high);
-			VecValueVec get_vec_values (in short low, in short high);
+			DoubleVec   get_numbers    (in short low, in short high) raises (OutOfRange);
+			VecValueVec get_vec_values (in short low, in short high) raises (OutOfRange);
 
 			/**
 			 * set:
@@ -289,7 +290,8 @@ module GNOME {
 			 */
 			void set (in short pos, in double val);
 
-			void set_notify (in VectorNotify vector_notify);
+			void set_notify (in VectorNotify vector_notify) 
+				raises (OutOfRange, Failed);
 
 			/**
 			 * count:

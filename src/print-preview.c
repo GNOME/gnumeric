@@ -205,8 +205,8 @@ preview_canvas_event (GnomeCanvas *canvas, GdkEvent *event, PrintPreview *pp)
 					    event->motion.x, event->motion.y,
 					    &ex, &ey);
 			
-			dx = ex - pp->base_x;
-			dy = ey - pp->base_y;
+			dx = pp->base_x - ex;
+			dy = pp->base_y - ey;
 			gtk_adjustment_set_value (
 				va,
 				CLAMP (va->value + dy, va->lower, va->upper - va->page_size));

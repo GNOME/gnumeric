@@ -2280,7 +2280,7 @@ gnumeric_xml_write_workbook (Workbook *wb, const char *filename)
 void
 xml_init (void)
 {
-	char *desc = _("Old Gnumeric XML file format");
+	char *desc = _("Gnumeric XML file format");
 	
 	file_format_register_open (50, desc, xml_probe, gnumeric_xml_read_workbook);
 	file_format_register_save (".gnumeric", desc, gnumeric_xml_write_workbook);
