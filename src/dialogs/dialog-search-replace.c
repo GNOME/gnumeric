@@ -169,18 +169,6 @@ dialog_destroy (GtkWidget *widget, DialogState *dd)
 	g_free (dd);
 }
 
-
-static void
-set_focus (GtkWidget *widget, GtkWidget *focus_widget, DialogState *dd)
-{
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget))
-		wbcg_set_entry (dd->wbcg,
-				    GNUMERIC_EXPR_ENTRY (focus_widget));
-	else
-		wbcg_set_entry (dd->wbcg, NULL);
-
-}
-
 static gboolean
 range_focused (GtkWidget *widget, GdkEventFocus   *event, DialogState *dd)
 {
@@ -263,9 +251,6 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	g_signal_connect (G_OBJECT (dialog),
 		"destroy",
 		G_CALLBACK (dialog_destroy), dd);
-	g_signal_connect (GTK_OBJECT (dialog),
-		"set-focus",
-		G_CALLBACK (set_focus), dd);
 	g_signal_connect (GTK_OBJECT (dd->rangetext),
 		"focus-in-event",
 		G_CALLBACK (range_focused), dd);

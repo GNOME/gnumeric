@@ -79,19 +79,6 @@ enum {
 	NUM_COLMNS
 };
 
-static void
-dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-		  SortFlowState *state)
-{
-	if (focus_widget != NULL && IS_GNUMERIC_EXPR_ENTRY (focus_widget->parent)) {
-		wbcg_set_entry (state->wbcg,
-				GNUMERIC_EXPR_ENTRY (focus_widget->parent));
-	} else {
-		wbcg_set_entry (state->wbcg, NULL);
-	}
-}
-
-
 static gchar *
 col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 {
@@ -818,9 +805,6 @@ dialog_init (SortFlowState *state)
 
 /* Finish dialog signals */
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
-		G_CALLBACK (dialog_set_focus), state);
 	g_signal_connect (GTK_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (dialog_destroy), state);

@@ -465,18 +465,6 @@ cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
 	return FALSE;
 }
 
-static void
-cb_name_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-			NameGuruState *state)
-{
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
-		wbcg_set_entry (state->wbcg,
-				GNUMERIC_EXPR_ENTRY (focus_widget));
-		gnm_expr_entry_set_absolute (state->expr_entry);
-	} else
-		wbcg_set_entry (state->wbcg, NULL);
-}
-
 static gboolean
 name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 {
@@ -503,6 +491,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
+	gnm_expr_entry_set_absolute (state->expr_entry);
 	gtk_widget_show (GTK_WIDGET (state->expr_entry));
 	state->sheet_scope = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "sheet_scope"));
 	state->wb_scope = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "workbook_scope"));
@@ -527,9 +516,6 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (state->list),
 		"selection_changed",
 		G_CALLBACK (cb_name_guru_select_name), state);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
-		G_CALLBACK (cb_name_guru_set_focus), state);
 	g_signal_connect (G_OBJECT (state->name),
 		"changed",
 		G_CALLBACK (cb_name_guru_update_sensitivity), state);

@@ -490,25 +490,6 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 }
 
 /**
- * dialog_set_focus:
- * @window:
- * @focus_widget:
- * @state:
- *
- **/
-static void
-dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-			GoalSeekState *state)
-{
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
-		wbcg_set_entry (state->wbcg,
-				GNUMERIC_EXPR_ENTRY (focus_widget));
-		gnm_expr_entry_set_absolute (GNUMERIC_EXPR_ENTRY (focus_widget));
-	} else
-		wbcg_set_entry (state->wbcg, NULL);
-}
-
-/**
  * dialog_realized:
  * @widget
  * @state:
@@ -576,7 +557,8 @@ dialog_init (GoalSeekState *state)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "goal-table"));
 	state->set_cell_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->set_cell_entry,
-		GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL,
+		GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL | 
+				  GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL,
 		GNUM_EE_MASK);
         gnm_expr_entry_set_scg (state->set_cell_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->set_cell_entry),
@@ -602,9 +584,6 @@ dialog_init (GoalSeekState *state)
 
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
-		G_CALLBACK (dialog_set_focus), state);
 	g_signal_connect (G_OBJECT (state->dialog),
 		"realize",
 		G_CALLBACK (dialog_realized), state);

@@ -385,27 +385,6 @@ cb_dialog_set_rhs_sensitivity (GtkWidget *dummy, SolverState *state)
 	}
 }
 
-
-
-/**
- * dialog_set_focus:
- * @window:
- * @focus_widget:
- * @state:
- *
- **/
-static void
-dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-			SolverState *state)
-{
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
-		wbcg_set_entry (state->wbcg,
-				    GNUMERIC_EXPR_ENTRY (focus_widget));
-		gnm_expr_entry_set_absolute (GNUMERIC_EXPR_ENTRY (focus_widget));
-	} else
-		wbcg_set_entry (state->wbcg, NULL);
-}
-
 /**
  * free_original_values:
  * @ov:
@@ -1004,10 +983,6 @@ dialog_init (SolverState *state)
 
 /* dialog */
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-
-	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
-		G_CALLBACK (dialog_set_focus), state);
 
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",

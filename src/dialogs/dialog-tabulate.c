@@ -287,16 +287,6 @@ non_model_dialog (WorkbookControlGUI *wbcg,
 }
 
 static void
-set_focus (GtkWidget *widget, GtkWidget *focus_widget, DialogState *dd)
-{
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget))
-		wbcg_set_entry (dd->wbcg,
-				    GNUMERIC_EXPR_ENTRY (focus_widget));
-	else
-		wbcg_set_entry (dd->wbcg, NULL);
-}
-
-static void
 focus_on_entry (GtkWidget *entry)
 {
 	gtk_widget_grab_focus (entry);
@@ -558,9 +548,6 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	g_signal_connect (G_OBJECT (dialog),
 		"destroy",
 		G_CALLBACK (dialog_destroy), dd);
-	g_signal_connect (G_OBJECT (dialog),
-		"set-focus",
-		G_CALLBACK (set_focus), dd);
 
 	gtk_widget_show_all (dialog->vbox);
 	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));

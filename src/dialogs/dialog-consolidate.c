@@ -200,23 +200,6 @@ cb_dialog_destroy (GtkObject *object, ConsolidateState *state)
 }
 
 static void
-cb_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-		     ConsolidateState *state)
-{
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
-		GnumericExprEntryFlags flags;
-
-		wbcg_set_entry (state->wbcg,
-				GNUMERIC_EXPR_ENTRY (focus_widget));
-
-		flags = GNUM_EE_SINGLE_RANGE;
-		gnm_expr_entry_set_flags (state->gui.destination, flags, flags);
-		gnm_expr_entry_set_flags (state->gui.source, flags, flags);
-	} else
-		wbcg_set_entry (state->wbcg, NULL);
-}
-
-static void
 cb_dialog_clicked (GtkWidget *widget, ConsolidateState *state)
 {
 	if (widget == GTK_WIDGET (state->gui.btn_ok)) {
@@ -372,6 +355,8 @@ connect_signal_btn_clicked (ConsolidateState *state, GtkButton *button)
 static void
 setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 {
+	GnumericExprEntryFlags flags;
+	
 	state->gui.dialog      = GTK_DIALOG        (glade_xml_get_widget (glade_gui, "dialog"));
 
 	state->gui.function    = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "function"));
@@ -406,14 +391,15 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 	gnm_expr_entry_set_scg (state->gui.destination, wbcg_cur_scg (state->wbcg));
 	gnm_expr_entry_set_scg (state->gui.source, wbcg_cur_scg (state->wbcg));
 
+	flags = GNUM_EE_SINGLE_RANGE;
+	gnm_expr_entry_set_flags (state->gui.destination, flags, flags);
+	gnm_expr_entry_set_flags (state->gui.source, flags, flags);
+
 	gnumeric_editable_enters (GTK_WINDOW (state->gui.dialog),
 				  GTK_WIDGET (state->gui.destination));
  	gnumeric_editable_enters (GTK_WINDOW (state->gui.dialog),
 				  GTK_WIDGET (state->gui.source));
 
-	g_signal_connect (G_OBJECT (state->gui.dialog),
-		"set-focus",
-		G_CALLBACK (cb_dialog_set_focus), state);
 	g_signal_connect (G_OBJECT (state->gui.dialog),
 		"destroy",
 		G_CALLBACK (cb_dialog_destroy), state);

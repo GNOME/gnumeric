@@ -2167,6 +2167,8 @@ static void
 fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 				       char const *name, int i)
 {
+	GnumericExprEntryFlags flags = GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL;
+
 	entry->name  = GTK_LABEL (glade_xml_get_widget (state->gui, name));
 	entry->entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gtk_table_attach (state->validation.criteria_table,
@@ -2179,6 +2181,7 @@ fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 	gnm_expr_entry_set_scg (entry->entry, wbcg_cur_scg (state->wbcg));
 	g_signal_connect (GTK_OBJECT (entry->entry), "changed",
 		G_CALLBACK (cb_validation_changed), state);
+	gnm_expr_entry_set_flags (entry->entry, flags, flags | GNUM_EE_SINGLE_RANGE);
 }
 
 static void
@@ -2367,20 +2370,6 @@ cb_fmt_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 {
 	if (state->validation.changed)
 		validation_rebuild_validation (state);
-
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
-		GnumericExprEntryFlags flags;
-
-		wbcg_set_entry (state->wbcg,
-				GNUMERIC_EXPR_ENTRY (focus_widget));
-
-		flags = GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL;
-		gnm_expr_entry_set_flags (state->validation.expr0.entry,
-			flags, flags | GNUM_EE_SINGLE_RANGE);
-		gnm_expr_entry_set_flags (state->validation.expr1.entry,
-			flags, flags | GNUM_EE_SINGLE_RANGE);
-	} else
-		wbcg_set_entry (state->wbcg, NULL);
 }
 
 /* Set initial focus */
@@ -2661,9 +2650,6 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		"clicked",
 		G_CALLBACK (cb_fmt_dialog_dialog_buttons), state);
 
-	g_signal_connect (G_OBJECT (dialog),
-		"set-focus",
-		G_CALLBACK (cb_fmt_dialog_set_focus), state);
 	set_initial_focus (state);
 	gtk_notebook_set_scrollable (state->notebook, TRUE);
 
@@ -2685,6 +2671,10 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		"destroy",
 		G_CALLBACK (cb_fmt_dialog_dialog_destroy), state);
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+	g_signal_connect (G_OBJECT (dialog),
+		"set-focus",
+		G_CALLBACK (cb_fmt_dialog_set_focus), state);
+
 	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 }

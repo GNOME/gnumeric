@@ -646,19 +646,17 @@ static void
 cb_scrollbar_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 			ScrollbarConfigState *state)
 {
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
-		GnumericExprEntry *ee = GNUMERIC_EXPR_ENTRY (focus_widget);
-		wbcg_set_entry (state->wbcg, ee);
-	} else
-		wbcg_set_entry (state->wbcg, NULL);
+	/* Note:  have of the set-focus action is handle by the default */
+	/*        callback installed by wbcg_edit_attach_guru           */
 
 	/* Force an update of the content in case it
 	 * needs tweaking (eg make it absolute)
 	 */
-	if (IS_GNUMERIC_EXPR_ENTRY (state->old_focus)) {
+	if (state->old_focus != NULL && 
+	    IS_GNUMERIC_EXPR_ENTRY (state->old_focus->parent)) {
 		ParsePos  pp;
 		ExprTree *expr = gnm_expr_entry_parse (
-			GNUMERIC_EXPR_ENTRY (state->old_focus),
+			GNUMERIC_EXPR_ENTRY (state->old_focus->parent),
 			parse_pos_init (&pp, NULL, state->sheet, 0, 0),
 			NULL, FALSE);
 		if (expr != NULL)
@@ -760,9 +758,6 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControlGUI *scg)
 	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
 
 	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
-		G_CALLBACK (cb_scrollbar_set_focus), state);
-	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (cb_scrollbar_config_destroy), state);
 	g_signal_connect (G_OBJECT (state->dialog),
@@ -773,6 +768,12 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControlGUI *scg)
 			       SHEET_OBJECT_CONFIG_KEY);
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	/* Note:  have of the set-focus action is handle by the default */
+	/*        callback installed by wbcg_edit_attach_guru           */
+	g_signal_connect (G_OBJECT (state->dialog),
+		"set-focus",
+		G_CALLBACK (cb_scrollbar_set_focus), state);
+
 	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
 	gtk_window_set_focus (GTK_WINDOW (state->dialog),
 			      GTK_WIDGET (state->expression));
@@ -1089,19 +1090,17 @@ static void
 cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 		       CheckboxConfigState *state)
 {
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
-		GnumericExprEntry *ee = GNUMERIC_EXPR_ENTRY (focus_widget);
-		wbcg_set_entry (state->wbcg, ee);
-	} else
-		wbcg_set_entry (state->wbcg, NULL);
+	/* Note:  have of the set-focus action is handle by the default */
+	/*        callback installed by wbcg_edit_attach_guru           */
 
 	/* Force an update of the content in case it
 	 * needs tweaking (eg make it absolute)
 	 */
-	if (IS_GNUMERIC_EXPR_ENTRY (state->old_focus)) {
+	if (state->old_focus != NULL && 
+	    IS_GNUMERIC_EXPR_ENTRY (state->old_focus->parent)) {
 		ParsePos  pp;
 		ExprTree *expr = gnm_expr_entry_parse (
-			GNUMERIC_EXPR_ENTRY (state->old_focus),
+			GNUMERIC_EXPR_ENTRY (state->old_focus->parent),
 			parse_pos_init (&pp, NULL, state->sheet, 0, 0),
 			NULL, FALSE);
 		if (expr != NULL)
@@ -1217,9 +1216,6 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 		"changed",
 		G_CALLBACK (cb_checkbox_label_changed), state);
 	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
-		G_CALLBACK (cb_checkbox_set_focus), state);
-	g_signal_connect (G_OBJECT (state->dialog),
 		"clicked",
 		G_CALLBACK (cb_checkbox_config_clicked), state);
 
@@ -1228,7 +1224,14 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 		G_CALLBACK (cb_checkbox_config_destroy), state);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
+
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	/* Note:  have of the set-focus action is handle by the default */
+	/*        callback installed by wbcg_edit_attach_guru           */
+	g_signal_connect (G_OBJECT (state->dialog),
+		"set-focus",
+		G_CALLBACK (cb_checkbox_set_focus), state);
+
 	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
 	gtk_window_set_focus (GTK_WINDOW (state->dialog),
 			      GTK_WIDGET (state->expression));

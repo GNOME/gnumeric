@@ -1,3 +1,11 @@
+2002-02-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/sheet-object-widget.c (cb_scrollbar_set_focus) : remove code
+	  now handeld in wbcg_edit_attach_guru
+	(cb_checkbox_set_focus) : ditto
+	(sheet_widget_scrollbar_user_config) : rearrange signal callbacks
+	(sheet_widget_checkbox_user_config) : ditto
+	
 2002-02-25  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (random_01): Reduce the number of system calls

@@ -1588,17 +1588,6 @@ cb_do_print_ok (GtkWidget *w, PrinterSetupState *state)
 }
 
 static void
-cb_do_print_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-		       PrinterSetupState *state)
-{
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget))
-		wbcg_set_entry (state->wbcg,
-				    GNUMERIC_EXPR_ENTRY (focus_widget));
-	else
-		wbcg_set_entry (state->wbcg, NULL);
-}
-
-static void
 cb_do_print_destroy (GtkWidget *button, PrinterSetupState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
@@ -1646,9 +1635,6 @@ do_setup_main_dialog (PrinterSetupState *state)
 	gtk_widget_hide (w);
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
-		G_CALLBACK (cb_do_print_set_focus), state);
 
 	/* Lifecyle management */
 	g_signal_connect (G_OBJECT (state->dialog),
