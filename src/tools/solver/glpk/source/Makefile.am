@@ -38,6 +38,3 @@ libglpk_a_SOURCES =					\
 	glpspx1.c				\
 	glpspx2.c				\
 	glpstr.c				
-	
-	
-	
