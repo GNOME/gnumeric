@@ -10,15 +10,11 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include "gnumeric.h"
-#include "gnumeric-util.h"
-#include "func-util.h"
-#include "gnumeric-sheet.h"
-#include "dialogs.h"
-#include "workbook.h"
-#include "workbook-control.h"
-#include "func.h"
+#include "sheet.h"
 #include "cell.h"
 #include "ranges.h"
+#include "func-util.h"
+#include "gnumeric-util.h"
 #include "analysis-tools.h"
 
 #define OK               0

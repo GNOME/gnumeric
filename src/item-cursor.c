@@ -25,7 +25,7 @@
 #include "ranges.h"
 #include <gal/widgets/e-cursors.h>
 
-static GnomeCanvasItem *item_cursor_parent_class;
+#define ITEM_CURSOR_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_cursor_get_type (), ItemCursorClass))
 
 #define AUTO_HANDLE_SPACE	4
 #define CLIP_SAFETY_MARGIN      (AUTO_HANDLE_SPACE + 5)
@@ -34,7 +34,48 @@ static GnomeCanvasItem *item_cursor_parent_class;
 	 ((item->auto_fill_handle_at_top && ((y) < (item)->canvas_item.y1 + 6)) || \
 	  ((y) > (item)->canvas_item.y2 - 6)))
 
-/* The argument we take */
+struct _ItemCursor {
+	GnomeCanvasItem canvas_item;
+
+	SheetControlGUI *scg;
+	Range     	 pos;
+
+	/* Offset of dragging cell from top left of pos */
+	int col_delta, row_delta;
+
+	/* Tip for movement */
+	GtkWidget        *tip;
+
+	ItemCursorStyle style;
+	GdkGC    *gc;
+	int      state;
+	int      animation_timer;
+
+	/*
+	 * For the autofill mode:
+	 *     Where the action started (base_x, base_y) and the
+	 *     width and heigth of the selection when the autofill
+	 *     started.
+	 */
+	CellPos	 base;
+	int      base_x, base_y;
+	int      base_cols, base_rows;
+
+	/* Cached values of the last bounding box information used */
+	int      cached_x, cached_y, cached_w, cached_h;
+
+	int      visible:1;
+	int      use_color:1;
+	/* Location of auto fill handle */
+	int      auto_fill_handle_at_top:1;
+	int	 drag_button;
+
+	GdkPixmap *stipple;
+	GdkColor  color;
+};
+
+static GnomeCanvasItem *item_cursor_parent_class;
+
 enum {
 	ARG_0,
 	ARG_SHEET_CONTROL_GUI,	/* The SheetControlGUI * argument */
@@ -437,46 +478,15 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 }
 
 gboolean
-item_cursor_set_bounds (ItemCursor *ic,
-			int base_col, int base_row,
-			int move_col, int move_row)
+item_cursor_set_bounds (ItemCursor *ic, Range const *new_bound)
 {
-	Range	r;
-
 	g_return_val_if_fail (IS_ITEM_CURSOR (ic), FALSE);
+	g_return_val_if_fail (range_is_sane (new_bound), FALSE);
 
-	/* Nothing changed */
-	if (ic->base_corner.col == base_col &&
-	    ic->base_corner.row == base_row &&
-	    ic->move_corner.col == move_col &&
-	    ic->move_corner.row == move_row)
+	if (range_equal (&ic->pos, new_bound))
 		return FALSE;
 
-	if (base_col <= move_col) {
-		r.start.col = base_col;
-		r.end.col = move_col;
-	} else {
-		r.end.col = base_col;
-		r.start.col = move_col;
-	}
-	if (base_row <= move_row) {
-		r.start.row = base_row;
-		r.end.row = move_row;
-	} else {
-		r.end.row = base_row;
-		r.start.row = move_row;
-	}
-
-	g_return_val_if_fail (r.start.col >= 0, FALSE);
-	g_return_val_if_fail (r.start.row >= 0, FALSE);
-	g_return_val_if_fail (r.end.col < SHEET_MAX_COLS, FALSE);
-	g_return_val_if_fail (r.end.row < SHEET_MAX_ROWS, FALSE);
-
-	ic->pos = r;
-	ic->base_corner.col = base_col;
-	ic->base_corner.row = base_row;
-	ic->move_corner.col = move_col;
-	ic->move_corner.row = move_row;
+	ic->pos = *new_bound;
 
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ic));
 
@@ -652,9 +662,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			ITEM_CURSOR (new_item)->row_delta = d_row;
 		}
 
-		if (item_cursor_set_bounds (ITEM_CURSOR (new_item),
-					    ic->base_corner.col, ic->base_corner.row,
-					    ic->move_corner.col, ic->move_corner.row))
+		if (item_cursor_set_bounds (ITEM_CURSOR (new_item), &ic->pos))
 			gnome_canvas_update_now (canvas);
 
 		gnome_canvas_item_grab (
@@ -966,11 +974,12 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 static void
 item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
 				int visible_col,int visible_row,
-				int start_col,	int start_row,
-				int end_col,	int end_row)
+				CellPos const *corner,
+				int end_col, int end_row)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
 	GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
+	Range r;
 
 	/*
 	 * FIXME FIXME FIXME
@@ -980,7 +989,8 @@ item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
 	 * We are forced to make the region visible before we move the cursor.
 	 */
 	gnumeric_sheet_make_cell_visible (gsheet, visible_col, visible_row, FALSE);
-	if (item_cursor_set_bounds (item_cursor, start_col, start_row, end_col, end_row))
+	range_init (&r, corner->col, corner->row, end_col, end_row);
+	if (item_cursor_set_bounds (item_cursor, &r))
 		gnome_canvas_update_now (GNOME_CANVAS (gsheet));
 }
 
@@ -1038,18 +1048,19 @@ cb_move_cursor (SheetControlGUI *scg, int col, int row, gpointer user_data)
 	ItemCursor *item_cursor = user_data;
 	int const w = (item_cursor->pos.end.col - item_cursor->pos.start.col);
 	int const h = (item_cursor->pos.end.row - item_cursor->pos.start.row);
-	int corner_left = col - item_cursor->col_delta;
-	int corner_top = row - item_cursor->row_delta;
+	CellPos corner;
+	
+	corner.col = col - item_cursor->col_delta;
+	if (corner.col < 0)
+		corner.col = 0;
+	else if (corner.col >= (SHEET_MAX_COLS - w))
+		corner.col = SHEET_MAX_COLS - w - 1;
 
-	if (corner_left < 0)
-		corner_left = 0;
-	else if (corner_left >= (SHEET_MAX_COLS - w))
-		corner_left = SHEET_MAX_COLS - w - 1;
-
-	if (corner_top < 0)
-		corner_top = 0;
-	else if (corner_top >= (SHEET_MAX_ROWS - h))
-		corner_top = SHEET_MAX_ROWS - h - 1;
+	corner.row = row - item_cursor->row_delta;
+	if (corner.row < 0)
+		corner.row = 0;
+	else if (corner.row >= (SHEET_MAX_ROWS - h))
+		corner.row = SHEET_MAX_ROWS - h - 1;
 
 #if 0
 	/*
@@ -1060,9 +1071,8 @@ cb_move_cursor (SheetControlGUI *scg, int col, int row, gpointer user_data)
 #endif
 
 	/* Make target cell visible, and adjust the cursor size */
-	item_cursor_set_bounds_visibly (item_cursor, col, row,
-					corner_left, corner_top,
-					corner_left + w, corner_top + h);
+	item_cursor_set_bounds_visibly (item_cursor, col, row, &corner,
+					corner.row + w, corner.row + h);
 	return FALSE;
 }
 
@@ -1166,9 +1176,7 @@ cb_autofill_scroll (SheetControlGUI *scg, int col, int row, gpointer user_data)
 		col = item_cursor->base.col;
 
 	item_cursor_set_bounds_visibly (item_cursor, col, row,
-					item_cursor->base.col,
-					item_cursor->base.row,
-					right, bottom);
+					&item_cursor->base, right, bottom);
 	return FALSE;
 }
 
@@ -1314,6 +1322,10 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	}
 	}
 }
+
+typedef struct {
+	GnomeCanvasItemClass parent_class;
+} ItemCursorClass;
 
 /*
  * ItemCursor class initialization

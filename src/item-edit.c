@@ -117,11 +117,11 @@ point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 }
 
 static void
-entry_create_feedback_range (ItemEdit *item_edit, Range *range)
+entry_create_feedback_range (ItemEdit *item_edit, Range *r)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_edit);
 
-	if (!item_edit->feedback_cursor){
+	if (!item_edit->feedback_cursor)
 		item_edit->feedback_cursor = gnome_canvas_item_new (
 			GNOME_CANVAS_GROUP (item->canvas->root),
 			item_cursor_get_type (),
@@ -129,12 +129,8 @@ entry_create_feedback_range (ItemEdit *item_edit, Range *range)
 			"Style",  ITEM_CURSOR_BLOCK,
 			"Color",  "red",
 			NULL);
-	}
 
-	item_cursor_set_bounds (
-		ITEM_CURSOR (item_edit->feedback_cursor),
-		range->start.col, range->start.row,
-		range->end.col, range->end.row);
+	item_cursor_set_bounds (ITEM_CURSOR (item_edit->feedback_cursor), r);
 }
 
 static void

@@ -51,7 +51,7 @@ void gnumeric_expr_entry_set_rangesel_from_text (GnumericExprEntry *expr_entry,
 
 gboolean
 gnumeric_expr_entry_set_rangesel_from_range (GnumericExprEntry *expr_entry,
-					     Range *r, Sheet *sheet, int pos);
+					     Range const *r, Sheet *sheet, int pos);
 
 void gnumeric_expr_entry_get_rangesel (GnumericExprEntry *expr_entry,
 				       Range *r, Sheet **sheet);

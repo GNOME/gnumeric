@@ -8,6 +8,8 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    - col/row resize when zoomed 
+
     - Performance regression: navigating and (say) selecting an area in,
       for example, statfuns.xls takes an embarrassingly long time.
 

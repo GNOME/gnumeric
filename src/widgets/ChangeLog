@@ -1,3 +1,9 @@
+2001-05-08  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumeric-expr-entry.c (make_rangesel_text) : constness.
+	(gnumeric_expr_entry_set_rangesel_from_range) : ditto.
+	(make_display_range) : ditto.
+
 2001-05-06  Jon K Hellan  <hellan@acm.org>
 
 	* gnumeric-expr-entry.c (range_really_changed): Remove.

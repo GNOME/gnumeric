@@ -76,7 +76,7 @@ string_from_exception ()
 
 		if (!svalue)
 			goto cleanup;
-		if (pos + 3 < sizeof buf)
+		if (pos + 3 < (int)sizeof(buf))
 			snprintf (buf + pos , sizeof buf - pos , ": %s",
 				  PyString_AsString (svalue));
 	}

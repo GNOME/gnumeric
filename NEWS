@@ -24,10 +24,15 @@ Jody:
 	* Support fractions.
 	* Fix printing of borders.
 	* Improve checking for array/merged region division.
+	* Prep for frozen panes.
 
 Jon Kåre:
 	* New architecture for selecting cell ranges into dialogs.
 	* Fix dialog placement.
+
+Juan Pablo Mendoza:
+	* Improve col and row sizing when cloning a cell.
+	* Catch many bugs with merged regions.
 
 Morten:
 	* Changed a large number of dirty diapers.

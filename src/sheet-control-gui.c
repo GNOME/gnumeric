@@ -1,3 +1,4 @@
+/* vim: set sw=8: */
 /*
  * sheet-control-gui.c: Implements a graphic control for a sheet.
  *
@@ -396,8 +397,7 @@ static void
 scg_select_all (SheetControlGUI *scg)
 {
 	Sheet *sheet = scg->sheet;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	gboolean const rangesel = gnumeric_sheet_can_select_expr_range (gsheet);
+	gboolean const rangesel = scg_rangesel_possible (scg);
 
 	if (!rangesel) {
 		if (!workbook_edit_has_guru (scg->wbcg)) {
@@ -405,8 +405,8 @@ scg_select_all (SheetControlGUI *scg)
 			cmd_select_all (scg->sheet);
 		}
 	} else {
-		if (!gsheet->selecting_cell)
-			gnumeric_sheet_start_range_selection (gsheet, 0, 0);
+		if (!scg->rangesel.active)
+			scg_rangesel_start (scg, 0, 0);
 		scg_rangesel_cursor_bounds (
 			scg, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 		sheet_update (sheet);
@@ -419,13 +419,13 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 {
 	Sheet *sheet = scg->sheet;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	gboolean const rangesel = gnumeric_sheet_can_select_expr_range (gsheet);
+	gboolean const rangesel = scg_rangesel_possible (scg);
 
 	if (!rangesel)
 		workbook_finish_editing (scg->wbcg, FALSE);
 
-	if (rangesel && !gsheet->selecting_cell)
-		gnumeric_sheet_start_range_selection (gsheet, index, index);
+	if (rangesel && !scg->rangesel.active)
+		scg_rangesel_start (scg, index, index);
 
 	if (modifiers & GDK_SHIFT_MASK) {
 		if (is_cols) {
@@ -655,7 +655,7 @@ scg_destroy (GtkObject *object)
 
 	if (scg->wbcg) {
 		GtkWindow *toplevel = wb_control_gui_toplevel (scg->wbcg);
-		
+
 		if (toplevel && (toplevel->focus_widget == scg->canvas))
 			gtk_window_set_focus (toplevel, NULL);
 	}
@@ -717,10 +717,7 @@ scg_ant (SheetControlGUI *scg)
 			"SheetControlGUI", scg,
 			"Style", ITEM_CURSOR_ANTED,
 			NULL));
-		item_cursor_set_bounds (
-			item_cursor,
-			ss->start.col, ss->start.row,
-			ss->end.col, ss->end.row);
+		item_cursor_set_bounds (item_cursor, ss);
 
 		scg->anted_cursors = g_list_prepend (scg->anted_cursors, item_cursor);
 	}
@@ -1104,7 +1101,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		if (r->start.col == 0 && r->end.col == SHEET_MAX_COLS - 1)
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_COLS;
 	}
-		
+
 	gnumeric_create_popup_menu (popup_elements, &context_menu_hander,
 				    scg, display_filter,
 				    sensitivity_filter, event);
@@ -1560,7 +1557,7 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 {
 	double l, t, r ,b;
 	GtkObject *so_view_obj;
-	
+
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	if (so == NULL)
@@ -1606,7 +1603,7 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 }
 
 static int
-calc_obj_place (GnumericSheet *gsheet, int pixel, gboolean is_col, 
+calc_obj_place (GnumericSheet *gsheet, int pixel, gboolean is_col,
 		SheetObjectAnchor anchor_type, float *offset)
 {
 	int origin;
@@ -1898,7 +1895,7 @@ scg_comment_select (SheetControlGUI *scg, CellComment *cc)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 	g_return_if_fail (scg->comment.timer == -1);
-	
+
 	if (scg->comment.selected != NULL)
 		scg_comment_unselect (scg, scg->comment.selected);
 
@@ -1992,12 +1989,26 @@ scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 /*************************************************************************/
 
 void
-scg_set_cursor_bounds (SheetControlGUI *scg,
-		       int start_col, int start_row, int end_col, int end_row)
+scg_cursor_bound (SheetControlGUI *scg,
+		  CellPos const *base, CellPos const *move)
 {
-	gnumeric_sheet_set_cursor_bounds (GNUMERIC_SHEET (scg->canvas),
-					  start_col, start_row,
-					  end_col, end_row);
+	Range r;
+
+	if (base->col < move->col) {
+		r.start.col =  base->col;
+		r.end.col =  move->col;
+	} else {
+		r.end.col =  base->col;
+		r.start.col =  move->col;
+	}
+	if (base->row < move->row) {
+		r.start.row =  base->row;
+		r.end.row =  move->row;
+	} else {
+		r.end.row =  base->row;
+		r.start.row =  move->row;
+	}
+	gnumeric_sheet_cursor_bound (GNUMERIC_SHEET (scg->canvas), &r);
 }
 
 void
@@ -2024,63 +2035,113 @@ scg_create_editor (SheetControlGUI *scg)
 void
 scg_stop_editing (SheetControlGUI *scg)
 {
-	scg_stop_range_selection (scg, FALSE);
+	scg_rangesel_stop (scg, FALSE);
 	gnumeric_sheet_stop_editing (GNUMERIC_SHEET (scg->canvas));
 }
 
-/*
- * scg_range_selection_changed
+/**
+ * scg_rangesel_possible
+ * @scg : the sheet control gui
+ *
+ * Returns true if the cursor keys should be used to select
+ * a cell range (if the cursor is in a spot in the expression
+ * where it makes sense to have a cell reference), false if not.
+ */
+gboolean
+scg_rangesel_possible (SheetControlGUI const *scg)
+{
+	WorkbookControlGUI const *wbcg;
+
+	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), FALSE);
+
+	wbcg = scg->wbcg;
+	if (workbook_edit_entry_redirect_p (wbcg))
+		return TRUE;
+
+	if (!wbcg->editing)
+		return FALSE;
+
+	if (scg->rangesel.active)
+		return TRUE;
+
+	return workbook_editing_expr (wbcg);
+}
+
+/**
+ * scg_rangesel_changed:
  * @scg:   The scg
- * @range: The new range
  *
  * Notify expr_entry that the expression range has changed.
  */
-void
-scg_range_selection_changed  (SheetControlGUI *scg, Range *r)
+static void
+scg_rangesel_changed (SheetControlGUI *scg,
+		      int base_col, int base_row,
+		      int move_col, int move_row)
 {
 	GnumericExprEntry *expr_entry;
 	gboolean ic_changed;
+	Range *r;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-	
+
+	scg->rangesel.base_corner.col = base_col;
+	scg->rangesel.base_corner.row = base_row;
+	scg->rangesel.move_corner.col = move_col;
+	scg->rangesel.move_corner.row = move_row;
+
+	r = &scg->rangesel.displayed;
+	if (base_col < move_col) {
+		r->start.col =  base_col;
+		r->end.col =  move_col;
+	} else {
+		r->end.col =  base_col;
+		r->start.col =  move_col;
+	}
+	if (base_row < move_row) {
+		r->start.row =  base_row;
+		r->end.row =  move_row;
+	} else {
+		r->end.row =  base_row;
+		r->start.row =  move_row;
+	}
+
 	expr_entry = workbook_get_entry_logical (scg->wbcg);
 	ic_changed = gnumeric_expr_entry_set_rangesel_from_range (
-		expr_entry, r, scg->sheet, scg_get_sel_cursor_pos (scg));
-	if (ic_changed) {
-		Range newrange;
-		GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
+		expr_entry, r, scg->sheet, scg->rangesel.cursor_pos);
+	if (ic_changed)
+		gnumeric_expr_entry_get_rangesel (expr_entry, r, NULL);
 
-		gnumeric_expr_entry_get_rangesel (expr_entry, &newrange, NULL);
-		item_cursor_set_bounds (gsheet->sel_cursor,
-					newrange.start.col,
-					newrange.start.row,
-					newrange.end.col,
-					newrange.end.row);
-	}
+	gnumeric_sheet_rangesel_bound (GNUMERIC_SHEET (scg->canvas), r);
 }
 
 void
-scg_start_range_selection (SheetControlGUI *scg, int col, int row)
+scg_rangesel_start (SheetControlGUI *scg, int col, int row)
 {
 	GnumericSheet *gsheet;
-	ItemCursor *ic;
-	
+
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	gsheet = GNUMERIC_SHEET (scg->canvas);
-	gnumeric_sheet_start_range_selection (gsheet, col, row);
+	if (scg->rangesel.active)
+		return;
 
-	ic = gsheet->sel_cursor;
-	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
+	scg->rangesel.active = TRUE;
+	scg->rangesel.cursor_pos = GTK_EDITABLE (workbook_get_entry_logical (scg->wbcg))->current_pos;
+
+	gsheet = GNUMERIC_SHEET (scg->canvas);
+	gnumeric_sheet_rangesel_start (gsheet, col, row);
+	scg_rangesel_changed (scg, col, row, col, row);
 }
 
 void
-scg_stop_range_selection (SheetControlGUI *scg, gboolean clear_string)
+scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 {
-
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-		
-	gnumeric_sheet_stop_range_selection (GNUMERIC_SHEET (scg->canvas));
+
+	if (!scg->rangesel.active)
+		return;
+
+	scg->rangesel.active = FALSE;
+	gnumeric_sheet_rangesel_stop (GNUMERIC_SHEET (scg->canvas));
 	scg_stop_sliding (scg);
 	gnumeric_expr_entry_rangesel_stopped (
 		GNUMERIC_EXPR_ENTRY (workbook_get_entry_logical (scg->wbcg)),
@@ -2088,7 +2149,7 @@ scg_stop_range_selection (SheetControlGUI *scg, gboolean clear_string)
 }
 
 /*
- * scg_move_cursor:
+ * scg_cursor_move:
  * @scg:      The scg where the cursor is located
  * @col:      The new column for the cursor.
  * @row:      The new row for the cursor.
@@ -2099,7 +2160,7 @@ scg_stop_range_selection (SheetControlGUI *scg, gboolean clear_string)
  *   cursor.
  */
 void
-scg_move_cursor (SheetControlGUI *scg, int col, int row,
+scg_cursor_move (SheetControlGUI *scg, int col, int row,
 		 gboolean clear_selection)
 {
 	Sheet *sheet = scg->sheet;
@@ -2135,12 +2196,24 @@ scg_rangesel_cursor_extend (SheetControlGUI *scg, int col, int row)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
 	ItemCursor *ic;
+	int base_col, base_row;
 
-	gnumeric_sheet_rangesel_cursor_extend (
-		gsheet, col, row);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+	g_return_if_fail (scg->rangesel.active);
 
 	ic = gsheet->sel_cursor;
-	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
+	if (col < 0) {
+		base_col = 0;
+		col = SHEET_MAX_COLS - 1;
+	} else
+		base_col = scg->rangesel.base_corner.col;
+	if (row < 0) {
+		base_row = 0;
+		row = SHEET_MAX_ROWS - 1;
+	} else
+		base_row = scg->rangesel.base_corner.row;
+
+	scg_rangesel_changed (scg, base_col, base_row, col, row);
 }
 
 void
@@ -2148,146 +2221,150 @@ scg_rangesel_cursor_bounds (SheetControlGUI *scg,
 			    int base_col, int base_row,
 			    int move_col, int move_row)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	ItemCursor *ic;
+	g_return_if_fail (scg->rangesel.active);
+	scg_rangesel_changed (scg, base_col, base_row, move_col, move_row);
+}
 
-	gnumeric_sheet_rangesel_cursor_bounds (
-		gsheet, base_col, base_row, move_col, move_row);
-
-	ic = gsheet->sel_cursor;
-	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
+static void
+start_range_selection (SheetControlGUI *scg)
+{
+	Sheet const *sheet = scg->sheet;
+	scg_rangesel_start (scg,
+		sheet->edit_pos_real.col, sheet->edit_pos_real.row);
 }
 
 void
-scg_rangesel_horizontal_move (SheetControlGUI *scg, int dir,
-			      gboolean jump_to_boundaries)
+scg_rangesel_move_h (SheetControlGUI *scg, int dir, gboolean jump_to_bound)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	ItemCursor *ic;
+	GnumericSheet *gsheet;
+	int col, row;
 
-	gnumeric_sheet_rangesel_horizontal_move (gsheet, dir,
-						 jump_to_boundaries);
+	if (!scg->rangesel.active)
+		start_range_selection (scg);
 
-	ic = gsheet->sel_cursor;
-	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
+	gsheet = GNUMERIC_SHEET (scg->canvas);
+	row = scg->rangesel.base_corner.row;
+	col = sheet_find_boundary_horizontal (scg->sheet,
+		scg->rangesel.base_corner.col, row, row, dir, jump_to_bound);
+	scg_rangesel_changed (scg, col, row, col, row);
+	gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
 }
 
 void
-scg_rangesel_vertical_move (SheetControlGUI *scg, int dir,
-			    gboolean jump_to_boundaries)
+scg_rangesel_move_v (SheetControlGUI *scg, int dir, gboolean jump_to_bound)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	ItemCursor *ic;
+	GnumericSheet *gsheet;
+	int col, row;
 
-	gnumeric_sheet_rangesel_vertical_move (gsheet, dir,
-					       jump_to_boundaries);
+	if (!scg->rangesel.active)
+		start_range_selection (scg);
 
-	ic = gsheet->sel_cursor;
-	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
+	gsheet = GNUMERIC_SHEET (scg->canvas);
+	col = scg->rangesel.base_corner.col;
+	row = sheet_find_boundary_vertical (scg->sheet,
+		col, scg->rangesel.base_corner.row, col, dir, jump_to_bound);
+	scg_rangesel_changed (scg, col, row, col, row);
+	gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
 }
 
 void
-scg_rangesel_horizontal_extend (SheetControlGUI *scg, int n,
-				gboolean jump_to_boundaries)
+scg_rangesel_extend_h (SheetControlGUI *scg, int n,
+		       gboolean jump_to_bound)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	ItemCursor *ic;
-
-	gnumeric_sheet_rangesel_horizontal_extend (gsheet, n,
-						   jump_to_boundaries);
-
-	ic = gsheet->sel_cursor;
-	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
+	if (scg->rangesel.active) {
+		GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
+		int new_col = sheet_find_boundary_horizontal (gsheet->scg->sheet,
+			scg->rangesel.move_corner.col, scg->rangesel.move_corner.row,
+			scg->rangesel.base_corner.row, n, jump_to_bound);
+		scg_rangesel_changed (scg,
+			scg->rangesel.base_corner.col,	scg->rangesel.base_corner.row,
+			new_col,			scg->rangesel.move_corner.row);
+		gnumeric_sheet_make_cell_visible (gsheet,
+			scg->rangesel.move_corner.col,
+			scg->rangesel.move_corner.row, FALSE);
+	} else
+		scg_rangesel_move_h (scg, n, jump_to_bound);
 }
 
 void
-scg_rangesel_vertical_extend (SheetControlGUI *scg, int n,
-			      gboolean jump_to_boundaries)
+scg_rangesel_extend_v (SheetControlGUI *scg, int n,
+			      gboolean jump_to_bound)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	ItemCursor *ic;
-
-	gnumeric_sheet_rangesel_vertical_extend (gsheet, n,
-						 jump_to_boundaries);
-
-	ic = gsheet->sel_cursor;
-	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
+	if (scg->rangesel.active) {
+		GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
+		int new_row = sheet_find_boundary_vertical (scg->sheet,
+			scg->rangesel.move_corner.col, scg->rangesel.move_corner.row,
+			scg->rangesel.base_corner.col, n, jump_to_bound);
+		scg_rangesel_changed (scg,
+			scg->rangesel.base_corner.col, scg->rangesel.base_corner.row,
+			scg->rangesel.move_corner.col, new_row);
+		gnumeric_sheet_make_cell_visible (gsheet,
+			scg->rangesel.move_corner.col,
+			scg->rangesel.move_corner.row, FALSE);
+	} else
+		scg_rangesel_move_v (scg, n, jump_to_bound);
 }
 
 /**
- * scg_cursor_horizontal_move:
+ * scg_cursor_move_h:
  *
- * @gsheet : The scg
+ * @scg : The scg
  * @count  : Number of units to move the cursor horizontally
- * @jump_to_boundaries: skip from the start to the end of ranges
- *                       of filled or unfilled cells.
+ * @jump_to_bound: skip from the start to the end of ranges
+ *                 of filled or unfilled cells.
  *
  * Moves the cursor count columns
  */
 void
-scg_cursor_horizontal_move (SheetControlGUI *scg, int count,
-			gboolean jump_to_boundaries)
+scg_cursor_move_h (SheetControlGUI *scg, int count, gboolean jump_to_bound)
 {
 	Sheet *sheet = scg->sheet;
 	int const new_col = sheet_find_boundary_horizontal (sheet,
 		sheet->edit_pos_real.col, sheet->edit_pos_real.row,
-		sheet->edit_pos_real.row, count, jump_to_boundaries);
-	scg_move_cursor (scg, new_col, sheet->edit_pos_real.row, TRUE);
+		sheet->edit_pos_real.row, count, jump_to_bound);
+	scg_cursor_move (scg, new_col, sheet->edit_pos_real.row, TRUE);
 }
 
 void
-scg_cursor_horizontal_extend (SheetControlGUI *scg,
-			      int count, gboolean jump_to_boundaries)
+scg_cursor_extend_h (SheetControlGUI *scg,
+		     int count, gboolean jump_to_bound)
 {
-	sheet_selection_extend (scg->sheet,
-				count, jump_to_boundaries, TRUE);
+	sheet_selection_extend (scg->sheet, count, jump_to_bound, TRUE);
 }
 
 /**
- * scg_cursor_vertical_move:
+ * scg_cursor_move_v:
  *
  * @scg    : The scg
  * @count  : Number of units to move the cursor vertically
- * @jump_to_boundaries: skip from the start to the end of ranges
- *                       of filled or unfilled cells.
+ * @jump_to_bound: skip from the start to the end of ranges
+ *                 of filled or unfilled cells.
  *
  * Moves the cursor count rows
  */
 void
-scg_cursor_vertical_move (SheetControlGUI *scg, int count,
-			  gboolean jump_to_boundaries)
+scg_cursor_move_v (SheetControlGUI *scg, int count,
+		   gboolean jump_to_bound)
 {
 	Sheet *sheet = scg->sheet;
 	int const new_row = sheet_find_boundary_vertical (sheet,
 		sheet->edit_pos_real.col, sheet->edit_pos_real.row,
-		sheet->edit_pos_real.col, count, jump_to_boundaries);
-	scg_move_cursor (scg, sheet->edit_pos_real.col, new_row, TRUE);
+		sheet->edit_pos_real.col, count, jump_to_bound);
+	scg_cursor_move (scg, sheet->edit_pos_real.col, new_row, TRUE);
 }
 
 void
-scg_cursor_vertical_extend (SheetControlGUI *scg,
-			    int count, gboolean jump_to_boundaries)
+scg_cursor_extend_v (SheetControlGUI *scg,
+		     int count, gboolean jump_to_bound)
 {
-	sheet_selection_extend (scg->sheet,
-				count, jump_to_boundaries, FALSE);
-}
-
-int
-scg_get_sel_cursor_pos (SheetControlGUI *scg)
-{
-	GnumericSheet *gsheet;
-
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), 0);
-	
-	gsheet = GNUMERIC_SHEET (scg->canvas);
-	return gsheet->sel_cursor_pos;
+	sheet_selection_extend (scg->sheet, count, jump_to_bound, FALSE);
 }
 
 void
 scg_take_focus (SheetControlGUI *scg)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-	
+
 	gtk_window_set_focus (wb_control_gui_toplevel (scg->wbcg),
 			      scg->canvas);
 }

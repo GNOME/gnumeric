@@ -744,13 +744,12 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		if (!workbook_edit_has_guru (scg->wbcg))
 			scg_mode_edit (scg);
 	} else
-		wb_control_gui_focus_cur_sheet (gsheet->scg->wbcg);
+		wb_control_gui_focus_cur_sheet (scg->wbcg);
 
-	/*
-	 * If we were already selecting a range of cells for a formula,
+	/* If we were already selecting a range of cells for a formula,
 	 * reset the location to a new place, or extend the selection.
 	 */
-	if (gsheet->selecting_cell) {
+	if (scg->rangesel.active) {
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		if (event->state & GDK_SHIFT_MASK)
 			scg_rangesel_cursor_extend (scg, col, row);
@@ -764,13 +763,11 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		return 1;
 	}
 
-	/*
-	 * If the user is editing a formula
-	 * (gnumeric_sheet_can_select_expr_range) then we enable the dynamic
-	 * cell selection mode.
+	/* If the user is editing a formula (scg_rangesel_possible) then we
+	 * enable the dynamic cell selection mode.
 	 */
-	if (gnumeric_sheet_can_select_expr_range (gsheet)){
-		scg_start_range_selection (scg, col, row);
+	if (scg_rangesel_possible (scg)) {
+		scg_rangesel_start (scg, col, row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnome_canvas_item_grab (item,
 					GDK_POINTER_MOTION_MASK |
@@ -781,13 +778,13 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	}
 
 	/* While a guru is up ignore clicks */
-	if (workbook_edit_has_guru (gsheet->scg->wbcg))
+	if (workbook_edit_has_guru (scg->wbcg))
 		return 1;
 
 	/* This was a regular click on a cell on the spreadsheet.  Select it.
 	 * but only if the entered expression is valid
 	 */
-	if (workbook_finish_editing (gsheet->scg->wbcg, TRUE) == FALSE)
+	if (workbook_finish_editing (scg->wbcg, TRUE) == FALSE)
 		return 1;
 
 	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
@@ -965,7 +962,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (event->button.button == 1)
 			return item_grid_button_1 (scg, &event->button,
 						   ig, col, row, x, y);
-		if (workbook_edit_has_guru (gsheet->scg->wbcg))
+		if (workbook_edit_has_guru (scg->wbcg))
 			return TRUE;
 
 		switch (event->button.button) {

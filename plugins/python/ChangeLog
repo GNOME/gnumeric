@@ -1,3 +1,7 @@
+2001-05-08  Jody Goldberg <jgoldberg@home.com>
+
+	* python.c (string_from_exception) : suppress warning.
+
 2001-03-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.64

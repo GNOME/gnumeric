@@ -529,7 +529,6 @@ item_bar_translate (GnomeCanvasItem *item, double dx, double dy)
 static ColRowInfo *
 is_pointer_on_division (ItemBar const *item_bar, int pos, int *the_total, int *the_element)
 {
-	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->scg->canvas);
 	Sheet *sheet = item_bar->scg->sheet;
 	ColRowInfo *cri;
 	int i, total = 0;
@@ -555,11 +554,11 @@ is_pointer_on_division (ItemBar const *item_bar, int pos, int *the_total, int *t
 			total += cri->size_pixels;
 
 			/* TODO : This is more expensive than it needs to be.
-			 * We should really set a flag (in gsheet ?) and adjust
+			 * We should really set a flag (in scg ?) and adjust
 			 * it as the cursor in the entry is moved.  The current
 			 * approach recalculates the state every time.
 			 */
-			if (!gnumeric_sheet_can_select_expr_range (gsheet) &&
+			if (!scg_rangesel_possible (item_bar->scg) &&
 			    (total - 4 < pos) && (pos < total + 4)) {
 				if (the_total)
 					*the_total = total;

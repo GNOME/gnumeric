@@ -133,9 +133,9 @@ sheet_new_scg (Sheet *sheet)
 
 	scg = sheet_control_gui_new (sheet);
 
-	scg_set_cursor_bounds (SHEET_CONTROL_GUI (scg),
-		sheet->cursor.base_corner.col, sheet->cursor.base_corner.row,
-		sheet->cursor.move_corner.col, sheet->cursor.move_corner.row);
+	scg_cursor_bound (SHEET_CONTROL_GUI (scg),
+			  &sheet->cursor.base_corner,
+			  &sheet->cursor.move_corner);
 	sheet->s_controls = g_list_prepend (sheet->s_controls, scg);
 
 	return SHEET_CONTROL_GUI (scg);
@@ -2931,9 +2931,9 @@ sheet_cursor_set (Sheet *sheet,
 	sheet->cursor.move_corner.row = move_row;
 
 	SHEET_FOREACH_CONTROL(sheet, scg,
-		scg_set_cursor_bounds (scg,
-			base_col, base_row,
-			move_col, move_row););
+		scg_cursor_bound (scg,
+				  &sheet->cursor.base_corner,
+				  &sheet->cursor.move_corner););
 }
 
 void
@@ -2954,9 +2954,9 @@ sheet_cursor_set_full (Sheet *sheet,
 	sheet->cursor.move_corner.row = move_row;
 
 	SHEET_FOREACH_CONTROL(sheet, scg,
-		scg_set_cursor_bounds (scg,
-			cursor_bound->start.col, cursor_bound->start.row,
-			cursor_bound->end.col, cursor_bound->end.row););
+		scg_cursor_bound (scg,
+				  &cursor_bound->start,
+				  &cursor_bound->end););
 }
 
 void
@@ -3903,7 +3903,7 @@ sheet_stop_range_selection (Sheet *sheet, gboolean clear_string)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_stop_range_selection (control, clear_string););
+		scg_rangesel_stop (control, clear_string););
 }
 
 void
@@ -4013,6 +4013,12 @@ sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 	closure.is_column = FALSE;
 	colrow_foreach (&src->rows, 0, SHEET_MAX_ROWS-1,
 			&sheet_clone_colrow_info_item, &closure);
+
+	sheet_col_set_default_size_pixels (dst, 
+		sheet_col_get_default_size_pixels (src));
+	sheet_row_set_default_size_pixels (dst, defsize,
+		sheet_row_get_default_size_pixels (src));
+
 }
 
 static void
@@ -4182,6 +4188,13 @@ sheet_duplicate	(Sheet const *src)
 	return dst;
 }
 
+/**
+ * sheet_freeze_panes :
+ * @sheet : the sheet
+ * @pos   : Where to freeze
+ *
+ * A place holder
+ */
 void
 sheet_freeze_panes (Sheet *sheet, CellPos const *pos)
 {
@@ -4189,6 +4202,11 @@ sheet_freeze_panes (Sheet *sheet, CellPos const *pos)
 
 /**
  * sheet_adjust_outline_dir :
+ * @sheet   : the sheet
+ * @is_cols : use cols or rows
+ *
+ * When changing the placement of outline collapse markers they need
+ * to be recomputed.
  */
 void
 sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols)

@@ -207,7 +207,7 @@ gnumeric_expr_entry_set_rangesel_from_text (GnumericExprEntry *expr_entry,
 }
 
 static void
-make_display_range (Range *dst, Range *src,
+make_display_range (Range *dst, Range const *src,
 		    gboolean full_col, gboolean full_row)
 {
 	*dst = *src;
@@ -222,7 +222,7 @@ make_display_range (Range *dst, Range *src,
 }
 
 static char *
-make_rangesel_text (GnumericExprEntry *expr_entry, Range *r)
+make_rangesel_text (GnumericExprEntry *expr_entry, Range const *r)
 {
 	char *buffer;
 	gboolean inter_sheet;
@@ -307,7 +307,7 @@ update_rangesel_text (GnumericExprEntry *expr_entry, char *text, int pos)
  **/
 gboolean
 gnumeric_expr_entry_set_rangesel_from_range (GnumericExprEntry *expr_entry,
-					     Range *r, Sheet *sheet, int pos)
+					     Range const *r, Sheet *sheet, int pos)
 {
 	char *rangesel_text;
 	Rangesel *rs;
