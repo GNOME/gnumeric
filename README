@@ -22,8 +22,8 @@ You need:
 	glib	    >= 1.2.7	(glib-libs 1.3 is not supported)
 	gtk+	    >= 1.2.7	(gnome-libs 1.3 is not supported)
 	gnome-libs  >= 1.0.57	(gnome-libs 2.0 is not supported)
-	libglade    == 0.14	(DO NOT USE CVS HEAD, 29/Sep/00 it is broken)
-	gal	    >= 0.0.1
+	libglade    >= 0.14
+	gal	    >= 0.2.1.2
 	gnome-print >= 0.24	(Be careful, newer version may not compile)
 
 	gnome-xml   >= 1.8.7    (gnome-xml 2.x not supported yet)
@@ -34,7 +34,7 @@ You need:
 
 Optionally:
 	gb == 0.0.13            (Gnome Basic for macros)
-	bonobo == 0.24
+	bonobo == 0.27
 	NOTE : This is an unstable interface.  It is not part of the released
 	    GNOME 1.2 api and is subject to change.  Newer released versions of
 	    bonobo will almost certainly NOT compile with this release of

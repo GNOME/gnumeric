@@ -1032,7 +1032,7 @@ applix_read_cells (ApplixReadState *state)
 								expr, FALSE);
 					cell_assign_value (cell, val, NULL);
 				} else
-					cell_set_expr_and_value (cell, expr, val);
+					cell_set_expr_and_value (cell, expr, val, NULL);
 
 				if (!applix_get_line (state) ||
 				    strncmp (state->buffer, "Formula: ", 9)) {
@@ -1051,7 +1051,7 @@ applix_read_cells (ApplixReadState *state)
 				printf ("shared '%s'\n", expr_string);
 #endif
 				expr = g_hash_table_lookup (state->exprs, expr_string);
-				cell_set_expr_and_value (cell, expr, val);
+				cell_set_expr_and_value (cell, expr, val, NULL);
 			}
 			break;
 		}

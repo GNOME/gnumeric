@@ -7,6 +7,8 @@ Release Critical
 
 Long term breakage
 ------------------
+- clipboard : fix duality of PASTE_FORMULAS vs PASTE_VALUES, add PASTE_COMMENT
+
 - Why does the number matching bother comparing against formats that are
   covered by 'General' ?
 
@@ -119,4 +121,3 @@ Printing
 
 Widget polishing
 ----------------
-- Selection for the undo/redo combo is ugly
