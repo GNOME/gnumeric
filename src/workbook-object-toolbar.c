@@ -152,9 +152,12 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Checkbox"), N_("Creates a checkbox"),
 		&cmd_create_checkbox, "Gnumeric_Checkbutton"),
+#if 0
+	/* need to think about how to manage groups */
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("RadioButton"), N_("Creates a radio button"),
 		&cmd_create_radiobutton, "Gnumeric_Radiobutton"),
+#endif
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("List"), N_("Creates a list"),
 		&cmd_create_list, "Gnumeric_List"),

@@ -787,10 +787,12 @@
 	    _label="Checkbox"
 	    _tip="Create a checkbox" verb="CreateCheckbox"/>
 
+	<!-- think about how to handle groups
 	<toolitem name="Radiobutton"
 	    pixtype="stock" pixname="Gnumeric_Radiobutton"
 	    _label="Radio Button"
 	    _tip="Create a radio button" verb="CreateRadiobutton"/>
+	-->
 
 	<toolitem name="List"
 	    pixtype="stock" pixname="Gnumeric_List"
