@@ -1,5 +1,10 @@
 1998-07-14  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* src/item-bar.c (item_bar_realize): Set the item_bar->gc's
+	foreground color to black (it is by default initialized to pixel
+	value 0, which is not black on all default colormaps).
+	(bar_draw_cell): Center the cell's text correctly.
+
 	* src/gnumeric-sheet.c (gnumeric_sheet_create): Use
 	gnome_canvas_construct() to initialize the canvas.
 

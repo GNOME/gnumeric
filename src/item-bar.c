@@ -64,12 +64,15 @@ item_bar_realize (GnomeCanvasItem *item)
 	ItemBar *item_bar;
 	GdkWindow *window;
 	GdkGC *gc;
+	GdkColor c;
 	
 	item_bar = ITEM_BAR (item);
 	window = GTK_WIDGET (item->canvas)->window;
 	
 	/* Configure our gc */
 	item_bar->gc = gc = gdk_gc_new (window);
+	gnome_canvas_get_color (item->canvas, "black", &c);
+	gdk_gc_set_foreground (item_bar->gc, &c);
 
 	item_bar->normal_cursor = gdk_cursor_new (GDK_ARROW);
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
@@ -149,8 +152,9 @@ bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ColRowInfo *info, char 
 	gdk_draw_rectangle (drawable, gc, TRUE, x1 + 1, y1 + 1, x2-x1-2, y2-y1-2);
 	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow, 
 			 x1, y1, x2-x1, y2-y1);
-	gdk_draw_string (drawable, font, item_bar->gc, x1 + ((x2 - x1)-len)/2,
-			 y2 - (y2 - y1)/2 + texth/2 - 1,
+	gdk_draw_string (drawable, font, item_bar->gc,
+			 x1 + ((x2 - x1) - len) / 2,
+			 y1 + ((y2 - y1) - texth) / 2 + font->ascent,
 			 str);
 }
 
