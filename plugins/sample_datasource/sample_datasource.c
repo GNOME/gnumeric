@@ -20,9 +20,6 @@
  * USA
  */
 
-#define _POSIX_SOURCE /* For fdopen() */
-#include <stdio.h>
-
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
@@ -40,6 +37,7 @@
 #include <errno.h>
 #include <string.h>
 #include <fcntl.h>
+#include <stdio.h>
 
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "gnumeric:atl"
