@@ -303,7 +303,7 @@ lotus_wk1_read (LotusWk1Read *state)
 
 				v = NULL;
 				if (0x7ff0 == (GSF_LE_GET_GUINT16 (r->data + 11) & 0x7ff8)) {
-					/* I can not find normative definition
+					/* I cannot find normative definition
 					 * for when this is an error, an when
 					 * a string, so we cheat, and peek
 					 * at the next record.

@@ -6,7 +6,7 @@
 2002-10-30  Morten Welinder  <terra@diku.dk>
 
 	* dialog-function-select.c
-	(cb_dialog_function_select_fun_selection_changed): Make utf8 safe.
+	(cb_dialog_function_select_fun_selection_changed): Make UTF-8 safe.
 	I think.  I hope.
 
 2002-10-29  Jody Goldberg <jody@gnome.org>
@@ -25,7 +25,7 @@
 
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
-	* dialog-plugin-manager.c (plugin_compare_name): Make utf8 safe.
+	* dialog-plugin-manager.c (plugin_compare_name): Make UTF-8 safe.
 
 2002-10-17  Morten Welinder  <terra@diku.dk>
 

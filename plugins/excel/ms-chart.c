@@ -2481,7 +2481,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GObject
 				break;
 
 			case BIFF_EXTERNCOUNT: /* ignore */ break;
-			case BIFF_EXTERNSHEET: /* These can not be biff8 */
+			case BIFF_EXTERNSHEET: /* These cannot be biff8 */
 				excel_read_EXTERNSHEET_v7 (q, &state.container);
 				break;
 			case BIFF_PLS:		/* Skip for Now */

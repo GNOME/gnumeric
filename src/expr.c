@@ -1580,7 +1580,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		GnmNamedExpr *nexpr = expr->name.name;
 		GnmExpr const *tmp;
 
-		/* we can not invalidate references to the name that are
+		/* we cannot invalidate references to the name that are
 		 * sitting in the undo queue, or the clipboard.  So we just
 		 * flag the name as inactive and remove the reference here.
 		 */

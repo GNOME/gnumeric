@@ -107,7 +107,7 @@ Misc stuff that should be fixed
   (probably ok) and have gamma(x)=exp(lgamma(x)) (questionable).
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
-- Fix workbook_sheet_by_name with respect to letter case and utf-8.
+- Fix workbook_sheet_by_name with respect to letter case and UTF-8.
 
 - Remove duplication of code between analysis-tools.c and collect.c
 

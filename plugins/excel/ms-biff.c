@@ -98,7 +98,7 @@ makekey (guint32 block, RC4_KEY *key, MD5_CTX *valContext)
 /**
  * verify_password :
  *
- * convert utf8-password into utf16
+ * convert UTF-8-password into UTF-16
  */
 static gboolean
 verify_password (char const *password, guint8 const *docid,
@@ -114,7 +114,7 @@ verify_password (char const *password, guint8 const *docid,
 	gunichar2 *utf16 = g_utf8_to_utf16 (password, -1,
 		 &items_read, &items_written, NULL);
 
-	/* we had better recieve valid utf8 */
+	/* we had better receive valid UTF-8 */
 	g_return_val_if_fail (utf16 != NULL, FALSE);
 
 	/* Be careful about endianness */
@@ -208,7 +208,7 @@ skip_bytes (BiffQuery *q, int start, int count)
 /**
  * ms_biff_query_set_decrypt :
  * @q :
- * @password : password in utf8 encoding.
+ * @password : password in UTF-8 encoding.
  */
 gboolean
 ms_biff_query_set_decrypt (BiffQuery *q, char const *password)

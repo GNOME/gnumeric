@@ -956,7 +956,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 
 		/*
 		 *  If the second click is on a different cell than the
-		 *  first one this can not be a double-click
+		 *  first one this cannot be a double-click
 		 */
 		if (already_selected) {
 			g_object_get (gtk_widget_get_settings (GTK_WIDGET (canvas)),

@@ -57,7 +57,8 @@
 
 2002-02-23  Kevin Breit  <mrproper@ximian.com>
 
-	* numtheory.c: Changed @SEEALSO=BITRSHIFT to BITLSHIFT as it was linking to itself and it probably wanted to go to BITLSHIFT
+	* numtheory.c: Changed @SEEALSO=BITRSHIFT to BITLSHIFT as it was
+	linking to itself and it probably wanted to go to BITLSHIFT
 
 2002-02-21  Morten Welinder <terra@diku.dk>
 
@@ -69,11 +70,12 @@
 
 2001-02-16  Kevin Breit <mrproper@ximian.com>
 
-	* doc/C/: Added this tree structure.  This is now the test bed for the new Gnumeric documentation platform for Gnome 2.
+	* doc/C/: Added this tree structure.  This is now the test bed for
+	the new Gnumeric documentation platform for Gnome 2.
  
 2002-02-01  Jody Goldberg <jody@gnome.org>
 
-	* numtheory.c (gnumeric_phi) : Use utf8
+	* numtheory.c (gnumeric_phi) : Use UTF-8.
 
 2002-01-21  Jody Goldberg <jody@gnome.org>
 

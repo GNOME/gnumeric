@@ -54,25 +54,25 @@
 	(gnumeric_trim): Ditto.  Also plug leak.
 	(gnumeric_value): Ditto.
 	(gnumeric_clean): Use strlen here, not g_utf8_strlen.
-	(gnumeric_rept): Undo utf8 work.  The original was utf8 safe.
-	(gnumeric_left): Make utf8 safe.
+	(gnumeric_rept): Undo UTF-8 work.  The original was UTF-8 safe.
+	(gnumeric_left): Make UTF-8 safe.
 
 2002-05-09  Almer S. Tigelaar  <almer@gnome.org>
 
-	* functions.c (gnumeric_exact) : Port to utf8.
+	* functions.c (gnumeric_exact) : Port to UTF-8.
 	(gnumeric_lower) : Idem.
 	(gnumeric_mid) : Idem and fix segfault that would
 	occur when specifying a bigger offset then the
 	string length.
 	(gnumeric_left): Protect against negatives.
-	(gnumeric_right): Idem and port to utf8.
-	(gnumeric_upper): Port to utf8.
+	(gnumeric_right): Idem and port to UTF-8.
+	(gnumeric_upper): Port to UTF-8.
 	(gnumeric_rept): Idem.
 	(gnumeric_clean): Idem.
 	(gnumeric_find): Idem.
 	(gnumeric_proper): Idem.
 	(gnumeric_replace): Idem and kill unused variable.
-	(gnumeric_trim): Port to utf8.
+	(gnumeric_trim): Port to UTF-8.
 	(gnumeric_value): Idem.
 
 2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -86,7 +86,7 @@
 
 2002-04-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* functions.c (gnumeric_len) : port to utf8
+	* functions.c (gnumeric_len) : port to UTF-8
 	(gnumeric_left) : ditto
 	(gnumeric_concatenate) : use string_range_function and
 	  range_concatenate

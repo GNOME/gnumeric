@@ -333,7 +333,7 @@
 	* ms-excel-util.c (excel_iconv_open_for_import) : fix unicode codepage
 	  to be actual unicode with the high bit lopped off, which I hope is
 	  synonymous with 8859-1.  This still needs to be translated into
-	  utf8.
+	  UTF-8.
 
 2002-08-17  Jon K Hellan  <hellan@acm.org>
 
@@ -343,12 +343,12 @@
 
 	* ms-excel-util.c (get_locale_charset_name) : delete.
 	(excel_iconv_open_for_import) : realize that 1200 and 1201 are both
-	  unicode and that we only want to convert to utf8.
+	  unicode and that we only want to convert to UTF-8.
 	(excel_wcstombs) : die die die.  We may need this again one day when
-	  exporting utf8 back to xl 95.  But we'll cross that bridge when we
+	  exporting UTF-8 back to xl 95.  But we'll cross that bridge when we
 	  come to it.
 
-	* ms-excel-read.c (get_chars) : internally text should always be utf8.
+	* ms-excel-read.c (get_chars) : internally text should always be UTF-8.
 	(ms_excel_read_workbook) : fix the warning.
 	  I've found some references for the code pages.
 
@@ -489,7 +489,7 @@
 
 	* ms-excel-write.c (biff_put_text) : set the unicode flag on the
 	  string header for unicode strings.  This routine needs to be cleaned
-	  up to handle utf8 -> utf16 if necessary.
+	  up to handle UTF-8 -> UTF-16 if necessary.
 	(biff_boundsheet_write_first) : tidy and make the name len 1 byte.
 	(gather_palette) : convert to new two way table convention.
 	(gather_fonts) : ditto.

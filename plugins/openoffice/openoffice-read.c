@@ -287,7 +287,7 @@ static char const *
 oo_cellref_parse (CellRef *ref, char const *start, ParsePos const *pp)
 {
 	char const *tmp1, *tmp2, *ptr = start;
-	/* sheet name can not contain '.' */
+	/* sheet name cannot contain '.' */
 	if (*ptr != '.') {
 		char *name;
 		if (*ptr == '$') /* ignore abs vs rel sheet name */

@@ -451,8 +451,8 @@ gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 
 	/*
 	 * NOTE: It seems that the implementation of g_strstr will
-	 * even work for utf8 string, even though there is no special
-	 * utf8 version for it, this is why we use "strlen (haystart)"
+	 * even work for UTF-8 string, even though there is no special
+	 * UTF-8 version for it, this is why we use "strlen (haystart)"
 	 * and not g_utf8_strlen below
 	 */
 	if (count <= 0 || count > haystacksize) {

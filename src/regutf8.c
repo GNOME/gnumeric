@@ -1,7 +1,7 @@
 /*
- * regutf8.c:  A poor man's utf8 regexp routines.
+ * regutf8.c:  A poor man's UTF-8 regexp routines.
  *
- * We should test system libraris for utf-8 handling...
+ * We should test system libraris for UTF-8 handling...
  *
  * Author:
  *   Morten Welinder (terra@diku.dk)
@@ -22,7 +22,7 @@
 #define REPEATCHAR(extp,c) \
   ((c) == '*' || ((extp) && ((c) == '+' || (c) == '{' || (c) == '?')))
 
-/* Match a single utf-8 encoded character.  Needs to be ()-free.  */
+/* Match a single UTF-8 encoded character.  Needs to be ()-free.  */
 #define UTF8DOT "[\x01-\x7f\xc0-\xfd][\x80-\xbf]*"
 
 // ----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ make_pattern (gnumeric_regex_t *preg, GString *dst, char **pp, int mpflags)
 			if (dst->len && !ISASCII (patend[-1])) {
 				/*
 				 * Trouble.  We just had a multi-byte
-				 * utf8 sequence.  We need to add a
+				 * UTF-8 sequence.  We need to add a
 				 * parenthesis.
 				 */
 				char *q = g_utf8_prev_char (patend);

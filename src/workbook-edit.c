@@ -322,7 +322,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	row = sv->edit_pos.row;
 
 	/* don't edit a locked cell */
-	/* TODO : extend this to disable edits that can not succeed
+	/* TODO : extend this to disable edits that cannot succeed
 	 * like editing a single cell of an array.  I think we have enough
 	 * information if we look at the selection.
 	 */

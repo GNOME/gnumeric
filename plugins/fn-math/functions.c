@@ -1020,7 +1020,7 @@ static const char *help_log = {
 	   "@DESCRIPTION="
 	   "LOG computes the logarithm of @x in the given base @base.  "
 	   "If no @base is given LOG returns the logarithm in base 10. "
-	   "@base must be > 0. and can not equal 1.\n\n"
+	   "@base must be > 0. and cannot equal 1.\n\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"

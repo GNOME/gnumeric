@@ -1,6 +1,6 @@
 /*
    This file is from koffice converted from C++ -> C
-   and a utility to map from unicode -> utf8.
+   and a utility to map from unicode -> UTF-8.
    No other modifications where made.
    Jody Goldberg 2002 Aug 16
  */

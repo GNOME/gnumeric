@@ -34,7 +34,7 @@
 	* src/workbook-edit.c (entry_changed): Ditto.
 	(wbcg_edit_start): Ditto.
 
-	* src/func.c (tokenized_help_new): Make utf8 safe.
+	* src/func.c (tokenized_help_new): Make UTF-8 safe.
 
 	* src/cell-draw.c (cell_split_text): Fix isspace check and
 	eliminate ctype.h usage.
@@ -262,18 +262,18 @@
 
 	* src/auto-format.c (auto_format_init): Make table case sensitive.
 
-	* src/gui-file.c (file_opener_description_cmp): Make utf8 safe.
+	* src/gui-file.c (file_opener_description_cmp): Make UTF-8 safe.
 	(file_saver_description_cmp): Ditto.
-	* src/func.c (function_category_compare): Make utf8 safe.
-	* src/value.c (value_diff): Make utf8 safe.
+	* src/func.c (function_category_compare): Make UTF-8 safe.
+	* src/value.c (value_diff): Make UTF-8 safe.
 
-	* src/value.c (value_compare): Make utf8 safe.
+	* src/value.c (value_compare): Make UTF-8 safe.
 
 	* src/plugin-service.c (gnum_plugin_file_opener_probe): Use
 	g_utf8_strdown, not g_strdown.
 
 	* src/format.c (format_month_before_day): Eliminate tolower and
-	make utf8 safe.  Hopefully.
+	make UTF-8 safe.  Hopefully.
 	(append_year): Ditto.
 	(append_day): Ditto.
 	(format_compile): Ditto.
@@ -282,9 +282,9 @@
 
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
-	* src/sheet.c (sheet_name_quote): Make this utf8 safe.
+	* src/sheet.c (sheet_name_quote): Make this UTF-8 safe.
 	* src/parse-util.c (cellref_a1_get): Eliminate use of toupper and
-	isdigit.  Should be utf8 safe now.
+	isdigit.  Should be UTF-8 safe now.
 	(cellpos_parse): Ditto.
 	* src/parse-util.c (r1c1_get_item): Ditto for isdigit.
 
@@ -475,7 +475,7 @@
 	* src/symbol.c (symbol_install) : use g_warning and table_replace in
 	  case of a collison.
 
-	* src/format.c (format_number) : Make utf8 clean
+	* src/format.c (format_number) : Make UTF-8 clean
 
 	* src/sheet-control-gui.c (scg_set_panes) : more initial work on
 	  supporting h/v only freezing.
@@ -726,7 +726,7 @@
 2002-10-03  Jody Goldberg <jody@gnome.org>
 
 	* src/format.c (format_get_currency) : convert locale's currency
-	  symbol to utf8.
+	  symbol to UTF-8.
 	(gnumeric_setlocale) : clear the cache currency symbol.
 
 2002-10-03  Jody Goldberg <jody@gnome.org>
@@ -928,7 +928,7 @@
 
 2002-09-24  Morten Welinder  <terra@diku.dk>
 
-	* src/parser.y (yylex): Handle error constants.  (And fix utf8
+	* src/parser.y (yylex): Handle error constants.  (And fix UTF-8
 	strings.)
 
 2002-09-24  Jody Goldberg <jody@gnome.org>
@@ -1096,7 +1096,7 @@
 
 2002-09-16  Morten Welinder  <terra@diku.dk>
 
-	* src/workbook.c (workbook_sheet_name_strip_number): Make utf8
+	* src/workbook.c (workbook_sheet_name_strip_number): Make UTF-8
 	safe.
 
 	* src/parse-util.c (check_quoted): Fix traversal right after
@@ -1191,7 +1191,7 @@
 
 2002-09-10  Morten Welinder  <terra@diku.dk>
 
-	* src/commands.c (cmd_set_text): Make utf8 safe.
+	* src/commands.c (cmd_set_text): Make UTF-8 safe.
 	(cmd_area_set_text): Ditto.
 
 2002-09-10  Morten Welinder  <terra@diku.dk>
@@ -1245,7 +1245,7 @@
 	* src/sheet-control-gui.c (scg_colrow_select) : don't do a start and a
 	  change.  Do a start or a change.  do not sheet_update for rangesel.
 
-	* src/parser.y : some utf8 fixes for escaped characters
+	* src/parser.y : some UTF-8 fixes for escaped characters
 
 	* src/expr.c (do_expr_as_string) : rangeref_name -> rangeref_as_string
 	* src/parse-util.c (rangeref_parse) : new.
@@ -1601,7 +1601,7 @@
 2002-08-16  Jody Goldberg <jody@gnome.org>
 
 	* src/gui-clipboard.c (x_clipboard_received) : tidy up a bit and
-	  prepare to receive utf8.
+	  prepare to receive UTF-8.
 
 2002-08-16  Jon K Hellan  <hellan@acm.org>
 
@@ -1644,7 +1644,7 @@
 
 	* src/workbook-control-component.c (wbcc_set_sensitive) : fix warning.
 
-	* src/rendered-value.c (rendered_value_calc_size_ext) : some utf8
+	* src/rendered-value.c (rendered_value_calc_size_ext) : some UTF-8
 	  cleanliness.  Should probably use pango layout directly ?
 
 	* src/cell-draw.c (draw_overflow) : Use the cached measurement of '#'
@@ -1718,7 +1718,7 @@
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
 	* src/formats.c : remove the 8 bit characters until the gettext
-	  infrasructure accepts them as utf8 without warning.
+	  infrasructure accepts them as UTF-8 without warning.
 
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
@@ -1751,7 +1751,7 @@
 
 2002-08-09  Morten Welinder  <terra@diku.dk>
 
-	* src/search.c (match_is_word): Make utf8 safe.
+	* src/search.c (match_is_word): Make UTF-8 safe.
 	(calculate_replacement): Ditto.
 	(search_match_string): Ditto.
 	(search_replace_string): Ditto.
@@ -1951,8 +1951,8 @@
 
 2002-08-06  Morten Welinder  <terra@diku.dk>
 
-	* src/gutils.c (gnumeric_strcase_equal): Make utf8 safe.
-	(gnumeric_strescape): Make utf8 safe.
+	* src/gutils.c (gnumeric_strcase_equal): Make UTF-8 safe.
+	(gnumeric_strescape): Make UTF-8 safe.
 
 2002-08-06  Jody Goldberg <jody@gnome.org>
 
@@ -2399,7 +2399,7 @@
 
 2002-07-18  Morten Welinder  <terra@diku.dk>
 
-	* src/search.c (calculate_replacement): Make utf-8 safe at last.
+	* src/search.c (calculate_replacement): Make UTF-8 safe at last.
 	(inspect_case): New function split out from calculate_replacement.
 
 	* src/gutils.c (gnumeric_utf8_strcapital): New function (that
@@ -4850,7 +4850,7 @@
 
 2002-03-26  Jody Goldberg <jody@gnome.org>
 
-	* src/parser.y (yylex) : make utf8 clean.
+	* src/parser.y (yylex) : make UTF-8 clean.
 	(find_char) : ditto.
 	(find_matching_close) : ditto.
 
@@ -6750,7 +6750,7 @@
 
 	* src/gui-util.c (gnumeric_popup_menu) : sink the menus.
 
-	* src/main.c (main) : lock the encoding to be utf-8.
+	* src/main.c (main) : lock the encoding to be UTF-8.
 
 	* src/eval.c : enable the micro hash by default.
 
@@ -6818,7 +6818,7 @@
 
 	* src/gnumeric-canvas.c : disable the IM support for now.
 
-	* src/formats.c (currency_symbols) : pound, yen, euro -> utf8.
+	* src/formats.c (currency_symbols) : pound, yen, euro -> UTF-8.
 
 	* src/format.c : no need for portability.h
 	* src/func.c : ditto.

@@ -157,7 +157,7 @@ name_guru_in_list (NameGuruState *state, char const *name,
 		if (ignore_placeholders && expr_name_is_placeholder (nexpr))
 			continue;
 
-		/* no need for utf8 or collation magic, just equality */
+		/* no need for UTF-8 or collation magic, just equality */
 		if (strcmp (name, nexpr->name->str) == 0)
 			return nexpr;
 	}

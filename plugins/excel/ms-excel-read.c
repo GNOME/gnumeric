@@ -363,7 +363,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		sheet_object_set_sheet (SHEET_OBJECT (obj->gnum_obj),
 					esheet->sheet);
 
-		/* can not be done until we have set the sheet */
+		/* cannot be done until we have set the sheet */
 		if (obj->excel_type == 0x0B) {
 			sheet_widget_checkbox_set_link (SHEET_OBJECT (obj->gnum_obj),
 				ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
@@ -4535,7 +4535,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		break;
 
 		case BIFF_EXTERNCOUNT: /* ignore */ break;
-		case BIFF_EXTERNSHEET: /* These can not be biff8 */
+		case BIFF_EXTERNSHEET: /* These cannot be biff8 */
 			excel_read_EXTERNSHEET_v7 (q, &esheet->container);
 			break;
 

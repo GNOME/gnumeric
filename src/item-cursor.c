@@ -850,7 +850,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_BUTTON_PRESS:
-		/* NOTE : this can not be called while we are editing.  because
+		/* NOTE : this cannot be called while we are editing.  because
 		 * the point routine excludes events.  so we do not need to
 		 * call wbcg_edit_finish.
 		 */

@@ -4,7 +4,7 @@
 
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
-	* gnm-py-interpreter.c (gnm_py_interpreter_compare): Make utf8
+	* gnm-py-interpreter.c (gnm_py_interpreter_compare): Make UTF-8
 	safe.
 
 2002-10-11  Jon K Hellan  <hellan@acm.org>
