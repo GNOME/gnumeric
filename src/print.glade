@@ -1356,8 +1356,8 @@
 	      <class>GtkLabel</class>
 	      <name>label24</name>
 	      <child>
-		<padding>0</padding>
-		<expand>True</expand>
+		<padding>4</padding>
+		<expand>False</expand>
 		<fill>True</fill>
 	      </child>
 	      <label>Print region:</label>
@@ -1399,8 +1399,8 @@
 	      <class>GtkLabel</class>
 	      <name>label26</name>
 	      <child>
-		<padding>0</padding>
-		<expand>True</expand>
+		<padding>4</padding>
+		<expand>False</expand>
 		<fill>True</fill>
 	      </child>
 	      <label>Titles to print</label>
@@ -1453,11 +1453,11 @@
 		<xfill>True</xfill>
 		<yfill>True</yfill>
 	      </child>
-	      <label>Rows to repear on the left side</label>
+	      <label>Rows to repear on the left side:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <xalign>0.5</xalign>
+	      <xalign>1</xalign>
 	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
+	      <xpad>2</xpad>
 	      <ypad>0</ypad>
 	    </widget>
 
@@ -1478,11 +1478,11 @@
 		<xfill>True</xfill>
 		<yfill>True</yfill>
 	      </child>
-	      <label>Rows to repeat on the upper region</label>
+	      <label>Rows to repeat on the upper region:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <xalign>0.5</xalign>
+	      <xalign>1</xalign>
 	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
+	      <xpad>2</xpad>
 	      <ypad>0</ypad>
 	    </widget>
 
@@ -1550,8 +1550,8 @@
 	      <class>GtkLabel</class>
 	      <name>label29</name>
 	      <child>
-		<padding>0</padding>
-		<expand>True</expand>
+		<padding>4</padding>
+		<expand>False</expand>
 		<fill>True</fill>
 	      </child>
 	      <label>Print</label>
@@ -1581,7 +1581,7 @@
 	      <expand>True</expand>
 	      <fill>True</fill>
 	    </child>
-	    <rows>3</rows>
+	    <rows>2</rows>
 	    <columns>2</columns>
 	    <homogeneous>False</homogeneous>
 	    <row_spacing>0</row_spacing>
@@ -1800,22 +1800,6 @@
 	    <widget>
 	      <class>Placeholder</class>
 	    </widget>
-	  </widget>
-
-	  <widget>
-	    <class>Placeholder</class>
-	  </widget>
-
-	  <widget>
-	    <class>Placeholder</class>
-	  </widget>
-
-	  <widget>
-	    <class>Placeholder</class>
-	  </widget>
-
-	  <widget>
-	    <class>Placeholder</class>
 	  </widget>
 	</widget>
 
