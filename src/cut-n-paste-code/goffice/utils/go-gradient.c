@@ -94,18 +94,19 @@ go_gradient_selector (GOColor start, GOColor end)
 
 	w = go_combo_pixmaps_new (4);
 	for (i = 0; i < G_N_ELEMENTS (grad_dir_names); i++) {
+		GOGradientDirection dir = grad_dir_names[i].dir;
 		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
 		render = art_render_new (0, 0, W, H,
 			gdk_pixbuf_get_pixels (pixbuf),
 			gdk_pixbuf_get_rowstride (pixbuf),
 			gdk_pixbuf_get_n_channels (pixbuf) - 1,
 			8, ART_ALPHA_SEPARATE, NULL);
-		go_gradient_setup (&gradient, i, start, end, 0, 0,
+		go_gradient_setup (&gradient, dir, start, end, 0, 0,
 			W, H, stops);
 		art_render_gradient_linear (render,
 			&gradient, ART_FILTER_NEAREST);
 		art_render_invoke (render);
-		go_combo_pixmaps_add_element (w, pixbuf, grad_dir_names[i].dir, NULL);
+		go_combo_pixmaps_add_element (w, pixbuf, dir, NULL);
 	}
 
 	return GTK_WIDGET (w);
