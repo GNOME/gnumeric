@@ -31,8 +31,8 @@ to features that already work.
    + Implement more functions :
      - AREAS and GETPIVOTDATA
        AMORDEGRC, AMORLINC, COUPDAYSNC, COUPPCD, CUMIPMT, CUMPRINC, MDURATION,
-       ODDFPRICE, ODDFYIELD, ODDLPRICE, ODDLYIELD, PRICE, VDB, YIELD,
-       YIELDDISC, and YIELDMAT.
+       ODDFPRICE, ODDFYIELD, ODDLPRICE, ODDLYIELD, VDB, YIELD, YIELDDISC, and
+       YIELDMAT.
 
    + Fix or finish the following functions :
      - COUPDAYBS, COUPDAYS, and DURATION

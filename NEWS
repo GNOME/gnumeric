@@ -23,6 +23,7 @@ Jukka:
 	* Added `Help' buttons for various tools.
 	* Help button of autosave doesn't kill the dialog any more.
 	* Added `Filter' submenu into the `Data' menu.
+	* More work done to support financial functions.
 
 Morten:
 	* Cleanup various functions' improper access to internal strings.

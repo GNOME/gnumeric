@@ -656,6 +656,14 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 	}
 }
 
+/* Returns the number of days from the settlement date to the next
+ * coupon date.  */
+static int
+coupdaysnc(GDate *settlement, GDate *maturity, int freq, int basis)
+{
+        return -1; /* FIXME */
+}
+
 /* Returns the numbers of coupons to be paid between the settlement
  * and maturity dates, rounded up.
  */
@@ -2676,6 +2684,9 @@ static char *help_price = {
 	   "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency"
 	   "[,basis])\n"
 	   "@DESCRIPTION="
+	   "PRICE returns price per $100 face value of a security. "
+	   "This method can only be used if the security pays periodic "
+	   "interest. "
 	   "@frequency is the number of coupon payments per year. "
 	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
 	   "@basis is the type of day counting system you want to use:\n"
@@ -2696,16 +2707,49 @@ static char *help_price = {
 	   "@SEEALSO=")
 };
 
-/*
-  <jody> Available frequencies : 1 = annual, 2 = semi, 4 = quarterly.
-  <jody> Available daycount basis 0 = 30/360 1 = Act/Act 2 = Act/360 3 = Act/365
-  4 = 30E/360
-*/
-
 static Value *
 gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate      *settlement;
+        GDate      *maturity;
+        gnum_float a, d, e, n;
+	gnum_float first_term, last_term, den, base, exponent, sum;
+	gnum_float rate, yield, redemption;
+	gint freq, basis, k;
+	
+        settlement = datetime_value_to_g (argv[0]);
+        maturity   = datetime_value_to_g (argv[1]);
+	rate       = value_get_as_float (argv[2]);
+	yield      = value_get_as_float (argv[3]);
+	redemption = value_get_as_float (argv[4]);
+        freq       = value_get_as_int (argv[5]);
+        basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+
+        if (settlement == NULL || maturity == NULL)
+                return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+            || g_date_compare (settlement, maturity) > 0)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	a = coupdaybs (settlement, maturity, freq, basis);
+	d = coupdaysnc (settlement, maturity, freq, basis);
+	e = coupdays (settlement, maturity, freq, basis);
+	n = coupnum (settlement, maturity, freq, basis);
+
+	first_term = redemption / pow ( (1.0 + yield/freq), (n-1.0 + d/e));
+	last_term = a/e * rate/freq * 100.0;
+	sum = 0.0;
+	den = 100.0 * rate / freq;
+	base = 1.0 + yield / freq;
+	exponent = d / e;
+	for (k = 0; k < n; k++)
+	        sum += den / pow (base, exponent + k);
+
+	return value_new_float (first_term + sum - last_term);
 }
 
 /***************************************************************************/
@@ -2715,6 +2759,8 @@ static char *help_yield = {
 	   "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency"
 	   "[,basis])\n"
 	   "@DESCRIPTION="
+	   "Use YIELD to calculate the yield on a security that pays periodic "
+	   "interest. "
 	   "@frequency is the number of coupon payments per year. "
 	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
 	   "@basis is the type of day counting system you want to use:\n"
@@ -2738,7 +2784,48 @@ static char *help_yield = {
 static Value *
 gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate      *settlement;
+        GDate      *maturity;
+        gnum_float a, d, e, n;
+	gnum_float coeff, num, den;
+	gnum_float rate, par, redemption;
+	gint freq, basis;
+	
+        settlement = datetime_value_to_g (argv[0]);
+        maturity   = datetime_value_to_g (argv[1]);
+	rate       = value_get_as_float (argv[2]);
+	par        = value_get_as_float (argv[3]);
+	redemption = value_get_as_float (argv[4]);
+        freq       = value_get_as_int (argv[5]);
+        basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+
+        if (settlement == NULL || maturity == NULL)
+                return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+            || g_date_compare (settlement, maturity) > 0)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        if (rate < 0.0 || par < 0.0 || redemption <= 0.0)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	a = coupdaybs (settlement, maturity, freq, basis);
+	d = coupdaysnc (settlement, maturity, freq, basis);
+	e = coupdays (settlement, maturity, freq, basis);
+	n = coupnum (settlement, maturity, freq, basis);
+
+	if (n <= 1.0) {
+	        coeff = freq * e / d;
+		num = (redemption / 100.0  +  rate / freq)
+		        - (par / 100.0  +  (a / e  *  rate / freq));
+		den = par / 100.0  +  (a / e  *   rate / freq);
+
+		return value_new_float (num / den * coeff);
+	} else {
+	        /* We should goal-seek using price */
+
+	        return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+	}
 }
 
 /***************************************************************************/
@@ -3028,9 +3115,9 @@ gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
         int days;
 
         settlement = datetime_value_to_g (argv[0]);
-        maturity = datetime_value_to_g (argv[1]);
-        freq = value_get_as_int (argv[2]);
-	basis = argv[3] ? value_get_as_int (argv[3]) : 0;
+        maturity   = datetime_value_to_g (argv[1]);
+        freq       = value_get_as_int (argv[2]);
+	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
         if (settlement == NULL || maturity == NULL)
                 return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -3084,9 +3171,9 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
         gnum_float days;
 
         settlement = datetime_value_to_g (argv[0]);
-        maturity = datetime_value_to_g (argv[1]);
-        freq = value_get_as_int (argv[2]);
-	basis = argv[3] ? value_get_as_int (argv[3]) : 0;
+        maturity   = datetime_value_to_g (argv[1]);
+        freq       = value_get_as_int (argv[2]);
+	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
         if (settlement == NULL || maturity == NULL)
                 return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -3134,7 +3221,29 @@ static char *help_coupdaysnc = {
 static Value *
 gnumeric_coupdaysnc (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate      *settlement;
+        GDate      *maturity;
+        int        freq, basis;
+        gnum_float days;
+
+        settlement = datetime_value_to_g (argv[0]);
+        maturity   = datetime_value_to_g (argv[1]);
+        freq       = value_get_as_int (argv[2]);
+	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+
+        if (settlement == NULL || maturity == NULL)
+                return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+	    || g_date_compare (settlement, maturity) > 0)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        days = coupdaysnc (settlement, maturity, freq, basis);
+
+        if (days < 0)
+	        return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+
+        return value_new_float (days);
 }
 
 /***************************************************************************/
@@ -3174,9 +3283,9 @@ gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
 	Value   *v;
 
         settlement = datetime_value_to_g (argv[0]);
-        maturity = datetime_value_to_g (argv[1]);
-        freq = value_get_as_int (argv[2]);
-	basis = argv[3] ? value_get_as_int (argv[3]) : 0;
+        maturity   = datetime_value_to_g (argv[1]);
+        freq       = value_get_as_int (argv[2]);
+	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
         if (settlement == NULL || maturity == NULL)
                 return value_new_error (ei->pos, gnumeric_err_VALUE);

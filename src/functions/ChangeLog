@@ -1,3 +1,12 @@
+2001-11-02  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* fn-financial.c (gnumeric_price): Implemented.  This function
+	needs, however, coupdays, coupdaybs, and coupdaysnc to be finished
+	to work correctly.
+	(gnumeric_yield): Implemented the case where the number of coupon
+	periods is one.  The same comment above applies, however.
+	(coupdaysnc): Added a stub.
+	
 2001-11-01  Morten Welinder  <terra@diku.dk>
 
 	* fn-lookup.c (gnumeric_address): Use value_peek_string.
