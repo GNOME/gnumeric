@@ -233,15 +233,17 @@ autocorrect_set_exceptions (AutoCorrectFeature feature, GSList const *list)
  * Utility to replace a single character in an utf8 string.
  */
 static char *
-replace1 (const char *src, int keepbytes, gunichar c, const char *tail)
+replace1 (const char *src, int keepbytes, const char *mid, const char *tail)
 {
-	char *dst = g_new (char, strlen (src) + 7);
+	int midlen = strlen (mid);
+	char *dst = g_new (char, strlen (src) + midlen + 2);
 	char *p = dst;
 
 	memcpy (p, src, keepbytes);
 	p += keepbytes;
 
-	p += g_unichar_to_utf8 (c, p);
+	strcpy (p, mid);
+	p += midlen;
 
 	strcpy (p, tail);
 	return dst;
@@ -292,7 +294,7 @@ autocorrect_initial_caps (const char *src)
 				const char *target = g_utf8_prev_char (p);
 				const char *begin = g_utf8_prev_char (target);
 				GSList *l;
-				char *newres;
+				char *newres, *lotext;
 
 				for (l = autocorrect.exceptions.init_caps; l; l = l->next) {
 					const char *except = l->data;
@@ -300,9 +302,9 @@ autocorrect_initial_caps (const char *src)
 						continue;
 				}
 
-				newres = replace1 (src, target - src,
-						   g_unichar_tolower (g_utf8_get_char (target)),
-						   p);
+				lotext = g_utf8_strdown (target, 1);
+				newres = replace1 (src, target - src, lotext, p);
+				g_free (lotext);
 				p = newres + (p - src);
 				g_free (res);
 				src = res = newres;
