@@ -23,8 +23,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
@@ -276,19 +274,27 @@ iconv_supported (const char *to, const char *from)
 	return TRUE;
 }
 
-
-static char const *
-get_locale_encoding_name (void)
+const char *
+charmap_selector_get_encoding_name (G_GNUC_UNUSED CharmapSelector *cs,
+				    const char *encoding)
 {
-	char const *locale_encoding;
 	CharsetInfo const *ci;
 
+	g_return_val_if_fail (encoding != NULL, NULL);
+
+	ci = g_hash_table_lookup (encoding_hash, encoding);
+	return ci ? _(ci->charset_title) : NULL;
+}
+
+static char const *
+get_locale_encoding_name (CharmapSelector *cs)
+{
+	char const *locale_encoding;
+	char const *name;
+
 	g_get_charset (&locale_encoding);
-	ci = g_hash_table_lookup (encoding_hash, locale_encoding);
-	if (ci)
-		return _(ci->charset_title);
-	else
-		return locale_encoding;
+	name = charmap_selector_get_encoding_name (cs, locale_encoding);
+	return name ? name : locale_encoding;
 }
 
 static void
@@ -297,9 +303,10 @@ encodings_changed_cb (GnumericOptionMenu *optionmenu, CharmapSelector *cs)
 	g_return_if_fail (IS_CHARMAP_SELECTOR (cs));
 	g_return_if_fail (optionmenu == cs->encodings);
 
-	gtk_signal_emit (GTK_OBJECT (cs),
-			 cs_signals[CHARMAP_CHANGED],
-			 charmap_selector_get_encoding (cs));
+	g_signal_emit (G_OBJECT (cs),
+		       cs_signals[CHARMAP_CHANGED],
+		       0,
+		       charmap_selector_get_encoding (cs));
 }
 
 static void
@@ -404,7 +411,7 @@ cs_build_menu (CharmapSelector *cs)
 
 	{
 		char *locale_encoding_menu_title = g_strconcat (_("Locale: "),
-							      get_locale_encoding_name (),
+							      get_locale_encoding_name (cs),
 							      NULL);
 		item = gtk_check_menu_item_new_with_label (locale_encoding_menu_title);
 		g_free (locale_encoding_menu_title);
@@ -431,14 +438,13 @@ cs_class_init (GtkWidgetClass *widget_klass)
 	gobject_class->get_property = cs_get_property;
 
 	cs_signals[CHARMAP_CHANGED] =
-		gtk_signal_new (
-			"charmap_changed",
-			GTK_RUN_LAST,
-			GTK_CLASS_TYPE (widget_klass),
-			GTK_SIGNAL_OFFSET (CharmapSelectorClass,
-					   charmap_changed),
-			gtk_marshal_NONE__POINTER,
-			GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+		g_signal_new ("charmap_changed",
+			      CHARMAP_SELECTOR_TYPE,
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (CharmapSelectorClass, charmap_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	g_object_class_install_property (gobject_class,
 					 PROP_TEST_DIRECTION,

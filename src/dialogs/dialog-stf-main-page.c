@@ -40,10 +40,9 @@ main_page_set_encoding (DruidPageData_t *pagedata, const char *enc)
 
 	if (!enc) return FALSE;
 
-	utf8_data = g_convert_with_fallback (pagedata->raw_data,
-					     strlen (pagedata->raw_data),
-					     "UTF-8", enc, NULL,
-					     &bytes_read, &bytes_written, &error);
+	utf8_data = g_convert (pagedata->raw_data, -1,
+			       "UTF-8", enc,
+			       &bytes_read, &bytes_written, &error);
 	if (error) {
 		g_free (utf8_data);
 		g_error_free (error);
@@ -149,14 +148,16 @@ encodings_changed_cb (CharmapSelector *cs, char const *new_charmap,
 	if (main_page_set_encoding (pagedata, new_charmap)) {
 		main_page_update_preview (pagedata);
 	} else {
+		const char *name = charmap_selector_get_encoding_name (cs, new_charmap);
 		char *msg = g_strdup_printf
 			(_("The data is not valid in encoding %s; "
 			   "please select another encoding."),
-			 new_charmap);
+			 name ? name : new_charmap);
 		gnumeric_notice (pagedata->wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 
-		main_page_set_encoding (pagedata, pagedata->encoding);
+		charmap_selector_set_encoding (pagedata->main.charmap_selector,
+					       pagedata->encoding);
 	}
 }
 
@@ -216,8 +217,6 @@ main_page_stringindicator_change (G_GNUC_UNUSED GtkWidget *widget,
 
 	stf_parse_options_csv_set_indicator_2x_is_single  (parseoptions,
 							   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.main_2x_indicator)));
-
-	main_page_stoprow_changed (NULL, data);
 }
 
 static void
@@ -339,11 +338,9 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 
 	{
 		GtkFrame *main_frame = GTK_FRAME (glade_xml_get_widget (gui, "main_frame"));
-		char *base = g_path_get_basename (pagedata->filename);
-		char *label = g_strdup_printf (_("Data (from %s)"), base);
+		char *label = g_strdup_printf (_("Data (from %s)"), pagedata->source);
 		gtk_frame_set_label (main_frame, label);
 		g_free (label);
-		g_free (base);
 	}
 
 	/* Connect signals */

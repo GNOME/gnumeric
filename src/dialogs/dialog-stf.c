@@ -435,7 +435,7 @@ stf_dialog_editables_enter (DruidPageData_t *pagedata)
 /**
  * stf_dialog
  * @wbcg: a Commandcontext (can be NULL)
- * @filename: name of the file we are importing (or data)
+ * @source: name of the file we are importing (or data) in UTF-8
  * @data: the data itself
  *
  * This will start the import druid.
@@ -446,7 +446,7 @@ stf_dialog_editables_enter (DruidPageData_t *pagedata)
 DialogStfResult_t*
 stf_dialog (WorkbookControlGUI *wbcg,
 	    const char *opt_encoding,
-	    const char *filename,
+	    const char *source,
 	    const char *data)
 {
 	GladeXML *gui;
@@ -462,7 +462,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 
 	pagedata.encoding    = g_strdup (opt_encoding);
 	pagedata.wbcg	     = wbcg;
-	pagedata.filename    = filename;
+	pagedata.source      = source;
 	pagedata.raw_data    = data;
 	pagedata.utf8_data   = NULL;
 	pagedata.cur         = NULL;

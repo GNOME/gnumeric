@@ -102,7 +102,7 @@ typedef struct {
 	const char            *cur;          /* Pointer pointing to position in utf8_data to start parsing */
 	const char            *cur_end;      /* Pointer pointing to position in utf8_data to stop parsing */
 
-	const char            *filename;     /* File we are reading from */
+	const char            *source;       /* File we are reading from (UTF-8) */
 	int                   importlines;   /* Number of lines to import */
 
 	MainInfo_t            main;
@@ -129,7 +129,7 @@ typedef struct {
 /* This is the main function which handles all the dialog import stuff */
 DialogStfResult_t *stf_dialog                           (WorkbookControlGUI *wbcg,
 							 const char *opt_encoding,
-							 const char *filename,
+							 const char *source,
 							 const char *data);
 void               stf_dialog_result_free               (DialogStfResult_t *dialogresult);
 

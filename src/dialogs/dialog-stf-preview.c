@@ -104,9 +104,6 @@ render_get_value (gint row, gint column, gpointer _rd, GValue *value)
  * This will render a preview.
  *
  * returns : nothing
- *
- * NOTE: This will destroy the lines structure.
- *
  **/
 void
 stf_preview_render (RenderData_t *renderdata)
@@ -116,7 +113,11 @@ stf_preview_render (RenderData_t *renderdata)
 	unsigned int i;
 
 	g_return_if_fail (renderdata != NULL);
-	g_return_if_fail (renderdata->data_container != NULL);
+
+	/* Empty the table.  */
+	gnumeric_lazy_list_set_rows (renderdata->ll, 0);
+
+	g_return_if_fail (renderdata->lines != NULL);
 
 	lines = renderdata->lines;
 	for (i = 0; i < lines->len; i++) {
@@ -132,9 +133,6 @@ stf_preview_render (RenderData_t *renderdata)
 		colcount = SHEET_MAX_COLS;
 	else if (colcount <= 0)
 		colcount = 1;
-
-	/* Empty the table.  */
-	gnumeric_lazy_list_set_rows (renderdata->ll, 0);
 
 	/* Fix number of columns.  */
 	while (renderdata->colcount > colcount)
