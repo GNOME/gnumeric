@@ -1,3 +1,4 @@
+# translation of gnumeric.HEAD.po to Português/Brasil
 # Brazilian Portuguese translation of gnumeric.
 # Copyright (C) 2000-2004 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
@@ -5,14 +6,15 @@
 # Juan Carlos Castro y Castro <jcastro@vialink.com.br>, 2001.
 # Johnny Birnfeld <akiractb@icqmail.com>, 2003.
 # Afonso Celso Medina <medina@maua.br>, 2004.
+# Afonso Celso Medina <medina@maua.,br>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-12 20:02+0200\n"
-"PO-Revision-Date: 2004-09-13 05:38-0300\n"
-"Last-Translator: Afonso Celso Medina <medina@maua.br>\n"
+"POT-Creation-Date: 2004-09-15 12:06+0200\n"
+"PO-Revision-Date: 2004-09-15 09:03-0300\n"
+"Last-Translator: Afonso Celso Medina <medina@maua.,br>\n"
 "Language-Team: Português/Brasil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1543,7 +1545,7 @@ msgstr "Derivativos Financeiros"
 msgid "Functions related to financial derivatives"
 msgstr "Funções relativas a derivativos financeiros"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5669
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5667
 #: plugins/mps/mps.c:547 src/xml-io.c:4134
 msgid "Reading file..."
 msgstr "Lendo arquivo..."
@@ -1638,40 +1640,40 @@ msgstr "Atributo inesperado %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "Documento XML mal-formado!"
 
-#: plugins/excel/ms-excel-read.c:1090 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1091 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#DESCONHECIDO!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1179 plugins/excel/ms-excel-read.c:1191
+#: plugins/excel/ms-excel-read.c:1180 plugins/excel/ms-excel-read.c:1192
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:494 src/dialogs/dialog-sheet-order.c:498
 #, c-format
 msgid "Sheet%d"
 msgstr "Pasta%d"
 
-#: plugins/excel/ms-excel-read.c:1195
+#: plugins/excel/ms-excel-read.c:1196
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: plugins/excel/ms-excel-read.c:1199
+#: plugins/excel/ms-excel-read.c:1200
 #, c-format
 msgid "Chart%d"
 msgstr "Gráfico%d"
 
-#: plugins/excel/ms-excel-read.c:1202
+#: plugins/excel/ms-excel-read.c:1203
 #, c-format
 msgid "Module%d"
 msgstr "Módulo%d"
 
-#: plugins/excel/ms-excel-read.c:2988
+#: plugins/excel/ms-excel-read.c:2990
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Falha processando o arquivo '%s'"
 
-#: plugins/excel/ms-excel-read.c:3081
+#: plugins/excel/ms-excel-read.c:3083
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1680,7 +1682,7 @@ msgstr ""
 "Links DDE não são suportados.\n"
 "O nome '%s' será perdido.\n"
 
-#: plugins/excel/ms-excel-read.c:3087
+#: plugins/excel/ms-excel-read.c:3089
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1689,19 +1691,19 @@ msgstr ""
 "Links OLE não são suportados.\n"
 "O nome '%s' será perdido.\n"
 
-#: plugins/excel/ms-excel-read.c:5025
+#: plugins/excel/ms-excel-read.c:5016
 msgid "external references"
 msgstr "referências externas"
 
-#: plugins/excel/ms-excel-read.c:5048
+#: plugins/excel/ms-excel-read.c:5039
 msgid "No password supplied"
 msgstr "Nenhuma senha fornecida"
 
-#: plugins/excel/ms-excel-read.c:5898
+#: plugins/excel/ms-excel-read.c:5889
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Impossível localizar um WorkBook do MS Excel válido"
 
-#: plugins/excel/ms-excel-write.c:208
+#: plugins/excel/ms-excel-write.c:209
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
@@ -1711,7 +1713,7 @@ msgstr ""
 "Nós já escrevemos um trecho para um texto que foi truncado devido a "
 "problemas de codificação."
 
-#: plugins/excel/ms-excel-write.c:4170
+#: plugins/excel/ms-excel-write.c:4152
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1720,7 +1722,7 @@ msgstr ""
 "Algum conteúdo será perdido quando salvar no formato MS-EXCEL (tm) 95. Ele "
 "suporta apenas %d colunas e esse WorkBook tem %d"
 
-#: plugins/excel/ms-excel-write.c:4177
+#: plugins/excel/ms-excel-write.c:4159
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1729,11 +1731,11 @@ msgstr ""
 "Algum conteúdo será perdido quando salvar no formato MS-EXCEL (tm). Ele "
 "suporta apenas %d colunas e esse WorkBook tem %d"
 
-#: plugins/excel/ms-excel-write.c:4938
+#: plugins/excel/ms-excel-write.c:4920
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Não pode abrir o 'Livro' atual para escrita\n"
 
-#: plugins/excel/ms-excel-write.c:4958
+#: plugins/excel/ms-excel-write.c:4940
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Não pode abrir o 'WorkBook' para escrita\n"
 
@@ -1741,7 +1743,7 @@ msgstr "Não pode abrir o 'WorkBook' para escrita\n"
 msgid "Broken function"
 msgstr "Função inoperante"
 
-#: plugins/excel/ms-formula-write.c:536
+#: plugins/excel/ms-formula-write.c:537
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel expects exactly %d and we "
@@ -1750,7 +1752,7 @@ msgstr ""
 "Muitos argumentos para a função '%s', o MS EXCEL espera exatamente %d "
 "argumentos e nós temos %d"
 
-#: plugins/excel/ms-formula-write.c:537
+#: plugins/excel/ms-formula-write.c:538
 #, c-format
 msgid "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
@@ -8984,7 +8986,8 @@ msgstr "%s versão %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1324
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1429
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1431
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:220
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:117
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:819
 #: src/dialogs/dialog-cell-format.c:2364 src/dialogs/dialog-cell-format.c:2369
@@ -14592,7 +14595,8 @@ msgstr ""
 "@SYNTAX=TDIST(x,dof,caudas)\n"
 "@DESCRIPTION=A função TDIST retorna a distribuição t de student. @dof é "
 "número de graus de liberdade e @caudas pode ser 1 ou 2, dependendo se você "
-"deseja a distribuição monocaudal ou bicaudal. @caudas = 1 retorna o tamanho da cauda da direita.\n"
+"deseja a distribuição monocaudal ou bicaudal. @caudas = 1 retorna o tamanho "
+"da cauda da direita.\n"
 "\n"
 "* Se @dof < 1, TDIST retorna o erro #NUM!\n"
 "* Se @caudas não é 1 ou 2, TDIST retorna o erro #NUM!\n"
@@ -14601,7 +14605,8 @@ msgstr ""
 "@EXAMPLES=\n"
 "TDIST(2,5,1) retorna 0.050969739.\n"
 "TDIST(-2,5,1) retorna 0.949030261.\n"
-"TDIST(0,5,2) retorna 1.\n\n"
+"TDIST(0,5,2) retorna 1.\n"
+"\n"
 "@SEEALSO=TINV,TTEST"
 
 #: plugins/fn-stat/functions.c:1589
@@ -18315,6 +18320,24 @@ msgstr "Impossível corrigir posição para expressão '%s' com valor '%s' porqu
 msgid "No stream named content.xml found."
 msgstr "Nenhum arquivo nomeado contendo .xml foi encontrado."
 
+#: plugins/openoffice/openoffice-write.c:122
+#, c-format
+msgid ""
+"Some content will be lost when saving as OpenOffice .sxc. It only supports %"
+"d rows, and sheet '%s' has %d"
+msgstr ""
+"Algum conteúdo será perdido quando salvar no formato OpenOffice .sxc. Ele "
+"suporta apenas %d colunas e a pasta '%s' tem %d"
+
+#: plugins/openoffice/openoffice-write.c:129
+#, c-format
+msgid ""
+"Some content will be lost when saving as OpenOffice .sxc. It only supports %"
+"d columns, and sheet '%s' has %d"
+msgstr ""
+"Algum conteúdo será perdido quando salvar no formato OpenOffice .sxc. Ele "
+"suporta apenas %d colunas e a pasta '%s' tem %d"
+
 #: plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc)"
 msgstr "Open/Star Calc (*.sxc)"
@@ -18726,10 +18749,6 @@ msgstr ""
 "resto deste arquivo.  Você necessitará de uma compilação personalizada com "
 "SHEET_MAX_ROWS incrementada para ler este arquivo."
 
-#: plugins/xbase/xbase.c:142
-msgid "Failed to read DBF header."
-msgstr "Falha ao ler cabeçalho DBF."
-
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
 msgstr "Importa arquivos XBase"
@@ -18741,6 +18760,10 @@ msgstr "XBase"
 #: plugins/xbase/plugin.xml.in.h:3
 msgid "Xbase (*.dbf) file format"
 msgstr "Formato de arquivo XBase (*.dbf)"
+
+#: plugins/xbase/xbase.c:142
+msgid "Failed to read DBF header."
+msgstr "Falha ao ler cabeçalho DBF."
 
 #: plugins/xml_sax/plugin.xml.in.h:1
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
@@ -20168,7 +20191,7 @@ msgid "O_utside"
 msgstr "E_xternos"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1451
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1453
 msgid "_Cross"
 msgstr "_Cruzar"
 
@@ -20228,41 +20251,41 @@ msgstr "Log"
 msgid "Logarithm mapping"
 msgstr "Mapeamento logarítmico"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1392
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1394
 msgid "Details"
 msgstr "Detalhes"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1436
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1438
 msgid "Categories between _ticks"
 msgstr "Categorias entre _marcas"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1437
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1439
 msgid "Categories between _labels"
 msgstr "Categorias entre _rótulos"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1438
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1440
 msgid "_Cross at category #"
 msgstr "_Cruzar na categoria #"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1444
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1458
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1446
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1460
 msgid "Bounds"
 msgstr "Limites"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1447
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1449
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1448
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1450
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1449
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1451
 msgid "Ma_jor Ticks"
 msgstr "Mar_cadores Principais"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1450
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1452
 msgid "Mi_nor Ticks"
 msgstr "Marca_dores Secundários"
 
@@ -20270,14 +20293,14 @@ msgstr "Marca_dores Secundários"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1473
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1480
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1475
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1482
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Format"
 msgstr "Formato"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1509
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1511
 #: src/sheet-object-graphic.c:1443 src/wbcg-actions.c:1881
 msgid "Label"
 msgstr "Rótulo"
@@ -20335,6 +20358,81 @@ msgstr "L"
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:251
 msgid "Width"
 msgstr "Largura"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:1
+msgid "(+)"
+msgstr "(+)"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:2
+msgid "(-)"
+msgstr "(-)"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:3
+msgid "<b>Error category</b>"
+msgstr "<b>Categoria de erro</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:4
+#: src/dialogs/cell-format.glade.h:21
+msgid "<b>Style</b>"
+msgstr "<b>Estilo</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:5
+msgid "<b>Values</b>"
+msgstr "<b>Valores</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:6
+#: src/dialogs/so-arrow.glade.h:5
+msgid "Color:"
+msgstr "Cor:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:7
+msgid "Display:"
+msgstr "Tela:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:8
+msgid "Line width:"
+msgstr "Espessura da linha:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:9
+msgid "Width:"
+msgstr "Largura:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:236
+msgid "No error bar displayed"
+msgstr "Nenhuma barra de erro apresentada"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:242
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:258
+msgid "Positive error bar displayed"
+msgstr "Barra de erro positiva apresentada"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:263
+msgid "Negative error bar displayed"
+msgstr "Barra de erro negativa apresentada"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:252
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:268
+msgid "Full error bar displayed"
+msgstr "Barra de erro completa apresentada"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:275
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:89
+#: src/dialogs/dialog-paste-special.c:55 src/tools/solver/reports-write.c:718
+msgid "None"
+msgstr "Nenhum"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:276
+msgid "Absolute"
+msgstr "Absoluto"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:277
+msgid "Relative"
+msgstr "Relativo"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:278
+msgid "Percent"
+msgstr "Porcentagem"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
@@ -20603,12 +20701,14 @@ msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:326
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:231
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:235
 #: src/dialogs/consolidate.glade.h:7
 msgid "Labels"
 msgstr "Rótulos"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:328
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:233
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:237
 msgid "Values"
 msgstr "Valores"
 
@@ -20618,8 +20718,8 @@ msgstr "Barras de erro"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
 #: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:5330
 #, no-c-format
 msgid "%"
@@ -20912,14 +21012,28 @@ msgstr "_Separação de Fatias:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:7
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:3
 msgid "_Vary colors by slice"
 msgstr "Altera as _cores por fatia"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:8
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:4
 #: src/dialogs/cell-format.glade.h:103
 msgid "degrees"
 msgstr "graus"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:3
+msgid ""
+"The amount this slice is separated from the center measured as a percentage "
+"of the radius of the pie"
+msgstr ""
+"A quantidade reservada para cada fatia é separada a partir do centro e "
+"medida como uma porcentagem do raio da pizza"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
+msgid "_Separation:"
+msgstr "_Separador:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:180
 msgid "PlotPie"
@@ -20941,18 +21055,6 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 msgid "Cen_ter size:"
 msgstr "Tamanho do Cen_tro:"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:3
-msgid ""
-"The amount this slice is separated from the center measured as a percentage "
-"of the radius of the pie"
-msgstr ""
-"A quantidade reservada para cada fatia é separada a partir do centro e "
-"medida como uma porcentagem do raio da pizza"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
-msgid "_Separation:"
-msgstr "_Separador:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
@@ -21047,6 +21149,77 @@ msgstr "Mecanismo de plotar Pizzas"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:5
 msgid "Ring plotting engine"
 msgstr "Mecanismo de plotar Anéis"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:1
+msgid "Axes start _at:"
+msgstr "_Os eixos começam em:"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:2
+msgid "Axes start at:"
+msgstr "Os eixos começam em:"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:5
+msgid "rotation_spinner"
+msgstr "rotation_spinner"
+
+#. xgettext : the base for how to name radar plot objects
+#. * eg The 2nd radar plot in a chart will be called
+#. * 	PlotRadar2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:113
+msgid "PlotRadar"
+msgstr "PlotRadar"
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotRadarArea2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:286
+msgid "PlotRadarArea"
+msgstr "PlotRadarArea"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:1
+msgid "Area Radar"
+msgstr "Área de Radar"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:2
+msgid "Area radar plot."
+msgstr "Gráfico de Área de radar"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:3
+msgid "Dotted Radar"
+msgstr "Radar com pontos"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:4
+msgid "Radar"
+msgstr "Radar"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:5
+msgid "Radar plot with dots."
+msgstr "Gráfico de Radar com pontos."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:6
+msgid "Radar plot."
+msgstr "Gráfico de Radar."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:1
+msgid "Charting : Radial plots"
+msgstr "Gráficos: plotagens Radiais"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:2
+msgid "Default radar plot types"
+msgstr "Tipos padrão de gráfico de radar"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:3
+msgid "Radar Area plotting engine"
+msgstr "Mecanismo de plotagem de gráficos de Radar de Área"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:4
+msgid "Radar plotting engine"
+msgstr "Mecanismo de plotar gráficos de Radar"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:5
+msgid "Radial/Radar plots"
+msgstr "Gráficos Radial/Radar"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
 #, no-c-format
@@ -22155,10 +22328,6 @@ msgstr "<b>Padrão</b>"
 msgid "<b>Sample</b>"
 msgstr "<b>Amostra</b>"
 
-#: src/dialogs/cell-format.glade.h:21
-msgid "<b>Style</b>"
-msgstr "<b>Estilo</b>"
-
 #: src/dialogs/cell-format.glade.h:22
 msgid "<b>Vertical alignment</b>"
 msgstr "<b>Alinhamento Vertical</b>"
@@ -22283,11 +22452,6 @@ msgstr "Esquerda"
 #: src/dialogs/cell-format.glade.h:62
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr "Bloquear células ou ocultar fórmulas afeta apenas pastas protegidas."
-
-#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:89
-#: src/dialogs/dialog-paste-special.c:55 src/tools/solver/reports-write.c:718
-msgid "None"
-msgstr "Nenhum"
 
 #: src/dialogs/cell-format.glade.h:64
 msgid "Outline"
@@ -26172,10 +26336,6 @@ msgstr "Espessura da seta:"
 msgid "Arrow/Line Properties"
 msgstr "Propriedades da Seta/Linha"
 
-#: src/dialogs/so-arrow.glade.h:5
-msgid "Color:"
-msgstr "Cor:"
-
 #: src/dialogs/so-arrow.glade.h:6
 msgid "Distance from tip of arrowhead to the center point"
 msgstr "Distância da ponta da seta ao ponto central"
@@ -26565,7 +26725,7 @@ msgstr "Operador desconhecido"
 msgid "Internal type error"
 msgstr "Erro interno de tipo"
 
-#: src/expr.c:1369
+#: src/expr.c:1368
 msgid "Unknown evaluation error"
 msgstr "Erro desconhecido de avaliação"
 
@@ -28502,19 +28662,19 @@ msgstr "não pode criar objeto para '%s'"
 msgid "Could not load file: %s"
 msgstr "Impossível carregar arquivo: %s"
 
-#: src/sheet-object-graph.c:195
+#: src/sheet-object-graph.c:195 src/sheet-object-image.c:334
 msgid "SVG (vector graphics)"
 msgstr "SVG (imagem vetorial)"
 
-#: src/sheet-object-graph.c:196
+#: src/sheet-object-graph.c:196 src/sheet-object-image.c:330
 msgid "PNG (raster graphics)"
 msgstr "PNG (imagem rasterizada)"
 
-#: src/sheet-object-graph.c:197
+#: src/sheet-object-graph.c:197 src/sheet-object-image.c:332
 msgid "JPEG (photograph)"
 msgstr "JPEG (fotografia)"
 
-#: src/sheet-object-graph.c:240
+#: src/sheet-object-graph.c:240 src/sheet-object-image.c:465
 msgid "Unknown failure while saving image"
 msgstr "Falha desconhecida ao salvar imagem"
 
@@ -28525,6 +28685,18 @@ msgstr "_Salvar como Imagem"
 #: src/sheet-object-graphic.c:963 src/sheet-object-graphic.c:978
 msgid "Transparent"
 msgstr "Transparente"
+
+#: src/sheet-object-image.c:336
+msgid "EMF (extended metafile)"
+msgstr "EMF (extended metafile)"
+
+#: src/sheet-object-image.c:338
+msgid "WMF (windows metafile)"
+msgstr "WMF (windows metafile)"
+
+#: src/sheet-object-image.c:483
+msgid "_Save as"
+msgstr "_Salvar como"
 
 #: src/sheet-object-widget.c:235 src/wbcg-actions.c:1884
 msgid "Frame"
@@ -28847,8 +29019,10 @@ msgid ""
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
-"/Média/Variância/Observações/Correlação de Pearson/Hipótese de Diferença entre "
-"Médias/Diferença entre Médias Observada/Variância das Diferenças/df/t Stat/P (T<=t) monocaudal/t Crítico monocaudal/P (T<=t) bicaudal/t Crítico bicaudal"
+"/Média/Variância/Observações/Correlação de Pearson/Hipótese de Diferença "
+"entre Médias/Diferença entre Médias Observada/Variância das Diferenças/df/t "
+"Stat/P (T<=t) monocaudal/t Crítico monocaudal/P (T<=t) bicaudal/t Crítico "
+"bicaudal"
 
 #: src/tools/analysis-tools.c:2131
 #, c-format
