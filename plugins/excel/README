@@ -75,5 +75,22 @@ still ugly, but I think the source of the problem is twofold:
 	totaly differently with regard to the file format, perhaps they wanted
 	minimal forwards compatibility; but seems unlikely.
 
+2. Help me !
+
+	Before you send mail to myself or Jody the following may save us both time.
+
+	a) I am not interested whatsoever in helping people write non-Free software,
+	if you are writing free software, specify that when you mail.
+
+	b) I am not interested _Even Slightly_ in helping people port this code to
+	other languages such as Java / Perl etc. Please don't even tell me you are
+	doing this, you are misguided.
+
+	c) I Am interested in helping you make the current codebase do what you want
+	it to, whether that is making it convert to HTML or whatever, I might even
+	write a few lines of code for you. This or the CORBA API are the preferred
+	ways of using this code. Though this involves work it will contribute
+	something back, which will be appreciated.
+
 
 1999-09-03 Michael Meeks <mmeeks@gnu.org>
