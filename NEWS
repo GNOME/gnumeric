@@ -8,6 +8,7 @@ Ben Liblit:
 
 Jody:
 	* Get the lifecycle of copied GogGraphs running smoothly.
+	* Fix printing of graphs.
 
 Morten:
 	* Support End+Home key sequence.

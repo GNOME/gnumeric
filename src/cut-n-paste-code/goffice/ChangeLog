@@ -1,3 +1,9 @@
+2003-08-25  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-renderer-gnome-print.c
+	(gog_renderer_gnome_print_draw_polygon) : remove double
+	  gonme_print_grestore
+
 2003-08-24  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-guru.c (cb_graph_guru_clicked) :clear the tmp value that

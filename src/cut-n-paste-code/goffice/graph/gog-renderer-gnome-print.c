@@ -156,7 +156,6 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 			if (go_pattern_is_solid (&style->fill.u.pattern.pat, &color)) {
 				set_color (prend, color);
 				gnome_print_fill (prend->gp_context);
-				gnome_print_grestore (prend->gp_context);
 			} else {
 				ArtSVP *fill = art_svp_from_vpath (path);
 				image = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, bbox.x1, bbox.y1);
