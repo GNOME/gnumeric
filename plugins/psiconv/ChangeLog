@@ -1,5 +1,8 @@
 2004-08-18  Jon K Hellan  <hellan@acm.org>
 
+	* psiconv-read.c (add_cell, add_worksheet): Don't leak
+	expressions, styles.
+
 	* Makefile.am (psiconv_la_LDFLAG): Use PSICONV_LIBS
 
 2004-08-18  Jon K Hellan  <hellan@acm.org>

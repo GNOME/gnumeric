@@ -472,6 +472,8 @@ add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
 		 */
 		g_warning ("Cell with no value or expression ?");
 	}
+	if (expr)
+		gnm_expr_unref (expr);
 
 	/* TODO: Perhaps this must be moved above set_format */
 	set_style(sheet,psi_cell->row,psi_cell->column,psi_cell->layout,
@@ -526,6 +528,7 @@ add_worksheet(Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 	/* TODO: What about the NULL? */
 	sheet_flag_recompute_spans(sheet);
 	workbook_sheet_attach (wb,sheet,NULL);
+	mstyle_unref (default_style);
 }
 
 static void
