@@ -6,7 +6,9 @@ GNU oleo">
 <!--
 <!ENTITY preface	SYSTEM "preface.sgml">
 <!ENTITY gui-elements	SYSTEM "gui-elements.sgml">
-<!ENTITY menus		SYSTEM "menus.sgml">
+-->
+<!ENTITY menus		SYSTEM "menus.xml">
+<!--
 <!ENTITY toolbars	SYSTEM "toolbars.sgml">
 <!ENTITY worksheet	SYSTEM "worksheet.sgml">
 <!ENTITY editing	SYSTEM "editing.sgml">
@@ -86,12 +88,12 @@ GNU oleo">
     <title>Elements of the Gnumeric User Interface</title>
     &gui-elements;
   </chapter>
-  
+  -->
   <chapter id="menus">
     <title>Gnumeric Menus</title>
     &menus;
   </chapter>
-  
+<!--  
   <chapter id="toolbars">
     <title>Gnumeric Toolbars</title>
     &toolbars;
