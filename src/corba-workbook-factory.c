@@ -179,11 +179,16 @@ _WorkbookFactory_init (CORBA_Environment *ev)
 	 * that is floating around.
 	 */
 
+#if USING_OAF
+	v = od_server_register (gnumeric_workbook_factory,
+				"OAFIID:GOADID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9");
+#else
 	v = od_server_register (gnumeric_workbook_factory,
 				"IDL:GNOME:Gnumeric:WorkbookFactory:1.0");
 
 	v = od_server_register (gnumeric_workbook_factory,
 				"GOADID:GNOME:Gnumeric:WorkbookFactory:1.0");
+#endif
 	if (v == 0)
 		return TRUE;
 

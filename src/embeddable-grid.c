@@ -178,7 +178,7 @@ embeddable_grid_new_anon (void)
 	embeddable_grid_init_anon (embeddable_grid);
 	corba_embeddable_grid = create_embeddable_grid (BONOBO_OBJECT (embeddable_grid));
 
-	if (corba_embeddable_grid == CORBA_OBJECT_NIL){
+	if (corba_embeddable_grid == CORBA_OBJECT_NIL) {
 		gtk_object_destroy (GTK_OBJECT (embeddable_grid));
 		return NULL;
 	}
@@ -226,8 +226,10 @@ embeddable_grid_factory (BonoboEmbeddableFactory *This, void *data)
 
 	embeddable_grid = embeddable_grid_new_anon ();
 
-	if (embeddable_grid == NULL)
+	if (embeddable_grid == NULL) {
+		g_warning ("Failed to create new embeddable grid");
 		return NULL;
+	}
 
 	/*
 	 * Populate verb list here.
@@ -261,9 +263,15 @@ embeddable_grid_get_type (void)
 void
 EmbeddableGridFactory_init (void)
 {
+#if USING_OAF
+	bonobo_embeddable_grid_factory = bonobo_embeddable_factory_new (
+		"OAFIID:GOADID:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873",
+		embeddable_grid_factory, NULL);
+#else
 	bonobo_embeddable_grid_factory = bonobo_embeddable_factory_new (
 		"GNOME:Gnumeric:GridFactory:1.0",
 		embeddable_grid_factory, NULL);
+#endif
 }
 
 /*

@@ -1,5 +1,13 @@
 2000-05-10  Michael Meeks  <michael@helixcode.com>
 
+	* gnumeric.oafinfo: fix borked magic sodding UUID's which suck.
+
+	* src/corba-workbook-factory.c (_WorkbookFactory_init): update
+	for oaf, but only the IID.
+
+	* src/embeddable-grid.c (EmbeddableGridFactory_init): update
+	for oaf. (embeddable_grid_factory): add failure warning.
+
 	* Makefile.am: Install oafinfo.
 
 2000-05-10  Jacob Berkman  <jacob@helixcode.com>
