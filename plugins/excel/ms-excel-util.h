@@ -24,7 +24,7 @@ struct _TwoWayTable {
 typedef void (*AfterPutFunc) (gconstpointer key,
 			      gboolean      was_added,
 			      gint          index,
-			      gpointer      closure);
+			      gconstpointer closure);
 
 TwoWayTable *
 two_way_table_new (GHashFunc    hash_func,

@@ -1,3 +1,19 @@
+2002-02-21  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-write.c (init_base_char_width_for_write): Constify.
+	(ms_excel_write_workbook): Constify.
+
+	* ms-excel-read.c (get_substitute_font): Constify.
+	(ms_excel_get_style_from_xf): Constify.
+	(biff_boundsheet_data_new): Constify.
+
+	* ms-summary.c (read_summary_items): Constify.
+
+	* ms-excel-util.c (get_locale_charset_name): Constify.  Remove
+	code conditioned on HAVE_ICONV && !HAVE_ICONV.
+
+	* ms-escher.c (ms_escher_read_BSE): Constify.
+
 2002-02-20  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-write.c (write_value): Fix format.

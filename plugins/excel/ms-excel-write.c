@@ -2927,7 +2927,7 @@ init_base_char_width_for_write (ExcelSheet *esheet)
 {
 	ExcelFont *f = NULL;
 	/* default to Arial 10 */
-	char *name = "Arial";
+	const char *name = "Arial";
 	double size_pts = 20.* 10.;
 
 	if (esheet && esheet->wb
@@ -3708,7 +3708,7 @@ ms_excel_write_workbook (IOContext *context, MsOle *file, void *state,
                          MsBiffVersion ver)
 {
 	MsOleErr     result;
-	char        *strname;
+	const char  *strname;
 	MsOleStream *str;
 	BiffPut     *bp;
 	ExcelWorkbook *wb = state;

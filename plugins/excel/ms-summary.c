@@ -142,7 +142,7 @@ read_summary_items (SummaryInfo *sin, MsOleSummary *si, MsOlePropertySetID psid)
 	for (i = 0 ; i < EXCEL_TO_GNUM_MAPPING_COUNT; i++) {
 		if (excel_to_gnum_mapping[i].ps_id == psid) {
 			MsOleSummaryPID  p = excel_to_gnum_mapping[i].excel;
-			gchar           *name;
+			const gchar *name;
 
 			sit = NULL;
 			name = summary_item_name[excel_to_gnum_mapping[i].gnumeric];

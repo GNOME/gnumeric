@@ -546,7 +546,7 @@ static void
 biff_boundsheet_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	BiffBoundsheetData *ans;
-	char *default_name = "Unknown%d";
+	const char *default_name = "Unknown%d";
 
 	/* Testing seems to indicate that Biff5 is compatibile with Biff7 here. */
 	if (ver != MS_BIFF_V5 && ver != MS_BIFF_V7 && ver != MS_BIFF_V8) {
@@ -1093,26 +1093,24 @@ ms_excel_get_xf (ExcelSheet *esheet, int xfidx)
  * Returns the name of the substitute font if found. Otherwise returns NULL
  */
 /* This is very ad hoc - throw it away when something better comes along */
-static gchar *
-get_substitute_font (gchar *fontname)
+static const gchar *
+get_substitute_font (const gchar *fontname)
 {
-	char (*(*p)[2]);
-	gchar *res = NULL;
+	int i;
 
 	/* Strictly for testing */
-	static char *temporary[][2] = {
+	static const char *temporary[][2] = {
 		{ "Times New Roman", "Times"},
 		{ "Arial",           "Helvetica"},
 		{ "Courier New",     "Courier"},
 		{ NULL }
 	};
-	for (p = temporary; (*p)[0]; p++)
-		if (g_strcasecmp ((*p)[0], fontname) == 0) {
-			res = (*p)[1];
-			break;
+	for (i = 0; temporary[i][0]; i++)
+		if (g_strcasecmp (temporary[i][0], fontname) == 0) {
+			return temporary[i][1];
 		}
 
-	return res;
+	return NULL;
 }
 
 static MStyle *
@@ -1124,7 +1122,6 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 	int		 pattern_index,  back_index,  font_index;
 	MStyle *mstyle;
 	int i;
-	char *subs_fontname;
 
 	d (2, printf ("XF index %d\n", xfidx););
 
@@ -1158,7 +1155,7 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 	fd = ms_excel_get_font (esheet, xf->font_idx);
 	if (fd != NULL) {
 		StyleUnderlineType underline = UNDERLINE_NONE;
-		subs_fontname = get_substitute_font (fd->fontname);
+		const char *subs_fontname = get_substitute_font (fd->fontname);
 		if (subs_fontname)
 			mstyle_set_font_name   (mstyle, subs_fontname);
 		else

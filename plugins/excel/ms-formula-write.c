@@ -89,7 +89,7 @@ formula_cache_new_std (ExcelSheet *sheet, int i)
 	fce->u.std.fd   = &formula_func_data[i];
 	fce->u.std.idx  = i;
 	g_hash_table_insert (sheet->formula_cache,
-			     formula_func_data[i].prefix, fce);
+			     (char *)(formula_func_data[i].prefix), fce);
 
 	return fce;
 }

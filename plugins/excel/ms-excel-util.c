@@ -369,34 +369,31 @@ lookup_font_base_char_width_new (char const * const name, double size_pts,
 
 
 #ifdef HAVE_ICONV
-static char*
+static char *
 get_locale_charset_name (void)
 {
-#ifndef HAVE_ICONV
-	return "";
-#else
+	const char *ccharset;
 	static char* charset = NULL;
 
 	if (charset)
 		return charset;
 
 #ifdef _NL_CTYPE_CODESET_NAME
-	charset = nl_langinfo (_NL_CTYPE_CODESET_NAME);
+	ccharset = nl_langinfo (_NL_CTYPE_CODESET_NAME);
 #elif defined(CODESET)
-	charset = nl_langinfo (CODESET);
+	ccharset = nl_langinfo (CODESET);
 #else
 	{
-		char* locale = setlocale(LC_CTYPE,NULL);
-		char* tmp = strchr(locale,'.');
+		const char *locale = setlocale (LC_CTYPE, NULL);
+		const char *tmp = strchr (locale, '.');
 		if (tmp)
-			charset = tmp+1;
+			ccharset = tmp + 1;
 	}
 #endif
-	if (!charset)
-		charset = "ISO-8859-1";
-	charset = g_strdup(charset);
+	if (!ccharset)
+		ccharset = "ISO-8859-1";
+	charset = g_strdup (ccharset);
 	return charset;
-#endif
 }
 #endif
 
