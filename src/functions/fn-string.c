@@ -313,13 +313,17 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 
 	s = g_string_new ("");
 	while (l != NULL && (v = eval_expr (ei->pos, l->data, EVAL_STRICT)) != NULL) {
+		if (VALUE_IS_EMPTY_OR_ERROR (v))
+			goto error;
 		g_string_append (s, value_peek_string (v));
 		l = g_list_next (l);
+		value_release (v);
 	}
 
 	v = value_new_string (s->str);
-	g_string_free (s, TRUE);
 
+ error:
+	g_string_free (s, TRUE);
 	return v;
 }
 
