@@ -538,21 +538,33 @@ plugin_cleanup (void)
 }
 
 const ModulePluginFunctionInfo num_theory_functions[] = {
-	{"ithprime", "f", "number", &help_ithprime, &gnumeric_ithprime, NULL, NULL, NULL },
-	{"nt_phi",   "f", "number", &help_phi,      &gnumeric_phi,      NULL, NULL, NULL },
-	{"nt_d",     "f", "number", &help_d,        &gnumeric_d,        NULL, NULL, NULL },
-	{"nt_sigma", "f", "number", &help_sigma,    &gnumeric_sigma,    NULL, NULL, NULL },
-	{"isprime",  "f", "number", &help_isprime,  &gnumeric_isprime,  NULL, NULL, NULL },
-	{"nt_pi",    "f", "number", &help_nt_pi,    &gnumeric_nt_pi,    NULL, NULL, NULL },
-	{"nt_mu",    "f", "number", &help_nt_mu,    &gnumeric_nt_mu,    NULL, NULL, NULL },
+	{"ithprime", "f", "number", &help_ithprime,
+	 &gnumeric_ithprime, NULL, NULL, NULL },
+	{"nt_phi",   "f", "number", &help_phi,
+	 &gnumeric_phi,      NULL, NULL, NULL },
+	{"nt_d",     "f", "number", &help_d,
+	 &gnumeric_d,        NULL, NULL, NULL },
+	{"nt_sigma", "f", "number", &help_sigma,
+	 &gnumeric_sigma,    NULL, NULL, NULL },
+	{"isprime",  "f", "number", &help_isprime,
+	 &gnumeric_isprime,  NULL, NULL, NULL },
+	{"nt_pi",    "f", "number", &help_nt_pi,
+	 &gnumeric_nt_pi,    NULL, NULL, NULL },
+	{"nt_mu",    "f", "number", &help_nt_mu,
+	 &gnumeric_nt_mu,    NULL, NULL, NULL },
 	{NULL}
 };
 
 const ModulePluginFunctionInfo bitwise_functions[] = {
-	{"bitor",     "ff", "A,B", &help_bitor,     &func_bitor,     NULL, NULL, NULL },
-	{"bitxor",    "ff", "A,B", &help_bitxor,    &func_bitxor,    NULL, NULL, NULL },
-	{"bitand",    "ff", "A,B", &help_bitand,    &func_bitand,    NULL, NULL, NULL },
-	{"bitlshift", "ff", "X,N", &help_bitlshift, &func_bitlshift, NULL, NULL, NULL },
-	{"bitrshift", "ff", "N,N", &help_bitrshift, &func_bitrshift, NULL, NULL, NULL },
+	{"bitor",     "ff", "A,B", &help_bitor,
+	 &func_bitor,     NULL, NULL, NULL },
+	{"bitxor",    "ff", "A,B", &help_bitxor,
+	 &func_bitxor,    NULL, NULL, NULL },
+	{"bitand",    "ff", "A,B", &help_bitand,
+	 &func_bitand,    NULL, NULL, NULL },
+	{"bitlshift", "ff", "X,N", &help_bitlshift,
+	 &func_bitlshift, NULL, NULL, NULL },
+	{"bitrshift", "ff", "N,N", &help_bitrshift,
+	 &func_bitrshift, NULL, NULL, NULL },
 	{NULL}
 };
