@@ -142,7 +142,6 @@ void        workbook_focus_sheet         (Sheet *sheet);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);
 char       *workbook_sheet_get_free_name (Workbook *wb);
 void        workbook_auto_expr_label_set (Workbook *wb, const char *text);
-void        workbook_next_generation     (Workbook *wb);
 void        workbook_set_region_status   (Workbook *wb, const char *str);
 int         workbook_parse_and_jump      (Workbook *wb, const char *text);
 Sheet      *workbook_sheet_lookup        (Workbook *wb, const char *sheet_name);

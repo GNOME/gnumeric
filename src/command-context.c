@@ -1,3 +1,11 @@
+/*
+ * command-context.c : Error dispatch utilities.
+ *
+ * Author:
+ * 	Jody Goldberg <jgoldberg@home.com>
+ *
+ * (C) 1999, 2000 Jody Goldberg
+ */
 #include <config.h>
 #include "gnumeric-type-util.h"
 #include "command-context.h"

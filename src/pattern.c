@@ -1,3 +1,11 @@
+/*
+ * pattern.c : Support and specifications for patterns.
+ *
+ * Author:
+ *     Jody Goldberg <jgoldberg@home.com>
+ *
+ *  (C) 1999, 2000 Jody Goldberg
+ */
 #include "config.h"
 #include "pattern.h"
 #include "color.h"

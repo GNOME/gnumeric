@@ -1373,7 +1373,7 @@ enum CellRefRelocate {
 };
 
 static enum CellRefRelocate
-cellref_relocate (const CellRef * ref,
+cellref_relocate (CellRef * const ref,
 		  const EvalPosition * const pos,
 		  const struct expr_relocate_info * const rinfo)
 {

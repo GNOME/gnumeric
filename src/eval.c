@@ -22,7 +22,7 @@ cell_eval_content (Cell *cell)
 #ifdef DEBUG_EVALUATION
 	{
 		EvalPosition fp;
-		
+
 		char *exprtxt = expr_decode_tree
 			(cell->parsed_node, eval_pos_cell (&fp, cell));
 		printf ("Evaluating %s: %s ->\n",
@@ -69,7 +69,7 @@ cell_eval (Cell *cell)
 
 	if (cell->generation == cell->sheet->workbook->generation)
 		return;
-	
+
 	cell->generation = cell->sheet->workbook->generation;
 
 	if (cell->parsed_node) {
@@ -77,10 +77,10 @@ cell_eval (Cell *cell)
 
 		cell_eval_content (cell);
 		deps = cell_get_dependencies (cell);
-	
+
 		for (l = deps; l; l = l->next) {
 			Cell *one_cell;
-			
+
 			one_cell = l->data;
 			if (one_cell->generation != cell->sheet->workbook->generation)
 				cell_queue_recalc (one_cell);
@@ -90,7 +90,7 @@ cell_eval (Cell *cell)
 }
 
 /*
- * Comparission function for the dependency hash table
+ * Comparison function for the dependency hash table
  */
 static gint
 dependency_equal (gconstpointer v, gconstpointer v2)
@@ -264,7 +264,7 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 	case OPER_CONSTANT:
 		add_value_deps (cell, tree->u.constant);
 		return;
-		
+
 	/*
 	 * FIXME: needs to be taught implicit intersection +
 	 * more cunning handling of argument type matching.
@@ -475,14 +475,14 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 	get_cell_dep_closure_t *c = closure;
 	GList *l;
 /*	int draw;*/
-	
+
 	if (deprange->sheet != c->sheet)
 		return;
 
 /*	draw = FALSE;
 	if (c->col == 1 && c->row == 1)
 	draw = TRUE;*/
-	
+
 	/* No intersection is the common case */
 	if (!range_contains (range, c->col, c->row))
 		return;
@@ -509,7 +509,7 @@ cell_get_dependencies (Cell *cell)
 {
 	get_cell_dep_closure_t closure;
 	GList *l, *sheets;
-	
+
 	if (!cell->sheet->dependency_hash)
 		dependency_hash_init (cell->sheet);
 
@@ -524,7 +524,7 @@ cell_get_dependencies (Cell *cell)
 
 		if (!sheet->dependency_hash)
 			continue;
-		
+
 		g_hash_table_foreach (sheet->dependency_hash,
 				      &search_cell_deps, &closure);
 	}
@@ -632,7 +632,7 @@ pick_next_cell_from_queue (Workbook *wb)
  * Increments the generation.  Every time the generation is
  * about to wrap around, we reset all of the cell counters to zero
  */
-void
+static void
 workbook_next_generation (Workbook *wb)
 {
 	if (wb->generation == 255) {

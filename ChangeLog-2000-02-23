@@ -42,6 +42,11 @@
 	* src/workbook-private.h: Move the menu_item fields to
 	workbook_private. 
 
+2000-01-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_cleanout) : Make static again.
+	* src/eval.c (workbook_next_generation) : Make static.
+
 1999-12-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/file.c (workbook_import) : Support new plugin interface.

@@ -45,7 +45,7 @@ cell_modified (Cell *cell)
 
 
 /* Empty a cell's value, entered_text, and parsed_node.  */
-void
+static void
 cell_cleanout (Cell *cell)
 {
 	if (cell->parsed_node){

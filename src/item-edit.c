@@ -1,3 +1,11 @@
+/*
+ * item-edit.c : Edit facilities for worksheets.
+ *
+ * Author:
+ *  Miguel de Icaza (miguel@gnu.org)
+ *
+ * (C) 1999, 2000 Miguel de Icaza
+ */
 #include <config.h>
 
 #include <gnome.h>

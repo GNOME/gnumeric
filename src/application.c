@@ -109,7 +109,7 @@ application_clipboard_cut (Sheet *sheet, Range const *area)
 	app.clipboard_cut_range = *area;
 
 	/* No paste special for copies */
-	workbook_view_set_paste_state (sheet->workbook, WORKBOOK_VIEW_PASTE_SPECIAL_ITEM);
+	workbook_view_set_paste_state (sheet->workbook, WORKBOOK_VIEW_PASTE_ITEM);
 
 	sheet_selection_ant (sheet);
 }

@@ -1,3 +1,11 @@
+/*
+ * gnumeric-dashed-canvas-line.c : A canvas line with support for dash styles.
+ *
+ * Author:
+ *  Jody Goldberg (jgoldberg@home.org)
+ *
+ *  (C) 1999, 2000 Jody Goldberg
+ */
 #include <config.h>
 #include "gnumeric-dashed-canvas-line.h"
 
