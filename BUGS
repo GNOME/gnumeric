@@ -123,6 +123,8 @@ Pending Patches
 22) Add dirty flags to workbook too, adding a sheet should
     make workbook dirty not the new sheet.
 
+23) Check errors from gconf.
+
 Functions
     ODDFPRICE	(test fails)
     ODDFYEILD	(unimplementeD)
