@@ -34,8 +34,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.52\n"
-"POT-Creation-Date: 2000-04-14 20:33+0200\n"
-"PO-Revision-Date: 2000-04-14 21:20+02:00\n"
+"POT-Creation-Date: 2000-04-14 21:35+0200\n"
+"PO-Revision-Date: 2000-04-14 22:01+02:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -785,11 +785,11 @@ msgstr "Gleichverteilt"
 
 #: src/dialogs/dialog-analysis-tools.c:132
 msgid "_Lower bound:"
-msgstr ""
+msgstr "_Untere Grenze:"
 
 #: src/dialogs/dialog-analysis-tools.c:132
 msgid "_Upper bound:"
-msgstr ""
+msgstr "_Obere Grenze:"
 
 #: src/dialogs/dialog-analysis-tools.c:313
 msgid "Summary Statistics"
@@ -1556,7 +1556,7 @@ msgstr "Ausgabeoptionen: "
 
 #: src/dialogs/analysis-tools.glade.h:117
 msgid "_Distribution:"
-msgstr ""
+msgstr "_Verteilung:"
 
 #: src/dialogs/analysis-tools.glade.h:118
 msgid "_Number of variables:"
@@ -2707,7 +2707,7 @@ msgstr "Auswahl _einpassen %"
 msgid "%"
 msgstr "%"
 
-#: src/dialogs/dialog-zoom.glade.h:17 src/print.c:913
+#: src/dialogs/dialog-zoom.glade.h:17 src/print.c:914
 msgid "Sheets"
 msgstr "Blätter"
 
@@ -2920,6 +2920,9 @@ msgid ""
 "@DESCRIPTION=DCOUNTA function counts the cells that contain data in a "
 "database that match conditions specified. \n"
 msgstr ""
+"@FUNCTION=DCOUNTA\n"
+"@SYNTAX=DCOUNTA(datenbank,feld,kriterien)\n"
+"@DESCRIPTION=Die Funktion DCOUNTA zählt die Zellen, die Daten in einer Datenbank enthalten, die den angegebenen Bedingungen entsprechen.\n"
 
 #: src/functions/fn-database.c:679
 msgid ""
@@ -2928,6 +2931,9 @@ msgid ""
 "@DESCRIPTION=DGET function returns a single value from a column that match "
 "conditions specified. \n"
 msgstr ""
+"@FUNCTION=DGET\n"
+"@SYNTAX=DGET(datenbank,feld,kriterien)\n"
+"@DESCRIPTION=Die Funktion DGET gibt den einzelnen Wert einer Spalte zurück, die den angegebenen Kriterien entspricht.\\n\"\n"
 
 #: src/functions/fn-database.c:749
 msgid ""
@@ -3183,10 +3189,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (seriennummer)\n"
-"@DESCRIPTION=Konvertierung einer Seriennummer in eine Stunde.  Die Stunde "
-"wird als eine ganze Zahl im Bereich 0 - 23 zurückgegeben.\n"
-"Man beachte, daß Gnumeric automatisch eine Zeichenkette in eine Seriennummer "
-"umwandelt, so daß das Datum als Zeichenkette eingegeben werden kann.\n"
+"@DESCRIPTION=Konvertierung einer Seriennummer in eine Stunde.  Die Stunde wird als eine ganze Zahl im Bereich 0-23 zurückgegeben.\n"
+"Man beachte, dass Gnumeric automatisch eine Zeichenkette in eine Seriennummer umwandelt, so dass das Datum als Zeichenkette eingegeben werden kann.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
@@ -3205,11 +3209,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (seriennummer)\n"
-"@DESCRIPTION=Konvertierung einer Seriennummer in eine Minute.  Die Minute "
-"wird als ganze Zahl im Bereich 0 - 59 zurückgegeben.\n"
-"Man beachte, daß Gnumeric eine automatisch eine Zeichenkette nach nach einer "
-"Seriennummer umwandelt, so daß das Datum als Zeichenkette eingegeben werden "
-"kann.\n"
+"@DESCRIPTION=Konvertierung einer Seriennummer in eine Minute.  Die Minute wird als ganze Zahl im Bereich 0-59 zurückgegeben.\n"
+"Man beachte, dass Gnumeric eine automatisch eine Zeichenkette nach nach einer Seriennummer umwandelt, so dass das Datum als Zeichenkette eingegeben werden kann.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
@@ -3228,13 +3229,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (seriennummer)\n"
-"@DESCRIPTION=Konvertierung einer Seriennummer in eine Sekunde.  Die Sekunde "
-"wird als ganze Zahl im Bereich 0 - 59 zurückgegeben.\n"
-"Man beachte, daß Gnumeric eine Zeichenkette automatisch in eine Seriennummer "
-"umwandelt, so daß das Datum als Zeichenkette eingegeben werden kann.\n"
+"@DESCRIPTION=Konvertierung einer Seriennummer in eine Sekunde.  Die Sekunde wird als ganze Zahl im Bereich 0-59 zurückgegeben.\n"
+"Man beachte, dass Gnumeric eine Zeichenkette automatisch in eine Seriennummer umwandelt, so dass das Datum als Zeichenkette eingegeben werden kann.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=MINUTE, NOW, TIME, HOUR"
+"@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
 #: src/functions/fn-date.c:330
 msgid ""
@@ -3250,8 +3249,7 @@ msgstr ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (seriennummer)\n"
 "@DESCRIPTION=Konvertierung einer Seriennummer in ein Jahr.\n"
-"Man beachte, daß Gnumeric eine Zeichenkette automatisch in eine Seriennummer "
-"umwandelt, so daß das Datum als Zeichenkette eingegeben werden kann.\n"
+"Man beachte, dass Gnumeric eine Zeichenkette automatisch in eine Seriennummer umwandelt, so dass das Datum als Zeichenkette eingegeben werden kann.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
@@ -3270,9 +3268,7 @@ msgstr ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (Seriennummer)\n"
 "@DESCRIPTION=Konvertierung einer Seriennummer in einen Monat.\n"
-"Man beachte, daß Gnumeric eine eine Zeichenkette automatisch nach "
-"Seriennummer umwandelt, so daß das Datum als Zeichenkette eingegeben werden "
-"kann.\n"
+"Man beachte, dass Gnumeric eine eine Zeichenkette automatisch nach Seriennummer umwandelt, so dass das Datum als Zeichenkette eingegeben werden kann.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
@@ -3291,8 +3287,7 @@ msgstr ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (seriennummer)\n"
 "@DESCRIPTION=Konvertierung einer Seriennummer in einen Tag.\n"
-"Man beachte, daß Gnumeric eine Zeichenkette automatisch in eine Seriennummer "
-"umwandelt, so daß das Datum als Zeichenkette eingegeben werden kann.\n"
+"Man beachte, dass Gnumeric eine Zeichenkette automatisch in eine Seriennummer umwandelt, so dass das Datum als Zeichenkette eingegeben werden kann.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
@@ -3311,8 +3306,7 @@ msgstr ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (seriennummer)\n"
 "@DESCRIPTION=Konvertierung einer Seriennummer in einen Tag.\n"
-"Man beachte, daß Gnumeric eine Zeichenkette automatisch in eine Seriennummer "
-"umwandelt, so daß das Datum als Zeichenkette eingegeben werden kann.\n"
+"Man beachte, dass Gnumeric eine Zeichenkette automatisch in eine Seriennummer umwandelt, so dass das Datum als Zeichenkette eingegeben werden kann.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
@@ -3385,6 +3379,13 @@ msgid ""
 "\n"
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
+"@FUNCTION=WORKDAY\n"
+"@SYNTAX=WORKDAY (startdatum,tage,feiertage)\n"
+"@DESCRIPTION=Gibt den Tag zurück, der @tage Arbeitstage vom @startdatum entfernt ist.  Wochenenden und Feiertage, die als @feiertage optional angegeben werden können, werden berücksichtigt.\n"
+"Gibt #ZAHL! zurück, wenn @startdatum oder @tage ungültig sind.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NETWORKDAYS"
 
 #. 1 if the cell is formatted in color for negative values;
 #. * otherwise returns 0 (zero).
@@ -3395,7 +3396,7 @@ msgstr ""
 #: src/functions/fn-information.c:207 src/functions/fn-information.c:275
 #: src/functions/fn-information.c:291
 msgid "Unimplemented"
-msgstr "Unimplementiert"
+msgstr "Nicht implementiert"
 
 #: src/functions/fn-date.c:655
 msgid ""
@@ -3974,7 +3975,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(izahl[,izahl,...])\n"
-"@DESCRIPTION=IMPRODUCT gibt das Produkt zweier komplexer Zahlen zurück. Diese Funktion ist Excel-kompatibel.\n"
+"@DESCRIPTION=IMPRODUCT gibt das Produkt zweier komplexer Zahlen zurück. "
+"Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMPRODUCT(\"2-j\",\"4-2j\") ist gleich 6-8j.\n"
 "\n"
@@ -3993,7 +3995,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(izahl,izahl)\n"
-"@DESCRIPTION=IMSUM gibt die Differenz zweier komplexer Zahlen zurück. Diese Funktion ist Excel-kompatibel.\n"
+"@DESCRIPTION=IMSUM gibt die Differenz zweier komplexer Zahlen zurück. Diese "
+"Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMSUB(\"2-4j\",\"9-j\") ist gleich 11-5j.\n"
 "\n"
@@ -8381,29 +8384,29 @@ msgstr "[mm]:ss"
 msgid "[ss]"
 msgstr "[ss]"
 
-#: src/formats.c:111
+#: src/formats.c:106
 #, c-format
 msgid "0%"
 msgstr "0%"
 
-#: src/formats.c:113
-#, no-c-format
+#: src/formats.c:107
+#, c-format
 msgid "0.00%"
 msgstr "0,00%"
 
-#: src/formats.c:119
+#: src/formats.c:113
 msgid "# ?/?"
 msgstr "# ?/?"
 
-#: src/formats.c:120
+#: src/formats.c:114
 msgid "# ??/??"
 msgstr "# ??/??"
 
-#: src/formats.c:126
+#: src/formats.c:120
 msgid "0.00E+00"
 msgstr "0,00E+00"
 
-#: src/formats.c:127
+#: src/formats.c:121
 msgid "##0.0E+0"
 msgstr "##0,0E+0"
 
@@ -8411,1272 +8414,1272 @@ msgstr "##0,0E+0"
 #. * for each currency.  They MUST start with '[$'
 #. * The second column has the long names of the currencies.
 #.
-#: src/formats.c:162
+#: src/formats.c:156
 msgid "[$ADP]"
 msgstr ""
 
-#: src/formats.c:162
+#: src/formats.c:156
 msgid "Andorran peseta"
 msgstr "Andorranische Peseta"
 
-#: src/formats.c:163
+#: src/formats.c:157
 msgid "[$AED]"
 msgstr "[$AED]"
 
-#: src/formats.c:163
+#: src/formats.c:157
 msgid "UAE dirham"
 msgstr "VAE-Dirham"
 
-#: src/formats.c:164
+#: src/formats.c:158
 msgid "[$AFA]"
 msgstr ""
 
-#: src/formats.c:164
+#: src/formats.c:158
 msgid "Afghanistan afghani"
 msgstr "Afghanischer Afghani"
 
-#: src/formats.c:165
+#: src/formats.c:159
 msgid "[$ALL]"
 msgstr ""
 
-#: src/formats.c:165
+#: src/formats.c:159
 msgid "Albanian lek"
 msgstr "Albanischer Lek"
 
-#: src/formats.c:166
+#: src/formats.c:160
 msgid "[$ANG]"
 msgstr ""
 
-#: src/formats.c:166
+#: src/formats.c:160
 msgid "Netherlands Antillian guilder"
 msgstr "Gulden der Niederländischen Antillen"
 
-#: src/formats.c:167
+#: src/formats.c:161
 msgid "[$AON]"
 msgstr ""
 
-#: src/formats.c:167
+#: src/formats.c:161
 msgid "Angolan new kwanza"
 msgstr "Angolanischer Neuer Kwanza"
 
-#: src/formats.c:168
+#: src/formats.c:162
 msgid "[$ARA]"
 msgstr ""
 
-#: src/formats.c:168
+#: src/formats.c:162
 msgid "Argentine austral"
 msgstr "Argentinischer Austral"
 
-#: src/formats.c:169
+#: src/formats.c:163
 msgid "[$ATS]"
 msgstr "$[ATS]"
 
-#: src/formats.c:169
+#: src/formats.c:163
 msgid "Austrian schilling"
 msgstr "Österreichischer Schilling"
 
-#: src/formats.c:170
+#: src/formats.c:164
 msgid "[$AUD]"
 msgstr ""
 
-#: src/formats.c:170
+#: src/formats.c:164
 msgid "Australian dollar"
 msgstr "Australischer Dollar"
 
-#: src/formats.c:171
+#: src/formats.c:165
 msgid "[$AWG]"
 msgstr ""
 
-#: src/formats.c:171
+#: src/formats.c:165
 msgid "Aruban guilder"
 msgstr "Arubanischer Gulden"
 
-#: src/formats.c:172
+#: src/formats.c:166
 msgid "[$BBD]"
 msgstr ""
 
-#: src/formats.c:172
+#: src/formats.c:166
 msgid "Barbados dollar"
 msgstr "Barbados-Dollar"
 
-#: src/formats.c:173
+#: src/formats.c:167
 msgid "[$BDT]"
 msgstr "[$BDT]"
 
-#: src/formats.c:173
+#: src/formats.c:167
 msgid "Bangladeshi taka"
 msgstr ""
 
-#: src/formats.c:174
+#: src/formats.c:168
 msgid "[$BEF]"
 msgstr ""
 
-#: src/formats.c:174
+#: src/formats.c:168
 msgid "Belgian franc"
 msgstr "Belgischer Franc"
 
-#: src/formats.c:175
+#: src/formats.c:169
 msgid "[$BGL]"
 msgstr ""
 
-#: src/formats.c:175
+#: src/formats.c:169
 msgid "Bulgarian lev"
 msgstr "Bulgarischer Lev"
 
-#: src/formats.c:176
+#: src/formats.c:170
 msgid "[$BHD]"
 msgstr ""
 
-#: src/formats.c:176
+#: src/formats.c:170
 msgid "Bahraini dinar"
 msgstr ""
 
-#: src/formats.c:177
+#: src/formats.c:171
 msgid "[$BIF]"
 msgstr ""
 
-#: src/formats.c:177
+#: src/formats.c:171
 msgid "Burundi franc"
 msgstr "Burundi-Franc"
 
-#: src/formats.c:178
+#: src/formats.c:172
 msgid "[$BMD]"
 msgstr ""
 
-#: src/formats.c:178
+#: src/formats.c:172
 msgid "Bermudian dollar"
 msgstr "Bermuda-Dollar"
 
-#: src/formats.c:179
+#: src/formats.c:173
 msgid "[$BND]"
 msgstr ""
 
-#: src/formats.c:179
+#: src/formats.c:173
 msgid "Brunei dollar"
 msgstr "Brunei-Dollar"
 
-#: src/formats.c:180
+#: src/formats.c:174
 msgid "[$BOB]"
 msgstr ""
 
-#: src/formats.c:180
+#: src/formats.c:174
 msgid "Bolivian boliviano"
 msgstr "Bolivischer Boliviano"
 
-#: src/formats.c:181
+#: src/formats.c:175
 msgid "[$BRE]"
 msgstr ""
 
-#: src/formats.c:181
+#: src/formats.c:175
 msgid "Brazilian cruzeiro"
 msgstr "Brasilianischer Cruzeiro"
 
-#: src/formats.c:182
+#: src/formats.c:176
 msgid "[$BSD]"
 msgstr ""
 
-#: src/formats.c:182
+#: src/formats.c:176
 msgid "Bahamian dollar"
 msgstr "Bahamas-Dollar"
 
-#: src/formats.c:183
+#: src/formats.c:177
 msgid "[$BTN]"
 msgstr ""
 
-#: src/formats.c:183
+#: src/formats.c:177
 msgid "Bhutan ngultrum"
 msgstr ""
 
-#: src/formats.c:184
+#: src/formats.c:178
 msgid "[$BWP]"
 msgstr ""
 
-#: src/formats.c:184
+#: src/formats.c:178
 msgid "Botswanian pula"
 msgstr "Botswanischer Pula"
 
-#: src/formats.c:185
+#: src/formats.c:179
 msgid "[$BZD]"
 msgstr ""
 
-#: src/formats.c:185
+#: src/formats.c:179
 msgid "Belize dollar"
 msgstr "Belize-Dollar"
 
-#: src/formats.c:186
+#: src/formats.c:180
 msgid "[$CAD]"
 msgstr ""
 
-#: src/formats.c:186
+#: src/formats.c:180
 msgid "Canadian dollar"
 msgstr "Kanadischer Dollar"
 
-#: src/formats.c:187
+#: src/formats.c:181
 msgid "[$CHF]"
 msgstr ""
 
-#: src/formats.c:187
+#: src/formats.c:181
 msgid "Swiss franc"
 msgstr "Schweizer Franken"
 
-#: src/formats.c:188
+#: src/formats.c:182
 msgid "[$CLP]"
 msgstr ""
 
-#: src/formats.c:188
+#: src/formats.c:182
 msgid "Chilean peso"
 msgstr "Chilenischer Peso"
 
-#: src/formats.c:189
+#: src/formats.c:183
 msgid "[$CNY]"
 msgstr ""
 
-#: src/formats.c:189
+#: src/formats.c:183
 msgid "Chinese yuan renminbi"
 msgstr "Chinesischer Yuan Renminbi"
 
-#: src/formats.c:190
+#: src/formats.c:184
 msgid "[$COP]"
 msgstr ""
 
-#: src/formats.c:190
+#: src/formats.c:184
 msgid "Colombian peso"
 msgstr "Kolumbischer Peso"
 
-#: src/formats.c:191
+#: src/formats.c:185
 msgid "[$CRC]"
 msgstr ""
 
-#: src/formats.c:191
+#: src/formats.c:185
 msgid "Costa Rican colon"
 msgstr "Costaricanischer Colon"
 
-#: src/formats.c:192
+#: src/formats.c:186
 msgid "[$CSK]"
 msgstr ""
 
-#: src/formats.c:192
+#: src/formats.c:186
 msgid "Czech Koruna"
 msgstr "Tschechische Krone"
 
-#: src/formats.c:193
+#: src/formats.c:187
 msgid "[$CUP]"
 msgstr ""
 
-#: src/formats.c:193
+#: src/formats.c:187
 msgid "Cuban peso"
 msgstr "Kubanischer Peso"
 
-#: src/formats.c:194
+#: src/formats.c:188
 msgid "[$CVE]"
 msgstr ""
 
-#: src/formats.c:194
+#: src/formats.c:188
 msgid "Cape Verde escudo"
 msgstr "Kap-Verde-Escudo"
 
-#: src/formats.c:195
+#: src/formats.c:189
 msgid "[$CYP]"
 msgstr ""
 
-#: src/formats.c:195
+#: src/formats.c:189
 msgid "Cyprus pound"
 msgstr "Zypriotisches Pfund"
 
-#: src/formats.c:196
+#: src/formats.c:190
 msgid "[$DEM]"
 msgstr "[$DEM]"
 
-#: src/formats.c:196
+#: src/formats.c:190
 msgid "Deutsche mark"
 msgstr "Deutsche Mark"
 
-#: src/formats.c:197
+#: src/formats.c:191
 msgid "[$DJF]"
 msgstr ""
 
-#: src/formats.c:197
+#: src/formats.c:191
 msgid "Djibouti franc"
 msgstr "Djibouti-Franc"
 
-#: src/formats.c:198
+#: src/formats.c:192
 msgid "[$DKK]"
 msgstr ""
 
-#: src/formats.c:198
+#: src/formats.c:192
 msgid "Danish krone"
 msgstr "Dänische Krone"
 
-#: src/formats.c:199
+#: src/formats.c:193
 msgid "[$DOP]"
 msgstr ""
 
-#: src/formats.c:199
+#: src/formats.c:193
 msgid "Dominican peso"
 msgstr "Dominikanischer Peso"
 
-#: src/formats.c:200
+#: src/formats.c:194
 msgid "[$DZD]"
 msgstr ""
 
-#: src/formats.c:200
+#: src/formats.c:194
 msgid "Algerian dinar"
 msgstr "Algerischer Dinar"
 
-#: src/formats.c:201
+#: src/formats.c:195
 msgid "[$ECS]"
 msgstr ""
 
-#: src/formats.c:201
+#: src/formats.c:195
 msgid "Ecuador sucre"
 msgstr ""
 
-#: src/formats.c:202
+#: src/formats.c:196
 msgid "[$EGP]"
 msgstr ""
 
-#: src/formats.c:202
+#: src/formats.c:196
 msgid "Egyptian pound"
 msgstr "Ägyptisches Pfund"
 
-#: src/formats.c:203
+#: src/formats.c:197
 msgid "[$ESP]"
 msgstr ""
 
-#: src/formats.c:203
+#: src/formats.c:197
 msgid "Spanish peseta"
 msgstr "Spanische Pesete"
 
-#: src/formats.c:204
+#: src/formats.c:198
 msgid "[$ETB]"
 msgstr "[$ETB]"
 
-#: src/formats.c:204
+#: src/formats.c:198
 msgid "Ethiopian birr"
 msgstr "Äthiopischer Birr"
 
-#: src/formats.c:205
+#: src/formats.c:199
 msgid "[$FIM]"
 msgstr ""
 
-#: src/formats.c:205
+#: src/formats.c:199
 msgid "Finnish markka"
 msgstr "Finnische Mark"
 
-#: src/formats.c:206
+#: src/formats.c:200
 msgid "[$FJD]"
 msgstr ""
 
-#: src/formats.c:206
+#: src/formats.c:200
 msgid "Fiji dollar"
 msgstr "Fiji-Dollar"
 
-#: src/formats.c:207
+#: src/formats.c:201
 msgid "[$FKP]"
 msgstr ""
 
-#: src/formats.c:207
+#: src/formats.c:201
 msgid "Falkland Islands pound"
 msgstr "Pfund der Falklandinseln"
 
-#: src/formats.c:208
+#: src/formats.c:202
 msgid "[$FRF]"
 msgstr ""
 
-#: src/formats.c:208
+#: src/formats.c:202
 msgid "French franc"
 msgstr "Französischer Franc"
 
-#: src/formats.c:209
+#: src/formats.c:203
 msgid "[$GBP]"
 msgstr ""
 
-#: src/formats.c:209
+#: src/formats.c:203
 msgid "UK pound sterling"
 msgstr "Pfund Sterling des UK"
 
-#: src/formats.c:210
+#: src/formats.c:204
 msgid "[$GHC]"
 msgstr ""
 
-#: src/formats.c:210
+#: src/formats.c:204
 msgid "Ghanaian cedi"
 msgstr "Ghanaischer Cedi"
 
-#: src/formats.c:211
+#: src/formats.c:205
 msgid "[$GIP]"
 msgstr ""
 
-#: src/formats.c:211
+#: src/formats.c:205
 msgid "Gibraltar pound"
 msgstr "Gibraltar-Pfund"
 
-#: src/formats.c:212
+#: src/formats.c:206
 msgid "[$GMD]"
 msgstr ""
 
-#: src/formats.c:212
+#: src/formats.c:206
 msgid "Gambian dalasi"
 msgstr "Gambischer Dalasi"
 
-#: src/formats.c:213
+#: src/formats.c:207
 msgid "[$GNF]"
 msgstr ""
 
-#: src/formats.c:213
+#: src/formats.c:207
 msgid "Guinea franc"
 msgstr "Guinea-Franc"
 
-#: src/formats.c:214
+#: src/formats.c:208
 msgid "[$GRD]"
 msgstr ""
 
-#: src/formats.c:214
+#: src/formats.c:208
 msgid "Greek drachma"
 msgstr "Griechische Drachme"
 
-#: src/formats.c:215
+#: src/formats.c:209
 msgid "[$GTQ]"
 msgstr ""
 
-#: src/formats.c:215
+#: src/formats.c:209
 msgid "Guatemalan quetzal"
 msgstr "Guatemaltekischer Quetzal"
 
-#: src/formats.c:216
+#: src/formats.c:210
 msgid "[$GWP]"
 msgstr ""
 
-#: src/formats.c:216
+#: src/formats.c:210
 msgid "Guinea-Bissau peso"
 msgstr ""
 
-#: src/formats.c:217
+#: src/formats.c:211
 msgid "[$GYD]"
 msgstr ""
 
-#: src/formats.c:217
+#: src/formats.c:211
 msgid "Guyanan dollar"
 msgstr "Guyana-Dollar"
 
-#: src/formats.c:218
+#: src/formats.c:212
 msgid "[$HKD]"
 msgstr ""
 
-#: src/formats.c:218
+#: src/formats.c:212
 msgid "Hong Kong dollar"
 msgstr "Hongkong-Dollar"
 
-#: src/formats.c:219
+#: src/formats.c:213
 msgid "[$HNL]"
 msgstr ""
 
-#: src/formats.c:219
+#: src/formats.c:213
 msgid "Honduran lempira"
 msgstr "Honduranische Lempira"
 
-#: src/formats.c:220
+#: src/formats.c:214
 msgid "[$HTG]"
 msgstr ""
 
-#: src/formats.c:220
+#: src/formats.c:214
 msgid "Haitian gourde"
 msgstr ""
 
-#: src/formats.c:221
+#: src/formats.c:215
 msgid "[$HUF]"
 msgstr ""
 
-#: src/formats.c:221
+#: src/formats.c:215
 msgid "Hungarian forint"
 msgstr "Ungarischer Forint"
 
-#: src/formats.c:222
+#: src/formats.c:216
 msgid "[$IDR]"
 msgstr ""
 
-#: src/formats.c:222
+#: src/formats.c:216
 msgid "Indonesian rupiah"
 msgstr "Indonesische Rupie"
 
-#: src/formats.c:223
+#: src/formats.c:217
 msgid "[$IEP]"
 msgstr ""
 
-#: src/formats.c:223
+#: src/formats.c:217
 msgid "Irish punt"
 msgstr "Irisches Pfund"
 
-#: src/formats.c:224
+#: src/formats.c:218
 msgid "[$IEX]"
 msgstr ""
 
-#: src/formats.c:224
+#: src/formats.c:218
 msgid "Irish pence ***"
 msgstr "Irische Pence ***"
 
-#: src/formats.c:225
+#: src/formats.c:219
 msgid "[$ILS]"
 msgstr ""
 
-#: src/formats.c:225
+#: src/formats.c:219
 msgid "Israeli shekel"
 msgstr ""
 
-#: src/formats.c:226
+#: src/formats.c:220
 msgid "[$INR]"
 msgstr ""
 
-#: src/formats.c:226
+#: src/formats.c:220
 msgid "Indian rupee"
 msgstr "Indische Rupie"
 
-#: src/formats.c:227
+#: src/formats.c:221
 msgid "[$IQD]"
 msgstr ""
 
-#: src/formats.c:227
+#: src/formats.c:221
 msgid "Iraqi dinar"
 msgstr "Irakischer Dinar"
 
-#: src/formats.c:228
+#: src/formats.c:222
 msgid "[$IRR]"
 msgstr ""
 
-#: src/formats.c:228
+#: src/formats.c:222
 msgid "Iranian rial"
 msgstr ""
 
-#: src/formats.c:229
+#: src/formats.c:223
 msgid "[$ISK]"
 msgstr ""
 
-#: src/formats.c:229
+#: src/formats.c:223
 msgid "Iceland krona"
 msgstr "Isländische Krone"
 
-#: src/formats.c:230
+#: src/formats.c:224
 msgid "[$ITL]"
 msgstr ""
 
-#: src/formats.c:230
+#: src/formats.c:224
 msgid "Italian lira"
 msgstr "Italienische Lira"
 
-#: src/formats.c:231
+#: src/formats.c:225
 msgid "[$JMD]"
 msgstr ""
 
-#: src/formats.c:231
+#: src/formats.c:225
 msgid "Jamaican dollar"
 msgstr "Jamaikanischer Dollar"
 
-#: src/formats.c:232
+#: src/formats.c:226
 msgid "[$JOD]"
 msgstr ""
 
-#: src/formats.c:232
+#: src/formats.c:226
 msgid "Jordanian dinar"
 msgstr "Jordanischer Dinar"
 
-#: src/formats.c:233
+#: src/formats.c:227
 msgid "[$JPY]"
 msgstr ""
 
-#: src/formats.c:233
+#: src/formats.c:227
 msgid "Japanese yen"
 msgstr "Japanischer Yen"
 
-#: src/formats.c:234
+#: src/formats.c:228
 msgid "[$KES]"
 msgstr ""
 
-#: src/formats.c:234
+#: src/formats.c:228
 msgid "Kenyan shilling"
 msgstr "Kenianischer Shilling"
 
-#: src/formats.c:235
+#: src/formats.c:229
 msgid "[$KHR]"
 msgstr ""
 
-#: src/formats.c:235
+#: src/formats.c:229
 msgid "Kampuchean riel"
 msgstr ""
 
-#: src/formats.c:236
+#: src/formats.c:230
 msgid "[$KMF]"
 msgstr ""
 
-#: src/formats.c:236
+#: src/formats.c:230
 msgid "Comoros franc"
 msgstr "Komoren-Franc"
 
-#: src/formats.c:237
+#: src/formats.c:231
 msgid "[$KPW]"
 msgstr ""
 
-#: src/formats.c:237
+#: src/formats.c:231
 msgid "North Korean won"
 msgstr "Nordkoreanischer Won"
 
-#: src/formats.c:238
+#: src/formats.c:232
 msgid "[$KRW]"
 msgstr ""
 
-#: src/formats.c:238
+#: src/formats.c:232
 msgid "Republic of Korea won"
 msgstr "Won der Republik Korea"
 
-#: src/formats.c:239
+#: src/formats.c:233
 msgid "[$KWD]"
 msgstr ""
 
-#: src/formats.c:239
+#: src/formats.c:233
 msgid "Kuwaiti dinar"
 msgstr "Kuwait-Dinar"
 
-#: src/formats.c:240
+#: src/formats.c:234
 msgid "[$KYD]"
 msgstr ""
 
-#: src/formats.c:240
+#: src/formats.c:234
 msgid "Cayman Islands dollar"
 msgstr "Caymaninseln-Dollar"
 
-#: src/formats.c:241
+#: src/formats.c:235
 msgid "[$LAK]"
 msgstr ""
 
-#: src/formats.c:241
+#: src/formats.c:235
 msgid "Lao kip"
 msgstr ""
 
-#: src/formats.c:242
+#: src/formats.c:236
 msgid "[$LBP]"
 msgstr ""
 
-#: src/formats.c:242
+#: src/formats.c:236
 msgid "Lebanese pound"
 msgstr "Libanesisches Pfund"
 
-#: src/formats.c:243
+#: src/formats.c:237
 msgid "[$LKR]"
 msgstr ""
 
-#: src/formats.c:243
+#: src/formats.c:237
 msgid "Sri Lanka rupee"
 msgstr "Sri-Lanka-Rupie"
 
-#: src/formats.c:244
+#: src/formats.c:238
 msgid "[$LRD]"
 msgstr ""
 
-#: src/formats.c:244
+#: src/formats.c:238
 msgid "Liberian dollar"
 msgstr "Liberianischer Dollar"
 
-#: src/formats.c:245
+#: src/formats.c:239
 msgid "[$LSL]"
 msgstr ""
 
-#: src/formats.c:245
+#: src/formats.c:239
 msgid "Lesotho loti"
 msgstr ""
 
-#: src/formats.c:246
+#: src/formats.c:240
 msgid "[$LUF]"
 msgstr ""
 
-#: src/formats.c:246
+#: src/formats.c:240
 msgid "Luxembourg franc"
 msgstr "Luxemburgischer Franc"
 
-#: src/formats.c:247
+#: src/formats.c:241
 msgid "[$LYD]"
 msgstr ""
 
-#: src/formats.c:247
+#: src/formats.c:241
 msgid "Libyan dinar"
 msgstr "Libyscher Dinar"
 
-#: src/formats.c:248
+#: src/formats.c:242
 msgid "[$MAD]"
 msgstr ""
 
-#: src/formats.c:248
+#: src/formats.c:242
 msgid "Moroccan dirham"
 msgstr ""
 
-#: src/formats.c:249
+#: src/formats.c:243
 msgid "[$MGF]"
 msgstr ""
 
-#: src/formats.c:249
+#: src/formats.c:243
 msgid "Malagasy franc"
 msgstr ""
 
-#: src/formats.c:250
+#: src/formats.c:244
 msgid "[$MLF]"
 msgstr ""
 
-#: src/formats.c:250
+#: src/formats.c:244
 msgid "Mali franc"
 msgstr "Mali-Franc"
 
-#: src/formats.c:251
+#: src/formats.c:245
 msgid "[$MMK]"
 msgstr ""
 
-#: src/formats.c:251
+#: src/formats.c:245
 msgid "Myanmar kyat"
 msgstr ""
 
-#: src/formats.c:252
+#: src/formats.c:246
 msgid "[$MNT]"
 msgstr ""
 
-#: src/formats.c:252
+#: src/formats.c:246
 msgid "Mongolian tugrik"
 msgstr ""
 
-#: src/formats.c:253
+#: src/formats.c:247
 msgid "[$MOP]"
 msgstr ""
 
-#: src/formats.c:253
+#: src/formats.c:247
 msgid "Macau pataca"
 msgstr ""
 
-#: src/formats.c:254
+#: src/formats.c:248
 msgid "[$MRO]"
 msgstr ""
 
-#: src/formats.c:254
+#: src/formats.c:248
 msgid "Mauritanian ouguiya"
 msgstr ""
 
-#: src/formats.c:255
+#: src/formats.c:249
 msgid "[$MTL]"
 msgstr ""
 
-#: src/formats.c:255
+#: src/formats.c:249
 msgid "Maltese lira"
 msgstr "Maltesische Lira"
 
-#: src/formats.c:256
+#: src/formats.c:250
 msgid "[$MUR]"
 msgstr ""
 
-#: src/formats.c:256
+#: src/formats.c:250
 msgid "Mauritius rupee"
 msgstr "Mauritius-Rupie"
 
-#: src/formats.c:257
+#: src/formats.c:251
 msgid "[$MVR]"
 msgstr ""
 
-#: src/formats.c:257
+#: src/formats.c:251
 msgid "Maldive rupee"
 msgstr "Malediven-Rupie"
 
-#: src/formats.c:258
+#: src/formats.c:252
 msgid "[$MWK]"
 msgstr ""
 
-#: src/formats.c:258
+#: src/formats.c:252
 msgid "Malawi kwacha"
 msgstr ""
 
-#: src/formats.c:259
+#: src/formats.c:253
 msgid "[$MXP]"
 msgstr ""
 
-#: src/formats.c:259
+#: src/formats.c:253
 msgid "Mexican peso"
 msgstr "Mexikanischer Peso"
 
-#: src/formats.c:260
+#: src/formats.c:254
 msgid "[$MYR]"
 msgstr ""
 
-#: src/formats.c:260
+#: src/formats.c:254
 msgid "Malaysian ringgit"
 msgstr ""
 
-#: src/formats.c:261
+#: src/formats.c:255
 msgid "[$MZM]"
 msgstr ""
 
-#: src/formats.c:261
+#: src/formats.c:255
 msgid "Mozambique metical"
 msgstr ""
 
-#: src/formats.c:262
+#: src/formats.c:256
 msgid "[$NGN]"
 msgstr ""
 
-#: src/formats.c:262
+#: src/formats.c:256
 msgid "Nigerian naira"
 msgstr ""
 
-#: src/formats.c:263
+#: src/formats.c:257
 msgid "[$NIO]"
 msgstr ""
 
-#: src/formats.c:263
+#: src/formats.c:257
 msgid "Nicaraguan cordoba oro"
 msgstr ""
 
-#: src/formats.c:264
+#: src/formats.c:258
 msgid "[$NLG]"
 msgstr ""
 
-#: src/formats.c:264
+#: src/formats.c:258
 msgid "Netherlands guilder"
 msgstr "Niederländischer Gulden"
 
-#: src/formats.c:265
+#: src/formats.c:259
 msgid "[$NOK]"
 msgstr ""
 
-#: src/formats.c:265
+#: src/formats.c:259
 msgid "Norwegian krone"
 msgstr "Norwegische Krone"
 
-#: src/formats.c:266
+#: src/formats.c:260
 msgid "[$NPR]"
 msgstr ""
 
-#: src/formats.c:266
+#: src/formats.c:260
 msgid "Nepalese rupee"
 msgstr "Nepalesische Rupie"
 
-#: src/formats.c:267
+#: src/formats.c:261
 msgid "[$NZD]"
 msgstr ""
 
-#: src/formats.c:267
+#: src/formats.c:261
 msgid "New Zealand dollar"
 msgstr "Neuseeland-Dollar"
 
-#: src/formats.c:268
+#: src/formats.c:262
 msgid "[$OMR]"
 msgstr ""
 
-#: src/formats.c:268
+#: src/formats.c:262
 msgid "Rial Omani"
 msgstr ""
 
-#: src/formats.c:269
+#: src/formats.c:263
 msgid "[$PAB]"
 msgstr "[$PAB]"
 
-#: src/formats.c:269
+#: src/formats.c:263
 msgid "Panamanian balboa"
 msgstr ""
 
-#: src/formats.c:270
+#: src/formats.c:264
 msgid "[$PEI]"
 msgstr ""
 
-#: src/formats.c:270
+#: src/formats.c:264
 msgid "Peruvian inti"
 msgstr ""
 
-#: src/formats.c:271
+#: src/formats.c:265
 msgid "[$PGK]"
 msgstr ""
 
-#: src/formats.c:271
+#: src/formats.c:265
 msgid "Papua New Guinea kina"
 msgstr ""
 
-#: src/formats.c:272
+#: src/formats.c:266
 msgid "[$PHP]"
 msgstr ""
 
-#: src/formats.c:272
+#: src/formats.c:266
 msgid "Philippino peso"
 msgstr "Philippinischer Peso"
 
-#: src/formats.c:273
+#: src/formats.c:267
 msgid "[$PKR]"
 msgstr ""
 
-#: src/formats.c:273
+#: src/formats.c:267
 msgid "Pakistan rupee"
 msgstr "Pakistanische Rupie"
 
-#: src/formats.c:274
+#: src/formats.c:268
 msgid "[$PLZ]"
 msgstr ""
 
-#: src/formats.c:274
+#: src/formats.c:268
 msgid "Polish zloty"
 msgstr "Polnische Zloty"
 
-#: src/formats.c:275
+#: src/formats.c:269
 msgid "[$PTE]"
 msgstr "[$PTE]"
 
-#: src/formats.c:275
+#: src/formats.c:269
 msgid "Portuguese escudo"
 msgstr "Portugiesischer Escudo"
 
-#: src/formats.c:276
+#: src/formats.c:270
 msgid "[$PYG]"
 msgstr ""
 
-#: src/formats.c:276
+#: src/formats.c:270
 msgid "Paraguay guarani"
 msgstr ""
 
-#: src/formats.c:277
+#: src/formats.c:271
 msgid "[$QAR]"
 msgstr ""
 
-#: src/formats.c:277
+#: src/formats.c:271
 msgid "Qatari rial"
 msgstr ""
 
-#: src/formats.c:278
+#: src/formats.c:272
 msgid "[$ROL]"
 msgstr ""
 
-#: src/formats.c:278
+#: src/formats.c:272
 msgid "Romanian leu"
 msgstr "Rumänischer Leu"
 
-#: src/formats.c:279
+#: src/formats.c:273
 msgid "[$RWF]"
 msgstr ""
 
-#: src/formats.c:279
+#: src/formats.c:273
 msgid "Rwanda franc"
 msgstr "Rwandischer Franc"
 
-#: src/formats.c:280
+#: src/formats.c:274
 msgid "[$SAR]"
 msgstr ""
 
-#: src/formats.c:280
+#: src/formats.c:274
 msgid "Saudi Arabian riyal"
 msgstr "Saudi-Arabischer Rial"
 
-#: src/formats.c:281
+#: src/formats.c:275
 msgid "[$SBD]"
 msgstr ""
 
-#: src/formats.c:281
+#: src/formats.c:275
 msgid "Solomon Islands dollar"
 msgstr "Solomon-Inseln-Dollar"
 
-#: src/formats.c:282
+#: src/formats.c:276
 msgid "[$SCR]"
 msgstr ""
 
-#: src/formats.c:282
+#: src/formats.c:276
 msgid "Seychelles rupee"
 msgstr "Seychellen-Rupie"
 
-#: src/formats.c:283
+#: src/formats.c:277
 msgid "[$SDP]"
 msgstr ""
 
-#: src/formats.c:283
+#: src/formats.c:277
 msgid "Sudanese pound"
 msgstr "Sudanesisches Pfund"
 
-#: src/formats.c:284
+#: src/formats.c:278
 msgid "[$SEK]"
 msgstr ""
 
-#: src/formats.c:284
+#: src/formats.c:278
 msgid "Swedish krona"
 msgstr "Schwedische Krone"
 
-#: src/formats.c:285
+#: src/formats.c:279
 msgid "[$SGD]"
 msgstr ""
 
-#: src/formats.c:285
+#: src/formats.c:279
 msgid "Singapore dollar"
 msgstr "Singapur-Dollar"
 
-#: src/formats.c:286
+#: src/formats.c:280
 msgid "[$SHP]"
 msgstr ""
 
-#: src/formats.c:286
+#: src/formats.c:280
 msgid "St.Helena pound"
 msgstr "St.-Helena-Pfund"
 
-#: src/formats.c:287
+#: src/formats.c:281
 msgid "[$SLL]"
 msgstr ""
 
-#: src/formats.c:287
+#: src/formats.c:281
 msgid "Sierra Leone leone"
 msgstr ""
 
-#: src/formats.c:288
+#: src/formats.c:282
 msgid "[$SOS]"
 msgstr ""
 
-#: src/formats.c:288
+#: src/formats.c:282
 msgid "Somali shilling"
 msgstr ""
 
-#: src/formats.c:289
+#: src/formats.c:283
 msgid "[$SRG]"
 msgstr ""
 
-#: src/formats.c:289
+#: src/formats.c:283
 msgid "Suriname guilder"
 msgstr "Surinamesischer Gulden"
 
-#: src/formats.c:290
+#: src/formats.c:284
 msgid "[$STD]"
 msgstr ""
 
-#: src/formats.c:290
+#: src/formats.c:284
 msgid "Sao Tome and Principe dobra"
 msgstr ""
 
-#: src/formats.c:291
+#: src/formats.c:285
 msgid "[$SUR]"
 msgstr ""
 
-#: src/formats.c:291
+#: src/formats.c:285
 msgid "USSR rouble"
 msgstr "Rubel der UdSSR"
 
-#: src/formats.c:292
+#: src/formats.c:286
 msgid "[$SVC]"
 msgstr ""
 
-#: src/formats.c:292
+#: src/formats.c:286
 msgid "El Salvador colon"
 msgstr ""
 
-#: src/formats.c:293
+#: src/formats.c:287
 msgid "[$SYP]"
 msgstr ""
 
-#: src/formats.c:293
+#: src/formats.c:287
 msgid "Syrian pound"
 msgstr "Syrisches Pfund"
 
-#: src/formats.c:294
+#: src/formats.c:288
 msgid "[$SZL]"
 msgstr ""
 
-#: src/formats.c:294
+#: src/formats.c:288
 msgid "Swaziland lilangeni"
 msgstr ""
 
-#: src/formats.c:295
+#: src/formats.c:289
 msgid "[$THB]"
 msgstr "[$THB]"
 
-#: src/formats.c:295
+#: src/formats.c:289
 msgid "Thai baht"
 msgstr ""
 
-#: src/formats.c:296
+#: src/formats.c:290
 msgid "[$TND]"
 msgstr ""
 
-#: src/formats.c:296
+#: src/formats.c:290
 msgid "Tunisian dinar"
 msgstr "Tunesischer Dinar"
 
-#: src/formats.c:297
+#: src/formats.c:291
 msgid "[$TOP]"
 msgstr ""
 
-#: src/formats.c:297
+#: src/formats.c:291
 msgid "Tongan pa'anga"
 msgstr ""
 
-#: src/formats.c:298
+#: src/formats.c:292
 msgid "[$TPE]"
 msgstr "[$TPE]"
 
-#: src/formats.c:298
+#: src/formats.c:292
 msgid "East Timor escudo"
 msgstr "Osttimoresischer Escudo"
 
-#: src/formats.c:299
+#: src/formats.c:293
 msgid "[$TRL]"
 msgstr ""
 
-#: src/formats.c:299
+#: src/formats.c:293
 msgid "Turkish lira"
 msgstr "Türkische Lira"
 
-#: src/formats.c:300
+#: src/formats.c:294
 msgid "[$TTD]"
 msgstr ""
 
-#: src/formats.c:300
+#: src/formats.c:294
 msgid "Trinidad and Tobago dollar"
 msgstr "Trinidad-und-Tobago-Dollar"
 
-#: src/formats.c:301
+#: src/formats.c:295
 msgid "[$TWD]"
 msgstr ""
 
-#: src/formats.c:301
+#: src/formats.c:295
 msgid "New Taiwan dollar"
 msgstr "Neuer Taiwanesischer Dollar"
 
-#: src/formats.c:302
+#: src/formats.c:296
 msgid "[$TZS]"
 msgstr ""
 
-#: src/formats.c:302
+#: src/formats.c:296
 msgid "Tanzanian shilling"
 msgstr "Tansanischer Shilling"
 
-#: src/formats.c:303
+#: src/formats.c:297
 msgid "[$UGX]"
 msgstr ""
 
-#: src/formats.c:303
+#: src/formats.c:297
 msgid "Ugandan shilling"
 msgstr "Ugandischer Shilling"
 
-#: src/formats.c:304
+#: src/formats.c:298
 msgid "[$USD]"
 msgstr ""
 
-#: src/formats.c:304
+#: src/formats.c:298
 msgid "US dollar"
 msgstr "US-Dollar"
 
-#: src/formats.c:305
+#: src/formats.c:299
 msgid "[$UYP]"
 msgstr ""
 
-#: src/formats.c:305
+#: src/formats.c:299
 msgid "Uruguayan peso"
 msgstr "Uruguayanischer Peso"
 
-#: src/formats.c:306
+#: src/formats.c:300
 msgid "[$VEB]"
 msgstr ""
 
-#: src/formats.c:306
+#: src/formats.c:300
 msgid "Venezuelan bolivar"
 msgstr "Venezolanischer Bolivar"
 
-#: src/formats.c:307
+#: src/formats.c:301
 msgid "[$VND]"
 msgstr ""
 
-#: src/formats.c:307
+#: src/formats.c:301
 msgid "Vietnamese dong"
 msgstr ""
 
-#: src/formats.c:308
+#: src/formats.c:302
 msgid "[$VUV]"
 msgstr ""
 
-#: src/formats.c:308
+#: src/formats.c:302
 msgid "Vanuatu vatu"
 msgstr ""
 
-#: src/formats.c:309
+#: src/formats.c:303
 msgid "[$WST]"
 msgstr ""
 
-#: src/formats.c:309
+#: src/formats.c:303
 msgid "Samoan tala"
 msgstr ""
 
-#: src/formats.c:310
+#: src/formats.c:304
 msgid "[$XCD]"
 msgstr ""
 
-#: src/formats.c:310
+#: src/formats.c:304
 msgid "East Caribbean dollar"
 msgstr "Ostkaribik-Dollar"
 
-#: src/formats.c:311
+#: src/formats.c:305
 msgid "[$XEU]"
 msgstr ""
 
-#: src/formats.c:311
+#: src/formats.c:305
 msgid "European currency unit"
 msgstr "Europäische Währungseinheit"
 
-#: src/formats.c:312
+#: src/formats.c:306
 msgid "[$YDD]"
 msgstr ""
 
-#: src/formats.c:312
+#: src/formats.c:306
 msgid "Democratic Yemeni dinar"
 msgstr "Dinar des Demokratischen Jemen"
 
-#: src/formats.c:313
+#: src/formats.c:307
 msgid "[$YER]"
 msgstr ""
 
-#: src/formats.c:313
+#: src/formats.c:307
 msgid "Yemeni rial"
 msgstr "Jemenitischer Rial"
 
-#: src/formats.c:314
+#: src/formats.c:308
 msgid "[$YUN]"
 msgstr ""
 
-#: src/formats.c:314
+#: src/formats.c:308
 msgid "New Yugoslavia dinar"
 msgstr "Neuer Jugoslawischer Dinar"
 
-#: src/formats.c:315
+#: src/formats.c:309
 msgid "[$ZAL]"
 msgstr ""
 
-#: src/formats.c:315
+#: src/formats.c:309
 msgid "South African rand funds code"
 msgstr "Code für Fonds in Südafrikanischen Rand"
 
-#: src/formats.c:316
+#: src/formats.c:310
 msgid "[$ZAR]"
 msgstr ""
 
-#: src/formats.c:316
+#: src/formats.c:310
 msgid "South African rand"
 msgstr "Südafrikanischer Rand"
 
-#: src/formats.c:317
+#: src/formats.c:311
 msgid "[$ZMK]"
 msgstr ""
 
-#: src/formats.c:317
+#: src/formats.c:311
 msgid "Zambian kwacha"
 msgstr ""
 
-#: src/formats.c:318
+#: src/formats.c:312
 msgid "[$ZRZ]"
 msgstr ""
 
-#: src/formats.c:318
+#: src/formats.c:312
 msgid "Zaire Zaire"
 msgstr ""
 
-#: src/formats.c:319
+#: src/formats.c:313
 msgid "[$ZWD]"
 msgstr ""
 
-#: src/formats.c:319
+#: src/formats.c:313
 msgid "Zimbabwe dollar"
 msgstr "Simbabwe-Dollar"
 
 #. TODO : Do we handle 'Red' being translated ??
-#: src/formats.c:442
+#: src/formats.c:436
 msgid "[Red]"
 msgstr ""
 
@@ -10078,48 +10081,45 @@ msgid "the workbook"
 msgstr "dem Arbeitsbuch"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:372
+#: src/print.c:370
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:796 src/workbook.c:1803
+#: src/print.c:797 src/workbook.c:1803
 msgid "Selection must be a single range"
 msgstr "Auswahl muss ein einzelner Bereich sein"
 
-#: src/print.c:906
+#: src/print.c:907
 msgid "Print Sheets"
 msgstr "Blätter drucken"
 
-#: src/print.c:913
+#: src/print.c:914
 msgid "Active sheet"
 msgstr "Aktives Blatt"
 
-#: src/print.c:988 src/workbook.c:1120 src/workbook.c:1441
+#: src/print.c:989 src/workbook.c:1120 src/workbook.c:1441
 msgid "Print preview"
 msgstr "Druckvorschau"
 
 #: src/selection.c:162
-msgid "The command `"
-msgstr "Der Befehl `"
-
-#: src/selection.c:164
-msgid "' cannot be performed with multiple selections"
-msgstr "' kann nicht mit mehreren Auswahlen durchgeführt werden"
+#, c-format
+msgid "The command `%s' cannot be performed with multiple selections"
+msgstr "Der Befehl `%s' kann nicht mit mehreren Auswahlen durchgeführt werden."
 
 #. FIXME FIXME : disable copying part of an array
-#: src/selection.c:631
+#: src/selection.c:630
 msgid "copy"
 msgstr "kopieren"
 
-#: src/selection.c:662
+#: src/selection.c:661
 msgid "cut"
 msgstr "ausschneiden"
 
-#: src/selection.c:689
+#: src/selection.c:688
 msgid "paste"
 msgstr "einfügen"
 
-#: src/selection.c:711
+#: src/selection.c:710
 #, c-format
 msgid ""
 "The area can not be pasted into the selection because it\n"
