@@ -1,3 +1,42 @@
+2000-03-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-cell-format.c : Enable the underline and
+	  strikethrough elements. TODO : redo the preview for the font
+	  tab to support underlining and friends.
+
+	* src/dialogs/cell-format.glade : Rename the underline combo and
+	  strikethrough button.
+
+	* src/xml-io.c (xml_write_style) : Add strikethrough.
+	(xml_read_style) : Ditto.
+
+	* src/workbook-format-toolbar.c (workbook_feedback_set) : Only show
+	  the underline button for single underlines.
+
+	* src/sheet-view.[ch] : rename select_all -> select_all_btn.
+	  remove unused element.
+
+	* src/sheet-object.h : Remove silly self inclusion.
+
+	* src/print-cell.c : Support underlining and strikethrough.
+	  Move even closer into sync with drawing code.
+
+	* src/mstyle.c : Add strikethrough and cleanup includes.
+
+	* src/main.h : Add include for popt.h.
+
+	* src/item-grid.c (item_grid_draw_border) : No more need for BOTTOM or
+	  RIGHT.
+	(item_grid_draw_cell) : Delete, and merge with draw_cell.
+
+	* src/commands.c (cmd_set_text_undo) : Use cursor_set rather than
+	  cursor_move.
+	* src/corba-sheet.c (Sheet_cursor_move) : Ditto.
+	(gnumeric_sheet_key_mode_sheet) : Ditto.
+	* src/workbook.c (workbook_parse_and_jump) : Ditto.
+
+	* src/cell-draw.c : Clean includes, add support for strikethrough.
+
 2000-03-04  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet.c (r1c1_get_item): Fix signed/unsigned char confusion.

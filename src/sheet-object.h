@@ -3,7 +3,6 @@
 
 #include "sheet.h"
 #include "sheet-view.h"
-#include "sheet-object.h"
 
 /*
  * SheetObject

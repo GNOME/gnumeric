@@ -1,3 +1,7 @@
+2000-03-05  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_get_style_from_xf) : enable strikethrough.
+
 2000-03-01  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (biff_font_data_new) : Fix old typo.

@@ -18,7 +18,7 @@ struct _SheetView {
 
 	Sheet            *sheet;
 	GtkWidget        *sheet_view;
-	GtkWidget	 *select_all;
+	GtkWidget	 *select_all_btn;
 	GnomeCanvas      *col_canvas, *row_canvas;
 	GnomeCanvasItem  *col_item, *row_item;
 
@@ -27,11 +27,6 @@ struct _SheetView {
 
 	/* Selection group */
 	GnomeCanvasGroup *selection_group;
-	
-	/*
-	 * Font mappings
-	 */
-	GHashTable       *fontmap;
 	
 	/*
 	 * Temporary object used during the creation of objects

@@ -348,10 +348,10 @@ cmd_set_text_undo (GnumericCommand *cmd, CommandContext *context)
 	me->text = new_text;
 
 	/* Move back to the cell that was edited, and update the edit area */
-	sheet_cursor_move (me->pos.sheet,
-			   me->pos.eval.col,
-			   me->pos.eval.row,
-			   TRUE, TRUE);
+	sheet_cursor_set (me->pos.sheet,
+			  me->pos.eval.col, me->pos.eval.row,
+			  me->pos.eval.col, me->pos.eval.row,
+			  me->pos.eval.col, me->pos.eval.row);
 
 	return FALSE;
 }

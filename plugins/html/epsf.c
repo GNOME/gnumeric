@@ -28,14 +28,14 @@
 #include "ps.h"
 #include "font.h"
 #include "command-context.h"
+#include "gnumeric-util.h"
+#include "sheet-object.h"
+#include "sheet-object-graphic.h"
 
+/* ACK!  this is broken. */
 #define CELL_DIM(cell,p)	(cell->p->size_pts + cell->p->margin_a + cell->p->margin_b)
 #define CELL_WIDTH(cell)	CELL_DIM(cell,col)
 #define CELL_HEIGHT(cell)	CELL_DIM(cell,row)
-
-#define COL_DIM(col)	(col->size_pts + col->margin_a + col->margin_b)
-#define ROW_HEIGHT(col)	COL_DIM(col)
-#define COL_WIDTH(col)	COL_DIM(col)
 
 /*
  * write a cell
@@ -151,12 +151,12 @@ epsf_write_wb (CommandContext *context, Workbook *wb, const char *filename)
 		bh = 0;
 		for (row = 0; row <= sheet->rows.max_used; row++) {
 			row_info = sheet_row_get_info (sheet, row);
-			bh += ROW_HEIGHT(row_info);
+			bh += row_info->size_pts;
 		}
 		bw = 0;
 		for (col = 0; col <= sheet->cols.max_used; col++) {
 			col_info = sheet_col_get_info (sheet, col);
-			bw += COL_WIDTH(col_info);
+			bw += col_info->size_pts;
 		}
 		ps_init_eps (fp, bx, by, bx + bw, by + bh);
 
@@ -164,12 +164,12 @@ epsf_write_wb (CommandContext *context, Workbook *wb, const char *filename)
 		y_pos = bh;
 		for (row = 0; row <= sheet->rows.max_used; row++) {
 			row_info = sheet_row_get_info (sheet, row);
-			y_pos -= ROW_HEIGHT(row_info);
+			y_pos -= row_info->size_pts;
 			for (col = 0; col <= sheet->cols.max_used; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				col_info = sheet_col_get_info (sheet, col);
 				epsf_write_cell (fp, cell, x_pos, y_pos);
-				x_pos += COL_WIDTH(col_info);
+				x_pos += col_info->size_pts;
 			}
 			x_pos = 0;
 		}

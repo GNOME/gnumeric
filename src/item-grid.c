@@ -228,25 +228,15 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 	return SHEET_MAX_ROWS-1;
 }
 
-/*
- * TODO TODO TODO
- * Correctly support extended cells. Multi-line, or extending to the left
- * are incorrect currently.
- */
 static void
 item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 		       int x, int y, int w, int h,
-		       gboolean const extended_left,
-		       gboolean const extended_right /* This should go away */)
+		       gboolean const extended_left)
 {
 	MStyleBorder const * const top =
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_TOP);
 	MStyleBorder const * const left = extended_left ? NULL :
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
-	MStyleBorder const * const bottom =
-	    mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
-	MStyleBorder const * const right = extended_right ? NULL :
-	    mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
 	MStyleBorder const * const diag =
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL);
 	MStyleBorder const * const rev_diag =
@@ -254,18 +244,10 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 
 	if (top)
 		style_border_draw (top, MSTYLE_BORDER_TOP, drawable,
-				   x, y, x + w, y, left, right);
+				   x, y, x + w, y, left, NULL);
 	if (left)
 		style_border_draw (left, MSTYLE_BORDER_LEFT, drawable,
-				   x, y, x, y + h, top, bottom);
-	/* Deprecated : We should only paint borders on top and left. */
-	if (bottom)
-		style_border_draw (bottom, MSTYLE_BORDER_BOTTOM, drawable,
-				   x, y + h, x + w, y + h, left, right);
-	/* Deprecated */
-	if (right)
-		style_border_draw (right, MSTYLE_BORDER_RIGHT, drawable,
-				   x + w, y, x + w, y + h, top, bottom);
+				   x, y, x, y + h, top, NULL);
 
 	if (diag)
 		style_border_draw (diag, MSTYLE_BORDER_DIAGONAL, drawable,
@@ -280,8 +262,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *item_grid,
 			   ColRowInfo const * const ci, ColRowInfo const * const ri,
 			   /* Pass the row, col because the ColRowInfos may be the default. */
 			   int col, int row, int x, int y,
-			   gboolean const extended_left,
-			   gboolean const extended_right /* This should go away */)
+			   gboolean const extended_left)
 {
 	Sheet  *sheet  = item_grid->sheet_view->sheet;
 	MStyle *mstyle = sheet_style_compute (sheet, col, row);
@@ -302,29 +283,9 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *item_grid,
 		/* Fill the entire cell excluding the right & left grid line */
 		gdk_draw_rectangle (drawable, gc, TRUE, x+1, y+1, w-1, h-1);
 
-	item_grid_draw_border (drawable, mstyle, x, y, w, h,
-			       extended_left, extended_right);
+	item_grid_draw_border (drawable, mstyle, x, y, w, h, extended_left);
 
 	return mstyle;
-}
-
-/*
- * Draw a cell.  It gets pixel level coordinates
- *
- * Returns the number of columns used by the cell.
- */
-static inline void
-item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
-		     Cell *cell, MStyle * mstyle, int const x1, int const y1)
-{
-	/*
-	 * If it is being edited pretend it is empty to avoid problems with the
-	 * a long cells contents extending past the edge of the edit box.
-	 */
-	if (cell != cell->sheet->editing_cell &&
-	    (cell->sheet->display_zero || !cell_is_zero (cell)))
-		cell_draw (cell, mstyle, item_grid->sheet_view,
-			   item_grid->gc, drawable, x1, y1);
 }
 
 static void
@@ -415,12 +376,12 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				Cell *cell = sheet_cell_get (sheet, col, row);
 				MStyle *mstyle = item_grid_draw_background (
 					drawable, item_grid, ci, ri,
-					col, row, x_paint, y_paint,
-					FALSE, FALSE);
+					col, row, x_paint, y_paint, FALSE);
 
 				if (!cell_is_blank(cell))
-					item_grid_draw_cell (drawable, item_grid, cell,
-							     mstyle, x_paint, y_paint);
+					cell_draw (cell, mstyle, NULL,
+						   item_grid->gc, drawable, 
+						   x_paint, y_paint);
 				mstyle_unref (mstyle);
 
 				/* Increment the column */
@@ -441,8 +402,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 						MStyle *mstyle = item_grid_draw_background (
 							drawable, item_grid, ci, ri,
 							col, row, x_paint, y_paint,
-							col != start_col,
-							col != end_col);
+							col != start_col);
 						if (col == real_col) {
 							real_style = mstyle;
 							real_x = x_paint;
@@ -462,8 +422,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 											  col, cell->col->pos);
 				}
 
-				item_grid_draw_cell (drawable, item_grid, cell,
-						     real_style, real_x, y_paint);
+				cell_draw (cell, real_style, span, item_grid->gc, drawable, 
+					   real_x, y_paint);
 				mstyle_unref (real_style);
 			}
 		}

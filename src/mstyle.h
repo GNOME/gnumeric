@@ -2,6 +2,7 @@
 #define GNUMERIC_MSTYLE_H
 
 #include "gnumeric.h"
+#include "style.h"
 
 /*
  * Keep element_size up to date.
@@ -31,6 +32,7 @@ enum _MStyleElementType {
 		MSTYLE_FONT_BOLD,
 		MSTYLE_FONT_ITALIC,
 		MSTYLE_FONT_UNDERLINE,
+		MSTYLE_FONT_STRIKETHROUGH,
 	        MSTYLE_FONT_SIZE,
 
 		MSTYLE_FORMAT,
@@ -44,11 +46,6 @@ enum _MStyleElementType {
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX
 };
-
-#include "sheet.h"
-#include "str.h"
-
-/* End of deprecation */
 
 MStyle     *mstyle_new           (void);
 MStyle     *mstyle_new_name      (const gchar *name);
@@ -85,8 +82,11 @@ void                mstyle_set_font_italic (MStyle *st, gboolean italic);
 gboolean            mstyle_get_font_italic (const MStyle *st);
 void                mstyle_set_font_uline  (MStyle *st, StyleUnderlineType const t);
 StyleUnderlineType  mstyle_get_font_uline  (const MStyle *st);
+void                mstyle_set_font_strike (MStyle *st, gboolean strikethrough);
+gboolean            mstyle_get_font_strike (const MStyle *st);
 void                mstyle_set_font_size   (MStyle *st, double size);
 double              mstyle_get_font_size   (const MStyle *st);
+
 /* this font must be unrefd after use */
 StyleFont          *mstyle_get_font        (const MStyle *st, double zoom);
 void                mstyle_set_format      (MStyle *st, const char *format);

@@ -116,6 +116,7 @@ typedef struct _FormatState
 	{
 		FontSelector	*selector;
 		ColorPicker	 color;
+		GtkCheckButton	*strikethrough;
 	} font;
 	struct
 	{
@@ -1157,6 +1158,32 @@ cb_font_changed (GtkWidget *widget, GtkStyle *previous_style, FormatState *state
 	}
 }
 
+static void
+cb_font_strike_toggle (GtkToggleButton *button, FormatState *state)
+{
+	mstyle_set_font_strike (state->result,
+				gtk_toggle_button_get_active (button));
+	fmt_dialog_changed (state);
+}
+
+static void
+cb_font_underline_changed (GtkEditable *w, FormatState *state)
+{
+	gchar const *tmp = gtk_entry_get_text (GTK_ENTRY (w));
+	StyleUnderlineType res = UNDERLINE_NONE;
+
+	/* There must be a better way than this */
+	if (!g_strcasecmp (tmp, _("Single")))
+		res = UNDERLINE_SINGLE;
+	else if (!g_strcasecmp (tmp, _("Double")))
+		res = UNDERLINE_DOUBLE;
+	else if (g_strcasecmp (tmp, _("None")))
+		g_warning ("Invalid underline style, assuming NONE");
+
+	mstyle_set_font_uline (state->result, res);
+	fmt_dialog_changed (state);
+}
+
 /* Manually insert the font selector, and setup signals */
 static void
 fmt_dialog_init_font_page (FormatState *state)
@@ -1164,8 +1191,13 @@ fmt_dialog_init_font_page (FormatState *state)
 	GtkWidget *tmp = font_selector_new ();
 	FontSelector *font_widget = FONT_SELECTOR (tmp);
 	GtkWidget *container = glade_xml_get_widget (state->gui, "font_box");
+	GtkWidget *uline = glade_xml_get_widget (state->gui, "underline_combo");
+	GtkWidget *strike = glade_xml_get_widget (state->gui, "strikethrough_button");
+	gboolean   strikethrough = FALSE;
 
 	g_return_if_fail (container != NULL);
+	g_return_if_fail (uline != NULL);
+	g_return_if_fail (strike != NULL);
 
 	/* TODO : How to insert the font box in the right place initially */
 	gtk_widget_show (tmp);
@@ -1200,6 +1232,33 @@ fmt_dialog_init_font_page (FormatState *state)
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_SIZE))
 		font_selector_set_points (state->font.selector,
 					  mstyle_get_font_size (state->style));
+
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_UNDERLINE)) {
+		GtkCombo *combo = GTK_COMBO (uline);
+		char const *val;
+
+		switch (mstyle_get_font_uline (state->style)) {
+		default :
+		case UNDERLINE_NONE : val = _("None"); break;
+		case UNDERLINE_SINGLE :val = _("Single"); break;
+		case UNDERLINE_DOUBLE :val = _("Double"); break;
+		};
+		gtk_entry_set_text (GTK_ENTRY (combo->entry), val);
+
+		gtk_signal_connect (GTK_OBJECT (combo->entry),
+				    "changed", GTK_SIGNAL_FUNC (cb_font_underline_changed),
+				    state);
+	}
+
+	/* Setup the strikethrough button, and assign the current value */
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_STRIKETHROUGH))
+		strikethrough = mstyle_get_font_strike (state->style);
+
+	state->font.strikethrough = GTK_CHECK_BUTTON (strike);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (strike), strikethrough);
+	gtk_signal_connect (GTK_OBJECT (strike), "toggled",
+			    GTK_SIGNAL_FUNC (cb_font_strike_toggle),
+			    state);
 
 	/* Set the resolution scaling factor */
 	font_selector_set_screen_res (state->font.selector,

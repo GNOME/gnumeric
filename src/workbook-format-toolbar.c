@@ -687,7 +687,7 @@ workbook_feedback_set (Workbook *workbook, MStyle *style)
 	workbook_format_toolbutton_update (workbook, toolbar,
 					   TOOLBAR_UNDERLINE_BUTTON_INDEX,
 					   (GtkSignalFunc)&underline_cmd,
-					   mstyle_get_font_uline (style) != UNDERLINE_NONE);
+					   mstyle_get_font_uline (style) == UNDERLINE_SINGLE);
 
 	/* horizontal alignment */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H));

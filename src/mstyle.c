@@ -5,11 +5,8 @@
  *   Michael Meeks <mmeeks@gnu.org>
  */
 #include <config.h>
-#include <gnome.h>
-#include <string.h>
-#include "style.h"
-#include "sheet.h"
 #include "mstyle.h"
+#include "str.h"
 #include "border.h"
 #include "main.h"
 
@@ -42,6 +39,7 @@ typedef struct {
 			gboolean  bold;
 			gboolean  italic;
 			StyleUnderlineType  underline;
+			gboolean  strikethrough;
 			float     size;
 		}                font;
 		StyleFormat     *format;
@@ -83,6 +81,7 @@ struct _MStyle {
 
 #define MSTYLE_ANY_BOOLEAN           MSTYLE_FONT_BOLD: \
 				case MSTYLE_FONT_ITALIC: \
+				case MSTYLE_FONT_STRIKETHROUGH: \
 				case MSTYLE_FIT_IN_CELL
 
 #define MSTYLE_ANY_GUINT16           MSTYLE_ALIGN_V: \
@@ -111,6 +110,7 @@ const char *mstyle_names [MSTYLE_ELEMENT_MAX] = {
 	"Font.Bold",
 	"Font.Italic",
 	"Font.Underline",
+	"Font.Strikethrough",
 	"Font.Size",
 	"Format",
 	"Align.v",
@@ -216,6 +216,12 @@ mstyle_element_dump (const MStyleElement *e)
 			g_string_sprintf (ans, "double underline");
 		};
 		break;
+	case MSTYLE_FONT_STRIKETHROUGH:
+		if (e->u.font.strikethrough)
+			g_string_sprintf (ans, "strikethrough");
+		else
+			g_string_sprintf (ans, "not strikethrough");
+		break;
 	case MSTYLE_FONT_SIZE:
 		g_string_sprintf (ans, "size %f", e->u.font.size);
 		break;
@@ -286,6 +292,9 @@ mstyle_element_equal (const MStyleElement a,
 		if (a.u.font.underline == b.u.font.underline)
 			return TRUE;
 		break;
+	case MSTYLE_FONT_STRIKETHROUGH:
+		if (a.u.font.strikethrough == b.u.font.strikethrough)
+			return TRUE;
 	case MSTYLE_FONT_SIZE:
 		if (a.u.font.size == b.u.font.size)
 			return TRUE;
@@ -534,6 +543,7 @@ mstyle_new_default (void)
 	mstyle_set_font_bold   (mstyle, FALSE);
 	mstyle_set_font_italic (mstyle, FALSE);
 	mstyle_set_font_uline  (mstyle, UNDERLINE_NONE);
+	mstyle_set_font_strike (mstyle, FALSE);
 	mstyle_set_font_size   (mstyle, DEFAULT_SIZE);
 
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_FORE,
@@ -979,6 +989,23 @@ mstyle_get_font_uline (const MStyle *style)
 	return style->elements [MSTYLE_FONT_UNDERLINE].u.font.underline;
 }
 
+void
+mstyle_set_font_strike (MStyle *style, gboolean const strikethrough)
+{
+	g_return_if_fail (style != NULL);
+
+	style->elements [MSTYLE_FONT_STRIKETHROUGH].type = MSTYLE_FONT_STRIKETHROUGH;
+	style->elements [MSTYLE_FONT_STRIKETHROUGH].u.font.strikethrough = strikethrough;
+}
+
+gboolean
+mstyle_get_font_strike (const MStyle *style)
+{
+	g_return_val_if_fail (style != NULL, FALSE);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH), FALSE);
+
+	return style->elements [MSTYLE_FONT_STRIKETHROUGH].u.font.strikethrough;
+}
 void
 mstyle_set_font_size (MStyle *style, double size)
 {

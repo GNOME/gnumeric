@@ -708,7 +708,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_Home:
 		if ((event->state & GDK_CONTROL_MASK) != 0){
 			sheet_make_cell_visible (sheet, 0, 0);
-			sheet_cursor_move (sheet, 0, 0, TRUE, TRUE);
+			sheet_cursor_set (sheet, 0, 0, 0, 0, 0, 0);
 			break;
 		} else
 			(*movefn_horizontal)(gsheet, -sheet->cursor.edit_pos.col, FALSE);

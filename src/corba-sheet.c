@@ -112,7 +112,7 @@ Sheet_cursor_move (PortableServer_Servant servant, const CORBA_long col, const C
 	verify_col (col);
 	verify_row (row);
 
-	sheet_cursor_move (sheet, col, row, TRUE, TRUE);
+	sheet_cursor_set (sheet, col, row, col, row, col, row);
 }
 
 static void

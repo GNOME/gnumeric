@@ -39,16 +39,44 @@ print_hline (GnomePrintContext *context,
 
 /***********************************************************/
 
-static void
-print_overflow (GnomePrintContext *context, Cell *cell)
-{
-}
-
 /*
  * WARNING : This code is an almost exact duplicate of
- *          cell-draw.c:cell_split_text
+ *          cell-draw.c
  * Try to keep it that way.
  */
+
+static inline void
+print_text (GnomePrintContext *context,
+	    double x, double text_base, char const * text, double len_pts,
+	    double const * const line_offset, int num_lines)
+{
+	gnome_print_moveto (context, x, text_base);
+	gnome_print_show (context, text);
+
+	/* FIXME how to handle small fonts ?
+	 * the text_base should be at least 2 pixels above the bottom */
+	while (--num_lines >= 0) {
+		double y = text_base - line_offset[num_lines];
+		gnome_print_newpath (context);
+		gnome_print_setlinewidth (context, 0);
+		print_hline (context, x, x+len_pts, y);
+	}
+}
+
+static void
+print_overflow (GnomePrintContext *context, GnomeFont *font,
+		double x1, double text_base, double width,
+		double const * const line_offset, int num_lines)
+{
+	double const len = gnome_font_get_width_string_n (font, "#", 1);
+	int count = (len != 0) ? (width / len) : 0;
+
+	/* Center */
+	for (x1 += (width - count*len) / 2; --count >= 0 ; x1 += len )
+		print_text (context, x1, text_base, "#", len,
+			   line_offset, num_lines);
+}
+
 static GList *
 cell_split_text (GnomeFont *font, char const *text, int const width)
 {
@@ -121,11 +149,10 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
  *      \------/
  */
 static void
-print_cell_text (GnomePrintContext *context,
-		 Cell *cell, MStyle *mstyle,
-		 double x1, double y1)
+print_cell (GnomePrintContext *context,
+	    Cell *cell, MStyle *mstyle,
+	    double x1, double y1)
 {
-	StyleUnderlineType const uline = mstyle_get_font_uline (mstyle);
 	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
 	GnomeFont *print_font = style_font->font;
 	double const font_descent = gnome_font_get_descender (print_font);
@@ -133,6 +160,8 @@ print_cell_text (GnomePrintContext *context,
 	double text_width;
 	double clip_x, clip_width, clip_y, clip_height;
 	StyleColor *fore;
+	int num_lines = 0;
+	double line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
 
 	int start_col, end_col;
 	double width, height;
@@ -145,6 +174,10 @@ print_cell_text (GnomePrintContext *context,
 
 	g_return_if_fail (cell);
 	g_return_if_fail (cell->text);
+
+	/* Don't print zeros if they should be ignored. */
+	if (!cell->sheet->display_zero && cell_is_zero (cell))
+		return;
 
 	if (cell->text->str == NULL) {
 		g_warning ("Serious cell error at '%s'\n",
@@ -259,21 +292,37 @@ print_cell_text (GnomePrintContext *context,
 				 fore->green / (double) 0xffff,
 				 fore->blue  / (double) 0xffff);
 
+	/* Handle underlining and strikethrough */
+	switch (mstyle_get_font_uline (mstyle)) {
+	case UNDERLINE_SINGLE : num_lines = 1;
+				line_offset[0] = 1.;
+				break;
+
+	case UNDERLINE_DOUBLE : num_lines = 2;
+				line_offset[0] = 0.;
+				line_offset[1] = 2.;
+
+	default :
+				break;
+	};
+	if (mstyle_get_font_strike (mstyle))
+		line_offset[num_lines++] = font_ascent/-2;
+
 	if (text_width > width && cell_is_number (cell)) {
-		print_overflow (context, cell);
+		print_overflow (context, print_font,
+				x1 + cell->col->margin_a + 1,
+				text_base, width, line_offset, num_lines);
 		style_font_unref (style_font);
 		gnome_print_grestore (context);
 		return;
 	}
 
 	if (is_single_line) {
-		double x, total, len;
+		double x, total, len = text_width;
 
-		len = 0;
 		switch (halign) {
 		case HALIGN_FILL:
 			g_warning ("Unhandled");
-			len = text_width;
 			/* fall down */
 
 		case HALIGN_LEFT:
@@ -298,8 +347,8 @@ print_cell_text (GnomePrintContext *context,
 		total = 0;
 		x = x1;
 		do {
-			gnome_print_moveto (context, x, text_base);
-			gnome_print_show (context, text);
+			print_text (context, x, text_base, text, len,
+				    line_offset, num_lines);
 
 			x += len;
 			total += len;
@@ -359,30 +408,33 @@ print_cell_text (GnomePrintContext *context,
 		y_offset -= font_height;
 		for (l = lines; l; l = l->next) {
 			char const * const str = l->data;
+			double len = 0.;
 
 			switch (halign) {
+			default:
+				g_warning ("Multi-line justification style not supported\n");
+				/* fall through */
+
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
 				x_offset = cell->col->margin_a;
+				if (num_lines > 0)
+					len = gnome_font_get_width_string (print_font, str);
 				break;
 
 			case HALIGN_RIGHT:
-				x_offset = cell->col->size_pts - cell->col->margin_b -
-					gnome_font_get_width_string (print_font, str);
+				len = gnome_font_get_width_string (print_font, str);
+				x_offset = cell->col->size_pts - cell->col->margin_b - len;
 				break;
 
 			case HALIGN_CENTER:
-				x_offset = (cell->col->size_pts -
-					    gnome_font_get_width_string (print_font, str)) / 2;
-				break;
-			default:
-				g_warning ("Multi-line justification style not supported\n");
-				x_offset = cell->col->margin_a;
+				len = gnome_font_get_width_string (print_font, str);
+				x_offset = (cell->col->size_pts - len) / 2;
 			}
 
-			gnome_print_moveto (context, x1 + x_offset,
-					    text_base + y_offset);
-			gnome_print_show (context, str);
+			print_text (context,
+				    x1 + x_offset, text_base + y_offset, str,
+				    len, line_offset, num_lines);
 
 			y_offset -= inter_space;
 			g_free (l->data);
@@ -423,10 +475,6 @@ print_border (GnomePrintContext *context, MStyle *mstyle,
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_TOP);
 	MStyleBorder const * const left = extended_left ? NULL :
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
-	MStyleBorder const * const bottom =
-	    mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
-	MStyleBorder const * const right = extended_right ? NULL :
-	    mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
 	MStyleBorder const * const diag =
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL);
 	MStyleBorder const * const rev_diag =
@@ -434,18 +482,10 @@ print_border (GnomePrintContext *context, MStyle *mstyle,
 
 	if (top)
 		style_border_print (top, MSTYLE_BORDER_TOP, context,
-				   x, y, x + w, y, left, right);
+				   x, y, x + w, y, left, NULL);
 	if (left)
 		style_border_print (left, MSTYLE_BORDER_LEFT, context,
-				   x, y, x, y - h, top, bottom);
-	/* Deprecated : We should only paint borders on top and left. */
-	if (bottom)
-		style_border_print (bottom, MSTYLE_BORDER_BOTTOM, context,
-				   x, y - h, x + w, y - h, left, right);
-	/* Deprecated */
-	if (right)
-		style_border_print (right, MSTYLE_BORDER_RIGHT, context,
-				   x + w, y, x + w, y - h, top, bottom);
+				   x, y, x, y - h, top, NULL);
 
 	if (diag)
 		style_border_print (diag, MSTYLE_BORDER_DIAGONAL, context,
@@ -551,7 +591,7 @@ print_cell_range (GnomePrintContext *context,
 					FALSE, FALSE);
 
 				if (!cell_is_blank(cell))
-					print_cell_text (context, cell, mstyle, x, y);
+					print_cell (context, cell, mstyle, x, y);
 				mstyle_unref (mstyle);
 
 				/* Increment the column
@@ -596,7 +636,7 @@ print_cell_range (GnomePrintContext *context,
 										 col, cell->col->pos);
 				}
 
-				print_cell_text (context, cell, real_style, real_x, y);
+				print_cell (context, cell, real_style, real_x, y);
 				mstyle_unref (real_style);
 			}
 		}
@@ -622,7 +662,8 @@ print_cell_grid (GnomePrintContext *context,
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
 
-	gnome_print_setlinewidth (context, 0.5);
+	/* thinest possible line */
+	gnome_print_setlinewidth (context, 0);
 
 	x = base_x;
 	print_vline (context, x, base_y, base_y - height);

@@ -592,10 +592,10 @@ sheet_view_construct (SheetView *sheet_view)
 			NULL));
 
 	/* The select-all button */
-	sheet_view->select_all = gtk_button_new ();
-	GTK_WIDGET_UNSET_FLAGS (sheet_view->select_all, GTK_CAN_FOCUS);
-	gtk_table_attach (table, sheet_view->select_all, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
-	gtk_signal_connect (GTK_OBJECT (sheet_view->select_all), "clicked",
+	sheet_view->select_all_btn = gtk_button_new ();
+	GTK_WIDGET_UNSET_FLAGS (sheet_view->select_all_btn, GTK_CAN_FOCUS);
+	gtk_table_attach (table, sheet_view->select_all_btn, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_signal_connect (GTK_OBJECT (sheet_view->select_all_btn), "clicked",
 			    GTK_SIGNAL_FUNC (button_select_all), sheet_view);
 
 	/* Scroll bars and their adjustments */
@@ -869,9 +869,9 @@ sheet_view_adjust_preferences (SheetView *sheet_view)
 		gtk_widget_hide (GTK_WIDGET (sheet_view->row_canvas));
 
 	if (sheet->show_col_header && sheet->show_row_header)
-		gtk_widget_show (sheet_view->select_all);
+		gtk_widget_show (sheet_view->select_all_btn);
 	else
-		gtk_widget_hide (sheet_view->select_all);
+		gtk_widget_hide (sheet_view->select_all_btn);
 
 	if (wb->show_horizontal_scrollbar)
 		gtk_widget_show (sheet_view->hs);

@@ -1096,6 +1096,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 		mstyle_set_font_size   (mstyle, fd->height / 20.0);
 		mstyle_set_font_bold   (mstyle, fd->boldness >= 0x2bc);
 		mstyle_set_font_italic (mstyle, fd->italic);
+		mstyle_set_font_strike (mstyle, fd->struck_out);
 		switch (fd->underline) {
 		case eBiffFUSingle :
 		case eBiffFUSingleAcc :

@@ -22,10 +22,7 @@
 #ifndef GNUMERIC_PLUGIN_EPSF_H
 #define GNUMERIC_PLUGIN_EPSF_H
 
-#include "../../src/gnumeric.h"
-#include "../../src/gnumeric-util.h"
-#include "../../src/sheet-object.h"
-#include "../../src/sheet-object-graphic.h"
+#include "gnumeric.h"
 
 int epsf_write_wb (CommandContext *context, Workbook *wb,
 		   const char *filename);

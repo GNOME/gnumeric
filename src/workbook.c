@@ -1597,32 +1597,17 @@ workbook_parse_and_jump (Workbook *wb, const char *text)
 {
 	int col, row;
 
-	if (!parse_cell_name (text, &col, &row)){
-		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("You should introduce a valid cell name"));
-		return FALSE;
-	} else {
+	if (parse_cell_name (text, &col, &row)){
 		Sheet *sheet = wb->current_sheet;
 
-#if 0
-		/* This cannot happen anymore, see parse_cell_name.  */
-		if (col > SHEET_MAX_COLS-1){
-			gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-					 _("Column out of range"));
-			return FALSE;
-		}
-
-		if (row > SHEET_MAX_ROWS-1){
-			gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-					 _("Row number out of range"));
-			return FALSE;
-		}
-#endif
-
 		sheet_make_cell_visible (sheet, col, row);
-		sheet_cursor_move (sheet, col, row, TRUE, TRUE);
+		sheet_cursor_set (sheet, col, row, col, row, col, row);
 		return TRUE;
 	}
+
+	gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+			 _("You should introduce a valid cell name"));
+	return FALSE;
 }
 
 static void

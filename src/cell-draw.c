@@ -5,51 +5,40 @@
  *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  */
 #include <config.h>
-#include <gnome.h>
-#include <locale.h>
-#include "gnumeric.h"
-#include "gnumeric-sheet.h"
-#include "eval.h"
-#include "format.h"
-#include "color.h"
-#include "utils.h"
-#include "cell.h"
-#include "cellspan.h"
+#include <gdk/gdk.h>
 #include "cell-draw.h"
+#include "style.h"
+#include "cell.h"
+#include "sheet-view.h" /* FIXME : Only for sheet_view_get_style_font */
+#include "utils.h"	/* FIXME : Only for cell_name */
 
 static inline void
-draw_text (GdkDrawable *drawable, GdkFont *font, StyleUnderlineType const uline,
-	   GdkGC *gc, int x1, int text_base, char const * text, int n, int len_pixels)
+draw_text (GdkDrawable *drawable, GdkFont *font, GdkGC *gc,
+	   int x1, int text_base, char const * text, int n, int len_pixels,
+	   int const * const line_offset, int num_lines)
 {
 	gdk_draw_text (drawable, font, gc, x1, text_base, text, n);
 
 	/* FIXME how to handle small fonts ?
 	 * the text_base should be at least 2 pixels above the bottom */
-	switch (uline) {
-	case UNDERLINE_SINGLE :
-		gdk_draw_line (drawable, gc, x1, text_base+1, x1+len_pixels, text_base+1);
-		break;
-
-	case UNDERLINE_DOUBLE :
-		gdk_draw_line (drawable, gc, x1, text_base, x1+len_pixels, text_base);
-		gdk_draw_line (drawable, gc, x1, text_base+2, x1+len_pixels, text_base+2);
-
-	default :
-		break;
+	while (--num_lines >= 0) {
+		int y = text_base + line_offset[num_lines];
+		gdk_draw_line (drawable, gc, x1, y, x1+len_pixels, y);
 	}
 }
 
 static void
-draw_overflow (GdkDrawable *drawable, GdkGC *gc,
-	       GdkFont *font, StyleUnderlineType const uline,
-	       int x1, int text_base, int width)
+draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font, 
+	       int x1, int text_base, int width,
+	       int const * const line_offset, int num_lines)
 {
 	int const len = gdk_string_width (font, "#");
 	int count = (len != 0) ? (width / len) : 0;
 
 	/* Center */
 	for (x1 += (width - count*len) / 2; --count >= 0 ; x1 += len )
-		draw_text (drawable, font, uline, gc, x1, text_base, "#", 1, len);
+		draw_text (drawable, font, gc, x1, text_base, "#", 1, len,
+			   line_offset, num_lines);
 }
 
 /*
@@ -141,16 +130,13 @@ cell_split_text (GdkFont *font, char const *text, int const width)
  *       of the gridlines (marked a).
  */
 void 
-cell_draw (Cell *cell, MStyle *mstyle,
-	   SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable,
-	   int x1, int y1)
+cell_draw (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
+	   GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
 {
-	StyleUnderlineType const uline = mstyle_get_font_uline (mstyle);
 	StyleFont    *style_font = sheet_view_get_style_font (cell->sheet, mstyle);
 	GdkFont      *font = style_font_gdk_font (style_font);
 	GdkRectangle  rect;
-	GnumericSheet *gsheet;
-	GnomeCanvas *canvas;
+	int num_lines = 0, line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
 	
 	int start_col, end_col;
 	int width, height;
@@ -159,15 +145,19 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	int halign;
 	gboolean is_single_line;
 	char const *text;
-	CellSpanInfo const * spaninfo;
 
-	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
-	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (cell);
 	g_return_if_fail (cell->text);
-
-	canvas = GNOME_CANVAS (gsheet);
 	
+	/*
+	 * If it is being edited pretend it is empty to avoid problems with the
+	 * a long cells contents extending past the edge of the edit box.
+	 * Don't print zeros if they should be ignored.
+	 */
+	if (cell == cell->sheet->editing_cell ||
+	    (!cell->sheet->display_zero && cell_is_zero (cell)))
+		return;
+
 	if (cell->text->str == NULL) {
 		g_warning ("Serious cell error at '%s'\n",
 			   cell_name (cell->col->pos, cell->row->pos));
@@ -176,7 +166,6 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	} else
 		text = cell->text->str;
 	
-	spaninfo = row_span_get (cell->row, cell->col->pos);
 	if (spaninfo != NULL) {
 		start_col = spaninfo->left;
 		end_col = spaninfo->right;
@@ -266,20 +255,33 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	else
 		gdk_gc_set_foreground (gc, &mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color);
 
+	/* Handle underlining and strikethrough */
+	switch (mstyle_get_font_uline (mstyle)) {
+	case UNDERLINE_SINGLE : num_lines = 1;
+				line_offset[0] = 1;
+				break;
+
+	case UNDERLINE_DOUBLE : num_lines = 2;
+				line_offset[0] = 0;
+				line_offset[1] = 2;
+
+	default :
+				break;
+	};
+	if (mstyle_get_font_strike (mstyle))
+		line_offset[num_lines++] = font->ascent/-2;
+
 	/* if a number overflows, do special drawing */
 	if (width < cell->width_pixel && cell_is_number (cell)) {
-		draw_overflow (drawable, gc, font, uline,
+		draw_overflow (drawable, gc, font,
 			       x1 + cell->col->margin_a + 1,
-			       text_base, width);
+			       text_base, width, line_offset, num_lines);
 		style_font_unref (style_font);
 		return;
 	}
 
 	if (is_single_line) {
-		int total, len;
-
-		len = (uline != UNDERLINE_NONE || halign == HALIGN_FILL)
-		    ? gdk_string_width (font, text) : 0;
+		int total, len = cell->width_pixel;
 
 		switch (halign) {
 		case HALIGN_FILL:
@@ -305,8 +307,8 @@ cell_draw (Cell *cell, MStyle *mstyle,
 
 		total = 0;
 		do {
-			draw_text (drawable, font, uline, gc, x1,
-				   text_base, text, strlen (text), len);
+			draw_text (drawable, font, gc, x1, text_base,
+				   text, strlen (text), len, line_offset, num_lines);
 			x1 += len;
 			total += len;
 		} while (halign == HALIGN_FILL && total < rect.width && len > 0);
@@ -361,7 +363,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
 				x_offset = cell->col->margin_a;
-				if (uline != UNDERLINE_NONE)
+				if (num_lines > 0)
 					len = gdk_string_width (font, text);
 				break;
 				
@@ -377,8 +379,9 @@ cell_draw (Cell *cell, MStyle *mstyle,
 
 			/* Advance one pixel for the border */
 			x_offset++;
-			draw_text (drawable, font, uline, gc, x1 + x_offset,
-				   y1 + y_offset, str, strlen (str), len);
+			draw_text (drawable, font, gc,
+				   x1 + x_offset, y1 + y_offset,
+				   str, strlen (str), len, line_offset, num_lines);
 			y_offset += inter_space;
 			
 			g_free (l->data);

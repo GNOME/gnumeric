@@ -819,6 +819,9 @@ xml_write_style (parse_xml_context_t *ctxt,
 		if (mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE))
 			xml_set_value_int (child, "Underline",
 					   (int)mstyle_get_font_uline (style));
+		if (mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH))
+			xml_set_value_int (child, "StrikeThrough",
+					   mstyle_get_font_strike (style));
 	}
 
 	child = xml_write_style_border (ctxt, style);
@@ -1306,7 +1309,10 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree)
 				mstyle_set_font_italic (mstyle, t);
 
 			if (xml_get_value_int (child, "Underline", &t))
-				mstyle_set_font_uline (mstyle, (StyleOrientation)t);
+				mstyle_set_font_uline (mstyle, (StyleUnderlineType)t);
+
+			if (xml_get_value_int (child, "StrikeThrough", &t))
+				mstyle_set_font_strike (mstyle, t ? TRUE : FALSE);
 
 			font = xmlNodeGetContent (child);
 			if (font) {

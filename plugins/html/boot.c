@@ -26,7 +26,14 @@
 #include "latex.h"
 #include "roff.h"
 #include "file.h"
+
+#ifdef SUPPORT_OLD_EPSF
+/* This is disabled and will probably be removed.  Printing support can produce
+ * postscript and handles things like spanning cells much better.   There is no
+ * reason to fix the breakage here.
+ */
 #include "epsf.h"
+#endif
 
 /*
  * We can unload
@@ -51,7 +58,9 @@ html_cleanup_plugin (PluginData *pd)
 	file_format_unregister_save (html_write_wb_roff_dvi);
 	file_format_unregister_save (html_write_wb_roff_pdf);
 	file_format_unregister_save (html_write_wb_roff);
+#ifdef SUPPORT_OLD_EPSF
 	file_format_unregister_save (epsf_write_wb);
+#endif
 	file_format_unregister_open (NULL,html_read);
 }
 
@@ -91,8 +100,10 @@ html_init (void)
 	desc = _("PDF file format (via groff/gs)");
 	file_format_register_save (".pdf", desc, html_write_wb_roff_pdf);
 
+#ifdef SUPPORT_OLD_EPSF
 	desc = _("EPS file format (*.eps)");
 	file_format_register_save (".eps", desc, epsf_write_wb);
+#endif
 }
 
 #define HTML_TITLE _("HTML (simple html import/export plugin)")

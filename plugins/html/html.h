@@ -22,8 +22,8 @@
 #ifndef GNUMERIC_PLUGIN_HTML_H
 #define GNUMERIC_PLUGIN_HTML_H
 
-#include "../../src/gnumeric.h"
-#include "../../src/gnumeric-util.h"
+#include "gnumeric.h"
+#include "gnumeric-util.h"
 
 int html_write_wb_html32 (CommandContext *context, Workbook *wb,
 			  const char *filename);

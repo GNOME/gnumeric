@@ -400,16 +400,16 @@ style_border_print (MStyleBorder const * const border, MStyleElementType const t
 
 			int const i = t-MSTYLE_BORDER_TOP;
 			int const * const o = (int *)&(offsets[i]);
-			int x = x1+o[0], y = y1+o[1];
+			double x = x1+o[0], y = y1-o[1];
 
 			if (extend_begin != NULL &&
 			    extend_begin->line_type != STYLE_BORDER_NONE) {
 				x += extension_begin[i][0][0];
-				y += extension_begin[i][0][1];
+				y -= extension_begin[i][0][1];
 			}
 
-			gnome_print_moveto (context, x1, y1);
-			gnome_print_lineto (context, x2, y2);
+			gnome_print_moveto (context, x, y);
+			gnome_print_lineto (context, x2+o[2], y2-o[3]);
 			gnome_print_stroke (context);
 			x1 += o[4]; y1 -= o[5]; x2 += o[6]; y2 -= o[7];
 
