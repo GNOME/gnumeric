@@ -4484,6 +4484,185 @@ random_lognormal (gnum_float zeta, gnum_float sigma)
 }
 
 /*
+ * Generate a Weibull distributed number. From the GNU Scientific
+ * library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_weibull (gnum_float a, gnum_float b)
+{
+        gnum_float x, z;
+
+	do {
+	        x = random_01 ();
+	} while (x == 0.0);
+
+	z = pow (-log (x), 1 / b);
+
+	return a * z;
+}
+
+/*
+ * Generate a Laplace (two-sided exponential probability) distributed number.
+ * From the GNU Scientific library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_laplace (gnum_float a)
+{
+        gnum_float u;
+
+	do {
+	        u = 2 * random_01 () - 1.0;
+	} while (u == 0.0);
+
+	if (u < 0)
+	        return a * log ( -u );
+	else
+	        return -a * log ( u );
+}
+
+/*
+ * Generate a Rayleigh distributed number.  From the GNU Scientific library
+ * 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_rayleigh (gnum_float sigma)
+{
+        gnum_float u;
+
+	do {
+	        u = random_01 ();
+	} while (u == 0.0);
+
+	return sigma * sqrt (-2.0 * log (u));
+}
+
+
+/* The Gamma distribution of order a>0 is defined by:
+ *
+ *  p(x) dx = {1 / \Gamma(a) b^a } x^{a-1} e^{-x/b} dx
+ *
+ *  for x>0.  If X and Y are independent gamma-distributed random
+ *   variables of order a1 and a2 with the same scale parameter b, then
+ *   X+Y has gamma distribution of order a1+a2.
+ *
+ *  The algorithms below are from Knuth, vol 2, 2nd ed, p. 129.
+ */
+
+static gnum_float
+gamma_frac (gnum_float a)
+{
+        /* This is exercise 16 from Knuth; see page 135, and the solution is
+	 * on page 551.  */
+
+        gnum_float p, q, x, u, v;
+	p = M_E / (a + M_E);
+	do {
+	        u = random_01 ();
+		do {
+		        v = random_01 ();
+		} while (v == 0.0);
+
+		if (u < p) {
+		        x = exp ((1 / a) * log (v));
+			q = exp (-x);
+		} else {
+		        x = 1 - log (v);
+			q = exp ((a - 1) * log (x));
+		}
+	} while (random_01 () >= q);
+
+	return x;
+}
+
+static gnum_float
+gamma_large (gnum_float a)
+{
+        /* Works only if a > 1, and is most efficient if a is large
+	 *
+	 * This algorithm, reported in Knuth, is attributed to Ahrens.  A
+	 * faster one, we are told, can be found in: J. H. Ahrens and
+	 * U. Dieter, Computing 12 (1974) 223-246.
+	 */
+
+         gnum_float sqa, x, y, v;
+	 sqa = sqrt (2 * a - 1);
+	 do {
+	         do {
+		         y = tan (M_PI * random_01 ());
+			 x = sqa * y + a - 1;
+		 } while (x <= 0);
+		 v = random_01 ();
+	 } while (v > (1 + y * y) * exp ((a - 1) * log (x / (a - 1)) -
+					 sqa * y));
+
+	 return x;
+}
+
+static gnum_float
+ran_gamma_int (unsigned int a)
+{
+        if (a < 12) {
+	         unsigned int i;
+		 gnum_float   prod = 1;
+
+		 for (i = 0; i < a; i++) {
+		         gnum_float u;
+
+			 do {
+			         u = random_01 ();
+			 } while (u == 0.0);
+		         prod *= u;
+		 }
+
+		 /* Note: for 12 iterations we are safe against underflow,
+		  * since the smallest positive random number is O(2^-32).
+		  * This means the smallest possible product is
+		  * 2^(-12*32) = 10^-116 which is within the range of double
+		  * precision. */
+
+		 return -log (prod);
+	} else
+	         return gamma_large ((gnum_float) a);
+}
+
+/*
+ * Generate a Gamma distributed number.  From the GNU Scientific library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_gamma (gnum_float a, gnum_float b)
+{
+        /* assume a > 0 */
+        unsigned int na = floor (a);
+
+	if (a == na)
+	        return b * ran_gamma_int (na);
+	else if (na == 0)
+	        return b * gamma_frac (a);
+	else
+	        return b * (ran_gamma_int (na) + gamma_frac (a - na));
+}
+
+/*
+ * Generate a Pareto distributed number. From the GNU Scientific library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_pareto (gnum_float a, gnum_float b)
+{
+        gnum_float x;
+
+	do {
+	        x = random_01 ();
+	} while (x == 0.0);
+
+	return b * pow (x, -1 / a);
+}
+
+/*
  * Generate 2^n being careful not to overflow
  */
 gnum_float

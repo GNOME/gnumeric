@@ -114,6 +114,11 @@ gnum_float random_bernoulli   (gnum_float p);
 gnum_float random_normal      (void);
 gnum_float random_cauchy      (gnum_float a);
 gnum_float random_lognormal   (gnum_float zeta, gnum_float sigma);
+gnum_float random_weibull     (gnum_float a, gnum_float b);
+gnum_float random_laplace     (gnum_float a);
+gnum_float random_rayleigh    (gnum_float sigma);
+gnum_float random_gamma       (gnum_float a, gnum_float b);
+gnum_float random_pareto      (gnum_float a, gnum_float b);
 
 /* ------------------------------------------------------------------------- */
 

@@ -1,5 +1,10 @@
 2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* src/mathfunc.[ch]: Added random_gamma, random_pareto, random_laplace,
+	and random_weibull.
+
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
 	* src/mathfunc.[ch]: Added random_cauchy and random_lognormal.
 
 2002-07-16  Yanko Kaneti <yaneti@declera.com>
