@@ -1,5 +1,8 @@
 Gnumeric 1.1.20
 
+Andreas:
+	* Fix analysis tools dialogs again
+
 Jean Brefort:
 	* Support image files in chart areas (background, bar/col or pie)
 

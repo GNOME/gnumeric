@@ -354,7 +354,7 @@ dialog_tool_init (GenericToolState *state,
 		gnm_expr_entry_set_flags (state->input_entry, flags,
 					  GNM_EE_MASK);
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
-				  2, 3, 1, 2,
+				  1, 2, 0, 1,
 				  GTK_EXPAND | GTK_FILL, 0,
 				  0, 0);
 		g_signal_connect_after (G_OBJECT (state->input_entry),
@@ -388,7 +388,7 @@ dialog_tool_init (GenericToolState *state,
 		tchild = (GtkTableChild *)(this_label_widget->data);
 
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
-			  2, 3, tchild->top_attach, tchild->bottom_attach,
+			  1, 2, tchild->top_attach, tchild->bottom_attach,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 		g_signal_connect_after (G_OBJECT (state->input_entry_2),
