@@ -1319,6 +1319,7 @@ typedef struct {
 	int       hot_x, hot_y;
 	const char **xpm;
 	GdkBitmap *bitmap, *mask;
+	GdkDrawable *last_drawable;
 } CursorDef;
 
 /* Hack so we don't have to change the xpms below.  */
@@ -1541,77 +1542,70 @@ cursors [] = {
 };
 
 static void
-gnm_cursor_init (void)
+gnm_cursor_init1 (GdkDrawable *drawable, int i)
 {
-	static gboolean inited = FALSE;
-	int i;
+	int height, width, colors;
+	char pixmap_buffer [(32 * 32)/8];
+	char mask_buffer [(32 * 32)/8];
+	int x, y, pix, yofs;
+	int transparent_color, black_color;
+	const char **xpm = cursors[i].xpm;
 
-	if (inited)
-		return;
+	sscanf (xpm [0], "%d %d %d %d", &height, &width, &colors, &pix);
 
-	for (i = 0; i < GNM_CURSOR_NUM_CURSORS; i++) {
-		int height, width, colors;
-		char pixmap_buffer [(32 * 32)/8];
-		char mask_buffer [(32 * 32)/8];
-		int x, y, pix, yofs;
-		int transparent_color, black_color;
-		const char **xpm = cursors[i].xpm;
+	g_assert (height == 32);
+	g_assert (width  == 32);
+	g_assert (colors <= 3);
 
-		if (cursors[i].hot_x == GDK_INTERNAL_CURSOR)
-			continue;
+	transparent_color = ' ';
+	black_color = '.';
+	
+	yofs = colors + 1;
+	for (y = 0; y < 32; y++){
+		for (x = 0; x < 32;){
+			char value = 0, maskv = 0;
+			
+			for (pix = 0; pix < 8; pix++, x++){
+				if (xpm [y + yofs][x] != transparent_color){
+					maskv |= 1 << pix;
 
-		sscanf (xpm [0], "%d %d %d %d", &height, &width, &colors, &pix);
-
-		g_assert (height == 32);
-		g_assert (width  == 32);
-		g_assert (colors <= 3);
-
-		transparent_color = ' ';
-		black_color = '.';
-
-		yofs = colors + 1;
-		for (y = 0; y < 32; y++){
-			for (x = 0; x < 32;){
-				char value = 0, maskv = 0;
-
-				for (pix = 0; pix < 8; pix++, x++){
-					if (xpm [y + yofs][x] != transparent_color){
-						maskv |= 1 << pix;
-
-						/*
-						 * Invert the colours here because it seems
-						 * to workaround a bug the Matrox G100 Xserver?
-						 * We reverse the foreground & background in the next
-						 * routine to compensate.
-						 */
-						if (xpm [y + yofs][x] == black_color){
-							value |= 1 << pix;
-						}
+					/*
+					 * Invert the colours here because it seems
+					 * to workaround a bug the Matrox G100 Xserver?
+					 * We reverse the foreground & background in the next
+					 * routine to compensate.
+					 */
+					if (xpm [y + yofs][x] == black_color){
+						value |= 1 << pix;
 					}
 				}
-				pixmap_buffer [(y * 4 + x/8)-1] = value;
-				mask_buffer [(y * 4 + x/8)-1] = maskv;
 			}
+			pixmap_buffer [(y * 4 + x/8)-1] = value;
+			mask_buffer [(y * 4 + x/8)-1] = maskv;
 		}
-
-		cursors[i].bitmap = gdk_bitmap_create_from_data (NULL, pixmap_buffer, 32, 32);
-		cursors[i].mask   = gdk_bitmap_create_from_data (NULL, mask_buffer, 32, 32);
 	}
 
-	inited = TRUE;
+	cursors[i].bitmap = gdk_bitmap_create_from_data (drawable, pixmap_buffer, 32, 32);
+	cursors[i].mask   = gdk_bitmap_create_from_data (drawable, mask_buffer, 32, 32);
 }
 
 static GdkCursor *
-gnm_cursor_create (GdkDisplay *display, GnmCursorType c)
+gnm_cursor_create (GdkDisplay *display, GdkDrawable *drawable, GnmCursorType c)
 {
 	g_return_val_if_fail (c >= 0 && c < GNM_CURSOR_NUM_CURSORS, NULL);
-
-	gnm_cursor_init ();
 
 	if (cursors[c].hot_x == GDK_INTERNAL_CURSOR) {
 		GdkCursorType typ = cursors[c].hot_y;
 		return gdk_cursor_new_for_display (display, typ);
 	} else {
+		if (drawable != cursors[c].last_drawable) {
+			if (cursors[c].bitmap)
+				g_object_unref (cursors[c].bitmap);
+			if (cursors[c].mask)
+				g_object_unref (cursors[c].mask);
+			gnm_cursor_init1 (drawable, c);
+			cursors[c].last_drawable = drawable;
+		}
 
 		return gdk_cursor_new_from_pixmap (
 			cursors[c].bitmap,
@@ -1626,8 +1620,10 @@ void
 gnm_cursor_set_widget (GtkWidget *w, GnmCursorType c)
 {
 	if (w->window) {
-		GdkDisplay *display = gtk_widget_get_display (w);
-		GdkCursor *cursor = gnm_cursor_create (display, c);
+		GdkScreen *screen = gtk_widget_get_screen (w);
+		GdkDisplay *display = gdk_screen_get_display (screen);
+		GdkDrawable *drawable = gdk_screen_get_root_window (screen);
+		GdkCursor *cursor = gnm_cursor_create (display, drawable, c);
 		gdk_window_set_cursor (w->window, cursor);
 		gdk_cursor_unref (cursor);
 	}
