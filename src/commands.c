@@ -374,7 +374,7 @@ update_after_action (Sheet *sheet)
 		g_return_if_fail (IS_SHEET (sheet));
 
 		sheet_set_dirty (sheet, TRUE);
-		if (sheet->workbook->recalc_auto)
+		if (workbook_autorecalc (sheet->workbook))
 			workbook_recalc (sheet->workbook);
 		sheet_update (sheet);
 
@@ -2507,7 +2507,7 @@ cmd_paste_cut_update_origin (GnmExprRelocateInfo const  *info,
 		/* An if necessary both workbooks */
 		if (IS_SHEET (info->origin_sheet) &&
 		    info->origin_sheet->workbook != info->target_sheet->workbook) {
-			if (info->origin_sheet->workbook->recalc_auto)
+			if (workbook_autorecalc (info->origin_sheet->workbook))
 				workbook_recalc (info->origin_sheet->workbook);
 			sheet_update (info->origin_sheet);
 		}

@@ -27,6 +27,8 @@
 #include "func.h"
 #include "plugin.h"
 #include "value.h"
+#include "workbook.h"
+#include "sheet.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
 
@@ -97,7 +99,11 @@ static void
 cb_watcher_queue_recalc (gpointer key, gpointer value, gpointer closure)
 {
 	Watcher const *w = key;
+	Sheet *sheet = w->dep->sheet;
 	dependent_queue_recalc (w->dep);
+
+	if (sheet && workbook_autorecalc (sheet->workbook))
+		workbook_recalc (sheet->workbook);
 }
 
 static gboolean

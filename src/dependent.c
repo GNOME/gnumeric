@@ -2098,7 +2098,7 @@ workbook_queue_all_recalc (Workbook *wb)
  * workbook_recalc :
  * @wb :
  *
- * Computes all dependents in @wb that have been flags as requiring
+ * Computes all dependents in @wb that have been flaged as requiring
  * recomputation.
  *
  * NOTE! This does not recalc dependents in other workbooks.

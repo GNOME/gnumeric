@@ -243,13 +243,13 @@ attr_dialog_init_view_page (AttrState *state)
 		"WorkbookView::workbook_protected",
 		state->wbv->is_protected,
 		&state->old.is_protected);
-	if (!state->wb->recalc_auto) {
+	if (!workbook_autorecalc (state->wb)) {
 		GtkWidget *w = glade_xml_get_widget (state->gui, "recalc_manual");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 	}
 	state->view.recalc_auto = attr_dialog_init_toggle (state,
 		"recalc_auto",
-		state->wb->recalc_auto,
+		workbook_autorecalc (state->wb),
 		&state->old.recalc_auto);
 	state->view.iteration_enabled = attr_dialog_init_toggle (state,
 		"iteration_enabled",

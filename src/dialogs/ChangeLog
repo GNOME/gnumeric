@@ -1,3 +1,8 @@
+2004-10-08  Morten Welinder  <terra@gnome.org>
+
+	* dialog-workbook-attr.c (attr_dialog_init_view_page): Use
+	workbook_autorecalc.
+
 2004-10-05  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.91

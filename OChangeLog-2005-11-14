@@ -1,5 +1,8 @@
 2004-10-08  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_paste_cut_update_origin,
+	update_after_action): Use workbook_autorecalc.
+
 	* src/workbook.c (workbook_autorecalc): New function.
 
 2004-10-07  Morten Welinder  <terra@gnome.org>
