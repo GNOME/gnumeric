@@ -40,16 +40,19 @@ gnumeric_dashed_canvas_line_get_type (void)
 static void
 gnumeric_dashed_canvas_line_class_init (GnumericDashedCanvasLineClass *klass)
 {
+	GnomeCanvasItemClass *item_class;
+
 	gnumeric_dashed_canvas_line_class = klass;
-	parent_class = gtk_type_class (gnome_canvas_line_get_type ());
-	klass->real_draw = parent_class->parent_class.draw;
-	parent_class->parent_class.draw = &gnumeric_dashed_canvas_line_draw;
+
+	item_class = (GnomeCanvasItemClass *) klass;
+
+	klass->real_draw = item_class->draw;
+	item_class->draw = &gnumeric_dashed_canvas_line_draw;
 }
 
 static void
 gnumeric_dashed_canvas_line_init (GnumericDashedCanvasLine *line)
 {
-    GNUMERIC_DASHED_CANVAS_LINE(line);
 	line->dash_style_index = BORDER_THIN;
 }
 
