@@ -668,28 +668,22 @@ get_xtn_lens (guint32 *pre_len, guint32 *end_len, guint8 const *ptr, gboolean ex
 
 	if (rich_str) { /* The data for this appears after the string */
 		guint16 formatting_runs = GSF_LE_GET_GUINT16 (ptr);
-		static int warned = FALSE;
 
 		(*end_len) += formatting_runs * 4; /* 4 bytes per */
 		(*pre_len) += 2;
 		ptr        += 2;
 
-		if (!warned)
-			printf ("FIXME: rich string support unimplemented:"
-				"discarding %d runs\n", formatting_runs);
-		warned = TRUE;
+		printf ("rich string support unimplemented:"
+			"discarding %d runs\n", formatting_runs);
 	}
 	if (ext_str) { /* NB this data always comes after the rich_str data */
 		guint32 len_ext_rst = GSF_LE_GET_GUINT32 (ptr); /* A byte length */
-		static int warned = FALSE;
 
 		(*end_len) += len_ext_rst;
 		(*pre_len) += 4;
 
-		if (!warned)
-			printf ("FIXME: extended string support unimplemented:"
-				"ignoring %u bytes\n", len_ext_rst);
-		warned = TRUE;
+		g_warning ("extended string support unimplemented:"
+			   "ignoring %u bytes\n", len_ext_rst);
 	}
 }
 
