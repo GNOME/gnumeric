@@ -1,3 +1,7 @@
+2001-09-25  Jody Goldberg <jgoldberg@home.com>
+
+	* excel-gb-worksheet.c : Add missing include so that things compile
+
 2001-09-25  Jon K Hellan  <hellan@acm.org>
 
 	* .cvsignore: Add plugin.xml

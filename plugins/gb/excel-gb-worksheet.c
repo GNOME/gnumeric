@@ -19,6 +19,7 @@
 #include "excel-gb-worksheet.h"
 #include "excel-gb-range.h"
 #include "excel-gb-selection.h"
+#include "excel-gb-context.h"
 
 #define ITEM_NAME "gb-worksheet"
 
