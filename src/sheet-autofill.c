@@ -701,7 +701,7 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 			GnmExprArray const *array = &fi->v.expr->array;
 			if (array->cols > limit_x) {
 				if (func != NULL)
-					func->array.cols = limit_x;
+					((GnmExpr*)func)->array.cols = limit_x;
 				else
 					func = gnm_expr_new_array (
 						array->x, array->y,
@@ -709,7 +709,7 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 			}
 			if (array->rows > limit_y) {
 				if (func != NULL)
-					func->array.rows = limit_y;
+					((GnmExpr*)func)->array.rows = limit_y;
 				else
 					func = gnm_expr_new_array (
 						array->x, array->y,
@@ -718,15 +718,15 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 
 			if (func != NULL &&
 			    func->array.x == 0 && func->array.y == 0 &&
-			    func->array.corner.expr == NULL)
-				gnm_expr_ref (func->array.corner.expr = array->corner.expr);
+			    func->array.corner.expr == NULL) {
+				gnm_expr_ref (array->corner.expr);
+				((GnmExpr*)func)->array.corner.expr = array->corner.expr;
+			}
 		}
 		cell_set_expr (cell, (func == NULL) ? fi->v.expr : func);
 
-		if (func) {
-			g_warning ("oink!");
+		if (func)
 			gnm_expr_unref (func);
-		}
 		return;
 	}
 
