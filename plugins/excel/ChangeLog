@@ -1,5 +1,12 @@
 1999-07-12  Jody Goldberg  <jgoldberg@home.com>
 
+	* ms-excel-read.c (biff_name_data_get_name) : Off by one error in the
+	  range check.  Improve debug notification when something bad happens.
+	(ms_excel_get_xf) : Improve debug messages to help find the problem
+	  with xf indicies in old files.
+
+1999-07-12  Jody Goldberg  <jgoldberg@home.com>
+
 	* ms-chart.c : More record types.
 
 	* ms-escher.c : More record types.

@@ -15,6 +15,7 @@
 #include "utils.h"	/* for cell_name */
 
 /* This many styles are reserved */
+/* FIXME FIXME FIXME : Is this version specific ?? Older biffs may need more */
 #define XF_MAGIC_OFFSET (16 + 4)
 
 /* #define NO_DEBUG_EXCEL */
@@ -607,7 +608,7 @@ biff_name_data_get_name (ExcelSheet *sheet, guint16 idx)
 
 	a = sheet->wb->name_data;
 
-	if (a && 0 < idx && idx < a->len && (bnd = g_ptr_array_index (a, idx-1))) {
+	if (a && 0 < idx && idx <= a->len && (bnd = g_ptr_array_index (a, idx-1))) {
 		if (bnd->type == BNDStore && bnd->v.store.data) {
 			char     *duff = "Some Error";
 			ExprTree *tree;
@@ -641,7 +642,10 @@ biff_name_data_get_name (ExcelSheet *sheet, guint16 idx)
 		else
 			return expr_tree_new_constant (value_new_string (bnd->name));
 	} else
+	{
+		g_warning ("EXCEL : %x (of %x) UNKNOWN name\n", idx-1, a->len);
 		return expr_tree_new_constant (value_new_string("Unknown name"));
+	}
 }
 
 static void
@@ -914,11 +918,11 @@ ms_excel_set_cell_font (ExcelSheet *sheet, Cell *cell, BiffXFData const *xf)
 }
 
 static BiffXFData const *
-ms_excel_get_xf (ExcelSheet *sheet, guint16 const xfidx)
+ms_excel_get_xf (ExcelSheet *sheet, int const xfidx, Cell *cell)
 {
 	BiffXFData const *xf;
 	GPtrArray const * const p = sheet->wb->XF_cell_records;
-	guint16 const idx = xfidx - XF_MAGIC_OFFSET;
+	int const idx = xfidx - XF_MAGIC_OFFSET;
 
 	/* Normal cell formatting */
 	if (xfidx == 0)
@@ -928,7 +932,14 @@ ms_excel_get_xf (ExcelSheet *sheet, guint16 const xfidx)
 	if (xfidx == 15)
     		return NULL;
 
-	g_return_val_if_fail (p && idx < p->len, NULL);
+	/* FIXME : Put in some verbose debug until we figure this out */
+	if (p == NULL ||  0 > idx || idx >= p->len)
+	{
+	    printf ("%s : MISSING XF.  requested %d out of %d\n",
+		    cell_name(cell->col->pos, cell->row->pos),
+		    idx, p->len);
+	}
+	g_return_val_if_fail (p && 0 <= idx && idx < p->len, NULL);
 	xf = g_ptr_array_index (p, idx);
 
 	g_return_val_if_fail (xf, NULL);
@@ -939,7 +950,7 @@ ms_excel_get_xf (ExcelSheet *sheet, guint16 const xfidx)
 static void
 ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 {
-	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
+	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx, cell);
 	StyleColor *fore, *back, *basefore;
 	int back_index;
 
@@ -2061,7 +2072,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		 *    calibrated against.
 		 * 2) the docs say charwidth not height.  Is this correct ?
 		 */
-		if ((xf = ms_excel_get_xf (sheet, cols_xf)) != NULL &&
+		if ((xf = ms_excel_get_xf (sheet, cols_xf, NULL)) != NULL &&
 		    (fd = ms_excel_get_font (sheet, xf->font_idx))) {
 			divisor = fd->height / 10;
 		} else
