@@ -40,6 +40,7 @@ gnm_float lgamma1p (gnm_float a);
 gnm_float pow1p (gnm_float x, gnm_float y);
 gnm_float pow1pm1 (gnm_float x, gnm_float y);
 gnm_float gnumeric_trunc(gnm_float x);
+gnm_float logfbit (gnm_float x);
 
 gnm_float beta (gnm_float a, gnm_float b);
 gnm_float lbeta3 (gnm_float a, gnm_float b, int *sign);

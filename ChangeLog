@@ -1,3 +1,7 @@
+2004-10-21  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (logfbit): Make global.
+
 2004-10-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/stf.c: (stf_apply_formats): use unsigned int

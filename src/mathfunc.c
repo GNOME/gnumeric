@@ -4342,7 +4342,7 @@ static const gnm_float lfbc8 = GNM_const (3.5068606896459316479e-01);
 static const gnm_float lfbc9 = GNM_const (1.6769998201671114808);
 
 /* This is also stirlerr(x+1).  */
-static gnm_float
+gnm_float
 logfbit (gnm_float x)
 {
 	/*
