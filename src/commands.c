@@ -2144,10 +2144,10 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 	me->is_cols = is_cols;
  	me->hide = me->show = NULL;
  	if (visible)
- 		me->show = colrow_get_outline_toggle (sv_sheet (sv), is_cols,
+ 		me->show = colrow_get_outline_toggle (sheet, is_cols,
  						      TRUE, first, last);
  	else
- 		me->hide = colrow_get_outline_toggle (sv_sheet (sv), is_cols,
+ 		me->hide = colrow_get_outline_toggle (sheet, is_cols,
  						      FALSE, first, last);
 
 	me->parent.sheet = sheet;
@@ -2163,18 +2163,18 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 gboolean
 cmd_global_outline_change (WorkbookControl *wbc, gboolean is_cols, int depth)
 {
-	GObject *obj;
+	GtkObject *obj;
 	CmdColRowHide *me;
-	SheetView *sv	 = wb_control_cur_sheet_view (wbc);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
 
-	obj = g_object_new (CMD_COLROW_HIDE_TYPE, NULL);
+	obj = gtk_type_new (CMD_COLROW_HIDE_TYPE);
 	me = CMD_COLROW_HIDE (obj);
 
 	me->is_cols = is_cols;
-	colrow_get_global_outline (sv_sheet (sv), is_cols, depth,
+	colrow_get_global_outline (sheet, is_cols, depth,
 				   &me->show, &me->hide);
 
-	me->parent.sheet = sv_sheet (sv);
+	me->parent.sheet = sheet;
 	me->parent.size = 1 + g_slist_length (me->show) + g_slist_length (me->hide);
 	me->parent.cmd_descriptor = g_strdup_printf (is_cols
 		? _("Show column outline %d") : _("Show row outline %d"));
