@@ -26,6 +26,8 @@
 #include "command-context.h"
 #include "commands.h"
 #include "cellspan.h"
+#include "sheet-private.h"
+
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
 #endif
@@ -151,6 +153,7 @@ sheet_new (Workbook *wb, const char *name)
 	g_return_val_if_fail (name != NULL, NULL);
 
 	sheet = g_new0 (Sheet, 1);
+	sheet->private = g_new0 (SheetPrivate, 1);
 	sheet->signature = SHEET_SIGNATURE;
 	sheet->workbook = wb;
 	sheet->name = g_strdup (name);
@@ -1901,6 +1904,9 @@ sheet_destroy (Sheet *sheet)
 	g_list_free (sheet->comment_list);
 	sheet->comment_list = NULL;
 
+#ifdef ENABLE_BONOBO
+	sheet_vectors_shutdown (sheet);
+#endif
 	sheet_destroy_contents (sheet);
 
 	/* Clear the cliboard to avoid dangling references to the deleted sheet */
@@ -1917,6 +1923,8 @@ sheet_destroy (Sheet *sheet)
 	expr_name_clean_sheet (sheet);
 
 	sheet->signature = 0;
+
+	g_free (sheet->private);
 	g_free (sheet);
 }
 
@@ -3531,4 +3539,12 @@ sheet_row_set_default_size_pts (Sheet *sheet, double height_pts,
 	int const a = thick_a ? 2 : 1;
 	int const b = thick_b ? 1 : 0;
 	col_row_info_init (sheet, height_pts, a, b, FALSE);
+}
+
+void
+sheet_cell_changed (Cell *cell)
+{
+#ifndef ENABLE_BONOBO
+	sheet_vector_cell_changed (cell);
+#endif
 }

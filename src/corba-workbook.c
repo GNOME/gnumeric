@@ -17,6 +17,7 @@
 #include "commands.h"
 #include "command-context-corba.h"
 #include "workbook-private.h"
+#include "sheet-private.h"
 
 typedef struct {
 	POA_GNOME_Gnumeric_Workbook servant;	
@@ -37,7 +38,7 @@ workbook_from_servant (PortableServer_Servant servant)
 static inline GNOME_Gnumeric_Sheet
 corba_sheet (Sheet *sheet, CORBA_Environment *ev)
 {
-	return CORBA_Object_duplicate (sheet->corba_server, ev);
+	return CORBA_Object_duplicate (sheet->private->corba_server, ev);
 }
 
 static GNOME_Gnumeric_Sheet

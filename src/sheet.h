@@ -58,6 +58,8 @@ typedef enum {
 	SHEET_MODE_OBJECT_SELECTED,
 } SheetModeType;
 
+typedef struct _SheetPrivate SheetPrivate;
+
 struct _Sheet {
 	int         signature;
 
@@ -112,19 +114,18 @@ struct _Sheet {
 	gboolean    modified;
 
 	/* Sheet level preferences */
-	gboolean	display_formulas;
-	gboolean	display_zero;
-	gboolean	show_grid;
-	gboolean	show_col_header;
-	gboolean	show_row_header;
+	gboolean    display_formulas;
+	gboolean    display_zero;
+	gboolean    show_grid;
+	gboolean    show_col_header;
+	gboolean    show_row_header;
 
         /* Solver parameters */
         SolverParameters solver_parameters;
 
 	DependencyData  *deps;
 
-	void            *corba_server;
-
+	SheetPrivate     *private;
 	PrintInformation *print_info;
 };
 
@@ -178,6 +179,8 @@ void        sheet_recompute_spans_for_col      (Sheet *sheet, int col);
 
 void        sheet_cell_formula_link       (Cell *cell);
 void        sheet_cell_formula_unlink     (Cell *cell);
+void        sheet_cell_changed            (Cell *cell);
+
 gboolean    sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row,
 					       int end_col, int end_row);
 
@@ -400,5 +403,7 @@ void  sheet_clear_region (CommandContext *context,
 			  int const start_col, int const start_row,
 			  int const end_col, int const end_row,
 			  int const clear_flags);
+
+void  sheet_vectors_shutdown (Sheet *sheet);
 
 #endif /* GNUMERIC_SHEET_H */

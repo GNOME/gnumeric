@@ -291,3 +291,11 @@ Office 2000 and 'explorer' compatibility.
 
 * Html export
   * Export style information for blank cells.
+
+* Cell Changed
+  * The graphics code uses a "cell has been modified" hook, and it
+    scans the list of vectors for ranges that are covered, and need to
+    be notified of changes.
+
+    Needs to be optimized.
+   

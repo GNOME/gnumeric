@@ -543,6 +543,8 @@ cell_content_changed (Cell *cell)
 	deps = cell_get_dependencies (cell);
 	if (deps)
 		cell_queue_recalc_list (deps, TRUE);
+
+	sheet_cell_changed (cell);
 }
 
 

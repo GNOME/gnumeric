@@ -1,3 +1,19 @@
+2000-02-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (cell_content_changed): Notify the sheet that the
+	cell changed using sheet_cell_changed.
+
+	* src/sheet-vector.c: New file.  Implements the Gnumeric:Vector
+	interface (and supports non-contiguous ranges)
+
+	* src/sheet.c (sheet_destroy): free private structure.
+	(sheet_new): init private structure.
+	(sheet_cell_changed): New function.
+	
+	* src/sheet-private.h: New file.
+
+	* src/sheet.h: Sheet structure includes SheetPrivate field now.
+
 2000-02-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-format-toolbar.c (change_selection_font) : Add underline.

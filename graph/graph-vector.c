@@ -27,6 +27,9 @@ graph_vector_new (GNOME_Gnumeric_Vector vector, GraphVectorChangeNotifyFn change
 	if (guess)
 		gv->contains_numbers = GNOME_Gnumeric_Vector_only_numbers (vector, &ev);
 
+	/*
+	 * FIXME: we should only transfer a few numbers, and load more on demand.
+	 */
 	if (gv->contains_numbers)
 		gv->u.double_vec = GNOME_Gnumeric_Vector_get_numbers (vector, 0, -1, &ev);
 	else
@@ -63,6 +66,11 @@ graph_vector_destroy (GraphVector *vector)
 int
 graph_vector_count (GraphVector *vector)
 {
+	/*
+	 * FIXME: Note that we should cache the size of the actual
+	 * vector, as this just works for the current code base (in
+	 * which the entire vector is tranfered
+	 */
 	if (vector->contains_numbers)
 		return vector->u.double_vec->_length;
 	else

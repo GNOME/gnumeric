@@ -17,6 +17,7 @@
 #include "sheet.h"
 #include "workbook.h"
 #include "embeddable-grid.h"
+#include "sheet-private.h"
 
 /*
  * Our vectors for providing methods
@@ -37,7 +38,7 @@ Grid_get_sheet (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	EmbeddableGrid *eg = embeddable_grid_from_servant (servant);
 
-	return CORBA_Object_duplicate (eg->sheet->corba_server, ev);
+	return CORBA_Object_duplicate (eg->sheet->private->corba_server, ev);
 }
 
 void

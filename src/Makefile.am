@@ -156,6 +156,7 @@ GNUMERIC_BASE_SOURCES =				\
 	selection.h				\
 	sheet.c					\
 	sheet.h					\
+	sheet-private.h				\
 	sheet-autofill.c			\
 	sheet-autofill.h			\
 	sheet-object.c				\
@@ -210,7 +211,9 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	sheet-object-container.c		\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
-	sheet-object-item.h
+	sheet-object-item.h			\
+	sheet-vector.c				\
+	sheet-vector.h
 
 Gnumeric-impl.o: Gnumeric.h
 
