@@ -27,7 +27,7 @@
 #include <func.h>
 
 #include <parse-util.h>
-#include <eval.h>
+#include <dependent.h>
 #include <cell.h>
 #include <str.h>
 #include <sheet.h>

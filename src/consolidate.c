@@ -24,7 +24,7 @@
 #include "consolidate.h"
 
 #include "cell.h"
-#include "eval.h"
+#include "dependent.h"
 #include "expr.h"
 #include "func.h"
 #include "position.h"

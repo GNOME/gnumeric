@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * eval.c:  Manage calculation dependencies between objects
+ * dependent.c:  Manage calculation dependencies between objects
  *
  * Copyright (C) 2000-2002
  *  Jody Goldberg   (jody@gnome.org)
@@ -21,22 +21,18 @@
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#include "eval.h"
+#include "dependent.h"
 
-#include "parse-util.h"
-#include "ranges.h"
 #include "value.h"
-#include "main.h"
-#include "workbook-control.h"
-#include "workbook-view.h"
-#include "workbook-private.h"
+#include "cell.h"
+#include "sheet.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "expr-name.h"
-#include "cell.h"
-#include "func.h"
-#include "sheet.h"
-#include "rendered-value.h"
+#include "workbook-view.h"
+#include "workbook-private.h"
+#include "rendered-value.h" /* FIXME : should not be needed with JIT-R */
+#include "ranges.h"
 
 #define BUCKET_SIZE	128
 

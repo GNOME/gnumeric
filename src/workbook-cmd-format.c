@@ -10,7 +10,7 @@
 #include "gnumeric.h"
 #include "workbook-cmd-format.h"
 
-#include "eval.h"
+#include "dependent.h"
 #include "ranges.h"
 #include "gui-util.h"
 #include "selection.h"

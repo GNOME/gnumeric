@@ -33,7 +33,7 @@
 #include "sheet.h"
 #include "workbook.h"
 #include "sheet-style.h"
-#include "eval.h"
+#include "dependent.h"
 #include "dialogs.h"
 #include "mstyle.h"
 #include "value.h"
@@ -691,7 +691,7 @@ solver_performance_report (WorkbookControl *wbc,
 	dao_set_cell_value (&dao, 3, 19, value_new_float (res->time_system));
 
 	/* Set the `Real Time'. */
-	dao_set_cell_value (&dao, 4, 19,0
+	dao_set_cell_value (&dao, 4, 19,
 			    value_new_float (gnumeric_fake_round
 					     (res->time_real * 100) / 100.0));
 
@@ -779,7 +779,6 @@ solver_program_report (WorkbookControl *wbc,
 		       SolverResults   *res)
 {
         data_analysis_output_t dao;
-	Cell                   *cell;
 	int                    i, col, row, max_col, n, vars;
 
 	dao_init (&dao, NewSheetOutput);

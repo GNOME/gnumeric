@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_STYLE_CONDITION_H
 #define GNUMERIC_STYLE_CONDITION_H
 
-#include "eval.h"
+#include "dependent.h"
 #include "gnumeric.h"
 
 typedef enum {

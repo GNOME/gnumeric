@@ -33,7 +33,7 @@
 #include "sheet.h"
 #include "workbook.h"
 #include "sheet-style.h"
-#include "eval.h"
+#include "dependent.h"
 #include "dialogs.h"
 #include "mstyle.h"
 #include "value.h"
@@ -105,7 +105,6 @@ get_input_variable_names (SolverResults *res, Sheet *sheet)
 static void
 get_constraint_names (SolverResults *res, Sheet *sheet)
 {
-        Cell *cell;
 	int  i;
 
 	for (i = 0; i < res->param->n_total_constraints; i++) {
@@ -255,8 +254,6 @@ solver_prepare_reports (SolverProgram *program, SolverResults *res,
 			Sheet *sheet)
 {
 	SolverParameters  *param = res->param;
-        Cell              *cell;
-	int               i;
 	SolverLPAlgorithm *alg;
 
 	if (res->param->options.model_type == SolverLPModel)
@@ -330,7 +327,7 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 
 	/* Get allowable increase and decrease for constraints. */
 	if (param->options.sensitivity_report && ! res->ilp_flag) {
-		gnum_float *store = g_new (gnum_float, param->n_variables);
+		/* gnum_float *store = g_new (gnum_float, param->n_variables);*/
 	        for (i = 0; i < param->n_total_constraints; i++) {
 			SolverConstraint *c = res->constraints_array[i];
 

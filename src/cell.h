@@ -2,7 +2,7 @@
 #define GNUMERIC_CELL_H
 
 #include "gnumeric.h"
-#include "eval.h"
+#include "dependent.h"
 
 typedef enum {
 	/* MUST BE > 0xFFFFFF for Dependent */

@@ -21,7 +21,7 @@
 #include <ranges.h>
 #include <value.h>
 #include <expr.h>
-#include <eval.h>
+#include <dependent.h>
 #include <sheet.h>
 #include <commands.h>
 #include <gnm-marshalers.h>

@@ -2,7 +2,7 @@
 #define GNUMERIC_FUNC_H
 
 #include "gnumeric.h"
-#include "eval.h"
+#include "dependent.h"
 
 /* Setup of the symbol table */
 void functions_init     (void);

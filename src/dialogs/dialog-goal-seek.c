@@ -29,7 +29,7 @@
 #include <cell.h>
 #include <sheet.h>
 #include <expr.h>
-#include <eval.h>
+#include <dependent.h>
 #include <format.h>
 #include <value.h>
 #include <mstyle.h>

@@ -24,7 +24,7 @@
 #include "sheet-control.h"
 #include "expr.h"
 #include "expr-name.h"
-#include "eval.h"
+#include "dependent.h"
 #include "value.h"
 #include "ranges.h"
 #include "history.h"

@@ -12,7 +12,7 @@
 #include "sheet.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
-#include "eval.h"
+#include "dependent.h"
 #include "selection.h"
 #include "application.h"
 #include "rendered-value.h"

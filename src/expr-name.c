@@ -11,7 +11,7 @@
 #include "gnumeric.h"
 #include "expr-name.h"
 
-#include "eval.h"
+#include "dependent.h"
 #include "cell.h"
 #include "value.h"
 #include "workbook.h"

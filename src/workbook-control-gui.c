@@ -46,7 +46,7 @@
 #include "gui-clipboard.h"
 #include "workbook-edit.h"
 #include "main.h"
-#include "eval.h"
+#include "dependent.h"
 #include "expr.h"
 #include "position.h"
 #include "parse-util.h"

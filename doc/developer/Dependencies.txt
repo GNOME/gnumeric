@@ -49,9 +49,9 @@ the cells there.
 2.1    Evaluation queue vs. recursion
 
        There are two ways in which a cell's recalculation can occur. Firstly
-simply traversing the ExprTree (expr.h) will result in many cells being
-evaluated. Essentialy each dereference in the ExprTree ( eg. =A1 ) will cause
-the re-calculation of A1's ExprTree before we can continue ( recursively ).
+simply traversing the GnmExpr (expr.h) will result in many cells being
+evaluated. Essentialy each dereference in the GnmExpr ( eg. =A1 ) will cause
+the re-calculation of A1's GnmExpr before we can continue ( recursively ).
 This is actually fairly expensive when the expression contains a reference like
     =sum(a1:a65535)
 Each dependent can be in two states
@@ -118,23 +118,23 @@ could be obviated by creating depended cells, but this would be inelegant.
 4.     How dependencies are generated and removed
 
        The dependencies are both generated and mostly removed by the
-handle_tree_deps function. This traverses the ExprTree either adding or
+handle_tree_deps function. This traverses the GnmExpr either adding or
 removing dependencies on cells as they are met.
 
 4.1    Handling ExprTrees
 
-       The ExprTree is recursively traversed by handle_tree_deps and may
+       The GnmExpr is recursively traversed by handle_tree_deps and may
 terminate with handle_value_deps terminating in either adding or removing
 dependencies, according to the 'add' parameter.
 
 4.2    Removal of dependencies
 
        The removal of single dependencies is performed by traversing the
-ExprTree again, this saves a search of every cell in the dependency hash
+GnmExpr again, this saves a search of every cell in the dependency hash
 looking for this Cell's position. This relies on sheet_cell_remove_from_hash,
 and sheet_cell_add_to_hash dropping and adding dependencies, and
 formula_unlink / link when a cell's formula is changed, since the original
-ExprTree is needed to remove its dependencies correctly. The current code
+GnmExpr is needed to remove its dependencies correctly. The current code
 implements this correctly internaly, but this needs bearing in mind if
 extensive work is done to cell.c.
 
@@ -180,10 +180,10 @@ evaluation ), and waited on safely. Since each cell is evaluated but once
 per re-calc, it would then be safe to read the Cell's value when it dissapeared
 from the eval_queue.
 
-5.3    ExprTree recursion
+5.3    GnmExpr recursion
 
        Whether it is always entirely neccessary to re-evaluate a cell solely
-on the basis that it is in the ExprTree is non-obvious to me. Clearly if this
+on the basis that it is in the GnmExpr is non-obvious to me. Clearly if this
 cell is in the dependency queue it would make perfect sense, however if there
 is as yet no chance that this cell has been changed, it makes little sense
 to re-calculate it ( and its tree'd dependencies ). The only problem here is

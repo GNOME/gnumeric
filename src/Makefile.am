@@ -69,10 +69,10 @@ GNUMERIC_BASE =					\
 	dates.h					\
 	datetime.c				\
 	datetime.h				\
+	dependent.h				\
+	dependent.c				\
 	error-info.c				\
 	error-info.h				\
-	eval.h					\
-	eval.c					\
 	expr.c					\
 	expr.h					\
 	expr-impl.h				\

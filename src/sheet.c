@@ -19,7 +19,7 @@
 #include "workbook-private.h"
 #include "workbook-edit.h"
 #include "parse-util.h"
-#include "eval.h"
+#include "dependent.h"
 #include "value.h"
 #include "number-match.h"
 #include "format.h"

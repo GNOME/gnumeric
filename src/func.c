@@ -14,7 +14,7 @@
 #include "func.h"
 
 #include "parse-util.h"
-#include "eval.h"
+#include "dependent.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "cell.h"

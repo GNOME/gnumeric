@@ -27,7 +27,7 @@
 #include <workbook-control-gui.h>
 #include <gui-util.h>
 #include <clipboard.h>
-#include <eval.h>
+#include <dependent.h>
 
 #include <libgnome/gnome-i18n.h>
 

@@ -31,7 +31,7 @@
 #include "cell.h"
 #include "expr.h"
 #include "expr-impl.h"
-#include "eval.h"
+#include "dependent.h"
 #include "selection.h"
 #include "parse-util.h"
 #include "ranges.h"

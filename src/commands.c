@@ -37,7 +37,7 @@
 #include "workbook.h"
 #include "ranges.h"
 #include "sort.h"
-#include "eval.h"
+#include "dependent.h"
 #include "value.h"
 #include "expr.h"
 #include "cell.h"

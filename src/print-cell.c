@@ -10,7 +10,7 @@
 #include "gnumeric.h"
 #include "print-cell.h"
 
-#include "eval.h"
+#include "dependent.h"
 #include "format.h"
 #include "style-color.h"
 #include "parse-util.h"

@@ -25,7 +25,7 @@
 #include "gnumeric.h"
 #include "gnumeric-graph.h"
 
-#include "eval.h"
+#include "dependent.h"
 #include "expr.h"
 #include "value.h"
 #include "cell.h"

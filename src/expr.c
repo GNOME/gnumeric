@@ -11,7 +11,7 @@
 
 #include "expr-impl.h"
 #include "expr-name.h"
-#include "eval.h"
+#include "dependent.h"
 #include "format.h"
 #include "func.h"
 #include "cell.h"

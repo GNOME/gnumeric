@@ -32,7 +32,7 @@
 #include "style.h"
 #include "style-color.h"
 #include "str.h"
-#include "eval.h"
+#include "dependent.h"
 #include "sheet-autofill.h"
 #include "xml-io.h"
 

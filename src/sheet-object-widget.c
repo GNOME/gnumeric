@@ -25,7 +25,7 @@
 #include "sheet-object-widget.h"
 
 #include "gui-util.h"
-#include "eval.h"
+#include "dependent.h"
 #include "gnumeric-canvas.h"
 #include "sheet-control-gui.h"
 #include "sheet-object-impl.h"

@@ -31,7 +31,7 @@
 #include "cell.h"
 #include "sheet.h"
 #include "sheet-style.h"
-#include "eval.h"
+#include "dependent.h"
 #include "dialogs.h"
 #include "mstyle.h"
 #include "value.h"
