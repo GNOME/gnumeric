@@ -1,3 +1,8 @@
+2003-04-14  Morten Welinder  <terra@gnome.org>
+
+	* dialog-scenarios.c (check_name): Make UTF-8 safe.
+	(find_scenario_strs): Fix memory corruption.
+
 2003-04-12  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* dao-gui-utils.c (dialog_tool_init_outputs): Added NULL check for

@@ -34,6 +34,7 @@
 #include <sheet.h>
 #include <dao-gui-utils.h>
 #include <position.h>
+#include <value.h>
 #include <dao.h>
 #include "scenarios.h"
 #include <glade/glade.h>
@@ -46,10 +47,8 @@ typedef GenericToolState ScenariosState;
 static gboolean
 scenario_name_used (GList *scenarios, gchar *name)
 {
-	scenario_t *s;
-
 	while (scenarios != NULL) {
-		s = (scenario_t *) scenarios->data;
+		const scenario_t *s = scenarios->data;
 
 		if (strcmp (s->name, name) == 0)
 			return TRUE;
@@ -62,10 +61,11 @@ scenario_name_used (GList *scenarios, gchar *name)
  * A scenario name should have at least one printable character.
  */
 static gboolean
-check_name (gchar *n)
+check_name (const gchar *n)
 {
-	while (isspace (*n))
-		n++;
+	while (*n && g_unichar_isspace (g_utf8_get_char (n)))
+		n = g_utf8_next_char (n);
+
 	if (*n)
 		return FALSE;
 	else
@@ -234,29 +234,26 @@ update_comment (ScenariosState *state, const gchar *cells,
 	gtk_text_buffer_set_text (buf, comment, strlen (comment));
 }
 
-gboolean
+static gboolean
 find_scenario_strs (GList *scenarios, gchar *name, 
 		    gchar **cells, gchar **comment)
 {
 	static gchar *buf1 = NULL, *buf2 = NULL;
 
-	if (buf1)
-		g_free (buf1);
-	if (buf2)
-		g_free (buf2);
-
 	while (scenarios) {
-		scenario_t *scenario = (scenario_t *) scenarios->data;
+		const scenario_t *scenario = scenarios->data;
 
 		if (strcmp (scenario->name, name) == 0) {
-			buf1 = g_strdup (scenario->cell_sel_str);
-			buf2 = g_strdup (scenario->comment);
-			*cells   = buf1;
-			*comment = buf2;
+			g_free (buf1);
+			g_free (buf2);
+
+			*cells = buf1 = g_strdup (scenario->cell_sel_str);
+			*comment = buf2 = g_strdup (scenario->comment);
 			return FALSE;
 		}
 		scenarios = scenarios->next;
 	}
+
 	return TRUE;
 }
 
@@ -296,7 +293,6 @@ set_selection_state (ScenariosState *state, gboolean f)
 static void
 update_scenarios_treeview (GtkWidget *view, GList *scenarios)
 {
-          GList        *current;
 	  GtkTreeIter  iter;
 	  GtkListStore *store;
 	  GtkTreePath  *path;
@@ -304,7 +300,7 @@ update_scenarios_treeview (GtkWidget *view, GList *scenarios)
 	  store = gtk_list_store_new (1, G_TYPE_STRING);
 
 	  while (scenarios != NULL) {
-	          scenario_t *s = (scenario_t *) scenarios->data;
+	          scenario_t *s = scenarios->data;
 
 	          gtk_list_store_append (store, &iter);
 	          gtk_list_store_set (store, &iter, 0, s->name, -1);
@@ -351,7 +347,7 @@ static void
 scenarios_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			 ScenariosState *state)
 {
-	data_analysis_output_t  dao;
+	data_analysis_output_t dao;
 
 	dao_init (&dao, NewSheetOutput);
 	dao.sheet = state->sheet;
@@ -422,7 +418,7 @@ static void
 scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			      ScenariosState *state)
 {
-	data_analysis_output_t  dao;
+	data_analysis_output_t dao;
 
 	dao_init (&dao, NewSheetOutput);
 	dao.sheet = state->sheet;
@@ -440,8 +436,6 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *selection,
 static gboolean
 init_scenario_buttons (ScenariosState *state)
 {
-	GtkWidget *w;
-
 	state->scenario_buttons = g_new (scenario_buttons_t, 1);
 
 	/* Show button */
