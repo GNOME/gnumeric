@@ -1,3 +1,11 @@
+2001-05-18  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Small update.
+
+2001-05-18  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.36.
+
 2001-05-17  Almer S. Tigelaar  <almer@gnome.org>
 
 	On behalf of Dennis Smit <dennis@area101.penguin.nl> :
@@ -1335,7 +1343,7 @@
 
 	* no.po: Updated Norwegian translation.
 	
-1999-10-17  Martin Norb$Bdc(Bk  <norpan@bigfoot.com>
+1999-10-17  Martin Norb’äãk  <norpan@bigfoot.com>
 
 	* sv.po: Updated translation again.
 
@@ -1420,7 +1428,7 @@
 
 	* Updated fr.po:
 	avant:	896 translated messages, 60 fuzzy translations, 42 untranslated messages.
-	apr$Bhs(B:  958 translated messages, 13 fuzzy translations, 27 untranslated messages.
+	apr’èó:  958 translated messages, 13 fuzzy translations, 27 untranslated messages.
 
 1999-09-06  Kjartan Maraas  <kmaraas@online.no>
 
