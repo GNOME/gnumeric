@@ -1,5 +1,11 @@
 2000-09-28  Kenneth Christiansen <kenneth@gnu.org>
 
+        * Makefile.in.in: Made 'make update-po' and 'make 
+        dist' work with new update.pl script
+        * update.pl: the same as above
+
+2000-09-28  Kenneth Christiansen <kenneth@gnu.org>
+
 	* xml2pot: Update
 	* update.pl: Update
 
