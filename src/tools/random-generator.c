@@ -389,6 +389,22 @@ tool_random_engine_run_rayleigh (data_analysis_output_t *dao,
 }
 
 static gboolean
+tool_random_engine_run_rayleigh_tail (data_analysis_output_t *dao, 
+				      tools_data_random_t *info,
+				      rayleigh_tail_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_rayleigh_tail (param->a, param->sigma);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
 tool_random_engine_run_levy (data_analysis_output_t *dao, 
 			     tools_data_random_t *info,
 			     levy_random_tool_t *param)
@@ -652,6 +668,9 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 		case RayleighDistribution:
 			return tool_random_engine_run_rayleigh
 				(dao, specs, &info->param.rayleigh);
+		case RayleighTailDistribution:
+			return tool_random_engine_run_rayleigh_tail
+				(dao, specs, &info->param.rayleigh_tail);
 		case LevyDistribution:
 			return tool_random_engine_run_levy
 				(dao, specs, &info->param.levy);

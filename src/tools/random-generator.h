@@ -15,7 +15,7 @@ typedef enum {
   Gumbel1Distribution, Gumbel2Distribution, LaplaceDistribution,
   TdistDistribution, LogarithmicDistribution, LogisticDistribution,
   ParetoDistribution, LognormalDistribution, RayleighDistribution,
-  LevyDistribution, ExponentialPowerDistribution,
+  LevyDistribution, ExponentialPowerDistribution, RayleighTailDistribution,
   /* PatternedDistribution, */ NegativeBinomialDistribution, ExponentialDistribution
 } random_distribution_t;
 
@@ -83,6 +83,11 @@ typedef struct {
 } rayleigh_random_tool_t;
 
 typedef struct {
+        gnum_float a;
+        gnum_float sigma;
+} rayleigh_tail_random_tool_t;
+
+typedef struct {
         gnum_float c;
         gnum_float alpha;
 } levy_random_tool_t;
@@ -140,31 +145,32 @@ typedef struct {
 /* } patterned_random_tool_t; */
 
 typedef union {
-        discrete_random_tool_t    discrete;
-        uniform_random_tool_t     uniform;
-        normal_random_tool_t      normal;
-        bernoulli_random_tool_t   bernoulli;
-        beta_random_tool_t        beta;
-        binomial_random_tool_t    binomial;
-        negbinom_random_tool_t    negbinom;
-        poisson_random_tool_t     poisson;
-        exponential_random_tool_t exponential;
-        exppow_random_tool_t      exppow;
-        cauchy_random_tool_t      cauchy;
-        chisq_random_tool_t       chisq;
-        lognormal_random_tool_t   lognormal;
-        rayleigh_random_tool_t    rayleigh;
-        fdist_random_tool_t       fdist;
-        tdist_random_tool_t       tdist;
-        logarithmic_random_tool_t logarithmic;
-        logistic_random_tool_t    logistic;
-        levy_random_tool_t        levy;
-        pareto_random_tool_t      pareto;
-        gamma_random_tool_t       gamma;
-        geometric_random_tool_t   geometric;
-        gumbel_random_tool_t      gumbel;
-        laplace_random_tool_t     laplace;
-        weibull_random_tool_t     weibull;
+        discrete_random_tool_t      discrete;
+        uniform_random_tool_t       uniform;
+        normal_random_tool_t        normal;
+        bernoulli_random_tool_t     bernoulli;
+        beta_random_tool_t          beta;
+        binomial_random_tool_t      binomial;
+        negbinom_random_tool_t      negbinom;
+        poisson_random_tool_t       poisson;
+        exponential_random_tool_t   exponential;
+        exppow_random_tool_t        exppow;
+        cauchy_random_tool_t        cauchy;
+        chisq_random_tool_t         chisq;
+        lognormal_random_tool_t     lognormal;
+        rayleigh_random_tool_t      rayleigh;
+        rayleigh_tail_random_tool_t rayleigh_tail;
+        fdist_random_tool_t         fdist;
+        tdist_random_tool_t         tdist;
+        logarithmic_random_tool_t   logarithmic;
+        logistic_random_tool_t      logistic;
+        levy_random_tool_t          levy;
+        pareto_random_tool_t        pareto;
+        gamma_random_tool_t         gamma;
+        geometric_random_tool_t     geometric;
+        gumbel_random_tool_t        gumbel;
+        laplace_random_tool_t       laplace;
+        weibull_random_tool_t       weibull;
 /*         patterned_random_tool_t   patterned; */
 } random_tool_t;
 
