@@ -102,7 +102,7 @@ init_plugin (CommandContext *context, PluginData *pd)
 		return PLUGIN_QUIET_ERROR;
 
 	file_format_register_open (100, 
-				   _("Applix (*.as) file format",
+				   _("Applix (*.as) file format"),
 				   &applix_probe, &applix_load);
 
 	if (plugin_data_init (pd, &applix_can_unload, &applix_cleanup_plugin,
