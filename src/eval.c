@@ -238,6 +238,13 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 			add_tree_deps (cell, l->data);
 		return;
 
+	case OPER_NAME:
+		if (tree->u.name->builtin) {
+			/* FIXME: insufficiently flexible dependancy code (?) */
+		} else
+			add_tree_deps (cell, tree->u.name->t.exprt);
+		return;
+
 	case OPER_ARRAY:
 		if (tree->u.array.x != 0 || tree->u.array.y != 0){
 			/* Non-corner cells depend on the corner */

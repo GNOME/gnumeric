@@ -1,3 +1,29 @@
+1999-07-08  Michael Meeks  <michael@edenproject.org>
+
+	* src/Gnumeric.idl: Removed : GNOME::Unknown from Workbook so
+	people can compile for now.
+
+1999-07-07  Michael Meeks  <michael@edenproject.org>
+
+	* src/expr.c (do_expr_decode_tree): Add vital translation stuff.
+
+	* src/parser.y (return_name): Created.
+	(try_symbol): Add name lookup.
+
+	* src/eval.c (add_tree_deps): Calculate name dependencies if at all
+	possible.
+
+	* src/main.c (gnumeric_main): Add expr_name_init.
+
+	* src/expr.c (expr_tree_new_name, do_expr_tree_unref),
+	(eval_expr, do_expr_decode_tree, do_expr_tree_invalidate_references),
+	(do_expr_tree_fixup_references, expr_dump_tree): Add OPER_NAME support
+	in every case just after OPER_FUNCALL.
+
+	* src/expr.h: Add ExprName struct, include and OPER_NAME.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Added expr_name.[ch]
+
 1999-07-07  Miguel de Icaza  <miguel@gnu.org>
 
 	* configure.in (EXTRA_GNOME_CFLAGS): Assemble all the flags we

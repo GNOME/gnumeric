@@ -37,6 +37,7 @@ Michael
 	  - Formulae should import into Excel.
 	  - Text / numbers work nicely.
 	* Prettified 'sort' slightly.
+	* Implemented Name support.
 
 Nick Lamb
 

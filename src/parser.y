@@ -352,6 +352,19 @@ return_symbol (Symbol *sym)
 	return type;
 }
 
+static int
+return_name (ExprName *exprn)
+{
+	ExprTree *e = p_new (ExprTree);
+	e->ref_count = 1;
+
+	e->oper = OPER_NAME;
+	e->u.name = exprn;
+	yylval.tree = e;
+
+	return CONSTANT;
+}
+
 /**
  * try_symbol:
  * @string: the string to try.
@@ -384,6 +397,13 @@ try_symbol (char *string, gboolean try_cellref)
 			return return_sheetref (sheet);
 	}
 	
+	{ /* Name ? */
+		ExprName *name = expr_name_lookup (parser_sheet->workbook,
+						   string);
+		if (name)
+			return return_name (name);
+	}
+
 	return make_string_return (string);
 }
 

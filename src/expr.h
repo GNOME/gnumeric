@@ -2,15 +2,21 @@
 #define GNUMERIC_EXPR_H
 
 /* Forward references for structures.  */
-typedef struct _Value Value;
+typedef struct _Value    Value;
 typedef struct _ExprTree ExprTree;
-typedef struct _CellRef CellRef;
+typedef struct _CellRef  CellRef;
 typedef struct _ArrayRef ArrayRef;
+typedef struct _ExprName ExprName;
+
+typedef struct _EvalPosition            EvalPosition;
+typedef struct _ErrorMessage            ErrorMessage;
+typedef struct _FunctionEvalInfo        FunctionEvalInfo;
 
 #include "sheet.h"
 #include "symbol.h"
 #include "numbers.h"
 #include "str.h"
+#include "expr-name.h"
 
 /* Some utility constants to make sure we all spell correctly */
 /* TODO : These should really be const, but can't until error_string changes */
@@ -22,6 +28,7 @@ extern char *gnumeric_err_NAME;
 extern char *gnumeric_err_NUM;
 extern char *gnumeric_err_NA;
 
+/* Warning: if you add something here, see do_expr_decode_tree ! */
 typedef enum {
 	OPER_EQUAL,		/* Compare value equal */
 	OPER_GT,		/* Compare value greather than  */
@@ -38,6 +45,8 @@ typedef enum {
 	OPER_CONCAT,		/* String concatenation */
 
 	OPER_FUNCALL,		/* Function call invocation */
+
+	OPER_NAME,              /* Name reference */
 
         OPER_CONSTANT,		/* Constant value */
 	OPER_VAR,		/* Cell content lookup (variable) */
@@ -116,12 +125,14 @@ struct _ExprTree {
 			Symbol *symbol;
 			GList  *arg_list;
 		} function;
-		
+
 		struct {
 			ExprTree *value_a;
 			ExprTree *value_b;
 		} binary;
 
+		const ExprName *name;
+		
 		ExprTree *value;
 
 		CellRef ref;
@@ -141,9 +152,7 @@ typedef enum {
 /*
  * Function parameter structures
  */
-typedef struct _EvalPosition            EvalPosition;
-typedef struct _ErrorMessage            ErrorMessage;
-typedef struct _FunctionEvalInfo        FunctionEvalInfo;
+
 /* FIXME: Should be tastefuly concealed */
 typedef struct _FunctionDefinition FunctionDefinition;
 
@@ -230,6 +239,19 @@ struct _FunctionDefinition {
 	} fn;
 };
 
+/*
+ * Built in / definable sheet names.
+ */
+struct _ExprName {
+	String       *name;
+	Workbook     *wb;
+	gboolean      builtin;
+	union {
+		ExprTree     *expr_tree;
+		FunctionArgs *expr_func;
+	} t;
+};
+
 void        cell_get_abs_col_row   (const CellRef *cell_ref,
 				    int eval_col, int eval_row,
 				    int *col, int *row);
@@ -248,6 +270,7 @@ ExprTree   *expr_tree_new_constant (Value *v);
 ExprTree   *expr_tree_new_unary    (Operation op, ExprTree *e);
 ExprTree   *expr_tree_new_binary   (ExprTree *l, Operation op, ExprTree *r);
 ExprTree   *expr_tree_new_funcall  (Symbol *sym, GList *args);
+ExprTree   *expr_tree_new_name     (const ExprName *name);
 ExprTree   *expr_tree_new_var      (const CellRef *cr);
 ExprTree   *expr_tree_new_error    (const char *txt);
 ExprTree   *expr_tree_array_formula (int const x, int const y, int const rows,

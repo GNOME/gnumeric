@@ -568,9 +568,14 @@ biff_format_data_destroy (gpointer key, BiffFormatData *d, gpointer userdata)
 
 typedef struct {
 	char     *name;
-	ExprTree *formula;
-	guint8   *data;
-	guint16   len;
+	enum { BNDStore, BNDName } type;
+	union {
+		ExprName *name;
+		struct {
+			guint8   *data;
+			guint16   len;
+		} store;
+	} v;
 } BiffNameData;
 
 static int externsheet = 0;
@@ -581,18 +586,18 @@ biff_name_data_new (ExcelWorkbook *wb, char *name,
 {
 	BiffNameData *bnd = g_new (BiffNameData, 1);
 	bnd->name    = name;
-	bnd->formula = NULL; /* parse it late */
+	bnd->type    = BNDStore;
 	if (formula) {
-		bnd->data = g_malloc (len);
-		memcpy (bnd->data, formula, len);
-		bnd->len  = len;
+		bnd->v.store.data = g_malloc (len);
+		memcpy (bnd->v.store.data, formula, len);
+		bnd->v.store.len  = len;
 	} else {
-		bnd->data = NULL;
-		bnd->len  = 0;
+		bnd->v.store.data = NULL;
+		bnd->v.store.len  = 0;
 	}
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug>1) {
+	if (ms_excel_read_debug > 1) {
 		printf ("EXTERNNAME : %x %x '%s'\n", externsheet,
 			wb->name_data->len, bnd->name);
 	}
@@ -612,11 +617,39 @@ biff_name_data_get_name (ExcelSheet *sheet, guint16 idx)
 	a = sheet->wb->name_data;
 
 	if (a && idx < a->len && (bnd = g_ptr_array_index (a, idx))) {
-/*		if (!bnd->formula) .... wait for it.
-			bnd->formula = ms_excel_parse_formula (sheet->wb, sheet, bnd->data, 0, 0,
-							       FALSE, bnd->len, NULL);
-		return bnd->formula;*/
-		return expr_tree_new_constant (value_new_string (bnd->name));
+		if (bnd->type == BNDStore && bnd->v.store.data) {
+			char     *duff = "Some Error";
+			ExprTree *tree;
+
+			tree = ms_excel_parse_formula (sheet->wb, sheet, bnd->v.store.data, 0, 0,
+						       FALSE, bnd->v.store.len, NULL);
+			if (!tree) { /* OK so it's a special 'AddIn' name */
+				bnd->type   = BNDName;
+				g_free (bnd->v.store.data);
+				bnd->v.name = NULL;
+				printf ("Serious error parsing '%s'\n", bnd->name);
+			} else {
+				bnd->type = BNDName;
+				g_free (bnd->v.store.data);
+				bnd->v.name = expr_name_add (sheet->wb->gnum_wb, bnd->name,
+							     tree, &duff);
+				if (!bnd->v.name)
+					printf ("Error: '%s' on name '%s'\n", duff,
+						bnd->name);
+#ifndef NO_DEBUG_EXCEL
+				else if (ms_excel_read_debug > 0) {
+					EvalPosition ep;
+					printf ("Parsed name : '%s' = '%s'\n", bnd->name,
+						tree?expr_decode_tree (tree, eval_pos_init (
+							&ep, sheet->gnum_sheet, 0, 0)):"error");
+				}
+#endif
+			}
+		}
+		if (bnd->type == BNDName && bnd->v.name)
+			return expr_tree_new_name (bnd->v.name);
+		else
+			return expr_tree_new_constant (value_new_string (bnd->name));
 	} else
 		return expr_tree_new_constant (value_new_string("Unknown name"));
 }
@@ -629,13 +662,10 @@ biff_name_data_destroy (BiffNameData *bnd)
 	if (bnd->name)
 		g_free (bnd->name);
 	bnd->name    = NULL;
-	if (bnd->formula)
-		expr_tree_unref (bnd->formula);
-	bnd->formula = NULL;
-	if (bnd->data)
-		g_free (bnd->data);
-	bnd->data    = NULL;
-	bnd->len     = 0;
+	if (bnd->type == BNDStore) {
+		if (bnd->v.store.data)
+			g_free (bnd->v.store.data);
+	}
 	g_free (bnd);
 }
 
@@ -1663,7 +1693,6 @@ ms_excel_workbook_new (eBiff_version ver)
 	ans->name_data        = g_ptr_array_new ();
 	ans->format_data      = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 						  (GCompareFunc)biff_guint16_equal);
-	ans->internal_names   = g_ptr_array_new ();
 	ans->palette          = ms_excel_default_palette ();
 	ans->ver              = ver;
 	ans->global_strings   = NULL;
@@ -1744,9 +1773,6 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 				     wb);
 	g_hash_table_destroy (wb->format_data);
 
-	if (wb->internal_names)
-		g_ptr_array_free (wb->internal_names, TRUE);
-
 	if (wb->palette && wb->palette != ms_excel_default_palette ())
 		ms_excel_palette_destroy (wb->palette);
 
@@ -1816,7 +1842,7 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 #endif
 	guint8  name_len       = BIFF_GET_GUINT8  (q->data + 3);
 	guint16 name_def_len   = BIFF_GET_GUINT16 (q->data + 4);
-	guint8 *name_def_data  = q->data + 15 + name_def_len;
+	guint8 *name_def_data  = q->data + 15 + name_len;
 #if 0
 	guint16 sheet_idx      = BIFF_GET_GUINT16 (q->data + 6);
 	guint16 ixals          = BIFF_GET_GUINT16 (q->data + 8); /* dup */
@@ -1830,7 +1856,7 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 
 /*	g_assert (ixals==sheet_idx); */
 	ptr = q->data + 14;
-	if (name_len == 1 && *ptr <= 0x0c) {
+	if (0 && name_len == 1 && *ptr <= 0x0c) {
 		switch (*ptr)
 		{
 		case 0x00 :	name = "Consolidate_Area"; break;
@@ -1861,13 +1887,17 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	ptr+= help_txt_len;
 	status_txt = biff_get_text (ptr, status_txt_len, NULL);
 
-	printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n",
-		name ? name : "(null)",
-		menu_txt ? menu_txt : "(null)",
-		descr_txt ? descr_txt : "(null)",
-		help_txt ? help_txt : "(null)",
-		status_txt ? status_txt : "(null)");
-	dump (name_def_data, name_def_len);
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0) {
+		printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n",
+			name ? name : "(null)",
+			menu_txt ? menu_txt : "(null)",
+			descr_txt ? descr_txt : "(null)",
+			help_txt ? help_txt : "(null)",
+			status_txt ? status_txt : "(null)");
+		dump (name_def_data, name_def_len);
+	}
+#endif
 
 	/* Unpack flags */
 	fn_grp_idx = (flags&0xfc0)>>6;
@@ -1887,14 +1917,6 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 		printf (" BinData");
 	printf ("\n");
 
-/*	g_ptr_array_add (wb->internal_names, name); */
-
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug>1) {
-		printf ("NAME %d : %s\n", sheet->wb->internal_names->len, name);
-	}
-#endif
-
 	biff_name_data_new (sheet->wb, name, name_def_data, name_def_len);
 	if (menu_txt)
 		g_free (menu_txt);
@@ -1908,8 +1930,8 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 
 /* S59D7E.HTM */
 static void
-ms_excel_externname(BiffQuery *q,
-		    ExcelSheet *sheet)
+ms_excel_externname (BiffQuery *q,
+		     ExcelSheet *sheet)
 {
 	char *externname;
 	guint8 *defn;

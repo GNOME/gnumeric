@@ -188,7 +188,7 @@ module GNOME {
 			
 		};
 
-		interface Workbook : GNOME::Unknown {
+		interface Workbook {
 			exception NameExists {};
 
 			Sheet sheet_new    (in string name) raises (NameExists);

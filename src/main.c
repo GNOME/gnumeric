@@ -82,6 +82,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	global_symbol_init ();
 	constants_init ();
 	functions_init ();
+	expr_name_init ();
 	plugins_init ();
 
 	/* The statically linked in file formats */

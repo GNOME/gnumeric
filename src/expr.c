@@ -299,6 +299,21 @@ expr_parse_string (const char *expr, const EvalPosition *fp,
 	return NULL;
 }
 
+ExprTree *
+expr_tree_new_name (const ExprName *name)
+{
+	ExprTree *ans;
+
+	ans = g_new (ExprTree, 1);
+	if (!ans)
+		return NULL;
+	
+	ans->ref_count = 1;
+	ans->oper = OPER_NAME;
+	ans->u.name = name;
+
+	return ans;
+}
 
 /*ExprTree *
 expr_tree_new (void)
@@ -422,6 +437,9 @@ do_expr_tree_unref (ExprTree *tree)
 		symbol_unref (tree->u.function.symbol);
 		break;
 	}
+
+	case OPER_NAME:
+		break;
 
 	case OPER_ANY_BINARY:
 		do_expr_tree_unref (tree->u.binary.value_a);
@@ -1602,6 +1620,9 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 	case OPER_FUNCALL:
 		return eval_funcall (s, tree);
 
+	case OPER_NAME:
+		return eval_expr_name (s, tree->u.name);
+
 	case OPER_VAR: {
 		Sheet *cell_sheet;
 		CellRef *ref;
@@ -1750,10 +1771,12 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 		{ "/",  4, 1, 0 },
 		{ "^",  6, 0, 1 },
 		{ "&",  2, 1, 0 },
-		{ NULL, 0, 0, 0 },
-		{ NULL, 0, 0, 0 },
-		{ NULL, 0, 0, 0 },
-		{ "-",  5, 0, 0 }
+		{ NULL, 0, 0, 0 }, /* Funcall  */
+		{ NULL, 0, 0, 0 }, /* Name     */
+		{ NULL, 0, 0, 0 }, /* Constant */
+		{ NULL, 0, 0, 0 }, /* Var      */
+		{ "-",  5, 0, 0 },
+		{ NULL, 0, 0, 0 }  /* Array    */
 	};
 	int op;
 	Sheet *sheet = fp->sheet;
@@ -1845,6 +1868,9 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 		} else
 			return g_strconcat (fd->name, "()", NULL);
 	}
+
+	case OPER_NAME:
+		return g_strdup (tree->u.name->name->str);
 
 	case OPER_VAR: {
 		CellRef *cell_ref;
@@ -2042,6 +2068,9 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 			return NULL;
 		}
 	}
+
+	case OPER_NAME:
+		return NULL;
 
 	case OPER_VAR: {
 		CellRef cr = src->u.ref; /* Copy a structure, not a pointer.  */
@@ -2270,6 +2299,9 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 		}
 	}
 
+	case OPER_NAME:
+		return NULL;
+
 	case OPER_VAR: {
 		CellRef cr = src->u.ref; /* Copy a structure, not a pointer.  */
 
@@ -2421,6 +2453,10 @@ expr_dump_tree (ExprTree *tree)
 	case OPER_FUNCALL:
 		s = symbol_lookup (global_symbol_table, tree->u.function.symbol->str);
 		printf ("Function call: %s\n", s->str);
+		break;
+
+	case OPER_NAME:
+		printf ("Name : %s\n", tree->u.name->name->str);
 		break;
 
 	case OPER_ANY_BINARY:

@@ -654,7 +654,7 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 		char const *f_name;
 		if (!tmp ||
 		    tmp->oper != OPER_CONSTANT ||
-		    tmp->u.constant->type != VALUE_STRING){
+		    tmp->u.constant->type != VALUE_STRING) {
 			if (tmp) expr_tree_unref (tmp);
 			parse_list_free (&args);
 			parse_list_push (stack,
@@ -665,8 +665,7 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 		f_name = tmp->u.constant->v.str->str;
 
 		name = symbol_lookup (global_symbol_table, f_name);
-		if (!name)
-		{
+		if (!name) {
 			FunctionCategory *cat =
 				function_get_category (_("Unknown Function"));
 			/*
@@ -1207,8 +1206,15 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 *mem,
 
 		case FORMULA_PTG_ERR:
 		{
-			const char *errtxt =
-				biff_get_error_text (BIFF_GET_GUINT8(cur));
+			guint8 err_num;
+			const char *errtxt;
+
+			err_num = BIFF_GET_GUINT8 (cur);
+			if (err_num == 0x17) { /* Magic 'Addin Name' error number */
+				parse_list_free (&stack);
+				return NULL;   /* To tell name stuff */
+			}
+			errtxt  = biff_get_error_text (err_num);
 			/* FIXME: we do not have errors as first-class values, so we
 			   must build an expression that generates the error.  */
 			parse_list_push (&stack, expr_tree_new_error (errtxt));

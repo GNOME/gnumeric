@@ -1,3 +1,14 @@
+1999-07-08  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-read.c (ms_excel_parse_formula): Add magic 0x17
+	for special undocumented 'Addin Name' support.
+
+1999-07-07  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_name): Fix crucial bug
+	in name_def_data calc.
+	(ms_excel_read_name): Removed all 'internal_names' stuff.
+
 1999-07-06  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula-read.c (ms_excel_parse_formula): PTG_NAME:
