@@ -41,7 +41,8 @@ typedef enum {
 	DEPENDENT_LINK_FLAGS	   = 0x000ff000,
 
 	/* An internal utility flag */
-	DEPENDENT_FLAGGED	   = 0x00100000
+	DEPENDENT_FLAGGED	   = 0x00100000,
+	DEPENDENT_CAN_RELOCATE	   = 0x00200000
 } DependentFlags;
 
 #define dependent_type(dep)		((dep)->flags & DEPENDENT_TYPE_MASK)

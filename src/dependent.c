@@ -1388,7 +1388,7 @@ cb_range_contained_collect (DependencyRange const *deprange, gpointer ignored,
 
 	if (range_overlap (user->target, range))
 		dep_collection_foreach_dep (deprange->deps, dep, {
-			if (!(dep->flags & DEPENDENT_FLAGGED)) {
+			if (!(dep->flags & (DEPENDENT_FLAGGED | DEPENDENT_CAN_RELOCATE))) {
 				dep->flags |= DEPENDENT_FLAGGED;
 				user->list = g_slist_prepend (user->list, dep);
 			}});
@@ -1400,7 +1400,7 @@ cb_single_contained_collect (DependencySingle const *depsingle, gpointer ignored
 {
 	if (range_contains (user->target, depsingle->pos.col, depsingle->pos.row))
 		dep_collection_foreach_dep (depsingle->deps, dep, {
-			if (!(dep->flags & DEPENDENT_FLAGGED)) {
+			if (!(dep->flags & (DEPENDENT_FLAGGED | DEPENDENT_CAN_RELOCATE))) {
 				dep->flags |= DEPENDENT_FLAGGED;
 				user->list = g_slist_prepend (user->list, dep);
 			}});
