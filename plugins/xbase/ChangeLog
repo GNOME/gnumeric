@@ -1,3 +1,7 @@
+2000-08-15  Morten Welinder  <terra@diku.dk>
+
+	* xbase.c: use new gnumeric_get_le_... support.
+
 2000-07-27  Morten Welinder  <terra@diku.dk>
 
 	* boot.c (xbase_field_as_value): Plug huge leaks.  Fix 'I' case.

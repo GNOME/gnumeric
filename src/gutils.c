@@ -144,3 +144,109 @@ gnumeric_usr_plugin_dir (void)
 {
 	return gnumeric_usr_dir (PLUGIN_SUFFIX);
 }
+
+/* ------------------------------------------------------------------------- */
+/*
+ * Note: the code below might look awful, but fixed-sized memcpy ought to
+ * produce reasonable code.
+ */
+
+gint16
+gnumeric_get_le_int16 (const void *p)
+{
+	gint16 data;
+	memcpy (&data, p, sizeof (data));
+	return GINT16_FROM_LE (data);
+}
+
+guint16
+gnumeric_get_le_uint16 (const void *p)
+{
+	guint16 data;
+	memcpy (&data, p, sizeof (data));
+	return GUINT16_FROM_LE (data);
+}
+
+gint32
+gnumeric_get_le_int32 (const void *p)
+{
+	gint32 data;
+	memcpy (&data, p, sizeof (data));
+	return GINT32_FROM_LE (data);
+}
+
+guint32
+gnumeric_get_le_uint32 (const void *p)
+{
+	guint32 data;
+	memcpy (&data, p, sizeof (data));
+	return GUINT32_FROM_LE (data);
+}
+
+double
+gnumeric_get_le_double (const void *p)
+{
+#if G_BYTE_ORDER == G_BIG_ENDIAN
+	if (sizeof (double) == 8) {
+		double  d;
+		int     i;
+		guint8 *t  = (guint8 *)&d;
+		guint8 *p2 = (guint8 *)p;
+		int     sd = sizeof (d);
+
+		for (i = 0; i < sd; i++)
+			t[i] = p2[sd - 1 - i];
+
+		return d;
+	} else {
+		g_error ("Big endian machine, but weird size of doubles");
+	}
+#elif G_BYTE_ORDER == G_LITTLE_ENDIAN
+	if (sizeof (double) == 8) {
+		/*
+		 * On i86, we could access directly, but Alphas require
+		 * aligned access.
+		 */
+		double data;
+		memcpy (&data, p, sizeof (data));
+		return data;
+	} else {
+		g_error ("Little endian machine, but weird size of doubles");
+	}
+#else
+#error "Byte order not recognised -- out of luck"
+#endif
+}
+
+
+void
+gnumeric_set_le_double (void *p, double d)
+{
+#if G_BYTE_ORDER == G_BIG_ENDIAN
+	if (sizeof (double) == 8) {
+		int     i;
+		guint8 *t  = (guint8 *)&d;
+		guint8 *p2 = (guint8 *)p;
+		int     sd = sizeof (d);
+
+		for (i = 0; i < sd; i++)
+			p2[sd - 1 - i] = t[i];
+	} else {
+		g_error ("Big endian machine, but weird size of doubles");
+	}
+#elif G_BYTE_ORDER == G_LITTLE_ENDIAN
+	if (sizeof (double) == 8) {
+		/*
+		 * On i86, we could access directly, but Alphas require
+		 * aligned access.
+		 */
+		memcpy (p, &d, sizeof (d));
+	} else {
+		g_error ("Little endian machine, but weird size of doubles");
+	}
+#else
+#error "Byte order not recognised -- out of luck"
+#endif
+}
+
+/* ------------------------------------------------------------------------- */

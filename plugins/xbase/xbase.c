@@ -32,24 +32,6 @@ static const char *field_type_descriptions [] = { /* FIXME: fix array size from 
 #endif
 
 
-static guint16
-deref_le_guint16 (const void *p)
-{
-	guint16 data;
-	memcpy (&data, p, sizeof (data));
-	return GUINT16_FROM_LE (data);
-}
-
-static guint32
-deref_le_guint32 (const void *p)
-{
-	guint32 data;
-	memcpy (&data, p, sizeof (data));
-	return GUINT32_FROM_LE (data);
-}
-
-
-
 /**
  * Newly allocated pointer to record, initialised as first in database.
 */
@@ -143,17 +125,17 @@ xbase_read_header (XBfile *x)
 	default:
 		fprintf (stderr, "unknown!\n");
 	}
-	x->records  = deref_le_guint32 (hdr + 4);
-	x->fieldlen = deref_le_guint16 (hdr + 10);
+	x->records  = gnumeric_get_le_uint32 (hdr + 4);
+	x->fieldlen = gnumeric_get_le_uint16 (hdr + 10);
 #if XBASE_DEBUG > 0
 	fprintf (stderr, "Last update (YY/MM/DD):\t%2d/%2d/%2d\n",hdr[1],hdr[2],hdr[3]); /* Y2K ?!? */
 	fprintf (stderr, "Records:\t%u\n", x->records);
-	fprintf (stderr, "Header length:\t%d\n", deref_le_guint16 (hdr + 8));
+	fprintf (stderr, "Header length:\t%d\n", gnumeric_get_le_uint16 (hdr + 8));
 	fprintf (stderr, "Record length:\t%d\n", x->fieldlen);
-	fprintf (stderr, "Reserved:\t%d\n", deref_le_guint16 (hdr + 12));
+	fprintf (stderr, "Reserved:\t%d\n", gnumeric_get_le_uint16 (hdr + 12));
 	fprintf (stderr, "Incomplete transaction:\t%d\n", hdr[14]);
 	fprintf (stderr, "Encryption flag:\t%d\n", hdr[15]);
-	fprintf (stderr, "Free record thread:\t%u\n", deref_le_guint32 (hdr + 16));
+	fprintf (stderr, "Free record thread:\t%u\n", gnumeric_get_le_uint32 (hdr + 16));
 #ifdef THIS_IS_BOGUS
 	fprintf (stderr, "Reserved (multi-user):\t%lu\n", GUINT64_FROM_LE((guint64)hdr[20])); /* FIXME: printf needs to support 64-bit integers */
 #endif
@@ -184,7 +166,7 @@ xbase_read_header (XBfile *x)
 	default:
 		fprintf (stderr, "unknown!\n");
 	}
-	fprintf (stderr, "Reserved:\t%d\n", deref_le_guint16 (hdr + 30));
+	fprintf (stderr, "Reserved:\t%d\n", gnumeric_get_le_uint16 (hdr + 30));
 #endif
 	return FALSE;
 }
@@ -225,7 +207,7 @@ xbase_read_field (XBfile *file)
 	else
 		fprintf (stderr, "Type:\t%c (%s)\n", ans->type,
 			field_type_descriptions [p-field_types]);
-	fprintf (stderr, "Data address:\t0x%.8X\n", deref_le_guint32 (buf + 12));
+	fprintf (stderr, "Data address:\t0x%.8X\n", gnumeric_get_le_uint32 (buf + 12));
 	fprintf (stderr, "Length:\t%d\n", ans->len);
 	fprintf (stderr, "Decimal count:\t%d\n", buf[17]);
 #endif
