@@ -40,7 +40,7 @@ my @files =
      # "pbeta.c",
      # "qbeta.c",
      "dhyper.c",
-     "phyper.c",
+     # "phyper.c",
      "dexp.c",
      "pexp.c",
      "dgeom.c",

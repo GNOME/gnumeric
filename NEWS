@@ -22,6 +22,8 @@ Morten:
 	* Replace R's pcauchy function .  (Fixes precision of CAUCHY.)
 	* Replace R's pf function.  (Fixes precision of FDIST, FTEST, F-test
 	  tool, regression tool, ANOVA tools..)
+	* Replace R's phyper function.  (Fixes precision and evaluation speed
+	  of HYPERGEOMDIST.)
 	* Fix precision of our versions of various long-double functions
 	  that Solaris lacks.  (Fixes, for example, ERF.)
 	* Improve precision of FISHER.

@@ -2885,84 +2885,6 @@ gnm_float dhyper(gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean gi
 }
 
 /* ------------------------------------------------------------------------ */
-/* Imported src/nmath/phyper.c from R.  */
-/*
- *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998 Ross Ihaka
- *  Copyright (C) 1999-2000  The R Development Core Team
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
- *
- *  DESCRIPTION
- *
- *	The distribution function of the hypergeometric distribution.
- */
-
-gnm_float phyper(gnm_float x, gnm_float NR, gnm_float NB, gnm_float n,
-	      gboolean lower_tail, gboolean log_p)
-{
-/* Sample of  n balls from  NR red  and	 NB black ones;	 x are red */
-
-/* basically the same code is used also in  ./qhyper.c -- keep in sync! */
-    gnm_float N, xstart, xend, xr, xb, sum, term;
-    int small_N;
-#ifdef IEEE_754
-    if(isnangnum(x) || isnangnum(NR) || isnangnum(NB) || isnangnum(n))
-	return x + NR + NB + n;
-    if(!finitegnum(x) || !finitegnum(NR) || !finitegnum(NB) || !finitegnum(n))
-	ML_ERR_return_NAN;
-#endif
-
-    x = floorgnum(x + 1e-7);
-    NR = floorgnum(NR + 0.5);
-    NB = floorgnum(NB + 0.5);
-    N = NR + NB;
-    n = floorgnum(n + 0.5);
-    if (NR < 0 || NB < 0 || n < 0 || n > N)
-	ML_ERR_return_NAN;
-
-    xstart = fmax2(0, n - NB);
-    xend = fmin2(n, NR);
-    if(x < xstart) return R_DT_0;
-    if(x >= xend)  return R_DT_1;
-
-    xr = xstart;
-    xb = n - xr;
-
-    small_N = (N < 1000); /* won't have underflow in product below */
-    /* if N is small,  term := product.ratio( bin.coef );
-       otherwise work with its logarithm to protect against underflow */
-    term = lfastchoose(NR, xr) + lfastchoose(NB, xb) - lfastchoose(N, n);
-    if(small_N) term = expgnum(term);
-    NR -= xr;
-    NB -= xb;
-    sum = 0.0;
-    while(xr <= x) {
-	sum += (small_N ? term : expgnum(term));
-	xr++;
-	NB++;
-	if(small_N) term *= (NR / xr) * (xb / NB);
-	else	term += loggnum((NR / xr) * (xb / NB));
-	xb--;
-	NR--;
-    }
-    return R_DT_val(sum);
-}
-
-
-/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/dexp.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
@@ -5140,6 +5062,71 @@ pbeta (gnm_float x, gnm_float a, gnm_float b, gboolean lower_tail, gboolean log_
 
 /* --- END IANDJMSMITH SOURCE MARKER --- */
 /* ------------------------------------------------------------------------ */
+
+/*
+ * Calculate
+ *
+ *          phyper (i, NR, NB, n, TRUE, FALSE)
+ *   [log]  ----------------------------------
+ *             dhyper (i, NR, NB, n, FALSE)
+ *
+ * without actually calling phyper.  This assumes that
+ *
+ *     i * (NR + NB) <= n * NR
+ *
+ */
+static gnm_float
+pdhyper (gnm_float i, gnm_float NR, gnm_float NB, gnm_float n, gboolean log_p)
+{
+  gnm_float sum = 0;
+  gnm_float term = 1;
+
+  while (i > 0 && term >= GNUM_EPSILON * sum) {
+	  term *= i * (NB - n + i) / (n + 1 - i) / (NR + 1 - i);
+	  sum += term;
+	  i--;
+  }
+
+  return log_p ? log1pgnum (sum) : 1 + sum;
+}
+
+
+gnm_float
+phyper (gnm_float i, gnm_float NR, gnm_float NB, gnm_float n, int lower_tail, int log_p)
+{
+	gnm_float d, pd;
+
+#ifdef IEEE_754
+	if (isnangnum (i) || isnangnum (NR) || isnangnum (NB) || isnangnum (n))
+		return i + NR + NB + n;
+#endif
+
+	i = floorgnum (i + 1e-7);
+	NR = floorgnum (NR + 0.5);
+	NB = floorgnum (NB + 0.5);
+	n = floorgnum (n + 0.5);
+
+	if (NR < 0 || NB < 0 || !finitegnum (NR + NB) || n < 0 || n > NR + NB)
+		ML_ERR_return_NAN;
+
+	if (i * (NR + NB) > n * NR) {
+		/* Swap tails.  */
+		gnm_float oldNB = NB;
+		NB = NR;
+		NR = oldNB;
+		i = n - i - 1;
+		lower_tail = !lower_tail;
+	}
+
+	if (i < 0)
+		return R_DT_0;
+
+	d = dhyper (i, NR, NB, n, log_p);
+	pd = pdhyper (i, NR, NB, n, log_p);
+
+	return log_p ? R_DT_log (d + pd) : R_D_Lval (d * pd);
+}
+
 
 gnm_float
 pcauchy (gnm_float x, gnm_float location, gnm_float scale,

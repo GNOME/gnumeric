@@ -1,3 +1,7 @@
+2004-04-15  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Do not import phyper.
+
 2004-04-12  Morten Welinder  <terra@gnome.org>
 
 	* import-R (import_file): Improve precision of a pbeta calls in
