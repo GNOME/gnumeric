@@ -24,6 +24,7 @@ Morten:
 	* Improve search strategy for auto-completion.
 	* Fix crash for insert/delete column/row.  [#165873]
 	* Fix text import crash.  [#165617]
+	* Fix SUBSTITUTE.  [#165996]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.2
