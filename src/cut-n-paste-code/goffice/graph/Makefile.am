@@ -13,6 +13,9 @@ libgoffice_graph_a_SOURCES = \
 	goffice-graph.h			\
 	gog-object.c			\
 	gog-object.h			\
+	gog-view.c			\
+	gog-view.h			\
+	\
 	gog-graph.c			\
 	gog-graph.h			\
 	gog-graph-impl.h		\
@@ -20,13 +23,12 @@ libgoffice_graph_a_SOURCES = \
 	gog-chart.h			\
 	gog-chart-impl.h		\
 	\
-	gog-background.c		\
-	gog-background.h		\
 	gog-axis.c			\
 	gog-axis.h			\
-	\
-	gog-view.c			\
-	gog-view.h			\
+	gog-background.c		\
+	gog-background.h		\
+	gog-legend.c			\
+	gog-legend.h			\
 	\
 	gog-style.c			\
 	gog-style.h			\
@@ -48,6 +50,11 @@ libgoffice_graph_a_SOURCES = \
 	go-data-impl.h			\
 	\
 	gog-guru.c			\
+	gog-renderer.c			\
+	gog-renderer.h			\
+	gog-renderer-impl.h		\
+	gog-renderer-pixbuf.c		\
+	gog-renderer-pixbuf.h		\
 	gog-control-foocanvas.c		\
 	gog-control-foocanvas.h
 

@@ -12,16 +12,16 @@ gladedir = $(goffice_graph_piedir)
 goffice_graph_pie_LTLIBRARIES = pie.la
 pie_la_LDFLAGS = -module -avoid-version
 pie_la_SOURCES = \
-	gog-plot-pie.c		\
-	gog-plot-pie.h		\
-	gog-plot-pie-pref.c
+	gog-pie-plot.c		\
+	gog-pie-plot.h		\
+	gog-pie-plot-pref.c
 
 xml_in_files = plugin.xml.in plot-types.xml.in
-xml_DATA = $(xml_in_files:.xml.in=.xml) gog-plot-pie-pref.glade
+xml_DATA = $(xml_in_files:.xml.in=.xml) gog-pie-plot-pref.glade
 
 @INTLTOOL_XML_RULE@
 
-glade_DATA = gog-plot-pie-pref.glade
+glade_DATA = gog-pie-plot-pref.glade
 
 # do not use the intl-tool stuff to merge the text back
 # its simpler to just use gettext directly
