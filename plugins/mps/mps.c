@@ -155,7 +155,7 @@ mps_prepare (WorkbookView *wbv, MpsInputContext *ctxt)
 	while (current != NULL) {
 	        MpsBound *bound = (MpsBound *) current->data;
 		static const MpsRowType type_map[] = {
-		        LessOrEqualRow, GreaterOrEqualRow
+		        LessOrEqualRow, GreaterOrEqualRow, EqualityRow
 		};
 
 		ctxt->matrix[ctxt->n_rows][bound->col_index] = 1.0;

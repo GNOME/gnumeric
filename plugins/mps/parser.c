@@ -526,6 +526,8 @@ mps_parse_bounds (MpsInputContext *ctxt)
 			t = UpperBound;
 		else if (strncmp (type, "LO", 2) == 0)
 			t = LowerBound;
+		else if (strncmp (type, "FX", 2) == 0)
+			t = FixedVariable;
 		else
 		        return FALSE; /* Not all bound types are implemented */
 
