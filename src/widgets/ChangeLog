@@ -1,3 +1,8 @@
+2003-06-29  Morten Welinder  <terra@gnome.org>
+
+	* widget-format-selector.c
+	(number_format_selector_set_style_format): Move ref early.
+
 2003-06-24  Morten Welinder  <terra@gnome.org>
 
 	* widget-color-combo.c (color_combo_construct, color_combo_new):

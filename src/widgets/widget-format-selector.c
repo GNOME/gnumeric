@@ -1067,6 +1067,8 @@ number_format_selector_set_style_format (NumberFormatSelector *nfs,
   	g_return_if_fail (IS_NUMBER_FORMAT_SELECTOR (nfs));
 	g_return_if_fail (style_format != NULL);
 
+	style_format_ref (style_format);
+
   	style_format_unref (nfs->format.spec);
 
 	nfs->format.spec = style_format;
@@ -1083,8 +1085,6 @@ number_format_selector_set_style_format (NumberFormatSelector *nfs,
 		(combo,
 		 _((const gchar *)currency_symbols[nfs->format.currency_index].description),
 		 GNM_COMBO_TEXT_FROM_TOP);
-
-	style_format_ref (style_format);
 
 	set_format_category_menu_from_style (nfs);
 	draw_format_preview (nfs, TRUE);
