@@ -368,6 +368,9 @@ foo_canvas_item_realize (FooCanvasItem *item)
 static void
 foo_canvas_item_unrealize (FooCanvasItem *item)
 {
+	if (item->object.flags & FOO_CANVAS_ITEM_MAPPED)
+		(* FOO_CANVAS_ITEM_GET_CLASS (item)->unmap) (item);
+
 	GTK_OBJECT_UNSET_FLAGS (item, FOO_CANVAS_ITEM_REALIZED);
 }
 
@@ -1407,6 +1410,10 @@ foo_canvas_group_unrealize (FooCanvasItem *item)
 	FooCanvasItem *i;
 
 	group = FOO_CANVAS_GROUP (item);
+
+	/* Unmap group before children to avoid flash */
+	if (item->object.flags & FOO_CANVAS_ITEM_MAPPED)
+		(* FOO_CANVAS_ITEM_GET_CLASS (item)->unmap) (item);
 
 	for (list = group->item_list; list; list = list->next) {
 		i = list->data;
