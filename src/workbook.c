@@ -906,13 +906,16 @@ static GnomeUIInfo workbook_menu_file [] = {
 static GnomeUIInfo workbook_menu_edit_clear [] = {
 	{ GNOME_APP_UI_ITEM, N_("_All"),
 	  N_("Clear the selected cells' formats, comments, and contents"),
-	  NULL, clear_all_cmd },
+	  clear_all_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Formats"),
-	  N_("Clear the selected cells' formats"), clear_formats_cmd },
+	  N_("Clear the selected cells' formats"),
+	  clear_formats_cmd },
 	{ GNOME_APP_UI_ITEM, N_("Co_mments"),
-	  N_("Clear the selected cells' comments"), clear_comments_cmd },
+	  N_("Clear the selected cells' comments"),
+	  clear_comments_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Content"),
-	  N_("Clear the selected cells' contents"), clear_content_cmd },
+	  N_("Clear the selected cells' contents"),
+	  clear_content_cmd },
 	GNOMEUIINFO_END
 };
 

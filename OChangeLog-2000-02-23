@@ -1,5 +1,11 @@
 1999-11-05  Jody Goldberg <jgoldberg@home.com>
 
+	* src/mstyle.c (mstyle_new_default) : Set the pattern to transparent.
+
+	* src/sheet.c (sheet_clear_region) : Clear the style also.
+
+	* src/workbook.c (workbook_menu_edit_clear) : Fix typo.
+
 	* src/pattern.c (gnumeric_background_set_gc) : Move the pattern &
 	  background GC setup logic from item_grid_paint_empty_cell here.
 
