@@ -1,3 +1,8 @@
+2001-04-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_class_init) : Drat part of a canceled
+	  patch slipped in.
+
 2001-04-26  Jon K Hellan  <hellan@acm.org>
 
 	* src/item-grid.c (item_grid_draw_background): Fix typo.

@@ -1024,7 +1024,7 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 	GnomeCanvasItemClass *item_class;
 
 	item_grid_parent_class =
-		gtk_type_class (gnome_canvas_group_get_type ());
+		gtk_type_class (gnome_canvas_item_get_type ());
 
 	object_class = (GtkObjectClass *) item_grid_class;
 	item_class = (GnomeCanvasItemClass *) item_grid_class;
