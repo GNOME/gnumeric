@@ -1179,8 +1179,8 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 
 		case '\\':
 			if (format[1] != '\0') {
-				/* TODO TODO TODO : Do we need any more chars here ?? */
-				if (format[1] == '-')
+				/* TODO : Other chars here ?? ('+' or ':') ? */
+				if (format[1] == '-' || format[1] == '(')
 					info.supress_minus = TRUE;
 				else if (can_render_number && !info.rendered)
 					do_render_number (number, &info, result);
