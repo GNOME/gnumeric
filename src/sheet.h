@@ -277,10 +277,11 @@ void           sheet_style_insert_colrow        (Sheet *sheet, int pos, int coun
 void           sheet_style_delete_colrow        (Sheet *sheet, int pos, int count,
 						 gboolean is_col);
 void           sheet_style_relocate             (const ExprRelocateInfo *rinfo);
-void           sheet_selection_apply_style      (Sheet *sheet, MStyle *style);
-MStyle        *sheet_selection_get_unique_style (Sheet *sheet,
+void           sheet_range_apply_style          (Sheet *sheet, const Range *r,
+						 MStyle *style);
+void           sheet_range_set_border           (Sheet *sheet, const Range *r,
 						 MStyleBorder **borders);
-void           sheet_selection_set_border       (Sheet *sheet,
+MStyle        *sheet_selection_get_unique_style (Sheet *sheet,
 						 MStyleBorder **borders);
 void           sheet_create_styles              (Sheet *sheet);
 void           sheet_destroy_styles             (Sheet *sheet);
@@ -292,10 +293,10 @@ Range          sheet_get_full_range             (void);
 void           sheet_style_get_extent           (Range *r, Sheet const *sheet);
 Range          sheet_get_extent                 (Sheet const *sheet);
 
-GList         *sheet_get_styles_in_range        (Sheet *sheet, Range r);
+GList         *sheet_get_styles_in_range        (Sheet *sheet, const Range *r);
 void           sheet_style_list_destroy         (GList *l);
 void           sheet_style_attach_list          (Sheet *sheet, const GList *l,
-						 const Range *boundary, gboolean transpose);
+						 const CellPos *corner, gboolean transpose);
 
 gboolean       sheet_check_for_partial_array (Sheet *sheet,
 					      int const start_row, int const start_col,

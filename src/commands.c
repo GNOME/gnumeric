@@ -20,6 +20,7 @@
 #include "datetime.h"
 #include "colrow.h"
 #include "dialogs.h"
+#include "border.h"
 
 /*
  * NOTE : This is a work in progress
@@ -34,11 +35,6 @@
  * 2) Copy the boiler plate code into place and implement the descriptor.
  *
  * 3) Implement the guts of the support functions.
- *
- * I would like some style utilies.
- * For insert/delete & clear I'd like get a range clipped list of
- * copies of all the styles that apply to a given area.  The application
- * regions for the copies should also be clipped.
  *
  * For formatting.  I'd like a range clipped list of a subset of style
  * elements corresponding to those being overridden.
@@ -100,7 +96,7 @@ static void (* gtk_object_dtor) (GtkObject *object) = NULL;
 static void
 gnumeric_command_destroy (GtkObject *obj)
 {
-	GnumericCommand *cmd = GNUMERIC_COMMAND(obj);
+	GnumericCommand *cmd = GNUMERIC_COMMAND (obj);
 
 	g_return_if_fail (cmd != NULL);
 
@@ -183,7 +179,7 @@ command_undo (CommandContext *context, Workbook *wb)
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (wb->undo_commands != NULL);
 
-	cmd = GNUMERIC_COMMAND(wb->undo_commands->data);
+	cmd = GNUMERIC_COMMAND (wb->undo_commands->data);
 	g_return_if_fail (cmd != NULL);
 
 	klass = GNUMERIC_COMMAND_CLASS(cmd->parent.klass);
@@ -218,7 +214,7 @@ command_redo (CommandContext *context, Workbook *wb)
 	g_return_if_fail (wb);
 	g_return_if_fail (wb->redo_commands);
 
-	cmd = GNUMERIC_COMMAND(wb->redo_commands->data);
+	cmd = GNUMERIC_COMMAND (wb->redo_commands->data);
 	g_return_if_fail (cmd != NULL);
 
 	klass = GNUMERIC_COMMAND_CLASS(cmd->parent.klass);
@@ -602,7 +598,7 @@ cmd_ins_del_row_col (CommandContext *context,
 
 	me->parent.cmd_descriptor = descriptor;
 
-	trouble = cmd_ins_del_row_col_redo (GNUMERIC_COMMAND(me), context);
+	trouble = cmd_ins_del_row_col_redo (GNUMERIC_COMMAND (me), context);
 
 	/* Register the command object */
 	return command_push_undo (sheet->workbook, obj, trouble);
@@ -791,7 +787,7 @@ cmd_clear_selection (CommandContext *context, Sheet *sheet, int const clear_flag
 	/* TODO : Something more descriptive ? maybe the range name */
 	me->parent.cmd_descriptor = g_strdup (_("Clear"));
 
-	trouble = cmd_clear_redo (GNUMERIC_COMMAND(me), context);
+	trouble = cmd_clear_redo (GNUMERIC_COMMAND (me), context);
 
 	/* Register the command object */
 	return command_push_undo (sheet->workbook, obj, trouble);
@@ -802,16 +798,21 @@ cmd_clear_selection (CommandContext *context, Sheet *sheet, int const clear_flag
 #define CMD_FORMAT_TYPE        (cmd_format_get_type ())
 #define CMD_FORMAT(o)          (GTK_CHECK_CAST ((o), CMD_FORMAT_TYPE, CmdFormat))
 
-struct StyleRange
-{
-	Range region;
-	GList *styles;
-};
+typedef struct {
+	CellPos pos;
+	GList  *styles;
+} CmdFormatOldStyle;
 
-typedef struct
-{
+typedef struct {
 	GnumericCommand parent;
-	GList *contents;
+
+	Sheet         *sheet;
+	GSList        *selection;
+
+	GSList        *old_styles;
+
+	MStyle        *new_style;
+	MStyleBorder **borders;
 } CmdFormat;
 
 GNUMERIC_MAKE_COMMAND (CmdFormat, cmd_format);
@@ -819,42 +820,148 @@ GNUMERIC_MAKE_COMMAND (CmdFormat, cmd_format);
 static gboolean
 cmd_format_undo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdFormat *me = CMD_FORMAT(cmd);
+	CmdFormat *me = CMD_FORMAT (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	/* FIXME : Fill in */
+	if (me->old_styles) {
+		GSList *l;
+
+		for (l = me->old_styles; l; l = l->next) {
+			CmdFormatOldStyle *os = l->data;
+
+			sheet_style_attach_list (me->sheet, os->styles,
+						 &os->pos, FALSE);
+		}
+	}
+	
 	return FALSE;
 }
 
 static gboolean
 cmd_format_redo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdFormat *me = CMD_FORMAT(cmd);
+	CmdFormat *me = CMD_FORMAT (cmd);
+	GSList    *l;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	/* FIXME : Fill in */
+	for (l = me->selection; l; l = l->next) {
+		if (me->borders)
+			sheet_range_set_border (me->sheet, l->data,
+						me->borders);
+		if (me->new_style) {
+			mstyle_ref (me->new_style);
+			sheet_range_apply_style (me->sheet, l->data,
+						 me->new_style);
+		}
+	}
+
+	sheet_set_dirty (me->sheet, TRUE);
+
 	return FALSE;
 }
+
 static void
 cmd_format_destroy (GtkObject *cmd)
 {
-#if 0
-	CmdFormat *me = CMD_FORMAT(cmd);
-#endif
+	CmdFormat *me = CMD_FORMAT (cmd);
+	int        i;
 
-	/* FIXME : Fill in */
+	if (me->new_style)
+		mstyle_unref (me->new_style);
+	me->new_style = NULL;
+
+	if (me->borders) {
+		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
+			style_border_unref (me->borders [i]);
+		g_free (me->borders);
+		me->borders = NULL;
+	}
+
+	if (me->old_styles != NULL) {
+		GSList *l;
+
+		for (l = me->old_styles ; l != NULL ; l = g_slist_remove (l, l->data)) {
+			CmdFormatOldStyle *os = l->data;
+
+			if (os->styles)
+				sheet_style_list_destroy (os->styles);
+
+			g_free (os);
+		}
+		me->old_styles = NULL;
+	}
+
+	if (me->selection != NULL) {
+		GSList *l;
+		for (l = me->selection ; l != NULL ; l = g_slist_remove (l, l->data))
+			g_free (l->data);
+		me->selection = NULL;
+	}
+
 	gnumeric_command_destroy (cmd);
 }
 
-#if 0
+/**
+ * cmd_format:
+ * @context: the context.
+ * @sheet: the sheet
+ * @style: style to apply to the selection
+ * @borders: borders to apply to the selection
+ * 
+ *  If borders is non NULL, then the MStyleBorder references are passed,
+ * the MStyle reference is also passed.
+ * 
+ * Return value: trouble ?
+ **/
 gboolean
-cmd_format (CommandContext *context,
+cmd_format (CommandContext *context, Sheet *sheet,
+	    MStyle *style, MStyleBorder **borders)
 {
-	return FALSE;
+	GtkObject *obj;
+	CmdFormat *me;
+	GSList    *l;
+	gboolean   trouble;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_FORMAT_TYPE);
+	me = CMD_FORMAT (obj);
+
+	me->sheet      = sheet;
+	me->selection  = selection_get_ranges (sheet, FALSE); /* TRUE ? */
+	me->new_style  = style;
+
+	me->old_styles = NULL;
+	for (l = me->selection; l; l = l->next) {
+		CmdFormatOldStyle *os;
+		Range *range = l->data;
+
+		os = g_new (CmdFormatOldStyle, 1);
+
+		os->styles = sheet_get_styles_in_range (sheet, range);
+		os->pos = range->start;
+
+		me->old_styles = g_slist_append (me->old_styles, os);
+	}
+
+	if (borders) {
+		int i;
+
+		me->borders = g_new (MStyleBorder *, STYLE_BORDER_EDGE_MAX);
+		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
+			me->borders [i] = borders [i];
+	} else
+		me->borders = NULL;
+
+	me->parent.cmd_descriptor = g_strdup (_("Format cells"));
+
+	trouble = cmd_format_redo (GNUMERIC_COMMAND (me), context);
+
+	/* Register the command object */
+	return command_push_undo (sheet->workbook, obj, trouble);
 }
-#endif
 
 /******************************************************************/
 
@@ -874,7 +981,7 @@ GNUMERIC_MAKE_COMMAND (CmdRenameSheet, cmd_rename_sheet);
 static gboolean
 cmd_rename_sheet_undo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdRenameSheet *me = CMD_RENAME_SHEET(cmd);
+	CmdRenameSheet *me = CMD_RENAME_SHEET (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -884,7 +991,7 @@ cmd_rename_sheet_undo (GnumericCommand *cmd, CommandContext *context)
 static gboolean
 cmd_rename_sheet_redo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdRenameSheet *me = CMD_RENAME_SHEET(cmd);
+	CmdRenameSheet *me = CMD_RENAME_SHEET (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -893,7 +1000,7 @@ cmd_rename_sheet_redo (GnumericCommand *cmd, CommandContext *context)
 static void
 cmd_rename_sheet_destroy (GtkObject *cmd)
 {
-	CmdRenameSheet *me = CMD_RENAME_SHEET(cmd);
+	CmdRenameSheet *me = CMD_RENAME_SHEET (cmd);
 
 	me->wb = NULL;
 	g_free (me->old_name);
@@ -922,7 +1029,7 @@ cmd_rename_sheet (CommandContext *context,
 	me->parent.cmd_descriptor = 
 	    g_strdup_printf (_("Rename sheet '%s' '%s'"), old_name, new_name);
 
-	trouble = cmd_rename_sheet_redo (GNUMERIC_COMMAND(me), context);
+	trouble = cmd_rename_sheet_redo (GNUMERIC_COMMAND (me), context);
 
 	/* Register the command object */
 	return command_push_undo (wb, obj, trouble);
@@ -947,7 +1054,7 @@ GNUMERIC_MAKE_COMMAND (CmdSetDateTime, cmd_set_date_time);
 static gboolean
 cmd_set_date_time_undo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdSetDateTime *me = CMD_SET_DATE_TIME(cmd);
+	CmdSetDateTime *me = CMD_SET_DATE_TIME (cmd);
 	Cell *cell;
 
 	g_return_val_if_fail (me != NULL, TRUE);
@@ -972,7 +1079,7 @@ cmd_set_date_time_undo (GnumericCommand *cmd, CommandContext *context)
 static gboolean
 cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdSetDateTime *me = CMD_SET_DATE_TIME(cmd);
+	CmdSetDateTime *me = CMD_SET_DATE_TIME (cmd);
 	Value *v;
 	Cell *cell;
 	char const * prefered_format;
@@ -1022,7 +1129,7 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 static void
 cmd_set_date_time_destroy (GtkObject *cmd)
 {
-	CmdSetDateTime *me = CMD_SET_DATE_TIME(cmd);
+	CmdSetDateTime *me = CMD_SET_DATE_TIME (cmd);
 
 	if (me->contents) {
 		g_free (me->contents);
@@ -1057,7 +1164,7 @@ cmd_set_date_time (CommandContext *context, gboolean is_date,
 			     : _("Setting current time in %s"),
 			     cell_name(col, row));
 
-	trouble = cmd_set_date_time_redo (GNUMERIC_COMMAND(me), context);
+	trouble = cmd_set_date_time_redo (GNUMERIC_COMMAND (me), context);
 
 	/* Register the command object */
 	return command_push_undo (sheet->workbook, obj, trouble);
@@ -1083,7 +1190,7 @@ GNUMERIC_MAKE_COMMAND (CmdResizeRowCol, cmd_resize_row_col);
 static gboolean
 cmd_resize_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL(cmd);
+	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->sizes != NULL, TRUE);
@@ -1099,7 +1206,7 @@ cmd_resize_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 static gboolean
 cmd_resize_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL(cmd);
+	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->sizes == NULL, TRUE);
@@ -1111,7 +1218,7 @@ cmd_resize_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 static void
 cmd_resize_row_col_destroy (GtkObject *cmd)
 {
-	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL(cmd);
+	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL (cmd);
 
 	if (me->sizes) {
 		g_free (me->sizes);
@@ -1143,7 +1250,7 @@ cmd_resize_row_col (CommandContext *context, gboolean is_col,
 	    ? g_strdup_printf (_("Setting width of column %s"), col_name(index))
 	    : g_strdup_printf (_("Setting height of row %d"), index+1);
 
-	trouble = cmd_resize_row_col_redo (GNUMERIC_COMMAND(me), context);
+	trouble = cmd_resize_row_col_redo (GNUMERIC_COMMAND (me), context);
 
 	/* TODO :
 	 * - Patch into manual and auto resizing 
@@ -1192,7 +1299,7 @@ cmd_sort_destroy (GtkObject *cmd)
 static gboolean
 cmd_sort_undo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdSort *me = CMD_SORT(cmd);
+	CmdSort *me = CMD_SORT (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -1204,7 +1311,7 @@ cmd_sort_undo (GnumericCommand *cmd, CommandContext *context)
 static gboolean
 cmd_sort_redo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdSort *me = CMD_SORT(cmd);
+	CmdSort *me = CMD_SORT (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -1252,7 +1359,7 @@ cmd_sort (CommandContext *context, Sheet *sheet,
 	me->parent.cmd_descriptor =
 		g_strdup_printf (_("Sorting %s"), range_name(me->range));
 
-	cmd_sort_redo (GNUMERIC_COMMAND(me), context);
+	cmd_sort_redo (GNUMERIC_COMMAND (me), context);
 	
 	/* Register the command object */
 	return command_push_undo (sheet->workbook, obj, FALSE);
@@ -1278,7 +1385,7 @@ GNUMERIC_MAKE_COMMAND (CmdHideRowCol, cmd_hide_row_col);
 static gboolean
 cmd_hide_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdHideRowCol *me = CMD_HIDE_ROW_COL(cmd);
+	CmdHideRowCol *me = CMD_HIDE_ROW_COL (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -1291,7 +1398,7 @@ cmd_hide_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 static gboolean
 cmd_hide_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdHideRowCol *me = CMD_HIDE_ROW_COL(cmd);
+	CmdHideRowCol *me = CMD_HIDE_ROW_COL (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -1330,7 +1437,7 @@ cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
 		? (visible ? _("Unhide columns") : _("Hide columns"))
 		: (visible ? _("Unhide rows") : _("Hide rows")));
 
-	cmd_hide_row_col_redo (GNUMERIC_COMMAND(me), context);
+	cmd_hide_row_col_redo (GNUMERIC_COMMAND (me), context);
 	
 	/* Register the command object */
 	return command_push_undo (sheet->workbook, obj, FALSE);
@@ -1351,7 +1458,7 @@ GNUMERIC_MAKE_COMMAND (CmdPasteCopy, cmd_paste_copy);
 static gboolean
 cmd_paste_copy_undo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
+	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -1362,7 +1469,7 @@ cmd_paste_copy_undo (GnumericCommand *cmd, CommandContext *context)
 static gboolean
 cmd_paste_copy_redo (GnumericCommand *cmd, CommandContext *context)
 {
-	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
+	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -1373,7 +1480,7 @@ static void
 cmd_paste_copy_destroy (GtkObject *cmd)
 {
 #if 0
-	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
+	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 #endif
 	/* FIXME : Fill in */
 	gnumeric_command_destroy (cmd);
@@ -1482,7 +1589,7 @@ cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
 
 	me->parent.cmd_descriptor = descriptor;
 
-	trouble = cmd_paste_cut_redo (GNUMERIC_COMMAND(me), context);
+	trouble = cmd_paste_cut_redo (GNUMERIC_COMMAND (me), context);
 
 	/* Register the command object */
 

@@ -36,9 +36,12 @@ gboolean cmd_paste_cut (CommandContext *context,
 gboolean cmd_rename_sheet (CommandContext *context, Workbook *wb,
 			   const char *old_name, const char *new_name);
 
-gboolean cmd_sort (CommandContext *context, Sheet *sheet,
-		   Range *range, SortClause *clauses,
-		   gint num_clause, gboolean columns);
+gboolean cmd_sort   (CommandContext *context, Sheet *sheet,
+		     Range *range, SortClause *clauses,
+		     gint num_clause, gboolean columns);
+
+gboolean cmd_format (CommandContext *context, Sheet *sheet,
+		     MStyle *style, MStyleBorder **borders);
 
 gboolean cmd_clear_selection (CommandContext *context, Sheet *sheet, int const clear_flags);
 

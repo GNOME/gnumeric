@@ -23,6 +23,8 @@
 #include "pattern.h"
 #include "mstyle.h"
 #include "application.h"
+#include "workbook.h"
+#include "commands.h"
 
 #define GLADE_FILE "cell-format.glade"
 
@@ -1825,15 +1827,15 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	cell_freeze_redraws ();
 	
 	mstyle_ref (state->result);
-	sheet_selection_apply_style (state->sheet, state->result);
-
-	if (mstyle_is_element_set (state->result, MSTYLE_FONT_SIZE))        
-		sheet_selection_height_update (state->sheet);     
 
 	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
 		borders [i] = border_get_mstyle (state, i);
 
-	sheet_selection_set_border (state->sheet, borders);
+	cmd_format (workbook_command_context_gui (state->sheet->workbook),
+		    state->sheet, state->result, borders);
+
+	if (mstyle_is_element_set (state->result, MSTYLE_FONT_SIZE))        
+		sheet_selection_height_update (state->sheet);     
 
 	cell_thaw_redraws ();
 	mstyle_unref (state->result);

@@ -19,6 +19,7 @@
 #include "workbook-private.h"
 #include "workbook.h"
 #include "application.h"
+#include "commands.h"
 #include "format.h"
 
 /*
@@ -47,7 +48,8 @@ set_selection_halign (Workbook *wb, StyleHAlignFlags align)
 	mstyle = mstyle_new ();
 	mstyle_set_align_h (mstyle, align);
 	
-	sheet_selection_apply_style (sheet, mstyle);
+	cmd_format (workbook_command_context_gui (wb),
+		    sheet, mstyle, NULL);
 }
 
 static void
@@ -81,20 +83,22 @@ change_selection_font (Workbook *wb, int bold, int italic)
 	MStyle *mstyle;
 	Sheet  *sheet;
 
-	sheet = wb->current_sheet;
+	mstyle = mstyle_new ();
+	sheet  = wb->current_sheet;
 	application_clipboard_unant ();
 
-	if (bold >= 0) {
-		mstyle = mstyle_new ();
+	if (bold >= 0)
 		mstyle_set_font_bold (mstyle, bold);
-		sheet_selection_apply_style (sheet, mstyle);
-	}
 
-	if (italic >= 0) {
-		mstyle = mstyle_new ();
+	if (italic >= 0)
 		mstyle_set_font_italic (mstyle, italic);
-		sheet_selection_apply_style (sheet, mstyle);
-	}
+
+	if (bold >= 0 ||
+	    italic >= 0)
+		cmd_format (workbook_command_context_gui (wb), 
+			    sheet, mstyle, NULL);
+	else
+		mstyle_unref (mstyle);
 }
 
 static void
@@ -122,7 +126,8 @@ change_font_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
 
 	mstyle = mstyle_new ();
 	mstyle_set_font_name (mstyle, font_name);
-	sheet_selection_apply_style (sheet, mstyle);
+	cmd_format (workbook_command_context_gui (wb),
+		    sheet, mstyle, NULL);
 }
 
 static void
@@ -140,8 +145,9 @@ change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 
 	mstyle = mstyle_new ();
 	mstyle_set_font_size (mstyle, size);
-	
-	sheet_selection_apply_style (sheet, mstyle);
+
+	cmd_format (workbook_command_context_gui (wb),
+		    sheet, mstyle, NULL);
 	sheet_selection_height_update (sheet);
 	workbook_focus_current_sheet (sheet->workbook);
 }
@@ -160,7 +166,8 @@ do_sheet_selection_apply_style (Sheet *sheet, const char *format)
 	mstyle = mstyle_new ();
 	mstyle_set_format (mstyle, real_format);
 
-	sheet_selection_apply_style (sheet, mstyle);
+	cmd_format (workbook_command_context_gui (sheet->workbook),
+		    sheet, mstyle, NULL);
 }
 
 static void
@@ -304,7 +311,8 @@ fore_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, 
 			  style_color_new (color->red, color->green, color->blue));
 
-	sheet_selection_apply_style (sheet, mstyle);
+	cmd_format (workbook_command_context_gui (wb),
+		    sheet, mstyle, NULL);
 }
 
 static void
@@ -325,7 +333,8 @@ back_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *
 		/* Set background to NONE */
 		mstyle_set_pattern (mstyle, 0);
 
-	sheet_selection_apply_style (sheet, mstyle);
+	cmd_format (workbook_command_context_gui (wb),
+		    sheet, mstyle, NULL);
 }
 
 /*

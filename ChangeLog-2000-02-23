@@ -1,3 +1,25 @@
+2000-02-10  Michael Meeks  <michael@helixcode.com>
+
+	* src/clipboard.c (sheet_paste_selection): pass CellPos.
+	(clipboard_copy_cell_range): pass ptr to range.
+
+	* src/sheet-style.c (sheet_get_styles_in_range): include the background
+	style so we can undo nicely. (sheet_style_attach_list): simplify.
+
+	* src/workbook-format-toolbar.c (change_font_size_in_selection_cmd),
+	(change_selection_font, set_selection_halign, change_font_in_selection_cmd),
+	(change_font_size_in_selection_cmd, do_sheet_selection_apply_style),
+	(fore_color_changed, back_color_changed): use cmd_format.
+
+	* src/dialogs/dialog-cell-format.c (cb_fmt_dialog_dialog_apply): update
+	to use cmd_format.
+
+	* src/sheet-style.c (sheet_selection_set_border): kill style unref.
+	(sheet_selection_apply_border_cb): renamed to (sheet_range_set_border):
+	(sheet_selection_set_border): kill ( with leak ).
+	(sheet_range_apply_style): rename (sheet_selection_apply_style): kill.
+	(sheet_get_styles_in_range): take a const range pointer
+
 2000-02-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/corba-workbook-factory.c (WorkbookFactory_read) : Include

@@ -556,37 +556,27 @@ sheet_style_compute (Sheet const *sheet, int col, int row)
 	return mstyle;
 }
 
-static gboolean
-sheet_selection_apply_style_cb (Sheet *sheet,
-				Range const *range,
-				gpointer user_data)
-{
-	MStyle *mstyle = (MStyle *)user_data;
-	mstyle_ref           (mstyle);
-	sheet_style_attach   (sheet, *range, user_data);
-	sheet_style_optimize (sheet, *range);
-	sheet_cells_update   (sheet, *range,
-			      mstyle_is_element_set (mstyle, MSTYLE_FORMAT));
-	sheet_redraw_cell_region (sheet, range->start.col, range->start.row,
-				  range->end.col, range->end.row);
-	return TRUE;
-}
-
 /**
  * sheet_selection_apply_style:
- * @style: style to be attached
+ * @sheet: the sheet in which can be found
+ * @range: the range to which should be applied
+ * @style: the style
  *
- * This routine attaches @style to the various SheetSelections
+ *   This routine attaches @style to the range, it swallows
+ * the style reference.
  *
  */
 void
-sheet_selection_apply_style (Sheet *sheet, MStyle *mstyle)
+sheet_range_apply_style (Sheet       *sheet,
+			 const Range *range,
+			 MStyle      *style)
 {
-	selection_foreach_range (sheet,
-				 sheet_selection_apply_style_cb,
-				 mstyle);
-	sheet_set_dirty (sheet, TRUE);
-	mstyle_unref            (mstyle);
+	sheet_style_attach   (sheet, *range, style);
+	sheet_style_optimize (sheet, *range);
+	sheet_cells_update   (sheet, *range,
+			      mstyle_is_element_set (style, MSTYLE_FORMAT));
+	sheet_redraw_cell_region (sheet, range->start.col, range->start.row,
+				  range->end.col, range->end.row);
 }
 
 void
@@ -966,7 +956,7 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 }
 
 GList *
-sheet_get_styles_in_range (Sheet *sheet, Range r)
+sheet_get_styles_in_range (Sheet *sheet, const Range *r)
 {
 	GList *ans = NULL;
 	GList *l, *next;
@@ -975,16 +965,16 @@ sheet_get_styles_in_range (Sheet *sheet, Range r)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 /* 1. Fragment each StyleRegion against the original range */
-	for (l = STYLE_LIST (sheet); l && l->next; l = next) {
+	for (l = STYLE_LIST (sheet); l; l = next) {
 		StyleRegion *sr = (StyleRegion *)l->data;
 		GList       *fragments, *f;
 
 		next = l->next;
 
-		if (!range_overlap (&sr->range, &r))
+		if (!range_overlap (&sr->range, r))
 			continue;
 
-		fragments = range_split_ranges (&r, (Range *)sr,
+		fragments = range_split_ranges (r, (Range *)sr,
 						(RangeCopyFn)style_region_copy);
 		
 /* 2. Iterate over each fragment */
@@ -992,11 +982,11 @@ sheet_get_styles_in_range (Sheet *sheet, Range r)
 			StyleRegion *frag = (StyleRegion *)f->data;
 
 /* 2.1 If it is within our range of interest keep it */
-			if (range_overlap (&frag->range, &r)) {
+			if (range_overlap (&frag->range, r)) {
 /* 2.1.1 Translate the range so it it's origin is the TLC of 'r' */
 				range_translate (&frag->range,
-						 - r.start.col,
-						 - r.start.row);
+						 - r->start.col,
+						 - r->start.row);
 				ans = g_list_prepend (ans, frag);
 			} else
 /* 2.2 Else send it packing */
@@ -1024,7 +1014,7 @@ sheet_style_list_destroy (GList *list)
 
 void
 sheet_style_attach_list (Sheet *sheet, const GList *list,
-			 const Range *boundary, gboolean transpose)
+			 const CellPos *corner, gboolean transpose)
 {
 	const GList *l;
 
@@ -1036,9 +1026,9 @@ sheet_style_attach_list (Sheet *sheet, const GList *list,
 		const StyleRegion *sr = l->data;
 		Range              r  = sr->range;
 
-		range_translate (&r, +boundary->start.col, +boundary->start.row);
+		range_translate (&r, +corner->col, +corner->row);
 		if (transpose)
-			range_transpose (&r, &boundary->start);
+			range_transpose (&r, corner);
 
 		mstyle_ref (sr->style);
 		sheet_style_attach (sheet, r, sr->style);
@@ -1072,21 +1062,27 @@ do_blank_border (Sheet *sheet, const Range *r,
 	sheet_style_attach (sheet, *r, mstyle);
 }
 
-/*
+/**
+ * sheet_range_set_border:
+ * @sheet:
+ * @range: 
+ * @borders: an array of border styles to apply
+ * 
  * Apply borders round the edge of a range.
  * ignore special corner cases; these are made by
  * an implicit StyleRegion overlap at present.
  *
  * 'Outer' borders are cleared if they have been set.
  *
- */
-static gboolean
-sheet_selection_apply_border_cb (Sheet *sheet,
-				 Range const *range,
-				 gpointer user_data)
+ * The MStyleBorder allocations are not swallowed
+ *
+ **/
+void
+sheet_range_set_border (Sheet         *sheet,
+			const Range   *range,
+			MStyleBorder **borders)
 {
 	Range          r;
-	MStyleBorder **borders = user_data;
 	MStyle        *mstyle;
 
 	/* 1.1 The top inner */
@@ -1201,29 +1197,6 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 	sheet_style_optimize (sheet, *range);
 	sheet_redraw_cell_region (sheet, range->start.col, range->start.row,
 				  range->end.col, range->end.row);
-
-	return TRUE;
-}
-
-void
-sheet_selection_set_border (Sheet *sheet,
-			    MStyleBorder **borders)
-{
-	MStyle *mstyle;
-	int     i;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (borders != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	mstyle = mstyle_new ();
-
-	selection_foreach_range (sheet,
-				 sheet_selection_apply_border_cb,
-				 borders);
-	sheet_set_dirty (sheet, TRUE);
-	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
-		style_border_unref (borders[i]);
 }
 
 /**

@@ -329,7 +329,7 @@ sheet_paste_selection (CommandContext *context, Sheet *sheet,
 		boundary.end.col   = pc->dest_col + paste_width;
 		boundary.start.row = pc->dest_row;
 		boundary.end.row   = pc->dest_row + paste_height;
-		sheet_style_attach_list (sheet, content->styles, &boundary,
+		sheet_style_attach_list (sheet, content->styles, &boundary.start,
 					 (pc->paste_flags & PASTE_TRANSPOSE));
 
 		sheet_style_optimize (sheet, boundary);
@@ -536,7 +536,7 @@ clipboard_copy_cell_range (Sheet *sheet,
 		clipboard_prepend_cell, &c);
 
 	range_init (&r, start_col, start_row, end_col, end_row);
-	c.r->styles = sheet_get_styles_in_range (sheet, r);
+	c.r->styles = sheet_get_styles_in_range (sheet, &r);
 
 	/* reverse the list so that upper left corner is first */
 	c.r->list = g_list_reverse (c.r->list);
