@@ -1,3 +1,7 @@
+2003-04-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* fill-series.c (do_row_filling): Eliminate a crach.
+
 2003-04-20  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* simulation.c (simulation_tool): Added checking of maximum

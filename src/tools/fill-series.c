@@ -103,7 +103,6 @@ do_row_filling (Sheet *sheet, fill_series_t *fs)
 {
 	int         col;
 	gnm_float   v;
-	gboolean    is_range;
 	Cell        *cell;
 
 	static StyleFormat *style_format = NULL;
@@ -111,13 +110,12 @@ do_row_filling (Sheet *sheet, fill_series_t *fs)
 	if (style_format == NULL)
 		style_format = style_format_default_date ();
 
-	is_range = fs->sel->start.col != fs->sel->end.col;
 	col = fs->sel->start.col;
  
 	for (v = fs->v0; ; col++ ) {
 		if (fs->is_stop_set && v > fs->stop_value)
 			break;
-		if (is_range && col > fs->sel->end.col)
+		if (col > fs->sel->end.col)
 			break;
 
 		cell = sheet_cell_fetch (sheet, col, fs->sel->start.row);
@@ -130,7 +128,6 @@ do_column_filling (Sheet *sheet, fill_series_t *fs)
 {
 	int       row;
 	gnm_float v;
-	gboolean  is_range;
 	Cell      *cell;
 
 	static StyleFormat *style_format = NULL;
@@ -138,13 +135,12 @@ do_column_filling (Sheet *sheet, fill_series_t *fs)
 	if (style_format == NULL)
 		style_format = style_format_default_date ();
 
-	is_range = fs->sel->start.row != fs->sel->end.row;
 	row = fs->sel->start.row;
  
 	for (v = fs->v0; ; row++ ) {
 		if (fs->is_stop_set && v > fs->stop_value)
 			break;
-		if (is_range && row > fs->sel->end.row)
+		if (row > fs->sel->end.row)
 			break;
 
 		cell = sheet_cell_fetch (sheet, fs->sel->start.col, row);
