@@ -93,7 +93,7 @@
     &printing;
   </chapter>
 
-  <chapter id="filter">
+  <chapter id="filters">
     <title>Data Filters</title>
     &filter;
   </chapter>
@@ -108,7 +108,7 @@
     &analysis-tools;
   </chapter>
 
-  <chapter id="autocorrect">
+  <chapter id="autocorrect-tool">
     <title>Auto Correct Tool</title>
     &autocorrect;
   </chapter>

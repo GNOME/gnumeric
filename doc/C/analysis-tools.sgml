@@ -196,7 +196,7 @@ Common output options of the data analysis tools
      
      <para>Gnumeric will estimate missing values for each level combination as 
      the mean of the existing  values in that combination. The degrees of freedom 
-     are adjusted appropriately. 
+     are adjusted appropriately. </para>
   </sect3>
   </sect2>
 

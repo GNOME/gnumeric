@@ -1,3 +1,9 @@
+2001-12-13  Gregory Leblanc  <gleblanc@linuxweasel.com>
+
+	* analysis-tools.sgml: Fixed missing </para>
+	* autocorrect.sgml: Fixed duplicated ID
+	* gnumeric.sgml: Changed IDs for some chapters to not duplicate
+
 2001-12-12 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.sgml : Updated Correlation, Covariance
