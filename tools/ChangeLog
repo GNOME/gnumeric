@@ -1,3 +1,7 @@
+2005-03-22  Stepan Kasal  <kasal@ucw.cz>
+
+	* import-foocanvas: Remove, it's now in goffice.
+
 2005-03-21  Morten Welinder  <terra@gnome.org>
 
 	* import-R: Import a handful of small functions more for the sake
