@@ -84,6 +84,8 @@ struct _MStyle {
 	Sheet	      *linked_sheet;
 	MStyleElement  elements[MSTYLE_ELEMENT_MAX];
 	PangoAttrList *pango_attrs;
+	StyleFont     *font;
+	double         font_zoom;
 };
 
 #define MSTYLE_ANY_COLOR             MSTYLE_COLOR_FORE: \
@@ -561,6 +563,16 @@ mstyle_pango_clear (MStyle *mstyle)
 }
 
 
+static inline void
+mstyle_font_clear (MStyle *mstyle)
+{
+	if (mstyle->font) {
+		style_font_unref (mstyle->font);
+		mstyle->font = NULL;
+	}
+}
+
+
 MStyle *
 mstyle_new (void)
 {
@@ -570,6 +582,7 @@ mstyle_new (void)
 	style->link_count = 0;
 	style->linked_sheet = NULL;
 	style->pango_attrs = NULL;
+	style->font = NULL;
 	d(("new %p\n", style));
 
 	return style;
@@ -587,6 +600,10 @@ mstyle_copy (const MStyle *style)
 
 	if ((new_style->pango_attrs = style->pango_attrs))
 		pango_attr_list_ref (new_style->pango_attrs);
+	if ((new_style->font = style->font)) {
+		style_font_ref (new_style->font);
+		new_style->font_zoom = style->font_zoom;
+	}
 
 	d(("copy %p\n", new_style));
 	return new_style;
@@ -719,6 +736,7 @@ mstyle_unref (MStyle *style)
 		if (style->elements)
 			mstyle_elements_unref (style->elements);
 		mstyle_pango_clear (style);
+		mstyle_font_clear (style);
 
 		g_free (style);
 	}
@@ -1159,37 +1177,42 @@ mstyle_get_pattern (const MStyle *style)
 StyleFont *
 mstyle_get_font (const MStyle *style, double zoom)
 {
-	StyleFont *font;
-	const gchar *name;
-	gboolean bold, italic;
-	double size;
-
 	g_return_val_if_fail (style != NULL, NULL);
 
-	if (mstyle_is_element_set (style, MSTYLE_FONT_NAME))
-		name = mstyle_get_font_name (style);
-	else
-		name = DEFAULT_FONT;
+	if (!style->font || style->font_zoom != zoom) {
+		const gchar *name;
+		gboolean bold, italic;
+		double size;
 
-	if (mstyle_is_element_set (style, MSTYLE_FONT_BOLD))
-		bold = mstyle_get_font_bold (style);
-	else
-		bold = FALSE;
+		mstyle_font_clear ((MStyle *)style);
 
-	if (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC))
-		italic = mstyle_get_font_italic (style);
-	else
-		italic = FALSE;
+		if (mstyle_is_element_set (style, MSTYLE_FONT_NAME))
+			name = mstyle_get_font_name (style);
+		else
+			name = DEFAULT_FONT;
 
-	if (mstyle_is_element_set (style, MSTYLE_FONT_SIZE))
-		size = mstyle_get_font_size (style);
-	else
-		size = DEFAULT_SIZE;
+		if (mstyle_is_element_set (style, MSTYLE_FONT_BOLD))
+			bold = mstyle_get_font_bold (style);
+		else
+			bold = FALSE;
 
-	font = style_font_new (
-		name, size, zoom, bold, italic);
+		if (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC))
+			italic = mstyle_get_font_italic (style);
+		else
+			italic = FALSE;
 
-	return font;
+		if (mstyle_is_element_set (style, MSTYLE_FONT_SIZE))
+			size = mstyle_get_font_size (style);
+		else
+			size = DEFAULT_SIZE;
+
+		((MStyle *)style)->font =
+			style_font_new (name, size, zoom, bold, italic);
+		((MStyle *)style)->font_zoom = zoom;
+	}
+
+	style_font_ref (style->font);
+	return style->font;
 }
 
 void
@@ -1201,6 +1224,7 @@ mstyle_set_font_name (MStyle *style, const char *name)
 	mstyle_element_unref (style->elements[MSTYLE_FONT_NAME]);
 	style->elements[MSTYLE_FONT_NAME].type = MSTYLE_FONT_NAME;
 	style->elements[MSTYLE_FONT_NAME].u.font.name = string_get (name);
+	mstyle_font_clear (style);
 	mstyle_pango_clear (style);
 }
 
@@ -1219,6 +1243,7 @@ mstyle_set_font_bold (MStyle *style, gboolean bold)
 
 	style->elements[MSTYLE_FONT_BOLD].type = MSTYLE_FONT_BOLD;
 	style->elements[MSTYLE_FONT_BOLD].u.font.bold = bold;
+	mstyle_font_clear (style);
 	mstyle_pango_clear (style);
 }
 
@@ -1237,6 +1262,7 @@ mstyle_set_font_italic (MStyle *style, gboolean italic)
 
 	style->elements[MSTYLE_FONT_ITALIC].type = MSTYLE_FONT_ITALIC;
 	style->elements[MSTYLE_FONT_ITALIC].u.font.italic = italic;
+	mstyle_font_clear (style);
 	mstyle_pango_clear (style);
 }
 
@@ -1291,6 +1317,7 @@ mstyle_set_font_size (MStyle *style, double size)
 
 	style->elements[MSTYLE_FONT_SIZE].type = MSTYLE_FONT_SIZE;
 	style->elements[MSTYLE_FONT_SIZE].u.font.size = size;
+	mstyle_font_clear (style);
 	mstyle_pango_clear (style);
 }
 
@@ -1432,8 +1459,8 @@ gboolean
 mstyle_get_effective_wrap_text (const MStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT), FALSE);
-	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_V), 0);
-	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H), 0);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_V), FALSE);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H), FALSE);
 
 	/* Note: HALIGN_GENERAL never expands to HALIGN_JUSTIFY.  */
 	return (style->elements[MSTYLE_WRAP_TEXT].u.wrap_text ||
@@ -1572,7 +1599,7 @@ mstyle_get_pango_attrs (const MStyle *mstyle)
 		return mstyle->pango_attrs;
 	}
 
-	mstyle->pango_attrs = res = pango_attr_list_new ();
+	((MStyle *)mstyle)->pango_attrs = res = pango_attr_list_new ();
 
 	/* Foreground colour.  */
 	{
