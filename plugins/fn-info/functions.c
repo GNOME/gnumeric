@@ -163,6 +163,7 @@ retrieve_format_info (Sheet *sheet, int col, int row)
 	return info;
 }
 
+/* TODO : turn this into a range based routine */
 static Value *
 gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 {
@@ -1824,7 +1825,7 @@ const GnmFuncDescriptor info_functions[] = {
 	{ "cell",	"sr", N_("info_type, cell"), &help_cell,
 	  gnumeric_cell, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUBSET_WITH_EXTENSIONS, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "error.type",	"S", N_("value"), &help_error_type,
+	{ "error.type",	"E", N_("value"), &help_error_type,
 	  gnumeric_error_type, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "info",	"s", N_("info_type"), &help_info,
@@ -1833,25 +1834,25 @@ const GnmFuncDescriptor info_functions[] = {
 	{ "isblank",	NULL, N_("value"), &help_isblank,
 	  NULL, gnumeric_isblank, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "iserr",	"S",   N_("value"), &help_iserr,
+	{ "iserr",	"E",   N_("value"), &help_iserr,
 	  gnumeric_iserr, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "iserror",	"S",   N_("value"), &help_iserror,
+	{ "iserror",	"E",   N_("value"), &help_iserror,
 	  gnumeric_iserror, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "iseven",	"S", N_("value"), &help_iseven,
+	{ "iseven",	"f", N_("value"), &help_iseven,
 	  gnumeric_iseven, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "islogical",	"S", N_("value"), &help_islogical,
+	{ "islogical",	"f", N_("value"), &help_islogical,
 	  gnumeric_islogical, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isna",	"S",   N_("value"), &help_isna,
+	{ "isna",	"E",   N_("value"), &help_isna,
 	  gnumeric_isna, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isnontext",	"S", N_("value"), &help_isnontext,
+	{ "isnontext",	"E", N_("value"), &help_isnontext,
 	  gnumeric_isnontext, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isnumber",	"S", N_("value"), &help_isnumber,
+	{ "isnumber",	"E", N_("value"), &help_isnumber,
 	  gnumeric_isnumber, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "isodd",	"S", N_("value"), &help_isodd,
@@ -1860,7 +1861,7 @@ const GnmFuncDescriptor info_functions[] = {
 	{ "isref",	NULL, N_("value"), &help_isref,
 	  NULL, gnumeric_isref, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "istext",	"S", N_("value"), &help_istext,
+	{ "istext",	"E", N_("value"), &help_istext,
 	  gnumeric_istext, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "n",		"S", N_("value"), &help_n,
@@ -1869,7 +1870,7 @@ const GnmFuncDescriptor info_functions[] = {
 	{ "na",		"",  "", &help_na,
 	  gnumeric_na, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "type",	"S", N_("value"), &help_type,
+	{ "type",	"E", N_("value"), &help_type,
 	  gnumeric_type, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
@@ -1880,13 +1881,13 @@ const GnmFuncDescriptor info_functions[] = {
 
 	{ "error",	"s",  N_("text"), &help_error,
 	  gnumeric_error, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_UNTESTED },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "expression",	"r",   N_("cell"), &help_expression,
 	  gnumeric_expression, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_UNTESTED },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "getenv",	"s", N_("string"), &help_getenv,
 	  gnumeric_getenv, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_UNTESTED },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         {NULL}
 };

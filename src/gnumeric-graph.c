@@ -538,6 +538,7 @@ gnm_graph_add_vector (GnmGraph *graph, GnmExpr const *expr,
 		type = GNM_VECTOR_SCALAR;
 		if (vector->value != NULL) {
 			if (value_area_foreach (vector->value, &ep,
+						CELL_ITER_IGNORE_BLANK,
 						&cb_check_range_for_pure_string, NULL) != NULL &&
 			    vector->value->type == VALUE_CELLRANGE) {
 				Range  r;

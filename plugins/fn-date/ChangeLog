@@ -8,7 +8,7 @@
 	  so change most of the functions to take 'f' in place of 'S'
 	  - remove the checks for VALUE_ERROR that is handled in func.c
 	  - Found a missing function 'yearfrac' that was apparently
-	    added in xl 2k.  Added a tub
+	    added in xl 2k.  Added a stub
 	  - add status
 	  - Assign a format to some of the results
 

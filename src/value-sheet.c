@@ -229,20 +229,21 @@ static Value *
 cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
 				 Cell *cell, void *user_data)
 {
-	WrapperClosure * wrap;
-	if (cell == NULL || cell->value == NULL)
-	        return NULL;
-
-       	wrap = (WrapperClosure *)user_data;
-       	return (*wrap->callback) (cell->value, wrap->ep, wrap->real_data);
+	WrapperClosure *wrap = (WrapperClosure *)user_data;
+	Value const *v;
+	if (cell != NULL) {
+		cell_eval (cell);
+		v = cell->value;
+	} else
+		v = NULL;
+       	return (*wrap->callback) (v, wrap->ep, wrap->real_data);
 }
 
 /**
  * value_area_foreach:
  *
  * For each existing element in an array or range , invoke the
- * callback routine.  If the only_existing flag is passed, then
- * callbacks are only invoked for existing cells.
+ * callback routine.
  *
  * Return value:
  *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
@@ -250,6 +251,7 @@ cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
  */
 Value *
 value_area_foreach (Value const *v, EvalPos const *ep,
+		    CellIterFlags flags,
 		    ValueAreaFunc callback,
 		    void *closure)
 {
@@ -264,7 +266,7 @@ value_area_foreach (Value const *v, EvalPos const *ep,
 		wrap.ep = ep;
 		wrap.real_data = closure;
 		return workbook_foreach_cell_in_range (
-			ep, v, CELL_ITER_IGNORE_BLANK,
+			ep, v, flags,
 			&cb_wrapper_foreach_cell_in_area,
 			(void *)&wrap);
 	}

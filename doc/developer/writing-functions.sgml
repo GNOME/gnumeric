@@ -246,17 +246,15 @@ function.
 Function Tokens
 ---------------
 
-There are several function tokens to cover most situations.
+With intersection and iteration support
+    b : boolean		identical to f, Do we need this ?
+    f : float 		no errors, string conversion attempted
+    s : string		no errors
+    S : scalar		any scalar non-error value
+    E : scalar		including errors
 
-f : A floating point (gnm_float) value.
-s : A string (char*)
-b : A boolean
-r : A Range eg. A1:A5 - See 'A'
-A : Either an Array or a Range: Use the
-    value_area set of functions to simplify the code.
-    see expr.h.  The content of the regions are guaranteed to have been
-    evaluated.
-S : Scalar, anything OTHER than an array or range
-? : Any type, the type must be checked from value->type.
-| : This designates that the arguments in the token string
-    following this character are optional.
+Without intersection or iteration support
+    r : cell range	content is _NOT_ guaranteed to have been evaluated yet
+    A : area		either range or array (range as above)
+    a : array
+    ? : anything

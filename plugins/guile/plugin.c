@@ -204,7 +204,7 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 	desc.unlinker   = NULL;
 	desc.flags      = 0;
 	desc.ref_notify = NULL;
-	desc.impl_status = GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL;
+	desc.impl_status = GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC;
 	desc.test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
 
 	cat   = function_get_category (SCM_CHARS (scm_category));

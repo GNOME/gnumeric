@@ -1531,7 +1531,7 @@ GnmFuncDescriptor const complex_functions[] = {
 
         { "iminv",   "S",    N_("inumber"), &help_iminv,
 	  gnumeric_iminv, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "imneg",   "S",    N_("inumber"), &help_imneg,
 	  gnumeric_imneg, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

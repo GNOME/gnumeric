@@ -1,3 +1,7 @@
+2002-10-15  Jody Goldberg <jody@gnome.org>
+
+	* src/value-sheet.c (value_area_foreach) : Add CellIterFlags
+
 2002-10-15 Christopher Benedict <cbenedic@csa.concordia.ab.ca>
 
 	* src/sheet-object-widget.c (cb_frame_config_distroy): new

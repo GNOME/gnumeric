@@ -580,7 +580,7 @@ gnumeric_plugin_loader_python_func_desc_load (PluginService *service,
 			res->fn_nodes	= NULL;
 			res->linker	= NULL;
 			res->unlinker	= NULL;
-			res->impl_status = GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL;
+			res->impl_status = GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC;
 			res->test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
 			return TRUE;
 		}
@@ -598,7 +598,7 @@ gnumeric_plugin_loader_python_func_desc_load (PluginService *service,
 		res->fn_nodes	= &call_python_function_nodes;
 		res->linker	= NULL;
 		res->unlinker	= NULL;
-		res->impl_status = GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL;
+		res->impl_status = GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC;
 		res->test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
 		return TRUE;
 	}

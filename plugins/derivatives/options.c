@@ -1694,110 +1694,114 @@ static char const *help_opt_extendible_writer = {
 
 GnmFuncDescriptor const derivatives_functions [] = {
 	{ "opt_bs",
-	  "sfffff|f","call_put_flag, spot, strike, time, rate, volatility, "
-	  "cost_of_carry",
-	  &help_opt_bs, opt_bs, NULL, NULL, NULL },
+	  "sfffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
+	  &help_opt_bs, opt_bs, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_delta",
-	  "sffffff|f", "call_put_flag, spot, strike, time, rate, volatility, "
-	  "cost_of_carry",
-	  &help_opt_bs_delta, opt_bs_delta, NULL, NULL, NULL },
+	  "sffffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
+	  &help_opt_bs_delta, opt_bs_delta, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_rho",
-	  "sffffff|f", "call_put_flag, spot, strike, time, rate, volatility, "
-	  "cost_of_carry",
-	  &help_opt_bs_rho, opt_bs_rho, NULL, NULL, NULL },
+	  "sffffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
+	  &help_opt_bs_rho, opt_bs_rho, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_theta",
-	  "sffffff|f", "call_put_flag, spot, strike, time, rate, volatility, "
-	  "cost_of_carry",
-	  &help_opt_bs_theta, opt_bs_theta, NULL, NULL, NULL },
+	  "sffffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
+	  &help_opt_bs_theta, opt_bs_theta, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_gamma",
-	  "fffff|f", "spot, strike, time, rate, volatility, cost_of_carry",
-	  &help_opt_bs_gamma, opt_bs_gamma, NULL, NULL, NULL },
+	  "fffff|f", N_("spot, strike, time, rate, volatility, cost_of_carry"),
+	  &help_opt_bs_gamma, opt_bs_gamma, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_vega",
-	  "fffff|f", "spot, strike, time, rate, volatility, cost_of_carry",
-	  &help_opt_bs_vega, opt_bs_vega, NULL, NULL, NULL },
+	  "fffff|f", N_("spot, strike, time, rate, volatility, cost_of_carry"),
+	  &help_opt_bs_vega, opt_bs_vega, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_carrycost",
-	  "sffffff|f", "call_put_flag, spot, strike, time, rate, volatility, "
-	  "cost_of_carry",
-	  &help_opt_bs_carrycost, opt_bs_carrycost, NULL, NULL, NULL },
+	  "sffffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
+	  &help_opt_bs_carrycost, opt_bs_carrycost, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "cum_biv_norm_dist",
-	  "fff", "a, b, rho",
-	  &help_cum_biv_norm_dist, cum_biv_norm_dist, NULL, NULL, NULL },
+	  "fff", N_("a, b, rho"),
+	  &help_cum_biv_norm_dist, cum_biv_norm_dist, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
 	{ "opt_garman_kohlhagen",
-	  "sffffff", "call_put_flag, spot, strike, time, domestic_rate, "
-	  "foreign_rate, volatility",
-	  &help_opt_garman_kohlhagen, opt_garman_kohlhagen, NULL, NULL, NULL },
+	  "sffffff", N_("call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"),
+	  &help_opt_garman_kohlhagen, opt_garman_kohlhagen, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_french",
-	  "sfffffff", "call_put_flag, spot, strike, time, t2, rate, "
-	  "volatility, cost of carry",
-	  &help_opt_french, opt_french, NULL, NULL, NULL },
+	  "sfffffff", N_("call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"),
+	  &help_opt_french, opt_french, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_jump_diff",
-	  "sfffffff", "call_put_flag, spot, strike, time, rate, volatility, "
-	  "lambda, gamma",
-	  &help_opt_jump_diff, opt_jump_diff, NULL, NULL, NULL },
+	  "sfffffff", N_("call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"),
+	  &help_opt_jump_diff, opt_jump_diff, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_exec",
-	  "sfffffff", "call_put_flag, spot, strike, time, rate, volatility, "
-	  "cost_of_carry, lambda",
-	  &help_opt_exec, opt_exec, NULL, NULL, NULL },
+	  "sfffffff", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"),
+	  &help_opt_exec, opt_exec, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bjerStens",
-	  "sffffff", "call_put_flag, spot, strike, time, rate, cost_of_carry, "
-	  "volatility",
-	  &help_opt_bjerStens, opt_bjerStens, NULL, NULL, NULL },
+	  "sffffff", N_("call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"),
+	  &help_opt_bjerStens, opt_bjerStens, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_miltersen_schwartz",
-	  "sfffffffffffff", "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, "
-	  "v_f, rho_se, rho_sf, rho_ef, kappa_e, kappa_f)",
-	  &help_opt_miltersen_schwartz, opt_miltersen_schwartz, NULL, NULL, NULL },
+	  "sfffffffffffff", N_("call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, kappa_e, kappa_f)"),
+	  &help_opt_miltersen_schwartz, opt_miltersen_schwartz, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_BAW_amer",
-	  "sffffff", "call_put_flag, spot, strike, time, rate, cost_of_carry, "
-	  "volatility",
-	  &help_opt_BAW_amer, opt_BAW_amer, NULL, NULL, NULL },
+	  "sffffff", N_("call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"),
+	  &help_opt_BAW_amer, opt_BAW_amer, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_rgw",
-	  "fffffff", "call_put_flag, spot, strike, t1, t2, rate, d, volatility",
-	  &help_opt_rgw, opt_rgw, NULL, NULL, NULL },
+	  "fffffff", N_("call_put_flag, spot, strike, t1, t2, rate, d, volatility"),
+	  &help_opt_rgw, opt_rgw, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_forward_start",
-	  "sfffffff", "call_put_flag, spot, alpha, time1, time, rate, "
-	  "volatility, cost_of_carry",
-	  &help_opt_forward_start, opt_forward_start, NULL, NULL, NULL },
+	  "sfffffff", N_("call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"),
+	  &help_opt_forward_start, opt_forward_start, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_time_switch",
-	  "sfffffffff", "call_put_flag, spot, strike, a, time, m, dt, rate, "
-	  "cost_of_carry, volatility",
-	  &help_opt_time_switch, opt_time_switch, NULL, NULL, NULL },
+	  "sfffffffff", N_("call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"),
+	  &help_opt_time_switch, opt_time_switch, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_simple_chooser",
-	  "fffffff", "spot, strike, time1, time2, rate, cost_of_carry, "
-	  "volatility",
-	  &help_opt_simple_chooser, opt_simple_chooser, NULL, NULL, NULL },
+	  "fffffff", N_("spot, strike, time1, time2, rate, cost_of_carry, volatility"),
+	  &help_opt_simple_chooser, opt_simple_chooser, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_complex_chooser",
-	  "fffffffff", "spot, strike_call, strike_put, time, time_call, "
-	  "time_put, rate, cost_of_carry, volatility",
-	  &help_opt_complex_chooser, opt_complex_chooser, NULL, NULL, NULL },
+	  "fffffffff", N_("spot, strike_call, strike_put, time, time_call, time_put, rate, cost_of_carry, volatility"),
+	  &help_opt_complex_chooser, opt_complex_chooser, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_on_options",
-	  "sffffffff", "type_flag, spot, strike1, strike2, time1, time2, "
-	  "rate, cost_of_carry, volatility",
-	  &help_opt_on_options, opt_on_options, NULL, NULL, NULL },
+	  "sffffffff", N_("type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, volatility"),
+	  &help_opt_on_options, opt_on_options, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_extendible_writer",
-	  "sffffffff", "type_flag, spot, strike1, strike2, time1, time2, "
-	  "rate, cost_of_carry, volatility",
-	  &help_opt_extendible_writer, opt_extendible_writer, NULL, NULL, NULL },
+	  "sffffffff", N_("type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, volatility"),
+	  &help_opt_extendible_writer, opt_extendible_writer, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ NULL}
 };

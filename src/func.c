@@ -79,6 +79,9 @@ func_def_cmp (gconstpointer a, gconstpointer b)
 	GnmFunc const *fda = *(GnmFunc const **)a ;
 	GnmFunc const *fdb = *(GnmFunc const **)b ;
 
+	g_return_val_if_fail (fda->name != NULL, 0);
+	g_return_val_if_fail (fdb->name != NULL, 0);
+
 	return g_ascii_strcasecmp (fda->name, fdb->name);
 }
 
@@ -106,13 +109,49 @@ function_dump_defs (char const *filename, gboolean as_def)
 		       ordered->len, sizeof (gpointer),
 		       func_def_cmp);
 
+	if (!as_def)
+		fprintf (output_file, "<table>\n");
 	for (i = 0; i < ordered->len; i++) {
 		GnmFunc const *fd = g_ptr_array_index (ordered, i);
 		if (as_def) {
 			fprintf (output_file, "%s\n\n", _(fd->help));
 		} else {
+			static struct {
+				char const *name;
+				char const *colour_str;
+			} const testing [] = {
+				{ "Unknown",		"FFFFFF" },
+				{ "No Testsuite",	"FF7662" },
+				{ "Basic",		"FFF79D" },
+				{ "Exhaustive",		"AEF8B5" },
+				{ "Under Development",	"FF6C00" }
+			};
+			static struct {
+				char const *name;
+				char const *colour_str;
+			} const implementation [] = {
+				{ "Exists",			"FFFFFF" },
+				{ "Unimplemented",		"FF7662" },
+				{ "Subset",			"FFF79D" },
+				{ "Complete",			"AEF8B5" },
+				{ "Superset",			"16E49E" },
+				{ "Subset with_extensions",	"59FFF2" },
+				{ "Under development",		"FF6C00" },
+				{ "Unique to Gnumeric",		"44BE18" },
+			};
+			fprintf (output_file,
+"<tr>\n    <td><a href =\"doc/gnumeric-%s.html\">%s</a></td>\n", fd->name, fd->name);
+			fprintf (output_file,
+"    <td bgcolor=#%s><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s implementation\">%s</a></td>\n",
+implementation[fd->impl_status].colour_str, fd->name, implementation[fd->impl_status].name);
+			fprintf (output_file,
+"    <td bgcolor=#%s><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s testing\">%s</a></td>\n",
+testing[fd->test_status].colour_str, fd->name, testing[fd->test_status].name);
+			fprintf (output_file,"</tr>\n");
 		}
 	}
+	if (!as_def)
+		fprintf (output_file, "</table>\n");
 
 	g_ptr_array_free (ordered, TRUE);
 	fclose (output_file);
@@ -363,7 +402,7 @@ GnmFunc *
 gnm_func_add (FunctionCategory *category,
 	      GnmFuncDescriptor const *desc)
 {
-	static char const valid_tokens[] = "fsbraAS?|";
+	static char const valid_tokens[] = "fsbraAES?|";
 	GnmFunc *func;
 	char const *ptr;
 
@@ -615,6 +654,8 @@ function_def_get_arg_type_string (GnmFunc const *fn_def,
 		return _("Cell Range");
 	case 'A':
 		return _("Area");
+	case 'E':
+		return _("Scalar or Error");
 	case 'S':
 		return _("Scalar");
 	case '?':
@@ -826,9 +867,17 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			}
 			break;
 
-		case 'S': /* nothing necessary */
-		/* case '?': handled above */
+		case 'S':
+			if (tmp->type == VALUE_ERROR) {
+				free_values (args, i);
+				return tmp; 
+			}
 			break;
+
+		case 'E': /* nothing necessary */
+			break;
+
+		/* case '?': handled above */
 		default :
 			g_warning ("Unknown argument type '%c'", arg_type);
 			break;

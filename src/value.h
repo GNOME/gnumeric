@@ -136,7 +136,8 @@ Value       *value_error_set_pos      (ValueErr *err, EvalPos const *pos);
    calculation of relative references. 'x','y' give the position */
 typedef Value *(*ValueAreaFunc) (Value const *v, EvalPos const *ep, void *user);
 Value 	    *value_area_foreach	   (Value const *v, EvalPos const *ep,
-				    ValueAreaFunc func, void *user);
+				    CellIterFlags flags,
+				    ValueAreaFunc func, gpointer user);
 int          value_area_get_width  (Value const *v, EvalPos const *ep);
 int          value_area_get_height (Value const *v, EvalPos const *ep);
 Value const *value_area_fetch_x_y  (Value const *v, int x, int y,

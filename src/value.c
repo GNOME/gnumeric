@@ -1217,6 +1217,7 @@ find_column_of_field (const EvalPos *ep, Value *database, Value *field)
 	        cell = sheet_cell_get (sheet, n, row);
 		if (cell == NULL)
 		        continue;
+		cell_eval (cell);
 
 		txt = cell_get_rendered_text (cell);
 		match = (g_ascii_strcasecmp (field_name, txt) == 0);
@@ -1298,7 +1299,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 	database_criteria_t *new_criteria;
 	GSList              *criterias = NULL;
 	GSList              *conditions;
-	Cell const          *cell;
+	Cell 		    *cell;
 	func_criteria_t     *cond;
 	gchar               *cell_str;
 
@@ -1310,6 +1311,8 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 
 		for (j = b_col; j <= e_col; j++) {
 		        cell = sheet_cell_get (sheet, j, i);
+			if (cell != NULL)
+				cell_eval (cell);
 			if (cell_is_blank (cell))
 			        continue;
 
@@ -1344,9 +1347,9 @@ GSList *
 parse_database_criteria (const EvalPos *ep, Value *database,
 			 Value *criteria)
 {
-	Sheet               *sheet;
-	GSList              *criterias;
-	Cell const          *cell;
+	Sheet	*sheet;
+	GSList	*criterias;
+	Cell	*cell;
 
         int   i;
 	int   b_col, b_row, e_col, e_row;
@@ -1363,6 +1366,8 @@ parse_database_criteria (const EvalPos *ep, Value *database,
 	/* Find the index numbers for the columns of criterias */
 	for (i = b_col; i <= e_col; i++) {
 	        cell = sheet_cell_get (sheet, i, b_row);
+		if (cell != NULL)
+			cell_eval (cell);
 		if (cell_is_blank (cell))
 		        continue;
 		field_ind[i - b_col] =
@@ -1410,6 +1415,8 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 
 				test_cell = sheet_cell_get (sheet,
 					first_col + cond->column, row);
+				if (test_cell != NULL)
+					cell_eval (test_cell);
 				if (cell_is_blank (test_cell))
 					continue;
 

@@ -130,6 +130,8 @@ Misc stuff that should be fixed
     : Check xl import of unicode names
     : Check scoping changes.
     : Is there such a thing as an array formula in a name ?
+    : Handle pasting an expression with an un-qualified sheet local name into
+      another sheet
 
 - can_try_save_to uses access().  That's bogus in a number of ways: (a) it
   checks the wrong permissions in the set[gu]id case.  (b) It reports the
@@ -199,13 +201,9 @@ Dialogs
 -------
 - Formula Guru
     : Fix keyboard interface
-- Import Dialog
-    : Rewrite main page preview (see Bug #66393)
 
 Function Breakage
 -----------------
-- There are a number of #UNIMPLEMENTED! things to take care of in the
-    financial functions.  Mostly this is due to incomplete documentation.
 - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
   algorithm, see Knuth.
 - Functions like SUMPRODUCT need to have better support for sparse ranges.

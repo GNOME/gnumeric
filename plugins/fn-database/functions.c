@@ -65,6 +65,10 @@ find_cells_that_match (Sheet *sheet, Value *database,
 
 	for (row = first_row; row <= last_row; row++) {
 		cell = sheet_cell_get (sheet, col, row);
+
+		if (cell != NULL)
+			cell_eval (cell);
+
 		if (cell_is_blank (cell))
 			continue;
 
@@ -80,6 +84,8 @@ find_cells_that_match (Sheet *sheet, Value *database,
 				Cell const *tmp = sheet_cell_get (sheet,
 					cond->column, row);
 
+				if (cell != NULL)
+					cell_eval (cell);
 				if (cell_is_blank (tmp) ||
 				    !cond->fun (tmp->value, cond->x)) {
 					add_flag = FALSE;
@@ -251,49 +257,6 @@ database_value_range_function (FunctionEvalInfo *ei,
 	g_free (vals);
 	return res;
 }
-
-/***************************************************************************/
-
-#define DB_ARGUMENT_HELP \
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-
 
 /***************************************************************************/
 
@@ -1203,6 +1166,9 @@ gnumeric_getpivotdata (FunctionEvalInfo *ei, Value **argv)
 
 	/* FIXME: Lots of stuff missing */
 
+	if (cell != NULL)
+		cell_eval (cell);
+
 	if (cell_is_blank (cell) ||
 	    !VALUE_IS_NUMBER (cell->value))
 		return value_new_error (ei->pos, gnumeric_err_REF);
@@ -1213,45 +1179,47 @@ gnumeric_getpivotdata (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 const GnmFuncDescriptor database_functions[] = {
-	{ "daverage", "r?r", N_("database,field,criteria"),
+	{ "daverage", "rSr", N_("database,field,criteria"),
 	  &help_daverage,   gnumeric_daverage, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "dcount",   "r?r", N_("database,field,criteria"),
+	{ "dcount",   "rSr", N_("database,field,criteria"),
 	  &help_dcount,     gnumeric_dcount, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "dcounta",  "r?r", N_("database,field,criteria"),
+	{ "dcounta",  "rSr", N_("database,field,criteria"),
 	  &help_dcounta,    gnumeric_dcounta, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "dget",     "r?r", N_("database,field,criteria"),
+	{ "dget",     "rSr", N_("database,field,criteria"),
 	  &help_dget,       gnumeric_dget, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "dmax",     "r?r", N_("database,field,criteria"),
+	{ "dmax",     "rSr", N_("database,field,criteria"),
 	  &help_dmax,       gnumeric_dmax, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "dmin",     "r?r", N_("database,field,criteria"),
+	{ "dmin",     "rSr", N_("database,field,criteria"),
 	  &help_dmin,       gnumeric_dmin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "dproduct", "r?r", N_("database,field,criteria"),
+	{ "dproduct", "rSr", N_("database,field,criteria"),
 	  &help_dproduct,   gnumeric_dproduct, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "dstdev",   "r?r", N_("database,field,criteria"),
+	{ "dstdev",   "rSr", N_("database,field,criteria"),
 	  &help_dstdev,     gnumeric_dstdev, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "dstdevp",  "r?r", N_("database,field,criteria"),
+	{ "dstdevp",  "rSr", N_("database,field,criteria"),
 	  &help_dstdevp,    gnumeric_dstdevp, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "dsum",     "r?r", N_("database,field,criteria"),
+	{ "dsum",     "rSr", N_("database,field,criteria"),
 	  &help_dsum,       gnumeric_dsum, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "dvar",     "r?r", N_("database,field,criteria"),
+	{ "dvar",     "rSr", N_("database,field,criteria"),
 	  &help_dvar,       gnumeric_dvar, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "dvarp",    "r?r", N_("database,field,criteria"),
+	{ "dvarp",    "rSr", N_("database,field,criteria"),
 	  &help_dvarp,      gnumeric_dvarp, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
+/* XL stores in lookup */
 	{ "getpivotdata", "rs", N_("pivot_table,field_name"),
 	  &help_getpivotdata, gnumeric_getpivotdata, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUBSET, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         {NULL}
 };

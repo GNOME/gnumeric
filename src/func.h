@@ -47,16 +47,19 @@ void function_category_remove_func (FunctionCategory *category, GnmFunc *fn_def)
 
 /**
  *  Argument tokens passed in 'args'
- **
- *  The types accepted: see writing-functions.smgl ( bottom )
- * f for float
- * s for string
- * b for boolean
- * r for cell range
- * a for cell array
- * A for 'area': either range or array
- * S for 'scalar': anything OTHER than an array or range
- * ? for any kind
+ *
+ * With intersection and iteration support
+ * 	f : float 		(no errors, string conversion attempted)
+ * 	b : boolean		(identical to f, Do we need this ?)
+ * 	s : string		(no errors)
+ * 	S : 'scalar': any non-error value
+ * 	E : scalar including errors
+ * Without intersection or iteration support
+ *	r : cell range	content is _NOT_ guaranteed to have been evaluated yet
+ *	A : area	either range or array (as above)
+ *	a : array
+ *	? : anything
+ *
  *  For optional arguments do:
  * "ff|ss" where the strings are optional
  **/
@@ -85,6 +88,10 @@ typedef enum {
 	GNM_FUNC_IS_PLACEHOLDER		= 0x08
 } GnmFuncFlags;
 
+/* I do not like this it is going to be different for different apps
+ * probably want to split it into bit file with our notion of its state, and 2
+ * bits of state per import format.
+ */
 typedef enum {
 	GNM_FUNC_IMPL_STATUS_EXISTS = 0,
 	GNM_FUNC_IMPL_STATUS_UNIMPLEMENTED,
@@ -94,12 +101,11 @@ typedef enum {
 	GNM_FUNC_IMPL_STATUS_SUBSET_WITH_EXTENSIONS,
 	GNM_FUNC_IMPL_STATUS_UNDER_DEVELOPMENT,
 	GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
-	GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL,
 } GnmFuncImplStatus;
 
 typedef enum {
 	GNM_FUNC_TEST_STATUS_UNKNOWN = 0,
-	GNM_FUNC_TEST_STATUS_UNTESTED,
+	GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	GNM_FUNC_TEST_STATUS_BASIC,
 	GNM_FUNC_TEST_STATUS_EXHAUSTIVE,
 	GNM_FUNC_TEST_STATUS_UNDER_DEVELOPMENT
@@ -225,7 +231,7 @@ typedef struct {
 } TokenizedHelp;
 
 TokenizedHelp *tokenized_help_new     (GnmFunc const *fn_def);
-char   const *tokenized_help_find    (TokenizedHelp *tok, char const *token);
+char const    *tokenized_help_find    (TokenizedHelp *tok, char const *token);
 void           tokenized_help_destroy (TokenizedHelp *tok);
 
 #endif /* GNUMERIC_FUNC_H */

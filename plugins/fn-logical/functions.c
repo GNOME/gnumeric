@@ -271,7 +271,8 @@ gnumeric_if (FunctionEvalInfo *ei, Value **args)
 {
 	gboolean err;
 	int res = value_get_as_bool (args[0], &err) ? 1 : 2;
-	return args[res] ? value_duplicate (args[res]) : value_new_bool (TRUE);
+	return args[res] ?
+		value_duplicate (args[res]) : value_new_bool (res == 1);
 }
 
 /***************************************************************************/
@@ -322,40 +323,39 @@ gnumeric_false (FunctionEvalInfo *ei, Value **args)
 
 const GnmFuncDescriptor logical_functions[] = {
 	{ "and", 0, N_("number,number,"), &help_and, NULL,
-	  gnumeric_and, NULL, NULL },
+	  gnumeric_and, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "or", 0, N_("number,number,"), &help_or, NULL,
-	  gnumeric_or, NULL, NULL },
-	{ "xor", 0, N_("number,number,"), &help_xor, NULL,
-	  gnumeric_xor, NULL, NULL },
-	{ "not", "b", N_("number"), &help_not, gnumeric_not, NULL, NULL, NULL },
-	{ "if", "b|SS", N_("condition,if true,if false"), &help_if,
-	  gnumeric_if, NULL, NULL, NULL },
-	{ "true", "", "", &help_true, gnumeric_true, NULL, NULL, NULL },
-	{ "false", "", "", &help_false, gnumeric_false, NULL, NULL, NULL },
-        {NULL}
-};
+	  gnumeric_or, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-/* FIXME: Should be merged into the above.  */
-static const struct {
-	const char *func;
-	AutoFormatTypes typ;
-} af_info[] = {
-	{ "if", AF_FIRST_ARG_FORMAT2 },
-	{ NULL, AF_UNKNOWN }
+	{ "not", "b", N_("number"), &help_not, gnumeric_not,
+	  NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "if", "b|EE", N_("condition,if true,if false"), &help_if,
+	  gnumeric_if, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "true", "", "", &help_true, gnumeric_true,
+	  NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	{ "false", "", "", &help_false, gnumeric_false,
+	  NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+
+/* not in XL */
+	{ "xor", 0, N_("number,number,"), &help_xor, NULL,
+	  gnumeric_xor, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
+        {NULL}
 };
 
 void
 plugin_init (void)
 {
-	int i;
-	for (i = 0; af_info[i].func; i++)
-		auto_format_function_result_by_name (af_info[i].func, af_info[i].typ);
 }
 
 void
 plugin_cleanup (void)
 {
-	int i;
-	for (i = 0; af_info[i].func; i++)
-		auto_format_function_result_remove (af_info[i].func);
 }
+

@@ -1115,6 +1115,7 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 
 	if (argv[2] != NULL)
 		value_area_foreach (argv[2], ei->pos,
+				    CELL_ITER_IGNORE_BLANK,
 				    &networkdays_holiday_callback,
 				    &close);
 
@@ -1359,21 +1360,21 @@ GnmFuncDescriptor const datetime_functions[] = {
 /* TODO UNIMPLEMENTED and UNTESTED seems new to XL 2k */
 	{ "yearfrac", 	"ff|f",    N_("date"), &help_yearfrac,
 	  gnumeric_yearfrac, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIMPLEMENTED, GNM_FUNC_TEST_STATUS_UNTESTED },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIMPLEMENTED, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
 	{ "unix2date",   "f",    N_("unixtime"), &help_unix2date,
 	  gnumeric_unix2date, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "date2unix",   "f",    N_("serial"), &help_date2unix,
 	  gnumeric_date2unix, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
 	{ "isoweeknum",  "f",    N_("date"), &help_isoweeknum,
 	  gnumeric_isoweeknum, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL, GNM_FUNC_TEST_STATUS_UNTESTED },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "isoyear",     "f",    N_("date"), &help_isoyear,
 	  gnumeric_isoyear, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL, GNM_FUNC_TEST_STATUS_UNTESTED },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         {NULL}
 };
 
