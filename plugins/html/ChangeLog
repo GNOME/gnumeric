@@ -1,3 +1,7 @@
+2000-05-04  Michael Meeks  <michael@helixcode.com>
+
+	* html.c (html_read): fix ' ' in Sheet index.
+
 2000-04-20  Jody Goldberg <jgoldberg@home.com>
 
 	* html.c (html_write_cell_str) : Use cell_is_blank.

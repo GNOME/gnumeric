@@ -262,6 +262,9 @@ Office 2000 and 'explorer' compatibility.
   * Import names even if they arn't referenced.
   * The big SST re-write.
 
+* Excel Export
+  * Detect large style ranges and correctly set the default row/col/sheet styles.
+
 * Html export
   * Export style information for blank cells.
 

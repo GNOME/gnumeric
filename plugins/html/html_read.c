@@ -406,7 +406,7 @@ html_read (CommandContext *context, Workbook *wb, const char *filename)
 	num = 0;
 	while (fgets (buf, LINESIZE, fp) != NULL) {
 		if (strstr (buf, "<TABLE")) {
-			sprintf (name, _("Sheet %d"), num++);
+			sprintf (name, _("Sheet%d"), num++);
 			sheet = sheet_new (wb, name);
 			workbook_attach_sheet (wb, sheet);
 			row = -1;

@@ -1,3 +1,14 @@
+2000-05-04  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-style.c (sheet_style_delete_colrow): don't shrink.
+	sheet sized ranges. (sheet_style_compute): add precondition for
+	Norberts.
+
+	* src/workbook.c (workbook_new_with_sheets): kill ' ' in
+	sheet names.
+
+	* corba-test/test-gnumeric-corba.c (do_test): ditto.
+
 2000-05-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c : Fix typo that was calling undo for redo toolbar.

@@ -34,7 +34,7 @@ do_test (GNOME_Gnumeric_Workbook workbook)
 
 #if 0
 	printf ("2. Trying to create an existing sheet name: ");
-	GNOME_Gnumeric_Workbook_sheet_new (workbook, "My Sheet 0", &ev);
+	GNOME_Gnumeric_Workbook_sheet_new (workbook, "My Sheet0", &ev);
 	if (ev._major != CORBA_USER_EXCEPTION){
 		printf ("Failed\n");
 		exit (1);
@@ -44,7 +44,7 @@ do_test (GNOME_Gnumeric_Workbook workbook)
 
 
 	printf ("3. Looking up `Sheet 0':");
-	sheet0 = GNOME_Gnumeric_Workbook_sheet_lookup (workbook, "Sheet 0", &ev);
+	sheet0 = GNOME_Gnumeric_Workbook_sheet_lookup (workbook, "Sheet0", &ev);
 	if (sheet0){
 		printf ("Failed\n");
 		exit (1);

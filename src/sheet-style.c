@@ -635,7 +635,7 @@ calc_grown_range (SheetStyleData *sd, int col, int row)
  *
  */
 MStyle *
-sheet_style_compute (Sheet const *sheet, int col, int row)
+sheet_style_compute (const Sheet *sheet, int col, int row)
 {
 	MStyle         *mstyle;
 	SheetStyleData *sd;
@@ -645,6 +645,8 @@ sheet_style_compute (Sheet const *sheet, int col, int row)
 
 	sd = sheet->style_data;
 
+	g_return_val_if_fail (sd != NULL, NULL);
+	
 	if ((mstyle = sheet_style_cache_lookup (sd, col, row))) {
 		mstyle_ref (mstyle);
 
@@ -842,7 +844,9 @@ sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 			else if (sr->range.start.col >= del_range.start.col)
 				sr->range.start.col  =  pos;
 
-			if (sr->range.end.col        >  del_range.end.col)
+			if (sr->range.end.col        >= SHEET_MAX_COLS - 1)
+				;
+			else if (sr->range.end.col   >  del_range.end.col)
 				sr->range.end.col    -= count;
 			else if (sr->range.end.col   >= del_range.start.col)
 				sr->range.end.col    =  pos - 1;
@@ -857,7 +861,9 @@ sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 			else if (sr->range.start.row >= del_range.start.row)
 				sr->range.start.row  =  pos;
 
-			if (sr->range.end.row        >  del_range.end.row)
+			if (sr->range.end.row        >= SHEET_MAX_ROWS - 1)
+				;
+			else if (sr->range.end.row   >  del_range.end.row)
 				sr->range.end.row    -= count;
 			else if (sr->range.end.row   >= del_range.start.row)
 				sr->range.end.row    =  pos - 1;
@@ -1740,7 +1746,7 @@ sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
  * range.
  **/
 void
-sheet_style_get_extent (Range *r, Sheet const *sheet)
+sheet_style_get_extent (Range *r, const Sheet *sheet)
 {
 	GList          *l;
 	SheetStyleData *sd;

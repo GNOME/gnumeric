@@ -108,7 +108,8 @@ file_open_cmd (GtkWidget *widget, Workbook *wb)
 	if (new_wb != NULL) {
 		gtk_widget_show (new_wb->toplevel);
 
-		/* If the current workbook is empty and untouched remove it
+		/*
+		 * If the current workbook is empty and untouched remove it
 		 * in favour of the new book
 		 */
 		if (workbook_is_pristine (wb))
@@ -3051,7 +3052,7 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet, gboolean force)
 	 */
 	g_hash_table_remove (wb->sheets, sheet->name_unquoted);
 
-	for (i = 0; i < sheets; i++){
+	for (i = 0; i < sheets; i++) {
 		Sheet *this_sheet;
 		GtkWidget *w;
 
@@ -3059,7 +3060,7 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet, gboolean force)
 
 		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
 
-		if (this_sheet == sheet){
+		if (this_sheet == sheet) {
 			gtk_notebook_remove_page (notebook, i);
 			break;
 		}
@@ -3154,7 +3155,7 @@ workbook_new_with_sheets (int sheet_count)
 
 	for (i = 1; i <= sheet_count; i++){
 		Sheet *sheet;
-		char *name = g_strdup_printf (_("Sheet %d"), i);
+		char *name = g_strdup_printf (_("Sheet%d"), i);
 
 		sheet = sheet_new (wb, name);
 		workbook_attach_sheet (wb, sheet);
