@@ -34,80 +34,67 @@ draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font, int x1, int y1, 
 	} 
 }
 
+/*
+ * WARNING : This code is an almost exact duplicate of
+ *          print-cell.c:cell_split_text
+ * Try to keep it that way.
+ */
 static GList *
 cell_split_text (GdkFont *font, char const *text, int const width)
 {
-	GList *list;
-	char const *p, *line_begin, *ideal_cut_spot = NULL;
-	int  line_len, used;
-	gboolean last_was_cut_point = FALSE;
+	char const *p, *line_begin;
+	char const *first_whitespace = NULL;
+	char const *last_whitespace = NULL;
+	gboolean prev_was_space = FALSE;
+	GList *list = NULL;
+	int used = 0, used_last_space = 0;
 
-	list = NULL;
-	used = 0;
 	for (line_begin = p = text; *p; p++){
-		int len;
+		int const len_current = gdk_text_width (font, p, 1);
 
-		/* If there is an embeded return honour it */
-		if (*p == '\n'){
-			int const line_len = p - line_begin;
-			char *line = g_malloc (line_len + 1);
-			memcpy (line, line_begin, line_len);
-			line [line_len] = '\0';
-			list = g_list_append (list, line);
+		/* Wrap if there is an embeded newline, or we have overflowed */
+		if (*p == '\n' || used + len_current > width){
+			char const *begin = line_begin;
+			int len;
 
-			used = 0;
-			line_begin = p+1; /* skip the newline */
-			ideal_cut_spot = NULL;
-			last_was_cut_point = FALSE;
+			if (*p == '\n'){
+				/* start after newline, preserve whitespace */
+				line_begin = p+1;
+				len = p - begin;
+				used = 0;
+			} else if (last_whitespace != NULL){
+				/* Split at the run of whitespace */
+				line_begin = last_whitespace + 1;
+				len = first_whitespace - begin;
+				used = len_current + used - used_last_space;
+			} else {
+				/* Split before the current character */
+				line_begin = p; /* next line starts here */
+				len = p - begin;
+				used = len_current;
+			}
+
+			list = g_list_append (list, g_strndup (begin, len));
+			first_whitespace = last_whitespace = NULL;
+			prev_was_space = FALSE;
 			continue;
 		}
 
-		if (last_was_cut_point && *p != ' ')
-			ideal_cut_spot = p;
-
-		len = gdk_text_width (font, p, 1);
-
-		/* If we have overflowed, do the wrap */
-		if (used + len > width){
-			char const *begin = line_begin;
-			char *line;
-			
-			if (ideal_cut_spot){
-				int const n = p - ideal_cut_spot + 1;
-
-				line_len = ideal_cut_spot - line_begin;
-				used = gdk_text_width (font, ideal_cut_spot, n);
-				line_begin = ideal_cut_spot;
-			} else {
-				/* Split BEFORE this character */
-				used = len;
-				line_len = p - line_begin;
-				line_begin = p;
-			}
-			
-			line = g_malloc (line_len + 1);
-			memcpy (line, begin, line_len);
-			line [line_len] = 0;
-			list = g_list_append (list, line);
-
-			ideal_cut_spot = NULL;
+		used += len_current;
+		if (*p == ' '){
+			used_last_space = used;
+			last_whitespace = p;
+			if (!prev_was_space)
+				first_whitespace = p;
+			prev_was_space = TRUE;
 		} else
-			used += len;
+			prev_was_space = FALSE;
+	}
 
-		if (*p == ' ')
-			last_was_cut_point = TRUE;
-		else
-			last_was_cut_point = FALSE;
-	}
-	if (*line_begin){
-		char *line;
-		
-		line_len = p - line_begin;
-		line = g_malloc (line_len+1);
-		memcpy (line, line_begin, line_len);
-		line [line_len] = 0;
-		list = g_list_append (list, line);
-	}
+	/* Catch the final bit that did not wrap */
+	if (*line_begin)
+		list = g_list_append (list,
+				      g_strndup (line_begin, p - line_begin));
 
 	return list;
 }
@@ -177,10 +164,10 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 		lines = cell_split_text (font, text, width);
 		line_count = g_list_length (lines);
 
-		rect.x = x1;
-		rect.y = y1;
-		rect.height = cell->row->pixels + 1;
-		rect.width = cell->col->pixels  + 1;
+		rect.x = x1 + 1;
+		rect.y = y1 + 1;
+		rect.height = cell->row->pixels - 1;
+		rect.width = cell->col->pixels  - 1;
 		gdk_gc_set_clip_rectangle (gc, &rect);
 		
 		gdk_draw_rectangle (drawable, gc, TRUE,
@@ -225,11 +212,8 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 
 		y_offset += font_height - 1;
 		for (l = lines; l; l = l->next){
-			char *str = l->data;
+			char const * const str = l->data;
 
-			/* Why do we need this. it breaks multi-line indents */
-			str = str_trim_spaces (str);
-			
 			switch (halign){
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:

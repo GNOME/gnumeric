@@ -48,18 +48,18 @@ item_grid_realize (GnomeCanvasItem *item)
 	GdkWindow *window;
 	ItemGrid *item_grid;
 	GdkGC *gc;
-	
+
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)(item);
-	
+
 	item_grid = ITEM_GRID (item);
 	window = GTK_WIDGET (item->canvas)->window;
-	
+
 	/* Configure the default grid gc */
 	item_grid->grid_gc = gc = gdk_gc_new (window);
 	item_grid->fill_gc = gdk_gc_new (window);
 	item_grid->gc = gdk_gc_new (window);
-	
+
 	/* Allocate the default colors */
 	item_grid->background = gs_white;
 	item_grid->grid_color = gs_light_gray;
@@ -67,7 +67,7 @@ item_grid_realize (GnomeCanvasItem *item)
 
 	gdk_gc_set_foreground (gc, &item_grid->grid_color);
 	gdk_gc_set_background (gc, &item_grid->background);
-	
+
 	gdk_gc_set_foreground (item_grid->fill_gc, &item_grid->background);
 	gdk_gc_set_background (item_grid->fill_gc, &item_grid->grid_color);
 
@@ -91,14 +91,14 @@ static void
 item_grid_unrealize (GnomeCanvasItem *item)
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
-	
+
 	gdk_gc_unref (item_grid->grid_gc);
 	gdk_gc_unref (item_grid->fill_gc);
 	gdk_gc_unref (item_grid->gc);
 	item_grid->grid_gc = 0;
 	item_grid->fill_gc = 0;
 	item_grid->gc = 0;
-	
+
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)(item);
 }
@@ -113,7 +113,7 @@ item_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 	item->y1 = 0;
 	item->x2 = INT_MAX;
 	item->y2 = INT_MAX;
-	
+
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
@@ -135,7 +135,7 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 
 	do {
 		ColRowInfo *ci = sheet_col_get_info (item_grid->sheet, col);
-		
+
 		if (x >= pixel && x <= pixel + ci->pixels){
 			if (col_origin)
 				*col_origin = pixel;
@@ -161,10 +161,10 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 	 * in item-cursor.c
 	 */
 	g_return_val_if_fail (y >= 0, 0);
-	
+
 	do {
 		ColRowInfo *ri = sheet_row_get_info (item_grid->sheet, row);
-		
+
 		if (y >= pixel && y <= pixel + ri->pixels){
 			if (row_origin)
 				*row_origin = pixel;
@@ -185,7 +185,7 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
  * On palleted displays, we play the trick of XORing the value
  * (this will render other colors sometimes randomly, depending on the
  * pallette contents).  On non-palleted displays, we can use the
- * GDK_INVERT operation to invert the pixel value. 
+ * GDK_INVERT operation to invert the pixel value.
  */
 static void
 item_grid_invert_gc (ItemGrid *item_grid)
@@ -214,7 +214,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 {
 	GdkGC       *gc     = item_grid->gc;
 	int         count;
-	
+
 	/* setup foreground */
 	gdk_gc_set_foreground (gc, &item_grid->default_color);
 	if (cell->render_color)
@@ -223,7 +223,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 		if (cell->style->valid_flags & STYLE_FORE_COLOR)
 			gdk_gc_set_foreground (gc, &cell->style->fore_color->color);
 	}
-	
+
 	if (cell->style->valid_flags & STYLE_BACK_COLOR){
 		gdk_gc_set_background (gc, &cell->style->back_color->color);
 	}
@@ -233,7 +233,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 #if 0
 		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
 		int p = cell->style->pattern - 1;
-		
+
 		/*
 		 * Next two lines are commented since the pattern display code of the cell
 		 * have not been tested (written?)
@@ -248,7 +248,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 		gdk_gc_set_fill (gc, GDK_SOLID);
 		gdk_gc_set_stipple (gc, NULL);
 	}
-	
+
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 
 	return count;
@@ -276,7 +276,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		g_warning ("y < 0\n");
 		return;
 	}
-	
+
 	max_paint_col = max_paint_row = 0;
 	paint_col = item_grid_find_col (item_grid, x, &x_paint);
 	paint_row = item_grid_find_row (item_grid, y, &y_paint);
@@ -291,7 +291,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	/* 1. The default background */
 	gdk_draw_rectangle (drawable, item_grid->fill_gc, TRUE,
 			    0, 0, width, height);
-	
+
 	/* 2. the grids */
 	for (x_paint = -diff_x; x_paint < end_x; col++){
 		ColRowInfo *ci;
@@ -300,7 +300,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		g_assert (ci->pixels != 0);
 
 		gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
-		
+
 		x_paint += ci->pixels;
 		max_paint_col = col;
 	}
@@ -320,15 +320,15 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	row = paint_row;
 	for (y_paint = -diff_y; y_paint < end_y; row++){
 		ColRowInfo *ri;
-		
+
 		ri = sheet_row_get_info (sheet, row);
 		col = paint_col;
 
 		for (x_paint = -diff_x; x_paint < end_x; col++){
 			ColRowInfo *ci;
-			
+
 			ci = sheet_col_get_info (sheet, col);
-			
+
 			cell = sheet_cell_get (sheet, col, row);
 
 			if (cell){
@@ -383,10 +383,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					 * cell we already painted on
 					 */
 					end_col = cell->col->pos + count;
-					
+
 					for (i = col+1; i < end_col; i++, col++){
 						ColRowInfo *tci;
-						
+
 						tci = sheet_col_get_info (
 							sheet, i);
 
@@ -401,17 +401,17 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 
 	/* Now invert any selected cells */
 	item_grid_invert_gc (item_grid);
-	
+
 	row = paint_row;
 	for (y_paint = -diff_y; y_paint < end_y; row++){
 		ColRowInfo *ri, *ci;
-		
+
 		ri = sheet_row_get_info (sheet, row);
 		col = paint_col;
 
 		for (x_paint = -diff_x; x_paint < end_x; col++, x_paint += ci->pixels){
 			ci = sheet_col_get_info (sheet, col);
-			
+
 			if (sheet->cursor_col == col && sheet->cursor_row == row)
 				continue;
 
@@ -447,24 +447,22 @@ context_destroy_menu (GtkWidget *widget)
 }
 
 static void
-context_cut_cmd (GtkWidget *widget, ItemGrid *item_grid)
+context_cut_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	sheet_selection_cut (item_grid->sheet);
+	sheet_selection_cut (sheet);
 	context_destroy_menu (widget);
 }
 
 static void
-context_copy_cmd (GtkWidget *widget, ItemGrid *item_grid)
+context_copy_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	sheet_selection_copy (item_grid->sheet);
+	sheet_selection_copy (sheet);
 	context_destroy_menu (widget);
 }
 
 static void
-context_paste_cmd (GtkWidget *widget, ItemGrid *item_grid)
+context_paste_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	Sheet *sheet = item_grid->sheet;
-	
 	sheet_selection_paste (sheet,
 			       sheet->cursor_col,
 			       sheet->cursor_row,
@@ -474,9 +472,8 @@ context_paste_cmd (GtkWidget *widget, ItemGrid *item_grid)
 }
 
 static void
-context_paste_special_cmd (GtkWidget *widget, ItemGrid *item_grid)
+context_paste_special_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	Sheet *sheet = item_grid->sheet;
 	int flags;
 
 	flags = dialog_paste_special (sheet->workbook);
@@ -490,30 +487,30 @@ context_paste_special_cmd (GtkWidget *widget, ItemGrid *item_grid)
 }
 
 static void
-context_insert_cmd (GtkWidget *widget, ItemGrid *item_grid)
+context_insert_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	dialog_insert_cells (item_grid->sheet->workbook, item_grid->sheet);
+	dialog_insert_cells (sheet->workbook, sheet);
 	context_destroy_menu (widget);
 }
 
 static void
-context_delete_cmd (GtkWidget *widget, ItemGrid *item_grid)
+context_delete_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	dialog_delete_cells (item_grid->sheet->workbook, item_grid->sheet);
+	dialog_delete_cells (sheet->workbook, sheet);
 	context_destroy_menu (widget);
 }
 
 static void
-context_clear_cmd (GtkWidget *widget, ItemGrid *item_grid)
+context_clear_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	sheet_selection_clear_content (item_grid->sheet);
+	sheet_selection_clear_content (sheet);
 	context_destroy_menu (widget);
 }
 
 static void
-context_cell_format_cmd (GtkWidget *widget, ItemGrid *item_grid)
+context_cell_format_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	dialog_cell_format (item_grid->sheet->workbook, item_grid->sheet);
+	dialog_cell_format (sheet->workbook, sheet);
 	context_destroy_menu (widget);
 }
 
@@ -542,25 +539,25 @@ static struct {
 };
 
 static GtkWidget *
-create_popup_menu (ItemGrid *item_grid, int include_paste)
+create_popup_menu (Sheet *sheet, int include_paste)
 {
 	GtkWidget *menu, *item;
 	int i;
 
 	menu = gtk_menu_new ();
 	item = NULL;
-	
+
 	for (i = 0; item_grid_context_menu [i].name; i++){
 		switch (item_grid_context_menu [i].type){
 		case IG_SEPARATOR:
 			item = gtk_menu_item_new ();
 			break;
-			
+
 		case IG_HAVE_SELECTION:
 			if (!include_paste)
 				continue;
 			/* fall down */
-			
+
 		case IG_ALWAYS:
 			item = gtk_menu_item_new_with_label (
 				_(item_grid_context_menu [i].name));
@@ -572,24 +569,24 @@ create_popup_menu (ItemGrid *item_grid, int include_paste)
 		gtk_signal_connect (
 			GTK_OBJECT (item), "activate",
 			GTK_SIGNAL_FUNC (item_grid_context_menu [i].fn),
-			item_grid);
+			sheet);
 
 		gtk_widget_show (item);
 		gtk_menu_append (GTK_MENU (menu), item);
 	}
 
 	return menu;
-}	   
-		   
-static void
-item_grid_popup_menu (ItemGrid *item_grid, GdkEvent *event, int col, int row)
+}
+
+void
+item_grid_popup_menu (Sheet *sheet, GdkEvent *event, int col, int row)
 {
 	GtkWidget *menu;
 	int show_paste;
-		
-	show_paste = item_grid->sheet->workbook->clipboard_contents != NULL;
 
-	menu = create_popup_menu (item_grid, show_paste);
+	show_paste = sheet->workbook->clipboard_contents != NULL;
+
+	menu = create_popup_menu (sheet, show_paste);
 
 	gnumeric_popup_menu (GTK_MENU (menu), (GdkEventButton *) event);
 }
@@ -628,7 +625,7 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 		gnumeric_sheet_selection_cursor_place (gsheet, col, row);
 		return 1;
 	}
-	
+
 	/*
 	 * This was a regular click on a cell on the spreadsheet.  Select it.
 	 */
@@ -641,7 +638,7 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 
 	if (!(event->button.state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 		sheet_selection_reset_only (sheet);
- 
+
 	item_grid->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
 
 	if ((event->button.state & GDK_SHIFT_MASK) && sheet->selections)
@@ -662,7 +659,7 @@ item_grid_stop_sliding (ItemGrid *item_grid)
 {
 	if (item_grid->sliding == -1)
 		return;
-	
+
 	gtk_timeout_remove (item_grid->sliding);
 	item_grid->sliding = -1;
 }
@@ -679,7 +676,7 @@ item_grid_sliding_callback (gpointer data)
 
 	col = item_grid->sliding_col;
 	row = item_grid->sliding_row;
-		
+
 	if (item_grid->sliding_x < 0){
 		if (gsheet->top_col){
 			change = 1;
@@ -711,7 +708,7 @@ item_grid_sliding_callback (gpointer data)
 		} else
 			col = SHEET_MAX_COLS-1;
 	}
-	
+
 	if (item_grid->sliding_y < 0){
 		if (gsheet->top_row){
 			change = 1;
@@ -746,17 +743,17 @@ item_grid_sliding_callback (gpointer data)
 		} else
 			row = SHEET_MAX_ROWS-1;
 	}
-	
+
 	if (!change){
 		item_grid_stop_sliding (item_grid);
 		return TRUE;
 	}
-	
+
 	if (item_grid->selecting == ITEM_GRID_SELECTING_CELL_RANGE)
 		sheet_selection_extend_to (item_grid->sheet, col, row);
 	else if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 		gnumeric_sheet_selection_extend (gsheet, col, row);
-	
+
 	gnumeric_sheet_make_cell_visible (gsheet, col, row);
 
 	return TRUE;
@@ -766,7 +763,7 @@ static void
 item_grid_start_sliding (GnomeCanvasItem *item)
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
-	
+
 	item_grid->sliding = gtk_timeout_add (
 		100, item_grid_sliding_callback, item);
 }
@@ -785,11 +782,11 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	Sheet *sheet = item_grid->sheet;
 	int col, row, x, y;
 	int width, height;
-	
+
 	switch (event->type){
 	case GDK_ENTER_NOTIFY: {
 		int cursor;
-	       
+
 		if (sheet->mode == SHEET_MODE_SHEET)
 			cursor = GNUMERIC_CURSOR_FAT_CROSS;
 		else
@@ -798,7 +795,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		cursor_set_widget (canvas, cursor);
 		return TRUE;
 	}
-		
+
 	case GDK_BUTTON_RELEASE:
 		item_grid_stop_sliding (item_grid);
 
@@ -808,14 +805,14 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			item_grid->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);
-			
+
 			return 1;
 		}
 		break;
-		
+
 	case GDK_MOTION_NOTIFY:
 		convert (canvas, event->motion.x, event->motion.y, &x, &y);
-		
+
 		gnome_canvas_get_scroll_offsets (canvas, &col, &row);
 
 		width = GTK_WIDGET (canvas)->allocation.width;
@@ -825,7 +822,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			if (item_grid->selecting == ITEM_GRID_NO_SELECTION)
 				return 1;
-			
+
 			if (x < col)
 				dx = x - col;
 			else if (x >= col + width)
@@ -835,7 +832,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 				dy = y - row;
 			else if (y >= row + height)
 				dy = y - height - row;
-			
+
 			if ((!dx || (dx < 0 && !gsheet->top_col) ||
 			     (dx >= 0 && gsheet->last_full_col == SHEET_MAX_COLS-1)) &&
 			    (!dy || (dy < 0 && !gsheet->top_row) ||
@@ -843,7 +840,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 				item_grid_stop_sliding (item_grid);
 				return 1;
 			}
-			
+
 			item_grid->sliding_x = dx/5;
 			item_grid->sliding_y = dy/5;
 			if (!dx){
@@ -856,30 +853,30 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 				if (item_grid->sliding_row >= SHEET_MAX_ROWS)
 					item_grid->sliding_row = SHEET_MAX_ROWS-1;
 			}
-			
+
 			if (item_grid->sliding != -1)
 				return 1;
-				
+
 			item_grid_sliding_callback (item);
-			
+
 			item_grid_start_sliding (item);
-			
+
 			return 1;
 		}
-		
+
 		item_grid_stop_sliding (item_grid);
-			
+
 		col = item_grid_find_col (item_grid, x, NULL);
 		row = item_grid_find_row (item_grid, y, NULL);
 
 		if (item_grid->selecting == ITEM_GRID_NO_SELECTION)
 			return 1;
-		
+
 		if (col > SHEET_MAX_COLS-1)
 			col = SHEET_MAX_COLS-1;
 		if (row > SHEET_MAX_ROWS-1)
 			row = SHEET_MAX_ROWS-1;
-		
+
 		if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE){
 			gnumeric_sheet_selection_extend (gsheet, col, row);
 			return 1;
@@ -892,29 +889,30 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		sheet_selection_extend_to (sheet, col, row);
 		return 1;
-		
+
 	case GDK_BUTTON_PRESS:
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
-		
+
 		item_grid_stop_sliding (item_grid);
 
 		convert (canvas, event->button.x, event->button.y, &x, &y);
 		col = item_grid_find_col (item_grid, x, NULL);
 		row = item_grid_find_row (item_grid, y, NULL);
-		
+
 		switch (event->button.button){
 		case 1:
 			return item_grid_button_1 (sheet, event, item_grid, col, row, x, y);
 
 		case 3:
-			item_grid_popup_menu (item_grid, event, col, row);
+			item_grid_popup_menu (item_grid->sheet,
+					      event, col, row);
 			return 1;
 		}
 
 	default:
-		return 0;	
+		return 0;
 	}
-	
+
 	return 0;
 }
 
@@ -925,12 +923,12 @@ static void
 item_grid_init (ItemGrid *item_grid)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
-	
+
 	item->x1 = 0;
 	item->y1 = 0;
 	item->x2 = 0;
 	item->y2 = 0;
-	
+
 	item_grid->left_col = 0;
 	item_grid->top_row  = 0;
 	item_grid->top_offset = 0;
@@ -947,7 +945,7 @@ item_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	item = GNOME_CANVAS_ITEM (o);
 	item_grid = ITEM_GRID (o);
-	
+
 	switch (arg_id){
 	case ARG_SHEET_VIEW:
 		item_grid->sheet_view = GTK_VALUE_POINTER (*arg);
@@ -966,13 +964,13 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 	GnomeCanvasItemClass *item_class;
 
 	item_grid_parent_class = gtk_type_class (gnome_canvas_item_get_type());
-	
+
 	object_class = (GtkObjectClass *) item_grid_class;
 	item_class = (GnomeCanvasItemClass *) item_grid_class;
 
-	gtk_object_add_arg_type ("ItemGrid::SheetView", GTK_TYPE_POINTER, 
+	gtk_object_add_arg_type ("ItemGrid::SheetView", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_SHEET_VIEW);
-	
+
 	object_class->set_arg = item_grid_set_arg;
 	object_class->destroy = item_grid_destroy;
 

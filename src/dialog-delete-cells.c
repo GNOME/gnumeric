@@ -25,6 +25,22 @@ dialog_delete_cells (Workbook *wb, Sheet *sheet)
 	if (!sheet_verify_selection_simple (sheet, _("delete cells")))
 		return;
 
+	ss = sheet->selections->data;
+	cols = ss->end_col - ss->start_col + 1;
+	rows = ss->end_row - ss->start_row + 1;
+
+	/* short circuit the dialog if an entire row/column is selected */
+	if (ss->start_row == 0 && ss->end_row  >= SHEET_MAX_ROWS-1)
+	{
+		sheet_delete_col (sheet, ss->start_col, cols);
+		return;
+	}
+	if (ss->start_col == 0 && ss->end_col  >= SHEET_MAX_COLS-1)
+	{
+		sheet_delete_row (sheet, ss->start_row, rows);
+		return;
+	}
+
 	ret = gtk_dialog_cauldron (
 		_("Delete cells"),
 		GTK_CAULDRON_DIALOG,
@@ -42,10 +58,6 @@ dialog_delete_cells (Workbook *wb, Sheet *sheet)
 			
 	if (strcmp (ret, GNOME_STOCK_BUTTON_CANCEL) == 0)
 		return;
-
-	ss = sheet->selections->data;
-	cols = ss->end_col - ss->start_col + 1;
-	rows = ss->end_row - ss->start_row + 1;
 
 	if (state [0]){
 		sheet_shift_rows (sheet, ss->start_col, ss->start_row, ss->end_row, -cols);

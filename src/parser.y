@@ -682,47 +682,6 @@ forget_tree (ExprTree *tree)
 	forget (ALLOC_BUFFER, tree);
 }
 
-void
-value_dump (const Value *value)
-{
-	switch (value->type){
-	case VALUE_STRING:
-		printf ("STRING: %s\n", value->v.str->str);
-		break;
-
-	case VALUE_INTEGER:
-		printf ("NUM: %d\n", value->v.v_int);
-		break;
-
-	case VALUE_FLOAT:
-		printf ("Float: %f\n", value->v.v_float);
-		break;
-
-	case VALUE_ARRAY: {
-		int x, y;
-		
-		printf ("Array: { ");
-		for (y = 0; y < value->v.array.y; y++)
-			for (x = 0; x < value->v.array.x; x++)
-				value_dump (value->v.array.vals [x][y]);
-		printf ("}\n");
-		break;
-	}
-	case VALUE_CELLRANGE: {
-		const CellRef *c = &value->v.cell_range.cell_a;
-		printf ("CellRange\n");
-		printf ("%p: %d,%d rel? %d,%d\n", c->sheet, c->col, c->row,
-			c->col_relative, c->row_relative);
-		c = &value->v.cell_range.cell_b;
-		printf ("%p: %d,%d rel? %d,%d\n", c->sheet, c->col, c->row,
-			c->col_relative, c->row_relative);
-		break;
-	}
-	default:
-		printf ("Unhandled item type\n");
-	}
-}
-
 /*
  *  Don't use this function. This is a hack to make getting the auto
  * expression hack to work less of a hack.

@@ -349,32 +349,3 @@ random_normal (void)
 {
 	return qnorm (random_01 (), 0, 1);
 }
-
-/*
- * str_trim_spaces:
- * s: the string to modify
- *
- * This routine trims the leading and trailing spaces of the
- * string.  The string is possibly modified and the returned
- * value lies inside the original string.
- *
- * No duplication takes place
- */
-char *
-str_trim_spaces (char *s)
-{
-	char *p;
-	
-	while (*s && *s == ' ')
-		s++;
-
-	p = s + strlen (s);
-	while (p >= s){
-		if (*p == ' ')
-			*p = 0;
-		else
-			break;
-		p--;
-	}
-	return s;
-}

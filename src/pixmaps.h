@@ -5,6 +5,8 @@
 #include "pixmaps/line.xpm"
 #include "pixmaps/arrow.xpm"
 #include "pixmaps/oval.xpm"
+#ifdef ENABLE_BONOBO
 #include "pixmaps/graphic.xpm"
+#endif
 
 #endif /* GNUMERIC_PIXMAPS_H */

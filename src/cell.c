@@ -9,6 +9,7 @@
 #include <locale.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
+#include "gnumeric-util.h"
 #include "eval.h"
 #include "format.h"
 #include "color.h"
@@ -79,8 +80,7 @@ cell_set_formula (Cell *cell, const char *text)
 
 	if (new_expr->oper == OPER_ARRAY){
 		/* The corner sets up the entire array block */
-		if (new_expr->u.array.x != 0 || new_expr->u.array.y != 0)
-		{
+		if (new_expr->u.array.x != 0 || new_expr->u.array.y != 0) {
 			expr_tree_unref (new_expr);
 			return;
 		}
@@ -455,27 +455,23 @@ cell_set_color_from_style (Cell *cell, StyleColor *foreground,
 
 	cell_modified (cell);
 
-	if (cell->style->valid_flags & STYLE_FORE_COLOR)
-	{
+	if (cell->style->valid_flags & STYLE_FORE_COLOR) {
 		cell->style->valid_flags ^= STYLE_FORE_COLOR;
 		style_color_unref (cell->style->fore_color);
 	}
 
-	if (cell->style->valid_flags & STYLE_BACK_COLOR)
-	{
+	if (cell->style->valid_flags & STYLE_BACK_COLOR) {
 		cell->style->valid_flags ^= STYLE_BACK_COLOR;
 		style_color_unref (cell->style->back_color);
 	}
 
-	if (background)
-	{
+	if (background) {
 		cell->style->valid_flags |= STYLE_BACK_COLOR;
 		style_color_ref (background);
 	}
 	cell->style->back_color = background;
 
-	if (foreground)
-	{
+	if (foreground) {
 		cell->style->valid_flags |= STYLE_FORE_COLOR;
 		style_color_ref (foreground);
 	}
@@ -729,8 +725,7 @@ cell_set_text (Cell *cell, const char *text)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
-	if (cell->parsed_node != NULL && cell->parsed_node->oper == OPER_ARRAY)
-	{
+	if (cell->parsed_node != NULL && cell->parsed_node->oper == OPER_ARRAY) {
 		gnumeric_no_modify_array_notice (cell->sheet->workbook);
 		return;
 	}
@@ -819,8 +814,7 @@ cell_set_array_formula (Sheet *sheet,
 	cell_unqueue_from_recalc (corner);
 
 	for (x = 0; x < num_cols; ++x)
-		for (y = 0; y < num_rows; ++y)
-		{
+		for (y = 0; y < num_rows; ++y) {
 			if (x == 0 && y == 0)
 				continue;
 			cell = sheet_cell_fetch (sheet, col_a+x,row_a+y);
@@ -1116,6 +1110,26 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 	/* 2. If the cell contains a formula, relocate the formula */
 	if (cell->parsed_node){
 		sheet_cell_formula_unlink (cell);
+
+		/*
+		 * WARNING WARNING WARNING
+		 *
+		 * This will will only work if the new array cell has already
+		 * been inserted.
+		 *
+		 * WARNING WARNING WARNING
+		 */
+		/* If cell was part of an array, reset the corner pointer */
+		if (cell->parsed_node->oper == OPER_ARRAY) {
+			int const x = cell->parsed_node->u.array.x;
+			int const y = cell->parsed_node->u.array.y;
+			if (x != 0 || y != 0)
+				cell->parsed_node->u.array.corner.cell =
+					sheet_cell_get (cell->sheet,
+							cell->col->pos - x,
+							cell->row->pos - y);
+		}
+
 		/* The following call also relinks the cell.  */
 		cell_formula_changed (cell);
 	}
@@ -1522,17 +1536,17 @@ cell_get_content (Cell *cell)
 	return str;
 }
 
- char *
- cell_get_comment (Cell *cell)
- {
- 	char *str;
- 	
- 	g_return_val_if_fail (cell != NULL, NULL);
- 
- 	if (cell->comment)
- 	  str = g_strdup (cell->comment->comment->str);
- 	else
- 	  str = NULL;
- 	
- 	return str;
- }
+char *
+cell_get_comment (Cell *cell)
+{
+	char *str;
+
+	g_return_val_if_fail (cell != NULL, NULL);
+
+	if (cell->comment)
+		str = g_strdup (cell->comment->comment->str);
+	else
+		str = NULL;
+
+	return str;
+}

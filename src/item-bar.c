@@ -490,6 +490,12 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						GDK_BUTTON_RELEASE_MASK,
 						item_bar->change_cursor,
 						e->button.time);
+		} else if (e->button.button == 3){
+			Sheet   *sheet = item_bar->sheet_view->sheet;
+			if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+				item_grid_popup_menu (sheet, e, element, 0);
+			else
+				item_grid_popup_menu (sheet, e, 0, element);
 		} else {
 			item_bar->start_selection = element;
 			gnome_canvas_item_grab (item,
@@ -504,6 +510,9 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 
 	case GDK_BUTTON_RELEASE:
+		if (e->button.button == 3)
+			break;
+
 		if (resizing){
 			gtk_signal_emit (GTK_OBJECT (item),
 					 item_bar_signals [SIZE_CHANGED],

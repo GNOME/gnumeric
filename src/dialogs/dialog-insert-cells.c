@@ -1,5 +1,5 @@
 /*
- * dialog-insert-cells.c: Insert a number of cells. 
+ * dialog-insert-cells.c: Insert a number of cells.
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
@@ -22,9 +22,25 @@ dialog_insert_cells (Workbook *wb, Sheet *sheet)
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	
+
 	if (!sheet_verify_selection_simple (sheet, _("insert cells")))
 		return;
+
+	ss = sheet->selections->data;
+	cols = ss->end_col - ss->start_col + 1;
+	rows = ss->end_row - ss->start_row + 1;
+
+	/* short circuit the dialog if an entire row/column is selected */
+	if (ss->start_row == 0 && ss->end_row  >= SHEET_MAX_ROWS-1)
+	{
+		sheet_insert_col (sheet, ss->start_col, cols);
+		return;
+	}
+	if (ss->start_col == 0 && ss->end_col  >= SHEET_MAX_COLS-1)
+	{
+		sheet_insert_row (sheet, ss->start_row, rows);
+		return;
+	}
 
 	ret = gtk_dialog_cauldron (
 		_("Insert cells"),
@@ -40,13 +56,9 @@ dialog_insert_cells (Workbook *wb, Sheet *sheet)
 
 	if (ret == NULL)
 		return;
-			
+
 	if (strcmp (ret, GNOME_STOCK_BUTTON_CANCEL) == 0)
 		return;
-
-	ss = sheet->selections->data;
-	cols = ss->end_col - ss->start_col + 1;
-	rows = ss->end_row - ss->start_row + 1;
 
 	if (state [0]){
 		sheet_shift_rows (sheet, ss->start_col, ss->start_row, ss->end_row, cols);

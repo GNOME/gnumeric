@@ -436,7 +436,7 @@ typedef struct {
 } append_cell_closure_t;
 
 static int
-clipboard_append_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	append_cell_closure_t *c = user_data;
 	CellCopy *copy;
@@ -477,7 +477,10 @@ clipboard_copy_cell_range (Sheet *sheet, int start_col, int start_row, int end_c
 	
 	sheet_cell_foreach_range (
 		sheet, 1, start_col, start_row, end_col, end_row,
-		clipboard_append_cell, &c);
+		clipboard_prepend_cell, &c);
+
+	/* reverse the list so that upper left corner is first */
+	c.r->list = g_list_reverse (c.r->list);
 
 	clipboard_export_cell_region (sheet->workbook);
 	

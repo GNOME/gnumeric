@@ -1,3 +1,50 @@
+1999-07-11  Jody Goldberg  <jgoldberg@home.com>
+
+	* src/item-grid.c (context_cut_cmd, context_copy_cmd context_paste_cmd,
+	    context_paste_special_cmd, context_insert_cmd, context_delete_cmd,
+	    context_clear_cmd, context_cell_format_cmd, create_popup_menu,
+	    item_grid_popup_menu) : Operate on Sheet* rather than ItemGrid*.
+
+	* src/item-bar.c (item_bar_event) : Popup an item_grid_popup_menu
+	  when Button3 is pressed.  Excel also adds an entry to change
+	  col widths/row heights,  that will be next TODO.
+
+	* src/dialog-insert-cells.c, src/dialog-delete-cells.c :
+	  Short circuit the menus when an entire row/column is selected.  This
+	  fixes the problem of selecting a column and accidentaly inserting a
+	  row would clear the sheet inserting MAX_ROW rows and erasing
+	  everything ...
+
+	* src/cell-draw.c (cell_draw) : Remove use of str_trim_spaces and
+	  correct the bounding rectangle size for multiline entries.
+	(cell_split_text) : Rework logic to strip spaces when a forced split
+	  causes a linebreak @ those spaces.  Plus more comments.
+
+	* src/print-cell.c (cell_split_text, print_cell_text) : Ditto.
+	  Switch accumulators to doubles.
+
+	* src/parser.y : Moved dump_value from here.
+	* src/expr.c : to here.  And changed the format of CellRanges
+	  to be more appealing.
+
+	* src/cell.c (cell_relocate) : Add some cruft to handle relinking
+	  the corner cell of an array formula.
+
+	* src/clipboard.c (clipboard_prepend_cell) : Renamed from
+	  clipboard_append_cell.  So that there is truth in naming.
+	(clipboard_copy_cell_range) : Reverse the result of
+	  clipboard_prepend_cell so that the upper left corner is 1st.
+
+	(Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+	* src/expr.c (eval_range) : New function to ensure that range
+	  arguments are recalculated.
+	 (eval_expr) : Use it.
+
+	* src/sheet.c (range_check_for_partial_array) : New function.  To avoid
+	  subdividing arrays does some obvious optimizations.
+	(sheet_fill_selection_with) : Split out from here.
+	(sheet_delete_col, sheet_delete_row) : Used here too.
+
 1999-07-11  Michael Meeks  <michael@edenproject.org>
 
 	* Sort ChangeLog out, apologies.

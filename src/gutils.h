@@ -31,6 +31,4 @@ GDate      *g_date_new_serial      (guint32 serial);
 double      random_01              (void);
 double      random_normal          (void);
 
-char       *str_trim_spaces        (char *s);
-
 #endif /* GNUMERIC_UTILS_H */

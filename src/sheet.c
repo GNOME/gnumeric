@@ -83,7 +83,8 @@ col_row_info_init (ColRowInfo *cri, double points)
 static void
 sheet_init_default_styles (Sheet *sheet)
 {
-	col_row_info_init (&sheet->default_col_style, 80.0);
+	/* Sizes seem to match excel */
+	col_row_info_init (&sheet->default_col_style, 62.0);
 	col_row_info_init (&sheet->default_row_style, 18.0);
 }
 
@@ -149,8 +150,8 @@ sheet_new_sheet_view (Sheet *sheet)
 {
 	SheetView *sheet_view;
 	
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	sheet_view = sheet_view_new (sheet);
 	gtk_object_ref (GTK_OBJECT (sheet_view));
@@ -812,8 +813,6 @@ sheet_update_auto_expr (Sheet *sheet)
 	Value *v;
 	Workbook *wb = sheet->workbook;
 	FunctionEvalInfo ei;
-	ExprTree *tree;
-	char *error = NULL;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1457,6 +1456,64 @@ sheet_col_check_bound (int col, int diff)
 		return SHEET_MAX_COLS - 1;
 
 	return new_val;
+}
+
+static ArrayRef *
+sheet_is_cell_array (Sheet *sheet, int const col, int const row)
+{
+	Cell * const cell = sheet_cell_get (sheet, col, row);
+
+	if (cell != NULL &&
+	    cell->parsed_node != NULL &&
+	    cell->parsed_node->oper == OPER_ARRAY)
+		return &cell->parsed_node->u.array;
+
+	return NULL;
+}
+
+/*
+ * Check the outer edges of range to ensure that if an
+ * array is within it then the entire array is within the range.
+ *
+ * returns FALSE is an array would be divided.
+ */
+static gboolean
+range_check_for_partial_array (Sheet *sheet,
+			       int const start_row, int const start_col,
+			       int const end_row, int const end_col)
+{
+	ArrayRef *a;
+	gboolean valid = TRUE;
+	gboolean single;
+	int r, c;
+
+	if (start_row > 0 || end_row < SHEET_MAX_ROWS)
+	{
+		/* Check top & bottom */
+		single = (start_row == end_row);
+		for (c = start_col; c <= end_col && valid; ++c){
+			if ((a = sheet_is_cell_array (sheet, c, start_row)) != NULL)
+				valid &= (a->y == 0);		/* Top */
+			if (!single)
+				a = sheet_is_cell_array (sheet, c, end_row);
+			if (a != NULL)
+				valid &= (a->y == (a->rows-1));	/* Bottom */
+		}
+	}
+
+	if (start_col <= 0 && end_col >= SHEET_MAX_COLS-1)
+		return valid; /* No need to check */
+
+	/* Check left & right */
+	single = (start_col == end_col);
+	for (r = start_row; r <= end_row && valid; ++r){
+		if ((a = sheet_is_cell_array (sheet, start_col, r)) != NULL)
+			valid &= (a->x == 0);		/* Left */
+		if ((a=sheet_is_cell_array (sheet, end_col, r)))
+			valid &= (a->x == (a->cols-1)); /* Right */
+	}
+
+	return valid;
 }
 
 static void
@@ -3007,6 +3064,12 @@ sheet_delete_col (Sheet *sheet, int col, int count)
 	if (g_list_length (sheet->cols_info) == 0)
 		return;
 
+	if (!range_check_for_partial_array (sheet, 0, col, 
+					    SHEET_MAX_ROWS-1, col+count-1))
+	{
+		gnumeric_no_modify_array_notice (sheet->workbook);
+		return;
+	}
 	/* Invalidate all references to cells being deleted.  */
 	workbook_invalidate_references (sheet->workbook, sheet, col, 0, count, 0);
 
@@ -3317,6 +3380,13 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (count != 0);
+
+	if (!range_check_for_partial_array (sheet, row, 0, 
+					    row+count-1, SHEET_MAX_COLS-1))
+	{
+		gnumeric_no_modify_array_notice (sheet->workbook);
+		return;
+	}
 
 	/* Invalidate all references to cells being deleted.  */
 	workbook_invalidate_references (sheet->workbook, sheet, 0, row, 0, count);
@@ -3650,19 +3720,6 @@ sheet_cursor_set (Sheet *sheet, int base_col, int base_row, int start_col, int s
 	sheet_load_cell_val (sheet);
 }
 
-static ArrayRef *
-sheet_is_cell_array (Sheet *sheet, int const col, int const row)
-{
-	Cell * const cell = sheet_cell_get (sheet, col, row);
-
-	if (cell != NULL &&
-	    cell->parsed_node != NULL &&
-	    cell->parsed_node->oper == OPER_ARRAY)
-		return &cell->parsed_node->u.array;
-
-	return NULL;
-}
-
 /**
  * sheet_fill_selection_with:
  * @sheet:   	 Which sheet we are operating on.
@@ -3682,39 +3739,13 @@ sheet_fill_selection_with (Sheet *sheet, const char *str,
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (str != NULL);
 
-	/*
-	 * FIXME FIXME FIXME
-	 * This should probably move into a standalone function so that it can
-	 * be shared by cut/copy/paste,  but I'll wait on that until I
-	 * understand that system better.
-	 */
-	for (l = sheet->selections; l; l = l->next){
-		/*
-		 * Check the outer edges of each range to ensure that if an
-		 * array is within it then the entire array is within the range.
-		 */
-		ArrayRef *a;
+	/* Check for array subdivision */
+	for (l = sheet->selections; l; l = l->next)
+	{
 		SheetSelection *ss = l->data;
-		gboolean valid = TRUE;
-
-		/* Check top & bottom */
-		for (col = ss->start_col; col <= ss->end_col && valid; ++col){
-			if ((a=sheet_is_cell_array (sheet, col, ss->start_row)))
-				valid &= (a->y == 0);		/* Top */
-			if ((a=sheet_is_cell_array (sheet, col, ss->end_row)))
-				valid &= (a->y == (a->rows-1));	/* Bottom */
-		}
-
-		/* Check left & right */
-		for (row = ss->start_row; row <= ss->end_row && valid; ++row){
-			if ((a=sheet_is_cell_array (sheet, ss->start_col, row)))
-				valid &= (a->x == 0);		/* Left */
-			if ((a=sheet_is_cell_array (sheet, ss->end_col, row)))
-				valid &= (a->x == (a->cols-1)); /* Right */
-		}
-
-		if (!valid)
-		{
+		if (!range_check_for_partial_array (sheet,
+						    ss->start_row,ss->start_col,
+						    ss->end_row, ss->end_col)) {
 			gnumeric_no_modify_array_notice (sheet->workbook);
 			return;
 		}

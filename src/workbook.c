@@ -145,7 +145,7 @@ change_selection_font (Workbook *wb, int bold, int italic)
 		StyleFont *f;
 
 		cell_font = cell->style->font;
-		
+
 		f = style_font_new (
 			cell_font->font_name,
 			cell_font->size,
@@ -366,7 +366,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 	int *allow_close = user_data;
 	int button;
 	char *s;
-	
+
 	if (!sheet->modified)
 		return;
 
@@ -414,7 +414,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 		*allow_close = CLOSE_DENY;
 		break;
 
-	} 
+	}
 }
 
 static int
@@ -828,7 +828,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	
+
 	{ GNOME_APP_UI_ITEM, N_("Plu_g-ins..."), N_("Gnumeric plugins"),
 	  plugins_cmd },
 
@@ -836,13 +836,13 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM(print_setup_cmd, NULL),
 	GNOMEUIINFO_MENU_PRINT_ITEM(file_print_cmd, NULL),
-	
-	GNOMEUIINFO_SEPARATOR,
-	
-	GNOMEUIINFO_MENU_CLOSE_ITEM(close_cmd, NULL), 
 
 	GNOMEUIINFO_SEPARATOR,
-	
+
+	GNOMEUIINFO_MENU_CLOSE_ITEM(close_cmd, NULL),
+
+	GNOMEUIINFO_SEPARATOR,
+
 	GNOMEUIINFO_MENU_EXIT_ITEM(quit_cmd, NULL),
 	GNOMEUIINFO_END
 };
@@ -1019,7 +1019,7 @@ static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK(
 		N_("Print"), N_("Prints the workbook"),
 		file_print_cmd, GNOME_STOCK_PIXMAP_PRINT),
-	
+
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
@@ -1437,7 +1437,7 @@ workbook_set_auto_expr (Workbook *wb, const char *description, const char *expre
 	extern ParseErr
 		gnumeric_unsafe_expr_parser (const char *expr, Sheet *sheet, guint eval_col, guint eval_row,
 					     const char **desired_format, ExprTree **result);
-	
+
 	if (wb->auto_expr)
 		expr_tree_unref (wb->auto_expr);
 
@@ -1595,7 +1595,7 @@ workbook_core_new (void)
 	Workbook *wb;
 
 	wb = g_new0 (Workbook, 1);
-	
+
 	wb->sheets    = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 	wb->print_info = print_info_new ();
 	wb->symbol_names = symbol_table_new ();
@@ -1641,7 +1641,7 @@ workbook_new (void)
 	wb = workbook_core_new ();
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->table     = gtk_table_new (0, 0, 0);
-	
+
 	gtk_window_set_policy (GTK_WINDOW(wb->toplevel), 1, 1, 0);
 	gtk_window_set_default_size (GTK_WINDOW(wb->toplevel), 600, 400);
 
@@ -1735,14 +1735,14 @@ buttons (Sheet *sheet, GtkTable *table)
 
 	if (0){
 		b = gtk_button_new_with_label (_("Zoom out"));
-		GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);	
+		GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);
 		gtk_table_attach (table, b,
 				  0, 1, 1, 2, 0, 0, 0, 0);
 		gtk_signal_connect (GTK_OBJECT (b), "clicked",
 				    GTK_SIGNAL_FUNC (zoom_out), sheet);
-		
+
 		b = gtk_button_new_with_label (_("Zoom in"));
-		GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);	
+		GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);
 		gtk_table_attach (table, b,
 				  1, 2, 1, 2, 0, 0, 0, 0);
 		gtk_signal_connect (GTK_OBJECT (b), "clicked",
@@ -1750,7 +1750,7 @@ buttons (Sheet *sheet, GtkTable *table)
 	} else {
 		static GtkAdjustment *adj;
 		GtkWidget *sc;
-		
+
 		adj = GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 0.5, 10.0, 0.1, 0.5, 0.5));
 		sc = gtk_hscrollbar_new (adj);
 		gtk_widget_show (sc);
@@ -1934,10 +1934,10 @@ sheet_label_button_press (GtkWidget *widget, GdkEventButton *event, GtkWidget *c
 	sheet = gtk_object_get_data (GTK_OBJECT (child), "sheet");
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-	
+
 	notebook = child->parent;
 	page_number = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), child);
-	
+
 	if (event->button == 1){
 		gtk_notebook_set_page (GTK_NOTEBOOK (notebook), page_number);
 		return TRUE;

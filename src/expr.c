@@ -1002,14 +1002,12 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 			b_row += ep->eval_row;
 
 		/* Handle inverted refereneces */
-		if (a_row > b_row)
-		{
+		if (a_row > b_row) {
 			int tmp = a_row;
 			a_row = b_row;
 			b_row = tmp;
 		}
-		if (a_col > b_col)
-		{
+		if (a_col > b_col) {
 			int tmp = a_col;
 			a_col = b_col;
 			b_col = tmp;
@@ -1392,6 +1390,48 @@ compare (const Value *a, const Value *b)
 	return TYPE_ERROR;
 }
 
+/*
+ * Utility routine to ensure that all elements of a range are recalced as
+ * necessary.
+ */
+static void
+eval_range (FunctionEvalInfo *s, Value *v)
+{
+	int start_col, start_row, end_col, end_row;
+	CellRef * a = &v->v.cell_range.cell_a;
+	CellRef * b = &v->v.cell_range.cell_b;
+	Sheet * sheet = a->sheet ? a->sheet : s->pos.sheet;
+	Cell * cell;
+	int r, c;
+	int const gen = s->pos.sheet->workbook->generation;
+
+	cell_get_abs_col_row (a,
+			      s->pos.eval_col, s->pos.eval_row,
+			      &start_col, &start_row);
+	cell_get_abs_col_row (b,
+			      s->pos.eval_col, s->pos.eval_row,
+			      &end_col, &end_row);
+
+	if (a->sheet != b->sheet) {
+		g_warning ("3D references not-fully supported.\n"
+			   "Recalc may be incorrect");
+		return;
+	}
+
+	for (r = start_row; r <= end_row; ++r)
+		for (c = start_col; c <= end_col; ++c) {
+			if ((cell = sheet_cell_get (sheet, c, r)) == NULL)
+				continue;
+			if (cell->generation != gen) {
+				cell->generation = gen;
+				if (cell->parsed_node &&
+				    (cell->flags & CELL_QUEUED_FOR_RECALC))
+					cell_eval (cell);
+			}
+
+		}
+}
+
 Value *
 eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 {
@@ -1658,7 +1698,10 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 	}
 
 	case OPER_CONSTANT:
-		return value_duplicate (tree->u.constant);
+		res = tree->u.constant;
+		if (res->type == VALUE_CELLRANGE)
+			eval_range (s, res);
+		return value_duplicate (res);
 
 	case OPER_NEG:
 		a = eval_expr (s, tree->u.value);
@@ -1687,8 +1730,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			if (tree->u.array.corner.func.value != NULL)
 				value_release (tree->u.array.corner.func.value);
 			tree->u.array.corner.func.value = a;
-		} else
-		{
+		} else {
 			ExprTree const * const array =
 			    expr_tree_array_formula_corner (tree);
 			if (array)
@@ -1927,11 +1969,9 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 		int const x = tree->u.array.x;
 		int const y = tree->u.array.y;
 		char *res = "<ERROR>";
-		if (x != 0 || y != 0)
-		{
+		if (x != 0 || y != 0) {
 			ExprTree *array = expr_tree_array_formula_corner (tree);
-			if (array)
-			{
+			if (array) {
 				EvalPosition tmp_pos;
 				tmp_pos.sheet = fp->sheet;
 				tmp_pos.eval_col = fp->eval_col - x;
@@ -1940,8 +1980,7 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 					array->u.array.corner.func.expr,
 					&tmp_pos, 0);
 			}
-		} else
-		{
+		} else {
 			res = do_expr_decode_tree (
 			    tree->u.array.corner.func.expr, fp, 0);
 		}
@@ -2120,13 +2159,11 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 	case OPER_ARRAY:
 	{
 		ArrayRef * a = &src->u.array;
-		if (a->x == 0 && a->y == 0)
-		{
+		if (a->x == 0 && a->y == 0) {
 			ExprTree *func = do_expr_tree_invalidate_references (
 					    a->corner.func.expr, info);
 
-			if (func != NULL)
-			{
+			if (func != NULL) {
 				ExprTree *res =
 				    expr_tree_array_formula (0, 0,
 							     a->rows, a->cols);
@@ -2348,14 +2385,12 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 	case OPER_ARRAY:
 	{
 		ArrayRef * a = &src->u.array;
-		if (a->x == 0 && a->y == 0)
-		{
+		if (a->x == 0 && a->y == 0) {
 			ExprTree *func =
 			    do_expr_tree_fixup_references (a->corner.func.expr,
 							   info);
 
-			if (func != NULL)
-			{
+			if (func != NULL) {
 				ExprTree *res =
 				    expr_tree_array_formula (0, 0,
 							     a->rows, a->cols);
@@ -2422,6 +2457,60 @@ expr_tree_fixup_references (ExprTree *src, EvalPosition *src_fp,
 	}
 
 	return dst;
+}
+
+/* Debugging utility to print a Value */
+void
+value_dump (const Value *value)
+{
+	switch (value->type){
+	case VALUE_STRING:
+		printf ("STRING: %s\n", value->v.str->str);
+		break;
+
+	case VALUE_INTEGER:
+		printf ("NUM: %d\n", value->v.v_int);
+		break;
+
+	case VALUE_FLOAT:
+		printf ("Float: %f\n", value->v.v_float);
+		break;
+
+	case VALUE_ARRAY: {
+		int x, y;
+		
+		printf ("Array: { ");
+		for (y = 0; y < value->v.array.y; y++)
+			for (x = 0; x < value->v.array.x; x++)
+				value_dump (value->v.array.vals [x][y]);
+		printf ("}\n");
+		break;
+	}
+	case VALUE_CELLRANGE: {
+		CellRef const *c = &value->v.cell_range.cell_a;
+		Sheet const *sheet = c->sheet;
+
+		printf ("CellRange\n");
+		if (sheet && sheet->name)
+			printf ("'%s':", sheet->name);
+		else
+			printf ("%p :", sheet);
+		printf ("%s%s%s%d\n",
+			(c->col_relative ? "":"$"), col_name(c->col),
+			(c->row_relative ? "":"$"), c->row+1);
+		c = &value->v.cell_range.cell_b;
+		if (sheet && sheet->name)
+			printf ("'%s':", sheet->name);
+		else
+			printf ("%p :", sheet);
+		printf ("%s%s%s%d\n",
+			(c->col_relative ? "":"$"), col_name(c->col),
+			(c->row_relative ? "":"$"), c->row+1);
+		break;
+	}
+	default:
+		printf ("Unhandled item type\n");
+	}
 }
 
 /* Debugging utility to print an expression */
