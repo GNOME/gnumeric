@@ -1,3 +1,10 @@
+2001-12-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c (ztest_tool) : fix leak
+	(ttest_paired_tool) : ditto
+	(ttest_eq_var_tool) : ditto
+	(ttest_neq_var_tool) : ditto
+
 2001-12-07  Jody Goldberg <jody@gnome.org>
 
 	* src/parse-util.c (parse_cell_name_or_range) : delete unused.

@@ -1420,6 +1420,9 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 	autofit_column (dao, 1);
 	autofit_column (dao, 2);
 
+	value_release (input_range_1);
+	value_release (input_range_2);
+
 	destroy_data_set (variable_1);
 	destroy_data_set (variable_2);
 
@@ -1468,6 +1471,8 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 				   _("Variable %i"), 2, sheet);
 
 	if (variable_1->data->len != variable_2->data->len) {
+		value_release (input_range_1);
+		value_release (input_range_2);
 		destroy_data_set (variable_1);
 		destroy_data_set (variable_2);
 	        return 1;
@@ -1591,6 +1596,9 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 		g_array_free (cleaned_variable_2, TRUE);
 
 	g_array_free (difference, TRUE);
+
+	value_release (input_range_1);
+	value_release (input_range_2);
 
 	destroy_data_set (variable_1);
 	destroy_data_set (variable_2);
@@ -1719,6 +1727,9 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	autofit_column (dao, 1);
 	autofit_column (dao, 2);
 
+	value_release (input_range_1);
+	value_release (input_range_2);
+
 	destroy_data_set (variable_1);
 	destroy_data_set (variable_2);
 
@@ -1841,6 +1852,9 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	autofit_column (dao, 0);
 	autofit_column (dao, 1);
 	autofit_column (dao, 2);
+
+	value_release (input_range_1);
+	value_release (input_range_2);
 
 	destroy_data_set (variable_1);
 	destroy_data_set (variable_2);
