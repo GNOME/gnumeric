@@ -1,3 +1,9 @@
+2001-10-27  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_dval) : new function.
+	(ms_excel_read_dv) : new function.
+	(ms_excel_read_sheet) : call them here and remove warning.
+
 2001-10-29  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.74
@@ -22,7 +28,7 @@
 
 2001-10-23  Jody Goldberg <jgoldberg@home.com>
 
-	* ms-excel-write.c (write_rowinfo) : duplicate code.
+	* ms-excel-write.c (write_rowinfo) : remove duplicate code.
 
 	* ms-excel-read.c (biff_name_data_get_name) : adjust to new named
 	  expression api.

@@ -706,15 +706,15 @@ char const *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x0b */	"0.00E+00",
 /* 0x0c */	"# ?/?",
 /* 0x0d */	"# ?" "?/?" "?",  /* Don't accidentally use trigraph.  */
-/* 0x0e 	"m/d/yy" */ NULL,	/* locale specific, set in */
-/* 0x0f 	"d-mmm-yy", */ NULL,	/* ms_excel_read_init */
-/* 0x10 	"d-mmm", */ NULL,
-/* 0x11 */ 	"mmm-yy",
+/* 0x0e		"m/d/yy" */ NULL,	/* locale specific, set in */
+/* 0x0f		"d-mmm-yy", */ NULL,	/* ms_excel_read_init */
+/* 0x10		"d-mmm", */ NULL,
+/* 0x11 */	"mmm-yy",
 /* 0x12 */	"h:mm AM/PM",
 /* 0x13 */	"h:mm:ss AM/PM",
 /* 0x14 */	"h:mm",
 /* 0x15 */	"h:mm:ss",
-/* 0x16 	"m/d/yy h:mm", */ NULL,
+/* 0x16		"m/d/yy h:mm", */ NULL,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0x17-0x24 reserved for intl versions */
 /* 0x25 */	"#,##0_);(#,##0)",
 /* 0x26 */	"#,##0_);[Red](#,##0)",
@@ -1009,8 +1009,8 @@ ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 	 * The color index field seems to use
 	 *	8-63 = Palette index 0-55
 	 *
-	 * 	0 = black?
-	 * 	1 = white?
+	 *	0 = black?
+	 *	1 = white?
 	 *	64, 65, 127 = auto contrast?
 	 *
 	 *	64 appears to be associated with the the background colour
@@ -1372,37 +1372,37 @@ static StyleBorderType
 biff_xf_map_border (int b)
 {
 	switch (b) {
- 	case 0: /* None */
- 		return STYLE_BORDER_NONE;
- 	case 1: /* Thin */
- 		return STYLE_BORDER_THIN;
- 	case 2: /* Medium */
- 		return STYLE_BORDER_MEDIUM;
- 	case 3: /* Dashed */
- 		return STYLE_BORDER_DASHED;
- 	case 4: /* Dotted */
- 		return STYLE_BORDER_DOTTED;
- 	case 5: /* Thick */
- 		return STYLE_BORDER_THICK;
- 	case 6: /* Double */
- 		return STYLE_BORDER_DOUBLE;
- 	case 7: /* Hair */
- 		return STYLE_BORDER_HAIR;
- 	case 8: /* Medium Dashed */
- 		return STYLE_BORDER_MEDIUM_DASH;
- 	case 9: /* Dash Dot */
- 		return STYLE_BORDER_DASH_DOT;
- 	case 10: /* Medium Dash Dot */
- 		return STYLE_BORDER_MEDIUM_DASH_DOT;
- 	case 11: /* Dash Dot Dot */
- 		return STYLE_BORDER_DASH_DOT_DOT;
- 	case 12: /* Medium Dash Dot Dot */
- 		return STYLE_BORDER_MEDIUM_DASH_DOT_DOT;
- 	case 13: /* Slanted Dash Dot*/
- 		return STYLE_BORDER_SLANTED_DASH_DOT;
- 	}
-  	printf ("Unknown border style %d\n", b);
- 	return STYLE_BORDER_NONE;
+	case 0: /* None */
+		return STYLE_BORDER_NONE;
+	case 1: /* Thin */
+		return STYLE_BORDER_THIN;
+	case 2: /* Medium */
+		return STYLE_BORDER_MEDIUM;
+	case 3: /* Dashed */
+		return STYLE_BORDER_DASHED;
+	case 4: /* Dotted */
+		return STYLE_BORDER_DOTTED;
+	case 5: /* Thick */
+		return STYLE_BORDER_THICK;
+	case 6: /* Double */
+		return STYLE_BORDER_DOUBLE;
+	case 7: /* Hair */
+		return STYLE_BORDER_HAIR;
+	case 8: /* Medium Dashed */
+		return STYLE_BORDER_MEDIUM_DASH;
+	case 9: /* Dash Dot */
+		return STYLE_BORDER_DASH_DOT;
+	case 10: /* Medium Dash Dot */
+		return STYLE_BORDER_MEDIUM_DASH_DOT;
+	case 11: /* Dash Dot Dot */
+		return STYLE_BORDER_DASH_DOT_DOT;
+	case 12: /* Medium Dash Dot Dot */
+		return STYLE_BORDER_MEDIUM_DASH_DOT_DOT;
+	case 13: /* Slanted Dash Dot*/
+		return STYLE_BORDER_SLANTED_DASH_DOT;
+	}
+	printf ("Unknown border style %d\n", b);
+	return STYLE_BORDER_NONE;
 }
 
 static int
@@ -2353,7 +2353,7 @@ ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
 	esheet->gnum_sheet = sheet;
 	esheet->base_char_width         = -1;
 	esheet->base_char_width_default = -1;
-	esheet->freeze_panes	        = FALSE;
+	esheet->freeze_panes		= FALSE;
 	esheet->shared_formulae         =
 		g_hash_table_new ((GHashFunc)&cellpos_hash,
 				  (GCompareFunc)&cellpos_cmp);
@@ -2842,7 +2842,7 @@ get_row_height_units (guint16 height)
 
 /**
  * ms_excel_read_row:
- * @q 		A BIFF query
+ * @q		A BIFF query
  * @esheet	The Excel sheet
  *
  * Processes a BIFF row info (BIFF_ROW) record. See: S59DDB.HTM
@@ -2906,7 +2906,7 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *esheet)
 
 /**
  * ms_excel_read_colinfo:
- * @q 		A BIFF query
+ * @q		A BIFF query
  * @esheet	The Excel sheet
  *
  * Processes a BIFF column info (BIFF_COLINFO) record. See: S59D67.HTM
@@ -3049,7 +3049,7 @@ ms_excel_read_selection (BiffQuery *q, ExcelSheet *esheet)
 
 /**
  * ms_excel_read_default_row_height:
- * @q 		A BIFF query
+ * @q		A BIFF query
  * @esheet	The Excel sheet
  *
  * Processes a BIFF default row height (BIFF_DEFAULTROWHEIGHT) record.
@@ -3076,7 +3076,7 @@ ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *esheet)
 
 /**
  * ms_excel_read_default_col_width:
- * @q 		A BIFF query
+ * @q		A BIFF query
  * @esheet	The Excel sheet
  *
  * Processes a BIFF default column width (BIFF_DEFCOLWIDTH) record.
@@ -3356,10 +3356,10 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 		guint16 left_col   = MS_OLE_GET_GUINT16 (q->data + 4);
 
 		esheet->gnum_sheet->display_formulas	= (options & 0x0001) != 0;
-		esheet->gnum_sheet->hide_grid 		= (options & 0x0002) == 0;
+		esheet->gnum_sheet->hide_grid		= (options & 0x0002) == 0;
 		esheet->gnum_sheet->hide_col_header =
 		esheet->gnum_sheet->hide_row_header	= (options & 0x0004) == 0;
-		esheet->freeze_panes 			= (options & 0x0008) != 0;
+		esheet->freeze_panes			= (options & 0x0008) != 0;
 		esheet->gnum_sheet->hide_zero		= (options & 0x0010) == 0;
 
 		/* NOTE : This is top left of screen even if frozen, modify when
@@ -3515,6 +3515,47 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 #endif
 }
 
+static void
+ms_excel_read_dv (BiffQuery *q, ExcelSheet *esheet)
+{
+	guint32	options;
+
+	g_return_if_fail (q->length > 4);
+
+	options	= MS_OLE_GET_GUINT32 (q->data);
+
+}
+
+static void
+ms_excel_read_dval (BiffQuery *q, ExcelSheet *esheet)
+{
+	guint16 options;
+	guint32 input_coord_x, input_coord_y, drop_down_id, dv_count;
+	unsigned i;
+
+	g_return_if_fail (q->length != 18);
+
+	options	      = MS_OLE_GET_GUINT16 (q->data + 0);
+	input_coord_x = MS_OLE_GET_GUINT32 (q->data + 2);
+	input_coord_y = MS_OLE_GET_GUINT32 (q->data + 6);
+	drop_down_id  = MS_OLE_GET_GUINT32 (q->data + 10);
+	dv_count      = MS_OLE_GET_GUINT32 (q->data + 14);
+
+	d(5, if (options & 0x1) printf ("DV input window is closed"););
+	d(5, if (options & 0x2) printf ("DV input window is pinned"););
+	d(5, if (options & 0x4) printf ("DV info has been cached ??"););
+
+	for (i = 0 ; i < dv_count ; i++) {
+		guint16 next;
+		if (!ms_biff_query_peek_next (q, &next) || next != BIFF_DV) {
+			g_warning ("EXCEL: missing DV record");
+			return;
+		}
+		ms_biff_query_next (q);
+		ms_excel_read_dv (q, esheet);
+	}
+}
+
 static gboolean
 ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
                      WorkbookView *wb_view, ExcelSheet *esheet,
@@ -3569,15 +3610,13 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			case BIFF_CONDFMT:
 				break;
 			case BIFF_DV:
-			case BIFF_DVAL:
-			{
-				static gboolean needs_warning = TRUE;
-				if (needs_warning) {
-					printf ("TODO: Data validation has not been implemented\n");
-					needs_warning = FALSE;
-				}
+				g_warning ("Found a DV record without a DVal ??");
+				ms_excel_read_dv (q, esheet);
 				break;
-			}
+
+			case BIFF_DVAL:
+				ms_excel_read_dval (q, esheet);
+				break;
 
 			default:
 				ms_excel_unexpected_biff (q, "Sheet", ms_excel_read_debug);
