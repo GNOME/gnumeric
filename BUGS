@@ -10,9 +10,6 @@ Release Critical
 
 - Should cb_merge_cells free the ranges and not just the list?  (It leaks.)
 
-- Check strcpy()s in font_change_component_1: purify says one is overlapping
-  and thus undefined.
-
 - 1. Select A1.
   2. Format->Autoformat.
   3. Click "ok".   [This correctly gives an error about the range being too small]
@@ -26,9 +23,6 @@ Pending Patches
 
 Long term breakage
 ------------------
-
-- In the format-cells dialog, font tab, selecting (say) "Bold" and hitting apply
-  leaks an mstyle consistently.
 
 - Outline mode 
     : Ins/Del col/row breaks

@@ -3546,7 +3546,7 @@ setup_progress_bar (WorkbookControlGUI *wbcg)
 	bonobo_ui_component_object_set (
 		wbcg->uic,
 		"/status/Progress",
-		bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+		BONOBO_OBJREF (control),
 		NULL);
 }
 #endif

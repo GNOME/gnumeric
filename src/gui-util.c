@@ -659,93 +659,6 @@ gnumeric_glade_group_value (GladeXML *gui, const char *group[])
 	return -1;
 }
 
-
-
-static char *
-font_change_component_1 (const char *fontname, int idx,
-			 const char *newvalue, char const **end)
-{
-	char *res, *dst;
-	int hyphens = 0;
-
-	dst = res = (char *)g_malloc (strlen (fontname) + strlen (newvalue) + idx + 5);
-	while (*fontname && *fontname != ',') {
-		if (hyphens != idx)
-			*dst++ = *fontname;
-		if (*fontname++ == '-') {
-			if (hyphens == idx)
-				*dst++ = '-';
-			if (++hyphens == idx) {
-				strcpy (dst, newvalue);
-				dst += strlen (newvalue);
-			}
-		}
-	}
-	*end = fontname;
-	if (hyphens < idx) {
-		while (hyphens++ < idx)
-			*dst++ = '-';
-		strcpy (dst, newvalue);
-		dst += strlen (newvalue);
-	}
-	*dst = 0;
-	return res;
-}
-
-char *
-x11_font_change_component (const char *fontname, int idx, const char *newvalue)
-{
-	char *res = 0;
-	int reslen = 0;
-
-	while (*fontname) {
-		const char *end;
-		char *new;
-		int newlen;
-
-		new = font_change_component_1 (fontname, idx + 1, newvalue, &end);
-		newlen = strlen (new);
-
-		res = (char *)g_realloc (res, reslen + newlen + 2);
-		strcpy (res + reslen, new);
-		g_free (new);
-		reslen += newlen;
-		fontname = end;
-		if (*fontname == ',') {
-			res[reslen++] = ',';
-			fontname++;
-		}
-	}
-	if (reslen) {
-		res[reslen] = 0;
-		return res;
-	} else
-		return g_strdup ("");
-}
-
-char *
-x11_font_get_bold_name (const char *fontname, int units)
-{
-	char *f;
-
-	/*
-	 * FIXME: this scheme is poor: in some cases, the fount strength is called 'bold',
-	 * whereas in some others it is 'black', in others... Look font_get_italic_name
-	 */
-	f = x11_font_change_component (fontname, 2, "bold");
-
-	return f;
-}
-
-char *
-x11_font_get_italic_name (const char *fontname, int units)
-{
-	char *f;
-
-	f = x11_font_change_component (fontname, 3, "o");
-	return f;
-}
-
 static void
 kill_popup_menu (GtkWidget *widget, GtkMenu *menu)
 {
@@ -992,7 +905,7 @@ gnumeric_inject_widget_into_bonoboui (WorkbookControlGUI *wbcg, GtkWidget *widge
 	control = bonobo_control_new (widget);
 	bonobo_ui_component_object_set (
 		wbcg->uic, path,
-		bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+		BONOBO_OBJREF (control),
 		NULL);
 }
 #endif

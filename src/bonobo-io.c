@@ -90,7 +90,7 @@ gnumeric_bonobo_obj_write (xmlNodePtr   cur,
 	gboolean             ret = TRUE;
 
 	g_return_val_if_fail (user_data != NULL, FALSE);
-	storage = bonobo_object_corba_objref (user_data);
+	storage = BONOBO_OBJREF (user_data);
 	g_return_val_if_fail (storage != CORBA_OBJECT_NIL, FALSE);
 	CORBA_exception_init (&ev);
 #if 0
@@ -104,7 +104,7 @@ gnumeric_bonobo_obj_write (xmlNodePtr   cur,
 	sob = SHEET_OBJECT_BONOBO (object);
 
 	ps = Bonobo_Unknown_queryInterface (
-		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
+		BONOBO_OBJREF (sob->object_server),
 		"IDL:Bonobo/PersistStream:1.0", &ev);
 
 	if (!BONOBO_EX (&ev) && ps != CORBA_OBJECT_NIL) {
@@ -196,7 +196,7 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 		return TRUE;
 	}
 
-	storage = bonobo_object_corba_objref (user_data);
+	storage = BONOBO_OBJREF (user_data);
 	g_return_val_if_fail (storage != CORBA_OBJECT_NIL, TRUE);
 
 	CORBA_exception_init (&ev);
@@ -204,8 +204,7 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 	sname = xmlGetProp (tree, "Stream");
 	if (sname)
 		read_stream_from_storage (
-			bonobo_object_corba_objref (
-				BONOBO_OBJECT (sob->object_server)),
+			BONOBO_OBJREF (sob->object_server),
 			storage, sname, &ev);
 	else
 		g_warning ("No stream");
@@ -288,7 +287,7 @@ gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
 		CORBA_exception_init (&ev);
 
 		stream = Bonobo_Storage_openStream (
-			bonobo_object_corba_objref (BONOBO_OBJECT (storage)),
+			BONOBO_OBJREF (storage),
 			"Workbook", flags, &ev);
 		if (ev._major == CORBA_USER_EXCEPTION &&
 		    strcmp (ev._repo_id, ex_Bonobo_Storage_NameExists)) {
@@ -442,7 +441,7 @@ gnumeric_bonobo_read_workbook (GnumFileOpener const *fo,
 
 	CORBA_exception_init (&ev);
 	stream = Bonobo_Storage_openStream (
-		bonobo_object_corba_objref (BONOBO_OBJECT (storage)),
+		BONOBO_OBJREF (storage),
 		"Workbook", Bonobo_Storage_READ, &ev);
 
 	if (BONOBO_EX (&ev) || stream == CORBA_OBJECT_NIL) {

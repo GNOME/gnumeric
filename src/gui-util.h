@@ -47,10 +47,6 @@ int        gtk_radio_group_get_selected (GSList *radio_group);
 /* Utility routine as libglade does not have any decent routine to do this */
 int        gnumeric_glade_group_value (GladeXML *gui, const char *group[]);
 
-char      *x11_font_get_bold_name       (const char *fontname, int units);
-char      *x11_font_get_italic_name     (const char *fontname, int units);
-char      *x11_font_change_component    (const char *fontname, int idx, const char *value);
-
 /*
  * Use this on menus that are popped up
  */
