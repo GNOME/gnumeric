@@ -1,5 +1,8 @@
 2000-12-09  Chema Celorio  <chema@celorio.com>
 
+	* src/xml-io.c (xml_write_names): Always wrinte a <Names> node,
+	even if it is empty. (See coment on code for details)
+
 	* src/sheet.c (sheet_new): make sheet->names NULL.
 	(sheet_clone_names): free the list with g_list_free not g_free
 	(sheet_clone_names): add a warning about not duplicating
