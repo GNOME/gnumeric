@@ -1519,6 +1519,10 @@ cmd_sort_destroy (GtkObject *cmd)
 		g_free (me->perm);
 		me->perm = NULL;
 	}
+	if (me->inv != NULL) {
+		g_free (me->inv);
+		me->inv = NULL;
+	}
 
 	gnumeric_command_destroy (cmd);
 }

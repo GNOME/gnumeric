@@ -53,6 +53,7 @@
 
 	* src/commands.c (cmd_sort_undo): Take advantage of
  	sort_data_length and sort_permute_invert.
+	(cmd_sort_destroy): leak fix.
 
 	* src/sort.c (sort_data_length): Make public.
 	(sort_permute_invert): New function.
@@ -81,7 +82,7 @@
 
 2000-06-07  Morten Welinder  <terra@diku.dk>
 
-	* src/sort.c (sort_contents): Use the C-library's qosrt.
+	* src/sort.c (sort_contents): Use the C-library's qsort.
 	Fix permutation.  Speed up things.
 
 2000-06-07  Jody Goldberg <jgoldberg@home.com>
