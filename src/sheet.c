@@ -1174,7 +1174,8 @@ sheet_cell_set_text (Cell *cell, char const *str)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
-	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell), str, &val, &expr,
+	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell),
+					   str, &val, &expr,
 					   cell_get_format (cell));
 	if (expr != NULL) {
 		/* FIXME */
@@ -1184,12 +1185,16 @@ sheet_cell_set_text (Cell *cell, char const *str)
 	} else {
 		String *string = string_get (str);
 		/* FIXME */
-		cell_set_text_and_value (cell, string, val, format ? format->format : NULL);
-		if (format) style_format_unref (format);
+		cell_set_text_and_value (cell, string, val,
+					 format ? format->format : NULL);
+		if (format)
+			style_format_unref (format);
 		string_unref (string);
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE);
 		cell_content_changed (cell);
 	}
+	sheet_flag_status_update_cell (cell->sheet,
+				       cell->pos.col, cell->pos.row);
 }
 
 void
@@ -1974,10 +1979,12 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* Queue a redraw on the region used by the cell being removed */
-	if (redraw)
+	if (redraw) {
 		sheet_redraw_cell_region (sheet,
-					  cell->col_info->pos, cell->row_info->pos,
-					  cell->col_info->pos, cell->row_info->pos);
+					  cell->pos.col, cell->pos.row,
+					  cell->pos.col, cell->pos.row);
+		sheet_flag_status_update_cell (sheet, cell->pos.col, cell->pos.row);
+	}
 
 	sheet_cell_remove_simple (sheet, cell);
 	cell_destroy (cell);
@@ -2278,8 +2285,6 @@ sheet_destroy (Sheet *sheet)
 	/* Clear the cliboard to avoid dangling references to the deleted sheet */
 	if (sheet == application_clipboard_sheet_get ())
 		application_clipboard_clear ();
-
-	sheet->deps = NULL;
 
 	sheet_destroy_styles (sheet);
 
