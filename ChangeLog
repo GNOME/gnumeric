@@ -1,5 +1,12 @@
 2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* schemas/gnumeric-general.schemas : add window size schemas
+	* src/gnumeric-gconf-priv.h : add window size keys
+	* src/gnumeric-gconf.[ch] : add window size set/get methods
+	* src/workbook-control-gui.c : use gconf for all preferences
+
+2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* schemas/gnumeric-dialogs.schemas : add more schemas
 	* src/commands.c : use get/set methods from src/gnumeric-gconf.h
 	* src/file-autoft.[ch] : switch from gnome-config to gconf
