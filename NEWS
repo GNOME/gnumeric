@@ -18,6 +18,9 @@ Morten:
 	* Improve precision of IRR.
 	* Made auto-format work for sheet-relative cellrefs, i.e.,
 	  "=sum(a1:a10)" now takes a default format from the range.
+	* Made generated postscript files (print to file) contain enough
+	  information to let ghostview go back and forth in them.
+	* Made landscape previews readable.
 
 --------------------------------------------------------------------------
 Gnumeric 0.49
