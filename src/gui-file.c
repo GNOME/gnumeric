@@ -42,9 +42,8 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#define PREVIEW_HSIZE 80
-#define PREVIEW_VSIZE 100
-
+#define PREVIEW_HSIZE 150
+#define PREVIEW_VSIZE 150
 
 typedef struct 
 {
@@ -269,6 +268,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		gtk_label_set_mnemonic_widget (GTK_LABEL (data.charmap_label),
 					       charmap_selector);
 
+		gtk_widget_show_all (box);
 		gtk_file_chooser_set_extra_widget (fsel, box);
 	}
 
@@ -302,8 +302,11 @@ update_preview_cb (GtkFileChooser *chooser)
 	GtkWidget *label = g_object_get_data (G_OBJECT (chooser), "label-widget");
 	GtkWidget *image = g_object_get_data (G_OBJECT (chooser), "image-widget");
 
-	if (filename == NULL ||
-	    g_file_test (filename, G_FILE_TEST_IS_DIR)) {
+	if (filename == NULL) {
+		gtk_widget_hide (image);
+		gtk_widget_hide (label);
+	} else if (g_file_test (filename, G_FILE_TEST_IS_DIR)) {
+		/* Not quite sure what to do here.  */
 		gtk_widget_hide (image);
 		gtk_widget_hide (label);
 	} else {
@@ -361,6 +364,7 @@ gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial,
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", is_save ? GTK_FILE_CHOOSER_ACTION_SAVE : GTK_FILE_CHOOSER_ACTION_OPEN,
 			       "title", _("Select an Image"),
+			       "use-preview-label", FALSE,
 			       NULL));
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -617,6 +621,8 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 6);
 		gtk_box_pack_start (GTK_BOX (box), format_chooser, FALSE, TRUE, 6);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), format_chooser);
+
+		gtk_widget_show_all (box);
 		gtk_file_chooser_set_extra_widget (fsel, box);
 	}
 
