@@ -1,3 +1,8 @@
+2002-11-20  Morten Welinder  <terra@diku.dk>
+
+	* src/gutils.c (gnumeric_ascii_strcase_hash): Use g_ascii_tolower,
+	not locale-dependent tolower.
+
 2002-11-19  Jon K Hellan  <hellan@acm.org>
 
 	* src/io-context-gtk.[ch]: (icg_set_files_total): New function:
