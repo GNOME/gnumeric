@@ -948,6 +948,7 @@ plugin_init_general (ErrorInfo **ret_error)
 		fp = fopen (name, "r");
 		if (fp){
 			PyRun_SimpleFile(fp, name);
+			fclose (fp);
 		}
 		g_free(name);
 		g_free(dir);
