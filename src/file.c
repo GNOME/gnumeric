@@ -152,6 +152,7 @@ workbook_save_as (Workbook *wb)
 	g_return_if_fail (wb != NULL);
 
 	fsel = (GtkFileSelection *)gtk_file_selection_new (_("Save workbook as"));
+	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 	if (wb->filename)
 		gtk_file_selection_set_filename (fsel, wb->filename);
 	
@@ -200,6 +201,7 @@ dialog_query_load_file (Workbook *wb)
 	char *result;
 	
 	fsel = (GtkFileSelection *) gtk_file_selection_new (_("Load file"));
+	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 
 	gtk_window_set_transient_for (GTK_WINDOW (fsel), GTK_WINDOW (wb->toplevel));
 	
