@@ -216,11 +216,16 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 	CORBA_exception_init (ev);
 
 	old_wb = wb_control_workbook (wbc);
+	/* FIXME: Investigate why a freshly loaded workbook is !pristine in
+	 * the viewer component. For now, just drop the test
+	 */
+#if FALSE
 	if (!workbook_is_pristine (old_wb)) {
 		/* No way to interact properly with user */
 		g_warning ("Old workbook has unsaved changes.");
 		goto exit_error;
 	}
+#endif
 		
 	wb_view = wb_control_view (wbc);
 

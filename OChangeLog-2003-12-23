@@ -1,3 +1,9 @@
+2002-04-28  Jon K Hellan  <hellan@acm.org>
+
+	* src/bonobo-io.c (gnumeric_bonobo_read_from_stream): Drop
+	workbook_is_pristine test. In the viewer, we know we shouldn't
+	save, but the test gives suprising results.
+
 2002-04-27  Jody Goldberg <jody@gnome.org>
 
 	* src/bonobo-io.c (gnumeric_bonobo_read_from_stream) : similar to
