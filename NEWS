@@ -18,6 +18,8 @@ Jody:
 	* Recalc new expressions even when manual recalc is set
 	http://bugzilla.gnome.org/show_bug.cgi?id=130700
 	* Better compatibility with MS Excel's handling of minus sign
+	http://bugzilla.gnome.org/show_bug.cgi?id=130835
+	* ISNUMBER() should return false for blank references
 
 Andreas:
 	* Make new strings translatable.
