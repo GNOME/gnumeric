@@ -1,0 +1,3 @@
+2000-05-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am (gnumeric_plugin_LTLIBRARIES) : Disable for now.

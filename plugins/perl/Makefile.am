@@ -1,3 +1,10 @@
+# Do not build by default until we are ready.
+if WITH_PERL
+PERL_TARGET = gnum_perl.so
+else
+PERL_TARGET =
+endif
+
 gnperldir = $(gnumeric_datadir)/perl
 PERL_CFLAGS = $(PERL_CCCDLFLAGS)		\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
@@ -5,8 +12,10 @@ PERL_CFLAGS = $(PERL_CCCDLFLAGS)		\
     $(PERL_CCOPTS)				\
     $(GNOME_INCLUDEDIR)
 
-#noinst_PROGRAMS = gnum_perl.so
-gnumeric_plugin_PROGRAMS = gnum_perl.so
+#
+# Do not build the plugin until there is a maintainer
+#
+gnumeric_plugin_PROGRAMS = $(PERL_TARGET)
 
 gnum_perl_so_SOURCES = perl.c
 

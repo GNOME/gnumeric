@@ -1,15 +1,15 @@
 # Do not build by default until the libtool problems with
 # a static libpython are resolved.
 if WITH_PYTHON
-PYTHON = python
+PYTHON_DIR = python
 else
-PYTHON = 
+PYTHON_DIR = 
 endif
 
 if WITH_PERL
-PERL = perl
+PERL_DIR = perl
 else
-PERL =
+PERL_DIR =
 endif
 
 if GUILE
@@ -24,6 +24,6 @@ else
 GB_DIR =
 endif
 
-SUBDIRS = excel lotus-123 oleo sc sylk text ff-csv xbase html dif \
-	$(PYTHON) $(GUILE_DIR) $(GB_DIR) sample \
-	numtheory
+SUBDIRS = excel lotus-123 oleo sc sylk text ff-csv xbase html dif plan-perfect \
+	$(PYTHON_DIR) $(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
+	sample numtheory gda
