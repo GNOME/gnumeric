@@ -4366,6 +4366,7 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 typedef struct {
 	GnmCommand cmd;
 	GSList *objects;
+	GArray *location;
 } CmdObjectsDelete;
 
 MAKE_GNM_COMMAND (CmdObjectsDelete, cmd_objects_delete, NULL);
@@ -4379,13 +4380,29 @@ cmd_objects_delete_redo (GnmCommand *cmd,
 	return FALSE;
 }
 
+static void 
+cmd_objects_restore_location (SheetObject *so, gint location)
+{
+	gint loc = sheet_object_get_stacking (so);
+	if (loc != location)
+		sheet_object_adjust_stacking(so, location - loc);
+}
+
 static gboolean
 cmd_objects_delete_undo (GnmCommand *cmd,
 			G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdObjectsDelete *me = CMD_OBJECTS_DELETE (cmd);
+	GSList *l;
+	gint i;
+
 	g_slist_foreach (me->objects,
 		(GFunc) sheet_object_set_sheet, me->cmd.sheet);
+	
+	for (l = me->objects, i = 0; l; l = l->next, i++)
+		cmd_objects_restore_location (SHEET_OBJECT (l->data),
+					      g_array_index(me->location,
+							    gint, i));
 	return FALSE;
 }
 
@@ -4395,7 +4412,18 @@ cmd_objects_delete_finalize (GObject *cmd)
 	CmdObjectsDelete *me = CMD_OBJECTS_DELETE (cmd);
 	g_slist_foreach (me->objects, (GFunc) g_object_unref, NULL);
 	g_slist_free (me->objects);
+	if (me->location) {
+		g_array_free (me->location, TRUE);
+		me->location = NULL;
+	}
 	gnm_command_finalize (cmd);
+}
+
+static void 
+cmd_objects_store_location (SheetObject *so, GArray *location)
+{
+	gint loc = sheet_object_get_stacking (so);
+	g_array_append_val (location, loc);
 }
 
 /* Absorbs the list, adding references to the content */
@@ -4414,6 +4442,10 @@ cmd_objects_delete (WorkbookControl *wbc, GSList *objects,
 
 	me->objects = objects;
 	g_slist_foreach (me->objects, (GFunc) g_object_ref, NULL);
+
+	me->location = g_array_new (FALSE, FALSE, sizeof (gint));
+	g_slist_foreach (me->objects, (GFunc) cmd_objects_store_location, 
+			 me->location);
 
 	me->cmd.sheet = sheet_object_get_sheet (objects->data);
 	me->cmd.size = 1;

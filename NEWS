@@ -7,6 +7,8 @@ Andreas:
 	  exception list. [#158207]
 	* Protect ABcD style strings from auto-correction [#124858]
 	* Rename graph guru's okay button [#152514]
+	* When undoing the deletion of sheet objects also recreate the
+	  original ordering of objects. [#151609]
 
 Harald Ashburner:
 	* Update derivatives.gnumeric

@@ -1,3 +1,13 @@
+2004-11-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=151609
+	* src/commands.c (cmd_objects_restore_location): new
+	(cmd_objects_delete_undo): restore ordering of objects
+	(cmd_objects_delete_finalize): free locations array
+	(cmd_objects_delete): create and save locations array
+	* src/sheet-object.h (sheet_object_get_stacking): new
+	* src/sheet-object.c (sheet_object_get_stacking): new
+
 2004-11-10  Jody Goldberg <jody@gnome.org>
 
 	* src/style.c (required_updates_for_style) : for font size, and wrap
