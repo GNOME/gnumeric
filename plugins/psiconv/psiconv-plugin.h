@@ -4,6 +4,7 @@
 #include "gnumeric.h"
 #include "io-context.h"
 #include <stdio.h>
+#include <gsf/gsf-input.h>
 
 gboolean psiconv_read_header (GsfInput *input);
 void	 psiconv_read (IOContext *io_context, Workbook *wb, GsfInput *input);
