@@ -55,7 +55,7 @@
       </schema>
       <schema>
         <key>/schemas/apps/gnumeric/autocorrect/first-letter-list</key>
-        <applyto>/apps/gnumeric/autocorrect//first-letter-list</applyto>
+        <applyto>/apps/gnumeric/autocorrect/first-letter-list</applyto>
         <owner>Gnumeric</owner>
         <type>list</type>
         <locale name="C">

@@ -342,8 +342,8 @@ gnm-marshalers.c : gnm-marshalers.list $(GLIB_GENMARSHAL)
 
 # include conditional files to ensure everything gets distributed no matter
 # what the build
-EXTRA_DIST = GNOME_Gnumeric.xml gnm-marshalers.list	\
-	    normal-args.c corba-args.c			\
+EXTRA_DIST = GNOME_Gnumeric.xml gnm-marshalers.list		\
+	    main-application.c normal-args.c corba-args.c	\
 	    $(GNUMERIC_BONOBO)
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c

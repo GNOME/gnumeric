@@ -131,4 +131,4 @@ glade_DATA = 				\
 	variance-tests.glade		\
 	workbook-attr.glade
 
-EXTRA_DIST = $(glade_DATA)
+EXTRA_DIST = $(glade_DATA) dialog-graph-guru.c
