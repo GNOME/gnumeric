@@ -9,14 +9,14 @@ Release Critical
 ----------------
 
     - smarter support for unicode characters that do not convert to the
-      current encoding during XL import.
+      current encoding during XL import.	(Vlad is looking at this)
 
 Long term breakage
 ------------------
 
 - outline mode
     : finish implementing optionally putting markers above/left
-    : implement group/ungroup menu items (with undo)
+    : implement group/ungroup menu items (with undo, Almer is working on this)
     : connect the hide/show menu items
 
 - defining file patterns in plugin spec overrides 'has_probe' flag silently.

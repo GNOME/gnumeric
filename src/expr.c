@@ -770,9 +770,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		value_release (a);
 		return res;
 
-	case OPER_CONCAT: {
-		char *tmp;
-
+	case OPER_CONCAT:
 		a = eval_expr_real (pos, tree->binary.value_a, flags);
 		if (a != NULL && a->type == VALUE_ERROR)
 			return a;
@@ -783,17 +781,25 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 			return b;
 		}
 
-		tmp = g_strconcat (value_peek_string (a),
-				   value_peek_string (b), NULL);
-		res = value_new_string (tmp);
-		g_free (tmp);
-
-		if (a != NULL)
+		if (a == NULL) {
+			if (b != NULL) {
+				res = value_new_string (value_peek_string (b));
+				value_release (b);
+			} else
+				res = value_new_string ("");
+		} else if (b == NULL) {
+			res = value_new_string (value_peek_string (a));
 			value_release (a);
-		if (b != NULL)
+		} else {
+			char *tmp = g_strconcat (value_peek_string (a),
+						 value_peek_string (b), NULL);
+			res = value_new_string (tmp);
+			g_free (tmp);
+			value_release (a);
 			value_release (b);
+		}
+
 		return res;
-	}
 
 	case OPER_FUNCALL:
 		return eval_funcall (pos, tree, flags);
