@@ -1,5 +1,9 @@
 2000-06-29  Jody Goldberg <jgoldberg@home.com>
 
+	* src/application.c (application_set_selected_sheet) : short circuit
+	  clearing the selection if we are in the same workbook, not just the
+	  same sheet.
+
 	* src/sheet.c (sheet_name_quote) : cast to unsigned char for safety
 	  when using isdigit.
 	* src/workbook.c (wb_edit_key_pressed) : Ditto.
