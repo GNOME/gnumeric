@@ -28,7 +28,7 @@ static Value *
 gnumeric_iserror (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
 	Value *v, *retval;
-	
+
 	if (g_list_length (expr_node_list) != 1){
 		*error_string = _("Argument mismatch");
 		return NULL;
@@ -40,7 +40,7 @@ gnumeric_iserror (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_ro
 		retval = value_new_int (0);
 		value_release (v);
 	}
-	
+
 	return retval;
 }
 

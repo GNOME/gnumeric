@@ -1,3 +1,7 @@
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_kurt): Fix crashes and leaks.
+
 1999-06-01  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-string.c: Added SEARCH().  Quite a complex beast but

@@ -2508,7 +2508,7 @@ static char *help_kurt = {
            "@SYNTAX=KURT(n1, n2, ...)\n"
 
            "@DESCRIPTION="
-           "KURT returns the kurtosis of a data set. "
+           "KURT returns the kurtosis of a data set."
            "\n"
            "Strings and empty cells are simply ignored."
            "\n"
@@ -2560,15 +2560,25 @@ gnumeric_kurt (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
         stat_kurt_sum_t pr;
-	float_t n, d, num, dem;
+	Value *vtmp;
 
 	pr.first = TRUE;
-	pr.mean = value_get_as_float (gnumeric_average
-                (sheet, expr_node_list, eval_col, eval_row, error_string));
-	pr.stddev = value_get_as_float (gnumeric_stdev
-                (sheet, expr_node_list, eval_col, eval_row, error_string));
 	pr.num  = 0;
 	pr.sum  = 0.0;
+
+	vtmp = gnumeric_average (sheet, expr_node_list,
+				 eval_col, eval_row, error_string);
+	if (!vtmp)
+		return NULL;
+	pr.mean = value_get_as_float (vtmp);
+	value_release (vtmp);
+
+	vtmp = gnumeric_stdev (sheet, expr_node_list,
+			       eval_col, eval_row, error_string);
+	if (!vtmp)
+		return NULL;
+	pr.stddev = value_get_as_float (vtmp);
+	value_release (vtmp);
 
 	if (pr.stddev == 0.0){
 	        *error_string = _("#NUM!");
@@ -2581,14 +2591,16 @@ gnumeric_kurt (Sheet *sheet, GList *expr_node_list,
 	if (pr.num < 4){
                 *error_string = _("#NUM!");
                 return NULL;
+	} else {
+		float_t n, d, num, dem;
+
+		n = pr.num;
+		num = n * (n + 1);
+		dem = (n - 1) * (n - 2) * (n - 3);
+		d = (3 * (n - 1) * (n - 1)) / ((n - 2) * (n - 3));
+
+		return value_new_float (pr.sum * (num / dem) - d);
 	}
-
-	n = (float_t) pr.num;
-	num = (n*(n+1.0));
-	dem = ((n-1.0) * (n-2.0) * (n-3.0));
-	d = (3*(n-1)*(n-1)) / ((n-2) * (n-3));
-
-	return value_new_float ((pr.sum) * (num/dem) - d);
 }
 
 static char *help_avedev = {
