@@ -252,7 +252,7 @@
 	* plugin.c: Do not use gh.h anymore.
 
 	* smob-value.c (scm_i_scm2bool): Returns the value of a scheme object.
-	Temporary hack until this function can be put unto guile.	
+	Temporary hack until this function can be put unto guile.
 	(make_value): Get rid of gh_* functons since the gh interface will be
 	deprecated from guile.
 	(scm_value_new_bool): Ditto.
@@ -409,7 +409,7 @@
 	* smob-value.c (_SCM_Value): Remove scm and name values.
 	(make_value): Ditto. Also removed unused variables.
 	* Makefile.am: Compile smob-value.c
-	
+
 2000-11-06  Ariel Rios  <ariel@arcavia.com>
 
 	* smob-value.h: New header file.
@@ -611,7 +611,7 @@
 2000-01-05  Ariel Rios  <ariel@arcavia.com>
 
 	* plugin.c (value_to_scm): Correctly handle the VALUE_BOOLEAN case.
-	
+
 2000-01-05  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am : Install into the versioned directory.
@@ -674,7 +674,7 @@
 1999-12-07  Ariel Rios <jarios@usa.net>
 
 	* functions.scm: The function fibonacci was corrected so it can always return numbers.
-	
+
 	* plugin.c: (scm_to_value) : Whenever VALUE type is a number we return a float.
 	  This removes some gnumeric crashes due to the fact that scm int may be in some
 	  cases bigger than C integers.
@@ -682,14 +682,14 @@
 1999-12-05  Ariel Rios <jarios@usa.net>
 
 	* Makefile.am: Modified to include functions.scm
-	
+
 	* gnumeric_startup.scm: We now load the scheme
           functions from the new file functions.scm
 
 	* functions.scm: The guile functions and their 
           registration are now located in this file.
           (=FIBO(num)): Added fibonacci formula.
-	
+
 1999-11-28  Jody Goldberg <jgoldberg@home.com>
 
 	* plugin.c (value_to_scm) : Fill in the missing enums.

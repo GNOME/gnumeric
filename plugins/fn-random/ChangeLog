@@ -57,12 +57,12 @@
 	fn-stat. Completed the move.
 
 	* gsl-pdf.[ch]: Removed.
-	
+
 2002-07-23  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* functions.c: Moved PDFCAUCHY(), PDFLANDAU(), PDFLOGISTIC(),
 	PDFPARETO() to fn-stat.
-	
+
 2002-07-23  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* functions.c: Moved PDFBERNOULLI() to fn-stat (renamed to
@@ -83,7 +83,7 @@
 
 	* functions.c: Added PDFBINOM(), PDFNEGBINOM(), PDFPOISSON(),
 	PDFWEIBULL().
-	
+
 2002-07-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* gsl-pdf.c (random_bernoulli_pdf, random_binomial_pdf,
@@ -142,7 +142,7 @@
 
 	* functions.c: Added RANDGAMMA(), RANDLAPLACE(), RANDPARETO(),
 	and RANDWEIBULL().
-	
+
 2002-07-17  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* functions.c: Added RANDNORM(), RANDLOGNORM(), RANDCAUCHY(), and

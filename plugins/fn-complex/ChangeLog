@@ -19,7 +19,7 @@
 	* functions.c: COMPLEX, IMAGINARY, IMREAL: Parts, not
 	coefficients, of a complex number.  IMARGUMENT: Explain what
 	"argument theta" is.  IMLN: Get rid of parentheses.
-	
+
 2002-10-14  Jody Goldberg <jody@gnome.org>
 
 	* functions.c : convert all args to 'S' rather than '?' to get the
@@ -35,7 +35,7 @@
 	* functions.c (help_imarcsec, help_imarccsc, help_imarccot,
 	help_imarccot, help_imarccsch, help_imarccoth): Fix typos in help
 	xrefs.
-	
+
 
 2002-08-30  Morten Welinder  <terra@diku.dk>
 

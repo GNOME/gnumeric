@@ -57,11 +57,11 @@
 2002-08-14  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* import-GLPK: Removed four unnecessary header files.
-	
+
 2002-08-13  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* import-GLPK: Use ~s/.../.../g instead of while loops.
-	
+
 2002-08-13  Morten Welinder  <terra@diku.dk>
 
 	* import-GLPK: Fix also floor, ceil, and fabs calls.

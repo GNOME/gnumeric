@@ -119,7 +119,7 @@
 	* doc/C/*xml: Added to this branch.  This is Gnome 2.0 docs.
 
 	* doc/C/new/*xml: Removed, as it belongs in doc/C/
-	
+
 2002-02-23  Kevin Breit  <mrproper@ximian.com>
 
 	* new/analysis-tools.xml: Updated the introduction.  This was some changes that were in the SGML version but not the XML version.
@@ -182,7 +182,7 @@
 	* new/preface.xml: XMLized and added this file
 
 	* new/printing.xml: XMLized this document
-	
+
 2002-01-23  Kevin Breit  <mrproper@ximian.com>
 
 	* new/menus.xml: Made build.  It is now fully XMLized.  The indenting is kind of obnoxious, but we'll deal with that later.
@@ -571,8 +571,8 @@
 	* figures/analysistools-ttest-equal-ex2.png : new figure
 	* figures/analysistools-ttest-unequal-ex1.png : new figure
 	* figures/analysistools-ttest-unequal-ex2.png : new figure
-	
-	
+
+
 2001-12-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.0
@@ -805,7 +805,7 @@
 2000-11-02  Almer S. Tigelaar  <almer1@dds.nl>
 
 	Fix bug #29305 and #29308
-	
+
 	* files.sgml: images from gif -> png.
 	* worksheet.sgml: ditto.
 	* Makefile.am: Don't copy gif images

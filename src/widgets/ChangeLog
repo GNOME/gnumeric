@@ -153,7 +153,7 @@
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_can_rangesel) : Don't allow range 
 	  selections when a guru is up but no expression entry active.
-	
+
 2002-05-03 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-expr-entry.c (gnumeric_cell_editable_entry_activated) : don't remove
@@ -232,7 +232,7 @@
 	*  gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start): A
 	second cut at UTF-8 (or a first cut at the second half of this 
 	function)
-	
+
 2002-04-02  Morten Welinder  <terra@diku.dk>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start): A good
@@ -255,7 +255,7 @@
 	  handling of keypresses for cell-editable
 	(gnumeric_expr_entry_new) : connect cb_gee_key_press_event to
 	  signal
-	
+
 2002-03-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-cell-renderer-expr-entry.[ch] : new cell renderer using 
@@ -458,13 +458,13 @@
 	* Release 0.99.1
 
 2001-12-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
-	
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=65894
 	* gnumeric-expr-entry.c (gnumeric_expr_entry_button_press_event) :
 	  new signal handler
 	(gnumeric_expr_entry_class_init) : install 
 	  gnumeric_expr_entry_button_press_event
-	
+
 2001-12-19  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gnumeric_expr_entry_parse) : make starting a
@@ -680,7 +680,7 @@
 	(font_selector_set_underline): New, set underline style.
 	(font_selector_set_color): New, set font (fore) color of text.
 	(font_selector_set_screen_res): Burn.
-	
+
 2001-06-28  Jody Goldberg <jgoldberg@home>
 
 	* Release 0.67
@@ -897,11 +897,11 @@
 	All the code that refered to the creation of the color table was
 	removed, and when appropriate, moved to color-palette.c
 	Removed all mention of ColorComboGroups (as these no longer exist).
-	
+
 	* color-palette.c : Extracted from widget-color-combo.c
 	(color_palette_new) : Creates a color palette.
 	(color_palette_get_current_color) : returns the current color.
-	
+
 
 2000-07-30  Michael Levy  <mlevy@genoscope.cns.fr>
 
@@ -928,7 +928,7 @@
 
 	* widget-color-combo.c (color_combo_new) : Added mandatory group
 	name to function prototype.
-	
+
 2000-07-24  Jody Goldberg <jgoldberg@home.com>
 
 	* widget-font-selector.c (reload_preview) : adjust to the changes in
@@ -1135,7 +1135,7 @@
 	* gtk-combo-text.[ch]: Fix problem with mouseover: Mouseover from
 	last time popup was up persists if popup was last dismissed with
 	Escape. 
-	
+
 	* gtk-combo-text.h (_GtkComboText): Add member to remember which
 	entry widget we are caching.
 
@@ -1162,9 +1162,9 @@
 
 	* widget-pixmap-combo.c (pixmap_combo_class_init): Replace
 	::finalize with ::destroy.
-	
+
 	(pixmap_combo_finalize): Fix leak.
-	
+
 2000-04-06  Jody Goldberg <jgoldberg@home.com>
 
 	* gtk-combo-text.c (cb_enter) : Only change the state if the element

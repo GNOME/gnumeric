@@ -466,7 +466,7 @@
 	  for Python.h.
 	  
 	* .cvsignore: Add it.
-	
+
 2001-03-05  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* Makefile.am, plugin.xml, py-gnumeric.c, py-gnumeric.h,

@@ -102,7 +102,7 @@
 2002-08-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* simulation.c: Added range, count and confidence level reporting.
-	
+
 	* simulation.c (simulation_tool, create_reports,
 	eval_inputs_list): Added the generations of the statistics of the
 	input variables too.
@@ -113,7 +113,7 @@
 	Redraw and recompute with sheet->simulation_round=0.
 	(create_reports): Set summary labels italic. Fix the row positions
 	if first_round > 1.
-	
+
 2002-08-02  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* dao.c (dao_set_bold, dao_set_underlined, dao_set_italic,
@@ -133,7 +133,7 @@
 
 	* solver/reports-write.c, dao.[ch]: Moved fill_header_titles to
 	dao.c and renamed it as dao_write_header.
-	
+
 2002-07-29  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* analysis-tools.c
@@ -176,14 +176,14 @@
 	* random-generator.c (tool_random_engine): Added Gamma, Geometric,
 	Laplace, Logarithmic, Logistic, Lognormal, Pareto, Rayleigh, T,
 	Type I Gumbel, and Type II Gumbel.
-	
+
 2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* random-generator.c (tool_random_engine): Added Beta, Cauchy,
 	Chi-Squared, F, and Weibull.
 
 	* random-generator.h: Related changes.
-	
+
 2002-06-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dao.c (dao_format_output) : don't just bail out when clear_outputrange
@@ -267,7 +267,7 @@
 
 	* analysis-tools.c : make F-, z- and t-tests undoable
 	* analysis-tools.h : add selector
-	
+
 2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.c :  make fourier analysis, moving averages, 

@@ -260,7 +260,7 @@
 	(html_get_border_style) : new
 	(write_sheet) : for html4 set replace cell spacing with cell padding
 	(write_cell) : call html_write_border_style_40
-	
+
 2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* html.c (write_cell) : include styles specs for HTML4.0
@@ -337,7 +337,7 @@
 	* html.c (html_get_text_color) : fix text colours determined 
 	  by number formatting
 	* latex.c (latex2e_write_multicolumn_cell) : ditto
-	
+
 2001-12-24  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.1
@@ -375,9 +375,9 @@
 	* latex.c : ditto
 	* latex.h : ditto
 	* plugin.xml.in : ditto
-	
+
 2001-12-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
-	
+
 	* latex.c : combine border data structures plus some
 	  cleanup
 	(latex2e_find_vline) : new function
@@ -388,7 +388,7 @@
 	(latex2e_print_hhline) : print them
 
 2001-12-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
-	
+
 	* latex.c : remove default grid
 	(latex2e_write_multicolumn_cell) : Handle merges over
 	  more than one row and handle vertical borders.
@@ -396,7 +396,7 @@
 	(latex2e_print_vert_border) : new utility
 	(latex2e_find_hhlines) : new utility
 	(latex2e_print_hhline) : new utility
-	
+
 2001-12-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* latex.c (latex2e_write_multicolumn_cell) wrap text 
@@ -633,7 +633,7 @@
 
 	* roff.c
 	(write_wb_roff): Idem.
-	
+
 2000-11-11  Michael Meeks  <michael@helixcode.com>
 
 	* html.c (html_write_cell40): cell_default_halign not value~

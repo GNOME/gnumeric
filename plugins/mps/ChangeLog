@@ -87,7 +87,7 @@
 	function need not be given as the last one any more.
 	(mps_parse_rows): Related changes.
 	(mps_get_line): Fix seg. fault in the case of an empty row.
-	
+
 2002-06-15  Jody Goldberg <jody@gnome.org>
 
 	* mps.c (mps_input_context_destroy) : do not free the line, we do not

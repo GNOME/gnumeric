@@ -148,7 +148,7 @@
 	* .cvsignore: Add plugin.xml
 
 2001-09-18  Jody Goldberg <jgoldberg@home.com>
-	
+
 	* oleo.c : reformat to match gnumeric standards and use some of the
 	  utilities supplied by core gnumeric.
 
@@ -304,7 +304,7 @@
 	* oleo.h (oleo_read): Add CommandContext. Return int.
 
 	* boot.c (oleo_load): Ditto.
-	
+
 1999-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* boot.c (oleo_load) : return error messages.

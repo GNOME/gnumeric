@@ -536,7 +536,7 @@
 	* dialog_function-select.c
 	(cb_dialog_function_select_fun_selection_changed):
 	Clean up work regarding function descriptions.
-	
+
 2002-07-26  Morten Welinder  <terra@diku.dk>
 
 	* dialog-random-generator.c (distribution_strs): Move the Gumbel
@@ -719,7 +719,7 @@
 
 	* dialog-printer-setup.c (spin_button_adapt_to_unit) : reenable
 	(cb_unit_selector_changed) : call spin_button_adapt_to_unit
-	
+
 2002-05-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-printer-setup.c (unit_editor_configure) : page size should be 0

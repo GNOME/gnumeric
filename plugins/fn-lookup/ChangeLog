@@ -85,7 +85,7 @@
 	* functions.c (find_index_bisection) : use value_area_get_x_y rather
 	  than value_area_fetch_x_y 
 	  http://bugzilla.gnome.org/show_bug.cgi?id=80126
-	
+
 2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* functions.c : mark argument names for translation and adjust 

@@ -272,7 +272,7 @@
 	* excel-gb-interior.c (convert_rgb_to_color): New function, used
 	by excel_gb_interior_get_arg.
 	(palette_from_color, excel_gb_interior_get_arg): Implement.
-	
+
 	* main.gba (demo): Get the sheet by index instead of by name
 	to avoid trouble if the default sheet name is translated.
 
