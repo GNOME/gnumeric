@@ -71,9 +71,9 @@ gc_selection_get_sizes (Sheet *sheet, int *cols, int *rows)
 	*cols = *rows = 0;
 	
 	for (l = sheet->selections; l; l = l->next){
-		SheetSelection *ss = l->data;
-		const int range_cols = ss->user.end.col - ss->user.start.col;
-		const int range_rows = ss->user.end.row - ss->user.start.row;
+		Range *ss = l->data;
+		const int range_cols = ss->end.col - ss->start.col;
+		const int range_rows = ss->end.row - ss->start.row;
 
 		*cols += range_cols;
 		*rows += range_rows;
@@ -95,10 +95,10 @@ graphic_wizard_guess_series (WizardGraphicContext *gc, SeriesOrientation orienta
 		offset = 0;
 	
 	for (l = sheet->selections; l; l = l->next){
-		SheetSelection *ss = l->data;
+		Range *ss = l->data;
 		SheetVector *vector;
-		const CellPos *start = &ss->user.start;
-		const CellPos *end   = &ss->user.end;
+		const CellPos *start = &ss->start;
+		const CellPos *end   = &ss->end;
 		Range range;
 		int start_pos, end_pos, item;
 		int header_col, header_row;

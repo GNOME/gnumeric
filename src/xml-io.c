@@ -2005,6 +2005,22 @@ xml_write_cell_to (gpointer key, gpointer value, gpointer data)
 	xmlAddChild (ctxt->parent, cur);
 }
 
+static void
+xml_write_merged_regions (XmlParseContext const *ctxt,
+			  xmlNodePtr sheet, GSList *ptr)
+{
+	xmlNodePtr container;
+
+	if (ptr == NULL)
+		return;
+
+	container = xmlNewChild (sheet, ctxt->ns, "MergedRegions", NULL);
+	for (; ptr != NULL ; ptr = ptr->next) {
+		Range const * const range = ptr->data;
+		xmlNewChild (container, ctxt->ns, "Merge", range_name (range));
+	}
+}
+
 static xmlNodePtr
 xml_write_styles (XmlParseContext *ctxt, GList *l)
 {
@@ -2211,16 +2227,14 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 	}
 	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, sheet->name_unquoted);
 	xmlNewChild (cur, ctxt->ns, "Name",  tstr);
-	if (tstr) xmlFree (tstr);
-
-	{
-	    char str[4 * sizeof (int) + DBL_DIG + 50];
-	    sprintf (str, "%d", sheet->cols.max_used);
-	    xmlNewChild (cur, ctxt->ns, "MaxCol", str);
-	    sprintf (str, "%d", sheet->rows.max_used);
-	    xmlNewChild (cur, ctxt->ns, "MaxRow", str);
-	    sprintf (str, "%f", sheet->last_zoom_factor_used);
-	    xmlNewChild (cur, ctxt->ns, "Zoom", str);
+	if (tstr) xmlFree (tstr); {
+		char str[4 * sizeof (int) + DBL_DIG + 50];
+		sprintf (str, "%d", sheet->cols.max_used);
+		xmlNewChild (cur, ctxt->ns, "MaxCol", str);
+		sprintf (str, "%d", sheet->rows.max_used);
+		xmlNewChild (cur, ctxt->ns, "MaxRow", str);
+		sprintf (str, "%f", sheet->last_zoom_factor_used);
+		xmlNewChild (cur, ctxt->ns, "Zoom", str);
 	}
 
 	child = xml_write_names (ctxt, sheet->names);
@@ -2319,6 +2333,8 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 		}
 	}
 
+	xml_write_merged_regions (ctxt, cur, sheet->list_merged);
+
 	/*
 	 * Solver informations
 	 */
@@ -2401,6 +2417,28 @@ xml_write_selection_clipboard (XmlParseContext *ctxt, Sheet *sheet)
 	g_slist_free (range_list);
 
 	return cur;
+}
+
+static void
+xml_read_merged_regions (XmlParseContext const *ctxt, xmlNodePtr sheet)
+{
+	xmlNodePtr container, region;
+
+	container = xml_search_child (sheet, "MergedRegions");
+	if (container == NULL)
+		return;
+
+	for (region = container->childs; region; region = region->next) {
+		char *content = xmlNodeGetContent (region);
+		Range r;
+		if (content != NULL) {
+			if (parse_range (content,
+					 &r.start.col, &r.start.row,
+					 &r.end.col, &r.end.row))
+				sheet_region_merge (NULL, ctxt->sheet, &r);
+			xmlFree (content);
+		}
+	}
 }
 
 static void
@@ -2603,6 +2641,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_read_cell_styles (ctxt, tree);
 	xml_read_cols_info (ctxt, ret, tree);
 	xml_read_rows_info (ctxt, ret, tree);
+	xml_read_merged_regions (ctxt, tree);
 	xml_read_selection_info (ctxt, ret, tree);
 
 	child = xml_search_child (tree, "Names");

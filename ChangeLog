@@ -1,3 +1,10 @@
+2000-12-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_sheet_read) : add IO for merged regions.
+	(xml_sheet_write) : Ditto.
+	(xml_read_merged_regions) : new function.
+	(xml_write_merged_regions) : new function.
+
 2000-12-19  Morten Welinder  <terra@diku.dk>
 
 	* configure.in: Introduce variables for the <yes> and <no> visible

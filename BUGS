@@ -100,10 +100,10 @@ STF - pasting a single line should not invoke the importer
 
 - Merged Cells
     - autofill
-    - persistance
     - sheet copy
     - cut/copy/paste
     - undo/redo
+    - ins/del row/col
 
 Dialogs
 -------
@@ -126,7 +126,7 @@ Function Breakage
 - address : This code is a duplicate.  Have the function use the standard
     routines.
 - There are a number of #UNIMPLEMENTED! things to take care of in the
-    finansial functions.  Mostly this is due to incomplete documentation.
+    financial functions.  Mostly this is due to incomplete documentation.
 
 Printing
 --------
