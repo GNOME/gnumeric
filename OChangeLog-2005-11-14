@@ -1,3 +1,17 @@
+2000-10-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/main.c (gnumeric_main) : manually init the corba factories after
+	  the support subsystems are initialized, but before the workbooks are
+	  created.  This needs some serious cleaning.
+
+	* src/embeddable-grid.c (EmbeddableGridFactory_init) : return a flag
+	  for later use.
+	(grid_view_activate) : focus on the widget not the containing object.
+
+	* src/corba-args.c (gnumeric_arg_parse) : Do not init the corba
+	  factories yet.  they were getting called before the application was
+	  ready.
+
 2000-10-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-util.c (gnumeric_create_popup_menu) : Generalized and

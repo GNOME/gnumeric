@@ -15,6 +15,8 @@
 #include "xml-io.h"
 #ifdef ENABLE_BONOBO
 #include "bonobo-io.h"
+#include "embeddable-grid.h"
+#include "corba.h"
 #endif
 #include "stf.h"
 #include "main.h"
@@ -178,11 +180,11 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 	/* The statically linked in file formats */
 	xml_init ();
+	excel_init ();
+	stf_init ();
 #ifdef ENABLE_BONOBO
 	gnumeric_bonobo_io_init ();
 #endif
-	excel_init ();
-	stf_init ();
 
 	global_gnome_font_init ();
 
@@ -201,6 +203,16 @@ gnumeric_main (void *closure, int argc, char *argv [])
 		exit (0);
 	}
 
+#ifdef ENABLE_BONOBO
+	/* Activate object factories and init connections to POA */
+	if (!WorkbookFactory_init ())
+		g_warning (_("Could not initialize Workbook factory"));
+
+	if (!EmbeddableGridFactory_init ())
+		g_warning (_("Could not initialize EmbeddableGrid factory"));
+#endif
+
+	/* Load selected files */
 	if (ctx)
 		startup_files = poptGetArgs (ctx);
 	else

@@ -278,12 +278,13 @@ embeddable_grid_get_type (void)
 	return type;
 }
 
-void
+gboolean
 EmbeddableGridFactory_init (void)
 {
 	bonobo_embeddable_grid_factory = bonobo_embeddable_factory_new (
 		"OAFIID:GNOME:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873",
 		embeddable_grid_factory, NULL);
+	return TRUE;
 }
 
 /*
@@ -316,7 +317,7 @@ grid_view_activate (GridView *grid_view, gboolean state)
 	if (state) {
 		g_return_if_fail (grid_view != NULL);
 
-		gtk_widget_grab_focus (GTK_WIDGET (grid_view->sheet_view));
+		gtk_widget_grab_focus (GTK_WIDGET (grid_view->sheet_view->sheet_view));
 	}
 
 	bonobo_view_activate_notify (BONOBO_VIEW (grid_view), state);
