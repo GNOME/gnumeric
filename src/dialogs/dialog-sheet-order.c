@@ -144,7 +144,8 @@ cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
 
 	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter))
 		gtk_list_store_set (state->model, &sel_iter,
-				    FOREGROUND_COLOUR, go_color_to_gdk (color, &tmp),
+				    FOREGROUND_COLOUR, 
+				    (color == 0) ? NULL : go_color_to_gdk (color, &tmp),
 				    -1);
 }
 
@@ -161,7 +162,8 @@ cb_color_changed_back (G_GNUC_UNUSED GOComboColor *go_combo_color,
 
 	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter))
 		gtk_list_store_set (state->model, &sel_iter,
-				    BACKGROUND_COLOUR, go_color_to_gdk (color, &tmp),
+				    BACKGROUND_COLOUR, 
+				    (color == 0) ? NULL : go_color_to_gdk (color, &tmp),
 				    -1);
 }
 

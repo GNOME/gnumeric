@@ -5,6 +5,8 @@ Andreas:
         * Handle borders in latex export correctly
 	http://bugzilla.gnome.org/show_bug.cgi?id=142836
 	* Save current sheet as csv (rather than first sheet)
+	http://bugzilla.gnome.org/show_bug.cgi?id=140820
+	* Fix default colour handling in manage sheet dialog
 
 Christian Neumair:
 	* Put delete actions from edit main menu into their own submenu.

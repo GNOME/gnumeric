@@ -1,5 +1,11 @@
 2004-05-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-sheet-order.c (cb_color_changed_back): colour 0 is the 
+	  default colour
+	(cb_color_changed_fore): colour 0 is the default colour
+
+2004-05-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-analysis-tools.c (fourier_tool_ok_clicked_cb):
 	  initialize data->base.wbc
 
