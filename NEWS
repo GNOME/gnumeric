@@ -18,6 +18,8 @@ Morten:
 Jon:
 	* Found xml io font size loading bug.
 	* Excel export clean.
+	* Python plugin update: Allow calling Gnumeric builtins from
+	  Python.
 
 Michael:
 	* Re-wrote dependency engine; lots more speed.
