@@ -1468,6 +1468,17 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	return end_col - start_col + 1;
 }
 
+/**
+ * cell_get_text:
+ * @cell: the cell to fetch the text from.
+ *
+ * Returns a g_malloced() version of the contents of the cell.  It will
+ * return a formula if it is a formula, or a string value rendered with the
+ * current format.
+ *
+ * This should not be used by routines that need the actual content
+ * of the cell value in a reliable way
+ */
 char *
 cell_get_text (Cell *cell)
 {
@@ -1496,3 +1507,41 @@ cell_get_text (Cell *cell)
 	return str;
 }
 
+
+/**
+ * cell_get_content:
+ * @cell: the cell from which we want to pull the content from
+ *
+ * This returns a g_malloc()ed region of memory with a text representation
+ * of the cell contents.
+ *
+ * This will return a text expression if the cell contains a formula, or
+ * a string representation of the value.
+ */
+char *
+cell_get_content (Cell *cell)
+{
+	char *str;
+	
+	g_return_val_if_fail (cell != NULL, NULL);
+
+	if (cell->parsed_node){
+		char *func, *ret;
+		
+		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);
+		ret = g_copy_strings ("=", func, NULL);
+		g_free (func);
+
+		return ret;
+	}
+
+	/*
+	 * If a value is set, return that text formatted
+	 */
+	if (cell->value)
+		str = value_string (cell->value);
+	else
+		str = g_strdup (cell->text->str);
+	
+	return str;
+}

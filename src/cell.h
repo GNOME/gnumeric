@@ -124,6 +124,7 @@ void        cell_relocate                (Cell *cell,
 					  int target_col, int target_row);
 void        cell_get_span                (Cell *cell, int *col1, int *col2);
 char       *cell_get_text                (Cell *cell);
+char       *cell_get_value_as_text       (Cell *cell);
 void        cell_make_value              (Cell *cell);
 void        cell_render_value            (Cell *cell);
 void        cell_calc_dimensions         (Cell *cell);

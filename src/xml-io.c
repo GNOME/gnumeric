@@ -1213,7 +1213,7 @@ writeXmlCell (parseXmlContextPtr ctxt, Cell *cell)
 
 	if (child)
 		xmlAddChild (cur, child);
-	text = cell_get_text (cell);
+	text = cell_get_content (cell);
 	xmlNewChild(cur, ctxt->ns, "Content", text);
 	g_free (text);
 
