@@ -1,3 +1,14 @@
+2004-09-23  Morten Welinder  <terra@gnome.org>
+
+	* src/rendered-value.c (rendered_value_remeasure): New function.
+	(rendered_value_new): Use rendered_value_remeasure.
+	(rendered_value_recontext): New function.
+
+	* src/cell-draw.c (cell_calc_layout): Use
+	rendered_value_remeasure.
+
+	* src/print-cell.c (print_cell_NEW): Use rendered_value_recontext.
+
 2004-09-22  Morten Welinder  <terra@gnome.org>
 
 	* src/colrow.c (cb_clear_variable_width_content): Force a redraw.

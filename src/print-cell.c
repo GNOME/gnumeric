@@ -240,10 +240,8 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 		double x1, double y1, double width, double height, double h_center)
 {
 	RenderedValue *rv, *cell_rv = cell->rendered_value;
-	PangoLayout *layout, *cell_layout = cell_rv->layout;
 	GdkColor *color; 
-	gint x;
-	gint y;
+	gint x, y;
 	ColRowInfo const * const ci = cell->col_info;
 	ColRowInfo const * const ri = cell->row_info;
 
@@ -256,12 +254,7 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 		height = ri->size_pts - (ri->margin_b + ri->margin_a + 1);
 
 	/* Create a rendered value for printing */
-	rv = rendered_value_new ((GnmCell *)cell, mstyle, TRUE, pcontext);
-	layout = rv->layout;
-	pango_layout_set_text (layout, 
-			       pango_layout_get_text (cell_layout), -1);
-	pango_layout_set_attributes (layout, 
-				     pango_layout_get_attributes (cell_layout));
+	rv = rendered_value_recontext (cell_rv, pcontext);
 
 	if (cell_calc_layout (cell, rv, -1,
 			      (int)width, (int)height, (int)h_center,
@@ -283,7 +276,7 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 					 color->blue  / (double) 0xffff);
 
 		gnome_print_moveto (context, x1 + x, y1 + y);
-		gnome_print_pango_layout (context, layout);
+		gnome_print_pango_layout (context, rv->layout);
 		gnome_print_grestore (context);
 	}
 

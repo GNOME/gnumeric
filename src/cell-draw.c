@@ -92,9 +92,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 		int wanted_width = MAX (0, (width - indent) * PANGO_SCALE);
 		if (wanted_width != pango_layout_get_width (layout)) {
 			pango_layout_set_width (layout, wanted_width);
-			pango_layout_get_pixel_size (layout,
-						     &rv->layout_natural_width,
-						     &rv->layout_natural_height);
+			rendered_value_remeasure (rv);
 		}
 	} else {
 		switch (rv->effective_halign) {
@@ -169,9 +167,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 				int spacing = PANGO_SCALE * (height - rv->layout_natural_height) /
 					(line_count - 1);
 				pango_layout_set_spacing (layout, spacing);
-				pango_layout_get_pixel_size (layout,
-							     &rv->layout_natural_width,
-							     &rv->layout_natural_height);
+				rendered_value_remeasure (rv);
 			}
 		}
 		rv->vfilled = TRUE;

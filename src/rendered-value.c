@@ -170,6 +170,15 @@ cb_dump (PangoAttribute *a)
 				(PangoAttrFilterFunc) cb_dump, NULL);
 #endif
 
+void
+rendered_value_remeasure (RenderedValue *rv)
+{
+	pango_layout_get_pixel_size (rv->layout,
+				     &rv->layout_natural_width,
+				     &rv->layout_natural_height);
+}
+
+
 /**
  * rendered_value_new:
  * @cell:   The cell
@@ -305,10 +314,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		g_warning ("Line justification style not supported.");
 	}
 
-	pango_layout_get_pixel_size (layout,
-				     &res->layout_natural_width,
-				     &res->layout_natural_height);
-
+	rendered_value_remeasure (res);
 
 	return res;
 }
@@ -323,6 +329,37 @@ rendered_value_destroy (RenderedValue *rv)
 
 	CHUNK_FREE (rendered_value_pool, rv);
 }
+
+RenderedValue *
+rendered_value_recontext (RenderedValue *rv, PangoContext *context)
+{
+	RenderedValue *res;
+	PangoLayout *layout, *olayout;
+
+	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
+
+	*res = *rv;
+	res->layout = layout = pango_layout_new (context);
+	olayout = rv->layout;
+
+	pango_layout_set_text (layout, pango_layout_get_text (olayout), -1);
+	pango_layout_set_alignment (layout, pango_layout_get_alignment (olayout));
+	pango_layout_set_attributes (layout, pango_layout_get_attributes (olayout));
+	pango_layout_set_single_paragraph_mode (layout, pango_layout_get_single_paragraph_mode (olayout));
+	pango_layout_set_justify (layout, pango_layout_get_justify (olayout));
+	pango_layout_set_width (layout, pango_layout_get_width (olayout));
+	pango_layout_set_spacing (layout, pango_layout_get_spacing (olayout));
+	pango_layout_set_wrap (layout, pango_layout_get_wrap (olayout));
+	pango_layout_set_indent (layout, pango_layout_get_indent (olayout));
+	pango_layout_set_auto_dir (layout, pango_layout_get_auto_dir (olayout));
+	pango_layout_set_ellipsize (layout, pango_layout_get_ellipsize (olayout));
+	// pango_layout_set_font_description???
+	// ignore tabs
+
+	rendered_value_remeasure (res);
+	return res;
+}
+
 
 /* Return the value as a single string without format infomation.
  */

@@ -31,8 +31,11 @@ RenderedValue *rendered_value_new     (GnmCell *cell, GnmStyle const *mstyle,
 				       PangoContext *context);
 void           rendered_value_destroy (RenderedValue *rv);
 
-/* Return the value as a single string without format infomation.
- * Caller is responsible for freeing the result */
+RenderedValue *rendered_value_recontext (RenderedValue *rv,
+					 PangoContext *context);
+void           rendered_value_remeasure (RenderedValue *rv);
+
+/* Return the value as a single string without format infomation.  */
 char const *rendered_value_get_text (RenderedValue const * rv);
 
 void rendered_value_init (void);
