@@ -198,7 +198,7 @@ struct _StyleFormat {
  * a p it lists dates in 12 hour time, otherwise, it lists dates in 24
  * hour time.
  *
- * A number specification is as described in the relavent portions of
+ * A number specification is as described in the relevant portions of
  * the excel formatting information.  Commas can currently only appear
  * at the end of the number specification.  Fractions are not yet
  * supported.
@@ -743,7 +743,6 @@ render_number (gdouble number,
 }
 
 typedef struct {
-	char *append_after_number;
 	int  right_optional, right_spaces, right_req, right_allowed;
 	int  left_spaces, left_req;
 	int  scientific;
@@ -756,11 +755,10 @@ typedef struct {
 	int  comma_separator_seen;
 } format_info_t;
 
-static char *
-do_render_number (gdouble number, format_info_t *info)
+static void
+do_render_number (gdouble number, format_info_t *info, GString *result)
 {
-	GString *res;
-	char *result;
+	GString *number_str;
 	char decimal_point [2];
 
 	info->rendered = 1;
@@ -798,7 +796,7 @@ do_render_number (gdouble number, format_info_t *info)
 		decimal_point);
 #endif
 
-	res = render_number (
+	number_str = render_number (
 		number,
 		info->left_req,
 		info->right_req,
@@ -811,13 +809,8 @@ do_render_number (gdouble number, format_info_t *info)
 		info->decimal_separator_seen,
 		decimal_point);
 
-	if (info->append_after_number)
-		g_string_append (res, info->append_after_number);
-
-	result = g_strdup (res->str);
-	g_string_free (res, TRUE);
-
-	return result;
+	g_string_append (result, number_str->str);
+	g_string_free (number_str, TRUE);
 }
 
 /*
@@ -1021,12 +1014,16 @@ static gchar *
 format_number (gdouble number, int const col_width, const StyleFormatEntry *style_format_entry)
 {
 	GString *result = g_string_new ("");
-	const char *format = style_format_entry->format;
+	char const *format = style_format_entry->format;
 	format_info_t info;
 	gboolean can_render_number = FALSE;
 	int hour_seen = 0;
 	gboolean time_display_elapsed = FALSE;
 	gboolean ignore_further_elapsed = FALSE;
+
+	char fill_char = '\0';
+	int fill_start = -1;
+
 	struct tm *time_split = 0;
 	char *res;
 	gdouble signed_number;
@@ -1138,24 +1135,13 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 				goto finish;
 			}
 
-		/* percent */
-		case '%':
-			can_render_number = TRUE;
-			number *= 100;
-			info.append_after_number = "%";
-			break;
-
 		case '\\':
 			if (format[1] != '\0') {
 				/* TODO TODO TODO : Do we need any more chars here ?? */
 				if (format[1] == '-')
 					info.supress_minus = TRUE;
-				else if (can_render_number && !info.rendered) {
-					char *s;
-					s = do_render_number (number, &info);
-					g_string_append (result, s);
-					g_free (s);
-				}
+				else if (can_render_number && !info.rendered)
+					do_render_number (number, &info, result);
 
 				format++;
 				g_string_append_c (result, *format);
@@ -1163,12 +1149,8 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 			break;
 
 		case '"': {
-			if (can_render_number && !info.rendered) {
-				char *s;
-				s = do_render_number (number, &info);
-				g_string_append (result, s);
-				g_free (s);
-			}
+			if (can_render_number && !info.rendered)
+				do_render_number (number, &info, result);
 
 			for (format++; *format && *format != '"'; format++)
 				g_string_append_c (result, *format);
@@ -1191,35 +1173,46 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 		case '£':
 		case '¥':
 		case '¤':
-			if (can_render_number && !info.rendered) {
-				char *ntxt;
-				ntxt = do_render_number (number, &info);
-				g_string_append (result, ntxt);
-				g_free (ntxt);
-			}
+		case ')':
+			if (can_render_number && !info.rendered)
+				do_render_number (number, &info, result);
 			g_string_append_c (result, *format);
 			break;
 
-		case ')':
-			if (can_render_number && !info.rendered) {
-				char *ntxt;
-				ntxt = do_render_number (number, &info);
-				g_string_append (result, ntxt);
-				g_free (ntxt);
+		/* percent */
+		case '%':
+			if (!info.rendered) {
+				number *= 100;
+				if (can_render_number)
+					do_render_number (number, &info, result);
+				else
+					can_render_number = TRUE;
 			}
-			g_string_append_c (result, *format);
+			g_string_append_c (result, '%');
 			break;
 
 		case '_':
-			if (can_render_number && !info.rendered) {
-				char *ntxt;
-				ntxt = do_render_number (number, &info);
-				g_string_append (result, ntxt);
-				g_free (ntxt);
-			}
+			if (can_render_number && !info.rendered)
+				do_render_number (number, &info, result);
 			if (format[1])
 				format++;
 			g_string_append_c (result, ' ');
+			break;
+
+		case '*':
+			/* Intentionally forget any previous fill characters
+			 * (no need to be smart).
+			 * FIXME : make the simplifying assumption that we are
+			 * not going to fill in the middle of a number.  This
+			 * assumption is WRONG! but ok until we rewrite the
+			 * format engine.
+			 */
+			if (format [1]) {
+				if (can_render_number && !info.rendered)
+					do_render_number (number, &info, result);
+				fill_char = *(++format);
+				fill_start = result->len;
+			}
 			break;
 
 		case 'M':
@@ -1280,24 +1273,6 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 				append_second_elapsed (result, n, time_split, number);
 			} else
 				append_second (result, n, time_split);
-			break;
-		}
-
-		case '*':
-		{
-			/* FIXME FIXME FIXME
-			 * this will require an interface change to pass in
-			 * the size of the cell being formated as well as a
-			 * minor reworking of the routines logic to fill in the
-			 * space later.
-			 */
-			static gboolean quiet_warning = FALSE;
-			if (quiet_warning)
-				break;
-			quiet_warning = TRUE;
-			g_warning ("REPEAT FORMAT NOT YET SUPPORTED '%s' %g\n",
-				   style_format_entry->format, number);
-			format++;
 			break;
 		}
 
@@ -1363,12 +1338,17 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 		}
 		format++;
 	}
-	if (!info.rendered && can_render_number){
-		char *rendered_string = do_render_number (number, &info);
 
-		g_string_append (result, rendered_string);
-		g_free (rendered_string);
+	if (!info.rendered && can_render_number)
+		do_render_number (number, &info, result);
+
+	/* This is kinda ugly.  It does not handle variable width fonts */
+	if (fill_char != '\0') {
+		int count = col_width - result->len;
+		while (count-- > 0)
+			g_string_insert_c (result, fill_start, fill_char);
 	}
+
  finish:
 	res = g_strdup (result->str);
 	g_string_free (result, TRUE);

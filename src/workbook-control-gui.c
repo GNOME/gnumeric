@@ -1317,7 +1317,7 @@ cb_edit_delete (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_edit_delete_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_sheet_remove (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetControlGUI *res;
@@ -1991,7 +1991,7 @@ static GnomeUIInfo workbook_menu_edit_sheet [] = {
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Remove"),
 		N_("Irrevocably remove an entire sheet"),
-		cb_edit_delete_sheet),
+		cb_sheet_remove),
 
 	GNOMEUIINFO_END
 };
@@ -2373,7 +2373,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditPaste", cb_edit_paste),
 	BONOBO_UI_UNSAFE_VERB ("EditPasteSpecial", cb_edit_paste_special),
 	BONOBO_UI_UNSAFE_VERB ("EditDelete", cb_edit_delete),
-	BONOBO_UI_UNSAFE_VERB ("EditDeleteSheet", cb_edit_delete_sheet),
 	BONOBO_UI_UNSAFE_VERB ("EditDuplicateSheet", cb_edit_duplicate_sheet),
 	BONOBO_UI_UNSAFE_VERB ("EditSearchReplace", cb_edit_search_replace),
 	BONOBO_UI_UNSAFE_VERB ("EditGoto", cb_edit_goto),
@@ -2418,6 +2417,7 @@ static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_UNSAFE_VERB ("SheetChangeName", cb_sheet_change_name),
 	BONOBO_UI_UNSAFE_VERB ("SheetReorder", cb_sheet_order),
+	BONOBO_UI_UNSAFE_VERB ("SheetRemove", cb_sheet_remove),
 
 	BONOBO_UI_UNSAFE_VERB ("FormatCells", cb_format_cells),
 	BONOBO_UI_UNSAFE_VERB ("FormatAuto", cb_autoformat),

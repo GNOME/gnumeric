@@ -188,7 +188,7 @@
 		    _label="Re-_Order..."
 		    _tip="Change the order the sheets are displayed" />
 
-		<menuitem name="EditDeleteSheet" verb=""
+		<menuitem name="SheetRemove" verb=""
 		    _label="_Remove"
 		    _tip="Irrevocably remove an entire sheet"/>
 

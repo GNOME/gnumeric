@@ -1,3 +1,13 @@
+2001-03-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (cb_sheet_remove) : rename from
+	  cb_edit_delete_sheet.
+
+	* src/gnumeric.xml : Adopt a more consistent naming convention for
+	  SheetRemove
+
+	* src/mstyle.c (mstyle_element_dump) : add pattern.
+
 2001-02-27  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/commands.c

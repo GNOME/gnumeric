@@ -261,6 +261,10 @@ mstyle_element_dump (const MStyleElement *e)
 
 		break;
 	}
+	case MSTYLE_PATTERN :
+		g_string_sprintf (ans, "pattern %d", e->u.pattern);
+		break;
+
 	default:
 		g_string_sprintf (ans, "%s", mstyle_names[e->type]);
 		break;
