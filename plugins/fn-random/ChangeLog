@@ -1,0 +1,6 @@
+2002-07-08  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Moved RAND(), RANDBERNOULLI(), RNADBETWEEN(),
+	RANDBINOM(), RANDEXP(), RANDNEGBINOM(), and RANDPOISSON() from
+	fn-math to here.
+

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<plugin id="Gnumeric_fnrandom">
+	<information>
+		<_name>Random Number Functions</_name>
+		<_description>Functions for generating random numbers</_description>
+	</information>
+	<loader type="g_module">
+		<attribute name="module_file" value="plugin.la"/>
+	</loader>
+	<services>
+		<service type="function_group" id="random">
+			<_category>Random</_category>
+			<functions>
+				<function name="rand"/>
+				<function name="randbernoulli"/>
+				<function name="randbetween"/>
+				<function name="randbinom"/>
+				<function name="randexp"/>
+				<function name="randnegbinom"/>
+				<function name="randpoisson"/>
+			</functions>
+		</service>
+	</services>
+</plugin>
