@@ -1,5 +1,10 @@
 2001-06-02  Almer S. Tigelaar  <almer@gnome.org>
- 
+
+	* src/sheet.c (sheet_col_row_group_ungroup): Use
+	sc_resize not scg_resize.
+
+2001-06-02  Almer S. Tigelaar  <almer@gnome.org>
+
         * src/commands.[ch] (cmd_group_undo): Implement group undo/redo
   	(cmd_group_redo): Idem.
   	(cmd_group_destroy): Idem.

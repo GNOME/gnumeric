@@ -1079,7 +1079,7 @@ sheet_col_row_group_ungroup (Sheet *sheet, int from, int to, gboolean is_cols,
 	 * was not changed.
 	 */
 	if (!sheet_col_row_fit_gutter (sheet, highest, is_cols, inc))
-		SHEET_FOREACH_CONTROL (sheet, control, scg_resize (control););
+		SHEET_FOREACH_CONTROL (sheet, control, sc_resize (control););
 
 	return TRUE;
 }
