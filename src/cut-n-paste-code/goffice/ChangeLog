@@ -1,5 +1,10 @@
 2004-09-20  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* pixmaps: make color order consistent and rerender png from svg with
+	inkscape instead of rsvg.
+
+2004-09-20  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* goffice.c: new GogGridLine type.
 	* graph/gog-axis.c (map_discrete_calc_ticks): allways calc major and
 	minor ticks.

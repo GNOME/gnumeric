@@ -8,7 +8,7 @@
    inkscape:version="0.39"
    width="64.000000mm"
    height="60.000000mm"
-   sodipodi:docbase="/home/manu/Desktop/Chart-icons"
+   sodipodi:docbase="/home/gnome/head/gnumeric/src/cut-n-paste-code/goffice/pixmaps"
    sodipodi:docname="chart_area_1_3.svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:cc="http://web.resource.org/cc/"
@@ -173,11 +173,11 @@
      rx="17.594519"
      ry="14.164467" />
   <path
-     style="fill:#83a67f;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7716535;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;stroke-dasharray:none;"
+     style="fill:#d1940c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7716535;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;stroke-dasharray:none;"
      d="M 200.18750 41.531250 L 30.000000 42.156250 L 30.000000 172.21875 C 30.000000 180.06587 37.846387 186.37500 47.593750 186.37500 L 182.78125 186.37500 C 191.85923 186.37500 199.20984 180.87276 200.18750 173.78125 L 200.18750 41.531250 z "
      id="path4680" />
   <path
-     style="fill:#d1940c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7716535;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;stroke-dasharray:none;"
+     style="fill:#83a67f;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7716535;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;stroke-dasharray:none;"
      d="M 157.59375 55.937500 L 154.06250 61.656250 L 112.00000 129.59375 L 73.375000 151.93750 L 30.000000 98.250000 L 30.000000 172.21875 C 30.000000 180.06587 37.846387 186.37500 47.593750 186.37500 L 182.78125 186.37500 C 192.00598 186.37500 199.43855 180.69559 200.21875 173.43750 L 200.37500 116.81250 L 161.43750 61.437500 L 157.59375 55.937500 z "
      id="path5302" />
   <rect

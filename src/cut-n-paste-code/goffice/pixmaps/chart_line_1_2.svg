@@ -8,7 +8,7 @@
    inkscape:version="0.39"
    width="64.000000mm"
    height="60.000000mm"
-   sodipodi:docbase="/home/manu/Desktop/Chart-icons"
+   sodipodi:docbase="/home/gnome/head/gnumeric/src/cut-n-paste-code/goffice/pixmaps"
    sodipodi:docname="chart_line_1_2.svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:cc="http://web.resource.org/cc/"
@@ -173,11 +173,11 @@
      rx="17.594519"
      ry="14.164467" />
   <path
-     style="fill:#83a67f;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:8.8582678;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;"
+     style="fill:#d1940c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:8.8582678;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;"
      d="M 113.71875 29.531250 L 111.12500 35.406250 L 70.375000 126.96875 L 30.000000 108.31250 L 30.000000 118.06250 L 70.750000 136.90625 L 74.812500 138.78125 L 76.656250 134.68750 L 116.59375 44.906250 L 154.68750 82.875000 L 157.53125 85.687500 L 160.62500 83.156250 L 200.37500 50.781250 L 200.37500 40.750000 C 200.37500 40.323253 200.26421 39.916928 200.21875 39.500000 L 158.12500 73.781250 L 118.28125 34.062500 L 113.71875 29.531250 z "
      id="path4680" />
   <path
-     style="fill:#d1940c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:8.8582678;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;"
+     style="fill:#83a67f;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:8.8582678;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;"
      d="M 198.75000 94.593750 L 156.81250 144.87500 L 117.37500 121.96875 L 114.28125 120.15625 L 111.87500 122.84375 L 72.343750 166.90625 L 31.312500 128.06250 L 30.000000 129.43750 L 30.000000 139.03125 L 69.562500 176.46875 L 72.875000 179.59375 L 75.906250 176.21875 L 116.06250 131.43750 L 155.59375 154.40625 L 158.81250 156.31250 L 161.21875 153.43750 L 200.37500 106.46875 L 200.37500 95.968750 L 198.75000 94.593750 z "
      id="path5302" />
   <rect

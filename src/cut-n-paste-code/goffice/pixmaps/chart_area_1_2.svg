@@ -8,7 +8,7 @@
    inkscape:version="0.39"
    width="64.000000mm"
    height="60.000000mm"
-   sodipodi:docbase="/home/manu/Desktop/Chart-icons"
+   sodipodi:docbase="/home/gnome/head/gnumeric/src/cut-n-paste-code/goffice/pixmaps"
    sodipodi:docname="chart_area_1_2.svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:cc="http://web.resource.org/cc/"
@@ -173,11 +173,12 @@
      rx="17.594519"
      ry="14.164467" />
   <path
-     style="fill:#83a67f;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7716535;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;stroke-dasharray:none;"
-     d="M 113.71875 29.531250 L 111.12500 35.406250 L 70.375000 126.96875 L 30.000000 108.31250 L 30.000000 172.21875 C 30.000000 180.06587 37.846387 186.37500 47.593750 186.37500 L 182.78125 186.37500 C 191.94000 186.37500 199.34862 180.77699 200.21875 173.59375 L 200.37500 40.750000 C 200.37500 40.323253 200.26421 39.916928 200.21875 39.500000 L 158.12500 73.781250 L 118.28125 34.062500 L 113.71875 29.531250 z "
-     id="path4680" />
-  <path
      style="fill:#d1940c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7716535;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;stroke-dasharray:none;"
+     d="M 115.20785,37.204718 L 70.375000,126.96875 L 30.000000,108.31250 L 30.000000,172.21875 C 30.000000,180.06587 37.846387,186.37500 47.593750,186.37500 L 182.78125,186.37500 C 191.94000,186.37500 199.34862,180.77699 200.21875,173.59375 L 200.37500,40.750000 C 200.37500,40.323253 200.26421,39.916928 200.21875,39.500000 L 158.12500,73.781250 L 115.20785,37.204718 z "
+     id="path4680"
+     sodipodi:nodetypes="ccccccccccc" />
+  <path
+     style="fill:#83a67f;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7716535;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;stroke-dasharray:none;"
      d="M 198.75000 94.593750 L 156.81250 144.87500 L 117.37500 121.96875 L 114.28125 120.15625 L 111.87500 122.84375 L 72.343750 166.90625 L 31.312500 128.06250 L 30.000000 129.43750 L 30.000000 172.21875 C 30.000000 180.06587 37.846387 186.37500 47.593750 186.37500 L 182.78125 186.37500 C 191.97959 186.37500 199.40235 180.72816 200.21875 173.50000 L 200.37500 95.968750 L 198.75000 94.593750 z "
      id="path5302" />
   <rect
