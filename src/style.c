@@ -113,7 +113,7 @@ style_font_new_simple (const char *font_name, double size, double scale,
 	}
 
 #ifdef DEBUG_REF_COUNT
-	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
+	fprintf (stderr, "style_font_new_simple font=%p name=%s%s%s ref_count=%d\n",
 		 font, font->font_name,
 		 font->is_bold ? " bold" : "",
 		 font->is_italic ? " italic" : "",
@@ -181,7 +181,7 @@ style_font_ref (StyleFont *sf)
 
 	sf->ref_count++;
 #ifdef DEBUG_REF_COUNT
-	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
+	fprintf (stderr, "style_font_ref font=%p name=%s%s%s ref_count=%d\n",
 		 sf, sf->font_name,
 		 sf->is_bold ? " bold" : "",
 		 sf->is_italic ? " italic" : "",
@@ -197,7 +197,7 @@ style_font_unref (StyleFont *sf)
 
 	sf->ref_count--;
 #ifdef DEBUG_REF_COUNT
-	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
+	fprintf (stderr, "style_font_unref font=%p name=%s%s%s ref_count=%d\n",
 		 sf, sf->font_name,
 		 sf->is_bold ? " bold" : "",
 		 sf->is_italic ? " italic" : "",

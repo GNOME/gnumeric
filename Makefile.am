@@ -5,7 +5,8 @@ XML_I18N_XML_KIND = --pass-through
 change_logs = ChangeLog \
 	OChangeLog-1999-07-09 \
 	OChangeLog-2000-02-23 OChangeLog-2000-10-10  \
-	OChangeLog-2001-06-26
+	OChangeLog-2001-06-26 \
+	OChangeLog-2002-01-22
 
 confexecdir=$(libdir)
 confexec_DATA = gnumericConf.sh
