@@ -470,9 +470,12 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 			/* default is None */
 			gnm_so_graphic_set_fill_color (so, NULL);
 
-		/* default is none */
+		gnm_so_filled_set_outline_style (so,
+			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_OUTLINE_STYLE, 0));
 		gnm_so_filled_set_outline_color (so,
 			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR));
+		gnm_so_graphic_set_width (so,
+			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_OUTLINE_WIDTH, 0));
 		gnm_so_text_set_markup (so,
 			ms_obj_attr_get_markup (obj, MS_OBJ_ATTR_MARKUP, NULL));
 

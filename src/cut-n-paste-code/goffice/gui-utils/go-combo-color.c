@@ -262,8 +262,11 @@ go_combo_color_set_color (GOComboColor *cc, GdkColor *color)
 {
 #warning convert to GOColor
 	g_return_if_fail (IS_GO_COMBO_COLOR (cc));
-	
-	go_color_palette_set_current_color (cc->palette, GDK_TO_UINT (*color));
+
+	if (color != NULL)
+		go_color_palette_set_current_color (cc->palette, GDK_TO_UINT (*color));
+	else
+		go_color_palette_set_color_to_default (cc->palette);
 }
 
 void

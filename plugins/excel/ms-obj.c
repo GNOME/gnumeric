@@ -496,24 +496,32 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 				ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
 					0x80000000 | GSF_LE_GET_GUINT8 (q->data+35)));
 		}
+		tmp = GSF_LE_GET_GUINT8 (q->data+39);
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_STYLE,
+					      ((tmp == 0xff) ? 0 : tmp+1)));
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_COLOR,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+38)));
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_WIDTH,
+					      GSF_LE_GET_GUINT8 (q->data+40)));
 
 		/* only pull in the text if it exists */
 		len = GSF_LE_GET_GUINT16 (q->data + 44);
 		txo_len = GSF_LE_GET_GUINT16 (q->data + 48);
 		tmp = GSF_LE_GET_GUINT16 (q->data + 50);
 
-			data = q->data + 70;
-			g_return_val_if_fail ((unsigned)(data - q->data) < q->length, TRUE);
-			g_return_val_if_fail (!has_fmla, TRUE); /* how would this happen */
+		data = q->data + 70;
+		g_return_val_if_fail ((unsigned)(data - q->data) < q->length, TRUE);
 
-			/* skip the obj name if defined */
-			if (has_name) {
-				data += *data + ((*data & 0x1) ? 1 : 2); /* padding byte */
+		g_return_val_if_fail (!has_fmla, TRUE); /* how would this happen */
+
+		/* skip the obj name if defined */
+		if (has_name) {
+			data += *data + ((*data & 0x1) ? 1 : 2); /* padding byte */
 			g_return_val_if_fail ((unsigned)(data - q->data) <= q->length, TRUE);
-			}
+		}
 
 		if (len > 0)
 			ms_obj_attr_bag_insert (obj->attrs,

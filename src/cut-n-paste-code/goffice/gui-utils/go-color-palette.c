@@ -167,7 +167,7 @@ static guint go_color_palette_signals [LAST_SIGNAL] = { 0, };
 static GObjectClass *go_color_palette_parent_class;
 
 static GtkWidget *
-create_color_sel (GObject *action_proxy, GOColor c, GCallback handler)
+create_color_sel (GObject *action_proxy, GOColor c, GCallback handler, gboolean allow_alpha)
 {
 	char *title = g_object_get_data (G_OBJECT (action_proxy), "title");
 	GtkWidget *w = gtk_color_selection_dialog_new (title);
@@ -178,6 +178,7 @@ create_color_sel (GObject *action_proxy, GOColor c, GCallback handler)
 	gtk_widget_hide (dialog->help_button);
 	gtk_color_selection_set_current_color (colorsel,
 		go_color_to_gdk (c, &gdk));
+	gtk_color_selection_set_has_opacity_control (colorsel, allow_alpha);
 
 	g_signal_connect_object (dialog,
 		"response", handler, action_proxy, 0);
@@ -391,7 +392,7 @@ static void
 cb_combo_custom_clicked (GtkWidget *button, GOColorPalette *pal)
 {
 	GtkWidget *dialog = create_color_sel (G_OBJECT (pal), pal->selection,
-		G_CALLBACK (cb_combo_custom_response));
+		G_CALLBACK (cb_combo_custom_response), pal->allow_alpha);
 	g_signal_emit (pal, go_color_palette_signals [DISPLAY_CUSTOM_DIALOG], 0,
 		dialog);
 	gtk_widget_show (dialog);
@@ -549,7 +550,8 @@ go_color_palette_new (char const *no_color_label,
 
 typedef struct {
 	GtkMenu base;
-	GOColor selection, default_color;
+	gboolean allow_alpha;
+	GOColor  selection, default_color;
 } GOMenuColor;
 
 typedef struct {
@@ -638,7 +640,7 @@ static void
 cb_menu_custom_activate (GtkWidget *button, GOMenuColor *menu)
 {
 	GtkWidget *dialog = create_color_sel (G_OBJECT (menu), menu->selection,
-		G_CALLBACK (cb_menu_custom_response));
+		G_CALLBACK (cb_menu_custom_response), menu->allow_alpha);
 	g_signal_emit (menu, go_menu_color_signals [DISPLAY_CUSTOM_DIALOG], 0,
 		dialog);
 	gtk_widget_show (dialog);
