@@ -1,5 +1,12 @@
 2004-09-28  Morten Welinder  <terra@gnome.org>
 
+	* utils/go-font.c (go_pango_fc_font_map_cache_clear): New
+	function, wrapping pango_fc_font_map_cache_clear (which isn't
+	public).
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_finalize): Call
+	go_pango_fc_font_map_cache_clear.
+
 	* utils/go-color.c (go_color_to_pango): Add is_fore argument and
 	export.
 

@@ -71,6 +71,8 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 	}
 
 	if (prend->pango_context != NULL) {
+		/* See http://bugzilla.gnome.org/show_bug.cgi?id=143542 */
+		go_pango_fc_font_map_cache_clear (PANGO_FC_FONT_MAP (pango_context_get_font_map (prend->pango_context)));
 		g_object_unref (prend->pango_context);
 		prend->pango_context = NULL;
 	}

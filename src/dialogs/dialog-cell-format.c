@@ -27,6 +27,7 @@
 #include "dialogs.h"
 #include "help.h"
 
+#include <math.h>
 #include <sheet.h>
 #include <sheet-view.h>
 #include <sheet-merge.h>
@@ -58,6 +59,7 @@
 #include <goffice/gui-utils/go-combo-color.h>
 #include <goffice/gui-utils/go-combo-box.h>
 #include <goffice/gui-utils/go-combo-text.h>
+#include <goffice/utils/go-font.h>
 #include <libart_lgpl/art_alphagamma.h>
 #include <libart_lgpl/art_pixbuf.h>
 #include <libart_lgpl/art_rgb_pixbuf_affine.h>
@@ -727,21 +729,24 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 	state->align.rot_height = h;
 	cb_rotate_changed (NULL, state);
 
-#if 0
-	/* This prevents leaks, but isn't public.  */
-	pango_fc_font_map_cache_clear (font_map);
-#endif
+	/* See http://bugzilla.gnome.org/show_bug.cgi?id=143542  */
+	go_pango_fc_font_map_cache_clear (PANGO_FC_FONT_MAP (font_map));
+
 	g_object_unref (font_map);
 }
 
 static void
 set_rot_from_point (FormatState *state, GnomeCanvas *canvas, double x, double y)
 {
+	double degrees;
 	gnome_canvas_window_to_world (canvas, x, y, &x, &y);
 	x -= 15.;	if (x < 0.) x = 0.;
 	y -= 100.;
+
+	degrees = atan2 (-y, x) * 180 / M_PIgnum;
+
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->align.rotate_spinner),
-		-gnumeric_fake_round (atan (y/x) * 180 / M_PIgnum));
+				   gnumeric_fake_round (degrees));
 }
 
 static gboolean
