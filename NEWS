@@ -33,6 +33,7 @@ Andreas:
 	* Redesign Error info dialog
 	* Improve x-selection handling
 	* Fix http://bugzilla.gnome.org/show_bug.cgi?id=76474
+	* Add lowering and raising of sheet objects (except widgets).
 
 Jody:
 	* Add password dialog to support encrypted input.

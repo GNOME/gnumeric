@@ -4891,3 +4891,65 @@ cmd_change_summary (WorkbookControlGUI *wbcg, GSList *sin_changes)
 
 /******************************************************************/
 
+#define CMD_OBJECT_RAISE_TYPE (cmd_object_raise_get_type ())
+#define CMD_OBJECT_RAISE(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_OBJECT_RAISE_TYPE, CmdObjectRaise))
+
+typedef struct
+{
+	GnumericCommand parent;
+	SheetObject *so;
+	gint        dir;
+	gint        undo_dir;
+} CmdObjectRaise;
+
+GNUMERIC_MAKE_COMMAND (CmdObjectRaise, cmd_object_raise);
+
+static gboolean
+cmd_object_raise_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdObjectRaise *me = CMD_OBJECT_RAISE (cmd);
+	me->undo_dir = - sheet_object_raise (me->so, me->dir);
+	return FALSE;
+}
+
+static gboolean
+cmd_object_raise_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdObjectRaise *me = CMD_OBJECT_RAISE (cmd);
+	me->dir = - sheet_object_raise (me->so, me->undo_dir);
+	return FALSE;
+}
+
+static void
+cmd_object_raise_finalize (GObject *cmd)
+{
+	CmdObjectRaise *me = CMD_OBJECT_RAISE (cmd);
+	g_object_unref (G_OBJECT (me->so));
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_object_raise (WorkbookControl *wbc, SheetObject *so, gint dir)
+{
+	GObject *object;
+	CmdObjectRaise *me;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
+
+	object = g_object_new (CMD_OBJECT_RAISE_TYPE, NULL);
+	me = CMD_OBJECT_RAISE (object);
+
+	me->so = so;
+	g_object_ref (G_OBJECT (so));
+
+	me->parent.sheet = sheet_object_get_sheet (so);
+	me->parent.size = 1;
+	me->parent.cmd_descriptor = ((dir == 1) ? g_strdup (_("Raise object")) 
+				     : g_strdup (_("Lower object")));
+	me->dir = dir;
+	me->undo_dir = - dir;
+
+	return command_push_undo (wbc, object);
+}
+
+/******************************************************************/

@@ -39,6 +39,34 @@
 #define	SO_VIEW_OBJECT_KEY		"SheetObject"
 
 static void
+cb_sheet_object_raise (GtkWidget *widget, GObject *so_view)
+{
+	SheetObject *so;
+	SheetControlGUI *scg;
+	WorkbookControl *wbc;
+
+	so = sheet_object_view_obj (so_view);
+	scg = sheet_object_view_control (so_view);
+	wbc = sc_wbc (SHEET_CONTROL (scg));
+
+	cmd_object_raise (wbc, so, 1);
+}
+
+static void
+cb_sheet_object_lower (GtkWidget *widget, GObject *so_view)
+{
+	SheetObject *so;
+	SheetControlGUI *scg;
+	WorkbookControl *wbc;
+
+	so = sheet_object_view_obj (so_view);
+	scg = sheet_object_view_control (so_view);
+	wbc = sc_wbc (SHEET_CONTROL (scg));
+
+	cmd_object_raise (wbc, so, -1);
+}
+
+static void
 cb_sheet_object_remove (GtkWidget *widget, GObject *so_view)
 {
 	Sheet *sheet;
@@ -90,6 +118,16 @@ sheet_object_populate_menu (SheetObject *so,
 		gtk_menu_append (menu, item);
 	}
 
+	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GO_UP, NULL);
+	gtk_menu_append (menu, item);
+	g_signal_connect (G_OBJECT (item),
+		"activate",
+		G_CALLBACK (cb_sheet_object_raise), obj_view);
+	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GO_DOWN, NULL);
+	gtk_menu_append (menu, item);
+	g_signal_connect (G_OBJECT (item),
+		"activate",
+		G_CALLBACK (cb_sheet_object_lower), obj_view);
 	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_DELETE, NULL);
 	gtk_menu_append (menu, item);
 	g_signal_connect (G_OBJECT (item),
@@ -983,4 +1021,23 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 
 	anchor->direction = direction;
 	/* TODO : add sanity checking to handle offsets past edges of col/row */
+}
+
+gint 
+sheet_object_raise (SheetObject *so, gint dir)
+{
+	GList *l;
+
+	for (l = so->realized_list; l; l = l->next) {
+		switch (dir) {
+		case 1:
+			gnome_canvas_item_raise (GNOME_CANVAS_ITEM (l->data), 1);
+			break;
+		case -1:
+		default:
+			gnome_canvas_item_lower (GNOME_CANVAS_ITEM (l->data), 1);
+			break;
+		}
+	}
+	return dir;
 }

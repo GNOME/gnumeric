@@ -108,4 +108,6 @@ gboolean cmd_merge_data        (WorkbookControl *wbc, Sheet *sheet,
 
 gboolean cmd_change_summary    (WorkbookControlGUI *wbcg, GSList *sin_changes);
 
+gboolean cmd_object_raise	(WorkbookControl *wbc, SheetObject *so, gint dir);
+
 #endif /* GNUMERIC_COMMANDS_H */

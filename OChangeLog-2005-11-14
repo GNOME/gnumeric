@@ -1,5 +1,14 @@
 2002-04-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/commands.[ch] (cmd_object_raise) : new command
+	* src/sheet-object.h (sheet_object_raise) : new
+	* src/sheet-object.c (sheet_object_raise) : new
+	(cb_sheet_object_raise) : new
+	(cb_sheet_object_lower) : new
+	(sheet_object_populate_menu) : add raise/lower menu items
+
+2002-04-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/print.c (setup_rotation) : deleted
 	(print_page) : remove call to setup_rotation
 	(sheet_print) : no need to hide landscape printing
