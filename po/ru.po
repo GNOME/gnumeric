@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.54+\n"
-"POT-Creation-Date: 2000-06-29 19:19+0000\n"
-"PO-Revision-Date: 2000-06-29 19:27+00:00\n"
+"POT-Creation-Date: 2000-06-30 18:19+0000\n"
+"PO-Revision-Date: 2000-06-30 18:21+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -9300,7 +9300,26 @@ msgstr ""
 "\n"
 "@SEEALSO=FALSE"
 
-#: src/functions/fn-logical.c:253
+#: src/functions/fn-logical.c:250
+msgid ""
+"@FUNCTION=FALSE\n"
+"@SYNTAX=FALSE()\n"
+"@DESCRIPTION=FALSE returns boolean value false.  This function is Excel "
+"compatible. \n"
+"@EXAMPLES=\n"
+"FALSE() equals FALSE.\n"
+"\n"
+"@SEEALSO=TRUE"
+msgstr ""
+"@FUNCTION=FALSE\n"
+"@SYNTAX=FALSE()\n"
+"@DESCRIPTION=Возвращает значение логической лжи (FALSE). Эта функция Excel-совместима. \n"
+"@EXAMPLES=\n"
+"FALSE() равняется FALSE.\n"
+"\n"
+"@SEEALSO=FALSE"
+
+#: src/functions/fn-logical.c:275
 msgid "Logical"
 msgstr "Логические"
 
