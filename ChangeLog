@@ -1,5 +1,8 @@
 2005-02-24  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-file.c (gui_file_save_as): Fix arg order for
+	go_url_check_extension.
+
 	* src/wbcg-actions.c: Mark action arrays const now that 142334 has
 	been fixed.  Assume GTK_STOCK_ABOUT.
 

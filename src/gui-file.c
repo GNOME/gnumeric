@@ -450,8 +450,9 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		if (!fs)
 			goto out;
 		uri = gtk_file_chooser_get_uri (fsel);
-		if (!go_url_check_extension (gnm_file_saver_get_extension (fs), 
-				       uri, &uri2) &&
+		if (!go_url_check_extension (uri,
+					     gnm_file_saver_get_extension (fs), 
+					     &uri2) &&
 		    !go_gtk_query_yes_no (GTK_WINDOW (fsel),
 						      _("The given file extension does not match the"
 							" chosen file type. Do you want to use this name"

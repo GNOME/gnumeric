@@ -30,6 +30,7 @@ Morten:
 	* Fix typo that managed to get its up bugzilla entry.  [#167495]
 	* Improve auto-detection of separators for text files.  [#167449]
 	* Fix some #decimals problems with print page setup.
+	* Fix saving.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
