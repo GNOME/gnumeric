@@ -70,7 +70,7 @@ Dialogs
       requested letter.
 - Formula Guru
     : As we auto add new entries for varargs we should make them visible.
-    : Editing nested funtions.  How best to express this.
+    : Editing nested functions.  How best to express this.
     : Switching between multiple function at the same level.
     : Better communication and handling of parse errors.
 
