@@ -1,3 +1,8 @@
+2003-06-18  Jody Goldberg <jody@gnome.org>
+
+	* dialog-hyperlink.c (dhl_get_target_url) : Use 'Web Link'
+	  rather than URL which is aparently too technical.
+
 2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-printer-setup.c (cb_do_print_ok): save as default only

@@ -31,6 +31,11 @@
 #include <src/gnumeric-i18n.h>
 #include <string.h>
 
+enum {
+	CHART_PROP_0,
+	CHART_PROP_CARDINALITY_VALID
+};
+
 static GType gog_chart_view_get_type (void);
 
 static char const *
@@ -70,6 +75,21 @@ role_plot_pre_remove (GogObject *parent, GogObject *plot)
 }
 
 static void
+gog_chart_get_property (GObject *obj, guint param_id,
+			GValue *value, GParamSpec *pspec)
+{
+	GogChart *chart = GOG_CHART (obj);
+	switch (param_id) {
+	case CHART_PROP_CARDINALITY_VALID:
+		g_value_set_boolean (value, chart->cardinality_valid);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
 gog_chart_class_init (GogObjectClass *gog_klass)
 {
 	static GogObjectRole const roles[] = {
@@ -84,6 +104,13 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
+	GObjectClass *gobject_klass = (GObjectClass *)gog_klass;
+
+	gobject_klass->get_property = gog_chart_get_property;
+	g_object_class_install_property (gobject_klass, CHART_PROP_CARDINALITY_VALID,
+		g_param_spec_boolean ("cardinality-valid", "cardinality-valid",
+			"Is the charts cardinality currently vaid",
+			FALSE, G_PARAM_READABLE));
 
 	gog_klass->editor    = gog_chart_editor;
 	gog_klass->type_name = gog_chart_type_name;
@@ -191,6 +218,7 @@ gog_chart_request_cardinality_update (GogChart *chart)
 	
 	if (chart->cardinality_valid) {
 		chart->cardinality_valid = FALSE;
+		g_object_notify (G_OBJECT (chart), "cardinality-valid");
 		gog_object_request_update (GOG_OBJECT (chart));
 	}
 }

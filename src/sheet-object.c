@@ -27,6 +27,8 @@
 #include "sheet-object-graphic.h"
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-widget.h"
+#include "sheet-object-graph.h"
+#include "graph.h"
 
 #include <libxml/globals.h>
 #include <gtk/gtkimagemenuitem.h>
@@ -888,7 +890,6 @@ sheet_objects_clear (Sheet const *sheet, Range const *r, GType t)
  * they introduce automake depends in the non-bonobo build.
  */
 extern GType sheet_object_bonobo_get_type (void);
-extern GType gnm_graph_get_type (void);
 #endif
 
 void
@@ -896,12 +897,14 @@ sheet_object_register (void)
 {
 	SHEET_OBJECT_GRAPHIC_TYPE;
 	SHEET_OBJECT_FILLED_TYPE;
+	SHEET_OBJECT_TEXT_TYPE;
+	SHEET_OBJECT_GRAPH_TYPE;
+	GNM_GO_DATA_SCALAR_TYPE;
+	GNM_GO_DATA_VECTOR_TYPE;
 	CELL_COMMENT_TYPE;
-	(void) sheet_object_text_get_type ();
 #ifdef WITH_BONOBO
 #ifdef GNOME2_CONVERSION_COMPLETE
 	sheet_object_bonobo_get_type ();
-	gnm_graph_get_type ();
 #endif
 #endif
 	sheet_object_widget_register ();

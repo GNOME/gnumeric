@@ -35,10 +35,11 @@ GType gog_theme_get_type (void);
 void gog_theme_init_style (GogTheme *theme, GogStyle *style,
 			   GObjectClass *klass, int i);
 
-void	  gog_theme_register      (GogTheme *theme, gboolean is_default);
-void	  gog_theme_register_file (char const *name, char const *file);
-void	  gog_themes_init	  (void);
-GogTheme *gog_theme_lookup        (char const *name);
+void gog_themes_init	       (void);
+void gog_theme_register        (GogTheme *theme, gboolean is_default);
+void gog_theme_register_file   (char const *name, char const *file);
+GogTheme   *gog_theme_lookup   (char const *name);
+char const *gog_theme_get_name (GogTheme const *theme);
 
 G_END_DECLS
 

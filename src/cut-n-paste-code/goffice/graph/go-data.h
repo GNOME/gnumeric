@@ -34,6 +34,7 @@ GType go_data_get_type (void);
 gboolean  go_data_needs_recalc	(GOData const *dat);
 gboolean  go_data_eq		(GOData const *a, GOData const *b);
 char     *go_data_as_str	(GOData const *dat);
+gboolean  go_data_from_str	(GOData *dat, char const *str);
 
 /*************************************************************************/
 

@@ -40,8 +40,9 @@ struct _GOData {
 typedef struct {
 	GObjectClass base;
 
-	gboolean (*eq)     (GOData const *a, GOData const *b);
-	char    *(*as_str) (GOData const *dat);
+	gboolean (*eq)       (GOData const *a, GOData const *b);
+	char    *(*as_str)   (GOData const *dat);
+	gboolean (*from_str) (GOData *dat, char const *str);
 
 	/* signals */
 	void (*changed)	(GOData *dat);

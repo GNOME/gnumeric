@@ -1,3 +1,9 @@
+2003-06-21  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(chartformat)) : vary_style_by_element is now in plot
+	* ms-excel-write.c : Start work on escher wrapper for exporting charts
+	  in XL97.  NOT ENABLED OR FINISHED.
+
 2003-06-11  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_sheet_new) : Capitalize and mark Excel as a

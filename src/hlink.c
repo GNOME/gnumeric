@@ -152,6 +152,7 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {
 	RangeRef const *r;
 	CellPos tmp;
+	Sheet	  *target_sheet;
 	Sheet	  *sheet = wb_control_cur_sheet      (wbc);
 	SheetView *sv	 = wb_control_cur_sheet_view (wbc);
 	Value *target = global_range_parse (sheet, lnk->target);
@@ -169,17 +170,19 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
 					_("Link target"),
 					lnk->target);
-				return FALSE;
+		return FALSE;
 	}
 
 	r = &target->v_range.cell;
 	tmp.col = r->a.col;
 	tmp.row = r->a.row;
-	sv = sheet_get_view (r->a.sheet, wb_control_view (wbc));
+
+	target_sheet = r->a.sheet ? r->a.sheet : sheet;
+	sv = sheet_get_view (target_sheet,  wb_control_view (wbc));
 	sv_selection_set (sv, &tmp, r->a.col, r->a.row, r->b.col, r->b.row);
 	sv_make_cell_visible (sv, r->a.col, r->a.row, FALSE);
-	if (sheet != r->a.sheet)
-		wb_view_sheet_focus (wb_control_view (wbc), sheet);
+	if (sheet != target_sheet)
+		wb_view_sheet_focus (wb_control_view (wbc), target_sheet);
 	value_release (target);
 	return TRUE;
 }

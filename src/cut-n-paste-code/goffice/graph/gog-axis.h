@@ -26,6 +26,12 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GOG_AXIS_AT_LOW = -1,
+	GOG_AXIS_IN_MIDDLE = 0,
+	GOG_AXIS_AT_HIGH = 1
+} GogAxisPosition;
+
 #define GOG_AXIS_TYPE	(gog_axis_get_type ())
 #define GOG_AXIS(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AXIS_TYPE, GogAxis))
 #define IS_GOG_AXIS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_TYPE))

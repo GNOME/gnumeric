@@ -256,10 +256,10 @@ gog_barcol_plot_class_init (GogPlotClass *plot_klass)
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
-			{ N_("Labels"), GOG_SERIES_SUGGESTED,  TRUE, GOG_DIM_LABEL,
-			  GOG_AXIS_NONE, GOG_MS_DIM_CATEGORIES },
-			{ N_("Values"), GOG_SERIES_REQUIRED, FALSE, GOG_DIM_VALUE,
-			  GOG_AXIS_NONE, GOG_MS_DIM_VALUES }
+			{ N_("Labels"), GOG_SERIES_SUGGESTED, TRUE,
+			  GOG_DIM_LABEL, GOG_MS_DIM_CATEGORIES },
+			{ N_("Values"), GOG_SERIES_REQUIRED, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS(dimensions);
@@ -280,8 +280,8 @@ GSF_CLASS (GogBarColPlot, gog_barcol_plot,
 	   GOG_PLOT_TYPE)
 
 /*****************************************************************************/
-typedef GogView		GogBarColView;
-typedef GogViewClass	GogBarColViewClass;
+typedef GogPlotView		GogBarColView;
+typedef GogPlotViewClass	GogBarColViewClass;
 
 /**
  * barcol_draw_rect :
@@ -449,7 +449,7 @@ gog_barcol_view_class_init (GogViewClass *view_klass)
 
 static GSF_CLASS (GogBarColView, gog_barcol_view,
 		  gog_barcol_view_class_init, NULL,
-		  GOG_VIEW_TYPE)
+		  GOG_PLOT_VIEW_TYPE)
 
 /*****************************************************************************/
 

@@ -428,6 +428,10 @@ gog_object_emit_changed (GogObject *obj, gboolean resize)
 {
 	g_return_if_fail (GOG_OBJECT (obj));
 
+	if (obj->use_parent_as_proxy) {
+		obj = obj->parent;
+		g_return_if_fail (GOG_OBJECT (obj));
+	}
 	g_signal_emit (G_OBJECT (obj),
 		gog_object_signals [CHANGED], 0, resize);
 }

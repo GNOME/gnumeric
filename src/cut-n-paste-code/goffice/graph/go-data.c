@@ -104,6 +104,22 @@ go_data_as_str (GOData const *dat)
 	return (*klass->as_str) (dat);
 }
 
+/**
+ * go_data_from_str :
+ * @dat : #GOData
+ * @str :
+ *
+ * De-serializes the source information returned from go_data_as_str.
+ * Returns FALSE on error.
+ **/
+gboolean
+go_data_from_str (GOData *dat, char const *str)
+{
+	GODataClass const *klass = GO_DATA_GET_CLASS (dat);
+	g_return_val_if_fail (klass != NULL, FALSE);
+	return (*klass->from_str) (dat, str);
+}
+
 /*************************************************************************/
 
 #define GO_DATA_SCALAR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_SCALAR_TYPE, GODataScalarClass))

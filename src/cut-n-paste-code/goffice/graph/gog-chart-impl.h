@@ -38,6 +38,8 @@ struct _GogChart {
 
 	/* use a simple grid layout to position charts within graph */
 	unsigned x, y, cols, rows;
+
+	GList *axes;
 };
 
 typedef struct {

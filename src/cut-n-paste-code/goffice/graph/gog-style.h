@@ -113,7 +113,7 @@ void	   gog_style_copy		(GogStyle *dst, GogStyle const *src);
 gboolean   gog_style_has_marker		(GogStyle const *style);
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 
-GtkWidget *gog_style_editor		(GogObject *item, CommandContext *cc,
+GtkWidget *gog_style_editor		(GogObject *obj, CommandContext *cc,
 					 guint32 enable);
 
 typedef struct {

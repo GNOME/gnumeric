@@ -27,15 +27,18 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-graph.h>
+#include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/go-data.h>
 #include <gnumeric-i18n.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glade/glade-build.h>	/* for the xml utils */
-#include <string.h>
-#include <stdlib.h>
 
 #define GOG_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_PLOT_TYPE, GogPlotClass))
+
+enum {
+	PLOT_PROP_0,
+	PLOT_PROP_VARY_STYLE_BY_ELEMENT
+};
 
 static GObjectClass *parent_klass;
 
@@ -44,7 +47,7 @@ gog_plot_finalize (GObject *obj)
 {
 	GogPlot *plot = GOG_PLOT (obj);
 
-	g_slist_free (plot->series); /* graphitem does the unref */
+	g_slist_free (plot->series); /* GogObject does the unref */
 
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		(parent_klass->finalize) (obj);
@@ -115,6 +118,42 @@ role_series_pre_remove (GogObject *parent, GogObject *series)
 }
 
 static void
+gog_plot_set_property (GObject *obj, guint param_id,
+		       GValue const *value, GParamSpec *pspec)
+{
+	GogPlot *plot = GOG_PLOT (obj);
+	gboolean b_tmp;
+
+	switch (param_id) {
+	case PLOT_PROP_VARY_STYLE_BY_ELEMENT:
+		b_tmp = g_value_get_boolean (value);
+		if (plot->vary_style_by_element ^ b_tmp) {
+			plot->vary_style_by_element = b_tmp;
+			gog_plot_request_cardinality_update (plot);
+		}
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+}
+
+static void
+gog_plot_get_property (GObject *obj, guint param_id,
+		       GValue *value, GParamSpec *pspec)
+{
+	GogPlot *plot = GOG_PLOT (obj);
+	switch (param_id) {
+	case PLOT_PROP_VARY_STYLE_BY_ELEMENT:
+		g_value_set_boolean (value, plot->vary_style_by_element);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
 gog_plot_class_init (GogObjectClass *gog_klass)
 {
 	static GogObjectRole const roles[] = {
@@ -129,6 +168,13 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 	parent_klass = g_type_class_peek_parent (gog_klass);
 	gobject_klass->finalize		= gog_plot_finalize;
+	gobject_klass->set_property	= gog_plot_set_property;
+	gobject_klass->get_property	= gog_plot_get_property;
+	g_object_class_install_property (gobject_klass, PLOT_PROP_VARY_STYLE_BY_ELEMENT,
+		g_param_spec_boolean ("vary_style_by_element", "vary_style_by_element",
+			"Use a different style for each segments",
+			FALSE,
+			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
 static void
@@ -142,100 +188,6 @@ GSF_CLASS_ABSTRACT (GogPlot, gog_plot,
 		    gog_plot_class_init, gog_plot_init,
 		    GOG_OBJECT_TYPE)
 
-static void
-cb_plot_set_args (char const *name, char const *val, GObject *plot)
-{
-	GParamSpec *pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (plot), name);
-	GType prop_type;
-	GValue res = { 0 };
-	gboolean success = TRUE;
-
-	if (pspec == NULL) {
-		g_warning ("unknown property `%s' for class `%s'",
-			   name, G_OBJECT_TYPE_NAME (plot));
-		return;
-	}
-
-	prop_type = G_PARAM_SPEC_VALUE_TYPE (pspec);
-	if (val == NULL &&
-	    G_TYPE_FUNDAMENTAL (prop_type) != G_TYPE_BOOLEAN) {
-		g_warning ("could not convert NULL to type `%s' for property `%s'",
-			   g_type_name (prop_type), pspec->name);
-		return;
-	}
-
-	g_value_init (&res, prop_type);
-	switch (G_TYPE_FUNDAMENTAL (prop_type)) {
-	case G_TYPE_CHAR:
-		g_value_set_char (&res, val[0]);
-		break;
-	case G_TYPE_UCHAR:
-		g_value_set_uchar (&res, (guchar)val[0]);
-		break;
-	case G_TYPE_BOOLEAN:
-		g_value_set_boolean (&res, 
-			val == NULL ||
-			g_ascii_tolower (val[0]) == 't' ||
-			g_ascii_tolower (val[0]) == 'y' ||
-			strtol (val, NULL, 0));
-		break;
-	case G_TYPE_INT:
-		g_value_set_int (&res, strtol (val, NULL, 0));
-		break;
-	case G_TYPE_UINT:
-		g_value_set_uint (&res, strtoul (val, NULL, 0));
-		break;
-	case G_TYPE_LONG:
-		g_value_set_long (&res, strtol (val, NULL, 0));
-		break;
-	case G_TYPE_ULONG:
-		g_value_set_ulong (&res, strtoul (val, NULL, 0));
-		break; 
-	case G_TYPE_ENUM:
-		g_value_set_enum (&res, glade_enum_from_string (prop_type, val));
-		break;
-	case G_TYPE_FLAGS:
-		g_value_set_flags (&res, glade_flags_from_string (prop_type, val));
-		break;
-	case G_TYPE_FLOAT:
-		g_value_set_float (&res, g_strtod (val, NULL));
-		break;
-	case G_TYPE_DOUBLE:
-		g_value_set_double (&res, g_strtod (val, NULL));
-		break;
-	case G_TYPE_STRING:
-		g_value_set_string (&res, val);
-		break;
-#if 0
-	/* get GOColor registered */
-	case G_TYPE_BOXED:
-		if (G_VALUE_HOLDS (&res, GDK_TYPE_COLOR)) {
-			GdkColor colour = { 0, };
-
-			if (gdk_color_parse (val, &colour) &&
-			    gdk_colormap_alloc_color (gtk_widget_get_default_colormap (),
-						      &colour, FALSE, TRUE)) {
-				g_value_set_boxed (&res, &colour);
-			} else {
-				g_warning ("could not parse colour name `%s'", val);
-				success = FALSE;
-			}
-		} else
-			success = FALSE;
-#endif
-
-	default:
-		success = FALSE;
-	}
-
-	if (!success) {
-		g_warning ("could not convert string to type `%s' for property `%s'",
-			   g_type_name (prop_type), pspec->name);
-		g_value_unset (&res);
-	}
-	g_object_set_property (G_OBJECT (plot), name, &res);
-}
-
 GogPlot *
 gog_plot_new_by_type (GogPlotType const *type)
 {
@@ -246,7 +198,7 @@ gog_plot_new_by_type (GogPlotType const *type)
 	res = gog_plot_new_by_name (type->engine);
 	if (res != NULL && type->properties != NULL)
 		g_hash_table_foreach (type->properties,
-				      (GHFunc) cb_plot_set_args, res);
+			(GHFunc) gog_object_set_arg, res);
 	return res;
 }
 
@@ -310,18 +262,33 @@ gog_plot_get_cardinality (GogPlot *plot)
 
 	if (!plot->cardinality_valid) {
 		GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+		GogSeries    *series;
 
 		plot->cardinality_valid = TRUE;
 		plot->index_num = gog_chart_get_cardinality (
 			gog_plot_get_chart (plot));
-		if (klass->cardinality == NULL) {
-			unsigned i = plot->index_num;
-			GSList *ptr;
-			for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
-				gog_series_set_index (ptr->data, i++, FALSE);
-			plot->cardinality = g_slist_length (plot->series);
-		} else
+
+		if (klass->cardinality != NULL)
 			plot->cardinality = (klass->cardinality) (plot);
+
+		if (klass->cardinality == NULL || plot->cardinality < 0) {
+			GSList *ptr;
+			unsigned size = 0, i = plot->index_num;
+
+			for (ptr = plot->series; ptr != NULL ; ptr = ptr->next) {
+				series = GOG_SERIES (ptr->data);
+				if (gog_series_is_valid (GOG_SERIES (series))) {
+					if (plot->vary_style_by_element) {
+						if (size < series->num_elements)
+							size = series->num_elements;
+						gog_series_set_index (series, plot->index_num, FALSE);
+					} else
+						gog_series_set_index (series, i++, FALSE);
+				}
+			}
+
+			plot->cardinality = (plot->vary_style_by_element) ? size : (i - plot->index_num);
+		}
 	}
 	return plot->cardinality;
 }
@@ -345,3 +312,9 @@ gog_plot_foreach_elem (GogPlot *plot, GogEnumFunc func, gpointer data)
 		g_return_if_fail (i == plot->index_num + plot->cardinality);
 	}
 }
+
+/****************************************************************************/
+/* a placeholder.  It seems likely that we will want this eventually        */
+GSF_CLASS_ABSTRACT (GogPlotView, gog_plot_view,
+		    NULL, NULL,
+		    GOG_VIEW_TYPE)

@@ -21,6 +21,7 @@
 
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-object-xml.h>
 #include <goffice/utils/go-color.h>
 
 #include <src/gui-util.h>
@@ -145,6 +146,7 @@ init_solid_page (GogObject *gobj, GladeXML *gui, GogStyle *style)
 	table = glade_xml_get_widget (gui, "fill_table");
 	w = color_combo_new (NULL, _("Transparent"),
 		NULL, color_group_fetch ("fill_color", cc));
+	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
 	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "fill_label")), w);
@@ -194,6 +196,7 @@ init_gradient_page (GogObject *gobj, GladeXML *gui, GogStyle *style)
 	table = glade_xml_get_widget (gui, "gradient_table");
 	w = color_combo_new (NULL, _("Transparent"),
 		NULL, color_group_fetch ("start_color", cc));
+	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
 	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "start_label")), w);
@@ -217,6 +220,7 @@ init_gradient_page (GogObject *gobj, GladeXML *gui, GogStyle *style)
 	g_object_set_data (G_OBJECT (table), "start", w);
 	w = color_combo_new (NULL, _("Transparent"),
 		NULL, color_group_fetch ("end_color", cc));
+	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
 	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "end_label")), w);
@@ -323,7 +327,7 @@ static void
 cb_type_changed (GtkWidget *cc,
 		       GogObject *gobj)
 {
-	GtkNotebook* notebook;
+	GtkNotebook *fill_notebook;
 	gint page;
 	GladeXML *gui;
 	GtkWidget *w, *table;
@@ -341,7 +345,7 @@ cb_type_changed (GtkWidget *cc,
 	}
 
 	gui = (GladeXML*) g_object_get_data (G_OBJECT (cc), "state");
-	notebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "notebook"));
+	fill_notebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "fill_notebook"));
 	page = gtk_option_menu_get_history(GTK_OPTION_MENU (cc));
 	switch (page) {
 	case 0:
@@ -385,7 +389,7 @@ cb_type_changed (GtkWidget *cc,
 		style->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
 		break;
 	}
-	gtk_notebook_set_current_page (notebook, page);
+	gtk_notebook_set_current_page (fill_notebook, page);
 	g_object_set (G_OBJECT (gobj), "style", style, NULL);
 }
 
@@ -419,6 +423,7 @@ gog_style_copy (GogStyle *dst, GogStyle const *src)
 	dst->fill    = src->fill;
 	if ((dst->flags & GOG_STYLE_FILL) &&
 	    GOG_FILL_STYLE_IMAGE == dst->fill.type) {
+			dst->fill.u.image.image_file = g_strdup (src->fill.u.image.image_file);
 	}
 	dst->marker  = src->marker;
 }
@@ -427,7 +432,7 @@ GtkWidget *
 gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 {
 	GogStyle *style = NULL;
-	GtkWidget *table, *w, *notebook, *menu;
+	GtkWidget *table, *w, *fill_notebook, *menu;
 	GladeXML *gui;
 
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
@@ -443,11 +448,8 @@ gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 		"state", gui, (GDestroyNotify)g_object_unref);
 	g_object_set_data (G_OBJECT (table), "command-context", cc);
 
-	notebook = glade_xml_get_widget (gui, "notebook");
+	fill_notebook = glade_xml_get_widget (gui, "fill_notebook");
 	menu = glade_xml_get_widget (gui, "menu_type");
-	g_signal_connect (G_OBJECT (menu),
-		"changed",
-		G_CALLBACK (cb_type_changed), gobj);
 	g_object_set_data (G_OBJECT (menu), "state", gui);
 
 	/* outline width */
@@ -460,6 +462,7 @@ gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 	/* outline colour */
 	w = color_combo_new (NULL, _("Transparent"),
 		NULL, color_group_fetch ("border_color", cc));
+	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
 	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "border_label")), w);
@@ -488,26 +491,26 @@ gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 		switch (style->fill.type) {
 		case GOG_FILL_STYLE_NONE:
 			gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 0);
-			gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
+			gtk_notebook_set_current_page (GTK_NOTEBOOK (fill_notebook), 0);
 			break;
 		case GOG_FILL_STYLE_SOLID:
 			init_solid_page (gobj, gui, style);
 			gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 1);
-			gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 1);
+			gtk_notebook_set_current_page (GTK_NOTEBOOK (fill_notebook), 1);
 			break;
 		case GOG_FILL_STYLE_GRADIENT:
 			init_gradient_page (gobj, gui, style);
 			gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 2);
-			gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 2);
+			gtk_notebook_set_current_page (GTK_NOTEBOOK (fill_notebook), 2);
 			break;
 		case GOG_FILL_STYLE_PATTERN:
 			break;
 		case GOG_FILL_STYLE_IMAGE:
 			gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 4);
-			gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 4);
+			gtk_notebook_set_current_page (GTK_NOTEBOOK (fill_notebook), 4);
 			w = glade_xml_get_widget (gui, "image_filename");
 			gtk_entry_set_text (GTK_ENTRY (w), style->fill.u.image.image_file);
-			w = glade_xml_get_widget (gui, "image_style");
+			w = glade_xml_get_widget (gui, "image_option");
 			gtk_option_menu_set_history (GTK_OPTION_MENU (w), style->fill.u.image.type);
 			break;
 		default :
@@ -515,9 +518,12 @@ gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 		}
 	} else {
 		gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 0);
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (fill_notebook), 0);
 		gtk_widget_set_sensitive (menu, FALSE);
 	}
+	g_signal_connect (G_OBJECT (menu),
+		"changed",
+		G_CALLBACK (cb_type_changed), gobj);
 	gtk_widget_show_all (GTK_WIDGET (table));
 	return table;
 }
@@ -550,9 +556,32 @@ gog_style_init (GogStyle *style)
 	style->flags = 0; /* everything is auto */
 }
 
-GSF_CLASS (GogStyle, gog_style,
+static gboolean
+gog_style_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
+{
+#warning TODO
+	g_warning ("TODO import style from dom");
+	return TRUE;
+}
+
+static void
+gog_style_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
+{
+#warning TODO
+	g_warning ("TODO persist style to dom");
+}
+
+static void
+gog_style_persist_dom_init (GogPersistDOMClass *iface)
+{
+	iface->load = gog_style_persist_dom_load;
+	iface->save = gog_style_persist_dom_save;
+}
+
+GSF_CLASS_FULL (GogStyle, gog_style,
 	   gog_style_class_init, gog_style_init,
-	   G_TYPE_OBJECT)
+	   G_TYPE_OBJECT, 0,
+	   GSF_INTERFACE (gog_style_persist_dom_init, GOG_PERSIST_DOM_TYPE))
 
 gboolean
 gog_style_has_marker (GogStyle const *style)

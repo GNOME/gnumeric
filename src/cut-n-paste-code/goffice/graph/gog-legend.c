@@ -39,6 +39,8 @@ struct _GogLegend {
 
 	double swatch_size_pts;
 	double swatch_padding_pts;
+	guint32 chart_cardinality_handle;
+	int    cached_count;
 };
 
 typedef struct {
@@ -55,7 +57,7 @@ static GObjectClass *parent_klass;
 
 static void
 gog_legend_set_property (GObject *obj, guint param_id,
-			    GValue const *value, GParamSpec *pspec)
+			 GValue const *value, GParamSpec *pspec)
 {
 	GogLegend *legend = GOG_LEGEND (obj);
 
@@ -74,7 +76,7 @@ gog_legend_set_property (GObject *obj, guint param_id,
 
 static void
 gog_legend_get_property (GObject *obj, guint param_id,
-			    GValue *value, GParamSpec *pspec)
+			 GValue *value, GParamSpec *pspec)
 {
 	GogLegend *legend = GOG_LEGEND (obj);
 
@@ -91,19 +93,34 @@ gog_legend_get_property (GObject *obj, guint param_id,
 	}
 }
 
-static void
-gog_legend_finalize (GObject *obj)
-{
-	/* GogLegend *legend = GOG_LEGEND (obj); */
-
-	if (parent_klass != NULL && parent_klass->finalize != NULL)
-		(parent_klass->finalize) (obj);
-}
-
 static char const *
 gog_legend_type_name (GogObject const *item)
 {
 	return "Legend";
+}
+
+static void
+gog_legend_parent_changed (GogObject *obj, gboolean was_set)
+{
+	GogLegend *legend = GOG_LEGEND (obj);
+
+	if (was_set && legend->chart_cardinality_handle == 0)
+		legend->chart_cardinality_handle =
+			g_signal_connect_object (G_OBJECT (obj->parent),
+				"notify::cardinality-valid",
+				G_CALLBACK (gog_object_request_update),
+				legend, G_CONNECT_SWAPPED);
+}
+
+static void
+gog_legend_update (GogObject *obj)
+{
+	GogLegend *legend = GOG_LEGEND (obj);
+	int i = gog_chart_get_cardinality (GOG_CHART (obj->parent));
+	if (legend->cached_count != i) {
+		legend->cached_count = i;
+		gog_object_emit_changed	(obj, TRUE);
+	}
 }
 
 static void
@@ -121,20 +138,21 @@ gog_legend_class_init (GogLegendClass *klass)
 	parent_klass = g_type_class_peek_parent (klass);
 	gobject_klass->set_property = gog_legend_set_property;
 	gobject_klass->get_property = gog_legend_get_property;
-	gobject_klass->finalize	    = gog_legend_finalize;
 
-	gog_klass->type_name	= gog_legend_type_name;
-	gog_klass->view_type	= gog_legend_view_get_type ();
+	gog_klass->type_name	  = gog_legend_type_name;
+	gog_klass->parent_changed = gog_legend_parent_changed;
+	gog_klass->update	  = gog_legend_update;
+	gog_klass->view_type	  = gog_legend_view_get_type ();
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, LEGEND_SWATCH_SIZE_PTS,
 		g_param_spec_double ("swatch_size_pts", "Swatch Size pts",
 			"size of the swatches in pts.",
-			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
+			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, LEGEND_SWATCH_PADDING_PTS,
 		g_param_spec_double ("swatch_padding_pts", "Swatch Padding pts",
 			"padding between the swatches in pts.",
-			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
+			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
 static void
@@ -142,6 +160,7 @@ gog_legend_init (GogLegend *legend)
 {
 	legend->swatch_size_pts = GO_CM_TO_PT (.25);
 	legend->swatch_padding_pts = GO_CM_TO_PT (.25);
+	legend->cached_count = 0;
 }
 
 GSF_CLASS (GogLegend, gog_legend,
@@ -155,7 +174,7 @@ typedef GogViewClass	GogLegendViewClass;
 #define GOG_LEGEND_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LEGEND_VIEW_TYPE, GogLegendView))
 #define IS_GOG_LEGEND_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LEGEND_VIEW_TYPE))
 
-static GogViewClass *cview_parent_klass;
+static GogViewClass *lview_parent_klass;
 
 static void
 gog_legend_view_size_request (GogView *view, GogViewRequisition *req)
@@ -220,6 +239,8 @@ gog_legend_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
 	gog_renderer_pop_style (view->renderer);
 
+	(lview_parent_klass->render) (view, bbox);
+
 	closure.view = view;
 	closure.swatch.x  = view->allocation.x + outline;
 	closure.swatch.y  = view->allocation.y + outline + pad / 2.;
@@ -229,8 +250,6 @@ gog_legend_view_render (GogView *view, GogViewAllocation const *bbox)
 	closure.base_line = pad / 2.; /* bottom of the swatch */
 	gog_chart_foreach_elem (GOG_CHART (view->model->parent),
 		(GogEnumFunc) cb_render_elements, &closure);
-
-	(cview_parent_klass->render) (view, bbox);
 }
 
 static void
@@ -238,7 +257,7 @@ gog_legend_view_class_init (GogLegendViewClass *gview_klass)
 {
 	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
 
-	cview_parent_klass = g_type_class_peek_parent (gview_klass);
+	lview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->size_request    = gog_legend_view_size_request;
 	view_klass->render	    = gog_legend_view_render;
 }

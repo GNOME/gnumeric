@@ -74,14 +74,12 @@ typedef void (*GogEnumFunc) (unsigned i, GogStyle *style,
 			     char const *name, gpointer data);
 
 typedef enum {
-	GOG_AXIS_INVALID = -1,
-	GOG_AXIS_NONE = 0,
 	GOG_AXIS_X,
 	GOG_AXIS_Y,
 	GOG_AXIS_Z,
 	GOG_AXIS_RADIAL,
 	GOG_AXIS_TYPES
-} GogAxisType;	/* unused for now.  Do we need it ? */
+} GogAxisType;
 
 typedef enum {
 	GOG_DIM_INVALID = -1,

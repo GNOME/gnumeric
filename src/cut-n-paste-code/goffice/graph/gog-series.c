@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-theme.h>
+#include <goffice/graph/gog-style.h>
 #include <goffice/graph/go-data.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -33,6 +34,8 @@
 #include <gtk/gtktable.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkhseparator.h>
+
+#include <string.h>
 
 static GObjectClass *parent_klass;
 
@@ -132,7 +135,15 @@ gog_series_editor (GogObject *gobj,
 				desc->dim[i].name, desc->dim[i].priority, TRUE);
 
 	gtk_widget_show_all (GTK_WIDGET (table));
-	return table;
+
+	w = gtk_notebook_new ();
+	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (w), GTK_POS_LEFT);
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (w), GTK_WIDGET (table),
+		gtk_label_new (_("Data")));
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (w),
+		gog_style_editor (gobj, cc, GOG_STYLE_OUTLINE | GOG_STYLE_FILL),
+		gtk_label_new (_("Style")));
+	return w;
 }
 
 static void
@@ -181,13 +192,24 @@ gog_series_class_init (GogSeriesClass *klass)
 static void
 gog_series_init (GogSeries *series)
 {
+	/* series do not have views, so just forward signals from the plot */
+	GOG_OBJECT (series)->use_parent_as_proxy = TRUE;
+
 	series->is_valid = FALSE;
 	series->plot = NULL;
 	series->values = NULL;
 }
 
+static void
+gog_series_dataset_dims (GogDataset const *set, int *first, int *last)
+{
+	GogSeries const *series = GOG_SERIES (set);
+	*first = -1;
+	*last = series->plot->desc.series.num_dim - 1; /* -1 .. -1  is ok */
+}
+
 static GOData *
-gog_series_get_dim (GogDataset const *set, int dim_i)
+gog_series_dataset_get_dim (GogDataset const *set, int dim_i)
 {
 	GogSeries const *series = GOG_SERIES (set);
 	g_return_val_if_fail ((int)series->plot->desc.series.num_dim > dim_i, NULL);
@@ -196,7 +218,7 @@ gog_series_get_dim (GogDataset const *set, int dim_i)
 }
 
 static void
-gog_series_set_dim_dataset (GogDataset *set, int dim_i,
+gog_series_dataset_set_dim (GogDataset *set, int dim_i,
 			    GOData *val, GError **err)
 {
 	GogSeriesDesc const *desc;
@@ -206,7 +228,7 @@ gog_series_set_dim_dataset (GogDataset *set, int dim_i,
 	g_return_if_fail (GOG_PLOT (series->plot) != NULL);
 	g_return_if_fail (val == NULL || GO_DATA (val) != NULL);
 
-	if (val == gog_series_get_dim (set, dim_i))
+	if (val == gog_series_dataset_get_dim (set, dim_i))
 		return;
 
 	if (dim_i < 0) {
@@ -249,8 +271,9 @@ gog_series_set_dim (GogSeries *series, int dim_i, GOData *val, GError **err)
 static void
 gog_series_dataset_init (GogDatasetClass *iface)
 {
-	iface->get_dim = gog_series_get_dim;
-	iface->set_dim = gog_series_set_dim_dataset;
+	iface->dims	= gog_series_dataset_dims;
+	iface->get_dim	= gog_series_dataset_get_dim;
+	iface->set_dim	= gog_series_dataset_set_dim;
 }
 
 GSF_CLASS_FULL (GogSeries, gog_series,

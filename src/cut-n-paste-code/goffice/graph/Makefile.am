@@ -15,6 +15,8 @@ libgoffice_graph_a_SOURCES = \
 	lib.h				\
 	gog-object.c			\
 	gog-object.h			\
+	gog-object-xml.c		\
+	gog-object-xml.h		\
 	gog-styled-object.c		\
 	gog-styled-object.h		\
 	gog-view.c			\

@@ -36,7 +36,7 @@ static GObjectClass *parent_klass;
 
 static void
 gog_styled_object_set_property (GObject *obj, guint param_id,
-			     GValue const *value, GParamSpec *pspec)
+				GValue const *value, GParamSpec *pspec)
 {
 	GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
 	GogStyle *style;
@@ -103,7 +103,7 @@ gog_styled_object_class_init (GogStyledObjectClass *klass)
 	g_object_class_install_property (gobject_klass, STYLED_OBJECT_PROP_STYLE,
 		g_param_spec_object ("style", "style",
 			"GogStyle *",
-			GOG_STYLE_TYPE, G_PARAM_READWRITE));
+			GOG_STYLE_TYPE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
 static void

@@ -441,7 +441,7 @@ application_history_add (char const *filename)
 		*ptr = NULL;
 	}
 
-	g_object_notify (G_OBJECT (app), "file_history_list");
+	g_object_notify (G_OBJECT (app), "file-history-list");
 	gnm_gconf_set_file_history_files (
 		g_string_slist_copy (app->history_list));
 	gnm_conf_sync ();
@@ -615,7 +615,7 @@ gnumeric_application_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize = gnumeric_application_finalize;
 	gobject_klass->get_property = gnumeric_application_get_property;
 	g_object_class_install_property (gobject_klass, APPLICATION_PROP_FILE_HISTORY_LIST,
-		g_param_spec_pointer ("file_history_list", "File History List",
+		g_param_spec_pointer ("file-history-list", "File History List",
 			"A GSlist of filenames that have been read recently",
 			G_PARAM_READABLE));
 

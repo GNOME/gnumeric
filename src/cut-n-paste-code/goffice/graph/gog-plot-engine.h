@@ -43,8 +43,6 @@ struct _GogPlotFamily {
 	GHashTable *types;
 }; 
 
-GogPlot  *gog_plot_new_by_name (char const *id);
-
 /* GogPlotFamily hashed by name */
 GHashTable const *gog_plot_families (void);
 GogPlotFamily *gog_plot_family_by_name  (char const *name);

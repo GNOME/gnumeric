@@ -36,7 +36,8 @@
 enum {
 	GRAPH_PROP_0,
 	GRAPH_PROP_PADDING_PTS,
-	GRAPH_PROP_THEME
+	GRAPH_PROP_THEME,
+	GRAPH_PROP_THEME_NAME
 };
 
 enum {
@@ -62,11 +63,14 @@ gog_graph_set_property (GObject *obj, guint param_id,
 	case GRAPH_PROP_THEME :
 		gog_graph_set_theme (graph, g_value_get_object (value));
 		break;
+	case GRAPH_PROP_THEME_NAME :
+		gog_graph_set_theme (graph,
+			gog_theme_lookup (g_value_get_string (value)));
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
-	return;
 }
 
 static void
@@ -81,6 +85,9 @@ gog_graph_get_property (GObject *obj, guint param_id,
 		break;
 	case GRAPH_PROP_THEME :
 		g_value_set_object (value, graph->theme);
+		break;
+	case GRAPH_PROP_THEME_NAME :
+		g_value_set_string (value, gog_theme_get_name (graph->theme));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -196,11 +203,15 @@ gog_graph_class_init (GogGraphClass *klass)
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_PADDING_PTS,
 		g_param_spec_double ("padding_pts", "Padding Pts",
 			"# of pts seperating charts in the grid.",
-			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
+			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_THEME,
 		g_param_spec_object ("theme", "Theme",
 			"the theme for elements of the graph",
 			GOG_THEME_TYPE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_klass, GRAPH_PROP_THEME_NAME,
+		g_param_spec_string ("theme-name", "ThemeName",
+			"the name of the theme for elements of the graph",
+			"default", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
 static void

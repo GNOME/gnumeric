@@ -110,7 +110,8 @@ gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 	gtk_box_pack_start (GTK_BOX (hbox), 
 		gtk_label_new_with_mnemonic (_("_Text:")), TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), 
-		gog_data_allocator_editor (dalloc, GOG_DATASET (dalloc), 0), TRUE, TRUE, 0);
+		gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 0), TRUE, TRUE, 0);
+	gtk_widget_show (hbox);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), 
 		    gog_style_editor (gobj, cc, GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT),
@@ -129,13 +130,19 @@ gog_label_class_init (GogLabelClass *klass)
 	gobject_klass->get_property = gog_label_get_property;
 	gobject_klass->finalize	    = gog_label_finalize;
 	g_object_class_install_property (gobject_klass, LABEL_PROP_ALLOW_MARKUP,
-		g_param_spec_object ("allow-markup", "allow-markup",
+		g_param_spec_boolean ("allow-markup", "allow-markup",
 			"Support basic html-ish markup",
-			TRUE, G_PARAM_READWRITE));
+			TRUE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 
 	gog_klass->editor	= gog_label_editor;
 	gog_klass->type_name	= gog_label_type_name;
 	gog_klass->view_type	= gog_label_view_get_type ();
+}
+
+static void
+gog_label_dims (GogDataset const *set, int *first, int *last)
+{
+	*first = *last = 0;
 }
 
 static GOData *
@@ -160,8 +167,9 @@ gog_label_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)
 static void
 gog_label_dataset_init (GogDatasetClass *iface)
 {
-	iface->get_dim = gog_label_get_dim;
-	iface->set_dim = gog_label_set_dim;
+	iface->dims	= gog_label_dims;
+	iface->get_dim	= gog_label_get_dim;
+	iface->set_dim	= gog_label_set_dim;
 }
 
 GSF_CLASS_FULL (GogLabel, gog_label,

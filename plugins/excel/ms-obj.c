@@ -964,3 +964,8 @@ ms_objv8_write_listbox (BiffPut *bp, gboolean filtered)
 		GSF_LE_SET_GUINT16 (buf + 14, 0xa);
 	ms_biff_put_var_write (bp, buf, sizeof data);
 }
+
+void
+ms_objv8_write_chart (BiffPut *bp, SheetObject *sog)
+{
+}

@@ -117,5 +117,6 @@ char *ms_read_TXO   (BiffQuery *q);
 void ms_objv8_write_common	(BiffPut *bp, int id, int type, gboolean sys);
 void ms_objv8_write_scrollbar	(BiffPut *bp);
 void ms_objv8_write_listbox	(BiffPut *bp, gboolean filtered);
+void ms_objv8_write_chart	(BiffPut *bp, SheetObject *sog);
 
 #endif /* GNUMERIC_MS_OBJ_H */

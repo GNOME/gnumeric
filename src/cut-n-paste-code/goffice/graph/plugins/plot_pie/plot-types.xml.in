@@ -8,6 +8,12 @@
 	  _description="Percentage of each contributor."
 	  sample_image_file="chart_pie_1_1.png">
     </Type>
+    <Type _name="Split Pie" row="1" col="2"
+	  engine="GogPiePlot" family="Pie"
+	  _description="Percentage of each contributor with wedges split apart."
+	  sample_image_file="chart_pie_2_1.png">
+	<property name="default_separation">.20</property>
+    </Type>
     <!--
     <Type _name="3D Pie" row="1" col="2"
 	  engine="GogPiePlot" family="Pie"
@@ -22,19 +28,7 @@
 	<property name="in_3d"/>
     </Type>
     -->
-    <Type _name="Split Pie" row="2" col="1"
-	  engine="GogPiePlot" family="Pie"
-	  _description="Percentage of each contributor with wedges split apart."
-	  sample_image_file="chart_pie_2_1.png">
-	<property name="default_separation">.20</property>
-    </Type>
     <!--
-    <Type _name="Split Pie" row="2" col="1"
-	  engine="GogPiePlot" family="Pie"
-	  _description="Percentage of each contributor with wedges split apart."
-	  sample_image_file="chart_pie_2_1.png">
-	<property name="default_separation">.20</property>
-    </Type>
     <Type _name="3D Split Pie" row="2" col="2"
 	  engine="GogPiePlot" family="Pie"
 	  _description="Percentage of each contributor with 3D wedges split apart."

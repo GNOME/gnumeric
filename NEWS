@@ -26,6 +26,9 @@ Jody:
 	* Fix printing of images.
 	* Coup de grace to gal, importing the 75 lines of e_xml we used
 	* Keynav for autoformat dialog
+	* Fix jumping to internal links in a different sheet
+	* Add XML persistence for charts
+	* Misc Charting improvements & fixes
 
 Jon Kåre:
 	* Improve color combo.

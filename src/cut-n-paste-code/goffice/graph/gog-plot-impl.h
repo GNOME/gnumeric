@@ -26,13 +26,14 @@
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-view.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
 
 struct _GogPlotDesc {
 	unsigned  num_series_min, num_series_max;
-	int	  num_axis;
+	unsigned  num_axis;
 	GogSeriesDesc series;
 };
 
@@ -44,6 +45,10 @@ struct _GogPlot {
 	unsigned	 cardinality;
 	gboolean	 cardinality_valid;
 	unsigned	 index_num;
+
+	gboolean vary_style_by_element;
+
+	GogAxis	       *axis[GOG_AXIS_TYPES];
 
 	/* Usually a copy from the class but its here to allow a GogPlotType to
 	 * override a things without requiring a completely new class */
@@ -69,6 +74,16 @@ typedef struct {
 #define GOG_PLOT_ITEM_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_PLOT_TYPE, GogPlotClass))
 
 /* protected */
+
+/*****************************************************************************/
+
+#define GOG_PLOT_VIEW_TYPE	(gog_plot_view_get_type ())
+#define GOG_PLOT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PLOT_VIEW_TYPE, GogPlotView))
+#define IS_GOG_PLOT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PLOT_VIEW_TYPE))
+
+typedef GogView		GogPlotView;
+typedef GogViewClass	GogPlotViewClass;
+GType gog_plot_view_get_type (void);
 
 G_END_DECLS
 

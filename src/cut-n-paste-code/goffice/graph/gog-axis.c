@@ -22,28 +22,23 @@
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-data-allocator.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
 
-typedef enum {
-	GOG_AXIS_AT_LOW = -1,
-	GOG_AXIS_IN_MIDDLE = 0,
-	GOG_AXIS_AT_HIGH = 1
-} GogAxisPosition;
-
 struct _GogAxis {
-	GogObject	base;
+	GogObject	 base;
+
+	GogAxisType	 type;
+	GogAxisPosition	 pos;
+	GSList		*i_cross, *crosses_me, *series;
+	GOData		*min_source, *max_source;
 };
 
 typedef struct {
 	GogObjectClass	base;
-	GogAxisPosition	pos;
 } GogAxisClass;
-
-enum {
-	AXIS_PROP_0,
-};
 
 static GObjectClass *parent_klass;
 
@@ -57,7 +52,7 @@ gog_axis_finalize (GObject *obj)
 }
 
 static char const *
-gog_axis_type_name (GogObject const *item)
+gog_axis_type_name (GogObject const *obj)
 {
 	return "Axis";
 }
@@ -85,7 +80,33 @@ gog_axis_init (GogGraph *graph)
 {
 }
 
-GSF_CLASS (GogAxis, gog_axis,
-	   gog_axis_class_init, gog_axis_init,
-	   GOG_OBJECT_TYPE)
+static void
+gog_axis_dataset_dims (GogDataset const *set, int *first, int *last)
+{
+}
+
+static GOData *
+gog_axis_dataset_get_dim (GogDataset const *set, int dim_i)
+{
+	return NULL;
+}
+
+static void
+gog_axis_dataset_set_dim (GogDataset *set, int dim_i,
+			  GOData *val, GError **err)
+{
+}
+
+static void
+gog_axis_dataset_init (GogDatasetClass *iface)
+{
+	iface->dims	= gog_axis_dataset_dims;
+	iface->get_dim	= gog_axis_dataset_get_dim;
+	iface->set_dim	= gog_axis_dataset_set_dim;
+}
+
+GSF_CLASS_FULL (GogAxis, gog_axis,
+		gog_axis_class_init, gog_axis_init,
+		GOG_OBJECT_TYPE, 0,
+		GSF_INTERFACE (gog_axis_dataset_init, GOG_DATASET_TYPE))
 

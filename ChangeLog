@@ -1,3 +1,29 @@
+2003-06-22  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object.c (sheet_object_register) : register the graph
+	  types to allow loading.
+
+	* src/sheet-object-graph.c (sheet_object_graph_read_xml) : enable.
+	(sheet_object_graph_write_xml) : enable.
+
+	* src/graph.c (gnm_go_data_from_str) : new utility shared by vector
+	  and scalar that can parse, and handle delaying the parse until the
+	  data source is linked to a sheet to provide context.
+	(gnm_go_data_set_sheet) : ditto.
+	(gnm_go_data_scalar_from_str) : new requirement for interface.
+	(gnm_go_data_scalar_set_sheet) : use gnm_go_data_set_sheet.
+	(gnm_go_data_vector_from_str) : new requirement for interface.
+	(gnm_go_data_vector_set_sheet) : use gnm_go_data_set_sheet.
+
+	* src/application.c (application_history_add) : GObject::notify seems
+	  to prefer hyphens to underscores.
+	(gnumeric_application_class_init) : ditto.
+
+2003-06-18  Jody Goldberg <jody@gnome.org>
+
+	* src/hlink.c (gnm_hlink_cur_wb_activate) : jump to the target sheet,
+	  not the current sheet.
+
 2003-06-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/stf-parse.c (stf_parse_options_new): initialize locale

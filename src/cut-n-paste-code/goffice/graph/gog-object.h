@@ -60,7 +60,8 @@ struct _GogObject {
 
 	unsigned needs_update : 1;
 	unsigned being_updated : 1;
-	unsigned explicitly_typed_role : 1; /* did we create it automatictly */
+	unsigned explicitly_typed_role : 1; /* did we create it automaticly */
+	unsigned use_parent_as_proxy : 1; /* when we change, pretend it was our parent */
 };
 
 typedef struct {
@@ -89,6 +90,8 @@ typedef struct {
 #define GOG_OBJECT_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_OBJECT_TYPE, GogObjectClass))
 #define IS_GOG_OBJECT_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_OBJECT_TYPE))
 #define GOG_OBJECT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_OBJECT_TYPE, GogObjectClass))
+
+#define GOG_PARAM_PERSISTENT	(1 << G_PARAM_USER_SHIFT)
 
 GType gog_object_get_type (void);
 

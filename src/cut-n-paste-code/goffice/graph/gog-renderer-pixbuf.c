@@ -82,7 +82,7 @@ gog_renderer_pixbuf_draw_path (GogRenderer *renderer, ArtVpath *path)
 	art_svp_free (svp);
 }
 
-static void
+void
 go_color_to_artpix (ArtPixMaxDepth *res, GOColor rgba)
 {
 	guint8 r = UINT_RGBA_R (rgba);
@@ -217,7 +217,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 					for (j = 0; j < jmax; j++) {
 						gdk_pixbuf_copy_area (image, 0, 0, w, h,
 								      prend->buffer, x, y);
-						y+= h;
+						y += h;
 					}
 					gdk_pixbuf_copy_area (image, 0, 0, w,
 							      prend->h % h, prend->buffer, x, y);
@@ -227,7 +227,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 				for (j = 0; j < jmax; j++) {
 					gdk_pixbuf_copy_area (image, 0, 0, prend->w % w, h,
 							      prend->buffer, x, y);
-					y+= h;
+					y += h;
 				}
 				gdk_pixbuf_copy_area (image, 0, 0, prend->w % w, prend->h % h,
 						      prend->buffer, x, y);

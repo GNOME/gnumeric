@@ -73,7 +73,7 @@ gog_pie_plot_pref (GogPiePlot *pie, CommandContext *cc)
 		G_CALLBACK (cb_default_separation_changed), pie);
 
 	w = glade_xml_get_widget (gui, "vary_style_by_element");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), pie->vary_style_by_element);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), pie->base.vary_style_by_element);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_use_style_toggled), pie);

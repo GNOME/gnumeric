@@ -87,7 +87,6 @@ struct _GraphGuruState {
 };
 
 struct _GraphGuruTypeSelector {
-	GtkWidget	*notebook;
 	GtkWidget	*canvas;
 	GtkWidget	*sample_button;
 	GtkLabel	*label;
@@ -514,6 +513,15 @@ cb_graph_guru_delete_item (GtkWidget *w, GraphGuruState *s)
 }
 
 static void
+prop_notebook_set_current_page (GtkNotebook *notebook, gint page_num)
+{
+	GtkWidget *w = gtk_notebook_get_nth_page (notebook, page_num);
+
+	gtk_notebook_set_show_border (notebook, !GTK_IS_NOTEBOOK (w));
+	gtk_notebook_set_current_page (notebook, page_num);
+}
+
+static void
 cb_select_prop_page (GtkWidget *page, GogObject **target)
 {
 	GogObject *obj;
@@ -523,7 +531,7 @@ cb_select_prop_page (GtkWidget *page, GogObject **target)
 	obj = g_object_get_data (G_OBJECT (page), GRAPH_OBJECT_KEY);
 	if (obj == *target) {
 		GtkWidget *notebook = gtk_widget_get_parent (page);
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook),
+		prop_notebook_set_current_page (GTK_NOTEBOOK (notebook),
 			gtk_notebook_page_num (GTK_NOTEBOOK (notebook), page));
 		*target = NULL;
 	}
@@ -694,7 +702,7 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 				gtk_widget_show (editor);
 				g_object_set_data (G_OBJECT (editor), GRAPH_OBJECT_KEY, obj);
 			}
-			gtk_notebook_set_current_page (s->prop_notebook, item_page);
+			prop_notebook_set_current_page (s->prop_notebook, item_page);
 		}
 	}
 
@@ -1174,14 +1182,10 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	gtk_box_pack_start (GTK_BOX (hbox), tmp, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), typesel->sample_button, FALSE, TRUE, 0);
 
-	typesel->notebook = gtk_notebook_new ();
-	gtk_notebook_append_page (GTK_NOTEBOOK (typesel->notebook),
-		vbox, gtk_label_new (_("Basic Types")));
-
-	g_object_set_data_full (G_OBJECT (typesel->notebook),
+	g_object_set_data_full (G_OBJECT (vbox),
 		"state", typesel, (GDestroyNotify) g_free);
 
-	return typesel->notebook;
+	return vbox;
 }
 
 static gboolean

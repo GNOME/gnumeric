@@ -29,6 +29,9 @@
 
 #include <gsf/gsf-impl-utils.h>
 
+#include <libart_lgpl/art_render_gradient.h>
+#include <libart_lgpl/art_render_svp.h>
+
 #include <math.h>
 
 #define GOG_RENDERER_GNOME_PRINT_TYPE	(gog_renderer_gnome_print_get_type ())
@@ -106,12 +109,24 @@ gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath *path)
 	gnome_print_stroke (prend->gp_context);
 }
 
+#define PIXBUF_SIZE 1024
 static void
 gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolean narrow)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
 	GogStyle *style = renderer->cur_style;
 	gboolean with_outline = (!narrow && style->outline.width >= 0.);
+	GdkPixbuf *image;
+	GError *err = NULL;
+	ArtDRect bbox;
+	ArtRender *render;
+	ArtSVP *fill;
+	gint i, j, imax, jmax, w, h, x, y;
+	ArtGradientLinear gradient;
+	ArtGradientStop stops[] = {
+		{ 0., { 0, 0, 0, 0 }},
+		{ 1., { 0, 0, 0, 0 }}
+	};
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE || with_outline) {
 		draw_path (prend, path);
@@ -119,6 +134,8 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 	}
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE) {
+
+		art_vpath_bbox_drect (path, &bbox);
 
 		switch (style->fill.type) {
 		case GOG_FILL_STYLE_SOLID:
@@ -132,11 +149,153 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 			g_warning ("unimplemented");
 			break;
 		case GOG_FILL_STYLE_GRADIENT:
-			g_warning ("unimplemented");
+			image = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, PIXBUF_SIZE, PIXBUF_SIZE);
+			gnome_print_gsave (prend->gp_context);
+			gnome_print_clip (prend->gp_context);
+			render = art_render_new (0, 0, PIXBUF_SIZE, PIXBUF_SIZE,
+				gdk_pixbuf_get_pixels (image), 
+				gdk_pixbuf_get_rowstride (image),
+				gdk_pixbuf_get_n_channels (image) - 1,
+				8, ART_ALPHA_NONE, NULL);
+			switch (style->fill.u.gradient.type) {
+			case GOG_GRADIENT_N_TO_S:
+				gradient. a = 0.;
+				gradient. b = 1. / PIXBUF_SIZE;
+				gradient. c = 0.;
+				break;
+			case GOG_GRADIENT_W_TO_E:
+				gradient. a = 1. / PIXBUF_SIZE;
+				gradient. b = 0.;
+				gradient. c = 0.;
+				break;
+			case GOG_GRADIENT_NW_TO_SE:
+				gradient. a = .5 / PIXBUF_SIZE;
+				gradient. b = .5 / PIXBUF_SIZE;
+				gradient. c = 0.;
+				break;
+			case GOG_GRADIENT_NE_TO_SW:
+				gradient. a = .5 / PIXBUF_SIZE;
+				gradient. b = -.5 / PIXBUF_SIZE;
+				gradient. c = .5;
+				break;
+			}
+			gradient.spread = ART_GRADIENT_REPEAT;
+			gradient.n_stops = G_N_ELEMENTS (stops);
+			gradient.stops = stops;
+
+			if (style->fill.u.gradient.type == GOG_GRADIENT_NE_TO_SW) {
+				go_color_to_artpix (stops[0].color,
+				style->fill.u.gradient.end);
+				go_color_to_artpix (stops[1].color,
+					style->fill.u.gradient.start);
+			} else {
+				go_color_to_artpix (stops[0].color,
+				style->fill.u.gradient.start);
+				go_color_to_artpix (stops[1].color,
+					style->fill.u.gradient.end);
+			}
+			art_render_gradient_linear (render,
+				&gradient, ART_FILTER_NEAREST);
+			art_render_invoke (render);
+			gnome_print_translate (prend->gp_context, 0, bbox.y0 - bbox.y1);
+			gnome_print_scale (prend->gp_context, bbox.x1 - bbox.x0, bbox.y1 - bbox.y0);
+			gnome_print_rgbimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
+									gdk_pixbuf_get_width(image),
+									gdk_pixbuf_get_height(image),
+									gdk_pixbuf_get_rowstride(image));
+			gnome_print_grestore (prend->gp_context);
 			break;
 
 		case GOG_FILL_STYLE_IMAGE:
-			g_warning ("unimplemented");
+			if (!style->fill.u.image.image_file)
+				break;
+			image = gdk_pixbuf_new_from_file (style->fill.u.image.image_file, &err);
+			if (err != NULL)
+				break;
+			gnome_print_gsave (prend->gp_context);
+			gnome_print_clip (prend->gp_context);
+			switch (style->fill.u.image.type) {
+			case GOG_IMAGE_STRETCHED:
+				gnome_print_translate (prend->gp_context, 0, bbox.y0 - bbox.y1);
+				gnome_print_scale (prend->gp_context, bbox.x1 - bbox.x0, bbox.y1 - bbox.y0);
+				if (gdk_pixbuf_get_has_alpha (image))
+					gnome_print_rgbaimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
+											gdk_pixbuf_get_width(image),
+											gdk_pixbuf_get_height(image),
+											gdk_pixbuf_get_rowstride(image));
+				else
+					gnome_print_rgbimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
+											gdk_pixbuf_get_width(image),
+											gdk_pixbuf_get_height(image),
+											gdk_pixbuf_get_rowstride(image));
+				break;
+
+			case GOG_IMAGE_WALLPAPER:
+				imax = (bbox.x1 - bbox.x0) / (w = gdk_pixbuf_get_width (image));
+				jmax = (bbox.y1 - bbox.y0) / (h = gdk_pixbuf_get_height (image));
+				x = 0;
+				for (i = 0; i < imax; i++) {
+					y = 0;
+					for (j = 0; j < jmax; j++) {
+						gnome_print_gsave (prend->gp_context);
+						gnome_print_translate (prend->gp_context, x, - y - h);
+						gnome_print_scale (prend->gp_context, w, h);
+						if (gdk_pixbuf_get_has_alpha (image))
+							gnome_print_rgbaimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
+													w, h,
+													gdk_pixbuf_get_rowstride(image));
+						else
+							gnome_print_rgbimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
+													w, h,
+													gdk_pixbuf_get_rowstride(image));
+						gnome_print_grestore (prend->gp_context);
+						y += h;
+					}
+					gnome_print_gsave (prend->gp_context);
+					gnome_print_translate (prend->gp_context, x, - y - (int)(bbox.y1 - bbox.y0) % h);
+					gnome_print_scale (prend->gp_context, w, (int)(bbox.y1 - bbox.y0) % h);
+					if (gdk_pixbuf_get_has_alpha (image))
+						gnome_print_rgbaimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
+												w, (int)(bbox.y1 - bbox.y0) % h,
+												gdk_pixbuf_get_rowstride(image));
+					else
+						gnome_print_rgbimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
+												w, (int)(bbox.y1 - bbox.y0) % h,
+												gdk_pixbuf_get_rowstride(image));
+						gnome_print_grestore (prend->gp_context);
+					x += w;
+				}
+				y = 0;
+				for (j = 0; j < jmax; j++) {
+					gnome_print_gsave (prend->gp_context);
+					gnome_print_translate (prend->gp_context, x, - y - h);
+					gnome_print_scale (prend->gp_context, (int)(bbox.x1 - bbox.x0) % w, h);
+					if (gdk_pixbuf_get_has_alpha (image))
+						gnome_print_rgbaimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
+												(int)(bbox.x1 - bbox.x0) % w, h,
+												gdk_pixbuf_get_rowstride(image));
+					else
+						gnome_print_rgbimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
+												(int)(bbox.x1 - bbox.x0) % w, h,
+												gdk_pixbuf_get_rowstride(image));
+					gnome_print_grestore (prend->gp_context);
+					y += h;
+				}
+				gnome_print_gsave (prend->gp_context);
+				gnome_print_translate (prend->gp_context, x, - y - (int)(bbox.y1 - bbox.y0) % h);
+				gnome_print_scale (prend->gp_context, (int)(bbox.x1 - bbox.x0) % w, (int)(bbox.y1 - bbox.y0) % h);
+				if (gdk_pixbuf_get_has_alpha (image))
+					gnome_print_rgbaimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
+											(int)(bbox.x1 - bbox.x0) % w, (int)(bbox.y1 - bbox.y0) % h,
+											gdk_pixbuf_get_rowstride(image));
+				else
+					gnome_print_rgbimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
+											(int)(bbox.x1 - bbox.x0) % w, (int)(bbox.y1 - bbox.y0) % h,
+											gdk_pixbuf_get_rowstride(image));
+					gnome_print_grestore (prend->gp_context);
+				break;
+			}
+			gnome_print_grestore (prend->gp_context);
 			break;
 
 		case GOG_FILL_STYLE_NONE:
@@ -201,6 +360,7 @@ gog_graph_print_to_gnome_print (GogGraph *graph,
 	GogRendererGnomePrint *prend =
 		g_object_new (GOG_RENDERER_GNOME_PRINT_TYPE,
 			      "model", graph,NULL);
+	g_object_ref (gp_context);
 	prend->gp_context = gp_context;
 
 	allocation.x = 0.;

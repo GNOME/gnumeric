@@ -77,6 +77,24 @@ gog_dataset_get_type (void)
 }
 
 /**
+ * gog_dataset_dims :
+ * @set : #GogDataset
+ * @first : inclusive
+ * @last : _inclusive_
+ *
+ * Returns the first and last valid indicises to get/set dim.
+ **/
+void
+gog_dataset_dims (GogDataset const *set, int *first, int *last)
+{
+	GogDatasetClass *klass = GOG_DATASET_GET_CLASS (set);
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (first != NULL);
+	g_return_if_fail (last != NULL);
+	return (klass->dims) (set, first, last);
+}
+
+/**
  * gog_dataset_get_dim :
  * @set : #GogDataset
  * @dim_i :

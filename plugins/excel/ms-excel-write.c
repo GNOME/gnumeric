@@ -35,6 +35,7 @@
 #include <sheet-view.h>
 #include <sheet-object.h>
 #include <sheet-object-cell-comment.h>
+#include <sheet-object-graph.h>
 #include <application.h>
 #include <style.h>
 #include <validation.h>
@@ -3190,6 +3191,68 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 	}
 }
 
+#if 0
+static void
+excel_write_chart (ExcelWriteSheet *esheet, SheetObject *sog)
+{
+	static guint8 const obj_v8[] = {
+/* DgContainers */  0xf, 0,   2, 0xf0,	0xc0, 0, 0, 0,	/* hard code length */
+/* Dg */	   0x10, 0,   8, 0xf0,	   8, 0, 0, 0,	2, 0, 0, 0, 1, 4, 0, 0,
+/* SpgrContainer */ 0xf, 0,   3, 0xf0,	0xa8, 0, 0, 0,	/* hard code length */
+/* SpContainer */   0xf, 0,   4, 0xf0,	0x28, 0, 0, 0,
+/* Spgr */	      1, 0,   9, 0xf0,	0x10, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+/* Sp */	      2, 0, 0xa, 0xf0,     8, 0, 0, 0,	0, 4, 0, 0, 5, 0, 0, 0,
+/* SpContainer */   0xf,   0,   4, 0xf0,   0x70, 0, 0, 0,
+/* Sp */	   0x92, 0xc, 0xa, 0xf0,      8, 0, 0, 0,
+
+			1,  4,  0,  0,	/* fill in spid of the form obj | 0x400 */
+			0,  0xa,  0,  0,
+/* OPT */	   0x93,   0, 0xb, 0xf0,   0x36, 0, 0, 0,
+			0x7f, 0, 4, 1,   4, 1, /* bool LockAgainstGrouping 127 = 0x1040104; */
+			0xbf, 0, 8, 0,   8, 0, /* bool fFitTextToShape 191 = 0x80008; */
+			0xbf, 1, 0, 0,   1, 0, /* bool fNoFillHitTest  447 = 0x10000; */
+			0xff, 1, 0, 0,   8, 0, /* bool fNoLineDrawDash 511 = 0x80000; */
+			0xbf, 3, 0, 0, 0xa, 0, /* bool fPrint 959 = 0xa0000; */
+/* ClientAnchor */    0, 0, 0x10, 0xf0,   0x12, 0, 0, 0, 1,0,
+			0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,
+/* ClientData */      0, 0, 0x11, 0xf0,  0, 0, 0, 0
+	};
+
+	guint8 *data, buf [sizeof obj_v8];
+	GnmFilter const *filter;
+	GnmFilterCondition const *cond;
+	BiffPut *bp = esheet->ewb->bp;
+	unsigned i;
+	Range r;
+	
+	ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
+	memcpy (buf, obj_v8, sizeof obj_v8);
+	GSF_LE_SET_GUINT32 (buf + 16, 0x400 | esheet->ewb->obj_count);
+	excel_write_anchor (buf + 72, &r);
+	ms_biff_put_var_write (bp, buf, sizeof obj_v8);
+	ms_biff_put_commit (bp);
+
+	ms_biff_put_var_next (bp, BIFF_OBJ);
+	ms_objv8_write_common (bp, esheet->ewb->obj_count, 0x14, TRUE);
+	ms_objv8_write_scrollbar (bp);
+	ms_objv8_write_listbox (bp, cond != NULL); /* acts as an end */
+	ms_biff_put_commit (bp);
+}
+
+static void
+excel_write_charts (ExcelWriteSheet *esheet)
+{
+	GSList *ptr;
+
+	/* one thing at a time, lets do xl97+ first */
+	if (esheet->ewb->bp->version < MS_BIFF_V8)
+		return;
+
+	for (ptr = sheet->sheet_objects; ptr != NULL; ptr = ptr->next)
+		if (IS_SHEET_OBJECT_GRAPH (ptr->data))
+			excel_write_chart (esheet, SHEET_OBJECT_GRAPH (ptr->data));
+}
+#endif
 
 /* See: S59D76.HTM */
 static void
@@ -3636,7 +3699,11 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	excel_sheet_write_INDEX (esheet, index_off, dbcells);
 
 	excel_write_autofilter_objs (esheet);
+#if 0
+	excel_write_charts (esheet);
+#endif
 
+#warning check this.  Why is there a window1 here ?
 	excel_write_WINDOW1 (ewb->bp, esheet->ewb->gnum_wb_view);
 	if (excel_write_WINDOW2 (ewb->bp, esheet))
 		excel_write_PANE (ewb->bp, esheet);

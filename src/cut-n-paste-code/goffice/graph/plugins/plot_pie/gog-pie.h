@@ -32,7 +32,6 @@ typedef struct {
 
 	int	 initial_angle;	 /* degrees counterclockwise from 3 o'clock */
 	float	 default_separation;	/* as a percentage of the radius */
-	gboolean vary_style_by_element;
 	gboolean in_3d;
 } GogPiePlot;
 
@@ -48,10 +47,8 @@ typedef struct {
 	float	 initial_angle;	/* degrees counterclockwise from 3 o'clock */
 	float	 separation;	/* as a percentage of the radius */
 
-	unsigned num_elements;
 	double   total;
 	float	*extensions;
-	float    max_extension; /* as a multiple of radius */
 } GogPieSeries;
 
 #define GOG_PIE_SERIES_TYPE	(gog_pie_series_get_type ())

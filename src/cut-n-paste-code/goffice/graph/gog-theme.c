@@ -304,3 +304,10 @@ gog_theme_lookup (char const *name)
 	}
 	return default_theme;
 }
+
+char const *
+gog_theme_get_name (GogTheme const *theme)
+{
+	g_return_val_if_fail (GOG_THEME (theme) != NULL, "");
+	return theme->name;
+}

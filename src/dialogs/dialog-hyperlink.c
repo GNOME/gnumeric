@@ -200,7 +200,7 @@ static struct {
 	  "GnmHLinkEMail",	"email-box" ,
 	  N_("Prepare an email"), NULL },
 #endif
-	{ N_("_URL"),		"Gnumeric_Link_URL",
+	{ N_("_Web Link"),		"Gnumeric_Link_URL",
 	  "GnmHLinkURL",	"url-box" ,
 	  N_("Browse to the specified URL"),
 	  dhl_set_target_url,

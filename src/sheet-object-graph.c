@@ -34,6 +34,8 @@
 #include "workbook-edit.h"
 
 #include <goffice/graph/gog-graph.h>
+#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
@@ -87,17 +89,9 @@ cb_graph_remove_data (G_GNUC_UNUSED GogGraph *graph,
 	sog_data_set_sheet (sog, data, NULL);
 }
 
-/**
- * sheet_object_graph_new :
- * @graph : #GogGraph
- *
- * Adds a reference to @graph and creates a gnumeric sheet object wrapper
- **/
-SheetObject *
-sheet_object_graph_new (GogGraph *graph)
+static void
+sheet_object_graph_set_gog (SheetObjectGraph *sog, GogGraph *graph)
 {
-	SheetObjectGraph *sog = g_object_new (SHEET_OBJECT_GRAPH_TYPE, NULL);
-
 	if (graph != NULL)
 		g_object_ref (G_OBJECT (graph));
 	else
@@ -113,7 +107,27 @@ sheet_object_graph_new (GogGraph *graph)
 	g_signal_connect_object (G_OBJECT (graph),
 		"remove_data",
 		G_CALLBACK (cb_graph_remove_data), G_OBJECT (sog), 0);
+}
 
+GogGraph *
+sheet_object_graph_get_gog (SheetObject *sog)
+{
+	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (sog), NULL);
+
+	return ((SheetObjectGraph *)sog)->graph;
+}
+
+/**
+ * sheet_object_graph_new :
+ * @graph : #GogGraph
+ *
+ * Adds a reference to @graph and creates a gnumeric sheet object wrapper
+ **/
+SheetObject *
+sheet_object_graph_new (GogGraph *graph)
+{
+	SheetObjectGraph *sog = g_object_new (SHEET_OBJECT_GRAPH_TYPE, NULL);
+	sheet_object_graph_set_gog (sog, graph);
 	return SHEET_OBJECT (sog);
 }
 
@@ -176,13 +190,21 @@ static gboolean
 sheet_object_graph_read_xml (SheetObject *so,
 			     XmlParseContext const *ctxt, xmlNodePtr tree)
 {
+	GogObject *graph = gog_object_new_from_xml (NULL, 
+		e_xml_get_child_by_name (tree, "GogObject"));
+	sheet_object_graph_set_gog (SHEET_OBJECT_GRAPH (so), GOG_GRAPH (graph));
+	g_object_unref (graph);
 	return FALSE;
 }
 
 static gboolean
 sheet_object_graph_write_xml (SheetObject const *so,
-			      XmlParseContext const *ctxt, xmlNodePtr tree)
+			      XmlParseContext const *ctxt, xmlNode *parent)
 {
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	xmlNode *res = gog_object_write_xml (GOG_OBJECT (sog->graph), ctxt->doc);
+	if (res != NULL)
+		xmlAddChild (parent, res);
 	return FALSE;
 }
 
@@ -217,7 +239,7 @@ cb_update_graph (GogGraph *graph, SheetObjectGraph *sog)
 {
 	g_object_set (sog->renderer, "model", graph, NULL);
 	g_object_ref (G_OBJECT (graph));
-	g_object_unref (G_OBJECT (sog->graph));
+	g_object_unref (sog->graph);
 	sog->graph = graph;
 }
 
@@ -323,14 +345,6 @@ cb_graph_guru_done (WorkbookControlGUI *wbcg)
 {
 	wbcg_edit_detach_guru (wbcg);
 	wbcg_edit_finish (wbcg, FALSE, NULL);
-}
-
-GogGraph *
-sheet_object_graph_get_gog (SheetObject *sog)
-{
-	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (sog), NULL);
-
-	return ((SheetObjectGraph *)sog)->graph;
 }
 
 void

@@ -10,6 +10,10 @@ Release Critical
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.
 
+* Look into octave/matlab filters
+
+YIELDDISC	(test fails by alot)
+
 * Add a gsf-input-iconv
 * Use it to handle non ascii xml from 1.0.x with no known encoding
 * compartmentalize gconf support
@@ -47,16 +51,25 @@ Pending Patches
     0.15) Enter ''123 in a text-formattted cell and expr entry
           will show only one quote.
 
-
-1) graphs							{Jody}
+1) graphs
     1.1) Split plot xml file engine, type, and family plugins	(DONE)
     1.2) Use the registered engines to create plots		(DONE)
-    1.3) xml -> GValue parsing for type args
-	1.3.1) borrow code from libglade			(DONE)
-	1.3.2) remove GdkColor from boxed type support
-	1.3.3) add GOColor support
-	1.3.4) Consider font specification
-	1.3.5) Possibly move to libgsf
+    1.3) XML
+	1.3.1) Use libglade code parse GObject properties	(DONE)
+	1.3.2) remove GdkColor from boxed type support		(DONE)
+	1.3.3) Walk GogObject tree and build DOM		(DONE)
+	1.3.4) Build GogObject treee from DOM			(DONE)
+	1.3.5) For flagged properties store value in DOM	(DONE)
+	1.3.6) Read properties from DOM				(DONE)
+	1.3.7) XMLWriter interface for extra object content 	(DONE)
+	1.3.8) Use it for series				(DONE)
+	1.3.9) Extend GOData to support deserialization		(DONE)
+	1.3.10) Implement deserialization for GnmData		(DONE)
+	1.3.11) Use the XMLWriter for series for all datasets	(DONE)
+	1.3.12) Persist names					(DONE)
+	1.3.13) Use XMLWriter for properties of type object	(DONE)
+	1.3.14) implement it for styles
+	1.3.15) position
     1.4) Decide on model vs view structure			(DONE)
     1.5) 1st pass at Graph Guru					(DONE)
 	1.5.1) update when someone else changes the model	(DONE)
@@ -67,7 +80,7 @@ Pending Patches
     1.7) XLS import
 	1.7.1) check overlap percentage for bars		(DONE)
 	1.7.2) Add gog_object_set_position
-	1.7.3) Handle 'use_one_style'
+	1.7.3) Handle 'use_one_style'				(DONE)
 	1.7.4) override auto series indexing for xls
 	1.7.5) styles
 	1.7.6) Avoid leaking GODatas when faced with an unknown	(DONE)
@@ -79,9 +92,11 @@ Pending Patches
 	1.8.4) Add min/max elements to vector			(DONE)
     1.9) Pie Plot
 	1.9.1) Make the segments curve				(DONE)
-	1.9.2) extracted segments
+	1.9.2) extracted segments				(DONE)
 	1.9.3) Rings
 	1.9.4) Radial plots
+	1.9.5) extracting single wedges
+	1.9.6) formating single wedges
     1.10) Bar/Col Plot						(DONE)
 	1.10.1) merge bar/col stack type bools into 1 enum	(DONE)
 	1.10.2) normal						(DONE)
@@ -96,7 +111,24 @@ Pending Patches
     1.13) Decide on recalc strategy				(DONE)
 	1.13.1) Getting data from sheet -> graphs		(DONE)
 	1.13.2) linking unlinking				(DONE)
-    1.14) axis management
+    1.14) Axis management
+	1.14.1) Charts/plots have axis layout type
+	1.14.2) Life cycle of plots/axis to maintain connection
+	1.14.3) UI for adding an axis
+	1.14.4) Only permit removal of unused axes
+	1.14.5) Allow a plot to select a different axis
+	1.14.6) Create plot2d as base for bar/col & XY
+	1.14.7) Filter add plot in guru to matching types
+	1.14.8) do range allocation and filtering in chart
+	    foreach axis in chart
+		if (find_bound (axis, TRUE))
+		    collect axis;
+	    do {
+		foreach axis in collection
+		    if (find_bound (axis, FALSE))
+			collect axis;
+	    } while (collection != NULL);
+
     1.15) per series plot type specific data			(DONE)
     1.16) libart based render akin to guppicanvas.		(DONE)
 	1.16.1) Solid background fills				(DONE)
@@ -104,12 +136,15 @@ Pending Patches
 	1.16.2) Gradient fills (basic)				(DONE)
 	    1.16.2.1) use bbox.x2-bbox.x1 + 1 for size		(DONE)
 	1.16.3) Image fills					(DONE)
+	    1.16.3.1) could be improved via 1.25.5
 	1.16.4) path						(DONE)
 ->	    1.16.4.1) Use ArtRender interface
 	1.16.5) text						(DONE)
 	1.16.6) markers
-    1.17) Connect the user_config handler for SheetObjectGraph	(DONE)
-          to test the guru on existing graphs
+    1.17) SheetObject editing
+	1.17.1) Connect SheetObejct::user_config handler	(DONE)
+	1.17.2) Create a gog_object_dup to avoid live updating
+	1.17.3) Add undo/redo of full GogGraph assignment
     1.18) Extend sheet object anchor assignment to call object	(DONE)
           specfic handlers so that we can set the logical size
 	  of the graph.
@@ -129,6 +164,13 @@ Pending Patches
 	    1.20.1.6) patterns
 	1.20.2) outline line pattern
 	1.20.3) font selector
+	1.20.4) Add 'is auto' checkboxes
+	    outline
+	    fill
+	    font
+	1.20.5) drag destination for background images (wish)
+	1.20.6) display outline distinct from outline width
+
     1.21) themes
 	1.21.1) Actually use the themes to initialize styles	(DONE)
 	1.21.2) load from xml
@@ -137,15 +179,17 @@ Pending Patches
 	1.21.5) Use Roles rather than Types to enumerate
     1.22) Legend
 	1.22.1) Set up cardinality framework.			(DONE)
+	1.22.2) Get things to update when chart changes		(DONE)
 	1.22.2) smarter layout
     1.23) Layout engine
 	1.23.1) In ChartView::size_allocate use the positions	(DONE)
 	1.23.2) For compass placement use the alignment flags	(DONE)
 	1.23.3) support NW, NE, SW, SE				(DONE)
 	1.23.4) Move ChartView::size_allocate -> GogView	(DONE)
-	1.23.4) Add some notion of padding
-	1.23.5) remove request_valid, pass in available space
-	1.24.6) Have Graph, Chart, Legend and Axis use it
+	1.24.5) Have Graph, Chart, Legend and Axis use it
+	1.23.6) Add some notion of padding
+	1.23.7) remove request_valid				(DONE)
+	1.23.8) pass in available space
     1.24) Sizing units
 	1.24.1) Have the legend use pts to size swatches	(DONE)
 	1.24.2) Test renderers mapping between pts & pixels	(DONE)
@@ -155,24 +199,26 @@ Pending Patches
 	1.25.3) paths						(DONE)
 	1.25.4) solid and empty polygons			(DONE)
 	1.25.5) image filled polygons
+		Jean has patch, we should cache the pixbuf as qdata.
 	1.25.6) gradient filled polygons
+		Jean has patch but method is qestionable
 	1.25.7) measure text
 	1.25.8) draw text
-    1.26) Move 'use_one_style' from pie -> plot with 1 series
+
+    1.26) Move 'use_one_style' from pie -> plot with 1 series	(DONE)
     1.27) Add a flag to gobject to go with its role indicating	(DONE)
 	whether the instance was autocreated or assigned.
-    1.28) Axis management
-	1.28.1) Charts have axis layout scheme
-	1.28.2) Create plot2d as base for bar/col & XY
-	1.28.3) Filter add plot in guru to good types.
 
     questions
-	- xml persistence : sax or dom ?
-			  : flag props for persisting ?
 	- how to select a single point for formating ?
 
-    Wishlist
-	drag destination for background images in style editor
+	- printing
+		Looking at dia, sodipodi and paps they all seem to
+		use ft2 (direct or via pango) to stroke the glyphs
+		Why do we need gnome-print at all ?
+		Do we need to worry about ps2 vs ps3 for gradients ?
+		How to handle patterns without more access to ps ?
+		Is it safe to render to ps and assume that something will translate ?
 
 2) stf							{Andreas/Morten}
     2.1) UTF-8 cleanliness					(DONE)

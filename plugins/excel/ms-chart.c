@@ -621,24 +621,22 @@ BC_R(chartformat)(XLChartHandler const *handle,
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+16);
 	guint16 const z_order = GSF_LE_GET_GUINT16 (q->data+18);
-	gboolean const vary_color = (flags&0x01) ? TRUE : FALSE;
 
 	/* always update the counter to keep the index in line with the chart
 	 * group specifier for series */
 	s->plot_counter++;
 
+	if (s->plot != NULL)
+		g_object_set (G_OBJECT (s->plot),
+			"vary_style_by_element", (flags & 0x01) ? TRUE : FALSE,
+			NULL);
 #if 0
 	"index", s->plot_counter
 	"stacking_position", z_order
-	if (vary_color)
-		e_xml_set_bool_prop_by_name (s->xml.currentChartGroup,
-					     (xmlChar *)"color_individual_points", TRUE);
 #endif
 
 	d (0, {
 		fprintf (stderr, "Z value = %uh\n", z_order);
-		if (vary_color)
-			fprintf (stderr, "Vary color of individual data points.\n");
 	});
 
 	return FALSE;
@@ -779,9 +777,10 @@ BC_R(fbi)(XLChartHandler const *handle,
 	guint16 const scale_basis = GSF_LE_GET_GUINT16 (q->data+6);
 	guint16 const index = GSF_LE_GET_GUINT16 (q->data+8);
 
-	gsf_mem_dump (q->data, q->length);
-	d (2, fprintf (stderr, "Font %hu (%hu x %hu) scale=%hu, height=%hu\n",
-		index, x_basis, y_basis, scale_basis, applied_height););
+	d (2,
+		gsf_mem_dump (q->data, q->length);
+		fprintf (stderr, "Font %hu (%hu x %hu) scale=%hu, height=%hu\n",
+			index, x_basis, y_basis, scale_basis, applied_height););
 	return FALSE;
 }
 /****************************************************************************/

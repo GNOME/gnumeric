@@ -52,9 +52,10 @@ gpointer gog_data_allocator_editor   (GogDataAllocator *dalloc,
 typedef struct {
 	GTypeInterface		   base;
 
-	GOData	     *(*get_dim) (GogDataset const *set, int dim_i);
-	void	      (*set_dim) (GogDataset *set, int dim_i,
-				  GOData *val, GError **err);
+	void	 (*dims)    (GogDataset const *set, int *first, int *last);
+	GOData	*(*get_dim) (GogDataset const *set, int dim_i);
+	void	 (*set_dim) (GogDataset *set, int dim_i,
+			     GOData *val, GError **err);
 } GogDatasetClass;
 
 #define GOG_DATASET_TYPE		(gog_dataset_get_type ())
@@ -66,6 +67,7 @@ typedef struct {
 
 GType gog_dataset_get_type (void);
 
+void    gog_dataset_dims    (GogDataset const *set, int *first, int *last);
 GOData *gog_dataset_get_dim (GogDataset const *set, int dim_i);
 void	gog_dataset_set_dim (GogDataset *set, int dim_i,
 			     GOData *val, GError **err);

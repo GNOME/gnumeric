@@ -40,7 +40,6 @@ struct _GogSeriesDimDesc {
 	GogSeriesPriority	priority;
 	gboolean		is_shared;
 	GogDimType		val_type;
-	GogAxisType		axis_requirement;
 	GogMSDimType		ms_type;
 };
 
@@ -66,6 +65,7 @@ struct _GogSeries {
 
 	GogPlot	  *plot;
 	GogDim	  *values;
+	unsigned   num_elements;
 
 	GogSeriesElementStyleList *element_style_overrides;
 };

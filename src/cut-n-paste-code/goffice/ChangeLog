@@ -1,3 +1,87 @@
+2003-06-22  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_pie/gog-pie.c (gog_pie_plot_set_property) : vary
+	  style by element handled in plot now.
+	(gog_pie_plot_get_property) : ditto.
+	(gog_pie_plot_cardinality) : deleted.
+	(gog_pie_plot_foreach_elem) : doh!  USe the label we just calculated.
+	(gog_pie_view_render) : implement general extracted slices.
+
+	* graph/gog-theme.c (gog_theme_get_name) : new util.
+
+	* graph/gog-style.c : Implement the hooks for serialization but have
+	  not actually written them yet.
+
+	* graph/gog-series.c (gog_series_editor) : add a notebook wrapper to
+	  allow changing style and data.
+	(gog_series_init) : set GogObject::use_parent_as_proxy flag.
+	(gog_series_dataset_dims) new.
+
+	* graph/gog-plot.c (gog_plot_set_property) : handle the
+	  'vary_style_by_element' at this level.
+	(gog_plot_get_cardinality) : ditto.
+
+	* graph/gog-object.c (gog_object_emit_changed) : Add
+	  'use_parent_as_proxy' utility to make life easier for things like
+	  series that will not have individual views.  This will fire a
+	  changed signal from their plots.
+
+	* graph/gog-legend.c (gog_legend_parent_changed) : new.  ensure we get
+	  updated when chart cardinality changes.
+	(gog_legend_update) : new.
+
+	* graph/gog-label.c (gog_label_editor) : fix.
+	(gog_label_class_init) : fix.
+	(gog_label_dims) : added to handle the extension to dataset interface.
+
+	* graph/gog-guru.glade : remove frame wrapping the prop notebook.
+
+	* graph/gog-guru.c (prop_notebook_set_current_page) : new util.
+	  to cleanup the handling of prop pages.  Only show the border if the
+	  prop page is not a notebook.  This keeps the layout visually
+	  similar in both cases.
+	(cb_select_prop_page) : use it here.
+	(cb_attr_tree_selection_change) : and here.
+	(graph_guru_type_selector_new) : remove the useless notebook wrapping
+	  the type selector.  It gives us more space and forces an initial
+	  selection.
+
+	* graph/gog-graph.c (gog_graph_set_property) : add a 'theme-name'
+	  property to facilitate serialization.
+
+	* graph/gog-data-allocator.c (gog_dataset_dims) : extension to the
+	  dataset interface to facilitate serialization.
+
+	* graph/gog-chart.c (gog_chart_get_property) : new.  Needed a way to
+	  signal that the cardinality had changed, and a read only property
+	  with a notify handler seemed cleaner than a stand alone signal.
+	  Looking back at that decision, it seems ugly.  Might revisit this
+	  later.
+
+	* graph/gog-axis.c : hook up the dataset interface to prepare for
+	 serializing all the flags.
+
+	* graph/go-data-impl.h (GOData) : extend interface to require a
+	  'from_str' operation to allow serialization to xml.
+	* graph/go-data.c (go_data_from_str) : wrapper.
+
+	* graph/Makefile.am : Add gog-object-xml.[ch]
+
+2003-06-14    Jean Brefort <jean.brefort@ac-dijon.fr>
+
+	* graph/gog-style.c (gog_style_editor): move a bad placed g_signal_connect
+	* graph/gog-style.c (gog_style_copy): duplicate filename if useful
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_polygon):
+	  added missing white spaces (purely cosmetic)
+	* graph/gog-renderer-pixbuf.c (go_color_to_artpix): removed static
+	* graph/gog-renderer-gnome-print.c (gog_renderer_gnome_print_draw_polygon):
+	  added image and gradient support
+
+2003-06-13  Jon K Hellan  <hellan@acm.org>
+
+	* graph/gog-style.c (gog_style_editor) : Use the new 
+	color_combo_set_instant_apply flag.
+
 2003-06-12  Jody Goldberg <jody@gnome.org>
 
 	* graph/goffice-graph.h : remove POSITION_FILL

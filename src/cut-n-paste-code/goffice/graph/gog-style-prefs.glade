@@ -151,7 +151,7 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkNotebook" id="notebook">
+	    <widget class="GtkNotebook" id="fill_notebook">
 	      <property name="visible">True</property>
 	      <property name="show_tabs">False</property>
 	      <property name="show_border">False</property>

@@ -26,16 +26,13 @@ WARNING WARNING WARNING
 Requirements
 ------------
 
-You need:
-
-					Debian package name
+You need:                                Debian package name
 	glib		>= 2.0.0	libglib2.0-dev
 	gtk+		>= 2.0.0	libgtk2.0-dev
 	libgnome	>= 2.0.0	libgnome2-dev
 	libgnomeui	>= 2.0.0	libgnomeui-dev
 	libbonobo	>= 2.0.0	libbonobo2-dev
 	libbonoboui	>= 2.0.0	libbonoboui2-dev
-	bonobo-activation >= 1.0.2	libbonobo-activation-dev
 	libgnomeprint	>= 2.2.0	libgnomeprint2.2-dev
 	libgnomeprintui	>= 2.2.0	libgnomeprintui2.2-dev
 	libgsf		>= 1.8.1	libgsf-1-dev + libgsf-gnome-1-dev
@@ -122,10 +119,10 @@ documentation for these:
 		- Array formulas
 
 	- Filters
-		- MS Excel (v2 -> XP)	Read
-		- MS Excel 95		Write
-		- Applix 		Read
-		- Quattro Pro		Read
+		- MS Excel (95 -> XP)	Read/Write
+		- MS Excel (v2 -> v4)	Read
+		- Applix (v4 & v5)	Read
+		- Quattro Pro (v1-v3)	Read
 		- Planperfect		Read
 		- Lotus (wk1)		Read
 		- OpenCalc/StarCalc	Read

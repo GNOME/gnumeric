@@ -42,8 +42,7 @@ enum {
 	PLOT_PROP_0,
 	PLOT_PROP_INITIAL_ANGLE,
 	PLOT_PROP_DEFAULT_SEPARATION,
-	PLOT_PROP_IN_3D,
-	PLOT_PROP_VARY_STYLE_BY_ELEMENT
+	PLOT_PROP_IN_3D
 };
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
@@ -67,12 +66,11 @@ gog_pie_plot_set_property (GObject *obj, guint param_id,
 	case PLOT_PROP_IN_3D :
 		pie->in_3d = g_value_get_boolean (value);
 		break;
-	case PLOT_PROP_VARY_STYLE_BY_ELEMENT:
-		pie->vary_style_by_element = g_value_get_boolean (value);
-		break;
+
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
+
 	/* none of the attributes triggers a size change yet.
 	 * When we add data labels we'll need it */
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
@@ -94,9 +92,6 @@ gog_pie_plot_get_property (GObject *obj, guint param_id,
 	case PLOT_PROP_IN_3D :
 		g_value_set_boolean (value, pie->in_3d);
 		break;
-	case PLOT_PROP_VARY_STYLE_BY_ELEMENT:
-		g_value_set_boolean (value, pie->vary_style_by_element);
-		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
@@ -117,25 +112,6 @@ gog_pie_plot_editor (GogObject *item,
 	return gog_pie_plot_pref (GOG_PIE_PLOT (item), cc);
 }
 
-static unsigned
-gog_pie_plot_cardinality (GogPlot *plot)
-{
-	GogPiePlot const *pie = GOG_PIE_PLOT (plot);
-	GogPieSeries *series;
-	unsigned size = 0;
-	GSList *ptr;
-
-	if (!pie->vary_style_by_element)
-		return 1;
-	for (ptr = plot->series ; ptr != NULL ; ptr = ptr->next) {
-		series = GOG_PIE_SERIES (ptr->data);
-		if (gog_series_is_valid (GOG_SERIES (series)))
-			if (size < series->num_elements)
-				size = series->num_elements;
-	}
-	return size;
-}
-
 static gboolean
 gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 {
@@ -149,7 +125,7 @@ gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 	char const *label;
 	gboolean free_it;
 
-	if (!model->vary_style_by_element)
+	if (!model->base.vary_style_by_element)
 		return FALSE;
 
 	i = 0;
@@ -165,7 +141,7 @@ gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 			? go_data_vector_get_str (labels, i) : NULL;
 		if ((free_it = (label == NULL)))
 			label = g_strdup_printf ("%d", i);
-		(handler) (i, style, "gog", data);
+		(handler) (i, style, label, data);
 		if (free_it)
 			g_free ((char *)label);
 
@@ -211,32 +187,26 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 			"Draw 3d wedges",
 			FALSE,
 			G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_klass, PLOT_PROP_VARY_STYLE_BY_ELEMENT,
-		g_param_spec_boolean ("vary_style_by_element", "vary_style_by_element",
-			"Use a different style for each segments",
-			FALSE,
-			G_PARAM_READWRITE));
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
-			{ N_("Labels"), GOG_SERIES_SUGGESTED,  TRUE, GOG_DIM_LABEL,
-			  GOG_AXIS_NONE, GOG_MS_DIM_CATEGORIES },
-			{ N_("Values"), GOG_SERIES_REQUIRED, FALSE, GOG_DIM_VALUE,
-			  GOG_AXIS_NONE, GOG_MS_DIM_VALUES }
+			{ N_("Labels"), GOG_SERIES_SUGGESTED, TRUE,
+			  GOG_DIM_LABEL, GOG_MS_DIM_CATEGORIES },
+			{ N_("Values"), GOG_SERIES_REQUIRED, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS(dimensions);
 	}
 	plot_klass->desc.num_series_min = plot_klass->desc.num_series_max = 1;
 	plot_klass->series_type  = gog_pie_series_get_type ();
-	plot_klass->cardinality  = gog_pie_plot_cardinality;
 	plot_klass->foreach_elem = gog_pie_plot_foreach_elem;
 }
 
 static void
 gog_pie_plot_init (GogPiePlot *pie)
 {
-	pie->vary_style_by_element = TRUE;
+	pie->base.vary_style_by_element = TRUE;
 }
 
 GSF_CLASS (GogPiePlot, gog_pie_plot,
@@ -244,8 +214,8 @@ GSF_CLASS (GogPiePlot, gog_pie_plot,
 	   GOG_PLOT_TYPE)
 
 /*****************************************************************************/
-typedef GogView		GogPieView;
-typedef GogViewClass	GogPieViewClass;
+typedef GogPlotView		GogPieView;
+typedef GogPlotViewClass	GogPieViewClass;
 
 #define MAX_ARC_SEGMENTS 128
 
@@ -254,7 +224,8 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogPiePlot const *model = GOG_PIE_PLOT (view->model);
 	GogPieSeries const *series;
-	double cx, cy, r, tmp, theta, len, *vals, scale;
+	double real_cx, real_cy, cx, cy, r, dt, tmp, theta, len, *vals, scale;
+	double default_sep;
 	unsigned elem, j, n, k;
 	ArtVpath path [MAX_ARC_SEGMENTS + 4];
 	GObjectClass *klass;
@@ -271,6 +242,9 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		r = view->allocation.w;
 	r /= 2.;
 
+	r /= (1. + model->default_separation);
+	default_sep = r * model->default_separation;
+
 	elem = model->base.index_num;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
@@ -279,7 +253,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			continue;
 
 		style = GOG_STYLED_OBJECT (series)->style;
-		if (model->vary_style_by_element)  {
+		if (model->base.vary_style_by_element)  {
 			style = gog_style_dup (style);
 			klass = G_OBJECT_GET_CLASS (series);
 		}
@@ -289,32 +263,37 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		scale = 2 * M_PI / series->total;
 		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-		for (k = 0 ; k < series->num_elements; k++) {
+		for (k = 0 ; k < series->base.num_elements; k++) {
 			len = fabs (vals[k]) * scale;
 			if (!finite (len) || len < 1e-3)
 				continue;
+
+			real_cx = cx + default_sep * cos (theta + len/2.);
+			real_cy = cy + default_sep * sin (theta + len/2.);
+
 			n = MAX_ARC_SEGMENTS * len / (2 * M_PI);
 			if (n < 12)
 				n = 12;
 			else if (n > MAX_ARC_SEGMENTS)
 				n = MAX_ARC_SEGMENTS;
 
+			dt = (double)len / (double)n;
 			path[0].code = ART_MOVETO;
-			path[0].x = cx;
-			path[0].y = cy; 
-			for (j = 0; j <= n ;) {
-				tmp = theta + (double)(j++ * len) / (double)n;
+			path[0].x = real_cx;
+			path[0].y = real_cy; 
+			for (tmp = theta, j = 0; j <= n ; tmp += dt) {
+				j++;
 				path[j].code = ART_LINETO;
-				path[j].x = cx + r * cos (tmp);
-				path[j].y = cy + r * sin (tmp); 
+				path[j].x = real_cx + r * cos (tmp);
+				path[j].y = real_cy + r * sin (tmp); 
 			}
 			j++;
 			path[j].code = ART_LINETO;
-			path[j].x = cx;
-			path[j].y = cy; 
+			path[j].x = real_cx;
+			path[j].y = real_cy; 
 			path[j+1].code = ART_END;
 
-			if (model->vary_style_by_element)
+			if (model->base.vary_style_by_element)
 				gog_theme_init_style (theme, style, klass,
 						      model->base.index_num + k);
 			gog_renderer_draw_polygon (view->renderer, path,
@@ -324,7 +303,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 
 		gog_renderer_pop_style (view->renderer);
-		if (model->vary_style_by_element)
+		if (model->base.vary_style_by_element)
 			g_object_unref (style);
 	}
 }
@@ -350,7 +329,7 @@ gog_pie_view_class_init (GogViewClass *view_klass)
 
 static GSF_CLASS (GogPieView, gog_pie_view,
 		  gog_pie_view_class_init, NULL,
-		  GOG_VIEW_TYPE)
+		  GOG_PLOT_VIEW_TYPE)
 
 /*****************************************************************************/
 
@@ -407,14 +386,14 @@ gog_pie_series_update (GogObject *obj)
 	double *vals, total;
 	int len = 0;
 	GogPieSeries *series = GOG_PIE_SERIES (obj);
-	unsigned old_num = series->num_elements;
+	unsigned old_num = series->base.num_elements;
 
 	if (series->base.values[1].data != NULL) {
 		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
 		len = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->base.values[1].data));
 	}
-	series->num_elements = len;
+	series->base.num_elements = len;
 
 	for (total = 0. ; len-- > 0 ;)
 		if (finite (vals[len]))
@@ -423,7 +402,7 @@ gog_pie_series_update (GogObject *obj)
 
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
-	if (old_num != series->num_elements)
+	if (old_num != series->base.num_elements)
 		gog_plot_request_cardinality_update (series->base.plot);
 
 	if (series_parent_klass->update)
