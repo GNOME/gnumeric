@@ -105,6 +105,7 @@ Function Breakage
 - Index  : does not support 0,0 or reference syntax.
 - ftest : Needs auditing.  All calls to eval_pos_init_cellref are questionable.
 - address : This code is a duplicate.  Have the function use the standard routines.
+- chitest : See why this crashes.
 
 Printing
 --------

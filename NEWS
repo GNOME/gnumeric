@@ -68,6 +68,9 @@ Pablo De Napoli:
 Thomas Canty:
 	* Updated and improved documentation.
 
+Weston:
+	* Implement DateDif.
+
 Translations:
 	* Updated: da (Kenneth/Keld?), de (Karl), en_GB (Robert), ko
 	  (Sung-Hyun Nam), no (Kjartan), ru (Valek), uk (Yuri), maybe more.
