@@ -1,3 +1,8 @@
+2001-10-12  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (BC_R(legend)) : Use more guppi-ish terms for legend
+	  location.
+
 2001-10-07  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.71

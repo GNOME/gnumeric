@@ -1165,18 +1165,18 @@ BC_R(legend)(ExcelChartHandler const *handle,
 	guint16 const flags = MS_OLE_GET_GUINT16  (q->data+18);
 #endif
 	guint16 const position = MS_OLE_GET_GUINT8 (q->data+16);
-	char const *position_txt = "right";
+	char const *position_txt = "east";
 	xmlNode *legend;
 
 	switch (position) {
-	case 0: position_txt = "bottom"; break;
+	case 0: position_txt = "south"; break;
 	case 1: break; /* What is corner ? */
-	case 2: position_txt = "top";	break;
-	case 3: break; /* right */
-	case 4: position_txt = "left";	break;
-	case 7: break; /* treat floating legends as being on right */
+	case 2: position_txt = "north";	break;
+	case 3: break; /* east */
+	case 4: position_txt = "west";	break;
+	case 7: break; /* treat floating legends as being on east */
 	default :
-		g_warning ("Unknown legend position (%d), assuming right.",
+		g_warning ("Unknown legend position (%d), assuming east.",
 			   position);
 	};
 
