@@ -1287,7 +1287,8 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
  *
  * This function will convert the @data into
  * unix line-terminated format. this means that CRLF (windows) will be converted to LF
- * and CR (Macintosh) to LF
+ * and CR (Macintosh) to LF.
+ * In addition to that form feed (\F) characters will be removed.
  * NOTE : This will not resize the buffer
  *
  * returns : TRUE on success, FALSE otherwise.
@@ -1315,8 +1316,11 @@ stf_parse_convert_to_unix (const char *data)
 				len++;
 			}
 			iterator++;
+		} else if (*iterator == '\f') {
+		
+			iterator++;
 		}
-
+		
 		*dest = *iterator;
 
 		iterator++;
@@ -1349,7 +1353,8 @@ stf_parse_is_valid_data (const char *data)
 		if (!isprint ((unsigned char)*iterator) &&
 		    *iterator != '\n' &&
 		    *iterator != '\r' &&
-		    *iterator != '\t') {
+		    *iterator != '\t' &&
+		    *iterator != '\f') {
 
 			valid = FALSE;
 			break;
