@@ -54,14 +54,15 @@
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox2</name>
+	<border_width>2</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox2</name>
 	  <child>
-	    <padding>4</padding>
+	    <padding>0</padding>
 	    <expand>True</expand>
 	    <fill>True</fill>
 	  </child>
@@ -518,7 +519,7 @@
 		<yfill>False</yfill>
 	      </child>
 	      <case_sensitive>False</case_sensitive>
-	      <use_arrows>False</use_arrows>
+	      <use_arrows>True</use_arrows>
 	      <use_arrows_always>False</use_arrows_always>
 	      <items></items>
 	    </widget>
@@ -577,18 +578,18 @@
 	  <class>GtkVBox</class>
 	  <name>vbox3</name>
 	  <child>
-	    <padding>4</padding>
-	    <expand>True</expand>
+	    <padding>0</padding>
+	    <expand>False</expand>
 	    <fill>True</fill>
 	  </child>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>4</spacing>
 
 	  <widget>
 	    <class>GtkButton</class>
-	    <name>button1</name>
+	    <name>print-1</name>
 	    <child>
-	      <padding>2</padding>
+	      <padding>0</padding>
 	      <expand>False</expand>
 	      <fill>True</fill>
 	    </child>
@@ -598,9 +599,9 @@
 
 	  <widget>
 	    <class>GtkButton</class>
-	    <name>button2</name>
+	    <name>preview-1</name>
 	    <child>
-	      <padding>2</padding>
+	      <padding>0</padding>
 	      <expand>False</expand>
 	      <fill>True</fill>
 	    </child>
@@ -610,9 +611,9 @@
 
 	  <widget>
 	    <class>GtkButton</class>
-	    <name>button3</name>
+	    <name>options-1</name>
 	    <child>
-	      <padding>2</padding>
+	      <padding>0</padding>
 	      <expand>False</expand>
 	      <fill>True</fill>
 	    </child>
@@ -625,13 +626,14 @@
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox6</name>
+	<border_width>2</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkTable</class>
 	  <name>margin-table</name>
-	  <border_width>4</border_width>
+	  <border_width>2</border_width>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -1108,19 +1110,65 @@
 	</widget>
 
 	<widget>
-	  <class>Placeholder</class>
+	  <class>GtkVBox</class>
+	  <name>vbox8</name>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>True</fill>
+	  </child>
+	  <homogeneous>False</homogeneous>
+	  <spacing>4</spacing>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>print-2</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>True</fill>
+	    </child>
+	    <can_focus>True</can_focus>
+	    <label>Print</label>
+	  </widget>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>preview-2</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	    <can_focus>True</can_focus>
+	    <label>Print preview</label>
+	  </widget>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>options-2</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	    <can_focus>True</can_focus>
+	    <label>Options</label>
+	  </widget>
 	</widget>
       </widget>
 
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox9</name>
+	<border_width>2</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox4</name>
+	  <border_width>2</border_width>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -1227,15 +1275,60 @@
 	</widget>
 
 	<widget>
-	  <class>Placeholder</class>
+	  <class>GtkVBox</class>
+	  <name>vbox9</name>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>True</fill>
+	  </child>
+	  <homogeneous>False</homogeneous>
+	  <spacing>4</spacing>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>print-3</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	    <can_focus>True</can_focus>
+	    <label>Print</label>
+	  </widget>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>preview-3</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	    <can_focus>True</can_focus>
+	    <label>Print preview</label>
+	  </widget>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>options-3</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	    <can_focus>True</can_focus>
+	    <label>Options</label>
+	  </widget>
 	</widget>
       </widget>
 
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox10</name>
+	<border_width>2</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkVBox</class>
@@ -1630,9 +1723,9 @@
 	      <class>GtkLabel</class>
 	      <name>label31</name>
 	      <child>
-		<padding>0</padding>
-		<expand>True</expand>
-		<fill>True</fill>
+		<padding>4</padding>
+		<expand>False</expand>
+		<fill>False</fill>
 	      </child>
 	      <label>Page order</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
@@ -1727,7 +1820,51 @@
 	</widget>
 
 	<widget>
-	  <class>Placeholder</class>
+	  <class>GtkVBox</class>
+	  <name>vbox10</name>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>True</fill>
+	  </child>
+	  <homogeneous>False</homogeneous>
+	  <spacing>4</spacing>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>print-4</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	    <can_focus>True</can_focus>
+	    <label>Print</label>
+	  </widget>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>preview-4</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	    <can_focus>True</can_focus>
+	    <label>Print preview</label>
+	  </widget>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>options-4</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	    <can_focus>True</can_focus>
+	    <label>Options</label>
+	  </widget>
 	</widget>
       </widget>
 
