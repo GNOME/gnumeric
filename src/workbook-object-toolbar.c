@@ -1,4 +1,5 @@
 
+#include <gnumeric-config.h>
 #include "sheet.h"
 #include "sheet-control-gui.h"
 #include "workbook-control-gui-priv.h"
