@@ -480,7 +480,7 @@ grab_cells (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 
 	if (cell == NULL)
 		cell = sheet_cell_fetch (sheet, col, row);
-	*the_list = g_list_prepend (*the_list, cell);
+	*the_list = g_list_append (*the_list, cell);
 	return NULL;
 }
 
@@ -555,7 +555,7 @@ convert_constraint_format (constraint_conversion_t *conv)
 			a_constraint->type,
 			engine_constraint->cols,
 			engine_constraint->rows);
-		conv->c_list = g_slist_prepend (conv->c_list, engine_constraint);
+		conv->c_list = g_slist_append (conv->c_list, engine_constraint);
 	}
 }
 
@@ -595,8 +595,8 @@ revert_constraint_format (constraint_conversion_t * conv)
 		a_constraint->type = engine_constraint->type;
 		text[0] = engine_constraint->str;
 		gtk_clist_set_row_data_full (conv->c_listing,
-					     gtk_clist_prepend (conv->c_listing,
-								text),
+					     gtk_clist_append (conv->c_listing,
+							       text),
 					     a_constraint,
 					     (GtkDestroyNotify) release_constraint);
 		engine_constraint_list = engine_constraint_list->next;
