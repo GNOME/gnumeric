@@ -77,7 +77,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 		}
 
 	if (oneline && (opt_encoding == NULL || strcmp (opt_encoding, "UTF-8") != 0)) {
-		int bytes_written;
+		size_t bytes_written;
 		const char *enc = opt_encoding ? opt_encoding : "ASCII";
 
 		data_converted = g_convert (data, data_len,

@@ -1,5 +1,7 @@
 2004-11-01  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-clipboard.c (text_to_cell_region): Fix type confusion.
+
 	* src/dependent.c (dependents_unrelocate): Don't access sheet
 	member in union unless there is supposed to be one.
 
