@@ -191,7 +191,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 {
 	GtkTreeIter  iter;
 	GnmFilterField *field;
-	GnmFilterCondition *cond;
+	GnmFilterCondition *cond = NULL;
 	WorkbookControlGUI *wbcg;
 
 	/* A release inside popup accepts */

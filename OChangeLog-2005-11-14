@@ -1,5 +1,7 @@
 2002-12-05  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-filter.c (cb_filter_button_release) : silence warning.
+
 	* src/plugin-service.c : s/gnum_plugin/gnm_plugin/
 
 	* src/Makefile.am (EXTRA_DIST) : add README.gnm_float

@@ -4215,7 +4215,7 @@ read_DOPER (guint8 const *doper, gboolean is_equal,
 		GNM_FILTER_OP_NOT_EQUAL,
 		GNM_FILTER_OP_GTE
 	};
-	Value *res;
+	Value *res = NULL;
 
 	*str_len = 0;
 	*op = GNM_FILTER_UNUSED;
