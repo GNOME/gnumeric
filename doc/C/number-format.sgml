@@ -369,6 +369,10 @@ as needed. There are several justification options. See
   Percentage		Multiplies a value by 100 and appends a percent.
 			Can be used with 0-30 digits after the decimal place.
 
+  Fractions		Approximate the value with a rational number with either
+  			a specific denominator or with a maximum number of digits
+			in the denominator.
+
   Scientific		Formats the value using scientific notation
 			and 0-30 digits after the decimal place.  No provision
 			for controling the exponent are provided at this time.
