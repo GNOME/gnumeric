@@ -901,8 +901,7 @@ gnumeric_imlog2 (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_ln (&res, &c);
-	res.re /= M_LN2;
-	res.im /= M_LN2;
+	complex_scale_real (&res, 1 / M_LN2gnum);
 	return value_new_complex (&res, imunit);
 }
 
@@ -931,8 +930,7 @@ gnumeric_imlog10 (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_ln (&res, &c);
-	res.re /= M_LN10;
-	res.im /= M_LN10;
+	complex_scale_real (&res, 1 / M_LN10gnum);
 	return value_new_complex (&res, imunit);
 }
 

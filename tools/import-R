@@ -97,8 +97,10 @@ sub import_file {
 	    s/\bfabs\b/gnumabs/g;
 	    s/\bDBL_(EPSILON|MIN|MAX)/GNUM_$1/g;
 
-	    # Given a good compiler, this is better.
-	    s/\bM_LN2/loggnum(2)/g;
+	    # Constants.
+	    s/\b(M_LN2|M_PI|M_PI_2|M_SQRT2|M_2PI)\b/$1gnum/g;
+	    s/([-+]?\d*\.(\d{10,})([eE][-+]?\d+)?)/GNUM_const\($1\)/g;
+
 	    # Specific optimization.
 	    s/\(y > 1e-6\)/\(1\)/;
 	    s/= expgnum\(y\) - 1;/= expm1gnum\(y\);/;
@@ -110,7 +112,7 @@ sub import_file {
 	    s/pnorm5/pnorm/g;
 	    s/qnorm5/qnorm/g;
 
-	    s/([-+]?\d*\.(\d{10,})([eE][-+]?\d+)?)/GNUM_const\($1\)/g;
+	    s/\b(trunc|ftrunc)\b/floor/g;
 
 	    # Somewhat risky.
 	    s/\%([-0-9.]*)([efgEFG])/\%$1\" GNUM_FORMAT_$2 \"/g;

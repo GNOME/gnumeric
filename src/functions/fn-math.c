@@ -813,7 +813,7 @@ static const char *help_degrees = {
 static Value *
 gnumeric_degrees (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_float ((value_get_as_float (argv [0]) * 180.0) / M_PI);
+	return value_new_float ((value_get_as_float (argv [0]) * 180.0) / M_PIgnum);
 }
 
 /***************************************************************************/
@@ -1104,7 +1104,7 @@ gnumeric_log2 (FunctionEvalInfo *ei, Value **argv)
 	if (t <= 0.0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (loggnum (t) / M_LN2);
+	return value_new_float (loggnum (t) / M_LN2gnum);
 }
 
 /***************************************************************************/
@@ -1203,7 +1203,7 @@ static const char *help_radians = {
 static Value *
 gnumeric_radians (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_float ((value_get_as_float (argv [0]) * M_PI) / 180);
+	return value_new_float ((value_get_as_float (argv [0]) * M_PIgnum) / 180);
 }
 
 /***************************************************************************/
@@ -1688,7 +1688,7 @@ static const char *help_pi = {
            "it returns pi with a better precision. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "PI() equals 3.141593.\n"
+	   "PI() equals about 3.141593.\n"
 	   "\n"
 	   "@SEEALSO=SQRTPI")
 };
@@ -1696,7 +1696,7 @@ static const char *help_pi = {
 static Value *
 gnumeric_pi (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_float (M_PI);
+	return value_new_float (M_PIgnum);
 }
 
 /***************************************************************************/
@@ -1940,7 +1940,7 @@ gnumeric_sqrtpi (FunctionEvalInfo *ei, Value **argv)
 	if (n < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (sqrtgnum (M_PI * n));
+	return value_new_float (sqrtgnum (M_PIgnum * n));
 }
 
 /***************************************************************************/

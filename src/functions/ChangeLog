@@ -1,3 +1,11 @@
+2002-03-05  Morten Welinder  <terra@diku.dk>
+
+	* fn-math.c (gnumeric_degrees, gnumeric_radians, gnumeric_pi): Use
+	M_PIgnum.
+
+	* fn-eng.c (gnumeric_imlog2, gnumeric_imlog10): Use
+	complex_scale_real.
+
 2002-02-28  Morten Welinder  <terra@diku.dk>
 
 	* fn-eng.c (gnumeric_convert): Improve precision here and there.

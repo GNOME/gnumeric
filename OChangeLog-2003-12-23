@@ -1,3 +1,12 @@
+2002-03-05  Morten Welinder  <welinder@rentec.com>
+
+	* src/analysis-tools.c (fourier_fft_inv, fourier_fft): Improve
+	precision.
+
+	* src/mathfunc.h (M_LN2gnum, M_LN10gnum, M_PIgnum, M_PI_2gnum,
+	M_LN2gnum, M_LN10gnum, M_SQRT2gnum): Provide high-precision
+	constants.
+
 2002-03-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/clipboard.c (clipboard_paste_region) : preserve comments

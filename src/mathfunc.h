@@ -25,16 +25,12 @@
 #undef qgamma
 #endif
 
-/* Make up for a few deficient headers.  */
-#ifndef M_LN2
-#define M_LN2 0.6931471805599453094172321214581766
-#endif
-#ifndef M_LN10
-#define M_LN10 2.3025850929940456840179914546843642
-#endif
-#ifndef M_2PI
-#define M_2PI (2 * M_PI)
-#endif
+#define M_PIgnum GNUM_const(3.1415926535897932384626433832795029)
+#define M_PI_2gnum (M_PIgnum / 2)
+/* The following are very good given a good compiler.  */
+#define M_LN2gnum (loggnum (2))
+#define M_LN10gnum (loggnum (10))
+#define M_SQRT2gnum (sqrtgnum (2))
 
 /* ------------------------------------------------------------------------- */
 

@@ -3979,7 +3979,7 @@ fourier_fft (fourier_t *in, fourier_t *fourier)
 	fourier->skip = 1;
 
 	for (i = 0; i < fourier_1.n; i++) {
-		gnum_float arg = M_PI * i / fourier_1.n;
+		gnum_float arg = M_PIgnum * i / fourier_1.n;
 		complex_t dir, tmp;
 
 		complex_from_polar (&dir, 1, -arg);
@@ -4028,7 +4028,7 @@ fourier_fft_inv (fourier_t *in, fourier_t *fourier)
 	fourier->skip = 1;
 
 	for (i = 0; i < fourier_1.n; i++) {
-		gnum_float arg = M_PI * i / fourier_1.n;
+		gnum_float arg = M_PIgnum * i / fourier_1.n;
 		complex_t dir, tmp;
 
 		complex_from_polar (&dir, 1, arg);

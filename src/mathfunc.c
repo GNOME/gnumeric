@@ -39,18 +39,14 @@
 #define M_SQRT_32       GNUM_const(5.656854249492380195206754896838)  /* sqrt(32) */
 #define M_1_SQRT_2PI    GNUM_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
 #define M_SQRT_2dPI     GNUM_const(0.797884560802865355879892119869)  /* sqrt(2/pi) */
-#define M_PI_half       M_PI_2
-
-#ifndef ISNAN
-#define ISNAN isnangnum
-#endif
+#define M_2PIgnum       (2 * M_PIgnum)
 
 /* Any better idea for a quick hack?  */
 #define ML_NAN (-HUGE_VAL * 0.0)
 #define ML_NEGINF (-HUGE_VAL)
 #define ML_POSINF (HUGE_VAL)
-#define ML_UNDERFLOW (DBL_EPSILON * DBL_EPSILON)
-#define ML_VALID(_x) (!ISNAN (_x))
+#define ML_UNDERFLOW (GNUM_EPSILON * GNUM_EPSILON)
+#define ML_VALID(_x) (!isnangnum (_x))
 #define ML_ERROR(cause) /* Nothing */
 #define MATHLIB_ERROR g_error
 #define MATHLIB_WARNING g_warning
@@ -62,10 +58,8 @@
 #define imax2(_x,_y) MAX(_x, _y)
 
 #define lgammafn(_x) lgamma (_x)
-#define gammafn(_x) exp (lgammafn (_x))
+#define gammafn(_x) expgnum (lgammafn (_x))
 #define gamma_cody(_x) gammafn (_x)
-#define ftrunc(_x) floor (_x)
-#define trunc(_x) floor (_x)
 
 #define MATHLIB_STANDALONE
 #define ML_ERR_return_NAN { return ML_NAN; }
@@ -446,7 +440,7 @@ void pnorm_both(gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gbo
 	temp = (xnum + c[7]) / (xden + d[7]);
 
 #define do_del(X)							\
-	xsq = trunc(X * SIXTEN) / SIXTEN;				\
+	xsq = floor(X * SIXTEN) / SIXTEN;				\
 	del = (X - xsq) * (X + xsq);					\
 	if(log_p) {							\
 	    *cum = (-xsq * xsq * 0.5) + (-del * 0.5) + loggnum(temp);	\
@@ -632,7 +626,7 @@ gnum_float qnorm(gnum_float p, gnum_float mu, gnum_float sigma, gboolean lower_t
 	}
 	else if(r >= GNUM_MIN) { /* r = p <= eps : Use Wichura */
 	    val = -2 * (log_p ? R_D_Lval(p) : loggnum(R_D_Lval(p)));
-	    r = loggnum(2 * M_PI * val);
+	    r = loggnum(2 * M_PIgnum * val);
 #ifdef DEBUG_qnorm
 	    REprintf("\t GNUM_MIN <= r <= DBL_EPS: val = %" GNUM_FORMAT_g ", new r = %" GNUM_FORMAT_g "\n",
 		     val, r);
@@ -1082,7 +1076,7 @@ static gnum_float dpois_raw(gnum_float x, gnum_float lambda, gboolean give_log)
     if (x == 0) return( R_D_exp(-lambda) );
     if (x < 0)  return( R_D__0 );
 
-    return(R_D_fexp( M_2PI*x, -stirlerr(x)-bd0(x,lambda) ));
+    return(R_D_fexp( M_2PIgnum*x, -stirlerr(x)-bd0(x,lambda) ));
 }
 
 gnum_float dpois(gnum_float x, gnum_float lambda, gboolean give_log)
@@ -1239,7 +1233,7 @@ gnum_float pgamma(gnum_float x, gnum_float alph, gnum_float scale, gboolean lowe
 	xlarge = 1.0e+37,
 
 #ifndef IEEE_754
-	elimit = loggnum(2)*(GNUM_MIN_EXP),/* will set expgnum(E) = 0 for E < elimit ! */
+	elimit = M_LN2gnum*(GNUM_MIN_EXP),/* will set expgnum(E) = 0 for E < elimit ! */
     /* was elimit = -88.0e0; */
 #endif
 	alphlimit = 1000.;/* normal approx. for alph > alphlimit */
@@ -1464,7 +1458,7 @@ gnum_float qgamma(gnum_float p, gnum_float alpha, gnum_float scale, gboolean low
 #endif
 	/* FIXME: Improve this "if (log_p)" :
 	 *	  (A*expgnum(b)) ^ 1/al */
-	ch = powgnum(p_* alpha*expgnum(g+alpha*loggnum(2)), 1/alpha);
+	ch = powgnum(p_* alpha*expgnum(g+alpha*M_LN2gnum), 1/alpha);
 	if(ch < EPS2) {/* Corrected according to AS 91; MM, May 25, 1999 */
 	    goto END;
 	}
@@ -1486,7 +1480,7 @@ gnum_float qgamma(gnum_float p, gnum_float alpha, gnum_float scale, gboolean low
     } else { /* for v <= 0.32 */
 
 	ch = 0.4;
-	a = R_DT_Clog(p) + g + c*loggnum(2);
+	a = R_DT_Clog(p) + g + c*M_LN2gnum;
 #ifdef DEBUG_qgamma
 	REprintf(" v <= .32: a = %7" GNUM_FORMAT_g "\n", a);
 #endif
@@ -1517,7 +1511,7 @@ gnum_float qgamma(gnum_float p, gnum_float alpha, gnum_float scale, gboolean low
 #endif
 		return ML_NAN;
 
-	t = p2*expgnum(alpha*loggnum(2)+g+p1-c*loggnum(ch));
+	t = p2*expgnum(alpha*M_LN2gnum+g+p1-c*loggnum(ch));
 	b = t/ch;
 	a = 0.5*t - b*c;
 	s1 = (210+a*(140+a*(105+a*(84+a*(70+60*a))))) * i420;
@@ -2234,7 +2228,7 @@ gnum_float pt(gnum_float x, gnum_float n, gboolean lower_tail, gboolean log_p)
 
     if(log_p) {
 	if(lower_tail) return loggnum(1 - 0.5*expgnum(val));
-	else return val - loggnum(2); /* = loggnum(.5* pbeta(....)) */
+	else return val - M_LN2gnum; /* = loggnum(.5* pbeta(....)) */
     }
     else {
 	val /= 2.;
@@ -2311,13 +2305,13 @@ gnum_float qt(gnum_float p, gnum_float ndf, gboolean lower_tail, gboolean log_p)
 	if(P > 0)
 	    q = sqrtgnum(2 / (P * (2 - P)) - 2);
 	else { /* P = 0, but maybe = expgnum(p) ! */
-	    if(log_p) q = M_SQRT2 * expgnum(- .5 * R_D_Lval(p));
+	    if(log_p) q = M_SQRT2gnum * expgnum(- .5 * R_D_Lval(p));
 	    else q = ML_POSINF;
 	}
     }
     else if (ndf < 1 + eps) { /* df ~= 1  (df < 1 excluded above !) */
 	if(P > 0)
-	    q = - tan((P+1) * M_PI_2);
+	    q = - tan((P+1) * M_PI_2gnum);
 
 	else { /* P = 0, but maybe p_ = expgnum(p) ! */
 	    if(log_p) q = M_1_PI * expgnum(-R_D_Lval(p));/* cot(e) ~ 1/e */
@@ -2328,11 +2322,11 @@ gnum_float qt(gnum_float p, gnum_float ndf, gboolean lower_tail, gboolean log_p)
 	a = 1 / (ndf - 0.5);
 	b = 48 / (a * a);
 	c = ((20700 * a / b - 98) * a - 16) * a + 96.36;
-	d = ((94.5 / (b + c) - 3) / b + 1) * sqrtgnum(a * M_PI_2) * ndf;
+	d = ((94.5 / (b + c) - 3) / b + 1) * sqrtgnum(a * M_PI_2gnum) * ndf;
 	if(P > 0 || !log_p)
 	    y = powgnum(d * P, 2 / ndf);
 	else /* P = 0 && log_p;  P = 2*expgnum(p*) */
-	    y = expgnum(2 / ndf * (loggnum(d) + loggnum(2) + R_D_Lval(p)));
+	    y = expgnum(2 / ndf * (loggnum(d) + M_LN2gnum + R_D_Lval(p)));
 
 	if (y > 0.05 + a) {
 	    /* Asymptotic inverse expansion about normal */
@@ -2683,7 +2677,7 @@ static gnum_float dbinom_raw(gnum_float x, gnum_float n, gnum_float p, gnum_floa
     if (x < 0 || x > n) return( R_D__0 );
 
     lc = stirlerr(n) - stirlerr(x) - stirlerr(n-x) - bd0(x,n*p) - bd0(n-x,n*q);
-    f = (M_2PI*x*(n-x))/n;
+    f = (M_2PIgnum*x*(n-x))/n;
 
     return R_D_fexp(f,lc);
 }
@@ -3042,8 +3036,8 @@ gnum_float bessel_i(gnum_float x, gnum_float alpha, gnum_float expo)
 	/* Using Abramowitz & Stegun  9.6.2
 	 * this may not be quite optimal (CPU and accuracy wise) */
 	return(bessel_i(x, -alpha, expo) +
-	       bessel_k(x, -alpha, expo) * ((ize == 1)? 2. : 2.*expgnum(-x))/M_PI
-	       * singnum(-M_PI * alpha));
+	       bessel_k(x, -alpha, expo) * ((ize == 1)? 2. : 2.*expgnum(-x))/M_PIgnum
+	       * singnum(-M_PIgnum * alpha));
     }
     nb = 1+ (long)floorgnum(alpha);/* nb-1 <= alpha < nb */
     alpha -= (nb-1);
@@ -3828,7 +3822,7 @@ static void K_bessel(gnum_float *x, gnum_float *alpha, long *nb,
 		/* ----------------------------------------------------------
 		   Calculation of K(ALPHA+1,X)/K(ALPHA,X),  1.0 <= X <= 4.0
 		   ----------------------------------------------------------*/
-		d2 = ftrunc(estm[0] / ex + estm[1]);
+		d2 = floor(estm[0] / ex + estm[1]);
 		m = (long) d2;
 		d1 = d2 + d2;
 		d2 -= .5;
@@ -3842,7 +3836,7 @@ static void K_bessel(gnum_float *x, gnum_float *alpha, long *nb,
 		   Calculation of I(|ALPHA|,X) and I(|ALPHA|+1,X) by backward
 		   recurrence and K(ALPHA,X) from the wronskian
 		   -----------------------------------------------------------*/
-		d2 = ftrunc(estm[2] * ex + estm[3]);
+		d2 = floor(estm[2] * ex + estm[3]);
 		m = (long) d2;
 		c = gnumabs(nu);
 		d3 = c + c;
@@ -3876,7 +3870,7 @@ static void K_bessel(gnum_float *x, gnum_float *alpha, long *nb,
 		   Calculation of K(ALPHA,X) and K(ALPHA+1,X)/K(ALPHA,X), by
 		   backward recurrence, for  X > 4.0
 		   ----------------------------------------------------------*/
-		dm = ftrunc(estm[4] / ex + estm[5]);
+		dm = floor(estm[4] / ex + estm[5]);
 		m = (long) dm;
 		d2 = dm - .5;
 		d2 *= d2;
