@@ -1,3 +1,9 @@
+2001-02-20  Morten Welinder  <terra@diku.dk>
+
+	* src/item-bar.c (bar_draw_cell): Fix column header drawing
+ 	problem.  (And possibly other weird drawing problems related to
+ 	style.)
+
 2001-02-20  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/dialogs/dialog-cell-format.c (setup_color_pickers): Move

@@ -211,9 +211,11 @@ bar_draw_cell (ItemBar const * const item_bar,
 	texth = font->ascent + font->descent;
 
 	gdk_gc_set_clip_rectangle (gc, rect);
-	gdk_draw_rectangle (drawable, gc, TRUE, rect->x + 1, rect->y + 1, rect->width-2, rect->height-2);
+	gdk_draw_rectangle (drawable, gc, TRUE,
+			    rect->x + 1, rect->y + 1, rect->width-2, rect->height-2);
 	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
 			 rect->x, rect->y, rect->width, rect->height);
+	gdk_gc_set_clip_rectangle (gc, NULL);
 	gdk_draw_string (drawable, font, item_bar->gc,
 			 rect->x + (rect->width - len) / 2,
 			 rect->y + (rect->height - texth) / 2 + font->ascent + 1,
