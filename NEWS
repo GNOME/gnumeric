@@ -16,6 +16,7 @@ Jody:
 	* Fix handling of optional scalar arguments.
 	* Covert many of the IS* info functions to nodal:scalar
 	* Support implicit iteration for array expressions
+	* Fix sheet object ref counting error that Morten found
 
 Morten:
 	* Leak plugging.

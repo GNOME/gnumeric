@@ -92,18 +92,8 @@ cb_sheet_object_lower_to_bottom (GtkWidget *widget, GObject *so_view)
 static void
 cb_sheet_object_remove (GtkWidget *widget, GObject *so_view)
 {
-	Sheet *sheet;
-	SheetObject *so;
-	SheetControl *sc;
-	WorkbookControl *wbc;
-
-	so = sheet_object_view_obj (so_view);
-	sc = sheet_object_view_control (so_view);
-	wbc = sc_wbc (sc);
-	sheet = sc_sheet (sc);
-
-	cmd_object_delete (wbc, so);
-	g_object_unref (G_OBJECT (so));
+	cmd_object_delete (sc_wbc (sheet_object_view_control (so_view)),
+			   sheet_object_view_obj (so_view));
 }
 
 static void

@@ -1,5 +1,10 @@
 2002-09-13  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-object.c (cb_sheet_object_remove) : don't unref,
+	  cmd_object_delete handles that.
+
+2002-09-13  Jody Goldberg <jody@gnome.org>
+
 	* src/func.c (function_call_with_list) : support implicit iteration.
 
 	* src/value-sheet.c (value_area_fetch_x_y) : catch value_empty too.
