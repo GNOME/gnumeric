@@ -153,7 +153,7 @@ init_for_inflate (StreamIOCtxt *sc, char *infbuf, int len)
 	sc->zstream.avail_in = 0;
 	sc->zstream.next_out = 0;
 	sc->zstream.avail_out = 0;
-	sc->infbsiz = sizeof infbuf;
+	sc->infbsiz = len;
 	sc->zstream.zalloc = NULL;
 	sc->zstream.zfree  = NULL;
 	sc->zstream.opaque = NULL;
@@ -257,7 +257,7 @@ read_from_stream (StreamDeserializer sdeserializer, Bonobo_Stream stream,
 		if (!init_for_inflate (&sc, infbuf, sizeof infbuf))
 					goto exit_error;
 	} else {
-		Bonobo_Stream_seek (stream, 0, Bonobo_Stream_SeekSet, ev);
+		Bonobo_Stream_seek (stream, 0, Bonobo_Stream_SEEK_SET, ev);
 		if (BONOBO_EX (ev))
 			goto exit_error;
 	}
