@@ -71,7 +71,7 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 	gint       v;
 	autosave_t p;
 
-	wb_control_gui_autosave_cancel (wbcg);
+	wbcg_autosave_cancel (wbcg);
 
 	gui = gnumeric_glade_xml_new (wbcg, "autosave.glade");
         if (gui == NULL)
@@ -125,10 +125,10 @@ loop:
 				goto loop;
 			}
 			
-		        wb_control_gui_autosave_set (
+		        wbcg_autosave_set (
 				wbcg, tmp, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (p.prompt_cb)));
 		} else
-			wb_control_gui_autosave_set (wbcg, 0, FALSE);
+			wbcg_autosave_set (wbcg, 0, FALSE);
 	} else if (v == 2) {
 		GnomeHelpMenuEntry help_ref = { "gnumeric", "autosave.html" };
 		gnome_help_display (NULL, &help_ref);

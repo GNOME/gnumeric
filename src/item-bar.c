@@ -550,12 +550,8 @@ is_pointer_on_division (ItemBar const *ib, int pos, int *the_total, int *the_ele
 		if (cri->visible) {
 			total += cri->size_pixels;
 
-			/* TODO : This is more expensive than it needs to be.
-			 * We should really set a flag (in scg ?) and adjust
-			 * it as the cursor in the entry is moved.  The current
-			 * approach recalculates the state every time.
-			 */
-			if (!wbcg_rangesel_possible (ib->gcanvas->scg->wbcg) &&
+			if (!wbcg_edit_has_guru (ib->gcanvas->scg->wbcg) &&
+			    !wbcg_is_editing (ib->gcanvas->scg->wbcg) &&
 			    (total - 4 < pos) && (pos < total + 4)) {
 				if (the_total)
 					*the_total = total;
@@ -588,19 +584,18 @@ ib_set_cursor (ItemBar *ib, int x, int y)
 	if (!canvas->window)
 		return;
 
-	if (!wbcg_edit_has_guru (ib->gcanvas->scg->wbcg)) {
-		if (ib->is_col_header) {
-			major = x;
-			minor = y;
-		} else {
-			major = y;
-			minor = x;
-		}
-
-		if (minor >= ib->indent &&
-		    is_pointer_on_division (ib, major, NULL, NULL) != NULL)
-			cursor = ib->change_cursor;
+	if (ib->is_col_header) {
+		major = x;
+		minor = y;
+	} else {
+		major = y;
+		minor = x;
 	}
+
+	if (minor >= ib->indent &&
+	    is_pointer_on_division (ib, major, NULL, NULL) != NULL)
+		cursor = ib->change_cursor;
+
 	gdk_window_set_cursor (canvas->window, cursor);
 }
 
@@ -746,9 +741,6 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			gnome_canvas_request_redraw (canvas, 0, 0, INT_MAX/2, INT_MAX/2);
 
 		} else if (ib->start_selection != -1) {
-			if (wbcg_edit_has_guru (wbcg) &&
-			    !wbcg_edit_entry_redirect_p (wbcg))
-				break;
 
 			gnm_canvas_handle_motion (ib->gcanvas,
 				canvas, &e->motion,
@@ -778,9 +770,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		cri = is_pointer_on_division (ib, pos, &start, &element);
 		if (element < 0)
 			return FALSE;
-		if (wbcg_edit_has_guru (wbcg))
-			cri = NULL;
-		else if (other_pos < ib->indent)
+		if (other_pos < ib->indent)
 			return outline_button_press (ib, element, other_pos);
 
 		if (e->button.button == 3) {

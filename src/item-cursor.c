@@ -1326,7 +1326,7 @@ item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 	ItemCursor *ic = ITEM_CURSOR (item);
 
 	/* While editing nothing should be draggable */
-	if (wb_control_gui_is_editing (ic->scg->wbcg))
+	if (wbcg_is_editing (ic->scg->wbcg))
 		return TRUE;
 
 #if 0

@@ -13,6 +13,7 @@ Pending Patches
 
     http://bugzilla.gnome.org/show_bug.cgi?id=60468	oleo
     http://bugzilla.gnome.org/show_bug.cgi?id=63160	inverse autofill
+    http://bugzilla.gnome.org/show_bug.cgi?id=55142	charset for ole summary
     libole2 + vfs support.
 
 Long term breakage

@@ -213,21 +213,21 @@ wbcg_rangesel_possible (WorkbookControlGUI const *wbcg)
 		return TRUE;
 
 	/* Rangesel requires that we be editing somthing */
-	if (!wbcg->editing && !wbcg_edit_entry_redirect_p (wbcg))
+	if (!wbcg_is_editing (wbcg) && !wbcg_edit_entry_redirect_p (wbcg))
 		return FALSE;
 
 	return gnumeric_expr_entry_rangesel_meaningful (wbcg_get_entry (wbcg));
 }
 
 gboolean
-wb_control_gui_is_editing (WorkbookControlGUI const *wbcg)
+wbcg_is_editing (WorkbookControlGUI const *wbcg)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
 	return wbcg->editing;
 }
 
 void
-wb_control_gui_autosave_cancel (WorkbookControlGUI *wbcg)
+wbcg_autosave_cancel (WorkbookControlGUI *wbcg)
 {
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
@@ -238,12 +238,11 @@ wb_control_gui_autosave_cancel (WorkbookControlGUI *wbcg)
 }
 
 void
-wb_control_gui_autosave_set (WorkbookControlGUI *wbcg,
-			     int minutes, gboolean prompt)
+wbcg_autosave_set (WorkbookControlGUI *wbcg, int minutes, gboolean prompt)
 {
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
-	wb_control_gui_autosave_cancel (wbcg);
+	wbcg_autosave_cancel (wbcg);
 
 	wbcg->autosave = (minutes != 0);
 	wbcg->autosave_minutes = minutes;

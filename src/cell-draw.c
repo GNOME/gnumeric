@@ -18,6 +18,8 @@
 #include "sheet-control-gui.h" /* FIXME : Only for scg_get_style_font */
 #include "parse-util.h"
 
+#include <ctype.h>
+
 static inline void
 draw_text (GdkDrawable *drawable, GdkFont *font, GdkGC *gc,
 	   int x1, int text_base, char const * text, int n, int len_pixels,
@@ -109,7 +111,12 @@ cell_split_text (GdkFont *font, char const *text, int const width)
 		}
 
 		used += len_current;
-		if (*p == ' ') {
+		if (*p == '-') {
+			used_last_space = used;
+			last_whitespace = p;
+			first_whitespace = p+1;
+			prev_was_space = TRUE;
+		} else if (isspace (*(unsigned char *)p)) {
 			used_last_space = used;
 			last_whitespace = p;
 			if (!prev_was_space)

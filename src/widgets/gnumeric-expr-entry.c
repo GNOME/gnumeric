@@ -377,7 +377,7 @@ gnumeric_expr_entry_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		}
 
 		/* Ctrl-enter is only applicable for the main entry */
-		if (!wb_control_gui_is_editing (wbcg))
+		if (!wbcg_is_editing (wbcg))
 			break;
 
 		if (state == GDK_CONTROL_MASK ||

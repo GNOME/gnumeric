@@ -37,6 +37,7 @@
 #include "str.h"
 
 #include <math.h>
+#include <ctype.h>
 
 /**
  * rendered_value_new:
@@ -231,7 +232,12 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 			}
 
 			used += len_current;
-			if (*p == ' '){
+			if (*p == '-') {
+				used_last_space = used;
+				last_whitespace = p;
+				first_whitespace = p+1;
+				prev_was_space = TRUE;
+			} else if (isspace (*(unsigned char *)p)) {
 				used_last_space = used;
 				last_whitespace = p;
 				if (!prev_was_space)

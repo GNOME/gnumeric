@@ -19,6 +19,9 @@ Jody:
 	* Validate autoformat template before storing undo.
 	* Fix leaks.
 	* Fix centering while printing scaled regions.
+	* Tricky corner cases for style applications.
+	* Break lines at hyphens to.
+	* Disable col/row resize while editing.
 
 Jukka:
 	* Improved function documentation.

@@ -30,6 +30,8 @@
 #include "portability.h"
 #include "str.h"
 
+#include <ctype.h>
+
 /*
   Define this to enable i18n-wise printing and string measuring - it requires
   mbstowcs to be available. Most probably printing work fine for ANY locale
@@ -295,6 +297,14 @@ print_overflow (GnomePrintContext *context, GnomeFont *font,
 			   line_offset, num_lines);
 }
 
+/*
+ * WARNING : This code is an almost exact duplicate of
+ *          cell-draw.c:cell_split_text
+ * and is very similar to
+ *          rendered-value.c:rendered_value_calc_size_ext
+ *
+ * Try to keep it that way.
+ */
 static GList *
 cell_split_text (GnomeFont *font, char const *text, int const width)
 {
@@ -338,7 +348,12 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 		}
 
 		used += len_current;
-		if (*p == ' ') {
+		if (*p == '-') {
+			used_last_space = used;
+			last_whitespace = p;
+			first_whitespace = p+1;
+			prev_was_space = TRUE;
+		} else if (isspace (*(unsigned char *)p)) {
 			used_last_space = used;
 			last_whitespace = p;
 			if (!prev_was_space)

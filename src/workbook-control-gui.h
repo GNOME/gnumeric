@@ -23,11 +23,11 @@ SheetControlGUI *wb_control_gui_cur_sheet (WorkbookControlGUI *wbcg);
 gboolean   wbcg_ui_update_begin	  (WorkbookControlGUI *wbcg);
 void	   wbcg_ui_update_end	  (WorkbookControlGUI *wbcg);
 
-gboolean   wbcg_rangesel_possible	  (WorkbookControlGUI const *wbcg);
-gboolean   wb_control_gui_is_editing	  (WorkbookControlGUI const *wbcg);
-void       wb_control_gui_autosave_cancel (WorkbookControlGUI *wbcg);
-void       wb_control_gui_autosave_set    (WorkbookControlGUI *wbcg,
-					   int minutes, gboolean prompt);
+gboolean   wbcg_rangesel_possible (WorkbookControlGUI const *wbcg);
+gboolean   wbcg_is_editing	  (WorkbookControlGUI const *wbcg);
+void       wbcg_autosave_cancel	  (WorkbookControlGUI *wbcg);
+void       wbcg_autosave_set      (WorkbookControlGUI *wbcg,
+				   int minutes, gboolean prompt);
 void	   wb_control_gui_set_status_text (WorkbookControlGUI *wbcg,
 					   char const *text);
 

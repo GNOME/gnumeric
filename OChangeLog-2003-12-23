@@ -1,3 +1,15 @@
+2001-11-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (is_pointer_on_division) : simplify.  No resize if
+	  there is a guru, or we are editing.
+	(ib_set_cursor) : no need to be fancy, is_pointer_on_division
+	  does the majority of the work now.
+	* src/item-bar.c (item_bar_event) : ditto.
+
+	* src/cell-draw.c (cell_split_text) : split at hyphens.
+	* src/print-cell.c (cell_split_text) : ditto.
+	* src/rendered-value.c (rendered_value_calc_size_ext) : ditto.
+
 2001-11-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_draw) : No one was using the
