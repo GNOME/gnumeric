@@ -1,3 +1,7 @@
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
 2002-12-20  Morten Welinder  <terra@diku.dk>
 
 	* oleo.c (oleo_read): Add OleoParseState structure and expression
