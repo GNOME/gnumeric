@@ -1247,7 +1247,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 
 			/* The space consumed is:
 			 *   - The margin_a from the last column
-			 *   - The widht of this cell
+			 *   - The width of this cell
 			 */
 			left -= COL_INTERNAL_WIDTH (ci) +
 				margin + ci->margin_b;
