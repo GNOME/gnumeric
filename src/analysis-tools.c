@@ -2262,17 +2262,14 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	data_set_t   *y_data        = NULL;
 	GArray       *cleaned       = NULL;
 	char         *text          = NULL;
-	regression_stat_t   extra_stat;
-	gnum_float   mean_y;
-	gnum_float   ss_yy;
+	regression_stat_t   *regression_stat = NULL;
 	gnum_float   r;
 	gnum_float   *res,  **xss;
 	guint        i;
 	guint        xdim           = 0;
 	int          err            = 0;
 	int          cor_err        = 0;
-	int          av_err         = 0;
-	int          sumsq_err      = 0;
+
 
 /* read the data and check for consistency */
 	x_input_range = x_input;
@@ -2332,10 +2329,12 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 					 (x_data, i))->data->data);
 	}
 
+	regression_stat = regression_stat_new ();
 	err = linear_regression (xss, xdim, (gnum_float *)(y_data->data->data),
-				 y_data->data->len, intercept, res, &extra_stat);
+				 y_data->data->len, intercept, res, regression_stat);
 
 	if (err) {
+		regression_stat_destroy (regression_stat);
 		destroy_data_set (y_data);
 		destroy_data_set_list (x_data);
 		range_list_destroy (x_input_range);
@@ -2386,62 +2385,56 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_italic (dao, 1, 15, 6, 15);
 	g_free (text);
 
-	av_err = range_average ((gnum_float *)(y_data->data->data), y_data->data->len, &mean_y);
-	sumsq_err = range_sumsq ((gnum_float *)(y_data->data->data), y_data->data->len, &ss_yy);
-	ss_yy -=  y_data->data->len * mean_y * mean_y;
-
 	if (xdim == 1)
 		cor_err =  range_correl_pop (xss[0], (gnum_float *)(y_data->data->data),
 					  y_data->data->len, &r);
-	else r = sqrt (extra_stat.sqr_r);
+	else r = sqrt (regression_stat->sqr_r);
 
 	/* Multiple R */
 	set_cell_float_na (dao, 1, 3, r, cor_err == 0);
 
 	/* R Square */
-	set_cell_float (dao, 1, 4, extra_stat.sqr_r);
+	set_cell_float (dao, 1, 4, regression_stat->sqr_r);
 
 	/* Adjusted R Square */
-	set_cell_float (dao, 1, 5, extra_stat.adj_sqr_r);
+	set_cell_float (dao, 1, 5, regression_stat->adj_sqr_r);
 
 	/* Standard Error */
-	set_cell_float (dao, 1, 6, sqrt (extra_stat.var));
+	set_cell_float (dao, 1, 6, sqrt (regression_stat->var));
 
 	/* Observations */
 	set_cell_float (dao, 1, 7, y_data->data->len);
 
 	/* Regression / df */
-	set_cell_float (dao, 1, 11, xdim);
+	set_cell_float (dao, 1, 11, regression_stat->df_reg);
 
 	/* Residual / df */
-	set_cell_float (dao, 1, 12, y_data->data->len - intercept - xdim);
+	set_cell_float (dao, 1, 12, regression_stat->df_resid);
 
 	/* Total / df */
-	set_cell_float (dao, 1, 13, y_data->data->len - intercept);
+	set_cell_float (dao, 1, 13, regression_stat->df_total);
 
 	/* Residual / SS */
-	set_cell_float (dao, 2, 12, extra_stat.ss_resid);
+	set_cell_float (dao, 2, 12, regression_stat->ss_resid);
 
 	/* Total / SS */
-	set_cell_float_na (dao, 2, 13, ss_yy, (sumsq_err == 0) && (av_err == 0));
+	set_cell_float (dao, 2, 13, regression_stat->ss_total);
 
 	/* Regression / SS */
-	set_cell_float_na (dao, 2, 11, ss_yy - extra_stat.ss_resid,
-			   (sumsq_err == 0) && (av_err == 0));
+	set_cell_float (dao, 2, 11, regression_stat->ss_reg);
 
 	/* Regression / MS */
-	set_cell_float_na (dao, 3, 11, (ss_yy - extra_stat.ss_resid) / xdim,
-			   (sumsq_err == 0) && (av_err == 0));
+	set_cell_float (dao, 3, 11, regression_stat->ms_reg);
 
 	/* Residual / MS */
-	set_cell_float (dao, 3, 12, extra_stat.ss_resid / (y_data->data->len - 1 - xdim));
+	set_cell_float (dao, 3, 12, regression_stat->ms_resid);
 
 	/* F */
-	set_cell_float (dao, 4, 11, extra_stat.F);
+	set_cell_float (dao, 4, 11, regression_stat->F);
 
 	/* Significance of F */
-	set_cell_float (dao, 5, 11, 1 - pf (extra_stat.F, xdim - intercept,
-					    y_data->data->len - xdim));
+	set_cell_float (dao, 5, 11, 1 - pf (regression_stat->F, regression_stat->df_reg,
+					    regression_stat->df_resid));
 
 	/* Intercept / Coefficient */
 	set_cell_float (dao, 1, 16, res[0]);
@@ -2455,20 +2448,20 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 		t = qt (1 - alpha/2, y_data->data->len - xdim - 1);
 
 		/* Intercept / Standard Error */
-		set_cell_float (dao, 2, 16, extra_stat.se[0]);
+		set_cell_float (dao, 2, 16, regression_stat->se[0]);
 
 		/* Intercept / t Stat */
-		set_cell_float (dao, 3, 16, extra_stat.t[0]);
+		set_cell_float (dao, 3, 16, regression_stat->t[0]);
 
 		/* Intercept / p values */
-		set_cell_float (dao, 4, 16, 2.0 * (1.0 - pt (extra_stat.t[0],
+		set_cell_float (dao, 4, 16, 2.0 * (1.0 - pt (regression_stat->t[0],
 							     y_data->data->len - xdim - 1)));
 
 		/* Intercept / Lower 95% */
-		set_cell_float (dao, 5, 16, res[0] - t * extra_stat.se[0]);
+		set_cell_float (dao, 5, 16, res[0] - t * regression_stat->se[0]);
 
 		/* Intercept / Upper 95% */
-		set_cell_float (dao, 6, 16, res[0] + t * extra_stat.se[0]);
+		set_cell_float (dao, 6, 16, res[0] + t * regression_stat->se[0]);
 	}
 
 	/* Slopes */
@@ -2481,27 +2474,28 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 		/* Slopes / Standard Error */
 		/*With no intercept se[0] is for the first slope variable; with
 		  intercept, se[1] is the first slope se */
-		set_cell_float (dao, 2, 17 + i, extra_stat.se[intercept + i]);
+		set_cell_float (dao, 2, 17 + i, regression_stat->se[intercept + i]);
 
 		/* Slopes / t Stat */
-		set_cell_float (dao, 3, 17 + i, extra_stat.t[intercept + i]);
+		set_cell_float (dao, 3, 17 + i, regression_stat->t[intercept + i]);
 
 		/* Slopes / p values */
 		set_cell_float (dao, 4, 17 + i,
-				2.0 * (1.0 - pt (extra_stat.t[intercept + i],
+				2.0 * (1.0 - pt (regression_stat->t[intercept + i],
 						 y_data->data->len - xdim - intercept)));
 
 		t = qt (1 - alpha/2, y_data->data->len - xdim - intercept);
 
 		/* Slope / Lower 95% */
 		set_cell_float (dao, 5, 17 + i,
-				res[i + 1] - t * extra_stat.se[intercept + i]);
+				res[i + 1] - t * regression_stat->se[intercept + i]);
 
 		/* Slope / Upper 95% */
 		set_cell_float (dao, 6, 17 + i,
-				res[i + 1] + t * extra_stat.se[intercept + i]);
+				res[i + 1] + t * regression_stat->se[intercept + i]);
 	}
 
+	regression_stat_destroy (regression_stat);
 	autofit_columns (dao, 0, 6);
 	destroy_data_set (y_data);
 	destroy_data_set_list (x_data);

@@ -30,14 +30,22 @@ typedef struct {
 	gnum_float adj_sqr_r;
         gnum_float se_y; /* The Standard Error of Y */
         gnum_float F;
-        int     df;
+        int     df_reg;
+        int     df_resid;
+        int     df_total;
         gnum_float ss_reg;
         gnum_float ss_resid;
+        gnum_float ss_total;
+        gnum_float ms_reg;
+        gnum_float ms_resid;
 	gnum_float ybar;
 	gnum_float *xbar;
 	gnum_float var; /* The variance of the entire regression:
 			sum(errors^2)/(n-xdim) */
 } regression_stat_t;
+
+regression_stat_t * regression_stat_new (void);
+void regression_stat_destroy (regression_stat_t *regression_stat);
 
 int linear_regression (gnum_float **xss, int dim,
 		       const gnum_float *ys, int n,

@@ -3786,7 +3786,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 		value_array_set (result, 0, 3,
 				 value_new_float (extra_stat.F));
 		value_array_set (result, 1, 3,
-				 value_new_float (extra_stat.df));
+				 value_new_float (extra_stat.df_resid));
 		value_array_set (result, 0, 4,
 				 value_new_float (extra_stat.ss_reg));
 		value_array_set (result, 1, 4,
@@ -4152,7 +4152,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 		value_array_set (result, 0, 3,
 				 value_new_float (extra_stat.F));
 		value_array_set (result, 1, 3,
-				 value_new_float (extra_stat.df));
+				 value_new_float (extra_stat.df_resid));
 		value_array_set (result, 0, 4,
 				 value_new_float (extra_stat.ss_reg));
 		value_array_set (result, 1, 4,

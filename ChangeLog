@@ -1,3 +1,14 @@
+2002-02-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c (regression_tool) : use only values
+	  from extra_stat (renamed to regression_stat)
+	* src/regression.c (general_linear_regression) : calculate more 
+	  regression_stat
+	(regression_stat_new) : new
+	(regression_stat_destroy) : new
+	* src/regression.h : add fields to regression_stat_t and add 
+	  declarations of regression_stat_new and regression_stat_destroy
+
 2002-02-20  Morten Welinder  <terra@diku.dk>
 
 	* src/format.c (format_value): Missing g_strdup added for sanity

@@ -170,14 +170,14 @@ static int
 general_linear_regression (gnum_float **xss, int xdim,
 			   const gnum_float *ys, int n,
 			   gnum_float *res,
-			   regression_stat_t *extra_stat, int affine)
+			   regression_stat_t *regression_stat, int affine)
 {
 	gnum_float *xTy, **xTx;
 	int i,j;
 	int err;
 
-	if (extra_stat)
-		memset (extra_stat, 0, sizeof (regression_stat_t));
+	if (regression_stat)
+		memset (regression_stat, 0, sizeof (regression_stat_t));
 
 	if (xdim > n || n < 1)
 		return 1;  /* Too few points.  */
@@ -225,11 +225,10 @@ general_linear_regression (gnum_float **xss, int xdim,
 
 	err = linear_solve (xTx, xTy, xdim, res);
 
-	if (extra_stat && err == 0) {
+	if (regression_stat && err == 0) {
 		int err2;
 		gnum_float *residuals = g_new (gnum_float, n);
 		gnum_float **LU;
-		gnum_float ss_total;
 		int *P;
 		gnum_float *e, *inv;
 		gnum_float ybar;
@@ -238,23 +237,23 @@ general_linear_regression (gnum_float **xss, int xdim,
 		/* This should not fail since n >= 1.  */
 		err = range_average (ys, n, &ybar);
 		g_assert (err == 0);
-		extra_stat->ybar = ybar;
+		regression_stat->ybar = ybar;
 
 		/* FIXME: we ought to have a devsq variant that does not
 		   recompute the mean.  */
-		if (xss[0])
-			err = range_sumsq (ys, n, &ss_total);
+		if (affine)
+			err = range_devsq (ys, n, &regression_stat->ss_total);
 		else
-			err = range_devsq (ys, n, &ss_total);
+			err = range_sumsq (ys, n, &regression_stat->ss_total);
 		g_assert (err == 0);
 
-		extra_stat->xbar = g_new (gnum_float, n);
+		regression_stat->xbar = g_new (gnum_float, n);
 		for (i = 0; i < xdim; i++) {
 			if (xss[i]) {
-				int err = range_average (xss[i], n, &extra_stat->xbar[i]);
+				int err = range_average (xss[i], n, &regression_stat->xbar[i]);
 				g_assert (err == 0);
 			} else {
-				extra_stat->xbar[i] = 1;
+				regression_stat->xbar[i] = 1;
 			}
 		}
 
@@ -269,19 +268,20 @@ general_linear_regression (gnum_float **xss, int xdim,
 			residuals[i] = ys[i] - residuals[i];
 		}
 
-		err = range_sumsq (residuals, n, &extra_stat->ss_resid);
+		err = range_sumsq (residuals, n, &regression_stat->ss_resid);
 		g_assert (err == 0);
 
 		/* FIXME: we want to guard against division by zero.  */
-		extra_stat->sqr_r = 1 - (extra_stat->ss_resid / ss_total);
-		extra_stat->adj_sqr_r = 1 - extra_stat->ss_resid * (n - 1) / ((n - xdim) * ss_total);
-		extra_stat->var = (extra_stat->ss_resid / (n - xdim));
+		regression_stat->sqr_r = 1 - (regression_stat->ss_resid / regression_stat->ss_total);
+		regression_stat->adj_sqr_r = 1 - regression_stat->ss_resid * (n - 1) / 
+			((n - xdim) * regression_stat->ss_total);
+		regression_stat->var = (regression_stat->ss_resid / (n - xdim));
 
 		ALLOC_MATRIX (LU, xdim, xdim);
 		P = g_new (int, n);
 
 		err2 = LUPDecomp (xTx, LU, P, xdim);
-		extra_stat->se = g_new (gnum_float, xdim);
+		regression_stat->se = g_new (gnum_float, xdim);
 		if (err2 == 0) {
 			e = g_new (gnum_float, xdim); /* Elmentary vector */
 			inv = g_new (gnum_float, xdim);
@@ -290,7 +290,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 			for (i = 0; i < xdim; i++) {
 				e[i] = 1;
 				backsolve (LU, P, e, xdim, inv);
-				extra_stat->se[i] = sqrt (extra_stat->var * inv[i]);
+				regression_stat->se[i] = sqrt (regression_stat->var * inv[i]);
 				e[i] = 0;
 			}
 			g_free (e);
@@ -298,22 +298,28 @@ general_linear_regression (gnum_float **xss, int xdim,
 		} else {
 			/* FIXME: got any better idea?  */
 			for (i = 0; i < xdim; i++)
-				extra_stat->se[i] = 1;
+				regression_stat->se[i] = 1;
 		}
 		FREE_MATRIX (LU, xdim, xdim);
 		g_free (P);
 
-		extra_stat->t = g_new (gnum_float, xdim);
+		regression_stat->t = g_new (gnum_float, xdim);
 
 		for (i = 0; i < xdim; i++)
-			extra_stat->t[i] = res[i] / extra_stat->se[i];
+			regression_stat->t[i] = res[i] / regression_stat->se[i];
 
-		extra_stat->F = (extra_stat->sqr_r / (xdim - affine)) /
-			((1 - extra_stat->sqr_r) / (n - xdim));
+		regression_stat->df_resid = n - xdim;
+		regression_stat->df_reg = xdim - (affine ? 1 : 0);
+		regression_stat->df_total = regression_stat->df_resid + regression_stat->df_reg;
 
-		extra_stat->df = n - xdim;
-		extra_stat->ss_reg = ss_total - extra_stat->ss_resid;
-		extra_stat->se_y = sqrt (ss_total / n);
+		regression_stat->F = (regression_stat->sqr_r / regression_stat->df_reg) /
+			((1 - regression_stat->sqr_r) / regression_stat->df_resid);
+
+		regression_stat->ss_reg =  regression_stat->ss_total - regression_stat->ss_resid;
+		regression_stat->se_y = sqrt (regression_stat->ss_total / n);
+		regression_stat->ms_reg = regression_stat->ss_reg / regression_stat->df_reg;
+		regression_stat->ms_resid = regression_stat->ss_resid / regression_stat->df_resid;
+
 		g_free (residuals);
 	}
 
@@ -331,7 +337,7 @@ linear_regression (gnum_float **xss, int dim,
 		   const gnum_float *ys, int n,
 		   int affine,
 		   gnum_float *res,
-		   regression_stat_t *extra_stat)
+		   regression_stat_t *regression_stat)
 {
 	int result;
 
@@ -342,12 +348,12 @@ linear_regression (gnum_float **xss, int dim,
 		memcpy (xss2 + 1, xss, dim * sizeof (gnum_float *));
 
 		result = general_linear_regression (xss2, dim + 1, ys, n,
-						    res, extra_stat, affine);
+						    res, regression_stat, affine);
 		g_free (xss2);
 	} else {
 		res[0] = 0;
 		result = general_linear_regression (xss, dim, ys, n,
-						    res + 1, extra_stat, affine);
+						    res + 1, regression_stat, affine);
 	}
 	return result;
 }
@@ -360,7 +366,7 @@ exponential_regression (gnum_float **xss, int dim,
 			const gnum_float *ys, int n,
 			int affine,
 			gnum_float *res,
-			regression_stat_t *extra_stat)
+			regression_stat_t *regression_stat)
 {
 	gnum_float *log_ys;
 	int result;
@@ -382,12 +388,12 @@ exponential_regression (gnum_float **xss, int dim,
 		memcpy (xss2 + 1, xss, dim * sizeof (gnum_float *));
 
 		result = general_linear_regression (xss2, dim + 1, log_ys,
-						    n, res, extra_stat, affine);
+						    n, res, regression_stat, affine);
 		g_free (xss2);
 	} else {
 		res[0] = 0;
 		result = general_linear_regression (xss, dim, log_ys, n,
-						    res + 1, extra_stat, affine);
+						    res + 1, regression_stat, affine);
 	}
 
 	if (result == 0)
@@ -400,3 +406,30 @@ exponential_regression (gnum_float **xss, int dim,
 }
 
 /* ------------------------------------------------------------------------- */
+
+regression_stat_t * 
+regression_stat_new (void)
+{
+	regression_stat_t * regression_stat = g_new0 (regression_stat_t, 1);
+	
+	regression_stat->se = NULL;
+	regression_stat->t = NULL;
+	regression_stat->xbar = NULL;
+
+	return regression_stat;
+}
+
+void 
+regression_stat_destroy (regression_stat_t *regression_stat) 
+{
+	g_return_if_fail (regression_stat != NULL);
+
+	if (regression_stat->se)
+		g_free(regression_stat->se);
+	if (regression_stat->t)
+		g_free(regression_stat->t);
+	if (regression_stat->xbar)
+		g_free(regression_stat->xbar);
+	g_free (regression_stat);
+}
+
