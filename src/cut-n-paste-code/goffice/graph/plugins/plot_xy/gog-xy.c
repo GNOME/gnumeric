@@ -340,13 +340,13 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
 /* Names of the error data are not translated since they are not used */
 			{ "Y+err", GOG_SERIES_ERRORS, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_plus1 },
 			{ "Y-err", GOG_SERIES_ERRORS, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_minus1 },
 			{ "X+err", GOG_SERIES_ERRORS, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_plus2 },
 			{ "X-err", GOG_SERIES_ERRORS, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_minus2 }
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
@@ -495,13 +495,13 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 			  GOG_DIM_VALUE, GOG_MS_DIM_BUBBLES },
 /* Names of the error data are not translated since they are not used */
 			{ "Y+err", GOG_SERIES_ERRORS, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_plus1 },
 			{ "Y-err", GOG_SERIES_ERRORS, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_minus1 },
 			{ "X+err", GOG_SERIES_ERRORS, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_plus2 },
 			{ "X-err", GOG_SERIES_ERRORS, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_minus2 }
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);

@@ -115,7 +115,11 @@ Pending Patches
     8.10) Use existing markup when editing a cell		(DONE)
     8.11) Persist markup as pseudo format
     8.12) Parse markup in pseudo format
-    8.13) load markup from xls
+    8.13) xls
+	8.13.1) import from RLABEL
+	8.13.2) import from SST
+	8.13.3) export RLABEL
+	8.13.4) export in SST
     8.14) editing while zoomed
 
 -------------------------------------------------------------------------------
