@@ -9,10 +9,14 @@
 #include <config.h>
 
 #include <gnome.h>
+#include <ctype.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "item-edit.h"
 #include "application.h"
+#include "value.h"
+#include "ranges.h"
+#include "gnumeric-util.h"
 
 #define CURSOR_LEN 4
 static GnomeCanvasItem *item_edit_parent_class;
@@ -190,7 +194,10 @@ item_edit_init (ItemEdit *item_edit)
 	item_edit->col_span = 1;
 	item_edit->row_span = 1;
 
-	/* Set invalid values so that we know when we have been fully initialized */
+	/*
+	 * Set invalid values so that we know when we have
+	 * been fully initialized
+	 */
 	item_edit->sheet = 0;
 	item_edit->col = -1;
 	item_edit->row = -1;
@@ -210,9 +217,128 @@ queue_sync (ItemEdit *item_edit)
 }
 
 static void
+scan_at (const char *text, int *scan)
+{
+	int i;
+	
+	while (*scan > 0){
+		const char *p = &text [(*scan)-1];
+		char c = *p;
+
+		if (!(c == ':' || c == '$' || isalnum (*p)))
+			break;
+		
+		(*scan)--;
+	}
+}
+
+static gboolean
+setup_range_from_value (Range *range, Value *v)
+{
+	if (v->v.cell_range.cell_a.sheet != v->v.cell_range.cell_a.sheet){
+		value_release (v);
+		return FALSE;
+	}
+	
+	range->start.col = v->v.cell_range.cell_a.col;
+	range->start.row = v->v.cell_range.cell_a.row;
+	range->end.col   = v->v.cell_range.cell_b.col;
+	range->end.row   = v->v.cell_range.cell_b.row;
+	value_release (v);
+	return TRUE;
+}
+
+/*
+ * This routine could definetly be better.
+ *
+ * Currently it will not handle ranges like R[-1]C1, nor named ranges,
+ * nor will it detect whether something is part of an expression or a
+ * string .
+ *
+ * It also flops completely to understand 
+ */
+static gboolean
+point_is_inside_range (ItemEdit *item_edit, GtkEntry *entry, Range *range)
+{
+	int text_len, cursor_pos, scan;
+	Value *v;
+	char *text;
+	
+	text = gtk_entry_get_text (GTK_ENTRY (item_edit->editor));
+
+	if (!gnumeric_char_start_expr_p (text [0]))
+		return FALSE;
+
+	text++;
+	text_len = strlen (text);
+	cursor_pos = GTK_EDITABLE (item_edit->editor)->current_pos;
+	if (cursor_pos == 0)
+		return FALSE;
+	cursor_pos--;
+
+	scan = cursor_pos;
+	scan_at (text, &scan);
+	if ((v = range_parse (item_edit->sheet, &text [scan], FALSE)) != NULL)
+		return setup_range_from_value (range, v);
+
+	if (scan == cursor_pos && scan > 0)
+		scan--;
+	scan_at (text, &scan);
+	if ((v = range_parse (item_edit->sheet, &text [scan], FALSE)) != NULL)
+		return setup_range_from_value (range, v);
+
+	return FALSE;
+}
+
+static void
+entry_create_feedback_range (ItemEdit *item_edit, Range *range)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_edit);
+
+	if (!item_edit->feedback_cursor){
+		item_edit->feedback_cursor = gnome_canvas_item_new (
+			GNOME_CANVAS_GROUP (item->canvas->root),
+			item_cursor_get_type (),
+			"Sheet",  item_edit->sheet,
+			"Grid",   item_edit->item_grid,
+			"Style",  ITEM_CURSOR_BLOCK,
+			"Color",  "red",
+			NULL);
+	}
+
+	item_cursor_set_bounds (
+		ITEM_CURSOR (item_edit->feedback_cursor),
+		range->start.col, range->start.row,
+		range->end.col, range->end.row);
+}
+
+static void
+entry_destroy_feedback_range (ItemEdit *item_edit)
+{
+	if (item_edit->feedback_cursor){
+		gtk_object_destroy (GTK_OBJECT (item_edit->feedback_cursor));
+		item_edit->feedback_cursor = NULL;
+	}
+}
+
+static void
+scan_for_range (ItemEdit *item_edit, GtkEntry *entry)
+{
+	Range range;
+	
+	if (point_is_inside_range (item_edit, entry, &range))
+		entry_create_feedback_range (item_edit, &range);
+	else
+		entry_destroy_feedback_range (item_edit);
+}
+
+static void
 entry_changed (GtkEntry *entry, void *data)
 {
-	queue_sync (ITEM_EDIT (data));
+	ItemEdit *item_edit = ITEM_EDIT (data);
+	
+	queue_sync (item_edit);
+	scan_for_range (item_edit, entry);
 }
 
 static void
@@ -221,6 +347,8 @@ item_edit_destroy (GtkObject *o)
 	ItemEdit *item_edit = ITEM_EDIT (o);
 	int x, y, w, h;
 
+	entry_destroy_feedback_range (item_edit);
+	
 	/* Repaint the area where we had edited */
 	mstyle_unref (item_edit->mstyle);
 	item_edit_get_pixel_coords (item_edit, &x, &y, &w, &h);
@@ -241,6 +369,7 @@ entry_event (GtkEntry *entry, GdkEvent *event, ItemEdit *item_edit)
 	case GDK_KEY_RELEASE:
 	case GDK_BUTTON_PRESS:
 		queue_sync (item_edit);
+		scan_for_range (item_edit, entry);
 
 	default:
 		break;

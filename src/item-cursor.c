@@ -33,6 +33,7 @@ enum {
 	ARG_SHEET,		/* The Sheet * argument */
 	ARG_ITEM_GRID,		/* The ItemGrid * argument */
 	ARG_STYLE,              /* The style type */
+	ARG_COLOR,              /* The optional color */
 };
 
 static int
@@ -244,6 +245,14 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		back          = &gs_white;
 		break;
 
+	case ITEM_CURSOR_BLOCK:
+		draw_center   = 1;
+		draw_thick    = 1;
+		draw_internal = 0;
+		draw_external = 1;
+		draw_stippled = 0;
+		break;
+		
 	case ITEM_CURSOR_SELECTION:
 		draw_internal = 1;
 		draw_external = 1;
@@ -275,6 +284,11 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		}
 	};
 
+	if (item_cursor->use_color){
+		fore = &item_cursor->color;
+		back = &item_cursor->color;
+	}
+	
 	item_cursor->auto_fill_handle_at_top = (draw_handle >= 2);
 
 	clip_rect.x = 0;
@@ -296,11 +310,13 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 				    GDK_LINE_SOLID, -1, -1);
 	gdk_gc_set_foreground (item_cursor->gc, &gs_black);
 	gdk_gc_set_background (item_cursor->gc, &gs_white);
+
 	if (draw_external){
 		switch (draw_handle) {
 		/* Auto handle at bottom */
-		case 1 : premove = AUTO_HANDLE_SPACE;
-			 /* Fall through */
+		case 1 :
+			premove = AUTO_HANDLE_SPACE;
+			/* Fall through */
 
 		/* No auto handle */
 		case 0 :
@@ -1032,7 +1048,7 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item;
 	ItemCursor *item_cursor;
-
+	
 	item = GNOME_CANVAS_ITEM (o);
 	item_cursor = ITEM_CURSOR (o);
 
@@ -1046,6 +1062,17 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_STYLE:
 		item_cursor->style = GTK_VALUE_INT (*arg);
 		break;
+
+	case ARG_COLOR: {
+		GdkColor color;
+		char *color_name;
+		
+		color_name = GTK_VALUE_STRING (*arg);
+		if (gnome_canvas_get_color (item->canvas, color_name, &color)){
+			item_cursor->color = color;
+			item_cursor->use_color = 1;
+		}
+	}
 	}
 }
 
@@ -1069,6 +1096,8 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 				 GTK_ARG_WRITABLE, ARG_ITEM_GRID);
 	gtk_object_add_arg_type ("ItemCursor::Style", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_STYLE);
+	gtk_object_add_arg_type ("ItemCursor::Color", GTK_TYPE_STRING,
+				 GTK_ARG_WRITABLE, ARG_COLOR);
 
 	object_class->set_arg = item_cursor_set_arg;
 	object_class->destroy = item_cursor_destroy;

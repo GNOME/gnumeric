@@ -173,7 +173,6 @@ sheet_object_drop_file (Sheet *sheet, gdouble x, gdouble y, const char *fname)
 			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
 		} else {
 			sheet_object_bonobo_load_from_file (SHEET_OBJECT_BONOBO (so), fname);
-			sheet_object_bonobo_query_size (SHEET_OBJECT_BONOBO (so));
 		}
 	}
 	if (msg)

@@ -141,16 +141,23 @@ col_from_name (const char *cell_str)
  * @cell_name:   a string representation of a cell name.
  * @col:         result col
  * @row:         result row
- *
+ * @strict:      if this is TRUE, then parsing stops at possible errors,
+ *               otherwise an attempt is made to return cell names with trailing garbage.
+ * 
  * Return value: true if the cell_name could be successfully parsed
  */
 gboolean
-parse_cell_name (const char *cell_str, int *col, int *row)
+parse_cell_name (const char *cell_str, int *col, int *row, gboolean strict)
 {
-	char c;
-
+	unsigned char c;
+	gboolean found_digits = FALSE;
+	
+	if (*cell_str == '$')
+		cell_str++;
+	
 	/* Parse column name: one or two letters.  */
-	c = toupper ((unsigned char)*cell_str++);
+	c = toupper ((unsigned char) *cell_str);
+	cell_str++;
 	if (c < 'A' || c > 'Z')
 		return FALSE;
 
@@ -163,10 +170,18 @@ parse_cell_name (const char *cell_str, int *col, int *row)
 	if (*col >= SHEET_MAX_COLS)
 		return FALSE;
 
+	if (*cell_str == '$')
+		cell_str++;
+	
 	/* Parse row number: a sequence of digits.  */
 	for (*row = 0; *cell_str; cell_str++) {
-		if (*cell_str < '0' || *cell_str > '9')
-			return FALSE;
+		if (*cell_str < '0' || *cell_str > '9'){
+			if (found_digits && strict == FALSE){
+				break;
+			} else
+				return FALSE;
+		}
+		found_digits = TRUE;
 		*row = *row * 10 + (*cell_str - '0');
 		if (*row > SHEET_MAX_ROWS) /* Note: ">" is deliberate.  */
 			return FALSE;
@@ -180,13 +195,12 @@ parse_cell_name (const char *cell_str, int *col, int *row)
 }
 
 gboolean
-parse_cell_name_or_range (const char *cell_str, int *col, int *row,
-			  int *cols, int *rows)
+parse_cell_name_or_range (const char *cell_str, int *col, int *row, int *cols, int *rows, gboolean strict)
 {
         int e_col, e_row;
 
 	*cols = *rows = 1;
-	if (!parse_cell_name (cell_str, col, row)) {
+	if (!parse_cell_name (cell_str, col, row, strict)) {
 	        if (!parse_range ((char *) cell_str, col, row, &e_col, &e_row))
 		        return FALSE;
 		else {
@@ -232,7 +246,8 @@ gnumeric_strcase_hash (gconstpointer v)
 GSList *
 parse_cell_name_list (Sheet *sheet,
 		      const char *cell_name_str,
-		      int *error_flag)
+		      int *error_flag,
+		      gboolean strict)
 {
         char     *buf, *tmp = NULL;
 	GSList   *cells = NULL;
@@ -253,7 +268,7 @@ parse_cell_name_list (Sheet *sheet,
 		    (cell_name_str [i] == '\0')){
 		        buf [n] = '\0';
 
-			if (!parse_cell_name (buf, &col, &row)){
+			if (!parse_cell_name (buf, &col, &row, strict)){
 			error:
 			        *error_flag = 1;
 				free (buf);
@@ -273,10 +288,10 @@ parse_cell_name_list (Sheet *sheet,
 			else if (range_flag) {
 			        int x1, x2, y1, y2;
 
-				parse_cell_name (tmp, &x1, &y1);
-				parse_cell_name (buf, &x2, &y2);
-			        for (j=x1; j<=x2; j++)
-				        for (k=y1; k<=y2; k++) {
+				parse_cell_name (tmp, &x1, &y1, strict);
+				parse_cell_name (buf, &x2, &y2, strict);
+			        for (j = x1; j <= x2; j++)
+				        for (k = y1; k <= y2; k++) {
 					        cell = sheet_cell_fetch
 						  (sheet, j, k);
 						cells = g_slist_append

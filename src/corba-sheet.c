@@ -4,6 +4,10 @@
  *
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)
+ *
+ * Notes:
+ *
+ * Strings representing ranges, when parsed ignore relative strings.
  */
 #include <config.h>
 #include <libgnorba/gnome-factory.h>
@@ -35,10 +39,12 @@
 	verify (r1 <= r2);
 
 #define verify_range(sheet,range,l) \
-        if (!corba_range_parse (sheet,range,l)) { out_of_range (ev); return; }
+        if (!corba_range_parse (sheet,range,l)) \
+	{ out_of_range (ev); return; }
 
 #define verify_range_val(sheet,range,l,val) \
-        if (!corba_range_parse (sheet,range,l)) { out_of_range (ev); return (val); }
+        if (!corba_range_parse (sheet,range,l)) \
+	{ out_of_range (ev); return (val); }
 
 static POA_GNOME_Gnumeric_Sheet__vepv gnome_gnumeric_sheet_vepv;
 static POA_GNOME_Gnumeric_Sheet__epv gnome_gnumeric_sheet_epv;
@@ -66,7 +72,7 @@ corba_range_parse (Sheet *sheet, const char *range_spec, GSList **return_list)
 {
 	GSList *list;
 	
-	list = range_list_parse (sheet, range_spec);
+	list = range_list_parse (sheet, range_spec, TRUE);
 	if (list) {
 		*return_list = list;
 		return TRUE;
@@ -317,8 +323,8 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 	case GNOME_Gnumeric_VALUE_CELLRANGE: {
 		CellRef a, b;
 
-		parse_cell_name (value->_u.cell_range.cell_a, &a.col, &a.row);
-		parse_cell_name (value->_u.cell_range.cell_b, &b.col, &b.row);
+		parse_cell_name (value->_u.cell_range.cell_a, &a.col, &a.row, TRUE);
+		parse_cell_name (value->_u.cell_range.cell_b, &b.col, &b.row, TRUE);
 		a.sheet = sheet;
 		b.sheet = sheet;
 		a.col_relative = 0;

@@ -222,7 +222,7 @@ add_dialog:
 	
 	lhs_text = gtk_entry_get_text (GTK_ENTRY (lhs_entry));
 	if (!parse_cell_name_or_range (lhs_text, &lhs_col, &lhs_row,
-				       &lhs_cols, &lhs_rows)) {
+				       &lhs_cols, &lhs_rows, TRUE)) {
 		gtk_widget_grab_focus (lhs_entry);
 		gtk_entry_set_position(GTK_ENTRY (lhs_entry), 0);
 		gtk_entry_select_region(GTK_ENTRY (lhs_entry), 0, 
@@ -236,7 +236,7 @@ add_dialog:
 	if ((strcmp (type_str, "Int") != 0 &&
 	     strcmp (type_str, "Bool") != 0) &&
 	    !parse_cell_name_or_range (rhs_text, &rhs_col, &rhs_row,
-				       &rhs_cols, &rhs_rows)) {
+				       &rhs_cols, &rhs_rows, TRUE)) {
 		gtk_widget_grab_focus (rhs_entry);
 		gtk_entry_set_position(GTK_ENTRY (rhs_entry), 0);
 		gtk_entry_select_region(GTK_ENTRY (rhs_entry), 0, 
@@ -395,7 +395,7 @@ loop:
 					   constraint->lhs_row);
 		if (strcmp (entry, txt) != 0) {
 		        if (!parse_cell_name_or_range (entry, &col, &row,
-						       &lhs_cols, &lhs_rows)) {
+						       &lhs_cols, &lhs_rows, TRUE)) {
 			        gtk_widget_grab_focus (lhs_entry);
 				gtk_entry_set_position(GTK_ENTRY (lhs_entry),
 						       0);
@@ -422,7 +422,7 @@ loop:
 					   constraint->rhs_row);
 		if (strcmp (entry, txt) != 0) {
 		        if (!parse_cell_name_or_range (entry, &col, &row, 
-						       &rhs_cols, &rhs_rows)) {
+						       &rhs_cols, &rhs_rows, TRUE)) {
 			        gtk_widget_grab_focus (rhs_entry);
 				gtk_entry_set_position(GTK_ENTRY (rhs_entry),
 						       0);
@@ -856,7 +856,7 @@ main_dialog:
 
 	/* Parse target cell entry */
 	text = gtk_entry_get_text (GTK_ENTRY (target_entry));
-	if (!parse_cell_name (text, &target_cell_col, &target_cell_row)) {
+	if (!parse_cell_name (text, &target_cell_col, &target_cell_row, TRUE)) {
  	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce a valid cell name "
 				   "for 'Target cell'"));
@@ -878,7 +878,7 @@ main_dialog:
 	text = gtk_entry_get_text (GTK_ENTRY (input_entry));
 
 	input_cells = (CellList *)
-	        parse_cell_name_list (sheet, text, &error_flag);
+	        parse_cell_name_list (sheet, text, &error_flag, TRUE);
 	if (error_flag) {
  	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce a valid cell names "

@@ -169,9 +169,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 			if (new_book) {
 				opened_workbook = TRUE;
 
-				if (test_styles)
-					workbook_style_test (new_book);
-
 				gtk_widget_show (new_book->toplevel);
 			}
 

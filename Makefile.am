@@ -1,7 +1,7 @@
 if BONOBO
 SUBDIRS = intl po macros idl plugins wizards src graph doc icons
 else
-SUBDIRS = intl po macros idl plugins         src       doc icons
+SUBDIRS = intl po macros     plugins         src       doc icons
 endif
 
 change_logs = \

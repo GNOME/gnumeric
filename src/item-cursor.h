@@ -14,6 +14,7 @@ typedef enum {
 	ITEM_CURSOR_ANTED,
 	ITEM_CURSOR_AUTOFILL,
 	ITEM_CURSOR_DRAG,
+	ITEM_CURSOR_BLOCK
 } ItemCursorStyle;
 
 typedef struct {
@@ -54,9 +55,11 @@ typedef struct {
 	/* Cached values of the last bounding box information used */
 	int      cached_x, cached_y, cached_w, cached_h;
 
-	int      visible;
+	int      visible:1;
+	int      use_color:1;
 	
 	GdkPixmap *stipple;
+	GdkColor  color;
 } ItemCursor;
 
 GtkType item_cursor_get_type (void);
@@ -65,9 +68,9 @@ typedef struct {
 	GnomeCanvasItemClass parent_class;
 } ItemCursorClass;
 
-void          item_cursor_set_bounds (ItemCursor *item_cursor,
-				      int start_col, int start_row,
-				      int end_col, int end_row);
+void item_cursor_set_bounds     (ItemCursor *item_cursor,
+				 int start_col, int start_row,
+				 int end_col, int end_row);
 
 void item_cursor_set_spin_base  (ItemCursor *item_cursor,
 				 int col, int row);

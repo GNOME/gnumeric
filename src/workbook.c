@@ -1398,11 +1398,9 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Insert Object"), N_("Inserts an object in the spreadsheet"),
 		create_embedded_component_cmd, NULL, insert_bonobo_component_xpm),
-#if 0
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Insert shaped object"), N_("Inserts a shaped object in the spreadsheet"),
 		create_embedded_item_cmd, NULL, object_xpm),
-#endif
 #endif
 #ifdef GNUMERIC_TEST_ACTIVE_OBJECT
 	GNOMEUIINFO_ITEM_DATA (
@@ -1680,7 +1678,7 @@ workbook_parse_and_jump (Workbook *wb, const char *text)
 {
 	int col, row;
 
-	if (parse_cell_name (text, &col, &row)){
+	if (parse_cell_name (text, &col, &row, TRUE)){
 		Sheet *sheet = wb->current_sheet;
 
 		sheet_make_cell_visible (sheet, col, row);
@@ -2027,9 +2025,8 @@ workbook_container_get_object (BonoboObject *container, CORBA_char *item_name,
 	if (p) {
 		*p++ = 0;
 
-		if (!range_parse (sheet, p, &range))
-			range = NULL;
-		else {
+		range = range_parse (sheet, p, TRUE);
+		if (range){
 			CellRef *a = &range->v.cell_range.cell_a;
 			CellRef *b = &range->v.cell_range.cell_b;
 			

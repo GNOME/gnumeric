@@ -1,3 +1,28 @@
+2000-03-21  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/utils.c (parse_cell_name_or_range): Allow for parsing to be
+	non-strict. 
+
+	* src/ranges.c (range_parse): Allow for parsing to be non-strict.
+
+	* src/utils.c (parse_cell_name): Allow for parsing to be non-strict.
+
+	* Makefile.am (SUBDIRS): Fix list of directories.
+
+	* src/item-cursor.c (item_cursor_set_arg): Added optional color
+	handling to item-cursor.
+
+2000-03-20  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/main.c (gnumeric_main): Removed broken style test.
+
+	* src/ranges.c (range_parse): Update the range_parse API
+
+	* src/print-info.c (load_range): Update API.
+
+	* src/utils.c (parse_cell_name): Handle references that contain an
+	absolute reference.
+
 2000-03-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_move_range) : Move the styles before the contents

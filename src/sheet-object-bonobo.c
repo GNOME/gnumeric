@@ -192,24 +192,6 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 	return TRUE;
 }
 
-void
-sheet_object_bonobo_query_size (SheetObjectBonobo *sob)
-{
-#if 0
-	int dx = -1, dy = -1;
-	bonobo_view_frame_size_request (view_frame, &dx, &dy);
-	
-	if (dx > 0 && dy > 0) {
-		double tlx, tly, brx, bry;
-		
-		sheet_object_get_bounds (so, &tlx, &tly, &brx, &bry);
-		sheet_object_set_bounds (so,  tlx,  tly, tlx + dx, tly + dy);
-	}
-#else
-	g_warning ("We need to get our hands on the ViewFrame :-)");
-#endif
-}
-
 static void
 sheet_object_bonobo_class_init (GtkObjectClass *object_class)
 {

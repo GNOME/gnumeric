@@ -897,13 +897,16 @@ do_fetch_page_info (dialog_print_info_t *dpi)
 	entry_top  = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "repeat-rows-entry"));
 	entry_left = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "repeat-cols-entry"));
 
-	if (range_parse (NULL, gtk_entry_get_text (entry_top), &top_range)){
+	top_range = range_parse (NULL, gtk_entry_get_text (entry_top), TRUE);
+
+	if (top_range){
 		dpi->pi->repeat_top.range = *top_range;
 		dpi->pi->repeat_top.use = TRUE;
 		value_release (top_range);
 	}
 
-	if (range_parse (NULL, gtk_entry_get_text (entry_left), &left_range)){
+	left_range = range_parse (NULL, gtk_entry_get_text (entry_left), TRUE);
+	if (left_range){
 		dpi->pi->repeat_left.range = *left_range;
 		dpi->pi->repeat_left.use = TRUE;
 		value_release (left_range);

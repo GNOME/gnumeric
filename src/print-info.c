@@ -174,17 +174,13 @@ load_range (const char *name)
 {
 	static Value *v;
 	char *str;
-	gboolean ok;
 		
 	str = gnome_config_get_string (name);
 	if (!str)
 		return NULL;
 
-	ok = range_parse (NULL, str, &v);
+	v = range_parse (NULL, str, TRUE);
 	g_free (str);
-	if (!ok)
-		return NULL;
-	
 	return v;
 }
 

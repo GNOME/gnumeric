@@ -10,6 +10,7 @@
 			  ((Range *)(a))->end.row   == ((Range *)(b))->end.row && \
 			  ((Range *)(a))->start.col == ((Range *)(b))->start.col && \
 			  ((Range *)(a))->end.col   == ((Range *)(b))->end.col)
+
 /**
  * range_contains:
  * @r:   range to operate on
@@ -30,10 +31,10 @@
 
 Range      *range_init              (Range *r, int start_col, int start_row,
 				     int end_col, int end_row);
-gboolean    range_parse             (Sheet *sheet, const char *range, Value **v);
+Value      *range_parse             (Sheet *sheet, const char *range, gboolean strict);
 int         parse_range 	    (char *text, int *start_col, int *start_row,
 				     int *end_col, int *end_row);
-GSList     *range_list_parse        (Sheet *sheet, const char *cell_name_str);
+GSList     *range_list_parse        (Sheet *sheet, const char *cell_name_str, gboolean strict);
 void        range_list_destroy      (GSList *ranges);
 void        range_list_foreach_full (GSList *ranges,
 				     void (*callback)(Cell *cell, void *data),

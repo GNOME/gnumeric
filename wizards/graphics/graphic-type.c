@@ -11,7 +11,6 @@
 #include "gnumeric.h"
 #include <glade/glade.h>
 #include "idl/Graph.h"
-#include "Graph.h"
 #include "wizard.h"
 #include "graphic-type.h"
 

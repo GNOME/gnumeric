@@ -39,22 +39,20 @@ range_init (Range *r, int start_col, int start_row,
  * range_parse:
  * @sheet: the sheet where the cell range is evaluated
  * @range: a range specification (ex: "A1", "A1:C3").
- * @v: a pointer to a Value where the return value is placed.
  *
- * Returns TRUE if the @range was succesfully parsed.  If
- * this is the case, @v will point to a newly allocated
- * Value structure of type VALUE_CELLRANGE
+ * Returns a (Value *) of type VALUE_CELLRANGE if the @range was
+ * succesfully parsed or NULL on failure.
  */
-gboolean
-range_parse (Sheet *sheet, const char *range, Value **v)
+Value *
+range_parse (Sheet *sheet, const char *range, gboolean strict)
 {
 	CellRef a, b;
+	Value *v;
 	char *p;
 	char *copy;
 	char *part_2;
 	
 	g_return_val_if_fail (range != NULL, FALSE);
-	g_return_val_if_fail (v != NULL, FALSE);
 
 	a.col_relative = 0;
 	b.col_relative = 0;
@@ -68,7 +66,7 @@ range_parse (Sheet *sheet, const char *range, Value **v)
 	} else
 		part_2 = NULL;
 	    
-	if (!parse_cell_name (copy, &a.col, &a.row)){
+	if (!parse_cell_name (copy, &a.col, &a.row, strict)){
 		g_free (copy);
 		return FALSE;
 	}
@@ -76,17 +74,17 @@ range_parse (Sheet *sheet, const char *range, Value **v)
 	a.sheet = sheet;
 	
 	if (part_2){
-		if (!parse_cell_name (part_2, &b.col, &b.row))
+		if (!parse_cell_name (part_2, &b.col, &b.row, strict))
 			return FALSE;
 
 		b.sheet = sheet;
 	} else
 		b = a;
 
-	*v = value_new_cellrange (&a, &b);
-
+	v = value_new_cellrange (&a, &b);
 	g_free (copy);
-	return  TRUE;
+	
+	return v;
 }
 
 /* Pulled from dialog-analysis-tools.c
@@ -104,9 +102,9 @@ parse_range (char *text, int *start_col, int *start_row,
 	if (p == NULL)
 	        return 0;
 	*p = '\0';
-	if (!parse_cell_name (buf, start_col, start_row))
+	if (!parse_cell_name (buf, start_col, start_row, TRUE))
 	        return 0;
-	if (!parse_cell_name (p+1, end_col, end_row))
+	if (!parse_cell_name (p+1, end_col, end_row, TRUE))
 	        return 0;
 	return 1;
 }
@@ -135,6 +133,7 @@ range_list_destroy (GSList *ranges)
  * range_list_parse:
  * @sheet: Sheet where the range specification is relatively parsed to
  * @range_spec: a range or list of ranges to parse (ex: "A1", "A1:B1,C2,D2:D4")
+ * @strict: whether we should be strict during the parsing or allow for trailing garbage
  *
  * Parses a list of ranges, relative to the @sheet and returns a list with the
  * results.
@@ -142,7 +141,7 @@ range_list_destroy (GSList *ranges)
  * Returns a GSList containing Values of type VALUE_CELLRANGE, or NULL on failure
  */
 GSList *
-range_list_parse (Sheet *sheet, const char *range_spec)
+range_list_parse (Sheet *sheet, const char *range_spec, gboolean strict)
 {
 	
 	char *copy, *range_copy, *r;
@@ -155,9 +154,10 @@ range_list_parse (Sheet *sheet, const char *range_spec)
 	range_copy = copy = g_strdup (range_spec);
 
 	while ((r = strtok (range_copy, ",")) != NULL){
-		Value *v = NULL;
-		
-		if (!range_parse (sheet, r, &v)){
+		Value *v;
+
+		v = range_parse (sheet, r, strict);
+		if (!v){
 			range_list_destroy (ranges);
 			g_free (copy);
 			return NULL;

@@ -25,6 +25,13 @@ typedef struct {
 	int        pixel_span;
 
 	MStyle    *mstyle;
+
+	/*
+	 * When editing, if the cursor is inside a cell name, or a
+	 * cell range, we highlight this on the spreadsheet.
+	 */
+	GnomeCanvasItem *feedback_cursor;
+	Range feedback_region;
 } ItemEdit;
 
 GtkType item_edit_get_type (void);
