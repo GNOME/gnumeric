@@ -26,7 +26,6 @@
 #include "xml-io-autoft.h"
 #include "sheet.h"
 #include "border.h"
-#include "commands.h"
 
 /******************************************************************************
  * Hash table related callbacks and functions
@@ -247,6 +246,32 @@ format_template_member_new (void)
 	member->mstyle    = NULL;
 
 	return member;
+}
+
+/**
+ * format_template_member_clone:
+ * 
+ * Clone a template member
+ * 
+ * Return value: a copy of @member
+ **/
+TemplateMember *
+format_template_member_clone (TemplateMember *member)
+{
+	TemplateMember *clone;
+
+	clone = format_template_member_new ();
+
+	clone->row = member->row;
+	clone->col = member->col;
+	clone->direction = member->direction;
+	clone->repeat    = member->repeat;
+	clone->skip      = member->skip;
+	clone->edge      = member->edge;
+	clone->mstyle    = member->mstyle;
+	mstyle_ref (member->mstyle);
+
+	return clone;
 }
 
 /**
@@ -499,6 +524,7 @@ format_template_new (CommandContext *context)
  * @ft: FormatTemplate
  * 
  * Free @ft
+ *
  **/
 void
 format_template_free (FormatTemplate *ft)
@@ -527,6 +553,54 @@ format_template_free (FormatTemplate *ft)
 	ft->table = hash_table_destroy (ft->table);
 	
 	g_free (ft);
+}
+
+/**
+ * format_template_clone:
+ * @ft: FormatTemplate
+ * 
+ * Make a copy of @ft.
+ *
+ * Returns : a copy of @ft
+ **/
+FormatTemplate *
+format_template_clone (FormatTemplate *ft)
+{
+	FormatTemplate *clone;
+	GSList *iterator = NULL;
+
+	g_return_val_if_fail (ft != NULL, NULL);
+
+	clone = format_template_new (ft->context);
+
+	clone->filename    = g_string_new (ft->filename->str);
+	clone->author      = g_string_new (ft->author->str);
+	clone->name        = g_string_new (ft->name->str);
+	clone->description = g_string_new (ft->description->str);
+	clone->category    = g_string_new (ft->category->str);
+
+	iterator = ft->members;	
+	while (iterator) {
+		TemplateMember *member = format_template_member_clone ((TemplateMember *) iterator->data);
+
+		format_template_attach_member (clone, member);
+		iterator = g_slist_next (iterator);
+	}
+
+	clone->number    = ft->number;
+	clone->border    = ft->border;
+	clone->font      = ft->font;
+	clone->patterns  = ft->patterns;
+	clone->alignment = ft->alignment;
+
+	clone->x1        = ft->x1;
+	clone->y1        = ft->y1;
+	clone->x2        = ft->x2;
+	clone->y2        = ft->y2;
+
+	clone->invalidate_hash = TRUE;
+	
+	return clone;
 }
 
 /**
@@ -928,19 +1002,20 @@ format_template_get_style (FormatTemplate *ft, int row, int col)
 /******************************************************************************
  * FormatTemplate - Application to Sheet
  ******************************************************************************/
- 
+
 static void
 cb_format_sheet_style (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *sheet)
 {
+	g_return_if_fail (ft != NULL);
 	g_return_if_fail (r != NULL);
 	g_return_if_fail (mstyle != NULL);
-	g_return_if_fail (sheet != NULL);
-
+	
 	mstyle = format_template_filter_style (ft, mstyle);
 	
 	/*
 	 * We need not unref the mstyle, sheet will
 	 * take care of the mstyle
+
 	 */
 	sheet_style_attach (sheet, *r, mstyle);
 }
@@ -950,7 +1025,8 @@ cb_format_sheet_border (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *she
 {
 	MStyleBorder *bottom;
 	MStyleBorder *right;
-	
+
+	g_return_if_fail (ft != NULL);
 	g_return_if_fail (r != NULL);
 	g_return_if_fail (mstyle != NULL);
 	g_return_if_fail (sheet != NULL);
@@ -983,7 +1059,7 @@ cb_format_sheet_border (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *she
 
 		rr.end.col++;
 		rr.start.col = rr.end.col;
-					
+
 		mstyle_set_border (mstyle_to_right, MSTYLE_BORDER_LEFT,
 				   style_border_ref (right));
 
@@ -994,24 +1070,23 @@ cb_format_sheet_border (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *she
 }
 
 /**
- * format_template_apply_to_sheet_selection:
+ * format_template_apply_to_sheet_regions:
  * @ft: FormatTemplate
  * @sheet: the Target sheet
- * 
+ * @regions: Region list
+ *
  * Apply the template to all selected regions in @sheet.
  **/
 void
-format_template_apply_to_sheet_selection (FormatTemplate *ft, Sheet *sheet)
+format_template_apply_to_sheet_regions (FormatTemplate *ft, Sheet *sheet, GSList *regions)
 {
-	GList  *selection = sheet->selections;
+	GSList *region = regions;
 
 	/*
-	 * Apply the template to all selected regions
+	 * Apply the template to all regions
 	 */
-	while (selection) {
-		SheetSelection *sel = selection->data;
-		Range s = sel->user;
-
+	while (region) {
+		Range s = *((Range const *) region->data);
 		/*
 		 * First apply styles and then do a second
 		 * pass for bottom and right borders
@@ -1021,7 +1096,7 @@ format_template_apply_to_sheet_selection (FormatTemplate *ft, Sheet *sheet)
 
 		sheet_redraw_range (sheet, &s);
 		
-		selection = g_list_next (selection);
+		region = g_slist_next (region);
 	}
 }
 
@@ -1211,3 +1286,4 @@ format_template_set_size (FormatTemplate *ft, int x1, int y1, int x2, int y2)
 
 	ft->invalidate_hash = TRUE;
 }
+

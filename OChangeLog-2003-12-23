@@ -1,3 +1,26 @@
+2000-10-29  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/commands.h, src/commands.c:
+	(cmd_autoformat_undo): New, undo for the autoformat.
+	(cmd_autoformat_redo): New, redo for the autoformat.
+	(cmd_autoformat_destroy): Part of undo/redo.
+	(cmd_autoformat): Idem.
+	
+	* src/format-template.h: Correct outdated comment.
+	
+	* src/format-template.h, src/format-template.c:
+	(format_template_member_clone): New, clone a templatemember.
+	(format_template_clone): New, clone a format template.
+	(cb_format_sheet_style): Insert extra checks.
+	(cb_format_sheet_border): Idem.
+	(format_template_apply_to_sheet_selection): Renamed.
+	(format_template_apply_to_sheet_sheet_regions): Modification of the
+	above function, now accept a separate list of regions.
+
+	* src/dialogs/dialog-autoformat.c:
+	(dialog_autoformat): Modify so it calls upon routines which record
+	undo/redo information.
+
 2000-10-28  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in (Configuration): add scary message about Gnome Basic.

@@ -44,6 +44,8 @@
 
 #include "command-context.h"
 #include "workbook.h"
+#include "commands.h"
+#include "selection.h"
 
 #define GLADE_FILE "autoformat.glade"
 
@@ -1021,11 +1023,18 @@ dialog_autoformat (Workbook *wb)
 	gnumeric_dialog_run (wb, info->dialog);	
 
 	/*
-	 * If the user didn't cancel, apply the autoformat
-	 * template to the current selection
+	 * If the user didn't cancel, record undo information and apply the autoformat
+	 * template to the current selection.
+	 * Observe that we pass a copy of the selected template to the undo function.
 	 */
-	if (!info->canceled && info->selected_template)
-		format_template_apply_to_sheet_selection (info->selected_template, wb->current_sheet);
+	if (!info->canceled && info->selected_template){
+
+		cmd_autoformat (workbook_command_context_gui (wb),
+				wb->current_sheet, format_template_clone (info->selected_template));
+
+		format_template_apply_to_sheet_regions (info->selected_template, wb->current_sheet,
+							selection_get_ranges (wb->current_sheet, FALSE));
+	}
 
 	/*
 	 * Free templates, previews, etc..

@@ -2103,6 +2103,162 @@ cmd_autofill (CommandContext *context, Sheet *sheet,
 
 /******************************************************************/
 
+#define CMD_AUTOFORMAT_TYPE        (cmd_autoformat_get_type ())
+#define CMD_AUTOFORMAT(o)          (GTK_CHECK_CAST ((o), CMD_AUTOFORMAT_TYPE, CmdAutoFormat))
+
+typedef struct {
+	CellPos pos;
+	GList  *styles;
+} CmdAutoFormatOldStyle;
+
+typedef struct {
+	GnumericCommand parent;
+
+	Sheet          *sheet;
+	
+	GSList         *selections;  /* Selections on the sheet */
+	GSList         *old_styles;  /* Older styles, one style_list per selection range*/
+	
+	FormatTemplate *ft;         /* Template that has been applied */
+} CmdAutoFormat;
+
+GNUMERIC_MAKE_COMMAND (CmdAutoFormat, cmd_autoformat);
+
+static gboolean
+cmd_autoformat_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdAutoFormat *me = CMD_AUTOFORMAT (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	if (me->old_styles) {
+		GSList *l1 = me->old_styles;
+		GSList *l2 = me->selections;
+
+		for (; l1; l1 = l1->next, l2 = l2->next) {
+			Range *r;
+			CmdAutoFormatOldStyle *os = l1->data;
+			SpanCalcFlags flags =
+				sheet_style_attach_list (me->sheet, os->styles,
+							 &os->pos, FALSE);
+
+			g_return_val_if_fail (l2 && l2->data, TRUE);
+
+			r = l2->data;
+			sheet_range_calc_spans (me->sheet, *r, flags);
+			if (flags != SPANCALC_SIMPLE)
+				rows_height_update (me->sheet, r);
+		}
+	}
+
+	sheet_set_dirty (me->sheet, TRUE);
+	workbook_recalc (me->sheet->workbook);
+	sheet_update (me->sheet);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_autoformat_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdAutoFormat *me = CMD_AUTOFORMAT (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	format_template_apply_to_sheet_regions (me->ft, me->sheet, me->selections);
+	
+	sheet_set_dirty (me->sheet, TRUE);
+	workbook_recalc (me->sheet->workbook);
+	sheet_update (me->sheet);
+
+	return FALSE;
+}
+
+static void
+cmd_autoformat_destroy (GtkObject *cmd)
+{
+	CmdAutoFormat *me = CMD_AUTOFORMAT (cmd);
+
+	if (me->old_styles != NULL) {
+		GSList *l;
+
+		for (l = me->old_styles ; l != NULL ; l = g_slist_remove (l, l->data)) {
+			CmdAutoFormatOldStyle *os = l->data;
+
+			if (os->styles)
+				sheet_style_list_destroy (os->styles);
+
+			g_free (os);
+		}
+		
+		me->old_styles = NULL;
+	}
+
+	if (me->selections != NULL) {
+		GSList *l;
+		
+		for (l = me->selections ; l != NULL ; l = g_slist_remove (l, l->data))
+			g_free (l->data);
+			
+		me->selections = NULL;
+	}
+
+	format_template_free (me->ft);
+	
+	gnumeric_command_destroy (cmd);
+}
+
+/**
+ * cmd_format:
+ * @context: the context.
+ * @sheet: the sheet
+ * @ft: The format template that was applied
+ *
+ * Return value: TRUE if there was a problem
+ **/
+gboolean
+cmd_autoformat (CommandContext *context, Sheet *sheet, FormatTemplate *ft)
+{
+	GtkObject *obj;
+	CmdAutoFormat *me;
+	GSList    *l;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_AUTOFORMAT_TYPE);
+	me = CMD_AUTOFORMAT (obj);
+
+	me->sheet       = sheet;
+	me->selections  = selection_get_ranges (sheet, FALSE); /* Regions may overlap */
+	me->ft          = ft;
+
+	me->old_styles = NULL;
+	for (l = me->selections; l; l = l->next) {
+		CmdFormatOldStyle *os;
+		Range range = *((Range const *) l->data);
+
+		/* Store the containing range to handle borders */
+		if (range.start.col > 0) range.start.col--;
+		if (range.start.row > 0) range.start.row--;
+		if (range.end.col < SHEET_MAX_COLS-1) range.end.col++;
+		if (range.end.row < SHEET_MAX_ROWS-1) range.end.row++;
+		
+		os = g_new (CmdFormatOldStyle, 1);
+
+		os->styles = sheet_get_styles_in_range (sheet, &range);
+		os->pos = range.start;
+
+		me->old_styles = g_slist_append (me->old_styles, os);
+	}
+
+	me->parent.cmd_descriptor = g_strdup (_("Autoformat"));
+
+	/* Register the command object */
+	return command_push_undo (context, sheet->workbook, obj);
+}
+
+/******************************************************************/
+
 /*
  * - Complete colrow resize
  *

@@ -44,8 +44,6 @@
  *        not but a repetetive style calculated from the far side.
  * ----------------
  *
- * This is excessive we are storing about 14 integers per member, there
- * must be some (?!) better way to handle this....
  */
 typedef struct {
 	/*
@@ -132,6 +130,7 @@ FormatColRowInfo      format_col_row_info_make (int offset, int offset_gravity,
  * Functions for TemplateMember
  */
 TemplateMember       *format_template_member_new          (void);
+TemplateMember       *format_template_member_clone        (TemplateMember *member);
 void                  format_template_member_free         (TemplateMember *member);
 
 Range                 format_template_member_get_rect     (TemplateMember *member,
@@ -157,6 +156,7 @@ void                  format_template_member_set_style     (TemplateMember *memb
  * Functions for FormatTemplate
  */
 FormatTemplate       *format_template_new                      (CommandContext *context);
+FormatTemplate       *format_template_clone                    (FormatTemplate *ft);
 void                  format_template_free                     (FormatTemplate *ft);
 FormatTemplate       *format_template_new_from_file            (CommandContext *context, const char *filename);
 int                   format_template_save                     (FormatTemplate *ft);
@@ -164,7 +164,7 @@ int                   format_template_save                     (FormatTemplate *
 void                  format_template_attach_member            (FormatTemplate *ft, TemplateMember *member);
 void                  format_template_detach_member            (FormatTemplate *ft, TemplateMember *member);
 MStyle               *format_template_get_style                (FormatTemplate *ft, int row, int col);
-void                  format_template_apply_to_sheet_selection (FormatTemplate *ft, Sheet *sheet);
+void                  format_template_apply_to_sheet_regions   (FormatTemplate *ft, Sheet *sheet, GSList *regions);
 
 char                 *format_template_get_filename             (FormatTemplate *ft);
 char                 *format_template_get_name                 (FormatTemplate *ft);
