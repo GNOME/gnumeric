@@ -1,3 +1,7 @@
+2001-11-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* analysis-tools.sgml: Described the exponential smoothing tool.
+
 2001-11-05  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.sgml: Documented the goal seek tool.

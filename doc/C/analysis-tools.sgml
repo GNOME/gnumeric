@@ -287,6 +287,23 @@
      the variables are printed in the output table.</para>
   </sect1>
 
+  <sect1 id="exp-smoothing-tool">
+     <title>Exponential Smoothing Tool</title>
+
+     <para>The Exponential Smoothing tool does the exponential
+     smoothing for the given set of values.  Each value in the new
+     smoothed set is predicted based on the forecast for the prior
+     period.  The formula to calculate the forecast is: F(t+1) = F(t)
+     + (1 - dampingFactor) * (A(t) - F(t)), where A(t) is the t'th
+     value in the original data set.</para>
+
+     <para>You can define the prior forecast adjustement in the
+     ``Damping factor'' entry.  A good value could be, for example,
+     between 0.2 and 0.3 representing 20 to 30 percent error
+     adjustement in the prior forecast.</para>
+
+  </sect1>
+
   <sect1 id="fourier-analysis-tool">
      <title>Fourier Analysis Tool</title>
 
