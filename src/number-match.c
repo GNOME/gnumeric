@@ -531,6 +531,7 @@ print_regex_error (int ret)
 }
 
 static GSList *format_match_list = NULL;
+static GSList *format_failed_match_list = NULL;
 
 void
 format_match_release (StyleFormat *fmt)
@@ -661,11 +662,9 @@ format_match_init (void)
 				 * in the list too.
 				 */
 				format_match_list = g_slist_append (format_match_list, fmt);
+			} else {
+				format_failed_match_list = g_slist_append (format_failed_match_list, fmt);
 			}
-#if 0
-			else
-				/* should we bother keeping a list of the others to avoid leaks ? */
-#endif
 		}
 	}
 
@@ -687,8 +686,12 @@ format_match_finish (void)
 
 	for (l = format_match_list; l; l = l->next)
 		style_format_unref (l->data);
-
 	g_slist_free (format_match_list);
+
+	for (l = format_failed_match_list; l; l = l->next)
+		style_format_unref (l->data);
+	g_slist_free (format_failed_match_list);
+
 	currency_date_format_shutdown ();
 }
 
