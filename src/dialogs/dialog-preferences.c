@@ -57,6 +57,12 @@ typedef struct {
 	gpointer data;
 } page_info_t;
 
+static gboolean
+cb_pref_notification_destroy (GtkWidget *page, guint notification)
+{
+	gconf_client_notify_remove (application_get_gconf_client (), notification);
+	return TRUE;
+}
 
 /*******************************************************************************************/
 /*                     Tree View of selected configuration variables                       */
@@ -77,11 +83,89 @@ typedef struct {
 	char const *schema;
 } pref_tree_data_t;
 
+typedef struct {
+	char const *path;
+	GtkTreeIter iter;
+	gboolean iter_valid;
+} search_cb_t;
+
+
 static pref_tree_data_t pref_tree_data[] = { 
 	{"/apps/gnumeric/functionselector/num-of-recent", NULL, "/schemas/apps/gnumeric/functionselector/num-of-recent"},
 	{"/apps/gnumeric/core/undosize", NULL, "/schemas/apps/gnumeric/core/undosize"},
 	{NULL, NULL, NULL}
 };
+
+static gboolean    
+pref_tree_find_iter (GtkTreeModel *model, GtkTreePath *tree_path, 
+		     GtkTreeIter *iter, search_cb_t *data)
+{
+	char *path;
+
+	gtk_tree_model_get (model, iter,
+			    PREF_PATH, &path,
+			    -1);
+
+	if (strcmp (path, data->path) == 0) {
+		data->iter = *iter;
+		data->iter_valid = TRUE;
+	}
+
+	g_free (path);
+	return data->iter_valid;
+}
+
+static void 
+pref_tree_set_model (GConfClient *gconf, GtkTreeModel *model, GtkTreeIter *iter)
+{
+	char *schema_path;
+	char *key;
+	GConfSchema *the_schema;
+	char *value_string;
+
+	gtk_tree_model_get (model, iter,
+			    PREF_SCHEMA, &schema_path,
+			    PREF_PATH, &key,
+			    -1);
+	the_schema = gconf_client_get_schema (gconf, schema_path, NULL);
+	
+	switch (gconf_schema_get_type (the_schema)) {
+	case GCONF_VALUE_STRING:
+		value_string = gconf_client_get_string (gconf, key, NULL);
+		
+		break;
+	case GCONF_VALUE_INT:
+		value_string = g_strdup_printf ("%i", gconf_client_get_int (gconf, key, 
+									    NULL));
+		break;
+	default:
+		value_string = g_strdup ("ERROR FIXME");
+	}
+	gtk_tree_store_set (GTK_TREE_STORE (model), iter,
+			    PREF_NAME, gconf_schema_get_short_desc (the_schema),
+			    PREF_VALUE, value_string,
+			    -1);
+	g_free (key);
+	g_free (schema_path);
+	g_free (value_string);
+	gconf_schema_free (the_schema);
+}
+
+static void
+cb_pref_tree_changed_notification (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+				   GtkTreeModel *model)
+{
+	search_cb_t search_cb;
+	search_cb.iter_valid = FALSE;
+	search_cb.path = gconf_entry_get_key (entry);
+
+	gtk_tree_model_foreach (model, (GtkTreeModelForeachFunc) pref_tree_find_iter, 
+				&search_cb);
+	if (search_cb.iter_valid) {
+		pref_tree_set_model (gconf, model, &search_cb.iter);
+	} else
+		g_warning ("Unexpected gconf notification!");
+}
 
 static void
 cb_value_edited (GtkCellRendererText *cell,
@@ -101,9 +185,6 @@ cb_value_edited (GtkCellRendererText *cell,
 	path = gtk_tree_path_new_from_string (path_string);
 	
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
-
-/* FIXME: rather than setting it here we should get notified of changes... */
-	gtk_tree_store_set (model, &iter, PREF_VALUE, new_text, -1);
 
 	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
 			    PREF_PATH, &key,
@@ -183,34 +264,27 @@ static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data)
 	for (i = 0; this_pref_tree_data[i].path; i++) {
 		pref_tree_data_t *this_pref = &this_pref_tree_data[i];
 		GtkTreeIter      iter;
-		GConfSchema *the_schema = gconf_client_get_schema (state->gconf,
-                                             this_pref->schema, NULL);
-		gchar *value;
+		guint notification;
 
 		gtk_tree_store_append (model, &iter, NULL);
 
-		switch (gconf_schema_get_type (the_schema)) {
-		case GCONF_VALUE_STRING:
-			value = gconf_client_get_string (state->gconf,
-						       this_pref->path, NULL);
-			break;
-		case GCONF_VALUE_INT:
-			value = g_strdup_printf ("%i", gconf_client_get_int (state->gconf,
-									     this_pref->path, 
-									     NULL));
-			break;
-		default:
-			value = g_strdup ("ERROR FIXME");
-		}
 		gtk_tree_store_set (model, &iter,
-				    PREF_NAME, gconf_schema_get_short_desc (the_schema), 
-				    PREF_VALUE, value,
 				    PREF_PATH, this_pref->path,
 				    PREF_SCHEMA, this_pref->schema,
 				    IS_EDITABLE, TRUE,
 				    -1);
-		g_free (value);
-		gconf_schema_free (the_schema);
+		pref_tree_set_model (state->gconf, GTK_TREE_MODEL (model), &iter);
+
+		notification = gconf_client_notify_add 
+			(state->gconf, this_pref_tree_data[i].path,
+			 (GConfClientNotifyFunc) cb_pref_tree_changed_notification,
+			 model, NULL, NULL);
+		
+		g_signal_connect (G_OBJECT (page),
+				  "destroy",
+				  G_CALLBACK (cb_pref_notification_destroy), 
+				  GINT_TO_POINTER (notification));
+		
 	}	
 
 	gtk_widget_show_all (page);
@@ -283,13 +357,6 @@ cb_pref_font_has_changed (FontSelector *fs, MStyle *mstyle, PrefState *state)
 	return TRUE;
 }
 
-static gboolean
-cb_pref_font_page_destroy (GtkWidget *page, guint notification)
-{
-	gconf_client_notify_remove (application_get_gconf_client (), notification);
-	return TRUE;
-}
-
 static 
 GtkWidget *pref_font_initializer (PrefState *state, gpointer data)
 {
@@ -304,7 +371,7 @@ GtkWidget *pref_font_initializer (PrefState *state, gpointer data)
 	
 	g_signal_connect (G_OBJECT (page),
 		"destroy",
-		G_CALLBACK (cb_pref_font_page_destroy), GINT_TO_POINTER (notification));
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notification));
 	g_signal_connect (G_OBJECT (page),
 		"font_changed",
 		G_CALLBACK (cb_pref_font_has_changed), state);

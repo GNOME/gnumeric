@@ -1,3 +1,8 @@
+2002-04-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c : set the treeview pref values in response
+	  to a notification rather than directly.
+	
 2002-04-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-formula-guru.c : use gnumeric-cell-renderer-text
