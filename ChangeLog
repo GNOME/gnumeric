@@ -1,5 +1,10 @@
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
+	* src/parse-util.c (cellref_a1_get): Eliminate use of toupper and
+	isdigit.  Should be utf8 safe now.
+
+2002-10-18  Morten Welinder  <terra@diku.dk>
+
 	* src/expr.c (gnm_expr_get_constant): New function.
 
 	* src/stf.c (stf_open_and_read): Seek to beginning of input, just

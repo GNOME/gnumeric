@@ -65,6 +65,8 @@ Morten:
 	* Fix a bunch of gnum_float issues.
 	* Fix leaks in COLUMN and ROW.
 	* Sort names in name dialog.
+	* SC importer work.
+	* Improve utf8 safety of range parser.
 
 Nicolas Peninguy:
 	* Use regexps to classify currency and accounting formats

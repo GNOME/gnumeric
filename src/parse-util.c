@@ -341,7 +341,7 @@ cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 {
 	int col = 0;
 	int row = 0;
-	unsigned char uc;
+	char c;
 
 	g_return_val_if_fail (in != NULL, NULL);
 	g_return_val_if_fail (out != NULL, NULL);
@@ -353,20 +353,21 @@ cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 	} else
 		out->col_relative = TRUE;
 
-	/*
-	 * Careful here!  'A' and 'a' are not necessarily the only
-	 * characters which toupper maps to 'A'.
-	 */
-	uc = (unsigned char)*in;
-	if (!((uc >= 'A' && uc <= 'Z') ||
-	      (uc >= 'a' && uc <= 'z')))
+	c = *in;
+	if (c >= 'A' && c <= 'Z')
+		col = c - 'A';
+	else if (c >= 'a' && c <= 'z')
+		col = c - 'a';
+	else
 		return NULL;
-	col = toupper (uc) - 'A';
 	in++;
 
-	uc = (unsigned char)*in;
-	if ((uc >= 'A' && uc <= 'Z') || (uc >= 'a' && uc <= 'z')) {
-		col = (col + 1) * ('Z' - 'A' + 1) + toupper (uc) - 'A';
+	c = *in;
+	if (c >= 'A' && c <= 'Z') {
+		col = (col + 1) * ('Z' - 'A' + 1) + (c - 'A');
+		in++;
+	} else if (c >= 'a' && c <= 'z') {
+		col = (col + 1) * ('Z' - 'A' + 1) + (c - 'a');
 		in++;
 	}
 	if (col >= SHEET_MAX_COLS)
@@ -382,8 +383,8 @@ cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 	if (!(*in >= '1' && *in <= '9'))
 		return NULL;
 
-	while (isdigit ((unsigned char)*in)) {
-		row = row * 10 + *in - '0';
+	while (*in >= '0' && *in <= '9') {
+		row = row * 10 + (*in - '0');
 		if (row > SHEET_MAX_ROWS)
 			return NULL;
 		in++;
