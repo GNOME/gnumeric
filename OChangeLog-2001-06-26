@@ -1,3 +1,7 @@
+2001-01-12  Morten Welinder  <terra@diku.dk>
+
+	* src/history.c (file_history_cmd) [ENABLE_BONOBO]: Plug leak.
+
 2001-01-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-style.c (cb_style_extent) : new function.
