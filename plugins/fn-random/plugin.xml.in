@@ -26,6 +26,7 @@
 				<function name="randgeom"/>
 				<function name="randgumbel"/>
 				<function name="randhyperg"/>
+				<function name="randlandau"/>
 				<function name="randlaplace"/>
 				<function name="randlevy"/>
 				<function name="randlog"/>

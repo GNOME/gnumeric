@@ -807,6 +807,33 @@ gnumeric_randexppow (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (random_exppow (a, b));
 }
 
+/***************************************************************************/
+
+static const char *help_randlandau = {
+        N_("@FUNCTION=RANDLANDAU\n"
+           "@SYNTAX=RANDLANDAU()\n"
+
+           "@DESCRIPTION="
+           "RANDLANDAU returns a random variate from the Landau distribution. "
+	   "The probability distribution for Landau random variates is defined "
+	   "analytically by the complex integral, p(x) = (1/(2 pi i)) "
+	   "int_{c-i infty}^{c+i infty} ds exp(s log(s) + x s). For numerical "
+	   "purposes it is more convenient to use the following equivalent form "
+	   "of the integral, p(x) = (1/pi) int_0^ infty dt exp(-t log(t) - x t) "
+	   "sin(\pi t)."
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDLANDAU().\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randlandau (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_float (random_landau ());
+}
+
 
 /***************************************************************************/
 
@@ -839,6 +866,8 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_randgumbel, NULL, NULL, NULL },
         { "randhyperg", "fff", N_("n1,n2,t"),    &help_randhyperg,
 	  gnumeric_randhyperg, NULL, NULL, NULL },
+        { "randlandau", "", N_(""), &help_randlandau,
+	  gnumeric_randlandau, NULL, NULL, NULL },
         { "randlaplace", "f", N_("a"), &help_randlaplace,
 	  gnumeric_randlaplace, NULL, NULL, NULL },
         { "randlevy", "ff|f", N_("c,alpha[,beta]"), &help_randlevy,

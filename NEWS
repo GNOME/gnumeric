@@ -1,3 +1,13 @@
+Gnumeric 1.1.7
+
+Jukka:
+	* New random distribution functions (mostly integrated from the 
+	  GNU Scientific Library with some minor modifications):
+	  RANDLANDAU().
+	* New random distributions for the random number generation tool:
+	  Landau.
+
+--------------------------------------------------------------------------
 Gnumeric 1.1.6
 
 Andreas:
