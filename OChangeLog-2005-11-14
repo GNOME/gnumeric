@@ -1,3 +1,8 @@
+2003-06-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/func-builtin.c: change category name to match previous change 
+	  in fn-math plugin
+
 2003-06-25  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (x_clipboard_get_cb): Use

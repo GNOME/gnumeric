@@ -121,7 +121,7 @@ gnumeric_version (FunctionEvalInfo *ei, Value *argv [])
 
 /***************************************************************************/
 
-static const char *mathcatname = N_("Maths / Trig.");
+static const char *mathcatname = N_("Mathematics");
 static GSList *mathfuncs = NULL;
 
 static const char *gnumericcatname = N_("Gnumeric");
