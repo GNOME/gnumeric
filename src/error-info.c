@@ -18,13 +18,19 @@ struct _ErrorInfo {
 	GSList *details;          /* list of ErrorInfo */
 };
 
-ErrorInfo *
-error_info_new_str (char const *msg)
+GOErrorStack *
+go_error_stack_new (GOErrorStack *parent,
+		    char const *fmt, ...) G_GNUC_PRINTF (2, 3);
 {
-	ErrorInfo *error = g_new (ErrorInfo, 1);
-	error->msg = g_strdup (msg);
-	error->severity = GNM_ERROR;
-	error->details  = NULL;
+	GOErrorStack *res = g_new (GOErrorStack, 1);
+
+	va_start (args, fmt);
+	res->msg = g_strdup_vprintf (msg, args);
+	buffer = g_strdup_vprintf (fmt, args);
+	va_end (args);
+
+	res->severity = GNM_ERROR;
+	res->details  = NULL;
 	return error;
 }
 
@@ -61,7 +67,7 @@ error_info_new_printf (char const *msg_format, ...)
 ErrorInfo *
 error_info_new_str_with_details (char const *msg, ErrorInfo *details)
 {
-	ErrorInfo *error = error_info_new_str (msg);
+	ErrorInfo *error = go_error_stack_new (NULL, msg);
 	error_info_add_details (error, details);
 	return error;
 }
@@ -69,7 +75,7 @@ error_info_new_str_with_details (char const *msg, ErrorInfo *details)
 ErrorInfo *
 error_info_new_str_with_details_list (char const *msg, GSList *details)
 {
-	ErrorInfo *error = error_info_new_str (msg);
+	ErrorInfo *error = go_error_stack_new (NULL, msg);
 	error_info_add_details_list (error, details);
 	return error;
 }
@@ -98,7 +104,7 @@ error_info_new_from_error_list (GSList *errors)
 ErrorInfo *
 error_info_new_from_errno (void)
 {
-	return error_info_new_str (g_strerror (errno));
+	return go_error_stack_new (NULL, g_strerror (errno));
 }
 
 void

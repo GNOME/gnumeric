@@ -8,7 +8,7 @@ xmldir = $(gnumeric_plugin_psiconvdir)
 gnumeric_plugin_psiconv_LTLIBRARIES = psiconv.la
 psiconv_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 psiconv_la_LIBADD  = $(PSICONV_LIBS)
-psiconv_la_SOURCES = boot.c psiconv-read.c psiconv-plugin.h
+psiconv_la_SOURCES = psiconv-read.c psiconv-plugin.h
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

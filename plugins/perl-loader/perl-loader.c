@@ -97,12 +97,11 @@ gplp_set_attributes (GnmPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	module_name = g_hash_table_lookup (attrs, "module_name");
-	if (module_name) {
+	if (module_name)
 		loader_perl->module_name = g_strdup (module_name);
-	} else {
-		*ret_error = error_info_new_str (
+	else
+		*ret_error = go_error_stack_new (
 			     _("Module name not given."));
-	}
 }
 
 static void

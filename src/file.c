@@ -520,7 +520,7 @@ gnm_file_saver_save (GnmFileSaver const *fs, IOContext *io_context,
 
 			save_error = error_info_new_str_with_details (
 				_("Saving over old files of this type is disabled for safety."),
-				error_info_new_str (
+				go_error_stack_new (NULL,
 					_("You can turn this safety feature off by editing appropriate plugin.xml file.")));
 			gnumeric_io_error_info_set (io_context, save_error);
 			return;

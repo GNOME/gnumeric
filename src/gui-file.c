@@ -229,6 +229,13 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
+	/* Add Templates bookmark */
+	{
+		char *templates = gnm_sys_data_dir ("templates");
+		gtk_file_chooser_add_shortcut_folder (fsel, templates, NULL);
+		g_free (templates);
+	}
+
 	/* Start in the same directory as the current workbook.  */
 	gtk_file_chooser_select_uri (fsel, workbook_get_uri (workbook));
 	gtk_file_chooser_unselect_all (fsel);

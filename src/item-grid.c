@@ -701,7 +701,7 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 	sheet_object_set_anchor (so, &anchor);
 	sheet_object_set_sheet (so, sc_sheet (SHEET_CONTROL (ig->scg)));
 	scg_object_select (ig->scg, so);
-	gnm_pane_object_start_resize (gcanvas->pane, event, so, 7);
+	gnm_pane_object_start_resize (gcanvas->pane, event, so, 7, TRUE);
 
 	return TRUE;
 }

@@ -289,6 +289,7 @@ gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
 
 	gnm_app_clipboard_clear (FALSE);
 	if (wb_control_claim_selection (wbc)) {
+		g_free (app->clipboard_cut_range);
 		app->clipboard_cut_range = NULL;
 		sv_weak_ref (sv, &(app->clipboard_sheet_view));
 		app->clipboard_copied_contents = cellregion_new	(sv_sheet (sv));

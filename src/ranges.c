@@ -1184,7 +1184,7 @@ global_range_list_foreach (GSList *gr_list, GnmEvalPos const *ep,
 gboolean
 global_range_contained (Sheet const *sheet, GnmValue const *a, GnmValue const *b)
 {
-	Sheet *target;
+	Sheet const *target;
 
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);

@@ -477,6 +477,7 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 			gsf_xml_out_simple_element (state->output, GMR "Expression1", tmp);
 			g_free (tmp);
 		}
+		gsf_xml_out_end_element (state->output); /* </Validation> */
 	}
 
 	i = MSTYLE_BORDER_TOP;

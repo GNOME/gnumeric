@@ -73,7 +73,7 @@ gplp_set_attributes (GnmPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret
 	if (module_name != NULL) {
 		loader_python->module_name = g_strdup (module_name);
 	} else {
-		*ret_error = error_info_new_str (
+		*ret_error = go_error_stack_new (
 		             _("Python module name not given."));
 	}
 }
@@ -99,7 +99,7 @@ gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 		return;		/* gnm_python_object_get sets ret_error */
 	py_interpreter_info = gnm_python_new_interpreter (py_object, loader->plugin);
 	if (py_interpreter_info == NULL) {
-		*ret_error = error_info_new_str (_("Cannot create new Python interpreter."));
+		*ret_error = go_error_stack_new (_("Cannot create new Python interpreter."));
 		gnm_python_clear_error_if_needed (py_object);
 		g_object_unref (py_object);
 		return;
@@ -737,7 +737,7 @@ gplp_func_exec_action (GnmPluginService *service,
 	ret = PyObject_CallFunction (fn, (char *) "N",
 				     py_new_Gui_object (WORKBOOK_CONTROL_GUI (wbc)));
 	if (ret == NULL) {
-		*ret_error = error_info_new_str (py_exc_to_string ());
+		*ret_error = go_error_stack_new (py_exc_to_string ());
 		PyErr_Clear ();
 	} else {
 		Py_DECREF (ret);

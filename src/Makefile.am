@@ -6,8 +6,7 @@ SUBDIRS = tools cut-n-paste-code
 
 bin_PROGRAMS =
 
-check_PROGRAMS =
-# check_PROGRAMS += test-pango number-match
+check_PROGRAMS = test-pango number-match
 ## Don't put comment on an assignment line!  It can trigger an automake bug.
 
 if WITH_GTK
@@ -17,6 +16,9 @@ endif
 
 if ENABLE_SSCONVERT
   bin_PROGRAMS += ssconvert
+endif
+if ENABLE_SSINDEX
+  bin_PROGRAMS += ssindex
 endif
 
 INCLUDES = 								\
@@ -341,12 +343,17 @@ ssconvert_LDFLAGS = -export-dynamic
 ssconvert_SOURCES =				\
 	$(GNUMERIC_SOURCE)			\
 	ssconvert.c
+ssindex_LDADD   = $(gnumeric_LDADD)
+ssindex_LDFLAGS = -export-dynamic
+ssindex_SOURCES =				\
+	$(GNUMERIC_SOURCE)			\
+	ssindex.c
 
-#test_pango_LDADD   = $(gnumeric_LDADD)
-#test_pango_LDFLAGS = -export-dynamic
-#test_pango_SOURCES =				\
-#	$(GNUMERIC_SOURCE) 			\
-#	test-pango.c
+test_pango_LDADD   = $(gnumeric_LDADD)
+test_pango_LDFLAGS = -export-dynamic
+test_pango_SOURCES =				\
+	$(GNUMERIC_SOURCE) 			\
+	test-pango.c
 
 gnm-marshalers.h : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=gnm_ > $@
@@ -390,7 +397,7 @@ EXTRA_DIST = GNOME_Gnumeric-gtk.xml.in				\
 	    main-application.c 					\
 	    main-component.c					\
 	    $(GNUMERIC_GNOME) README.gnm_float			\
-	    gnumeric-paths.sh.in ssconvert.c gnumeric.rc
+	    gnumeric-paths.sh.in ssconvert.c ssindex.c gnumeric.rc
 DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c

@@ -445,18 +445,16 @@ sylk_parse_line (SylkReadState *state, char *buf)
 	return TRUE;
 }
 
-static void
-sylk_parse_sheet (SylkReadState *state, ErrorInfo **ret_error)
+static ErrorInfo *
+sylk_parse_sheet (SylkReadState *state)
 {
 	char *buf;
 
 	*ret_error = NULL;
 
 	if ((buf = gsf_input_textline_ascii_gets (state->input)) == NULL ||
-	    strncmp ("ID;", buf, 3)) {
-		*ret_error = error_info_new_str (_("Not SYLK file"));
-		return;
-	}
+	    strncmp ("ID;", buf, 3))
+		return go_error_stack_new (NULL, _("Not SYLK file"));
 
 	while (!state->finished &&
 	       (buf = gsf_input_textline_ascii_gets (state->input)) != NULL) {
@@ -467,8 +465,7 @@ sylk_parse_sheet (SylkReadState *state, ErrorInfo **ret_error)
 
 		if (utf8buf[0] && !sylk_parse_line (state, utf8buf)) {
 			g_free (utf8buf);
-			*ret_error = error_info_new_str (_("error parsing line\n"));
-			return;
+			return go_error_stack_new (NULL, _("error parsing line\n"));
 		}
 
 		g_free (utf8buf);

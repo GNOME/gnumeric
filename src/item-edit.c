@@ -251,7 +251,7 @@ ie_layout (FooCanvasItem *item)
 	pango_layout_set_text (ie->layout, text, -1);
 
 	pango_layout_set_font_description (ie->layout, gfont->pango.font_descr);
-	pango_layout_set_wrap (ie->layout, PANGO_WRAP_CHAR);
+	pango_layout_set_wrap (ie->layout, PANGO_WRAP_WORD_CHAR);
 	pango_layout_set_width (ie->layout, (int)(item->x2 - item->x1)*PANGO_SCALE);
 
 	attrs = wbcg_edit_get_markup (scg_get_wbcg (ie->scg), TRUE);

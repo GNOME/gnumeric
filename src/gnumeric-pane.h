@@ -71,7 +71,7 @@ void gnm_pane_mouse_cursor_set                  (GnmPane *pane, GdkCursor *c);
 void gnm_pane_object_unselect	  (GnmPane *pane, SheetObject *so);
 void gnm_pane_object_update_bbox  (GnmPane *pane, SheetObject *so);
 void gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
-				   SheetObject *so, int drag_type);
+				   SheetObject *so, int drag_type, gboolean is_creation);
 
 /* A convenience api */
 SheetObjectView *gnm_pane_object_register (SheetObject *so, FooCanvasItem *view, gboolean selectable);

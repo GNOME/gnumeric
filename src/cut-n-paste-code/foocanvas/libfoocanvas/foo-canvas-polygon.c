@@ -259,13 +259,16 @@ foo_canvas_polygon_destroy (GtkObject *object)
 /* Computes the bounding box of the polygon.  Assumes that the number of points in the polygon is
  * not zero.
  */
-static void
+static gboolean
 get_bounds (FooCanvasPolygon *poly, double *bx1, double *by1, double *bx2, double *by2)
 {
 	double *coords;
 	double x1, y1, x2, y2;
 	double width;
 	int i;
+
+	if (poly->num_points == 0)
+		return FALSE;
 
 	/* Compute bounds of vertices */
 
@@ -296,12 +299,13 @@ get_bounds (FooCanvasPolygon *poly, double *bx1, double *by1, double *bx2, doubl
 	*by1 = y1;
 	*bx2 = x2;
 	*by2 = y2;
+	return TRUE;
 }
 
 /* Computes the bounding box of the polygon, in canvas coordinates.  Assumes that the number of points in the polygon is
  * not zero.
  */
-static void
+static gboolean
 get_bounds_canvas (FooCanvasPolygon *poly,
 		   double *bx1, double *by1, double *bx2, double *by2,
 		   double i2w_dx, double i2w_dy)
@@ -311,7 +315,8 @@ get_bounds_canvas (FooCanvasPolygon *poly,
 
 	item = FOO_CANVAS_ITEM (poly);
 
-	get_bounds (poly, &bbox_x0, &bbox_y0, &bbox_x1, &bbox_y1);
+	if (!get_bounds (poly, &bbox_x0, &bbox_y0, &bbox_x1, &bbox_y1))
+		return FALSE;
 
 	bbox_x0 += i2w_dx;
 	bbox_y0 += i2w_dy;
@@ -326,6 +331,7 @@ get_bounds_canvas (FooCanvasPolygon *poly,
 	*by1 = bbox_y0 - 1;
 	*bx2 = bbox_x1 + 1;
 	*by2 = bbox_y1 + 1;
+	return TRUE;
 }
 
 /* Sets the points of the polygon item to the specified ones.  If needed, it will add a point to
@@ -679,7 +685,7 @@ foo_canvas_polygon_update (FooCanvasItem *item,
 	set_stipple (poly->fill_gc, &poly->fill_stipple, poly->fill_stipple, TRUE);
 	set_stipple (poly->outline_gc, &poly->outline_stipple, poly->outline_stipple, TRUE);
 
-	get_bounds_canvas (poly, &x1, &y1, &x2, &y2, i2w_dx, i2w_dy);
+	if (get_bounds_canvas (poly, &x1, &y1, &x2, &y2, i2w_dx, i2w_dy))
 	foo_canvas_update_bbox (item, x1, y1, x2, y2);
 }
 

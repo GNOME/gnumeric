@@ -36,8 +36,6 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
-#include <dirent.h>
 #include <string.h>
 #include <errno.h>
 
@@ -67,25 +65,25 @@ category_get_templates_list (FormatTemplateCategory *category,
 			     GnmCmdContext *cc)
 {
 	GSList *templates = NULL;
-	DIR *dir;
-	struct dirent *entry;
+	GDir *dir;
+	char const *d_name;
 
 	if (category == NULL)
 		return NULL;
 
-	dir = opendir (category->directory);
+	dir = g_dir_open (category->directory, 0, NULL);
 	if (dir == NULL)
 		return NULL;
 
-	while ((entry = readdir (dir)) != NULL) {
+	while ((d_name = g_dir_read_name (dir)) != NULL) {
 		gint name_len;
 
-		name_len = strlen (entry->d_name);
-		if (name_len > 4 && strcmp (entry->d_name + name_len - 4, TEMPLATE_FILE_EXT) == 0) {
+		name_len = strlen (d_name);
+		if (name_len > 4 && strcmp (d_name + name_len - 4, TEMPLATE_FILE_EXT) == 0) {
 			gchar *full_entry_name;
 			FormatTemplate *ft;
 
-			full_entry_name = g_build_filename (category->directory, entry->d_name, NULL);
+			full_entry_name = g_build_filename (category->directory, d_name, NULL);
 			ft = format_template_new_from_file (full_entry_name, cc);
 			if (ft == NULL) {
 				g_warning (_("Invalid template file: %s"), full_entry_name);
@@ -97,7 +95,7 @@ category_get_templates_list (FormatTemplateCategory *category,
 		}
 	}
 
-	closedir (dir);
+	g_dir_close (dir);
 
 	return g_slist_sort (templates, format_template_compare_name);
 }
@@ -112,23 +110,22 @@ category_list_get_from_dir_list (GSList *dir_list)
 
 	for (dir_iterator = dir_list; dir_iterator != NULL; dir_iterator = dir_iterator->next) {
 		gchar *dir_name;
-		DIR *dir;
-		struct dirent *entry;
+		GDir *dir;
+		char const *d_name;
 
 		dir_name = (gchar *) dir_iterator->data;
 		g_assert (dir_name != NULL);
 
-		dir = opendir (dir_name);
-		if (dir == NULL) {
+		dir = g_dir_open (dir_name, 0, NULL);
+		if (dir == NULL)
 			continue;
-		}
 
-		while ((entry = readdir (dir)) != NULL) {
+		while ((d_name = g_dir_read_name (dir)) != NULL) {
 			gchar *full_entry_name;
 			struct stat entry_info;
 
-			full_entry_name = g_build_filename (dir_name, entry->d_name, NULL);
-			if (entry->d_name[0] != '.' && stat (full_entry_name, &entry_info) == 0 && S_ISDIR(entry_info.st_mode)) {
+			full_entry_name = g_build_filename (dir_name, d_name, NULL);
+			if (d_name[0] != '.' && stat (full_entry_name, &entry_info) == 0 && S_ISDIR(entry_info.st_mode)) {
 				FormatTemplateCategory *category;
 
 				category = gnumeric_xml_read_format_template_category (full_entry_name);
@@ -139,7 +136,7 @@ category_list_get_from_dir_list (GSList *dir_list)
 			g_free (full_entry_name);
 		}
 
-		closedir (dir);
+		g_dir_close (dir);
 	}
 
 	return categories;

@@ -23,4 +23,6 @@ void gnm_simple_canvas_ungrab (FooCanvasItem *item, guint32 etime);
 int  gnm_simple_canvas_grab   (FooCanvasItem *item, unsigned int event_mask,
 			       GdkCursor *cursor, guint32 etime);
 
+int gnm_simple_canvas_x_w2c   (FooCanvas const *canvas, int x_pos_in_world_coords);
+
 #endif /* GNM_SIMPLE_CANVAS_H */

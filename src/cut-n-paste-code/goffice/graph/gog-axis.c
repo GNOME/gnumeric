@@ -136,15 +136,15 @@ get_adjusted_tick_array (GogAxisTick *ticks, int allocated_size, int exact_size)
 }
 
 static GogAxisTick *
-create_invalid_axis_ticks (double min, double max) {
+create_invalid_axis_ticks (double min, double max, gboolean draw_labels) {
 	GogAxisTick *ticks;
 	
 	ticks = g_new (GogAxisTick, 2);
 	ticks[0].position = min;
 	ticks[1].position = max;
 	ticks[0].type = ticks[1].type = GOG_AXIS_TICK_MAJOR;
-	ticks[0].label = g_strdup ("##");
-	ticks[1].label = g_strdup ("##");
+	ticks[0].label = draw_labels ? g_strdup ("##") : NULL;
+	ticks[1].label = draw_labels ? g_strdup ("##") : NULL;
 
 	return ticks;
 }
@@ -246,7 +246,7 @@ map_discrete_calc_ticks (GogAxis *axis,
 	
 	valid = gog_axis_get_bounds (axis, &minimum, &maximum);
 	if (!valid) {
-		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
+		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0, draw_labels));
 		return;
 	}
 		
@@ -407,7 +407,7 @@ map_linear_calc_ticks (GogAxis *axis,
 	ratio = rint (major_tick / tick_step);
 	
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
-		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
+		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0, draw_labels));
 		return;
 	}
 
@@ -552,11 +552,11 @@ map_log_calc_ticks (GogAxis *axis,
 	minor_tick = rint (gog_axis_get_entry (axis, AXIS_ELEM_MINOR_TICK, NULL) + 1.0);
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum) || major_label < 1) {
-		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (1.0, 10.0));
+		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (1.0, 10.0, draw_labels));
 		return;
 	}
 	if (minimum <= 0.0) {
-		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (1.0, 10.0));
+		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (1.0, 10.0, draw_labels));
 		return;
 	}
 

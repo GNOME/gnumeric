@@ -1,3 +1,16 @@
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-12-02  Jody Goldberg <jody@gnome.org>
+
+	* xml-sax-write.c (xml_write_gnmstyle) : Close the validation element.
+	  Debian #283999
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
 2004-11-15  Jody Goldberg <jody@gnome.org>
 
 	* xml-sax-read.c : add basic (but incomplete) support for sheet

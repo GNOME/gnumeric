@@ -93,13 +93,11 @@ ioc_error_error_info (G_GNUC_UNUSED GnmCmdContext *ctxt,
 void
 gnumeric_io_error_string (IOContext *context, const gchar *str)
 {
-	ErrorInfo *error;
-
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (str != NULL);
 
-	error = error_info_new_str (str);
-	gnumeric_io_error_info_set (context, error);
+	gnumeric_io_error_info_set (context,
+		go_error_stack_new (NULL, str));
 }
 
 static void

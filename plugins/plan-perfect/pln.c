@@ -23,16 +23,13 @@
 #include <mstyle.h>
 #include <gutils.h>
 
+#include <goffice/app/go-error-stack.h>
+
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>
 #include <string.h>
 #include <math.h>
 
-
-gboolean pln_file_probe (GnmFileOpener const *fo, GsfInput *input,
-			 FileProbeLevel pl);
-void     pln_file_open (GnmFileOpener const *fo, IOContext *io_context,
-			WorkbookView *wb_view, GsfInput *input);
 
 static char const *formula1[] = {
 	NULL,			/* 0 */
@@ -166,29 +163,6 @@ pln_get_func_table2 (unsigned i)
 {
 	g_return_val_if_fail (0 < i && i < G_N_ELEMENTS (formula2), "ERROR");
 	return formula2 [i];
-}
-
-gboolean
-pln_file_probe (GnmFileOpener const *fo, GsfInput *input,
-		FileProbeLevel pl)
-{
-	/*
-	 * a plan-perfect header
-	 *	0	= -1
-	 *	1-3	= "WPC"
-	 *	4-7	= 16 (double word)
-	 *	8	= 9 (plan perfect file)
-	 *	9	= 10 (worksheet file)
-	 *	10	= major version number
-	 *	11	= minor version number
-	 *	12-13	= encryption key
-	 *	14-15	= unused
-	 */
-	char const *header = NULL;
-	if (!gsf_input_seek (input, 0, G_SEEK_SET))
-		header = gsf_input_read (input, sizeof (signature), NULL);
-	return header != NULL &&
-		memcmp (header, signature, sizeof (signature)) == 0;
 }
 
 static GnmStyle *
@@ -497,7 +471,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 
 	data = gsf_input_read (input, 16, NULL);
 	if (data == NULL || GSF_LE_GET_GUINT16 (data + 12) != 0)
-		return error_info_new_str (_("PLN : Spreadsheet is password encrypted"));
+		return go_error_stack_new (NULL, _("PLN : Spreadsheet is password encrypted"));
 
 	/* Process the record based sections
 	 * Each record consists of a two-byte record type code,
@@ -649,9 +623,8 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 	return NULL;
 }
 
-void
-pln_file_open (GnmFileOpener const *fo, IOContext *io_context,
-               WorkbookView *wb_view, GsfInput *input)
+static void
+gnm_plan_perfect_in_import (GOImporter *imp, GODoc *doc)
 {
 	Workbook *wb;
 	char  *name;
@@ -676,4 +649,42 @@ pln_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		workbook_sheet_detach (wb, sheet, FALSE);
 		gnumeric_io_error_info_set (io_context, error);
 	}
+}
+
+static gboolean
+gnm_plan_perfect_in_probe_content (GOImporter *imp)
+{
+	/*
+	 * a plan-perfect header
+	 *	0	= -1
+	 *	1-3	= "WPC"
+	 *	4-7	= 16 (double word)
+	 *	8	= 9 (plan perfect file)
+	 *	9	= 10 (worksheet file)
+	 *	10	= major version number
+	 *	11	= minor version number
+	 *	12-13	= encryption key
+	 *	14-15	= unused
+	 */
+	char const *header = NULL;
+	if (!gsf_input_seek (input, 0, G_SEEK_SET))
+		header = gsf_input_read (input, sizeof (signature), NULL);
+	return header != NULL &&
+		memcmp (header, signature, sizeof (signature)) == 0;
+}
+
+static void
+gnm_plan_perfect_in_class_init (GOImporterClass *import_class)
+{
+	import_class->ProbeContent	= gnm_plan_perfect_in_probe_content;
+	import_class->Import		= gnm_plan_perfect_in_import;
+}
+typedef GOImporterClass GnmPlanPerfectInClass;
+static GType gnm_plan_perfect_in_type;
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
+{
+	GSF_DYNAMIC_CLASS (GnmPlanPerfectIn, gnm_plan_perfect_in,
+		gnm_plan_perfect_in_class_init, NULL, GO_IMPORTER_TYPE,
+		G_TYPE_MODULE (plugin), gnm_plan_perfect_in_type);
 }

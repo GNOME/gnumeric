@@ -139,7 +139,7 @@ xbase_read_header (XBfile *x, ErrorInfo **ret_error)
 	guint8 hdr[32];
 
 	if (gsf_input_read (x->input, 32, hdr) == NULL) {
-		*ret_error = error_info_new_str (_("Failed to read DBF header."));
+		*ret_error = go_error_stack_new (NULL, _("Failed to read DBF header."));
 		return;
 	}
 	switch (hdr[0]) { /* FIXME: assuming dBASE III+, not IV */

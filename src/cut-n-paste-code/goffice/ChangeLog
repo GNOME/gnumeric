@@ -1,3 +1,37 @@
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* utils/go-file.c (go_url_show) : patch the problems morten pointed
+	  out and finish the '%1' subsitution.
+
+2004-12-08  Jody Goldberg <jody@gnome.org>
+
+	* utils/go-file.c (go_url_show) : new with a win32 and non-gnome wrapper
+
+2004-12-01  Jody Goldberg <jody@gnome.org>
+
+	* goffice.mk (INCLUDES) : remove GNUMERIC_ICON_DIR
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-19  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-style.c (gog_style_gradient_load): call
+	  gog_style_set_fill_brightness in order to correctly initialize start
+	  and end colors.
+
+2004-11-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis.c (create_invalid_axis_ticks): add a flag to note
+	create "##" labels.
+	* graph/gog-guru.c (cb_attr_tree_selection_change): scroll to selected
+	row.
+
 2004-11-14  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-renderer-pixbuf.c (line_size): width <= 0. is hairline.

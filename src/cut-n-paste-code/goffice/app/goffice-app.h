@@ -33,6 +33,7 @@ typedef struct _GOPlugin	GOPlugin;
 typedef struct _GOPluginService	GOPluginService;
 typedef struct _GOPluginLoader	GOPluginLoader;
 typedef struct _GOErrorStack	GOErrorStack;
+typedef struct _GOCmdContext	GOCmdContext;
 
 G_END_DECLS
 

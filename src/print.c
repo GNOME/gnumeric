@@ -1403,7 +1403,7 @@ void
 sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	     gboolean preview, PrintRange default_range)
 {
-	PrintJobInfo *pj = NULL;
+	PrintJobInfo *pj;
 	GtkWidget *gnome_print_dialog = NULL;
 	PrintDialogState *state = NULL;
 
@@ -1419,6 +1419,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	if (preview) {
 		sheet_print_real (wbcg, sheet, TRUE, pj, default_range);
+		print_job_info_destroy (pj);
 		return;
 	}
 

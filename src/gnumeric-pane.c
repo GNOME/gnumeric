@@ -128,11 +128,10 @@ gnm_pane_display_obj_size_tip (GnmPane *pane, SheetObject const *so)
 	scg_object_coords_to_anchor (scg, coords, &anchor);
 	sheet_object_anchor_to_pts (&anchor, sc_sheet (SHEET_CONTROL (scg)), pts);
 	msg = g_strdup_printf (_("%.1f x %.1f pts\n%d x %d pixels"),
-		/* coords are inclusive .. exclusive */
-		MAX (fabs (pts[3] - pts[1]) - 1, 0),
-		MAX (fabs (pts[2] - pts[0]) - 1, 0),
-		MAX ((int)floor (fabs (coords [3] - coords [1]) - .5), 0),
-		MAX ((int)floor (fabs (coords [2] - coords [0]) - .5), 0));
+		MAX (fabs (pts[3] - pts[1]) + 1, 0),
+		MAX (fabs (pts[2] - pts[0]) + 1, 0),
+		MAX ((int)floor (fabs (coords [3] - coords [1]) + 1.5), 0),
+		MAX ((int)floor (fabs (coords [2] - coords [0]) + 1.5), 0));
 	gtk_label_set_text (GTK_LABEL (pane->size_tip), msg);
 	g_free (msg);
 }
@@ -728,7 +727,7 @@ control_point_set_cursor (SheetControlGUI const *scg, FooCanvasItem *ctrl_pt)
 
 void
 gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
-			      SheetObject *so, int drag_type)
+			      SheetObject *so, int drag_type, gboolean is_creation)
 {
 	/* ctrl-click on acetate dups the object */
 	gboolean const make_dup = drag_type == 8 &&
@@ -763,7 +762,7 @@ gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
 		GDK_POINTER_MOTION_MASK |
 		GDK_BUTTON_RELEASE_MASK,
 		NULL, event->time);
-	pane->drag.created_objects = drag_type != 8 || make_dup;
+	pane->drag.created_objects = is_creation || make_dup;
 	pane->drag.button = event->button;
 	pane->drag.last_x = pane->drag.origin_x = event->x;
 	pane->drag.last_y = pane->drag.origin_y = event->y;
@@ -831,7 +830,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 			return FALSE;
 		switch (event->button.button) {
 		case 1:
-		case 2: gnm_pane_object_start_resize (pane, &event->button, so,  idx);
+		case 2: gnm_pane_object_start_resize (pane, &event->button, so,  idx, FALSE);
 			break;
 		case 3: display_object_menu (pane, so, event);
 			break;
@@ -1093,7 +1092,7 @@ cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 			return FALSE;	/* protected ? */
 
 		if (event->button.button < 3)
-			gnm_pane_object_start_resize (pane, &event->button, so, 8);
+			gnm_pane_object_start_resize (pane, &event->button, so, 8, FALSE);
 		else
 			display_object_menu (pane, so, event);
 		break;

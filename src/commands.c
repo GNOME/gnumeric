@@ -448,6 +448,38 @@ cmd_range_to_str_utility (Sheet *sheet, GnmRange const *range)
 	return text;
 }
 
+static void
+gnm_reloc_undo_release (GnmRelocUndo *undo)
+{
+	if (undo->exprs != NULL) {
+		dependents_unrelocate_free (undo->exprs);
+		undo->exprs = NULL;
+	}
+	if (undo->objs != NULL) {
+		g_slist_foreach (undo->objs, (GFunc) g_object_unref, NULL);
+		g_slist_free (undo->objs);
+		undo->objs = NULL;
+	}
+}
+
+static void
+gnm_reloc_undo_apply (GnmRelocUndo *undo, Sheet *sheet)
+{
+	GSList *ptr;
+
+	/* Restore the dropped objects */
+	for (ptr = undo->objs ; ptr != NULL ; ptr = ptr->next) {
+		sheet_object_set_sheet (ptr->data, sheet);
+		g_object_unref (ptr->data);
+	}
+	g_slist_free (undo->objs);
+	undo->objs = NULL;
+
+	/* Restore the changed expressions */
+	dependents_unrelocate (undo->exprs);
+	undo->exprs = NULL;
+}
+
 /**
  * command_undo : Undo the last command executed.
  * @wbc : The workbook control which issued the request.
@@ -1259,9 +1291,7 @@ cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	/* Throw away the undo info for the expressions after the action*/
 	dependents_unrelocate_free (tmp.exprs);
 
-	/* Restore the changed expressions before the action */
-	dependents_unrelocate (me->reloc_storage.exprs);
-	me->reloc_storage.exprs = NULL;
+	gnm_reloc_undo_apply (&me->reloc_storage, me->sheet);
 
 	/* Ins/Del Row/Col re-ants things completely to account
 	 * for the shift of col/rows.
@@ -1395,10 +1425,7 @@ cmd_ins_del_colrow_finalize (GObject *cmd)
 		me->cutcopied = NULL;
 	}
 	sv_weak_unref (&(me->cut_copy_view));
-	if (me->reloc_storage.exprs) {
-		dependents_unrelocate_free (me->reloc_storage.exprs);
-		me->reloc_storage.exprs = NULL;
-	}
+	gnm_reloc_undo_release (&me->reloc_storage);
 	gnm_command_finalize (cmd);
 }
 
@@ -2557,9 +2584,7 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	colrow_state_list_destroy (me->saved_sizes);
 	me->saved_sizes = NULL;
 
-	/* Restore the changed expressions */
-	dependents_unrelocate (me->reloc_storage.exprs);
-	me->reloc_storage.exprs = NULL;
+	gnm_reloc_undo_apply (&me->reloc_storage, me->info.target_sheet);
 
 	while (me->paste_content) {
 		PasteContent *pc = me->paste_content->data;
@@ -2600,6 +2625,7 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->paste_content == NULL, TRUE);
 	g_return_val_if_fail (me->reloc_storage.exprs == NULL, TRUE);
+	g_return_val_if_fail (me->reloc_storage.objs == NULL, TRUE);
 
 	tmp = me->info.origin;
 	range_translate (&tmp, me->info.col_offset, me->info.row_offset);
@@ -2676,10 +2702,7 @@ cmd_paste_cut_finalize (GObject *cmd)
 		cellregion_unref (pc->contents);
 		g_free (pc);
 	}
-	if (me->reloc_storage.exprs) {
-		dependents_unrelocate_free (me->reloc_storage.exprs);
-		me->reloc_storage.exprs = NULL;
-	}
+	gnm_reloc_undo_release (&me->reloc_storage);
 	if (me->deleted_sheet_contents) {
 		cellregion_unref (me->deleted_sheet_contents);
 		me->deleted_sheet_contents = NULL;
@@ -2736,6 +2759,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	me->paste_content  = NULL;
 	me->deleted_sheet_contents = NULL;
 	me->reloc_storage.exprs  = NULL;
+	me->reloc_storage.objs  = NULL;
 	me->move_selection = move_selection;
 	me->saved_sizes    = NULL;
 

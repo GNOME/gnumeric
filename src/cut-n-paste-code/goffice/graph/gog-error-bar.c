@@ -235,39 +235,39 @@ gog_error_bar_prefs (GogSeries *series,
 	
 	/* Display style */
 	cpx = go_combo_pixmaps_new (4);
-	pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-none.png", NULL);
+	pixbuf = gnumeric_load_pixbuf ("bar-none.png");
 	go_combo_pixmaps_add_element  (cpx,
 				       pixbuf,
 				       GOG_ERROR_BAR_DISPLAY_NONE,
 				       _("No error bar displayed"));
 	if (horizontal) {
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hplus.png", NULL);
+		pixbuf = gnumeric_load_pixbuf ("bar-hplus.png");
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
 					       _("Positive error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hminus.png", NULL);
+		pixbuf = gnumeric_load_pixbuf ("bar-hminus.png");
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,
 					       _("Negative error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hboth.png", NULL);
+		pixbuf = gnumeric_load_pixbuf ("bar-hboth.png");
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_BOTH,
 					       _("Full error bar displayed"));
 	} else {
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vplus.png", NULL);
+		pixbuf = gnumeric_load_pixbuf ("bar-vplus.png");
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
 					       _("Positive error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vminus.png", NULL);
+		pixbuf = gnumeric_load_pixbuf ("bar-vminus.png");
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,
 					       _("Negative error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vboth.png", NULL);
+		pixbuf = gnumeric_load_pixbuf ("bar-vboth.png");
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_BOTH,

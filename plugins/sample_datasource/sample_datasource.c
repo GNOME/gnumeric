@@ -160,7 +160,7 @@ go_plugin_init (GOPlugin *plugin)
 		g_free (filename);
 
 	if (atl_fd >= 0) {
-		atl_file = fdopen (atl_fd, "r");
+		atl_file = fdopen (atl_fd, "rb");
 		channel = g_io_channel_unix_new (atl_fd);
 		atl_source  = g_io_add_watch (channel,
 			G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL,

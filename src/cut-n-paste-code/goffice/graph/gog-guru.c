@@ -685,6 +685,7 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 	GtkTreeModel *model;
 	GogObject  *obj = NULL;
 	GtkWidget *w, *editor, *notebook;
+	GtkTreePath *path;
 
 	if (gtk_tree_selection_get_selected (s->prop_selection, &model, &s->prop_iter))
 		gtk_tree_model_get (model, &s->prop_iter,
@@ -693,6 +694,10 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 
 	if (s->prop_object == obj)
 		return;
+
+	path = gtk_tree_model_get_path (GTK_TREE_MODEL (s->prop_model), &s->prop_iter);
+	gtk_tree_view_scroll_to_cell (s->prop_view, path, NULL, FALSE, 0, 0);
+	gtk_tree_path_free (path);
 
 	/* remove the old prop page */
 	s->prop_object = obj;
