@@ -32,6 +32,7 @@
 #include "ranges.h"
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+#include <string.h>
 
 /******************************************************************************
  * Hash table related callbacks and functions

@@ -1,3 +1,24 @@
+2002-05-23  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* src/analysis-tools.c: fix warning regarding qsort comparison
+	  function.
+	* src/expr.c: include <stdlib.h> for abort().
+	* src/file.c (gnum_file_saver_save_to_stream_real): fixed signedness of
+	  'buf'.
+	* src/format-template.c: include <string.h> for strcmp().
+	* src/gnumeric-graph.c: casts to fix signedness and format warnings.
+	* src/mathfunc.c: define _SVID_SOURCE and _BSD_SOURCE for random().
+	  (See http://bugs.debian.org/108619 for why it's not just _BSD_SOURCE)
+	* src/rangefunc.c: include <string.h> for mempcpy().
+	* src/stf.c (stf_preparse): fixed signedness of 'c'.
+	* src/validation.c: include <string.h> for strlen().
+
+2002-05-25  Jody Goldberg <jody@gnome.org>
+
+	* src/sort.c (sort_permute) : remove PASTE_EXPR_RELOCATE, it just
+	  confuses things in the more compilcated cases.
+	* src/clipboard.c (clipboard_paste_region) : ditto.
+
 2002-05-04  Jody Goldberg <jody@gnome.org>
 
  	http://bugzilla.gnome.org/show_bug.cgi?id=80784

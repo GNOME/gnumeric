@@ -66,7 +66,7 @@ static void
 set_checked (GladeXML *gui, const char *name, gboolean checked)
 {
 	GtkWidget *w = glade_xml_get_widget (gui, name);
-	return gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), checked);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), checked);
 }
 
 static char *

@@ -108,7 +108,7 @@ static char *
 stf_preparse (IOContext *context, char const *filename)
 {
 	char *data = stf_open_and_read (filename);
-	unsigned char const *c;
+	char const *c;
 	
 	if (!data) {
 		if (context)

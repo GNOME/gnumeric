@@ -1,4 +1,4 @@
-2002-03-23  j.h.m. dassen (ray) <jdassen@debian.org>
+2002-03-23  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* plugin-gda.c: don't use // comments; signedness fixes.
 

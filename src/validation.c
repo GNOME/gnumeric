@@ -34,6 +34,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <math.h>
+#include <string.h>
 
 /**
  * validation_new :

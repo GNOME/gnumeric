@@ -16,6 +16,10 @@
  * Thank you Ross!
  */
 
+/* for random() */
+#define _SVID_SOURCE 1
+#define _BSD_SOURCE 1
+
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "mathfunc.h"

@@ -1,3 +1,12 @@
+2002-05-23  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* dialog-graph-guru.c (graph_guru_plot_name): explicit cast to fix
+	  signedness warning.
+	* dialog-search-replace.c (set_checked): void, so don't try to return
+	  a value.
+	* dialog-graph-guru.c: several explicit casts to void * to fix format
+	  warnings.
+
 2002-05-09  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-cell-format.c (cb_validation_sensitivity):

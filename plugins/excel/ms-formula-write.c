@@ -25,6 +25,7 @@
 #include <fcntl.h>
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 
 #define FORMULA_DEBUG 0
 /*#define DO_IT (ms_excel_formula_debug > 0)*/

@@ -2105,7 +2105,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 
 	anchor = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_ANCHOR);
 	if (anchor == NULL) {
-		printf ("MISSING anchor for obj %p\n", obj);
+		printf ("MISSING anchor for obj %p\n", (void *)obj);
 		return TRUE;
 	}
 

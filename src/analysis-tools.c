@@ -2705,7 +2705,7 @@ typedef struct {
         gnum_float x;
 } rank_t;
 
-static gint
+static int
 rank_compare (const rank_t *a, const rank_t *b)
 {
         if (a->x < b->x)
@@ -2762,7 +2762,7 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
 		}
 
 		qsort (rank, this_data_set->data->len,
-		       sizeof (rank_t), (void *) &rank_compare);
+		       sizeof (rank_t), &rank_compare);
 
 		set_percent (dao, n_data * 4 + 3, 1,
 			     n_data * 4 + 3, this_data_set->data->len);

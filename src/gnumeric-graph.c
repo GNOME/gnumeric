@@ -127,7 +127,7 @@ impl_vector_selection_selected (PortableServer_Servant servant,
 {
 	GnmGraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
 
-	g_warning ("Gnumeric : VectorSelection::selected (%p) placeholder\n", vector);
+	g_warning ("Gnumeric : VectorSelection::selected (%p) placeholder\n", (void *)vector);
 }
 
 static GNOME_Gnumeric_Scalar_Seq *

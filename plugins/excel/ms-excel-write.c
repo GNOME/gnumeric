@@ -737,7 +737,7 @@ ms_excel_write_get_sheet_idx (ExcelWorkbook *wb, Sheet *gnum_sheet)
 		if (esheet->gnum_sheet == gnum_sheet)
 			return lp;
 	}
-	g_warning ("No associated esheet for %p\n", gnum_sheet);
+	g_warning ("No associated esheet for %p\n", (void *)gnum_sheet);
 	return 0;
 }
 

@@ -126,7 +126,7 @@ graph_guru_get_plot (GraphGuruState *s, int indx)
 	g_return_val_if_fail (plot != NULL, NULL);
 
 	for (plot = plot->xmlChildrenNode; plot; plot = plot->next) {
-		if (strcmp (plot->name, "Plot"))
+		if (strcmp (plot->name, (xmlChar*)"Plot"))
 			continue;
 		if (indx == e_xml_get_integer_prop_by_name_with_default (plot, (xmlChar *)"index", -1))
 			return plot;
@@ -199,7 +199,7 @@ graph_guru_get_spec (GraphGuruState *s)
 		CORBA_free (spec);
 	} else {
 		g_warning ("'%s' : getting the spec from data_guru %p",
-			   gnm_graph_exception (&ev), s->data_guru);
+			   gnm_graph_exception (&ev), (void *)s->data_guru);
 	}
 
 	g_return_if_fail (xml_doc != NULL);
@@ -253,7 +253,7 @@ graph_guru_series_delete (GraphGuruState *state, int series_id)
 	if (ok) {
 	} else {
 		g_warning ("'%s' : deleting a series from graph data_guru %p",
-			   gnm_graph_exception (&ev), state->data_guru);
+			   gnm_graph_exception (&ev), (void *)state->data_guru);
 	}
 	CORBA_exception_free (&ev);
 }
@@ -295,7 +295,7 @@ vector_state_series_set_dimension (VectorState *vs, ExprTree *expr)
 		graph_guru_get_spec (vs->state);
 	else {
 		g_warning ("'%s' : changing a dimension from graph data_guru %p",
-			   gnm_graph_exception (&ev), vs->state->data_guru);
+			   gnm_graph_exception (&ev), (void *)vs->state->data_guru);
 	}
 	CORBA_exception_free (&ev);
 }
@@ -954,7 +954,7 @@ cb_graph_guru_series_add (GtkWidget *button, GraphGuruState *s)
 	new_index = DATA_GURU1 (seriesAdd) (s->data_guru, s->current_plot, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("'%s' : adding a series to graph data_guru %p",
-			   gnm_graph_exception (&ev), s->data_guru);
+			   gnm_graph_exception (&ev), (void *)s->data_guru);
 		CORBA_exception_free (&ev);
 		return;
 	}
@@ -974,7 +974,7 @@ cb_graph_guru_series_delete (GtkWidget *button, GraphGuruState *s)
 
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("'%s' : deleting a series from graph data_guru %p",
-				   gnm_graph_exception (&ev), s->data_guru);
+				   gnm_graph_exception (&ev), (void *)s->data_guru);
 		} else {
 			s->current_series = -1;
 			graph_guru_get_spec (s);
