@@ -583,7 +583,6 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 Workbook *
 workbook_new_with_sheets (int sheet_count)
 {
-	GtkWidget *focus;
 	Workbook *wb;
 	Sheet *first_sheet = 0;
 	int i;

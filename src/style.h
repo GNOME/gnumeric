@@ -4,6 +4,7 @@
 
 typedef struct {
         char     *format;
+	int      want_am_pm;
         char     restriction_type;
         int      restriction_value;
 } StyleFormatEntry;

@@ -1,5 +1,18 @@
+1998-08-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/format.c (format_number): Rewrote the format parser.  I
+	took Chris's number formatting routine and made it a
+	number-rendering only thing to support the complexities of the
+	Excel formating codes.
+
 1998-08-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/format.c (format_number): Add support for text quoting
+	inside a format (double quotes and single character quotes); Add
+	support for space skipping (_) and concatenation of the allowed
+	characters. 
+	Added color lookup.
+	
 	* src/sheet-view.c, src/sheet.c, src/gnumeric.c: Massive changes
 	to the structure of the code to accomodate the fact that we should
 	be able to have multiple views for a single sheet.
