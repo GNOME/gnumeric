@@ -106,6 +106,14 @@
 
     <listitem>
       <para>
+	<emphasis role="bold">Accuracy :</emphasis>
+      </para>
+      <para>
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
 	<emphasis role="bold">File compatibility :</emphasis>
       </para>
       <para>
@@ -147,7 +155,7 @@
 
     <listitem>
       <para>
-	<emphasis role="bold">Sufficient feature set :</emphasis>
+	<emphasis role="bold">Extensive feature set :</emphasis>
       </para>
       <para>
         <application>Gnumeric</application> now has enough of the
@@ -172,8 +180,9 @@
       </para>
       <para>
 	<application>Gnumeric</application> has been translated into
-	40 languages, and is being used by people around the globe
-	with the symbols appropriate for their local setting.
+	46 languages, and is being used by people around the globe
+	with the symbols and date/monetary conventions appropriate for their
+	local setting.
       </para>
     </listitem>
 
@@ -310,7 +319,7 @@
 
     <listitem>
       <para>
-        <emphasis role="bold">Improved Graphics</emphasis>
+        <emphasis role="bold">Improved Charting</emphasis>
       </para>
       <para>
         The graphical system is improving rapidly with new types of
@@ -320,7 +329,7 @@
 
     <listitem>
       <para>
-        <emphasis role="bold">Improved Textual support</emphasis>
+        <emphasis role="bold">Rich Text In Cells</emphasis>
       </para>
       <para>
         The ability to use Rich Text has been added in this
