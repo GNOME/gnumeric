@@ -71,7 +71,8 @@ typedef struct {
 	void (*set_transient)		(WorkbookControlGUI *wbcg, GtkWindow *window);
 	void (*create_status_area)	(WorkbookControlGUI *wbcg, GtkWidget *progress,
 					 GtkWidget *status, GtkWidget *autoexpr);
-	void (*actions_sensitive)	(WorkbookControlGUI *wbcg, gboolean sensitive);
+	void (*actions_sensitive)	(WorkbookControlGUI *wbcg,
+					 gboolean actions, gboolean font_actions);
 	void (*set_zoom_label)		(WorkbookControlGUI const *wbcg, char const *label);
 	void (*reload_recent_file_menu)	(WorkbookControlGUI const *wbcg);
 	void (*set_action_sensitivity)  (WorkbookControlGUI const *wbcg,

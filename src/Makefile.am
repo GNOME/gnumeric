@@ -279,11 +279,14 @@ GNUMERIC_GNOME = 				\
 	sheet-object-container.c		\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
-	sheet-object-item.h                     \
-	wbc-bonobo.c				\
-	workbook-control-component.c		\
-	workbook-control-component.h 		\
-	workbook-control-component-priv.h
+	sheet-object-item.h
+
+# old dead code that is archived in cvs
+# it was disabled when we jumped to GtkAction
+#	wbc-bonobo.c				\
+#	workbook-control-component.c		\
+#	workbook-control-component.h 		\
+#	workbook-control-component-priv.h
 
 GNUMERIC_SOURCE	= $(GNUMERIC_BASE)
 

@@ -115,7 +115,7 @@ WBCG_VIRTUAL (set_transient,
 	(WorkbookControlGUI *wbcg, GtkWindow *window), (wbcg, window))
 
 static WBCG_VIRTUAL (actions_sensitive, 
-	(WorkbookControlGUI *wbcg, gboolean sensitive), (wbcg, sensitive))
+	(WorkbookControlGUI *wbcg, gboolean actions, gboolean font_actions), (wbcg, actions, font_actions))
 static WBCG_VIRTUAL (reload_recent_file_menu, 
 	(WorkbookControlGUI *wbcg), (wbcg))
 static WBCG_VIRTUAL (set_action_sensitivity, 
@@ -401,7 +401,7 @@ wbcg_edit_set_sensitive (WorkbookControl *wbc,
 	gtk_widget_set_sensitive (wbcg->ok_button, enable_edit_ok_cancel);
 	gtk_widget_set_sensitive (wbcg->cancel_button, enable_edit_ok_cancel);
 	gtk_widget_set_sensitive (wbcg->func_button, enable_actions);
-	wbcg_actions_sensitive (wbcg, enable_actions);
+	wbcg_actions_sensitive (wbcg, enable_actions, enable_actions|enable_edit_ok_cancel);
 }
 
 static gboolean

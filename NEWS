@@ -84,6 +84,9 @@ Jody:
 	* Fix xls import of font and font colours for XL95/XL97 text/labels
 	* Fix xls import of label outlines for XL95 textboxes
 	* Make the text probe routine a bit more relaxed
+	* Fix xls import of cursor position for frozen panes
+	* Fix xls export of h/v only frozen panes
+	* Fix xls 97 export of named expressions without addins
 
 J.H.M. Dassen (Ray):
 	http://bugzilla.gnome.org/show_bug.cgi?id=135044

@@ -57,7 +57,7 @@ struct _WBCgtk {
 
 	GtkWidget	 *status_area;
 	GtkUIManager     *ui;
-	GtkActionGroup   *menus, *actions, *file_history;
+	GtkActionGroup   *menus, *actions, *font_actions, *file_history;
 
 	GOActionComboStack	*undo_action, *redo_action;
 	GOActionComboColor	*fore_color, *back_color;
@@ -80,10 +80,12 @@ typedef WorkbookControlGUIClass WBCgtkClass;
 /*****************************************************************************/
 
 static void
-wbc_gtk_actions_sensitive (WorkbookControlGUI *wbcg, gboolean sensitive)
+wbc_gtk_actions_sensitive (WorkbookControlGUI *wbcg,
+			   gboolean actions, gboolean font_actions)
 {
 	WBCgtk *gtk = (WBCgtk *)wbcg;
-	g_object_set (G_OBJECT (gtk->actions), "sensitive", sensitive, NULL);
+	g_object_set (G_OBJECT (gtk->actions), "sensitive", actions, NULL);
+	g_object_set (G_OBJECT (gtk->font_actions), "sensitive", font_actions, NULL);
 }
 
 static void
@@ -390,8 +392,12 @@ cb_fore_color_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
 
 	if (wbcg->updating_ui)
 		return;
-
 	c = go_action_combo_color_get_color (a, &is_default);
+
+	if (wbcg_is_editing (wbcg)) {
+		g_warning ("rich text entry is under development");
+		return;
+	}
 
 	mstyle = mstyle_new ();
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, is_default
@@ -422,7 +428,8 @@ wbc_gtk_init_color_fore (WBCgtk *gtk)
 #if 0
 	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 #endif
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->fore_color));
+	gtk_action_group_add_action (gtk->font_actions,
+		GTK_ACTION (gtk->fore_color));
 }
 /****************************************************************************/
 
@@ -482,11 +489,15 @@ cb_font_name_changed (GOActionComboText *a, WBCgtk *gtk)
 		++new_name;
 
 	if (*new_name) {
-		GnmStyle *style = mstyle_new ();
-		char *title = g_strdup_printf (_("Font Name %s"), new_name);
-		mstyle_set_font_name (style, new_name);
-		cmd_selection_format (WORKBOOK_CONTROL (gtk), style, NULL, title);
-		g_free (title);
+		if (wbcg_is_editing (WORKBOOK_CONTROL_GUI (gtk))) {
+			g_warning ("rich text entry is under development");
+		} else {
+			GnmStyle *style = mstyle_new ();
+			char *title = g_strdup_printf (_("Font Name %s"), new_name);
+			mstyle_set_font_name (style, new_name);
+			cmd_selection_format (WORKBOOK_CONTROL (gtk), style, NULL, title);
+			g_free (title);
+		}
 	} else
 		wb_control_style_feedback (WORKBOOK_CONTROL (gtk), NULL);
 
@@ -509,7 +520,8 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 #if 0
 	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 #endif
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->font_name));
+	gtk_action_group_add_action (gtk->font_actions,
+		GTK_ACTION (gtk->font_name));
 }
 /****************************************************************************/
 
@@ -525,11 +537,15 @@ cb_font_size_changed (GOActionComboText *a, WBCgtk *gtk)
 	size = ((int)floor ((size * 20.) + .5)) / 20.;	/* round .05 */
 
 	if (new_size != end && errno != ERANGE && 1. <= size && size <= 400.) {
-		GnmStyle *style = mstyle_new ();
-		char *title = g_strdup_printf (_("Font Size %f"), size);
-		mstyle_set_font_size (style, size);
-		cmd_selection_format (WORKBOOK_CONTROL (gtk), style, NULL, title);
-		g_free (title);
+		if (wbcg_is_editing (WORKBOOK_CONTROL_GUI (gtk))) {
+			g_warning ("rich text entry is under development");
+		} else {
+			GnmStyle *style = mstyle_new ();
+			char *title = g_strdup_printf (_("Font Size %f"), size);
+			mstyle_set_font_size (style, size);
+			cmd_selection_format (WORKBOOK_CONTROL (gtk), style, NULL, title);
+			g_free (title);
+		}
 	} else
 		wb_control_style_feedback (WORKBOOK_CONTROL (gtk), NULL);
 }
@@ -554,7 +570,8 @@ wbc_gtk_init_font_size (WBCgtk *gtk)
 #if 0
 	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 #endif
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->font_size));
+	gtk_action_group_add_action (gtk->font_actions,
+		GTK_ACTION (gtk->font_size));
 }
 /****************************************************************************/
 /* Command callback called on activation of a file history menu item. */
@@ -608,7 +625,9 @@ wbc_gtk_set_action_sensitivity (WorkbookControlGUI const *wbcg,
 	g_object_set (G_OBJECT (a), "sensitive", sensitive, NULL);
 }
 
-#warning These semantics seem crufty
+/* NOTE : The semantics of prefix and suffix seem contrived.  Why are we
+ * handling it at this end ?  That stuff should be done in the undo/redo code
+ **/
 static void
 wbc_gtk_set_action_label (WorkbookControlGUI const *wbcg,
 			  char const *action,
@@ -647,6 +666,8 @@ wbc_gtk_set_toggle_action_state (WorkbookControlGUI const *wbcg,
 {
 	WBCgtk *gtk = (WBCgtk *)wbcg;
 	GtkAction *a = gtk_action_group_get_action (gtk->actions, action);
+	if (a == NULL)
+		a = gtk_action_group_get_action (gtk->font_actions, action);
 	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (a), state);
 }
 
@@ -738,7 +759,8 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 
 extern void wbcg_register_actions (WorkbookControlGUI *wbcg,
 				   GtkActionGroup *menu_group,
-				   GtkActionGroup *group);
+				   GtkActionGroup *group,
+				   GtkActionGroup *font_group);
 
 static void
 cb_handlebox_dock_status (G_GNUC_UNUSED GtkHandleBox *hb,
@@ -866,19 +888,21 @@ wbc_gtk_init (GObject *obj)
 {
 	static struct {
 		char const *name;
+		gboolean    is_font;
 		unsigned    offset;
 	} const toggles[] = {
-		{ "FontBold",		G_STRUCT_OFFSET (WBCgtk, font.bold) },
-		{ "FontItalic",		G_STRUCT_OFFSET (WBCgtk, font.italic) },
-		{ "FontUnderline",	G_STRUCT_OFFSET (WBCgtk, font.underline) },
-		{ "FontStrikeThrough",	G_STRUCT_OFFSET (WBCgtk, font.strikethrough) },
-		{ "AlignLeft",		G_STRUCT_OFFSET (WBCgtk, h_align.left) },
-		{ "AlignCenter",	G_STRUCT_OFFSET (WBCgtk, h_align.center) },
-		{ "AlignRight",		G_STRUCT_OFFSET (WBCgtk, h_align.right) },
-		{ "CenterAcrossSelection", G_STRUCT_OFFSET (WBCgtk, h_align.center_across_selection) },
-		{ "AlignTop",		G_STRUCT_OFFSET (WBCgtk, v_align.top) },
-		{ "AlignVCenter",	G_STRUCT_OFFSET (WBCgtk, v_align.center) },
-		{ "AlignBottom",	G_STRUCT_OFFSET (WBCgtk, v_align.bottom) }
+		{ "FontBold",		   TRUE, G_STRUCT_OFFSET (WBCgtk, font.bold) },
+		{ "FontItalic",		   TRUE, G_STRUCT_OFFSET (WBCgtk, font.italic) },
+		{ "FontUnderline",	   TRUE, G_STRUCT_OFFSET (WBCgtk, font.underline) },
+		{ "FontStrikeThrough",	   TRUE, G_STRUCT_OFFSET (WBCgtk, font.strikethrough) },
+
+		{ "AlignLeft",		   FALSE, G_STRUCT_OFFSET (WBCgtk, h_align.left) },
+		{ "AlignCenter",	   FALSE, G_STRUCT_OFFSET (WBCgtk, h_align.center) },
+		{ "AlignRight",		   FALSE, G_STRUCT_OFFSET (WBCgtk, h_align.right) },
+		{ "CenterAcrossSelection", FALSE, G_STRUCT_OFFSET (WBCgtk, h_align.center_across_selection) },
+		{ "AlignTop",		   FALSE, G_STRUCT_OFFSET (WBCgtk, v_align.top) },
+		{ "AlignVCenter",	   FALSE, G_STRUCT_OFFSET (WBCgtk, v_align.center) },
+		{ "AlignBottom",	   FALSE, G_STRUCT_OFFSET (WBCgtk, v_align.bottom) }
 	};
 
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)obj;
@@ -911,11 +935,17 @@ wbc_gtk_init (GObject *obj)
 	gtk_action_group_set_translation_domain (gtk->menus, NULL);
 	gtk->actions = gtk_action_group_new ("Actions");
 	gtk_action_group_set_translation_domain (gtk->actions, NULL);
+	gtk->font_actions = gtk_action_group_new ("FontActions");
+	gtk_action_group_set_translation_domain (gtk->font_actions, NULL);
+	gtk->file_history = gtk_action_group_new ("FileHistory");
+	gtk_action_group_set_translation_domain (gtk->file_history, NULL);
 
-	wbcg_register_actions (wbcg, gtk->menus, gtk->actions);
+	wbcg_register_actions (wbcg, gtk->menus, gtk->actions, gtk->font_actions);
 
 	for (i = G_N_ELEMENTS (toggles); i-- > 0 ; ) {
-		act = gtk_action_group_get_action (gtk->actions, toggles[i].name);
+		act = gtk_action_group_get_action (
+			(toggles[i].is_font ? gtk->font_actions : gtk->actions),
+			toggles[i].name);
 		G_STRUCT_MEMBER (GtkToggleAction *, gtk, toggles[i].offset) = GTK_TOGGLE_ACTION (act);
 	}
 
@@ -936,9 +966,7 @@ wbc_gtk_init (GObject *obj)
 		NULL);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->menus, 0);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->actions, 0);
-
-	gtk->file_history = gtk_action_group_new ("FileHistory");
-	gtk_action_group_set_translation_domain (gtk->file_history, NULL);
+	gtk_ui_manager_insert_action_group (gtk->ui, gtk->font_actions, 0);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->file_history, 0);
 
 	gtk_window_add_accel_group (wbcg->toplevel, 

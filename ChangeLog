@@ -1,3 +1,18 @@
+2004-03-20  Jody Goldberg <jody@gnome.org>
+
+	* src/wbcg-actions.c : Move the font actions into a distinct group.
+
+	* src/wbc-gtk.c (wbc_gtk_actions_sensitive) : start to account for
+	  font vs normal actions.  This interface sucks.  We'll need something
+	  more functional as the number of action groups increases (eg clipboard)
+	(wbc_gtk_init_color_fore) : move into font group
+	(wbc_gtk_init_font_name) : move into font group
+	(wbc_gtk_init_font_size) : move into font group
+	(wbc_gtk_set_toggle_action_state) : split font actions into a distinct
+	  group
+	(cb_handlebox_dock_status) : ditto.
+	(wbc_gtk_init) : ditto.
+
 2004-03-19  Morten Welinder  <terra@gnome.org>
 
 	* src/plugin-util.c (gnumeric_fopen): Ditto.

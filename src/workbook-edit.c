@@ -469,7 +469,7 @@ wbcg_edit_attach_guru_main (WorkbookControlGUI *wbcg, GtkWidget *guru)
 	 */
 	gnm_app_clipboard_unant ();
 
-	/* don't sit end 'End' mode when a dialog comes up */
+	/* don't set end 'End' mode when a dialog comes up */
 	wbcg_set_end_mode (wbcg, FALSE);
 
 	wbcg->edit_line.guru = guru;

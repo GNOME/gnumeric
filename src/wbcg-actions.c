@@ -1291,6 +1291,11 @@ toggle_current_font_attr (WorkbookControlGUI *wbcg,
 	if (wbcg->updating_ui)
 		return;
 
+	if (wbcg_is_editing (wbcg)) {
+		g_warning ("rich text entry is under development");
+		return;
+	}
+
 	new_style = mstyle_new ();
 	current_style = sheet_style_get (sheet,
 		sv->edit_pos.col,
@@ -2014,24 +2019,7 @@ static GtkToggleActionEntry toggle_actions[] = {
 	{ "SheetHideRowHeader", NULL, N_("Hide _Row Headers"),
 		NULL, N_("Toggle whether or not to display row headers"),
 		G_CALLBACK (cb_sheet_pref_hide_row_header) },
-	{ "FontBold", GTK_STOCK_BOLD,
-		N_("_Bold"), "<control>B",
-		N_("Bold"), G_CALLBACK (cb_font_bold), FALSE },
-	{ "FontItalic", GTK_STOCK_ITALIC,
-		N_("_Italic"), "<control>i",
-		N_("Italic"), G_CALLBACK (cb_font_italic), FALSE },
-	{ "FontUnderline", GTK_STOCK_UNDERLINE,
-		N_("_Underline"), "<control>u",
-		N_("Underline"), G_CALLBACK (cb_font_underline), FALSE },
-#warning "Add double underline icon"
-#warning "Add accelerator for double underline"
-	{ "FontDoubleUnderline", GTK_STOCK_UNDERLINE,
-		N_("_Underline"), NULL,
-		N_("Underline"), G_CALLBACK (cb_font_double_underline), FALSE },
-#warning "Should there be an accelerator for strikethrough?"
-	{ "FontStrikeThrough", GTK_STOCK_UNDERLINE,
-		N_("_Strike Through"), NULL,
-		N_("Strike Through"), G_CALLBACK (cb_font_strikethrough), FALSE },
+
 	{ "AlignLeft", GTK_STOCK_JUSTIFY_LEFT,
 		N_("_Left Align"), NULL,
 		N_("Left align"), G_CALLBACK (cb_align_left), FALSE },
@@ -2059,14 +2047,36 @@ static GtkToggleActionEntry toggle_actions[] = {
 		N_("Align _Bottom"), NULL,
 		N_("Align Bottom"), G_CALLBACK (cb_align_bottom), FALSE }
 };
+static GtkToggleActionEntry font_toggle_actions[] = {
+	{ "FontBold", GTK_STOCK_BOLD,
+		N_("_Bold"), "<control>B",
+		N_("Bold"), G_CALLBACK (cb_font_bold), FALSE },
+	{ "FontItalic", GTK_STOCK_ITALIC,
+		N_("_Italic"), "<control>i",
+		N_("Italic"), G_CALLBACK (cb_font_italic), FALSE },
+	{ "FontUnderline", GTK_STOCK_UNDERLINE,
+		N_("_Underline"), "<control>u",
+		N_("Underline"), G_CALLBACK (cb_font_underline), FALSE },
+#warning "Add double underline icon"
+#warning "Add accelerator for double underline"
+	{ "FontDoubleUnderline", GTK_STOCK_UNDERLINE,
+		N_("_Underline"), NULL,
+		N_("Underline"), G_CALLBACK (cb_font_double_underline), FALSE },
+#warning "Should there be an accelerator for strikethrough?"
+	{ "FontStrikeThrough", GTK_STOCK_UNDERLINE,
+		N_("_Strike Through"), NULL,
+		N_("Strike Through"), G_CALLBACK (cb_font_strikethrough), FALSE },
+};
 
 void wbcg_register_actions (WorkbookControlGUI *wbcg,
 			    GtkActionGroup *menu_group,
-			    GtkActionGroup *group);
+			    GtkActionGroup *group,
+			    GtkActionGroup *font_group);
 void
 wbcg_register_actions (WorkbookControlGUI *wbcg,
 		       GtkActionGroup *menu_group,
-		       GtkActionGroup *group)
+		       GtkActionGroup *group,
+		       GtkActionGroup *font_group)
 {
 	  gtk_action_group_add_actions (menu_group,
 		menus, G_N_ELEMENTS (menus), wbcg);
@@ -2074,6 +2084,8 @@ wbcg_register_actions (WorkbookControlGUI *wbcg,
 		actions, G_N_ELEMENTS (actions), wbcg);
 	  gtk_action_group_add_toggle_actions (group,
 		toggle_actions, G_N_ELEMENTS (toggle_actions), wbcg);
+	  gtk_action_group_add_toggle_actions (font_group,
+		font_toggle_actions, G_N_ELEMENTS (font_toggle_actions), wbcg);
 }
 
 #ifdef WITH_BONOBO
