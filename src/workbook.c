@@ -2045,17 +2045,6 @@ workbook_new (void)
 #ifndef ENABLE_BONOBO
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
 	gnome_app_install_menu_hints (GNOME_APP (wb->toplevel), workbook_menu);
-
-	/* Disable undo/reo for now */
-	gtk_widget_set_sensitive (workbook_menu_edit[0].widget, FALSE);
-	gtk_widget_set_sensitive (workbook_menu_edit[1].widget, FALSE);
-
-	/* FIXME We need to make this local to a workbook somehow. */
-#if 0
-	gtk_widget_set_sensitive (workbook_menu_edit[5].widget, FALSE);
-	gtk_widget_set_sensitive (workbook_menu_edit[6].widget, FALSE);
-#endif
-
 #else
 	{
 		GnomeUIHandlerMenuItem *list;
@@ -2068,6 +2057,23 @@ workbook_new (void)
 		gnome_ui_handler_menu_free_list (list);
 	}
 #endif
+
+	/* Get the menu items that will be enabled disabled based on
+	 * workbook state.
+	 */
+	wb->menu_item_undo		= workbook_menu_edit[0].widget;
+	wb->menu_item_redo		= workbook_menu_edit[1].widget;
+	wb->menu_item_paste		= workbook_menu_edit[5].widget;
+	wb->menu_item_paste_special	= workbook_menu_edit[6].widget;
+
+	/* Disable undo/redo for now */
+	gtk_widget_set_sensitive (wb->menu_item_undo, FALSE);
+	gtk_widget_set_sensitive (wb->menu_item_redo, FALSE);
+
+	/* Disable paste & paste special, they will be enabled when
+	 * there is something to paste */
+	gtk_widget_set_sensitive (wb->menu_item_paste, FALSE);
+	gtk_widget_set_sensitive (wb->menu_item_paste_special, FALSE);
 
  	workbook_create_toolbars (wb);
 

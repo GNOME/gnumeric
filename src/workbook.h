@@ -58,6 +58,12 @@ struct _Workbook {
 	GtkWidget  *notebook;
 	GtkWidget  *table;
 
+	/* Menu items that get toggled */
+	GtkWidget  *menu_item_undo;
+	GtkWidget  *menu_item_redo;
+	GtkWidget  *menu_item_paste;
+	GtkWidget  *menu_item_paste_special;
+
 	/* Edit area */
 	GtkWidget  *ea_status;
 	GtkWidget  *ea_button_box;

@@ -173,6 +173,8 @@ GNUMERIC_BASE_SOURCES =				\
 	workbook-format-toolbar.c		\
 	workbook-format-toolbar.h		\
 	workbook-private.h			\
+	workbook-view.h				\
+	workbook-view.c				\
 	xml-io.c				\
 	xml-io.h				\
 	$(GNUMERIC_CORBA_GENERATED)

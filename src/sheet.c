@@ -21,6 +21,7 @@
 #include "ranges.h"
 #include "print-info.h"
 #include "mstyle.h"
+#include "application.h"
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
 #endif
@@ -1234,7 +1235,7 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_selection_unant (sheet);
+	application_clipboard_clear ();
 	
 	if (blankp)
 		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), "");

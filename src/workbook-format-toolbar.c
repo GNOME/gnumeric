@@ -41,7 +41,7 @@ set_selection_halign (Workbook *wb, StyleHAlignFlags align)
 	Sheet  *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_unant (sheet);
+	application_clipboard_clear ();
 
 	mstyle = mstyle_new ();
 	mstyle_set_align_h (mstyle, align);
@@ -81,7 +81,7 @@ change_selection_font (Workbook *wb, int bold, int italic)
 	Sheet  *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_unant (sheet);
+	application_clipboard_clear ();
 
 	if (bold >= 0) {
 		mstyle = mstyle_new ();

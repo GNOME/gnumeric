@@ -18,6 +18,7 @@
 #include "selection.h"
 #include "utils.h"
 #include "ranges.h"
+#include "application.h"
 
 #undef DEBUG_POSITIONS
 
@@ -823,11 +824,10 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_Escape:
 		sheet_cancel_pending_input (sheet);
-		sheet_selection_unant (sheet);
+		application_clipboard_clear ();
 		break;
 
 	case GDK_F2:
-		sheet_selection_unant (sheet);
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), wb->ea_input);
 		sheet_start_editing_at_cursor (sheet, FALSE, FALSE);
 		/* fall down */
@@ -858,7 +858,7 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 	switch (event->keyval){
 	case GDK_Escape:
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
-		sheet_selection_unant (sheet);
+		application_clipboard_clear ();
 		break;
 
 	case GDK_BackSpace:

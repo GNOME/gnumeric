@@ -594,8 +594,6 @@ sheet_selection_copy (Sheet *sheet)
 	if (!selection_is_simple (sheet, _("copy")))
 		return FALSE;
 
-	sheet_selection_ant (sheet);
-
 	ss = sheet->selections->data;
 
 	application_clipboard_copy (sheet, &ss->user);
@@ -627,11 +625,10 @@ sheet_selection_cut (Sheet *sheet)
 	if (!selection_is_simple (sheet, _("cut")))
 		return FALSE;
 
-	sheet_selection_ant (sheet);
-
 	ss = sheet->selections->data;
 
 	application_clipboard_cut (sheet, &ss->user);
+
 	return TRUE;
 }
 
@@ -707,8 +704,8 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 		rinfo.target_sheet = sheet;
 
 		sheet_move_range      (&rinfo);
-		sheet_selection_unant (src_sheet);
 		sheet_selection_move  (&rinfo);
+		application_clipboard_clear ();
 	} else
 		clipboard_paste_region (content, sheet, dest_col, dest_row,
 					paste_flags, time);

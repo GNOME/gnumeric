@@ -8,6 +8,8 @@
 #include <config.h>
 #include "application.h"
 #include "clipboard.h"
+#include "selection.h"
+#include "workbook-view.h"
 
 typedef struct
 {
@@ -44,7 +46,12 @@ application_clipboard_clear (void)
 		clipboard_release (app.clipboard_copied_contents);
 		app.clipboard_copied_contents = NULL;
 	}
-	app.clipboard_sheet = NULL;
+	if (app.clipboard_sheet != NULL) {
+		Sheet *sheet = app.clipboard_sheet;
+		sheet_selection_unant (sheet);
+		workbook_view_set_paste_state (sheet->workbook, 0);
+		app.clipboard_sheet = NULL;
+	}
 }
 
 /**
@@ -57,7 +64,7 @@ application_clipboard_clear (void)
  * into the clipboard.
  */
 void
-application_clipboard_copy (Sheet * sheet, Range const * area)
+application_clipboard_copy (Sheet *sheet, Range const *area)
 {
 	application_clipboard_clear ();
 
@@ -67,6 +74,10 @@ application_clipboard_copy (Sheet * sheet, Range const * area)
 	    clipboard_copy_cell_range (sheet,
 				       area->start.col, area->start.row,
 				       area->end.col,   area->end.row);
+
+	workbook_view_set_paste_state (sheet->workbook, 2);
+
+	sheet_selection_ant (sheet);
 }
 
 /**
@@ -80,12 +91,17 @@ application_clipboard_copy (Sheet * sheet, Range const * area)
  * cut operation.
  */
 void
-application_clipboard_cut (Sheet * sheet, Range const * area)
+application_clipboard_cut (Sheet *sheet, Range const *area)
 {
 	application_clipboard_clear ();
 
 	app.clipboard_sheet = sheet;
 	app.clipboard_cut_range = *area;
+
+	/* No paste special for copies */
+	workbook_view_set_paste_state (sheet->workbook, 1);
+
+	sheet_selection_ant (sheet);
 }
 
 gboolean

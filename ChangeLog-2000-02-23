@@ -1,3 +1,28 @@
+1999-11-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/Makefile.am : Add new files.
+
+	* src/workbook-view.c (workbook_view_set_paste_state) : New function.
+
+	* src/application.c (application_clipboard_clear) : Disable the
+	  paste, paste-special menu items and unant the previous selection.
+	(application_clipboard_copy) : Enable paste/paste_special, ant the
+	  selection.
+	(application_clipboard_cut) : Enable paste, ant the selection.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Clear the
+	  clipboard rather than unanting manually.
+	(gnumeric_sheet_key_mode_object) : Ditto.
+
+	* src/item-cursor.c (item_cursor_do_drop) : Don't unant manually.
+	  let the functions take care of it.
+
+	* src/selection.c (sheet_selection_copy) : Ditto.
+	(sheet_selection_cut) : Ditto.
+
+	* src/workbook.c (workbook_new) : Catch the widgets of several of the
+	  edit menu bar items so that they can be enabled and disabled.
+
 1999-11-28  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/workbook.c (wb_edit_key_pressed): Fix bug #2110
