@@ -1,5 +1,16 @@
 2002-09-02  Jody Goldberg <jody@gnome.org>
 
+	* src/mstyle.c (mstyle_new_default) : init the hyperlink to NULL.
+	(mstyle_set_hlink) : relax restrictions.
+
+	* src/sheet-control-gui.c (scg_context_menu) : implement the
+	  conditions on the hyperlink context menu items.
+
+	* src/sheet-style.c (sheet_style_region_contains_link) : new.
+	(cb_find_link) : new.
+
+2002-09-02  Jody Goldberg <jody@gnome.org>
+
 	* src/gui-util.c (gnumeric_load_pixbuf) : new.
 
 2002-09-01  Jody Goldberg <jody@gnome.org>

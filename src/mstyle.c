@@ -598,6 +598,8 @@ mstyle_new_default (void)
 	mstyle_set_font_uline  (mstyle, UNDERLINE_NONE);
 	mstyle_set_font_strike (mstyle, FALSE);
 
+	mstyle_set_hlink       (mstyle, NULL);
+
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_FORE,
 				style_color_black ());
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_BACK,
@@ -1417,7 +1419,6 @@ void
 mstyle_set_hlink (MStyle *style, GnmHLink *link)
 {
 	g_return_if_fail (style != NULL);
-	g_return_if_fail (link != NULL);
 
 	mstyle_element_unref (style->elements[MSTYLE_HLINK]);
 	style->elements[MSTYLE_HLINK].type = MSTYLE_HLINK;

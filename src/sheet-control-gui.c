@@ -23,6 +23,7 @@
 #include "cell.h"
 #include "selection.h"
 #include "style.h"
+#include "sheet-style.h"
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 #include "gui-util.h"
@@ -1303,7 +1304,10 @@ enum {
 	CONTEXT_ROW_HEIGHT,
 	CONTEXT_ROW_HIDE,
 	CONTEXT_ROW_UNHIDE,
-	CONTEXT_COMMENT_EDIT
+	CONTEXT_COMMENT_EDIT,
+	CONTEXT_HYPERLINK_ADD,
+	CONTEXT_HYPERLINK_EDIT,
+	CONTEXT_HYPERLINK_REMOVE
 };
 static gboolean
 context_menu_handler (GnumericPopupMenuElement const *element,
@@ -1368,6 +1372,9 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	case CONTEXT_COMMENT_EDIT:
 		dialog_cell_comment (wbcg, sheet, &sv->edit_pos);
 		break;
+	case CONTEXT_HYPERLINK_ADD:
+	case CONTEXT_HYPERLINK_EDIT:
+	case CONTEXT_HYPERLINK_REMOVE:
 	default :
 		break;
 	};
@@ -1378,19 +1385,20 @@ void
 scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		  gboolean is_col, gboolean is_row)
 {
-	SheetControl *sc = (SheetControl *) scg;
+	SheetControl *sc = SHEET_CONTROL (scg);
+	Sheet *sheet = sc_sheet (sc);
 
 	enum {
 		CONTEXT_DISPLAY_FOR_CELLS = 1,
 		CONTEXT_DISPLAY_FOR_ROWS = 2,
-		CONTEXT_DISPLAY_FOR_COLS = 4
+		CONTEXT_DISPLAY_FOR_COLS = 4,
+		CONTEXT_DISPLAY_WITH_HYPERLINK	  = 8,
+		CONTEXT_DISPLAY_WITHOUT_HYPERLINK = 16
 	};
 	enum {
 		CONTEXT_DISABLE_PASTE_SPECIAL	= 1,
 		CONTEXT_DISABLE_FOR_ROWS	= 2,
-		CONTEXT_DISABLE_FOR_COLS	= 4,
-		CONTEXT_DISABLE_WITH_HYPERLINK	  = 8,
-		CONTEXT_DISABLE_WITHOUT_HYPERLINK = 16
+		CONTEXT_DISABLE_FOR_COLS	= 4
 	};
 
 	static GnumericPopupMenuElement const popup_elements[] = {
@@ -1453,17 +1461,20 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_ROW_UNHIDE },
 
 		{ N_("_Hyperlink"),	  NULL,
-		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_DISABLE_WITH_HYPERLINK },
+		    CONTEXT_DISPLAY_WITHOUT_HYPERLINK, 0,
+		    CONTEXT_HYPERLINK_ADD },
 		{ N_("Edit _Hyperlink"),	  NULL,
-		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_DISABLE_WITHOUT_HYPERLINK },
-		{ N_("_Remove _Hyperlink"),	  NULL,
-		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_DISABLE_WITHOUT_HYPERLINK },
+		    CONTEXT_DISPLAY_WITH_HYPERLINK, 0,
+		    CONTEXT_HYPERLINK_EDIT },
+		{ N_("_Remove Hyperlink"),	  NULL,
+		    CONTEXT_DISPLAY_WITH_HYPERLINK, 0,
+		    CONTEXT_HYPERLINK_REMOVE },
 
 		{ NULL, NULL, 0, 0, 0 },
 	};
 
 	/* row and column specific operations */
-	int const display_filter =
+	int display_filter =
 		((!is_col && !is_row) ? CONTEXT_DISPLAY_FOR_CELLS : 0) |
 		(is_col ? CONTEXT_DISPLAY_FOR_COLS : 0) |
 		(is_row ? CONTEXT_DISPLAY_FOR_ROWS : 0);
@@ -1477,6 +1488,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		? 0 : CONTEXT_DISABLE_PASTE_SPECIAL;
 
 	GList *l;
+	gboolean has_link = FALSE;
 
 	wbcg_edit_finish (scg->wbcg, FALSE);
 
@@ -1493,7 +1505,14 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 		if (r->start.col == 0 && r->end.col == SHEET_MAX_COLS - 1)
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_COLS;
+
+		if (!has_link && sheet_style_region_contains_link (sheet, r))
+			has_link = TRUE;
 	}
+
+	if (display_filter & CONTEXT_DISPLAY_FOR_CELLS)
+		display_filter |= ((has_link) ?
+				   CONTEXT_DISPLAY_WITH_HYPERLINK : CONTEXT_DISPLAY_WITHOUT_HYPERLINK);
 
 	gnumeric_create_popup_menu (popup_elements, &context_menu_handler,
 				    scg, display_filter,

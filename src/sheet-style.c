@@ -1983,6 +1983,38 @@ sheet_style_most_common_in_col (Sheet const *sheet, int col)
 	return res.style;
 }
 
+static void
+cb_find_link (MStyle *style,
+	      int corner_col, int corner_row, int width, int height,
+	      Range const *apply_to, gpointer user)
+{
+	GnmHLink **link = user;
+	if (*link == NULL)
+		*link = mstyle_get_hlink (style);
+}
+
+/**
+ * sheet_style_region_contains_link :
+ * @sheet :
+ * @r :
+ *
+ * Utility routine that checks to see if a region contains at least 1 hyper link
+ * and returns the 1st one it finds.
+ **/
+GnmHLink *
+sheet_style_region_contains_link (Sheet const *sheet, Range const *r)
+{
+	GnmHLink *res = NULL;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (r != NULL, NULL);
+
+	foreach_tile (sheet->style_data->styles,
+		      TILE_TOP_LEVEL, 0, 0, r,
+		      cb_find_link, &res);
+	return res;
+}
+
 void
 sheet_style_foreach (Sheet const *sheet, GHFunc	func, gpointer user_data)
 {
