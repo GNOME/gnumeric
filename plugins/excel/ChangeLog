@@ -1,3 +1,7 @@
+2003-03-05  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_read_biff8_obj) : TRUE on error in precondition
+
 2003-02-05  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_FORMAT) : biff8 formats have 2 byte

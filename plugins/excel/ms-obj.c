@@ -716,7 +716,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			guint16 const options =GSF_LE_GET_GUINT16 (data+8);
 
 			/* Multiple objects in 1 record ?? */
-			g_return_val_if_fail (obj->excel_type == -1, -1);
+			g_return_val_if_fail (obj->excel_type == -1, TRUE);
 
 			obj->excel_type = GSF_LE_GET_GUINT16(data+4);
 			obj->id = GSF_LE_GET_GUINT16(data+6);
