@@ -31,7 +31,6 @@
 #warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeColorPicker"
 
 #include <gnumeric-config.h>
-#include <libfoocanvas/foo-canvas.h>
 #include <gdk/gdkcolor.h>
 #include <glib/gi18n.h>
 #include <gnm-marshalers.h>
@@ -39,9 +38,13 @@
 #include "color-group.h"
 #include "color-palette.h"
 
+#include <goffice/utils/go-color.h>
 #include <gui-util.h>
 #include <style-color.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtkdrawingarea.h>
+#include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkimage.h>
 #include <libgnomeui/gnome-color-picker.h>
 
 #include <string.h>
@@ -122,13 +125,13 @@ color_palette_class_init (GObjectClass *object_class)
 GSF_CLASS(ColorPalette,color_palette,color_palette_class_init,NULL,PARENT_TYPE)
 
 static void
-emit_color_changed (ColorPalette *P, GdkColor *color,
+emit_color_changed (ColorPalette *P, GdkColor const *color,
 		    gboolean custom, gboolean by_user, gboolean is_default)
 {
-	GdkColor *new_col = make_color (P, color);
+	GdkColor *new_col = NULL;
 
-	if (new_col != NULL)
-		new_col = gdk_color_copy (new_col);
+	if (make_color (P, color) != NULL)
+		new_col = gdk_color_copy (make_color (P, color));
 	if (P->current_color)
 		gdk_color_free (P->current_color);
 	P->current_color = new_col;
@@ -199,40 +202,32 @@ cust_color_set (GtkWidget  *color_picker, guint r, guint g, guint b, guint a,
 	emit_color_changed (P, &c_color, TRUE, TRUE, FALSE);
 }
 
-static void
-cb_default_clicked (GtkWidget *button, ColorPalette *P)
+static gboolean
+cb_default_release_event (GtkWidget *button, GdkEventButton *event, ColorPalette *P)
 {
 	emit_color_changed (P, P->default_color, FALSE, TRUE, TRUE);
+	return TRUE;
 }
 
 /*
  * Something in our table was clicked. Find out what and emit it
  */
-static void
-color_clicked (GtkWidget *button, ColorPalette *P)
+static gboolean
+cb_swatch_release_event (GtkWidget *button, GdkEventButton *event, ColorPalette *P)
 {
-	int              index;
-	GtkWidget       *swatch;
-
-	index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "gal"));
-	swatch  = P->swatches[index];
-	g_return_if_fail (FOO_IS_CANVAS (swatch));
+	int        index  = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "gal"));
+	GtkWidget *swatch = P->swatches[index];
 	
 	emit_color_changed (P,
 			    &swatch->style->bg[GTK_STATE_NORMAL],
 			    FALSE, TRUE, FALSE);
+	return TRUE;
 }
 
-/*
- * The color group sent the 'custom_color_add' signal
- */
 static void
 cb_group_custom_color_add (GtkObject *cg, GdkColor *color, ColorPalette *P)
 {
-	GdkColor *new;
-
-	new = make_color (P, color);
-	color_palette_change_custom_color (P, new);
+	color_palette_change_custom_color (P, make_color (P, color));
 }
 
 /*
@@ -275,29 +270,18 @@ color_palette_button_new(ColorPalette *P, GtkTable* table,
 			 GtkTooltips *tool_tip, ColorNamePair* color_name,
 			 gint col, gint row, int data)
 {
-        GtkWidget *button;
-	GtkWidget *vbox;
-	GtkWidget *swatch;
-	GtkStyle  *style;
+        GtkWidget *button, *swatch;
+	GdkColor   c;
+
+	swatch = gtk_drawing_area_new ();
+	gdk_color_parse (color_name->color, &c);
+	gtk_widget_modify_bg (swatch, GTK_STATE_NORMAL, &c);
+	gtk_widget_set_size_request (swatch, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
 
 	button = gtk_button_new ();
+	gtk_container_set_border_width (GTK_CONTAINER (button), 0);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-
-	swatch = foo_canvas_new ();
-	style = gtk_style_copy (GTK_WIDGET (swatch)->style);
-	gdk_color_parse (color_name->color,
-			 &style->bg[GTK_STATE_NORMAL]);
-	gtk_widget_set_style (GTK_WIDGET (swatch), style);
-	g_object_unref (style);
-
-	gtk_widget_set_size_request (swatch, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
-	/* Wrap inside a vbox with border 1 because canvas would
-	 * overpaint focus indicator */
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 1);
- 	gtk_box_pack_start (GTK_BOX (vbox), 
-			    GTK_WIDGET (swatch), TRUE, TRUE, 0);
-	gtk_container_add (GTK_CONTAINER (button), vbox);
+	gtk_container_add (GTK_CONTAINER (button), swatch);
 
 	gtk_tooltips_set_tip (tool_tip, button, _(color_name->name),
 			      "Private+Unused");
@@ -305,8 +289,9 @@ color_palette_button_new(ColorPalette *P, GtkTable* table,
 	gtk_table_attach (table, button,
 			  col, col+1, row, row+1, GTK_EXPAND, GTK_EXPAND, 1, 1);
 
-	g_signal_connect (button, "clicked",
-			  G_CALLBACK (color_clicked), P);
+	g_signal_connect (button,
+		"button_release_event",
+		G_CALLBACK (cb_swatch_release_event), P);
 	g_object_set_data (G_OBJECT (button), "gal",
 				  GINT_TO_POINTER (data));
 	return swatch;
@@ -340,11 +325,11 @@ color_palette_setup (ColorPalette *P,
 
 	if (no_color_label != NULL) {
 		default_button = gtk_button_new_with_label (no_color_label);
-
 		gtk_table_attach (GTK_TABLE (table), default_button,
 				  0, ncols, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-		g_signal_connect (default_button, "clicked",
-				  G_CALLBACK (cb_default_clicked), P);
+		g_signal_connect (default_button,
+			"button_release_event",
+			G_CALLBACK (cb_default_release_event), P);
 	}
 
 	P->tool_tip = tool_tip = gtk_tooltips_new ();
@@ -374,7 +359,7 @@ color_palette_setup (ColorPalette *P,
 							P->custom_color_pos = total;
 						}
 						P->swatches[total] =
-							color_palette_button_new(
+							color_palette_button_new (
 								P,
 								GTK_TABLE (table),
 								GTK_TOOLTIPS (tool_tip),
@@ -477,7 +462,7 @@ color_palette_get_color_picker (ColorPalette *P)
 static GtkWidget *
 color_palette_new_with_vals (char const *no_color_label,
 			     int ncols, int nrows, ColorNamePair *color_names,
-			     GdkColor *default_color,
+			     GdkColor const *default_color,
 			     ColorGroup *cg)
 {
 	ColorPalette *P;
@@ -610,7 +595,8 @@ static ColorNamePair default_color_set [] = {
  * the no/auto color button.
  */
 GtkWidget*
-color_palette_new (char const *no_color_label, GdkColor *default_color,
+color_palette_new (char const *no_color_label,
+		   GdkColor const *default_color,
 		   ColorGroup *color_group)
 {
 	/* specify 6 rows to allow for a row of custom colors */
@@ -618,4 +604,46 @@ color_palette_new (char const *no_color_label, GdkColor *default_color,
 					    8, 6,
 					    default_color_set, default_color,
 					    color_group);
+}
+
+GtkWidget *
+color_palette_make_menu (char const *no_color_label,
+			 GdkColor const *default_color,
+			 ColorGroup *color_group)
+{
+	int ncols = 8;
+	int nrows =6;
+	int col, row, pos;
+	ColorNamePair *color_names = default_color_set;
+        GtkWidget *button, *submenu;
+	GdkPixbuf *pixbuf;
+	GdkColor   c;
+
+	submenu = gtk_menu_new ();
+	for (row = 0; row < nrows; row++) {
+		for (col = 0; col < ncols; col++) {
+			pos = row * ncols + col;
+			if (color_names [pos].color == NULL) {
+				/* Break out of two for-loops.  */
+				row = nrows;
+				break;
+			}
+
+			pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
+				COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
+			gdk_color_parse (color_names [pos].color, &c);
+			gdk_pixbuf_fill (pixbuf, GDK_TO_UINT (c));
+
+			button = gtk_image_menu_item_new_with_label (" ");
+			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (button),
+				gtk_image_new_from_pixbuf (pixbuf));
+			g_object_unref (pixbuf);
+			gtk_widget_show_all (button);
+
+			gtk_menu_attach (GTK_MENU (submenu), button, col, col+1, row, row+1);
+		}
+	}
+	gtk_widget_show (submenu);
+
+	return submenu;
 }

@@ -1,3 +1,15 @@
+2004-01-14  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c : silence some warnings from the zoom combo.  It's not
+	  functional yet so why spew errors.
+	- Add status line display of menu tooltips
+	- Fix accel for the display formula toggle
+
+2004-01-13  Jody Goldberg <jody@gnome.org>
+
+	* src/func.c (function_call_with_list) : fix the address tests by
+	  allowing missing optional args to get passed as NULL.
+
 2004-01-12  Morten Welinder  <terra@gnome.org>
 
 	* src/GNOME_Gnumeric-gtk.xml: remove menu entris for bold, etc.

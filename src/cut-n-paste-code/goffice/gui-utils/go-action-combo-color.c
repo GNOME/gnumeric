@@ -27,6 +27,7 @@
 
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>
+#include <gtk/gtkimagemenuitem.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 
@@ -118,6 +119,31 @@ go_action_combo_color_finalize (GObject *obj)
 	combo_color_parent->finalize (obj);
 }
 
+static GtkWidget *
+go_action_combo_color_create_menu_item (GtkAction *a)
+{
+	GOActionComboColor *caction = (GOActionComboColor *)a;
+	GtkWidget *submenu = color_palette_make_menu (
+		caction->no_color_label, caction->default_color,
+		caction->color_group);
+	GtkWidget *item;
+	GdkPixbuf *pixbuf;
+	char *label, *stock_id;
+
+	g_object_get (G_OBJECT (a),
+		      "label",	  &label,
+		      "stock_id", &stock_id,
+		      NULL);
+	pixbuf = gnm_app_get_pixbuf (stock_id);
+	item = gtk_image_menu_item_new_with_label (label ? label : _("Color"));
+	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
+		gtk_image_new_from_pixbuf (pixbuf));
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), submenu);
+	gtk_widget_show (submenu);
+
+	return item;
+}
+
 static void
 go_action_combo_color_class_init (GtkActionClass *gtk_act_klass)
 {
@@ -127,8 +153,8 @@ go_action_combo_color_class_init (GtkActionClass *gtk_act_klass)
 	gobject_klass->finalize		= go_action_combo_color_finalize;
 
 	gtk_act_klass->create_tool_item = go_action_combo_color_create_tool_item;
+	gtk_act_klass->create_menu_item = go_action_combo_color_create_menu_item;
 #if 0
-	gtk_act_klass->create_menu_item = Use the default
 	gtk_act_klass->connect_proxy	= go_action_combo_color_connect_proxy;
 	gtk_act_klass->disconnect_proxy = go_action_combo_color_disconnect_proxy;
 #endif
@@ -147,6 +173,7 @@ go_action_combo_color_new (char const *action_name,
 {
 	GOActionComboColor *res = g_object_new (go_action_combo_color_get_type (),
 					   "name", action_name,
+					   "stock_id", stock_id,
 					   NULL);
 	res->icon = gnm_app_get_pixbuf (stock_id);
 	res->color_group = color_group_fetch (action_name, group_key);

@@ -1,3 +1,11 @@
+2004-01-14  Jody Goldberg <jody@gnome.org>
+
+	* gnm-combo-box.c : More finger feel improvements.  Only color takes
+	  advantage so far.  Still needs love.
+
+	* color-palette.c : hack support for improved finger feel
+	  and an initial pass at a menu item.
+
 2004-01-07  Jon K Hellan  <hellan@acm.org>
 
 	* preview-file-selection.h: Don't include gnome-file-entry.h.

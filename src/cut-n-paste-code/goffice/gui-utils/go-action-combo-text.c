@@ -170,6 +170,12 @@ go_action_combo_text_set_width (GOActionComboText *caction, char const *largest_
 	caction->largest_elem = largest_elem;
 }
 
+char const *
+go_action_combo_text_get_entry (GOActionComboText const *a)
+{
+	return "90%";
+}
+
 void
 go_action_combo_text_set_entry (GOActionComboText *caction, char const *text,
 				GOActionComboTextSearchDir dir)

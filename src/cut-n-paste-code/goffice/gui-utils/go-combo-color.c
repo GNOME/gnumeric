@@ -171,6 +171,8 @@ apply_current_color (ColorCombo *cc)
 static void
 preview_clicked (GtkWidget *button, ColorCombo *cc)
 {
+	if (_gnm_combo_is_updating (GNM_COMBO_BOX (cc)))
+		return;
 	if (cc->instant_apply)
 		apply_current_color (cc);
 	else
@@ -216,6 +218,7 @@ void
 color_combo_box_set_preview_relief (ColorCombo *cc, GtkReliefStyle relief)
 {
 	GtkWidget *w;
+
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 
 	w = gnm_combo_box_get_arrow (GNM_COMBO_BOX (cc));
@@ -234,13 +237,12 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 	GdkColor *color;
 	GdkPixbuf *pixbuf = NULL;
 
-	g_return_if_fail (cc != NULL);
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 
 	/*
 	 * Our button with the gtk_image preview
 	 */
-	cc->preview_button = gtk_button_new ();
+	cc->preview_button = gtk_toggle_button_new ();
 	cc->preview_is_icon = FALSE;
 	
 	if (icon)
@@ -290,7 +292,6 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 GdkColor *
 color_combo_get_color (ColorCombo *cc, gboolean *is_default)
 {
-	g_return_val_if_fail (cc != NULL, NULL);
 	g_return_val_if_fail (IS_COLOR_COMBO (cc), NULL);
 
 	return color_palette_get_current_color (cc->palette, is_default);
@@ -307,7 +308,6 @@ color_combo_get_color (ColorCombo *cc, gboolean *is_default)
 void
 color_combo_set_color (ColorCombo *cc, GdkColor *color)
 {
-	g_return_if_fail (cc != NULL);
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 	
 	/* This will change the color on the palette than it will invoke
@@ -335,7 +335,6 @@ color_combo_set_color (ColorCombo *cc, GdkColor *color)
 void
 color_combo_set_instant_apply (ColorCombo *cc, gboolean active)
 {
-	g_return_if_fail (cc != NULL);
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 
 	cc->instant_apply = active;
@@ -351,7 +350,6 @@ color_combo_set_instant_apply (ColorCombo *cc, gboolean active)
 void
 color_combo_set_color_to_default (ColorCombo *cc)
 {
-	g_return_if_fail (cc != NULL);
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 
 	color_palette_set_color_to_default (cc->palette);

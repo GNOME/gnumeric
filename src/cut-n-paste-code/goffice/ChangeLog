@@ -1,3 +1,10 @@
+2004-01-14  Jody Goldberg <jody@gnome.org>
+
+	* gui-utils/go-action-combo-color.c
+	(go_action_combo_color_create_menu_item) : some initial work on
+	  producing a menu.  Its not bad, but the combo needs alot of cleanup
+	  before it can migrate.
+
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.3

@@ -36,11 +36,15 @@ typedef enum {		/* begin the search from : */
 	GO_ACTION_COMBO_SEARCH_NEXT		/* the next element after current */
 } GOActionComboTextSearchDir;
 
-GType go_action_combo_text_get_type (void);
-void  go_action_combo_text_add_item  (GOActionComboText *a, char const *item);
-void  go_action_combo_text_set_width (GOActionComboText *a, char const *largest_elem);
-void  go_action_combo_text_set_entry (GOActionComboText *a,
-				      char const *text, GOActionComboTextSearchDir dir);
+GType	    go_action_combo_text_get_type (void);
+void	    go_action_combo_text_add_item  (GOActionComboText       *a,
+					    char const *item);
+void        go_action_combo_text_set_width (GOActionComboText       *a,
+					    char const *largest_elem);
+char const *go_action_combo_text_get_entry (GOActionComboText const *a);
+void	    go_action_combo_text_set_entry (GOActionComboText       *a,
+					    char const *text,
+					    GOActionComboTextSearchDir dir);
 
 G_END_DECLS
 

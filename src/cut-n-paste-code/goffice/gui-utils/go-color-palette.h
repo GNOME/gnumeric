@@ -48,7 +48,7 @@ typedef struct _ColorPalette {
 	 */
 	GtkWidget **swatches;
 	/* The (potentially NULL) default color */
-        GdkColor *default_color;
+        GdkColor const *default_color;
 
 	/* The current color */
 	GdkColor *current_color;
@@ -88,21 +88,21 @@ typedef struct {
 #define COLOR_PALETTE_CLASS(k) (G_TYPE_CHECK_CLASS_CAST(k), COLOR_PALETTE_TYPE)
 #define IS_COLOR_PALETTE(obj)  (G_TYPE_CHECK_INSTANCE_TYPE((obj), COLOR_PALETTE_TYPE))
 
-GtkType         color_palette_get_type (void);
+GtkType    color_palette_get_type (void);
 
-GtkWidget       *color_palette_new (char const *no_color_label,
-				    GdkColor *default_color,
+GtkWidget *color_palette_new	   (char const *no_color_label,
+				    GdkColor const *default_color,
 				    ColorGroup *color_group);
-void		 color_palette_set_group (ColorPalette *P,
-					  ColorGroup *cg);
+GtkWidget *color_palette_make_menu (char const *no_color_label,
+				    GdkColor const *default_color,
+				    ColorGroup *color_group);
 
-void             color_palette_set_current_color (ColorPalette *P, GdkColor *color);
-void             color_palette_set_color_to_default (ColorPalette *P);
-GdkColor        *color_palette_get_current_color (ColorPalette *P, gboolean *is_default);
-GtkWidget       *color_palette_get_color_picker  (ColorPalette *P);
+void	   color_palette_set_group	      (ColorPalette *P, ColorGroup *cg);
+void       color_palette_set_current_color    (ColorPalette *P, GdkColor *color);
+void       color_palette_set_color_to_default (ColorPalette *P);
+GdkColor  *color_palette_get_current_color    (ColorPalette *P, gboolean *is_default);
+GtkWidget *color_palette_get_color_picker     (ColorPalette *P);
 
 G_END_DECLS
 
 #endif /* GNUMERIC_PALETTE_H */
-
-

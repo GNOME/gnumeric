@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gnm-combo-box.c - a customizable combobox
  * Copyright 2000, 2001, Ximian, Inc.
@@ -40,8 +40,6 @@
 
 static GObjectClass *gnm_combo_box_parent_class;
 
-static int gnm_combo_toggle_pressed (GtkToggleButton *tbutton,
-				     GnmComboBox *combo_box);
 static void gnm_combo_popup_tear_off (GnmComboBox *combo,
 				      gboolean set_position);
 static void gnm_combo_set_tearoff_state (GnmComboBox *combo,
@@ -79,10 +77,7 @@ struct _GnmComboBoxPrivate {
 	GtkWidget *tearable;	/* The tearoff "button" */
 	GtkWidget *popup;	/* Popup */
 
-	/*
-	 * Closure for invoking the callbacks above
-	 */
-	void *closure;
+	gboolean   updating_buttons;
 };
 
 static void
@@ -171,23 +166,23 @@ gnm_combo_box_class_init (GObjectClass *object_class)
 		G_TYPE_NONE, 0);
 }
 
-static void
-deactivate_arrow (GnmComboBox *combo_box)
+gboolean
+_gnm_combo_is_updating (GnmComboBox const *combo_box)
 {
-	GtkToggleButton *arrow;
+	return combo_box->priv->updating_buttons;
+}
 
-	arrow = GTK_TOGGLE_BUTTON (combo_box->priv->arrow_button);
-	g_signal_handlers_block_matched (arrow,
-					 G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
-					 0, 0, NULL,
-					 gnm_combo_toggle_pressed, combo_box);
+static void
+set_arrow_state (GnmComboBox *combo_box, gboolean state)
+{
+	GnmComboBoxPrivate *priv = combo_box->priv;
+	g_return_if_fail (!combo_box->priv->updating_buttons);
 
-	gtk_toggle_button_set_active (arrow, FALSE);
-
-       	g_signal_handlers_unblock_matched (arrow,
-					   G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
-					   0, 0, NULL,
-					   gnm_combo_toggle_pressed, combo_box);
+	combo_box->priv->updating_buttons = TRUE;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->arrow_button), state);
+	if (GTK_IS_TOGGLE_BUTTON (priv->display_widget))
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->display_widget), state);
+	combo_box->priv->updating_buttons = FALSE;
 }
 
 /* Cut and paste from gtkwindow.c */
@@ -253,7 +248,7 @@ gnm_combo_box_popup_hide_unconditional (GnmComboBox *combo_box)
 		combo_box->priv->pop_down_widget = NULL;
 	}
 	g_object_unref (combo_box->priv->pop_down_widget);
-	deactivate_arrow (combo_box);
+	set_arrow_state (combo_box, FALSE);
 
 	g_signal_emit (combo_box, gnm_combo_box_signals [POST_POP_HIDE], 0);
 }
@@ -275,7 +270,7 @@ gnm_combo_box_popup_hide (GnmComboBox *combo_box)
 		/* Both popup and tearoff window present. Get rid of just
                    the popup shell. */
 		gnm_combo_popup_tear_off (combo_box, FALSE);
-		deactivate_arrow (combo_box);
+		set_arrow_state (combo_box, FALSE);
 	}
 }
 
@@ -358,18 +353,20 @@ gnm_combo_box_popup_display (GnmComboBox *combo_box)
 			  GDK_BUTTON_RELEASE_MASK |
 			  GDK_POINTER_MOTION_MASK,
 			  NULL, NULL, GDK_CURRENT_TIME);
+	set_arrow_state (combo_box, TRUE);
 }
 
-static int
-gnm_combo_toggle_pressed (GtkToggleButton *tbutton, GnmComboBox *combo_box)
+static gboolean
+cb_arrow_pressed (GtkWidget *button,
+		  GdkEvent *event, GnmComboBox *combo_box)
 {
-	if (tbutton->active) {
-		gnm_combo_box_popup_display (combo_box);
-	} else
-		gnm_combo_box_popup_hide_unconditional (combo_box);
-
-	gtk_widget_set_state (combo_box->priv->display_widget,
-		GTK_WIDGET_STATE (tbutton));
+	if (!combo_box->priv->updating_buttons) {
+		if (combo_box->priv->toplevel == NULL ||
+		    !GTK_WIDGET_VISIBLE (combo_box->priv->toplevel))
+			gnm_combo_box_popup_display (combo_box);
+		else
+			gnm_combo_box_popup_hide_unconditional (combo_box);
+	}
 
 	return TRUE;
 }
@@ -377,9 +374,7 @@ gnm_combo_toggle_pressed (GtkToggleButton *tbutton, GnmComboBox *combo_box)
 static  gint
 gnm_combo_box_button_press (GtkWidget *widget, GdkEventButton *event, GnmComboBox *combo_box)
 {
-	GtkWidget *child;
-
-	child = gtk_get_event_widget ((GdkEvent *) event);
+	GtkWidget *child = gtk_get_event_widget ((GdkEvent *) event);
 	if (child != widget){
 		while (child){
 			if (child == widget)
@@ -426,6 +421,7 @@ gnm_combo_box_init (GnmComboBox *combo_box)
 	GdkCursor *cursor;
 
 	combo_box->priv = g_new0 (GnmComboBoxPrivate, 1);
+	combo_box->priv->updating_buttons = FALSE;
 
 	/*
 	 * Create the arrow
@@ -437,8 +433,9 @@ gnm_combo_box_init (GnmComboBox *combo_box)
 	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (combo_box->priv->arrow_button), arrow);
 	gtk_box_pack_end (GTK_BOX (combo_box), combo_box->priv->arrow_button, FALSE, FALSE, 0);
-	g_signal_connect (combo_box->priv->arrow_button, "toggled",
-			  G_CALLBACK (gnm_combo_toggle_pressed), combo_box);
+	g_signal_connect (combo_box->priv->arrow_button,
+		"button-press-event",
+		G_CALLBACK (cb_arrow_pressed), combo_box);
 	gtk_widget_show_all (combo_box->priv->arrow_button);
 
 	/*
@@ -497,12 +494,10 @@ GSF_CLASS (GnmComboBox, gnm_combo_box,
 /* protected */ void
 gnm_combo_box_set_display (GnmComboBox *combo_box, GtkWidget *display_widget)
 {
-	g_return_if_fail (combo_box != NULL);
 	g_return_if_fail (IS_GNM_COMBO_BOX (combo_box));
-	g_return_if_fail (display_widget != NULL);
 	g_return_if_fail (GTK_IS_WIDGET (display_widget));
 
-	if (combo_box->priv->display_widget &&
+	if (combo_box->priv->display_widget != NULL &&
 	    combo_box->priv->display_widget != display_widget)
 		gtk_container_remove (GTK_CONTAINER (combo_box),
 				      combo_box->priv->display_widget);
@@ -610,7 +605,7 @@ gnm_combo_set_tearoff_state (GnmComboBox *combo,
 
 		if (combo->priv->torn_off) {
 			gnm_combo_popup_tear_off (combo, TRUE);
-			deactivate_arrow (combo);
+			set_arrow_state (combo, FALSE);
 		} else {
 			gtk_widget_hide (combo->priv->tearoff_window);
 			gnm_combo_popup_reparent (combo->priv->popup,

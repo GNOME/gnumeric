@@ -83,6 +83,8 @@ void       gnm_combo_box_popup_display (GnmComboBox *combo_box);
 void       gnm_combo_box_set_display (GnmComboBox *combo_box,
 				      GtkWidget *display_widget);
 
+gboolean   _gnm_combo_is_updating (GnmComboBox const *combo_box);
+
 G_END_DECLS
 
 #endif /* _GNM_COMBO_BOX_H_ */

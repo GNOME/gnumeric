@@ -8,7 +8,7 @@ libgoffice_gui_utils_la_SOURCES =	\
 	go-action-combo-stack.c 	\
 	go-action-combo-stack.h 	\
 	go-action-combo-text.c 		\
-	go-action-combo-text.h 
+	go-action-combo-text.h
 #	bonobo-dock-band.c		\
 #	bonobo-dock-band.h		\
 #	bonobo-dock-item-grip.c		\

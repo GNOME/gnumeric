@@ -2047,7 +2047,60 @@ static GtkActionEntry actions[] = {
 	{ "CopyRight", NULL, "", "<control>R", NULL, G_CALLBACK (cb_copyright) },
 };
 
+#define TOGGLE_HANDLER(flag, code)					\
+static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
+{									\
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));		\
+									\
+	if (!wbcg->updating_ui) {					\
+		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));	\
+		g_return_if_fail (IS_SHEET (sheet));			\
+									\
+		sheet->flag = !sheet->flag;				\
+		code							\
+	}								\
+}
+
+TOGGLE_HANDLER (display_formulas, sheet_toggle_show_formula (sheet);)
+TOGGLE_HANDLER (hide_zero, sheet_toggle_hide_zeros (sheet); )
+TOGGLE_HANDLER (hide_grid, sheet_adjust_preferences (sheet, TRUE, FALSE);)
+TOGGLE_HANDLER (hide_col_header, sheet_adjust_preferences (sheet, FALSE, FALSE);)
+TOGGLE_HANDLER (hide_row_header, sheet_adjust_preferences (sheet, FALSE, FALSE);)
+TOGGLE_HANDLER (display_outlines, sheet_adjust_preferences (sheet, TRUE, TRUE);)
+TOGGLE_HANDLER (outline_symbols_below, {
+		sheet_adjust_outline_dir (sheet, FALSE);
+		sheet_adjust_preferences (sheet, TRUE, TRUE);
+})
+TOGGLE_HANDLER (outline_symbols_right,{
+		sheet_adjust_outline_dir (sheet, TRUE);
+		sheet_adjust_preferences (sheet, TRUE, TRUE);
+})
+
 static GtkToggleActionEntry toggle_actions[] = {
+	{ "SheetDisplayOutlines", NULL, N_("Display _Outlines"),
+		NULL, N_("Toggle whether or not to display outline groups"),
+		G_CALLBACK (cb_sheet_pref_display_outlines) },
+	{ "SheetOutlineBelow", NULL, N_("Outlines _Below"),
+		NULL, N_("Toggle whether to display row outlines on top or bottom"),
+		G_CALLBACK (cb_sheet_pref_outline_symbols_below) },
+	{ "SheetOutlineRight", NULL, N_("Outlines _Right"),
+		NULL, N_("Toggle whether to display column outlines on the left or right"),
+		G_CALLBACK (cb_sheet_pref_outline_symbols_right) },
+	{ "SheetDisplayFormulas", NULL, N_("Display _Formulas"),
+		"<control>quoteleft", N_("Display the value of a formula or the formula itself"),
+		G_CALLBACK (cb_sheet_pref_display_formulas) },
+	{ "SheetHideZeros", NULL, N_("Hide _Zeros"),
+		NULL, N_("Toggle whether or not to display zeros as blanks"),
+		G_CALLBACK (cb_sheet_pref_hide_zero) },
+	{ "SheetHideGridlines", NULL, N_("Hide _Gridlines"),
+		NULL, N_("Toggle whether or not to display gridlines"),
+		G_CALLBACK (cb_sheet_pref_hide_grid) },
+	{ "SheetHideColHeader", NULL, N_("Hide _Column Headers"),
+		NULL, N_("Toggle whether or not to display column headers"),
+		G_CALLBACK (cb_sheet_pref_hide_col_header) },
+	{ "SheetHideRowHeader", NULL, N_("Hide _Row Headers"),
+		NULL, N_("Toggle whether or not to display row headers"),
+		G_CALLBACK (cb_sheet_pref_hide_row_header) },
 	{ "FontBold", GTK_STOCK_BOLD,
 		N_("_Bold"), "<control>B",
 		N_("Bold"), G_CALLBACK (cb_font_bold), FALSE },

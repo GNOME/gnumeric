@@ -98,16 +98,17 @@ wbc_gtk_create_status_area (WorkbookControlGUI *wbcg, GtkWidget *progress,
 
 /*****************************************************************************/
 
-static gboolean
-cb_change_zoom (GtkWidget *caller, char *new_zoom, WorkbookControlGUI *wbcg)
+static GNM_ACTION_DEF (cb_zoom_activated)
 {
 	WorkbookControl *wbc = (WorkbookControl *)wbcg;
+	WBCgtk *gtk  = (WBCgtk *)wbcg;
 	Sheet *sheet = wb_control_cur_sheet (wbc);
+	char const *new_zoom = go_action_combo_text_get_entry (gtk->zoom);
 	int factor;
 	char *end;
 
 	if (sheet == NULL || wbcg->updating_ui)
-		return TRUE;
+		return;
 
 	errno = 0; /* strtol sets errno, but does not clear it.  */
 	factor = strtol (new_zoom, &end, 10);
@@ -119,11 +120,6 @@ cb_change_zoom (GtkWidget *caller, char *new_zoom, WorkbookControlGUI *wbcg)
 		cmd_zoom (wbc, g_slist_append (NULL, sheet), factor / 100.);
 	else
 		wb_control_zoom_feedback (wbc);
-
-	wbcg_focus_cur_scg (wbcg);
-
-	/* because we are updating it there is no need to apply it now */
-	return FALSE;
 }
 
 static void
@@ -148,8 +144,8 @@ wbc_gtk_init_zoom (WBCgtk *gtk)
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->zoom));
 
 	g_signal_connect (G_OBJECT (gtk->zoom),
-		"entry_changed",
-		G_CALLBACK (cb_change_zoom), gtk);
+		"activate",
+		G_CALLBACK (cb_zoom_activated), gtk);
 
 #if 0
 	/* Set a reasonable default width */
@@ -285,7 +281,10 @@ static void
 wbc_gtk_init_borders (WBCgtk *gtk)
 {
 	gtk->borders = go_action_combo_pixmaps_new ("BorderSelector", border_combo_info, 3, 4);
-	g_object_set (G_OBJECT (gtk->borders), "tooltip", _("Borders"), NULL);
+	g_object_set (G_OBJECT (gtk->borders),
+		      "label", _("Borders"),
+		      "tooltip", _("Borders"),
+		      NULL);
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->borders));
 
 #if 0
@@ -344,7 +343,10 @@ wbc_gtk_init_color_fore (WBCgtk *gtk)
 
 	gtk->fore_color = go_action_combo_color_new ("ColorFore", "font",
 		_("Automatic"),	&sc_auto_font->color, NULL);
-	g_object_set (G_OBJECT (gtk->fore_color), "tooltip", _("Foreground"), NULL);
+	g_object_set (G_OBJECT (gtk->fore_color),
+		      "label", _("Foreground"),
+		      "tooltip", _("Foreground"),
+		      NULL);
 	style_color_unref (sc_auto_font);
 #if 0
 	g_signal_connect (G_OBJECT (fore_combo),
@@ -401,7 +403,10 @@ wbc_gtk_init_color_back (WBCgtk *gtk)
 {
 	gtk->back_color = go_action_combo_color_new ("ColorBack", "bucket",
 		_("Clear Background"), NULL, NULL);
-	g_object_set (G_OBJECT (gtk->back_color), "tooltip", _("Background"), NULL);
+	g_object_set (G_OBJECT (gtk->back_color),
+		      "label", _("Background"),
+		      "tooltip", _("Background"),
+		      NULL);
 #if 0
 	g_signal_connect (G_OBJECT (back_combo),
 		"color_changed",
@@ -633,62 +638,6 @@ wbc_gtk_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo
 	go_action_combo_stack_push (ur_stack (wbc, is_undo), text);
 }
 
-#define TOGGLE_HANDLER(flag, code)					\
-static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
-{									\
-	g_return_if_fail (IS_WBC_GTK (wbcg));		\
-									\
-	if (!wbcg->updating_ui) {					\
-		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));	\
-		g_return_if_fail (IS_SHEET (sheet));			\
-									\
-		sheet->flag = !sheet->flag;				\
-		code							\
-	}								\
-}
-
-TOGGLE_HANDLER (display_formulas, sheet_toggle_show_formula (sheet);)
-TOGGLE_HANDLER (hide_zero, sheet_toggle_hide_zeros (sheet); )
-TOGGLE_HANDLER (hide_grid, sheet_adjust_preferences (sheet, TRUE, FALSE);)
-TOGGLE_HANDLER (hide_col_header, sheet_adjust_preferences (sheet, FALSE, FALSE);)
-TOGGLE_HANDLER (hide_row_header, sheet_adjust_preferences (sheet, FALSE, FALSE);)
-TOGGLE_HANDLER (display_outlines, sheet_adjust_preferences (sheet, TRUE, TRUE);)
-TOGGLE_HANDLER (outline_symbols_below, {
-		sheet_adjust_outline_dir (sheet, FALSE);
-		sheet_adjust_preferences (sheet, TRUE, TRUE);
-})
-TOGGLE_HANDLER (outline_symbols_right,{
-		sheet_adjust_outline_dir (sheet, TRUE);
-		sheet_adjust_preferences (sheet, TRUE, TRUE);
-})
-
-static GtkToggleActionEntry toggle_actions[] = {
-	{ "SheetDisplayOutlines", NULL, N_("Display _Outlines"),
-		NULL, N_("Toggle whether or not to display outline groups"),
-		G_CALLBACK (cb_sheet_pref_display_outlines) },
-	{ "SheetOutlineBelow", NULL, N_("Outlines _Below"),
-		NULL, N_("Toggle whether to display row outlines on top or bottom"),
-		G_CALLBACK (cb_sheet_pref_outline_symbols_below) },
-	{ "SheetOutlineRight", NULL, N_("Outlines _Right"),
-		NULL, N_("Toggle whether to display column outlines on the left or right"),
-		G_CALLBACK (cb_sheet_pref_outline_symbols_right) },
-	{ "SheetDisplayFormulas", NULL, N_("Display _Formulas"),
-		"<control>`", N_("Display the value of a formula or the formula itself"),
-		G_CALLBACK (cb_sheet_pref_display_formulas) },
-	{ "SheetHideZeros", NULL, N_("Hide _Zeros"),
-		NULL, N_("Toggle whether or not to display zeros as blanks"),
-		G_CALLBACK (cb_sheet_pref_hide_zero) },
-	{ "SheetHideGridlines", NULL, N_("Hide _Gridlines"),
-		NULL, N_("Toggle whether or not to display gridlines"),
-		G_CALLBACK (cb_sheet_pref_hide_grid) },
-	{ "SheetHideColHeader", NULL, N_("Hide _Column Headers"),
-		NULL, N_("Toggle whether or not to display column headers"),
-		G_CALLBACK (cb_sheet_pref_hide_col_header) },
-	{ "SheetHideRowHeader", NULL, N_("Hide _Row Headers"),
-		NULL, N_("Toggle whether or not to display row headers"),
-		G_CALLBACK (cb_sheet_pref_hide_row_header) }
-};
-
 static void
 wbc_gtk_init_state (WorkbookControl *wbc)
 {
@@ -826,21 +775,64 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 	if (GTK_IS_TOOLBAR (w)) {
 		GtkWidget *box = gtk_handle_box_new ();
 		gtk_container_add (GTK_CONTAINER (box), w);
-		g_signal_connect (box, "child_attached",
-			G_CALLBACK (cb_handlebox_dock_status),
-			GINT_TO_POINTER (TRUE));
-		g_signal_connect (box, "child_detached",
-			G_CALLBACK (cb_handlebox_dock_status),
-			GINT_TO_POINTER (FALSE));
-		g_signal_connect_after (G_OBJECT (box),
-			"button_press_event",
-			G_CALLBACK (cb_handlebox_popup), gtk);
+		g_object_connect (box,
+			"signal::child_attached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (TRUE),
+			"signal::child_detached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (FALSE),
+			"signal_after::button_press_event", G_CALLBACK (cb_handlebox_popup), gtk,
+			NULL);
 		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), TRUE);
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 		gtk_box_pack_start (GTK_BOX (gtk->toolbar_zone), box, FALSE, FALSE, 0);
 	} else
 		gtk_box_pack_start (GTK_BOX (gtk->menu_zone), w, FALSE, TRUE, 0);
 	gtk_widget_show_all (w);
+}
+
+static void
+cb_show_menu_tip (GtkWidget *proxy, GnmCmdContext *cc)
+{
+	GtkAction *action = g_object_get_data (G_OBJECT (proxy), "GtkAction");
+	char const *tip;
+	g_object_get (action, "tooltip", &tip, NULL);
+	if (tip == NULL) tip = " "; /* empty has no height */
+	cmd_context_progress_message_set (cc, _(tip));
+}
+
+static void
+cb_clear_menu_tip (GnmCmdContext *cc)
+{
+	cmd_context_progress_message_set (cc, " ");
+}
+
+static void
+cb_connect_proxy (G_GNUC_UNUSED GtkUIManager *ui,
+		  GtkAction    *action,
+		  GtkWidget    *proxy, 
+		  GnmCmdContext *cc)
+{
+	/* connect whether there is a tip or not it may change later */
+	if (GTK_IS_MENU_ITEM (proxy)) {
+		g_object_set_data (G_OBJECT (proxy), "GtkAction", action);
+		g_object_connect (proxy,
+			"signal::select",  G_CALLBACK (cb_show_menu_tip), cc,
+			"swapped_signal::deselect", G_CALLBACK (cb_clear_menu_tip), cc,
+			NULL);
+	}
+}
+
+static void
+cb_disconnect_proxy (G_GNUC_UNUSED GtkUIManager *ui,
+		     G_GNUC_UNUSED GtkAction    *action,
+		     GtkWidget    *proxy, 
+		     GnmCmdContext *cc)
+{
+	if (GTK_IS_MENU_ITEM (proxy)) {
+		g_object_set_data (G_OBJECT (proxy), "GtkAction", NULL);
+		g_object_disconnect (proxy,
+			"any_signal::select",  G_CALLBACK (cb_show_menu_tip), cc,
+			"any_signal::deselect", G_CALLBACK (cb_clear_menu_tip), cc,
+			NULL);
+	}
 }
 
 static void
@@ -882,6 +874,9 @@ wbc_gtk_init (GObject *obj)
 	gtk_box_pack_start (GTK_BOX (gtk->everything),
 		gtk->toolbar_zone, FALSE, TRUE, 0);
 	gtk_widget_show_all (gtk->everything);
+#if 0
+	bonobo_dock_set_client_area (BONOBO_DOCK (gtk->dock), wbcg->table);
+#endif
 	gtk_box_pack_start (GTK_BOX (gtk->everything),
 		wbcg->table, TRUE, TRUE, 0);
 
@@ -889,8 +884,6 @@ wbc_gtk_init (GObject *obj)
 	gtk->actions = gtk_action_group_new ("Actions");
 
 	wbcg_register_actions (wbcg, gtk->actions);
-	gtk_action_group_add_toggle_actions (gtk->actions,
-		toggle_actions, G_N_ELEMENTS (toggle_actions), wbcg);
 
 	for (i = G_N_ELEMENTS (toggles); i-- > 0 ; ) {
 		act = gtk_action_group_get_action (gtk->actions, toggles[i].name);
@@ -909,9 +902,12 @@ wbc_gtk_init (GObject *obj)
 	wbc_gtk_init_borders (gtk);
 
 	gtk->ui = gtk_ui_manager_new ();
-	g_signal_connect (gtk->ui,
-		"add_widget",
-		G_CALLBACK (cb_add_menus_toolbars), gtk);
+	g_object_connect (gtk->ui,
+		"signal::add_widget",	 G_CALLBACK (cb_add_menus_toolbars), gtk,
+		"signal::connect_proxy",    G_CALLBACK (cb_connect_proxy), gtk,
+		"signal::disconnect_proxy", G_CALLBACK (cb_disconnect_proxy), gtk,
+		"swapped_signal::post_activate", G_CALLBACK (wbcg_focus_cur_scg), gtk,
+		NULL);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->actions, 0);
 
 	gtk_window_add_accel_group (wbcg->toplevel, 

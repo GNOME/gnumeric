@@ -2100,6 +2100,7 @@ wbcg_create_status_area (WorkbookControlGUI *wbcg)
 	GtkWidget *tmp, *frame0, *frame1, *frame2;
 
 	wbcg->progress_bar = gtk_progress_bar_new ();
+	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), " ");
 	gtk_progress_bar_set_orientation (
 		GTK_PROGRESS_BAR (wbcg->progress_bar), GTK_PROGRESS_LEFT_TO_RIGHT);
 	frame0 = gtk_frame_new (NULL);

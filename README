@@ -1,28 +1,21 @@
 Gnumeric -- The GNOME spreadsheet
 Jody Goldberg <jody@gnome.org>
-Miguel de Icaza <miguel@ximian.com>
 
-This is Gnumeric, the GNOME spreadsheet.  
-
-   Gnumeric is licensed under the terms of the GNU GPL included in the
-file COPYING.
-
-   The project aims to become a drop in replacement for proprietary
-spreadsheets.  If you are interested in contributing to it's development please
-send us some email, there are lots of projects available.
+The project aims to become a drop in replacement for proprietary spreadsheets.
+If you are interested in contributing to it's development please send us some
+email, there are lots of projects available.
 
 To report Gnumeric bugs, please visit bugzilla.gnome.org.
+
+Gnumeric is licensed under the terms of the GNU GPL included in the
+file COPYING.
 
 Requirements
 ------------
 
 You need:				Debian package name
-	glib		>= 2.0.0	libglib2.0-dev
-	gtk+		>= 2.0.0	libgtk2.0-dev
-	libgnome	>= 2.0.0	libgnome2-dev
-	libgnomeui	>= 2.0.0	libgnomeui-dev
-	libbonobo	>= 2.0.0	libbonobo2-dev
-	libbonoboui	>= 2.0.0	libbonoboui2-dev
+	glib		>= 2.3.1	libglib2.0-dev
+	gtk+		>= 2.3.1	libgtk2.0-dev
 	libgnomeprint	>= 2.4.2	libgnomeprint2.4-dev
 	libgnomeprintui	>= 2.4.2	libgnomeprintui2.4-dev
 	libgsf		>= 1.8.2	libgsf-1-dev + libgsf-gnome-1-dev
@@ -33,6 +26,10 @@ You need:				Debian package name
 	NOTE : gnome-xml is also known as libxml
 
 Optionally:
+	libgnome	>= 2.0.0	libgnome2-dev
+	libgnomeui	>= 2.0.0	libgnomeui-dev
+	libbonobo	>= 2.0.0	libbonobo2-dev
+	libbonoboui	>= 2.0.0	libbonoboui2-dev
 	python		>= 2.0		python2.3-dev
 	pygtk		>= 1.99.10	python-gtk2-dev
 

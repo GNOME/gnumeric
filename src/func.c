@@ -784,10 +784,9 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 	/* Functions that take pre-computed Values */
 	argc = gnm_expr_list_length (l);
 	if (argc > fn_def->fn.args.max_args ||
-	    argc < fn_def->fn.args.min_args) {
+	    argc < fn_def->fn.args.min_args)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
-	}
 
 	args = g_alloca (sizeof (GnmValue *) * fn_def->fn.args.max_args);
 	iter_count = (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) ? 0 : -1;
@@ -831,6 +830,11 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 
 		if (arg_type == '?')	/* '?' arguments are unrestriced */
 			continue;
+
+		/* optional arguments can be blank */
+		if (i >= fn_def->fn.args.min_args && VALUE_IS_EMPTY (tmp))
+			continue;
+
 		if (tmp == NULL)
 			tmp = args[i] = value_new_empty ();
 
