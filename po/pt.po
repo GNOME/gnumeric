@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2001-12-31 03:07-0500\n"
-"PO-Revision-Date: 2001-12-27 02:45+0000\n"
+"POT-Creation-Date: 2001-12-31 15:33+0000\n"
+"PO-Revision-Date: 2001-12-31 15:40+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <none@none.org>\n"
 "MIME-Version: 1.0\n"
@@ -197,28 +197,24 @@ msgid " Unknown formula"
 msgstr " Fórmula desconhecida"
 
 #: plugins/excel/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports/Exports MS Excel (tm) files"
-msgstr "Importa/Exporta ficheiros Microsoft(R) Excel"
+msgstr "Importa/Exporta ficheiros MS Excel (tm)"
 
 #: plugins/excel/plugin.xml.in.h:2
 msgid "MS Excel (tm)"
-msgstr ""
+msgstr "MS Excel (tm)"
 
 #: plugins/excel/plugin.xml.in.h:3
-#, fuzzy
 msgid "MS Excel (tm) (*.xls)"
-msgstr "Microsoft(R) Excel (*.xls)"
+msgstr "MS Excel (tm) (*.xls)"
 
 #: plugins/excel/plugin.xml.in.h:4
-#, fuzzy
 msgid "MS Excel (tm) 95 file format"
-msgstr "Formato de ficheiro Excel(R) 95"
+msgstr "Formato de ficheiro MS Excel (tm) 95"
 
 #: plugins/excel/plugin.xml.in.h:5
-#, fuzzy
 msgid "MS Excel (tm) 97 file format"
-msgstr "Formato de ficheiro Excel(R) 97"
+msgstr "Formato de ficheiro MS Excel (tm) 97"
 
 #: plugins/gb/plugin.c:138
 msgid "Unknown GB error"
@@ -1459,9 +1455,8 @@ msgid "Inserts a Bonobo object"
 msgstr "Insere um objecto Bonobo"
 
 #: src/GNOME_Gnumeric.xml.h:109
-#, fuzzy
 msgid "Inserts a Shaped Bonobo object"
-msgstr "Insere um objecto Bonobo"
+msgstr "Insere um objecto Bonobo de Formato"
 
 #: src/GNOME_Gnumeric.xml.h:110
 msgid "Invoke the graph guru to create a graph"
@@ -2145,9 +2140,8 @@ msgid "_Select"
 msgstr "_Seleccionar"
 
 #: src/GNOME_Gnumeric.xml.h:268
-#, fuzzy
 msgid "_Shaped Object"
-msgstr "_Objecto"
+msgstr "Ob_jecto de Formato"
 
 #: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2707
 #: src/workbook-control-gui.c:2822
