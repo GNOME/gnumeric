@@ -38,7 +38,7 @@ static GnomeCanvasItem *item_bar_parent_class;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_SHEET,
+	ARG_SHEET_VIEW,
 	ARG_ORIENTATION,
 	ARG_FIRST_ELEMENT
 };
@@ -164,7 +164,7 @@ static void
 item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ItemBar *item_bar = ITEM_BAR (item);
-	Sheet   *sheet = item_bar->sheet;
+	Sheet   *sheet = item_bar->sheet_view->sheet;
 	ColRowInfo *cri;
 	int element, total, pixels, limit;
 	char *str;
@@ -231,15 +231,17 @@ static ColRowInfo *
 is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_element)
 {
 	ColRowInfo *cri;
+	Sheet *sheet;
 	int i, total;
 	
 	total = 0;
+	sheet = item_bar->sheet_view->sheet;
 	
 	for (i = item_bar->first_element; total < pos; i++){
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
-			cri = sheet_row_get_info (item_bar->sheet, i);
+			cri = sheet_row_get_info (sheet, i);
 		else
-			cri = sheet_col_get_info (item_bar->sheet, i);
+			cri = sheet_col_get_info (sheet, i);
 
 		total += cri->pixels;
 		if ((total - 4 < pos) && (pos < total + 4)){
@@ -274,28 +276,28 @@ set_cursor (ItemBar *item_bar, int pos)
 static void
 item_bar_start_resize (ItemBar *item_bar, int pos, int pixels)
 {
-	GnomeCanvas *canvas = GNOME_CANVAS (item_bar->sheet->sheet_view);
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_bar)->canvas;
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
 	GnomeCanvasItem *item;
 	GnomeCanvasPoints *points;
 	GnumericSheet *gsheet;
+	Sheet *sheet;
 	double x1, x2, y1, y2;
 	int division_pos;
 	
-	gsheet = GNUMERIC_SHEET (item_bar->sheet->sheet_view);
-
+	gsheet = GNUMERIC_SHEET (canvas);
+	sheet = item_bar->sheet_view->sheet;
+	
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
-		division_pos = sheet_col_get_distance (item_bar->sheet,
-						       gsheet->top_row,
-						       pos);
+		division_pos = sheet_col_get_distance (
+			sheet, gsheet->top_row, pos);
 		x1 = 0.0;
 		x2 = canvas->width;
 		y1 = division_pos;
 		y2 = division_pos;
 	} else {
-		division_pos = sheet_row_get_distance (item_bar->sheet,
-						       gsheet->top_col,
-						       pos);
+		division_pos = sheet_row_get_distance (
+			sheet, gsheet->top_col, pos);
 		x1 = division_pos;
 		x2 = division_pos;
 		y1 = 0.0;
@@ -325,15 +327,16 @@ static int
 get_col_from_pos (ItemBar *item_bar, int pos)
 {
 	ColRowInfo *cri;
+	Sheet *sheet;
 	int i, total;
 	
 	total = 0;
-	
+	sheet = item_bar->sheet_view->sheet;
 	for (i = item_bar->first_element; total < pos; i++){
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
-			cri = sheet_row_get_info (item_bar->sheet, i);
+			cri = sheet_row_get_info (sheet, i);
 		else
-			cri = sheet_col_get_info (item_bar->sheet, i);
+			cri = sheet_col_get_info (sheet, i);
 
 		total += cri->pixels;
 		if (total > pos)
@@ -471,8 +474,8 @@ item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_bar = ITEM_BAR (o);
 	
 	switch (arg_id){
-	case ARG_SHEET:
-		item_bar->sheet = GTK_VALUE_POINTER (*arg);
+	case ARG_SHEET_VIEW:
+		item_bar->sheet_view = GTK_VALUE_POINTER (*arg);
 		break;
 	case ARG_ORIENTATION:
 		item_bar->orientation = GTK_VALUE_INT (*arg);
@@ -502,8 +505,8 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	object_class = (GtkObjectClass *) item_bar_class;
 	item_class = (GnomeCanvasItemClass *) item_bar_class;
 
-	gtk_object_add_arg_type ("ItemBar::Sheet", GTK_TYPE_POINTER, 
-				 GTK_ARG_WRITABLE, ARG_SHEET);
+	gtk_object_add_arg_type ("ItemBar::SheetView", GTK_TYPE_POINTER, 
+				 GTK_ARG_WRITABLE, ARG_SHEET_VIEW);
 	gtk_object_add_arg_type ("ItemBar::Orientation", GTK_TYPE_INT, 
 				 GTK_ARG_WRITABLE, ARG_ORIENTATION);
 	gtk_object_add_arg_type ("ItemBar::First", GTK_TYPE_INT, 

@@ -5,5 +5,6 @@
 #include "expr.h"
 #include "cell.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "clipboard.h"
 #include "utils.h"

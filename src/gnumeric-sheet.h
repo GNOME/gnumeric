@@ -15,22 +15,16 @@ typedef struct {
 	GnomeCanvas canvas;
 
 	GtkWidget   *entry;
-	Sheet       *sheet;
+	SheetView   *sheet_view;
 	
 	ColType     top_col, last_visible_col, last_full_col;
 	RowType     top_row, last_visible_row, last_full_row;
 
-	int         cursor_col, cursor_row;
 	ItemGrid    *item_grid;
 	ItemCursor  *item_cursor;
 	ItemBar     *item_bar_col;
 
-	/* When editing: The editor, the cell being edited
-	 * (may be NULL) and the original text on the cell.
-	 */
 	ItemEdit    *item_editor;
-	String      *editing_saved_text;
-	Cell        *editing_cell;
 
 	/* This flag keeps track of a cell selector
 	 * (ie, when the user uses the cursor keys
@@ -46,7 +40,7 @@ typedef struct {
 
 GtkType    gnumeric_sheet_get_type               (void);
 
-GtkWidget *gnumeric_sheet_new            	 (Sheet *sheet, ItemBar *colbar, ItemBar *rowbar);
+GtkWidget *gnumeric_sheet_new            	 (SheetView *sheet, ItemBar *colbar, ItemBar *rowbar);
 void       gnumeric_sheet_set_selection  	 (GnumericSheet *gsheet, SheetSelection *ss);
 void       gnumeric_sheet_cursor_set     	 (GnumericSheet *gsheet,
 					 	  int col, int row);
@@ -55,13 +49,17 @@ void       gnumeric_sheet_move_cursor            (GnumericSheet *gsheet,
 void       gnumeric_sheet_set_cursor_bounds      (GnumericSheet *gsheet,
 						  int start_col, int start_row,
 						  int end_col,   int end_row);
-void       gnumeric_sheet_load_cell_val          (GnumericSheet *gsheet);
-void       gnumeric_sheet_accept_pending_output  (GnumericSheet *sheet);
+void       gnumeric_sheet_stop_editing           (GnumericSheet *sheet);
 void       gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet);
-void       gnumeric_sheet_set_current_value      (GnumericSheet *sheet);
 void       gnumeric_sheet_color_alloc            (GnomeCanvas *canvas);
 void       gnumeric_sheet_make_cell_visible      (GnumericSheet *gsheet,
 						  int col, int row);
+void       gnumeric_sheet_get_cell_bounds        (GnumericSheet *gsheet,
+						  int col, int row,
+						  int *x, int *y, int *w, int *h);
+void       gnumeric_sheet_stop_cell_selection    (GnumericSheet *gsheet);
+void       gnumeric_sheet_create_editing_cursor  (GnumericSheet *gsheet);
+void       gnumeric_sheet_destroy_editing_cursor (GnumericSheet *gsheet);
 
 /* Colors used by any GnumericSheet item */
 extern GdkColor gs_white, gs_light_gray, gs_dark_gray, gs_black;

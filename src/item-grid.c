@@ -20,7 +20,7 @@ static GnomeCanvasItem *item_grid_parent_class;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_SHEET,
+	ARG_SHEET_VIEW,
 };
 
 static void
@@ -169,7 +169,6 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		     int x1, int y1, int width, int height, int col, int row)
 {
 	GnomeCanvas   *canvas   = GNOME_CANVAS_ITEM (item_grid)->canvas;
-	GnumericSheet *gsheet   = GNUMERIC_SHEET (canvas);
 	GdkGC         *white_gc = GTK_WIDGET (canvas)->style->white_gc;
 	GdkGC         *gc       = item_grid->gc;
 	Sheet         *sheet    = item_grid->sheet;
@@ -193,7 +192,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		if (cell_is_selected){
 			GdkGC *black_gc = GTK_WIDGET (canvas)->style->black_gc;
 			
-			if (!(gsheet->cursor_col == col && gsheet->cursor_row == row))
+			if (!(sheet->cursor_col == col && sheet->cursor_row == row))
 				gdk_draw_rectangle (drawable, black_gc, TRUE,
 						    x1+1, y1+1, width - 2, height - 2);
 		}
@@ -307,7 +306,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	 * If the cell is selected, turn the inverse video on
 	 */
 	if (cell_is_selected){
-		if (gsheet->cursor_col == col && gsheet->cursor_row == row)
+		if (sheet->cursor_col == col && sheet->cursor_row == row)
 			return;
 
 		if (item_grid->visual_is_paletted){
@@ -463,28 +462,26 @@ context_copy_cmd (GtkWidget *widget, ItemGrid *item_grid)
 static void
 context_paste_cmd (GtkWidget *widget, ItemGrid *item_grid)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
-	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
-
-	sheet_selection_paste (item_grid->sheet,
-			      gsheet->cursor_col,
-			      gsheet->cursor_row,
-			      PASTE_DEFAULT);
+	Sheet *sheet = item_grid->sheet;
+	
+	sheet_selection_paste (sheet,
+			       sheet->cursor_col,
+			       sheet->cursor_row,
+			       PASTE_DEFAULT);
 	context_destroy_menu (widget);
 }
 
 static void
 context_paste_special_cmd (GtkWidget *widget, ItemGrid *item_grid)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
-	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
+	Sheet *sheet = item_grid->sheet;
 	int flags;
 
 	flags = dialog_paste_special ();
-	sheet_selection_paste (item_grid->sheet,
-			      gsheet->cursor_col,
-			      gsheet->cursor_row,
-			      flags);
+	sheet_selection_paste (sheet,
+			       sheet->cursor_col,
+			       sheet->cursor_row,
+			       flags);
 	context_destroy_menu (widget);
 }
 
@@ -605,7 +602,6 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	GnomeCanvas *canvas = item->canvas;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	Sheet *sheet = item_grid->sheet;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
 	int col, row, x, y;
 	int scroll_x, scroll_y;
 
@@ -646,8 +642,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			col = item_grid_find_col (item_grid, x, NULL);
 			row = item_grid_find_row (item_grid, y, NULL);
 			
-			gnumeric_sheet_accept_pending_output (gsheet);
-			gnumeric_sheet_cursor_set (gsheet, col, row);
+			sheet_accept_pending_output (sheet);
+			sheet_cursor_move (sheet, col, row);
 			if (!(event->button.state & GDK_CONTROL_MASK))
 				sheet_selection_reset_only (sheet);
 			
@@ -705,8 +701,9 @@ item_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_grid = ITEM_GRID (o);
 	
 	switch (arg_id){
-	case ARG_SHEET:
-		item_grid->sheet = GTK_VALUE_POINTER (*arg);
+	case ARG_SHEET_VIEW:
+		item_grid->sheet_view = GTK_VALUE_POINTER (*arg);
+		item_grid->sheet = item_grid->sheet_view->sheet;
 		break;
 	}
 }
@@ -725,8 +722,8 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 	object_class = (GtkObjectClass *) item_grid_class;
 	item_class = (GnomeCanvasItemClass *) item_grid_class;
 
-	gtk_object_add_arg_type ("ItemGrid::Sheet", GTK_TYPE_POINTER, 
-				 GTK_ARG_WRITABLE, ARG_SHEET);
+	gtk_object_add_arg_type ("ItemGrid::SheetView", GTK_TYPE_POINTER, 
+				 GTK_ARG_WRITABLE, ARG_SHEET_VIEW);
 	
 	object_class->set_arg = item_grid_set_arg;
 	object_class->destroy = item_grid_destroy;

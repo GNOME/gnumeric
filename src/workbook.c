@@ -32,11 +32,9 @@ static void
 paste_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
-	GnumericSheet *gsheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
-	sheet_selection_paste (sheet, gsheet->cursor_col, gsheet->cursor_row, PASTE_DEFAULT);
+	sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row, PASTE_DEFAULT);
 }
 
 static void
@@ -60,14 +58,12 @@ cut_cmd (GtkWidget *widget, Workbook *wb)
 static void
 paste_special_cmd (GtkWidget *widget, Workbook *wb)
 {
-	GnumericSheet *gsheet;
 	Sheet *sheet;
 	int flags;
 
 	sheet = workbook_get_current_sheet (wb);
-	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
 	flags = dialog_paste_special ();
-	sheet_selection_paste (sheet, gsheet->cursor_col, gsheet->cursor_row, flags);
+	sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row, flags);
 	
 }
 
@@ -256,13 +252,15 @@ workbook_get_current_sheet (Workbook *wb)
 Sheet *
 workbook_focus_current_sheet (Workbook *wb)
 {
+	SheetView *sheet_view;
 	Sheet *sheet;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 	
 	sheet = workbook_get_current_sheet (wb);
+	sheet_view = SHEET_VIEW (sheet->sheet_views->data);
 	
-	gtk_window_set_focus (GTK_WINDOW (wb->toplevel), sheet->sheet_view);
+	gtk_window_set_focus (GTK_WINDOW (wb->toplevel), sheet_view->sheet_view);
 	return sheet;
 }
 
@@ -274,7 +272,7 @@ wb_input_finished (GtkEntry *entry, Workbook *wb)
 	printf ("FOCUS!\n");
 	sheet = workbook_get_current_sheet (wb);
 
-	gnumeric_sheet_set_current_value (GNUMERIC_SHEET (sheet->sheet_view));
+	sheet_set_current_value (sheet);
 	workbook_focus_current_sheet (wb);
 }
 
@@ -290,9 +288,8 @@ workbook_parse_and_jump (Workbook *wb, char *text)
 		return FALSE;
 	} else {
 		Sheet *sheet = workbook_get_current_sheet (wb);
-		
-		gnumeric_sheet_move_cursor (GNUMERIC_SHEET (sheet->sheet_view),
-					    col, row);
+
+		sheet_cursor_move (sheet, col, row);
 		return TRUE;
 	}
 }
@@ -304,27 +301,6 @@ wb_jump_to_cell (GtkEntry *entry, Workbook *wb)
 
 	workbook_parse_and_jump (wb, text);
 	workbook_focus_current_sheet (wb);
-}
-
-static int
-wb_edit_key_pressed (GtkEntry *entry, GdkEvent *event, Workbook *wb)
-{
-	Sheet *sheet;
-	
-	if (event->type != GDK_KEY_PRESS)
-		return 0;
-
-	switch (event->key.keyval){
-	case GDK_Left:
-	case GDK_Right:
-	case GDK_Up:
-	case GDK_Down:
-		sheet = workbook_focus_current_sheet (wb);
-		gtk_widget_event (sheet->sheet_view, event);
-		return 1;
-	default:
-		return 0;
-	}
 }
 
 void
@@ -373,10 +349,12 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "activate",
 			    GTK_SIGNAL_FUNC(wb_input_finished),
 			    wb);
+#if 0
 	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "key_press_event",
 			    GTK_SIGNAL_FUNC(wb_edit_key_pressed),
 			    wb);
-
+#endif
+	
 	/* Do signal setup for the status input line */
 	gtk_signal_connect (GTK_OBJECT (wb->ea_status), "activate",
 			    GTK_SIGNAL_FUNC (wb_jump_to_cell),
@@ -546,7 +524,7 @@ workbook_new (void)
 static void
 zoom_in (GtkButton *b, Sheet *sheet)
 {
-	double pix = GNOME_CANVAS (sheet->sheet_view)->pixels_per_unit;
+	double pix = sheet->last_zoom_factor_used;
 	
 	if (pix < 10.0){
 		pix += 0.5;
@@ -557,7 +535,7 @@ zoom_in (GtkButton *b, Sheet *sheet)
 static void
 zoom_out (GtkButton *b, Sheet *sheet)
 {
-	double pix = GNOME_CANVAS (sheet->sheet_view)->pixels_per_unit;
+	double pix = sheet->last_zoom_factor_used;
 	
 	if (pix > 1.0){
 		pix -= 0.5;
@@ -592,7 +570,7 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	g_hash_table_insert (wb->sheets, sheet->name, sheet);
 
 	t = gtk_table_new (0, 0, 0);
-	gtk_table_attach (GTK_TABLE (t), sheet->toplevel,
+	gtk_table_attach (GTK_TABLE (t), GTK_WIDGET (sheet->sheet_views->data),
 			  0, 3, 0, 1,
 			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
 	buttons (sheet, GTK_TABLE (t));
@@ -624,9 +602,11 @@ workbook_new_with_sheets (int sheet_count)
 			first_sheet = sheet;
 	}
 
-	focus = first_sheet->sheet_view;
+	workbook_focus_current_sheet (wb);
+#if 0
+	focus = SHEET_VIEW (first_sheet->sheet_views->data)->sheet_view;
 	gtk_window_set_focus (GTK_WINDOW (wb->toplevel), focus);
-
+#endif
 	return wb;
 }
 

@@ -8,27 +8,28 @@
 typedef struct {
 	GnomeCanvasItem canvas_item;
 
-	Sheet    *sheet;
+	SheetView *sheet_view;
+	Sheet     *sheet;
 
 	/* The first displayed column and row */
-	ColType  left_col;
-	RowType  top_row;
+	ColType    left_col;
+	RowType    top_row;
 
-	int      selecting;
+	int        selecting;
 	
 	/* Offset from spreadsheet origin in units */
-	long     top_offset;
-	long     left_offset;
+	long       top_offset;
+	long       left_offset;
 
-	GdkGC    *grid_gc;	/* Draw grid gc */
-	GdkGC    *fill_gc;	/* Default background fill gc */
-	GdkGC    *gc;		/* Color used for the cell */
+	GdkGC      *grid_gc;	/* Draw grid gc */
+	GdkGC      *fill_gc;	/* Default background fill gc */
+	GdkGC      *gc;		/* Color used for the cell */
 	
-	GdkColor background;
-	GdkColor grid_color;
-	GdkColor default_color;
+	GdkColor   background;
+	GdkColor   grid_color;
+	GdkColor   default_color;
 
-	int      visual_is_paletted;
+	int        visual_is_paletted;
 } ItemGrid;
 
 GtkType item_grid_get_type (void);

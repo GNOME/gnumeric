@@ -9,7 +9,7 @@
 
 typedef struct {
 	GnomeCanvasItem canvas_item;
-	Sheet           *sheet;
+	SheetView       *sheet_view;
 	int             first_element;
 	GtkOrientation  orientation;	/* horizontal, vertical */
 	GdkGC           *gc;		/* Draw gc */

@@ -63,11 +63,8 @@ typedef struct {
 	int        signature;
 	
 	Workbook   *workbook;
-	GtkWidget  *toplevel, *col_canvas, *row_canvas;
-	GtkWidget  *sheet_view;
-	GnomeCanvasItem *col_item, *row_item;
+	GList      *sheet_views;
 	
-	double     last_zoom_factor_used;
 	char       *name;
 
 	GList      *style_list;	/* The list of styles applied to the sheets */
@@ -82,18 +79,24 @@ typedef struct {
 
 	GList      *selections;
 
-	/* Scrolling information */
-	GtkWidget  *vs, *hs;	/* The scrollbars */
-	GtkObject  *va, *ha;    /* The adjustments */
-
-	GtkWidget  *tip;
-	
 	int        max_col_used;
 	int        max_row_used;
 
+	int         cursor_col, cursor_row;
+	
 	/* The list of formulas */
 	GList      *formula_cell_list;
 
+	double     last_zoom_factor_used;
+
+	/*
+	 * When editing a cell: the cell (may be NULL) and
+	 * the original text of the cell
+	 */
+	String    *editing_saved_text;
+	Cell      *editing_cell;
+	int        editing;
+	
 	/* For walking trough a selection */
 	struct {
 		SheetSelection *current;
@@ -118,10 +121,6 @@ void        sheet_foreach_row          	 (Sheet *sheet,
 					  sheet_col_row_callback,
 					  void *user_data);
 void        sheet_set_zoom_factor      	 (Sheet *sheet, double factor);
-void        sheet_get_cell_bounds      	 (Sheet *sheet,
-					  ColType col, RowType row, 
-				       	  int *x, int *y,
-				       	  int *w, int *h);
 void        sheet_cursor_set             (Sheet *sheet,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
@@ -248,6 +247,18 @@ void        sheet_style_attach         (Sheet *sheet,
 				        int    start_col, int start_row,
 				        int    end_col,   int end_row,
 				        Style  *style);
+
+/*
+ * Sheet visual editing
+ */
+void        sheet_start_editing_at_cursor (Sheet *sheet);
+void        sheet_set_current_value       (Sheet *sheet);
+void        sheet_accept_pending_output   (Sheet *sheet);
+void        sheet_cancel_pending_input    (Sheet *sheet);
+void        sheet_load_cell_val           (Sheet *sheet);
+void        sheet_selection_col_extend_to (Sheet *sheet, int col);
+void        sheet_selection_row_extend_to (Sheet *sheet, int row);
+
 /*
  * Workbook
  */

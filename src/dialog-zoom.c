@@ -7,6 +7,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"

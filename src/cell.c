@@ -199,6 +199,8 @@ cell_set_text (Cell *cell, char *text)
 				      cell->row->pos);
 	if (deps)
 		cell_queue_recalc_list (deps);
+
+	cell_queue_redraw (cell);
 }
 
 /*
