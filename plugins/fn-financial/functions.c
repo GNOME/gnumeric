@@ -261,7 +261,7 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 /* Returns the number of coupons to be paid between the settlement
  * and maturity dates.
  */
-gnum_float
+static gnum_float
 coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis,
 	 gboolean eom)
 {
