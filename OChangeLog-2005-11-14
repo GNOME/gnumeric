@@ -1,3 +1,13 @@
+2002-03-05  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-edit.c (auto_complete_matches): Plug leak.
+
+	* src/gutils.c (erfgnum, erfcgnum, yngnum): Ground work for later.
+
+	* src/mathfunc.c (gpow10): Fix precision for large negative
+	exponents.
+	(gpow2): Fix for negative exponents.
+
 2002-03-05  Jody Goldberg <jody@gnome.org>
 
 	* src/eval.c : split add/drop into distinct functions and use

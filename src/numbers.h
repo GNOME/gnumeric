@@ -46,6 +46,30 @@ gnum_float ldexpgnum (gnum_float x, int exp);
 gnum_float frexpgnum (gnum_float x, int *exp);
 #endif
 
+#ifdef HAVE_ERF
+#define erfgnum erfl
+#else
+#define NEED_FAKE_ERFGNUM
+/* Defined in gutils.c  */
+gnum_float erfgnum (gnum_float x);
+#endif
+
+#ifdef HAVE_ERFC
+#define erfcgnum erfcl
+#else
+#define NEED_FAKE_ERFCGNUM
+/* Defined in gutils.c  */
+gnum_float erfcgnum (gnum_float x);
+#endif
+
+#ifdef HAVE_YNL
+#define yngnum ynl
+#else
+#define NEED_FAKE_YNGNUM
+/* Defined in gutils.c  */
+gnum_float yn (int n, gnum_float x);
+#endif
+
 #define sqrtgnum sqrtl
 #define gnumabs fabsl
 #define floorgnum floorl
@@ -64,9 +88,6 @@ gnum_float frexpgnum (gnum_float x, int *exp);
 #define acosgnum acosl
 #define atangnum atanl
 #define atan2gnum atan2l
-#define erfgnum erfl
-#define erfcgnum erfcl
-#define yngnum ynl
 #define isnangnum isnanl
 #define finitegnum finitel
 #define sinhgnum sinhl
@@ -82,6 +103,7 @@ gnum_float frexpgnum (gnum_float x, int *exp);
 #define GNUM_FORMAT_g "Lg"
 #define GNUM_DIG LDBL_DIG
 #define GNUM_MANT_DIG LDBL_MANT_DIG
+#define GNUM_MIN_EXP LDBL_MIN_EXP
 #define GNUM_MAX_EXP LDBL_MAX_EXP
 #define GNUM_MIN LDBL_MIN
 #define GNUM_MAX LDBL_MAX
@@ -131,6 +153,7 @@ typedef double gnum_float;
 #define GNUM_FORMAT_g "g"
 #define GNUM_DIG DBL_DIG
 #define GNUM_MANT_DIG DBL_MANT_DIG
+#define GNUM_MIN_EXP DBL_MIN_EXP
 #define GNUM_MAX_EXP DBL_MAX_EXP
 #define GNUM_MIN DBL_MIN
 #define GNUM_MAX DBL_MAX

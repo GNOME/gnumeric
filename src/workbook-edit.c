@@ -535,6 +535,8 @@ auto_complete_matches (WorkbookControlGUI *wbcg)
 			if (cursor_pos != (int)strlen (text))
 				wbcg->auto_completing = FALSE;
 
+		if (event)
+			gdk_event_free (event);
 	}
 
 	if (!wbcg->auto_completing)

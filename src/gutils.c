@@ -679,3 +679,40 @@ frexpgnum (gnum_float x, int *exp)
 #endif
 
 /* ------------------------------------------------------------------------- */
+
+#ifdef NEED_FAKE_ERFGNUM
+gnum_float
+erfgnum (gnum_float x)
+{
+	/* FIXME: this looks like it might lack precision for x near zero.  */
+	return pnorm (x * M_SQRT2gnum, 0, 1, TRUE, FALSE) * 2 - 1;
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef NEED_FAKE_ERFCGNUM
+gnum_float
+erfcgnum (gnum_float x)
+{
+	return 2 * pnorm (x * M_SQRT2gnum, 0, 1, FALSE, FALSE);
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef NEED_FAKE_YNGNUM
+gnum_float
+yn (int n, gnum_float x)
+{
+	static gboolean warned = FALSE;
+	if (!warned) {
+		warned = TRUE;
+		g_warning (_("This version of Gnumeric has been compiled with inadequate precision in yngnum."));
+	}
+
+	return (gnum_float)yn (n, (double)x);
+}
+#endif
+
+/* ------------------------------------------------------------------------- */

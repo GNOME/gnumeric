@@ -4144,15 +4144,19 @@ gpow2 (int n)
 
 	if (n >= DBL_MIN_EXP && n <= DBL_MAX_EXP)
 		return (gnum_float) ldexp (1.0, n);
-	else {
-		gnum_float tmp;
+	else if (n >= GNUM_MIN_EXP && n <= GNUM_MAX_EXP) {
+		gnum_float res = 1.0;
+		gnum_float p = (n >= 0) ? GNUM_const (2) : GNUM_const (0.5);
 
-		tmp = gpow2 (n / 2);
-		tmp *= tmp;
-		if (n & 1)
-			tmp *= 2;
-		return tmp;
-	}
+		n = abs (n);
+		while (n > 0) {
+			if (n & 1) res *= p;
+			p *= p;
+			n >>= 1;
+		}
+		return res;
+	} else
+		return (n > 0) ? ML_POSINF : ML_UNDERFLOW;
 }
 
 
@@ -4217,7 +4221,7 @@ gpow10 (int n)
 		p = 10.0;
 		n = (n > maxn) ? maxn : n;
 	} else {
-		p = 0.1;
+		p = GNUM_const (0.1);
 		/* Note carefully that we avoid overflow.  */
 		n = (n < -maxn) ? maxn : -n;
 	}
