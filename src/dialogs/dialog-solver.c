@@ -841,6 +841,9 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	state->sheet->solver_parameters->options.assume_non_negative =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 			glade_xml_get_widget (state->gui, "non_neg_button")));
+	state->sheet->solver_parameters->options.assume_discrete =
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
+			glade_xml_get_widget (state->gui, "all_int_button")));
 	state->sheet->solver_parameters->options.automatic_scaling =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 			glade_xml_get_widget (state->gui, "autoscale_button")));
@@ -1132,6 +1135,9 @@ dialog_init (SolverState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "non_neg_button")),
 			state->sheet->solver_parameters->options.assume_non_negative);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "all_int_button")),
+			state->sheet->solver_parameters->options.assume_discrete);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 	        glade_xml_get_widget(state->gui, "answer")),
