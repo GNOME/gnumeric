@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:gmr="http://www.gnumeric.org/v8.dtd"
-            targetNamespace="http://www.gnumeric.org/v8.dyd"
+            xmlns:gmr="http://www.gnumeric.org/v9.dtd"
+            targetNamespace="http://www.gnumeric.org/v9.dtd"
             elementFormDefault="qualified"
             attributeFormDefault="unqualified">
 

@@ -1,3 +1,12 @@
+2002-01-13  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control.c (wb_control_parse_and_jump) : typo.
+
+2002-01-13  Neil Booth  <neil@daikokuya.demon.co.uk>
+
+	* datetime.c (date_serial_19000228): Should be 59.
+	(datetime_serial_to_g): Update accordingly.
+
 2002-01-12  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control.c (wb_control_parse_and_jump) : support

@@ -84,10 +84,6 @@ to features that already work.
 
 * Sheet
 
-   + Naming
-     Should be possible to bind a name by typing the name on the
-     region box and applying it to the selection
-   
    + Column sizes
      Columns should have an "auto-grow-up-to-this-point" feature.  Beyond that
      size, it would truncate as it does now.
@@ -124,10 +120,6 @@ to features that already work.
 
    + Objects
      Load / save of Bonobo objects.
-
-   + Style
-     Protection: Bloqued/Hidden.
-     (Don't forget to update the CELL function after this is implemented)
 
 * File Load/Save
    + Support for popular formats.  
@@ -188,21 +180,7 @@ to features that already work.
 
    + Detect large style ranges and correctly set the default row/col/sheet styles.
 
-1.0
-===
-These are features that need to be implemented before a 1.0 
-release can be made. Some of these features are already being
-worked on, others are partially finished. But none is finished
-to an extent that it can be actually "used".
-Items marked (!) are open for someone to step in.
-
-* Graphs
-
-   + Large parts of this are done. Most of the work related to
-     this will be in Guppi (cvs module guppi3). It's needs
-     to be tested tidied and generally needs love :-)
-
-Post - 1.0
+1.1
 ==========
 These section lists features that are for post 1.0 versions
 and are mostly just ideas or things that can't be implemented
@@ -224,12 +202,6 @@ under "1.0" are more important.
 
    + Conceptual progress being made, nothing concrete yet.
     Very tightly coupled with Data Validation, see below.
-
-* Data Validation
-
-   + This is in the works. Some other things need to be finished
-     first before this can be fully implemented. The dialog is
-     already there.
 
 * Pivot Tables (!)
   

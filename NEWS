@@ -23,6 +23,9 @@ Jody:
 	* Improve goto box to support names, and inter-sheet jumps.
 	* Support inter-sheet references in the goal seek.
 
+Jon Kåre:
+	* Added WEEKNUM and ISOWEEKNUM
+
 Morten:
 	* Make sure Linux ends up using IEEE_754 code in mathfunc.c.
 	* Fix search crash.
@@ -30,8 +33,8 @@ Morten:
 	  that parse as numbers.
 	* Partly fix ADDRESS.
 
-Jon Kåre:
-	* Added WEEKNUM and ISOWEEKNUM
+Neil Booth:
+	* Handle 1900/Feb/28 the same way MS Excel (tm) does.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.1

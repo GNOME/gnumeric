@@ -203,8 +203,8 @@ gboolean
 wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 {
 	RangeRef const *r;
-	Sheet *sheet;
-	Value *target = global_range_parse (wb_control_cur_sheet (wbc), text);
+	Sheet *sheet  = wb_control_cur_sheet (wbc);
+	Value *target = global_range_parse (sheet, text);
 
 	/* not an address, is it a name ? */
 	if (target == NULL) {
