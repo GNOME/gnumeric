@@ -2091,10 +2091,10 @@ wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 	wbcg->func_button = edit_area_button (wbcg, TRUE,
 		G_CALLBACK (cb_autofunction), "Gnumeric_Equal");
 
-	gtk_box_pack_start (GTK_BOX (box2), wbcg->selection_descriptor, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (box), wbcg->cancel_button, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (box), wbcg->ok_button, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (box), wbcg->func_button, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (box2), wbcg->selection_descriptor, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box), wbcg->cancel_button, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box), wbcg->ok_button, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box), wbcg->func_button, FALSE, FALSE, 0);
 
 	/* Dependency debugger */
 	if (gnumeric_debugging > 9 ||
@@ -2103,11 +2103,11 @@ wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 		GtkWidget *deps_button = edit_area_button (wbcg, TRUE,
 			G_CALLBACK (cb_workbook_debug_info),
 			GTK_STOCK_DIALOG_INFO);
-		gtk_box_pack_start (GTK_BOX (box), deps_button, 0, 0, 0);
+		gtk_box_pack_start (GTK_BOX (box), deps_button, FALSE, FALSE, 0);
 	}
 
-	gtk_box_pack_start (GTK_BOX (box2), box, 0, 0, 0);
-	gtk_box_pack_end   (GTK_BOX (box2), GTK_WIDGET (wbcg->edit_line.entry), 1, 1, 0);
+	gtk_box_pack_start (GTK_BOX (box2), box, FALSE, FALSE, 0);
+	gtk_box_pack_end   (GTK_BOX (box2), GTK_WIDGET (wbcg->edit_line.entry), TRUE, TRUE, 0);
 
 	gtk_table_attach (GTK_TABLE (wbcg->table), box2,
 			  0, 1, 0, 1,

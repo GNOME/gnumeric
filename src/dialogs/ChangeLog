@@ -1,3 +1,7 @@
+2004-08-14  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-sheet-order.c (dialog_sheet_order): Fix typo.
+
 2004-08-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-about.c (dialog_about): start at a random position in the
