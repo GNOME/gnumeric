@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-21 16:57-0500\n"
-"PO-Revision-Date: 2005-01-21 11:36-0400\n"
+"POT-Creation-Date: 2005-01-23 20:02-0500\n"
+"PO-Revision-Date: 2005-01-23 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -21295,14 +21295,14 @@ msgid "PlotContour"
 msgstr "PlotContour"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:367
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:337
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:489
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:349
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:501
 msgid "X"
 msgstr "X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:369
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:339
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:491
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:351
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:503
 msgid "Y"
 msgstr "Y"
 
@@ -21374,28 +21374,32 @@ msgstr "_Vary colours by bubble"
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:277
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:279
 msgid "PlotXY"
 msgstr "PlotXY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:379
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:391
 msgid "PlotBubble"
 msgstr "PlotBubble"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:493
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:505
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Bubble"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1012
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1040
 msgid "Y Error bars"
 msgstr "Y Error bars"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1014
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1042
 msgid "X Error bars"
 msgstr "X Error bars"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
+msgid "Interpolate between multi-dimensional points with Bezier splines."
+msgstr "Interpolate between multi-dimensional points with Bezier splines."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
 msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
@@ -21403,34 +21407,38 @@ msgstr ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
 msgid "Linearly interpolate between multi-dimensional points."
 msgstr "Linearly interpolate between multi-dimensional points."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
 msgid "Markers at each point."
 msgstr "Markers at each point."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Multi-dimensional points with circle at each point."
 msgstr "Multi-dimensional points with circle at each point."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "Plot X, Y and bubble size."
 msgstr "Plot X, Y and bubble size."
 
 #. really 3_1
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "XY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
 msgid "XY Lines"
 msgstr "XY Lines"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:11
 msgid "XY Points"
 msgstr "XY Points"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
+msgid "XY Splines"
+msgstr "XY Splines"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D plots"
@@ -21675,38 +21683,38 @@ msgstr "Dock the toolbar"
 msgid "Un dock the toolbar"
 msgstr "Un-dock the toolbar"
 
-#: src/cut-n-paste-code/goffice/utils/go-line.c:51
+#: src/cut-n-paste-code/goffice/utils/go-line.c:52
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:91
 #: src/tools/solver/reports-write.c:718
 msgid "None"
 msgstr "None"
 
-#: src/cut-n-paste-code/goffice/utils/go-line.c:52
+#: src/cut-n-paste-code/goffice/utils/go-line.c:53
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:95
 #: src/dialogs/cell-format.glade.h:72
 msgid "Solid"
 msgstr "Solid"
 
-#: src/cut-n-paste-code/goffice/utils/go-line.c:53
+#: src/cut-n-paste-code/goffice/utils/go-line.c:54
 msgid "Dash"
 msgstr "Dash"
 
-#: src/cut-n-paste-code/goffice/utils/go-line.c:54
+#: src/cut-n-paste-code/goffice/utils/go-line.c:55
 msgid "Dot"
 msgstr "Dot"
 
-#: src/cut-n-paste-code/goffice/utils/go-line.c:55
+#: src/cut-n-paste-code/goffice/utils/go-line.c:56
 msgid "Dash dot"
 msgstr "Dash dot"
 
-#: src/cut-n-paste-code/goffice/utils/go-line.c:56
+#: src/cut-n-paste-code/goffice/utils/go-line.c:57
 msgid "Dash dot dot"
 msgstr "Dash dot dot"
 
 #. xgettext : this will appear as 'Automatic (patternname)'
 #. xgettext : this will appear as 'Automatic (shapename)'
 #. xgettext : this will appear as 'Automatic (patternname)'
-#: src/cut-n-paste-code/goffice/utils/go-line.c:305
+#: src/cut-n-paste-code/goffice/utils/go-line.c:306
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:603
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:242
 #, c-format
@@ -27079,11 +27087,15 @@ msgstr "'%s' is already defined in workbook"
 msgid "Invalid template file: %s"
 msgstr "Invalid template file: %s"
 
-#: src/file.c:522
+#: src/file.c:519
+msgid "Not a valid UTF-8 filename."
+msgstr "Not a valid UTF-8 filename."
+
+#: src/file.c:529
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "Saving over old files of this type is disabled for safety."
 
-#: src/file.c:524
+#: src/file.c:531
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
