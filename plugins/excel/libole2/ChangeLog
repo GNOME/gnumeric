@@ -1,6 +1,14 @@
 1999-05-24  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (write_sb): Fixed up sbf chain.
+	(read_sb): Made sbf chain consistant.
+	(write_sb): Removed sillyness with late chaining of sbf.
+	(next_free_bb): Extend one block at a time.
+	Cleaned all references to dump_allocation, added
+	ms_ole_debug helper function.
+	(ms_ole_debug): Re-implemented dump_allocation with
+	(characterise_block): for extra spiffy debugging.
+	(read_bb): Stop us leaking BBD blocks all over the shop.
 
 1999-05-23  Michael Meeks  <michael@imaginator.com>
 

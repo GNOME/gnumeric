@@ -1,3 +1,7 @@
+1999-05-24  Michael Meeks  <michael@imaginator.com>
+
+	* ole.c (main): Added 'debug' option to dump allocation.
+
 1999-05-21  Nick Lamb <njl98r@ecs.soton.ac.uk>
 
 	* ms-formula-read.c: Lots of new formulae translations.

@@ -562,8 +562,11 @@ int main (int argc, char **argv)
 			do_put (ole);
 		else if (g_strcasecmp(ptr, "copyin")==0)
 			do_copyin (ole);
+		else if (g_strcasecmp(ptr, "debug")==0)
+			ms_ole_debug (ole, 1);
 		else if (g_strcasecmp(ptr,"exit")==0 ||
 			   g_strcasecmp(ptr,"quit")==0 ||
+			   g_strcasecmp(ptr,"q")==0 ||
 			   g_strcasecmp(ptr,"bye")==0)
 			exit = 1;
 	}

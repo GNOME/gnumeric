@@ -125,6 +125,7 @@ extern void ms_ole_stream_close  (MS_OLE_STREAM *) ;
 
 extern void dump (guint8 *ptr, guint32 len) ;
 
+extern void ms_ole_debug (MS_OLE *, int magic);
 #endif
 
 

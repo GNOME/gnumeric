@@ -179,16 +179,70 @@ dump_header (MS_OLE *f)
 		f->bb?f->bb->len:-1,
 		f->pps?f->pps->len:-1,
 		f->sb?f->sb->len:-1);
+	printf ("-------------------------------------------------------------\n");
+}
 
-	for (lp=0;lp<f->bb->len;lp++)
-		printf ("Block %d -> block %d\n", lp,
-			g_array_index (f->bb, BLP, lp));
+static void
+characterise_block (MS_OLE *f, BLP blk, char **ans)
+{
+	int lp, nblk;
+
+	nblk = g_array_index (f->bb, BLP, blk);
+	if (nblk == UNUSED_BLOCK) {
+		*ans = "unused";
+		return;
+	} else if (nblk == SPECIAL_BLOCK) {
+		*ans = "special";
+		return;
+	}
+	*ans = "unknown";
+	g_return_if_fail (f);
+	g_return_if_fail (f->bb);
+	g_return_if_fail (f->pps);
+
+	for (lp=0;lp<f->pps->len;lp++) {
+		PPS *p = g_ptr_array_index (f->pps, lp);
+		BLP cur = p->start;
+		while (cur != END_OF_CHAIN) {
+			if (cur == SPECIAL_BLOCK ||
+			    cur == UNUSED_BLOCK) {
+				*ans = "serious block error";
+				return;
+			}
+			if (cur == blk) {
+				*ans = p->name;
+				return;
+			}
+			cur = NEXT_BB(f, cur);
+		}
+	}
+}
+
+static void
+dump_allocation (MS_OLE *f)
+{
+	int lp;
+	char *blktype;
+
+	printf ("--------------------------MS_OLE HEADER-------------------------\n");
+	printf ("Num BBD Blocks : %d Root %d, SB blocks %d\n",
+		f->bb?f->bb->len:-1,
+		f->pps?f->pps->len:-1,
+		f->sb?f->sb->len:-1);
+
+	for (lp=0;lp<f->bb->len;lp++) {
+		characterise_block (f, lp, &blktype);
+		printf ("Block %d -> block %d ( '%s' )\n", lp,
+			g_array_index (f->bb, BLP, lp),
+			blktype);
+	}
 	
 	if (f->pps) {
 		printf ("Root blocks : %d\n", f->pps->len);
 		for (lp=0;lp<f->pps->len;lp++) {
 			PPS *p = g_ptr_array_index (f->pps, lp);
-			printf ("root_list[%d] = '%s' ( <-%d, V %d, %d->)\n", lp, p->name?p->name:"Null",
+			printf ("root_list[%d] = '%s' "
+				" ( <-%d, V %d, %d->)\n", lp, p->name?p->name:"Null",
 				p->prev, p->dir, p->next);
 		}
 	} else
@@ -198,6 +252,16 @@ dump_header (MS_OLE *f)
 	for (lp=0;lp<h->sbd_list->len;lp++)
 	printf ("sbd_list[%d] = %d\n", lp, (int)ms_array_index (h->sbd_list, SBPtr, lp));*/
 	printf ("-------------------------------------------------------------\n");
+}
+
+/**
+ * Dump some useful facts.
+ **/
+void
+ms_ole_debug (MS_OLE *f, int magic)
+{
+	dump_header (f);
+	dump_allocation (f);
 }
 
 static BLP
@@ -231,6 +295,10 @@ read_bb (MS_OLE *f)
 		BLP tmp = get_next_block (f, lp);
 		g_array_append_val (ans, tmp);
 	}
+
+	/* Free up those blocks for a bit. */
+	for (lp=0;lp<numbbd;lp++)
+		g_array_index (ans, BLP, GET_BBD_LIST(f,lp)) = UNUSED_BLOCK;
 
 	g_assert ((f->length+BB_BLOCK_SIZE-1)/BB_BLOCK_SIZE <= ans->len);
 
@@ -266,11 +334,6 @@ extend_file (MS_OLE *f, guint blocks)
 	g_assert (f);
 	file = f->file_descriptor;
 
-#if OLE_DEBUG > 5
-	printf ("Before extend\n");
-	dump_allocation(f);
-#endif
-
 	g_assert (munmap(f->mem, f->length) != -1);
 	/* Extend that file by blocks */
 
@@ -297,10 +360,6 @@ extend_file (MS_OLE *f, guint blocks)
 #endif
 	f->mem = newptr;
 
-#if OLE_DEBUG > 5
-	printf ("After extend\n");
-	dump_allocation(f);
-#endif
 #endif
 }
 
@@ -319,9 +378,8 @@ next_free_bb (MS_OLE *f)
 	        else 
 			blk++;
 
-	extend_file (f, 2);
+	extend_file (f, 1);
 	tblk = UNUSED_BLOCK;
-	g_array_append_val (f->bb, tblk);
 	g_array_append_val (f->bb, tblk);
 #ifndef OLE_MMAP
 #       error Need to extend bbptr as well.
@@ -392,8 +450,10 @@ next_free_sb (MS_OLE *f)
 	if ((f->sb->len + (BB_BLOCK_SIZE/SB_BLOCK_SIZE) - 1) / (BB_BLOCK_SIZE/SB_BLOCK_SIZE) >= f->sbf->len) {
 	/* Create an extra big block on the small block stream */
 		BLP new_sbf = next_free_bb(f);
+		if (f->sbf->len > 0)
+			g_array_index (f->bb, BLP, 
+				       g_array_index (f->sbf, BLP, f->sbf->len-1)) = new_sbf;
 		g_array_append_val (f->sbf, new_sbf);
-        /* We don't need to chain it in as we have this info in f->sbf */
 		g_array_index (f->bb, BLP, new_sbf) = END_OF_CHAIN;
 	}
 
@@ -632,15 +692,6 @@ write_sb (MS_OLE *f)
 	}
 	if (f->sbf->len>0)
 		sbf_start = g_array_index (f->sbf, BLP, 0);
-	/* Chain up the sbf blocks */
-	for (lp=0;lp<f->sbf->len-1;lp++) {
-		BLP blk, next ;
-		blk  = g_array_index (f->sbf, BLP, lp);
-		next = g_array_index (f->sbf, BLP, lp+1);
-		/* this assert is not really important, its just how we left it */
-		g_assert (g_array_index (f->bb, BLP, blk) == END_OF_CHAIN);
-		g_array_index (f->bb, BLP, blk) = next;
-	}
 
 	lastused = END_OF_CHAIN;
 	for (lp=0;lp<f->sb->len;lp++) {
@@ -657,6 +708,7 @@ write_sb (MS_OLE *f)
 #if OLE_DEBUG > 0
 		printf ("Num SB descriptor blocks : %d\n", num_sbdf);
 #endif
+
 		for (lp=0;lp<num_sbdf*(BB_BLOCK_SIZE/4);lp++) {
 			BLP set;
 			if (lp%(BB_BLOCK_SIZE/4) == 0) {
@@ -1291,10 +1343,6 @@ ms_ole_append_block (MS_OLE_STREAM *s)
 		}
 
 		g_array_index (s->file->sb, BLP, block) = eoc;
-#if OLE_DEBUG > 3
-		printf ("Linked stuff\n");
-		dump_allocation(s->file);
-#endif
 	} else {
 		if (!s->blocks)
 			s->blocks = g_array_new (FALSE, FALSE, sizeof(BLP));
@@ -1326,10 +1374,6 @@ ms_ole_append_block (MS_OLE_STREAM *s)
 		}
 
 		g_array_index (s->file->bb, BLP, block) = eoc;
-#if OLE_DEBUG > 3
-		printf ("Linked stuff\n");
-		dump_allocation(s->file);
-#endif
 	}
 }
 
