@@ -35,6 +35,7 @@ Morten:
 	http://bugzilla.gnome.org/show_bug.cgi?id=152511
 	* Fix crash when adding a xy plot over a pie plot
 	* Work on using pango layouts for printing.
+	* Fix endless recursion.  [#153544.]
 
 Uwe Steinmann:
 	* Validate the field names for paradox databases

@@ -36,6 +36,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkframe.h>
+#include <gtk/gtkwidget.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkbbox.h>
 #include <gtk/gtkhbox.h>
@@ -445,6 +446,19 @@ gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, const char *key)
 		return NULL;
 }
 
+static gboolean
+cb_activate_default (GtkWindow *window)
+{
+	/*
+	 * gtk_window_activate_default has a bad habit of trying
+	 * to activate the focus widget.
+	 */
+	return window->default_widget &&
+		GTK_WIDGET_IS_SENSITIVE (window->default_widget) &&
+		gtk_window_activate_default (window);
+}
+
+
 /**
  * gnumeric_editable_enters: Make the "activate" signal of an editable click
  * the default dialog button.
@@ -472,7 +486,7 @@ gnumeric_editable_enters (GtkWindow *window, GtkWidget *w)
 
 	g_signal_connect_swapped (G_OBJECT (w),
 		"activate",
-		G_CALLBACK (gtk_window_activate_default), window);
+		G_CALLBACK (cb_activate_default), window);
 }
 
 int

@@ -1,5 +1,9 @@
 2004-09-23  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.c (cb_activate_default): New function to avoid
+	endless recursion.
+	(gnumeric_editable_enters): Activate via cb_activate_default.
+
 	* src/rendered-value.c (rendered_value_recontext): Don't require
 	Pango 1.6, but use it if we have it.
 
