@@ -46,7 +46,6 @@ ms_obj_realize(MSObj * obj, ExcelWorkbook  *wb, ExcelSheet * sheet)
 
 	anchor = obj->anchor;
 
-#ifdef ENABLE_BONOBO
 	switch (obj->gnumeric_type) {
 	case SHEET_OBJECT_BUTTON :
 		sheet_object_create_button (sheet->gnum_sheet,
@@ -95,7 +94,7 @@ ms_obj_realize(MSObj * obj, ExcelWorkbook  *wb, ExcelSheet * sheet)
 	default :
 	break;
 	};
-#endif
+
 	g_free (obj);
 	return FALSE;
 }
