@@ -13,6 +13,10 @@ Release Critical
     : support array evaluation for =LARGE and friends
     http://bugzilla.gnome.org/show_bug.cgi?id=159581
 
+    src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:
+	g_warning ("TESTING TESTING 123 res = '%s'", res ? res : "(null)");
+
+
 Worries
 -------
     : provide undo for dropped objects from sheet_objects_clear
