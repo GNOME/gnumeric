@@ -44,6 +44,8 @@ Feature enhancements:
       algorithms would be cool
   * fix all problems regarding MPS import plugin
   * add MPS export
+  * program report: add the name of the algorithm used
+  * program report: add other used options
 
 Misc:
   * add example programs into samples/solver

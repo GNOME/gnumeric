@@ -273,7 +273,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 
 		if (c->type == SolverINT) {
 		        lp_algorithm[param->options.algorithm].
-			        set_int_fn (program, i+1, TRUE);
+			        set_int_fn (program, i, TRUE);
 			res->ilp_flag = TRUE;
 		        continue;
 		}
