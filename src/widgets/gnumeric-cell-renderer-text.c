@@ -21,69 +21,44 @@
 #include "gnumeric-cell-renderer-text.h"
 
 static void gnumeric_cell_renderer_text_class_init    
-                                   (GnumericCellRendererTextClass *cell_text_class);
-static void gnumeric_cell_renderer_text_render     (GtkCellRenderer          *cell,
-					       GdkWindow                *window,
-					       GtkWidget                *widget,
-					       GdkRectangle             *background_area,
-					       GdkRectangle             *cell_area,
-					       GdkRectangle             *expose_area,
-					       guint                     flags);
+    (GnumericCellRendererTextClass *cell_text_class);
 
 static GtkCellRendererTextClass *parent_class = NULL;
 
 GType
 gnumeric_cell_renderer_text_get_type (void)
 {
-  static GType cell_text_type = 0;
+	static GType cell_text_type = 0;
 
-  if (!cell_text_type)
-    {
-      static const GTypeInfo cell_text_info =
-      {
-        sizeof (GnumericCellRendererTextClass),
-	NULL,		/* base_init */
-	NULL,		/* base_finalize */
-        (GClassInitFunc)gnumeric_cell_renderer_text_class_init,
-	NULL,		/* class_finalize */
-	NULL,		/* class_data */
-        sizeof (GtkCellRendererText),
-	0,              /* n_preallocs */
-        (GInstanceInitFunc) NULL,
-      };
+	if (!cell_text_type)
+	{
+		static const GTypeInfo cell_text_info =
+			{
+				sizeof (GnumericCellRendererTextClass),
+				NULL,		/* base_init */
+				NULL,		/* base_finalize */
+				(GClassInitFunc)gnumeric_cell_renderer_text_class_init,
+				NULL,		/* class_finalize */
+				NULL,		/* class_data */
+				sizeof (GtkCellRendererText),
+				0,              /* n_preallocs */
+				(GInstanceInitFunc) NULL,
+			};
 
-      cell_text_type = g_type_register_static (GTK_TYPE_CELL_RENDERER_TEXT, "GnumericCellRendererText", &cell_text_info, 0);
-    }
+		cell_text_type = g_type_register_static (GTK_TYPE_CELL_RENDERER_TEXT, "GnumericCellRendererText", &cell_text_info, 0);
+	}
 
-  return cell_text_type;
+	return cell_text_type;
 }
 
-static void
-gnumeric_cell_renderer_text_class_init (GnumericCellRendererTextClass *class)
-{
-	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS  (class);
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
-
-	parent_class = g_type_class_peek_parent (object_class);
-
-	cell_class->render = gnumeric_cell_renderer_text_render;
-	
-}
-
-
-GtkCellRenderer *
-gnumeric_cell_renderer_text_new (void)
-{
-  return GTK_CELL_RENDERER (g_object_new (GNUMERIC_TYPE_CELL_RENDERER_TEXT, NULL));
-}
 static void
 gnumeric_cell_renderer_text_render (GtkCellRenderer    *cell,
-			       GdkWindow          *window,
-			       GtkWidget          *widget,
-			       GdkRectangle       *background_area,
-			       GdkRectangle       *cell_area,
-			       GdkRectangle       *expose_area,
-			       guint               flags)
+				    GdkWindow          *window,
+				    GtkWidget          *widget,
+				    GdkRectangle       *background_area,
+				    GdkRectangle       *cell_area,
+				    GdkRectangle       *expose_area,
+				    guint               flags)
 
 {
 	GtkCellRendererText *celltext = (GtkCellRendererText *) cell;
@@ -129,5 +104,24 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer    *cell,
 	}
 
 	GTK_CELL_RENDERER_CLASS (parent_class)->render (cell, window, widget, background_area,
-			       cell_area, expose_area, flags);
+							cell_area, expose_area, flags);
+}
+
+static void
+gnumeric_cell_renderer_text_class_init (GnumericCellRendererTextClass *class)
+{
+	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS  (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+
+	parent_class = g_type_class_peek_parent (object_class);
+
+	cell_class->render = gnumeric_cell_renderer_text_render;
+	
+}
+
+
+GtkCellRenderer *
+gnumeric_cell_renderer_text_new (void)
+{
+	return GTK_CELL_RENDERER (g_object_new (GNUMERIC_TYPE_CELL_RENDERER_TEXT, NULL));
 }
