@@ -54,6 +54,9 @@ Worries
     selected add "Unhide column to the left" and "... right" to the context
     menu (when relevant).
 
+    : Select graph, Copy, and paste to Emacs: used to crash, but now it
+    just g_barfs and pastes empty string.
+
 -------------------------------------------------------------------------------
 Pending Patches
 ---------------
