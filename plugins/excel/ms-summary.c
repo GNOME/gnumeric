@@ -98,7 +98,7 @@ read_records (MsOleStream *s, guint32 type)
 		return NULL;
 	}
 
-	rec_type = BIFF_GET_GUINT32 (data);
+	rec_type = MS_OLE_GET_GUINT32 (data);
 #if SUMMARY_DEBUG > 0
 	printf ("Next record at 0xx : '%s' : type 0x%x\n",
 		sum_names[type], rec_type);
@@ -110,7 +110,7 @@ read_records (MsOleStream *s, guint32 type)
 		if (!s->read_copy (s, data, 4))
 			return NULL;
 
-		len = BIFF_GET_GUINT32 (data);
+		len = MS_OLE_GET_GUINT32 (data);
 
 		mem = g_malloc (len+1);
 		if (!s->read_copy (s, mem, len))
@@ -130,19 +130,19 @@ read_records (MsOleStream *s, guint32 type)
 		if (!s->read_copy (s, data, 4))
 			return NULL;
 #if SUMMARY_DEBUG > 1
-		printf ("Integer : 0x%x\n", BIFF_GET_GUINT32 (data));
+		printf ("Integer : 0x%x\n", MS_OLE_GET_GUINT32 (data));
 #endif
-		return summary_item_new_int (name, BIFF_GET_GUINT32 (data));
+		return summary_item_new_int (name, MS_OLE_GET_GUINT32 (data));
 
 
 	case 0x40:
 		if (!s->read_copy (s, data, 8))
 			return NULL;
 #if SUMMARY_DEBUG > 1
-		printf ("Timestamp : 0x%x%x\n", BIFF_GET_GUINT32 (data + 4),
-			BIFF_GET_GUINT32 (data));
+		printf ("Timestamp : 0x%x%x\n", MS_OLE_GET_GUINT32 (data + 4),
+			MS_OLE_GET_GUINT32 (data));
 #endif
-		return summary_item_new_int (name, BIFF_GET_GUINT32 (data + 4));
+		return summary_item_new_int (name, MS_OLE_GET_GUINT32 (data + 4));
 
 
 	default:
@@ -176,7 +176,7 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 		return;
 	}
 
-	num_records = BIFF_GET_GUINT32 (data + 0x34);
+	num_records = MS_OLE_GET_GUINT32 (data + 0x34);
 
 #if SUMMARY_DEBUG > 0
 	printf ("Summary info header len 0x%x = 0x%x records\n",
@@ -200,10 +200,10 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 		header+= 8;
 
 		p = ((0x0b + 2) * 8) - HEADER_LEN +
-			BIFF_GET_GUINT32 (data + 4);
+			MS_OLE_GET_GUINT32 (data + 4);
 		s->lseek (s, p, MsOleSeekSet);
 
-		type = BIFF_GET_GUINT32 (data);
+		type = MS_OLE_GET_GUINT32 (data);
 
 		if ((sit = read_records (s, type)))
 			summary_info_add (sin, sit);
@@ -212,7 +212,7 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 			printf ("Error on this record:\n");
 
 		printf (" Record type %x at offset 0x%x\n", type,
-			BIFF_GET_GUINT32 (data + 4));
+			MS_OLE_GET_GUINT32 (data + 4));
 #endif
 	}
 }

@@ -1,0 +1,2 @@
+Run time determine whether we can mmap or not.
+Ref count ms_ole_stream & ms_ole 

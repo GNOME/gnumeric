@@ -8,22 +8,6 @@
 #define GNUMERIC_BIFF_H
 #include "ms-ole.h"
 
-#define BIFF_GET_GUINT8(p) (*((const guint8 *)(p)+0))
-#define BIFF_GET_GUINT16(p) (guint16)(*((const guint8 *)(p)+0) | (*((const guint8 *)(p)+1)<<8))
-#define BIFF_GET_GUINT32(p) (guint32)(*((const guint8 *)(p)+0) | \
-                        (*((const guint8 *)(p)+1)<<8) | \
-                        (*((const guint8 *)(p)+2)<<16) | \
-                        (*((const guint8 *)(p)+3)<<24))
-#define BIFF_GET_GUINT64(p) (BIFF_GET_GUINT32(p) | (((Dguint32)BIFF_GET_GUINT32((const guint8 *)(p)+4))<<32))
-
-#define BIFF_SET_GUINT8(p,n)  (*((guint8 *)(p)+0)=n)
-#define BIFF_SET_GUINT16(p,n) ((*((guint8 *)(p)+0)=((n)&0xff)), \
-                               (*((guint8 *)(p)+1)=((n)>>8)&0xff))
-#define BIFF_SET_GUINT32(p,n) ((*((guint8 *)(p)+0)=((n))&0xff), \
-                               (*((guint8 *)(p)+1)=((n)>>8)&0xff), \
-                               (*((guint8 *)(p)+2)=((n)>>16)&0xff), \
-                               (*((guint8 *)(p)+3)=((n)>>24)&0xff))
-
 extern double biff_getdouble (const guint8 *p);
 extern void   biff_setdouble (guint8 *p, double d);
 	

@@ -75,23 +75,23 @@ biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
 	off = 0;
 	if (write_len)
 		if (sixteen_bit_len) {
-			BIFF_SET_GUINT16 (data, len);
+			MS_OLE_SET_GUINT16 (data, len);
 			off = 2;
 		} else {
 			g_return_val_if_fail (len<256, 0);
-			BIFF_SET_GUINT8  (data, len);
+			MS_OLE_SET_GUINT8  (data, len);
 			off = 1;
 		}
 
 	if (unicode) {
-		BIFF_SET_GUINT8  (data + off, 0x0);
+		MS_OLE_SET_GUINT8  (data + off, 0x0);
 		off++;
 	}
 	ms_biff_put_var_write (bp, data, off);
 
 /* You got it coming */
 	for (lp=0; lp<len;lp++) {
-		BIFF_SET_GUINT16 (data, txt[lp]);
+		MS_OLE_SET_GUINT16 (data, txt[lp]);
 		ms_biff_put_var_write (bp, data, unicode?2:1);
 	}
 	return off + len*(unicode?2:1);
@@ -155,9 +155,9 @@ biff_bof_write (BiffPut *bp, eBiff_version ver,
 		bp->ms_op = 8;
 		if (ver == eBiffV8 || /* as per the spec. */
 		    (ver == eBiffV7 && type == eBiffTWorksheet)) /* Wierd hey */
-			BIFF_SET_GUINT16 (data, 0x0600);
+			MS_OLE_SET_GUINT16 (data, 0x0600);
 		else
-			BIFF_SET_GUINT16 (data, 0x0500);
+			MS_OLE_SET_GUINT16 (data, 0x0500);
 		break;
 	default:
 		g_warning ("Unknown version\n");
@@ -167,22 +167,22 @@ biff_bof_write (BiffPut *bp, eBiff_version ver,
 	switch (type)
 	{
 	case eBiffTWorkbook:
-		BIFF_SET_GUINT16 (data+2, 0x0005);
+		MS_OLE_SET_GUINT16 (data+2, 0x0005);
 		break;
 	case eBiffTVBModule:
-		BIFF_SET_GUINT16 (data+2, 0x0006);
+		MS_OLE_SET_GUINT16 (data+2, 0x0006);
 		break;
 	case eBiffTWorksheet:
-		BIFF_SET_GUINT16 (data+2, 0x0010);
+		MS_OLE_SET_GUINT16 (data+2, 0x0010);
 		break;
 	case eBiffTChart:
-		BIFF_SET_GUINT16 (data+2, 0x0020);
+		MS_OLE_SET_GUINT16 (data+2, 0x0020);
 		break;
 	case eBiffTMacrosheet:
-		BIFF_SET_GUINT16 (data+2, 0x0040);
+		MS_OLE_SET_GUINT16 (data+2, 0x0040);
 		break;
 	case eBiffTWorkspace:
-		BIFF_SET_GUINT16 (data+2, 0x0100);
+		MS_OLE_SET_GUINT16 (data+2, 0x0100);
 		break;
 	default:
 		g_warning ("Unknown type\n");
@@ -192,22 +192,22 @@ biff_bof_write (BiffPut *bp, eBiff_version ver,
 	/* Magic version numbers: build date etc. */
 	switch (ver) {
 	case eBiffV8:
-		BIFF_SET_GUINT16 (data+4, 0x0dbb);
-		BIFF_SET_GUINT16 (data+6, 0x07cc);
+		MS_OLE_SET_GUINT16 (data+4, 0x0dbb);
+		MS_OLE_SET_GUINT16 (data+6, 0x07cc);
 		g_assert (len > 11);
 		/* Quandry: can we tell the truth about our history */
-		BIFF_SET_GUINT32 (data+ 8, 0x00000004);
-		BIFF_SET_GUINT16 (data+12, 0x06000908); /* ? */
+		MS_OLE_SET_GUINT32 (data+ 8, 0x00000004);
+		MS_OLE_SET_GUINT16 (data+12, 0x06000908); /* ? */
 		break;
 	case eBiffV7:
 	case eBiffV5:
-		BIFF_SET_GUINT16 (data+4, 0x096c);
-		BIFF_SET_GUINT16 (data+6, 0x07c9);
+		MS_OLE_SET_GUINT16 (data+4, 0x096c);
+		MS_OLE_SET_GUINT16 (data+6, 0x07c9);
 		break;
 	default:
 		printf ("FIXME: I need some magic numbers\n");
-		BIFF_SET_GUINT16 (data+4, 0x0);
-		BIFF_SET_GUINT16 (data+6, 0x0);
+		MS_OLE_SET_GUINT16 (data+4, 0x0);
+		MS_OLE_SET_GUINT16 (data+6, 0x0);
 		break;
 	}
 	ms_biff_put_commit (bp);
@@ -230,7 +230,7 @@ write_magic_interface (BiffPut *bp, eBiff_version ver)
 		ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 0);
 		ms_biff_put_commit (bp);
 		data = ms_biff_put_len_next (bp, BIFF_MMS, 2);
-		BIFF_SET_GUINT16(data, 0);
+		MS_OLE_SET_GUINT16(data, 0);
 		ms_biff_put_commit (bp);
 		ms_biff_put_len_next (bp, 0xbf, 0);
 		ms_biff_put_commit (bp);
@@ -262,7 +262,7 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 	g_assert (num_sheets < 0xffff);
 
 	data = ms_biff_put_len_next (bp, BIFF_EXTERNCOUNT, 2);
-	BIFF_SET_GUINT16(data, num_sheets);
+	MS_OLE_SET_GUINT16(data, num_sheets);
 	ms_biff_put_commit (bp);
 
 	for (lp=0;lp<num_sheets;lp++) {
@@ -273,8 +273,8 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 		if (sheet == ignore) continue;
 		
 		ms_biff_put_var_next (bp, BIFF_EXTERNSHEET);
-		BIFF_SET_GUINT8(data, len);
-		BIFF_SET_GUINT8(data+1, 3); /* Magic */
+		MS_OLE_SET_GUINT8(data, len);
+		MS_OLE_SET_GUINT8(data+1, 3); /* Magic */
 		ms_biff_put_var_write (bp, data, 2);
 		biff_put_text (bp, sheet->gnum_sheet->name, wb->ver, FALSE, AS_PER_VER);
 		ms_biff_put_commit (bp);
@@ -286,15 +286,15 @@ write_window1 (BiffPut *bp, eBiff_version ver)
 {
 	/* See: S59E17.HTM */
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_WINDOW1, 18);
-	BIFF_SET_GUINT16 (data+  0, 0x0000);
-	BIFF_SET_GUINT16 (data+  2, 0x0000);
-	BIFF_SET_GUINT16 (data+  4, 0x2c4c);
-	BIFF_SET_GUINT16 (data+  6, 0x198c);
-	BIFF_SET_GUINT16 (data+  8, 0x0038); /* various flags */
-	BIFF_SET_GUINT16 (data+ 10, 0x0000); /* selected tab */
-	BIFF_SET_GUINT16 (data+ 12, 0x0000); /* displayed tab */
-	BIFF_SET_GUINT16 (data+ 14, 0x0001);
-	BIFF_SET_GUINT16 (data+ 16, 0x0258);
+	MS_OLE_SET_GUINT16 (data+  0, 0x0000);
+	MS_OLE_SET_GUINT16 (data+  2, 0x0000);
+	MS_OLE_SET_GUINT16 (data+  4, 0x2c4c);
+	MS_OLE_SET_GUINT16 (data+  6, 0x198c);
+	MS_OLE_SET_GUINT16 (data+  8, 0x0038); /* various flags */
+	MS_OLE_SET_GUINT16 (data+ 10, 0x0000); /* selected tab */
+	MS_OLE_SET_GUINT16 (data+ 12, 0x0000); /* displayed tab */
+	MS_OLE_SET_GUINT16 (data+ 14, 0x0001);
+	MS_OLE_SET_GUINT16 (data+ 16, 0x0258);
 	ms_biff_put_commit (bp);
 }
 
@@ -317,52 +317,52 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
 
 	/* See: S59D66.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_CODEPAGE, 2);
-	BIFF_SET_GUINT16 (data, 0x04e4); /* ANSI */
+	MS_OLE_SET_GUINT16 (data, 0x04e4); /* ANSI */
 	ms_biff_put_commit (bp);
 
 	if (ver >= eBiffV8) { /* See S59D78.HTM */
 		int lp, len;
 		
 		data = ms_biff_put_len_next (bp, BIFF_DSF, 2);
-		BIFF_SET_GUINT16 (data, 0x0);
+		MS_OLE_SET_GUINT16 (data, 0x0);
 		ms_biff_put_commit (bp);
 
 		/* See: S59E09.HTM */
 		len = wb->sheets->len;
 		data = ms_biff_put_len_next (bp, BIFF_TABID, len);
 		for (lp = 0; lp < len; lp++) /* FIXME: ? */
-			BIFF_SET_GUINT16 (data + lp*2, lp);
+			MS_OLE_SET_GUINT16 (data + lp*2, lp);
 		ms_biff_put_commit (bp);
 	}
 	/* See: S59D8A.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_FNGROUPCOUNT, 2);
-	BIFF_SET_GUINT16 (data, 0x0e);
+	MS_OLE_SET_GUINT16 (data, 0x0e);
 	ms_biff_put_commit (bp);
 
 	/* See: S59E19.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_WINDOWPROTECT, 2);
-	BIFF_SET_GUINT16 (data, 0x0);
+	MS_OLE_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DD1.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_PROTECT, 2);
-	BIFF_SET_GUINT16 (data, 0x0);
+	MS_OLE_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DCC.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_PASSWORD, 2);
-	BIFF_SET_GUINT16 (data, 0x0);
+	MS_OLE_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
        
 	if (ver >= eBiffV8) {
 		/* See: S59DD2.HTM */
 		data = ms_biff_put_len_next (bp, BIFF_PROT4REV, 2);
-		BIFF_SET_GUINT16 (data, 0x0);
+		MS_OLE_SET_GUINT16 (data, 0x0);
 		ms_biff_put_commit (bp);
 
 		/* See: S59DD3.HTM */
 		data = ms_biff_put_len_next (bp, BIFF_PROT4REVPASS, 2);
-		BIFF_SET_GUINT16 (data, 0x0);
+		MS_OLE_SET_GUINT16 (data, 0x0);
 		ms_biff_put_commit (bp);
 	}
 
@@ -371,38 +371,38 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
 	if (ver >= eBiffV8) {
 		/* See: S59DCA.HTM */
 		data = ms_biff_put_len_next (bp, BIFF_PANE, 2);
-		BIFF_SET_GUINT16 (data, 0x0);
+		MS_OLE_SET_GUINT16 (data, 0x0);
 		ms_biff_put_commit (bp);
 	}
 
 	/* See: S59D5B.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_BACKUP, 2);
-	BIFF_SET_GUINT16 (data, 0x0);
+	MS_OLE_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D95.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_HIDEOBJ, 2);
-	BIFF_SET_GUINT16 (data, 0x0);
+	MS_OLE_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D54.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_1904, 2);
-	BIFF_SET_GUINT16 (data, 0x0);
+	MS_OLE_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DCE.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_PRECISION, 2);
-	BIFF_SET_GUINT16 (data, 0x0001);
+	MS_OLE_SET_GUINT16 (data, 0x0001);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DD8.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_REFRESHALL, 2);
-	BIFF_SET_GUINT16 (data, 0x0000);
+	MS_OLE_SET_GUINT16 (data, 0x0000);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D5E.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_BOOKBOOL, 2);
-	BIFF_SET_GUINT16 (data, 0x0);
+	MS_OLE_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
 }
 
@@ -443,25 +443,25 @@ biff_boundsheet_write_first (BiffPut *bp, eBiff_filetype type,
 	ms_biff_put_var_next (bp, BIFF_BOUNDSHEET);
 	pos = bp->streamPos;	
 
-	BIFF_SET_GUINT32 (data, 0xdeadbeef); /* To be stream start pos */
+	MS_OLE_SET_GUINT32 (data, 0xdeadbeef); /* To be stream start pos */
 	switch (type) {
 	case eBiffTWorksheet:
-		BIFF_SET_GUINT8 (data+4, 00);
+		MS_OLE_SET_GUINT8 (data+4, 00);
 		break;
 	case eBiffTMacrosheet:
-		BIFF_SET_GUINT8 (data+4, 01);
+		MS_OLE_SET_GUINT8 (data+4, 01);
 		break;
 	case eBiffTChart:
-		BIFF_SET_GUINT8 (data+4, 02);
+		MS_OLE_SET_GUINT8 (data+4, 02);
 		break;
 	case eBiffTVBModule:
-		BIFF_SET_GUINT8 (data+4, 06);
+		MS_OLE_SET_GUINT8 (data+4, 06);
 		break;
 	default:
 		g_warning ("Duff type\n");
 		break;
 	}
-	BIFF_SET_GUINT8 (data+5, 0); /* Visible */
+	MS_OLE_SET_GUINT8 (data+5, 0); /* Visible */
 	ms_biff_put_var_write (bp, data, 6);
 
 	biff_put_text (bp, name, ver, TRUE, AS_PER_VER);
@@ -484,7 +484,7 @@ biff_boundsheet_write_last (MsOleStream *s, guint32 pos,
 	
 	oldpos = s->position;/* FIXME: tell function ? */
 	s->lseek (s, pos+4, MsOleSeekSet);
-	BIFF_SET_GUINT32 (data, streamPos);
+	MS_OLE_SET_GUINT32 (data, streamPos);
 	s->write (s, data, 4);
 	s->lseek (s, oldpos, MsOleSeekSet);
 }
@@ -503,7 +503,7 @@ write_palette (BiffPut *bp, ExcelWorkbook *wb)
 	/* FIXME: should scan styles for colors and write intelligently. */
 	ms_biff_put_var_next (bp, BIFF_PALETTE);
 	
-	BIFF_SET_GUINT16 (data, EXCEL_DEF_PAL_LEN); /* Entries */
+	MS_OLE_SET_GUINT16 (data, EXCEL_DEF_PAL_LEN); /* Entries */
 
 	ms_biff_put_var_write (bp, data, 2);
 	for (i=0;i<EXCEL_DEF_PAL_LEN;i++) {
@@ -511,7 +511,7 @@ write_palette (BiffPut *bp, ExcelWorkbook *wb)
 		g = excel_default_palette[i].g;
 		b = excel_default_palette[i].b;
 		num = (b<<16) + (g<<8) + (r<<0);
-		BIFF_SET_GUINT32 (data, num);
+		MS_OLE_SET_GUINT32 (data, num);
 		ms_biff_put_var_write (bp, data, 4);
 	}
 
@@ -553,20 +553,20 @@ write_fonts (BiffPut *bp, ExcelWorkbook *wb)
 		/* Kludge for now ... */
 		ms_biff_put_var_next (bp, BIFF_FONT);
 		
-		BIFF_SET_GUINT16(data + 0, 10*20); /* 10 point */
-		BIFF_SET_GUINT16(data + 2, (0<<1) + (0<<3)); /* italic, struck */
-/*		BIFF_SET_GUINT16(data + 4, PALETTE_BLACK); */
-		BIFF_SET_GUINT16(data + 4, 0x7fff); /* Magic ! */
+		MS_OLE_SET_GUINT16(data + 0, 10*20); /* 10 point */
+		MS_OLE_SET_GUINT16(data + 2, (0<<1) + (0<<3)); /* italic, struck */
+/*		MS_OLE_SET_GUINT16(data + 4, PALETTE_BLACK); */
+		MS_OLE_SET_GUINT16(data + 4, 0x7fff); /* Magic ! */
 
 		if (1)
-			BIFF_SET_GUINT16(data + 6, 0x190); /* Normal boldness */
+			MS_OLE_SET_GUINT16(data + 6, 0x190); /* Normal boldness */
 		else
-			BIFF_SET_GUINT16(data + 6, 0x2bc); /* Bold */
+			MS_OLE_SET_GUINT16(data + 6, 0x2bc); /* Bold */
 
-		BIFF_SET_GUINT16(data + 8, 0); /* 0: Normal, 1; Super, 2: Sub script*/
-		BIFF_SET_GUINT16(data +10, 0); /* No underline */
-		BIFF_SET_GUINT16(data +12, 0); /* seems OK. */
-		BIFF_SET_GUINT8 (data +13, 0);
+		MS_OLE_SET_GUINT16(data + 8, 0); /* 0: Normal, 1; Super, 2: Sub script*/
+		MS_OLE_SET_GUINT16(data +10, 0); /* No underline */
+		MS_OLE_SET_GUINT16(data +12, 0); /* seems OK. */
+		MS_OLE_SET_GUINT8 (data +13, 0);
 		ms_biff_put_var_write (bp, data, 14);
 		
 		biff_put_text (bp, "Arial", wb->ver, TRUE, EIGHT_BIT);
@@ -628,7 +628,7 @@ write_formats (BiffPut *bp, ExcelWorkbook *wb)
 		g_assert (fidx >= 0);
 		fmt = magic[lp]; /*excel_builtin_formats[fidx];*/
 
-		BIFF_SET_GUINT16 (data, fidx);
+		MS_OLE_SET_GUINT16 (data, fidx);
 		ms_biff_put_var_write (bp, data, 2);
 
 		if (fmt)
@@ -675,39 +675,39 @@ write_xf_record (BiffPut *bp, Style *style, eBiff_version ver, int hack)
 		ms_biff_put_var_next (bp, BIFF_XF_OLD);
 
 	if (ver >= eBiffV8) {
-		BIFF_SET_GUINT16(data+0, fonts_get_index (0, 0));
-		BIFF_SET_GUINT16(data+2, formats_get_index (0, 0));
-		BIFF_SET_GUINT16(data+18, 0xc020); /* Color ! */
+		MS_OLE_SET_GUINT16(data+0, fonts_get_index (0, 0));
+		MS_OLE_SET_GUINT16(data+2, formats_get_index (0, 0));
+		MS_OLE_SET_GUINT16(data+18, 0xc020); /* Color ! */
 		ms_biff_put_var_write (bp, data, 24);
 	} else {
-		BIFF_SET_GUINT16(data+0, fonts_get_index (0, 0));
-		BIFF_SET_GUINT16(data+2, formats_get_index (0, 0));
-		BIFF_SET_GUINT16(data+4, 0xfff5); /* FIXME: Magic */
-		BIFF_SET_GUINT16(data+6, 0xf420);
-		BIFF_SET_GUINT16(data+8, 0x20c0); /* Color ! */
+		MS_OLE_SET_GUINT16(data+0, fonts_get_index (0, 0));
+		MS_OLE_SET_GUINT16(data+2, formats_get_index (0, 0));
+		MS_OLE_SET_GUINT16(data+4, 0xfff5); /* FIXME: Magic */
+		MS_OLE_SET_GUINT16(data+6, 0xf420);
+		MS_OLE_SET_GUINT16(data+8, 0x20c0); /* Color ! */
 
 		if (hack == 1 || hack == 2)
-			BIFF_SET_GUINT16 (data,1);
+			MS_OLE_SET_GUINT16 (data,1);
 		if (hack == 3 || hack == 4)
-			BIFF_SET_GUINT16 (data,2);
+			MS_OLE_SET_GUINT16 (data,2);
 		if (hack == 15) {
-			BIFF_SET_GUINT16 (data+4, 1);
-			BIFF_SET_GUINT8  (data+7, 0x0);
+			MS_OLE_SET_GUINT16 (data+4, 1);
+			MS_OLE_SET_GUINT8  (data+7, 0x0);
 		}
 		if (hack == 16)
-			BIFF_SET_GUINT32 (data, 0x002b0001); /* These turn up in the formats... */
+			MS_OLE_SET_GUINT32 (data, 0x002b0001); /* These turn up in the formats... */
 		if (hack == 17)
-			BIFF_SET_GUINT32 (data, 0x00290001);
+			MS_OLE_SET_GUINT32 (data, 0x00290001);
 		if (hack == 18)
-			BIFF_SET_GUINT32 (data, 0x002c0001);
+			MS_OLE_SET_GUINT32 (data, 0x002c0001);
 		if (hack == 19)
-			BIFF_SET_GUINT32 (data, 0x002a0001);
+			MS_OLE_SET_GUINT32 (data, 0x002a0001);
 		if (hack == 20)
-			BIFF_SET_GUINT32 (data, 0x00090001);
+			MS_OLE_SET_GUINT32 (data, 0x00090001);
 		if (hack < 21 && hack > 15) /* Style bit ? */
-			BIFF_SET_GUINT8  (data+7, 0xf8);
+			MS_OLE_SET_GUINT8  (data+7, 0xf8);
 		if (hack == 0)
-			BIFF_SET_GUINT8  (data+7, 0);			
+			MS_OLE_SET_GUINT8  (data+7, 0);			
 
 		ms_biff_put_var_write (bp, data, 16);
 	}
@@ -732,7 +732,7 @@ write_xf (BiffPut *bp, ExcelWorkbook *wb)
 	/* See: S59DEA.HTM */
 	for (lp=0;lp<6;lp++) {
 		guint8 *data = ms_biff_put_len_next (bp, BIFF_STYLE, 4);
-		BIFF_SET_GUINT32 (data, style_magic[lp]); /* cop out */
+		MS_OLE_SET_GUINT32 (data, style_magic[lp]); /* cop out */
 		ms_biff_put_commit (bp);
 	}
 	return xf;
@@ -783,7 +783,7 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
 			EX_SETXF (data, xf);
-			BIFF_SET_GUINT32 (data + 6, (vint<<2) + head);
+			MS_OLE_SET_GUINT32 (data + 6, (vint<<2) + head);
 			ms_biff_put_commit (bp);
 		}
 		break;
@@ -872,19 +872,19 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, Cell *cell)
 	if (cell->value && VALUE_IS_NUMBER (cell->value))
 		BIFF_SETDOUBLE (data + 6, value_get_as_float (cell->value));
 	else { /* FIXME: Need special cases for BOOLERR & BOOLEAN */
-		BIFF_SET_GUINT32 (data +  6, 0x00000000);
-		BIFF_SET_GUINT32 (data + 10, 0xffff0000);
+		MS_OLE_SET_GUINT32 (data +  6, 0x00000000);
+		MS_OLE_SET_GUINT32 (data + 10, 0xffff0000);
 		string_result = TRUE;
 	}
-	BIFF_SET_GUINT16 (data + 14, 0x0); /* Always calc & on load */
-	BIFF_SET_GUINT32 (data + 16, 0x0);
-	BIFF_SET_GUINT16 (data + 20, 0x0);
+	MS_OLE_SET_GUINT16 (data + 14, 0x0); /* Always calc & on load */
+	MS_OLE_SET_GUINT32 (data + 16, 0x0);
+	MS_OLE_SET_GUINT16 (data + 20, 0x0);
 	ms_biff_put_var_write (bp, data, 22);
 	len = ms_excel_write_formula (bp, sheet, cell->parsed_node,
 				      col, row);
 	g_assert (len <= 0xffff);
 	ms_biff_put_var_seekto (bp, 20);
-	BIFF_SET_GUINT16 (lendat, len);
+	MS_OLE_SET_GUINT16 (lendat, len);
 	ms_biff_put_var_write (bp, lendat, 2);
 	
 	ms_biff_put_commit (bp);
@@ -952,10 +952,10 @@ write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row, gu
 
 		EX_SETCOL (data, end_col-run);
 		EX_SETROW (data, row);
-		BIFF_SET_GUINT16 (data + len - 2, end_col);
+		MS_OLE_SET_GUINT16 (data + len - 2, end_col);
 		ptr = data + 4;
 		while (run > 0) {
-			BIFF_SET_GUINT16 (ptr, MAGIC_BLANK_XF);
+			MS_OLE_SET_GUINT16 (ptr, MAGIC_BLANK_XF);
 			ptr+=2;
 			run--;
 		}
@@ -970,69 +970,69 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 
 	/* See: S59D63.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_CALCMODE, 2);
-	BIFF_SET_GUINT16 (data, 0x0001);
+	MS_OLE_SET_GUINT16 (data, 0x0001);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D62.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_CALCCOUNT, 2);
-	BIFF_SET_GUINT16 (data, 0x0064);
+	MS_OLE_SET_GUINT16 (data, 0x0064);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DD7.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_REFMODE, 2);
-	BIFF_SET_GUINT16 (data, 0x0001);
+	MS_OLE_SET_GUINT16 (data, 0x0001);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D9C.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_ITERATION, 2);
-	BIFF_SET_GUINT16 (data, 0x0000);
+	MS_OLE_SET_GUINT16 (data, 0x0000);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D75.HTM, FIXME: find what number this really is! */
 	data = ms_biff_put_len_next (bp, BIFF_DELTA, 8);
-	BIFF_SET_GUINT32 (data,   0xd2f1a9fc);
-	BIFF_SET_GUINT32 (data+4, 0x3f50624d);
+	MS_OLE_SET_GUINT32 (data,   0xd2f1a9fc);
+	MS_OLE_SET_GUINT32 (data+4, 0x3f50624d);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DDD.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_SAVERECALC, 2);
-	BIFF_SET_GUINT16 (data, 0x0001);
+	MS_OLE_SET_GUINT16 (data, 0x0001);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DD0.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_PRINTHEADERS, 2);
-	BIFF_SET_GUINT16 (data, 0x0000);
+	MS_OLE_SET_GUINT16 (data, 0x0000);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DCF.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_PRINTGRIDLINES, 2);
-	BIFF_SET_GUINT16 (data, 0x0000);
+	MS_OLE_SET_GUINT16 (data, 0x0000);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D91.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_GRIDSET, 2);
-	BIFF_SET_GUINT16 (data, 0x0001);
+	MS_OLE_SET_GUINT16 (data, 0x0001);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D92.HTM ( Gutters ) */
 	data = ms_biff_put_len_next (bp, BIFF_GUTS, 8);
-	BIFF_SET_GUINT32 (data,   0x0);
-	BIFF_SET_GUINT32 (data+4, 0x0);
+	MS_OLE_SET_GUINT32 (data,   0x0);
+	MS_OLE_SET_GUINT32 (data+4, 0x0);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D72.HTM */
 	data = ms_biff_put_len_next (bp, 0x200|BIFF_DEFAULTROWHEIGHT, 4);
-	BIFF_SET_GUINT32 (data, 0x00ff0000);
+	MS_OLE_SET_GUINT32 (data, 0x00ff0000);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D6B.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_COUNTRY, 4);
-	BIFF_SET_GUINT32 (data, 0x002c0001); /* Made in the UK */
+	MS_OLE_SET_GUINT32 (data, 0x002c0001); /* Made in the UK */
 	ms_biff_put_commit (bp);
 
 	/* See: S59E1C.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_WSBOOL, 2);
-	BIFF_SET_GUINT16 (data, 0x04c1);
+	MS_OLE_SET_GUINT16 (data, 0x04c1);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D94.HTM */
@@ -1047,59 +1047,59 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 
 	/* See: S59D93.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_HCENTER, 2);
-	BIFF_SET_GUINT16 (data, 0x0000);
+	MS_OLE_SET_GUINT16 (data, 0x0000);
 	ms_biff_put_commit (bp);
 
 	/* See: S59E15.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_VCENTER, 2);
-	BIFF_SET_GUINT16 (data, 0x0000);
+	MS_OLE_SET_GUINT16 (data, 0x0000);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DE3.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
-	BIFF_SET_GUINT32 (data +  0, 0x002c0000);
-	BIFF_SET_GUINT32 (data +  4, 0x00010001);
-	BIFF_SET_GUINT32 (data +  8, 0x00440001);
-	BIFF_SET_GUINT32 (data + 12, 0x0000002f);
-	BIFF_SET_GUINT32 (data + 16, 0x00000000);
-	BIFF_SET_GUINT32 (data + 20, 0x3fe00000);
-	BIFF_SET_GUINT32 (data + 24, 0x00000000);
-	BIFF_SET_GUINT32 (data + 28, 0x3fe00000);
-	BIFF_SET_GUINT16 (data + 32, 0x04e4);
+	MS_OLE_SET_GUINT32 (data +  0, 0x002c0000);
+	MS_OLE_SET_GUINT32 (data +  4, 0x00010001);
+	MS_OLE_SET_GUINT32 (data +  8, 0x00440001);
+	MS_OLE_SET_GUINT32 (data + 12, 0x0000002f);
+	MS_OLE_SET_GUINT32 (data + 16, 0x00000000);
+	MS_OLE_SET_GUINT32 (data + 20, 0x3fe00000);
+	MS_OLE_SET_GUINT32 (data + 24, 0x00000000);
+	MS_OLE_SET_GUINT32 (data + 28, 0x3fe00000);
+	MS_OLE_SET_GUINT16 (data + 32, 0x04e4);
 	ms_biff_put_commit (bp);
 
 	write_externsheets (bp, sheet->wb, sheet);
 
 	/* See: S59D73.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_DEFCOLWIDTH, 2);
-	BIFF_SET_GUINT16 (data, 0x0008);
+	MS_OLE_SET_GUINT16 (data, 0x0008);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D67.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_COLINFO, 12);
-	BIFF_SET_GUINT16 (data+ 0, 0x00);   /* 1st  col formatted */
-	BIFF_SET_GUINT16 (data+ 2, sheet->maxx);   /* last col formatted */
-	BIFF_SET_GUINT16 (data+ 4, 0x0c49); /* width */
-	BIFF_SET_GUINT16 (data+ 6, 0x0f);   /* XF index */
-	BIFF_SET_GUINT16 (data+ 8, 0x00);   /* options */
-	BIFF_SET_GUINT16 (data+10, 0x00);   /* magic */
+	MS_OLE_SET_GUINT16 (data+ 0, 0x00);   /* 1st  col formatted */
+	MS_OLE_SET_GUINT16 (data+ 2, sheet->maxx);   /* last col formatted */
+	MS_OLE_SET_GUINT16 (data+ 4, 0x0c49); /* width */
+	MS_OLE_SET_GUINT16 (data+ 6, 0x0f);   /* XF index */
+	MS_OLE_SET_GUINT16 (data+ 8, 0x00);   /* options */
+	MS_OLE_SET_GUINT16 (data+10, 0x00);   /* magic */
 	ms_biff_put_commit (bp);
 
 	/* See: S59D76.HTM */
 	if (sheet->wb->ver >= eBiffV8) {
 		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS, 14);
-		BIFF_SET_GUINT32 (data +  0, 0);
-		BIFF_SET_GUINT32 (data +  4, sheet->maxy-1);
-		BIFF_SET_GUINT16 (data +  8, 0);
-		BIFF_SET_GUINT16 (data + 10, sheet->maxx);
-		BIFF_SET_GUINT16 (data + 12, 0x0000);
+		MS_OLE_SET_GUINT32 (data +  0, 0);
+		MS_OLE_SET_GUINT32 (data +  4, sheet->maxy-1);
+		MS_OLE_SET_GUINT16 (data +  8, 0);
+		MS_OLE_SET_GUINT16 (data + 10, sheet->maxx);
+		MS_OLE_SET_GUINT16 (data + 12, 0x0000);
 	} else {
 		data = ms_biff_put_len_next (bp, (0x200 | BIFF_DIMENSIONS), 10);
-		BIFF_SET_GUINT16 (data +  0, 0);
-		BIFF_SET_GUINT16 (data +  2, sheet->maxy-1);
-		BIFF_SET_GUINT16 (data +  4, 0);
-		BIFF_SET_GUINT16 (data +  6, sheet->maxx);
-		BIFF_SET_GUINT16 (data +  8, 0x0000);
+		MS_OLE_SET_GUINT16 (data +  0, 0);
+		MS_OLE_SET_GUINT16 (data +  2, sheet->maxy-1);
+		MS_OLE_SET_GUINT16 (data +  4, 0);
+		MS_OLE_SET_GUINT16 (data +  6, sheet->maxx);
+		MS_OLE_SET_GUINT16 (data +  8, 0x0000);
 	}
 	ms_biff_put_commit (bp);
 }
@@ -1114,9 +1114,9 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 	if (ver <= eBiffV7) {
 		/* See: S59E18.HTM */
 		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 10);
-		BIFF_SET_GUINT32 (data +  0, 0x000006b6);
-		BIFF_SET_GUINT32 (data +  4, 0x0);
-		BIFF_SET_GUINT16 (data +  8, 0x0);
+		MS_OLE_SET_GUINT32 (data +  0, 0x000006b6);
+		MS_OLE_SET_GUINT32 (data +  4, 0x0);
+		MS_OLE_SET_GUINT16 (data +  8, 0x0);
 		ms_biff_put_commit (bp);
 	} else {
 		printf ("FIXME: need magic window2 numbers\n");
@@ -1124,11 +1124,11 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 	
 	/* See: S59DE2.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_SELECTION, 15);
-	BIFF_SET_GUINT32 (data +  0, 0x00000103);
-	BIFF_SET_GUINT32 (data +  4, 0x01000000);
-	BIFF_SET_GUINT32 (data +  8, 0x01000100);
-	BIFF_SET_GUINT16 (data + 12, 0x0);
-	BIFF_SET_GUINT8  (data + 14, 0x0);
+	MS_OLE_SET_GUINT32 (data +  0, 0x00000103);
+	MS_OLE_SET_GUINT32 (data +  4, 0x01000000);
+	MS_OLE_SET_GUINT32 (data +  8, 0x01000100);
+	MS_OLE_SET_GUINT16 (data + 12, 0x0);
+	MS_OLE_SET_GUINT8  (data + 14, 0x0);
 	ms_biff_put_commit (bp);
 
 /* See: S59D90.HTM: Global Column Widths...  not cricual.       
@@ -1136,8 +1136,8 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 	{
 		int lp;
 		for (lp=0;lp<34;lp++)
-			BIFF_SET_GUINT8 (data+lp, 0xff);
-		BIFF_SET_GUINT32 (data, 0xfffd0020);
+			MS_OLE_SET_GUINT8 (data+lp, 0xff);
+		MS_OLE_SET_GUINT32 (data, 0xfffd0020);
 	}
 	ms_biff_put_commit (bp);
 */
@@ -1162,7 +1162,7 @@ write_index (MsOleStream *s, ExcelSheet *sheet, MsOlePos pos)
 	g_assert (sheet->maxy >= sheet->dbcells->len);
 	for (lp=0;lp<sheet->dbcells->len;lp++) {
 		MsOlePos pos = g_array_index (sheet->dbcells, MsOlePos, lp);
-		BIFF_SET_GUINT32 (data, pos - sheet->wb->streamPos);
+		MS_OLE_SET_GUINT32 (data, pos - sheet->wb->streamPos);
 #if EXCEL_DEBUG > 1
 		printf ("writing index record 0x%4x - 0x%4x = 0x%4x\n",
 			pos, sheet->wb->streamPos, pos - sheet->wb->streamPos);
@@ -1182,14 +1182,14 @@ write_rowinfo (BiffPut *bp, guint32 row, guint32 width)
 
 	data = ms_biff_put_len_next (bp, (0x200 | BIFF_ROW), 16);
 	pos = bp->streamPos;
-	BIFF_SET_GUINT16 (data +  0, row);    /* Row number */
-	BIFF_SET_GUINT16 (data +  2, 0);      /* first def. col */
-	BIFF_SET_GUINT16 (data +  4, width);  /* last  def. col */
-	BIFF_SET_GUINT16 (data +  6, 0xff);   /* height */
-	BIFF_SET_GUINT16 (data +  8, 0x00);   /* undocumented */
-	BIFF_SET_GUINT16 (data + 10, 0x00);   /* reserved */
-	BIFF_SET_GUINT16 (data + 12, 0x0100); /* options */
-	BIFF_SET_GUINT16 (data + 14, 0x000f); /* magic so far */
+	MS_OLE_SET_GUINT16 (data +  0, row);    /* Row number */
+	MS_OLE_SET_GUINT16 (data +  2, 0);      /* first def. col */
+	MS_OLE_SET_GUINT16 (data +  4, width);  /* last  def. col */
+	MS_OLE_SET_GUINT16 (data +  6, 0xff);   /* height */
+	MS_OLE_SET_GUINT16 (data +  8, 0x00);   /* undocumented */
+	MS_OLE_SET_GUINT16 (data + 10, 0x00);   /* reserved */
+	MS_OLE_SET_GUINT16 (data + 12, 0x0100); /* options */
+	MS_OLE_SET_GUINT16 (data + 14, 0x000f); /* magic so far */
 	ms_biff_put_commit (bp);
 
 	return pos;
@@ -1206,8 +1206,8 @@ write_db_cell (BiffPut *bp, ExcelSheet *sheet, MsOlePos start)
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_DBCELL, 6);
 	pos = bp->streamPos;
 
-	BIFF_SET_GUINT32 (data    , pos - start);
-	BIFF_SET_GUINT16 (data + 4, 0); /* Only 1 row starts at the beggining */
+	MS_OLE_SET_GUINT32 (data    , pos - start);
+	MS_OLE_SET_GUINT16 (data + 4, 0); /* Only 1 row starts at the beggining */
 
 	ms_biff_put_commit (bp);
 
@@ -1231,18 +1231,18 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 		guint8 *data = ms_biff_put_len_next (bp, BIFF_INDEX,
 						     sheet->maxy*4 + 16);
 		index_off = bp->streamPos;
-		BIFF_SET_GUINT32 (data, 0);
-		BIFF_SET_GUINT32 (data +  4, 0);
-		BIFF_SET_GUINT32 (data +  8, sheet->maxy);
-		BIFF_SET_GUINT32 (data + 12, 0);
+		MS_OLE_SET_GUINT32 (data, 0);
+		MS_OLE_SET_GUINT32 (data +  4, 0);
+		MS_OLE_SET_GUINT32 (data +  8, sheet->maxy);
+		MS_OLE_SET_GUINT32 (data + 12, 0);
 	} else {
 		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
 						     sheet->maxy*4 + 12);
 		index_off = bp->streamPos;
-		BIFF_SET_GUINT32 (data, 0);
-		BIFF_SET_GUINT16 (data + 4, 0);
-		BIFF_SET_GUINT16 (data + 6, sheet->maxy);
-		BIFF_SET_GUINT32 (data + 8, 0);
+		MS_OLE_SET_GUINT32 (data, 0);
+		MS_OLE_SET_GUINT16 (data + 4, 0);
+		MS_OLE_SET_GUINT16 (data + 6, sheet->maxy);
+		MS_OLE_SET_GUINT32 (data + 8, 0);
 	}
 	ms_biff_put_commit (bp);
 

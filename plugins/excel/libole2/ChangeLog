@@ -1,5 +1,7 @@
 1999-07-19  Michael Meeks  <michael@edenproject.org>
 
+	* ms-ole.h: Remove gnumeric references.
+
 	* Makefile.am (libole2_a_SOURCES): Added -summary*
 
 	* README: Updated to include summary source info.

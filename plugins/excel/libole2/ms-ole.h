@@ -4,10 +4,33 @@
  * Author:
  *    Michael Meeks (michael@imaginator.com)
  **/
-#ifndef GNUMERIC_MsOle_H
-#define GNUMERIC_MsOle_H
+#ifndef MS_OLE_H
+#define MS_OLE_H
 
 #include <glib.h>
+
+/*
+ * NB. stream->read_copy (...) will give you an array of guint8's
+ * use these macros to get data from this array.
+ */
+
+#define MS_OLE_GET_GUINT8(p) (*((const guint8 *)(p)+0))
+#define MS_OLE_GET_GUINT16(p) (guint16)(*((const guint8 *)(p)+0) | \
+					(*((const guint8 *)(p)+1)<<8))
+#define MS_OLE_GET_GUINT32(p) (guint32)(*((const guint8 *)(p)+0) | \
+					(*((const guint8 *)(p)+1)<<8) | \
+					(*((const guint8 *)(p)+2)<<16) | \
+					(*((const guint8 *)(p)+3)<<24))
+#define MS_OLE_GET_GUINT64(p) (MS_OLE_GET_GUINT32(p) | \
+			       (((guint32)MS_OLE_GET_GUINT32((const guint8 *)(p)+4))<<32))
+
+#define MS_OLE_SET_GUINT8(p,n)  (*((guint8 *)(p)+0)=n)
+#define MS_OLE_SET_GUINT16(p,n) ((*((guint8 *)(p)+0)=((n)&0xff)), \
+				 (*((guint8 *)(p)+1)=((n)>>8)&0xff))
+#define MS_OLE_SET_GUINT32(p,n) ((*((guint8 *)(p)+0)=((n))&0xff), \
+				 (*((guint8 *)(p)+1)=((n)>>8)&0xff), \
+				 (*((guint8 *)(p)+2)=((n)>>16)&0xff), \
+				 (*((guint8 *)(p)+3)=((n)>>24)&0xff))
 
 /* Whether to use memory mapped IO */
 #define OLE_MMAP  1

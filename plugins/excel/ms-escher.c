@@ -70,9 +70,9 @@ esh_header_next (ESH_HEADER *h)
 		h->length_left-=h->length+ESH_HEADER_LEN;
 	}
 
-	h->length   = BIFF_GET_GUINT32(h->data+4);
-	h->type     = BIFF_GET_GUINT16(h->data+2);
-	split       = BIFF_GET_GUINT16(h->data+0);
+	h->length   = MS_OLE_GET_GUINT32(h->data+4);
+	h->type     = MS_OLE_GET_GUINT16(h->data+2);
+	split       = MS_OLE_GET_GUINT16(h->data+0);
 	h->ver      = (split&0x0f);
 	h->instance = (split>>4);
 #if ESH_HEADER_DEBUG > 0
@@ -150,10 +150,10 @@ Dgg_new (ESH_HEADER *h) /* See: S59FDE.HTM */
 
 	data = h->data + ESH_HEADER_LEN;
 	fd->id_clusts = g_array_new (1,1,sizeof(ID_CLUST));
-	fd->max_spid           = BIFF_GET_GUINT32(data+ 0);
-	fd->num_id_clust       = BIFF_GET_GUINT32(data+ 4);
-	fd->num_shapes_saved   = BIFF_GET_GUINT32(data+ 8);
-	fd->num_drawings_saved = BIFF_GET_GUINT32(data+12);
+	fd->max_spid           = MS_OLE_GET_GUINT32(data+ 0);
+	fd->num_id_clust       = MS_OLE_GET_GUINT32(data+ 4);
+	fd->num_shapes_saved   = MS_OLE_GET_GUINT32(data+ 8);
+	fd->num_drawings_saved = MS_OLE_GET_GUINT32(data+12);
 
 	printf ("Dgg: maxspid 0x%x clusts 0x%x shapes 0x%x drawings x%x\n",
 		fd->max_spid, fd->num_id_clust, fd->num_shapes_saved,
@@ -162,8 +162,8 @@ Dgg_new (ESH_HEADER *h) /* See: S59FDE.HTM */
 	data+=16;
 	for (lp=0;lp<fd->num_id_clust;lp++) {
 		ID_CLUST cl;
-		cl.DG_owning_spids   = BIFF_GET_GUINT32(data+0);
-		cl.spids_used_so_far = BIFF_GET_GUINT32(data+4);
+		cl.DG_owning_spids   = MS_OLE_GET_GUINT32(data+0);
+		cl.spids_used_so_far = MS_OLE_GET_GUINT32(data+4);
 		g_array_append_val (fd->id_clusts, cl);
 	}
 	return fd;
@@ -256,9 +256,9 @@ BSE_new (ESH_HEADER *h) /* S59FE3.HTM */
 	int lp;
 
 	if (saved_os == eMac)
-		type   = BIFF_GET_GUINT8(data+ 1);
+		type   = MS_OLE_GET_GUINT8(data+ 1);
 	else
-		type   = BIFF_GET_GUINT8(data+ 0);
+		type   = MS_OLE_GET_GUINT8(data+ 0);
 	if (type<8)
 		fbse->stored_type = h->instance;
 	else
@@ -266,16 +266,16 @@ BSE_new (ESH_HEADER *h) /* S59FE3.HTM */
 	printf ("Stored type : 0x%x type 0x%x\n", h->instance, type);
 
 	for (lp=0;lp<16;lp++)
-		fbse->rbg_uid[lp] = BIFF_GET_GUINT8(data+2+lp);
-	fbse->size       = BIFF_GET_GUINT32(data+20);
-	fbse->ref_count  = BIFF_GET_GUINT32(data+24);
-	fbse->delay_off  = BIFF_GET_GUINT32(data+28);
-	tmp              = BIFF_GET_GUINT8(data+32);
+		fbse->rbg_uid[lp] = MS_OLE_GET_GUINT8(data+2+lp);
+	fbse->size       = MS_OLE_GET_GUINT32(data+20);
+	fbse->ref_count  = MS_OLE_GET_GUINT32(data+24);
+	fbse->delay_off  = MS_OLE_GET_GUINT32(data+28);
+	tmp              = MS_OLE_GET_GUINT8(data+32);
 	if (tmp==1)
 		fbse->usage = eUsageTexture;
 	else
 		fbse->usage = eUsageDefault;
-	fbse->name_len   = BIFF_GET_GUINT8(data+33);
+	fbse->name_len   = MS_OLE_GET_GUINT8(data+33);
 	if (fbse->name_len)
 		fbse->name = biff_get_text (data+36, fbse->name_len,
 					    &txt_byte_len);
@@ -339,11 +339,11 @@ OPT_new (ESH_HEADER *h) /*See: S59FFB.HTM */
 {
 	guint8 *data=h->data+ESH_HEADER_LEN;
 	OPT_DATA *od = g_new (OPT_DATA, 1);
-	guint16 d = BIFF_GET_GUINT16(data);
+	guint16 d = MS_OLE_GET_GUINT16(data);
 	od->pid = d & 0x3fff;
 	od->bid = (d & 0x4000)!=0;
 	od->complex = (d &0x8000)!=0;
-	od->op = BIFF_GET_GUINT32(data+2);
+	od->op = MS_OLE_GET_GUINT32(data+2);
 	od->num_properties = h->instance;
 	printf ("OPT: 0x%x %d %d 0x%x, %d props.\n", od->pid,
 		od->bid, od->complex, od->op, od->num_properties);
@@ -425,8 +425,8 @@ SpContainer_new (ESH_HEADER *h)  /* See: S59FEB.HTM */
 		case Sp: /* See S59A001.HTM for Real Geometry Data... */
 		{
 			guint8 *data = c->data + ESH_HEADER_LEN;
-			guint32 spid  = BIFF_GET_GUINT32 (data+0);
-			guint32 flags = BIFF_GET_GUINT32 (data+4);
+			guint32 spid  = MS_OLE_GET_GUINT32 (data+0);
+			guint32 flags = MS_OLE_GET_GUINT32 (data+4);
 			enum  { Group=1, Child=2, Patriarch=4, Deleted=8, OleShape=16,
 				HaveMaster=32, FlipH=64, FlipV=128, Connector=256,
 				HasAnchor=512, TypeProp=1024 };
@@ -455,9 +455,9 @@ SpgrContainer_new (ESH_HEADER *h)  /* See: S59FEA.HTM */
 		switch (c->type) {
 		case Dg: /* FIXME: duplicated, whats up here ? See S59FE8.HTM */
 		{
-			guint32 num_shapes = BIFF_GET_GUINT32(c->data+ESH_HEADER_LEN);
+			guint32 num_shapes = MS_OLE_GET_GUINT32(c->data+ESH_HEADER_LEN);
 			/* spid_cur = last SPID given to an SP in this DG :-)  */
-			guint32 spid_cur   = BIFF_GET_GUINT32(c->data+ESH_HEADER_LEN+4);
+			guint32 spid_cur   = MS_OLE_GET_GUINT32(c->data+ESH_HEADER_LEN+4);
 			break;
 		}
 		case SpContainer:
@@ -488,9 +488,9 @@ read_DgContainer (ESH_HEADER *h) /* See S59FE7.HTM */
 		switch (c->type) {
 		case Dg: /* See S59FE8.HTM */
 		{
-			guint32 num_shapes = BIFF_GET_GUINT32(c->data+ESH_HEADER_LEN);
+			guint32 num_shapes = MS_OLE_GET_GUINT32(c->data+ESH_HEADER_LEN);
 			/* spid_cur = last SPID given to an SP in this DG :-)  */
-			guint32 spid_cur   = BIFF_GET_GUINT32(c->data+ESH_HEADER_LEN+4);
+			guint32 spid_cur   = MS_OLE_GET_GUINT32(c->data+ESH_HEADER_LEN+4);
 			guint32 drawing_id = c->instance;
 			/* This drawing has these num_shapes shapes, with a pointer to the last SPID given to it */
 			break;

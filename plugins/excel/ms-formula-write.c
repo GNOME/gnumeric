@@ -111,7 +111,7 @@ static void
 push_guint16 (PolishData *pd, guint16 b)
 {
 	guint8 data[2];
-	BIFF_SET_GUINT16 (data, b);
+	MS_OLE_SET_GUINT16 (data, b);
 	ms_biff_put_var_write (pd->bp, data, sizeof(data));
 }
 
@@ -119,7 +119,7 @@ static void
 push_guint32 (PolishData *pd, guint32 b)
 {
 	guint8 data[4];
-	BIFF_SET_GUINT32 (data, b);
+	MS_OLE_SET_GUINT32 (data, b);
 	ms_biff_put_var_write (pd->bp, data, sizeof(data));
 }
 
@@ -143,8 +143,8 @@ write_cellref_v7 (PolishData *pd, const CellRef *ref,
 	if (ref->row_relative)
 		row |= 0x8000;
 
-	BIFF_SET_GUINT16 (out_row, row);
-	BIFF_SET_GUINT8  (out_col, col);
+	MS_OLE_SET_GUINT16 (out_row, row);
+	MS_OLE_SET_GUINT8  (out_col, col);
 }
 
 static void
@@ -167,8 +167,8 @@ write_cellref_v8 (PolishData *pd, const CellRef *ref,
 	if (ref->row_relative)
 		col |= 0x8000;
 
-	BIFF_SET_GUINT16 (out_row, row);
-	BIFF_SET_GUINT16 (out_col, col);
+	MS_OLE_SET_GUINT16 (out_row, row);
+	MS_OLE_SET_GUINT16 (out_col, col);
 }
 
 static void
@@ -220,11 +220,11 @@ write_area (PolishData *pd, const CellRef *a, const CellRef *b)
 
 		push_guint8 (pd, OP_REF (FORMULA_PTG_AREA_3D));
 		if (pd->ver <= eBiffV7) {
-			BIFF_SET_GUINT16 (data, 0); /* FIXME ? */
-			BIFF_SET_GUINT32 (data +  2, 0x0);
-			BIFF_SET_GUINT32 (data +  6, 0x0);
-			BIFF_SET_GUINT16 (data + 10, first_idx);
-			BIFF_SET_GUINT16 (data + 12, second_idx);
+			MS_OLE_SET_GUINT16 (data, 0); /* FIXME ? */
+			MS_OLE_SET_GUINT32 (data +  2, 0x0);
+			MS_OLE_SET_GUINT32 (data +  6, 0x0);
+			MS_OLE_SET_GUINT16 (data + 10, first_idx);
+			MS_OLE_SET_GUINT16 (data + 12, second_idx);
 			write_cellref_v7 (pd, a,
 					  data + 18, (guint16 *)(data + 14));
 			write_cellref_v7 (pd, b,
@@ -234,7 +234,7 @@ write_area (PolishData *pd, const CellRef *a, const CellRef *b)
 			guint16 extn_idx = ms_excel_write_get_externsheet_idx (pd->sheet->wb,
 									       a->sheet,
 									       b->sheet);
-			BIFF_SET_GUINT16 (data, extn_idx);
+			MS_OLE_SET_GUINT16 (data, extn_idx);
 			write_cellref_v8 (pd, a,
 					  (guint16 *)(data + 6), (guint16 *)(data + 2));
 			write_cellref_v8 (pd, b,
@@ -267,11 +267,11 @@ write_ref (PolishData *pd, const CellRef *ref)
 		if (pd->ver <= eBiffV7) {
 			guint16 extn_idx = ms_excel_write_get_sheet_idx (pd->sheet->wb,
 									 ref->sheet);
-			BIFF_SET_GUINT16 (data, 0); /* FIXME ? */
-			BIFF_SET_GUINT32 (data +  2, 0x0);
-			BIFF_SET_GUINT32 (data +  6, 0x0);
-			BIFF_SET_GUINT16 (data + 10, extn_idx);
-			BIFF_SET_GUINT16 (data + 12, extn_idx);
+			MS_OLE_SET_GUINT16 (data, 0); /* FIXME ? */
+			MS_OLE_SET_GUINT32 (data +  2, 0x0);
+			MS_OLE_SET_GUINT32 (data +  6, 0x0);
+			MS_OLE_SET_GUINT16 (data + 10, extn_idx);
+			MS_OLE_SET_GUINT16 (data + 12, extn_idx);
 			write_cellref_v7 (pd, ref, data + 16,
 					  (guint16 *)(data + 14));
 			ms_biff_put_var_write (pd->bp, data, 17);
@@ -279,7 +279,7 @@ write_ref (PolishData *pd, const CellRef *ref)
 			guint16 extn_idx = ms_excel_write_get_externsheet_idx (pd->sheet->wb,
 									       ref->sheet,
 									       NULL);
-			BIFF_SET_GUINT16 (data, extn_idx);
+			MS_OLE_SET_GUINT16 (data, extn_idx);
 			write_cellref_v8 (pd, ref, (guint16 *)(data + 2),
 					  (guint16 *)(data + 1));
 			ms_biff_put_var_write (pd->bp, data, 6);
@@ -406,7 +406,7 @@ write_node (PolishData *pd, ExprTree *tree)
 		case VALUE_FLOAT:
 		{
 			guint8 data[10];
-			BIFF_SET_GUINT8 (data, FORMULA_PTG_NUM);
+			MS_OLE_SET_GUINT8 (data, FORMULA_PTG_NUM);
 			BIFF_SETDOUBLE (data+1, value_get_as_float (v));
 			ms_biff_put_var_write (pd->bp, data, 9);
 			break;
@@ -429,11 +429,11 @@ write_node (PolishData *pd, ExprTree *tree)
 			    v->v.array.y > 65536)
 				g_warning ("Array far too big");
 
-			BIFF_SET_GUINT8  (data + 0, FORMULA_PTG_ARRAY);
-			BIFF_SET_GUINT8  (data + 1, v->v.array.x - 1);
-			BIFF_SET_GUINT16 (data + 2, v->v.array.y - 1);
-			BIFF_SET_GUINT16 (data + 4, 0x0); /* ? */
-			BIFF_SET_GUINT16 (data + 6, 0x0); /* ? */
+			MS_OLE_SET_GUINT8  (data + 0, FORMULA_PTG_ARRAY);
+			MS_OLE_SET_GUINT8  (data + 1, v->v.array.x - 1);
+			MS_OLE_SET_GUINT16 (data + 2, v->v.array.y - 1);
+			MS_OLE_SET_GUINT16 (data + 4, 0x0); /* ? */
+			MS_OLE_SET_GUINT16 (data + 6, 0x0); /* ? */
 			ms_biff_put_var_write (pd->bp, data, 8);
 
 			pd->arrays = g_list_append (pd->arrays, v);

@@ -9,10 +9,14 @@
  *    Somar Software's CPPSUM (http://www.somar.com)
  **/
 
+#ifndef MS_OLE_SUMMARY_H
+#define MS_OLE_SUMMARY_H
+
 typedef struct {
-	gboolean little_endian;
-	guint8   win_GUID[16];
-	guint32  sections;
+	gboolean     little_endian;
+	guint8       windows_GUID[16];
+	guint32      sections;
+	MsOleStream *s;
 } MsOleSummary;
 
 /*
@@ -101,3 +105,5 @@ MsOleSummaryTime    *ms_ole_summary_get_time    (MsOleSummary *si, MsOleSummaryP
 
 MsOleSummaryPreview *ms_ole_summary_get_preview (MsOleSummary *si, MsOleSummaryPID id,
 						 gboolean *not_available);
+
+#endif

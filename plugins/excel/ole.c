@@ -213,9 +213,9 @@ esh_header_next (ESH_HEADER *h)
 		h->length_left-=h->length+ESH_HEADER_LEN;
 	}
 
-	h->length   = BIFF_GET_GUINT32(h->data+4);
-	h->type     = BIFF_GET_GUINT16(h->data+2);
-	split       = BIFF_GET_GUINT16(h->data+0);
+	h->length   = MS_OLE_GET_GUINT32(h->data+4);
+	h->type     = MS_OLE_GET_GUINT16(h->data+2);
+	split       = MS_OLE_GET_GUINT16(h->data+0);
 	h->ver      = (split&0x0f);
 	h->instance = (split>>4);
 #if ESH_HEADER_DEBUG > 0
@@ -368,9 +368,9 @@ do_biff_raw (MsOle *ole)
 		
 		buffer = g_new (guint8, 65550);
 		while (stream->read_copy (stream, data, 4)) {
-			guint32 len=BIFF_GET_GUINT16(data+2);
+			guint32 len=MS_OLE_GET_GUINT16(data+2);
 			printf ("0x%4x Opcode 0x%3x : %15s, length 0x%x (=%d)\n", stream->position,
-				BIFF_GET_GUINT16(data), get_biff_opcode_name (BIFF_GET_GUINT16(data)),
+				MS_OLE_GET_GUINT16(data), get_biff_opcode_name (MS_OLE_GET_GUINT16(data)),
 				len, len);
 			stream->read_copy (stream, buffer, len);
 			dump (buffer, len);
@@ -660,7 +660,7 @@ read_records (MsOleStream *s, MsOleSummaryRecord *sr)
 	s->lseek (s, sr->offset, MsOleSeekSet);
 	g_return_if_fail (s->read_copy (s, data, 4));
 
-	rec_type = BIFF_GET_GUINT32 (data);
+	rec_type = MS_OLE_GET_GUINT32 (data);
 #if SUMMARY_DEBUG > 0
 	printf ("Next record at 0x%x : '%s' : type 0x%x\n",
 		sr->offset, sum_names[sr->type], rec_type);
@@ -668,7 +668,7 @@ read_records (MsOleStream *s, MsOleSummaryRecord *sr)
 
 	if (rec_type == 0x1e) { /* String */
 		g_return_if_fail (s->read_copy (s, data, 4));
-		len = BIFF_GET_GUINT32 (data);
+		len = MS_OLE_GET_GUINT32 (data);
 
 		mem = g_malloc (len+1);
 		g_return_if_fail (s->read_copy (s, mem, len));
@@ -679,11 +679,11 @@ read_records (MsOleStream *s, MsOleSummaryRecord *sr)
 		printf ("string '%s'\n", sr->txt);
 	} else if (rec_type == 0x3) {
 		g_return_if_fail (s->read_copy (s, data, 4));
-		printf ("Integer : 0x%x\n", BIFF_GET_GUINT32 (data));
+		printf ("Integer : 0x%x\n", MS_OLE_GET_GUINT32 (data));
 	} else if (rec_type == 0x40) {
 		g_return_if_fail (s->read_copy (s, data, 8));
-		printf ("Timestamp : 0x%x%x\n", BIFF_GET_GUINT32 (data + 4),
-			BIFF_GET_GUINT32 (data));
+		printf ("Timestamp : 0x%x%x\n", MS_OLE_GET_GUINT32 (data + 4),
+			MS_OLE_GET_GUINT32 (data));
 	} else {
 		printf ("Unknown type:\n");
 		g_return_if_fail (s->read_copy (s, data, 32));
@@ -704,7 +704,7 @@ dump_summary (MsOleStream *s)
 
 	g_return_if_fail (s->read_copy (s, data, HEADER_LEN));
 
-	sh->num_records = BIFF_GET_GUINT32 (data + 0x34);
+	sh->num_records = MS_OLE_GET_GUINT32 (data + 0x34);
 	sh->records     = g_ptr_array_new ();
 
 	printf ("Summary info header len 0x%x = 0x%x records\n",
@@ -716,9 +716,9 @@ dump_summary (MsOleStream *s)
 		guint8 data[8];
 
 		g_return_if_fail (s->read_copy (s, data, 8));
-		sr->offset = ((0x0b + 2) * 8) - HEADER_LEN + BIFF_GET_GUINT32 (data+4);
-		sr->type   = BIFF_GET_GUINT32(data);
-		printf ("Record type %x at offset 0x%x\n", sr->type, BIFF_GET_GUINT32(data+4));
+		sr->offset = ((0x0b + 2) * 8) - HEADER_LEN + MS_OLE_GET_GUINT32 (data+4);
+		sr->type   = MS_OLE_GET_GUINT32(data);
+		printf ("Record type %x at offset 0x%x\n", sr->type, MS_OLE_GET_GUINT32(data+4));
 		g_ptr_array_add (sh->records, sr);
 	}
 

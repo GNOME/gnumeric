@@ -1,3 +1,10 @@
+1999-07-19  Michael Meeks  <michael@edenproject.org>
+
+	* *.[ch]: Big macro prettify. Moved biff type handling macros into
+	libole2/ms-ole.h, and renamed:
+		s/BIFF_GET_GUINT/MS_OLE_GET_GUINT/g
+		s/BIFF_SET_GUINT/MS_OLE_SET_GUINT/g
+	
 1999-07-14  Michael Meeks  <michael@edenproject.org>
 
 	* ms-summary.c: Big clean, quiet and sensible handling of

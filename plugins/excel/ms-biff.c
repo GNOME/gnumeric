@@ -182,9 +182,9 @@ ms_biff_merge_continues (BiffQuery *bq, guint32 len)
 		total_len   += chunk.length - bq->padding;
 		g_array_append_val (contin, chunk);
 
-		chunk.length = BIFF_GET_GUINT16 (tmp+2);
+		chunk.length = MS_OLE_GET_GUINT16 (tmp+2);
 		bq->num_merges++;
-	} while ((BIFF_GET_GUINT16(tmp) & 0xff) == BIFF_CONTINUE);
+	} while ((MS_OLE_GET_GUINT16(tmp) & 0xff) == BIFF_CONTINUE);
 	bq->pos->lseek (bq->pos, -4, MsOleSeekCur); /* back back off */
 
 	bq->data = g_malloc (total_len);
@@ -240,8 +240,8 @@ ms_biff_query_next_merge (BiffQuery *bq, gboolean do_merge)
 	bq->streamPos = bq->pos->position;
 	if (!bq->pos->read_copy (bq->pos, tmp, 4))
 		return 0;
-	bq->opcode = BIFF_GET_GUINT16 (tmp);
-	bq->length = BIFF_GET_GUINT16 (tmp+2);
+	bq->opcode = MS_OLE_GET_GUINT16 (tmp);
+	bq->length = MS_OLE_GET_GUINT16 (tmp+2);
 	bq->ms_op  = (bq->opcode>>8);
 	bq->ls_op  = (bq->opcode&0xff);
 
@@ -257,8 +257,8 @@ ms_biff_query_next_merge (BiffQuery *bq, gboolean do_merge)
 	}
 	if (ans && do_merge &&
 	    bq->pos->read_copy (bq->pos, tmp, 4)) {
-		if ((BIFF_GET_GUINT16(tmp) & 0xff) == BIFF_CONTINUE)
-			return ms_biff_merge_continues (bq, BIFF_GET_GUINT16(tmp+2));
+		if ((MS_OLE_GET_GUINT16(tmp) & 0xff) == BIFF_CONTINUE)
+			return ms_biff_merge_continues (bq, MS_OLE_GET_GUINT16(tmp+2));
 		bq->pos->lseek (bq->pos, -4, MsOleSeekCur); /* back back off */
 #if BIFF_DEBUG > 4
 		printf ("Backed off\n");
@@ -371,8 +371,8 @@ ms_biff_put_var_next   (BiffPut *bp, guint16 opcode)
 	bp->data       = 0;
 	bp->streamPos  = bp->pos->tell (bp->pos);
 
-	BIFF_SET_GUINT16(data, opcode);
-	BIFF_SET_GUINT16(data+2,0xfaff); /* To be corrected later */
+	MS_OLE_SET_GUINT16(data, opcode);
+	MS_OLE_SET_GUINT16(data+2,0xfaff); /* To be corrected later */
 	bp->pos->write (bp->pos, data, 4);
 }
 void
@@ -417,8 +417,8 @@ ms_biff_put_var_commit (BiffPut *bp)
 	endpos = bp->streamPos + bp->length + 4;
 	bp->pos->lseek (bp->pos, bp->streamPos, MsOleSeekSet);
 
-	BIFF_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
-	BIFF_SET_GUINT16 (tmp+2, bp->length);
+	MS_OLE_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
+	MS_OLE_SET_GUINT16 (tmp+2, bp->length);
 	bp->pos->write (bp->pos, tmp, 4);
 
 	bp->pos->lseek (bp->pos, endpos, MsOleSeekSet);
@@ -439,8 +439,8 @@ ms_biff_put_len_commit (BiffPut *bp)
 /*	if (!bp->data_malloced) Unimplemented optimisation
 		bp->pos->lseek (bp->pos, bp->length, MsOleSeekCur);
 		else */
-	BIFF_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
-	BIFF_SET_GUINT16 (tmp+2, bp->length);
+	MS_OLE_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
+	MS_OLE_SET_GUINT16 (tmp+2, bp->length);
 	bp->pos->write (bp->pos, tmp, 4);
 	bp->pos->write (bp->pos, bp->data, bp->length);
 

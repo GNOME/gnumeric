@@ -85,14 +85,14 @@ ms_obj_read_text_impl (BiffQuery *q, ExcelWorkbook * wb)
 	    "At bottom", "Verticaly justified"
 	};
 
-	guint16 const options = BIFF_GET_GUINT16 (q->data);
-	guint16 const orient = BIFF_GET_GUINT16 (q->data+2);
-	guint16 const text_len = BIFF_GET_GUINT16 (q->data+10);
-	guint16 const num_formats = BIFF_GET_GUINT16 (q->data+12);
+	guint16 const options = MS_OLE_GET_GUINT16 (q->data);
+	guint16 const orient = MS_OLE_GET_GUINT16 (q->data+2);
+	guint16 const text_len = MS_OLE_GET_GUINT16 (q->data+10);
+	guint16 const num_formats = MS_OLE_GET_GUINT16 (q->data+12);
 	int const halign = (options >> 1) & 0x7;
 	int const valign = (options >> 4) & 0x7;
 	char * text = g_new(char, text_len+1);
-	guint8 const unicode_flag = BIFF_GET_GUINT8 (q->data+18);
+	guint8 const unicode_flag = MS_OLE_GET_GUINT8 (q->data+18);
 	guchar const * ptr;
 	int i, increment = 1;
 
@@ -178,10 +178,10 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 
 	/* Scan through the pseudo BIFF substream */
 	while (data_len_left > 0 && !hit_end) {
-		guint16 const record_type = BIFF_GET_GUINT16(data);
+		guint16 const record_type = MS_OLE_GET_GUINT16(data);
 
 		/* All the sub-records seem to have this layout */
-		guint16 const len = BIFF_GET_GUINT16(data+2);
+		guint16 const len = MS_OLE_GET_GUINT16(data+2);
 
 		/* 1st record must be COMMON_OBJ*/
 		g_return_if_fail (obj_type >= 0 ||
@@ -264,13 +264,13 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 		case GR_COMMON_OBJ_DATA:
 		{
 			char const *type_name = NULL;
-			guint16 const options =BIFF_GET_GUINT16(data+8);
+			guint16 const options =MS_OLE_GET_GUINT16(data+8);
 
 			/* Multiple objects in 1 record ?? */
 			g_return_if_fail (obj_type == -1);
 
-			obj_type = BIFF_GET_GUINT16(data+4);
-			obj_id = BIFF_GET_GUINT16(data+6);
+			obj_type = MS_OLE_GET_GUINT16(data+4);
+			obj_id = MS_OLE_GET_GUINT16(data+6);
 			if (obj_type<sizeof(object_type_names)/sizeof(char*))
 				type_name =object_type_names[obj_type];
 			else
