@@ -14,6 +14,8 @@ Gnumeric 1.2.12
 	* Fix font handling in chart labels and titles
 	http://bugzilla.gnome.org/show_bug.cgi?id=140671
 	* Fix crash when undoing a cut from a different workbook
+	* Fix validation crash due to excel import.
+	* Fix custom validation export.
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.11
