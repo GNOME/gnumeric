@@ -455,9 +455,9 @@ ms_escher_read_Blip (MSEscherState *state, MSEscherHeader *h)
 			type = "dib";
 		offset++;
 		data = ms_escher_get_data (state, h->offset + offset,
-			h->len - offset - COMMON_HEADER_LEN, &needs_free);
+			h->len - offset, &needs_free);
 		blip = ms_escher_blip_new ((guint8 *)data,
-			h->len - offset - COMMON_HEADER_LEN, type, !needs_free);
+			h->len - offset, type, !needs_free);
 	} else {
 		failure = TRUE;
 		g_warning ("Don't know what to do with this image %x;", inst);

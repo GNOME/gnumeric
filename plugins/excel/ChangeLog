@@ -1,3 +1,8 @@
+2004-05-20  Morten Welinder  <terra@gnome.org>
+
+	* ms-escher.c (ms_escher_read_Blip): We were reading 8 bytes too
+	few.
+
 2004-05-15  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_BOF) : init the len for bifftypes
