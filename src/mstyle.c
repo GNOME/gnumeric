@@ -1520,3 +1520,48 @@ mstyle_visible_in_blank (const MStyle *st)
 
 	return FALSE;
 }
+
+PangoAttrList *
+mstyle_get_pango_attrs (const MStyle *mstyle, const StyleColor *fore)
+{
+	PangoAttribute *attr;
+	PangoAttrList *res = pango_attr_list_new ();
+
+	/* Set the font colour */
+	if (fore == NULL)
+		fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+	attr = pango_attr_foreground_new (fore->red, fore->green, fore->blue);
+	attr->start_index = 0;
+	attr->end_index = -1;
+	pango_attr_list_insert (res, attr);
+
+	/* Handle underlining */
+	switch (mstyle_get_font_uline (mstyle)) {
+	case UNDERLINE_SINGLE :
+		attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (res, attr);
+		break;
+
+	case UNDERLINE_DOUBLE :
+		attr = pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (res, attr);
+		break;
+
+	default :
+		break;
+	};
+
+	/* Handle strikethrough */
+	if (mstyle_get_font_strike (mstyle)){
+		attr = pango_attr_strikethrough_new (TRUE);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (res, attr);
+	}
+
+	return res;
+}

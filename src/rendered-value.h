@@ -16,7 +16,12 @@ struct _RenderedValue {
 
 	/* Colour supplied by the formater eg [Red]0.00 */
 	StyleColor  *render_color;
+
+	/* Not yet used.  */
 	PangoLayout *layout;
+
+	/* Probably should go away in the long run.  */
+	PangoAttrList* attrs;
 
 	/* Computed sizes of rendered text.
 	 * In pixels EXCLUSIVE of margins and grid lines

@@ -1,3 +1,19 @@
+2003-01-13  Morten Welinder  <terra@diku.dk>
+
+	* src/rendered-value.c (rendered_value_new): Create a matching
+	PangoAttrList.
+	(rendered_value_calc_size_ext): Constify.
+
+	* src/cell-draw.c (cell_draw): Use the rendered value's
+	attributes.
+
+	* src/mstyle.c (mstyle_get_pango_attrs): New function.
+
+	* src/style.c (style_font_new_simple): Explicitly set a colour map
+	for the pango context.
+
+	* src/item-grid.c (cb_cursor_come_to_rest): Constify.
+
 2003-01-10  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-control-gui.c (zoom_changed): buffer size paranoia.

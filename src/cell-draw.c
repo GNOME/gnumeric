@@ -38,7 +38,7 @@ draw_text (GdkDrawable *drawable, StyleFont *font, GdkGC *gc,
 		n = 1024;
 
 	pango_layout_set_attributes (layout, attrs);
-	pango_layout_set_text(layout, text, n);
+	pango_layout_set_text (layout, text, n);
 	gdk_draw_layout (drawable, gc, x1, text_base, layout);
 }
 
@@ -53,14 +53,15 @@ draw_overflow (GdkDrawable *drawable, GdkGC *gc, StyleFont *font,
 	unsigned const len = font->approx_width.pixels.hash;
 	unsigned count = 1;
 
-	if (len != 0)
+	if (len > 0) {
 		count = width / len;
-	if (count == 0)
-		count = 1;
-	else if (count >= sizeof (hashes))
-		count = sizeof (hashes) - 1;
+		if (count == 0)
+			count = 1;
+		else if (count >= sizeof (hashes))
+			count = sizeof (hashes) - 1;
+	}
 
-	x1 += (width - count*len) / 2; /* Center */
+	x1 += (width - count * len) / 2; /* Center */
 	draw_text (drawable, font, gc, x1, text_base, hashes, count, attrs);
 }
 
@@ -178,10 +179,8 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	StyleHAlignFlags halign;
 	StyleVAlignFlags valign;
 	char const *text;
-	StyleColor   *fore;
 	int cell_width_pixel, indent;
 	PangoAttrList* attrs;
-	PangoAttribute* attr;
 
 	/* Don't print zeros if they should be ignored. */
 	if (sheet && sheet->hide_zero && cell_is_zero (cell) &&
@@ -192,14 +191,11 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	    cell->rendered_value->rendered_text == NULL ||
 	    cell->rendered_value->rendered_text->str == NULL) {
 		g_warning ("Serious cell error at '%s'.", cell_name (cell));
-		text = "Pending";
-		fore = NULL;
-	} else {
-		text = cell->rendered_value->rendered_text->str;
-		fore = cell->rendered_value->render_color;
+		return;
 	}
-	if (fore == NULL)
-		fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+
+	attrs = cell->rendered_value->attrs;
+	text = cell->rendered_value->rendered_text->str;
 
 	/* Get the sizes exclusive of margins and grids */
 	/* FIXME : all callers will eventually pass in their cell size */
@@ -236,7 +232,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 		break;
 
 	case VALIGN_CENTER:
-		text_base = rect.y + (height-font_height)/2;
+		text_base = rect.y + (height - font_height) / 2;
 		break;
 
 	case VALIGN_BOTTOM:
@@ -245,43 +241,11 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 		 * add height == first pixel in lower margin
 		 * subtract font descent
 		 */
-		text_base = rect.y + (height-font_height);
+		text_base = rect.y + (height - font_height);
 		break;
 	}
 	gdk_gc_set_clip_rectangle (gc, &rect);
-
-	/* Set the font colour */
 	gdk_gc_set_fill (gc, GDK_SOLID);
-	g_return_if_fail (fore != NULL); /* Be extra careful */
-	gdk_gc_set_foreground (gc, &fore->color);
-
- 	attrs = pango_attr_list_new();
-
-	/* Handle underlining and strikethrough */
-	switch (mstyle_get_font_uline (mstyle)) {
-	case UNDERLINE_SINGLE :
-		attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (attrs, attr);
-		break;
-
-	case UNDERLINE_DOUBLE :
-		attr = pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (attrs, attr);
-		break;
-
-	default :
-		break;
-	};
-	if (mstyle_get_font_strike (mstyle)){
-		attr = pango_attr_strikethrough_new (TRUE);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (attrs, attr);
-	}
 
 	cell_width_pixel = cell_rendered_width (cell);
 	indent = cell_rendered_offset (cell);
@@ -292,7 +256,6 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 		draw_overflow (drawable, gc, style_font, rect.x,
 			       text_base, width, attrs);
 		style_font_unref (style_font);
-		pango_attr_list_unref (attrs);
 		return;
 	}
 
@@ -411,5 +374,4 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	}
 
 	style_font_unref (style_font);
-	pango_attr_list_unref(attrs);
 }

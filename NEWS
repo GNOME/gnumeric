@@ -18,6 +18,8 @@ Morten:
 	* Add function renaming support for file formats that use function
 	  names different from our.
 	* Partial buffer overrun audit.
+	* Move pango attribute calculation into rendered value.  (Operation
+	  Snappiness, Part 1 of many.)
 
 Theppitak Karoonboonyanan:
 	* Improve XIM support.

@@ -182,6 +182,10 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 				return NULL;
 			}
 		}
+
+		gdk_pango_context_set_colormap (font->pango.context,
+						gtk_widget_get_default_colormap ());
+
 		font->pango.layout  = pango_layout_new (font->pango.context);
 
 		font->pango.metrics = pango_font_get_metrics (font->pango.font,

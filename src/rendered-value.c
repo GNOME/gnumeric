@@ -149,6 +149,9 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 	res->width_pixel = res->height_pixel = res->offset_pixel = 0;
 	res->dynamic_width = dynamic_width;
 
+	res->layout = NULL;
+	res->attrs = mstyle_get_pango_attrs (mstyle, color);
+
 	return res;
 }
 
@@ -163,6 +166,11 @@ rendered_value_destroy (RenderedValue *rv)
 	if (rv->render_color) {
 		style_color_unref (rv->render_color);
 		rv->render_color = NULL;
+	}
+
+	if (rv->attrs) {
+		pango_attr_list_unref (rv->attrs);
+		rv->attrs = NULL;
 	}
 
 	CHUNK_FREE (rendered_value_pool, rv);
@@ -204,7 +212,7 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 	int const cell_w = COL_INTERNAL_WIDTH (cell->col_info);
 	StyleHAlignFlags const halign = mstyle_get_align_h (mstyle);
 	int text_width;
-	char *text;
+	const char *text;
 
 	g_return_if_fail (mstyle != NULL);
 	g_return_if_fail (rv != NULL);
