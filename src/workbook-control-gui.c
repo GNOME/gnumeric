@@ -4110,7 +4110,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsTabulate", cb_tools_tabulate),
 	BONOBO_UI_UNSAFE_VERB ("ToolsMerge", cb_tools_merge),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSolver", cb_tools_solver),
-        BONOBO_UI_UNSAFE_VERB ("ToolsScenario", cb_tools_scenario_add),
+        BONOBO_UI_UNSAFE_VERB ("ToolsScenarioAdd", cb_tools_scenario_add),
         BONOBO_UI_UNSAFE_VERB ("ToolsScenarios", cb_tools_scenarios),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSimulation", cb_tools_simulation),
 
