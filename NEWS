@@ -5,6 +5,8 @@ Andreas:
 	http://bugzilla.gnome.org/show_bug.cgi?id=148724
 	http://bugzilla.gnome.org/show_bug.cgi?id=149247
 	* Some minor About box changes
+	http://bugzilla.gnome.org/show_bug.cgi?id=149945
+	* Fix database functions
 
 Emmanuel Pacaud:
 	* Add logarithmic mapping and invert axis support.

@@ -1,3 +1,8 @@
+2004-08-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=149945
+	* src/value.c (find_column_of_field): Correct offset.
+
 2004-08-21  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Add «nb» to ALL_LINGUAS.

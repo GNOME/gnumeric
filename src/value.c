@@ -1444,8 +1444,7 @@ find_column_of_field (GnmEvalPos const *ep, GnmValue *database, GnmValue *field)
 	int   begin_col, end_col, row, n, column;
 	int   offset;
 
-	offset = database->v_range.cell.b.col -
-	  database->v_range.cell.a.col;
+	offset = database->v_range.cell.a.col;
 
 	if (field->type == VALUE_INTEGER)
 	        return value_get_as_int (field) + offset - 1;
