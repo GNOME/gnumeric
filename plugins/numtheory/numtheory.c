@@ -14,6 +14,7 @@
 #include "func.h"
 #include "plugin.h"
 #include "value.h"
+#include "limits.h"
 
 #define OUT_OF_BOUNDS "#LIMIT!"
 
@@ -36,14 +37,15 @@ intpow (int p, int v)
 #define ITHPRIME_LIMIT 1000000
 static int *prime_table = NULL;
 
-static int
+/* Calculate the i-th prime.  Returns TRUE on error.  */
+static gboolean
 ithprime (int i, int *res)
 {
 	static int computed = 0;
 	static int allocated = 0;
 
 	if (i < 1 || i > ITHPRIME_LIMIT)
-		return 1;
+		return TRUE;
 
 	if (i > computed) {
 		int candidate;
@@ -80,17 +82,22 @@ ithprime (int i, int *res)
 	}
 
 	*res = prime_table[i - 1];
-	return 0;
+	return FALSE;
 }
 
-static void
+/*
+ * A function useful for computing multiplicative aritmethic functions.
+ * Returns TRUE on error.
+ */
+static gboolean
 walk_factorization (int n, void *data,
 		    void (*walk_term) (int p, int v, void *data))
 {
 	int index = 1, p = 2, v;
 
 	while (n > 1 && p * p <= n) {
-		ithprime (index, &p);
+		if (ithprime (index, &p))
+			return TRUE;
 
 		v = 0;
 		while (n % p == 0) {
@@ -113,6 +120,8 @@ walk_factorization (int n, void *data,
 		 */
 		walk_term (n, 1, data);
 	}
+
+	return FALSE;
 }
 
 /*
@@ -202,12 +211,51 @@ gnumeric_phi (FunctionEvalInfo *ei, Value **args)
 	n = value_get_as_int (args [0]);
 	if (n < 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
-	else if (n > 262144)
+
+	if (walk_factorization (n, &phi, walk_for_phi))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
-	walk_factorization (n, &phi, walk_for_phi);
 	return value_new_int (phi);
 }
+
+/* ------------------------------------------------------------------------- */
+
+static char *help_nt_mu = {
+	N_("@FUNCTION=NT_MU\n"
+	   "@SYNTAX=NT_MU(n)\n"
+	   "@DESCRIPTION="
+	   "The NT_MU function (Möbius mu function) returns \n"
+	   "0  if @n is divisible by the square of a prime .\n"
+	   "Otherwise it returns: \n"
+	   "-1 if @n has an odd  number of different prime factors .\n"
+	   "1  if @n has an even number of different prime factors .\n"
+	   "If @n=1 it returns 1\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "@SEEALSO=NT_D, ITHPRIME, NT_PHI")
+};
+
+static void
+walk_for_mu (int p, int v, void *data)
+{
+	*((int *)data) = (v >= 2) ?  0 : - *((int *)data) ;
+}
+
+static Value *
+gnumeric_nt_mu (FunctionEvalInfo *ei, Value **args)
+{
+	int n, mu = 1;
+
+	n = value_get_as_int (args [0]);
+	if (n < 1)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	if (walk_factorization (n, &mu, walk_for_mu))
+		return value_new_error (ei->pos, OUT_OF_BOUNDS);
+
+	return value_new_int (mu);
+}
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -236,10 +284,10 @@ gnumeric_d (FunctionEvalInfo *ei, Value **args)
 	n = value_get_as_int (args [0]);
 	if (n < 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
-	else if (n > 262144)
+
+	if (walk_factorization (n, &d, walk_for_d))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
-	walk_factorization (n, &d, walk_for_d);
 	return value_new_int (d);
 }
 
@@ -271,10 +319,10 @@ gnumeric_sigma (FunctionEvalInfo *ei, Value **args)
 	n = value_get_as_int (args [0]);
 	if (n < 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
-	else if (n > 262144)
+
+	if (walk_factorization (n, &sigma, walk_for_sigma))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
-	walk_factorization (n, &sigma, walk_for_sigma);
 	return value_new_int (sigma);
 }
 
@@ -299,10 +347,10 @@ gnumeric_ithprime (FunctionEvalInfo *ei, Value **args)
 	i = value_get_as_int (args [0]);
 	if (i < 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
-	else if (i > ITHPRIME_LIMIT)
+
+	if (ithprime (i, &p))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
-	ithprime (i, &p);
 	return value_new_int (p);
 }
 
@@ -365,35 +413,56 @@ static Value *
 func_bitor (FunctionEvalInfo *ei, Value *argv [])
 {
         return value_new_int (value_get_as_int (argv [0]) |
-                                                  value_get_as_int (argv [1]));
+			      value_get_as_int (argv [1]));
+}
+
+static Value *
+func_bitxor (FunctionEvalInfo *ei, Value *argv [])
+{
+        return value_new_int (value_get_as_int (argv [0]) ^
+			      value_get_as_int (argv [1]));
 }
 
 static Value *
 func_bitand (FunctionEvalInfo *ei, Value *argv [])
 {
         return value_new_int (value_get_as_int (argv [0]) &
-                                                  value_get_as_int (argv [1]));
+			      value_get_as_int (argv [1]));
 }
 
 static Value *
 func_bitlshift (FunctionEvalInfo *ei, Value *argv [])
 {
-        return value_new_int (value_get_as_int (argv [0]) <<
-                                                  value_get_as_int (argv [1]));
+	int l = value_get_as_int (argv [0]);
+	int r = value_get_as_int (argv [1]);
+
+	if (r >= WORD_BIT || r <= -WORD_BIT)
+		return value_new_int (0);  /* All bits shifted away.  */
+	else if (r < 0)
+		return value_new_int (l >> (-r));
+	else
+		return value_new_int (l << r);
 }
 
 static Value *
 func_bitrshift (FunctionEvalInfo *ei, Value *argv [])
 {
-        return value_new_int (value_get_as_int (argv [0]) >>
-                                                  value_get_as_int (argv [1]));
+	int l = value_get_as_int (argv [0]);
+	int r = value_get_as_int (argv [1]);
+
+	if (r >= WORD_BIT || r <= -WORD_BIT)
+		return value_new_int (0);  /* All bits shifted away.  */
+	else if (r < 0)
+		return value_new_int (l << (-r));
+	else
+		return value_new_int (l >> r);
 }
 
 /* ------------------------------------------------------------------------- */
 
 static const char *function_names[] = {
-	"nt_phi", "nt_d", "nt_sigma", "ithprime", "isprime", "nt_pi",
-        "bitor", "bitand", "bitlshift", "bitrshift"
+	"nt_phi", "nt_d", "nt_sigma", "ithprime", "isprime", "nt_pi", "nt_mu",
+        "bitor", "bitxor", "bitand", "bitlshift", "bitrshift"
 };
 
 static const int function_count =
@@ -451,11 +520,16 @@ init_plugin (CommandContext *context, PluginData *pd)
 			    "number",    &help_isprime,  gnumeric_isprime);
 	function_add_args  (cat, "nt_pi",   "f",
 			    "number",    &help_nt_pi,    gnumeric_nt_pi);
+	function_add_args  (cat, "nt_mu",   "f",
+			    "number",    &help_nt_mu,    gnumeric_nt_mu);		     
+	
 
         cat = function_get_category (_("Bitwise Operations"));
 
         function_add_args (cat, "bitor", "ff",
 			   "A,B", NULL, func_bitor);
+        function_add_args (cat, "bitxor", "ff",
+			   "A,B", NULL, func_bitxor);
         function_add_args (cat, "bitand", "ff",
 			   "A,B", NULL, func_bitand);
         function_add_args (cat, "bitlshift", "ff",

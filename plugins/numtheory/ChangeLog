@@ -1,8 +1,17 @@
+2000-08-03  Morten Welinder  <terra@diku.dk>
+
+	* numtheory.c (func_bitlshift, func_bitrshift): Handle large bit
+ 	counts.  Handle negative counts.
+	(func_bitxor): New function.
+	(gnumeric_nt_mu): New function from Pablo De Napoli
+	<pdenapo@mate.dm.uba.ar>.
+	(walk_factorization): Return an error code.  All callers changed.
+
 2000-07-06  Jody Goldberg <jgoldberg@home.com>
 
-	* numtheory.c : Add the bitwise operators supplied by
-	  Brian Murrel <brian@interlinx.bc.ca>
-	  Why put them here ?  They are too small live on their own.
+	* numtheory.c: Add the bitwise operators supplied by Brian Murrel
+ 	  <brian@interlinx.bc.ca>  Why put them here?  They are too small
+ 	  live on their own.
 
 2000-06-28  Jody Goldberg <jgoldberg@home.com>
 

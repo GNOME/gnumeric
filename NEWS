@@ -34,6 +34,10 @@ Morten:
 	* Fix array and range traversal order, thus fixing all strict
 	  range functions.  (SUM, MIN, ...)
 	* Fix many bogusities in xbase plugin.
+	* Cleanup limits in numtheory.  Added BITXOR.
+
+Pablo De Napoli:
+	* New NT_MU function in numtheory.
 
 Translations:
 	* Updated: da (Kenneth/Keld?), de (Karl), en_GB (Robert), ko
