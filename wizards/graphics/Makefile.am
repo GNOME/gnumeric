@@ -18,8 +18,6 @@ libwizard_la_SOURCES =			\
 libwizard_la_LIBADD =			\
 	$(GNOME_LIBDIR) 		\
 	$(GNOMEUI_LIBS)			\
-	$(GNOME_XML_LIB) 		\
-	$(BONOBO_LIBS)			\
 	$(INTLLIBS)
 
 INCLUDES = 						\
