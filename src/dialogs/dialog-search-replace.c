@@ -27,6 +27,7 @@
 #include <search.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <workbook-edit.h>
+#include <selection.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
@@ -202,6 +203,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	GtkDialog *dialog;
 	DialogState *dd;
 	GtkTable *table;
+	char *selection_text;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -249,6 +251,10 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
+	selection_text = selection_to_string (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)),
+								    TRUE);
+	gnm_expr_entry_load_from_text  (dd->rangetext, selection_text);
+	g_free (selection_text);
 	gtk_widget_show (GTK_WIDGET (dd->rangetext));
 
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),

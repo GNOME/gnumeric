@@ -1,5 +1,11 @@
 2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/dialogs/dialog-search-replace.c (dialog_search_replace) :
+	  preload selection
+	* src/dialogs/dialog-search.c (dialog_search) : preload selection
+
+2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* Makefile.am : added so-scrollbar.glade
 	* so-scrollbar.glade : new
 

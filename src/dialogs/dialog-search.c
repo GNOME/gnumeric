@@ -34,6 +34,7 @@
 #include <parse-util.h>
 #include <workbook-edit.h>
 #include <sheet-object-cell-comment.h>
+#include <selection.h>
 
 #include <widgets/gnumeric-expr-entry.h>
 #include <gal/widgets/e-cursors.h>
@@ -422,6 +423,7 @@ dialog_search (WorkbookControlGUI *wbcg)
 	GtkDialog *dialog;
 	DialogState *dd;
 	GtkTable *table;
+	char *selection_text;
 	const char *spec = "\
 <ETableSpecification cursor-mode=\"line\"\
                      selection-mode=\"single\"\
@@ -471,6 +473,10 @@ dialog_search (WorkbookControlGUI *wbcg)
 			  1, 2, 6, 7,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
+	selection_text = selection_to_string (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)),
+								    TRUE);
+	gnm_expr_entry_load_from_text  (dd->rangetext, selection_text);
+	g_free (selection_text);
 
 	dd->gentry = GNOME_ENTRY (gnome_entry_new ("search_entry"));
 	gtk_table_attach (table, GTK_WIDGET (dd->gentry),
