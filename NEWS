@@ -28,6 +28,9 @@ Morten:
 	* Fix cell format dialog initialization problems.
 	* Doc fixes for ODD and EVEN.
 	* Fix rich text crash.  [#161621]
+	* Fix inserting new characters into a rich text string.
+	* Fix deleting more than one character at once from a rich text
+	  string.
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.1

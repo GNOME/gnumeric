@@ -1,5 +1,10 @@
 2004-12-20  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-edit.c (cb_delete_filter): Be much more careful.
+	Things are unsigned.
+	(cb_entry_cursor_pos): Fix confusion between editline.markup and
+	edit_line.full_content.
+
 	* src/format.c (gnm_format_parse_markup): Attribute offsets are
 	unsigned.  Drop nops.
 	(cb_attrs_as_string): Ditto.

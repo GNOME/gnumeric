@@ -342,17 +342,34 @@ cb_entry_insert_text (GtkEditable *editable,
 		wbcg->edit_line.cur_fmt, pos_in_bytes, len_bytes);
 }
 
+static GSList *
+attrs_at_byte (PangoAttrList *alist, guint bytepos)
+{
+	PangoAttrIterator *iter = pango_attr_list_get_iterator (alist);
+	GSList *attrs = NULL;
+
+	do {
+		guint start, end;
+		pango_attr_iterator_range (iter, &start, &end);
+		if (start <= bytepos && bytepos < end) {
+			attrs = pango_attr_iterator_get_attrs (iter);
+			break;
+		}
+	} while (pango_attr_iterator_next (iter));
+	pango_attr_iterator_destroy (iter);
+
+	return attrs;
+}
+
 static void
 cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
 {
-	gint start, end, target_pos_in_chars, target_pos_in_bytes;
+	guint start, end, target_pos_in_chars, target_pos_in_bytes;
 	GtkEditable *entry = GTK_EDITABLE (wbcg_get_entry (wbcg));
-	PangoAttrIterator *iter = pango_attr_list_get_iterator (wbcg->edit_line.full_content);
-	PangoAttribute *attr;
 	char const *str = gtk_entry_get_text (GTK_ENTRY (entry));
 
 	/* 1) Use first selected character if there is a selection
-	 * 2) Ue the character just before the edit pos if it exists
+	 * 2) Use the character just before the edit pos if it exists
 	 * 3) Use the first character */
 	if (gtk_editable_get_selection_bounds (entry, &start, &end))
 		target_pos_in_chars = start;
@@ -363,53 +380,74 @@ cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
 	}
 
 	target_pos_in_bytes = g_utf8_offset_to_pointer (str, target_pos_in_chars) - str;
-	pango_attr_list_unref (wbcg->edit_line.cur_fmt);
-	wbcg->edit_line.cur_fmt = pango_attr_list_new ();
-	do {
-		pango_attr_iterator_range (iter, &start, &end);
-		if (start <= target_pos_in_bytes && target_pos_in_bytes < end) {
-			GSList *ptr, *attrs = pango_attr_iterator_get_attrs (iter);
-			GnmStyle *style = mstyle_new ();
 
-			for (ptr = attrs; ptr != NULL ; ptr = ptr->next) {
-				attr = (PangoAttribute *)(ptr->data);
-				mstyle_set_from_pango_attribute (style, attr);
-				attr->start_index = 0;
-				attr->end_index = 1;
-				pango_attr_list_insert (wbcg->edit_line.cur_fmt, attr);
-			}
-
-			wb_control_style_feedback (WORKBOOK_CONTROL (wbcg), style);
-			mstyle_unref (style);
-			g_slist_free (attrs);
-			break;
+	/* Make bold/italic/etc buttons show the right thing.  */
+	{
+		GnmStyle *style = mstyle_new ();
+		GSList *ptr, *attrs = attrs_at_byte (wbcg->edit_line.full_content, target_pos_in_bytes);
+		for (ptr = attrs; ptr != NULL ; ptr = ptr->next) {
+			PangoAttribute *attr = ptr->data;
+			mstyle_set_from_pango_attribute (style, attr);
+			pango_attribute_destroy (attr);
 		}
-	} while (pango_attr_iterator_next (iter));
-	pango_attr_iterator_destroy (iter);
+		wb_control_style_feedback (WORKBOOK_CONTROL (wbcg), style);
+		mstyle_unref (style);
+		g_slist_free (attrs);
+	}
+
+	/* Find the markup to be used for new characters.  */
+	{
+		PangoAttrList *new_list = pango_attr_list_new ();
+		GSList *ptr, *attrs = attrs_at_byte (wbcg->edit_line.markup, target_pos_in_bytes);
+		for (ptr = attrs; ptr != NULL ; ptr = ptr->next) {
+			PangoAttribute *attr = ptr->data;
+			attr->start_index = 0;
+			attr->end_index = 1;
+			pango_attr_list_change (new_list, attr);
+		}
+		g_slist_free (attrs);
+		pango_attr_list_unref (wbcg->edit_line.cur_fmt);
+		wbcg->edit_line.cur_fmt = new_list;
+	}
 }
 
 typedef struct {
 	unsigned start_pos, end_pos, len; /* in bytes not chars */
 } EntryDeleteTextClosure;
 
+
+/*
+ *
+ * |       +-------------------+            The attribute
+ *
+ *                                +----+    (1)
+ *                  +------------------+    (2)
+ *                  +------+                (3)
+ *   +--+                                   (4)
+ *   +--------------+                       (5)
+ *   +---------------------------------+    (6)
+ *
+ */
 static gboolean
 cb_delete_filter (PangoAttribute *a, EntryDeleteTextClosure *change)
 {
 	if (change->start_pos >= a->end_index)
-		return FALSE;
+		return FALSE;  /* (1) */
 
 	if (change->start_pos <= a->start_index) {
 		if (change->end_pos >= a->end_index)
-			return TRUE;
+			return TRUE; /* (6) */
 
-		a->start_index -= change->len;
 		a->end_index -= change->len;
-		if (a->start_index < change->start_pos)
-			a->start_index = change->start_pos;
+		if (change->end_pos >= a->start_index)
+			a->start_index = change->start_pos; /* (5) */
+		else
+			a->start_index -= change->len; /* (4) */
 	} else {
-		a->end_index -= change->len;
-		if (a->end_index < change->end_pos)
-			a->end_index = change->end_pos;
+		if (change->end_pos >= a->end_index)
+			a->end_index = change->start_pos;  /* (2) */
+		else
+			a->end_index -= change->len; /* (3) */
 	}
 
 	return FALSE;
