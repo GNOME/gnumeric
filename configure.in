@@ -41,17 +41,21 @@ dnl
 dnl Check for Python
 dnl
 AC_CHECK_PROG(python_val, python, true, false)
-AM_CONDITIONAL(WITH_PYTHON, $python_val)
 if $python_val; then
 	PYTHON_PREFIX=`python -c 'import sys ; print sys.prefix'`
 	changequote(<<, >>)dnl
 	PYTHON_VERSION=`python -c 'import sys ; print sys.version[0:3]'`
 	changequote([, ])dnl
-	PYTHON_LIBS="python$PYTHON_VERSION -L$PYTHON_PREFIX/lib/python$PYTHON_VERSION/config"
-	PYTHON_CFLAGS="-I$PYTHON_PREFIX/include/python$PYTHON_VERSION"
-	AC_SUBST(PYTHON_LIBS)
-	AC_SUBST(PYTHON_CFLAGS)
+	if test -f $PYTHON_PREFIX/include/python$PYTHON_VERSION/Python.h; then
+		PYTHON_LIBS="python$PYTHON_VERSION -L$PYTHON_PREFIX/lib/python$PYTHON_VERSION/config"
+		PYTHON_CFLAGS="-I$PYTHON_PREFIX/include/python$PYTHON_VERSION"
+		AC_SUBST(PYTHON_LIBS)
+		AC_SUBST(PYTHON_CFLAGS)
+	else
+		python_val=false
+	fi
 fi
+AM_CONDITIONAL(WITH_PYTHON, $python_val)
 
 AC_OUTPUT([
 Makefile
