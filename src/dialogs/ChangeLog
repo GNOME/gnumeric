@@ -1,3 +1,7 @@
+2003-05-30  Jody Goldberg <jody@gnome.org>
+
+	* dialog-shuffle.c (dialog_shuffle) : init input from the selection.
+
 2003-05-30  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search.c (cursor_change): Fix 114045.
