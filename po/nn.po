@@ -1991,7 +1991,7 @@ msgid ""
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 "/Middelverdi/Standard Feil/Median/Modus/Standard avvik/Prøve varians/"
-"Kurtose/ Forskyvning/Område/Minumu/Maksimum/Sum/Telling"
+"Kurtose/Forskyvning/Område/Minumu/Maksimum/Sum/Telling"
 
 #: src/analysis-tools.c:1211
 msgid "Confidence Interval for the Mean"
@@ -2000,7 +2000,7 @@ msgstr "Konfidens nivå for middelverdi"
 #: src/analysis-tools.c:1212
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
-msgstr ""
+msgstr "/%g%% CI for middelverd frå/til"
 
 #: src/analysis-tools.c:1247 src/dialogs/descriptive-stats.glade.h:9
 msgid "Kth Largest"
@@ -2154,7 +2154,7 @@ msgstr "Anova: Enkel faktor"
 
 #: src/analysis-tools.c:2763 src/analysis-tools.c:3122
 msgid "SUMMARY"
-msgstr "OPPSUMMERING"
+msgstr "Summering"
 
 #: src/analysis-tools.c:2764
 msgid "/Groups/Count/Sum/Average/Variance"
@@ -2162,11 +2162,11 @@ msgstr "/Grupper/Tell/Summer/Snitt/Varians"
 
 #: src/analysis-tools.c:2835
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
-msgstr ""
+msgstr "/ANOVA/Kjelde til variasjon/Mellom grupper/Innan grupper/Total"
 
 #: src/analysis-tools.c:2840 src/analysis-tools.c:3036
 msgid "/SS/df/MS/F/P-value/F critical"
-msgstr ""
+msgstr "/SS/df/MS/F/P-verdi/F kritisk"
 
 #: src/analysis-tools.c:2933 src/dialogs/analysis-tools.glade.h:4
 msgid "Anova: Two-Factor Without Replication"
@@ -2174,11 +2174,11 @@ msgstr "Anova: To-faktor utan replikering"
 
 #: src/analysis-tools.c:2934
 msgid "/SUMMARY/Count/Sum/Average/Variance"
-msgstr ""
+msgstr "/Summering/Tal/Sum/Snitt/Varians"
 
 #: src/analysis-tools.c:3030
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
-msgstr ""
+msgstr "/ANOVA/Kjelde til variasjon/Rader/Kolonner/Feil/Total"
 
 #: src/analysis-tools.c:3121 src/dialogs/analysis-tools.glade.h:3
 msgid "Anova: Two-Factor With Replication"
@@ -3103,7 +3103,7 @@ msgstr "1"
 
 #: src/dialogs/anova-two.glade.h:4
 msgid "ANOVA - Two-Factor"
-msgstr ""
+msgstr "ANOVA - To-faktor"
 
 #: src/dialogs/anova-two.glade.h:7
 msgid "Number of Rows _Per Sample:"
@@ -5629,7 +5629,7 @@ msgstr "Tast inn formatstrengen for kvar del:"
 
 #: src/dialogs/hf-config.glade.h:2
 msgid "Header/Footer Config"
-msgstr ""
+msgstr "Topptekst/Botntekst konfigurasjon"
 
 #: src/dialogs/hf-config.glade.h:3
 msgid "Left section:"
@@ -6358,7 +6358,7 @@ msgstr "Erstattar"
 
 #: src/dialogs/search-replace.glade.h:40
 msgid "Row major"
-msgstr ""
+msgstr "Rad major"
 
 #: src/dialogs/search-replace.glade.h:41
 msgid "Scope"
@@ -6664,12 +6664,12 @@ msgstr "Eit unntak oppstod ved lagring til stram."
 
 #: src/file.c:493
 msgid "Saving over old files of this type is disabled for safety."
-msgstr ""
+msgstr "Lagring over gamle filer av denne typa er ikkje mogleg av tryggleiksgrunnar."
 
 #: src/file.c:495
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
-msgstr ""
+msgstr "Du kan slå av denne tryggleiksfunksjonen ved å redigere rett plugin.xml fil."
 
 #: src/format-template.c:883
 #, c-format
@@ -13754,7 +13754,7 @@ msgstr "Gå til høgre og flytt celler"
 
 #: src/item-cursor.c:1047
 msgid "C_ancel"
-msgstr "Avbryt"
+msgstr "_Avbryt"
 
 #: src/main.c:81
 msgid "Display Gnumeric's version"
@@ -14450,11 +14450,11 @@ msgstr "Avstand frå spissen av pilhovudet til sentrum"
 
 #: src/sheet-object-graphic.c:505
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
-msgstr ""
+msgstr "Avstanden frå spissen av pilhovuded til etterfølgande punkt, målt langs skaftet"
 
 #: src/sheet-object-graphic.c:508
 msgid "Distance of trailing point from outside edge of shaft"
-msgstr ""
+msgstr "Avstanden til etterfølgande punkt frå fra kanten av skaftet "
 
 #: src/sheet-object-graphic.c:841
 msgid "Configure filled object"
