@@ -116,7 +116,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-28 22:50-0500\n"
+"POT-Creation-Date: 2004-03-30 01:42-0500\n"
 "PO-Revision-Date: 2003-10-30 18:50+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
@@ -19992,6 +19992,7 @@ msgstr "Waarden"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
 #: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
 #, no-c-format
 msgid "%"
@@ -20324,6 +20325,20 @@ msgstr "Ring"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 msgid "Cen_ter size:"
 msgstr "Grootte cen_trum"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:3
+#, fuzzy
+msgid ""
+"The amount this slice is separated from the center measured as a percentage "
+"of the radius of the pie"
+msgstr ""
+"De standaardafstand die punten van het centrum zijn verwijderd gemeten als "
+"een percentage van de straal van de cirkel."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
+#, fuzzy
+msgid "_Separation:"
+msgstr "Scheidingsteken:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
@@ -32102,16 +32117,16 @@ msgstr "Definieer Naam"
 msgid "Address"
 msgstr "Adres"
 
-#: src/workbook-edit.c:366
+#: src/workbook-edit.c:369
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s is beveiligd"
 
-#: src/workbook-edit.c:370
+#: src/workbook-edit.c:373
 msgid "Unprotect the workbook to enable editing."
 msgstr "Beveiliging van de werkmap opheffen om bewerken mogelijk te maken."
 
-#: src/workbook-edit.c:371
+#: src/workbook-edit.c:374
 msgid "Unprotect the sheet to enable editing."
 msgstr "Beveiliging werkblad opheffen om bewerken mogelijk te maken."
 

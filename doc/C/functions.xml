@@ -233,7 +233,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMABS</function>(&quot;2-j&quot;) equals 2.23606798.</para>
+        <para><function>IMABS</function>("2-j") equals 2.23606798.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -272,7 +272,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMAGINARY</function>(&quot;132-j&quot;) equals -1.</para>
+        <para><function>IMAGINARY</function>("132-j") equals -1.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -307,7 +307,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARCCOS</function>(&quot;1+j&quot;) equals 0.9045569-1.061275j.</para>
+        <para><function>IMARCCOS</function>("1+j") equals 0.9045569-1.061275j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -343,7 +343,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARCCOSH</function>(&quot;1+j&quot;) equals 1.06127506+0.904557j.</para>
+        <para><function>IMARCCOSH</function>("1+j") equals 1.06127506+0.904557j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -380,7 +380,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARCCOT</function>(&quot;1+j&quot;) equals 0.553574+0.4023595j.</para>
+        <para><function>IMARCCOT</function>("1+j") equals 0.553574+0.4023595j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -417,7 +417,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARCCOTH</function>(&quot;1+j&quot;) equals 0.40235948-0.5535744j.</para>
+        <para><function>IMARCCOTH</function>("1+j") equals 0.40235948-0.5535744j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -454,7 +454,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARCCSC</function>(&quot;1+j&quot;) equals 0.45227845-0.5306375j.</para>
+        <para><function>IMARCCSC</function>("1+j") equals 0.45227845-0.5306375j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -491,7 +491,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARCCSCH</function>(&quot;1+j&quot;) equals 0.5306375-0.452278j.</para>
+        <para><function>IMARCCSCH</function>("1+j") equals 0.5306375-0.452278j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -528,7 +528,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARCSEC</function>(&quot;1+j&quot;) equals 1.1185179+0.5306375j.</para>
+        <para><function>IMARCSEC</function>("1+j") equals 1.1185179+0.5306375j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -565,7 +565,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARCSECH</function>(&quot;1+j&quot;) equals 0.5306375-1.118518j.</para>
+        <para><function>IMARCSECH</function>("1+j") equals 0.5306375-1.118518j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -601,7 +601,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARCSIN</function>(&quot;1+j&quot;) equals 0.6662394+1.061275j.</para>
+        <para><function>IMARCSIN</function>("1+j") equals 0.6662394+1.061275j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -637,7 +637,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARCSINH</function>(&quot;1+j&quot;) equals 1.061275+0.6662394j.</para>
+        <para><function>IMARCSINH</function>("1+j") equals 1.061275+0.6662394j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -673,7 +673,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARCTAN</function>(&quot;1+j&quot;) equals 1.0172220+0.4023595j.</para>
+        <para><function>IMARCTAN</function>("1+j") equals 1.0172220+0.4023595j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -709,7 +709,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARCTANH</function>(&quot;1+j&quot;) equals 0.4023595+1.0172220j.</para>
+        <para><function>IMARCTANH</function>("1+j") equals 0.4023595+1.0172220j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -748,7 +748,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMARGUMENT</function>(&quot;2-j&quot;) equals -0.463647609.</para>
+        <para><function>IMARGUMENT</function>("2-j") equals -0.463647609.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -786,7 +786,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMCONJUGATE</function>(&quot;1-j&quot;) equals 1+j.</para>
+        <para><function>IMCONJUGATE</function>("1-j") equals 1+j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -825,7 +825,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMCOS</function>(&quot;1+j&quot;) equals 0.833730-0.988898j.</para>
+        <para><function>IMCOS</function>("1+j") equals 0.833730-0.988898j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -862,7 +862,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMCOSH</function>(&quot;1+j&quot;) equals 0.83373+0.988898j.</para>
+        <para><function>IMCOSH</function>("1+j") equals 0.83373+0.988898j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -899,7 +899,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMCOT</function>(&quot;2-j&quot;) equals -0.171384+0.821330j.</para>
+        <para><function>IMCOT</function>("2-j") equals -0.171384+0.821330j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -936,7 +936,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMCOTH</function>(&quot;1+j&quot;) equals 0.868014-0.217622j.</para>
+        <para><function>IMCOTH</function>("1+j") equals 0.868014-0.217622j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -973,7 +973,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMCSC</function>(&quot;2-j&quot;) equals 0.635494-0.221501j.</para>
+        <para><function>IMCSC</function>("2-j") equals 0.635494-0.221501j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1010,7 +1010,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMCSCH</function>(&quot;1+j&quot;) equals 0.303931-0.621518j.</para>
+        <para><function>IMCSCH</function>("1+j") equals 0.303931-0.621518j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1049,7 +1049,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMDIV</function>(&quot;2-j&quot;,&quot;2+j&quot;) equals 0.6-0.8j.</para>
+        <para><function>IMDIV</function>("2-j","2+j") equals 0.6-0.8j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1087,7 +1087,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMEXP</function>(&quot;2-j&quot;) equals 3.992324-6.217676j.</para>
+        <para><function>IMEXP</function>("2-j") equals 3.992324-6.217676j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1123,7 +1123,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMINV</function>(&quot;1-j&quot;) equals 0.5+0.5j.</para>
+        <para><function>IMINV</function>("1-j") equals 0.5+0.5j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1162,7 +1162,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMLN</function>(&quot;3-j&quot;) equals 1.15129-0.32175j.</para>
+        <para><function>IMLN</function>("3-j") equals 1.15129-0.32175j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1202,7 +1202,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMLOG10</function>(&quot;3-j&quot;) equals 0.5-0.13973j.</para>
+        <para><function>IMLOG10</function>("3-j") equals 0.5-0.13973j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1241,7 +1241,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMLOG2</function>(&quot;3-j&quot;) equals 1.66096-0.46419j.</para>
+        <para><function>IMLOG2</function>("3-j") equals 1.66096-0.46419j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1278,7 +1278,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMNEG</function>(&quot;1-j&quot;) equals -1+j.</para>
+        <para><function>IMNEG</function>("1-j") equals -1+j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1316,7 +1316,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMPOWER</function>(&quot;4-j&quot;,2) equals 15-8j.</para>
+        <para><function>IMPOWER</function>("4-j",2) equals 15-8j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1354,7 +1354,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMPRODUCT</function>(&quot;2-j&quot;,&quot;4-2j&quot;) equals 6-8j.</para>
+        <para><function>IMPRODUCT</function>("2-j","4-2j") equals 6-8j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1392,7 +1392,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para>imreal(&quot;132-j&quot;) equals 132.</para>
+        <para>imreal("132-j") equals 132.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1428,7 +1428,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMSEC</function>(&quot;2-j&quot;) equals -0.413149-0.687527j.</para>
+        <para><function>IMSEC</function>("2-j") equals -0.413149-0.687527j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1465,7 +1465,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMSECH</function>(&quot;1+j&quot;) equals 0.498337-0.5910838j.</para>
+        <para><function>IMSECH</function>("1+j") equals 0.498337-0.5910838j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1504,7 +1504,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMSIN</function>(&quot;1+j&quot;) equals 1.29846+0.63496j.</para>
+        <para><function>IMSIN</function>("1+j") equals 1.29846+0.63496j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1541,7 +1541,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMSINH</function>(&quot;1+j&quot;) equals 0.63496+1.29846j.</para>
+        <para><function>IMSINH</function>("1+j") equals 0.63496+1.29846j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1580,7 +1580,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMSQRT</function>(&quot;1+j&quot;) equals 1.09868+0.4550899j.</para>
+        <para><function>IMSQRT</function>("1+j") equals 1.09868+0.4550899j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1618,7 +1618,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMSUB</function>(&quot;3-j&quot;,&quot;2+j&quot;) equals 1-2j.</para>
+        <para><function>IMSUB</function>("3-j","2+j") equals 1-2j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1656,7 +1656,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMSUM</function>(&quot;2-4j&quot;,&quot;9-j&quot;) equals 11-5j.</para>
+        <para><function>IMSUM</function>("2-4j","9-j") equals 11-5j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1694,7 +1694,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMTAN</function>(&quot;2-j&quot;) equals -0.2434582-1.1667363j.</para>
+        <para><function>IMTAN</function>("2-j") equals -0.2434582-1.1667363j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1731,7 +1731,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>IMTANH</function>(&quot;1+j&quot;) equals 1.083923+0.2717526j.</para>
+        <para><function>IMTANH</function>("1+j") equals 1.083923+0.2717526j.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1782,10 +1782,10 @@
         <para>Age     Salary</para>
         <para>&lt;30</para>
         <para>&gt;40     &gt;46000</para>
-        <para><function>DAVERAGE</function>(A1:C7, &quot;Salary&quot;, A9:A11) equals 42296.3333.</para>
-        <para><function>DAVERAGE</function>(A1:C7, &quot;Age&quot;, A9:A11) equals 39.</para>
-        <para><function>DAVERAGE</function>(A1:C7, &quot;Salary&quot;, A9:B11) equals 40782.5.</para>
-        <para><function>DAVERAGE</function>(A1:C7, &quot;Age&quot;, A9:B11) equals 36.</para>
+        <para><function>DAVERAGE</function>(A1:C7, "Salary", A9:A11) equals 42296.3333.</para>
+        <para><function>DAVERAGE</function>(A1:C7, "Age", A9:A11) equals 39.</para>
+        <para><function>DAVERAGE</function>(A1:C7, "Salary", A9:B11) equals 40782.5.</para>
+        <para><function>DAVERAGE</function>(A1:C7, "Age", A9:B11) equals 36.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1832,9 +1832,9 @@
         <para>Age     Salary</para>
         <para>&lt;30</para>
         <para>&gt;40     &gt;46000</para>
-        <para><function>DCOUNT</function>(A1:C7, &quot;Salary&quot;, A9:A11) equals 3.</para>
-        <para><function>DCOUNT</function>(A1:C7, &quot;Salary&quot;, A9:B11) equals 2.</para>
-        <para><function>DCOUNT</function>(A1:C7, &quot;Name&quot;, A9:B11) equals 0.</para>
+        <para><function>DCOUNT</function>(A1:C7, "Salary", A9:A11) equals 3.</para>
+        <para><function>DCOUNT</function>(A1:C7, "Salary", A9:B11) equals 2.</para>
+        <para><function>DCOUNT</function>(A1:C7, "Name", A9:B11) equals 0.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1881,9 +1881,9 @@
         <para>Age     Salary</para>
         <para>&lt;30</para>
         <para>&gt;40     &gt;46000</para>
-        <para><function>DCOUNTA</function>(A1:C7, &quot;Salary&quot;, A9:A11) equals 3.</para>
-        <para><function>DCOUNTA</function>(A1:C7, &quot;Salary&quot;, A9:B11) equals 2.</para>
-        <para><function>DCOUNTA</function>(A1:C7, &quot;Name&quot;, A9:B11) equals 2.</para>
+        <para><function>DCOUNTA</function>(A1:C7, "Salary", A9:A11) equals 3.</para>
+        <para><function>DCOUNTA</function>(A1:C7, "Salary", A9:B11) equals 2.</para>
+        <para><function>DCOUNTA</function>(A1:C7, "Name", A9:B11) equals 2.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1938,8 +1938,8 @@
             <para>If more than one items match the conditions, <function>DGET</function> returns #NUM! error.</para>
           </listitem>
         </itemizedlist>
-        <para><function>DGET</function>(A1:C7, &quot;Salary&quot;, A9:A10) equals 34323.</para>
-        <para><function>DGET</function>(A1:C7, &quot;Name&quot;, A9:A10) equals &quot;Clark&quot;.</para>
+        <para><function>DGET</function>(A1:C7, "Salary", A9:A10) equals 34323.</para>
+        <para><function>DGET</function>(A1:C7, "Name", A9:A10) equals "Clark".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -1986,9 +1986,9 @@
         <para>Age     Salary</para>
         <para>&lt;30</para>
         <para>&gt;40     &gt;46000</para>
-        <para><function>DMAX</function>(A1:C7, &quot;Salary&quot;, A9:A11) equals 47242.</para>
-        <para><function>DMAX</function>(A1:C7, &quot;Age&quot;, A9:A11) equals 45.</para>
-        <para><function>DMAX</function>(A1:C7, &quot;Age&quot;, A9:B11) equals 43.</para>
+        <para><function>DMAX</function>(A1:C7, "Salary", A9:A11) equals 47242.</para>
+        <para><function>DMAX</function>(A1:C7, "Age", A9:A11) equals 45.</para>
+        <para><function>DMAX</function>(A1:C7, "Age", A9:B11) equals 43.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -2035,8 +2035,8 @@
         <para>Age     Salary</para>
         <para>&lt;30</para>
         <para>&gt;40     &gt;46000</para>
-        <para><function>DMIN</function>(A1:C7, &quot;Salary&quot;, A9:B11) equals 34323.</para>
-        <para><function>DMIN</function>(A1:C7, &quot;Age&quot;, A9:B11) equals 29.</para>
+        <para><function>DMIN</function>(A1:C7, "Salary", A9:B11) equals 34323.</para>
+        <para><function>DMIN</function>(A1:C7, "Age", A9:B11) equals 29.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -2083,7 +2083,7 @@
         <para>Age     Salary</para>
         <para>&lt;30</para>
         <para>&gt;40     &gt;46000</para>
-        <para><function>DPRODUCT</function>(A1:C7, &quot;Age&quot;, A9:B11) equals 1247.</para>
+        <para><function>DPRODUCT</function>(A1:C7, "Age", A9:B11) equals 1247.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -2130,8 +2130,8 @@
         <para>Age     Salary</para>
         <para>&lt;30</para>
         <para>&gt;40     &gt;46000</para>
-        <para><function>DSTDEV</function>(A1:C7, &quot;Age&quot;, A9:B11) equals 9.89949.</para>
-        <para><function>DSTDEV</function>(A1:C7, &quot;Salary&quot;, A9:B11) equals 9135.112506.</para>
+        <para><function>DSTDEV</function>(A1:C7, "Age", A9:B11) equals 9.89949.</para>
+        <para><function>DSTDEV</function>(A1:C7, "Salary", A9:B11) equals 9135.112506.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -2178,8 +2178,8 @@
         <para>Age     Salary</para>
         <para>&lt;30</para>
         <para>&gt;40     &gt;46000</para>
-        <para><function>DSTDEVP</function>(A1:C7, &quot;Age&quot;, A9:B11) equals 7.</para>
-        <para><function>DSTDEVP</function>(A1:C7, &quot;Salary&quot;, A9:B11) equals 6459.5.</para>
+        <para><function>DSTDEVP</function>(A1:C7, "Age", A9:B11) equals 7.</para>
+        <para><function>DSTDEVP</function>(A1:C7, "Salary", A9:B11) equals 6459.5.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -2226,8 +2226,8 @@
         <para>Age     Salary</para>
         <para>&lt;30</para>
         <para>&gt;40     &gt;46000</para>
-        <para><function>DSUM</function>(A1:C7, &quot;Age&quot;, A9:B11) equals 72.</para>
-        <para><function>DSUM</function>(A1:C7, &quot;Salary&quot;, A9:B11) equals 81565.</para>
+        <para><function>DSUM</function>(A1:C7, "Age", A9:B11) equals 72.</para>
+        <para><function>DSUM</function>(A1:C7, "Salary", A9:B11) equals 81565.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -2274,8 +2274,8 @@
         <para>Age     Salary</para>
         <para>&lt;30</para>
         <para>&gt;40     &gt;46000</para>
-        <para><function>DVAR</function>(A1:C7, &quot;Age&quot;, A9:B11) equals 98.</para>
-        <para><function>DVAR</function>(A1:C7, &quot;Salary&quot;, A9:B11) equals 83450280.5.</para>
+        <para><function>DVAR</function>(A1:C7, "Age", A9:B11) equals 98.</para>
+        <para><function>DVAR</function>(A1:C7, "Salary", A9:B11) equals 83450280.5.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -2322,8 +2322,8 @@
         <para>Age     Salary</para>
         <para>&lt;30</para>
         <para>&gt;40     &gt;46000</para>
-        <para><function>DVARP</function>(A1:C7, &quot;Age&quot;, A9:B11) equals 49.</para>
-        <para><function>DVARP</function>(A1:C7, &quot;Salary&quot;, A9:B11) equals 41725140.25.</para>
+        <para><function>DVARP</function>(A1:C7, "Age", A9:B11) equals 49.</para>
+        <para><function>DVARP</function>(A1:C7, "Salary", A9:B11) equals 41725140.25.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -2436,7 +2436,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>DATE2UNIX</function>(&quot;01/01/2000&quot;) equals 946656000.</para>
+        <para><function>DATE2UNIX</function>("01/01/2000") equals 946656000.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -2463,11 +2463,11 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>DATEDIF</function> returns the difference between two dates.  <parameter>interval</parameter> is one of six possible values:  &quot;y&quot;, &quot;m&quot;, &quot;d&quot;, &quot;ym&quot;, &quot;md&quot;, and &quot;yd&quot;.</para>
+        <para><function>DATEDIF</function> returns the difference between two dates.  <parameter>interval</parameter> is one of six possible values:  "y", "m", "d", "ym", "md", and "yd".</para>
         <para>The first three options will return the number of complete years, months, or days, respectively, between the two dates specified.</para>
-        <para>  &quot;ym&quot; will return the number of full months between the two dates, not including the difference in years.</para>
-        <para>  &quot;md&quot; will return the number of full days between the two dates, not including the difference in months.</para>
-        <para>  &quot;yd&quot; will return the number of full days between the two dates, not including the difference in years.</para>
+        <para>  "ym" will return the number of full months between the two dates, not including the difference in years.</para>
+        <para>  "md" will return the number of full days between the two dates, not including the difference in months.</para>
+        <para>  "yd" will return the number of full days between the two dates, not including the difference in years.</para>
         <itemizedlist>
           <listitem>
             <para>This function is Excel compatible.</para>
@@ -2477,8 +2477,8 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>DATEDIF</function>(DATE(2000,4,30),DATE(2003,8,4),&quot;d&quot;) equals 1191.</para>
-        <para><function>DATEDIF</function>(DATE(2000,4,30),DATE(2003,8,4),&quot;y&quot;) equals 3.</para>
+        <para><function>DATEDIF</function>(DATE(2000,4,30),DATE(2003,8,4),"d") equals 1191.</para>
+        <para><function>DATEDIF</function>(DATE(2000,4,30),DATE(2003,8,4),"y") equals 3.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -2513,7 +2513,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>DATEVALUE</function>(&quot;1/1/1999&quot;) equals 36161 (in the 1900 convention).</para>
+        <para><function>DATEVALUE</function>("1/1/1999") equals 36161 (in the 1900 convention).</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -2551,7 +2551,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>DAY</function>(&quot;10/24/1968&quot;) equals 24.</para>
+        <para><function>DAY</function>("10/24/1968") equals 24.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -3062,8 +3062,8 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>TIMEVALUE</function>(&quot;3:05&quot;) equals 0.128472.</para>
-        <para><function>TIMEVALUE</function>(&quot;2:24:53 PM&quot;) equals 0.600613.</para>
+        <para><function>TIMEVALUE</function>("3:05") equals 0.128472.</para>
+        <para><function>TIMEVALUE</function>("2:24:53 PM") equals 0.600613.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -3174,7 +3174,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>WEEKDAY</function>(&quot;10/24/1968&quot;) equals 5 (Thursday).</para>
+        <para><function>WEEKDAY</function>("10/24/1968") equals 5 (Thursday).</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -3741,9 +3741,9 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>CONVERT</function>(3,&quot;lbm&quot;,&quot;g&quot;) equals 1360.7769.</para>
-        <para><function>CONVERT</function>(5.8,&quot;m&quot;,&quot;in&quot;) equals 228.3465.</para>
-        <para><function>CONVERT</function>(7.9,&quot;cal&quot;,&quot;J&quot;) equals 33.07567.</para>
+        <para><function>CONVERT</function>(3,"lbm","g") equals 1360.7769.</para>
+        <para><function>CONVERT</function>(5.8,"m","in") equals 228.3465.</para>
+        <para><function>CONVERT</function>(7.9,"cal","J") equals 33.07567.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -4060,7 +4060,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>HEX2BIN</function>(&quot;2A&quot;) equals 101010.</para>
+        <para><function>HEX2BIN</function>("2A") equals 101010.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -4097,7 +4097,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>HEX2DEC</function>(&quot;2A&quot;) equals 42.</para>
+        <para><function>HEX2DEC</function>("2A") equals 42.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -4137,7 +4137,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>HEX2OCT</function>(&quot;2A&quot;) equals 52.</para>
+        <para><function>HEX2OCT</function>("2A") equals 52.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -4177,7 +4177,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>OCT2BIN</function>(&quot;213&quot;) equals 10001011.</para>
+        <para><function>OCT2BIN</function>("213") equals 10001011.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -4214,7 +4214,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>OCT2DEC</function>(&quot;124&quot;) equals 84.</para>
+        <para><function>OCT2DEC</function>("124") equals 84.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -5293,7 +5293,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>EURO</function>(&quot;DEM&quot;) returns 1.95583.</para>
+        <para><function>EURO</function>("DEM") returns 1.95583.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -5341,7 +5341,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>EUROCONVERT</function>(2.1,&quot;DEM&quot;,&quot;EUR&quot;) returns 1.07.</para>
+        <para><function>EUROCONVERT</function>(2.1,"DEM","EUR") returns 1.07.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -5669,7 +5669,7 @@
             <para>If <parameter>basis</parameter> is omitted, MSRB 30/360 is applied.</para>
           </listitem>
           <listitem>
-            <para>If <parameter>basis</parameter> is not in between 0 and 4, #NUM! error is returned.</para>
+            <para>If <parameter>basis</parameter> is invalid, #NUM! error is returned.</para>
           </listitem>
         </itemizedlist>
       </refsect1>
@@ -6148,7 +6148,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>OPT_BS_CARRYCOST</function> uses the Black-Scholes model to calculate the &quot;elasticity&quot; of a European option struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>.</para>
+        <para><function>OPT_BS_CARRYCOST</function> uses the Black-Scholes model to calculate the "elasticity" of a European option struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>.</para>
         <para><parameter>call_put_flag</parameter> is c or p to indicate whether the option is a call or a put</para>
         <para>(The elasticity of an option is the rate of change of its price with respect to its cost of carry.)</para>
         <para><parameter>volatility</parameter> is the annualized volatility, in percent, of the asset for the period through to the exercise date.  <parameter>time</parameter> is the time to maturity of the option expressed in years</para>
@@ -6191,7 +6191,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>OPT_BS_DELTA</function> uses the Black-Scholes model to calculate the &quot;delta&quot; of a European option with call_put_flag, <parameter>call_put_flag</parameter>, c or p struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>.</para>
+        <para><function>OPT_BS_DELTA</function> uses the Black-Scholes model to calculate the "delta" of a European option with call_put_flag, <parameter>call_put_flag</parameter>, c or p struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>.</para>
         <para>Where <parameter>time</parameter> is the time to maturity of the option expressed in years</para>
         <para><parameter>rate</parameter> is the risk-free interest rate</para>
         <para><parameter>volatility</parameter> is the annualized volatility, in percent, of the asset or the period through to the exercise date.</para>
@@ -6233,7 +6233,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>OPT_BS_GAMMA</function> uses the Black-Scholes model to calculate the &quot;gamma&quot; of a European option struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>.</para>
+        <para><function>OPT_BS_GAMMA</function> uses the Black-Scholes model to calculate the "gamma" of a European option struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>.</para>
         <para>(The gamma of an option is the second derivative of its price with respect to the price of the underlying asset, and is the same for calls and puts.)</para>
         <para><parameter>time</parameter> is the time to maturity of the option expressed in years</para>
         <para><parameter>rate</parameter> is the risk-free interest rate to the exercise date, in percent.</para>
@@ -6276,7 +6276,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>OPT_BS_RHO</function> uses the Black-Scholes model to calculate the &quot;rho&quot; of a European option with call_put_flag, <parameter>call_put_flag</parameter> struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>.</para>
+        <para><function>OPT_BS_RHO</function> uses the Black-Scholes model to calculate the "rho" of a European option with call_put_flag, <parameter>call_put_flag</parameter> struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>.</para>
         <para><parameter>call_put_flag</parameter> is c or p to indicate whether the option is a call or a put.</para>
         <para>(The rho of an option is the rate of change of its price with respect to the risk free interest rate.)</para>
         <para><parameter>time</parameter> is the time to maturity of the option expressed in years</para>
@@ -6319,7 +6319,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>OPT_BS_THETA</function> uses the Black-Scholes model to calculate the &quot;theta&quot; of a European option with call_put_flag, <parameter>call_put_flag</parameter> struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>.</para>
+        <para><function>OPT_BS_THETA</function> uses the Black-Scholes model to calculate the "theta" of a European option with call_put_flag, <parameter>call_put_flag</parameter> struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>.</para>
         <para>(The theta of an option is the rate of change of its price with respect to time to expiry.)</para>
         <para><parameter>time</parameter> is the time to maturity of the option expressed in years</para>
         <para>and <parameter>rate</parameter> is the risk-free interest rate to the exercise date, in percent.</para>
@@ -6362,7 +6362,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>OPT_BS_VEGA</function> uses the Black-Scholes model to calculate the &quot;vega&quot; of a European option struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>.</para>
+        <para><function>OPT_BS_VEGA</function> uses the Black-Scholes model to calculate the "vega" of a European option struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>.</para>
         <para>(The vega of an option is the rate of change of its price with respect to volatility, and is the same for calls and puts.)</para>
         <para><parameter>volatility</parameter> is the annualized volatility, in percent, of the asset for the period through to the exercise date.</para>
         <para><parameter>time</parameter> is the time to maturity of the option expressed in years</para>
@@ -7534,7 +7534,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para>Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, 1933, and 1422, and the cells B1:B5 contain the dates &quot;1999-01-15&quot;, &quot;1999-04-04&quot;, &quot;1999-05-09&quot;, &quot;2000-03-12&quot;, and &quot;2000-05-1&quot;. Then</para>
+        <para>Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, 1933, and 1422, and the cells B1:B5 contain the dates "1999-01-15", "1999-04-04", "1999-05-09", "2000-03-12", and "2000-05-1". Then</para>
         <para><function>XIRR</function>(A1:A5,B1:B5) returns 0.224838.</para>
       </refsect1>
       <refsect1>
@@ -7786,7 +7786,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para>Cell(&quot;format&quot;,A1) returns the code of the format of the cell A1.</para>
+        <para>Cell("format",A1) returns the code of the format of the cell A1.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -7851,7 +7851,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>ERROR</function>(&quot;#OWN <function>ERROR</function>&quot;).</para>
+        <para><function>ERROR</function>("#OWN <function>ERROR</function>").</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -8001,7 +8001,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>INFO</function>(&quot;system&quot;) returns &quot;Linux&quot; on a Linux system.</para>
+        <para><function>INFO</function>("system") returns "Linux" on a Linux system.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -8246,7 +8246,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>ISNONTEXT</function>(&quot;text&quot;) equals FALSE.</para>
+        <para><function>ISNONTEXT</function>("text") equals FALSE.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -8281,7 +8281,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>ISNUMBER</function>(&quot;text&quot;) equals FALSE.</para>
+        <para><function>ISNUMBER</function>("text") equals FALSE.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -8386,7 +8386,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>ISTEXT</function>(&quot;text&quot;) equals TRUE.</para>
+        <para><function>ISTEXT</function>("text") equals TRUE.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -8421,7 +8421,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>N</function>(&quot;42&quot;) equals 42.</para>
+        <para><function>N</function>("42") equals 42.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -8497,7 +8497,7 @@
         <title>Examples</title>
         <para/>
         <para><function>TYPE</function>(3) equals 1.</para>
-        <para><function>TYPE</function>(&quot;text&quot;) equals 2.</para>
+        <para><function>TYPE</function>("text") equals 2.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -8832,9 +8832,9 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>ADDRESS</function>(5,4) equals &quot;$D$5&quot;.</para>
-        <para><function>ADDRESS</function>(5,4,4) equals &quot;D5&quot;.</para>
-        <para><function>ADDRESS</function>(5,4,3,FALSE) equals &quot;R[5]C4&quot;.</para>
+        <para><function>ADDRESS</function>(5,4) equals "$D$5".</para>
+        <para><function>ADDRESS</function>(5,4,4) equals "D5".</para>
+        <para><function>ADDRESS</function>(5,4,3,FALSE) equals "R[5]C4".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -8902,7 +8902,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>CHOOSE</function>(3,&quot;Apple&quot;,&quot;Orange&quot;,&quot;Grape&quot;,&quot;Perry&quot;) equals &quot;Grape&quot;.</para>
+        <para><function>CHOOSE</function>(3,"Apple","Orange","Grape","Perry") equals "Grape".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -8974,7 +8974,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>COLUMNNUMBER</function>(&quot;E&quot;) equals 5.</para>
+        <para><function>COLUMNNUMBER</function>("E") equals 5.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -9078,7 +9078,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>HYPERLINK</function>(&quot;www.gnome.org&quot;,&quot;GNOME&quot;).</para>
+        <para><function>HYPERLINK</function>("www.gnome.org","GNOME").</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -10089,10 +10089,10 @@
         <title>Examples</title>
         <para/>
         <para>Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39.  Then</para>
-        <para><function>COUNTIF</function>(A1:A5,&quot;&lt;=28&quot;) equals 3.</para>
-        <para><function>COUNTIF</function>(A1:A5,&quot;&lt;28&quot;) equals 2.</para>
-        <para><function>COUNTIF</function>(A1:A5,&quot;28&quot;) equals 1.</para>
-        <para><function>COUNTIF</function>(A1:A5,&quot;&gt;28&quot;) equals 2.</para>
+        <para><function>COUNTIF</function>(A1:A5,"&lt;=28") equals 3.</para>
+        <para><function>COUNTIF</function>(A1:A5,"&lt;28") equals 2.</para>
+        <para><function>COUNTIF</function>(A1:A5,"28") equals 1.</para>
+        <para><function>COUNTIF</function>(A1:A5,"&gt;28") equals 2.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -11662,10 +11662,10 @@
         <title>Examples</title>
         <para/>
         <para>Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39.  Then</para>
-        <para><function>SUMIF</function>(A1:A5,&quot;&lt;=28&quot;) equals 78.</para>
-        <para><function>SUMIF</function>(A1:A5,&quot;&lt;28&quot;) equals 50.</para>
+        <para><function>SUMIF</function>(A1:A5,"&lt;=28") equals 78.</para>
+        <para><function>SUMIF</function>(A1:A5,"&lt;28") equals 50.</para>
         <para>In addition, if the cells B1, B2, ..., B5 hold numbers 5, 3, 2, 6, and 7 then:</para>
-        <para><function>SUMIF</function>(A1:A5,&quot;&lt;=27&quot;,B1:B5) equals 8.</para>
+        <para><function>SUMIF</function>(A1:A5,"&lt;=27",B1:B5) equals 8.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -13440,7 +13440,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, &quot;missing&quot;, 25.9, and 40.1.  Then</para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then</para>
         <para><function>AVERAGEA</function>(A1:A5) equals 18.94.</para>
       </refsect1>
       <refsect1>
@@ -13937,7 +13937,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, &quot;missing&quot;, &quot;missing&quot;, 25.9, and 40.1.  Then</para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, "missing", "missing", 25.9, and 40.1.  Then</para>
         <para><function>COUNTA</function>(A1:A5) equals 5.</para>
       </refsect1>
       <refsect1>
@@ -15376,7 +15376,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, &quot;missing&quot;, 25.9, and 40.1.  Then</para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then</para>
         <para><function>MAXA</function>(A1:A5) equals 40.1.</para>
       </refsect1>
       <refsect1>
@@ -15498,7 +15498,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, &quot;missing&quot;, 25.9, and 40.1.  Then</para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then</para>
         <para><function>MINA</function>(A1:A5) equals 0.</para>
       </refsect1>
       <refsect1>
@@ -16567,7 +16567,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, &quot;missing&quot;, 25.9, and 40.1.  Then</para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then</para>
         <para><function>STDEVA</function>(A1:A5) equals 15.119953704.</para>
       </refsect1>
       <refsect1>
@@ -16642,7 +16642,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, &quot;missing&quot;, 25.9, and 40.1.  Then</para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then</para>
         <para><function>STDEVPA</function>(A1:A5) equals 13.523697719.</para>
       </refsect1>
       <refsect1>
@@ -17035,7 +17035,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, &quot;missing&quot;, 25.9, and 40.1.  Then</para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then</para>
         <para><function>VARA</function>(A1:A5) equals 228.613.</para>
       </refsect1>
       <refsect1>
@@ -17112,7 +17112,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, &quot;missing&quot;, 25.9, and 40.1.  Then</para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then</para>
         <para><function>VARPA</function>(A1:A5) equals 182.8904.</para>
       </refsect1>
       <refsect1>
@@ -17271,7 +17271,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>CLEAN</function>(&quot;one&quot;\&amp;char(7)) equals &quot;one&quot;.</para>
+        <para><function>CLEAN</function>("one"\&amp;char(7)) equals "one".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17306,7 +17306,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>CODE</function>(&quot;A&quot;) equals 65.</para>
+        <para><function>CODE</function>("A") equals 65.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17341,7 +17341,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>CONCATENATE</function>(&quot;aa&quot;,&quot;bb&quot;) equals &quot;aabb&quot;.</para>
+        <para><function>CONCATENATE</function>("aa","bb") equals "aabb".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17378,7 +17378,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>DOLLAR</function>(12345) equals &quot;$12,345.00&quot;.</para>
+        <para><function>DOLLAR</function>(12345) equals "$12,345.00".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17415,8 +17415,8 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>EXACT</function>(&quot;key&quot;,&quot;key&quot;) equals TRUE.</para>
-        <para><function>EXACT</function>(&quot;key&quot;,&quot;Key&quot;) equals FALSE.</para>
+        <para><function>EXACT</function>("key","key") equals TRUE.</para>
+        <para><function>EXACT</function>("key","Key") equals FALSE.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17453,7 +17453,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>FIND</function>(&quot;ac&quot;,&quot;Jack&quot;) equals 2.</para>
+        <para><function>FIND</function>("ac","Jack") equals 2.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17491,7 +17491,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>FIXED</function>(1234.567,2) equals &quot;1,234.57&quot;.</para>
+        <para><function>FIXED</function>(1234.567,2) equals "1,234.57".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17526,7 +17526,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>LEFT</function>(&quot;Directory&quot;,3) equals &quot;Dir&quot;.</para>
+        <para><function>LEFT</function>("Directory",3) equals "Dir".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17562,12 +17562,49 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>LEN</function>(&quot;Helsinki&quot;) equals 8.</para>
+        <para><function>LEN</function>("Helsinki") equals 8.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-CHAR"><function>CHAR</function></link>,
         <link linkend="gnumeric-CODE"><function>CODE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-LENB">
+      <refmeta>
+        <refentrytitle>
+          <function>LENB</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>LENB</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>LENB</function>(<parameter>string</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><function>LENB</function> returns the length in bytes of the string <parameter>string</parameter>.</para>
+        <itemizedlist>
+          <listitem>
+            <para>This function is Excel compatible.</para>
+          </listitem>
+        </itemizedlist>
+      </refsect1>
+      <refsect1>
+        <title>Examples</title>
+        <para/>
+        <para><function>LENB</function>("Helsinki") equals 8.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-CHAR"><function>CHAR</function></link>,
+        <link linkend="gnumeric-CODE"><function>CODE</function></link>,
+        <link linkend="gnumeric-LEN"><function>LEN</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -17598,7 +17635,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>LOWER</function>(&quot;J. F. Kennedy&quot;) equals &quot;j. f. kennedy&quot;.</para>
+        <para><function>LOWER</function>("J. F. Kennedy") equals "j. f. kennedy".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17633,7 +17670,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>MID</function>(&quot;testing&quot;,2,3) equals &quot;est&quot;.</para>
+        <para><function>MID</function>("testing",2,3) equals "est".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17669,7 +17706,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>PROPER</function>(&quot;j. f. kennedy&quot;) equals &quot;J. F. Kennedy&quot;.</para>
+        <para><function>PROPER</function>("j. f. kennedy") equals "J. F. Kennedy".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17705,7 +17742,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>REPLACE</function>(&quot;testing&quot;,2,3,&quot;*****&quot;) equals &quot;t*****ing&quot;.</para>
+        <para><function>REPLACE</function>("testing",2,3,"*****") equals "t*****ing".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17743,7 +17780,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>REPT</function>(&quot;.&quot;,3) equals &quot;...&quot;.</para>
+        <para><function>REPT</function>(".",3) equals "...".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17778,8 +17815,8 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>RIGHT</function>(&quot;end&quot;) equals &quot;d&quot;.</para>
-        <para><function>RIGHT</function>(&quot;end&quot;,2) equals &quot;nd&quot;.</para>
+        <para><function>RIGHT</function>("end") equals "d".</para>
+        <para><function>RIGHT</function>("end",2) equals "nd".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17822,8 +17859,8 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>SEARCH</function>(&quot;c&quot;,&quot;Cancel&quot;) equals 1.</para>
-        <para><function>SEARCH</function>(&quot;c&quot;,&quot;Cancel&quot;,2) equals 4.</para>
+        <para><function>SEARCH</function>("c","Cancel") equals 1.</para>
+        <para><function>SEARCH</function>("c","Cancel",2) equals 4.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17858,7 +17895,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>SUBSTITUTE</function>(&quot;testing&quot;,&quot;test&quot;,&quot;wait&quot;) equals &quot;waiting&quot;.</para>
+        <para><function>SUBSTITUTE</function>("testing","test","wait") equals "waiting".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17894,7 +17931,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>T</function>(&quot;text&quot;) equals &quot;text&quot;.</para>
+        <para><function>T</function>("text") equals "text".</para>
         <para><function>T</function>(64) returns an empty cell.</para>
       </refsect1>
       <refsect1>
@@ -17932,8 +17969,8 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>TEXT</function>(3.223,&quot;$0.00&quot;) equals &quot;$3.22&quot;.</para>
-        <para><function>TEXT</function>(date(1999,4,15),&quot;mmmm, dd, yy&quot;) equals &quot;April, 15, 99&quot;.</para>
+        <para><function>TEXT</function>(3.223,"$0.00") equals "$3.22".</para>
+        <para><function>TEXT</function>(date(1999,4,15),"mmmm, dd, yy") equals "April, 15, 99".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17968,7 +18005,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>TRIM</function>(&quot;  a bbb  cc&quot;) equals &quot;a bbb cc&quot;.</para>
+        <para><function>TRIM</function>("  a bbb  cc") equals "a bbb cc".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -18034,7 +18071,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>UNICODE</function>(&quot;A&quot;) equals 65.</para>
+        <para><function>UNICODE</function>("A") equals 65.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -18071,7 +18108,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>UPPER</function>(&quot;cancelled&quot;) equals &quot;CANCELLED&quot;.</para>
+        <para><function>UPPER</function>("cancelled") equals "CANCELLED".</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -18106,7 +18143,7 @@
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para><function>VALUE</function>(&quot;$1,000&quot;) equals 1000.</para>
+        <para><function>VALUE</function>("$1,000") equals 1000.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

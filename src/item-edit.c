@@ -238,7 +238,7 @@ ie_layout (FooCanvasItem *item)
 	pango_layout_set_wrap (ie->layout, PANGO_WRAP_CHAR);
 	pango_layout_set_width (ie->layout, (int)(item->x2 - item->x1)*PANGO_SCALE);
 
-	attrs = wbcg_edit_get_markup (scg_get_wbcg (ie->scg));
+	attrs = wbcg_edit_get_markup (scg_get_wbcg (ie->scg), TRUE);
 	if (attrs != NULL)
 		attrs = pango_attr_list_copy (attrs);
 	else

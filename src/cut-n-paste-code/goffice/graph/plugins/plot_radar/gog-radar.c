@@ -141,8 +141,10 @@ gog_radar_plot_update (GogObject *obj)
 	val_max = -DBL_MAX;
 	for (ptr = model->base.series; ptr != NULL; ptr = ptr->next) {
 		series = ptr->data;
-		if (gog_series_is_valid (GOG_SERIES (series)) &&
-		    num_elements < series->num_elements)
+		if (!gog_series_is_valid (GOG_SERIES (series)))
+			continue;
+
+		if (num_elements < series->num_elements)
 			num_elements = series->num_elements;
 		go_data_vector_get_minmax (GO_DATA_VECTOR (
 			series->base.values[1].data), &tmp_min, &tmp_max);

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-28 22:50-0500\n"
+"POT-Creation-Date: 2004-03-30 01:42-0500\n"
 "PO-Revision-Date: 2003-12-08 01:14+0100\n"
 "Last-Translator: Слободан Средојевић <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
@@ -12672,6 +12672,7 @@ msgstr "Вредности"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
 #: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
 #, no-c-format
 msgid "%"
@@ -12990,6 +12991,24 @@ msgstr "ЦртаниПрстен"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 msgid "Cen_ter size:"
 msgstr "Величина _средишта:"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:3
+#, fuzzy
+msgid ""
+"The amount this slice is separated from the center measured as a percentage "
+"of the radius of the pie"
+msgstr ""
+"Подразумевана вредност за коју је свако парче одвојено од средишта мерено у "
+"процентима полупречника пите"
+
+# #-#-#-#-#  balsa.po (Balsa 2)  #-#-#-#-#
+# Нова врста обележја?
+# #-#-#-#-#  galeon.po (galeon 1.3)  #-#-#-#-#
+# Нова врста обележја?
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
+#, fuzzy
+msgid "_Separation:"
+msgstr "Раздвојник:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
@@ -24592,16 +24611,16 @@ msgstr "Дефинишите име"
 msgid "Address"
 msgstr "Адреса"
 
-#: src/workbook-edit.c:366
+#: src/workbook-edit.c:369
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s је закључан"
 
-#: src/workbook-edit.c:370
+#: src/workbook-edit.c:373
 msgid "Unprotect the workbook to enable editing."
 msgstr "Откључајте радну свеску како би могли да извршите измене."
 
-#: src/workbook-edit.c:371
+#: src/workbook-edit.c:374
 msgid "Unprotect the sheet to enable editing."
 msgstr "Откључајте табелу како би могли да извршите измене."
 

@@ -1118,6 +1118,10 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 		return TRUE;
 	case GDK_LEAVE_NOTIFY:
 		ig_clear_hlink_tip (ig);
+		if (ig->cursor_timer != 0) {
+			g_source_remove (ig->cursor_timer);
+			ig->cursor_timer = 0;
+		}
 		return TRUE;
 
 	case GDK_BUTTON_RELEASE: {

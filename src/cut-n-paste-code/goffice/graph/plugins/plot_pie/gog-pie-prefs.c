@@ -42,7 +42,7 @@ gog_pie_series_element_pref (GogPieSeriesElement *element, GnmCmdContext *cc)
 	GtkWidget  *w;
 	char const *dir = gnm_plugin_get_dir_name (
 		plugins_get_plugin_by_id ("GOffice_plot_pie"));
-	char	 *path = g_build_filename (dir, "gog-pie-series-element-prefs.glade", NULL);
+	char	 *path = g_build_filename (dir, "gog-pie-series.glade", NULL);
 	GladeXML *gui = gnm_glade_xml_new (cc, path, "gog_pie_series_element_prefs", NULL);
 
 	g_free (path);

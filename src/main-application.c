@@ -142,7 +142,7 @@ gnumeric_arg_shutdown (void)
 }
 
 static poptContext
-gnumeric_arg_parse (int argc, char *argv [])
+gnumeric_arg_parse (int argc, char const *argv [])
 {
 	poptContext ctx = NULL;
 	int i;

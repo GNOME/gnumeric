@@ -22,7 +22,9 @@ struct _WorkbookControlGUI {
 		GnmExprEntry *temp_entry; /* A tmp overlay eg from a guru */
 		GtkWidget*guru;
 		gulong         signal_changed, signal_insert, signal_delete, signal_cursor_pos;
-		PangoAttrList *markup, *cur_fmt;
+		PangoAttrList *full_content;	/* include the cell attrs too */
+		PangoAttrList *markup;	/* just the markup */
+		PangoAttrList *cur_fmt;	/* attrs for new text (depends on position) */
 	} edit_line;
 
 	/* While editing these should be visible */

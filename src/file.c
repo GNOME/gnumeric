@@ -909,7 +909,7 @@ go_file_open (char const *path, GError **err)
 		return GSF_INPUT (in_mem);
 
 	/* Only report error if stdio fails too */
-	in_stdio = gsf_input_stdio_new (path, &err);
+	in_stdio = gsf_input_stdio_new (path, err);
 	if (in_stdio != NULL)
 		return GSF_INPUT (in_stdio);
 

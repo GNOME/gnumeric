@@ -1,3 +1,13 @@
+2004-03-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+	* Makefile.am : delete xmldocs.make.  autogen installs the most recent
+	  version in top_srcdir
+
+	* gnumeric-doc.make : adjust to new position of xmldocs.make
+	* sgmldocs.make : delete
+
 2004-01-14  Jon K Hellan  <hellan@acm.org>
 
 	* Add diagram of mvc split.

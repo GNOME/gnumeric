@@ -17,11 +17,11 @@ pie_la_SOURCES = \
 	gog-pie-prefs.c
 
 xml_in_files = plugin.xml.in plot-types.xml.in
-xml_DATA = $(xml_in_files:.xml.in=.xml) gog-pie-prefs.glade gog-ring-prefs.glade gog-pie-series-element-prefs.glade
+xml_DATA = $(xml_in_files:.xml.in=.xml) gog-pie-prefs.glade gog-ring-prefs.glade gog-pie-series.glade
 
 @INTLTOOL_XML_RULE@
 
-glade_DATA = gog-pie-prefs.glade gog-ring-prefs.glade
+glade_DATA = gog-pie-prefs.glade gog-ring-prefs.glade gog-pie-series.glade
 
 # do not use the intl-tool stuff to merge the text back
 # its simpler to just use gettext directly

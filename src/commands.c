@@ -1653,6 +1653,7 @@ cmd_format_undo (GnmCommand *cmd,
 				rows_height_update (me->cmd.sheet, r, TRUE);
 			sheet_flag_format_update_range (me->cmd.sheet, r);
 		}
+		sheet_redraw_all (me->cmd.sheet, FALSE);
 	}
 
 	return FALSE;
@@ -1672,18 +1673,16 @@ cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	for (l = me->selection; l; l = l->next) {
-		if (me->borders) {
+		if (me->borders)
 			sheet_style_apply_border (me->cmd.sheet, l->data,
 						  me->borders);
-			if (me->new_style == NULL)
-				sheet_redraw_range (me->cmd.sheet, l->data);
-		}
 		if (me->new_style) {
 			mstyle_ref (me->new_style);
 			sheet_apply_style (me->cmd.sheet, l->data, me->new_style);
 		}
 		sheet_flag_format_update_range (me->cmd.sheet, l->data);
 	}
+	sheet_redraw_all (me->cmd.sheet, FALSE);
 	sheet_set_dirty (me->cmd.sheet, TRUE);
 
 	return FALSE;

@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-28 22:50-0500\n"
+"POT-Creation-Date: 2004-03-30 01:42-0500\n"
 "PO-Revision-Date: 2004-03-24 17:03+0200\n"
 "Last-Translator: Petros Velonis <velonis@freemail.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -16352,6 +16352,7 @@ msgstr "Τιμές"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
 #: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
 #, no-c-format
 msgid "%"
@@ -16684,6 +16685,17 @@ msgstr "Αλφαριθμ."
 #, fuzzy
 msgid "Cen_ter size:"
 msgstr "Κατηγορία:"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:3
+msgid ""
+"The amount this slice is separated from the center measured as a percentage "
+"of the radius of the pie"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
+#, fuzzy
+msgid "_Separation:"
+msgstr "Διαχωριστικό:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 #, fuzzy
@@ -28882,16 +28894,16 @@ msgstr "Ορισμός Ονόματος"
 msgid "Address"
 msgstr "Διεύθυνση"
 
-#: src/workbook-edit.c:366
+#: src/workbook-edit.c:369
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s είναι κλειδωμένο"
 
-#: src/workbook-edit.c:370
+#: src/workbook-edit.c:373
 msgid "Unprotect the workbook to enable editing."
 msgstr "Αναίρεση προστασίας του βιβλίου για επεξεργασία."
 
-#: src/workbook-edit.c:371
+#: src/workbook-edit.c:374
 msgid "Unprotect the sheet to enable editing."
 msgstr "Αναίρεση προστασίας του φύλλου για επεξεργασία."
 

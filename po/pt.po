@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-28 22:50-0500\n"
+"POT-Creation-Date: 2004-03-30 01:42-0500\n"
 "PO-Revision-Date: 2003-12-01 18:40+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
@@ -19923,6 +19923,7 @@ msgstr "Valores"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
 #: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
 #, no-c-format
 msgid "%"
@@ -20239,6 +20240,20 @@ msgstr "AnelPontos"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 msgid "Cen_ter size:"
 msgstr "Cen_trar tamanho:"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:3
+#, fuzzy
+msgid ""
+"The amount this slice is separated from the center measured as a percentage "
+"of the radius of the pie"
+msgstr ""
+"A quantidade por omissão que cada fatia está separada do centro medido como "
+"uma percentagem do raio do gráfico circular"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
+#, fuzzy
+msgid "_Separation:"
+msgstr "Separador:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
@@ -31922,16 +31937,16 @@ msgstr "Definir Nomes"
 msgid "Address"
 msgstr "Endereço"
 
-#: src/workbook-edit.c:366
+#: src/workbook-edit.c:369
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s está protegido"
 
-#: src/workbook-edit.c:370
+#: src/workbook-edit.c:373
 msgid "Unprotect the workbook to enable editing."
 msgstr "Desproteja o livro de trabalho para permitir edição."
 
-#: src/workbook-edit.c:371
+#: src/workbook-edit.c:374
 msgid "Unprotect the sheet to enable editing."
 msgstr "Desproteja a folha para permitir edição."
 

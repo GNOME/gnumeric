@@ -1,3 +1,14 @@
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2004-03-30  Jody Goldberg <jody@gnome.org>
+
+	* dialog-stf-main-page.c (stf_dialog_main_page_init) : connect to
+	  value_changed, not changed so that people can enter values directly.
+	* dialog-cell-format.c (fmt_dialog_init_align_page) :  ditto for
+	  indent and rotation spinners.
+
 2004-03-23  Christian Neumair  <chris@gnome-de.org>
 
 	* dialog-view.c (cb_view_ok_clicked): Cast toggle button when

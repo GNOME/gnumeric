@@ -42,7 +42,6 @@ entities =  about-authors.xml \
      files-opening.xml \
      files-overview.xml \
      files-saving.xml \
-     gnumeric.xml \
      graphics-drawings.xml \
      graphics-images.xml \
      graphics-overview.xml \
@@ -55,9 +54,6 @@ entities =  about-authors.xml \
      legal.xml \
      manual-usage.xml \
      morehelp.xml \
-     print-worksheet-job.png \
-     print-worksheet-paper.png \
-     print-worksheet-printer.png \
      printing.xml \
      quick-start.xml \
      welcome.xml \
@@ -65,8 +61,7 @@ entities =  about-authors.xml \
      worksheets.xml
 #	functions.xml	# added in gnumeric-doc.make
 
-man_MANS = gnumeric.1 ssconvert.1
-
-EXTRA_DIST = $(man_MANS)
-
 include $(top_srcdir)/doc/gnumeric-doc.make
+
+EXTRA_DIST += gnumeric.1 ssconvert.1
+

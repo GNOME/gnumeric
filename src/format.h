@@ -66,11 +66,11 @@ void           style_format_ref		(GnmFormat *sf);
 void           style_format_unref	(GnmFormat *sf);
 gboolean       style_format_equal       (GnmFormat const *a, GnmFormat const *b);
 
-GnmFormat   *style_format_general		(void);
-GnmFormat   *style_format_default_date	(void);
-GnmFormat   *style_format_default_time	(void);
-GnmFormat   *style_format_default_percentage	(void);
-GnmFormat   *style_format_default_money	(void);
+GnmFormat *style_format_general		   (void);
+GnmFormat *style_format_default_date	   (void);
+GnmFormat *style_format_default_time	   (void);
+GnmFormat *style_format_default_percentage (void);
+GnmFormat *style_format_default_money	   (void);
 
 #define style_format_is_general(sf) ((sf)->family == FMT_GENERAL)
 #define style_format_is_text(sf) ((sf)->family == FMT_TEXT)

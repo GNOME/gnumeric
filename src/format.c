@@ -276,8 +276,9 @@ typedef struct {
 	gboolean    has_fraction;
         char        restriction_type;
 	gboolean    suppress_minus;
-        gnm_float  restriction_value;
-	GnmColor *color;
+	gboolean    elapsed_time;
+        gnm_float   restriction_value;
+	GnmColor   *color;
 } StyleFormatEntry;
 
 /*
@@ -411,8 +412,6 @@ append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
 	tm->tm_min = res / 60.;
 	tm->tm_sec = res - tm->tm_min * 60;
 
-	if (tm->tm_hour == 0 && is_neg)
-		g_string_append_c (string, '-');
 	g_string_append_printf (string, "%d", tm->tm_hour);
 }
 
@@ -461,6 +460,7 @@ format_entry_ctor (void)
 	entry->restriction_type = '*';
 	entry->restriction_value = 0.;
 	entry->suppress_minus = FALSE;
+	entry->elapsed_time = FALSE;
 	entry->want_am_pm = entry->has_fraction = FALSE;
 	entry->color = NULL;
 	return entry;
@@ -550,17 +550,20 @@ format_compile (GnmFormat *format)
 				}
 			} else if (*begin == '=') {
 				entry->restriction_type = '=';
-			} else if (*begin != '$' && entry->color == NULL) {
-				entry->color = lookup_color (begin, end);
-				/* Only the first colour counts */
-				if (NULL == entry->color) {
-					if (NULL == real_start)
-						real_start = fmt;
-					continue;
-				}
-				fmt = end;
-				continue;
 			} else {
+				if (begin[1] == ']' &&
+				    (*begin == 'h' || *begin == 'H' ||
+				     *begin == 'm' || *begin == 'M' ||
+				     *begin == 's' || *begin == 'S'))
+					entry->elapsed_time = TRUE;
+				else if (*begin != '$' && entry->color == NULL) {
+					entry->color = lookup_color (begin, end);
+					/* Only the first colour counts */
+					if (NULL != entry->color) {
+						fmt = end;
+						continue;
+					}
+				}
 				if (NULL == real_start)
 					real_start = fmt;
 				continue;
@@ -612,6 +615,15 @@ format_compile (GnmFormat *format)
 		case 'p': case 'P':
 			if (fmt[1] == 'm' || fmt[1] == 'M')
 				entry->want_am_pm = TRUE;
+			break;
+
+		case 'M': case 'm':
+		case 'D': case 'd':
+		case 'Y': case 'y':
+		case 'S': case 's':
+		case 'H': case 'h':
+			if (!entry->suppress_minus && !entry->elapsed_time)
+				entry->suppress_minus = TRUE;
 			break;
 
 		case ';':
@@ -1705,7 +1717,7 @@ format_number (GString *result,
 			if (time_display_elapsed) {
 				need_time_split = time_display_elapsed = FALSE;
 				ignore_further_elapsed = TRUE;
-				append_minute_elapsed (result, &tm, signed_number);
+				append_minute_elapsed (result, &tm, number);
 				break;
 			}
 
@@ -1745,7 +1757,7 @@ format_number (GString *result,
 			if (time_display_elapsed) {
 				need_time_split = time_display_elapsed = FALSE;
 				ignore_further_elapsed = TRUE;
-				append_second_elapsed (result, signed_number);
+				append_second_elapsed (result, number);
 			} else {
 				if (need_time_split)
 					need_time_split = split_time (&tm, signed_number, date_conv);
@@ -1765,7 +1777,7 @@ format_number (GString *result,
 			if (time_display_elapsed) {
 				need_time_split = time_display_elapsed = FALSE;
 				ignore_further_elapsed = TRUE;
-				append_hour_elapsed (result, &tm, signed_number);
+				append_hour_elapsed (result, &tm, number);
 			} else {
 				/* h == hour optionally in 24 hour mode
 				 * h followed by am/pm puts it in 12 hour mode

@@ -1,3 +1,7 @@
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
 2004-02-03  Morten Welinder  <terra@gnome.org>
 
 	* solver.c (write_constraint_str): Use unicode.

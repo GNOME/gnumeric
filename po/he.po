@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-28 22:50-0500\n"
+"POT-Creation-Date: 2004-03-30 01:42-0500\n"
 "PO-Revision-Date: 2003-06-01 10:26+0300\n"
 "Last-Translator: Gil 'Dolfin' Osher <dolfin@rpg.org.il>\n"
 "Language-Team: Hebrew <he@li.org>\n"
@@ -12596,6 +12596,7 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
 #: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
 #, no-c-format
 msgid "%"
@@ -12905,6 +12906,17 @@ msgstr "כלום"
 #, fuzzy
 msgid "Cen_ter size:"
 msgstr "קטגוריה:"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:3
+msgid ""
+"The amount this slice is separated from the center measured as a percentage "
+"of the radius of the pie"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
+#, fuzzy
+msgid "_Separation:"
+msgstr "מפרידים"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
@@ -24373,16 +24385,16 @@ msgstr "הגדר שם"
 msgid "Address"
 msgstr "כתובות"
 
-#: src/workbook-edit.c:366
+#: src/workbook-edit.c:369
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s נעול"
 
-#: src/workbook-edit.c:370
+#: src/workbook-edit.c:373
 msgid "Unprotect the workbook to enable editing."
 msgstr ""
 
-#: src/workbook-edit.c:371
+#: src/workbook-edit.c:374
 msgid "Unprotect the sheet to enable editing."
 msgstr ""
 

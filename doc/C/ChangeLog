@@ -1,3 +1,11 @@
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+	* Makefile.am : do not list gnumeric.xml in the entities it is
+	  autoadded by the magic in xmldocs.make
+	  remove the png figures from the list of entities
+
 2004-03-05  Jody Goldberg <jody@gnome.org>
 
 	* data-format.xml : Add 'mmmmm'

@@ -2376,7 +2376,7 @@ IRR(A1:A8) returns 0.04375.
 * If @settlement or @maturity are not valid dates, MDURATION returns #NUM! error.
 * If @frequency is other than 1, 2, or 4, MDURATION returns #NUM! error.
 * If @basis is omitted, MSRB 30/360 is applied.
-* If @basis is not in between 0 and 4, #NUM! error is returned.
+* If @basis is invalid, #NUM! error is returned.
 
 @EXAMPLES=
 
@@ -6638,6 +6638,18 @@ LEFT("Directory",3) equals "Dir".
 LEN("Helsinki") equals 8.
 
 @SEEALSO=CHAR, CODE
+
+@CATEGORY=String
+@FUNCTION=LENB
+@SYNTAX=LENB(string)
+@DESCRIPTION=LENB returns the length in bytes of the string @string.
+
+* This function is Excel compatible.
+
+@EXAMPLES=
+LENB("Helsinki") equals 8.
+
+@SEEALSO=CHAR, CODE, LEN
 
 @CATEGORY=String
 @FUNCTION=LOWER

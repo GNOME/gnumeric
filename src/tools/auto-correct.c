@@ -32,6 +32,7 @@
 #include "dates.h"
 #include "application.h"
 #include "gutils.h"
+#include "gnumeric-gconf.h"
 #include <gsf/gsf-impl-utils.h>
 
 #include <gconf/gconf-client.h>

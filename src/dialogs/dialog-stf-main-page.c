@@ -398,10 +398,10 @@ stf_dialog_main_page_init (GladeXML *gui, StfDialogData *pagedata)
 
 	/* Connect signals */
 	g_signal_connect (G_OBJECT (pagedata->main.main_startrow),
-		"changed",
+		"value-changed",
 		G_CALLBACK (main_page_startrow_changed), pagedata);
 	g_signal_connect (G_OBJECT (pagedata->main.main_stoprow),
-		"changed",
+		"value-changed",
 		G_CALLBACK (main_page_stoprow_changed), pagedata);
 	g_signal_connect (G_OBJECT (pagedata->main.main_separated),
 		"toggled",

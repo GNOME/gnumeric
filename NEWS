@@ -90,6 +90,8 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=137818
 	* For immediate rerender, even for simple font changes.
 	* Support editing rich text in cells (incomplete)
+	http://bugzilla.gnome.org/show_bug.cgi?id=138533
+	* handle insufficient data in moving average tool
 
 J.H.M. Dassen (Ray):
 	http://bugzilla.gnome.org/show_bug.cgi?id=135044

@@ -102,6 +102,7 @@ cell_calc_layout (GnmCell const *cell,
 		pango_layout_set_text (layout, hashes,
 				       MIN (sizeof (hashes) - 1, strlen (text)));
 		rv->numeric_overflow = TRUE;
+		rv->variable_width = TRUE;
 		rv->hfilled = TRUE;
 	}
 

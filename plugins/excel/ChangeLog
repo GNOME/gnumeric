@@ -1,3 +1,7 @@
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
 2004-03-18  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_WINDOW2) : We only support frozen

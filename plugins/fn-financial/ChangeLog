@@ -1,3 +1,7 @@
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
 2004-01-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* functions.c: fix argument names for RATE.

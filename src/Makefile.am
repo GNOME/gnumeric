@@ -5,7 +5,7 @@
 SUBDIRS = pixmaps dialogs widgets tools cut-n-paste-code
 
 bin_PROGRAMS = gnumeric
-check_PROGRAMS = test-pango ssconvert # number-match
+#check_PROGRAMS = ssconvert test-pango number-match
 
 INCLUDES = 								\
 	-I$(top_srcdir)							\
@@ -258,6 +258,7 @@ GNUMERIC_BASE =					\
 	workbook-control-gui.h 			\
 	workbook-control-gui-priv.h 		\
 	wbc-gtk.c				\
+	wbc-gtk.h				\
 	wbcg-actions.c				\
 	xml-io.c				\
 	xml-io.h				\
@@ -311,17 +312,17 @@ gnumeric_app_libs =				\
 	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a	\
 	widgets/libwidgets.a
 
-ssconvert_LDADD   = $(gnumeric_LDADD)
-ssconvert_LDFLAGS = $(gnumeric_LDFLAGS)
-ssconvert_SOURCES =				\
-	$(GNUMERIC_SOURCE)			\
-	ssconvert.c
+#ssconvert_LDADD   = $(gnumeric_LDADD)
+#ssconvert_LDFLAGS = $(gnumeric_LDFLAGS)
+#ssconvert_SOURCES =				\
+#	$(GNUMERIC_SOURCE)			\
+#	ssconvert.c
 
-test_pango_LDADD   = $(gnumeric_LDADD)
-test_pango_LDFLAGS = $(gnumeric_LDFLAGS)
-test_pango_SOURCES =				\
-	$(GNUMERIC_SOURCE) 			\
-	test-pango.c
+#test_pango_LDADD   = $(gnumeric_LDADD)
+#test_pango_LDFLAGS = $(gnumeric_LDFLAGS)
+#test_pango_SOURCES =				\
+#	$(GNUMERIC_SOURCE) 			\
+#	test-pango.c
 
 gnm-marshalers.h : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=gnm_ > $@
@@ -344,6 +345,10 @@ install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
 	mv -f gnumeric$(EXEEXT) gnumeric-$(VERSION)$(EXEEXT) && \
 	$(LN_S) gnumeric-$(VERSION)$(EXEEXT) gnumeric$(EXEEXT)
+
+uninstall-hook:
+	-cd $(DESTDIR)$(bindir) && \
+	rm -f gnumeric-$(VERSION)$(EXEEXT)
 
 # do not include the paths in the tarball
 dist-hook :

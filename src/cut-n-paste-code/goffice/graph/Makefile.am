@@ -43,10 +43,9 @@ libgoffice_graph_la_SOURCES = \
 	gog-plot-engine.c		\
 	gog-series.c			\
 	gog-series.h			\
-	gog-series-impl.h	\
-	gog-error-bar.c	\
-	gog-error-bar.h		\
-	gog-error-bar-display-icons.h		\
+	gog-series-impl.h		\
+	gog-error-bar.c			\
+	gog-error-bar.h			\
 	gog-data-allocator.c		\
 	gog-data-allocator.h		\
 	gog-data-set.c			\

@@ -781,7 +781,6 @@ doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile
 doc/developer/Makefile
-omf-install/Makefile
 plugins/Makefile
 plugins/numtheory/Makefile
 plugins/fn-complex/Makefile
@@ -801,7 +800,6 @@ plugins/sc/Makefile
 plugins/sylk/Makefile
 plugins/excel/Makefile
 plugins/gda/Makefile
-plugins/gb/Makefile
 plugins/gnome-db/Makefile
 plugins/lotus-123/Makefile
 plugins/oleo/Makefile
@@ -823,7 +821,6 @@ plugins/openoffice/Makefile
 plugins/psiconv/Makefile
 plugins/mps/Makefile
 plugins/sample_datasource/Makefile
-plugins/uihello/Makefile
 po/Makefile.in
 schemas/Makefile
 templates/Makefile

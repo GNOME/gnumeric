@@ -1,3 +1,36 @@
+2004-03-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+	* Makefile.am : Add distcleancheck_listfiles, and distuninstallcheck_listfiles
+	  to keep automake from complaining about the docs.
+	  Clean the .desktop and .keys file
+	  Dist the new gnome-common auto installed xmldoc.make and omf.make
+
+	* autogen.sh : require automake 1.7.2 to get the *_listfiles support
+	  required to make the doc build pass distcheck.
+
+	* omf-install/* : delete
+
+	* configure.in : remove omf-install, plugins/gb/Makefile,
+	  plugins/uihello/Makefile
+
+	* schemas/Makefile.am : clean the generated schema files
+
+	* src/cell-draw.c (cell_calc_layout) : mark hashed values as variable
+	  width so that they resize when columns change size.
+
+	* src/item-grid.c (item_grid_event) : clear the cursor timer when the
+	  mouse leaves the grid (eg enters the edit item)
+
+2004-03-30  Jody Goldberg <jody@gnome.org>
+
+	Test case.  Enter string into C3 that spans into E3 then change
+	alignment
+	* src/commands.c (cmd_format_undo) : be lazy, queue a full redraw in
+	  case spans changed.
+	(cmd_format_redo) : ditto.
+
 2004-03-28  Jody Goldberg <jody@gnome.org>
 
 	* src/wbcg-actions.c : cheat and install a SheetInsert action to avoid

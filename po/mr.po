@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-28 22:50-0500\n"
+"POT-Creation-Date: 2004-03-30 01:42-0500\n"
 "PO-Revision-Date: 2004-03-03 20:40--530\n"
 "Last-Translator: terna2 <terna2@hbcse.tifr.res.in>\n"
 "Language-Team: terna localization Team <hbcse.net>\n"
@@ -12700,6 +12700,7 @@ msgstr "मूल्य"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
 #: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
 #, no-c-format
 msgid "%"
@@ -13019,6 +13020,17 @@ msgstr "क्रमबद्ध करा"
 #, fuzzy
 msgid "Cen_ter size:"
 msgstr "फॉन्टचा आकार"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:3
+msgid ""
+"The amount this slice is separated from the center measured as a percentage "
+"of the radius of the pie"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
+#, fuzzy
+msgid "_Separation:"
+msgstr "हजारांचा विभाजक"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
@@ -24913,17 +24925,17 @@ msgstr "%s नाव वर्णन करा"
 msgid "Address"
 msgstr "पत्ता "
 
-#: src/workbook-edit.c:366
+#: src/workbook-edit.c:369
 #, c-format
 msgid "%s!%s is locked"
 msgstr ""
 
-#: src/workbook-edit.c:370
+#: src/workbook-edit.c:373
 #, fuzzy
 msgid "Unprotect the workbook to enable editing."
 msgstr "%s बंद केले आहे. वर्कबुक संपादित करण्यासाठी सुरक्षा काढा "
 
-#: src/workbook-edit.c:371
+#: src/workbook-edit.c:374
 #, fuzzy
 msgid "Unprotect the sheet to enable editing."
 msgstr "%s बंद केले आहे. संपादित करण्यासाठी पानाची सुरक्षा काढा "

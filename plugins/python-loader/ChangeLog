@@ -1,3 +1,7 @@
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
 2004-01-05  Jon K Hellan  <hellan@acm.org>
 
 	* py-gnumeric.c (py_Boolean_object_dealloc,

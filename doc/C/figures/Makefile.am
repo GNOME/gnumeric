@@ -237,6 +237,9 @@ EXTRA_DIST = \
      print-preview-zoomin.png \
      print-preview-zoomout.png \
      print-preview.png \
+     print-worksheet-job.png \
+     print-worksheet-paper.png \
+     print-worksheet-printer.png \
      print.png \
      printing-preview.png \
      printing-setup-header-config.png \

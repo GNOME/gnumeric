@@ -1,4 +1,8 @@
-SUBDIRS = . po src plugins icons templates doc schemas omf-install
+SUBDIRS = . po src plugins icons templates doc schemas
+
+distcleancheck_listfiles = find . -type f -print | grep -v 'omf\.out' | grep -v '^\./doc'
+
+distuninstallcheck_listfiles = find . -type f -print | grep -v '^\./var/scrollkeeper' | grep -v 'omf' | grep -v 'figures'
 
 XML_I18N_XML_KIND = --pass-through
 
@@ -28,7 +32,7 @@ GNOME_Gnumeric.server.in : GNOME_Gnumeric.server.in.in Makefile
 @INTLTOOL_SERVER_RULE@
 
 CLEANFILES = intltool-extract intltool-merge intltool-update \
-	 $(server_in_files)
+	$(server_DATA) $(server_in_files) gnumeric.desktop gnumeric.keys
 
 EXTRA_DIST = \
 	gnumeric.desktop.in gnumeric.spec.in GNOME_Gnumeric.server.in.in\
@@ -38,6 +42,8 @@ EXTRA_DIST = \
 	intltool-extract.in	\
 	intltool-merge.in	\
 	intltool-update.in	\
+	xmldocs.make 		\
+	omf.make		\
 	$(server_in_files) $(server_DATA)
 
 gnumeric.keys: gnumeric.keys.in Makefile

@@ -21,7 +21,7 @@ functions.xml: func.defs $(gnumeric_docdir)/make-func-list.pl func-header.xml fu
 func.defs: $(top_builddir)/src/gnumeric
 	LC_ALL="$(locale)" ; export LC_ALL ; $(top_builddir)/src/gnumeric --dump-func-defs="$@"
 
-include $(gnumeric_docdir)/xmldocs.make
+include $(top_srcdir)/xmldocs.make
 
 # include generated files to simplify installation
 EXTRA_DIST +=		\

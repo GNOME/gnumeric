@@ -8,6 +8,5 @@ SUBDIRS = developer C
 #
 EXTRA_DIST = 				\
 	README				\
-	xmldocs.make			\
 	gnumeric-doc.make		\
 	make-func-list.pl
