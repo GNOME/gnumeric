@@ -11,6 +11,9 @@
 #include "format.h"
 #include "color.h"
 
+#define DEFAULT_FONT "-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*"
+#define DEFAULT_SIZE 14
+
 static GHashTable *style_format_hash;
 static GHashTable *style_font_hash;
 static GHashTable *style_border_hash;
@@ -74,11 +77,33 @@ style_font_new (char *font_name, int units)
 	
 	font = (StyleFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (!font){
-		font = g_new0 (StyleFont, 1);
-		font->font_name = g_strdup (font_name);
-		font->units    = units;
-		font->font     = gdk_font_load (font_name);
-		g_hash_table_insert (style_font_hash, font, font);
+		GdkFont *gdk_font;
+
+		gdk_font = gdk_font_load (font_name);
+		
+		if (gdk_font){
+			font = g_new0 (StyleFont, 1);
+			font->font_name = g_strdup (font_name);
+			font->units    = units;
+			font->font     = gdk_font_load (font_name);
+			g_hash_table_insert (style_font_hash, font, font);
+		} else {
+			/*
+			 * If we cant use the specified font, try:
+			 * - Loading the default font instead
+			 * - Loading fixed font
+			 */
+			if (!strcmp (font_name, "fixed"))
+				g_error ("Can not load fixed font\n");
+
+			if (!strcmp (font_name, DEFAULT_FONT))
+				font_name = "fixed";
+			else
+				font_name = DEFAULT_FONT;
+
+			
+			return style_font_new (font_name, DEFAULT_SIZE);
+		}
 	}
 	font->ref_count++;
 
@@ -231,7 +256,7 @@ style_new (void)
 	style->valid_flags = STYLE_ALL;
 	
 	style->format      = style_format_new ("General");
-	style->font        = style_font_new ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*", 14);
+	style->font        = style_font_new (DEFAULT_FONT, DEFAULT_SIZE);
 	style->border      = style_border_new_plain ();
 	style->fore_color  = style_color_new (0, 0, 0);
 	style->back_color  = style_color_new (0xffff, 0xffff, 0xffff);

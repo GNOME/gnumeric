@@ -448,12 +448,12 @@ int yylex (void)
 	}
 	}
 	
-	if (isalpha (c) || c == '$'){
+	if (isalpha (c) || c == '_' || c == '$'){
 		char *start = parser_expr - 1;
 		char *str;
 		int  len;
 		
-		while (isalnum (*parser_expr) || *parser_expr == '$')
+		while (isalnum (*parser_expr) || *parser_expr == '_' || *parser_expr == '$')
 			parser_expr++;
 
 		len = parser_expr - start;

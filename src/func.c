@@ -32,7 +32,11 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
 	int cont;
 	
 	if (!cell->value){
-		printf ("iterate_cellrange_callback: Cell has no value\n");
+		/*
+		 * FIXME: If this is a formula, is it worth recursing on
+		 * this one? IFF !(cell->flags & CELL_ERROR) &&
+		 * cell->generation != cell->sheet->workbook->generation?
+		 */
 		return TRUE;
 	}
 	
@@ -155,7 +159,7 @@ functions_init (void)
 void
 constants_init (void)
 {
-	Value *true, *false;
+	Value *true, *false, *version;
 
 	/* FALSE */
 	false = g_new (Value, 1);
@@ -167,6 +171,12 @@ constants_init (void)
 	true->type = VALUE_INTEGER;
 	true->v.v_int = 1;
 
+	/* GNUMERIC_VERSION */
+	version = g_new (Value, 1);
+	version->type = VALUE_FLOAT;
+	version->v.v_float = atof (GNUMERIC_VERSION);
+	
 	symbol_install ("FALSE", SYMBOL_VALUE, false);
 	symbol_install ("TRUE", SYMBOL_VALUE, true);
+	symbol_install ("GNUMERIC_VERSION", SYMBOL_VALUE, version);
 }

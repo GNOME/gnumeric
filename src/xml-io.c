@@ -1187,7 +1187,8 @@ static Cell *readXmlCell(parseXmlContextPtr ctxt, xmlNodePtr tree) {
 			
         cell_set_text(ret, v);
 	g_free (v);
-    }
+    } else
+	cell_set_text (ret, "");
     
     return(ret);
 }
@@ -1443,7 +1444,7 @@ static Workbook *readXmlWorkbook(parseXmlContextPtr ctxt, xmlNodePtr tree) {
 
 	xmlGetIntValue(child, "Width", &width);
 	xmlGetIntValue(child, "Height", &height);
-	gtk_widget_set_usize(ret->toplevel, width, height);
+/*	gtk_widget_set_usize(ret->toplevel, width, height); */
     }
 
     child = xmlSearchChild(tree, "Style");

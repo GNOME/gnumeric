@@ -10,6 +10,11 @@
 #include "gnumeric.h"
 #include "dialogs.h"
 
+/*
+ * We need to get rid of that so that we will be able
+ * to list everybody.  Somethign like guname would be
+ * nice
+ */
 void
 dialog_about (void)
 {
@@ -20,6 +25,7 @@ dialog_about (void)
 		"Chris Lahey, Number format engine.",
 		"Tom Dyas, Plugin support.",
 		"Federico Mena, Canvas support.",
+		"Adrian Likins, Documentation, debugging",
 		NULL
 	};
 

@@ -6,6 +6,7 @@ bin_PROGRAMS = gnumeric
 
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
 	-I$(includedir)				 	\
 	$(GNOME_INCLUDEDIR)
 
