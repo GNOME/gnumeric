@@ -1,3 +1,15 @@
+1999-11-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_draw) : Clip the redraw region at the
+	  borders to avoid problems when zooming.
+	(bar_draw_cell) : Use the internal fonts.
+	(item_bar_unrealize) : Unref the fonts when we're done.
+	(item_bar_realize) : Init the fonts.
+	(item_bar_fonts_unref, item_bar_fonts_init) : New functions.
+
+	* src/sheet-view.c (sheet_view_set_zoom_factor) : Scale itembar
+	  fonts when we zoom.
+
 1999-11-13  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet-style.c (sheet_selection_get_unique_style): kill bug

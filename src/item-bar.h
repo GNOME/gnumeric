@@ -16,13 +16,15 @@ typedef enum {
 } ItemBarSelectionType;
 
 typedef struct {
-	GnomeCanvasItem canvas_item;
+	GnomeCanvasItem  canvas_item;
 	SheetView       *sheet_view;
-	int             first_element;
-	GtkOrientation  orientation;	/* horizontal, vertical */
+	int              first_element;
+	GtkOrientation   orientation;	/* horizontal, vertical */
 	GdkGC           *gc;		/* Draw gc */
 	GdkCursor       *normal_cursor;
 	GdkCursor       *change_cursor;
+
+	StyleFont	*normal_font, *bold_font;
 
 	int             resize_pos;
 	int 	        resize_width;
@@ -32,7 +34,7 @@ typedef struct {
 	int             dragging : 1;
 
 	/* Tip for scrolling */
-	GtkWidget        *tip;
+	GtkWidget        *tip; /* currently disabled */
 
 	/* Where the selection started */
 	int             start_selection;
@@ -41,6 +43,7 @@ typedef struct {
 #define ITEM_BAR_IS_SELECTING(ib) ((ib)->start_selection != -1)
 
 GtkType item_bar_get_type (void);
+void    item_bar_fonts_init (ItemBar *item_bar, double const zoom_factor);
 
 typedef struct {
 	GnomeCanvasItemClass parent_class;

@@ -512,8 +512,8 @@ fillin_negative_samples (FormatState *state, int const page)
 
 	char const * const decimal = (state->format.num_decimals > 0)
 		? format_get_decimal () : "";
+	char const *space = "", *currency;
 
-	char const *currency, *space = "";
 	GtkCList *cl;
 	char buf[50];
 	int i;
@@ -544,7 +544,7 @@ fillin_negative_samples (FormatState *state, int const page)
 
 	/* If non empty then free the string */
 	if (*currency)
-		g_free (currency);
+		g_free ((char *)currency);
 }
 
 static void

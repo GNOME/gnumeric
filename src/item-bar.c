@@ -60,6 +60,33 @@ item_bar_destroy (GtkObject *object)
 }
 
 static void
+item_bar_fonts_unref (ItemBar *item_bar)
+{
+	if (item_bar->normal_font != NULL) {
+		style_font_unref (item_bar->normal_font);
+		item_bar->normal_font = NULL;
+	}
+
+	if (item_bar->bold_font != NULL) {
+		style_font_unref (item_bar->bold_font);
+		item_bar->bold_font = NULL;
+	}
+}
+
+void
+item_bar_fonts_init (ItemBar *item_bar, double const zoom_factor)
+{
+	item_bar_fonts_unref (item_bar);
+
+	item_bar->normal_font =
+		style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
+				       zoom_factor, FALSE, FALSE);
+	item_bar->bold_font =
+		style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
+				       zoom_factor, TRUE, FALSE);
+}
+
+static void
 item_bar_realize (GnomeCanvasItem *item)
 {
 	ItemBar *item_bar;
@@ -84,8 +111,7 @@ item_bar_realize (GnomeCanvasItem *item)
 	else
 		item_bar->change_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 
-	/* Reference the bold font */
-	style_font_ref (gnumeric_default_bold_font);
+	item_bar_fonts_init (item_bar, 1.);
 }
 
 static void
@@ -93,10 +119,10 @@ item_bar_unrealize (GnomeCanvasItem *item)
 {
 	ItemBar *item_bar = ITEM_BAR (item);
 
-	style_font_unref (gnumeric_default_bold_font);
 	gdk_gc_unref (item_bar->gc);
 	gdk_cursor_destroy (item_bar->change_cursor);
 	gdk_cursor_destroy (item_bar->normal_cursor);
+	item_bar_fonts_unref (item_bar);
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)(item);
@@ -127,11 +153,14 @@ get_row_name (int n)
 }
 
 static void
-bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ItemBarSelectionType type,
-	       const char *str, int x1, int y1, int x2, int y2)
+bar_draw_cell (ItemBar const * const item_bar,
+	       GdkDrawable *drawable, ItemBarSelectionType const type,
+	       char const * const str,
+	       int const x, int const y,
+	       int const width, int const height)
 {
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item_bar)->canvas);
-	GdkFont *font = canvas->style->font;
+	GdkFont *font;
 	GdkGC *gc;
 	int len, texth, shadow;
 
@@ -140,110 +169,111 @@ bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ItemBarSelectionType ty
 	case ITEM_BAR_NO_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		gc = canvas->style->bg_gc [GTK_STATE_ACTIVE];
+		font = style_font_gdk_font (item_bar->normal_font);
 		break;
 
 	case ITEM_BAR_PARTIAL_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		gc = canvas->style->dark_gc [GTK_STATE_PRELIGHT];
-		font = style_font_gdk_font (gnumeric_default_bold_font);
+		font = style_font_gdk_font (item_bar->bold_font);
 		break;
 
 	case ITEM_BAR_FULL_SELECTION:
 		shadow = GTK_SHADOW_IN;
 		gc = canvas->style->dark_gc [GTK_STATE_NORMAL];
-		font = style_font_gdk_font (gnumeric_default_bold_font);
+		font = style_font_gdk_font (item_bar->bold_font);
 		break;
 	}
 
 	len = gdk_string_width (font, str);
 	texth = font->ascent + font->descent;
 
-	gdk_draw_rectangle (drawable, gc, TRUE, x1 + 1, y1 + 1, x2-x1-2, y2-y1-2);
+	gdk_draw_rectangle (drawable, gc, TRUE, x + 1, y + 1, width-2, height-2);
 	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
-			 x1, y1, x2-x1, y2-y1);
+			 x, y, width, height);
 	gdk_draw_string (drawable, font, item_bar->gc,
-			 x1 + ((x2 - x1) - len) / 2,
-			 y1 + ((y2 - y1) - texth) / 2 + font->ascent,
+			 x + (width - len) / 2,
+			 y + (height - texth) / 2 + font->ascent,
 			 str);
 }
 
 static void
 item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
-	ItemBar *item_bar = ITEM_BAR (item);
-	Sheet   *sheet = item_bar->sheet_view->sheet;
-	ColRowInfo *cri;
-	int element, total, pixels, limit;
-	const char *str;
+	ItemBar const * const item_bar = ITEM_BAR (item);
+	Sheet   const * const sheet = item_bar->sheet_view->sheet;
+	int element = item_bar->first_element;
+	int pixels;
 
-	element = item_bar->first_element;
+	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL) {
+		int total = -y;
+		int const real_width = GTK_WIDGET (item->canvas)->allocation.width;
 
-	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
-		limit = y + height;
-	else
-		limit = x + width;
-
-	total = 0;
-
-	do {
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
-
-			if (element >= SHEET_MAX_ROWS){
+		if (x < 0) x = 0;
+		do {
+			if (element >= SHEET_MAX_ROWS) {
 				GtkWidget *canvas = GTK_WIDGET (item->canvas);
 
 				gtk_draw_shadow (canvas->style, drawable,
 						 GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-						 x, y, width, height);
+						 -x, y, real_width, height);
 				return;
 			}
-			cri = sheet_row_get_info (sheet, element);
-			if (item_bar->resize_pos == element)
-				pixels = item_bar->resize_width;
-			else
+			if (item_bar->resize_pos != element) {
+				ColRowInfo const *cri = sheet_row_get_info (sheet, element);
 				pixels = cri->pixels;
+			} else
+				pixels = item_bar->resize_width;
 
-			if (total + pixels >= y){
-				str = get_row_name (element);
+			total += pixels;
+			if (total >= 0) {
+				char const * const str = get_row_name (element);
 				bar_draw_cell (item_bar, drawable,
 					       sheet_row_selection_type (sheet, element),
-					       str, -x, 1 + total - y,
-					       GTK_WIDGET (item->canvas)->allocation.width - x,
-					       1 + total + pixels - y);
+					       str,
+					       -x, 1 + total - pixels,
+					       real_width, pixels);
 			}
-		} else {
-			if (element >= SHEET_MAX_COLS){
+			++element;
+		} while (total < height);
+	} else {
+		int total = -x;
+		int const real_height = GTK_WIDGET (item->canvas)->allocation.height;
+
+		if (y < 0) y = 0;
+		do {
+			if (element >= SHEET_MAX_COLS) {
 				GtkWidget *canvas = GTK_WIDGET (item->canvas);
 
 				gtk_draw_shadow (canvas->style, drawable,
 						 GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-						 x, y, width, height);
+						 x, -y, width, real_height);
 				return;
 			}
-			if (item_bar->resize_pos == element)
-				pixels = item_bar->resize_width;
-			else {
-				cri = sheet_col_get_info (sheet, element);
+			if (item_bar->resize_pos != element) {
+				ColRowInfo const *cri = cri = sheet_col_get_info (sheet, element);
 				pixels = cri->pixels;
-			}
-			
-			if (total + pixels >= x){
-				str = col_name (element);
+			} else
+				pixels = item_bar->resize_width;
+
+			total += pixels;
+			if (total >= 0) {
+				char const * const str = col_name (element);
 				bar_draw_cell (item_bar, drawable,
 					       sheet_col_selection_type (sheet, element),
-					       str, 1 + total - x, -y,
-					       1 + total + pixels - x,
-					       GTK_WIDGET (item->canvas)->allocation.height - y);
+					       str,
+					       1 + total - pixels, -y,
+					       pixels, real_height);
 			}
-		}
 
-		total += pixels;
-		element++;
-	} while (total < limit);
+			++element;
+		} while (total < width);
+	}
 }
 
 static double
 item_bar_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
-		 GnomeCanvasItem **actual_item)
+		GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;
 	return 0.0;
@@ -651,6 +681,8 @@ item_bar_init (ItemBar *item_bar)
 	item_bar->resize_pos = -1;
 	item_bar->start_selection = -1;
 	item_bar->tip = NULL;
+	item_bar->normal_font = NULL;
+	item_bar->bold_font = NULL;
 }
 
 static void
