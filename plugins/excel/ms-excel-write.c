@@ -1936,7 +1936,6 @@ static guint8
 style_color_to_pal_index (StyleColor *color, ExcelWorkbook *wb,
 			  StyleColor *auto_back, StyleColor *auto_font)
 {
-	guint rgb888;
 	guint8 idx;
 	
 	if (color->is_auto) {
@@ -2058,8 +2057,6 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 	StyleColor *back_color;
 	StyleColor *auto_back = style_color_auto_back ();
 	StyleColor *auto_font = style_color_auto_font ();
-	guint pattern_pal_color;
-	guint back_pal_color;
 	int i;
 
 	memset (xfd, 0, sizeof *xfd);
