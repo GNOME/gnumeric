@@ -41,7 +41,7 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=152159
 	* Rename x-quattro-pro to match freedesktop
 	* Have text in item-edit does reflect zoom
-	* Show the right rich text format we clicking edit line
+	* Show the right rich text format when clicking on edit line
 
 Morten:
 	* Implement Edit->Select->Input. [#154735]
