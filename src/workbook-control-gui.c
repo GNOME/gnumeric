@@ -1568,7 +1568,7 @@ cb_insert_shaped_component (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_dump_xml (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	bonobo_win_dump (BONOBO_WIN (wbcg->toplevel), "on demand");
+	bonobo_window_dump (BONOBO_WINDOW(wbcg->toplevel), "on demand");
 }
 #endif
 
@@ -2864,7 +2864,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	GtkWidget *tmp;
 
 #ifdef ENABLE_BONOBO
-	tmp  = bonobo_win_new ("Gnumeric", "Gnumeric");
+	tmp  = bonobo_window_new ("Gnumeric", "Gnumeric");
 #else
 	tmp  = gnome_app_new ("Gnumeric", "Gnumeric");
 #endif
@@ -2891,12 +2891,12 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->menu_item_redo	  = workbook_menu_edit[1].widget;
 	wbcg->menu_item_paste_special = workbook_menu_edit[6].widget;
 #else
-	bonobo_win_set_contents (BONOBO_WIN (wbcg->toplevel), wbcg->table);
+	bonobo_window_set_contents (BONOBO_WINDOW (wbcg->toplevel), wbcg->table);
 
 	wbcg->uic = bonobo_ui_component_new_default ();
 
 	ui_container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (ui_container, BONOBO_WIN (wbcg->toplevel));
+	bonobo_ui_container_set_win (ui_container, BONOBO_WINDOW (wbcg->toplevel));
 	bonobo_ui_component_set_container (
 		wbcg->uic, bonobo_object_corba_objref (BONOBO_OBJECT (ui_container)));
 

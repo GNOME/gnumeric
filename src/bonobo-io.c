@@ -48,7 +48,7 @@ write_stream_to_storage (xmlNodePtr           cur,
 		loop = FALSE;
 		g_free (name);
 		name = g_strdup_printf ("stream %d", idx++);
-		stream = Bonobo_Storage_open_stream (storage, name, flags, ev);
+		stream = Bonobo_Storage_openStream (storage, name, flags, ev);
 		if (ev->_major == CORBA_USER_EXCEPTION &&
 		    strcmp (ev->_repo_id, ex_Bonobo_Storage_NameExists)) {
 			CORBA_exception_free (ev);
@@ -99,7 +99,7 @@ gnumeric_bonobo_obj_write (xmlNodePtr   cur,
 	
 	sob = SHEET_OBJECT_BONOBO (object);
 	
-	ps = Bonobo_Unknown_query_interface (
+	ps = Bonobo_Unknown_queryInterface (
 		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
 		"IDL:Bonobo/PersistStream:1.0", &ev);
 
@@ -140,14 +140,14 @@ read_stream_from_storage (Bonobo_Unknown       object,
 	Bonobo_Stream        stream;
 	Bonobo_PersistStream ps;
 
-	ps = Bonobo_Unknown_query_interface (object, "IDL:Bonobo/PersistStream:1.0", ev);
+	ps = Bonobo_Unknown_queryInterface (object, "IDL:Bonobo/PersistStream:1.0", ev);
 
 	if (BONOBO_EX (ev) || ps == CORBA_OBJECT_NIL) {
 		g_warning ("Wierd, component used to have a PersistStream interface");
 		return;
 	}
 
-	stream = Bonobo_Storage_open_stream (storage, sname, Bonobo_Storage_READ, ev);
+	stream = Bonobo_Storage_openStream (storage, sname, Bonobo_Storage_READ, ev);
 	if (ev->_major != CORBA_NO_EXCEPTION) {
 		g_warning ("Can't open stream '%s'", sname);
 		return;
@@ -284,7 +284,7 @@ gnumeric_bonobo_write_workbook (IOContext *context, WorkbookView *wb_view,
 
 		CORBA_exception_init (&ev);
 	
-		stream = Bonobo_Storage_open_stream (
+		stream = Bonobo_Storage_openStream (
 			bonobo_object_corba_objref (BONOBO_OBJECT (storage)),
 			"Workbook", flags, &ev);
 		if (ev._major == CORBA_USER_EXCEPTION &&
@@ -438,7 +438,7 @@ gnumeric_bonobo_read_workbook (IOContext *context, WorkbookView *wb_view,
 	}
 
 	CORBA_exception_init (&ev);
-	stream = Bonobo_Storage_open_stream (
+	stream = Bonobo_Storage_openStream (
 		bonobo_object_corba_objref (BONOBO_OBJECT (storage)),
 		"Workbook", Bonobo_Storage_READ, &ev);
 

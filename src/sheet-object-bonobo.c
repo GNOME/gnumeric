@@ -103,7 +103,7 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 	
 	CORBA_exception_init (&ev);
 
-	pf = Bonobo_Unknown_query_interface (
+	pf = Bonobo_Unknown_queryInterface (
 		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
 		"IDL:Bonobo/PersistFile:1.0", &ev);
 
@@ -126,7 +126,7 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 		goto finish;
 	} 
 		
-	ps = Bonobo_Unknown_query_interface (
+	ps = Bonobo_Unknown_queryInterface (
 		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
 		"IDL:Bonobo/PersistStream:1.0", &ev);
 	
@@ -187,7 +187,7 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 	
 	CORBA_exception_init (&ev);
 	
-	ret = Bonobo_Unknown_query_interface (
+	ret = Bonobo_Unknown_queryInterface (
 		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
 		"IDL:Bonobo/PersistStream:1.0", &ev);
 	if (ev._major == CORBA_NO_EXCEPTION && ret != CORBA_OBJECT_NIL) {

@@ -163,7 +163,7 @@ _WorkbookFactory_init (CORBA_Environment *ev)
 	/*
 	 * Register the server and see if it was already there
 	 */
-	v = od_server_register (gnumeric_workbook_factory,
+	v = bonobo_directory_register_server (gnumeric_workbook_factory,
 				"OAFIID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9");
 	if (v == 0)
 		return TRUE;
