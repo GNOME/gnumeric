@@ -136,9 +136,7 @@ src/stf.c
 src/style.c
 src/value-sheet.c
 src/value.c
-src/widgets/widget-color-combo.c
 src/widgets/widget-font-selector.c
-src/widgets/widget-pixmap-combo.c
 src/workbook-cmd-format.c
 src/workbook-format-toolbar.c
 src/workbook-view.c

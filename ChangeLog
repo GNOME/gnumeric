@@ -1,5 +1,13 @@
 2000-09-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook.c (cb_cell_rerender) : We need to recalc the size
+	  after rendering the value.  However, it is wasteful to redraw each
+	  cell individually.
+	(cb_sheet_pref_display_formulas) : redraw entire sheet.  It is
+	  simpler.
+
+2000-09-17  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook-format-toolbar.c : Use the new Gnome App Libs (GAL)
 	  routines.
 	* src/workbook-view.c : Ditto.

@@ -866,10 +866,11 @@ static void
 cb_cell_rerender (gpointer element, gpointer userdata)
 {
 	Dependent *dep = element;
-	if (dep->flags & DEPENDENT_CELL) {
+	int const t = (dep->flags & DEPENDENT_TYPE_MASK);
+	if (t == DEPENDENT_CELL) {
 		Cell *cell = DEP_TO_CELL (dep);
 		cell_render_value (cell);
-		sheet_redraw_cell (cell);
+		rendered_value_calc_size (cell);
 	}
 }
 
@@ -879,6 +880,7 @@ cb_sheet_pref_display_formulas (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = wb->current_sheet;
 	sheet->display_formulas = !sheet->display_formulas;
 	g_list_foreach (wb->dependents, &cb_cell_rerender, NULL);
+	sheet_redraw_all (sheet);
 }
 static void
 cb_sheet_pref_hide_zeros (GtkWidget *widget, Workbook *wb)
