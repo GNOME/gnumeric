@@ -15,6 +15,7 @@
 <widget>
   <class>GnomeDialog</class>
   <name>hf-config</name>
+  <visible>False</visible>
   <title>Customize header/footer</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>

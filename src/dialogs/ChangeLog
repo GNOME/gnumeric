@@ -1,5 +1,7 @@
 2001-05-04  Jon K Hellan  <hellan@acm.org>
 
+	* hf-config.glade: Set this one invisible, too.
+
 	* dialog-stf-export.glade: Set invisible to avoid flicker when
 	popping up.
 
