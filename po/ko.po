@@ -11795,7 +11795,7 @@ msgstr "파일 이름:"
 
 #: plugins/perl-loader/perl-loader.c:135
 #, fuzzy
-msgid "perl_func.pl doesn't exit."
+msgid "perl_func.pl doesn't exist."
 msgstr "모듈 \"%s\"이(가) 없습니다."
 
 #: plugins/perl-loader/perl-loader.c:179 plugins/perl-loader/perl-loader.c:198
@@ -12021,11 +12021,11 @@ msgid "Not a valid function for action: %s"
 msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:1
-msgid "Imports Quatro Pro (tm) files"
+msgid "Imports Quattro Pro (tm) files"
 msgstr "쿼트로 프로 (tm) 파일을 가져옵니다"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:3
@@ -24681,7 +24681,7 @@ msgid "R_eplace..."
 msgstr "바꾸기(_P):"
 
 #: src/wbcg-actions.c:1612
-msgid "Search for some something and replace it with something else"
+msgid "Search for something and replace it with something else"
 msgstr ""
 
 #: src/wbcg-actions.c:1614
@@ -27488,7 +27488,7 @@ msgstr "샘플 갯수:"
 #~ msgid "HTML"
 #~ msgstr "HTML"
 
-#~ msgid "Quatro Pro"
+#~ msgid "Quattro Pro"
 #~ msgstr "쿼트로 프로"
 
 #, fuzzy

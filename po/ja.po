@@ -16575,7 +16575,7 @@ msgstr "モジュール名が指定されていません。"
 
 #: plugins/perl-loader/perl-loader.c:135
 #, fuzzy
-msgid "perl_func.pl doesn't exit."
+msgid "perl_func.pl doesn't exist."
 msgstr "モジュール \"%s\" は存在しません。"
 
 #: plugins/perl-loader/perl-loader.c:179 plugins/perl-loader/perl-loader.c:198
@@ -16793,11 +16793,11 @@ msgid "Not a valid function for action: %s"
 msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:1
-msgid "Imports Quatro Pro (tm) files"
+msgid "Imports Quattro Pro (tm) files"
 msgstr "クアトロ・プロ(tm)ファイルをインポートします"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "クアトロ・プロ (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
@@ -28943,7 +28943,7 @@ msgid "R_eplace..."
 msgstr "置換(_E)..."
 
 #: src/wbcg-actions.c:1612
-msgid "Search for some something and replace it with something else"
+msgid "Search for something and replace it with something else"
 msgstr "何かを検索してそれ以外の何かに置き換えます"
 
 #: src/wbcg-actions.c:1614
@@ -31712,7 +31712,7 @@ msgstr "シンプルなリストテンプレート"
 #~ msgid "_Known Variances or Large Sample: Z-Test..."
 #~ msgstr "既知の変化量または大きいサンプル: Z-検定(_K)"
 
-#~ msgid "Quatro Pro"
+#~ msgid "Quattro Pro"
 #~ msgstr "クアトロ・プロ"
 
 #~ msgid "Left align"

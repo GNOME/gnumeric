@@ -716,6 +716,9 @@ Short Term Goals
     6.18) 'Forms' import					(DONE)
 	6.18.1) basic objects					(DONE)
 	6.18.2) connections to cells				(DONE)
+    6.19) print header/footer					(DONE)
+	6.19.1) import parsing					(DONE)
+	6.19.2) export						(DONE)
 
 7) Jump to zip file
     7.1) move existing code into plugin (easy)

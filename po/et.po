@@ -14261,7 +14261,7 @@ msgid "Module name not given."
 msgstr "Mooduli nimi andmata."
 
 #: plugins/perl-loader/perl-loader.c:135
-msgid "perl_func.pl doesn't exit."
+msgid "perl_func.pl doesn't exist."
 msgstr "perl_func.pl ei ole olemas."
 
 #: plugins/perl-loader/perl-loader.c:179
@@ -14479,12 +14479,12 @@ msgid "Not a valid function for action: %s"
 msgstr "Sobimatu funktsioon tegevuseks: %s"
 
 #: plugins/qpro/plugin.xml.in.h:1
-msgid "Imports Quatro Pro (tm) files"
-msgstr "Impordib Quatro Pro (tm) faile"
+msgid "Imports Quattro Pro (tm) files"
+msgstr "Impordib Quattro Pro (tm) faile"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
-msgstr "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
+msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
 msgid "Quattro Pro(tm)"
@@ -26960,7 +26960,7 @@ msgid "R_eplace..."
 msgstr "A_senda..."
 
 #: src/wbcg-actions.c:1633
-msgid "Search for some something and replace it with something else"
+msgid "Search for something and replace it with something else"
 msgstr "Otsi midagi ja asenda see millegi muuga"
 
 #: src/wbcg-actions.c:1635

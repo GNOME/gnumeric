@@ -132,7 +132,7 @@ gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 #endif
 	} else {
 		*ret_error = error_info_new_printf (
-			     _("perl_func.pl doesn't exit."));
+			     _("perl_func.pl doesn't exist."));
 	}
 
 	g_free (argv[1]);

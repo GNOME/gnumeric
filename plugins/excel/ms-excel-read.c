@@ -5208,16 +5208,53 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	}
 }
 
+/* hands the peculiar ampersand escaping, and returns the string _after_
+ * &<target> to the end of the buffer.  It also stores \0 in place
+ * of &<target>.  If not found return NULL and do nothing */
+static char *
+xl_hf_strstr (char *buf, char target)
+{
+	if (buf == NULL)
+		return NULL;
+
+	for (; *buf ; buf++)
+		if (*buf == '&') {
+			if (0 == buf[1])
+				return NULL;
+			if (target == buf[1]) {
+				buf[0] = buf[1] = '\0';
+				return buf + 2;
+			}
+			if ('&' == buf[1])
+				buf++;
+		}
+	return NULL;
+}
+
 static void
-excel_read_HEADER_FOOTER (BiffQuery *q, MsBiffVersion const ver, gboolean is_header)
+excel_read_HEADER_FOOTER (BiffQuery *q, PrintInformation *pi,
+			  MsBiffVersion const ver, gboolean is_header)
 {
 	if (q->length) {
-		char *str = (ver >= MS_BIFF_V8)
+		char *l, *c, *r, *str = (ver >= MS_BIFF_V8)
 			? biff_get_text (q->data + 2, GSF_LE_GET_GUINT16 (q->data), NULL, ver)
 			: biff_get_text (q->data + 1, GSF_LE_GET_GUINT8  (q->data), NULL, ver);
 		d (2, fprintf (stderr,"%s == '%s'\n", is_header ? "header" : "footer", str););
+
+		r = xl_hf_strstr (str, 'R'); /* order is important */
+		c = xl_hf_strstr (str, 'C');
+		l = xl_hf_strstr (str, 'L');
+		if (is_header) {
+			if (pi->header != NULL)
+				print_hf_free (pi->header);
+			pi->header = print_hf_new (l, c, r);
+		} else {
+			if (pi->footer != NULL)
+				print_hf_free (pi->footer);
+			pi->footer = print_hf_new (l, c, r);
+		}
+
 		g_free (str);
-#warning USE THIS data (we should export it too
 	}
 }
 
@@ -5350,8 +5387,8 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 
 
 
-		case BIFF_HEADER: excel_read_HEADER_FOOTER (q, ver, TRUE); break;
-		case BIFF_FOOTER: excel_read_HEADER_FOOTER (q, ver, FALSE); break;
+		case BIFF_HEADER: excel_read_HEADER_FOOTER (q, pi, ver, TRUE); break;
+		case BIFF_FOOTER: excel_read_HEADER_FOOTER (q, pi, ver, FALSE); break;
 
 		case BIFF_EXTERNCOUNT: /* ignore */ break;
 		case BIFF_EXTERNSHEET: /* These cannot be biff8 */

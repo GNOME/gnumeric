@@ -11026,7 +11026,7 @@ msgstr "Nama fail modul tidak diberi"
 
 #: plugins/perl-loader/perl-loader.c:135
 #, fuzzy
-msgid "perl_func.pl doesn't exit."
+msgid "perl_func.pl doesn't exist."
 msgstr "Modul \"%s\" tidak wujud."
 
 #: plugins/perl-loader/perl-loader.c:179 plugins/perl-loader/perl-loader.c:198
@@ -11249,17 +11249,17 @@ msgid "Not a valid function for action: %s"
 msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:1
-msgid "Imports Quatro Pro (tm) files"
-msgstr "Import fail Quatro Pro (tm)"
+msgid "Imports Quattro Pro (tm) files"
+msgstr "Import fail Quattro Pro (tm)"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:3
 #, fuzzy
 msgid "Quattro Pro(tm)"
-msgstr "Quatro Pro(tm)"
+msgstr "Quattro Pro(tm)"
 
 #: plugins/qpro/qpro-read.c:151
 #, c-format
@@ -23685,7 +23685,7 @@ msgid "R_eplace..."
 msgstr "_Ganti:"
 
 #: src/wbcg-actions.c:1612
-msgid "Search for some something and replace it with something else"
+msgid "Search for something and replace it with something else"
 msgstr ""
 
 #: src/wbcg-actions.c:1614
@@ -26483,8 +26483,8 @@ msgstr "Nama bagi templat"
 #~ msgid "HTML"
 #~ msgstr "HTML"
 
-#~ msgid "Quatro Pro"
-#~ msgstr "Quatro Pro"
+#~ msgid "Quattro Pro"
+#~ msgstr "Quattro Pro"
 
 #, fuzzy
 #~ msgid "_Map:"

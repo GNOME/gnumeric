@@ -1616,7 +1616,7 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 		"<control>F", N_("Search for something"),
 		G_CALLBACK (cb_edit_search) },
 	{ "EditReplace", GTK_STOCK_FIND_AND_REPLACE, N_("R_eplace..."),
-		"<control>H", N_("Search for some something and replace it with something else"),
+		"<control>H", N_("Search for something and replace it with something else"),
 		G_CALLBACK (cb_edit_search_replace) },
 	{ "EditGoto", GTK_STOCK_JUMP_TO, N_("_Goto cell..."),
 		"<control>G", N_("Jump to a specified cell"),

@@ -3,6 +3,9 @@
 	http://bugzilla.gnome.org/show_bug.cgi?id=155719
 	* ms-excel-write.c (writer_header_footer) : quick and easy
 	  implementation.
+	* ms-excel-read.c (xl_hf_strstr) : simple handling of XL's ampersand
+	  escaping.
+	(excel_read_HEADER_FOOTER) : implement.
 
 2005-01-13  Jody Goldberg <jody@gnome.org>
 

@@ -16971,7 +16971,7 @@ msgstr "Nezadané meno súboru s modulom."
 
 #: plugins/perl-loader/perl-loader.c:135
 #, fuzzy
-msgid "perl_func.pl doesn't exit."
+msgid "perl_func.pl doesn't exist."
 msgstr "Modul \"%s\" neexistuje."
 
 #: plugins/perl-loader/perl-loader.c:179 plugins/perl-loader/perl-loader.c:198
@@ -17195,11 +17195,11 @@ msgid "Not a valid function for action: %s"
 msgstr "Nie je platná funkcia pre sloveso: %s"
 
 #: plugins/qpro/plugin.xml.in.h:1
-msgid "Imports Quatro Pro (tm) files"
+msgid "Imports Quattro Pro (tm) files"
 msgstr "Importuje súbory Quattro Pro (tm)"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:3
@@ -29613,7 +29613,7 @@ msgstr "Na_hradiť:"
 
 #: src/wbcg-actions.c:1612
 #, fuzzy
-msgid "Search for some something and replace it with something else"
+msgid "Search for something and replace it with something else"
 msgstr "Hľadá nejaký text a nahradzuje ho nejakým iným"
 
 #: src/wbcg-actions.c:1614
@@ -32456,7 +32456,7 @@ msgstr "Meno šablóny"
 #~ msgid "HTML"
 #~ msgstr "HTML"
 
-#~ msgid "Quatro Pro"
+#~ msgid "Quattro Pro"
 #~ msgstr "Quattro Pro"
 
 #~ msgid "_Map:"

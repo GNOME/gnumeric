@@ -2,7 +2,7 @@
 <plugin id="Gnumeric_QPro">
 	<information>
 		<_name>Quattro Pro(tm)</_name>
-		<_description>Imports Quatro Pro (tm) files</_description>
+		<_description>Imports Quattro Pro (tm) files</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="qpro"/>

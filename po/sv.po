@@ -18388,7 +18388,7 @@ msgid "Module name not given."
 msgstr "Modulfilnamnet är inte angivet."
 
 #: plugins/perl-loader/perl-loader.c:135
-msgid "perl_func.pl doesn't exit."
+msgid "perl_func.pl doesn't exist."
 msgstr "perl_func.pl finns inte."
 
 #: plugins/perl-loader/perl-loader.c:179 plugins/perl-loader/perl-loader.c:198
@@ -18606,12 +18606,12 @@ msgid "Not a valid function for action: %s"
 msgstr "Inte en giltig funktion för aktion: %s"
 
 #: plugins/qpro/plugin.xml.in.h:1
-msgid "Imports Quatro Pro (tm) files"
-msgstr "Importerar Quatro Pro (tm)-filer"
+msgid "Imports Quattro Pro (tm) files"
+msgstr "Importerar Quattro Pro (tm)-filer"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
-msgstr "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
+msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
 msgid "Quattro Pro(tm)"
@@ -30884,7 +30884,7 @@ msgid "R_eplace..."
 msgstr "Ers_ätt..."
 
 #: src/wbcg-actions.c:1612
-msgid "Search for some something and replace it with something else"
+msgid "Search for something and replace it with something else"
 msgstr "Sök efter någonting och ersätt den med någonting annat"
 
 #: src/wbcg-actions.c:1614
@@ -33743,8 +33743,8 @@ msgstr "Enkel listmall"
 #~ msgid "HTML"
 #~ msgstr "HTML"
 
-#~ msgid "Quatro Pro"
-#~ msgstr "Quatro Pro"
+#~ msgid "Quattro Pro"
+#~ msgstr "Quattro Pro"
 
 #~ msgid "_Map:"
 #~ msgstr "_Karta:"

@@ -10684,15 +10684,15 @@ msgid "Python console"
 msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:1
-msgid "Imports Quatro Pro (tm) files"
+msgid "Imports Quattro Pro (tm) files"
 msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quatro Pro"
+msgid "Quattro Pro"
 msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:3
-msgid "Quatro Pro(tm)"
+msgid "Quattro Pro(tm)"
 msgstr ""
 
 #: plugins/qpro/qpro-read.c:151

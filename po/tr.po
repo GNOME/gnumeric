@@ -18928,7 +18928,7 @@ msgstr "Modül ismi verilmemiş."
 
 #: plugins/perl-loader/perl-loader.c:135
 #, fuzzy
-msgid "perl_func.pl doesn't exit."
+msgid "perl_func.pl doesn't exist."
 msgstr "\"%s\" modülü yok."
 
 #: plugins/perl-loader/perl-loader.c:179 plugins/perl-loader/perl-loader.c:198
@@ -19152,17 +19152,17 @@ msgid "Not a valid function for action: %s"
 msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:1
-msgid "Imports Quatro Pro (tm) files"
-msgstr "Quatro Pro (tm) dosyalarını açar"
+msgid "Imports Quattro Pro (tm) files"
+msgstr "Quattro Pro (tm) dosyalarını açar"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:3
 #, fuzzy
 msgid "Quattro Pro(tm)"
-msgstr "Quatro Pro(tm)"
+msgstr "Quattro Pro(tm)"
 
 #: plugins/qpro/qpro-read.c:151
 #, c-format
@@ -31828,7 +31828,7 @@ msgstr "_Yerdeğiştir:"
 
 #: src/wbcg-actions.c:1612
 #, fuzzy
-msgid "Search for some something and replace it with something else"
+msgid "Search for something and replace it with something else"
 msgstr "Aranacak metni varsa bulur ve değiştirilecek metinle değiştirir"
 
 #: src/wbcg-actions.c:1614
@@ -34807,8 +34807,8 @@ msgstr "Şablon ismi"
 #~ msgid "HTML"
 #~ msgstr "HTML"
 
-#~ msgid "Quatro Pro"
-#~ msgstr "Quatro Pro"
+#~ msgid "Quattro Pro"
+#~ msgstr "Quattro Pro"
 
 #, fuzzy
 #~ msgid "_Map:"

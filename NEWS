@@ -40,7 +40,7 @@ Jody:
 	* Handle zero sized charts [#163939]
 	* Fix comment indicator position when zoomed [debian #290388]
 	* Some support for filled styles [#163438]
-	* XLS export for print header/footer [#155719]
+	* XLS import/export for print header/footer [#155719]
 
 Matthias Drochner:
 	* Use non bash specific substitution for autformat templates [#161782]
