@@ -1,3 +1,10 @@
+1999-07-05  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/analysis-tools.c, src/dialog-analysis-tools.c,
+ 	src/dialogs.h: Implemented Descriptive Statistics Tool.  Please do
+ 	not edit these files (unless a serious bug fix) for a couple of
+ 	days; there are more to come.
+
 1999-07-05  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/print.c: Only print the headers and sides 
@@ -50,6 +57,7 @@
 	(workbook_new_with_sheets): Update to more Excel friendly
 	names.
 
+>>>>>>> 1.586
 1999-07-02  Miguel de Icaza  <miguel@gnu.org>
 
 	* doc/Design, doc/translating.sgml: small touchups.

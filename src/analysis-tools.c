@@ -20,6 +20,8 @@ typedef struct {
         float_t sum;
         float_t sum2;    /* square of the sum */
         float_t sqrsum;
+        float_t min;
+        float_t max;
         int     n;
 } data_set_t;
 
@@ -27,13 +29,41 @@ typedef struct {
 
 /***** Some general routines ***********************************************/
 
+static gint
+float_compare (const float_t *a, const float_t *b)
+{
+        if (*a < *b)
+                return -1;
+        else if (*a == *b)
+                return 0;
+        else
+                return 1;
+}
+
+static gint
+float_compare_desc (const float_t *a, const float_t *b)
+{
+        if (*a < *b)
+                return 1;
+        else if (*a == *b)
+                return 0;
+        else
+                return -1;
+}
+
 static Cell *
-set_cell (Sheet *sheet, int col, int row, char *text)
+set_cell (data_analysis_output_t *dao, int col, int row, char *text)
 {
         Cell *cell;
-	cell = sheet_cell_get (sheet, col, row);
+
+	/* Check that the output is in the given range */
+	if (dao->type == RangeOutput && (col >= dao->cols || row >= dao->rows))
+	        return NULL;
+
+	cell = sheet_cell_get (dao->sheet, dao->start_col+col, 
+			       dao->start_row+row);
 	if (cell == NULL)
-	        cell = sheet_cell_new (sheet, col, row);
+	        cell = sheet_cell_new (dao->sheet, col, row);
 	cell_set_text (cell, text);
 
 	return cell;
@@ -70,6 +100,15 @@ get_data_groupped_by_columns(Sheet *sheet, Range *range, int col,
 		       data->array = g_slist_append(data->array, p);
 		       data->sum += x;
 		       data->sqrsum += x*x;
+		       if (data->n == 0) {
+			       data->min = x;
+			       data->max = x;
+		       } else {
+			       if (data->min > x)
+				       data->min = x;
+			       if (data->max < x)
+				       data->max = x;
+		       }
 		       data->n++;
 	       }
 	}
@@ -179,32 +218,35 @@ correl(data_set_t *set_one, data_set_t *set_two, int *error_flag)
  */
 void
 correlation_tool (Workbook *wb, Sheet *current_sheet, 
-		  Range *input_range, int columns_flag)
+		  Range *input_range, int columns_flag,
+		  data_analysis_output_t *dao)
 {
         data_set_t *data_sets;
-        Sheet      *sheet;
 	char       buf[256];
 	Cell       *cell;
 	int        vars, cols, rows, col, row, i;
 	int        error;
 
-	sheet = sheet_new(wb, "Correlations");
-	workbook_attach_sheet(wb, sheet);
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
 
 	cols = input_range->end_col - input_range->start_col + 1;
 	rows = input_range->end_row - input_range->start_row + 1;
 
-	set_cell (sheet, 0, 0, "");
+	set_cell (dao, 0, 0, "");
 
 	if (columns_flag) {
 	        vars = cols;
 		for (col=0; col<vars; col++) {
 		        sprintf(buf, "Column %d", col+1);
-			cell = set_cell (sheet, 0, col+1, buf);
+			cell = set_cell (dao, 0, col+1, buf);
 		}
 		for (row=0; row<vars; row++) {
 		        sprintf(buf, "Column %d", row+1);
-			cell = set_cell (sheet, 1+row, 0, buf);
+			cell = set_cell (dao, 1+row, 0, buf);
 		}
 		data_sets = g_new(data_set_t, vars);
 
@@ -216,11 +258,11 @@ correlation_tool (Workbook *wb, Sheet *current_sheet,
 	        vars = rows;
 		for (col=0; col<vars; col++) {
 		        sprintf(buf, "Row %d", col+1);
-			cell = set_cell (sheet, 0, col+1, buf);
+			cell = set_cell (dao, 0, col+1, buf);
 		}
 		for (row=0; row<vars; row++) {
 		        sprintf(buf, "Row %d", row+1);
-			cell = set_cell (sheet, 1+row, 0, buf);
+			cell = set_cell (dao, 1+row, 0, buf);
 		}
 		data_sets = g_new(data_set_t, vars);
 
@@ -233,16 +275,16 @@ correlation_tool (Workbook *wb, Sheet *current_sheet,
 	for (row=0; row<vars; row++) {
 		  for (col=0; col<vars; col++) {
 		        if (row == col) {
-			        set_cell (sheet, col+1, row+1, "1");
+			        set_cell (dao, col+1, row+1, "1");
 				break;
 			} else {
 			        sprintf(buf, "%f", correl(&data_sets[col],
 							  &data_sets[row],
 							  &error));
 				if (error)
-				        set_cell (sheet, col+1, row+1, "--");
+				        set_cell (dao, col+1, row+1, "--");
 				else
-				        set_cell (sheet, col+1, row+1, buf);
+				        set_cell (dao, col+1, row+1, buf);
 			}
 		}
 	}
@@ -300,32 +342,35 @@ covar(data_set_t *set_one, data_set_t *set_two, int *error_flag)
  */
 void
 covariance_tool (Workbook *wb, Sheet *current_sheet, 
-		 Range *input_range, int columns_flag)
+		 Range *input_range, int columns_flag,
+		 data_analysis_output_t *dao)
 {
         data_set_t *data_sets;
-        Sheet      *sheet;
 	char       buf[256];
 	Cell       *cell;
 	int        vars, cols, rows, col, row, i;
 	int        error;
 
-	sheet = sheet_new(wb, "Covariances");
-	workbook_attach_sheet(wb, sheet);
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "Covariances");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
 
 	cols = input_range->end_col - input_range->start_col + 1;
 	rows = input_range->end_row - input_range->start_row + 1;
 
-	set_cell (sheet, 0, 0, "");
+	set_cell (dao, 0, 0, "");
 
 	if (columns_flag) {
 	        vars = cols;
 		for (col=0; col<vars; col++) {
 		        sprintf(buf, "Column %d", col+1);
-			cell = set_cell (sheet, 0, col+1, buf);
+			cell = set_cell (dao, 0, col+1, buf);
 		}
 		for (row=0; row<vars; row++) {
 		        sprintf(buf, "Column %d", row+1);
-			cell = set_cell (sheet, 1+row, 0, buf);
+			cell = set_cell (dao, 1+row, 0, buf);
 		}
 		data_sets = g_new(data_set_t, vars);
 
@@ -337,11 +382,11 @@ covariance_tool (Workbook *wb, Sheet *current_sheet,
 	        vars = rows;
 		for (col=0; col<vars; col++) {
 		        sprintf(buf, "Row %d", col+1);
-			cell = set_cell (sheet, 0, col+1, buf);
+			cell = set_cell (dao, 0, col+1, buf);
 		}
 		for (row=0; row<vars; row++) {
 		        sprintf(buf, "Row %d", row+1);
-			cell = set_cell (sheet, 1+row, 0, buf);
+			cell = set_cell (dao, 1+row, 0, buf);
 		}
 		data_sets = g_new(data_set_t, vars);
 
@@ -354,19 +399,329 @@ covariance_tool (Workbook *wb, Sheet *current_sheet,
 	for (row=0; row<vars; row++) {
 		  for (col=0; col<vars; col++) {
 		        if (row == col) {
-			        set_cell (sheet, col+1, row+1, "1");
+			        set_cell (dao, col+1, row+1, "1");
 				break;
 			} else {
 			        sprintf(buf, "%f", covar(&data_sets[col],
 							 &data_sets[row],
 							  &error));
 				if (error)
-				        set_cell (sheet, col+1, row+1, "--");
+				        set_cell (dao, col+1, row+1, "--");
 				else
-				        set_cell (sheet, col+1, row+1, buf);
+				        set_cell (dao, col+1, row+1, buf);
 			}
 		}
 	}
+
+	for (i=0; i<vars; i++)
+	        free_data_set(&data_sets[i]);
+}
+
+
+/************* Descriptive Statistics Tool *******************************
+ *
+ * Descriptive Statistics Tool calculates some useful statistical
+ * information such as the mean, standard deviation, sample variance,
+ * skewness, kurtosis, and standard error about the given variables.
+ * The results are given in a table which can be printed out in a new
+ * sheet, in a new workbook, or simply into an existing sheet.
+ *
+ * TODO: a new workbook output and output to an existing sheet
+ *
+ **/
+
+
+static float_t
+kurt(data_set_t *data, int *error_flag)
+{
+        GSList  *current;
+	float_t sum = 0;
+	float_t mean, stdev, x;
+        float_t num, dem, d;
+	float_t n = data->n;
+
+	if (n < 4) {
+	        *error_flag = 1;
+		return 0;
+	} else
+	        *error_flag = 0;
+
+	mean = data->sum / n;
+	stdev = sqrt((data->sqrsum - data->sum2/n) / (n - 1));
+
+	current = data->array;
+	while (current != NULL) {
+	        x = *((float_t *) current->data);
+	        x = (x - mean) / stdev;
+		sum += (x * x) * (x * x);
+	        current = current->next;
+	}
+
+	num = n * (n + 1);
+	dem = (n - 1) * (n - 2) * (n - 3);
+	d = (3 * (n - 1) * (n - 1)) / ((n - 2) * (n - 3));
+
+	return sum * (num / dem) - d;
+}
+
+static float_t
+skew(data_set_t *data, int *error_flag)
+{
+        GSList  *current;
+	float_t x3, m, s, x, dxn;
+	float_t n = data->n;
+
+	if (n < 3) {
+	        *error_flag = 1;
+		return 0;
+	} else
+	        *error_flag = 0;
+
+	x3 = 0;
+	m = data->sum / n;
+	s = sqrt((data->sqrsum - data->sum2/n) / (n - 1));
+
+	current = data->array;
+	while (current != NULL) {
+	        x = *((float_t *) current->data);
+		dxn = (x - m) / s;
+		x3 += dxn * dxn * dxn;
+	        current = current->next;
+	}
+
+	return ((x3 * n) / (n - 1)) / (n - 2);
+}
+
+static void
+summary_statistics(Workbook *wb, data_set_t *data_set, int vars,
+		   data_analysis_output_t *dao)
+{
+        char    buf[256];
+	float_t x;
+	int     col, error;
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "Summary Statistics");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
+
+        set_cell (dao, 0, 0, "");
+	for (col=0; col<vars; col++) {
+	        sprintf(buf, "Column %d", col+1);
+		set_cell (dao, col+1, 0, buf);
+	}
+
+        set_cell (dao, 0, 1, "Mean");
+        set_cell (dao, 0, 2, "Standard Error");
+        set_cell (dao, 0, 3, "Median");
+        set_cell (dao, 0, 4, "Mode");
+        set_cell (dao, 0, 5, "Standard Deviation");
+        set_cell (dao, 0, 6, "Sample Variance");
+        set_cell (dao, 0, 7, "Kurtosis");
+        set_cell (dao, 0, 8, "Skewness");
+        set_cell (dao, 0, 9, "Range");
+        set_cell (dao, 0, 10, "Minimum");
+        set_cell (dao, 0, 11, "Maximum");
+        set_cell (dao, 0, 12, "Sum");
+        set_cell (dao, 0, 13, "Count");
+
+	for (col=0; col<vars; col++) {
+	        float_t var = (data_set[col].sqrsum - 
+			       data_set[col].sum2/data_set[col].n) /
+		        (data_set[col].n - 1);
+		float_t stdev = sqrt(var);
+
+		data_set[col].array = 
+		        g_slist_sort(data_set[col].array, 
+				     (GCompareFunc) float_compare);
+
+	        /* Mean */
+	        sprintf(buf, "%f", data_set[col].sum / data_set[col].n);
+		set_cell (dao, col+1, 1, buf);
+
+		/* Standard Error */
+	        sprintf(buf, "%f", stdev / sqrt(data_set[col].n));
+		set_cell (dao, col+1, 2, buf);
+
+		/* Median */
+		if (data_set[col].n % 2 == 1)
+		        x = *((float_t *)g_slist_nth_data(data_set[col].array, 
+							  data_set[col].n/2));
+		else {
+		        x=*((float_t *)g_slist_nth_data(data_set[col].array, 
+							data_set[col].n/2));
+		        x+=*((float_t *)g_slist_nth_data(data_set[col].array, 
+							 data_set[col].n/2-1));
+			x /= 2;
+		}
+	        sprintf(buf, "%f", x);
+		set_cell (dao, col+1, 3, buf);
+
+		/* Mode */
+		/* TODO */
+
+		/* Standard Deviation */
+	        sprintf(buf, "%f", stdev);
+		set_cell (dao, col+1, 5, buf);
+
+		/* Sample Variance */
+	        sprintf(buf, "%f", var);
+		set_cell (dao, col+1, 6, buf);
+
+		/* Kurtosis */
+	        x = kurt(&data_set[col], &error);
+	        sprintf(buf, "%f", x);
+		set_cell (dao, col+1, 7, buf);
+
+		/* Skewness */
+	        x = skew(&data_set[col], &error);
+	        sprintf(buf, "%f", x);
+		set_cell (dao, col+1, 8, buf);
+
+		/* Range */
+	        sprintf(buf, "%f", data_set[col].max - data_set[col].min);
+		set_cell (dao, col+1, 9, buf);
+
+		/* Minimum */
+	        sprintf(buf, "%f", data_set[col].min);
+		set_cell (dao, col+1, 10, buf);
+
+		/* Maximum */
+	        sprintf(buf, "%f", data_set[col].max);
+		set_cell (dao, col+1, 11, buf);
+
+		/* Sum */
+	        sprintf(buf, "%f", data_set[col].sum);
+		set_cell (dao, col+1, 12, buf);
+
+		/* Count */
+	        sprintf(buf, "%d", data_set[col].n);
+		set_cell (dao, col+1, 13, buf);
+	}
+}
+
+static void
+confidence_level(Workbook *wb, data_set_t *data_set, int vars,
+		 data_analysis_output_t *dao)
+{
+        char    buf[256];
+        int col;
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "Confidence Level");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
+
+	for (col=0; col<vars; col++) {
+	        sprintf(buf, "Column %d", col+1);
+		set_cell (dao, col+1, 0, buf);
+	}
+        set_cell (dao, 0, 2, "Confidence Level(x%)");
+}
+
+static void
+kth_largest(Workbook *wb, data_set_t *data_set, int vars, int k,
+	    data_analysis_output_t *dao)
+{
+        float_t x;
+        char    buf[256];
+        int     col;
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "kth Largest");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
+
+	for (col=0; col<vars; col++) {
+	        sprintf(buf, "Column %d", col+1);
+		set_cell (dao, col+1, 0, buf);
+
+		data_set[col].array = 
+		        g_slist_sort(data_set[col].array, 
+				     (GCompareFunc) float_compare_desc);
+
+		x = *((float_t *) g_slist_nth_data(data_set[col].array, k-1));
+		sprintf(buf, "%f", x);
+		set_cell(dao, col+1, 2, buf);
+	}
+	sprintf(buf, "Largest(%d)", k);
+        set_cell (dao, 0, 2, buf);
+}
+
+static void
+kth_smallest(Workbook *wb, data_set_t *data_set, int vars, int k,
+	     data_analysis_output_t *dao)
+{
+        float_t x;
+        char    buf[256];
+        int     col;
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "kth Smallest");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
+
+	for (col=0; col<vars; col++) {
+	        sprintf(buf, "Column %d", col+1);
+		set_cell (dao, col+1, 0, buf);
+
+		data_set[col].array = 
+		        g_slist_sort(data_set[col].array, 
+				     (GCompareFunc) float_compare);
+
+		x = *((float_t *) g_slist_nth_data(data_set[col].array, k-1));
+		sprintf(buf, "%f", x);
+		set_cell(dao, col+1, 2, buf);
+	}
+	sprintf(buf, "Smallest(%d)", k);
+        set_cell (dao, 0, 2, buf);
+}
+
+/* Descriptive Statistics
+ */
+void
+descriptive_stat_tool (Workbook *wb, Sheet *current_sheet, 
+                       Range *input_range, int columns_flag,
+		       descriptive_stat_tool_t *ds,
+		       data_analysis_output_t *dao)
+{
+        data_set_t *data_sets;
+        Sheet      *sheet;
+        Cell       *cell;
+        int        vars, cols, rows, col, row, i;
+        int        error;
+
+	cols = input_range->end_col - input_range->start_col + 1;
+	rows = input_range->end_row - input_range->start_row + 1;
+
+	if (columns_flag) {
+	        vars = cols;
+		data_sets = g_new(data_set_t, vars);
+		for (i=0; i<vars; i++)
+		        get_data_groupped_by_columns(current_sheet,
+						     input_range, i, 
+						     &data_sets[i]);
+	} else {
+	        vars = rows;
+		data_sets = g_new(data_set_t, vars);
+		for (i=0; i<vars; i++)
+		        get_data_groupped_by_rows(current_sheet,
+						  input_range, i, 
+						  &data_sets[i]);
+	}
+
+        if (ds->summary_statistics)
+                summary_statistics(wb, data_sets, vars, dao);
+        if (ds->confidence_level)
+                confidence_level(wb, data_sets, vars, dao);
+        if (ds->kth_largest)
+                kth_largest(wb, data_sets, vars, ds->k_largest, dao);
+        if (ds->kth_smallest)
+                kth_smallest(wb, data_sets, vars, ds->k_smallest, dao);
 
 	for (i=0; i<vars; i++)
 	        free_data_set(&data_sets[i]);
