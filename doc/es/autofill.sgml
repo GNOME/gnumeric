@@ -1,0 +1,227 @@
+<sect1 id="autofill">
+  <title>Autorellenado</title>
+  
+  <para>
+    Cuando se trata con hojas de cálculo es muy típico tener que
+    añadir un conjunto de celdas que contienen una serie de números o
+    de fechas o de otros valores. Puede hacerse a mano, pero es más
+    fácil rellenar las celdas mediante la opción autorellenado de
+    Gnumeric.</para>
+
+  <para>Un ejemplo típico de cuando puede necesitar esta
+característica es cuando hay que rellenar una serie de números
+<!-- maybe a list of part numbers --!>, o quizás una lista de canales de
+televisión. Para crear una lista como ésta, todo lo que el usuario
+tiene que hacer es meter el primer número en una celda y pulsar en el
+cuadrito de autorrellenar que se encuentra en la esquina inferior
+derecha del borde de la celda y arrastarlo en la dirección en la que
+se quiere rellenar. Si la primera celda contiene un `1', por ejemplo,
+y se arrastra el cuadrito de autorrellenar hacia abajo (ver <xref
+linkend="celltobautofilled">) tres o cuatro celdas, verá como se
+llenan con los número 1,2,3,4 automáticamente. (Ver <xref
+linkend="cellsautofilled">)</para>
+
+  <procedure>
+    <title>Autorellenando un conjunto de celdas</title>
+    <step performance="required">
+      <para>Seleccionar la celda que vaya a marcar el comienzo de la
+zona a rellenar</para></step>
+    
+    <step performance="required">
+      <para>Introducir en esta celda el valor con el que empieza la
+serie</para></step>
+    
+    <step performance="required">
+      <para>Pulsar el pequeño rectángulo que hay en la esquina
+inferior derecha de la primera celda, y arrastarlo hasta el final de
+la zona a llenar.</para></step>
+
+    <step performance="required">
+      <para>Soltar el botón del ratón. Las celdas que hay en la zona
+seleccionada deberían de haberse llenado con los valores
+esperados.</para></step>
+  </procedure>
+  
+  
+  <figure id="celltobautofilled">
+    <title>Una celda con la semilla para un autorrellenado.</title>
+    <screenshot>
+       <graphic fileref="../C/images/autofill-1.jpg"></graphic>
+    </screenshot>
+  </figure>
+  
+  <figure id="cellsautofilled">
+    <title>Un conjunto de celdas autorrellenandose</title>
+    <screenshot>
+      <graphic fileref="../C/images/autofill-2.jpg"></graphic>
+    </screenshot>
+  </figure>
+  
+  <para>Pero la opción de autorrellenar puede hacer mucho más que
+generar una serie de números incrementados de uno en uno. El siguiente
+ejemplo será autorrellenar una serie pero con un incremento distinto
+de 1. Por ejemplo, para crear una serie que consista en los número
+impares a partir del 11, sólo tenemos que introducir el 11 en una
+celda, el 13 en la siguiente celda, seleccionar ambas celdas, y
+arrastrar como antes el botón de autorrelleno hasta cubrir todas las
+celdas que queramos rellenar. Por ejemplo, si rellena las 5 celdas
+siguientes, aparecerán los valores 11,13,15,17,19,21,23. Ver <xref
+linkend="seedcellautofillsequence"> y <xref
+linkend="autofillsequence">.</para>
+  
+  
+  <figure id="seedcellautofillsequence">
+    <title>Una celda semilla para autorrellenar una fecha.</title>
+    <screenshot>
+      <graphic fileref="../C/images/autofill-3.jpg"></graphic>
+    </screenshot>
+  </figure>
+  
+  <figure id="autofillsequence">
+    <title>Un conjunto de celdas rellenandose con una secuencia.</title>
+    <screenshot>
+      <graphic fileref="../C/images/autofill-4.jpg"></graphic>
+    </screenshot>
+  </figure>
+
+  <sect2>
+    <title>Autorrellenado con fechas</title>
+    
+    <para>¡Oh, pero con los números es fácil, dirás! El verdadero reto
+estaría en meter en la celda fechas y horas y demás información. Pero
+no desesperes, Gnumeric está aquí para ayudarle. Gnumeric tiene la
+posibilidad de autorrellenar fechas, meses, días de la semana, y más
+todavía.</para>
+    
+   <para> Por ejemplo, piense en un <!-- invoice --> típico en los
+negocios, donde todo se ha registrado por el mes. Por tanto es típico
+que se tenga que rellenar una serie de celdas ordenadas por los meses
+del año. Es bastante sencillo de hacer, son esencialmente los mismos
+pasos que se han seguido para hacer un rellenado numérico.</para>
+    
+    <para>Por ejemplo, si empezamos en la celda B2, y queremos
+rellenar las 12 siguientes celdas con los meses, sólo tenemos que
+meter la cadena "Enero" en B2. Entonces, pulsamos el botón de relleno
+y arrastamos hasta las siguientes 12 celdas, y soltamos el botón. Así
+de simple. Ver <xref linkend="datefillseed">, <xref
+linkend="datebeingfilled">, y <xref linkend="cellsfilled">. </para>
+    
+   <figure id="datefillseed">
+      <title>Una celda con una fecha, lista para ser la semilla de un
+nuevo rellenado.</title>
+      <screenshot> 
+	<graphic fileref="../C/images/autofill-5.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <figure id="datebeingfilled">
+      <title>Un conjunto de celdas rellenandose.</title>
+      <screenshot>
+	<graphic fileref="../C/images/autofill-6.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <figure id="cellsfilled">
+      <title>Un conjunto de celdas autorrellenadas con los meses.</title>
+      <screenshot>
+	<graphic fileref="../C/images/autofill-7.jpg"></graphic>
+      </screenshot>
+ </figure>
+
+    <para> Otros ejemplos de cadenas de carácteres que pueden
+autorrellenarse son los días de la semana (Lunes, Martes, ...),
+abreviaturas de los mismos (Lun, Mar, ...), abreviaturas
+de los meses (Ene, Feb, ...) </para>
+    
+    <para> Con el tiempo habrán más tipos de cadenas de carácteres que
+podrán autorrellenarse</para>
+   </sect2>
+  
+  
+  <sect2>
+    <title>Autorrellenado de cadenas de carácteres y números</title>
+    
+    <para>Gnumeric intenta autorrellenar inteligentemente los valores
+numéricos con que se encuentra en las cadenas de carácteres. Así es
+posible autorellenar celdas con valores como "9 vidas por vivir", "8
+vidas por vivir", etc. </para>
+
+    <para>Ver <xref linkend="autofillexamples"> para ver algunos
+ejemplos.</para>
+    
+    <figure id="autofillexamples">
+      <title>Algunos sencillos ejemplos de autorrellenado.</title>
+      <screenshot>
+	<graphic fileref="../C/images/autofill-8.jpg"></graphic>
+      </screenshot>
+    </figure>
+  </sect2>
+
+  <sect2>
+    <title>Autorrellenado de fórmulas</title>
+    
+    <para>Probablemente el más útil de todos los autorrellenos sea el
+autorrelleno de fórmulas. En la práctica funciona esencialmente como
+el resto de los autorrellenos de celdas, solo que trasladado a
+funciones, por supuesto.</para>
+    
+    <para>Ver <xref linkend="autofillfunction1"> y <xref linkend="autofillfunction2">
+	  para ver un sencillo ejemplo.</para>
+
+    <figure id="autofillfunction1">
+      <title>Fórmula a autorrellenar.</title>
+      <screenshot>
+	<graphic fileref="../C/images/autofill-9.jpg"></graphic>
+      </screenshot>
+    </figure> 
+    
+    <figure id="autofillfunction2">
+      <title>Fórmula autorrellenada en varias celdas.</title>
+      <screenshot>
+	<graphic fileref="../C/images/autofill-10.jpg"></graphic>
+      </screenshot>
+    </figure> 
+    
+  </sect2>
+  
+  <sect2>
+    <title>Últimos consejos sobre el autorrellenado</title>
+
+    <itemizedlist>
+      <listitem>
+	<para>El autorrellenado sólo funciona hacia abajo y a la
+derecha de una celda.</para>
+      </listitem>
+      <listitem>
+	<para>Para crear una serie que se decremente en vez de
+incrementarse, introducir el valor más alto en la primera celda y el
+siguiente valor en la segunda celda, y utilizar el autorrelleno
+seleccionando las dos celdas tal y como se mencionó más arriba.</para>
+      </listitem>
+      <listitem>
+	<para>Empezar una serie con más de dos valores iniciales puede
+acabar con resultados inesperados. Utilizar con cuidado.</para>
+      </listitem>
+      
+
+    </itemizedlist>
+  </sect2>
+  
+</sect1>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         
+

@@ -1,0 +1,337 @@
+@FUNCTION=DAY
+@SYNTAX=DAY (número_serie)
+@DESCRIPTION=Convierte un número serie en un día.
+Recuerde que Gnumeric realizará por usted la conversión de una cadena de texto a un número serie, por lo que puede introducir la fecha como una cadena de texto
+@SEEALSO=MONTH, TIME, NOW, YEAR
+
+@FUNCTION=LOWER
+@SYNTAX=LOWER(text)
+@DESCRIPTION=Devuelve una versión en minúsculas de la cadena de carácteres @texto
+@SEEALSO=UPPER
+
+@FUNCTION=LOG2
+@SYNTAX=LOG2(x)
+@DESCRIPTION=Calcula el logaritmo en base 2 de x.
+Ejecutar esta función en una cadena de texto o en una celda vacía devuelve un error.
+@SEEALSO=EXP, LOG10, LOG
+
+@FUNCTION=SECOND
+@SYNTAX=SECOND (número_serie)
+@DESCRIPTION=Convierte un número serie en un segundo. El segundo se devuelve como un entero en el intervalo 0 a 59
+Recuerde que Gnumeric realizará por usted la conversión de una cadena de texto a un número serie, por lo que puede introducir la fecha como una cadena de texto
+@SEEALSO=HOUR, MINUTE, NOW, TIME
+
+@FUNCTION=ATAN
+@SYNTAX=ATAN(x)
+@DESCRIPTION=La función ATAN calcula el arco tangente de x; es decir, el número cuya tangente es x. Devuelve el valor en radianes.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS
+
+@FUNCTION=SINH
+@SYNTAX=SINH(x)
+@DESCRIPTION=La función SINH devuelve el seno hiperbólico de x, que está definido matemáticamente como (exp(x) - exp(-x)) / 2. x es un valor en radianes.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP
+
+@FUNCTION=INT
+@SYNTAX=INT(b1, b2, ...)
+@DESCRIPTION=La función INT redondea b1 al entero más próximo. Donde `próximo' implica estar más cerca de cero. Es equivalente a FLOOR(b1) para b1 > 0, y a CEIL(b1) para b1 < 0.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
+@SEEALSO=FLOOR, CEIL, ABS
+
+@FUNCTION=SUM
+@SYNTAX=SUM(valor1, valor2, ...)
+@DESCRIPTION=Calcula la suma de todos los valores y celdas a las que se hace referencia en la lista de argumentos.
+@SEEALSO=AVERAGE, COUNT
+
+@FUNCTION=CEIL
+@SYNTAX=CEIL(x)
+@DESCRIPTION=La función CEIL redondea x al siguiente entero más cercano.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
+@SEEALSO=ABS, FLOOR, INT
+
+@FUNCTION=FACT
+@SYNTAX=FACT(x)
+@DESCRIPTION=Calcula el factorial de x. Es decir, x!
+Ejecutar esta función en una cadena de carácteres o en una celda vacía devolverá un error
+@SEEALSO=
+
+@FUNCTION=HOUR
+@SYNTAX=HOUR (número_serie)
+@DESCRIPTION=Convierte un número serie en una hora. La hora se devolverá como un entero en el rango 0 (12:00 A.M) a 23 (11:00 P.M)
+Recuerde que Gnumeric realizará por usted la conversión de una cadena de texto a un número serie, por lo que puede introducir la fecha como una cadena de texto
+@SEEALSO=MINUTE, NOW, TIME, SECOND
+
+@FUNCTION=MID
+@SYNTAX=MID(cadena_de_carácteres, posición, longitud)
+@DESCRIPTION=Devuelve una subcadena de @longitud carácteres de @cadena_de_carácteres empezando en la posición @posición.
+@SEEALSO=LEFT, RIGHT
+
+@FUNCTION=MONTH
+@SYNTAX=MONTH (número_serie)
+@DESCRIPTION=Convierte un número serie en un mes.
+Recuerde que Gnumeric realizará por usted la conversión de una cadena de texto a un número serie, por lo que puede introducir la fecha como una cadena de texto
+@SEEALSO=DAY, TIME, NOW, YEAR
+
+@FUNCTION=NOW
+@SYNTAX=NOW ()
+@DESCRIPTION=Devuelve el número serie para la fecha y hora del momento en que se evalua la función.
+Los números serie en Gnumeric están representados como sigue: La parte entera es el número de días desde el 1 de Enero de 1900. La parte decimal representa la fracción del día y se refiere a la hora, minutos y segundos
+Por ejemplo: .0 representa el principio del día, y 0.5 representa el medio día 
+@SEEALSO=TODAY, NOW
+
+@FUNCTION=MAX
+@SYNTAX=MAX(b1, b2, ...)
+@DESCRIPTION=MAX devuelve el valor mayor de todos los valores que se le pasan como argumentos. Los números negativos se consideran más pequeños que los positivos.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
+@SEEALSO=MIN,ABS
+
+@FUNCTION=ATANH
+@SYNTAX=ATANH(x)
+@DESCRIPTION=La función ATANH calcula la arco tangente hiperbólica de x; es decir, el valor cuya tangente hiperbólica es x. Si el valor absoluto de x es mayor que 1.0, ATANH devuelve el error `atanh: domain error'
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS
+
+@FUNCTION=TIME
+@SYNTAX=TIME (horas,minutos,segundos)
+@DESCRIPTION=Devuelve una fracción representando la hora
+@SEEALSO=HOUR
+
+@FUNCTION=YEAR
+@SYNTAX=YEAR (número_serie)
+@DESCRIPTION=Convierte un número serie en un año.
+Recuerde que Gnumeric realizará por usted la conversión de una cadena de texto a un número serie, por lo que puede introducir la fecha como una cadena de texto
+@SEEALSO=DAY, MONTH, TIME, NOW
+
+@FUNCTION=AND
+@SYNTAX=AND(b1, b2, ...)
+@DESCRIPTION=Implementa la función lógica AND (Y): el resultado es TRUE (VERDAD) si todas las expresiones evaluadas son TRUE, en caso contrario devuelve FALSE (FALSO).
+Desde b1 hasta bN deben ser expresiones que deben devolver TRUE o FALSE. Si devuelven un número entero o de coma flotante, se considerará 0 como FALSE y cualquier otro resultado como TRUE.
+Si los valores que se devuelven contienen cadenas o celdas vacías, se ignorarán. Si no se devuelve ningún valor lógico, entonces se devolverá el error `#VALUE!'.
+@SEEALSO=OR
+
+@FUNCTION=ACOSH
+@SYNTAX=ACOSH(x)
+@DESCRIPTION=La función ACOSH calcula el arco coseno hiperbólico de x; es decir, el valor cuyo coseno hiperbólico es x. Si x es menor que 1.0, acosh() devuelverá el error `acosh - domain error'
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@SEEALSO=ACOS, DEGREES, RADIANS 
+
+@FUNCTION=CLEAN
+@SYNTAX=CLEAN(cadena_de_carácteres)
+@DESCRIPTION=Borra cualquier no carácter no imprimible de @cadena_de_carácteres.
+@SEEALSO=
+
+@FUNCTION=RADIANS
+@SYNTAX=RADIANS(x)
+@DESCRIPTION=Convierte x de grados a radianes.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
+@SEEALSO=PI,DEGREES
+
+@FUNCTION=LEFT
+@SYNTAX=LEFT(texto[,num_carácteres])
+@DESCRIPTION=Devuelve los @num_carácteres carácteres más a la izquierda de @texto, o bien el carácter más a la izquierda de texto si no se especifica @num_carácteres.
+@SEEALSO=MID, RIGHT
+
+@FUNCTION=OR
+@SYNTAX=OR(b1, b2, ...)
+@DESCRIPTION=Implementa la función lógica OR (O): el resultado es TRUE (VERDAD) si cualquiera de los valores evaluados es TRUE, en caso contrario devuelve FALSE (FALSO).
+Desde b1 hasta bN deben ser expresiones que deben devolver TRUE o FALSE. Si devuelven un número entero o de coma flotante, se considerará 0 como FALSE y cualquier otro resultado como TRUE.
+Si los valores que se devuelven contienen cadenas o celdas vacías, se ignorarán. Si no se devuelve ningún valor lógico, entonces se devolverá el error `#VALUE!'.
+@SEEALSO=AND
+
+@FUNCTION=FLOOR
+@SYNTAX=FLOOR(x)
+@DESCRIPTION=La función FLOOR redondea x al entero inferior más cercano.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
+@SEEALSO=CEIL, ABS, INT
+
+@FUNCTION=AVERAGE
+@SYNTAX=AVERAGE(valor1, valor2,...)
+@DESCRIPTION=Calcula la media de todos los valores y celdas a las que se hagan referencia en la lista de argumentos. Es equivalente a la suma de los argumentos dividido por el número de argumentos.
+@SEEALSO=SUM, COUNT
+
+@FUNCTION=TAN
+@SYNTAX=TAN(x)
+@DESCRIPTION=La función TAN devuelve la tangente de x, donde x está en radianes.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS
+
+@FUNCTION=MIN
+@SYNTAX=MIN(b1, b2, ...)
+@DESCRIPTION=MIN devuelve el valor del elemento más pequeño. Los números negativos se considerarán más pequeños que los número positivos.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
+@SEEALSO=MAX,ABS
+
+@FUNCTION=TANH
+@SYNTAX=TANH(x)
+@DESCRIPTION=La función TANH devuelve la tangente hiperbólica de x, que está definida matemáticamente como sinh(x) / cosh(x).
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
+
+@FUNCTION=IF
+@SYNTAX=IF(condición,si-cierto,si-falso)
+@DESCRIPTION=Utiliza la orden IF para ejecutar condicionalmente otras expresiones. IF evalua @condición. Si @condición devuelve un valor distinto de cero el resultado de la expresión IF será la expresión @si-cierto, en caso contrario IF evalua @si-falso
+@SEEALSO=
+
+@FUNCTION=UPPER
+@SYNTAX=UPPER(texto)
+@DESCRIPTION=Devuelve una versión en mayúsculas de la cadena de carácteres contenida en @texto
+@SEEALSO=LOWER
+
+@FUNCTION=SELECTION
+@SYNTAX=SELECTION(x)
+@DESCRIPTION=La función SELECTION devuelve una lista con los valores actualmente seleccionados. Se utiliza normalmente para hacer calculos al vuelo.
+@SEEALSO=
+
+@FUNCTION=ABS
+@SYNTAX=ABS(b1)
+@DESCRIPTION=Implementa la función Valor Absoluto: el resultado es quitar el signo negativo (de estar presente). Puede hacerse para enteros y números de coma flotante.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
+@SEEALSO=CEIL, FLOOR
+
+@FUNCTION=COSH
+@SYNTAX=COSH(x)
+@DESCRIPTION=La función COSH devuelve el coseno hiperbólico de x, que está definida matemáticamente como (exp(x) + exp(-x)) / 2. x está en radianes.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP
+
+@FUNCTION=NVARIANCE
+@SYNTAX = NVARIANCE(valor1, valor2, ...)
+@DESCRIPTION=Calcula la varianza de todos los valores y celdas a las que se hace referencia en la lista de argumentos. Equivale a la suma de (valor - media)^2, dividido por el número de valores. Si quiere dividirlo por N - 1 en vez de por N, utilice VARIANCE.
+@SEEALSO=AVERAGE, VARIANCE
+
+@FUNCTION=MINUTE
+@SYNTAX=MINUTE (número_serie)
+@DESCRIPTION=Convierte un número serie en un minito. El minuto se devuelve como un entero en el intervalo 0 a 59.
+Recuerde que Gnumeric realizará por usted la conversión de una cadena de texto a un número serie, por lo que puede introducir la fecha como una cadena de texto
+@SEEALSO=HOUR, NOW, TIME, SECOND
+
+@FUNCTION=VARIANCE
+@SYNTAX = VARIANCE(valor1, valor2, ...)
+@DESCRIPTION=Calcula la varianza de todos los valores y celdas a los que se hace referencia en la lista de argumentos. Esto es equivalente a la suma de (valor - media)^2, dividido por el número de datos menos 1. Si quiere dividir por N en lugar de por N - 1, utilice NVARIANCE.
+@SEEALSO=AVERAGE, NVARIANCE
+
+@FUNCTION=PI
+@SYNTAX=PI()
+@DESCRIPTION=La función PI devuelve el valor Pi tal y como está definido en M_PI.
+Esta función no recibe ningún argumento.
+@SEEALSO=
+
+@FUNCTION=CHAR
+@SYNTAX=CHAR(x)
+@DESCRIPTION=Devuelve el carácter ascii representado por el número x.
+@SEEALSO=CODE
+
+@FUNCTION=EXACT
+@SYNTAX=EXACT(cadena_de_carácteres1, cadena_de_carácteres2)
+@DESCRIPTION=Devuelve TRUE si @cadena_de_carácteres1 es exactamente
+igual a @cadena_de_carácteres2 (ésta rutina distingue entre mayúsculas
+y minúsculas).
+@SEEALSO=
+
+@FUNCTION=ASIN
+@SYNTAX=ASIN(x)
+@DESCRIPTION=La función ASIN calcula el arco seno de x; es decir, el valor cuyo seno es x. Si x cae dentro del rango -1 a 1, ASIN fallará y devolverá el error `asin - domain error'
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS
+
+@FUNCTION=BIN2DEC
+@SYNTAX=BIN2DEC(x)
+@DESCRIPTION=La función BIN2DEC convierte un número en binario contenido en una cadena de carácteres o en un número en su equivalente decimal.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
+@SEEALSO=DEC2BIN
+
+@FUNCTION=EXP
+@SYNTAX=EXP(x)
+@DESCRIPTION=Calcula el valor de e (la base de los logaritmos naturales) elevado a la potencia x.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía devolverá un error.
+@SEEALSO=LOG, LOG2, LOG10
+
+@FUNCTION=ATAN2
+@SYNTAX=ATAN2(b1,b2)
+@DESCRIPTION=La función ATAN2 calcula el arco tangente de las dos variables b1 y b2. Es lo mismo que calcular el arco tangente de b2 / b1, excepto que el signo de ambos argumentos se utiliza para determinar el cuadrante del resultado. El resultado será en radianes.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
+@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS
+
+@FUNCTION=ACOS
+@SYNTAX=ACOS(x)
+@DESCRIPTION=La función ACOS calcula el arco coseno de x; esto es, el valor cuyo coseno es x. function calculates the arc cosine of x; that is the value whose cosine is x.  Si x cae fuera del rango de -1 a 1, ACOS fallará y devolverá el error `acos - domain error'. El valor que devuelve estará en radianes.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@SEEALSO=COS, SIN, DEGREES, RADIANS
+
+@FUNCTION=DATE
+@SYNTAX=DATE (año,mes,día)
+@DESCRIPTION=Calcula el número de días desde el 1 de Enero de 1900 (el número serie) para el @año, @mes y @día que recibe como argumentos.
+El @día puede ser negativo (para contar hacia atrás) y es relativo al @mes. Los años deben ser al menos 1900
+@SEEALSO=TODAY, NOW
+
+@FUNCTION=LOG10
+@SYNTAX=LOG10(x)
+@DESCRIPTION=Calcula el logaritmo base 10 de x.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía devolverá un error.
+@SEEALSO=EXP, LOG2, LOG
+
+@FUNCTION=DEGREES
+@SYNTAX=DEGREES(x)
+@DESCRIPTION=Calcula el número de grados equivalentes a @x radianes.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
+@SEEALSO=RADIANS, PI
+
+@FUNCTION=LEN
+@SYNTAX=LEN(cadena_de_carácteres)
+@DESCRIPTION=Devuelve la longitud en carácteres de la cadena de carácteres @cadena_de_carácteres.
+@SEEALSO=CHAR, CODE
+
+@FUNCTION=STDEV
+@SYNTAX = STDEV(value1, value2, ...)
+@DESCRIPTION=Calcula de desviación estándar de todos los valores y celdas a los que se hace referencia en la lista de argumentos. Es equivalente a la raíz cuadrada de la varianza.
+@SEEALSO=VARIANCE
+
+@FUNCTION=ASINH
+@SYNTAX=ASINH(x)
+@DESCRIPTION=La función ASINH calcula el arco seno hiperbólico de @x; es decir, el valor cuyo seno hiperbólico es @x.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS
+
+@FUNCTION=RIGHT
+@SYNTAX=RIGHT(texto[,num_carácteres])
+@DESCRIPTION=Devuelve los @num_carácteres carácteres situados más
+a la derecha o el carácter situado más a la derecha si no se
+especifica @num_carácteres
+@SEEALSO=MID, LEFT
+
+@FUNCTION=COUNT
+@SYNTAX=COUNT(b1, b2, ...)
+@DESCRIPTION=Devuelve el número total de argumentos pasados.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
+@SEEALSO=AVERAGE
+
+@FUNCTION=LOG
+@SYNTAX=LOG(x)
+@DESCRIPTION=Calcula el logaritmo natural de x.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía devolverá un error.
+@SEEALSO=EXP, LOG2, LOG10
+
+@FUNCTION=SIN
+@SYNTAX=SIN(x)
+@DESCRIPTION=La función SIN devuelve el seno de @x, donde @x viene en radianes.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES
+
+@FUNCTION=TODAY
+@SYNTAX=TODAY ()
+@DESCRIPTION=Devuelve el número serie de hoy (el número de días que
+han pasado desde el 1 de Enero de 1900)
+@SEEALSO=TODAY, NOW
+
+@FUNCTION=CODE
+@SYNTAX=CODE(carácter)
+@DESCRIPTION=Devuelve el número ASCII del @carácter.
+@SEEALSO=CHAR
+
+@FUNCTION=COS
+@SYNTAX=COS(x)
+@DESCRIPTION=La función COS devuelve el coseno de x, donde x viene dado en radianes.
+Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES
+

@@ -1,0 +1,48 @@
+<sect1 id="editing-selections">
+  <title>Formato de celda en Gnumeric</title>
+
+  <para>Gnumeric proporciona una gran cantidad de reglas para el
+formato de los datos que se introducen en las celdas. Los números se
+muestran de acuerdo con un formato que describe la forma en que quiere
+que aparezca la información.</para>
+
+  <para>Para aplicar un formato a una celda, tiene que seleccionar el
+intervalo de celdas donde va a aplicarse un estilo dado y entonces
+llamar al cuadro de diálogo formato de celda. El cuadro de diálogo
+formato de celda se puede activar desde la barra de menú principal de
+Gnumeric utilizando Format/Cell o desde el menú sensible al contexto
+que hay en la hoja de cálculo (se activa utilizando el botón derecho
+del ratón).</para>
+
+  <sect2>
+     <title>Códigos de formato</title>
+
+  </sect2>
+
+  <sect2>
+     <title>Códigos de formato condicional</title>
+
+  </sect2>
+
+  <sect2>
+     <title>Añadiendo colores a un formato</title>
+
+  </sect2>
+
+</sect1>
+
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             

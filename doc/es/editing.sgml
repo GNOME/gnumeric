@@ -1,0 +1,438 @@
+<sect1>
+  <title>Cadenas de texto y números</title>
+  
+  <para>Las formas básicas de los datos que se pueden introducir en
+una celda son las cadenas de texto, los números, las fórmulas, y las
+referencias a celdas. </para>
+  
+  <para>Las más simples son las cadenas de texto y los números. Se
+trata sólo de valores constantes que se almacenan en una celda. No hay
+una sintaxis especial para este tipo de datos. La única limitación es
+que las cadenas de texto y los números no pueden contener carácteres
+de nueva línea ni pueden empezar por un `='. El `=' se utiliza para
+caracterizar las celdas que contienen fórmulas o referencias a
+celdas.</para>
+  
+  <para>En <xref linkend="stringnumber"> tiene un ejemplo de como
+introducir una cadena de carácteres.</para>
+  
+  <figure id="stringnumber">
+    <title>Introduciendo cadenas de texto y números.</title>
+    <screenshot>
+      <graphic fileref="../C/images/editing-1.jpg"></graphic>
+    </screenshot>
+  </figure>
+
+<sect2 id="entering-dates-and-numbers">
+  <title>Fechas y números</title>
+
+  <para>Las fechas y las horas son un caso especial de cadenas de
+carácteres que se convierten automáticamente a números. Si una de las
+cadenas introducidas coincide con alguno de los formatos de las
+fechas o de las horas, entonces la cadena se convertirá en un número
+serie (representativo del tiempo indicado en la cadena) y se pondrá
+como formato de la celda el de la cadena original.</para>
+
+  <para>Para utilizar esta característica, el usuario tiene que
+introducir un número en un formato reconocible. Gnumeric lo convertirá
+automáticamente en un número serie apropiado. Gracias a ésto, puede
+introducir una fecha o una hora en un formato legible por humanos, y
+tenerlo almacenado en formato numérico en Gnumeric.</para>
+
+  <para>La parte interesante de todo ésto es que se puede
+autorrellenar correctamente la cadena introducida por el usuario (ver
+<xref linkend="autofill">). </para>
+
+  <para>Ver <xref linkend="number-format-date-time-examples"> para
+encontrar algunos ejemplos de los muchos formatos de fecha y hora que
+acepta Gnumeric.</para>
+
+  </SECT2>
+
+  <sect2>
+    <title>Editando celdas.</title>
+    
+    <procedure>
+      <title>Introduciendo datos en una celda</title>
+      <step>
+	<para>Active la celda pulsando en ella con el cursor. La celda
+se convertirá en la celda activa (ver <xref linkend="activecell">).
+	    </para></step>
+      <step>
+	<para>Escribir los datos o la fórmula.</para></step>
+    </procedure>
+
+    <para>Ver <xref linkend="formulas"> para más detalles sobre la
+introducción de fórmulas en las celdas.</para>
+
+  </sect2>
+
+  <sect2>
+    <title>Comandos de edición</title>
+    
+    <para>Después de seleccionar la celda y de empezar a introducir
+los datos, el usuario está en un modo de edición limitado, diseñado
+para ayudar a introducir datos que puedan contener referencias a
+celdas. La tecla principal en este modo para corregir los errores es
+la tecla de borrado (Backspace).</para>
+    
+    <sect3>
+      <title>Modo de edición avanzado</title>
+      
+      <para>Hay un modo de edición avanzado que incluye un conjunto
+más completo de opciones de edición, especialmente útil para cuando
+hay que teclear una gran cantidad de texto. </para>
+      
+      <para>Para acceder a este modo sólo tiene que pulsar
+<keycap>F2</keycap>. Pulsando <keycap>F2</keycap> cambiaremos el foco
+de la celda actual a la región de edición de la hoja de cálculo. Ésto
+permite tener un mayor control del texto y de los datos que hay en la
+celda. Ésto incluye utilizar los cursores para colocar el cursor con
+los datos en la celda. Ver <xref linkend="worksheet-data-entry"> para
+más información sobre el área de introducción de datos.</para>
+      
+      <variablelist>
+	<varlistentry>
+	  <term><Keycap>Backspace</keycap></term>
+	  <listitem><para>Borra el carácter que hay a la izquierda del
+cursor.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><keycap>Cursores</keycap></term>
+	  <listitem><para>Mueve el cursor apropiadamente.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><keycap>Ctrl+K</keycap></term>
+	  <listitem><para>Borra hasta el final de la línea</para></listitem>
+	</varlistentry>
+      </variablelist>
+      
+      <tip>
+	<para>También se pueden utilizar todas las teclas que hay para
+las cajas de edición en las aplicaciones Gnome.</para>
+	<!-- FIXME need a reference of the defualt keybindings -->
+      </tip>
+      
+    </sect3>
+    
+    <sect3>
+      <title>Mensajes de error</title>
+
+      <para>Si el usuario introduce una fórmula o un conjunto de datos
+no válido, Gnumeric mostrará un mensaje de error en la celda.</para>
+      
+      <!-- FIXME  A listing of cell error messages  -->
+      
+      
+    </sect3>
+    
+  </sect2>
+  
+  
+</sect1>
+
+
+
+<!--  include the files for formulas and for cell referencing -->
+
+&formulas;
+
+&cellrefer;
+
+<sect1>
+  <title>Seleccionando celdas mientras se introducen fórmulas.</title>
+
+  <para>Cuando se introduce una fórmula en una celda, es posible
+utilizar el ratón y los cursores para introducir datos rápidamente.</para>
+
+  <para>Hay varias formas de introducir un rango de celdas en una
+fórmula. Se pueden introducir los rangos de celdas y las referencias
+en una fórmula simplemento escribiéndolos con la sintaxis correcta
+(ver <xref linkend="cell-referencing"> para más detalles). Pero
+introducir rangos de celdas manualmente es lento y <!-- XXX -->
+cumbersome. </para>
+
+  <para>Cuando se meten datos en una celda, y el cursor está en un
+punto donde es apropiada una referencia a una celda, se podrá crear la
+misma seleccionando una celda mediante el ratón o el teclado. Esta
+selección es un poco diferente de la selección normal. Está resaltada
+por un borde con "hormigas paseandose". </para>
+
+  <figure id="editing-cell-selection">
+    <title>La selección resaltada</title>
+    <screenshot>
+      <graphic fileref="../C/images/editing-cell-selection-1.jpg"></graphic>
+    </screenshot>
+  </figure>
+  
+  <sect2>
+    <title>Introduciendo datos en una fórmula con el ratón</title>
+
+    <para>Cuando se introduce una fórmula, si el cursor está en un
+lugar donde es apropiada una referencia a una celda, el usuario sólo
+tiene que pulsar en una celda para introducir automáticamente la
+referencia de la celda en la fórmula. Sólo resta terminar la fórmula
+como siempre.</para>
+
+    <procedure>
+      <title>Utilizando el ratón para introducir una referencia a una
+celda en una fórmula</title>
+      <step>
+	<para>
+	  Seleccionar una celda para introducir una fórmula. Por
+ejemplo A1.
+	</para>
+      </step>
+      <step>
+	<para>Introducir una fórmula, pero detener el cursor cuando
+haya que introducir una referencia a una celda. En nuestro ejemplo,
+	  =exp( 
+	</para>
+	</step>
+      <step>
+	<para>
+	  Ahora utilizar el ratón para pulsar en la celda a la que se
+quiere hacer referencia. Por ejemplo, pulsamos en la celda B1. Se
+introducirá su referencia en la fórmula que tenemos en A1.
+	</para>
+      </step>
+      <step>
+	<para>
+	  Para terminar la fórmula, sólo tenemos que cerrar el
+paréntesis. Con ésto se ``deseleccionará'' la región.
+	</para>
+      </step>
+    </procedure>
+    
+    <para>Para seleccionar un intervalo de celdas en vez de una sóla
+referencia a una celda, hay que repetir los mismo pasos. </para>
+    
+  </sect2>
+
+  <sect2>
+    <title>Introduciendo datos en una fórmula con el teclado.</title>
+
+    <para>Si introducimos bastantes fórmulas, veremos que es más
+rápido utilizar el teclado para seleccionar celdas e intervalos de
+celdas. Igual que podíamos seleccionar celdas con el ratón podemos
+hacerlo con el teclado. Sólo hay que utilizar los cursores y los
+modificadores de la selección para crear una selección.</para>
+
+    <procedure>
+      <title>Utilizando el teclado para introducir datos en una fórmula.</title>
+
+      <step>
+	<para>
+	  Seleccionar una celda para introducir una fórmula. Por
+ejemplo A1.
+	</para>
+      </step>
+      <step>
+	<para>Introducir una fórmula, pero detener el cursor en el
+momento en el que haya que introducir una referencia a una celda. En
+nuestro ejemplo,
+	  =SUM( 
+	</para>
+      </step>
+      <step>
+	<para>
+	  Moverse hacia la selección con los cursores. Mover el cursor
+de selección hasta la celda B1 para empezar la selección.
+	</para>
+      </step>
+      <step>
+	<para>
+	  Pulsar <keycap>Mayúsculas</keycap> (Shift) y mover la
+selección una celda a la derecha y una celda abajo. Deberían estar
+seleccionadas las celdas B1, B2, C1 y C2, y ahora la fórmula debería
+ser =sum(B1:C2 
+	</para>
+      </step>
+      <step>
+	<para>
+	  Para terminar la función, cerrar el paréntesis. Ahora la
+celda debería tener =sum(B1:C2). Presionar intro para que se
+introduzca la fórmula.
+	</para>
+      </step>
+    </procedure>
+
+    <para>Para seleccionar un intervalo de celdas, pulsar
+<keycap>Mayúsculas</keycap> (Shift) y moverse hacia la zona
+deseada.</para>
+
+    <para>Para parar de introducir una selección o para empezar de
+nuevo, presione <keycombo><keycap>Mayúsculas</keycap>
+	<keycap>Borrar</keycap></keycombo> (Shift y Backspace)</para>
+
+    </sect2>
+</sect1>	  
+
+
+<sect1>
+  <title>Copiando y moviendo celdas</title>
+  
+  <para>Hay dos formas de mover y copiar celdas en Gnumeric:</para>
+  
+  <itemizedlist>
+    <listitem><para>Utilizar las operaciones de copiar/cortar/pegar</para></listitem>
+    <listitem><para>Utilizar el ratón para arrastrar la selección</para></listitem>
+  </itemizedlist>
+  
+  <sect2>
+      <title>Utilizando el ratón para arrastrar la selección</title>
+    
+    <para>Gnumeric permite al usuario moverse y copiar celdas y sus
+contenidos simplemente arrastrando y soltando la celda en su nueva
+posición. </para>
+
+    
+    <para>El procedimiento básico para arrastrar y soltar rápidamente
+una celda en su nueva posición es pulsar en el borde, arrastrar la
+celda a su nueva posición y soltar. Los contenidos de la celda se
+moverán a la nueva celda.</para>
+    
+      <procedure>
+	<step>
+	  <para>Pulse <mousebutton>(BR1)</mousebutton> en el borde (en
+cualquier parte menos en el cuadrado de autorrelleno que hay en la
+esquina inferior
+derecha). <keycap>Ctrl</keycap>+<mousebutton>BR1</mousebutton> copia
+la celda, si solamente pulsamos se moverá la celda.
+	  </para>
+	</step>
+	
+	<step>
+	  <para>Arrastrar la celda a su nueva posición.</para>
+	</step>
+      
+	<step>
+	  <para>Soltar la selección.</para>
+	</step>
+      </procedure>
+    
+    <para>Éste es el método más simple más común de utilizar el
+arrastrar y soltar para copiar y mover. Las teclas le dan una buena
+cantidad de opciones para mover y copiar rápidamente.</para>
+
+    </sect2>
+  
+  
+    <sect2>
+      <title>Opciones del botón derecho</title>
+    
+      <para>La otra opción para mover y copiar celdas es utilizar las
+opciones del botón derecho del ratón. Pulsando el botón derecho del
+ratón obtenemos un menú de opciones más extenso del que se puede
+conseguir con las teclas normales</para>
+    
+      <procedure>
+	<step>
+	  <para>Pulsar con el botón derecho del ratón
+<mousebutton>(BR3)</mousebutton> en el borde (en cualquier lugar,
+excepto en el cuadrado de autorrelleno en la esquina inferior derecha).
+	  </para>
+	</step>
+      
+	<step>
+	  <para>Arrastrar la celda a su nueva posición.
+	  </para>
+	</step>
+	
+	<step>
+	  <para>Soltar la selección. Debería aparecer un menú desplegable.
+	  </para>
+	</step>
+      
+	<step>
+	  <para>Seleccionar la opción adecuada del menú y volver a
+pulsar. La nueva celda debería tener la nueva información.
+	  </para>
+	</step>
+	
+      </procedure>
+      
+      
+    </sect2>
+  
+  <sect2>
+    <title>Las opciones mover y copiar del botón derecho del ratón</title>
+    
+    <itemizedlist>
+      <listitem>
+	<para>
+	  Copiar: El mismo efecto que la operación de copiar
+normal. Copia el valor, el formato, y la fórmula. Equivalente a Ctrl+BR1.
+	</para>
+      </listitem>
+      
+      <listitem>
+	<para>
+	  Mover: El mismo efecto que la operación de mover
+normal. Mueve el valor, el formato, y la fórmula. Equivalente a BR1.
+	</para>
+      </listitem>
+	
+	<listitem>
+	  <para>
+	    Copiar formatos: Copia la información del formato de la
+celda origen. En esto se incluye el formato numérico, el color, el
+tipo de letra, el tipo de relleno, etc.
+	  </para>
+	</listitem>
+	
+	<listitem>
+	  <para>
+	    Copiar valores: Copia el valor de la celda origen a la
+celda destino.
+	  </para>
+	</listitem>
+	
+	<listitem><para>Empujar las celdas abajo y copiar: todavía no
+implementado</para></listitem>
+	<listitem><para>Empujar las celdas a la derecha y copiar:
+todavía no implementado</para></listitem>
+	<listitem><para>Empujar las celdas abajo y mover: todavía no
+implementado</para></listitem>
+	<listitem><para>Empujar las celdas a la derecha y mover:
+todavía no implementado</para></listitem>
+	
+    </itemizedlist>
+  
+    <figure id="rightclickmove">
+      <title>La opción de menú para arrastrar una celda con el botón
+derecho del ratón <mousebutton>(BR3)</mousebutton>.</title>
+      <screenshot>
+	<graphic fileref="../C/images/dndselection-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    </sect2>
+</sect1>
+  
+  
+  <!-- include the files for handling selections -->
+  
+  &selections;
+  
+  
+  <!--  include the files for autofill docs here  -->
+  
+  &autofill;
+  
+  
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             

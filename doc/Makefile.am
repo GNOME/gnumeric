@@ -2,3 +2,5 @@
 
 SUBDIRS = C 
 
+# 'es' subdirectory seems not yet to be ready; functions.sgml is missing
+

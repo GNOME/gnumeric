@@ -1,0 +1,93 @@
+<sect1 id="formulas">
+  <title>Fórmulas</title>
+
+  <para>Las fórmulas son la clave de toda la bola de cera cuando
+  llegan a las hojas de cálculo. Una fórmula puede tomar casi
+cualquier tipo de argumento incluyendo números, referencias a celdas,
+intervalos de celdas, conjuntos de celdas, etc. </para>
+
+   <sect2>
+   <title>Sintaxis</title>
+   
+    <para> Las fórmulas se distinguen de los datos normales por un `='
+    como primer carácter. Todo lo que siga a un `=' se evalua como una
+    fórmula y no cadena de carácteres. </para>
+
+    <para> La más simple de las fórmulas son las que utilizan los
+    operadores matemáticos y los símbolos. +, -, *, / se interpretan como
+    espera que se interpreten. +, - se puede utilizan como operadores
+    unarios para indicar el signo, como es natural.</para>
+      
+      <example id="standardoperators">
+      <title>Ejemplos de los operadores estándar</title>
+      <programlisting>
+       =5+5            devuelve 10.
+   
+       =5-4            devuelve 1.
+
+       =-5             devuelve -5.
+
+       =5*5            devuelve 25.
+
+       =(5*5)+11       devuelve 36.
+
+       =(5*)+(49/7)    devuelve 32.
+    </programlisting>
+     </example>
+  </sect2>
+
+
+<sect2>
+<title>Utilizando funciones</title>
+
+<para>
+Se han implementado las funciones que permiten resolver la mayor parte
+de los cálculos estándar matemáticos, de negocios, estadísticos y
+científicos. Las funciones tienen la forma de:
+</para>
+
+    <example id="basicfunctionsyntax">
+    <title>Sintaxis básica de las funciones</title>
+    <programlisting>
+             =FUNCTION(ARGUMENTS)
+    </programlisting>
+     </example>
+ 
+<para>
+Aunque en la documentación escribiremos generalmente las funciones
+en mayúsculas, también se pueden escribir en minúsculas.
+<para>
+
+ <example id="functionsyntax">
+ <title>Algunos ejemplos de la sintaxis de las funciones</title>
+ <programlisting>
+            =SUM(A1,A2,A4,B5)
+
+            =AVERAGE(A1:A16)
+
+            =EXP(1)
+
+	    =PI()
+
+            =MIN(A1,A2,B6)
+    </programlisting>
+  </example>
+</sect2>
+</sect1>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         
+
