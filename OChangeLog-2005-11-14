@@ -1,3 +1,7 @@
+2002-01-22  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : post release version bump.
+
 2002-01-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.3
