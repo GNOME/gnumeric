@@ -25,12 +25,6 @@
             <property name="spacing">5</property>
             <property name="visible">yes</property>
 
-            <child>
-              <widget class="GtkHButtonBox" id="hbuttonbox3">
-                <property name="layout_style">GTK_BUTTONBOX_END</property>
-                <property name="spacing">8</property>
-                <property name="visible">yes</property>
-
                 <child>
                   <widget class="GtkButton" id="applybutton">
                     <property name="can_default">yes</property>
@@ -79,13 +73,6 @@
                     <property name="use_underline">yes</property>
                   </widget>
                 </child>
-              </widget>
-              <packing>
-                <property name="padding">0</property>
-                <property name="expand">yes</property>
-                <property name="fill">yes</property>
-              </packing>
-            </child>
           </widget>
           <packing>
             <property name="padding">0</property>

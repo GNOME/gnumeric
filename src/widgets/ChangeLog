@@ -1,3 +1,9 @@
+2002-02-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-expr-entry.c (update_rangesel_text) : when deleting 
+	  text to add new text don't emit a signal partially through 
+	  the process.
+
 2002-01-30  Jody Goldberg <jody@gnome.org>
 
 	* widget-editable-label.c (el_init) : delete to work around a change

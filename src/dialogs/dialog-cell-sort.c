@@ -38,6 +38,9 @@
 
 #define CELL_SORT_KEY "cell-sort-dialog"
 
+#define MAX_INITIAL_CLAUSES 32
+#warning we need to add a way to add clauses
+
 typedef struct {
 	Sheet     *sheet;
 	WorkbookControlGUI  *wbcg;
@@ -51,11 +54,14 @@ typedef struct {
 	GtkWidget *help_button;
 	GtkWidget *up_button;
 	GtkWidget *down_button;
+	GtkWidget *add_button;
+	GtkWidget *delete_button;
 	GnumericExprEntry *range_entry;
 	GtkListStore  *model;
 	GtkTreeView   *treeview;
 	GtkTreeSelection   *selection;
 	GtkWidget *cell_sort_row_rb;
+	GtkWidget *cell_sort_col_rb;
 	GtkWidget *cell_sort_header_check;
 
 	Value     *sel;
@@ -135,18 +141,14 @@ translate_range (Value *range, SortFlowState *state)
 	gboolean old_is_cols = state->is_cols;
 
 	state->header = gtk_toggle_button_get_active (
-		GTK_TOGGLE_BUTTON (state->cell_sort_header_check));;
+		GTK_TOGGLE_BUTTON (state->cell_sort_header_check));
 	state->is_cols = !gtk_toggle_button_get_active (
-		GTK_TOGGLE_BUTTON (state->cell_sort_row_rb));;
+		GTK_TOGGLE_BUTTON (state->cell_sort_row_rb));
 
 	if (state->sel == NULL) {
 		state->sel = range;
 		return TRUE;
 	}
-
-#warning FIXME:
-#warning the next check is completely useless since the expr entry widget always 
-#warning first set the widget to empty and then to the right content, causing 2 signals!
 
 	if (old_header != state->header || old_is_cols != state->is_cols ||
 		state->sel->v_range.cell.a.sheet != range->v_range.cell.a.sheet ||
@@ -188,6 +190,9 @@ load_model_data (SortFlowState *state)
 
 	gtk_list_store_clear (state->model);
 	state->sort_items = 0;
+
+	if (end >= start + MAX_INITIAL_CLAUSES)
+		end = start + MAX_INITIAL_CLAUSES - 1;
 
 	for (i = start; i <= end; i++) {
 		str  = state->is_cols
@@ -234,7 +239,6 @@ cb_update_sensitivity (GtkWidget *dummy, SortFlowState *state)
 			state->sort_items = 0;
 		}
 		gtk_widget_set_sensitive (state->ok_button, FALSE);
-		fprintf (stderr, "Range  is NULL\n");
 	} else {
 		if (translate_range (range, state))
 			load_model_data (state);
@@ -364,10 +368,22 @@ dialog_load_selection (SortFlowState *state)
 	first = selection_first_range (state->sheet, NULL, NULL);
 	
 	if (first != NULL) {
+/* 		gtk_toggle_button_set_active ( */
+/* 			GTK_TOGGLE_BUTTON (state->cell_sort_row_rb), */
+/* 			FALSE); */
+		gtk_toggle_button_set_active (
+			GTK_TOGGLE_BUTTON (state->cell_sort_col_rb),
+			first->end.row - first->start.row > first->end.col - first->start.col);
 		name =  global_range_name (state->sheet, first);
 		gtk_entry_set_text (GTK_ENTRY (state->range_entry), name);
 		g_free (name);
-	}
+	} else 
+/* 		gtk_toggle_button_set_active ( */
+/* 			GTK_TOGGLE_BUTTON (state->cell_sort_row_rb), */
+/* 			FALSE); */
+		gtk_toggle_button_set_active (
+			GTK_TOGGLE_BUTTON (state->cell_sort_col_rb),
+			TRUE);
 }
 
 static gint
@@ -416,6 +432,7 @@ cb_sort_selection_changed (GtkTreeSelection *ignored, SortFlowState *state)
 	gtk_widget_set_sensitive (state->down_button,
 				  gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 					       &this_iter, NULL, row+1));
+	gtk_widget_set_sensitive (state->delete_button, FALSE);
 }
 
 static void
@@ -616,6 +633,7 @@ dialog_init (SortFlowState *state)
 
 /* Set-up other widgets */
 	state->cell_sort_row_rb = glade_xml_get_widget (state->gui, "cell_sort_row_rb");
+	state->cell_sort_col_rb = glade_xml_get_widget (state->gui, "cell_sort_col_rb");
 	gtk_signal_connect (GTK_OBJECT (state->cell_sort_row_rb), "toggled",
 			    GTK_SIGNAL_FUNC (cb_update_sensitivity), state);
 
@@ -634,6 +652,11 @@ dialog_init (SortFlowState *state)
 	gtk_signal_connect (GTK_OBJECT (state->down_button),
 		"clicked",
 		GTK_SIGNAL_FUNC (cb_down), state);
+	state->add_button  = glade_xml_get_widget (state->gui, "add_button");
+	gtk_widget_set_sensitive (state->add_button, FALSE);
+	state->delete_button  = glade_xml_get_widget (state->gui, "delete_button");
+	gtk_widget_set_sensitive (state->delete_button, FALSE);
+
 	state->help_button  = glade_xml_get_widget (state->gui, "help_button");
 	gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
 			    GTK_SIGNAL_FUNC (cb_dialog_help), "cell-sort.html");

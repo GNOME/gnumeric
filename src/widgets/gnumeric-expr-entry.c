@@ -142,10 +142,18 @@ update_rangesel_text (GnumericExprEntry *expr_entry)
 	int len;
 	
 	char *text = make_rangesel_text (expr_entry);
+
 	if (rs->text_end > rs->text_start) {
-		gtk_editable_delete_text (editable,
-					  rs->text_start,
-					  rs->text_end);
+		if (text == NULL) 
+			gtk_editable_delete_text (editable,
+						  rs->text_start,
+						  rs->text_end);
+		else
+			/* We don't call gtk_editable_delete_text since we don't want */
+			/* to emit a signal yet */
+			GTK_EDITABLE_GET_CLASS (expr_entry)->delete_text (editable,
+									  rs->text_start,
+									  rs->text_end);
 		rs->text_end = rs->text_start;
 		gtk_editable_set_position (GTK_EDITABLE (expr_entry), rs->text_end);
 	} else 
