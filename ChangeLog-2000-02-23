@@ -1,3 +1,8 @@
+1999-10-13  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-object.c (sheet_object_destroy): Don't try to walk the
+ 	list we are deleting items from.
+
 1999-10-12  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/style.c (font_init): Use a dialog box rather than a printf.

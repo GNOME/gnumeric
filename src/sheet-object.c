@@ -56,20 +56,16 @@ sheet_object_destroy (GtkObject *object)
 {
 	SheetObject *so = SHEET_OBJECT (object);
 	Sheet *sheet;
-	GList *l;
 
 	sheet = so->sheet;
 	sheet_object_stop_editing (so);
 	if (so == sheet->current_object)
 		sheet->current_object = NULL;
 
-	for (l = so->realized_list; l; l = l->next) {
-		GnomeCanvasItem *item = l->data;
-
+	while (so->realized_list) {
+		GnomeCanvasItem *item = so->realized_list->data;
 		gtk_object_destroy (GTK_OBJECT (item));
 	}
-	g_list_free (so->realized_list);
-	so->realized_list = NULL;
 
 	sheet->objects  = g_list_remove (sheet->objects, so);
 	sheet->modified = TRUE;
