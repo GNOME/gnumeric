@@ -1,5 +1,9 @@
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : pos release version bump
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.1.11
 
 2002-10-31  Jody Goldberg <jody@gnome.org>
