@@ -99,6 +99,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 	char            *str;
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
+	const StyleColor *fore;
 	gboolean        display_formula;
 
 #ifdef QUANTIFYING
@@ -194,6 +195,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 	pango_layout_set_text (layout, str, strlen (str));
 
 	attrs = mstyle_get_pango_attrs (mstyle);
+#if 0
 	if (color) {
 		PangoAttrList *new_attrs = pango_attr_list_copy (attrs);
 		PangoAttribute *attr;
@@ -206,6 +208,14 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 		pango_attr_list_insert (attrs, attr);
 		style_color_unref (color);
 	}
+#else
+	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
+	fore = color ? color : mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+	res->color.red = fore->red;
+	res->color.green = fore->green;
+	res->color.blue = fore->blue;
+	if (color) style_color_unref (color);
+#endif
 	pango_layout_set_attributes (res->layout, attrs);
 	pango_attr_list_unref (attrs);
 

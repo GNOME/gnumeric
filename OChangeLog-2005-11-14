@@ -1,3 +1,8 @@
+2003-02-07  Morten Welinder  <terra@diku.dk>
+
+	* src/rendered-value.h: Store a GdkColor here in order to work
+	around http://bugzilla.gnome.org/show_bug.cgi?id=105322.
+
 2003-02-03  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-view.c (wb_view_new_from_input) : A name match needs to

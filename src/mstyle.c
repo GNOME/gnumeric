@@ -1602,7 +1602,8 @@ mstyle_get_pango_attrs (const MStyle *mstyle)
 	((MStyle *)mstyle)->pango_attrs = res = pango_attr_list_new ();
 
 	/* Foreground colour.  */
-	{
+	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
+	if (0) {
 		const StyleColor *fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
 		attr = pango_attr_foreground_new (fore->red, fore->green, fore->blue);
 		attr->start_index = 0;

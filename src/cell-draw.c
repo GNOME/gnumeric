@@ -197,6 +197,9 @@ cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		 width, wanted_width, rv->layout_natural_width, h_center);
 #endif
 
+	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
+	gdk_gc_set_rgb_fg_color (gc, &rv->color);
+
 	gdk_draw_layout (drawable, gc,
 			 rect.x + hoffset, text_base,
 			 layout);
