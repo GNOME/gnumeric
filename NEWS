@@ -22,6 +22,7 @@ Morten:
 	  Snappiness, Part 6.)
 	* Speed up generation of random numbers.
 	* Fix a few stf irritants.
+	* Security fix for sample data source plugin.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16
