@@ -3,8 +3,9 @@
  * fn-math.c:  Built in mathematical functions and functions registration
  *
  * Authors:
- *  Miguel de Icaza (miguel@gnu.org)
- *  Jukka-Pekka Iivonen (iivonen@iki.fi)
+ *   Miguel de Icaza (miguel@gnu.org)
+ *   Jukka-Pekka Iivonen (iivonen@iki.fi)
+ *   Morten Welinder (terra@diku.dk)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +40,12 @@
 #include <math.h>
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
+
+#include "plugin.h"
+#include "plugin-util.h"
+#include "module-plugin-defs.h"
+
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 typedef struct {
         GSList *list;
@@ -3210,207 +3217,111 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 
 /***************************************************************************/
 
-void math_functions_init (void);
-void
-math_functions_init (void)
-{
-	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category_with_translation
-	  ("Maths / Trig.", _("Maths / Trig."));
-
-	def = function_add_args  (cat, "abs",     "f",
-				  "number",    &help_abs,      gnumeric_abs);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	function_add_args  (cat, "acos",    "f",
-			    "number",    &help_acos,     gnumeric_acos);
-	function_add_args  (cat, "acosh",   "f",
-			    "number",    &help_acosh,    gnumeric_acosh);
-	function_add_args  (cat, "asin",    "f",
-			    "number",    &help_asin,     gnumeric_asin);
-	function_add_args  (cat, "asinh",   "f",
-			    "number",    &help_asinh,    gnumeric_asinh);
-	function_add_args  (cat, "atan",    "f",
-			    "number",    &help_atan,     gnumeric_atan);
-	function_add_args  (cat, "atanh",   "f",
-			    "number",    &help_atanh,    gnumeric_atanh);
-	function_add_args  (cat, "atan2",   "ff",
-			    "xnum,ynum", &help_atan2,    gnumeric_atan2);
-	function_add_args  (cat, "cos",     "f",
-			    "number",    &help_cos,      gnumeric_cos);
-	function_add_args  (cat, "cosh",    "f",
-			    "number",    &help_cosh,     gnumeric_cosh);
-	function_add_args  (cat, "countif", "r?",
-			    "range,criteria",
-			    &help_countif,     gnumeric_countif);
-
-	def = function_add_args  (cat, "ceil",    "f",
-				  "number",    &help_ceil,     gnumeric_ceil);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_args  (cat, "ceiling", "ff",
-				  "number,significance",
-				  &help_ceiling,     gnumeric_ceiling);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	function_add_args  (cat, "degrees", "f",
-			    "number",    &help_degrees,  gnumeric_degrees);
-	function_add_args  (cat, "even",    "f",
-			    "number",    &help_even,     gnumeric_even);
-	function_add_args  (cat, "exp",     "f",
-			    "number",    &help_exp,      gnumeric_exp);
-	function_add_args  (cat, "fact",    "f",
-			    "number",    &help_fact,     gnumeric_fact);
-	function_add_args  (cat, "factdouble", "f",
-			    "number",
-			    &help_factdouble,  gnumeric_factdouble);
-	function_add_args  (cat, "combin",  "ff",
-			    "n,k",       &help_combin,   gnumeric_combin);
-
-	def = function_add_args  (cat, "floor",   "f|f",
-				  "number",    &help_floor,    gnumeric_floor);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	function_add_nodes (cat, "gcd", NULL,
-			    "number1,number2",
-			    &help_gcd,         gnumeric_gcd);
-
-	def = function_add_args  (cat, "int",     "f",
-				  "number",    &help_int,      gnumeric_int);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	function_add_nodes (cat, "lcm",     0,
-			    "",          &help_lcm,      gnumeric_lcm);
-	function_add_args  (cat, "ln",      "f",
-			    "number",    &help_ln,       gnumeric_ln);
-	function_add_args  (cat, "log",     "f|f",
-			    "number[,base]",
-			    &help_log,         gnumeric_log);
-	function_add_args  (cat, "log2",    "f",
-			    "number",    &help_log2,     gnumeric_log2);
-	function_add_args  (cat, "log10",   "f",
-			    "number",    &help_log10,    gnumeric_log10);
-	function_add_args  (cat, "mod",     "ff",
-			    "num,denom", &help_mod,      gnumeric_mod);
-
-	def = function_add_args  (cat, "mround",  "ff",
-				  "number,multiple",
-				  &help_mround,      gnumeric_mround);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	function_add_nodes (cat, "multinomial", 0,
-			    "",
-			    &help_multinomial, gnumeric_multinomial);
-	function_add_args  (cat, "odd" ,    "f",
-			    "number",    &help_odd,      gnumeric_odd);
-	function_add_args  (cat, "power",   "ff",
-			    "x,y",       &help_power,    gnumeric_power);
-	function_add_nodes (cat, "g_product", 0,
-			    "number",    &help_g_product,  gnumeric_g_product);
-	function_add_args  (cat, "quotient" , "ff",
-			    "num,den",   &help_quotient, gnumeric_quotient);
-	function_add_args  (cat, "radians", "f",
-			    "number",    &help_radians,
-			    gnumeric_radians);
-	function_add_args  (cat, "rand",    "",
-			    "",          &help_rand,     gnumeric_rand);
-        function_add_args  (cat, "randbernoulli", "f",
-                            "p",
-                            &help_randbernoulli, gnumeric_randbernoulli);
-        function_add_args  (cat, "randbetween", "ff",
-                            "bottom,top",
-                            &help_randbetween, gnumeric_randbetween);
-        function_add_args  (cat, "randbinom", "ff",
-                            "p,trials",
-                            &help_randbinom, gnumeric_randbinom);
-        function_add_args  (cat, "randexp", "f",
-                            "b",
-                            &help_randexp,  gnumeric_randexp);
-        function_add_args  (cat, "randnegbinom", "ff",
-                            "p,failures",
-                            &help_randnegbinom, gnumeric_randnegbinom);
-        function_add_args  (cat, "randpoisson", "f",
-                            "lambda",
-                            &help_randpoisson, gnumeric_randpoisson);
-	function_add_args  (cat, "roman",      "f|f",
-			    "number[,type]",
-			    &help_roman,       gnumeric_roman);
-
-	def = function_add_args  (cat, "round",      "f|f",
-				  "number[,digits]",
-				  &help_round,       gnumeric_round);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_args  (cat, "rounddown",  "f|f",
-				  "number,digits",
-				  &help_rounddown,   gnumeric_rounddown);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_args  (cat, "roundup",    "f|f",
-				  "number,digits",
-				  &help_roundup,     gnumeric_roundup);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	function_add_nodes (cat, "seriessum", 0,
-			    "x,n,m,coefficients",
-			    &help_seriessum,   gnumeric_seriessum);
-	function_add_args  (cat, "sign",    "f",
-			    "number",    &help_sign,     gnumeric_sign);
-	function_add_args  (cat, "sin",     "f",
-			    "number",    &help_sin,      gnumeric_sin);
-	function_add_args  (cat, "sinh",    "f",
-			    "number",    &help_sinh,     gnumeric_sinh);
-	function_add_args  (cat, "sqrt",    "f",
-			    "number",    &help_sqrt,     gnumeric_sqrt);
-	function_add_args  (cat, "sqrtpi",  "f",
-			    "number",    &help_sqrtpi,   gnumeric_sqrtpi);
-
-	def = function_add_nodes (cat, "suma",    0,
-				  "number1,number2,...",
-				  &help_suma,	       gnumeric_suma);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	function_add_args  (cat, "sumif",   "r?|r",
-			    "range,criteria[,actual_range]",
-			    &help_sumif,       gnumeric_sumif);
-	function_add_nodes (cat, "sumproduct",   0,
-			    "range1,range2,...",
-			    &help_sumproduct,  gnumeric_sumproduct);
-	function_add_nodes (cat, "sumsq",   0,
-			    "number",    &help_sumsq,    gnumeric_sumsq);
-	function_add_args  (cat, "sumx2my2", "AA",
-			    "array1,array2",
-			    &help_sumx2my2,    gnumeric_sumx2my2);
-	function_add_args  (cat, "sumx2py2", "AA",
-			    "array1,array2",
-			    &help_sumx2py2,    gnumeric_sumx2py2);
-	function_add_args  (cat, "sumxmy2",  "AA",
-			    "array1,array2",
-			    &help_sumxmy2,     gnumeric_sumxmy2);
-	function_add_args  (cat, "tan",     "f",
-			    "number",    &help_tan,      gnumeric_tan);
-	function_add_args  (cat, "tanh",    "f",
-			    "number",    &help_tanh,     gnumeric_tanh);
-
-	def = function_add_args  (cat, "trunc",   "f|f",
-				  "number,digits",
-				  &help_trunc,       gnumeric_trunc);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	function_add_args  (cat, "pi",      "",
-			    "",          &help_pi,       gnumeric_pi);
-	function_add_args  (cat, "mmult",   "AA",
-			    "array1,array2",
-			    &help_mmult,       gnumeric_mmult);
-	function_add_args  (cat, "minverse","A",
-			    "array",
-			    &help_minverse,    gnumeric_minverse);
-	function_add_args  (cat, "mdeterm", "A",
-			    "array[,matrix_type[,bandsize]]",
-			    &help_mdeterm,     gnumeric_mdeterm);
+const ModulePluginFunctionInfo math_functions[] = {
+	{ "abs",     "f", "number",    &help_abs,      gnumeric_abs, NULL, NULL, NULL },
+	{ "acos",    "f", "number",    &help_acos,     gnumeric_acos, NULL, NULL, NULL },
+	{ "acosh",   "f", "number",    &help_acosh,    gnumeric_acosh, NULL, NULL, NULL },
+	{ "asin",    "f", "number",    &help_asin,     gnumeric_asin, NULL, NULL, NULL },
+	{ "asinh",   "f", "number",    &help_asinh,    gnumeric_asinh, NULL, NULL, NULL },
+	{ "atan",    "f", "number",    &help_atan,     gnumeric_atan, NULL, NULL, NULL },
+	{ "atanh",   "f", "number",    &help_atanh,    gnumeric_atanh, NULL, NULL, NULL },
+	{ "atan2",   "ff", "xnum,ynum", &help_atan2,    gnumeric_atan2, NULL, NULL, NULL },
+	{ "cos",     "f", "number",    &help_cos,      gnumeric_cos, NULL, NULL, NULL },
+	{ "cosh",    "f", "number",    &help_cosh,     gnumeric_cosh, NULL, NULL, NULL },
+	{ "countif", "r?", "range,criteria", &help_countif, gnumeric_countif, NULL, NULL, NULL },
+	{ "ceil",    "f", "number",    &help_ceil,     gnumeric_ceil, NULL, NULL, NULL },
+	{ "ceiling", "ff", "number,significance", &help_ceiling,     gnumeric_ceiling, NULL, NULL, NULL },
+	{ "degrees", "f", "number",    &help_degrees,  gnumeric_degrees, NULL, NULL, NULL },
+	{ "even",    "f", "number",    &help_even,     gnumeric_even, NULL, NULL, NULL },
+	{ "exp",     "f", "number",    &help_exp,      gnumeric_exp, NULL, NULL, NULL },
+	{ "fact",    "f", "number",    &help_fact,     gnumeric_fact, NULL, NULL, NULL },
+	{ "factdouble", "f", "number", &help_factdouble, gnumeric_factdouble, NULL, NULL, NULL },
+	{ "combin",  "ff", "n,k",      &help_combin,   gnumeric_combin, NULL, NULL, NULL },
+	{ "floor",   "f|f", "number",  &help_floor,    gnumeric_floor, NULL, NULL, NULL },
+	{ "gcd",     0, "number1,number2", &help_gcd,  NULL, gnumeric_gcd, NULL, NULL },
+	{ "int",     "f", "number",    &help_int,      gnumeric_int, NULL, NULL, NULL },
+	{ "lcm",     0, "",            &help_lcm,      NULL, gnumeric_lcm, NULL, NULL },
+	{ "ln",      "f", "number",    &help_ln,       gnumeric_ln, NULL, NULL, NULL },
+	{ "log",     "f|f", "number[,base]", &help_log, gnumeric_log, NULL, NULL, NULL },
+	{ "log2",    "f", "number",    &help_log2,     gnumeric_log2, NULL, NULL, NULL },
+	{ "log10",   "f", "number",    &help_log10,    gnumeric_log10, NULL, NULL, NULL },
+	{ "mod",     "ff", "num,denom", &help_mod,     gnumeric_mod, NULL, NULL, NULL },
+	{ "mround",  "ff", "number,multiple", &help_mround, gnumeric_mround, NULL, NULL, NULL },
+	{ "multinomial", 0, "", &help_multinomial, NULL, gnumeric_multinomial, NULL, NULL },
+	{ "odd" ,    "f", "number",    &help_odd,      gnumeric_odd, NULL, NULL, NULL },
+	{ "power",   "ff", "x,y",      &help_power,    gnumeric_power, NULL, NULL, NULL },
+	{ "g_product", 0, "number",    &help_g_product, NULL, gnumeric_g_product, NULL, NULL },
+	{ "quotient" , "ff", "num,den", &help_quotient, gnumeric_quotient, NULL, NULL, NULL },
+	{ "radians", "f", "number",    &help_radians,  gnumeric_radians, NULL, NULL, NULL },
+	{ "rand",    "", "",           &help_rand,     gnumeric_rand, NULL, NULL, NULL },
+        { "randbernoulli", "f", "p",   &help_randbernoulli, gnumeric_randbernoulli, NULL, NULL, NULL },
+        { "randbetween", "ff", "bottom,top", &help_randbetween, gnumeric_randbetween, NULL, NULL, NULL },
+        { "randbinom", "ff", "p,trials", &help_randbinom, gnumeric_randbinom, NULL, NULL, NULL },
+        { "randexp", "f", "b",         &help_randexp,  gnumeric_randexp, NULL, NULL, NULL },
+        { "randnegbinom", "ff", "p,failures", &help_randnegbinom, gnumeric_randnegbinom, NULL, NULL, NULL },
+        { "randpoisson", "f", "lambda", &help_randpoisson, gnumeric_randpoisson, NULL, NULL, NULL },
+	{ "roman",      "f|f", "number[,type]", &help_roman, gnumeric_roman, NULL, NULL, NULL },
+	{ "round",      "f|f", "number[,digits]", &help_round,  gnumeric_round, NULL, NULL, NULL },
+	{ "rounddown",  "f|f", "number,digits", &help_rounddown, gnumeric_rounddown, NULL, NULL, NULL },
+	{ "roundup",    "f|f", "number,digits", &help_roundup, gnumeric_roundup, NULL, NULL, NULL },
+	{ "seriessum", 0, "x,n,m,coefficients", &help_seriessum, NULL, gnumeric_seriessum, NULL, NULL },
+	{ "sign",    "f", "number",    &help_sign,     gnumeric_sign, NULL, NULL, NULL },
+	{ "sin",     "f", "number",    &help_sin,      gnumeric_sin, NULL, NULL, NULL },
+	{ "sinh",    "f", "number",    &help_sinh,     gnumeric_sinh, NULL, NULL, NULL },
+	{ "sqrt",    "f", "number",    &help_sqrt,     gnumeric_sqrt, NULL, NULL, NULL },
+	{ "sqrtpi",  "f", "number",    &help_sqrtpi,   gnumeric_sqrtpi, NULL, NULL, NULL },
+	{ "suma",    0, "number1,number2,...", &help_suma, NULL, gnumeric_suma, NULL, NULL },
+	{ "sumif",   "r?|r", "range,criteria[,actual_range]", &help_sumif, gnumeric_sumif, NULL, NULL, NULL },
+	{ "sumproduct", 0, "range1,range2,...", &help_sumproduct, NULL, gnumeric_sumproduct, NULL, NULL },
+	{ "sumsq",   0, "number",      &help_sumsq,    NULL, gnumeric_sumsq, NULL, NULL },
+	{ "sumx2my2", "AA", "array1,array2", &help_sumx2my2, gnumeric_sumx2my2, NULL, NULL, NULL },
+	{ "sumx2py2", "AA", "array1,array2", &help_sumx2py2, gnumeric_sumx2py2, NULL, NULL, NULL },
+	{ "sumxmy2",  "AA", "array1,array2", &help_sumxmy2,  gnumeric_sumxmy2, NULL, NULL, NULL },
+	{ "tan",     "f", "number",    &help_tan,      gnumeric_tan, NULL, NULL, NULL },
+	{ "tanh",    "f", "number",    &help_tanh,     gnumeric_tanh, NULL, NULL, NULL },
+	{ "trunc",   "f|f", "number,digits", &help_trunc, gnumeric_trunc, NULL, NULL, NULL },
+	{ "pi",      "", "",           &help_pi,       gnumeric_pi, NULL, NULL, NULL },
+	{ "mmult",   "AA", "array1,array2", &help_mmult, gnumeric_mmult, NULL, NULL, NULL },
+	{ "minverse","A", "array",     &help_minverse,   gnumeric_minverse, NULL, NULL, NULL },
+	{ "mdeterm", "A", "array[,matrix_type[,bandsize]]", &help_mdeterm, gnumeric_mdeterm, NULL, NULL, NULL },
 #if 0
-	function_add_args  (cat, "logmdeterm", "A|si",
-			    "array[,matrix_type[,bandsize]]",
-			    &help_logmdeterm, gnumeric_logmdeterm);
+	{ "logmdeterm", "A|si", "array[,matrix_type[,bandsize]]",
+	  &help_logmdeterm, gnumeric_logmdeterm, NULL, NULL, NULL },
 #endif
+        {NULL}
+};
+
+/* FIXME: Should be merged into the above.  */
+static const struct {
+	const char *func;
+	AutoFormatTypes typ;
+} af_info[] = {
+	{ "abs", AF_FIRST_ARG_FORMAT },
+	{ "ceil", AF_FIRST_ARG_FORMAT },
+	{ "ceiling", AF_FIRST_ARG_FORMAT },
+	{ "floor", AF_FIRST_ARG_FORMAT },
+	{ "int", AF_FIRST_ARG_FORMAT },
+	{ "mround", AF_FIRST_ARG_FORMAT },
+	{ "round", AF_FIRST_ARG_FORMAT },
+	{ "roundup", AF_FIRST_ARG_FORMAT },
+	{ "rounddown", AF_FIRST_ARG_FORMAT },
+	{ "suma", AF_FIRST_ARG_FORMAT },
+	{ "trunc", AF_FIRST_ARG_FORMAT },
+	{ NULL, AF_UNKNOWN }
+};
+
+void
+plugin_init (void)
+{
+	int i;
+	for (i = 0; af_info[i].func; i++)
+		auto_format_function_result_by_name (af_info[i].func, af_info[i].typ);
+}
+
+void
+plugin_cleanup (void)
+{
+	int i;
+	for (i = 0; af_info[i].func; i++)
+		auto_format_function_result_remove (af_info[i].func);
 }
