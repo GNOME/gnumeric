@@ -1,3 +1,18 @@
+1999-08-02  Jody Goldberg  <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_event) : Button3 should select the
+          current row/col before bringing up the edit menu.
+
+	* src/sheet.c (sheet_cell_foreach_range) : return NULL not FALSE
+          on precondition failure.
+
+	* src/value.[ch] : Add value_area_foreach
+
+	* src/fn-date.c (gnumeric_networkdays) : Correct the modulo for
+          weekends and add support for holidays via value_area_foreach.
+
+	* src/sheet.c : Correct some documentation
+
 1999-08-01  Jody Goldberg  <jgoldberg@home.com>
 
 	* samples/operator.xls : Test workbook for operators.

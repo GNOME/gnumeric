@@ -2107,7 +2107,7 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
  *
  * Return value:
  *    non-NULL on error, or value_terminate() if some invoked routine requested
- *    to stop (by returning FALSE).
+ *    to stop (by returning non-NULL).
  */
 Value *
 sheet_cell_foreach_range (Sheet *sheet, int only_existing,
@@ -2121,9 +2121,9 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 	int    last_col_gen = -1, last_row_gen = -1;
 	Value *cont;
 
-	g_return_val_if_fail (sheet != NULL, FALSE);
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-	g_return_val_if_fail (callback != NULL, FALSE);
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (callback != NULL, NULL);
 
 	if (start_col > end_col)
 		SWAP_INT (start_col, end_col);

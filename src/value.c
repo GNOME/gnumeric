@@ -774,6 +774,75 @@ value_array_copy_to (Value *v, const Value *src)
 	}
 }
 
+typedef struct
+{
+	value_area_foreach_callback	 callback;
+	EvalPosition const		*ep;
+	void				*real_data;
+} WrapperClosure;
+	
+static Value *
+wrapper_foreach_cell_in_area_callback (Sheet *sheet, int col, int row,
+				       Cell *cell, void *user_data)
+{
+	WrapperClosure * wrap;
+	if (cell == NULL || cell->value == NULL)
+	        return NULL;
+
+       	wrap = (WrapperClosure *)user_data;
+       	return (*wrap->callback)(wrap->ep, cell->value, wrap->real_data);
+}
+
+/**
+ * value_area_foreach:
+ *
+ * For each existing element in an array or range , invoke the
+ * callback routine.  If the only_existing flag is passed, then
+ * callbacks are only invoked for existing cells.
+ *
+ * Return value:
+ *    non-NULL on error, or value_terminate() if some invoked routine requested
+ *    to stop (by returning non-NULL).
+ */
+Value *
+value_area_foreach (EvalPosition const *ep, Value const *v,
+		    value_area_foreach_callback callback,
+		    void *closure)
+{
+	int x, y;
+	Value *tmp;
+
+	g_return_val_if_fail (callback != NULL, FALSE);
+
+        if (v->type == VALUE_CELLRANGE)
+	{
+		WrapperClosure wrap;
+		wrap.callback = callback;
+		wrap.ep = ep;
+		wrap.real_data = closure;
+		return sheet_cell_foreach_range (
+			eval_sheet (v->v.cell_range.cell_a.sheet, ep->sheet),
+			TRUE,
+			v->v.cell_range.cell_a.col,
+			v->v.cell_range.cell_a.row,
+			v->v.cell_range.cell_b.col,
+			v->v.cell_range.cell_b.row,
+			&wrapper_foreach_cell_in_area_callback,
+			(void *)&wrap);
+	}
+
+	/* If not an array, apply callback to singleton */
+        if (v->type != VALUE_ARRAY)
+		return (*callback)(ep, v, closure);
+
+	for (x = v->v.array.x ; --x >= 0 ;)
+		for (y = v->v.array.y; --y >= 0 ; )
+			if ((tmp = (*callback)(ep, v->v.array.vals [x][y], closure)) != NULL)
+				return tmp;
+
+	return NULL;
+}
+
 /* Initialize temporarily with statics.  The real versions from the locale
  * will be setup in constants_init
  */

@@ -689,10 +689,9 @@ static char * help_networkdays = {
  * Returns -1 on error
  */
 static int
-get_serial_weekday (Value const * v, int * offset)
+get_serial_weekday (int serial, int * offset)
 {
 	GDate * date;
-	int serial = get_serial_date (v);
 	if (serial <= 0)
 		return serial;
 	date = g_date_new_serial (serial);
@@ -700,41 +699,82 @@ get_serial_weekday (Value const * v, int * offset)
 		/* Jan 1 1900 was a monday so we won't go < 0 */
 		*offset = (int)g_date_weekday(date) - 1;
 		serial -= *offset;
+		if (*offset > 4)
+			*offset = 4;
 	} else
 		serial = -1;
 	g_date_free (date);
 	return serial;
 }
 
+typedef struct
+{
+	int start_serial, end_serial;
+	int res;
+} networkdays_holiday_closure;
+
+static Value *
+networkdays_holiday_callback(EvalPosition const *ep,
+			     Value const *v, void *user_data)
+{
+	Value *res = NULL;
+	networkdays_holiday_closure * close =
+	    (networkdays_holiday_closure *)user_data;
+	int const serial = get_serial_date (v);
+	GDate * date;
+
+        if (serial <= 0)
+		return value_new_error (ep, gnumeric_err_NUM);
+
+	if (serial < close->start_serial || close->end_serial < serial)
+		return NULL;
+
+	date = g_date_new_serial (serial);
+        if (g_date_valid(date)) {
+		if (g_date_weekday(date) < G_DATE_SATURDAY)
+			++close->res;
+	} else
+		res = value_new_error (ep, gnumeric_err_NUM);
+
+	g_date_free (date);
+	return res;
+}
+
 static Value *
 gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 {
-	int start_offset, end_offset;
-	int start_serial = get_serial_weekday (argv[0], &start_offset);
-	int end_serial = get_serial_weekday (argv[1], &end_offset);
-	int res, mult = 1;
+	int start_serial = get_serial_date (argv[0]);
+	int end_serial = get_serial_date (argv[1]);
+	int start_offset, end_offset, res;
+	networkdays_holiday_closure close;
 
-	/* Dummy out for now */
-	return value_new_error (&ei->pos, _("Unimplemented"));
+	/* Swap if necessary */
+	if (start_serial > end_serial) {
+		int tmp = start_serial;
+		start_serial = end_serial;
+		end_serial = tmp;
+	}
 
-	if (argv[2] != NULL)
-		return value_new_error (&ei->pos, _("Unimplemented"));
+	close.start_serial = start_serial;
+	close.end_serial = end_serial;
+	close.res = 0;
 
+	/* Move to mondays, and check for problems */
+	start_serial = get_serial_weekday (start_serial, &start_offset);
+	end_serial = get_serial_weekday (end_serial, &end_offset);
 	if (start_serial < 0 || end_serial < 0)
                   return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	res = end_serial - start_serial;
-	if (res < 0) {
-		res = -res;
-		mult = -1;
+	res -= ((res/7)*2);	/* Remove weekends */
+
+	if (argv[2] != NULL) {
+		value_area_foreach (&ei->pos, argv[2],
+				    &networkdays_holiday_callback,
+				    &close);
 	}
 
-	/* Remove weekends */
-	res -= ((res/7)*2);
-
-	/* FIXME : Remove holidays */
-
-	return value_new_int (res*mult - start_offset + end_offset);
+	return value_new_int (res - start_offset + end_offset + 1 - close.res);
 }
 
 /***************************************************************************/

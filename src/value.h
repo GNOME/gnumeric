@@ -95,6 +95,13 @@ const Value *value_area_fetch_x_y  (const EvalPosition *ep, Value const * v,
 const Value * value_area_get_x_y (const EvalPosition *ep, Value const * v,
 				  guint x, guint y);
 
+typedef  Value * (*value_area_foreach_callback)(EvalPosition const *ep,
+						Value const *v, void *user_data);
+
+Value * value_area_foreach (EvalPosition const *ep, Value const *v,
+			    value_area_foreach_callback callback,
+			    void *closure);
+
 void value_array_set       (Value *array, guint col, guint row, Value *v);
 void value_array_resize    (Value *v, guint width, guint height);
 void value_array_copy_to   (Value *dest, const Value *src);

@@ -492,6 +492,9 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						e->button.time);
 		} else if (e->button.button == 3){
 			Sheet   *sheet = item_bar->sheet_view->sheet;
+			gtk_signal_emit (GTK_OBJECT (item),
+					 item_bar_signals [SELECTION_CHANGED],
+					 element, e->button.state | GDK_BUTTON1_MASK);
 			if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
 				item_grid_popup_menu (sheet, e, element, 0);
 			else
