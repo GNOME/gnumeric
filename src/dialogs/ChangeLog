@@ -1,5 +1,8 @@
 2003-06-04  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf-main-page.c (stf_dialog_main_page_init): Use
+	monospace, just in case the data is fixed-width.
+
 	* dialog-stf-*.[ch]: Rewrite to GtkTreeView based instead of
 	GnomeCanvas.
 

@@ -236,12 +236,18 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	column = stf_preview_get_column (renderdata, 0);
 	cell = stf_preview_get_cell_renderer (renderdata, 0);
 	gtk_tree_view_column_set_title (column, _("Line"));
-	g_object_set (G_OBJECT (cell), "xalign", 1.0, NULL);
-	g_object_set (G_OBJECT (cell), "style", PANGO_STYLE_ITALIC, NULL);
-	g_object_set (G_OBJECT (cell), "background", "lightgrey", NULL);
+	g_object_set (G_OBJECT (cell),
+		      "xalign", 1.0,
+		      "style", PANGO_STYLE_ITALIC,
+		      "background", "lightgrey",
+		      NULL);
 
 	column = stf_preview_get_column (renderdata, 1);
+	cell = stf_preview_get_cell_renderer (renderdata, 1);
 	gtk_tree_view_column_set_title (column, _("Text"));
+	g_object_set (G_OBJECT (cell),
+		      "family", "monospace",
+		      NULL);
 
 	/* Set properties */
 	main_page_set_spin_button_adjustment (info->main_startrow, 1, pagedata->lines);

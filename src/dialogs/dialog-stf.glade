@@ -405,6 +405,7 @@
 
 		      <child>
 			<widget class="GtkSpinButton" id="main_startrow">
+			  <property name="width_request">80</property>
 			  <property name="visible">True</property>
 			  <property name="tooltip" translatable="yes">Actual processing will start at this line, any previous lines will be ignored.</property>
 			  <property name="can_focus">True</property>
@@ -447,6 +448,7 @@
 
 		      <child>
 			<widget class="GtkSpinButton" id="main_stoprow">
+			  <property name="width_request">80</property>
 			  <property name="visible">True</property>
 			  <property name="tooltip" translatable="yes">Processing ends at this line, any subsequent lines will be ignored.</property>
 			  <property name="can_focus">True</property>
@@ -1012,7 +1014,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label16">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Customize the columns using the buttons or the mouse (hover mouse above example for instructions)</property>
+		  <property name="label" translatable="yes">Customize the columns using the buttons or the mouse</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
