@@ -1,9 +1,16 @@
 A tally of the beverages owed.
 
-    Morten : Hot Chocolate.
+    Morten 			: Hot Chocolate.
     Bogus pointer comparison in help tokenizer.
 
-    sjburges@gimp.org	: Beer
+    sjburges@gimp.org		: Beer
     First report that manually entered relative references
     can crash checkbox.  More importantly the same issue
     existed in the graph guru.
+
+    aguelzow@taliesin.ca	: TBD
+    Strange expr-entry bugs after I had 'fixed' it.
+
+    grabner.andreas@utanet.at	: TBD
+    Solver did not support blank unput cells.
+
