@@ -10,6 +10,9 @@ Release Critical
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.
 
+* New libgsf -- we leak .5MB or so per save.
+
+
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
