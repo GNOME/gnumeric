@@ -20,8 +20,10 @@
 
 2002-12-10  Wayne Schuller  <k_wayne@linuxpower.org>
 
-	* dialog-printer-setup.c: (scaling_type_changed), (do_setup_page),
-	(do_fetch_page): Adjust to take into account x and y scale attributes. Implement the 'fit-to' widgets.
+	* dialog-printer-setup.c: (scaling_type_changed, do_setup_page,
+	do_fetch_page): Adjust to take into account x and y scale
+	attributes. Implement the 'fit-to' widgets.
+
 	* print.glade: Add a few accelerators.
 
 2003-01-14  Christian Neumair  <chris@gnome-de.org>
