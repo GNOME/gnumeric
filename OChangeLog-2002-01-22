@@ -1,3 +1,8 @@
+2002-01-28  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_user_config) :
+	create the table.
+
 2002-01-27  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-widget.c (sheet_widget_scrollbar_read_xml) : simple

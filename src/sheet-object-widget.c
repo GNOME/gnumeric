@@ -1254,6 +1254,11 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 					  GNOME_STOCK_BUTTON_OK,
 					  GNOME_STOCK_BUTTON_CANCEL,
 					  NULL);
+
+ 	table = gtk_table_new (0, 0, FALSE);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
+		table, TRUE, TRUE, 5);
+
 	state->expression = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
 	gnumeric_expr_entry_set_flags (state->expression,
 		GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL | GNUM_EE_SINGLE_RANGE,
@@ -1269,8 +1274,6 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 
  	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
-			    table, TRUE, TRUE, 5);
 	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
 
  	gtk_signal_connect (GTK_OBJECT (state->label), "changed",

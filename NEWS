@@ -8,6 +8,7 @@ Andreas:
 
 Jody:
 	* Crash importing scrollbars from xml.
+	* Fix regression in 1.0.3 setting properties for checkbox.
 	* xml-sax support for v10 of gnumeric's format.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=69400
