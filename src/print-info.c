@@ -14,14 +14,19 @@
 #include "print-info.h"
 
 PrintHF *
-print_hf_new (const char *left_side_format, const char *middle_format,
+print_hf_new (const char *style_name,
+	      const char *left_side_format,
+	      const char *middle_format,
 	      const char *right_side_format)
 {
 	PrintHF *format;
 
 	format = g_new0 (PrintHF, 1);
 
-	if (left_side_format)
+	if (style_name)
+		format->style_name = g_strdup (style_name);
+	
+	if (style_name)
 		format->left_format = g_strdup (left_side_format);
 
 	if (middle_format)
@@ -41,6 +46,7 @@ print_hf_free (PrintHF *print_hf)
 	g_free (print_hf->left_format);
 	g_free (print_hf->middle_format);
 	g_free (print_hf->right_format);
+	g_free (print_hf->style_name);
 	g_free (print_hf);
 }
 
@@ -329,3 +335,111 @@ unit_name_to_unit (const char *s)
 	return UNIT_POINTS;
 }
 
+static void
+render_tab (GString *target, HFRenderInfo *info)
+{
+	g_string_append (target, info->sheet->name);
+}
+
+static void
+render_page (GString *target, HFRenderInfo *info)
+{
+	g_string_sprintfa (target, "%d", info->page);
+}
+
+static void
+render_pages (GString *target, HFRenderInfo *info)
+{
+	g_string_sprintfa (target, "%d", info->pages);
+}
+
+static void
+render_date (GString *target, HFRenderInfo *info)
+{
+	g_string_append (target, "{date goes here}");
+}
+
+static void
+render_time (GString *target, HFRenderInfo *info)
+{
+	g_string_append (target, "{time goes here}");
+}
+
+static struct {
+	char *name;
+	void (*render)(GString *target, HFRenderInfo *info);
+} render_ops [] = {
+	{ N_("tab"),   render_tab   },
+	{ N_("page"),  render_page  },
+	{ N_("pages"), render_pages },
+	{ N_("date"),  render_date  },
+	{ N_("time"), render_time   },
+	{ NULL },
+};
+
+static void
+render_opcode (GString *target, const char *opcode, HFRenderInfo *info, HFRenderType render_type)
+{
+	int i;
+	
+	for (i = 0; render_ops [i].name; i++){
+		if (render_type == HF_RENDER_TO_ENGLISH){
+			if (strcasecmp (_(render_ops [i].name), opcode) == 0){
+				g_string_append (target, render_ops [i].name);
+				continue;
+			}
+		}
+
+		if (render_type == HF_RENDER_TO_LOCALE){
+			if (strcasecmp (render_ops [i].name, opcode) == 0){
+				g_string_append (target, render_ops [i].name);
+				continue;
+			}
+		}
+
+		/*
+		 * opcode then comes from a the user interface
+		 */
+		if ((strcasecmp (render_ops [i].name, opcode) == 0) ||
+		    (strcasecmp (_(render_ops [i].name), opcode) == 0)){
+			(*render_ops [i].render)(target, info);
+		}
+		    
+	}
+}
+
+char *
+hf_format_render (const char *format, HFRenderInfo *info, HFRenderType render_type)
+{
+	GString *result;
+	const char *p;
+
+	g_return_val_if_fail (format != NULL, NULL);
+	
+	result = g_string_new ("");
+	for (p = format; *p; p++){
+		if (*p == '&' && *(p+1) == '['){
+			char *start;
+
+			p += 2;
+			start = p;
+			while (*p && (*p != ']'))
+				p++;
+
+			if (*p == ']'){
+				char *operation = g_malloc (p - start + 1);
+
+				strncpy (operation, start, p - start);
+				render_opcode (result, operation, info, render_type);
+			} else
+				break;
+		} else
+			g_string_append_c (result, *p);
+	}
+
+	p = result->str;
+	g_string_free (result, FALSE);
+	
+	return p;
+}
+		  

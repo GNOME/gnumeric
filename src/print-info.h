@@ -55,6 +55,7 @@ typedef struct {
 
 /* Header/Footer definition */
 typedef struct {
+	char *style_name;
 	char *left_format;
 	char *middle_format;
 	char *right_format;
@@ -91,15 +92,33 @@ struct _PrintInformation {
 	PrintRepeatRange  repeat_top, repeat_left;
 };
 
+typedef enum {
+	HF_RENDER_PRINT,
+	HF_RENDER_TO_ENGLISH,
+	HF_RENDER_TO_LOCALE
+} HFRenderType;
+
+typedef struct {
+	Workbook *wb;
+	Sheet    *sheet;
+	int       page;
+	int       pages;
+} HFRenderInfo;
+
 PrintInformation *print_info_new  (void);
 void              print_info_save (PrintInformation *pi);
 
 void              print_info_free (PrintInformation *pi);
 
-PrintHF          *print_hf_new    (const char *left_side_format,
+PrintHF          *print_hf_new    (const char *style_name,
+				   const char *left_side_format,
 				   const char *middle_format,
 				   const char *right_side_format);
 void              print_hf_free   (PrintHF *print_hf);
+
+char       *hf_format_render         (const char *format,
+				      HFRenderInfo *info,
+				      HFRenderType render_type);
 
 const char *unit_name_get_short_name (UnitName name);
 const char *unit_name_get_name       (UnitName name);
