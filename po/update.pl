@@ -25,7 +25,7 @@
 #  NOTICE: Please remember to change the variable $PACKAGE to reflect 
 #  the package this script is used within.
 
-
+$PACKAGE="gnumeric";
 
 use File::Basename;
 
@@ -40,19 +40,19 @@ $| = 1;
 
 # Figure out what package that is in use
 #---------------------------------------
-open FILE, "../configure.in";
-    while (<FILE>) {
-	next if /^dnl/; #ignore comments
-        if ($_=~/AM_INIT_AUTOMAKE\((.*),(.*)\)/o){
-            $PACKAGE=$1;
-	    last; #stop when found
-            }
-	if ($_=~/PACKAGE\((.*)\)/o){
-            $PACKAGE=$1;
-            last; #stop when found
-            }
-        }   
-close FILE;
+#open FILE, "../configure.in";
+#    while (<FILE>) {
+#	next if /^dnl/; #ignore comments
+#        if ($_=~/AM_INIT_AUTOMAKE\((.*),(.*)\)/o){
+#            $PACKAGE=$1;
+#	    last; #stop when found
+#            }
+#	if ($_=~/PACKAGE\((.*)\)/o){
+#            $PACKAGE=$1;
+#            last; #stop when found
+#            }
+#        }   
+#close FILE;
 
 
 # Give error if script is run without an argument
