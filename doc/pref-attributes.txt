@@ -48,58 +48,63 @@ Legend:		cb - checkbox
 		cm - combo box
 		en - entry area
 		sp - spinner
-**View
-	Show: 
-	      Formula bar (cb) 
-	      Status bar (cb)
-	Comments: 
-		  None-Comment Indicator Only-Comment & Indicator (rb)
-	Objects: 
-		 Show all-Show placeholders-Hide all (rb)
-	Window options: 
-	       Page breaks (cb)
-	       Formulas (cb)
-	       Gridlines (cb)
-	       Gridline Color (cs)
-	       Row & column headers (cb)
-	       Outline symbols (cb)
-	       Zero values (cb)
-	       Horizontal scroll bar (cb)
-	       Vertical scroll bar (cb)
-	       Sheet tabs (cb)
 
-**Calculation
-	Calculation:
-		Automatic-Manual-Automatic except tables (rb)
-		Recalculate before save (cb - only for manual above)
-		Calc now (bt)
-		Calc sheet (bt)
-	<Separator>:
-		Iteration (cb)
-		Maximum iterations (en)
-		Maximum change (en)
-	Workbook options:
-		Update remote references (cb)
-		Precision as displayed (cb)
-		1904 date system (cb)
-		Save external link values (cb)
-		Accept labels in formulas (cb)
+Application
+	* Show formula bar (boolean)
+	* Show status bar (boolean)
+	* Comment display: none, indicator, indicator and comment (choice)
+	* Calculations: automatic, auto except tables, manual (choice)
+		- manual has a boolean attribute for calcing before save
+		- the are buttons to calc the sheet and calc now
+	* Iteration (boolean)
+		- not sure what this is doing exactly
+	* Maximum iterations (integer value)
+		- not sure what this is doing exactly (related to 
+		iteration)
+	* Minimum change (real value)
+		- not sure what this is doing exactly (related to 
+		iteration)
+	* Edit directly in cell (boolean)
+		- if true, cursor in cell else cursor in entry box
+	* Allow cell drag and drop (boolean)
+		- additional attribute if true, Alert before overwriting
+		(boolean)
+	* Move selection after enter (boolean)
+		- additional attribute if true, Direction of movement:
+		up, down, left, right (choice)
+	* Fixed number of decimals places (boolean)
+		- additional attribute if true, Number of decimal places
+		(integer value)
+	* Cut, copy, and sort objects with cells (boolean)
+	* Ask to update automatic links (boolean)
+	* Provide feedback with Animation (boolean)
+		- not exactly sure what this does
+	* Enable AutoComplete for cell values (boolean)	
 
-**Edit
-	Settings:
-		Edit directly in cell (cb)
-		Allow cell drag and drop (cb)
-		Alert before overwriting cells (cb)
-		Move selection after Enter (cb)
-		     Alert before overwriting cells (cb)
-		Move selection after Enter (cb)
-		     Direction (cm)
-		Fixed decimal (cb)
-		      Places (sp)
-		Cut, copy and sprt objects with cells (cb)
-		Ask to update automatic links (cb)
-		Provide feedback with Animation (cb)
-		Enable AutoComplete for cell values (cb)
+Workbook
+	* Object display: show all, show placeholders, hide all (choice)
+	* Horizontal scrollbar (boolean)
+	* Vertical scrollbar (boolean)
+	* Sheet tabs (boolean)	
+	* Update remote references during calc (boolean)
+	* Keep only as much precision as displayed (boolean)
+	* Use 1904 date system (boolean)
+		- converts dates
+		- seems to indicate use of a 1904-2004 sliding date window
+	* Accept labels in formulae (boolean)
+		- converts labels to cell references
+	* Save external link values (boolean)
+		- I think this keeps the last known external link value
+		with the workbook instead of only relying on the reference
+
+Sheet
+	* Grid lines (boolean)
+	* Grid line colour (colour or auto/default)
+	* Row and column headers (boolean)
+	* Page break indicators (boolean)
+	* Show formulae (boolean)
+	* Show zero values (boolean)
+	* Show outline symbols (boolean)
 
 **General
 	Settings:

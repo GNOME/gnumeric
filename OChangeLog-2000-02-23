@@ -1,3 +1,8 @@
+2000-02-05  JP Rosevear  <jpr@arcavia.com>
+
+	* doc/pref-attributes.txt : Start sorting excel attributes into
+	application, workbook and sheet categories.
+
 2000-02-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.[ch] (sheet_row_info_set_{height, width}) : Make static.
