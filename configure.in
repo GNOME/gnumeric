@@ -113,6 +113,7 @@ AM_CONDITIONAL(WITH_PYTHON, $python_val)
 
 AC_OUTPUT([
 Makefile
+icons/Makefile
 src/Makefile
 doc/Makefile
 plugins/Makefile

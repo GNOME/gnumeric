@@ -33,6 +33,7 @@ GNUMERIC_BASE_SOURCES =			\
 	dialog-define-names.c		\
 	dialog-delete-cells.c		\
 	dialog-paste-special.c		\
+	dialog-printer-setup.c		\
 	dialog-zoom.c			\
 	dialogs.h			\
 	dump.c				\
@@ -80,6 +81,8 @@ GNUMERIC_BASE_SOURCES =			\
 	plugin.c			\
 	plugin.h			\
 	plugin-manager.c		\
+	print-info.c			\
+	print-info.h			\
 	render-ascii.c			\
 	render-ascii.h			\
 	sheet.c				\
@@ -147,6 +150,7 @@ wc:
 dist-hook:
 	mkdir $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
+	cp $(srcdir)/pixmaps/*.png $(distdir)/pixmaps
 
 EXTRA_DIST = Gnumeric.idl
 

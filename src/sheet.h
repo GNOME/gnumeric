@@ -18,6 +18,10 @@ typedef struct {
 	Style  *style;
 } StyleRegion;
 
+/* Forward declaration */
+struct _PrintInformation;
+typedef struct _PrintInformation PrintInformation;
+
 typedef struct {
 	char       *filename;
 
@@ -67,6 +71,8 @@ typedef struct {
 	 * to the asyncronous paste callback
 	 */
 	void       *clipboard_paste_callback_data;
+
+	PrintInformation *print_info;
 } Workbook;
 
 typedef struct {
@@ -358,6 +364,7 @@ Workbook   *workbook_read                (const char *filename);
 
 void        workbook_save_as             (Workbook *);
 void        workbook_save                (Workbook *);
+void        workbook_print               (Workbook *);
 void        workbook_attach_sheet        (Workbook *, Sheet *);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);

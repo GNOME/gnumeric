@@ -16,6 +16,7 @@
 #include "main.h"
 #include "file.h"
 #include "xml-io.h"
+#include "print-info.h"
 #include "plugin.h"
 #include "pixmaps.h"
 #include "widget-editable-label.h"
@@ -612,6 +613,12 @@ workbook_edit_comment (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+print_setup (GtkWidget *widget, Workbook *wb)
+{
+	dialog_printer_setup (wb);
+}
+
+static void
 about_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_about (wb);
@@ -660,8 +667,14 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
+	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM(print_setup, NULL),
+	
+	GNOMEUIINFO_SEPARATOR,
+	
 	GNOMEUIINFO_MENU_CLOSE_ITEM(close_cmd, NULL), 
 
+	GNOMEUIINFO_SEPARATOR,
+	
 	GNOMEUIINFO_MENU_EXIT_ITEM(quit_cmd, NULL),
 	GNOMEUIINFO_END
 };
@@ -1245,7 +1258,9 @@ workbook_new (void)
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->sheets    = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 	wb->table     = gtk_table_new (0, 0, 0);
-
+	
+	wb->print_info = print_info_new ();
+	
 	wb->symbol_names = symbol_table_new ();
 
 	gtk_window_set_policy(GTK_WINDOW(wb->toplevel), 1, 1, 0);
@@ -1569,4 +1584,9 @@ workbook_set_filename (Workbook *wb, char *name)
 	wb->filename = g_strdup (name);
 
 	workbook_set_title (wb, g_basename (name));
+}
+
+void
+workbook_print (Workbook *wb)
+{
 }
