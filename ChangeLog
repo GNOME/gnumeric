@@ -1,3 +1,8 @@
+2001-01-23  Morten Welinder  <terra@diku.dk>
+
+	* src/search.c (calculate_replacement): New function.  Implements
+ 	case preservation.
+
 2001-01-23  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-control-gui.c (scg_colrow_select) : If we are not
@@ -67,7 +72,7 @@
 2001-01-22  Almer S. Tigelaar  <almer1@dds.nl>
 
 	Fixes #32417
-	
+
 	* src/workbook-control-gui.c, src/workbook-control-gui-priv.h:
 	(wbcg_insert_cols_rows_enable): New, handles enabling/disabling
 	of insert cols/rows menu items.
@@ -75,16 +80,16 @@
 	of menu items.
 	(workbook_control_gui_ctor_class): Add insert_cols_rows.enable
 	here.
-	
-	* src/workbook-control.c, src/workbook-control.h: Add 
+
+	* src/workbook-control.c, src/workbook-control.h: Add
 	insert_cols_rows_enable as a virtual function.
 
 	* src/workbook-control-priv.h: Add struct for insert_cols_rows
 	here.
-	
-	* src/selection.c 
-	(sheet_selection_add_range): After adding a range, find out if 
-	any range specifies either a whole row or whole col selection 
+
+	* src/selection.c
+	(sheet_selection_add_range): After adding a range, find out if
+	any range specifies either a whole row or whole col selection
 	and disable insert rows/cols accordingly.
 	(sheet_selection_reset_only): Re-enable insert rows/cols here.
 
@@ -354,14 +359,14 @@
 	* src/workbook-control-gui.c (cb_realize): New callback
 	function. Make current control size the default. Toplevel would
 	resize spontaneously. This makes it stay the same size until user
-	resizes. 
+	resizes.
 	(workbook_control_gui_init): Connect cb_realize to realize signal.
 
 2001-01-06  Kenneth Christiansen  <kenneth@gnu.org>
 
         * configure.in, macros/autogen.sh:
-          added support for xml-i18n-tools. This module is now required 
-          when building from cvs. Please make sure that the macrofile 
+          added support for xml-i18n-tools. This module is now required
+          when building from cvs. Please make sure that the macrofile
           installed by xml-i18n-tools is installed so it's in aclocal's
           path. or do:
 
@@ -385,7 +390,7 @@
 	(workbook_save): No longer check if it should call
 	workbook_save_as. This happens at the GUI layer. Change control
 	parameter to WorkbookControl.
-	
+
 	* src/file.h (struct _FileOpener, struct _FileSaver): Had to make
 	these visible in order to split out the GUI.
 
@@ -397,7 +402,7 @@
 	file_dialog_delete_event, fs_key_event, fs_set_filename,
 	wants_to_overwrite, can_try_save_to, dialog_query_load_file): Move
 	to gui-file.c
-	
+
 	* src/gui-file.c, src/gui-file.h: New files. Gui dependent parts
 	of I/O handling moved here from file.[ch].
 	(gui_file_import): New name for workbook_import. Use
@@ -418,7 +423,7 @@
 	Verify that control's current saver is still valid before displaying
 	dialog.
 	(dialog_query_load_file): Simplify code to select workbook's
-	directory. 
+	directory.
 	(gui_file_save): New function. Set view's preferred size as in
 	do_save_as, then call workbook_save.
 
@@ -517,7 +522,7 @@
 	* src/mstyle.c (mstyle_new_default) : use style_color_{black,white}
 
 2000-12-30  Jody Goldberg <jgoldberg@home.com>
-	
+
 	* rename border.[ch] -> style-border.[ch]
 	* rename color.[ch] -> style-color.[ch]
 
@@ -544,7 +549,7 @@
 2000-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_draw) : sync drawing with
-	* src/print-cell.c (print_cell) : printing. 
+	* src/print-cell.c (print_cell) : printing.
 
 	* src/item-grid.c (item_grid_draw) : sync drawing with
 	* src/print-cell.c (print_cell_range) : printing.
@@ -695,7 +700,7 @@
 	Replace the hardcoded "2000" with the GNUMERIC_ATOM_INFO
 	constant.
 
-	* src/clipboard.c 
+	* src/clipboard.c
 	(paste_cell_with_operation) : Get rid of sheet_cell_insert.
 	(paste_cell) : Idem.
 

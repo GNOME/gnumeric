@@ -158,6 +158,80 @@ match_is_word (SearchReplace *sr, const char *src,
 
 /* ------------------------------------------------------------------------- */
 
+static char *
+calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
+{
+	char *res;
+
+	/* FIXME?  This does not account for $1 -- need it?  */
+	res = g_strdup (sr->replace_text);
+
+	/*
+	 * Try to preserve the case during replacement, i.e., do the
+	 * following substitutions:
+	 *
+	 * search -> replace
+	 * Search -> Replace
+	 * SEARCH -> REPLACE
+	 * TheSearch -> TheReplace
+	 */
+	if (sr->preserve_case) {
+		gboolean is_upper, is_capital, has_letter;
+		int i;
+
+		is_upper = TRUE;
+		has_letter = FALSE;
+		for (i = pm->rm_so; i < pm->rm_eo; i++) {
+			unsigned char c = (unsigned char)src[i];
+			if (isalpha (c)) {
+				has_letter = TRUE;
+				if (!isupper (c)) {
+					is_upper = FALSE;
+					break;
+				}
+			}
+		}
+		if (!has_letter) is_upper = FALSE;
+
+		if (!is_upper && has_letter) {
+			gboolean up = TRUE;
+			is_capital = TRUE;
+			for (i = pm->rm_so; i < pm->rm_eo; i++) {
+				unsigned char c = (unsigned char)src[i];
+				if (isalpha (c)) {
+					if (up ? !isupper (c) : !islower (c)) {
+						is_capital = FALSE;
+						break;
+					}
+					up = FALSE;
+				} else
+					up = TRUE;
+			}
+		} else
+			is_capital = FALSE;
+
+		if (is_upper) {
+			unsigned char *p = (unsigned char *)res;
+			while (*p)
+				*p++ = toupper (*p);
+		} else if (is_capital) {
+			gboolean up = TRUE;
+			unsigned char *p = (unsigned char *)res;
+			for (; *p; p++) {
+				if (isalpha (*p)) {
+					*p = up ? toupper (*p) : tolower (*p);
+					up = FALSE;
+				} else
+					up = TRUE;
+			}
+		}
+	}
+
+	return res;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /*
  * Returns NULL if nothing changed, or a g_malloc string otherwise.
  */
@@ -176,6 +250,8 @@ search_replace_string (SearchReplace *sr, const char *src)
 	pmatch = g_new (regmatch_t, nmatch);
 
 	while ((ret = regexec (sr->comp_search, src, nmatch, pmatch, flags)) == 0) {
+		gboolean bolp = (flags & REG_NOTBOL) != 0;
+
 		if (!res) {
 			/* The size here is a bit arbitrary.  */
 			int size = strlen (src) +
@@ -190,8 +266,7 @@ search_replace_string (SearchReplace *sr, const char *src)
 				g_string_append_c (res, src[i]);
 		}
 
-		if (sr->match_words &&
-		    !match_is_word (sr, src, pmatch, (flags & REG_NOTBOL) != 0)) {
+		if (sr->match_words && !match_is_word (sr, src, pmatch, bolp)) {
 			/*  We saw a fake match.  */
 			if (pmatch[0].rm_so < pmatch[0].rm_eo) {
 				g_string_append_c (res, src[pmatch[0].rm_so]);
@@ -199,9 +274,10 @@ search_replace_string (SearchReplace *sr, const char *src)
 				pmatch[0].rm_eo = pmatch[0].rm_so + 1;
 			}
 		} else {
-			/* FIXME?  This does not account for $1 -- need it?  */
-			/* FIXME: This does not account for preserve_case.  */
-			g_string_append (res, sr->replace_text);
+			char *replacement =
+				calculate_replacement (sr, src, pmatch);
+			g_string_append (res, replacement);
+			g_free (replacement);
 		}
 
 		if (pmatch[0].rm_eo > 0) {
