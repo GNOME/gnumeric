@@ -38,12 +38,7 @@ scm_symbolfrom0str (char *name)
 	return SCM_CAR(scm_intern0(name));
 }
 
-static SCM
-list_to_scm (GList *list, CellRef eval_cell)
-{
-				/* FIXME: implement this */
-	return SCM_EOL;
-}
+
 /*
   FIXME: 
   This funcs are useless, since we really don't care about
