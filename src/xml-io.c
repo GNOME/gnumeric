@@ -38,6 +38,7 @@
 #include "selection.h"
 #include "clipboard.h"
 #include "format.h"
+#include "ranges.h"
 
 /*
  * A parsing context.
