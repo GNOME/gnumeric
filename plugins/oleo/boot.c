@@ -28,30 +28,12 @@
 #include "oleo.h"
 #include "plugin.h"
 
-static char *
-filename_ext(const char *filename)
-{
-	char *p = strrchr (filename, '.');
-	if (p == NULL)
-		return NULL;
-	return ++p;
-}
-
 static gboolean
 oleo_probe (const char *filename)
 {
-	char *ext;
-
-	if (!filename)
-		return FALSE;
-	ext = filename_ext (filename);
-	if (!ext)
-		return FALSE;
-	if (!g_strcasecmp ("oleo", ext))
-	    return TRUE;
-	return FALSE;
+	return filename != NULL &&
+	       g_strcasecmp ("oleo", g_extension_pointer (filename)) == 0;
 }
-
 
 static int
 oleo_load (IOContext *context, WorkbookView *wb_view,

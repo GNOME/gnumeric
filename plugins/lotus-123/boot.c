@@ -28,15 +28,6 @@
 #include "lotus-types.h"
 #include "plugin.h"
 
-static char *
-filename_ext (const char *filename)
-{
-	char *p = strrchr (g_basename (filename), '.');
-	if (p == NULL)
-		return NULL;
-	return ++p;
-}
-
 static gboolean
 lotus_probe (const char *filename)
 {
@@ -46,12 +37,10 @@ lotus_probe (const char *filename)
 
 	if (!filename)
 		return FALSE;
-	ext = filename_ext (filename);
-	if (!ext)
+	ext = g_extension_pointer (filename);
+	if (g_strcasecmp ("wk1", ext) != 0 &&
+	    g_strcasecmp ("wks", ext) != 0)
 		return FALSE;
-	if (g_strcasecmp ("wk1", ext) && 
-	    g_strcasecmp ("wks", ext))
-	    return FALSE;
 
 	/* Filename is valid.  Now test file.  */
 	fd = open (filename, O_RDONLY);

@@ -1,5 +1,14 @@
 2000-12-22  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* plugins/applix/boot.c gnumeric/plugins/applix/boot.c,
+	plugins/lotus-123/boot.c gnumeric/plugins/lotus-123/boot.c,
+	plugins/oleo/boot.c gnumeric/plugins/oleo/boot.c,
+	plugins/xbase/boot.c gnumeric/plugins/xbase/boot.c:
+	Used g_extension_pointer() function from gnome-libs, removed
+	unnecessary function (filename_ext).
+
+2000-12-22  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* src/plugin.c (plugin_load): Displaying plugin name as part of
 	error messages. Removed allocation check - g_new0 is guaranteed to
 	return value != NULL unless sizeof (type) == 0.

@@ -69,28 +69,11 @@ xb_setdouble (guint8 *p, double d)
 
 #endif
 
-static char *
-filename_ext (const char *filename)
-{
-	char *p = strrchr (filename, '.');
-	if (p == NULL)
-		return NULL;
-	return ++p;
-}
-
 static gboolean
 xbase_probe (const char *filename)
 {
-	char *ext;
-
-	if (!filename)
-		return FALSE;
-	ext = filename_ext (filename);
-	if (!ext)
-		return FALSE;
-	if (g_strcasecmp ("dbf", ext))
-	    return FALSE;
-	return TRUE;
+	return filename != NULL &&
+	       g_strcasecmp ("dbf", g_extension_pointer (filename)) == 0;
 }
 
 static Value *
@@ -166,7 +149,7 @@ xbase_load (IOContext *context, WorkbookView *wb_view,
 	XBfile *file;
 	XBrecord *rec;
 	guint row, field;
-	char *name, *p;
+	char *name;
 	Sheet *sheet = NULL;
 	Cell *cell;
 	Value *val;
@@ -177,8 +160,8 @@ xbase_load (IOContext *context, WorkbookView *wb_view,
 	}
 
 	name = g_strdup(filename);
-	if ((p = filename_ext (name)) != NULL)
-		*p = '\0'; /* remove "dbf" */
+
+	*((gchar *) g_extension_pointer (name)) = '\0'; /* remove "dbf" */
 
 	rec = record_new (file);
 	sheet = sheet_new (wb, g_basename (name));

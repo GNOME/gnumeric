@@ -35,23 +35,15 @@
 #include <string.h>
 #include <gnome.h>
 
-static char const *
-filename_ext (const char *filename)
-{
-	char const *p;
-	if (filename == NULL || (p = strrchr (filename, '.')) == NULL)
-		return NULL;
-	return ++p;
-}
-
 static gboolean
 applix_probe (const char *filename)
 {
 	gboolean res;
 	FILE *file;
-	char const *ext = filename_ext (filename);
-	if (ext == NULL || g_strcasecmp ("as", ext))
+
+	if (g_strcasecmp ("as", g_extension_pointer (filename)) != 0) {
 		return FALSE;
+	}
 
 	/* Use fopen rather than gnumeric_fopen because we do not want
 	 * to report errors.
