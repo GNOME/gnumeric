@@ -9,6 +9,7 @@
 <!entity files SYSTEM "files.sgml">
 <!entity functions SYSTEM "functions.sgml">
 <!entity printing SYSTEM "printing.sgml">
+<!entity analysis-tools SYSTEM "analysis-tools.sgml">
 ]>
 
 <book id="gnumeric">
@@ -36,6 +37,7 @@
     <copyright>
       <year>1998, 1999</year> <holder>Miguel de Icaza (n.)</holder>
     </copyright>
+
     <legalnotice>
       <para>This documentation is free software; you can redistribute
 	it and/or modify it under the terms of the GNU General Public
@@ -88,7 +90,12 @@
     <title>Printing</title>
     &printing;
   </chapter>
-  
+
+  <chapter id="analysis-tools">
+    <title>Analysis tools</title>
+    &analysis-tools;
+  </chapter>
+
   <chapter id="tutorials">
     <title>Tutorials</title>
     <para>Nothing yet, will be some walkthroughs eventually.</para>

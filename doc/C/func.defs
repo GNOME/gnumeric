@@ -1,33 +1,158 @@
-@FUNCTION=POWER
-@SYNTAX=POWER(x,y)
-@DESCRIPTION=Returns the value of x raised to the power y
-Performing this function on a string or empty cell returns an error. 
-@SEEALSO=EXP
+@FUNCTION=LCM
+@SYNTAX=LCM(number1,number2,...)
+@DESCRIPTION=LCM returns the least common multiple of integers.  The least common multiple is the smallest positive number that is a multiple of all integer arguments given. 
+If any of the arguments is less than one, LCM returns #NUM! error. 
+@SEEALSO=GCD
 
-@FUNCTION=SIN
-@SYNTAX=SIN(x)
-@DESCRIPTION=The SIN function returns the sine of x, where x is given  in radians. 
-Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES
-
-@FUNCTION=SUMX2PY2
-@SYNTAX=SUMX2PY2(array1,array2)
-@DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2PY2 is SUM (x^2+y^2). 
-Strings and empty cells are simply ignored.
-If @array1 and @array2 have different number of data points, SUMX2PY2 returns #N/A! error. 
-@SEEALSO=SUMSQ
-
-@FUNCTION=ROMAN
-@SYNTAX=ROMAN(number[,type])
-@DESCRIPTION=ROMAN function returns an arabic number in the roman numeral style, as text. @number is the number you want to convert and @type is the type of roman numeral you want. 
-If @type is 0 or it is omitted, ROMAN returns classic roman numbers. Types 1,2,3, and 4 are not implemented yet. If @number is negative or greater than 3999, ROMAN returns #VALUE! error. 
+@FUNCTION=IMARGUMENT
+@SYNTAX=IMARGUMENT(inumber)
+@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number.
 @SEEALSO=
 
-@FUNCTION=TANH
-@SYNTAX=TANH(x)
-@DESCRIPTION= The TANH function returns the hyperbolic tangent of x,  which is defined mathematically as sinh(x) / cosh(x). 
+@FUNCTION=RANDBETWEEN
+@SYNTAX=RANDBETWEEN(bottom,top)
+@DESCRIPTION=RANDBETWEEN function returns a random integer number between @bottom and @top.
+If @bottom or @top is non-integer, they are truncated. If @bottom > @top, RANDBETWEEN returns #NUM! error.
+@SEEALSO=RAND
+
+@FUNCTION=COSH
+@SYNTAX=COSH(x)
+@DESCRIPTION=The COSH  function  returns the hyperbolic cosine of x,  which is defined mathematically as (exp(x) + exp(-x)) / 2.    x is in radians. 
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
+@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP
+
+@FUNCTION=REPT
+@SYNTAX=REPT(string,num)
+@DESCRIPTION=Returns @num repetitions of @string.
+@SEEALSO=CONCATENATE
+
+@FUNCTION=DEGREES
+@SYNTAX=DEGREES(x)
+@DESCRIPTION=Computes the number of degrees equivalent to  x radians.
+Performing this function on a string or empty cell simply does nothing. 
+@SEEALSO=RADIANS, PI
+
+@FUNCTION=NOMINAL
+@SYNTAX=NOMINAL(b1,b2)
+@DESCRIPTION=Calculates the nominal interest rate from a given effective rate.
+Nominal interest rate is given by a formula:
+
+nper * (( 1 + r ) ^ (1 / nper) - 1 )
+where:
+
+r = effective interest ratenper = number of periods used for compounding
+@SEEALSO=EFFECT
+
+@FUNCTION=ISODD
+@SYNTAX=ISODD()
+@DESCRIPTION=ISODD Returns TRUE if the number is odd. 
+@SEEALSO=
+
+@FUNCTION=RSQ
+@SYNTAX=RSQ(array1,array2)
+@DESCRIPTION=RSQ returns the square of the Pearson correllation coefficient of two data sets.
+Strings and empty cells are simply ignored.
+@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND
+
+@FUNCTION=COLUMN
+@SYNTAX=COLUMN([reference])
+@DESCRIPTION=The COLUMN function returns an array of the column numbers taking a default argument of the containing cell position.
+If reference is neither an array nor a reference nor a range returns #VALUE!.
+@SEEALSO=COLUMNS,ROW,ROWS
+
+@FUNCTION=RATE
+@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])
+@DESCRIPTION=Calculates rate of an investment.@SEEALSO=PV,FV
+
+@FUNCTION=DPRODUCT
+@SYNTAX=DPRODUCT(database,field,criteria)
+@DESCRIPTION=DPRODUCT function returns the product of numbers in a column that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
+@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
+@SEEALSO=DSUM
+
+@FUNCTION=FDIST
+@SYNTAX=FDIST(x,dof1,dof2)
+@DESCRIPTION=FDIST function returns the F probability distribution. @dof1 is the numerator degrees of freedom and @dof2 is the denominator degrees of freedom.
+If @x < 0 FDIST returns #NUM! error. If @dof1 < 1 or @dof2 < 1, GAMMADIST returns #NUM! error.
+@SEEALSO=FINV
+
+@FUNCTION=ISEVEN
+@SYNTAX=ISEVEN()
+@DESCRIPTION=ISEVEN Returns TRUE if the number is even. 
+@SEEALSO=
+
+@FUNCTION=ZTEST
+@SYNTAX=ZTEST(ref,x)
+@DESCRIPTION=ZTEST returns the two-tailed probability of a z-test.
+@ref is the data set and @x is the value to be tested.
+If ref contains less than two data items ZTEST returns #DIV/0! error.
+@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE
+
+@FUNCTION=DMIN
+@SYNTAX=DMIN(database,field,criteria)
+@DESCRIPTION=DMIN function returns the smallest number in a column that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
+@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
+@SEEALSO=DMAX
+
+@FUNCTION=WEEKDAY
+@SYNTAX=WEEKDAY (serial_number)
+@DESCRIPTION=Converts a serial number to a weekday.  FIXME: explain.
+Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
+@SEEALSO=MONTH, TIME, NOW, YEAR
+
+@FUNCTION=PRODUCT
+@SYNTAX=PRODUCT(value1, value2, ...)
+@DESCRIPTION=PRODUCT returns the product of all the values and cells referenced in the argument list. 
+@SEEALSO=SUM, COUNT
+
+@FUNCTION=MULTINOMIAL
+@SYNTAX=MULTINOMIAL(value1, value2, ...)
+@DESCRIPTION=MULTINOMIAL returns the ratio of the factorial of a sum of values to the product of factorials. 
+@SEEALSO=SUM
+
+@FUNCTION=IMSIN
+@SYNTAX=IMSIN(inumber)
+@DESCRIPTION=IMSIN returns the sine of a complex number.
+@SEEALSO=IMCOS
+
+@FUNCTION=COS
+@SYNTAX=COS(x)
+@DESCRIPTION=The  COS  function  returns  the cosine of x, where x is given in radians.  
+Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
+@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES
+
+@FUNCTION=EXP
+@SYNTAX=EXP(x)
+@DESCRIPTION=Computes the value of e(the base of natural logarithmns) raised to the power of x. 
+Performing this function on a string or empty cell returns an error.
+@SEEALSO=LOG, LOG2, LOG10
+
+@FUNCTION=ASIN
+@SYNTAX=ASIN(x)
+@DESCRIPTION=The ASIN function calculates the arc sine of x; that is the value whose sine is x. If x falls outside  the  range -1 to 1, ASIN fails and returns the error 'asin - domain error'   
+Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
+@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS
+
+@FUNCTION=TRIMMEAN
+@SYNTAX=TRIMMEAN(ref,percent)
+@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @percent is the percentage of number excluded from the mean. For example, if percent=0.2 and the data set contans 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the set.
+@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE
+
+@FUNCTION=FLOOR
+@SYNTAX=FLOOR(x,significance)
+@DESCRIPTION=The FLOOR function rounds x down to the next nearest multiple of @significance.  @significance defaults to 1.
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=CEIL, ABS, INT
+
+@FUNCTION=GCD
+@SYNTAX=GCD(number1,number2,...)
+@DESCRIPTION=GCD returns the greatest common divisor of given numbers. 
+If any of the arguments is less than zero, GCD returns #NUM! error. 
+@SEEALSO=LCM
 
 @FUNCTION=CHOOSE
 @SYNTAX=CHOOSE(index[,value1][,value2]...)
@@ -35,58 +160,50 @@ Performing this function on a string or empty cell simply does nothing. This fun
 if index < 1 or index > number of values: returns #VAL!.
 @SEEALSO=IF
 
-@FUNCTION=RANDBETWEEN
-@SYNTAX=RANDBETWEEN(bottom,top)
-@DESCRIPTION=RANDBETWEEN function returns a random integer number between @bottom and @top. 
-If @bottom or @top is non-integer it is truncated. If @bottom > @top RANDBETWEEN returns #NUM! error. 
-@SEEALSO=RAND
+@FUNCTION=POISSON
+@SYNTAX=POISSON(x,mean,cumulative)
+@DESCRIPTION=The POISSON function returns the Poisson distribution @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to x.
+if x is a non-integer it is truncated. if x <= 0 POISSON returns #NUM! error. if mean <= 0 POISSON returns the #NUM! error.
+@SEEALSO=POISSON
 
-@FUNCTION=STDEV
-@SYNTAX=STDEV(b1, b2, ...)
-@DESCRIPTION=STDEV returns standard deviation of a set of numbers treating these numbers as members of a population
+@FUNCTION=SYD
+@SYNTAX=SYD(cost,salvage value,life,period)
+@DESCRIPTION=Calculates the sum-of-years digits depriciation for anasset based on its cost, salvage value, anticipated life and aparticular period.
+Formula for sum-of-years digits depriciation is:
+Depriciation expense = ( cost - salvage value ) * (life-period+1) * 2 / life * (life + 1)
+	cost = cost of an asset when acquired (market value)	salvage_value = amount you get when asset sold at the end of life	life = anticipated life of an asset	period = period for which we need the expense@SEEALSO=SLN
+
+@FUNCTION=MID
+@SYNTAX=MID(string, position, length)
+@DESCRIPTION=Returns a substring from @string starting at @position for @length characters.
+@SEEALSO=LEFT, RIGHT
+
+@FUNCTION=ASINH
+@SYNTAX=ASINH(x)
+@DESCRIPTION=The ASINH  function  calculates  the inverse hyperbolic  sine of x; that is the value whose hyperbolic sine is x. 
+Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
+@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS
+
+@FUNCTION=EXPONDIST
+@SYNTAX=EXPONDIST(x,y,cumulative)
+@DESCRIPTION=The EXPONDIST function returns the exponential distribution. If the cumulative boolean is false it will return: y * exp (-y*x), otherwise it will return 1 - exp (-y*x).
+If x<0 or y<=0 this will return an error.  Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=POISSON
+
+@FUNCTION=UPPER
+@SYNTAX=UPPER(text)
+@DESCRIPTION=Returns a upper-case version of the string in @text
+@SEEALSO=LOWER
+
+@FUNCTION=HARMEAN
+@SYNTAX=HARMEAN(b1, b2, ...)
+@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points.
 Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=VAR,MEAN
-
-@FUNCTION=DEC2BIN
-@SYNTAX=DEC2BIN(number[,places])
-@DESCRIPTION=The DEC2BIN function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
-if places is too small or negative #NUM! error is returned.
-@SEEALSO=BIN2DEC
-
-@FUNCTION=SMALL
-@SYNTAX=SMALL(n1, n2, ..., k)
-@DESCRIPTION=SMALL returns the k-th smallest value in a data set. 
-If data set is empty SMALL returns #NUM! error. If k<=0 or k is greater than the number of data items given SMALL returns #NUM! error. 
-@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE
-
-@FUNCTION=PPMT
-@SYNTAX=PPMT(rate,per,nper,pv,fv,type)
-@DESCRIPTION=Calculates the amount of a payment of an annuity going towards principal.
-Formula for it is:
-PPMT(per) = PMT - IPMT(per)
-where:
-PMT = Payment received on annuityIPMT(per) = amount of interest for period per
-@SEEALSO=IPMT,PV,FV
-
-@FUNCTION=TODAY
-@SYNTAX=TODAY ()
-@DESCRIPTION=Returns the serial number for today (the number of days elapsed since the 1st of January of 1900)
-@SEEALSO=TODAY, NOW
-
-@FUNCTION=COUNTIF
-@SYNTAX=COUNTIF(range,criteria)
-@DESCRIPTION=COUNTIF function counts the number of cells in the given range that meet the given criteria. 
-@SEEALSO=COUNT,SUMIF
-
-@FUNCTION=AVEDEV
-@SYNTAX=AVEDEV(n1, n2, ...)
-@DESCRIPTION=AVEDEV returns the average of the absolute deviations of a data set from their mean. 
-Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=STDEV
+@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE
 
 @FUNCTION=CONVERT
 @SYNTAX=CONVERT(number,from_unit,to_unit)
-@DESCRIPTION=CONVERT returns a conversion from one measurement system to another.  For example, you can convert a weight in pounds to a weight in grams.  @number is the value you want to convert, @from_unit specifies the unit of the number, and @to_unit is the unit for the result. 
+@DESCRIPTION=CONVERT returns a conversion from one measurement system to another.  For example, you can convert a weight in pounds to a weight in grams.  @number is the value you want to convert, @from_unit specifies the unit of the number, and @to_unit is the unit for the result.
 @from_unit and @to_unit can be any of the following:
 
 Weight and mass:
@@ -176,344 +293,335 @@ For metric units any of the following prefixes can be used:
 
 If @from_unit and @to_unit are different types, CONVERT returns #NUM! error. @SEEALSO=
 
-@FUNCTION=DELTA
-@SYNTAX=DELTA(x[,y])
-@DESCRIPTION=The DELTA function test for numerical eqivilance of two arguments returning 1 in equality y is optional, and defaults to 0
-if either argument is non-numeric returns a #VALUE! error
-@SEEALSO=EXACT,GESTEP
+@FUNCTION=LOG
+@SYNTAX=LOG(x[,base])
+@DESCRIPTION=Computes the logarithm of x in the given base.  If no base is given LOG returns the logarithm in base 10. 
+@SEEALSO=LN, LOG2, LOG10
 
-@FUNCTION=ABS
-@SYNTAX=ABS(b1)
-@DESCRIPTION=Implements the Absolute Value function:  the result is to drop the negative sign (if present).  This can be done for integers and floating point numbers.
+@FUNCTION=HYPGEOMDIST
+@SYNTAX=HYPGEOMDIST(x,n,M,N)
+@DESCRIPTION=The HYPGEOMDIST function returns the hypergeometric distribution @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.
+if x,n,M or N is a non-integer it is truncated. if x,n,M or N < 0 HYPGEOMDIST returns #NUM! error. if x > M or n > N HYPGEOMDIST returns #NUM! error.
+@SEEALSO=BINOMDIST,POISSON
+
+@FUNCTION=IMABS
+@SYNTAX=IMABS(inumber)
+@DESCRIPTION=IMABS returns the absolute value of a complex number.
+@SEEALSO=IMAGINARY,IMREAL
+
+@FUNCTION=AVEDEV
+@SYNTAX=AVEDEV(n1, n2, ...)
+@DESCRIPTION=AVEDEV returns the average of the absolute deviations of a data set from their mean. 
 Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=CEIL, FLOOR
+@SEEALSO=STDEV
 
-@FUNCTION=ROW
-@SYNTAX=ROW([reference])
-@DESCRIPTION=The ROW function returns an array of the row numbers taking a default argument of the containing cell position.
-If reference is neither an array nor a reference nor a range returns #VALUE!.
-@SEEALSO=COLUMN,COLUMNS,ROWS
+@FUNCTION=SINH
+@SYNTAX=SINH(x)
+@DESCRIPTION=The SINH function returns the hyperbolic sine of @x, which is defined mathematically as (exp(x) - exp(-x)) / 2.
+Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
+@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP
 
-@FUNCTION=QUOTIENT
-@SYNTAX=QUOTIENT(num,den)
-@DESCRIPTION=QUOTIENT function returns the integer portion of a division. @num is the divided and @den is the divisor. 
-@SEEALSO=MOD
+@FUNCTION=NORMDIST
+@SYNTAX=NORMDIST(x,mean,stdev,cumulative)
+@DESCRIPTION=The NORMDIST function returns the normal cumulative distribution. @x is the value for which you want the distribution, @mean is the mean of the distribution, @stdev is the standard deviation. 
+If stdev is 0 NORMDIST returns #DIV/0! error. 
+@SEEALSO=POISSON
 
-@FUNCTION=BIN2HEX
-@SYNTAX=BIN2HEX(number[,places])
-@DESCRIPTION=The BIN2HEX function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.
-if places is too small or negative #NUM! error is returned.
-@SEEALSO=HEX2BIN
+@FUNCTION=GEOMEAN
+@SYNTAX=GEOMEAN(b1, b2, ...)
+@DESCRIPTION=GEOMEAN returns the geometric mean of the given arguments. This is equal to the Nth root of the product of the terms
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE
+
+@FUNCTION=TIME
+@SYNTAX=TIME (hours,minutes,seconds)
+@DESCRIPTION=Returns a fraction representing the time of day.
+@SEEALSO=HOUR
+
+@FUNCTION=MIN
+@SYNTAX=MIN(b1, b2, ...)
+@DESCRIPTION=MIN returns the value of the element of the values passed that has the smallest value. With negative numbers considered smaller than positive numbers.
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=MAX,ABS
 
 @FUNCTION=MEDIAN
 @SYNTAX=MEDIAN(n1, n2, ...)
-@DESCRIPTION=MEDIAN returns the median of the given data set. 
-Strings and empty cells are simply ignored.If even numbers are given MEDIAN returns the average of the two numbers in the middle. 
+@DESCRIPTION=MEDIAN returns the median of the given data set.
+Strings and empty cells are simply ignored.If even numbers are given MEDIAN returns the average of the two numbers in the middle.
 @SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM
 
-@FUNCTION=MONTH
-@SYNTAX=MONTH (serial_number)
-@DESCRIPTION=Converts a serial number to a month.
-Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string
-@SEEALSO=DAY, TIME, NOW, YEAR
+@FUNCTION=GAMMAINV
+@SYNTAX=GAMMAINV(p,alpha,beta)
+@DESCRIPTION=The GAMMAINV function returns the inverse of the cumulative gamma distribution.
+If @p < 0 or @p > 1 GAMMAINV returns #NUM! error. If @alpha <= 0 or @beta <= 0 GAMMAINV returns #NUM! error. 
+@SEEALSO=GAMMADIST
 
-@FUNCTION=MODE
-@SYNTAX=MODE(n1, n2, ...)
-@DESCRIPTION=MODE returns the most common number of the data set. If the data set has many most common numbers MODE returns the first one of them. 
-Strings and empty cells are simply ignored.If the data set does not contain any duplicates MODE returns #N/A! error.
-@SEEALSO=AVERAGE,MEDIAN
+@FUNCTION=IMSUB
+@SYNTAX=IMSUB(inumber,inumber)
+@DESCRIPTION=IMSUB returns the difference of two complex numbers.
+@SEEALSO=IMSUM
 
-@FUNCTION=FIXED
-@SYNTAX=FIXED(num, [decimals, no_commas])
-@DESCRIPTION=Returns @num as a formatted string with @decimals numbers after the decimal point, omitting commas if requested by @no_commas
+@FUNCTION=ISTEXT
+@SYNTAX=ISTEXT()
+@DESCRIPTION=ISTEXT Returns TRUE if the value is text. 
 @SEEALSO=
 
-@FUNCTION=MOD
-@SYNTAX=MOD(number,divisor)
-@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when divisor is divided into abs(number).
-Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL
+@FUNCTION=SQRT
+@SYNTAX=SQRT(x)
+@DESCRIPTION=The SQRT function returns the square root of @x.
+If x is negative returns #NUM!.This function only takes one argument.
+@SEEALSO=POW
+
+@FUNCTION=INTERCEPT
+@SYNTAX=INTERCEPT(known_y's,known_x's)
+@DESCRIPTION=INTERCEPT function calculates the point where the linear regression line intersects the y-axis.  
+If known_x or known_y contains no data entries or different number of data entries, INTERCEPT returns #N/A! error. If the variance of the known_x is zero, INTERCEPT returns #DIV/0 error. 
+@SEEALSO=FORECAST,TREND
+
+@FUNCTION=LEN
+@SYNTAX=LEN(string)
+@DESCRIPTION=Returns the length in characters of the string @string.
+@SEEALSO=CHAR, CODE
+
+@FUNCTION=RIGHT
+@SYNTAX=RIGHT(text[,num_chars])
+@DESCRIPTION=Returns the rightmost num_chars characters or the right character if num_chars is not specified
+@SEEALSO=MID, LEFT
 
 @FUNCTION=PERMUT
 @SYNTAX=PERMUT(n,k)
-@DESCRIPTION=The PERMUT function returns the number of permutations. @n is the number of objects, @k is the number of objects in each permutation. 
-Performing this function on a string or empty cell returns an error.if n or k is non-integer PERMUT returns #VALUE! error. if n = 0 PERMUT returns #NUM! error. if n < k PERMUT returns #NUM! error. 
+@DESCRIPTION=The PERMUT function returns the number of permutations. @n is the number of objects, @k is the number of objects in each permutation.
+if n = 0 PERMUT returns #NUM! error. if n < k PERMUT returns #NUM! error.
 @SEEALSO=COMBIN
+
+@FUNCTION=AVERAGEA
+@SYNTAX=AVERAGEA(number1,number2,...)
+@DESCRIPTION=AVERAGEA returns the average of the given arguments.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+@SEEALSO=AVERAGE
+
+@FUNCTION=PERCENTRANK
+@SYNTAX=PERCENTRANK(array,x[,significance])
+@DESCRIPTION=PERCENTRANK function returns the rank of a data point in a data set.  @array is the range of numeric values, @x is the data point which you want to rank, and the optional @significance indentifies the number of significant digits for the returned value.  If @significance is omitted, PERCENTRANK uses three digits.
+If @array contains not data points, PERCENTRANK returns #NUM! error. If @significance is less than one, PERCENTRANK returns #NUM! error. If @x does not match any of the values in @array or @x matches more than once, PERCENTRANK interpolates the returned value.
+@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL
+
+@FUNCTION=DATE
+@SYNTAX=DATE (year,month,day)
+@DESCRIPTION=Computes the number of days since the 1st of january of 1900(the date serial number) for the given year, month and day.
+The day might be negative (to count backwards) and it is relative to the previous month.  The years should be at least 1900.
+@SEEALSO=TODAY, NOW
+
+@FUNCTION=STEYX
+@SYNTAX=STEYX(known_y's,known_x's)
+@DESCRIPTION=STEYX function returns the standard error of the predicted y-value for each x in the regression.
+If @known_y's and @known_x's are empty or have a different number of arguments then STEYX returns #N/A! error.
+@SEEALSO=PEARSON,RSQ,SLOPE
+
+@FUNCTION=OCT2BIN
+@SYNTAX=OCT2BIN(number[,places])
+@DESCRIPTION=The OCT2BIN function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=BIN2OCT
+
+@FUNCTION=IMCONJUGATE
+@SYNTAX=IMCONJUGATE(inumber)
+@DESCRIPTION=IMCONJUGATE returns the complex conjugate of a complex number.
+@SEEALSO=IMAGINARY,IMREAL
+
+@FUNCTION=SUMIF
+@SYNTAX=SUMIF(range,criteria[,actual_range])
+@DESCRIPTION=SUMIF function sums the values in the given range that meet the given criteria.  If @actual_range is given, SUMIF sums the values in the @actual_range whose corresponding components in @range meet the given criteria. 
+@SEEALSO=COUNTIF,SUM
+
+@FUNCTION=IMREAL
+@SYNTAX=IMREAL(inumber)
+@DESCRIPTION=IMREAL returns the real coefficient of a complex number.
+@SEEALSO=IMAGINARY
+
+@FUNCTION=IMSUM
+@SYNTAX=IMSUM(inumber,inumber)
+@DESCRIPTION=IMSUM returns the sum of two complex numbers.
+@SEEALSO=IMSUB
+
+@FUNCTION=SERIESSUM
+@SYNTAX=SERIESSUM(x,n,m,coefficients)
+@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is the base of the power serie, @n is the initial power to raise @x, @m is the increment to the power for each term in the series, and @coefficients is the coefficents by which each successive power of @x is multiplied. 
+@SEEALSO=COUNT,SUM
+
+@FUNCTION=LEFT
+@SYNTAX=LEFT(text[,num_chars])
+@DESCRIPTION=Returns the leftmost num_chars characters or the left character if num_chars is not specified
+@SEEALSO=MID, RIGHT
 
 @FUNCTION=DURATION
 @SYNTAX=DURATION(rate,pv,fv)
 @DESCRIPTION=Calculates number of periods needed for an investment to attain a desired value. This function is similar to FV and PV with a difference that we do not need give the direction of cash flows e.g. -100 for a cash outflow and +100 for a cash inflow.
 @SEEALSO=PPMT,PV,FV
 
-@FUNCTION=NOMINAL
-@SYNTAX=NOMINAL(b1,b2)
-@DESCRIPTION=Calculates the nominal interest rate from a given effective rate.
-Nominal interest rate is given by a formula:
+@FUNCTION=COMPLEX
+@SYNTAX=COMPLEX(real,im[,suffix])
+@DESCRIPTION=COMPLEX returns a complex number of the form x + yi. @real is the real and @im is the imaginary coefficient of the complex number.  @suffix is the suffix for the imaginary coefficient.  If it is omitted, COMPLEX uses 'i' by default.
+If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! error. @SEEALSO=
 
-nper * (( 1 + r ) ^ (1 / nper) - 1 )
-where:
-
-r = effective interest ratenper = number of periods used for compounding
-@SEEALSO=EFFECT
-
-@FUNCTION=IPMT
-@SYNTAX=IPMT(rate,per,nper,pv,fv,type)
-@DESCRIPTION=Calculates the amount of a payment of an annuity going towards interest.
-Formula for IPMT is:
-
-IPMT(PER) = PMT - PRINCIPAL(PER-1) * INTEREST_RATE
-where:
-PMT = Payment received on annuityPRINCIPA(per-1) = amount of the remaining principal from last period
-@SEEALSO=PPMT,PV,FV
-
-@FUNCTION=HEX2BIN
-@SYNTAX=HEX2BIN(number[,places])
-@DESCRIPTION=The HEX2BIN function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.
+@FUNCTION=DEC2HEX
+@SYNTAX=DEC2HEX(number[,places])
+@DESCRIPTION=The DEC2HEX function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
 if places is too small or negative #NUM! error is returned.
-@SEEALSO=BIN2HEX
+@SEEALSO=HEX2DEC
 
-@FUNCTION=IMCONJUGATE
-@SYNTAX=IMCONJUGATE(inumber)
-@DESCRIPTION=IMCONJUGATE returns the complex conjugate of a complex number. 
-@SEEALSO=IMAGINARY,IMREAL
+@FUNCTION=COLUMNS
+@SYNTAX=COLUMNS(reference)
+@DESCRIPTION=The COLUMNS function returns the number of columns in area or array reference.
+If reference is neither an array nor a reference nor a range returns #VALUE!.
+@SEEALSO=COLUMN,ROW,ROWS
 
-@FUNCTION=CLEAN
-@SYNTAX=CLEAN(string)
-@DESCRIPTION=Cleans the string from any non-printable characters.
-@SEEALSO=
+@FUNCTION=LN
+@SYNTAX=LN(x)
+@DESCRIPTION=LN returns the natural logarithm of x. 
+@SEEALSO=EXP, LOG2, LOG10
 
-@FUNCTION=LOG2
-@SYNTAX=LOG2(x)
-@DESCRIPTION=Computes the base-2 logarithm  of x. 
-Performing this function on a string or empty cell returns an error. 
-@SEEALSO=EXP, LOG10, LOG
+@FUNCTION=DGET
+@SYNTAX=DGET(database,field,criteria)
+@DESCRIPTION=DGET function returns a single value from a column that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
+@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
+If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error. 
+@SEEALSO=DCOUNT
 
-@FUNCTION=ATAN
-@SYNTAX=ATAN(x)
-@DESCRIPTION=The ATAN function calculates the arc tangent of x; that  is the value whose tangent is x.Return value is in radians.
-Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS
-
-@FUNCTION=IMAGINARY
-@SYNTAX=IMREAL(inumber)
-@DESCRIPTION=IMREAL returns the real coefficient of a complex number. 
-@SEEALSO=IMAGINARY
-
-@FUNCTION=AND
-@SYNTAX=AND(b1, b2, ...)
-@DESCRIPTION=Implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.
-b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.
-If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. 
-@SEEALSO=OR, NOT
-
-@FUNCTION=ODD
-@SYNTAX=ODD(number)
-@DESCRIPTION=ODD function returns the number rounded up to the nearest odd integer. 
-@SEEALSO=EVEN
-
-@FUNCTION=NORMDIST
-@SYNTAX=NORMDIST(x,mean,stdev,cumulative)
-@DESCRIPTION=The NORMDIST function returns the normal cumulative distribution. @x is the value for which you want the distribution, @mean is the mean of the distribution, @stdev is the standard deviation. 
-Performing this function on a string or empty cell simply does nothing. if stdev=0 NORMDIST returns #DIV/0! error. 
-@SEEALSO=POISSON
-
-@FUNCTION=PEARSON
-@SYNTAX=PEARSON(array1,array2)
-@DESCRIPTION=PEARSON returns the Pearson correllation coefficient of two data sets. 
-Strings and empty cells are simply ignored.
-@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX
-
-@FUNCTION=IMAGINARY
-@SYNTAX=IMAGINARY(inumber)
-@DESCRIPTION=IMAGINARY returns the imaginary coefficient of a complex number. 
-@SEEALSO=IMREAL
-
-@FUNCTION=SUM
-@SYNTAX=SUM(value1, value2, ...)
-@DESCRIPTION=Computes the sum of all the values and cells referenced in the argument list. 
-@SEEALSO=AVERAGE, COUNT
-
-@FUNCTION=PRODUCT
-@SYNTAX=PRODUCT(value1, value2, ...)
-@DESCRIPTION=PRODUCT returns the product of all the values and cells referenced in the argument list. 
-@SEEALSO=SUM, COUNT
+@FUNCTION=DATEVALUE
+@SYNTAX=DATEVALUE(date_str)
+@DESCRIPTION=DATEVALUE returns the serial number of the date.  @date_str is the string that contains the date.  For example, DATEVALUE("1/1/1999") equals to 36160. 
+@SEEALSO=DATE
 
 @FUNCTION=COUNTBLANK
 @SYNTAX=COUNTBLANK(range)
 @DESCRIPTION=COUNTBLANK returns the number of blank cells in a range. 
 @SEEALSO=COUNT
 
-@FUNCTION=HOUR
-@SYNTAX=HOUR (serial_number)
-@DESCRIPTION=Converts a serial number to an hour.  The hour is returned as an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)
-Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string
-@SEEALSO=MINUTE, NOW, TIME, SECOND
-
-@FUNCTION=FACT
-@SYNTAX=FACT(x)
-@DESCRIPTION=Computes the factorial of x. ie, x!
-Performing this function on a string or empty cell returns an error
-
-@SEEALSO=
+@FUNCTION=AVERAGE
+@SYNTAX=AVERAGE(value1, value2,...)
+@DESCRIPTION=Computes the average of all the values and cells referenced in the argument list.  This is equivalent to the sum of the arguments divided by the count of the arguments.
+@SEEALSO=SUM, COUNT
 
 @FUNCTION=CORREL
 @SYNTAX=CORREL(array1,array2)
-@DESCRIPTION=CORREL returns the correllation coefficient of two data sets. 
+@DESCRIPTION=CORREL returns the correllation coefficient of two data sets.
 Strings and empty cells are simply ignored.
 @SEEALSO=COVAR,FISHER,FISHERINV
 
-@FUNCTION=EVEN
-@SYNTAX=EVEN(number)
-@DESCRIPTION=EVEN function returns the number rounded up to the nearest even integer. 
-@SEEALSO=ODD
+@FUNCTION=SUMSQ
+@SYNTAX=SUMSQ(value1, value2, ...)
+@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and cells referenced in the argument list. 
+@SEEALSO=SUM, COUNT
 
-@FUNCTION=LARGE
-@SYNTAX=LARGE(n1, n2, ..., k)
-@DESCRIPTION=LARGE returns the k-th largest value in a data set. 
-If data set is empty LARGE returns #NUM! error. If k<=0 or k is greater than the number of data items given LARGE returns #NUM! error. 
-@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL
+@FUNCTION=IMPRODUCT
+@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])
+@DESCRIPTION=IMPRODUCT returns the product of given complex numbers.
+@SEEALSO=IMDIV
 
-@FUNCTION=NORMINV
-@SYNTAX=NORMINV(p,mean,stdev)
-@DESCRIPTION=The NORMINV function returns the inverse of the normal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stdev is the standard deviation of the distribution. NORMINV uses an iterative algorithm for calculating the result. If NORMINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. 
-If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error. 
-@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST
+@FUNCTION=CHAR
+@SYNTAX=CHAR(x)
+@DESCRIPTION=Returns the ascii character represented by the number x.
+@SEEALSO=CODE
 
-@FUNCTION=STANDARDIZE
-@SYNTAX=STANDARDIZE(x,mean,stdev)
-@DESCRIPTION=The STANDARDIZE function returns a normalized value. @x is the number to be normalized, @mean is the mean of the distribution, @stdev is the standard deviation of the distribution.
-Performing this function on a string or empty cell returns an error.if stddev is 0 STANDARDIZE returns #DIV/0! error. 
-@SEEALSO=AVERAGE
+@FUNCTION=PMT
+@SYNTAX=PMT(rate,nper,pv,fv,type)
+@DESCRIPTION=Calculates the present value of an investment.@SEEALSO=PPMT,PV,FV
 
-@FUNCTION=TDIST
-@SYNTAX=TDIST(x,dof,tails)
-@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is the degree of freedom and @tails is 1 or 2 depending on wheater you want one-tailed or two-tailed distribution. 
-If @dof < 1 TDIST returns #NUM! error. If @tails is neither 1 or 2 TDIST returns #NUM! error. 
-@SEEALSO=TINV,TTEST
+@FUNCTION=DAY
+@SYNTAX=DAY (serial_number)
+@DESCRIPTION=Converts a serial number to a day.
+Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
+@SEEALSO=MONTH, TIME, NOW, YEAR
 
 @FUNCTION=SQRTPI
 @SYNTAX=SQRTPI(number)
 @DESCRIPTION=SQRTPI function returns the square root of a number multiplied by pi. 
 @SEEALSO=PI
 
-@FUNCTION=CRITBINOM
-@SYNTAX=CRITBINOM(trials,p,alpha)
-@DESCRIPTION=The CRITBINOM function returns the smallest value for which thecumulative is creater than or equal to a given value. @n is the number of trials, @p is the probability of success in trials, and @alpha is the criterion value. Performing this function on a string or empty cell simply does nothing. 
-if trials is a non-integer it is truncated. if trials < 0 CRITBINOM returns #NUM! error. if p < 0 or p > 1 CRITBINOM returns #NUM! error. if alpha < 0 or alpha > 1 CRITBINOM returns #NUM! error. 
-@SEEALSO=BINOMDIST
-
-@FUNCTION=HARMEAN
-@SYNTAX=HARMEAN(b1, b2, ...)
-@DESCRIPTION=HARMEAN returns the harmonic mean of the N data
-Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE
-
-@FUNCTION=COVAR
-@SYNTAX=COVAR(array1,array2)
-@DESCRIPTION=COVAR returns the covariance of two data sets. 
-Strings and empty cells are simply ignored.
-@SEEALSO=CORREL,FISHER,FISHERINV
-
 @FUNCTION=FISHER
 @SYNTAX=FISHER(x)
-@DESCRIPTION=The FISHER function returns the Fisher transformation at x. 
+@DESCRIPTION=The FISHER function returns the Fisher transformation at x.
 If x is not-number FISHER returns #VALUE! error.If x<=-1 or x>=1 FISHER returns #NUM! error
 @SEEALSO=SKEW
 
-@FUNCTION=SELECTION
-@SYNTAX=SELECTION(x)
-@DESCRIPTION=The SELECTION function returns a list with the values in the current mouse cursor. This is usually used to implement on-the-flight computation of values
+@FUNCTION=VARA
+@SYNTAX=VARA(number1,number2,...)
+@DESCRIPTION=VARA returns the variance based on a sample.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluatesto FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+@SEEALSO=VAR,VARPA
+
+@FUNCTION=DMAX
+@SYNTAX=DMAX(database,field,criteria)
+@DESCRIPTION=DMAX function returns the largest number in a column that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
+@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
+@SEEALSO=DMIN
+
+@FUNCTION=ISLOGICAL
+@SYNTAX=ISLOGICAL()
+@DESCRIPTION=ISLOGICAL Returns TRUE if the value is a logical value. 
 @SEEALSO=
 
-@FUNCTION=TRIM
-@SYNTAX=TRIM(text)
-@DESCRIPTION=Returns @text with only single spaces between words
-@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE
+@FUNCTION=ATAN2
+@SYNTAX=ATAN2(b1,b2)
+@DESCRIPTION=The ATAN2 function calculates the arc tangent of the two variables b1 and b2.  It is similar to calculating  the  arc tangent  of b2 / b1, except that the signs of both arguments are used to determine the quadrant of the result. The result is in Radians.
+Performing this function on a string or empty cell simply does nothing. 
+@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS
 
-@FUNCTION=CEILING
-@SYNTAX=CEILING(x,significance)
-@DESCRIPTION=The CEILING function rounds x up to the nearest multiple of significance. 
-If x or significance is non-numeric CEILING returns #VALUE! error. If n and significance have different signs CEILING returns #NUM! error. 
-@SEEALSO=CEIL
-
-@FUNCTION=PROB
-@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])
-@DESCRIPTION=PROB function returns the probability that values in a range or an array are between two limits. If @upper_limit is not given, PROB returns the probability that values in @x_range are equal to @lower_limit.
-If the sum of the probabilities in @prob_range is not equal to 1 PROB returns #NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns #NUM! error. If @x_range and @prob_range contain a different number of data entries, PROB returns #N/A! error. 
-@SEEALSO=BINOMDIST,CRITBINOM
+@FUNCTION=MINA
+@SYNTAX=MINA(number1,number2,...)
+@DESCRIPTION=MINA returns the smallest value of the given arguments.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+@SEEALSO=MIN,MAXA
 
 @FUNCTION=LOOKUP
 @SYNTAX=LOOKUP(value,vector1,vector2)
-@DESCRIPTION=The LOOKUP function finds the row index of 'value' in vector1 and returns the contents of value2 at that row index.If the area is longer than it is wide then the sense of the search is rotated. Alternatively a single array can be used.
-If LOOKUP can't find value it uses the next largest value less than value.The data must be sorted
+@DESCRIPTION=The LOOKUP function finds the row index of 'value' in vector1 and returns the contents of value2 at that row index. If the area is longer than it is wide then the sense of the search is rotated. Alternatively a single array can be used.
+If LOOKUP can't find value it uses the next largest value less than value. The data must be sorted. 
 If value is smaller than the first value it returns #N/A
 @SEEALSO=VLOOKUP,HLOOKUP
 
-@FUNCTION=IMPRODUCT
-@SYNTAX=IMPRODUCT(inumber,inumber)
-@DESCRIPTION=IMPRODUCT returns the product of two complex numbers. 
-@SEEALSO=IMDIV
-
-@FUNCTION=OR
-@SYNTAX=OR(b1, b2, ...)
-@DESCRIPTION=Implements the logical OR function: the result is TRUE if any of the values evaluated to TRUE.
-b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.
-If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!'is returned.
-@SEEALSO=AND, NOT
-
-@FUNCTION=ISERROR
-@SYNTAX=ISERROR(exp)
-@DESCRIPTION=Returns a TRUE value if the expression has an error
-
-@SEEALSO=ERROR
-
-@FUNCTION=GEOMEAN
-@SYNTAX=GEOMEAN(b1, b2, ...)
-@DESCRIPTION=GEOMEAN returns the geometric mean of the N dataThis is equal to the Nth root of the product of the terms
+@FUNCTION=CEIL
+@SYNTAX=CEIL(x)
+@DESCRIPTION=The CEIL function rounds x up to the next nearest integer.
 Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE
+@SEEALSO=ABS, FLOOR, INT
+
+@FUNCTION=HEX2DEC
+@SYNTAX=HEX2DEC(x)
+@DESCRIPTION=The HEX2DEC function converts a binary number in string or number to its decimal equivalent.
+
+@SEEALSO=DEC2HEX
 
 @FUNCTION=MINUTE
 @SYNTAX=MINUTE (serial_number)
 @DESCRIPTION=Converts a serial number to a minute.  The minute is returned as an integer in the range 0 to 59
-Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string
+Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
 @SEEALSO=HOUR, NOW, TIME, SECOND
 
-@FUNCTION=IMLN
-@SYNTAX=IMLN(inumber)
-@DESCRIPTION=IMLN returns the natural logarithm of a complex number. 
-@SEEALSO=IMEXP
+@FUNCTION=VARPA
+@SYNTAX=VARPA(number1,number2,...)
+@DESCRIPTION=VARPA returns the variance based on the entire population.  Numbers, text and logical values are included in the calculation too.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+@SEEALSO=VARP,VARP
 
-@FUNCTION=TRUNC
-@SYNTAX=TRUNC(number[,digits])
-@DESCRIPTION=The TRUNC function returns the value of number truncated to the number of digits specified.  If digits is omited then digits defaults to zero.
+@FUNCTION=NOT
+@SYNTAX=NOT(number)
+@DESCRIPTION=Implements the logical NOT function: the result is TRUE if the number is zero;  othewise the result is FALSE.
 
-@SEEALSO=
+@SEEALSO=AND, OR
 
-@FUNCTION=ACOSH
-@SYNTAX=ACOSH(x)
-@DESCRIPTION=The ACOSH  function  calculates  the inverse hyperbolic cosine of x; that is the value whose hyperbolic cosine is x. If x is less than 1.0, acosh() returns the error  'acosh - domain error'
+@FUNCTION=TINV
+@SYNTAX=TINV(p,dof)
+@DESCRIPTION=The TINV function returns the inverse of the two-tailed Student's t-distribution.
+If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error. 
+@SEEALSO=TDIST,TTEST
+
+@FUNCTION=TAN
+@SYNTAX=TAN(x)
+@DESCRIPTION=The TAN function  returns the tangent of @x, where @x is given in radians.
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=ACOS, DEGREES, RADIANS 
-
-@FUNCTION=DPRODUCT
-@SYNTAX=DPRODUCT(database,field,criteria)
-@DESCRIPTION=DPRODUCT function returns the product of numbers in a column that match conditions specified. 
-@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
-@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
-@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
-@SEEALSO=DSUM
-
-@FUNCTION=HLOOKUP
-@SYNTAX=HLOOKUP(value,range,row,[approximate])
-@DESCRIPTION=The HLOOKUP function finds the col in range that has a first row cell similar to value. if approximate is not true it finds the col with an exact equivilance. if approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than value. it returns the value in the col found at a 1 based offset in row rows into the range.
-Returns #NUM! if row < 0.Returns #REF! if row falls outside range.
-@SEEALSO=VLOOKUP
-
-@FUNCTION=COSH
-@SYNTAX=COSH(x)
-@DESCRIPTION=The COSH  function  returns the hyperbolic cosine of x,  which is defined mathematically as (exp(x) + exp(-x)) / 2.    x is in radians. 
-Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP
+@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS
 
 @FUNCTION=SUMXMY2
 @SYNTAX=SUMXMY2(array1,array2)
@@ -522,28 +630,218 @@ Strings and empty cells are simply ignored.
 If @array1 and @array2 have different number of data points, SUMXMY2 returns #N/A! error. 
 @SEEALSO=SUMSQ
 
-@FUNCTION=SLN
-@SYNTAX=SLN(cost,salvage value,life)
-@DESCRIPTION=Calculates the straight line depriciation for anasset based on its cost, salvage value and anticipated life.
-Formula for straight line depriciation is:
-Depriciation expense = ( cost - salvage value ) / life
-	cost = cost of an asset when acquired (market value)	salvage_value = amount you get when asset sold at the end of life	life = anticipated life of an asset@SEEALSO=SYD
+@FUNCTION=NOW
+@SYNTAX=NOW ()
+@DESCRIPTION=Returns the serial number for the date and time at the time it is evaluated.
+Serial Numbers in Gnumeric are represented as follows:The integral part is the number of days since the 1st of January of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds
+For example: .0 represents the beginning of the day, and 0.5 represents noon
+@SEEALSO=TODAY, NOW
 
-@FUNCTION=REPT
-@SYNTAX=REPT(string,num)
-@DESCRIPTION=Returns @num repetitions of @string
-@SEEALSO=CONCATENATE
-
-@FUNCTION=PI
-@SYNTAX=PI()
-@DESCRIPTION=The PI functions returns the value of Pi as defined by M_PI.
-This function is called with no arguments.
+@FUNCTION=NA
+@SYNTAX=NA()
+@DESCRIPTION=NA Returns the error value #N/A. 
 @SEEALSO=
 
-@FUNCTION=IMPOWER
-@SYNTAX=IMPOWER(inumber,number)
-@DESCRIPTION=IMPOWER returns a complex number raised to a power.  @inumber is the complex number to be raised to a power and @number is the power to which you want to raise the complex number. 
-@SEEALSO=IMEXP,IMLN
+@FUNCTION=BETAINV
+@SYNTAX=BETAINV(p,alpha,beta[,a,b])
+@DESCRIPTION=BETAINV function returns the inverse of cumulative beta distribution.  @a is the optional lower bound of @x and @b is the optinal upper bound of @x.  If @a is not given, BETAINV uses 0.  If @b is not given, BETAINV uses 1.
+If @p < 0 or @p > 1 BETAINV returns #NUM! error. If @alpha <= 0 or beta <= 0, BETAINV returns #NUM! error. If @a >= @b BETAINV returns #NUM! error.
+@SEEALSO=BETADIST
+
+@FUNCTION=ROWS
+@SYNTAX=ROWS(reference)
+@DESCRIPTION=The ROWS function returns the number of rows in area or array reference.
+If reference is neither an array nor a reference nor a range returns #VALUE!.
+@SEEALSO=COLUMN,ROW,ROWS
+
+@FUNCTION=DSTDEVP
+@SYNTAX=DSTDEVP(database,field,criteria)
+@DESCRIPTION=DSTDEVP function returns the standard deviation of a population based on the entire populations. The populations consists of numbers that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
+@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
+@SEEALSO=DSTDEV
+
+@FUNCTION=CHITEST
+@SYNTAX=CHITEST(actual_range,theoretical_range)
+@DESCRIPTION=The CHITEST function returns the test for independence of chi-squared distribution.
+@actual_range is a range that contains the observed data points. @theoretical_range is a range that contains the expected values of the data points. 
+@SEEALSO=CHIDIST,CHIINV
+
+@FUNCTION=CRITBINOM
+@SYNTAX=CRITBINOM(trials,p,alpha)
+@DESCRIPTION=The CRITBINOM function returns the smallest value for which thecumulative is creater than or equal to a given value. @n is the number of trials, @p is the probability of success in trials, and @alpha is the criterion value. 
+if trials is a non-integer it is truncated. if trials < 0 CRITBINOM returns #NUM! error. if p < 0 or p > 1 CRITBINOM returns #NUM! error. if alpha < 0 or alpha > 1 CRITBINOM returns #NUM! error. 
+@SEEALSO=BINOMDIST
+
+@FUNCTION=SUMPRODUCT
+@SYNTAX=SUMPRODUCT(range1,range2,...)
+@DESCRIPTION=SUMPRODUCT function multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products.  If an array entry is not numeric, the value zero is used instead. 
+If array or range arguments do not have the same dimentions, SUMPRODUCT returns #VALUE! error. 
+@SEEALSO=SUM,PRODUCT
+
+@FUNCTION=INT
+@SYNTAX=INT(b1, b2, ...)
+@DESCRIPTION=The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >= 0, amd CEIL(b1) for b1 < 0. 
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=FLOOR, CEIL, ABS
+
+@FUNCTION=BINOMDIST
+@SYNTAX=BINOMDIST(n,trials,p,cumulative)
+@DESCRIPTION=The BINOMDIST function returns the binomial distribution. @n is the number of successes, @trials is the total number of independent trials, @p is the probability of success in trials, and @cumulative describes whether to return the sum of thebinomial function from 0 to @n.
+Performing this function on a string or empty cell returns an error.if @n or @trials are non-integer they are truncated. if @n < 0 or @trials < 0 BINOMDIST returns #NUM! error. if @n > trials BINOMDIST returns #NUM! error. if @p < 0 or @p > 1 BINOMDIST returns #NUM! error.
+@SEEALSO=POISSON
+
+@FUNCTION=IMLOG2
+@SYNTAX=IMLOG2(inumber)
+@DESCRIPTION=IMLOG2 returns the logarithm of a complex number in base 2.
+@SEEALSO=IMLN,IMLOG10
+
+@FUNCTION=VARP
+@SYNTAX=VARP(b1, b2, ...)
+@DESCRIPTION=VARP calculates the variance of a set of numbers where each number is a member of a population and the set is the entire population.
+(VARP is also known as the N-variance.)
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=STDEV,VAR,MEAN
+
+@FUNCTION=EXACT
+@SYNTAX=EXACT(string1, string2)
+@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this routine is case sensitive).
+@SEEALSO=LEN
+
+@FUNCTION=EDATE
+@SYNTAX=EDATE(serial_number,months)
+@DESCRIPTION=EDATE returns the serial number of the date that is the specified number of months before or after a given date.  @date is the serial number of the initial date and @months is the number of months before (negative number) or after (positive number) the initial date.
+If @months is not an integer, it is truncated.
+@SEEALSO=DATE
+
+@FUNCTION=DVAR
+@SYNTAX=DVAR(database,field,criteria)
+@DESCRIPTION=DVAR function returns the estimate of variance of a population based on a sample. The populations consists of numbers that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
+@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
+@SEEALSO=DVARP
+
+@FUNCTION=YEAR
+@SYNTAX=YEAR (serial_number)
+@DESCRIPTION=Converts a serial number to a year.
+Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
+@SEEALSO=DAY, MONTH, TIME, NOW
+
+@FUNCTION=LOWER
+@SYNTAX=LOWER(text)
+@DESCRIPTION=Returns a lower-case version of the string in @text
+@SEEALSO=UPPER
+
+@FUNCTION=TIMEVALUE
+@SYNTAX=TIMEVALUE (timetext)
+@DESCRIPTION=Returns a fraction representing the time of day, a number between 0 and 1.
+@SEEALSO=HOUR
+
+@FUNCTION=DEC2OCT
+@SYNTAX=DEC2OCT(number[,places])
+@DESCRIPTION=The DEC2OCT function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=OCT2DEC
+
+@FUNCTION=RAND
+@SYNTAX=RAND()
+@DESCRIPTION=Returns a random number greater than or equal to 0 and less than 1.
+
+@SEEALSO=
+
+@FUNCTION=KURT
+@SYNTAX=KURT(n1, n2, ...)
+@DESCRIPTION=KURT returns an unbiased estimate of the kurtosis of a data set.
+Note, that this is only meaningful is the underlying distribution really has a fourth moment.  The kurtosis is offset by three such that a normal distribution will have zero kurtosis.
+Strings and empty cells are simply ignored.
+If fewer than four numbers are given or all of them are equal KURT returns #DIV/0! error.
+@SEEALSO=AVERAGE,VAR,SKEW,KURTP
+
+@FUNCTION=BIN2DEC
+@SYNTAX=BIN2DEC(x)
+@DESCRIPTION=The BIN2DEC function converts a binary number in string or number to its decimal equivalent.
+
+@SEEALSO=DEC2BIN
+
+@FUNCTION=ERF
+@SYNTAX=ERF(lower limit[,upper_limit])
+@DESCRIPTION=The ERF function returns the integral of the error function between the limits.  If the upper limit ommitted ERF returns the integral between zero and the lower limit.
+If either lower or upper are not numeric a #VALUE! error is returned.  If either lower or upper are < 0 a #NUM! error is returned.
+@SEEALSO=ERFC
+
+@FUNCTION=MAX
+@SYNTAX=MAX(b1, b2, ...)
+@DESCRIPTION=MAX returns the value of the element of the values passed that has the largest value. With negative numbers considered smaller than positive numbers.
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=MIN,ABS
+
+@FUNCTION=NEGBINOMDIST
+@SYNTAX=NEGBINOMDIST(f,t,p)
+@DESCRIPTION=The NEGBINOMDIST function returns the negative binomial distribution. @f is the number of failures, @t is the threshold number of successes, and @p is the probability of a success.
+if f or t is a non-integer it is truncated. if (f + t -1) <= 0 NEGBINOMDIST returns #NUM! error. if p < 0 or p > 1 NEGBINOMDIST returns #NUM! error.
+@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT
+
+@FUNCTION=DOLLARDE
+@SYNTAX=DOLLARDE(fractional_dollar,fraction)
+@DESCRIPTION=DOLLARDE converts a dollar price expressed as a fraction into a dollar price expressed as a decimal number. 
+If fraction is non-integer it is truncated. If fraction<=0 DOLLARDE returns #NUM! error. @SEEALSO=DOLLARFR
+
+@FUNCTION=MROUND
+@SYNTAX=MROUND(number,multiple)
+@DESCRIPTION=MROUND function rounds a given number to the desired multiple. @number is the number you want rounded and @multiple is the the multiple to which you wnat to round the number. For example, MROUND(1.7, 0.2) equals 1.8. 
+If the number and the multiple have different sign, MROUND returns #NUM! error. 
+@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP
+
+@FUNCTION=DEVSQ
+@SYNTAX=DEVSQ(n1, n2, ...)
+@DESCRIPTION=DEVSQ returns the sum of squares of deviations of a data set from the sample mean.
+Strings and empty cells are simply ignored.
+@SEEALSO=STDEV
+
+@FUNCTION=SELECTION
+@SYNTAX=SELECTION(x)
+@DESCRIPTION=The SELECTION function returns a list with the values in the current mouse cursor. This is usually used to implement on-the-flight computation of values
+@SEEALSO=
+
+@FUNCTION=ROUND
+@SYNTAX=ROUND(number[,digits])
+@DESCRIPTION=ROUND function rounds a given number. @number is the number you want rounded and @digits is the number of digits to which you want to round that number. 
+If digits is greater than zero, number is rounded to the given number of digits. If digits is zero or omitted, number is rounded to the nearest integer. If digits is less than zero, number is rounded to the left of the decimal point. 
+@SEEALSO=ROUNDDOWN,ROUNDUP
+
+@FUNCTION=VALUE
+@SYNTAX=VALUE(text)
+@DESCRIPTION=Returns numeric value of @text.
+@SEEALSO=DOLLAR, FIXED, TEXT
+
+@FUNCTION=FIND
+@SYNTAX=FIND(string1,string2[,start])
+@DESCRIPTION=Returns position of @string1 in @string2 (case-sesitive), searching only from character @start onwards (assumed 1 if omitted).
+@SEEALSO=EXACT, LEN, MID, SEARCH
+
+@FUNCTION=WEIBULL
+@SYNTAX=WEIBULL(x,alpha,beta,cumulative)
+@DESCRIPTION=The WEIBULL function returns the Weibull distribution. If the cumulative boolean is true it will return: 1 - exp (-(x/beta)^alpha), otherwise it will return (alpha/beta^alpha) * x^(alpha-1) * exp(-(x/beta^alpha)). 
+if x < 0 WEIBULL returns #NUM! error. if alpha <= 0 or beta <= 0 WEIBULL returns #NUM! error. 
+@SEEALSO=POISSON
+
+@FUNCTION=BIN2HEX
+@SYNTAX=BIN2HEX(number[,places])
+@DESCRIPTION=The BIN2HEX function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=HEX2BIN
+
+@FUNCTION=NPV
+@SYNTAX=NPV(rate,v1,v2,...)
+@DESCRIPTION=Calculates the net present value of an investment.@SEEALSO=PV
+
+@FUNCTION=VLOOKUP
+@SYNTAX=VLOOKUP(value,range,column,[approximate])
+@DESCRIPTION=The VLOOKUP function finds the row in range that has a first column similar to value.  If approximate is not true it finds the row with an exact equivilance.  If approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than value.  it returns the value in the row found at a 1 based offset in column columns into the range.
+Returns #NUM! if column < 0.Returns #REF! if column falls outside range.
+@SEEALSO=HLOOKUP
 
 @FUNCTION=DAVERAGE
 @SYNTAX=DAVERAGE(database,field,criteria)
@@ -553,218 +851,186 @@ This function is called with no arguments.
 @criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
 @SEEALSO=DCOUNT
 
-@FUNCTION=RADIANS
-@SYNTAX=RADIANS(x)
-@DESCRIPTION=Computes the number of radians equivalent to  x degrees. 
-Performing this function on a string or empty cell simply does nothing. 
-@SEEALSO=PI,DEGREES
-
-@FUNCTION=TRIMMEAN
-@SYNTAX=TRIMMEAN(ref,percent)
-@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @percent is the percentage of number excluded from the mean. For example, if percent=0.2 and the data set contans 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the set. 
-@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE
-
-@FUNCTION=DMIN
-@SYNTAX=DMIN(database,field,criteria)
-@DESCRIPTION=DMIN function returns the smallest number in a column that match conditions specified. 
-@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
-@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
-@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
-@SEEALSO=DMAX
-
-@FUNCTION=ROUNDUP
-@SYNTAX=ROUNDUP(number[,digits])
-@DESCRIPTION=ROUNDUP function rounds a given number up, away from zero. @number is the number you want rounded up and @digits is the number of digits to which you want to round that number. 
-If digits is greater than zero, number is rounded up to the given number of digits. If digits is zero or omitted, number is rounded up to the nearest integer. If digits is less than zero, number is rounded up to the left of the decimal point. 
-@SEEALSO=ROUNDDOWN
-
-@FUNCTION=BETADIST
-@SYNTAX=BETADIST(x,alpha,beta)
-@DESCRIPTION=BETADIST function returns the cumulative beta distribution. 
-If @x < 0 or @x > 1 BETADIST returns #NUM! error. If @alpha <= 0 or beta <= 0, BETADIST returns #NUM! error. 
-@SEEALSO=BETAINV
-
-@FUNCTION=MROUND
-@SYNTAX=MROUND(number,multiple)
-@DESCRIPTION=MROUND function rounds a given number to the desired multiple. @number is the number you want rounded and @multiple is the the multiple to which you wnat to round the number. For example, MROUND(1.7, 0.2) equals 1.8. 
-If the number and the multiple have different sign, MROUND returns #NUM! error. 
-@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP
-
-@FUNCTION=FDIST
-@SYNTAX=FDIST(x,dof1,dof2)
-@DESCRIPTION=FDIST function returns the F probability distribution. @dof1 is the numerator degrees of freedom and @dof2 is the denominator degrees of freedom. 
-If @x < 0 FDIST returns #NUM! error. If @dof1 < 1 or @dof2 < 1, GAMMADIST returns #NUM! error. 
-@SEEALSO=FINV
-
-@FUNCTION=ASIN
-@SYNTAX=ASIN(x)
-@DESCRIPTION=The ASIN function calculates the arc sine of x; that is the value whose sine is x. If x falls outside  the  range -1 to 1, ASIN fails and returns the error 'asin - domain error'   
-Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS
-
-@FUNCTION=ZTEST
-@SYNTAX=ZTEST(ref,x)
-@DESCRIPTION=ZTEST returns the two-tailed probability of a z-test. 
-@ref is the data set and @x is the value to be tested. 
-If ref contains less than two data items ZTEST returns #DIV/0! error. 
-@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE
-
-@FUNCTION=PV
-@SYNTAX=PV(rate,nper,pmt,fv,type)
-@DESCRIPTION=Calculates the present value of an investment.@SEEALSO=FV
-
-@FUNCTION=FV
-@SYNTAX=FV(rate,nper,pmt,pv,type)
-@DESCRIPTION=Calculates the future value of an investment.@SEEALSO=PV,PMT,PPMT
-
-@FUNCTION=IMSIN
-@SYNTAX=IMSIN(inumber)
-@DESCRIPTION=IMSIN returns the sine of a complex number. 
-@SEEALSO=IMCOS
-
-@FUNCTION=LCM
-@SYNTAX=LCM(number1,number2,...)
-@DESCRIPTION=LCM returns the least common multiple of integers.  The least common multiple is the smallest positive number that is a multiple of all integer arguments given. 
-If any of the arguments is less than one, LCM returns #NUM! error. 
-@SEEALSO=GCD
-
 @FUNCTION=LOGNORMDIST
 @SYNTAX=LOGNORMDIST(x,mean,stdev)
 @DESCRIPTION=The LOGNORMDIST function returns the lognormal distribution. @x is the value for which you want the distribution, @mean is the mean of the distribution, and @stdev is the standard deviation of the distribution. 
-Performing this function on a string or empty cell simply does nothing. if stdev = 0 LOGNORMDIST returns #DIV/0! error. if x<0, mean<0 or stdev<0 LOGNORMDIST returns #NUM! error. 
+Performing this function on a string or empty cell simply does nothing. if @stdev = 0 LOGNORMDIST returns #DIV/0! error. if @x<=0, @mean<0 or @stdev<0 LOGNORMDIST returns #NUM! error. 
 @SEEALSO=NORMDIST
 
-@FUNCTION=FLOOR
-@SYNTAX=FLOOR(x)
-@DESCRIPTION=The FLOOR function rounds x down to the next nearest integer.
-Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=CEIL, ABS, INT
+@FUNCTION=RANK
+@SYNTAX=RANK(x,ref[,order])
+@DESCRIPTION=RANK returns the rank of a number in a list of numbers.  @x is the number whose rank you want to find, @ref is the list of numbers, and @order specifies how to rank numbers.  If @order is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order.
+@SEEALSO=PERCENTRANK
 
-@FUNCTION=CHIINV
-@SYNTAX=CHIINV(p,dof)
-@DESCRIPTION=The CHIINV function returns the inverse of the one-tailed probability of the chi-squared distribution. CHIINV uses an iterative algorithm for calculating the result. If CHIINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. 
-If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error. 
-@SEEALSO=CHIDIST,CHITEST
+@FUNCTION=BESSELJ
+@SYNTAX=BESSELJ(x,y)
+@DESCRIPTION=The BESSELJ function returns the bessel function with @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.
+If @x or @y are not numeric a #VALUE! error is returned.  If @y < 0 a #NUM! error is returned.
+@SEEALSO=BESSELJ,BESSELK,BESSELY
 
-@FUNCTION=ASINH
-@SYNTAX=ASINH(x)
-@DESCRIPTION=The ASINH  function  calculates  the inverse hyperbolic  sine of x; that is the value whose hyperbolic sine is x. 
-Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS
+@FUNCTION=ADDRESS
+@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])
+@DESCRIPTION=ADDRESS returns a cell address as text for specified row and column numbers. 
+If abs_num is 1 or omitted, ADDRESS returns absolute reference. If abs_num is 2 ADDRESS returns absolute row and relative column. If abs_num is 3 ADDRESS returns relative row and absolute column. If abs_num is 4 ADDRESS returns relative reference. If abs_num is greater than 4 ADDRESS returns #NUM! error. 
+@a1 is a logical value that specifies the reference style.  If @a1 is TRUE or omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise ADDRESS returns an R1C1-style reference, i.e. R4C4. 
+@text specifies the name of the worksheet to be used as the external reference.  
+If @row_num or @col_num is less than one, ADDRESS returns #NUM! error. 
+@SEEALSO=
 
-@FUNCTION=GAMMAINV
-@SYNTAX=GAMMAINV(p,alpha,beta)
-@DESCRIPTION=The GAMMAINV function returns the inverse of the cumulative gamma distribution. If GAMMAINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. 
-If @p < 0 or @p > 1 GAMMAINV returns #NUM! error. If @alpha <= 0 or @beta <= 0 GAMMAINV returns #NUM! error. 
-@SEEALSO=GAMMADIST
-
-@FUNCTION=LOGINV
-@SYNTAX=LOGINV(p,mean,stdev)
-@DESCRIPTION=The LOGINV function returns the inverse of the lognormal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stdev is the standard deviation of the distribution. LOGINV uses an iterative algorithm for calculating the result. If LOGINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. 
-If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error. 
-@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST
-
-@FUNCTION=RSQ
-@SYNTAX=RSQ(array1,array2)
-@DESCRIPTION=RSQ returns the square of the Pearson correllation coefficient of two data sets. 
-Strings and empty cells are simply ignored.
-@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND
+@FUNCTION=SIGN
+@SYNTAX=SIGN(num)
+@DESCRIPTION=SIGN function returns 1 if the number is positive, zero if the number is 0, and -1 if the number is negative. 
+@SEEALSO=
 
 @FUNCTION=REPLACE
 @SYNTAX=REPLACE(old,start,num,new)
-@DESCRIPTION=Returns @old with @new replacing @num characters from @start
+@DESCRIPTION=Returns @old with @new replacing @num characters from @start.
 @SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM
 
-@FUNCTION=UPPER
-@SYNTAX=UPPER(text)
-@DESCRIPTION=Returns a upper-case version of the string in @text
-@SEEALSO=LOWER
+@FUNCTION=GAMMADIST
+@SYNTAX=GAMMADIST(x,alpha,beta,cum)
+@DESCRIPTION=GAMMADIST function returns the gamma distribution. If @cum is TRUE GAMMADIST returns the incomplete gamma function, otherwise it returns the probability mass function.
+If @x < 0 GAMMADIST returns #NUM! error. If @alpha <= 0 or beta <= 0, GAMMADIST returns #NUM! error.
+@SEEALSO=GAMMAINV
 
-@FUNCTION=SINH
-@SYNTAX=SINH(x)
-@DESCRIPTION=The SINH  function  returns  the  hyperbolic sine of x, which is defined mathematically as (exp(x) - exp(-x)) / 2.  x is in radians. 
-Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP
+@FUNCTION=SKEW
+@SYNTAX=SKEW(n1, n2, ...)
+@DESCRIPTION=SKEW returns an unbiased estimate for skewness of a distribution.
+Note, that this is only meaningful is the underlying distribution really has a third moment.  The skewness of a symmetric (e.g., normal) distribution is zero.
+Strings and empty cells are simply ignored.
+If less than three numbers are given, SKEW returns #DIV/0! error.
+@SEEALSO=AVERAGE,VAR,SKEWP,KURT
 
-@FUNCTION=HYPGEOMDIST
-@SYNTAX=HYPGEOMDIST(x,n,M,N)
-@DESCRIPTION=The HYPGEOMDIST function returns the hypergeometric distribution @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.
-Performing this function on a string or empty cell returns an error.if x,n,M or N is a non-integer it is truncated. if x,n,M or N < 0 HYPGEOMDIST returns #NUM! error. if x > M or n > N HYPGEOMDIST returns #NUM! error. 
-@SEEALSO=BINOMDIST,POISSON
+@FUNCTION=CHIINV
+@SYNTAX=CHIINV(p,dof)
+@DESCRIPTION=The CHIINV function returns the inverse of the one-tailed probability of the chi-squared distribution.
+If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error. 
+@SEEALSO=CHIDIST,CHITEST
 
-@FUNCTION=LOG10
-@SYNTAX=LOG10(x)
-@DESCRIPTION=Computes the base-10 logarithm  of x. 
-Performing this function on a string or empty cell returns an error. 
-@SEEALSO=EXP, LOG2, LOG
+@FUNCTION=CODE
+@SYNTAX=CODE(char)
+@DESCRIPTION=Returns the ASCII number for the character char.
+@SEEALSO=CHAR
 
-@FUNCTION=TIME
-@SYNTAX=TIME (hours,minutes,seconds)
-@DESCRIPTION=Returns a fraction representing the hour
-@SEEALSO=HOUR
+@FUNCTION=ERROR
+@SYNTAX=ERROR(text)
+@DESCRIPTION=Return the specified error
 
-@FUNCTION=IMARGUMENT
-@SYNTAX=IMARGUMENT(inumber)
-@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number. 
+@SEEALSO=ISERROR
+
+@FUNCTION=LOGINV
+@SYNTAX=LOGINV(p,mean,stdev)
+@DESCRIPTION=The LOGINV function returns the inverse of the lognormal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stdev is the standard deviation of the distribution.
+If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error. 
+@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST
+
+@FUNCTION=ISNA
+@SYNTAX=ISNA()
+@DESCRIPTION=ISNA Returns TRUE if the value is the #N/A error value. 
 @SEEALSO=
 
-@FUNCTION=MULTINOMIAL
-@SYNTAX=MULTINOMIAL(value1, value2, ...)
-@DESCRIPTION=MULTINOMIAL returns the ratio of the factorial of a sum of values to the product of factorials. 
-@SEEALSO=SUM
+@FUNCTION=ROUNDDOWN
+@SYNTAX=ROUNDDOWN(number[,digits])
+@DESCRIPTION=ROUNDDOWN function rounds a given number down, towards zero. @number is the number you want rounded down and @digits is the number of digits to which you want to round that number. 
+If digits is greater than zero, number is rounded down to the given number of digits. If digits is zero or omitted, number is rounded down to the nearest integer. If digits is less than zero, number is rounded down to the left of the decimal point. 
+@SEEALSO=ROUNDUP
 
-@FUNCTION=FISHERINV
-@SYNTAX=FISHERINV(y)
-@DESCRIPTION=The FISHERINV function returns the inverse of the Fisher transformation at x. 
-If x is non-number FISHER returns #VALUE! error.
-@SEEALSO=FISHER
+@FUNCTION=SUMX2MY2
+@SYNTAX=SUMX2MY2(array1,array2)
+@DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2MY2 is SUM (x^2-y^2). 
+Strings and empty cells are simply ignored.
+If @array1 and @array2 have different number of data points, SUMX2MY2 returns #N/A! error. 
+@SEEALSO=SUMSQ
 
-@FUNCTION=OCT2BIN
-@SYNTAX=OCT2BIN(number[,places])
-@DESCRIPTION=The OCT2BIN function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.
+@FUNCTION=VAR
+@SYNTAX=VAR(b1, b2, ...)
+@DESCRIPTION=VAR estimates the variance of a sample of a population. To get the true variance of a complete population use @VARP
+(VAR is also known as the N-1-variance.  Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.)
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=VARP,STDEV
+
+@FUNCTION=HEX2OCT
+@SYNTAX=HEX2OCT(number[,places])
+@DESCRIPTION=The HEX2OCT function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.
 if places is too small or negative #NUM! error is returned.
-@SEEALSO=BIN2OCT
+@SEEALSO=BIN2HEX
 
-@FUNCTION=SQRT
-@SYNTAX=SQRT(x)
-@DESCRIPTION=The SQRT  function  returns  the  square root of x, 
-If x is negative returns #NUM!.This function only takes one argument.
-@SEEALSO=POW
+@FUNCTION=STDEVPA
+@SYNTAX=STDEVPA(number1,number2,...)
+@DESCRIPTION=STDEVPA returns the standard deviation based on the entire population.  Numbers, text and logical values are included in the calculation too.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+@SEEALSO=STDEVA,STDEVP
 
-@FUNCTION=IMABS
-@SYNTAX=IMABS(inumber)
-@DESCRIPTION=IMABS returns the absolute value of a complex number. 
-@SEEALSO=IMAGINARY,IMREAL
+@FUNCTION=DAY
+@SYNTAX=DAYS360 (date1,date2,method)
+@DESCRIPTION=Returns the number of days from @date1 to @date2 following a 360-day calendar in which all months are assumed to have 30 days.
+If method is true, the European method will be used.  In this case, if the day of the month is 31 it will be considered as 30.
+If method is false or omitted, the US method will be used.  This is a somewhat complicated industry standard method.
+Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
+@SEEALSO=MONTH, TIME, NOW, YEAR
+
+@FUNCTION=DVARP
+@SYNTAX=DVARP(database,field,criteria)
+@DESCRIPTION=DVARP function returns the variance of a population based on the entire populations. The populations consists of numbers that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
+@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
+@SEEALSO=DVAR
+
+@FUNCTION=FINV
+@SYNTAX=TINV(p,dof)
+@DESCRIPTION=The FINV function returns the inverse of the F probability distribution.
+If @p < 0 or @p > 1 FINV returns #NUM! error. If @dof1 < 1 or @dof2 < 1 FINV returns #NUM! error.
+@SEEALSO=FDIST
+
+@FUNCTION=IMCOS
+@SYNTAX=IMCOS(inumber)
+@DESCRIPTION=IMCOS returns the cosine of a complex number.
+@SEEALSO=IMSIN
+
+@FUNCTION=IMDIV
+@SYNTAX=IMDIV(inumber,inumber)
+@DESCRIPTION=IMDIV returns the quotient of two complex numbers.
+@SEEALSO=IMPRODUCT
+
+@FUNCTION=ISBLANK
+@SYNTAX=ISBLANK()
+@DESCRIPTION=ISBLANK Returns TRUE if the value is blank. 
+@SEEALSO=
 
 @FUNCTION=SECOND
 @SYNTAX=SECOND (serial_number)
 @DESCRIPTION=Converts a serial number to a second.  The second is returned as an integer in the range 0 to 59
-Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string
+Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
 @SEEALSO=HOUR, MINUTE, NOW, TIME
 
-@FUNCTION=COS
-@SYNTAX=COS(x)
-@DESCRIPTION=The  COS  function  returns  the cosine of x, where x is given in radians.  
+@FUNCTION=IMEXP
+@SYNTAX=IMEXP(inumber)
+@DESCRIPTION=IMEXP returns the exponential of a complex number.
+@SEEALSO=IMLN
+
+@FUNCTION=ACOS
+@SYNTAX=ACOS(x)
+@DESCRIPTION=The ACOS function calculates the arc cosine of x; that  is the value whose cosine is x.  If x  falls  outside  the  range -1 to 1, ACOS fails and returns the error 'acos - domain error'.  The value it returns is in radians. 
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES
+@SEEALSO=COS, SIN, DEGREES, RADIANS
 
-@FUNCTION=EXP
-@SYNTAX=EXP(x)
-@DESCRIPTION=Computes the value of e(the base of natural logarithmns) raised to the power of x. 
-Performing this function on a string or empty cell returns an error.
-@SEEALSO=LOG, LOG2, LOG10
+@FUNCTION=STANDARDIZE
+@SYNTAX=STANDARDIZE(x,mean,stdev)
+@DESCRIPTION=The STANDARDIZE function returns a normalized value. @x is the number to be normalized, @mean is the mean of the distribution, @stdev is the standard deviation of the distribution.
+If stddev is 0 STANDARDIZE returns #DIV/0! error.
+@SEEALSO=AVERAGE
 
-@FUNCTION=GAMMADIST
-@SYNTAX=GAMMADIST(x,alpha,beta,cum)
-@DESCRIPTION=GAMMADIST function returns the gamma distribution. If @cum is TRUE GAMMADIST returns the incomplete gamma function, otherwise it returns the probability mass function. 
-If @x < 0 GAMMADIST returns #NUM! error. If @alpha <= 0 or beta <= 0, GAMMADIST returns #NUM! error. 
-@SEEALSO=GAMMAINV
+@FUNCTION=BESSELY
+@SYNTAX=BESSELY(x,y)
+@DESCRIPTION=The BESSELY function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.
+if x or n are not numeric a #VALUE! error is returned.if n < 0 a #NUM! error is returned.
+@SEEALSO=BESSELJ,BESSELK,BESSELY
 
-@FUNCTION=GCD
-@SYNTAX=GCD(a,b)
-@DESCRIPTION=GCD returns the greatest common divisor of two numbers. 
-If any of the arguments is less than zero, GCD returns #NUM! error. 
-@SEEALSO=LCM
+@FUNCTION=SIN
+@SYNTAX=SIN(x)
+@DESCRIPTION=The SIN function returns the sine of x, where x is given  in radians.
+Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
+@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES
 
 @FUNCTION=EFFECT
 @SYNTAX=EFFECT(b1,b2)
@@ -780,211 +1046,334 @@ For example if you wanted to find out how much you are actually paying interest 
 =EFFECT(.19,12) and you would get .2075 or 20.75%. That is the effective percentage you will pay on your loan.
 @SEEALSO=NOMINAL
 
-@FUNCTION=IMSUB
-@SYNTAX=IMSUB(inumber,inumber)
-@DESCRIPTION=IMSUB returns the difference of two complex numbers. 
-@SEEALSO=IMSUM
-
 @FUNCTION=OFFSET
 @SYNTAX=OFFSET(range,row,col,height,width)
 @DESCRIPTION=The OFFSET function returns a cell range.The cell range starts at offset (col,row) from range, and is of height @height and width @width.
 If range is neither a reference nor a range returns #VALUE!.
 @SEEALSO=COLUMN,COLUMNS,ROWS
 
-@FUNCTION=SYD
-@SYNTAX=SYD(cost,salvage value,life,period)
-@DESCRIPTION=Calculates the sum-of-years digits depriciation for anasset based on its cost, salvage value, anticipated life and aparticular period.
-Formula for sum-of-years digits depriciation is:
-Depriciation expense = ( cost - salvage value ) * (life-period+1) * 2 / life * (life + 1)
-	cost = cost of an asset when acquired (market value)	salvage_value = amount you get when asset sold at the end of life	life = anticipated life of an asset	period = period for which we need the expense@SEEALSO=SLN
+@FUNCTION=OR
+@SYNTAX=OR(b1, b2, ...)
+@DESCRIPTION=Implements the logical OR function: the result is TRUE if any of the values evaluated to TRUE.
+b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.
+If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!'is returned.
+@SEEALSO=AND, NOT
 
-@FUNCTION=DEGREES
-@SYNTAX=DEGREES(x)
-@DESCRIPTION=Computes the number of degrees equivalent to  x radians.
-Performing this function on a string or empty cell simply does nothing. 
-@SEEALSO=RADIANS, PI
+@FUNCTION=TYPE
+@SYNTAX=TYPE()
+@DESCRIPTION=TYPE Returns a number indicating the data type of a value. 
+@SEEALSO=
 
-@FUNCTION=DATE
-@SYNTAX=DATE (year,month,day)
-@DESCRIPTION=Computes the number of days since the 1st of january of 1900(the date serial number) for the given year, month and day.
-The day might be negative (to count backwards) and it is relative to the previous month.  The years should be at least 1900
-@SEEALSO=TODAY, NOW
+@FUNCTION=QUOTIENT
+@SYNTAX=QUOTIENT(num,den)
+@DESCRIPTION=QUOTIENT function returns the integer portion of a division. @num is the divided and @den is the divisor. 
+@SEEALSO=MOD
+
+@FUNCTION=FORECAST
+@SYNTAX=FORECAST(x,known_y's,known_x's)
+@DESCRIPTION=FORECAST function estimates a future value according to existing values using simple linear regression.  The estimated future value is a y-value for a given x-value (@x). 
+If known_x or known_y contains no data entries or different number of data entries, FORECAST returns #N/A! error. If the variance of the known_x is zero, FORECAST returns #DIV/0 error. 
+@SEEALSO=INTERCEPT,TREND
+
+@FUNCTION=BIN2OCT
+@SYNTAX=BIN2OCT(number[,places])
+@DESCRIPTION=The BIN2OCT function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=OCT2BIN
+
+@FUNCTION=CHIDIST
+@SYNTAX=CHIDIST(x,dof)
+@DESCRIPTION=CHIDIST function returns the one-tailed probability of the chi-squared distribution. @dof is the number of degrees of freedom.
+If @dof is non-integer it is truncated. If @dof < 1 CHIDIST returns #NUM! error.
+@SEEALSO=CHIINV,CHITEST
+
+@FUNCTION=CONFIDENCE
+@SYNTAX=CONFIDENCE(x,stddev,size)
+@DESCRIPTION=The CONFIDENCE function returns the confidence interval for a mean. @x is the significance level, @stddev is the standard deviation, and @size is the size of the sample.
+if size is non-integer it is truncated. if size < 0 CONFIDENCE returns #NUM! error. if size is 0 CONFIDENCE returns #DIV/0! error.
+@SEEALSO=AVERAGE
+
+@FUNCTION=PI
+@SYNTAX=PI()
+@DESCRIPTION=The PI functions returns the value of Pi as defined by M_PI.
+This function is called with no arguments.
+@SEEALSO=
+
+@FUNCTION=COUNT
+@SYNTAX=COUNT(b1, b2, ...)
+@DESCRIPTION=Returns the total number of integer or floating point arguments passed.
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=AVERAGE
+
+@FUNCTION=IMPOWER
+@SYNTAX=IMPOWER(inumber,number)
+@DESCRIPTION=IMPOWER returns a complex number raised to a power.  @inumber is the complex number to be raised to a power and @number is the power to which you want to raise the complex number.
+@SEEALSO=IMEXP,IMLN
+
+@FUNCTION=NORMSINV
+@SYNTAX=NORMSINV(p)
+@DESCRIPTION=The NORMSINV function returns the inverse of the standard normal cumulative distribution. @p is the given probability corresponding to the normal distribution.
+If @p < 0 or @p > 1 NORMSINV returns #NUM! error. 
+@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST
+
+@FUNCTION=CELL
+@SYNTAX=CELL()
+@DESCRIPTION=CELL Returns information about the formatting, location, or contents of a cell. 
+@SEEALSO=
+
+@FUNCTION=DSUM
+@SYNTAX=DSUM(database,field,criteria)
+@DESCRIPTION=DSUM function returns the sum of numbers in a column that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
+@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
+@SEEALSO=DPRODUCT
+
+@FUNCTION=LOG2
+@SYNTAX=LOG2(x)
+@DESCRIPTION=Computes the base-2 logarithm  of x. 
+Performing this function on a string or empty cell returns an error. 
+@SEEALSO=EXP, LOG10, LOG
+
+@FUNCTION=ABS
+@SYNTAX=ABS(b1)
+@DESCRIPTION=Implements the Absolute Value function:  the result is to drop the negative sign (if present).  This can be done for integers and floating point numbers.
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=CEIL, FLOOR
+
+@FUNCTION=PEARSON
+@SYNTAX=PEARSON(array1,array2)
+@DESCRIPTION=PEARSON returns the Pearson correllation coefficient of two data sets.
+Strings and empty cells are simply ignored.
+@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX
+
+@FUNCTION=IMAGINARY
+@SYNTAX=IMAGINARY(inumber)
+@DESCRIPTION=IMAGINARY returns the imaginary coefficient of a complex number.
+@SEEALSO=IMREAL
+
+@FUNCTION=ROW
+@SYNTAX=ROW([reference])
+@DESCRIPTION=The ROW function returns an array of the row numbers taking a default argument of the containing cell position.
+If reference is neither an array nor a reference nor a range returns #VALUE!.
+@SEEALSO=COLUMN,COLUMNS,ROWS
+
+@FUNCTION=ATANH
+@SYNTAX=ATANH(x)
+@DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic tangent of x; that is the value whose  hyperbolic  tangent is  x.   If  the  absolute value of x is greater than 1.0,  ATANH returns an error of 'atanh: domain error'      
+Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
+@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS
+
+@FUNCTION=ERFC
+@SYNTAX=ERFC(x)
+@DESCRIPTION=The ERFC function returns the integral of the complimentary error function between the limits 0 and x.
+If x is not numeric a #VALUE! error is returned.  If x < 0 a #NUM! error is returned.
+@SEEALSO=ERF
+
+@FUNCTION=N
+@SYNTAX=N()
+@DESCRIPTION=N Returns a value converted to a number.  Strings containing text are converted to the zero value. 
+@SEEALSO=
+
+@FUNCTION=ROMAN
+@SYNTAX=ROMAN(number[,type])
+@DESCRIPTION=ROMAN function returns an arabic number in the roman numeral style, as text. @number is the number you want to convert and @type is the type of roman numeral you want. 
+If @type is 0 or it is omitted, ROMAN returns classic roman numbers. Types 1,2,3, and 4 are not implemented yet. If @number is negative or greater than 3999, ROMAN returns #VALUE! error. 
+@SEEALSO=
+
+@FUNCTION=POWER
+@SYNTAX=POWER(x,y)
+@DESCRIPTION=Returns the value of x raised to the power y.
+Performing this function on a string or empty cell returns an error.
+@SEEALSO=EXP
+
+@FUNCTION=NORMSDIST
+@SYNTAX=NORMSDIST(x)
+@DESCRIPTION=The NORMSDIST function returns the standard normal cumulative distribution. @x is the value for which you want the distribution.
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=NOMRDIST
+
+@FUNCTION=STDEVA
+@SYNTAX=STDEVA(number1,number2,...)
+@DESCRIPTION=STDEVA returns the standard deviation based on a sample. Numbers, text and logical values are included in the calculation too.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+@SEEALSO=STDEV,STDEVPA
+
+@FUNCTION=TTEST
+@SYNTAX=TTEST(array1,array2,tails,type)
+@DESCRIPTION=TTEST function returns the probability of a Student's t-Test. 
+@array1 is the first data set and @array2 is the second data set.  If @tails is one, TTEST uses the one-tailed distribution and if @tails is two, TTEST uses the two-tailed distribution.  @type determines the kind of the test:
+1  Paired test
+2  Two-sample equal variance
+3  Two-sample unequal variance
+
+If the data sets contain a different number of data points and the test is paired (type one), TTEST returns the #N/A error. @tails and @type are truncated to integers. If tails is not one or two, TTEST returns #NUM! error. If type is any other than one, two, or three, TTEST returns #NUM! error. 
+@SEEALSO=FDIST,FINV
+
+@FUNCTION=NPER
+@SYNTAX=NPER(rate,pmt,pv,fv,type)
+@DESCRIPTION=Calculates number of periods of an investment.@SEEALSO=PPMT,PV,FV
+
+@FUNCTION=STDEV
+@SYNTAX=STDEV(b1, b2, ...)
+@DESCRIPTION=STDEV returns standard deviation of a set of numbers treating these numbers as members of a population
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=VAR,MEAN
+
+@FUNCTION=MOD
+@SYNTAX=MOD(number,divisor)
+@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when @divisor is divided into @number.
+Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL
+
+@FUNCTION=FACTDOUBLE
+@SYNTAX=FACTDOUBLE(number)
+@DESCRIPTION=FACTDOUBLE function returns the double factorial of a number. 
+If @number is not an integer, it is truncated. If @number is negative FACTDOUBLE returns #NUM! error. 
+@SEEALSO=FACT
+
+@FUNCTION=GAMMALN
+@SYNTAX=GAMMALN(x)
+@DESCRIPTION=The GAMMALN function returns the natural logarithm of the gamma function.
+If @x is non-number then GAMMALN returns #VALUE! error. If @x <= 0 then GAMMALN returns #NUM! error.
+@SEEALSO=POISSON
+
+@FUNCTION=SMALL
+@SYNTAX=SMALL(n1, n2, ..., k)
+@DESCRIPTION=SMALL returns the k-th smallest value in a data set.
+If data set is empty SMALL returns #NUM! error. If k<=0 or k is greater than the number of data items given SMALL returns #NUM! error.
+@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE
+
+@FUNCTION=OCT2DEC
+@SYNTAX=OCT2DEC(x)
+@DESCRIPTION=The OCT2DEC function converts an octal number in a string or number to its decimal equivalent.
+
+@SEEALSO=DEC2OCT
 
 @FUNCTION=T
 @SYNTAX=T(value)
-@DESCRIPTION=Returns @value if and only if it is text, otherwise a blank string
+@DESCRIPTION=Returns @value if and only if it is text, otherwise a blank string.
 @SEEALSO=CELL, N, VALUE
 
-@FUNCTION=MID
-@SYNTAX=MID(string, position, length)
-@DESCRIPTION=Returns a substring from @string starting at @position for @length characters.
-@SEEALSO=LEFT, RIGHT
+@FUNCTION=NORMINV
+@SYNTAX=NORMINV(p,mean,stdev)
+@DESCRIPTION=The NORMINV function returns the inverse of the normal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stdev is the standard deviation of the distribution.
+If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error. 
+@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST
+
+@FUNCTION=PV
+@SYNTAX=PV(rate,nper,pmt,fv,type)
+@DESCRIPTION=Calculates the present value of an investment.@SEEALSO=FV
+
+@FUNCTION=DOLLAR
+@SYNTAX=DOLLAR(num,[decimals])
+@DESCRIPTION=Returns @num formatted as currency.
+@SEEALSO=FIXED, TEXT, VALUE
+
+@FUNCTION=TANH
+@SYNTAX=TANH(x)
+@DESCRIPTION= The TANH function returns the hyperbolic tangent of x,  which is defined mathematically as sinh(x) / cosh(x). 
+Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
+@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
 
 @FUNCTION=SUBSTITUTE
 @SYNTAX=SUBSTITUTE(text, old, new [,num])
 @DESCRIPTION=Replaces @old with @new in @text.  Substitutions are only applied to instance @num of @old in @text, otherwise every one is changed.
 @SEEALSO=REPLACE, TRIM
 
-@FUNCTION=IMLOG2
-@SYNTAX=IMLOG2(inumber)
-@DESCRIPTION=IMLOG2 returns the logarithm of a complex number in base 2. 
-@SEEALSO=IMLN,IMLOG10
+@FUNCTION=TODAY
+@SYNTAX=TODAY ()
+@DESCRIPTION=Returns the serial number for today (the number of days elapsed since the 1st of January of 1900)
+@SEEALSO=TODAY, NOW
 
-@FUNCTION=RIGHT
-@SYNTAX=RIGHT(text[,num_chars])
-@DESCRIPTION=Returns the rightmost num_chars characters or the right character if num_chars is not specified
-@SEEALSO=MID, LEFT
+@FUNCTION=FV
+@SYNTAX=FV(rate,nper,pmt,pv,type)
+@DESCRIPTION=Calculates the future value of an investment.@SEEALSO=PV,PMT,PPMT
 
-@FUNCTION=OCT2HEX
-@SYNTAX=OCT2HEX(number[,places])
-@DESCRIPTION=The OCT2HEX function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.
-if places is too small or negative #NUM! error is returned.
-@SEEALSO=OCT2HEX
-
-@FUNCTION=LEFT
-@SYNTAX=LEFT(text[,num_chars])
-@DESCRIPTION=Returns the leftmost num_chars characters or the left character if num_chars is not specified
-@SEEALSO=MID, RIGHT
-
-@FUNCTION=LOG
-@SYNTAX=LOG(x[,base])
-@DESCRIPTION=Computes the logarithm of x in the given base.  If no base is given LOG returns the logarithm in base 10. 
-@SEEALSO=LN, LOG2, LOG10
-
-@FUNCTION=PROB
-@SYNTAX=PROB(known_y's,known_x's)
-@DESCRIPTION=STEYX function returns the standard error of the predicted y-value for each x in the regression.  
-If @known_y's and @known_x's are empty or have a different number of arguments then STEYX returns #N/A! error. 
-@SEEALSO=PEARSON,RSQ,SLOPE
-
-@FUNCTION=DGET
-@SYNTAX=DGET(database,field,criteria)
-@DESCRIPTION=DGET function returns a single value from a column that match conditions specified. 
-@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
-@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
-@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
-If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error. 
-@SEEALSO=DCOUNT
-
-@FUNCTION=WEIBULL
-@SYNTAX=WEIBULL(x,alpha,beta,cumulative)
-@DESCRIPTION=The WEIBULL function returns the Weibull distribution. If the cumulative boolean is true it will return: 1 - exp (-(x/beta)^alpha), otherwise it will return (alpha/beta^alpha) * x^(alpha-1) * exp(-(x/beta^alpha)). 
-Performing this function on a string or empty cell simply does nothing. if x < 0 WEIBULL returns #NUM! error. if alpha <= 0 or beta <= 0 WEIBULL returns #NUM! error. 
-@SEEALSO=POISSON
-
-@FUNCTION=SUMIF
-@SYNTAX=SUMIF(range,criteria)
-@DESCRIPTION=SUMIF function sums the values in the given range that meet the given criteria. 
-@SEEALSO=COUNTIF,SUM
-
-@FUNCTION=IMSUM
-@SYNTAX=IMSUM(inumber,inumber)
-@DESCRIPTION=IMSUM returns the sum of two complex numbers. 
-@SEEALSO=IMSUB
-
-@FUNCTION=MIN
-@SYNTAX=MIN(b1, b2, ...)
-@DESCRIPTION=MIN returns the value of the element of the values passed that has the smallest value. With negative numbers considered smaller than positive numbers.
-Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=MAX,ABS
-
-@FUNCTION=ROUNDDOWN
-@SYNTAX=ROUNDDOWN(number[,digits])
-@DESCRIPTION=ROUNDDOWN function rounds a given number down, towards zero. @number is the number you want rounded down and @digits is the number of digits to which you want to round that number. 
-If digits is greater than zero, number is rounded down to the given number of digits. If digits is zero or omitted, number is rounded down to the nearest integer. If digits is less than zero, number is rounded down to the left of the decimal point. 
-@SEEALSO=ROUNDUP
-
-@FUNCTION=HEX2DEC
-@SYNTAX=HEX2DEC(x)
-@DESCRIPTION=The HEX2DEC function converts a binary number in string or number to its decimal equivalent.
-
-@SEEALSO=DEC2HEX
-
-@FUNCTION=CHAR
-@SYNTAX=CHAR(x)
-@DESCRIPTION=Returns the ascii character represented by the number x.
-@SEEALSO=CODE
-
-@FUNCTION=IF
-@SYNTAX=IF(condition[,if-true,if-false])
-@DESCRIPTION=Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false.If ommitted if-true defaults to TRUE and if-false to FALSE.
-@SEEALSO=
-
-@FUNCTION=POISSON
-@SYNTAX=POISSON(x,mean,cumulative)
-@DESCRIPTION=The POISSON function returns the Poisson distribution @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to x.
-Performing this function on a string or empty cell returns an error.if x is a non-integer it is truncated. if x <= 0 POISSON returns #NUM! error. if mean <= 0 POISSON returns the #NUM! error. 
-@SEEALSO=POISSON
-
-@FUNCTION=BESSELJ
-@SYNTAX=BESSELJ(x,y)
-@DESCRIPTION=The BESSELJ function returns the bessel function with x is where the function is evaluated. y is the order of the bessel function, if non-integer it is truncated. 
-if x or n are not numeric a #VALUE! error is returned.if n < 0 a #NUM! error is returned.
-@SEEALSO=BESSELJ,BESSELK,BESSELY
-
-@FUNCTION=LEN
-@SYNTAX=LEN(string)
-@DESCRIPTION=Returns the length in characters of the string @string.
-@SEEALSO=CHAR, CODE
-
-@FUNCTION=DMAX
-@SYNTAX=DMAX(database,field,criteria)
-@DESCRIPTION=DMAX function returns the largest number in a column that match conditions specified. 
-@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
-@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
-@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
-@SEEALSO=DMIN
-
-@FUNCTION=SUMSQ
-@SYNTAX=SUMSQ(value1, value2, ...)
-@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and cells referenced in the argument list. 
-@SEEALSO=SUM, COUNT
-
-@FUNCTION=NORMSDIST
-@SYNTAX=NORMSDIST(x)
-@DESCRIPTION=The NORMSDIST function returns the standard normal cumulative distribution. @x is the value for which you want the distribution. 
-Performing this function on a string or empty cell simply does nothing. 
-@SEEALSO=NOMRDIST
-
-@FUNCTION=DOLLAR
-@SYNTAX=DOLLAR(num,[decimals])
-@DESCRIPTION=Returns @num formatted as currency 
-@SEEALSO=FIXED, TEXT, VALUE
-
-@FUNCTION=CEIL
-@SYNTAX=CEIL(x)
-@DESCRIPTION=The CEIL function rounds x up to the next nearest integer.
-Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=ABS, FLOOR, INT
+@FUNCTION=PPMT
+@SYNTAX=PPMT(rate,per,nper,pv,fv,type)
+@DESCRIPTION=Calculates the amount of a payment of an annuity going towards principal.
+Formula for it is:
+PPMT(per) = PMT - IPMT(per)
+where:
+PMT = Payment received on annuityIPMT(per) = amount of interest for period per
+@SEEALSO=IPMT,PV,FV
 
 @FUNCTION=PROPER
 @SYNTAX=PROPER(string)
-@DESCRIPTION=Returns @string with initial of each word capitalised
+@DESCRIPTION=Returns @string with initial of each word capitalised.
 @SEEALSO=LOWER, UPPER
 
-@FUNCTION=TINV
-@SYNTAX=TINV(p,dof)
-@DESCRIPTION=The TINV function returns the inverse of the two-tailed Student's t-distribution. TINV uses an iterative algorithm for calculating the result. If TINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. 
-If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error. 
-@SEEALSO=TDIST,TTEST
+@FUNCTION=DELTA
+@SYNTAX=DELTA(x[,y])
+@DESCRIPTION=The DELTA function test for numerical eqivilance of two arguments returning 1 in equality y is optional, and defaults to 0.
+If either argument is non-numeric returns a #VALUE! error.
+@SEEALSO=EXACT,GESTEP
 
-@FUNCTION=NEGBINOMDIST
-@SYNTAX=NEGBINOMDIST(f,t,p)
-@DESCRIPTION=The NEGBINOMDIST function returns the negative binomial distribution. @f is the number of failures, @t is the threshold number of successes, and @p is the probability of a success. 
-Performing this function on a string or empty cell returns an error.if f or t is a non-integer it is truncated. if (f + t -1) <= 0 NEGBINOMDIST returns #NUM! error. if p < 0 or p > 1 NEGBINOMDIST returns #NUM! error. 
-@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT
+@FUNCTION=CEILING
+@SYNTAX=CEILING(x,significance)
+@DESCRIPTION=The CEILING function rounds x up to the nearest multiple of significance. 
+If x or significance is non-numeric CEILING returns #VALUE! error. If n and significance have different signs CEILING returns #NUM! error. 
+@SEEALSO=CEIL
 
-@FUNCTION=DEC2OCT
-@SYNTAX=DEC2OCT(number[,places])
-@DESCRIPTION=The DEC2OCT function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
-if places is too small or negative #NUM! error is returned.
-@SEEALSO=OCT2DEC
+@FUNCTION=KURTP
+@SYNTAX=KURTP(n1, n2, ...)
+@DESCRIPTION=KURT returns the population kurtosis of a data set.
+Strings and empty cells are simply ignored.
+If fewer than two numbers are given or all of them are equal KURTP returns #DIV/0! error.
+@SEEALSO=AVERAGE,VARP,SKEWP,KURT
 
-@FUNCTION=BIN2DEC
-@SYNTAX=BIN2DEC(x)
-@DESCRIPTION=The BIN2DEC function converts a binary number in string or number to its decimal equivalent.
+@FUNCTION=IMLOG10
+@SYNTAX=IMLOG10(inumber)
+@DESCRIPTION=IMLOG10 returns the logarithm of a complex number in base 10.
+@SEEALSO=IMLN,IMLOG2
 
-@SEEALSO=DEC2BIN
+@FUNCTION=AND
+@SYNTAX=AND(b1, b2, ...)
+@DESCRIPTION=Implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.
+b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.
+If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. 
+@SEEALSO=OR, NOT
+
+@FUNCTION=ODD
+@SYNTAX=ODD(number)
+@DESCRIPTION=ODD function returns the number rounded up to the nearest odd integer. 
+@SEEALSO=EVEN
+
+@FUNCTION=MAXA
+@SYNTAX=MAXA(number1,number2,...)
+@DESCRIPTION=MAXA returns the largest value of the given arguments.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+@SEEALSO=MAX,MINA
+
+@FUNCTION=ISNONTEXT
+@SYNTAX=ISNONTEXT()
+@DESCRIPTION=ISNONTEXT Returns TRUE if the value is not text. 
+@SEEALSO=
+
+@FUNCTION=SUM
+@SYNTAX=SUM(value1, value2, ...)
+@DESCRIPTION=Computes the sum of all the values and cells referenced in the argument list. 
+@SEEALSO=AVERAGE, COUNT
+
+@FUNCTION=MONTH
+@SYNTAX=MONTH (serial_number)
+@DESCRIPTION=Converts a serial number to a month.
+Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
+@SEEALSO=DAY, TIME, NOW, YEAR
+
+@FUNCTION=ISERR
+@SYNTAX=ISERR()
+@DESCRIPTION=ISERR Returns TRUE if the value is any error value except #N/A. 
+@SEEALSO=
+
+@FUNCTION=BETADIST
+@SYNTAX=BETADIST(x,alpha,beta[,a,b])
+@DESCRIPTION=BETADIST function returns the cumulative beta distribution. @a is the optional lower bound of @x and @b is the optional upper bound of @x.  If @a is not given, BETADIST uses 0.  If @b is not given, BETADIST uses 1.
+If @x < @a or @x > @b BETADIST returns #NUM! error. If @alpha <= 0 or beta <= 0, BETADIST returns #NUM! error. If @a >= @b BETADIST returns #NUM! error.
+@SEEALSO=BETAINV
+
+@FUNCTION=FIXED
+@SYNTAX=FIXED(num, [decimals, no_commas])
+@DESCRIPTION=Returns @num as a formatted string with @decimals numbers after the decimal point, omitting commas if requested by @no_commas.
+@SEEALSO=
 
 @FUNCTION=STDEVP
 @SYNTAX=STDEVP(b1, b2, ...)
@@ -992,29 +1381,28 @@ if places is too small or negative #NUM! error is returned.
 Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=STDEV,VAR,MEAN
 
-@FUNCTION=ROWS
-@SYNTAX=ROWS(reference)
-@DESCRIPTION=The ROWS function returns the number of rows in area or array reference.
-If reference is neither an array nor a reference nor a range returns #VALUE!.
-@SEEALSO=COLUMN,ROW,ROWS
+@FUNCTION=DEC2BIN
+@SYNTAX=DEC2BIN(number[,places])
+@DESCRIPTION=The DEC2BIN function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=BIN2DEC
 
-@FUNCTION=CONCATENATE
-@SYNTAX=CONCATENATE(string1[,string2...])
-@DESCRIPTION=Returns up appended strings
-@SEEALSO=LEFT, MID, RIGHT
+@FUNCTION=HLOOKUP
+@SYNTAX=HLOOKUP(value,range,row,[approximate])
+@DESCRIPTION=The HLOOKUP function finds the col in range that has a first row cell similar to value.  If approximate is not true it finds the col with an exact equivilance.  If approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than value it returns the value in the col found at a 1 based offset in row rows into the range.
+Returns #NUM! if row < 0.Returns #REF! if row falls outside range.
+@SEEALSO=VLOOKUP
 
-@FUNCTION=BESSELY
-@SYNTAX=BESSELY(x,y)
-@DESCRIPTION=The BESSELY function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated. 
-if x or n are not numeric a #VALUE! error is returned.if n < 0 a #NUM! error is returned.
-@SEEALSO=BESSELJ,BESSELK,BESSELY
+@FUNCTION=MMULT
+@SYNTAX=MMULT(array1,array2)
+@DESCRIPTION=SERIESSUM function Returns the matrix product of two arrays. The result is an array with the same number of rows as array1 and the same number of columns as array2.
+@SEEALSO=SUMPRODUCT
 
-@FUNCTION=VARP
-@SYNTAX=VARP(b1, b2, ...)
-@DESCRIPTION=VARP calculates the variance of a set of numbers where each number is a member of a population and the set is the entire population.
-(VARP is also known as the N-variance.)
-Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=STDEV,VAR,MEAN
+@FUNCTION=LOG10
+@SYNTAX=LOG10(x)
+@DESCRIPTION=Computes the base-10 logarithm  of x. 
+Performing this function on a string or empty cell returns an error. 
+@SEEALSO=EXP, LOG2, LOG
 
 @FUNCTION=DCOUNT
 @SYNTAX=DCOUNT(database,field,criteria)
@@ -1029,302 +1417,33 @@ Performing this function on a string or empty cell simply does nothing.
 @DESCRIPTION=Returns the number of arguments passed not including empty cells.
 @SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM
 
-@FUNCTION=DVAR
-@SYNTAX=DVAR(database,field,criteria)
-@DESCRIPTION=DVAR function returns the estimate of variance of a population based on a sample. The populations consists of numbers that match conditions specified. 
-@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
-@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
-@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
-@SEEALSO=DVARP
+@FUNCTION=SUBTOTAL
+@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)
+@DESCRIPTION=SUBTOTAL function returns a subtotal of given list of arguments. @function_nbr is the number that specifies which function to use in calculating the subtotal. The following functions are available:
+1   AVERAGE
+2   COUNT
+3   COUNTA
+4   MAX
+5   MIN
+6   PRODUCT
+7   STDEV
+8   STDEVP
+9   SUM
+10   VAR
+11   VARP
 
-@FUNCTION=YEAR
-@SYNTAX=YEAR (serial_number)
-@DESCRIPTION=Converts a serial number to a year.
-Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string
-@SEEALSO=DAY, MONTH, TIME, NOW
+@SEEALSO=COUNT,SUM
 
-@FUNCTION=PMT
-@SYNTAX=PMT(rate,nper,pv,fv,type)
-@DESCRIPTION=Calculates the present value of an investment.@SEEALSO=PPMT,PV,FV
-
-@FUNCTION=RAND
-@SYNTAX=RAND()
-@DESCRIPTION=Returns a random number greater than or equal to 0 and less than 1.
-
+@FUNCTION=CLEAN
+@SYNTAX=CLEAN(string)
+@DESCRIPTION=Cleans the string from any non-printable characters.
 @SEEALSO=
 
-@FUNCTION=DAY
-@SYNTAX=DAY (serial_number)
-@DESCRIPTION=Converts a serial number to a day.
-Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string
-@SEEALSO=MONTH, TIME, NOW, YEAR
-
-@FUNCTION=KURT
-@SYNTAX=KURT(n1, n2, ...)
-@DESCRIPTION=KURT returns the kurtosis of a data set. 
-Strings and empty cells are simply ignored.
-If fewer than four numbers are given or all of them are equal KURT returns #DIV/0! error. @SEEALSO=VAR
-
-@FUNCTION=CHIDIST
-@SYNTAX=CHIDIST(x,dof)
-@DESCRIPTION=CHIDIST function returns the one-tailed probability of the chi-squared distribution. @dof is the number of degrees of freedom.
-If @dof is non-integer it is truncated. If @dof < 1 CHIDIST returns #NUM! error. 
-@SEEALSO=CHIINV,CHITEST
-
-@FUNCTION=FIND
-@SYNTAX=FIND(string1,string2[,start])
-@DESCRIPTION=Returns position of @string1 in @string2 (case-sesitive), searching only from character @start onwards (assumed 1 if omitted)
-@SEEALSO=EXACT, LEN, MID, SEARCH
-
-@FUNCTION=EXACT
-@SYNTAX=EXACT(string1, string2)
-@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this routine is case sensitive).
-@SEEALSO=LEN
-
-@FUNCTION=EDATE
-@SYNTAX=EDATE(serial_number,months)
-@DESCRIPTION=EDATE returns the serial number of the date that is the specified number of months before or after a given date.  @date is the serial number of the initial date and @months is the number of months before (negative number) or after (positive number) the initial date. 
-If @months is not an integer, it is truncated. 
-@SEEALSO=DATE
-
-@FUNCTION=CONFIDENCE
-@SYNTAX=CONFIDENCE(x,stddev,size)
-@DESCRIPTION=The CONFIDENCE function returns the confidence interval for a mean. @x is the significance level, @stddev is the standard deviation, and @size is the size of the sample.
-Performing this function on a string or empty cell returns an error.if size is non-integer it is truncated. if size < 0 CONFIDENCE returns #NUM! error. if size is 0 CONFIDENCE returns #DIV/0! error. 
-@SEEALSO=AVERAGE
-
-@FUNCTION=LOWER
-@SYNTAX=LOWER(text)
-@DESCRIPTION=Returns a lower-case version of the string in @text
-@SEEALSO=UPPER
-
-@FUNCTION=COMPLEX
-@SYNTAX=COMPLEX(real,im[,suffix])
-@DESCRIPTION=COMPLEX returns a complex number of the form x + yi. @real is the real and @im is the imaginary coefficient of the complex number.  @suffix is the suffix for the imaginary coefficient.  If it is omitted, COMPLEX uses 'i' by default. 
-If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! error. @SEEALSO=
-
-@FUNCTION=DSTDEV
-@SYNTAX=DSTDEV(database,field,criteria)
-@DESCRIPTION=DSTDEV function returns the estimate of the standard deviation of a population based on a sample. The populations consists of numbers that match conditions specified. 
-@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
-@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
-@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
-@SEEALSO=DSTDEVP
-
-@FUNCTION=RANK
-@SYNTAX=RANK(x,ref,order)
-@DESCRIPTION=RANK returns the rank of a number in a list of numbers. @x is the number whose rank you want to find, @ref is the list of numbers, and @order specifies how to rank numbers. If order is 0 numbers are rank in descending order, otherwise numbers are rank in ascending order. 
-@SEEALSO=PERCENTRANK
-
-@FUNCTION=COLUMN
-@SYNTAX=COLUMN([reference])
-@DESCRIPTION=The COLUMN function returns an array of the column numbers taking a default argument of the containing cell position.
-If reference is neither an array nor a reference nor a range returns #VALUE!.
-@SEEALSO=COLUMNS,ROW,ROWS
-
-@FUNCTION=DEVSQ
-@SYNTAX=DEVSQ(n1, n2, ...)
-@DESCRIPTION=DEVSQ returns the sum of squares of deviations of a data set from the sample mean. 
-Strings and empty cells are simply ignored.
-@SEEALSO=STDEV
-
-@FUNCTION=HEX2OCT
-@SYNTAX=HEX2OCT(number[,places])
-@DESCRIPTION=The HEX2OCT function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.
-if places is too small or negative #NUM! error is returned.
-@SEEALSO=BIN2HEX
-
-@FUNCTION=NOT
-@SYNTAX=NOT(number)
-@DESCRIPTION=Implements the logical NOT function: the result is TRUE if the number is zero;  othewise the result is FALSE.
-
-@SEEALSO=AND, OR
-
-@FUNCTION=ROUND
-@SYNTAX=ROUND(number[,digits])
-@DESCRIPTION=ROUND function rounds a given number. @number is the number you want rounded and @digits is the number of digits to which you want to round that number. 
-If digits is greater than zero, number is rounded to the given number of digits. If digits is zero or omitted, number is rounded to the nearest integer. If digits is less than zero, number is rounded to the left of the decimal point. 
-@SEEALSO=ROUNDDOWN,ROUNDUP
-
-@FUNCTION=VALUE
-@SYNTAX=VALUE(text)
-@DESCRIPTION=Returns numeric value of @text
-@SEEALSO=DOLLAR, FIXED, TEXT
-
-@FUNCTION=TAN
-@SYNTAX=TAN(x)
-@DESCRIPTION=The TAN function  returns the tangent of x, where x is given in radians. 
-Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS
-
-@FUNCTION=AVERAGE
-@SYNTAX=AVERAGE(value1, value2,...)
-@DESCRIPTION=Computes the average of all the values and cells referenced in the argument list.  This is equivalent to the sum of the arguments divided by the count of the arguments.
-@SEEALSO=SUM, COUNT
-
-@FUNCTION=SIGN
-@SYNTAX=SIGN(num)
-@DESCRIPTION=SIGN function returns 1 if the number is positive, zero if the number is 0, and -1 if the number is negative. 
-@SEEALSO=
-
-@FUNCTION=NOW
-@SYNTAX=NOW ()
-@DESCRIPTION=Returns the serial number for the date and time at the time it is evaluated.
-Serial Numbers in Gnumeric are represented as follows:The integral part is the number of days since the 1st of January of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds
-For example: .0 represents the beginning of the day, and 0.5 represents noon
-@SEEALSO=TODAY, NOW
-
-@FUNCTION=SKEW
-@SYNTAX=SKEW(n1, n2, ...)
-@DESCRIPTION=SKEW returns the skewness of a distribution. 
-Strings and empty cells are simply ignored.
-If less than three numbers are given SKEW returns #DIV/0! error. @SEEALSO=VAR
-
-@FUNCTION=CODE
-@SYNTAX=CODE(char)
-@DESCRIPTION=Returns the ASCII number for the character char.
-@SEEALSO=CHAR
-
-@FUNCTION=GAMMALN
-@SYNTAX=GAMMALN(x)
-@DESCRIPTION=The GAMMALN function returns the ln of the gamma function
-Performing this function on a string or empty cell returns an error. 
-@SEEALSO=POISSON
-
-@FUNCTION=GESTEP
-@SYNTAX=GESTEP(x[,y])
-@DESCRIPTION=The GESTEP function test for if x is >= y, returning 1 if it is so, and 0 otherwise y is optional, and defaults to 0
-if either argument is non-numeric returns a #VALUE! error
-@SEEALSO=DELTA
-
-@FUNCTION=INT
-@SYNTAX=INT(b1, b2, ...)
-@DESCRIPTION=The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >0, amd CEIL(b1) for b1 < 0. 
-Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=FLOOR, CEIL, ABS
-
-@FUNCTION=BINOMDIST
-@SYNTAX=BINOMDIST(n,trials,p,cumulative)
-@DESCRIPTION=The BINOMDIST function returns the binomial distribution @n is the number of successes, @trials is the total number of independent trials, @p is the probability of success in trials, and @cumulative describes whether to return the sum of thebinomial function from 0 to n.
-Performing this function on a string or empty cell returns an error.if n or trials is a non-integer it is truncated. if n < 0 or trials < 0 BINOMDIST returns #NUM! error. if n > trials BINOMDIST returns #NUM! error. if p < 0 or p > 1 BINOMDIST returns #NUM! error. 
-@SEEALSO=POISSON
-
-@FUNCTION=COMBIN
-@SYNTAX=COMBIN(n,k)
-@DESCRIPTION=Computes the number of combinations.
-Performing this function on a non-integer or a negative number returns an error. Also if n is less than k returns an error.
-
-@SEEALSO=
-
-@FUNCTION=ERROR
-@SYNTAX=ERROR(text)
-@DESCRIPTION=Return the specified error
-
-@SEEALSO=ISERROR
-
-@FUNCTION=DOLLARDE
-@SYNTAX=DOLLARDE(fractional_dollar,fraction)
-@DESCRIPTION=DOLLARDE converts a dollar price expressed as a fraction into a dollar price expressed as a decimal number. 
-If fraction is non-integer it is truncated. If fraction<=0 DOLLARDE returns #NUM! error. @SEEALSO=DOLLARFR
-
-@FUNCTION=ERF
-@SYNTAX=ERF(lower limit[,upper_limit])
-@DESCRIPTION=The ERF function returns the integral of the error function between the limits.  If the upper limit ommitted ERF returns the integral between zero and the lower limit
-if either lower or upper are not numeric a #VALUE! error is returned.if either lower or upper are < 0 a #NUM! error is returned.
-@SEEALSO=ERFC
-
-@FUNCTION=FINV
-@SYNTAX=TINV(p,dof)
-@DESCRIPTION=The FINV function returns the inverse of the F probability distribution. FINV uses an iterative algorithm for calculating the result. If FINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. 
-If @p < 0 or @p > 1 FINV returns #NUM! error. If @dof1 < 0 or @dof2 > 1 FINV returns #NUM! error. 
-@SEEALSO=FDIST
-
-@FUNCTION=MAX
-@SYNTAX=MAX(b1, b2, ...)
-@DESCRIPTION=MAX returns the value of the element of the values passed that has the largest value. With negative numbers considered smaller than positive numbers.
-Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=MIN,ABS
-
-@FUNCTION=BIN2OCT
-@SYNTAX=BIN2OCT(number[,places])
-@DESCRIPTION=The BIN2OCT function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
-if places is too small or negative #NUM! error is returned.
-@SEEALSO=OCT2BIN
-
-@FUNCTION=IMSQRT
-@SYNTAX=IMSQRT(inumber)
-@DESCRIPTION=IMSQRT returns the square root of a complex number. 
-@SEEALSO=IMEXP
-
-@FUNCTION=ATAN2
-@SYNTAX=ATAN2(b1,b2)
-@DESCRIPTION=The ATAN2 function calculates the arc tangent of the two variables b1 and b2.  It is similar to calculating  the  arc tangent  of b2 / b1, except that the signs of both arguments are used to determine the quadrant of the result. The result is in Radians.
-Performing this function on a string or empty cell simply does nothing. 
-@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS
-
-@FUNCTION=ACOS
-@SYNTAX=ACOS(x)
-@DESCRIPTION=The ACOS function calculates the arc cosine of x; that  is the value whose cosine is x.  If x  falls  outside  the  range -1 to 1, ACOS fails and returns the error 'acos - domain error'.  The value it returns is in radians. 
-Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=COS, SIN, DEGREES, RADIANS
-
-@FUNCTION=DVARP
-@SYNTAX=DVARP(database,field,criteria)
-@DESCRIPTION=DVARP function returns the variance of a population based on the entire populations. The populations consists of numbers that match conditions specified. 
-@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
-@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
-@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
-@SEEALSO=DVAR
-
-@FUNCTION=NPV
-@SYNTAX=NPV(rate,v1,v2,...)
-@DESCRIPTION=Calculates the net present value of an investment.@SEEALSO=PV
-
-@FUNCTION=NORMSINV
-@SYNTAX=NORMSINV(p)
-@DESCRIPTION=The NORMSINV function returns the inverse of the standard normal cumulative distribution. @p is the given probability corresponding to the normal distribution. NORMSINV uses an iterative algorithm for calculating the result. If NORMSINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. 
-If @p < 0 or @p > 1 NORMSINV returns #NUM! error. 
-@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST
-
-@FUNCTION=DEC2HEX
-@SYNTAX=DEC2HEX(number[,places])
-@DESCRIPTION=The DEC2HEX function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
-if places is too small or negative #NUM! error is returned.
-@SEEALSO=HEX2DEC
-
-@FUNCTION=IMCOS
-@SYNTAX=IMCOS(inumber)
-@DESCRIPTION=IMCOS returns the cosine of a complex number. 
-@SEEALSO=IMSIN
-
-@FUNCTION=IMDIV
-@SYNTAX=IMDIV(inumber,inumber)
-@DESCRIPTION=IMDIV returns the quotient of two complex numbers. 
-@SEEALSO=IMPRODUCT
-
-@FUNCTION=IMEXP
-@SYNTAX=IMEXP(inumber)
-@DESCRIPTION=IMEXP returns the exponential of a complex number. 
-@SEEALSO=IMLN
-
-@FUNCTION=DSTDEVP
-@SYNTAX=DSTDEVP(database,field,criteria)
-@DESCRIPTION=DSTDEVP function returns the standard deviation of a population based on the entire populations. The populations consists of numbers that match conditions specified. 
-@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
-@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
-@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
-@SEEALSO=DSTDEV
-
-@FUNCTION=EXPONDIST
-@SYNTAX=EXPONDIST(x,y,cumulative)
-@DESCRIPTION=The EXPONDIST function returns the exponential distribution If the cumulative boolean is false it will return: y * exp (-y*x), otherwise it will return 1 - exp (-y*x). 
-If x<0 or y<=0 this will return an errorPerforming this function on a string or empty cell simply does nothing. 
-@SEEALSO=POISSON
-
-@FUNCTION=DOLLARFR
-@SYNTAX=DOLLARFR(decimal_dollar,fraction)
-@DESCRIPTION=DOLLARFR converts a decimal dollar price into a dollar price expressed as a fraction. 
-If fraction is non-integer it is truncated. If fraction<=0 DOLLARDE returns #NUM! error. @SEEALSO=DOLLARDE
+@FUNCTION=MODE
+@SYNTAX=MODE(n1, n2, ...)
+@DESCRIPTION=MODE returns the most common number of the data set. If the data set has many most common numbers MODE returns the first one of them. 
+Strings and empty cells are simply ignored.If the data set does not contain any duplicates MODE returns #N/A! error.
+@SEEALSO=AVERAGE,MEDIAN
 
 @FUNCTION=DCOUNTA
 @SYNTAX=DCOUNTA(database,field,criteria)
@@ -1334,86 +1453,233 @@ If fraction is non-integer it is truncated. If fraction<=0 DOLLARDE returns #NUM
 @criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
 @SEEALSO=DCOUNT
 
-@FUNCTION=OCT2DEC
-@SYNTAX=OCT2DEC(x)
-@DESCRIPTION=The OCT2DEC function converts an octal number in a string or number to its decimal equivalent.
+@FUNCTION=SUMX2PY2
+@SYNTAX=SUMX2PY2(array1,array2)
+@DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2PY2 is SUM (x^2+y^2). 
+Strings and empty cells are simply ignored.
+If @array1 and @array2 have different number of data points, SUMX2PY2 returns #N/A! error. 
+@SEEALSO=SUMSQ
 
-@SEEALSO=DEC2OCT
+@FUNCTION=FTEST
+@SYNTAX=FTEST(array1,array2)
+@DESCRIPTION=FTEST function returns the one-tailed probability that the variances in the given two data sets are not significantly different. 
+@SEEALSO=FDIST,FINV
 
-@FUNCTION=DSUM
-@SYNTAX=DSUM(database,field,criteria)
-@DESCRIPTION=DSUM function returns the sum of numbers in a column that match conditions specified. 
+@FUNCTION=SKEWP
+@SYNTAX=SKEWP(n1, n2, ...)
+@DESCRIPTION=SKEW returns the population skewness of a data set.
+Strings and empty cells are simply ignored.
+If less than two numbers are given, SKEWP returns #DIV/0! error.
+@SEEALSO=AVERAGE,VARP,SKEW,KURTP
+
+@FUNCTION=ISNUMBER
+@SYNTAX=ISNUMBER()
+@DESCRIPTION=ISNUMBER Returns TRUE if the value is a number. 
+@SEEALSO=
+
+@FUNCTION=RADIANS
+@SYNTAX=RADIANS(x)
+@DESCRIPTION=Computes the number of radians equivalent to  x degrees. 
+Performing this function on a string or empty cell simply does nothing. 
+@SEEALSO=PI,DEGREES
+
+@FUNCTION=IPMT
+@SYNTAX=IPMT(rate,per,nper,pv,fv,type)
+@DESCRIPTION=Calculates the amount of a payment of an annuity going towards interest.
+Formula for IPMT is:
+
+IPMT(PER) = PMT - PRINCIPAL(PER-1) * INTEREST_RATE
+where:
+PMT = Payment received on annuityPRINCIPA(per-1) = amount of the remaining principal from last period
+@SEEALSO=PPMT,PV,FV
+
+@FUNCTION=ISREF
+@SYNTAX=ISREF()
+@DESCRIPTION=ISREF Returns TRUE if the value is a reference. 
+@SEEALSO=
+
+@FUNCTION=ROUNDUP
+@SYNTAX=ROUNDUP(number[,digits])
+@DESCRIPTION=ROUNDUP function rounds a given number up, away from zero. @number is the number you want rounded up and @digits is the number of digits to which you want to round that number. 
+If digits is greater than zero, number is rounded up to the given number of digits. If digits is zero or omitted, number is rounded up to the nearest integer. If digits is less than zero, number is rounded up to the left of the decimal point. 
+@SEEALSO=ROUNDDOWN
+
+@FUNCTION=DSTDEV
+@SYNTAX=DSTDEV(database,field,criteria)
+@DESCRIPTION=DSTDEV function returns the estimate of the standard deviation of a population based on a sample. The populations consists of numbers that match conditions specified. 
 @database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
 @field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. 
 @criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. 
-@SEEALSO=DPRODUCT
+@SEEALSO=DSTDEVP
 
-@FUNCTION=LN
-@SYNTAX=LN(x)
-@DESCRIPTION=LN returns the natural logarithm of x. 
-@SEEALSO=EXP, LOG2, LOG10
+@FUNCTION=SUMA
+@SYNTAX=SUMA(value1, value2, ...)
+@DESCRIPTION=Computes the sum of all the values and cells referenced in the argument list.  Numbers, text and logical values are included in the calculation too.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
+@SEEALSO=AVERAGE, SUM, COUNT
 
-@FUNCTION=COLUMN
-@SYNTAX=COLUMN([reference])
-@DESCRIPTION=The COLUMN function returns an array of the column numbers taking a default argument of the containing cell position.
-If reference is neither an array nor a reference nor a range returns #VALUE!.
-@SEEALSO=COLUMNS,ROW,ROWS
+@FUNCTION=IMTAN
+@SYNTAX=IMTAN(inumber)
+@DESCRIPTION=IMCOS returns the tangent of a complex number.
+@SEEALSO=IMTAN
 
-@FUNCTION=VAR
-@SYNTAX=VAR(b1, b2, ...)
-@DESCRIPTION=VAR estimates the variance of a sample of a population. To get the true variance of a complete population use @VARP
-(VAR is also known as the N-1-variance.  Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.)
-Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=VARP,STDEV
+@FUNCTION=FISHERINV
+@SYNTAX=FISHERINV(y)
+@DESCRIPTION=The FISHERINV function returns the inverse of the Fisher transformation at x. 
+If x is non-number FISHER returns #VALUE! error.
+@SEEALSO=FISHER
 
-@FUNCTION=COUNT
-@SYNTAX=COUNT(b1, b2, ...)
-@DESCRIPTION=Returns the total number of integer or floating point arguments passed.
-Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=AVERAGE
-
-@FUNCTION=ERFC
-@SYNTAX=ERFC(x)
-@DESCRIPTION=The ERFC function returns the integral of the complimentary error function between the limits 0 and x. 
-if x is not numeric a #VALUE! error is returned.if x < 0 a #NUM! error is returned.
-@SEEALSO=ERF
-
-@FUNCTION=FACTDOUBLE
-@SYNTAX=FACTDOUBLE(number)
-@DESCRIPTION=FACTDOUBLE function returns the double factorial of a number. 
-If @number is not an integer, it is truncated. If @number is negative FACTDOUBLE returns #NUM! error. 
-@SEEALSO=FACT
-
-@FUNCTION=DATEVALUE
-@SYNTAX=DATEVALUE(date_str)
-@DESCRIPTION=DATEVALUE returns the serial number of the date.  @date_str is the string that contains the date.  For example, DATEVALUE("1/1/1999") equals to 36160. 
-@SEEALSO=DATE
-
-@FUNCTION=NPER
-@SYNTAX=NPER(rate,pmt,pv,fv,type)
-@DESCRIPTION=Calculates number of periods of an investment.@SEEALSO=PPMT,PV,FV
-
-@FUNCTION=VLOOKUP
-@SYNTAX=VLOOKUP(value,range,column,[approximate])
-@DESCRIPTION=The VLOOKUP function finds the row in range that has a first column similar to value. if approximate is not true it finds the row with an exact equivilance. if approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than value. it returns the value in the row found at a 1 based offset in column columns into the range.
-Returns #NUM! if column < 0.Returns #REF! if column falls outside range.
-@SEEALSO=HLOOKUP
-
-@FUNCTION=SUMX2MY2
-@SYNTAX=SUMX2MY2(array1,array2)
-@DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2MY2 is SUM (x^2-y^2). 
-Strings and empty cells are simply ignored.
-If @array1 and @array2 have different number of data points, SUMX2MY2 returns #N/A! error. 
-@SEEALSO=SUMSQ
-
-@FUNCTION=ATANH
-@SYNTAX=ATANH(x)
-@DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic tangent of x; that is the value whose  hyperbolic  tangent is  x.   If  the  absolute value of x is greater than 1.0,  ATANH returns an error of 'atanh: domain error'      
+@FUNCTION=ATAN
+@SYNTAX=ATAN(x)
+@DESCRIPTION=The ATAN function calculates the arc tangent of x; that  is the value whose tangent is x.Return value is in radians.
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS
+@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS
 
-@FUNCTION=IMLOG10
-@SYNTAX=IMLOG10(inumber)
-@DESCRIPTION=IMLOG10 returns the logarithm of a complex number in base 10. 
-@SEEALSO=IMLN,IMLOG2
+@FUNCTION=SLN
+@SYNTAX=SLN(cost,salvage value,life)
+@DESCRIPTION=Calculates the straight line depriciation for anasset based on its cost, salvage value and anticipated life.
+Formula for straight line depriciation is:
+Depriciation expense = ( cost - salvage value ) / life
+	cost = cost of an asset when acquired (market value)	salvage_value = amount you get when asset sold at the end of life	life = anticipated life of an asset@SEEALSO=SYD
+
+@FUNCTION=LARGE
+@SYNTAX=LARGE(n1, n2, ..., k)
+@DESCRIPTION=LARGE returns the k-th largest value in a data set.
+If data set is empty LARGE returns #NUM! error. If k<=0 or k is greater than the number of data items given LARGE returns #NUM! error.
+@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL
+
+@FUNCTION=HEX2BIN
+@SYNTAX=HEX2BIN(number[,places])
+@DESCRIPTION=The HEX2BIN function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=BIN2HEX
+
+@FUNCTION=GESTEP
+@SYNTAX=GESTEP(x[,y])
+@DESCRIPTION=The GESTEP function test for if x is >= y, returning 1 if it is so, and 0 otherwise y is optional, and defaults to 0.
+If either argument is non-numeric returns a #VALUE! error.
+@SEEALSO=DELTA
+
+@FUNCTION=TDIST
+@SYNTAX=TDIST(x,dof,tails)
+@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is the degree of freedom and @tails is 1 or 2 depending on whether you want one-tailed or two-tailed distribution.
+If @dof < 1 TDIST returns #NUM! error. If @tails is neither 1 or 2 TDIST returns #NUM! error.
+@SEEALSO=TINV,TTEST
+
+@FUNCTION=HOUR
+@SYNTAX=HOUR (serial_number)
+@DESCRIPTION=Converts a serial number to an hour.  The hour is returned as an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)
+Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
+@SEEALSO=MINUTE, NOW, TIME, SECOND
+
+@FUNCTION=FACT
+@SYNTAX=FACT(x)
+@DESCRIPTION=Computes the factorial of x. ie, x!
+Performing this function on a string or empty cell returns an error
+
+@SEEALSO=
+
+@FUNCTION=SLOPE
+@SYNTAX=SLOPE(known_y's,known_x's)
+@DESCRIPTION=SLOPE returns the slope of the linear regression line.
+@SEEALSO=STDEV,STDEVPA
+
+@FUNCTION=COVAR
+@SYNTAX=COVAR(array1,array2)
+@DESCRIPTION=COVAR returns the covariance of two data sets.
+Strings and empty cells are simply ignored.
+@SEEALSO=CORREL,FISHER,FISHERINV
+
+@FUNCTION=DOLLARFR
+@SYNTAX=DOLLARFR(decimal_dollar,fraction)
+@DESCRIPTION=DOLLARFR converts a decimal dollar price into a dollar price expressed as a fraction. 
+If fraction is non-integer it is truncated. If fraction<=0 DOLLARDE returns #NUM! error. @SEEALSO=DOLLARDE
+
+@FUNCTION=OCT2HEX
+@SYNTAX=OCT2HEX(number[,places])
+@DESCRIPTION=The OCT2HEX function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=OCT2HEX
+
+@FUNCTION=COMBIN
+@SYNTAX=COMBIN(n,k)
+@DESCRIPTION=Computes the number of combinations.
+Performing this function on a non-integer or a negative number returns an error. Also if n is less than k returns an error.
+
+@SEEALSO=
+
+@FUNCTION=EVEN
+@SYNTAX=EVEN(number)
+@DESCRIPTION=EVEN function returns the number rounded up to the nearest even integer. 
+@SEEALSO=ODD
+
+@FUNCTION=IF
+@SYNTAX=IF(condition[,if-true,if-false])
+@DESCRIPTION=Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false.If ommitted if-true defaults to TRUE and if-false to FALSE.
+@SEEALSO=
+
+@FUNCTION=IMSQRT
+@SYNTAX=IMSQRT(inumber)
+@DESCRIPTION=IMSQRT returns the square root of a complex number.
+@SEEALSO=IMEXP
+
+@FUNCTION=COUNTIF
+@SYNTAX=COUNTIF(range,criteria)
+@DESCRIPTION=COUNTIF function counts the number of cells in the given range that meet the given criteria. 
+@SEEALSO=COUNT,SUMIF
+
+@FUNCTION=ACOSH
+@SYNTAX=ACOSH(x)
+@DESCRIPTION=The ACOSH  function  calculates  the inverse hyperbolic cosine of x; that is the value whose hyperbolic cosine is x. If x is less than 1.0, acosh() returns the error  'acosh - domain error'
+Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
+@SEEALSO=ACOS, DEGREES, RADIANS 
+
+@FUNCTION=TRIM
+@SYNTAX=TRIM(text)
+@DESCRIPTION=Returns @text with only single spaces between words.
+@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE
+
+@FUNCTION=TRUNC
+@SYNTAX=TRUNC(number[,digits])
+@DESCRIPTION=The TRUNC function returns the value of @number truncated to the number of digits specified.  If @digits is omitted then @digits defaults to zero.
+
+@SEEALSO=
+
+@FUNCTION=PROB
+@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])
+@DESCRIPTION=PROB function returns the probability that values in a range or an array are between two limits. If @upper_limit is not given, PROB returns the probability that values in @x_range are equal to @lower_limit.
+If the sum of the probabilities in @prob_range is not equal to 1 PROB returns #NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns #NUM! error. If @x_range and @prob_range contain a different number of data entries, PROB returns #N/A! error.
+@SEEALSO=BINOMDIST,CRITBINOM
+
+@FUNCTION=SEARCH
+@SYNTAX=SEARCH(text,within[,start_num])
+@DESCRIPTION=Returns the location of a character or text string within another string.  @text is the string or character to be searched. @within is the string in which you want to search.  @start_num is the start position of the search in @within.  If @start_num is omitted, it is assumed to be one.  The search is not case sensitive. 
+@text can contain wildcard characters (*) and question marks (?) to control the search.  A question mark matches with any character and wildcard matches with any string including empty string.  If you want the actual wildcard or question mark to be searched, use tilde (~) before the character. 
+If @text is not found, SEARCH returns #VALUE! error. If @start_num is less than one or it is greater than the length of @within, SEARCH returns #VALUE! error. 
+@SEEALSO=FIND
+
+@FUNCTION=CONCATENATE
+@SYNTAX=CONCATENATE(string1[,string2...])
+@DESCRIPTION=Returns up appended strings.
+@SEEALSO=LEFT, MID, RIGHT
+
+@FUNCTION=ISERROR
+@SYNTAX=ISERROR(exp)
+@DESCRIPTION=Returns a TRUE value if the expression has an error
+
+@SEEALSO=ERROR
+
+@FUNCTION=INFO
+@SYNTAX=INFO()
+@DESCRIPTION=INFO Returns information about the current operating environment. 
+@SEEALSO=
+
+@FUNCTION=ERROR.TYPE
+@SYNTAX=ERROR(exp)
+@DESCRIPTION=FIXME
+@SEEALSO=ISERROR
+
+@FUNCTION=IMLN
+@SYNTAX=IMLN(inumber)
+@DESCRIPTION=IMLN returns the natural logarithm of a complex number. (The result will have an imaginary part between -pi an +pi.  The natural logarithm is not uniquely defined on complex numbers.  You may need to add or subtract an even multiple of pi to the imaginary part.)
+@SEEALSO=IMEXP
 

@@ -11,6 +11,7 @@ gnumeric_help_DATA = 	\
 	topic.dat
 
 SGML_FILES =			\
+	analysis-tools.sgml	\
 	autofill.sgml		\
 	cell_refer.sgml		\
 	dndselection.sgml	\
