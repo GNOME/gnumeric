@@ -579,7 +579,7 @@ format_destroy (StyleFormat *format)
 }
 
 static struct FormatColor {
-	char       *name;
+	const char *name;
 	StyleColor *color;
 } format_colors[] = {
 	{ N_("black")   },
