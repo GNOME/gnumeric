@@ -1,5 +1,8 @@
 1999-06-24    <michael@edenproject.org>
 
+	* src/expr.c (error_message_new): Fix stupid bug,
+	such that every error was set.
+
 	* src/fn-math.c: Add sumproduct back in.
 
 1999-06-24  Michael Meeks  <michael@edenproject.org>

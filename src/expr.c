@@ -83,7 +83,7 @@ ErrorMessage *error_message_new (void)
 {
 	ErrorMessage *em = g_new (ErrorMessage, 1);
 
-	em->err_msg      = _("Internal Error");
+	em->err_msg      = 0;
 	em->err_alloced  = 0;
 	em->small_err[0] = '\0';
 	return em;
