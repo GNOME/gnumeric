@@ -705,6 +705,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *fontsel, *fontsize, *entry;
 	GtkWidget *border_combo, *back_combo, *fore_combo;
+	ColorGroup *cg;
 
 	GList *l;
 	int i, len;
@@ -794,33 +795,28 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	gtk_signal_connect (GTK_OBJECT (border_combo), "changed",
 			    GTK_SIGNAL_FUNC (cb_border_changed), wbcg);
 	disable_focus (border_combo, NULL);
-
 	gtk_combo_box_set_title (GTK_COMBO_BOX (border_combo),
 				 _("Borders"));
 
-	/*
-	 * Create the background colour combo box.
-	 */
+	/* Create the background colour combo box */
+	cg = color_group_fetch ("back_color_group", wbcg);
 	back_combo = color_combo_new (bucket_xpm, _("Clear Background"),
 				      /* Draw an outline for the default */
-				      NULL, "back_color_group");
+				      NULL, cg);
 	gtk_signal_connect (GTK_OBJECT (back_combo), "changed",
 			    GTK_SIGNAL_FUNC (cb_back_color_changed), wbcg);
 	disable_focus (back_combo, NULL);
-
 	gtk_combo_box_set_title (GTK_COMBO_BOX (back_combo),
 				 _("Background"));
 
-	/*
-	 * Create the font colour combo box.
-	 */
+	/* Create the font colour combo box.  */
+	cg = color_group_fetch ("fore_color_group", wbcg);
 	fore_combo = color_combo_new (font_xpm, _("Automatic"),
 				      /* Draw black for the default */
-				      &gs_black, "for_colorgroup");
+				      &gs_black, cg);
 	gtk_signal_connect (GTK_OBJECT (fore_combo), "changed",
 			    GTK_SIGNAL_FUNC (cb_fore_color_changed), wbcg);
 	disable_focus (fore_combo, NULL);
-
 	gtk_combo_box_set_title (GTK_COMBO_BOX (fore_combo),
 				 _("Foreground"));
 

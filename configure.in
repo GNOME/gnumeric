@@ -85,6 +85,10 @@ AC_CHECK_FUNCS(random drand48)
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
 
+dnl we need iconv for translating to/from locale's charset when
+dnl reading/writing Excel files
+AC_CHECK_HEADERS(iconv.h)
+
 dnl **************************************************
 dnl * ORBit support
 dnl **************************************************
@@ -423,13 +427,13 @@ unset libglade_ok
 dnl ******************************
 dnl Gnome App Lib checking
 dnl ******************************
-AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.5				)
+AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.7.99.0
 gal_ok=no
 if gnome-config --libs gal > /dev/null 2>&1; then 
     verstxt=`gnome-config --modversion gal`
     vers=`echo "$verstxt" | sed -e "s/gal-//" -e 's/cvs$//' -e 's/pre$//' | \
 	awk -F. '{ printf "%d", $1*1000000 + $2*10000 + $3*100 + $4; }'`
-    if test "$vers" -ge 50000; then
+    if test "$vers" -ge 79900; then
 	AC_MSG_RESULT($marker_ok found $verstxt)
 	gal_ok=yes
     else
@@ -439,7 +443,7 @@ else
     AC_MSG_RESULT($marker_fail not found)
 fi
 if test "$gal_ok" = no; then
-    AC_MSG_ERROR(You need at least GNOME Application libs 0.5 for this version of Gnumeric)
+    AC_MSG_ERROR(You need at least GNOME Application libs 0.7.99 for this version of Gnumeric)
 fi
 unset gal_ok
 

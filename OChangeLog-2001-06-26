@@ -1,3 +1,10 @@
+2001-04-16  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : bump GAL version reqs.
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar) :
+	  Jump to updated interface.  Partially fix the shared group problems.
+
 2001-04-15  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/item-grid.c : Within all functions

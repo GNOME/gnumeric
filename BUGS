@@ -19,6 +19,13 @@ Release Critical
 
     - #52753 Figure out the GAL colour combo problem that activates all
       workbooks together when only 1 changes.
+      	: Add a 'view_change' handler to wb_control
+	: Add a color_combo get palette
+	: Add a color-palette get/set color_group
+	: Figure out palette even handler
+	: Tie the color group to the view
+
+    - Init the undo/redo stack content for new controls
 
 Long term breakage
 ------------------
@@ -43,9 +50,6 @@ Long term breakage
 - Search-and-replace.
   - It is doubtful whether the regexp selection belongs on the first page.
   - Querying is not implemented.
-
-- Entering "=1e11111" yields "Syntax Error", not "overflow".
-  In general parsing needs better error messages.
 
 - The max row/col canvas scroll size is still hard coded.
 - scrollbar sizes are based on rows/cols rather than visible pixels
