@@ -615,14 +615,14 @@ gnumeric_ceiling (struct FunctionDefinition *i,
 
 	if (!VALUE_IS_NUMBER(argv[0]) ||
 	    !VALUE_IS_NUMBER(argv[1])) {
-                *error_string = _("#VALUE!") ;
+                *error_string = _("#VALUE!");
                 return NULL;
 	}
 	x = value_get_as_float (argv[0]);
 	significance = value_get_as_float (argv[1]);
 	if ((x < 0.0 && significance > 0.0) ||
 	    (x > 0.0 && significance < 0.0)) {
-                *error_string = _("#NUM!") ;
+                *error_string = _("#NUM!");
                 return NULL;
 	}
 	if (significance < 0) {
@@ -1040,28 +1040,29 @@ gnumeric_mod (struct FunctionDefinition *i,
 {
 	int a,b;
 
-	a = value_get_as_int (argv[0]) ;
-	b = value_get_as_int (argv[1]) ;
+	a = value_get_as_int (argv[0]);
+	b = value_get_as_int (argv[1]);
 	/* Obscure handling of C's mod function */
-	if (a<0) a = -a ;
-	if (a<0) { /* -0 */
-		*error_string = _("#NUM!") ;
-		return NULL ;
+	if (a<0) a = -a;
+
+	if (a < 0){ /* -0 */
+		*error_string = _("#NUM!");
+		return NULL;
 	}
-	if (b<0) {
-		a = -a ;
-		b = -b ;
+	if (b < 0){
+		a = -a;
+		b = -b;
 	}
-	if (b<0) { /* -0 */
-		*error_string = _("#NUM!") ;
-		return NULL ;
+	if (b < 0) { /* -0 */
+		*error_string = _("#NUM!");
+		return NULL;
 	}
-	if (b==0) {
-		*error_string = _("#DIV/0!") ;
-		return NULL ;
+	if (b == 0) {
+		*error_string = _("#DIV/0!");
+		return NULL;
 	}
 
-	return value_new_int (a%b) ;
+	return value_new_int (a % b);
 }
 
 static char *help_radians = {
@@ -1164,12 +1165,13 @@ static Value *
 gnumeric_sqrt (struct FunctionDefinition *i,
 	       Value *argv [], char **error_string)
 {
-	float_t x = value_get_as_float (argv[0]) ;
-	if (x<0) {
-		*error_string = _("#NUM!") ;
-		return NULL ;
+	float_t x = value_get_as_float (argv [0]);
+
+	if (x < 0){
+		*error_string = _("#NUM!");
+		return NULL;
 	}
-	return value_new_float (sqrt(x)) ;
+	return value_new_float (sqrt (x));
 }
 
 static char *help_sum = {
@@ -1670,11 +1672,12 @@ gnumeric_factdouble (struct FunctionDefinition *i,
 
 	number = value_get_as_int (argv[0]);
 	if (number < 0) {
-		*error_string = _("#NUM!") ;
-		return NULL ;
+		*error_string = _("#NUM!");
+		return NULL;
 	}
-	for (n=number; n > 0; n-=2)
+	for (n = number; n > 0; n-= 2)
 	        product *= n;
+
 	return value_new_int (product);
 }
 
@@ -1772,8 +1775,8 @@ gnumeric_randbetween (struct FunctionDefinition *i,
 	bottom = value_get_as_int (argv[0]);
 	top = value_get_as_int (argv[1]);
 	if (bottom > top) {
-		*error_string = _("#NUM!") ;
-		return NULL ;
+		*error_string = _("#NUM!");
+		return NULL;
 	}
 
 	r = bottom + floor ((top + 1.0 - bottom) * random_01 ());
@@ -2011,47 +2014,47 @@ gnumeric_roman (struct FunctionDefinition *fd,
 	        form = value_get_as_int (argv[1]);
 
 	if (n < 0 || n > 3999) {
-		*error_string = _("#VALUE!") ;
-		return NULL ;
+		*error_string = _("#VALUE!");
+		return NULL;
 	}
 
 	if (n == 0)
 	        return value_new_string ("");
 
 	if (form < 0 || form > 4) {
-		*error_string = _("#NUM!") ;
-		return NULL ;
+		*error_string = _("#NUM!");
+		return NULL;
 	}
 
 	if (form > 0) {
-		*error_string = _("#Unimplemented!") ;
-		return NULL ;
+		*error_string = _("#Unimplemented!");
+		return NULL;
 	}
 
-	for (i=j=0; dec > 1; dec/=10, j+=2) {
-	        for ( ; n>0; i++) {
-		        if (n >= dec) {
-			        buf[i] = letter[j];
+	for (i = j = 0; dec > 1; dec /= 10, j+=2){
+	        for (; n > 0; i++){
+		        if (n >= dec){
+			        buf[i] = letter [j];
 				n -= dec;
-			} else if (n >= dec - dec/10) {
-			        buf[i++] = letter[j+2];
-				buf[i] = letter[j];
+			} else if (n >= dec - dec/10){
+			        buf [i++] = letter [j+2];
+				buf [i] = letter [j];
 				n -= dec - dec/10;
-			} else if (n >= dec/2) {
-			        buf[i] = letter[j+1];
+			} else if (n >= dec/2){
+			        buf [i] = letter [j+1];
 				n -= dec/2;
-			} else if (n >= dec/2 - dec/10) {
-			        buf[i++] = letter[j+2];
-				buf[i] = letter[j+1];
+			} else if (n >= dec/2 - dec/10){
+			        buf [i++] = letter [j+2];
+				buf [i] = letter [j+1];
 				n -= dec/2 - dec/10;
-			} else if (dec == 10) {
-			        buf[i] = letter[j+2];
+			} else if (dec == 10){
+			        buf [i] = letter [j+2];
 				n--;
 			} else
 			        break;
 		}
 	}
-	buf[i] = '\0';
+	buf [i] = '\0';
 
 	return value_new_string (buf);
 }

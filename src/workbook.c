@@ -272,7 +272,7 @@ workbook_do_destroy (Workbook *wb)
 		GList *sheets, *l;
 
 		sheets = workbook_sheets (wb);
-		for (l = sheets; l ; l = l->next) {
+		for (l = sheets; l; l = l->next){
 			Sheet *sheet = l->data;
 
 			workbook_detach_sheet (sheet->workbook, sheet, TRUE);
@@ -723,8 +723,9 @@ static void
 goal_seek_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
-	sheet = workbook_get_current_sheet (wb) ;
-	dialog_goal_seek (wb, sheet) ;
+
+	sheet = workbook_get_current_sheet (wb);
+	dialog_goal_seek (wb, sheet);
 }
 
 static void

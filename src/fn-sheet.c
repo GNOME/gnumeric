@@ -28,7 +28,7 @@ static Value *
 gnumeric_selection (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
 	Value *value;
-	GList *l ;
+	GList *l;
 	int numrange,lp;
 	
 	/* Type checking */

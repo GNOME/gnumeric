@@ -646,13 +646,13 @@ cell_set_text_simple (Cell *cell, const char *text)
 		while (isspace (*p)) p++;
 
 		l = strtol (p, &end, 10);
-		if (p != end && *end == 0) {
+		if (p != end && *end == 0){
 			/* It is an int.  FIXME: long/int confusion here.  */
 			cell->value = value_new_int (l);
 		} else {
 			double d;
 			d = strtod (p, &end);
-			if (p != end && *end == 0) {
+			if (p != end && *end == 0){
 				/* It is a floating point number.  */
 				cell->value = value_new_float ((float_t)d);
 			} else {
@@ -728,7 +728,7 @@ cell_set_formula_tree_simple (Cell *cell, ExprTree *formula)
 
 	cell_modified (cell);
 
-	if (cell->parsed_node) {
+	if (cell->parsed_node){
 		sheet_cell_formula_unlink (cell);
 		expr_tree_unref (cell->parsed_node);
 	}

@@ -492,7 +492,7 @@ value_array_resize (Value *v, guint width, guint height)
 
 	tmp = v->v.array.vals;
 	v->v.array.vals = newval->v.array.vals;
-	newval->v.array.vals = tmp ;
+	newval->v.array.vals = tmp;
 	value_release (newval);
 
 	v->v.array.x = width;
