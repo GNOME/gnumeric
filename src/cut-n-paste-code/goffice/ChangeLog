@@ -1,3 +1,9 @@
+2004-01-23  Jody Goldberg <jody@gnome.org>
+
+	* gui-utils/go-action-combo-stack.c : tweak to make it sorta work.
+	  I do not like the kludgy approach required by our not supporting
+	  arguments to GtkAction::activate
+
 2004-01-22  Jody Goldberg <jody@gnome.org>
 
 	* gui-utils/go-action-combo-pixmaps.c : rewrite.

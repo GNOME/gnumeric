@@ -41,43 +41,43 @@ Pending Patches
 4) Function docs
     4.1) Use multiple tagged paragraphs
 5) GtkUIManager
-    5.1) Convert Stock menus				(DONE)
-    5.2) Convert basic Std toolbar			(DONE)
-    5.3) Convert Object toolbar				(DONE)
-    5.4) Convert basic Format toolbar			(DONE)
+    5.1) Convert Stock menus					(DONE)
+    5.2) Convert basic Std toolbar				(DONE)
+    5.3) Convert Object toolbar					(DONE)
+    5.4) Convert basic Format toolbar				(DONE)
     5.5) GOActionComboText
-	5.5.1) stub					(DONE)	
+	5.5.1) stub						(DONE)	
 	5.5.2) Move to TreeModel to simplify sharing
 	5.5.3) Support custom menu item
-    5.6) GOActionStack (undo/redo)
-	5.6.1) stub					(DONE)	
-	5.6.2) Move to TreeModel to simplify sharing	(DONE)
-	5.6.3) Support custom menu item			(DONE)
-	5.6.4) Emit activate for toolbar
-	5.6.5) Emit activate for menu			(DONE)
-    5.7) GOActionPixmaps (border)
-	5.7.1) stub					(DONE)	
-	5.7.2) Add some events
-	5.7.3) Support custom menu item
+    5.6) GOActionStack (undo/redo)				(DONE)
+	5.6.1) stub						(DONE)	
+	5.6.2) Move to TreeModel to simplify sharing		(DONE)
+	5.6.3) Support custom menu item				(DONE)
+	5.6.4) Emit activate for toolbar			(DONE)
+	5.6.5) Emit activate for menu				(DONE)
+    5.7) GOActionPixmaps (border)				(DONE)
+	5.7.1) stub						(DONE)	
+	5.7.2) Add some events					(DONE)
+	5.7.3) Support custom menu item				(DONE)
     5.8) GOActionColor
-	5.8.1) stub					(DONE)	
-	5.8.2) Support custom menu item			(DONE)
-	5.8.3) Improve finger feel			(DONE)
-	5.8.4) emit activate for toolbar		(DONE)
-	5.8.5) emit activate for menu			(DONE)
-	5.8.6) history buttons in menu
+	5.8.1) stub						(DONE)	
+	5.8.2) Support custom menu item				(DONE)
+	5.8.3) Improve finger feel				(DONE)
+	5.8.4) emit activate for toolbar			(DONE)
+	5.8.5) emit activate for menu				(DONE)
+	5.8.6) history buttons in menu				(DONE)
 	5.8.7) custom button in menu
 	5.8.8) sync proxies
 	5.8.9) Use GtkColorSelector
 	5.8.10) Better cursor
-	5.8.11) Use GOColor in action			(DONE)
+	5.8.11) Use GOColor in action				(DONE)
 	5.8.12) Use GOColor in combo
 	5.8.13) Cleanup
     5.9) Move the hard coded accelerators out of
 	canvas into actions
-    5.10) Add indent/unindent icons to gtk
-	5.10.1) Patch written				(DONE)
-	5.10.2) Patch accepted into gtk
+    5.10) Add indent/unindent icons to gtk			(DONE)
+	5.10.1) Patch written					(DONE)
+	5.10.2) Patch accepted into gtk				(DONE)
 
 6) Jump to zip file
     6.1) move existing code into plugin (easy)

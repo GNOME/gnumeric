@@ -176,9 +176,8 @@ go_combo_pixmaps_new (int ncols)
 static gboolean
 swatch_activated (GOComboPixmaps *combo, GtkWidget *button)
 {
-	Element *el = g_object_get_data (G_OBJECT (button), "Element");
-	g_warning ("activated el = %p (id == %d)", el, el->id);
-	go_combo_pixmaps_select_id (combo, el->id);
+	go_combo_pixmaps_select_index (combo,
+		GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "ItemIndex")));
 	emit_change (combo);
 	return TRUE;
 }
@@ -234,9 +233,8 @@ go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 	tmp.pixbuf = (GdkPixbuf *)pixbuf;
 	tmp.id = id;
 	g_array_append_val (combo->elements, tmp);
-	el = &g_array_index (combo->elements, Element, combo->elements->len-1);
-	g_warning ("combo->element->len [%d] = %p (%d vs %d)", combo->elements->len, el, el->id, id);
-	g_object_set_data (G_OBJECT (button), "Element", el);
+	g_object_set_data (G_OBJECT (button), "ItemIndex",
+		GINT_TO_POINTER (combo->elements->len-1));
 	gtk_table_attach (GTK_TABLE (combo->table), button,
 		col, col + 1, row + 1, row + 2,
 		GTK_FILL, GTK_FILL, 1, 1);

@@ -30,16 +30,16 @@
 #ifndef _GO_DOCK_H
 #define _GO_DOCK_H
 
-
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
 #define GO_TYPE_DOCK            (go_dock_get_type ())
-#define GO_DOCK(obj)            (GTK_CHECK_CAST ((obj), GO_TYPE_DOCK, GoDock))
-#define GO_DOCK_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GO_TYPE_DOCK, GoDockClass))
-#define GO_IS_DOCK(obj)         (GTK_CHECK_TYPE ((obj), GO_TYPE_DOCK))
-#define GO_IS_DOCK_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GO_TYPE_DOCK))
-#define GO_DOCK_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GO_TYPE_DOCK, GoDockClass))
+#define GO_DOCK(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GO_TYPE_DOCK, GoDock))
+#define GO_DOCK_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_DOCK, GoDockClass))
+#define GO_IS_DOCK(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GO_TYPE_DOCK))
+#define GO_IS_DOCK_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GO_TYPE_DOCK))
+#define GO_DOCK_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GO_TYPE_DOCK, GoDockClass))
 
 typedef enum
 {
@@ -54,8 +54,8 @@ typedef struct _GoDock GoDock;
 typedef struct _GoDockPrivate GoDockPrivate;
 typedef struct _GoDockClass GoDockClass;
 
-#include <goffice/gui-utils/go-dock-band.h>
-#include <goffice/gui-utils/go-dock-layout.h>
+#include "go-dock-band.h"
+#include "go-dock-layout.h"
 
 struct _GoDock
 {
@@ -126,6 +126,14 @@ GoDockLayout *go_dock_get_layout      (GoDock *dock);
 
 gboolean          go_dock_add_from_layout (GoDock *dock,
 					       GoDockLayout *layout);
+
+/* protected */
+#if 1 /* defined(GO_UI_INTERNAL) */
+gint _bonobo_dock_handle_key_nav (GoDock     *dock,
+				  GoDockBand *band,
+				  GoDockItem *item,
+				  GdkEventKey    *event);
+#endif /* GO_UI_INTERNAL */
 
 G_END_DECLS
 

@@ -25,16 +25,14 @@
   @NOTATION@
 */
 
+#include <gnumeric-config.h>
+#include <glib/gi18n.h>
 #include <string.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <goffice/gui-utils/go-dock.h>
-#include <goffice/gui-utils/go-dock-band.h>
-#include <goffice/gui-utils/go-dock-item.h>
-#include <libgnome/gnome-macros.h>
-
-GNOME_CLASS_BOILERPLATE (GoDock, go_dock,
-			 GtkContainer, GTK_TYPE_CONTAINER);
+#include "go-dock.h"
+#include "go-dock-band.h"
+#include "go-dock-item.h"
 
 #define noBONOBO_DOCK_DEBUG
 
@@ -80,7 +78,6 @@ static void     go_dock_forall              (GtkContainer *container,
                                                 gboolean include_internals,
                                                 GtkCallback callback,
                                                 gpointer callback_data);
-static void     go_dock_destroy             (GtkObject *object);
 static void     go_dock_finalize            (GObject *object);
 
 static void     size_request_v                 (GList *list,
@@ -157,6 +154,8 @@ static guint dock_signals[LAST_SIGNAL] = { 0 };
 
 
 
+G_DEFINE_TYPE (GoDock, go_dock, GTK_TYPE_CONTAINER);
+
 static void
 go_dock_class_init (GoDockClass *class)
 {
@@ -170,7 +169,6 @@ go_dock_class_init (GoDockClass *class)
   widget_class = (GtkWidgetClass *) class;
   container_class = (GtkContainerClass *) class;
 
-  object_class->destroy = go_dock_destroy;
   gobject_class->finalize = go_dock_finalize;
 
   widget_class->size_request = go_dock_size_request;
@@ -195,7 +193,7 @@ go_dock_class_init (GoDockClass *class)
 }
 
 static void
-go_dock_instance_init (GoDock *dock)
+go_dock_init (GoDock *dock)
 {
   GTK_WIDGET_SET_FLAGS (GTK_WIDGET (dock), GTK_NO_WINDOW);
 
@@ -487,7 +485,7 @@ go_dock_map (GtkWidget *widget)
   g_return_if_fail (widget != NULL);
   g_return_if_fail (GO_IS_DOCK(widget));
 
-  GNOME_CALL_PARENT (GTK_WIDGET_CLASS, map, (widget));
+  GTK_WIDGET_CLASS (parent_class)-> map, (widget);
 
   dock = GO_DOCK (widget);
 
@@ -520,7 +518,7 @@ go_dock_unmap (GtkWidget *widget)
 
   g_list_foreach (dock->floating_children, unmap_widget_foreach, NULL);
 
-  GNOME_CALL_PARENT (GTK_WIDGET_CLASS, unmap, (widget));
+  GTK_WIDGET_CLASS (parent_class)-> unmap (widget);
 }
 
 
@@ -663,14 +661,6 @@ go_dock_forall (GtkContainer *container,
 }
 
 static void
-go_dock_destroy (GtkObject *object)
-{
-  /* remember, destroy can be run multiple times! */
-  if (GTK_OBJECT_CLASS (parent_class)->destroy)
-    (* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
-}
-
-static void
 go_dock_finalize (GObject *object)
 {
   GoDock *self = GO_DOCK (object);
@@ -678,8 +668,7 @@ go_dock_finalize (GObject *object)
   g_free (self->_priv);
   self->_priv = NULL;
 
-  if (G_OBJECT_CLASS (parent_class)->finalize)
-    (* G_OBJECT_CLASS (parent_class)->finalize) (object);
+  G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
@@ -1659,7 +1648,7 @@ insert_into_band_list (GoDock     *dock,
 }
 
 gint
-go_dock_handle_key_nav (GoDock     *dock,
+_bonobo_dock_handle_key_nav (GoDock     *dock,
 			    GoDockBand *band,
 			    GoDockItem *item,
 			    GdkEventKey    *event)
@@ -1822,3 +1811,4 @@ go_dock_handle_key_nav (GoDock     *dock,
 
   return TRUE;
 }
+

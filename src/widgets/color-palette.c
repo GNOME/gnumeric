@@ -692,7 +692,7 @@ cb_menu_color_activate (GtkWidget *button, GtkWidget *menu)
 GtkWidget *
 color_palette_make_menu (char const *no_color_label,
 			 GdkColor const *default_color,
-			 ColorGroup *color_group)
+			 ColorGroup *cg)
 {
 	int ncols = 8;
 	int nrows = 6;
@@ -718,11 +718,8 @@ color_palette_make_menu (char const *no_color_label,
 	for (row = 0; row < nrows; row++, table_row++) {
 		for (col = 0; col < ncols; col++) {
 			pos = row * ncols + col;
-			if (color_names [pos].color == NULL) {
-				/* Break out of two for-loops.  */
-				row = nrows;
-				break;
-			}
+			if (color_names [pos].color == NULL)
+				goto custom_colors;
 
 			gdk_color_parse (color_names [pos].color, &c);
 			button = make_colored_menu_item (" ", &c);
@@ -733,6 +730,20 @@ color_palette_make_menu (char const *no_color_label,
 				G_CALLBACK (cb_menu_color_activate), submenu);
 		}
 	}
+
+custom_colors :
+	if (col > 0)
+		row++;
+	for (col = 0; col < ncols && col < cg->history->len; col++) {
+		button = make_colored_menu_item (" ",
+			g_ptr_array_index (cg->history, col));
+		gtk_menu_attach (GTK_MENU (submenu), button,
+			col, col+1, table_row, table_row+1);
+		g_signal_connect (G_OBJECT (button),
+			"activate",
+			G_CALLBACK (cb_menu_color_activate), submenu);
+	}
+
 	gtk_widget_show (submenu);
 
 	return submenu;

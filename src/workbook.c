@@ -1411,6 +1411,30 @@ workbook_sheet_change_protection  (Workbook *wb,
 }
 
 /**
+ * workbook_find_command :
+ * @wb : #Workbook
+ * @is_undo : undo vs redo
+ * @key : command
+ *
+ * returns the 1 based index of the @key command, or 0 if it is not found
+ **/
+unsigned
+workbook_find_command (Workbook *wb, gboolean is_undo, gpointer cmd)
+{
+	GSList *ptr;
+	unsigned n = 1;
+
+	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
+
+	ptr = is_undo ? wb->undo_commands : wb->redo_commands;
+	for ( ; ptr != NULL ; ptr = ptr->next, n++)
+		if (ptr->data == cmd)
+			return n;
+	g_warning ("%s command : %p not found", is_undo ? "undo" : "redo", cmd);
+	return 0;
+}
+
+/**
  * workbook_sheet_recolor:
  * @wb:          workbook to look for
  * @sheets   :   list of sheet indices (ignore -1)

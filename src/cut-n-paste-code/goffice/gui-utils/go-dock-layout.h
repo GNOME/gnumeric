@@ -35,11 +35,11 @@
 G_BEGIN_DECLS
 
 #define GO_TYPE_DOCK_LAYOUT            (go_dock_layout_get_type ())
-#define GO_DOCK_LAYOUT(obj)            (GTK_CHECK_CAST ((obj), GO_TYPE_DOCK_LAYOUT, GoDockLayout))
-#define GO_DOCK_LAYOUT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GO_TYPE_DOCK_LAYOUT, GoDockLayoutClass))
-#define GO_IS_DOCK_LAYOUT(obj)         (GTK_CHECK_TYPE ((obj), GO_TYPE_DOCK_LAYOUT))
-#define GO_IS_DOCK_LAYOUT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GO_TYPE_DOCK_LAYOUT))
-#define GO_DOCK_LAYOUT_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GO_TYPE_DOCK_LAYOUT, GoDockLayoutClass))
+#define GO_DOCK_LAYOUT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GO_TYPE_DOCK_LAYOUT, GoDockLayout))
+#define GO_DOCK_LAYOUT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_DOCK_LAYOUT, GoDockLayoutClass))
+#define GO_IS_DOCK_LAYOUT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GO_TYPE_DOCK_LAYOUT))
+#define GO_IS_DOCK_LAYOUT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GO_TYPE_DOCK_LAYOUT))
+#define GO_DOCK_LAYOUT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GO_TYPE_DOCK_LAYOUT, GoDockLayoutClass))
 
 typedef struct _GoDockLayoutItem    GoDockLayoutItem;
 typedef struct _GoDockLayoutClass   GoDockLayoutClass;

@@ -45,11 +45,11 @@ fi
 
 # remove libgnome soon
 gnumeric_reqs="
-glib-2.0		>= 2.3.1
-gobject-2.0		>= 2.0.0
+glib-2.0		>= 2.3.2
+gobject-2.0		>= 2.3.2
 gmodule-2.0		>= 2.0.0
 libgsf-1		>= 1.8.2
-gtk+-2.0		>= 2.3.1
+gtk+-2.0		>= 2.3.2
 libxml-2.0		>= 2.4.12
 libglade-2.0		>= 2.0.0
 libgnomecanvas-2.0	>= 2.0.0

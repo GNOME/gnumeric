@@ -51,12 +51,12 @@ typedef struct {
 	GtkTreeView *list;
 	GtkWidget   *scrolled;
 
-	unsigned bottom; /* numbered from the BOTTOM */
+	gpointer last_key;
 } GOComboStack;
 
 typedef struct {
 	GnmComboBoxClass	parent;
-	void (*pop) (GOComboStack *cbox, GtkWidget *);
+	void (*pop) (GOComboStack *cbox, gpointer key);
 } GOComboStackClass;
 
 enum {
@@ -93,6 +93,28 @@ cb_screen_changed (GOComboStack *cs, GdkScreen *previous_screen)
 	}
 }
 
+static gpointer
+get_key_at_path (GtkTreeView *view, GtkTreePath	*pos)
+{
+	gpointer	  res = NULL;
+	GtkTreeIter	  iter;
+	GtkTreeModel	 *model = gtk_tree_view_get_model (view);
+	gtk_tree_model_get_iter (model, &iter, pos);
+	gtk_tree_model_get (model, &iter, KEY_COL, &res, -1);
+	return res;
+}
+
+static void
+cb_button_clicked (GOComboStack *stack)
+{
+	if (!_gnm_combo_is_updating (GNM_COMBO_BOX (stack))) {
+		GtkTreePath *pos = gtk_tree_path_new_first ();
+		gpointer top = get_key_at_path (stack->list, pos);
+		gtk_tree_path_free (pos);
+		g_signal_emit (stack, go_combo_stack_signals [POP], 0, top);
+		gnm_combo_box_popup_hide (GNM_COMBO_BOX (stack));
+	}
+}
 
 static gboolean
 cb_button_release_event (GtkWidget *list, GdkEventButton *e, gpointer data)
@@ -101,20 +123,15 @@ cb_button_release_event (GtkWidget *list, GdkEventButton *e, gpointer data)
 
 	gnm_combo_box_popup_hide (GNM_COMBO_BOX (stack));
 
-	if (stack->bottom > 0) {
+	if (stack->last_key != NULL) {
 		gint dummy, w, h;
 		gdk_window_get_geometry (e->window, &dummy, &dummy, &w, &h, &dummy);
 		if (0 <= e->x && e->x < w && 0 <= e->y && e->y < h)
-			g_signal_emit_by_name (stack, "pop", stack->bottom);
+			g_signal_emit (stack, go_combo_stack_signals [POP], 0,
+				       stack->last_key);
 	}
 
 	return TRUE;
-}
-
-static void
-cb_button_clicked (GOComboStack *stack)
-{
-	g_signal_emit_by_name (stack, "pop", 1);
 }
 
 static gboolean
@@ -122,30 +139,42 @@ cb_motion_notify_event (GtkWidget *widget, GdkEventMotion *event,
 			GOComboStack *stack)
 {
 	GtkTreePath	 *start, *pos;
-	GtkTreeSelection *sel   = gtk_tree_view_get_selection (stack->list);
+	GtkTreeSelection *sel;
+	GtkTreeModel	 *model = gtk_tree_view_get_model (stack->list);
 
-	if (event->x < 0 || event->y < 0 ||
-	    event->x >= widget->allocation.width ||
-	    event->y >= widget->allocation.height ||
-	    !gtk_tree_view_get_path_at_pos (stack->list, event->x, event->y,
-					    &pos, NULL, NULL, NULL))
-		return TRUE;
-
-	start = gtk_tree_path_new_first ();
+	stack->last_key = NULL;
+	sel = gtk_tree_view_get_selection (stack->list);
 	gtk_tree_selection_unselect_all (sel);
+
+	if (!gtk_tree_view_get_path_at_pos (stack->list,
+		event->x, event->y, &pos, NULL, NULL, NULL))
+		pos = gtk_tree_path_new_from_indices (
+			gtk_tree_model_iter_n_children (model, NULL) - 1,
+			-1);
+
+	stack->last_key = get_key_at_path (stack->list, pos);
+	start = gtk_tree_path_new_first ();
 	gtk_tree_selection_select_range (sel, start, pos);
 	gtk_tree_path_free (start);
 	gtk_tree_path_free (pos);
 
 	return TRUE;
 }
+
+static gboolean
+cb_leave_notify_event (GOComboStack *stack)
+{
+	stack->last_key = NULL;
+	gtk_tree_selection_unselect_all (gtk_tree_view_get_selection (stack->list));
+	return FALSE;
+}
+
 static void
 go_combo_stack_init (GOComboStack *stack)
 {
 	GtkScrolledWindow *scrolled;
 	GtkTreeSelection *selection;
 
-	stack->bottom = G_MAXINT;
 	stack->button = gtk_toggle_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (stack->button), GTK_RELIEF_NONE);
 	GTK_WIDGET_UNSET_FLAGS (stack->button, GTK_CAN_FOCUS);
@@ -166,12 +195,15 @@ go_combo_stack_init (GOComboStack *stack)
 
 	/* Set up the dropdown list */
 	g_signal_connect (G_OBJECT (stack), "screen-changed", G_CALLBACK (cb_screen_changed), NULL);
-	g_signal_connect (G_OBJECT (stack->list), "button_release_event",
-		G_CALLBACK (cb_button_release_event),
-		(gpointer) stack);
+	g_signal_connect (G_OBJECT (stack->list),
+		"button_release_event",
+		G_CALLBACK (cb_button_release_event), stack);
 	g_signal_connect (G_OBJECT (stack->list),
 		"motion_notify_event",
 		G_CALLBACK (cb_motion_notify_event), stack);
+	g_signal_connect_swapped (G_OBJECT (stack->list),
+		"leave_notify_event",
+		G_CALLBACK (cb_leave_notify_event), stack);
 	g_signal_connect_swapped (stack->button, "clicked",
 		G_CALLBACK (cb_button_clicked),
 		(gpointer) stack);
@@ -186,14 +218,14 @@ go_combo_stack_init (GOComboStack *stack)
 static void
 go_combo_stack_class_init (GObjectClass *klass)
 {
-	go_combo_stack_signals [POP] = g_signal_new ( "pop",
+	go_combo_stack_signals [POP] = g_signal_new ("pop",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GOComboStackClass, pop),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__INT,
+		g_cclosure_marshal_VOID__POINTER,
 		G_TYPE_NONE,
-		1, G_TYPE_INT);
+		1, G_TYPE_POINTER);
 }
 
 GSF_CLASS (GOComboStack, go_combo_stack,
@@ -241,11 +273,30 @@ static GSF_CLASS (GOToolComboStack, go_tool_combo_stack,
 
 struct _GOActionComboStack {
 	GtkAction	 base;
-	GtkListStore	*model;
+	GtkTreeModel	*model;
+
+	gpointer	 last_selection;
 };
 typedef GtkActionClass GOActionComboStackClass;
 
 static GObjectClass *combo_stack_parent;
+
+static void
+cb_tool_popped (GOToolComboStack *tool, gpointer key, GOActionComboStack *a)
+{
+	/* YUCK
+	 * YUCK
+	 * YUCK
+	 * We really need to return the key in "activate" but can not for now.
+	 * as a result people had better call
+	 * 	go_action_combo_stack_selection
+	 * from with the handler or they will lose the selection from toolitems.
+	 * We can not tell whether the activation was a menu or accelerator
+	 * which just use the top.  */
+	a->last_selection = key;
+	gtk_action_activate (GTK_ACTION (a));
+	a->last_selection = NULL;
+}
 
 static GtkWidget *
 go_action_combo_stack_create_tool_item (GtkAction *a)
@@ -255,12 +306,11 @@ go_action_combo_stack_create_tool_item (GtkAction *a)
 	GtkTreeView *tree_view;
 	GOToolComboStack *tool = g_object_new (GO_TOOL_COMBO_STACK_TYPE, NULL);
 	char const *stock_id;
-	gboolean is_sensitive = gtk_tree_model_iter_n_children (
-		GTK_TREE_MODEL (saction->model), NULL) > 0;
+	gboolean is_sensitive = gtk_tree_model_iter_n_children (saction->model, NULL) > 0;
 
 	tool->combo = g_object_new (GO_COMBO_STACK_TYPE, NULL);
 	tree_view = GTK_TREE_VIEW (tool->combo->list);
-	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (saction->model));
+	gtk_tree_view_set_model (tree_view, saction->model);
 	gtk_tree_view_set_headers_visible (tree_view, FALSE);
 	gtk_tree_view_append_column (tree_view,
 		gtk_tree_view_column_new_with_attributes (NULL,
@@ -280,6 +330,9 @@ go_action_combo_stack_create_tool_item (GtkAction *a)
 
 	gtk_widget_set_sensitive (GTK_WIDGET (tool), is_sensitive);
 
+	g_signal_connect (G_OBJECT (tool->combo),
+		"pop",
+		G_CALLBACK (cb_tool_popped), saction);
 	return GTK_WIDGET (tool);
 }
 
@@ -288,8 +341,7 @@ go_action_combo_stack_create_menu_item (GtkAction *a)
 {
 	GOActionComboStack *saction = (GOActionComboStack *)a;
 	GtkWidget *item = gtk_image_menu_item_new_with_label ("UNDOREDO");
-	gboolean is_sensitive = gtk_tree_model_iter_n_children (
-		GTK_TREE_MODEL (saction->model), NULL) > 0;
+	gboolean is_sensitive = gtk_tree_model_iter_n_children (saction->model, NULL) > 0;
 	gtk_widget_set_sensitive (GTK_WIDGET (item), is_sensitive);
 	return item;
 }
@@ -318,7 +370,9 @@ go_action_combo_stack_class_init (GtkActionClass *gtk_act_klass)
 static void
 go_action_combo_stack_init (GOActionComboStack *saction)
 {
-	saction->model = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_POINTER);
+	saction->model = (GtkTreeModel *)
+		gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_POINTER);
+	saction->last_selection = NULL;
 }
 
 GSF_CLASS (GOActionComboStack, go_action_combo_stack,
@@ -328,8 +382,7 @@ GSF_CLASS (GOActionComboStack, go_action_combo_stack,
 static void
 check_sensitivity (GOActionComboStack *saction, unsigned old_count)
 {
-	unsigned new_count = gtk_tree_model_iter_n_children (
-		GTK_TREE_MODEL (saction->model), NULL);
+	unsigned new_count = gtk_tree_model_iter_n_children (saction->model, NULL);
 
 	if ((old_count > 0) ^ (new_count > 0)) {
 		GSList *ptr = gtk_action_get_proxies (GTK_ACTION (saction));
@@ -351,13 +404,12 @@ go_action_combo_stack_push (GOActionComboStack *a,
 {
 	GOActionComboStack *saction = GO_ACTION_COMBO_STACK (a);
 	GtkTreeIter iter;
-	unsigned old_count = gtk_tree_model_iter_n_children (
-		GTK_TREE_MODEL (saction->model), NULL);
+	unsigned old_count = gtk_tree_model_iter_n_children (saction->model, NULL);
 
 	g_return_if_fail (saction != NULL);
 
-	gtk_list_store_insert (saction->model, &iter, 0);
-	gtk_list_store_set (saction->model, &iter,
+	gtk_list_store_insert (GTK_LIST_STORE (saction->model), &iter, 0);
+	gtk_list_store_set (GTK_LIST_STORE (saction->model), &iter,
 		LABEL_COL,	label,
 		KEY_COL,	key,
 		-1);
@@ -377,14 +429,13 @@ go_action_combo_stack_pop (GOActionComboStack *a, unsigned n)
 {
 	GOActionComboStack *saction = GO_ACTION_COMBO_STACK (a);
 	GtkTreeIter iter;
-	unsigned old_count = gtk_tree_model_iter_n_children (
-		GTK_TREE_MODEL (saction->model), NULL);
+	unsigned old_count = gtk_tree_model_iter_n_children (saction->model, NULL);
 
 	g_return_if_fail (saction != NULL);
 
-	if (gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (saction->model), &iter, NULL, 0))
+	if (gtk_tree_model_iter_nth_child (saction->model, &iter, NULL, 0))
 		while (n-- > 0 &&
-		       gtk_list_store_remove (saction->model, &iter))
+		       gtk_list_store_remove (GTK_LIST_STORE (saction->model), &iter))
 			;
 	check_sensitivity (saction, old_count);
 }
@@ -402,13 +453,37 @@ go_action_combo_stack_truncate (GOActionComboStack *a, unsigned n)
 {
 	GOActionComboStack *saction = GO_ACTION_COMBO_STACK (a);
 	GtkTreeIter iter;
-	unsigned old_count = gtk_tree_model_iter_n_children (
-		GTK_TREE_MODEL (saction->model), NULL);
+	unsigned old_count = gtk_tree_model_iter_n_children (saction->model, NULL);
 
 	g_return_if_fail (saction != NULL);
 
-	if (gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (saction->model), &iter, NULL, n))
-		while (gtk_list_store_remove (saction->model, &iter))
+	if (gtk_tree_model_iter_nth_child (saction->model, &iter, NULL, n))
+		while (gtk_list_store_remove (GTK_LIST_STORE (saction->model), &iter))
 			;
 	check_sensitivity (saction, old_count);
+}
+
+/**
+ * go_action_combo_stack_selection :
+ * @a : #GOActionComboStack
+ *
+ * Returns the key of the item last selected in one of the proxies.
+ * Yes this interface is terrible, but we can't return the key in the activate
+ * signal.
+ *
+ * NOTE : see writeup in cb_tool_popped.
+ **/
+gpointer
+go_action_combo_stack_selection (GOActionComboStack const *a)
+{
+	gpointer res = NULL;
+	GtkTreeIter iter;
+
+	if (a->last_selection != NULL)
+		return a->last_selection;
+	if (gtk_tree_model_get_iter_first (a->model, &iter))
+		gtk_tree_model_get (a->model, &iter,
+			KEY_COL, &res,
+			-1);
+	return res;
 }

@@ -53,6 +53,9 @@ gboolean    workbook_sheet_change_protection  (Workbook *wb,
 					       GSList *sheets,
 					       GSList *locks);
 
+unsigned    workbook_find_command	(Workbook *wb,
+					 gboolean is_undo, gpointer cmd);
+
 
 /* IO Routines */
 gboolean       workbook_set_filename	(Workbook *wb, char const *); /* Filesys name, not UTF-8.  */

@@ -333,17 +333,21 @@ create_undo_redo (WBCgtk *gtk, char const *name, char const *tooltip,
 
 
 static void
-cb_undo_activated (GOActionComboColor *a, WorkbookControl *wbc)
+cb_undo_activated (GOActionComboStack *a, WorkbookControl *wbc)
 {
-#warning TODO need to lookup wht the new top of the stack is
-	command_undo (wbc);
+	unsigned n = workbook_find_command (wb_control_workbook (wbc), TRUE,
+		go_action_combo_stack_selection (a));
+	while (n-- > 0)
+		command_undo (wbc);
 }
 
 static void
-cb_redo_activated (GOActionComboColor *a, WorkbookControl *wbc)
+cb_redo_activated (GOActionComboStack *a, WorkbookControl *wbc)
 {
-#warning TODO need to lookup what the new top of the stack is
-	command_redo (wbc);
+	unsigned n = workbook_find_command (wb_control_workbook (wbc), FALSE,
+		go_action_combo_stack_selection (a));
+	while (n-- > 0)
+		command_redo (wbc);
 }
 
 static void

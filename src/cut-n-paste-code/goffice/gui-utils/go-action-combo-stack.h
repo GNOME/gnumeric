@@ -31,11 +31,12 @@ G_BEGIN_DECLS
 
 typedef struct _GOActionComboStack	GOActionComboStack;
 
-GType go_action_combo_stack_get_type (void);
-void  go_action_combo_stack_push     (GOActionComboStack *act,
-				      char const *str, gpointer key);
-void  go_action_combo_stack_pop	     (GOActionComboStack *act, unsigned n);
-void  go_action_combo_stack_truncate (GOActionComboStack *act, unsigned n);
+GType	 go_action_combo_stack_get_type  (void);
+void	 go_action_combo_stack_push      (GOActionComboStack *a,
+					  char const *str, gpointer key);
+void	 go_action_combo_stack_pop	 (GOActionComboStack *a, unsigned n);
+void	 go_action_combo_stack_truncate  (GOActionComboStack *a, unsigned n);
+gpointer go_action_combo_stack_selection (GOActionComboStack const *a);
 
 G_END_DECLS
 

@@ -1792,6 +1792,9 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 {
 	double l, t, r ,b;
 
+	if (scg == NULL)
+		return;
+
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	if (so == NULL)

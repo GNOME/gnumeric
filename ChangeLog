@@ -1,3 +1,17 @@
+2004-01-23  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_find_command) : new utility
+
+	* src/wbc-gtk.c (cb_undo_activated) : port to new interface
+	(cb_redo_activated) : port to new interface
+
+	* src/sheet-control-gui.c (scg_object_update_bbox) : silence
+	  irritating warning.
+
+2004-01-23  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump the gtk and glib depends to yesterday's releases
+
 2004-01-22  Jody Goldberg <jody@gnome.org>
 
 	* src/wbc-gtk.c : clean up the border combo and adapt to its new api

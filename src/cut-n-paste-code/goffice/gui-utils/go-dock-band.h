@@ -29,14 +29,16 @@
 #ifndef _GO_DOCK_BAND_H
 #define _GO_DOCK_BAND_H
 
+#include <glib-object.h>
+
 G_BEGIN_DECLS
 
 #define GO_TYPE_DOCK_BAND            (go_dock_band_get_type ())
-#define GO_DOCK_BAND(obj)            (GTK_CHECK_CAST ((obj), GO_TYPE_DOCK_BAND, GoDockBand))
-#define GO_DOCK_BAND_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GO_TYPE_DOCK_BAND, GoDockBandClass))
-#define GO_IS_DOCK_BAND(obj)         (GTK_CHECK_TYPE ((obj), GO_TYPE_DOCK_BAND))
-#define GO_IS_DOCK_BAND_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GO_TYPE_DOCK_BAND))
-#define GO_DOCK_BAND_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GO_TYPE_DOCK_BAND, GoDockBandClass))
+#define GO_DOCK_BAND(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GO_TYPE_DOCK_BAND, GoDockBand))
+#define GO_DOCK_BAND_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_DOCK_BAND, GoDockBandClass))
+#define GO_IS_DOCK_BAND(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GO_TYPE_DOCK_BAND))
+#define GO_IS_DOCK_BAND_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GO_TYPE_DOCK_BAND))
+#define GO_DOCK_BAND_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GO_TYPE_DOCK_BAND, GoDockBandClass))
 
 typedef struct _GoDockBand GoDockBand;
 typedef struct _GoDockBandPrivate GoDockBandPrivate;
@@ -149,11 +151,7 @@ void           go_dock_band_layout_add       (GoDockBand *band,
                                                  guint band_num);
 
 #if 1 /* defined(GO_UI_INTERNAL) */
-gint go_dock_band_handle_key_nav (GoDockBand *band,
-				      GoDockItem *item,
-				      GdkEventKey    *event);
-gint go_dock_handle_key_nav      (GoDock     *dock,
-				      GoDockBand *band,
+gint _bonobo_dock_band_handle_key_nav (GoDockBand *band,
 				      GoDockItem *item,
 				      GdkEventKey    *event);
 #endif /* GO_UI_INTERNAL */
