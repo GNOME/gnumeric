@@ -7,7 +7,7 @@ Andreas:
 	* Some minor About box changes
 
 Emmanuel Pacaud:
-	* Add logarithmic mapping support to xy/bar/col/line/area plots
+	* Add logarithmic mapping and invert axis support.
 	* Zoom support for markers and error bars.
 	* Move sharp libart rendering tweaks to pixbuf renderer.
 	* Improve chart SVG export.
@@ -17,6 +17,8 @@ Emmanuel Pacaud:
 	http://bugzilla.gnome.org/show_bug.cgi?id=144123
 	* Add labels to radar axis
 	http://bugzilla.gnome.org/show_bug.cgi?id=139397
+	* Don't clip markers in xy plots
+	http://bugzilla.gnome.org/show_bug.cgi?id=142255
 
 Harald Ashburner:
 	* Updates for the option pricers.

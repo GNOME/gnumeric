@@ -255,7 +255,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	ArtVpath **path;
 	GogErrorBar **errors;
 
-	double y_zero, val_min, val_max;
+	double y_zero;
 	double abs_sum, sum, value;
 	gboolean is_null, is_area_plot;
 	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
@@ -267,15 +267,19 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (num_elements <= 0 || num_series <= 0)
 		return;
 
-	if (!gog_axis_get_bounds (model->base.axis [0], &val_min, &val_max) ||
-	    !gog_axis_get_bounds (model->base.axis [1], &val_min, &val_max))
-		return;
-		
 	x_map = gog_axis_map_new (model->base.axis[0], 
 				  view->allocation.x, view->allocation.w);
 	y_map = gog_axis_map_new (model->base.axis[1], 
 				  view->allocation.y + view->allocation.h, 
 				  -view->allocation.h);
+	
+	if (!(gog_axis_map_is_valid (x_map) &&
+	      gog_axis_map_is_valid (y_map))) {
+		gog_axis_map_free (x_map);
+		gog_axis_map_free (y_map);
+		return;
+	}
+	
 	y_zero = gog_axis_map_to_canvas (y_map, .0);
 	x_margin_min = view->allocation.x - margin;
 	x_margin_max = view->allocation.x + view->allocation.w + margin;

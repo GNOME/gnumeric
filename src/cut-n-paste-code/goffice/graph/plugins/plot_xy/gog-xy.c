@@ -565,13 +565,18 @@ bubble_draw_circle (GogView *view, double x, double y, double radius)
 	gog_renderer_draw_polygon (view->renderer, path, FALSE, &view->residual);
 }
 
+typedef struct {
+	double x, y;
+} MarkerData;
+
 static void
 gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	Gog2DPlot const *model = GOG_2D_PLOT (view->model);
+	unsigned num_series;
 	GogAxisMap *x_map, *y_map;
-	GogXYSeries const *series;
-	unsigned i, n, tmp;
+	GogXYSeries const *series = NULL;
+	unsigned i ,j ,k ,n, tmp;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
 	GogStyle *neg_style = NULL;
 	GSList *ptr;
@@ -582,14 +587,12 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	double xerrmin, xerrmax, yerrmin, yerrmax;
 	double prev_x = 0., prev_y = 0.; 
 	double prev_x_canvas = 0., prev_y_canvas = 0.;
-	double val_min, val_max;
 	ArtVpath	path[3];
 	GogStyle *style = NULL;
 	gboolean valid, prev_valid, show_marks, show_lines, show_negatives, in_3d, size_as_area = TRUE;
 
-	if (!gog_axis_get_bounds (model->base.axis[0], &val_min, &val_max) ||
-	    !gog_axis_get_bounds (model->base.axis[1], &val_min, &val_max))
-		return;
+	MarkerData **markers;
+	unsigned *num_markers;
 
 	x_map = gog_axis_map_new (model->base.axis[0], 
 				  view->residual.x , view->residual.w);
@@ -597,13 +600,27 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				  view->residual.y + view->residual.h, 
 				  -view->residual.h);
 
+	if (!(gog_axis_map_is_valid (x_map) &&
+	      gog_axis_map_is_valid (y_map))) {
+		gog_axis_map_free (x_map);
+		gog_axis_map_free (y_map);
+		return;
+	}
+
+	gog_renderer_clip_push (view->renderer, &view->allocation);
+
+	for (num_series = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, num_series++);
+	markers = g_alloca (num_series * sizeof (MarkerData *));
+	num_markers = g_alloca (num_series * sizeof (unsigned));
+
 	path[0].code = ART_MOVETO;
 	path[1].code = ART_LINETO;
 	path[2].code = ART_END;
-	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
+	for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
 		series = ptr->data;
+		markers[j] = NULL;
 
-		if (!gog_series_is_valid (GOG_SERIES (series)))
+		if (!gog_series_is_valid (GOG_SERIES (series))) 
 			continue;
 
 		y_vals = go_data_vector_get_values (
@@ -655,15 +672,18 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (!show_marks && !show_lines)
 			continue;
 
+		if (show_marks && !GOG_IS_BUBBLE_PLOT (model))
+			markers[j] = g_new (MarkerData, n);
+
 		prev_valid = FALSE;
 		gog_renderer_push_style (view->renderer, style);
-		margin = gog_renderer_line_size (view->renderer, 
-						 go_marker_get_size (style->marker.mark)) / 2.0;
+		margin = gog_renderer_line_size (view->renderer, 1);
 		x_margin_min = view->allocation.x - margin;
 		x_margin_max = view->allocation.x + view->allocation.w + margin;
 		y_margin_min = view->allocation.y - margin;
 		y_margin_max = view->allocation.y + view->allocation.h + margin;
 
+		k = 0;
 		for (i = 1 ; i <= n ; i++) {
 			x = x_vals ? *x_vals++ : i;
 			y = *y_vals++;
@@ -727,8 +747,11 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			/* draw marker after line */
 			if (prev_valid && show_marks &&
 			    x_margin_min <= prev_x_canvas && prev_x_canvas <= x_margin_max &&
-			    y_margin_min <= prev_y_canvas && prev_y_canvas <= y_margin_max)
-				gog_renderer_draw_marker (view->renderer, prev_x_canvas, prev_y_canvas);
+			    y_margin_min <= prev_y_canvas && prev_y_canvas <= y_margin_max) {
+				markers[j][k].x = prev_x_canvas;
+				markers[j][k].y = prev_y_canvas;
+				k++;
+			}
 
 			prev_x_canvas = x_canvas;
 			prev_y_canvas = y_canvas;
@@ -758,17 +781,38 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		/* draw marker after line */
 		if (prev_valid && show_marks &&
 		    x_margin_min <= prev_x_canvas && prev_x_canvas <= x_margin_max &&
-		    y_margin_min <= prev_y_canvas && prev_y_canvas <= y_margin_max)
-			gog_renderer_draw_marker (view->renderer, x_canvas, y_canvas);
+		    y_margin_min <= prev_y_canvas && prev_y_canvas <= y_margin_max) {
+			markers[j][k].x = x_canvas;
+			markers[j][k].y = y_canvas;
+			k++;
+		}
 
 		gog_renderer_pop_style (view->renderer);
+		num_markers[j] = k;
 	}
-		if (GOG_IS_BUBBLE_PLOT (model)) {
-			if (model->base.vary_style_by_element)
-				g_object_unref (style);
-			if (((GogBubblePlot*)model)->show_negatives)
-				g_object_unref (neg_style);
-		}
+
+	if (GOG_IS_BUBBLE_PLOT (model)) {
+		if (model->base.vary_style_by_element)
+			g_object_unref (style);
+		if (((GogBubblePlot*)model)->show_negatives)
+			g_object_unref (neg_style);
+	}
+
+	gog_renderer_clip_pop (view->renderer);
+
+	if (!GOG_IS_BUBBLE_PLOT (model))
+		for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
+				if (markers[j] != NULL) {
+					style = GOG_STYLED_OBJECT (series)->style;
+					gog_renderer_push_style (view->renderer, style);
+					for (k = 0; k < num_markers[j]; k++)
+						gog_renderer_draw_marker (view->renderer, 
+									  markers[j][k].x,
+									  markers[j][k].y);
+					gog_renderer_pop_style (view->renderer);
+					g_free (markers[j]);
+				}
+			}
 
 	gog_axis_map_free (x_map);
 	gog_axis_map_free (y_map);
@@ -787,7 +831,7 @@ gog_xy_view_class_init (GogViewClass *view_klass)
 {
 	view_klass->render	  = gog_xy_view_render;
 	view_klass->info_at_point = gog_xy_view_info_at_point;
-	view_klass->clip	  = TRUE;
+	view_klass->clip	  = FALSE;
 }
 
 static GSF_CLASS (GogXYView, gog_xy_view,

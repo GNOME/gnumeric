@@ -300,7 +300,6 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogAxisMap *x_map, *y_map;
 	gboolean is_vertical = ! (model->horizontal);
 	double **vals, sum, neg_base, pos_base, tmp;
-	double val_min, val_max;
 	double x;
 	double col_step, group_step, offset, data_scale;
 	unsigned i, j;
@@ -317,15 +316,17 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (num_elements <= 0 || num_series <= 0)
 		return;
 
-	if (!gog_axis_get_bounds (GOG_PLOT (model)->axis [is_vertical?1:0],
-				  &val_min, &val_max))
-		return;
-
-	/* FIXME: add a way to check if map is ok */
 	x_map = gog_axis_map_new (GOG_PLOT (model)->axis[0], 
 				  view->allocation.x, view->allocation.w);
 	y_map = gog_axis_map_new (GOG_PLOT (model)->axis[1], view->allocation.y + view->allocation.h, 
 				  -view->allocation.h);
+	
+	if (!(gog_axis_map_is_valid (x_map) &&
+	      gog_axis_map_is_valid (y_map))) {
+		gog_axis_map_free (x_map);
+		gog_axis_map_free (y_map);
+		return;
+	}
 
 	vals = g_alloca (num_series * sizeof (double *));
 	lengths = g_alloca (num_series * sizeof (unsigned));

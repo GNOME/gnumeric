@@ -144,6 +144,20 @@ get_adjusted_tick_array (GogAxisTick *ticks, int allocated_size, int exact_size)
 	return tmp_ticks;
 }
 
+static GogAxisTick *
+create_invalid_axis_ticks (double min, double max) {
+	GogAxisTick *ticks;
+	
+	ticks = g_new (GogAxisTick, 2);
+	ticks[0].position = min;
+	ticks[1].position = max;
+	ticks[0].type = ticks[1].type = TICK_MAJOR;
+	ticks[0].label = g_strdup ("##");
+	ticks[1].label = g_strdup ("##");
+
+	return ticks;
+}
+
 /*
  * Discrete mapping
  */
@@ -171,9 +185,11 @@ map_discrete_init (GogAxisMap *map, double offset, double length)
 		data->b = offset - data->a * data->min;
 		return TRUE;
 	}
-	data->min = data->scale = data->a = data->b = 0.0;
-	data->max = 0.0;
-
+	data->min = 0.0;
+	data->max = 1.0;
+	data->scale = 1.0;
+	data->a = length;
+	data->b = offset;
 	return FALSE;
 }
 
@@ -230,8 +246,13 @@ map_discrete_calc_ticks (GogAxis *axis,
 		major_label = 1;
 	
 	valid = gog_axis_get_bounds (axis, &minimum, &maximum);
+	if (!valid) {
+		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
+		return;
+	}
+		
 	tick_nbr = rint (maximum -minimum) + 1;
-	if (!valid || !(draw_major || draw_minor || draw_labels) || tick_nbr < 1) {
+	if (!(draw_major || draw_minor || draw_labels) || tick_nbr < 1) {
 		gog_axis_set_ticks (axis, 0, NULL);
 		return;
 	}
@@ -290,9 +311,11 @@ map_linear_init (GogAxisMap *map, double offset, double length)
 		data->b = offset - data->a * data->min;
 		return TRUE;
 	}
-	data->min = data->scale = data->a = data->b = 0.0;
-	data->max = 0.0;
-
+	data->min = 0.0;
+	data->max = 1.0;
+	data->scale = 1.0;
+	data->a = length;
+	data->b = offset;
 	return FALSE;
 }
 
@@ -389,7 +412,7 @@ map_linear_calc_ticks (GogAxis *axis,
 	ratio = rint (major_tick / tick_step);
 	
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
-		gog_axis_set_ticks (axis, 0, NULL);
+		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
 		return;
 	}
 
@@ -450,19 +473,25 @@ map_log_init (GogAxisMap *map, double offset, double length)
 	map->data = g_new (MapLogData, 1);
 	data = map->data;
 
-	if (gog_axis_get_bounds (map->axis, &data->min, &data->max)) {
-		data->min = log (data->min);
-		data->max = log (data->max);
-		data->scale = 1/ (data->max - data->min);
-		data->a = data->scale * length;
-		data->b = offset - data->a * data->min;
-		data->a_inv = -data->scale * length;
-		data->b_inv = offset + length - data->a_inv * data->min;
-		return TRUE;
-	}
-	data->min = data->scale = data->a = data->b = 0.0;
-	data->a_inv = data->b_inv;
-	data->max = 0.0;
+	if (gog_axis_get_bounds (map->axis, &data->min, &data->max))  
+		if (data->min > 0.0)  {
+			data->min = log (data->min);
+			data->max = log (data->max);
+			data->scale = 1/ (data->max - data->min);
+			data->a = data->scale * length;
+			data->b = offset - data->a * data->min;
+			data->a_inv = -data->scale * length;
+			data->b_inv = offset + length - data->a_inv * data->min;
+			return TRUE;
+		}
+	
+	data->min = 0.0;
+	data->max = log (10.0);
+	data->scale = 1 / log(10.0);
+	data->a = data->scale * length;
+	data->b = offset;
+	data->a_inv = -data->scale * length;
+	data->b_inv = offset + length;
 
 	return FALSE;
 }
@@ -532,9 +561,14 @@ map_log_calc_ticks (GogAxis *axis,
 	minor_tick = rint (gog_axis_get_entry (axis, AXIS_ELEM_MINOR_TICK, NULL) + 1.0);
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum) || major_label < 1) {
-		gog_axis_set_ticks (axis, 0, NULL);
+		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (1.0, 10.0));
 		return;
 	}
+	if (minimum <= 0.0) {
+		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (1.0, 10.0));
+		return;
+	}
+
 	start_tick = ceil (log10 (minimum));
 	tick_nbr = major_tick = ceil (ceil (log10 (maximum)) - floor (log10 (minimum)) + 1.0);
 	if (draw_minor)
@@ -649,6 +683,19 @@ gog_axis_map_set (GogAxis *axis, char const *name)
 }
 
 /**
+ * gog_axis_map_is_valid
+ * @axis : #GogAxis
+ *
+ * Return TRUE if map is valid, ie bounds are valid.
+ **/
+
+gboolean
+gog_axis_map_is_valid (GogAxisMap *map) 
+{
+	return map->is_valid;
+}
+
+/**
  * gog_axis_map_new :
  * @axis : #GogAxis
  * @offset : start of plot area.
@@ -673,9 +720,10 @@ gog_axis_map_new (GogAxis *axis, double offset, double length)
 	map->desc = axis->is_discrete ? &map_desc_discrete : axis->map_desc;
 	map->axis = axis;
 	map->data = NULL;
+	map->is_valid = FALSE;
 
 	if (map->desc->init != NULL)
-		map->desc->init (map, offset, length);
+		map->is_valid = map->desc->init (map, offset, length);
 
 	return map;
 }

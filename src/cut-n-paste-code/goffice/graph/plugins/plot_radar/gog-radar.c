@@ -315,19 +315,23 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogRadarPlot const *model = GOG_RADAR_PLOT (view->model);
 	unsigned  center_x, center_y;
-	double    radius, val_min, val_max;
 	GSList   *ptr;
 	ArtVpath *path;
 	gboolean const is_area = GOG_IS_PLOT_RADAR_AREA (model);
+	GogAxisMap *map;
 
-	if (!gog_axis_get_bounds (GOG_PLOT (model)->axis[GOG_AXIS_RADIAL], 
-				  &val_min, &val_max))
+	map = gog_axis_map_new (GOG_PLOT (model)->axis[GOG_AXIS_RADIAL], 
+				0.,
+				fmin (view->allocation.h, view->allocation.w) / 2.0);
+	
+	if (!gog_axis_map_is_valid (map)) {
+		gog_axis_map_free (map);
 		return;
+	}
 
 	/* center things */
 	center_x = view->allocation.x + view->allocation.w/2.0;
 	center_y = view->allocation.y + view->allocation.h/2.0;
-	radius = fmin (view->allocation.h, view->allocation.w) / 2.0;
 
 	path = g_alloca ((model->num_elements + 2) * sizeof (ArtVpath));
 	for (ptr = model->base.series; ptr != NULL; ptr = ptr->next) {
@@ -343,17 +347,18 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 		closed_shape = (series->base.num_elements == model->num_elements);
 		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
 		for (count = 0; count < series->base.num_elements; count++) {
-			double angle_rad = count * 2.0 * M_PI / model->num_elements;
-			double x, y, scale;
+			double rho, theta, x, y;
 
 			if (!go_finite (vals [count])) {
 				closed_shape = FALSE;
 				continue;
 			}
 
-			scale = ((vals[count] - val_min)/(val_max - val_min));
-			x = center_x + radius * scale * sin (angle_rad);
-			y = center_y - radius * scale * cos (angle_rad);
+			theta = count * 2.0 * M_PI / model->num_elements;
+			rho = gog_axis_map_to_canvas (map, vals[count]);
+
+			x = center_x + rho * sin (theta);
+			y = center_y - rho * cos (theta);
 
 			path[count].code = ((count != 0 && !isnan (vals[count-1])) 
 					    ? ART_LINETO : ART_MOVETO);
@@ -379,6 +384,8 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		gog_renderer_pop_style (view->renderer);
 	}
+
+	gog_axis_map_free (map);
 }
 
 static gboolean

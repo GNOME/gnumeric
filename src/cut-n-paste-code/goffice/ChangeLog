@@ -1,6 +1,24 @@
+2004-08-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis.c (create_invalid_axis_ticks): new.
+	(map_[log,discrete,linear]_init): when axis is not valid, init data
+	for special invalid axis rendering.
+	(map_[log,discrete,linear]_calc_ticks): when axis is not valid, return
+	a special set of ticks/labels.
+	(gog_axis_map_is_valid): new.
+	(gog_axis_map_new): set the map->is_valid flag. Default to FALSE if
+	there's no init function.
+	* graph/plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): use
+	gog_axis_map_is_valid.
+	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render): idem.
+	* graph/plugins/plot_radar/gog-radar.c (gog_radar_view_render): idem.
+	Add support for mapping.
+	* graph/plugins/plot_xy/gog-xy.c (gog_xy_view_render): don't clip
+	markers to plot area, but to chart area.
+							
 2004-08-17  Jon K Hellan  <hellan@acm.org>
 
-	* graph/gog-style.c (cb_image_file_select): is_save parameter to
+	* graph/gog-stisyle.c (cb_image_file_select): is_save parameter to
 	gui_image_file_select no longer needed.
 
 2004-08-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
