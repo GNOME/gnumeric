@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-12-17 20:35-0500\n"
-"PO-Revision-Date: 2000-12-22 02:30+01:00\n"
+"PO-Revision-Date: 2000-12-23 02:30+01:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -1091,7 +1091,7 @@ msgid "Rank"
 msgstr "Omfang"
 
 #: src/analysis-tools.c:2213 src/analysis-tools.c:2239
-#: src/workbook-format-toolbar.c:417
+#: src/workbook-format-toolbar.c:433
 msgid "Percent"
 msgstr "Procent"
 
@@ -1185,20 +1185,20 @@ msgstr "Frekvens"
 msgid "Cumulative %"
 msgstr "Akkumuleret %"
 
-#: src/bonobo-io.c:451
+#: src/bonobo-io.c:447
 #, c-format
 msgid "Error '%s' opening workbook stream"
 msgstr "Fejl '%s' under åbning af arbejdsbogsstrøm"
 
-#: src/bonobo-io.c:470 src/xml-io-autoft.c:425 src/xml-io.c:3250
+#: src/bonobo-io.c:466 src/xml-io-autoft.c:425 src/xml-io.c:3250
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml fil. Er træet tomt?"
 
-#: src/bonobo-io.c:481
+#: src/bonobo-io.c:477
 msgid "Does not contain a Workbook file"
 msgstr "Indeholder ikke en arbejdsbogsfil"
 
-#: src/bonobo-io.c:527
+#: src/bonobo-io.c:523
 msgid "Gnumeric Bonobo file format"
 msgstr "Gnumeric Bonobo-filformat"
 
@@ -1313,7 +1313,7 @@ msgstr "Fortryd rydning"
 
 #. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1113 src/sheet.c:2402
+#: src/commands.c:1113 src/sheet.c:2403
 msgid "Clear"
 msgstr "Ryd"
 
@@ -1405,6 +1405,14 @@ msgstr "Autofyld"
 #: src/commands.c:2419
 msgid "Autoformat"
 msgstr "Autoformat"
+
+#: src/commands.c:2484
+msgid "Merge Cells"
+msgstr "Flet celler"
+
+#: src/commands.c:2549
+msgid "Unmerge Cells"
+msgstr "Adskil celler"
 
 #: src/corba-args.c:25
 msgid "Oaf options"
@@ -2053,8 +2061,8 @@ msgstr "En fejl skete under læsning af kategorilisten"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:975 src/format.c:1723 src/format.c:1812
-#: src/format.c:1821 src/format.c:1890
+#: src/dialogs/dialog-autoformat.c:975 src/format.c:1728 src/format.c:1817
+#: src/format.c:1826 src/format.c:1895
 msgid "General"
 msgstr "Generelt"
 
@@ -2609,18 +2617,18 @@ msgid "yellow"
 msgstr "gul"
 
 #. Is it a boolean?
-#: src/format.c:1644 src/number-match.c:970 src/value-sheet.c:33
+#: src/format.c:1649 src/number-match.c:970 src/value-sheet.c:33
 #: src/value.c:236 src/value.c:469
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1644 src/number-match.c:972 src/value-sheet.c:33
+#: src/format.c:1649 src/number-match.c:972 src/value-sheet.c:33
 #: src/value.c:238 src/value.c:469
 msgid "FALSE"
 msgstr "FALSE"
 
 #. Array of arrays ??
-#: src/format.c:1657
+#: src/format.c:1662
 msgid "ARRAY"
 msgstr "MATRIX"
 
@@ -7248,7 +7256,7 @@ msgid "%s version %s"
 msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/functions/fn-information.c:320 src/workbook-format-toolbar.c:759
+#: src/functions/fn-information.c:320 src/workbook-format-toolbar.c:777
 msgid "Automatic"
 msgstr "Automatisk"
 
@@ -13233,7 +13241,7 @@ msgstr "_Vis igen"
 msgid "_Row Height..."
 msgstr "_Rækkehøjde..."
 
-#: src/sheet-object-container.c:216
+#: src/sheet-object-container.c:204
 #, c-format
 msgid "can't create object for '%s'"
 msgstr "Kan ikke oprette objekt for '%s'"
@@ -13254,27 +13262,27 @@ msgstr "Slet"
 msgid "Configure"
 msgstr "Konfigurér"
 
-#: src/sheet.c:2817 src/sheet.c:2827
+#: src/sheet.c:2818 src/sheet.c:2828
 msgid "Insert Columns"
 msgstr "Indsæt kolonner"
 
-#: src/sheet.c:2899
+#: src/sheet.c:2900
 msgid "Delete Columns"
 msgstr "Slet kolonner"
 
-#: src/sheet.c:2970 src/sheet.c:2980
+#: src/sheet.c:2971 src/sheet.c:2981
 msgid "Insert Rows"
 msgstr "Indsæt rækker"
 
-#: src/sheet.c:3052
+#: src/sheet.c:3053
 msgid "Delete Rows"
 msgstr "Slet rækker"
 
-#: src/sheet.c:3856
+#: src/sheet.c:3857 src/workbook-format-toolbar.c:420
 msgid "Merge"
 msgstr "Flet"
 
-#: src/sheet.c:3863
+#: src/sheet.c:3864
 msgid "There is already a merged region that intersects"
 msgstr "Der er allerede et flettet område der overlapper"
 
@@ -13493,7 +13501,7 @@ msgstr "kunne ikke findes på det forventede sted"
 msgid "Terminate"
 msgstr "Terminér"
 
-#: src/widgets/widget-font-selector.c:130 src/workbook-format-toolbar.c:372
+#: src/widgets/widget-font-selector.c:130 src/workbook-format-toolbar.c:381
 msgid "Bold"
 msgstr "Fed"
 
@@ -13501,7 +13509,7 @@ msgstr "Fed"
 msgid "Bold italic"
 msgstr "Fed kursiv"
 
-#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:379
+#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:388
 msgid "Italic"
 msgstr "Kursiv"
 
@@ -13515,171 +13523,183 @@ msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 "Du indtastede en ugyldig værdi for rækkehøjde. Den skal være større end 0"
 
-#: src/workbook-format-toolbar.c:369
+#: src/workbook-format-toolbar.c:378
 msgid "Select font"
 msgstr "Vælg skrifttype"
 
-#: src/workbook-format-toolbar.c:369 src/workbook-format-toolbar.c:778
+#: src/workbook-format-toolbar.c:378 src/workbook-format-toolbar.c:796
 msgid "Font selector"
 msgstr "Skriftvælger"
 
-#: src/workbook-format-toolbar.c:372
+#: src/workbook-format-toolbar.c:381
 msgid "Sets the bold font"
 msgstr "Gør skriften fed"
 
-#: src/workbook-format-toolbar.c:379
+#: src/workbook-format-toolbar.c:388
 msgid "Makes the font italic"
 msgstr "Gør skriften kursiv"
 
-#: src/workbook-format-toolbar.c:386
+#: src/workbook-format-toolbar.c:395
 msgid "Underline"
 msgstr "Understreg"
 
-#: src/workbook-format-toolbar.c:386
+#: src/workbook-format-toolbar.c:395
 msgid "Underlines the font"
 msgstr "Understreger skrifttypen"
 
-#: src/workbook-format-toolbar.c:395
+#: src/workbook-format-toolbar.c:404
 msgid "Left align"
 msgstr "Venstrejustér"
 
-#: src/workbook-format-toolbar.c:395
+#: src/workbook-format-toolbar.c:404
 msgid "Left justifies the cell contents"
 msgstr "Venstrejusterer cellens indhold"
 
-#: src/workbook-format-toolbar.c:399
+#: src/workbook-format-toolbar.c:408
 msgid "Center"
 msgstr "Centrér"
 
-#: src/workbook-format-toolbar.c:399
+#: src/workbook-format-toolbar.c:408
 msgid "Centers the cell contents"
 msgstr "Centrerer cellens indhold"
 
-#: src/workbook-format-toolbar.c:403
+#: src/workbook-format-toolbar.c:412
 msgid "Right align"
 msgstr "Højrejustér"
 
-#: src/workbook-format-toolbar.c:403
+#: src/workbook-format-toolbar.c:412
 msgid "Right justifies the cell contents"
 msgstr "Højrejusterer cellens indhold"
 
-#: src/workbook-format-toolbar.c:407
+#: src/workbook-format-toolbar.c:416
 msgid "Center across selection"
 msgstr "Midtersektionsvalg"
 
-#: src/workbook-format-toolbar.c:414
+#: src/workbook-format-toolbar.c:420
+msgid "Merge a range of cells"
+msgstr "Flet en matrix af celler"
+
+#: src/workbook-format-toolbar.c:424
+msgid "Split"
+msgstr "Opsplit"
+
+#: src/workbook-format-toolbar.c:424
+msgid "Split merged ranges of cells"
+msgstr "Opsplit en matrix af celler"
+
+#: src/workbook-format-toolbar.c:430
 msgid "Money format"
 msgstr "Pengeformat"
 
-#: src/workbook-format-toolbar.c:414
+#: src/workbook-format-toolbar.c:430
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Brug pengeformat som de markerede cellers format"
 
-#: src/workbook-format-toolbar.c:417
+#: src/workbook-format-toolbar.c:433
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Sætter formatet for de valgte celler til procent"
 
-#: src/workbook-format-toolbar.c:420
+#: src/workbook-format-toolbar.c:436
 msgid "Thousand separator"
 msgstr "Tusind-separator"
 
-#: src/workbook-format-toolbar.c:420
+#: src/workbook-format-toolbar.c:436
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
 "Sætter formatet for de valgte celler til at indeholde et tusind-skilletegn"
 
-#: src/workbook-format-toolbar.c:423
+#: src/workbook-format-toolbar.c:439
 msgid "Add decimals"
 msgstr "Tilføj decimaler"
 
-#: src/workbook-format-toolbar.c:423
+#: src/workbook-format-toolbar.c:439
 msgid "Increases the number of decimal numbers displayed"
 msgstr "Hæver det antal decimaler som vises"
 
-#: src/workbook-format-toolbar.c:426
+#: src/workbook-format-toolbar.c:442
 msgid "Remove decimals"
 msgstr "Fjern decimaler"
 
-#: src/workbook-format-toolbar.c:426
+#: src/workbook-format-toolbar.c:442
 msgid "Decreases the number of decimal numbers displayed"
 msgstr "Sænker det antal decimaler som vises"
 
-#: src/workbook-format-toolbar.c:544
+#: src/workbook-format-toolbar.c:562
 msgid "Left"
 msgstr "Venstre"
 
-#: src/workbook-format-toolbar.c:545
+#: src/workbook-format-toolbar.c:563
 msgid "Clear Borders"
 msgstr "Ryd kanter"
 
-#: src/workbook-format-toolbar.c:546
+#: src/workbook-format-toolbar.c:564
 msgid "Right"
 msgstr "Højre"
 
-#: src/workbook-format-toolbar.c:548
+#: src/workbook-format-toolbar.c:566
 msgid "All Borders"
 msgstr "Alle kanter"
 
-#: src/workbook-format-toolbar.c:549
+#: src/workbook-format-toolbar.c:567
 msgid "Outside Borders"
 msgstr "Kanter udenom"
 
-#: src/workbook-format-toolbar.c:550
+#: src/workbook-format-toolbar.c:568
 msgid "Thick Outside Borders"
 msgstr "Tykke kanter udenom"
 
-#: src/workbook-format-toolbar.c:552
+#: src/workbook-format-toolbar.c:570
 msgid "Bottom"
 msgstr "Bund"
 
-#: src/workbook-format-toolbar.c:553
+#: src/workbook-format-toolbar.c:571
 msgid "Double Bottom"
 msgstr "Dobbel bund"
 
-#: src/workbook-format-toolbar.c:554
+#: src/workbook-format-toolbar.c:572
 msgid "Thick Bottom"
 msgstr "Tyk bund"
 
-#: src/workbook-format-toolbar.c:556
+#: src/workbook-format-toolbar.c:574
 msgid "Top and Bottom"
 msgstr "Top og bund"
 
-#: src/workbook-format-toolbar.c:557
+#: src/workbook-format-toolbar.c:575
 msgid "Top and Double Bottom"
 msgstr "Top og dobbel bund"
 
-#: src/workbook-format-toolbar.c:558
+#: src/workbook-format-toolbar.c:576
 msgid "Top and Thick Bottom"
 msgstr "Top og tyk bund"
 
-#: src/workbook-format-toolbar.c:691
+#: src/workbook-format-toolbar.c:709
 msgid "Font"
 msgstr "Skrifttype"
 
-#: src/workbook-format-toolbar.c:718
+#: src/workbook-format-toolbar.c:736
 msgid "Size"
 msgstr "Størrelse"
 
-#: src/workbook-format-toolbar.c:741 src/workbook-format-toolbar.c:783
+#: src/workbook-format-toolbar.c:759 src/workbook-format-toolbar.c:801
 msgid "Borders"
 msgstr "Kanter"
 
 #.
 #. * Create the background colour combo box.
 #.
-#: src/workbook-format-toolbar.c:746
+#: src/workbook-format-toolbar.c:764
 msgid "Clear Background"
 msgstr "Ryd Baggrund"
 
-#: src/workbook-format-toolbar.c:754 src/workbook-format-toolbar.c:786
+#: src/workbook-format-toolbar.c:772 src/workbook-format-toolbar.c:804
 msgid "Background"
 msgstr "Baggrund"
 
-#: src/workbook-format-toolbar.c:768 src/workbook-format-toolbar.c:789
+#: src/workbook-format-toolbar.c:786 src/workbook-format-toolbar.c:807
 msgid "Foreground"
 msgstr "Forgrund"
 
-#: src/workbook-format-toolbar.c:780
+#: src/workbook-format-toolbar.c:798
 msgid "Font Size"
 msgstr "Skriftstørrelse"
 
@@ -14930,9 +14950,6 @@ msgstr "Fejl ved forsøg på at bygge træ fra autoformat skabelonsfil"
 
 #~ msgid "_Locked"
 #~ msgstr "_Låst"
-
-#~ msgid "_Merge Cells"
-#~ msgstr "_Flet celler"
 
 #~ msgid "_No Color"
 #~ msgstr "_Ingen farve"
