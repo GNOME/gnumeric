@@ -38,6 +38,9 @@
 
 2003-05-22  Jody Goldberg <jody@gnome.org>
 
+	* src/dependent.c (dependents_relocate) : cells optionally don't
+	  relink, but objects must for now.
+
 	* src/expr.c (cellrange_relocate) : fix logic inversion introduced
 	  when I removed the unnecessary heuristic on 2003-05-16.
 

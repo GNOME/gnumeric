@@ -1695,7 +1695,8 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 					if (dep->sheet != sheet ||
 					    !range_contains (r, pos->col, pos->row))
 						dependent_link (dep, pos);
-				}
+				} else
+					dependent_link (dep, &dummy);
 			}
 		} else
 			/* the expression may not be changing, but it depends

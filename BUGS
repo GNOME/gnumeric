@@ -67,7 +67,7 @@ Pending Patches
 	1.16.1) Solid background fills				(DONE)
 	    1.16.1.1) Use ArtRender interface
 	1.16.2) Gradient fills (basic)				(DONE)
-	    1.16.2.1) use bbox.x2-bbox.x1 + 1 for size
+	    1.16.2.1) use bbox.x2-bbox.x1 + 1 for size		(DONE)
 	1.16.3) Image fills
 	1.16.4) path						(DONE)
 	    1.16.4.1) Use ArtRender interface
