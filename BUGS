@@ -18,14 +18,11 @@ Release Critical
     * border style double_line does not handle all of the different
       intersection cases.
 
-- Resolve Gal version issue.
-
 Long term breakage
 ------------------
 
 - Search-and-replace.
   * Comments for empty cells are not found.
-  * Regexp replace for "foo $1 bar" is not implemented.
   * It is doubtful whether the regexp selection belongs on the first page.
   * Querying is not implemented.
 
