@@ -27,7 +27,7 @@ Jon Kåre:
 	  spreadsheet window is displayed.
 	* Fix 98661.
 	* Ported the remaining plugins to gsf output.
-	* Use desktop font for row and column titles.
+	* Use desktop font for row and column titles, fixing 98666.
 
 Morten:
 	* Improve qpro importer.
