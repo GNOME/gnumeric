@@ -839,8 +839,8 @@ static xmlNodePtr writeXmlStyle(parseXmlContextPtr ctxt, Style *style) {
     
     if ((style->halign == 0) && (style->valign == 0) &&
         (style->orientation ==0) && (style->format == NULL) &&
-	(style->font == NULL) && (style->border == NULL) &&
-        (style->shading == NULL)) return(NULL);
+	(style->font == NULL) && (style->border == NULL))
+	    return(NULL);
 
     cur = xmlNewNode(ctxt->ns, "Style", NULL);
     xmlSetIntValue(cur, "HAlign", style->halign);
@@ -869,8 +869,8 @@ static xmlNodePtr writeXmlStyle(parseXmlContextPtr ctxt, Style *style) {
         child = writeXmlStyleBorder(ctxt, style->border);
         if (child) xmlAddChild(cur, child);
     }
-    if (style->shading != NULL) {
-	sprintf(str, "%d", style->shading->pattern);
+    if (style->valid_flags & STYLE_PATTERN != NULL) {
+	sprintf(str, "%d", style->pattern);
         xmlNewChild(cur, ctxt->ns, "Shade", str);
     }
     return(cur);

@@ -38,6 +38,22 @@ function_iterate_argument_values (Sheet                   *sheet,
 				  char                    **error_string);
 				  
 
+/*
+ * function_call_with_values
+ *
+ */
+Value      *function_call_with_values     (Sheet     *sheet,
+					   char      *name,
+					   int argc,
+					   Value *values [],
+					   char **error_string);
+
+Value      *function_def_call_with_values (Sheet              *sheet,
+					   FunctionDefinition *fd,
+					   int                 argc,
+					   Value              *values [],
+					   char               **error_string);
+
 void install_symbols (FunctionDefinition *functions);
 
 #endif /* GNUMERIC_FUNC_H */

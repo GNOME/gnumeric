@@ -835,16 +835,6 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	halign = cell_get_horizontal_align (cell);
 	text = CELL_TEXT_GET (cell);
 
-	if (cell->style->valid_flags & STYLE_BACK_COLOR)
-		gdk_gc_set_background (gc, &cell->style->back_color->color);
-
-	if (cell->render_color)
-		gdk_gc_set_foreground (gc, &cell->render_color->color);
-	else {
-		if (cell->style->valid_flags & STYLE_FORE_COLOR)
-			gdk_gc_set_foreground (gc, &cell->style->fore_color->color);
-	}
-	
 	/* if a number overflows, do special drawing */
 	if (width < cell->width && cell_is_number (cell)){
 		draw_overflow (drawable, gc, font, x1 + cell->col->margin_a, y1, text_base,
@@ -870,7 +860,6 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 		rect.height = cell->height;
 		rect.width = cell->width;
 		gdk_gc_set_clip_rectangle (gc, &rect);
-		printf ("Cliping to: %d %d %d %d\n", x1, y1, cell->height, cell->width);
 		
 		switch (style->valign){
 		case VALIGN_TOP:

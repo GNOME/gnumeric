@@ -238,7 +238,7 @@ style_new (void)
 	style->halign      = HALIGN_GENERAL;
 	style->valign      = VALIGN_CENTER;
 	style->orientation = ORIENT_HORIZ;
-	
+
 	return style;
 }
 
@@ -275,7 +275,7 @@ style_destroy (Style *style)
 	if (style->valid_flags & STYLE_BACK_COLOR)
 		if (style->back_color)
 			style_color_unref (style->back_color);
-	
+
 	g_free (style);
 }
 
@@ -456,5 +456,11 @@ style_merge_to (Style *target, Style *source)
 			target->back_color = source->back_color;
 			if (target->back_color)
 				style_color_ref (target->back_color);
+		}
+
+	if (!(target->valid_flags & STYLE_PATTERN))
+		if (source->valid_flags & STYLE_PATTERN){
+			target->valid_flags |= STYLE_PATTERN;
+			target->pattern = source->pattern;
 		}
 }

@@ -70,9 +70,6 @@ typedef struct {
 struct ExprTree {
 	Operation oper;
 
-	/*
-	 * The reference count is only used by the toplevel tree.
-	 */
 	int       ref_count;
 	union {
 		Value  *constant;

@@ -113,7 +113,8 @@ gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 	v->type = VALUE_FLOAT;
 	v->v.v_float =
 		calc_days (tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday) +
-		((tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec)/DAY_SECONDS);
+		((tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec)/DAY_SECONDS) -
+		calc_days (1900, 1, 1);
 
 	return v;
 }

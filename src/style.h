@@ -47,11 +47,6 @@ typedef struct {
 } StyleBorder;
 
 typedef struct {
-	int ref_count;
-	int pattern;
-} StyleShade;
-
-typedef struct {
 	int      ref_count;
 	GdkColor color;
 	char     *name;
@@ -81,28 +76,29 @@ typedef enum {
 	ORIENT_VERT_VERT_TEXT2 = 8
 } StyleOrientation;
 
-#define STYLE_FORMAT      1
-#define STYLE_FONT        2
-#define STYLE_BORDER      4
-#define STYLE_SHADING     8
-#define STYLE_ALIGN      16
-#define STYLE_FORE_COLOR 32
-#define STYLE_BACK_COLOR 64
+#define STYLE_FORMAT       1
+#define STYLE_FONT         2
+#define STYLE_BORDER       4
+#define STYLE_PATTERN      8
+#define STYLE_ALIGN       16
+#define STYLE_FORE_COLOR  32
+#define STYLE_BACK_COLOR  64
+#define STYLE_MAXIMUM    128
 
 /* Define all of the styles we actually know about */
 #define STYLE_ALL (STYLE_FORMAT | STYLE_FONT | STYLE_BORDER | STYLE_ALIGN | \
-		   STYLE_FORE_COLOR | STYLE_BACK_COLOR)
+		   STYLE_PATTERN | STYLE_FORE_COLOR | STYLE_BACK_COLOR)
 
 typedef struct {
 	StyleFormat   *format;
 	StyleFont     *font;
 	StyleBorder   *border;
-	StyleShade    *shading;
 	StyleColor    *fore_color;
 	StyleColor    *back_color;
 
-	unsigned int halign:6;
+	unsigned int pattern:4;
 	unsigned int valign:4;
+	unsigned int halign:6;
 	unsigned int orientation:4;
 	unsigned int fit_in_cell:1;
 	

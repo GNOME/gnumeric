@@ -17,7 +17,7 @@ static GHashTable *dependency_hash;
 void
 cell_eval (Cell *cell)
 {
-	char *error_msg;
+	char *error_msg = NULL;
 	Value *v;
 
 	g_return_if_fail (cell != NULL);
@@ -33,9 +33,11 @@ cell_eval (Cell *cell)
 	if (v == NULL){
 		cell_set_rendered_text (cell, error_msg);
 		cell->value = NULL;
+		cell->flags |= CELL_ERROR;
 	} else {
 		cell->value = v;
 		cell_render_value (cell);
+		cell->flags &= ~CELL_ERROR;
 	}
 
 	cell_calc_dimensions (cell);

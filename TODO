@@ -2,6 +2,14 @@
 
 GNOME Spread Sheet task list
 
+* BUGS
+  A1: numero
+  B1: =EXP(A1)  -> loop
+
+  =YEAR(NOW())
+
+  .33 -> scientific format anade un leading - -> segv
+
 * Autofill
 
   Finish implementation

@@ -21,6 +21,7 @@ typedef struct {
 #define COL_INTERNAL_WIDTH(col) ((col)->pixels - ((col)->margin_b + (col)->margin_a))
 #define ROW_INTERNAL_HEIGHT(row) ((row)->pixels - ((row)->margin_b + (row)->margin_a))
 
+#define CELL_ERROR   1
 
 typedef struct {
 	void        *sheet;

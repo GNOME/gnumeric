@@ -1,3 +1,34 @@
+1998-09-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/expr.c (do_expr_decode_tree): When decoding a tree, include
+	the argument separator.  Also, loop properly trough the arguments
+	being decoded.
+	
+	(function_call_with_values, function_def_call_with_values): New
+	functions: these ones are for the plugins so that a plugin can
+	invoke other functions in Gnumeric.
+
+	* src/fn-date.c (gnumeric_now): The serial number returned by
+	NOW() should be relative to 1900/1/1, not year zero.
+
+1998-09-20  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/expr.c (eval_expr): Fix the way we computed expressions. 
+
+	* src/eval.c (cell_eval): Maintain a CELL_ERROR flag to know if
+	the value is NULL due to an error or to the cell not being
+	evaluated. 
+
+	* src/expr.c (funcion_call_with_values): Add a routine to allow
+	plugins to call other functions defined in Gnumeric.
+
+	* src/style.c: Handle the pattern property of the styles.
+
+	* src/style.h: Pattern style is now just a 4 bit quantity, instead
+	of a RefCounted structure.
+	
+	* src/plugin.c: Include gnumeric-util.h
+
 1998-09-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/item-cursor.c (item_cursor_do_drop): Use button-1 to select

@@ -12,6 +12,7 @@
 #include <gnome.h>
 #include <string.h>
 #include "gnumeric.h"
+#include "gnumeric-util.h"
 #include "plugin.h"
 
 GList *plugin_list = NULL;

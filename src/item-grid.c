@@ -191,16 +191,34 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	GdkGC       *gc     = item_grid->gc;
 	int         count;
 	
-#if 0
-	/* Debugging code for testing the stipples */
-	gdk_gc_set_stipple (gc, GNUMERIC_SHEET (canvas)->patterns [col % 8]);
-	gdk_gc_set_foreground (gc, &gs_black);
-	gdk_gc_set_background (gc, &gs_white);
-	gdk_gc_set_fill (gc, GDK_STIPPLED);
-#endif
-	
+	/* setup foreground */
 	gdk_gc_set_foreground (gc, &item_grid->default_color);
+	if (cell->render_color)
+		gdk_gc_set_foreground (gc, &cell->render_color->color);
+	else {
+		if (cell->style->valid_flags & STYLE_FORE_COLOR)
+			gdk_gc_set_foreground (gc, &cell->style->fore_color->color);
+	}
+	
+	if (cell->style->valid_flags & STYLE_BACK_COLOR)
+		gdk_gc_set_background (gc, &cell->style->back_color->color);
 
+
+	if ((cell->style->valid_flags & STYLE_PATTERN) && cell->style->pattern){
+		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
+		int p = cell->style->pattern - 1;
+		
+		gdk_gc_set_stipple (gc, GNUMERIC_SHEET (item->canvas)->patterns [p]);
+		gdk_gc_set_fill (gc, GDK_STIPPLED);
+		gdk_draw_rectangle (drawable, gc, TRUE,
+				    x1, y1,
+				    cell->col->pixels,
+				    cell->row->pixels);
+	} else {
+		gdk_gc_set_fill (gc, GDK_SOLID);
+		gdk_gc_set_stipple (gc, NULL);
+	}
+	
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 	return count;
 }

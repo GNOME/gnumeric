@@ -6,6 +6,7 @@
 #include "expr.h"
 #include "eval.h"
 #include "format.h"
+#include "func.h"
 
 char *parser_expr;
 ParseErr parser_error;
@@ -419,6 +420,77 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 	return v;
 }
 
+Value *
+function_def_call_with_values (Sheet *sheet, FunctionDefinition *fd, int argc,
+			       Value *values [], char **error_string)
+{
+	Value *retval;
+	
+	if (fd->expr_fn){
+		/*
+		 * If function deals with ExprNodes, create some
+		 * temporary ExprNodes with constants.
+		 */
+		ExprTree *tree = NULL;
+		GList *l = NULL;
+		int i;
+
+		if (argc){
+			tree = g_new (ExprTree, argc);
+		
+			for (i = 0; i < argc; i++){
+				tree [i].oper = OP_CONSTANT;
+				tree [i].ref_count = 1;
+				tree [i].u.constant = values [i];
+				
+				l = g_list_append (l, &(tree[i]));
+			}
+		}
+		
+		retval = fd->expr_fn (sheet, l, 0, 0, error_string);
+
+		if (tree){
+			g_free (tree);
+			g_list_free (l);
+		}
+
+	} else 
+		retval = fd->fn (fd, values, error_string);
+
+	return retval;
+}
+
+/*
+ * Use this to invoke a register function: the only drawback is that
+ * you have to compute/expand all of the values to use this
+ */
+Value *
+function_call_with_values (Sheet *sheet, char *name, int argc, Value *values[], char **error_string)
+{
+	FunctionDefinition *fd;
+	Value *retval;
+	Symbol *sym;
+
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	sym = symbol_lookup (name);
+	if (sym->type != SYMBOL_FUNCTION){
+		*error_string = "Calling non-function";
+		return NULL;
+	}
+	
+	fd = sym->data;
+
+	symbol_ref (sym);
+	retval = function_def_call_with_values (sheet, fd, argc, values, error_string);
+
+	symbol_unref (sym);
+
+	return retval;
+}
+
 typedef enum {
 	IS_EQUAL,
 	IS_LESS,
@@ -740,11 +812,13 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		cell = sheet_cell_get (sheet, col, row);
 
 		if (cell){
-			if (cell->parsed_node && cell->generation != sheet->workbook->generation){
+			if (cell->generation != sheet->workbook->generation){
 				cell->generation = sheet->workbook->generation;
-				cell_eval (cell);
-			} 
-			
+
+				if (cell->parsed_node)
+					cell_eval (cell);
+			}
+
 			if (cell->value)
 				return eval_cell_value (sheet, cell->value);
 		}
@@ -892,20 +966,23 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 			args = g_malloc (sizeof (char *) * argc);
 
 			i = 0;
-			for (l = arg_list; l; l = l->next){
+			for (l = arg_list; l; l = l->next, i++){
 				ExprTree *t = l->data;
 				
 				args [i] = do_expr_decode_tree (t, col, row, OP_CONSTANT);
 				len += strlen (args [i]) + 1;
 			}
 			len++;
-			sum = g_malloc (len + 1);
+			sum = g_malloc (len + 2);
 			
 			i = 0;
 			sum [0] = 0;
-			for (l = arg_list; l; l = l->next)
+			for (l = arg_list; l; l = l->next, i++){
 				strcat (sum, args [i]);
-
+				if (l->next)
+					strcat (sum, ",");
+			}
+			
 			res = g_copy_strings (
 				fd->name, "(", sum, ")", NULL);
 

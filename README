@@ -90,3 +90,7 @@ documentation for these:
 	- If you drag a selection with button 3 instead of button one
 	  there is no default action, rather, a menu pops up with 
 	  a list of possibel options on actions to perform.
+
+	- Gnumeric distinguishes regular text from formulas by preceding
+	  formulas with an equal sign.  So to enter an expression you have	
+	  to enter for example: =1+2.
