@@ -5,13 +5,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-02-03 14:07-0600\n"
+"POT-Creation-Date: 1999-02-06 17:40+0100\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@ldsol.com>\n"
 "Language-Team: Vincent Renardias <vincent@ldsol.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: plugins/excel/boot.c:67
+msgid "Microsoft(R) Excel file format"
+msgstr "format de fichier Microsoft(R) Excel"
 
 #: plugins/stat/stat.c:10
 msgid ""
@@ -232,6 +236,10 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Décembre"
 
+#: src/dialog-cell-comment.c:24
+msgid "Cell comment"
+msgstr "Commentaire de cellule"
+
 #: src/dialog-cell-format.c:66
 msgid "Numbers"
 msgstr "Nombres"
@@ -360,19 +368,19 @@ msgstr "Utiliser une couleur unie"
 msgid "Use a pattern"
 msgstr "Utiliser un motif"
 
-#: src/dialog-cell-format.c:861
+#: src/dialog-cell-format.c:865
 msgid "Number"
 msgstr "Nombre"
 
-#: src/dialog-cell-format.c:862
+#: src/dialog-cell-format.c:866
 msgid "Alignment"
 msgstr "Alignement"
 
-#: src/dialog-cell-format.c:863
+#: src/dialog-cell-format.c:867
 msgid "Font"
 msgstr "Police"
 
-#: src/dialog-cell-format.c:864
+#: src/dialog-cell-format.c:868
 msgid "Coloring"
 msgstr ""
 
@@ -635,7 +643,6 @@ msgstr ""
 "@SEEALSO=HOUR"
 
 #: src/fn-date.c:167
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -650,11 +657,10 @@ msgstr ""
 "@DESCRIPTION=Convertis un numéro de série en heure. L'heure est retournée "
 "sous forme d'un entier entre 0 (minuit) à 23 (23h00)\n"
 "NB: Gnumeric fera pour vous une traduction de chaine litérale en nombre, "
-"donc vous pouvez entrer votre date sous forme de chaine@SEEALSO=MINUTE, NOW, "
-"TIME, SECOND"
+"donc vous pouvez entrer votre date sous forme de chaine\n"
+"@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
 #: src/fn-date.c:182
-#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -669,11 +675,10 @@ msgstr ""
 "@DESCRIPTION=Converti un numéro de série en minute. La minute est retournée "
 "comme un entier entre 0 et 59\n"
 "NB: Gnumeric fera pour vous une traduction de chaine litérale en nombre, "
-"donc vous pouvez entrer votre date sous forme de chaine@SEEALSO=HOUR, NOW, "
-"TIME, SECOND"
+"donc vous pouvez entrer votre date sous forme de chaine\n"
+"@SEEALSO=HOUR, NOW, TIME, SECOND"
 
 #: src/fn-date.c:197
-#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -688,11 +693,10 @@ msgstr ""
 "@DESCRIPTION=Converti un numéro de série en seconde. La seconde est "
 "retournée comme un entier entre 0 et 59\n"
 "NB: Gnumeric fera pour vous une traduction de chaine litérale en nombre, "
-"donc vous pouvez entrer votre date sous forme de chaine@SEEALSO=HOUR, "
-"MINUTE, NOW, TIME"
+"donc vous pouvez entrer votre date sous forme de chaine\n"
+"@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
 #: src/fn-date.c:235
-#, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -705,11 +709,10 @@ msgstr ""
 "@SYNTAX=YEAR (numéro_de_série)\n"
 "@DESCRIPTION=Converti un numéro de série en année.\n"
 "NB: Gnumeric fera pour vous une traduction de chaine litérale en nombre, "
-"donc vous pouvez entrer votre date sous forme de chaine@SEEALSO=DAY, MONTH, "
-"NOW, TIME"
+"donc vous pouvez entrer votre date sous forme de chaine\n"
+"@SEEALSO=DAY, MONTH, NOW, TIME"
 
 #: src/fn-date.c:249
-#, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -722,11 +725,10 @@ msgstr ""
 "@SYNTAX=MONTH (numéro_de_série)\n"
 "@DESCRIPTION=Converti un numéro de série en mois.\n"
 "NB: Gnumeric fera pour vous une traduction de chaine litérale en nombre, "
-"donc vous pouvez entrer votre date sous forme de chaine@SEEALSO=YEAR, DAY, "
-"NOW, TIME"
+"donc vous pouvez entrer votre date sous forme de chaine\n"
+"@SEEALSO=YEAR, DAY, NOW, TIME"
 
 #: src/fn-date.c:263
-#, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -739,8 +741,8 @@ msgstr ""
 "@SYNTAX=DAY (numéro_de_série)\n"
 "@DESCRIPTION=Converti un numéro de série en jour.\n"
 "NB: Gnumeric fera pour vous une traduction de chaine litérale en nombre, "
-"donc vous pouvez entrer votre date sous forme de chaine@SEEALSO=YEAR, DAY, "
-"NOW, TIME"
+"donc vous pouvez entrer votre date sous forme de chaine\n"
+"@SEEALSO=YEAR, DAY, NOW, TIME"
 
 #: src/fn-math.c:27
 msgid ""
@@ -1388,6 +1390,10 @@ msgid ""
 "@DESCRIPTION=Cleans the string from any non-printable characters.\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=CLEAN\n"
+"@SYNTAX=CLEAN(chaîne)\n"
+"@DESCRIPTION=Enleve tous les caractères non imprimables de la chaîne.\n"
+"@SEEALSO="
 
 #: src/fn-sheet.c:17
 msgid ""
@@ -1399,9 +1405,15 @@ msgid ""
 "evaluates to the value of @if-false\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=IF\n"
+"@SYNTAX=IF(condition,si-vrai,si-faux)\n"
+"@DESCRIPTION=Utilisez cette déclaration pour évaluer conditionellement"
+"d'autres expressions. IF évalue la condition; si elle retourne une valeur"
+"non-nulle, le résultat de l'expression sera celui de l'expression si-vrai,"
+" sinon le résultat de l'expression sera celui de l'expression si-faux\n"
+"@SEEALSO="
 
 #: src/fn-sheet.c:64
-#, fuzzy
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(x)\n"
@@ -1410,62 +1422,62 @@ msgid ""
 "computation of values\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=La fonction PI retourne la valeur de Pi telle qu'elle est "
-"définie par M_PI.\n"
-"Cette fonction ne prend aucun argument.\n"
+"@FUNCTION=SELECTION\n"
+"@SYNTAX=SELECTION(x)\n"
+"@DESCRIPTION=La fonction SELECTION retourne la liste des valeurs contenues "
+"dans la sélection souris. Cela est généralement utilisé pour implémenter "
+"le calcul d'une valeur à la volée\n"
 "@SEEALSO="
 
 #: src/fn-string.c:17
-#, fuzzy
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
-"@DESCRIPTION=Returns the ascii character reprensented by the number x.\n"
+"@DESCRIPTION=Returns the ascii character represented by the number x.\n"
 "@SEEALSO=CODE"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (heures,minutes,secondes)\n"
-"@DESCRIPTION=Retourne une fraction représentant l'heure actuelle\n"
-"@SEEALSO=HOUR"
+"@FUNCTION=CHAR\n"
+"@SYNTAX=CHAR(x)\n"
+"@DESCRIPTION=Retourne le caractère ASCII représenté par le nombre x.\n"
+"@SEEALSO=CODE"
 
 #: src/fn-string.c:39
-#, fuzzy
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
 "@DESCRIPTION=Returns the ASCII number for the character char.\n"
 "@SEEALSO=CHAR"
 msgstr ""
-"@FUNCTION=LEFT\n"
-"@SYNTAX=LEFT(texte[,num_cars])\n"
-"@DESCRIPTION=Retourne les num_cars (ou 1 si num_cars n'est pas spécifié) "
-"caractères les plus à gauche de la chaine de texte.\n"
-"@SEEALSO=MID, RIGHT"
+"@FUNCTION=CODE\n"
+"@SYNTAX=CODE(car)\n"
+"@DESCRIPTION=Retourne le code ASCII pour le caractère car.\n"
+"@SEEALSO=CHAR"
 
 #: src/fn-string.c:61
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
 "@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this "
-"routine is case sensitive.\n"
+"routine is case sensitive).\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=EXACT\n"
+"@SYNTAX=EXACT(chaîne1, chaîne2)\n"
+"@DESCRIPTION=Retourne VRAI si chaîne 1 est exactement égale à chaîne2 (cette fonction est "
+"sensible à la case).\n"
+"@SEEALSO="
 
 #: src/fn-string.c:83
-#, fuzzy
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
 "@DESCRIPTION=Returns the length in characters of the string @string.\n"
 "@SEEALSO=CHAR, CODE"
 msgstr ""
-"@FUNCTION=LEFT\n"
-"@SYNTAX=LEFT(texte[,num_cars])\n"
-"@DESCRIPTION=Retourne les num_cars (ou 1 si num_cars n'est pas spécifié) "
-"caractères les plus à gauche de la chaine de texte.\n"
-"@SEEALSO=MID, RIGHT"
+"@FUNCTION=LEN\n"
+"@SYNTAX=LEN(chaîne)\n"
+"@DESCRIPTION=Retourne la longueur en caractères de la chaîne.\n"
+"@SEEALSO=CHAR, CODE"
 
 #: src/fn-string.c:140
 msgid ""
@@ -1482,17 +1494,16 @@ msgstr ""
 "@SEEALSO=MID, RIGHT"
 
 #: src/fn-string.c:176
-#, fuzzy
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
 "@DESCRIPTION=Returns a lower-case version of the string in @text\n"
 "@SEEALSO=UPPER"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (heures,minutes,secondes)\n"
-"@DESCRIPTION=Retourne une fraction représentant l'heure actuelle\n"
-"@SEEALSO=HOUR"
+"@FUNCTION=LOWER\n"
+"@SYNTAX=LOWER(texte)\n"
+"@DESCRIPTION=Retourne une version en minuscules du texte @texte\n"
+"@SEEALSO=UPPER"
 
 #: src/fn-string.c:207
 msgid ""
@@ -1502,6 +1513,10 @@ msgid ""
 "@lenght characters.\n"
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
+"@FUNCTION=MID\n"
+"@SYNTAX=MID(chaîne, position, longueur)\n"
+"@DESCRIPTION=Retourne une sous-chaîne de @chaîne démarrant à @position pour @longueur caractères.\n"
+"@SEEALSO=LEFT, RIGHT"
 
 #: src/fn-string.c:255
 msgid ""
@@ -1518,17 +1533,16 @@ msgstr ""
 "@SEEALSO=MID, LEFT"
 
 #: src/fn-string.c:295
-#, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
 "@DESCRIPTION=Returns a upper-case version of the string in @text\n"
 "@SEEALSO=LOWER"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (heures,minutes,secondes)\n"
-"@DESCRIPTION=Retourne une fraction représentant l'heure actuelle\n"
-"@SEEALSO=HOUR"
+"@FUNCTION=UPPER\n"
+"@SYNTAX=UPPER(texte)\n"
+"@DESCRIPTION=Retourne une version en majuscules du texte @texte\n"
+"@SEEALSO=LOWER"
 
 #: src/format.c:403
 msgid "black"
@@ -2279,19 +2293,19 @@ msgstr "Moyenne"
 msgid "Count"
 msgstr "Compte"
 
-#: src/workbook.c:1259
+#: src/workbook.c:1286
 msgid "Untitled.gnumeric"
 msgstr "SansTitre.gnumeric"
 
-#: src/workbook.c:1340
+#: src/workbook.c:1370
 msgid "Zoom out"
 msgstr "Zoom avant"
 
-#: src/workbook.c:1347
+#: src/workbook.c:1377
 msgid "Zoom in"
 msgstr "Zoom arrière"
 
-#: src/workbook.c:1478 src/workbook.c:1499
+#: src/workbook.c:1508 src/workbook.c:1529
 #, c-format
 msgid "Sheet %d"
 msgstr "Feuille %d"
@@ -2303,9 +2317,3 @@ msgstr "SansNom"
 #: src/xml-io.c:1598
 msgid "Gnumeric XML file format"
 msgstr "format de fichier Gnumeric XML"
-
-#~ msgid "Microsoft(R) Excel file format"
-#~ msgstr "format de fichier Microsoft(R) Excel"
-
-#~ msgid "Cell comment"
-#~ msgstr "Commentaire de cellule"

@@ -18,7 +18,7 @@ static char *help_char = {
 	   "@SYNTAX=CHAR(x)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the ascii character reprensented by the number x."
+	   "Returns the ascii character represented by the number x."
 	   "\n"
 	   
 	   "@SEEALSO=CODE")
@@ -62,7 +62,7 @@ static char *help_exact = {
 	   "@SYNTAX=EXACT(string1, string2)\n"
 
 	   "@DESCRIPTION="
-	   "Returns true if string1 is exactly equal to string2 (this routine is case sensitive."
+	   "Returns true if string1 is exactly equal to string2 (this routine is case sensitive)."
 	   "\n"
 	   
 	   "@SEEALSO=")
