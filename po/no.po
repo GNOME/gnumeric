@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-24 12:24+0200\n"
-"PO-Revision-Date: 2004-08-24 12:28+0200\n"
+"POT-Creation-Date: 2005-01-14 15:23+0100\n"
+"PO-Revision-Date: 2005-01-14 15:56+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -869,20 +869,22 @@ msgid ""
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 msgstr ""
+"Dette er korrupt.\n"
+"En lengde for en streng som avkortes på grunn av kodingsproblemer er allerede skrevet."
 
 #: plugins/excel/ms-excel-write.c:3834
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
 "d rows, and this workbook has %d"
-msgstr ""
+msgstr "Noe av innholdet vil gå tapt når du lagrer som MS Excel (tm) 95. Formatet støtter kun %d rader og denne arbeidsboken har %d"
 
 #: plugins/excel/ms-excel-write.c:3841
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
 "rows, and this workbook has %d"
-msgstr ""
+msgstr "Noe av innholdet vil gå tapt når du lagrer som MS Excel (tm). Formatet støtter kun %d rader og denne arbeidsboken har %d"
 
 #: plugins/excel/ms-excel-write.c:4363
 msgid "Couldn't open stream 'Book' for writing\n"
@@ -6582,7 +6584,7 @@ msgstr ""
 
 #: plugins/fn-info/functions.c:1824
 msgid "info_type, cell"
-msgstr ""
+msgstr "info_type, celle"
 
 #: plugins/fn-info/functions.c:1827 plugins/fn-info/functions.c:1833
 #: plugins/fn-info/functions.c:1836 plugins/fn-info/functions.c:1839
@@ -13308,7 +13310,7 @@ msgstr ""
 
 #: plugins/fn-stat/functions.c:5731
 msgid "x,n,M,N"
-msgstr ""
+msgstr "x,n,M,N"
 
 #: plugins/fn-stat/functions.c:5744 plugins/fn-stat/functions.c:5747
 #: plugins/fn-stat/functions.c:5759
@@ -13318,7 +13320,7 @@ msgstr ""
 #: plugins/fn-stat/functions.c:5750 plugins/fn-stat/functions.c:5825
 #: plugins/fn-stat/functions.c:5854
 msgid "known_y's,known_x's"
-msgstr ""
+msgstr "kjente_yer,kjente_xer"
 
 #: plugins/fn-stat/functions.c:5753 plugins/fn-stat/functions.c:5792
 msgid "p,mean,stddev"
@@ -13374,11 +13376,11 @@ msgstr ""
 
 #: plugins/fn-stat/functions.c:5891
 msgid "x.alpha,beta,cumulative"
-msgstr ""
+msgstr "x.alfa,beta,kumulativ"
 
 #: plugins/fn-stat/functions.c:5894
 msgid "ref,x"
-msgstr ""
+msgstr "ref,x"
 
 #: plugins/fn-stat/functions.c:5898 plugins/fn-stat/functions.c:5916
 msgid "x,a,b"
@@ -13403,7 +13405,7 @@ msgstr "x,a,sigma"
 
 #: plugins/fn-stat/functions.c:5928
 msgid "function_nbr,ref,ref,"
-msgstr ""
+msgstr "funksjon_nbr,ref,ref"
 
 #: plugins/fn-stat/functions.c:5931
 msgid "ref,ref,"
@@ -14107,7 +14109,7 @@ msgstr "tekst,tall"
 
 #: plugins/fn-string/functions.c:1186
 msgid "search_string,text,start_num"
-msgstr ""
+msgstr "søke_streng,tekst,start_nummer"
 
 #: plugins/fn-string/functions.c:1189
 msgid "text,old,new,num"
@@ -15063,7 +15065,7 @@ msgstr ""
 
 #: plugins/uihello/plugin.xml.in.h:2
 msgid "UI Hello"
-msgstr ""
+msgstr "UI hallo"
 
 #: plugins/uihello/uihello.c:24
 #, c-format
@@ -15316,20 +15318,16 @@ msgstr ""
 "forvalg."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:44
-#, fuzzy
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "bold."
-msgstr ""
-"Denne verdien bestemmer om forvalgt skrift for en ny arbeidsbok er uthevet."
+msgstr "Denne verdien bestemmer om forvalgt skrift for topp- og bunntekst er uthevet."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:45
-#, fuzzy
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "italic."
-msgstr ""
-"Denne verdien bestemmer om forvalgt skrift for en ny arbeidsbok er kursiv."
+msgstr "Denne verdien bestemmer om forvalgt skrift for topp- og bunntekst er kursiv."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:46
 msgid ""
@@ -17691,7 +17689,7 @@ msgstr "Legg til scenario"
 
 #: src/commands.c:5961
 msgid "Scenario Show"
-msgstr ""
+msgstr "Vis scenario"
 
 #: src/commands.c:6025
 msgid "Shuffle Data"
@@ -18259,7 +18257,7 @@ msgstr "Område"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
 msgid "Area plot."
-msgstr ""
+msgstr "Områdeplott."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
 msgid "Areas"
@@ -18396,13 +18394,12 @@ msgid "Bar/Col plotting engine"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
-#, fuzzy
 msgid "Default 1.5d plot types"
-msgstr "Forvalgt fortolker"
+msgstr "Forvalgte 1.5d plott-typer"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:5
 msgid "Line plotting engine"
-msgstr ""
+msgstr "Motor for linjeplott"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
 #, fuzzy
@@ -18417,7 +18414,7 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:4
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:5
 msgid "Slices start _at:"
-msgstr ""
+msgstr "Deler starter _ved:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:5
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:6
@@ -18428,14 +18425,13 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:6
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:7
-#, fuzzy
 msgid "_Slice Separation:"
-msgstr "Separator:"
+msgstr "_Delseparasjon:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:7
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:8
 msgid "_Vary colors by slice"
-msgstr ""
+msgstr "_Varier farger for hver del"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:8
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:9
@@ -18453,9 +18449,8 @@ msgid "PlotRing"
 msgstr "Ingenting"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
-#, fuzzy
 msgid "Cen_ter size:"
-msgstr "Ka_tegorier:"
+msgstr "S_tørrelse for senter:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
@@ -18574,7 +18569,7 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
 msgid "_Size represented by:"
-msgstr ""
+msgstr "_Størrelse representeres av:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
 msgid "_Vary colors by bubble"
@@ -18628,15 +18623,16 @@ msgstr ""
 msgid "Plot X, Y and bubble size."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
+#. really 3_1
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "XY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "XY Lines"
 msgstr "XY-linjer"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
 msgid "XY Points"
 msgstr "XY-punkter"
 
@@ -18673,24 +18669,20 @@ msgid "diamond"
 msgstr "diamant"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:225
-#, fuzzy
 msgid "triangle down"
-msgstr "område"
+msgstr "trekant ned"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:226
-#, fuzzy
 msgid "triangle up"
-msgstr "område"
+msgstr "trekant opp"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:227
-#, fuzzy
 msgid "triangle right"
-msgstr "område"
+msgstr "trekant høyre"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:228
-#, fuzzy
 msgid "triangle left"
-msgstr "område"
+msgstr "trekant venstre"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:229
 msgid "circle"
@@ -19480,7 +19472,7 @@ msgstr "Cellekommentar"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "    "
-msgstr ""
+msgstr "    "
 
 #: src/dialogs/cell-format.glade.h:13
 msgid "<b>Background</b>"
@@ -19778,7 +19770,7 @@ msgstr "verdi >= grense              (større enn eller lik)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "<span weight=\"bold\">Sort Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Alternativer for sortering</span>"
 
 #: src/dialogs/cell-sort.glade.h:2
 msgid "<span weight=\"bold\">Sort Specification</span>"
@@ -19830,11 +19822,11 @@ msgstr "Grupper/Løs opp gruppering"
 
 #: src/dialogs/consolidate.glade.h:1
 msgid "AVERAGE"
-msgstr ""
+msgstr "GJENNOMSNITT"
 
 #: src/dialogs/consolidate.glade.h:3
 msgid "COUNT"
-msgstr ""
+msgstr "ANTALL"
 
 #: src/dialogs/consolidate.glade.h:4
 msgid "C_opy labels"
@@ -19866,23 +19858,23 @@ msgstr "I øvers_te rad"
 
 #: src/dialogs/consolidate.glade.h:13
 msgid "MAX"
-msgstr ""
+msgstr "MAKS"
 
 #: src/dialogs/consolidate.glade.h:14
 msgid "MIN"
-msgstr ""
+msgstr "MIN"
 
 #: src/dialogs/consolidate.glade.h:16
 msgid "PRODUCT"
-msgstr ""
+msgstr "PRODUKT"
 
 #: src/dialogs/consolidate.glade.h:19
 msgid "STDEV"
-msgstr ""
+msgstr "STDAV"
 
 #: src/dialogs/consolidate.glade.h:20
 msgid "STDEVP"
-msgstr ""
+msgstr "STDAVP"
 
 #: src/dialogs/consolidate.glade.h:21
 msgid "SUM"
@@ -19910,11 +19902,11 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:25
 msgid "VAR"
-msgstr ""
+msgstr "VAR"
 
 #: src/dialogs/consolidate.glade.h:26
 msgid "VARP"
-msgstr ""
+msgstr "VARP"
 
 #: src/dialogs/consolidate.glade.h:28
 msgid "_Function:"
@@ -19935,7 +19927,7 @@ msgstr "Korrelasjon"
 
 #: src/dialogs/delete-cells.glade.h:1
 msgid "<span weight=\"bold\">Delete Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Slett metode</span>"
 
 #: src/dialogs/delete-cells.glade.h:2
 msgid "Delete _column(s)"
@@ -20662,7 +20654,7 @@ msgstr "Kunne ikke opprette gå til-dialogen."
 
 #: src/dialogs/dialog-hyperlink.c:143
 msgid "Not a range or name"
-msgstr ""
+msgstr "Ikke et område eller et navn"
 
 #: src/dialogs/dialog-hyperlink.c:195
 msgid "_Internal Link"
@@ -20754,6 +20746,8 @@ msgid ""
 "Encrypted files require a password\n"
 "before they can be opened."
 msgstr ""
+"Krypterte filer krever et passord\n"
+"før de kan åpnes."
 
 #: src/dialogs/dialog-password.c:68
 msgid "Password :"
@@ -21214,9 +21208,8 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-scenarios.c:211
-#, fuzzy
 msgid "Could not create the Scenario Add dialog."
-msgstr "Kunne ikke opprette dialog for problemløser."
+msgstr "Kunne ikke opprette dialog for å legge til scenario."
 
 #: src/dialogs/dialog-scenarios.c:228 src/dialogs/scenario-add.glade.h:5
 msgid "_Changing cells:"
@@ -21228,7 +21221,7 @@ msgstr "Opprettet "
 
 #: src/dialogs/dialog-scenarios.c:565
 msgid "Results entry did not contain valid cell names."
-msgstr ""
+msgstr "Resultatoppføring inneholdt ikke gyldige cellenavn."
 
 #: src/dialogs/dialog-scenarios.c:633
 msgid "Could not create the Scenarios dialog."
@@ -21303,9 +21296,8 @@ msgid "The input range is invalid."
 msgstr "Inndataområdet er ugyldig."
 
 #: src/dialogs/dialog-shuffle.c:152
-#, fuzzy
 msgid "Could not create the Data Shuffling dialog."
-msgstr "Kunne ikke opprette simuleringsdialogen."
+msgstr "Kunne ikke opprette dialog for dataskyfling."
 
 #: src/dialogs/dialog-simulation.c:77
 msgid "The input variable range is invalid."
@@ -21329,7 +21321,7 @@ msgstr "# Inndatavariabler"
 
 #: src/dialogs/dialog-simulation.c:168
 msgid "# Output variables"
-msgstr ""
+msgstr "# utdatavariabler"
 
 #: src/dialogs/dialog-simulation.c:168
 msgid "Runtime"
@@ -21380,9 +21372,8 @@ msgid "Could not create the Simulation dialog."
 msgstr "Kunne ikke opprette simuleringsdialogen."
 
 #: src/dialogs/dialog-solver.c:100
-#, fuzzy
 msgid "Revised Simplex (GLPK 4.2)"
-msgstr "Kinesisk, forenklet (GBK)"
+msgstr ""
 
 #: src/dialogs/dialog-solver.c:101
 msgid "Simplex (LP Solve 3.2)"
@@ -21455,7 +21446,7 @@ msgstr "Begrensning «%s» er for en celle som ikke er en inndatacelle."
 
 #: src/dialogs/dialog-solver.c:1048
 msgid "No constraints defined for the problem."
-msgstr ""
+msgstr "Ingen begrensninger definert for problemet."
 
 #: src/dialogs/dialog-solver.c:1100
 msgid ""
@@ -21517,7 +21508,7 @@ msgstr "Bang (!)"
 
 #: src/dialogs/dialog-stf-export.glade.h:12
 msgid "Character encoding:"
-msgstr ""
+msgstr "Tegnkoding:"
 
 #: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Choose export formatting"
@@ -21615,7 +21606,7 @@ msgstr "Tabulator"
 
 #: src/dialogs/dialog-stf-export.glade.h:35
 msgid "Transliterate"
-msgstr ""
+msgstr "Transliterer"
 
 #: src/dialogs/dialog-stf-export.glade.h:36
 msgid "Unix (linefeed)"
@@ -21639,11 +21630,11 @@ msgstr "Autogjenkjenning fant ikke noen kolonner i teksten. Forsøk manuelt?"
 
 #: src/dialogs/dialog-stf-fixed-page.c:68
 msgid "Delete and Merge _Left"
-msgstr ""
+msgstr "Slett og slå sammen til _venstre"
 
 #: src/dialogs/dialog-stf-fixed-page.c:70
 msgid "Delete and Merge _Right"
-msgstr ""
+msgstr "Slett og slå sammen til høy_re"
 
 #: src/dialogs/dialog-stf-fixed-page.c:73
 msgid "_Split"
@@ -21660,23 +21651,23 @@ msgstr "G_jør smalere"
 #: src/dialogs/dialog-stf-format-page.c:129
 #, c-format
 msgid "A maximum of %d columns can be imported."
-msgstr ""
+msgstr "Maksimalt %d kolonner kan importeres."
 
 #: src/dialogs/dialog-stf-format-page.c:257
 msgid "Ignore all columns on right"
-msgstr ""
+msgstr "Ignorer alle kolonner til høyre"
 
 #: src/dialogs/dialog-stf-format-page.c:258
 msgid "Ignore all columns on left"
-msgstr ""
+msgstr "Ignorer alle kolonner til venstre"
 
 #: src/dialogs/dialog-stf-format-page.c:259
 msgid "Import all columns on right"
-msgstr ""
+msgstr "Importer alle kolonner til høyre"
 
 #: src/dialogs/dialog-stf-format-page.c:260
 msgid "Import all columns on left"
-msgstr ""
+msgstr "Importer alle kolonner til venstre"
 
 #: src/dialogs/dialog-stf-format-page.c:261
 msgid "Copy format to right"
@@ -21799,7 +21790,7 @@ msgstr "H_yphen (-)"
 
 #: src/dialogs/dialog-stf.glade.h:24
 msgid "Line breaks:"
-msgstr ""
+msgstr "Linjebryting:"
 
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Lines to import"
@@ -22012,7 +22003,7 @@ msgstr ""
 #: src/dialogs/dialog-view.c:95
 #, c-format
 msgid "Display \"%s\" could not be opened."
-msgstr ""
+msgstr "Skjerm «%s» kunne ikke åpnes."
 
 #: src/dialogs/dialog-view.c:166
 msgid "This screen"
@@ -22021,7 +22012,7 @@ msgstr "Denne skjermen"
 #: src/dialogs/dialog-view.c:167
 #, c-format
 msgid "Screen %d [This screen]"
-msgstr ""
+msgstr "Skjerm %d [Denne skjermen]"
 
 #: src/dialogs/dialog-view.c:168
 #, c-format
@@ -22102,7 +22093,7 @@ msgstr "Datoenhet:"
 #: src/dialogs/fill-series.glade.h:6 src/tools/fill-series.c:413
 #: src/tools/fill-series.c:416
 msgid "Fill Series"
-msgstr ""
+msgstr "Fyll-rekker"
 
 #: src/dialogs/fill-series.glade.h:11
 msgid "Series in:"
@@ -22182,23 +22173,23 @@ msgstr "Desi_malplasser:"
 
 #: src/dialogs/format-selector.glade.h:3
 msgid "Display amounts in traditional accounting styles."
-msgstr ""
+msgstr "Vis mengder med tradisjonell bokføringsstil."
 
 #: src/dialogs/format-selector.glade.h:4
 msgid "Display and input values as strings with no interpretation."
-msgstr ""
+msgstr "Vis inndataverdier som strenger uten tolking."
 
 #: src/dialogs/format-selector.glade.h:5
 msgid "Display currency amounts."
-msgstr ""
+msgstr "Vis valutamengder."
 
 #: src/dialogs/format-selector.glade.h:6
 msgid "Display dates and optionally times of day."
-msgstr ""
+msgstr "Vis datoer og alternativt tid på dagen."
 
 #: src/dialogs/format-selector.glade.h:7
 msgid "Display numeric values with a fixed number of decimals."
-msgstr ""
+msgstr "Vis numeriske verdier med et fast antall desimaler."
 
 #: src/dialogs/format-selector.glade.h:8
 msgid "Display times of day."
@@ -22206,7 +22197,7 @@ msgstr "Vis tid på dagen."
 
 #: src/dialogs/format-selector.glade.h:9
 msgid "Display values as closest fractional approximation."
-msgstr ""
+msgstr "Vis verdier som nærmeste deltilnærming."
 
 #: src/dialogs/format-selector.glade.h:10
 msgid "Display values as percentages."
@@ -22214,7 +22205,7 @@ msgstr "Vis verdier i prosent."
 
 #: src/dialogs/format-selector.glade.h:11
 msgid "Display values with power-of-ten scaling."
-msgstr ""
+msgstr "Vis verdier med skalering i tiende potens."
 
 #: src/dialogs/format-selector.glade.h:12
 msgid "Format c_ode:"
@@ -22234,11 +22225,11 @@ msgstr "S_ymbol:"
 
 #: src/dialogs/format-selector.glade.h:16
 msgid "Select an appropriate format automatically."
-msgstr ""
+msgstr "Velg et passende format automatisk."
 
 #: src/dialogs/format-selector.glade.h:17
 msgid "Specify an XL-style format directly"
-msgstr ""
+msgstr "Oppgi format i XL-stil direkte"
 
 #: src/dialogs/format-selector.glade.h:18
 msgid "_Format:"
@@ -22266,7 +22257,7 @@ msgstr "Funksjonsvelger"
 
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
-msgstr ""
+msgstr "Velg en funksjon som skal settes inn:"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -22278,11 +22269,11 @@ msgstr "(_Minimum):"
 
 #: src/dialogs/goalseek.glade.h:4
 msgid "<span weight=\"bold\">Goal</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Mål</span>"
 
 #: src/dialogs/goalseek.glade.h:5
 msgid "<span weight=\"bold\">Last Result</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Siste resultat</span>"
 
 #: src/dialogs/goalseek.glade.h:6
 msgid "Current Value:"
@@ -22381,9 +22372,8 @@ msgid "Pareto (_Sorted)"
 msgstr "Pareto (_Sortert)"
 
 #: src/dialogs/histogram.glade.h:16
-#, fuzzy
 msgid "Retain Output Range _Comments"
-msgstr "Behold _kommentarer for utdataområde"
+msgstr "Bevar _kommentarer for utdataområde"
 
 #: src/dialogs/histogram.glade.h:17
 msgid "Retain Output Range _Formatting"
@@ -22402,14 +22392,12 @@ msgid "_Calculated Bins"
 msgstr "_Beregnede binærverdier"
 
 #: src/dialogs/histogram.glade.h:22
-#, fuzzy
 msgid "_Chart Output"
-msgstr "Grafutskrift"
+msgstr "_Grafutskrift"
 
 #: src/dialogs/histogram.glade.h:23
-#, fuzzy
 msgid "_Clear Output Range"
-msgstr "Tøm utområde"
+msgstr "Tø_m utområde"
 
 #: src/dialogs/histogram.glade.h:26
 msgid "_N:"
@@ -22457,7 +22445,7 @@ msgstr "_Nettadresse:"
 
 #: src/dialogs/insert-cells.glade.h:1
 msgid "<span weight=\"bold\">Insert Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Sett inn metode</span>"
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _row(s)"
@@ -22968,7 +22956,7 @@ msgstr "Vis"
 
 #: src/dialogs/search-replace.glade.h:2
 msgid "<span weight=\"bold\">Change Cells Containing</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Endre celler som inneholder</span>"
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "<span weight=\"bold\">Miscellaneous</span>"
@@ -22976,7 +22964,7 @@ msgstr "<span weight=\"bold\">Forskjellig</span>"
 
 #: src/dialogs/search-replace.glade.h:4
 msgid "<span weight=\"bold\">Search Text Type</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Type søketekst</span>"
 
 #: src/dialogs/search-replace.glade.h:5 src/dialogs/search.glade.h:1
 msgid "Advanced"
@@ -23268,32 +23256,31 @@ msgstr "Håndter ark..."
 
 #: src/dialogs/shuffle.glade.h:1
 msgid "Data Shuffling"
-msgstr ""
+msgstr "Dataskyfling"
 
 #: src/dialogs/shuffle.glade.h:2
 msgid "Input Range: "
 msgstr "Inndataområde: "
 
 #: src/dialogs/shuffle.glade.h:3
-#, fuzzy
 msgid "Shuffle Method: "
-msgstr "Metode for datainnsamling:"
+msgstr "Metode for skyfling: "
 
 #: src/dialogs/shuffle.glade.h:4
 msgid "_Area"
 msgstr "_Område"
 
 #: src/dialogs/simulation.glade.h:1
-#, fuzzy
 msgid ""
 "   \n"
 "   <span weight=\"bold\">Rounds</span>"
-msgstr "<span weight=\"bold\">Sammendragsinformasjon for dokument</span>"
+msgstr ""
+"    \n"
+"    <span weight=\"bold\">Runder</span>"
 
 #: src/dialogs/simulation.glade.h:3
-#, fuzzy
 msgid "   <span weight=\"bold\">Limits</span>"
-msgstr "<span weight=\"bold\">Sammendragsinformasjon for dokument</span>"
+msgstr "   <span weight=\"bold\">Grenser</span>"
 
 #: src/dialogs/simulation.glade.h:5
 msgid "Find Max."
@@ -25974,11 +25961,11 @@ msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Signifikans av F"
 
 #: src/tools/analysis-tools.c:2278
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
 "%%"
-msgstr "/Koeffisienter/Standardfeil/t stat/P-verdi/Nedre %0.0f%%/Øvre %0.0f%%"
+msgstr "/Koeffisienter/Standardfeil/t stat/P-verdi/Nedre %%0.0%s%%%%/Øvre %%0.0%s%%%%"
 
 #: src/tools/analysis-tools.c:2295
 msgid ""
@@ -27345,7 +27332,7 @@ msgstr "Vietnamesisk (Windows-1258)"
 
 #: src/widgets/widget-charmap-selector.c:196
 msgid "Visual Hebrew (ISO-8859-8)"
-msgstr ""
+msgstr "Visuell Hebraisk (ISO-8859-8)"
 
 #: src/widgets/widget-charmap-selector.c:197
 msgid "Western (IBM-850)"
