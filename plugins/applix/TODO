@@ -2,7 +2,6 @@ Near term
 - Sheet name	: Parse the SHEETS TABLE
 		: Add the ability to name sheets without checking for uniqueness
 - row/col visibility
-- long lines
 
 Long term
 - Locale specific currency ?

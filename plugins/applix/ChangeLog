@@ -3,6 +3,11 @@
 	* applix-read.c (applix_read_views) : Fix.  The Current view uses a
 	  different syntax than normal views.  Ignore it.
 	(applix_read_view) : Implement row/col sizes, custom and default.
+	(applix_read_cells) : Fix bottom/right borders.
+	(applix_parse_style) : Add font size and font colour. Ignore 'fg'
+	  directives.  What are they ??
+	(applix_get_line) : Implement.
+	(applix_read_impl) : Fix off by one error in column bound check.
 
 2000-07-07  Jody Goldberg <jgoldberg@home.com>
 
