@@ -1,5 +1,9 @@
 Gnumeric 1.4.4
 
+Jody:
+	* Backport patch for printer setting crash. [#171503]
+	* Backport fix for 3d test in sumif and countif. [#171509]
+
 Morten:
 	* Backport save-as crash fix.  [#170308]
 	* Backport fix for crash with non-UTF-8 filenames.  [Debian #299805]
