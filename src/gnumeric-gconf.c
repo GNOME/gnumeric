@@ -411,7 +411,7 @@ go_conf_get_double (char const *key)
 char *
 go_conf_get_string (char const *key)
 {
-	return "";
+	return g_strdup ("");
 }
 
 GSList *
