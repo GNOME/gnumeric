@@ -16,6 +16,9 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=69328
 	* Crash when deleting unused named expression.
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=69362
+	* Autocapitalize day names only applies at _start_ of words.
+
 Morten:
 	* Back-port DATE2UNIX fix.
 	* Back-port abs/fabs fix.

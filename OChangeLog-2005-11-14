@@ -1,4 +1,9 @@
 2002-02-19  Jody Goldberg <jody@gnome.org>
+	http://bugzilla.gnome.org/show_bug.cgi?id=69362
+	* src/auto-correct.c (autocorrect_tool) : only upper case things if
+	  they are at the start of a word.
+
+2002-02-19  Jody Goldberg <jody@gnome.org>
 	From C. Scott Ananian <cananian@lesser-magoo.lcs.mit.edu>
 
 	* src/xml-io.c (xml_read_attributes) : fix import of WorkbookView

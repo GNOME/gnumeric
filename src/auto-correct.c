@@ -187,13 +187,11 @@ autocorrect_tool (char const *command)
 		for (i = 0; day_long[i] != NULL; i++) {
 			char const *day = _(day_long [i]) + 1;
 			s = ucommand;
-loop :
-			s = (unsigned char *)strstr ((char *)s, day);
-			if (s != NULL) {
-				if (s > ucommand)
+			while (NULL != (s = (unsigned char *)strstr ((char *)s, day))) {
+				if (s > ucommand &&
+				    (s-1 == ucommand || isspace (s[-2])))
 					s[-1] = toupper (s[-1]);
 				s++;
-				goto loop;
 			}
 		}
 
