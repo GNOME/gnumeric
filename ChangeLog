@@ -1,3 +1,8 @@
+2001-01-16  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : Switch to AM_GNOME_GETTEXT and remove the
+	  AC_LINK_FILES line so that things configure and compile again.
+
 2001-01-12  Morten Welinder  <terra@diku.dk>
 
 	* src/history.c (file_history_cmd) [ENABLE_BONOBO]: Plug leak.
