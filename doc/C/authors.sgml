@@ -96,6 +96,14 @@
 	<entry>OLE support</entry>
       </row>
       <row>
+	<entry>Tuomas Kuosmanen</entry>
+	<entry>Art</entry>
+      </row>
+      <row>
+	<entry>Jakub Steiner</entry>
+	<entry>Art</entry>
+      </row>
+      <row>
 	<entry>Grandma Chema Celorio</entry>
 	<entry>QA and sheet copy.</entry>
       </row>
@@ -181,19 +189,16 @@
   </table>
 
   <para>
-  To find more information about
-   <application>Gnumeric</application>, please visit the
-   <ulink url="http://www.gnumeric.org" type="http">Gnumeric Web page</ulink>.
+    To find more information about
+    <application>Gnumeric</application>, please visit the
+    <ulink url="http://www.gnumeric.org" type="http">Web site</ulink>.
   </para>
 
   <para>
-   If you have some comments or suggestions regarding this
-   application or documentation, need help, or want to report a bug,
-   please contact us!  Instructions for doing so are given in <ulink
-   type="help" url="ghelp:gnome-feedback"><citetitle>Reporting GNOME
-   bugs and other feedback</citetitle></ulink> document, which you can
-   find in the <guilabel>Help</guilabel> tab of
-   <application>Nautilus</application> file manager.
+     If you have some comments or suggestions regarding this application or
+     documentation, need help, or want to report a bug, please contact us!
+     Either via the <ulink url="http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric" type="http">web</ulink>.
+     or on the mailing list
   </para>
 
 <!-- For translations: uncomment this:
