@@ -50,9 +50,8 @@ sheet objects that get and set individual attributes interface for all
 attributes.  The command struct will use a simple structure to store the
 previous arg.
 
-The workbook and sheet objects will also provide a GtkWidget pointer to a 
-container widget that will be inserted into a notebook page so the user can
-set preferences.
+The workbook and sheet objects will also provide dialogs to set these 
+attributes.
 
 /*
  * Gnumeric Preferences
