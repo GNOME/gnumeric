@@ -1,3 +1,8 @@
+2003-09-12  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/print.c (print_range_down_then_right) equalize the scaling parameters
+	(print_range_right_then_down): ditto
+
 2003-09-12  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric.spec.in : install the plugin schema too.

@@ -777,7 +777,12 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
                                                usable_y,
                                                sheet_row_get_info,
                                                pj->pi->scaling.dim.rows);
-       }
+	       /* Making sure that the x and y scales are identical */
+	       if (pj->pi->scaling.percentage.y > pj->pi->scaling.percentage.x)
+		       pj->pi->scaling.percentage.y = pj->pi->scaling.percentage.x;
+	       else
+		       pj->pi->scaling.percentage.x = pj->pi->scaling.percentage.y;
+      }
 
 	while (col <= r->end.col) {
 		int col_count;
@@ -883,6 +888,11 @@ print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
                                                usable_y,
                                                sheet_row_get_info,
                                                pj->pi->scaling.dim.rows);
+	       /* Making sure that the x and y scales are identical */
+	       if (pj->pi->scaling.percentage.y > pj->pi->scaling.percentage.x)
+		       pj->pi->scaling.percentage.y = pj->pi->scaling.percentage.x;
+	       else
+		       pj->pi->scaling.percentage.x = pj->pi->scaling.percentage.y;
        }
 
 
