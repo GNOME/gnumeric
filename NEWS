@@ -30,6 +30,9 @@ Morten:
 	* Changed a bunch of internals to work with StyleFormats instead
 	  of throwing strings around.
 	* Improved the optimization of styles.
+	* Fix ROUND.
+	* Make sorts stable.
+	* Make sorts faster.
 
 Translations:
 	* Updated: da (Kenneth), de (Karl), ja (Oka/Nakai), no
