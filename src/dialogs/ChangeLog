@@ -1,3 +1,12 @@
+2002-02-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (tool_set_focus) : the focus widget
+	  is the entry in the gnumeric-expr-entry widget
+	* dialog-cell-sort.c (dialog_set_focus) : the focus widget
+	  is the entry in the gnumeric-expr-entry widget
+	(dialog_init) : set update_policy, use update rather than changed
+	  signal
+
 2002-02-23  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* *.glade: Don't translate the widget label.

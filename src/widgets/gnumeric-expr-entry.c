@@ -607,7 +607,7 @@ static gboolean
 gee_focus_in_event (GtkWidget *widget, GdkEventFocus *event, GnumericExprEntry *gee)
 {
 	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
-	wbcg_set_entry (gee->wbcg, gee);
+/* 	wbcg_set_entry (gee->wbcg, gee); */
 	fprintf (stderr, "in %p\n",gee);
 	return FALSE;
 }
@@ -615,7 +615,7 @@ static gboolean
 gee_focus_out_event (GtkWidget *widget, GdkEventFocus *event, GnumericExprEntry *gee)
 {
 	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
-	wbcg_set_entry (gee->wbcg, NULL);
+/* 	wbcg_set_entry (gee->wbcg, NULL); */
 
 	fprintf (stderr, "out %p\n",gee);
 	return FALSE;

@@ -83,12 +83,12 @@ static void
 dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 		  SortFlowState *state)
 {
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
+	if (focus_widget != NULL && IS_GNUMERIC_EXPR_ENTRY (focus_widget->parent)) {
 		wbcg_set_entry (state->wbcg,
-				    GNUMERIC_EXPR_ENTRY (focus_widget));
-		gnm_expr_entry_set_absolute (GNUMERIC_EXPR_ENTRY (focus_widget));
-	} else
+				GNUMERIC_EXPR_ENTRY (focus_widget->parent));
+	} else {
 		wbcg_set_entry (state->wbcg, NULL);
+	}
 }
 
 
@@ -349,18 +349,12 @@ dialog_load_selection (SortFlowState *state)
 	first = selection_first_range (state->sheet, NULL, NULL);
 
 	if (first != NULL) {
-/* 		gtk_toggle_button_set_active ( */
-/* 			GTK_TOGGLE_BUTTON (state->cell_sort_row_rb), */
-/* 			FALSE); */
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (state->cell_sort_col_rb),
 			first->end.row - first->start.row > first->end.col - first->start.col);
 		gnm_expr_entry_load_from_range (state->range_entry,
 			state->sheet, first);
 	} else
-/* 		gtk_toggle_button_set_active ( */
-/* 			GTK_TOGGLE_BUTTON (state->cell_sort_row_rb), */
-/* 			FALSE); */
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (state->cell_sort_col_rb),
 			TRUE);
@@ -573,9 +567,10 @@ dialog_init (SortFlowState *state)
 			  0, 0);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->range_entry));
+	gnumeric_expr_entry_set_update_policy (state->range_entry, GTK_UPDATE_DISCONTINUOUS);
 	gtk_widget_show (GTK_WIDGET (state->range_entry));
 	g_signal_connect (G_OBJECT (state->range_entry),
-		"changed",
+		"update",
 		G_CALLBACK (cb_update_sensitivity), state);
 
 /* Set-up tree view */
@@ -698,6 +693,7 @@ dialog_init (SortFlowState *state)
 		G_CALLBACK (dialog_destroy), state);
 	cb_sort_selection_changed (NULL, state);
 	dialog_load_selection (state);
+	cb_update_sensitivity (NULL, state);
 
 	return FALSE;
 }

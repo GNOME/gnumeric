@@ -1,3 +1,10 @@
+2002-02-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-expr-entry.c (gee_focus_in_event, gee_focus_out_event) :
+	  wbcg_set_entry doesn't work here, disabled
+	* gnumeric-expr-entry.h (gnumeric_expr_entry_set_update_policy) : 
+	  since this is non-static, declare it
+
 2002-02-21  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_load_from_expr) : add new

@@ -59,6 +59,9 @@ void	 gnm_expr_entry_load_from_expr	(GnumericExprEntry *e,
 gboolean gnm_expr_entry_load_from_range (GnumericExprEntry *e,
 					 Sheet *sheet, Range const *r);
 
+void gnumeric_expr_entry_set_update_policy (GnumericExprEntry *e,
+					    GtkUpdateType  policy);
+
 /* private : for internal use */
 void gnm_expr_entry_end_of_drag	(GnumericExprEntry *gee);
 

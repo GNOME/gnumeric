@@ -372,11 +372,12 @@ void
 tool_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 			GenericToolState *state)
 {
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
+	if (focus_widget != NULL && IS_GNUMERIC_EXPR_ENTRY (focus_widget->parent)) {
 		wbcg_set_entry (state->wbcg,
-				GNUMERIC_EXPR_ENTRY (focus_widget));
-	} else
+				GNUMERIC_EXPR_ENTRY (focus_widget->parent));
+	} else {
 		wbcg_set_entry (state->wbcg, NULL);
+	}
 }
 
 /**
