@@ -58,6 +58,110 @@ float_compare_d (const float_t *a, const float_t *b)
 	        return 1;
 }
 
+static inline float_t
+fmin2 (float_t x, float_t y)
+{
+        return (x < y) ? x : y;
+}
+
+/* This function is originally taken from R package
+ * (src/nmath/pgamma.c) written and copyrighted (1998) by Ross Ihaka.
+ */
+static float_t
+pgamma(double x, double p, double scale)
+{
+        const float_t third = 1.0 / 3.0;
+	const float_t xbig = 1.0e+8;
+	const float_t oflo = 1.0e+37;
+	const float_t plimit = 1000.0e0;
+	const float_t elimit = -88.0e0;
+        float_t       pn1, pn2, pn3, pn4, pn5, pn6, arg, c, rn, a, b, an;
+	float_t       sum;
+ 
+	x = x / scale;
+	if (x <= 0)
+	        return 0.0;
+ 
+	/* use a normal approximation if p > plimit */
+ 
+	if (p > plimit) {
+	        pn1 = sqrt(p) * 3.0 * (pow(x/p, third) + 1.0 /
+					 (p * 9.0) - 1.0);
+		return phi(pn1); //pnorm(pn1, 0.0, 1.0);
+	}
+ 
+	/* if x is extremely large compared to p then return 1 */
+ 
+	if (x > xbig)
+	        return 1.0;
+ 
+	if (x <= 1.0 || x < p) {
+ 
+	        /* use pearson's series expansion. */
+ 
+	        arg = p * log(x) - x - lgamma(p + 1.0);
+		c = 1.0;
+		sum = 1.0;
+		a = p;
+		do {
+		        a = a + 1.0;
+			c = c * x / a;
+			sum = sum + c;
+		} while (c > DBL_EPSILON);
+		arg = arg + log(sum);
+		sum = 0;
+		if (arg >= elimit)
+		        sum = exp(arg);
+	} else {
+ 
+	        /* use a continued fraction expansion */
+ 
+	        arg = p * log(x) - x - lgamma(p);
+		a = 1.0 - p;
+		b = a + x + 1.0;
+		c = 0;
+		pn1 = 1.0;
+		pn2 = x;
+		pn3 = x + 1.0;
+		pn4 = x * b;
+		sum = pn3 / pn4;
+		for (;;) {
+		        a = a + 1.0;
+			b = b + 2.0;
+			c = c + 1.0;
+			an = a * c;
+			pn5 = b * pn3 - an * pn1;
+			pn6 = b * pn4 - an * pn2;
+			if (fabs(pn6) > 0) {
+			        rn = pn5 / pn6;
+				if (fabs(sum - rn) <= 
+				    fmin2(DBL_EPSILON, DBL_EPSILON * rn))
+				        break;
+				sum = rn;
+			}
+			pn1 = pn3;
+			pn2 = pn4;
+			pn3 = pn5;
+			pn4 = pn6;
+			if (fabs(pn5) >= oflo) {
+ 
+			        /* re-scale the terms in continued fraction */
+			        /* if they are large */
+ 
+			        pn1 = pn1 / oflo;
+				pn2 = pn2 / oflo;
+				pn3 = pn3 / oflo;
+				pn4 = pn4 / oflo;
+			}
+		}
+		arg = arg + log(sum);
+		sum = 1.0;
+		if (arg >= elimit)
+		        sum = 1.0 - exp(arg);
+	}
+	return sum;
+}
+
 #if 0
 /* help template */
 static char *help_ = {
@@ -1387,6 +1491,44 @@ gnumeric_gammaln (struct FunctionDefinition *i, Value *argv [], char **error_str
 	return value_float (lgamma(x));
 }
 
+static char *help_gammadist = {
+	N_("@FUNCTION=GAMMADIST\n"
+	   "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
+
+	   "@DESCRIPTION="
+	   "GAMMADIST function returns the gamma distribution. If @cum "
+	   "is TRUE GAMMADIST returns the incomplete gamma function, "
+	   "otherwise it returns the probability mass function. "
+	   "\n"
+	   "If @x < 0 GAMMADIST returns #NUM! error. "
+	   "If @alpha <= 0 or beta <= 0, GAMMADIST returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=GAMMAINV")
+};
+
+static Value *
+gnumeric_gammadist (struct FunctionDefinition *i, Value *argv [],
+		    char **error_string)
+{
+	float_t x, alpha, beta;
+	int     cum;
+
+	x = value_get_as_double (argv [0]);
+	alpha = value_get_as_double (argv [1]);
+	beta = value_get_as_double (argv [2]);
+
+	if (x<0 || alpha<=0 || beta<=0){
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	cum = value_get_as_int (argv [3]);
+	if (cum)
+	        return value_float (pgamma(x, alpha, beta));
+	else
+	        return value_float ((pow(x, alpha-1) * exp(-x/beta)) /
+				    (pow(beta, alpha) * exp(lgamma(alpha))));
+}
+
 static char *help_binomdist = {
 	N_("@FUNCTION=BINOMDIST\n"
 	   "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -2540,6 +2682,7 @@ FunctionDefinition stat_functions [] = {
         { "fisher",    "f",    "",          &help_fisher,    NULL, gnumeric_fisher },
         { "fisherinv", "f",    "",          &help_fisherinv, NULL, gnumeric_fisherinv },
 	{ "gammaln",   "f",    "number",    &help_gammaln,   NULL, gnumeric_gammaln },
+	{ "gammadist", "fffb", "number,alpha,gamma,cum",    &help_gammadist,   NULL, gnumeric_gammadist },
 	{ "geomean",   0,      "",          &help_geomean,   gnumeric_geomean, NULL },
 	{ "harmean",   0,      "",          &help_harmean,   gnumeric_harmean, NULL },
 	{ "hypgeomdist", "ffff", "x,n,M,N", &help_hypgeomdist, NULL, gnumeric_hypgeomdist },
