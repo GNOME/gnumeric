@@ -3,3 +3,6 @@ application/x-gnumeric
 
 application/vnd.ms-excel
 	ext: xls xlw 
+
+application/x-applix
+	ext: as 
