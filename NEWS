@@ -81,7 +81,7 @@ Jody:
 	* Have an inverse pull to 0 in case the eps pulls to far
 	* Actually install the man pages
 	http://bugzilla.gnome.org/show_bug.cgi?id=126389
-	* Formatting marks a sheet as dity
+	* Formatting marks a sheet as dirty
 	* Support auto-shape/outline/fill for chart markers
 	* Add UI to restore auto colors for charts
 	* Update UI when a chart style element changes externally
