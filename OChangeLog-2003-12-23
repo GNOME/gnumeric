@@ -1,3 +1,10 @@
+2003-06-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/print-info.c (print_info_new): set up (but disable) load of 
+	  print-config from configuration string
+	* src/print.c (print_job_info_set_one_time_defaults): delete
+	(print_job_info_save_one_time_defaults): delete
+
 2003-06-20  Jon K Hellan  <hellan@acm.org>
 
 	* src/io-context-gtk.c (cb_realize): New. Called when splash is

@@ -1,5 +1,10 @@
 2003-06-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-printer-setup.c (cb_do_print): remove duplicated code
+	  by calling cb_do_print_ok
+	
+2003-06-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-function-select.c 
 	(cb_dialog_function_select_fun_selection_changed): carefully
 	  count characters and cursor positions (1-off problems)

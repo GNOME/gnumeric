@@ -1129,23 +1129,6 @@ workbook_print_all (PrintJobInfo *pj, Workbook *wb)
 	g_list_free (sheets);
 }
 
-static void
-print_job_info_set_one_time_defaults (PrintJobInfo *pj)
-{
-	gnome_print_config_unref (pj->pi->print_config);
-	pj->pi->print_config =
-		gnome_print_config_from_string (gnm_app_prefs->printer_config,
-						0);
-}
-
-static void
-print_job_info_save_one_time_defaults (PrintJobInfo *pj)
-{
-	gnm_gconf_set_printer_config
-		(gnome_print_config_to_string (pj->pi->print_config, 0));
-}
-
-
 static PrintJobInfo *
 print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 {
@@ -1162,9 +1145,6 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	 */
 	pj->sheet = sheet;
 	pj->pi    = print_info_dup (sheet->print_info);
-
-	if (pj->pi == NULL)
-		print_job_info_set_one_time_defaults (pj);
 
 	/*
 	 * Values that should be entered in a dialog box
@@ -1302,8 +1282,6 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 		pj->start_page = first-1;
 		pj->end_page = end-1;
 	}
-
-	print_job_info_save_one_time_defaults (pj);
 
 	gpm = gnome_print_job_new (print_config);
 	pj->print_context = gnome_print_job_get_context (gpm);

@@ -1450,24 +1450,6 @@ print_setup_get_sheet (PrinterSetupState *state)
 }
 
 static void
-cb_do_print (G_GNUC_UNUSED GtkWidget *w, PrinterSetupState *state)
-{
-	WorkbookControlGUI *wbcg;
-	Sheet *sheet;
-
-	wbcg_edit_detach_guru (state->wbcg);
-	wbcg_edit_finish (state->wbcg, TRUE, NULL);
-	fetch_settings (state);
-	wbcg = state->wbcg;
-	sheet = state->sheet;
-	print_info_save (state->pi);
-	cmd_print_setup (WORKBOOK_CONTROL (state->wbcg),
-		print_setup_get_sheet (state), state->pi);
-	gtk_widget_destroy (state->dialog);
-	sheet_print (wbcg, sheet, FALSE, PRINT_ACTIVE_SHEET);
-}
-
-static void
 cb_do_print_preview (G_GNUC_UNUSED GtkWidget *w,
 		     PrinterSetupState *state)
 {
@@ -1499,6 +1481,15 @@ cb_do_print_ok (G_GNUC_UNUSED GtkWidget *w,
 	cmd_print_setup (WORKBOOK_CONTROL (state->wbcg),
 		print_setup_get_sheet (state), state->pi);
 	gtk_widget_destroy (state->dialog);
+}
+
+static void
+cb_do_print (G_GNUC_UNUSED GtkWidget *w, PrinterSetupState *state)
+{
+	cb_do_print_ok (NULL, state);
+
+	sheet_print (state->wbcg, state->sheet, 
+		     FALSE, PRINT_ACTIVE_SHEET);
 }
 
 static void
