@@ -1431,7 +1431,7 @@ gather_styles (ExcelWriteState *ewb)
 		sheet_style_foreach (esheet->gnum_sheet, (GHFunc)cb_accum_styles, ewb);
 		for (col = 0; col < esheet->max_col; col++)
 			esheet->col_xf [col] = two_way_table_key_to_idx (ewb->xf.two_way_table,
-				sheet_style_most_common_in_col (esheet->gnum_sheet, col));
+									 esheet->col_style [col]);
 	}
 }
 
@@ -1742,7 +1742,7 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, MStyle *st)
 	}
 
 	pat = mstyle_get_pattern (st);
-	xfd->fill_pattern_idx = (map_pattern_index_to_excel (pat));
+	xfd->fill_pattern_idx = map_pattern_index_to_excel (pat);
 
 	pattern_color = mstyle_get_color (st, MSTYLE_COLOR_PATTERN);
 	back_color   = mstyle_get_color (st, MSTYLE_COLOR_BACK);
@@ -1759,7 +1759,7 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, MStyle *st)
 
 	/* Solid patterns seem to reverse the meaning */
  	if (xfd->fill_pattern_idx == FILL_SOLID) {
-		guint8 c = xfd->pat_backgnd_col;
+		guint16 c = xfd->pat_backgnd_col;
 		xfd->pat_backgnd_col = xfd->pat_foregnd_col;
 		xfd->pat_foregnd_col = c;
 	}
@@ -3081,8 +3081,8 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelSheet *esheet)
 static ExcelSheet *
 excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet, int maxrows)
 {
-	ExcelSheet      *esheet = g_new (ExcelSheet, 1);
-	Range           extent;
+	ExcelSheet *esheet = g_new (ExcelSheet, 1);
+	Range       extent;
 
 	g_return_val_if_fail (gnum_sheet, NULL);
 	g_return_val_if_fail (ewb, NULL);
@@ -3090,26 +3090,30 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet, int maxrows)
 	/* Ignore spans and merges past the bound */
 	extent = sheet_get_extent (gnum_sheet, FALSE);
 
-	if (extent.end.row > maxrows) {
+	if (extent.end.row >= maxrows) {
 		gnm_io_warning (ewb->io_context, _("Too many rows for this format (%d > %d)"),
 			  extent.end.col, maxrows);
 		extent.end.row = maxrows;
 	}
-	if (extent.end.col > 256) {
+	if (extent.end.col >= 256) {
 		gnm_io_warning (ewb->io_context, _("Too many rows for this format (%d > %d)"),
 			  extent.end.col, maxrows);
 		extent.end.col = maxrows;
 	}
 
-	sheet_style_get_extent (gnum_sheet, &extent);
+	sheet_style_get_extent (gnum_sheet, &extent, esheet->col_style);
 
+#warning dont lose cols/rows with attributes outside the useful region
 	esheet->gnum_sheet = gnum_sheet;
 	esheet->streamPos  = 0x0deadbee;
 	esheet->ewb        = ewb;
-	esheet->max_col    = 1 + MAX (gnum_sheet->cols.max_used, extent.end.col);
-	esheet->max_row    = 1 + MAX (gnum_sheet->rows.max_used, extent.end.row);
+	/* makes it easier to refer to 1 past the end */
+	esheet->max_col    = extent.end.col + 1;
+	esheet->max_row    = extent.end.row + 1;
 
 	/* It is ok to have formatting out of range, we can disregard that. */
+	if (esheet->max_col > 256)
+		esheet->max_col = 256;
 	if (esheet->max_row > maxrows)
 		esheet->max_row = maxrows;
 

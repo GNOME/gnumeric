@@ -1,5 +1,16 @@
 2002-11-11  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-style.c (sheet_style_get_extent) : optionally take the
+	  most common style into account when calculating extents.  The
+	  default style for a column does not contribute to its extent.
+
+	* src/parser.y (fold_negative) : new.
+	(unary negative) use it here.
+	(array_exp) : and here.
+	(yylex) : do _not_ handle negatives here.
+
+2002-11-11  Jody Goldberg <jody@gnome.org>
+
 	* src/preview-grid.c : convert to GObject
 
 2002-11-10  Jody Goldberg <jody@gnome.org>

@@ -28,7 +28,8 @@ typedef struct {
 	unsigned	 streamPos;
 	guint32		 boundsheetPos;
 	gint32		 max_col, max_row;
-	guint16		 col_xf [SHEET_MAX_COLS];
+	guint16		 col_xf    [SHEET_MAX_COLS];
+	MStyle		*col_style [SHEET_MAX_COLS];
 } ExcelSheet;
 
 struct _ExcelWriteState {

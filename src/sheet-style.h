@@ -33,7 +33,8 @@ void	 sheet_style_insert_colrow	(GnmExprRelocateInfo const *rinfo);
 void	 sheet_style_relocate		(GnmExprRelocateInfo const *rinfo);
 void	 sheet_style_get_uniform	(Sheet const *sheet, Range const *r,
 					 MStyle **style, StyleBorder **borders);
-void	 sheet_style_get_extent		(Sheet const *sheet, Range *r);
+void	 sheet_style_get_extent		(Sheet const *sheet, Range *r,
+					 MStyle **most_common_in_cols);
 gboolean sheet_style_has_visible_content(Sheet const *sheet, Range *src);
 void     style_row_init			(StyleBorder const * * *prev_vert,
 					 StyleRow *sr, StyleRow *next_sr,

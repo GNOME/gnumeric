@@ -1648,24 +1648,6 @@ sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 }
 
 static void
-cb_style_extent (MStyle *style,
-		 int corner_col, int corner_row, int width, int height,
-		 Range const *apply_to, gpointer user)
-{
-	if (mstyle_visible_in_blank (style)) {
-		Range *r = (Range *)user;
-		int tmp;
-
-		tmp = corner_col+width-1;
-		if (r->end.col < tmp)
-			r->end.col = tmp;
-		tmp = corner_row+height-1;
-		if (r->end.row < tmp)
-			r->end.row = tmp;
-	}
-}
-
-static void
 cb_visible_content (MStyle *style,
 		    int corner_col, int corner_row, int width, int height,
 		    Range const *apply_to, gpointer res)
@@ -1693,24 +1675,71 @@ sheet_style_has_visible_content (Sheet const *sheet, Range *src)
 	return res;
 }
 
+typedef struct {
+	Range *res;
+	MStyle **most_common_in_cols;
+} StyleExtentData;
+
+static void
+cb_style_extent (MStyle *style,
+		 int corner_col, int corner_row, int width, int height,
+		 Range const *apply_to, gpointer user)
+{
+	StyleExtentData *data = user;
+	if (mstyle_visible_in_blank (style)) {
+
+		/* always check if the column is extended */
+		int tmp = corner_col+width-1;
+		int i = corner_col;
+		if (data->res->end.col < tmp)
+			data->res->end.col = tmp;
+
+		/* only check the row if the style is not the most common in
+		 * all of the columns in the tile */
+		if (data->most_common_in_cols != NULL) {
+			for (; i <= tmp ; i++)
+				if (style != data->most_common_in_cols[i])
+					break;
+			if (i > tmp)
+				return;
+		}
+		tmp = corner_row+height-1;
+		if (data->res->end.row < tmp)
+			data->res->end.row = tmp;
+	}
+}
+
 /**
  * sheet_style_get_extent :
  *
  * @sheet :
  * @r     :
+ * most_common_in_cols : optionally NULL.
  *
  * A simple implementation that find the max lower and right styles that are
- * visible.
+ * visible.  If @most_common_in_cols is specified it finds the most common
+ * style for each column (0..SHEET_MAX_COLS-1) and ignores that style in
+ * boundary calculations.
  */
 void
-sheet_style_get_extent (Sheet const *sheet, Range *res)
+sheet_style_get_extent (Sheet const *sheet, Range *res,
+			MStyle **most_common_in_cols)
 {
+	StyleExtentData data;
 	Range r;
 
+	if (most_common_in_cols != NULL) {
+		unsigned i;
+		for (i = 0; i < SHEET_MAX_COLS ; i++)
+			most_common_in_cols [i] = sheet_style_most_common_in_col (sheet, i);
+	}
+
 	/* This could easily be optimized */
+	data.res = res;
+	data.most_common_in_cols = most_common_in_cols;
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, range_init_full_sheet(&r),
-		      cb_style_extent, res);
+		      cb_style_extent, &data);
 }
 
 /****************************************************************************/

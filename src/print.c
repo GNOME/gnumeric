@@ -902,7 +902,7 @@ compute_sheet_pages (PageCountInfo *pc, Sheet const *sheet)
 	if (pj->range != PRINT_SHEET_SELECTION) {
 		r = sheet_get_extent (sheet, TRUE);
 		if (pj->pi->print_even_if_only_styles)
-			sheet_style_get_extent (sheet, &r);
+			sheet_style_get_extent (sheet, &r, NULL);
 	} else
 		r = pc->r;
 
@@ -958,7 +958,7 @@ print_sheet (gpointer value, gpointer user_data)
 	print_job_info_init_sheet (pj, sheet);
 	extent = sheet_get_extent (sheet, TRUE);
 	if (pj->pi->print_even_if_only_styles)
-		sheet_style_get_extent (sheet, &extent);
+		sheet_style_get_extent (sheet, &extent, NULL);
 
 	print_sheet_range (pj, sheet, &extent, TRUE);
 }

@@ -160,7 +160,7 @@ push_guint32 (PolishData *pd, guint32 b)
 
 static void
 write_cellref_v7 (PolishData *pd, CellRef const *ref,
-		  guint8 *out_col, guint16 *out_row)
+		  guint8 *out_col, guint8 *out_row)
 {
 	guint    row, col;
 
@@ -184,7 +184,7 @@ write_cellref_v7 (PolishData *pd, CellRef const *ref,
 
 static void
 write_cellref_v8 (PolishData *pd, CellRef const *ref,
-		  guint16 *out_col, guint16 *out_row)
+		  guint8 *out_col, guint8 *out_row)
 {
 	guint    row, col;
 
@@ -221,18 +221,20 @@ write_area (PolishData *pd, CellRef const *a, CellRef const *b)
 	if (a->sheet == NULL && b->sheet == NULL) {
 		push_guint8 (pd, OP_REF (FORMULA_PTG_AREA));
 		if (pd->ewb->bp->version <= MS_BIFF_V7) {
-			write_cellref_v7 (pd, a,
-					  data + 4, (guint16 *)(data + 0));
-			write_cellref_v7 (pd, b,
-					  data + 5, (guint16 *)(data + 2));
+			write_cellref_v7 (pd, a, data + 4, data);
+			write_cellref_v7 (pd, b, data + 5, data + 2);
 			ms_biff_put_var_write (pd->ewb->bp, data, 6);
 		} else {
-			write_cellref_v8 (pd, a,
-					  (guint16 *)(data + 4), (guint16 *)(data + 0));
-			write_cellref_v8 (pd, b,
-					  (guint16 *)(data + 6), (guint16 *)(data + 2));
+			write_cellref_v8 (pd, a, data + 4, data + 0);
+			write_cellref_v8 (pd, b, data + 6, data + 2);
 			ms_biff_put_var_write (pd->ewb->bp, data, 8);
 		}
+#if 0
+	} else if (a->col == b->col &&
+		   a->row == b->row &&
+		   a->col_relative == b->col_relative &&
+		   a->row_relative == b->row_relative) {
+#endif
 	} else {
 		g_return_if_fail (a->sheet != NULL);
 
@@ -255,20 +257,15 @@ write_area (PolishData *pd, CellRef const *a, CellRef const *b)
 			GSF_LE_SET_GUINT32 (data +  6, 0x0);
 			GSF_LE_SET_GUINT16 (data + 10, idx_a);
 			GSF_LE_SET_GUINT16 (data + 12, idx_b);
-			write_cellref_v7 (pd, a,
-					  data + 18, (guint16 *)(data + 14));
-			write_cellref_v7 (pd, b,
-					  data + 19, (guint16 *)(data + 16));
+			write_cellref_v7 (pd, a, data + 18, data + 14);
+			write_cellref_v7 (pd, b, data + 19, data + 16);
 			ms_biff_put_var_write (pd->ewb->bp, data, 20);
 		} else {
-			guint16 extn_idx = excel_write_get_externsheet_idx (pd->ewb,
-									    a->sheet,
-									    b->sheet);
+			guint16 extn_idx = excel_write_get_externsheet_idx (
+					    pd->ewb, a->sheet, b->sheet);
 			GSF_LE_SET_GUINT16 (data, extn_idx);
-			write_cellref_v8 (pd, a,
-					  (guint16 *)(data + 6), (guint16 *)(data + 2));
-			write_cellref_v8 (pd, b,
-					  (guint16 *)(data + 8), (guint16 *)(data + 4));
+			write_cellref_v8 (pd, a, data + 6, data + 2);
+			write_cellref_v8 (pd, b, data + 8, data + 4);
 			ms_biff_put_var_write (pd->ewb->bp, data, 10);
 		}
 	}
@@ -285,10 +282,10 @@ write_ref (PolishData *pd, CellRef const *ref)
 	if (ref->sheet == NULL) {
 		push_guint8 (pd, OP_VALUE (FORMULA_PTG_REF));
 		if (pd->ewb->bp->version <= MS_BIFF_V7) {
-			write_cellref_v7 (pd, ref, data + 2, (guint16 *)data);
+			write_cellref_v7 (pd, ref, data + 2, data);
 			ms_biff_put_var_write (pd->ewb->bp, data, 3);
-		} else { /* Duff docs */
-			write_cellref_v8 (pd, ref, (guint16 *)(data + 2), (guint16 *)data);
+		} else {
+			write_cellref_v8 (pd, ref, data + 2, data);
 			ms_biff_put_var_write (pd->ewb->bp, data, 4);
 		}
 	} else {
@@ -307,16 +304,13 @@ write_ref (PolishData *pd, CellRef const *ref)
 			GSF_LE_SET_GUINT32 (data +  6, 0x0);
 			GSF_LE_SET_GUINT16 (data + 10, idx_a);
 			GSF_LE_SET_GUINT16 (data + 12, idx_a);
-			write_cellref_v7 (pd, ref, data + 16,
-					  (guint16 *)(data + 14));
+			write_cellref_v7 (pd, ref, data + 16, data + 14);
 			ms_biff_put_var_write (pd->ewb->bp, data, 17);
 		} else {
-			guint16 extn_idx = excel_write_get_externsheet_idx (pd->ewb,
-									    ref->sheet,
-									    NULL);
+			guint16 extn_idx = excel_write_get_externsheet_idx (
+						pd->ewb, ref->sheet, NULL);
 			GSF_LE_SET_GUINT16 (data, extn_idx);
-			write_cellref_v8 (pd, ref, (guint16 *)(data + 2),
-					  (guint16 *)(data + 1));
+			write_cellref_v8 (pd, ref, data + 4, data + 2);
 			ms_biff_put_var_write (pd->ewb->bp, data, 6);
 		}
 	}

@@ -388,7 +388,8 @@ ms_biff_query_destroy (BiffQuery *q)
 /*                                 Write Side                                  */
 /*******************************************************************************/
 
-#define MAX_LIKED_BIFF_LEN 0x2000
+#define MAX_BIFF7_RECORD_SIZE 0x800
+#define MAX_BIFF8_RECORD_SIZE 0x2020
 
 /**
  * ms_biff_put_new :
@@ -460,7 +461,11 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 	g_return_val_if_fail (bp, 0);
 	g_return_val_if_fail (bp->output, 0);
 	g_return_val_if_fail (bp->data == NULL, 0);
-	g_return_val_if_fail (len < MAX_LIKED_BIFF_LEN, 0);
+
+	if (bp->version >= MS_BIFF_V8)
+		g_return_val_if_fail (len < MAX_BIFF8_RECORD_SIZE, 0);
+	else
+		g_return_val_if_fail (len < MAX_BIFF7_RECORD_SIZE, 0);
 
 #if BIFF_DEBUG > 0
 	printf ("Biff put len 0x%x\n", opcode);
@@ -566,7 +571,10 @@ ms_biff_put_len_commit (BiffPut *bp)
 	g_return_if_fail (bp->output != NULL);
 	g_return_if_fail (bp->len_fixed);
 	g_return_if_fail (bp->length == 0 || bp->data);
-	g_return_if_fail (bp->length < MAX_LIKED_BIFF_LEN);
+	if (bp->version >= MS_BIFF_V8)
+		g_return_val_if_fail (bp->length < MAX_BIFF8_RECORD_SIZE, 0);
+	else
+		g_return_val_if_fail (bp->length < MAX_BIFF7_RECORD_SIZE, 0);
 
 /*	if (!bp->data_malloced) Unimplemented optimisation
 		bp->output->lseek (bp->output, bp->length, G_SEEK_CUR);

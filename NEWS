@@ -25,6 +25,7 @@ Jody
 	* Rewrite string export for xls (95 & 97)
 	* Fix inline array export for xls (95 &97)
 	* Store the xls codepage when importing for use when exporting
+	* Merge style extent and most common style calcs for xls export
 
 Morten:
 	* Spelling fixes all over.

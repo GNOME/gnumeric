@@ -1,3 +1,19 @@
+2002-11-11  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (write_cellref_v7) : fix signature.
+	(write_cellref_v8) : ditto.
+	(write_ref) : fix biff8 case.
+
+	* ms-excel-write.c (gather_styles) : we already gathered the most
+	  common styles earlier.
+	(excel_sheet_new) : most common style in a column does not extend the
+	  column.
+
+	* ms-biff.c (ms_biff_put_len_next) : handle correct max biff record
+	  sizes for biff7 vs biff8.  Looks like they teaked things so that the
+	  dbcell records will always fit in 1 biff record.
+	(ms_biff_put_len_commit) : ditto.
+
 2002-11-10  Jody Goldberg <jody@gnome.org>
 
 	* ms-biff.c (ms_biff_put_new) : take a codepage as an argument.

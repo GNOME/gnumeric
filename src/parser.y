@@ -231,6 +231,22 @@ report_err (ParserState *state, GError *err,
 }
 
 static GnmExpr *
+fold_negative (GnmExpr *expr)
+{
+	Value const *v = expr->constant.value;
+
+	g_return_val_if_fail (expr->any.oper == GNM_EXPR_OP_CONSTANT, NULL);
+
+	if (v->type == VALUE_INTEGER)
+		((Value *)v)->v_int.val   = -v->v_int.val;
+	else if (v->type == VALUE_FLOAT)
+		((Value *)v)->v_float.val = -v->v_float.val;
+	else
+		return NULL;
+	return expr;
+}
+
+static GnmExpr *
 build_unary_op (GnmExprOp op, GnmExpr *expr)
 {
 	unregister_allocation (expr);
@@ -524,7 +540,10 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| exp OR  exp	{ $$ = build_logical ($1, FALSE, $3); }
 	| exp ' ' exp	{ $$ = build_intersect ($1, $3); }
 
-        | '-' exp %prec NEG { $$ = build_unary_op (GNM_EXPR_OP_UNARY_NEG, $2); }
+        | '-' exp %prec NEG {
+		GnmExpr *tmp = fold_negative ($2);
+		$$ = (tmp != NULL) ? tmp : build_unary_op (GNM_EXPR_OP_UNARY_NEG, $2);
+	}
         | '+' exp %prec PLUS { $$ = build_unary_op (GNM_EXPR_OP_UNARY_PLUS, $2); }
         | NOT exp { $$ = build_not ($2); }
         | exp '%' { $$ = build_unary_op (GNM_EXPR_OP_PERCENTAGE, $1); }
@@ -699,7 +718,8 @@ arg_list: exp {
         | { $$ = NULL; }
 	;
 
-array_exp: CONSTANT		{ $$ = $1; }
+array_exp:     CONSTANT		{ $$ = $1; }
+	 | '-' CONSTANT		{ $$ = fold_negative ($2); }
 	 | string_opt_quote	{ $$ = parse_string_as_value ($1); }
 	 ;
 
@@ -991,21 +1011,15 @@ yylex (void)
 		return RANGEREF;
 	}
 
+	/* Do NOT handle negative numbers here.  That has to be done in the
+	 * parser otherwise we mishandle A1-1 when it looks like
+	 * rangeref CONSTANT  */
 	if (c == state->decimal_point) {
 		/* Could be a number or a stand alone  */
 		if (!g_unichar_isdigit (g_utf8_get_char (state->ptr)))
 			return c;
 		is_number = TRUE;
-	} else if (c == '-') {
-		/* Could be a number or a stand alone  */
-		if (!g_unichar_isdigit (g_utf8_get_char (state->ptr)))
-			return c;
-		c = g_utf8_get_char (state->ptr);
-		/* we will fall through into the next if (at the expense of an
-		 * extra character lookup) */
-	}
-	
-	if (g_unichar_isdigit (c)) {
+	}  else if (g_unichar_isdigit (c)) {
 		/* find the end of the first portion of the number */
 		do {
 			c = g_utf8_get_char (state->ptr);
