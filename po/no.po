@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.36\n"
-"POT-Creation-Date: 1999-10-19 08:21-0500\n"
-"PO-Revision-Date: 1999-10-14 00:17+02:00\n"
+"POT-Creation-Date: 1999-10-20 19:33-0400\n"
+"PO-Revision-Date: 1999-10-20 19:59-04:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -499,7 +499,7 @@ msgstr "Deskriptiv statistikk"
 #: src/dialogs/dialog-analysis-tools.c:82
 #: src/dialogs/dialog-analysis-tools.c:1190
 msgid "F-Test: Two-Sample for Variances"
-msgstr ""
+msgstr "F-Test: To-prøve for varianser"
 
 #: src/dialogs/dialog-analysis-tools.c:84
 #: src/dialogs/dialog-analysis-tools.c:1626
@@ -529,22 +529,22 @@ msgstr "Datasamling"
 #: src/dialogs/dialog-analysis-tools.c:94
 #: src/dialogs/dialog-analysis-tools.c:876
 msgid "t-Test: Paired Two Sample for Means"
-msgstr ""
+msgstr "t-Test: Parvis to-prøve for medianer"
 
 #: src/dialogs/dialog-analysis-tools.c:96
 #: src/dialogs/dialog-analysis-tools.c:981
 msgid "t-Test: Two-Sample Assuming Equal Variances"
-msgstr ""
+msgstr "t-Test: To-prøve som forutsetter lik varians"
 
 #: src/dialogs/dialog-analysis-tools.c:98
 #: src/dialogs/dialog-analysis-tools.c:1086
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
-msgstr ""
+msgstr "t-Test: To-prøve som forutsetter ulik varians"
 
 #: src/dialogs/dialog-analysis-tools.c:100
 #: src/dialogs/dialog-analysis-tools.c:759
 msgid "z-Test: Two Sample for Means"
-msgstr ""
+msgstr "z-Test: To-prøve for medianer"
 
 #: src/dialogs/dialog-analysis-tools.c:107
 #: src/dialogs/dialog-analysis-tools.c:1304
@@ -5339,10 +5339,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
-"@DESCRIPTION=Beregner antall kombinasjoner.\n"
-"Bruk av denne funksjonen på et ikke-heltall eller et negativt tall "
-"returnerer en feil. I tillegg returneres en feil hvis @n er mindre enn @k. "
-"Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=COMBIN beregner antall kombinasjoner.\n"
+"Bruk av denne funksjonen på et ikke-heltall eller et negativt tall returnerer en feil. I tillegg returneres en feil hvis @n er mindre enn @k. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "COMBIN(8,6) er lik 28.\n"
 "COMBIN(6.2) er lik 15.\n"
@@ -5989,7 +5987,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: src/functions/fn-math.c:1867
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -6010,19 +6007,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(tall[,siffer])\n"
-"@DESCRIPTION=ROUNDDOWN-funksjonen runder et gitt @tall ned mot null. @tall "
-"er tallet du vil skal rundes ned og @siffer er antallet siffer du vil runde "
-"tallet til. \n"
-"Hvis @siffer er større enn null, rundes @tall ned til det gitte antall "
-"siffer. Hvis @siffer er null eller utelatt, rundes @tall ned til det "
-"nærmeste heltallet. Hvis @siffer er mindre enn null, rundes @tall ned til "
-"venstre for komma. \n"
+"@DESCRIPTION=ROUNDDOWN-funksjonen runder et gitt @tall ned mot null. @tall er tallet du vil skal rundes ned og @siffer er antallet siffer du vil runde tallet til. \n"
+"Hvis @siffer er større enn null, rundes @tall ned til det gitte antall siffer. Hvis @siffer er null eller utelatt, rundes @tall ned til nærmeste heltall. Hvis @siffer er mindre enn null, rundes @tall ned til venstre for komma. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
+"ROUNDDOWN(5.5) er lik 5.\n"
+"ROUNDDOWN(-3.3) er lik -4.\n"
+"ROUNDDOWN(1501.15,1) er lik 1501.1.\n"
+"ROUNDDOWN(1501.15,-2) er lik 1500.0.\n"
 "\n"
-"@SEEALSO=ROUNDUP"
+"@SEEALSO=ROUND,ROUNDUP"
 
 #: src/functions/fn-math.c:1914
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -6043,17 +6038,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(tall[,siffer])\n"
-"@DESCRIPTION=ROUND-funksjonen runder av et gitt tall. @tall er tallet du vil "
-"runde av og @siffer er antallet siffer du vil runde tallet av til. \n"
-"Hvus @siffer er større enn null rundes @tall av til oppgitt antall siffer. "
-"Hvis @siffer er null eller utelatt, rundes @tall av til nærmeste heltall. "
-"Hvis @siffer er mindre enn null, rundes @tall av til venstre for komma. \n"
+"@DESCRIPTION=ROUND-funksjonen runder av et gitt tall. @tall er tallet du vil runde av og @siffer er antallet siffer du vil runde tallet av til. \n"
+"Hvus @siffer er større enn null rundes @tall av til oppgitt antall siffer. Hvis @siffer er null eller utelatt, rundes @tall av til nærmeste heltall. Hvis @siffer er mindre enn null, rundes @tall av til venstre for komma. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
+"ROUND(5.5) er lik 6.\n"
+"ROUND(-3.3) er lik -3.\n"
+"ROUND(1501.15,1) er lik 1501.2.\n"
+"ROUND(1501.15,-2) er lik 1500.0.\n"
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
 #: src/functions/fn-math.c:1958
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -6074,18 +6069,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(tall[,siffer])\n"
-"@DESCRIPTION=ROUNDUP-funksjonen runder opp et gitt tall, bort fra null. "
-"@tall er tallet du vil ha rundet opp og @siffer er antallet siffer du vil "
-"runde det av til. \n"
-"Hvis @siffer er større enn null, rundes @tall opp til gitt antall siffer. "
-"Hvis @siffer er null eller utelatt, rundes @tall opp til nærmeste heltall "
-"Hvis @siffer er mindre enn null, rundes @tall opp til venstre for komma. \n"
+"@DESCRIPTION=ROUNDUP-funksjonen runder opp et gitt tall, bort fra null. @tall er tallet du vil ha rundet opp og @siffer er antallet siffer du vil runde det av til. \n"
+"Hvis @siffer er større enn null, rundes @tall opp til gitt antall siffer. Hvis @siffer er null eller utelatt, rundes @tall opp til nærmeste heltall Hvis @siffer er mindre enn null, rundes @tall opp til venstre for komma. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
+"ROUNDUP(5.5) er lik 6.\n"
+"ROUNDUP(-3.3) er lik -3.\n"
+"ROUNDUP(1501.15,1) er lik 1501.2.\n"
+"ROUNDUP(1501.15,-2) er lik 1600.0.\n"
 "\n"
-"@SEEALSO=ROUNDDOWN"
+"@SEEALSO=ROUND,ROUNDDOWN"
 
 #: src/functions/fn-math.c:2005
-#, fuzzy
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -6102,17 +6096,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(tall,multippel)\n"
-"@DESCRIPTION=MROUND-funksjonen runder av et gitt tall til ønsket multippel. "
-"@tall er tallet du vil runde av og @multiple er multippelen du vil runde "
-"tallet av til. For eksempel, MROUND(1.7, 0.2) blir lik 1.8. \n"
-"Hvis @tall og @multippel har forskjellig fortegn, returnerer MROUND en #NUM! "
-"feil. \n"
+"@DESCRIPTION=MROUND-funksjonen runder av et gitt tall til ønsket multippel. @tall er tallet du vil runde av og @multiple er multippelen du vil runde tallet av til. Hvis @tall og @multippel har forskjellig fortegn, returnerer MROUND en #NUM! feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
+"MROUND(1.7,0.2) er lik 1.8.\n"
+"MROUND(321.123,0.12) er lik 321.12.\n"
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
 #: src/functions/fn-math.c:2055
-#, fuzzy
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -6135,20 +6126,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(tall[,type])\n"
-"@DESCRIPTION=ROMAN-funksjonen returnerer et arabisk tall i den romanske "
-"nummerstilen, som tekst. @tall er tallet du vil konvertere og @type er typen "
-"romansk numeral du ønsker. \n"
-"Hvis @type er 0 eller utelatt, returnerer ROMAN klassiske romanske tall. "
-"Type 1 er mer konsis enn klassisk type, type 2 er mer konsis enn type 1, og "
-"type 3 er mer konsis enn type 2. Type 4 er forenklet type. \n"
-"Hvis @tall er negativt eller større enn 3999, returnerer ROMAN en #VALUE! "
-"feil. \n"
+"@DESCRIPTION=ROMAN-funksjonen returnerer et arabisk tall i den romanske nummerstilen, som tekst. @tall er tallet du vil konvertere og @type er typen romansk numeral du ønsker. \n"
+"Hvis @type er 0 eller utelatt, returnerer ROMAN klassiske romanske tall. Type 1 er mer konsis enn klassisk type, type 2 er mer konsis enn type 1, og type 3 er mer konsis enn type 2. Type 4 er forenklet type. \n"
+"Hvis @tall er negativt eller større enn 3999, returnerer ROMAN en #VALUE! feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
+"ROMAN(999) er lik CMXCIX.\n"
+"ROMAN(999,1) er lik LMVLIV.\n"
+"ROMAN(999,2) er lik XMIX.\n"
+"ROMAN(999,3) er lik VMIV.\n"
+"ROMAN(999,4) er lik IM.\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-math.c:2324
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -6169,14 +6159,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(tabell1,tabell2)\n"
-"@DESCRIPTION=SUMX2MY2-funksjonen returnerer summen av differansen av "
-"kvadratene av korresponderende verdier i to tabeller. @tabell1 er den første "
-"tabellen eller datasettet, og @tabell2 er den andre tabellen eller "
-"datasettet. Ligningen SUMX2MY2 er SUM (x^2-y^2). \n"
+"@DESCRIPTION=SUMX2MY2-funksjonen returnerer summen av differansen av kvadratene av korresponderende verdier i to tabeller. @tabell1 er den første tabellen eller datasettet, og @tabell2 er den andre tabellen eller datasettet. Ligningen SUMX2MY2 er SUM (x^2-y^2). \n"
 "Strenger og tomme celler ignoreres.\n"
-"Hvis @tabell1 og @tabell2 har forskjellig antall datapunkter, returnerer "
-"SUMX2MY2 en #N/A! feil. \n"
+"Hvis @tabell1 og @tabell2 har forskjellig antall datapunkter, returnerer SUMX2MY2 en #N/A! feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og 43 og cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.\n"
+"Da får vi\n"
+"SUMX2MY2(A1:A5,B1:B5) er lik -1299.\n"
 "\n"
 "@SEEALSO=SUMSQ"
 
@@ -6188,7 +6177,6 @@ msgid "Array version not implemented!"
 msgstr "Array versjon ikke implementert!"
 
 #: src/functions/fn-math.c:2423
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -6208,16 +6196,14 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2"
 msgstr ""
 "@FUNCTION=SUMX2PY2\n"
-"@SYNTAX=SUMX2PY2(array1,array2)\n"
-"@DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of "
-"corresponding values in two arrays. @array1 is the first array or range of "
-"data points and @array2 is the second array or range of data points. The "
-"equation of SUMX2PY2 is SUM (x^2+y^2). \n"
-"Strings and empty cells are simply ignored.\n"
-"If @array1 and @array2 have different number of data points, SUMX2PY2 "
-"returns #N/A! error. \n"
+"@SYNTAX=SUMX2PY2(tabell1,tabell2)\n"
+"@DESCRIPTION=SUMX2PY2-funksjonen returnere summen av summen av kvadratene av de korresponderende verdiene i  to tabeller. @tabell1 er den første tabellene eller området med datapunkter og tabell2 er den andre tabellen eller området med datapunkter. Likningen til SUMX2PY2 er SUM (x^2+y^2). \n"
+"Strenger og tomme celler ignoreres.\n"
+"Hvis  @tabell1 og @tanell2 har forskjellig antall datapunkter, returnerer SUMX2PY2 en #N/A!-feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
-"\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og 43 og cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.\n"
+"Da får vi\n"
+"SUMX2PY2(A1:A5,B1:B5) er lik 7149.\n"
 "@SEEALSO=SUMSQ"
 
 #: src/functions/fn-math.c:2519
@@ -8995,7 +8981,7 @@ msgstr "mm:ss"
 
 #: src/formats.c:80
 msgid "[ss]"
-msgstr ""
+msgstr "[ss]"
 
 #: src/formats.c:85
 #, c-format
@@ -9821,12 +9807,11 @@ msgstr "Lager grafikk i regnearket"
 
 #: src/workbook.c:1091
 msgid "Bobobo Item"
-msgstr ""
+msgstr "Bonobo objekt"
 
 #: src/workbook.c:1091
-#, fuzzy
 msgid "Creates a Bonobo shaped item"
-msgstr "Lager et nytt regneark"
+msgstr "Lager et formet Bonobo objekt"
 
 #: src/workbook.c:1096
 msgid "Button"
@@ -10018,89 +10003,8 @@ msgstr ""
 
 #: src/workbook-cmd-format.c:162
 msgid "You entered an invalid row height value.  It must be bigger than 0"
-msgstr ""
+msgstr "Du oppga en ugyldig verdi for radhøyde. Den må være større enn 0"
 
 #: src/xml-io.c:2305
 msgid "Old Gnumeric XML file format"
 msgstr "Gammelt Gnumeric XML filformat"
-
-#~ msgid "Delete cells"
-#~ msgstr "Slett celler"
-
-#~ msgid "Shift cells left"
-#~ msgstr "Flytt celler til venstre"
-
-#~ msgid "Shift cells up"
-#~ msgstr "Flytt celler opp"
-
-#~ msgid "Delete row(s)"
-#~ msgstr "Slett rad(er)"
-
-#~ msgid "Delete column(s)"
-#~ msgstr "Slett kolonne(r)"
-
-#~ msgid "Insert cells"
-#~ msgstr "Sett inn celler"
-
-#~ msgid "Shift cells right"
-#~ msgstr "Flytt celler mot høyre"
-
-#~ msgid "Shift cells down"
-#~ msgstr "Flytt celler ned"
-
-#~ msgid "Insert row(s)"
-#~ msgstr "Sett inn rad(er)"
-
-#~ msgid "Insert column(s)"
-#~ msgstr "Sett inn kolonne(r)"
-
-#~ msgid "#Reference to deleted cell!"
-#~ msgstr "#Referanse til slettet celle!"
-
-#~ msgid "#Reference to deleted range!"
-#~ msgstr "#Referanse til slettet område!"
-
-#~ msgid "#NULL!"
-#~ msgstr "#NULL!"
-
-#~ msgid "#VALUE!"
-#~ msgstr "#VERDI!"
-
-#~ msgid "#REF!"
-#~ msgstr "#REF!"
-
-#~ msgid "#NAME?"
-#~ msgstr "#NAVN?"
-
-#~ msgid "#NUM!"
-#~ msgstr "#NUM!"
-
-#~ msgid "#N/A"
-#~ msgstr "#N/A"
-
-#~ msgid "no workbook"
-#~ msgstr "ingen arbeidsbok"
-
-#~ msgid ""
-#~ "The Print Preview feature is being developed.\n"
-#~ "The results of the preview is not correct currently,\n"
-#~ "it might include a buggy rendering (like black\n"
-#~ "blocks or an incorrect text placement).\n"
-#~ "\n"
-#~ "We apologize for the inconvenience"
-#~ msgstr ""
-#~ "Forhåndsvisningsfunksjonen er under utvikling.\n"
-#~ "Resultatene av forhåndsvisningen er ikke korrekt nå,\n"
-#~ "det kan inkludere feil ved rendering (slik som sorte\n"
-#~ "blokker eller feil plassering av tekst).\n"
-#~ "\n"
-#~ "Vi beklager eventuelle problemer"
-
-#~ msgid "Object server"
-#~ msgstr "Objekttjener"
-
-#~ msgid "Sheet &[NUM]"
-#~ msgstr "Ark &[NUM]"
-
-#~ msgid "Page &[NUM]"
-#~ msgstr "Side &[NUM]"
