@@ -1,3 +1,9 @@
+2004-11-19  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* ms-chart.c (BC_R(radararea)): type of area radar is
+	GogRadarAreaPlot.
+	(chart_write_plot): ditto.
+
 2004-11-16  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (ms_excel_chart_write) : ultra-basic handling of graphs

@@ -1406,10 +1406,7 @@ BC_R(radararea)(XLChartHandler const *handle,
 		XLChartReadState *s, BiffQuery *q)
 {
 	g_return_val_if_fail (s->plot == NULL, TRUE);
-	s->plot = gog_plot_new_by_name ("GogRadarPlot");
-	g_object_set (G_OBJECT (s->plot),
-		"area",		TRUE,
-		NULL);
+	s->plot = gog_plot_new_by_name ("GogRadarAreaPlot");
 
 	return FALSE;
 }
@@ -3163,12 +3160,9 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 		if (fabs (default_separation) > .005)
 			chart_write_dummy_style (s, default_separation, FALSE, FALSE);
 	} else if (0 == strcmp (type, "GogRadarPlot")) {
-		gboolean area;
-		g_object_get (G_OBJECT (plot), "area", &area, NULL);
-		/* TODO : flags : chart contains radar axis labels */
-		ms_biff_put_2byte (s->bp,
-			area ? BIFF_CHART_radararea : BIFF_CHART_radar,
-			flags);
+		ms_biff_put_2byte (s->bp, BIFF_CHART_radar, flags);
+	} else if (0 == strcmp (type, "GogRadarAreaPlot")) {
+		ms_biff_put_2byte (s->bp, BIFF_CHART_radararea, flags);
 	} else if (0 == strcmp (type, "GogBubblePlot") ||
 		   0 == strcmp (type, "GogXYPlot")) {
 		if (s->bp->version >= MS_BIFF_V8) {
