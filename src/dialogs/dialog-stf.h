@@ -70,6 +70,7 @@ typedef struct {
 	gboolean           sublist_select;
         gboolean          *col_import_array;
         int                col_import_count;
+	char              *col_header;
 } FormatInfo_t;
 
 

@@ -172,7 +172,8 @@ format_page_update_preview (StfDialogData *pagedata)
 			stf_preview_get_column (renderdata, i);
 		GtkWidget *box = gtk_hbox_new (FALSE,5);
 		GtkWidget *check = gtk_check_button_new ();
-		char * label_text = g_strdup_printf (_("Column %d"), i+1);
+		char * label_text = g_strdup_printf 
+			(pagedata->format.col_header, i+1);
 		GtkWidget *label = gtk_label_new (label_text);
 		
 		g_free (label_text);
@@ -322,6 +323,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
         /* Create/get object and fill information struct */
 	pagedata->format.col_import_array = NULL;
 	pagedata->format.col_import_count = 0;
+	pagedata->format.col_header = _("Column %d");
 	
 	pagedata->format.format_selector      = NUMBER_FORMAT_SELECTOR( number_format_selector_new ());
 
