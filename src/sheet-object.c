@@ -30,6 +30,7 @@
 #include <libxml/globals.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkstock.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>

@@ -1178,7 +1178,7 @@ ttest_tool_ok_clicked_cb (GtkWidget *button, TTestState *state)
 	data = g_new0 (analysis_tools_data_ttests_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
-	data->base.wbcg = state->base.wbcg;
+	data->base.wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
@@ -1559,7 +1559,7 @@ ftest_tool_ok_clicked_cb (GtkWidget *button, FTestToolState *state)
 	data = g_new0 (analysis_tools_data_ftest_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
-	data->wbcg = state->base.wbcg;
+	data->wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
@@ -1756,7 +1756,7 @@ sampling_tool_ok_clicked_cb (GtkWidget *button, SamplingState *state)
 	data = g_new0 (analysis_tools_data_sampling_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
-	data->base.wbcg = state->base.wbcg;
+	data->base.wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -1941,7 +1941,7 @@ regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
 	data = g_new0 (analysis_tools_data_regression_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
-	data->base.wbcg = state->base.wbcg;
+	data->base.wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -2802,7 +2802,7 @@ anova_two_factor_tool_ok_clicked_cb (GtkWidget *button,
 		(GNUMERIC_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
 	data->err = analysis_tools_noerr;
-	data->wbcg = state->base.wbcg;
+	data->wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));

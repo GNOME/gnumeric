@@ -2582,37 +2582,40 @@ typedef struct {
 } MSDelayedNameParse;
 
 static GnmNamedExpr *
-ms_excel_parse_NAME (ExcelWorkbook *ewb, int sheet_index,
-		     char *name, guint8 const *expr_data, unsigned expr_len)
+ms_excel_parse_NAME (ExcelWorkbook *ewb, int sheet_index, char const *name,
+		     guint8 const *expr_data, unsigned expr_len)
 {
 	ParsePos pp;
-	GnmExpr const *expr = NULL;
 	GnmNamedExpr *nexpr;
+	GnmExpr const *expr = NULL;
 	char const *err = NULL;
 
-	/* I think it is ok to pass sheet = NULL */
-	if (expr_len != 0)
+	/* expr_len == 0 seems to indicate a placeholder for an unknown name */
+	if (expr_len != 0) {
 		expr = ms_excel_parse_formula (ewb, NULL, 0, 0,
 			expr_data, expr_len, FALSE, NULL);
-	if (expr == NULL)
-		expr = gnm_expr_new_constant (value_new_error (NULL,
-			gnumeric_err_REF));
+		if (expr == NULL) {
+			g_warning ("Failure parsing name '%s'", name);
+			expr = gnm_expr_new_constant (value_new_error (NULL,
+				gnumeric_err_REF));
+		}
+	}
 
 	parse_pos_init (&pp, ewb->gnum_wb, NULL, 0, 0);
 	if (sheet_index > 0)
 		pp.sheet = workbook_sheet_by_index (ewb->gnum_wb, sheet_index-1);
 	nexpr = expr_name_add (&pp, name, expr, &err);
-	if (nexpr != NULL) {
-		/* Add a ref to keep it around after the excel-sheet/wb goes
-		 * away.  externames do not get references and are unrefed
-		 * after import finishes, which destroys them if they are not
-		 * in use.
-		 */
-		expr_name_ref (nexpr);
-		return nexpr;
+	if (nexpr == NULL) {
+		gnm_io_warning (ewb->context, err);
+		return NULL;
 	}
 
-	gnm_io_warning (ewb->context, err);
+	/* Add a ref to keep it around after the excel-sheet/wb goes
+	 * away.  externames do not get references and are unrefed
+	 * after import finishes, which destroys them if they are not
+	 * in use.
+	 */
+	expr_name_ref (nexpr);
 	return nexpr;
 }
 

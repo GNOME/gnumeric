@@ -301,7 +301,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		int draw_x, int draw_y, int width, int height)
 {
 	GnomeCanvas *canvas = item->canvas;
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
+	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	Sheet const *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
 	Cell const * const edit_cell = gcanvas->simple.scg->wbcg->wb_control.editing_cell;
 	ItemGrid *ig = ITEM_GRID (item);
@@ -778,13 +778,13 @@ ig_obj_create_finish (ItemGrid *ig, GdkEventButton *event)
  * ig_obj_create_begin :
  *
  * Starts the process of creating a SheetObject.  Handles the initial
- * button press on the GnumericCanvas.
+ * button press on the GnmCanvas.
  */
 static gboolean
 ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ig);
-	GnumericCanvas  *gcanvas = GNUMERIC_CANVAS (item->canvas);
+	GnmCanvas  *gcanvas = GNM_CANVAS (item->canvas);
 	SheetControlGUI *scg;
 	SheetObject *so;
 
@@ -854,7 +854,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ig);
 	GnomeCanvas    *canvas = item->canvas;
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
+	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	SheetControlGUI *scg = ig->scg;
 	SheetControl *sc = (SheetControl *) scg;
 	Sheet *sheet = sc->sheet;
@@ -979,21 +979,21 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
  */
 
 static gboolean
-cb_extend_cell_range (GnumericCanvas *gcanvas, int col, int row, gpointer ignored)
+cb_extend_cell_range (GnmCanvas *gcanvas, int col, int row, gpointer ignored)
 {
 	sv_selection_extend_to (((SheetControl *) gcanvas->simple.scg)->view, col, row);
 	return TRUE;
 }
 
 static gboolean
-cb_extend_expr_range (GnumericCanvas *gcanvas, int col, int row, gpointer ignored)
+cb_extend_expr_range (GnmCanvas *gcanvas, int col, int row, gpointer ignored)
 {
 	scg_rangesel_extend_to (gcanvas->simple.scg, col, row);
 	return TRUE;
 }
 
 static gboolean
-cb_extend_object_creation (GnumericCanvas *gcanvas, int col, int row, gpointer ignored)
+cb_extend_object_creation (GnmCanvas *gcanvas, int col, int row, gpointer ignored)
 {
 	int x, y;
 	gdouble new_x, new_y;
@@ -1014,7 +1014,7 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 {
 	Sheet const *sheet = ((SheetControl *) ig->scg)->view->sheet;
 	GnomeCanvas *canvas = ig->canvas_item.canvas;
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
+	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	GnmHLink *link;
 	int x, y;
 	CellPos pos;
@@ -1046,7 +1046,7 @@ cb_cursor_motion (ItemGrid *ig)
 {
 	Sheet const *sheet = ((SheetControl *) ig->scg)->view->sheet;
 	GnomeCanvas *canvas = ig->canvas_item.canvas;
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
+	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	int x, y, cursor;
 	CellPos pos;
 	GnmHLink *old_link;
@@ -1075,7 +1075,7 @@ static gint
 item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	GnomeCanvas *canvas = item->canvas;
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
+	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	ItemGrid *ig = ITEM_GRID (item);
 	SheetControlGUI *scg = ig->scg;
 	SheetControl *sc = (SheetControl *) scg;
@@ -1139,7 +1139,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_MOTION_NOTIFY: {
-		GnumericCanvasSlideHandler slide_handler = NULL;
+		GnmCanvasSlideHandler slide_handler = NULL;
 		switch (ig->selecting) {
 		case ITEM_GRID_NO_SELECTION:
 			if (ig->cursor_timer == 0)
@@ -1170,7 +1170,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			 * that is more work than I want to do right now.
 			 */
 			if (gnm_canvas_handle_motion (gcanvas, canvas, &event->motion,
-						      GNM_SLIDE_X | GNM_SLIDE_Y,
+						      GNM_CANVAS_SLIDE_X | GNM_CANVAS_SLIDE_Y,
 						      &cb_extend_object_creation, NULL))
 				ig_obj_create_motion (ig, event->motion.x, event->motion.y);
 
@@ -1180,7 +1180,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		};
 
 		gnm_canvas_handle_motion (gcanvas, canvas, &event->motion,
-			GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_AT_COLROW_BOUND,
+			GNM_CANVAS_SLIDE_X | GNM_CANVAS_SLIDE_Y |
+			GNM_CANVAS_SLIDE_AT_COLROW_BOUND,
 			slide_handler, NULL);
 		return TRUE;
 	}

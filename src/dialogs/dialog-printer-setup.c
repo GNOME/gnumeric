@@ -1439,7 +1439,8 @@ cb_do_print (GtkWidget *w, PrinterSetupState *state)
 	wbcg = state->wbcg;
 	sheet = state->sheet;
 	print_info_save (state->pi);
-	cmd_print_set_up (state->wbcg, print_setup_get_sheet (state), state->pi);
+	cmd_print_setup (WORKBOOK_CONTROL (state->wbcg),
+		print_setup_get_sheet (state), state->pi);
 	gtk_widget_destroy (state->dialog);
 	sheet_print (wbcg, sheet, FALSE, PRINT_ACTIVE_SHEET);
 }
@@ -1470,7 +1471,8 @@ cb_do_print_ok (GtkWidget *w, PrinterSetupState *state)
 	wbcg_edit_finish (state->wbcg, TRUE);
 	fetch_settings (state);
 	print_info_save (state->pi);
-	cmd_print_set_up (state->wbcg, print_setup_get_sheet (state), state->pi);
+	cmd_print_setup (WORKBOOK_CONTROL (state->wbcg),
+		print_setup_get_sheet (state), state->pi);
 	gtk_widget_destroy (state->dialog);
 }
 

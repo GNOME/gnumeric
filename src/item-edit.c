@@ -144,11 +144,11 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	pango_layout_set_attributes (layout, attrs);
 
 	text = wbcg_edit_get_display_text (item_edit->scg->wbcg);
-	if (GNUMERIC_CANVAS (canvas)->preedit_length){
+	if (GNM_CANVAS (canvas)->preedit_length){
 		PangoAttrList *tmp_attrs = pango_attr_list_new();
-		pango_attr_list_splice (tmp_attrs,GNUMERIC_CANVAS (canvas)->preedit_attrs,
+		pango_attr_list_splice (tmp_attrs,GNM_CANVAS (canvas)->preedit_attrs,
 			g_utf8_offset_to_pointer(text,cursor_pos)-text,
-			g_utf8_offset_to_pointer(text,cursor_pos+GNUMERIC_CANVAS (canvas)->preedit_length)-text);
+			g_utf8_offset_to_pointer(text,cursor_pos+GNM_CANVAS (canvas)->preedit_length)-text);
 		pango_layout_set_attributes (layout,tmp_attrs);
 		pango_attr_list_unref (tmp_attrs);
 	}
@@ -194,7 +194,7 @@ static void
 recalc_spans (GnomeCanvasItem *item)
 {
 	ItemEdit *item_edit = ITEM_EDIT (item);
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (item->canvas);
+	GnmCanvas *gcanvas = GNM_CANVAS (item->canvas);
 	PangoLayout* layout;
 	int width,height;
 	int col_size;
@@ -393,7 +393,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item      = GNOME_CANVAS_ITEM (o);
 	ItemEdit        *item_edit = ITEM_EDIT (o);
-	GnumericCanvas  *gcanvas    = GNUMERIC_CANVAS (item->canvas);
+	GnmCanvas	*gcanvas   = GNM_CANVAS (item->canvas);
 	SheetView const	*sv;
 	GtkEntry        *entry;
 

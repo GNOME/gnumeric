@@ -3,6 +3,7 @@
 
 #include "gui-gnumeric.h"
 #include "sheet-control.h"
+#include <gtk/gtkwidget.h>
 
 #define SHEET_CONTROL_GUI_TYPE        (sheet_control_gui_get_type ())
 #define SHEET_CONTROL_GUI(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_CONTROL_GUI_TYPE, SheetControlGUI))
@@ -78,7 +79,7 @@ void scg_colrow_resize_move	(SheetControlGUI *scg,
 				 gboolean is_cols, int resize_last);
 
 /* DO NOT USE THIS WITHOUT ALOT OF THOUGHT */
-GnumericCanvas     *scg_pane		(SheetControlGUI *scg, int pane);
+GnmCanvas	   *scg_pane		(SheetControlGUI *scg, int pane);
 
 WorkbookControlGUI *scg_get_wbcg	(SheetControlGUI const *scg);
 

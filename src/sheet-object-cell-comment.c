@@ -180,7 +180,7 @@ cell_comment_event (GnomeCanvasItem *view, GdkEvent *event, SheetControlGUI *scg
 static GObject *
 cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnumericCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	GnomeCanvasPoints *points;
 	GnomeCanvasGroup *group;
 	GnomeCanvasItem *item = NULL;

@@ -192,7 +192,7 @@ cellspan_is_empty (int col, ColRowInfo const *ri, Cell const *ok_span_cell)
  * This routine returns the column interval used by a Cell.
  */
 void
-cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
+cell_calc_span (Cell const *cell, int *col1, int *col2)
 {
 	Sheet *sheet;
 	int align, left, max_col, min_col;

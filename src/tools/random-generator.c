@@ -41,10 +41,9 @@
 #include "sheet-style.h"
 #include "workbook.h"
 #include "format.h"
-#include "gui-util.h"
+#include "command-context.h"
 #include "sheet-object-cell-comment.h"
 
-#include <gtk/gtk.h>
 #include <string.h>
 #include <math.h>
 
@@ -105,7 +104,7 @@ tool_random_engine_run_discrete_last_check (data_analysis_output_t *dao,
 		if (cell == NULL ||
 		    (v = cell->value) == NULL ||
 		    !VALUE_IS_NUMBER (v)) {
-			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+			gnumeric_error_calc (COMMAND_CONTEXT (info->wbc),
 					 _("The probability input range "
 					   "contains a non-numeric value.\n"
 					   "All probabilities must be "
@@ -113,7 +112,7 @@ tool_random_engine_run_discrete_last_check (data_analysis_output_t *dao,
 			goto random_tool_discrete_out;
 		}
 		if ((thisprob = value_get_as_float (v)) < 0) {
-			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+			gnumeric_error_calc (COMMAND_CONTEXT (info->wbc),
 					 _("The probability input range "
 					   "contains a negative number.\n"
 					   "All probabilities must be "
@@ -128,7 +127,7 @@ tool_random_engine_run_discrete_last_check (data_analysis_output_t *dao,
 				       range->v_range.cell.a.col, i);
 		
 		if (cell == NULL || cell->value == NULL) {
-			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+			gnumeric_error_calc (COMMAND_CONTEXT (info->wbc),
 					 _("None of the values in the value "
 					   "range may be empty!"));
 			goto random_tool_discrete_out;
@@ -144,7 +143,7 @@ tool_random_engine_run_discrete_last_check (data_analysis_output_t *dao,
 		}
 		return FALSE;
 	}
-	gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+	gnumeric_error_calc (COMMAND_CONTEXT (info->wbc),
 			 _("The probabilities may not all be 0!"));
 
  random_tool_discrete_out:

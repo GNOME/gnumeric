@@ -2,6 +2,7 @@
 #define GNM_SIMPLE_CANVAS_H
 
 #include "gui-gnumeric.h"
+#include <libgnomecanvas/gnome-canvas.h>
 
 typedef struct {
 	GnomeCanvas   canvas;

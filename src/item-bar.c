@@ -38,7 +38,7 @@ enum {
 struct _ItemBar {
 	GnomeCanvasItem  canvas_item;
 
-	GnumericCanvas   *gcanvas;
+	GnmCanvas	*gcanvas;
 	GdkGC           *text_gc, *lines, *shade;
 	GdkCursor       *normal_cursor;
 	GdkCursor       *change_cursor;
@@ -282,7 +282,7 @@ static void
 item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ItemBar const         *ib = ITEM_BAR (item);
-	GnumericCanvas const   *gcanvas = ib->gcanvas;
+	GnmCanvas const	      *gcanvas = ib->gcanvas;
 	SheetControlGUI const *scg    = gcanvas->simple.scg;
 	Sheet const           *sheet  = ((SheetControl *) scg)->sheet;
 	SheetView const	      *sv     = ((SheetControl *) scg)->view;
@@ -650,7 +650,7 @@ item_bar_resize_stop (ItemBar *ib, int new_size)
 }
 
 static gboolean
-cb_extend_selection (GnumericCanvas *gcanvas,
+cb_extend_selection (GnmCanvas *gcanvas,
 		     int col, int row, gpointer user_data)
 {
 	ItemBar * const ib = user_data;
@@ -688,7 +688,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	ColRowInfo const *cri;
 	GnomeCanvas	* const canvas = item->canvas;
 	ItemBar		* const ib = ITEM_BAR (item);
-	GnumericCanvas	* const gcanvas = ib->gcanvas;
+	GnmCanvas	* const gcanvas = ib->gcanvas;
 	SheetControlGUI	* const scg = gcanvas->simple.scg;
 	SheetControl	* const sc = (SheetControl *) gcanvas->simple.scg;
 	Sheet		* const sheet = sc->sheet;
@@ -757,8 +757,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			gnm_canvas_handle_motion (ib->gcanvas,
 				canvas, &e->motion,
-				GNM_SLIDE_AT_COLROW_BOUND |
-					(is_cols ? GNM_SLIDE_X : GNM_SLIDE_Y),
+				GNM_CANVAS_SLIDE_AT_COLROW_BOUND |
+					(is_cols ? GNM_CANVAS_SLIDE_X : GNM_CANVAS_SLIDE_Y),
 				cb_extend_selection, ib);
 		} else
 			ib_set_cursor (ib, x, y);

@@ -130,7 +130,7 @@ sheet_object_graphic_finalize (GObject *object)
 static GObject *
 sheet_object_graphic_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnumericCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	GnomeCanvasItem *item = NULL;
 	GdkColor *fill_color;
@@ -726,7 +726,7 @@ sheet_object_filled_update_bounds (SheetObject *so, GObject *view)
 static GObject *
 sheet_object_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnumericCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	SheetObjectGraphic *sog;
 	SheetObjectFilled  *sof;
 	GnomeCanvasItem *item;
@@ -1180,7 +1180,7 @@ sheet_object_polygon_finalize (GObject *object)
 static GObject *
 sheet_object_polygon_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnumericCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (so);
 	GnomeCanvasItem *item = NULL;
 	GdkColor *fill_color, *outline_color;

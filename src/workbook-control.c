@@ -205,7 +205,7 @@ wb_control_cur_sheet_view (WorkbookControl const *wbc)
 }
 
 gboolean
-wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
+wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 {
 	RangeRef const *r;
 	CellPos tmp;
@@ -219,14 +219,15 @@ wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 		GnmNamedExpr *nexpr = expr_name_lookup (
 			parse_pos_init (&pp, NULL, sheet, 0, 0), text);
 
-		/* Not a name, create one */
-		if (nexpr == NULL) {
+		/* Not a name or a placeholder for a name, create one */
+		if (nexpr == NULL || expr_name_is_placeholder (nexpr)) {
 			Range const *r = selection_first_range (
 				wb_control_cur_sheet_view (wbc),  wbc,
 				_("Define Name"));
 			if (r != NULL) {
-				char const *err;
 				CellRef a, b;
+				GnmExpr const *target_range;
+
 				a.sheet = b.sheet = sheet;
 				a.col = r->start.col;
 				a.row = r->start.row;
@@ -234,12 +235,10 @@ wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 				b.row = r->end.row;
 				a.col_relative = a.row_relative = b.col_relative = b.row_relative = FALSE;
 				pp.sheet = NULL; /* make it a global name */
-				nexpr = expr_name_add (&pp, text,
-					gnm_expr_new_constant (
-						value_new_cellrange_unsafe (&a, &b)), &err);
-				if (nexpr != NULL)
-					return TRUE;
-				gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Name"), err);
+				target_range = gnm_expr_new_constant (
+					value_new_cellrange_unsafe (&a, &b));
+				cmd_define_name (wbc, text, &pp,
+						 target_range, nexpr);
 			}
 			return FALSE;
 		} else {

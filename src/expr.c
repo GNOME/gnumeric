@@ -1960,6 +1960,18 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 	};
 }
 
+gboolean
+gnm_expr_is_err (GnmExpr const *expr, char const *msg)
+{
+	g_return_val_if_fail (expr != NULL, FALSE);
+	g_return_val_if_fail (msg != NULL, FALSE);
+
+	return (expr->any.oper == GNM_EXPR_OP_CONSTANT &&
+		expr->constant.value != NULL &&
+		expr->constant.value->type == VALUE_ERROR &&
+		!strcmp (expr->constant.value->v_err.mesg->str, msg));
+}
+
 void
 gnm_expr_list_unref (GnmExprList *list)
 {

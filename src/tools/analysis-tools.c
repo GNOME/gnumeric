@@ -45,9 +45,8 @@
 #include "format.h"
 #include "sheet-object-cell-comment.h"
 #include "workbook-control.h"
-#include "gui-util.h"
+#include "command-context.h"
 
-#include <gtk/gtk.h>
 #include <string.h>
 #include <math.h>
 
@@ -1241,16 +1240,15 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 			if (info->periodic) {
 				if ((info->size < 0) || (info->size > data_len)) {
 					destroy_data_set_list (data);
-					gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
-							 _("The requested sample size is to large"
-							   " for a periodic sample."));
+					gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
+						_("The requested sample size is to large for a periodic sample."));
 					return TRUE;
 				}
 				for (i = info->size - 1; i < data_len; i += info->size) {
 					x = g_array_index (this_data, gnum_float, i);
 					g_array_append_val (sample, x);
 				}
-				write_data (WORKBOOK_CONTROL (info->base.wbcg), dao, sample);
+				write_data (info->base.wbc, dao, sample);
 			} else {
 				for (i = 0; i < info->size; i++) {
 					guint random_index;
@@ -1265,7 +1263,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 					g_array_append_val (sample, x);
 					data_len--;
 				}
-				write_data (WORKBOOK_CONTROL (info->base.wbcg), dao, sample);
+				write_data (info->base.wbc, dao, sample);
 				for (j = i; j < info->size; j++)
 					dao_set_cell_na (dao, 0, j);
 			}
@@ -1476,8 +1474,8 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	if (variable_1->data->len != variable_2->data->len) {
 		destroy_data_set (variable_1);
 		destroy_data_set (variable_2);
-		gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
-				 _("The 2 input ranges must have the same size."));
+		gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
+			_("The 2 input ranges must have the same size."));
 	        return TRUE;
 	}
 
@@ -1946,8 +1944,8 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 	{
 		destroy_data_set (variable_1);
 		destroy_data_set (variable_2);
-		gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
-				 _("A data set is empty"));
+		gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
+			_("A data set is empty"));
 		return TRUE;
 	} 
 
@@ -2149,9 +2147,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	if (y_data->data->len != ((data_set_t *)g_ptr_array_index (x_data, 0))->data->len) {
 		destroy_data_set (y_data);
 		destroy_data_set_list (x_data);
-		gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
-				 _("There must be an equal number of entries "
-				   "for each variable in the regression."));
+		gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
+			_("There must be an equal number of entries for each variable in the regression."));
 		return TRUE;
 	}
 
@@ -2204,21 +2201,21 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		g_free (res);
 		switch (regerr) {
 		case REG_not_enough_data:
-			gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
+			gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
 					 _("There are too few data points to conduct this "
 					   "regression.\nThere must be at least as many "
 					   "data points as free variables."));
 			break;
 			
 		case REG_near_singular_bad:
-			gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
+			gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
 					 _("Two or more of the independent variables "
 					   "are nearly linear\ndependent.  All numerical "
 					   "precision was lost in the computation."));
                 break;
 		
 		case REG_singular:
-			gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
+			gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
 					 _("Two or more of the independent variables "
 					   "are linearly\ndependent, and the regression "
 					   "cannot be calculated.\n\nRemove one of these\n"
@@ -2227,7 +2224,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 			
 		case REG_invalid_data:
 		case REG_invalid_dimensions:
-			gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
+			gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
 					 _("There must be an equal number of entries "
 					   "for each variable in the regression."));
 			break;
@@ -2396,10 +2393,10 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	g_free (res);
 	
 	if (regerr == REG_near_singular_good) 
-	        gnumeric_notice (info->base.wbcg, GTK_MESSAGE_ERROR,
-				 _("Two or more of the independent variables "
-				   "are nearly linear\ndependent.  Treat the "
-				   "regression result with great care!"));
+		gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
+			_("Two or more of the independent variables "
+			  "are nearly linear\ndependent.  Treat the "
+			  "regression result with great care!"));
 		
 	return FALSE;
 }
@@ -3113,9 +3110,8 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 	    check_data_for_missing (col_data)) {
 		destroy_data_set_list (row_data);
 		destroy_data_set_list (col_data);
-		gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
-				 _("The input range contains non-numeric "
-				   "data."));
+		gnumeric_error_calc (COMMAND_CONTEXT (info->wbc),
+			_("The input range contains non-numeric data."));
 		return TRUE;
 	}
 
@@ -3342,7 +3338,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	}
 
 	if (empty_sample) {
-		gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+		gnumeric_error_calc (COMMAND_CONTEXT (info->wbc),
 				 _("One of the factor combinations does not contain "
 				   "any observations!"));
 		return_value =  TRUE;

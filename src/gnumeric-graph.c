@@ -1023,7 +1023,7 @@ gnm_graph_write_xml (SheetObject const *so,
 static GObject *
 gnm_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnumericCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	GnomeCanvasItem *item;
 
 	g_return_val_if_fail (gcanvas != NULL, NULL);

@@ -18,6 +18,7 @@ void  cmd_context_set_sensitive	(CommandContext *cc, gboolean sensitive);
 void  gnumeric_error_system	(CommandContext *cc, char const *msg);
 void  gnumeric_error_read	(CommandContext *cc, char const *msg);
 void  gnumeric_error_save	(CommandContext *cc, char const *msg);
+void  gnumeric_error_calc	(CommandContext *cc, char const *msg);
 void  gnumeric_error_invalid	(CommandContext *cc,
 				 char const *msg, char const *val);
 void  gnumeric_error_error_info	(CommandContext *cc, ErrorInfo *error);
@@ -31,6 +32,7 @@ GQuark gnm_error_system  (void);
 GQuark gnm_error_read    (void);
 GQuark gnm_error_write   (void);
 GQuark gnm_error_array   (void);
+GQuark gnm_error_calc    (void);
 GQuark gnm_error_invalid (void);
 
 #endif /* GNUMERIC_COMMAND_CONTEXT_H */

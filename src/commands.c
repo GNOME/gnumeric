@@ -42,6 +42,7 @@
 #include "dependent.h"
 #include "value.h"
 #include "expr.h"
+#include "expr-name.h"
 #include "cell.h"
 #include "sheet-merge.h"
 #include "parse-util.h"
@@ -4946,7 +4947,6 @@ typedef struct
 {
 	GnumericCommand cmd;
 
-	WorkbookControlGUI *wbcg;
 	GSList *new_info;
 	GSList *old_info;
 } CmdChangeSummary;
@@ -4959,9 +4959,9 @@ static void cb_change_summary_apply_change (SummaryItem *sit, Workbook *wb)
 }
 
 static gboolean
-cmd_change_summary_apply (WorkbookControlGUI *wbcg, GSList *info)
+cmd_change_summary_apply (WorkbookControl *wbc, GSList *info)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	Workbook *wb = wb_control_workbook (wbc);
 
 	g_slist_foreach (info, (GFunc) cb_change_summary_apply_change, wb); 
 
@@ -4975,7 +4975,7 @@ cmd_change_summary_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdChangeSummary *me = CMD_CHANGE_SUMMARY (cmd);
 
-	return cmd_change_summary_apply (me->wbcg, me->old_info);
+	return cmd_change_summary_apply (wbc, me->old_info);
 }
 
 static gboolean
@@ -4983,7 +4983,7 @@ cmd_change_summary_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdChangeSummary *me = CMD_CHANGE_SUMMARY (cmd);
 
-	return cmd_change_summary_apply (me->wbcg, me->new_info);
+	return cmd_change_summary_apply (wbc, me->new_info);
 }
 
 static void
@@ -5009,12 +5009,11 @@ cmd_change_summary_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_change_summary (WorkbookControlGUI *wbcg, GSList *sin_changes)
+cmd_change_summary (WorkbookControl *wbc, GSList *sin_changes)
 {
 	GObject          *obj;
 	CmdChangeSummary *me;
 	GSList           *sit_l;
-	WorkbookControl  *wbc = WORKBOOK_CONTROL (wbcg);
 	SummaryInfo const *sin = wb_control_workbook (wbc)->summary_info;
 
 	if (sin_changes == NULL)
@@ -5028,7 +5027,6 @@ cmd_change_summary (WorkbookControlGUI *wbcg, GSList *sin_changes)
 	me->cmd.cmd_descriptor =
 		g_strdup_printf (_("Changing summary info"));
 
-	me->wbcg = wbcg;
 	me->new_info = sin_changes;
 
 	me->old_info = NULL;
@@ -5137,24 +5135,23 @@ cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector 
 
 /******************************************************************/
 
-#define CMD_PRINT_SET_UP_TYPE        (cmd_print_set_up_get_type ())
-#define CMD_PRINT_SET_UP(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_PRINT_SET_UP_TYPE, CmdPrintSetUp))
+#define CMD_PRINT_SETUP_TYPE        (cmd_print_setup_get_type ())
+#define CMD_PRINT_SETUP(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_PRINT_SETUP_TYPE, CmdPrintSetup))
 
 typedef struct
 {
 	GnumericCommand cmd;
 
-	WorkbookControlGUI *wbcg;
 	GSList *old_pi;
 	PrintInformation *new_pi;
-} CmdPrintSetUp;
+} CmdPrintSetup;
 
-GNUMERIC_MAKE_COMMAND (CmdPrintSetUp, cmd_print_set_up);
+GNUMERIC_MAKE_COMMAND (CmdPrintSetup, cmd_print_setup);
 
 static gboolean
-cmd_print_set_up_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_print_setup_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdPrintSetUp *me = CMD_PRINT_SET_UP (cmd);
+	CmdPrintSetup *me = CMD_PRINT_SETUP (cmd);
 	guint n, i;
 	Workbook *book;
 	GSList *infos;
@@ -5186,9 +5183,9 @@ cmd_print_set_up_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_print_set_up_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_print_setup_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdPrintSetUp *me = CMD_PRINT_SET_UP (cmd);
+	CmdPrintSetup *me = CMD_PRINT_SETUP (cmd);
 	int n, i;
 	Workbook *book;
 	gboolean save_pis = (me->old_pi == NULL);
@@ -5217,9 +5214,9 @@ cmd_print_set_up_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_print_set_up_finalize (GObject *cmd)
+cmd_print_setup_finalize (GObject *cmd)
 {
-	CmdPrintSetUp *me = CMD_PRINT_SET_UP (cmd);
+	CmdPrintSetup *me = CMD_PRINT_SETUP (cmd);
 	GSList *list = me->old_pi;
 	
 	if (me->new_pi)
@@ -5231,14 +5228,13 @@ cmd_print_set_up_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_print_set_up (WorkbookControlGUI *wbcg, Sheet *sheet, PrintInformation const *pi)
+cmd_print_setup (WorkbookControl *wbc, Sheet *sheet, PrintInformation const *pi)
 {
 	GObject          *obj;
-	CmdPrintSetUp *me;
-	WorkbookControl  *wbc = WORKBOOK_CONTROL (wbcg);
+	CmdPrintSetup *me;
 
-	obj = g_object_new (CMD_PRINT_SET_UP_TYPE, NULL);
-	me = CMD_PRINT_SET_UP (obj);
+	obj = g_object_new (CMD_PRINT_SETUP_TYPE, NULL);
+	me = CMD_PRINT_SETUP (obj);
 
 	me->cmd.sheet = sheet;
 	me->cmd.size = 10;
@@ -5249,10 +5245,132 @@ cmd_print_set_up (WorkbookControlGUI *wbcg, Sheet *sheet, PrintInformation const
 		me->cmd.cmd_descriptor = g_strdup (_("Page Setup For All Sheets"));
 	me->old_pi = NULL;
 	me->new_pi = print_info_dup (pi);
-	me->wbcg = wbcg;
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
 /******************************************************************/
+
+#define CMD_DEFINE_NAME_TYPE        (cmd_define_name_get_type ())
+#define CMD_DEFINE_NAME(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_DEFINE_NAME_TYPE, CmdDefineName))
+
+typedef struct
+{
+	GnumericCommand cmd;
+
+	ParsePos	 pp;
+	char		*name;
+	GnmExpr const	*expr;
+	GnmNamedExpr	*nexpr;
+	gboolean create_name;
+} CmdDefineName;
+
+GNUMERIC_MAKE_COMMAND (CmdDefineName, cmd_define_name);
+
+static gboolean
+cmd_define_name_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
+	GnmExpr const *expr;
+
+	expr = me->nexpr->t.expr_tree;
+	gnm_expr_ref (expr);
+
+	if (me->create_name) {
+		expr_name_remove (me->nexpr);
+		me->nexpr = NULL;
+	} else
+		expr_name_set_expr (me->nexpr, me->expr, NULL);
+
+	me->expr = expr;
+	return FALSE;
+}
+
+static gboolean
+cmd_define_name_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
+
+	if (me->nexpr == NULL) { /* create a new name */
+		char const *err = NULL;
+		me->nexpr = expr_name_add (&me->pp, me->name, me->expr, &err);
+		if (me->nexpr == NULL) {
+			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Name"), err);
+			return TRUE;
+		}
+		me->expr = NULL;
+	} else {/* assigning a value to a placeholder */
+		GnmExpr const *tmp = me->nexpr->t.expr_tree;
+
+		gnm_expr_ref (tmp);
+		expr_name_set_expr (me->nexpr, me->expr, NULL);
+		me->expr = tmp;
+	}
+
+	return FALSE;
+}
+
+static void
+cmd_define_name_finalize (GObject *cmd)
+{
+	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
+
+	g_free (me->name); me->name = NULL;
+
+	if (me->expr != NULL) {
+		gnm_expr_unref (me->expr);
+		me->expr = NULL;
+	}
+	if (me->nexpr != NULL) {
+		expr_name_unref (me->nexpr);
+		me->nexpr = NULL;
+	}
+
+	gnumeric_command_finalize (cmd);
+}
+
+/**
+ * cmd_define_name :
+ * @wbc :
+ * @name :
+ * @pp   :
+ * @expr : absorbs a ref to the expr.
+ * @nexpr : an optional named expression to assign the expr to.
+ *          absorb a ref to this too.
+ *
+ * Returns TRUE on error
+ **/
+gboolean
+cmd_define_name (WorkbookControl *wbc, char const *name, ParsePos const *pp,
+		 GnmExpr const *expr, GnmNamedExpr *nexpr)
+{
+	GObject		*obj;
+	CmdDefineName	*me;
+
+	g_return_val_if_fail (name != NULL, TRUE);
+	g_return_val_if_fail (pp != NULL, TRUE);
+	g_return_val_if_fail (expr != NULL, TRUE);
+
+	obj = g_object_new (CMD_DEFINE_NAME_TYPE, NULL);
+	me = CMD_DEFINE_NAME (obj);
+	me->name = g_strdup (name);
+	me->pp = *pp;
+	me->expr = expr;
+	me->nexpr = nexpr;
+	me->create_name = nexpr == NULL;
+	if (nexpr != NULL)
+		expr_name_ref (me->nexpr);
+
+	me->cmd.sheet = wb_control_cur_sheet (wbc);
+	me->cmd.size = 1;
+	if (me->create_name)
+		me->cmd.cmd_descriptor =
+			g_strdup_printf (_("Define Name %s"), name);
+	else
+		me->cmd.cmd_descriptor =
+			g_strdup_printf (_("Update Name %s"), name);
+
+	return command_push_undo (wbc, obj);
+}
+

@@ -1,3 +1,9 @@
+2002-10-04  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_parse_NAME) : ahhh, I understand now.
+	  names with expr_len == 0 represent the placeholders used for unknown
+	  names.
+
 2002-10-02  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (BC_R) : handle empty text.

@@ -569,7 +569,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	data = g_new0 (tools_data_random_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
-	data->wbcg = state->base.wbcg;
+	data->wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
 	err = entry_to_int (GTK_ENTRY (state->vars_entry), &data->n_vars, FALSE);
 	err = entry_to_int (GTK_ENTRY (state->count_entry), &data->count, FALSE);

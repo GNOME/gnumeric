@@ -11,6 +11,7 @@
 #define GCONF_DEFAULT_SIZE "/apps/gnumeric/core/defaultfont/size"
 
 /* Alignment definitions */
+/* Do not change these flags they are used as keys in the 1.0.x xml format.  */
 typedef enum _StyleHAlignFlags {
 	HALIGN_GENERAL =  0x01,
 	HALIGN_LEFT    =  0x02,

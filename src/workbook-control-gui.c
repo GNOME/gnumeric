@@ -2300,7 +2300,7 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	scg_mode_edit (SHEET_CONTROL (scg));
 	if (scg->active_panes == 1) {
 		CellPos frozen_tl, unfrozen_tl;
-		GnumericCanvas const *gcanvas = scg_pane (scg, 0);
+		GnmCanvas const *gcanvas = scg_pane (scg, 0);
 		frozen_tl = gcanvas->first;
 		unfrozen_tl = sv->edit_pos;
 
@@ -4281,7 +4281,7 @@ wbcg_scroll_wheel_support_cb (GtkWidget *ignored, GdkEventScroll *event,
 {
 	/* scroll always operates on pane 0 */
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	GnumericCanvas *gcanvas = scg_pane (scg, 0);
+	GnmCanvas *gcanvas = scg_pane (scg, 0);
 
 	if (!GTK_WIDGET_REALIZED (ignored))
 		return FALSE;

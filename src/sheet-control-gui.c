@@ -55,7 +55,7 @@ static SheetControlClass *scg_parent_class;
 static void scg_ant                    (SheetControl *sc);
 static void scg_unant                  (SheetControl *sc);
 
-GnumericCanvas *
+GnmCanvas *
 scg_pane (SheetControlGUI *scg, int p)
 {
 	/* it is ok to request a pane when we are not frozen */
@@ -119,7 +119,7 @@ scg_redraw_headers (SheetControl *sc,
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
 	GnumericPane *pane;
- 	GnumericCanvas *gcanvas;
+ 	GnmCanvas *gcanvas;
 	int i;
 
 	for (i = scg->active_panes; i-- > 0 ; ) {
@@ -221,7 +221,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
 	Sheet const *sheet;
-	GnumericCanvas *gcanvas;
+	GnmCanvas *gcanvas;
 	int h, w, btn_h, btn_w, tmp;
 	double zoom;
 
@@ -362,7 +362,7 @@ scg_scrollbar_config (SheetControl const *sc)
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
 	GtkAdjustment *va = GTK_ADJUSTMENT (scg->va);
 	GtkAdjustment *ha = GTK_ADJUSTMENT (scg->ha);
-	GnumericCanvas *gcanvas = scg_pane (scg, 0);
+	GnmCanvas *gcanvas = scg_pane (scg, 0);
 	Sheet const    *sheet = sc->sheet;
 	SheetView const*sv = sc->view;
 	int const last_col = gcanvas->last_full.col;
@@ -475,14 +475,14 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 				scg_rangesel_bound (scg,
 					0, index, SHEET_MAX_COLS-1, index);
 		} else if (is_cols) {
-			GnumericCanvas *gcanvas =
+			GnmCanvas *gcanvas =
 				scg_pane (scg, scg->pane[3].is_active ? 3 : 0);
 			sv_selection_add_range (sv,
 				index, gcanvas->first.row,
 				index, 0,
 				index, SHEET_MAX_ROWS-1);
 		} else {
-			GnumericCanvas *gcanvas =
+			GnmCanvas *gcanvas =
 				scg_pane (scg, scg->pane[1].is_active ? 1 : 0);
 			sv_selection_add_range (sv,
 				gcanvas->first.col, index,
@@ -622,7 +622,7 @@ scg_init (SheetControlGUI *scg)
  * A convenience routine to store the new topleft back in the view.
  */
 static void
-gnm_canvas_update_inital_top_left (GnumericCanvas const *gcanvas)
+gnm_canvas_update_inital_top_left (GnmCanvas const *gcanvas)
 {
 	if (gcanvas->pane->index == 0) {
 		SheetView *sv = gcanvas->simple.scg->sheet_control.view;
@@ -632,7 +632,7 @@ gnm_canvas_update_inital_top_left (GnumericCanvas const *gcanvas)
 }
 
 static int
-bar_set_left_col (GnumericCanvas *gcanvas, int new_first_col)
+bar_set_left_col (GnmCanvas *gcanvas, int new_first_col)
 {
 	GnomeCanvas *colc;
 	int col_offset;
@@ -651,7 +651,7 @@ bar_set_left_col (GnumericCanvas *gcanvas, int new_first_col)
 }
 
 static void
-gnm_canvas_set_left_col (GnumericCanvas *gcanvas, int new_first_col)
+gnm_canvas_set_left_col (GnmCanvas *gcanvas, int new_first_col)
 {
 	g_return_if_fail (gcanvas != NULL);
 	g_return_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS);
@@ -691,7 +691,7 @@ scg_set_left_col (SheetControlGUI *scg, int col)
 }
 
 static int
-bar_set_top_row (GnumericCanvas *gcanvas, int new_first_row)
+bar_set_top_row (GnmCanvas *gcanvas, int new_first_row)
 {
 	GnomeCanvas *rowc;
 	int row_offset;
@@ -710,7 +710,7 @@ bar_set_top_row (GnumericCanvas *gcanvas, int new_first_row)
 }
 
 static void
-gnm_canvas_set_top_row (GnumericCanvas *gcanvas, int new_first_row)
+gnm_canvas_set_top_row (GnmCanvas *gcanvas, int new_first_row)
 {
 	g_return_if_fail (gcanvas != NULL);
 	g_return_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS);
@@ -750,7 +750,7 @@ scg_set_top_row (SheetControlGUI *scg, int row)
 }
 
 static void
-gnm_canvas_set_top_left (GnumericCanvas *gcanvas,
+gnm_canvas_set_top_left (GnmCanvas *gcanvas,
 			 int col, int row, gboolean force_scroll)
 {
 	gboolean changed = FALSE;
@@ -799,14 +799,14 @@ scg_set_top_left (SheetControl *sc, int col, int row)
 }
 
 static void
-gnm_canvas_make_cell_visible (GnumericCanvas *gcanvas, int col, int row,
+gnm_canvas_make_cell_visible (GnmCanvas *gcanvas, int col, int row,
 			      gboolean const force_scroll)
 {
 	GnomeCanvas *canvas;
 	Sheet *sheet;
 	int   new_first_col, new_first_row;
 
-	g_return_if_fail (IS_GNUMERIC_CANVAS (gcanvas));
+	g_return_if_fail (GNM_IS_CANVAS (gcanvas));
 
 	/* Avoid calling this before the canvas is realized: We do not know the
 	 * visible area, and would unconditionally scroll the cell to the top
@@ -1735,7 +1735,7 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 }
 
 static int
-calc_obj_place (GnumericCanvas *gcanvas, int pixel, gboolean is_col,
+calc_obj_place (GnmCanvas *gcanvas, int pixel, gboolean is_col,
 		SheetObjectAnchorType anchor_type, float *offset)
 {
 	int origin;
@@ -1761,7 +1761,7 @@ calc_obj_place (GnumericCanvas *gcanvas, int pixel, gboolean is_col,
 void
 scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double const *coords)
 {
-	GnumericCanvas *gcanvas;
+	GnmCanvas *gcanvas;
 	SheetObjectAnchor anchor;
 	int i, pixels [4];
 	double tmp [4];

@@ -22,7 +22,6 @@ Release Critical
 
 - xls export of constructed ranges
 - load/save of external references
-- String functions need to be UTF8ed: CHAR, CODE, SUBSTITUTE, SEARCH.
 - function_category_compare needs to be made UTF8 safe.
 - Evaluate mathfunc.c's use of gamma and lgamma.  We use the libc lgamma
   (probably ok) and have gamma(x)=exp(lgamma(x)) (questionable).
@@ -32,23 +31,29 @@ Release Critical
 3) finish hlink dialog
 4) finish support for h/v only splits
 5) zip based format
-5.1) move existing code into plugin
-5.2) work on sax style exporter
-5.3) extend api for gnm_expr_as_string to handle 1.0 vs 1.1 style rangerefs
-6) finish corba plugin
-7) support some method of persistence when embedded in abiword
-8) conditional formats			-> bumped
-9) pivots and scripting		-> bumped
-10) XL97 export
-11) eggmenu
-12) plugin cleanup
-13) merge open and import dialogs
-14) Make save-as smart enough to notice incorrect suffix saver mismatch
-15) manual recalc
-16) some handling of external references
-17) fix highlighting of completion code
-18) look into using the default gtk font rather than our own
-19) audit all of the import plugins to do utf8 conversions
+    5.1) move existing code into plugin
+    5.2) work on sax style exporter
+    5.3) extend api for gnm_expr_as_string to handle 1.0 vs 1.1 style rangerefs
+6) XL
+    - 97 export
+    - Form import
+    - Intersection, union and set export
+    - unknown name export
+8) merge open and import dialogs
+9) Make save-as smart enough to notice incorrect suffix saver mismatch
+10) manual recalc
+11) some handling of external references
+12) fix highlighting of completion code
+13) look into using the default gtk font rather than our own
+14) audit all of the import plugins to do utf8 conversions
+15) audit string functions for utf8: CHAR, CODE, SUBSTITUTE, SEARCH.
+16) eggmenu
+17) finish corba plugin
+18) support some method of persistence when embedded in abiword
+
+Probably Post 1.2 Targets
+- conditional formats : could be done if someone wanted to work on the dialog
+- pivots and scripting
 
 Pending Patches
 ---------------

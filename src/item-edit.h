@@ -3,6 +3,7 @@
 
 #include "gui-gnumeric.h"
 #include <gtk/gtkentry.h>
+#include <libgnomecanvas/gnome-canvas.h>
 
 #define ITEM_EDIT(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), item_edit_get_type (), ItemEdit))
 #define ITEM_EDIT_CLASS(k)      (G_TYPE_CHECK_CLASS_CAST ((k), item_edit_get_type (), ItemEditClass))

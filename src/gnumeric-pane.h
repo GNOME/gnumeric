@@ -2,12 +2,13 @@
 #define GNUMERIC_PANE_H
 
 #include "gui-gnumeric.h"
+#include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-util.h>
 
 struct _GnumericPane {
 	int		 index;
 	gboolean	 is_active;
-	GnumericCanvas	*gcanvas;
+	GnmCanvas	*gcanvas;
 	struct {
 		GnomeCanvas *canvas;
 		ItemBar     *item;

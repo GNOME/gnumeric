@@ -17,8 +17,8 @@
 #define GNUMERIC_DIALOG_STF_PREVIEW_H
 
 #include <gui-gnumeric.h>
-#include <sheet.h>
 #include <stf.h>
+#include <libgnomecanvas/gnome-canvas.h>
 
 #define LINE_COLOR "gray"
 #define CAPTION_LINE_COLOR "black"

@@ -52,12 +52,14 @@
 
 /* Points to the locale information for number display */
 static struct lconv *lc = NULL;
+static char *locale_currency = NULL; /* in UTF-8 */
 static gboolean date_order_cached = FALSE;
 
 char const *
 gnumeric_setlocale (int category, char const *val)
 {
 	lc = NULL;
+	g_free (locale_currency); locale_currency = NULL;
 	date_order_cached = FALSE;
 	return setlocale (category, val);
 }
@@ -116,9 +118,14 @@ format_get_currency (gboolean *precedes, gboolean *space_sep)
 	if (space_sep)
 		*space_sep = (lc->p_sep_by_space == 1);
 
-	if (lc->currency_symbol == NULL || *lc->currency_symbol == '\0')
-		return "$";
-	return lc->currency_symbol;
+	if (locale_currency == NULL) {
+		locale_currency = (lc->currency_symbol == NULL ||
+				   *lc->currency_symbol == '\0')
+			? g_strdup ("$")
+			: g_locale_to_utf8 (lc->currency_symbol, -1,
+					    NULL, NULL, NULL);
+	}
+	return locale_currency;
 }
 
 /*

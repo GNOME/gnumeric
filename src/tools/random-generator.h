@@ -183,7 +183,7 @@ typedef union {
 
 typedef struct {
 	random_tool_t param;
-	WorkbookControlGUI *wbcg;       
+	WorkbookControl *wbc;       
 	gint n_vars;
 	gint count;
 	random_distribution_t distribution;

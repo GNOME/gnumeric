@@ -201,7 +201,7 @@ static void
 item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
 	ItemCursor    *ic = ITEM_CURSOR (item);
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (item->canvas);
+	GnmCanvas *gcanvas = GNM_CANVAS (item->canvas);
 	SheetControlGUI const * const scg = ic->scg;
 
 	int x, y, w, h, extra;
@@ -308,8 +308,8 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		draw_internal = TRUE;
 		draw_external = TRUE;
 		{
-			GnumericCanvas const *gcanvas = GNUMERIC_CANVAS (item->canvas);
-			GnumericCanvas const *gcanvas0 = scg_pane (gcanvas->simple.scg, 0);
+			GnmCanvas const *gcanvas = GNM_CANVAS (item->canvas);
+			GnmCanvas const *gcanvas0 = scg_pane (gcanvas->simple.scg, 0);
 
 			/* In pane */
 			if (ic->pos.end.row <= gcanvas->last_full.row)
@@ -633,7 +633,7 @@ static gint
 item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	GnomeCanvas	*canvas = item->canvas;
-	GnumericCanvas   *gcanvas = GNUMERIC_CANVAS (canvas);
+	GnmCanvas   *gcanvas = GNM_CANVAS (canvas);
 	ItemCursor *ic = ITEM_CURSOR (item);
 	int x, y;
 
@@ -1072,7 +1072,7 @@ item_cursor_set_bounds_visibly (ItemCursor *ic,
 				int end_col, int end_row)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ic);
-	GnumericCanvas  *gcanvas = GNUMERIC_CANVAS (item->canvas);
+	GnmCanvas  *gcanvas = GNM_CANVAS (item->canvas);
 	Range r;
 
 	/* Handle visibility here rather than in the slide handler because we
@@ -1136,7 +1136,7 @@ item_cursor_tip_setlabel (ItemCursor *ic)
 }
 
 static gboolean
-cb_move_cursor (GnumericCanvas *gcanvas, int col, int row, gpointer user_data)
+cb_move_cursor (GnmCanvas *gcanvas, int col, int row, gpointer user_data)
 {
 	ItemCursor *ic = user_data;
 	int const w = (ic->pos.end.col - ic->pos.start.col);
@@ -1165,13 +1165,13 @@ cb_move_cursor (GnumericCanvas *gcanvas, int col, int row, gpointer user_data)
 
 static void
 item_cursor_handle_motion (ItemCursor *ic, GdkEvent *event,
-			   GnumericCanvasSlideHandler slide_handler)
+			   GnmCanvasSlideHandler slide_handler)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (ic)->canvas;
 
-	gnm_canvas_handle_motion (GNUMERIC_CANVAS (canvas),
+	gnm_canvas_handle_motion (GNM_CANVAS (canvas),
 		canvas, &event->motion,
-		GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_AT_COLROW_BOUND,
+		GNM_CANVAS_SLIDE_X | GNM_CANVAS_SLIDE_Y | GNM_CANVAS_SLIDE_AT_COLROW_BOUND,
 		slide_handler, ic);
 }
 
@@ -1184,7 +1184,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		/* Note : see comment below, and bug 30507 */
 		if ((int)event->button.button == ic->drag_button) {
-			gnm_canvas_slide_stop (GNUMERIC_CANVAS (item->canvas));
+			gnm_canvas_slide_stop (GNM_CANVAS (item->canvas));
 			gnm_simple_canvas_ungrab (item, event->button.time);
 			item_cursor_do_drop (ic, (GdkEventButton *) event);
 		}
@@ -1208,7 +1208,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static gboolean
-cb_autofill_scroll (GnumericCanvas *gcanvas, int col, int row, gpointer user_data)
+cb_autofill_scroll (GnmCanvas *gcanvas, int col, int row, gpointer user_data)
 {
 	ItemCursor *ic = user_data;
 	Range r = ic->autofill_src;
@@ -1257,7 +1257,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	switch (event->type) {
 	case GDK_BUTTON_RELEASE:
-		gnm_canvas_slide_stop (GNUMERIC_CANVAS (item->canvas));
+		gnm_canvas_slide_stop (GNM_CANVAS (item->canvas));
 
 		gnm_simple_canvas_ungrab (item, event->button.time);
 

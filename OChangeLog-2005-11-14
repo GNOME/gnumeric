@@ -1,3 +1,33 @@
+2002-10-04  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control.c (wb_control_parse_and_jump) : use the new
+	  undo support and handle assigning to a placeholder.
+
+	* src/gnumeric-canvas.h : Clean up the naming convention to use
+	  GnmCanvas in all locations.
+
+	* src/expr-name.c (expr_name_add) : its ok if the expr is NULL create
+	  a placeholder.
+	(expr_name_is_placeholder) : new.
+
+	* src/commands.c (CmdChangeSummary) : this has no business being
+	  control specific.
+	(CmdPrintSetup) : ditto.
+	(CmdDefineName) : new.
+
+	* src/command-context.c (gnumeric_error_calc) : new.
+	(gnm_error_calc) : new.
+
+2002-10-03  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (format_get_currency) : convert locale's currency
+	  symbol to utf8.
+	(gnumeric_setlocale) : clear the cache currency symbol.
+
+2002-10-03  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c (gnm_expr_is_err) : new util.
+
 2002-10-03  Morten Welinder  <terra@diku.dk>
 
 	* src/parse-util.c (col_name_internal): Handle larger number of

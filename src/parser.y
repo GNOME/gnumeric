@@ -3,7 +3,7 @@
 /*
  * Gnumeric Parser
  *
- * (C) 1998-2001 the Free Software Foundation
+ * (C) 1998-2002 GNOME Foundation
  *
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)

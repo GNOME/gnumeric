@@ -3,6 +3,7 @@
 
 #include <gui-gnumeric.h>
 #include <libgnomeprint/gnome-font.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <glade/glade.h>
 
 #include <mstyle.h>

@@ -2,6 +2,7 @@
 #define GNUMERIC_ITEM_CURSOR_H
 
 #include "gui-gnumeric.h"
+#include <glib-object.h>
 
 #define ITEM_CURSOR(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), item_cursor_get_type (), ItemCursor))
 #define IS_ITEM_CURSOR(o)         (G_TYPE_CHECK_INSTANCE_TYPE((o), item_cursor_get_type ()))

@@ -64,7 +64,15 @@ gnumeric_error_save (CommandContext *context, char const *message)
 void
 gnumeric_error_invalid (CommandContext *context, char const *msg, char const *val)
 {
-	GError *err = g_error_new (gnm_error_invalid(), 0, "%s : '%s'", msg, val);
+	GError *err = g_error_new (gnm_error_invalid(), 0, "Invalid %s : '%s'", msg, val);
+	cmd_context_error (context, err);
+	g_error_free (err);
+}
+
+void
+gnumeric_error_calc (CommandContext *context, char const *msg)
+{
+	GError *err = format_message (gnm_error_calc (), msg);
 	cmd_context_error (context, err);
 	g_error_free (err);
 }
@@ -116,6 +124,16 @@ gnm_error_array (void)
 		quark = g_quark_from_static_string ("gnm_error_array");
 	return quark;
 }
+
+GQuark
+gnm_error_calc (void)
+{
+	static GQuark quark;
+	if (!quark)
+		quark = g_quark_from_static_string ("gnm_error_calc");
+	return quark;
+}
+
 GQuark
 gnm_error_invalid (void)
 {

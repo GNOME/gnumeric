@@ -1,3 +1,7 @@
+2002-10-04  Jody Goldberg <jody@gnome.org>
+
+	* dif.c : fix includes.
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9

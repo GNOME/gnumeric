@@ -39,7 +39,7 @@ static GtkObject *
 sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
-	GnumericCanvas *gcanvas = scg_pane (scg, 0);
+	GnmCanvas *gcanvas = scg_pane (scg, 0);
 	WorkbookControlGUI *wbcg = scg_get_wbcg	(scg);
 	SheetObjectContainer *soc;
 	BonoboViewFrame *view_frame;

@@ -24,7 +24,7 @@ static SheetObject *sheet_object_item_parent_class;
 static GtkObject *
 sheet_object_item_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnumericCanvas *gcanvas = ((GnumericPan *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnumericPan *)key)->gcanvas;
 	GnomeCanvasItem *so_view = NULL;
 
 	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));

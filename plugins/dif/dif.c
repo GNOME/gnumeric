@@ -22,6 +22,7 @@
 
 #include <gsf/gsf-input-textline.h>
 #include <string.h>
+#include <stdlib.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

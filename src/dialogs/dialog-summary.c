@@ -105,7 +105,7 @@ dialog_summary_get (SummaryState *state)
 	}
 
 	if (changes)
-		return cmd_change_summary (state->wbcg, changes);
+		return cmd_change_summary (WORKBOOK_CONTROL (state->wbcg), changes);
 	return FALSE;
 }
 

@@ -100,7 +100,7 @@ static GType sheet_object_widget_get_type	(void);
 static GObject *
 sheet_object_widget_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnumericCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	GtkWidget *view_widget = SOW_CLASS(so)->create_widget (
 		SHEET_OBJECT_WIDGET (so), SHEET_CONTROL_GUI (sc));
 	GnomeCanvasItem *view_item = gnome_canvas_item_new (

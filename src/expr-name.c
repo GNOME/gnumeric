@@ -257,7 +257,7 @@ name_refer_circular (char const *name, GnmExpr const *expr)
  * expr_name_add:
  * @pp:
  * @name:
- * @expr:
+ * @expr: if expr == NULL then create a placeholder with value #NAME?
  * @error_msg:
  *
  * Absorbs the reference to @expr.
@@ -271,7 +271,11 @@ expr_name_add (ParsePos const *pp, char const *name,
 
 	g_return_val_if_fail (pp != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
-	g_return_val_if_fail (expr != NULL, NULL);
+
+	/* create a placeholder */
+	if (expr == NULL)
+		expr = gnm_expr_new_constant (value_new_error (NULL,
+			gnumeric_err_NAME));
 
 /*	printf ("Adding name '%s' to %p %p\n", name, wb, sheet);*/
 	if (pp->sheet != NULL) {
@@ -466,13 +470,14 @@ expr_name_set_scope (GnmNamedExpr *nexpr, Sheet *sheet)
 	g_return_val_if_fail (nexpr != NULL, FALSE);
 
 	if (sheet == NULL) {
-		g_return_val_if_fail (nexpr->pos.sheet != NULL, FALSE);
+		g_return_val_if_fail (IS_SHEET (nexpr->pos.sheet), FALSE);
+
+		sheet->names = g_list_remove (nexpr->pos.sheet->names, nexpr);
 
 		wb = nexpr->pos.sheet->workbook;
+		wb->names    = g_list_prepend (wb->names, nexpr);
 		nexpr->pos.wb = wb;
 		nexpr->pos.sheet = NULL;
-		wb->names    = g_list_prepend (wb->names, nexpr);
-		sheet->names = g_list_remove (sheet->names, nexpr);
 	} else {
 		g_return_val_if_fail (nexpr->pos.sheet == NULL, FALSE);
 		g_return_val_if_fail (IS_SHEET (sheet), FALSE);
@@ -537,7 +542,21 @@ expr_name_remove_dep (GnmNamedExpr *nexpr, Dependent *dep)
 	g_hash_table_remove (nexpr->dependents, dep);
 }
 
-/* ------------------------------------------------------------- */
+/**
+ * expr_name_is_placeholder :
+ * @ne :
+ *
+ * Returns TRUE if @ne is a placeholder for an unknown name
+ **/
+gboolean
+expr_name_is_placeholder (GnmNamedExpr const *nexpr)
+{
+	g_return_val_if_fail (nexpr != NULL, FALSE);
+	return !nexpr->builtin &&
+		gnm_expr_is_err (nexpr->t.expr_tree, gnumeric_err_NAME);
+}
+
+/* ---------------------------------------------------------------------- */
 
 static Value *
 name_print_area (FunctionEvalInfo *ei, Value **args)

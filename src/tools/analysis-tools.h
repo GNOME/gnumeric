@@ -31,21 +31,21 @@ typedef enum {
 
 typedef struct {
 	analysis_tools_error_code_t err;
-	WorkbookControlGUI *wbcg;       
-	GSList     *input;              
-	group_by_t group_by;            
+	WorkbookControl *wbc;
+	GSList     *input;
+	group_by_t group_by;
 	gboolean   labels;
 } analysis_tools_data_generic_t;
 
 /**************** Correlation Tool ***************/
 
-gboolean analysis_tool_correlation_engine  (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_correlation_engine  (data_analysis_output_t *dao, gpointer specs,
 					    analysis_tool_engine_t selector, gpointer result);
 
 
 /**************** Covariance Tool  ***************/
 
-gboolean analysis_tool_covariance_engine  (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_covariance_engine  (data_analysis_output_t *dao, gpointer specs,
 					    analysis_tool_engine_t selector, gpointer result);
 
 
@@ -60,7 +60,7 @@ typedef struct {
 	gnum_float alpha;
 } analysis_tools_data_anova_single_t;
 
-gboolean analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 /********** Descriptive Statistics Tool **********/
@@ -76,7 +76,7 @@ typedef struct {
         gnum_float  c_level;
 } analysis_tools_data_descriptive_t;
 
-gboolean analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 
@@ -88,7 +88,7 @@ typedef struct {
 	int std_error_flag;
 } analysis_tools_data_moving_average_t;
 
-gboolean analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs,
 					      analysis_tool_engine_t selector, gpointer result);
 
 
@@ -100,7 +100,7 @@ typedef struct {
 	int std_error_flag;
 } analysis_tools_data_exponential_smoothing_t;
 
-gboolean analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 
@@ -111,7 +111,7 @@ typedef struct {
 	gboolean inverse;
 } analysis_tools_data_fourier_t;
 
-gboolean analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs,
 				       analysis_tool_engine_t selector, gpointer result);
 
 
@@ -124,7 +124,7 @@ typedef struct {
 	guint number;
 } analysis_tools_data_sampling_t;
 
-gboolean analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs,
 				       analysis_tool_engine_t selector, gpointer result);
 
 
@@ -135,7 +135,7 @@ typedef struct {
 	gboolean av_ties;
 } analysis_tools_data_ranking_t;
 
-gboolean analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer specs,
 				       analysis_tool_engine_t selector, gpointer result);
 
 
@@ -146,10 +146,10 @@ typedef struct {
 	Value      *y_input;
 	gnum_float alpha;
 	gint       intercept;
-	
+
 } analysis_tools_data_regression_t;
 
-gboolean analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 
@@ -161,14 +161,14 @@ gboolean analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer 
 
 typedef struct {
 	analysis_tools_error_code_t err;
-	WorkbookControlGUI *wbcg;  
-	Value *range_1;                         
-	Value *range_2;                         
+	WorkbookControl *wbc;
+	Value *range_1;
+	Value *range_2;
 	gboolean   labels;
 	gnum_float alpha;
 } analysis_tools_data_ftest_t;
 
-gboolean analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs,
 				     analysis_tool_engine_t selector, gpointer result);
 
 /*********************** TTest paired *****************/
@@ -180,25 +180,25 @@ typedef struct {
 	gnum_float var2;
 } analysis_tools_data_ttests_t;
 
-gboolean analysis_tool_ttest_paired_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_ttest_paired_engine (data_analysis_output_t *dao, gpointer specs,
 				     analysis_tool_engine_t selector, gpointer result);
 
 
 /*********************** TTest equal varinaces *********/
 
-gboolean analysis_tool_ttest_eqvar_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_ttest_eqvar_engine (data_analysis_output_t *dao, gpointer specs,
 				     analysis_tool_engine_t selector, gpointer result);
 
 
 /*********************** TTest unequal varinaces *******/
 
-gboolean analysis_tool_ttest_neqvar_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_ttest_neqvar_engine (data_analysis_output_t *dao, gpointer specs,
 					    analysis_tool_engine_t selector, gpointer result);
 
 
 /*********************** ZTest ************************/
 
-gboolean analysis_tool_ztest_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_ztest_engine (data_analysis_output_t *dao, gpointer specs,
 				     analysis_tool_engine_t selector, gpointer result);
 
 
@@ -209,7 +209,7 @@ gboolean analysis_tool_ztest_engine (data_analysis_output_t *dao, gpointer specs
 
 typedef struct {
 	analysis_tools_error_code_t err;
-	WorkbookControlGUI *wbcg;
+	WorkbookControl *wbc;
 	Value     *input;
 	group_by_t group_by;
 	gboolean   labels;
@@ -222,14 +222,14 @@ typedef struct {
 	guint       n_r;
 } analysis_tools_data_anova_two_factor_t;
 
-gboolean analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 /****************  Histogram  ********************/
 
 typedef struct {
 	analysis_tools_error_code_t err;
-	WorkbookControlGUI *wbcg;
+	WorkbookControl *wbc;
 	GSList     *input;
 	GSList     *bin;
 	group_by_t group_by;
@@ -244,10 +244,10 @@ typedef struct {
 	gnum_float max;
 	gnum_float min;
 	gint       n;
-	
+
 } analysis_tools_data_histogram_t;
 
-gboolean analysis_tool_histogram_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean analysis_tool_histogram_engine (data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 

@@ -96,7 +96,7 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 
 	g_return_if_fail (!pane->is_active);
 
-	pane->gcanvas   = gnumeric_canvas_new (scg, pane);
+	pane->gcanvas   = gnm_canvas_new (scg, pane);
 	pane->index     = index;
 	pane->is_active = TRUE;
 
@@ -199,7 +199,7 @@ gnm_pane_colrow_resize_start (GnumericPane *pane,
 			      gboolean is_cols, int resize_pos)
 {
 	SheetControlGUI const *scg;
-	GnumericCanvas const *gcanvas;
+	GnmCanvas const *gcanvas;
 	GnomeCanvasPoints *points;
 	GnomeCanvasItem *item;
 	double zoom;
@@ -410,7 +410,7 @@ gnm_pane_special_cursor_stop (GnumericPane *pane)
 void
 gnm_pane_edit_start (GnumericPane *pane)
 {
-	GnumericCanvas const *gcanvas = pane->gcanvas;
+	GnmCanvas const *gcanvas = pane->gcanvas;
 	SheetView const *sv = sc_view (SHEET_CONTROL (gcanvas->simple.scg));
 	CellPos const *edit_pos;
 
@@ -519,7 +519,7 @@ gnm_pane_object_move (SheetControlGUI *scg, SheetObject *so,
 }
 
 static gboolean
-cb_slide_handler (GnumericCanvas *gcanvas, int col, int row, gpointer user)
+cb_slide_handler (GnmCanvas *gcanvas, int col, int row, gpointer user)
 {
 	int x, y;
 	gdouble new_x, new_y;
@@ -562,7 +562,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 {
 	SheetObject *so = sheet_object_view_obj (G_OBJECT (so_view));
 	GnumericPane *pane = sheet_object_view_key (G_OBJECT (so_view));
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (ctrl_pt->canvas);
+	GnmCanvas *gcanvas = GNM_CANVAS (ctrl_pt->canvas);
 	SheetControlGUI *scg = gcanvas->simple.scg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (scg_get_wbcg (scg));
 
@@ -631,9 +631,9 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		 * the semantics of the col,row args in the callback.  However,
 		 * that is more work than I want to do right now.
 		 */
-		if (gnm_canvas_handle_motion (GNUMERIC_CANVAS (ctrl_pt->canvas),
+		if (gnm_canvas_handle_motion (GNM_CANVAS (ctrl_pt->canvas),
 					      ctrl_pt->canvas, &event->motion,
-					      GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_EXTERIOR_ONLY,
+					      GNM_CANVAS_SLIDE_X | GNM_CANVAS_SLIDE_Y | GNM_CANVAS_SLIDE_EXTERIOR_ONLY,
 					      cb_slide_handler, ctrl_pt))
 			gnm_pane_object_move (scg, scg->current_object,
 				GTK_OBJECT (ctrl_pt), event->motion.x, event->motion.y);
@@ -668,7 +668,7 @@ new_control_point (GObject *so_view, int idx, double x, double y,
 		   ECursorType ct)
 {
 	GnomeCanvasItem *item, *so_view_item = GNOME_CANVAS_ITEM (so_view);
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (so_view_item->canvas);
+	GnmCanvas *gcanvas = GNM_CANVAS (so_view_item->canvas);
 
 	item = gnome_canvas_item_new (
 		gcanvas->object_group,
@@ -721,7 +721,7 @@ set_acetate_coords (GnumericPane *pane, GObject *so_view,
 		    double l, double t, double r, double b)
 {
 	GnomeCanvasItem *so_view_item = GNOME_CANVAS_ITEM (so_view);
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (so_view_item->canvas);
+	GnmCanvas *gcanvas = GNM_CANVAS (so_view_item->canvas);
 
 	normalize_high_low (r, l);
 	normalize_high_low (b, t);

@@ -30,8 +30,6 @@
 
 #include "gnumeric.h"
 #include "numbers.h"
-#include <widgets/gnumeric-expr-entry.h>
-#include <glade/glade.h>
 
 typedef enum {
         NewSheetOutput, NewWorkbookOutput, RangeOutput, InPlaceOutput

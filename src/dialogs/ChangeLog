@@ -1,3 +1,10 @@
+2002-10-04  Jody Goldberg <jody@gnome.org>
+
+	* dialog-define-names.c : port to TreeView.
+
+	* dialog-analysis-tools.c : Use the control from the state rather than
+	  the tool.
+
 2002-10-02  Chris Benedict  <deadeyedan@hotmail.com>
 
 	* dialog-sheet-order.c (cb_ok_clicked) : Do not allow all sheets to

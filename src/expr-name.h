@@ -36,6 +36,7 @@ void	 expr_name_set_expr   (GnmNamedExpr *ne, GnmExpr const *new_expr,
 			       GnmExprRewriteInfo const *rwinfo);
 void	 expr_name_add_dep    (GnmNamedExpr *ne, Dependent *dep);
 void	 expr_name_remove_dep (GnmNamedExpr *ne, Dependent *dep);
+gboolean expr_name_is_placeholder (GnmNamedExpr const *ne);
 
 void expr_name_list_destroy (GList **names);
 

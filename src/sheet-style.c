@@ -32,6 +32,7 @@
 #include "style-border.h"
 #include "style-color.h"
 #include "cell.h"
+#include "gnumeric-i18n.h"
 
 typedef union _CellTile CellTile;
 struct _SheetStyleData {
