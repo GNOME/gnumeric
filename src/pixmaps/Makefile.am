@@ -44,7 +44,7 @@ IMAGES = @STRIP_BEGIN@ 						\
 	font.xpm		\
 	expr_entry.png		\
 	\
-	gnumeric_splash.jpg	\
+	gnumeric_splash_1.4.png	\
 	unknown_image.png	\
 	\
 	object_arrow_24.png 	\
@@ -217,7 +217,7 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_font				$(srcdir)/font.xpm				\
 	gnm_expr_entry				$(srcdir)/expr_entry.png			\
 	\
-	gnumeric_splash				$(srcdir)/gnumeric_splash.jpg			\
+	gnumeric_splash				$(srcdir)/gnumeric_splash_1.4.png		\
 	unknown_image				$(srcdir)/unknown_image.png			\
 	\
 	gnm_object_arrow_24			$(srcdir)/object_arrow_24.png			\

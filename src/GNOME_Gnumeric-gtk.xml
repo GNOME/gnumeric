@@ -50,6 +50,10 @@
 	<menuitem action="EditDeleteCells"/>
       </menu>
       <separator name="edit-sep3"/>
+      <menuitem action="EditFind"/>
+      <menuitem action="EditReplace"/>
+      <menuitem action="EditGoto"/>
+      <separator name="edit-sep4"/>
       <menu name="EditSheet" action="MenuEditSheet">
         <menuitem action="SheetReorder"/>
         <separator/>
@@ -67,9 +71,6 @@
         <menuitem action="EditSelectDepends"/>
         <menuitem action="EditSelectInputs"/>
       </menu>
-      <menuitem action="EditFind"/>
-      <menuitem action="EditReplace"/>
-      <menuitem action="EditGoto"/>
       <menuitem action="EditRecalc"/>
       <placeholder name="ops"/>
     </menu>

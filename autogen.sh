@@ -32,4 +32,4 @@ if test -z "$gnome_autogen" ; then
   exit 1
 fi
 
-REQUIRED_AUTOMAKE_VERSION=1.7.2 GNOME_DATADIR="$gnome_datadir" USE_GNOME2_MACROS=1 USE_COMMON_DOC_BUILD=yes . $gnome_autogen
+REQUIRED_AUTOMAKE_VERSION=1.9.1 GNOME_DATADIR="$gnome_datadir" USE_GNOME2_MACROS=1 USE_COMMON_DOC_BUILD=yes . $gnome_autogen

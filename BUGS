@@ -27,9 +27,8 @@ Release Critical
     : crash 	: fixed
     : we mis-import multiple axis sets
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=151618
-    : mis-formating series	: fixed
-    : borders are added to labels
+    http://bugzilla.gnome.org/show_bug.cgi?id=152059
+    : Finish the toolbar state swap for fullscreen
 
 Worries
 

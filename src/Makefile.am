@@ -4,10 +4,12 @@
 
 SUBDIRS = tools cut-n-paste-code
 
+bin_PROGRAMS =
+check_PROGRAMS = # test-pango number-match
+
 if WITH_GTK
   SUBDIRS += pixmaps dialogs widgets
-  bin_PROGRAMS = gnumeric
-  check_PROGRAMS = # test-pango number-match
+  bin_PROGRAMS += gnumeric
 endif
 
 if ENABLE_SSCONVERT
