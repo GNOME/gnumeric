@@ -1,3 +1,7 @@
+1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
+	(gnumeric_choose): CHOOSE function implemented.
+
 1999-04-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/sheet.c (sheet_destroy): No longer destroys the Bonobo
@@ -33,7 +37,7 @@
 
 	* src/fn-lookup.c: Silly bug in types fixed.
 
-	* src/expr.c (eval_funcall): Made cellrefs absoulte.
+	* src/expr.c (eval_funcall): Made cellrefs absolute.
 
 	* src/cell.c (cell_set_text_simple): Fix for 1.234E-07
 

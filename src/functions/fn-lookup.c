@@ -14,6 +14,54 @@
 #include "utils.h"
 #include "func.h"
 
+static char *help_choose = {
+	N_("@FUNCTION=CHOOSE\n"
+	   "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
+
+	   "@DESCRIPTION="
+	   "CORREL returns the value of index @index."
+	   "index is rounded to an integer if it is not."
+	   "\n"
+	   "if index < 1 or index > number of values: returns #VAL!."
+	   "\n"
+	   "@SEEALSO=COVAR,FISHER,FISHERINV")
+};
+
+static Value *
+gnumeric_choose (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	int     index;
+	int     argc;
+	Value  *v;
+	GList  *l=expr_node_list;
+
+	g_return_val_if_fail (l, NULL);
+
+	argc =  g_list_length(l);
+	if (argc<1 || !l->data) {
+		*error_string = _("#ARG!");
+		return NULL;
+	}
+	v = eval_expr (tsheet, l->data, eval_col, eval_row, error_string);
+	if (!v) return NULL;
+	if (v->type != VALUE_INTEGER &&
+	    v->type != VALUE_FLOAT) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+	index = value_get_as_int(v);
+	value_release (v);
+	l = g_list_next (l);
+	while (l) {
+		index--;
+		if (!index)
+			return eval_expr (tsheet, l->data, eval_col, eval_row, error_string);
+		l = g_list_next (l);
+	}
+	*error_string = _("#VALUE!");
+	return NULL;
+}
+
 static char *help_vlookup = {
 	N_("@FUNCTION=VLOOKUP\n"
 	   "@SYNTAX=VLOOKUP(value,range,column,[approximate])\n"
@@ -359,8 +407,8 @@ gnumeric_rows (struct FunctionDefinition *i, Value *argv [], char **error_string
 	return value_int (value_area_get_height (argv [0]));
 }
 
-
 FunctionDefinition lookup_functions [] = {
+        { "choose",     0,     "index,value...",           &help_choose,    gnumeric_choose, NULL },
 	{ "column",    "?",    "ref",                      &help_column,   gnumeric_column, NULL },
 	{ "columns",   "A",    "ref",                      &help_column,   NULL, gnumeric_columns },
 	{ "hlookup",   "?Af|b","val,range,col_idx,approx", &help_hlookup,  NULL, gnumeric_hlookup },
