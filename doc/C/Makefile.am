@@ -1,7 +1,8 @@
 SUBDIRS = figures
 lang = C
 locale = C
-entities =  about-authors.xml \
+entities =  \
+     about-authors.xml \
      about-compiling.xml \
      about-get-involved.xml \
      about-history.xml \
@@ -15,6 +16,7 @@ entities =  about-authors.xml \
      analysis-statistical.xml \
      appendix-glossary.xml \
      appendix-keybindings.xml \
+     bugs.xml \
      configuration-localization.xml \
      configuration-overview.xml \
      configuration-plugins.xml \
@@ -22,13 +24,13 @@ entities =  about-authors.xml \
      configuration-toolbars.xml \
      data-commentNlink.xml \
      data-delete.xml \
-     data-insert.xml \
-     data-entry.xml \
      data-entry-advanced.xml \
      data-entry-external.xml \
+     data-entry.xml \
      data-format.xml \
-     data-modify.xml \
      data-generate.xml \
+     data-insert.xml \
+     data-modify.xml \
      data-move-copy.xml \
      data-overview.xml \
      data-selections.xml \
