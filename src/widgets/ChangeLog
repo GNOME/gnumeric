@@ -1,3 +1,14 @@
+2001-05-04  Jon K Hellan  <hellan@acm.org>
+
+	* gnumeric-expr-entry.h: GnumericExprEntryPrivate is
+	unused. Remove. 
+
+	* gnumeric-expr-entry.c
+	(gnumeric_expr_entry_set_rangesel_from_range):  Make sure that pos
+	>= 0. Implement full column and full row flags.
+	(gnumeric_expr_entry_toggle_absolute): Call update_reangesel_text
+	with pos = 0.
+
 2001-04-18  Jon K Hellan  <hellan@acm.org>
 
 	* gnumeric-expr-entry.c

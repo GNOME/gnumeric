@@ -1,4 +1,25 @@
 2001-05-04  Jon K Hellan  <hellan@acm.org>
+ 
+ 	* dialog-printer-setup.c (struct PrinterSetupState) : Add
+ 	ExprEntry widgets.
+ 	(do_setup_page_info): Add ExprEntry widgets on the fly.
+ 	(do_print_cb): Close print setup dialog before displaying print
+ 	dialog. FIXME.
+ 	(do_print_preview_cb): No longer close the dialog.
+ 	(do_print_cancel_cb): New function. Close the dialog.
+ 	(do_print_ok_cb): New function. Save info and close the dialog.
+ 	(do_print_set_focus_cb): New function. Enable range selection when
+ 	an ExprEntry acquires focus.
+ 	(do_setup_main_dialog): Clean up dead code. Attach callbacks to
+ 	"ok", "cancel", "set-focus" and "destroy". Attach guru.
+ 	(printer_setup_state_free): Move just after
+ 	printer_setup_state_new. Set conversion_listeners member to NULL
+ 	after freeing list.
+ 	(do_fetch_page_info): top_entry and left_entry widgets are now
+ 	taken from state rather than glade_xml_get_widget.
+ 	(dialog_printer_setup): Eliminate recursive mainloop.
+ 
+2001-05-04  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-workbook-attr.c (attr_dialog_impl): Back out change
 	below. Looks like <title> in glade file doesn't work for property

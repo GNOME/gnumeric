@@ -16,6 +16,7 @@
 #include "ranges.h"
 #include "sheet.h"
 #include "workbook.h"
+#include "workbook-edit.h"
 #include "utils-dialog.h"
 
 #define PREVIEW_X 170
@@ -29,6 +30,8 @@
 #define MARGIN_COLOR_ACTIVE "black"
 
 #define EPSILON 1e-5		/* Same as in gtkspinbutton.c */
+
+#define PRINTER_SETUP_KEY "printer-setup-dialog"
 
 typedef struct {
 	/* The Canvas object */
@@ -88,7 +91,10 @@ typedef struct {
 
 	GtkWidget *icon_rd;
 	GtkWidget *icon_dr;
-
+	GnumericExprEntry *area_entry;
+	GnumericExprEntry *top_entry;
+	GnumericExprEntry *left_entry;
+	
 	/*
 	 * The header/footers formats
 	 */
@@ -103,6 +109,7 @@ typedef struct
 } UnitInfo_cbdata;
 
 static void fetch_settings (PrinterSetupState *state);
+static void printer_setup_state_free (PrinterSetupState *state);
 
 #if 0
 static double
@@ -741,7 +748,7 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
  * more natural semantics. In Excel, both top margin and header are measured
  * from top of sheet. The Gnumeric user interface presents header as the
  * band between top margin and the print area. Bottom margin and footer are
- * handled likewise.
+ * handled likewise. See illustration at top of src/print.c
  */
 static void
 do_setup_margin (PrinterSetupState *state)
@@ -1022,16 +1029,55 @@ display_order_icon (GtkToggleButton *toggle, PrinterSetupState *state)
 static void
 do_setup_page_info (PrinterSetupState *state)
 {
+	GtkWidget *pa_hbox   = glade_xml_get_widget (state->gui,
+						     "print-area-hbox");
+	GtkWidget *repeat_table = glade_xml_get_widget (state->gui,
+							"repeat-table");
 	GtkWidget *gridlines = glade_xml_get_widget (state->gui, "check-grid-lines");
 	GtkWidget *onlystyles= glade_xml_get_widget (state->gui, "check-only-styles");
 	GtkWidget *bw        = glade_xml_get_widget (state->gui, "check-black-white");
 	GtkWidget *titles    = glade_xml_get_widget (state->gui, "check-print-titles");
 	GtkWidget *order_rd  = glade_xml_get_widget (state->gui, "radio-order-right");
 	GtkWidget *order_dr  = glade_xml_get_widget (state->gui, "radio-order-down");
-	GtkWidget *table     = glade_xml_get_widget (state->gui, "page-order-table");
-	GtkEntry *entry_area, *entry_top, *entry_left;
+	GtkWidget *order_table = glade_xml_get_widget (state->gui, "page-order-table");
 	GtkCombo *comments_combo;
 	GtkWidget *order;
+
+	state->area_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	gnumeric_expr_entry_set_scg (state->area_entry,
+				     wb_control_gui_cur_sheet (state->wbcg));
+	gnumeric_expr_entry_set_flags (state->area_entry,
+				       GNUM_EE_SHEET_OPTIONAL,
+				       GNUM_EE_SHEET_OPTIONAL);
+	gtk_box_pack_start (GTK_BOX (pa_hbox), GTK_WIDGET (state->area_entry),
+			    TRUE, TRUE, 0);
+	gtk_widget_show (GTK_WIDGET (state->area_entry));
+
+	state->top_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	gnumeric_expr_entry_set_scg (state->top_entry,
+				     wb_control_gui_cur_sheet (state->wbcg));
+	gnumeric_expr_entry_set_flags (
+		state->top_entry,
+		GNUM_EE_FULL_ROW | GNUM_EE_SHEET_OPTIONAL,
+		GNUM_EE_FULL_ROW | GNUM_EE_SHEET_OPTIONAL);
+	gtk_table_attach (GTK_TABLE (repeat_table),
+			  GTK_WIDGET (state->top_entry),
+			  1, 2, 0, 1,
+			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
+	gtk_widget_show (GTK_WIDGET (state->top_entry));
+
+	state->left_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	gnumeric_expr_entry_set_scg (state->left_entry,
+				     wb_control_gui_cur_sheet (state->wbcg));
+	gnumeric_expr_entry_set_flags (
+		state->left_entry,
+		GNUM_EE_FULL_COL | GNUM_EE_SHEET_OPTIONAL,
+		GNUM_EE_FULL_COL | GNUM_EE_SHEET_OPTIONAL);
+	gtk_table_attach (GTK_TABLE (repeat_table),
+			  GTK_WIDGET (state->left_entry),
+			  1, 2, 1, 2,
+			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
+	gtk_widget_show (GTK_WIDGET (state->left_entry));
 
 	state->icon_rd = gnumeric_load_image ("right-down.png");
 	state->icon_dr = gnumeric_load_image ("down-right.png");
@@ -1040,10 +1086,10 @@ do_setup_page_info (PrinterSetupState *state)
 	gtk_widget_hide (state->icon_rd);
 
 	gtk_table_attach (
-		GTK_TABLE (table), state->icon_rd,
+		GTK_TABLE (order_table), state->icon_rd,
 		1, 2, 0, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
 	gtk_table_attach (
-		GTK_TABLE (table), state->icon_dr,
+		GTK_TABLE (order_table), state->icon_dr,
 		1, 2, 0, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
 
 	gtk_signal_connect (GTK_OBJECT (order_rd), "toggled", GTK_SIGNAL_FUNC (display_order_icon), state);
@@ -1068,30 +1114,30 @@ do_setup_page_info (PrinterSetupState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
 	display_order_icon (GTK_TOGGLE_BUTTON (order_rd), state);
 
-	entry_area = GTK_ENTRY (glade_xml_get_widget (state->gui,
-						      "print-area-entry"));
-	entry_top  = GTK_ENTRY (glade_xml_get_widget (state->gui,
-						      "repeat-rows-entry"));
-	entry_left = GTK_ENTRY (glade_xml_get_widget (state->gui,
-						      "repeat-cols-entry"));
 	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (entry_area));
+				      GTK_EDITABLE (state->area_entry));
 	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (entry_top));
+				      GTK_EDITABLE (state->top_entry));
 	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (entry_left));
+				      GTK_EDITABLE (state->left_entry));
 	comments_combo = GTK_COMBO (glade_xml_get_widget (state->gui,
 							  "comments-combo"));
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog), comments_combo);
 
 	if (state->pi->repeat_top.use) {
-		char const *s = range_name (&state->pi->repeat_top.range);
-		gtk_entry_set_text (entry_top, s);
+		gnumeric_expr_entry_set_rangesel_from_range (
+			state->top_entry,
+			&state->pi->repeat_top.range,
+			wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
+			0);
 	}
 
 	if (state->pi->repeat_left.use) {
-		char const *s = range_name (&state->pi->repeat_left.range);
-		gtk_entry_set_text (entry_left, s);
+		gnumeric_expr_entry_set_rangesel_from_range (
+			state->left_entry,
+			&state->pi->repeat_left.range,
+			wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
+			0);
 	}
 }
 
@@ -1210,8 +1256,14 @@ do_setup_page (PrinterSetupState *state)
 static void
 do_print_cb (GtkWidget *w, PrinterSetupState *state)
 {
+	WorkbookControlGUI *wbcg;
+	Sheet *sheet;
+	
 	fetch_settings (state);
-	sheet_print (state->wbcg, state->sheet, FALSE, PRINT_ACTIVE_SHEET);
+	wbcg = state->wbcg;
+	sheet = state->sheet;
+	gnome_dialog_close (GNOME_DIALOG (state->dialog));
+	sheet_print (wbcg, sheet, FALSE, PRINT_ACTIVE_SHEET);
 }
 
 static void
@@ -1219,27 +1271,49 @@ do_print_preview_cb (GtkWidget *w, PrinterSetupState *state)
 {
 	fetch_settings (state);
 	sheet_print (state->wbcg, state->sheet, TRUE, PRINT_ACTIVE_SHEET);
+}
 
-	/*
-	 * We close the dialog here, because the dialog box
-	 * has a grab and a main-loop which prohibits us from
-	 * using the main preview window until this dialog
-	 * is closed.
-	 *
-	 * If you want to change the sheet_print api to run its
-	 * own main loop or anything like that, you can remove
-	 * this, but you have to make sure that the print-preview
-	 * window is funcional
-	 */
+static void
+do_print_cancel_cb (GtkWidget *w, PrinterSetupState *state)
+{
 	gnome_dialog_close (GNOME_DIALOG (state->dialog));
+}
+
+static void
+do_print_ok_cb (GtkWidget *w, PrinterSetupState *state)
+{
+	/* Detach BEFORE we finish editing */
+	workbook_edit_detach_guru (state->wbcg);
+	workbook_finish_editing (state->wbcg, TRUE);
+	fetch_settings (state);
+	print_info_save (state->pi);
+	gnome_dialog_close (GNOME_DIALOG (state->dialog));
+}
+
+static void
+do_print_set_focus_cb (GtkWidget *window, GtkWidget *focus_widget,
+			    PrinterSetupState *state)
+{
+	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget)) {
+		workbook_set_entry (state->wbcg,
+				    GNUMERIC_EXPR_ENTRY (focus_widget));
+	} else
+		workbook_set_entry (state->wbcg, NULL);
+}
+
+static void
+do_print_destroy_cb (GtkWidget *button, PrinterSetupState *state)
+{
+
+	workbook_edit_detach_guru (state->wbcg);
+	workbook_finish_editing (state->wbcg, FALSE);
+	printer_setup_state_free (state);
 }
 
 static void
 do_setup_main_dialog (PrinterSetupState *state)
 {
-#if 0
-	int i;
-#endif
+	GtkWidget *w;
 
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->sheet != NULL);
@@ -1247,52 +1321,33 @@ do_setup_main_dialog (PrinterSetupState *state)
 
 	state->dialog = glade_xml_get_widget (state->gui, "print-setup");
 
-#if 0
-	for (i = 1; i < 5; i++) {
-		GtkWidget *w;
-		char *print = g_strdup_printf ("print-%d", i);
-		char *preview = g_strdup_printf ("preview-%d", i);
+	w = glade_xml_get_widget (state->gui, "ok");
+	gtk_signal_connect (GTK_OBJECT (w), "clicked",
+			    GTK_SIGNAL_FUNC (do_print_ok_cb), state);
+	w = glade_xml_get_widget (state->gui, "print");
+	gtk_signal_connect (GTK_OBJECT (w), "clicked",
+			    GTK_SIGNAL_FUNC (do_print_cb), state);
+	w = glade_xml_get_widget (state->gui, "preview");
+	gtk_signal_connect (GTK_OBJECT (w), "clicked",
+			    GTK_SIGNAL_FUNC (do_print_preview_cb), state);
+	w = glade_xml_get_widget (state->gui, "cancel");
+	gtk_signal_connect (GTK_OBJECT (w), "clicked",
+			    GTK_SIGNAL_FUNC (do_print_cancel_cb), state);
 
-		w = glade_xml_get_widget (state->gui, print);
-		gtk_signal_connect (GTK_OBJECT (w), "clicked",
-				    GTK_SIGNAL_FUNC (do_print_cb), state);
-		w = glade_xml_get_widget (state->gui, preview);
-		gtk_signal_connect (GTK_OBJECT (w), "clicked",
-				    GTK_SIGNAL_FUNC (do_print_preview_cb), state);
-		g_free (print);
-		g_free (preview);
-	}
+	/* Hide non-functional buttons for now */
+	w = glade_xml_get_widget (state->gui, "options");
+	gtk_widget_hide (w);
 
-	/*
-	 * Hide non-functional buttons for now
-	 */
-	for (i = 1; i < 5; i++) {
-		char *options = g_strdup_printf ("options-%d", i);
-		GtkWidget *w;
+	workbook_edit_attach_guru (state->wbcg, state->dialog);
+	gtk_signal_connect (
+		GTK_OBJECT (state->dialog), "set-focus",
+		GTK_SIGNAL_FUNC (do_print_set_focus_cb), state);
 
-		w = glade_xml_get_widget (state->gui, options);
-		gtk_widget_hide (w);
+	/* Lifecyle management */
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (do_print_destroy_cb),
+			    (gpointer) state);
 
-		g_free (options);
-	}
-#else
-	{
-		GtkWidget *w;
-
-		w = glade_xml_get_widget (state->gui, "print");
-		gtk_signal_connect (GTK_OBJECT (w), "clicked",
-				    GTK_SIGNAL_FUNC (do_print_cb),
-				    state);
-		w = glade_xml_get_widget (state->gui, "preview");
-		gtk_signal_connect (GTK_OBJECT (w), "clicked",
-				    GTK_SIGNAL_FUNC (do_print_preview_cb),
-				    state);
-
-		/* Hide non-functional buttons for now */
-		w = glade_xml_get_widget (state->gui, "options");
-		gtk_widget_hide (w);
-	}
-#endif
 }
 
 static PrinterSetupState *
@@ -1320,6 +1375,18 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	do_setup_page (state);
 
 	return state;
+}
+
+static void
+printer_setup_state_free (PrinterSetupState *state)
+{
+	gtk_object_unref (GTK_OBJECT (state->gui));
+
+	print_hf_free (state->header);
+	print_hf_free (state->footer);
+	g_list_free (state->conversion_listeners);
+	state->conversion_listeners = NULL;
+	g_free (state);
 }
 
 static void
@@ -1412,7 +1479,6 @@ static void
 do_fetch_page_info (PrinterSetupState *state)
 {
 	GtkToggleButton *t;
-	GtkEntry *entry_top, *entry_left;
 	PrintInformation *pi = state->pi;
 
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-grid-lines"));
@@ -1430,21 +1496,21 @@ do_fetch_page_info (PrinterSetupState *state)
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "radio-order-right"));
 	state->pi->print_order = t->active ? PRINT_ORDER_RIGHT_THEN_DOWN : PRINT_ORDER_DOWN_THEN_RIGHT;
 
-	entry_top  = GTK_ENTRY (glade_xml_get_widget (state->gui,
-						      "repeat-rows-entry"));
-	pi->repeat_top.use = parse_range (gtk_entry_get_text (entry_top),
-					   &pi->repeat_top.range.start.col,
-					   &pi->repeat_top.range.start.row,
-					   &pi->repeat_top.range.end.col,
-					   &pi->repeat_top.range.end.row);
+	pi->repeat_top.use
+		= parse_range (
+			gtk_entry_get_text (GTK_ENTRY (state->top_entry)),
+			&pi->repeat_top.range.start.col,
+			&pi->repeat_top.range.start.row,
+			&pi->repeat_top.range.end.col,
+			&pi->repeat_top.range.end.row);
 
-	entry_left = GTK_ENTRY (glade_xml_get_widget (state->gui,
-						      "repeat-cols-entry"));
-	pi->repeat_left.use = parse_range (gtk_entry_get_text (entry_left),
-					   &pi->repeat_left.range.start.col,
-					   &pi->repeat_left.range.start.row,
-					   &pi->repeat_left.range.end.col,
-					   &pi->repeat_left.range.end.row);
+	pi->repeat_left.use
+		= parse_range (
+			gtk_entry_get_text (GTK_ENTRY (state->left_entry)),
+			&pi->repeat_left.range.start.col,
+			&pi->repeat_left.range.start.row,
+			&pi->repeat_left.range.end.col,
+			&pi->repeat_left.range.end.row);
 }
 
 static void
@@ -1456,36 +1522,20 @@ fetch_settings (PrinterSetupState *state)
 	do_fetch_page_info (state);
 }
 
-static void
-printer_setup_state_free (PrinterSetupState *state)
-{
-	gtk_object_unref (GTK_OBJECT (state->gui));
-
-	print_hf_free (state->header);
-	print_hf_free (state->footer);
-	g_list_free (state->conversion_listeners);
-	g_free (state);
-}
-
 void
 dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	PrinterSetupState *state;
-	int v;
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, PRINTER_SETUP_KEY))
+		return;
 
 	state = printer_setup_state_new (wbcg, sheet);
 	if (!state)
 		return;
 
-	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (state->dialog));
-
-	if (v == 0) {
-		fetch_settings (state);
-		print_info_save (state->pi);
-	}
-
-	if (v != -1)
-		gnome_dialog_close (GNOME_DIALOG (state->dialog));
-
-	printer_setup_state_free (state);
+	gnumeric_keyed_dialog (
+		wbcg, GTK_WINDOW (state->dialog), PRINTER_SETUP_KEY);
+	gtk_widget_show (state->dialog);
 }

@@ -314,7 +314,19 @@ gnumeric_expr_entry_set_rangesel_from_range (GnumericExprEntry *expr_entry,
 	
 	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
 	g_return_if_fail (IS_SHEET (sheet));
-	
+	g_return_if_fail (pos >= 0);
+
+	if (r) {
+		if (expr_entry->flags & GNUM_EE_FULL_COL) {
+			r->start.row = 0;
+			r->end.row = SHEET_MAX_ROWS - 1;
+		}
+		if (expr_entry->flags & GNUM_EE_FULL_ROW) {
+			r->start.col = 0;
+			r->end.col = SHEET_MAX_COLS - 1;
+		}
+	}
+
 	rs = &expr_entry->rangesel;
 	if (!range_really_changed (rs, r, sheet))
 		return;
@@ -409,7 +421,7 @@ gnumeric_expr_entry_toggle_absolute (GnumericExprEntry *expr_entry)
 	
 		rangesel_text = make_rangesel_text (expr_entry,
 						    &rs->range);
-		update_rangesel_text (expr_entry, rangesel_text, -1);
+		update_rangesel_text (expr_entry, rangesel_text, 0);
 		g_free (rangesel_text);
 	}
 }

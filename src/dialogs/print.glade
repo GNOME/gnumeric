@@ -15,7 +15,6 @@
   <main_header_file>gladesrc.h</main_header_file>
   <handler_source_file>gladesig.c</handler_source_file>
   <handler_header_file>gladesig.h</handler_header_file>
-  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>
@@ -63,7 +62,7 @@
 
       <widget>
 	<class>GtkButton</class>
-	<name>button1</name>
+	<name>ok</name>
 	<can_default>True</can_default>
 	<has_default>True</has_default>
 	<can_focus>True</can_focus>
@@ -97,7 +96,7 @@
 
       <widget>
 	<class>GtkButton</class>
-	<name>button8</name>
+	<name>cancel</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
@@ -1458,7 +1457,7 @@ In
 
 	  <widget>
 	    <class>GtkHBox</class>
-	    <name>hbox11</name>
+	    <name>print-area-hbox</name>
 	    <sensitive>False</sensitive>
 	    <homogeneous>False</homogeneous>
 	    <spacing>4</spacing>
@@ -1478,7 +1477,6 @@ In
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
-	      <default_focus_target>print-area-entry</default_focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -1487,18 +1485,7 @@ In
 	    </widget>
 
 	    <widget>
-	      <class>GtkEntry</class>
-	      <name>print-area-entry</name>
-	      <can_focus>True</can_focus>
-	      <editable>True</editable>
-	      <text_visible>True</text_visible>
-	      <text_max_length>0</text_max_length>
-	      <text></text>
-	      <child>
-		<padding>0</padding>
-		<expand>True</expand>
-		<fill>True</fill>
-	      </child>
+	      <class>Placeholder</class>
 	    </widget>
 	  </widget>
 
@@ -1543,7 +1530,7 @@ In
 
 	  <widget>
 	    <class>GtkTable</class>
-	    <name>table8</name>
+	    <name>repeat-table</name>
 	    <rows>2</rows>
 	    <columns>2</columns>
 	    <homogeneous>False</homogeneous>
@@ -1565,7 +1552,6 @@ In
 	      <yalign>0.5</yalign>
 	      <xpad>8</xpad>
 	      <ypad>0</ypad>
-	      <default_focus_target>repeat-cols-entry</default_focus_target>
 	      <child>
 		<left_attach>0</left_attach>
 		<right_attach>1</right_attach>
@@ -1592,60 +1578,11 @@ In
 	      <yalign>0.5</yalign>
 	      <xpad>8</xpad>
 	      <ypad>0</ypad>
-	      <default_focus_target>repeat-rows-entry</default_focus_target>
 	      <child>
 		<left_attach>0</left_attach>
 		<right_attach>1</right_attach>
 		<top_attach>0</top_attach>
 		<bottom_attach>1</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>True</xexpand>
-		<yexpand>True</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>True</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkEntry</class>
-	      <name>repeat-rows-entry</name>
-	      <can_focus>True</can_focus>
-	      <editable>True</editable>
-	      <text_visible>True</text_visible>
-	      <text_max_length>0</text_max_length>
-	      <text></text>
-	      <child>
-		<left_attach>1</left_attach>
-		<right_attach>2</right_attach>
-		<top_attach>0</top_attach>
-		<bottom_attach>1</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>True</xexpand>
-		<yexpand>True</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>True</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkEntry</class>
-	      <name>repeat-cols-entry</name>
-	      <can_focus>True</can_focus>
-	      <editable>True</editable>
-	      <text_visible>True</text_visible>
-	      <text_max_length>0</text_max_length>
-	      <text></text>
-	      <child>
-		<left_attach>1</left_attach>
-		<right_attach>2</right_attach>
-		<top_attach>1</top_attach>
-		<bottom_attach>2</bottom_attach>
 		<xpad>0</xpad>
 		<ypad>0</ypad>
 		<xexpand>True</xexpand>

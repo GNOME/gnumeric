@@ -17,7 +17,6 @@
 
 
 typedef struct _GnumericExprEntry GnumericExprEntry;
-typedef struct _GnumericExprEntryPrivate GnumericExprEntryPrivate;
 typedef struct _GnumericExprEntryClass GnumericExprEntryClass;
 
 struct _GnumericExprEntryClass {
