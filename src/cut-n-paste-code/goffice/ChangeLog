@@ -1,5 +1,10 @@
 2004-09-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* graph/gog-axis.c (gog_axis_view_render): Calculate major_out even if
+	line_width <= 0, because it's needed for label positionning.
+
+2004-09-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* graph/gog-axis.c: make GogGridLine as child of GogAxis.
 	(role_grid_line_can_add): new.
 	(role_grid_line_major_can_add): new.

@@ -2199,20 +2199,20 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 				break;
 		}
 
+		tick_len = gog_renderer_pt2r_y (v->renderer, axis->major.size_pts);
+		major_out = axis->major.tick_out ? center + dir * (line_width + tick_len) : center;
+		major_in  = axis->major.tick_in  ? center - dir * (line_width + tick_len) : center;
+		tick_len = gog_renderer_pt2r_y (v->renderer, axis->minor.size_pts);
+		minor_out = axis->minor.tick_out ? center + dir * (line_width + tick_len) : center;
+		minor_in  = axis->minor.tick_in  ? center - dir * (line_width + tick_len) : center;
+
 		if (line_width > 0) {
-			tick_len = gog_renderer_pt2r_y (v->renderer, axis->major.size_pts);
-			major_out = axis->major.tick_out ? center + dir * (line_width + tick_len) : center;
-			major_in  = axis->major.tick_in  ? center - dir * (line_width + tick_len) : center;
-			tick_len = gog_renderer_pt2r_y (v->renderer, axis->minor.size_pts);
-			minor_out = axis->minor.tick_out ? center + dir * (line_width + tick_len) : center;
-			minor_in  = axis->minor.tick_in  ? center - dir * (line_width + tick_len) : center;
-			
 			path[0].y = path[1].y = center;
 			path[0].x = area->x - line_width;
 			path[1].x = area->x + area->w + line_width;
 			gog_renderer_draw_sharp_path (v->renderer, path, NULL);
 		}
-		
+
 		if (axis->major_tick_labeled) {
 			label_pad = gog_renderer_pt2r_y (v->renderer, TICK_LABEL_PAD_VERT);
 			label_pos.y = (axis->major.tick_out && !axis->is_discrete)
@@ -2291,14 +2291,14 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 				break;
 		}
 
+		tick_len = gog_renderer_pt2r_x (v->renderer, axis->major.size_pts);
+		major_out = axis->major.tick_out ? center + dir * (line_width + tick_len) : center;
+		major_in  = axis->major.tick_in  ? center - dir * (line_width + tick_len) : center;
+		tick_len = gog_renderer_pt2r_x (v->renderer, axis->minor.size_pts);
+		minor_out = axis->minor.tick_out ? center + dir * (line_width + tick_len) : center;
+		minor_in  = axis->minor.tick_in  ? center - dir * (line_width + tick_len) : center;
+
 		if (line_width > 0) {
-			tick_len = gog_renderer_pt2r_x (v->renderer, axis->major.size_pts);
-			major_out = axis->major.tick_out ? center + dir * (line_width + tick_len) : center;
-			major_in  = axis->major.tick_in  ? center - dir * (line_width + tick_len) : center;
-			tick_len = gog_renderer_pt2r_x (v->renderer, axis->minor.size_pts);
-			minor_out = axis->minor.tick_out ? center + dir * (line_width + tick_len) : center;
-			minor_in  = axis->minor.tick_in  ? center - dir * (line_width + tick_len) : center;
-			
 			path[0].x = path[1].x = center;
 			path[0].y = area->y + area->h + line_width;
 			path[1].y = area->y - line_width;
