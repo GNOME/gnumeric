@@ -31,13 +31,6 @@
 
 #define VIEW_DIALOG_KEY "view-dialog"
 
-static const char *shared_group[] = {
-	"view_shared",
-	"view_unshared",
-	0
-};
-
-
 typedef struct {
 	WorkbookControlGUI *wbcg;
 	GtkWidget          *dialog;
@@ -62,7 +55,7 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GdkScreen *screen = NULL;
 	GSList *buttons = gtk_radio_button_get_group (state->location_elsewhere);
 
-	shared = gnumeric_glade_group_value (state->gui, shared_group) == 0;
+	shared = gtk_toggle_button_get_active (glade_xml_get_widget (state->gui, "view_shared"));
 
 	while (buttons)
 		if (gtk_toggle_button_get_active (buttons->data))
