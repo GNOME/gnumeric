@@ -2862,6 +2862,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 			}
 
 			cell_set_formula_tree (cell, newtree);
+			expr_tree_unref (newtree);
 		}
 	}
 

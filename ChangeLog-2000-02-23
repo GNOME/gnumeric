@@ -1,3 +1,21 @@
+2000-02-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_set_text) : Fix thinko.  We are assigning to the
+	  entered_text so we should unref that.  Always print the assigning
+	  empty warning.
+
+	* src/str.c (string_unref_ptr) : Delete unused function.
+
+	* src/clipboard.c (do_clipboard_paste_cell_region) : Use the correct
+	  clear flags for sheet_clear_region.
+	(x_selection_handler) : Ditto.
+
+	* src/workbook.c (workbook_expr_relocate) : We need to unref the new
+	  expression because the cell refs it itself.
+
+	* ./src/format.c (format_remove_decimal) : Correctly remove the last
+	  decimal. bug 5836.
+
 2000-02-02  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/dialog-solver.c, src/dialogs/solver.glade:

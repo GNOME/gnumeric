@@ -806,6 +806,7 @@ find_decimal_char (const char *str)
 char *
 format_remove_decimal (const char *format_string)
 {
+	int offset = 1;
 	char *ret, *t, *p;
 
 	if (!lc)
@@ -833,9 +834,11 @@ format_remove_decimal (const char *format_string)
 	 */
 	if ((p[1] == '0' || p[1] == '#') && (p[2] == '0' || p[2] == '#'))
 		++p;
+	else
+		offset = 2;
 
 	for (t = p; *t; ++t)
-		*t = *(t+1);
+		*t = *(t+offset);
 
 	return ret;
 }

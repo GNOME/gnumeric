@@ -560,24 +560,18 @@ cell_set_text (Cell *cell, const char *text)
 		return;
 	}
 
-	if (*text == 0){
-		static int warn_shown;
+	if (*text == 0)
+		g_warning ("Cell value being set to empty string");
 
-		if (!warn_shown){
-			g_warning (
-				"Cell value being set to empty string");
-			warn_shown = 1;
-		}
-	}
-	
 	cell_queue_redraw (cell);
 
 	cell_set_text_simple (cell, text);
 
 	/* Store the real entered text */
-	if (cell->text != NULL) {
-		string_unref (cell->text);
-		cell->entered_text = string_get (text);
+	if (cell->entered_text != NULL) {
+		String *tmp = string_get (text);
+		string_unref (cell->entered_text);
+		cell->entered_text = tmp;
 	}
 	cell_content_changed (cell);
 

@@ -136,7 +136,7 @@ do_clipboard_paste_cell_region (CommandContext *context,
 				    dest_col, dest_row,
 				    dest_col + paste_width - 1,
 				    dest_row + paste_height - 1,
-				    TRUE);
+				    CLEAR_VALUES|CLEAR_COMMENTS);
 
 	/* If no operations are defined, we clear the area */
 	if (!(paste_flags & PASTE_OPER_MASK))
@@ -424,7 +424,8 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 		sheet_clear_region (workbook_command_context_gui (sheet->workbook),
 				    sheet,
 				    a->start.col, a->start.row,
-				    a->end.col,   a->end.row, FALSE);
+				    a->end.col,   a->end.row,
+				    CLEAR_VALUES|CLEAR_COMMENTS);
 	}
 
 	g_return_if_fail (clipboard != NULL);

@@ -14,6 +14,5 @@ String *string_lookup         (const char *s);
 String *string_get            (const char *s);
 String *string_ref            (String *);
 void    string_unref          (String *);
-void    string_unref_ptr      (String **);
 
 #endif /* GNUMERIC_STRING_H */

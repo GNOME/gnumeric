@@ -66,26 +66,6 @@ string_unref (String *string)
 	}
 }
 
-/*
- * Decrements the reference count on *string, and if
- * it reaches zero, it also clears the value pointed
- * by string_ptr
- */
-void
-string_unref_ptr (String **string_ptr)
-{
-	g_return_if_fail (string_ptr != NULL);
-	g_return_if_fail (*string_ptr != NULL);
-	g_return_if_fail ((*string_ptr)->ref_count > 0);
-	
-	if (--((*string_ptr)->ref_count) == 0){
-		g_hash_table_remove (string_hash_table, (*string_ptr)->str);
-		g_free ((*string_ptr)->str);
-		g_free (*string_ptr);
-		*string_ptr = NULL;
-	}
-}
-
 void
 string_init (void)
 {
