@@ -343,8 +343,9 @@ workbook_import (Workbook *parent, const char *filename)
 			gtk_object_destroy   (GTK_OBJECT (wb));
 #endif
 			wb = NULL;
-			file_error_message (N_("Could not import file %s"),
-					    filename, error);
+			if (strcmp (error, "CANCEL"))
+				file_error_message (N_("Could not import file %s"),
+						    filename, error);
 		} else {
 			workbook_mark_clean (wb);
 			/* We will want to change the name before saving */

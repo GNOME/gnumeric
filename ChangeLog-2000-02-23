@@ -9,6 +9,9 @@
 	* src/workbook.c (workbook_set_title) : Moved to workbook_view_set_title.
 	(workbook_new) : Use workbook_view_set_size.
 
+	* src/file.c (workbook_import) : Quick workaround to allow an import
+	  routine to cancel import without generating an error dialog.
+
 2000-01-13  Sergey Panov <sipan@mit.edu>
 
 	* src/functions(fn-eng.c fn-financial.c fn-logical.c
