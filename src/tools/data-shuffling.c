@@ -123,7 +123,7 @@ init_shuffling_tool (data_shuffling_t *st, Sheet *sheet, Value *range,
 		     data_analysis_output_t *dao)
 {
 	Cell *cell;
-	int  cols, rows, i, j;
+	int  i, j;
 
 	st->a_col = range->v_range.cell.a.col;
 	st->a_row = range->v_range.cell.a.row;

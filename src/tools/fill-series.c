@@ -45,6 +45,7 @@
 #include "mathfunc.h"
 #include "fill-series.h"
 #include "dao.h"
+#include "datetime.h"
 
 
 static void
