@@ -1,3 +1,7 @@
+2001-07-01  Morten Welinder  <terra@diku.dk>
+
+	* dif.c: Compilation fix from Adrian Bunk.
+
 2001-06-28  Jody Goldberg <jgoldberg@home>
 
 	* Release 0.67
