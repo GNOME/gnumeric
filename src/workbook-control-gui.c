@@ -1296,7 +1296,7 @@ cb_insert_comment (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 /****************************************************************************/
 
-void
+static void
 cb_sheet_change_name (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));

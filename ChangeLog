@@ -1,3 +1,11 @@
+2000-11-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-view.c (workbook_view_init) : Add prototype.
+
+	* src/workbook-control-gui.c (cb_sheet_change_name) : Make static to
+	  kill warning.
+	* src/workbook-edit.c (workbook_edit_set_sensitive) : Ditto.
+
 2000-11-09  Morten Welinder  <terra@diku.dk>
 
 	* src/gnumeric-sheet.h (GNUMERIC_SHEET_FACTOR_X,

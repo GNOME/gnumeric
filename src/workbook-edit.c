@@ -52,7 +52,7 @@ workbook_auto_complete_destroy (WorkbookControlGUI *wbcg)
 
 }
 
-void
+static void
 workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean flag2)
 {
 	/* These are only sensitive while editing */
