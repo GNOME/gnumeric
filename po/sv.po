@@ -26,14 +26,11 @@
 #
 # * Skriv en kommentar över strängar du är osäker på: # FIXME: kommentar.
 #
-#: plugins/fn-stat/functions.c:4761 plugins/fn-stat/functions.c:4813
-#: plugins/fn-stat/functions.c:4817 plugins/fn-stat/functions.c:4819
-#: src/dialogs/dialog-sheet-order.c:397
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-05-29 18:00-0400\n"
-"PO-Revision-Date: 2002-05-08 09:29+0200\n"
+"POT-Creation-Date: 2002-06-05 01:43+0200\n"
+"PO-Revision-Date: 2002-06-05 01:45+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -11567,7 +11564,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -11820,7 +11817,7 @@ msgstr "rader"
 #. * Add Sheet
 #.
 #: plugins/plan-perfect/pln.c:910 plugins/sc/sc.c:420 plugins/sylk/sylk.c:460
-#: src/stf.c:175 src/stf.c:264
+#: src/stf.c:176 src/stf.c:276
 #, c-format
 msgid "Imported %s"
 msgstr "Importerade %s"
@@ -15403,7 +15400,7 @@ msgstr ""
 "Jörgen Tegnér\n"
 "Richard Hult\n"
 "Andreas Hydén\n"
-"Rapportera fel i översättningen till sv@li.org."
+"Skicka synpunkter på översättningen till sv@li.org."
 
 #: src/dialogs/dialog-about.c:114
 msgid "Gnumeric Home Page"
@@ -16332,7 +16329,7 @@ msgstr "Heltal"
 msgid "Bool"
 msgstr "Booleskt"
 
-#: src/dialogs/dialog-solver.c:682
+#: src/dialogs/dialog-solver.c:683
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -16340,7 +16337,7 @@ msgstr ""
 "Lösaren hittade en optimal lösning. Alla bivillkor och optimalitetsvillkor "
 "är uppfyllda.\n"
 
-#: src/dialogs/dialog-solver.c:691
+#: src/dialogs/dialog-solver.c:692
 msgid ""
 "Sensitivity nor limits report are not meaningful if the program has integer "
 "constraints. These reports will thus not be created."
@@ -16348,12 +16345,12 @@ msgstr ""
 "Känslighet eller gränsrapport är inte meningsfullt om programmet har "
 "heltalsbegränsningar. Dessa rapporter kommer således inte att skapas."
 
-#: src/dialogs/dialog-solver.c:709
+#: src/dialogs/dialog-solver.c:710
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr "Målcellens värde konvergerar inte! Programmet är obundet."
 
-#: src/dialogs/dialog-solver.c:723
+#: src/dialogs/dialog-solver.c:724
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -16361,7 +16358,7 @@ msgstr ""
 "En möjlig lösning kunde inte hittas. Alla angivna begränsningar kan inte "
 "uppfyllas samtidigt."
 
-#: src/dialogs/dialog-solver.c:738
+#: src/dialogs/dialog-solver.c:739
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
@@ -16369,7 +16366,7 @@ msgstr ""
 "Det maximala antalet iterationer överskreds. Det optimala värdet kunde inte "
 "hittas."
 
-#: src/dialogs/dialog-solver.c:752
+#: src/dialogs/dialog-solver.c:753
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
@@ -16377,32 +16374,32 @@ msgstr ""
 "Den maximala tiden överskreds. Det optimala värdet kunde inte hittas inom "
 "den angivna tiden."
 
-#: src/dialogs/dialog-solver.c:792
+#: src/dialogs/dialog-solver.c:796
 msgid "Unknown error."
 msgstr "Okänt fel."
 
-#: src/dialogs/dialog-solver.c:809
+#: src/dialogs/dialog-solver.c:813
 msgid "You have not specified a problem to be solved"
 msgstr "Du har inte angett ett problem att lösa"
 
-#: src/dialogs/dialog-solver.c:828 src/tools/solver/solver.c:392
+#: src/dialogs/dialog-solver.c:832 src/tools/solver/solver.c:392
 msgid "Target cell should contain a formula."
 msgstr "Målcellen måste innehålla ett uttryck."
 
-#: src/dialogs/dialog-solver.c:861
+#: src/dialogs/dialog-solver.c:865
 msgid "The value given in 'Max Iterations' is not valid."
 msgstr "Värdet som är angivet i \"Max iterationer\" är inte giltigt."
 
-#: src/dialogs/dialog-solver.c:872
+#: src/dialogs/dialog-solver.c:876
 msgid "The value given in 'Max Time (sec.)' is not valid."
 msgstr "Värdet som är angivet i \"Maxtid (sekunder)\" är inte giltigt."
 
-#: src/dialogs/dialog-solver.c:909
+#: src/dialogs/dialog-solver.c:913
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Bivillkoret \"%s\" är för en cell som inte är en indatacell."
 
-#: src/dialogs/dialog-solver.c:1216
+#: src/dialogs/dialog-solver.c:1220
 msgid "Could not create the Solver dialog."
 msgstr "Kunde inte skapa lösardialogen."
 
@@ -16579,14 +16576,6 @@ msgstr "RADER FÖR LÅNGA!"
 #, c-format
 msgid "Data (from %s)"
 msgstr "Data (från %s)"
-
-#. xgettext:
-#. * The name of the default font for this locale.
-#. * Preferably something with the correct encoding.
-#.
-#: src/dialogs/dialog-stf-preview.c:630 src/style.c:173
-msgid "fixed"
-msgstr "fixed"
 
 #: src/dialogs/dialog-stf-preview.h:32
 #, c-format
@@ -20699,15 +20688,15 @@ msgstr "För många rader i data för att tolka: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "För många kolumner i data för att tolka: %d"
 
-#: src/stf.c:116
+#: src/stf.c:117
 msgid "Error while trying to memory map file"
 msgstr "Fel vid skrivning till minneskartfil"
 
-#: src/stf.c:127
+#: src/stf.c:128
 msgid "Error while trying to pre-convert file"
 msgstr "Fel vid försök att förkonvertera fil"
 
-#: src/stf.c:133
+#: src/stf.c:134
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -20718,25 +20707,33 @@ msgstr ""
 "Tecknet \"%c\" (det decimala ASCII-tecknet %d) hittades.\n"
 "Dina lokalinställningar är troligtvis fel."
 
-#: src/stf.c:219 src/stf.c:289
+#: src/stf.c:220 src/stf.c:305
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Tolkningsfel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:394
+#: src/stf.c:410
 msgid "Error while trying to write csv file"
 msgstr "Fel vid skrivning av csv-fil"
 
-#: src/stf.c:410
-msgid "Text import (defaults to csv)"
-msgstr "Textimport (som standard csv)"
+#: src/stf.c:426
+msgid "Text import (auto-detect CSV or tab-delimited)"
+msgstr ""
 
-#: src/stf.c:414
+#: src/stf.c:430
 msgid "Text import (configurable)"
 msgstr "Textimport (konfigurerbar)"
 
-#: src/stf.c:418
+#: src/stf.c:434
 msgid "Text export (configurable)"
 msgstr "Textexport (konfigurerbar)"
+
+#. xgettext:
+#. * The name of the default font for this locale.
+#. * Preferably something with the correct encoding.
+#.
+#: src/style.c:173
+msgid "fixed"
+msgstr "fixed"
 
 #: src/tools/analysis-tools.c:214 src/tools/analysis-tools.c:3260
 #, c-format
@@ -21255,7 +21252,7 @@ msgstr "Bindande"
 msgid "Not Binding"
 msgstr "Icke bindande"
 
-#: src/tools/solver/reports-write.c:263 src/tools/solver/reports-write.c:995
+#: src/tools/solver/reports-write.c:263 src/tools/solver/reports-write.c:998
 msgid "Assume that all variables are integer."
 msgstr ""
 
@@ -21566,28 +21563,28 @@ msgstr "Beräkningstid"
 msgid "System Information"
 msgstr "Systeminformation"
 
-#: src/tools/solver/reports-write.c:878 src/tools/solver/reports-write.c:1015
+#: src/tools/solver/reports-write.c:878 src/tools/solver/reports-write.c:1018
 msgid "Program Report"
 msgstr "Programrapport"
 
-#: src/tools/solver/reports-write.c:1004
+#: src/tools/solver/reports-write.c:1007
 msgid "Assume that all variables take only positive values."
 msgstr ""
 
-#: src/tools/solver/reports-write.c:1020
+#: src/tools/solver/reports-write.c:1023
 msgid "Minimize"
 msgstr "Minimera"
 
-#: src/tools/solver/reports-write.c:1023
+#: src/tools/solver/reports-write.c:1026
 msgid "Maximize"
 msgstr "Maximera"
 
-#: src/tools/solver/reports-write.c:1026
+#: src/tools/solver/reports-write.c:1029
 msgid "Equal to"
 msgstr "Lika med"
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:1032
+#: src/tools/solver/reports-write.c:1035
 msgid "Subject to"
 msgstr "Påverkas av"
 
@@ -21595,9 +21592,15 @@ msgstr "Påverkas av"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:1047 src/tools/solver/reports-write.c:1060
+#: src/tools/solver/reports-write.c:1056 src/tools/solver/reports-write.c:1069
 msgid "Dual Program Report"
 msgstr "Andraprogramrapport"
+
+#: src/tools/solver/reports.c:365
+msgid ""
+"Model is too large for program report generation. Program report was not "
+"created."
+msgstr ""
 
 #: src/tools/solver/solver.c:408
 msgid ""
@@ -22267,6 +22270,34 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
+#~ msgid ""
+#~ "@FUNCTION=NT_MU\n"
+#~ "@SYNTAX=NT_MU(n)\n"
+#~ "@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+#~ "0  if @n is divisible by the square of a prime .\n"
+#~ "Otherwise it returns: \n"
+#~ "-1 if @n has an odd  number of different prime factors .\n"
+#~ "1  if @n has an even number of different prime factors .\n"
+#~ "If @n=1 it returns 1\n"
+#~ "\n"
+#~ "@EXAMPLES=\n"
+#~ "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
+#~ msgstr ""
+#~ "@FUNCTION=NT_MU\n"
+#~ "@SYNTAX=NT_MU(n)\n"
+#~ "@DESCRIPTION=Funktionen NT_MU (Möbius µ-funktion) returnerar \n"
+#~ "0 om @n är delbart med kvadraten av ett primtal.\n"
+#~ "Annars returnerar det: \n"
+#~ "-1 om @n har ett udda  antal olika primfaktorer.\n"
+#~ "1  om @n jar ett jämnt antal olika primfaktorer.\n"
+#~ "Om @n=1 returnerar det 1\n"
+#~ "\n"
+#~ "@EXAMPLES=\n"
+#~ "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
+
+#~ msgid "Text import (defaults to csv)"
+#~ msgstr "Textimport (som standard csv)"
+
 #~ msgid "General Statistics"
 #~ msgstr "Allmän statistik"
 
@@ -22680,31 +22711,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "Your fontmap2 file could not be found in the expected location."
 #~ msgstr "Din \"fontmap2\"-fil kunde inte hittas på den förväntade platsen."
-
-#~ msgid ""
-#~ "@FUNCTION=NT_MU\n"
-#~ "@SYNTAX=NT_MU(n)\n"
-#~ "@DESCRIPTION=The NT_MU function (Mbius mu function) returns \n"
-#~ "0  if @n is divisible by the square of a prime .\n"
-#~ "Otherwise it returns: \n"
-#~ "-1 if @n has an odd  number of different prime factors .\n"
-#~ "1  if @n has an even number of different prime factors .\n"
-#~ "If @n=1 it returns 1\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
-#~ msgstr ""
-#~ "@FUNCTION=NT_MU\n"
-#~ "@SYNTAX=NT_MU(n)\n"
-#~ "@DESCRIPTION=Funktionen NT_MU (Möbius µ-funktion) returnerar \n"
-#~ "0 om @n är delbart med kvadraten av ett primtal.\n"
-#~ "Annars returnerar det: \n"
-#~ "-1 om @n har ett udda  antal olika primfaktorer.\n"
-#~ "1  om @n jar ett jämnt antal olika primfaktorer.\n"
-#~ "Om @n=1 returnerar det 1\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #~ msgid "Set Date/Time"
 #~ msgstr "Ställ datum/tid"
