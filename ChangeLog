@@ -1,5 +1,8 @@
 2002-11-15  Jon K Hellan  <hellan@acm.org>
 
+	* src/io-context-gtk.c: Include libgnumeric.h
+	(icg_init_gui): Declare static void.
+
 	* src/Makefile.am (GNUMERIC_BASE): Add io-context-gtk.[ch]
 
 	* src/main-application.c (warn_about_ancient_gnumerics): Take an

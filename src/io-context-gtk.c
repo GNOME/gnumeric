@@ -15,6 +15,7 @@
 #include "gui-util.h"
 #include "io-context-gtk.h"
 #include "io-context-priv.h"
+#include "libgnumeric.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtklabel.h>
@@ -140,6 +141,7 @@ icg_init (IOContextGtk *icg)
 	icg->timer        = NULL;
 }
 
+static void
 icg_init_gui (IOContextGtk *icg)
 {
 	GtkWidget *vbox;
