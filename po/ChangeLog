@@ -1,3 +1,7 @@
+2001-02-17  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Update.
+
 2001-02-16  Valek Filippov  <frob@df.ru>
 
 	* ru.po: updated russian translation.
@@ -1308,7 +1312,7 @@
 
 1999-07-31 Sergey Panov  <sipan@mit.edu>
 
-        * ru.po: Sync. with local copy.
+	* ru.po: Sync. with local copy.
 
 1999-07-30  Kjartan Maraas  <kmaraas@online.no>
 
@@ -1317,8 +1321,10 @@
 1999-07-29  Vincent Renardias <vincent@ldsol.com>
 
 	* Integrated Fabrice's patch + updated fr.po:
-	  before: 604 translated messages, 146 fuzzy translations, 117 untranslated messages.
-	  after:  920 translated messages, 2 fuzzy translations, 16 untranslated messages.
+	  before: 604 translated messages, 146 fuzzy translations, 117
+	  untranslated messages.
+	  after:  920 translated messages, 2 fuzzy translations, 16
+	  untranslated messages.
 
 1999-07-25  Karsten Weiss  <karsten@addx.au.s.shuttle.de>
 
@@ -1327,15 +1333,15 @@
 1999-07-18  Richard Hult  <rhult@hem2.passagen.se>
 
 	* sv.po: Updated translation.
-	
+
 1999-07-13  Kjartan Maraas  <kmaraas@online.no>
 
 	* no.po: Updated translation.
-	
+
 1999-07-02  Kjartan Maraas  <kmaraas@online.no>
 
 	* no.po: Updated translation.
-	
+
 1999-06-27  Yuan-Chung Cheng  <platin@linux.org.tw>
 
 	* zh_TW.Big5.po: Updated translation.
@@ -1343,7 +1349,7 @@
 1999-06-22  Kjartan Maraas  <kmaraas@online.no>
 
 	* no.po: Updated translation.
-	
+
 1999-06-22  Tomas Ogren  <stric@ing.umu.se>
 
 	* sv.po: Update from Richard Hult <rhult@hem2.passagen.se>
@@ -1351,7 +1357,7 @@
 1999-06-17  Kjartan Maraas  <kmaraas@online.no>
 
 	* no.po: Updated translation.
-	
+
 1999-06-15  Tomas Ogren  <stric@ing.umu.se>
 
 	* sv.po: New file from Richard Hult <rhult@hem2.passagen.se>
@@ -1359,11 +1365,11 @@
 1999-06-04  Kjartan Maraas  <kmaraas@online.no>
 
 	* en_GB.po: Updated translation from Robert Brady.
-	
+
 1999-05-14  Kjartan Maraas  <kmaraas@online.no>
 
 	* no.po: Updated translation.
-	
+
 1999-03-05 Sergey Panov
 
         *ru.po: Updates from Valek Filippov <val@comptek.ru>
