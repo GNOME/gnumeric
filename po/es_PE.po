@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.27\n"
-"POT-Creation-Date: 1999-07-12 18:18-0500\n"
+"POT-Creation-Date: 1999-07-09 21:32-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Language-Team: \n"
@@ -46,7 +46,7 @@ msgstr ""
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:237 src/expr.c:1145 src/fn-sheet.c:35
+#: plugins/guile/plugin.c:237 src/expr.c:1148 src/fn-sheet.c:35
 #: src/fn-string.c:291
 msgid "Invalid number of arguments"
 msgstr ""
@@ -67,7 +67,7 @@ msgstr ""
 msgid "Unable to lookup Guile function."
 msgstr ""
 
-#: plugins/guile/plugin.c:439
+#: plugins/guile/plugin.c:437
 msgid "Guile Plugin"
 msgstr ""
 
@@ -153,7 +153,7 @@ msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr ""
 
 #: src/about.c:36
-msgid "Rasca, HTML, troff, LaTeX exporters."
+msgid "Rasca Gmelch, html, troff exporters."
 msgstr ""
 
 #: src/about.c:37
@@ -340,105 +340,105 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: src/dialog-cell-format.c:68
+#: src/dialog-cell-format.c:67
 msgid "Numbers"
 msgstr ""
 
-#: src/dialog-cell-format.c:69
+#: src/dialog-cell-format.c:68
 msgid "Accounting"
 msgstr ""
 
-#: src/dialog-cell-format.c:70
+#: src/dialog-cell-format.c:69
 msgid "Date"
 msgstr ""
 
-#: src/dialog-cell-format.c:71
+#: src/dialog-cell-format.c:70
 msgid "Time"
 msgstr ""
 
-#: src/dialog-cell-format.c:72
+#: src/dialog-cell-format.c:71
 msgid "Percent"
 msgstr ""
 
-#: src/dialog-cell-format.c:73
+#: src/dialog-cell-format.c:72
 msgid "Fraction"
 msgstr ""
 
-#: src/dialog-cell-format.c:74
+#: src/dialog-cell-format.c:73
 msgid "Scientific"
 msgstr ""
 
-#: src/dialog-cell-format.c:75
+#: src/dialog-cell-format.c:74
 msgid "Text"
 msgstr ""
 
-#: src/dialog-cell-format.c:76
+#: src/dialog-cell-format.c:75
 msgid "Money"
 msgstr ""
 
 #. 1. Categories
-#: src/dialog-cell-format.c:258
+#: src/dialog-cell-format.c:257
 msgid "Categories"
 msgstr ""
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:290
+#: src/dialog-cell-format.c:289
 msgid "Code:"
 msgstr ""
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:299
+#: src/dialog-cell-format.c:298
 msgid "Sample:"
 msgstr ""
 
-#: src/dialog-cell-format.c:311
+#: src/dialog-cell-format.c:310
 msgid "Format codes"
 msgstr ""
 
-#: src/dialog-cell-format.c:360 src/formats.c:16 src/number-match.c:457
+#: src/dialog-cell-format.c:359 src/formats.c:16 src/number-match.c:457
 msgid "General"
 msgstr ""
 
-#: src/dialog-cell-format.c:361
+#: src/dialog-cell-format.c:360
 msgid "Left"
 msgstr ""
 
-#: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
+#: src/dialog-cell-format.c:361 src/dialog-cell-format.c:370
 #: src/workbook.c:1041
 msgid "Center"
 msgstr ""
 
-#: src/dialog-cell-format.c:363
+#: src/dialog-cell-format.c:362
 msgid "Right"
 msgstr ""
 
-#: src/dialog-cell-format.c:364
+#: src/dialog-cell-format.c:363
 msgid "Fill"
 msgstr ""
 
-#: src/dialog-cell-format.c:365 src/dialog-cell-format.c:373
+#: src/dialog-cell-format.c:364 src/dialog-cell-format.c:372
 msgid "Justify"
 msgstr ""
 
-#: src/dialog-cell-format.c:370
+#: src/dialog-cell-format.c:369
 msgid "Top"
 msgstr ""
 
-#: src/dialog-cell-format.c:372
+#: src/dialog-cell-format.c:371
 msgid "Bottom"
 msgstr ""
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:428 src/print.glade.h:9
+#: src/dialog-cell-format.c:427 src/print.glade.h:9
 msgid "Vertical"
 msgstr ""
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:432 src/print.glade.h:10
+#: src/dialog-cell-format.c:431 src/print.glade.h:10
 msgid "Horizontal"
 msgstr ""
 
-#: src/dialog-cell-format.c:435
+#: src/dialog-cell-format.c:434
 msgid "Auto return"
 msgstr ""
 
@@ -512,27 +512,27 @@ msgstr ""
 msgid "delete cells"
 msgstr ""
 
-#: src/dialog-delete-cells.c:45
+#: src/dialog-delete-cells.c:29
 msgid "Delete cells"
 msgstr ""
 
-#: src/dialog-delete-cells.c:48 src/item-grid.c:534
+#: src/dialog-delete-cells.c:32 src/item-grid.c:537
 msgid "Delete"
 msgstr ""
 
-#: src/dialog-delete-cells.c:49
+#: src/dialog-delete-cells.c:33
 msgid "Shift cells left"
 msgstr ""
 
-#: src/dialog-delete-cells.c:50
+#: src/dialog-delete-cells.c:34
 msgid "Shift cells up"
 msgstr ""
 
-#: src/dialog-delete-cells.c:51
+#: src/dialog-delete-cells.c:35
 msgid "Delete row(s)"
 msgstr ""
 
-#: src/dialog-delete-cells.c:52
+#: src/dialog-delete-cells.c:36
 msgid "Delete column(s)"
 msgstr ""
 
@@ -552,27 +552,27 @@ msgstr ""
 msgid "insert cells"
 msgstr ""
 
-#: src/dialog-insert-cells.c:46
+#: src/dialog-insert-cells.c:30
 msgid "Insert cells"
 msgstr ""
 
-#: src/dialog-insert-cells.c:49 src/item-grid.c:533
+#: src/dialog-insert-cells.c:33 src/item-grid.c:536
 msgid "Insert"
 msgstr ""
 
-#: src/dialog-insert-cells.c:50
+#: src/dialog-insert-cells.c:34
 msgid "Shift cells right"
 msgstr ""
 
-#: src/dialog-insert-cells.c:51
+#: src/dialog-insert-cells.c:35
 msgid "Shift cells down"
 msgstr ""
 
-#: src/dialog-insert-cells.c:52
+#: src/dialog-insert-cells.c:36
 msgid "Insert row(s)"
 msgstr ""
 
-#: src/dialog-insert-cells.c:53
+#: src/dialog-insert-cells.c:37
 msgid "Insert column(s)"
 msgstr ""
 
@@ -608,7 +608,7 @@ msgstr ""
 msgid "Divide"
 msgstr ""
 
-#: src/dialog-paste-special.c:64 src/item-grid.c:531
+#: src/dialog-paste-special.c:64 src/item-grid.c:534
 msgid "Paste special"
 msgstr ""
 
@@ -663,11 +663,11 @@ msgstr ""
 msgid "Impossible!"
 msgstr ""
 
-#: src/expr.c:1118
+#: src/expr.c:1121
 msgid "Internal error"
 msgstr ""
 
-#: src/expr.c:1207 src/expr.c:1524 src/expr.c:1711 src/fn-misc.c:190
+#: src/expr.c:1214 src/expr.c:1489 src/expr.c:1673 src/fn-misc.c:190
 #: src/fn-string.c:55 src/fn-string.c:77 src/fn-string.c:98
 #: src/fn-string.c:153 src/fn-string.c:187 src/fn-string.c:262
 #: src/fn-string.c:338 src/fn-string.c:373 src/fn-string.c:547
@@ -675,35 +675,35 @@ msgstr ""
 msgid "Type mismatch"
 msgstr ""
 
-#: src/expr.c:1286
+#: src/expr.c:1293
 msgid "Function does not exist"
 msgstr ""
 
-#: src/expr.c:1290
+#: src/expr.c:1297
 msgid "Calling non-function"
 msgstr ""
 
-#: src/expr.c:1467
+#: src/expr.c:1432
 msgid "Type error"
 msgstr ""
 
-#: src/expr.c:1498
+#: src/expr.c:1463
 msgid "Internal type error"
 msgstr ""
 
-#: src/expr.c:1692
+#: src/expr.c:1657
 msgid "Reference to newborn cell"
 msgstr ""
 
-#: src/expr.c:1762
+#: src/expr.c:1725
 msgid "Unknown evaluation error"
 msgstr ""
 
-#: src/expr.c:2119
+#: src/expr.c:2085
 msgid "#Reference to deleted cell!"
 msgstr ""
 
-#: src/expr.c:2144
+#: src/expr.c:2110
 msgid "#Reference to deleted range!"
 msgstr ""
 
@@ -1091,7 +1091,7 @@ msgid ""
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
 
-#: src/fn-math.c:547
+#: src/fn-math.c:548
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -1549,12 +1549,12 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:1908 src/fn-math.c:1922 src/fn-math.c:1995 src/fn-math.c:2009
-#: src/fn-math.c:2081 src/fn-math.c:2095
+#: src/fn-math.c:1907 src/fn-math.c:1921 src/fn-math.c:1993 src/fn-math.c:2007
+#: src/fn-math.c:2079 src/fn-math.c:2093
 msgid "Array version not implemented!"
 msgstr ""
 
-#: src/fn-math.c:1949
+#: src/fn-math.c:1948
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -1568,7 +1568,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2036
+#: src/fn-math.c:2034
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -1582,7 +1582,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2122
+#: src/fn-math.c:2120
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -1604,7 +1604,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2202
+#: src/fn-math.c:2200
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -1615,29 +1615,21 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2318
-msgid ""
-"@FUNCTION=TRANSPOSE\n"
-"@SYNTAX=TRANSPOSE(matrix)\n"
-"@DESCRIPTION=TRANSPOSE function Returns the transpose of the inputmatrix.\n"
-"@SEEALSO=MMULT"
-msgstr ""
-
-#: src/fn-math.c:2357
+#: src/fn-math.c:2316
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
-"@DESCRIPTION=MMULT function Returns the matrix product of two arrays. The "
-"result is an array with the same number of rows as array1 and the same "
+"@DESCRIPTION=SERIESSUM function Returns the matrix product of two arrays. "
+"The result is an array with the same number of rows as array1 and the same "
 "number of columns as array2.\n"
-"@SEEALSO=TRANSPOSE,MINVERSE"
+"@SEEALSO=SUMPRODUCT"
 msgstr ""
 
-#: src/fn-math.c:2399
+#: src/fn-math.c:2359
 msgid "#3D MULT?"
 msgstr ""
 
-#: src/fn-math.c:2470
+#: src/fn-math.c:2432
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -1649,7 +1641,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/fn-math.c:2569
+#: src/fn-math.c:2531
 msgid "Maths / Trig."
 msgstr ""
 
@@ -2210,12 +2202,12 @@ msgstr ""
 #: src/gnumeric-sheet.c:926
 #, c-format
 msgid "12.5%"
-msgstr ""
+msgstr "12.5%"
 
 #: src/gnumeric-sheet.c:929
 #, c-format
 msgid "6.25%"
-msgstr ""
+msgstr "6.25%"
 
 #: src/gnumeric-sheet.c:932
 msgid "Horizontal Stripe"
@@ -2276,7 +2268,7 @@ msgid ""
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:580 src/item-grid.c:529 src/workbook.c:1029
+#: src/item-cursor.c:580 src/item-grid.c:532 src/workbook.c:1029
 msgid "Copy"
 msgstr ""
 
@@ -2308,19 +2300,19 @@ msgstr ""
 msgid "Shift cells right and move"
 msgstr ""
 
-#: src/item-grid.c:528 src/workbook.c:1026
+#: src/item-grid.c:531 src/workbook.c:1026
 msgid "Cut"
 msgstr ""
 
-#: src/item-grid.c:530 src/workbook.c:1032
+#: src/item-grid.c:533 src/workbook.c:1032
 msgid "Paste"
 msgstr ""
 
-#: src/item-grid.c:535
+#: src/item-grid.c:538
 msgid "Erase content"
 msgstr ""
 
-#: src/item-grid.c:537
+#: src/item-grid.c:540
 msgid "Cell format"
 msgstr ""
 
@@ -2402,32 +2394,32 @@ msgstr ""
 msgid "Column: %s"
 msgstr ""
 
-#: src/sheet.c:2834
+#: src/sheet.c:2777
 msgid "The command `"
 msgstr ""
 
-#: src/sheet.c:2836
+#: src/sheet.c:2779
 msgid "' cannot be performed with multiple selections"
 msgstr ""
 
-#: src/sheet.c:2851
+#: src/sheet.c:2794
 msgid "copy"
 msgstr ""
 
-#: src/sheet.c:2876
+#: src/sheet.c:2819
 msgid "cut"
 msgstr ""
 
-#: src/sheet.c:2925
+#: src/sheet.c:2868
 msgid "paste"
 msgstr ""
 
-#: src/sheet.c:3936
+#: src/sheet.c:3905
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3948
+#: src/sheet.c:3917
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -3049,79 +3041,4 @@ msgstr ""
 
 #: src/print.glade.h:55
 msgid "RIght, then down"
-msgstr ""
-
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
-#: src/import.glade.h:7
-msgid "Choose an import filter for loading the file:"
-msgstr ""
-
-#: src/import.glade.h:8
-msgid "label2"
-msgstr ""
-
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
-#: src/hf-config.glade.h:7
-msgid "Left section"
-msgstr ""
-
-#: src/hf-config.glade.h:8
-msgid "Center section:"
-msgstr ""
-
-#: src/hf-config.glade.h:9
-msgid "Right section:"
-msgstr ""
-
-#: src/hf-config.glade.h:10
-msgid "Enter the format strings for each section:"
-msgstr ""
-
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
-#: src/font-sel.glade.h:7
-msgid "window1"
-msgstr ""
-
-#: src/font-sel.glade.h:8
-msgid "Font:"
-msgstr ""
-
-#: src/font-sel.glade.h:9
-msgid "Font style:"
-msgstr ""
-
-#: src/font-sel.glade.h:10
-msgid "Size:"
-msgstr ""
-
-#: src/font-sel.glade.h:11
-msgid "Preview:"
-msgstr ""
-
-#: src/font-sel.glade.h:12
-msgid "AaBbCcDdEe12345"
-msgstr ""
-
-#: src/font-sel.glade.h:13
-msgid "label7"
-msgstr ""
-
-#: src/font-sel.glade.h:14
-msgid "label8"
-msgstr ""
-
-#: src/font-sel.glade.h:15
-msgid "label9"
 msgstr ""
