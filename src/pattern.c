@@ -77,7 +77,7 @@ gnumeric_sheet_patterns [] = {
 static GdkPixmap *
 gnumeric_pattern_get_stipple (gint index)
 {
-	static GdkPixmap *patterns [GNUMERIC_SHEET_PATTERNS];
+	static GdkPixmap *patterns [GNUMERIC_SHEET_PATTERNS+1];
 	static gboolean	  need_init = TRUE;
 
 	/* Initialize the patterns to NULL */
