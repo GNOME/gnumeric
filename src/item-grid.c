@@ -16,6 +16,7 @@
 #include "workbook-control-gui-priv.h"
 #include "sheet-control-gui.h"
 #include "sheet.h"
+#include "sheet-style.h"
 #include "sheet-merge.h"
 #include "sheet-object-impl.h"
 #include "gnumeric-type-util.h"

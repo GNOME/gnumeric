@@ -22,6 +22,7 @@
 #include "cellspan.h"
 #include "ranges.h"
 #include "sheet.h"
+#include "sheet-style.h"
 #include "sheet-merge.h"
 #include "print-cell.h"
 #include "rendered-value.h"

@@ -25,6 +25,7 @@
 #include "gnumeric.h"
 #include "plugin.h"
 #include "plugin-util.h"
+#include "sheet-style.h"
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"

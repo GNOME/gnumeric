@@ -14,6 +14,7 @@
 #include "workbook.h"
 #include "format.h"
 #include "style.h"
+#include "sheet-style.h"
 #include "number-match.h"
 #include <sys/utsname.h>
 

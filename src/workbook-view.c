@@ -28,6 +28,7 @@
 #include "gnumeric-util.h"
 #include "application.h"
 #include "sheet.h"
+#include "sheet-style.h"
 #include "str.h"
 #include "format.h"
 #include "expr.h"

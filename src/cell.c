@@ -14,7 +14,7 @@
 #include "value.h"
 #include "style.h"
 #include "sheet.h"
-#include "value.h"
+#include "sheet-style.h"
 #include "rendered-value.h"
 #include "gnumeric-util.h"
 #include "parse-util.h"

@@ -16,6 +16,7 @@
 #include "solver.h"
 #include "func.h"
 #include "cell.h"
+#include "sheet-style.h"
 #include "eval.h"
 #include "dialogs.h"
 #include "mstyle.h"

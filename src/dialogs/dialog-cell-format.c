@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include "sheet.h"
+#include "sheet-style.h"
 #include "style-color.h"
 #include "dialogs.h"
 #include "utils-dialog.h"

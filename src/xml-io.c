@@ -18,6 +18,8 @@
 #include "style-color.h"
 #include "style-border.h"
 #include "style.h"
+#include "sheet.h"
+#include "sheet-style.h"
 #include "sheet-object.h"
 #include "sheet-object-cell-comment.h"
 #include "print-info.h"

@@ -26,6 +26,7 @@
 #include "commands.h"
 #include "application.h"
 #include "sheet.h"
+#include "sheet-style.h"
 #include "format.h"
 #include "command-context.h"
 #include "workbook-control.h"

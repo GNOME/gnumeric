@@ -13,6 +13,7 @@
 #include "render-ascii.h"
 #include "rendered-value.h"
 #include "sheet.h"
+#include "sheet-style.h"
 #include "mstyle.h"
 
 /*

@@ -22,6 +22,7 @@
 #include "cell.h"
 #include "style.h"
 #include "regression.h"
+#include "sheet-style.h"
 #include "workbook.h"
 
 typedef struct {

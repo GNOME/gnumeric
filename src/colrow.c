@@ -195,11 +195,16 @@ struct resize_closure
 static gboolean
 cb_set_colrow_size (ColRowInfo *info, void *userdata)
 {
-	struct resize_closure const *c = userdata;
-	if (c->is_cols)
-		sheet_col_set_size_pixels (c->sheet, info->pos, c->new_size, TRUE);
-	else
-		sheet_row_set_size_pixels (c->sheet, info->pos, c->new_size, TRUE);
+	if (info->visible) {
+		struct resize_closure const *c = userdata;
+
+		if (c->is_cols)
+			sheet_col_set_size_pixels (c->sheet, info->pos,
+						   c->new_size, TRUE);
+		else
+			sheet_row_set_size_pixels (c->sheet, info->pos,
+						   c->new_size, TRUE);
+	}
 	return FALSE;
 }
 

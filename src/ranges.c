@@ -14,6 +14,8 @@
 #include <ctype.h>
 #include "numbers.h"
 #include "expr.h"
+#include "sheet.h"
+#include "sheet-style.h"
 #include "parse-util.h"
 #include "gnumeric.h"
 #include "ranges.h"

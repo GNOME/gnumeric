@@ -12,6 +12,8 @@
 #include "gnumeric.h"
 #include "command-context.h"
 #include "sheet-control-gui.h"
+#include "sheet.h"
+#include "sheet-style.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
 #include "workbook.h"

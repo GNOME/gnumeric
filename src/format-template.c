@@ -24,6 +24,7 @@
 #include "mstyle.h"
 #include "xml-io-autoft.h"
 #include "sheet.h"
+#include "sheet-style.h"
 #include "style-border.h"
 #include "command-context.h"
 #include "ranges.h"

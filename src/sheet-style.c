@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include <string.h>
 #include "sheet.h"
+#include "sheet-style.h"
 #include "parse-util.h"
 #include "gnumeric-util.h"
 #include "eval.h"

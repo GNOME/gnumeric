@@ -1,3 +1,15 @@
+2001-01-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/Makefile.am : add the new file.
+
+	* src/sheet-style.h : new file split from sheet.h in preparation
+	  for changing the style engine.
+
+2001-01-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/colrow.c (cb_set_colrow_size) : ignore resize requests for
+	  hidden cols/rows.
+
 2000-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c : fix includes.

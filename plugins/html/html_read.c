@@ -28,6 +28,7 @@
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "sheet-style.h"
 #include "style.h"
 #include "style-color.h"
 #include "html.h"

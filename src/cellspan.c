@@ -18,7 +18,9 @@
 #include <config.h>
 #include "cellspan.h"
 #include "cell.h"
+#include "sheet.h"
 #include "sheet-merge.h"
+#include "sheet-style.h"
 #include "style.h"
 #include "colrow.h"
 #include "value.h"

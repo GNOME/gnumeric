@@ -22,6 +22,7 @@
 #include "value.h"
 #include "workbook.h"
 #include "sheet-autofill.h"
+#include "sheet-style.h"
 #include "dates.h"
 #include "expr.h"
 #include "formats.h"

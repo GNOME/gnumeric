@@ -13,6 +13,8 @@
 #include "gnumeric-util.h"
 #include "clipboard.h"
 #include "dependent.h"
+#include "sheet.h"
+#include "sheet-style.h"
 #include "eval.h"
 #include "selection.h"
 #include "application.h"

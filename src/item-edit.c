@@ -21,6 +21,8 @@
 #include "item-grid.h"
 #include "gnumeric-sheet.h"
 #include "sheet-control-gui.h"
+#include "sheet.h"
+#include "sheet-style.h"
 #include "value.h"
 #include "ranges.h"
 #include "style.h"

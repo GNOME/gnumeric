@@ -18,6 +18,7 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "sheet-style.h"
 #include "cell.h"
 #include "application.h"
 #include "commands.h"

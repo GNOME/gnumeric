@@ -2493,11 +2493,6 @@ cb_workbook_debug_info (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		}
 	}
 
-	if (style_debugging > 0) {
-		printf ("Style list\n");
-		sheet_styles_dump (sheet);
-	}
-
 	if (dependency_debugging > 0) {
 		printf ("Dependencies\n");
 		sheet_dump_dependencies (sheet);

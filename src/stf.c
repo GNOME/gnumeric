@@ -39,6 +39,8 @@
 #include "plugin-util.h"
 #include "gnumeric.h"
 #include "file.h"
+#include "sheet.h"
+#include "sheet-style.h"
 #include "style.h"
 #include "mstyle.h"
 #include "formats.h"

@@ -17,6 +17,8 @@
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
 #include "ranges.h"
+#include "sheet.h"
+#include "sheet-style.h"
 #include "commands.h"
 #include "xml-io.h"
 #include "value.h"

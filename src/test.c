@@ -3,10 +3,10 @@
 
 #include "gnumeric.h"
 #include "sheet.h"
+#include "sheet-style.h"
 #include "workbook.h"
 #include "mstyle.h"
 #include "test.h"
-#include "mstyle.h"
 #include "value.h"
 #include "cell.h"
 
