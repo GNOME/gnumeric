@@ -775,7 +775,6 @@ palette_get_index (ExcelWriteState *ewb, guint c)
 		return PALETTE_WHITE;
 
 	idx = two_way_table_key_to_idx (ewb->pal.two_way_table, GUINT_TO_POINTER (c));
-	fprintf (stderr, "%x == %d\n", c, idx);
 	if (idx >= EXCEL_DEF_PAL_LEN) {
 		g_warning ("We lost colour #%d (%x), converting it to black\n", idx, c);
 		return PALETTE_BLACK;
@@ -912,16 +911,15 @@ write_palette (BiffPut *bp, ExcelWriteState *ewb)
 static char *
 excel_font_to_string (ExcelFont const *f)
 {
-	StyleFont const *sf = f->style_font;
 	static char buf[96];
 	guint nused;
 
-	nused = snprintf (buf, sizeof buf, "%s, %g", sf->font_name, sf->size_pts);
+	nused = g_snprintf (buf, sizeof buf, "%s, %g", f->font_name, f->size_pts);
 
-	if (nused < sizeof buf && sf->is_bold)
+	if (nused < sizeof buf && f->is_bold)
 		nused += snprintf (buf + nused, sizeof buf - nused, ", %s",
 				   "bold");
-	if (nused < sizeof buf && sf->is_italic)
+	if (nused < sizeof buf && f->is_italic)
 		nused += snprintf (buf + nused, sizeof buf - nused, ", %s",
 				   "italic");
 	if (nused < sizeof buf) {
@@ -960,55 +958,34 @@ excel_font_new (MStyle *st)
 		return NULL;
 
 	f = g_new (ExcelFont, 1);
-	f->style_font = mstyle_get_font (st, 1.0);
+	f->font_name	 = mstyle_get_font_name   (st);
+	f->size_pts	 = mstyle_get_font_size   (st);
+	f->is_bold	 = mstyle_get_font_bold   (st);
+	f->is_italic	 = mstyle_get_font_uline  (st);
+	f->underline     = mstyle_get_font_uline  (st);
+	f->strikethrough = mstyle_get_font_strike (st);
 	c = mstyle_get_color (st, MSTYLE_COLOR_FORE);
 	f->color = style_color_to_rgb888 (c);
 	f->is_auto = c->is_auto;
-	f->underline     = mstyle_get_font_uline (st);
-	f->strikethrough = mstyle_get_font_strike (st);
 
 	return f;
 }
 
-/**
- * Free an ExcelFont
- **/
-static void
-excel_font_free (ExcelFont *f)
-{
-	if (f) {
-		style_font_unref (f->style_font);
-		g_free (f);
-	}
-}
-
-/**
- * excel_font_hash
- *
- * Hash function for ExcelFonts
- * @f font
- **/
 static guint
 excel_font_hash (gconstpointer f)
 {
 	guint res = 0;
-	ExcelFont * font = (ExcelFont *) f;
+	ExcelFont *font = (ExcelFont *) f;
 
 	if (f)
-		res = style_font_hash_func (font->style_font) ^ font->color
-			^ font->is_auto ^ (font->underline << 1)
+		res = (int)(font->size_pts + g_str_hash (font->font_name))
+			^ font->color
+			^ font->is_auto
+			^ (font->underline << 1)
 			^ (font->strikethrough << 2);
 
 	return res;
 }
-
-/**
- * excel_font_equal
- * @a font a
- * @b font b
- *
- * ExcelFont comparison function used when hashing.
- **/
 static gint
 excel_font_equal (gconstpointer a, gconstpointer b)
 {
@@ -1021,11 +998,14 @@ excel_font_equal (gconstpointer a, gconstpointer b)
 	else {
 		ExcelFont const *fa  = (ExcelFont const *) a;
 		ExcelFont const *fb  = (ExcelFont const *) b;
-		res = style_font_equal (fa->style_font, fb->style_font)
-			&& (fa->color == fb->color)
-			&& (fa->is_auto == fb->is_auto)
-			&& (fa->underline == fb->underline)
-			&& (fa->strikethrough == fb->strikethrough);
+		res = !strcmp (fa->font_name, fb->font_name)
+			&& (fa->size_pts	== fb->size_pts)
+			&& (fa->is_bold		== fb->is_bold)
+			&& (fa->is_italic	== fb->is_italic)
+			&& (fa->color		== fb->color)
+			&& (fa->is_auto		== fb->is_auto)
+			&& (fa->underline	== fb->underline)
+			&& (fa->strikethrough	== fb->strikethrough);
 	}
 
 	return res;
@@ -1043,7 +1023,7 @@ fonts_init (ExcelWriteState *ewb)
 {
 	ewb->fonts.two_way_table = two_way_table_new (
 		excel_font_hash, excel_font_equal, 0,
-		(GDestroyNotify) excel_font_free);
+		(GDestroyNotify) g_free);
 }
 
 static void
@@ -1074,9 +1054,8 @@ after_put_font (ExcelFont *f, gboolean was_added, gint index, gconstpointer dumm
 	if (was_added) {
 		d (1, fprintf (stderr, "Found unique font %d - %s\n",
 			      index, excel_font_to_string (f)););
-	} else {
-		excel_font_free (f);
-	}
+	} else
+		g_free (f);
 }
 
 /**
@@ -1125,8 +1104,7 @@ static void
 excel_write_FONT (ExcelWriteState *ewb, ExcelFont const *f)
 {
 	guint8 data[64];
-	StyleFont  *sf  = f->style_font;
-	guint32 size_pts  = sf->size_pts * 20;
+	guint32 size_pts  = f->size_pts * 20;
 	guint16 grbit = 0;
 	guint16 color;
 
@@ -1136,7 +1114,7 @@ excel_write_FONT (ExcelWriteState *ewb, ExcelFont const *f)
 						      2: Double */
 	guint8  family    = 0;
 	guint8  charset   = 0;	 /* Seems OK. */
-	char    *font_name = sf->font_name;
+	char const *font_name = f->font_name;
 
 	color = f->is_auto
 		? PALETTE_AUTO_FONT
@@ -1144,11 +1122,11 @@ excel_write_FONT (ExcelWriteState *ewb, ExcelFont const *f)
 	d (1, fprintf (stderr, "Writing font %s, color idx %u\n",
 		      excel_font_to_string (f), color););
 
-	if (sf->is_bold) {
+	if (f->is_bold) {
 		boldstyle = 0x2bc;
 		grbit |= 1 << 0; /* undocumented */
 	}
-	if (sf->is_italic)
+	if (f->is_italic)
 		grbit |= 1 << 1;
 	if (f->strikethrough)
 		grbit |= 1 << 3;
@@ -1704,7 +1682,7 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, MStyle *st)
 
 	f = excel_font_new (st);
 	xfd->font_idx = fonts_get_index (ewb, f);
-	excel_font_free (f);
+	g_free (f);
 
 	xfd->style_format = mstyle_get_format (st);
 	xfd->format_idx   = formats_get_index (ewb, xfd->style_format);
@@ -2032,7 +2010,6 @@ excel_write_XFs (ExcelWriteState *ewb)
 		BiffXFData xfd;
 		st = xf_get_mstyle (ewb, i);
 		build_xf_data (ewb, &xfd, st);
-		fprintf (stderr, "%p vs %p\n", st, xfd.mstyle);
 		d (3, log_xf_data (ewb, &xfd, i););
 		excel_write_XF (ewb->bp, ewb, &xfd);
 	}

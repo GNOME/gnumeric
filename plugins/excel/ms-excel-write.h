@@ -15,11 +15,18 @@
 #include "style.h"
 
 typedef struct {
-	StyleFont  *style_font;
+	/* Don't use StyleFont.  In the case where a font does not exist on the
+	 * display system it does the wrong thing.  MStyle can contain an
+	 * invalid font.  StyleFont gets remapped to the default
+	 */
 	guint32    color;
+	char const *font_name;
+	double	  size_pts;
+	gboolean  is_bold;
+	gboolean  is_italic;
 	gboolean  is_auto;
-	StyleUnderlineType underline;
-	gboolean  strikethrough;
+	StyleUnderlineType	underline;
+	gboolean		strikethrough;
 } ExcelFont;
 
 typedef struct {
