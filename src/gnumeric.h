@@ -128,4 +128,6 @@ typedef enum _SpanCalcFlags {
 
 typedef struct _SearchReplace           SearchReplace;
 
+typedef struct _gnm_mem_chunk		gnm_mem_chunk;
+
 #endif /* GNUMERIC_H */

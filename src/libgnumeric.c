@@ -35,6 +35,7 @@
 #include "dependent.h"
 #include "sheet-autofill.h"
 #include "xml-io.h"
+#include "cell.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -198,6 +199,7 @@ main (int argc, char *argv [])
 #endif
 
 	application_init ();
+	cell_init ();
 	dependent_types_init ();
 	string_init ();
 	style_init ();
@@ -307,6 +309,7 @@ main (int argc, char *argv [])
 	gnumeric_color_shutdown ();
 	style_shutdown ();
 	dependent_types_shutdown ();
+	cell_shutdown ();
 
 	global_gnome_font_shutdown ();
 

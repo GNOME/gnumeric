@@ -33,6 +33,7 @@
 #include "workbook-private.h"
 #include "rendered-value.h" /* FIXME : should not be needed with JIT-R */
 #include "ranges.h"
+#include "gutils.h"
 
 #define BUCKET_SIZE	128
 
@@ -552,7 +553,7 @@ link_single_dep (Dependent *dep, CellPos const *pos, CellRef const *ref)
 	cellref_get_abs_pos (ref, pos, &lookup.pos);
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
 	if (single == NULL) {
-		single  = g_new (DependencySingle, 1);
+		single = gnm_mem_chunk_alloc (deps->single_pool);
 		*single = lookup;
 		dep_collection_init (single->deps, dep);
 		g_hash_table_insert (deps->single_hash, single, single);
@@ -578,7 +579,7 @@ unlink_single_dep (Dependent *dep, CellPos const *pos, CellRef const *a)
 		dep_collection_remove (single->deps, dep);
 		if (dep_collection_is_empty (single->deps)) {
 			g_hash_table_remove (deps->single_hash, single);
-			g_free (single);
+			gnm_mem_chunk_free (deps->single_pool, single);
 		}
 	}
 }
@@ -609,7 +610,7 @@ link_range_dep (GnmDepContainer *deps, Dependent *dep,
 		}
 
 		/* Create a new DependencyRange structure */
-		result = g_new (DependencyRange, 1);
+		result = gnm_mem_chunk_alloc (deps->range_pool);
 		*result = *r;
 		dep_collection_init (result->deps, dep);
 		g_hash_table_insert (deps->range_hash[i], result, result);
@@ -633,7 +634,7 @@ unlink_range_dep (GnmDepContainer *deps, Dependent *dep,
 			dep_collection_remove (result->deps, dep);
 			if (dep_collection_is_empty (result->deps)) {
 				g_hash_table_remove (deps->range_hash[i], result);
-				g_free (result);
+				gnm_mem_chunk_free (deps->range_pool, result);
 			}
 		}
 	}
@@ -1577,6 +1578,7 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 	}
 
 	g_slist_free (deps);
+	g_free (depany);
 #else
 	if (rwinfo->type == GNM_EXPR_REWRITE_SHEET) {
 		Sheet const *target = rwinfo->u.sheet;
@@ -1585,7 +1587,7 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 				invalidate_refs (dep, rwinfo););
 	} else if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
 		Workbook const *target = rwinfo->u.workbook;
-		dep_collection_foreach_dep(depany->deps, dep,
+		dep_collection_foreach_dep (depany->deps, dep,
 			if (dep->sheet->workbook != target)
 				invalidate_refs (dep, rwinfo););
 	} else {
@@ -1593,9 +1595,13 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 	}
 
 	micro_hash_release (&depany->deps);
+	/*
+	 * Don't free -- we junk the pools later (and we don't know which one
+	 * to use right here).
+	 */
 #endif
-	g_free (depany);
 }
+
 
 static void
 cb_name_invalidate_sheet (gpointer key, gpointer value, gpointer rwinfo)
@@ -1644,12 +1650,20 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 		g_free (deps->range_hash);
 		deps->range_hash = NULL;
 	}
+	if (deps->range_pool) {
+		gnm_mem_chunk_destroy (deps->range_pool);
+		deps->range_pool = NULL;
+	}
 
 	if (deps->single_hash) {
 		g_hash_table_foreach (deps->single_hash,
 			&cb_dep_hash_invalidate, (gpointer)rwinfo);
 		g_hash_table_destroy (deps->single_hash);
 		deps->single_hash = NULL;
+	}
+	if (deps->single_pool) {
+		gnm_mem_chunk_destroy (deps->single_pool);
+		deps->single_pool = NULL;
 	}
 
 	if (deps->names) {
@@ -1762,8 +1776,14 @@ gnm_dep_container_new (void)
 
 	deps->range_hash  = g_new0 (GHashTable *,
 				    (SHEET_MAX_ROWS-1)/BUCKET_SIZE + 1);
+	deps->range_pool  = gnm_mem_chunk_new ("range pool",
+					       sizeof (DependencyRange),
+					       16 * 1024 - 100);
 	deps->single_hash = g_hash_table_new ((GHashFunc) depsingle_hash,
 					      (GEqualFunc) depsingle_equal);
+	deps->single_pool = gnm_mem_chunk_new ("single pool",
+					       sizeof (DependencySingle),
+					       16 * 1024 - 100);
 	deps->names       = g_hash_table_new (g_direct_hash,
 					      g_direct_equal);
 

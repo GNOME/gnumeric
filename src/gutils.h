@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include "numbers.h"
+#include <sys/types.h>
 
 void     gnumeric_time_counter_push (void);
 gdouble  gnumeric_time_counter_pop (void);
@@ -82,5 +83,11 @@ double    gnumeric_get_le_double (const void *p);
 void      gnumeric_set_le_double (void *p, double d);
 
 char *    gnumeric_strescape (const char *string);
+
+gnm_mem_chunk *gnm_mem_chunk_new (const char *, size_t, size_t);
+void gnm_mem_chunk_destroy (gnm_mem_chunk *);
+gpointer gnm_mem_chunk_alloc (gnm_mem_chunk *);
+gpointer gnm_mem_chunk_alloc0 (gnm_mem_chunk *);
+void gnm_mem_chunk_free (gnm_mem_chunk *, gpointer);
 
 #endif /* GNUMERIC_UTILS_H */

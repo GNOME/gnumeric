@@ -33,6 +33,7 @@ struct _Cell {
 /**
  * Manage cells
  */
+Cell     *cell_new          ();
 Cell	 *cell_copy	    (Cell const *cell);
 void	  cell_destroy      (Cell *cell);
 void	  cell_relocate     (Cell *cell, GnmExprRewriteInfo const *rwinfo);
@@ -86,5 +87,8 @@ char *	cell_get_entered_text	(Cell const * cell);
 
 guint cellpos_hash (CellPos const *key);
 gint  cellpos_cmp  (CellPos const *a, CellPos const *b);
+
+void cell_init (void);
+void cell_shutdown (void);
 
 #endif /* GNUMERIC_CELL_H */

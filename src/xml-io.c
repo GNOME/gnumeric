@@ -2516,17 +2516,15 @@ cell_copy_new (void)
 	Cell *cell;
 	CellCopy *cc;
 
-	cell = g_new0 (Cell, 1);
-	cell->base.sheet   = NULL;
-	cell->base.flags = DEPENDENT_CELL;
+	cell = cell_new ();
 	cell->pos.col = -1;
 	cell->pos.row = -1;
 	cell->value   = value_new_empty ();
 
-	cc         = g_new (CellCopy, 1);
-	cc->type   = CELL_COPY_TYPE_CELL;
-	cc->u.cell = cell;
-	cc->comment= NULL;
+	cc          = g_new (CellCopy, 1);
+	cc->type    = CELL_COPY_TYPE_CELL;
+	cc->u.cell  = cell;
+	cc->comment = NULL;
 
 	return cc;
 }

@@ -1,3 +1,31 @@
+2002-03-24  Morten Welinder  <terra@diku.dk>
+
+	* src/gutils.c (gnm_mem_chunk_new, gnm_mem_chunk_destroy,
+ 	gnm_mem_chunk_alloc, gnm_mem_chunk_alloc0, gnm_mem_chunk_free):
+ 	New functions implementing a sane and fast chunk allocated.
+  	(Maybe use Evolution's later.)
+
+	* src/dependent.h (struct _GnmDepContainer): add members
+ 	range_pool and single_pool for allocation.
+
+	* src/dependent.c (link_single_dep): Allocate from pool.
+	(unlink_single_dep): Free using pool.
+	(link_range_dep): Allocate from pool.
+	(unlink_range_dep): Free using pool.
+	(do_deps_destroy): Destroy pools.
+	(gnm_dep_container_new): Allocate pools.
+	(cb_dep_hash_invalidate): Don't free at all -- we're about to dump
+ 	both pools anyway.
+
+	* src/cell.c (cell_new): New function.  (About time.)
+	(cell_copy): Use cell_new.
+	(cell_destroy): Free from pool if we allocated that way.
+	(cell_init, cell_shutdown): New functions.
+
+	* src/xml-io.c (cell_copy_new): Use cell_new.
+	* src/sheet.c (sheet_cell_new): Use cell_new.
+	* src/main.c (main): Initialise and shutdown cells.
+
 2002-03-22  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_cell_insert) : delete.
@@ -10,7 +38,7 @@
 
 	* src/format-template.h: Extend FormatTemplate struct with
 	edge related flags.
-	
+
 	* src/format-template.c (formate_template_new): Initialize
 	new edge related members.
 	(format_template_clone): Clone new edge related members and
@@ -55,7 +83,7 @@
 	(function_def_get_arg_name) : new
 	* src/gui-util.[ch] (gnumeric_dialog_raise_if_exists) :
 	  change return type from gboolean to gpointer
-	* src/workbook-control-gui.c : add argument to call to 
+	* src/workbook-control-gui.c : add argument to call to
 	  dialog_formula_guru
 
 2002-03-19  Morten Welinder  <terra@diku.dk>
@@ -90,7 +118,7 @@
 	* src/main.c: Add --debug_share=1 option.
 
 	* src/expr.c (expr_list_eq): New function.
-	(expr_tree_sharer_new, expr_tree_sharer_destroy) 
+	(expr_tree_sharer_new, expr_tree_sharer_destroy)
 	(expr_tree_sharer_share): New functions.
 
 	* src/position.c (cellref_hash): New function.
@@ -100,7 +128,7 @@
 2002-03-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_analysis_tool) : set me->parent.size
-	
+
 2002-03-18  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c : typo. (Thanks frob)
@@ -184,7 +212,7 @@
 	  editable_label_start_editing rather than dialog_sheet_name
 	(sheet_action_rename_sheet) : ditto
 	(wbcg_sheet_add) : store editable label ref for future ref
-	
+
 2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c : support tab color changes in cmd_reorganize_sheets
@@ -214,14 +242,14 @@
 
 2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/commands.c : use cell_assign_value rather than copy/paste to 
+	* src/commands.c : use cell_assign_value rather than copy/paste to
 	  preserve merged target fields.
-	
+
 2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
-	
+
 	* src/sheet-object-widget.[ch] (sheet_widget_checkbox_switch_link_sheet) :
 	  delete again (unnecessary after Jody's fix of the root problem)
-	* src/colrow.c (colrow_set_states) : preserve the 
+	* src/colrow.c (colrow_set_states) : preserve the
 	  ColRowStateList, it possibly should also be applied to other sheets
 	(colrow_restore_state_group) : ditto.
 	* src/sheet.c : delete the ColRowStateList after colrow_set_states
@@ -244,7 +272,7 @@
 
 2002-03-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/commands.c (cmd_merge_data_redo) : handle sheet objects 
+	* src/commands.c (cmd_merge_data_redo) : handle sheet objects
 	  and change ref in checkboxes
 	* src/sheet-object-widget.c (sheet_widget_checkbox_switch_link_sheet) :
 	  new
@@ -303,7 +331,7 @@
 
 2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/commands.c (delete_pristine_sheets) : rename to 
+	* src/commands.c (delete_pristine_sheets) : rename to
 	  cmd_reorganize_sheets_delete_sheets and use command_undo_sheet_delete
 	  rather than workbook_sheet_delete.
 	(cmd_analysis_tool_finalize) : shorten code.
@@ -330,7 +358,7 @@
 
 2002-03-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/commands.c (command_undo_sheet_delete) new utility function (for 
+	* src/commands.c (command_undo_sheet_delete) new utility function (for
 	  CMD_ANALYSIS_TOOL_TYPE and CMD_SHEET_REORGANIZE_TYPE)
 	(CMD_ANALYSIS_TOOL) : undo/redo command for data analysis tools.
 	* src/commands.h (cmd_analysis_tool) : new
@@ -356,7 +384,7 @@
 
 	Dump function definitions from plugins, this time the easy way
 	which even works.
-	
+
 	* src/func.c (copy_hash_table_to_ptr_array): Copy also when fd->help
 	is NULL.
 	(function_dump_defs): Load function definition before dumping name
@@ -366,17 +394,17 @@
 
 	* src/plugin.[ch] (activate_plugin, plugin_db_activate_plugin_list,
 	plugin_db_activate_saved_active_plugins, plugins_init): Revert to
-	pre 2002-03-08 version. We apologize for the inconvenience. 
+	pre 2002-03-08 version. We apologize for the inconvenience.
 	However, error reporting by means of gnumeric_error_error_info
 	remains.
-	
+
 	* src/plugin-service.[ch]
 	(plugin_service_function_group_initialize): Revert to pre
 	2002-03-08 version.
 	(plugin_service_activate): Ditto. Except that we don't reinstate
 	#ifdef PLUGIN_ALWAYS_LOAD. That branch is hopelessly bitrotted.
-	
-	* src/plugin.h: Drop #undef PLUGIN_ALWAYS_LOAD. 
+
+	* src/plugin.h: Drop #undef PLUGIN_ALWAYS_LOAD.
 
 2002-03-09  Jody Goldberg <jody@gnome.org>
 
@@ -402,11 +430,11 @@
 2002-03-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* workbook-control-gui.c : change menu items "Re-order sheets"
-	  to "Manage Sheets" and enable these items even for single sheet 
+	  to "Manage Sheets" and enable these items even for single sheet
 	  workbooks.
 	* commands.h : add deleted_sheets argument to cmd_reorganize_sheets
 	* commands.c : ditto
-	
+
 2002-03-08  Jody Goldberg <jody@gnome.org>
 
 	* src/GNOME_Gnumeric.xml : switch Format->Workbook with
@@ -477,7 +505,7 @@
 	(plugin_service_function_group_initialize): Add force_load
 	parameter. Get function info if force loaded.
 	(plugin_service_activate): Propagate force_load parameter.
-	
+
 	* src/gnumeric.h: Declare CommandContextStderr.
 
 	* src/func.[ch] (function_def_get_full_info_if_needed): Make
@@ -502,9 +530,9 @@
 2002-03-08  Jakub Steiner <jimmac@ximian.com>
 
 	* icons/down-right.png, icons/right-down.png: pretty gnome2 icons
-	* src/pixmaps/percent.png: 
-	* src/pixmaps/money.png: 
-	* src/pixmaps/list.png: 
+	* src/pixmaps/percent.png:
+	* src/pixmaps/money.png:
+	* src/pixmaps/list.png:
 	* src/pixmaps/combo.png, src/pixmaps/Makefile.am: replace xpm
 	  with a PNG (removed combo.xpm)
 
@@ -586,17 +614,17 @@
 
 	* src/sheet.c (sheet_new) : initialize sheet->index_in_wb
 	* src/sheet.h : new field sheet::index_in_wb
-	* src/workbook-control-gui.c (wbcg_sheet_add) : replace 
+	* src/workbook-control-gui.c (wbcg_sheet_add) : replace
 	  workbook_sheet_index_get with sheet->index_in_wb
 	* src/workbook-view.c (wb_view_sheet_focus) : ditto
 	* src/workbook.c (workbook_sheet_index_get) : deleted
 	(workbook_sheet_index_update) : new
-	(workbook_sheet_attach) : replace workbook_sheet_index_get 
+	(workbook_sheet_attach) : replace workbook_sheet_index_get
 	  with sheet->index_in_wb, call workbook_sheet_index_update
 	(workbook_sheet_detach) : ditto
 	(workbook_sheet_move) : ditto
 	(workbook_sheet_reorganize) : ditto
-	
+
 2002-03-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/tools: New directory created for tools.
@@ -611,7 +639,7 @@
 	Major clean up for making it to look like GNOME code.  LP Solve is
 	written by Michel Berkelaar and others.  Thanks for the great
 	work!
-	
+
 	* configure.in: Added src/tools/Makefile, src/tools/solver/Makefile,
 	and src/tools/solver/lp_solve/Makefile.
 
@@ -626,7 +654,7 @@
 	* src/xml-io.c: Solver related changes.
 
 	* samples/solver/production-plan.gnumeric: A Solver sample file.
-	
+
 2002-03-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gnumeric_error_info_dialog_show) : remove
@@ -646,9 +674,9 @@
 	(cmd_reorganize_sheets_redo) : change calling
 	  sequence of workbook_sheet_reorganize
 	(cmd_reorganize_sheets_finalize) : clear new_sheets
-	(cmd_reorganize_sheets) : handle adding of sheets, streamline 
+	(cmd_reorganize_sheets) : handle adding of sheets, streamline
 	  selection of cmd descriptor
-	* src/workbook-control-gui.c (cb_insert_sheet) : use 
+	* src/workbook-control-gui.c (cb_insert_sheet) : use
 	  cmd_reorganize_sheets
 	* src/workbook.c (workbook_sheet_reorganize) : handle adding of sheets
 	* src/workbook.h (workbook_sheet_reorganize) : add argument
@@ -686,7 +714,7 @@
 
 2002-03-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/sheet-control-gui.c (scg_comment_display) : use 
+	* src/sheet-control-gui.c (scg_comment_display) : use
 	  textview widget
 
 2002-03-05  Morten Welinder  <terra@diku.dk>
@@ -762,11 +790,11 @@
 	* src/clipboard.h : add comment field to CellCopy
 	* src/commands.c (cmd_clear_undo) : handle comments
 	(cmd_clear_selection) : ditto
-	
+
 2002-03-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* commands.h (cmd_set_comment) : new
-	* commands.c (cmd_set_comment_apply, set_comment_undo, 
+	* commands.c (cmd_set_comment_apply, set_comment_undo,
 	  cmd_set_comment_redo, cmd_set_comment_finalize, cmd_set_comment) :
 	  new
 
@@ -798,13 +826,13 @@
 
 2002-03-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/commands.c (cmd_rename_sheet,...) : now a wrapper around 
+	* src/commands.c (cmd_rename_sheet,...) : now a wrapper around
 	  cmd_reorganize_sheets.
 	(cmd_reorganize_sheets_apply) : moved into workbook.c as
 	  workbook_sheet_reorganize
 	(cmd_reorganize_sheets,...) : implement sheet renaming
 	* src/commands.h : add an argument to cmd_rename_sheet
-	* src/workbook-control-gui.c (cb_sheet_label_changed) : 
+	* src/workbook-control-gui.c (cb_sheet_label_changed) :
 	  change invocation of cmd_rename_sheet
 	* src/workbook.c (workbook_sheet_rename) replaced by
 	  workbook_sheet_reorganize
@@ -888,9 +916,9 @@
 
 2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/workbook-control-gui.c (delete_sheet_if_possible) : 
-	  use gnumeric_dialog_question_yes_no 
-	
+	* src/workbook-control-gui.c (delete_sheet_if_possible) :
+	  use gnumeric_dialog_question_yes_no
+
 2002-02-28  Jody Goldberg <jody@gnome.org>
 
 	* src/expr-name.c (expr_name_set_expr) : always relink.
@@ -906,10 +934,10 @@
 2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gui-util.h (entry_to_float_with_format) : new
-	* src/gui-util.c (entry_to_float_with_format) : add format to 
+	* src/gui-util.c (entry_to_float_with_format) : add format to
 	  entry_to_float
 	(entry_to_float) : wrapper around entry_to_float_with_format
-	
+
 2002-02-27  Morten Welinder  <terra@diku.dk>
 
 	* src/analysis-tools.c: Use new lower-tail flag for R's q*
@@ -987,7 +1015,7 @@
 	(cb_checkbox_set_focus) : ditto
 	(sheet_widget_scrollbar_user_config) : rearrange signal callbacks
 	(sheet_widget_checkbox_user_config) : ditto
-	
+
 2002-02-25  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (xml_cellregion_write) : specify the encoding, and
@@ -1153,11 +1181,11 @@
 
 	* src/analysis-tools.c (regression_tool) : use only values
 	  from extra_stat (renamed to regression_stat)
-	* src/regression.c (general_linear_regression) : calculate more 
+	* src/regression.c (general_linear_regression) : calculate more
 	  regression_stat
 	(regression_stat_new) : new
 	(regression_stat_destroy) : new
-	* src/regression.h : add fields to regression_stat_t and add 
+	* src/regression.h : add fields to regression_stat_t and add
 	  declarations of regression_stat_new and regression_stat_destroy
 
 2002-02-20  Morten Welinder  <terra@diku.dk>

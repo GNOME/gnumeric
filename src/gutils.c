@@ -638,8 +638,8 @@ ldexpgnum (gnum_float x, int exp)
 		else {
 			errno = ERANGE;
 			return (x > 0) ? HUGE_VAL : -HUGE_VAL;
-		}			
-	}	
+		}
+	}
 }
 #endif
 
@@ -714,5 +714,130 @@ yngnum (int n, gnum_float x)
 	return (gnum_float)yn (n, (double)x);
 }
 #endif
+
+/* ------------------------------------------------------------------------- */
+
+typedef struct _gnm_mem_chunk_freeblock gnm_mem_chunk_freeblock;
+typedef struct _gnm_mem_chunk_block gnm_mem_chunk_block;
+
+struct _gnm_mem_chunk_freeblock {
+	gnm_mem_chunk_freeblock *next;
+};
+
+struct _gnm_mem_chunk_block {
+	gnm_mem_chunk_block *next;
+	gpointer data;
+	int freecount, nonalloccount;
+};
+
+struct _gnm_mem_chunk {
+	const char *name;
+	size_t atom_size, user_atom_size, chunk_size;
+	int atoms_per_block;
+	gnm_mem_chunk_freeblock *freelist;
+	gnm_mem_chunk_block *blocklist;
+	size_t alignment;
+};
+
+
+
+gnm_mem_chunk *
+gnm_mem_chunk_new (const char *name, size_t user_atom_size, size_t chunk_size)
+{
+	int atoms_per_block;
+	gnm_mem_chunk *res;
+	size_t alignment, atom_size;
+	size_t maxalign = 1 + ((sizeof (void *) - 1) |
+			       (sizeof (long) - 1) |
+			       (sizeof (double) - 1) |
+			       (sizeof (long double) - 1));
+
+	alignment = MIN (MAX (user_atom_size, sizeof (gnm_mem_chunk_block *)), maxalign);
+	atom_size = alignment + MAX (user_atom_size, sizeof (gnm_mem_chunk_freeblock));
+	atoms_per_block = MAX (1, chunk_size / atom_size);
+	chunk_size = atoms_per_block * atom_size;
+
+	res = g_new (gnm_mem_chunk, 1);
+	res->alignment = alignment;
+	res->name = name;
+	res->user_atom_size = user_atom_size;
+	res->atom_size = atom_size;
+	res->chunk_size = chunk_size;
+	res->atoms_per_block = atoms_per_block;
+	res->freelist = NULL;
+	res->blocklist = NULL;
+
+	return res;
+}
+
+void
+gnm_mem_chunk_destroy (gnm_mem_chunk *chunk)
+{
+	while (chunk->blocklist) {
+		gnm_mem_chunk_block *block = chunk->blocklist;
+
+		chunk->blocklist = block->next;
+		g_free (block->data);
+		g_free (block);
+	}
+	g_free (chunk);
+}
+
+gpointer
+gnm_mem_chunk_alloc (gnm_mem_chunk *chunk)
+{
+	gnm_mem_chunk_block *block;
+	char *res;
+
+	/* First try the freelist.  */
+	if (chunk->freelist) {
+		gnm_mem_chunk_freeblock *res = chunk->freelist;
+		gnm_mem_chunk_block *block =
+			*((gnm_mem_chunk_block **)((char *)res - chunk->alignment));
+
+		chunk->freelist = res->next;
+		block->freecount--;
+		return res;
+	}
+
+	/* Now try unallocated parts of latest block.  */
+	block = chunk->blocklist;
+	if (!block || block->nonalloccount == 0) {
+		block = g_new (gnm_mem_chunk_block, 1);
+		block->next = chunk->blocklist;
+		chunk->blocklist = block;
+		block->nonalloccount = chunk->atoms_per_block;
+		block->freecount = 0;
+		block->data = g_malloc (chunk->chunk_size);
+	}
+
+	res = (char *)block->data +
+		(chunk->atoms_per_block - block->nonalloccount--) * chunk->atom_size;
+	*((gnm_mem_chunk_block **)res) = block;
+	return res + chunk->alignment;
+}
+
+gpointer
+gnm_mem_chunk_alloc0 (gnm_mem_chunk *chunk)
+{
+	gpointer res = gnm_mem_chunk_alloc (chunk);
+	memset (res, 0, chunk->user_atom_size);
+	return res;
+}
+
+void
+gnm_mem_chunk_free (gnm_mem_chunk *chunk, gpointer mem)
+{
+	gnm_mem_chunk_freeblock *fb = mem;
+	gnm_mem_chunk_block *block =
+		*((gnm_mem_chunk_block **)((char *)mem - chunk->alignment));
+
+	fb->next = chunk->freelist;
+	chunk->freelist = fb;
+
+	if (block->freecount++ == chunk->atoms_per_block) {
+		/* FIXME */
+	}
+}
 
 /* ------------------------------------------------------------------------- */

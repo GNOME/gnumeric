@@ -2596,14 +2596,11 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	g_return_val_if_fail (row >= 0, NULL);
 	g_return_val_if_fail (row < SHEET_MAX_ROWS, NULL);
 
-	cell = g_new (Cell, 1);
-
-	cell->base.sheet   = sheet;
-	cell->base.flags = DEPENDENT_CELL;
-	cell->base.expression = NULL;
+	cell = cell_new ();
+	cell->base.sheet = sheet;
 	cell->pos.col = col;
 	cell->pos.row = row;
-	cell->value   = value_new_empty ();
+	cell->value = value_new_empty ();
 
 	sheet_cell_add_to_hash (sheet, cell);
 	return cell;

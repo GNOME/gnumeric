@@ -56,11 +56,13 @@ struct _GnmDepContainer {
 	 * is tranversed by g_hash_table_foreach mostly.
 	 */
 	GHashTable **range_hash;
+	gnm_mem_chunk *range_pool;
 
 	/* Single ranges, this maps an EvalPos * to a GSList of its
 	 * dependencies.
 	 */
 	GHashTable *single_hash;
+	gnm_mem_chunk *single_pool;
 
 	/* All of the ExprNames that refer to this sheet */
 	GHashTable *names;

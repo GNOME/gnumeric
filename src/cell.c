@@ -10,6 +10,7 @@
 #include "gnumeric.h"
 #include "cell.h"
 
+#include "gutils.h"
 #include "workbook.h"
 #include "sheet.h"
 #include "expr.h"
@@ -21,6 +22,8 @@
 #include "sheet-object-cell-comment.h"
 #include "sheet-style.h"
 #include "parse-util.h"
+
+#define USE_CELL_POOL 1
 
 /**
  * cell_dirty : Mark the sheet containing the cell as being dirty.
@@ -79,6 +82,24 @@ cell_cleanout (Cell *cell)
 	}
 }
 
+/* The pool from which all cells are allocated.  */
+static gnm_mem_chunk *cell_pool;
+
+/**
+ * cell_new:
+ * @sheet: sheet in which to allocate cell.
+ *
+ * Creates a new cell.
+ */
+Cell *
+cell_new (void)
+{
+	Cell *cell = USE_CELL_POOL ? gnm_mem_chunk_alloc0 (cell_pool) : g_new0 (Cell, 1);
+	cell->base.flags = DEPENDENT_CELL;
+	return cell;
+}
+
+
 /**
  * cell_copy:
  * @cell: existing cell to duplicate
@@ -94,7 +115,7 @@ cell_copy (Cell const *cell)
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
-	new_cell = g_new (Cell, 1);
+	new_cell = cell_new ();
 
 	/* bitmap copy first */
 	*new_cell = *cell;
@@ -128,7 +149,7 @@ cell_destroy (Cell *cell)
 	g_return_if_fail (cell != NULL);
 
 	cell_cleanout (cell);
-	g_free (cell);
+	if (USE_CELL_POOL) gnm_mem_chunk_free (cell_pool, cell); else g_free (cell);
 }
 
 /*
@@ -641,4 +662,25 @@ CellComment *
 cell_has_comment (const Cell *cell)
 {
 	return cell_has_comment_pos (cell->base.sheet, &cell->pos);
+}
+
+/****************************************************************************/
+
+void
+cell_init (void)
+{
+#if USE_CELL_POOL
+	cell_pool = gnm_mem_chunk_new ("cell_pool",
+				       sizeof (Cell),
+				       128 * 1024 - 128);
+#endif
+}
+
+void
+cell_shutdown (void)
+{
+#if USE_CELL_POOL
+	gnm_mem_chunk_destroy (cell_pool);
+	cell_pool = NULL;
+#endif
 }

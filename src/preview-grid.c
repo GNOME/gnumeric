@@ -227,7 +227,8 @@ pg_construct_cell (PreviewGrid *pg, int const row, int const col)
 	/*
 	 * We are going to manually replicate a cell
 	 * structure here, please remember that this is not
-	 * the equivalent of a real cell
+	 * the equivalent of a real cell.  In particular we g_new
+	 * it and it must be g_free'd.
 	 */
 	cell = g_new0 (Cell, 1);
 
