@@ -391,14 +391,21 @@ scenarios_cancel_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			     ScenariosState *state)
 {
 	GSList *cur;
+	WorkbookControl *wbc;
 
 	gtk_widget_destroy (state->dialog);
+	wbc = WORKBOOK_CONTROL (state->wbcg);
 
 	/* Remove report sheets created on this dialog session. */
 	for (cur = state->scenario_state->new_report_sheets; cur != NULL;
 	     cur = cur->next) {
 		Sheet *sheet = (Sheet *) cur->data;
 
+		/* Check that if the focus is on a deleted sheet. */
+		if (wb_control_cur_sheet (wbc) == sheet)
+			wb_control_sheet_focus (wbc, state->sheet);
+
+		/* Delete a report sheet. */
 		workbook_sheet_detach (state->wb, sheet);
 	}
 
