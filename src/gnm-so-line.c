@@ -86,6 +86,8 @@ so_line_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 	SheetObject	*so = sheet_object_view_get_so (sov);
 	GogStyleLine const *style = &GNM_SO_LINE (so)->style->line;
 
+	sheet_object_direction_set (so, coords);
+
 	if (visible &&
 	    style->color != 0 && style->width >= 0 && style->pattern != 0) {
 		FooCanvasPoints *points = foo_canvas_points_new (2);
@@ -122,7 +124,7 @@ enum {
 };
 
 static GogStyle *
-sol_default_style ()
+sol_default_style (void)
 {
 	GogStyle *res = gog_style_new ();
 	res->interesting_fields = GOG_STYLE_LINE;
@@ -398,6 +400,9 @@ gnm_so_line_get_property (GObject *obj, guint param_id,
 		break;
 	case SOL_PROP_END_ARROW:
 		g_value_set_pointer (value, &sol->end_arrow);
+		break;
+	case SOL_PROP_IS_ARROW:
+		g_value_set_boolean (value, sol->end_arrow.c > 0);
 		break;
 	default :
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);

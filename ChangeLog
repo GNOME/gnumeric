@@ -1,3 +1,10 @@
+2004-11-30  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-so-line.c (so_line_view_set_bounds): Make sure sheet
+	object direction is set.
+	(gnm_so_line_get_property): Handle SOL_PROP_IS_ARROW for
+	completeness.
+
 2004-11-29  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=157732

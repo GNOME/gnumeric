@@ -2,6 +2,7 @@ Gnumeric 1.4.1
 
 Morten:
 	* Add bugzilla version number to desktop file.  [#159371]
+	* Fix arrows' direction used for printing and saving.  [#159922]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.0
