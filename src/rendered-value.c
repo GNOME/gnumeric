@@ -26,6 +26,7 @@
 #include "expr.h"
 #include "cell.h"
 #include "style.h"
+#include "style-color.h"
 #include "sheet.h"
 #include "sheet-merge.h"
 #include "format.h"

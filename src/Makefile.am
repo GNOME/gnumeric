@@ -59,8 +59,6 @@ GNUMERIC_BASE_SOURCES =				\
 	cmd-edit.c				\
 	collect.h				\
 	collect.c				\
-	color.c					\
-	color.h					\
 	colrow.c				\
 	colrow.h				\
 	commands.h				\
@@ -207,6 +205,8 @@ GNUMERIC_BASE_SOURCES =				\
 	style.h					\
 	style-border.c				\
 	style-border.h				\
+	style-color.c				\
+	style-color.h				\
 	summary.c				\
 	summary.h				\
 	symbol.h				\

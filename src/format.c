@@ -36,7 +36,7 @@
 #ifdef HAVE_IEEEFP_H
 #    include <ieeefp.h>
 #endif
-#include "style.h"
+#include "style-color.h"
 #include "format.h"
 #include "expr.h"
 #include "dates.h"

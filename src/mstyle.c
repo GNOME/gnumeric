@@ -8,9 +8,10 @@
  *   Almer S. Tigelaar <almer1@dds.nl>
  */
 #include <config.h>
-#include "mstyle.h"
 #include "str.h"
+#include "mstyle.h"
 #include "style-border.h"
+#include "style-color.h"
 #include "pattern.h"
 #include "format.h"
 #include "main.h"

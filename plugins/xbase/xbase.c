@@ -13,7 +13,6 @@
 #include "gnumeric-util.h"
 #include "format.h"
 #include "gutils.h"
-#include "color.h"
 #include "io-context.h"
 #include "xbase.h"
 

@@ -33,7 +33,7 @@
 #include "gnumeric-util.h"
 #include "format.h"
 #include "position.h"
-#include "color.h"
+#include "style-color.h"
 #include "cell.h"
 #include "sheet-object.h"
 #include "sheet-object-cell-comment.h"

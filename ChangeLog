@@ -1,6 +1,7 @@
 2000-12-30  Jody Goldberg <jgoldberg@home.com>
 	
 	* rename border.[ch] -> style-border.[ch]
+	* rename color.[ch] -> style-color.[ch]
 
 2000-12-30  Jody Goldberg <jgoldberg@home.com>
 

@@ -11,7 +11,7 @@
 #include "gnumeric.h"
 #include "style.h"
 #include "format.h"
-#include "color.h"
+#include "style-color.h"
 #include "application.h"
 #include "gnumeric-util.h"
 
@@ -22,7 +22,6 @@
 
 static GHashTable *style_font_hash;
 static GHashTable *style_font_negative_hash;
-static GHashTable *style_color_hash;
 
 StyleFont *gnumeric_default_font;
 StyleFont *gnumeric_default_bold_font;
@@ -194,95 +193,6 @@ style_font_unref (StyleFont *sf)
 	g_free (sf);
 }
 
-StyleColor *
-style_color_new (gushort red, gushort green, gushort blue)
-{
-	StyleColor *sc;
-	StyleColor key;
-
-	key.red   = red;
-	key.green = green;
-	key.blue  = blue;
-
-	sc = g_hash_table_lookup (style_color_hash, &key);
-	if (!sc) {
-		sc = g_new (StyleColor, 1);
-
-		key.color.red = red;
-		key.color.green = green;
-		key.color.blue = blue;
-		sc->color = key.color;
-		sc->red = red;
-		sc->green = green;
-		sc->blue = blue;
-		sc->name = NULL;
-		sc->color.pixel = e_color_alloc (red, green, blue);
-
-		/* Make a contrasting selection color with an alpha of .5 */
-		red   += (gs_lavender.red   - red)/2;
-		green += (gs_lavender.green - green)/2;
-		blue  += (gs_lavender.blue  - blue)/2;
-		sc->selected_color.red = red;
-		sc->selected_color.green = green;
-		sc->selected_color.blue = blue;
-		sc->selected_color.pixel = e_color_alloc (red, green, blue);
-
-		g_hash_table_insert (style_color_hash, sc, sc);
-		sc->ref_count = 0;
-	}
-	sc->ref_count++;
-
-	return sc;
-}
-
-StyleColor *
-style_color_black (void)
-{
-	static StyleColor *color = NULL;
-
-	if (!color)
-		color = style_color_new (0, 0, 0);
-	return style_color_ref (color);
-}
-
-StyleColor *
-style_color_white (void)
-{
-	static StyleColor *color = NULL;
-
-	if (!color)
-		color = style_color_new (0xffff, 0xffff, 0xffff);
-	return style_color_ref (color);
-}
-
-StyleColor *
-style_color_ref (StyleColor *sc)
-{
-	g_return_val_if_fail (sc != NULL, NULL);
-
-	sc->ref_count++;
-
-	return sc;
-}
-
-void
-style_color_unref (StyleColor *sc)
-{
-	g_return_if_fail (sc != NULL);
-	g_return_if_fail (sc->ref_count > 0);
-
-	sc->ref_count--;
-	if (sc->ref_count != 0)
-		return;
-
-	/*
-	 * There is no need to deallocate colors, as they come from
-	 * the GDK Color Context
-	 */
-	g_hash_table_remove (style_color_hash, sc);
-	g_free (sc);
-}
-
 /*
  * The routines used to hash and compare the different styles
  */
@@ -311,28 +221,6 @@ style_font_hash_func (gconstpointer v)
 	const StyleFont *k = (const StyleFont *) v;
 
 	return k->size + g_str_hash (k->font_name);
-}
-
-static gint
-color_equal (gconstpointer v, gconstpointer v2)
-{
-	const StyleColor *k1 = (const StyleColor *) v;
-	const StyleColor *k2 = (const StyleColor *) v2;
-
-	if (k1->red   == k2->red &&
-	    k1->green == k2->green &&
-	    k1->blue  == k2->blue)
-		return 1;
-
-	return 0;
-}
-
-static guint
-color_hash (gconstpointer v)
-{
-	const StyleColor *k = (const StyleColor *)v;
-
-	return (k->red << 16) | (k->green << 8) | (k->blue);
 }
 
 static void
@@ -409,8 +297,6 @@ style_init (void)
 	number_format_init ();
 	style_font_hash   = g_hash_table_new (style_font_hash_func,
 					      style_font_equal);
-	style_color_hash  = g_hash_table_new (color_hash, color_equal);
-
 	style_font_negative_hash = g_hash_table_new (style_font_hash_func,
 						     style_font_equal);
 
@@ -460,8 +346,6 @@ style_shutdown (void)
 	number_format_shutdown ();
 	g_hash_table_destroy (style_font_hash);
 	style_font_hash = NULL;
-	g_hash_table_destroy (style_color_hash);
-	style_color_hash = NULL;
 
 	g_hash_table_foreach (style_font_negative_hash, delete_neg_font, NULL);
 	g_hash_table_destroy (style_font_negative_hash);

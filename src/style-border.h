@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_BORDER_H
-#define GNUMERIC_BORDER_H
+#ifndef GNUMERIC_STYLE_BORDER_H
+#define GNUMERIC_STYLE_BORDER_H
 
 #include "gnumeric.h"
 #include <libgnomeprint/gnome-print.h>
@@ -84,4 +84,4 @@ void style_border_print (StyleBorder const * const border, StyleBorderLocation c
 			 StyleBorder const * const extend_begin,
 			 StyleBorder const * const extend_end);
 
-#endif /* GNUMERIC_BORDER_H */
+#endif /* GNUMERIC_STYLE_BORDER_H */

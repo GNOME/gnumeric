@@ -16,7 +16,7 @@
 #include "ms-excel-read.h"
 #include "ms-escher.h"
 #include "parse-util.h"
-#include "style.h"
+#include "style-color.h"
 #include "format.h"
 #include "expr.h"
 #include "gutils.h"

@@ -27,7 +27,7 @@
 #include "parse-util.h"
 #include "mstyle.h"
 #include "style-border.h"
-#include "color.h"
+#include "style-color.h"
 #include "pattern.h"
 #include <gal/widgets/e-cursors.h>
 #include <math.h>

@@ -29,6 +29,7 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "style.h"
+#include "style-color.h"
 #include "html.h"
 #include "cell.h"
 #include "value.h"

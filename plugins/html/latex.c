@@ -27,6 +27,7 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "style.h"
+#include "style-color.h"
 #include "latex.h"
 #include "font.h"
 #include "cell.h"

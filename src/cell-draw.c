@@ -8,6 +8,7 @@
 #include <gdk/gdk.h>
 #include "cell-draw.h"
 #include "style.h"
+#include "style-color.h"
 #include "cell.h"
 #include "value.h"
 #include "workbook.h"

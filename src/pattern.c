@@ -8,7 +8,7 @@
  */
 #include "config.h"
 #include "pattern.h"
-#include "color.h"
+#include "style-color.h"
 
 typedef struct {
 	int const x, y;

@@ -15,7 +15,7 @@
 #include "gnome-xml/parser.h"
 #include "gnome-xml/parserInternals.h"
 #include "gnome-xml/xmlmemory.h"
-#include "color.h"
+#include "style-color.h"
 #include "style-border.h"
 #include "style.h"
 #include "sheet-object.h"

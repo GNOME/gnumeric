@@ -13,7 +13,7 @@
 #include "item-grid.h"
 #include "sheet-control-gui.h"
 #include "gnumeric-util.h"
-#include "color.h"
+#include "style-color.h"
 #include "selection.h"
 #include "parse-util.h"
 #include "ranges.h"

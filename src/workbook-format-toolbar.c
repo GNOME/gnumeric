@@ -23,7 +23,7 @@
 #include "commands.h"
 #include "format.h"
 #include "formats.h"
-#include "color.h"
+#include "style-color.h"
 #include "style-border.h"
 #include "ranges.h"
 #include "widgets/gnumeric-toolbar.h"

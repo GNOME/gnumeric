@@ -5,12 +5,14 @@
  *    Michael Meeks (michael@imaginator.com)
  *    Jody Goldberg (jgoldberg@home.com)
  *
- * (C) 1998, 1999, 2000 Michael Meeks, Jody Goldberg
+ * (C) 1998-2001 Michael Meeks, Jody Goldberg
  **/
 #ifndef GNUMERIC_MS_EXCEL_XF_H
 #define GNUMERIC_MS_EXCEL_XF_H
 
+#include "style.h"
 #include "style-border.h"
+#include "style-color.h"
 
 #define STYLE_TOP		(MSTYLE_BORDER_TOP	    - MSTYLE_BORDER_TOP)
 #define STYLE_BOTTOM		(MSTYLE_BORDER_BOTTOM	    - MSTYLE_BORDER_TOP)

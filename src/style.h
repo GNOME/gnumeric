@@ -53,16 +53,6 @@ struct _StyleFont {
 	unsigned int is_italic:1;
 };
 
-struct _StyleColor {
-	int      ref_count;
-	GdkColor color;
-	GdkColor selected_color;
-	char     *name;
-	gushort  red;
-	gushort  green;
-	gushort  blue;
-};
-
 void           style_init  	      (void);
 void	       style_shutdown         (void);
 
@@ -77,12 +67,6 @@ int            style_font_get_height  (StyleFont const *sf);
 float	       style_font_get_width   (StyleFont const *sf);
 void           style_font_ref         (StyleFont *sf);
 void           style_font_unref       (StyleFont *sf);
-
-StyleColor    *style_color_new        (gushort red, gushort green, gushort blue);
-StyleColor    *style_color_ref        (StyleColor *sc);
-void           style_color_unref      (StyleColor *sc);
-StyleColor    *style_color_black      (void);
-StyleColor    *style_color_white      (void);
 
 /*
  * For hashing Styles

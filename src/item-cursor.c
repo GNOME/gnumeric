@@ -9,7 +9,7 @@
 #include "item-cursor.h"
 #include "gnumeric-sheet.h"
 #include "sheet-control-gui.h"
-#include "color.h"
+#include "style-color.h"
 #include "clipboard.h"
 #include "selection.h"
 #include "sheet.h"

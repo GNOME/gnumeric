@@ -8,7 +8,7 @@
  */
 #include <config.h>
 #include "style-border.h"
-#include "color.h"
+#include "style-color.h"
 #include "style.h"
 
 struct LineDotPattern {

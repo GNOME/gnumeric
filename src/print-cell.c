@@ -13,7 +13,7 @@
 #include "gnumeric.h"
 #include "eval.h"
 #include "format.h"
-#include "color.h"
+#include "style-color.h"
 #include "parse-util.h"
 #include "cell.h"
 #include "value.h"

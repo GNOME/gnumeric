@@ -29,7 +29,7 @@
 #include "style-border.h"
 #include "cell.h"
 #include "cell-draw.h"
-#include "color.h"
+#include "style-color.h"
 #include "pattern.h"
 #include "mstyle.h"
 

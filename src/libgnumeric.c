@@ -35,7 +35,7 @@
 #include "global-gnome-font.h"
 #include "auto-format.h"
 #include "style.h"
-#include "color.h"
+#include "style-color.h"
 
 #include "../plugins/excel/boot.h"
 
@@ -254,6 +254,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	e_cursors_shutdown ();
 	format_match_finish ();
 	format_color_shutdown ();
+	gnumeric_color_shutdown ();
 	style_shutdown ();
 
 	global_gnome_font_shutdown ();
