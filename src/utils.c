@@ -173,3 +173,29 @@ gnumeric_strcase_hash (gconstpointer v)
 	return h /* % M */;
 }
 
+static guint32
+january_1900()
+{
+	static guint32 julian = 0;
+
+	if (!julian) {
+		GDate* date = g_date_new_dmy (1, 1, 1900);
+		/* Day 1 means 1st of jannuary of 1900 */
+		julian = g_date_julian (date) - 1;
+		g_date_free (date);
+	}
+	
+	return julian;
+}
+
+guint32 
+g_date_serial (GDate* date)
+{
+	return g_date_julian (date) - january_1900 ();
+}
+
+GDate*
+g_date_new_serial (guint32 serial)
+{
+	return g_date_new_julian (serial + january_1900 ());
+}

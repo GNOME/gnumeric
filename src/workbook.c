@@ -8,7 +8,6 @@
 #include <config.h>
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/lib_date.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
@@ -603,13 +602,15 @@ static void
 insert_current_date_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
-	time_t t = time (NULL);
-	struct tm *tm = localtime (&t);
 	char *preferred_date_format = _(">mm/dd/yyyy");
 	int n;
+	GDate *date = g_date_new();
 	
-	n = calc_days (tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday) -
-		calc_days (1900, 1, 1) + 1;
+	g_date_set_time (date, time (NULL));
+
+	n = g_date_serial (date);
+
+	g_date_free( date );
 
 	insert_at_cursor (sheet, n, preferred_date_format+1);
 }

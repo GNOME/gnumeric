@@ -6,7 +6,6 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include <libgnome/lib_date.h>
 #include "math.h"
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
@@ -36,23 +35,22 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 {
 	Value *v;
 	int year, month, day;
-
+	GDate *date;
+	
 	year  = value_get_as_double (argv [0]);
 	month = value_get_as_double (argv [1]);
 	day   = value_get_as_double (argv [2]);
 
-	/* Count backwars in the month */
-	if (day < 0){
-		month--;
-		if (month < 1){
-			year--;
-			month = 12;
-		}
-		day = month_length [leap (year)][month] - day;
-	}
-	v = value_int (
-		calc_days (year, month, day) -
-		calc_days (1900, 1, 1));
+	date = g_date_new_dmy (1, month, year);
+
+	if (day > 0)
+		g_date_set_day (date, day);
+	else 
+		g_date_subtract_days (date, -day + 1);
+
+	v = value_int (g_date_serial (date));
+
+	g_date_free (date);
 
 	return v;
 }
@@ -74,12 +72,13 @@ static Value *
 gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
 	Value *v;
-	time_t t = time (NULL);
-	struct tm *tm = localtime (&t);
+	GDate *date = g_date_new();
+	
+	g_date_set_time (date, time (NULL));
+	
+	v = value_int (g_date_serial (date));
 
-	v = value_int (
-		calc_days (tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday) -
-		calc_days (1900, 1, 1));
+	g_date_free (date);	
 
 	return v;
 }
@@ -111,11 +110,15 @@ gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 	Value *v;
 	time_t t = time (NULL);
 	struct tm *tm = localtime (&t);
+	GDate *date = g_date_new();
+	
+	g_date_set_time (date, t);
 
-	v = value_float (
-		calc_days (tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday) +
-		((tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec)/(double)DAY_SECONDS) -
-		calc_days (1900, 1, 1));
+	v = value_float (g_date_serial(date) +
+			 ((tm->tm_hour * 3600 + tm->tm_min * 60 
+			   + tm->tm_sec)/(double)DAY_SECONDS));
+
+	g_date_free (date);
 
 	return v;
 }
@@ -261,22 +264,19 @@ static Value *
 gnumeric_year_month_day (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
-	int serial;
-	int year  = 1900;
-	int month = 1;
-	int day   = 1;
-	
-	serial   = floor (value_get_as_double (argv [0]));
+	guint32 serial = floor (value_get_as_double (argv [0]));
+	GDate* date = g_date_new_serial (serial);
 
 	v->type = VALUE_INTEGER;
-	calc_new_date (&year, &month, &day, floor (serial));
 	
 	if (fd->name [0] == 'y')
-		v->v.v_int = year;
+		v->v.v_int = g_date_year (date);
 	else if (fd->name [0] == 'm')
-		v->v.v_int = month;
+		v->v.v_int = g_date_month (date);
 	else if (fd->name [0] == 'd')
-		v->v.v_int = day;
+		v->v.v_int = g_date_day (date);
+
+	g_date_free (date);
 
 	return v;
 }

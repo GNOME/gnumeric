@@ -26,7 +26,6 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
-#include <libgnome/lib_date.h>
 #include <locale.h>
 #include "gnumeric.h"
 #include "format.h"
@@ -683,21 +682,9 @@ split_time (gdouble number)
 	static struct tm tm;
 	double secs;
 
-	tm.tm_year = 1900;
-	tm.tm_mon  = 1;
-	tm.tm_mday = 1;
-
-	/* Day 1 means 1st of jannuary of 1900 */
-
-	calc_new_date (&tm.tm_year, &tm.tm_mon, &tm.tm_mday, number-1.0);
-	tm.tm_wday = day_of_week (tm.tm_year, tm.tm_mon, tm.tm_mday);
-	if (tm.tm_wday == 7)
-		tm.tm_wday = 0;
+	GDate* date = g_date_new_serial (number);
 	
-/*	printf ("Year: %d Month: %d, Day: %d\n", tm.tm_year, tm.tm_mon, tm.tm_mday); */
-	tm.tm_mon--;
-
-	tm.tm_year -= 1900;
+	g_date_to_struct_tm (date, &tm);
 
 	secs = (number - floor (number)) * 86400.0;
 	tm.tm_hour = secs / 3600;

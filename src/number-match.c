@@ -18,7 +18,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <sys/types.h>
-#include <libgnome/lib_date.h>
 #include <regex.h>
 #include "number-match.h"
 #include "formats.h"
@@ -642,6 +641,7 @@ compute_value (char *s, regmatch_t *mp, GByteArray *array, double *v)
 	{
 		time_t t = time (NULL);
 		struct tm *tm = localtime (&t);
+		GDate *date;
 
 		if (!(year == -1 && month == -1 && day == -1)){
 			if (year == -1){
@@ -664,9 +664,11 @@ compute_value (char *s, regmatch_t *mp, GByteArray *array, double *v)
 			if (month < 1 || month > 12)
 				return FALSE;
 			
-			number =
-				calc_days (year, month, day) -
-				calc_days (1900, 1, 1) + 1;
+			date = g_date_new_dmy (day, month, year);
+
+			number = g_date_serial (date);
+
+			g_date_free( date );
 		}
 
 		*v = number;

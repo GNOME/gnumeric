@@ -1,3 +1,16 @@
+1998-12-13  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
+
+	* src/fn-date.c (gnumeric_year_month_day, gnumeric_now,
+	gnumeric_today,gnumeric_date): 
+	* src/workbook.c (insert_current_date_cmd): 
+	* src/number-match.c (compute_value): Changed to use the glib
+	GDate type instead of the lib_date functions. Fixed off by-one
+	error for some date functions (e.g. =today ()) was one day to
+	early).
+
+	* src/utils.c, src/utils.h (g_date_serilal, g_date_serial_new):
+	New functions for handling the gnumeric serial of a date.
+
 1998-12-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/item-cursor.c (item_cursor_set_bounds_visibly): Update the
