@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2002-06-02 23:36-0400\n"
+"POT-Creation-Date: 2002-06-03 16:38-0400\n"
 "PO-Revision-Date: 2001-02-11 20:00+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: gnome-i18n@gnome.org\n"
@@ -4107,7 +4107,7 @@ msgid "_Wrap text"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:129
-msgid "min &lt;= val &lt;= max         (between)"
+msgid "min <= val <= max         (between)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4115,27 +4115,27 @@ msgid "val != bound                  (not equal to)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "val &gt;  bound                  (greater than)"
+msgid "val <  bound                  (less than)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:132
-msgid "val &gt;=bound                  (greater than or equal to)"
+msgid "val <= min || max <= val (not between)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val &lt;  bound                  (less than)"
+msgid "val <=bound                  (less than or equal to)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val &lt;= min || max &lt;= val (not between)"
+msgid "val == bound                 (equal to)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:135
-msgid "val &lt;=bound                  (less than or equal to)"
+msgid "val >  bound                  (greater than)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:136
-msgid "val == bound                 (equal to)"
+msgid "val >=bound                  (greater than or equal to)"
 msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:1
@@ -5361,15 +5361,15 @@ msgstr ""
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr ""
 
@@ -5414,24 +5414,24 @@ msgstr ""
 msgid "\""
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "&lt;- Remove"
-msgstr ""
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "&lt;- Remove all"
-msgstr ""
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr ""
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "<- Remove"
+msgstr ""
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+msgid "<- Remove all"
+msgstr ""
+
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add -&gt;"
+msgid "Add ->"
 msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all -&gt;"
+msgid "Add all ->"
 msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -6889,14 +6889,6 @@ msgstr ""
 
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
-msgstr ""
-
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr ""
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
 msgstr ""
 
 #: src/dialogs/solver.glade.h:4

@@ -371,12 +371,9 @@ lookup_font_base_char_width_new (char const * const name, double size_pts,
 static char*
 get_locale_charset_name (void)
 {
-#ifndef HAVE_ICONV
-	return "";
-#else
 	static char* charset = NULL;
 
-	if (charset)
+	if (charset != NULL)
 		return charset;
 
 #ifdef _NL_CTYPE_CODESET_NAME
@@ -385,17 +382,15 @@ get_locale_charset_name (void)
 	charset = nl_langinfo (CODESET);
 #else
 	{
-		char* locale = setlocale(LC_CTYPE,"");
-		char* tmp = strchr(locale,'.');
-		if (tmp)
-			charset = tmp+1;
+		char *locale = setlocale (LC_CTYPE, "");
+		if (locale != NULL) {
+			char *tmp = strchr (locale,'.');
+			if (tmp != NULL)
+				charset = tmp + 1;
+		}
 	}
 #endif
-	if (!charset)
-		charset = "ISO-8859-1";
-	charset = g_strdup(charset);
-	return charset;
-#endif
+	return (charset = (charset != NULL) ? g_strdup (charset) : "ISO-8859-1");
 }
 #endif
 
@@ -491,7 +486,7 @@ excel_iconv_open_for_import (guint codepage)
 
 	src_charset = g_strdup_printf ("CP%d",codepage);
 	iconv_handle = iconv_open (get_locale_charset_name (), src_charset);
-	g_free(src_charset);
+	g_free (src_charset);
 	return iconv_handle;
 #endif
 }

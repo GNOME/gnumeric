@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.49\n"
-"POT-Creation-Date: 2002-06-02 23:36-0400\n"
+"POT-Creation-Date: 2002-06-03 16:38-0400\n"
 "PO-Revision-Date: 2000-03-28 16:26-0500\n"
 "Last-Translator: Spiros Papadimitriou <spapadim+@cs.cmu.edu>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -4519,7 +4519,7 @@ msgid "_Wrap text"
 msgstr "Αλλα_γή γραμμής"
 
 #: src/dialogs/cell-format.glade.h:129
-msgid "min &lt;= val &lt;= max         (between)"
+msgid "min <= val <= max         (between)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4529,31 +4529,31 @@ msgstr "                         "
 
 #: src/dialogs/cell-format.glade.h:131
 #, fuzzy
-msgid "val &gt;  bound                  (greater than)"
+msgid "val <  bound                  (less than)"
 msgstr "                         "
 
 #: src/dialogs/cell-format.glade.h:132
-#, fuzzy
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "                         "
+msgid "val <= min || max <= val (not between)"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:133
 #, fuzzy
-msgid "val &lt;  bound                  (less than)"
+msgid "val <=bound                  (less than or equal to)"
 msgstr "                         "
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val &lt;= min || max &lt;= val (not between)"
-msgstr ""
+#, fuzzy
+msgid "val == bound                 (equal to)"
+msgstr "                         "
 
 #: src/dialogs/cell-format.glade.h:135
 #, fuzzy
-msgid "val &lt;=bound                  (less than or equal to)"
+msgid "val >  bound                  (greater than)"
 msgstr "                         "
 
 #: src/dialogs/cell-format.glade.h:136
 #, fuzzy
-msgid "val == bound                 (equal to)"
+msgid "val >=bound                  (greater than or equal to)"
 msgstr "                         "
 
 #: src/dialogs/cell-sort.glade.h:1
@@ -5906,15 +5906,15 @@ msgstr "Σχόλια"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Είσαστε βέβαιοι ότι θέλετε να διαγράψετε το φύλλο με όνομα `%s';"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5961,29 +5961,29 @@ msgstr "Είσαστε βέβαιοι ότι θέλετε να διαγράψετε το φύλλο με όνομα `%s';"
 msgid "\""
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-#, fuzzy
-msgid "&lt;- Remove"
-msgstr "Διαγραφή"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
-msgid "&lt;- Remove all"
-msgstr "Αφαίρεση δεκαδικών"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 #, fuzzy
 msgid "'"
 msgstr "\n"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "<- Remove"
+msgstr "Διαγραφή"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+#, fuzzy
+msgid "<- Remove all"
+msgstr "Αφαίρεση δεκαδικών"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
 #, fuzzy
-msgid "Add -&gt;"
+msgid "Add ->"
 msgstr "Πρόσθεση"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 #, fuzzy
-msgid "Add all -&gt;"
+msgid "Add all ->"
 msgstr "Νέο  "
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -7595,14 +7595,6 @@ msgstr "Εισάγετε όνομα νέου _φύλλου:"
 #, fuzzy
 msgid "Rename sheet"
 msgstr "Μετονομασία παρόντος φύλλου"
-
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr ""
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr ""
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -20118,6 +20110,14 @@ msgstr "Δεν είναι αρχείο βιβλίου"
 #: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Μορφή αρχείου XML Gnumeric"
+
+#, fuzzy
+#~ msgid "&lt;- Remove"
+#~ msgstr "Διαγραφή"
+
+#, fuzzy
+#~ msgid "Add -&gt;"
+#~ msgstr "Πρόσθεση"
 
 #, fuzzy
 #~ msgid ""

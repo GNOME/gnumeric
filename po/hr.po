@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-06-02 23:36-0400\n"
+"POT-Creation-Date: 2002-06-03 16:38-0400\n"
 "PO-Revision-Date: 1999-06-01 11:20+0100\n"
 "Last-Translator: Vladimir Vuksan <vuksan@veus.hr>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -4412,7 +4412,7 @@ msgid "_Wrap text"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:129
-msgid "min &lt;= val &lt;= max         (between)"
+msgid "min <= val <= max         (between)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4420,27 +4420,27 @@ msgid "val != bound                  (not equal to)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "val &gt;  bound                  (greater than)"
+msgid "val <  bound                  (less than)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:132
-msgid "val &gt;=bound                  (greater than or equal to)"
+msgid "val <= min || max <= val (not between)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val &lt;  bound                  (less than)"
+msgid "val <=bound                  (less than or equal to)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val &lt;= min || max &lt;= val (not between)"
+msgid "val == bound                 (equal to)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:135
-msgid "val &lt;=bound                  (less than or equal to)"
+msgid "val >  bound                  (greater than)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:136
-msgid "val == bound                 (equal to)"
+msgid "val >=bound                  (greater than or equal to)"
 msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:1
@@ -5747,15 +5747,15 @@ msgstr "Komentari"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Da li ste sigurni da ¾elite ukloniti list pod `%s' "
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5801,28 +5801,28 @@ msgstr ""
 msgid "\""
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-#, fuzzy
-msgid "&lt;- Remove"
-msgstr "<- Ukloni"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
-msgid "&lt;- Remove all"
-msgstr "<- Ukloni sve"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr ""
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "<- Remove"
+msgstr "Ukloni"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+#, fuzzy
+msgid "<- Remove all"
+msgstr "<- Ukloni sve"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
 #, fuzzy
-msgid "Add -&gt;"
-msgstr "Dodaj ->"
+msgid "Add ->"
+msgstr "Dodaj"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 #, fuzzy
-msgid "Add all -&gt;"
+msgid "Add all ->"
 msgstr "Dodaj sve ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -7417,14 +7417,6 @@ msgstr ""
 #, fuzzy
 msgid "Rename sheet"
 msgstr "Ukloni ovaj list"
-
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr ""
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr ""
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -16910,6 +16902,14 @@ msgstr ""
 #: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML format"
+
+#, fuzzy
+#~ msgid "&lt;- Remove"
+#~ msgstr "<- Ukloni"
+
+#, fuzzy
+#~ msgid "Add -&gt;"
+#~ msgstr "Dodaj ->"
 
 #~ msgid "rows"
 #~ msgstr "redovi"

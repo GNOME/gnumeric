@@ -7,10 +7,15 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - http://bugzilla.gnome.org/show_bug.cgi?id=81104
+    - clipboard
+
+Todo
+----
     - http://bugs.debian.org/148394
+    libxml1 bug
 
     - jon kare's sorting  http://bugzilla.gnome.org/show_bug.cgi?id=82931
+    AARRRHHHGG  what is the right heuristic here.
 
 Pending Patches
 ---------------

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-06-02 23:36-0400\n"
+"POT-Creation-Date: 2002-06-03 16:38-0400\n"
 "PO-Revision-Date: 2002-05-23 15:10+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -4235,7 +4235,7 @@ msgstr "_Zawijanie tekstu"
 
 #: src/dialogs/cell-format.glade.h:129
 #, fuzzy
-msgid "min &lt;= val &lt;= max         (between)"
+msgid "min <= val <= max         (between)"
 msgstr "minimum <= warto¶æ <= maksimum  (pomiêdzy)"
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4244,32 +4244,32 @@ msgstr "warto¶æ <> ograniczenie  (ró¿ne od)"
 
 #: src/dialogs/cell-format.glade.h:131
 #, fuzzy
-msgid "val &gt;  bound                  (greater than)"
-msgstr "warto¶æ > ograniczenie  (wiêksze ni¿)"
+msgid "val <  bound                  (less than)"
+msgstr "warto¶æ < ograniczenie  (mniejsze ni¿)"
 
 #: src/dialogs/cell-format.glade.h:132
 #, fuzzy
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "warto¶æ >= ograniczenie  (nie mniejsze ni¿)"
+msgid "val <= min || max <= val (not between)"
+msgstr "warto¶æ <= minimum lub warto¶æ >= maksimum  (poza zakresem)"
 
 #: src/dialogs/cell-format.glade.h:133
 #, fuzzy
-msgid "val &lt;  bound                  (less than)"
-msgstr "warto¶æ < ograniczenie  (mniejsze ni¿)"
+msgid "val <=bound                  (less than or equal to)"
+msgstr "warto¶æ <= ograniczenie  (nie wiêksze ni¿)"
 
 #: src/dialogs/cell-format.glade.h:134
-#, fuzzy
-msgid "val &lt;= min || max &lt;= val (not between)"
-msgstr "warto¶æ <= minimum lub warto¶æ >= maksimum  (poza zakresem)"
+msgid "val == bound                 (equal to)"
+msgstr "warto¶æ == ograniczenie  (równe)"
 
 #: src/dialogs/cell-format.glade.h:135
 #, fuzzy
-msgid "val &lt;=bound                  (less than or equal to)"
-msgstr "warto¶æ <= ograniczenie  (nie wiêksze ni¿)"
+msgid "val >  bound                  (greater than)"
+msgstr "warto¶æ > ograniczenie  (wiêksze ni¿)"
 
 #: src/dialogs/cell-format.glade.h:136
-msgid "val == bound                 (equal to)"
-msgstr "warto¶æ == ograniczenie  (równe)"
+#, fuzzy
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "warto¶æ >= ograniczenie  (nie mniejsze ni¿)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5526,15 +5526,15 @@ msgstr "Komentarz"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Czy na pewno chcesz usun±æ arkusz \"%s\"?"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5579,28 +5579,28 @@ msgstr "Czy na pewno chcesz anulowaæ?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-#, fuzzy
-msgid "&lt;- Remove"
-msgstr "<- Usuñ"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
-msgid "&lt;- Remove all"
-msgstr "<- Usuñ wszystkie"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "<- Remove"
+msgstr "Usuñ"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+#, fuzzy
+msgid "<- Remove all"
+msgstr "<- Usuñ wszystkie"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
 #, fuzzy
-msgid "Add -&gt;"
-msgstr "Dodaj ->"
+msgid "Add ->"
+msgstr "Dodaj "
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 #, fuzzy
-msgid "Add all -&gt;"
+msgid "Add all ->"
 msgstr "Dodaj wszystkie ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -7085,14 +7085,6 @@ msgstr "Wprowad¼ now± nazwê _arkusza:"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Zmiana nazwy arkusza"
-
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr ""
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr ""
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -20000,6 +19992,14 @@ msgstr "Plik nie zawiera zeszytu Gnumerica"
 #: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Format Gnumeric XML"
+
+#, fuzzy
+#~ msgid "&lt;- Remove"
+#~ msgstr "<- Usuñ"
+
+#, fuzzy
+#~ msgid "Add -&gt;"
+#~ msgstr "Dodaj ->"
 
 #~ msgid "PLN : Not a PlanPerfect File"
 #~ msgstr "PLN : To nie jest plik Plan Perfect"

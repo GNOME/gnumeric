@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
-"POT-Creation-Date: 2002-06-02 23:36-0400\n"
+"POT-Creation-Date: 2002-06-03 16:38-0400\n"
 "PO-Revision-Date: 2001-09-30 16:07+0200\n"
 "Last-Translator: Softcatalà <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <linux@softcatala.org>\n"
@@ -4396,7 +4396,7 @@ msgstr "_Ajusta el text"
 
 #: src/dialogs/cell-format.glade.h:129
 #, fuzzy
-msgid "min &lt;= val &lt;= max         (between)"
+msgid "min <= val <= max         (between)"
 msgstr "mín <= val <= màx          (entre)"
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4405,32 +4405,32 @@ msgstr "val !=límit                 (no és igual a)"
 
 #: src/dialogs/cell-format.glade.h:131
 #, fuzzy
-msgid "val &gt;  bound                  (greater than)"
-msgstr "val >  límit                   (més gran que)"
+msgid "val <  bound                  (less than)"
+msgstr "val <  límit                  (menor que)"
 
 #: src/dialogs/cell-format.glade.h:132
 #, fuzzy
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "val >=límit                  (més gran que o igual a)"
+msgid "val <= min || max <= val (not between)"
+msgstr "val <= mín || màx <= val (no entre)"
 
 #: src/dialogs/cell-format.glade.h:133
 #, fuzzy
-msgid "val &lt;  bound                  (less than)"
-msgstr "val <  límit                  (menor que)"
+msgid "val <=bound                  (less than or equal to)"
+msgstr "val <=límit                  (menor que o igual a)"
 
 #: src/dialogs/cell-format.glade.h:134
-#, fuzzy
-msgid "val &lt;= min || max &lt;= val (not between)"
-msgstr "val <= mín || màx <= val (no entre)"
+msgid "val == bound                 (equal to)"
+msgstr "val == límit                (igual a)"
 
 #: src/dialogs/cell-format.glade.h:135
 #, fuzzy
-msgid "val &lt;=bound                  (less than or equal to)"
-msgstr "val <=límit                  (menor que o igual a)"
+msgid "val >  bound                  (greater than)"
+msgstr "val >  límit                   (més gran que)"
 
 #: src/dialogs/cell-format.glade.h:136
-msgid "val == bound                 (equal to)"
-msgstr "val == límit                (igual a)"
+#, fuzzy
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "val >=límit                  (més gran que o igual a)"
 
 #: src/dialogs/cell-sort.glade.h:1
 #, fuzzy
@@ -5741,15 +5741,15 @@ msgstr "Comentaris"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Esteu segurs que voleu eliminar el full anumenat `%s'?"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5796,28 +5796,28 @@ msgstr "Esteu segur que voleu cancel·lar?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-#, fuzzy
-msgid "&lt;- Remove"
-msgstr "<- Suprimeix"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
-msgid "&lt;- Remove all"
-msgstr "<- Suprimeix-los tots"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "<- Remove"
+msgstr "Suprimeix"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+#, fuzzy
+msgid "<- Remove all"
+msgstr "<- Suprimeix-los tots"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
 #, fuzzy
-msgid "Add -&gt;"
-msgstr "Afegeix ->"
+msgid "Add ->"
+msgstr "Afegeix "
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 #, fuzzy
-msgid "Add all -&gt;"
+msgid "Add all ->"
 msgstr "Afegeix-los tots ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -7424,14 +7424,6 @@ msgstr "Introduïu un nou nom de _full:"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Reanomena el full"
-
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr ""
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr ""
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -21356,6 +21348,14 @@ msgstr "No és un fitxer de llibre de treball del Gnumeric"
 #: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Format de fitxer Gnumeric XML"
+
+#, fuzzy
+#~ msgid "&lt;- Remove"
+#~ msgstr "<- Suprimeix"
+
+#, fuzzy
+#~ msgid "Add -&gt;"
+#~ msgstr "Afegeix ->"
 
 #~ msgid "PLN : Not a PlanPerfect File"
 #~ msgstr "PLN : No és un fitxer PlanPerfect"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.99.0\n"
-"POT-Creation-Date: 2002-06-02 23:36-0400\n"
+"POT-Creation-Date: 2002-06-03 16:38-0400\n"
 "PO-Revision-Date: 2002-01-15 03:14+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: Norwegian/Nynorsk <no@li.org>\n"
@@ -4142,7 +4142,7 @@ msgstr "_Bryt tekst"
 
 #: src/dialogs/cell-format.glade.h:129
 #, fuzzy
-msgid "min &lt;= val &lt;= max         (between)"
+msgid "min <= val <= max         (between)"
 msgstr "min <= val <= maks        (mellom)"
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4151,32 +4151,32 @@ msgstr "verdi != grense                 (ikkje lik)"
 
 #: src/dialogs/cell-format.glade.h:131
 #, fuzzy
-msgid "val &gt;  bound                  (greater than)"
-msgstr "verdi >  grense                  (større enn)"
+msgid "val <  bound                  (less than)"
+msgstr "verdi <  grense                  (mindre enn)"
 
 #: src/dialogs/cell-format.glade.h:132
 #, fuzzy
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "verdi >=grense                  (større enn eller lik)"
+msgid "val <= min || max <= val (not between)"
+msgstr "verdi <= min || maks <= val (ikkje mellom)"
 
 #: src/dialogs/cell-format.glade.h:133
 #, fuzzy
-msgid "val &lt;  bound                  (less than)"
-msgstr "verdi <  grense                  (mindre enn)"
+msgid "val <=bound                  (less than or equal to)"
+msgstr "verdi <=grense                 (mindre enn eller lik)"
 
 #: src/dialogs/cell-format.glade.h:134
-#, fuzzy
-msgid "val &lt;= min || max &lt;= val (not between)"
-msgstr "verdi <= min || maks <= val (ikkje mellom)"
+msgid "val == bound                 (equal to)"
+msgstr "verdi == grense                 (lik)"
 
 #: src/dialogs/cell-format.glade.h:135
 #, fuzzy
-msgid "val &lt;=bound                  (less than or equal to)"
-msgstr "verdi <=grense                 (mindre enn eller lik)"
+msgid "val >  bound                  (greater than)"
+msgstr "verdi >  grense                  (større enn)"
 
 #: src/dialogs/cell-format.glade.h:136
-msgid "val == bound                 (equal to)"
-msgstr "verdi == grense                 (lik)"
+#, fuzzy
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "verdi >=grense                  (større enn eller lik)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5429,15 +5429,15 @@ msgstr "Merknad"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Er du sikker på at du slette arket merka «%s»?"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5484,28 +5484,28 @@ msgstr "Er du sikker på at du vil avbryta?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-#, fuzzy
-msgid "&lt;- Remove"
-msgstr "<- Fjern"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
-msgid "&lt;- Remove all"
-msgstr "<- Fjern alle"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "<- Remove"
+msgstr "Fjern"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+#, fuzzy
+msgid "<- Remove all"
+msgstr "<- Fjern alle"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
 #, fuzzy
-msgid "Add -&gt;"
-msgstr "Legg til ->"
+msgid "Add ->"
+msgstr "Legg til"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 #, fuzzy
-msgid "Add all -&gt;"
+msgid "Add all ->"
 msgstr "Legg til alle ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -7001,14 +7001,6 @@ msgstr "Oppgi _nytt arknamn:"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Endre namn"
-
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr ""
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr ""
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -17703,6 +17695,14 @@ msgstr "Er ikkje ei Gnumeric Arbeidsbok fil"
 #: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
+
+#, fuzzy
+#~ msgid "&lt;- Remove"
+#~ msgstr "<- Fjern"
+
+#, fuzzy
+#~ msgid "Add -&gt;"
+#~ msgstr "Legg til ->"
 
 #~ msgid "PLN : Not a PlanPerfect File"
 #~ msgstr "PLN: Ikkje ei PlanPerfect fil"

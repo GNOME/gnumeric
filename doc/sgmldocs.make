@@ -40,7 +40,7 @@ sgml_files = $(sgml_ents) $(docname).sgml
 
 omf_dir=$(top_srcdir)/omf-install
 
-EXTRA_DIST = $(sgml_files) $(doc_DATA) $(omffile) $(figs)
+EXTRA_DIST += $(sgml_files) $(doc_DATA) $(omffile)
 
 CLEANFILES = omf_timestamp
 
@@ -74,19 +74,18 @@ $(docname)/index.html: $(srcdir)/$(docname).sgml
 	 fi
 
 app-dist-hook: index.html
-	-$(mkinstalldirs) $(distdir)/$(docname)/stylesheet-images
-	-$(mkinstalldirs) $(distdir)/figures
+	-$(mkinstalldirs) $(distdir)/$(docname)
 	-cp $(srcdir)/$(docname)/*.html $(distdir)/$(docname)
-	-for file in $(srcdir)/$(docname)/*.css; do \
-	  basefile=`echo $$file | sed -e  's,^.*/,,'`; \
-	  cp $$file $(distdir)/$(docname)/$$basefile ; \
+	-for file in $(srcdir)/$(docname)/*.css; do	\
+	  basefile=`echo $$file | sed -e  's,^.*/,,'`;	\
+	  cp $$file $(distdir)/$(docname)/$$basefile ;	\
 	done
-	-for file in $(srcdir)/$(docname)/stylesheet-images/*.gif; do \
-	  basefile=`echo $$file | sed -e  's,^.*/,,'`; \
-	  cp $$file $(distdir)/$(docname)/stylesheet-images/$$basefile ; \
-	done
-	-if [ -e topic.dat ]; then \
-		cp $(srcdir)/topic.dat $(distdir); \
+	-if [ -e topic.dat ]; then			\
+		cp $(srcdir)/topic.dat $(distdir); 	\
+	 fi
+	-if [ -d figures ]; then					    \
+		$(mkinstalldirs) $(distdir)/figures ;			    \
+		cp figures/*.png $(distdir)/figures ; \
 	 fi
 
 install-data-am: index.html omf

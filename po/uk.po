@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
-"POT-Creation-Date: 2002-06-02 23:36-0400\n"
+"POT-Creation-Date: 2002-06-03 16:38-0400\n"
 "PO-Revision-Date: 1999-12-08 14:44+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -4321,7 +4321,7 @@ msgstr "Переносити текст"
 
 #: src/dialogs/cell-format.glade.h:129
 #, fuzzy
-msgid "min &lt;= val &lt;= max         (between)"
+msgid "min <= val <= max         (between)"
 msgstr "min <= значення <= max    (входить)"
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4330,32 +4330,32 @@ msgstr "значення != обмеження         (не дор╕вню╓)"
 
 #: src/dialogs/cell-format.glade.h:131
 #, fuzzy
-msgid "val &gt;  bound                  (greater than)"
-msgstr "значення > обмеження          (б╕льше)"
+msgid "val <  bound                  (less than)"
+msgstr "значення < обмеження          (менше)"
 
 #: src/dialogs/cell-format.glade.h:132
 #, fuzzy
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "значення >= обмеження        (б╕льше р╕вне)"
+msgid "val <= min || max <= val (not between)"
+msgstr "значення <= min || max <= значення (не входить)"
 
 #: src/dialogs/cell-format.glade.h:133
 #, fuzzy
-msgid "val &lt;  bound                  (less than)"
-msgstr "значення < обмеження          (менше)"
+msgid "val <=bound                  (less than or equal to)"
+msgstr "значення <= обмеження        (менше р╕вне)"
 
 #: src/dialogs/cell-format.glade.h:134
-#, fuzzy
-msgid "val &lt;= min || max &lt;= val (not between)"
-msgstr "значення <= min || max <= значення (не входить)"
+msgid "val == bound                 (equal to)"
+msgstr "значення == обмеження        (дор╕вню╓)"
 
 #: src/dialogs/cell-format.glade.h:135
 #, fuzzy
-msgid "val &lt;=bound                  (less than or equal to)"
-msgstr "значення <= обмеження        (менше р╕вне)"
+msgid "val >  bound                  (greater than)"
+msgstr "значення > обмеження          (б╕льше)"
 
 #: src/dialogs/cell-format.glade.h:136
-msgid "val == bound                 (equal to)"
-msgstr "значення == обмеження        (дор╕вню╓)"
+#, fuzzy
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "значення >= обмеження        (б╕льше р╕вне)"
 
 #: src/dialogs/cell-sort.glade.h:1
 #, fuzzy
@@ -5625,15 +5625,15 @@ msgstr "Коментар"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Ви впевнен╕, що хочете вилучити аркуш з назваою \"%s\"?"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5679,28 +5679,28 @@ msgstr "Ви впевнен╕, що хочете в╕дм╕нити?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-#, fuzzy
-msgid "&lt;- Remove"
-msgstr "<- Видалити"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
-msgid "&lt;- Remove all"
-msgstr "<- Видалити все"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "<- Remove"
+msgstr "Видалити"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+#, fuzzy
+msgid "<- Remove all"
+msgstr "<- Видалити все"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
 #, fuzzy
-msgid "Add -&gt;"
-msgstr "Додати ->"
+msgid "Add ->"
+msgstr "Додати"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 #, fuzzy
-msgid "Add all -&gt;"
+msgid "Add all ->"
 msgstr "Додати все ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -7255,14 +7255,6 @@ msgstr "Введ╕ть нову назву _аркуша:"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Перейменувати аркуш"
-
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr ""
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr ""
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -17997,6 +17989,14 @@ msgstr "Це не файл книги Gnumeric"
 #: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Формат файлу Gnumeric"
+
+#, fuzzy
+#~ msgid "&lt;- Remove"
+#~ msgstr "<- Видалити"
+
+#, fuzzy
+#~ msgid "Add -&gt;"
+#~ msgstr "Додати ->"
 
 #~ msgid "PLN : Not a PlanPerfect File"
 #~ msgstr "PLN: Це не файл PlanPerfect"

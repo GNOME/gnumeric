@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2002-06-02 23:36-0400\n"
+"POT-Creation-Date: 2002-06-03 16:38-0400\n"
 "PO-Revision-Date: 2001-12-06 15:00+0200\n"
 "Last-Translator: Jarkko Ranta <jjranta@cc.joensuu.fi>\n"
 "Language-Team: \n"
@@ -4252,7 +4252,7 @@ msgid "_Wrap text"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:129
-msgid "min &lt;= val &lt;= max         (between)"
+msgid "min <= val <= max         (between)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4260,27 +4260,27 @@ msgid "val != bound                  (not equal to)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "val &gt;  bound                  (greater than)"
+msgid "val <  bound                  (less than)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:132
-msgid "val &gt;=bound                  (greater than or equal to)"
+msgid "val <= min || max <= val (not between)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val &lt;  bound                  (less than)"
+msgid "val <=bound                  (less than or equal to)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val &lt;= min || max &lt;= val (not between)"
+msgid "val == bound                 (equal to)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:135
-msgid "val &lt;=bound                  (less than or equal to)"
+msgid "val >  bound                  (greater than)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:136
-msgid "val == bound                 (equal to)"
+msgid "val >=bound                  (greater than or equal to)"
 msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:1
@@ -5604,15 +5604,15 @@ msgstr "_Kommentit"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Oletko varma ett‰ haluat poistaa taulun `%s' "
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr ""
 
@@ -5660,28 +5660,28 @@ msgstr "Oletko varma ett‰ haluat poistaa taulun `%s' "
 msgid "\""
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-#, fuzzy
-msgid "&lt;- Remove"
-msgstr "Poista"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
-msgid "&lt;- Remove all"
-msgstr "Poista"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr ""
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "<- Remove"
+msgstr "Poista"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+#, fuzzy
+msgid "<- Remove all"
+msgstr "Poista"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
 #, fuzzy
-msgid "Add -&gt;"
+msgid "Add ->"
 msgstr "Lis‰‰"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 #, fuzzy
-msgid "Add all -&gt;"
+msgid "Add all ->"
 msgstr "Lis‰‰"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -7285,14 +7285,6 @@ msgstr ""
 #, fuzzy
 msgid "Rename sheet"
 msgstr "Poista t‰m‰ taulu"
-
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr ""
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr ""
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -16821,6 +16813,14 @@ msgstr ""
 #: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Gnumericin XML-tiedosto"
+
+#, fuzzy
+#~ msgid "&lt;- Remove"
+#~ msgstr "Poista"
+
+#, fuzzy
+#~ msgid "Add -&gt;"
+#~ msgstr "Lis‰‰"
 
 #~ msgid "Imports Plan Perfect Formatted Documents"
 #~ msgstr "Tuo Plan Perfect -muotoiltuja asiakirjoja"
