@@ -24,6 +24,16 @@
             <property name="visible">yes</property>
 
             <child>
+              <widget class="GtkButton" id="help_button">
+                <property name="can_focus">yes</property>
+                <property name="visible">yes</property>
+                <property name="label">gtk-help</property>
+                <property name="use_stock">yes</property>
+                <property name="use_underline">yes</property>
+              </widget>
+            </child>
+
+            <child>
               <widget class="GtkButton" id="ok_button">
                 <property name="can_default">yes</property>
                 <property name="has_default">yes</property>
@@ -296,7 +306,7 @@
                       <widget class="GtkCList" id="sheet_list">
                         <property name="border_width">4</property>
                         <property name="can_focus">yes</property>
-                        <property name="columns">1</property>
+                        <property name="n-columns">1</property>
                         <property name="column_widths">80</property>
                         <property name="selection_mode">GTK_SELECTION_EXTENDED</property>
                         <property name="show_titles">no</property>
@@ -305,7 +315,6 @@
 
                         <child>
                           <widget class="GtkLabel" id="label2">
-                            <property name="sensitive">no</property>
                             <property name="label" translatable="yes"></property>
                             <property name="justify">GTK_JUSTIFY_CENTER</property>
                             <property name="wrap">no</property>

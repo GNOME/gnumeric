@@ -1,3 +1,7 @@
+2002-03-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c (cmd_reorganize_sheets_finalize) : fix typo
+
 2002-03-01  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (cmd_reorganize_free_names): Remove.

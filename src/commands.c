@@ -4082,7 +4082,7 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 	e_free_string_slist (me->old_names);
 	me->old_names = NULL;
 
-	e_free_string_slist (me->old_names);
+	e_free_string_slist (me->new_names);
 	me->new_names = NULL;
 
 	gnumeric_command_finalize (cmd);
