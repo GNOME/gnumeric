@@ -1,3 +1,8 @@
+2005-02-01  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_ins_del_colrow): Survive if the current
+	clipboard does not hold a range (but holds a sheet object).
+
 2005-01-27  Morten Welinder  <terra@gnome.org>
 
 	* src/complete-sheet.c (complete_sheet_search_iteration): Rework

@@ -22,6 +22,7 @@ Morten:
 	* When using the new printing code, don't bother to generate
 	  gnome print fonts for the old code.
 	* Improve search strategy for auto-completion.
+	* Fix crash for insert/delete column/row.  [#165873]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.2
