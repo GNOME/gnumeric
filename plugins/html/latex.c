@@ -1,7 +1,7 @@
 /*
  * latex.c
  *
- * Copyright (C) 1999 Rasca, Berlin
+ * Copyright (C) 1999, 2000 Rasca, Berlin
  * EMail: thron@gmx.de
  *
  * This program is free software; you can redistribute it and/or modify
@@ -22,13 +22,14 @@
 #include <errno.h>
 #include <gnome.h>
 #include "config.h"
+#include "io-context.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "sheet.h"
 #include "style.h"
 #include "latex.h"
 #include "font.h"
 #include "cell.h"
-#include "command-context.h"
 #include "rendered-value.h"
 
 /*
@@ -81,7 +82,7 @@ latex_fprintf_cell (FILE *fp, const Cell *cell)
  * write every sheet of the workbook to a latex table
  */
 int
-html_write_wb_latex (CommandContext *context, Workbook *wb,
+html_write_wb_latex (IOContext *context, WorkbookView *wb_view,
 		     const char *filename)
 {
 	FILE *fp;
@@ -89,13 +90,14 @@ html_write_wb_latex (CommandContext *context, Workbook *wb,
 	Sheet *sheet;
 	Cell *cell;
 	int row, col;
+	Workbook *wb = wb_view_workbook (wb_view);
 
 	g_return_val_if_fail (wb != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
 	fp = fopen (filename, "w");
 	if (!fp) {
-		gnumeric_error_save (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 
@@ -177,7 +179,7 @@ html_write_wb_latex (CommandContext *context, Workbook *wb,
  * write every sheet of the workbook to a latex2e table
  */
 int
-html_write_wb_latex2e (CommandContext *context, Workbook *wb,
+html_write_wb_latex2e (IOContext *context, WorkbookView *wb_view,
 		       const char *filename)
 {
 	FILE *fp;
@@ -186,13 +188,14 @@ html_write_wb_latex2e (CommandContext *context, Workbook *wb,
 	Cell *cell;
 	int row, col;
 	unsigned char r,g,b;
+	Workbook *wb = wb_view_workbook (wb_view);
 
 	g_return_val_if_fail (wb != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
 	fp = fopen (filename, "w");
 	if (!fp) {
-		gnumeric_error_save (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 

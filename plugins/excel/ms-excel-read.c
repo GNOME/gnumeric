@@ -9,7 +9,6 @@
  **/
 
 #include <config.h>
-#include "command-context.h"
 
 #include "ms-formula-read.h"
 #include "ms-excel-read.h"
@@ -28,10 +27,11 @@
 #include "gutils.h"
 #include "cell-comment.h"
 #include "application.h"
+#include "io-context.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "ms-excel-util.h"
 #include "ms-excel-xf.h"
-#include "workbook-view.h"
 #include "sheet-object-widget.h"
 #include "sheet-object-graphic.h"
 
@@ -599,7 +599,6 @@ biff_boundsheet_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 	if (ans->name == NULL) {
 		ans->name = g_strdup_printf (_("Sheet%d"),
 			g_hash_table_size (wb->boundsheet_data_by_index));
-		
 	}
 
 	/*
@@ -2585,7 +2584,7 @@ ms_excel_workbook_attach (ExcelWorkbook *wb, ExcelSheet *ans)
 	g_return_if_fail (wb);
 	g_return_if_fail (ans);
 
-	workbook_attach_sheet (wb->gnum_wb, ans->gnum_sheet);
+	workbook_sheet_attach (wb->gnum_wb, ans->gnum_sheet, NULL);
 	g_ptr_array_add (wb->excel_sheets, ans);
 }
 
@@ -2595,7 +2594,7 @@ ms_excel_workbook_detach (ExcelWorkbook *wb, ExcelSheet *ans)
 	int    idx = 0;
 
 	if (ans->gnum_sheet) {
-		if (!workbook_detach_sheet (wb->gnum_wb, ans->gnum_sheet, FALSE))
+		if (!workbook_sheet_detach (wb->gnum_wb, ans->gnum_sheet, FALSE))
 			return FALSE;
 		/* Detaching the sheet deletes it */
 		ans->gnum_sheet = NULL;
@@ -3346,7 +3345,6 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 	int num_refs		= MS_OLE_GET_GUINT16 (q->data + 7);
 	guint8 *refs;
 
-
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
 		printf ("Start selection\n");
@@ -3546,7 +3544,8 @@ ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
 }
 
 static gboolean
-ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
+ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
+		     ExcelSheet *sheet)
 {
 	PrintInformation *pi;
 
@@ -3840,7 +3839,8 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 				}
 #endif
 				if (options & 0x0400)
-					workbook_focus_sheet (sheet->gnum_sheet);
+					wb_view_sheet_focus (wb_view,
+							     sheet->gnum_sheet);
 			}
 #ifndef NO_DEBUG_EXCEL
 			if (q->length >= 14) {
@@ -3934,7 +3934,7 @@ ms_excel_read_supporting_wb (MsBiffBofData *ver, BiffQuery *q)
 }
 
 int
-ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
+ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			MsOle *file)
 {
 	ExcelWorkbook *wb = NULL;
@@ -3947,7 +3947,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 
 	/* Find that book file */
 	/* Look for workbook before book so that we load the office97
-	 * format rather than office5 when there are multiple streams.  */
+	 * format rather than office5 when there are multiple streams. */
 	result = ms_ole_stream_open (&stream, file, "/", "workbook", 'r');
 	if (result != MS_OLE_ERR_OK) {
 		ms_ole_stream_close (&stream);
@@ -3955,8 +3955,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 		result = ms_ole_stream_open (&stream, file, "/", "book", 'r');
 		if (result != MS_OLE_ERR_OK) {
 			ms_ole_stream_close (&stream);
-			gnumeric_error_read
-				(context,
+			gnumeric_io_error_read (context,
 				 _("No book or workbook streams found."));
 			return -1;
 		}
@@ -4029,7 +4028,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 
 			if (ver->type == MS_BIFF_TYPE_Workbook) {
 				wb = ms_excel_workbook_new (ver->version);
-				wb->gnum_wb = workbook;
+				wb->gnum_wb = wb_view_workbook (wb_view);
 				if (ver->version >= MS_BIFF_V8) {
 					guint32 ver = MS_OLE_GET_GUINT32 (q->data + 4);
 					if (ver == 0x4107cd18)
@@ -4058,7 +4057,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 					gboolean    kill  = FALSE;
 
 					ms_excel_sheet_set_version (sheet, ver->version);
-					if (ms_excel_read_sheet (q, wb, sheet)) {
+					if (ms_excel_read_sheet (q, wb, wb_view, sheet)) {
 						ms_container_realize_objs (&sheet->container);
 
 #if 0
@@ -4334,20 +4333,17 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 				 * NOTE : This is the size of the MDI sub-window, not the size of
 				 * the containing excel window.
 				 */
-				workbook_view_set_size (wb->gnum_wb,
-							.5 + width *
-							application_display_dpi_get (TRUE) / (72. * 20.),
-							.5 + height *
-							application_display_dpi_get (FALSE) / (72. * 20.));
+				wb_view_preferred_size (wb_view,
+					.5 + width * application_display_dpi_get (TRUE) / (72. * 20.),
+					.5 + height * application_display_dpi_get (FALSE) / (72. * 20.));
 
 				if (options & 0x0001)
 					printf ("Unsupported : Hidden workbook\n");
 				if (options & 0x0002)
 					printf ("Unsupported : Iconic workbook\n");
-				wb->gnum_wb->show_horizontal_scrollbar = (options & 0x0008);
-				wb->gnum_wb->show_vertical_scrollbar = (options & 0x0010);
-				wb->gnum_wb->show_notebook_tabs = (options & 0x0020);
-				workbook_view_pref_visibility (wb->gnum_wb);
+				wb_view->show_horizontal_scrollbar = (options & 0x0008);
+				wb_view->show_vertical_scrollbar = (options & 0x0010);
+				wb_view->show_notebook_tabs = (options & 0x0020);
 			}
 			break;
 
@@ -4414,12 +4410,12 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 
 		/* If we were forced to stop then the load failed */
 		if (problem_loading != NULL) {
-			gnumeric_error_read (context, problem_loading);
+			gnumeric_io_error_read (context, problem_loading);
 			return -1;
 		}
 		return 0;
 	}
 
-	gnumeric_error_read (context, _("Unable to locate valid MS Excel workbook"));
+	gnumeric_io_error_read (context, _("Unable to locate valid MS Excel workbook"));
 	return -1;
 }

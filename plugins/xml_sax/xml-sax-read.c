@@ -25,7 +25,6 @@
 #include "gnumeric.h"
 #include "plugin.h"
 #include "plugin-util.h"
-#include "workbook.h"
 #include "style.h"
 #include "format.h"
 #include "border.h"
@@ -34,8 +33,13 @@
 #include "expr.h"
 #include "value.h"
 #include "selection.h"
+#include "command-context.h"
 #include "workbook-view.h"
+#include "workbook.h"
 
+#include <stdlib.h>
+#include <string.h>
+#include <gnome.h>
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/parserInternals.h>
@@ -159,7 +163,7 @@ xml2ParseRange (CHAR const * const *attrs, Range *res)
  * returns 0 in case of success, -1 otherwise.
  */
 static int
-xml2_write (CommandContext *context, Workbook *wb, char const *filename)
+xml2_write (WorkbookControl *context, Workbook *wb, char const *filename)
 {
 	g_return_val_if_fail (wb != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
@@ -316,7 +320,9 @@ struct _XML2ParseState
 	gint	  unknown_depth;	/* handle recursive unknown tags */
 	GSList	 *state_stack;
 
-	Workbook *wb;		/* the associated workbook */
+	IOContext 	*context;	/* The IOcontext managing things */
+	WorkbookView	*wb_view;	/* View for the new workbook */
+	Workbook	*wb;		/* The new workbook */
 	int version;
 
 	Sheet *sheet;
@@ -355,14 +361,15 @@ xml2ParseWBView (XML2ParseState *state, CHAR const **attrs)
 
 	for (; attrs[0] && attrs[1] ; attrs += 2)
 		if (xml2ParseAttrInt (attrs, "SelectedTab", &sheet_index))
-			gtk_notebook_set_page (GTK_NOTEBOOK (state->wb->notebook), sheet_index);
+			wb_view_sheet_focus (state->wb_view, 
+				workbook_sheet_by_index (state->wb, sheet_index));
 		else if (xml2ParseAttrInt (attrs, "Width", &width)) ;
 		else if (xml2ParseAttrInt (attrs, "Height", &height)) ;
 		else
 			xml2UnknownAttr (state, attrs, "WorkbookView");
 
 	if (width > 0 && height > 0)
-		workbook_view_set_size (state->wb, width, height);
+		wb_view_preferred_size (state->wb_view, width, height);
 }
 
 static void
@@ -478,7 +485,7 @@ xml2ParseSheetName (XML2ParseState *state)
 	g_return_if_fail (state->sheet == NULL);
 
 	state->sheet = sheet_new (state->wb, content);
-	workbook_attach_sheet (state->wb, state->sheet);
+	workbook_sheet_attach (state->wb, state->sheet, NULL);
 }
 
 static void
@@ -545,6 +552,7 @@ xml2ParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
 	ColRowInfo *cri = NULL;
 	double size = -1.;
 	int dummy;
+	int count = 1;
 
 	g_return_if_fail (state->sheet != NULL);
 
@@ -559,6 +567,7 @@ xml2ParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
 			g_return_if_fail (cri != NULL);
 
 			if (xml2ParseAttrDouble (attrs, "Unit", &size)) ;
+			else if (xml2ParseAttrInt (attrs, "Count", &count)) ;
 			else if (xml2ParseAttrInt (attrs, "MarginA", &cri->margin_a)) ;
 			else if (xml2ParseAttrInt (attrs, "MarginB", &cri->margin_b)) ;
 			else if (xml2ParseAttrInt (attrs, "HardSize", &dummy))
@@ -1178,7 +1187,7 @@ xml2EndElement (XML2ParseState *state, const CHAR *name)
 		break;
 
 	case STATE_WB_ATTRIBUTES :
-		workbook_set_attributev (state->wb, state->attributes);
+		wb_view_set_attributev (state->wb_view, state->attributes);
 		xml2_free_arg_list (state->attributes);
 		state->attributes = NULL;
 		break;
@@ -1381,15 +1390,18 @@ static xmlSAXHandler xml2SAXParser = {
 
 
 static int
-xml2_read (CommandContext *context, Workbook *wb, char const *filename)
+xml2_read (IOContext *context, WorkbookView *wb_view,
+	   char const *filename)
 {
 	xmlParserCtxtPtr ctxt;
 	XML2ParseState state;
 
-	g_return_val_if_fail (wb != NULL, -1);
+	g_return_val_if_fail (wb_view != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
-	state.wb = wb;
+	state.context = context;
+	state.wb_view = wb_view;
+	state.wb = wb_view_workbook (wb_view);
 
 	/*
 	 * TODO : think about pushing the data into the parser
@@ -1412,13 +1424,13 @@ xml2_read (CommandContext *context, Workbook *wb, char const *filename)
 }
 
 static int
-xml2_open (CommandContext *context, Workbook *wb, char const *filename)
+xml2_open (IOContext *context, WorkbookView *wb_view,
+	   char const *filename)
 {
-	int res = xml2_read (context, wb, filename);
-
+	int res = xml2_read (context, wb_view, filename);
 	if (res == 0)
-		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, NULL);
-
+		workbook_set_saveinfo (wb_view_workbook (wb_view), filename,
+				       FILE_FL_MANUAL, NULL);
 	return res;
 }
 
@@ -1441,7 +1453,7 @@ PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
 
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+	if (plugin_version_mismatch (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
 	if (plugin_data_init (pd, &xml2_can_unload, &xml2_cleanup_plugin,

@@ -247,11 +247,6 @@ module GNOME {
 			void parse (in string cellref,
 				    out Gnumeric::Sheet sheet,
 				    out long col, out long row);
-
-			//
-			// Window control
-			//
-			void show (in boolean show_toplevel);
 		};
 
 		//

@@ -1,3 +1,14 @@
+2000-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c : Adjust to the signature changes for reading views
+	  rather than workbooks.
+	* ms-excel-write.c : ditto.
+	* boot.c : ditto.
+
+2000-10-28  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-util.c (init_xl_font_widths) : Add CG Times.
+
 2000-10-30  Morten Welinder  <terra@diku.dk>
 
 	* ms-biff.c (biff_getdouble, biff_setdouble): Delete.  Replace all

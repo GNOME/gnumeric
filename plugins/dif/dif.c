@@ -20,14 +20,15 @@
 #include "gnumeric.h"
 #include "cell.h"
 #include "value.h"
-#include "workbook.h"
 #include "file.h"
-#include "command-context.h"
 #include "rendered-value.h"
+#include "io-context.h"
+#include "workbook-view.h"
+#include "workbook.h"
 
 static int
-dif_write_workbook (CommandContext *context,
-		    Workbook *wb, const char *filename);
+dif_write_workbook (IOContext *context,
+		    WorkbookView *wb_view, const char *filename);
 
 typedef struct {
 	char const *data, *cur;
@@ -243,8 +244,8 @@ g_warning("DIF SUCCESS");
 #endif
 
 static int
-dif_read_workbook (CommandContext *context,
-		   Workbook *book, char const *filename)
+dif_read_workbook (IOContext *context, WorkbookView *wb_view,
+		   char const *filename)
 {
 	int result = 0;
 	int len;
@@ -253,49 +254,43 @@ dif_read_workbook (CommandContext *context,
 	int const fd = open(filename, O_RDONLY);
 
 	if (fd < 0) {
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 
 	if (fstat(fd, &sbuf) < 0) {
 		close (fd);
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 
 	len = sbuf.st_size;
 	if ((caddr_t)MAP_FAILED != (data = (caddr_t) (mmap(0, len, PROT_READ,
 							   MAP_PRIVATE, fd, 0)))) {
+		Workbook *wb = wb_view_workbook (wb_view);
 		FileSource_t src;
-		char * name = g_strdup_printf (_("Imported %s"), g_basename (filename));
-
 		src.data  = data;
 		src.cur   = data;
 		src.len   = len;
-		src.sheet = sheet_new (book, name);
-
-		workbook_attach_sheet (book, src.sheet);
-		g_free (name);
+		src.sheet = workbook_sheet_add (wb, NULL, FALSE);
 
 		if (!dif_parse_sheet (&src)) {
-			workbook_detach_sheet (book, src.sheet, TRUE);
-			gnumeric_error_read
-				(context , _("DIF : Failed to load sheet"));
+			gnumeric_io_error_read (context,
+					     _("DIF : Failed to load sheet"));
 			result = -1;
 		} else
-			workbook_set_saveinfo (book, filename, FILE_FL_MANUAL,
+			workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL,
 					       dif_write_workbook);
 
 		munmap((char *)data, len);
 	} else {
 		result = -1;
-		gnumeric_error_read (context, _("Unable to mmap the file"));
+		gnumeric_io_error_read (context, _("Unable to mmap the file"));
 	}
 	close(fd);
 
 	return result;
 }
-
 
 static int
 dif_write_cell (FILE *f, Cell const *cell)
@@ -325,18 +320,19 @@ dif_write_cell (FILE *f, Cell const *cell)
  * write every sheet of the workbook to a DIF format file
  */
 static int
-dif_write_workbook (CommandContext *context,
-		    Workbook *wb, const char *filename)
+dif_write_workbook (IOContext *context,
+		    WorkbookView *wb_view, const char *filename)
 {
+	Workbook *wb = wb_view_workbook (wb_view);
 	GList *sheet_list;
 	Sheet *sheet;
 	Cell *cell;
 	int row, col, rc=0;
-	FILE *f = fopen (filename, "w");
 	char *workstring;
+	FILE *f = fopen (filename, "w");
 
 	if (!f) {
-		gnumeric_error_save (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 
@@ -387,7 +383,7 @@ out:
 	if (f)
 		fclose (f);
 	if (rc < 0)
-		gnumeric_error_save (context, "");
+		gnumeric_io_error_save (context, "");
 	
 	return rc;	/* Q: what do we have to return here?? */
 }

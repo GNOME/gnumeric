@@ -1,3 +1,8 @@
+2000-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* dif.c : Adjust to the signature changes for reading views
+	  rather than workbooks.
+
 2000-10-10  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.57

@@ -1,7 +1,7 @@
 /*
  * boot.c
  *
- * Copyright (C) 1999 Rasca, Berlin
+ * Copyright (C) 1999, 2000 Rasca, Berlin
  * EMail: thron@gmx.de
  *
  * This program is free software; you can redistribute it and/or modify

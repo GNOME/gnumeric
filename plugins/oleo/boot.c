@@ -18,6 +18,7 @@
 #include <ctype.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "gnumeric-util.h"
 #include "main.h"
@@ -53,8 +54,10 @@ oleo_probe (const char *filename)
 
 
 static int
-oleo_load (CommandContext *context, Workbook *wb, const char *filename)
+oleo_load (IOContext *context, WorkbookView *wb_view,
+	   const char *filename)
 {
+	Workbook *wb = wb_view_workbook (wb_view);
 	int ret;
 
 	ret = oleo_read (context, wb, filename);

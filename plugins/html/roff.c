@@ -1,7 +1,7 @@
 /*
  * roff.c
  *
- * Copyright (C) 1999 Rasca, Berlin
+ * Copyright (C) 1999, 2000 Rasca, Berlin
  * EMail: thron@gmx.de
  *
  * This program is free software; you can redistribute it and/or modify
@@ -22,13 +22,14 @@
 #include <errno.h>
 #include <gnome.h>
 #include "config.h"
+#include "io-context.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "sheet.h"
 #include "style.h"
 #include "roff.h"
 #include "font.h"
 #include "cell.h"
-#include "command-context.h"
 #include "rendered-value.h"
 
 /*
@@ -74,12 +75,13 @@ roff_fprintf (FILE *fp, const Cell *cell)
  * FIXME: Should roff quote sheet name (and everything else)
  */
 static int
-write_wb_roff (CommandContext *context, Workbook *wb, FILE *fp)
+write_wb_roff (IOContext *context, WorkbookView *wb_view, FILE *fp)
 {
 	GList *sheet_list;
 	Sheet *sheet;
 	Cell *cell;
 	int row, col, fontsize, v_size;
+	Workbook *wb = wb_view_workbook (wb_view);
 
 	g_return_val_if_fail (wb != NULL, -1);
 
@@ -180,14 +182,14 @@ write_wb_roff (CommandContext *context, Workbook *wb, FILE *fp)
  * write sheets to a DVI file using groff as filter
  */
 int
-html_write_wb_roff_dvi (CommandContext *context, Workbook *wb,
+html_write_wb_roff_dvi (IOContext *context, WorkbookView *wb_view,
 			const char *filename)
 {
 	FILE *fp;
 	int rc = 0;
 	char *cmd;
 
-	g_return_val_if_fail (wb != NULL, -1);
+	g_return_val_if_fail (wb_view != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 	cmd = g_malloc (strlen (filename) + 64);
 	if (!cmd)
@@ -197,11 +199,11 @@ html_write_wb_roff_dvi (CommandContext *context, Workbook *wb,
 	sprintf (cmd, "groff -me -t -Tdvi - > %s", filename);
 	fp = popen (cmd, "w");
 	if (!fp) {
-		gnumeric_error_save (context, g_strerror (errno));
+		gnumeric_io_error_save (context, g_strerror (errno));
 		rc = -1;
 		goto out;
 	}
-	rc =  write_wb_roff (context, wb, fp);
+	rc =  write_wb_roff (context, wb_view, fp);
 	pclose (fp);
 
 out:
@@ -213,14 +215,14 @@ out:
  * write sheets to a PDF file using groff and gs as filter
  */
 int
-html_write_wb_roff_pdf (CommandContext *context, Workbook *wb,
+html_write_wb_roff_pdf (IOContext *context, WorkbookView *wb_view,
 			const char *filename)
 {
 	FILE *fp;
 	int rc = 0;
 	char *cmd;
 
-	g_return_val_if_fail (wb != NULL, -1);
+	g_return_val_if_fail (wb_view != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 	cmd = g_malloc (strlen (filename) + 256);
 	if (!cmd)
@@ -233,11 +235,11 @@ html_write_wb_roff_pdf (CommandContext *context, Workbook *wb,
 		" -c save pop -f -", filename);
 	fp = popen (cmd, "w");
 	if (!fp) {
-		gnumeric_error_save (context, g_strerror (errno));
+		gnumeric_io_error_save (context, g_strerror (errno));
 		rc = -1;
 		goto out;
 	}
-	rc =  write_wb_roff (context, wb, fp);
+	rc =  write_wb_roff (context, wb_view, fp);
 	pclose (fp);
 
 out:
@@ -249,21 +251,21 @@ out:
  * write sheets to a roff file
  */
 int
-html_write_wb_roff (CommandContext *context, Workbook *wb,
+html_write_wb_roff (IOContext *context, WorkbookView *wb_view,
 		    const char *filename)
 {
 	FILE *fp;
 	int rc = 0;
 
-	g_return_val_if_fail (wb != NULL, -1);
+	g_return_val_if_fail (wb_view != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
 	fp = fopen (filename, "w");
 	if (!fp) {
-		gnumeric_error_save (context, g_strerror (errno));
+		gnumeric_io_error_save (context, g_strerror (errno));
 		return -1;
 	}
-	rc =  write_wb_roff (context, wb, fp);
+	rc =  write_wb_roff (context, wb_view, fp);
 	fclose (fp);
 	return (rc);
 }

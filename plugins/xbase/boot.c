@@ -15,14 +15,14 @@
 #include <ctype.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "io-context.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "gnumeric-util.h"
 #include "main.h"
 #include "value.h"
 #include "cell.h"
 #include "file.h"
-#include "command-context.h"
-
 #include "xbase.h"
 #include "plugin.h"
 
@@ -159,8 +159,10 @@ xbase_field_as_value (XBrecord *record, guint num)
 }
 
 static int
-xbase_load (CommandContext *context, Workbook *wb, const char *filename)
+xbase_load (IOContext *context, WorkbookView *wb_view,
+	    const char *filename)
 {
+	Workbook *wb = wb_view_workbook (wb_view);
 	XBfile *file;
 	XBrecord *rec;
 	guint row, field;
@@ -170,7 +172,7 @@ xbase_load (CommandContext *context, Workbook *wb, const char *filename)
 	Value *val;
 
 	if (!(file = xbase_open (context, filename))) {
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 
@@ -181,7 +183,7 @@ xbase_load (CommandContext *context, Workbook *wb, const char *filename)
 	rec = record_new (file);
 	sheet = sheet_new (wb, g_basename (name));
 	g_free (name);
-	workbook_attach_sheet (wb, sheet);
+	workbook_sheet_attach (wb, sheet, NULL);
 	workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, NULL);
 
 	field = 0;

@@ -17,6 +17,7 @@
 #include <ctype.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "gnumeric-util.h"
 #include "main.h"
@@ -53,8 +54,10 @@ lotus_probe (const char *filename)
 
 
 static int
-lotus_load (CommandContext *context, Workbook *wb, const char *filename)
+lotus_load (IOContext *context, WorkbookView *wb_view,
+	    const char *filename)
 {
+	Workbook *wb = wb_view_workbook (wb_view);
 	int ret;
 
 	ret = lotus_read (context, wb, filename);

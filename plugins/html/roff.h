@@ -1,7 +1,7 @@
 /*
  * roff.h
  *
- * Copyright (C) 1999 Rasca, Berlin
+ * Copyright (C) 1999, 2000 Rasca, Berlin
  * EMail: thron@gmx.de
  *
  * This program is free software; you can redistribute it and/or modify
@@ -22,17 +22,15 @@
 #ifndef GNUMERIC_PLUGIN_ROFF_H
 #define GNUMERIC_PLUGIN_ROFF_H
 
-#include "../../src/gnumeric.h"
-#include "../../src/gnumeric-util.h"
+#include "gnumeric.h"
+#include "gnumeric-util.h"
 
-int html_write_wb_roff_ps (CommandContext *context, Workbook *wb,
-			   const char *filename);
-int html_write_wb_roff_dvi (CommandContext *context, Workbook *wb,
+int html_write_wb_roff_dvi (IOContext *context, WorkbookView *wb_view,
 			    const char *filename);
-int html_write_wb_roff_pdf (CommandContext *context, Workbook *wb,
+int html_write_wb_roff_pdf (IOContext *context, WorkbookView *wb_view,
 			    const char *filename);
-int html_write_wb_roff (CommandContext *context, Workbook *wb,
-			const char *filename);
+int html_write_wb_roff	   (IOContext *context, WorkbookView *wb_view,
+			    const char *filename);
 
 #endif
 

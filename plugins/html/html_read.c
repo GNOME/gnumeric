@@ -1,7 +1,7 @@
 /*
  * html.c
  *
- * Copyright (C) 1999 Rasca, Berlin
+ * Copyright (C) 1999, 2000 Rasca, Berlin
  * EMail: thron@gmx.de
  *
  * Contributors :
@@ -25,13 +25,14 @@
 #include <gnome.h>
 #include <errno.h>
 #include "config.h"
+#include "io-context.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "style.h"
 #include "html.h"
 #include "cell.h"
 #include "value.h"
 #include "font.h"
-#include "command-context.h"
 #include "rendered-value.h"
 
 /*
@@ -197,7 +198,7 @@ html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
  * FIXME: Should html quote sheet name (and everything else)
  */
 int
-html_write_wb_html32 (CommandContext *context, Workbook *wb,
+html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
 		      const char *filename)
 {
 	FILE *fp;
@@ -206,13 +207,14 @@ html_write_wb_html32 (CommandContext *context, Workbook *wb,
 	Cell *cell;
 	MStyle *style;
 	int row, col;
+	Workbook *wb = wb_view_workbook (wb_view);
 
 	g_return_val_if_fail (wb != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
 	fp = fopen (filename, "w");
 	if (!fp) {
-		gnumeric_error_save (context, g_strerror (errno));
+		gnumeric_io_error_save (context, g_strerror (errno));
 		return -1;
 	}
 
@@ -263,7 +265,7 @@ html_write_wb_html32 (CommandContext *context, Workbook *wb,
  * FIXME: Should html quote sheet name (and everything else)
  */
 int
-html_write_wb_html40 (CommandContext *context, Workbook *wb,
+html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
 		      const char *filename)
 {
 	FILE *fp;
@@ -272,13 +274,14 @@ html_write_wb_html40 (CommandContext *context, Workbook *wb,
 	Cell *cell;
 	MStyle *style;
 	int row, col;
+	Workbook *wb = wb_view_workbook (wb_view);
 
 	g_return_val_if_fail (wb != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
 	fp = fopen (filename, "w");
 	if (!fp) {
-		gnumeric_error_save (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 
@@ -380,14 +383,15 @@ html_get_string (char *s, int *flags)
  * try at least to read back what we have written before..
  */
 int
-html_read (CommandContext *context, Workbook *wb, const char *filename)
+html_read (IOContext *context, WorkbookView *wb_view,
+	   const char *filename)
 {
+	Workbook *wb = wb_view_workbook (wb_view);
 	FILE *fp;
 	Sheet *sheet;
 	Cell *cell;
 	int num, row, col, flags;
 	char *p, *str;
-	char name[64];
 	char buf[LINESIZE];
 
 	g_return_val_if_fail (filename != NULL, -1);
@@ -397,7 +401,7 @@ html_read (CommandContext *context, Workbook *wb, const char *filename)
 
 	fp = fopen (filename, "r");
 	if (!fp) {
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 
@@ -407,9 +411,7 @@ html_read (CommandContext *context, Workbook *wb, const char *filename)
 	num = 0;
 	while (fgets (buf, LINESIZE, fp) != NULL) {
 		if (strstr (buf, "<TABLE")) {
-			sprintf (name, _("Sheet%d"), num++);
-			sheet = sheet_new (wb, name);
-			workbook_attach_sheet (wb, sheet);
+			sheet = workbook_sheet_add (wb, NULL, FALSE);
 			row = -1;
 		} else if (strstr (buf, "</TABLE>")) {
 			sheet = NULL;
@@ -484,4 +486,3 @@ html_read (CommandContext *context, Workbook *wb, const char *filename)
 	fclose (fp);
 	return 0;
 }
-

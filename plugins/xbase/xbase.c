@@ -15,8 +15,7 @@
 #include "gutils.h"
 #include "color.h"
 #include "sheet-object.h"
-#include "command-context.h"
-
+#include "io-context.h"
 #include "xbase.h"
 
 #define XBASE_DEBUG 0
@@ -221,13 +220,13 @@ xbase_read_field (XBfile *file)
 }
 
 XBfile *
-xbase_open (CommandContext *context, const char *filename)
+xbase_open (IOContext *context, const char *filename)
 {
 	XBfile *ans = g_new (XBfile, 1);
 	XBfield *field;
 
 	if ((ans->f = fopen (filename, "rb")) == NULL) {
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		g_free (ans);
 		return NULL;
 	}

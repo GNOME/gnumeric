@@ -83,6 +83,7 @@ struct _ExcelSheet {
 
 struct _ExcelWorkbook {
 	Workbook      *gnum_wb;
+	WorkbookView  *gnum_wb_view;
 	GPtrArray     *sheets;
 	MsBiffVersion  ver;
 	XF            *xf;

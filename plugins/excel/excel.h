@@ -11,11 +11,9 @@
 
 #include <libole2/ms-ole.h>
 
-#include "command-context.h"
-#include "workbook.h"
-#include "sheet.h"
+#include "gnumeric.h"
 
-typedef gboolean (*MsExcelReadGbFn) (CommandContext *context, Workbook *wb, MsOle *f);
+typedef gboolean (*MsExcelReadGbFn) (IOContext *context, Workbook *wb, MsOle *f);
 extern MsExcelReadGbFn ms_excel_read_gb;
 
 typedef enum { MS_BIFF_V2 = 2,
@@ -26,8 +24,8 @@ typedef enum { MS_BIFF_V2 = 2,
 	       MS_BIFF_V8 = 8, /* Excel 97 */
 	       MS_BIFF_V_UNKNOWN = 0} MsBiffVersion ;
 
-extern int   ms_excel_read_workbook  (CommandContext *context,
-				      Workbook *wb, MsOle *file);
+extern int   ms_excel_read_workbook  (IOContext *context,
+				      WorkbookView *new_wb, MsOle *file);
 /*
  * Here's why the state which is carried from excel_check_write to
  * ms_excel_write_workbook is void *: The state is actually an
@@ -35,9 +33,9 @@ extern int   ms_excel_read_workbook  (CommandContext *context,
  * import that definition here: There's a different definition of
  * ExcelWorkbook in ms-excel-read.h.
  */
-extern int      ms_excel_check_write (CommandContext *context, void **state,
-				      Workbook *wb, MsBiffVersion ver);
-extern int      ms_excel_write_workbook (CommandContext *context, MsOle *file,
+extern int      ms_excel_check_write (IOContext *context, void **state,
+				      WorkbookView *wb, MsBiffVersion ver);
+extern int      ms_excel_write_workbook (IOContext *context, MsOle *file,
 					 void *state, MsBiffVersion ver);
 void ms_excel_write_free_state (void *state);
 
@@ -64,4 +62,5 @@ extern FormulaFuncData formula_func_data[];
 
 #define ROW_BLOCK_MAX_LEN 32
 #define WRITEACCESS_LEN  112
-#endif
+
+#endif /* GNUMERIC_EXCEL_H */

@@ -1,22 +1,21 @@
 /**
- * The interfaces that Gnumeric uses to communicate with graphing components
+ * The interfaces Gnumeric uses to communicate with graphing components
  *
  * Author:
  *   Jody Goldberg <jgoldberg@home.com>
  */
-
 #include <Bonobo.idl>
 
 module GNOME {
 	module Gnumeric {
 		interface VectorNotify {
 			oneway void remove ();
-			oneway void nameChanged (in string name);
+			oneway void name_changed (in string name);
 		};
 
 		typedef sequence<double> SeqScalar;
 		interface VectorScalarNotify : VectorNotify {
-			oneway void valueChanged (in short start, in SeqScalar new_values);
+			oneway void value_changed (in short start, in SeqScalar new_values);
 		};
 		interface VectorScalar : VectorScalarNotify {
 			void value (out SeqScalar values, out string name);
@@ -24,7 +23,7 @@ module GNOME {
 
 		typedef sequence<long> SeqDate;
 		interface VectorDateNotify : VectorNotify {
-			oneway void valueChanged (in short start, in SeqDate new_values);
+			oneway void value_changed (in short start, in SeqDate new_values);
 		};
 		interface VectorDate : VectorDateNotify {
 			void value (out SeqDate values, out string name);
@@ -32,7 +31,7 @@ module GNOME {
 
 		typedef sequence<string> SeqString;
 		interface VectorStringNotify : VectorNotify {
-			oneway void valueChanged (in short start, in SeqString new_values);
+			oneway void value_changed (in short start, in SeqString new_values);
 		};
 		interface VectorString : VectorStringNotify {
 			void value (out SeqString values, out string name);
@@ -40,12 +39,12 @@ module GNOME {
 
 		module Graph {
 			interface Manager : Bonobo::Unknown {
-				Bonobo::Control getTypeSelectControl ();
-				Bonobo::Control getLayoutControl ();
+				Bonobo::Control get_type_select_control ();
+				Bonobo::Control get_layout_control ();
 
-				VectorScalarNotify addVectorScalar (in VectorScalar vec);
-				VectorDateNotify   addVectorDate   (in VectorDate   vec);
-				VectorStringNotify addVectorString (in VectorString vec);
+				VectorScalarNotify add_vector_scalar (in VectorScalar vec);
+				VectorDateNotify   add_vector_date   (in VectorDate   vec);
+				VectorStringNotify add_vector_string (in VectorString vec);
 
 				oneway void freeze ();
 				oneway void thaw ();

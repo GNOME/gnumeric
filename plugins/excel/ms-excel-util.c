@@ -185,8 +185,8 @@ init_xl_font_widths ()
 	 *
 	 * The 'default' width is based on the hypothesis that the default
 	 *     column width is always 8*default.  Edit the 'Normal' Style
-	 *     and change the font to 128pt then look the pixel width displayed
-	 *     when resizing the column.
+	 *     and change the font to 128pt then look at the pixel width
+	 *     displayed when resizing the column.
 	 *
 	 * The standard width is also based on setting the Normal styles font.
 	 *    However, it is calculated by changing the column width until it is
@@ -202,6 +202,7 @@ init_xl_font_widths ()
 	    { 106, 113, "Bookman Old Style" },
 	    { 95, 102, "Century Gothic" },
 	    { 95, 102, "Century Schoolbook" },
+	    { 86, 92, "CG Times" },
 	    { 104, 111, "Comic Sans MS" },
 	    { 60, 64, "Courier" },
 	    { 103, 110, "Courier New" },

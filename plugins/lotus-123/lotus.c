@@ -19,6 +19,7 @@
 #include <ctype.h>
 #include <gnome.h>
 #include "workbook.h"
+#include "io-context.h"
 #include "gnumeric-util.h"
 #include "main.h"
 #include "sheet.h"
@@ -26,7 +27,6 @@
 #include "parse-util.h"
 #include "value.h"
 #include "cell.h"
-#include "command-context.h"
 
 #include "lotus.h"
 #include "lotus-types.h"
@@ -224,14 +224,14 @@ attach_sheet (Workbook *wb, int idx)
 	sheet_name = g_strdup_printf (_("Sheet%d"), idx); 
 	sheet = sheet_new (wb, sheet_name);
 	g_free (sheet_name);
-	workbook_attach_sheet (wb, sheet);
+	workbook_sheet_attach (wb, sheet, NULL);
 
 	return sheet;
 }
 
 /* buf was old siag wb / sheet */
 static int
-read_workbook (CommandContext *context, Workbook *wb, FILE *f)
+read_workbook (IOContext *context, Workbook *wb, FILE *f)
 {
 	int       sheetidx = 0;
 	Sheet    *sheet = NULL;
@@ -324,13 +324,13 @@ read_workbook (CommandContext *context, Workbook *wb, FILE *f)
 }
 
 int
-lotus_read (CommandContext *context, Workbook *wb, const char *filename)
+lotus_read (IOContext *context, Workbook *wb, const char *filename)
 {
 	FILE *f;
 	int res;
 
 	if (!(f = fopen (filename, "rb"))) {
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 		

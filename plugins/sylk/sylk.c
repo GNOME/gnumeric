@@ -15,7 +15,8 @@
 #include "gnumeric.h"
 #include "plugin.h"
 #include "file.h"
-#include "command-context.h"
+#include "io-context.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "cell.h"
 #include "value.h"
@@ -393,31 +394,30 @@ sylk_parse_line (sylk_file_state_t *src, char *buf)
 }
 
 static int
-sylk_parse_sheet (CommandContext *context, sylk_file_state_t *src)
+sylk_parse_sheet (IOContext *context, sylk_file_state_t *src)
 {
 	char buf [BUFSIZ];
 
 	if (fgets_mac (buf, sizeof (buf), src->f) == NULL) {
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 
 	if (strncmp ("ID;", buf, 3)) {
-		gnumeric_error_read (context, _("Not SYLK file"));
+		gnumeric_io_error_read (context, _("Not SYLK file"));
 		return -1;
 	}
 
 	while (fgets_mac (buf, sizeof (buf), src->f) != NULL) {
 		g_strchomp (buf);
 		if ( buf [0] && !sylk_parse_line (src, buf) ) {
-			gnumeric_error_read (context,
-					     _("error parsing line\n"));
+			gnumeric_io_error_read (context, _("error parsing line\n"));
 			return -1;
 		}
 	}
 
 	if (ferror (src->f)) {
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 
@@ -425,7 +425,7 @@ sylk_parse_sheet (CommandContext *context, sylk_file_state_t *src)
 }
 
 static int
-sylk_read_workbook (CommandContext *context, Workbook *book,
+sylk_read_workbook (IOContext *context, WorkbookView *wb_view,
 		    const char *filename)
 {
 	/*
@@ -436,10 +436,11 @@ sylk_read_workbook (CommandContext *context, Workbook *book,
 	char *name;
 	int result;
 	FILE *f;
+	Workbook *book = wb_view_workbook (wb_view);
 
 	f = fopen (filename, "r");
 	if (!f) {
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 
@@ -450,7 +451,7 @@ sylk_read_workbook (CommandContext *context, Workbook *book,
 	src.sheet = sheet_new (book, name);
 	src.cur_x = src.cur_y = 1;
 
-	workbook_attach_sheet (book, src.sheet);
+	workbook_sheet_attach (book, src.sheet, NULL);
 	g_free (name);
 	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, NULL);
 
@@ -501,7 +502,7 @@ sylk_cleanup_plugin (PluginData *pd)
 PluginInitResult
 init_plugin (CommandContext *context, PluginData * pd)
 {
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+	if (plugin_version_mismatch (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
 	file_format_register_open (1, _("MultiPlan (SYLK) import"),

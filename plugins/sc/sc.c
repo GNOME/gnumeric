@@ -13,13 +13,14 @@
 #include <gnome.h>
 #include "plugin.h"
 #include "gnumeric.h"
+#include "io-context.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "parse-util.h"
 #include "value.h"
 #include "file.h"
 #include "cell.h"
 #include "style.h"
-#include "command-context.h"
 
 typedef struct {
 	/* input data */
@@ -365,7 +366,7 @@ sc_parse_line (sc_file_state_t *src, char *buf)
 
 
 static int
-sc_parse_sheet (CommandContext *context, sc_file_state_t *src)
+sc_parse_sheet (IOContext *context, sc_file_state_t *src)
 {
 	char buf [BUFSIZ];
 
@@ -375,13 +376,13 @@ sc_parse_sheet (CommandContext *context, sc_file_state_t *src)
 	while (fgets (buf, sizeof (buf), src->f) != NULL) {
 		g_strchomp (buf);
 		if (isalpha ((unsigned char)(buf [0])) && !sc_parse_line (src, buf)) {
-			gnumeric_error_read (context, "Error parsing line");
+			gnumeric_io_error_read (context, "Error parsing line");
 			return -1;
 		}
 	}
 
 	if (ferror (src->f)) {
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 
@@ -390,7 +391,7 @@ sc_parse_sheet (CommandContext *context, sc_file_state_t *src)
 
 
 static int
-sc_read_workbook (CommandContext *context, Workbook *book,
+sc_read_workbook (IOContext *context, WorkbookView *wb_view,
 		  const char *filename)
 {
 	/*
@@ -401,13 +402,14 @@ sc_read_workbook (CommandContext *context, Workbook *book,
 	char *name;
 	int result;
 	FILE *f;
+	Workbook *book = wb_view_workbook (wb_view);
 
 	g_return_val_if_fail (book, -1);
 	g_return_val_if_fail (filename, -1);
 
 	f = fopen (filename, "r");
 	if (!f) {
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 
@@ -417,7 +419,7 @@ sc_read_workbook (CommandContext *context, Workbook *book,
 	src.f	  = f;
 	src.sheet = sheet_new (book, name);
 
-	workbook_attach_sheet (book, src.sheet);
+	workbook_sheet_attach (book, src.sheet, NULL);
 	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, NULL);
 	g_free (name);
 

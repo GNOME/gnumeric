@@ -1,3 +1,10 @@
+2000-10-30  Jody Goldberg <jgoldberg@home.com>
+
+	* html.[ch] : Adjust to the signature changes for reading views
+	  rather than workbooks.
+	* latex.[ch] : ditto.
+	* roff.[ch] : ditto.
+
 2000-10-10  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.57

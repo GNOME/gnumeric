@@ -22,12 +22,11 @@
 #ifndef GNUMERIC_PLUGIN_LATEX_H
 #define GNUMERIC_PLUGIN_LATEX_H
 
-#include "../../src/gnumeric.h"
-#include "../../src/gnumeric-util.h"
+#include "gnumeric.h"
+#include "gnumeric-util.h"
 
-int html_write_wb_latex (CommandContext *context, Workbook *wb,
-			 const char *filename);
-int html_write_wb_latex2e (CommandContext *context, Workbook *wb,
+int html_write_wb_latex   (IOContext *context, WorkbookView *wb_view,
+			   const char *filename);
+int html_write_wb_latex2e (IOContext *context, WorkbookView *wb_view,
 			   const char *filename);
 #endif
-

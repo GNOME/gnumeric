@@ -22,6 +22,7 @@
 #include <ctype.h>
 #include <gnome.h>
 #include "workbook.h"
+#include "io-context.h"
 #include "cell.h"
 #include "gnumeric-util.h"
 #include "main.h"
@@ -29,7 +30,6 @@
 #include "value.h"
 #include "file.h"
 #include "parse-util.h"
-#include "command-context.h"
 
 #include "oleo.h"
 
@@ -44,7 +44,7 @@ attach_sheet (Workbook *wb, int idx)
 	sheet_name = g_strdup_printf (_("Sheet%d"), idx); 
 	sheet = sheet_new (wb, sheet_name);
 	g_free (sheet_name);
-	workbook_attach_sheet (wb, sheet);
+	workbook_sheet_attach (wb, sheet, NULL);
 
 	return sheet;
 }
@@ -177,7 +177,7 @@ oleo_deal_with_cell (char *str, Sheet *sheet, int *ccol, int *crow)
 }
 
 int
-oleo_read (CommandContext *context, Workbook *wb, const char *filename)
+oleo_read (IOContext *context, Workbook *wb, const char *filename)
 {
 	FILE *f = fopen (filename, "rb");
 	int sheetidx  = 0;
@@ -188,7 +188,7 @@ oleo_read (CommandContext *context, Workbook *wb, const char *filename)
 	char str[2048];
 
 	if (!f) {
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_system (context, g_strerror (errno));
 		return -1;
 	}
 	

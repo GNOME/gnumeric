@@ -15,8 +15,9 @@
 #include "gnumeric-util.h"
 #include "file.h"
 #include "main.h"
+#include "io-context.h"
+#include "workbook-view.h"
 #include "workbook.h"
-#include "command-context.h"
 
 #include "excel.h"
 #include "ms-summary.h"
@@ -26,7 +27,8 @@ extern int ms_excel_read_debug;
 MsExcelReadGbFn ms_excel_read_gb = NULL;
 
 static int
-excel_save_95 (CommandContext *context, Workbook *wb, const char *filename);
+excel_save_95 (IOContext *context, WorkbookView *wb_view,
+	       const char *filename);
 
 static gboolean
 excel_probe (const char *filename)
@@ -55,15 +57,16 @@ excel_probe (const char *filename)
 
 /*
  * excel_load
- * @context   command context
- * @wb        workbook
- * @filename  file name
+ * @context:   	Command context
+ * @wb:    	Workbook
+ * @filename:  	File name
  *
  * Load en excel workbook.
  * Returns 0 on success, -1 on failure.
  */
 static int
-excel_load (CommandContext *context, Workbook *wb, const char *filename)
+excel_load (IOContext *context, WorkbookView *new_wb_view,
+	    const char *filename)
 {
 	MsOleErr  ole_error;
 	MsOle	 *f;
@@ -74,12 +77,13 @@ excel_load (CommandContext *context, Workbook *wb, const char *filename)
 		ms_ole_destroy (&f);
 		/* FIXME : We need a more detailed message from
 		 * ole_open */
-		gnumeric_error_read (context, "");
+		gnumeric_io_error_read (context, "");
 		return -1;
 	}
 
-	result = ms_excel_read_workbook (context, wb, f);
+	result = ms_excel_read_workbook (context, new_wb_view, f);
 	if (result == 0) {
+		Workbook *wb = wb_view_workbook (new_wb_view);
 		ms_summary_read (f, wb->summary_info);
 
 		if (ms_excel_read_debug > 0)
@@ -107,9 +111,10 @@ excel_load (CommandContext *context, Workbook *wb, const char *filename)
  * ExcelWorkbook in ms-excel-read.h.
  */
 static int
-excel_save (CommandContext *context, Workbook *wb, const char *filename,
+excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 	    MsBiffVersion ver)
 {
+	Workbook *wb = wb_view_workbook (wb_view);
 	MsOle *f;
 	int ans;
 	struct stat s;
@@ -117,13 +122,12 @@ excel_save (CommandContext *context, Workbook *wb, const char *filename,
 	void *state = NULL;
 	
 	if ((stat (filename, &s) != -1)) {
-		gnumeric_error_save
-			(context,
+		gnumeric_io_error_save (context,
 			 _("Saving over old files disabled for safety"));
 		return -1;
 	}
 
-	if (ms_excel_check_write (context, &state, wb, ver) != 0)
+	if (ms_excel_check_write (context, &state, wb_view, ver) != 0)
 		return -1;		
 
 	result = ms_ole_create (&f, filename);
@@ -132,7 +136,7 @@ excel_save (CommandContext *context, Workbook *wb, const char *filename,
 		char *str = g_strdup_printf ("%s %s",
 					     _("Can't open"),
 					     filename);
-		gnumeric_error_save (context, str);
+		gnumeric_io_error_save (context, str);
 
 		ms_ole_destroy (&f);
 		ms_excel_write_free_state (state);
@@ -155,15 +159,17 @@ excel_save (CommandContext *context, Workbook *wb, const char *filename,
 }
 
 static int
-excel_save_98 (CommandContext *context, Workbook *wb, const char *filename)
+excel_save_98 (IOContext *context, WorkbookView *wb_view,
+	       const char *filename)
 {
-	return excel_save (context, wb, filename, MS_BIFF_V8);
+	return excel_save (context, wb_view, filename, MS_BIFF_V8);
 }
 
 static int
-excel_save_95 (CommandContext *context, Workbook *wb, const char *filename)
+excel_save_95 (IOContext *context, WorkbookView *wb_view,
+	       const char *filename)
 {
-	return excel_save (context, wb, filename, MS_BIFF_V7);
+	return excel_save (context, wb_view, filename, MS_BIFF_V7);
 }
 
 void
