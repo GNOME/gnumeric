@@ -10,7 +10,6 @@ Release Critical
     - XL crashes importing our xls95 exports with names
     - referencing freed named expr from undo clipboard
     - height calculation in render value is hosed for embedded new lines
-    - maptable scrolling oddity
 
 Pending Patches
 ---------------
@@ -70,6 +69,7 @@ Pending Patches
 
 19) Session management
     http://bugzilla.gnome.org/show_bug.cgi?id=69799
+20) Change =IF back to a nodes function to handle the majority case
 
 UTF-8:
     - Window titles.

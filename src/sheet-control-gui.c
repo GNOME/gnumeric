@@ -691,9 +691,9 @@ scg_set_left_col (SheetControlGUI *scg, int col)
 		int right = scg->sheet_control.view->unfrozen_top_left.col;
 		if (col < right)
 			col = right;
-		if (scg->pane[3].is_active)
-			gnm_canvas_set_left_col (scg_pane (scg, 3), col);
 	}
+	if (scg->pane[3].is_active)
+		gnm_canvas_set_left_col (scg_pane (scg, 3), col);
 	gnm_canvas_set_left_col (scg_pane (scg, 0), col);
 }
 
@@ -751,9 +751,9 @@ scg_set_top_row (SheetControlGUI *scg, int row)
 		int bottom = scg->sheet_control.view->unfrozen_top_left.row;
 		if (row < bottom)
 			row = bottom;
-		if (scg->pane[1].is_active)
-			gnm_canvas_set_top_row (scg_pane (scg, 1), row);
 	}
+	if (scg->pane[1].is_active)
+		gnm_canvas_set_top_row (scg_pane (scg, 1), row);
 	gnm_canvas_set_top_row (scg_pane (scg, 0), row);
 }
 

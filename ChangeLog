@@ -1,5 +1,9 @@
 2002-11-25  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-control-gui.c (scg_set_left_col) : clip on pane 1
+	  but we always need to scroll 3 if it exists.
+	(scg_set_top_row) : ditto, but reverse the panes.
+
 	* src/item-grid.c (item_grid_draw_merged_range) : do just in time
 	  spanning here too.
 
