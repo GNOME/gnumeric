@@ -8,13 +8,11 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - get a libole2 release and attempt to deal with the ameritrade issues
-    - http://bugzilla.gnome.org/show_bug.cgi?id=63408
-
 Pending Patches
 ---------------
 
     http://bugzilla.gnome.org/show_bug.cgi?id=60468	oleo
+    http://bugzilla.gnome.org/show_bug.cgi?id=63160	inverse autofill
 
 Long term breakage
 ------------------
