@@ -10,35 +10,34 @@
 #undef dirty
 #include <glib.h>
 #include <gnome.h>
-#include "../../src/gnumeric.h"
-#include "../../src/plugin.h"
+#include "gnumeric.h"
+#include "plugin.h"
 #define dirty _perl_dirty
 #undef _perl_dirty
+
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
 
 extern void xs_init(void);
 
 static PerlInterpreter *gnumeric_perl_interp;
 
-static int
-no_unloading_for_me (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
-	return 0;
+	return FALSE;
 }
 
-static void
-no_cleanup_for_me (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-        return;
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData *pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
 	char *argv[] = { "", NULL, NULL, NULL };
 	char *arg;
-
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
 
 	/* Initialize the Perl interpreter. */
 	arg = gnumeric_sys_data_dir ("perl");
@@ -50,11 +49,5 @@ init_plugin (CommandContext *context, PluginData *pd)
 	perl_parse(gnumeric_perl_interp, xs_init, 3, argv, NULL);
 	perl_run(gnumeric_perl_interp);
 
-	if (plugin_data_init (pd, no_unloading_for_me, no_cleanup_for_me,
-			      _("Perl"),
-			      _("Enables the creation of functions in PERL")))
-	        return PLUGIN_OK;
-	else
-	        return PLUGIN_ERROR;
-
+	return TRUE;
 }

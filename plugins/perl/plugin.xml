@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<gnumeric_plugin_group>
+<plugin id="Gnumeric_perl">
+	<information name="Perl" description="Enables the creation of functions in Perl"/>
+	<activation type="g_module" module_file="perl.so"/>
+</plugin>
+</gnumeric_plugin_group>

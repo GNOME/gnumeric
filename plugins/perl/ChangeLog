@@ -1,3 +1,8 @@
+2001-01-27  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am, plugin.c, plugin.xml:
+	Conversion to new plugins code.
+
 2000-12-17 Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.61

@@ -1,8 +1,10 @@
 # Do not build by default until we are ready.
 #if WITH_PERL
-PERL_TARGET = gnum_perl.so
+PERL_PROGRAMS_TARGET = perl.so
+PERL_DATA_TARGET = plugin.xml
 #else
-#PERL_TARGET =
+#PERL_PROGRAMS_TARGET =
+#PERL_DATA_TARGET =
 #endif
 
 gnperldir = $(gnumeric_datadir)/perl
@@ -15,12 +17,14 @@ PERL_CFLAGS = -I../.. $(PERL_CCCDLFLAGS)		\
 #
 # Do not build the plugin until there is a maintainer
 #
-gnumeric_plugin_PROGRAMS = $(PERL_TARGET)
 
-gnum_perl_so_SOURCES = perl.c
+gnumeric_plugin_perldir = $(gnumeric_plugindir)/perl
+gnumeric_plugin_perl_DATA = $(PERL_DATA_TARGET)
+gnumeric_plugin_perl_PROGRAMS = $(PERL_PROGRAMS_TARGET)
+perl_so_SOURCES = perl.c
 
-gnum_perl.so: perl.o xsinit.o ext.timestamp
-	-$(PERL_LD) $(PERL_LDDLFLAGS) -o gnum_perl.so perl.o xsinit.o $(PERL_LDOPTS)
+perl.so: perl.o xsinit.o ext.timestamp
+	-$(PERL_LD) $(PERL_LDDLFLAGS) -o perl.so perl.o xsinit.o $(PERL_LDOPTS)
 
 perl.o: $(srcdir)/perl.c
 	$(PERL_CC) $(PERL_CFLAGS) -c $(srcdir)/perl.c
