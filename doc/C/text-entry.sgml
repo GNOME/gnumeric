@@ -1,0 +1,8 @@
+To enter text on Gnumeric, just select a cell with either the mouse or
+the cursor keys and start typing.  This will give you the basic input
+facilities, but barely no line editing facilites: if you use the
+cursor keys at this point will just accept your input and move the
+cursor.
+
+To get the fully editing facilites, you have to press the F2 key, This
+will let you use the cursor keys.
