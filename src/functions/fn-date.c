@@ -714,13 +714,17 @@ gnumeric_day (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_weekday = {
 	N_("@FUNCTION=WEEKDAY\n"
-	   "@SYNTAX=WEEKDAY (serial_number)\n"
+	   "@SYNTAX=WEEKDAY (serial_number[, method])\n"
 
 	   "@DESCRIPTION="
 	   "WEEKDAY converts a serial number to a weekday.\n"
 	   "\n"
-	   "This function returns an integer in the range 1-7, where "
-	   "Sunday is 1, Monday is 2, etc.\n"
+	   "This function returns an integer indicating the day of week.\n"
+	   "@METHOD indicates the numbering system.  It defaults to 1.\n"
+	   "\n"
+	   "For @METHOD=1: Sunday is 1, Monday is 2, etc.\n"
+	   "For @METHOD=2: Monday is 1, Tuesday is 2, etc.\n"
+	   "For @METHOD=3: Monday is 0, Tuesday is 1, etc.\n"
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
@@ -738,15 +742,22 @@ gnumeric_weekday (FunctionEvalInfo *ei, Value **argv)
 {
 	int res;
 	GDate *date;
+	int method = argv[1] ? value_get_as_int (argv[1]) : 1;
 
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
+	if (method < 1 || method > 3)
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	date = datetime_value_to_g (argv[0]);
 	if (!date)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	res = (g_date_weekday (date) % 7) + 1;
+	switch (method) {
+	case 1: res = (g_date_weekday (date) % 7) + 1; break;
+	case 2: res = (g_date_weekday (date) + 6) % 7 + 1; break;
+	case 3: res = (g_date_weekday (date) + 6) % 7; break;
+	default: abort ();
+	}
+
 	g_date_free (date);
 
 	return value_new_int (res);
@@ -1186,7 +1197,7 @@ date_functions_init(void)
 				 &help_today,       gnumeric_today );
 	auto_format_function_result (def, AF_DATE);
 
-	def = function_add_args (cat,  "weekday",        "?",
+	def = function_add_args (cat,  "weekday",        "?|f",
 				 "date",
 				 &help_weekday,     gnumeric_weekday);
 

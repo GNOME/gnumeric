@@ -11,7 +11,7 @@ Jody:
 Morten:
 	* Added DATE2UNIX and UNIX2DATE.
 	* Added GETENV.
-	* Fix WEEKDAY for Saturdays.
+	* Fix WEEKDAY.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.0
