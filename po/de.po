@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.63cvs\n"
 "POT-Creation-Date: 2001-05-26 14:29+0200\n"
-"PO-Revision-Date: 2001-05-26 19:34+0200\n"
+"PO-Revision-Date: 2001-05-26 19:48+0200\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -193,7 +193,6 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -207,17 +206,6 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 msgstr ""
-"@FUNCTION=NT_MU\n"
-"@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=Die NT_MU Funktion (Möbius mu Funktion) gibt 0 zurück,\n"
-"wenn @n durch das Quadrat eines Primteilers teilbar ist.\n"
-"Sonst gibt sie zurück: \n"
-"-1 wenn @n eine ungerade Zahl von primteilern hat.\n"
-"1  wenn @n eine gerade Zahl von primteilern hat..\n"
-"wenn @n=1 gibt es 1 zurück\n"
-"\n"
-"@EXAMPLES=\n"
-"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:272
 msgid ""
@@ -1185,22 +1173,22 @@ msgstr "Datum/Zeit setzen"
 #: src/commands.c:1739
 #, c-format
 msgid "Setting current date in %s"
-msgstr "Aktuelles Datum in %s einstellen"
+msgstr "Aktuelles Datum in %s festlegen"
 
 #: src/commands.c:1740
 #, c-format
 msgid "Setting current time in %s"
-msgstr "Aktuelle Zeit in %s einstellen"
+msgstr "Aktuelle Zeit in %s festlegen"
 
 #: src/commands.c:1848
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting column %s"
-msgstr "Spalte %s löschen"
+msgstr "Spalte %s automatisch anpassen"
 
 #: src/commands.c:1849
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting row %s"
-msgstr "Zeile %d löschen"
+msgstr "Zeile %s automatisch anpassen"
 
 #: src/commands.c:1852
 #, fuzzy, c-format
@@ -1213,9 +1201,9 @@ msgid "Setting height of row %s to %d pixels"
 msgstr "Zeilenhöhe einstellen"
 
 #: src/commands.c:1859 src/commands.c:1860
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting columns %s"
-msgstr "Spalte %s löschen"
+msgstr "Spalten %s automatisch anpassen"
 
 #: src/commands.c:1863
 #, fuzzy, c-format
@@ -12688,7 +12676,7 @@ msgstr "Endgültiger Wert"
 
 #: src/solver-lp.c:919 src/solver-lp.c:1041
 msgid "Adjustable Cells"
-msgstr "Einstellbare Zellen"
+msgstr "Anpassbare Zellen"
 
 #: src/solver-lp.c:952 src/solver-lp.c:1086
 msgid "Constraints"
@@ -14512,11 +14500,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 #~ "Es kann in der Datei %s nicht gespeichert werden\n"
 #~ "%%s"
 
-# Checkit
-# 2001-02-11 07:39:25 CET -ke-
-#~ msgid "There are no file savers loaded"
-#~ msgstr "Es sind keine Dateispeicherer geladen."
-
 #~ msgid "pv - domain error"
 #~ msgstr "pv - Definitionsbereich-Fehler"
 
@@ -14530,12 +14513,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 
 #~ msgid "No sheets found"
 #~ msgstr "Kein Blatt gefunden."
-
-#~ msgid "label11"
-#~ msgstr "beschriftung11"
-
-#~ msgid "label12"
-#~ msgstr "beschriftung12"
 
 #~ msgid "Saving over old files disabled for safety"
 #~ msgstr ""
@@ -14565,9 +14542,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 #~ msgid "Gnumeric: Autoformat"
 #~ msgstr "Gnumeric: Autoformat"
 
-#~ msgid "C_olor"
-#~ msgstr "_Farbe"
-
 #~ msgid "Pick a Background color"
 #~ msgstr "Wählen Sie eine Hintergrundfarbe aus"
 
@@ -14585,14 +14559,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 
 #~ msgid "_No Color"
 #~ msgstr "_Keine Farbe"
-
-#, fuzzy
-#~ msgid "Gnumeric: Input Validation"
-#~ msgstr "Gnumeric: Autoformat"
-
-#, fuzzy
-#~ msgid "St_yle :"
-#~ msgstr "_Stil:"
 
 #, fuzzy
 #~ msgid "_Error message :"
@@ -14701,9 +14667,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 #~ msgid "Gnumeric (*.gnumeric) XML based file format"
 #~ msgstr "Gnumeric-XML-Dateiformat(*.gnumeric)"
 
-#~ msgid "_Title:"
-#~ msgstr "_Titel:"
-
 #~ msgid "Required information for plugin with id=\"%s\" not found in file."
 #~ msgstr ""
 #~ "Die erforderlichen Informationen für das Plugin mit id=\"%s\" wurde\n"
@@ -14735,9 +14698,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 
 #~ msgid "Missing quote"
 #~ msgstr "Fehlendes Anführungszeichen"
-
-#~ msgid "Impossible!"
-#~ msgstr "Unmöglich!"
 
 #~ msgid "Data Interchange Format (CSV) module"
 #~ msgstr "Modul: Data Interchange Format Import (CSV)"
@@ -14788,9 +14748,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 #~ msgid "Standard Error"
 #~ msgstr "Standardfehler"
 
-#~ msgid "Mode"
-#~ msgstr "Modus"
-
 #~ msgid "Standard Deviation"
 #~ msgstr "Standardabweichung"
 
@@ -14827,9 +14784,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 #~ msgid "Within Groups"
 #~ msgstr "Innerhalb von Gruppen"
 
-#~ msgid "sort"
-#~ msgstr "sortieren"
-
 #~ msgid "delete cells"
 #~ msgstr "Zellen löschen"
 
@@ -14856,14 +14810,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 
 #~ msgid "De_lete Sheet"
 #~ msgstr "B_latt löschen"
-
-#, fuzzy
-#~ msgid "Import..."
-#~ msgstr "_Importieren..."
-
-#, fuzzy
-#~ msgid "Paste _Special..."
-#~ msgstr "Einfügen _spezial"
 
 #~ msgid "Duplicate Sheet name"
 #~ msgstr "Mehrfach vergebener Blattname"
