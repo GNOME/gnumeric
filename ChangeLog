@@ -1,5 +1,13 @@
 2000-11-04  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-view.c (sheet_view_{col,row}_size_changed) : Only resize
+	  all columns if the column that changed is part of the selection.
+
+	* src/selection.c (sheet_selection_full_{cols, rows}) : flag whether
+	  the selection contains the requested col.
+
+2000-11-04  Jody Goldberg <jgoldberg@home.com>
+
 	* src/format-template.c (format_template_apply_to_sheet_regions) : No
 	  need to request a redraw.
 	(cb_format_sheet_style) : Use sheet_range_apply_style because it

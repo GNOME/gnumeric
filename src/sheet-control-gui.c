@@ -381,7 +381,7 @@ sheet_view_col_size_changed (ItemBar *item_bar, int col, int new_size_pixels,
 	 * If all cols in the selection are completely selected (top to bottom)
 	 * then resize all of them, otherwise just resize the selected col.
 	 */
- 	if (!sheet_selection_full_cols (sheet)) {
+ 	if (!sheet_selection_full_cols (sheet, col)) {
 		ColRowIndexList *sel = col_row_get_index_list (col, col, NULL);
 		cmd_resize_row_col (WORKBOOK_CONTROL (sheet_view->wbcg),
 				    sheet, TRUE, sel, new_size_pixels);
@@ -435,7 +435,7 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int new_size_pixels,
 	 * If all rows in the selection are completely selected (left to right)
 	 * then resize all of them, otherwise just resize the selected row.
 	 */
- 	if (!sheet_selection_full_rows (sheet)) {
+ 	if (!sheet_selection_full_rows (sheet, row)) {
 		ColRowIndexList *sel = col_row_get_index_list (row, row, NULL);
 		cmd_resize_row_col (WORKBOOK_CONTROL (sheet_view->wbcg),
 				    sheet, FALSE, sel, new_size_pixels);

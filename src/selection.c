@@ -1298,9 +1298,10 @@ sheet_row_selection_type (Sheet const *sheet, int row)
  * returns TRUE if all of the selected cols in the selection fully selected ?
  */
 gboolean
-sheet_selection_full_cols (Sheet const *sheet)
+sheet_selection_full_cols (Sheet const *sheet, int col)
 {
 	GList *l;
+	gboolean found = FALSE;
 
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
@@ -1310,9 +1311,11 @@ sheet_selection_full_cols (Sheet const *sheet)
 		Range const *r = &ss->user;
 		if (r->start.row != 0 || r->end.row < SHEET_MAX_ROWS - 1)
 			return FALSE;
+		if (r->start.col <= col && col <= r->end.col)
+			found = TRUE;
 	}
 
-	return TRUE;
+	return found;
 }
 /*
  * sheet_selection_full_rows :
@@ -1322,9 +1325,10 @@ sheet_selection_full_cols (Sheet const *sheet)
  * returns TRUE if all of the selected rows in the selection fully selected ?
  */
 gboolean
-sheet_selection_full_rows (Sheet const *sheet)
+sheet_selection_full_rows (Sheet const *sheet, int row)
 {
 	GList *l;
+	gboolean found = FALSE;
 
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
@@ -1334,8 +1338,10 @@ sheet_selection_full_rows (Sheet const *sheet)
 		Range const *r = &ss->user;
 		if (r->start.col != 0 || r->end.col < SHEET_MAX_COLS - 1)
 			return FALSE;
+		if (r->start.row <= row && row <= r->end.row)
+			found = TRUE;
 	}
 
-	return TRUE;
+	return found;
 }
 
