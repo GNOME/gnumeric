@@ -1,0 +1,5 @@
+1998-10-07  Richard Hestilow  <hestgray@ionet.net>
+	
+	* stat.c: Changed all g_new's to g_malloc's to get rid of compiler
+	warnings. 
+	(stat_undivided_variance): now initializing result to 0.0

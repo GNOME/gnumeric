@@ -79,7 +79,7 @@ static Value *stat_variance(void *sheet, GList *expr_node_list, int eval_col,
 	float undiv;
 	unsigned int len;
 	
-	result = g_new(Value *, 1);
+	result = g_malloc(sizeof(Value *));
 	result->type = VALUE_FLOAT;
 	result->v.v_float = 0.0;
 	
@@ -103,7 +103,7 @@ static Value *stat_nvariance(void *sheet, GList *expr_node_list, int eval_col,
 	float undiv;
 	unsigned int len;
 	
-	result = g_new(Value, 1);
+	result = g_malloc(sizeof(Value *));
 	result->type = VALUE_FLOAT;
 	result->v.v_float = 0.0;
 	
@@ -123,12 +123,13 @@ float stat_undivided_variance(void *sheet, GList *expr_node_list,
 	
 	Value *avgV, *tmpval;
 	GPtrArray *values;
-	float tmp, result;
+	float tmp;
+	float result = 0.0;
 	unsigned int i;
 	float avg;
 	
-	avgV = g_new(Value *, 1);
-	tmpval = g_new(Value *, 1);
+	avgV = g_malloc(sizeof(Value *));
+	tmpval = g_malloc(sizeof(Value *));
 
 	values = g_ptr_array_new();
 	
@@ -137,7 +138,7 @@ float stat_undivided_variance(void *sheet, GList *expr_node_list,
 					expr_node_list, eval_col, eval_row,
 					error_string);
 	avgV = function_call_with_values(sheet, "average", values->len, 
-			values->pdata, error_string);
+			(Value **)values->pdata, error_string);
 	
 	avg = value_get_as_double(avgV);
 	
@@ -156,7 +157,7 @@ float stat_undivided_variance(void *sheet, GList *expr_node_list,
 static Value *stat_stdev(void *sheet, GList *expr_node_list, int eval_col,                               int eval_row, char **error_string) {
 	Value *result, *var;
 	
-	result = g_new(Value, 1);
+	result = g_malloc(sizeof(Value *));
 	result->type = VALUE_FLOAT;
 	result->v.v_float = 0.0;
 
