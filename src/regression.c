@@ -16,9 +16,9 @@
   do { int _i, _d1, _d2;				\
        _d1 = (dim1);					\
        _d2 = (dim2);					\
-       (var) = g_new (float_t *, _d1);			\
+       (var) = g_new (gnum_float *, _d1);			\
        for (_i = 0; _i < _d1; _i++)			\
-	       (var)[_i] = g_new (float_t, _d2);	\
+	       (var)[_i] = g_new (gnum_float, _d2);	\
   } while (0)
 
 #define FREE_MATRIX(var,dim1,dim2)			\
@@ -38,7 +38,7 @@
 	p. 753. MIT Press, 1990.
 */
 static void
-backsolve (float_t **LU, int *P, float_t *b, int n, float_t *res)
+backsolve (gnum_float **LU, int *P, gnum_float *b, int n, gnum_float *res)
 {
 	int i,j;
 
@@ -63,10 +63,10 @@ This function is adapted from pseudocode in
 	p 759. MIT Press, 1990.
 */
 static int
-LUPDecomp (float_t **A, float_t **LU, int *P, int n)
+LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 {
 	int i, j, k, tempint;
-	float_t temp;
+	gnum_float temp;
 
 	for (j = 0; j < n; j++)
 		for (i = 0; i < n; i++)
@@ -75,7 +75,7 @@ LUPDecomp (float_t **A, float_t **LU, int *P, int n)
 		P[j] = j;
 
 	for (i = 0; i < n; i++) {
-		float_t max = 0;
+		gnum_float max = 0;
 		int mov = -1;
 		for (j = i; j < n; j++)
 			if (abs (LU[i][j]) > max) {
@@ -101,10 +101,10 @@ LUPDecomp (float_t **A, float_t **LU, int *P, int n)
 }
 
 static int
-linear_solve (float_t **A, float_t *b, int n, float_t *res)
+linear_solve (gnum_float **A, gnum_float *b, int n, gnum_float *res)
 {
 	int err;
-	float_t **LU;
+	gnum_float **LU;
 	int *P;
 
 	err = 0;
@@ -113,7 +113,7 @@ linear_solve (float_t **A, float_t *b, int n, float_t *res)
 
 	/* Special case.  */
 	if (n == 1) {
-		float_t d = A[0][0];
+		gnum_float d = A[0][0];
 
 		if (d == 0)
 			return 2;  /* Singular.  */
@@ -124,7 +124,7 @@ linear_solve (float_t **A, float_t *b, int n, float_t *res)
 
 	/* Special case.  */
 	if (n == 2) {
-		float_t d = A[0][0] * A[1][1] - A[1][0] * A[0][1];
+		gnum_float d = A[0][0] * A[1][1] - A[1][0] * A[0][1];
 		if (d == 0)
 			return 2;  /* Singular.  */
 		res[0] = (A[1][1] * b[0] - A[1][0] * b[1]) / d;
@@ -149,12 +149,12 @@ linear_solve (float_t **A, float_t *b, int n, float_t *res)
 /* ------------------------------------------------------------------------- */
 
 static int
-general_linear_regression (float_t **xss, int xdim,
-			   const float_t *ys, int n,
-			   float_t *res,
+general_linear_regression (gnum_float **xss, int xdim,
+			   const gnum_float *ys, int n,
+			   gnum_float *res,
 			   regression_stat_t *extra_stat, int affine)
 {
-	float_t *xTy, **xTx;
+	gnum_float *xTy, **xTx;
 	int i,j;
 	int err;
 
@@ -164,10 +164,10 @@ general_linear_regression (float_t **xss, int xdim,
 	if (xdim > n || n < 1)
 		return 1;  /* Too few points.  */
 
-	xTy = g_new (float_t, xdim);
+	xTy = g_new (gnum_float, xdim);
 	for (i = 0; i < xdim; i++) {
-		const float_t *xs = xss[i];
-		register float_t res = 0;
+		const gnum_float *xs = xss[i];
+		register gnum_float res = 0;
 		int j;
 		if (xs == NULL)
 			/* NULL represents a 1-vector.  */
@@ -182,11 +182,11 @@ general_linear_regression (float_t **xss, int xdim,
 	ALLOC_MATRIX (xTx, xdim, xdim);
 
 	for (i = 0; i < xdim; i++) {
-		const float_t *xs1 = xss[i];
+		const gnum_float *xs1 = xss[i];
 		int j;
 		for (j = 0; j <= i; j++) {
-			const float_t *xs2 = xss[j];
-			float_t res = 0;
+			const gnum_float *xs2 = xss[j];
+			gnum_float res = 0;
 			int k;
 
 			if (xs1 == NULL && xs2 == NULL)
@@ -209,11 +209,11 @@ general_linear_regression (float_t **xss, int xdim,
 
 	if (extra_stat && err == 0) {
 		int err2;
-		float_t *residuals = g_new (float_t, n);
-		float_t **LU;
-		float_t ss_total = 0;
+		gnum_float *residuals = g_new (gnum_float, n);
+		gnum_float **LU;
+		gnum_float ss_total = 0;
 		int *P;
-		float_t *e, *inv;
+		gnum_float *e, *inv;
 
 		extra_stat->ybar = 0;
 		for (i = 0; i < n; i++)
@@ -226,7 +226,7 @@ general_linear_regression (float_t **xss, int xdim,
 			/* Not actually SE till later to avoid rounding error
 			   when finding R^2 */
 
-		extra_stat->xbar = g_new (float_t, n);
+		extra_stat->xbar = g_new (gnum_float, n);
 
 		for (i = 0; i < xdim; i++) {
 			extra_stat->xbar[i] = 0;
@@ -262,9 +262,9 @@ general_linear_regression (float_t **xss, int xdim,
 
 		err2 = LUPDecomp (xTx, LU, P, xdim);
 		if (err2 == 0) {
-			extra_stat->se = g_new (float_t, xdim);
-			e = g_new (float_t, xdim); /* Elmentary vector */
-			inv = g_new (float_t, xdim);
+			extra_stat->se = g_new (gnum_float, xdim);
+			e = g_new (gnum_float, xdim); /* Elmentary vector */
+			inv = g_new (gnum_float, xdim);
 			for (i = 0; i < xdim; i++)
 				e[i] = 0;
 			for (i = 0; i < xdim; i++) {
@@ -279,7 +279,7 @@ general_linear_regression (float_t **xss, int xdim,
 		FREE_MATRIX (LU, xdim, xdim);
 		g_free (P);
 
-		extra_stat->t  = g_new (float_t, xdim);
+		extra_stat->t  = g_new (gnum_float, xdim);
 
 		for (i = 0; i < xdim; i++)
 			extra_stat->t[i] = res[i] / extra_stat->se[i];
@@ -306,19 +306,19 @@ general_linear_regression (float_t **xss, int xdim,
 /* Please refer to description in regression.h.  */
 
 int
-linear_regression (float_t **xss, int dim,
-		   const float_t *ys, int n,
+linear_regression (gnum_float **xss, int dim,
+		   const gnum_float *ys, int n,
 		   int affine,
-		   float_t *res,
+		   gnum_float *res,
 		   regression_stat_t *extra_stat)
 {
 	int result;
 
 	if (affine) {
-		float_t **xss2;
-		xss2 = g_new (float_t *, dim + 1);
+		gnum_float **xss2;
+		xss2 = g_new (gnum_float *, dim + 1);
 		xss2[0] = NULL;  /* Substitute for 1-vector.  */
-		memcpy (xss2 + 1, xss, dim * sizeof (float_t *));
+		memcpy (xss2 + 1, xss, dim * sizeof (gnum_float *));
 
 		result = general_linear_regression (xss2, dim + 1, ys, n,
 						    res, extra_stat, affine);
@@ -335,17 +335,17 @@ linear_regression (float_t **xss, int dim,
 /* Please refer to description in regression.h.  */
 
 int
-exponential_regression (float_t **xss, int dim,
-			const float_t *ys, int n,
+exponential_regression (gnum_float **xss, int dim,
+			const gnum_float *ys, int n,
 			int affine,
-			float_t *res,
+			gnum_float *res,
 			regression_stat_t *extra_stat)
 {
-	float_t *log_ys;
+	gnum_float *log_ys;
 	int result;
 	int i;
 
-	log_ys = g_new (float_t, n);
+	log_ys = g_new (gnum_float, n);
 	for (i = 0; i < n; i++)
 		if (ys[i] > 0)
 			log_ys[i] = log (ys[i]);
@@ -355,10 +355,10 @@ exponential_regression (float_t **xss, int dim,
 		}
 
 	if (affine) {
-		float_t **xss2;
-		xss2 = g_new (float_t *, dim + 1);
+		gnum_float **xss2;
+		xss2 = g_new (gnum_float *, dim + 1);
 		xss2[0] = NULL;  /* Substitute for 1-vector.  */
-		memcpy (xss2 + 1, xss, dim * sizeof (float_t *));
+		memcpy (xss2 + 1, xss, dim * sizeof (gnum_float *));
 
 		result = general_linear_regression (xss2, dim + 1, log_ys,
 						    n, res, extra_stat, affine);

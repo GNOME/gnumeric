@@ -1466,7 +1466,7 @@ check_valid (const StyleFormatEntry *entry, const Value *value)
  * @col_width : the approximate width in characters.
  */
 static char *
-fmt_general_float (float_t val, float col_width)
+fmt_general_float (gnum_float val, float col_width)
 {
 	double tmp;
 	int log_val, prec;
@@ -1628,8 +1628,8 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 			return g_strdup (gnumeric_err_VALUE);
 
 		if (is_general) {
-			float_t val = value->v_float.val;
-			if ((float_t)INT_MAX >= val && val >= (float_t)INT_MIN) {
+			gnum_float val = value->v_float.val;
+			if ((gnum_float)INT_MAX >= val && val >= (gnum_float)INT_MIN) {
 				double int_val = floor (value->v_float.val);
 				if (int_val == value->v_float.val)
 					return fmt_general_int (int_val, col_width);

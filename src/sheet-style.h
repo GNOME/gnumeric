@@ -8,13 +8,13 @@ struct _StyleRegion {
 	MStyle  *style;
 };
 
-typedef struct {
+struct _StyleRow {
 	int row, start_col, end_col;
 	MStyle      const **styles;
 	StyleBorder const **top;
 	StyleBorder const **bottom;
 	StyleBorder const **vertical;
-} StyleRow;
+};
 
 MStyle	*sheet_style_default		(Sheet const *sheet);
 MStyle	*sheet_style_get		(Sheet const *sheet, int col, int row);

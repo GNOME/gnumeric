@@ -551,20 +551,9 @@ workbook_sheet_name_strip_number (char *name, int* number)
 Workbook *
 workbook_new_with_sheets (int sheet_count)
 {
-	Workbook *wb;
-	int i;
-
-	wb = workbook_new ();
-
-	for (i = 1; i <= sheet_count; i++){
-		Sheet *sheet;
-		char *name = g_strdup_printf (_("Sheet%d"), i);
-
-		sheet = sheet_new (wb, name);
-		workbook_sheet_attach (wb, sheet, NULL);
-		g_free (name);
-	}
-
+	Workbook *wb = workbook_new ();
+	while (sheet_count-- > 0)
+		workbook_sheet_add (wb, NULL, FALSE);
 	return wb;
 }
 
@@ -906,6 +895,7 @@ Sheet *
 workbook_sheet_by_index (Workbook *wb, int i)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
+	g_return_val_if_fail (wb->sheets->len > i, 0);
 
 	return g_ptr_array_index (wb->sheets, i);
 }

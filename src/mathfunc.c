@@ -133,9 +133,9 @@ gnumeric_fake_trunc (double x)
 
 /* Arithmetic sum.  */
 int
-range_sum (const float_t *xs, int n, float_t *res)
+range_sum (const gnum_float *xs, int n, gnum_float *res)
 {
-	float_t sum = 0;
+	gnum_float sum = 0;
 	int i;
 
 	for (i = 0; i < n; i++)
@@ -146,9 +146,9 @@ range_sum (const float_t *xs, int n, float_t *res)
 
 /* Arithmetic sum of squares.  */
 int
-range_sumsq (const float_t *xs, int n, float_t *res)
+range_sumsq (const gnum_float *xs, int n, gnum_float *res)
 {
-	float_t sum = 0;
+	gnum_float sum = 0;
 	int i;
 
 	for (i = 0; i < n; i++)
@@ -159,7 +159,7 @@ range_sumsq (const float_t *xs, int n, float_t *res)
 
 /* Arithmetic average.  */
 int
-range_average (const float_t *xs, int n, float_t *res)
+range_average (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n <= 0 || range_sum (xs, n, res))
 		return 1;
@@ -169,10 +169,10 @@ range_average (const float_t *xs, int n, float_t *res)
 }
 
 int
-range_min (const float_t *xs, int n, float_t *res)
+range_min (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n > 0) {
-		float_t min = xs[0];
+		gnum_float min = xs[0];
 		int i;
 
 		for (i = 1; i < n; i++)
@@ -185,10 +185,10 @@ range_min (const float_t *xs, int n, float_t *res)
 }
 
 int
-range_max (const float_t *xs, int n, float_t *res)
+range_max (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n > 0) {
-		float_t max = xs[0];
+		gnum_float max = xs[0];
 		int i;
 
 		for (i = 1; i < n; i++)
@@ -203,10 +203,10 @@ range_max (const float_t *xs, int n, float_t *res)
 
 /* Average absolute deviation from mean.  */
 int
-range_avedev (const float_t *xs, int n, float_t *res)
+range_avedev (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n > 0) {
-		float_t m, s = 0;
+		gnum_float m, s = 0;
 		int i;
 
 		range_average (xs, n, &m);
@@ -221,9 +221,9 @@ range_avedev (const float_t *xs, int n, float_t *res)
 
 /* Sum of square deviations from mean.  */
 int
-range_devsq (const float_t *xs, int n, float_t *res)
+range_devsq (const gnum_float *xs, int n, gnum_float *res)
 {
-	float_t m, dx, q = 0;
+	gnum_float m, dx, q = 0;
 	if (n > 0) {
 		int i;
 
@@ -239,10 +239,10 @@ range_devsq (const float_t *xs, int n, float_t *res)
 
 /* Variance with weight N.  */
 int
-range_var_pop (const float_t *xs, int n, float_t *res)
+range_var_pop (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n > 0) {
-		float_t q;
+		gnum_float q;
 
 		range_devsq (xs, n, &q);
 		*res = q / n;
@@ -253,10 +253,10 @@ range_var_pop (const float_t *xs, int n, float_t *res)
 
 /* Variance with weight N-1.  */
 int
-range_var_est (const float_t *xs, int n, float_t *res)
+range_var_est (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n > 1) {
-		float_t q;
+		gnum_float q;
 
 		range_devsq (xs, n, &q);
 		*res = q / (n - 1);
@@ -267,7 +267,7 @@ range_var_est (const float_t *xs, int n, float_t *res)
 
 /* Standard deviation with weight N.  */
 int
-range_stddev_pop (const float_t *xs, int n, float_t *res)
+range_stddev_pop (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (range_var_pop (xs, n, res))
 		return 1;
@@ -279,7 +279,7 @@ range_stddev_pop (const float_t *xs, int n, float_t *res)
 
 /* Standard deviation with weight N-1.  */
 int
-range_stddev_est (const float_t *xs, int n, float_t *res)
+range_stddev_est (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (range_var_est (xs, n, res))
 		return 1;
@@ -291,9 +291,9 @@ range_stddev_est (const float_t *xs, int n, float_t *res)
 
 /* Population skew.  */
 int
-range_skew_pop (const float_t *xs, int n, float_t *res)
+range_skew_pop (const gnum_float *xs, int n, gnum_float *res)
 {
-	float_t m, s, dxn, x3 = 0;
+	gnum_float m, s, dxn, x3 = 0;
 	int i;
 
 	if (n < 1 || range_average (xs, n, &m) || range_stddev_pop (xs, n, &s))
@@ -312,9 +312,9 @@ range_skew_pop (const float_t *xs, int n, float_t *res)
 
 /* Maximum-likelyhood estimator for skew.  */
 int
-range_skew_est (const float_t *xs, int n, float_t *res)
+range_skew_est (const gnum_float *xs, int n, gnum_float *res)
 {
-	float_t m, s, dxn, x3 = 0;
+	gnum_float m, s, dxn, x3 = 0;
 	int i;
 
 	if (n < 3 || range_average (xs, n, &m) || range_stddev_est (xs, n, &s))
@@ -333,9 +333,9 @@ range_skew_est (const float_t *xs, int n, float_t *res)
 
 /* Population kurtosis (with offset 3).  */
 int
-range_kurtosis_m3_pop (const float_t *xs, int n, float_t *res)
+range_kurtosis_m3_pop (const gnum_float *xs, int n, gnum_float *res)
 {
-	float_t m, s, dxn, x4 = 0;
+	gnum_float m, s, dxn, x4 = 0;
 	int i;
 
 	if (n < 1 || range_average (xs, n, &m) || range_stddev_pop (xs, n, &s))
@@ -354,10 +354,10 @@ range_kurtosis_m3_pop (const float_t *xs, int n, float_t *res)
 
 /* Unbiased, I hope, estimator for kurtosis (with offset 3).  */
 int
-range_kurtosis_m3_est (const float_t *xs, int n, float_t *res)
+range_kurtosis_m3_est (const gnum_float *xs, int n, gnum_float *res)
 {
-	float_t m, s, dxn, x4 = 0;
-	float_t common_den, nth, three;
+	gnum_float m, s, dxn, x4 = 0;
+	gnum_float common_den, nth, three;
 	int i;
 
 	if (n < 4 || range_average (xs, n, &m) || range_stddev_est (xs, n, &s))
@@ -370,8 +370,8 @@ range_kurtosis_m3_est (const float_t *xs, int n, float_t *res)
 		x4 += (dxn * dxn) * (dxn * dxn);
 	}
 
-	common_den = (float_t)(n - 2) * (n - 3);
-	nth = (float_t)n * (n + 1) / ((n - 1) * common_den);
+	common_den = (gnum_float)(n - 2) * (n - 3);
+	nth = (gnum_float)n * (n + 1) / ((n - 1) * common_den);
 	three = 3.0 * (n - 1) * (n - 1) / common_den;
 
 	*res = x4 * nth - three;
@@ -380,10 +380,10 @@ range_kurtosis_m3_est (const float_t *xs, int n, float_t *res)
 
 /* Harmonic mean of positive numbers.  */
 int
-range_harmonic_mean (const float_t *xs, int n, float_t *res)
+range_harmonic_mean (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n > 0) {
-		float_t invsum = 0;
+		gnum_float invsum = 0;
 		int i;
 
 		for (i = 0; i < n; i++) {
@@ -399,9 +399,9 @@ range_harmonic_mean (const float_t *xs, int n, float_t *res)
 
 /* Product.  */
 int
-range_product (const float_t *xs, int n, float_t *res)
+range_product (const gnum_float *xs, int n, gnum_float *res)
 {
-	float_t product = 1;
+	gnum_float product = 1;
 	int i;
 
 	/* FIXME: we should work harder at avoiding
@@ -415,10 +415,10 @@ range_product (const float_t *xs, int n, float_t *res)
 
 /* Geometric mean of positive numbers.  */
 int
-range_geometric_mean (const float_t *xs, int n, float_t *res)
+range_geometric_mean (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n > 0) {
-		float_t product = 1;
+		gnum_float product = 1;
 		int i;
 
 		/* FIXME: we should work harder at avoiding
@@ -436,9 +436,9 @@ range_geometric_mean (const float_t *xs, int n, float_t *res)
 
 
 int
-range_covar (const float_t *xs, const float_t *ys, int n, float_t *res)
+range_covar (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 {
-	float_t ux, uy, s = 0;
+	gnum_float ux, uy, s = 0;
 	int i;
 
 	if (n <= 0 || range_average (xs, n, &ux) || range_average (ys, n, &uy))
@@ -451,9 +451,9 @@ range_covar (const float_t *xs, const float_t *ys, int n, float_t *res)
 }
 
 int
-range_correl_pop (const float_t *xs, const float_t *ys, int n, float_t *res)
+range_correl_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 {
-	float_t sx, sy, vxy;
+	gnum_float sx, sy, vxy;
 
 	if (range_stddev_pop (xs, n, &sx) || sx == 0 ||
 	    range_stddev_pop (ys, n, &sy) || sy == 0 ||
@@ -465,9 +465,9 @@ range_correl_pop (const float_t *xs, const float_t *ys, int n, float_t *res)
 }
 
 int
-range_correl_est (const float_t *xs, const float_t *ys, int n, float_t *res)
+range_correl_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 {
-	float_t sx, sy, vxy;
+	gnum_float sx, sy, vxy;
 
 	if (range_stddev_est (xs, n, &sx) || sx == 0 ||
 	    range_stddev_est (ys, n, &sy) || sy == 0 ||
@@ -479,7 +479,7 @@ range_correl_est (const float_t *xs, const float_t *ys, int n, float_t *res)
 }
 
 int
-range_rsq_pop (const float_t *xs, const float_t *ys, int n, float_t *res)
+range_rsq_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 {
 	if (range_correl_pop (xs, ys, n, res))
 		return 1;
@@ -490,7 +490,7 @@ range_rsq_pop (const float_t *xs, const float_t *ys, int n, float_t *res)
 
 
 int
-range_rsq_est (const float_t *xs, const float_t *ys, int n, float_t *res)
+range_rsq_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 {
 	if (range_correl_est (xs, ys, n, res))
 		return 1;
@@ -4036,11 +4036,11 @@ double random_bernoulli (double p)
 /*
  * Generate 10^n being careful not to overflow
  */
-float_t
+gnum_float
 gpow10 (int n)
 {
-	float_t res = 1.0;
-	float_t p;
+	gnum_float res = 1.0;
+	gnum_float p;
 	const int maxn = 300;
 
 	if (n >= 0) {
@@ -4078,23 +4078,23 @@ gcd (int a, int b)
 }
 
 
-float_t
+gnum_float
 combin (int n, int k)
 {
 	if (n >= 15) {
-		float_t res;
+		gnum_float res;
 
 		res = exp (lgamma (n + 1) - lgamma (k + 1) - lgamma (n - k + 1));
 		return floor (res + 0.5);  /* Round, just in case.  */
 	} else {
-		float_t res;
+		gnum_float res;
 
 		res = fact (n) / fact (k) / fact (n - k);
 		return res;
 	}
 }
 
-float_t
+gnum_float
 fact (int n)
 {
 	if (n == 0)
@@ -4122,17 +4122,17 @@ fact (int n)
  *
  * (C) Copyright 1999 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  **/
-float_t
-mdeterm (float_t *A, int dim)
+gnum_float
+mdeterm (gnum_float *A, int dim)
 {
         int i, j, n;
-	float_t product, sum;
-	float_t *L, *U;
+	gnum_float product, sum;
+	gnum_float *L, *U;
 
 #define ARRAY(A,C,R) (*((A) + (R) + (C) * dim))
 
-	L = g_new (float_t, dim * dim);
-	U = g_new (float_t, dim * dim);
+	L = g_new (gnum_float, dim * dim);
+	U = g_new (gnum_float, dim * dim);
 
 	/* Initialize the matrices with value zero, except fill the L's
 	 * main diagonal with ones */
@@ -4182,17 +4182,17 @@ mdeterm (float_t *A, int dim)
  * (C) Copyright 1999 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 int
-minverse (float_t *A, int dim, float_t *res)
+minverse (gnum_float *A, int dim, gnum_float *res)
 {
         int     i, n, r, cols, rows;
-	float_t *array, pivot;
+	gnum_float *array, pivot;
 
 #define ARRAY(C,R) (*(array + (R) + (C) * rows))
 
 	/* Initialize the matrix */
 	cols = dim * 2;
 	rows = dim;
-	array = g_new (float_t, cols * rows);
+	array = g_new (gnum_float, cols * rows);
 	for (i = 0; i < cols; i++)
 	        for (n = 0; n < rows; n++)
 		        if (i < dim)
@@ -4212,7 +4212,7 @@ minverse (float_t *A, int dim, float_t *res)
 			}
 		if (i != r)
 		        for (n = 0; i < cols; n++) {
-			        float_t tmp = ARRAY (n, r);
+			        gnum_float tmp = ARRAY (n, r);
 				ARRAY (n, r) = ARRAY (n, i);
 				ARRAY (n, i) = tmp;
 			}
@@ -4259,10 +4259,10 @@ minverse (float_t *A, int dim, float_t *res)
 /* Calculates the product of two matrixes.
  */
 void
-mmult (float_t *A, float_t *B, int cols_a, int rows_a, int cols_b,
-       float_t *product)
+mmult (gnum_float *A, gnum_float *B, int cols_a, int rows_a, int cols_b,
+       gnum_float *product)
 {
-	float_t tmp;
+	gnum_float tmp;
         int     c, r, i;
 
 	for (c = 0; c < cols_b; ++c) {
@@ -4278,7 +4278,7 @@ mmult (float_t *A, float_t *B, int cols_a, int rows_a, int cols_b,
 /* Returns the transpose of a matrix.
  */
 static void
-mtranspose (float_t *A, int cols, int rows, float_t *M)
+mtranspose (gnum_float *A, int cols, int rows, gnum_float *M)
 {
         int i, j;
 
@@ -4290,9 +4290,9 @@ mtranspose (float_t *A, int cols, int rows, float_t *M)
 /* Solve a set of linear equations (do not try to swap rows).
  */
 static int
-mpivot (float_t *pivot_table, int cols, int rows)
+mpivot (gnum_float *pivot_table, int cols, int rows)
 {
-        float_t pivot;
+        gnum_float pivot;
 	int     i, j, k;
 
 	/* Pivot top-down */
@@ -4342,7 +4342,7 @@ mpivot (float_t *pivot_table, int cols, int rows)
  * The result array (M) should have n * n elements.
  */
 static void
-vect_sqr_mdiag (float_t *v, int n, float_t *M)
+vect_sqr_mdiag (gnum_float *v, int n, gnum_float *M)
 {
         int i;
 
@@ -4356,7 +4356,7 @@ vect_sqr_mdiag (float_t *v, int n, float_t *M)
 #include <stdio.h>
 
 static void
-display (float_t *M, int cols, int rows, char *s)
+display (gnum_float *M, int cols, int rows, char *s)
 {
         int i, j;
 
@@ -4382,15 +4382,15 @@ display (float_t *M, int cols, int rows, char *s)
  * elementes.
  */
 static int
-solve_dual_vector (float_t *A, float_t *c, float_t *x, float_t *A_t,
+solve_dual_vector (gnum_float *A, gnum_float *c, gnum_float *x, gnum_float *A_t,
 		   int n_constraints, int n_variables,
-		   float_t *sqr_D, float_t *v,
-		   float_t *wspace)
+		   gnum_float *sqr_D, gnum_float *v,
+		   gnum_float *wspace)
 {
-        float_t *Asqr_D;
-	float_t *Asqr_DA_t;
-	float_t *Asqr_Dc;
-	float_t *pivot_table;
+        gnum_float *Asqr_D;
+	gnum_float *Asqr_DA_t;
+	gnum_float *Asqr_Dc;
+	gnum_float *pivot_table;
 	int     s_ind = 0;
 	int     i, j;
 
@@ -4432,12 +4432,12 @@ solve_dual_vector (float_t *A, float_t *c, float_t *x, float_t *A_t,
 }
 
 static void
-create_step_vector (float_t *c, float_t *sqr_D, float_t *A_t, float_t *v,
+create_step_vector (gnum_float *c, gnum_float *sqr_D, gnum_float *A_t, gnum_float *v,
 		    int n_constraints, int n_variables, gboolean max_flag,
-		    float_t *dx, float_t *wspace)
+		    gnum_float *dx, gnum_float *wspace)
 {
-        float_t *A_tv;
-	float_t *diff;
+        gnum_float *A_tv;
+	gnum_float *diff;
 	int     s_ind = 0;
 	int     i;
 
@@ -4459,10 +4459,10 @@ create_step_vector (float_t *c, float_t *sqr_D, float_t *A_t, float_t *v,
 	mmult (sqr_D, diff, n_variables, n_variables, 1, dx);
 }
 
-static float_t
-step_length (float_t *x, float_t *dx, int n_variables, gboolean *found)
+static gnum_float
+step_length (gnum_float *x, gnum_float *dx, int n_variables, gboolean *found)
 {
-        float_t min = 0, test;
+        gnum_float min = 0, test;
 	int     i, min_ind = -1;
 
 	for (i = 0; i < n_variables; i++)
@@ -4482,9 +4482,9 @@ step_length (float_t *x, float_t *dx, int n_variables, gboolean *found)
 	return min;
 }
 
-static float_t
-affine_rdg (float_t *b, float_t *c, float_t *x, float_t *v,
-	    int n_constraints, int n_variables, float_t *bv, float_t *cx)
+static gnum_float
+affine_rdg (gnum_float *b, gnum_float *c, gnum_float *x, gnum_float *v,
+	    int n_constraints, int n_variables, gnum_float *bv, gnum_float *cx)
 {
 	mmult (c, x, n_variables, 1, 1, cx);
 	mmult (b, v, n_constraints, 1, 1, bv);
@@ -4494,17 +4494,17 @@ affine_rdg (float_t *b, float_t *c, float_t *x, float_t *v,
 
 
 static gboolean
-run_affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
-		  float_t *A_t, int n_constraints, int n_variables,
-		  gboolean max_flag, float_t e, int max_iter, float_t *wspace,
+run_affine_scale (gnum_float *A, gnum_float *b, gnum_float *c, gnum_float *x,
+		  gnum_float *A_t, int n_constraints, int n_variables,
+		  gboolean max_flag, gnum_float e, int max_iter, gnum_float *wspace,
 		  affscale_callback_fun_t fun, void *data)
 {
         gboolean flag;
-        float_t  *sqr_D;
-	float_t  *v;
-	float_t  *dx;
-	float_t  step_len, rdg=1;
-	float_t  bv, cx;
+        gnum_float  *sqr_D;
+	gnum_float  *v;
+	gnum_float  *dx;
+	gnum_float  step_len, rdg=1;
+	gnum_float  bv, cx;
 	int      s_ind = 0;
 	int      i;
 	int      iter;
@@ -4547,17 +4547,17 @@ run_affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
 /* Optimizes a given problem using affine scaling (primal) algorithm.
  */
 gboolean
-affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
+affine_scale (gnum_float *A, gnum_float *b, gnum_float *c, gnum_float *x,
 	      int n_constraints, int n_variables, gboolean max_flag,
-	      float_t e, int max_iter,
+	      gnum_float e, int max_iter,
 	      affscale_callback_fun_t fun, void *data)
 {
         gboolean found;
-        float_t  *wspace;
-	float_t  *A_t;
+        gnum_float  *wspace;
+	gnum_float  *A_t;
 	int      s_ind = 0;
 
-        wspace = g_new (float_t,
+        wspace = g_new (gnum_float,
 			n_variables * n_constraints           /* A_t */
 			+ n_variables * n_variables           /* sqr_D */
 			+ n_constraints                       /* v */
@@ -4585,19 +4585,19 @@ affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
 /* Gives a valid initial solution for a problem.
  */
 gboolean
-affine_init (float_t *A, float_t *b, float_t *c, int n_constraints,
-	     int n_variables, float_t *x)
+affine_init (gnum_float *A, gnum_float *b, gnum_float *c, int n_constraints,
+	     int n_variables, gnum_float *x)
 {
          gboolean found;
-         float_t  *wspace;
-	 float_t  *new_c;
-	 float_t  *new_A;
-	 float_t  *tmp;
-	 float_t  *new_x;
+         gnum_float  *wspace;
+	 gnum_float  *new_c;
+	 gnum_float  *new_A;
+	 gnum_float  *tmp;
+	 gnum_float  *new_x;
 	 int      i, j;
 	 int      s_ind = 0;
 
-	 wspace = g_new (float_t,
+	 wspace = g_new (gnum_float,
 			 n_variables + 1                      /* new_c */
 			 + n_constraints                      /* tmp */
 			 + (n_variables + 1) * n_constraints  /* new_A */
@@ -4659,17 +4659,17 @@ affine_init (float_t *A, float_t *b, float_t *c, int n_constraints,
  */
 
 gboolean
-branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
+branch_and_bound (gnum_float *A, gnum_float *b, gnum_float *c, gnum_float *xx,
 		  int n_constraints, int n_variables, int n_original,
-		  gboolean max_flag, float_t e, int max_iter,
+		  gboolean max_flag, gnum_float e, int max_iter,
 		  gboolean *int_r,
-		  affscale_callback_fun_t fun, void *data, float_t *best)
+		  affscale_callback_fun_t fun, void *data, gnum_float *best)
 {
         gboolean found;
-	float_t  *x, z;
+	gnum_float  *x, z;
 	int      i;
 
-	x = g_new (float_t, n_variables);
+	x = g_new (gnum_float, n_variables);
 
 	display (A, n_variables, n_constraints, "A");
 	display (b, n_constraints, 1, "b");
@@ -4703,23 +4703,23 @@ branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
 
 	for (i = 0; i < n_variables; i++)
 	        if (int_r[i] && fabs (x[i] - rint (x[i])) > 0.0001) {
-		        float_t  rhs_1, rhs_2;
-			float_t  *lA, *rA;
-			float_t  *lb, *rb;
-			float_t  *lrc;
+		        gnum_float  rhs_1, rhs_2;
+			gnum_float  *lA, *rA;
+			gnum_float  *lb, *rb;
+			gnum_float  *lrc;
 			gboolean f1, f2;
 			int      l, k;
 
 			rhs_1 = floor (x[i]);
 			rhs_2 = ceil (x[i]);
 
-			lA =  g_new (float_t,
+			lA =  g_new (gnum_float,
 				     (n_constraints + 1) * (n_variables + 1));
-			lb =  g_new (float_t, n_constraints + 1);
-			lrc = g_new (float_t, n_variables + 1);
-			rA =  g_new (float_t,
+			lb =  g_new (gnum_float, n_constraints + 1);
+			lrc = g_new (gnum_float, n_variables + 1);
+			rA =  g_new (gnum_float,
 				     (n_constraints + 1) * (n_variables + 1));
-			rb =  g_new (float_t, n_constraints + 1);
+			rb =  g_new (gnum_float, n_constraints + 1);
 			/* FIXME: int_r too */
 
 			for (k = 0; k < n_variables; k++)
@@ -4792,14 +4792,14 @@ branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
 #ifdef STANDALONE
 int main ()
 {
-  float_t A[] = { 11, 5, 6, 50, 1, 0, 0, 1 };
-  float_t b[] = { 66, 225 };
-  float_t c[] = {  1,  5, 0, 0 };
-  float_t x[4];
+  gnum_float A[] = { 11, 5, 6, 50, 1, 0, 0, 1 };
+  gnum_float b[] = { 66, 225 };
+  gnum_float c[] = {  1,  5, 0, 0 };
+  gnum_float x[4];
   int     ind_row_added_r[] = { -1, -1 };
   int     ind_col_added_r[] = { -1, -1 };
   int     i;
-  float_t best = 0;
+  gnum_float best = 0;
   gboolean r_int[] = { TRUE, TRUE };
 
   int n_variables = 4;

@@ -39,12 +39,12 @@ focus_on_entry (GtkWidget *entry)
 
 typedef struct {
 	Cell *xcell, *ycell;
-	float_t ytarget;
+	gnum_float ytarget;
 } GoalEvalData;
 
 
 static GoalSeekStatus
-goal_seek_eval (float_t x, float_t *y, void *vevaldata)
+goal_seek_eval (gnum_float x, gnum_float *y, void *vevaldata)
 {
 	GoalEvalData *evaldata = vevaldata;
 
@@ -64,14 +64,14 @@ goal_seek_eval (float_t x, float_t *y, void *vevaldata)
 
 static GoalSeekStatus
 gnumeric_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet,
-		    Cell *set_cell, float_t target_value,
-		    Cell *change_cell, float_t xmin, float_t xmax)
+		    Cell *set_cell, gnum_float target_value,
+		    Cell *change_cell, gnum_float xmin, gnum_float xmax)
 {
 	GoalSeekData seekdata;
 	GoalEvalData evaldata;
 	GoalSeekStatus status;
 	gboolean hadold;
-	float_t oldx;
+	gnum_float oldx;
 
 	goal_seek_initialise (&seekdata);
 	seekdata.xmin = xmin;
@@ -86,7 +86,7 @@ gnumeric_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	/* PLAN A: Newton's iterative method.  */
 	{
-		float_t x0;
+		gnum_float x0;
 
 		if (hadold)
 			x0 = oldx;
@@ -112,7 +112,7 @@ gnumeric_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	/* PLAN C: Trawl normally from middle.  */
 	{
-		float_t sigma, mu;
+		gnum_float sigma, mu;
 		int i;
 
 		sigma = seekdata.xmax - seekdata.xmin;
@@ -130,7 +130,7 @@ gnumeric_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	/* PLAN D: Trawl normally from left.  */
 	{
-		float_t sigma, mu;
+		gnum_float sigma, mu;
 		int i;
 
 		sigma = seekdata.xmax - seekdata.xmin;
@@ -148,7 +148,7 @@ gnumeric_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	/* PLAN E: Trawl normally from right.  */
 	{
-		float_t sigma, mu;
+		gnum_float sigma, mu;
 		int i;
 
 		sigma = seekdata.xmax - seekdata.xmin;
@@ -174,10 +174,10 @@ gnumeric_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet,
 
  DONE:
 	if (status == GOAL_SEEK_OK) {
-		float_t yroot;
+		gnum_float yroot;
 		(void) goal_seek_eval (seekdata.root, &yroot, &evaldata);
 	} else if (hadold) {
-		float_t ydummy;
+		gnum_float ydummy;
 		(void) goal_seek_eval (oldx, &ydummy, &evaldata);
 	}
 
@@ -191,7 +191,7 @@ gnumeric_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 static gboolean
 dialog_found_solution (WorkbookControlGUI *wbcg,
-		       Cell *set_cell, Cell *change_cell, float_t target_value)
+		       Cell *set_cell, Cell *change_cell, gnum_float target_value)
 {
         GtkWidget *dialog;
 	GtkWidget *label_box;
@@ -351,8 +351,8 @@ dialog_loop:
 
 		Value   *old_value;
 		char    *text;
-		float_t target_value;
-		float_t xmin, xmax;
+		gnum_float target_value;
+		gnum_float xmin, xmax;
 		GoalSeekStatus status;
 
 		/* Check that a cell entered in 'set cell' entry */

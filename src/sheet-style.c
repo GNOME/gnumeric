@@ -29,6 +29,7 @@
 #include "style.h"
 #include "style-border.h"
 #include "cell.h"
+#include "portability.h"
 
 /* Place holder until I merge in the new styles too */
 static void
@@ -124,6 +125,9 @@ rstyle_apply (MStyle **old, ReplacementStyle *rs)
  * @ps    : an optional partial style
  *
  * Looks up (but does not reference) a style from the sheets collection.
+ *
+ * FIXME : The style engine needs to do a better job of merging like styles.
+ * We should do a lookup within a sheet specific hash table.
  */
 MStyle *
 sheet_style_lookup (Sheet *sheet, MStyle const *s, MStyle const *ps)
@@ -619,10 +623,6 @@ cell_tile_apply (CellTile **tile, int level,
 	}
 }
 
-/**
- * foreach_tile :
- *
- */
 static void
 foreach_tile (CellTile *tile, int level,
 	      int corner_col, int corner_row,
@@ -797,6 +797,10 @@ sheet_style_set_pos (Sheet *sheet, int col, int row,
 /**
  * sheet_style_default :
  *
+ * @sheet :
+ *
+ * Return the default style for a sheet.
+ * NOTE : This does NOT add a reference.
  */
 MStyle *
 sheet_style_default (Sheet const *sheet)
@@ -961,12 +965,9 @@ get_style_row (CellTile const *tile, int level,
  * 
  * @sheet :
  * @sr    :
- * @start_col:
- * @end_col  :
- * @styles   :
- * @top      :
- * @bottom   :
- * @vertical :
+ *
+ * A utility routine which efficiently retrieves a range of styles within a row.
+ * It also merges adjacent borders as necessary.
  */
 void
 sheet_style_get_row (Sheet const *sheet, StyleRow *sr)
@@ -979,6 +980,7 @@ sheet_style_get_row (Sheet const *sheet, StyleRow *sr)
 	g_return_if_fail (sr->top != NULL);
 	g_return_if_fail (sr->bottom != NULL);
 
+	sr->vertical [sr->start_col] = style_border_none ();
 	get_style_row (sheet->style_data->styles, TILE_TOP_LEVEL, 0, 0, sr);
 }
 
@@ -1160,38 +1162,7 @@ sheet_style_apply_border (Sheet       *sheet,
 
 typedef struct {
 	MStyle 		 *result;
-	StyleBorder	**borders;
-	gboolean	  border_valid[STYLE_BORDER_EDGE_MAX];
 } UniformStyleClosure;
-
-#if 0
-static void
-border_invalidate (UniformStyleClosure *cl, StyleBorderLocation location)
-{
-	cl->border_valid [location] = FALSE;
-	style_border_unref (cl->borders [location]);
-	cl->borders [location] = NULL;
-}
-
-static void
-border_mask (UniformStyleClosure *cl, StyleBorderLocation location,
-	     StyleBorder *border)
-{
-	g_return_if_fail (border == NULL);
-
-	if (cl->border_valid [location]) {
-		if (!cl->borders [location])
-			cl->borders [location] = style_border_ref (border);
-		else if (cl->borders [location] == style_border_none ()) {
-			style_border_ref (border);
-			style_border_unref (cl->borders [location]);
-			cl->borders [location] = border;
-		} else if (border && border != cl->borders [location] &&
-			   border != style_border_none ())
-			border_invalidate (cl, location);
-	}
-}
-#endif
 
 static void
 cb_filter_style (MStyle *style,
@@ -1221,6 +1192,36 @@ cb_filter_style (MStyle *style,
 	}
 }
 
+static void
+border_mask (gboolean *known, StyleBorder **borders,
+	     StyleBorder const *b, StyleBorderLocation l)
+{
+	if (!known [l]) {
+		known [l] = TRUE;
+		borders [l] = (StyleBorder *)b;
+		style_border_ref (borders [l]);
+	} else if (borders [l] != b && borders [l] != NULL) {
+		style_border_unref (borders [l]);
+		borders [l] = NULL;
+	}
+}
+
+static void
+border_mask_vec (gboolean *known, StyleBorder **borders,
+		 StyleBorder const * const *vec, int first, int last,
+		 StyleBorderLocation l)
+{
+	StyleBorder const *b = vec [first];
+
+	while (first++ < last)
+		if (b != vec [first]) {
+			b = NULL;
+			break;
+		}
+
+	border_mask (known, borders, b, l);
+}
+
 /**
  * sheet_style_get_uniform :
  *
@@ -1228,17 +1229,21 @@ cb_filter_style (MStyle *style,
  * @range   :
  * @borders :
  *
+ * Find out what style elements are common to every cell in a range.
  */
 void
-sheet_style_get_uniform	(Sheet const *sheet, Range const *range,
+sheet_style_get_uniform	(Sheet const *sheet, Range const *r,
 			 MStyle **style, StyleBorder **borders)
 {
+	int n, col, row, start_col, end_col;
+	StyleRow sr;
 	StyleBorderLocation i;
-	Range all;
 	UniformStyleClosure closure;
+	gboolean known [STYLE_BORDER_EDGE_MAX];
+	StyleBorder const *none = style_border_none ();
 
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (range != NULL);
+	g_return_if_fail (r != NULL);
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (borders != NULL);
 
@@ -1246,34 +1251,21 @@ sheet_style_get_uniform	(Sheet const *sheet, Range const *range,
 	if (*style == NULL) {
 		MStyle const *tmp;
 
-		tmp = sheet_style_get (sheet, range->start.col, range->start.row);
+		tmp = sheet_style_get (sheet, r->start.col, r->start.row);
 		*style = mstyle_copy (tmp);
+		for (i = STYLE_BORDER_TOP ; i < STYLE_BORDER_EDGE_MAX ; i++) {
+			known [i] = FALSE;
+			borders [i] = style_border_ref ((StyleBorder *)none);
+		}
+	} else {
 		for (i = STYLE_BORDER_TOP ; i < STYLE_BORDER_EDGE_MAX ; i++)
-			borders [i] = NULL;
+			known [i] = TRUE;
 	}
 
-	/* init closure */
 	closure.result = *style;
-
 	foreach_tile (sheet->style_data->styles,
-		      TILE_TOP_LEVEL, 0, 0, &all,
+		      TILE_TOP_LEVEL, 0, 0, r,
 		      cb_filter_style, &closure);
-
-#if 0
- 	/* Create the range including a border of 1 cell where possible */
-	all = *range;
-	if (all.start.col > 0)
-		all.start.col--;
-	if (all.end.col < SHEET_MAX_COLS)
-		all.end.col++;
- 	if (all.start.row > 0)
-		all.start.row--;
-	if (all.end.row < SHEET_MAX_ROWS)
-		all.end.row++;
-#endif
-
-	for (i = STYLE_BORDER_TOP ; i <= STYLE_BORDER_RIGHT ; i++)
-		borders [i] = style_border_ref (style_border_none ());
 
 	/* copy over the diagonals */
 	for (i = STYLE_BORDER_REV_DIAG ; i <= STYLE_BORDER_DIAG ; i++)
@@ -1282,12 +1274,81 @@ sheet_style_get_uniform	(Sheet const *sheet, Range const *range,
 				mstyle_get_border (*style, MSTYLE_BORDER_TOP+i));
 		else
 			borders [i] = NULL;
+
+	start_col = r->start.col;
+	if (r->start.col > 0)
+		start_col--;
+	end_col = r->end.col;
+	if (r->end.col < SHEET_MAX_COLS)
+		end_col++;
+
+	/* allocate then alias the arrays for easy access */
+	n = end_col - start_col + 2;
+	sr.vertical	 = (StyleBorder const **)g_alloca (n *
+			    (3 * sizeof (StyleBorder const *) +
+			     sizeof (MStyle const *)));
+	sr.top	      = sr.vertical + n;
+	sr.bottom     = sr.top + n;
+	sr.styles     = ((MStyle const **) (sr.bottom + n));
+	sr.vertical  -= start_col; sr.top     -= start_col;
+	sr.bottom    -= start_col; sr.styles  -= start_col;
+	sr.start_col  = start_col; sr.end_col  = end_col;
+
+	/* pretend the previous bottom had no borders */
+	for (col = start_col ; col <= end_col; ++col)
+		sr.top [col] = none;
+
+	/* merge the bottom of the previous row */
+ 	if (r->start.row > 0) {
+		StyleBorder const ** roller;
+		sr.row = r->start.row - 1;
+		sheet_style_get_row (sheet, &sr);
+		roller = sr.top; sr.top = sr.bottom; sr.bottom = roller;
+	}
+
+	/*
+	 * TODO : The border handling is tricky and currently VERY slow for
+	 * large ranges.  We could easily optimize this.  There is no need to
+	 * retrieve the style in every cell just to do a filter for uniformity
+	 * by row.  One day we should do a special case version of
+	 * sheet_style_get_row probably style_get_uniform_col (this will be
+	 * faster)
+	 */
+	for (row = r->start.row ; row <= r->end.row ; row++) {
+		StyleBorder const **roller;
+		sr.row = row;
+		sheet_style_get_row (sheet, &sr);
+
+		border_mask (known, borders, sr.vertical [r->start.col],
+			     STYLE_BORDER_LEFT);
+		border_mask (known, borders, sr.vertical [r->end.col+1],
+			     STYLE_BORDER_RIGHT);
+		border_mask_vec (known, borders, sr.top,
+				 r->start.col, r->end.col, (row == r->start.row)
+				 ? STYLE_BORDER_TOP : STYLE_BORDER_HORIZ);
+		if (r->start.col != r->end.col)
+			border_mask_vec (known, borders, sr.vertical,
+					 r->start.col+1, r->end.col,
+					 STYLE_BORDER_VERT);
+
+		roller = sr.top; sr.top = sr.bottom; sr.bottom = roller;
+	}
+
+	/* merge the top of the next row */
+ 	if (r->end.row < (SHEET_MAX_ROWS-1)) {
+		sr.row = r->end.row + 1;
+		sheet_style_get_row (sheet, &sr);
+	}
+	border_mask_vec (known, borders, sr.top, r->start.col, r->end.col,
+			 STYLE_BORDER_BOTTOM);
 }
 
 /**
  * sheet_style_relocate
  *
  * @rinfo :
+ *
+ * Slide the styles from the origin region to the new position.
  */
 void
 sheet_style_relocate (ExprRelocateInfo const *rinfo)
@@ -1312,6 +1373,9 @@ sheet_style_relocate (ExprRelocateInfo const *rinfo)
  *
  * @rinfo :
  *
+ * A utility routine to give the effect of stretching the styles when a col/row
+ * is inserted.  This is done by applying the styles from the left/top col/row
+ * to the new region.
  */
 void
 sheet_style_insert_colrow (ExprRelocateInfo const *rinfo)
@@ -1472,6 +1536,8 @@ cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
  *
  * @sheet :
  * @range :
+ *
+ * Get a list of rectangles and their associated styles
  */
 StyleList *
 sheet_style_get_list (Sheet const *sheet, Range const *r)
@@ -1496,6 +1562,8 @@ sheet_style_get_list (Sheet const *sheet, Range const *r)
  * @transpose :
  * @list      :
  *
+ * Applies a list of styles to the sheet with the supplied offset.  Optionally
+ * transposing the ranges
  */
 SpanCalcFlags
 sheet_style_set_list (Sheet *sheet, CellPos const *corner,

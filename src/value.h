@@ -30,11 +30,11 @@ struct _ValueBool {
 };
 struct _ValueInt {
 	ValueType const type;
-	int_t val;
+	gnum_int val;
 };
 struct _ValueFloat {
 	ValueType const type;
-	float_t val;
+	gnum_float val;
 };
 struct _ValueErr {
 	ValueType const type;
@@ -83,7 +83,7 @@ typedef enum {
 Value       *value_new_empty            (void);
 Value       *value_new_bool             (gboolean b);
 Value       *value_new_int              (int i);
-Value       *value_new_float            (float_t f);
+Value       *value_new_float            (gnum_float f);
 Value       *value_new_error            (EvalPos const *pos, char const *mesg);
 Value       *value_new_error_str        (EvalPos const *pos, String *mesg);
 Value       *value_new_error_err        (EvalPos const *pos, ValueErr *err);
@@ -108,7 +108,7 @@ gboolean     value_get_as_bool         (Value const *v, gboolean *err);
 gboolean     value_get_as_checked_bool (Value const *v);
 char        *value_get_as_string       (const Value *value);
 int          value_get_as_int          (const Value *v);
-float_t      value_get_as_float        (const Value *v);
+gnum_float      value_get_as_float        (const Value *v);
 char        *value_cellrange_get_as_string (const Value *value,
 					    gboolean use_relative_syntax);
 

@@ -711,7 +711,7 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 	gchar      *target_entry_str;
 	const char *text;
 	int        selection, res;
-	float_t    ov_target;
+	gnum_float    ov_target;
 	Cell       *target_cell;
 	CellList   *input_cells;
 	int        target_cell_col, target_cell_row;
@@ -889,7 +889,7 @@ main_dialog:
 	sheet->solver_parameters.input_cells = input_cells;
 
 	if (selection == 0) {
-	        float_t  *opt_x, *sh_pr;
+	        gnum_float  *opt_x, *sh_pr;
 		gboolean ilp;
 		char     *s;
 		GSList    *ov;

@@ -351,6 +351,22 @@ style_border_unref (StyleBorder *border)
 }
 
 void
+style_border_hdraw (StyleBorder const * const * prev_vert,
+		    StyleRow const *sr,
+		    StyleRow const *next_sr,
+		    int col)
+{
+}
+
+void
+style_border_vdraw (StyleBorder const * const * prev_vert,
+		    StyleRow const *sr,
+		    StyleRow const *next_sr,
+		    int col)
+{
+}
+
+void
 style_border_draw (StyleBorder const * const border, StyleBorderLocation const t,
 		   GdkDrawable * const drawable,
 		   int x1, int y1, int x2, int y2,

@@ -15,7 +15,7 @@
 
 typedef struct {
 	int alloc_count;
-	float_t *data;
+	gnum_float *data;
 	int count;
 	CollectFlags flags;
 } collect_floats_t;
@@ -23,7 +23,7 @@ typedef struct {
 static Value *
 callback_function_collect (const EvalPos *ep, Value *value, void *closure)
 {
-	float_t x;
+	gnum_float x;
 	collect_floats_t *cl = (collect_floats_t *)closure;
 
 	if (value == NULL) {
@@ -85,7 +85,7 @@ callback_function_collect (const EvalPos *ep, Value *value, void *closure)
 
 	if (cl->count == cl->alloc_count) {
 		cl->alloc_count *= 2;
-		cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (float_t));
+		cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnum_float));
 	}
 
 	cl->data[cl->count++] = x;
@@ -112,9 +112,9 @@ callback_function_collect (const EvalPos *ep, Value *value, void *closure)
  *   Non-NULL in case of success.  Then n will be set.
  *
  * Evaluate a list of expressions and return the result as an array of
- * float_t.
+ * gnum_float.
  */
-static float_t *
+static gnum_float *
 collect_floats (GList *exprlist, const EvalPos *ep, CollectFlags flags,
 		int *n, Value **error)
 {
@@ -122,7 +122,7 @@ collect_floats (GList *exprlist, const EvalPos *ep, CollectFlags flags,
 	collect_floats_t cl;
 
 	cl.alloc_count = 20;
-	cl.data = g_new (float_t, cl.alloc_count);
+	cl.data = g_new (gnum_float, cl.alloc_count);
 	cl.count = 0;
 	cl.flags = flags;
 
@@ -146,13 +146,13 @@ collect_floats (GList *exprlist, const EvalPos *ep, CollectFlags flags,
 /* Like collect_floats, but takes a value instead of an expression list.
    Presumably most useful when the value is an array.  */
 
-float_t *
+gnum_float *
 collect_floats_value (const Value *val, const EvalPos *ep,
 		      CollectFlags flags, int *n, Value **error)
 {
 	GList *exprlist;
 	ExprTree *expr_val;
-	float_t *res;
+	gnum_float *res;
 
 	expr_val = expr_tree_new_constant (value_duplicate (val));
 	exprlist = g_list_prepend (NULL, expr_val);
@@ -175,7 +175,7 @@ float_range_function (GList *exprlist, FunctionEvalInfo *ei,
 		      char const *func_error)
 {
 	Value *error = NULL;
-	float_t *vals, res;
+	gnum_float *vals, res;
 	int n, err;
 
 	vals = collect_floats (exprlist, ei->pos, flags, &n, &error);
@@ -199,7 +199,7 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 		       CollectFlags flags,
 		       char const *func_error)
 {
-	float_t *vals0, *vals1;
+	gnum_float *vals0, *vals1;
 	int n0, n1;
 	Value *error = NULL;
 	Value *res;
@@ -221,7 +221,7 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 	if (n0 != n1 || n0 == 0)
 		res = value_new_error (ei->pos, func_error);
 	else {
-		float_t fres;
+		gnum_float fres;
 
 		if (func (vals0, vals1, n0, &fres))
 			res = value_new_error (ei->pos, func_error);

@@ -95,7 +95,7 @@ typedef struct _FormatState
 	Sheet		*sheet;
 	Value		*value;
 	MStyle		*style, *result;
-	StyleBorder	*borders[STYLE_BORDER_EDGE_MAX];
+	StyleBorder *borders [STYLE_BORDER_EDGE_MAX];
 
 	int	 	 selection_mask;
 	gboolean	 enable_edit;

@@ -68,10 +68,10 @@ datetime_serial_to_g (int serial)
 
 /* ------------------------------------------------------------------------- */
 
-float_t
+gnum_float
 datetime_value_to_serial_raw (const Value *v)
 {
-	float_t serial;
+	gnum_float serial;
 
 	if (VALUE_IS_NUMBER (v))
 		serial = value_get_as_float (v);
@@ -94,7 +94,7 @@ datetime_value_to_serial_raw (const Value *v)
 
 /* ------------------------------------------------------------------------- */
 
-float_t
+gnum_float
 datetime_timet_to_serial_raw (time_t t)
 {
 	struct tm *tm = localtime (&t);
@@ -110,7 +110,7 @@ datetime_timet_to_serial_raw (time_t t)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_serial_raw_to_serial (float_t raw)
+datetime_serial_raw_to_serial (gnum_float raw)
 {
 	return (int) floor (raw + HALF_SEC);
 }
@@ -146,7 +146,7 @@ datetime_value_to_g (const Value *v)
 /* days with summer time ("daylight savings") changes.  */
 
 int
-datetime_serial_raw_to_seconds (float_t raw)
+datetime_serial_raw_to_seconds (gnum_float raw)
 {
 	raw += HALF_SEC;
 	return (raw - floor (raw)) * SECS_PER_DAY;

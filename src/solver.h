@@ -24,10 +24,10 @@ typedef enum {
 struct _SolverOptions {
         int                max_time_sec;
         int                iterations;
-        float_t            precision;
-        float_t            tolerance;
-        float_t            convergence;
-        float_t            equal_to_value;
+        gnum_float            precision;
+        gnum_float            tolerance;
+        gnum_float            convergence;
+        gnum_float            equal_to_value;
         gboolean           assume_linear_model;
         gboolean           assume_non_negative;
         gboolean           automatic_scaling;
@@ -51,19 +51,19 @@ struct _SolverParameters {
         SolverOptions      options;
 };
 
-int  solver_simplex (WorkbookControl *wbc, Sheet *sheet, float_t **init_table,
-		     float_t **final_table);
+int  solver_simplex (WorkbookControl *wbc, Sheet *sheet, gnum_float **init_table,
+		     gnum_float **final_table);
 
 int solver_affine_scaling (WorkbookControl *wbc, Sheet *sheet,
-			   float_t **x,    /* the optimal solution */
-			   float_t **sh_pr /* the shadow prizes */);
+			   gnum_float **x,    /* the optimal solution */
+			   gnum_float **sh_pr /* the shadow prizes */);
 
-gboolean solver_lp (WorkbookControl *wbc, Sheet *sheet, float_t **opt_x,
-		    float_t **sh_pr, gboolean *ilp);
+gboolean solver_lp (WorkbookControl *wbc, Sheet *sheet, gnum_float **opt_x,
+		    gnum_float **sh_pr, gboolean *ilp);
 
 void solver_lp_reports (WorkbookControl *wbc, Sheet *sheet, GSList *ov,
-			float_t ov_target, float_t *init_tbl,
-			float_t *final_tbl,
+			gnum_float ov_target, gnum_float *init_tbl,
+			gnum_float *final_tbl,
 			gboolean answer, gboolean sensitivity,
 			gboolean limits);
 

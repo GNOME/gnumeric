@@ -1741,7 +1741,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM (cb_file_print_setup, NULL),
 	GNOMEUIINFO_MENU_PRINT_ITEM (cb_file_print, NULL),
-	GNOMEUIINFO_ITEM_STOCK (N_("Print pre_view"), N_("Print preview"),
+	GNOMEUIINFO_ITEM_STOCK (N_("Print Pre_view"), N_("Print Preview"),
 				cb_file_print_preview,
 				"Menu_Gnumeric_PrintPreview"),
 
@@ -2122,7 +2122,7 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 		N_("Print"), N_("Prints the workbook"),
 		cb_file_print, GNOME_STOCK_PIXMAP_PRINT),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Print pre_view"), N_("Print preview"),
+		N_("Print Preview"), N_("Print Preview"),
 		cb_file_print_preview, "Gnumeric_PrintPreview"),
 
 	GNOMEUIINFO_SEPARATOR,

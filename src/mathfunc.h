@@ -27,34 +27,34 @@ double gnumeric_fake_ceil (double x);
 double gnumeric_fake_round (double x);
 double gnumeric_fake_trunc (double x);
 
-int range_sum (const float_t *xs, int n, float_t *res);
-int range_product (const float_t *xs, int n, float_t *res);
+int range_sum (const gnum_float *xs, int n, gnum_float *res);
+int range_product (const gnum_float *xs, int n, gnum_float *res);
 
-int range_sumsq (const float_t *xs, int n, float_t *res);
-int range_avedev (const float_t *xs, int n, float_t *res);
+int range_sumsq (const gnum_float *xs, int n, gnum_float *res);
+int range_avedev (const gnum_float *xs, int n, gnum_float *res);
 
-int range_average (const float_t *xs, int n, float_t *res);
-int range_harmonic_mean (const float_t *xs, int n, float_t *res);
-int range_geometric_mean (const float_t *xs, int n, float_t *res);
+int range_average (const gnum_float *xs, int n, gnum_float *res);
+int range_harmonic_mean (const gnum_float *xs, int n, gnum_float *res);
+int range_geometric_mean (const gnum_float *xs, int n, gnum_float *res);
 
-int range_min (const float_t *xs, int n, float_t *res);
-int range_max (const float_t *xs, int n, float_t *res);
+int range_min (const gnum_float *xs, int n, gnum_float *res);
+int range_max (const gnum_float *xs, int n, gnum_float *res);
 
-int range_devsq (const float_t *xs, int n, float_t *res);
-int range_var_pop (const float_t *xs, int n, float_t *res);
-int range_var_est (const float_t *xs, int n, float_t *res);
-int range_stddev_pop (const float_t *xs, int n, float_t *res);
-int range_stddev_est (const float_t *xs, int n, float_t *res);
-int range_skew_pop (const float_t *xs, int n, float_t *res);
-int range_skew_est (const float_t *xs, int n, float_t *res);
-int range_kurtosis_m3_pop (const float_t *xs, int n, float_t *res);
-int range_kurtosis_m3_est (const float_t *xs, int n, float_t *res);
+int range_devsq (const gnum_float *xs, int n, gnum_float *res);
+int range_var_pop (const gnum_float *xs, int n, gnum_float *res);
+int range_var_est (const gnum_float *xs, int n, gnum_float *res);
+int range_stddev_pop (const gnum_float *xs, int n, gnum_float *res);
+int range_stddev_est (const gnum_float *xs, int n, gnum_float *res);
+int range_skew_pop (const gnum_float *xs, int n, gnum_float *res);
+int range_skew_est (const gnum_float *xs, int n, gnum_float *res);
+int range_kurtosis_m3_pop (const gnum_float *xs, int n, gnum_float *res);
+int range_kurtosis_m3_est (const gnum_float *xs, int n, gnum_float *res);
 
-int range_covar (const float_t *xs, const float_t *ys, int n, float_t *res);
-int range_correl_pop (const float_t *xs, const float_t *ys, int n, float_t *res);
-int range_correl_est (const float_t *xs, const float_t *ys, int n, float_t *res);
-int range_rsq_pop (const float_t *xs, const float_t *ys, int n, float_t *res);
-int range_rsq_est (const float_t *xs, const float_t *ys, int n, float_t *res);
+int range_covar (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res);
+int range_correl_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res);
+int range_correl_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res);
+int range_rsq_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res);
+int range_rsq_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res);
 
 /* ------------------------------------------------------------------------- */
 
@@ -124,18 +124,18 @@ double random_normal      (void);
 /* ------------------------------------------------------------------------- */
 
 /* Matrix functions. */
-float_t mdeterm (float_t *A, int dim);
-int     minverse(float_t *A, int dim, float_t *res);
-void    mmult   (float_t *A, float_t *B, int cols_a, int rows_a, int cols_b,
-		 float_t *product);
+gnum_float mdeterm (gnum_float *A, int dim);
+int     minverse(gnum_float *A, int dim, gnum_float *res);
+void    mmult   (gnum_float *A, gnum_float *B, int cols_a, int rows_a, int cols_b,
+		 gnum_float *product);
 
 /* ------------------------------------------------------------------------- */
 
 /* Misc. */
-float_t     gpow10 (int n);
+gnum_float     gpow10 (int n);
 int         gcd    (int a, int b);
-float_t     combin (int n, int k);
-float_t     fact   (int n);
+gnum_float     combin (int n, int k);
+gnum_float     fact   (int n);
 
 /* ------------------------------------------------------------------------- */
 
@@ -144,22 +144,22 @@ float_t     fact   (int n);
 
 /* Affine scaling */
 
-typedef void (*affscale_callback_fun_t) (int iter, float_t *x,
-					 float_t bv, float_t cx,
+typedef void (*affscale_callback_fun_t) (int iter, gnum_float *x,
+					 gnum_float bv, gnum_float cx,
 					 int n_variables, void *data);
 
-gboolean affine_init (float_t *A, float_t *b, float_t *c, int n_constraints,
-		      int n_variables, float_t *x);
-gboolean affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
+gboolean affine_init (gnum_float *A, gnum_float *b, gnum_float *c, int n_constraints,
+		      int n_variables, gnum_float *x);
+gboolean affine_scale (gnum_float *A, gnum_float *b, gnum_float *c, gnum_float *x,
 		       int n_constraints, int n_variables, gboolean max_flag,
-		       float_t e, int max_iter,
+		       gnum_float e, int max_iter,
 		       affscale_callback_fun_t fun, void *data);
 
-gboolean branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
+gboolean branch_and_bound (gnum_float *A, gnum_float *b, gnum_float *c, gnum_float *xx,
 			   int n_constraints, int n_variables, int n_original,
-			   gboolean max_flag, float_t e, int max_iter,
+			   gboolean max_flag, gnum_float e, int max_iter,
 			   gboolean *int_r,
 			   affscale_callback_fun_t fun, void *data,
-			   float_t *best);
+			   gnum_float *best);
 
 #endif

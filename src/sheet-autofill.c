@@ -616,7 +616,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		FillItem *last = fi->group_last;
 		int d = idx * last->delta.d_int;
 		GDate *date = datetime_value_to_g (last->v.value);
-		float_t res = datetime_value_to_serial_raw (last->v.value);
+		gnum_float res = datetime_value_to_serial_raw (last->v.value);
 
 		if (fi->type == FILL_MONTHS) {
 			if (d > 0)
@@ -633,7 +633,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 
 		res -= floor (res);
 		v = (res < 1e-6) ? value_new_int (d)
-			: value_new_float (((float_t)d) + res);
+			: value_new_float (((gnum_float)d) + res);
 		cell_set_value (cell, v, fi->fmt);
 		return;
 	}

@@ -698,10 +698,10 @@ extract_text (const char *str, const regmatch_t *mp)
  */
 static gboolean
 compute_value (const char *s, const regmatch_t *mp,
-	       GByteArray *array, float_t *v)
+	       GByteArray *array, gnum_float *v)
 {
 	const int len = array->len;
-	float_t number = 0.0;
+	gnum_float number = 0.0;
 	gchar *data = array->data;
 	gboolean percentify = FALSE;
 	gboolean is_number  = FALSE;
@@ -709,7 +709,7 @@ compute_value (const char *s, const regmatch_t *mp,
 	int idx = 1, i;
 	int month, day, year, year_short;
 	int hours, minutes;
-	float_t seconds;
+	gnum_float seconds;
 
 	char const thousands_sep = format_get_thousand ();
 	char const decimal = format_get_decimal ();
@@ -1002,12 +1002,12 @@ format_match_simple (const char *text)
 
 		errno = 0; /* strtod sets errno, but does not clear it.  */
 		d = strtod (text, &end);
-		if (text != end && errno != ERANGE && d == (float_t)d) {
+		if (text != end && errno != ERANGE && d == (gnum_float)d) {
 			/* Allow and ignore spaces at the end.  */
 			while (*end == ' ')
 				end++;
 			if (*end == '\0')
-				return value_new_float ((float_t)d);
+				return value_new_float ((gnum_float)d);
 		}
 	}
 
@@ -1051,7 +1051,7 @@ format_match (const char *text, StyleFormat const *current_format,
 
 	/* Fall back to checking the set of canned formats */
 	for (l = format_match_list; l; l = l->next) {
-		float_t result;
+		gnum_float result;
 		gboolean b;
 		format_parse_t *fp = l->data;
 #ifdef DEBUG_NUMBER_MATCH

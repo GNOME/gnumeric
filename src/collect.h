@@ -19,10 +19,10 @@ typedef enum {
 } CollectFlags;
 
 
-typedef int (*float_range_function_t) (const float_t *, int, float_t *);
-typedef int (*float_range_function2_t) (const float_t *, const float_t *, int, float_t *);
+typedef int (*float_range_function_t) (const gnum_float *, int, gnum_float *);
+typedef int (*float_range_function2_t) (const gnum_float *, const gnum_float *, int, gnum_float *);
 
-float_t *collect_floats_value (const Value *val, const EvalPos *ep,
+gnum_float *collect_floats_value (const Value *val, const EvalPos *ep,
 			       CollectFlags flags,
 			       int *n, Value **error);
 

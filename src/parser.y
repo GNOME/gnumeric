@@ -653,7 +653,7 @@ yylex (void)
 			d = strtod (start, &end);
 			if (start != end) {
 				if (errno != ERANGE) {
-					v = value_new_float ((float_t)d);
+					v = value_new_float ((gnum_float)d);
 					parser_expr = end;
 				}
 			}

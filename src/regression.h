@@ -21,25 +21,25 @@
  */
 
 typedef struct {
-        float_t *se; /*SE for each parameter estimator*/
-        float_t *t;  /*t values for each parameter estimator*/
-        float_t sqr_r;
-	float_t adj_sqr_r;
-        float_t se_y; /* The Standard Error of Y */
-        float_t F;
+        gnum_float *se; /*SE for each parameter estimator*/
+        gnum_float *t;  /*t values for each parameter estimator*/
+        gnum_float sqr_r;
+	gnum_float adj_sqr_r;
+        gnum_float se_y; /* The Standard Error of Y */
+        gnum_float F;
         int     df;
-        float_t ss_reg;
-        float_t ss_resid;
-	float_t ybar;
-	float_t *xbar;
-	float_t var; /* The variance of the entire regression:
+        gnum_float ss_reg;
+        gnum_float ss_resid;
+	gnum_float ybar;
+	gnum_float *xbar;
+	gnum_float var; /* The variance of the entire regression:
 			sum(errors^2)/(n-xdim) */
 } regression_stat_t;
 
-int linear_regression (float_t **xss, int dim,
-		       const float_t *ys, int n,
+int linear_regression (gnum_float **xss, int dim,
+		       const gnum_float *ys, int n,
 		       int affine,
-		       float_t *res, regression_stat_t *stat);
+		       gnum_float *res, regression_stat_t *stat);
 
 
 /**
@@ -60,9 +60,9 @@ int linear_regression (float_t **xss, int dim,
  * all points on a vertical line, non-positive y data.)
  */
 
-int exponential_regression (float_t **xss, int dim,
-			    const float_t *ys, int n,
+int exponential_regression (gnum_float **xss, int dim,
+			    const gnum_float *ys, int n,
 			    int affine,
-			    float_t *res, regression_stat_t *stat);
+			    gnum_float *res, regression_stat_t *stat);
 
 #endif

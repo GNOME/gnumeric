@@ -45,7 +45,7 @@ value_new_int (int i)
 }
 
 Value *
-value_new_float (float_t f)
+value_new_float (gnum_float f)
 {
 	ValueFloat *v = g_new (ValueFloat, 1);
 	*((ValueType *)&(v->type)) = VALUE_FLOAT;
@@ -262,7 +262,7 @@ value_new_from_string (ValueType t, const char *str)
 		d = strtod (str, &end);
 		if (str != end && *end == '\0') {
 			if (errno != ERANGE)
-				return value_new_float ((float_t)d);
+				return value_new_float ((gnum_float)d);
 		}
 		return NULL;
 	}
@@ -565,7 +565,7 @@ value_get_as_int (const Value *v)
 /*
  * FIXME FIXME FIXME : Support errors
  */
-float_t
+gnum_float
 value_get_as_float (const Value *v)
 {
 	if (v == NULL)
@@ -583,13 +583,13 @@ value_get_as_float (const Value *v)
 		return 0.0;
 
 	case VALUE_INTEGER:
-		return (float_t) v->v_int.val;
+		return (gnum_float) v->v_int.val;
 
 	case VALUE_ARRAY:
 		return 0.0;
 
 	case VALUE_FLOAT:
-		return (float_t) v->v_float.val;
+		return (gnum_float) v->v_float.val;
 
 	case VALUE_BOOLEAN:
 		return v->v_bool.val ? 1. : 0.;
@@ -695,8 +695,8 @@ compare_int_int (Value const *va, Value const *vb)
 static ValueCompare
 compare_float_float (Value const *va, Value const *vb)
 {
-	float_t const a = value_get_as_float (va);
-	float_t const b = value_get_as_float (vb);
+	gnum_float const a = value_get_as_float (va);
+	gnum_float const b = value_get_as_float (vb);
 	if (a == b)
 		return IS_EQUAL;
 	else if (a < b)

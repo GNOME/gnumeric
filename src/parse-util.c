@@ -528,7 +528,7 @@ parse_text_value_or_expr (EvalPos const *pos, char const *text,
 
 			/* If the parse fails set the value to be the syntax error */
 			if (*expr == NULL)
-				*val = value_new_error (pos, error_msg);
+				*val = value_new_string (text);
 			else
 				*val = NULL;
 		} else {

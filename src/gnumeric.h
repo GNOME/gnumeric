@@ -86,6 +86,7 @@ typedef struct _StyleFormat	  StyleFormat;
 typedef struct _StyleFont	  StyleFont;
 typedef struct _StyleColor	  StyleColor;
 typedef struct _StyleBorder	  StyleBorder;
+typedef struct _StyleRow	  StyleRow;
 
 /* Used to locate cells in a sheet */
 struct _CellPos {

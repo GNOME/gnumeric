@@ -85,4 +85,12 @@ void style_border_print (StyleBorder const * const border, StyleBorderLocation c
 			 StyleBorder const * const extend_begin,
 			 StyleBorder const * const extend_end);
 
+void style_border_hdraw (StyleBorder const * const * prev_vert,
+			 StyleRow const *sr, StyleRow const *next_sr,
+			 int col);
+
+void style_border_vdraw (StyleBorder const * const * prev_vert,
+			 StyleRow const *sr, StyleRow const *next_sr,
+			 int col);
+
 #endif /* GNUMERIC_STYLE_BORDER_H */

@@ -655,7 +655,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 				if (dres == ires)
 					return value_new_int (ires);
 				else
-					return value_new_float ((float_t) dres);
+					return value_new_float ((gnum_float) dres);
 
 			case OPER_SUB:
 				dres = (double)ia - (double)ib;
@@ -663,7 +663,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 				if (dres == ires)
 					return value_new_int (ires);
 				else
-					return value_new_float ((float_t) dres);
+					return value_new_float ((gnum_float) dres);
 
 			case OPER_MULT:
 				dres = (double)ia * (double)ib;
@@ -671,7 +671,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 				if (dres == ires)
 					return value_new_int (ires);
 				else
-					return value_new_float ((float_t) dres);
+					return value_new_float ((gnum_float) dres);
 
 			case OPER_DIV:
 				if (ib == 0)
@@ -681,7 +681,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 				if (dres == ires)
 					return value_new_int (ires);
 				else
-					return value_new_float ((float_t) dres);
+					return value_new_float ((gnum_float) dres);
 
 			case OPER_EXP:
 				if (ia == 0 && ib <= 0)
@@ -691,14 +691,14 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 				if (dres == ires)
 					return value_new_int (ires);
 				else
-					return value_new_float ((float_t) dres);
+					return value_new_float ((gnum_float) dres);
 
 			default:
 				abort ();
 			}
 		} else {
-			float_t const va = value_get_as_float (a);
-			float_t const vb = value_get_as_float (b);
+			gnum_float const va = value_get_as_float (a);
+			gnum_float const vb = value_get_as_float (b);
 			value_release (a);
 			value_release (b);
 

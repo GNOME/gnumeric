@@ -64,7 +64,7 @@ complex_to_string (const complex_t *src, const char *reformat,
 /* ------------------------------------------------------------------------- */
 
 static int
-is_unit_imaginary (const char *src, float_t *im, char *imunit)
+is_unit_imaginary (const char *src, gnum_float *im, char *imunit)
 {
 	if (*src == '-') {
 		*im = -1.0;
@@ -84,7 +84,7 @@ is_unit_imaginary (const char *src, float_t *im, char *imunit)
 int
 complex_from_string (complex_t *dst, const char *src, char *imunit)
 {
-	float_t x, y;
+	gnum_float x, y;
 	char *end;
 
 	/* Case: "i", "+i", "-i", ...  */

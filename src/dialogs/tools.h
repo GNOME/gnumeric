@@ -18,28 +18,28 @@ int sampling_tool         (WorkbookControl *context, Sheet *sheet,
 			   int size, data_analysis_output_t *dao);
 int ftest_tool            (WorkbookControl *context, Sheet *sheet,
 			   Range *input_range1, Range *input_range2,
-			   float_t alpha,
+			   gnum_float alpha,
 			   data_analysis_output_t *dao);
 int regression_tool       (WorkbookControl *context, Sheet *sheet,
 			   Range *input_rangeys, Range *input_rangexs,
-			   float_t alpha, data_analysis_output_t *dao,
+			   gnum_float alpha, data_analysis_output_t *dao,
 			   int intercept, int xdim);
 int ttest_paired_tool     (WorkbookControl *context, Sheet *sheet,
 			   Range *input_range1, Range *input_range2,
-			   float_t mean_diff, float_t alpha,
+			   gnum_float mean_diff, gnum_float alpha,
 			   data_analysis_output_t *dao);
 int ttest_eq_var_tool     (WorkbookControl *context, Sheet *sheet,
 			   Range *input_range1, Range *input_range2,
-			   float_t mean_diff, float_t alpha,
+			   gnum_float mean_diff, gnum_float alpha,
 			   data_analysis_output_t *dao);
 int ttest_neq_var_tool    (WorkbookControl *context, Sheet *sheet,
 			   Range *input_range1, Range *input_range2,
-			   float_t mean_diff, float_t alpha,
+			   gnum_float mean_diff, gnum_float alpha,
 			   data_analysis_output_t *dao);
 int ztest_tool            (WorkbookControl *context, Sheet *sheet,
 			   Range *range_input1, Range *range_input2,
-			   float_t mean_diff, float_t var1, float_t var2,
-			   float_t alpha, data_analysis_output_t *dao);
+			   gnum_float mean_diff, gnum_float var1, gnum_float var2,
+			   gnum_float alpha, data_analysis_output_t *dao);
 int random_tool           (WorkbookControl *context, Sheet *sheet,
 			   int vars, int count, random_distribution_t distribution,
 			   random_tool_t *param, data_analysis_output_t *dao);
@@ -52,13 +52,13 @@ int ranking_tool          (WorkbookControl *context, Sheet *sheet,
 
 int anova_single_factor_tool        (WorkbookControl *context, Sheet *sheet,
 				     Range *range, int columns_flag,
-				     float_t alpha, data_analysis_output_t *dao);
+				     gnum_float alpha, data_analysis_output_t *dao);
 int anova_two_factor_without_r_tool (WorkbookControl *context, Sheet *sheet,
-				     Range *range, float_t alpha,
+				     Range *range, gnum_float alpha,
 				     data_analysis_output_t *dao);
 int anova_two_factor_with_r_tool (WorkbookControl *context, Sheet *sheet,
 				  Range *range, int rows_per_sample,
-				  float_t alpha, data_analysis_output_t *dao);
+				  gnum_float alpha, data_analysis_output_t *dao);
 int histogram_tool (WorkbookControl *context, Sheet *sheet,
 		    Range *range1, Range *range2,
 		    gboolean labels, gboolean sorted,

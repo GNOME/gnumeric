@@ -10,7 +10,7 @@ typedef struct {
         gboolean kth_largest;
         gboolean kth_smallest;
         int      k_smallest, k_largest;
-        float_t  c_level;
+        gnum_float  c_level;
         GtkWidget *entry[5];
 } descriptive_stat_tool_t;
 
@@ -26,40 +26,40 @@ typedef struct {
 } discrete_random_tool_t;
 
 typedef struct {
-        float_t lower_limit;
-        float_t upper_limit;
+        gnum_float lower_limit;
+        gnum_float upper_limit;
 } uniform_random_tool_t;
 
 typedef struct {
-        float_t mean;
-        float_t stdev;
+        gnum_float mean;
+        gnum_float stdev;
 } normal_random_tool_t;
 
 typedef struct {
-        float_t p;
+        gnum_float p;
 } bernoulli_random_tool_t;
 
 typedef struct {
-        float_t p;
+        gnum_float p;
         int     trials;
 } binomial_random_tool_t;
 
 typedef struct {
-        float_t p;
+        gnum_float p;
         int     f;
 } negbinom_random_tool_t;
 
 typedef struct {
-        float_t lambda;
+        gnum_float lambda;
 } poisson_random_tool_t;
 
 typedef struct {
-        float_t b;
+        gnum_float b;
 } exponential_random_tool_t;
 
 typedef struct {
-        float_t from, to;
-        float_t step;
+        gnum_float from, to;
+        gnum_float step;
         int     repeat_number;
         int     repeat_sequence;
 } patterned_random_tool_t;
@@ -95,7 +95,7 @@ void set_cell_printf (data_analysis_output_t *dao,
 		      int col, int row, const char *fmt, ...)
 		      G_GNUC_PRINTF (4, 5);
 void set_cell_float  (data_analysis_output_t *dao,
-		      int col, int row, float_t v);
+		      int col, int row, gnum_float v);
 void set_cell_int    (data_analysis_output_t *dao,
 		      int col, int row, int v);
 void set_cell_na     (data_analysis_output_t *dao,

@@ -27,11 +27,11 @@
 
 typedef struct {
         GSList  *array;
-        float_t sum;
-        float_t sum2;    /* square of the sum */
-        float_t sqrsum;
-        float_t min;
-        float_t max;
+        gnum_float sum;
+        gnum_float sum2;    /* square of the sum */
+        gnum_float sqrsum;
+        gnum_float min;
+        gnum_float max;
         int     n;
 } data_set_t;
 
@@ -54,7 +54,7 @@ int_compare (const void *px, const void *py)
 }
 
 static gint
-float_compare (const float_t *a, const float_t *b)
+float_compare (const gnum_float *a, const gnum_float *b)
 {
         if (*a < *b)
                 return -1;
@@ -65,7 +65,7 @@ float_compare (const float_t *a, const float_t *b)
 }
 
 static gint
-float_compare_desc (const float_t *a, const float_t *b)
+float_compare_desc (const gnum_float *a, const gnum_float *b)
 {
         if (*a < *b)
                 return 1;
@@ -114,7 +114,7 @@ set_cell_printf (data_analysis_output_t *dao, int col, int row, const char *fmt,
 
 
 void
-set_cell_float (data_analysis_output_t *dao, int col, int row, float_t v)
+set_cell_float (data_analysis_output_t *dao, int col, int row, gnum_float v)
 {
 	set_cell_value (dao, col, row, value_new_float (v));
 }
@@ -193,7 +193,7 @@ get_data (Sheet *sheet, Range *range, data_set_t *data)
         gpointer p;
 	Cell     *cell;
 	Value    *v;
-	float_t  x;
+	gnum_float  x;
 	int      row, col, status = 0;
 
 	data->sum = 0;
@@ -214,8 +214,8 @@ get_data (Sheet *sheet, Range *range, data_set_t *data)
 					status = 1;
 				}
 
-				p = g_new (float_t, 1);
-				* ((float_t *) p) = x;
+				p = g_new (gnum_float, 1);
+				* ((gnum_float *) p) = x;
 				data->array = g_slist_append (data->array, p);
 				data->sum += x;
 				data->sqrsum += x * x;
@@ -245,7 +245,7 @@ get_data_groupped_by_columns (Sheet *sheet, const Range *range, int col,
         gpointer p;
 	Cell     *cell;
 	Value    *v;
-	float_t  x;
+	gnum_float  x;
 	int      row;
 
 	data->sum = 0;
@@ -263,8 +263,8 @@ get_data_groupped_by_columns (Sheet *sheet, const Range *range, int col,
 			else
 				x = 0;
 
-			p = g_new (float_t, 1);
-			* ((float_t *) p) = x;
+			p = g_new (gnum_float, 1);
+			* ((gnum_float *) p) = x;
 			data->array = g_slist_append (data->array, p);
 			data->sum += x;
 			data->sqrsum += x * x;
@@ -291,7 +291,7 @@ get_data_groupped_by_rows (Sheet *sheet, const Range *range, int row,
         gpointer p;
 	Cell     *cell;
 	Value    *v;
-	float_t  x;
+	gnum_float  x;
 	int      col;
 
 	data->sum = 0;
@@ -309,8 +309,8 @@ get_data_groupped_by_rows (Sheet *sheet, const Range *range, int row,
 			else
 				x = 0;
 
-			p = g_new (float_t, 1);
-			* ((float_t *) p) = x;
+			p = g_new (gnum_float, 1);
+			* ((gnum_float *) p) = x;
 			data->array = g_slist_append (data->array, p);
 			data->sum += x;
 			data->sqrsum += x * x;
@@ -408,20 +408,20 @@ set_italic (data_analysis_output_t *dao, int col1, int row1,
  **/
 
 
-static float_t
+static gnum_float
 correl (data_set_t *set_one, data_set_t *set_two, int *error_flag)
 {
         GSList  *current_one, *current_two;
-	float_t sum_xy = 0, c = 0;
-	float_t tmp;
+	gnum_float sum_xy = 0, c = 0;
+	gnum_float tmp;
 
 	*error_flag = 0;
 	current_one = set_one->array;
 	current_two = set_two->array;
 
 	while (current_one != NULL && current_two != NULL) {
-	        sum_xy += * ((float_t *) current_one->data) *
-			* ((float_t *) current_two->data);
+	        sum_xy += * ((gnum_float *) current_one->data) *
+			* ((gnum_float *) current_two->data);
 	        current_one = current_one->next;
 	        current_two = current_two->next;
 	}
@@ -523,7 +523,7 @@ correlation_tool (WorkbookControl *wbc, Sheet *sheet,
 			        set_cell_int (dao, col + 1, row + 1, 1);
 				break;
 			} else {
-				float_t v;
+				gnum_float v;
 
 				v = correl (&data_sets[col],
 					    &data_sets[row],
@@ -563,12 +563,12 @@ correlation_tool (WorkbookControl *wbc, Sheet *sheet,
  **/
 
 
-static float_t
+static gnum_float
 covar (data_set_t *set_one, data_set_t *set_two, int *error_flag)
 {
         GSList  *current_one, *current_two;
-	float_t sum = 0, c = 0;
-	float_t mean1, mean2, x, y;
+	gnum_float sum = 0, c = 0;
+	gnum_float mean1, mean2, x, y;
 
 	*error_flag = 0;
 	current_one = set_one->array;
@@ -578,8 +578,8 @@ covar (data_set_t *set_one, data_set_t *set_two, int *error_flag)
 	mean2 = set_two->sum / set_two->n;
 
 	while (current_one != NULL && current_two != NULL) {
-	        x = * ((float_t *) current_one->data);
-	        y = * ((float_t *) current_two->data);
+	        x = * ((gnum_float *) current_one->data);
+	        y = * ((gnum_float *) current_two->data);
 	        sum += (x - mean1) * (y - mean2);
 	        current_one = current_one->next;
 	        current_two = current_two->next;
@@ -673,7 +673,7 @@ covariance_tool (WorkbookControl *wbc, Sheet *sheet,
 		        if (row < col)
 				break;
 			else {
-				float_t v;
+				gnum_float v;
 
 				v = covar (&data_sets[col],
 					   &data_sets[row],
@@ -714,14 +714,14 @@ covariance_tool (WorkbookControl *wbc, Sheet *sheet,
  **/
 
 
-static float_t
+static gnum_float
 kurt (data_set_t *data, int *error_flag)
 {
         GSList  *current;
-	float_t sum = 0;
-	float_t mean, stdev, x;
-        float_t num, dem, d;
-	float_t n = data->n;
+	gnum_float sum = 0;
+	gnum_float mean, stdev, x;
+        gnum_float num, dem, d;
+	gnum_float n = data->n;
 
 	if (n < 4) {
 	        *error_flag = 1;
@@ -734,7 +734,7 @@ kurt (data_set_t *data, int *error_flag)
 
 	current = data->array;
 	while (current != NULL) {
-	        x = * ((float_t *) current->data);
+	        x = * ((gnum_float *) current->data);
 	        x = (x - mean) / stdev;
 		sum += (x * x) * (x * x);
 	        current = current->next;
@@ -747,12 +747,12 @@ kurt (data_set_t *data, int *error_flag)
 	return sum * (num / dem) - d;
 }
 
-static float_t
+static gnum_float
 skew (data_set_t *data, int *error_flag)
 {
         GSList  *current;
-	float_t x3, m, s, x, dxn;
-	float_t n = data->n;
+	gnum_float x3, m, s, x, dxn;
+	gnum_float n = data->n;
 
 	if (n < 3) {
 	        *error_flag = 1;
@@ -766,7 +766,7 @@ skew (data_set_t *data, int *error_flag)
 
 	current = data->array;
 	while (current != NULL) {
-	        x = * ((float_t *) current->data);
+	        x = * ((gnum_float *) current->data);
 		dxn = (x - m) / s;
 		x3 += dxn * dxn * dxn;
 	        current = current->next;
@@ -779,7 +779,7 @@ static void
 summary_statistics (WorkbookControl *wbc, data_set_t *data_set, int vars,
 		    data_analysis_output_t *dao)
 {
-	float_t x;
+	gnum_float x;
 	int     col, error;
 
 	prepare_output (wbc, dao, _("Summary Statistics"));
@@ -810,7 +810,7 @@ summary_statistics (WorkbookControl *wbc, data_set_t *data_set, int vars,
 					"/Count"));
 
 	for (col = 0; col < vars; col++) {
-	        float_t var, stdev;
+	        gnum_float var, stdev;
 
 		if (data_set[col].n == 0) {
 			int i;
@@ -838,12 +838,12 @@ summary_statistics (WorkbookControl *wbc, data_set_t *data_set, int vars,
 
 		/* Median */
 		if (data_set[col].n % 2 == 1)
-		        x = *((float_t *)g_slist_nth_data (data_set[col].array,
+		        x = *((gnum_float *)g_slist_nth_data (data_set[col].array,
 							   data_set[col].n / 2));
 		else {
-		        x = *((float_t *)g_slist_nth_data (data_set[col].array,
+		        x = *((gnum_float *)g_slist_nth_data (data_set[col].array,
 							   data_set[col].n / 2));
-		        x += * ((float_t *)g_slist_nth_data (data_set[col].array,
+		        x += * ((gnum_float *)g_slist_nth_data (data_set[col].array,
 							     data_set[col].n / 2 - 1));
 			x /= 2;
 		}
@@ -890,16 +890,16 @@ summary_statistics (WorkbookControl *wbc, data_set_t *data_set, int vars,
 }
 
 static void
-confidence_level (WorkbookControl *wbc, data_set_t *data_set, int vars, float_t c_level,
+confidence_level (WorkbookControl *wbc, data_set_t *data_set, int vars, gnum_float c_level,
 		  data_analysis_output_t *dao)
 {
-        float_t x;
+        gnum_float x;
         int col;
 
 	prepare_output (wbc, dao, _("Confidence Level"));
 
 	for (col = 0; col < vars; col++) {
-	        float_t stdev = sqrt ((data_set[col].sqrsum -
+	        gnum_float stdev = sqrt ((data_set[col].sqrsum -
 				       data_set[col].sum2 / data_set[col].n) /
 				      (data_set[col].n - 1));
 
@@ -915,7 +915,7 @@ static void
 kth_largest (WorkbookControl *wbc, data_set_t *data_set, int vars, int k,
 	     data_analysis_output_t *dao)
 {
-        float_t x;
+        gnum_float x;
         int     col;
 
 	prepare_output (wbc, dao, _("Kth Largest"));
@@ -927,7 +927,7 @@ kth_largest (WorkbookControl *wbc, data_set_t *data_set, int vars, int k,
 		        g_slist_sort (data_set[col].array,
 				      (GCompareFunc) float_compare_desc);
 
-		x = *((float_t *) g_slist_nth_data (data_set[col].array, k - 1));
+		x = *((gnum_float *) g_slist_nth_data (data_set[col].array, k - 1));
 		set_cell_float (dao, col + 1, 2, x);
 	}
         set_cell_printf (dao, 0, 2, _("Largest (%d)"), k);
@@ -937,7 +937,7 @@ static void
 kth_smallest (WorkbookControl *wbc, data_set_t *data_set, int vars, int k,
 	      data_analysis_output_t *dao)
 {
-        float_t x;
+        gnum_float x;
         int     col;
 
 	prepare_output (wbc, dao, _("Kth Smallest"));
@@ -949,7 +949,7 @@ kth_smallest (WorkbookControl *wbc, data_set_t *data_set, int vars, int k,
 		        g_slist_sort (data_set[col].array,
 				      (GCompareFunc) float_compare);
 
-		x = *((float_t *) g_slist_nth_data (data_set[col].array, k - 1));
+		x = *((gnum_float *) g_slist_nth_data (data_set[col].array, k - 1));
 		set_cell_float (dao, col + 1, 2, x);
 	}
         set_cell_printf (dao, 0, 2, _("Smallest (%d)"), k);
@@ -1032,7 +1032,7 @@ int sampling_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 		   data_analysis_output_t *dao)
 {
         data_set_t data_set;
-	float_t    x;
+	gnum_float    x;
 
 	prepare_output (wbc, dao, _("Sample"));
 
@@ -1045,7 +1045,7 @@ int sampling_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 
 		while (current != NULL) {
 		        if (++counter == size) {
-			        x = * ((float_t *) current->data);
+			        x = * ((gnum_float *) current->data);
 				set_cell_float (dao, 0, row++, x);
 				counter = 0;
 			}
@@ -1078,7 +1078,7 @@ int sampling_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 			while (n < size) {
 			        if (counter++ == index_tbl[n]) {
 					set_cell_float (dao, 0, row++,
-							* ((float_t *) current->data));
+							* ((gnum_float *) current->data));
 					++n;
 				}
 				current = current->next;
@@ -1108,7 +1108,7 @@ int sampling_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 			        if (counter++ == index_tbl[n])
 					++n;
 				else
-					set_cell_float (dao, 0, row++, * ((float_t *) current->data));
+					set_cell_float (dao, 0, row++, * ((gnum_float *) current->data));
 				current = current->next;
 			}
 			g_free (index_tbl);
@@ -1131,12 +1131,12 @@ int sampling_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 
 
 int ztest_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
-		Range *input_range2, float_t mean_diff, float_t known_var1,
-		float_t known_var2, float_t alpha,
+		Range *input_range2, gnum_float mean_diff, gnum_float known_var1,
+		gnum_float known_var2, gnum_float alpha,
 		data_analysis_output_t *dao)
 {
         data_set_t set_one, set_two;
-	float_t    mean1, mean2, var1, var2, z, p;
+	gnum_float    mean1, mean2, var1, var2, z, p;
 
 	prepare_output (wbc, dao, _("z-Test"));
 
@@ -1235,13 +1235,13 @@ int ztest_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
  */
 int
 ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
-		   Range *input_range2, float_t mean_diff, float_t alpha,
+		   Range *input_range2, gnum_float mean_diff, gnum_float alpha,
 		   data_analysis_output_t *dao)
 {
         data_set_t set_one, set_two;
 	GSList     *current_one, *current_two;
-	float_t    mean1, mean2, pearson, var1, var2, t, p, df, sum_xy, sum;
-	float_t    dx, dm, M, Q, N, s;
+	gnum_float    mean1, mean2, pearson, var1, var2, t, p, df, sum_xy, sum;
+	gnum_float    dx, dm, M, Q, N, s;
 
 	get_data (sheet, input_range1, &set_one);
 	get_data (sheet, input_range2, &set_two);
@@ -1294,10 +1294,10 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 	dx = dm = M = Q = N = 0;
 
 	while (current_one != NULL && current_two != NULL) {
-	        float_t x, y, d;
+	        gnum_float x, y, d;
 
-		x = * ((float_t *) current_one->data);
-		y = * ((float_t *) current_two->data);
+		x = * ((gnum_float *) current_one->data);
+		y = * ((gnum_float *) current_two->data);
 		sum_xy += x * y;
 		d = x - y;
 		sum += d;
@@ -1381,11 +1381,11 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
  */
 int
 ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
-		   Range *input_range2, float_t mean_diff, float_t alpha,
+		   Range *input_range2, gnum_float mean_diff, gnum_float alpha,
 		   data_analysis_output_t *dao)
 {
         data_set_t set_one, set_two;
-	float_t    mean1, mean2, var, var1, var2, t, p, df;
+	gnum_float    mean1, mean2, var, var1, var2, t, p, df;
 
 	prepare_output (wbc, dao, _("t-Test"));
 
@@ -1498,11 +1498,11 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
  */
 int
 ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
-		    Range *input_range2, float_t mean_diff, float_t alpha,
+		    Range *input_range2, gnum_float mean_diff, gnum_float alpha,
 		    data_analysis_output_t *dao)
 {
         data_set_t set_one, set_two;
-	float_t    mean1, mean2, var1, var2, t, p, df, c;
+	gnum_float    mean1, mean2, var1, var2, t, p, df, c;
 
 	prepare_output (wbc, dao, _("t-Test"));
 
@@ -1617,11 +1617,11 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
  */
 int
 ftest_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
-	    Range *input_range2, float_t alpha,
+	    Range *input_range2, gnum_float alpha,
 	    data_analysis_output_t *dao)
 {
         data_set_t set_one, set_two;
-	float_t    mean1, mean2, var1, var2, f, p, df1, df2, c;
+	gnum_float    mean1, mean2, var1, var2, f, p, df1, df2, c;
 
 	prepare_output (wbc, dao, _("F-Test"));
 
@@ -1725,8 +1725,8 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 		 random_tool_t *param, data_analysis_output_t *dao)
 {
 	int        i, n, j;
-	float_t    range, p, tmp;
-	float_t    *prob, *cumul_p;
+	gnum_float    range, p, tmp;
+	gnum_float    *prob, *cumul_p;
 	Value      **values, *v;
 	Cell       *cell;
 
@@ -1735,8 +1735,8 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 	switch (distribution) {
 	case DiscreteDistribution:
 	        n = param->discrete.end_row-param->discrete.start_row + 1;
-	        prob = g_new (float_t, n);
-		cumul_p = g_new (float_t, n);
+	        prob = g_new (gnum_float, n);
+		cumul_p = g_new (gnum_float, n);
 		values = g_new (Value *, n);
 
                 p = 0;
@@ -1790,7 +1790,7 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 
 	        for (i = 0; i < vars; i++) {
 		        for (n = 0; n < count; n++) {
-			        float_t x = random_01 ();
+			        gnum_float x = random_01 ();
 
 				for (j = 0; cumul_p[j] < x; j++)
 				        ;
@@ -1802,7 +1802,7 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 	case NormalDistribution:
 	        for (i = 0; i < vars; i++) {
 		        for (n = 0; n < count; n++) {
-				float_t v;
+				gnum_float v;
 			        v = qnorm (random_01 (),
 					   param->normal.mean,
 					   param->normal.stdev);
@@ -1822,7 +1822,7 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 	        range = param->uniform.upper_limit - param->uniform.lower_limit;
 	        for (i = 0; i < vars; i++) {
 		        for (n = 0; n < count; n++) {
-				float_t v;
+				gnum_float v;
 				v = range * random_01 () + param->uniform.lower_limit;
 				set_cell_float (dao, i, n, v);
 			}
@@ -1831,7 +1831,7 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 	case PoissonDistribution:
 	        for (i = 0; i < vars; i++) {
 		        for (n = 0; n < count; n++) {
-				float_t v;
+				gnum_float v;
 			        v = random_poisson (param->poisson.lambda);
 				set_cell_float (dao, i, n, v);
 			}
@@ -1840,7 +1840,7 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 	case ExponentialDistribution:
 	        for (i = 0; i < vars; i++) {
 		        for (n = 0; n < count; n++) {
-				float_t v;
+				gnum_float v;
 			        v = random_exponential (param->exponential.b);
 				set_cell_float (dao, i, n, v);
 			}
@@ -1849,7 +1849,7 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 	case BinomialDistribution:
 	        for (i = 0; i < vars; i++) {
 		        for (n = 0; n < count; n++) {
-				float_t v;
+				gnum_float v;
 			        v = random_binomial (param->binomial.p,
 						     param->binomial.trials);
 				set_cell_float (dao, i, n, v);
@@ -1859,7 +1859,7 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 	case NegativeBinomialDistribution:
 	        for (i = 0; i < vars; i++) {
 		        for (n = 0; n < count; n++) {
-				float_t v;
+				gnum_float v;
 			        v = random_negbinom (param->negbinom.p,
 						     param->negbinom.f);
 				set_cell_float (dao, i, n, v);
@@ -1905,13 +1905,13 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
  **/
 
 int regression_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range_y,
-		     Range *input_range_xs, float_t alpha,
+		     Range *input_range_xs, gnum_float alpha,
 		     data_analysis_output_t *dao, int intercept, int xdim)
 {
         data_set_t          set_y, *setxs;
-	float_t             mean_y, *mean_xs;
-	float_t             r, ss_xy, *ss_xx, ss_yy, ss_xx_total;
-	float_t             *res, *ys, **xss;
+	gnum_float             mean_y, *mean_xs;
+	gnum_float             r, ss_xy, *ss_xx, ss_yy, ss_xx_total;
+	gnum_float             *res, *ys, **xss;
 	int                 i, j, err;
 	GSList              *current_x, *current_y;
 	regression_stat_t   extra_stat;
@@ -1931,26 +1931,26 @@ int regression_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range_y,
 		}
 	}
 
-	xss = g_new (float_t *, xdim);
-	res = g_new (float_t, xdim + 1);
-	mean_xs = g_new (float_t, xdim);
+	xss = g_new (gnum_float *, xdim);
+	res = g_new (gnum_float, xdim + 1);
+	mean_xs = g_new (gnum_float, xdim);
 
 	for (i = 0; i < xdim; i++) {
 		j = 0;
-		xss[i] = g_new (float_t, set_y.n);
+		xss[i] = g_new (gnum_float, set_y.n);
 		current_x = setxs[i].array;
 		while (current_x != NULL) {
-			xss[i][j] = * ((float_t *) current_x->data);
+			xss[i][j] = * ((gnum_float *) current_x->data);
 			current_x = current_x->next;
 			j++;
 		}
 	}
 
-	ys = g_new (float_t, set_y.n);
+	ys = g_new (gnum_float, set_y.n);
 	current_y = set_y.array;
 	i = 0;
 	while (current_y != NULL) {
-		ys[i] = * ((float_t *) current_y->data);
+		ys[i] = * ((gnum_float *) current_y->data);
 		current_y = current_y->next;
 		i++;
 	}
@@ -2000,11 +2000,11 @@ int regression_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range_y,
 		mean_xs[i] = setxs[i].sum / setxs[i].n;
 	mean_y = set_y.sum / set_y.n;
 
-	ss_xx = g_new (float_t, xdim);
+	ss_xx = g_new (gnum_float, xdim);
 	ss_xy = ss_yy = ss_xx_total = 0;
 	current_y = set_y.array;
 	while (current_y != NULL) {
-		float_t y = * ((float_t *) current_y->data);
+		gnum_float y = * ((gnum_float *) current_y->data);
 		ss_yy += (y - mean_y) * (y - mean_y);
 		current_y = current_y->next;
 	}
@@ -2014,10 +2014,10 @@ int regression_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range_y,
 		current_x = setxs[i].array;
 		current_y = set_y.array;
 		while (current_x != NULL && current_y != NULL) {
-		        float_t x, y;
+		        gnum_float x, y;
 
-			x = * ((float_t *) current_x->data);
-			y = * ((float_t *) current_y->data);
+			x = * ((gnum_float *) current_x->data);
+			y = * ((gnum_float *) current_y->data);
 		        ss_xy += (x - mean_xs[i]) * (y - mean_y);
 			ss_xx[i] += (x - mean_xs[i]) * (x - mean_xs[i]);
 		        current_y = current_y->next;
@@ -2087,7 +2087,7 @@ these values can be tiny.*/
 		for (i = 2; i <= 6; i++)
 			set_cell_na (dao, i, 16);
 	else {
-		float_t t;
+		gnum_float t;
 
 		t = qt (1 - 0.025, set_y.n - xdim - 1);
 
@@ -2110,7 +2110,7 @@ these values can be tiny.*/
 
 	/* Slopes */
 	for (i = 0; i < xdim; i++) {
-		float_t t;
+		gnum_float t;
 
 		/* Slopes / Coefficient */
 		set_cell_float (dao, 1, 17 + i, res[i + 1]);
@@ -2172,7 +2172,7 @@ int average_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, int interval
 {
         data_set_t data_set;
 	GSList     *current;
-	float_t    *prev, sum;
+	gnum_float    *prev, sum;
 	int        cols, rows, row, add_cursor, del_cursor, count;
 
 	/* TODO: Standard error output */
@@ -2184,7 +2184,7 @@ int average_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, int interval
 
 	prepare_output (wbc, dao, _("Moving Averages"));
 
-	prev = g_new (float_t, interval);
+	prev = g_new (gnum_float, interval);
 
 	get_data (sheet, range, &data_set);
 	current = data_set.array;
@@ -2192,7 +2192,7 @@ int average_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, int interval
 	sum = 0;
 
 	while (current != NULL) {
-	        prev[add_cursor] = * ((float_t *) current->data);
+	        prev[add_cursor] = * ((gnum_float *) current->data);
 		if (count == interval - 1) {
 			sum += prev[add_cursor];
 			set_cell_float (dao, 0, row, sum / interval);
@@ -2230,7 +2230,7 @@ typedef struct {
         int     rank;
         int     same_rank_count;
         int     point;
-        float_t x;
+        gnum_float x;
 } rank_t;
 
 static gint
@@ -2316,7 +2316,7 @@ int ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 		rank = g_new (rank_t, data_sets[i].n);
 
 		while (current != NULL) {
-		        float_t x = * ((float_t *) current->data);
+		        gnum_float x = * ((gnum_float *) current->data);
 
 			rank[n].point = n + 1;
 			rank[n].x = x;
@@ -2325,7 +2325,7 @@ int ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 
 			inner = data_sets[i].array;
 			while (inner != NULL) {
-			        float_t y = * ((float_t *) inner->data);
+			        gnum_float y = * ((gnum_float *) inner->data);
 				if (y > x)
 				        rank[n].rank++;
 				else if (y == x)
@@ -2374,13 +2374,13 @@ int ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 
 int
 anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
-			  int columns_flag, float_t alpha,
+			  int columns_flag, gnum_float alpha,
 			  data_analysis_output_t *dao)
 {
         data_set_t *data_sets;
 	int        vars, cols, rows, col, i;
-	float_t    *mean, mean_total, sum_total, n_total, ssb, ssw, sst;
-	float_t    ms_b, ms_w, f, p, f_c;
+	gnum_float    *mean, mean_total, sum_total, n_total, ssb, ssw, sst;
+	gnum_float    ms_b, ms_w, f, p, f_c;
 	int        df_b, df_w, df_t;
 
 	prepare_output (wbc, dao, _("Anova"));
@@ -2444,7 +2444,7 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 
 	/* SUMMARY */
 	for (i = 0; i < vars; i++) {
-	        float_t v;
+	        gnum_float v;
 
 	        /* Count */
 		set_cell_int (dao, 1, i + 4, data_sets[i].n);
@@ -2474,7 +2474,7 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 					       "/F critical"));
 
 	/* ANOVA */
-	mean = g_new (float_t, vars);
+	mean = g_new (gnum_float, vars);
 	sum_total = n_total = 0;
 	ssb = ssw = sst = 0;
 	for (i = 0; i < vars; i++) {
@@ -2484,16 +2484,16 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 	}
 	mean_total = sum_total / n_total;
 	for (i = 0; i < vars; i++) {
-	        float_t t;
+	        gnum_float t;
 		t = mean[i] - mean_total;
 		ssb += t * t * data_sets[i].n;
 	}
 	for (i = 0; i < vars; i++) {
 	        GSList  *current = data_sets[i].array;
-		float_t t, x;
+		gnum_float t, x;
 
 		while (current != NULL) {
-			x = * ((float_t *) current->data);
+			x = * ((gnum_float *) current->data);
 			t = x - mean[i];
 		        ssw += t * t;
 			t = x - mean_total;
@@ -2541,14 +2541,14 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 
 int
 anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
-				 float_t alpha,
+				 gnum_float alpha,
 				 data_analysis_output_t *dao)
 {
         data_set_t *data_sets;
 	int        cols, rows, i, n;
-	float_t    *row_mean, *col_mean, mean, sum;
-	float_t    ss_r, ss_c, ss_e, ss_t;
-	float_t    ms_r, ms_c, ms_e, f1, f2, p1, p2, f1_c, f2_c;
+	gnum_float    *row_mean, *col_mean, mean, sum;
+	gnum_float    ss_r, ss_c, ss_e, ss_t;
+	gnum_float    ms_r, ms_c, ms_e, f1, f2, p1, p2, f1_c, f2_c;
 	int        df_r, df_c, df_e, df_t;
 
 	prepare_output (wbc, dao, _("Anova"));
@@ -2564,9 +2564,9 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *rang
 					"/Variance"));
 
 	data_sets = g_new (data_set_t, cols);
-	col_mean = g_new (float_t, cols);
+	col_mean = g_new (gnum_float, cols);
 	for (i = 0; i < cols; i++) {
-	        float_t v;
+	        gnum_float v;
 
 	        get_data_groupped_by_columns (sheet, range, i, &data_sets[i]);
 		set_cell_printf (dao, 0, i + 4 + rows, _("Column %d"), i + 1);
@@ -2581,9 +2581,9 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *rang
 	g_free (data_sets);
 
 	data_sets = g_new (data_set_t, rows);
-	row_mean = g_new (float_t, rows);
+	row_mean = g_new (gnum_float, rows);
 	for (i = n = sum = 0; i < rows; i++) {
-	        float_t v;
+	        gnum_float v;
 
 	        get_data_groupped_by_rows (sheet, range, i, &data_sets[i]);
 		set_cell_printf (dao, 0, i + 3, _("Row %d"), i + 1);
@@ -2601,11 +2601,11 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *rang
 	mean = sum / n;
 	for (i = 0; i < rows; i++) {
 	        GSList *current = data_sets[i].array;
-		float_t t, x;
+		gnum_float t, x;
 		n = 0;
 
 	        while (current != NULL) {
-		        x = * ((float_t *) current->data);
+		        x = * ((gnum_float *) current->data);
 			t = x - col_mean[n] - row_mean[i] + mean;
 			t *= t;
 			ss_e += t;
@@ -2620,7 +2620,7 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *rang
 
 	ss_r = ss_c = 0;
 	for (i = 0; i < rows; i++) {
-	        float_t t;
+	        gnum_float t;
 
 		t = row_mean[i] - mean;
 		t *= t;
@@ -2628,7 +2628,7 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *rang
 	}
 	ss_r *= cols;
 	for (i = 0; i < cols; i++) {
-	        float_t t;
+	        gnum_float t;
 
 		t = col_mean[i] - mean;
 		t *= t;
@@ -2697,15 +2697,15 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *rang
 
 int
 anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
-			      int rows_per_sample, float_t alpha,
+			      int rows_per_sample, gnum_float alpha,
 			      data_analysis_output_t *dao)
 {
 	int        cols, rows, i, j, k, n;
 	int        count, gr_count;
-	float_t    sum, sqrsum, x, v;
-	float_t    gr_sum, gr_sqrsum;
+	gnum_float    sum, sqrsum, x, v;
+	gnum_float    gr_sum, gr_sqrsum;
 	int        *col_count;
-	float_t    *col_sum, *col_sqrsum;
+	gnum_float    *col_sum, *col_sqrsum;
 	Cell       *cell;
 
 	cols = range->end.col - range->start.col + 1;
@@ -2736,8 +2736,8 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 	set_cell (dao, 0, 2, _("SUMMARY"));
 
 	col_count = g_new (int, cols);
-	col_sum = g_new (float_t, cols);
-	col_sqrsum = g_new (float_t, cols);
+	col_sum = g_new (gnum_float, cols);
+	col_sqrsum = g_new (gnum_float, cols);
 
 	for (i = 1; i < cols; i++) {
 	       cell = sheet_cell_get (sheet, range->start.col+i,
@@ -2857,7 +2857,7 @@ int histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin
         data_set_t bin_set, set;
 	GSList     *list;
 	int        i, j, cols, rows, cum_sum;
-	float_t    *intval;
+	gnum_float    *intval;
 	int        *count;
 
 	cols = bin_range->end.col - bin_range->start.col + 1;
@@ -2889,11 +2889,11 @@ int histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin
 	set_italic (dao, 0, 0, i, 0);
 
 	count = g_new (int, bin_set.n + 1);
-	intval = g_new (float_t, bin_set.n);
+	intval = g_new (gnum_float, bin_set.n);
 
 	list = bin_set.array;
 	for (i = 0; i < bin_set.n; i++) {
-	        float_t x = *((float_t *) list->data);
+	        gnum_float x = *((gnum_float *) list->data);
 	        set_cell_float (dao, 0, i + 1, x);
 		intval[i] = x;
 		count[i] = 0;
@@ -2904,7 +2904,7 @@ int histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin
 
 	list = set.array;
 	for (i = 0; i < set.n; i++) {
-	        float_t x = *((float_t *) list->data);
+	        gnum_float x = *((gnum_float *) list->data);
 		/* FIXME: Slow!, O(n^2) */
 		for (j = 0; j < bin_set.n; j++)
 		        if (x <= intval[j]) {
@@ -2922,7 +2922,7 @@ int histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin
 		cum_sum += count[i];
 		if (percentage)
 		        set_cell_float (dao, 2, i + 1,
-					(float_t) cum_sum / set.n);
+					(gnum_float) cum_sum / set.n);
 	}
 
 	free_data_set (&set);

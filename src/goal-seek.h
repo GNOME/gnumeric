@@ -5,37 +5,37 @@
 #include <glib.h>
 
 typedef struct {
-	float_t xmin;           /* Minimum allowed value for x.  */
-	float_t xmax;           /* Maximum allowed value for x.  */
-	float_t precision;      /* Desired relative precision.  */
+	gnum_float xmin;           /* Minimum allowed value for x.  */
+	gnum_float xmax;           /* Maximum allowed value for x.  */
+	gnum_float precision;      /* Desired relative precision.  */
 
 	gboolean havexpos;      /* Do we have a valid xpos?  */
-	float_t xpos;           /* Value for which f(xpos) > 0.  */
-	float_t ypos;           /* f(xpos).  */
+	gnum_float xpos;           /* Value for which f(xpos) > 0.  */
+	gnum_float ypos;           /* f(xpos).  */
 
 	gboolean havexneg;      /* Do we have a valid xneg?  */
-	float_t xneg;           /* Value for which f(xneg) < 0.  */
-	float_t yneg;           /* f(xneg).  */
+	gnum_float xneg;           /* Value for which f(xneg) < 0.  */
+	gnum_float yneg;           /* f(xneg).  */
 
-	float_t root;           /* Value for which f(root) == 0.  */
+	gnum_float root;           /* Value for which f(root) == 0.  */
 } GoalSeekData;
 
 typedef enum { GOAL_SEEK_OK, GOAL_SEEK_ERROR } GoalSeekStatus;
 
-typedef GoalSeekStatus (*GoalSeekFunction) (float_t x, float_t *y, void *user_data);
+typedef GoalSeekStatus (*GoalSeekFunction) (gnum_float x, gnum_float *y, void *user_data);
 
 void goal_seek_initialise (GoalSeekData *data);
 
 GoalSeekStatus goal_seek_point (GoalSeekFunction f,
 				GoalSeekData *data,
 				void *user_data,
-				float_t x0);
+				gnum_float x0);
 
 GoalSeekStatus goal_seek_newton (GoalSeekFunction f,
 				 GoalSeekFunction df,
 				 GoalSeekData *data,
 				 void *user_data,
-				 float_t x0);
+				 gnum_float x0);
 
 GoalSeekStatus goal_seek_bisection (GoalSeekFunction f,
 				    GoalSeekData *data,
@@ -44,13 +44,13 @@ GoalSeekStatus goal_seek_bisection (GoalSeekFunction f,
 GoalSeekStatus goal_seek_trawl_uniformly (GoalSeekFunction f,
 					  GoalSeekData *data,
 					  void *user_data,
-					  float_t xmin, float_t xmax,
+					  gnum_float xmin, gnum_float xmax,
 					  int points);
 
 GoalSeekStatus goal_seek_trawl_normally (GoalSeekFunction f,
 					 GoalSeekData *data,
 					 void *user_data,
-					 float_t mu, float_t sigma,
+					 gnum_float mu, gnum_float sigma,
 					 int points);
 
 #endif

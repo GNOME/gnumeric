@@ -122,7 +122,7 @@ history_menu_locate_separator (WorkbookControlGUI *wbcg)
  * 'Print Preview' item in the
  * 'File' menu
  */
-	char const * menu_name = _("File/Print preview");
+	char const * menu_name = _("File/Print Preview");
 	ret.menu = gnome_app_find_menu_pos (GNOME_APP (wbcg->toplevel)->menubar,
 					    menu_name, &ret.pos);
 	return ret;
@@ -135,7 +135,7 @@ history_menu_insert_separator (WorkbookControlGUI *wbcg)
 	MenuPos ret;
 
 	GtkWidget *item;
-	char const * menu_name = _("File/Print preview");
+	char const * menu_name = _("File/Print Preview");
 
 	ret = history_menu_locate_separator (wbcg);
 	if (ret.menu != NULL) {
@@ -144,7 +144,7 @@ history_menu_insert_separator (WorkbookControlGUI *wbcg)
 		gtk_menu_shell_insert (GTK_MENU_SHELL (ret.menu), item, ret.pos);
 	} else
 		g_warning ("Probable mis-translation. '%s' : was not found. "
-			   "Does this match the 'File/Print preview' menu exactly ?",
+			   "Does this match the 'File/Print Preview' menu exactly ?",
 			   menu_name);
 	return ret;
 }

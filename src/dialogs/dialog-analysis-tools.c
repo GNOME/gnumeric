@@ -1007,7 +1007,7 @@ dialog_ztest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	static int       labels = 0;
 
 	data_analysis_output_t  dao;
-	float_t mean_diff, alpha, var1, var2;
+	gnum_float mean_diff, alpha, var1, var2;
 
 	char  *text;
 	int   selection, output;
@@ -1131,7 +1131,7 @@ dialog_ttest_paired_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	data_analysis_output_t dao;
 
 	gboolean labels = FALSE;
-	float_t  alpha, mean_diff;
+	gnum_float  alpha, mean_diff;
 	char     *text;
 	int      selection, x1, x2, y1, y2;
 	Range    range_input1, range_input2;
@@ -1266,7 +1266,7 @@ dialog_ttest_eq_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	data_analysis_output_t dao;
 
 	gboolean labels = FALSE;
-	float_t  alpha, mean_diff;
+	gnum_float  alpha, mean_diff;
 	char     *text;
 	int      selection, x1, x2, y1, y2;
 	Range    range_input1, range_input2;
@@ -1400,7 +1400,7 @@ dialog_ttest_neq_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	data_analysis_output_t dao;
 
 	gboolean labels = FALSE;
-	float_t  alpha, mean_diff;
+	gnum_float  alpha, mean_diff;
 	char     *text;
 	int      selection, x1, x2, y1, y2;
 	Range    range_input1, range_input2;
@@ -1534,7 +1534,7 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	data_analysis_output_t dao;
 
 	gboolean labels = FALSE;
-	float_t  alpha;
+	gnum_float  alpha;
 	char     *text;
 	int      selection, x1, x2, y1, y2;
 	Range    range_input1, range_input2;
@@ -1987,7 +1987,7 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	int		 err = 0;
 
 	data_analysis_output_t  dao;
-	float_t alpha;
+	gnum_float alpha;
 
 	char  *text;
 	int   selection, output;
@@ -2592,7 +2592,7 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	gboolean labels = FALSE;
 	char     *text;
-	float_t  alpha;
+	gnum_float  alpha;
 	int      group, selection, x1, x2, y1, y2;
 	Range    range;
 
@@ -2705,7 +2705,7 @@ dialog_anova_two_factor_without_r_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	gboolean labels = FALSE;
 	char     *text;
-	float_t  alpha;
+	gnum_float  alpha;
 	int      selection, x1, x2, y1, y2;
 	Range    range;
 
@@ -2814,7 +2814,7 @@ dialog_anova_two_factor_with_r_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	data_analysis_output_t dao;
 
 	char     *text;
-	float_t  alpha;
+	gnum_float  alpha;
 	int      selection, x1, x2, y1, y2, rows, err;
 	Range    range;
 

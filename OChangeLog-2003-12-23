@@ -1,3 +1,31 @@
+2001-01-30  Jody Goldberg <jgoldberg@home.com>
+
+	s/float_t/gnum_float/
+	s/int_t/gnum_int/
+
+	* src/sheet-style.c (sheet_style_get_uniform) : implement.
+
+	* src/parse-util.c (parse_text_value_or_expr) : dont loose the entered
+	  text.
+
+	* src/history.c (history_menu_insert_separator) : keep case
+	  consistent.
+	* src/workbook-control-gui.c (workbook_menu_file) : ditto.
+
+	* configure.in : update GAL req.
+	* README : ditto.
+	* gnumeric.spec.in : ditto.
+
+2001-01-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.h : decl for StyleRow.
+
+	* src/xml-io.c : Use the Child and Root aliases to ease ease
+	  transition from xml1 -> xml2.
+	(xml_sheet_create) : default name for sheets that fail to specify one.
+
+	* src/workbook.c (workbook_sheet_by_index) : improve safety.
+
 2001-01-30  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-object-bonobo.c (sheet_object_bonobo_set_server): 
