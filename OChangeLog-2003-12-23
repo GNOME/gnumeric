@@ -1,5 +1,11 @@
 2003-12-01  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=128166
+	* src/commands.c (cmd_reorganize_sheets_undo): dirty workbook
+	(cmd_reorganize_sheets_redo): ditto
+	
+2003-12-01  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/gnumeric-gconf.c (gnm_conf_init_essential): add
 	  prefs.printer_config, since it is needed for first workbook
 	(gnm_conf_init_extras): remove prefs.printer_config

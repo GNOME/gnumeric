@@ -4469,6 +4469,8 @@ cmd_reorganize_sheets_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
+	workbook_set_dirty (me->wb, TRUE);
+
         /* undo reordering */
 	if (me->new_order) {
 		if (me->old_order == NULL) {
@@ -4532,6 +4534,8 @@ cmd_reorganize_sheets_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	GSList *list, *names;
 
 	g_return_val_if_fail (me != NULL, TRUE);
+
+	workbook_set_dirty (me->wb, TRUE);
 
 	/* deleting sheets */
 	if (me->deleted_sheets != NULL && me->deleted_sheets_data == NULL)
