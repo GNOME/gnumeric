@@ -1,3 +1,7 @@
+2004-08-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice.c (libgoffice_init): Call gsf_init.
+
 2004-08-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render):
