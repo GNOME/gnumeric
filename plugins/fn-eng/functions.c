@@ -463,8 +463,8 @@ static char const *help_besselk = {
 	   "@y is the order of the bessel function, if non-integer it is "
 	   "truncated.\n"
 	   "\n"
-	   "* If x or n are not numeric a #VALUE! error is returned.\n"
-	   "* If y < 0 a #NUM! error is returned.\n"
+	   "* If @x or @y are not numeric a #VALUE! error is returned.\n"
+	   "* If @y < 0 a #NUM! error is returned.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -506,7 +506,7 @@ static char const *help_besselj = {
 	   "@EXAMPLES=\n"
 	   "BESSELJ(0.89,3) equals 0.013974004.\n"
 	   "\n"
-	   "@SEEALSO=BESSELJ,BESSELK,BESSELY")
+	   "@SEEALSO=BESSELI,BESSELK,BESSELY")
 };
 
 static Value *
@@ -536,14 +536,14 @@ static char const *help_bessely = {
 	   "@y is the order of the bessel function, if non-integer it is "
 	   "truncated.\n"
 	   "\n"
-	   "* If x or n are not numeric a #VALUE! error is returned.\n"
-	   "* If n < 0 a #NUM! error is returned.\n"
+	   "* If @x or @y are not numeric a #VALUE! error is returned.\n"
+	   "* If @y < 0 a #NUM! error is returned.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "BESSELY(4,2) equals 0.215903595.\n"
 	   "\n"
-	   "@SEEALSO=BESSELJ,BESSELK,BESSELY")
+	   "@SEEALSO=BESSELI,BESSELJ,BESSELK")
 };
 
 static Value *
@@ -1063,7 +1063,7 @@ static char const *help_delta = {
 	   "@DESCRIPTION="
 	   "DELTA function tests for numerical equivalence of two "
 	   "arguments, returning 1 in case of equality.\n\n"
-	   "* @y is optional, and defaults to 0."
+	   "* @y is optional, and defaults to 0.\n"
 	   "* If either argument is non-numeric returns a #VALUE! error.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
