@@ -36,6 +36,8 @@ Morten:
 	* Fixed memory corruption in LINEST and LOGEST.
 	* Plug gigantic leak in parser.
 	* Improve gnumeric-expr-entry's utf8 support and speed.
+	* Plug various little leaks.
+	* Make fn-eng a plugin.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.2

@@ -53,7 +53,7 @@ gnumeric_cell_renderer_expr_entry_get_type (void)
 				(GClassInitFunc)gnumeric_cell_renderer_expr_entry_class_init,
 				NULL,		/* class_finalize */
 				NULL,		/* class_data */
-				sizeof (GnumericCellRendererText),
+				sizeof (GnumericCellRendererExprEntry),
 				0,              /* n_preallocs */
 				(GInstanceInitFunc) NULL,
 			};

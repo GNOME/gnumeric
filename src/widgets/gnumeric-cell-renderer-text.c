@@ -40,7 +40,7 @@ gnumeric_cell_renderer_text_get_type (void)
 				(GClassInitFunc)gnumeric_cell_renderer_text_class_init,
 				NULL,		/* class_finalize */
 				NULL,		/* class_data */
-				sizeof (GtkCellRendererText),
+				sizeof (GnumericCellRendererText),
 				0,              /* n_preallocs */
 				(GInstanceInitFunc) NULL,
 			};

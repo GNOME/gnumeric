@@ -1,3 +1,10 @@
+2002-04-12  Morten Welinder  <terra@diku.dk>
+
+	* gnumeric-cell-renderer-text.c
+	(gnumeric_cell_renderer_text_get_type): Fix instance size.
+	* gnumeric-cell-renderer-expr-entry.c
+	(gnumeric_cell_renderer_expr_entry_get_type): Ditto.
+
 2002-04-09  Morten Welinder  <terra@diku.dk>
 
 	* gnumeric-expr-entry.c (cb_entry_changed): Quiet.
