@@ -1,3 +1,12 @@
+2004-10-13  Jean Brefort <jean.brefort@normalesup.org>
+
+	* graph/gog-plot-impl.h: added a foreach_elem member in GogPlotClass
+	* graph/gog-plot.c: (gog_plot_foreach_elem): calls Klass->foreach_elem
+	when not NULL to override default legends management.
+	* graph/gog-renderer-gnome-print.c: (draw_path): add ART_MOVETO_OPEN case,
+	(gog_renderer_gnome_print_measure_text): fix a bad sign.
+	* graph/gog-renderer-svg.c: (draw_path): add ART_MOVETO_OPEN case.
+
 2004-10-12  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-axis.h (GogAxisTickTypes): Fix namespace.

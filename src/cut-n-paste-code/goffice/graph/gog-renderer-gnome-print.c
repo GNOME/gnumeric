@@ -181,6 +181,7 @@ draw_path (GogRendererGnomePrint *prend, ArtVpath const *path)
 	gnome_print_newpath (prend->gp_context);
 	for ( ; path->code != ART_END ; path++)
 		switch (path->code) {
+		case ART_MOVETO_OPEN :
 		case ART_MOVETO :
 			gnome_print_moveto (prend->gp_context,
 					    path->x, -path->y);
@@ -501,7 +502,7 @@ gog_renderer_gnome_print_measure_text (GogRenderer *rend,
 	size->h = ih / (double)PANGO_SCALE;
 #else
 	size->w = gnome_font_get_width_utf8 (gfont, text);
-	size->h = gnome_font_get_ascender (gfont) + gnome_font_get_descender (gfont);
+	size->h = gnome_font_get_ascender (gfont) - gnome_font_get_descender (gfont);
 #endif
 }
 

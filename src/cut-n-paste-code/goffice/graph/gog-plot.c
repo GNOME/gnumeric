@@ -340,10 +340,16 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 	unsigned i, n, num_labels = 0;
 	char *label = NULL;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
+	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 	GList *overrides;
 
 	g_return_if_fail (GOG_PLOT (plot) != NULL);
 	g_return_if_fail (plot->cardinality_valid);
+
+	if (klass->foreach_elem) {
+		klass->foreach_elem (plot, only_visible, func, data);
+		return;
+	}
 
 	ptr = plot->series;
 	if (ptr == NULL)

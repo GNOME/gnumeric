@@ -69,6 +69,9 @@ typedef struct {
 					 GogPlotBoundInfo *bounds);
 
 	gboolean   (*supports_vary_style_by_element) (GogPlot const *plot);
+
+	void       (*foreach_elem)    (GogPlot *plot, gboolean only_visible,
+				    GogEnumFunc handler, gpointer data);
 } GogPlotClass;
 
 #define GOG_PLOT_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_PLOT_TYPE, GogPlotClass))
