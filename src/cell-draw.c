@@ -75,9 +75,8 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 
 	/* if a number overflows, do special drawing */
 	if (rv->layout_natural_width > width - indent &&
-	    cell_is_number (cell) &&
-	    !rv->numeric_overflow &&
-	    !rv->display_formula) {
+	    rv->might_overflow &&
+	    !rv->numeric_overflow) {
 		char const *text = pango_layout_get_text (layout);
 		/* This assumes that hash marks are wider than
 		   the characters in the number.  Probably ok.  */
@@ -176,8 +175,11 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 	}
 
 #if 0
-	g_print ("width=%d, n_width=%d, h_center=%d\n",
-		 width, rv->layout_natural_width, h_center);
+	if (rv->rotation)
+		g_print ("width=%d, n_width=%d, n_height=%d, h_center=%d\n",
+			 width,
+			 rv->layout_natural_width, rv->layout_natural_height,
+			 h_center);
 #endif
 
 	*res_color = &rv->color;
@@ -192,7 +194,7 @@ void
 cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	   int x1, int y1, int width, int height, int h_center)
 {
-	GdkColor *color; 
+	GdkColor *color;
 	gint x;
 	gint y;
 	RenderedValue *rv = cell->rendered_value;
@@ -212,6 +214,8 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 			      height * PANGO_SCALE,
 			      h_center == -1 ? -1 : (h_center * PANGO_SCALE),
 			      &color, &x, &y)) {
+		PangoContext *context = NULL;
+
 		/* +1 to get past left grid-line.  */
 		GdkRectangle rect;
 		rect.x = x1 + 1 + ci->margin_a;
@@ -230,13 +234,30 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		}
 #endif
 		gdk_gc_set_clip_rectangle (gc, &rect);
-		
+
 		/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 		gdk_gc_set_rgb_fg_color (gc, color);
-		
+
+		if (rv->rotation) {
+#ifdef HAVE_PANGO_CONTEXT_SET_MATRIX
+			PangoMatrix rotmat = PANGO_MATRIX_INIT;
+			context = pango_layout_get_context (rv->layout);
+			pango_matrix_rotate (&rotmat, rv->rotation);
+			pango_context_set_matrix (context, &rotmat);
+			pango_layout_context_changed (rv->layout);
+#endif
+		}
+
 		gdk_draw_layout (drawable, gc,
 				 x1 + PANGO_PIXELS (x),
 				 y1 + PANGO_PIXELS (y),
 				 rv->layout);
+
+		if (context) {
+#ifdef HAVE_PANGO_CONTEXT_SET_MATRIX
+			pango_context_set_matrix (context, NULL);
+			pango_layout_context_changed (rv->layout);
+#endif
+		}
 	}
 }

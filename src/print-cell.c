@@ -277,9 +277,17 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 					 color->green / (double)0xffff,
 					 color->blue  / (double)0xffff);
 
+		if (rv->rotation != 0)
+			y1 -= rv->layout_natural_width *
+				sin (rv->rotation * (M_PI / 180)) /
+				PANGO_SCALE;
+
 		gnome_print_moveto (context,
 				    x1 + x / (double)PANGO_SCALE,
 				    y1 + y / (double)PANGO_SCALE);
+		if (rv->rotation != 0)
+			gnome_print_rotate (context, rv->rotation);
+
 		gnome_print_pango_layout (context, rv->layout);
 		gnome_print_grestore (context);
 	}

@@ -60,6 +60,7 @@ static GnmMemChunk *rendered_value_pool;
 #define CHUNK_FREE(p,v) g_free ((v))
 #endif
 
+
 static guint16
 calc_indent (PangoContext *context, const GnmStyle *mstyle, Sheet *sheet)
 {
@@ -112,8 +113,10 @@ rendered_value_render (GString *str,
 
 		/* For format general approximate the cell width in characters */
 		if (style_format_is_general (format)) {
-			is_variable_width = (VALUE_FMT (cell->value) == NULL ||
-					     style_format_is_general (VALUE_FMT (cell->value)));
+			gboolean is_rotated = (mstyle_get_rotation (mstyle) != 0);
+			is_variable_width = !is_rotated &&
+				(VALUE_FMT (cell->value) == NULL ||
+				 style_format_is_general (VALUE_FMT (cell->value)));
 			if (is_variable_width && allow_variable_width) {
 				GnmFont *style_font =
 					scg_get_style_font (context, sheet, mstyle);
@@ -177,6 +180,21 @@ rendered_value_remeasure (RenderedValue *rv)
 	pango_layout_get_size (rv->layout,
 			       &rv->layout_natural_width,
 			       &rv->layout_natural_height);
+	if (rv->rotation) {
+		double rads = rv->rotation * (M_PI / 180);
+		int width =
+			rv->layout_natural_width * fabs (cos (rads)) +
+			rv->layout_natural_height * fabs (sin (rads));
+		int height = 
+			rv->layout_natural_width * fabs (sin (rads)) +
+			rv->layout_natural_height * fabs (cos (rads));
+		rv->layout_natural_width = width;
+		rv->layout_natural_height = height;
+#if 0
+		g_print ("n_width=%d, n_height=%d\n",
+			 rv->layout_natural_width, rv->layout_natural_height);
+#endif
+	}
 }
 
 
@@ -236,7 +254,11 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	res->wrap_text = mstyle_get_effective_wrap_text (mstyle);
 	res->effective_halign = style_default_halign (mstyle, cell);
 	res->effective_valign = mstyle_get_align_v (mstyle);
-	res->display_formula = display_formula;
+	res->rotation = mstyle_get_rotation (mstyle);
+	res->might_overflow =
+		cell_is_number (cell) &&
+		!display_formula &&
+		mstyle_get_rotation (mstyle) == 0;
 
 	res->layout = layout = pango_layout_new (context);
 	pango_layout_set_text (layout, str->str, str->len);

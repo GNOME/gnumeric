@@ -1,5 +1,17 @@
 2004-12-15  Morten Welinder  <terra@gnome.org>
 
+	* src/print-cell.c (print_cell_NEW): Print rotated.
+
+	* src/cell-draw.c (cell_draw): Draw rotated text if
+	HAVE_PANGO_CONTEXT_SET_MATRIX.
+
+	* src/rendered-value.c (rendered_value_render): Rotated numbers
+	are not variable width.
+	(rendered_value_remeasure): Adjust width and height for rotation.
+
+	* src/rendered-value.h (struct _RenderedValue): Eliminate
+	display_formula and introduce might_overflow and rotation.
+
 	* src/style.c (required_updates_for_style): Rotation changes
 	requires height resizing.
 	(style_default_halign): Rotated cells are aligned left by default,

@@ -23,11 +23,12 @@ struct _RenderedValue {
 	guint effective_halign : 8; /* 7 bits would be enough.  */
 	guint effective_valign : 8; /* 4 bits would be enough.  */
  	guint variable_width : 1;   /* result depends on the width of cell */
-	guint numeric_overflow : 1;
 	guint hfilled : 1;
 	guint vfilled : 1;
 	guint wrap_text : 1;
-	guint display_formula : 1;
+	guint might_overflow : 1;   /* Subject to ####### treatment.  */
+	guint numeric_overflow : 1; /* ####### has happened.  */
+	signed int rotation : 10;
 };
 
 RenderedValue *rendered_value_new     (GnmCell *cell, GnmStyle const *mstyle,
