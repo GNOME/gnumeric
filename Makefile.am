@@ -27,7 +27,7 @@ oaf_in_files = GNOME_Gnumeric.oaf.in
 
 EXTRA_DIST = \
 	gnumeric.desktop.in gnumeric.spec.in 				\
-	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 			\
+	gnumeric.keys.in gnumeric.mime 					\
 	gnumeric.xsd							\
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
 	intltool-extract.in	\
