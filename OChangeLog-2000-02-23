@@ -1,3 +1,8 @@
+1999-08-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Implemented the simplest case of LINEST()
+ 	function.
+	
 1999-08-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/fn-date.c (gnumeric_date) : Fix typo that was moving us 1900

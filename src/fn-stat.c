@@ -3391,6 +3391,79 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv [])
 	return res;
 }
 
+static char *help_linest = {
+	N_("@FUNCTION=LINEST\n"
+	   "@SYNTAX=LINEST(known_y's,known_x's)\n"
+
+	   "@DESCRIPTION="
+	   "LINEST function calculates the ``least squares'' line that best "
+	   "fit to your data. "
+	   "\n"
+	   "@SEEALSO=LOGEST")
+};
+
+static Value *
+gnumeric_linest (FunctionEvalInfo *ei, Value *argv [])
+{
+	ExprTree       *tree;
+	GList          *expr_node_list;
+	stat_lrstat_t  cl;
+	EvalPosition   ep;
+	Value          *err, *res;
+	float_t        b, m, den;
+
+	init_lrstat_closure(&cl);
+
+	tree = g_new(ExprTree, 1);
+	tree->u.constant = argv[0];
+	tree->oper = OPER_CONSTANT;
+	expr_node_list = g_list_append(NULL, tree);
+
+	err = function_iterate_argument_values
+	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
+			   ei->pos.eval_col, ei->pos.eval_row),
+	     callback_function_lrstat, &cl, expr_node_list,
+	     TRUE);
+
+	cl.first = FALSE;
+	cl.current = cl.entries;
+
+	tree = g_new(ExprTree, 1);
+	tree->u.constant = argv[1];
+	tree->oper = OPER_CONSTANT;
+	expr_node_list = g_list_append(NULL, tree);
+
+	err = function_iterate_argument_values
+	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
+			   ei->pos.eval_col, ei->pos.eval_row),
+	     callback_function_lrstat, &cl, expr_node_list,
+	     TRUE);
+
+	if (err != NULL)
+	        return value_new_error (&ei->pos, gnumeric_err_NA);
+
+	den = cl.n*cl.sqrsum_y - cl.sum_y*cl.sum_y;
+	if (!cl.n || !den)
+	        return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	m = (cl.sum_xy - cl.sum_y*cl.sum_x/cl.n) /
+	  (cl.sqrsum_y - cl.sum_y*cl.sum_y / cl.n);
+	b = (cl.sum_x*cl.sqrsum_y - cl.sum_y*cl.sum_xy) / den;
+
+        res = g_new (Value, 2);
+        res->type = VALUE_ARRAY;
+        res->v.array.x = 2;
+        res->v.array.y = 1;
+        res->v.array.vals = g_new (Value **, 2);
+	res->v.array.vals [0] = g_new (Value *, 1);
+	res->v.array.vals [1] = g_new (Value *, 1);
+
+	res->v.array.vals [0][0] = value_new_float (m);
+	res->v.array.vals [1][0] = value_new_float (b);
+
+	return res;
+}
+
 static char *help_intercept = {
 	N_("@FUNCTION=INTERCEPT\n"
 	   "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -3549,6 +3622,8 @@ void stat_functions_init()
 			    &help_kurtp, gnumeric_kurtp);
 	function_add_nodes (cat, "large",  0,      "",
 			    &help_large, gnumeric_large);
+	function_add_args  (cat, "linest",  "AA",  "known_y's,known_x's",
+			    &help_linest, gnumeric_linest);
 	function_add_args  (cat, "loginv",  "fff",  "",
 			    &help_loginv, gnumeric_loginv);
 	function_add_args  (cat, "lognormdist",  "fff",  "",

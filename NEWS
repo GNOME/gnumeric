@@ -6,6 +6,7 @@ Jukka:
 	* Finished the ROMAN function completing the mathematical
           functions.
 	* Implemented FREQUENCY function.
+	* Started the implementation of LINEST function.
 	* Fixed DOLLAR and PROB functions.
 
 Michael:
