@@ -4,7 +4,7 @@
 		<_name>Python functions</_name>
 		<_description>Sample Python plugin providing some (useless) functions.</_description>
 	</information>
-	<loader type="python">
+	<loader type="Gnumeric_PythonLoader:python">
 		<attribute name="module_name" value="py_func"/>
 	</loader>
 	<services>

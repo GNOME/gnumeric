@@ -4,7 +4,7 @@
 		<_name>Gnome Glossary</_name>
 		<_description>It provides support for saving Gnome Glossary in .po files.</_description>
 	</information>
-	<loader type="python">
+	<loader type="Gnumeric_PythonLoader:python">
 		<attribute name="module_name" value="gnome_glossary"/>
 	</loader>
 	<services>
