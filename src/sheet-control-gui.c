@@ -2341,7 +2341,7 @@ scg_rangesel_move (SheetControlGUI *scg, int n, gboolean jump_to_bound,
 		scg_rangesel_changed (scg, tmp.col, tmp.row, tmp.col, tmp.row);
 	else
 		scg_rangesel_start   (scg, tmp.col, tmp.row, tmp.col, tmp.row);
-	scg_make_cell_visible (scg, tmp.col, tmp.row, FALSE, TRUE);
+	scg_make_cell_visible (scg, tmp.col, tmp.row, FALSE, FALSE);
 	gnm_expr_entry_signal_update (
 		wbcg_get_entry_logical (scg->wbcg), FALSE);
 }

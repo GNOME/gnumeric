@@ -1,3 +1,11 @@
+2004-01-05  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=130582
+	* src/sheet-control-gui.c (scg_cursor_move) : don't scroll the other
+	  panes unless we absolutely have to.  Apparently we only fuxed normal
+	  cursor movement for http://bugzilla.gnome.org/show_bug.cgi?id=77303
+	  This fixes rangesel too.
+
 2003-12-29  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump

@@ -1,3 +1,15 @@
+Gnumeric 1.2.5
+
+Jody:
+	* New package to work around intltool issues.
+	http://bugzilla.gnome.org/show_bug.cgi?id=130579
+	* We only need selection info in the primary pane
+	http://bugzilla.gnome.org/show_bug.cgi?id=130577
+	* Export multiple selections to xls for frozen panes
+	http://bugzilla.gnome.org/show_bug.cgi?id=130582
+	* Rangesel doesn't bind the panes during cursor movements either
+
+--------------------------------------------------------------------------
 Gnumeric 1.2.4
 
 Jody:
