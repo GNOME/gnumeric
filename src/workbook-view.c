@@ -632,7 +632,8 @@ wbv_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 		msg = g_strdup_printf (_("An unexplained error happened while saving %s"),
 				       uri);
 
-	go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), msg);
+	if (!gnumeric_io_error_occurred (io_context))
+		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), msg);
 	g_free (msg);
 }
 
