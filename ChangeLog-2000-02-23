@@ -1,5 +1,7 @@
 1999-02-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/fn-misc.c (gnumeric_min): Implement ISERROR.
+
 	* src/clipboard.c (paste_cell): Do not render the value if the
 	result is an error.
 
