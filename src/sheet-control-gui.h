@@ -117,8 +117,31 @@ void scg_make_cell_visible	(SheetControlGUI  *scg, int col, int row,
 				 gboolean force_scroll);
 void scg_create_editor		(SheetControlGUI *scg);
 void scg_stop_editing		(SheetControlGUI *scg);
-void scg_stop_cell_selection	(SheetControlGUI *scg, gboolean clear_string);
+void scg_range_selection_changed (SheetControlGUI *scg, Range *r);
+void scg_stop_range_selection	(SheetControlGUI *scg, gboolean clear_string);
+void scg_move_cursor            (SheetControlGUI *Scg, int col, int row,
+				 gboolean clear_selection);
 void scg_rangesel_cursor_extend (SheetControlGUI *scg, int col, int row);
+void scg_rangesel_cursor_bounds (SheetControlGUI *scg,
+				 int base_col, int base_row,
+				 int move_col, int move_row);
+void scg_rangesel_horizontal_move (SheetControlGUI *scg, int dir,
+				   gboolean jump_to_boundaries);
+void scg_rangesel_vertical_move (SheetControlGUI *scg, int dir,
+				 gboolean jump_to_boundaries);
+void scg_rangesel_horizontal_extend (SheetControlGUI *scg, int n,
+				     gboolean jump_to_boundaries);
+void scg_rangesel_vertical_extend (SheetControlGUI *scg, int n,
+				   gboolean jump_to_boundaries);
+void scg_cursor_horizontal_move (SheetControlGUI *scg, int dir,
+				 gboolean jump_to_boundaries);
+void scg_cursor_vertical_move (SheetControlGUI *scg, int dir,
+			       gboolean jump_to_boundaries);
+void scg_cursor_horizontal_extend (SheetControlGUI *scg, int n,
+				   gboolean jump_to_boundaries);
+void scg_cursor_vertical_extend (SheetControlGUI *scg, int n,
+				 gboolean jump_to_boundaries);
+int scg_get_sel_cursor_pos      (SheetControlGUI *scg);
 void scg_take_focus             (SheetControlGUI *scg);
 void scg_set_gutters            (SheetControlGUI *scg);
 

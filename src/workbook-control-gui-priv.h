@@ -8,6 +8,7 @@
 #include <bonobo.h>
 #endif
 #include "file.h"
+#include "widgets/gnumeric-expr-entry.h"
 
 struct _WorkbookControlGUI {
 	WorkbookControl	wb_control;
@@ -56,8 +57,8 @@ struct _WorkbookControlGUI {
 	GtkWidget *undo_combo, *redo_combo;
 
 	struct {
-		GtkEntry *entry;		/* The real edit line */
-		GtkEntry *temp_entry;		/* A tmp overlay eg from a guru */
+		GnumericExprEntry *entry; /* The real edit line */
+		GnumericExprEntry *temp_entry; /* A tmp overlay eg from a guru */
 		GtkWidget*guru;
 		int       signal_changed;
 	} edit_line;
@@ -82,11 +83,6 @@ struct _WorkbookControlGUI {
 	Cell        *editing_cell;
 	Sheet       *editing_sheet;
 	gboolean     editing;
-	gboolean     select_abs_col;
-	gboolean     select_abs_row;
-	gboolean     select_full_col;
-	gboolean     select_full_row;
-	gboolean     select_single_cell;
 
 	GtkWidget  *table;
 	GtkWidget  *auto_expr_label;

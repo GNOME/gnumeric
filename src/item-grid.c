@@ -749,9 +749,9 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	if (gsheet->selecting_cell) {
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		if (event->state & GDK_SHIFT_MASK)
-			gnumeric_sheet_rangesel_cursor_extend (gsheet, col, row);
+			scg_rangesel_cursor_extend (scg, col, row);
 		else
-			gnumeric_sheet_rangesel_cursor_bounds (gsheet, col, row, col, row);
+			scg_rangesel_cursor_bounds (scg, col, row, col, row);
 		return 1;
 	}
 
@@ -760,7 +760,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	 * then we enable the dynamic cell selection mode.
 	 */
 	if (gnumeric_sheet_can_select_expr_range (gsheet)){
-		gnumeric_sheet_start_cell_selection (gsheet, col, row);
+		gnumeric_sheet_start_range_selection (gsheet, col, row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		return 1;
 	}
@@ -923,7 +923,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			return 1;
 
 		if (ig->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE){
-			gnumeric_sheet_rangesel_cursor_extend (gsheet, col, row);
+			scg_rangesel_cursor_extend (ig->scg, col, row);
 			return 1;
 		}
 

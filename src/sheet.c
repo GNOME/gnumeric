@@ -3701,12 +3701,12 @@ sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 /****************************************************************************/
 
 void
-sheet_stop_cell_selection (Sheet *sheet, gboolean clear_string)
+sheet_stop_range_selection (Sheet *sheet, gboolean clear_string)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_stop_cell_selection (control, clear_string););
+		scg_stop_range_selection (control, clear_string););
 }
 
 void

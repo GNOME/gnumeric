@@ -236,7 +236,7 @@ char       *sheet_name_quote              (char const *unquoted_name);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, char const *name);
 
 /* Utilities for various flavours of cursor */
-void        sheet_stop_cell_selection	     (Sheet *sheet, gboolean clear_string);
+void        sheet_stop_range_selection	     (Sheet *sheet, gboolean clear_string);
 
 /*
  * Utilities to set cell contents, queueing recalcs,

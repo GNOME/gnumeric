@@ -697,35 +697,6 @@ gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
 	gtk_widget_set_uposition (gtk_widget_get_toplevel (tip), x, y);
 }
 
-/*
- * Returns TRUE if the GtkEntry supplied is editing an expression
- *    and the current position is at an expression boundary.
- * eg '=sum', or 'bob' are not while '=sum(' is
- */
-gboolean
-gnumeric_entry_at_subexpr_boundary_p (GtkEntry *entry)
-{
-	int cursor_pos;
-
-	g_return_val_if_fail (entry != NULL, FALSE);
-
-	cursor_pos = GTK_EDITABLE (entry)->current_pos;
-
-	if (NULL == gnumeric_char_start_expr_p (entry->text_mb) || cursor_pos <= 0)
-		return FALSE;
-
-	switch (entry->text [cursor_pos-1]){
-	case ':': case ',': case '=':
-	case '(': case ')': case '<': case '>':
-	case '+': case '-': case '*': case '/':
-	case '^': case '&': case '%': case '!':
-		return TRUE;
-
-	default :
-		return FALSE;
-	};
-}
-
 GladeXML *
 gnumeric_glade_xml_new (WorkbookControlGUI *wbcg, char const * gladefile)
 {

@@ -301,7 +301,9 @@ wbcg_zoom_feedback (WorkbookControl *wbc)
 static void
 wbcg_edit_line_set (WorkbookControl *wbc, char const *text)
 {
-	GtkEntry *entry = workbook_get_entry ((WorkbookControlGUI*)wbc);
+	GtkEntry *entry;
+
+	entry = GTK_ENTRY (workbook_get_entry ((WorkbookControlGUI*)wbc));
 	gtk_entry_set_text (entry, text);
 }
 static void
@@ -1833,7 +1835,7 @@ cb_autosum (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (wbcg->editing)
 		return;
 
-	entry = workbook_get_entry (wbcg);
+	entry = GTK_ENTRY (workbook_get_entry (wbcg));
 	txt = gtk_entry_get_text (entry);
 	if (strncmp (txt, "=sum(", 5)) {
 		workbook_start_editing_at_cursor (wbcg, TRUE, TRUE);
@@ -2787,7 +2789,8 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event,
 			    event->state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
 				EvalPos pos;
 				gboolean const is_array = (event->state & GDK_SHIFT_MASK);
-				char const *text = gtk_entry_get_text (workbook_get_entry (wbcg));
+				char const *text = gtk_entry_get_text (
+					GTK_ENTRY (workbook_get_entry (wbcg)));
 				Sheet *sheet = wbcg->editing_sheet;
 
 				/* Be careful to use the editing sheet */
@@ -2805,7 +2808,9 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event,
 
 			/* Is this the right way to append a newline ?? */
 			if (event->state == GDK_MOD1_MASK)
-				gtk_entry_append_text (workbook_get_entry (wbcg), "\n");
+				gtk_entry_append_text (
+					GTK_ENTRY (workbook_get_entry (wbcg)),
+					"\n");
 		}
 	default:
 		return FALSE;
@@ -2853,7 +2858,7 @@ cb_autofunction (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (wbcg->editing)
 		return;
 
-	entry = workbook_get_entry (wbcg);
+	entry = GTK_ENTRY (workbook_get_entry (wbcg));
 	txt = gtk_entry_get_text (entry);
 	if (strncmp (txt, "=", 1)) {
 		workbook_start_editing_at_cursor (wbcg, TRUE, TRUE);
@@ -2895,7 +2900,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 	wbcg->selection_descriptor     = gtk_entry_new ();
 
 	workbook_edit_init (wbcg);
-	entry = workbook_get_entry (wbcg);
+	entry = GTK_ENTRY (workbook_get_entry (wbcg));
 
 	box           = gtk_hbox_new (0, 0);
 	box2          = gtk_hbox_new (0, 0);
@@ -2994,9 +2999,9 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	if (wbcg->updating_ui)
 		return;
 
-	/* Remove the cell selection cursor if it exists */
+	/* Remove the range selection cursor if it exists */
 	if (old_sheet != NULL)
-		sheet_stop_cell_selection (sheet, TRUE);
+		sheet_stop_range_selection (sheet, TRUE);
 
 	if (wbcg->editing) {
 		/* If we are not at a subexpression boundary then finish editing */
@@ -3392,9 +3397,6 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wb_view_menus_update (wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	
 	/* We are not in edit mode */
-	wbcg->select_abs_col = wbcg->select_abs_row = FALSE;
-	wbcg->select_full_col = wbcg->select_full_row = FALSE;
-	wbcg->select_single_cell = FALSE;
 	wbcg->editing = FALSE;
 	wbcg->editing_sheet = NULL;
 	wbcg->editing_cell = NULL;

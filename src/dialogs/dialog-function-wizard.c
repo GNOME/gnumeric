@@ -34,6 +34,7 @@
 #include "expr.h"
 #include "func.h"
 #include "format.h"
+#include "widgets/gnumeric-expr-entry.h"
 #include <locale.h>
 
 #define MAX_ARGS_DISPLAYED 4
@@ -43,7 +44,7 @@ typedef struct
 {
 	FormulaGuruState	*state;
 	GtkWidget	*name_label, *type_label;
-	GtkEntry	*entry;
+	GnumericExprEntry	*entry;
 
 	gchar 	  *name;
 	gchar	   type;
@@ -91,7 +92,7 @@ static void formula_guru_arg_new    (char * const name, char const type,
 static void
 formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 {
-	GtkEntry *entry;
+	GnumericExprEntry *entry;
 	GString *str;
 	int pos = 0, i;
 	char const sep = format_get_arg_sep ();
@@ -110,7 +111,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 
 	for (i = 0; i < state->args->len; i++) {
 		ArgumentState *as = g_ptr_array_index (state->args, i);
-		gchar *val = gtk_entry_get_text (as->entry);
+		gchar *val = gtk_entry_get_text (GTK_ENTRY (as->entry));
 
 		if (!as->is_optional || i <= state->max_arg || i <= index || strlen (val)) {
 			if (i > 0)
@@ -126,7 +127,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 
 	entry = workbook_get_entry (state->wbcg);
 	if (set_text)
-		gtk_entry_set_text (entry, str->str);
+		gtk_entry_set_text (GTK_ENTRY (entry), str->str);
 
 	/*
 	 * ICK!
@@ -135,7 +136,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 	 * changed event.  The changed handler is what handles creating the
 	 * magic cursor to mark the range being edited
 	 */
-	gtk_entry_set_position (entry, pos);
+	gtk_entry_set_position (GTK_ENTRY (entry), pos);
 	gtk_editable_changed (GTK_EDITABLE (entry));
 
 	g_string_free (str, TRUE);
@@ -145,7 +146,7 @@ static void
 cb_formula_guru_rolled_entry_changed (GtkEditable *editable,
 				      FormulaGuruState *state)
 {
-	gtk_entry_set_text (state->cur_arg->entry,
+	gtk_entry_set_text (GTK_ENTRY (state->cur_arg->entry),
 		gtk_entry_get_text (GTK_ENTRY (state->rolled_entry)));
 }
 
@@ -169,7 +170,8 @@ cb_formula_guru_rolled_entry_event (GtkWidget *w, GdkEvent *ev,
 static void
 cb_formula_guru_entry_changed (GtkEditable *editable, ArgumentState *as)
 {
-	as->content_length = strlen (gtk_entry_get_text (as->entry));
+	as->content_length
+		= strlen (gtk_entry_get_text (GTK_ENTRY (as->entry)));
 
 	if (as->content_length) {
 		if (as->state->max_arg < as->index)
@@ -189,7 +191,7 @@ cb_formula_guru_entry_changed (GtkEditable *editable, ArgumentState *as)
 static void
 formula_guru_set_rolled_state (FormulaGuruState *state, gboolean is_rolled)
 {
-	GtkEntry *new_entry;
+	GnumericExprEntry *new_entry;
 
 	if (state->cur_arg == NULL) {
 		gtk_widget_hide	(state->rolled_box);
@@ -201,9 +203,11 @@ formula_guru_set_rolled_state (FormulaGuruState *state, gboolean is_rolled)
 
 	state->is_rolled = is_rolled;
 	if (is_rolled) {
-		new_entry = GTK_ENTRY (state->rolled_entry);
-		gtk_entry_set_text (new_entry,
-			gtk_entry_get_text (state->cur_arg->entry));
+		new_entry = GNUMERIC_EXPR_ENTRY (state->rolled_entry);
+		gtk_entry_set_text (
+			GTK_ENTRY (new_entry),
+			gtk_entry_get_text (
+				GTK_ENTRY (state->cur_arg->entry)));
 		gtk_label_set_text (GTK_LABEL (state->rolled_label),
 			state->cur_arg->name);
 
@@ -419,7 +423,9 @@ formula_guru_arg_new (char * const name,
 			  0, 1, row, row+1,
 			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
 
-	as->entry = GTK_ENTRY (gtk_entry_new ());
+	as->entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	gnumeric_expr_entry_set_flags (
+		as->entry, GNUM_EE_SHEET_OPTIONAL, GNUM_EE_SHEET_OPTIONAL);
 	gtk_table_attach (GTK_TABLE (state->arg_table),
 			  GTK_WIDGET (as->entry),
 			  1, 2, row, row+1,
@@ -448,6 +454,9 @@ formula_guru_arg_new (char * const name,
 		GTK_SIGNAL_FUNC (cb_formula_guru_entry_event), as);
 	gtk_signal_connect_after (GTK_OBJECT (as->entry), "button-press-event",
 		GTK_SIGNAL_FUNC (cb_formula_guru_entry_event), as);
+
+	gnumeric_expr_entry_set_scg (as->entry,
+				     wb_control_gui_cur_sheet (state->wbcg));
 
 	g_ptr_array_add (state->args, as);
 	if (row == 0)
@@ -581,7 +590,13 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	state->cancel_button= formula_guru_init_button (state, "cancel_button");
 	state->rolled_box   = glade_xml_get_widget (state->gui, "rolled_box");
 	state->rolled_label = glade_xml_get_widget (state->gui, "rolled_label");
-	state->rolled_entry = glade_xml_get_widget (state->gui, "rolled_entry");
+	state->rolled_entry = gnumeric_expr_entry_new ();
+	gnumeric_expr_entry_set_flags (
+		GNUMERIC_EXPR_ENTRY (state->rolled_entry),
+		GNUM_EE_SHEET_OPTIONAL, GNUM_EE_SHEET_OPTIONAL);
+	gtk_box_pack_start (GTK_BOX (state->rolled_box), state->rolled_entry,
+			    TRUE, TRUE, 0);
+	gtk_widget_show (GTK_WIDGET (state->rolled_entry));
 	state->unrolled_box = glade_xml_get_widget (state->gui, "unrolled_box");
 	state->arg_table    = glade_xml_get_widget (state->gui, "arg_table");
 	state->arg_frame    = glade_xml_get_widget (state->gui, "arg_frame");
@@ -614,7 +629,7 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 
 			as = g_ptr_array_index (state->args, i);
 			str = expr_tree_as_string (l->data, &pos);
-			gtk_entry_set_text (as->entry, str);
+			gtk_entry_set_text (GTK_ENTRY (as->entry), str);
 			if (i == 0)
 				gtk_widget_grab_focus (GTK_WIDGET (as->entry));
 			g_free (str);
@@ -624,6 +639,8 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 
 	/* Lifecyle management */
 	workbook_edit_attach_guru (state->wbcg, state->dialog);
+	gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->rolled_entry),
+				     wb_control_gui_cur_sheet (state->wbcg));
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_formula_guru_destroy),
 			    state);
@@ -677,7 +694,8 @@ dialog_formula_guru (WorkbookControlGUI *wbcg)
 	 */
 	if (expr == NULL) {
 		workbook_start_editing_at_cursor (wbcg, TRUE, TRUE);
-		gtk_entry_set_text (workbook_get_entry (wbcg), "=");
+		gtk_entry_set_text (
+			GTK_ENTRY (workbook_get_entry (wbcg)), "=");
 
 		fd = dialog_function_select (wbcg);
 		if (fd == NULL) {

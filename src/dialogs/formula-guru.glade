@@ -13,7 +13,6 @@
   <output_main_file>False</output_main_file>
   <output_support_files>False</output_support_files>
   <output_build_files>False</output_build_files>
-  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>
@@ -81,6 +80,7 @@
 	    <sensitive>False</sensitive>
 	    <can_focus>True</can_focus>
 	    <stock_button>GNOME_STOCK_BUTTON_HELP</stock_button>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -94,6 +94,7 @@
 	    <border_width>4</border_width>
 	    <can_focus>True</can_focus>
 	    <stock_button>GNOME_STOCK_BUTTON_UP</stock_button>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -107,6 +108,7 @@
 	    <border_width>4</border_width>
 	    <can_focus>True</can_focus>
 	    <stock_button>GNOME_STOCK_BUTTON_DOWN</stock_button>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -134,6 +136,7 @@
 	    <has_default>True</has_default>
 	    <can_focus>True</can_focus>
 	    <stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -147,6 +150,7 @@
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
 	    <stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -264,18 +268,7 @@
       </widget>
 
       <widget>
-	<class>GtkEntry</class>
-	<name>rolled_entry</name>
-	<can_focus>True</can_focus>
-	<editable>True</editable>
-	<text_visible>True</text_visible>
-	<text_max_length>0</text_max_length>
-	<text></text>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
+	<class>Placeholder</class>
       </widget>
     </widget>
   </widget>

@@ -37,6 +37,7 @@
 #include "selection.h"
 #include "workbook-edit.h"
 #include "workbook.h"
+#include "gnumeric-expr-entry.h"
 
 #define SHEET_OBJECT_WIDGET_TYPE     (sheet_object_widget_get_type ())
 #define SHEET_OBJECT_WIDGET(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_WIDGET_TYPE, SheetObjectWidget))
@@ -451,8 +452,9 @@ cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
 static void
 cb_checkbox_config_focus (GtkWidget *w, GdkEventFocus *ev, CheckboxConfigState *state)
 {
-	workbook_set_entry (state->wbcg, GTK_ENTRY (state->entry));
-	workbook_edit_select_absolute (state->wbcg);
+	GnumericExprEntry *expr_entry = GNUMERIC_EXPR_ENTRY (state->entry);
+	workbook_set_entry (state->wbcg, expr_entry);
+	gnumeric_expr_entry_set_absolute (expr_entry);
 }
 
 static void
@@ -494,12 +496,14 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 					  GNOME_STOCK_BUTTON_OK,
 					  GNOME_STOCK_BUTTON_CANCEL,
 					  NULL);
-	state->entry = gtk_entry_new ();
+	state->entry = gnumeric_expr_entry_new ();
+	gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->entry), scg);
 	if (swc->dep.expression != NULL) {
 		ParsePos pp;
 		char *text = expr_tree_as_string (swc->dep.expression,
 			parse_pos_init (&pp, NULL, so->sheet, 0, 0));
-		gtk_entry_set_text (GTK_ENTRY (state->entry), text);
+		gnumeric_expr_entry_set_rangesel_from_text (
+			GNUMERIC_EXPR_ENTRY (state->entry), text);
 		g_free (text);
 	}
 

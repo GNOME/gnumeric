@@ -44,48 +44,6 @@ gnumeric_sheet_destroy (GtkObject *object)
 		(*GTK_OBJECT_CLASS (gsheet_parent_class)->destroy)(object);
 }
 
-/*
- * move_cursor:
- * @gsheet:   The sheet where the cursor is located
- * @col:      The new column for the cursor.
- * @row:      The new row for the cursor.
- * @clear_selection: If set, clear the selection before moving
- *
- *   Moves the sheet cursor to a new location, it clears the selection,
- *   accepts any pending output on the editing line and moves the cell
- *   cursor.
- */
-static void
-move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
-{
-	Sheet *sheet = gsheet->scg->sheet;
-
-	/*
-	 * Please note that the order here is important, as
-	 * the sheet_make_cell_visible call might scroll the
-	 * canvas, you should do all of your screen changes
-	 * in an atomic fashion.
-	 *
-	 * The code at some point did do the selection change
-	 * after the sheet moved, causing flicker -mig
-	 *
-	 * If you dont know what this means, just mail me.
-	 */
-
-	/* Set the cursor BEFORE making it visible to decrease flicker */
-	if (workbook_finish_editing (gsheet->scg->wbcg, TRUE) == FALSE)
-		return;
-		
-	if (clear_selection)
-		sheet_selection_reset (sheet);
-
-	sheet_cursor_set (sheet, col, row, col, row, col, row);
-	sheet_make_cell_visible (sheet, col, row);
-
-	if (clear_selection)
-		sheet_selection_add (sheet, col, row);
-}
-
 void
 gnumeric_sheet_set_cursor_bounds (GnumericSheet *gsheet,
 				  int start_col, int start_row,
@@ -97,64 +55,6 @@ gnumeric_sheet_set_cursor_bounds (GnumericSheet *gsheet,
 		gsheet->item_cursor,
 		start_col, start_row,
 		end_col, end_row);
-}
-
-/**
- * cursor_horizontal_move:
- *
- * @gsheet : The sheet
- * @count  : Number of units to move the cursor horizontally
- * @jump_to_boundaries: skip from the start to the end of ranges
- *                       of filled or unfilled cells.
- *
- * Moves the cursor count columns
- */
-static void
-cursor_horizontal_move (GnumericSheet *gsheet, int count,
-			gboolean jump_to_boundaries)
-{
-	Sheet *sheet = gsheet->scg->sheet;
-	int const new_col = sheet_find_boundary_horizontal (sheet,
-		sheet->edit_pos_real.col, sheet->edit_pos_real.row,
-		sheet->edit_pos_real.row, count, jump_to_boundaries);
-	move_cursor (gsheet, new_col, sheet->edit_pos_real.row, TRUE);
-}
-
-static void
-cursor_horizontal_extend (GnumericSheet *gsheet,
-			  int count, gboolean jump_to_boundaries)
-{
-	sheet_selection_extend (gsheet->scg->sheet,
-				count, jump_to_boundaries, TRUE);
-}
-
-/**
- * cursor_vertical_move:
- *
- * @gsheet : The sheet
- * @count  : Number of units to move the cursor vertically
- * @jump_to_boundaries: skip from the start to the end of ranges
- *                       of filled or unfilled cells.
- *
- * Moves the cursor count rows
- */
-static void
-cursor_vertical_move (GnumericSheet *gsheet, int count,
-		      gboolean jump_to_boundaries)
-{
-	Sheet *sheet = gsheet->scg->sheet;
-	int const new_row = sheet_find_boundary_vertical (sheet,
-		sheet->edit_pos_real.col, sheet->edit_pos_real.row,
-		sheet->edit_pos_real.col, count, jump_to_boundaries);
-	move_cursor (gsheet, sheet->edit_pos_real.col, new_row, TRUE);
-}
-
-static void
-cursor_vertical_extend (GnumericSheet *gsheet,
-			int count, gboolean jump_to_boundaries)
-{
-	sheet_selection_extend (gsheet->scg->sheet,
-				count, jump_to_boundaries, FALSE);
 }
 
 /*
@@ -186,73 +86,7 @@ gnumeric_sheet_can_select_expr_range (GnumericSheet *gsheet)
 }
 
 static void
-selection_remove_selection_string (GnumericSheet *gsheet)
-{
-	WorkbookControlGUI const *wbcg = gsheet->scg->wbcg;
-
-	if (gsheet->sel_text_len <= 0)
-		return;
-
-	gtk_editable_delete_text (
-		GTK_EDITABLE (workbook_get_entry_logical (wbcg)),
-		gsheet->sel_cursor_pos,
-		gsheet->sel_cursor_pos + gsheet->sel_text_len);
-}
-
-static void
-selection_insert_selection_string (GnumericSheet *gsheet)
-{
-	ItemCursor *sel = gsheet->sel_cursor;
-	Sheet const *sheet = gsheet->scg->sheet;
-	WorkbookControlGUI const *wbcg = gsheet->scg->wbcg;
-	GtkEditable *editable = GTK_EDITABLE (workbook_get_entry_logical (wbcg));
-	gboolean const inter_sheet = (sheet != wbcg->editing_sheet);
-	char *buffer;
-	int pos;
-
-	/* Get the new selection string */
-	buffer = g_strdup_printf ("%s%s%s%d",
-				  wbcg->select_abs_col ? "$" : "",
-				  col_name (sel->pos.start.col),
-				  wbcg->select_abs_row ? "$" : "",
-				  sel->pos.start.row+1);
-
-	if (!range_is_singleton (&sel->pos)) {
-		char *tmp = g_strdup_printf ("%s:%s%s%s%d",
-					      buffer,
-					      wbcg->select_abs_col ? "$": "",
-					      col_name (sel->pos.end.col),
-					      wbcg->select_abs_row ? "$": "",
-					      sel->pos.end.row+1);
-		g_free (buffer);
-		buffer = tmp;
-	}
-
-	if (inter_sheet) {
-		char *tmp = g_strdup_printf ("%s!%s", sheet->name_quoted,
-					     buffer);
-		g_free (buffer);
-		buffer = tmp;
-	}
-
-	gsheet->sel_text_len = strlen (buffer);
-	pos = gsheet->sel_cursor_pos;
-
-	gtk_editable_set_position (editable, pos);
-	gtk_editable_insert_text (editable, buffer,
-				  gsheet->sel_text_len,
-				  &pos);
-
-	g_free (buffer);
-
-	/* Set the cursor at the end.  It looks nicer */
-	gtk_editable_set_position (editable,
-				   gsheet->sel_cursor_pos +
-				   gsheet->sel_text_len);
-}
-
-static void
-start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
+start_range_selection_at (GnumericSheet *gsheet, int col, int row)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasItem *tmp;
@@ -285,35 +119,33 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 }
 
 static void
-start_cell_selection (GnumericSheet *gsheet)
+start_range_selection (GnumericSheet *gsheet)
 {
 	Sheet *sheet = gsheet->scg->sheet;
-	start_cell_selection_at (gsheet,
-				 sheet->edit_pos_real.col,
-				 sheet->edit_pos_real.row);
+	start_range_selection_at (gsheet,
+				  sheet->edit_pos_real.col,
+				  sheet->edit_pos_real.row);
 }
 
 void
-gnumeric_sheet_start_cell_selection (GnumericSheet *gsheet, int col, int row)
+gnumeric_sheet_start_range_selection (GnumericSheet *gsheet, int col, int row)
 {
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
 	if (gsheet->selecting_cell)
 		return;
 
-	start_cell_selection_at (gsheet, col, row);
+	start_range_selection_at (gsheet, col, row);
 }
 
 void
-gnumeric_sheet_stop_cell_selection (GnumericSheet *gsheet, gboolean const clear_string)
+gnumeric_sheet_stop_range_selection (GnumericSheet *gsheet)
 {
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
 	if (!gsheet->selecting_cell)
 		return;
 
-	if (clear_string)
-		selection_remove_selection_string (gsheet);
 	gsheet->selecting_cell = FALSE;
 	gtk_object_destroy (GTK_OBJECT (gsheet->sel_cursor));
 	gsheet->sel_cursor = NULL;
@@ -346,8 +178,6 @@ void
 gnumeric_sheet_stop_editing (GnumericSheet *gsheet)
 {
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
-
-	gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
 
 	if (gsheet->item_editor != NULL) {
 		gtk_object_destroy (GTK_OBJECT (gsheet->item_editor));
@@ -385,9 +215,7 @@ gnumeric_sheet_rangesel_cursor_extend (GnumericSheet *gsheet, int col, int row)
 	} else
 		base_row = ic->base_corner.row;
 
-	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic, base_col, base_row, col, row);
-	selection_insert_selection_string (gsheet);
 }
 
 /*
@@ -405,13 +233,12 @@ gnumeric_sheet_rangesel_cursor_bounds (GnumericSheet *gsheet,
 	g_return_if_fail (gsheet->selecting_cell);
 
 	ic = gsheet->sel_cursor;
-	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic, base_col, base_row, move_col, move_row);
-	selection_insert_selection_string (gsheet);
 }
 
-static void
-rangesel_horizontal_move (GnumericSheet *gsheet, int dir, gboolean jump_to_boundaries)
+void
+gnumeric_sheet_rangesel_horizontal_move (GnumericSheet *gsheet, int dir,
+					 gboolean jump_to_boundaries)
 {
 	ItemCursor *ic;
 	int col, row;
@@ -419,20 +246,19 @@ rangesel_horizontal_move (GnumericSheet *gsheet, int dir, gboolean jump_to_bound
 	g_return_if_fail (dir == -1 || dir == 1);
 
 	if (!gsheet->selecting_cell)
-		start_cell_selection (gsheet);
+		start_range_selection (gsheet);
 
 	ic = gsheet->sel_cursor;
 	row = ic->base_corner.row;
 	col = sheet_find_boundary_horizontal (gsheet->scg->sheet,
 		ic->base_corner.col, row, row, dir, jump_to_boundaries);
-	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic, col, row, col, row);
-	selection_insert_selection_string (gsheet);
 	gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
 }
 
-static void
-rangesel_vertical_move (GnumericSheet *gsheet, int dir, gboolean jump_to_boundaries)
+void
+gnumeric_sheet_rangesel_vertical_move (GnumericSheet *gsheet, int dir,
+				       gboolean jump_to_boundaries)
 {
 	ItemCursor *ic;
 	int col, row;
@@ -440,20 +266,19 @@ rangesel_vertical_move (GnumericSheet *gsheet, int dir, gboolean jump_to_boundar
 	g_return_if_fail (dir == -1 || dir == 1);
 
 	if (!gsheet->selecting_cell)
-		start_cell_selection (gsheet);
+		start_range_selection (gsheet);
 
 	ic = gsheet->sel_cursor;
 	col = ic->base_corner.col;
 	row = sheet_find_boundary_vertical (gsheet->scg->sheet,
 		col, ic->base_corner.row, col, dir, jump_to_boundaries);
-	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic, col, row, col, row);
-	selection_insert_selection_string (gsheet);
 	gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
 }
 
-static void
-rangesel_horizontal_extend (GnumericSheet *gsheet, int n, gboolean jump_to_boundaries)
+void
+gnumeric_sheet_rangesel_horizontal_extend (GnumericSheet *gsheet, int n,
+					   gboolean jump_to_boundaries)
 {
 	ItemCursor *ic;
 	int new_col;
@@ -461,7 +286,8 @@ rangesel_horizontal_extend (GnumericSheet *gsheet, int n, gboolean jump_to_bound
 	g_return_if_fail (n == -1 || n == 1);
 
 	if (!gsheet->selecting_cell) {
-		rangesel_horizontal_move (gsheet, n, jump_to_boundaries);
+		scg_rangesel_horizontal_move (gsheet->scg, n,
+					      jump_to_boundaries);
 		return;
 	}
 
@@ -469,17 +295,16 @@ rangesel_horizontal_extend (GnumericSheet *gsheet, int n, gboolean jump_to_bound
 	new_col = sheet_find_boundary_horizontal (gsheet->scg->sheet,
 		ic->move_corner.col, ic->move_corner.row, 
 		ic->base_corner.row, n, jump_to_boundaries);
-	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
 				ic->base_corner.col, ic->base_corner.row,
 				new_col, ic->move_corner.row);
-	selection_insert_selection_string (gsheet);
 	gnumeric_sheet_make_cell_visible (gsheet,
 		ic->move_corner.col, ic->move_corner.row, FALSE);
 }
 
-static void
-rangesel_vertical_extend (GnumericSheet *gsheet, int n, gboolean jump_to_boundaries)
+void
+gnumeric_sheet_rangesel_vertical_extend (GnumericSheet *gsheet, int n,
+					 gboolean jump_to_boundaries)
 {
 	ItemCursor *ic;
 	int new_row;
@@ -487,7 +312,8 @@ rangesel_vertical_extend (GnumericSheet *gsheet, int n, gboolean jump_to_boundar
 	g_return_if_fail (n == -1 || n == 1);
 
 	if (!gsheet->selecting_cell) {
-		rangesel_vertical_move (gsheet, n, jump_to_boundaries);
+		scg_rangesel_vertical_move (gsheet->scg, n,
+					    jump_to_boundaries);
 		return;
 	}
 
@@ -495,11 +321,9 @@ rangesel_vertical_extend (GnumericSheet *gsheet, int n, gboolean jump_to_boundar
 	new_row = sheet_find_boundary_vertical (gsheet->scg->sheet,
 		ic->move_corner.col, ic->move_corner.row, 
 		ic->base_corner.col, n, jump_to_boundaries);
-	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
 				ic->base_corner.col, ic->base_corner.row,
 				ic->move_corner.col, new_row);
-	selection_insert_selection_string (gsheet);
 	gnumeric_sheet_make_cell_visible (gsheet,
 		ic->move_corner.col, ic->move_corner.row, FALSE);
 }
@@ -512,8 +336,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 {
 	Sheet *sheet = gsheet->scg->sheet;
 	WorkbookControlGUI *wbcg = gsheet->scg->wbcg;
-	void (*movefn_horizontal) (GnumericSheet *, int, gboolean);
-	void (*movefn_vertical)   (GnumericSheet *, int, gboolean);
+	void (*movefn_horizontal) (SheetControlGUI *, int, gboolean);
+	void (*movefn_vertical)   (SheetControlGUI *, int, gboolean);
 	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
 
 	/* Magic : Some of these are accelerators,
@@ -535,41 +359,41 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		}
 
 		if (event->state & GDK_SHIFT_MASK) {
-			movefn_horizontal = rangesel_horizontal_extend;
-			movefn_vertical = rangesel_vertical_extend;
+			movefn_horizontal = scg_rangesel_horizontal_extend;
+			movefn_vertical = scg_rangesel_vertical_extend;
 		} else {
-			movefn_horizontal = rangesel_horizontal_move;
-			movefn_vertical   = rangesel_vertical_move;
+			movefn_horizontal = scg_rangesel_horizontal_move;
+			movefn_vertical   = scg_rangesel_vertical_move;
 		}
 	} else {
 		if (event->state & GDK_SHIFT_MASK) {
-			movefn_horizontal = cursor_horizontal_extend;
-			movefn_vertical   = cursor_vertical_extend;
+			movefn_horizontal = scg_cursor_horizontal_extend;
+			movefn_vertical   = scg_cursor_vertical_extend;
 		} else {
-			movefn_horizontal = cursor_horizontal_move;
-			movefn_vertical = cursor_vertical_move;
+			movefn_horizontal = scg_cursor_horizontal_move;
+			movefn_vertical = scg_cursor_vertical_move;
 		}
 	}
 
 	switch (event->keyval) {
 	case GDK_KP_Left:
 	case GDK_Left:
-		(*movefn_horizontal)(gsheet, -1, jump_to_bounds);
+		(*movefn_horizontal)(gsheet->scg, -1, jump_to_bounds);
 		break;
 
 	case GDK_KP_Right:
 	case GDK_Right:
-		(*movefn_horizontal)(gsheet, 1, jump_to_bounds);
+		(*movefn_horizontal)(gsheet->scg, 1, jump_to_bounds);
 		break;
 
 	case GDK_KP_Up:
 	case GDK_Up:
-		(*movefn_vertical)(gsheet, -1, jump_to_bounds);
+		(*movefn_vertical)(gsheet->scg, -1, jump_to_bounds);
 		break;
 
 	case GDK_KP_Down:
 	case GDK_Down:
-		(*movefn_vertical)(gsheet, 1, jump_to_bounds);
+		(*movefn_vertical)(gsheet->scg, 1, jump_to_bounds);
 		break;
 
 	case GDK_KP_Page_Up:
@@ -577,9 +401,15 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_prev_page (wbcg->notebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0)
-			(*movefn_vertical)(gsheet, -(gsheet->row.last_visible-gsheet->row.first), FALSE);
+			(*movefn_vertical)(
+				gsheet->scg,
+				-(gsheet->row.last_visible-gsheet->row.first),
+				FALSE);
 		else
-			(*movefn_horizontal)(gsheet, -(gsheet->col.last_visible-gsheet->col.first), FALSE);
+			(*movefn_horizontal)(
+				gsheet->scg,
+				-(gsheet->col.last_visible-gsheet->col.first),
+				FALSE);
 		break;
 
 	case GDK_KP_Page_Down:
@@ -587,17 +417,24 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_next_page (wbcg->notebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0)
-			(*movefn_vertical)(gsheet, gsheet->row.last_visible-gsheet->row.first, FALSE);
+			(*movefn_vertical)(
+				gsheet->scg,
+				gsheet->row.last_visible-gsheet->row.first,
+				FALSE);
 		else
-			(*movefn_horizontal)(gsheet, gsheet->col.last_visible-gsheet->col.first, FALSE);
+			(*movefn_horizontal)(
+				gsheet->scg,
+				gsheet->col.last_visible-gsheet->col.first,
+				FALSE);
 		break;
 
 	case GDK_KP_Home:
 	case GDK_Home:
 		if ((event->state & GDK_CONTROL_MASK) != 0)
-			move_cursor (gsheet, 0, 0, TRUE);
+			scg_move_cursor (gsheet->scg, 0, 0, TRUE);
 		else
-			(*movefn_horizontal)(gsheet, -sheet->edit_pos.col, FALSE);
+			(*movefn_horizontal)(
+				gsheet->scg, -sheet->edit_pos.col, FALSE);
 		break;
 
 	case GDK_KP_Delete:
@@ -646,12 +483,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		break;
 
 	case GDK_F4:
-		if (wbcg->editing && gsheet->sel_cursor) {
-			selection_remove_selection_string (gsheet);
-			wbcg->select_abs_row = (wbcg->select_abs_row == wbcg->select_abs_col);
-			wbcg->select_abs_col = !wbcg->select_abs_col;
-			selection_insert_selection_string (gsheet);
-		}
+		if (wbcg->editing && gsheet->sel_cursor)
+			workbook_edit_toggle_absolute (wbcg);
 		break;
 
 	case GDK_F2:
@@ -669,7 +502,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 			workbook_start_editing_at_cursor (wbcg, TRUE, TRUE);
 		}
-		gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
+		scg_stop_range_selection (gsheet->scg, FALSE);
 
 		/* Forward the keystroke to the input line */
 		return gtk_widget_event (GTK_WIDGET (workbook_get_entry_logical (wbcg)),

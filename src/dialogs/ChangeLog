@@ -1,3 +1,42 @@
+2001-04-18 Jon K Hellan  <hellan@acm.org>
+
+	* dialog-define-names.c (struct NameGuruState): Change type of
+	expr_text to GnumericExprEntry.
+	(name_guru_set_expr, name_guru_update_sensitivity,
+	name_guru_set_expr, cb_name_guru_add): expr_text must now be cast
+	to GTK_ENTRY.
+	(cb_name_guru_value_focus): Use
+	gnumeric_expr_entry_set_absolute. w argument is now expected to be
+	a GnumericExprEntry.
+	(cb_name_guru_set_focus): New function. Make anted selection go
+	away when a widget other than expr_text receives focus.
+	(name_guru_init): Create a GnumericExprEntry and insert in the
+	dialog. Attach it to the current sheet. Connect
+	cb_name_guru_set_focus to dialog's set-focus signal, and remove
+	the focus-in handler from name_value.
+
+	* dialog-function-wizard.c (struct ArgumentState): Change type of
+	entry to GnumericExprEntry.
+	(formula_guru_set_expr): Change type of new_entry to
+	GnumericExprEntry. Cast to GTK_ENTRY where necessary.
+	(formula_guru_set_expr, cb_formula_guru_rolled_entry_changed,
+	cb_formula_guru_entry_changed, formula_guru_init):
+	ArgumentState->entry must now be cast to GTK_ENTRY.
+	(formula_guru_set_rolled_state): Change type of new_entry to
+	GnumericExprEntry. Cast to GTK_ENTRY where necessary.
+	(formula_guru_arg_new): Create a GnumericExprEntry instead of a
+	GtkEntry and insert in the dialog. Attach it to the current sheet.
+	(formula_guru_init): Create a GnumericExprEntry for rolled_entry
+	and insert in the dialog. Attach it to the current sheet.
+	(dialog_formula_guru): Value returned by workbook_get_entry must
+	now be cast to GTK_ENTRY.
+
+	* formula-guru.glade: Remove 'rolled_entry' GtkEntry. A
+	GnumericExprEntry is now added at runtime instead.
+
+	* names.glade: Remove 'expr_text' GtkEntry. A GnumericExprEntry is
+	now added at runtime instead.
+
 2001-04-14  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-autoformat.c (previews_load) : Create previewgrid and

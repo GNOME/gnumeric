@@ -21,6 +21,7 @@
 #include "workbook-edit.h"
 #include "gnumeric-util.h"
 #include "parse-util.h"
+#include "widgets/gnumeric-expr-entry.h"
 
 #define LIST_KEY "name_list_data"
 
@@ -34,7 +35,7 @@ typedef struct {
 	GtkWidget *dialog;
 	GtkList   *list;
 	GtkEntry  *name;
-	GtkEntry  *expr_text;
+	GnumericExprEntry *expr_text;
 	GtkCombo  *scope;
 	GList     *expr_names;
 	NamedExpression *cur_name;
@@ -177,11 +178,11 @@ name_guru_set_expr (NameGuruState *state, NamedExpression *expr_name)
 
 		/* Display the expr_text */
 		txt = expr_name_value (expr_name);
-		gtk_entry_set_text (state->expr_text, txt);
+		gtk_entry_set_text (GTK_ENTRY (state->expr_text), txt);
 		g_free (txt);
 	} else {
 		gtk_entry_set_text (state->name, "");
-		gtk_entry_set_text (state->expr_text, "");
+		gtk_entry_set_text (GTK_ENTRY (state->expr_text), "");
 	}
 
 	/* unblock them */
@@ -264,7 +265,7 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 		return;
 
 	name  = gtk_entry_get_text (state->name);
-	expr_text = gtk_entry_get_text (state->expr_text);
+	expr_text = gtk_entry_get_text (GTK_ENTRY (state->expr_text));
 
 	/** Add is active if :
 	 *  - We have a name in the entry to add
@@ -439,7 +440,7 @@ cb_name_guru_add (NameGuruState *state)
 
 	g_return_val_if_fail (state != NULL, FALSE);
 
-	expr_text = gtk_entry_get_text (state->expr_text);
+	expr_text = gtk_entry_get_text (GTK_ENTRY (state->expr_text));
 	name  = gtk_entry_get_text (state->name);
 
 	if (!name || (name[0] == '\0'))
@@ -494,11 +495,10 @@ cb_name_guru_add (NameGuruState *state)
 static void
 cb_name_guru_value_focus (GtkWidget *w, GdkEventFocus *ev, NameGuruState *state)
 {
-	GtkEntry *entry = GTK_ENTRY (w);
 
-	if (entry == state->expr_text) {
+	if (w == GTK_WIDGET (state->expr_text)) {
 		workbook_set_entry (state->wbcg, state->expr_text);
-		workbook_edit_select_absolute (state->wbcg);
+		gnumeric_expr_entry_set_absolute (state->expr_text);
 	} else
 		workbook_set_entry (state->wbcg, NULL);
 }
@@ -567,10 +567,23 @@ cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
 	return FALSE;
 }
 
+static void
+cb_name_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+		 NameGuruState *state)
+{
+	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget)) {
+		workbook_set_entry (state->wbcg,
+				    GNUMERIC_EXPR_ENTRY (focus_widget));
+		gnumeric_expr_entry_set_absolute (state->expr_text);
+	} else
+		workbook_set_entry (state->wbcg, NULL);
+}
+
 static gboolean
 name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 {
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	GtkTable *table2;
 
 	state->wbcg  = wbcg;
 	state->wb   = wb;
@@ -580,8 +593,14 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
                 return TRUE;
 
 	state->dialog = glade_xml_get_widget (state->gui, "NameGuru");
+	table2 = GTK_TABLE (glade_xml_get_widget (state->gui, "table2"));
 	state->name  = GTK_ENTRY (glade_xml_get_widget (state->gui, "name"));
-	state->expr_text = GTK_ENTRY (glade_xml_get_widget (state->gui, "expr_text"));
+	state->expr_text = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	gtk_table_attach (table2, GTK_WIDGET (state->expr_text),
+			  1, 2, 1, 2,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gtk_widget_show (GTK_WIDGET (state->expr_text));
 	state->scope = GTK_COMBO (glade_xml_get_widget (state->gui, "scope_combo"));
 	state->list  = GTK_LIST  (glade_xml_get_widget (state->gui, "name_list"));
 	state->expr_names = NULL;
@@ -601,10 +620,10 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 
 	gtk_signal_connect (GTK_OBJECT (state->list), "selection_changed",
 			    GTK_SIGNAL_FUNC (cb_name_guru_select_name), state);
-	gtk_signal_connect (GTK_OBJECT (state->name), "focus-in-event",
-			    GTK_SIGNAL_FUNC (cb_name_guru_value_focus), state);
-	gtk_signal_connect (GTK_OBJECT (state->expr_text), "focus-in-event",
-			    GTK_SIGNAL_FUNC (cb_name_guru_value_focus), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
+			    GTK_SIGNAL_FUNC (cb_name_guru_set_focus), state);
+/*  	gtk_signal_connect (GTK_OBJECT (state->expr_text), "focus-in-event", */
+/*  			    GTK_SIGNAL_FUNC (cb_name_guru_value_focus), state); */
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_name_guru_destroy), state);
 	gtk_signal_connect (GTK_OBJECT (state->name), "changed",
@@ -624,6 +643,8 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 			       state->scope);
 	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
 
+	gnumeric_expr_entry_set_scg (state->expr_text,
+				     wb_control_gui_cur_sheet (wbcg));
 	workbook_edit_attach_guru (state->wbcg, state->dialog);
 
 	return FALSE;

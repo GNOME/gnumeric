@@ -58,16 +58,23 @@ void       gnumeric_sheet_stop_editing           (GnumericSheet *gsheet);
 
 /* Managing the selection of cell ranges when editing a formula */
 
-void       gnumeric_sheet_start_cell_selection   (GnumericSheet *gsheet,
+void       gnumeric_sheet_start_range_selection  (GnumericSheet *gsheet,
 						  int col, int row);
-void       gnumeric_sheet_stop_cell_selection    (GnumericSheet *gsheet,
-						  gboolean const clear_string);
+void       gnumeric_sheet_stop_range_selection   (GnumericSheet *gsheet);
 void       gnumeric_sheet_rangesel_cursor_bounds (GnumericSheet *gsheet,
 						  int base_col, int base_row,
 						  int move_col, int move_row);
 void       gnumeric_sheet_rangesel_cursor_extend (GnumericSheet *gsheet,
 						  int col, int row);
 
+void gnumeric_sheet_rangesel_horizontal_move (
+	GnumericSheet *gsheet, int dir, gboolean jump_to_boundaries);
+void gnumeric_sheet_rangesel_vertical_move (
+	GnumericSheet *gsheet, int dir, gboolean jump_to_boundaries);
+void gnumeric_sheet_rangesel_horizontal_extend (
+	GnumericSheet *gsheet, int n, gboolean jump_to_boundaries);
+void gnumeric_sheet_rangesel_vertical_extend (
+	GnumericSheet *gsheet, int n, gboolean jump_to_boundaries);
 int	   gnumeric_sheet_find_col		 (GnumericSheet *item_grid,
 						  int x, int *col_origin);
 int	   gnumeric_sheet_find_row		 (GnumericSheet *item_grid,

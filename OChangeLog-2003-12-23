@@ -1,3 +1,126 @@
+2001-04-18  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-edit.[ch] (workbook_get_entry,
+	workbook_get_entry_logical): Change return type to
+	GnumericExprEntry.
+	(workbook_set_entry): Change type of entry argument to
+	GnumericExprEntry.
+	
+	* src/gnumeric-sheet.c (move_cursor): Move to scg::scg_move_cursor
+	(cursor_horizontal_move): Move to scg::scg_cursor_horizontal_move
+	(cursor_horizontal_extend): Move to
+	scg::scg_cursor_horizontal_extend
+	(cursor_vertical_move): Move to scg::scg_cursor_vertical_move
+	(cursor_vertical_extend): Move to scg::scg_cursor_vertical_extend
+	(selection_remove_selection_string,
+	selection_insert_selection_string): Remove. GnumericExprEntry
+	widget now handles this.
+	(start_cell_selection_at): Rename to start_range_selection_at.
+	(start_cell_selection): Rename to start_range_selection.
+	(gnumeric_sheet_start_cell_selection): Rename to
+	gnumeric_sheet_start_range_selection.
+	(gnumeric_sheet_stop_cell_selection): Rename to
+	gnumeric_sheet_stop_range_selection. Remove clear_string parameter
+	and selection string manipulation.
+	(rangesel_horizontal_move): Make non-static, rename to
+	gnumeric_sheet_rangesel_horizontal_move, remove selection string
+	manipulation.
+	(rangesel_vertical_move): Make non-static, rename to
+	gnumeric_sheet_rangesel_vertical_move, remove selection string
+	manipulation.
+	(rangesel_horizontal_extend): Make non-static, rename to
+	gnumeric_sheet_rangesel_horizontal_extend, remove selection string
+	manipulation.
+	(rangesel_vertical_extend): Make non-static, rename to
+	gnumeric_sheet_rangesel_vertical_extend, remove selection string
+	manipulation.
+	(gnumeric_sheet_key_mode_sheet): Use movefn's from scg instead of
+	from GnumericSheet.
+
+	* src/gnumeric-sheet.h (gnumeric_sheet_start_cell_selection):
+	Rename to gnumeric_sheet_start_range_selection.
+	(gnumeric_sheet_stop_cell_selection): Rename to
+	gnumeric_sheet_stop_range_selection. Remove clear_string
+	parameter.
+	(gnumeric_sheet_rangesel_horizontal_move,
+	gnumeric_sheet_rangesel_vertical_move,
+	gnumeric_sheet_rangesel_horizontal_extend,
+	gnumeric_sheet_rangesel_vertical_extend): Declare.
+	
+	* src/gnumeric-util.[ch] (gnumeric_entry_at_subexpr_boundary_p):
+	Rename to gnumeric_expr_entry_at_subexpr_boundary_p and move to
+	gnumeric_expr_entry widget.
+
+	* src/item-grid.c (item_grid_button_1, item_grid_event): Use scg
+	methods instead of methods from GnumericSheet.
+
+	* src/sheet.[ch] (sheet_stop_cell_selection): Rename to
+	sheet_stop_range_selection.
+
+	* src/sheet-control-gui.c (scg_colrow_select): Use scg methods
+	instead of methods from GnumericSheet.
+	(scg_stop_editing): Add call to scg_stop_cell_selection.
+	(scg_range_selection_changed): New function. Notify ExprEntry that
+	the expression range has changed.
+	(scg_move_cursor): Moved here from GnumericSheet.
+	(scg_rangesel_cursor_extend): Add call to
+	scg_range_selection_changed.
+	(scg_rangesel_cursor_bounds, scg_rangesel_horizontal_move,
+	scg_rangesel_vertical_move, scg_rangesel_horizontal_extend,
+	scg_rangesel_vertical_extend): New functions. Call GnumericSheet
+	counterpart and notify ExprEntry.
+	(scg_cursor_horizontal_move, scg_cursor_horizontal_extend,
+	scg_cursor_vertical_move, scg_cursor_vertical_extend): Moved here
+	from GnumericSheet.
+	(scg_get_sel_cursor_pos): New function. Return selection cursor
+	position.
+
+	* src/sheet-control-gui.h (scg_range_selection_changed,
+	scg_move_cursor, scg_rangesel_cursor_bounds,
+	scg_rangesel_horizontal_move, scg_rangesel_vertical_move,
+	scg_rangesel_horizontal_extend, scg_rangesel_vertical_extend,
+	scg_cursor_horizontal_move, scg_cursor_vertical_move,
+	scg_cursor_horizontal_extend, scg_cursor_vertical_extend,
+	scg_get_sel_cursor_pos): Declare.
+
+	* src/sheet-control-gui.[ch] (scg_stop_cell_selection): Rename to
+	scg_stop_range_selection. Notify ExprEntry that range selection
+	has stopped.
+
+	* src/sheet-object-widget.c (cb_checkbox_config_focus): Call
+	gnumeric_expr_entry_select_absolute.
+	(sheet_widget_checkbox_user_config): Use GnumericExprEntry. Attach
+	it to the scg.
+
+	* src/workbook-control-gui.c (cb_notebook_switch_page): Use new
+	function name sheet_stop_range_selection.
+
+	* src/workbook-control-gui-priv.h (struct
+	_WorkbookControlGUI::struct edit_line): entry and temp_entry are
+	now GnumericExprEntries.
+	(struct _WorkbookControlGUI): Remove select_abs_col,
+	select_abs_row, select_full_col, select_full_row and
+	select_single_cell.
+	
+	* src/workbook-control-gui.c (wbcg_finish_editing,
+	wb_edit_key_pressed, cb_autofunction, workbook_setup_edit_area,
+	auto_complete_matches): Entry must now be cast to GtkEntry.
+	(workbook_control_gui_init): select_abs_col, select_abs_row,
+	select_full_col, select_full_row and select_single_cell no longer
+	exist.
+
+	* src/workbook-edit.c (workbook_finish_editing, entry_changed,
+	workbook_start_editing_at_cursor): entry must now be cast to
+	GtkEntry.
+	(workbook_start_editing_at_cursor): Attach scg to
+	ExprEntry. wbcg->select_abs_col and select_abs_row no longer
+	exist.
+	(workbook_edit_select_absolute): Move to ExprEntry widget.
+	(workbook_edit_toggle_absolute): New function. Probably remove it
+	again.
+	(workbook_edit_init): Remove redundant 'g_assert != NULL'. Use
+	GnumericExprEntry widget.
+	
 2001-04-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (wbcg_init_state) : implement.
