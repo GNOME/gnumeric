@@ -828,7 +828,7 @@ mstyle_get_border (const MStyle *st, MStyleElementType t)
 		return st->elements [t].u.border.any;
 
 	default:
-		g_warning ("Not a color element");
+		g_warning ("Not a border element");
 		return NULL;
 	}
 }

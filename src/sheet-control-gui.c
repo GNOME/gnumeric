@@ -84,7 +84,7 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 			cell = sheet_cell_get (sheet, col, row);
 
 			if (cell){
-				cell_get_span (cell, &col1, &col2);
+				cell_calculate_span (cell, &col1, &col2);
 
 				min_col = MIN (col1, min_col);
 				max_col = MAX (col2, max_col);

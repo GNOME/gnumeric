@@ -7,6 +7,6 @@
 int cell_draw (Cell *cell, MStyle *mstyle,
 	       SheetView *sheet_view,
 	       GdkGC *gc, GdkDrawable *drawable,
-	       int x, int y, gboolean const is_selected);
+	       int x, int y);
 
 #endif /* GNUMERIC_CELL_DRAW_H */

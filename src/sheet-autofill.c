@@ -23,6 +23,7 @@
 #include "workbook.h"
 #include "sheet-autofill.h"
 #include "dates.h"
+#include "expr.h"
 
 typedef enum {
 

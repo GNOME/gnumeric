@@ -1131,11 +1131,6 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	  N_("Jump to a specified cell"), goto_cell_cmd, NULL, NULL,
 	  0, 0, 'i', GDK_CONTROL_MASK },
 
-	GNOMEUIINFO_SEPARATOR,
-
-	{ GNOME_APP_UI_ITEM, N_("_Define cell names"), NULL, define_cell_cmd },
-	GNOMEUIINFO_SEPARATOR,
-
 	{ GNOME_APP_UI_ITEM, N_("_Recalculate"),
 	  N_("Recalculate the spreadsheet"), recalc_cmd, NULL, NULL,
 	  0, 0, GDK_F9, 0 },
@@ -1181,6 +1176,8 @@ static GnomeUIInfo workbook_menu_insert [] = {
 #endif
 
 	GNOMEUIINFO_SEPARATOR,
+
+	{ GNOME_APP_UI_ITEM, N_("Define _Name"), NULL, define_cell_cmd },
 
 	{ GNOME_APP_UI_ITEM, N_("_Add/modify comment..."),
 	  N_("Edit the selected cell's comment"), workbook_edit_comment },

@@ -15,47 +15,28 @@
  *
  */
 #include <config.h>
-#include <gnome.h>
-#include "gnumeric.h"
-#include "eval.h"
+#include "cellspan.h"
 #include "cell.h"
+#include "colrow.h"
 
 static guint
 col_hash (gconstpointer key)
 {
-	const int *col = key;
-
-	return *col;
+	return GPOINTER_TO_INT(key);
 }
 
 static gint
 col_compare (gconstpointer a, gconstpointer b)
 {
-	const int *col_a = a;
-	const int *col_b = b;
-
-	if (*col_a == *col_b)
+	if (GPOINTER_TO_INT(a) == GPOINTER_TO_INT(b))
 		return 1;
 	return 0;
 }
 
-/*
- * Initializes the hash table in the RowInfo for keeping track
- * of cell spans (ie, which cells on the spreadsheet are displayed
- * by which cell).  
- */
-void
-row_init_span (ColRowInfo *ri)
-{
-	g_return_if_fail (ri != NULL);
-
-	ri->spans = g_hash_table_new (col_hash, col_compare);
-}
-
 static void
-free_hash_key (gpointer key, gpointer value, gpointer user_data)
+free_hash_value (gpointer key, gpointer value, gpointer user_data)
 {
-	g_free (key);
+	g_free (value);
 }
 
 void
@@ -64,7 +45,7 @@ row_destroy_span (ColRowInfo *ri)
 	if (ri == NULL || ri->spans == NULL)
 		return;
 
-	g_hash_table_foreach (ri->spans, free_hash_key, NULL);
+	g_hash_table_foreach (ri->spans, free_hash_value, NULL);
 	g_hash_table_destroy (ri->spans);
 	ri->spans = NULL;
 }
@@ -75,14 +56,14 @@ row_destroy_span (ColRowInfo *ri)
  * @left:  the leftmost column used by the cell
  * @right: the rightmost column used by the cell
  *
- * Registers the region 
+ * Registers the region
  */
 void
 cell_register_span (Cell *cell, int left, int right)
 {
 	ColRowInfo *ri;
 	int col, i;
-	
+
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (left <= right);
 
@@ -90,68 +71,46 @@ cell_register_span (Cell *cell, int left, int right)
 	col = cell->col->pos;
 
 	if (ri->spans == NULL)
-		row_init_span (ri);
-	
+		ri->spans = g_hash_table_new (col_hash, col_compare);
+
 	for (i = left; i <= right; i++){
-		int *key;
+		CellSpanInfo *spaninfo = g_new (CellSpanInfo, 1);
+		spaninfo->cell  = cell;
+		spaninfo->left  = left;
+		spaninfo->right = right;
 
-		/* Do not register our column, as we already keep this on the main hash */
-		if (i == col)
-			continue;
-		
-		key = g_new (int, 1);
-
-		*key = i;
-		g_hash_table_insert (ri->spans, key, cell);
+		g_hash_table_insert (ri->spans, GINT_TO_POINTER(i), spaninfo);
 	}
 }
 
-typedef struct {
-	Cell  *cell;
-	GList *list_of_keys;
-} unregister_closure_t;
-
-static void
-assemble_unregister_span_list (gpointer key, gpointer value, gpointer user_data)
+static gboolean
+span_remove(gpointer key, gpointer value, gpointer user_data)
 {
-	unregister_closure_t *c = user_data;
-
-	if (c->cell == value)
-		c->list_of_keys = g_list_prepend (c->list_of_keys, key);
+	CellSpanInfo *span = (CellSpanInfo *)value;
+	if ((Cell *)user_data == span->cell) {
+		g_free (span); /* free the span descriptor */
+		return TRUE;
+	}
+	return FALSE;
 }
 
 /*
  * sheet_cell_unregister_span
  * @cell: The cell to remove from the span information
  *
- * Remove all of the references to this cell on the span hash
- * table
+ * Remove all references to this cell in the span hashtable
  */
 void
 cell_unregister_span (Cell *cell)
 {
-	unregister_closure_t c;
-	GList *l;
-	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->row != NULL);
-
-	c.cell = cell;
-	c.list_of_keys = NULL;
 
 	if (cell->row->spans == NULL)
 		return;
 
-	g_hash_table_foreach (cell->row->spans, assemble_unregister_span_list, &c);
-
-	for (l = c.list_of_keys; l; l = l->next){
-		int *key = l->data;
-		
-		g_hash_table_remove (cell->row->spans, key);
-		g_free (key);
-	}
-	if (c.list_of_keys)
-		g_list_free (c.list_of_keys);
+	g_hash_table_foreach_remove (cell->row->spans, &span_remove,
+				     (gpointer)cell);
 }
 
 /*
@@ -164,10 +123,32 @@ cell_unregister_span (Cell *cell)
 Cell *
 row_cell_get_displayed_at (ColRowInfo const * const ri, int const col)
 {
+	CellSpanInfo const * spaninfo;
+
 	g_return_val_if_fail (ri != NULL, NULL);
 
-	if (ri->spans)
-		return g_hash_table_lookup (ri->spans, &col);
-	else
+	if (ri->spans == NULL)
 		return NULL;
+	spaninfo = g_hash_table_lookup (ri->spans, GINT_TO_POINTER(col));
+	return spaninfo ? spaninfo->cell : NULL;
+}
+
+/*
+ * row_span_get
+ * @ri: The ColRowInfo for the row we are looking up
+ * @col: the column position
+ *
+ * Returns SpanInfo of the spanning cell being display at the
+ * column.  Including
+ *   - the cell whose contents span.
+ *   - The first and last col in the span.
+ */
+CellSpanInfo const *
+row_span_get (ColRowInfo const * const ri, int const col)
+{
+	g_return_val_if_fail (ri != NULL, NULL);
+
+	if (ri->spans == NULL)
+		return NULL;
+	return g_hash_table_lookup (ri->spans, GINT_TO_POINTER(col));
 }

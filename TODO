@@ -3,15 +3,9 @@
 Gnumeric Spread Sheet task list
 
 * Workbook
-   
    Have a new "manager" file that will take over the details of open
    workbooks and active servers, instead of the current approach we
    use to have this management in the workbook.c file
-
-   JEG : Maybe move this to application.[ch] ??
-
-   The bold and italic buttons need to be updated after a load to
-   reflect the cell with the cursor.
 
 * Component
 
@@ -70,7 +64,6 @@ Gnumeric Spread Sheet task list
   * Create a simplistic dialog (to map to font-bold yes/no).
 
 * Cell dimension computation is broken on font change for multi-lines.
-    - Alignment 'Center' is broken when used with spanning cells.
 
 * Number formatting
 
@@ -107,24 +100,11 @@ Gnumeric Spread Sheet task list
 
 ** Column sizes
 
-   Columns should be smaller by default, and have an
-   "auto-grow-up-to-this-point" feature.  Beyond that size, it would
-   truncate as it does now.
+   Columns should have an "auto-grow-up-to-this-point" feature.  Beyond that
+   size, it would truncate as it does now.
 
 ** Parser
-   * Support parsing of interbook references
-
-** Display
-
-   Provide a CanvasAA version of Gnumeric.  
-
-   Nice side effect is that the selection would just be a transparent
-   color layered on top of whatever is selected.  So we can do the
-   Excel2000 trick of using a light blue to show the selection, rather
-   than black.
-
-   This has the effect of letting users "see" the color they are
-   filling/coloring things with when the selection is turned on
+   * Improve error reporting.
 
 ** Cell data entry:
    double click on cell allows editing as in main editing box.
@@ -137,10 +117,6 @@ Gnumeric Spread Sheet task list
    The captions should be customizable, ie instead of "A1", it should
    be possible to display "Sales".  We can use this with Michael's
    name support. 
-
-   Instead this should be done with split-pane support in tandem with
-   disabling the standard caption rendering. This would give a far more
-   flexible approach : Michael.
 
 ** Captions (ItemBar)
 

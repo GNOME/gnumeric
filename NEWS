@@ -29,6 +29,7 @@ Jody:
 	* More work on undo.
 	* Parse interbook references.
 	* Mostly correct sizing of MS Excel cols/rows and objects.
+	* Border combo.
 
 Jon:
 	* Cursor fixes and speedups.
@@ -41,6 +42,7 @@ Michael:
 
 Dom Lachowicz :
 	* libgladify the plugin manager.
+	* Improve color combo.
 
 Mike Kestner:
 	* Add file menu file history.
@@ -51,6 +53,7 @@ Almer :
 	  - Pops-up when pasting from external applications.
 	  - Preview is drawn faster and is interactive.
 	  - More separators to choose from when doing a CSV import
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.48

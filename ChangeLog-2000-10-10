@@ -1,3 +1,44 @@
+2000-02-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.h : Move FunctionDefinition to
+	* src/gnumeric.h : here.
+
+	* src/cellspan.c (col_hash) : Use GPOINTER_TO_INT.
+	(col_compare) : Ditto.
+	(row_init_span) : Delete.
+	(free_hash_value) : Renamed from free_hash_key.
+	(cell_register_span) : Register all cells in a span, malloc a
+	  CellSpanInfo to store a descriptor about the first and last cols.
+	(assemble_unregister_span_list) : Delete.
+	(span_remove) : New function for use by g_hash_table_foreach_remove.
+	(cell_unregister_span) : Use g_hash_table_foreach_remove.
+	(row_cell_get_displayed_at) : Adjust to new descriptor.
+	(row_span_get) : New function.
+
+	* src/cell.c (cell_calculate_span) : Renamed from cell_get_span.
+
+	* src/cell-draw.c (cell_draw) : Do not draw backgrounds here.
+	  Use new CellSpanInfo to avoid recomputing spans every time.
+	(cell_is_blank) : Remove hack about treating empty strings as empty.
+
+	* src/cellspan.h : New file.  Move span decls here.
+
+	* src/item-grid.c (item_grid_draw) : Rework to correctly handle
+	  backgrounds and borders for spanning columns.
+
+2000-02-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_is_blank) : Update.
+
+	* src/border.c (style_border_draw) : Make somewhat more correct.
+	  Still broken for non-top-left corners.
+
+	* src/item-grid.c (item_grid_draw_border) : Ditto.
+	(item_grid_draw_background) : Rename from item_grid_paint_empty_cell
+	  handle spans more cleanly.
+	(item_grid_draw_cell) : handle conditionals for displaying contents here.
+	  Remove all handling of backgrounds.
+
 2000-02-28  Michael Meeks  <michael@helixcode.com>
 
 	* src/xml-io.c (xml_sheet_read, xml_sheet_write): kill for now.
@@ -47,6 +88,14 @@
 2000-02-26  Jon K Hellan  <hellan@acm.org>
 
 	* doc/python-gnumeric.txt: New file. Documents the Python plugin.
+
+2000-02-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/formats.c (CurrencySymbol) : Add symbols and names to
+	  translation list.
+
+	* src/workbook.c (insert_object_cmd) : Bug 6499.
+	  Move Define name to the insert menu to avoid conflict.
 
 2000-02-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 

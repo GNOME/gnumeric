@@ -4,14 +4,8 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Selection highlighting of spanning columns draws columns outside the selection
-  range as if they were selected.
+Entering '1e99' in a cell with format 'General' is broken.
 
 Long term breakage
 ------------------
-- border style double_line does not respect the background colour of the cell
-  being painted.
-
 - border style double_line does handle all of the different intersection cases.
-
-- Borders above below cells spanning cols are lost.

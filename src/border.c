@@ -61,7 +61,7 @@ struct {
  	/* 0x3 : STYLE_BORDER_DASHED */		{ 0, 0, &dashed_line },
  	/* 0x4 : STYLE_BORDER_DOTTED */		{ 0, 0, &dotted_line },
  	/* 0x5 : STYLE_BORDER_THICK */		{ 3, 0, NULL },
- 	/* 0x6 : STYLE_BORDER_DOUBLE */		{ 3, 0, NULL },/* How to clear middle line ?? */
+ 	/* 0x6 : STYLE_BORDER_DOUBLE */		{ 0, 0, NULL },
  	/* 0x7 : STYLE_BORDER_HAIR */			{ 0, 0, &hair_line },
 	/* 0x8 : STYLE_BORDER_MEDIUM_DASH */		{ 2, 9, &med_dashed_line },
 	/* 0x9 : STYLE_BORDER_DASH_DOT */		{ 0, 0, &dash_dot_line },
@@ -250,22 +250,58 @@ style_border_unref (MStyleBorder *border)
 }
 
 void
-style_border_draw (GdkDrawable * drawable, const MStyleBorder* border,
-		   int x1, int y1, int x2, int y2)
+style_border_draw (MStyleBorder const * const border, MStyleElementType const t,
+		   GdkDrawable * const drawable,
+		   int x1, int y1, int x2, int y2,
+		   MStyleBorder const * const extend_begin,
+		   MStyleBorder const * const extend_end)
 {
 	if (border != NULL && border->line_type != STYLE_BORDER_NONE) {
-		GdkGC *gc = style_border_get_gc ((MStyleBorder *)border,
-						 drawable);
+		/* Cast away const */
+		GdkGC *gc = style_border_get_gc ((MStyleBorder *)border, drawable);
 
-		gdk_draw_line (drawable, gc, x1, y1, x2, y2);
+		/* This is WRONG.  FIXME FIXME FIXME
+		 * when we are finished converting to drawing only top & left
+		 * then rework the state table.
+		 */
 		if (border->line_type == STYLE_BORDER_DOUBLE) {
-			static GdkGC *middle_gc = NULL;
-			if (middle_gc == NULL) {
-				middle_gc = gdk_gc_new (drawable);
-				gdk_gc_set_foreground (middle_gc, &gs_white);
+			static int const offsets[][2][4] = {
+			    { { 0,-1,0,-1}, { 0,1,0,1} }, /* TOP */
+			    { { 0,-1,0,-1}, { 0,1,0,1} }, /* BOTTOM */
+			    { { -1,0,-1,0}, { 1,0,1,0} }, /* LEFT */
+			    { { -1,0,-1,0}, { 1,0,1,0} }, /* RIGHT */
+			    { { 0,1,-1,0}, { 1,0,0,-1} }, /* DIAGONAL */
+			    { { 0,-1,-1,0 },{ 1,0,0,1} }, /* REV_DIAGONAL */
+			};
+			static int const extension_begin[][2][2] = {
+			    { { -1, 0 }, { 1, 0 } }, /* TOP */
+			    { {  1, 0 }, { -1, 0 } }, /* BOTTOM */
+			    { { 0, -1 }, { 0, 1} }, /* LEFT */
+			    { { 0, 1 }, { 0, -1} }, /* RIGHT */
+			    { { 1, 1}, { 1, 1 } }, /* DIAGONAL */
+			    { { -1, -1}, { -1, -1} }, /* REV_DIAGONAL */
+			};
+
+			int const i = t-MSTYLE_BORDER_TOP;
+			int const * const o = (int *)&(offsets[i]);
+			int x = x1+o[0], y = y1+o[1];
+
+			if (extend_begin != NULL &&
+			    extend_begin->line_type != STYLE_BORDER_NONE) {
+				x += extension_begin[i][0][0];
+				y += extension_begin[i][0][1];
 			}
-			gdk_draw_line (drawable, middle_gc, x1, y1, x2, y2);
+
+			gdk_draw_line (drawable, gc, x, y, x2+o[2], y2+o[3]);
+			x1 += o[4]; y1 += o[5]; x2 += o[6]; y2 += o[7];
+
+			if (extend_begin != NULL &&
+			    extend_begin->line_type != STYLE_BORDER_NONE) {
+				x1 += extension_begin[i][1][0];
+				y1 += extension_begin[i][1][1];
+			}
 		}
+		gdk_draw_line (drawable, gc, x1, y1, x2, y2);
 	}
 }
 

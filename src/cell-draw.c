@@ -13,8 +13,8 @@
 #include "format.h"
 #include "color.h"
 #include "utils.h"
-#include "pattern.h"
 #include "cell.h"
+#include "cellspan.h"
 #include "cell-draw.h"
 
 static void
@@ -122,7 +122,7 @@ cell_split_text (GdkFont *font, char const *text, int const width)
 int 
 cell_draw (Cell *cell, MStyle *mstyle,
 	   SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable,
-	   int x1, int y1, gboolean const is_selected)
+	   int x1, int y1)
 {
 	StyleFont    *style_font = sheet_view_get_style_font (cell->sheet, mstyle);
 	GdkFont      *font = style_font_gdk_font (style_font);
@@ -137,6 +137,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	int halign;
 	gboolean is_single_line;
 	char const *text;
+	CellSpanInfo const * spaninfo;
 
 	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), 1);
@@ -152,7 +153,12 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	} else
 		text = cell->text->str;
 	
-	cell_get_span (cell, &start_col, &end_col);
+	spaninfo = row_span_get (cell->row, cell->col->pos);
+	if (spaninfo != NULL) {
+		start_col = spaninfo->left;
+		end_col = spaninfo->right;
+	} else
+		start_col = end_col = cell->col->pos;
 
 	/* Get the sizes exclusive of margins and grids */
 	width  = COL_INTERNAL_WIDTH (cell->col);
@@ -160,33 +166,6 @@ cell_draw (Cell *cell, MStyle *mstyle,
 
 	font_height = style_font_get_height (style_font);
 	
-	/* This rectangle has the whole area used by this cell
-	 * including the surrounding grid lines */
-	rect.x = x1;
-	rect.y = y1;
-	rect.width  = cell->col->size_pixels + 1;
-	rect.height = cell->row->size_pixels + 1;
-
-	/*
-	 * x1, y1 are relative to this cell origin, but the cell might be using
-	 * columns to the left (if it is set to right justify or center justify)
-	 * compute the pixel difference 
-	 */
-	if (start_col != cell->col->pos) {
-		int const offset =
-		    sheet_col_get_distance_pixels (cell->sheet,
-						   start_col, cell->col->pos);
-		rect.x     -= offset;
-		rect.width += offset;
-	}
-	if (end_col != cell->col->pos) {
-		int const offset =
-		    sheet_col_get_distance_pixels (cell->sheet,
-						   cell->col->pos+1, end_col+1);
-		rect.width += offset;
-	}
-	gdk_gc_set_clip_rectangle (gc, &rect);
-
 	switch (mstyle_get_align_v (mstyle)) {
 	default:
 		g_warning ("Unhandled cell vertical alignment\n");
@@ -222,15 +201,40 @@ cell_draw (Cell *cell, MStyle *mstyle,
 			  mstyle_get_align_v (mstyle) != VALIGN_JUSTIFY &&
 			  !mstyle_get_fit_in_cell (mstyle));
 
-	/* Draw the background if there is one */
-	if (gnumeric_background_set_gc (mstyle, gc, canvas, is_selected))
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    rect.x, rect.y, rect.width, rect.height);
+	/* This rectangle has the whole area used by this cell
+	 * including the surrounding grid lines */
+	rect.x = x1;
+	rect.y = y1;
+	rect.width  = cell->col->size_pixels + 1;
+	rect.height = cell->row->size_pixels + 1;
 
-	/* If we are spaning columns we need to erase the INTERIOR grid lines */
-	else if (end_col != start_col || is_selected)
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    rect.x+1, rect.y+1, rect.width-2, rect.height-2);
+	/*
+	 * x1, y1 are relative to this cell origin, but the cell might be using
+	 * columns to the left (if it is set to right justify or center justify)
+	 * compute the pixel difference 
+	 */
+	if (start_col != cell->col->pos) {
+		int const offset =
+		    sheet_col_get_distance_pixels (cell->sheet,
+						   start_col, cell->col->pos);
+		rect.x     -= offset;
+		rect.width += offset;
+	}
+	if (end_col != cell->col->pos) {
+		int const offset =
+		    sheet_col_get_distance_pixels (cell->sheet,
+						   cell->col->pos+1, end_col+1);
+		rect.width += offset;
+	}
+
+	/* Do not allow text to impinge upon the grid lines or margins
+	 * FIXME : Should use margins from start_col and end_col
+	 */
+	rect.x += 1 + cell->col->margin_a;
+	rect.y += 1 + cell->row->margin_a;
+	rect.width -= 2 + cell->col->margin_a + cell->col->margin_b;
+	rect.height -= 2 + cell->row->margin_a + cell->row->margin_b;
+	gdk_gc_set_clip_rectangle (gc, &rect);
 
 	/* Set the font color */
 	gdk_gc_set_fill (gc, GDK_SOLID);
@@ -238,13 +242,6 @@ cell_draw (Cell *cell, MStyle *mstyle,
 		gdk_gc_set_foreground (gc, &cell->render_color->color);
 	else
 		gdk_gc_set_foreground (gc, &mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color);
-
-	/* Do not allow text to impinge upon the grid lines or margins */
-	rect.x += 1 + cell->col->margin_a;
-	rect.y += 1 + cell->row->margin_a;
-	rect.width -= 2 + cell->col->margin_a + cell->col->margin_b;
-	rect.height -= 2 + cell->row->margin_a + cell->row->margin_b;
-	gdk_gc_set_clip_rectangle (gc, &rect);
 
 	/* if a number overflows, do special drawing */
 	if (width < cell->width_pixel && cell_is_number (cell)) {

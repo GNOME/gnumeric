@@ -25,6 +25,7 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "cell-draw.h"
+#include "cellspan.h"
 #include "commands.h"
 
 #undef PAINT_DEBUG
@@ -235,49 +236,56 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 static void
 item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 		       int x, int y, int w, int h,
-		       gboolean const extended_right,
-		       gboolean const extended_left)
+		       gboolean const extended_left,
+		       gboolean const extended_right /* This should go away */)
 {
-	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_TOP))
-		style_border_draw (drawable,
-				   mstyle_get_border (mstyle, MSTYLE_BORDER_TOP),
-				   x, y, x + w, y);
-	if (!extended_left &&
-	    mstyle_is_element_set (mstyle, MSTYLE_BORDER_LEFT))
-		style_border_draw (drawable,
-				   mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT),
-				   x, y, x, y + h);
-	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_BOTTOM))
-		style_border_draw (drawable,
-				   mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM),
-				   x, y + h, x + w, y + h);
-	if (!extended_right &&
-	    mstyle_is_element_set (mstyle, MSTYLE_BORDER_RIGHT))
-		style_border_draw (drawable,
-				   mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT),
-				   x + w, y, x + w, y + h);
+	MStyleBorder const * const top =
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_TOP);
+	MStyleBorder const * const left = extended_left ? NULL :
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
+	MStyleBorder const * const bottom =
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
+	MStyleBorder const * const right = extended_right ? NULL :
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
+	MStyleBorder const * const diag =
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL);
+	MStyleBorder const * const rev_diag =
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL);
 
-	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_DIAGONAL))
-		style_border_draw (drawable,
-				   mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL),
-				   x, y + h, x + w, y);
-	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_REV_DIAGONAL))
-		style_border_draw (drawable,
-				   mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL),
-				   x, y, x + w, y + h);
+	if (top)
+		style_border_draw (top, MSTYLE_BORDER_TOP, drawable,
+				   x, y, x + w, y, left, right);
+	if (left)
+		style_border_draw (left, MSTYLE_BORDER_LEFT, drawable,
+				   x, y, x, y + h, top, bottom);
+	/* Deprecated : We should only paint borders on top and left. */
+	if (bottom)
+		style_border_draw (bottom, MSTYLE_BORDER_BOTTOM, drawable,
+				   x, y + h, x + w, y + h, left, right);
+	/* Deprecated */
+	if (right)
+		style_border_draw (right, MSTYLE_BORDER_RIGHT, drawable,
+				   x + w, y, x + w, y + h, top, bottom);
+
+	if (diag)
+		style_border_draw (diag, MSTYLE_BORDER_DIAGONAL, drawable,
+				   x, y + h, x + w, y, NULL, NULL);
+	if (rev_diag)
+		style_border_draw (rev_diag, MSTYLE_BORDER_REV_DIAGONAL, drawable,
+				   x, y, x + w, y + h, NULL, NULL);
 }
 
-static void
-item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
+static MStyle *
+item_grid_draw_background (GdkDrawable *drawable, ItemGrid *item_grid,
 			    ColRowInfo const * const ci, ColRowInfo const * const ri,
 			    /* Pass the row, col because the ColRowInfos may be the default. */
-			    int col, int row,
-			    int x, int y,
-			    int const span_count)
+			    int col, int row, int x, int y,
+			    gboolean const extended_left,
+			    gboolean const extended_right /* This should go away */)
 {
 	Sheet  *sheet  = item_grid->sheet_view->sheet;
-	GdkGC  *gc     = item_grid->empty_gc;
 	MStyle *mstyle = sheet_style_compute (sheet, col, row);
+	GdkGC  * const gc     = item_grid->empty_gc;
 	int const w    = ci->size_pixels;
 	int const h    = ri->size_pixels;
 
@@ -286,18 +294,18 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 
 	if (gnumeric_background_set_gc (mstyle, gc, item_grid->canvas_item.canvas, is_selected))
 		/* Fill the entire cell including the right & left grid line */
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    x, y, w+1, h+1);
+		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
+	else if (extended_left)
+		/* Fill the entire cell including left & excluding right grid line */
+		gdk_draw_rectangle (drawable, gc, TRUE, x, y+1, w, h-1);
 	else if (is_selected)
-		/* Fill the entire cell including the right & left grid line */
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    x+1, y+1, w-1, h-1);
+		/* Fill the entire cell excluding the right & left grid line */
+		gdk_draw_rectangle (drawable, gc, TRUE, x+1, y+1, w-1, h-1);
 
 	item_grid_draw_border (drawable, mstyle, x, y, w, h,
-			       span_count > 1,
-			       span_count > 0);
+			       extended_left, extended_right);
 
-	mstyle_unref (mstyle);
+	return mstyle;
 }
 
 /*
@@ -305,40 +313,18 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
  *
  * Returns the number of columns used by the cell.
  */
-static int
+static inline void
 item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
-		     Cell *cell, int x1, int y1)
+		     Cell *cell, MStyle * mstyle, int const x1, int const y1)
 {
-	if (cell->sheet->display_zero || !cell_is_zero (cell)) {
-		Sheet      *sheet  = cell->sheet;
-		MStyle     *mstyle = sheet_style_compute (cell->sheet, cell->col->pos, cell->row->pos);
-		GdkGC      *gc     = item_grid->gc;
-		int         count  = 1;
-
-		int const w = cell->col->size_pixels;
-		int const h = cell->row->size_pixels;
-
-		gboolean const is_selected = !(sheet->cursor.edit_pos.col == cell->col->pos &&
-					       sheet->cursor.edit_pos.row == cell->row->pos) &&
-		    sheet_selection_is_cell_selected (sheet, cell->col->pos, cell->row->pos);
-
-		/* Draw cell contents BEFORE border */
-		count = cell_draw (cell, mstyle, item_grid->sheet_view, gc, drawable,
-				   x1, y1, is_selected);
-
-		item_grid_draw_border (drawable, mstyle, x1, y1, w, h, count > 1, FALSE);
-
-		mstyle_unref (mstyle);
-
-		return count;
-	}
-
-	/* Pretend it is an empty */
-	item_grid_paint_empty_cell (drawable, item_grid,
-				    cell->col, cell->row,
-				    cell->col->pos, cell->row->pos,
-				    x1, y1, 1);
-	return 1;
+	/*
+	 * If it is being edited pretend it is empty to avoid problems with the
+	 * a long cells contents extending past the edge of the edit box.
+	 */
+	if (cell != cell->sheet->editing_cell &&
+	    (cell->sheet->display_zero || !cell_is_zero (cell)))
+		cell_draw (cell, mstyle, item_grid->sheet_view,
+			   item_grid->gc, drawable, x1, y1);
 }
 
 static void
@@ -349,8 +335,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	Sheet *sheet = gsheet->sheet_view->sheet;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	GdkGC *grid_gc = item_grid->grid_gc;
-	int col, row, real_x;
-	int span_count = 0;
+	int col, row;
 
 	int x_paint, y_paint;
 	int const paint_col = item_grid_find_col (item_grid, x, &x_paint);
@@ -404,93 +389,83 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	gdk_gc_set_function (item_grid->gc, GDK_COPY);
 
 	row = paint_row;
-	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++) {
+	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; ++row) {
 		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
 		if (!ri->visible)
 			continue;
 
 		col = paint_col;
-		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ++col) {
-			Cell *cell;
-			ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
+		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ) {
+			CellSpanInfo const * span;
+			ColRowInfo const * ci = sheet_col_get_info (sheet, col);
 			if (!ci->visible)
 				continue;
 
-			/*
-			 * If the cell is empty paint its background.
-			 * If it is being edited pretend it is empty to avoid
-			 *   problems with the a long cells contents extending
-			 *   past the edge of the edit box.
+			/* Is this the start of a span?
+			 * 1) There are cells allocated in the row
+			 *       (indicated by ri->pos != -1)
+			 * 2) Look in the rows hash table to see if
+			 *    there is a span descriptor.
 			 */
-			cell = sheet_cell_get (sheet, col, row);
-			if (cell == NULL || sheet->editing_cell == cell) {
-				item_grid_paint_empty_cell (
+			if (ri->pos == -1 ||
+			    NULL == (span = row_span_get (ri, col))) {
+				Cell *cell = sheet_cell_get (sheet, col, row);
+				MStyle *mstyle = item_grid_draw_background (
 					drawable, item_grid, ci, ri,
 					col, row, x_paint, y_paint,
-					--span_count);
+					FALSE, FALSE);
+
+				if (!cell_is_blank(cell))
+					item_grid_draw_cell (drawable, item_grid, cell,
+							     mstyle, x_paint, y_paint);
+				mstyle_unref (mstyle);
+
+				/* Increment the column
+				 * DO NOT move this outside the if, spanning
+				 * columns increment themselves.
+				 */
+				x_paint += ci->size_pixels;
+				++col;
 			} else {
-				span_count = item_grid_draw_cell (
-					drawable, item_grid, cell,
-					x_paint, y_paint);
-			}
+				Cell *cell = span->cell;
+				int const real_col = cell->col->pos;
+				int const start_col = span->left;
+				int const end_col = span->right;
+				int real_x = -1;
+				MStyle *real_style = NULL;
 
-			if (cell_is_blank (cell) && (ri->pos != -1)) {
-				/*
-				 * If there was no cell, and the row has any cell allocated
-				 * (indicated by ri->pos != -1)
+				/* Paint the backgrounds & borders */
+				for (; x_paint < end_x && col <= end_col ; ++col) {
+					ci = sheet_col_get_info (sheet, col);
+					if (ci->visible) {
+						MStyle *mstyle = item_grid_draw_background (
+							drawable, item_grid, ci, ri,
+							col, row, x_paint, y_paint,
+							col != start_col,
+							col != end_col);
+						if (col == real_col) {
+							real_style = mstyle;
+							real_x = x_paint;
+						} else
+							mstyle_unref (mstyle);
+
+						x_paint += ci->size_pixels;
+					}
+				}
+
+				/* The real cell is not visible, we have not painted it.
+				 * Compute the style, and offset
 				 */
+				if (real_style == NULL) {
+					real_style = sheet_style_compute (sheet, real_col, ri->pos);
+					real_x = x_paint + sheet_col_get_distance_pixels (cell->sheet,
+											  col, cell->col->pos);
+				}
 
-				real_x = x_paint;
-				cell = row_cell_get_displayed_at (ri, col);
-
-				/*
-				 * We found the cell that paints over this
-				 * cell, adjust x to point to the beginning
-				 * of that cell.
-				 */
-				if (cell != NULL && sheet->editing_cell != cell) {
-					int i, count, end_col;
-
-					/*
-					 * Either adjust the left part
-					 */
-					for (i = cell->col->pos; i < col; i++) {
-						ColRowInfo const * const tci = sheet_col_get_info (sheet, i);
-						if (tci->visible)
-							real_x -= tci->size_pixels;
-					}
-
-					/*
-					 * Or adjust the right part
-					 */
-					for (i = col; i < cell->col->pos; i++) {
-						ColRowInfo const * const tci = sheet_col_get_info (sheet, i);
-						if (tci->visible)
-							real_x += tci->size_pixels;
-					}
-
-					/*
-					 * Draw the cell
-					 */
-					count = item_grid_draw_cell (
-						drawable, item_grid, cell,
-						real_x, y_paint);
-					/*
-					 * Optimization: advance over every
-					 * cell we already painted on
-					 *
-					 * FIXME : This will lose borders.
-					 */
-					end_col = cell->col->pos + count;
-
-					for (i = col+1; i < end_col; i++, col++) {
-						ColRowInfo const * const tci = sheet_col_get_info (sheet, i);
-						if (tci->visible)
-							x_paint += tci->size_pixels;
-					}
-				} /* if cell */
+				item_grid_draw_cell (drawable, item_grid, cell,
+						     real_style, real_x, y_paint);
+				mstyle_unref (real_style);
 			}
-			x_paint += ci->size_pixels;
 		}
 		y_paint += ri->size_pixels;
 	}

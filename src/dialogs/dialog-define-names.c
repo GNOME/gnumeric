@@ -8,10 +8,10 @@
 #include <config.h>
 #include <gnome.h>
 #include <glade/glade.h>
-#include "gnumeric.h"
-#include "gnumeric-util.h"
 #include "dialogs.h"
+#include "expr.h"
 #include "workbook.h"
+#include "gnumeric-util.h"
 
 #define LIST_KEY "name_list_data"
 

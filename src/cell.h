@@ -6,7 +6,6 @@
 
 #include "style.h"
 #include "str.h"
-#include "expr.h"
 
 /* Cell contains a comment */
 #define CELL_HAS_COMMENT       1
@@ -110,7 +109,8 @@ void        cell_set_mstyle              (const Cell *cell, MStyle *mstyle);
 void        cell_style_changed           (Cell *cell);
 void        cell_relocate                (Cell *cell, gboolean const check_bounds);
 
-void        cell_get_span                (Cell *cell, int *col1, int *col2);
+void        cell_calculate_span          (Cell const * const cell,
+					  int * const col1, int * const col2);
 char       *cell_get_text                (Cell *cell);
 char       *cell_get_content             (Cell *cell);
 char       *cell_get_value_as_text       (Cell *cell);
@@ -139,25 +139,11 @@ void        cell_freeze_redraws          (void);
 void        cell_deep_thaw_redraws            (void);
 void        cell_deep_freeze_redraws          (void);
 
-/*
- * Routines used to lookup which cells displays on a given column
- *
- * These are defined in cellspan.c
- */
-Cell *      row_cell_get_displayed_at    (ColRowInfo const * const ri, int const col);
-void        cell_register_span           (Cell *cell, int left, int right);
-void        cell_unregister_span         (Cell *cell);
+/* Cell state checking */
+gboolean    cell_is_blank		 (Cell const * const cell);
+Value *     cell_is_error                (Cell const * const cell);
 
-void        row_init_span                (ColRowInfo *ri);
-void        row_destroy_span             (ColRowInfo *ri);
-
-/* A utility routine to check if a cell is blank */
-gboolean    cell_is_blank		 (Cell *cell);
-
-/* If a cell has an error value return it */
-Value *     cell_is_error                 (Cell const *cell);
-
-char *      cell_get_format               (const Cell *cell);
-gboolean    cell_has_assigned_format      (const Cell *cell);
+char *      cell_get_format              (const Cell *cell);
+gboolean    cell_has_assigned_format     (const Cell *cell);
 
 #endif /* GNUMERIC_CELL_H */

@@ -1304,7 +1304,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 	char *v = NULL;
 	StyleFormatEntry entry;
 	GList *list;
-	int is_general = 0;
+	gboolean is_general = FALSE;
 
 	if (color)
 		*color = NULL;
@@ -1347,8 +1347,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 		return g_strdup ("");
 
 	if (strcmp (entry.format, "General") == 0) {
-		entry.format += 7;
-		is_general = 1;
+		is_general = TRUE;
 	}
 	/* FIXME: what about translated "General"?  */
 
@@ -1363,6 +1362,11 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 	case VALUE_FLOAT:
 		if (finite (value->v.v_float)) {
 			if (is_general){
+				/* FIXME FIXME FIXME : This is pathetic
+				 * rendering for General should be done
+				 * with knowledge of the cell width to
+				 * compute the optimal format
+				 */
 				if (floor (value->v.v_float) == value->v.v_float)
 					entry.format = "0";
 				else

@@ -25,6 +25,7 @@
 #include "application.h"
 #include "command-context.h"
 #include "commands.h"
+#include "cellspan.h"
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
 #endif
@@ -754,7 +755,7 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 		int left, right;
 
 		cell_unregister_span (cell);
-		cell_get_span (cell, &left, &right);
+		cell_calculate_span (cell, &left, &right);
 		if (left != right)
 			cell_register_span (cell, left, right);
 	}
@@ -1575,11 +1576,11 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 	 * Now register the sizes of our cells
 	 */
 	if (cell_on_spot){
-		cell_get_span (cell_on_spot, &left, &right);
+		cell_calculate_span (cell_on_spot, &left, &right);
 		if (left != right)
 			cell_register_span (cell_on_spot, left, right);
 	}
-	cell_get_span (cell, &left, &right);
+	cell_calculate_span (cell, &left, &right);
 	if (left != right)
 		cell_register_span (cell, left, right);
 }

@@ -96,9 +96,6 @@ typedef enum {
  * Function parameter structures
  */
 
-/* FIXME: Should be tastefuly concealed */
-typedef struct _FunctionDefinition FunctionDefinition;
-
 enum _FuncType { FUNCTION_ARGS, FUNCTION_NODES };
 typedef enum _FuncType FuncType;
 

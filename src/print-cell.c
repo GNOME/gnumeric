@@ -204,7 +204,7 @@ print_cell_text (Cell *cell, MStyle *mstyle,
 	} else
 		text = cell->text->str;
 
-	cell_get_span (cell, &start_col, &end_col);
+	cell_calculate_span (cell, &start_col, &end_col);
 
 	/* Get the sizes exclusive of margins and grids */
 	width  = cell->col->size_pts - cell->col->margin_a - cell->col->margin_b - 1;

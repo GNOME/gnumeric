@@ -55,7 +55,10 @@ gint   style_border_get_width   (StyleBorderType const line_type);
 void   style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type);
 GdkGC *style_border_get_gc      (MStyleBorder *border, GdkWindow *window);
 
-void   style_border_draw (GdkDrawable * drawable, const MStyleBorder *border,
-			  int x1, int y1, int x2, int y2);
+void style_border_draw (MStyleBorder const * const st, MStyleElementType const t,
+			GdkDrawable * const drawable,
+			int const x1, int const y1, int const x2, int const y2,
+			MStyleBorder const * const extend_begin,
+			MStyleBorder const * const extend_end);
 
 #endif /* GNUMERIC_BORDER_H */

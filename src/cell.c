@@ -19,6 +19,7 @@
 #include "cursors.h"
 #include "utils.h"
 #include "cell.h"
+#include "cellspan.h"
 #include "gnumeric-util.h"
 
 static int         redraws_frozen           = 0;
@@ -360,7 +361,7 @@ cell_set_rendered_text (Cell *cell, const char *rendered_text)
 }
 
 char *
-cell_get_formatted_val (Cell *cell, StyleColor **col)
+cell_get_formatted_val (Cell *cell, StyleColor **colour)
 {
 	MStyle *mstyle;
 	char *txt;
@@ -369,7 +370,7 @@ cell_get_formatted_val (Cell *cell, StyleColor **col)
 				      cell->row->pos);
 	if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT))
 		txt = format_value (mstyle_get_format (mstyle),
-				    cell->value, col);
+				    cell->value, colour);
 	else {
 		g_warning ("No format: serious error");
 		txt = g_strdup ("Error");
@@ -1024,7 +1025,7 @@ cell_contents_fit_inside_column (const Cell *cell)
 }
 
 /*
- * cell_get_span:
+ * cell_calculate_span:
  * @cell:   The cell we will examine
  * @col1:   return value: the first column used by this cell
  * @col2:   return value: the last column used by this cell
@@ -1032,7 +1033,8 @@ cell_contents_fit_inside_column (const Cell *cell)
  * This routine returns the column interval used by a Cell.
  */
 void
-cell_get_span (Cell *cell, int *col1, int *col2)
+cell_calculate_span (Cell const * const cell,
+		     int * const col1, int * const col2)
 {
 	Sheet *sheet;
 	int align, left;
@@ -1322,7 +1324,7 @@ cell_calc_dimensions (Cell *cell)
 		cell->width_pixel = 0;
 
 	/* Register the span */
-	cell_get_span (cell, &left, &right);
+	cell_calculate_span (cell, &left, &right);
 	if (left != right)
 		cell_register_span (cell, left, right);
 }
@@ -1413,25 +1415,20 @@ cell_get_comment (Cell *cell)
 }
 
 gboolean
-cell_is_blank (Cell *cell)
+cell_is_blank (Cell const * const cell)
 {
-	if (cell == NULL || cell->value == NULL ||
-	    cell->value->type == VALUE_EMPTY)
-		return TRUE;
-
-	/* FIXME FIXME : this won't be necessary when we have a VALUE_EMPTY */
-	return (cell->value->type == VALUE_STRING &&
-		*(cell->value->v.str->str) == '\0');
+	return (cell == NULL || cell->value == NULL ||
+		cell->value->type == VALUE_EMPTY);
 }
 
 Value *
-cell_is_error (Cell const *cell)
+cell_is_error (Cell const * const cell)
 {
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->value != NULL, NULL);
+
 	if (cell->value->type == VALUE_ERROR)
 		return cell->value;
-
 	return NULL;
 }
 
@@ -1494,7 +1491,7 @@ cell_style_changed (Cell *cell)
 	g_return_if_fail (cell->sheet != NULL);
 
 	cell_calc_dimensions (cell);
-	cell_get_span (cell, &a, &b);
+	cell_calculate_span (cell, &a, &b);
 
 	/*
 	 * Paranoid; re-draw the max. old span possible.

@@ -262,8 +262,8 @@ dif_read_workbook (CommandContext *context,
 	}
 
 	len = sbuf.st_size;
-	if (MAP_FAILED != (data = (char const *) (mmap(0, len, PROT_READ,
-						       MAP_PRIVATE, fd, 0)))) {
+	if ((caddr_t)MAP_FAILED != (data = (caddr_t) (mmap(0, len, PROT_READ,
+							   MAP_PRIVATE, fd, 0)))) {
 		FileSource_t src;
 		char * name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 

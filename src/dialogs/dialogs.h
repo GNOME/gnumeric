@@ -5,7 +5,6 @@
 #include "cell.h"
 #include "summary.h"
 
-
 void     dialog_plugin_manager  (Workbook *wb);
 void   	 dialog_goto_cell       (Workbook *wb);
 void   	 dialog_cell_format     (Workbook *wb, Sheet *sheet);
