@@ -6,6 +6,7 @@ Gnumeric Spread Sheet task list
    Have a new "manager" file that will take over the details of open
    workbooks and active servers, instead of the current approach we
    use to have this management in the workbook.c file
+   This belongs in application.c.
 
 * Component
 
@@ -61,8 +62,6 @@ Gnumeric Spread Sheet task list
 
   * Get the list of *valid* fonts from GnomePrint
   * Create a simplistic dialog (to map to font-bold yes/no).
-
-* Cell dimension computation is broken on font change for multi-lines.
 
 * when copying and entire row or col we should also copy the row/col size.
 

@@ -3024,6 +3024,9 @@ xml_probe (const char *filename)
 	 * Do a silent call to the XML parser.
 	 */
 	ctxt = xmlCreateFileParserCtxt(filename);
+	if (ctxt == NULL)
+		return FALSE;
+
 	memcpy(&silent, ctxt->sax, sizeof(silent));
 	old = ctxt->sax;
 	silent.error = NULL;

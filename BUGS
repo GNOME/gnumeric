@@ -53,17 +53,18 @@ Long term breakage
 - Names : Sheet local vs workbook local vs application global (does that exist ?)
 	: addresses not changing with row/col ins/del.
 
-- Underline should scale with font size.  (Say, min (1, font->descent/4?)
+- Underline should scale with font size.  (Say, max (1, font->descent/4?)
   gnome-print has a function we could use for printing which returns the
   underline thickness.
 
 - Error handling is completely hosed.  We currently save the value of a cell
   as a string.  This means that we need to be able to parse that a value is an
   error.  Currently this only works for the standard errors.
+  eg  value_error_new("1+3") will print the string 1+3 as the error.
+      Something more comprehensive is necessary.
 
 Dialogs
 -------
-- Enhance function wizard
 - Use color combos in format dialog.
 - Function selector
     : Double click in the function list should select a function.
@@ -71,12 +72,10 @@ Dialogs
     : typing in the function list should jump to an entry that starts with the
       requested letter.
 - Formula Guru
-    : Sizing sucks
-    : Roll/Unroll is not shrinking suddenly.
+    : maintaining visibility of entries when the window is scrollable.
     : Editing nested funtions
     : Switching between multiple function at the same level.
     : Better communication and handling of parse errors.
-    : Does not exit when escape is hit.
 
 Function Breakage
 -----------------
@@ -87,9 +86,7 @@ Printing
 --------
 - cell text wraps differently when printing than displaying due to scaling
   differences in font size.  do we want to eliminate this ?
-- headers and footers should be clipped to a rectangle.
-- add accessors to header and footer sizes to enforce the invariants
-  header >= top margin, footer >= bottom margin.
+- headers and footers should be clipped
 
 Widget polishing
 ----------------
