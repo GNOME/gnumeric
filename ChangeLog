@@ -1,3 +1,8 @@
+2003-12-11  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/xml-io.c (xml_read_sheet_object): Do not try to get the class of
+	object before its instantiation.
+
 2003-12-10  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (append_hour_elapsed): Re-fix display of negative

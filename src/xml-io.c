@@ -2702,7 +2702,7 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 	int tmp_int;
 	GObject *obj;
 	SheetObject *so;
-	SheetObjectClass *klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so));
+	SheetObjectClass *klass;
 
 	/* Old crufty IO */
 	if (!strcmp (tree->name, "Rectangle"))
@@ -2738,6 +2738,8 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 
 		so = SHEET_OBJECT (obj);
 	}
+
+	klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so));
 
 	if (klass->read_xml_dom &&
 	    (klass->read_xml_dom) (so, tree->name, ctxt, tree)) {
