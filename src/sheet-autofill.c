@@ -118,7 +118,7 @@ typedef struct _FillItem {
 		} list;
 		struct {
 			String   *str;
-			int       pos; /* In bytes */
+			int       pos, endpos; /* In bytes */
 			int       num;
 		} numstr;
 		gboolean v_bool;
@@ -183,13 +183,13 @@ matches_list (char const *s, int *n, int *is_i18n)
 }
 
 static gboolean
-string_has_number (const String *str, int *num, int *bytepos)
+string_has_number (const String *str, int *num, int *bytepos, int *byteendpos)
 {
 	const char *s = str->str;
-	const char *end;
+	const char *end, *p;
 	gboolean neg, hassign;
-	guint64 val;
-	gint64 sval;
+	unsigned long val;
+	long sval;
 
 	neg = (*s == '-');
 	hassign = (*s == '-' || *s == '+');
@@ -198,33 +198,34 @@ string_has_number (const String *str, int *num, int *bytepos)
 
 	if (g_unichar_isdigit (g_utf8_get_char (s))) {
 		/* Number in front.  */
-		end = s;
+		p = s;
 	} else {
 		/* Maybe number in back.  */
 
-		end = s + strlen (s);
-		while (end > s) {
-			const char *em1 = g_utf8_prev_char (end);
-			gunichar c = g_utf8_get_char (em1);
+		p = s + strlen (s);
+		while (p > s) {
+			const char *p1 = g_utf8_prev_char (p);
+			gunichar c = g_utf8_get_char (p1);
 			if (!g_unichar_isdigit (c))
 				break;
-			end = em1;
+			p = p1;
 		}
 
-		if (*end == 0)
+		if (*p == 0)
 			return FALSE;
 
 		/* Only take sign into account if whole string is number.  */
-		if (s != end)
+		if (s != p)
 			hassign = neg = FALSE;
 	}
 
 	errno = FALSE;
-	val = g_ascii_strtoull (end, NULL, 10);
-	sval = neg ? -(gint64)val : (gint64)val;
+	val = strtoul (p, (gchar **)&end, 10);
+	sval = neg ? -(long)val : (long)val;
 	*num = (int)sval;
 
-	*bytepos = (hassign ? end - 1 : end) - str->str;
+	*bytepos = (hassign ? p - 1 : p) - str->str;
+	*byteendpos = end - str->str;
 
 	return errno == 0 && *num == (int)sval;
 }
@@ -313,7 +314,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 
 	if (value_type == VALUE_STRING) {
 		AutoFillList const *list;
-		int  num, pos, i18;
+		int  num, pos, endpos, i18;
 
 		fi->type = FILL_STRING_CONSTANT;
 		fi->v.str = string_ref (value->v_str.val);
@@ -327,11 +328,12 @@ fill_item_new (Sheet *sheet, int col, int row)
 			return fi;
 		}
 
-		if (string_has_number (value->v_str.val, &num, &pos)) {
+		if (string_has_number (value->v_str.val, &num, &pos, &endpos)) {
 			fi->type = FILL_STRING_WITH_NUMBER;
 			fi->v.numstr.str = value->v_str.val;
 			fi->v.numstr.num = num;
 			fi->v.numstr.pos = pos;
+			fi->v.numstr.endpos = endpos;
 		}
 
 		return fi;
@@ -592,30 +594,16 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 
 	case FILL_STRING_WITH_NUMBER: {
 		FillItem *delta = fi->group_last;
-		char buffer [sizeof (int) * 4], *v;
-		int i;
+		int i = delta->v.numstr.num + idx * delta->delta.d_int;
+		int prefixlen = delta->v.numstr.pos;
+		const char *prefix = delta->v.numstr.str->str;
+		const char *postfix = delta->v.numstr.str->str +
+			delta->v.numstr.endpos;
 
-		i = delta->v.numstr.num + idx * delta->delta.d_int;
-		sprintf (buffer, "%d", i);
+		char *v = g_strdup_printf ("%-.*s%d%s",
+					   prefixlen, prefix, i, postfix);
 
-		if (delta->v.numstr.pos == 0) {
-			const char *p = delta->v.numstr.str->str;
-
-			if (*p == '-' || *p == '+')
-				p++;
-			while (g_unichar_isdigit (g_utf8_get_char (p)))
-				p = g_utf8_next_char (p);
-
-			v = g_strconcat (buffer, p, NULL);
-		} else {
-			char *n = g_strndup (delta->v.numstr.str->str,
-					     delta->v.numstr.pos);
-			v = g_strconcat (n, buffer, NULL);
-			g_free (n);
-		}
-
-		sheet_cell_set_value (cell, value_new_string (v));
-		g_free (v);
+		sheet_cell_set_value (cell, value_new_string_nocopy (v));
 		return;
 	}
 

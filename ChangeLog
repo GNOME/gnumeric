@@ -1,5 +1,11 @@
 2002-11-19  Morten Welinder  <terra@diku.dk>
 
+	* src/sheet-autofill.c (autofill_cell): Unify, generalise,
+	optimise, and clean up FILL_STRING_WITH_NUMBER case.
+	(string_has_number): Add arg to return endpos of number.
+
+2002-11-19  Morten Welinder  <terra@diku.dk>
+
 	* src/sheet-autofill.c (string_has_number): Change to return
 	gboolean.  Constify.  Make UTF-8 safe.
 	(autofill_cell): Fix for negative numbers as strings.
