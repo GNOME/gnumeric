@@ -1,3 +1,7 @@
+2002-08-13  Jody Goldberg <jody@gnome.org>
+
+	* src/regutf8.c : Add REG_OK
+
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump

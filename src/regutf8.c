@@ -39,6 +39,10 @@
 #define REG_EESCAPE REG_BADPAT
 #endif
 
+#ifndef REG_OK
+#define REG_OK REG_NOERROR
+#endif
+
 // ----------------------------------------------------------------------------
 
 #define MP_SRCEXT 1
