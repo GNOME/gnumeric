@@ -130,9 +130,11 @@
 	      </para>
 	    </textobject>
 	    <caption>
-	      The different components of the <interface>File
-              Open</interface> dialog, shaded with boxes of different
-              colors and labeled with a letter.
+	      <para>
+                The different components of the <interface>File
+                Open</interface> dialog, shaded with boxes of different
+                colors and labeled with a letter.
+              </para>
 	    </caption>
 	  </mediaobject>
 	</screenshot>
