@@ -225,52 +225,53 @@ mstyle_element_dump (const MStyleElement *e)
 
 	switch (e->type) {
 	case MSTYLE_ELEMENT_UNSET:
-		g_string_sprintf (ans, "Unset");
+		g_string_printf (ans, "Unset");
 		break;
 	case MSTYLE_COLOR_FORE:
-		g_string_sprintf (ans, "foregnd col");
+		g_string_printf (ans, "foregnd col");
 		break;
 	case MSTYLE_COLOR_BACK:
-		g_string_sprintf (ans, "backgnd col");
+		g_string_printf (ans, "backgnd col");
 		break;
 	case MSTYLE_COLOR_PATTERN:
-		g_string_sprintf (ans, "pattern col");
+		g_string_printf (ans, "pattern col");
 		break;
 	case MSTYLE_FONT_NAME:
-		g_string_sprintf (ans, "name '%s'", e->u.font.name->str);
+		g_string_printf (ans, "name '%s'", e->u.font.name->str);
 		break;
 	case MSTYLE_FONT_BOLD:
 		if (e->u.font.bold)
-			g_string_sprintf (ans, "bold");
+			g_string_printf (ans, "bold");
 		else
-			g_string_sprintf (ans, "not bold");
+			g_string_printf (ans, "not bold");
 		break;
 	case MSTYLE_FONT_ITALIC:
 		if (e->u.font.italic)
-			g_string_sprintf (ans, "italic");
+			g_string_printf (ans, "italic");
 		else
-			g_string_sprintf (ans, "not italic");
+			g_string_printf (ans, "not italic");
 		break;
 	case MSTYLE_FONT_UNDERLINE:
 		switch (e->u.font.underline) {
 		default :
 		case UNDERLINE_NONE :
-			g_string_sprintf (ans, "not underline");
+			g_string_printf (ans, "not underline");
 		case UNDERLINE_SINGLE :
-			g_string_sprintf (ans, "single underline");
+			g_string_printf (ans, "single underline");
 		case UNDERLINE_DOUBLE :
-			g_string_sprintf (ans, "double underline");
+			g_string_printf (ans, "double underline");
 		};
 		break;
 	case MSTYLE_FONT_STRIKETHROUGH:
 		if (e->u.font.strikethrough)
-			g_string_sprintf (ans, "strikethrough");
+			g_string_printf (ans, "strikethrough");
 		else
-			g_string_sprintf (ans, "not strikethrough");
+			g_string_printf (ans, "not strikethrough");
 		break;
 	case MSTYLE_FONT_SIZE:
-		g_string_sprintf (ans, "size %f", e->u.font.size);
+		g_string_printf (ans, "size %f", e->u.font.size);
 		break;
+
 	case MSTYLE_BORDER_TOP:
 	case MSTYLE_BORDER_BOTTOM:
 	case MSTYLE_BORDER_LEFT:
@@ -278,32 +279,32 @@ mstyle_element_dump (const MStyleElement *e)
 	case MSTYLE_BORDER_DIAGONAL:
 	case MSTYLE_BORDER_REV_DIAGONAL:
 		if (e->u.border.any)
-			g_string_sprintf (ans, "%s %d", mstyle_names[e->type], e->u.border.any->line_type);
+			g_string_printf (ans, "%s %d", mstyle_names[e->type], e->u.border.any->line_type);
 		else
-			g_string_sprintf (ans, "%s blank", mstyle_names[e->type]);
+			g_string_printf (ans, "%s blank", mstyle_names[e->type]);
 		break;
-	case MSTYLE_FORMAT:
-	{
-		char *fmt = style_format_as_XL (e->u.format, TRUE);
-		g_string_sprintf (ans, "format '%s'", fmt);
-		g_free (fmt);
 
+	case MSTYLE_FORMAT: {
+		char *fmt = style_format_as_XL (e->u.format, TRUE);
+		g_string_printf (ans, "format '%s'", fmt);
+		g_free (fmt);
 		break;
 	}
+
 	case MSTYLE_PATTERN :
-		g_string_sprintf (ans, "pattern %d", e->u.pattern);
+		g_string_printf (ans, "pattern %d", e->u.pattern);
 		break;
 
 	case MSTYLE_VALIDATION :
-		g_string_sprintf (ans, "validation ref_count '%d'", e->u.validation->ref_count);
+		g_string_printf (ans, "validation ref_count '%d'", e->u.validation->ref_count);
 		break;
 
 	case MSTYLE_HLINK :
-		g_string_sprintf (ans, "hlink %p", e->u.hlink);
+		g_string_printf (ans, "hlink %p", e->u.hlink);
 		break;
 
 	default:
-		g_string_sprintf (ans, "%s", mstyle_names[e->type]);
+		g_string_printf (ans, "%s", mstyle_names[e->type]);
 		break;
 	}
 
@@ -834,10 +835,10 @@ mstyle_to_string (const MStyle *style)
 
 		if (style->elements[i].type) {
 			txt = mstyle_element_dump (&style->elements[i]);
-			g_string_sprintfa (ans, "%s ", txt);
+			g_string_append_printf (ans, "%s ", txt);
 			g_free (txt);
 		} else
-			g_string_sprintfa (ans, ".");
+			g_string_append_printf (ans, ".");
 	}
 	txt_ans = ans->str;
 	g_string_free (ans, FALSE);

@@ -60,7 +60,7 @@ history_item_label (const gchar *name, const gint accel_number)
 	char *label, *menuname, *tmp;
 
 	/* Translate '_' to '-' so menu will not show underline.  */
-	menuname = g_strdup (g_basename (name));
+	menuname = g_path_get_basename (name);
 	for (tmp = menuname; *tmp; tmp++)
 		if (*tmp == '_')
 			*tmp = '-';

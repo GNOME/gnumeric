@@ -348,7 +348,7 @@ xml_node_get_print_unit (xmlNodePtr node, PrintUnit * const pu)
 	xml_node_get_double (node, "Points", &pu->points);
 	txt = (gchar *)xmlGetProp  (node, (xmlChar const *)"PrefUnit");
 	if (txt) {
-		if (!g_strcasecmp (txt, "points"))
+		if (!g_ascii_strcasecmp (txt, "points"))
 			pu->desired_display = UNIT_POINTS;
 		else if (!strcmp (txt, "mm"))
 			pu->desired_display = UNIT_MILLIMETER;
@@ -1746,8 +1746,8 @@ xml_not_used_old_array_spec (Cell *cell, char *content)
 
 #if 0
 	/* This is the syntax we are trying to parse */
-	g_string_sprintfa (str, "{%s}(%d,%d)[%d][%d]", expr_text,
-			   array.rows, array.cols, array.y, array.x);
+	g_string_append_printf (str, "{%s}(%d,%d)[%d][%d]", expr_text,
+		array.rows, array.cols, array.y, array.x);
 #endif
 	char *end, *expr_end, *ptr;
 
@@ -3301,53 +3301,54 @@ xml_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	int ret;
 	xmlDocPtr res = NULL;
-	xmlNsPtr gmr;
-	xmlParserCtxtPtr ctxt;
-	xmlSAXHandler silent, *old;
+	xmlParserCtxt *ctxt;
 	GnumericXMLVersion version;
 
 	if (pl == FILE_PROBE_FILE_NAME) {
-		char const *extension = gsf_extension_pointer (gsf_input_name (input));
+		char const *name = gsf_input_name (input);
+		int len;
 
-		return (extension != NULL &&
-		        (g_strcasecmp (extension, "gnumeric") == 0 ||
-			 g_strcasecmp (extension, "xml.gz") == 0 ||
-			 g_strcasecmp (extension, "xml") == 0));
+		if (name == NULL)
+			return FALSE;
+
+		len = strlen (name);
+		if (len >= 7 && !g_ascii_strcasecmp (name+len-7, ".xml.gz"))
+			return TRUE;
+
+		name = gsf_extension_pointer (name);
+
+		return (name != NULL &&
+		        (g_ascii_strcasecmp (name, "gnumeric") == 0 ||
+			 g_ascii_strcasecmp (name, "xml") == 0));
 	}
 
-	/* Do a silent call to the XML parser. */
 	if (gsf_input_seek (input, 0, G_SEEK_SET))
 		return FALSE;
+
+	/* handles gzip internally */
 	ctxt = gsf_xml_parser_context (input);
 	if (ctxt == NULL)
 		return FALSE;
 
-	memset (&silent, 0, sizeof (silent));
-	old = ctxt->sax;
-	ctxt->sax = &silent;
+	/* Do a silent call to the XML parser. */
+	ctxt->sax->comment    = NULL;
+	ctxt->sax->warning    = NULL;
+	ctxt->sax->error      = NULL;
+	ctxt->sax->fatalError = NULL;
 
 	xmlParseDocument (ctxt);
-
 	ret = ctxt->wellFormed;
 	res = ctxt->myDoc;
-	ctxt->sax = old;
 	xmlFreeParserCtxt (ctxt);
-
-	if (!ret) {
-		xmlFreeDoc (res);
-	        return FALSE;
-	}
 
 	if (res == NULL)
 		return FALSE;
-	if (res->xmlRootNode == NULL) {
-		xmlFreeDoc (res);
-		return FALSE;
-	}
-
-	gmr = xml_check_version (res, &version);
+	if (ret && res->xmlRootNode != NULL)
+		ret = NULL != xml_check_version (res, &version);
+	else
+		ret = FALSE;
 	xmlFreeDoc (res);
-	return gmr != NULL;
+	return ret;
 }
 
 static void
@@ -3391,6 +3392,7 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 
 	gzip = gsf_input_gzip_new (input, NULL);
 	source = (gzip != NULL) ? GSF_INPUT (gzip) : input;
+
 #warning Possible overflow
 	value_io_progress_set (context, gsf_input_size (source), 0);
 
@@ -3473,7 +3475,7 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 	/* If the suffix is .xml disable compression */
 	extension = gsf_extension_pointer (filename);
 	compression =
-		(extension != NULL && g_strcasecmp (extension, "xml") == 0)
+		(extension != NULL && g_ascii_strcasecmp (extension, "xml") == 0)
 		? 0 : -1;
 
 	gnumeric_xml_set_compression (xml, compression);

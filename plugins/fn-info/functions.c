@@ -189,7 +189,7 @@ translate_cell_format (StyleFormat const *format)
 	for (i = 0; i < translate_table_count; i++) {
 		const translate_t *t = &translate_table[i];
 
-		if (!g_strcasecmp (fmt, t->format)) {
+		if (!g_ascii_strcasecmp (fmt, t->format)) {
 			g_free (fmt);
 			return value_new_string (t->output);
 		}
@@ -218,14 +218,14 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	CellRef const *ref = &argv [1]->v_range.cell.a;
 
 	/* from CELL - limited usefulness! */
-	if (!g_strcasecmp(info_type, "address")) {
+	if (!g_ascii_strcasecmp(info_type, "address")) {
 		ParsePos pp;
 		char *ref_name = cellref_name (ref,
 			parse_pos_init_evalpos (&pp, ei->pos), TRUE);
 		return value_new_string_nocopy (ref_name);
 
 	/* from later 123 versions - USEFUL! */
-	} else if (!g_strcasecmp(info_type, "coord")) {
+	} else if (!g_ascii_strcasecmp(info_type, "coord")) {
 		ParsePos pp;
 		CellRef tmp = *ref;
 		char *ref_name;
@@ -237,12 +237,12 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		return value_new_string_nocopy (ref_name);
 
 	/* from CELL - pointless - use COLUMN instead! */
-	} else if (!g_strcasecmp (info_type, "col") ||
-		   !g_strcasecmp (info_type, "column")) {
+	} else if (!g_ascii_strcasecmp (info_type, "col") ||
+		   !g_ascii_strcasecmp (info_type, "column")) {
 		return value_new_int (ref->col + 1);
 
 	/* from CELL - pointless - use ROW instead! */
-	} else if (!g_strcasecmp (info_type, "row")) {
+	} else if (!g_ascii_strcasecmp (info_type, "row")) {
 		return value_new_int (ref->row + 1);
 
 	/* from CELL - limited usefulness
@@ -252,7 +252,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	 * for format "0;-0;[Green]0"
 	 * Another place where Excel doesn't conform to it's documentation!
 	 */
-	} else if (!g_strcasecmp (info_type, "color")) {
+	} else if (!g_ascii_strcasecmp (info_type, "color")) {
 		FormatCharacteristics info =
 			retrieve_format_info (ei->pos->sheet, ref->col, ref->row);
 
@@ -261,8 +261,8 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 			value_new_int (0);
 
 	/* absolutely pointless - compatibility only */
-	} else if (!g_strcasecmp (info_type, "contents") ||
-		   !g_strcasecmp (info_type, "value")) {
+	} else if (!g_ascii_strcasecmp (info_type, "contents") ||
+		   !g_ascii_strcasecmp (info_type, "value")) {
 		Cell const *cell =
 			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
 		if (cell && cell->value)
@@ -274,7 +274,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	 * 123R2.2 (it wasn't in 123R2.0x), modify it in Excel 4.0 to include
 	 * the worksheet name, but they can't make any other changes to CELL?!
 	 */
-	} else if (!g_strcasecmp (info_type, "filename")) {
+	} else if (!g_ascii_strcasecmp (info_type, "filename")) {
 		char const *name = ei->pos->sheet->workbook->filename;
 
 		if (name == NULL)
@@ -284,7 +284,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 
 	/* from CELL */
 	/* Backwards compatibility w/123 - unnecessary */
-	} else if (!g_strcasecmp (info_type, "format")) {
+	} else if (!g_ascii_strcasecmp (info_type, "format")) {
 		MStyle const *mstyle =
 			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
 
@@ -292,7 +292,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 
 	/* from CELL */
 	/* Backwards compatibility w/123 - unnecessary */
-	} else if (!g_strcasecmp (info_type, "parentheses")) {
+	} else if (!g_ascii_strcasecmp (info_type, "parentheses")) {
 		FormatCharacteristics info =
 			retrieve_format_info (ei->pos->sheet, ref->col, ref->row);
 
@@ -302,8 +302,8 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 
 	/* from CELL */
 	/* Backwards compatibility w/123 - unnecessary */
-	} else if (!g_strcasecmp (info_type, "prefix") ||
-		   !g_strcasecmp (info_type, "prefixcharacter")) {
+	} else if (!g_ascii_strcasecmp (info_type, "prefix") ||
+		   !g_ascii_strcasecmp (info_type, "prefixcharacter")) {
 		MStyle const *mstyle =
 			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
 		Cell const *cell =
@@ -322,8 +322,8 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		return value_new_string ("");
 
 	/* from CELL */
-	} else if (!g_strcasecmp (info_type, "locked") ||
-		   !g_strcasecmp (info_type, "protect")) {
+	} else if (!g_ascii_strcasecmp (info_type, "locked") ||
+		   !g_ascii_strcasecmp (info_type, "protect")) {
 		MStyle const *mstyle =
 			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
 		return value_new_int (mstyle_get_content_locked (mstyle) ? 1 : 0);
@@ -352,9 +352,9 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
         End If
 	*/
 
-	} else if (!g_strcasecmp (info_type, "type") ||
-		   !g_strcasecmp (info_type, "datatype") ||
-		   !g_strcasecmp (info_type, "formulatype")) {
+	} else if (!g_ascii_strcasecmp (info_type, "type") ||
+		   !g_ascii_strcasecmp (info_type, "datatype") ||
+		   !g_ascii_strcasecmp (info_type, "formulatype")) {
 		Cell const *cell =
 			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
 		if (cell && cell->value) {
@@ -366,8 +366,8 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		return value_new_string ("b");
 
 	/* from CELL */
-	} else if (!g_strcasecmp (info_type, "width") ||
-		   !g_strcasecmp (info_type, "columnwidth")) {
+	} else if (!g_ascii_strcasecmp (info_type, "width") ||
+		   !g_ascii_strcasecmp (info_type, "columnwidth")) {
 		ColRowInfo const *info =
 			sheet_col_get_info (ei->pos->sheet, ref->col);
 		double charwidth;
@@ -1308,26 +1308,26 @@ static Value *
 gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 {
 	char const * const info_type = value_peek_string (argv[0]);
-	if (!g_strcasecmp (info_type, "directory")) {
+	if (!g_ascii_strcasecmp (info_type, "directory")) {
 		/* Path of the current directory or folder.  */
 		return value_new_error (ei->pos, _("Unimplemented"));
-	} else if (!g_strcasecmp (info_type, "memavail")) {
+	} else if (!g_ascii_strcasecmp (info_type, "memavail")) {
 		/* Amount of memory available, in bytes.  */
 		return value_new_int (15 << 20);  /* Good enough... */
-	} else if (!g_strcasecmp (info_type, "memused")) {
+	} else if (!g_ascii_strcasecmp (info_type, "memused")) {
 		/* Amount of memory being used for data.  */
 		return value_new_int (1 << 20);  /* Good enough... */
-	} else if (!g_strcasecmp (info_type, "numfile")) {
+	} else if (!g_ascii_strcasecmp (info_type, "numfile")) {
 		/* Number of active worksheets.  */
 		return value_new_int (1);  /* Good enough... */
-	} else if (!g_strcasecmp (info_type, "origin")) {
+	} else if (!g_ascii_strcasecmp (info_type, "origin")) {
 		/* Absolute A1-style reference, as text, prepended with "$A:"
 		 * for Lotus 1-2-3 release 3.x compatibility. Returns the cell
 		 * reference of the top and leftmost cell visible in the
 		 * window, based on the current scrolling position.
 		 */
 		return value_new_error (ei->pos, _("Unimplemented"));
-	} else if (!g_strcasecmp (info_type, "osversion")) {
+	} else if (!g_ascii_strcasecmp (info_type, "osversion")) {
 		/* Current operating system version, as text.  */
 		struct utsname unamedata;
 
@@ -1340,13 +1340,13 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 						     unamedata.release);
 			return value_new_string_nocopy (tmp);
 		}
-	} else if (!g_strcasecmp (info_type, "recalc")) {
+	} else if (!g_ascii_strcasecmp (info_type, "recalc")) {
 		/* Current recalculation mode; returns "Automatic" or "Manual".  */
 		return value_new_string (_("Automatic"));
-	} else if (!g_strcasecmp (info_type, "release")) {
+	} else if (!g_ascii_strcasecmp (info_type, "release")) {
 		/* Version of Gnumeric (Well, Microsoft Excel), as text.  */
 		return value_new_string (GNUMERIC_VERSION);
-	} else if (!g_strcasecmp (info_type, "system")) {
+	} else if (!g_ascii_strcasecmp (info_type, "system")) {
 		/* Name of the operating environment.  */
 		struct utsname unamedata;
 
@@ -1354,7 +1354,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 			return value_new_error (ei->pos, _("Unknown system"));
 		else
 			return value_new_string (unamedata.sysname);
-	} else if (!g_strcasecmp (info_type, "totmem")) {
+	} else if (!g_ascii_strcasecmp (info_type, "totmem")) {
 		/* Total memory available, including memory already in use, in
 		 * bytes.
 		 */

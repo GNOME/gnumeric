@@ -388,14 +388,15 @@ sylk_file_open (GnumFileOpener const *fo,
 {
 	SylkReadState state;
 	char const *input_name;
-	char *name;
+	char *name, *base;
 	Workbook *book = wb_view_workbook (wb_view);
 	ErrorInfo *sheet_error;
 
 	input_name = gsf_input_name (input);
 	if (input_name == NULL)
 		input_name = "";
-	name = g_strdup_printf (_("Imported %s"), g_basename (input_name));
+	base = g_path_get_basename (input_name);
+	name = g_strdup_printf (_("Imported %s"), base);
 
 	memset (&state, 0, sizeof (state));
 	state.input = gsf_input_textline_new (input);
@@ -404,6 +405,7 @@ sylk_file_open (GnumFileOpener const *fo,
 
 	workbook_sheet_attach (book, state.sheet, NULL);
 	g_free (name);
+	g_free (base);
 
 	sylk_parse_sheet (&state, &sheet_error);
 	if (sheet_error != NULL)

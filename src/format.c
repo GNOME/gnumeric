@@ -624,7 +624,7 @@ lookup_color_by_name (gchar const *str, gchar const *end,
 		if (translate)
 			name = _(name);
 
-		if (0 == g_strncasecmp (name, str, len) && name[len] == '\0')
+		if (0 == g_ascii_strncasecmp (name, str, len) && name[len] == '\0')
 			return format_colors + i;
 	}
 	return NULL;

@@ -333,8 +333,7 @@ cb_tree_free (Value const *key, TreeItem *ti, gpointer user_data)
 static void
 tree_free (GTree *tree)
 {
-	g_tree_traverse (tree, (GTraverseFunc) cb_tree_free,
-			 G_IN_ORDER, NULL);
+	g_tree_foreach (tree, (GTraverseFunc) cb_tree_free, NULL);
 	g_tree_destroy (tree);
 }
 
@@ -694,8 +693,7 @@ row_consolidate (Consolidate *cs, WorkbookView *wbv)
 		cc.colrow->range.end.col++;
 	}
 
-	g_tree_traverse (tree, (GTraverseFunc) cb_row_tree,
-			 G_IN_ORDER, &cc);
+	g_tree_foreach (tree, (GTraverseFunc) cb_row_tree, &cc);
 
 	redraw_respan_and_select (cs->dst->sheet, &cs->dst->range.start,
 				  cc.colrow->range.end.col,
@@ -763,8 +761,7 @@ col_consolidate (Consolidate *cs, WorkbookView *wbv)
 		cc.colrow->range.end.row++;
 	}
 
-	g_tree_traverse (tree, (GTraverseFunc) cb_col_tree,
-			 G_IN_ORDER, &cc);
+	g_tree_foreach (tree, (GTraverseFunc) cb_col_tree, &cc);
 
 	redraw_respan_and_select (cs->dst->sheet, &cs->dst->range.start,
 				  cc.colrow->range.end.col - 1,

@@ -174,18 +174,18 @@ update_log (simulation_t *sim)
 	GString *buf;
 
 	buf = g_string_new ("");
-	g_string_sprintfa (buf, "%s %d\n", t1,
+	g_string_append_printf (buf, "%s %d\n", t1,
 			   sim->last_round - sim->first_round + 1);
-	g_string_sprintfa (buf, "%s %d\n", t2, sim->n_iterations);
-	g_string_sprintfa (buf, "%s %d\n", t3, sim->n_input_vars);
-	g_string_sprintfa (buf, "%s %d\n", t4, sim->n_output_vars);
-	g_string_sprintfa (buf, "%s %.2f sec.\n", t5, 
+	g_string_append_printf (buf, "%s %d\n", t2, sim->n_iterations);
+	g_string_append_printf (buf, "%s %d\n", t3, sim->n_input_vars);
+	g_string_append_printf (buf, "%s %d\n", t4, sim->n_output_vars);
+	g_string_append_printf (buf, "%s %.2f sec.\n", t5, 
 			   sim->end.tv_sec - sim->start.tv_sec +
 			   (sim->end.tv_usec - sim->start.tv_usec) /
 			   (gnum_float) G_USEC_PER_SEC);
-	g_string_sprintfa (buf, "%s ", t6);
+	g_string_append_printf (buf, "%s ", t6);
 	dao_append_date (buf);
-	g_string_sprintfa (buf, "\n");
+	g_string_append_printf (buf, "\n");
 
 	gtk_text_buffer_set_text (log_buffer, buf->str, strlen (buf->str));
 	g_string_free (buf, FALSE);
@@ -199,11 +199,11 @@ update_results_view (simulation_t *sim)
 
 	buf = g_string_new ("");
 
-	g_string_sprintfa (buf, "Simulation #%d\n\n", results_sim_index + 1);
-	g_string_sprintfa (buf, "%-20s %10s %10s %10s\n", _("Variable"),
+	g_string_append_printf (buf, "Simulation #%d\n\n", results_sim_index + 1);
+	g_string_append_printf (buf, "%-20s %10s %10s %10s\n", _("Variable"),
 			   _("Min"), _("Average"), _("Max"));
 	for (i = 0; i < sim->n_vars; i++)
-		g_string_sprintfa (buf, "%-20s %10g %10g %10g\n",
+		g_string_append_printf (buf, "%-20s %10g %10g %10g\n",
 				   sim->cellnames [i],
 				   sim->stats [results_sim_index]->min [i],
 				   sim->stats [results_sim_index]->mean [i],

@@ -1322,11 +1322,11 @@ cb_font_underline_changed (GtkWidget *ct, char *new_text, FormatState *state)
 		return FALSE;
 
 	/* There must be a better way than this */
-	if (!g_strcasecmp (new_text, _("Single")))
+	if (!g_ascii_strcasecmp (new_text, _("Single")))
 		res = UNDERLINE_SINGLE;
-	else if (!g_strcasecmp (new_text, _("Double")))
+	else if (!g_ascii_strcasecmp (new_text, _("Double")))
 		res = UNDERLINE_DOUBLE;
-	else if (g_strcasecmp (new_text, _("None")))
+	else if (g_ascii_strcasecmp (new_text, _("None")))
 		g_warning ("Invalid underline style '%s', assuming NONE", new_text);
 
 	font_selector_set_underline (state->font.selector, res);

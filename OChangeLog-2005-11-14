@@ -1,5 +1,13 @@
 2002-09-04  Jody Goldberg <jody@gnome.org>
 
+	* *.c : remove a pile of deprecated glib functions.
+
+	* src/xml-io.c (xml_probe) : fix test for extension .xml.gz  We only
+	  check the last extension.  So foo.xml.gz has extension .gz.
+	  Don't rip out quite so much of the sax handler.
+
+2002-09-04  Jody Goldberg <jody@gnome.org>
+
 	* src/cell-draw.c (cell_draw) : fix handling of multiline text.
 	* src/item-edit.c (item_edit_draw) : fix position of cursor line.
 

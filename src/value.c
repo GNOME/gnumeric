@@ -295,9 +295,9 @@ value_new_from_string (ValueType t, char const *str, StyleFormat *sf)
 
 	case VALUE_BOOLEAN:
 		/* Is it a boolean */
-		if (0 == g_strcasecmp (str, _("TRUE")))
+		if (0 == g_ascii_strcasecmp (str, _("TRUE")))
 			res = value_new_bool (TRUE);
-		else if (0 == g_strcasecmp (str, _("FALSE")))
+		else if (0 == g_ascii_strcasecmp (str, _("FALSE")))
 			res = value_new_bool (FALSE);
 		break;
 
@@ -640,7 +640,7 @@ value_get_as_string (Value const *v)
 			if (y < v->v_array.y-1)
 				g_string_append_c (str, col_sep);
 		}
-		g_string_sprintfa (str, "}");
+		g_string_append_printf (str, "}");
 		ans = str->str;
 		g_string_free (str, FALSE);
 		return ans;
@@ -1121,7 +1121,7 @@ criteria_test_equal (Value const *x, Value const *y)
 		else
 		        return 0;
 	else if (x->type == VALUE_STRING && y->type == VALUE_STRING
-		 && g_strcasecmp (x->v_str.val->str, y->v_str.val->str) == 0)
+		 && g_ascii_strcasecmp (x->v_str.val->str, y->v_str.val->str) == 0)
 	        return 1;
 	else
 	        return 0;
@@ -1138,7 +1138,7 @@ criteria_test_unequal (Value const *x, Value const *y)
 		else
 		        return 0;
 	else if (x->type == VALUE_STRING && y->type == VALUE_STRING
-		 && g_strcasecmp (x->v_str.val->str, y->v_str.val->str) != 0)
+		 && g_ascii_strcasecmp (x->v_str.val->str, y->v_str.val->str) != 0)
 	        return 1;
 	else
 	        return 0;
@@ -1239,7 +1239,7 @@ find_column_of_field (const EvalPos *ep, Value *database, Value *field)
 		        continue;
 
 		txt = cell_get_rendered_text (cell);
-		match = (g_strcasecmp (field_name, txt) == 0);
+		match = (g_ascii_strcasecmp (field_name, txt) == 0);
 		g_free (txt);
 		if (match) {
 		        column = n;

@@ -79,7 +79,7 @@ func_def_cmp (gconstpointer a, gconstpointer b)
 	FunctionDefinition const *fda = *(FunctionDefinition const **)a ;
 	FunctionDefinition const *fdb = *(FunctionDefinition const **)b ;
 
-	return g_strcasecmp (fda->name, fdb->name);
+	return g_ascii_strcasecmp (fda->name, fdb->name);
 }
 
 void
@@ -1219,7 +1219,7 @@ tokenized_help_find (TokenizedHelp *tok, char const *token)
 	for (lp = 0; lp + 1 < (int)tok->sections->len; lp++) {
 		char const *cmp = g_ptr_array_index (tok->sections, lp);
 
-		if (g_strcasecmp (cmp, token) == 0){
+		if (g_ascii_strcasecmp (cmp, token) == 0){
 			return g_ptr_array_index (tok->sections, lp + 1);
 		}
 	}

@@ -38,7 +38,7 @@ font_match (MStyle *mstyle, const char **names)
 	g_return_val_if_fail (font_name != NULL, 0);
 
 	for (i = 0; names[i]; i++) {
-		if (g_strcasecmp (font_name, names[i]) == 0)
+		if (g_ascii_strcasecmp (font_name, names[i]) == 0)
 			return 1;
 	}
 	return 0;

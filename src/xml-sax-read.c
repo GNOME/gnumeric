@@ -105,7 +105,7 @@ xml_sax_attr_bool (xmlChar const * const *attrs, char const *name, gboolean *res
 	if (strcmp (attrs[0], name))
 		return FALSE;
 
-	*res = g_strcasecmp ((gchar *)attrs[1], "false") && strcmp (attrs[1], "0");
+	*res = g_ascii_strcasecmp ((gchar *)attrs[1], "false") && strcmp (attrs[1], "0");
 
 	return TRUE;
 }
@@ -1305,8 +1305,8 @@ xml_not_used_old_array_spec (Cell *cell, char const *content)
 
 #if 0
 	/* This is the syntax we are trying to parse */
-	g_string_sprintfa (str, "{%s}(%d,%d)[%d][%d]", expr_text,
-			   array.rows, array.cols, array.y, array.x);
+	g_string_append_printf (str, "{%s}(%d,%d)[%d][%d]", expr_text,
+		array.rows, array.cols, array.y, array.x);
 #endif
 	char *end, *expr_end, *ptr;
 

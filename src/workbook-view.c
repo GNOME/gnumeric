@@ -140,7 +140,7 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name,
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (value != NULL);
 
-	res = !g_strcasecmp (value, "TRUE");
+	res = !g_ascii_strcasecmp (value, "TRUE");
 	if (!strcmp (name , "WorkbookView::show_horizontal_scrollbar"))
 		wbv->show_horizontal_scrollbar = res;
 	else if (!strcmp (name , "WorkbookView::show_vertical_scrollbar"))
@@ -404,8 +404,9 @@ wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 
 	if (wbv->wb != NULL) {
 		/* Set the title of the newly connected control */
-		char const *base_name = g_basename (wbv->wb->filename);
+		char *base_name = g_path_get_basename (wbv->wb->filename);
 		wb_control_title_set (wbc, base_name);
+		g_free (base_name);
 	}
 }
 
@@ -480,7 +481,7 @@ WorkbookView *
 workbook_view_new (Workbook *wb)
 {
 	WorkbookView *wbv = g_object_new (WORKBOOK_VIEW_TYPE, NULL);
-	char const *base_name;
+	char *base_name;
 	int i;
 
 	if (wb == NULL)
@@ -512,9 +513,10 @@ workbook_view_new (Workbook *wb)
 		wb_view_sheet_add (wbv, workbook_sheet_by_index (wb, i));
 
 	/* Set the titles of the newly connected view's controls */
-	base_name = g_basename (wbv->wb->filename);
+	base_name = g_path_get_basename (wbv->wb->filename);
 	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
 		wb_control_title_set (wbc, base_name););
+	g_free (base_name);
 
 	return wbv;
 }

@@ -8,6 +8,8 @@ Jody:
 	* Parser support for both sytaxes of 3d reference
 	* Parser support for row or col only references (A:C or 1:5)
 	* Fix some drawing issues related to the pango conversion
+	* remove some deprecated functions
+	* Fix handling of files named .xml.gz
 
 Morten:
 	* Leak plugging.

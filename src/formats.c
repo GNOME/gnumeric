@@ -559,7 +559,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	++ptr;
 
 	if (ptr[0] == '[') {
-		if (g_strncasecmp (_("[Red]"), ptr, 5) != 0)
+		if (g_ascii_strncasecmp (_("[Red]"), ptr, 5) != 0)
 			return FMT_UNKNOWN;
 		ptr += 5;
 		use_red = 1;
@@ -618,7 +618,7 @@ cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 		int j = 0;
 		char const * const * elem = cell_formats[i];
 		for (; elem[j] ; ++j)
-			if (g_strcasecmp (_(elem[j]), fmt) == 0) {
+			if (g_ascii_strcasecmp (_(elem[j]), fmt) == 0) {
 				info->list_element = j;
 				return i;
 			}

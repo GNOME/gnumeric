@@ -190,7 +190,7 @@ void
 stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 {
 	MainInfo_t *info = pagedata->main_info;
-	char *label;
+	char *label, *base;
 	const char *s;
 	GtkMenu *menu;
 	int l, lg;
@@ -266,9 +266,11 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 
 	main_page_set_scroll_region_and_prevent_center (pagedata);
 
-        label = g_strdup_printf (_("Data (from %s)"), g_basename (pagedata->filename));
+	base = g_path_get_basename (pagedata->filename);
+        label = g_strdup_printf (_("Data (from %s)"), base);
 	gtk_frame_set_label (info->main_frame, label);
 	g_free (label);
+	g_free (base);
 
 	/* Connect signals */
 	g_signal_connect (G_OBJECT (info->main_startrow),

@@ -1368,11 +1368,13 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 		
 		iteration++;
 		
-		if (wb->filename)
+		if (wb->filename) {
+			char *base = g_path_get_basename (wb->filename);
 			msg = g_strdup_printf (
 				_("Workbook '%s' has unsaved changes :"),
-				g_basename (wb->filename));
-		else
+				base);
+			g_free (base);
+		} else
 			msg = g_strdup (_("Workbook has unsaved changes :"));
 		
 		d = gtk_message_dialog_new (wbcg_toplevel (wbcg),

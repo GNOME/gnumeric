@@ -1001,13 +1001,13 @@ cb_range_to_string (SheetView *sv, Range const *r, void *closure)
 		g_string_append_c (res->str, ',');
 
 	if (res->include_sheet_name_prefix)
-		g_string_sprintfa (res->str, "%s!", sv->sheet->name_quoted);
+		g_string_append_printf (res->str, "%s!", sv->sheet->name_quoted);
 
-	g_string_sprintfa (res->str, "$%s$%s",
-			   col_name (r->start.col), row_name (r->start.row));
+	g_string_append_printf (res->str, "$%s$%s",
+		col_name (r->start.col), row_name (r->start.row));
 	if ((r->start.col != r->end.col) || (r->start.row != r->end.row))
-		g_string_sprintfa (res->str, ":$%s$%s",
-				   col_name (r->end.col), row_name (r->end.row));
+		g_string_append_printf (res->str, ":$%s$%s",
+			col_name (r->end.col), row_name (r->end.row));
 }
 
 char *

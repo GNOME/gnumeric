@@ -84,13 +84,14 @@ get_file_name (void)
 
         filename = gtk_file_selection_get_filename (fs);
 
-	if (!(basename = g_basename (filename)) ||
+	if (!(basename = g_path_get_basename (filename)) ||
 	    basename [0] == '\0')
 		filename = NULL;
 	else
 		filename = g_strdup (filename);
 
 	gtk_object_destroy (GTK_OBJECT (fs));
+	g_free (basename);
 
 	return filename;
 }

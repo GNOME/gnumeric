@@ -133,8 +133,7 @@ get_formula_index (ExcelSheet *sheet, const gchar *name)
 	}
 
 	for (i = 0; i < FORMULA_FUNC_DATA_LEN; i++) {
-		if (!g_strcasecmp (formula_func_data[i].prefix,
-				   name)) {
+		if (!g_ascii_strcasecmp (formula_func_data[i].prefix, name)) {
 			fce = formula_cache_new_std (sheet, i);
 #if FORMULA_DEBUG > 0
 			printf ("Caching and returning '%s' as %d\n", name, i);

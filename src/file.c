@@ -526,15 +526,17 @@ gchar *
 gnum_file_saver_fix_file_name (GnumFileSaver const *fs, gchar const *file_name)
 {
 	gchar *new_file_name;
+	gchar *base;
 
 	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), NULL);
 	g_return_val_if_fail (file_name != NULL, NULL);
 
-	if (fs->extension != NULL && strchr (g_basename (file_name), '.') == NULL) {
+	base = g_path_get_basename (file_name);
+	if (fs->extension != NULL && strchr (base, '.') == NULL)
 		new_file_name = g_strconcat (file_name, ".", fs->extension, NULL);
-	} else {
+	else
 		new_file_name = g_strdup (file_name);
-	}
+	g_free (base);
 
 	return new_file_name;
 }

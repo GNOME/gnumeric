@@ -472,9 +472,9 @@ workbook_new_with_sheets (int sheet_count)
  * FIXME : Add a check to ensure the name is unique.
  */
 gboolean
-workbook_set_filename (Workbook *wb, const char *name)
+workbook_set_filename (Workbook *wb, char const *name)
 {
-	char const *base_name;
+	char *base_name;
 	g_return_val_if_fail (wb != NULL, FALSE);
 	g_return_val_if_fail (name != NULL, FALSE);
 
@@ -482,10 +482,11 @@ workbook_set_filename (Workbook *wb, const char *name)
 		g_free (wb->filename);
 
 	wb->filename = g_strdup (name);
-	base_name = g_basename (name);
+	base_name = g_path_get_basename (name);
 
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		wb_control_title_set (control, base_name););
+	g_free (base_name);
 
 	g_signal_emit (G_OBJECT (wb), signals [FILENAME_CHANGED], 0);
 	return TRUE;
@@ -915,6 +916,7 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 	 */
 	if (wb->sheet_order_dependents != NULL) {
 #warning TODO
+		puts ("foo");
 	}
 
 	/* Remove our reference to this sheet */

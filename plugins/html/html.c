@@ -249,7 +249,7 @@ html_get_border_style (StyleBorder *border)
 		r = border->color->color.red >> 8;
 		g = border->color->color.green >> 8;
 		b = border->color->color.blue >> 8;
-		g_string_sprintfa (text, " #%02X%02X%02X", r, g, b);
+		g_string_append_printf (text, " #%02X%02X%02X", r, g, b);
 	}
 
 	result = text->str;

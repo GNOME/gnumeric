@@ -160,7 +160,7 @@ in_list (AutoFillList const *afl, char const *s, int *n, int *is_i18n)
 		char const *translated_text = _(afl->items [i]);
 		if (*translated_text == '*')
 			translated_text++;
-		if (g_strcasecmp (translated_text, s) == 0) {
+		if (g_ascii_strcasecmp (translated_text, s) == 0) {
 			*is_i18n = TRUE;
 			*n = i;
 			return TRUE;

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * plugin-service.c: Plugin services - reading XML info, activating, etc.
  *                   (everything independent of plugin loading method)
@@ -547,11 +548,11 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
 	if (pl == FILE_PROBE_FILE_NAME && service_file_opener->file_patterns != NULL) {
 		gboolean match = FALSE;
 		GSList *l;
-		gchar const *base_file_name = gsf_input_name (input);
+		gchar *base_file_name = gsf_input_name (input);
 
 		if (base_file_name == NULL)
-		    return FALSE;
-		base_file_name = g_basename (base_file_name);
+			return FALSE;
+		base_file_name = g_path_get_basename (base_file_name);
 
 		for (l = service_file_opener->file_patterns; l != NULL && !match; l = l->next) {
 			InputFilePattern *pattern = l->data;
@@ -573,6 +574,7 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
 			}
 		}
 
+		g_free (base_file_name);
 		return match;
 	}
 

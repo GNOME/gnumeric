@@ -669,8 +669,8 @@ cellref:  CELLREF {
 	/* special case to handle 3:5 or A:C style references. */
 	| RANGEREF { $$ = $1; }
 	| sheetref RANGEREF {
-		$2->constant.value->v_range.cell.a.sheet = $1.first;
-		$2->constant.value->v_range.cell.b.sheet = $1.last;
+		(Value *)($2->constant.value)->v_range.cell.a.sheet = $1.first;
+		(Value *)($2->constant.value)->v_range.cell.b.sheet = $1.last;
 	}
 
 	| CELLREF RANGE_SEP CELLREF {
@@ -1084,7 +1084,7 @@ yylex (void)
 			state->expr_text = g_utf8_next_char (state->expr_text);
 
 		len = state->expr_text - start;
-		str = alloca (len + 1);
+		str = g_alloca (len + 1);
 		strncpy (str, start, len);
 		str [len] = 0;
 		return parse_ref_or_string (str);

@@ -196,9 +196,9 @@ write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
 	char       *result;
 
 	if (cols == 1 && rows == 1)
-		g_string_sprintfa (buf, "%s %s ",
-				   cell_coord_name (lhs_col, lhs_row),
-				   type_str[type]);
+		g_string_append_printf (buf, "%s %s ",
+			cell_coord_name (lhs_col, lhs_row),
+			type_str[type]);
 	else {
 	        g_string_append (buf, cell_coord_name (lhs_col, lhs_row));
 		g_string_append_c (buf, ':');

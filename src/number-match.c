@@ -741,10 +741,10 @@ table_lookup (char const *str, char const *const *table)
 			iv++;
 		}
 
-		if (g_strcasecmp (str, v) == 0)
+		if (g_ascii_strcasecmp (str, v) == 0)
 			return i;
 
-		if (g_strcasecmp (str, iv) == 0)
+		if (g_ascii_strcasecmp (str, iv) == 0)
 			return i;
 	}
 
@@ -1106,9 +1106,9 @@ Value *
 format_match_simple (char const *text)
 {
 	/* Is it a boolean?  */
-	if (0 == g_strcasecmp (text, _("TRUE")))
+	if (0 == g_ascii_strcasecmp (text, _("TRUE")))
 		return value_new_bool (TRUE);
-	if (0 == g_strcasecmp (text, _("FALSE")))
+	if (0 == g_ascii_strcasecmp (text, _("FALSE")))
 		return value_new_bool (FALSE);
 
 	/* Is it an error?  */

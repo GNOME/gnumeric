@@ -516,13 +516,13 @@ render_tab (GString *target, HFRenderInfo *info, char const *args)
 static void
 render_page (GString *target, HFRenderInfo *info, char const *args)
 {
-	g_string_sprintfa (target, "%d", info->page);
+	g_string_append_printf (target, "%d", info->page);
 }
 
 static void
 render_pages (GString *target, HFRenderInfo *info, char const *args)
 {
-	g_string_sprintfa (target, "%d", info->pages);
+	g_string_append_printf (target, "%d", info->pages);
 }
 
 static void
@@ -593,14 +593,14 @@ render_opcode (GString *target, char const *opcode, HFRenderInfo *info, HFRender
 
 	for (i = 0; render_ops [i].name; i++){
 		if (render_type == HF_RENDER_TO_ENGLISH){
-			if (g_strcasecmp (_(render_ops [i].name), opcode) == 0){
+			if (g_ascii_strcasecmp (_(render_ops [i].name), opcode) == 0){
 				g_string_append (target, render_ops [i].name);
 				continue;
 			}
 		}
 
 		if (render_type == HF_RENDER_TO_LOCALE){
-			if (g_strcasecmp (render_ops [i].name, opcode) == 0){
+			if (g_ascii_strcasecmp (render_ops [i].name, opcode) == 0){
 				g_string_append (target, render_ops [i].name);
 				continue;
 			}
@@ -615,8 +615,8 @@ render_opcode (GString *target, char const *opcode, HFRenderInfo *info, HFRender
 			args++;
 		}
 
-		if ((g_strcasecmp (render_ops [i].name, opcode) == 0) ||
-		    (g_strcasecmp (_(render_ops [i].name), opcode) == 0)){
+		if ((g_ascii_strcasecmp (render_ops [i].name, opcode) == 0) ||
+		    (g_ascii_strcasecmp (_(render_ops [i].name), opcode) == 0)){
 			(*render_ops [i].render)(target, info, args);
 		}
 

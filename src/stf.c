@@ -132,7 +132,7 @@ static void
 stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input)
 {
 	DialogStfResult_t *dialogresult = NULL;
-	char const *name;
+	char *name;
 	char *data;
 	Sheet *sheet;
 	Workbook *book;
@@ -143,10 +143,8 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 	if (!data)
 		return;
 
-	/*
-	 * Add Sheet
-	 */
-	name = g_basename (gsf_input_name (input));
+	/* Add Sheet */
+	name = g_path_get_basename (gsf_input_name (input));
 	sheet = sheet_new (book, name);
 
 	workbook_sheet_attach (book, sheet, NULL);
@@ -197,6 +195,7 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 		workbook_sheet_detach (book, sheet);
 
 	g_free (data);
+	g_free (name);
 
 	if (dialogresult != NULL)
 		stf_dialog_result_free (dialogresult);
@@ -221,7 +220,7 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 {
 	Sheet *sheet;
 	Workbook *book;
-	char const *name;
+	char *name;
 	char *data;
 	StfParseOptions_t *po;
 	char *pos;
@@ -241,7 +240,7 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 		else if (*pos == '\n')
 			++lines;
 
-	name = g_basename (gsf_input_name (input));
+	name = g_path_get_basename (gsf_input_name (input));
 	sheet = sheet_new (book, name);
 
 	workbook_sheet_attach (book, sheet, NULL);
@@ -275,6 +274,7 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 	sheet_calc_spans (sheet, SPANCALC_RENDER);
 	workbook_set_saveinfo (book, name, FILE_FL_MANUAL, NULL);
 
+	g_free (name);
 	g_free (data);
 }
 
