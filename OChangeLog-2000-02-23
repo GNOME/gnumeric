@@ -1,5 +1,7 @@
 1999-11-29  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/expr-name.c (expr_name_add): Add commented out debug.
+
 	* src/workbook.c (wb_edit_key_pressed): Remove set_dirty.
 	(cb_sheet_check_dirty): Add check for input area.
 
