@@ -1,5 +1,15 @@
 2003-08-05  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_merge_data_destroy_rrlist): new
+	(cmd_merge_data_delete_sheets): delete
+	(cmd_merge_data_vallist_to_rrlist): new
+	(cmd_merge_data_update_rrlist): new
+	(cmd_merge_data_undo): use sheet indices
+	(cmd_merge_data_redo): ditto
+	(cmd_merge_data): store sheet indices
+
+2003-08-05  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/commands.c (cmd_text_to_columns_impl): save sheet 
 	  index and update sheet pointer
 

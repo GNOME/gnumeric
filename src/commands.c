@@ -5189,34 +5189,80 @@ cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 
 typedef struct
 {
+	RangeRef *rr;
+	int sheet_idx;
+} CmdMergeDataRR;
+
+typedef struct
+{
 	GnumericCommand cmd;
-	Value *merge_zone;
+	RangeRef *merge_zone;
 	GSList *merge_fields;
 	GSList *merge_data;
 	GSList *sheet_list;
-	Sheet *sheet;
 	gint n;
 } CmdMergeData;
 
 GNUMERIC_MAKE_COMMAND (CmdMergeData, cmd_merge_data);
 
-static void
-cmd_merge_data_delete_sheets (gpointer data, gpointer success)
-{
-	Sheet *sheet = data;
 
-	if (!command_undo_sheet_delete (sheet))
-		*(gboolean *)success = FALSE;
+static void
+cmd_merge_data_destroy_rrlist (GSList *rrs)
+{
+	GSList *l;
+	for (l = rrs; l != NULL; l = l->next) {
+		CmdMergeDataRR *cmdrr = l->data;
+		g_free (cmdrr->rr);
+		g_free (cmdrr);
+	}
+	g_slist_free (rrs);
+}
+
+static GSList *
+cmd_merge_data_vallist_to_rrlist (GSList *vals)
+{
+	GSList *result = NULL;
+	GSList *l;
+	
+	for (l = vals; l != NULL; l = l->next) {
+		CmdMergeDataRR *cmdrr = g_new (CmdMergeDataRR, 1);
+		cmdrr->rr = value_to_rangeref (l->data, TRUE);
+		cmdrr->sheet_idx = cmdrr->rr->a.sheet->index_in_wb;
+		result = g_slist_prepend (result, cmdrr);
+	}
+	g_slist_free (vals);
+
+	return g_slist_reverse (result);
+}
+
+static void
+cmd_merge_data_update_rrlist (GSList *rrs, WorkbookControl *wbc)
+{
+	GSList *l;
+	for (l = rrs; l != NULL; l = l->next) {
+		CmdMergeDataRR *cmdrr = l->data;
+		cmdrr->rr->a.sheet =  workbook_sheet_by_index 
+			(wb_control_workbook (wbc), GPOINTER_TO_INT (cmdrr->sheet_idx));
+		cmdrr->rr->b.sheet = cmdrr->rr->a.sheet;
+	}
 }
 
 static gboolean
 cmd_merge_data_undo (GnumericCommand *cmd,
-		     G_GNUC_UNUSED WorkbookControl *wbc)
+		     WorkbookControl *wbc)
 {
 	CmdMergeData *me = CMD_MERGE_DATA (cmd);
-	gboolean success = TRUE;
+	GSList *l;
 
-	g_slist_foreach (me->sheet_list, cmd_merge_data_delete_sheets, &success);
+	me->sheet_list  = g_slist_sort (me->sheet_list,
+					cmd_reorganize_sheets_delete_cmp_f);
+	
+	
+	for (l = me->sheet_list; l != NULL; l = l->next) {
+		Sheet *sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
+							GPOINTER_TO_INT (l->data));
+		command_undo_sheet_delete (sheet);
+	}
 	g_slist_free (me->sheet_list);
 	me->sheet_list = NULL;
 
@@ -5229,33 +5275,35 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdMergeData *me = CMD_MERGE_DATA (cmd);
 	int i;
 	CellRegion *merge_content;
-	RangeRef *cell = &me->merge_zone->v_range.cell;
+	RangeRef *cell = me->merge_zone;
 	PasteTarget pt;
 	GSList *this_field = me->merge_fields;
 	GSList *this_data = me->merge_data;
-	Sheet *source_sheet = cell->a.sheet;
-	GSList *target_sheet;
+	Sheet *sheet = workbook_sheet_by_index (wb_control_workbook (wbc), me->cmd.sheet);
 	Range target_range;
 	ColRowStateList *state_col;
 	ColRowStateList *state_row;
 
+	cmd_merge_data_update_rrlist (me->merge_fields, wbc); 
+	cmd_merge_data_update_rrlist (me->merge_data, wbc); 
+
 	range_init (&target_range, cell->a.col, cell->a.row,
 		    cell->b.col, cell->b.row);
-	merge_content = clipboard_copy_range (source_sheet, &target_range);
-	state_col = colrow_get_states (source_sheet, TRUE, target_range.start.col,
+	merge_content = clipboard_copy_range (sheet, &target_range);
+	state_col = colrow_get_states (sheet, TRUE, target_range.start.col,
 					   target_range.end.col);
-	state_row = colrow_get_states (source_sheet, FALSE, target_range.start.row,
+	state_row = colrow_get_states (sheet, FALSE, target_range.start.row,
 					   target_range.end.row);
 
 	for (i = 0; i < me->n; i++) {
 		Sheet *new_sheet;
 
-		new_sheet = workbook_sheet_add (me->sheet->workbook, NULL, FALSE);
+		new_sheet = workbook_sheet_add (sheet->workbook, NULL, FALSE);
 		me->sheet_list = g_slist_prepend (me->sheet_list, new_sheet);
 
 		colrow_set_states (new_sheet, TRUE, target_range.start.col, state_col);
 		colrow_set_states (new_sheet, FALSE, target_range.start.row, state_row);
-		sheet_object_clone_sheet (source_sheet, new_sheet, &target_range);
+		sheet_object_clone_sheet (sheet, new_sheet, &target_range);
 		clipboard_paste_region (merge_content,
 			paste_target_init (&pt, new_sheet, &target_range, PASTE_ALL_TYPES),
 			COMMAND_CONTEXT (wbc));
@@ -5267,13 +5315,15 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	while (this_field) {
 		int col_source, row_source;
 		int col_target, row_target;
-
+		Sheet *source_sheet;
+		GSList *target_sheet;
+		
 		g_return_val_if_fail (this_data != NULL, TRUE);
-		cell = &((Value *)this_field->data)->v_range.cell;
+		cell = ((CmdMergeDataRR *)this_field->data)->rr;
 		col_target = cell->a.col;
 		row_target =  cell->a.row;
 
-		cell = &((Value *)this_data->data)->v_range.cell;
+		cell = ((CmdMergeDataRR *)this_data->data)->rr;
 		col_source = cell->a.col;
 		row_source =  cell->a.row;
 		source_sheet = cell->a.sheet;
@@ -5300,6 +5350,15 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 		this_field = this_field->next;
 		this_data = this_data->next;
+
+	}
+
+	{
+		GSList *ll;
+		for (ll = me->sheet_list; ll != NULL; ll = ll->next) {
+			Sheet *this_sheet = ll->data;
+			ll->data = GINT_TO_POINTER (this_sheet->index_in_wb);
+		}
 	}
 
 	return FALSE;
@@ -5310,11 +5369,11 @@ cmd_merge_data_finalize (GObject *cmd)
 {
 	CmdMergeData *me = CMD_MERGE_DATA (cmd);
 
-	value_release (me->merge_zone);
+	g_free (me->merge_zone);
 	me->merge_zone = NULL;
-	range_list_destroy (me->merge_data);
+	cmd_merge_data_destroy_rrlist (me->merge_data);
 	me->merge_data = NULL;
-	range_list_destroy (me->merge_fields);
+	cmd_merge_data_destroy_rrlist (me->merge_fields);
 	me->merge_fields = NULL;
 	g_slist_free (me->sheet_list);
 	me->sheet_list = NULL;
@@ -5339,19 +5398,17 @@ cmd_merge_data (WorkbookControl *wbc, Sheet *sheet,
 	obj = g_object_new (CMD_MERGE_DATA_TYPE, NULL);
 	me = CMD_MERGE_DATA (obj);
 
-	me->cmd.sheet = sheet->index_in_wb;
-	me->sheet = sheet;
+	me->cmd.sheet = merge_zone->v_range.cell.a.sheet->index_in_wb;
 	me->cmd.size = 1 + g_slist_length (merge_fields);
 	me->cmd.cmd_descriptor =
 		g_strdup_printf (_("Merging data into %s"), value_peek_string (merge_zone));
 
-	me->merge_zone = merge_zone;
-	me->merge_fields = merge_fields;
-	me->merge_data = merge_data;
-	me->sheet_list = 0;
-
 	cell = &((Value *)merge_data->data)->v_range.cell;
 	me->n = cell->b.row - cell->a.row + 1;
+	me->merge_zone = value_to_rangeref (merge_zone, TRUE);
+	me->merge_fields = cmd_merge_data_vallist_to_rrlist (merge_fields);
+	me->merge_data = cmd_merge_data_vallist_to_rrlist (merge_data);
+	me->sheet_list = NULL;
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
