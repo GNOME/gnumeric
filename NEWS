@@ -6,6 +6,15 @@ Jody:
 Jon Kåre:
 	* Improve file save dialog.
 
+Morten:
+	* Make rounding functions (ROUND, TRUNC, FLOOR, CEIL, ...) behave
+	  more like most users expect.  The number 1.54999...9 will now
+	  be rounded to 1.6, not 1.5.  In other words, we are assuming that
+	  the number is really meant to be 1.55, but has suffered
+	  floating point effects.  (If you ever truly get a number that
+	  is within DBL_EPSILON of a rounding threshold, well, then you
+	  lose.  With a binary representation, we cannot all win.)
+
 Zbigniew Chyla:
 	* Internationalization support for autoformat.
 
