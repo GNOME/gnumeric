@@ -49,6 +49,11 @@ debian 272697
 
 Worries
 
+    The only way to unhide column A seems to be to select the entire sheet
+    and unhide.  Not elegant.  We could, perhaps, when a single column is
+    selected add "Unhide column to the left" and "... right" to the context
+    menu (when relevant).
+
 -------------------------------------------------------------------------------
 Pending Patches
 ---------------
