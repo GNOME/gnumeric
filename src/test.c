@@ -11,6 +11,11 @@
 #define SCREEN_SLIDES 500
 #define SCREEN_INCR   (SCREEN_HEIGHT / 2)
 
+extern int style_cache_hits;
+extern int style_cache_misses;
+extern int style_cache_flushes;
+extern int style_cache_range_hits;
+
 static void
 thrash_sheet (Sheet *sheet)
 {
@@ -21,7 +26,7 @@ thrash_sheet (Sheet *sheet)
 
 	sheet_styles_dump (sheet);
 
-	for (i = 0; i < SCREEN_SLIDES*SCREEN_INCR; i+=SCREEN_INCR) {
+	for (i = 0; i < SCREEN_SLIDES * SCREEN_INCR; i += SCREEN_INCR) {
 		int j;
 
 		for (j = 0; j < SCREEN_HEIGHT; j++) {
@@ -34,6 +39,13 @@ thrash_sheet (Sheet *sheet)
 			}
 		}
 	}
+	printf ("Hits %d, Range Hits %d, Misses %d Flushes %d\n", style_cache_hits,
+		style_cache_range_hits, style_cache_misses, style_cache_flushes);
+
+	style_cache_hits = 0;
+	style_cache_misses = 0;
+	style_cache_flushes = 0;
+	style_cache_range_hits = 0;
 }
 
 void

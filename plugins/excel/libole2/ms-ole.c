@@ -600,8 +600,8 @@ read_bb (MsOle *f)
 	/* FIXME tenix check if size is small, there's no add bbd lists */
 	
 	/* Add BBD's that live in the BBD list */
-	for (lp = 0; (lp<(f->length/BB_BLOCK_SIZE)-1)
-		      &&(lp<MAX_SIZE_BBD_LIST*BB_BLOCK_SIZE/4); lp++) {
+	for (lp = 0; (lp < (f->length / BB_BLOCK_SIZE) - 1) &&
+		     (lp < MAX_SIZE_BBD_LIST * BB_BLOCK_SIZE / 4); lp++) {
 		tmp = get_next_block (f, lp);
 		g_array_append_val (f->bb, tmp);
 	}
@@ -609,8 +609,9 @@ read_bb (MsOle *f)
 	/* Add BBD's that live in the additional BBD lists */
 	num_add_bbd_lists = GET_NUM_ADD_BBD_LISTS (f);
 	if (num_add_bbd_lists > 0) {
-		/* FIXME change g_assert and return a error to user */
-		g_assert (lp == MAX_SIZE_BBD_LIST*BB_BLOCK_SIZE/4);
+		if (lp != MAX_SIZE_BBD_LIST * BB_BLOCK_SIZE / 4)
+			return 0;
+
 		visited_add_bbd_list = GET_FIRST_ADD_BBD_LIST (f);
 		missing_lps = (f->length/BB_BLOCK_SIZE) - 1 
 			       - MAX_SIZE_BBD_LIST*BB_BLOCK_SIZE/4;
@@ -631,8 +632,8 @@ read_bb (MsOle *f)
 			/* tmp here means the number of one block that
 			   belongs to the fat */
 			bbd = MS_OLE_GET_GUINT32 (BB_R_PTR (f, visited_add_bbd_list) + 4*((lp/(BB_BLOCK_SIZE/4))%MAX_SIZE_ADD_BBD_LIST));
-			tmp = MS_OLE_GET_GUINT32 (BB_R_PTR(f,bbd)
-						  + 4*(lp%(BB_BLOCK_SIZE/4)));
+			tmp = MS_OLE_GET_GUINT32 (BB_R_PTR(f,bbd) +
+						  4 * (lp % (BB_BLOCK_SIZE / 4)));
 			g_array_append_val (f->bb, tmp);
 		}
 		/* FIXME tenix do we check if we have visited all lp's but
@@ -647,7 +648,7 @@ read_bb (MsOle *f)
 	if (num_add_bbd_lists > 0) {
 		visited_add_bbd_list = GET_FIRST_ADD_BBD_LIST (f);
 		TRY_MARK_UNUSED_BLOCK (f->bb, visited_add_bbd_list,
-				      ADD_BBD_LIST_BLOCK);
+				       ADD_BBD_LIST_BLOCK);
 		missing_bbds = numbbd - MAX_SIZE_BBD_LIST;
 		for (lp = 0; lp < missing_bbds; lp++) {
 			if ((lp!=0) && !(lp % (MAX_SIZE_ADD_BBD_LIST))) {

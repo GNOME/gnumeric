@@ -48,6 +48,9 @@ typedef enum
     F_NEGATIVE,         F_MAX_WIDGET
 } FormatWidget;
 
+/* The maximum number of chars in the formatting sample */
+#define FORMAT_PREVIEW_MAX 40
+
 struct _FormatState;
 typedef struct
 {
@@ -501,6 +504,10 @@ draw_format_preview (FormatState *state)
 
 	preview = format_value (sf, state->value, &preview_color,
 				state->entered_text);
+
+	if (strlen (preview) > FORMAT_PREVIEW_MAX)
+		strcpy (&preview [FORMAT_PREVIEW_MAX - 5], " ...");
+
 	gtk_label_set_text (state->format.preview, preview);
 	g_free (preview);
 }

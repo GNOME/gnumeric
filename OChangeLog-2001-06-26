@@ -1,3 +1,30 @@
+2000-03-22  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-style.c (sheet_style_cache_flush): add 'all' flag to
+	signify a hard vs. soft flush, freeze hash when it is a nice size. Do
+	not bother destroying the hash table.
+	(sheet_mstyle_compute_from_list): kill debug in inner loop + add another
+	short circuit. (calc_grown_range): Spread the range better near the
+	edges.
+
+	* src/mstyle.c (mstyle_do_merge): simplify + add vital short circuit for
+	factor of 2 speedup on blank regions. (mstyle_get_*): kill redundant NULL
+	preconditions.
+
+	* src/main.c (gnumeric_main): add the tests again.
+
+2000-03-18  Michael Meeks  <michael@helixcode.com>
+
+	* src/mstyle.c (mstyle_do_merge): Use pointer increment to kill mul in
+	inner loop. (mstyle_element_ref): take a pointer.
+
+	* src/sheet-style.c: Clean internals a lot, kill the nasty dereference
+	macros, hash on CellPos to decrease memory usage.
+
+	* src/dialogs/dialog-cell-format.c (draw_format_preview): Clip the
+	sample down if it is a massive string to stop the dialog from becoming
+	stupidly wide.
+
 2000-03-23  Jon K Hellan  <hellan@acm.org>
 
 	* src/stf.c (stf_read_workbook): Set save info, preferred format

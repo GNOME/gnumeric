@@ -26,17 +26,31 @@
 #include "main.h"
 #include "border.h"
 
+/*
+ *   The performance of the style code is rather affected by these
+ * numbers, please do send me results of various combinations using
+ * real sheets and timings of --quit --test_styles.
+ */
+#define GROW_X               20
+#define GROW_Y               20
+#define STYLE_MAX_CACHE_SIZE 2048
+
 #define STYLE_DEBUG (style_debugging > 2)
 
 static guint32 stamp = 0;
 
 struct _SheetStyleData {
 	GList      *style_list; /* of StyleRegions */
-	GHashTable *cell_cache;
+	GHashTable *style_cache;
+
+	Range       cached_range;
+	GList      *cached_list;
 };
 
-#define STYLE_LIST(s)  (((SheetStyleData *)(s)->style_data)->style_list)
-#define STYLE_CACHE(s) (((SheetStyleData *)(s)->style_data)->cell_cache)
+int style_cache_hits = 0;
+int style_cache_misses = 0;
+int style_cache_flushes = 0;
+int style_cache_range_hits = 0;
 
 /*
  * For xml-io only.
@@ -44,43 +58,43 @@ struct _SheetStyleData {
 GList *
 sheet_get_style_list (Sheet *sheet)
 {
-	return g_list_copy (STYLE_LIST (sheet));
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (sheet->style_data != NULL, NULL);
+
+	return g_list_copy (sheet->style_data->style_list);
 }
 
 static guint
-evalpos_hash (gconstpointer key)
+cellpos_hash (gconstpointer key)
 {
-	const EvalPosition *ep = (const EvalPosition *) key;
+	const CellPos *ep = (const CellPos *) key;
 
-	/* FIXME: what about sheet ? */
-	return (ep->eval.col << 8) ^ ep->eval.row;
+	return (ep->col << 8) ^ ep->row;
 }
 
 static gint
-evalpos_compare (EvalPosition const * a, EvalPosition const * b)
+cellpos_compare (CellPos const * a, CellPos const * b)
 {
-	return (a->sheet == b->sheet &&
-		a->eval.row == b->eval.row &&
-		a->eval.col == b->eval.col);
+	return (a->row == b->row &&
+		a->col == b->col);
 }
 
-static MStyle *
-sheet_style_cache_lookup (const Sheet *sheet, int col, int row)
+static inline MStyle *
+sheet_style_cache_lookup (const SheetStyleData *sd, int col, int row)
 {
-	EvalPosition ep;
+	CellPos cp;
 
-	ep.sheet    = (Sheet *)sheet;
-	ep.eval.col = col;
-	ep.eval.row = row;
-
-	if (!STYLE_CACHE (sheet))
+	if (!sd->style_cache)
 		return NULL;
 
-	return g_hash_table_lookup (STYLE_CACHE (sheet), &ep);
+	cp.col = col;
+	cp.row = row;
+
+	return g_hash_table_lookup (sd->style_cache, &cp);
 }
 
 static gboolean
-scache_remove (EvalPosition *key, MStyle *mstyle, gpointer dummy)
+scache_remove (CellPos *key, MStyle *mstyle, SheetStyleData *sd)
 {
 	g_return_val_if_fail (key    != NULL, FALSE);
 	g_return_val_if_fail (mstyle != NULL, FALSE);
@@ -90,38 +104,43 @@ scache_remove (EvalPosition *key, MStyle *mstyle, gpointer dummy)
 	return TRUE;
 }
 
-static void
-sheet_style_cache_flush (Sheet *sheet)
+static inline void
+sheet_style_cache_flush (SheetStyleData *sd, gboolean all)
 {
-	if (STYLE_CACHE (sheet)) {
-		g_hash_table_foreach_remove (STYLE_CACHE (sheet),
-					     (GHRFunc)scache_remove, NULL);
-		g_hash_table_destroy (STYLE_CACHE (sheet));
-		STYLE_CACHE (sheet) = NULL;
+	if (sd->style_cache) {
+		if (!all) /* We are a good size, this will wrap but heh. */
+			g_hash_table_freeze (sd->style_cache);
+		
+		g_hash_table_foreach_remove (sd->style_cache,
+					     (GHRFunc)scache_remove, sd);
+		style_cache_flushes++;
 	}
+
+	if (sd->cached_list)
+		g_list_free (sd->cached_list);
+	sd->cached_list = NULL;
 }
 
 static void
-sheet_style_cache_add (Sheet *sheet, int col, int row,
+sheet_style_cache_add (SheetStyleData *sd, int col, int row,
 		       MStyle *mstyle)
 {
-	EvalPosition  *ep;
+	CellPos *cp;
 
-	if (STYLE_CACHE (sheet) &&
-	    g_hash_table_size (STYLE_CACHE (sheet)) > 2048)
-		sheet_style_cache_flush (sheet);
+	if (sd->style_cache &&
+	    g_hash_table_size (sd->style_cache) > STYLE_MAX_CACHE_SIZE)
+		sheet_style_cache_flush (sd, FALSE);
 
-	if (!STYLE_CACHE (sheet))
-		STYLE_CACHE (sheet) = g_hash_table_new ((GHashFunc)evalpos_hash,
-							(GCompareFunc)evalpos_compare);
+	if (!sd->style_cache)
+		sd->style_cache = g_hash_table_new ((GHashFunc)cellpos_hash,
+						    (GCompareFunc)cellpos_compare);
 
-	ep = g_new (EvalPosition, 1);
-	ep->sheet    = (Sheet *)sheet;
-	ep->eval.col = col;
-	ep->eval.row = row;
+	cp = g_new (CellPos, 1);
+	cp->col = col;
+	cp->row = row;
 	mstyle_ref (mstyle);
 
-	g_hash_table_insert (STYLE_CACHE (sheet), ep, mstyle);
+	g_hash_table_insert (sd->style_cache, cp, mstyle);
 }
 
 /**
@@ -252,9 +271,9 @@ sheet_style_attach_single (Sheet *sheet, int col, int row,
 }
 
 static void
-sheet_style_region_unlink (Sheet *sheet, StyleRegion *region)
+sheet_style_region_unlink (SheetStyleData *sd, StyleRegion *region)
 {
-	STYLE_LIST (sheet) = g_list_remove (STYLE_LIST (sheet), region);
+	sd->style_list = g_list_remove (sd->style_list, region);
 	style_region_destroy (region);
 }
 
@@ -270,18 +289,17 @@ sheet_style_stamp_compare (gconstpointer a, gconstpointer b)
 }
 
 static void
-sheet_style_region_link (Sheet *sheet, StyleRegion *region)
+sheet_style_region_link (SheetStyleData *sd, StyleRegion *region)
 {
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (sd != NULL);
 	g_return_if_fail (region != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
 
-	if (!list_check_sorted (STYLE_LIST (sheet), TRUE))
+	if (!list_check_sorted (sd->style_list, TRUE))
 		g_warning ("order broken before insert");
 
-	STYLE_LIST (sheet) = g_list_insert_sorted (STYLE_LIST (sheet), region,
+	sd->style_list = g_list_insert_sorted (sd->style_list, region,
 						   sheet_style_stamp_compare);
-	if (!list_check_sorted (STYLE_LIST (sheet), TRUE))
+	if (!list_check_sorted (sd->style_list, TRUE))
 		g_warning ("list_insert_sorted screwed order");
 }
 
@@ -305,10 +323,13 @@ sheet_style_optimize (Sheet *sheet, Range range)
 	GList *l, *a;
 	GList *style_list;
 	int    overlapping = 0, len = 0, i;
+	SheetStyleData *sd;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range_valid (&range));
+
+	sd = sheet->style_data;
 
 	if (STYLE_DEBUG)
 		g_warning ("Optimize (%d, %d):(%d, %d)",
@@ -317,7 +338,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 
 	style_list = NULL;
  	/* Look in the styles applied to the sheet */
-	for (l = STYLE_LIST (sheet); l && l->next; l = l->next) {
+	for (l = sd->style_list; l && l->next; l = l->next) {
 		StyleRegion *sr = l->data;
 		if (range_overlap (&sr->range, &range)) {
 			style_list = g_list_prepend (style_list, sr);
@@ -377,7 +398,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 				}
 				slave->style = mstyle_merge (master->style, slave->style);
 				if (mstyle_empty (slave->style))
-					sheet_style_region_unlink (sheet, slave);
+					sheet_style_region_unlink (sd, slave);
 			}
 		}
 	}
@@ -427,7 +448,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 							printf ("testme: Merging two ranges\n");
 
 						master->range = range_merge (&master->range, &slave->range);
-						sheet_style_region_unlink (sheet, slave);
+						sheet_style_region_unlink (sd, slave);
 					} else if (STYLE_DEBUG)
 						printf ("Regions adjacent but not equal\n");
 				}
@@ -438,7 +459,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 	g_list_free (style_list);
 
 	/* FIXME: shouldn't be neccessary but just in case */
-	sheet_style_cache_flush (sheet);
+	sheet_style_cache_flush (sd, TRUE);
 }
 
 /**
@@ -455,13 +476,16 @@ void
 sheet_style_attach (Sheet  *sheet, Range range,
 		    MStyle *mstyle)
 {
-	StyleRegion *sr;
+	StyleRegion    *sr;
+	SheetStyleData *sd;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (mstyle != NULL);
 	g_return_if_fail (range_valid (&range));
 	g_return_if_fail (mstyle_verify (mstyle));
+
+	sd = sheet->style_data;
 
 	/*
 	 * FIXME: We need some clever people here....
@@ -475,7 +499,7 @@ sheet_style_attach (Sheet  *sheet, Range range,
 	 */
 
 	sr = style_region_new (&range, mstyle);
-	STYLE_LIST (sheet) = g_list_prepend (STYLE_LIST (sheet), sr);
+	sd->style_list = g_list_prepend (sd->style_list, sr);
 
 	if (STYLE_DEBUG) {
 		printf ("Attaching ");
@@ -484,7 +508,7 @@ sheet_style_attach (Sheet  *sheet, Range range,
 		range_dump (&sr->range);
 		printf ("\n");
 	}
-	sheet_style_cache_flush (sheet);
+	sheet_style_cache_flush (sd, TRUE);
 
 	sheet_redraw_range (sheet, &range);
 }
@@ -493,16 +517,26 @@ static inline MStyle *
 sheet_mstyle_compute_from_list (GList *list, int col, int row)
 {
 	GList  *l;
-	GList  *style_list = NULL;
+	GList  *style_list;
 	MStyle *mstyle;
+
+	if (!list->next) { /* Short circuit */
+		StyleRegion *sr = list->data;
+
+		mstyle_ref (sr->style);
+		return sr->style;
+	}
+
+	style_list = NULL;
 
 	for (l = list; l; l = l->next) {
 		StyleRegion *sr = l->data;
+
 		if (range_contains (&sr->range, col, row)) {
-			if (style_debugging > 5) {
+/*			if (style_debugging > 5) {
 				range_dump (&sr->range);
 				mstyle_dump (sr->style);
-			}
+				}*/
 			style_list = g_list_prepend (style_list,
 						     sr->style);
 		}
@@ -513,6 +547,64 @@ sheet_mstyle_compute_from_list (GList *list, int col, int row)
 	g_list_free (style_list);
 
 	return mstyle;
+}
+
+static GList *
+sheet_style_list_overlap (GList *list, const Range *range)
+{
+	GList  *l;
+	GList  *style_list = NULL;
+
+	for (l = list; l; l = l->next) {
+		StyleRegion *sr = l->data;
+
+		if (range_overlap (&sr->range, range))
+			style_list = g_list_prepend (style_list, sr);
+	}
+
+	return g_list_reverse (style_list);
+}
+
+/*
+ *   Calculate a suitable range around this cell
+ * that within which we can store the contained styles
+ * for future reference.
+ */
+static void
+calc_grown_range (SheetStyleData *sd, int col, int row)
+{
+	Range *r = &sd->cached_range;
+
+	if (col < GROW_X) {
+		r->start.col = 0;
+		r->end.col   = GROW_X * 2;
+	} else {
+		if (col + GROW_X > SHEET_MAX_COLS - 1) {
+			r->end.col   = SHEET_MAX_COLS - 1;
+			r->start.col = SHEET_MAX_COLS - 1 - GROW_X * 2;
+		} else {
+			r->start.col = col - GROW_X;
+			r->end.col   = col + GROW_X;
+		}
+	}
+
+	if (row < GROW_Y) {
+		r->start.row = 0;
+		r->end.row   = GROW_Y * 2;
+	} else {
+		if (row + GROW_Y > SHEET_MAX_ROWS - 1) {
+			r->end.row   = SHEET_MAX_ROWS - 1;
+			r->start.row = SHEET_MAX_ROWS - 1 - GROW_Y * 2;
+		} else {
+			r->start.row = row - GROW_Y;
+			r->end.row   = row + GROW_Y;
+		}
+	}
+
+/*	r->start.col = MAX (col - GROW_X, 0);
+	r->end.col   = MIN (col + GROW_X, SHEET_MAX_COLS - 1);
+	r->start.row = MAX (row - GROW_Y, 0);
+	r->end.row   = MIN (row + GROW_Y, SHEET_MAX_ROWS - 1);*/
 }
 
 /**
@@ -530,25 +622,42 @@ sheet_mstyle_compute_from_list (GList *list, int col, int row)
 MStyle *
 sheet_style_compute (Sheet const *sheet, int col, int row)
 {
-	MStyle *mstyle;
+	MStyle         *mstyle;
+	SheetStyleData *sd;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+/*	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);*/
 
-	if ((mstyle = sheet_style_cache_lookup (sheet, col, row))) {
+	sd = sheet->style_data;
+
+	if ((mstyle = sheet_style_cache_lookup (sd, col, row))) {
 		mstyle_ref (mstyle);
+
+		style_cache_hits++;
+
 		return mstyle;
 	}
 
-	if (!list_check_sorted (STYLE_LIST (sheet), TRUE))
+	if (!list_check_sorted (sd->style_list, TRUE))
 		g_warning ("Styles not sorted");
 
 	/* Look in the styles applied to the sheet */
+	if (sd->cached_list &&
+	    range_contains (&sd->cached_range, col, row))
 
-	mstyle = sheet_mstyle_compute_from_list (STYLE_LIST (sheet),
+		style_cache_range_hits++;
+	else {
+		calc_grown_range (sd, col, row);
+
+		sd->cached_list = sheet_style_list_overlap (sd->style_list, &sd->cached_range);
+
+		style_cache_misses++;
+	}
+
+	mstyle = sheet_mstyle_compute_from_list (sd->cached_list,
 						 col, row);
 
-	sheet_style_cache_add ((Sheet *)sheet, col, row, mstyle);
+	sheet_style_cache_add (sd, col, row, mstyle);
 
 	return mstyle;
 }
@@ -583,20 +692,30 @@ sheet_create_styles (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 
 	sd = g_new (SheetStyleData, 1);
-	sd->style_list = NULL;
-	sd->cell_cache = NULL;
+
+	sd->style_list  = NULL;
+	sd->style_cache = NULL;
+	sd->cached_list = NULL;
+
 	sheet->style_data = sd;
 }
 
 void
 sheet_destroy_styles (Sheet *sheet)
 {
-	GList *l;
+	GList          *l;
+	SheetStyleData *sd;
 
-	g_return_if_fail (sheet->style_data != NULL);
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_style_cache_flush (sheet);
-	for (l = STYLE_LIST (sheet); l; l = l->next) {
+	sd = sheet->style_data;
+
+	g_return_if_fail (sd != NULL);
+
+	sheet_style_cache_flush (sd, TRUE);
+
+	for (l = sd->style_list; l; l = l->next) {
 		StyleRegion *sr = l->data;
 
 		mstyle_unref (sr->style);
@@ -605,23 +724,28 @@ sheet_destroy_styles (Sheet *sheet)
 
 		g_free (sr);
 	}
-	g_list_free (STYLE_LIST (sheet));
-	STYLE_LIST (sheet) = NULL;
+	g_list_free (sd->style_list);
+	sd->style_list = NULL;
 
-	g_free (sheet->style_data);
+	g_free (sd);
 	sheet->style_data = NULL;
 }
 
 void
 sheet_styles_dump (Sheet *sheet)
 {
-	GList *l;
-	int i = 0;
+	GList          *l;
+	int             i = 0;
+	SheetStyleData *sd;
 
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
-	for (l = STYLE_LIST (sheet); l; l = l->next) {
+	sd = sheet->style_data;
+
+	for (l = sd->style_list; l; l = l->next) {
 		StyleRegion *sr = l->data;
+
 		printf ("Stamp %d Range: ", sr->stamp);
 		range_dump (&sr->range);
 		printf ("style ");
@@ -661,7 +785,7 @@ sheet_cells_update (Sheet *sheet, Range r,
 {
 	sheet->modified = TRUE;
 
-	/* Redraw the original region incase the span changes */
+	/* Redraw the original region in case the span changes */
 	sheet_redraw_cell_region (sheet,
 				  r.start.col, r.start.row,
 				  r.end.col, r.end.row);
@@ -672,7 +796,7 @@ sheet_cells_update (Sheet *sheet, Range r,
 				  re_dimension_cells_cb,
 				  GINT_TO_POINTER (render_text));
 
-	/* Redraw the new region incase the span changes */
+	/* Redraw the new region in case the span changes */
 	sheet_redraw_cell_region (sheet,
 				  r.start.col, r.start.row,
 				  r.end.col, r.end.row);
@@ -697,11 +821,14 @@ sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 {
 	Range  del_range;
 	GList *l, *next;
+	SheetStyleData *sd;
 
 	g_return_if_fail (pos >= 0);
 	g_return_if_fail (count > 0);
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
+
+	sd = sheet->style_data;
 
 	del_range = sheet_get_full_range ();
 	if (is_col) {
@@ -713,7 +840,7 @@ sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 	}
 
 	/* Don't touch the last 'global' range */
-	for (l = STYLE_LIST (sheet); l && l->next; l = next) {
+	for (l = sd->style_list; l && l->next; l = next) {
 		StyleRegion *sr = (StyleRegion *)l->data;
 
 		next = g_list_next (l);
@@ -732,7 +859,7 @@ sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 			if (sr->range.start.col > sr->range.end.col ||
 			    sr->range.start.col < 0 ||
 			    sr->range.end.col < 0)
-				sheet_style_region_unlink (sheet, sr);
+				sheet_style_region_unlink (sheet->style_data, sr);
 		} else { /* s/col/row/ */
 			if (sr->range.start.row      >  del_range.end.row)
 				sr->range.start.row  -= count;
@@ -747,11 +874,11 @@ sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 			if (sr->range.start.row > sr->range.end.row ||
 			    sr->range.start.row < 0 ||
 			    sr->range.end.row < 0)
-				sheet_style_region_unlink (sheet, sr);
+				sheet_style_region_unlink (sheet->style_data, sr);
 		}
 	}
 
-	sheet_style_cache_flush (sheet);
+	sheet_style_cache_flush (sd, TRUE);
 }
 
 static void
@@ -759,9 +886,12 @@ stylish_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 {
  	GList *l, *next;
 	gint start, end;
+	SheetStyleData *sd;
+
+	sd = sheet->style_data;
  
  	/* Don't touch the last 'global' range */
- 	for (l = STYLE_LIST (sheet); l && l->next; l = next) {
+ 	for (l = sd->style_list; l && l->next; l = next) {
  		StyleRegion *sr = (StyleRegion *)l->data;
  
  		next = g_list_next (l);
@@ -795,7 +925,7 @@ stylish_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 			
 	}
 
- 	sheet_style_cache_flush (sheet);
+ 	sheet_style_cache_flush (sd, TRUE);
 }
 
 static void
@@ -803,6 +933,9 @@ styleless_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 {
 	Range  move_range, ignore_range;
 	GList *l, *next;
+	SheetStyleData *sd;
+
+	sd = sheet->style_data;
  
 	move_range   = sheet_get_full_range ();
 	ignore_range = sheet_get_full_range ();
@@ -815,7 +948,7 @@ styleless_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 	}
 
 	/* Don't touch the last 'global' range */
-	for (l = STYLE_LIST (sheet); l && l->next; l = next) {
+	for (l = sd->style_list; l && l->next; l = next) {
 		StyleRegion *sr = (StyleRegion *)l->data;
 
 		next = g_list_next (l);
@@ -863,15 +996,15 @@ styleless_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 			/* 3.3 Insert in the correct stamp order */
 			if (is_col) {
 				if (frag->range.start.col <= frag->range.end.col)
-					sheet_style_region_link (sheet, frag);
+					sheet_style_region_link (sheet->style_data, frag);
 			} else {
 				if (frag->range.start.row <= frag->range.end.row)
-					sheet_style_region_link (sheet, frag);
+					sheet_style_region_link (sheet->style_data, frag);
 			}
 		}
 	}
 
-	sheet_style_cache_flush (sheet);
+	sheet_style_cache_flush (sd, TRUE);
 }
 
 void
@@ -907,6 +1040,7 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 {
 	GList *stored_regions = NULL;
 	GList *l, *next;
+	SheetStyleData *sd;
 
 	g_return_if_fail (rinfo != NULL);
 	g_return_if_fail (rinfo->origin_sheet != NULL);
@@ -914,8 +1048,10 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
 	g_return_if_fail (IS_SHEET (rinfo->target_sheet));
 
+	sd = rinfo->origin_sheet->style_data;
+
 /* 1. Fragment each StyleRegion against the original range */
-	for (l = STYLE_LIST (rinfo->origin_sheet); l && l->next; l = next) {
+	for (l = sd->style_list; l && l->next; l = next) {
 		StyleRegion *sr = (StyleRegion *)l->data;
 		GList       *fragments;
 
@@ -927,7 +1063,7 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 		fragments = range_split_ranges (&rinfo->origin, (Range *)sr,
 						(RangeCopyFn)style_region_copy);
 		stored_regions = g_list_concat (fragments, stored_regions);
-		sheet_style_region_unlink (rinfo->origin_sheet, sr);
+		sheet_style_region_unlink (rinfo->origin_sheet->style_data, sr);
 	}
 
 /* 2 Either fold back or queue Regions */
@@ -940,7 +1076,7 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 
 		if (!range_overlap (&sr->range, &rinfo->origin)) {
 /* 2.1 Add back the fragments */
-			sheet_style_region_link (rinfo->origin_sheet, sr);
+			sheet_style_region_link (sd, sr);
 		} else {
 /* 2.2 Translate queued regions + re-stamp */
 			sr->range.start.col   = MIN (sr->range.start.col + rinfo->col_offset,
@@ -952,14 +1088,14 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 			sr->range.end.row     = MIN (sr->range.end.row   + rinfo->row_offset,
 						     SHEET_MAX_ROWS - 1);
 			sr->stamp = stamp++;
-			sheet_style_region_link (rinfo->target_sheet, sr);
+			sheet_style_region_link (rinfo->target_sheet->style_data, sr);
 		}
 	}
 	g_list_free (stored_regions);
 
-	sheet_style_cache_flush (rinfo->target_sheet);
+	sheet_style_cache_flush (rinfo->target_sheet->style_data, TRUE);
 	if (rinfo->origin_sheet != rinfo->target_sheet)
-		sheet_style_cache_flush (rinfo->origin_sheet);
+		sheet_style_cache_flush (rinfo->origin_sheet->style_data, TRUE);
 }
 
 GList *
@@ -967,12 +1103,15 @@ sheet_get_styles_in_range (Sheet *sheet, const Range *r)
 {
 	GList *ans = NULL;
 	GList *l, *next;
+	SheetStyleData *sd;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
+	sd = sheet->style_data;
+
 /* 1. Fragment each StyleRegion against the original range */
-	for (l = STYLE_LIST (sheet); l; l = next) {
+	for (l = sd->style_list; l; l = next) {
 		StyleRegion *sr = (StyleRegion *)l->data;
 		GList       *fragments, *f;
 
@@ -1428,7 +1567,7 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 		all.start.row--;
 	if (all.end.row < SHEET_MAX_ROWS)
 		all.end.row++;
-	all_list = sheet_get_region_list_for_range (STYLE_LIST (sheet), &all);
+	all_list = sheet_get_region_list_for_range (sheet->style_data->style_list, &all);
 
 	/* 2. Create the middle range */
 	if (range->end.col > range->start.col + 1 &&
@@ -1609,9 +1748,12 @@ sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
 void
 sheet_style_get_extent (Range *r, Sheet const *sheet)
 {
-	GList   *l;
+	GList          *l;
+	SheetStyleData *sd;
 
-	for (l = STYLE_LIST (sheet); l && l->next; l = g_list_next (l)) {
+	sd = sheet->style_data;
+
+	for (l = sd->style_list; l && l->next; l = g_list_next (l)) {
 		Range *sr = (Range *)l->data;
 
 		if (!range_is_infinite (sr))
