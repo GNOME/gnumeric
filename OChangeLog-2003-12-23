@@ -1,5 +1,16 @@
 2002-01-12  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control.c (wb_control_parse_and_jump) : support
+	  intersheet jumps.
+
+2002-01-12  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=67425
+	* src/sheet-control-gui.c (cb_control_point_event) : reset cursor on
+	  exit.
+
+2002-01-12  Jody Goldberg <jody@gnome.org>
+
 	* src/xml-io.c (xml_write_style_condition_chain) : delete.
 	(xml_read_style_condition_chain) : delete.
 	(xml_write_style) : change validation support.

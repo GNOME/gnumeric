@@ -16,7 +16,10 @@ Jody:
 	* Improve Data Validation, and add XL import.
 	* Add new builtin format to Applix importer.
 	* Fix AREA_3D expressions from Excel.
-	* Support coloured tabs from Excel XP.
+	* Display and import coloured tabs from Excel XP.
+	* Fix displayed cursor when leaving a sheet object.
+	* Improve goto box to support names, and inter-sheet jumps.
+	* Support inter-sheet references in the goal seek.
 
 Morten:
 	* Make sure Linux ends up using IEEE_754 code in mathfunc.c.

@@ -18,6 +18,7 @@
 #include <format.h>
 #include <value.h>
 #include <mstyle.h>
+#include <ranges.h>
 #include <number-match.h>
 #include <parse-util.h>
 #include <workbook.h>
@@ -58,8 +59,6 @@ typedef struct {
 	Sheet	  *sheet;
 	Workbook  *wb;
 	WorkbookControlGUI  *wbcg;
-	int set_cell_col, set_cell_row;
-	int change_cell_col, change_cell_row;
 	gnum_float target_value;
 	gnum_float xmin;
 	gnum_float xmax;
@@ -344,18 +343,21 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	StyleFormat *min_value_format;
 	StyleFormat *max_value_format;
   	gnum_float  max_range_val = 1e24;    
-	Value *error_value;
+	Value *error_value, *target;
+	RangeRef const *r;
 
-
-	text = gtk_entry_get_text (GTK_ENTRY (state->set_cell_entry));
-	if (!parse_cell_name (text, &state->set_cell_col, &state->set_cell_row, TRUE, NULL)){
+	/* set up source */
+	target = global_range_parse (state->sheet,
+		gtk_entry_get_text (GTK_ENTRY (state->set_cell_entry)));
+	if (target == NULL) {
 		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce a valid cell name in 'Set Cell:'!"));
 		focus_on_entry (GTK_WIDGET (state->set_cell_entry));
 		return;
 	}
-
-	state->set_cell = sheet_cell_get (state->sheet, state->set_cell_col, state->set_cell_row);
+	r = &target->v_range.cell;
+	state->set_cell = sheet_cell_get (r->a.sheet, r->a.col, r->a.row);
+	value_release (target);
 	if (state->set_cell == NULL || !cell_has_expr (state->set_cell)) {
 		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("The cell named in 'Set Cell:' must contain a formula!"));
@@ -363,8 +365,10 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 		return;
 	}
 
-	text = gtk_entry_get_text (GTK_ENTRY (state->change_cell_entry));
-	if (!parse_cell_name (text, &state->change_cell_col, &state->change_cell_row, TRUE, NULL)){
+	/* set up source */
+	target = global_range_parse (state->sheet,
+		gtk_entry_get_text (GTK_ENTRY (state->change_cell_entry)));
+	if (target == NULL) {
 		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce a valid cell "
 				   "name in 'By Changing Cell:'!"));
@@ -372,7 +376,9 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 		return;
 	}
 
-	state->change_cell = sheet_cell_fetch (state->sheet, state->change_cell_col, state->change_cell_row);
+	r = &target->v_range.cell;
+	state->change_cell = sheet_cell_get (r->a.sheet, r->a.col, r->a.row);
+	value_release (target);
 	if (cell_has_expr (state->change_cell)) {
 		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("The cell named in 'By changing cell' "

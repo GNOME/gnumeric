@@ -2918,6 +2918,9 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *esheet)
 static void
 ms_excel_read_tab_color (BiffQuery *q, ExcelSheet *esheet)
 {
+	/* this is a guess, but the only field I see
+	 * changing seems to be the colour.
+	 */
 #if 0
  0 | 62  8  0  0  0  0  0  0  0  0  0  0 14  0  0  0 | b...............
 10 |     0  0  0 XX XX XX XX XX XX XX XX XX XX XX XX |  ...************
@@ -2935,7 +2938,7 @@ ms_excel_read_tab_color (BiffQuery *q, ExcelSheet *esheet)
 	sheet_set_tab_color (esheet->gnum_sheet, color);
 
 	if (color != NULL) {
-		d (-1, printf ("%s tab colour = %04hx:%04hx:%04hx\n",
+		d (1, printf ("%s tab colour = %04hx:%04hx:%04hx\n",
 			      esheet->gnum_sheet->name_unquoted,
 			      color->red, color->green, color->blue););
 	}

@@ -26,10 +26,12 @@
 
 #include "workbook-view.h"
 #include "workbook.h"
-#include "parse-util.h"
 #include "sheet.h"
 #include "selection.h"
 #include "commands.h"
+#include "value.h"
+#include "ranges.h"
+#include "expr-name.h"
 
 #include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
@@ -200,20 +202,56 @@ wb_control_cur_sheet (WorkbookControl *wbc)
 gboolean
 wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 {
-	int col, row;
+	RangeRef const *r;
+	Sheet *sheet;
+	Value *target = global_range_parse (wb_control_cur_sheet (wbc), text);
 
-	/* FIXME : handle inter-sheet jumps too */
-	if (parse_cell_name (text, &col, &row, TRUE, NULL)) {
-		Sheet *sheet = wb_control_cur_sheet (wbc);
-		sheet_selection_set (sheet, col, row, col, row, col, row);
-		sheet_make_cell_visible (sheet, col, row, FALSE);
-		return TRUE;
-	} else {
-		/* TODO : create a name */
+	/* not an address, is it a name ? */
+	if (target == NULL) {
+		ParsePos pp;
+		NamedExpression *nexpr = expr_name_lookup (
+			parse_pos_init (&pp, NULL, sheet, 0, 0), text);
+
+		/* Not a name, create one */
+		if (nexpr == NULL) {
+			Range const *r = selection_first_range (sheet,  wbc,
+				_("Define Name"));
+			if (r != NULL) {
+				char const *err;
+				CellRef a, b;
+				a.sheet = b.sheet = sheet;
+				a.col = r->start.col;
+				a.row = r->start.row;
+				b.col = r->end.col;
+				b.row = r->end.row;
+				pp.sheet = NULL; /* make it a global name */
+				nexpr = expr_name_add (&pp, text,
+					expr_tree_new_constant (
+						value_new_cellrange_unsafe (&a, &b)), &err);
+				if (nexpr != NULL)
+					return TRUE;
+				gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Name"), err);
+			}
+			return FALSE;
+		} else {
+			if (!nexpr->builtin)
+				target = expr_tree_get_range (nexpr->t.expr_tree);
+			if (target == NULL) {
+				gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Address"), text);
+				return FALSE;
+			}
+		}
 	}
 
-	gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Address"), text);
-	return FALSE;
+	r = &target->v_range.cell;
+	sheet = r->a.sheet;
+	sheet_selection_set (r->a.sheet, r->a.col, r->a.row,
+			     r->a.col, r->a.row, r->b.col, r->b.row);
+	sheet_make_cell_visible (sheet, r->a.col, r->a.row, FALSE);
+	if (wb_control_cur_sheet (wbc) != sheet)
+		wb_view_sheet_focus (wbc->wb_view, sheet);
+	value_release (target);
+	return TRUE;
 }
 
 /*****************************************************************************/

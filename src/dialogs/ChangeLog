@@ -1,5 +1,9 @@
 2002-01-12  Jody Goldberg <jody@gnome.org>
 
+	* dialog-goal-seek.c (cb_dialog_apply_clicked) : Use global_range_parse.
+
+2002-01-12  Jody Goldberg <jody@gnome.org>
+
 	* dialog-cell-format.c (validation_entry_from_expr) : new.
 	(validation_rebuild_validation) : rework.
 	(cb_validation_error_action_deactivate) : simplify.

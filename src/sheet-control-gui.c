@@ -1757,6 +1757,9 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		e_cursor_set_widget (ctrl_pt->canvas, GPOINTER_TO_UINT (p));
 		break;
 	}
+	case GDK_LEAVE_NOTIFY:
+		scg_set_display_cursor (scg);
+		break;
 
 	case GDK_BUTTON_RELEASE:
 		if (scg->drag_object != so)

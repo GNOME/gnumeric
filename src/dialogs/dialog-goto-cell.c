@@ -89,7 +89,7 @@ dialog_goto_cell (WorkbookControlGUI *wbcg)
 
 		text = gtk_entry_get_text (GTK_ENTRY (entry));
 
-		if (*text){
+		if (*text) {
 			if (wb_control_parse_and_jump (WORKBOOK_CONTROL (wbcg), text)) {
 				char *tmp[1];
 				int i = 0;

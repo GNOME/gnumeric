@@ -105,13 +105,16 @@ el_edit_sync (El *el)
 	points->coords [3] = font->ascent + font->descent - 1 - MARGIN;
 
 	/* Draw the cursor */
-	if (!el->cursor)
+	if (!el->cursor) {
 		el->cursor = gnome_canvas_item_new (
 			root_group, gnome_canvas_line_get_type (),
 			"points",         points,
 			"fill_color_gdk", &widget->style->fg [GTK_STATE_NORMAL],
 			NULL);
-	else
+		gnome_canvas_item_set (GNOME_CANVAS_ITEM (el->text_item),
+			"fill_color_gdk", &widget->style->fg [GTK_STATE_NORMAL],
+			NULL);
+	} else
 		gnome_canvas_item_set (
 			el->cursor,
 			"points",         points,
@@ -188,6 +191,7 @@ el_stop_editing (El *el)
 		el->background = NULL;
 	}
 
+	editable_label_set_color (el, el->color);
 	gtk_grab_remove (GTK_WIDGET (el));
 }
 
