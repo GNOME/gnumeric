@@ -196,14 +196,14 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n, gnum_float *b_scaled)
 	}
 
 	cond = (loggnum (highest) - loggnum (lowest)) / loggnum (2);
-#if 0
-	g_warning ("cond=%.20" GNUM_FORMAT_g, cond);
+#ifdef DEBUG_NEAR_SINGULAR
+	printf ("cond=%.20" GNUM_FORMAT_g "\n", cond);
 #endif
 
 	/* FIXME: make some science out of this.  */
 	if (cond > GNUM_MANT_DIG * 0.75)
 		return REG_near_singular_bad;
-	else if (1 || cond > GNUM_MANT_DIG * 0.50)
+	else if (cond > GNUM_MANT_DIG * 0.50)
 		return REG_near_singular_good;
 	else
 		return REG_ok;
