@@ -1,5 +1,10 @@
 2004-08-29  Jody Goldberg <jody@gnome.org>
 
+	* configure.in :  post release bump to .90 to indicate transition to
+	  beta status.
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.3.2
 
 2004-08-29   Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
