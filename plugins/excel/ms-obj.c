@@ -382,7 +382,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 MSObj *
 ms_read_OBJ (BiffQuery *q, MSContainer *container)
 {
-	static char * object_type_names[] =
+	static char const * const object_type_names[] =
 	{
 		"Group", 	/* 0x00 */
 		"Line",		/* 0x01 */
@@ -437,11 +437,16 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 
 	obj->excel_type_name = NULL;
 	if (obj->excel_type < sizeof(object_type_names)/sizeof(char*))
-		obj->excel_type_name = object_type_names[obj->excel_type];
+		obj->excel_type_name = object_type_names [obj->excel_type];
 	if (obj->excel_type_name == NULL)
 		obj->excel_type_name = "Unknown";
 
 	obj->gnum_obj = (*container->vtbl->create_obj) (container, obj);
+	if (obj->gnum_obj == NULL) {
+		g_free (obj);
+		return NULL;
+	}
+
 	/* Chart, There should be a BOF next */
 	if (obj->excel_type == 0x5)
 		ms_excel_read_chart (q, container);

@@ -41,9 +41,10 @@ ms_container_finalize (MSContainer *container)
 
 	if (container->obj_queue != NULL) {
 		GList *l;
-		for (l = container->obj_queue; l; l = g_list_next (l))
+		for (l = container->obj_queue; l != NULL; l = l->next)
 			ms_destroy_OBJ (l->data);
 
+		g_list_free (container->obj_queue);
 		container->obj_queue = NULL;
 	}
 }
@@ -99,7 +100,7 @@ ms_container_realize_objs (MSContainer *container)
 	g_return_if_fail (container->vtbl != NULL);
 	g_return_if_fail (container->vtbl->realize_obj != NULL);
 
-	for (l = container->obj_queue; l; l = g_list_next (l))
+	for (l = container->obj_queue; l != NULL; l = l->next)
 		(void) (*container->vtbl->realize_obj) (container, l->data);
 }
 

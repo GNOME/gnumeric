@@ -1,3 +1,12 @@
+2001-02-09  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_sheet_obj_create) : don't free the object on
+	  failure.
+
+	* ms-obj.c (ms_read_OBJ) : free it here on failure.
+
+	* ms-container.c (ms_container_finalize) : fix leak.
+
 2001-02-06  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_default_col_width) : typo.
