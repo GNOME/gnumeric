@@ -8,6 +8,7 @@ Jukka:
 	   MAXA(), MINA(), STDEVA(), STDEVPA(), VARA(), and VARPA().
         * And fixed these functions:
 	 - BETADIST(), NORMDIST(), RANK(), and POISSON().
+	* Lots of test files added
 
 Morten:
 	* Found everyone else's bugs.
