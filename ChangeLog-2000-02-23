@@ -1,3 +1,7 @@
+1999-08-05  Morten Welinder  <terra@diku.dk>
+
+	* src/dialog-analysis-tools.c (add_output_frame): Plug leak.
+
 1999-08-05  Michael Meeks  <michael@imaginator.com>
 
 	* src/file.c (workbook_import): Major hacks to get round quirks

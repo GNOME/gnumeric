@@ -345,7 +345,7 @@ add_output_frame(GtkWidget *box, GSList **output_ops)
 	r = gtk_radio_button_new_with_label(*output_ops, "New Sheet");
 	*output_ops = GTK_RADIO_BUTTON (r)->group;
 	gtk_box_pack_start_defaults (GTK_BOX (box), r);
-	hbox = gtk_hbox_new (FALSE, 0);
+	/* hbox = gtk_hbox_new (FALSE, 0); */
 	r = gtk_radio_button_new_with_label(*output_ops, "New Workbook");
 	*output_ops = GTK_RADIO_BUTTON (r)->group;
 	gtk_box_pack_start_defaults (GTK_BOX (box), r);
