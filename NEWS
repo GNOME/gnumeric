@@ -11,6 +11,9 @@ Andreas:
 Christopher Keith Fairbairn:
 	* Add a 'Fill' menu connection to autofill.
 
+Eric Baudais:
+	* Improve function documentation generator.
+
 Jody:
 	* Enable XL import for graphs.
 	* Parse using the assigned fmt before checking the builtins.

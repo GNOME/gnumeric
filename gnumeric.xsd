@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:gmr="http://www.gnome.org/gnumeric/v7"
-            targetNamespace="http://www.gnome.org/gnumeric/v7"
+            xmlns:gmr="http://www.gnumeric.org/v8.dtd"
+            targetNamespace="http://www.gnumeric.org/v8.dyd"
             elementFormDefault="qualified"
             attributeFormDefault="unqualified">
 
@@ -43,7 +43,7 @@
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
-        <!-- version number should be v7 - - &gt;
+        <!-- version number should be v8 - - &gt;
         <xsd:attribute name="gmr" type="gmr:namespace" use="required"/> -->
     </xsd:complexType>
 <!--    
@@ -139,9 +139,9 @@
                         <!-- name of the sheet -->
                         <xsd:element name="Name"             type="xsd:string"/>
                         <!-- maximum column used -->
-                        <xsd:element name="MaxCol"           type="xsd:positiveInteger"/>
+                        <xsd:element name="MaxCol"           type="xsd:positiveInteger" minOccurs="0" maxOccurs="1"/>
                         <!-- maximum row used -->
-                        <xsd:element name="MaxRow"           type="xsd:positiveInteger"/>
+                        <xsd:element name="MaxRow"           type="xsd:positiveInteger" minOccurs="0" maxOccurs="1"/>
                         <!-- most recently used zoom factor -->
                         <xsd:element name="Zoom"             type="xsd:double"/>
                         <xsd:element ref="gmr:Names" minOccurs="0" maxOccurs="unbounded"/>

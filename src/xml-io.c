@@ -2153,7 +2153,6 @@ static xmlNodePtr
 xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 {
 	xmlNodePtr cur;
-	xmlNsPtr gmr;
 	xmlNodePtr child;
 	xmlNodePtr rows;
 	xmlNodePtr cols;
@@ -2163,18 +2162,10 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	xmlNodePtr solver;
 	char *tstr;
 
-	/*
-	 * General informations about the Sheet.
-	 */
+	/* General information about the Sheet */
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Sheet", NULL);
 	if (cur == NULL)
 		return NULL;
-	if (ctxt->ns == NULL) {
-		gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/", "gmr");
-		xmlSetNs (cur, gmr);
-		ctxt->ns = gmr;
-	}
-
 	e_xml_set_bool_prop_by_name (cur, "DisplayFormulas",
 				     sheet->display_formulas);
 	e_xml_set_bool_prop_by_name (cur, "HideZero",
@@ -2720,6 +2711,7 @@ static const struct {
 	char const * const id;
 	GnumericXMLVersion const version;
 } GnumericVersions [] = {
+	{ "http://www.gnumeric.org/v8.dtd", GNUM_XML_V8 },	/* 0.71 */
 	{ "http://www.gnome.org/gnumeric/v7", GNUM_XML_V7 },	/* 0.66 */
 	{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },	/* 0.62 */
 	{ "http://www.gnome.org/gnumeric/v5", GNUM_XML_V5 },
@@ -2757,7 +2749,6 @@ xmlNodePtr
 xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 {
 	xmlNodePtr cur;
-	xmlNsPtr gmr;
 	xmlNodePtr child;
 	GtkArg *args;
 	guint n_args;
@@ -2776,9 +2767,13 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 		 * the most recent version, see table above. Keep the table
 		 * ordered this way!
 		 */
-		gmr = xmlNewNs (cur, GnumericVersions[0].id, "gmr");
-		xmlSetNs(cur, gmr);
-		ctxt->ns = gmr;
+		ctxt->ns = xmlNewNs (cur, GnumericVersions[0].id, "gmr");
+		xmlSetNs(cur, ctxt->ns);
+
+		xmlNewNsProp (cur,
+			xmlNewNs (cur, "http://www.w3.org/2001/XMLSchema-instance", "xsi"),
+			"schemaLocation",
+			"http://www.gnumeric.org/v8.xsd");
 	}
 
 	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));

@@ -415,9 +415,10 @@ typedef enum
     GNUM_XML_V5,	/* >= 0.58 */
     GNUM_XML_V6,	/* >= 0.62 */
     GNUM_XML_V7,        /* >= 0.66 */
+    GNUM_XML_V8,        /* >= 0.68 */
 
     /* NOTE : Keep this up to date */
-    GNUM_XML_LATEST = GNUM_XML_V7
+    GNUM_XML_LATEST = GNUM_XML_V8
 } GnumericXMLVersion;
 typedef struct _XMLSaxParseState
 {
@@ -524,6 +525,7 @@ xml_sax_wb (XMLSaxParseState *state, CHAR const **attrs)
 				char const * const id;
 				GnumericXMLVersion const version;
 			} GnumericVersions [] = {
+				{ "http://www.gnumeric.org/v8.dtd", GNUM_XML_V8 },	/* 0.71 */
 				{ "http://www.gnome.org/gnumeric/v7", GNUM_XML_V7 },	/* 0.66 */
 				{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },	/* 0.62 */
 				{ "http://www.gnome.org/gnumeric/v5", GNUM_XML_V5 },

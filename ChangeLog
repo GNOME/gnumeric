@@ -1,5 +1,14 @@
 2001-09-14  Jody Goldberg <jgoldberg@home.com>
 
+	* gnumeric.xsd : reference v8, and make Max{Col,Row} optional.
+
+	* src/xml-io.c : bump the name space version to reflect the schema
+	  and move the location of the dtd and schema to somewhere we control.
+	(xml_workbook_write) : reference the schema.
+	(xml_sheet_write) : The name space is always available already.
+
+2001-09-14  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook-control-gui.c (workbook_create_standard_toolbar) : Use
 	  gnome_preferences_get_toolbar_detachable rather than
 	  gnome_preferences_get_menubar_detachable.
