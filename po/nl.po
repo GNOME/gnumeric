@@ -116,8 +116,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-10-28 20:15+0100\n"
-"PO-Revision-Date: 2003-10-29 01:32+0100\n"
+"POT-Creation-Date: 2003-10-30 15:12+0100\n"
+"PO-Revision-Date: 2003-10-30 18:50+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -141,6 +141,10 @@ msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric Spreadsheet"
 
 #: gnumeric.desktop.in.h:2
+msgid "Spreadsheet"
+msgstr "Spreadsheet"
+
+#: gnumeric.desktop.in.h:3
 msgid "The GNOME Spreadsheet"
 msgstr "De Spreadsheet van GNOME"
 
@@ -211,7 +215,6 @@ msgstr ""
 "respectievelijk @a en @b."
 
 #: plugins/derivatives/options.c:202
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS\n"
 "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility [,"
@@ -231,7 +234,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
-msgstr "msgid \"Comma separated files (CSV)\""
+msgstr ""
 
 #: plugins/derivatives/options.c:269
 #, fuzzy
@@ -1047,7 +1050,7 @@ msgstr ""
 msgid ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
-"call_put_keuze; prijs koers; a; tijd; m; dt; rente; cost_of_carry; "
+"call_put_keuze; prijs; koers; a; tijd; m; dt; rente; cost_of_carry; "
 "volatiliteit"
 
 #: plugins/derivatives/options.c:1851
@@ -1059,12 +1062,16 @@ msgid ""
 "spot, strike_call, strike_put, time, time_call, time_put, rate, "
 "cost_of_carry, volatility"
 msgstr ""
+"prijs; koers_call; koers_put; tijd; tijd_call; tijd_put; rente; "
+"cost_of_carry; volatiliteit"
 
 #: plugins/derivatives/options.c:1861 plugins/derivatives/options.c:1866
 msgid ""
 "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
 "volatility"
 msgstr ""
+"type_keuze; prijs; koers1; koers2; tijd1; tijd2; rente; cost_of_carry; "
+"volatiliteit"
 
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
@@ -7736,6 +7743,7 @@ msgid ""
 "@SEEALSO=AMORLINC"
 msgstr ""
 
+# prorated: betekent per rente, dus lineair afhankelijk
 #: plugins/fn-financial/functions.c:3179
 #, fuzzy
 msgid ""
@@ -8500,7 +8508,7 @@ msgstr "%s versie %s "
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:528
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:549
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:114
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
@@ -19354,7 +19362,7 @@ msgid "Jump to a specified cell"
 msgstr "Spring naar een specifieke cel"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:578
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:599
 #: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Label"
@@ -20883,7 +20891,7 @@ msgid "O_utside"
 msgstr "B_uiten"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:475
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:490
 msgid "_Cross"
 msgstr "_Kruis"
 
@@ -20917,28 +20925,28 @@ msgstr "_Buiten"
 msgid "_Show Labels"
 msgstr "_Getallen tonen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:471
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:486
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:472
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:487
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:473
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:488
 msgid "Ma_jor Ticks"
 msgstr "_Hoofdverdeling"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:474
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:489
 msgid "Mi_nor Ticks"
 msgstr "_Onderverdeling"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:556
 msgid "Bounds"
 msgstr "Grenzen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:540
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:561
 msgid "Details"
 msgstr "Details"
 
@@ -28749,29 +28757,29 @@ msgstr "Ongeldige backslash aan het einde van de vervangende tekst."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "kan niet uitgevoerd worden met meerdere selecties"
 
-#: src/session.c:110
+#: src/session.c:111
 #, c-format
 msgid "Save changes to workbook '%s' before logging out?"
 msgstr "Veranderingen aan werkmap '%s' opslaan voor afsluiten?"
 
-#: src/session.c:114
+#: src/session.c:115
 msgid "Save changes to workbook before logging out?"
 msgstr "Veranderingen aan werkmap opslaan voor afsluiten?"
 
-#: src/session.c:119
+#: src/session.c:120
 msgid "If you do not save, changes may be discarded."
 msgstr "Als u niet opslaat zullen de veranderingen verloren gaan."
 
-#: src/session.c:121
+#: src/session.c:122
 msgid "Do not save any"
 msgstr "Geen enkele opslaan"
 
-#: src/session.c:123 src/session.c:126
+#: src/session.c:124 src/session.c:127
 msgid "Do not save"
 msgstr "Niet opslaan"
 
 # uitloggen?
-#: src/session.c:128
+#: src/session.c:129
 msgid "Do not log out"
 msgstr "Niet uitloggen"
 
@@ -28989,8 +28997,8 @@ msgstr "Fout tijdens het schrijven csv bestand"
 
 # CHECK misschien is dit te lang
 #: src/stf.c:458
-msgid "Comma or tab separated files (CSV/TSV)"
-msgstr "Bestanden met kolommen gescheiden door komma of tab (CSV/TSV)"
+msgid "Comma or tab separated values (CSV/TSV)"
+msgstr "Waarden gescheiden door kommas of tabs (CSV/TSV)"
 
 #: src/stf.c:462
 msgid "Text import (configurable)"
@@ -29002,9 +29010,8 @@ msgstr "Tekst-export (instelbaar)"
 
 # CHECK misschien is dit te lang
 #: src/stf.c:470
-#, fuzzy
-msgid "Comma separated files (CSV)"
-msgstr "Bestanden met kolommen gescheiden door komma of tab (CSV/TSV)"
+msgid "Comma separated values (CSV)"
+msgstr "Waarden gescheiden door kommas (CSV)"
 
 #: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3296
 #, c-format
