@@ -18,6 +18,7 @@
 #include "sheet-autofill.h"
 #include "clipboard.h"
 #include "selection.h"
+#include "utils.h"
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
@@ -45,7 +46,7 @@ item_cursor_stop_animation (ItemCursor *item_cursor)
 {
 	if (item_cursor->tag == -1)
 		return;
-	
+
 	gtk_timeout_remove (item_cursor->tag);
 	item_cursor->tag = -1;
 }
@@ -75,10 +76,10 @@ item_cursor_realize (GnomeCanvasItem *item)
 {
 	ItemCursor *item_cursor;
 	GdkWindow  *window;
-	
+
 	if (GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->realize)(item);
-	
+
 	item_cursor = ITEM_CURSOR (item);
 	window = GTK_WIDGET (item->canvas)->window;
 
@@ -92,7 +93,7 @@ item_cursor_realize (GnomeCanvasItem *item)
 	 */
 	if (item_cursor->style == ITEM_CURSOR_DRAG || item_cursor->style == ITEM_CURSOR_AUTOFILL){
 		static char stipple_data [] = { 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa };
-		
+
 		item_cursor->stipple =
 			gdk_bitmap_create_from_data (window, stipple_data, 8, 8);
 	}
@@ -113,7 +114,7 @@ item_cursor_unrealize (GnomeCanvasItem *item)
 		gdk_pixmap_unref (item_cursor->stipple);
 		item_cursor->stipple = NULL;
 	}
-	
+
 	if (GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)(item);
 }
@@ -153,7 +154,7 @@ item_cursor_configure_bounds (ItemCursor *item_cursor)
 	item_cursor->cached_y = y;
 	item_cursor->cached_w = w;
 	item_cursor->cached_h = h;
-	
+
 	item->x1 = x - 1;
 	item->y1 = y - 1;
 
@@ -181,13 +182,13 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 
 	if (!item_cursor->visible)
 		return;
-	
+
 	item_cursor_get_pixel_coords (item_cursor, &xd, &yd,
 				      &cursor_width, &cursor_height);
 
 	w = cursor_width;
 	h = cursor_height;
-	
+
 	/* determine if we need to recompute the bounding box */
 	if (xd != item_cursor->cached_x ||
 	    yd != item_cursor->cached_y ||
@@ -195,7 +196,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	    h  != item_cursor->cached_h){
 		item_cursor_configure_bounds (item_cursor);
 	}
-	
+
 	dx = xd - x;
 	dy = yd - y;
 
@@ -205,7 +206,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	draw_center   = 0;
 	draw_thick    = 1;
 	draw_stippled = 0;
-	
+
 	switch (item_cursor->style){
 	case ITEM_CURSOR_AUTOFILL:
 	case ITEM_CURSOR_DRAG:
@@ -215,7 +216,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		fore          = &gs_black;
 		back          = &gs_white;
 		break;
-		
+
 	case ITEM_CURSOR_SELECTION:
 		draw_internal = 1;
 		draw_external = 1;
@@ -325,7 +326,7 @@ void
 item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, int end_col, int end_row)
 {
 	GnomeCanvasItem *item;
-	
+
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
 	g_return_if_fail (item_cursor != NULL);
@@ -388,7 +389,7 @@ item_cursor_setup_auto_fill (ItemCursor *item_cursor, ItemCursor const *parent, 
 {
 	item_cursor->base_x = x;
 	item_cursor->base_y = y;
-	
+
 	item_cursor->base_cols = parent->pos.end.col - parent->pos.start.col;
 	item_cursor->base_rows = parent->pos.end.row - parent->pos.start.row;
 	item_cursor->base_col = parent->pos.start.col;
@@ -399,7 +400,7 @@ static void
 item_cursor_set_cursor (GnomeCanvas *canvas, GnomeCanvasItem *item, int x, int y)
 {
 	int cursor;
-	
+
 	if (IS_LITTLE_SQUARE (item, x, y))
 		cursor = GNUMERIC_CURSOR_THIN_CROSS;
 	else
@@ -423,21 +424,20 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		item_cursor_set_cursor (canvas, item, x, y);
 		return TRUE;
-		
+
 	case GDK_MOTION_NOTIFY:
 		gnome_canvas_w2c (
 			canvas, event->motion.x, event->motion.y, &x, &y);
 
 		item_cursor_set_cursor (canvas, item, x, y);
 		return TRUE;
-		
+
 	case GDK_BUTTON_PRESS: {
 		GnomeCanvasGroup *group;
 		int style;
 
 		gnome_canvas_w2c (
 			canvas, event->button.x, event->button.y, &x, &y);
-		
 		group = GNOME_CANVAS_GROUP (canvas->root);
 
 		/*
@@ -448,7 +448,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			style = ITEM_CURSOR_AUTOFILL;
 		else
 			style = ITEM_CURSOR_DRAG;
-		
+
 		new_item = gnome_canvas_item_new (
 			group,
 			item_cursor_get_type (),
@@ -460,25 +460,40 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (style == ITEM_CURSOR_AUTOFILL)
 			item_cursor_setup_auto_fill (
 				ITEM_CURSOR (new_item), item_cursor, x, y);
-		
+
+		if (x < 0)
+			x = 0;
+		if (y < 0)
+			y = 0;
+		/*
+		 * Capture the offset of the current cell relative to
+		 * the upper left corner
+		 */
+		ITEM_CURSOR (new_item)->col_delta =
+		    item_grid_find_col (item_cursor->item_grid, x, NULL) -
+		    item_cursor->pos.start.col;
+		ITEM_CURSOR (new_item)->row_delta =
+		    item_grid_find_row (item_cursor->item_grid, y, NULL) -
+		    item_cursor->pos.start.row,
+
 		item_cursor_set_bounds (
 			ITEM_CURSOR (new_item),
 			item_cursor->pos.start.col, item_cursor->pos.start.row,
 			item_cursor->pos.end.col,   item_cursor->pos.end.row);
-		
+
 		gnome_canvas_update_now (canvas);
 		gnome_canvas_item_grab (
 			new_item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 			NULL,
 			event->button.time);
-		
+
 		return TRUE;
 	}
 	default:
 		return FALSE;
 	}
-	
+
 }
 
 static gboolean
@@ -532,11 +547,11 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 	Sheet *sheet = item_cursor->sheet;
 	int   col = item_cursor->pos.start.col;
 	int   row = item_cursor->pos.start.row;
-	
+
 	switch (action){
 	case ACTION_NONE:
 		return;
-		
+
 	case ACTION_COPY_CELLS:
 		if (!item_cursor_target_region_ok (item_cursor)){
 			return;
@@ -545,7 +560,7 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 			return;
 		sheet_selection_paste (sheet, col, row, PASTE_ALL_TYPES, time);
 		return;
-		
+
 	case ACTION_MOVE_CELLS:
 		if (!item_cursor_target_region_ok (item_cursor))
 			return;
@@ -553,7 +568,7 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 			return;
 		sheet_selection_paste (sheet, col, row, PASTE_ALL_TYPES, time);
 		return;
-		
+
 	case ACTION_COPY_FORMATS:
 		if (!item_cursor_target_region_ok (item_cursor))
 			return;
@@ -561,7 +576,7 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 			return;
 		sheet_selection_paste (sheet, col, row, PASTE_FORMATS, time);
 		return;
-		
+
 	case ACTION_COPY_VALUES:
 		if (!item_cursor_target_region_ok (item_cursor))
 			return;
@@ -569,7 +584,7 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 			return;
 		sheet_selection_paste (sheet, col, row, PASTE_VALUES, time);
 		return;
-		
+
 	case ACTION_SHIFT_DOWN_AND_COPY:
 	case ACTION_SHIFT_RIGHT_AND_COPY:
 	case ACTION_SHIFT_DOWN_AND_MOVE:
@@ -612,28 +627,17 @@ item_cursor_do_drop (ItemCursor *item_cursor, GdkEventButton *event)
 
 static void
 item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
-				int start_col, int start_row,
-				int end_col,   int end_row)
+				int const base_col,	int const base_row,
+				int const start_col,	int const start_row,
+				int const end_col,	int const end_row)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
 	GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
-	int watch_col, watch_row;
-	
+
 	item_cursor_set_bounds (item_cursor, start_col, start_row, end_col, end_row);
 
-	/* Now, make the range visible as well as we can guess */
-	if (start_col < item_cursor->pos.start.col)
-		watch_col = start_col;
-	else 
-		watch_col = end_col;
-	
-	if (start_row < item_cursor->pos.start.row)
-		watch_row = start_row;
-	else 
-		watch_row = end_row;
-
-	gnumeric_sheet_make_cell_visible (gsheet, watch_col, watch_row);
-	gnumeric_sheet_cursor_set (gsheet, watch_col, watch_row);
+	gnumeric_sheet_make_cell_visible (gsheet, base_col, base_row);
+	gnumeric_sheet_cursor_set (gsheet, base_col, base_row);
 	gnome_canvas_update_now (GNOME_CANVAS (gsheet));
 }
 
@@ -658,6 +662,40 @@ item_cursor_set_spin_base (ItemCursor *item_cursor, int col, int row)
 	item_cursor->base_row = row;
 }
 
+/*
+ * This can not be used yet.  It exercises a bug in GtkLayout
+ */
+static void
+item_cursor_tip_setlabel (ItemCursor *item_cursor)
+{
+	char buffer [32];
+	int tmp;
+	Range const * src = &item_cursor->pos;
+
+	if (item_cursor->tip == NULL) {
+		item_cursor->tip = gnumeric_create_tooltip ();
+		gnumeric_position_tooltip (item_cursor->tip, TRUE);
+		gtk_widget_show_all (gtk_widget_get_toplevel (item_cursor->tip));
+	}
+
+	g_return_if_fail (item_cursor->tip != NULL);
+
+	/*
+	 * keep these as 2 print statements, because
+	 * col_name uses a static buffer
+	 */
+	tmp = snprintf (buffer, sizeof (buffer), "%s%d",
+			col_name (src->start.col),
+			src->start.row + 1);
+
+	if (src->start.col != src->end.col || src->start.row != src->end.row)
+		snprintf (buffer+tmp, sizeof (buffer)-tmp, ":%s%d",
+			  col_name (src->end.col),
+			  src->end.row + 1);
+
+	gtk_label_set_text (GTK_LABEL (item_cursor->tip), buffer);
+}
+
 static gint
 item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -665,11 +703,18 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
 	int x, y, w, h;
 	int col, row;
-		
+	int corner_left, corner_top;
+
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
 		gnome_canvas_item_ungrab (item, event->button.time);
 		item_cursor_do_drop (item_cursor, (GdkEventButton *) event);
+
+		if (item_cursor->tip) {
+			gtk_widget_destroy (gtk_widget_get_toplevel (item_cursor->tip));
+			item_cursor->tip = NULL;
+		}
+
 		gtk_object_destroy (GTK_OBJECT (item));
 		return TRUE;
 
@@ -686,17 +731,32 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (y < 0)
 			y = 0;
 		col = item_grid_find_col (item_cursor->item_grid, x, NULL);
+		corner_left = col - item_cursor->col_delta;
+
 		row = item_grid_find_row (item_cursor->item_grid, y, NULL);
+		corner_top = row - item_cursor->row_delta;
 
 		w   = (item_cursor->pos.end.col - item_cursor->pos.start.col);
 		h   = (item_cursor->pos.end.row - item_cursor->pos.start.row);
 
-		if (col + w > SHEET_MAX_COLS-1)
+		if (corner_left < 0 || corner_left + w >= SHEET_MAX_COLS)
 			return TRUE;
-		if (row + h > SHEET_MAX_ROWS-1)
+		if (corner_top < 0 || corner_top + h >= SHEET_MAX_ROWS)
 			return TRUE;
-		
-		item_cursor_set_bounds_visibly (item_cursor, col, row, col + w, row + h);
+
+		item_cursor_set_bounds_visibly (item_cursor, col, row,
+						corner_left,
+						corner_top,
+						corner_left + w,
+						corner_top + h);
+
+#if 0
+		/*
+		 * Leave this disabled until GtkLayout correctly handles
+		 * Windows with SaveUnder set. (Speak to quartic for details).
+		 */
+		item_cursor_tip_setlabel (item_cursor);
+#endif
 		return TRUE;
 
 	default:
@@ -710,7 +770,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 	GnomeCanvas *canvas = item->canvas;
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
 	int col, row, x, y;
-	
+
 	switch (event->type){
 	case GDK_BUTTON_RELEASE: {
 		Sheet *sheet = item_cursor->sheet;
@@ -723,12 +783,12 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_update_now (canvas);
 		gdk_flush ();
 #endif
-		
+
 		if (!((item_cursor->pos.end.col == item_cursor->base_col + item_cursor->base_cols) &&
 		      (item_cursor->pos.end.row == item_cursor->base_row + item_cursor->base_rows))){
 
 			sheet_accept_pending_input (sheet);
-			sheet_autofill (sheet, 
+			sheet_autofill (sheet,
 					item_cursor->base_col,    item_cursor->base_row,
 					item_cursor->base_cols+1, item_cursor->base_rows+1,
 					item_cursor->pos.end.col,     item_cursor->pos.end.row);
@@ -740,9 +800,9 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		sheet_selection_reset_only (sheet);
 		sheet_selection_append (sheet, item_cursor->base_col, item_cursor->base_row);
 		sheet_selection_extend_to (sheet, item_cursor->pos.end.col, item_cursor->pos.end.row);
-		
+
 		gtk_object_destroy (GTK_OBJECT (item));
-		
+
 		return TRUE;
 	}
 
@@ -760,10 +820,12 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		if (row < item_cursor->base_row || row > SHEET_MAX_ROWS-1)
 			row = item_cursor->base_row;
-		
+
 		if ((item_cursor->base_x - x) > (item_cursor->base_y - y)){
 			item_cursor_set_bounds_visibly (
 				item_cursor,
+				item_cursor->base_col,
+				item_cursor->base_row,
 				item_cursor->base_col,
 				item_cursor->base_row,
 				item_cursor->base_col + item_cursor->base_cols,
@@ -773,6 +835,8 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 				item_cursor,
 				item_cursor->base_col,
 				item_cursor->base_row,
+				item_cursor->base_col,
+				item_cursor->base_row,
 				col,
 				item_cursor->base_row + item_cursor->base_rows);
 		}
@@ -780,24 +844,24 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	default:
 		return FALSE;
-	}	
+	}
 }
 
 static gint
 item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
-	
+
 	switch (item_cursor->style){
 	case ITEM_CURSOR_SELECTION:
 		return item_cursor_selection_event (item, event);
-		
+
 	case ITEM_CURSOR_DRAG:
 		return item_cursor_drag_event (item, event);
-		
+
 	case ITEM_CURSOR_AUTOFILL:
 		return item_cursor_autofill_event (item, event);
-		
+
 	default:
 		return FALSE;
 	}
@@ -820,6 +884,11 @@ item_cursor_init (ItemCursor *item_cursor)
 	item_cursor->pos.end.col   = 0;
 	item_cursor->pos.start.row = 0;
 	item_cursor->pos.end.row   = 0;
+
+	item_cursor->col_delta = 0;
+	item_cursor->row_delta = 0;
+	item_cursor->tip       = NULL;
+
 	item_cursor->style = ITEM_CURSOR_SELECTION;
 	item_cursor->tag = -1;
 	item_cursor->visible = 1;
@@ -857,7 +926,7 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 	GnomeCanvasItemClass *item_class;
 
 	item_cursor_parent_class = gtk_type_class (gnome_canvas_item_get_type ());
-	
+
 	object_class = (GtkObjectClass *) item_cursor_class;
 	item_class = (GnomeCanvasItemClass *) item_cursor_class;
 

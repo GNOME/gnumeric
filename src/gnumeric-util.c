@@ -276,6 +276,11 @@ gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
 		x = x - req.width - 20;
 		y = y - req.height/2;
 	}
+
+	if (x < 0)
+		x = 0;
+	if (y < 0)
+		y = 0;
 	gtk_widget_set_uposition (gtk_widget_get_toplevel (tip), x, y);
 }
 

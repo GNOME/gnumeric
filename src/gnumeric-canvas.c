@@ -196,9 +196,7 @@ static void
 move_cursor_horizontal (GnumericSheet *gsheet, int count, gboolean jump_to_boundaries)
 {
 	Sheet *sheet = gsheet->sheet_view->sheet;
-	int const new_col;
-
-	new_col = sheet_find_boundary_horizontal (
+	int const new_col = sheet_find_boundary_horizontal (
 		sheet,
 		sheet->cursor_col,
 		sheet->cursor_row,
@@ -1007,7 +1005,9 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 				      "ItemCursor::Grid", gsheet->item_grid,
 				      NULL);
 	gsheet->item_cursor = ITEM_CURSOR (item);
-	item_cursor_set_bounds (gsheet->item_cursor, 0, 0, 1, 1);
+
+	/* Set the cursor in A1 */
+	item_cursor_set_bounds (gsheet->item_cursor, 0, 0, 0, 0);
 
 	widget = GTK_WIDGET (gsheet);
 

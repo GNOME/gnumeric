@@ -1,5 +1,21 @@
 1999-11-10  Jody Goldberg <jgoldberg@home.com>
 
+1999-11-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_tip_setlabel) : New function, not
+	  used yet.
+	(item_cursor_selection_event) : Keep track of the starting point.
+	(item_cursor_drag_event) : Use info to not jump to the edge.
+	(item_cursor_autofill_event) : Ditto.
+	(item_cursor_set_bounds_visibly) : Minor patch to use the new offset
+	  information.
+
+	* src/gnumeric-util.c (gnumeric_position_tooltip) : Be sensitive to 0.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_new) : Select A1 at startup,
+	  not A1:B2.
+	(move_cursor_horizontal) : Remove warning.
+
 	* src/dialogs/dialog-cell-format.c (draw_format_preview) : Init
 	  variable.
 

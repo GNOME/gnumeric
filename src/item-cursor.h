@@ -23,6 +23,12 @@ typedef struct {
 	ItemGrid *item_grid;	/* A copy of our "parent" grid */
 	Range     pos;
 
+	/* Offset of dragging cell from top left of pos */
+	int col_delta, row_delta;
+
+	/* Tip for movement */
+	GtkWidget        *tip;
+
 	ItemCursorStyle style;
 	GdkGC    *gc;
 	int      state;
