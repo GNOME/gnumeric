@@ -301,17 +301,17 @@ parse_string_as_value (ExprTree *str)
 static ExprTree *
 parse_string_as_value_or_name (ExprTree *str)
 {
-	NamedExpression *exprn;
+	NamedExpression *expr_name;
 
 	if (parse_string_as_value (str));
 		return str;
 
-	exprn = expr_name_lookup (parser_pos, str->constant.value->v_str.val->str);
-	if (exprn == NULL)
+	expr_name = expr_name_lookup (parser_pos, str->constant.value->v_str.val->str);
+	if (expr_name == NULL)
 		return str;
 
 	unregister_allocation (str); expr_tree_unref (str);
-	return register_expr_allocation (expr_tree_new_name (exprn));
+	return register_expr_allocation (expr_tree_new_name (expr_name));
 }
 
 /* Make byacc happier */
@@ -393,6 +393,21 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		}
 
 		$$ = register_expr_allocation (expr_tree_new_funcall (func, $3));
+	}
+	| sheetref string_opt_quote {
+		NamedExpression *expr_name;
+		char *name = $2->constant.value->v_str.val->str;
+		ParsePos pos = *parser_pos;
+		
+		pos.sheet = $1;
+		expr_name = expr_name_lookup (&pos, name);
+		unregister_allocation ($2); expr_tree_unref ($2);
+		if (expr_name == NULL) {
+			/* TODO : Get rid of ParseErr and replace it with something richer. */
+			parser_error = PARSE_ERR_SYNTAX;
+                        return ERROR;
+		}
+	        $$ = register_expr_allocation (expr_tree_new_name (expr_name));
 	}
 	;
 

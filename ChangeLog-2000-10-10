@@ -1,3 +1,12 @@
+2000-07-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/parser.y (exp) : Add production for sheet specific names.
+	  eg Sheet2!name
+
+2000-07-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-string.c (parse_search_strin) : Use g_strdup.
+
 2000-07-01  Morten Welinder  <terra@diku.dk>
 
 	* src/file.c (can_try_save_to): Constify.  Handle empty name.
