@@ -6,6 +6,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
+#include <stdlib.h>
 #include <gtk/gtk.h>
 #include <gnome.h>
 #include <gal/util/e-util.h>
@@ -83,22 +84,22 @@ app_cline_entered (GnmPyCommandLine *cline)
 {
 	const char *cmd;
 	char *msg;
-	char *stdout, *stderr;
+	char *stdout_str, *stderr_str;
 
 	cmd = gtk_entry_get_text (GTK_ENTRY (cline));
 	msg = g_strdup_printf (">>> %s\n", cmd);
 	app_text_print (msg, FORMAT_COMMAND, FALSE);
 	g_free (msg);
-	gnm_py_interpreter_run_string (app->cur_interpreter, cmd, &stdout, &stderr);
-	if (stdout != NULL && stdout[0] != '\0') {
-		app_text_print (stdout, FORMAT_STDOUT,
-		                stdout[strlen (stdout) - 1] != '\n');
-		g_free (stdout);	
+	gnm_py_interpreter_run_string (app->cur_interpreter, cmd, &stdout_str, &stderr_str);
+	if (stdout_str != NULL && stdout_str[0] != '\0') {
+		app_text_print (stdout_str, FORMAT_STDOUT,
+		                stdout_str[strlen (stdout_str) - 1] != '\n');
+		g_free (stdout_str);	
 	}
-	if (stderr != NULL && stderr[0] != '\0') {
-		app_text_print (stderr, FORMAT_STDERR,
-		                stderr[strlen (stderr) - 1] != '\n');
-		g_free (stderr);	
+	if (stderr_str != NULL && stderr_str[0] != '\0') {
+		app_text_print (stderr_str, FORMAT_STDERR,
+		                stderr_str[strlen (stderr_str) - 1] != '\n');
+		g_free (stderr_str);	
 	}
 }
 
