@@ -547,6 +547,9 @@ xml_write_style (XmlParseContext *ctxt,
 	if (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT))
 		xml_node_set_int (cur, "WrapText",
 				  mstyle_get_wrap_text (style));
+	if (mstyle_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
+		xml_node_set_int (cur, "ShrinkToFit",
+				  mstyle_get_shrink_to_fit (style));
 	if (mstyle_is_element_set (style, MSTYLE_ORIENTATION))
 		xml_node_set_int (cur, "Orient",
 				  mstyle_get_orientation (style));
@@ -1331,6 +1334,8 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (ctxt->version >= GNUM_XML_V6) {
 		if (xml_node_get_int (tree, "WrapText", &val))
 			mstyle_set_wrap_text (mstyle, val);
+		if (xml_node_get_int (tree, "ShrinkToFit", &val))
+			mstyle_set_shrink_to_fit (mstyle, val);
 	} else if (xml_node_get_int (tree, "Fit", &val))
 		mstyle_set_wrap_text (mstyle, val);
 

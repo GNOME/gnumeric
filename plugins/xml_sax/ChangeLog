@@ -1,3 +1,7 @@
+2002-08-10  Jody Goldberg <jody@gnome.org>
+
+	* xml-sax-read.c (xml_sax_styleregion_start) : read shrink to fit.
+
 2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".

@@ -44,6 +44,7 @@ typedef enum _MStyleElementType {
 		MSTYLE_ORIENTATION,
 
 		MSTYLE_WRAP_TEXT,
+		MSTYLE_SHRINK_TO_FIT,
 
 	        MSTYLE_CONTENT_LOCKED,
 	        MSTYLE_CONTENT_HIDDEN,
@@ -117,6 +118,8 @@ void                mstyle_set_orientation (MStyle *st, StyleOrientation o);
 StyleOrientation    mstyle_get_orientation (const MStyle *st);
 void                mstyle_set_wrap_text   (MStyle *st, gboolean f);
 gboolean            mstyle_get_wrap_text   (const MStyle *st);
+void                mstyle_set_shrink_to_fit (MStyle *st, gboolean f);
+gboolean            mstyle_get_shrink_to_fit (const MStyle *st);
 
 void                mstyle_set_content_locked (MStyle *st, gboolean f);
 gboolean            mstyle_get_content_locked (const MStyle *st);

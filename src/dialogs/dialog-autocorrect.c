@@ -65,8 +65,6 @@ static void
 cb_add_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
 {
 	gchar const *txt;
-        gchar const *dumy[2];
-        gchar const *str;
 	GSList    *ptr;
 	gboolean new_flag = TRUE;
 
@@ -82,11 +80,13 @@ cb_add_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
 
 	if (new_flag) {
 	        gint row;
+		char *dumy[2];
+		char *str;
 
 	        dumy[0] = (char *)txt;
 		dumy[1] = NULL;
 		str = g_strdup (txt);
-		row = gtk_clist_append(GTK_CLIST (s->list), dumy);
+		row = gtk_clist_append (GTK_CLIST (s->list), dumy);
 		gtk_clist_set_row_data (GTK_CLIST (s->list), row, str);
 		s->exceptions = g_slist_prepend (s->exceptions, str);
 		s->changed = TRUE;

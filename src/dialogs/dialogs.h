@@ -22,16 +22,16 @@ typedef enum {
 #ifdef WITH_BONOBO
 void     dialog_graph_guru	(WorkbookControlGUI *wbcg, GnmGraph *graph, int page);
 #endif
-void	   dialog_formula_guru	(WorkbookControlGUI *wbcg, FunctionDefinition const *);
-void	   dialog_plugin_manager  (WorkbookControlGUI *wbcg);
-void	   dialog_goto_cell       (WorkbookControlGUI *wbcg);
-GtkWidget *dialog_cell_number_fmt (WorkbookControlGUI *wbcg, Value *sample_val);
-void	   dialog_cell_format     (WorkbookControlGUI *wbcg,
-				   FormatDialogPosition_t pageno);
-int	   dialog_paste_special   (WorkbookControlGUI *wbcg);
-void	   dialog_insert_cells    (WorkbookControlGUI *wbcg);
-void	   dialog_delete_cells    (WorkbookControlGUI *wbcg);
-void	   dialog_zoom            (WorkbookControlGUI *wbcg, Sheet *sheet);
+void	 dialog_formula_guru	(WorkbookControlGUI *wbcg, FunctionDefinition const *);
+void	 dialog_plugin_manager  (WorkbookControlGUI *wbcg);
+void	 dialog_goto_cell       (WorkbookControlGUI *wbcg);
+void	 dialog_cell_format     (WorkbookControlGUI *wbcg,
+				 FormatDialogPosition_t pageno);
+void	 dialog_conditional_fmt (WorkbookControlGUI *wbcg);
+int	 dialog_paste_special   (WorkbookControlGUI *wbcg);
+void	 dialog_insert_cells    (WorkbookControlGUI *wbcg);
+void	 dialog_delete_cells    (WorkbookControlGUI *wbcg);
+void	 dialog_zoom            (WorkbookControlGUI *wbcg, Sheet *sheet);
 void   	 dialog_about           (WorkbookControlGUI *wbcg);
 void   	 dialog_define_names    (WorkbookControlGUI *wbcg);
 void   	 dialog_cell_comment    (WorkbookControlGUI *wbcg,

@@ -1003,6 +1003,8 @@ xml_sax_styleregion_start (XMLSaxParseState *state, xmlChar const **attrs)
 
 		else if (xml_sax_attr_int (attrs, "WrapText", &val))
 			mstyle_set_wrap_text (state->style, val);
+		else if (xml_sax_attr_int (attrs, "ShrinkToFit", &val))
+			mstyle_set_shrink_to_fit (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Orient", &val))
 			mstyle_set_orientation (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Shade", &val))

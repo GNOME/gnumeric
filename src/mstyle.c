@@ -61,6 +61,7 @@ typedef struct {
 		int		 indent;
 		StyleOrientation orientation;
 		gboolean         wrap_text;
+		gboolean         shrink_to_fit;
 		gboolean         content_locked;
 		gboolean         content_hidden;
 
@@ -103,6 +104,7 @@ struct _MStyle {
 				case MSTYLE_FONT_ITALIC: \
 				case MSTYLE_FONT_STRIKETHROUGH: \
 				case MSTYLE_WRAP_TEXT:\
+				case MSTYLE_SHRINK_TO_FIT:\
 				case MSTYLE_CONTENT_LOCKED:\
 				case MSTYLE_CONTENT_HIDDEN
 
@@ -140,6 +142,7 @@ const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"Indent",
 	"Orientation",
 	"WrapText",
+	"ShrinkToFit",
 	"Content.Locked",
 	"Content.Hidden",
 	"Validation",
@@ -351,6 +354,8 @@ mstyle_element_equal (MStyleElement const *a,
 		return (a->u.orientation == b->u.orientation);
 	case MSTYLE_WRAP_TEXT:
 		return (a->u.wrap_text == b->u.wrap_text);
+	case MSTYLE_SHRINK_TO_FIT:
+		return (a->u.shrink_to_fit == b->u.shrink_to_fit);
 	case MSTYLE_CONTENT_LOCKED:
 		return (a->u.content_locked == b->u.content_locked);
 	case MSTYLE_CONTENT_HIDDEN:
@@ -587,6 +592,7 @@ mstyle_new_default (void)
 	mstyle_set_indent      (mstyle, 0);
 	mstyle_set_orientation (mstyle, ORIENT_HORIZ);
 	mstyle_set_wrap_text   (mstyle, FALSE);
+	mstyle_set_shrink_to_fit (mstyle, FALSE);
 	mstyle_set_content_locked (mstyle, TRUE);
 	mstyle_set_content_hidden (mstyle, FALSE);
 	mstyle_set_font_uline  (mstyle, UNDERLINE_NONE);
@@ -1338,6 +1344,22 @@ mstyle_get_wrap_text (const MStyle *style)
 	return style->elements [MSTYLE_WRAP_TEXT].u.wrap_text;
 }
 
+void
+mstyle_set_shrink_to_fit (MStyle *style, gboolean f)
+{
+	g_return_if_fail (style != NULL);
+
+	style->elements[MSTYLE_SHRINK_TO_FIT].type = MSTYLE_SHRINK_TO_FIT;
+	style->elements[MSTYLE_SHRINK_TO_FIT].u.wrap_text = f;
+}
+
+gboolean
+mstyle_get_shrink_to_fit (const MStyle *style)
+{
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_SHRINK_TO_FIT), FALSE);
+
+	return style->elements [MSTYLE_SHRINK_TO_FIT].u.wrap_text;
+}
 void
 mstyle_set_content_locked (MStyle *style, gboolean f)
 {
