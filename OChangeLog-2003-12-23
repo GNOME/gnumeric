@@ -1,5 +1,11 @@
 2003-11-03  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=126056
+	* src/graph.c (cb_assign_val) : failed string conversion is inf,
+	  rather than nan.
+
+2003-11-03  Jody Goldberg <jody@gnome.org>
+
 	* gnumeric.mime : add more.
 
 2003-11-02  Jody Goldberg <jody@gnome.org>

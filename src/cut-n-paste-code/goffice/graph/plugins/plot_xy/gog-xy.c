@@ -222,7 +222,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	double prev_x, prev_y;
 	ArtVpath	path[3];
 	GogStyle const *style;
-	gboolean prev_valid, show_marks, show_lines;
+	gboolean valid, prev_valid, show_marks, show_lines;
 
 	if (!gog_axis_get_bounds (model->base.axis[0], &x_min, &x_max))
 		return;
@@ -274,10 +274,11 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		for (i = 1 ; i <= n ; i++) {
 			x = x_vals ? *x_vals++ : i;
 			y = *y_vals++;
-			if (finite (y)) {
-
-#warning KLUDGE need to differentiate between missing and non-numeric string
-				if (!finite (x))
+			valid = !isnan (y) && !isnan (x);
+			if (valid) {
+				if (isinf (y))
+					y = 0; /* excel is just sooooo consistent */
+				if (isinf (x))
 					x = i;
 #warning move map into axis
 				x = x_off + x_scale * x;
@@ -289,18 +290,17 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					path[1].y = y;
 					gog_renderer_draw_path (view->renderer, path, NULL);
 				}
+			}
 
-				/* draw marker after line */
-				if (prev_valid && show_marks &&
-				    x_min <= prev_x && prev_x <= x_max &&
-				    y_min <= prev_y && prev_y <= y_max)
-					gog_renderer_draw_marker (view->renderer, prev_x, prev_y);
+			/* draw marker after line */
+			if (prev_valid && show_marks &&
+			    x_min <= prev_x && prev_x <= x_max &&
+			    y_min <= prev_y && prev_y <= y_max)
+				gog_renderer_draw_marker (view->renderer, prev_x, prev_y);
 
-				prev_x = x;
-				prev_y = y;
-				prev_valid = TRUE;
-			} else
-				prev_valid = FALSE;
+			prev_x = x;
+			prev_y = y;
+			prev_valid = valid;
 		}
 
 		/* draw marker after line */

@@ -406,7 +406,7 @@ cb_assign_val (Sheet *sheet, int col, int row,
 		v = format_match_number (v->v_str.val->str, NULL,
 				workbook_date_conv (sheet->workbook));
 		if (v == NULL) {
-			dat->vals[dat->i++] = gnm_nan;
+			dat->vals[dat->i++] = gnm_pinf;
 			return NULL;
 		}
 		res = value_get_as_float (v);
