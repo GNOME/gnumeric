@@ -10,7 +10,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
-#include <assert.h>
 #include <config.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -440,7 +439,7 @@ biff_nasty_font_check_function (char *name1, char *name2)
 static StyleFont*
 biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
 {
-	char font_size[16];	/* I know it may seem excessive. Time will say. */
+	char font_size[4*sizeof(int)]; /* I know it may seem excessive. Time will say. */
 	int i;
 	char *fname1, *fname2 ;
 	StyleFont *ans ;
@@ -456,13 +455,12 @@ biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
 		fd->fontname[i] = tolower (fd->fontname[i]);
 	fd->fontname[i] = '\x0';
 	
-	fname1 = g_strdup (gnumeric_default_font->font_name) ;
-	fname2 = font_change_component (gnumeric_default_font->font_name, 1, fd->fontname) ;
-	fname1 = biff_nasty_font_check_function (fname2, fname1) ;
+	fname1 = g_strdup (gnumeric_default_font->font_name);
+	fname2 = font_change_component (gnumeric_default_font->font_name, 1, fd->fontname);
+	fname1 = biff_nasty_font_check_function (fname2, fname1);
 
 /*	printf ("FoNt [-]: %s\n", fname1) ; */
-	if (fd->italic)
-	{
+	if (fd->italic) {
 		fname2 = font_get_italic_name (fname1);
 /*			printf ("FoNt [i]: %s\n", fname2) ;  */
 	}
@@ -479,7 +477,7 @@ biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
 	fname1 = biff_nasty_font_check_function (fname2, fname1) ;
 	/* What about underlining? */
 
-	g_assert (snprintf (font_size, 16, "%d", fd->height / 2) != -1);
+	g_snprintf (font_size, 16, "%d", fd->height / 2);
 	fname2 = font_change_component (fname1, 7, font_size) ;
 	fname1 = biff_nasty_font_check_function (fname2, fname1) ;
 	
@@ -1251,7 +1249,7 @@ ms_excel_sheet_append_comment (MS_EXCEL_SHEET * sheet, int col, int row, char *t
 		Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
 		if (cell->comment && cell->comment->comment &&
 		    cell->comment->comment->str) {
-			char *txt = g_strconcat (cell->comment->comment->str, txt, NULL);
+			char *txt = g_strconcat (cell->comment->comment->str, text, NULL);
 			sheet->blank = 0 ;
 			cell_set_comment (cell, txt);
 			g_free (txt);
@@ -1347,7 +1345,7 @@ ms_excel_workbook_detach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
 		if (list->data == ans)
 		{
 			wb->excel_sheets = g_list_remove(wb->excel_sheets, list->data);
-			assert (g_list_find(wb->excel_sheets, list->data) == NULL) ;
+			g_assert (g_list_find(wb->excel_sheets, list->data) == NULL) ;
 			return ;
 		}
 		else
@@ -1417,24 +1415,17 @@ static double
 biff_get_rk (guint8 *ptr)
 {
 	LONG number;
-	LONG tmp[2];
+	guint8 tmp[8];
+	int lp;
 	double answer;
-	int li, hi;
 	enum eType {
 		eIEEE = 0, eIEEEx100 = 1, eInt = 2, eIntx100 = 3
 	} type;
 	
 	number = BIFF_GETLONG (ptr);
 	type = (number & 0x3);
-#if G_BYTE_ORDER != G_LITTLE_ENDIAN
-	li=1;
-	hi=0;
-#else
-	li=0; /* Intel */
-	hi=1;
-#endif
 	switch (type){
-	case eIEEE:
+/*	case eIEEE:
 		tmp[li] = 0;
 		tmp[hi] = *((LONG *)(ptr)) & 0xfffffffc;
 		answer = BIFF_GETDOUBLE (((BYTE *) tmp));
@@ -1444,6 +1435,17 @@ biff_get_rk (guint8 *ptr)
 		tmp[hi] = *((LONG *)(ptr)) & 0xfffffffc;
 		answer = BIFF_GETDOUBLE (((BYTE *) tmp));
 		answer /= 100.0;
+		break;*/
+	case eIEEE:
+	case eIEEEx100:
+		for (lp=0;lp<4;lp++) {
+			tmp[lp+4]=lp<3?ptr[lp]:ptr[lp]&0xfc;
+			tmp[lp]=0;
+		}
+
+		answer = BIFF_GETDOUBLE(tmp);
+		answer /= (type == eIEEEx100)?100.0:1.0;
+
 		break;
 	case eInt:
 		answer = (double) (number >> 2);
@@ -2164,10 +2166,10 @@ ms_excelReadWorkbook (MS_OLE * file)
 				guint32 length, k, tot_len ;
 				BYTE *tmp ;
 
-//				if (EXCEL_DEBUG>4) {
+				if (EXCEL_DEBUG>4) {
 					printf ("SST\n") ;
 					dump (q->data, q->length) ;
-//				}
+				}
 				wb->global_string_max = BIFF_GETLONG(q->data+4);
 				wb->global_strings = g_new (char *, wb->global_string_max) ;
 

@@ -1123,7 +1123,7 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		}
 		case FORMULA_PTG_STR:
 		{
-			char *str ;
+			char *str, *str2 ;
 			guint32 len ;
 /*			dump (mem, length) ;*/
 			if (sheet->ver == eBiffV8)
@@ -1138,7 +1138,9 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				ptg_length = 1 + len ;
 /*				printf ("<v7 PTG_STR '%s' len %d ptglen %d\n", str, len, ptg_length) ; */
 			}
-			parse_list_push_raw (stack, str, NO_PRECEDENCE) ;
+			str2 = g_strconcat ("\"", str, "\"", NULL);
+			parse_list_push_raw (stack, str2, NO_PRECEDENCE) ;
+			if (str) g_free (str);
 			break ;
 		}
 		default:
