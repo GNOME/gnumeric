@@ -23,7 +23,7 @@ extern int      ms_excel_write_workbook (MsOle *file, Workbook *wb,
 
 /* We need to use these for both read and write */
 typedef struct {
-	int b, g, r;
+	int r, g, b;
 } EXCEL_PALETTE_ENTRY;
 extern  EXCEL_PALETTE_ENTRY const excel_default_palette[];
 #define EXCEL_DEF_PAL_LEN   56

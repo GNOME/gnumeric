@@ -123,7 +123,7 @@ ms_escher_get_data (MSEscherState * state,
 		state->segment_len = q->length;
 
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 0)
+		if (ms_excel_read_debug > 1)
 			printf ("Target is 0x%x bytes at 0x%x, current = 0x%x..0x%x;\n"
 				"Adding biff-0x%x of length 0x%x;\n",
 				num_bytes, offset,
@@ -143,14 +143,14 @@ ms_escher_get_data (MSEscherState * state,
 		int counter = 0;
 
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 0)
+		if (ms_excel_read_debug > 1)
 			printf ("MERGE needed (%d+%d) >= %d;\n",
 				offset, num_bytes, state->end_offset);
 #endif
 
 		do {
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug > 0)
+			if (ms_excel_read_debug > 1)
 				printf ("record %d) add %d bytes;\n", ++counter, len);
 #endif
 			/* copy necessary portion of current record */
@@ -180,7 +180,7 @@ ms_escher_get_data (MSEscherState * state,
 		/* Copy back stub */
 		memcpy (tmp, res, num_bytes - (tmp-buffer));
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 0)
+		if (ms_excel_read_debug > 1)
 			printf ("record %d) add %d bytes;\n", ++counter, num_bytes - (tmp-buffer));
 #endif
 
@@ -432,217 +432,171 @@ ms_escher_read_SpContainer (MSEscherState * state, MSEscherHeader * h)
 static gboolean
 ms_escher_read_Spgr (MSEscherState * state, MSEscherHeader * h)
 {
-	char const * name;
-	switch (h->instance) {
-	case 0: name = "Not a primitive"; break;
-	case 1: name = "Rectangle"; break;
-	case 2: name = "RoundRectangle"; break;
-	case 3: name = "Ellipse"; break;
-	case 4: name = "Diamond"; break;
-	case 5: name = "IsocelesTriangle"; break;
-	case 6: name = "RightTriangle"; break;
-	case 7: name = "Parallelogram"; break;
-	case 8: name = "Trapezoid"; break;
-	case 9: name = "Hexagon"; break;
-	case 10: name = "Octagon"; break;
-	case 11: name = "Plus"; break;
-	case 12: name = "Star"; break;
-	case 13: name = "Arrow"; break;
-	case 14: name = "ThickArrow"; break;
-	case 15: name = "HomePlate"; break;
-	case 16: name = "Cube"; break;
-	case 17: name = "Balloon"; break;
-	case 18: name = "Seal"; break;
-	case 19: name = "Arc"; break;
-	case 20: name = "Line"; break;
-	case 21: name = "Plaque"; break;
-	case 22: name = "Can"; break;
-	case 23: name = "Donut"; break;
-	case 24: name = "TextSimple"; break;
-	case 25: name = "TextOctagon"; break;
-	case 26: name = "TextHexagon"; break;
-	case 27: name = "TextCurve"; break;
-	case 28: name = "TextWave"; break;
-	case 29: name = "TextRing"; break;
-	case 30: name = "TextOnCurve"; break;
-	case 31: name = "TextOnRing"; break;
-	case 32: name = "StraightConnector1"; break;
-	case 33: name = "BentConnector2"; break;
-	case 34: name = "BentConnector3"; break;
-	case 35: name = "BentConnector4"; break;
-	case 36: name = "BentConnector5"; break;
-	case 37: name = "CurvedConnector2"; break;
-	case 38: name = "CurvedConnector3"; break;
-	case 39: name = "CurvedConnector4"; break;
-	case 40: name = "CurvedConnector5"; break;
-	case 41: name = "Callout1"; break;
-	case 42: name = "Callout2"; break;
-	case 43: name = "Callout3"; break;
-	case 44: name = "AccentCallout1"; break;
-	case 45: name = "AccentCallout2"; break;
-	case 46: name = "AccentCallout3"; break;
-	case 47: name = "BorderCallout1"; break;
-	case 48: name = "BorderCallout2"; break;
-	case 49: name = "BorderCallout3"; break;
-	case 50: name = "AccentBorderCallout1"; break;
-	case 51: name = "AccentBorderCallout2"; break;
-	case 52: name = "AccentBorderCallout3"; break;
-	case 53: name = "Ribbon"; break;
-	case 54: name = "Ribbon2"; break;
-	case 55: name = "Chevron"; break;
-	case 56: name = "Pentagon"; break;
-	case 57: name = "NoSmoking"; break;
-	case 58: name = "Seal8"; break;
-	case 59: name = "Seal16"; break;
-	case 60: name = "Seal32"; break;
-	case 61: name = "WedgeRectCallout"; break;
-	case 62: name = "WedgeRRectCallout"; break;
-	case 63: name = "WedgeEllipseCallout"; break;
-	case 64: name = "Wave"; break;
-	case 65: name = "FoldedCorner"; break;
-	case 66: name = "LeftArrow"; break;
-	case 67: name = "DownArrow"; break;
-	case 68: name = "UpArrow"; break;
-	case 69: name = "LeftRightArrow"; break;
-	case 70: name = "UpDownArrow"; break;
-	case 71: name = "IrregularSeal1"; break;
-	case 72: name = "IrregularSeal2"; break;
-	case 73: name = "LightningBolt"; break;
-	case 74: name = "Heart"; break;
-	case 75: name = "PictureFrame"; break;
-	case 76: name = "QuadArrow"; break;
-	case 77: name = "LeftArrowCallout"; break;
-	case 78: name = "RightArrowCallout"; break;
-	case 79: name = "UpArrowCallout"; break;
-	case 80: name = "DownArrowCallout"; break;
-	case 81: name = "LeftRightArrowCallout"; break;
-	case 82: name = "UpDownArrowCallout"; break;
-	case 83: name = "QuadArrowCallout"; break;
-	case 84: name = "Bevel"; break;
-	case 85: name = "LeftBracket"; break;
-	case 86: name = "RightBracket"; break;
-	case 87: name = "LeftBrace"; break;
-	case 88: name = "RightBrace"; break;
-	case 89: name = "LeftUpArrow"; break;
-	case 90: name = "BentUpArrow"; break;
-	case 91: name = "BentArrow"; break;
-	case 92: name = "Seal24"; break;
-	case 93: name = "StripedRightArrow"; break;
-	case 94: name = "NotchedRightArrow"; break;
-	case 95: name = "BlockArc"; break;
-	case 96: name = "SmileyFace"; break;
-	case 97: name = "VerticalScroll"; break;
-	case 98: name = "HorizontalScroll"; break;
-	case 99: name = "CircularArrow"; break;
-	case 100: name = "NotchedCircularArrow"; break;
-	case 101: name = "UturnArrow"; break;
-	case 102: name = "CurvedRightArrow"; break;
-	case 103: name = "CurvedLeftArrow"; break;
-	case 104: name = "CurvedUpArrow"; break;
-	case 105: name = "CurvedDownArrow"; break;
-	case 106: name = "CloudCallout"; break;
-	case 107: name = "EllipseRibbon"; break;
-	case 108: name = "EllipseRibbon2"; break;
-	case 109: name = "FlowChartProcess"; break;
-	case 110: name = "FlowChartDecision"; break;
-	case 111: name = "FlowChartInputOutput"; break;
-	case 112: name = "FlowChartPredefinedProcess"; break;
-	case 113: name = "FlowChartInternalStorage"; break;
-	case 114: name = "FlowChartDocument"; break;
-	case 115: name = "FlowChartMultidocument"; break;
-	case 116: name = "FlowChartTerminator"; break;
-	case 117: name = "FlowChartPreparation"; break;
-	case 118: name = "FlowChartManualInput"; break;
-	case 119: name = "FlowChartManualOperation"; break;
-	case 120: name = "FlowChartConnector"; break;
-	case 121: name = "FlowChartPunchedCard"; break;
-	case 122: name = "FlowChartPunchedTape"; break;
-	case 123: name = "FlowChartSummingJunction"; break;
-	case 124: name = "FlowChartOr"; break;
-	case 125: name = "FlowChartCollate"; break;
-	case 126: name = "FlowChartSort"; break;
-	case 127: name = "FlowChartExtract"; break;
-	case 128: name = "FlowChartMerge"; break;
-	case 129: name = "FlowChartOfflineStorage"; break;
-	case 130: name = "FlowChartOnlineStorage"; break;
-	case 131: name = "FlowChartMagneticTape"; break;
-	case 132: name = "FlowChartMagneticDisk"; break;
-	case 133: name = "FlowChartMagneticDrum"; break;
-	case 134: name = "FlowChartDisplay"; break;
-	case 135: name = "FlowChartDelay"; break;
-	case 136: name = "TextPlainText"; break;
-	case 137: name = "TextStop"; break;
-	case 138: name = "TextTriangle"; break;
-	case 139: name = "TextTriangleInverted"; break;
-	case 140: name = "TextChevron"; break;
-	case 141: name = "TextChevronInverted"; break;
-	case 142: name = "TextRingInside"; break;
-	case 143: name = "TextRingOutside"; break;
-	case 144: name = "TextArchUpCurve"; break;
-	case 145: name = "TextArchDownCurve"; break;
-	case 146: name = "TextCircleCurve"; break;
-	case 147: name = "TextButtonCurve"; break;
-	case 148: name = "TextArchUpPour"; break;
-	case 149: name = "TextArchDownPour"; break;
-	case 150: name = "TextCirclePour"; break;
-	case 151: name = "TextButtonPour"; break;
-	case 152: name = "TextCurveUp"; break;
-	case 153: name = "TextCurveDown"; break;
-	case 154: name = "TextCascadeUp"; break;
-	case 155: name = "TextCascadeDown"; break;
-	case 156: name = "TextWave1"; break;
-	case 157: name = "TextWave2"; break;
-	case 158: name = "TextWave3"; break;
-	case 159: name = "TextWave4"; break;
-	case 160: name = "TextInflate"; break;
-	case 161: name = "TextDeflate"; break;
-	case 162: name = "TextInflateBottom"; break;
-	case 163: name = "TextDeflateBottom"; break;
-	case 164: name = "TextInflateTop"; break;
-	case 165: name = "TextDeflateTop"; break;
-	case 166: name = "TextDeflateInflate"; break;
-	case 167: name = "TextDeflateInflateDeflate"; break;
-	case 168: name = "TextFadeRight"; break;
-	case 169: name = "TextFadeLeft"; break;
-	case 170: name = "TextFadeUp"; break;
-	case 171: name = "TextFadeDown"; break;
-	case 172: name = "TextSlantUp"; break;
-	case 173: name = "TextSlantDown"; break;
-	case 174: name = "TextCanUp"; break;
-	case 175: name = "TextCanDown"; break;
-	case 176: name = "FlowChartAlternateProcess"; break;
-	case 177: name = "FlowChartOffpageConnector"; break;
-	case 178: name = "Callout90"; break;
-	case 179: name = "AccentCallout90"; break;
-	case 180: name = "BorderCallout90"; break;
-	case 181: name = "AccentBorderCallout90"; break;
-	case 182: name = "LeftRightUpArrow"; break;
-	case 183: name = "Sun"; break;
-	case 184: name = "Moon"; break;
-	case 185: name = "BracketPair"; break;
-	case 186: name = "BracePair"; break;
-	case 187: name = "Seal4"; break;
-	case 188: name = "DoubleWave"; break;
-	case 189: name = "ActionButtonBlank"; break;
-	case 190: name = "ActionButtonHome"; break;
-	case 191: name = "ActionButtonHelp"; break;
-	case 192: name = "ActionButtonInformation"; break;
-	case 193: name = "ActionButtonForwardNext"; break;
-	case 194: name = "ActionButtonBackPrevious"; break;
-	case 195: name = "ActionButtonEnd"; break;
-	case 196: name = "ActionButtonBeginning"; break;
-	case 197: name = "ActionButtonReturn"; break;
-	case 198: name = "ActionButtonDocument"; break;
-	case 199: name = "ActionButtonSound"; break;
-	case 200: name = "ActionButtonMovie"; break;
-	case 201: name = "HostControl"; break;
-	case 202: name = "TextBox"; break;
-	default :
-		  name = "UNKNOWN";
+	static char const * const shape_names[] = {
+		/* 0 */ "Not a primitive",
+		/* 1 */ "Rectangle",
+		/* 2 */ "RoundRectangle",
+		/* 3 */ "Ellipse",
+		/* 4 */ "Diamond",
+		/* 5 */ "IsocelesTriangle",
+		/* 6 */ "RightTriangle",
+		/* 7 */ "Parallelogram",
+		/* 8 */ "Trapezoid",
+		/* 9 */ "Hexagon",
+		/* 10 */ "Octagon",
+		/* 11 */ "Plus",
+		/* 12 */ "Star",
+		/* 13 */ "Arrow",
+		/* 14 */ "ThickArrow",
+		/* 15 */ "HomePlate",
+		/* 16 */ "Cube",
+		/* 17 */ "Balloon",
+		/* 18 */ "Seal",
+		/* 19 */ "Arc",
+		/* 20 */ "Line",
+		/* 21 */ "Plaque",
+		/* 22 */ "Can",
+		/* 23 */ "Donut",
+		/* 24-31 */	"TextSimple", "TextOctagon", "TextHexagon", "TextCurve", "TextWave",
+				"TextRing", "TextOnCurve", "TextOnRing",
+		/* 32 */ "StraightConnector1",
+		/* 33-36 */	"BentConnector2",	"BentConnector3",
+				"BentConnector4",	"BentConnector5",
+		/* 37-40 */	"CurvedConnector2",	"CurvedConnector3",
+				"CurvedConnector4",	"CurvedConnector5",
+		/* 41-43 */ "Callout1",		"Callout2",	"Callout3",
+		/* 44-46 */ "AccentCallout1", "AccentCallout2", "AccentCallout3",
+		/* 47-49 */ "BorderCallout1", "BorderCallout2", "BorderCallout3",
+		/* 50-52 */ "AccentBorderCallout1", "AccentBorderCallout2", "AccentBorderCallout3",
+		/* 53-54 */ "Ribbon", "Ribbon2",
+		/* 55 */ "Chevron",
+		/* 56 */ "Pentagon",
+		/* 57 */ "NoSmoking",
+		/* 58 */ "Seal8",
+		/* 59 */ "Seal16",
+		/* 60 */ "Seal32",
+		/* 61 */ "WedgeRectCallout",
+		/* 62 */ "WedgeRRectCallout",
+		/* 63 */ "WedgeEllipseCallout",
+		/* 64 */ "Wave",
+		/* 65 */ "FoldedCorner",
+		/* 66 */ "LeftArrow",
+		/* 67 */ "DownArrow",
+		/* 68 */ "UpArrow",
+		/* 69 */ "LeftRightArrow",
+		/* 70 */ "UpDownArrow",
+		/* 71 */ "IrregularSeal1",
+		/* 72 */ "IrregularSeal2",
+		/* 73 */ "LightningBolt",
+		/* 74 */ "Heart",
+		/* 75 */ "PictureFrame",
+		/* 76 */ "QuadArrow",
+		/* 77-83 */ "LeftArrowCallout", "RightArrowCallout",
+			"UpArrowCallout", "DownArrowCallout", "LeftRightArrowCallout",
+			"UpDownArrowCallout", "QuadArrowCallout",
+		/* 84 */ "Bevel",
+		/* 85 */ "LeftBracket",
+		/* 86 */ "RightBracket",
+		/* 87 */ "LeftBrace",
+		/* 88 */ "RightBrace",
+		/* 89 */ "LeftUpArrow",
+		/* 90 */ "BentUpArrow",
+		/* 91 */ "BentArrow",
+		/* 92 */ "Seal24",
+		/* 93 */ "StripedRightArrow",
+		/* 94 */ "NotchedRightArrow",
+		/* 95 */ "BlockArc",
+		/* 96 */ "SmileyFace",
+		/* 97 */ "VerticalScroll",
+		/* 98 */ "HorizontalScroll",
+		/* 99 */ "CircularArrow",
+		/* 100 */ "NotchedCircularArrow",
+		/* 101 */ "UturnArrow",
+		/* 102-105 */ "CurvedRightArrow", "CurvedLeftArrow", "CurvedUpArrow", "CurvedDownArrow",
+		/* 106 */ "CloudCallout",
+		/* 107-108 */ "EllipseRibbon", "EllipseRibbon2",
+		/* 109-135 */ "FlowChartProcess", "FlowChartDecision",
+			"FlowChartInputOutput", "FlowChartPredefinedProcess",
+			"FlowChartInternalStorage", "FlowChartDocument",
+			"FlowChartMultidocument", "FlowChartTerminator",
+			"FlowChartPreparation", "FlowChartManualInput",
+			"FlowChartManualOperation", "FlowChartConnector",
+			"FlowChartPunchedCard", "FlowChartPunchedTape",
+			"FlowChartSummingJunction", "FlowChartOr", "FlowChartCollate",
+			"FlowChartSort", "FlowChartExtract", "FlowChartMerge",
+			"FlowChartOfflineStorage", "FlowChartOnlineStorage",
+			"FlowChartMagneticTape", "FlowChartMagneticDisk",
+			"FlowChartMagneticDrum", "FlowChartDisplay", "FlowChartDelay",
+		/* 136 */ "TextPlainText",
+		/* 137 */ "TextStop",
+		/* 138 */ "TextTriangle",
+		/* 139 */ "TextTriangleInverted",
+		/* 140 */ "TextChevron",
+		/* 141 */ "TextChevronInverted",
+		/* 142 */ "TextRingInside",
+		/* 143 */ "TextRingOutside",
+		/* 144 */ "TextArchUpCurve",
+		/* 145 */ "TextArchDownCurve",
+		/* 146 */ "TextCircleCurve",
+		/* 147 */ "TextButtonCurve",
+		/* 148 */ "TextArchUpPour",
+		/* 149 */ "TextArchDownPour",
+		/* 150 */ "TextCirclePour",
+		/* 151 */ "TextButtonPour",
+		/* 152 */ "TextCurveUp",
+		/* 153 */ "TextCurveDown",
+		/* 154 */ "TextCascadeUp",
+		/* 155 */ "TextCascadeDown",
+		/* 156 */ "TextWave1",
+		/* 157 */ "TextWave2",
+		/* 158 */ "TextWave3",
+		/* 159 */ "TextWave4",
+		/* 160 */ "TextInflate",
+		/* 161 */ "TextDeflate",
+		/* 162 */ "TextInflateBottom",
+		/* 163 */ "TextDeflateBottom",
+		/* 164 */ "TextInflateTop",
+		/* 165 */ "TextDeflateTop",
+		/* 166 */ "TextDeflateInflate",
+		/* 167 */ "TextDeflateInflateDeflate",
+		/* 168 */ "TextFadeRight",
+		/* 169 */ "TextFadeLeft",
+		/* 170 */ "TextFadeUp",
+		/* 171 */ "TextFadeDown",
+		/* 172 */ "TextSlantUp",
+		/* 173 */ "TextSlantDown",
+		/* 174 */ "TextCanUp",
+		/* 175 */ "TextCanDown",
+		/* 176 */ "FlowChartAlternateProcess",
+		/* 177 */ "FlowChartOffpageConnector",
+		/* 178 */ "Callout90",
+		/* 179 */ "AccentCallout90",
+		/* 180 */ "BorderCallout90",
+		/* 181 */ "AccentBorderCallout90",
+		/* 182 */ "LeftRightUpArrow",
+		/* 183 */ "Sun",
+		/* 184 */ "Moon",
+		/* 185 */ "BracketPair",
+		/* 186 */ "BracePair",
+		/* 187 */ "Seal4",
+		/* 188 */ "DoubleWave",
+		/* 189-200 */ "ActionButtonBlank", "ActionButtonHome",
+			"ActionButtonHelp", "ActionButtonInformation",
+			"ActionButtonForwardNext", "ActionButtonBackPrevious",
+			"ActionButtonEnd", "ActionButtonBeginning",
+			"ActionButtonReturn", "ActionButtonDocument",
+			"ActionButtonSound", "ActionButtonMovie",
+		/* 201 */ "HostControl",
+		/* 202 */ "TextBox"
 	};
+
+	g_return_val_if_fail (h->instance >= 0, TRUE);
+	g_return_val_if_fail (h->instance <= 202, TRUE);
+
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 0)
-		printf ("%s (0x%x);\n", name, h->instance);
+		printf ("%s (0x%x);\n", shape_names[h->instance],
+			h->instance);
 #endif
 	return FALSE;
 }
@@ -833,6 +787,300 @@ typedef struct
 {
 } EscherOption;
 
+/*  MSOSHAPEPATH */
+typedef enum
+{
+    msoshapeLines,        /*  A line of straight segments */
+    msoshapeLinesClosed,  /*  A closed polygonal object */
+    msoshapeCurves,       /*  A line of Bezier curve segments */
+    msoshapeCurvesClosed, /*  A closed shape with curved edges */
+    msoshapeComplex,      /*  pSegmentInfo must be non-empty */
+} MSOSHAPEPATH;
+
+/* WrapMode */
+typedef enum
+{
+    msowrapSquare,
+    msowrapByPoints,
+    msowrapNone,
+    msowrapTopBottom,
+    msowrapThrough,
+} WrapMode;
+
+/*  MSOBWMODE */
+typedef enum
+{
+    msobwColor,          /*  only used for predefined shades */
+    msobwAutomatic,      /*  depends on object type */
+    msobwGrayScale,      /*  shades of gray only */
+    msobwLightGrayScale, /*  shades of light gray only */
+    msobwInverseGray,    /*  dark gray mapped to light gray, etc. */
+    msobwGrayOutline,    /*  pure gray and white */
+    msobwBlackTextLine,  /*  black text and lines, all else grayscale */
+    msobwHighContrast,   /*  pure black and white mode (no grays) */
+    msobwBlack,          /*  solid black */
+    msobwWhite,          /*  solid white */
+    msobwDontShow,       /*  object not drawn */
+    msobwNumModes        /*  number of Black and white modes */
+} MSOBWMODE;
+
+/*  AnchorType */
+typedef enum
+{
+    msoanchorTop,
+    msoanchorMiddle,
+    msoanchorBottom,
+    msoanchorTopCentered,
+    msoanchorMiddleCentered,
+    msoanchorBottomCentered,
+    msoanchorTopBaseline,
+    msoanchorBottomBaseline,
+    msoanchorTopCenteredBaseline,
+    msoanchorBottomCenteredBaseline
+} AnchorType;
+
+/*  RotationType */
+typedef enum
+{
+    msocdir0,       /*  Right */
+    msocdir90,      /*  Down */
+    msocdir180,     /*  Left */
+    msocdir270      /*  Up */
+} RotationType;
+
+/*  MSOCXSTYLE - connector style */
+typedef enum
+{
+    msocxstyleStraight = 0,
+    msocxstyleBent,
+    msocxstyleCurved,
+    msocxstyleNone
+} MSOCXSTYLE;
+
+typedef enum
+{
+    msotxflHorzN,           /*  Horizontal non-@ */
+    msotxflTtoBA,           /*  Top to Bottom @-font */
+    msotxflBtoT,            /*  Bottom to Top non-@ */
+    msotxflTtoBN,           /*  Top to Bottom non-@ */
+    msotxflHorzA,           /*  Horizontal @-font */
+    msotxflVertN,           /*  Vertical, non-@ */
+} TextFlow;
+
+/*  TextDirection - text direction (needed for Bi-Di support) */
+typedef enum
+{
+    msotxdirLTR,           /*  left-to-right text direction */
+    msotxdirRTL,           /*  right-to-left text direction */
+    msotxdirContext,      /*  context text direction */
+} TextDirection;
+
+/*  MSOSPCOT -- Callout Type */
+typedef enum
+{
+    msospcotRightAngle = 1,
+    msospcotOneSegment = 2,
+    msospcotTwoSegment = 3,
+    msospcotThreeSegment = 4,
+} MSOSPCOT;
+
+/*  MSOSPCOA -- Callout Angle */
+typedef enum
+{
+    msospcoaAny,
+    msospcoa30,
+    msospcoa45,
+    msospcoa60,
+    msospcoa90,
+    msospcoa0,
+} MSOSPCOA;
+
+/*  MSOSPCOD -- Callout Drop */
+typedef enum
+{
+    msospcodTop,
+    msospcodCenter,
+    msospcodBottom,
+    msospcodSpecified,
+} MSOSPCOD;
+
+/*  Alignment - WordArt alignment */
+typedef enum
+{
+    msoalignTextStretch,      /* Stretch each line of text to fit width. */
+    msoalignTextCenter,       /* Center text on width. */
+    msoalignTextLeft,         /* Left justify. */
+    msoalignTextRight,        /* Right justify. */
+    msoalignTextLetterJust,   /* Spread letters out to fit width. */
+    msoalignTextWordJust,     /* Spread words out to fit width. */
+    msoalignTextInvalid       /* Invalid */
+} Alignment;
+
+/*  MSO3DRENDERMODE */
+typedef enum
+{
+    msoFullRender,      /*  Generate a full rendering */
+    msoWireframe,       /*  Generate a wireframe */
+    msoBoundingCube,    /*  Generate a bounding cube */
+} MSO3DRENDERMODE;
+
+/*  MSOXFORMTYPE */
+typedef enum
+{
+    msoxformAbsolute,   /*  Apply transform in absolute space centered on shape */
+    msoxformShape,      /*  Apply transform to shape geometry */
+    msoxformDrawing     /*  Apply transform in drawing space */
+} MSOXFORMTYPE;
+
+/*  MSOSHADOWTYPE */
+typedef enum
+{
+    msoshadowOffset,    /*  N pixel offset shadow */
+    msoshadowDouble,    /*  Use second offset too */
+    msoshadowRich,      /*  Rich perspective shadow (cast relative to shape) */
+    msoshadowShape,     /*  Rich perspective shadow (cast in shape space) */
+    msoshadowDrawing,   /*  Perspective shadow cast in drawing space */
+    msoshadowEmbossOrEngrave,
+} MSOSHADOWTYPE;
+
+/*  MSODZTYPE - the type of a (length) measurement */
+typedef enum
+{
+    msodztypeMin          = 0,
+    msodztypeDefault      = 0,  /*  Default size, ignore the values */
+    msodztypeA            = 1,  /*  Values are in EMUs */
+    msodztypeV            = 2,  /*  Values are in pixels */
+    msodztypeShape        = 3,  /*  Values are 16.16 fractions of shape size */
+    msodztypeFixedAspect  = 4,  /*  Aspect ratio is fixed */
+    msodztypeAFixed       = 5,  /*  EMUs, fixed aspect ratio */
+    msodztypeVFixed       = 6,  /*  Pixels, fixed aspect ratio */
+    msodztypeShapeFixed   = 7,  /*  Proportion of shape, fixed aspect ratio */
+    msodztypeFixedAspectEnlarge
+	= 8,  /*  Aspect ratio is fixed, favor larger size */
+    msodztypeAFixedBig    = 9,  /*  EMUs, fixed aspect ratio */
+    msodztypeVFixedBig    = 10, /*  Pixels, fixed aspect ratio */
+    msodztypeShapeFixedBig= 11, /*  Proportion of shape, fixed aspect ratio */
+    msodztypeMax         = 11
+} MSODZTYPE;
+
+/*  MSOFILLTYPE */
+typedef enum
+{
+    msofillSolid,             /*  Fill with a solid color */
+    msofillPattern,           /*  Fill with a pattern (bitmap) */
+    msofillTexture,           /*  A texture (pattern with its own color map) */
+    msofillPicture,           /*  Center a picture in the shape */
+    msofillShade,             /*  Shade from start to end points */
+    msofillShadeCenter,       /*  Shade from bounding rectangle to end point */
+    msofillShadeShape,        /*  Shade from shape outline to end point */
+    msofillShadeScale,        /*  Similar to msofillShade, but the fillAngle */
+    /*  is additionally scaled by the aspect ratio of */
+    /*  the shape. If shape is square, it is the */
+    /*  same as msofillShade. */
+    msofillShadeTitle,        /*  special type - shade to title ---  for PP  */
+    msofillBackground         /*  Use the background fill color/pattern */
+} MSOFILLTYPE;
+
+/*  MSOSHADETYPE - how to interpret the colors in a shaded fill. */
+typedef enum
+{
+    msoshadeNone  = 0,        /*  Interpolate without correction between RGBs */
+    msoshadeGamma = 1,        /*  Apply gamma correction to colors */
+    msoshadeSigma = 2,        /*  Apply a sigma transfer function to position */
+    msoshadeBand  = 4,        /*  Add a flat band at the start of the shade */
+    msoshadeOneColor = 8,     /*  This is a one color shade */
+
+    /* A parameter for the band or sigma function can be stored in the top
+       16 bits of the value - this is a proportion of *each* band of the
+       shade to make flat (or the approximate equal value for a sigma
+       function).  NOTE: the parameter is not used for the sigma function,
+       instead a built in value is used.  This value should not be changed
+       from the default! */
+    msoshadeParameterShift = 16,
+    msoshadeParameterMask  = 0xffff0000,
+
+    msoshadeDefault = (msoshadeGamma|msoshadeSigma|
+		       (16384<<msoshadeParameterShift))
+} MSOSHADETYPE;
+
+/*    MSOLINESTYLE - compound line style */
+typedef enum
+{
+    msolineSimple,            /*  Single line (of width lineWidth) */
+    msolineDouble,            /*  Double lines of equal width */
+    msolineThickThin,         /*  Double lines, one thick, one thin */
+    msolineThinThick,         /*  Double lines, reverse order */
+    msolineTriple             /*  Three lines, thin, thick, thin */
+} MSOLINESTYLE;
+
+/*  MSOLINETYPE - how to "fill" the line contour */
+typedef enum
+{
+    msolineSolidType,         /*  Fill with a solid color */
+    msolinePattern,           /*  Fill with a pattern (bitmap) */
+    msolineTexture,           /*  A texture (pattern with its own color map) */
+    msolinePicture            /*  Center a picture in the shape */
+} MSOLINETYPE;
+
+/*  MSOLINEDASHING - dashed line style */
+typedef enum
+{
+    msolineSolid,              /*  Solid (continuous) pen */
+    msolineDashSys,            /*  PS_DASH system   dash style */
+    msolineDotSys,             /*  PS_DOT system   dash style */
+    msolineDashDotSys,         /*  PS_DASHDOT system dash style */
+    msolineDashDotDotSys,      /*  PS_DASHDOTDOT system dash style */
+    msolineDotGEL,             /*  square dot style */
+    msolineDashGEL,            /*  dash style */
+    msolineLongDashGEL,        /*  long dash style */
+    msolineDashDotGEL,         /*  dash short dash */
+    msolineLongDashDotGEL,     /*  long dash short dash */
+    msolineLongDashDotDotGEL   /*  long dash short dash short dash */
+} MSOLINEDASHING;
+
+/*  MSOLINEEND - line end effect */
+typedef enum
+{
+    msolineNoEnd,
+    msolineArrowEnd,
+    msolineArrowStealthEnd,
+    msolineArrowDiamondEnd,
+    msolineArrowOvalEnd,
+    msolineArrowOpenEnd,
+} MSOLINEEND;
+
+/*  MSOLINEENDWIDTH - size of arrowhead */
+typedef enum
+{
+    msolineNarrowArrow,
+    msolineMediumWidthArrow,
+    msolineWideArrow
+} MSOLINEENDWIDTH;
+
+/*    MSOLINEENDLENGTH - size of arrowhead */
+typedef enum
+{
+    msolineShortArrow,
+    msolineMediumLenArrow,
+    msolineLongArrow
+} MSOLINEENDLENGTH;
+
+/*    MSOLINEJOIN - line join style. */
+typedef enum
+{
+    msolineJoinBevel,     /*  Join edges by a straight line */
+    msolineJoinMiter,     /*  Extend edges until they join */
+    msolineJoinRound      /*  Draw an arc between the two edges */
+} MSOLINEJOIN;
+
+/*    MSOLINECAP - line cap style (applies to ends of dash segments too). */
+typedef enum
+{
+    msolineEndCapRound,   /*  Rounded ends - the default */
+    msolineEndCapSquare,  /*  Square protrudes by half line width */
+    msolineEndCapFlat     /*  Line ends at end point */
+} MSOLINECAP;
+
 static gboolean
 ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 {
@@ -872,83 +1120,83 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 
 		/* 0 : id for the text, value determined by the host */
 		case 128 : name = "long Txid"; break;
-		/* 1/10 inch : margins relative to shape's inscribed text rectangle (in EMUs) */
+		/* 1/10" : margins relative to shape's inscribed text rectangle (in EMUs) */
 		case 129 : name = "long dxTextLeft"; break;
-		/* 1/20 inch :  */
+		/* 1/20" :  */
 		case 130 : name = "long dyTextTop"; break;
-		/* 1/10 inch :  */
+		/* 1/10" :  */
 		case 131 : name = "long dxTextRight"; break;
-		/* 1/20 inch :  */
+		/* 1/20" :  */
 		case 132 : name = "long dyTextBottom"; break;
-		/* FALSE : Wrap text at shape margins */
-		case 133 : name = "MSOWRAPMODE WrapText"; break;
+		/* FALSE */
+		case 133 : name = "WrapMode wrap_test_at_margin"; break;
 		/* 0 : Text zoom/scale (used if fFitTextToShape) */
 		case 134 : name = "long scaleText"; break;
 		/* Top : How to anchor the text */
-		case 135 : name = "MSOANCHOR anchorText"; break;
+		case 135 : name = "AnchorType anchorText"; break;
 		/* HorzN : Text flow */
-		case 136 : name = "MSOTXFL txflTextFlow"; break;
+		case 136 : name = "TextFlow txflTextFlow"; break;
 		/* msocdir0 : Font rotation */
-		case 137 : name = "MSOCDIR cdirFont"; break;
+		case 137 : name = "RotationType cdirFont"; break;
 		/* NULL : ID of the next shape (used by Word for linked textboxes) */
 		case 138 : name = "MSOHSP hspNext"; break;
 		/* LTR : Bi-Di Text direction */
-		case 139 : name = "MSOTXDIR txdir"; break;
+		case 139 : name = "TextDirection txdir"; break;
 		/* TRUE : TRUE if single click selects text, FALSE if two clicks */
-		case 187 : name = "BOOL fSelectText"; break;
+		case 187 : name = "bool fSelectText"; break;
 		/* FALSE : use host's margin calculations */
-		case 188 : name = "BOOL fAutoTextMargin"; break;
+		case 188 : name = "bool fAutoTextMargin"; break;
 	        /* FALSE : Rotate text with shape */
-		case 189 : name = "BOOL fRotateText"; break;
+		case 189 : name = "bool fRotateText"; break;
 		/* FALSE : Size shape to fit text size */
-		case 190 : name = "BOOL fFitShapeToText"; break;
+		case 190 : name = "bool fFitShapeToText"; break;
 		/* FALSE : Size text to fit shape size */
-		case 191 : name = "BOOL fFitTextToShape"; break;
+		case 191 : name = "bool fFitTextToShape"; break;
 
 		/* NULL : UNICODE text string */
-		case 192 : name = "WCHAR* gtextUNICODE"; break;
+		case 192 : name = "wchar* gtextUNICODE"; break;
 		/* NULL : RTF text string */
 		case 193 : name = "char* gtextRTF"; break;
 		/* Center : alignment on curve */
-		case 194 : name = "MSOGEOTEXTALIGN gtextAlign"; break;
+		case 194 : name = "Alignment gtextAlign"; break;
 		/* 36<<16 : default point size */
-		case 195 : name = "LONG gtextSize"; break;
+		case 195 : name = "long gtextSize"; break;
 		/* 1<<16 : fixed point 16.16 */
-		case 196 : name = "LONG gtextSpacing"; break;
+		case 196 : name = "long gtextSpacing"; break;
 		/* NULL : font family name */
-		case 197 : name = "WCHAR* gtextFont"; break;
+		case 197 : name = "wchar* gtextFont"; break;
 		/* FALSE : Reverse row order */
-		case 240 : name = "BOOL gtextFReverseRows"; break;
+		case 240 : name = "bool gtextFReverseRows"; break;
 		/* FALSE : Has text effect */
-		case 241 : name = "BOOL fGtext"; break;
+		case 241 : name = "bool fGtext"; break;
 		/* FALSE : Rotate characters */
-		case 242 : name = "BOOL gtextFVertical"; break;
+		case 242 : name = "bool gtextFVertical"; break;
 		/* FALSE : Kern characters */
-		case 243 : name = "BOOL gtextFKern"; break;
+		case 243 : name = "bool gtextFKern"; break;
 		/* FALSE : Tightening or tracking */
-		case 244 : name = "BOOL gtextFTight"; break;
+		case 244 : name = "bool gtextFTight"; break;
 		/* FALSE : Stretch to fit shape */
-		case 245 : name = "BOOL gtextFStretch"; break;
+		case 245 : name = "bool gtextFStretch"; break;
 		/* FALSE : Char bounding box */
-		case 246 : name = "BOOL gtextFShrinkFit"; break;
+		case 246 : name = "bool gtextFShrinkFit"; break;
 		/* FALSE : Scale text-on-path */
-		case 247 : name = "BOOL gtextFBestFit"; break;
+		case 247 : name = "bool gtextFBestFit"; break;
 		/* FALSE : Stretch char height */
-		case 248 : name = "BOOL gtextFNormalize"; break;
+		case 248 : name = "bool gtextFNormalize"; break;
 		/* FALSE : Do not measure along path */
-		case 249 : name = "BOOL gtextFDxMeasure"; break;
+		case 249 : name = "bool gtextFDxMeasure"; break;
 		/* FALSE : Bold font */
-		case 250 : name = "BOOL gtextFBold"; break;
+		case 250 : name = "bool gtextFBold"; break;
 		/* FALSE : Italic font */
-		case 251 : name = "BOOL gtextFItalic"; break;
+		case 251 : name = "bool gtextFItalic"; break;
 		/* FALSE : Underline font */
-		case 252 : name = "BOOL gtextFUnderline"; break;
+		case 252 : name = "bool gtextFUnderline"; break;
 		/* FALSE : Shadow font */
-		case 253 : name = "BOOL gtextFShadow"; break;
+		case 253 : name = "bool gtextFShadow"; break;
 		/* FALSE : Small caps font */
-		case 254 : name = "BOOL gtextFSmallcaps"; break;
+		case 254 : name = "bool gtextFSmallcaps"; break;
 		/* FALSE : Strike through font */
-		case 255 : name = "BOOL gtextFStrikethrough"; break;
+		case 255 : name = "bool gtextFStrikethrough"; break;
 
 		/* 0 : 16.16 fraction times total image width or height, as appropriate. */
 		case 256 : name = "fixed16_16 cropFromTop"; break;
@@ -964,7 +1212,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* NULL : Blip file name */
 		case 261 : name = "wchar * pibName"; break;
 
-		/* What are MSOBLIPFLAGS ? */
+		/* What are BlipFlags ? */
 		/* Comment Blip flags */
 		case 262 : name = "BLIPFLAGS pibFlags"; break;
 
@@ -998,7 +1246,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* NULL : Blip file name */
 		case 272 : name = "wchar * pibPrintName"; break;
 
-		/* What are MSOBLIPFLAGS ? */
+		/* What are BlipFlags ? */
 		/* Comment Blip flags */
 		case 273 : name = "BLIPFLAGS pibPrintFlags"; break;
 
@@ -1015,13 +1263,13 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		case 319 : name = "bool pictureActive"; break;
 
 	        /* 0 : Defines the G (geometry) coordinate space. */
-		case 320 : name = "LONG geoLeft"; break;
+		case 320 : name = "long geoLeft"; break;
 		/* 0 :  */
-		case 321 : name = "LONG geoTop"; break;
+		case 321 : name = "long geoTop"; break;
 		/* 21600 :  */
-		case 322 : name = "LONG geoRight"; break;
+		case 322 : name = "long geoRight"; break;
 		/* 21600 :  */
-		case 323 : name = "LONG geoBottom"; break;
+		case 323 : name = "long geoBottom"; break;
 		/* msoshapeLinesClosed :  */
 		case 324 : name = "MSOSHAPEPATH shapePath"; break;
 		/* NULL : An array of points, in G units. */
@@ -1032,135 +1280,135 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		 * adjust handles of the shape. The number of values used and
 		 * their allowable ranges vary from shape type to shape type.
 		 */
-		case 327 : name = "LONG adjustValue"; break;
+		case 327 : name = "long adjustValue"; break;
 		/* 0 :  */
-		case 328 : name = "LONG adjust2Value"; break;
+		case 328 : name = "long adjust2Value"; break;
 		/* 0 :  */
-		case 329 : name = "LONG adjust3Value"; break;
+		case 329 : name = "long adjust3Value"; break;
 		/* 0 :  */
-		case 330 : name = "LONG adjust4Value"; break;
+		case 330 : name = "long adjust4Value"; break;
 		/* 0 :  */
-		case 331 : name = "LONG adjust5Value"; break;
+		case 331 : name = "long adjust5Value"; break;
 		/* 0 :  */
-		case 332 : name = "LONG adjust6Value"; break;
+		case 332 : name = "long adjust6Value"; break;
 		/* 0 :  */
-		case 333 : name = "LONG adjust7Value"; break;
+		case 333 : name = "long adjust7Value"; break;
 		/* 0 :  */
-		case 334 : name = "LONG adjust8Value"; break;
+		case 334 : name = "long adjust8Value"; break;
 		/* 0 :  */
-		case 335 : name = "LONG adjust9Value"; break;
+		case 335 : name = "long adjust9Value"; break;
 		/* 0 :  */
-		case 336 : name = "LONG adjust10Value"; break;
+		case 336 : name = "long adjust10Value"; break;
 		/* TRUE : Shadow may be set */
-		case 378 : name = "BOOL fShadowOK"; break;
+		case 378 : name = "bool fShadowOK"; break;
 		/* TRUE : 3D may be set */
-		case 379 : name = "BOOL f3DOK"; break;
+		case 379 : name = "bool f3DOK"; break;
 		/* TRUE : Line style may be set */
-		case 380 : name = "BOOL fLineOK"; break;
+		case 380 : name = "bool fLineOK"; break;
 		/* FALSE : Text effect (WordArt) supported */
-		case 381 : name = "BOOL fGtextOK"; break;
+		case 381 : name = "bool fGtextOK"; break;
 		/* FALSE :  */
-		case 382 : name = "BOOL fFillShadeShapeOK"; break;
+		case 382 : name = "bool fFillShadeShapeOK"; break;
 		/* TRUE : OK to fill the shape through the UI or VBA? */
-		case 383 : name = "BOOL fFillOK"; break;
+		case 383 : name = "bool fFillOK"; break;
 
 		/* Solid : Type of fill */
 		case 384 : name = "MSOFILLTYPE fillType"; break;
 		/* white : Foreground color */
-		case 385 : name = "MSOCLR fillColor"; break;
+		case 385 : name = "colour fillColor"; break;
 		/* 1<<16 : Fixed 16.16 */
-		case 386 : name = "LONG fillOpacity"; break;
+		case 386 : name = "long fillOpacity"; break;
 		/* white : Background color */
-		case 387 : name = "MSOCLR fillBackColor"; break;
+		case 387 : name = "colour fillBackColor"; break;
 		/* 1<<16 : Shades only */
-		case 388 : name = "LONG fillBackOpacity"; break;
+		case 388 : name = "long fillBackOpacity"; break;
 		/* undefined : Modification for BW views */
-		case 389 : name = "MSOCLR fillCrMod"; break;
+		case 389 : name = "colour fillCrMod"; break;
 		/* NULL : Pattern/texture */
 		case 390 : name = "IMsoBlip* fillBlip"; break;
 		/* NULL : Blip file name */
-		case 391 : name = "WCHAR* fillBlipName"; break;
+		case 391 : name = "wchar* fillBlipName"; break;
 		/* Comment : Blip flags */
-		case 392 : name = "MSOBLIPFLAGS fillBlipFlags"; break;
+		case 392 : name = "BlipFlags fillBlipFlags"; break;
 		/* 0 : How big (A units) to make a metafile texture. */
-		case 393 : name = "LONG fillWidth"; break;
+		case 393 : name = "long fillWidth"; break;
 		/* 0 :  */
-		case 394 : name = "LONG fillHeight"; break;
+		case 394 : name = "long fillHeight"; break;
 		/* 0 : Fade angle - degrees in 16.16 */
-		case 395 : name = "LONG fillAngle"; break;
+		case 395 : name = "long fillAngle"; break;
 		/* 0 : Linear shaded fill focus percent */
-		case 396 : name = "LONG fillFocus"; break;
+		case 396 : name = "long fillFocus"; break;
 		/* 0 : Fraction 16.16 */
-		case 397 : name = "LONG fillToLeft"; break;
+		case 397 : name = "long fillToLeft"; break;
 		/* 0 : Fraction 16.16 */
-		case 398 : name = "LONG fillToTop"; break;
+		case 398 : name = "long fillToTop"; break;
 		/* 0 : Fraction 16.16 */
-		case 399 : name = "LONG fillToRight"; break;
+		case 399 : name = "long fillToRight"; break;
 		/* 0 : Fraction 16.16 */
-		case 400 : name = "LONG fillToBottom"; break;
+		case 400 : name = "long fillToBottom"; break;
 		/* 0 : For shaded fills, use the specified rectangle instead of
 		 * the shape's bounding rect to define how large the fade is
 		 * going to be. */
-		case 401 : name = "LONG fillRectLeft"; break;
+		case 401 : name = "long fillRectLeft"; break;
 		/* 0 :  */
-		case 402 : name = "LONG fillRectTop"; break;
+		case 402 : name = "long fillRectTop"; break;
 		/* 0 :  */
-		case 403 : name = "LONG fillRectRight"; break;
+		case 403 : name = "long fillRectRight"; break;
 		/* 0 :  */
-		case 404 : name = "LONG fillRectBottom"; break;
+		case 404 : name = "long fillRectBottom"; break;
 		/* Default :  */
 		case 405 : name = "MSODZTYPE fillDztype"; break;
 		/* 0 : Special shades */
-		case 406 : name = "LONG fillShadePreset"; break;
+		case 406 : name = "long fillShadePreset"; break;
 		/* NULL : a preset array of colors */
 		case 407 : name = "IMsoArray fillShadeColors"; break;
 		/* 0 :  */
-		case 408 : name = "LONG fillOriginX"; break;
+		case 408 : name = "long fillOriginX"; break;
 		/* 0 :  */
-		case 409 : name = "LONG fillOriginY"; break;
+		case 409 : name = "long fillOriginY"; break;
 		/* 0 :  */
-		case 410 : name = "LONG fillShapeOriginX"; break;
+		case 410 : name = "long fillShapeOriginX"; break;
 		/* 0 :  */
-		case 411 : name = "LONG fillShapeOriginY"; break;
+		case 411 : name = "long fillShapeOriginY"; break;
 		/* Default : Type of shading, if a shaded (gradient) fill. */
 		case 412 : name = "MSOSHADETYPE fillShadeType"; break;
 		/* TRUE : Is shape filled? */
-		case 443 : name = "BOOL fFilled"; break;
+		case 443 : name = "bool fFilled"; break;
 		/* TRUE : Should we hit test fill?  */
-		case 444 : name = "BOOL fHitTestFill"; break;
+		case 444 : name = "bool fHitTestFill"; break;
 		/* TRUE : Register pattern on shape */
-		case 445 : name = "BOOL fillShape"; break;
+		case 445 : name = "bool fillShape"; break;
 		/* FALSE : Use the large rect? */
-		case 446 : name = "BOOL fillUseRect"; break;
+		case 446 : name = "bool fillUseRect"; break;
 		/* FALSE : Hit test a shape as though filled */
-		case 447 : name = "BOOL fNoFillHitTest"; break;
+		case 447 : name = "bool fNoFillHitTest"; break;
 
 		/* black : Color of line */
-		case 448 : name = "MSOCLR lineColor"; break;
+		case 448 : name = "colour lineColor"; break;
 		/* 1<<16 : Not implemented */
-		case 449 : name = "LONG lineOpacity"; break;
+		case 449 : name = "long lineOpacity"; break;
 		/* white : Background color */
-		case 450 : name = "MSOCLR lineBackColor"; break;
+		case 450 : name = "colour lineBackColor"; break;
 		/* undefined : Modification for BW views */
-		case 451 : name = "MSOCLR lineCrMod"; break;
+		case 451 : name = "colour lineCrMod"; break;
 		/* Solid : Type of line */
 		case 452 : name = "MSOLINETYPE lineType"; break;
 		/* NULL : Pattern/texture */
 		case 453 : name = "IMsoBlip* lineFillBlip"; break;
 		/* NULL : Blip file name */
-		case 454 : name = "WCHAR* lineFillBlipName"; break;
+		case 454 : name = "wchar* lineFillBlipName"; break;
 		/* Comment : Blip flags */
-		case 455 : name = "MSOBLIPFLAGS lineFillBlipFlags"; break;
+		case 455 : name = "BlipFlags lineFillBlipFlags"; break;
 		/* 0 : How big (A units) to make a metafile texture. */
-		case 456 : name = "LONG lineFillWidth"; break;
+		case 456 : name = "long lineFillWidth"; break;
 		/* 0 :  */
-		case 457 : name = "LONG lineFillHeight"; break;
+		case 457 : name = "long lineFillHeight"; break;
 		/* Default : How to interpret fillWidth/Height numbers. */
 		case 458 : name = "MSODZTYPE lineFillDztype"; break;
 		/* 9525 : A units; 1pt == 12700 EMUs */
-		case 459 : name = "LONG lineWidth"; break;
+		case 459 : name = "long lineWidth"; break;
 		/* 8<<16 : ratio (16.16) of width */
-		case 460 : name = "LONG lineMiterLimit"; break;
+		case 460 : name = "long lineMiterLimit"; break;
 		/* Simple : Draw parallel lines? */
 		case 461 : name = "MSOLINESTYLE lineStyle"; break;
 		/* Solid : Can be overridden by: */
@@ -1184,179 +1432,179 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* EndCapFlat : How to end lines */
 		case 471 : name = "MSOLINECAP lineEndCapStyle"; break;
 		/* FALSE : Allow arrowheads if prop. is set */
-		case 507 : name = "BOOL fArrowheadsOK"; break;
+		case 507 : name = "bool fArrowheadsOK"; break;
 		/* TRUE : Any line? */
-		case 508 : name = "BOOL fLine"; break;
+		case 508 : name = "bool fLine"; break;
 		/* TRUE : Should we hit test lines?  */
-		case 509 : name = "BOOL fHitTestLine"; break;
+		case 509 : name = "bool fHitTestLine"; break;
 		/* TRUE : Register pattern on shape */
-		case 510 : name = "BOOL lineFillShape"; break;
+		case 510 : name = "bool lineFillShape"; break;
 		/* FALSE : Draw a dashed line if no line */
-		case 511 : name = "BOOL fNoLineDrawDash"; break;
+		case 511 : name = "bool fNoLineDrawDash"; break;
 
 		/* Offset : Type of effect */
 		case 512 : name = "MSOSHADOWTYPE shadowType"; break;
 		/* 0x808080 : Foreground color */
-		case 513 : name = "MSOCLR shadowColor"; break;
+		case 513 : name = "colour shadowColor"; break;
 		/* 0xCBCBCB : Embossed color */
-		case 514 : name = "MSOCLR shadowHighlight"; break;
+		case 514 : name = "colour shadowHighlight"; break;
 		/* undefined : Modification for BW views */
-		case 515 : name = "MSOCLR shadowCrMod"; break;
+		case 515 : name = "colour shadowCrMod"; break;
 		/* 1<<16 : Fixed 16.16 */
-		case 516 : name = "LONG shadowOpacity"; break;
+		case 516 : name = "long shadowOpacity"; break;
 		/* 25400 : Offset shadow */
-		case 517 : name = "LONG shadowOffsetX"; break;
+		case 517 : name = "long shadowOffsetX"; break;
 		/* 25400 : Offset shadow */
-		case 518 : name = "LONG shadowOffsetY"; break;
+		case 518 : name = "long shadowOffsetY"; break;
 		/* 0 : Double offset shadow */
-		case 519 : name = "LONG shadowSecondOffsetX"; break;
+		case 519 : name = "long shadowSecondOffsetX"; break;
 		/* 0 : Double offset shadow */
-		case 520 : name = "LONG shadowSecondOffsetY"; break;
+		case 520 : name = "long shadowSecondOffsetY"; break;
 		/* 1<<16 : 16.16 */
-		case 521 : name = "LONG shadowScaleXToX"; break;
+		case 521 : name = "long shadowScaleXToX"; break;
 		/* 0 : 16.16 */
-		case 522 : name = "LONG shadowScaleYToX"; break;
+		case 522 : name = "long shadowScaleYToX"; break;
 		/* 0 : 16.16 */
-		case 523 : name = "LONG shadowScaleXToY"; break;
+		case 523 : name = "long shadowScaleXToY"; break;
 		/* 1<<16 : 16.16 */
-		case 524 : name = "LONG shadowScaleYToY"; break;
+		case 524 : name = "long shadowScaleYToY"; break;
 		/* 0 : 16.16 / weight */
-		case 525 : name = "LONG shadowPerspectiveX"; break;
+		case 525 : name = "long shadowPerspectiveX"; break;
 		/* 0 : 16.16 / weight */
-		case 526 : name = "LONG shadowPerspectiveY"; break;
+		case 526 : name = "long shadowPerspectiveY"; break;
 		/* 1<<8 : scaling factor */
-		case 527 : name = "LONG shadowWeight"; break;
+		case 527 : name = "long shadowWeight"; break;
 		/* 0 :  */
-		case 528 : name = "LONG shadowOriginX"; break;
+		case 528 : name = "long shadowOriginX"; break;
 		/* 0 :  */
-		case 529 : name = "LONG shadowOriginY"; break;
+		case 529 : name = "long shadowOriginY"; break;
 		/* FALSE : Any shadow? */
-		case 574 : name = "BOOL fShadow"; break;
+		case 574 : name = "bool fShadow"; break;
 		/* FALSE : Excel5-style shadow */
-		case 575 : name = "BOOL fshadowObscured"; break;
+		case 575 : name = "bool fshadowObscured"; break;
 
 		/* Shape : Where transform applies */
 		case 576 : name = "MSOXFORMTYPE perspectiveType"; break;
-		/* 0 : The LONG values define a transformation matrix,
+		/* 0 : The long values define a transformation matrix,
 		 * effectively, each value is scaled by the perspectiveWeight
 		 * parameter. */
-		case 577 : name = "LONG perspectiveOffsetX"; break;
+		case 577 : name = "long perspectiveOffsetX"; break;
 		/* 0 :  */
-		case 578 : name = "LONG perspectiveOffsetY"; break;
+		case 578 : name = "long perspectiveOffsetY"; break;
 		/* 1<<16 :  */
-		case 579 : name = "LONG perspectiveScaleXToX"; break;
+		case 579 : name = "long perspectiveScaleXToX"; break;
 		/* 0 :  */
-		case 580 : name = "LONG perspectiveScaleYToX"; break;
+		case 580 : name = "long perspectiveScaleYToX"; break;
 		/* 0 :  */
-		case 581 : name = "LONG perspectiveScaleXToY"; break;
+		case 581 : name = "long perspectiveScaleXToY"; break;
 		/* 1<<16 :  */
-		case 582 : name = "LONG perspectiveScaleYToY"; break;
+		case 582 : name = "long perspectiveScaleYToY"; break;
 		/* 0 :  */
-		case 583 : name = "LONG perspectivePerspectiveX"; break;
+		case 583 : name = "long perspectivePerspectiveX"; break;
 		/* 0 :  */
-		case 584 : name = "LONG perspectivePerspectiveY"; break;
+		case 584 : name = "long perspectivePerspectiveY"; break;
 		/* 1<<8 : Scaling factor */
-		case 585 : name = "LONG perspectiveWeight"; break;
+		case 585 : name = "long perspectiveWeight"; break;
 		/* 1<<15 :  */
-		case 586 : name = "LONG perspectiveOriginX"; break;
+		case 586 : name = "long perspectiveOriginX"; break;
 		/* 1<<15 :  */
-		case 587 : name = "LONG perspectiveOriginY"; break;
+		case 587 : name = "long perspectiveOriginY"; break;
 		/* FALSE : On/off */
-		case 639 : name = "BOOL fPerspective"; break;
+		case 639 : name = "bool fPerspective"; break;
 
 		/* 0 : Fixed-point 16.16 */
-		case 640 : name = "LONG DSpecularAmt"; break;
+		case 640 : name = "long DSpecularAmt"; break;
 		/* 65536 : Fixed-point 16.16 */
-		case 641 : name = "LONG c3DDiffuseAmt"; break;
+		case 641 : name = "long c3DDiffuseAmt"; break;
 		/* 5 : Default gives OK results */
-		case 642 : name = "LONG c3DShininess"; break;
+		case 642 : name = "long c3DShininess"; break;
 		/* 12700 : Specular edge thickness */
-		case 643 : name = "LONG c3DEdgeThickness"; break;
+		case 643 : name = "long c3DEdgeThickness"; break;
 		/* 0 : Distance of extrusion in EMUs */
-		case 644 : name = "LONG c3DExtrudeForward"; break;
+		case 644 : name = "long c3DExtrudeForward"; break;
 		/* 457200 :  */
-		case 645 : name = "LONG c3DExtrudeBackward"; break;
+		case 645 : name = "long c3DExtrudeBackward"; break;
 		/* 0 : Extrusion direction */
-		case 646 : name = "LONG c3DExtrudePlane"; break;
+		case 646 : name = "long c3DExtrudePlane"; break;
 		/* FillThenLine : Basic color of extruded part of shape; the
 		 * lighting model used will determine the exact shades used
 		 * when rendering.  */
-		case 647 : name = "MSOCLR c3DExtrusionColor"; break;
+		case 647 : name = "colour c3DExtrusionColor"; break;
 		/* undefined : Modification for BW views */
-		case 648 : name = "MSOCLR c3DCrMod"; break;
+		case 648 : name = "colour c3DCrMod"; break;
 		/* FALSE : Does this shape have a 3D effect? */
-		case 700 : name = "BOOL f3D"; break;
+		case 700 : name = "bool f3D"; break;
 		/* 0 : Use metallic specularity? */
-		case 701 : name = "BOOL fc3DMetallic"; break;
+		case 701 : name = "bool fc3DMetallic"; break;
 		/* FALSE :  */
-		case 702 : name = "BOOL fc3DUseExtrusionColor"; break;
+		case 702 : name = "bool fc3DUseExtrusionColor"; break;
 		/* TRUE :  */
-		case 703 : name = "BOOL fc3DLightFace"; break;
+		case 703 : name = "bool fc3DLightFace"; break;
 
 		/* 0 : degrees (16.16) about y axis */
-		case 704 : name = "LONG c3DYRotationAngle"; break;
+		case 704 : name = "long c3DYRotationAngle"; break;
 		/* 0 : degrees (16.16) about x axis */
-		case 705 : name = "LONG c3DXRotationAngle"; break;
+		case 705 : name = "long c3DXRotationAngle"; break;
 		/* 100 : These specify the rotation axis; only their relative magnitudes matter. */
-		case 706 : name = "LONG c3DRotationAxisX"; break;
+		case 706 : name = "long c3DRotationAxisX"; break;
 		/* 0 :  */
-		case 707 : name = "LONG c3DRotationAxisY"; break;
+		case 707 : name = "long c3DRotationAxisY"; break;
 		/* 0 :  */
-		case 708 : name = "LONG c3DRotationAxisZ"; break;
+		case 708 : name = "long c3DRotationAxisZ"; break;
 		/* 0 : degrees (16.16) about axis */
-		case 709 : name = "LONG c3DRotationAngle"; break;
+		case 709 : name = "long c3DRotationAngle"; break;
 		/* 0 : rotation center x (16.16 or g-units) */
-		case 710 : name = "LONG c3DRotationCenterX"; break;
+		case 710 : name = "long c3DRotationCenterX"; break;
 		/* 0 : rotation center y (16.16 or g-units) */
-		case 711 : name = "LONG c3DRotationCenterY"; break;
+		case 711 : name = "long c3DRotationCenterY"; break;
 		/* 0 : rotation center z (absolute (emus)) */
-		case 712 : name = "LONG c3DRotationCenterZ"; break;
+		case 712 : name = "long c3DRotationCenterZ"; break;
 		/* FullRender : Full,wireframe, or bcube */
 		case 713 : name = "MSO3DRENDERMODE c3DRenderMode"; break;
 		/* 30000 : pixels (16.16) */
-		case 714 : name = "LONG c3DTolerance"; break;
+		case 714 : name = "long c3DTolerance"; break;
 		/* 1250000 : X view point (emus) */
-		case 715 : name = "LONG c3DXViewpoint"; break;
+		case 715 : name = "long c3DXViewpoint"; break;
 		/* -1250000 : Y view point (emus) */
-		case 716 : name = "LONG c3DYViewpoint"; break;
+		case 716 : name = "long c3DYViewpoint"; break;
 		/* 9000000 : Z view distance (emus) */
-		case 717 : name = "LONG c3DZViewpoint"; break;
+		case 717 : name = "long c3DZViewpoint"; break;
 		/* 32768 :  */
-		case 718 : name = "LONG c3DOriginX"; break;
+		case 718 : name = "long c3DOriginX"; break;
 		/* -32768 :  */
-		case 719 : name = "LONG c3DOriginY"; break;
+		case 719 : name = "long c3DOriginY"; break;
 		/* -8847360 : degree (16.16) skew angle */
-		case 720 : name = "LONG c3DSkewAngle"; break;
+		case 720 : name = "long c3DSkewAngle"; break;
 		/* 50 : Percentage skew amount */
-		case 721 : name = "LONG c3DSkewAmount"; break;
+		case 721 : name = "long c3DSkewAmount"; break;
 		/* 20000 : Fixed point intensity */
-		case 722 : name = "LONG c3DAmbientIntensity"; break;
+		case 722 : name = "long c3DAmbientIntensity"; break;
 		/* 50000 : Key light source direc- */
-		case 723 : name = "LONG c3DKeyX"; break;
+		case 723 : name = "long c3DKeyX"; break;
 		/* 0 : tion; only their relative */
-		case 724 : name = "LONG c3DKeyY"; break;
+		case 724 : name = "long c3DKeyY"; break;
 		/* 10000 : magnitudes matter */
-		case 725 : name = "LONG c3DKeyZ"; break;
+		case 725 : name = "long c3DKeyZ"; break;
 		/* 38000 : Fixed point intensity */
-		case 726 : name = "LONG c3DKeyIntensity"; break;
+		case 726 : name = "long c3DKeyIntensity"; break;
 		/* -50000 : Fill light source direc- */
-		case 727 : name = "LONG c3DFillX"; break;
+		case 727 : name = "long c3DFillX"; break;
 		/* 0 : tion; only their relative */
-		case 728 : name = "LONG c3DFillY"; break;
+		case 728 : name = "long c3DFillY"; break;
 		/* 10000 : magnitudes matter */
-		case 729 : name = "LONG c3DFillZ"; break;
+		case 729 : name = "long c3DFillZ"; break;
 		/* 38000 : Fixed point intensity */
-		case 730 : name = "LONG c3DFillIntensity"; break;
+		case 730 : name = "long c3DFillIntensity"; break;
 		/* TRUE :  */
-		case 763 : name = "BOOL fc3DConstrainRotation"; break;
+		case 763 : name = "bool fc3DConstrainRotation"; break;
 		/* FALSE :  */
-		case 764 : name = "BOOL fc3DRotationCenterAuto"; break;
+		case 764 : name = "bool fc3DRotationCenterAuto"; break;
 		/* 1 : Parallel projection? */
-		case 765 : name = "BOOL fc3DParallel"; break;
+		case 765 : name = "bool fc3DParallel"; break;
 		/* 1 : Is key lighting harsh? */
-		case 766 : name = "BOOL fc3DKeyHarsh"; break;
+		case 766 : name = "bool fc3DKeyHarsh"; break;
 		/* 0 : Is fill lighting harsh?` */
-		case 767 : name = "BOOL fc3DFillHarsh"; break;
+		case 767 : name = "bool fc3DFillHarsh"; break;
 	   
 		/* NULL : master shape */
 		case 769 : name = "MSOHSP pMaster"; break;
@@ -1370,15 +1618,103 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* Automatic :  */
 		case 774 : name = "MSOBWMODE bWModeBW"; break;
 		/* FALSE : For OLE objects, whether the object is in icon form */
-		case 826 : name = "BOOL fOleIcon"; break;
+		case 826 : name = "bool fOleIcon"; break;
 		/* FALSE : For UI only. Prefer relative resizing.  */
-		case 827 : name = "BOOL fPreferRelativeResize"; break;
+		case 827 : name = "bool fPreferRelativeResize"; break;
 		/* FALSE : Lock the shape type (don't allow Change Shape) */
-		case 828 : name = "BOOL fLockShapeType"; break;
+		case 828 : name = "bool fLockShapeType"; break;
 		/* FALSE :  */
-		case 830 : name = "BOOL fDeleteAttachedObject"; break;
+		case 830 : name = "bool fDeleteAttachedObject"; break;
 		/* FALSE : If TRUE, this is the background shape. */
-		case 831 : name = "BOOL fBackground"; break;
+		case 831 : name = "bool fBackground"; break;
+
+		/* TwoSegment : Callout type */
+		case 832 : name = "MSOSPCOT spcot"; break;
+
+		/* 1/12" : Distance from box to first point.(EMUs) */
+		case 833 : name = "long dxyCalloutGap"; break;
+
+		/* Any : Callout angle */
+		case 834 : name = "MSOSPCOA spcoa"; break;
+
+		/* Specified : Callout drop type */
+		case 835 : name = "MSOSPCOD spcod"; break;
+
+		/* 9 points : if msospcodSpecified, the actual drop distance */
+		case 836 : name = "long dxyCalloutDropSpecified"; break;
+
+		/* 0 : if fCalloutLengthSpecified, the actual distance */
+		case 837 : name = "long dxyCalloutLengthSpecified"; break;
+
+		/* FALSE : Is the shape a callout? */
+		case 889 : name = "bool fCallout"; break;
+
+		/* FALSE : does callout have accent bar */
+		case 890 : name = "bool fCalloutAccentBar"; break;
+
+		/* TRUE : does callout have a text border */
+		case 891 : name = "bool fCalloutTextBorder"; break;
+
+		/* FALSE :  */
+		case 892 : name = "bool fCalloutMinusX"; break;
+
+		/* FALSE :  */
+		case 893 : name = "bool fCalloutMinusY"; break;
+
+		/* FALSE : If true, then we occasionally invert the drop distance */
+		case 894 : name = "bool fCalloutDropAuto"; break;
+
+		/* FALSE : if true, we look at dxyCalloutLengthSpecified */
+		case 895 : name = "bool fCalloutLengthSpecified"; break;
+
+		/* NULL : Shape Name (present only if explicitly set) */
+		case 896 : name = "wchar* wzName"; break;
+
+		/* NULL : alternate text */
+		case 897 : name = "wchar* wzDescription"; break;
+
+		/* NULL : The hyperlink in the shape. */
+		case 898 : name = "IHlink* pihlShape"; break;
+
+		/* NULL : The polygon that text will be wrapped around (Word) */
+		case 899 : name = "IMsoArray pWrapPolygonVertices"; break;
+
+		/* 1/8" : Left wrapping distance from text (Word) */
+		case 900 : name = "long dxWrapDistLeft"; break;
+
+		/* 0 : Top wrapping distance from text (Word) */
+		case 901 : name = "long dyWrapDistTop"; break;
+
+		/* 1/8" : Right wrapping distance from text (Word) */
+		case 902 : name = "long dxWrapDistRight"; break;
+
+		/* 0 : Bottom wrapping distance from text (Word) */
+		case 903 : name = "long dyWrapDistBottom"; break;
+
+		/* 0 : Regroup ID  */
+		case 904 : name = "long lidRegroup"; break;
+
+		/* FALSE : Has the wrap polygon been edited? */
+		case 953 : name = "bool fEditedWrap"; break;
+
+		/* FALSE : Word-only (shape is behind text) */
+		case 954 : name = "bool fBehindDocument"; break;
+
+		/* FALSE : Notify client on a double click */
+		case 955 : name = "bool fOnDblClickNotify"; break;
+
+		/* FALSE : A button shape (i.e., clicking performs an action).
+		 * Set for shapes with attached hyperlinks or macros. */
+		case 956 : name = "bool fIsButton"; break;
+
+		/* FALSE : 1D adjustment */
+		case 957 : name = "bool fOneD"; break;
+
+		/* FALSE : Do not display */
+		case 958 : name = "bool fHidden"; break;
+
+		/* TRUE : Print this shape */
+		case 959 : name = "bool fPrint"; break;
 
 		default : name = "";
 		};

@@ -1354,6 +1354,9 @@ do_expr_decode_tree (ExprTree *tree, const ParsePosition *pp,
 			/* FIXME: handle quotes in string.  */
 			return g_strconcat ("\"", v->v.str->str, "\"", NULL);
 
+		case VALUE_EMPTY:
+			return g_strdup ("");
+
 		case VALUE_ERROR:
 			return g_strdup (v->v.error.mesg->str);
 
