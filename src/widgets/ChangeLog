@@ -1,3 +1,11 @@
+2000-07-02  Jody Goldberg <jgoldberg@home.com>
+	for Michael Levy <mlevy@genoscope.cns.fr>
+
+	* widget-color-combo.c (cust_color_row_shift) : new function.
+	(cust_color_set) : Call cust_color_row_shift.
+	(color_table_button_new) : Abstract this from.
+	(color_table_setup) : Here.
+
 2000-06-30  Morten Welinder  <terra@diku.dk>
 
 	* widget-font-selector.c (font_selector_set_points): Remove

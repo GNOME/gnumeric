@@ -55,7 +55,15 @@ struct _ColorCombo {
 	/* Is there a custom color ? */
 	gboolean custom_color_allocated;
         GdkColor custom_color;
-
+        /*
+	 * Position of the last possible position
+	 * for custom colors in **items
+	 * (i.e. custom colors go from items[custom_color_pos]
+	 *  to items[total - 1])
+	 *
+	 * If custom_color_pos == -1, there is no room for custom colors
+	 */
+        int custom_color_pos;
         /*
 	 * Number of default colors in **items
 	 */
@@ -115,7 +123,7 @@ color_combo_finalize (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (cc->tool_tip));
 		cc->tool_tip = NULL;
 	}
-	
+
 	if (cc->custom_color_allocated) {
 	        gdk_colormap_free_colors (gdk_imlib_get_colormap (), &cc->custom_color, 1);
 		cc->custom_color_allocated = FALSE;
@@ -131,7 +139,7 @@ color_combo_class_init (GtkObjectClass *object_class)
 	object_class->finalize = color_combo_finalize;
 
 	color_combo_parent_class = gtk_type_class (gtk_combo_box_get_type ());
-	
+
 	color_combo_signals [CHANGED] =
 		gtk_signal_new (
 			"changed",
@@ -205,7 +213,7 @@ color_clicked (GtkWidget *button, ColorCombo *cc)
 	int              index;
 	GnomeCanvasItem *item;
 	GdkColor        *gdk_color;
-	
+
 	index = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (button)));
 	item  = cc->items [index];
 
@@ -219,6 +227,52 @@ color_clicked (GtkWidget *button, ColorCombo *cc)
 }
 
 /*
+ * A new custom color was selected. Change the colors of the
+ * custom color row to reflect this new choice
+ *
+ * The new custom color is the one describbed by cc->custom_color, and
+ * should have been previously allocated
+ */
+static void
+cust_color_row_shift (ColorCombo *cc)
+{
+        int index;
+	GnomeCanvasItem *item;
+	GnomeCanvasItem *next_item;
+	GdkColor         *outline_color;
+
+        /* Make sure a color was allocated, and that there is room
+	 *  in the combo box
+	 */
+        if (!cc->custom_color_allocated || cc->custom_color_pos == -1)
+		return;
+
+	for (index = cc->custom_color_pos; index < cc->total - 1; index++) {
+		GdkColor *color;
+		GdkColor *outline;
+		item = cc->items [index];
+		next_item = cc->items [index + 1];
+
+		gtk_object_get ( GTK_OBJECT (next_item),
+				 "fill_color_gdk", &color,
+				 "outline_color_gdk", &outline,
+				 NULL);
+		gnome_canvas_item_set ( item,
+					"fill_color_gdk", color,
+					"outline_color_gdk", outline,
+					NULL);
+	}
+
+	item = cc->items [cc->total - 1];
+	outline_color = &(cc->custom_color);
+	gnome_canvas_item_set (item,
+			       "fill_color_gdk", &(cc->custom_color),
+			       "outline_color_gdk", &outline_color,
+			       NULL);
+	return;
+}
+
+/*
  * The custom color box was clicked. Find out its value and emit it
  */
 static void
@@ -226,7 +280,8 @@ cust_color_set (GtkWidget  *color_picker, guint r, guint g, guint b, guint a,
 		ColorCombo *cc)
 {
 	if (cc->custom_color_allocated) {
-	        gdk_colormap_free_colors (gdk_imlib_get_colormap (), &cc->custom_color, 1);
+	        gdk_colormap_free_colors (gdk_imlib_get_colormap (),
+					  &cc->custom_color, 1);
 		cc->custom_color_allocated = FALSE;
 	}
 
@@ -241,6 +296,7 @@ cust_color_set (GtkWidget  *color_picker, guint r, guint g, guint b, guint a,
 
 	cc->custom_color_allocated = TRUE;
 	set_color   (cc, &cc->custom_color, COLOR_COPY);
+	cust_color_row_shift (cc);
 	emit_change (cc);
 }
 
@@ -249,6 +305,55 @@ cust_color_clicked (GtkWidget *widget, ColorCombo *cc)
 {
         gtk_combo_box_popup_hide (GTK_COMBO_BOX (cc));
 }
+
+/*
+ * Create the individual color buttons
+ *
+ * Utility function
+ */
+static GnomeCanvasItem *
+color_table_button_new(ColorCombo *cc, GtkTable* table, GtkTooltips *tool_tip, ColorNamePair* color_name, gint col, gint row, int data)
+{
+        GtkWidget *button;
+	GtkWidget *canvas;
+	GnomeCanvasItem *item;
+
+	button = gtk_button_new ();
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+
+	gtk_widget_push_visual (gdk_imlib_get_visual ());
+	gtk_widget_push_colormap (gdk_imlib_get_colormap ());
+	canvas = gnome_canvas_new ();
+	gtk_widget_pop_colormap ();
+	gtk_widget_pop_visual ();
+
+	gtk_widget_set_usize (canvas, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
+	gtk_container_add (GTK_CONTAINER (button), canvas);
+
+	item  = gnome_canvas_item_new (
+				       GNOME_CANVAS_GROUP (gnome_canvas_root (GNOME_CANVAS (canvas))),
+				       gnome_canvas_rect_get_type (),
+				       "x1", 0.0,
+				       "y1", 0.0,
+				       "x2", (double) COLOR_PREVIEW_WIDTH,
+				       "y2", (double) COLOR_PREVIEW_HEIGHT,
+				       "fill_color", color_name->color,
+				       NULL);
+
+	gtk_tooltips_set_tip (tool_tip, button, _(color_name->name),
+			      "Private+Unused");
+
+	gtk_table_attach (table, button,
+			  col, col+1, row, row+1, GTK_FILL, GTK_FILL, 1, 1);
+
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC(color_clicked), cc);
+	gtk_object_set_user_data (GTK_OBJECT (button),
+				  GINT_TO_POINTER (data));
+	return item;
+}
+
+
 
 /*
  * Creates the color table
@@ -262,7 +367,7 @@ color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols,
 	GtkWidget *table;
 	GtkTooltips *tool_tip;
 	int total, row, col;
-	
+
 	table = gtk_table_new (ncols, nrows, 0);
 
 	if (no_color_label != NULL) {
@@ -275,63 +380,62 @@ color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols,
 	}
 
 	cc->tool_tip = tool_tip = gtk_tooltips_new();
+	cc->custom_color_pos = -1;
 	total = 0;
-	for (row = 0; row < nrows; row++){
-		for (col = 0; col < ncols; col++){
-			GtkWidget *button;
-			GtkWidget *canvas;
+
+	for (row = 0; row < nrows; row++) {
+		for (col = 0; col < ncols; col++) {
 			int pos;
 
 			pos = row * ncols + col;
-
+			/*
+			 * If we are done with all of the colors in color_names
+			 */
 			if (color_names [pos].color == NULL) {
+				/* This is the default custom color */
+				ColorNamePair color_name  = {"rgb:0/0/0", N_("custom")};
+				row++;
+				if (col == 0 || row < nrows) {
+					/* Add a full row for custom colors */
+					for (col = 0; col < ncols; col++) {
+						/* Have we set custom pos yet ? */
+						if (cc->custom_color_pos == -1) {
+							cc->custom_color_pos = total;
+						}
+						cc->items[total] =
+							color_table_button_new(cc,
+									       GTK_TABLE (table),
+									       GTK_TOOLTIPS (tool_tip),
+									       &(color_name),
+									       col,
+									       row + 1,
+									       total);
+						total++;
+					}
+				}
 				/* Break out of two for-loops.  */
 				row = nrows;
 				break;
 			}
 
-			button = gtk_button_new ();
-			gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-
-			gtk_widget_push_visual (gdk_imlib_get_visual ());
-			gtk_widget_push_colormap (gdk_imlib_get_colormap ());
-			canvas = gnome_canvas_new ();
-			gtk_widget_pop_colormap ();
-			gtk_widget_pop_visual ();
-
-			gtk_widget_set_usize (canvas, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
-			gtk_container_add (GTK_CONTAINER (button), canvas);
-
-			cc->items [total] = gnome_canvas_item_new (
-				GNOME_CANVAS_GROUP (gnome_canvas_root (GNOME_CANVAS (canvas))),
-				gnome_canvas_rect_get_type (),
-				"x1", 0.0,
-				"y1", 0.0,
-				"x2", (double) COLOR_PREVIEW_WIDTH,
-				"y2", (double) COLOR_PREVIEW_HEIGHT,
-				"fill_color", color_names [pos].color,
-				NULL);
-
-			gtk_tooltips_set_tip (tool_tip, button, _(color_names [pos].name),
-					      "Private+Unused");
-
-			gtk_table_attach (GTK_TABLE (table), button,
-					  col, col+1, row+1, row+2, GTK_FILL, GTK_FILL, 1, 1);
-
-			gtk_signal_connect (GTK_OBJECT (button), "clicked",
-					    GTK_SIGNAL_FUNC(color_clicked), cc);
-			gtk_object_set_user_data (GTK_OBJECT (button),
-						  GINT_TO_POINTER (total));
+			cc->items[total] =
+				color_table_button_new(cc,
+						       GTK_TABLE (table),
+						       GTK_TOOLTIPS (tool_tip),
+						       &(color_names [pos]),
+						       col,
+						       row + 1,
+						       total);
 			total++;
 		}
 	}
 	cc->total = total;
-	
+
 	/* "Custom" color - we'll pop up a GnomeColorPicker */
 	cust_label = gtk_label_new ( _("Custom Color:"));
 	gtk_table_attach (GTK_TABLE (table), cust_label, 0, ncols - 3 ,
 			  row + 1, row + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	
+
 	cust_color = gnome_color_picker_new ();
 	gnome_color_picker_set_title (GNOME_COLOR_PICKER (cust_color),
 				      _("Choose Custom Color"));
@@ -351,12 +455,12 @@ color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols,
  * Where the actual construction goes on
  */
 static void
-color_combo_construct (ColorCombo *cc, char **icon, 
-		       char const * const no_color_label, 
+color_combo_construct (ColorCombo *cc, char **icon,
+		       char const * const no_color_label,
 		       int ncols, int nrows, ColorNamePair *color_names)
 {
 	GdkImlibImage *image;
-	
+
 	g_return_if_fail (cc != NULL);
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 	g_return_if_fail (color_names != NULL);
@@ -373,11 +477,11 @@ color_combo_construct (ColorCombo *cc, char **icon,
 	cc->preview_canvas = GNOME_CANVAS (gnome_canvas_new ());
 	gtk_widget_pop_colormap ();
 	gtk_widget_pop_visual ();
-	
+
 	image = gdk_imlib_create_image_from_xpm_data (icon);
 	cc->items = g_malloc (sizeof (GnomeCanvasItem *) * ncols * nrows);
 	gnome_canvas_set_scroll_region (cc->preview_canvas, 0, 0, 24, 24);
-	
+
 	gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (gnome_canvas_root (cc->preview_canvas)),
 		gnome_canvas_image_get_type (),
@@ -386,7 +490,7 @@ color_combo_construct (ColorCombo *cc, char **icon,
 		"y",      0.0,
 		"width",  (double) image->rgb_width,
 		"height", (double) image->rgb_height,
-		"anchor", GTK_ANCHOR_NW, 
+		"anchor", GTK_ANCHOR_NW,
 		NULL);
 
 	cc->preview_color_item = gnome_canvas_item_new (
@@ -410,7 +514,7 @@ color_combo_construct (ColorCombo *cc, char **icon,
 	cc->color_table = color_table_setup (cc, no_color_label, ncols, nrows, color_names);
 
 	gtk_widget_show_all (cc->preview_button);
-	
+
 	gtk_combo_box_construct (GTK_COMBO_BOX (cc),
 				 cc->preview_button,
 				 cc->color_table);
@@ -423,8 +527,12 @@ color_combo_construct (ColorCombo *cc, char **icon,
 }
 
 /*
- * More verbose constructor. Allows for specifying the rows, columns, and 
+ * More verbose constructor. Allows for specifying the rows, columns, and
  * Colors this box will contain
+ *
+ * Note that if after placing all of the color_names there remains an entire
+ * row available then a row of custum colors (initialized to black) is added
+ *
  */
 static GtkWidget *
 color_combo_new_with_vals (char **icon, char const * const no_color_label,
@@ -432,10 +540,10 @@ color_combo_new_with_vals (char **icon, char const * const no_color_label,
 			   GdkColor *default_color)
 {
 	ColorCombo *cc;
-	
+
 	g_return_val_if_fail (icon != NULL, NULL);
 	g_return_val_if_fail (color_names != NULL, NULL);
-	
+
 	cc = gtk_type_new (color_combo_get_type ());
 
         cc->default_color = default_color;
@@ -443,7 +551,7 @@ color_combo_new_with_vals (char **icon, char const * const no_color_label,
 	cc->custom_color_allocated = FALSE;
 
 	color_combo_construct (cc, icon, no_color_label, ncols, nrows, color_names);
-	
+
 	return GTK_WIDGET (cc);
 }
 
@@ -524,7 +632,7 @@ static ColorNamePair default_color_set [] = {
 	{NULL, NULL}
 };
 
-/* 
+/*
  * Default constructor. Pass an XPM icon and an optional label for
  * the no/auto color button.
  */
@@ -532,6 +640,7 @@ GtkWidget *
 color_combo_new (char **icon, char const * const no_color_label,
 		 GdkColor *default_color)
 {
-	return color_combo_new_with_vals (icon, no_color_label, 8, 5, default_color_set,
+        /* specify 6 rows to allow for a row of custom colors */
+	return color_combo_new_with_vals (icon, no_color_label, 8, 6, default_color_set,
 					  default_color);
 }
