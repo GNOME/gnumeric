@@ -556,8 +556,10 @@ ms_ole_new (const char *name)
 	f = g_new0 (MS_OLE, 1);
 
 	f->file_descriptor = file = open (name, O_RDWR);
+	f->mode = 'w';
 	if (file == -1) {
 		f->file_descriptor = file = open (name, O_RDONLY);
+		f->mode = 'r';
 		prot &= ~PROT_WRITE;
 	}
 	if (file == -1 || fstat(file, &st))
@@ -859,13 +861,10 @@ ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
 	while (len>blklen) {
 		len-=blklen;
 		blklen = BB_BLOCK_SIZE;
-		if (g_array_index (s->blocks, BBPtr, blockidx)+1
-		    != g_array_index (s->blocks, BBPtr, blockidx+1))
+		if (blockidx >= (s->blocks->len - 1) ||
+		    (g_array_index (s->blocks, BBPtr, blockidx)+1
+		     != g_array_index (s->blocks, BBPtr, blockidx+1)))
 			return 0;
-		if (blockidx>=s->blocks->len) {
-			printf ("End of chain error\n");
-			return 0;
-		}
 		blockidx++;
 	}
 	/* Straight map, simply return a pointer */
@@ -892,13 +891,10 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
 	while (len>blklen) {
 		len-=blklen;
 		blklen = SB_BLOCK_SIZE;
-		if (g_array_index (s->blocks, BBPtr, blockidx)+1
-		    != g_array_index (s->blocks, BBPtr, blockidx+1))
+		if (blockidx >= (s->blocks->len - 1) ||
+		    (g_array_index (s->blocks, BBPtr, blockidx)+1
+		     != g_array_index (s->blocks, BBPtr, blockidx+1)))
 			return 0;
-		if (blockidx>=s->blocks->len) {
-			printf ("End of chain error\n");
-			return 0;
-		}
 		blockidx++;
 	}
 	/* Straight map, simply return a pointer */
@@ -918,7 +914,6 @@ ms_ole_read_copy_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 {
 	int offset = s->position%BB_BLOCK_SIZE;
 	int blkidx = s->position/BB_BLOCK_SIZE;
-	BBPtr block= g_array_index (s->blocks, BBPtr, blkidx);
 	guint8 *src;
 	if (!s->blocks) {
 		printf ("Reading from NULL file\n");
@@ -927,16 +922,18 @@ ms_ole_read_copy_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 
 	while (length>0)
 	{
+		BBPtr block;
 		int cpylen = BB_BLOCK_SIZE - offset;
 		if (cpylen>length)
 			cpylen = length;
 
 		if (s->position + cpylen > s->size ||
-		    block == END_OF_CHAIN)
-		{
-			printf ("Trying 3 to read beyond end of stream\n");
+		    blkidx == s->blocks->len) {
+			printf ("Trying 2 to read beyond end of stream %d+%d %d\n",
+				s->position, cpylen, s->size);
 			return 0;
 		}
+		block = g_array_index (s->blocks, BBPtr, blkidx);
 		src = GET_BB_START_PTR(s->file, block) + offset;
 		
 		memcpy (ptr, src, cpylen);
@@ -945,7 +942,7 @@ ms_ole_read_copy_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		
 		offset = 0;
 		
-		block= g_array_index (s->blocks, BBPtr, ++blkidx);
+		blkidx++;
 		s->position+=cpylen;
 	}
 	return 1;
@@ -956,7 +953,6 @@ ms_ole_read_copy_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 {
 	int offset = s->position%SB_BLOCK_SIZE;
 	int blkidx = s->position/SB_BLOCK_SIZE;
-	BBPtr block= g_array_index (s->blocks, BBPtr, blkidx);
 	guint8 *src;
 	if (!s->blocks) {
 		printf ("Reading from NULL file\n");
@@ -966,14 +962,16 @@ ms_ole_read_copy_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 	while (length>0)
 	{
 		int cpylen = SB_BLOCK_SIZE - offset;
+		BBPtr block;
 		if (cpylen>length)
 			cpylen = length;
 		if (s->position + cpylen > s->size ||
-		    block == END_OF_CHAIN)
-		{
-			printf ("Trying 3 to read beyond end of stream\n");
+		    blkidx == s->blocks->len) {
+			printf ("Trying 3 to read beyond end of stream %d+%d %d\n",
+				s->position, cpylen, s->size);
 			return 0;
 		}
+		block = g_array_index (s->blocks, BBPtr, blkidx);
 		src = GET_SB_START_PTR(s->file, block) + offset;
 				
 		memcpy (ptr, src, cpylen);
@@ -981,8 +979,8 @@ ms_ole_read_copy_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		length -= cpylen;
 		
 		offset = 0;
-		
-		block= g_array_index (s->blocks, BBPtr, ++blkidx);
+
+		blkidx++;
 		s->position+=cpylen;
 	}
 	return 1;
@@ -1010,8 +1008,7 @@ ms_ole_write_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 			printf ("next free block : %d\n", block);
 			if (lastblk != END_OF_CHAIN) /* Link onwards */
 				SET_GUINT32(GET_BB_CHAIN_PTR(s->file, lastblk), block);
-			else
-			{
+			else { /* Wibble ... */
 				PPS_SET_STARTBLOCK(s->file, s->pps, block);
 				set_block (s, block);
 			}
@@ -1022,8 +1019,7 @@ ms_ole_write_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		
 		dest = GET_BB_START_PTR(s->file, block) + offset;
 
-		PPS_SET_SIZE(s->file, s->pps, s->size+cpylen);
-		s->size = PPS_GET_SIZE(s->file, s->pps);
+		s->size+=cpylen;
 		printf ("Copy %d bytes to block %d\n", cpylen, block);
 		memcpy (dest, ptr, cpylen);
 		ptr   += cpylen;
@@ -1072,7 +1068,6 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		dest = GET_SB_START_PTR(s->file, block) + offset;
 		
 		g_assert (cpylen>=0);
-		PPS_SET_SIZE(s->file, s->pps, s->size+cpylen);
 		s->size+=cpylen;
 		
 		memcpy (dest, ptr, cpylen);
@@ -1084,7 +1079,7 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		{
 			SBPtr sb_start_block = PPS_GET_STARTBLOCK(s->file, s->pps);
 			SBPtr sbblk = sb_start_block;
-			guint32 size = PPS_GET_SIZE(s->file, s->pps);
+			guint32 size = s->size;
 			int cnt;
 
 			printf ("\n\n--- Converting ---\n\n\n");
@@ -1097,9 +1092,8 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 			g_assert (size%SB_BLOCK_SIZE == 0);
 
 			/* Convert the file to BBlocks */
-			PPS_SET_SIZE(s->file, s->pps, 0);
-			set_block(s, END_OF_CHAIN);
-			set_offset (s, 0);
+			s->size =0;
+			s->position =0;
 
 			cnt = 0;
 			while (sbblk != END_OF_CHAIN)
@@ -1138,12 +1132,18 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 	if (!d || !f)
 		return 0;
 
-	s         = g_new0 (MS_OLE_STREAM, 1);
-	s->file   = f;
-	s->pps    = p;
+	if (mode == 'w' && f->mode != 'w') {
+		printf ("Opening stream '%c' when file is '%c' only\n",
+			mode, f->mode);
+		return NULL;
+	}
+
+	s           = g_new0 (MS_OLE_STREAM, 1);
+	s->file     = f;
+	s->pps      = p;
 	s->position = 0;
-	s->size = PPS_GET_SIZE(f, p);
-	s->blocks = NULL;
+	s->size     = PPS_GET_SIZE(f, p);
+	s->blocks   = NULL;
 
 	if (s->size>=BB_THRESHOLD)
 	{
@@ -1155,7 +1155,7 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 		s->write     = ms_ole_write_bb;
 		s->blocks    = g_array_new (0,0,sizeof(BBPtr));
 		s->strtype   = MS_OLE_LARGE_BLOCK;
-		for (lp=0;lp<s->size/BB_BLOCK_SIZE;lp++)
+		for (lp=0;lp<(s->size+BB_BLOCK_SIZE-1)/BB_BLOCK_SIZE;lp++)
 		{
 			g_array_append_val (s->blocks, b);
 			if (b == END_OF_CHAIN)
@@ -1169,7 +1169,7 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 		}
 		if (b != END_OF_CHAIN && NEXT_BB(f, b) != END_OF_CHAIN)
 			printf ("FIXME: Extra useless blocks on end of '%s'\n", PPS_NAME(f,p));
-		g_array_append_val (s->blocks, b);
+/*		g_array_append_val (s->blocks, b); */
 	}
 	else
 	{
@@ -1182,7 +1182,7 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 		s->blocks    = g_array_new (0,0,sizeof(SBPtr));
 		s->strtype   = MS_OLE_SMALL_BLOCK;
 
-		for (lp=0;lp<s->size/SB_BLOCK_SIZE;lp++)
+		for (lp=0;lp<(s->size+SB_BLOCK_SIZE-1)/SB_BLOCK_SIZE;lp++)
 		{
 			g_array_append_val (s->blocks, b);
 			if (b == END_OF_CHAIN)
@@ -1196,7 +1196,7 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 		}
 		if (b != END_OF_CHAIN && NEXT_SB(f, b) != END_OF_CHAIN)
 			printf ("FIXME: Extra useless blocks on end of '%s'\n", PPS_NAME(f,p));
-		g_array_append_val (s->blocks, b);
+/*		g_array_append_val (s->blocks, b); */
 	}
 	return s;
 }
@@ -1213,6 +1213,9 @@ void
 ms_ole_stream_close (MS_OLE_STREAM *s)
 {
 	if (s) {
+		if (s->file && s->file->mode == 'w')
+			PPS_SET_SIZE (s->file, s->pps, s->size);
+
 		g_array_free (s->blocks, 0);
 		g_free (s);
 	}

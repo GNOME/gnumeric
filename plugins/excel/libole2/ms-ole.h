@@ -44,7 +44,7 @@ typedef struct _MS_OLE
 	/**
 	 * To be considered private
 	 **/
-
+	char mode;
 	MS_OLE_HEADER header ; /* For speed cut down dereferences */
 	int file_descriptor ;
 } MS_OLE ;

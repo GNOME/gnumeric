@@ -136,26 +136,6 @@ ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
 	return 1;
 }
 
-void
-ms_biff_query_unmerge (BIFF_QUERY *bq)
-{
-	if (!bq || !bq->num_merges)
-		return;
-	bq->pos->lseek (bq->pos, -(4*(bq->num_merges+1)
-				   + bq->length), MS_OLE_SEEK_CUR);
-	ms_biff_query_next_merge (bq, FALSE);
-}
-
-
-/**
- * Returns 0 if has hit end
- **/
-int
-ms_biff_query_next (BIFF_QUERY *bq)
-{
-	return ms_biff_query_next_merge (bq, TRUE);
-}
-
 /**
  * Returns 0 if has hit end
  **/
@@ -209,6 +189,25 @@ ms_biff_query_next_merge (BIFF_QUERY *bq, gboolean do_merge)
 	}
 
 	return (ans);
+}
+
+void
+ms_biff_query_unmerge (BIFF_QUERY *bq)
+{
+	if (!bq || !bq->num_merges)
+		return;
+	bq->pos->lseek (bq->pos, -(4*(bq->num_merges+1)
+				   + bq->length), MS_OLE_SEEK_CUR);
+	ms_biff_query_next_merge (bq, FALSE);
+}
+
+/**
+ * Returns 0 if has hit end
+ **/
+int
+ms_biff_query_next (BIFF_QUERY *bq)
+{
+	return ms_biff_query_next_merge (bq, TRUE);
 }
 
 void

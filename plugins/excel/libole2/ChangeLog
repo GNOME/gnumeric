@@ -1,7 +1,24 @@
 1999-05-08  Michael Meeks  <michael@imaginator.com>
 
+	* ms-ole.c (ms_ole_stream_open): Checks mode before
+	returning handle;
+	(ms_ole_new): Added mode flag setting.
+	(ms_ole_read_ptr_bb, ms_ole_read_ptr_sb): A howler fixed.
+	(ms_ole_stream_open): More accuracy, in building block list.
+
+	* ms-ole.h (_MS_OLE): Added 'mode' flag.
+
+	* ms-ole.c (ms_ole_stream_close): Set size on exit
+	to save constantly updating it, if writing.
+	Re-sculpted many PPS_GET/SET_SIZE macros.
+	(ms_ole_stream_open): Removed redundant END_OF_CHAIN
+	block on the end of the blocks array.
+	(ms_ole_read_copy_bb): Remove check for END_OF_CHAIN,
+	and re-arrange.
+
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
 	* ms-ole.c: Moved all biff code into ../ms-biff.c
 	Removed odd includes.
 	(pps_get_text): Changed types to guint8 from BYTE.
 	(ms_ole_stream_copy): Created, and made global.
-

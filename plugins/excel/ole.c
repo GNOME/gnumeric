@@ -448,6 +448,7 @@ do_put (MS_OLE *ole)
 	{
 		FILE *f = fopen (from, "r");
 		size_t len;
+		int block=0;
 
 		stream = ms_ole_stream_open (dir, 'w');
 		if (!f || !stream) {
@@ -459,8 +460,9 @@ do_put (MS_OLE *ole)
 	       
 		do {
 			len = fread (buffer, 1024, 1, f);
+			printf ("Transfering block %d = %d bytes\n", block++, len); 
 			stream->write (stream, buffer, len);
-		} while (!feof(f));
+		} while (!feof(f) && len>0);
 
 		fclose (f);
 		ms_ole_stream_close (stream);

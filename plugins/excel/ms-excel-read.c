@@ -1963,6 +1963,11 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			{
 				int top_vis_row, left_vis_col ;
 				guint16 options ;
+				
+				if (q->length<6) {
+					printf ("Duff window data");
+					break;
+				}
 
 				options      = BIFF_GETWORD(q->data + 0) ;
 				top_vis_row  = BIFF_GETWORD(q->data + 2) ;
