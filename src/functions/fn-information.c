@@ -323,7 +323,7 @@ static char *help_countblank = {
            "@SYNTAX=COUNTBLANK(range)\n"
 
            "@DESCRIPTION="
-           "COUNTBLANK returns the number of blank cells in a @range. "
+           "COUNTBLANK returns the number of blank cells in a @range.\n"
 	   "This function is Excel compatible. "
            "\n"
 	   "@EXAMPLES=\n"
@@ -453,7 +453,7 @@ static char *help_iserror = {
 	   "@SYNTAX=ISERROR(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISERROR returns a TRUE value if the expression has an error\n"
+	   "ISERROR returns a TRUE value if the expression has an error.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -508,7 +508,7 @@ static char *help_isna = {
 	   "@SYNTAX=ISNA(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISNA returns TRUE if the value is the #N/A error value. "
+	   "ISNA returns TRUE if the value is the #N/A error value.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -543,7 +543,7 @@ static char *help_iserr = {
 	   "@SYNTAX=ISERR(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISERR returns TRUE if the value is any error value except #N/A. "
+	   "ISERR returns TRUE if the value is any error value except #N/A.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -633,11 +633,12 @@ static char *help_na = {
 	   "@SYNTAX=NA()\n"
 
 	   "@DESCRIPTION="
-	   "NA returns the error value #N/A. "
+	   "NA returns the error value #N/A.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "NA() equals #N/A error.\n"
+	   "\n"
 	   "@SEEALSO=ISNA")
 };
 
@@ -675,7 +676,7 @@ static char *help_isblank = {
 	   "@SYNTAX=ISBLANK(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISBLANK returns TRUE if the value is blank. "
+	   "ISBLANK returns TRUE if the value is blank.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -724,7 +725,7 @@ static char *help_iseven = {
 	   "@SYNTAX=ISEVEN(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISEVEN returns TRUE if the number is even. "
+	   "ISEVEN returns TRUE if the number is even.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -746,7 +747,7 @@ static char *help_islogical = {
 	   "@SYNTAX=ISLOGICAL(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISLOGICAL returns TRUE if the value is a logical value. "
+	   "ISLOGICAL returns TRUE if the value is a logical value.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -776,7 +777,7 @@ static char *help_isnontext = {
 	   "@SYNTAX=ISNONTEXT(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISNONTEXT Returns TRUE if the value is not text. "
+	   "ISNONTEXT Returns TRUE if the value is not text.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -803,7 +804,7 @@ static char *help_isnumber = {
 	   "@SYNTAX=ISNUMBER(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISNUMBER returns TRUE if the value is a number. "
+	   "ISNUMBER returns TRUE if the value is a number.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -830,7 +831,7 @@ static char *help_isodd = {
 	   "@SYNTAX=ISODD(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISODD returns TRUE if the number is odd. "
+	   "ISODD returns TRUE if the number is odd.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -852,7 +853,7 @@ static char *help_isref = {
 	   "@SYNTAX=ISREF(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISREF returns TRUE if the value is a reference. "
+	   "ISREF returns TRUE if the value is a reference.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -884,7 +885,7 @@ static char *help_istext = {
 	   "@SYNTAX=ISTEXT(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISTEXT returns TRUE if the value is text. "
+	   "ISTEXT returns TRUE if the value is text.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -912,7 +913,7 @@ static char *help_n = {
 
 	   "@DESCRIPTION="
 	   "N returns a value converted to a number.  Strings containing "
-	   "text are converted to the zero value. "
+	   "text are converted to the zero value.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -950,7 +951,7 @@ static char *help_type = {
 	   "@SYNTAX=TYPE(value)\n"
 
 	   "@DESCRIPTION="
-	   "TYPE returns a number indicating the data type of a value. "
+	   "TYPE returns a number indicating the data type of a value.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"

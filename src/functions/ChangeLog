@@ -1,3 +1,11 @@
+2001-11-18  Valek Filippov  <frob@df.ru>
+
+	* fn-date.c,fn-database.c,fn-eng.c,fn-informational.c,
+	  fn-logical.c,fn-math.c,fn-stat.c: Documentation consistency
+	  improvements (mostly "\n" before 'Excel compatible'). Some
+	  typos fixed. 
+	  
+
 2001-11-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* fn-financial.c: Documentation improvements.

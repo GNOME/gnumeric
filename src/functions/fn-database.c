@@ -509,6 +509,7 @@ static char *help_daverage = {
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
+	   "@EXAMPLES\n"
            "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
 	   "DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
            "DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
@@ -578,6 +579,7 @@ static char *help_dcount = {
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
+	   "@EXAMPLES\n"
            "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
            "DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
            "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
@@ -639,6 +641,7 @@ static char *help_dcounta = {
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
+	   "@EXAMPLES\n"
            "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
            "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
            "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
@@ -697,13 +700,13 @@ static char *help_dget = {
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
-           "DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-           "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-           "\n"
 	   "If none of the items match the conditions, DGET returns #VALUE! "
 	   "error. "
 	   "If more than one items match the conditions, DGET returns #NUM! "
 	   "error. "
+	   "@EXAMPLES\n"
+           "DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+           "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
 	   "\n"
            "@SEEALSO=DCOUNT")
 };
@@ -765,6 +768,7 @@ static char *help_dmax = {
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
+	   "@EXAMPLES\n"
            "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
            "DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
            "DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
@@ -836,6 +840,7 @@ static char *help_dmin = {
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
+	   "@EXAMPLES\n"
            "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
            "DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
 	   "\n"
@@ -906,6 +911,7 @@ static char *help_dproduct = {
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
+	   "@EXAMPLES\n"
            "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
 	   "\n"
            "@SEEALSO=DSUM")
@@ -974,6 +980,7 @@ static char *help_dstdev = {
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
+	   "@EXAMPLES\n"
            "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
            "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
 	   "\n"
@@ -1040,6 +1047,7 @@ static char *help_dstdevp = {
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
+	   "@EXAMPLES\n"
            "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
            "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
 	   "\n"
@@ -1107,6 +1115,7 @@ static char *help_dsum = {
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
+	   "@EXAMPLES\n"
            "DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
            "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
 	   "\n"
@@ -1175,6 +1184,7 @@ static char *help_dvar = {
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
+	   "@EXAMPLES\n"
            "DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
            "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
 	   "\n"
@@ -1243,6 +1253,7 @@ static char *help_dvarp = {
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
+	   "@EXAMPLES\n"
            "DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
            "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
 	   "\n"
@@ -1313,6 +1324,8 @@ static char *help_getpivotdata = {
 	   "\n"
 	   "If the summary data is unavailable, GETPIVOTDATA returns #REF! "
 	   "error. "
+	   "\n"
+	   "@EXAMPLES\n"
 	   "\n"
            "@SEEALSO=")
 };
