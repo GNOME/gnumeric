@@ -1,5 +1,9 @@
 2001-12-25  Jody Goldberg <jody@gnome.org>
 
+	* Release 0.99.1
+
+2001-12-25  Jody Goldberg <jody@gnome.org>
+
 	* src/workbook.c (workbook_set_dirty) : clear the summary flag too.
 
 2001-12-25  Jody Goldberg <jody@gnome.org>

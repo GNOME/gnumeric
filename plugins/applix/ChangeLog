@@ -1,3 +1,7 @@
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
 2001-12-17  Jody Goldberg <jody@gnome.org>
 
 	* applix-read.c (applix_parse_style) : support 'G#' styles for

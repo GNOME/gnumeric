@@ -1,184 +1,268 @@
 figs =							\
-	figures/add-decimals.png			\
-	figures/advanced-filter-1.png			\
-	figures/advanced-filter-2.png			\
-	figures/align-center.png			\
-	figures/align-left.png				\
-	figures/align-right.png				\
-	figures/analysis-tools.png			\
-	figures/analysistools-ANOVA1-ex1.png		\
-	figures/analysistools-ANOVA1-ex2.png		\
-	figures/analysistools-ANOVA2w-ex1.png		\
-	figures/analysistools-ANOVA2w-ex2.png		\
-	figures/analysistools-ANOVA2wo-ex1.png		\
-	figures/analysistools-ANOVA2wo-ex2.png		\
-	figures/analysistools-correlation-ex1.png	\
-	figures/analysistools-correlation-ex2.png	\
-	figures/analysistools-correlation-ex3.png	\
-	figures/analysistools-correlation.png		\
-	figures/analysistools-covariance-ex1.png	\
-	figures/analysistools-covariance-ex2.png	\
-	figures/analysistools-covariance.png		\
-	figures/analysistools-descstats.png		\
-	figures/analysistools-descstats-ex1.png		\
-	figures/analysistools-descstats-ex2.png		\
-	figures/analysistools-ftest-ex1.png		\
-	figures/analysistools-ftest-ex2.png		\
-	figures/analysistools-ftest.png			\
-	figures/analysistools-histogram-ex1.png		\
-	figures/analysistools-histogram-ex2.png		\
-	figures/analysistools-histogram.png		\
-	figures/analysistools-moving-average-ex1.png	\
-	figures/analysistools-moving-average-ex2.png	\
-	figures/analysistools-moving-average.png	\
-	figures/analysistools-outputoptions.png		\
-	figures/analysistools-random-ex1.png		\
-	figures/analysistools-random-ex2.png		\
-	figures/analysistools-random.png		\
-	figures/analysistools-ranges.png		\
-	figures/analysistools-rank-ex1.png		\
-	figures/analysistools-rank-ex2.png		\
-	figures/analysistools-rank.png			\
-	figures/analysistools-regression-ex1.png	\
-	figures/analysistools-regression-ex2.png	\
-	figures/analysistools-regression-ex3.png	\
-	figures/analysistools-regression.png		\
-	figures/analysistools-sampling-ex1.png		\
-	figures/analysistools-sampling-ex2.png		\
-	figures/analysistools-sampling.png		\
-	figures/analysistools-smoothing-ex1.png		\
-	figures/analysistools-smoothing-ex2.png		\
-	figures/analysistools-smoothing.png		\
-	figures/analysistools-tools.png			\
-	figures/analysistools-ttest-equal-ex1.png	\
-	figures/analysistools-ttest-equal-ex2.png	\
-	figures/analysistools-ttest-equal.png		\
-	figures/analysistools-ttest-paired-ex1.png	\
-	figures/analysistools-ttest-paired-ex2.png	\
-	figures/analysistools-ttest-paired.png		\
-	figures/analysistools-ttest-unequal-ex1.png	\
-	figures/analysistools-ttest-unequal-ex2.png	\
-	figures/analysistools-ttest-unequal.png		\
-	figures/analysistools-ttest.png			\
-	figures/analysistools-ztest-ex1.png		\
-	figures/analysistools-ztest-ex2.png		\
-	figures/analysistools-ztest.png			\
-	figures/arrow.png				\
-	figures/auto-correct.png			\
-	figures/auto-save.png				\
-	figures/auto-sum.png				\
-	figures/autocorrect.png				\
-	figures/autofill-1.png				\
-	figures/autofill-10.png				\
-	figures/autofill-2.png				\
-	figures/autofill-3.png				\
-	figures/autofill-4.png				\
-	figures/autofill-5.png				\
-	figures/autofill-6.png				\
-	figures/autofill-7.png				\
-	figures/autofill-8.png				\
-	figures/autofill-9.png				\
-	figures/autosave.png				\
-	figures/bold.png				\
-	figures/border.png				\
-	figures/cells-1.png				\
-	figures/cells-2.png				\
-	figures/define-name.png				\
-	figures/dnd-selection-1.png			\
-	figures/dndselection-1.png			\
-	figures/drawing-toolbar.png			\
-	figures/editing-1.png				\
-	figures/editing-cell-selection-1.png		\
-	figures/file-dialog.png				\
-	figures/filter.png				\
-	figures/function-wizard.png			\
-	figures/function.png				\
-	figures/goal-seek.png				\
-	figures/graphing.png				\
-	figures/insert-object.png			\
-	figures/italic.png				\
-	figures/line.png				\
-	figures/modify-comment.png			\
-	figures/money.png				\
-	figures/number-format-buttonbar.png		\
-	figures/number-format-color-dialog.png		\
-	figures/number-format-dialog.png		\
-	figures/number-format-font-dialog.png		\
-	figures/number-format-justification-dialog-2.png\
-	figures/number-format-justification.png		\
-	figures/oval.png				\
-	figures/percentage.png				\
-	figures/plug-ins.png				\
-	figures/plugins.png				\
-	figures/print-large.png				\
-	figures/print-preview-back.png			\
-	figures/print-preview-first.png			\
-	figures/print-preview-fit.png			\
-	figures/print-preview-fittall.png		\
-	figures/print-preview-fitwide.png		\
-	figures/print-preview-last.png			\
-	figures/print-preview-next.png			\
-	figures/print-preview-toolbar.png		\
-	figures/print-preview-zoomin.png		\
-	figures/print-preview-zoomout.png		\
-	figures/print-preview.png			\
-	figures/print-worksheet.png			\
-	figures/print.png				\
-	figures/printing-preview.png			\
-	figures/printing-setup-header.png		\
-	figures/printing-setup-margins.png		\
-	figures/printing-setup-page-1.png		\
-	figures/printing-setup-page.png			\
-	figures/printing-setup-sheet.png		\
-	figures/rect.png				\
-	figures/redo.png				\
-	figures/remove-decimals.png			\
-	figures/sample_gnumeric.png			\
-	figures/selection-1.png				\
-	figures/selection-10.png			\
-	figures/selection-2.png				\
-	figures/selection-3.png				\
-	figures/selection-4.png				\
-	figures/selection-5.png				\
-	figures/selection-6.png				\
-	figures/selection-7.png				\
-	figures/selection-8.png				\
-	figures/selection-9.png				\
-	figures/sheet-indicator.png			\
-	figures/solver-01.png				\
-	figures/solver-02.png				\
-	figures/solver-03.png				\
-	figures/solver-04.png				\
-	figures/solver-05.png				\
-	figures/sort-ascending.png			\
-	figures/sort-descending.png			\
-	figures/sort.png				\
-	figures/stock-copy.png				\
-	figures/stock-cut.png				\
-	figures/stock-new.png				\
-	figures/stock-open.png				\
-	figures/stock-paste.png				\
-	figures/stock-save.png				\
-	figures/summary.png				\
-	figures/thousands.png				\
-	figures/toolbar.png				\
-	figures/underline.png				\
-	figures/undo.png				\
-	figures/worksheet-all-1.png			\
-	figures/worksheet-cols-1.png			\
-	figures/worksheet-data-1.png			\
-	figures/worksheet-data-2.png			\
-	figures/worksheet-data-3.png			\
-	figures/worksheet-data-4.png			\
-	figures/worksheet-info-1.png			\
-	figures/worksheet-rows-1.png			\
-	figures/worksheet-running-calc-1.png		\
-	figures/worksheet-zoomin-1.jpg			\
-	figures/worksheet-zoomout-1.jpg			\
-	figures/zoom-dialog.png				\
-	figures/zoom-toolbar.png			\
-	figures/zoom.png
-
+figures/add-decimals.png	\
+figures/advanced-filter-1.png 	\
+figures/advanced-filter-2.png 	\
+figures/align-center.png	\
+figures/align-left.png	\
+figures/align-right.png	\
+figures/analysis-tools.png	\
+figures/analysistools-ANOVA1-ex1.png 	\
+figures/analysistools-ANOVA1-ex2.png 	\
+figures/analysistools-ANOVA2w-ex1.png 	\
+figures/analysistools-ANOVA2w-ex2.png 	\
+figures/analysistools-ANOVA2wo-ex1.png 	\
+figures/analysistools-ANOVA2wo-ex2.png 	\
+figures/analysistools-correlation-ex1.png 	\
+figures/analysistools-correlation-ex2.png 	\
+figures/analysistools-correlation-ex3.png 	\
+figures/analysistools-correlation.png 	\
+figures/analysistools-covariance-ex1.png 	\
+figures/analysistools-covariance-ex2.png 	\
+figures/analysistools-covariance.png 	\
+figures/analysistools-descstats-ex1.png 	\
+figures/analysistools-descstats-ex2.png 	\
+figures/analysistools-descstats.png 	\
+figures/analysistools-ftest-ex1.png 	\
+figures/analysistools-ftest-ex2.png 	\
+figures/analysistools-ftest.png 	\
+figures/analysistools-histogram-ex1.png 	\
+figures/analysistools-histogram-ex2.png 	\
+figures/analysistools-histogram.png 	\
+figures/analysistools-moving-average-ex1.png 	\
+figures/analysistools-moving-average-ex2.png 	\
+figures/analysistools-moving-average.png 	\
+figures/analysistools-outputoptions.png 	\
+figures/analysistools-random-ex1.png 	\
+figures/analysistools-random-ex2.png 	\
+figures/analysistools-random.png 	\
+figures/analysistools-ranges.png 	\
+figures/analysistools-rank-ex1.png 	\
+figures/analysistools-rank-ex2.png 	\
+figures/analysistools-rank.png 	\
+figures/analysistools-regression-ex1.png 	\
+figures/analysistools-regression-ex2.png 	\
+figures/analysistools-regression-ex3.png 	\
+figures/analysistools-regression.png 	\
+figures/analysistools-sampling-ex1.png 	\
+figures/analysistools-sampling-ex2.png 	\
+figures/analysistools-sampling.png 	\
+figures/analysistools-smoothing-ex1.png 	\
+figures/analysistools-smoothing-ex2.png 	\
+figures/analysistools-smoothing.png 	\
+figures/analysistools-tools.png 	\
+figures/analysistools-ttest-equal-ex1.png 	\
+figures/analysistools-ttest-equal-ex2.png 	\
+figures/analysistools-ttest-equal.png 	\
+figures/analysistools-ttest-paired-ex1.png 	\
+figures/analysistools-ttest-paired-ex2.png 	\
+figures/analysistools-ttest-paired.png 	\
+figures/analysistools-ttest-unequal-ex1.png 	\
+figures/analysistools-ttest-unequal-ex2.png 	\
+figures/analysistools-ttest-unequal.png 	\
+figures/analysistools-ttest.png 	\
+figures/analysistools-ztest-ex1.png 	\
+figures/analysistools-ztest-ex2.png 	\
+figures/analysistools-ztest.png 	\
+figures/arrow.png	\
+figures/auto-correct.png	\
+figures/auto-save.png	\
+figures/auto-sum.png	\
+figures/autocorrect.png	\
+figures/autofill-1.png 	\
+figures/autofill-10.png 	\
+figures/autofill-2.png 	\
+figures/autofill-3.png 	\
+figures/autofill-4.png 	\
+figures/autofill-5.png 	\
+figures/autofill-6.png 	\
+figures/autofill-7.png 	\
+figures/autofill-8.png 	\
+figures/autofill-9.png 	\
+figures/autosave.png	\
+figures/bold.png	\
+figures/border.png	\
+figures/button-align-center.png 	\
+figures/button-align-left.png 	\
+figures/button-align-right.png 	\
+figures/button-arrow.png 	\
+figures/button-bold.png 	\
+figures/button-borders.png 	\
+figures/button-center-across-selection.png 	\
+figures/button-checkbox.png 	\
+figures/button-combo.png 	\
+figures/button-copy.png 	\
+figures/button-cut.png 	\
+figures/button-decrease-indent.png 	\
+figures/button-decrease-precision.png 	\
+figures/button-equals.png 	\
+figures/button-fill.png 	\
+figures/button-font-size.png 	\
+figures/button-font-type.png 	\
+figures/button-frame.png 	\
+figures/button-function.png 	\
+figures/button-fx.png 	\
+figures/button-graph.png 	\
+figures/button-increase-indent.png 	\
+figures/button-increase-precision.png 	\
+figures/button-insert-component.png 	\
+figures/button-insert-object.png 	\
+figures/button-italic.png 	\
+figures/button-label.png 	\
+figures/button-line.png 	\
+figures/button-list.png 	\
+figures/button-merge.png 	\
+figures/button-money.png 	\
+figures/button-new.png 	\
+figures/button-open.png 	\
+figures/button-oval.png 	\
+figures/button-paste.png 	\
+figures/button-percent.png 	\
+figures/button-preview.png 	\
+figures/button-print.png 	\
+figures/button-rectangle.png 	\
+figures/button-redo-and-history.png 	\
+figures/button-save.png 	\
+figures/button-sort-az.png 	\
+figures/button-sort-za.png 	\
+figures/button-split.png 	\
+figures/button-sum.png 	\
+figures/button-text-colour.png 	\
+figures/button-thousands.png 	\
+figures/button-underline.png 	\
+figures/button-undo-and-history.png 	\
+figures/button-zoom.png 	\
+figures/buttonGroup-bonobo.png 	\
+figures/buttonGroup-filesystem.png 	\
+figures/buttonGroup-printing.png 	\
+figures/cell-grid.png 	\
+figures/cells-1.png 	\
+figures/cells-2.png 	\
+figures/define-name.png	\
+figures/dnd-selection-1.png	\
+figures/dndselection-1.png 	\
+figures/drawing-toolbar.png	\
+figures/editing-1.png 	\
+figures/editing-cell-selection-1.png 	\
+figures/file-dialog.png	\
+figures/files-formats-list.png 	\
+figures/filter.png	\
+figures/function-wizard.png	\
+figures/function.png	\
+figures/gnumeric-labelled.png 	\
+figures/gnumeric-rearranged.png 	\
+figures/goal-seek.png	\
+figures/graphing.png	\
+figures/info-area.png 	\
+figures/insert-object.png	\
+figures/italic.png	\
+figures/label-five.png 	\
+figures/label-four.png 	\
+figures/label-one.png 	\
+figures/label-seven.png 	\
+figures/label-six.png 	\
+figures/label-three.png 	\
+figures/label-transparent.png 	\
+figures/label-two.png 	\
+figures/line.png	\
+figures/menu-context-col-row-header.png 	\
+figures/menu-context-grid.png 	\
+figures/menu-context-object.png 	\
+figures/menu-context-tabs.png 	\
+figures/menu-context-toolbars.png 	\
+figures/menu-data-labelled.png 	\
+figures/menu-edit-labelled.png 	\
+figures/menu-file-labelled.png 	\
+figures/menu-format-torn-off.png 	\
+figures/menu-help-torn-off.png 	\
+figures/menu-insert-labelled.png 	\
+figures/menu-tools-labelled.png 	\
+figures/menu-view-labelled.png 	\
+figures/menubar.png 	\
+figures/modify-comment.png	\
+figures/money.png	\
+figures/number-format-buttonbar.png 	\
+figures/number-format-color-dialog.png 	\
+figures/number-format-dialog.png 	\
+figures/number-format-font-dialog.png 	\
+figures/number-format-justification-dialog-2.png 	\
+figures/number-format-justification.png 	\
+figures/oval.png	\
+figures/percentage.png	\
+figures/plug-ins.png	\
+figures/plugins.png	\
+figures/preface-screenshot.png 	\
+figures/print-large.png	\
+figures/print-preview-back.png	\
+figures/print-preview-first.png	\
+figures/print-preview-fit.png	\
+figures/print-preview-fittall.png	\
+figures/print-preview-fitwide.png	\
+figures/print-preview-last.png	\
+figures/print-preview-next.png	\
+figures/print-preview-toolbar.png	\
+figures/print-preview-zoomin.png	\
+figures/print-preview-zoomout.png	\
+figures/print-preview.png	\
+figures/print-worksheet.png	\
+figures/print.png	\
+figures/printing-preview.png	\
+figures/printing-setup-header-config.png 	\
+figures/printing-setup-header.png	\
+figures/printing-setup-margins.png	\
+figures/printing-setup-page-1.png	\
+figures/printing-setup-page.png	\
+figures/printing-setup-sheet.png 	\
+figures/rect.png	\
+figures/redo.png	\
+figures/remove-decimals.png	\
+figures/sample_gnumeric.png 	\
+figures/selection-1.png 	\
+figures/selection-10.png 	\
+figures/selection-2.png 	\
+figures/selection-3.png 	\
+figures/selection-4.png 	\
+figures/selection-5.png 	\
+figures/selection-6.png 	\
+figures/selection-7.png 	\
+figures/selection-8.png 	\
+figures/selection-9.png 	\
+figures/sheet-indicator.png	\
+figures/solver-01.png	\
+figures/solver-02.png	\
+figures/solver-03.png	\
+figures/solver-04.png	\
+figures/solver-05.png 	\
+figures/sort-ascending.png	\
+figures/sort-descending.png	\
+figures/sort.png	\
+figures/stock-copy.png	\
+figures/stock-cut.png	\
+figures/stock-new.png	\
+figures/stock-open.png	\
+figures/stock-paste.png	\
+figures/stock-save.png	\
+figures/summary.png	\
+figures/tear-off-menu.png 	\
+figures/thousands.png	\
+figures/toolbar-format.png 	\
+figures/toolbar-object.png 	\
+figures/toolbar-standard.png 	\
+figures/toolbar.png	\
+figures/toolbars.png 	\
+figures/underline.png	\
+figures/undo.png	\
+figures/worksheet-all-1.png 	\
+figures/worksheet-cols-1.png	\
+figures/worksheet-data-1.png	\
+figures/worksheet-data-2.png	\
+figures/worksheet-data-3.png	\
+figures/worksheet-data-4.png	\
+figures/worksheet-info-1.png 	\
+figures/worksheet-rows-1.png	\
+figures/worksheet-running-calc-1.png	\
+figures/zoom-dialog.png	\
+figures/zoom-toolbar.png	\
+figures/zoom.png
 
 docname = gnumeric
 lang = C
