@@ -1,3 +1,7 @@
+1999-08-09  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: Added MINVERSE().
+
 1999-08-09  Michael Meeks  <michael@imaginator.com>
 
 	* src/sheet.c (sheet_cell_add): Optimise by checking last

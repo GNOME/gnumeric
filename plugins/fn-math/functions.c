@@ -2357,16 +2357,18 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 }
 
 
-static char *help_mmult = {
-	N_("@FUNCTION=MMULT\n"
-	   "@SYNTAX=MMULT(array1,array2)\n"
+static char *help_minverse = {
+	N_("@FUNCTION=MINVERSE\n"
+	   "@SYNTAX=MINVERSE(array)\n"
 
 	   "@DESCRIPTION="
-	   "MMULT function returns the matrix product of two arrays. The "
-	   "result is an array with the same number of rows as @array1 and the "
-	   "same number of columns as @array2."
+	   "MINVERSE function returns the inverse matrix of a given matrix. "
 	   "\n"
-	   "@SEEALSO=TRANSPOSE,MINVERSE")
+	   "If the matrix cannot be inverted, MINVERSE returns #NUM! error. "
+	   "If the matrix does not contain equal number of columns and "
+	   "rows, MINVERSE returns #VALUE! error."
+	   "\n"
+	   "@SEEALSO=MMULT, MDETERM")
 };
 
 
@@ -2383,6 +2385,7 @@ callback_function_mmult_validate(Sheet *sheet, int col, int row,
 	++(*item_count);
 	return NULL;
 }
+
 static int
 validate_range_numeric_matrix (const EvalPosition *ep, Value * matrix,
 			       int *rows, int *cols,
@@ -2421,6 +2424,132 @@ validate_range_numeric_matrix (const EvalPosition *ep, Value * matrix,
 
 	return FALSE;
 }
+
+static int
+minverse(float_t *array, int cols, int rows)
+{
+        int     i, n, r;
+	float_t pivot;
+
+#define ARRAY(C,R) (*(array + (R) + (C) * rows))
+
+	/* Pivot top-down */
+	for (r=0; r<rows-1; r++) {
+	        /* Select pivot row */
+	        for (i = r; ARRAY(r, i) == 0; i++)
+		        if (i == rows)
+			        return 1;
+		if (i != r)
+		        for (n = 0; i<cols; n++) {
+			        float_t tmp = ARRAY(n, r);
+				ARRAY(n, r) = ARRAY(n, i);
+				ARRAY(n, i) = tmp;
+			}
+
+		for (i=r+1; i<rows; i++) {
+		        /* Calculate the pivot */
+		        pivot = -ARRAY(r, i) / ARRAY(r, r);
+
+			/* Add the pivot row */
+			for (n=r; n<cols; n++)
+			  ARRAY(n, i) += pivot * ARRAY(n, r);
+		}
+	}
+
+	/* Pivot bottom-up */
+	for (r=rows-1; r>0; r--) {
+	        for (i=r-1; i>=0; i--) {
+		        /* Calculate the pivot */
+		        pivot = -ARRAY(r, i) / ARRAY(r, r);
+
+			/* Add the pivot row */
+			for (n=0; n<cols; n++)
+			        ARRAY(n, i) += pivot * ARRAY(n, r);
+		}
+	}
+
+	for (r=0; r<rows; r++) {
+	        pivot = ARRAY(r, r);
+		for (i=0; i<cols; i++)
+		        ARRAY(i, r) /= pivot;
+	}
+
+#undef ARRAY
+
+        return 0;
+}
+
+static Value *
+gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
+{
+	EvalPosition const * const ep = &ei->pos;
+
+	int	r, rows;
+	int	c, cols;
+        Value   *res;
+        Value   *values = argv[0];
+	float_t *matrix;
+
+	char const *error_string = NULL;
+
+	if (validate_range_numeric_matrix (ep, values, &rows, &cols,
+					   &error_string)) {
+		return value_new_error (&ei->pos, error_string);
+	}
+
+	/* Guarantee shape and non-zero size */
+	if (cols != rows || !rows || !cols)
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+
+	matrix = g_new (float_t, rows*cols*2);
+	for (c=0; c<cols; c++)
+	        for (r=0; r<rows; r++) {
+		        Value const * a =
+			      value_area_get_x_y (ep, values, c, r);
+		        *(matrix + r + c*cols) = value_get_as_float(a);
+			if (c == r)
+			        *(matrix + r + (c+cols)*rows) = 1;
+			else
+			        *(matrix + r + (c+cols)*rows) = 0;
+		}
+
+	if (minverse(matrix, cols*2, rows)) {
+	        g_free (matrix);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
+	}
+
+	res = g_new (Value, 1);
+	res->type = VALUE_ARRAY;
+	res->v.array.x = cols;
+	res->v.array.y = rows;
+	res->v.array.vals = g_new (Value **, cols);
+
+	for (c = 0; c < cols; ++c){
+		res->v.array.vals [c] = g_new (Value *, rows);
+		for (r = 0; r < rows; ++r){
+			float_t tmp;
+
+			tmp = *(matrix + r + (c+cols)*rows);
+			res->v.array.vals[c][r] = value_new_float (tmp);
+		}
+	}
+
+	g_free (matrix);
+	return res;
+}
+
+static char *help_mmult = {
+	N_("@FUNCTION=MMULT\n"
+	   "@SYNTAX=MMULT(array1,array2)\n"
+
+	   "@DESCRIPTION="
+	   "MMULT function returns the matrix product of two arrays. The "
+	   "result is an array with the same number of rows as @array1 and the "
+	   "same number of columns as @array2."
+	   "\n"
+	   "@SEEALSO=TRANSPOSE,MINVERSE")
+};
+
 
 static Value *
 gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
@@ -2661,6 +2790,8 @@ void math_functions_init()
 			    &help_mmult, gnumeric_mmult);
 	function_add_args  (cat, "transpose","A",   "array",
 			    &help_transpose, gnumeric_transpose);
+	function_add_args  (cat, "minverse","A",
+			    "array", &help_minverse, gnumeric_minverse);
 #if 0
 	function_add_args  (cat, "logmdeterm", "A|si",
 			    "array[,matrix_type[,bandsize]]",
@@ -2668,8 +2799,5 @@ void math_functions_init()
 	function_add_args  (cat, "mdeterm", "A|si",
 			    "array[,matrix_type[,bandsize]]",
 			    &help_mdeterm, gnumeric_mdeterm);
-	function_add_args  (cat, "minverse","A|si",
-			    "array[,matrix_type[,bandsize]]",
-			    &help_minverse, gnumeric_minverse);
 #endif
 }
