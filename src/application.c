@@ -105,8 +105,14 @@ application_set_selected_sheet (Sheet *sheet)
 	g_return_val_if_fail (sheet != NULL, FALSE);
 
 	/* Short circuit if we already have the selection */
-	if (app.clipboard_sheet == sheet)
+	if (app.clipboard_sheet == sheet) {
+		if (app.clipboard_copied_contents) {
+			clipboard_release (app.clipboard_copied_contents);
+			app.clipboard_copied_contents = NULL;
+		}
+		sheet_selection_unant (sheet);
 		return TRUE;
+	}
 
 	application_clipboard_clear ();
 

@@ -1,5 +1,8 @@
 2000-05-20  Jody Goldberg <jgoldberg@home.com>
 
+	* src/application.c (application_set_selected_sheet) : We still need
+	  to partially clear the clipboard when short circuiting.
+
 	* src/item-grid.c (item_grid_draw) : Do not draw the contents of
 	  hidden spanning rows/cols.
 	* src/print-cell.c (print_cell_range) : Ditto.
