@@ -950,7 +950,7 @@ ms_excel_get_font (ExcelSheet *sheet, guint16 font_idx)
 }
 
 static StyleColor *
-ms_excel_set_cell_font (ExcelSheet *sheet, Cell *cell, BiffXFData const *xf,
+ms_excel_get_stylefont (ExcelSheet *sheet, BiffXFData const *xf,
 			MStyleElement *elems)
 {
 	BiffFontData const * fd = ms_excel_get_font (sheet, xf->font_idx);
@@ -989,51 +989,51 @@ ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
 }
 
 static void
-style_optimize (ExcelSheet *sheet, Cell *cell)
+style_optimize (ExcelSheet *sheet, int col, int row)
 {
 	g_return_if_fail (sheet != NULL);
 
-	if (!cell) { /* Finish the job */
+	if (col < 0) { /* Finish the job */
 		sheet_style_optimize (sheet->gnum_sheet, sheet->style_optimize);
 		return;
 	}
 	/*
 	 * Generate a range inside which to optimise cell style regions.
 	 */
-	if (cell->row->pos > sheet->style_optimize.start.row + 2) {
+	if (row > sheet->style_optimize.start.row + 2) {
 		sheet_style_optimize (sheet->gnum_sheet, sheet->style_optimize);
 
-		sheet->style_optimize.start.col = cell->col->pos;
-		if (cell->row->pos > 0) /* Overlap upwards */
-			sheet->style_optimize.start.row = cell->row->pos - 1;
+		sheet->style_optimize.start.col = col;
+		if (row > 0) /* Overlap upwards */
+			sheet->style_optimize.start.row = row - 1;
 		else
 			sheet->style_optimize.start.row = 0;
-		sheet->style_optimize.end.col   = cell->col->pos;
-		sheet->style_optimize.end.row   = cell->row->pos;
+		sheet->style_optimize.end.col   = col;
+		sheet->style_optimize.end.row   = row;
 	} else {
-		if (cell->col->pos > sheet->style_optimize.end.col)
-			sheet->style_optimize.end.col   = cell->col->pos;
-		if (cell->col->pos < sheet->style_optimize.start.col)
-			sheet->style_optimize.start.col = cell->col->pos;
+		if (col > sheet->style_optimize.end.col)
+			sheet->style_optimize.end.col   = col;
+		if (col < sheet->style_optimize.start.col)
+			sheet->style_optimize.start.col = col;
 
-		if (cell->row->pos > sheet->style_optimize.end.row)
-			sheet->style_optimize.end.row   = cell->row->pos;
-		if (cell->row->pos < sheet->style_optimize.end.row)
-			sheet->style_optimize.start.row = cell->row->pos;
+		if (row > sheet->style_optimize.end.row)
+			sheet->style_optimize.end.row   = row;
+		if (row < sheet->style_optimize.end.row)
+			sheet->style_optimize.start.row = row;
 	}	
 }
 
 static void
-ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
+ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 {
 	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
 	StyleColor *fore, *back, *basefore;
 	MStyleElement elems[MSTYLE_ELEMENT_MAX];
 	int back_index;
 	MStyle *style;
+	Range   range;
 
 	g_return_if_fail (xf);
-	g_return_if_fail (cell->value);
 
 	mstyle_elements_init (elems);
 
@@ -1046,7 +1046,7 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 	elems[MSTYLE_FIT_IN_CELL].type = MSTYLE_FIT_IN_CELL;
 	elems[MSTYLE_FIT_IN_CELL].u.fit_in_cell = xf->wrap;
 
-	basefore = ms_excel_set_cell_font (sheet, cell, xf, elems);
+	basefore = ms_excel_get_stylefont (sheet, xf, elems);
 	if (sheet->wb->palette) {
 		int i;
  		for (i = 0; i < STYLE_ORIENT_MAX; i++) {
@@ -1073,7 +1073,7 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_color_debug > 0) {
 		printf ("%s : Pattern = %d\n",
-			cell_name (cell->col->pos, cell->row->pos),
+			cell_name (col, row),
 			xf->fill_pattern_idx);
 	}
 #endif
@@ -1082,7 +1082,7 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_color_debug > 2) {
 			printf ("Cell Color : '%s' : (%d, %d)\n",
-				cell_name (cell->col->pos, cell->row->pos),
+				cell_name (col, row),
 				xf->pat_foregnd_col, xf->pat_backgnd_col);
 		}
 #endif
@@ -1093,7 +1093,7 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_color_debug > 2) {
 			printf ("Cell Color : '%s' : (Fontcol, %d)\n",
-				cell_name (cell->col->pos, cell->row->pos),
+				cell_name (col, row),
 				xf->pat_foregnd_col);
 		}
 #endif
@@ -1117,9 +1117,14 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 	elems[MSTYLE_COLOR_BACK].u.color.back = back;
 
 	style = mstyle_new_elems (NULL, elems);
-	cell_set_style (cell, style);
 
-	style_optimize (sheet, cell);
+	range.start.col = col;
+	range.start.row = row;
+	range.end       = range.start;
+
+	sheet_style_attach (sheet->gnum_sheet, range, style);
+
+	style_optimize (sheet, col, row);
 }
 
 static StyleBorderType
@@ -1420,7 +1425,7 @@ ms_excel_sheet_insert (ExcelSheet *sheet, int xfidx,
 	else
 		cell_set_text_simple (cell, "");
 
-	ms_excel_set_cell_xf (sheet, cell, xfidx);
+	ms_excel_set_xf (sheet, cell->col->pos, cell->row->pos, xfidx);
 }
 
 /* Shared formula support functions */
@@ -1688,7 +1693,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 	cell->value = val;
 
 	/* Set format */
-	ms_excel_set_cell_xf (sheet, cell, xf_index);
+	ms_excel_set_xf (sheet, cell->col->pos, cell->row->pos, xf_index);
 }
 
 BiffSharedFormula *
@@ -1736,7 +1741,16 @@ ms_excel_sheet_insert_val (ExcelSheet *sheet, int xfidx,
 
 	cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
 	cell_set_value_simple (cell, v);
-	ms_excel_set_cell_xf (sheet, cell, xfidx);
+	ms_excel_set_xf (sheet, cell->col->pos, cell->row->pos, xfidx);
+}
+
+static void
+ms_excel_sheet_insert_blank (ExcelSheet *sheet, int xfidx,
+			     int col, int row)
+{
+	g_return_if_fail (sheet);
+
+	ms_excel_set_xf (sheet, col, row, xfidx);
 }
 
 static void
@@ -2125,8 +2139,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		if (ms_excel_read_debug > 0)
 		    printf ("Blank in %s%d xf = 0x%x;\n", col_name(col), row+1, xf);
 #endif
-		ms_excel_sheet_insert_val (sheet, xf, col, row,
-					   value_new_empty());
+		ms_excel_sheet_insert_blank (sheet, xf, col, row);
 		break;
 	}
 
@@ -2153,10 +2166,9 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		}
 		for (i = lastcol; i >= firstcol ; --i) {
 			ptr -= 2;
-			ms_excel_sheet_insert_val (sheet,
+			ms_excel_sheet_insert_blank (sheet,
 						   MS_OLE_GET_GUINT16 (ptr),
-						   i, row,
-						   value_new_empty());
+						   i, row);
 		}
 		break;
 	}
@@ -2534,7 +2546,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 					printf ("Serious error detaching sheet '%s'\n",
 						sheet->gnum_sheet->name);
 			}
-			style_optimize (sheet, NULL);
+			style_optimize (sheet, -1, -1);
 			return TRUE;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */

@@ -1,3 +1,29 @@
+1999-10-16  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/style.c (style_mstyle_new): Add format ( oops ).
+
+	* src/cell.c (cell_get_formatted_val): Create.
+	(cell_get_text, cell_render_value): use it.
+	(cell_get_horizontal_align): Update.
+
+	* src/ranges.c (range_merge): comment out sluggish pre-condition.
+
+	* src/workbook-format-toolbar.c (do_sheet_selection_apply_style): Fixup.
+
+	* src/ranges.c (range_split_ranges): Kill 1/2 the range_contains calls,
+	fix bug + optimize. (range_overlap): kill comment + inline.
+
+	* src/workbook.c (deps_output): renamed to (misc_output) + update.
+	(workbook_setup_edit_area): show if style_debugging.
+
+	* src/main.c: Add 'style_debugging' integer.
+
+	* src/cell.c (cell_set_font_from_style, cell_set_halign, cell_set_border),
+	(cell_set_alignment, cell_set_foreground, cell_set_background),
+	(cell_set_color_from_style, cell_set_pattern, cell_set_format_from_style):
+	kill the stubs for the old style API.
+	(cell_set_format_simple): fix silly bug.
+
 1999-10-15  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/ranges.c (range_equal): compare rows then cols + inline.

@@ -1,3 +1,13 @@
+1999-10-16  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_set_cell_font): renamed + kill Cell.
+	(style_optimize): kill Cell argument.
+	(ms_excel_set_cell_xf): use style_attach + kill Cell arg. + renamed.
+	(ms_excel_sheet_insert, ms_excel_read_formula),
+	(ms_excel_sheet_insert_val): update removing Cell argument.
+	(ms_excel_sheet_insert_blank): Create.
+	(ms_excel_read_cell): use insert_blank.
+
 1999-10-15  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-read.c (ms_excel_set_cell_xf): Update style creation +

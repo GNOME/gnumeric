@@ -367,7 +367,6 @@ style_mstyle_new (MStyleElement *e, guint len,
 
 	style = g_new0 (Style, 1);
 
-	style->format = style_format_new ("General");
 	style->valign = VALIGN_CENTER;
 	style->halign = HALIGN_GENERAL;
 	style->orientation = ORIENT_HORIZ;
@@ -419,6 +418,12 @@ style_mstyle_new (MStyleElement *e, guint len,
 			style_color_ref (style->fore_color);
 		} else
 			style->fore_color = style_color_new (0, 0, 0);
+		
+		if (e[MSTYLE_FORMAT].type) {
+			style->format = e[MSTYLE_FORMAT].u.format;
+			style_format_ref (style->format);
+		} else 
+			style->format = style_format_new ("General");
 	} else
 		style->valid_flags = STYLE_PATTERN_COLOR | STYLE_BACK_COLOR | STYLE_PATTERN
 			| STYLE_BORDER_TOP | STYLE_BORDER_LEFT

@@ -332,8 +332,8 @@ range_merge (Range const *a, Range const *b)
 	g_return_val_if_fail (a != NULL, ans);
 	g_return_val_if_fail (b != NULL, ans);
 
-	/* FIXME: Performance killing debug */
-	g_return_val_if_fail (range_adjacent (a, b), ans);
+/*      Useful perhaps but kills performance */
+/*	g_return_val_if_fail (range_adjacent (a, b), ans); */
 	
 	if (a->start.row < b->start.row) {
 		ans.start.row = a->start.row;
@@ -350,6 +350,7 @@ range_merge (Range const *a, Range const *b)
 		ans.start.col = b->start.col;
 		ans.end.col   = a->end.col;
 	}
+
 	return ans;
 }
 
@@ -395,7 +396,7 @@ range_equal (Range const *a, Range const *b)
 /*
  * This is totaly commutative of course; hence the symmetry.
  */
-gboolean
+gboolean inline
 range_overlap (Range const *a, Range const *b)
 {
 	if (a->end.row < b->start.row)
@@ -410,7 +411,6 @@ range_overlap (Range const *a, Range const *b)
 	if (b->end.col < a->start.col)
 		return FALSE;
 
-	/* FIXME: I'm not convinced: this needs more thought */
 	return TRUE;
 }
 
@@ -431,7 +431,7 @@ range_split_ranges (const Range *hard, const Range *soft)
 	/*
 	 * There are lots of cases so think carefully.
 	 *
-	 * Methodology ( approximately )
+	 * Original Methodology ( approximately )
 	 *	a) Get a vertex: is it contained ?
 	 *	b) Yes: split so it isn't
 	 *	c) Continue for all verticees.
@@ -441,14 +441,17 @@ range_split_ranges (const Range *hard, const Range *soft)
 	 */
 	GList *split  = NULL;
 	Range *middle = g_new (Range, 1), *sp;
-	gboolean a,b;
+	gboolean tl, tr, bl, br; /* Top, Bottom, Left, Right */
 
 	*middle = *soft;
 
+	tl = range_contains (soft, hard->start.col, hard->start.row);
+	tr = range_contains (soft, hard->end.col,   hard->start.row);
+	bl = range_contains (soft, hard->start.col, hard->end.row);
+	br = range_contains (soft, hard->end.col,   hard->end.row);
+
 	/* Left */
-	a = range_contains (soft, hard->start.col, hard->start.row);
-	b = range_contains (soft, hard->end.col,   hard->start.row);
-	if (a || b) {
+	if (tl || bl) {
 		/* Split off left entirely */
 		if (hard->start.col > soft->start.col) {
 			sp = g_new (Range, 1);
@@ -462,9 +465,7 @@ range_split_ranges (const Range *hard, const Range *soft)
 	} 
 
 	/* Right */
-	a = range_contains (soft, hard->end.col, hard->start.row);
-	b = range_contains (soft, hard->end.col, hard->end.row);
-	if (a || b) {
+	if (tr || br) {
 		/* Split off right entirely */
 		if (hard->end.col < soft->end.col) {
 			sp = g_new (Range, 1);
@@ -478,11 +479,9 @@ range_split_ranges (const Range *hard, const Range *soft)
 	} 
 
 	/* Top */
-	a = range_contains (soft, hard->start.col, hard->start.row);
-	b = range_contains (soft, hard->end.col,   hard->start.row);
-	if (a || b)
+	if (tl || tr)
 		middle->start.row = hard->start.row;
-	if (a && b) {
+	if (tl && tr) {
 		if (hard->start.row > soft->start.row) {
 			/* The top middle bit */
 			sp = g_new (Range, 1);
@@ -492,7 +491,7 @@ range_split_ranges (const Range *hard, const Range *soft)
 			sp->end.row   = hard->start.row - 1;
 			split = g_list_prepend (split, sp);
 		} /* else shared edge */
-	} else if (a) {
+	} else if (tl) {
 		if (hard->start.row > soft->start.row) {
 			/* The top middle + right bits */
 			sp = g_new (Range, 1);
@@ -502,7 +501,7 @@ range_split_ranges (const Range *hard, const Range *soft)
 			sp->end.row   = hard->start.row - 1;
 			split = g_list_prepend (split, sp);
 		} /* else shared edge */
-	} else if (b) {
+	} else if (tr) {
 		if (hard->start.row > soft->start.row) {
 			/* The top middle + left bits */
 			sp = g_new (Range, 1);
@@ -515,11 +514,9 @@ range_split_ranges (const Range *hard, const Range *soft)
 	}
 
 	/* Bottom */
-	a = range_contains (soft, hard->start.col, hard->end.row);
-	b = range_contains (soft, hard->end.col,   hard->end.row);
-	if (a || b)
+	if (bl || br)
 		middle->end.row = hard->end.row;
-	if (a && b) {
+	if (bl && br) {
 		if (hard->end.row < soft->end.row) {
 			/* The bottom middle bit */
 			sp = g_new (Range, 1);
@@ -529,7 +526,7 @@ range_split_ranges (const Range *hard, const Range *soft)
 			sp->end.row   = soft->end.row;
 			split = g_list_prepend (split, sp);
 		} /* else shared edge */
-	} else if (a) {
+	} else if (bl) {
 		if (hard->start.row > soft->start.row) {
 			/* The bottom middle + right bits */
 			sp = g_new (Range, 1);
@@ -539,7 +536,7 @@ range_split_ranges (const Range *hard, const Range *soft)
 			sp->end.row   = soft->end.row;
 			split = g_list_prepend (split, sp);
 		} /* else shared edge */
-	} else if (b) {
+	} else if (br) {
 		if (hard->start.row > soft->start.row) {
 			/* The bottom middle + left bits */
 			sp = g_new (Range, 1);
@@ -574,6 +571,10 @@ range_fragment (const GList *ra)
 		while (b) {
 			GList *next = g_list_next (b);
 
+			/*
+			 * FIXME: we need to cull equal ranges to save time
+			 * and effort.
+			 */
 			if (!range_equal (a->data, b->data)
 			    & range_overlap (a->data, b->data)) {
 				GList *split;

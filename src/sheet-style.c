@@ -281,6 +281,8 @@ sheet_style_attach (Sheet *sheet, Range range,
 	 * to speedup lookups.
 	 *
 	 *  Optimize the range fragmentation code.
+	 *
+	 *  Can we afford to merge on the fly ?
 	 */
 
 	sr = g_new (StyleRegion, 1);

@@ -148,24 +148,19 @@ change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 static void
 do_sheet_selection_apply_style (Sheet *sheet, const char *format)
 {
-/*	MStyle *style;
+	MStyle       *style;
 	MStyleElement e;
-	const char *real_format = strchr (_(format), ':');
+	const char   *real_format = strchr (_(format), ':');
 
 	if (real_format)
 		real_format++;
 	else
 		return;
-	
-	style = style_new_empty ();
-	style->valid_flags = STYLE_FORMAT;
-	style->format = style_format_new (real_format);
 
-	e.type = MSTYLE_FONT_SIZE;
-	e.u.font.size = size;
+	e.type = MSTYLE_FORMAT;
+	e.u.format = style_format_new (real_format);
 
-	sheet_selection_apply_style (sheet, style, set_cell_format_style, NULL);*/
-	g_warning ("Fixme format");
+	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
 }
 
 static void

@@ -125,46 +125,6 @@ cell_set_formula (Cell *cell, const char *text)
 	}
 }
 
-/*
- * cell_set_alignment:
- *
- * @cell: the cell to change the alignment of
- * @halign: the horizontal alignemnt
- * @valign: the vertical alignemnt
- * @orient: the text orientation
- *
- * This routine changes the alignment of a cell to those specified.
- */
-void
-cell_set_alignment (Cell *cell, int halign, int valign, int orient, int auto_return)
-{
-	g_warning ("FIXME set alignment");
-}
-
-void
-cell_set_halign (Cell *cell, StyleHAlignFlags const halign)
-{
-/*	g_return_if_fail (cell != NULL);
-
-	if (((unsigned int)cell->style->halign) == ((unsigned int) halign))
-		return;
-
-	cell_modified (cell);
-
-	cell_queue_redraw (cell);
-	cell->style->halign = halign;
-
-	cell_calc_dimensions (cell);
-	cell_queue_redraw (cell);*/
-	g_warning ("FIXME");
-}
-
-void
-cell_set_font_from_style (Cell *cell, StyleFont *style_font)
-{
-	g_warning ("Deprecated set_font_from_style");
-}
-
 void
 cell_comment_destroy (Cell *cell)
 {
@@ -361,118 +321,6 @@ cell_set_comment (Cell *cell, const char *str)
 		cell_comment_realize (cell);
 }
 
-void
-cell_set_foreground (Cell *cell, gushort red, gushort green, gushort blue)
-{
-/*	g_return_if_fail (cell != NULL);
-
-	cell_modified (cell);
-
-	if (cell->style->valid_flags & STYLE_FORE_COLOR)
-		style_color_unref (cell->style->fore_color);
-
-	cell->style->valid_flags |= STYLE_FORE_COLOR;
-	cell->style->fore_color = style_color_new (red, green, blue);
-
-	cell_queue_redraw (cell);*/
-	g_warning ("FIXME set foreground");
-}
-
-void
-cell_set_background (Cell *cell, gushort red, gushort green, gushort blue)
-{
-/*	g_return_if_fail (cell != NULL);
-
-	cell_modified (cell);
-
-	if (cell->style->valid_flags & STYLE_BACK_COLOR)
-		style_color_unref (cell->style->back_color);
-
-	cell->style->valid_flags |= STYLE_BACK_COLOR;
-	cell->style->back_color = style_color_new (red, green, blue);
-
-	cell_queue_redraw (cell);*/
-	g_warning ("FIXME set background");
-}
-
-/**
- * Null pointers unset the style.
- **/
-void
-cell_set_color_from_style (Cell *cell, StyleColor *foreground,
-			   StyleColor *background)
-{
-/*	g_return_if_fail (cell != NULL);
-
-	cell_modified (cell);
-
-	if (cell->style->valid_flags & STYLE_FORE_COLOR) {
-		cell->style->valid_flags ^= STYLE_FORE_COLOR;
-		style_color_unref (cell->style->fore_color);
-	}
-
-	if (cell->style->valid_flags & STYLE_BACK_COLOR) {
-		cell->style->valid_flags ^= STYLE_BACK_COLOR;
-		style_color_unref (cell->style->back_color);
-	}
-
-	if (background) {
-		cell->style->valid_flags |= STYLE_BACK_COLOR;
-		style_color_ref (background);
-	}
-	cell->style->back_color = background;
-
-	if (foreground) {
-		cell->style->valid_flags |= STYLE_FORE_COLOR;
-		style_color_ref (foreground);
-	}
-	cell->style->fore_color = foreground;
-
-	cell_queue_redraw (cell);*/
-	g_warning ("FIXME set color from style");
-}
-
-
-void
-cell_set_pattern (Cell *cell, int pattern)
-{
-/*	g_return_if_fail (cell != NULL);
-
-	cell_modified (cell);
-
-	cell->style->valid_flags |= STYLE_PATTERN;
-	cell->style->pattern = pattern;
-
-	cell_queue_redraw (cell);*/
-	g_warning ("FIXME set pattern");
-}
-
-/**
- * cell_set_border:
- * @cell: the cell
- * @border_type: an array containing the borders for the cell
- * @border_color: an array of StyleColors with the
- * NB. don't unref the StyleColor *s you pass.
- */
-void
-cell_set_border (Cell *cell,
-		 StyleBorderType  const border_type[4],
-		 StyleColor      *border_color[4])
-{
-/*	g_return_if_fail (cell != NULL);
-
-	cell_modified (cell);
-
-  	if (cell->style->valid_flags & STYLE_BORDER)
-		style_border_unref (cell->style->border);
-
-	cell->style->valid_flags |= STYLE_BORDER;
-	cell->style->border = style_border_new (border_type, border_color);
-
-	cell_queue_redraw (cell);*/
-	g_warning ("FIXME set border");
-}
-
 /*
  * cell_set_rendered_text
  * @cell:          the cell we will modify
@@ -499,6 +347,25 @@ cell_set_rendered_text (Cell *cell, const char *rendered_text)
 	cell_calc_dimensions (cell);
 }
 
+static char *
+cell_get_formatted_val (Cell *cell, StyleColor **col)
+{
+	MStyleElement style[MSTYLE_ELEMENT_MAX];
+	char *txt;
+	
+	sheet_style_compute (cell->sheet, cell->col->pos,
+			     cell->row->pos, style);
+	if (style[MSTYLE_FORMAT].type)
+		txt = format_value (style[MSTYLE_FORMAT].u.format,
+				    cell->value, col);
+	else { /* FIXME: serious performance issues here */
+		StyleFormat *format = style_format_new ("General");
+		txt = format_value (format, cell->value, col);
+		style_format_unref (format);
+	}
+	return txt;
+}
+
 /*
  * cell_render_value
  * @cell: The cell whose value needs to be rendered
@@ -519,11 +386,7 @@ cell_render_value (Cell *cell)
 		cell->render_color = NULL;
 	}
 
-	{ /* FIXME: serious performance issues here */
-		Style *style = cell_get_style (cell);
-		str = format_value (style->format, cell->value, &color);
-		style_unref (style);
-	}
+	str = cell_get_formatted_val (cell, &color);
 	cell->render_color = color;
 
 	cell_set_rendered_text (cell, str);
@@ -943,7 +806,7 @@ cell_set_format_simple (Cell *cell, const char *format)
 	MStyleElement e;
 
 	e.type = MSTYLE_FORMAT;
-	e.u.format = g_strdup (format);
+	e.u.format = style_format_new (format);
 
 	cell_set_style (cell, mstyle_new_elem (NULL, e));
 }
@@ -964,31 +827,6 @@ cell_set_format (Cell *cell, const char *format)
 	/* re-render the cell text */
 	cell_render_value (cell);
 	cell_queue_redraw (cell);
-}
-
-void
-cell_set_format_from_style (Cell *cell, StyleFormat *style_format)
-{
-/*	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->value);
-	g_return_if_fail (style_format != NULL);
-
-	cell_modified (cell);
-	cell_queue_redraw (cell);
-
-*//* Change the format *//*
-	style_format_ref (style_format);
-	style_format_unref (cell->style->format);
-
-	cell->style->format = style_format;
-	cell->style->valid_flags |= STYLE_FORMAT;
-	cell->flags |= CELL_FORMAT_SET;
-
-			 *//* re-render the cell text *//*
-	cell_render_value (cell);
-	cell_queue_redraw (cell);
-							*/
-	g_warning ("Set style");
 }
 
 void
@@ -1071,21 +909,26 @@ cell_make_value (Cell *cell)
 int
 cell_get_horizontal_align (const Cell *cell)
 {
-	Style *style = cell_get_style (cell);
-	int    ans = style->halign;
+	MStyleElement style[MSTYLE_ELEMENT_MAX];
+	int align = HALIGN_GENERAL;
+	
+	sheet_style_compute (cell->sheet, cell->col->pos,
+			     cell->row->pos, style);
 
-	if (style->halign == HALIGN_GENERAL) {
+	if (style[MSTYLE_ALIGN_H].type)
+		align = style[MSTYLE_ALIGN_H].u.align.h;
+
+	if (align == HALIGN_GENERAL) {
 		if (cell->value) {
 			if (cell->value->type == VALUE_FLOAT ||
 			    cell->value->type == VALUE_INTEGER)
-				ans = HALIGN_RIGHT;
+				align = HALIGN_RIGHT;
 			else
-				ans = HALIGN_LEFT;
+				align = HALIGN_LEFT;
 		} else
-			ans = HALIGN_RIGHT;
+			align = HALIGN_RIGHT;
 	}
-	style_unref (style);
-	return ans;
+	return align;
 }
 
 int
@@ -1410,13 +1253,8 @@ cell_get_text (Cell *cell)
 
 	if (cell->entered_text)
 		return g_strdup (cell->entered_text->str);
-	else { /* FIXME: serious performance issues here */
-		Style *style = cell_get_style (cell);
-		char  *txt;
-		txt = format_value (style->format, cell->value, NULL);
-		style_unref (style);
-		return txt;
-	}
+	else
+		return cell_get_formatted_val (cell, NULL);
 }
 
 /**
