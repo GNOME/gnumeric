@@ -382,12 +382,14 @@ callback (int iter, float_t *x, float_t bv, float_t cx, int n, void *data)
 }
 
 static void
-count_dimensions (GSList *constraints, CellList *inputs,
+count_dimensions (gboolean assume_non_negative, 
+		  GSList *constraints, CellList *inputs,
 		  int *n_vars, int *n_constrs)
 {
         Cell *cell;
 	int  n_constraints = 0;
 	int  n_variables = 0;
+	int  n_inputs = 0;
 
 	while (constraints != NULL) {
 	        SolverConstraint *c = (SolverConstraint *) constraints->data;
@@ -405,12 +407,15 @@ count_dimensions (GSList *constraints, CellList *inputs,
 	while (inputs != NULL) {
 	        cell = (Cell *) inputs->data;
 
-		n_variables++;
+		n_inputs++;
 		inputs = inputs->next;
 	}
 
-	*n_vars = n_variables;
 	*n_constrs = n_constraints;
+	if (assume_non_negative)
+	        *n_vars = n_variables + n_inputs;
+	else
+	        *n_vars = n_variables + 2*n_inputs;
 }
 
 static int
@@ -447,8 +452,12 @@ make_solver_arrays (Sheet *sheet, SolverParameters *param, int n_variables,
 	        cell = (Cell *) inputs->data;
 
 		c[var] = get_lp_coeff (target, cell);
-
-		var++;
+		if (param->options.assume_non_negative)
+		        var++;
+		else {
+		        c[var+1] = -c[var];
+		        var += 2;
+		}
 		inputs = inputs->next;
 	}
 
@@ -479,7 +488,14 @@ make_solver_arrays (Sheet *sheet, SolverParameters *param, int n_variables,
 
 				A[i + n + j*n_constraints] =
 				  get_lp_coeff (target, cell);
-				j++;
+				if (param->options.assume_non_negative)
+				        j++;
+				else {
+				        A[i + n + (j+1)*n_constraints] =
+					  -A[i + n + j*n_constraints];
+					j += 2;
+				  
+				}
 				inputs = inputs->next;
 			}
 
@@ -538,7 +554,8 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 	constraints = param->constraints;
 	inputs = param->input_cells;
 
-	count_dimensions (constraints, inputs, &n_variables, &n_constraints);
+	count_dimensions (param->options.assume_non_negative, constraints,
+			  inputs, &n_variables, &n_constraints);
 
 	*x = g_new (float_t, n_variables);
 	*sh_pr = g_new (float_t, n_variables);
@@ -561,14 +578,25 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 
 	inputs = param->input_cells;
 	i = 0;
-	while (inputs != NULL) {
-	        char buf[256];
-	        cell = (Cell *) inputs->data;
+	if (param->options.assume_non_negative)
+	        while (inputs != NULL) {
+		        char buf[256];
+			cell = (Cell *) inputs->data;
 		
-		sprintf(buf, "%f", (*x)[i++]);
-		cell_set_text (cell, buf);
-		inputs = inputs->next;
-	}
+			sprintf(buf, "%f", (*x)[i++]);
+			cell_set_text (cell, buf);
+			inputs = inputs->next;
+		}
+	else
+	        while (inputs != NULL) {
+		        char buf[256];
+			cell = (Cell *) inputs->data;
+		
+			sprintf(buf, "%f", (*x)[i] - (*x)[i+1]);
+			cell_set_text (cell, buf);
+			i += 2;
+			inputs = inputs->next;
+		}
 
 	/* FIXME: Do not do the following loop.  Instead recalculate 
 	 * everything that depends on the input variables (the list of
@@ -690,7 +718,8 @@ solver_branch_and_bound (Workbook *wb, Sheet *sheet, float_t **opt_x)
 	constraints = param->constraints;
 	inputs = param->input_cells;
 
-	count_dimensions (constraints, inputs, &n_variables, &n_constraints);
+	count_dimensions (param->options.assume_non_negative, constraints,
+			  inputs, &n_variables, &n_constraints);
 
 	*opt_x = g_new (float_t, n_variables);
 	int_r = g_new (gboolean, n_variables);
@@ -716,16 +745,25 @@ solver_branch_and_bound (Workbook *wb, Sheet *sheet, float_t **opt_x)
 
 	inputs = param->input_cells;
 	i = 0;
-	while (inputs != NULL) {
-	        char    buf[256];
-		float_t x;
-
-	        cell = (Cell *) inputs->data;
-		x = (*opt_x)[i++];
-		sprintf(buf, "%f", x);
-		cell_set_text (cell, buf);
-		inputs = inputs->next;
-	}
+	if (param->options.assume_non_negative)
+	        while (inputs != NULL) {
+		        char buf[256];
+			cell = (Cell *) inputs->data;
+		
+			sprintf(buf, "%f", (*opt_x)[i++]);
+			cell_set_text (cell, buf);
+			inputs = inputs->next;
+		}
+	else
+	        while (inputs != NULL) {
+		        char buf[256];
+			cell = (Cell *) inputs->data;
+		
+			sprintf(buf, "%f", (*opt_x)[i] - (*opt_x)[i+1]);
+			cell_set_text (cell, buf);
+			i += 2;
+			inputs = inputs->next;
+		}
 
 	/* FIXME: Do not do the following loop.  Instead recalculate 
 	 * everything that depends on the input variables (the list of

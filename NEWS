@@ -2,15 +2,16 @@ Gnumeric 0.49
 
 Jukka:
 	* Added `>=' and `=' constraint support for the Solver tool.
+	* The Solver input variables can now have the negative values too.
 	* Added `Int' constraints support by implementing the
-	  Branch-And-Bound algorithm
+	  Branch-And-Bound algorithm.
 	* The Solver parameters are now saved/loaded when the workbook
-	  is saved/loaded
+	  is saved/loaded.
 	* Implemented `Answer Report' generation for Solver.
 	* Started implementation of `Sensitivity Report' generation for
-	  Solver
+	  Solver (currently, not very useful though).
 	* Major GUI improvementes for Solver, i.g. Solver constraints
-          can now be cell ranges, not just cells
+          can now be cell ranges, not just cells.
 	* Added `Advanced Filter' tool.
 	* Added the following distributions for the random number
 	  generation tool:

@@ -98,13 +98,12 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 			    GTK_SIGNAL_FUNC (nonnegative_toggled), sheet);
 
 	gtk_widget_set_sensitive (linearmodel, FALSE);
-	gtk_widget_set_sensitive (nonnegative, FALSE);
 
 	/* Run the dialog */
 	gtk_window_set_modal (GTK_WINDOW (dia), TRUE);
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 
-	if (v == 1) {
+	if (v != 0) {
 	        sheet->solver_parameters.options.assume_linear_model = old_lm;
 		sheet->solver_parameters.options.assume_non_negative = old_nn;
 	}
