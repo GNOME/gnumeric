@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-13 02:10-0400\n"
+"POT-Creation-Date: 2004-07-04 01:44+0900\n"
 "PO-Revision-Date: 2004-03-08 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -864,59 +864,59 @@ msgstr "財務関係"
 msgid "Functions related to financial derivatives"
 msgstr "金融関係の関数"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5611
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5618
 #: plugins/mps/mps.c:549 src/xml-io.c:4135
 msgid "Reading file..."
 msgstr "ファイルの読み込み中..."
 
-#: plugins/dif/dif.c:180
+#: plugins/dif/dif.c:181
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
 msgstr "%d 行に文法エラーがあります。無視します。"
 
-#: plugins/dif/dif.c:211
+#: plugins/dif/dif.c:212
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
 msgstr "不明なデータ値 \"%s\" が %d 行にあります。無視します。"
 
-#: plugins/dif/dif.c:218
+#: plugins/dif/dif.c:219
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
 msgstr "不明なデータ型 %d が %d 行にあります。無視します。"
 
-#: plugins/dif/dif.c:227
+#: plugins/dif/dif.c:228
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
 msgstr "DIF ファイルは最大列数 %d を越えています。残りの列を無視します。"
 
-#: plugins/dif/dif.c:231
+#: plugins/dif/dif.c:232
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
 msgstr "DIF ファイルは最大列数 %d を越えています。残りの列を無視します。"
 
-#: plugins/dif/dif.c:243
+#: plugins/dif/dif.c:244
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
 msgstr "ヘッダの読み込み中に %d 行で予期しない終了があります。"
 
-#: plugins/dif/dif.c:247
+#: plugins/dif/dif.c:248
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
 msgstr "データの読み込み中に %d 行で予期しない終了があります。"
 
-#: plugins/dif/dif.c:265
+#: plugins/dif/dif.c:266
 msgid "Error while reading DIF file."
 msgstr "DIF ファイルの読み込み中にエラーが発生しました。"
 
-#: plugins/dif/dif.c:285
+#: plugins/dif/dif.c:286
 msgid "Cannot get default sheet."
 msgstr "デフォルトシートが取得できません"
 
-#: plugins/dif/dif.c:322
+#: plugins/dif/dif.c:323
 msgid "Error while saving DIF file."
 msgstr "DIF ファイルの保存中にエラーが発生しました。"
 
@@ -1015,11 +1015,11 @@ msgstr "外部参照"
 msgid "No password supplied"
 msgstr "パスワードがありません"
 
-#: plugins/excel/ms-excel-read.c:5840
+#: plugins/excel/ms-excel-read.c:5847
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "有効な MS Excel のワークブックが見つかりません"
 
-#: plugins/excel/ms-excel-write.c:156
+#: plugins/excel/ms-excel-write.c:177
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
@@ -1028,7 +1028,7 @@ msgstr ""
 "これはどこかが壊れています。\n"
 "エンコーディングの問題で省略された文字列の長さはすでに書きこみました。"
 
-#: plugins/excel/ms-excel-write.c:3879
+#: plugins/excel/ms-excel-write.c:3892
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1037,7 +1037,7 @@ msgstr ""
 "MS Excel(tm) 95型式で保存すると失われるデータがあります。Excel 95型式は%d行ま"
 "でサポートしていますが、このワークブックには%d行あります"
 
-#: plugins/excel/ms-excel-write.c:3886
+#: plugins/excel/ms-excel-write.c:3899
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1046,11 +1046,11 @@ msgstr ""
 "MS Excel(tm)型式で保存すると失われるデータがあります。Excel型式は%d行までサ"
 "ポートしていますが、このワークブックには%d行あります"
 
-#: plugins/excel/ms-excel-write.c:4350
+#: plugins/excel/ms-excel-write.c:4421
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "書き込み用のストリーム'Book'を開けませんでした\n"
 
-#: plugins/excel/ms-excel-write.c:4370
+#: plugins/excel/ms-excel-write.c:4441
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "書き込み用のストリーム'Workbook'が開けませんでした\n"
 
@@ -1095,7 +1095,8 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP ファイル形式"
 
 #: plugins/excel/plugin.xml.in.h:6
-msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
+#, fuzzy
+msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP 及び 5.0/95 ファイル形式"
 
 #: plugins/excel/plugin.xml.in.h:7
@@ -7194,9 +7195,9 @@ msgstr "%s バージョン %s"
 #: plugins/fn-info/functions.c:1315
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:853
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:117
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:886
-#: src/dialogs/dialog-cell-format.c:2365 src/dialogs/dialog-cell-format.c:2370
-#: src/dialogs/dialog-cell-format.c:2380 src/wbc-gtk.c:435
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:819
+#: src/dialogs/dialog-cell-format.c:2363 src/dialogs/dialog-cell-format.c:2368
+#: src/dialogs/dialog-cell-format.c:2378 src/wbc-gtk.c:436
 msgid "Automatic"
 msgstr "自動"
 
@@ -14505,7 +14506,7 @@ msgid "x,a,b"
 msgstr "タブ"
 
 #: plugins/fn-stat/functions.c:5889
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:227
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:226
 msgid "x"
 msgstr ""
 
@@ -15433,7 +15434,8 @@ msgid "HTML"
 msgstr ""
 
 #: plugins/html/plugin.xml.in.h:2
-msgid "HTML & TeX"
+#, fuzzy
+msgid "HTML &amp; TeX"
 msgstr "HTML と TeX"
 
 #: plugins/html/plugin.xml.in.h:3
@@ -15513,18 +15515,18 @@ msgstr "制約条件:"
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:363
 #: src/dialogs/dialog-simulation.c:217 src/dialogs/dialog-zoom.c:198
-#: src/format-template.c:247 src/tools/solver/reports-write.c:81
-#: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
-#: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
-#: src/tools/solver/reports-write.c:395 src/tools/solver/reports-write.c:402
-#: src/tools/solver/reports-write.c:671
+#: src/format-template.c:247 src/tools/solver/reports-write.c:79
+#: src/tools/solver/reports-write.c:101 src/tools/solver/reports-write.c:128
+#: src/tools/solver/reports-write.c:235 src/tools/solver/reports-write.c:281
+#: src/tools/solver/reports-write.c:393 src/tools/solver/reports-write.c:400
+#: src/tools/solver/reports-write.c:668
 msgid "Name"
 msgstr "名前"
 
-#: plugins/mps/mps.c:274 src/dialogs/dialog-preferences.c:459
-#: src/dialogs/dialog-simulation.c:222 src/tools/solver/reports-write.c:238
-#: src/tools/solver/reports-write.c:284 src/tools/solver/reports-write.c:396
-#: src/tools/solver/reports-write.c:403
+#: plugins/mps/mps.c:274 src/dialogs/dialog-preferences.c:458
+#: src/dialogs/dialog-simulation.c:222 src/tools/solver/reports-write.c:236
+#: src/tools/solver/reports-write.c:282 src/tools/solver/reports-write.c:394
+#: src/tools/solver/reports-write.c:401
 msgid "Value"
 msgstr "値"
 
@@ -15532,7 +15534,7 @@ msgstr "値"
 #. * Fill in the labels of `General Info' section.
 #.
 #: plugins/mps/mps.c:275 src/dialogs/dialog-formula-guru.c:819
-#: src/dialogs/dialog-search.c:401 src/tools/solver/reports-write.c:518
+#: src/dialogs/dialog-search.c:401 src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "型"
 
@@ -15540,7 +15542,7 @@ msgstr "型"
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:277 src/tools/solver/reports-write.c:134
+#: plugins/mps/mps.c:277 src/tools/solver/reports-write.c:132
 msgid "Slack"
 msgstr "Slack"
 
@@ -16999,7 +17001,7 @@ msgstr ""
 msgid "result passes the sheet boundary"
 msgstr "結果はシートの境界を渡す"
 
-#: src/cmd-edit.c:301
+#: src/cmd-edit.c:319
 #, c-format
 msgid ""
 "destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n"
@@ -17010,30 +17012,30 @@ msgstr ""
 "\n"
 "1つのセルを選択するか、元の範囲と同じ形状同じ大きさを選択してください。"
 
-#: src/cmd-edit.c:307
+#: src/cmd-edit.c:325
 msgid "Unable to paste into selection"
 msgstr "選択した場所に貼り付けることができません"
 
-#: src/cmd-edit.c:344
+#: src/cmd-edit.c:362
 msgid "Paste"
 msgstr "貼付け"
 
-#: src/cmd-edit.c:388
+#: src/cmd-edit.c:406
 #, c-format
 msgid "Shift rows %s"
 msgstr "行 %s のシフト"
 
-#: src/cmd-edit.c:389
+#: src/cmd-edit.c:407
 #, c-format
 msgid "Shift row %s"
 msgstr "行 %s のシフト"
 
-#: src/cmd-edit.c:426
+#: src/cmd-edit.c:444
 #, c-format
 msgid "Shift columns %s"
 msgstr "列 %s のシフト"
 
-#: src/cmd-edit.c:427
+#: src/cmd-edit.c:445
 #, c-format
 msgid "Shift column %s"
 msgstr "列 %s のシフト"
@@ -17075,11 +17077,11 @@ msgstr "%s に \"%s%s\" を入力"
 msgid "Typing \"%s%s\""
 msgstr "\"%s%s\"を入力"
 
-#: src/commands.c:1226 src/commands.c:1231 src/sheet.c:3201
+#: src/commands.c:1226 src/commands.c:1231 src/sheet.c:3202
 msgid "Delete Columns"
 msgstr "列を削除"
 
-#: src/commands.c:1226 src/commands.c:1231 src/sheet.c:3319
+#: src/commands.c:1226 src/commands.c:1231 src/sheet.c:3320
 msgid "Delete Rows"
 msgstr "行を削除"
 
@@ -17124,7 +17126,7 @@ msgid "Deleting row %s"
 msgstr "%s 行の削除"
 
 #. Check for locked cells
-#: src/commands.c:1497 src/commands.c:1501 src/sheet.c:2815
+#: src/commands.c:1497 src/commands.c:1501 src/sheet.c:2816
 msgid "Clear"
 msgstr "消去"
 
@@ -17219,7 +17221,7 @@ msgstr "列 %s の幅をデフォルト値にします"
 msgid "Setting height of rows %s to default"
 msgstr "行 %s の高さをデフォルト値にします"
 
-#: src/commands.c:2006 src/dialogs/dialog-preferences.c:816
+#: src/commands.c:2006 src/dialogs/dialog-preferences.c:815
 msgid "Sorting"
 msgstr "ソート"
 
@@ -17509,9 +17511,9 @@ msgstr "列を削除"
 #.
 #. Fill in the header titles.
 #: src/commands.c:6319 src/dialogs/solver.glade.h:19
-#: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
-#: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
-#: src/tools/solver/reports-write.c:908 src/tools/solver/reports-write.c:959
+#: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
+#: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
+#: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
 msgid "Solver"
 msgstr "ソルバ"
 
@@ -17535,12 +17537,12 @@ msgstr "依存関係を表にする"
 msgid "Reconfigure Graph"
 msgstr "ツールバーを設定します"
 
-#: src/consolidate.c:773
+#: src/consolidate.c:771
 #, fuzzy, c-format
 msgid "Consolidating to (%s)"
 msgstr "%s!%s へ合成する"
 
-#: src/consolidate.c:812 src/consolidate.c:815
+#: src/consolidate.c:810 src/consolidate.c:813
 #, fuzzy
 msgid "Data Consolidation"
 msgstr "データの合成"
@@ -17774,7 +17776,7 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1281
 #: src/dialogs/dialog-plugin-manager.c:730
-#: src/dialogs/dialog-preferences.c:451 src/dialogs/function-select.glade.h:2
+#: src/dialogs/dialog-preferences.c:450 src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "説明"
 
@@ -17983,17 +17985,17 @@ msgid ""
 "wallpaper"
 msgstr "壁紙"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:176 src/gui-file.c:340
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:156 src/gui-file.c:341
 #, fuzzy, c-format
 msgid "%d x %d"
 msgstr "%dR x %dC"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:900
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:812
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:833
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:811
 msgid "Font"
 msgstr "フォント"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:988
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:921
 #: src/dialogs/pivottable.glade.h:4
 #, fuzzy
 msgid "Style"
@@ -18001,28 +18003,28 @@ msgstr "スタイル(_S)"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:399
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:397
 #: src/dialogs/dialog-sheet-order.c:1049 src/dialogs/dialog-sheet-order.c:1058
 msgid "Default"
 msgstr "デフォルト"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:454
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:452
 msgid "Guppi"
 msgstr "Guppi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:312
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:326
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:227
 #: src/dialogs/consolidate.glade.h:7
 msgid "Labels"
 msgstr "ラベル"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:314
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:328
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:229
 msgid "Values"
 msgstr "値"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:433
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:448
 #, fuzzy
 msgid "Error bars"
 msgstr "行の構文解析中にエラーが発生しました"
@@ -18031,7 +18033,7 @@ msgstr "行の構文解析中にエラーが発生しました"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:4136
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -18064,7 +18066,7 @@ msgstr ""
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:90
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:92
 #, fuzzy
 msgid "PlotLine"
 msgstr "プロット(_P)"
@@ -18073,7 +18075,7 @@ msgstr "プロット(_P)"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:209
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:211
 #, fuzzy
 msgid "PlotArea"
 msgstr "プロット(_P)"
@@ -18527,12 +18529,12 @@ msgstr "二重"
 msgid "Bubble"
 msgstr "バブル"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:965
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:968
 #, fuzzy
 msgid "Y Error bars"
 msgstr "行の構文解析中にエラーが発生しました"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:967
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:970
 #, fuzzy
 msgid "X Error bars"
 msgstr "行の構文解析中にエラーが発生しました"
@@ -18800,90 +18802,90 @@ msgstr "ツールバーを結合する"
 msgid "Un dock the toolbar"
 msgstr "ツールバーの結合を解除"
 
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:222
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:223
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:224
 #, fuzzy
 msgid "Shadow type"
 msgstr "影"
 
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:233
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:234
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:235
 msgid "Orientation"
 msgstr "方向"
 
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:244
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:245
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:246
 msgid "Preferred width"
 msgstr "指定する幅"
 
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:253
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:254
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:255
 msgid "Preferred height"
 msgstr "指定する高さ"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:219
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:218
 msgid "none"
 msgstr "なし"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:220
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:219
 msgid "square"
 msgstr "正方形"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:221
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:220
 msgid "diamond"
 msgstr "ダイヤモンド"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:222
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:221
 msgid "triangle down"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:223
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:222
 #, fuzzy
 msgid "triangle up"
 msgstr "範囲(_N)"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:224
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:223
 #, fuzzy
 msgid "triangle right"
 msgstr "右のアウトライン(_R)"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:225
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:224
 msgid "triangle left"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:226
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:225
 msgid "circle"
 msgstr "円形"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:228
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:227
 #, fuzzy
 msgid "cross"
 msgstr "行"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:229
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:228
 msgid "asterisk"
 msgstr "アスタリスク"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:230
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:229
 #, fuzzy
 msgid "bar"
 msgstr "3月"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:231
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:230
 msgid "half bar"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:232
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:231
 msgid "butterfly"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:233
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:232
 msgid "hourglass"
 msgstr ""
 
 #. xgettext : this will appear as 'Automatic (shapename)'
 #. xgettext : this will appear as 'Automatic (patternname)'
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:590
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:589
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:239
 #, fuzzy, c-format
 msgid "Automatic (%s)"
@@ -19225,7 +19227,7 @@ msgstr "グループ化"
 #: src/dialogs/moving-averages.glade.h:7 src/dialogs/print.glade.h:14
 #: src/dialogs/random-generation.glade.h:3 src/dialogs/rank.glade.h:3
 #: src/dialogs/scenario-manager.glade.h:9 src/dialogs/simulation.glade.h:14
-#: src/dialogs/solver.glade.h:13 src/tools/solver/reports-write.c:755
+#: src/dialogs/solver.glade.h:13 src/tools/solver/reports-write.c:751
 msgid "Options"
 msgstr "オプション"
 
@@ -19622,16 +19624,16 @@ msgid ""
 "Custom"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2375
-#: src/wbc-gtk.c:487 src/wbc-gtk.c:488 src/wbc-gtk.c:495
+#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2373
+#: src/wbc-gtk.c:488 src/wbc-gtk.c:489 src/wbc-gtk.c:496
 msgid "Background"
 msgstr "背景"
 
-#: src/dialogs/cell-format.glade.h:37 src/dialogs/dialog-cell-format.c:2365
+#: src/dialogs/cell-format.glade.h:37 src/dialogs/dialog-cell-format.c:2363
 msgid "Border"
 msgstr "罫線"
 
-#: src/dialogs/cell-format.glade.h:38 src/wbc-gtk.c:198
+#: src/dialogs/cell-format.glade.h:38 src/wbc-gtk.c:199
 msgid "Bottom"
 msgstr "下"
 
@@ -19659,7 +19661,7 @@ msgstr "条件(_D):"
 msgid "Diagonal"
 msgstr "左下がりの対角線"
 
-#: src/dialogs/cell-format.glade.h:50 src/dialogs/dialog-cell-format.c:2302
+#: src/dialogs/cell-format.glade.h:50 src/dialogs/dialog-cell-format.c:2300
 msgid "Format Cells"
 msgstr "セルの書式設定"
 
@@ -19695,7 +19697,7 @@ msgstr "内側・垂直"
 msgid "J_ustify"
 msgstr "両端揃え(_U)"
 
-#: src/dialogs/cell-format.glade.h:61 src/wbc-gtk.c:190
+#: src/dialogs/cell-format.glade.h:61 src/wbc-gtk.c:191
 msgid "Left"
 msgstr "左"
 
@@ -19704,7 +19706,7 @@ msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr "セルのロックや式を隠すのは保護されたワークシートのみに有効です"
 
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:89
-#: src/dialogs/dialog-paste-special.c:55 src/tools/solver/reports-write.c:722
+#: src/dialogs/dialog-paste-special.c:55 src/tools/solver/reports-write.c:718
 msgid "None"
 msgstr "なし"
 
@@ -19720,7 +19722,7 @@ msgstr "保護"
 msgid "Reverse Diagonal"
 msgstr "右下がりの対角線"
 
-#: src/dialogs/cell-format.glade.h:68 src/wbc-gtk.c:192
+#: src/dialogs/cell-format.glade.h:68 src/wbc-gtk.c:193
 msgid "Right"
 msgstr "右"
 
@@ -19972,13 +19974,13 @@ msgstr "出力(_O)"
 msgid "_Source areas:"
 msgstr "ソース領域(S_):"
 
-#: src/dialogs/correlation.glade.h:1 src/tools/analysis-tools.c:783
-#: src/tools/analysis-tools.c:786
+#: src/dialogs/correlation.glade.h:1 src/tools/analysis-tools.c:854
+#: src/tools/analysis-tools.c:857
 msgid "Correlation"
 msgstr "相関"
 
-#: src/dialogs/covariance.glade.h:1 src/tools/analysis-tools.c:887
-#: src/tools/analysis-tools.c:890 src/wbcg-actions.c:1887
+#: src/dialogs/covariance.glade.h:1 src/tools/analysis-tools.c:958
+#: src/tools/analysis-tools.c:961 src/wbcg-actions.c:1887
 msgid "Covariance"
 msgstr "共分散"
 
@@ -20058,8 +20060,8 @@ msgstr "(1 - α): "
 msgid "Confidence Interval for the _Mean"
 msgstr "平均の信頼範囲(_M)"
 
-#: src/dialogs/descriptive-stats.glade.h:5 src/tools/analysis-tools.c:1181
-#: src/tools/analysis-tools.c:1184
+#: src/dialogs/descriptive-stats.glade.h:5 src/tools/analysis-tools.c:1349
+#: src/tools/analysis-tools.c:1352
 msgid "Descriptive Statistics"
 msgstr "記述統計"
 
@@ -20284,8 +20286,8 @@ msgstr "一致するレコードが見つかりませんでした。"
 #: src/dialogs/dialog-advanced-filter.c:153
 #: src/dialogs/dialog-analysis-tools.c:574
 #: src/dialogs/dialog-analysis-tools.c:693
-#: src/dialogs/dialog-analysis-tools.c:2000
-#: src/dialogs/dialog-analysis-tools.c:2857
+#: src/dialogs/dialog-analysis-tools.c:2002
+#: src/dialogs/dialog-analysis-tools.c:2859
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "予期しないエラーが発生しました: %d"
@@ -20295,16 +20297,16 @@ msgid "Could not create the Advanced Filter dialog."
 msgstr "拡張フィルタダイアログを作成できませんでした。"
 
 #: src/dialogs/dialog-analysis-tools.c:495
-#: src/dialogs/dialog-analysis-tools.c:1035
-#: src/dialogs/dialog-analysis-tools.c:2684
-#: src/dialogs/dialog-analysis-tools.c:2898 src/dialogs/dialog-shuffle.c:76
+#: src/dialogs/dialog-analysis-tools.c:1037
+#: src/dialogs/dialog-analysis-tools.c:2686
+#: src/dialogs/dialog-analysis-tools.c:2900 src/dialogs/dialog-shuffle.c:76
 msgid "The input range is invalid."
 msgstr "入力範囲が正しくありません。"
 
 #: src/dialogs/dialog-analysis-tools.c:504
-#: src/dialogs/dialog-analysis-tools.c:1086
-#: src/dialogs/dialog-analysis-tools.c:2704
-#: src/dialogs/dialog-analysis-tools.c:2930
+#: src/dialogs/dialog-analysis-tools.c:1088
+#: src/dialogs/dialog-analysis-tools.c:2706
+#: src/dialogs/dialog-analysis-tools.c:2932
 msgid "The output specification is invalid."
 msgstr "出力の指定が正しくありません。"
 
@@ -20339,24 +20341,24 @@ msgstr "ランクと百分率ツールダイアログを作成できませんで
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "フーリエ分析ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1044
+#: src/dialogs/dialog-analysis-tools.c:1046
 msgid "No statistics is selected."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1054
+#: src/dialogs/dialog-analysis-tools.c:1056
 msgid "The confidence level should be between 0 and 1."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1066
-#: src/dialogs/dialog-analysis-tools.c:1077
+#: src/dialogs/dialog-analysis-tools.c:1068
+#: src/dialogs/dialog-analysis-tools.c:1079
 msgid "K must be a positive integer."
 msgstr "Kは正の整数でなければなりません。"
 
-#: src/dialogs/dialog-analysis-tools.c:1126
+#: src/dialogs/dialog-analysis-tools.c:1128
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "記述統計ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1271
+#: src/dialogs/dialog-analysis-tools.c:1273
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -20364,7 +20366,7 @@ msgstr ""
 "変数 1 に対する\n"
 "正しい母分散を入力して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:1280
+#: src/dialogs/dialog-analysis-tools.c:1282
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -20372,50 +20374,50 @@ msgstr ""
 "変数 2 に対する\n"
 "正しい母分散を入力して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:1496
+#: src/dialogs/dialog-analysis-tools.c:1498
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "中間試験ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1685
+#: src/dialogs/dialog-analysis-tools.c:1687
 msgid "Could not create the FTest Tool dialog."
 msgstr "期末試験ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1879
+#: src/dialogs/dialog-analysis-tools.c:1881
 msgid "Could not create the Sampling Tool dialog."
 msgstr "サンプリングツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1995 src/tools/analysis-tools.c:2151
-#: src/tools/analysis-tools.c:2230
+#: src/dialogs/dialog-analysis-tools.c:1997 src/tools/analysis-tools.c:2319
+#: src/tools/analysis-tools.c:2398
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "回帰の各変数のエントリ数と等しくなければなりません。"
 
-#: src/dialogs/dialog-analysis-tools.c:2089
+#: src/dialogs/dialog-analysis-tools.c:2091
 msgid "Could not create the Regression Tool dialog."
 msgstr "Regression ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2217
+#: src/dialogs/dialog-analysis-tools.c:2219
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "指数のスムーズ化ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2350
+#: src/dialogs/dialog-analysis-tools.c:2352
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "平均移動ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2561
+#: src/dialogs/dialog-analysis-tools.c:2563
 msgid "Could not create the Histogram Tool dialog."
 msgstr "ヒストグラムツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2695
-#: src/dialogs/dialog-analysis-tools.c:2909
+#: src/dialogs/dialog-analysis-tools.c:2697
+#: src/dialogs/dialog-analysis-tools.c:2911
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "α値は0と1の間の数値にしてください。"
 
-#: src/dialogs/dialog-analysis-tools.c:2743
+#: src/dialogs/dialog-analysis-tools.c:2745
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "分散解析 (一次元配置) ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2823
+#: src/dialogs/dialog-analysis-tools.c:2825
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -20423,45 +20425,45 @@ msgstr ""
 "入力範囲には、少なくともデータとラベルに対する二つの行と二つの列を指定して下"
 "さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2826
+#: src/dialogs/dialog-analysis-tools.c:2828
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 "入力範囲には、少なくともデータに対する二つの行と二つの列を指定して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2832
+#: src/dialogs/dialog-analysis-tools.c:2834
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 "入力範囲は少なくともデータとラベルの 2 つの列を含まなければなりません。"
 
-#: src/dialogs/dialog-analysis-tools.c:2835
+#: src/dialogs/dialog-analysis-tools.c:2837
 msgid "The given input range should contain at least two columns of data."
 msgstr "入力範囲には、少なくともデータに対する二つの列を指定して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2841
+#: src/dialogs/dialog-analysis-tools.c:2843
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 "入力範囲には、少なくともデータとラベルに対する二つの行を指定して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2844
+#: src/dialogs/dialog-analysis-tools.c:2846
 msgid "The given input range should contain at least two rows of data."
 msgstr "入力範囲には、少なくともデータに対する二つの行を指定して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2851
+#: src/dialogs/dialog-analysis-tools.c:2853
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "データ列の数はコピーした複数の数にして下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2921
+#: src/dialogs/dialog-analysis-tools.c:2923
 #, fuzzy
 msgid "The number of rows per sample should be a positive integer."
 msgstr "データ列の数は正数にしてください。"
 
-#: src/dialogs/dialog-analysis-tools.c:2967
+#: src/dialogs/dialog-analysis-tools.c:2969
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "分散解析 (二次元配置) ツールダイアログを作成できませんでした。"
 
@@ -20486,8 +20488,8 @@ msgid "Mar"
 msgstr "3月"
 
 #: src/dialogs/dialog-autoformat.c:77 src/dialogs/dialog-autoformat.c:81
-#: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
-#: src/tools/analysis-tools.c:3370
+#: src/tools/analysis-tools.c:3520 src/tools/analysis-tools.c:3530
+#: src/tools/analysis-tools.c:3538
 msgid "Total"
 msgstr "合計"
 
@@ -20588,67 +20590,67 @@ msgstr "一重"
 msgid "Double"
 msgstr "二重"
 
-#: src/dialogs/dialog-cell-format.c:470 src/dialogs/dialog-search.c:148
+#: src/dialogs/dialog-cell-format.c:468 src/dialogs/dialog-search.c:148
 #: src/func.c:671 src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "数値"
 
-#: src/dialogs/dialog-cell-format.c:676 src/dialogs/dialog-stf-main-page.c:381
+#: src/dialogs/dialog-cell-format.c:674 src/dialogs/dialog-stf-main-page.c:381
 #: src/widgets/widget-format-selector.c:84
 msgid "Text"
 msgstr "テキスト"
 
-#: src/dialogs/dialog-cell-format.c:1813
+#: src/dialogs/dialog-cell-format.c:1811
 msgid "Source"
 msgstr "ソース"
 
-#: src/dialogs/dialog-cell-format.c:1814
+#: src/dialogs/dialog-cell-format.c:1812
 msgid "Criteria"
 msgstr "条件"
 
-#: src/dialogs/dialog-cell-format.c:1826 src/dialogs/dialog-cell-format.c:1833
+#: src/dialogs/dialog-cell-format.c:1824 src/dialogs/dialog-cell-format.c:1831
 msgid "Min :"
 msgstr "最小 :"
 
-#: src/dialogs/dialog-cell-format.c:1827 src/dialogs/dialog-cell-format.c:1836
+#: src/dialogs/dialog-cell-format.c:1825 src/dialogs/dialog-cell-format.c:1834
 msgid "Max :"
 msgstr "最大 :"
 
-#: src/dialogs/dialog-cell-format.c:1830
+#: src/dialogs/dialog-cell-format.c:1828
 msgid "Value :"
 msgstr "値 :"
 
-#: src/dialogs/dialog-cell-format.c:1920
+#: src/dialogs/dialog-cell-format.c:1918
 msgid "None          (silently accept invalid input)"
 msgstr "なし         (不正な入力を黙って受け入れます)"
 
-#: src/dialogs/dialog-cell-format.c:1928
+#: src/dialogs/dialog-cell-format.c:1926
 msgid "Stop            (never allow invalid input)"
 msgstr "停止           (不正な入力は許可しません)"
 
-#: src/dialogs/dialog-cell-format.c:1936
+#: src/dialogs/dialog-cell-format.c:1934
 msgid "Warning     (accept/discard invalid input)"
 msgstr "警告      (不正な入力を受け入れる/無視する)"
 
-#: src/dialogs/dialog-cell-format.c:1944
+#: src/dialogs/dialog-cell-format.c:1942
 msgid "Information (allow invalid input)"
 msgstr "情報 (不正な入力も許可されます)"
 
-#: src/dialogs/dialog-cell-format.c:2116
+#: src/dialogs/dialog-cell-format.c:2114
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2370 src/wbc-gtk.c:168 src/wbc-gtk.c:301
-#: src/wbc-gtk.c:437 src/wbc-gtk.c:438 src/wbc-gtk.c:447 src/wbc-gtk.c:540
-#: src/wbc-gtk.c:591
+#: src/dialogs/dialog-cell-format.c:2368 src/wbc-gtk.c:169 src/wbc-gtk.c:302
+#: src/wbc-gtk.c:438 src/wbc-gtk.c:439 src/wbc-gtk.c:448 src/wbc-gtk.c:541
+#: src/wbc-gtk.c:592
 msgid "Foreground"
 msgstr "文字色"
 
-#: src/dialogs/dialog-cell-format.c:2375 src/wbc-gtk.c:485
+#: src/dialogs/dialog-cell-format.c:2373 src/wbc-gtk.c:486
 msgid "Clear Background"
 msgstr "背景を消去"
 
-#: src/dialogs/dialog-cell-format.c:2380
+#: src/dialogs/dialog-cell-format.c:2378
 msgid "Pattern"
 msgstr "パターン"
 
@@ -20662,7 +20664,7 @@ msgstr "列 %s"
 msgid "Row %s"
 msgstr "行 %s"
 
-#: src/dialogs/dialog-cell-sort.c:154 src/tools/solver/reports-write.c:688
+#: src/dialogs/dialog-cell-sort.c:154
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
@@ -20823,10 +20825,10 @@ msgstr "ワークブック・レベル"
 #. * Fill in the labels of `Constraints' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:295 src/dialogs/dialog-search.c:400
-#: src/dialogs/tabulate.glade.h:2 src/tools/solver/reports-write.c:80
-#: src/tools/solver/reports-write.c:102 src/tools/solver/reports-write.c:129
-#: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
-#: src/tools/solver/reports-write.c:394 src/tools/solver/reports-write.c:401
+#: src/dialogs/tabulate.glade.h:2 src/tools/solver/reports-write.c:78
+#: src/tools/solver/reports-write.c:100 src/tools/solver/reports-write.c:127
+#: src/tools/solver/reports-write.c:234 src/tools/solver/reports-write.c:280
+#: src/tools/solver/reports-write.c:392 src/tools/solver/reports-write.c:399
 msgid "Cell"
 msgstr "セル"
 
@@ -20886,7 +20888,7 @@ msgstr "ハイパーリンクの削除"
 msgid "Could not create the hyperlink dialog."
 msgstr "ハイパーリンクダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-insert-cells.c:136 src/workbook-control-gui.c:525
+#: src/dialogs/dialog-insert-cells.c:136 src/workbook-control-gui.c:524
 msgid "Insert"
 msgstr "挿入"
 
@@ -21063,13 +21065,13 @@ msgstr "ID"
 msgid "Directory"
 msgstr "ディレクトリ"
 
-#: src/dialogs/dialog-preferences.c:655
+#: src/dialogs/dialog-preferences.c:654
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "このページにあるアイテムは \"元に戻す/やり直す\" システムの動作をカスタマイズ"
 "します。"
 
-#: src/dialogs/dialog-preferences.c:690
+#: src/dialogs/dialog-preferences.c:689
 #, fuzzy
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
@@ -21078,38 +21080,38 @@ msgstr ""
 "このページにあるアイテムは \"元に戻す/やり直す\" システムの動作をカスタマイズ"
 "します。"
 
-#: src/dialogs/dialog-preferences.c:728
+#: src/dialogs/dialog-preferences.c:727
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 "このページにあるアイテムは、新しいデフォルトのワークブックをカスタマイズしま"
 "す。"
 
-#: src/dialogs/dialog-preferences.c:768
+#: src/dialogs/dialog-preferences.c:767
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 "このページにあるアイテムは \"ファイルを開く/保存する\" に影響を与えます。"
 
-#: src/dialogs/dialog-preferences.c:813
+#: src/dialogs/dialog-preferences.c:812
 msgid "Windows"
 msgstr "ウィンドウ"
 
-#: src/dialogs/dialog-preferences.c:814
+#: src/dialogs/dialog-preferences.c:813
 msgid "Files"
 msgstr "ファイル"
 
-#: src/dialogs/dialog-preferences.c:815 src/wbc-gtk.c:375
+#: src/dialogs/dialog-preferences.c:814 src/wbc-gtk.c:376
 msgid "Undo"
 msgstr "元に戻す"
 
-#: src/dialogs/dialog-preferences.c:817
+#: src/dialogs/dialog-preferences.c:816
 msgid "Various"
 msgstr "変数"
 
-#: src/dialogs/dialog-preferences.c:818
+#: src/dialogs/dialog-preferences.c:817
 msgid "Internal"
 msgstr "内部"
 
-#: src/dialogs/dialog-preferences.c:819
+#: src/dialogs/dialog-preferences.c:818
 msgid "Header/Footer"
 msgstr "ヘッダ/フッタ"
 
@@ -21163,7 +21165,7 @@ msgid "_Standard Deviation:"
 msgstr "標準偏差(_S):"
 
 #: src/dialogs/dialog-random-generator.c:118
-#: src/tools/solver/reports-write.c:716
+#: src/tools/solver/reports-write.c:712
 msgid "Discrete"
 msgstr "離散"
 
@@ -21451,8 +21453,8 @@ msgstr "この置換を行わない"
 msgid "Comment"
 msgstr "注釈"
 
-#: src/dialogs/dialog-search.c:132 src/tools/solver/reports-write.c:408
-#: src/tools/solver/reports-write.c:413
+#: src/dialogs/dialog-search.c:132 src/tools/solver/reports-write.c:406
+#: src/tools/solver/reports-write.c:411
 msgid "Result"
 msgstr "結果"
 
@@ -21541,16 +21543,16 @@ msgid "Variable"
 msgstr "変数"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:1862
+#: src/workbook-control-gui.c:1861
 msgid "Min"
 msgstr "最小"
 
-#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1864
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1863
 msgid "Average"
 msgstr "算術平均値"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:1863
+#: src/workbook-control-gui.c:1862
 msgid "Max"
 msgstr "最大"
 
@@ -22257,8 +22259,8 @@ msgstr "選択部分のフィット(_F) %"
 msgid "0.2"
 msgstr "0.2"
 
-#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:2689
-#: src/tools/analysis-tools.c:2692
+#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:2857
+#: src/tools/analysis-tools.c:2860
 msgid "Exponential Smoothing"
 msgstr "指数のスムーズ化"
 
@@ -22536,8 +22538,8 @@ msgstr "瓶の範囲(_R):"
 msgid "C_umulative percentages"
 msgstr "累積パーセンテージ(_U)"
 
-#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4069
-#: src/tools/analysis-tools.c:4072
+#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4237
+#: src/tools/analysis-tools.c:4240
 msgid "Histogram"
 msgstr "ヒストグラム"
 
@@ -22731,8 +22733,8 @@ msgstr "3"
 msgid "C_olumns"
 msgstr "列"
 
-#: src/dialogs/moving-averages.glade.h:6 src/tools/analysis-tools.c:2556
-#: src/tools/analysis-tools.c:2559
+#: src/dialogs/moving-averages.glade.h:6 src/tools/analysis-tools.c:2724
+#: src/tools/analysis-tools.c:2727
 msgid "Moving Average"
 msgstr "移動平均"
 
@@ -23041,8 +23043,8 @@ msgstr "0.95"
 msgid "Confidence level:"
 msgstr "信頼レベル:"
 
-#: src/dialogs/regression.glade.h:6 src/tools/analysis-tools.c:2434
-#: src/tools/analysis-tools.c:2437
+#: src/dialogs/regression.glade.h:6 src/tools/analysis-tools.c:2602
+#: src/tools/analysis-tools.c:2605
 msgid "Regression"
 msgstr "回帰"
 
@@ -23543,7 +23545,7 @@ msgstr "サマリ"
 #.
 #. * Fill in the labels of `Problem Size' section.
 #.
-#: src/dialogs/simulation.glade.h:20 src/tools/solver/reports-write.c:571
+#: src/dialogs/simulation.glade.h:20 src/tools/solver/reports-write.c:568
 msgid "Variables"
 msgstr "変数"
 
@@ -23635,7 +23637,7 @@ msgstr "ページ:"
 msgid "Scrollbar Properties"
 msgstr "スクロールバーのプロパティ"
 
-#: src/dialogs/solver.glade.h:2 src/tools/solver/reports-write.c:702
+#: src/dialogs/solver.glade.h:2 src/tools/solver/reports-write.c:698
 msgid "Algorithm:"
 msgstr "アルゴリズム:"
 
@@ -23655,9 +23657,9 @@ msgstr "自動スケーリング(_S)"
 msgid "B_y Changing Cells: "
 msgstr "変更させるセル: "
 
-#: src/dialogs/solver.glade.h:7 src/tools/solver/reports-write.c:199
-#: src/tools/solver/reports-write.c:360 src/tools/solver/reports-write.c:572
-#: src/tools/solver/reports-write.c:603
+#: src/dialogs/solver.glade.h:7 src/tools/solver/reports-write.c:197
+#: src/tools/solver/reports-write.c:358 src/tools/solver/reports-write.c:569
+#: src/tools/solver/reports-write.c:600
 msgid "Constraints"
 msgstr "制約条件"
 
@@ -23665,7 +23667,7 @@ msgstr "制約条件"
 msgid "Equal To:"
 msgstr "目標値:"
 
-#: src/dialogs/solver.glade.h:10 src/tools/solver/reports-write.c:705
+#: src/dialogs/solver.glade.h:10 src/tools/solver/reports-write.c:701
 msgid "Max Iterations:"
 msgstr "最大繰り返し数:"
 
@@ -24901,23 +24903,23 @@ msgstr "自動検出"
 msgid "Load file"
 msgstr "ファイルを読み込みます"
 
-#: src/gui-file.c:212 src/gui-file.c:568
+#: src/gui-file.c:213 src/gui-file.c:567
 msgid "Select a file"
 msgstr "ファイルの選択"
 
-#: src/gui-file.c:226 src/gui-file.c:440 src/gui-file.c:582
+#: src/gui-file.c:227 src/gui-file.c:439 src/gui-file.c:581
 msgid "All Files"
 msgstr "すべてのファイル"
 
-#: src/gui-file.c:231 src/gui-file.c:587
+#: src/gui-file.c:232 src/gui-file.c:586
 msgid "Spreadsheets"
 msgstr "スプレッドシート"
 
-#: src/gui-file.c:265 src/gui-file.c:611
+#: src/gui-file.c:266 src/gui-file.c:610
 msgid "File _type:"
 msgstr "ファイルタイプ(_T):"
 
-#: src/gui-file.c:378
+#: src/gui-file.c:379
 #, c-format
 msgid ""
 "%s\n"
@@ -24926,14 +24928,14 @@ msgstr ""
 "%s\n"
 "はディレクトリ名です"
 
-#: src/gui-file.c:384
+#: src/gui-file.c:385
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr "%s に保存するためのパーミッションがありません"
 
-#: src/gui-file.c:391
+#: src/gui-file.c:392
 #, fuzzy, c-format
 msgid ""
 "%s already exists.\n"
@@ -24942,15 +24944,15 @@ msgstr ""
 "ワークブック %s はすでにあります。\n"
 "上書き保存しますか?"
 
-#: src/gui-file.c:419
+#: src/gui-file.c:420
 msgid "Select an Image"
 msgstr "画像の選択"
 
-#: src/gui-file.c:445
+#: src/gui-file.c:444
 msgid "Images"
 msgstr "画像"
 
-#: src/gui-file.c:497
+#: src/gui-file.c:496
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -24963,7 +24965,7 @@ msgstr ""
 "さい。\n"
 "このシートのみ保存しますか？"
 
-#: src/gui-file.c:524
+#: src/gui-file.c:523
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -24986,11 +24988,6 @@ msgid ""
 "yngnum."
 msgstr ""
 "このバージョンの Gnumeric は正確ではない yngnum でコンパイルされています。"
-
-#: src/history.c:44
-#, fuzzy
-msgid "(Filename in invalid encoding)"
-msgstr "指定されたファイルは現在のエンコーディングでは不正です。"
 
 #: src/hlink.c:169
 msgid "Link target"
@@ -25061,15 +25058,15 @@ msgstr "セルを右にずらして移動(_T)"
 msgid "C_ancel"
 msgstr "キャンセル(_A)"
 
-#: src/main-application.c:58 src/ssconvert.c:38
+#: src/main-application.c:58 src/ssconvert.c:42
 msgid "Display Gnumeric's version"
 msgstr "Gnumericのバージョンの表示"
 
-#: src/main-application.c:60 src/ssconvert.c:41
+#: src/main-application.c:60 src/ssconvert.c:45
 msgid "Set the root library directory"
 msgstr "rootライブラリのディレクトリのセット"
 
-#: src/main-application.c:62 src/ssconvert.c:43
+#: src/main-application.c:62 src/ssconvert.c:47
 msgid "Adjust the root data directory"
 msgstr "rootデータのディレクトリの調整"
 
@@ -25747,28 +25744,28 @@ msgstr "置換する中に不正なバックスラッシュ '\\' があります
 msgid "%s does not support multiple ranges"
 msgstr ""
 
-#: src/session.c:113
+#: src/session.c:112
 #, c-format
 msgid "Save changes to workbook '%s' before logging out?"
 msgstr "閉じる前にワークブック'%s'への変更を保存しますか?"
 
-#: src/session.c:117
+#: src/session.c:116
 msgid "Save changes to workbook before logging out?"
 msgstr "閉じる前にワークブックの変更を保存しますか?"
 
-#: src/session.c:122
+#: src/session.c:121
 msgid "If you do not save, changes may be discarded."
 msgstr "保存しないと、変更はすべて破棄されます。"
 
-#: src/session.c:124
+#: src/session.c:123
 msgid "Do not save any"
 msgstr "とにかく保存しない"
 
-#: src/session.c:126 src/session.c:129
+#: src/session.c:125 src/session.c:128
 msgid "Do not save"
 msgstr "保存しない"
 
-#: src/session.c:131
+#: src/session.c:130
 msgid "Do not log out"
 msgstr "閉じない"
 
@@ -25907,15 +25904,20 @@ msgstr "'%s'のオブジェクトを作成できません"
 msgid "Could not load file: %s"
 msgstr "ファイルを読み込めませんでした: %s"
 
-#: src/sheet-object-graph.c:203
+#: src/sheet-object-graph.c:220
+#, fuzzy
+msgid "Unknown failure while saving image"
+msgstr "グラフのSVG型式での生成で不明なエラー"
+
+#: src/sheet-object-graph.c:239
 msgid "Unknown failure generating SVG for Chart"
 msgstr "グラフのSVG型式での生成で不明なエラー"
 
-#: src/sheet-object-graph.c:208
+#: src/sheet-object-graph.c:244
 msgid "Sorry, gnumeric can only save graphs as png, jpg, or svg images"
 msgstr "すいません、Gnumericはグラフをpng,jpg, svg型式だけで保存できます"
 
-#: src/sheet-object-graph.c:226
+#: src/sheet-object-graph.c:263
 msgid "_Save as image"
 msgstr "画像として保存(_S)"
 
@@ -25960,43 +25962,49 @@ msgstr "コピー"
 msgid "Cut"
 msgstr "切り取り"
 
-#: src/sheet.c:1971
+#: src/sheet.c:1972
 msgid "Target region contains merged cells"
 msgstr "対象範囲は結合セルを含んでいます"
 
-#: src/sheet.c:2033
+#: src/sheet.c:2034
 msgid "cannot operate on merged cells"
 msgstr "結合セルを操作できません"
 
-#: src/sheet.c:2043
+#: src/sheet.c:2044
 msgid "cannot operate on array formulae"
 msgstr "配列式を操作できません"
 
-#: src/sheet.c:3142
+#: src/sheet.c:3143
 msgid "Insert Columns"
 msgstr "列を挿入"
 
-#: src/sheet.c:3260
+#: src/sheet.c:3261
 msgid "Insert Rows"
 msgstr "行を挿入"
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:50
 msgid "Optionally specify an encoding for imported content"
 msgstr ""
 
-#: src/ssconvert.c:46
+#: src/ssconvert.c:50
 msgid "ENCODING"
 msgstr ""
 
-#: src/ssconvert.c:48
+#: src/ssconvert.c:52
 msgid "Optionally specify which exporter to use"
 msgstr ""
 
-#: src/ssconvert.c:50 src/ssconvert.c:52
+#: src/ssconvert.c:54 src/ssconvert.c:56
 msgid "List the available exporters"
 msgstr ""
 
-#: src/ssconvert.c:81
+#: src/ssconvert.c:58
+msgid ""
+"Export a file for each sheet if the exporter only supports one sheet at a "
+"time."
+msgstr ""
+
+#: src/ssconvert.c:87
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -26007,32 +26015,32 @@ msgstr ""
 "データ格納パス    := '%s'\n"
 "ライブラリ格納パス := '%s'\n"
 
-#: src/ssconvert.c:147
+#: src/ssconvert.c:153
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:171
+#: src/ssconvert.c:177
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:178
+#: src/ssconvert.c:184
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: src/ssconvert.c:188
+#: src/ssconvert.c:198
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
-"Only the first will be saved."
+"Only the current sheet will be saved."
 msgstr ""
 
 #: src/stf-parse.c:58
@@ -26084,56 +26092,58 @@ msgstr "ファイルをテキスト形式でエクスポートしようとして
 msgid "Error while trying to write CSV file"
 msgstr "CSVファイルの書き出しでエラー"
 
-#: src/stf.c:470
+#: src/stf.c:471
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "カンマかタブ区切り(CSV/TSV)"
 
-#: src/stf.c:474
+#: src/stf.c:475
 msgid "Text import (configurable)"
 msgstr "テキストのインポート (カスタマイズ可能)"
 
-#: src/stf.c:478
+#: src/stf.c:480
 msgid "Text export (configurable)"
 msgstr "テキストのエキスポート (カスタマイズ可能)"
 
-#: src/stf.c:482
+#: src/stf.c:484
 msgid "Comma separated values (CSV)"
 msgstr "カンマ区切り(CSV)"
 
-#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3296
+#: src/tools/analysis-tools.c:220 src/tools/analysis-tools.c:391
+#: src/tools/analysis-tools.c:3464
 #, c-format
 msgid "Row %i"
 msgstr "%i 行"
 
-#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3288
+#: src/tools/analysis-tools.c:223 src/tools/analysis-tools.c:394
+#: src/tools/analysis-tools.c:3456
 #, c-format
 msgid "Column %i"
 msgstr "%i 列"
 
-#: src/tools/analysis-tools.c:222
+#: src/tools/analysis-tools.c:226 src/tools/analysis-tools.c:397
 #, c-format
 msgid "Bin %i"
 msgstr "Bin %i"
 
-#: src/tools/analysis-tools.c:226
+#: src/tools/analysis-tools.c:230 src/tools/analysis-tools.c:401
 #, c-format
 msgid "Area %i"
 msgstr "範囲 %i"
 
-#: src/tools/analysis-tools.c:711
+#: src/tools/analysis-tools.c:782
 msgid "Correlations"
 msgstr "相関"
 
-#: src/tools/analysis-tools.c:767
+#: src/tools/analysis-tools.c:838
 #, c-format
 msgid "Correlation (%s)"
 msgstr "相関 (%s)"
 
-#: src/tools/analysis-tools.c:821
+#: src/tools/analysis-tools.c:892
 msgid "Covariances"
 msgstr "共分散"
 
-#: src/tools/analysis-tools.c:871
+#: src/tools/analysis-tools.c:942
 #, c-format
 msgid "Covariance (%s)"
 msgstr "共分散 (%s)"
@@ -26145,7 +26155,7 @@ msgstr "共分散 (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/tools/analysis-tools.c:934
+#: src/tools/analysis-tools.c:1040
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -26153,50 +26163,50 @@ msgstr ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 
-#: src/tools/analysis-tools.c:1021
+#: src/tools/analysis-tools.c:1179
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% CI for the Mean from/to"
 
-#: src/tools/analysis-tools.c:1059
+#: src/tools/analysis-tools.c:1310
 #, c-format
 msgid "Largest (%d)"
 msgstr "最大 (%d)"
 
-#: src/tools/analysis-tools.c:1082
+#: src/tools/analysis-tools.c:1317
 #, c-format
 msgid "Smallest (%d)"
 msgstr "最小 (%d)"
 
-#: src/tools/analysis-tools.c:1166
+#: src/tools/analysis-tools.c:1334
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "記述統計 (%s)"
 
-#: src/tools/analysis-tools.c:1244
+#: src/tools/analysis-tools.c:1412
 msgid "The requested sample size is too large for a periodic sample."
 msgstr ""
 "要求されたサンプリングの大きさは周期的サンプリングとしては大きすぎます。"
 
-#: src/tools/analysis-tools.c:1291
+#: src/tools/analysis-tools.c:1459
 #, c-format
 msgid "Sampling (%s)"
 msgstr "サンプリング (%s)"
 
-#: src/tools/analysis-tools.c:1303 src/tools/analysis-tools.c:1306
+#: src/tools/analysis-tools.c:1471 src/tools/analysis-tools.c:1474
 msgid "Sample"
 msgstr "例"
 
-#: src/tools/analysis-tools.c:1335 src/tools/analysis-tools.c:1337
-#: src/tools/analysis-tools.c:1470 src/tools/analysis-tools.c:1472
-#: src/tools/analysis-tools.c:1646 src/tools/analysis-tools.c:1648
-#: src/tools/analysis-tools.c:1788 src/tools/analysis-tools.c:1790
-#: src/tools/analysis-tools.c:1939 src/tools/analysis-tools.c:1941
+#: src/tools/analysis-tools.c:1503 src/tools/analysis-tools.c:1505
+#: src/tools/analysis-tools.c:1638 src/tools/analysis-tools.c:1640
+#: src/tools/analysis-tools.c:1814 src/tools/analysis-tools.c:1816
+#: src/tools/analysis-tools.c:1956 src/tools/analysis-tools.c:1958
+#: src/tools/analysis-tools.c:2107 src/tools/analysis-tools.c:2109
 #, c-format
 msgid "Variable %i"
 msgstr "変数 %i"
 
-#: src/tools/analysis-tools.c:1340
+#: src/tools/analysis-tools.c:1508
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -26206,20 +26216,20 @@ msgstr ""
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 
-#: src/tools/analysis-tools.c:1417
+#: src/tools/analysis-tools.c:1585
 #, c-format
 msgid "z-Test (%s)"
 msgstr "z-検定 (%s)"
 
-#: src/tools/analysis-tools.c:1427 src/tools/analysis-tools.c:1430
+#: src/tools/analysis-tools.c:1595 src/tools/analysis-tools.c:1598
 msgid "z-Test"
 msgstr "z検定"
 
-#: src/tools/analysis-tools.c:1478
+#: src/tools/analysis-tools.c:1646
 msgid "The 2 input ranges must have the same size."
 msgstr "二つの入力範囲を同じサイズにして下さい。"
 
-#: src/tools/analysis-tools.c:1487
+#: src/tools/analysis-tools.c:1655
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -26229,18 +26239,18 @@ msgstr ""
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 
-#: src/tools/analysis-tools.c:1607
+#: src/tools/analysis-tools.c:1775
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "ペアの t-検定 (%s)"
 
-#: src/tools/analysis-tools.c:1617 src/tools/analysis-tools.c:1620
-#: src/tools/analysis-tools.c:1762 src/tools/analysis-tools.c:1765
-#: src/tools/analysis-tools.c:1900 src/tools/analysis-tools.c:1903
+#: src/tools/analysis-tools.c:1785 src/tools/analysis-tools.c:1788
+#: src/tools/analysis-tools.c:1930 src/tools/analysis-tools.c:1933
+#: src/tools/analysis-tools.c:2068 src/tools/analysis-tools.c:2071
 msgid "t-Test"
 msgstr "t 検定"
 
-#: src/tools/analysis-tools.c:1651
+#: src/tools/analysis-tools.c:1819
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -26250,12 +26260,12 @@ msgstr ""
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 
-#: src/tools/analysis-tools.c:1752 src/tools/analysis-tools.c:1890
+#: src/tools/analysis-tools.c:1920 src/tools/analysis-tools.c:2058
 #, c-format
 msgid "t-Test (%s)"
 msgstr "t-検定 (%s)"
 
-#: src/tools/analysis-tools.c:1793
+#: src/tools/analysis-tools.c:1961
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -26265,11 +26275,11 @@ msgstr ""
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 
-#: src/tools/analysis-tools.c:1948
+#: src/tools/analysis-tools.c:2116
 msgid "A data set is empty"
 msgstr "セットされたデータが空です"
 
-#: src/tools/analysis-tools.c:1956
+#: src/tools/analysis-tools.c:2124
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -26277,20 +26287,20 @@ msgstr ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 
-#: src/tools/analysis-tools.c:2058
+#: src/tools/analysis-tools.c:2226
 #, c-format
 msgid "F-Test (%s)"
 msgstr "F-検定 (%s)"
 
-#: src/tools/analysis-tools.c:2068 src/tools/analysis-tools.c:2071
+#: src/tools/analysis-tools.c:2236 src/tools/analysis-tools.c:2239
 msgid "F-Test"
 msgstr "F検定"
 
-#: src/tools/analysis-tools.c:2145
+#: src/tools/analysis-tools.c:2313
 msgid "Y Variable"
 msgstr "Y 変数"
 
-#: src/tools/analysis-tools.c:2204
+#: src/tools/analysis-tools.c:2372
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -26298,7 +26308,7 @@ msgstr ""
 "この回帰を求めるにはデータ点が少なすぎます。\n"
 "少なくとも自由変数と同じだけのデータ点が必要です。"
 
-#: src/tools/analysis-tools.c:2212
+#: src/tools/analysis-tools.c:2380
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  All numerical precision was lost in the computation."
@@ -26306,7 +26316,7 @@ msgstr ""
 "二つ以上の独立変数がほとんど線形依存です。\n"
 "数値の精度は計算中にすべて失われています。"
 
-#: src/tools/analysis-tools.c:2220
+#: src/tools/analysis-tools.c:2388
 msgid ""
 "Two or more of the independent variables are linearly\n"
 "dependent, and the regression cannot be calculated.\n"
@@ -26324,7 +26334,7 @@ msgstr ""
 #. analysis_tool_regression_engine_last_check
 #. we have to figure out which data we have to trnasfer from
 #. to here
-#: src/tools/analysis-tools.c:2247
+#: src/tools/analysis-tools.c:2415
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -26332,11 +26342,11 @@ msgstr ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 
-#: src/tools/analysis-tools.c:2270
+#: src/tools/analysis-tools.c:2438
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Significance of F"
 
-#: src/tools/analysis-tools.c:2277
+#: src/tools/analysis-tools.c:2445
 #, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
@@ -26345,13 +26355,13 @@ msgstr ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
 "%%"
 
-#: src/tools/analysis-tools.c:2294
+#: src/tools/analysis-tools.c:2462
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
 msgstr "観察対象の絶対値の確率は t-検定のものよりも大きくなります"
 
-#: src/tools/analysis-tools.c:2402
+#: src/tools/analysis-tools.c:2570
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  Treat the regression result with great care!"
@@ -26359,202 +26369,202 @@ msgstr ""
 "二つ以上の独立変数がほとんど線形依存です。\n"
 "回帰の結果の取り扱いに十分注意して下さい。"
 
-#: src/tools/analysis-tools.c:2417
+#: src/tools/analysis-tools.c:2585
 #, c-format
 msgid "Regression (%s)"
 msgstr "回帰 (%s)"
 
-#: src/tools/analysis-tools.c:2481
+#: src/tools/analysis-tools.c:2649
 msgid "Standard Error"
 msgstr "標準エラー出力"
 
-#: src/tools/analysis-tools.c:2543
+#: src/tools/analysis-tools.c:2711
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "移動平均 (%s)"
 
-#: src/tools/analysis-tools.c:2676
+#: src/tools/analysis-tools.c:2844
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "指数のスムーズ化 (%s)"
 
-#: src/tools/analysis-tools.c:2744
+#: src/tools/analysis-tools.c:2912
 msgid "Point"
 msgstr "点"
 
-#: src/tools/analysis-tools.c:2746
+#: src/tools/analysis-tools.c:2914
 msgid "Rank"
 msgstr "階数"
 
-#: src/tools/analysis-tools.c:2747
+#: src/tools/analysis-tools.c:2915
 msgid "Percentile"
 msgstr "百分率"
 
-#: src/tools/analysis-tools.c:2807
+#: src/tools/analysis-tools.c:2975
 #, c-format
 msgid "Ranks (%s)"
 msgstr "階数 (%s)"
 
-#: src/tools/analysis-tools.c:2819 src/tools/analysis-tools.c:2822
+#: src/tools/analysis-tools.c:2987 src/tools/analysis-tools.c:2990
 msgid "Ranks"
 msgstr "階数"
 
-#: src/tools/analysis-tools.c:2860
+#: src/tools/analysis-tools.c:3028
 msgid "Anova: Single Factor"
 msgstr "分散解析: 一元配置"
 
-#: src/tools/analysis-tools.c:2861 src/tools/analysis-tools.c:3348
+#: src/tools/analysis-tools.c:3029 src/tools/analysis-tools.c:3516
 #: src/tools/simulation.c:343
 msgid "SUMMARY"
 msgstr "SUMMARY"
 
-#: src/tools/analysis-tools.c:2862
+#: src/tools/analysis-tools.c:3030
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Groups/Count/Sum/Average/Variance"
 
-#: src/tools/analysis-tools.c:2916
+#: src/tools/analysis-tools.c:3084
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 
-#: src/tools/analysis-tools.c:2921 src/tools/analysis-tools.c:3198
-#: src/tools/analysis-tools.c:3372
+#: src/tools/analysis-tools.c:3089 src/tools/analysis-tools.c:3366
+#: src/tools/analysis-tools.c:3540
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-value/F critical"
 
-#: src/tools/analysis-tools.c:2999
+#: src/tools/analysis-tools.c:3167
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "単一要因 ANOVA (%s)"
 
-#: src/tools/analysis-tools.c:3010 src/tools/analysis-tools.c:3679
+#: src/tools/analysis-tools.c:3178 src/tools/analysis-tools.c:3847
 msgid "Anova"
 msgstr "分散解析"
 
-#: src/tools/analysis-tools.c:3013
+#: src/tools/analysis-tools.c:3181
 msgid "Single Factor ANOVA"
 msgstr "一元配置 ANOVA"
 
-#: src/tools/analysis-tools.c:3120
+#: src/tools/analysis-tools.c:3288
 msgid "The input range contains non-numeric data."
 msgstr "入力範囲に数値ではないデータがあります。"
 
-#: src/tools/analysis-tools.c:3128
+#: src/tools/analysis-tools.c:3296
 msgid "Anova: Two-Factor Without Replication"
 msgstr "分散解析: 繰り返しのない二元配置"
 
-#: src/tools/analysis-tools.c:3129
+#: src/tools/analysis-tools.c:3297
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SUMMARY/Count/Sum/Average/Variance"
 
-#: src/tools/analysis-tools.c:3192
+#: src/tools/analysis-tools.c:3360
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 
-#: src/tools/analysis-tools.c:3338
+#: src/tools/analysis-tools.c:3506
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "配置の組み合わせの一つに何も記録がありません！"
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:3347
+#: src/tools/analysis-tools.c:3515
 msgid "Anova: Two-Factor With Replication"
 msgstr "分散解析: 繰り返しのある二元配置"
 
-#: src/tools/analysis-tools.c:3354
+#: src/tools/analysis-tools.c:3522
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Count/Sum/Average/Variance"
 
-#: src/tools/analysis-tools.c:3364
+#: src/tools/analysis-tools.c:3532
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 
-#: src/tools/analysis-tools.c:3663
+#: src/tools/analysis-tools.c:3831
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "複数要因 ANOVA (%s), 繰り返しなし"
 
-#: src/tools/analysis-tools.c:3664
+#: src/tools/analysis-tools.c:3832
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "繰り返しのある二元配置 ANOVA (%s)"
 
-#: src/tools/analysis-tools.c:3682
+#: src/tools/analysis-tools.c:3850
 msgid "Two Factor ANOVA"
 msgstr "二次元配置 ANOVA"
 
-#: src/tools/analysis-tools.c:3863
+#: src/tools/analysis-tools.c:4031
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:3867
+#: src/tools/analysis-tools.c:4035
 msgid "Too Small"
 msgstr "小さすぎ"
 
-#: src/tools/analysis-tools.c:3884
+#: src/tools/analysis-tools.c:4052
 msgid "More"
 msgstr "以上"
 
-#: src/tools/analysis-tools.c:3893
+#: src/tools/analysis-tools.c:4061
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/tools/analysis-tools.c:3897
+#: src/tools/analysis-tools.c:4065
 msgid "Too Large"
 msgstr "大きすぎ"
 
-#: src/tools/analysis-tools.c:3941
+#: src/tools/analysis-tools.c:4109
 msgid "Bin"
 msgstr "貯蓄"
 
-#: src/tools/analysis-tools.c:3966
+#: src/tools/analysis-tools.c:4134
 msgid "Frequency"
 msgstr "頻度"
 
-#: src/tools/analysis-tools.c:3971
+#: src/tools/analysis-tools.c:4139
 #, no-c-format
 msgid "Cumulative %"
 msgstr "進捗 %"
 
-#: src/tools/analysis-tools.c:4050
+#: src/tools/analysis-tools.c:4218
 #, c-format
 msgid "Histogram (%s)"
 msgstr "ヒストグラム (%s)"
 
-#: src/tools/analysis-tools.c:4157 src/tools/solver/reports-write.c:647
+#: src/tools/analysis-tools.c:4325 src/tools/solver/reports-write.c:644
 msgid "Real"
 msgstr "実数"
 
-#: src/tools/analysis-tools.c:4158
+#: src/tools/analysis-tools.c:4326
 msgid "Imaginary"
 msgstr "虚数"
 
-#: src/tools/analysis-tools.c:4218
+#: src/tools/analysis-tools.c:4386
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "フーリエ級数 (%s)"
 
-#: src/tools/analysis-tools.c:4230 src/tools/analysis-tools.c:4233
+#: src/tools/analysis-tools.c:4398 src/tools/analysis-tools.c:4401
 msgid "Fourier Series"
 msgstr "フーリエ級数"
 
-#: src/tools/dao.c:148
+#: src/tools/dao.c:149
 msgid "New Sheet"
 msgstr "新規のシート"
 
-#: src/tools/dao.c:151
+#: src/tools/dao.c:152
 msgid "New Workbook"
 msgstr "新規のワークブック"
 
-#: src/tools/dao.c:880
+#: src/tools/dao.c:887
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: src/tools/dao.c:886
+#: src/tools/dao.c:893
 msgid "Worksheet:"
 msgstr "ワークシート:"
 
-#: src/tools/dao.c:893
+#: src/tools/dao.c:900
 msgid "Report Created: "
 msgstr "作成済みの報告: "
 
@@ -26649,7 +26659,7 @@ msgstr "尖度"
 msgid "Range"
 msgstr "範囲"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:1865
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:1864
 msgid "Count"
 msgstr "回数"
 
@@ -26681,58 +26691,58 @@ msgstr "(入力)"
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr ""
 
-#: src/tools/solver/reports-write.c:67 src/tools/solver/reports-write.c:195
+#: src/tools/solver/reports-write.c:65 src/tools/solver/reports-write.c:193
 msgid "Answer Report"
 msgstr "解答レポート"
 
-#: src/tools/solver/reports-write.c:82 src/tools/solver/reports-write.c:104
+#: src/tools/solver/reports-write.c:80 src/tools/solver/reports-write.c:102
 msgid "Original Value"
 msgstr "元の値"
 
-#: src/tools/solver/reports-write.c:83 src/tools/solver/reports-write.c:105
+#: src/tools/solver/reports-write.c:81 src/tools/solver/reports-write.c:103
 msgid "Final Value"
 msgstr "最終的な値"
 
-#: src/tools/solver/reports-write.c:131
+#: src/tools/solver/reports-write.c:129
 msgid "Cell Value"
 msgstr "セル値"
 
-#: src/tools/solver/reports-write.c:132
+#: src/tools/solver/reports-write.c:130
 msgid "Formula"
 msgstr "公式"
 
-#: src/tools/solver/reports-write.c:133 src/tools/solver/reports-write.c:519
+#: src/tools/solver/reports-write.c:131 src/tools/solver/reports-write.c:516
 msgid "Status"
 msgstr "状態"
 
 #. Set `Status' column
 #. FIXME
-#: src/tools/solver/reports-write.c:155 src/tools/solver/reports-write.c:161
+#: src/tools/solver/reports-write.c:153 src/tools/solver/reports-write.c:159
 msgid "Binding"
 msgstr "バインド"
 
-#: src/tools/solver/reports-write.c:163
+#: src/tools/solver/reports-write.c:161
 msgid "Not Binding"
 msgstr "バインドなし"
 
-#: src/tools/solver/reports-write.c:180 src/tools/solver/reports-write.c:888
+#: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:884
 msgid "Assume that all variables are integers."
 msgstr ""
 
-#: src/tools/solver/reports-write.c:190
+#: src/tools/solver/reports-write.c:188
 msgid "Target Cell (Maximize)"
 msgstr "目的のセル (最大化)"
 
-#: src/tools/solver/reports-write.c:192
+#: src/tools/solver/reports-write.c:190
 msgid "Target Cell (Minimize)"
 msgstr "目的のセル (最小化)"
 
 #. Fill in other titles.
-#: src/tools/solver/reports-write.c:198 src/tools/solver/reports-write.c:359
+#: src/tools/solver/reports-write.c:196 src/tools/solver/reports-write.c:357
 msgid "Adjustable Cells"
 msgstr "調整するセル"
 
-#: src/tools/solver/reports-write.c:216 src/tools/solver/reports-write.c:356
+#: src/tools/solver/reports-write.c:214 src/tools/solver/reports-write.c:354
 msgid "Sensitivity Report"
 msgstr "感応型のレポート"
 
@@ -26742,275 +26752,275 @@ msgstr "感応型のレポート"
 #.
 #. * Fill in the labels of `Constraints' section.
 #.
-#: src/tools/solver/reports-write.c:230 src/tools/solver/reports-write.c:276
+#: src/tools/solver/reports-write.c:228 src/tools/solver/reports-write.c:274
 msgid "Final"
 msgstr "最終結果"
 
-#: src/tools/solver/reports-write.c:231
+#: src/tools/solver/reports-write.c:229
 msgid "Reduced"
 msgstr "減少"
 
-#: src/tools/solver/reports-write.c:232
+#: src/tools/solver/reports-write.c:230
 msgid "Objective"
 msgstr "オブジェクティブ"
 
-#: src/tools/solver/reports-write.c:233 src/tools/solver/reports-write.c:234
-#: src/tools/solver/reports-write.c:279 src/tools/solver/reports-write.c:280
+#: src/tools/solver/reports-write.c:231 src/tools/solver/reports-write.c:232
+#: src/tools/solver/reports-write.c:277 src/tools/solver/reports-write.c:278
 msgid "Allowable"
 msgstr "許容範囲"
 
-#: src/tools/solver/reports-write.c:239
+#: src/tools/solver/reports-write.c:237
 msgid "Cost"
 msgstr "原価"
 
-#: src/tools/solver/reports-write.c:240
+#: src/tools/solver/reports-write.c:238
 msgid "Coefficient"
 msgstr "係数"
 
-#: src/tools/solver/reports-write.c:241 src/tools/solver/reports-write.c:287
+#: src/tools/solver/reports-write.c:239 src/tools/solver/reports-write.c:285
 msgid "Increase"
 msgstr "増加"
 
-#: src/tools/solver/reports-write.c:242 src/tools/solver/reports-write.c:288
+#: src/tools/solver/reports-write.c:240 src/tools/solver/reports-write.c:286
 msgid "Decrease"
 msgstr "減少"
 
-#: src/tools/solver/reports-write.c:277
+#: src/tools/solver/reports-write.c:275
 msgid "Shadow"
 msgstr "影"
 
-#: src/tools/solver/reports-write.c:278
+#: src/tools/solver/reports-write.c:276
 msgid "Constraint"
 msgstr "制約"
 
-#: src/tools/solver/reports-write.c:285
+#: src/tools/solver/reports-write.c:283
 msgid "Price"
 msgstr "価格"
 
-#: src/tools/solver/reports-write.c:286
+#: src/tools/solver/reports-write.c:284
 msgid "R.H. Side"
 msgstr "R.H. Side"
 
-#: src/tools/solver/reports-write.c:323 src/tools/solver/reports-write.c:331
+#: src/tools/solver/reports-write.c:321 src/tools/solver/reports-write.c:329
 msgid "Infinity"
 msgstr "無限"
 
-#: src/tools/solver/reports-write.c:377 src/tools/solver/reports-write.c:486
+#: src/tools/solver/reports-write.c:375 src/tools/solver/reports-write.c:484
 msgid "Limits Report"
 msgstr "限度のレポート"
 
 #.
 #. * Fill in the labels.
 #.
-#: src/tools/solver/reports-write.c:393 src/tools/solver/reports-write.c:406
-#: src/tools/solver/reports-write.c:411
+#: src/tools/solver/reports-write.c:391 src/tools/solver/reports-write.c:404
+#: src/tools/solver/reports-write.c:409
 msgid "Target"
 msgstr "対象"
 
-#: src/tools/solver/reports-write.c:400
+#: src/tools/solver/reports-write.c:398
 msgid "Adjustable"
 msgstr "調節可能"
 
-#: src/tools/solver/reports-write.c:405
+#: src/tools/solver/reports-write.c:403
 msgid "Lower"
 msgstr "低い"
 
-#: src/tools/solver/reports-write.c:407 src/tools/solver/reports-write.c:412
+#: src/tools/solver/reports-write.c:405 src/tools/solver/reports-write.c:410
 msgid "Limit"
 msgstr "限度"
 
-#: src/tools/solver/reports-write.c:410
+#: src/tools/solver/reports-write.c:408
 msgid "Upper"
 msgstr "以上"
 
-#: src/tools/solver/reports-write.c:505 src/tools/solver/reports-write.c:747
+#: src/tools/solver/reports-write.c:502 src/tools/solver/reports-write.c:743
 msgid "Performance Report"
 msgstr "パフォーマンスの報告"
 
-#: src/tools/solver/reports-write.c:520
+#: src/tools/solver/reports-write.c:517
 msgid "Number of Iterations"
 msgstr "繰り返し数"
 
-#: src/tools/solver/reports-write.c:526
+#: src/tools/solver/reports-write.c:523
 msgid "Minimization"
 msgstr "最小化"
 
-#: src/tools/solver/reports-write.c:529
+#: src/tools/solver/reports-write.c:526
 msgid "Maximization"
 msgstr "最大化"
 
-#: src/tools/solver/reports-write.c:532
+#: src/tools/solver/reports-write.c:529
 msgid "Target value search"
 msgstr "対象値検索"
 
-#: src/tools/solver/reports-write.c:539
+#: src/tools/solver/reports-write.c:536
 msgid "Optimal solution found"
 msgstr "最適解が見つかりました"
 
-#: src/tools/solver/reports-write.c:542
+#: src/tools/solver/reports-write.c:539
 msgid "Unbounded problem"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:545
+#: src/tools/solver/reports-write.c:542
 msgid "Infeasible problem"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:549
+#: src/tools/solver/reports-write.c:546
 msgid "Maximum number of iterations exceeded: optimization interupted"
 msgstr "繰り返し回数が最大値を超えました。最適化は中断しました"
 
-#: src/tools/solver/reports-write.c:554
+#: src/tools/solver/reports-write.c:551
 msgid "Maximum time exceeded: optimization interupted"
 msgstr "最大時間を越えました: 最適化は中断しました"
 
-#: src/tools/solver/reports-write.c:573
+#: src/tools/solver/reports-write.c:570
 msgid "Integer Constraints"
 msgstr "整数の制限"
 
-#: src/tools/solver/reports-write.c:574
+#: src/tools/solver/reports-write.c:571
 msgid "Boolean Constraints"
 msgstr "論理値の制限"
 
-#: src/tools/solver/reports-write.c:575 src/tools/solver/reports-write.c:606
+#: src/tools/solver/reports-write.c:572 src/tools/solver/reports-write.c:603
 msgid "Number of"
 msgstr "数"
 
 #.
 #. * Fill in the labels of `Data Sparsity' section.
 #.
-#: src/tools/solver/reports-write.c:600
+#: src/tools/solver/reports-write.c:597
 msgid "Matrix"
 msgstr "マトリックス"
 
-#: src/tools/solver/reports-write.c:601
+#: src/tools/solver/reports-write.c:598
 msgid "Elements"
 msgstr "要素"
 
-#: src/tools/solver/reports-write.c:602 src/tools/solver/reports-write.c:604
+#: src/tools/solver/reports-write.c:599 src/tools/solver/reports-write.c:601
 msgid "Non-zeros in"
 msgstr "ゼロでない"
 
-#: src/tools/solver/reports-write.c:605
+#: src/tools/solver/reports-write.c:602
 msgid "Obj. fn"
 msgstr "Obj. fn"
 
-#: src/tools/solver/reports-write.c:607
+#: src/tools/solver/reports-write.c:604
 msgid "Ratio"
 msgstr "率"
 
 #.
 #. * Fill in the labels of `Computing Time' section.
 #.
-#: src/tools/solver/reports-write.c:645
+#: src/tools/solver/reports-write.c:642
 msgid "User"
 msgstr "ユーザ"
 
-#: src/tools/solver/reports-write.c:646
+#: src/tools/solver/reports-write.c:643
 msgid "System"
 msgstr "システム"
 
-#: src/tools/solver/reports-write.c:648
+#: src/tools/solver/reports-write.c:645
 msgid "Time (sec.)"
 msgstr "時間(秒)"
 
 #.
 #. * Fill in the labels of `System Information' section.
 #.
-#: src/tools/solver/reports-write.c:668
+#: src/tools/solver/reports-write.c:665
 msgid "CPU Model"
 msgstr "CPU 型式"
 
-#: src/tools/solver/reports-write.c:669
+#: src/tools/solver/reports-write.c:666
 msgid "CPU MHz"
 msgstr "CPU(MHz)"
 
-#: src/tools/solver/reports-write.c:670
+#: src/tools/solver/reports-write.c:667
 msgid "OS"
 msgstr "OS"
 
 #. Set the `CPU Model'.
 #. Set the `CPU Mhz'.
-#: src/tools/solver/reports-write.c:676 src/tools/solver/reports-write.c:679
-#: src/tools/solver/reports-write.c:683
+#: src/tools/solver/reports-write.c:673 src/tools/solver/reports-write.c:676
+#: src/tools/solver/reports-write.c:689
 msgid "Unknown"
 msgstr "不明"
 
-#: src/tools/solver/reports-write.c:703 src/tools/solver/reports-write.c:711
+#: src/tools/solver/reports-write.c:699 src/tools/solver/reports-write.c:707
 msgid "Model Assumptions:"
 msgstr "モデルの仮定:"
 
-#: src/tools/solver/reports-write.c:704
+#: src/tools/solver/reports-write.c:700
 msgid "Autoscaling:"
 msgstr "自動スケーリング:"
 
-#: src/tools/solver/reports-write.c:706
+#: src/tools/solver/reports-write.c:702
 msgid "Max Time:"
 msgstr "最大時間:"
 
 #. Set the options.
-#: src/tools/solver/reports-write.c:710
+#: src/tools/solver/reports-write.c:706
 msgid "LP Solve 3.2"
 msgstr "LP Solve 3.2"
 
-#: src/tools/solver/reports-write.c:719
+#: src/tools/solver/reports-write.c:715
 msgid "Non-Negative"
 msgstr "非負"
 
-#: src/tools/solver/reports-write.c:726
+#: src/tools/solver/reports-write.c:722
 msgid "Yes"
 msgstr "はい"
 
-#: src/tools/solver/reports-write.c:728
+#: src/tools/solver/reports-write.c:724
 msgid "No"
 msgstr "いいえ"
 
 #. Fill in other titles.
-#: src/tools/solver/reports-write.c:750
+#: src/tools/solver/reports-write.c:746
 msgid "General Information"
 msgstr "一般情報"
 
-#: src/tools/solver/reports-write.c:751
+#: src/tools/solver/reports-write.c:747
 msgid "Problem Size"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:752
+#: src/tools/solver/reports-write.c:748
 msgid "Data Sparsity"
 msgstr "データ希薄"
 
-#: src/tools/solver/reports-write.c:753
+#: src/tools/solver/reports-write.c:749
 msgid "Computing Time"
 msgstr "計算時間"
 
-#: src/tools/solver/reports-write.c:754
+#: src/tools/solver/reports-write.c:750
 msgid "System Information"
 msgstr "システム情報"
 
-#: src/tools/solver/reports-write.c:770 src/tools/solver/reports-write.c:908
+#: src/tools/solver/reports-write.c:766 src/tools/solver/reports-write.c:904
 msgid "Program Report"
 msgstr "プログラムの報告"
 
-#: src/tools/solver/reports-write.c:897
+#: src/tools/solver/reports-write.c:893
 msgid "Assume that all variables take only positive values."
 msgstr ""
 
-#: src/tools/solver/reports-write.c:913
+#: src/tools/solver/reports-write.c:909
 msgid "Minimize"
 msgstr "最小化"
 
-#: src/tools/solver/reports-write.c:916
+#: src/tools/solver/reports-write.c:912
 msgid "Maximize"
 msgstr "最大化"
 
-#: src/tools/solver/reports-write.c:919
+#: src/tools/solver/reports-write.c:915
 msgid "Equal to"
 msgstr "目標値"
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:925
+#: src/tools/solver/reports-write.c:921
 msgid "Subject to"
 msgstr "件名"
 
-#: src/tools/solver/reports-write.c:946 src/tools/solver/reports-write.c:959
+#: src/tools/solver/reports-write.c:942 src/tools/solver/reports-write.c:955
 msgid "Dual Program Report"
 msgstr "Dual プログラム報告"
 
@@ -27129,87 +27139,87 @@ msgstr "#N/A"
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
-#: src/wbc-gtk.c:191
+#: src/wbc-gtk.c:192
 msgid "Clear Borders"
 msgstr "罫線を消去"
 
-#: src/wbc-gtk.c:194
+#: src/wbc-gtk.c:195
 msgid "All Borders"
 msgstr "すべての罫線"
 
-#: src/wbc-gtk.c:195
+#: src/wbc-gtk.c:196
 msgid "Outside Borders"
 msgstr "外枠"
 
-#: src/wbc-gtk.c:196
+#: src/wbc-gtk.c:197
 msgid "Thick Outside Borders"
 msgstr "外枠太罫線"
 
-#: src/wbc-gtk.c:199
+#: src/wbc-gtk.c:200
 msgid "Double Bottom"
 msgstr "二重下罫線"
 
-#: src/wbc-gtk.c:200
+#: src/wbc-gtk.c:201
 msgid "Thick Bottom"
 msgstr "太下罫線"
 
-#: src/wbc-gtk.c:202
+#: src/wbc-gtk.c:203
 msgid "Top and Bottom"
 msgstr "上下"
 
-#: src/wbc-gtk.c:203
+#: src/wbc-gtk.c:204
 msgid "Top and Double Bottom"
 msgstr "上罫線と二重下罫線"
 
-#: src/wbc-gtk.c:204
+#: src/wbc-gtk.c:205
 msgid "Top and Thick Bottom"
 msgstr "上罫線と太下罫線"
 
-#: src/wbc-gtk.c:289
+#: src/wbc-gtk.c:290
 msgid "Set Borders"
 msgstr "罫線のセット"
 
-#: src/wbc-gtk.c:297 src/wbc-gtk.c:298
+#: src/wbc-gtk.c:298 src/wbc-gtk.c:299
 msgid "Borders"
 msgstr "罫線"
 
-#: src/wbc-gtk.c:376
+#: src/wbc-gtk.c:377
 msgid "Undo the last action"
 msgstr "直前の操作を取り消します"
 
-#: src/wbc-gtk.c:381
+#: src/wbc-gtk.c:382
 msgid "Redo"
 msgstr "もう一度"
 
-#: src/wbc-gtk.c:382
+#: src/wbc-gtk.c:383
 msgid "Redo the undone action"
 msgstr "元に戻した操作をやり直します"
 
-#: src/wbc-gtk.c:424
+#: src/wbc-gtk.c:425
 msgid "Set Foreground Color"
 msgstr "前景色のセット"
 
 #. Set background to NONE
-#: src/wbc-gtk.c:478
+#: src/wbc-gtk.c:479
 msgid "Set Background Color"
 msgstr "背景色のセット"
 
-#: src/wbc-gtk.c:515
+#: src/wbc-gtk.c:516
 #, c-format
 msgid "Font Name %s"
 msgstr "フォント名 %s"
 
-#: src/wbc-gtk.c:564
+#: src/wbc-gtk.c:565
 #, c-format
 msgid "Font Size %f"
 msgstr "フォントサイズ %f"
 
-#: src/wbc-gtk.c:629
+#: src/wbc-gtk.c:632
 #, fuzzy, c-format
 msgid "Open %s"
 msgstr "開く"
 
-#: src/wbc-gtk.c:694
+#: src/wbc-gtk.c:699
 msgid "Nothing"
 msgstr "なし"
 
@@ -27219,7 +27229,7 @@ msgstr "なし"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: src/wbc-gtk.c:880
+#: src/wbc-gtk.c:885
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
@@ -27770,11 +27780,11 @@ msgstr "新規ビュー(_N)..."
 msgid "Create a new view of the workbook"
 msgstr "ワークブックの新規ビューを作成します"
 
-#: src/wbcg-actions.c:1722 src/workbook-control-gui.c:1021
+#: src/wbcg-actions.c:1722 src/workbook-control-gui.c:1019
 msgid "_Freeze Panes"
-msgstr "ペインの圧縮(_F)"
+msgstr "ペインの固定(_F)"
 
-#: src/wbcg-actions.c:1723 src/workbook-control-gui.c:1024
+#: src/wbcg-actions.c:1723 src/workbook-control-gui.c:1022
 msgid "Freeze the top left of the sheet"
 msgstr "シートの左上を固定します"
 
@@ -28253,7 +28263,7 @@ msgid "Remove an outline group"
 msgstr "外側のグループを削除します"
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1949 src/workbook-control-gui.c:1032
+#: src/wbcg-actions.c:1949 src/workbook-control-gui.c:1030
 msgid "Add _Auto Filter"
 msgstr "オートフィルタの追加(_A)"
 
@@ -28287,8 +28297,8 @@ msgid "Import the text from a file"
 msgstr "ファイルからテキストをインポートします"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1964 src/workbook-control-gui.c:1861
-#: src/workbook-view.c:538
+#: src/wbcg-actions.c:1964 src/workbook-control-gui.c:1860
+#: src/workbook-view.c:534
 msgid "Sum"
 msgstr "合計"
 
@@ -29749,101 +29759,101 @@ msgstr "境界線の追加"
 msgid "Remove borders"
 msgstr "境界線の削除"
 
-#: src/workbook-control-gui.c:333
+#: src/workbook-control-gui.c:332
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:523
+#: src/workbook-control-gui.c:522
 msgid "Manage sheets..."
 msgstr "シートの管理..."
 
-#: src/workbook-control-gui.c:526
+#: src/workbook-control-gui.c:525
 msgid "Append"
 msgstr "後ろに追加"
 
-#: src/workbook-control-gui.c:527
+#: src/workbook-control-gui.c:526
 msgid "Duplicate"
 msgstr "複製"
 
-#: src/workbook-control-gui.c:528
+#: src/workbook-control-gui.c:527
 msgid "Remove"
 msgstr "削除"
 
-#: src/workbook-control-gui.c:529
+#: src/workbook-control-gui.c:528
 msgid "Rename"
 msgstr "名前変更"
 
-#: src/workbook-control-gui.c:1020
+#: src/workbook-control-gui.c:1018
 msgid "Un_freeze Panes"
-msgstr "ペインのフリーズを解除(_F)"
+msgstr "ペインの解除(_F)"
 
-#: src/workbook-control-gui.c:1023
+#: src/workbook-control-gui.c:1021
 msgid "Unfreeze the top left of the sheet"
 msgstr "シートの左上のフリーズを解除します"
 
-#: src/workbook-control-gui.c:1031
+#: src/workbook-control-gui.c:1029
 msgid "Remove _Auto Filter"
 msgstr "自動フィルタの削除(_A)"
 
-#: src/workbook-control-gui.c:1034
+#: src/workbook-control-gui.c:1032
 msgid "Remove a filter"
 msgstr "フィルタの削除"
 
-#: src/workbook-control-gui.c:1035
+#: src/workbook-control-gui.c:1033
 msgid "Add a filter"
 msgstr "フィルタの追加"
 
-#: src/workbook-control-gui.c:1046
+#: src/workbook-control-gui.c:1044
 msgid "_Undo"
 msgstr "元に戻す(_U)"
 
-#: src/workbook-control-gui.c:1047
+#: src/workbook-control-gui.c:1045
 msgid "_Redo"
 msgstr "やり直し(_R)"
 
-#: src/workbook-control-gui.c:1174
+#: src/workbook-control-gui.c:1172
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "閉じる前にワークブック'%s'への変更を保存しますか?"
 
-#: src/workbook-control-gui.c:1178
+#: src/workbook-control-gui.c:1176
 msgid "Save changes to workbook before closing?"
 msgstr "閉じる前にワークブックの変更を保存しますか?"
 
-#: src/workbook-control-gui.c:1184
+#: src/workbook-control-gui.c:1182
 msgid "If you close without saving, changes will be discarded."
 msgstr "保存しないで閉じると、変更はすべて破棄されます。"
 
-#: src/workbook-control-gui.c:1191
+#: src/workbook-control-gui.c:1189
 msgid "Discard all"
 msgstr "すべて破棄"
 
-#: src/workbook-control-gui.c:1193 src/workbook-control-gui.c:1202
-#: src/workbook-control-gui.c:1210
+#: src/workbook-control-gui.c:1191 src/workbook-control-gui.c:1200
+#: src/workbook-control-gui.c:1208
 msgid "Discard"
 msgstr "破棄"
 
-#: src/workbook-control-gui.c:1195
+#: src/workbook-control-gui.c:1193
 msgid "Save all"
 msgstr "すべてを保存"
 
-#: src/workbook-control-gui.c:1197 src/workbook-control-gui.c:1204
+#: src/workbook-control-gui.c:1195 src/workbook-control-gui.c:1202
 msgid "Don't quit"
 msgstr "終了しない"
 
-#: src/workbook-control-gui.c:1212
+#: src/workbook-control-gui.c:1210
 msgid "Don't close"
 msgstr "閉じない"
 
-#: src/workbook-control-gui.c:2259 src/workbook-control-gui.c:2274
+#: src/workbook-control-gui.c:2258 src/workbook-control-gui.c:2273
 msgid "_Re-Edit"
 msgstr "再編集(_R)"
 
-#: src/workbook-control-gui.c:2260 src/workbook-control-gui.c:2265
+#: src/workbook-control-gui.c:2259 src/workbook-control-gui.c:2264
 msgid "_Discard"
 msgstr "破棄(_D)"
 
-#: src/workbook-control-gui.c:2264 src/workbook-control-gui.c:2275
+#: src/workbook-control-gui.c:2263 src/workbook-control-gui.c:2274
 msgid "_Accept"
 msgstr "受諾(_A)"
 
@@ -29868,48 +29878,48 @@ msgstr "ワークブックは編集可能です (保護なし)"
 msgid "Unprotect the sheet to enable editing."
 msgstr "シートは編集可能です (保護なし)"
 
-#: src/workbook-view.c:276
+#: src/workbook-view.c:272
 #, c-format
 msgid "%dC"
 msgstr ""
 
-#: src/workbook-view.c:278
+#: src/workbook-view.c:274
 #, c-format
 msgid "%dR"
 msgstr ""
 
-#: src/workbook-view.c:280
+#: src/workbook-view.c:276
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:422
+#: src/workbook-view.c:418
 msgid "Internal ERROR"
 msgstr "内部エラーです"
 
-#: src/workbook-view.c:580
+#: src/workbook-view.c:565
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "'%s'を書き込み用に開けません: %s"
 
-#: src/workbook-view.c:604
+#: src/workbook-view.c:589
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "%sの保存で説明できないエラーが発生しました"
 
-#: src/workbook-view.c:689 src/workbook-view.c:798
+#: src/workbook-view.c:674 src/workbook-view.c:783
 msgid "Default file saver is not available."
 msgstr "デフォルトのファイルセーバーは無効です。"
 
-#: src/workbook-view.c:758
+#: src/workbook-view.c:743
 msgid "Failed to create temporary file for sending."
 msgstr "送信のためのテンポラリファイルが作成できません。"
 
-#: src/workbook-view.c:891
+#: src/workbook-view.c:876
 msgid "Unsupported file format."
 msgstr "未サポートのファイル書式です。"
 
-#: src/workbook-view.c:939
+#: src/workbook-view.c:924
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "%sを開いているときに説明できないエラーが発生しました"
@@ -29970,6 +29980,10 @@ msgstr "ファイルの保存に失敗"
 #: src/xml-io.c:4253
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML ファイル形式"
+
+#, fuzzy
+#~ msgid "(Filename in invalid encoding)"
+#~ msgstr "指定されたファイルは現在のエンコーディングでは不正です。"
 
 #, fuzzy
 #~ msgid "2 Color"
