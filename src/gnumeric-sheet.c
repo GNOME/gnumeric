@@ -245,11 +245,18 @@ move_vertical_selection (GnumericSheet *gsheet, int count)
 int
 gnumeric_sheet_can_move_cursor (GnumericSheet *gsheet)
 {
-	GtkEntry *entry = GTK_ENTRY (gsheet->entry);
-	int cursor_pos = GTK_EDITABLE (entry)->current_pos;
+	GtkEntry *entry;
+	int cursor_pos;
 
-	if (gsheet->selecting_cell)
-		return TRUE;
+	g_return_val_if_fail (gsheet != NULL, FALSE);
+	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), FALSE);
+	
+	if (gsheet->item_editor)
+		if (gsheet->selecting_cell)
+			return TRUE;
+	
+	entry = GTK_ENTRY (gsheet->entry);
+	cursor_pos = GTK_EDITABLE (entry)->current_pos;
 	
 	if (entry->text [0] != '=')
 		return FALSE;
@@ -757,6 +764,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		
 	case GDK_F2:
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), wb->ea_input);
+		sheet->editing = TRUE;
 		/* fall down */
 
 	default:
