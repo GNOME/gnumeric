@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-29 11:58+0200\n"
+"POT-Creation-Date: 2004-08-18 04:00+0200\n"
 "PO-Revision-Date: 2004-06-29 13:01+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -2789,13 +2789,14 @@ msgstr ""
 msgid "date1,date2,interval"
 msgstr ""
 
+#. GRUT modified this item
 #: plugins/fn-date/functions.c:1229 plugins/fn-date/functions.c:1253
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
 #: src/print-info.c:571
 msgid "date"
-msgstr ""
+msgstr "data"
 
 #: plugins/fn-date/functions.c:1233
 msgid "date1,date2,method"
@@ -2834,9 +2835,10 @@ msgstr ""
 msgid "unixtime"
 msgstr ""
 
+#. GRUT modified this item
 #: plugins/fn-date/functions.c:1306
 msgid "serial"
-msgstr ""
+msgstr "seria"
 
 #: plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
@@ -12062,7 +12064,6 @@ msgstr ""
 msgid "P_aste Special..."
 msgstr ""
 
-#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
 #: src/workbook-control-gui.c:3354
 msgid "Page Set_up..."
@@ -12700,13 +12701,15 @@ msgstr ""
 msgid "_Plug-ins..."
 msgstr ""
 
+#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:319 src/GNOME_Gnumeric_Component.xml.h:19
 msgid "_Print..."
-msgstr "_Printo..."
+msgstr "_Printim..."
 
+#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:320
 msgid "_Quit"
-msgstr "_Dil"
+msgstr "_Dalja"
 
 #: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:3449
 msgid "_Random Generator..."
@@ -13649,7 +13652,6 @@ msgstr ""
 msgid "_Top"
 msgstr "_Në fillim"
 
-#. GRUT modified this item
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:107
 msgid "_Text:"
 msgstr "_Teksti:"
@@ -15811,7 +15813,6 @@ msgstr ""
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr ""
 
-#. GRUT modified this item
 #: src/dialogs/dialog-about.c:113 src/func-builtin.c:156
 msgid "Gnumeric"
 msgstr "Gnumeric"
@@ -16941,9 +16942,10 @@ msgstr ""
 msgid "Current Name"
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/dialog-sheet-order.c:332
 msgid "New Name"
-msgstr ""
+msgstr "Emër i ri"
 
 #: src/dialogs/dialog-sheet-order.c:661
 msgid "You may not delete all sheets in a workbook!"
@@ -21098,6 +21100,7 @@ msgstr ""
 msgid "Paste _Special"
 msgstr ""
 
+#. GRUT modified this item
 #. TODO : One day make the labels smarter.  Generate them to include
 #. * quantities.
 #. * 	eg : Insert 4 rows
@@ -21107,7 +21110,7 @@ msgstr ""
 #.
 #: src/sheet-control-gui.c:1520
 msgid "_Insert..."
-msgstr ""
+msgstr "_Shtim..."
 
 #: src/sheet-control-gui.c:1524
 msgid "_Insert Column(s)"
@@ -22930,9 +22933,10 @@ msgstr ""
 msgid "Fraction"
 msgstr "Fraksioni"
 
+#. GRUT modified this item
 #: src/widgets/widget-format-selector.c:84
 msgid "Scientific"
-msgstr ""
+msgstr "Shkencor"
 
 #: src/widgets/widget-format-selector.c:86
 msgid "Special"
