@@ -164,14 +164,6 @@ add_value_deps (Cell *cell, Value *value)
 			&value->v.cell_range.cell_a,
 			&value->v.cell_range.cell_b);
 		break;
-
-	case VALUE_CELLREF:
-		add_cell_range_deps (
-			cell,
-			&value->v.cell,
-			&value->v.cell);
-		return;
-
 	}
 }
 
@@ -202,6 +194,12 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 		return;
 
 	case OPER_VAR: 
+		add_cell_range_deps (
+			cell,
+			&tree->u.ref,
+			&tree->u.ref);
+		return;
+
 	case OPER_CONSTANT:
 		add_value_deps (cell, tree->u.constant);
 		return;

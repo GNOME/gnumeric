@@ -83,14 +83,6 @@ function_iterate_do_value (Sheet                   *sheet,
 		}
 		break;
 
-	case VALUE_CELLREF:
-		/*
-		 * eval_expr will never return a value of
-		 * type VALUE_CELLREF
-		 */
-		g_assert_not_reached ();
-		break;
-	
 	case VALUE_CELLRANGE: {
 		IterateCallbackClosure data;
 		int start_col, start_row, end_col, end_row;

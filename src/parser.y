@@ -75,6 +75,7 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
 %type  <list>     arg_list
 %token <tree>     NUMBER STRING FUNCALL CONSTANT CELLREF GTE LTE NE
 %token <sheetref> SHEETREF
+%type  <tree>     cellref
 
 %left '<' '>' '=' GTE LTE NE
 %left '-' '+' '&'
@@ -96,7 +97,7 @@ line:	  exp           { parser_result = $1;
 
 exp:	  NUMBER 	{ $$ = $1 }
 	| STRING        { $$ = $1 }
-        | CELLREF       { $$ = $1 }
+        | cellref       { $$ = $1 }
 	| CONSTANT      { $$ = $1 }
 	| exp '+' exp	{ $$ = build_binop ($1, OPER_ADD,       $3); }
 	| exp '-' exp	{ $$ = build_binop ($1, OPER_SUB,       $3); }
@@ -123,11 +124,11 @@ exp:	  NUMBER 	{ $$ = $1 }
 		$$ = $2;
 	}
 
-        | CELLREF ':' CELLREF {
+        | cellref ':' cellref {
 		CellRef a, b;
 
-		a = $1->u.constant->v.cell;
-		b = $3->u.constant->v.cell;
+		a = $1->u.ref;
+		b = $3->u.ref;
 
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
@@ -141,14 +142,20 @@ exp:	  NUMBER 	{ $$ = $1 }
 		forget_tree ($3);
 	}
 
-	| SHEETREF '!' CELLREF {
-	        $$ = $3;
-		$$->u.constant->v.cell.sheet = $1;
-	}
 
 	| FUNCALL '(' arg_list ')' {
 		$$ = $1;
 		$$->u.function.arg_list = $3;
+	}
+	;
+
+cellref:  CELLREF {
+		$$ = $1;
+	}
+
+	| SHEETREF '!' CELLREF {
+	        $$ = $3;
+		$$->u.ref.sheet = $1;
 	}
 	;
 
@@ -174,7 +181,6 @@ return_cellref (char *p)
 	int col = 0;
 	int row = 0;
 	ExprTree *e;
-	Value    *v;
 	CellRef  *ref;
 
 	/* Try to parse a column */
@@ -208,12 +214,10 @@ return_cellref (char *p)
 	/*  Ok, parsed successfully, create the return value */
 	e = p_new (ExprTree);
 	e->ref_count = 1;
-	v = v_new ();
-	v->type = VALUE_CELLREF;
 	
 	e->oper = OPER_VAR;
 
-	ref = &v->v.cell;
+	ref = &e->u.ref;
 
 	/* Setup the cell reference information */
 	if (row_relative)
@@ -229,8 +233,6 @@ return_cellref (char *p)
 	ref->col_relative = col_relative;
 	ref->row_relative = row_relative;
 	ref->sheet = parser_sheet;
-	
-	e->u.constant = v;
 	
 	yylval.tree = e;
 

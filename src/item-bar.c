@@ -302,6 +302,10 @@ set_cursor (ItemBar *item_bar, int pos)
 {
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item_bar)->canvas);
 
+	/* We might be invoked before we are realized */
+	if (!canvas->window)
+		return;
+	
 	if (is_pointer_on_division (item_bar, pos, NULL, NULL))
 		gdk_window_set_cursor(canvas->window, item_bar->change_cursor);
 	else
@@ -411,7 +415,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	int resizing;
 
 	resizing = ITEM_BAR_RESIZING (item_bar);
-	
+
 	switch (e->type){
 	case GDK_ENTER_NOTIFY:
 		convert (canvas, e->crossing.x, e->crossing.y, &x, &y);

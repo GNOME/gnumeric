@@ -1027,7 +1027,7 @@ format_value (StyleFormat *format, Value *value, StyleColor **color)
 			if (floor (value->v.v_float) == value->v.v_float)
 				entry.format = "0";
 			else
-				entry.format = "0.00########";
+				entry.format = "0.0########";
 		}
 		if (finite (value->v.v_float))
 			v = format_number (value->v.v_float, &entry);

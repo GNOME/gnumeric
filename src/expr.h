@@ -29,7 +29,6 @@ typedef enum {
 	VALUE_FLOAT,
 	VALUE_CELLRANGE,
 	VALUE_ARRAY,
-	VALUE_CELLREF,
 } ValueType;
 
 typedef struct {
@@ -78,6 +77,8 @@ struct ExprTree {
 		} binary;
 
 		struct ExprTree *value;
+
+		CellRef ref;
 	} u;
 };
 

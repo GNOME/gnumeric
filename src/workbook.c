@@ -1128,7 +1128,7 @@ change_auto_expr_menu (GtkWidget *widget, GdkEventButton *event, Workbook *wb)
 					     _(quick_compute_routines [i].displayed_name));
 		}
 	}
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, 0, NULL, 1, event->time);
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, 0, NULL, event->button, event->time);
 }
 
 /*
@@ -1153,7 +1153,7 @@ workbook_setup_auto_calc (Workbook *wb)
 {
 	GtkWidget *canvas;
 	GnomeCanvasGroup *root;
-	GtkWidget *l;
+	GtkWidget *l, *frame;
 
 	canvas = gnome_canvas_new ();
 
@@ -1173,12 +1173,16 @@ workbook_setup_auto_calc (Workbook *wb)
 	gtk_widget_set_usize (
 		GTK_WIDGET (canvas),
 		gdk_text_measure (l->style->font, "W", 1) * 15, -1);
-	gtk_box_pack_start (GTK_BOX (wb->appbar), canvas, FALSE, TRUE, 0);
+
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (frame), canvas);
+	gtk_box_pack_start (GTK_BOX (wb->appbar), frame, FALSE, TRUE, 0);
 	gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
 			    GTK_SIGNAL_FUNC (change_auto_expr_menu), wb);
 
 	gtk_object_destroy (GTK_OBJECT (l));
-	gtk_widget_show (canvas);
+	gtk_widget_show_all (frame);
 }
 
 /*
@@ -1346,21 +1350,37 @@ buttons (Sheet *sheet, GtkTable *table)
 	
 }
 
-void
+/**
+ * workbook_rename_sheet:
+ * @wb:       the workbook where the sheet is
+ * @old_name: the name of the sheet we want to rename
+ * @new_name: new name we want to assing to the sheet.
+ *
+ * Returns TRUE if it was possible to rename the sheet to @new_name,
+ * otherwise it returns FALSE for any possible error condition.
+ */
+gboolean 
 workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
 {
 	Sheet *sheet;
 	
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (old_name != NULL);
-	g_return_if_fail (new_name != NULL);
+	g_return_val_if_fail (wb != NULL, FALSE);
+	g_return_val_if_fail (old_name != NULL, FALSE);
+	g_return_val_if_fail (new_name != NULL, FALSE);
 
+	/* Do not let two sheets in the workbook have the same name */
+	if (g_hash_table_lookup (wb->sheets, new_name))
+		return FALSE;
+	
 	sheet = (Sheet *) g_hash_table_lookup (wb->sheets, old_name);
-	g_return_if_fail (sheet != NULL);
-
+	if (sheet == NULL)
+		return FALSE;
+	
 	g_hash_table_remove (wb->sheets, old_name);
 	sheet_rename (sheet, new_name);
 	g_hash_table_insert (wb->sheets, sheet->name, sheet);
+
+	return TRUE;
 }
 
 /*
@@ -1374,9 +1394,29 @@ sheet_label_text_changed_signal (EditableLabel *el, const char *new_name, Workbo
 	if (strchr (new_name, '\''))
 		return FALSE;
 
-	workbook_rename_sheet (wb, el->text, new_name);
+	return workbook_rename_sheet (wb, el->text, new_name);
+}
 
-	return TRUE;
+/**
+ * sheet_label_button_press:
+ *
+ * Invoked when the user has clicked on the EditableLabel widget.
+ * This takes care of switching to the notebook that contains the label
+ */
+static gint
+sheet_label_button_press (GtkWidget *widget, GdkEventButton *event, GtkWidget *child)
+{
+	if (event->type == GDK_BUTTON_PRESS && event->button == 1){
+		GtkWidget *notebook;
+		gint number;
+
+		notebook = child->parent;
+		
+		number = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), child);
+		gtk_notebook_set_page (GTK_NOTEBOOK (notebook), number);
+		return TRUE;
+	}
+	return FALSE;
 }
 
 void
@@ -1401,7 +1441,10 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	gtk_signal_connect (
 		GTK_OBJECT (sheet_label), "text_changed",
 		GTK_SIGNAL_FUNC (sheet_label_text_changed_signal), wb);
-	
+	gtk_signal_connect (
+		GTK_OBJECT (sheet_label), "button_press_event",
+		GTK_SIGNAL_FUNC (sheet_label_button_press), t);
+
 	gtk_widget_show (sheet_label);
 	gtk_notebook_append_page (GTK_NOTEBOOK (wb->notebook),
 				  t, sheet_label);

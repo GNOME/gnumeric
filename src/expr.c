@@ -193,8 +193,6 @@ value_string (Value *value)
 	case VALUE_CELLRANGE:
 		return g_strdup ("Internal problem");
 
-	case VALUE_CELLREF:
-		g_assert_not_reached ();
 	}
 	return g_strdup (buffer);
 }
@@ -228,9 +226,6 @@ value_release (Value *value)
 	case VALUE_CELLRANGE:
 		break;
 
-	case VALUE_CELLREF:
-		break;
-		
 	}
 	g_free (value);
 }
@@ -275,10 +270,6 @@ value_copy_to (Value *dest, Value *source)
 	}
 	case VALUE_CELLRANGE:
 		dest->v.cell_range = source->v.cell_range;
-		break;
-
-	case VALUE_CELLREF:
-		dest->v.cell = source->v.cell;
 		break;
 	}
 }
@@ -453,14 +444,6 @@ eval_cell_value (Sheet *sheet, Value *value)
 	case VALUE_CELLRANGE:
 		res->v.cell_range = value->v.cell_range;
 		break;
-
-	case VALUE_CELLREF:
-		/*
-		 * This case shoudl be handled as part of the OPER_VAR
-		 * case in the ExprTree, not here
-		 */
-		g_assert_not_reached ();
-
 	}
 	return res;
 }
@@ -907,7 +890,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			return res;
 		}
 
-		ref = &tree->u.constant->v.cell;
+		ref = &tree->u.ref;
 		cell_get_abs_col_row (ref, eval_col, eval_row, &col, &row);
 
 		cell_sheet = ref->sheet ? ref->sheet : sheet;
@@ -1105,7 +1088,7 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 	case OPER_VAR: {
 		CellRef *cell_ref;
 		
-		cell_ref = &tree->u.constant->v.cell;
+		cell_ref = &tree->u.ref;
 		return cellref_name (cell_ref, sheet, col, row);
 	}
 
@@ -1201,20 +1184,21 @@ do_expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
 		break;
 	}
 
-	case OPER_VAR:
-	case OPER_CONSTANT: {
+	case OPER_VAR: {
 		CellRef *ref;
 		
+		ref = &new_tree->u.ref;
+		ref->col -= coldiff;
+		ref->row -= rowdiff;
+		break;
+	}
+	
+	case OPER_CONSTANT:
 		new_tree->u.constant = value_duplicate (tree->u.constant);
 
-		switch (new_tree->u.constant->type){
-		case VALUE_CELLREF:
-			ref = &new_tree->u.constant->v.cell;
-			ref->col -= coldiff;
-			ref->row -= rowdiff;
-			break;
-			
-		case VALUE_CELLRANGE:
+		if (new_tree->u.constant->type == VALUE_CELLRANGE){
+			CellRef *ref;
+		
 			ref = &new_tree->u.constant->v.cell_range.cell_a;
 			ref->col -= coldiff;
 			ref->row -= rowdiff;
@@ -1223,11 +1207,8 @@ do_expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
 			ref->col -= coldiff;
 			ref->row -= rowdiff;
 			break;
-
-		default:
 		}
 		break;
-	}
 	
 	case OPER_NEG: 
 		new_tree->u.value = do_expr_tree_relocate (tree->u.value, coldiff, rowdiff);
