@@ -670,7 +670,7 @@ void
 cell_init (void)
 {
 #if USE_CELL_POOL
-	cell_pool = gnm_mem_chunk_new ("cell_pool",
+	cell_pool = gnm_mem_chunk_new ("cell pool",
 				       sizeof (Cell),
 				       128 * 1024 - 128);
 #endif

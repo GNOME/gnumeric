@@ -717,6 +717,8 @@ yngnum (int n, gnum_float x)
 
 /* ------------------------------------------------------------------------- */
 
+#define DEBUG_CHUNK_ALLOCATOR
+
 typedef struct _gnm_mem_chunk_freeblock gnm_mem_chunk_freeblock;
 typedef struct _gnm_mem_chunk_block gnm_mem_chunk_block;
 
@@ -725,20 +727,29 @@ struct _gnm_mem_chunk_freeblock {
 };
 
 struct _gnm_mem_chunk_block {
-	gnm_mem_chunk_block *next;
 	gpointer data;
 	int freecount, nonalloccount;
+	gnm_mem_chunk_freeblock *freelist;
+#ifdef DEBUG_CHUNK_ALLOCATOR
+	int id;
+#endif
 };
 
 struct _gnm_mem_chunk {
 	char *name;
-	size_t atom_size, user_atom_size, chunk_size;
+	size_t atom_size, user_atom_size, chunk_size, alignment;
 	int atoms_per_block;
-	gnm_mem_chunk_freeblock *freelist;
-	gnm_mem_chunk_block *blocklist;
-	size_t alignment;
-};
 
+	/* List of all blocks.  */
+	GSList *blocklist;
+
+	/* List of blocks that are not full.  */
+	GList *freeblocks;
+
+#ifdef DEBUG_CHUNK_ALLOCATOR
+	int blockid;
+#endif
+};
 
 
 gnm_mem_chunk *
@@ -768,7 +779,7 @@ gnm_mem_chunk_new (const char *name, size_t user_atom_size, size_t chunk_size)
 	atoms_per_block = MAX (1, chunk_size / atom_size);
 	chunk_size = atoms_per_block * atom_size;
 
-#if 0
+#ifdef DEBUG_CHUNK_ALLOCATOR
 	g_print ("Created %s with alignment=%d, atom_size=%d (%d), chunk_size=%d.\n",
 		 name, alignment, atom_size, user_atom_size,
 		 chunk_size);
@@ -781,8 +792,11 @@ gnm_mem_chunk_new (const char *name, size_t user_atom_size, size_t chunk_size)
 	res->atom_size = atom_size;
 	res->chunk_size = chunk_size;
 	res->atoms_per_block = atoms_per_block;
-	res->freelist = NULL;
 	res->blocklist = NULL;
+	res->freeblocks = NULL;
+#ifdef DEBUG_CHUNK_ALLOCATOR
+	res->blockid = 0;
+#endif
 
 	return res;
 }
@@ -790,30 +804,39 @@ gnm_mem_chunk_new (const char *name, size_t user_atom_size, size_t chunk_size)
 void
 gnm_mem_chunk_destroy (gnm_mem_chunk *chunk, gboolean expect_leaks)
 {
+	GSList *l;
+
+	g_return_if_fail (chunk != NULL);
+
+#ifdef DEBUG_CHUNK_ALLOCATOR
+	g_print ("Destroying %s.\n", chunk->name);
+#endif
 	/*
 	 * Since this routine frees all memory allocated for the pool,
 	 * it is sometimes convenient not to free at all.  For such
 	 * cases, don't report leaks.
 	 */
 	if (!expect_leaks) {
-		gnm_mem_chunk_block *block;
+		GSList *l;
+		int leaked = 0;
 
-		for (block = chunk->blocklist; block; block = block->next) {
-			int leaked = chunk->atoms_per_block - (block->freecount + block->nonalloccount);
-			if (leaked) {
-				g_warning ("Leaked %d nodes from %s.",
-					   leaked, chunk->name);
-			}
+		for (l = chunk->blocklist; l; l = l->next) {
+			gnm_mem_chunk_block *block = l->data;
+			leaked += chunk->atoms_per_block - (block->freecount + block->nonalloccount);
+		}
+		if (leaked) {
+			g_warning ("Leaked %d nodes from %s.",
+				   leaked, chunk->name);
 		}
 	}
 
-	while (chunk->blocklist) {
-		gnm_mem_chunk_block *block = chunk->blocklist;
-
-		chunk->blocklist = block->next;
+	for (l = chunk->blocklist; l; l = l->next) {
+		gnm_mem_chunk_block *block = l->data;
 		g_free (block->data);
 		g_free (block);
 	}
+	g_slist_free (chunk->blocklist);
+	g_list_free (chunk->freeblocks);
 	g_free (chunk->name);
 	g_free (chunk);
 }
@@ -825,30 +848,50 @@ gnm_mem_chunk_alloc (gnm_mem_chunk *chunk)
 	char *res;
 
 	/* First try the freelist.  */
-	if (chunk->freelist) {
-		gnm_mem_chunk_freeblock *res = chunk->freelist;
-		gnm_mem_chunk_block *block =
-			*((gnm_mem_chunk_block **)((char *)res - chunk->alignment));
+	if (chunk->freeblocks) {
+		gnm_mem_chunk_freeblock *res;
 
-		chunk->freelist = res->next;
-		block->freecount--;
-		return res;
-	}
+		block = chunk->freeblocks->data;
+		res = block->freelist;
+		if (res) {
+			block->freelist = res->next;
 
-	/* Now try unallocated parts of latest block.  */
-	block = chunk->blocklist;
-	if (!block || block->nonalloccount == 0) {
+			block->freecount--;
+			if (block->freecount == 0 && block->nonalloccount == 0) {
+				/* Block turned full -- remove it from freeblocks.  */
+				chunk->freeblocks = g_list_delete_link (chunk->freeblocks,
+									chunk->freeblocks);
+			}
+			return res;
+		}
+		/*
+		 * If we get here, the block has free space that was never
+		 * allocated.
+		 */
+	} else {
 		block = g_new (gnm_mem_chunk_block, 1);
-		block->next = chunk->blocklist;
-		chunk->blocklist = block;
+#ifdef DEBUG_CHUNK_ALLOCATOR
+		block->id = chunk->blockid++;
+		g_print ("Allocating new chunk %d for %s.\n", block->id, chunk->name);
+#endif
 		block->nonalloccount = chunk->atoms_per_block;
 		block->freecount = 0;
 		block->data = g_malloc (chunk->chunk_size);
+		block->freelist = NULL;
+
+		chunk->blocklist = g_slist_prepend (chunk->blocklist, block);
+		chunk->freeblocks = g_list_prepend (chunk->freeblocks, block);
 	}
 
 	res = (char *)block->data +
 		(chunk->atoms_per_block - block->nonalloccount--) * chunk->atom_size;
 	*((gnm_mem_chunk_block **)res) = block;
+
+	if (block->nonalloccount == 0 && block->freecount == 0) {
+		/* Block turned full -- remove it from freeblocks.  */
+		chunk->freeblocks = g_list_delete_link (chunk->freeblocks, chunk->freeblocks);
+	}
+
 	return res + chunk->alignment;
 }
 
@@ -867,11 +910,29 @@ gnm_mem_chunk_free (gnm_mem_chunk *chunk, gpointer mem)
 	gnm_mem_chunk_block *block =
 		*((gnm_mem_chunk_block **)((char *)mem - chunk->alignment));
 
-	fb->next = chunk->freelist;
-	chunk->freelist = fb;
+	fb->next = block->freelist;
+	block->freelist = fb;
+	block->freecount++;
 
-	if (block->freecount++ == chunk->atoms_per_block) {
-		/* FIXME */
+	if (block->freecount == 1 && block->nonalloccount == 0) {
+		/* Block turned non-full.  */
+		chunk->freeblocks = g_list_prepend (chunk->freeblocks, block);
+	} else if (block->freecount == chunk->atoms_per_block) {
+		/* Block turned all-free.  */
+
+#ifdef DEBUG_CHUNK_ALLOCATOR
+		g_print ("Releasing chunk %d for %s.\n", block->id, chunk->name);
+#endif
+		g_free (block->data);
+
+		/*
+		 * FIXME -- this could be faster if we rolled our own lists.
+		 * Hopefully, however, (a) the number of blocks is small,
+		 * and (b) the freed block might be near the beginning ("top")
+		 * of the stacks.
+		 */
+		chunk->blocklist = g_slist_remove (chunk->blocklist, block);
+		chunk->freeblocks = g_list_remove (chunk->freeblocks, block);
 	}
 }
 

@@ -73,10 +73,12 @@ value_new_float (gnum_float f)
 	}
 }
 
+/* Memory pool for error values.  */
+static gnm_mem_chunk *value_error_pool;
 Value *
 value_new_error (EvalPos const *ep, char const *mesg)
 {
-	ValueErr *v = g_new (ValueErr, 1);
+	ValueErr *v = gnm_mem_chunk_alloc (value_error_pool);
 	*((ValueType *)&(v->type)) = VALUE_ERROR;
 	v->fmt = NULL;
 	v->mesg = string_get (mesg);
@@ -86,7 +88,7 @@ value_new_error (EvalPos const *ep, char const *mesg)
 Value *
 value_new_error_str (EvalPos const *ep, String *mesg)
 {
-	ValueErr *v = g_new (ValueErr, 1);
+	ValueErr *v = gnm_mem_chunk_alloc (value_error_pool);
 	*((ValueType *)&(v->type)) = VALUE_ERROR;
 	v->fmt = NULL;
 	v->mesg = string_ref (mesg);
@@ -110,10 +112,11 @@ value_error_set_pos (ValueErr *err, EvalPos const *pos)
     return (Value *)err;
 }
 
+static gnm_mem_chunk *value_string_pool;
 Value *
 value_new_string (char const *str)
 {
-	ValueStr *v = g_new (ValueStr, 1);
+	ValueStr *v = gnm_mem_chunk_alloc (value_string_pool);
 	*((ValueType *)&(v->type)) = VALUE_STRING;
 	v->fmt = NULL;
 	v->val = string_get (str);
@@ -124,7 +127,7 @@ value_new_string (char const *str)
 Value *
 value_new_string_str (String *str)
 {
-	ValueStr *v = g_new (ValueStr, 1);
+	ValueStr *v = gnm_mem_chunk_alloc (value_string_pool);
 	*((ValueType *)&(v->type)) = VALUE_STRING;
 	v->fmt = NULL;
 	v->val = str;
@@ -349,11 +352,13 @@ value_release (Value *value)
 		}
 
 		string_unref (value->v_err.mesg);
-		break;
+		gnm_mem_chunk_free (value_error_pool, value);
+		return;
 
 	case VALUE_STRING:
 		string_unref (value->v_str.val);
-		break;
+		gnm_mem_chunk_free (value_string_pool, value);
+		return;
 
 	case VALUE_ARRAY: {
 		ValueArray *v = (ValueArray *)value;
@@ -693,7 +698,7 @@ value_get_as_int (Value const *v)
 		return 0;
 
 	case VALUE_FLOAT:
-		return (int) gnumeric_add_epsilon (v->v_float.val);
+		return (int) gnumeric_fake_trunc (v->v_float.val);
 
 	case VALUE_BOOLEAN:
 		return v->v_bool.val ? 1 : 0;
@@ -722,7 +727,7 @@ value_get_as_float (Value const *v)
 		return 0.;
 
 	case VALUE_STRING:
-		return atof (v->v_str.val->str);
+		return strtognum (v->v_str.val->str, NULL);
 
 	case VALUE_CELLRANGE:
 		g_warning ("Getting range as a double: what to do?");
@@ -1052,6 +1057,16 @@ value_init (void)
 		gnm_mem_chunk_new ("value float pool",
 				   sizeof (ValueFloat),
 				   16 * 1024 - 128);
+
+	value_error_pool =
+		gnm_mem_chunk_new ("value error pool",
+				   sizeof (ValueErr),
+				   16 * 1024 - 128);
+
+	value_string_pool =
+		gnm_mem_chunk_new ("value string pool",
+				   sizeof (ValueStr),
+				   16 * 1024 - 128);
 }
 
 void
@@ -1062,6 +1077,12 @@ value_shutdown (void)
 
 	gnm_mem_chunk_destroy (value_float_pool, FALSE);
 	value_float_pool = NULL;
+
+	gnm_mem_chunk_destroy (value_error_pool, FALSE);
+	value_error_pool = NULL;
+
+	gnm_mem_chunk_destroy (value_string_pool, FALSE);
+	value_string_pool = NULL;
 }
 
 /****************************************************************************/
