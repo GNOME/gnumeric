@@ -1,3 +1,9 @@
+2004-02-22  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(end)) : We're using GogRadar rather than GogRadial.
+	  Set the no-marker state using the right name.
+	(BC_R(radararea)) : set the area flag to indicate filled.
+
 2004-02-21  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-util.c (two_way_table_new) : store the destroy func.

@@ -1,5 +1,16 @@
+2004-02-29  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=126563
+	* src/sheet.c (sheet_dup) :
+
+2004-02-28  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=74205
+	* src/item-edit.c : Display blue range designator even in other panes
+
 2004-02-27  Morten Welinder  <terra@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=135609
 	* src/parse-util.c (rangeref_as_string): Before dropping the
 	second half of the range, make sure the $-designations agree also.
 
@@ -25,7 +36,7 @@
 2004-02-22  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=135044
-        * src/commands.c (cmd_resize_colrow): Fixed incorrect string
+	* src/commands.c (cmd_resize_colrow): Fixed incorrect string
 
 2004-02-21  Jody Goldberg <jody@gnome.org>
 

@@ -7,6 +7,7 @@
 #include "sheet-object.h"
 #include <gtk/gtktable.h>
 
+#define	SCG_NUM_PANES		4
 struct _SheetControlGUI {
 	SheetControl sheet_control;
 
@@ -23,7 +24,7 @@ struct _SheetControlGUI {
 		GtkWidget	*button_box;
 	} col_group, row_group;
 
-	GnumericPane	 pane [4];
+	GnumericPane	 pane [SCG_NUM_PANES];
 	int		 active_panes;
 
 	int grab_stack; /* utility to keep track of grabs in the various canvases */

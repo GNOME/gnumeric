@@ -1251,7 +1251,9 @@ BC_R(radararea)(XLChartHandler const *handle,
 {
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = gog_plot_new_by_name ("GogRadarPlot");
-#warning filled
+	g_object_set (G_OBJECT (s->plot),
+		"area",		TRUE,
+		NULL);
 
 	return FALSE;
 }
@@ -1758,7 +1760,7 @@ BC_R(end)(XLChartHandler const *handle,
 			if (type != NULL && style->marker.mark != NULL &&
 			    (!strcmp (type, "GogXYPlot") ||
 			     !strcmp (type, "GogLinePlot") ||
-			     !strcmp (type, "GogRadialPlot")))
+			     !strcmp (type, "GogRadarPlot")))
 				g_object_set (G_OBJECT (s->plot),
 					"default-style-has-markers",
 					style->marker.mark->shape != GO_MARKER_NONE,

@@ -1329,8 +1329,10 @@ toggle_current_font_attr (WorkbookControlGUI *wbcg,
  * button, which is displayed in vertical mode instead of font name / font
  * size controls.
  */
+#ifdef WITH_BONOBO
 static GNM_ACTION_DEF (cb_font_name)
 	{ dialog_cell_format (wbcg, FD_FONT); }
+#endif
 static GNM_ACTION_DEF (cb_font_bold)
 	{ toggle_current_font_attr (wbcg, TRUE, FALSE, FALSE, FALSE, FALSE); }
 static GNM_ACTION_DEF (cb_font_italic)

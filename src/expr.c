@@ -597,13 +597,6 @@ value_intersection (GnmValue *v, GnmEvalPos const *pos)
 		return res;
 	}
 
-	/* Handle the implicit union of a single row or
-	 * column with the eval position.
-	 * NOTE : We do not need to know if this is expression is
-	 * being evaluated as an array or not because we can differentiate
-	 * based on the required type for the argument.
-	 */
-
 	/* inverted ranges */
 	rangeref_normalize (&v->v_range.cell, pos, &start_sheet, &end_sheet, &r);
 	value_release (v);
