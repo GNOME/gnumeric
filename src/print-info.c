@@ -550,7 +550,7 @@ render_value_with_format (GString *target, const char *number_format, HFRenderIn
 	/* TODO : Check this assumption.  Is it a localized format ?? */
 	format = style_format_new_XL (number_format, FALSE);
 
-	text = format_value (format, info->date_time, NULL, NULL, -1);
+	text = format_value (format, info->date_time, NULL, -1);
 
 	/* Just in case someone tries to format it as text */
 	g_return_if_fail (text != NULL);

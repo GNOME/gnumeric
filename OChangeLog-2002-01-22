@@ -1,3 +1,35 @@
+2000-11-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (cb_set_cell_content) : Use cell_set_value.
+	(sheet_range_set_text) : remove need for entered_text.
+
+	* src/xml-io.c (xml_read_cell) : Remove 'General' hack.
+
+	* src/dialogs/dialog-cell-format.c (draw_format_preview) : remove
+	  entered_text.
+
+	* src/rendered-value.c (rendered_value_new_ext) : No need for
+	  entered_text.  Use format_value in place of value_as_string.
+
+	* src/format.c (format_value) : No need for entered_text.
+	  Be careful to always set the colour.  This may need to be tuned
+	  if we enter '$10' and use a display format of @ what should be
+	  displayed ?  10 or $10 ?  We may need to pass in the parse format.
+
+	* src/cell.c (cell_cleanout) : Remove entered_text.
+	(cell_copy) : Ditto.
+	(cell_set_text) : Ditto.
+	(cell_set_value) : Ditto, do not render value here.
+	(cell_set_text_and_value) : Delete.
+	(cell_set_expr_and_value) : Remove entered_text, and add format
+	  argument.
+	(cell_set_expr_internal) : No need to manually unref the old expr.
+	  That was already done in cleanout.
+	(cell_make_value) : remove entered_text.
+
+	* src/rendered-value.c (cell_get_entered_text) : Use the stored parse
+	  format and format_value to regenerate the entered text from a value.
+
 2000-11-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-view.c (sheet_view_{col,row}_size_changed) : Only resize

@@ -1525,70 +1525,65 @@ fmt_general_int (int val, int col_width)
  */
 gchar *
 format_value (StyleFormat *format, const Value *value, StyleColor **color,
-	      char const *entered_text, float col_width)
+	      float col_width)
 {
 	char *v = NULL;
 	StyleFormatEntry entry;
 	gboolean is_general = FALSE;
 	GList *list;
 
-	g_return_val_if_fail (value != NULL, "<ERROR>");
-
 	if (color)
 		*color = NULL;
 
-	/* get format */
-	for (list = format->entries; list; list = g_list_next (list))
-		if (check_valid (list->data, value))
-			break;
+	g_return_val_if_fail (value != NULL, "<ERROR>");
 
-	if (list)
-		entry = *(StyleFormatEntry *)(list->data);
-	else
-		entry.format = format->format;
+	if (format) {
+		/* get format */
+		for (list = format->entries; list; list = g_list_next (list))
+			if (check_valid (list->data, value))
+				break;
 
-	/* Try to parse a color specification */
-	if (entry.format [0] == '['){
-		char *end = strchr (entry.format, ']');
+		if (list)
+			entry = *(StyleFormatEntry *)(list->data);
+		else
+			entry.format = format->format;
 
-		if (end) {
-			char first_after_bracket = entry.format [1];
+		/* Try to parse a color specification */
+		if (entry.format [0] == '['){
+			char *end = strchr (entry.format, ']');
 
-			/*
-			 * Special [h*], [m*], [*s] is using for
-			 * and [$*] are for currencies.
-			 * measuring times, not for specifying colors.
-			 */
-			if (!(first_after_bracket == 'h' ||
-			      first_after_bracket == 's' ||
-			      first_after_bracket == 'm' ||
-			      first_after_bracket == '$')){
-				if (color)
-					*color = lookup_color (&entry.format [1], end);
-				entry.format = end+1;
+			if (end) {
+				char first_after_bracket = entry.format [1];
+
+				/*
+				 * Special [h*], [m*], [*s] is using for
+				 * and [$*] are for currencies.
+				 * measuring times, not for specifying colors.
+				 */
+				if (!(first_after_bracket == 'h' ||
+				      first_after_bracket == 's' ||
+				      first_after_bracket == 'm' ||
+				      first_after_bracket == '$')){
+					if (color)
+						*color = lookup_color (&entry.format [1], end);
+					entry.format = end+1;
+				}
 			}
 		}
-	}
 
-	/* Empty formats should be ignored */
-	if (entry.format [0] == '\0')
-		return g_strdup ("");
+		/* Empty formats should be ignored */
+		if (entry.format [0] == '\0')
+			return g_strdup ("");
 
-	/* Formatting a value as a text returns the entered text */
-	if (strcmp (entry.format, "@") == 0) {
-		if (value->type == VALUE_STRING)
-			return g_strdup (value->v_str.val->str);
-		if (entered_text != NULL)
-			return g_strdup (entered_text);
+		/* Formatting a value as a text returns the entered text */
+		if (strcmp (entry.format, "@") == 0) {
+			if (value->type == VALUE_STRING)
+				return g_strdup (value->v_str.val->str);
 
-		/* FIXME : What does it mean to format a value as text
-		 * without specifying the entered text ??
-		 * use General as a failsafe */
-		is_general = TRUE;
-	}
-
-	/* No need to translate we always store in C locale */
-	if (strcmp (entry.format, "General") == 0)
+			is_general = TRUE;
+		} else if (strcmp (entry.format, "General") == 0)
+			is_general = TRUE;
+	} else
 		is_general = TRUE;
 
 	/*

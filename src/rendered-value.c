@@ -87,9 +87,6 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 		color = NULL;
 	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
 		/* entered text CAN be null if called by set_value */
-		char const *entered =
-			(!cell_has_expr (cell) && cell->entered_text != NULL)
-			? cell->entered_text->str : NULL;
 		StyleFormat *format = mstyle_get_format (mstyle);
 
 		/* For format general approximate the cell width in characters */
@@ -120,7 +117,7 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 			} else
 				format = cell->format;
 		}
-		str = format_value (format, cell->value, &color, entered, col_width);
+		str = format_value (format, cell->value, &color, col_width);
 	} else {
 		g_warning ("No format: serious error");
 		str = g_strdup ("Error");
@@ -323,21 +320,14 @@ cell_get_entered_text (Cell const *cell)
 		return ret;
 	}
 
-	/*
-	 * Return the value without parsing.
-	 */
-	if (cell->entered_text != NULL)
-		return g_strdup (cell->entered_text->str);
-
-	/* Getting desperate, no need to check for the rendered version.
-	 * This should not happen.
-	 */
-	else if (cell->value != NULL)
-		return value_get_as_string (cell->value);
-	else {
-		g_warning ("A cell with no expression, no value, and no entered_text ??");
-		return g_strdup ("<ERROR>");
+	if (cell->value != NULL) {
+		if (cell->value->type == VALUE_STRING)
+			return g_strconcat ("\'", cell->value->v_str.val->str, NULL);
+		return format_value (cell->format, cell->value, NULL, -1);
 	}
+
+	g_warning ("A cell with no expression, and no value ??");
+	return g_strdup ("<ERROR>");
 }
 
 int

@@ -1159,7 +1159,6 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
  */
 typedef struct {
 	StyleFormat *format;
-	String     *entered_text;
 	Value      *val;
 	ExprTree   *expr;
 } closure_set_cell_value;
@@ -1173,9 +1172,8 @@ cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
 	if (info->expr != NULL)
 		cell_set_expr (cell, info->expr, info->format);
 	else
-		cell_set_text_and_value (cell, info->entered_text,
-					 value_duplicate (info->val),
-					 info->format);
+		cell_set_value (cell, value_duplicate (info->val),
+				info->format);
 	return NULL;
 }
 
@@ -1199,12 +1197,9 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 	g_return_if_fail (r != NULL);
 	g_return_if_fail (str != NULL);
 
-	closure.format =
-		parse_text_value_or_expr (pos, str, &closure.val, &closure.expr,
-					  NULL /* TODO : Use edit_pos format ?? */);
-
-	/* Remember the entered text for values */
-	closure.entered_text = (closure.val != NULL) ? string_get (str) : NULL;
+	closure.format = parse_text_value_or_expr (pos, str,
+		&closure.val, &closure.expr,
+		NULL /* TODO : Use edit_pos format ?? */);
 
 	/* Store the parsed result creating any cells necessary */
 	sheet_cell_foreach_range (pos->sheet, FALSE,
@@ -1216,10 +1211,9 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 	if (closure.format)
 		style_format_unref (closure.format);
 
-	if (closure.val) {
+	if (closure.val)
 		value_release (closure.val);
-		string_unref (closure.entered_text);
-	} else
+	else
 		expr_tree_unref (closure.expr);
 
 	sheet_flag_status_update_range (pos->sheet, r);
@@ -1248,10 +1242,8 @@ sheet_cell_set_text (Cell *cell, char const *str)
 		cell_set_expr (cell, expr, format);
 		expr_tree_unref (expr);
 	} else {
-		String *string = string_get (str);
-		cell_set_text_and_value (cell, string, val, format);
-		string_unref (string);
-		sheet_cell_calc_span (cell, SPANCALC_RESIZE);
+		cell_set_value (cell, val, format);
+		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
 		cell_content_changed (cell);
 	}
 	if (format)

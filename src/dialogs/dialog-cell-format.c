@@ -93,7 +93,6 @@ typedef struct _FormatState
 	Sheet		*sheet;
 	MStyle		*style, *result;
 	Value		*value;
-	char const	*sample_rendered_text;
 
 	int	 	 selection_mask;
 	gboolean	 enable_edit;
@@ -493,9 +492,8 @@ draw_format_preview (FormatState *state)
 	if (sf == NULL)
 		return;
 
-	if (state->sample_rendered_text) {
-		preview = format_value (sf, state->value, &preview_color,
-					state->sample_rendered_text, -1);
+	if (state->value) {
+		preview = format_value (sf, state->value, &preview_color, -1);
 
 		if (strlen (preview) > FORMAT_PREVIEW_MAX)
 			strcpy (&preview [FORMAT_PREVIEW_MAX - 5], " ...");
@@ -1940,10 +1938,6 @@ static gboolean
 cb_fmt_dialog_dialog_destroy (GtkObject *w, FormatState *state)
 {
 	g_free ((char *)state->format.spec);
-	if (state->sample_rendered_text != NULL) {
-		g_free ((char *)state->sample_rendered_text);
-		state->sample_rendered_text = NULL;
-	}
 	mstyle_unref (state->style);
 	mstyle_unref (state->result);
 	gtk_object_unref (GTK_OBJECT (state->gui));
@@ -2291,9 +2285,6 @@ dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition
 	state->gui		= gui;
 	state->sheet		= sheet;
 	state->value		= sample_val;
-	state->sample_rendered_text = edit_cell
-	    ? cell_get_rendered_text (edit_cell)
-	    : NULL;
 	state->style		= mstyle;
 	state->result		= mstyle_new ();
 	state->selection_mask	= 0;

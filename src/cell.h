@@ -7,7 +7,7 @@
 
 typedef enum {
     /* MUST BE > 0xffff for dependent */
-    /* Cell has an expression rather than entered_text */
+    /* Cell has an expression (Can we use base.expr == NULL ?)*/
     CELL_HAS_EXPRESSION	   = 0x10000,
 
     /* Cell is linked into the sheet */
@@ -29,11 +29,13 @@ struct _Cell {
 	Value         *value;	/* computed or entered (Must be non NULL) */
 	RenderedValue *rendered_value;
 
-	/*  Only applies if the region has format general */
-	StyleFormat *format;	/* Prefered format to render value */
-
-	/* DEPRECATED : this field will be removed shortly */
-	String      *entered_text;	/* Text as entered by the user. */
+	/*
+	 * For exprs  = The prefered output format
+	 * For values = format that parsed the input
+	 *              also used to regenerate the entered
+	 *              text for editing.
+	 */
+	StyleFormat *format;
 
 	CellComment *comment;
 };
@@ -65,20 +67,18 @@ gboolean    cell_is_partial_array       (Cell const * cell);
 /**
  * Utilities to assign the contents of a cell
  */
-void        cell_set_text                (Cell *cell, char const *text);
-void        cell_set_text_and_value      (Cell *cell, String *text,
-					  Value *v, StyleFormat *opt_fmt);
-void        cell_assign_value            (Cell *cell, Value *v, StyleFormat *opt_fmt);
-void        cell_set_value               (Cell *cell,
-					  Value *v, StyleFormat *opt_fmt);
-void        cell_set_expr_and_value      (Cell *cell, ExprTree *expr, Value *v);
-void        cell_set_expr                (Cell *cell, ExprTree *formula,
+void        cell_set_text                (Cell *c, char const *text);
+void        cell_assign_value            (Cell *c, Value *v, StyleFormat *fmt);
+void        cell_set_value               (Cell *c, Value *v, StyleFormat *fmt);
+void        cell_set_expr_and_value      (Cell *c, ExprTree *expr, Value *v,
+					  StyleFormat *opt_fmt);
+void        cell_set_expr                (Cell *c, ExprTree *expr,
 					  StyleFormat *opt_fmt);
 void	    cell_set_expr_unsafe 	 (Cell *cell, ExprTree *expr,
 					  StyleFormat *opt_fmt);
 void        cell_set_array_formula       (Sheet *sheet, int rowa, int cola,
 					  int rowb, int colb,
-					  ExprTree *formula,
+					  ExprTree *expr,
 					  gboolean queue_recalc);
 
 /**

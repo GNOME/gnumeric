@@ -2,6 +2,7 @@
  * cell.c: Cell management of the Gnumeric spreadsheet.
  *
  * Author:
+ *    Jdy Goldberg 2000 (jgoldberg@home.com)
  *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  */
 #include "config.h"
@@ -42,8 +43,8 @@ cell_dirty (Cell *cell)
  *      Empty a cell's
  *      	- value.
  *      	- rendered_value.
- *      	- entered_text/expression.
- *      	- optional format.
+ *      	- expression.
+ *      	- parse format.
  *     
  *      Clears the flags to
  *      	- not queued for recalc.
@@ -65,9 +66,6 @@ cell_cleanout (Cell *cell)
 			dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 		expr_tree_unref (cell->base.expression);
 		cell->base.expression = NULL;
-	} else if (cell->entered_text) {
-		string_unref (cell->entered_text);
-		cell->entered_text = NULL;
 	}
 
 	if (cell->value) {
@@ -113,8 +111,6 @@ cell_copy (Cell const *cell)
 	/* now copy properly the rest */
 	if (cell_has_expr (new_cell))
 		expr_tree_ref (new_cell->base.expression);
-	else
-		string_ref (new_cell->entered_text);
 
 	new_cell->rendered_value = NULL;
 
@@ -281,12 +277,12 @@ cell_relocate (Cell *cell, ExprRewriteInfo *rwinfo)
 /****************************************************************************/
 
 /*
- * cell_set_text : Stores the supplied text as the entered_text, then parses it
- *      for storage as a value or expression.  It marks the sheet as dirty.
+ * cell_set_text : Parses the supplied text for storage as a value or
+ * 		expression.  It marks the sheet as dirty.
  *
  * If the text is an expression it IS queued for recalc.
  *        the format prefered by the expression is stored for later use.
- * If the text is a value it is rendered but spans are not calculated.
+ * If the text is a value it is NOT rendered and spans are NOT calculated.
  *        the format that matched the text is stored for later use.
  *
  * WARNING : This is an internal routine that does not queue redraws,
@@ -315,7 +311,6 @@ cell_set_text (Cell *cell, char const *text)
 
 		cell->base.flags &= ~CELL_HAS_EXPRESSION;
 		cell->value = val;
-		cell->entered_text = string_get (text);
 		cell->format = format;
 		cell_render_value (cell);
 	} else {		/* String was an expression */
@@ -324,40 +319,6 @@ cell_set_text (Cell *cell, char const *text)
 		expr_tree_unref (expr);
 	}
 	cell_dirty (cell);
-}
-
-/*
- * cell_set_text_and_value : Stores the supplied text as the entered_text, then
- *      stores (WITHOUT COPYING) the supplied value.
- *      It marks the sheet as dirty. The text is NOT parsed.
- *
- * The cell is rendered but spans are not calculated.
- * If an optional format is supplied it is stored for later use.
- *
- * WARNING : This is an internal routine that does not queue redraws,
- *           does not auto-resize, and does not calculate spans.
- *
- * NOTE : This DOES check for array partitioning.
- */
-void
-cell_set_text_and_value (Cell *cell, String *text,
-			 Value *v, StyleFormat *opt_fmt)
-{
-	g_return_if_fail (cell);
-	g_return_if_fail (text);
-	g_return_if_fail (v);
-	g_return_if_fail (!cell_is_partial_array (cell));
-
-	if (opt_fmt != NULL)
-		style_format_ref (opt_fmt);
-
-	cell_dirty (cell);
-	cell_cleanout (cell);
-
-	cell->format = opt_fmt;
-	cell->entered_text = string_ref (text);
-	cell->value = v;
-	cell_render_value (cell);
 }
 
 /*
@@ -411,10 +372,6 @@ cell_assign_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
  * user has assigned a non-std format.  We need to improve the parser to handle
  * all formats that exist within the workbook.
  *
- * FIXME FIXME FIXME : This is being called from other locales.  however, we
- * may be in the C locale while importing.  Hence the rendered version of the
- * entered_text is in C rather than the used selected locale.
- *
  * NOTE : This DOES check for array partitioning.
  */
 void
@@ -430,46 +387,10 @@ cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 	cell_dirty (cell);
 	cell_cleanout (cell);
 
+	/* TODO : It would be nice to standardize on NULL == General */
 	cell->format = (opt_fmt == NULL || style_format_is_general (opt_fmt))
 		? NULL : opt_fmt;
 	cell->value = v;
-	cell_render_value (cell);
-
-#if 1
-	/* Be careful that a value passes as a string stays a string */
-	if (v->type == VALUE_STRING) {
-		/* TODO : add new string routine to avoid the extra copy */
-		char *tmp = g_strconcat ("\'", v->v_str.val->str, NULL);
-		cell->entered_text = string_get (tmp);
-		g_free (tmp);
-	} else if (opt_fmt) {
-		/* If available use the supplied format */
-		cell->entered_text = string_get_nocopy (
-			format_value (opt_fmt, v, NULL, NULL, -1));
-	} else {
-		/* Fall back on using the format applied to the cell.
-		 * re-render using the assigned format to handle width
-		 * dependent formats.
-		 */
-		MStyle *mstyle = cell_get_mstyle (cell);
-		StyleFormat *format = mstyle_get_format (mstyle);
-		cell->entered_text = string_get_nocopy (
-			format_value (format, v, NULL, NULL, -1));
-		mstyle_unref (mstyle);
-	}
-#else
-	/* TODO : use this version when we have converted all callers to pass
-	 * in a parse format.
-	 * Gnumeric's xml format is smart enough to store the parse format
-	 * that generated the value.  Other file formats (XL) are not as smart.
-	 * as a result we need to guess.
-	 */
-	/* Be careful that a value passes as a string stays a string */
-	cell->entered_text = string_get_nocopy ((v->type == VALUE_STRING)
-		? g_strconcat ("\'", v->v_str.val->str, NULL)
-		/* If available use the supplied format, else use General */
-		: format_value (opt_fmt?opt_fmt:"General", v, NULL, NULL, -1));
-#endif
 }
 
 /*
@@ -480,16 +401,15 @@ cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
  *
  * If an optional format is supplied it is stored for later use.
  *
- * The cell is rendered but spans are not calculated,  the cell is NOT marked for
- * recalc.
- *
  * WARNING : This is an internal routine that does not queue redraws,
- *           does not auto-resize, and does not calculate spans.
+ *           does not auto-resize, does not calculate spans, and does
+ *           not render the value.
  *
  * NOTE : This DOES check for array partitioning.
  */
 void
-cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v)
+cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v,
+			 StyleFormat *opt_fmt)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (expr != NULL);
@@ -497,19 +417,17 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v)
 
 	/* Repeat after me.  Ref before unref. */
 	expr_tree_ref (expr);
+	if (opt_fmt != NULL)
+		style_format_ref (opt_fmt);
 
 	cell_dirty (cell);
 	cell_cleanout (cell);
 
+	cell->format = opt_fmt;
 	cell->base.expression = expr;
 	cell->base.flags |= CELL_HAS_EXPRESSION;
 	dependent_link (CELL_TO_DEP (cell), &cell->pos);
-#if 0
-	/* TODO : Should we add this for consistancy ? */
-	cell->format = fmt;
-#endif
 	cell->value = v;
-	cell_render_value (cell);
 }
 
 /**
@@ -528,16 +446,12 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v)
 static void
 cell_set_expr_internal (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
 {
+	expr_tree_ref (expr);
 	if (opt_fmt != NULL)
 		style_format_ref (opt_fmt);
 
-	expr_tree_ref (expr);
-
 	cell_dirty (cell);
 	cell_cleanout (cell);
-
-	if (cell->base.expression)
-		expr_tree_unref (cell->base.expression);
 
 	cell->format = opt_fmt;
 	cell->base.expression = expr;
@@ -840,8 +754,5 @@ cell_make_value (Cell *cell)
 	if (cell->rendered_value == NULL)
 		cell_render_value (cell);
 
-	g_return_if_fail (cell->rendered_value != NULL);
-
-	cell->entered_text = string_ref (cell->rendered_value->rendered_text);
 	cell_dirty (cell);
 }
