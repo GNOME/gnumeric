@@ -1,5 +1,8 @@
 2003-06-30  Morten Welinder  <terra@gnome.org>
 
+	* src/libgnumeric.c (gnm_common_init, gnm_shutdown): Style depends
+	on colours.
+
 	* src/commands.c (cmd_set_text_redo): Don't override a user
 	format.
 

@@ -125,8 +125,8 @@ gnm_common_init (void)
 	cell_init ();
 	dependent_types_init ();
 	rendered_value_init ();
-	style_init ();
 	gnumeric_color_init ();
+	style_init ();
 	format_color_init ();
 	format_match_init ();
 	/* e_cursors_init (); */
@@ -179,8 +179,8 @@ gnm_shutdown (void)
 	/* e_cursors_shutdown (); */
 	format_match_finish ();
 	format_color_shutdown ();
-	gnumeric_color_shutdown ();
 	style_shutdown ();
+	gnumeric_color_shutdown ();
 	rendered_value_shutdown ();
 	dependent_types_shutdown ();
 	cell_shutdown ();

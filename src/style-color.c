@@ -233,8 +233,8 @@ gnumeric_color_init (void)
 	gs_dark_gray.pixel =  error.pixel;
 	gs_light_gray.pixel =  error.pixel;
 
-	style_color_hash  = g_hash_table_new (color_hash,
-					      (GEqualFunc) style_color_equal);
+	style_color_hash = g_hash_table_new (color_hash,
+					     (GEqualFunc) style_color_equal);
 }
 
 static void
@@ -271,7 +271,6 @@ gnumeric_color_shutdown (void)
 		style_color_unref (sc_grid);
 		sc_grid = NULL;
 	}
-
 
 	g_hash_table_foreach (style_color_hash, cb_color_leak, NULL);
 	g_hash_table_destroy (style_color_hash);
