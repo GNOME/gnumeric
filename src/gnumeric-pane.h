@@ -6,6 +6,7 @@
 
 struct _GnumericPane {
 	int		 index;
+	gboolean	 is_active;
 	GnumericCanvas	*gcanvas;
 	struct {
 		GnomeCanvas *canvas;

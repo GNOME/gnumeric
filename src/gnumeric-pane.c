@@ -89,8 +89,11 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 	Range r;
 	int i;
 
-	pane->gcanvas = gnumeric_canvas_new (scg, pane);
-	pane->index = index;
+	g_return_if_fail (!pane->is_active);
+
+	pane->gcanvas   = gnumeric_canvas_new (scg, pane);
+	pane->index     = index;
+	pane->is_active = TRUE;
 
 	gcanvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (pane->gcanvas)->root);
 	item = gnome_canvas_item_new (gcanvas_group,
@@ -136,9 +139,11 @@ void
 gnm_pane_release (GnumericPane *pane)
 {
 	g_return_if_fail (pane->gcanvas != NULL);
+	g_return_if_fail (pane->is_active);
 
 	gtk_object_destroy (GTK_OBJECT (pane->gcanvas));
 	pane->gcanvas = NULL;
+	pane->is_active = FALSE;
 
 	if (pane->col.canvas != NULL) {
 		gtk_object_destroy (GTK_OBJECT (pane->col.canvas));

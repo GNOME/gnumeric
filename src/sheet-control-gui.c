@@ -1056,6 +1056,10 @@ sheet_control_gui_new (Sheet *sheet)
 	scg = g_object_new (sheet_control_gui_get_type (), NULL);
 
 	scg->active_panes = 1;
+	scg->pane [0].is_active = FALSE;
+	scg->pane [1].is_active = FALSE;
+	scg->pane [2].is_active = FALSE;
+	scg->pane [3].is_active = FALSE;
 
 	scg->col_group.buttons = g_ptr_array_new ();
 	scg->row_group.buttons = g_ptr_array_new ();

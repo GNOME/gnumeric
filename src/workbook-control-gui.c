@@ -435,7 +435,7 @@ static void
 sheet_action_clone_sheet (GtkWidget *widget, SheetControlGUI *scg)
 {
 	SheetControl *sc = (SheetControl *) scg;
-     	Sheet *new_sheet = sheet_duplicate (sc->sheet);
+     	Sheet *new_sheet = sheet_dup (sc->sheet);
 
 	workbook_sheet_attach (sc->sheet->workbook, new_sheet, sc->sheet);
 	sheet_set_dirty (new_sheet, TRUE);
@@ -1733,7 +1733,7 @@ cb_edit_duplicate_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *old_sheet = wb_control_cur_sheet (wbc);
-     	Sheet *new_sheet = sheet_duplicate (old_sheet);
+     	Sheet *new_sheet = sheet_dup (old_sheet);
 
 	workbook_sheet_attach (wb_control_workbook (wbc),
 			       new_sheet,

@@ -1,5 +1,17 @@
 2002-04-29  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-object.c (sheet_object_clone_sheet) : range == NULL is legal
+
+	* src/sheet.c (sheet_clone_colrow_info_item) : Use colrow_copy.
+	  While we're here use sheet_colrow_fetch too.
+	(sheet_dup) : rename from sheet_duplicate to be consistent.
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : post release version bump
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.1.3
 
 2002-04-28  Jody Goldberg <jody@gnome.org>

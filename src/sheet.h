@@ -89,7 +89,7 @@ struct _Sheet {
 #define IS_SHEET(x) (((x) != NULL) && ((x)->signature == SHEET_SIGNATURE))
 
 Sheet      *sheet_new			(Workbook *wb, char const *name);
-Sheet      *sheet_duplicate		(Sheet const *source_sheet);
+Sheet      *sheet_dup			(Sheet const *source_sheet);
 void        sheet_destroy		(Sheet *sheet);
 void        sheet_destroy_contents	(Sheet *sheet);
 void        sheet_rename		(Sheet *sheet, char const *new_name);

@@ -89,6 +89,13 @@ colrow_equal (ColRowInfo const *a, ColRowInfo const *b)
 		a->visible	 == b->visible;
 }
 
+/**
+ * colrow_copy :
+ * @dst :
+ * @src :
+ *
+ * Assign all content, accept the position of @src to @dst
+ */
 void
 colrow_copy (ColRowInfo *dst, ColRowInfo const *src)
 {

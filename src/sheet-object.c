@@ -939,10 +939,9 @@ sheet_object_clone (SheetObject const *so, Sheet *sheet)
  * sheet_object_clone_sheet:
  * @src: The source sheet to read the objects from
  * @dst: The destination sheet to attach the objects to
- * @range: Optional Range of interest
+ * @range: Optionally NULL region of interest
  *
  * Clones the objects of the src sheet and attaches them into the dst sheet
- *
  **/
 void
 sheet_object_clone_sheet (Sheet const *src, Sheet *dst, Range *range)
@@ -954,7 +953,6 @@ sheet_object_clone_sheet (Sheet const *src, Sheet *dst, Range *range)
 
 	g_return_if_fail (IS_SHEET (dst));
 	g_return_if_fail (dst->sheet_objects == NULL);
-	g_return_if_fail (range != NULL);
 
 	list = src->sheet_objects;
 	for (; list != NULL; list = list->next) {
