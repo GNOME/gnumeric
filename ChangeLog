@@ -1,5 +1,9 @@
-2001-12-17  Jody Goldberg <jody@gnome.org>
+2001-12-17  Morten Welinder  <terra@diku.dk>
 
+	* src/search.c (search_collect_cells): Improve portability.  (From:
+	"J.H.M. Dassen (Ray)" <dm@zensunni.demon.nl>)
+
+2001-12-17  Jody Goldberg <jody@gnome.org>
 
 	* src/item-grid.c (item_grid_event) : use the Gnumeric Canvas versions
 	  of grab/ungrab.
@@ -57,11 +61,11 @@
 	docs easier/workable.
 
 2001-12-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
-	* src/cellspan.c (cellspan_is_empty) : handle empty but defined 
+	* src/cellspan.c (cellspan_is_empty) : handle empty but defined
 	  cells (#66658)
 	(cell_calc_span) : don't span empty cells (#66658)
 
-	
+
 2001-12-13  Jody Goldberg <jody@gnome.org>
 
 	s/gnome-xml/libxml/
@@ -293,8 +297,8 @@
 
 2001-12-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/clipboard.c (clipboard_paste_region) : handle a 
-	  single merged target cell only as special if the 
+	* src/clipboard.c (clipboard_paste_region) : handle a
+	  single merged target cell only as special if the
 	  source is a single cell.  (#65760 & #58691)
 
 2001-12-04  Morten Welinder  <terra@diku.dk>
@@ -309,13 +313,13 @@
 	(get_data_groupped_by_rows) : deleted
 	(check_data_for_missing) : new utility routine
 	(make_label) : new utility routine
-	(anova_two_factor_without_r_tool) : support input from 
+	(anova_two_factor_without_r_tool) : support input from
 	  several sheets and support label choices
-	(anova_two_factor_with_r_tool) : ditto, plus support missing 
+	(anova_two_factor_with_r_tool) : ditto, plus support missing
 	  observations
 	(histogram_tool) Add percentage column and format percentages
 	  as such
-	
+
 
 2001-12-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
@@ -323,7 +327,7 @@
 
 2001-12-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/workbook-control-gui.c (show_gui) : implement complete 
+	* src/workbook-control-gui.c (show_gui) : implement complete
 	  --geometry option (according to X man page)
 	(read_int) : taken from GTK 2.0
 	(gtk_XParseGeometry) : ditto

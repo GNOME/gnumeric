@@ -511,7 +511,10 @@ search_collect_cells (SearchReplace *sr, Sheet *sheet)
 	case SRS_range:
 	{
 		GSList *range_list;
-		EvalPos ep = {{0, 0}, sr->curr_sheet};
+		EvalPos ep;
+		ep.eval.col = 0;
+		ep.eval.row = 0;
+		ep.sheet = sr->curr_sheet;
 
 		cells = g_ptr_array_new ();
 		range_list = global_range_list_parse (sr->curr_sheet, sr->range_text);

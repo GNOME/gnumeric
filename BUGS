@@ -35,6 +35,8 @@ Pre 1.0 breakage
 Long term breakage
 ------------------
 
+- Add -Wbad-function-cast and deal with it.  Lots of fun here.
+
 - Audit all fixed-length buffers.  Most non-time-critical can be replaced
   by proper usage of g_strdup_printf.
 
