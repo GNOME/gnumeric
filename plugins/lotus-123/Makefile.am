@@ -15,6 +15,7 @@ liblotus_la_SOURCES =		\
 	boot.c			\
 	lotus.c			\
 	lotus.h			\
+	lotus-types.h		\
 	lotus-formula.c		\
 	lotus-formula.h
 
