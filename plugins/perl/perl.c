@@ -31,9 +31,6 @@ no_cleanup_for_me (PluginData *pd)
         return;
 }
 
-#define PERL_TITLE _("Perl Plugin")
-#define PERL_DESCR _("This plugin enables PERL support in Gnumeric")
-
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
@@ -54,7 +51,8 @@ init_plugin (CommandContext *context, PluginData *pd)
 	perl_run(gnumeric_perl_interp);
 
 	if (plugin_data_init (pd, no_unloading_for_me, no_cleanup_for_me,
-			      PERL_TITLE, PERL_DESCR))
+			      _("Perl"),
+			      _("Enables the creation of functions in PERL")))
 	        return PLUGIN_OK;
 	else
 	        return PLUGIN_ERROR;

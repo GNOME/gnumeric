@@ -2005,7 +2005,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 	 * 0x2 = CalcOnLoad
 	 */
 	if (options & 0x3)
-		cell_queue_recalc (cell);
+		eval_queue_cell (cell);
 }
 
 BiffSharedFormula *

@@ -97,14 +97,15 @@ applix_cleanup_plugin (PluginData *pd)
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
-	char const *descr  = _("Applix (*.as) file format");
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
-	file_format_register_open (100, descr, applix_probe, applix_load);
+	file_format_register_open (100, 
+				   _("Applix (*.as) file format",
+				   &applix_probe, &applix_load);
 
-	if (plugin_data_init (pd, applix_can_unload, applix_cleanup_plugin,
+	if (plugin_data_init (pd, &applix_can_unload, &applix_cleanup_plugin,
 			      _("Applix"),
 			      _("Imports version 4.[234] spreadsheets")))
 	        return PLUGIN_OK;

@@ -398,9 +398,6 @@ cleanup_plugin (PluginData *pd)
 	prime_table = 0;
 }
 
-#define NUMTHEORY_TITLE _("Number Theory Plugin")
-#define NUMTHEORY_DESCR _("Gnumeric Plugin For Number Theory")
-
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
@@ -425,7 +422,8 @@ init_plugin (CommandContext *context, PluginData *pd)
 			    "number",    &help_nt_pi,    gnumeric_nt_pi);
 
 	if (plugin_data_init (pd, can_unload, cleanup_plugin,
-			      NUMTHEORY_TITLE, NUMTHEORY_DESCR))
+			      _("Number Theory"),
+			      _("Adds several basic number theory functions, including utilities for prime numbers, pi, phi and sigma.")))
 	        return PLUGIN_OK;
 	else
 	        return PLUGIN_ERROR;

@@ -175,39 +175,6 @@ write_wb_roff (CommandContext *context, Workbook *wb, FILE *fp)
 }
 
 /*
- * write sheets to a PS file using groff as filter
- */
-int
-html_write_wb_roff_ps (CommandContext *context, Workbook *wb,
-		       const char *filename)
-{
-	FILE *fp;
-	int rc = 0;
-	char *cmd;
-
-	g_return_val_if_fail (wb != NULL, -1);
-	g_return_val_if_fail (filename != NULL, -1);
-	cmd = g_malloc (strlen (filename) + 64);
-	if (!cmd)
-		return -1;	/* Don't try to report this, we would
-				 * have to allocate memory to do so  */
-
-	sprintf (cmd, "groff -me -t -Tps - > %s", filename);
-	fp = popen (cmd, "w");
-	if (!fp) {
-		gnumeric_error_save (context, g_strerror (errno));
-		rc = -1;
-		goto out;
-	}
-	rc =  write_wb_roff (context, wb, fp);
-	pclose (fp);
-
-out:
-	g_free (cmd);
-	return (rc);
-}
-
-/*
  * write sheets to a DVI file using groff as filter
  */
 int

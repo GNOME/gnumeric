@@ -196,22 +196,20 @@ xbase_cleanup_plugin (PluginData *pd)
 	file_format_unregister_open (xbase_probe, xbase_load);
 }
 
-#define XBASE_TITLE _("XBase file import plugin")
-#define XBASE_DESCR _("This plugin enables XBase file import")
-
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
-	char *descr  = _("Xbase (*.dbf) file format");
-
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
 	/* We register XBase format with a precendence of 100 */
-	file_format_register_open (100, descr, xbase_probe, xbase_load);
+	file_format_register_open (100, 
+				   _("Xbase (*.dbf) file format"), 
+				   &xbase_probe, &xbase_load);
 
-	if (plugin_data_init (pd, xbase_can_unload, xbase_cleanup_plugin,
-			      XBASE_TITLE, XBASE_DESCR))
+	if (plugin_data_init (pd, &xbase_can_unload, &xbase_cleanup_plugin,
+			      _("XBase"),
+			      _("Imports XBase files")))
 	        return PLUGIN_OK;
 	else
 	        return PLUGIN_ERROR;

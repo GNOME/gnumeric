@@ -168,17 +168,18 @@ excel_save_95 (CommandContext *context, Workbook *wb, const char *filename)
 void
 excel_init (void)
 {
-	char *descr  = _("Microsoft(R) Excel file format");
-	char *descr2 = _("Excel(R) 97 file format");
-	char *descr3 = _("Excel(R) 95 file format");
-
 	/* We register Excel format with a precendence of 100 */
-	file_format_register_open (100, descr, excel_probe, excel_load);
+	file_format_register_open (100, 
+				   _("Microsoft(R) Excel file format"),
+				   &excel_probe, &excel_load);
 	if (gnumeric_debugging > 0)
-		file_format_register_save (".xls", descr2, FILE_FL_MANUAL,
-					   excel_save_98);
-	file_format_register_save (".xls", descr3, FILE_FL_MANUAL,
-				   excel_save_95);
+		file_format_register_save (".xls", 
+					   _("Excel(R) 97 file format"),
+					   FILE_FL_MANUAL, &excel_save_98);
+
+	file_format_register_save (".xls", 
+				   _("Excel(R) 95 file format"),
+				   FILE_FL_MANUAL, &excel_save_95);
 }
 
 void

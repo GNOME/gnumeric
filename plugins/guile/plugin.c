@@ -464,9 +464,6 @@ no_cleanup_for_me (PluginData *pd)
 	return;
 }
 
-#define GUILE_TITLE _("Guile Plugin")
-#define GUILE_DESCR _("This plugin enables Guile(scheme) support in Gnumeric")
-
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
@@ -506,11 +503,12 @@ init_plugin (CommandContext *context, PluginData *pd)
 	g_free (name);
 	g_free (dir);
 
-	if (!plugin_data_init (pd, no_unloading_for_me, no_cleanup_for_me,
-			      GUILE_TITLE, GUILE_DESCR))
+	if (!plugin_data_init (pd, &no_unloading_for_me, &no_cleanup_for_me,
+			       _("Guile Plugin"),
+			       _("This plugin enables Guile(scheme) support in Gnumeric")))
 		return PLUGIN_ERROR;
-
-	return PLUGIN_OK;
+	else
+		return PLUGIN_OK;
 }
 
 

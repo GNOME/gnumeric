@@ -54,7 +54,6 @@ html_cleanup_plugin (PluginData *pd)
 	file_format_unregister_save (html_write_wb_html40);
 	file_format_unregister_save (html_write_wb_latex);
 	file_format_unregister_save (html_write_wb_latex2e);
-	file_format_unregister_save (html_write_wb_roff_ps);
 	file_format_unregister_save (html_write_wb_roff_dvi);
 	file_format_unregister_save (html_write_wb_roff_pdf);
 	file_format_unregister_save (html_write_wb_roff);
@@ -92,10 +91,6 @@ html_init (void)
 	file_format_register_save (".tex", desc, FILE_FL_WRITE_ONLY,
 				   html_write_wb_latex2e);
 
-	desc = _("PS file format (via groff)");
-	file_format_register_save (".ps", desc, FILE_FL_WRITE_ONLY,
-				   html_write_wb_roff_ps);
-
 	desc = _("DVI TeX file format (via groff)");
 	file_format_register_save (".dvi", desc, FILE_FL_WRITE_ONLY,
 				   html_write_wb_roff_dvi);
@@ -115,9 +110,6 @@ html_init (void)
 #endif
 }
 
-#define HTML_TITLE _("HTML (simple html import/export plugin)")
-#define HTML_DESCR _("This plugin allows for import/export of HTML, PS, DVI, TeX, and other formats")
-
 /*
  * called by gnumeric to load the plugin
  */
@@ -129,8 +121,9 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	html_init ();
 
-	if (plugin_data_init (pd, html_can_unload, html_cleanup_plugin,
-			      HTML_TITLE, HTML_DESCR))
+	if (plugin_data_init (pd, &html_can_unload, &html_cleanup_plugin,
+			      _("HTML"),
+			      _("Import/Export of HTML, TeX, DVI, roff and pdf")))
 	        return PLUGIN_OK;
 	else
 	        return PLUGIN_ERROR;

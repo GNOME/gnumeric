@@ -39,9 +39,6 @@ cleanup_plugin (PluginData *pd)
 		symbol_unref (sym);
 }
 
-#define SAMPLE_TITLE _("PlusOne Plugin")
-#define SAMPLE_DESCR _("Sample Gnumeric Plugin")
-
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
@@ -54,10 +51,10 @@ init_plugin (CommandContext *context, PluginData *pd)
 	function_add_args (cat, "plusone", "f", "number", NULL, func_plusone);
 
 	if (plugin_data_init (pd, can_unload, cleanup_plugin,
-			      SAMPLE_TITLE, SAMPLE_DESCR))
+				_("PlusOne"),
+				_("Sample Plugin")))
 	        return PLUGIN_OK;
 	else
 	        return PLUGIN_ERROR;
-
 }
 

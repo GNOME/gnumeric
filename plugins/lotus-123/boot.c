@@ -77,21 +77,19 @@ lotus_cleanup_plugin (PluginData *pd)
 	file_format_unregister_open (lotus_probe, lotus_load);
 }
 
-#define LOTUS_TITLE _("Lotus 123 file import plugin")
-#define LOTUS_DESCR _("This plugin is used for Lotus 123 file import")
-
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
-	char *descr  = _("Lotus file format (*.wk1)");
-
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
-	file_format_register_open (50, descr, lotus_probe, lotus_load);
+	file_format_register_open (50, 
+				   _("Lotus file format (*.wk1)"),
+				   &lotus_probe, &lotus_load);
 
-	if (plugin_data_init (pd, lotus_can_unload, lotus_cleanup_plugin,
-			      LOTUS_TITLE, LOTUS_DESCR))
+	if (plugin_data_init (pd, &lotus_can_unload, &lotus_cleanup_plugin,
+			      _("Lotus 123"),
+			      _("Imports Lotus 123 files")))
 	        return PLUGIN_OK;
 	else
 	        return PLUGIN_ERROR;

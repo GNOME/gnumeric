@@ -446,23 +446,21 @@ sc_cleanup_plugin (PluginData *pd)
 	file_format_unregister_open (NULL, sc_read_workbook);
 }
 
-#define SC_TITLE _("SC/xspread file import")
-#define SC_DESCR _("This plugin enables file import of SC/xspread files")
-
 PluginInitResult
 init_plugin (CommandContext *context, PluginData * pd)
 {
-	const char *desc = _("SC/xspread file import");
-
 	g_return_val_if_fail (pd, -1);
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
-	file_format_register_open (1, desc, NULL, sc_read_workbook);
+	file_format_register_open (1, 
+				   _("SC/xspread file import"),
+				   NULL, sc_read_workbook);
 
 	if (plugin_data_init (pd, sc_can_unload, sc_cleanup_plugin,
-			      SC_TITLE, SC_DESCR))
+			      _("SC/XSpread "),
+			      _("Imports SC/XSpread files")))
 	        return PLUGIN_OK;
 	else
 	        return PLUGIN_ERROR;

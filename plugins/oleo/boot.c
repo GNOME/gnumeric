@@ -77,21 +77,19 @@ oleo_cleanup_plugin (PluginData *pd)
 	file_format_unregister_open (oleo_probe, oleo_load);
 }
 
-#define OLEO_TITLE _("GNU Oleo import plugin")
-#define OLEO_DESCR _("This plugin enables import of GNU Oleo documents")
-
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
-	char *descr  = _("GNU Oleo (*.oleo) file format");
-
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
-	file_format_register_open (100, descr, oleo_probe, oleo_load);
+	file_format_register_open (100, 
+				   _("GNU Oleo (*.oleo) file format"),
+				   &oleo_probe, &oleo_load);
 
-	if (plugin_data_init (pd, oleo_can_unload, oleo_cleanup_plugin,
-			      OLEO_TITLE, OLEO_DESCR))
+	if (plugin_data_init (pd, &oleo_can_unload, &oleo_cleanup_plugin,
+			      _("GNU Oleo"),
+			      _("Imports GNU Oleo documents")))
 	        return PLUGIN_OK;
 	else
 	        return PLUGIN_ERROR;

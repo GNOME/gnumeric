@@ -8,7 +8,7 @@ endif
 gnperldir = $(gnumeric_datadir)/perl
 PERL_CFLAGS = $(PERL_CCCDLFLAGS)		\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
-    -I$(includedir)	-I$(top_srcdir)/src	\
+    -I$(top_srcdir)	-I$(top_srcdir)/src	\
     $(PERL_CCOPTS)				\
     $(GNOME_INCLUDEDIR)
 

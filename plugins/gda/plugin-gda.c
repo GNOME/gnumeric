@@ -28,10 +28,10 @@
 #include <libgnorba/gnorba.h>
 
 
-#include "../../src/gnumeric.h"
-#include "../../src/func.h"
-#include "../../src/plugin.h"
-#include "../../src/expr.h"
+#include "src/gnumeric.h"
+#include "src/func.h"
+#include "src/plugin.h"
+#include "src/expr.h"
 
 char* help_execSQL = "execSQL: Execute SQL statement and display values";
 
@@ -247,24 +247,18 @@ cleanup_plugin (PluginData *pd)
 		symbol_unref(sym);
 }
 
-
-#define GDA_TITLE _("Database Access")
-#define GDA_DESCR _("This plugin allows for database access in Gnumeric")
-
 PluginInitResult
 init_plugin (CommandContext *context, PluginData* pd)
 {
-	g_print("plugin-gda: init_plugin called\n");
-
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
 	install_symbols(plugin_functionp, "GDA Plugin");
 
 	if (plugin_data_init (pd, can_unload, cleanup_plugin,
-			      GDA_TITLE, GDA_DESCR))
-	  return PLUGIN_OK;
+			      _("Database Access"),
+			      _("Enables database access")))
+		return PLUGIN_OK;
 	else
-	  return PLUGIN_ERROR;
-
+		return PLUGIN_ERROR;
 }
