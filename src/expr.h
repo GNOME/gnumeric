@@ -140,14 +140,13 @@ struct _ExprName {
 	} t;
 };
 
-int         cell_ref_get_abs_col   (CellRef const *cell_ref,
-				    EvalPosition const *src_fp);
-int         cell_ref_get_abs_row   (CellRef const *cell_ref,
-				    EvalPosition const *src_fp);
-
-void        cell_get_abs_col_row   (const CellRef *cell_ref,
-				    int eval_col, int eval_row,
-				    int *col, int *row);
+int         cell_ref_get_abs_col   (CellRef const * const cell_ref,
+				    EvalPosition const * const src_fp);
+int         cell_ref_get_abs_row   (CellRef const * const cell_ref,
+				    EvalPosition const * const src_fp);
+void        cell_get_abs_col_row   (CellRef const * const cell_ref,
+				    CellPos const * const pos,
+				    int * const col, int * const row);
 
 ExprTree   *expr_parse_string      (const char *expr, const ParsePosition *pp,
 				    const char **desired_format, char **error_msg);
@@ -195,7 +194,11 @@ void expr_dump_tree (const ExprTree *tree);
  * Returns int(0) if the expression uses a non-existant cell for anything
  * other than an equality test.
  */
-Value       *eval_expr              (FunctionEvalInfo *s, ExprTree const *tree);
+Value       *eval_expr (FunctionEvalInfo * const s,
+			ExprTree const * const tree);
+
+Value       *expr_implicit_intersection (EvalPosition const * const pos,
+					 Value * const v);
 
 /* Setup of the symbol table */
 void         functions_init        (void);

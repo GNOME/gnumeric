@@ -1383,6 +1383,11 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 
 	case GDK_F4:
 	{
+		/* FIXME FIXME FIXME
+		 * 1) Make sure that a cursor move after an F4
+		 *    does not insert.
+		 * 2) Handle calls for a range rather than a single cell.
+		 */
 		int end_pos = GTK_EDITABLE (entry)->current_pos;
 		int start_pos;
 		int row_status_pos, col_status_pos;
@@ -1458,9 +1463,8 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 			}
 		}
 
-		/* Select the current range */
-		gtk_editable_select_region (GTK_EDITABLE (entry), start_pos+1, end_pos);
-		GTK_EDITABLE (entry)->current_pos = start_pos+1;
+		/* Do not select the current range, and do not change the position. */
+		gtk_entry_set_position (entry, end_pos);
 	}
 
 	case GDK_KP_Up:

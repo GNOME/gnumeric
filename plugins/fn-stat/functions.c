@@ -2512,7 +2512,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 
 	err = function_iterate_argument_values
 	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
-			   ei->pos.eval_col, ei->pos.eval_row),
+			   ei->pos.eval.col, ei->pos.eval.row),
 	     callback_function_make_list, &x_cl, expr_node_list,
 	     TRUE);
 
@@ -2530,7 +2530,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	err = function_iterate_argument_values
 	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet,
 					   ei->pos.sheet),
-			   ei->pos.eval_col, ei->pos.eval_row),
+			   ei->pos.eval.col, ei->pos.eval.row),
 	     callback_function_make_list, &prob_cl, expr_node_list,
 	     TRUE);
 
@@ -3713,7 +3713,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 
 	err = function_iterate_argument_values
 	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
-			   ei->pos.eval_col, ei->pos.eval_row),
+			   ei->pos.eval.col, ei->pos.eval.row),
 	     callback_function_make_list, &data_cl, expr_node_list,
 	     TRUE);
 
@@ -3730,7 +3730,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 
 	err = function_iterate_argument_values
 	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
-			   ei->pos.eval_col, ei->pos.eval_row),
+			   ei->pos.eval.col, ei->pos.eval.row),
 	     callback_function_make_list, &bin_cl, expr_node_list,
 	     TRUE);
 

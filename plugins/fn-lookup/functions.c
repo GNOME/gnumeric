@@ -674,22 +674,21 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 	}
 
 	if (a1_style)
-		error = !cellref_a1_get (&ref, text, ei->pos.eval_col,
-					 ei->pos.eval_row);
+		error = !cellref_a1_get (&ref, text, ei->pos.eval.col,
+					 ei->pos.eval.row);
 	else
-		error = !cellref_r1c1_get (&ref, text, ei->pos.eval_col,
-					   ei->pos.eval_row);
+		error = !cellref_r1c1_get (&ref, text, ei->pos.eval.col,
+					   ei->pos.eval.row);
 	g_free (text);
 
 	if (error)
 		return value_new_error (&ei->pos, gnumeric_err_REF);
 
-	cell_get_abs_col_row (&ref, ei->pos.eval_col, ei->pos.eval_row,
-			      &col, &row);
+	cell_get_abs_col_row (&ref, &ei->pos.eval, &col, &row);
 	dest_cell = sheet_cell_get (ei->pos.sheet, col, row);
 
 	calling_cell = sheet_cell_get (ei->pos.sheet,
-				       ei->pos.eval_col, ei->pos.eval_row);
+				       ei->pos.eval.col, ei->pos.eval.row);
 
 	/* A dependency on the indirection cell if we do not already depend on it */
 	cell_add_explicit_dependency (calling_cell, &ref);
@@ -778,7 +777,7 @@ gnumeric_column (FunctionEvalInfo *ei, GList *nodes)
 	ExprTree *expr;
 
 	if (!nodes || !nodes->data)
-		return value_new_int (ei->pos.eval_col+1);
+		return value_new_int (ei->pos.eval.col+1);
 
 	expr = (ExprTree *)nodes->data;
 
@@ -919,7 +918,7 @@ gnumeric_row (FunctionEvalInfo *ei, GList *nodes)
 	ExprTree *expr;
 
 	if (!nodes || !nodes->data)
-		return value_new_int (ei->pos.eval_row+1);
+		return value_new_int (ei->pos.eval.row+1);
 
 	expr = (ExprTree *)nodes->data;
 

@@ -54,15 +54,15 @@ evalpos_hash (gconstpointer key)
 	const EvalPosition *ep = (const EvalPosition *) key;
 
 	/* FIXME: what about sheet ? */
-	return (ep->eval_col << 8) ^ ep->eval_row;
+	return (ep->eval.col << 8) ^ ep->eval.row;
 }
 
 static gint
 evalpos_compare (EvalPosition const * a, EvalPosition const * b)
 {
 	return (a->sheet == b->sheet &&
-		a->eval_row == b->eval_row &&
-		a->eval_col == b->eval_col);
+		a->eval.row == b->eval.row &&
+		a->eval.col == b->eval.col);
 }
 
 static MStyle *
@@ -71,8 +71,8 @@ sheet_style_cache_lookup (const Sheet *sheet, int col, int row)
 	EvalPosition ep;
 
 	ep.sheet    = (Sheet *)sheet;
-	ep.eval_col = col;
-	ep.eval_row = row;
+	ep.eval.col = col;
+	ep.eval.row = row;
 
 	if (!STYLE_CACHE (sheet))
 		return NULL;
@@ -118,8 +118,8 @@ sheet_style_cache_add (Sheet *sheet, int col, int row,
 
 	ep = g_new (EvalPosition, 1);
 	ep->sheet    = (Sheet *)sheet;
-	ep->eval_col = col;
-	ep->eval_row = row;
+	ep->eval.col = col;
+	ep->eval.row = row;
 	mstyle_ref (mstyle);
 
 	g_hash_table_insert (STYLE_CACHE (sheet), ep, mstyle);

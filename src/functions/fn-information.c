@@ -588,8 +588,7 @@ gnumeric_isblank (FunctionEvalInfo *ei, GList *expr_node_list)
 		CellRef const *ref = &expr->u.ref;
 		Sheet const *sheet = eval_sheet (ref->sheet, ei->pos.sheet);
 		int row, col;
-		cell_get_abs_col_row(ref, ei->pos.eval_col, ei->pos.eval_row,
-				     &col, &row);
+		cell_get_abs_col_row(ref, &ei->pos.eval, &col, &row);
 		result = cell_is_blank(sheet_cell_get(sheet, col, row));
 	}
 	return value_new_bool (result);

@@ -210,13 +210,13 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 
 		/* Handle relative references */
 		if (a->col_relative)
-			a_col += ep->eval_col;
+			a_col += ep->eval.col;
 		if (a->row_relative)
-			a_row += ep->eval_row;
+			a_row += ep->eval.row;
 		if (b->col_relative)
-			b_col += ep->eval_col;
+			b_col += ep->eval.col;
 		if (b->row_relative)
-			b_row += ep->eval_row;
+			b_row += ep->eval.row;
 
 		/* Handle inverted refereneces */
 		if (a_row > b_row) {

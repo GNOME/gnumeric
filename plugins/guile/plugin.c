@@ -299,8 +299,8 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 	{
 		CellRef eval_cell;
 
-		eval_cell.col = ei->pos.eval_col;
-		eval_cell.row = ei->pos.eval_row;
+		eval_cell.col = ei->pos.eval.col;
+		eval_cell.row = ei->pos.eval.row;
 		eval_cell.col_relative = 0;
 		eval_cell.row_relative = 0;
 		eval_cell.sheet = NULL;

@@ -58,14 +58,12 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row,
  * Helper routine for function_iterate_argument_values.
  */
 Value *
-function_iterate_do_value (const EvalPosition      *ep,
+function_iterate_do_value (EvalPosition      const *ep,
 			   FunctionIterateCallback  callback,
 			   void                    *closure,
 			   Value                   *value,
 			   gboolean                 strict)
 {
-	int eval_col = ep->eval_col;
-	int eval_row = ep->eval_row;
 	Value *res = NULL;
 
 	switch (value->type){
@@ -109,12 +107,10 @@ function_iterate_do_value (const EvalPosition      *ep,
 		data.closure  = closure;
 		data.strict   = strict;
 
-		cell_get_abs_col_row (&value->v.cell_range.cell_a,
-				      eval_col, eval_row,
+		cell_get_abs_col_row (&value->v.cell_range.cell_a, &ep->eval,
 				      &start_col, &start_row);
 
-		cell_get_abs_col_row (&value->v.cell_range.cell_b,
-				      eval_col, eval_row,
+		cell_get_abs_col_row (&value->v.cell_range.cell_b, &ep->eval,
 				      &end_col, &end_row);
 
 		sheet = eval_sheet (value->v.cell_range.cell_a.sheet, ep->sheet);
@@ -317,10 +313,10 @@ cell_ref_make_absolute (CellRef *cell_ref,
 	g_return_if_fail (cell_ref != NULL);
 
 	if (cell_ref->col_relative)
-		cell_ref->col = ep->eval_col + cell_ref->col;
+		cell_ref->col = ep->eval.col + cell_ref->col;
 
 	if (cell_ref->row_relative)
-		cell_ref->row = ep->eval_row + cell_ref->row;
+		cell_ref->row = ep->eval.row + cell_ref->row;
 
 	cell_ref->row_relative = 0;
 	cell_ref->col_relative = 0;
@@ -348,9 +344,9 @@ function_call_with_list (FunctionEvalInfo        *ei,
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_def != NULL, NULL);
 
+	/* Functions that deal with ExprNodes */		
 	fd = ei->func_def;
 	if (fd->fn_type == FUNCTION_NODES)
-		/* Functions that deal with ExprNodes */		
 	        return fd->fn.fn_nodes (ei, l);
 	
 	/* Functions that take pre-computed Values */
@@ -364,7 +360,7 @@ function_call_with_list (FunctionEvalInfo        *ei,
 
 	values = g_new (Value *, fn_argc_max);
 
-	for (arg = 0; l; l = l->next, arg++) {
+	for (arg = 0; l; l = l->next, ++arg) {
 		char      arg_type;
 		ExprTree *t = (ExprTree *) l->data;
 		gboolean type_mismatch = FALSE;
@@ -380,48 +376,35 @@ function_call_with_list (FunctionEvalInfo        *ei,
 			goto free_list;*/
 		} else {
 			g_assert (t->oper == OPER_VAR);
-			v = value_new_cellrange (&t->u.ref,
-						 &t->u.ref);
+			v = value_new_cellrange (&t->u.ref, &t->u.ref);
 		}
 		
 		switch (arg_type) {
 		case 'f':
 		case 'b':
-		        /*
-			 * Handle the implicit union of a single row or
-			 * column with the eval position
-			 */
 			if (v->type == VALUE_CELLRANGE) {
-				CellRef a = v->v.cell_range.cell_a;
-				CellRef b = v->v.cell_range.cell_b;
-				cell_ref_make_absolute (&a, &ei->pos);
-				cell_ref_make_absolute (&b, &ei->pos);
-				
-				if (a.sheet !=  b.sheet)
-					type_mismatch = TRUE;
-				else if (a.row == b.row) {
-					int const c = ei->pos.eval_col;
-					if (a.col <= c && c <= b.col)
-						v = value_duplicate (value_area_get_x_y (&ei->pos, v, c - a.col, 0));
-					else
-						type_mismatch = TRUE;
-				} else if (a.col == b.col) {
-					int const r = ei->pos.eval_row;
-					if (a.row <= r && r <= b.row)
-						v = value_duplicate (value_area_get_x_y (&ei->pos, v, 0, r - a.row));
-					else
-						type_mismatch = TRUE;
-				} else
-					type_mismatch = TRUE;
-			} else if (v->type != VALUE_INTEGER &&
-				   v->type != VALUE_FLOAT &&
-				   v->type != VALUE_BOOLEAN)
+				v = expr_implicit_intersection (&ei->pos, v);
+				if (v == NULL)
+					break;
+			}
+
+			if (v->type != VALUE_INTEGER &&
+			    v->type != VALUE_FLOAT &&
+			    v->type != VALUE_BOOLEAN)
 				type_mismatch = TRUE;
 			break;
+
 		case 's':
+			if (v->type == VALUE_CELLRANGE) {
+				v = expr_implicit_intersection (&ei->pos, v);
+				if (v == NULL)
+					break;
+			}
+
 			if (v->type != VALUE_STRING)
 				type_mismatch = TRUE;
 			break;
+
 		case 'r':
 			if (v->type != VALUE_CELLRANGE)
 				type_mismatch = TRUE;
@@ -446,10 +429,9 @@ function_call_with_list (FunctionEvalInfo        *ei,
 			break;
 		}
 		values [arg] = v;
-		if (type_mismatch) {
+		if (type_mismatch || v == NULL) {
 			free_values (values, arg + 1);
-			return value_new_error (&ei->pos,
-						gnumeric_err_VALUE);
+			return value_new_error (&ei->pos, gnumeric_err_VALUE);
 		}
 	}
 	while (arg < fn_argc_max)

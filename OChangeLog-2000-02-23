@@ -1,3 +1,27 @@
+1999-12-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (expr_implicit_intersection) : New routine split from
+	  function_call_with_list.
+	(compare) : Handle intersection.
+	(eval_expr_real) : Ditto.  Add verbose comment on a possible heuristic
+	  for the final piece of this ugly evaluation mechanism, array
+	  interation.
+	(cell_ref_get_abs_col_row) : Adjust to take a CellPos.
+
+	* src/func.c (function_iterate_do_value) : Split the implicit
+	  intersection out into a new function.  Use intersection for
+	  strings as well as float & bool args.  Correct memory leak
+	  when intersetion was used.
+	(function_call_with_list) : Ditto.
+
+	* *.c : Adjust to change in EvalPosition to use CellPos.
+
+	* gnumeric.spec.in : Update the libglade dependancy.
+
+	* src/workbook.c (wb_edit_key_pressed) : Do not select the current
+	  cell address and do not move the cursor to the start of the cell
+	  address when F4 is hit.
+
 1999-12-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/parser.y : Clean up for byacc.

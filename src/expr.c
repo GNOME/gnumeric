@@ -17,8 +17,6 @@
 #include "utils.h"
 #include "ranges.h"
 
-static Value *eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree);
-
 EvalPosition *
 eval_pos_init (EvalPosition *eval_pos, Sheet *sheet, int col, int row)
 {
@@ -27,8 +25,8 @@ eval_pos_init (EvalPosition *eval_pos, Sheet *sheet, int col, int row)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	eval_pos->sheet = sheet;
-	eval_pos->eval_col = col;
-	eval_pos->eval_row = row;
+	eval_pos->eval.col = col;
+	eval_pos->eval.row = row;
 
 	return eval_pos;
 }
@@ -108,8 +106,8 @@ func_eval_info_pos (FunctionEvalInfo *eval_info, const EvalPosition *eval_pos)
 	return func_eval_info_init (
 		eval_info,
 		eval_pos->sheet,
-		eval_pos->eval_col,
-		eval_pos->eval_row);
+		eval_pos->eval.col,
+		eval_pos->eval.row);
 }
 
 ExprTree *
@@ -328,8 +326,8 @@ expr_tree_array_formula_corner (ExprTree const *expr, EvalPosition const *pos)
 		g_return_val_if_fail (pos->sheet != NULL, NULL);
 
 		corner = sheet_cell_get (pos->sheet,
-					 pos->eval_col - expr->u.array.x,
-					 pos->eval_row - expr->u.array.y);
+					 pos->eval.col - expr->u.array.x,
+					 pos->eval.row - expr->u.array.y);
 		((ExprTree *)expr)->u.array.corner.cell = corner;
 	}
 
@@ -445,6 +443,55 @@ eval_funcall (FunctionEvalInfo *ei, ExprTree const *tree)
 	return function_call_with_list (ei, args);
 }
 
+/**
+ * expr_implicit_intersection :
+ * @ei: EvalInfo containing valid fd!
+ * @v: a VALUE_CELLRANGE
+ * 
+ * Attempt to find the intersection between the calling cell and
+ * some element of the 1 one unit wide or tall range.
+ *
+ * Always release the value passed in.
+ *
+ * Return value: 
+ *     If the intersection succeeded return a duplicate of the value
+ *     at the intersection point.  This value needs to be freed.
+ **/
+Value *
+expr_implicit_intersection (EvalPosition const * const pos,
+			    Value * const v)
+{
+	/*
+	 * Handle the implicit union of a single row or
+	 * column with the eval position.
+	 * NOTE : We do not need to know if this is expression is
+	 * being evaluated as an array or not because we can differentiate
+	 * based on the required type for the argument.
+	 */
+	Value *res = NULL;
+	CellRef const * const a = & v->v.cell_range.cell_a;
+	CellRef const * const b = & v->v.cell_range.cell_b;
+
+	if (a->sheet == b->sheet) {
+		int a_col, a_row, b_col, b_row;
+		cell_get_abs_col_row (a, &pos->eval, &a_col, &a_row);
+		cell_get_abs_col_row (b, &pos->eval, &b_col, &b_row);
+		if (a_row == b_row) {
+			int const c = pos->eval.col;
+			if (a_col <= c && c <= b_col)
+				res = value_duplicate (value_area_get_x_y (pos, v, c - a_col, 0));
+		}
+
+		if (a_col == b_col) {
+			int const r = pos->eval.row;
+			if (a_row <= r && r <= b_row)
+				res = value_duplicate (value_area_get_x_y (pos, v, 0, r - a_row));
+		}
+	}
+	value_release (v);
+	return res;
+}
+
 typedef enum {
 	IS_EQUAL,
 	IS_LESS,
@@ -491,9 +538,12 @@ compare_float_float (Value const * const va, Value const * const vb)
 
 /*
  * Compares two (Value *) and returns one of compare_t
+ *
+ * if pos is non null it will perform implict intersection for
+ * cellranges.
  */
 static compare_t
-compare (const Value *a, const Value *b)
+compare (Value const * const a, Value const * const b)
 {
 	ValueType ta, tb;
 
@@ -527,10 +577,6 @@ compare (const Value *a, const Value *b)
 				return IS_LESS;
 		}
 		default :
-			/*
-			 * TODO : Add implicit intersection here if not in
-			 * array mode
-			 * */
 			return TYPE_MISMATCH;
 		}
 	} else if (tb == VALUE_STRING) {
@@ -544,10 +590,6 @@ compare (const Value *a, const Value *b)
 			return IS_GREATER;
 
 		default :
-			/*
-			 * TODO : Add implicit intersection here if not in
-			 * array mode
-			 * */
 			return TYPE_MISMATCH;
 		}
 	}
@@ -590,12 +632,8 @@ eval_range (FunctionEvalInfo *s, Value *v)
 	int r, c;
 	int const gen = s->pos.sheet->workbook->generation;
 
-	cell_get_abs_col_row (a,
-			      s->pos.eval_col, s->pos.eval_row,
-			      &start_col, &start_row);
-	cell_get_abs_col_row (b,
-			      s->pos.eval_col, s->pos.eval_row,
-			      &end_col, &end_row);
+	cell_get_abs_col_row (a, &s->pos.eval, &start_col, &start_row);
+	cell_get_abs_col_row (b, &s->pos.eval, &end_col, &end_row);
 
 	if (a->sheet != b->sheet) {
 		g_warning ("3D references not-fully supported.\n"
@@ -613,18 +651,13 @@ eval_range (FunctionEvalInfo *s, Value *v)
 }
 
 static Value *
-eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
+eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 {
 	Value *res = NULL, *a = NULL, *b = NULL;
 	
 	g_return_val_if_fail (tree != NULL, NULL);
 	g_return_val_if_fail (s != NULL, NULL);
 
-	/* FIXME FIXME : We need to rework support for
-	 * ranges and builtin operators to support the
-	 * implicit intersection rule AND figure out
-	 * how to turn it off when evaluating as an array
-	 */
 	switch (tree->oper){
 	case OPER_EQUAL:
 	case OPER_NOT_EQUAL:
@@ -635,14 +668,30 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 		int comp;
 
 		a = eval_expr_real (s, tree->u.binary.value_a);
-		if (a != NULL && a->type == VALUE_ERROR)
-			return a;
+		if (a != NULL) {
+			if (a->type == VALUE_CELLRANGE) {
+				a = expr_implicit_intersection (&s->pos, a);
+				if (a == NULL)
+					return value_new_error (&s->pos, gnumeric_err_VALUE);
+			} else if (a->type == VALUE_ERROR)
+				return a;
+		}
 
 		b = eval_expr_real (s, tree->u.binary.value_b);
-		if (b != NULL && b->type == VALUE_ERROR) {
-			if (a != NULL)
-				value_release (a);
-			return b;
+		if (b != NULL) {
+			Value *res = NULL;
+			if (b->type == VALUE_CELLRANGE) {
+				b = expr_implicit_intersection (&s->pos, b);
+				if (b == NULL)
+					res = value_new_error (&s->pos, gnumeric_err_VALUE);
+			} else if (b->type == VALUE_ERROR)
+				res = b;
+
+			if (res != NULL) {
+				if (a != NULL)
+					value_release (a);
+				return res;
+			}
 		}
 
 		comp = compare (a, b);
@@ -703,9 +752,6 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 	case OPER_MULT:
 	case OPER_DIV:
 	case OPER_EXP:
-	        /* Garantees that a != NULL */
-		a = eval_expr (s, tree->u.binary.value_a);
-
 		/*
 		 * Priority
 		 * 1) Error from A
@@ -714,6 +760,16 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 		 * 4) #!VALUE error if B is not a number
 		 * 5) result of operation, or error specific to the operation
 		 */
+
+	        /* Garantees that a != NULL */
+		a = eval_expr (s, tree->u.binary.value_a);
+
+		/* Handle implicit intersection */
+		if (a->type == VALUE_CELLRANGE) {
+			a = expr_implicit_intersection (&s->pos, a);
+			if (a == NULL)
+				return value_new_error (&s->pos, gnumeric_err_VALUE);
+		}
 
 		/* 1) Error from A */
 		if (a->type == VALUE_ERROR)
@@ -727,6 +783,13 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 
 	        /* Garantees that b != NULL */
 		b = eval_expr (s, tree->u.binary.value_b);
+
+		/* Handle implicit intersection */
+		if (b->type == VALUE_CELLRANGE) {
+			b = expr_implicit_intersection (&s->pos, a);
+			if (b == NULL)
+				return value_new_error (&s->pos, gnumeric_err_VALUE);
+		}
 
 		/* 3) Error from B */
 		if (b->type == VALUE_ERROR) {
@@ -837,8 +900,17 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 	case OPER_NEG:
 	        /* Garantees that a != NULL */
 		a = eval_expr (s, tree->u.value);
+
+		/* Handle implicit intersection */
+		if (a->type == VALUE_CELLRANGE) {
+			a = expr_implicit_intersection (&s->pos, a);
+			if (a == NULL)
+				return value_new_error (&s->pos, gnumeric_err_VALUE);
+		}
+
 		if (a->type == VALUE_ERROR)
 			return a;
+
 		if (!VALUE_IS_NUMBER (a)){
 			value_release (a);
 			return value_new_error (&s->pos, gnumeric_err_VALUE);
@@ -902,7 +974,7 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 		}
 
 		ref = &tree->u.ref;
-		cell_get_abs_col_row (ref, s->pos.eval_col, s->pos.eval_row, &col, &row);
+		cell_get_abs_col_row (ref, &s->pos.eval, &col, &row);
 
 		cell_sheet = eval_sheet (ref->sheet, s->pos.sheet);
 		cell = sheet_cell_get (cell_sheet, col, row);
@@ -933,6 +1005,21 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 				value_release (a);
 
 			/* Store real result (cast away const)*/
+			/* FIXME : Call a wrapper routine that will iterate over the
+			 * the array and evaluate the expression for all elements
+			 *
+			 * Figure out when to iterate and when to do array operations.
+			 * ie
+			 * A1:A3 = '=B1:B3^2'  Will iterate over all the elements and
+			 *     re-evaluate.
+			 * whereas
+			 * A1:A3 = '=bob(B1:B3)'  Will call bob once if it returns an
+			 *     array.
+			 *
+			 * This may be as simple as evaluating the corner.  If that is
+			 * is an array return the result, else build an array and
+			 * iterate over the elements, but that theory needs validation.
+			 */
 			a = eval_expr_real (s, tree->u.array.corner.func.expr);
 			*((Value **)&(tree->u.array.corner.func.value)) = a;
 		} else {
@@ -951,8 +1038,8 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 
 			/* Evaluate relative to the upper left corner */
 			EvalPosition tmp_ep = s->pos;
-			tmp_ep.eval_col -= x;
-			tmp_ep.eval_row -= y;
+			tmp_ep.eval.col -= x;
+			tmp_ep.eval.row -= y;
 
 			/* If the src array is 1 element wide or tall we wrap */
 			if (x >= 1 && num_x == 1)
@@ -989,41 +1076,43 @@ eval_expr (FunctionEvalInfo *s, ExprTree const *tree)
 }
 
 int
-cell_ref_get_abs_col (CellRef const *ref, EvalPosition const *pos)
+cell_ref_get_abs_col (CellRef const * const ref, EvalPosition const * const pos)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (pos != NULL, 0);
 
 	if (ref->col_relative)
-		return pos->eval_col + ref->col;
+		return pos->eval.col + ref->col;
 	return ref->col;
 
 }
 
 int
-cell_ref_get_abs_row (CellRef const *ref, EvalPosition const *pos)
+cell_ref_get_abs_row (CellRef const * const ref, EvalPosition const * const pos)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (pos != NULL, 0);
 
 	if (ref->row_relative)
-		return pos->eval_row + ref->row;
+		return pos->eval.row + ref->row;
 	return ref->row;
 }
 
 
 void
-cell_get_abs_col_row (const CellRef *cell_ref, int eval_col, int eval_row, int *col, int *row)
+cell_get_abs_col_row (CellRef const * const cell_ref,
+		      CellPos const * const pos,
+		      int * const col, int * const row)
 {
 	g_return_if_fail (cell_ref != NULL);
 
 	if (cell_ref->col_relative)
-		*col = eval_col + cell_ref->col;
+		*col = pos->col + cell_ref->col;
 	else
 		*col = cell_ref->col;
 
 	if (cell_ref->row_relative)
-		*row = eval_row + cell_ref->row;
+		*row = pos->row + cell_ref->row;
 	else
 		*row = cell_ref->row;
 }
@@ -1317,7 +1406,7 @@ cellref_relocate (CellRef * const ref,
 		range_contains (&rinfo->origin, col, row);
 	gboolean const from_inside =
 		(rinfo->origin_sheet == pos->sheet) &&
-		range_contains (&rinfo->origin, pos->eval_col, pos->eval_row);
+		range_contains (&rinfo->origin, pos->eval.col, pos->eval.row);
 
 	/* Case (a) */
 	if (!from_inside && !to_inside)
@@ -1358,9 +1447,9 @@ cellref_relocate (CellRef * const ref,
 	    return CELLREF_RELOCATE_ERR;
 
 	if (ref->col_relative)
-		col -= pos->eval_col;
+		col -= pos->eval.col;
 	if (ref->row_relative)
-		row -= pos->eval_row;
+		row -= pos->eval.row;
 
 	if (ref->sheet != ref_sheet || ref->col != col || ref->row != row) {
 		ref->sheet = ref_sheet;

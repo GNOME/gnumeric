@@ -37,9 +37,8 @@ struct _CellRef {
 };
 
 struct _EvalPosition {
-	Sheet *sheet;
-	int    eval_col;
-	int    eval_row;
+	Sheet   *sheet;
+	CellPos  eval;
 };
 
 struct _ParsePosition {

@@ -166,12 +166,13 @@ static inline void
 dependency_range_ctor (DependencyRange * const range, Cell const * const cell,
 		       CellRef const * const a, CellRef const * const b)
 {
-	int col = cell->col->pos;
-	int row = cell->row->pos;
+	CellPos pos;
+	pos.col = cell->col->pos;
+	pos.row = cell->row->pos;
 
 	/* Convert to absolute cordinates */
-	cell_get_abs_col_row (a, col, row, &range->range.start.col, &range->range.start.row);
-	cell_get_abs_col_row (b, col, row, &range->range.end.col,   &range->range.end.row);
+	cell_get_abs_col_row (a, &pos, &range->range.start.col, &range->range.start.row);
+	cell_get_abs_col_row (b, &pos, &range->range.end.col,   &range->range.end.row);
 
 	range->ref_count = 0;
 	if (b->sheet && a->sheet != b->sheet)

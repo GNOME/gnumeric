@@ -15,9 +15,8 @@ BuildRoot:	/var/tmp/gnumeric-%{PACKAGE_VERSION}-root
 Docdir: 	%{prefix}/doc
 
 Requires: gnome-libs >= 1.0.0
-Requires: guile >= 1.3
 Requires: gnome-print >= 0.8
-Requires: libglade >= 0.5
+Requires: libglade >= 0.11
 
 %description
 GNOME (GNU Network Object Model Environment) is a user-friendly set of
@@ -53,6 +52,10 @@ make prefix=$RPM_BUILD_ROOT%{prefix} sysconfdir=$RPM_BUILD_ROOT/etc install
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Dec 20 1999 Jody Goldberg <jgolbderg@home.com>
+- Updated the libglade dependancy.
+- Remove req for guile.  We can build without it.
+
 * Thu Sep 02 1999 Gregory McLean <gregm@comstar.net>
 - Added small fix so glade generated dialogs appear.
 
