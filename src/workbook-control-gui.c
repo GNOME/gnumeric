@@ -1695,18 +1695,21 @@ static void
 cb_file_open (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	gui_file_open (wbcg);
+	wbcg_focus_cur_scg (wbcg); /* force focus back to sheet */
 }
 
 static void
 cb_file_save (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	wbcg_focus_cur_scg (wbcg); /* force focus back to sheet */
 }
 
 static void
 cb_file_save_as (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	gui_file_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	wbcg_focus_cur_scg (wbcg); /* force focus back to sheet */
 }
 
 #ifdef WITH_BONOBO

@@ -1,3 +1,9 @@
+2002-11-14  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c (gnumeric_keyed_dialog) : add a weakpointer to the
+	  wbcg in case it goes away before the dialog.  Use data_set_full in
+	  place of a destroy handler.
+
 2002-11-14  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (search_replace_compile): Turn on regutf8.

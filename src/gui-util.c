@@ -387,15 +387,20 @@ gnumeric_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
 
 typedef struct {
 	WorkbookControlGUI *wbcg;
+	GtkWidget	   *dialog;
 	char const *key;
 } KeyedDialogContext;
 
 static void
-cb_remove_object_data (GtkWidget *w, KeyedDialogContext *ctxt)
+cb_remove_object_data (KeyedDialogContext *ctxt)
 {
-	g_return_if_fail (g_object_get_data (G_OBJECT (ctxt->wbcg), ctxt->key));
+	if (ctxt->wbcg != NULL) {
+		g_return_if_fail (g_object_get_data (G_OBJECT (ctxt->wbcg), ctxt->key));
 
-	g_object_set_data (G_OBJECT (ctxt->wbcg), ctxt->key, NULL);
+		g_object_set_data (G_OBJECT (ctxt->wbcg), ctxt->key, NULL);
+		g_object_remove_weak_pointer (G_OBJECT (ctxt->wbcg),
+					      (gpointer *)&ctxt->wbcg);
+	}
 	g_free (ctxt);
 }
 
@@ -409,7 +414,8 @@ cb_remove_object_data (GtkWidget *w, KeyedDialogContext *ctxt)
  * Make dialog a transient child of wbcg, attaching to wbcg object data to
  * identify the dialog. The object data makes it possible to ensure that
  * only one dialog of a kind can be displayed for a wbcg. Deallocation of
- * the object data is managed here.  */
+ * the object data is managed here.
+ **/
 void
 gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *key)
 {
@@ -422,13 +428,12 @@ gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *
 	wbcg_set_transient (wbcg, dialog);
 
 	ctxt = g_new (KeyedDialogContext, 1);
-	ctxt->wbcg = wbcg;
+	ctxt->wbcg   = wbcg;
+	ctxt->dialog = GTK_WIDGET (dialog);
 	ctxt->key  = key;
-	g_object_set_data (G_OBJECT (wbcg), key, dialog);
-
-	g_signal_connect (G_OBJECT (dialog),
-		"destroy",
-		G_CALLBACK (cb_remove_object_data), ctxt);
+	g_object_set_data_full (G_OBJECT (wbcg),
+		key, ctxt, (GDestroyNotify) cb_remove_object_data);
+	g_object_add_weak_pointer (G_OBJECT (wbcg), (gpointer *)&ctxt->wbcg);
 }
 
 /**
@@ -439,20 +444,20 @@ gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *
  *
  * Raise the dialog identified by key if it is registered on the wbcg.
  * Returns TRUE if dialog found, FALSE if not.
- */
+ **/
 gpointer
 gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, const char *key)
 {
-	GtkWidget *dialog;
+	KeyedDialogContext *ctxt;
 
 	g_return_val_if_fail (wbcg != NULL, FALSE);
 	g_return_val_if_fail (key != NULL, FALSE);
 
 	/* Ensure we only pop up one copy per workbook */
-	dialog = g_object_get_data (G_OBJECT (wbcg), key);
-	if (dialog && GTK_IS_WINDOW (dialog)) {
-		gdk_window_raise (dialog->window);
-		return dialog;
+	ctxt = g_object_get_data (G_OBJECT (wbcg), key);
+	if (ctxt && GTK_IS_WINDOW (ctxt->dialog)) {
+		gdk_window_raise (ctxt->dialog->window);
+		return ctxt->dialog;
 	} else
 		return NULL;
 }
