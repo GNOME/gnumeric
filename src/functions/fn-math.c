@@ -957,10 +957,8 @@ static char *help_int = {
 	   "@SYNTAX=INT(a)\n"
 
 	   "@DESCRIPTION="
-	   "INT function rounds @a now to the nearest integer "
-	   "where `nearest' implies being closer to zero. "
-	   "INT is equivalent to FLOOR(a) for @a >= 0, and CEIL(a) "
-	   "for @a < 0. "
+	   "The INT function returns the largest integer that is not "
+	   "bigger than its argument. "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"

@@ -1,5 +1,8 @@
 2000-12-11  Morten Welinder  <terra@diku.dk>
 
+	* src/functions/fn-math.c (help_int): fix bogus docs for negative
+ 	arguments.
+
 	* configure.in: clean up quote stuff.
 
 2000-12-10  Morten Welinder  <terra@diku.dk>
