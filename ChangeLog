@@ -1,5 +1,8 @@
 2004-10-11  Morten Welinder  <terra@gnome.org>
 
+	* src/parser.y (gnm_expr_parse_str): Revive logic to add missing
+	parenthesis.
+
 	* src/gnumeric-pane.c (gnm_pane_release): Plug leak.
 
 2004-10-10  Jody Goldberg <jody@gnome.org>
