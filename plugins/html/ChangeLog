@@ -1,4 +1,16 @@
+2001-12-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	
+	* latex.c : combine border data structures plus some
+	  cleanup
+	(latex2e_find_vline) : new function
+	(latex2e_write_blank_cell) : new short extract of 
+	  latex2e_write_multicolumn_cell
+	(latex2e_file_save) : setup info for connection markers in
+	  \hhline
+	(latex2e_print_hhline) : print them
+
 2001-12-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	
 	* latex.c : remove default grid
 	(latex2e_write_multicolumn_cell) : Handle merges over
 	  more than one row and handle vertical borders.

@@ -59,9 +59,81 @@
 #include <cell.h>
 #include <formats.h>
 #include <style-border.h>
+#include <sheet-style.h>
 #include <parse-util.h>
 
 #include <errno.h>
+
+typedef enum {
+	LATEX_NO_BORDER = 0,
+	LATEX_SINGLE_BORDER = 1,
+	LATEX_DOUBLE_BORDER = 2,
+	LATEX_MAX_BORDER
+} latex_border_t;
+
+typedef struct {
+	latex_border_t latex;
+	const char     *vertical;
+	const char     *horizontal;
+} latex_border_translator_t;
+
+/* the index into the following array is StyleBorderType */
+static const latex_border_translator_t border_styles[] = {
+	{LATEX_NO_BORDER,     "",  "~"},
+	{LATEX_SINGLE_BORDER, "|", "-"},
+	{LATEX_SINGLE_BORDER, "|", "-"},
+	{LATEX_SINGLE_BORDER, "|", "-"},
+	{LATEX_SINGLE_BORDER, "|", "-"},
+	{LATEX_DOUBLE_BORDER, "||","="},
+	{LATEX_DOUBLE_BORDER, "||","="},
+	{LATEX_SINGLE_BORDER, "|", "-"},
+	{LATEX_SINGLE_BORDER, "|", "-"},
+	{LATEX_SINGLE_BORDER, "|", "-"},
+	{LATEX_SINGLE_BORDER, "|", "-"},
+	{LATEX_SINGLE_BORDER, "|", "-"},
+	{LATEX_SINGLE_BORDER, "|", "-"},
+	{LATEX_NO_BORDER,     "",  ""}
+};
+
+typedef struct {
+	const char     *p_1;
+	const char     *p_2;
+} latex_border_connectors_t;
+
+
+static const latex_border_connectors_t conn_styles[LATEX_MAX_BORDER]
+[LATEX_MAX_BORDER][LATEX_MAX_BORDER][LATEX_MAX_BORDER] = {     
+        /*  FIXME: once we are sure that none of the numbered */
+        /*entries are in fact needed we should removed the digits */ 
+	{{{{"",""}, { "",""}, { "",""}},
+	  {{"",""}, { "",""}, { "32",""}},
+	  {{"",""}, { "11",""}, { "","|t:"}}},
+	 {{{"",""}, { "",""}, { "",""}},
+	  {{"",""}, { "12",""}, { "33",""}},
+	  {{"1",""}, { "13",""}, { "34",""}}},
+	 {{{"",""}, { "",""}, { "|","|"}},
+	  {{"2",""}, { "14",""}, { "|","|"}},
+	  {{"","|b:"}, { "15",""}, { "|",":"}}}},
+	{{{{"",""}, { "",""}, { "",""}},
+	  {{"",""}, { "16",""}, { "35",""}},
+	  {{"","|"}, { "17",""}, { "36",""}}},
+	 {{{"",""}, { "18",""}, { "37",""}},
+	  {{"3",""}, { "",""}, { "38",""}},
+	  {{"4",""}, { "19",""}, { "39",""}}},
+	 {{{"","|b|"}, { "20",""}, { "|","|"}},
+	  {{"5",""}, { "21",""}, { "|","|"}},
+	  {{"6",""}, { "22",""}, { "40",""}}}},
+	{{{{"",""}, { "23",""}, { ":t|",""}},
+	  {{"|",""}, { "24",""}, { ":t|",""}},
+	  {{"",""}, { "25",""}, { "41",""}}},
+	 {{{"7",""}, { "26",""}, { "42",""}},
+	  {{"8",""}, { "27",""}, { "43",""}},
+	  {{"9",""}, { "28",""}, { "44",""}}},
+	 {{{":b|",""}, { "29",""}, { ":","|"}},
+	  {{":b|",""}, { "30",""}, { "45",""}},
+	  {{"10",""}, { "31",""}, { ":",":"}}}}
+};
+
 
 /**
  * latex_fputs :
@@ -260,7 +332,11 @@ latex2e_write_file_header(FILE *fp)
 %%  rendered correctly:                                             %%
 %%    \\usepackage[latin1]{inputenc}                                 %%
 %%    \\usepackage{color}                                            %%
+%%    \\usepackage{array}                                            %%
 %%    \\usepackage{longtable}                                        %%
+%%    \\usepackage{calc}                                             %%
+%%    \\usepackage{multirow}                                         %%
+%%    \\usepackage{hhline}                                           %%
 %%  optionally (for landscape tables embedded in another document): %%
 %%    \\usepackage{lscape}                                           %%
 %%                                                                  %%
@@ -405,38 +481,113 @@ latex2e_write_table_header(FILE *fp, int num_cols)
 }
 
 /**
+ * latex2e_find_vline:  
+ *
+ * @col:
+ * @row:
+ * @sheet:
+ * @which_border: MStyleElementType (MSTYLE_BORDER_LEFT or MSTYLE_BORDER_RIGHT)
+  *
+ * Determine the border style
+ * 
+ */
+static StyleBorderType
+latex2e_find_vline (int col, int row, Sheet *sheet, MStyleElementType which_border)
+{
+	StyleBorder	   *border;
+	MStyle             *mstyle;
+
+	if (col < 0 || row < 0)
+		return STYLE_BORDER_NONE;
+ 
+	mstyle = sheet_style_get (sheet, col, row);
+	border = mstyle_get_border (mstyle, which_border);
+	
+	if (!(style_border_is_blank (border) || 
+	      border->line_type == STYLE_BORDER_NONE))
+		return border->line_type;
+
+	if (which_border == MSTYLE_BORDER_LEFT) {
+		if (col < 1)
+			return STYLE_BORDER_NONE;
+		mstyle = sheet_style_get (sheet, col - 1, row);
+		border = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
+		return ((style_border_is_blank (border)) ? STYLE_BORDER_NONE :
+			border->line_type);
+	} else {
+		mstyle = sheet_style_get (sheet, col + 1, row);
+		border = mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
+		return ((style_border_is_blank (border)) ? STYLE_BORDER_NONE :
+			border->line_type);
+	}
+
+	return STYLE_BORDER_NONE;
+}
+
+/**
  * latex2e_print_vert_border:  
  *
  * @fp : a file pointer where the cell contents will be written.
  * @clines: StyleBorderType indicating the type of border        
  *
- * Determine the border style
- * 
  */
-
-/* the index into the following array is StyleBorderType */
-static const char *vline_styles[] = {
-	"",
-	"|",
-	"|",
-	"|",
-	"|",
-	"||",
-	"||",
-	"|",
-	"|",
-	"|",
-	"|",
-	"|",
-	"|",
-	""
-};
-
 static void
 latex2e_print_vert_border (FILE *fp, StyleBorderType style)
 {
-	fprintf (fp, vline_styles[style]);	
+	fprintf (fp, border_styles[style].vertical);	
 }
+
+/**
+ * latex2e_write_blank_cell:
+ *
+ * @fp : a file pointer where the cell contents will be written.
+ * @col :
+ * @row :
+ * @first_column :
+ * @sheet : the current sheet.
+ *
+ * This function creates all the LaTeX code for the cell of a table (i.e. all
+ * the code that might fall between two ampersands (&)), assuming that 
+ * the cell is in fact NULL. We therefore have only to worry about a few
+ * formatting issues. 
+ *
+ */
+static void
+latex2e_write_blank_cell (FILE *fp, gint col, gint row, gint index, 
+			  StyleBorderType *borders, Sheet *sheet)
+{
+	CellPos pos;
+	StyleBorderType left_border = STYLE_BORDER_NONE;
+	StyleBorderType right_border = STYLE_BORDER_NONE;
+	
+	pos.col = col;
+	pos.row = row;
+	
+	if (index == 0) {
+		left_border = *borders;
+	}
+	right_border = borders[index + 1];
+
+	if (left_border == STYLE_BORDER_NONE &&  right_border == STYLE_BORDER_NONE)
+		fprintf (fp, "\n");
+	else {
+		/* Open the multicolumn statement. */
+		fprintf (fp, "\\multicolumn{1}{");
+
+		if (left_border != STYLE_BORDER_NONE)
+			latex2e_print_vert_border (fp, left_border);
+		
+		/* Drop in the left hand format delimiter. */
+		fprintf (fp, "c");
+		
+		if (right_border != STYLE_BORDER_NONE)
+			latex2e_print_vert_border (fp, right_border);
+
+		/*Close the right delimiter, as above. Also add the empty text delimiters.*/
+		fprintf (fp,"}{}%%\n");		
+	}
+}
+
 
 /**
  * latex2e_write_multicolumn_cell:
@@ -455,8 +606,8 @@ latex2e_print_vert_border (FILE *fp, StyleBorderType style)
  */
 static void
 latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged_cols, 
-				const int num_merged_rows,  gboolean first_column,
-				Sheet *sheet)
+				const int num_merged_rows,  gint index, 
+				StyleBorderType *borders, Sheet *sheet)
 {
 	char * rendered_string;
 	StyleColor *textColor;
@@ -468,7 +619,6 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 	int merge_width = 0;
 	StyleBorderType left_border = STYLE_BORDER_NONE;
 	StyleBorderType right_border = STYLE_BORDER_NONE;
-	StyleBorder	   *border;
 
 	/* Print the cell according to its style. */
 	MStyle *mstyle = cell_get_mstyle (cell);
@@ -480,35 +630,15 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 		int i;
 
 		for (i = 0; i < num_merged_cols; i++) {
-			ci = sheet_col_get (sheet, cell->col_info->pos + i);
-/* FIXME: How should we handle the cse that we don't get a valid ci? */
-			if (ci != NULL)
-				merge_width += ci->size_pixels;
+			ci = sheet_col_get_info (sheet, cell->col_info->pos + i);
+			merge_width += ci->size_pixels;
 		}
 	}
 	
-	if (first_column) {
-		border = mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
-		left_border = style_border_is_blank (border) ? STYLE_BORDER_NONE :
-			border->line_type;
+	if (index == 0) {
+		left_border = *borders;
 	}
-	border = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
-	right_border = style_border_is_blank (border) ? STYLE_BORDER_NONE :
-		border->line_type;
-	if (right_border == STYLE_BORDER_NONE) {
-		/* we need to look at the right neighbor */
-		MStyle *mstyle_next;
-		Cell *cell_next;
-
-		cell_next = sheet_cell_get (sheet, cell->pos.col + 1, cell->pos.row);
-		if (cell_next != NULL) {
-			mstyle_next = cell_get_mstyle (cell_next);
-			g_return_if_fail (mstyle_next != NULL);
-			border = mstyle_get_border (mstyle_next, MSTYLE_BORDER_LEFT);
-			right_border = style_border_is_blank (border) ? STYLE_BORDER_NONE :
-				border->line_type;
-		}
-	}
+	right_border = borders[index + num_merged_cols];
 
 	/* We only set up a multicolumn command if necessary */
 	if (num_merged_cols > 1) {
@@ -693,23 +823,21 @@ latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
 {
 	MStyle *mstyle;
 	StyleBorder	   *border;
-	Cell *cell;
  	Range const *merge_range;
+	CellPos pos;
 
-	/* Get the cell. */
-	cell = sheet_cell_get (sheet, col, row);
-	if (cell == NULL)
-		return FALSE;
-	mstyle = cell_get_mstyle (cell);
+	mstyle = sheet_style_get (sheet, col, row);
 	border = mstyle_get_border (mstyle, type);
 	if (style_border_is_blank (border))
 		return FALSE;
 	clines[0] = border->line_type;
-	merge_range = sheet_merge_is_corner (sheet, &cell->pos);
+	pos.col = col;
+	pos.row = row;
+	merge_range = sheet_merge_is_corner (sheet, &pos);
 	if (merge_range != NULL) {
 		int i;
 
-		for (i = 1; i < MAX (merge_range->end.col - merge_range->start.col + 1, 
+		for (i = 1; i < MIN (merge_range->end.col - merge_range->start.col + 1, 
 				    length); i++)
 			     clines[i] = border->line_type;
 	}
@@ -728,32 +856,47 @@ latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
  * of clines.
  * 
  */
-
-/* the index into the following array is StyleBorderType */
-static const char *hhline_styles[] = {
-	"~",
-	"-",
-	"-",
-	"-",
-	"-",
-	"=",
-	"=",
-	"-",
-	"-",
-	"-",
-	"-",
-	"-",
-	"-",
-	"~"
-};
-
 static void
-latex2e_print_hhline (FILE *fp, StyleBorderType *clines, int n)
+latex2e_print_hhline (FILE *fp, StyleBorderType *clines, int n, StyleBorderType *prev_vert,
+		      StyleBorderType *next_vert)
 {
 	int col;
 	fprintf (fp, "\\hhline{");
-	for (col = 0; col < n; col++)
-		fprintf (fp, hhline_styles[clines[col]]);
+	fprintf (fp, conn_styles[LATEX_NO_BORDER]
+		 [prev_vert ? border_styles[prev_vert[0]].latex : LATEX_NO_BORDER]
+		 [border_styles[clines[0]].latex]
+		 [next_vert ? border_styles[next_vert[0]].latex : LATEX_NO_BORDER].p_1);
+	fprintf (fp, conn_styles[LATEX_NO_BORDER]
+		 [prev_vert ? border_styles[prev_vert[0]].latex : LATEX_NO_BORDER]
+		 [border_styles[clines[0]].latex]
+		 [next_vert ? border_styles[next_vert[0]].latex : LATEX_NO_BORDER].p_2);
+	for (col = 0; col < n - 1; col++) {
+		fprintf (fp, border_styles[clines[col]].horizontal);
+		fprintf (fp, conn_styles[border_styles[clines[col]].latex]
+			 [prev_vert ? border_styles[prev_vert[col + 1]].latex : 
+			  LATEX_NO_BORDER]
+			 [border_styles[clines[col+1]].latex]
+			 [next_vert ? border_styles[next_vert[col + 1]].latex : 
+			  LATEX_NO_BORDER].p_1);
+		fprintf (fp, conn_styles[border_styles[clines[col]].latex]
+			 [prev_vert ? border_styles[prev_vert[col + 1]].latex : 
+			  LATEX_NO_BORDER]
+			 [border_styles[clines[col+1]].latex]
+			 [next_vert ? border_styles[next_vert[col + 1]].latex : 
+			  LATEX_NO_BORDER].p_2);
+	}
+	fprintf (fp, border_styles[clines[n - 1]].horizontal);
+	fprintf (fp, conn_styles[border_styles[clines[n - 1]].latex]
+		 [prev_vert ? border_styles[prev_vert[n]].latex : LATEX_NO_BORDER]
+		 [LATEX_NO_BORDER]
+		 [next_vert ? border_styles[next_vert[n]].latex : 
+		  LATEX_NO_BORDER].p_1);
+	fprintf (fp, conn_styles[border_styles[clines[n - 1]].latex]
+		 [prev_vert ? border_styles[prev_vert[n]].latex : LATEX_NO_BORDER]
+		 [LATEX_NO_BORDER]
+		 [next_vert ? border_styles[next_vert[n]].latex : 
+		  LATEX_NO_BORDER].p_2);
+	
 	fprintf (fp, "}\n");
 }
 
@@ -783,6 +926,7 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	Workbook *wb = wb_view_workbook (wb_view);
 	ErrorInfo *open_error;
 	StyleBorderType *clines, *this_clines;
+	StyleBorderType *prev_vert = NULL, *next_vert = NULL, *this_vert;
 	gboolean needs_hline;
 
 
@@ -803,7 +947,7 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 	/* Get the topmost sheet and its range from the plugin function argument. */
 	current_sheet = wb_view_cur_sheet(wb_view);
-	total_range = sheet_get_extent (current_sheet, FALSE);
+	total_range = sheet_get_extent (current_sheet, TRUE);
 
 	num_cols = total_range.end.col - total_range.start.col + 1;
 
@@ -864,8 +1008,23 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 				length--;
 			}
 		}
-		if (needs_hline) 
-			latex2e_print_hhline (fp, clines, num_cols);
+		/* We also need to know vertical borders */
+		/* We do this here rather than as we output the cells since */
+		/* we need to know the right connectors! */
+		prev_vert = next_vert;
+		next_vert = g_new0 (StyleBorderType, num_cols + 1);
+		this_vert = next_vert;
+		*this_vert = latex2e_find_vline (total_range.start.col, row, 
+						current_sheet, MSTYLE_BORDER_LEFT);
+		this_vert++;
+		for (col = total_range.start.col; col <= total_range.end.col; col++) {
+			*this_vert = latex2e_find_vline (col, row, current_sheet, 
+							MSTYLE_BORDER_RIGHT); 
+			this_vert ++;
+		}
+
+		if (needs_hline)
+			latex2e_print_hhline (fp, clines, num_cols, prev_vert, next_vert);
 		g_free (clines);
 
 		for (col = total_range.start.col; col <= total_range.end.col; col++) {
@@ -879,10 +1038,11 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 			else
 				fprintf (fp, "\t ");
 
-/* FIXME: We may still have to worry about formatting borders or so */
-			/* A non-existing cell gets a newline. */
-			if (cell == NULL) {
-				fprintf (fp, "\n");
+			/* A blank cell has only a few options*/
+			if (cell_is_blank(cell)) {
+				latex2e_write_blank_cell(fp, col, row, 
+							col - total_range.start.col, 
+							next_vert, current_sheet);
 				continue;
 			}
 
@@ -890,8 +1050,8 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 			merge_range = sheet_merge_is_corner (current_sheet, &cell->pos);
 			if (merge_range == NULL) {
 				latex2e_write_multicolumn_cell(fp, cell, 1, 1,
-							       col == total_range.start.col,
-							       current_sheet);
+							       col - total_range.start.col,
+							       next_vert, current_sheet);
 				continue;
 			}
 
@@ -901,11 +1061,13 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 			latex2e_write_multicolumn_cell(fp, cell, num_merged_cols,
 						       num_merged_rows,
-						       col == total_range.start.col,
-						       current_sheet);
+						       col - total_range.start.col,
+						       next_vert, current_sheet);
 			col += (num_merged_cols - 1);
 		}
 		fprintf (fp, "\\\\\n");
+		if (prev_vert != NULL) 
+			g_free (prev_vert);
 	}
 
 	/* We need to check for horizontal borders at the bottom  of  the last  row */
@@ -921,8 +1083,10 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		length--;
 	}
 	if (needs_hline) 
-		latex2e_print_hhline (fp, clines, num_cols);
+		latex2e_print_hhline (fp, clines, num_cols, next_vert, NULL);
 	g_free (clines);
+
+	g_free (next_vert);
 
 	fprintf (fp, "\\end{longtable}\n\n");
 	fprintf (fp, "\\gnumericTableEnd\n");
