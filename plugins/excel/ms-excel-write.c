@@ -1071,9 +1071,9 @@ palette_init (ExcelWriteState *ewb)
 	/* Ensure that black and white can't be swapped out */
 
 	for (i = 0; i < EXCEL_DEF_PAL_LEN; i++) {
-		epe = (ewb->bp->version >= MS_BIFF_V8)
-		      ? &excel_default_palette_v8 [i]
-		      : &excel_default_palette_v7 [i];
+		/* Just use biff8 palette.  We're going to dump a custom
+		 * palette anyway so it does not really matter */
+		epe = &excel_default_palette_v8 [i];
 		num = palette_color_to_int (epe);
 		two_way_table_put (ewb->pal.two_way_table,
 				   GUINT_TO_POINTER (num), FALSE,

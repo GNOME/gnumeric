@@ -1,3 +1,8 @@
+2004-09-07  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (palette_init) : Just use biff8 palette.  We're
+	  going to dump a custom palette anyway so it does not really matter
+
 2004-09-04  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (excel_write_ClientTextbox,
