@@ -33,7 +33,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-05-05 02:22-0400\n"
-"PO-Revision-Date: 2003-11-22 12:38+0100\n"
+"PO-Revision-Date: 2004-05-24 15:18+0200\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -16385,11 +16385,11 @@ msgstr "Ungültiger COLUMNS-Abschnitt in der Datei."
 
 #: plugins/mps/parser.c:564
 msgid "Invalid RHS section in the file."
-msgstr "Ungültiger RHS-Absschnitt in der Datei."
+msgstr "Ungültiger RHS-Abschnitt in der Datei."
 
 #: plugins/mps/parser.c:569
 msgid "Invalid RANGES section in the file."
-msgstr "Ungültiger REICHWEITE-Absschnitt in der Datei."
+msgstr "Ungültiger REICHWEITE-Abschnitt in der Datei."
 
 #: plugins/mps/parser.c:574
 msgid "Invalid BOUNDS section in the file."
@@ -16888,13 +16888,13 @@ msgstr "Format der Python-Datei »%s« ungültig."
 #: src/plugin-loader-module.c:421
 #, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr "Datei weist die »%s«-Funktion nicht auf."
+msgstr "Datei weist keine »%s«-Funktion auf."
 
 #: plugins/python-loader/python-loader.c:680
 #: plugins/python-loader/python-loader.c:797
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
-msgstr "Datei weist kein »%s«-Wörterbuch nicht auf."
+msgstr "Datei weist kein »%s«-Wörterbuch auf."
 
 #: plugins/python-loader/python-loader.c:685
 #: plugins/python-loader/python-loader.c:802
@@ -27357,7 +27357,7 @@ msgstr "Datei weist kein (»plugin_file_struct«-Symbol) auf."
 
 #: src/plugin-loader-module.c:121
 msgid "File has a bad magic number."
-msgstr "Datei hat eine falsche Magic-Nummer"
+msgstr "Datei hat eine falsche Magic-Zahl."
 
 #: src/plugin-loader-module.c:125
 #, c-format
