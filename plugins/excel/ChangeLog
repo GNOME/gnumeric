@@ -1,4 +1,7 @@
-1999-09-19  Jody Goldberg <jgoldberg@home.com>
+1999-09-20  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-escher.c (ms_escher_read_ClientData) : Handle unknown object
+	  types.
 
 	* ms-summary.c (set_summary_item) : Made static.
 

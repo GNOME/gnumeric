@@ -1006,6 +1006,9 @@ ms_escher_read_ClientData (MSEscherState * state, MSEscherHeader * h)
 
 	obj = ms_read_OBJ (state->q, state->wb, state->sheet->gnum_sheet);
 
+	if (obj == NULL)
+		return FALSE;
+
 	/* We should have an anchor set by now */
 	g_return_val_if_fail (h->anchor_set, FALSE);
 	g_return_val_if_fail (!obj->anchor_set, FALSE);
