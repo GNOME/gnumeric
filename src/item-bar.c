@@ -425,7 +425,6 @@ item_bar_end_resize (ItemBar *item_bar, int new_size)
 		gtk_widget_destroy (gtk_widget_get_toplevel (item_bar->tip));
 		item_bar->tip = NULL;
 	}
-	item_bar->start_selection = -1;
 
 	item_bar->resize_pos = -1;
 }
@@ -526,7 +525,22 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				break;
 		}
 
-		if (cri){
+		if (e->button.button == 3) {
+			Sheet   *sheet = item_bar->sheet_view->sheet;
+
+			/* If the selection does not contain the current row/col
+			 * then clear the selection and add it.
+			 */
+			if (!selection_contains_colrow (sheet, element, !is_vertical))
+				gtk_signal_emit (GTK_OBJECT (item),
+						 item_bar_signals [SELECTION_CHANGED],
+						 element, e->button.state | GDK_BUTTON1_MASK);
+
+			if (is_vertical)
+				item_grid_popup_menu (sheet, e, 0, element);
+			else
+				item_grid_popup_menu (sheet, e, element, 0);
+		} else if (cri){
 			/*
 			 * Record the important bits.
 			 *
@@ -544,21 +558,6 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				gnumeric_position_tooltip (item_bar->tip, !is_vertical);
 				gtk_widget_show_all (gtk_widget_get_toplevel (item_bar->tip));
 			}
-		} else if (e->button.button == 3){
-			Sheet   *sheet = item_bar->sheet_view->sheet;
-
-			/* If the selection does not contain the current row/col
-			 * then clear the selection and add it.
-			 */
-			if (!selection_contains_colrow (sheet, element, !is_vertical))
-				gtk_signal_emit (GTK_OBJECT (item),
-						 item_bar_signals [SELECTION_CHANGED],
-						 element, e->button.state | GDK_BUTTON1_MASK);
-
-			if (is_vertical)
-				item_grid_popup_menu (sheet, e, 0, element);
-			else
-				item_grid_popup_menu (sheet, e, element, 0);
 		} else {
 			item_bar->start_selection = element;
 			gnome_canvas_item_grab (item,
@@ -578,6 +577,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		
 		if (!resizing)
 			break;
+		if (e->button.button == 3)
+			break;
 
 		sheet = item_bar->sheet_view->sheet;
 		if (is_vertical)
@@ -590,14 +591,21 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 		
 	case GDK_BUTTON_RELEASE:
-		if (e->button.button == 3)
-			break;
+	{
+		gboolean needs_ungrab = FALSE;
 
+		if (item_bar->start_selection > 0) {
+			needs_ungrab = TRUE;
+			item_bar->start_selection = -1;
+		}
 		if (item_bar->resize_pos >= 0) {
-			gnome_canvas_item_ungrab (item, e->button.time);
+			needs_ungrab = (item_bar->resize_guide != NULL);
 			item_bar_end_resize (item_bar, item_bar->resize_width);
 		}
+		if (needs_ungrab)
+			gnome_canvas_item_ungrab (item, e->button.time);
 		break;
+	}
 
 	default:
 		return FALSE;

@@ -1,3 +1,11 @@
+1999-10-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_event) : Ensure that we ungrab whenever
+	  necessary.
+
+	* src/item-grid.c (item_grid_realize) : Add a reasonable approximation
+	  of the XL border styles.
+
 1999-10-08  Morten Welinder  <terra@diku.dk>
 
 	* src/clipboard.c (x_selection_handler): Plug leak.
