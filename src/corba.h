@@ -4,4 +4,6 @@
 extern      PortableServer_POA    gnumeric_poa;
 gboolean    WorkbookFactory_init  (void);
 
+CommandContext *command_context_corba (Workbook *wb);
+
 #endif

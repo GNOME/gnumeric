@@ -13,6 +13,8 @@
 #include "Gnumeric.h"
 #include "xml-io.h"
 #include "corba.h"
+#include "command-context-corba.h"
+#include "workbook-private.h"
 
 typedef struct {
 	POA_GNOME_Gnumeric_Workbook servant;	
@@ -225,6 +227,7 @@ workbook_corba_setup (Workbook *workbook)
 	CORBA_free (objid);
 	workbook->corba_server = PortableServer_POA_servant_to_reference (gnumeric_poa, ws, &ev);
 
+	workbook->priv->corba_context = command_context_corba_new (workbook);
 	CORBA_exception_free (&ev);
 }
 
@@ -238,9 +241,17 @@ workbook_corba_shutdown (Workbook *wb)
 
 	g_warning ("Should release all the corba resources here");
 
+	gtk_object_destroy (GTK_OBJECT (wb->priv->corba_context));
+	
 	CORBA_exception_init (&ev);
 	PortableServer_POA_deactivate_object (gnumeric_poa, wb->corba_server, &ev);
 	CORBA_exception_free (&ev);
 }
-       
+
+CommandContext *
+command_context_corba (Workbook *wb)
+{
+	return wb->priv->corba_context;
+}
+
 

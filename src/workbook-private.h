@@ -37,7 +37,7 @@ struct _WorkbookPrivate {
 	/*
 	 * GUI command context
 	 */
-	CommandContext *gui_context;
+	CommandContext *gui_context, *corba_context;
 };
 
 #endif /* GNUMERIC_WORKBOOK_PRIVATE_H */

@@ -1,5 +1,10 @@
 1999-12-31  Miguel de Icaza  <miguel@gnu.org>
 
+	* src/corba-workbook.c (workbook_corba_setup): Create the corba
+	context here.
+	(workbook_corba_shutdown): Destroy it here.
+	(command_context_corba): Return it here.
+
 	* src/corba-sheet.c: Use properly the command_context_corba,
 	passing a workbook argument in all functions.
 
