@@ -1,3 +1,9 @@
+2002-03-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-formula-guru.c : support `rolling-up' of the window
+	  to make Jon-Kare happy
+	* formula-guru.glade : ditto
+	
 2002-03-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-formula-guru.c : handle existing function calls 

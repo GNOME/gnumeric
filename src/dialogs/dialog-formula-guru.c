@@ -63,6 +63,8 @@ typedef struct
 	GtkWidget *ok_button;
 	GtkWidget *selector_button;
 	GtkWidget *clear_button;
+	GtkWidget *zoom_button;
+	GtkWidget *main_button_area;
 	GtkTreePath* active_path;
 	char * prefix;
 	char * suffix;
@@ -70,6 +72,11 @@ typedef struct
 
 	GtkTreeStore  *model;
 	GtkTreeView   *treeview;
+
+	gint old_height;
+	gint old_width;
+	gint old_height_request;
+	gint old_width_request;
 
 } FormulaGuruState;
 
@@ -392,6 +399,61 @@ cb_dialog_formula_guru_cancel_clicked (GtkWidget *button, FormulaGuruState *stat
 }
 
 /**
+ * cb_dialog_formula_guru_zoom_toggled:
+ * @button:
+ * @state:
+ *
+ * Close (destroy) the dialog
+ **/
+static void
+cb_dialog_formula_guru_zoom_toggled (GtkWidget *button, FormulaGuruState *state)
+{
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->treeview);
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
+		gtk_widget_hide (state->main_button_area);
+		gtk_widget_hide (state->clear_button);
+		gtk_widget_hide (state->selector_button);
+		gtk_tree_view_set_headers_visible (state->treeview, FALSE);
+		gtk_widget_get_size_request (state->dialog,
+					     &state->old_width_request,
+					     &state->old_height_request);
+		gtk_window_get_size (GTK_WINDOW (state->dialog),
+				     &state->old_width,
+				     &state->old_height);
+		gtk_widget_set_size_request (state->dialog,state->old_width_request,100);
+
+		/* FIXME: the ideal `shrunk size' should probably not be hardcoded.*/
+		gtk_window_resize (GTK_WINDOW (state->dialog),state->old_width_request,100);
+		gtk_window_set_resizable (GTK_WINDOW (state->dialog), FALSE);
+	} else {
+		gtk_widget_show (state->main_button_area);
+		gtk_widget_show (state->clear_button);
+		gtk_widget_show (state->selector_button);
+		gtk_tree_view_set_headers_visible (state->treeview, TRUE);
+		gtk_window_set_resizable (GTK_WINDOW (state->dialog), TRUE);
+		gtk_widget_set_size_request (state->dialog,
+					     state->old_width_request,
+					     state->old_height_request);
+		gtk_window_resize (GTK_WINDOW (state->dialog), state->old_width,
+				   state->old_height);
+	} 
+	/* FIXME: this should keep the selection in sight, unfortunately it does not for */
+	/* the size reduction case.                                                      */
+	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->model), &iter);
+		gtk_tree_view_scroll_to_cell (state->treeview, path, NULL,
+                                             FALSE, 0, 0);
+		gtk_tree_path_free (path);
+	}
+
+	return;
+}
+
+/**
  * cb_dialog_formula_guru_selector_clicked:
  * @button:
  * @state:
@@ -578,6 +640,14 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	g_signal_connect (G_OBJECT (state->clear_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_formula_guru_clear_clicked), state);
+
+	state->zoom_button = glade_xml_get_widget (state->gui, "zoom");
+	gtk_widget_set_sensitive (state->zoom_button, TRUE);
+	g_signal_connect (G_OBJECT (state->zoom_button),
+		"toggled",
+		G_CALLBACK (cb_dialog_formula_guru_zoom_toggled), state);
+
+	state->main_button_area = glade_xml_get_widget (state->gui, "dialog-action_area2");
 
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
 		"clicked",
