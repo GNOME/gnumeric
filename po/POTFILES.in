@@ -130,6 +130,7 @@ src/plugin-util.c
 src/plugin.c
 src/plugin-loader-module.c
 src/plugin-loader.c
+src/plugin-service.c
 src/print-info.c
 src/print.c
 src/search.c
