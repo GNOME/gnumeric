@@ -147,7 +147,6 @@ GNUMERIC_BASE_SOURCES =				\
 	value.c					\
 	value.h					\
 	value-sheet.c				\
-	value-sheet.h				\
 	workbook.c				\
 	workbook.h				\
 	workbook-cmd-format.c			\
