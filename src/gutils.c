@@ -579,7 +579,7 @@ yngnum (int n, gnum_float x)
 /* ------------------------------------------------------------------------- */
 /**
  * gnumeric_utf8_strcapital:
- * @p: pointer to utf-8 string
+ * @p: pointer to UTF-8 string
  * @len: length in bytes, or -1.
  *
  * Similar to g_utf8_strup and g_utf8_strup, except that this function

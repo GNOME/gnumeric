@@ -427,7 +427,7 @@ gnm_expr_expr_find_range (GnumericExprEntry *gee)
 				ptr = g_utf8_next_char (ptr+1);
 
 		} else {
-			/* rangerefs can not start in the middle of a sequence
+			/* rangerefs cannot start in the middle of a sequence
 			 * of alphanumerics */
 			if (g_unichar_isalnum (g_utf8_get_char (ptr))) {
 				do

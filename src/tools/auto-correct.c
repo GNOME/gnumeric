@@ -5,7 +5,7 @@
  *
  * Authors:
  *        Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
- *        Morten Welinder (utf8).
+ *        Morten Welinder (UTF-8).
  *
  * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  *
@@ -170,7 +170,7 @@ autocorrect_set_feature (AutoCorrectFeature feature, gboolean val)
  * autocorrect_get_exceptions :
  * @feature :
  *
- * Return a list of utf8 encoded strings.  Both the list and the content need to be freed.
+ * Return a list of UTF-8 encoded strings.  Both the list and the content need to be freed.
  **/
 GSList *
 autocorrect_get_exceptions (AutoCorrectFeature feature)
@@ -195,7 +195,7 @@ autocorrect_get_exceptions (AutoCorrectFeature feature)
 /**
  * autocorrect_set_exceptions :
  * @feature :
- * @list : A GSList of utf8 encoded strings.
+ * @list : A GSList of UTF-8 encoded strings.
  *
  **/
 void
@@ -221,7 +221,7 @@ autocorrect_set_exceptions (AutoCorrectFeature feature, GSList const *list)
 }
 
 /*
- * Utility to replace a single character in an utf8 string.
+ * Utility to replace a single character in an UTF-8 string.
  */
 static char *
 replace1 (const char *src, int keepbytes, const char *mid, const char *tail)

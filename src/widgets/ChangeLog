@@ -198,13 +198,13 @@
 2002-04-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	*  gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start): A
-	second cut at utf8 (or a first cut at the second half of this 
+	second cut at UTF-8 (or a first cut at the second half of this 
 	function)
 	
 2002-04-02  Morten Welinder  <terra@diku.dk>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start): A good
-	first cut at utf8.  Also speed up a lot by avoiding excessive
+	first cut at UTF-8.  Also speed up a lot by avoiding excessive
 	numbers of parsing calls.
 
 2002-03-25  Jody Goldberg <jody@gnome.org>
