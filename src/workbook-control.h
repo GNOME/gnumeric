@@ -8,10 +8,13 @@ struct _WorkbookControl {
 	GtkObject  gtk_object;
 
 	WorkbookView *wb_view;
-	GPtrArray *sheet_controls; /* FIXME : these are views for now */
+	GSList *template_list;
 };
 typedef struct {
 	GtkObjectClass   gtk_object_class;
+
+	/* Create a new control of the same form */
+	WorkbookControl *(*control_new) (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb);
 
 	/* Actions on the workbook UI */
 	void (*title_set)	(WorkbookControl *wbc, char const *title);
@@ -21,14 +24,14 @@ typedef struct {
 	void (*format_feedback)	(WorkbookControl *wbc, MStyle *style);
 	void (*zoom_feedback)	(WorkbookControl *wbc);
 	void (*edit_line_set)   (WorkbookControl *wbc, char const *text);
+	void (*auto_expr_value) (WorkbookControl *wbc, char const *value);
 	struct {
 		void (*add)	(WorkbookControl *wbc, Sheet *sheet);
 		void (*remove)	(WorkbookControl *wbc, Sheet *sheet);
+		void (*rename)  (WorkbookControl *wbc, Sheet *sheet);
+		void (*focus)   (WorkbookControl *wbc, Sheet *sheet);
+		void (*move)    (WorkbookControl *wbc, Sheet *sheet, int dir);
 	} sheet;
-	struct {
-		void (*name)  (WorkbookControl *wbc, char const *name);
-		void (*value) (WorkbookControl *wbc, char const *value);
-	} auto_expr;
 	struct {
 		void (*clear)	(WorkbookControl *wbc, gboolean is_undo);
 		void (*pop)	(WorkbookControl *wbc, gboolean is_undo);
@@ -59,7 +62,13 @@ typedef struct {
 
 GtkType workbook_control_get_type    (void);
 void 	workbook_control_init	     (WorkbookControl *wbc,
-				      WorkbookView *optional_view);
+				      WorkbookView *optional_view,
+				      Workbook *optional_wb);
+void    workbook_control_sheets_init (WorkbookControl *wbc);
+
+/* Create a new control of the same form */
+WorkbookControl *wb_control_wrapper_new (WorkbookControl *wbc,
+					 WorkbookView *wbv, Workbook *wb);
 
 void wb_control_title_set	     (WorkbookControl *wbc, char const *title);
 void wb_control_size_pixels_set	     (WorkbookControl *wbc, int w, int h);
@@ -67,10 +76,13 @@ void wb_control_prefs_update	     (WorkbookControl *wbc);
 void wb_control_format_feedback	     (WorkbookControl *wbc, MStyle *style);
 void wb_control_zoom_feedback	     (WorkbookControl *wbc);
 void wb_control_edit_line_set        (WorkbookControl *wbc, char const *text);
+
 void wb_control_sheet_add	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_remove	     (WorkbookControl *wbc, Sheet *sheet);
+void wb_control_sheet_rename	     (WorkbookControl *wbc, Sheet *sheet);
+void wb_control_sheet_focus	     (WorkbookControl *wbc, Sheet *sheet);
+void wb_control_sheet_move	     (WorkbookControl *wbc, Sheet *sheet, int dir);
 
-void wb_control_auto_expr_name	     (WorkbookControl *wbc, char const *name);
 void wb_control_auto_expr_value	     (WorkbookControl *wbc, char const *value);
 
 void wb_control_undo_redo_clear	     (WorkbookControl *wbc, gboolean is_undo);
@@ -88,22 +100,20 @@ void wb_control_paste_from_selection (WorkbookControl *wbc,
  * NOTE : The selection is quite limited by IDL's intentional non-support for
  *        inheritance (single or multiple).
  */
-void gnumeric_system_err	(WorkbookControl *wbc, char const *msg);
-void gnumeric_plugin_err	(WorkbookControl *wbc, char const *msg);
-void gnumeric_read_err		(WorkbookControl *wbc, char const *msg);
-void gnumeric_save_err		(WorkbookControl *wbc, char const *msg);
-void gnumeric_splits_array_err	(WorkbookControl *wbc, char const *cmd);
-void gnumeric_invalid_err	(WorkbookControl *wbc, char const *msg,
-				 char const *val);
+void wb_control_system_err	  (WorkbookControl *wbc, char const *msg);
+void wb_control_plugin_err	  (WorkbookControl *wbc, char const *msg);
+void wb_control_read_err	  (WorkbookControl *wbc, char const *msg);
+void wb_control_save_err	  (WorkbookControl *wbc, char const *msg);
+void wb_control_splits_array_err  (WorkbookControl *wbc, char const *cmd);
+void wb_control_invalid_err	  (WorkbookControl *wbc, char const *msg,
+				   char const *val);
+void wb_control_push_err_template (WorkbookControl *wbc, const char *str);
+void wb_control_pop_err_template  (WorkbookControl *wbc);
 
-WorkbookView *wb_control_workbook_view	(WorkbookControl *wbc);
+WorkbookView *wb_control_view		(WorkbookControl *wbc);
 Workbook     *wb_control_workbook	(WorkbookControl *wbc);
 Sheet        *wb_control_cur_sheet	(WorkbookControl *wbc);
 
-/* TODO */
-gboolean      workbook_parse_and_jump   (WorkbookControl *wb, const char *text);
-void wb_control_history_setup 	(WorkbookControl *wbc);
-void wb_control_history_update	(GList *wl, gchar *filename);
-void wb_control_history_shrink	(GList *wl, gint new_max);
+gboolean      workbook_parse_and_jump   (WorkbookControl *wbc, const char *text);
 
 #endif /* GNUMERIC_WORKBOOK_CONTROL_H */

@@ -13,9 +13,11 @@
 typedef struct _WorkbookControlGUI WorkbookControlGUI;
 
 GtkType          workbook_control_gui_get_type  (void);
-WorkbookControl *workbook_control_gui_new       (WorkbookView *);
+WorkbookControl *workbook_control_gui_new       (WorkbookView *optional_view,
+						 Workbook *optional_wb);
 void		 workbook_control_gui_init      (WorkbookControlGUI *wbcg,
-						 WorkbookView *optional_view);
+						 WorkbookView *optional_view,
+						 Workbook *optional_wb);
 
 GtkWindow *wb_control_gui_toplevel (WorkbookControlGUI *wbcg);
 Sheet *    wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg);
