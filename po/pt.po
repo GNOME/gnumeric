@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2001-12-26 00:56-0500\n"
-"PO-Revision-Date: 2001-12-21 01:30+0000\n"
+"POT-Creation-Date: 2001-12-27 02:42+0000\n"
+"PO-Revision-Date: 2001-12-27 02:45+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <none@none.org>\n"
 "MIME-Version: 1.0\n"
@@ -331,9 +331,8 @@ msgid "HTML & TeX"
 msgstr "HTML & TeX"
 
 #: plugins/html/plugin.xml.in.h:3
-#, fuzzy
 msgid "HTML (*.html) fragment"
-msgstr "HTML 4.0 (*.html)"
+msgstr "Fragmento HTML (*.html)"
 
 #: plugins/html/plugin.xml.in.h:4
 msgid "HTML 3.2 (*.html)"
@@ -13178,6 +13177,18 @@ msgid ""
 "17.3,21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=INDEX\n"
+"@SYNTAX=INDEX(matriz,[linha, col, área])\n"
+"@DESCRIPTION=INDEX dá uma referência para uma célula na @matriz indicada. A "
+"célula é indicada pela @linha e @col, que contam as linhas e colunas na "
+"matriz.\n"
+"Se @linha e @col forem omitidas assume-se que sejam 1.@área tem de ser 1; "
+"referências para múltiplas áreas ainda não estão implementadas. Se a referência "
+"ficar fora da área da @matriz, INDEX devolve o erro #REF!.\n"
+"\n"
+"@EXAMPLES=Vamos assumir que as células A1, A2, ..., A5 contêm os números 11.4, "
+"17.3,21.3, 25.9, e 40.1. Então INDEX(A1:A5,4,1,1) igual a 25,9\n"
+"@SEEALSO="
 
 #: src/functions/fn-lookup.c:835
 msgid ""
@@ -18311,9 +18322,8 @@ msgid "Unable to open file '%s'"
 msgstr "Incapaz de abrir ficheiro '%s'"
 
 #: src/gui-validation.c:45
-#, fuzzy
 msgid "The value you entered :\n"
-msgstr "O valor introduzido :\n"
+msgstr "O valor que introduziu :\n"
 
 #: src/gui-validation.c:78
 #, c-format
@@ -18391,9 +18401,8 @@ msgid "Can be blank\n"
 msgstr "Pode ser vazio\n"
 
 #: src/gui-validation.c:146
-#, fuzzy
 msgid "Re-Edit"
-msgstr "_Editar"
+msgstr "Re-Editar"
 
 #: src/gui-validation.c:146 src/gui-validation.c:151
 msgid "Discard"
@@ -19476,28 +19485,28 @@ msgid "Remove borders"
 msgstr "APagar margens"
 
 #: src/workbook-cmd-format.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "You entered an invalid column width value.  It must be bigger than %d"
 msgstr ""
 "Você introduziu um valor de largura da coluna inválido. Tem de ser maior do "
-"que 0"
+"que %d"
 
 #: src/workbook-cmd-format.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "You entered an invalid row height value.  It must be bigger than %d"
 msgstr ""
 "Você introduziu um valor de altura da linha inválido. Tem de ser maior do "
-"que 0"
+"que %d"
 
 #: src/workbook-cmd-format.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "The default column width must be > %d."
-msgstr "Modifica a largura de coluna de defeito"
+msgstr "A largura de coluna de defeito tem de ser > %d."
 
 #: src/workbook-cmd-format.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "The default row height must be > %d."
-msgstr "Modifica a altura de linha de defeito"
+msgstr "A altura de linha de defeito tem de ser > %d."
 
 #: src/workbook-control-gui.c:291
 msgid " : Gnumeric"
@@ -19781,15 +19790,16 @@ msgid "Discard Expression"
 msgstr "Descartar Expressão"
 
 #: src/workbook-edit.c:165
-#, fuzzy
 msgid "Gnumeric : Validation"
-msgstr "Fonte da Variância"
+msgstr "Gnumeric : Validação"
 
 #: src/workbook-edit.c:167
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
 msgstr ""
+"Esse valor é inválido.\n"
+"Foram colocadas restrições ao conteudo desta célula."
 
 #: src/workbook-format-toolbar.c:86
 msgid "Set Horizontal Alignment"
