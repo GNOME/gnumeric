@@ -1,3 +1,9 @@
+2001-09-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/value-sheet.c (value_area_get_width) : fix old silliness.
+	(value_area_get_height) : ditto.  Handle inverted  mixed mode
+	  references.
+
 2001-09-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/style-condition.h : Qualify the namespace better.

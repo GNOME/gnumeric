@@ -147,24 +147,29 @@ value_area_get_width (EvalPos const *ep, Value const *v)
 	g_return_val_if_fail (v, 0);
 
 	if (v->type == VALUE_CELLRANGE) {
-		/* FIXME: 3D references, may not clip correctly */
-		/*
-		 * FIXME : should we normalize ?
-		 *         should we handle relative references ?
-		 *         inversions ??
-		 */
-		Sheet *sheeta = v->v_range.cell.a.sheet ?
-			v->v_range.cell.a.sheet:ep->sheet;
-		int ans = v->v_range.cell.b.col -
-			  v->v_range.cell.a.col + 1;
+		RangeRef const *r = &v->v_range.cell;
+		Sheet const *sheeta = eval_sheet (r->a.sheet, ep->sheet);
+		int ans = r->b.col - r->a.col;
+
+		if (r->a.col_relative) {
+			if (!r->b.col_relative)
+				ans -= ep->eval.col;
+		} else if (r->b.col_relative)
+			ans += ep->eval.col;
+
+		if (ans < 0)
+			ans = -ans;
+		/* FIXME : this is just plain wrong, it is only true for ranges
+		 * starting at 0.  However, it has been here so long that I
+		 * don't want to change it until after release.  */
+		/* FIXME: 3D references, will not clip correctly */
 		if (sheeta && sheeta->cols.max_used < ans) /* Clip */
-			ans = sheeta->cols.max_used+1;
-		return ans;
-	} else if (v->type == VALUE_ARRAY) {
+			ans = sheeta->cols.max_used;
+		return ans + 1;
+	} else if (v->type == VALUE_ARRAY)
 		return v->v_array.x;
-	} else {
+	else
 		return 1;
-	}
 }
 
 int
@@ -173,23 +178,29 @@ value_area_get_height (EvalPos const *ep, Value const *v)
 	g_return_val_if_fail (v, 0);
 
 	if (v->type == VALUE_CELLRANGE) {
-		/* FIXME: 3D references, may not clip correctly */
-		/*
-		 * FIXME : should we normalize ?
-		 *         should we handle relative references ?
-		 *         inversions ??
-		 */
-		Sheet *sheeta = eval_sheet (v->v_range.cell.a.sheet, ep->sheet);
-		int ans = v->v_range.cell.b.row -
-			  v->v_range.cell.a.row + 1;
+		RangeRef const *r = &v->v_range.cell;
+		Sheet const *sheeta = eval_sheet (r->a.sheet, ep->sheet);
+		int ans = r->b.row - r->a.row;
+
+		if (r->a.row_relative) {
+			if (!r->b.row_relative)
+				ans -= ep->eval.row;
+		} else if (r->b.row_relative)
+			ans += ep->eval.row;
+
+		if (ans < 0)
+			ans = -ans;
+		/* FIXME : this is just plain wrong, it is only true for ranges
+		 * starting at 0.  However, it has been here so long that I
+		 * don't want to change it until after release.  */
+		/* FIXME: 3D references, will not clip correctly */
 		if (sheeta && sheeta->rows.max_used < ans) /* Clip */
-			ans = sheeta->rows.max_used + 1;
-		return ans;
-	} else if (v->type == VALUE_ARRAY) {
+			ans = sheeta->rows.max_used;
+		return ans + 1;
+	} else if (v->type == VALUE_ARRAY)
 		return v->v_array.y;
-	} else {
+	else
 		return 1;
-	}
 }
 
 Value const *

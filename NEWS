@@ -9,6 +9,8 @@ Jody:
 	* Remove irritating frame around bonobo objects.
 	* Improve sheet object menus.
 	* What eval queue?
+	* Fix handling of mixed mode references.
+	* Some initial guess work on how to import conditional XL formats.
 	* bump bonobo req to 1.0.8 to fix the memory problem.
 	* bump the gnome-print req to 0.29 in an effort to decrease
 	  the number of problems with gnome-print installs.
