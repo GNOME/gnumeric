@@ -1,3 +1,24 @@
+2004-08-30  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_finalize): Destroy
+	visibility_widgets.
+	(wbcg_toggle_visibility): New function.
+	(wbcg_copy_toolbar_visibility): Reinstate.
+	(workbook_control_gui_init): Initialize visibility_widgets.
+
+	* src/wbcg-actions.c (GNM_ACTION_DEF): Use new
+	wbcg_toggle_visibility.
+
+	* src/wbc-gtk.c (wbc_gtk_create_status_area): Add status bar to
+	visibility widgets.
+	(cb_toolbar_activate): Simplify.
+	(cb_add_menus_toolbars): Add toolbars to visibility widgets.
+	(wbc_gtk_set_toggle_action_state): Also look in toolbar actions.
+	Ick -- this gets uglier by the day.
+
+	* src/workbook-control-gui-priv.h (struct WorkbookControlGUI):
+	Replace statusbar member by visibility_widgets.
+
 2004-08-29  Jody Goldberg <jody@gnome.org>
 
 	* configure.in :  post release bump to .90 to indicate transition to

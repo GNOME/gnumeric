@@ -1545,6 +1545,8 @@ wbcg_finalize (GObject *obj)
 		wbcg->font_desc = NULL;
 	}
 
+	g_hash_table_destroy (wbcg->visibility_widgets);
+
 	(*parent_class->finalize) (obj);
 }
 
@@ -1661,6 +1663,7 @@ wbcg_set_status_text (WorkbookControlGUI *wbcg, char const *text)
 	gtk_label_set_text (GTK_LABEL (wbcg->status_text), text);
 }
 
+#if 0
 /*
  * Input: -2 [no change], -1 [toggle], 0 [invisible], 1 [visible].
  * Output: -1 [no toolbar], 0 [was invisible], 1 [was visible].
@@ -1700,24 +1703,44 @@ wbcg_set_statusbar_visible (WorkbookControlGUI *wbcg, int visible)
 					 "ViewStatusbar",
 					 visible);
 }
+#endif
+
+static void
+set_visibility (WorkbookControlGUI *wbcg,
+		const char *action_name,
+		gboolean visible)
+{
+	GtkWidget *w = g_hash_table_lookup (wbcg->visibility_widgets, action_name);
+	if (w)
+		(visible ? gtk_widget_show : gtk_widget_hide) (w);
+	wbcg_set_toggle_action_state (wbcg, action_name, visible);
+}	
+
+
+void
+wbcg_toggle_visibility (WorkbookControlGUI *wbcg, GtkToggleAction *action)
+{
+	set_visibility (wbcg,
+			gtk_action_get_name (GTK_ACTION (action)),
+			gtk_toggle_action_get_active (action));
+}
+
+static void
+cb_visibility (const char *action, GtkWidget *orig_widget, WorkbookControlGUI *new_wbcg)
+{
+	if (wbcg_ui_update_begin (new_wbcg)) {
+		set_visibility (new_wbcg, action, GTK_WIDGET_VISIBLE (orig_widget));
+		wbcg_ui_update_end (new_wbcg);
+	}	
+}
 
 void
 wbcg_copy_toolbar_visibility (WorkbookControlGUI *new_wbcg,
 			      WorkbookControlGUI *wbcg)
 {
-#if 0
-	int visible = wbcg_set_standard_toolbar_visible (wbcg, -2);
-	if (visible >= 0) wbcg_set_standard_toolbar_visible (new_wbcg, visible);
-
-	visible = wbcg_set_format_toolbar_visible (wbcg, -2);
-	if (visible >= 0) wbcg_set_format_toolbar_visible (new_wbcg, visible);
-
-	visible = wbcg_set_object_toolbar_visible (wbcg, -2);
-	if (visible >= 0) wbcg_set_object_toolbar_visible (new_wbcg, visible);
-
-	visible = wbcg_set_statusbar_visible (wbcg, -2);
-	if (visible >= 0) wbcg_set_statusbar_visible (new_wbcg, visible);
-#endif
+	g_hash_table_foreach (wbcg->visibility_widgets,
+			      (GHFunc)cb_visibility,
+			      new_wbcg);
 }
 
 
@@ -2514,6 +2537,11 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg)
 	wbcg->updating_ui = FALSE;
 	wbcg->rangesel	  = NULL;
 	wbcg->font_desc   = NULL;
+
+	wbcg->visibility_widgets =
+		g_hash_table_new_full (g_str_hash, g_str_equal,
+				       (GDestroyNotify)g_free,
+				       (GDestroyNotify)g_object_unref);
 
 	/* Autosave */
 	wbcg->autosave_timer = 0;

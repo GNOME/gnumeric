@@ -108,13 +108,17 @@ wbc_gtk_create_status_area (WorkbookControlGUI *wbcg, GtkWidget *progress,
 			    GtkWidget *status, GtkWidget *autoexpr)
 {
 	WBCgtk *gtk = (WBCgtk *)wbcg;
-	wbcg->statusbar = gtk->status_area = gtk_hbox_new (FALSE, 2);
+	gtk->status_area = gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_end (GTK_BOX (gtk->status_area), status, FALSE, TRUE, 0);
 	gtk_box_pack_end (GTK_BOX (gtk->status_area), autoexpr, FALSE, TRUE, 0);
 	gtk_box_pack_end (GTK_BOX (gtk->status_area), progress, TRUE, TRUE, 0);
 	gtk_box_pack_end (GTK_BOX (gtk->everything),
 		gtk->status_area, FALSE, TRUE, 0);
 	gtk_widget_show_all (gtk->status_area);
+
+	g_hash_table_insert (wbcg->visibility_widgets,
+			     g_strdup ("ViewStatusbar"),
+			     g_object_ref (gtk->status_area));
 }
 
 /*****************************************************************************/
@@ -801,6 +805,8 @@ wbc_gtk_set_toggle_action_state (WorkbookControlGUI const *wbcg,
 	GtkAction *a = gtk_action_group_get_action (gtk->actions, action);
 	if (a == NULL)
 		a = gtk_action_group_get_action (gtk->font_actions, action);
+	if (a == NULL)
+		a = gtk_action_group_get_action (gtk->toolbar.actions, action);
 	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (a), state);
 }
 
@@ -1064,25 +1070,13 @@ cb_toolbar_activate (GtkToggleAction *action, WBCgtk *gtk)
 	if (wbcg->updating_ui)
 		return;
 	if (wbcg_ui_update_begin (wbcg)) {
-		char *name;
-		char const *tmp;
-		GSList *ptr, *toolbars = gtk_ui_manager_get_toplevels (gtk->ui,
-			GTK_UI_MANAGER_TOOLBAR);
+		const char *name = gtk_action_get_name (GTK_ACTION (action));
+		gboolean visible = gtk_toggle_action_get_active (action);
+		GtkWidget *w = g_hash_table_lookup (wbcg->visibility_widgets,
+						    name);
+		if (w)
+			(visible ? gtk_widget_show : gtk_widget_hide) (w);
 
-		g_object_get (G_OBJECT (action),
-			"label",	&name,
-			NULL);
-		if (name != NULL) {
-			for (ptr = toolbars ; ptr != NULL ; ptr = ptr->next) { 
-				tmp = gtk_widget_get_name (ptr->data);
-				if (tmp != NULL && 0 == strcmp (tmp, name))
-					g_object_set (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (ptr->data))),
-						"visible",	gtk_toggle_action_get_active (action),
-						NULL);
-			}
-			g_free (name);
-		}
-		g_slist_free (toolbars);
 		wbcg_ui_update_end (wbcg);
 	}
 }
@@ -1111,6 +1105,10 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		char const *name = gtk_widget_get_name (w);
 		char *toggle_name = g_strdup_printf ("ViewMenuToolbar%s", name);
 		char *tooltip = g_strdup_printf (_("Show/Hide toolbar %s"), name);
+
+		g_hash_table_insert (wbcg->visibility_widgets,
+				     g_strdup (toggle_name),
+				     g_object_ref (box));
 
 		gtk_container_add (GTK_CONTAINER (box), w);
 		g_object_connect (box,

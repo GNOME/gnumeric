@@ -52,7 +52,9 @@ struct _WorkbookControlGUI {
 	GtkWidget  *table;
 	GtkWidget  *auto_expr_label;
 	GtkWidget  *status_text;
-	GtkWidget  *statusbar;
+
+	/* Widgets whose visibility should be copied.  */
+	GHashTable *visibility_widgets;
 
 	/* Edit area */
 	GtkWidget *selection_descriptor;	/* A GtkEntry */

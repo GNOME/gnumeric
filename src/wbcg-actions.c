@@ -1074,7 +1074,7 @@ static GNM_ACTION_DEF (cb_align_bottom)
 static GNM_ACTION_DEF (cb_view_statusbar)
 {
 	if (!wbcg->updating_ui)
-		wbcg_set_statusbar_visible (wbcg, -1);
+		wbcg_toggle_visibility (wbcg, GTK_TOGGLE_ACTION (a));
 }
 
 static GNM_ACTION_DEF (cb_merge_and_center)

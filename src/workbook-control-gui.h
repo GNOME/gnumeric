@@ -4,6 +4,7 @@
 #include "workbook-control.h"
 #include "gui-gnumeric.h"
 #include <gtk/gtkwindow.h>
+#include <gtk/gtktoggleaction.h>
 
 #define WORKBOOK_CONTROL_GUI_TYPE     (workbook_control_gui_get_type ())
 #define WORKBOOK_CONTROL_GUI(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), WORKBOOK_CONTROL_GUI_TYPE, WorkbookControlGUI))
@@ -33,8 +34,8 @@ void       wbcg_autosave_set      (WorkbookControlGUI *wbcg,
 				   int minutes, gboolean prompt);
 void	   wbcg_set_status_text	  (WorkbookControlGUI *wbcg,
 				   char const *text);
-int	   wbcg_set_statusbar_visible (WorkbookControlGUI *wbcg,
-				       int visible);
+void       wbcg_toggle_visibility (WorkbookControlGUI *wbcg,
+				   GtkToggleAction *action);
 void       wbcg_copy_toolbar_visibility (WorkbookControlGUI *new_wbcg,
 					 WorkbookControlGUI *wbcg);
 
