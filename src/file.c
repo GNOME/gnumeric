@@ -137,7 +137,7 @@ gnum_file_opener_new (gchar const *id,
 gchar const *
 gnum_file_opener_get_id (GnumFileOpener const *fo)
 {
-	g_return_val_if_fail (IS_GNUM_FILE_OPENER (fo), FALSE);
+	g_return_val_if_fail (IS_GNUM_FILE_OPENER (fo), NULL);
 
 	return fo->id;
 }
@@ -145,7 +145,7 @@ gnum_file_opener_get_id (GnumFileOpener const *fo)
 gchar const *
 gnum_file_opener_get_description (GnumFileOpener const *fo)
 {
-	g_return_val_if_fail (IS_GNUM_FILE_OPENER (fo), FALSE);
+	g_return_val_if_fail (IS_GNUM_FILE_OPENER (fo), NULL);
 
 	return fo->description;
 }
@@ -514,31 +514,45 @@ gnum_file_saver_set_overwrite_files (GnumFileSaver *fs, gboolean overwrite)
  * gnum_file_saver_fix_file_name:
  * @fs          : GnumFileSaver object
  * @file_name   : File name
+ * @new_file_name : New file name
  *
  * Modifies given @file_name by adding default extension for file type
  * supported by @fs saver. If @fs has no default extension or @file_name
  * already has some extension, it just copies @file_name.
  *
- * Return value: newly allocated string which you should free after use,
- *               containing (optionally) modified file name.
+ * 
+ * Value in new_file_name:  newly allocated string which you should 
+ *                          free after use,
+ *                          containing (optionally) modified file name.
+ * Return Value:  FALSE if the filename has an extension not matching the
+ *		  file type.
  */
-gchar *
-gnum_file_saver_fix_file_name (GnumFileSaver const *fs, gchar const *file_name)
+gboolean
+gnum_file_saver_fix_file_name (GnumFileSaver const *fs, 
+				gchar const *file_name,
+				gchar **new_file_name)
 {
-	gchar *new_file_name;
 	gchar *base;
+	gchar *extension;
+	gboolean res;
 
-	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), NULL);
-	g_return_val_if_fail (file_name != NULL, NULL);
+	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
+	g_return_val_if_fail (file_name != NULL, FALSE);
 
+	res = TRUE;
 	base = g_path_get_basename (file_name);
-	if (fs->extension != NULL && strchr (base, '.') == NULL)
-		new_file_name = g_strconcat (file_name, ".", fs->extension, NULL);
-	else
-		new_file_name = g_strdup (file_name);
+	extension = strrchr (base, '.');
+	if (fs->extension != NULL && extension == NULL)
+		*new_file_name = g_strconcat (file_name, ".", fs->extension, NULL);
+	else {
+		if (extension != NULL && fs->extension != NULL) 
+			res = !gnumeric_utf8_collate_casefold (extension + 1, 
+							fs->extension);
+		*new_file_name = g_strdup (file_name);
+	}
 	g_free (base);
 
-	return new_file_name;
+	return res;
 }
 
 

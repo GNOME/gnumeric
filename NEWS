@@ -3,6 +3,7 @@ Gnumeric 1.1.12
 Andreas:
 	* Hide hidden cells in groff/troff export.
 	* Fix 78356.
+	* Watch for file extensions not matching filetype when saving.
 
 Evert Verhellen
 	* Buff up the function guru icon a touch

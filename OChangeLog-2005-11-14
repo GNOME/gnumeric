@@ -1,3 +1,10 @@
+2002-11-05   Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/file.h (gnum_file_saver_fix_file_name): change signature
+	* src/file.c (gnum_file_saver_fix_file_name): change signature
+	  and return FALSE if non-matching extension
+	* src/gui-file.c (do_save_as): watch for non-matching extensions
+
 2002-11-07  Morten Welinder  <terra@diku.dk>
 
 	* src/file.c (gnum_file_saver_get_description): Fix failure case.

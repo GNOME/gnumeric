@@ -110,8 +110,9 @@ void         gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_contex
                                    WorkbookView *wbv, const gchar *file_name);
 void         gnum_file_saver_set_overwrite_files (GnumFileSaver *fs,
                                                   gboolean overwrite);
-gchar       *gnum_file_saver_fix_file_name (GnumFileSaver const *fs,
-                                            const gchar *file_name);
+gboolean     gnum_file_saver_fix_file_name (GnumFileSaver const *fs,
+                                            const gchar *file_name,
+					    gchar **new_file_name);
 const gchar *gnum_file_saver_get_id (GnumFileSaver const *fs);
 const gchar *gnum_file_saver_get_extension (GnumFileSaver const *fs);
 const gchar *gnum_file_saver_get_mime_type (GnumFileSaver const *fs);

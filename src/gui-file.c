@@ -1,6 +1,6 @@
 /* vim: set sw=8: */
 /*
- * gui-file.c:
+ * GUI-file.c:
  *
  * Authors:
  *    Jon K Hellan (hellan@acm.org)
@@ -239,7 +239,7 @@ static gboolean
 do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
             GnumFileSaver *fs, char const *name)
 {
-	char *filename;
+	char *filename = NULL;
 	gboolean success = FALSE;
 
 	if (*name == 0 || name [strlen (name) - 1] == '/') {
@@ -248,7 +248,15 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 		return FALSE;
 	}
 
-	filename = gnum_file_saver_fix_file_name (fs, name);
+	if (!gnum_file_saver_fix_file_name (fs, name, &filename) &&
+		!gnumeric_dialog_question_yes_no (wbcg,
+                      _("The given file extension does not match the"
+			" chosen file type. Do you want to use this name"
+			" anyways?"),
+                       TRUE)) { 
+		g_free (filename);
+                return FALSE;
+	}
 	if (!can_try_save_to (wbcg, filename)) {
 		g_free (filename);
 		return FALSE;
