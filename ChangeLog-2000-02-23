@@ -1,5 +1,19 @@
 1999-12-18  Morten Welinder  <terra@diku.dk>
 
+	* src/xml-io.c (xml_read_print_info): Plug leaks.
+	(xml_value_get): Return a g_malloc'ed string.  All callers
+ 	changed.
+	(xml_get_print_unit): Plug leak.
+	(xml_get_color_value): Plug leak.
+	(xml_read_sheet_object): Plug leak, I think.
+	(xml_set_value): Plug leak.
+	(xml_set_value_string): Plug leak.
+	(xml_set_value_int): Plug leak.
+	(xml_set_value_double): Plug leak.
+	(xml_set_color_value): Plug leak.
+	(xml_set_gnome_canvas_points): free/g_free mixup.
+	(xml_workbook_write): Plug leak.
+
 	* src/item-bar.c (item_bar_destroy): Unref fonts.  (Found by
  	Miguel.)
 
