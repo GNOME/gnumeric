@@ -1,5 +1,10 @@
 2005-03-11  Jon K Hellan  <hellan@acm.org>
 
+	* src/gnumeric-pane.c (gnm_pane_init): Add drag action
+	GDK_ACTION_MOVE. Needed for drag receive from konqueror.
+
+2005-03-11  Jon K Hellan  <hellan@acm.org>
+
 	* src/gui-clipboard.c (text_content_received): New. Split out of
 	complex_content_received.
 	(image_content_received): New. Receive image data.

@@ -251,7 +251,7 @@ gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 	}
 
 	gtk_drag_dest_set (GTK_WIDGET (pane->gcanvas), GTK_DEST_DEFAULT_ALL,
-			NULL, 0, GDK_ACTION_COPY);
+			NULL, 0, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 	gtk_drag_dest_add_uri_targets (GTK_WIDGET (pane->gcanvas));
 	gtk_drag_dest_add_image_targets (GTK_WIDGET (pane->gcanvas));
 	gtk_drag_dest_add_text_targets (GTK_WIDGET (pane->gcanvas));
