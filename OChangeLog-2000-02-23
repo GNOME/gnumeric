@@ -1,7 +1,7 @@
 2000-01-02  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/clipboard.c (x_selection_to_cell_region): the last element
-	of a paste was being dropped. 
+	of a paste was being dropped and the region was being miss-computed
 
 2000-01-02  Miguel de Icaza  <miguel@gnu.org>
 

@@ -257,16 +257,14 @@ x_selection_to_cell_region (char *data, int len)
 			if (p != data)
 				list = new_node (list, data, p, cur_col, rows);
 
+			cur_col++;
+			if (cur_col > cols)
+				cols = cur_col;
 			if (*p == '\n'){
-				if (p != data)
-					list = new_node (list, data, p, cur_col, rows);
-				rows++;
+				if (p [1])
+					rows++;
 				cur_col = 0;
-			} else {
-				cur_col++;
-				if (cur_col > cols)
-					cols = cur_col;
-			}
+			} 
 
 			data = p+1;
 		}
