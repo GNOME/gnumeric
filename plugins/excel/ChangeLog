@@ -1,3 +1,8 @@
+2001-06-21  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (ms_excel_read_supporting_wb): Fix trigraph
+ 	stuff and cut down on repeated question marks in general.
+
 2001-06-15  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_sheet_new) : Use CellPos directly.
@@ -4484,4 +4489,3 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* boot.c (excel_init): New file, adds the excel booting
 	mechanism.
-

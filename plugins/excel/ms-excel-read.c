@@ -703,7 +703,7 @@ char *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x0a */	"0.00%",
 /* 0x0b */	"0.00E+00",
 /* 0x0c */	"# ?/?",
-/* 0x0d */	"# ??/??",
+/* 0x0d */	"# ?" "?/?" "?",  /* Don't accidentally use trigraph.  */
 /* 0x0e */	"m/d/yy",
 /* 0x0f */	"d-mmm-yy",
 /* 0x10 */	"d-mmm",
@@ -1277,7 +1277,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 							      pattern_index);
 
 				/* Contrast back to pattern, and font to back */
-				/* FIXME : What is correct ?? */
+				/* FIXME : What is correct?  */
 				back_color = (back_index == 65)
 				    ? style_color_white ()
 				    : black_or_white_contrast (pattern_color);
@@ -1592,7 +1592,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 		 */
 		static gboolean shrink_warn = TRUE;
 
-		/* FIXME : What are the lower 8 bits Always 0 ?? */
+		/* FIXME : What are the lower 8 bits Always 0?  */
 		/* We need this to be able to support travel.xls */
 		const guint16 data = MS_OLE_GET_GUINT16 (q->data + 8);
 		gboolean const shrink = (data & 0x10) ? TRUE : FALSE;
@@ -3201,7 +3201,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		if (sheet->wb->global_strings && idx < sheet->wb->global_string_max) {
 			char const *str = sheet->wb->global_strings[idx];
 
-			/* FIXME FIXME FIXME : Why would there be a NULL ??? */
+			/* FIXME FIXME FIXME : Why would there be a NULL?  */
 			if (str == NULL)
 				str = "";
 			ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
@@ -3349,7 +3349,7 @@ ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *sheet)
 	 *   includes the margins and grid line, but uses a different notion of
 	 *   how big a char width is.
 	 * According to saved data a column with the same size a the default has
-	 *   9.00?? char widths.
+	 *   9.00? char widths.
 	 */
 	col_width = width * sheet->base_char_width_default;
 
@@ -3907,9 +3907,9 @@ ms_excel_read_supporting_wb (MsBiffBofData *ver, BiffQuery *q)
 	guint8 encodeType = MS_OLE_GET_GUINT8 (q->data + 2);
 
 	/* TODO TODO TODO : Figure out what this is and if it is
-	 * useful.  We always get a record length of FOUR ??
+	 * useful.  We always get a record length of FOUR?
 	 * even when there are supposedly 10 tabs...
-	 * Is this related to EXTERNNAME???
+	 * Is this related to EXTERNNAME?
 	 */
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 0) {
@@ -3926,8 +3926,8 @@ ms_excel_read_supporting_wb (MsBiffBofData *ver, BiffQuery *q)
 			puts ("chSelf");
 			break;
 		default :
-			printf ("Unknown/Unencoded ??(%x '%c') %d\n",
-			       encodeType, encodeType, q->length);
+			printf ("Unknown/Unencoded?  (%x '%c') %d\n",
+				encodeType, encodeType, q->length);
 		};
 		dump_biff (q);
 	}
