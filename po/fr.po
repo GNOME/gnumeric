@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1998-12-16 12:43-0500\n"
+"POT-Creation-Date: 1998-12-21 16:35+0100\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@waw.com>\n"
 "Language-Team: Vincent Renardias <vincent@waw.com>\n"
@@ -268,14 +268,17 @@ msgstr "Texte"
 msgid "Money"
 msgstr "Monétaire"
 
+#. 1. Categories
 #: src/dialog-cell-format.c:253
 msgid "Categories"
 msgstr "Catégories"
 
+#. 2.1 Input line
 #: src/dialog-cell-format.c:283
 msgid "Code:"
 msgstr "Code:"
 
+#. 2.2 Sample
 #: src/dialog-cell-format.c:292
 msgid "Sample:"
 msgstr "Exemple:"
@@ -317,6 +320,7 @@ msgstr "Haut"
 msgid "Bottom"
 msgstr "Bas"
 
+#. Vertical alignment
 #: src/dialog-cell-format.c:421
 msgid "Vertical"
 msgstr "Vertical"
@@ -334,6 +338,7 @@ msgstr "Retour à la ligne automatique"
 msgid "Text color"
 msgstr "Couleur du texte"
 
+#. The radio buttons
 #: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
 #: src/dialog-paste-special.c:28
 msgid "None"
@@ -504,10 +509,12 @@ msgid "Custom"
 msgstr "Personnalisé"
 
 #: src/dialog-zoom.c:83
+#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "Cette valeur doit être supérieure à 50%"
 
 #: src/dialog-zoom.c:88
+#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "Cette valeur doit être inférieure à 900%"
 
@@ -519,7 +526,6 @@ msgstr "Erreur de syntaxe"
 msgid "Missing quote"
 msgstr "guillemet manquante"
 
-#. Type checking
 #: src/expr.c:467 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "Nombre d'arguments invalides"
@@ -1508,10 +1514,12 @@ msgid "[h]:mm:ss"
 msgstr "[h]:mm:ss"
 
 #: src/formats.c:74
+#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: src/formats.c:75
+#, c-format
 msgid "0.00%"
 msgstr "0,00%"
 
@@ -1548,22 +1556,27 @@ msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr ""
 
 #: src/gnumeric-sheet.c:877
+#, c-format
 msgid "75%"
 msgstr "75%"
 
 #: src/gnumeric-sheet.c:880
+#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: src/gnumeric-sheet.c:883
+#, c-format
 msgid "25%"
 msgstr "25%"
 
 #: src/gnumeric-sheet.c:886
+#, c-format
 msgid "12%"
 msgstr "12%"
 
 #: src/gnumeric-sheet.c:889
+#, c-format
 msgid "6%"
 msgstr "6%"
 
@@ -1685,10 +1698,12 @@ msgid "Plugin is still in use.\n"
 msgstr "Le plugin est toujours en cours d'utilisation.\n"
 
 #: src/sheet-view.c:336 src/sheet-view.c:410
+#, c-format
 msgid "Row: %d"
 msgstr "Ligne: %d"
 
 #: src/sheet-view.c:343 src/sheet-view.c:382
+#, c-format
 msgid "Column: %s"
 msgstr "Colonne: %s"
 
@@ -1940,99 +1955,100 @@ msgstr "Aligner à droite"
 msgid "Sets the cell alignment to the right"
 msgstr "Aligner à droite le contenu des cellules"
 
-#: src/workbook.c:860
+#: src/workbook.c:859
 msgid "Bold"
 msgstr "Gras"
 
-#: src/workbook.c:860
+#: src/workbook.c:859
 msgid "Sets the bold attribute on the cell"
 msgstr "Active l'attribut \"gras\" sur la cellule"
 
-#: src/workbook.c:864
+#: src/workbook.c:862
 msgid "Italic"
 msgstr "Italique"
 
-#: src/workbook.c:864
+#: src/workbook.c:862
 msgid "Sets the italic attribute on the cell"
 msgstr "Active l'attribut \"italique\" sur la cellule"
 
-#: src/workbook.c:870
+#: src/workbook.c:868
 msgid "Line"
 msgstr "Ligne"
 
-#: src/workbook.c:870
+#: src/workbook.c:868
 msgid "Creates a line object"
 msgstr "Créer une nouvelle ligne"
 
-#: src/workbook.c:873
+#: src/workbook.c:871
 msgid "Arrow"
 msgstr "Fléche"
 
-#: src/workbook.c:873
+#: src/workbook.c:871
 msgid "Creates an arrow object"
 msgstr "Créer une nouvelle fléche"
 
-#: src/workbook.c:876
+#: src/workbook.c:874
 msgid "Rectangle"
 msgstr "Rectangle"
 
-#: src/workbook.c:876
+#: src/workbook.c:874
 msgid "Creates a rectangle object"
 msgstr "Créer un nouveau rectangle"
 
-#: src/workbook.c:879
+#: src/workbook.c:877
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: src/workbook.c:879
+#: src/workbook.c:877
 msgid "Creates an ellipse object"
 msgstr "Créer une nouvelle ellipse"
 
-#: src/workbook.c:958
+#: src/workbook.c:956
 msgid "You should introduce a valid cell name"
 msgstr "Vous devez introduire un nom de cellule valide"
 
-#: src/workbook.c:964
+#: src/workbook.c:962
 msgid "Column out of range"
 msgstr "Colonne invalide"
 
-#: src/workbook.c:969
+#: src/workbook.c:967
 msgid "Row number out of range"
 msgstr "Numéro de ligne invalide"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1073
 msgid "Sum"
 msgstr "Somme"
 
-#: src/workbook.c:1076
+#: src/workbook.c:1074
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:1077
+#: src/workbook.c:1075
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1076
 msgid "Average"
 msgstr "Moyenne"
 
-#: src/workbook.c:1079
+#: src/workbook.c:1077
 msgid "Count"
 msgstr "Compte"
 
-#: src/workbook.c:1235
+#: src/workbook.c:1233
 msgid "Untitled.gnumeric"
 msgstr "SansTitre.gnumeric"
 
-#: src/workbook.c:1315
+#: src/workbook.c:1313
 msgid "Zoom out"
 msgstr ""
 
-#: src/workbook.c:1322
+#: src/workbook.c:1320
 msgid "Zoom in"
 msgstr "Zoom"
 
-#: src/workbook.c:1371 src/workbook.c:1392
+#: src/workbook.c:1369 src/workbook.c:1390
+#, c-format
 msgid "Sheet %d"
 msgstr "Feuille %d"
 
