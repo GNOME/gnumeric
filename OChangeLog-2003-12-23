@@ -1,3 +1,7 @@
+2001-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in :  Improve the oaf test.
+
 2001-10-02  Jody Goldberg <jgoldberg@home.com>
 
 	* idl/Makefile.am : Don't make the stampel files unless the idl

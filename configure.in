@@ -379,11 +379,14 @@ if $try_bonobo; then
 
 	if test "$vers" -ge 1000008; then
 		AC_MSG_RESULT($marker_ok found $verstxt)
-		AC_DEFINE(ENABLE_BONOBO)
-		have_bonobo=true
-		bonobo=bonobox_print
-		bonobo_msg=yes
-		bonobo_suffix=-bonobo
+		AM_PATH_OAF(0.6.2,,AC_MSG_ERROR([OAF not found or too old]))
+		if test x"$OAF_CFLAGS" != "x" ; then
+			AC_DEFINE(ENABLE_BONOBO)
+			have_bonobo=true
+			bonobo=bonobox_print
+			bonobo_msg=yes
+			bonobo_suffix=-bonobo
+		fi
 	else
 		if test "$vers" -eq 0; then
 			AC_MSG_RESULT($marker_no not found)
