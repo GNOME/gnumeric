@@ -53,6 +53,7 @@
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkcellrendererpixbuf.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkliststore.h>
 #include <string.h>
 
 typedef struct _GraphGuruState		GraphGuruState;
