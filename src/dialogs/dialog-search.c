@@ -512,6 +512,8 @@ dialog_search (WorkbookControlGUI *wbcg)
 			    TRUE, TRUE, 0);
 
 	gtk_widget_grab_focus (glade_xml_get_widget (gui, "searchtext"));
+	gnome_dialog_editable_enters
+		(dialog, GTK_EDITABLE (glade_xml_get_widget (gui, "searchtext")));
 
 	gtk_signal_connect (GTK_OBJECT (dd->e_table->selection),
 			    "selection_changed",

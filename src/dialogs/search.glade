@@ -208,6 +208,7 @@
 	      <name>search_button</name>
 	      <tooltip>Start search</tooltip>
 	      <can_default>True</can_default>
+	      <has_default>True</has_default>
 	      <can_focus>True</can_focus>
 	      <label>Search</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
