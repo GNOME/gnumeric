@@ -21,6 +21,7 @@
 #include "formula-types.h"
 #include "boot.h"
 
+#include <sheet.h>
 #include <gutils.h>
 #include <workbook-priv.h>
 #include <func.h>

@@ -4,14 +4,13 @@
  * Author:
  *    Jon K Hellan (hellan@acm.org)
  *
- * (C) 1999, 2000 Jon K Hellan
+ * (C) 1999-2004 Jon K Hellan
  **/
 #ifndef GNUMERIC_MS_EXCEL_UTIL_H
 #define GNUMERIC_MS_EXCEL_UTIL_H
 
 #include <glib.h>
 #include <stdlib.h>
-#include "sheet.h"
 
 typedef struct _TwoWayTable   TwoWayTable;
 
@@ -50,10 +49,18 @@ two_way_table_key_to_idx (const TwoWayTable *table, gconstpointer key);
 gpointer
 two_way_table_idx_to_key (const TwoWayTable *table, gint idx);
 
+/*****************************************************************************/
+
+typedef struct {
+	char const *const name;
+	int const	  defcol_unit;
+	int const	  colinfo_baseline;
+	float const	  colinfo_step;
+} XL_font_width;
+
 /* Measures base character width for column sizing. Returns width. */
 /* A new version based on hard coded tables to match XL */
-double lookup_font_base_char_width (char const *name, double size_pts,
-				    gboolean const is_default);
-void destroy_xl_font_widths (void);
+XL_font_width const *xl_lookup_font_specs   (char const *name);
+void		     destroy_xl_font_widths (void);
 
-#endif
+#endif /* GNUMERIC_MS_EXCEL_UTIL_H */

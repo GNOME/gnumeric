@@ -34,6 +34,7 @@
 
 #include <workbook.h>
 #include <workbook-view.h>
+#include <sheet.h>
 #include <sheet-view.h>
 #include <sheet-style.h>
 #include <sheet-merge.h>
@@ -1641,6 +1642,7 @@ excel_get_xf (ExcelReadSheet *esheet, unsigned xfidx)
 	return g_ptr_array_index (p, xfidx);
 }
 
+/* Adds a ref the result */
 static GnmStyle *
 excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 {
@@ -3388,27 +3390,16 @@ excel_read_XCT (BiffQuery *q, ExcelWorkbook *ewb)
 	}
 }
 
-/**
- * base_char_width_for_read:
- * @esheet	the Excel sheet
- * @xf_index	the src of the font to use
- * @is_default
- *
- * Measures base character width for column sizing.
- */
-static double
-base_char_width_for_read (ExcelReadSheet *esheet,
-			  unsigned xf_index, gboolean is_default)
+static XL_font_width const *
+xl_find_fontspec (ExcelReadSheet *esheet, float *size20)
 {
-	BiffXFData const *xf = excel_get_xf (esheet, xf_index);
+	/* Use the 'Normal' Style which is by definition the 0th */
+	BiffXFData const *xf = excel_get_xf (esheet, 0);
 	BiffFontData const *fd = (xf != NULL)
 		? excel_get_font (esheet->container.ewb, xf->font_idx)
 		: NULL;
-	/* default to Arial 10 */
-	char const * name = (fd != NULL) ? fd->fontname : "Arial";
-	double const size = (fd != NULL) ? fd->height : 20.* 10.;
-
-	return lookup_font_base_char_width (name, size, is_default);
+	*size20 = (fd != NULL) ? (20. * 10.) / fd->height : 1.;
+	return xl_lookup_font_specs ((fd != NULL) ? fd->fontname : "Arial");
 }
 
 /**
@@ -3526,51 +3517,59 @@ excel_read_TAB_COLOR (BiffQuery *q, ExcelReadSheet *esheet)
 static void
 excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	int lp;
-	float col_width;
-	guint16 const firstcol = GSF_LE_GET_GUINT16 (q->data);
-	guint16       lastcol  = GSF_LE_GET_GUINT16 (q->data + 2);
-	guint16       width    = GSF_LE_GET_GUINT16 (q->data + 4);
-	guint16 const xf       = GSF_LE_GET_GUINT16 (q->data + 6);
-	guint16 const options  = GSF_LE_GET_GUINT16 (q->data + 8);
-	gboolean      hidden   = (options & 0x0001) ? TRUE : FALSE;
-	gboolean const collapsed = (options & 0x1000) ? TRUE : FALSE;
+	int i;
+	float scale, width;
+	guint16 const  firstcol	  = GSF_LE_GET_GUINT16 (q->data);
+	guint16        lastcol	  = GSF_LE_GET_GUINT16 (q->data + 2);
+	int            charwidths = GSF_LE_GET_GUINT16 (q->data + 4);
+	guint16 const  xf	  = GSF_LE_GET_GUINT16 (q->data + 6);
+	guint16 const  options	  = GSF_LE_GET_GUINT16 (q->data + 8);
+	gboolean       hidden	  = (options & 0x0001) ? TRUE : FALSE;
+	gboolean const collapsed  = (options & 0x1000) ? TRUE : FALSE;
 	unsigned const outline_level = (unsigned)((options >> 8) & 0x7);
+	XL_font_width const *spec = xl_find_fontspec (esheet, &scale);
 
 	g_return_if_fail (firstcol < SHEET_MAX_COLS);
+	g_return_if_fail (spec != NULL);
 
-	/* Widths are quoted including margins
-	 * If the width is less than the minimum margins something is lying
-	 * hide it and give it default width.
-	 * NOTE: These measurements do NOT correspond to what is
-	 * shown to the user
-	 */
-	if (width >= 4) {
-		col_width = base_char_width_for_read (esheet, xf, FALSE) *
-			width / 256.;
-	} else {
+	/* Widths appear to be quoted including margins and the leading
+	 * gridline that gnumeric expects.  The charwidths here are not
+	 * strictly linear.  So I measured in increments of -2 -1 0 1 2 around
+	 * the default width when using each font @ 10pts as
+	 * the Normal Style.   The pixel calculation is then reduced to
+	 *
+	 *     (default_size + ((quoted_width - baseline) / step))
+	 *     		* scale : fonts != 10pts
+	 *     		* 72/96 : value in pts so that zoom is not a factor
+	 *
+	 * NOTE: These measurements do NOT correspond to what is shown to the
+	 * user */
+	width = 8. * spec->defcol_unit + 
+		(float)(charwidths - spec->colinfo_baseline) / spec->colinfo_step;
+	width *= scale * 72./96.;
+
+	if (width < 4) {
 		if (width > 0)
 			hidden = TRUE;
 		/* Columns are of default width */
-		col_width = esheet->sheet->cols.default_style.size_pts;
+		width = esheet->sheet->cols.default_style.size_pts;
 	}
 
 	d (1, {
 		fprintf (stderr,"Column Formatting %s!%s of width "
-		      "%hu/256 characters (%f pts) of size %f\n",
+		      "%hu/256 characters (%f pts)\n",
 		      esheet->sheet->name_quoted,
-		      cols_name (firstcol, lastcol), width,  col_width,
-		      base_char_width_for_read (esheet, xf, FALSE));
-		fprintf (stderr,"Options %hd, default style %hd\n", options, xf);
+		      cols_name (firstcol, lastcol), charwidths, width);
+		fprintf (stderr,"Options 0x%hx, default style %hu\n", options, xf);
 	});
 
 	/* NOTE: seems like this is inclusive firstcol, inclusive lastcol */
 	if (lastcol >= SHEET_MAX_COLS)
 		lastcol = SHEET_MAX_COLS - 1;
-	for (lp = firstcol; lp <= lastcol; ++lp) {
-		sheet_col_set_size_pts (esheet->sheet, lp, col_width, TRUE);
+	for (i = firstcol; i <= lastcol; i++) {
+		sheet_col_set_size_pts (esheet->sheet, i, width, TRUE);
 		if (outline_level > 0 || collapsed)
-			colrow_set_outline (sheet_col_fetch (esheet->sheet, lp),
+			colrow_set_outline (sheet_col_fetch (esheet->sheet, i),
 				outline_level, collapsed);
 	}
 
@@ -3733,26 +3732,18 @@ excel_read_DEF_ROW_HEIGHT (BiffQuery *q, ExcelReadSheet *esheet)
 static void
 excel_read_DEF_COL_WIDTH (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	guint16 const width = GSF_LE_GET_GUINT16 (q->data);
-	double def_font_width, col_width;
+	float scale;
+	guint16 const charwidths = GSF_LE_GET_GUINT16 (q->data);
+	XL_font_width const *spec = xl_find_fontspec (esheet, &scale);
 
-	/* Use the 'Normal' Style which is by definition the 0th */
-	def_font_width = base_char_width_for_read (esheet, 0, TRUE);
+	d (0, fprintf (stderr,"Default column width %hu characters\n", charwidths););
 
-	d (0, fprintf (stderr,"Default column width %hu characters\n", width););
-
-	/*
-	 * According to the tooltip the default width is 8.43 character widths
-	 *   and does not include margins or the grid line.
-	 * According to the saved data the default width is 8 character widths
-	 *   includes the margins and grid line, but uses a different notion of
-	 *   how big a char width is.
-	 * According to saved data a column with the same size a the default has
-	 *   9.00? char widths.
-	 */
-	col_width = width * def_font_width;
-
-	sheet_col_set_default_size_pts (esheet->sheet, col_width);
+	/* According to the tooltip the default width is 8.43 character widths
+	 * and 64 pixels wide (Arial 10) which appears to include margins, and
+	 * the leading gridline That is saved as 8 char widths for
+	 * DEL_COL_WIDTH and 9.14 widths for COLINFO */
+	sheet_col_set_default_size_pts (esheet->sheet,
+		charwidths * spec->defcol_unit * scale * 72./96.);
 }
 
 /* we could get this implicitly from the cols/rows
@@ -5124,6 +5115,13 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 
 	pi = esheet->sheet->print_info;
 
+	/* We need a sheet to extract styles, so store the workbook default as
+	 * soon as we parse a sheet.  It is a kludge, but not terribly costly */
+	g_object_set_data_full (G_OBJECT (ewb->gnum_wb),
+		"xls-default-style",
+		excel_get_style_from_xf (esheet, excel_get_xf (esheet, 0)),
+		(GDestroyNotify) mstyle_unref);
+
 	d (1, fprintf (stderr,"----------------- '%s' -------------\n",
 		      esheet->sheet->name_unquoted););
 
@@ -5876,13 +5874,6 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 	d (1, fprintf (stderr,"finished read\n"););
 
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0 ||
-	    ms_excel_formula_debug > 0 ||
-	    ms_excel_chart_debug > 0) {
-		fflush (stdout);
-	}
-#endif
 	gsf_iconv_close (current_workbook_iconv);
 	current_workbook_iconv = NULL;
 	if (ewb != NULL) {

@@ -34,6 +34,7 @@
 #include <position.h>
 #include <style-color.h>
 #include <cell.h>
+#include <sheet.h>
 #include <sheet-view.h>
 #include <sheet-object.h>
 #include <sheet-object-cell-comment.h>
@@ -1422,7 +1423,7 @@ static void
 after_put_font (ExcelFont *f, gboolean was_added, gint index, gconstpointer dummy)
 {
 	if (was_added) {
-		d (1, fprintf (stderr, "Found unique font %d - %s\n",
+		d (-1, fprintf (stderr, "Found unique font %d - %s\n",
 			      index, excel_font_to_string (f)););
 	} else
 		excel_font_free (f);
@@ -1663,19 +1664,6 @@ excel_write_FORMATs (ExcelWriteState *ewb)
 }
 
 /**
- * Get default GnmStyle of esheet
- *
- * FIXME: This works now. But only because the default style for a
- * sheet or workbook can't be changed. Unfortunately, there is no
- * proper API for accessing the default style of an existing sheet.
- **/
-static GnmStyle *
-get_default_mstyle (void)
-{
-	return mstyle_new_default ();
-}
-
-/**
  * Initialize XF/GnmStyle table.
  *
  * The table records MStyles. For each GnmStyle, an XF record will be
@@ -1686,10 +1674,21 @@ xf_init (ExcelWriteState *ewb)
 {
 	/* Excel starts at XF_RESERVED for user defined xf */
 	ewb->xf.two_way_table = two_way_table_new (mstyle_hash_XL,
-						   (GCompareFunc) mstyle_equal_XL,
-						   XF_RESERVED,
-						   NULL);
-	ewb->xf.default_style = get_default_mstyle ();
+		(GCompareFunc) mstyle_equal_XL, XF_RESERVED, NULL);
+
+	/* We store the default style for the workbook on xls import, use it if
+	 * it's available.  While we have a default style per sheet, we don't
+	 * have one for the workbook.
+	 *
+	 * NOTE : This is extremely important to get right.  Columns use
+	 * the font from the default style (which becomes XF 0) for sizing */
+	ewb->xf.default_style = g_object_get_data (G_OBJECT (ewb->gnum_wb),
+						   "xls-default-style");
+	if (ewb->xf.default_style == NULL)
+		ewb->xf.default_style = mstyle_new_default ();
+	else
+		mstyle_ref (ewb->xf.default_style);
+
 	ewb->xf.value_fmt_styles = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)mstyle_unlink);
 }
@@ -2906,50 +2905,31 @@ excel_write_margin (BiffPut *bp, guint16 op, double points)
 	ms_biff_put_commit (bp);
 }
 
-/**
- * style_get_char_width
- * @style	the src of the font to use
- * @is_default  if true, this is for the default width.
- *
- * Utility
- */
-static double
-style_get_char_width (GnmStyle const *style, gboolean is_default)
+static XL_font_width const *
+xl_find_fontspec (ExcelWriteSheet *esheet, float *scale)
 {
-	return lookup_font_base_char_width (
-		mstyle_get_font_name (style), 20. * mstyle_get_font_size (style),
-		is_default);
+	/* Use the 'Normal' Style which is by definition the 0th */
+	GnmStyle const *def_style = esheet->ewb->xf.default_style;
+	*scale = mstyle_get_font_size (def_style) / 10.;
+	return xl_lookup_font_specs (mstyle_get_font_name (def_style));
 }
 
-/**
- * excel_write_DEFCOLWIDTH
- * @bp  BIFF buffer
- * @esheet sheet
- *
- * Write default column width
- * See: S59D73.HTM
- *
- * FIXME: Not yet roundtrip compatible. The problem is that the base
- * font when we export is the font in the default style. But this font
- * is hardcoded and is not changed when a worksheet is imported.
- */
 static void
 excel_write_DEFCOLWIDTH (BiffPut *bp, ExcelWriteSheet *esheet)
 {
-	guint16 width;
-	double  def_font_width, width_chars;
-	GnmStyle	*def_style;
+	guint16 charwidths;
+	float  width, scale;
+	XL_font_width const *spec = xl_find_fontspec (esheet, &scale);
+	
+	/* pts to avoid problems when zooming */
+	width = sheet_col_get_default_size_pts (esheet->gnum_sheet);
+	width *= 96./72.; /* pixels at 96dpi */
 
-	/* Use the 'Normal' Style which is by definition the 0th */
-	def_style = sheet_style_default	(esheet->gnum_sheet);
-	def_font_width = sheet_col_get_default_size_pts (esheet->gnum_sheet);
-	width_chars = def_font_width / style_get_char_width (def_style, TRUE);
-	mstyle_unref (def_style);
-	width = (guint16) (width_chars + .5);
+	charwidths = (guint16)((width / (scale * spec->defcol_unit)) + .5);
 
-	d (1, fprintf (stderr, "Default column width %d characters\n", width););
+	d (1, fprintf (stderr, "Default column width %hu characters (%f XL pixels)\n", charwidths, width););
 
-	ms_biff_put_2byte (bp, BIFF_DEFCOLWIDTH, width);
+	ms_biff_put_2byte (bp, BIFF_DEFCOLWIDTH, charwidths);
 }
 
 /**
@@ -2961,19 +2941,21 @@ excel_write_DEFCOLWIDTH (BiffPut *bp, ExcelWriteSheet *esheet)
  * @xf_index   : the style index to the entire col (< 0 for none)
  *
  * Write column info for a run of identical columns
- */
+ **/
 static void
 excel_write_COLINFO (BiffPut *bp, ExcelWriteSheet *esheet,
 		     ColRowInfo const *ci, int last_index, guint16 xf_index)
 {
 	guint8 *data;
-	GnmStyle *style = two_way_table_idx_to_key (
-		esheet->ewb->xf.two_way_table, xf_index);
-	double  width_chars
-		= ci->size_pts / style_get_char_width (style, FALSE);
-	guint16 width = (guint16) (width_chars * 256.);
+	guint16 charwidths, options = 0;
+	float   width, scale;
+	XL_font_width const *spec = xl_find_fontspec (esheet, &scale);
 
-	guint16 options = 0;
+	width = ci->size_pts;		/* pts to avoid problems when zooming */
+	width /= scale * 72. / 96;	/* pixels at 96dpi */
+	/* center the measurement on the known default size */
+	charwidths = (guint16)((width - 8. * spec->defcol_unit) * spec->colinfo_step +
+			       spec->colinfo_baseline + .5);
 
 	if (!ci->visible)
 		options = 1;
@@ -2983,21 +2965,21 @@ excel_write_COLINFO (BiffPut *bp, ExcelWriteSheet *esheet,
 
 	d (1, {
 		fprintf (stderr, "Column Formatting %s!%s of width "
-		      "%f/256 characters (%f pts) of size %f\n",
+		      "%hu/256 characters (%f pts)\n",
 		      esheet->gnum_sheet->name_quoted,
-		      cols_name (ci->pos, last_index), width / 256.,
-		      ci->size_pts, style_get_char_width (style, FALSE));
+		      cols_name (ci->pos, last_index), charwidths,
+		      ci->size_pts);
 		fprintf (stderr, "Options %hd, default style %hd\n", options, xf_index);
 	});
 
-	/* NOTE : Docs lie.  length is 12 not 11 */
+	/* NOTE : Docs are wrong, length is 12 not 11 */
 	data = ms_biff_put_len_next (bp, BIFF_COLINFO, 12);
 	GSF_LE_SET_GUINT16 (data +  0, ci->pos);	/* 1st  col formatted */
 	GSF_LE_SET_GUINT16 (data +  2, last_index);	/* last col formatted */
-	GSF_LE_SET_GUINT16 (data +  4, width);		/* width */
-	GSF_LE_SET_GUINT16 (data +  6, xf_index);	/* XF index */
-	GSF_LE_SET_GUINT16 (data +  8, options);	/* options */
-	GSF_LE_SET_GUINT16 (data + 10, 0);		/* reserved = 0 */
+	GSF_LE_SET_GUINT16 (data +  4, charwidths);
+	GSF_LE_SET_GUINT16 (data +  6, xf_index);
+	GSF_LE_SET_GUINT16 (data +  8, options);
+	GSF_LE_SET_GUINT16 (data + 10, 0);
 	ms_biff_put_commit (bp);
 }
 

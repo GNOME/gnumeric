@@ -1344,7 +1344,6 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			tmp_ep.eval.col -= x;
 			tmp_ep.eval.row -= y;
 
-			g_warning ("yoyo");
 			/* If the src array is 1 element wide or tall we wrap */
 			if (x >= 1 && num_x == 1)
 				x = 0;

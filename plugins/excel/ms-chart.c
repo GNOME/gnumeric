@@ -65,6 +65,7 @@ typedef struct {
 	int chart_group;
 	gboolean  has_legend;
 	GogStyle *style;
+	GHashTable *singletons;
 } XLChartSeries;
 
 typedef struct {
@@ -117,6 +118,7 @@ excel_chart_series_new (void)
 	series->chart_group = -1;
 	series->has_legend = TRUE;
 	series->style = NULL;
+	series->singletons = NULL;
 	for (i = GOG_MS_DIM_TYPES; i-- > 0 ; ) {
 		series->data [i].data = NULL;
 		series->data [i].num_elements = 0;
@@ -135,6 +137,8 @@ excel_chart_series_delete (XLChartSeries *series)
 			g_object_unref (series->data[i].data);
 	if (series->style != NULL)
 		g_object_unref (series->style);
+	if (series->singletons != NULL)
+		g_hash_table_destroy (series->singletons);
 	g_free (series);
 }
 
@@ -768,10 +772,10 @@ BC_R(dataformat)(XLChartHandler const *handle,
 		d (0, fprintf (stderr, "All points"););
 	} else {
 		s->style_element = pt_num;
-		d (0, fprintf (stderr, "Point-%hd", pt_num););
+		d (0, fprintf (stderr, "Point[%hu]", pt_num););
 	}
 
-	d (0, fprintf (stderr, ", series=%hd\n", series_index););
+	d (0, fprintf (stderr, ", series=%hu\n", series_index););
 
 	return FALSE;
 }
@@ -1311,17 +1315,20 @@ static gboolean
 BC_R(pieformat)(XLChartHandler const *handle,
 		XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const default_separation = GSF_LE_GET_GUINT16 (q->data); /* 0-100 */
+	unsigned separation = GSF_LE_GET_GUINT16 (q->data); /* 0-500 */
 
 	/* we only support the default right now.  Also, XL sets this for _all_ types
 	 * rather than just pies. */
-	if (s->plot != NULL &&
+	if (s->style_element >= 0 && s->style != NULL)
+		g_object_set_data (G_OBJECT (s->style),
+			"pie-separation", GUINT_TO_POINTER (separation));
+	else if (s->plot != NULL &&
 	    g_object_class_find_property (G_OBJECT_GET_CLASS (s->plot), "default_separation"))
 		g_object_set (G_OBJECT (s->plot),
-			"default_separation",	((double) default_separation) / 100.,
+			"default_separation",	((double) separation) / 100.,
 			NULL);
-	d (2, fprintf (stderr, "Pie slice(s) are %hu %% of diam from center\n",
-		       default_separation););
+	d (2, fprintf (stderr, "Pie slice(s) are %u %% of diam from center\n",
+		       separation););
 	return FALSE;
 }
 
@@ -1839,6 +1846,24 @@ XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val)
 	g_object_unref (val);
 }
 
+static void
+cb_store_singletons (gpointer indx, GogStyle *style, GogObject *series)
+{
+	GogObject *singleton = gog_object_add_by_name (series, "Point", NULL);
+	if (singleton != NULL) {
+		g_object_set (singleton,
+			"index", GPOINTER_TO_UINT (indx),
+			"style", style,
+			NULL);
+		if (g_object_class_find_property (G_OBJECT_GET_CLASS (singleton), "separation")) {
+			gpointer sep = g_object_get_data (G_OBJECT (style), "pie-separation");
+			g_object_set (singleton,
+				"separation", (double)GPOINTER_TO_UINT (sep) / 100.,
+				NULL);
+		}
+	}
+}
+
 static gboolean
 BC_R(end)(XLChartHandler const *handle,
 	  XLChartReadState *s, BiffQuery *q)
@@ -1941,6 +1966,9 @@ BC_R(end)(XLChartHandler const *handle,
 				g_object_set (G_OBJECT (series),
 					"has-legend", FALSE,
 					NULL);
+			if (eseries->singletons != NULL)
+				g_hash_table_foreach (eseries->singletons,
+					(GHFunc) cb_store_singletons, series);
 		}
 
 		if (0 == strcmp (G_OBJECT_TYPE_NAME (s->plot), "GogBarColPlot")) {
@@ -1960,9 +1988,17 @@ BC_R(end)(XLChartHandler const *handle,
 	case BIFF_CHART_dataformat :
 		if (s->style == NULL)
 			break;
-		if (s->currentSeries != NULL && s->style_element < 0) {
-			g_return_val_if_fail (s->currentSeries->style == NULL, TRUE);
-			s->currentSeries->style = s->style;
+		if (s->currentSeries != NULL) {
+			if (s->style_element < 0) {
+				g_return_val_if_fail (s->currentSeries->style == NULL, TRUE);
+				s->currentSeries->style = s->style;
+			} else {
+				if (s->currentSeries->singletons == NULL)
+					s->currentSeries->singletons = g_hash_table_new_full (
+						g_direct_hash, g_direct_equal, NULL, g_object_unref);
+				g_hash_table_insert (s->currentSeries->singletons,
+					GUINT_TO_POINTER (s->style_element), s->style);
+			}
 		} else if (s->plot != NULL) {
 			g_return_val_if_fail (s->default_plot_style == NULL, TRUE);
 			s->default_plot_style = s->style;
@@ -2776,15 +2812,34 @@ style_is_completely_auto (GogStyle const *style)
 }
 
 static void
+chart_write_style (XLChartWriteState *s, GogStyle const *style,
+		   guint16 indx, unsigned n, float separation)
+{
+	chart_write_DATAFORMAT (s, indx, n, n);
+	chart_write_BEGIN (s);
+	ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
+	if (!style_is_completely_auto (style)) {
+		if ((style->interesting_fields & GOG_STYLE_LINE))
+			chart_write_LINEFORMAT (s, &style->line, FALSE, FALSE);
+		else
+			chart_write_LINEFORMAT (s, &style->outline, FALSE, FALSE);
+		chart_write_AREAFORMAT (s, style, FALSE);
+		chart_write_PIEFORMAT (s, separation);
+		chart_write_MARKERFORMAT (s, style, FALSE);
+	}
+	chart_write_END (s);
+}
+
+static void
 chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 {
 	static guint8 const default_ref_type[] = { 1, 2, 0, 1 };
 	int i, msdim;
 	guint8 *data;
 	GOData *dat;
-	GogStyle const *style;
 	unsigned num_elements = gog_series_num_elements (series);
-	
+	GList const *ptr;
+
 	/* SERIES */
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_series,
 		(s->bp->version >= MS_BIFF_V8) ? 12: 8);
@@ -2808,20 +2863,16 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 		chart_write_AI (s, dat, i, default_ref_type[i]);
 	}
 
-	chart_write_DATAFORMAT (s, 0xffff, n, n); /* ignore single elements for now */
-	chart_write_BEGIN (s);
-	ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
-	style = GOG_STYLED_OBJECT (series)->style;
-	if (!style_is_completely_auto (style)) {
-		if ((style->interesting_fields & GOG_STYLE_LINE))
-			chart_write_LINEFORMAT (s, &style->line, FALSE, FALSE);
-		else
-			chart_write_LINEFORMAT (s, &style->outline, FALSE, FALSE);
-		chart_write_AREAFORMAT (s, style, FALSE);
-		chart_write_PIEFORMAT (s, 0.);
-		chart_write_MARKERFORMAT (s, style, FALSE);
+	chart_write_style (s, GOG_STYLED_OBJECT (series)->style, 0xffff, n, 0.);
+	for (ptr = gog_series_get_overrides (series); ptr != NULL ; ptr = ptr->next) {
+		float sep = 0;
+		if (g_object_class_find_property (
+			G_OBJECT_GET_CLASS (ptr->data), "separation"))
+			g_object_get (G_OBJECT (ptr->data), "separation", &sep, NULL);
+
+		chart_write_style (s, GOG_STYLED_OBJECT (ptr->data)->style,
+			GOG_SERIES_ELEMENT (ptr->data)->index, n, sep);
 	}
-	chart_write_END (s);
 
 	ms_biff_put_2byte (s->bp, BIFF_CHART_sertocrt, 0);
 	chart_write_END (s);

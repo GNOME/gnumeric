@@ -8,6 +8,12 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=152248
+    : font strangeness when exporting to xls
+
+    http://bugzilla.gnome.org/show_bug.cgi?id=152317
+    : Warning of possible dataloss loading into XP
+
     : Delete grid then edit chart and see a new grid
 
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
@@ -488,20 +494,23 @@ Short Term Goals
 	    6.13.8.4) deleted axis should not appear		(DONE)
 	    6.13.8.5) double axis import on simple_bar2
 	    6.13.8.6) high/low flag is for partner not self
-	1.7.9) Gradients
-	    1.7.9.1) Horizontal x4				(DONE)
-	    1.7.9.2) Vertical x4				(DONE)
-	    1.7.9.3) Diag Up x4					(DONE)
-	    1.7.9.4) Diag Down x4				(DONE)
-	    1.7.9.5) From center
-	    1.7.9.6) From corner
-	    1.7.9.7) Two colour					(DONE)
-	    1.7.9.8) Two colour alpha (is this possible)
-	    1.7.9.9) One colour					(DONE)
-	    1.7.9.10) One colour alpha (is this possible)
-	    1.7.9.11) presets
-	1.7.10) override auto series indexing for xls
-	1.7.11) error bars
+	6.13.9) Gradients
+	    6.13.9.1) Horizontal x4				(DONE)
+	    6.13.9.2) Vertical x4				(DONE)
+	    6.13.9.3) Diag Up x4				(DONE)
+	    6.13.9.4) Diag Down x4				(DONE)
+	    6.13.9.5) From center
+	    6.13.9.6) From corner
+	    6.13.9.7) Two colour				(DONE)
+	    6.13.9.8) Two colour alpha (is this possible)
+	    6.13.9.9) One colour				(DONE)
+	    6.13.9.10) One colour alpha (is this possible)
+	    6.13.9.11) presets
+	6.13.10) override auto series indexing for xls
+	6.13.11) error bars
+	6.13.12) Singletons (for series that support them)	(DONE)
+	    6.13.12.1) Basic support				(DONE)
+	    6.13.12.2) Put pie extraction somewhere		(DONE)
     6.14) chart export
 	6.14.1) Infrastructure
 	    6.14.1.1) escher wrappers				(DONE)

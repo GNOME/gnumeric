@@ -66,6 +66,7 @@ plugins/numtheory/plugin.xml.in
 plugins/oleo/oleo.c
 plugins/oleo/plugin.xml.in
 plugins/openoffice/openoffice-read.c
+plugins/openoffice/openoffice-write.c
 plugins/openoffice/plugin.xml.in
 plugins/paradox/paradox.c
 plugins/paradox/plugin.xml.in
@@ -94,8 +95,8 @@ plugins/uihello/hello.xml
 plugins/uihello/plugin.xml.in
 plugins/uihello/uihello.c
 plugins/xbase/boot.c
-plugins/xbase/xbase.c
 plugins/xbase/plugin.xml.in
+plugins/xbase/xbase.c
 plugins/xml_sax/plugin.xml.in
 plugins/xml_sax/xml-sax-read.c
 schemas/gnumeric-dialogs.schemas.in
@@ -116,6 +117,8 @@ src/cut-n-paste-code/goffice/graph/gog-axis.c
 src/cut-n-paste-code/goffice/graph/gog-chart.c
 src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c
 src/cut-n-paste-code/goffice/graph/gog-data-allocator.c
+src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade
+src/cut-n-paste-code/goffice/graph/gog-error-bar.c
 src/cut-n-paste-code/goffice/graph/gog-graph.c
 src/cut-n-paste-code/goffice/graph/gog-guru.c
 src/cut-n-paste-code/goffice/graph/gog-guru.glade
@@ -141,11 +144,15 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade
+src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade
-src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in
+src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade
+src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c
+src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in
+src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in
@@ -319,6 +326,7 @@ src/sheet-object-bonobo.c
 src/sheet-object-container.c
 src/sheet-object-graph.c
 src/sheet-object-graphic.c
+src/sheet-object-image.c
 src/sheet-object-widget.c
 src/sheet-object.c
 src/sheet-style.c

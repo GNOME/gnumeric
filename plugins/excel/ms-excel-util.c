@@ -5,7 +5,7 @@
  * Author:
  *    Jon K Hellan (hellan@acm.org)
  *
- * (C) 1999, 2000 Jon K Hellan
+ * (C) 1999-2004 Jon K Hellan
  **/
 
 #include <gnumeric-config.h>
@@ -204,109 +204,175 @@ two_way_table_idx_to_key (const TwoWayTable *table, gint idx)
 static GHashTable *xl_font_width_hash = NULL;
 static GHashTable *xl_font_width_warned = NULL;
 
-struct XL_font_width {
-    int const char_width_pts;
-    int const defaultchar_width_pts;
-    char const * const name;
-};
+static XL_font_width const unknown_spec =
+	{ "Unknown",	 8,	0x0924,	36.5 }; /* dup of Arial */
 
 static void
 init_xl_font_widths (void)
 {
-	/* These are the widths in pixels for a 128pt fonts assuming 96dpi
-	 * Things do not appear to scale linearly, so test at 32pt and multiply
-	 * by 4 for now.
-	 *
-	 * The 'default' width is based on the hypothesis that the default
-	 *     column width is always 8*default.  Edit the 'Normal' Style
-	 *     and change the font to 32pt then look at the pixel width
-	 *     displayed when resizing the column.  (multiply by 4 to get 128)
-	 *
-	 * The standard width is also based on setting the Normal styles font.
-	 *    However, it is calculated by changing the column width until it is
-	 *    and integer CHAR width. Note the PIXEL size then resize to a CHAR
-	 *    width 1 unit larger.  Take the pixel difference.
-	 */
-	static struct XL_font_width const widths[] = {
-	    {  96, 114, "Albany" },
-	    {  96, 114, "Arial" },
-	    {  96, 104, "Arial Baltic" },
-	    { 114, 122, "Arial Black" },
-	    {  96, 104, "Arial CE" },
-	    {  96, 104, "Arial CYR" },
-	    {  96, 104, "Arial Cyr" },
-	    {  96, 104, "Arial Greek" },
-	    /* {  80,  88, "Arial Narrow" }, this what I measured */
-	    {  90,  98, "Arial Narrow" }, /* this gives better results at size == 10 */
-	    {  96, 104, "Arial TUR" },
-	    {  96, 104, "AvantGarde" },
-	    { 109, 117, "Bitstream Vera Sans" },
-	    {  86,  92, "Book Antiqua" },
-	    { 106, 113, "Bookman Old Style" },
-	    {  96, 104, "Century Gothic" },
-	    {  96, 104, "Century Schoolbook" },
+	static XL_font_width const widths[] = {
+		{ "AR PL KaitiM Big5",		 8,	0x0924,	36.5 },
+		{ "AR PL KaitiM GB",		 8,	0x0924,	36.5 },
+		{ "AR PL Mingti2L Big5",	 8,	0x0924,	36.5 },
+		{ "AR PL SungtiL GB",		 8,	0x0924,	36.5 },
+		{ "Albany AMT",			 8,	0x0924,	36.5 },
+		{ "Albany",			 8,	0x0924,	36.5 },
+		{ "Andale Mono",		 9,	0x0900,	32.0 },
+		{ "Andale Sans",		 8,	0x0924,	36.5 },
+		{ "Andy MT",			 7,	0x0955,	42.5 },
+		{ "Arial Baltic",		 8,	0x0924,	36.5 },
+		{ "Arial Black",		10,	0x08E3,	28.5 },
+		{ "Arial CE",		 	 8,	0x0924,	36.5 },
+		{ "Arial Cyr",		 	 8,	0x0924,	36.5 },
+		{ "Arial Greek",	 	 8,	0x0924,	36.5 },
+		{ "Arial Narrow",		 7,	0x0955,	42.5 },
+		{ "Arial TUR",	 		 8,	0x0924,	36.5 },
+		{ "Arial",			 8,	0x0924,	36.5 },
+		{ "Baekmuk Batang",		 8,	0x0924,	36.5 },
+		{ "Baekmuk Dotum",		 8,	0x0924,	36.5 },
+		{ "Baekmuk Galim",		 9,	0x0900,	32.0 },
+		{ "Baekmuk Headline",		 9,	0x0900,	32.0 },
+		{ "Bell MT",			 8,	0x0924,	36.5 },
+		{ "Bitstream Vera Sans Mono",	 9,	0x0900,	32.0 },
+		{ "Bitstream Vera Sans",	 9,	0x0900,	32.0 },
+		{ "Sans",	 		 9,	0x0900,	32.0 },
+		{ "Bitstream Vera Serif",	 9,	0x0900,	32.0 },
+		{ "Book Antiqua",		 8,	0x0924,	36.5 },
+		{ "Bookman Old Style",		 9,	0x0900,	32.0 },
+		{ "Century Gothic",		 8,	0x0924,	36.5 },
+		{ "Comic Sans MS",		 9,	0x0900,	32.0 },
+		{ "Courier New",		 9,	0x0900,	32.0 },
+		{ "Courier",			 9,	0x0900,	32.0 },
+		{ "Cumberland AMT",		 9,	0x0900,	32.0 },
+		{ "Dutch801 SWC",		 7,	0x0955,	42.5 },
+		{ "East Syriac Adiabene",	 8,	0x0924,	36.5 },
+		{ "East Syriac Ctesiphon",	 8,	0x0924,	36.5 },
+		{ "Estrangelo Antioch",		 8,	0x0924,	36.5 },
+		{ "Estrangelo Edessa",		 8,	0x0924,	36.5 },
+		{ "Estrangelo Midyat",		 8,	0x0924,	36.5 },
+		{ "Estrangelo Nisibin Outline",	 8,	0x0924,	36.5 },
+		{ "Estrangelo Nisibin",		 8,	0x0924,	36.5 },
+		{ "Estrangelo Quenneshrin",	 8,	0x0924,	36.5 },
+		{ "Estrangelo Talada",		 8,	0x0924,	36.5 },
+		{ "Estrangelo TurAbdin",	 8,	0x0924,	36.5 },
+		{ "Fixedsys",			 9,	0x0900,	32.0 },
+		{ "Franklin Gothic Medium",	 9,	0x0900,	32.0 },
+		{ "FreeMono",			 9,	0x0900,	32.0 },
+		{ "FreeSans",			 8,	0x0924,	36.5 },
+		{ "FreeSerif",			 8,	0x0924,	36.5 },
+		{ "Garamond",			 7,	0x0955,	42.5 },
+		{ "Gautami",			 8,	0x0924,	36.5 },
+		{ "Georgia",			10,	0x08E3,	28.5 },
+		{ "Goha-Tibeb Zemen",		 7,	0x0955,	42.5 },
+		{ "Haettenschweiler",		 7,	0x0955,	42.5 },
+		{ "Helv",			 8,	0x0924,	36.5 },
+		{ "Helvetica",			 8,	0x0924,	36.5 },
+		{ "Helvetica-Black",		10,	0x08E3,	28.5 },
+		{ "Helvetica-Light",		 8,	0x0924,	36.5 },
+		{ "Helvetica-Narrow",		 7,	0x0955,	42.5 },
+		{ "Impact",			 8,	0x0924,	36.5 },
+		{ "Incised901 SWC",		 8,	0x0924,	36.5 },
+		{ "Kartika",			 6,	0x0999,	51.25 },
+		{ "Latha",			10,	0x08E3,	28.5 },
+		{ "LetterGothic SWC",		 9,	0x0900,	32.0 },
+		{ "Lucida Console",		 9,	0x0900,	32.0 },
+		{ "Lucida Sans Unicode",	 9,	0x0900,	32.0 },
+		{ "Lucida Sans",		 9,	0x0900,	32.0 },
+		{ "Luxi Mono",			 9,	0x0900,	32.0 },
+		{ "Luxi Sans",			 8,	0x0924,	36.5 },
+		{ "Luxi Serif",			 8,	0x0924,	36.5 },
+		{ "MS Outlook",			 8,	0x0924,	36.5 },
+		{ "MS Sans Serif",		 8,	0x0924,	36.5 },
+		{ "MS Serif",			 7,	0x0955,	42.5 },
+		{ "MT Extra",			15,	0x093B, 19.75 },
+		{ "MV Boli",			10,	0x08E3,	28.5 },
+		{ "Mangal",			 9,	0x0900,	32.0 },
+		{ "Marlett",			15,	0x093B, 19.75 },
+		{ "Microsoft Sans Serif",	 8,	0x0924,	36.5 },
+		{ "Modern",			 7,	0x0955,	42.5 },
+		{ "Monotype Corsiva",		 7,	0x0955,	42.5 },
+		{ "Monotype Sorts",		15,	0x093B, 19.75 },
+		{ "OmegaSerif88591",		 8,	0x0924,	36.5 },
+		{ "OmegaSerif88592",		 8,	0x0924,	36.5 },
+		{ "OmegaSerif88593",		 8,	0x0924,	36.5 },
+		{ "OmegaSerif88594",		 8,	0x0924,	36.5 },
+		{ "OmegaSerif88595",		 8,	0x0924,	36.5 },
+		{ "OmegaSerifVISCII",		 8,	0x0924,	36.5 },
+		{ "OpenSymbol",			 8,	0x0924,	36.5 },
+		{ "OrigGaramond SWC",		 7,	0x0955,	42.5 },
+		{ "Palatino Linotype",		 8,	0x0924,	36.5 },
+		{ "Palatino",		 	 8,	0x0924,	36.5 },
+		{ "Raavi",			10,	0x08E3,	28.5 },
+		{ "Roman",			 7,	0x0955,	42.5 },
+		{ "SUSE Sans Mono",		 9,	0x0900,	32.0 },
+		{ "SUSE Sans",			 9,	0x0900,	32.0 },
+		{ "SUSE Serif",			 9,	0x0900,	32.0 },
+		{ "Script",			 6,	0x0999,	51.25 },
+		{ "Segeo",			 8,	0x0924,	36.5 },
+		{ "Serto Batnan",		 8,	0x0924,	36.5 },
+		{ "Serto Jerusalem Outline",	 8,	0x0924,	36.5 },
+		{ "Serto Jerusalem",		 8,	0x0924,	36.5 },
+		{ "Serto Kharput",		 8,	0x0924,	36.5 },
+		{ "Serto Malankara",		 8,	0x0924,	36.5 },
+		{ "Serto Mardin",		 8,	0x0924,	36.5 },
+		{ "Serto Urhoy",		 8,	0x0924,	36.5 },
+		{ "Shruti",			 9,	0x0900,	32.0 },
+		{ "Small Fonts",		 7,	0x0955,	42.5 },
+		{ "Swiss742 Cn SWC",		 8,	0x0924,	36.5 },
+		{ "Swiss742 SWC",		 8,	0x0924,	36.5 },
+		{ "Sylfaen",			 8,	0x0924,	36.5 },
+		{ "Symbol",			 7,	0x0955,	42.5 },
+		{ "SymbolPS",			 7,	0x0955,	42.5 },
+		{ "System",			 9,	0x0900,	32.0 },
+		{ "Tahoma",			 8,	0x0924,	36.5 },
+		{ "Terminal",			 9,	0x0900,	32.0 },
+		{ "Thorndale AMT",		 7,	0x0955,	42.5 },
+		{ "Times New Roman",		 7,	0x0955,	42.5 },
+		{ "Tms Rmn",		 	 7,	0x0955,	42.5 },
+		{ "Trebuchet MS",		 8,	0x0924,	36.5 },
+		{ "Tunga",			 8,	0x0924,	36.5 },
+		{ "Verdana",			 9,	0x0900,	32.0 },
+		{ "Vrinda",			 7,	0x0955,	42.5 },
+		{ "WST_Czec",			11,	0x08CC,	25.75 },
+		{ "WST_Engl",			11,	0x08CC,	25.75 },
+		{ "WST_Fren",			11,	0x08CC,	25.75 },
+		{ "WST_Germ",			11,	0x08CC,	25.75 },
+		{ "WST_Ital",			11,	0x08CC,	25.75 },
+		{ "WST_Span",			11,	0x08CC,	25.75 },
+		{ "WST_Swed",			11,	0x08CC,	25.75 },
+		{ "Webdings",			15,	0x093B, 19.75 },
+		{ "Wingdings 2",		17,	0x0911, 17.25 },
+		{ "Wingdings 3",		13,	0x08AA, 21.25 },
+		{ "Wingdings",			19,	0x08F0, 15.25 },
+		{ "ZapfHumanist Dm SWC",	 8,	0x0924,	36.5 },
+		{ NULL, -1, 0, 0. }
+	};
+
+#if 0
+	/* TODO : fonts we had data for previously, but have not measured
+	 * again */
+	    {  90, 102, "AvantGarde" },
+	    {  90, 102, "Century Schoolbook" },
 	    {  86,  92, "CG Times" },
-	    { 104, 111, "Comic Sans MS" },
-	    {  96, 104, "Courier" },
-	    { 103, 110, "Courier New" },
-	    { 103, 110, "Fixedsys" },
-	    {  80,  86, "Garamond" },
-	    /* { 115, 122, "Geneva" }, These are the real numbers */
-	    {  96, 104, "Geneva" }, /* These are the defaults when Geneva is not available */
-	    {  96, 104, "Haettenscheiler" },
+	    {  90, 102, "Geneva" },
+	    {  90, 102, "Haettenscheiler" },
 	    { 103, 110, "HE_TERMINAL" },
-	    {  96, 104, "Helvetica" },
-	    {  96, 104, "Helv" },
-	    {  96, 104, "Helvetica-Black" },
-	    {  96, 104, "Helvetica-Light" },
-	    {  96, 104, "Helvetica-Narrow" },
-	    {  93, 100, "Impact" },
 	    {  86,  92, "ITC Bookman" },
 	    { 103, 110, "Letter Gothic MT" },
-	    { 103, 110, "Lucida Console" },
-	    { 108, 115, "Lucida Sans Unicode" },
 	    { 171, 182, "Map Symbols" },
-	    { 171, 182, "Marlett" },
-	    {  81,  87, "Modern" },
-	    {  75,  80, "Monotype Corsiva" },
-	    { 156, 166, "Monotype Sorts" },
-	    {  86,  92, "MS Outlook" },
-	    {  90,  96, "MS Sans Serif" },
-	    {  80,  86, "MS Serif" },
-	    { 174, 186, "MT Extra" },
 	    {  86,  92, "NewCenturySchlbk" },
-	    {  96, 104, "Optimum" },
-	    {  86,  92, "Palatino" },
-	    {  81,  87, "Roman" },
-	    {  92,  96,	"Sans" },
+	    {  90, 102, "Optimum" },
+
 	    { 109, 117, "Sans Regular" }, /* alias for bitstream */
-	    {  69,  74, "Script" },
 	    { 142, 152, "Serpentine" },
-	    {  96, 102, "Small Fonts" },
-	    {  86,  92, "Symbol" },
-	    {  40,  43, "System" },
 	    { 103, 110, "System APL Special" },
 	    { 103, 110, "System VT Special" },
-	    {  93, 100, "Tahoma" },
-	    {  50,  54, "Terminal" },
 	    {  86,  92, "Times" },
 
-	    /* TODO : actual measurement was 86, but that was too big when
-	     * columns with 10pt fonts.  Figure out why ? (test case aksjefon.xls)
-	     */
-	    {  83,  92, "Times New Roman" },
 	    {  91,  97, "Times New Roman MT Extra Bold" },
-	    {  83,  92, "Tms Rmn" },
-	    {  90,  96, "Trebuchet MS" },
-	    { 109, 117, "Verdana" },
-	    { 171, 182, "Webdings" },
-	    { 230, 245, "Wingdings" },
-	    { 194, 207, "Wingdings 2" },
-	    {  96, 104, "Wingdings 3" },
 	    {  86,  92, "ZapfChancery" },
 	    { 230, 245, "ZapfDingbats" },
-	    { -1, -1, NULL }
-	};
+#endif
 	int i;
 
 	if (xl_font_width_hash == NULL) {
@@ -347,9 +413,8 @@ destroy_xl_font_widths (void)
 }
 
 
-double
-lookup_font_base_char_width (char const *name, double size_pts,
-			     gboolean const is_default)
+XL_font_width const *
+xl_lookup_font_specs (char const *name)
 {
 	static gboolean need_init = TRUE;
 	gpointer res;
@@ -358,36 +423,13 @@ lookup_font_base_char_width (char const *name, double size_pts,
 		init_xl_font_widths ();
 	}
 
-	g_return_val_if_fail (xl_font_width_hash != NULL, 10.);
-	g_return_val_if_fail (name != NULL, 10.);
+	g_return_val_if_fail (xl_font_width_hash != NULL, &unknown_spec);
+	g_return_val_if_fail (name != NULL, &unknown_spec);
 
 	res = g_hash_table_lookup (xl_font_width_hash, name);
 
-	size_pts /= 20.;
-	if (res != NULL) {
-		struct XL_font_width const * info = res;
-		double width = (is_default)
-			? info->defaultchar_width_pts
-			: info->char_width_pts;
-
-		/* Crude Linear interpolation of the width */
-		width = size_pts * width / 128.;
-
-		/* Round to pixels */
-		width = (int)(width +.5);
-
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 0)
-			printf ("%s %g = %g\n", name, size_pts, width);
-#endif
-
-		/* Convert to pts using the hard coded 96dpi that the
-		 * measurements assume.
-		 * NOTE : We must round BEFORE converting in order to match
-		 */
-		width *= 72./96.;
-		return width;
-	}
+	if (res != NULL)
+		return res;
 
 	if (!g_hash_table_lookup (xl_font_width_warned, name)) {
 		char *namecopy = g_strdup (name);
@@ -395,6 +437,5 @@ lookup_font_base_char_width (char const *name, double size_pts,
 		g_hash_table_insert (xl_font_width_warned, namecopy, namecopy);
 	}
 
-	/* Use a rough heuristic for unknown fonts. */
-	return .5625 * size_pts;
+	return &unknown_spec;
 }

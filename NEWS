@@ -4,6 +4,15 @@ Andreas:
 	* Improve `Z-Test for 2 Means'
 	* Improve `T-Test (Paired Sample)'
 
+Emmanuel Pacaud:
+	* Fix the performance degredation with too many axis ticks
+
+Jody:
+	* XLS import formatted single points in charts (only pie for now)
+	* Improve theme support for single points in charts
+	* ctrl-7, ctrl-9, ctrl-(, ctrl-0, ctrl-)
+	* Rework column size calculation on xls import/export
+
 --------------------------------------------------------------------------
 
 Gnumeric 1.3.90

@@ -1,3 +1,28 @@
+2004-09-14  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-util.c (init_xl_font_widths) : rework the font table
+	  completely to use more closely calibrated size info.
+
+	* ms-excel-read.c (base_char_width_for_read) : delete
+	(xl_find_fontspec) : new.
+	(excel_read_COLINFO) : rework to simplify by using the new font table,
+	  and sync it with the exporter.
+	(excel_read_DEF_COL_WIDTH) : ditto.
+	(excel_read_sheet) : Store the default style on import.  We have no
+	  way of modifying it at run time, so we might as well use it for
+	  export.
+
+2004-09-09  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(pieformat)) : Store the separation for singletons
+	(cb_store_singletons) : Check for pie separation and use it
+
+2004-09-09  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (excel_chart_series_new) : init singletons
+	(excel_chart_series_delete) : free singletons if necessary
+	(BC_R(end)) : Create any singletons for the newly created series
+
 2004-09-09  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_PALETTE): Plug leak.
