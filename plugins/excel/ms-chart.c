@@ -2122,7 +2122,7 @@ conditional_get_double (gboolean flag, guint8 const *data,
 			gchar const *name)
 {
 	if (!flag) {
-		double const val = gnumeric_get_le_double (data);
+		double const val = gsf_le_get_double (data);
 		d (1, printf ("%s = %f\n", name, val););
 		return TRUE;
 	}
@@ -2134,7 +2134,7 @@ static gboolean
 BC_R(valuerange)(ExcelChartHandler const *handle,
 		 ExcelChartReadState *s, BiffQuery *q)
 {
-	guint16 const flags = gnumeric_get_le_double (q->data+40);
+	guint16 const flags = gsf_le_get_double (q->data+40);
 
 	conditional_get_double (flags&0x01, q->data+ 0, "Min Value");
 	conditional_get_double (flags&0x02, q->data+ 8, "Max Value");
@@ -2470,7 +2470,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GObject
 
 			case BIFF_NUMBER: {
 				double val;
-				val = gnumeric_get_le_double (q->data + 6);
+				val = gsf_le_get_double (q->data + 6);
 				/* Figure out how to assign these back to the series,
 				 * are they just sequential ?
 				 */

@@ -19,6 +19,7 @@
 #include <value.h>
 #include <gutils.h>
 #include <func.h>
+#include <gsf/gsf-utils.h>
 
 #define FORMULA_DEBUG 0
 
@@ -371,7 +372,7 @@ get_cellref (CellRef *ref, guint8 const *dataa, guint8 const *datab,
 	guint16 i;
 
 	ref->sheet = NULL;
-	i = gnumeric_get_le_uint16 (dataa);
+	i = GSF_LE_GET_GUINT16 (dataa);
 	if (i & 0x8000) {
 		ref->col_relative = TRUE;
 		ref->col = sign_extend (i & 0x3fff);
@@ -380,7 +381,7 @@ get_cellref (CellRef *ref, guint8 const *dataa, guint8 const *datab,
 		ref->col = i & 0x3fff;
 	}
 
-	i = gnumeric_get_le_uint16 (datab);
+	i = GSF_LE_GET_GUINT16 (datab);
 	if (i & 0x8000) {
 		ref->row_relative = TRUE;
 		ref->row = sign_extend (i & 0x3fff);
@@ -408,7 +409,7 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 		switch (data[i]) {
 		case LOTUS_FORMULA_CONSTANT:
 			parse_list_push_value (&stack,
-				value_new_float (gnumeric_get_le_double (data + i + 1)));
+				value_new_float (gsf_le_get_double (data + i + 1)));
 			i += 9;
 			break;
 
@@ -436,7 +437,7 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 
 		case LOTUS_FORMULA_INTEGER:
 			parse_list_push_value (&stack,
-				value_new_int (gnumeric_get_le_int16 (data + i + 1)));
+				value_new_int (GSF_LE_GET_GINT16 (data + i + 1)));
 			i += 3;
 			break;
 

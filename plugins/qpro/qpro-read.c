@@ -164,7 +164,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 		switch (*fmla) {
 		case QPRO_OP_CONST_FLOAT:
 			expr = gnm_expr_new_constant (value_new_float (
-				gnumeric_get_le_double (fmla+1)));
+				gsf_le_get_double (fmla+1)));
 			len = 9;
 			break;
 
@@ -299,7 +299,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 
 		val = value_new_string (data + 7);
 	} else
-		val = value_new_float (gnumeric_get_le_double (data));
+		val = value_new_float (gsf_le_get_double (data));
 
 	cell_set_expr_and_value (sheet_cell_fetch (state->cur_sheet, col, row),
 		expr, val, TRUE);
@@ -354,7 +354,7 @@ qpro_read_sheet (QProReadState *state)
 				sheet_style_set_pos (sheet, col, row,
 					qpro_get_style (state, data + 4));
 				cell_assign_value (sheet_cell_fetch (sheet, col, row),
-					value_new_float (gnumeric_get_le_double (data + 6)));
+					value_new_float (gsf_le_get_double (data + 6)));
 			}
 			break;
 

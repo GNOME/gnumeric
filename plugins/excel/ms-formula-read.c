@@ -962,7 +962,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			break;
 
 		case FORMULA_PTG_NUM: {
-			double tmp = gnumeric_get_le_double (cur);
+			double tmp = gsf_le_get_double (cur);
 			parse_list_push_raw (&stack, value_new_float (tmp));
 			ptg_length = 8;
 			break;
@@ -1119,7 +1119,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 					}
 #endif
 					if (opts == 1) {
-						double const v = gnumeric_get_le_double(array_data+1);
+						double const v = gsf_le_get_double(array_data+1);
 						set_val = value_new_float (v);
 						array_data+=9;
 					} else if (opts == 2) {

@@ -612,7 +612,7 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 				ms_biff_put_var_write (pd->bp, data, 3);
 			} else {
 				GSF_LE_SET_GUINT8 (data, FORMULA_PTG_NUM);
-				gnumeric_set_le_double (data + 1, value_get_as_float (v));
+				gsf_le_set_double (data + 1, value_get_as_float (v));
 				ms_biff_put_var_write (pd->bp, data, 9);
 			}
 			break;
@@ -620,7 +620,7 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 		case VALUE_FLOAT : {
 			guint8 data[10];
 			GSF_LE_SET_GUINT8 (data, FORMULA_PTG_NUM);
-			gnumeric_set_le_double (data+1, value_get_as_float (v));
+			gsf_le_set_double (data+1, value_get_as_float (v));
 			ms_biff_put_var_write (pd->bp, data, 9);
 			break;
 		}
@@ -762,7 +762,7 @@ write_arrays (PolishData *pd)
 
 			if (VALUE_IS_NUMBER (v)) {
 				push_guint8 (pd, 1);
-				gnumeric_set_le_double (data, value_get_as_float (v));
+				gsf_le_set_double (data, value_get_as_float (v));
 				ms_biff_put_var_write (pd->bp, data, 8);
 			} else { /* Can only be a string */
 				gint len;

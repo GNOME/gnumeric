@@ -2320,13 +2320,13 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
 			EX_SETXF (data, xf);
-			gnumeric_set_le_double (data + 6, val);
+			gsf_le_set_double (data + 6, val);
 			ms_biff_put_commit (bp);
 		} else { /* Nasty RK thing S59DDA.HTM */
 			guint8 data[16];
 
 			ms_biff_put_var_next   (bp, (0x200 | BIFF_RK));
-			gnumeric_set_le_double (data+6-4, val);
+			gsf_le_set_double (data+6-4, val);
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
 			EX_SETXF (data, xf);
@@ -2410,7 +2410,7 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, const Cell *cell, gint16 xf)
 	switch (v->type) {
 	case VALUE_INTEGER :
 	case VALUE_FLOAT :
-		gnumeric_set_le_double (data + 6, value_get_as_float (v));
+		gsf_le_set_double (data + 6, value_get_as_float (v));
 		break;
 
 	case VALUE_STRING :
@@ -2734,7 +2734,7 @@ margin_write (BiffPut *bp, guint16 op, double points)
 	margin = unit_convert (points, UNIT_POINTS, UNIT_INCH);
 
 	data = ms_biff_put_len_next (bp, op, 8);
-	gnumeric_set_le_double (data, margin);
+	gsf_le_set_double (data, margin);
 
 	ms_biff_put_commit (bp);
 }
@@ -2978,7 +2978,7 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 
 	/* See: S59D75.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_DELTA, 8);
-	gnumeric_set_le_double (data, wb->iteration.tolerance);
+	gsf_le_set_double (data, wb->iteration.tolerance);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DDD.HTM */

@@ -2088,7 +2088,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 	 * record
 	 */
 	if (GSF_LE_GET_GUINT16 (q->data + 12) != 0xffff) {
-		double const num = gnumeric_get_le_double (q->data + 6);
+		double const num = gsf_le_get_double (q->data + 6);
 		val = value_new_float (num);
 	} else {
 		guint8 const val_type = GSF_LE_GET_GUINT8 (q->data + 6);
@@ -2509,7 +2509,7 @@ biff_get_rk (guint8 const *ptr)
 			tmp[lp] = 0;
 		}
 
-		answer = (gnum_float)gnumeric_get_le_double (tmp);
+		answer = (gnum_float)gsf_le_get_double (tmp);
 		return value_new_float (type == eIEEEx100 ? answer / 100 : answer);
 	}
 	case eInt:
@@ -3200,9 +3200,9 @@ ms_excel_read_setup (BiffQuery *q, ExcelSheet *esheet)
 #endif
 
 	print_info_set_margin_header 
-		(pi, unit_convert (gnumeric_get_le_double (q->data + 16), UNIT_INCH, UNIT_POINTS));
+		(pi, unit_convert (gsf_le_get_double (q->data + 16), UNIT_INCH, UNIT_POINTS));
 	print_info_set_margin_footer 
-		(pi, unit_convert (gnumeric_get_le_double (q->data + 24), UNIT_INCH, UNIT_POINTS));
+		(pi, unit_convert (gsf_le_get_double (q->data + 24), UNIT_INCH, UNIT_POINTS));
 }
 
 static guint8 const *
@@ -3321,7 +3321,7 @@ ms_excel_read_delta (BiffQuery *q, ExcelWorkbook *wb)
 
 	g_return_if_fail (q->length == 8);
 
-	tolerance = gnumeric_get_le_double (q->data);
+	tolerance = gsf_le_get_double (q->data);
 	workbook_iteration_tolerance (wb->gnum_wb, tolerance);
 }
 
@@ -4019,9 +4019,9 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 		}
 
 		case BIFF_NUMBER: { /* S59DAC.HTM */
-			Value *v = value_new_float (gnumeric_get_le_double (q->data + 6));
+			Value *v = value_new_float (gsf_le_get_double (q->data + 6));
 			d (2, printf ("Read number %g\n",
-				      gnumeric_get_le_double (q->data + 6)););
+				      gsf_le_get_double (q->data + 6)););
 
 			ms_excel_sheet_insert_val (esheet, EX_GETXF (q), EX_GETCOL (q),
 						   EX_GETROW (q), v);
@@ -4144,21 +4144,21 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 
 		case BIFF_LEFT_MARGIN:
 			print_info_set_margin_left 
-				(pi, unit_convert (gnumeric_get_le_double (q->data), 
+				(pi, unit_convert (gsf_le_get_double (q->data), 
 						   UNIT_INCH, UNIT_POINTS));
 			break;
 		case BIFF_RIGHT_MARGIN:
 			print_info_set_margin_right
-				(pi, unit_convert (gnumeric_get_le_double (q->data), 
+				(pi, unit_convert (gsf_le_get_double (q->data), 
 						   UNIT_INCH, UNIT_POINTS));
 			break;
 		case BIFF_TOP_MARGIN:
 			ms_excel_print_unit_init_inch (&pi->margins.top,
-				gnumeric_get_le_double (q->data));
+				gsf_le_get_double (q->data));
 			break;
 		case BIFF_BOTTOM_MARGIN:
 			ms_excel_print_unit_init_inch (&pi->margins.bottom,
-				gnumeric_get_le_double (q->data));
+				gsf_le_get_double (q->data));
 			break;
 
 		case BIFF_PRINTHEADERS:

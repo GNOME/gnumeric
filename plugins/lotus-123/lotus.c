@@ -25,6 +25,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <gsf/gsf-input.h>
+#include <gsf/gsf-utils.h>
 #include <string.h>
 
 #define LOTUS_DEBUG 0
@@ -141,7 +142,7 @@ record_peek_next (record_t *r)
 	header = gsf_input_read (r->input, 2, NULL);
 	if (header == NULL)
 		return 0xffff;
-	type = gnumeric_get_le_uint16 (header);
+	type = GSF_LE_GET_GUINT16 (header);
 	gsf_input_seek (r->input, -2, GSF_SEEK_CUR);
 	return type;
 }
@@ -157,8 +158,8 @@ record_next (record_t *r)
 	if (header == NULL)
 		return FALSE;
 
-	r->type = gnumeric_get_le_uint16 (header);
-	r->len  = gnumeric_get_le_uint16 (header + 2);
+	r->type = GSF_LE_GET_GUINT16 (header);
+	r->len  = GSF_LE_GET_GUINT16 (header + 2);
 
 #if LOTUS_DEBUG > 0
 	printf ("Record 0x%x length 0x%x\n", r->type, r->len);
@@ -247,9 +248,9 @@ read_workbook (Workbook *wb, GsfInput *input)
 			break;
 
 		case LOTUS_INTEGER : {
-			Value *v = value_new_int (gnumeric_get_le_int16 (r->data + 5));
-			int i = gnumeric_get_le_uint16 (r->data + 1);
-			int j = gnumeric_get_le_uint16 (r->data + 3);
+			Value *v = value_new_int (GSF_LE_GET_GINT16 (r->data + 5));
+			int i = GSF_LE_GET_GUINT16 (r->data + 1);
+			int j = GSF_LE_GET_GUINT16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
 
 			cell = insert_value (sheet, i, j, v);
@@ -258,9 +259,9 @@ read_workbook (Workbook *wb, GsfInput *input)
 			break;
 		}
 		case LOTUS_NUMBER : {
-			Value *v = value_new_float (gnumeric_get_le_double (r->data + 5));
-			int i = gnumeric_get_le_uint16 (r->data + 1);
-			int j = gnumeric_get_le_uint16 (r->data + 3);
+			Value *v = value_new_float (gsf_le_get_double (r->data + 5));
+			int i = GSF_LE_GET_GUINT16 (r->data + 1);
+			int j = GSF_LE_GET_GUINT16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
 
 			cell = insert_value (sheet, i, j, v);
@@ -272,8 +273,8 @@ read_workbook (Workbook *wb, GsfInput *input)
 			/* one of '\', '''', '"', '^' */
 /*			gchar format_prefix = *(r->data + 5);*/
 			Value *v = value_new_string (r->data + 6); /* FIXME unsafe */
-			int i = gnumeric_get_le_uint16 (r->data + 1);
-			int j = gnumeric_get_le_uint16 (r->data + 3);
+			int i = GSF_LE_GET_GUINT16 (r->data + 1);
+			int j = GSF_LE_GET_GUINT16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
 			cell = insert_value (sheet, i, j, v);
 			if (cell)
@@ -284,9 +285,9 @@ read_workbook (Workbook *wb, GsfInput *input)
 			/* 5-12 = value */
 			/* 13-14 = formula r->length */
 			if (r->len >= 15) {
-				int col = gnumeric_get_le_uint16 (r->data + 1);
-				int row = gnumeric_get_le_uint16 (r->data + 3);
-				int len = gnumeric_get_le_int16 (r->data + 13);
+				int col = GSF_LE_GET_GUINT16 (r->data + 1);
+				int row = GSF_LE_GET_GUINT16 (r->data + 3);
+				int len = GSF_LE_GET_GINT16 (r->data + 13);
 				GnmExpr const *expr;
 
 				fmt = r->data[0];
@@ -302,7 +303,7 @@ read_workbook (Workbook *wb, GsfInput *input)
 					r->data + 15, len);
 
 				v = NULL;
-				if (0x7ff0 == (gnumeric_get_le_uint16 (r->data + 11) & 0x7ff8)) {
+				if (0x7ff0 == (GSF_LE_GET_GUINT16 (r->data + 11) & 0x7ff8)) {
 					/* I can not find normative definition
 					 * for when this is an error, an when
 					 * a string, so we cheat, and peek
@@ -314,7 +315,7 @@ read_workbook (Workbook *wb, GsfInput *input)
 					} else
 						v = value_new_error (NULL,  gnumeric_err_VALUE);
 				} else
-					v = value_new_float (gnumeric_get_le_double (r->data + 5));
+					v = value_new_float (gsf_le_get_double (r->data + 5));
 				cell = sheet_cell_fetch (sheet, col, row),
 				cell_set_expr_and_value (cell, expr, v, TRUE);
 
