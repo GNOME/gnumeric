@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.62+\n"
-"POT-Creation-Date: 2001-01-26 13:47+0300\n"
-"PO-Revision-Date: 2001-01-26 14:38+03:00\n"
+"POT-Creation-Date: 2001-02-05 19:05+0300\n"
+"PO-Revision-Date: 2001-02-05 19:08+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgid "#UNKNOWN!"
 msgstr "#НЕИЗВЕСТНОЕ!"
 
 #: plugins/excel/ms-excel-read.c:603 plugins/lotus-123/lotus.c:194
-#: plugins/oleo/oleo.c:44 src/workbook.c:561
+#: plugins/oleo/oleo.c:44
 #, c-format
 msgid "Sheet%d"
 msgstr "Лист%d"
@@ -74,11 +74,11 @@ msgstr "Защищенные паролем книги пока не поддерживаются."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не удалось найти рабочую книгу MS Excel"
 
-#: plugins/excel/ms-excel-write.c:3501
+#: plugins/excel/ms-excel-write.c:3502
 msgid "Too many rows for this format"
 msgstr "Слишком много строк для этого формата"
 
-#: plugins/excel/ms-excel-write.c:3585
+#: plugins/excel/ms-excel-write.c:3586
 msgid "Can't open stream for writing\n"
 msgstr "Невозможно открыть поток для записи\n"
 
@@ -94,17 +94,17 @@ msgstr " Неизвестная формула"
 msgid "Unknown GB error"
 msgstr "Неизвестная ошибка GB"
 
-#: plugins/gb/plugin.c:371
+#: plugins/gb/plugin.c:372
 #, c-format
 msgid "Error initializing gb '%s'"
 msgstr "Ошибка инициализации gb \"%s\""
 
-#: plugins/gb/plugin.c:386
+#: plugins/gb/plugin.c:387
 #, c-format
 msgid "Error in project '%s'"
 msgstr "Ошибка в проекте \"%s\""
 
-#: plugins/gda/plugin-gda.c:108
+#: plugins/gda/plugin-gda.c:107
 msgid ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(i)\n"
@@ -124,21 +124,21 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO="
 
-#: plugins/gda/plugin-gda.c:137
+#: plugins/gda/plugin-gda.c:136
 msgid "Format: execSQL(dsn,user,password,sql)"
 msgstr "Формат: execSQL(dsn,пользователь,пароль,sql)"
 
-#: plugins/gda/plugin-gda.c:143
+#: plugins/gda/plugin-gda.c:142
 msgid "Error: could not initialize connection pool"
 msgstr "Ошибка: Невозможно инициализировать пул соединений"
 
-#: plugins/gda/plugin-gda.c:148
+#: plugins/gda/plugin-gda.c:147
 #, c-format
 msgid "Error: could not open connection to %s"
 msgstr "Ошибка: невозможно открыть соединение с %s"
 
 #. register functions
-#: plugins/gda/plugin-gda.c:195 src/functions/fn-database.c:1337
+#: plugins/gda/plugin-gda.c:194 src/functions/fn-database.c:1337
 msgid "Database"
 msgstr "База данных"
 
@@ -163,17 +163,9 @@ msgstr "Неопределенная функция scheme"
 msgid "Could not evaluate argument"
 msgstr "Невозможно выполнить аргумент"
 
-#: plugins/guile/plugin.c:208
+#: plugins/guile/plugin.c:207
 msgid "Gnumeric has not been compiled with support for guile."
 msgstr "Gnumeric был скомпилирован без поддержки guile."
-
-#: plugins/guile/plugin.c:236
-msgid "Guile Plugin"
-msgstr "Дополнение Guile"
-
-#: plugins/guile/plugin.c:237
-msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr "Это дополнение включает поддержку Guile(scheme) в Gnumeric"
 
 #: plugins/html/boot.c:88
 msgid "HTML 3.2 file format (*.html)"
@@ -443,14 +435,6 @@ msgstr "Поразрядные операции"
 #: plugins/oleo/boot.c:75
 msgid "GNU Oleo (*.oleo) file format"
 msgstr "Файл в формате GNU Oleo (*.oleo)"
-
-#: plugins/perl/perl.c:54
-msgid "Perl"
-msgstr "Perl"
-
-#: plugins/perl/perl.c:55
-msgid "Enables the creation of functions in PERL"
-msgstr "Разрешить создание функций на Perl"
 
 #: plugins/plan-perfect/pln.c:721
 #, c-format
@@ -900,17 +884,17 @@ msgstr "Дисперсионный анализ: двухфакторный c воспроизведением"
 msgid "Total"
 msgstr "Итого"
 
-#: src/analysis-tools.c:2809 src/workbook-control-gui.c:2893
+#: src/analysis-tools.c:2809 src/workbook-control-gui.c:2935
 msgid "Count"
 msgstr "Количество"
 
 #: src/analysis-tools.c:2810 src/gnumeric.xml.h:186
-#: src/workbook-control-gui.c:2157 src/workbook-control-gui.c:2889
-#: src/workbook-view.c:494
+#: src/workbook-control-gui.c:2199 src/workbook-control-gui.c:2931
+#: src/workbook-view.c:512
 msgid "Sum"
 msgstr "Сумма"
 
-#: src/analysis-tools.c:2811 src/workbook-control-gui.c:2892
+#: src/analysis-tools.c:2811 src/workbook-control-gui.c:2934
 msgid "Average"
 msgstr "Среднее"
 
@@ -986,7 +970,7 @@ msgstr "Кумулятивный %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Ошибка \"%s\" при открытии потока рабочей книги"
 
-#: src/bonobo-io.c:471 src/xml-io-autoft.c:426 src/xml-io.c:3306
+#: src/bonobo-io.c:471 src/xml-io-autoft.c:427 src/xml-io.c:3199
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Испорченный XML-файл. Дерево пусто?"
 
@@ -1043,7 +1027,7 @@ msgstr ""
 msgid "Unable to paste into selection"
 msgstr "Невозможно вставить в выделение"
 
-#: src/cmd-edit.c:356 src/gnumeric.xml.h:133 src/workbook-control-gui.c:2137
+#: src/cmd-edit.c:356 src/gnumeric.xml.h:133 src/workbook-control-gui.c:2179
 msgid "Paste"
 msgstr "Вставить"
 
@@ -1108,7 +1092,7 @@ msgstr "Откат очистки"
 
 #. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1133 src/sheet.c:2429
+#: src/commands.c:1133 src/sheet.c:2409
 msgid "Clear"
 msgstr "Очистить"
 
@@ -1215,7 +1199,7 @@ msgid "Merge Cells"
 msgstr "Объединить ячейки"
 
 #. Corrected below.
-#: src/commands.c:3116 src/dialogs/search-replace.glade.h:41
+#: src/commands.c:3108 src/dialogs/search-replace.glade.h:41
 msgid "Search and Replace"
 msgstr "Поиск и замена"
 
@@ -1525,7 +1509,7 @@ msgid "_Chart Output"
 msgstr "Вывод диаграммы"
 
 #: src/dialogs/analysis-tools.glade.h:31 src/gnumeric.xml.h:206
-#: src/workbook-control-gui.c:1931
+#: src/workbook-control-gui.c:1973
 msgid "_Columns"
 msgstr "Столбцы"
 
@@ -1570,7 +1554,7 @@ msgid "_Pareto (Sorted)"
 msgstr "Парето (Отсортированное)"
 
 #: src/dialogs/analysis-tools.glade.h:42 src/gnumeric.xml.h:236
-#: src/workbook-control-gui.c:1928
+#: src/workbook-control-gui.c:1970
 msgid "_Rows"
 msgstr "Строки"
 
@@ -1614,7 +1598,7 @@ msgstr "НАчальные ЗАглавные"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:7
 #: src/dialogs/dialog-stf.glade.h:66 src/gnumeric.xml.h:234
-#: src/workbook-control-gui.c:1826
+#: src/workbook-control-gui.c:1868
 msgid "_Remove"
 msgstr "Удалить"
 
@@ -2235,7 +2219,7 @@ msgstr "Выделение имеет"
 
 #. We can't sort complex ranges
 #: src/dialogs/cell-sort.glade.h:9 src/dialogs/dialog-cell-sort.c:502
-#: src/workbook-control-gui.c:1633
+#: src/workbook-control-gui.c:1675
 msgid "Sort"
 msgstr "Сортировать"
 
@@ -2269,7 +2253,7 @@ msgid "_Column width (pts):"
 msgstr "Ширина столбца (пт):"
 
 #: src/dialogs/delete-cells.glade.h:1 src/dialogs/sheet-order.glade.h:2
-#: src/sheet-object.c:72
+#: src/sheet-object.c:73
 msgid "Delete"
 msgstr "Удалить"
 
@@ -3059,7 +3043,7 @@ msgstr "Конфигурация пользовательской сноски"
 msgid "You must select some cell types to search."
 msgstr "Вы должны выбрать некоторые типы ячеек для поиска."
 
-#: src/dialogs/dialog-sheet-order.c:145 src/workbook-control-gui.c:328
+#: src/dialogs/dialog-sheet-order.c:145 src/workbook-control-gui.c:330
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Вы действительно хотите удалить таблицу `%s' ?"
@@ -3588,8 +3572,8 @@ msgstr "Усиление"
 msgid "Sheets"
 msgstr "Листы"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:2316
-#: src/workbook-control-gui.c:2373
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:2358
+#: src/workbook-control-gui.c:2415
 msgid "Zoom"
 msgstr "Масштаб"
 
@@ -3794,7 +3778,7 @@ msgid "Center on page"
 msgstr "По центру страницы"
 
 #: src/dialogs/print.glade.h:4 src/gnumeric.xml.h:31
-#: src/workbook-control-gui.c:1770
+#: src/workbook-control-gui.c:1812
 msgid "Co_mments"
 msgstr "Комментарии"
 
@@ -3855,7 +3839,7 @@ msgid "Por_trait"
 msgstr "Портрет"
 
 #: src/dialogs/print.glade.h:20 src/gnumeric.xml.h:138
-#: src/workbook-control-gui.c:2122
+#: src/workbook-control-gui.c:2164
 msgid "Print"
 msgstr "Печать"
 
@@ -3863,8 +3847,7 @@ msgstr "Печать"
 msgid "Print _area:"
 msgstr "Область печати:"
 
-#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1194
-#: src/workbook-control-gui.c:1744 src/workbook-control-gui.c:2125
+#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1196
 msgid "Print preview"
 msgstr "Просмотр печати"
 
@@ -3885,7 +3868,7 @@ msgid "Scale"
 msgstr "Масштаб"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:135
-#: src/workbook.c:1029
+#: src/workbook.c:1019 src/xml-io.c:2888
 msgid "Sheet"
 msgstr "Табличные"
 
@@ -4541,7 +4524,7 @@ msgstr "круговая ссылка"
 msgid "Builtin"
 msgstr "Встроенный"
 
-#: src/expr-name.c:432 src/expr-name.c:443
+#: src/expr-name.c:432 src/expr-name.c:444
 msgid "Error: no sheet"
 msgstr "Ошибка: нет листа"
 
@@ -4569,7 +4552,7 @@ msgstr "Неизвестный оператор"
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
-#: src/file.c:358
+#: src/file.c:363
 msgid ""
 "Could not read file %s\n"
 "%%s"
@@ -4577,7 +4560,7 @@ msgstr ""
 "Невозможно прочесть файл %s\n"
 "%%s"
 
-#: src/file.c:402 src/file.c:440
+#: src/file.c:407 src/file.c:445
 msgid ""
 "Could not save to file %s\n"
 "%%s"
@@ -4585,7 +4568,7 @@ msgstr ""
 "Невозможно сохранить файл %s\n"
 "%%s"
 
-#: src/file.c:408
+#: src/file.c:413
 msgid "There are no file savers loaded"
 msgstr "Модуль для сохранения файлов не загружен"
 
@@ -14481,7 +14464,7 @@ msgstr "Не удалось открыть файл '%s'"
 #. * 'File' menu
 #.
 #: src/history.c:125 src/history.c:138
-msgid "File/Print preview"
+msgid "File/Print Preview"
 msgstr "Файл/Просмотр печати"
 
 #: src/history.c:226
@@ -14512,7 +14495,7 @@ msgstr ""
 msgid "_Move"
 msgstr "Переместить"
 
-#: src/gnumeric.xml.h:208 src/item-cursor.c:912 src/sheet-control-gui.c:1083
+#: src/gnumeric.xml.h:208 src/item-cursor.c:912 src/sheet-control-gui.c:1095
 msgid "_Copy"
 msgstr "Скопировать"
 
@@ -14685,131 +14668,136 @@ msgstr "Ошибка при закрытии файла, ошибка: %s"
 msgid "Unable to mmap the file, error : %s"
 msgstr "Невозможно выполнить mmap для файла, ошибка: %s"
 
-#: src/plugin.c:256
+#: src/plugin.c:257
 #, c-format
 msgid "Error while reading plugin information of type \"%s\"."
 msgstr "Ошибка при чтении информации о дополнении типа \"%s\"."
 
-#: src/plugin.c:265
+#: src/plugin.c:266
 msgid "Plugin has no id."
 msgstr "Дополнение не имеет идентификатора."
 
-#: src/plugin.c:268
+#: src/plugin.c:269
 #, c-format
 msgid "Required information for plugin with id=\"%s\" not found in file."
-msgstr "Запрошенная информация о дополнении с идентификатором=\"%s\" не найдена в файле."
+msgstr ""
+"Запрошенная информация о дополнении с идентификатором=\"%s\" не найдена в "
+"файле."
 
-#: src/plugin.c:272
+#: src/plugin.c:273
 msgid "Unknown plugin name."
 msgstr "Неизвестное название дополнения."
 
-#: src/plugin.c:275
+#: src/plugin.c:276
 msgid "Unknown activation type."
 msgstr "Неизвестный тип включения."
 
-#: src/plugin.c:395
+#: src/plugin.c:396
 #, c-format
 msgid "Can't read plugin #%d info."
 msgstr "Невозможно прочесть информацию о дополении #%d."
 
-#: src/plugin.c:405
+#: src/plugin.c:406
 #, c-format
 msgid "Errors occured while reading plugin informations from file \"%s\"."
 msgstr "При чтении информации о дополнении из файла \"%s\" возникла ошибка."
 
-#: src/plugin.c:414
+#: src/plugin.c:415
 #, c-format
 msgid "Can't read plugin group info file (\"%s\")."
 msgstr "Невозможно прочесть файл информации о группе дополнения (\"%s\")."
 
-#: src/plugin.c:418
+#: src/plugin.c:419
 #, c-format
 msgid "File \"%s\" is not valid plugin group info file."
-msgstr "Файл \"%s\" не является допустимым файлом информации о группе дополнения."
+msgstr ""
+"Файл \"%s\" не является допустимым файлом информации о группе дополнения."
 
-#: src/plugin.c:603
+#: src/plugin.c:604
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
 msgstr "Не удалось включить дополнение \"%s\" (идент. %s)."
 
-#: src/plugin.c:647
+#: src/plugin.c:648
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "Не удалось отключить дополнение \"%s\" (идент. %s)."
 
-#: src/plugin.c:658
+#: src/plugin.c:659
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s): it's still in use."
-msgstr "Не удалось отключить дополнение \"%s\" (идент. %s): оно еще используется."
+msgstr ""
+"Не удалось отключить дополнение \"%s\" (идент. %s): оно еще используется."
 
-#: src/plugin.c:922
+#: src/plugin.c:923
 msgid "Errors while reading info about available plugins."
 msgstr "Ошибки при считывании информации о доступных дополнениях."
 
-#: src/plugin.c:928
+#: src/plugin.c:929
 msgid "Errors while activating plugins."
 msgstr "Ошибки при включении дополнений."
 
-#: src/plugin.c:934
+#: src/plugin.c:935
 msgid "Errors while initializing plugin system."
 msgstr "Ошибки при инициализации системы дополнений."
 
-#: src/plugin.c:972
+#: src/plugin.c:973
 msgid "Module file name"
 msgstr "Название файла модуля"
 
-#: src/plugin.c:1022
+#: src/plugin.c:1023
 #, c-format
 msgid "Module file \"%s\" doesn't exist."
 msgstr "Файл модуля \"%s\" не существует."
 
-#: src/plugin.c:1028
+#: src/plugin.c:1029
 msgid "Module file name not given."
 msgstr "Не задано имя файла модуля."
 
-#: src/plugin.c:1081
+#: src/plugin.c:1082
 #, c-format
 msgid "Function init_plugin inside \"%s\" returned error."
 msgstr "Функция init_plugin внутри \"%s\" возвратила ошибку."
 
-#: src/plugin.c:1088
+#: src/plugin.c:1089
 #, c-format
 msgid "Unable to open module file \"%s\": %s"
 msgstr "Не удалось открыть файл модуля \"%s\": %s"
 
-#: src/plugin.c:1093
+#: src/plugin.c:1094
 #, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
 msgstr "Версия дополнения \"%s\" отличается от версии приложения \"%s\"."
 
-#: src/plugin.c:1097
+#: src/plugin.c:1098
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "Файл модуля \"%s\" имеет недопустимый формат."
 
-#: src/plugin.c:1102
+#: src/plugin.c:1103
 msgid "File doesn't contain \"init_plugin\" function."
 msgstr "Файл не содержит функцию \"init_plugin\"."
 
-#: src/plugin.c:1107
+#: src/plugin.c:1108
 msgid "File doesn't contain \"cleanup_plugin\" function."
 msgstr "Файл не содержит функцию \"cleanup_plugin\"."
 
-#: src/plugin.c:1112
+#: src/plugin.c:1113
 msgid "File doesn't contain \"can_deactivate_plugin\" function."
 msgstr "Файл не содержит функцию \"can_deactivate_plugin\"."
 
-#: src/plugin.c:1117
+#: src/plugin.c:1118
 msgid ""
 "File doesn't contain version information (\"gnumeric_plugin_version\" "
 "symbol)."
-msgstr "Файл не содержит информацию о версии (символ \"gnumeric_plugin_version\")."
+msgstr ""
+"Файл не содержит информацию о версии (символ \"gnumeric_plugin_version\")."
 
-#: src/plugin.c:1124
+#: src/plugin.c:1125
 msgid "Dynamic module loading is not supported in this system."
 msgstr "Динамическая загрузка модулей не поддерживается на этой системе."
 
-#: src/plugin.c:1144
+#: src/plugin.c:1145
 #, c-format
 msgid "Unable to close module file \"%s\": %s"
 msgstr "Не удалось закрыть файл модуля \"%s\": %s"
@@ -14877,86 +14865,94 @@ msgstr "время"
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:990 src/workbook-control-gui.c:2571
+#: src/print.c:992 src/workbook-control-gui.c:2613
 msgid "Selection must be a single range"
 msgstr "Выделение должно быть единственным диапазоном"
 
-#: src/print.c:1107
+#: src/print.c:1109
 msgid "Print Sheets"
 msgstr "Печать листов"
 
-#: src/print.c:1117
+#: src/print.c:1119
 msgid "Act_ive sheet"
 msgstr "Активный лист"
 
-#: src/print.c:1117
+#: src/print.c:1119
 msgid "S_heets"
 msgstr "Листы"
 
-#: src/print.c:1204
+#: src/print.c:1206
 msgid "Printing failed"
 msgstr "Сбой печати"
 
-#: src/search.c:116
+#: src/search.c:122
 msgid "Search string must not be empty."
 msgstr "Строка для поиска не должна быть пустой."
 
-#: src/search.c:119
+#: src/search.c:125
 msgid "Replacement string must be set."
 msgstr "Должна быть установлена строка для замены."
 
-#: src/search.c:125
+#: src/search.c:131
 msgid "You must specify a range to search."
 msgstr "Вы должны указать область для поиска."
 
-#: src/search.c:131
+#: src/search.c:137
 msgid "The search range is invalid."
 msgstr "Недопустимая область поиска."
 
-#: src/search.c:136
+#: src/search.c:142
 msgid "Invalid search pattern."
 msgstr "Неверный шаблон поиска."
 
-#: src/selection.c:107
+#: src/search.c:157 src/search.c:161
+msgid "Invalid $-specification in replacement."
+msgstr ""
+
+#: src/search.c:166
+msgid "Invalid trailing backslash in replacement."
+msgstr ""
+
+#: src/selection.c:108
 msgid "cannot be performed with multiple selections"
 msgstr "не может быть выполнено при множественных выделениях"
 
-#: src/selection.c:117
+#: src/selection.c:118
 msgid "can not operate on merged cells"
 msgstr "невозможно действовать на объединенных ячейках"
 
-#: src/selection.c:129
+#: src/selection.c:130
 msgid "can not operate on array formulae"
 msgstr "невозможно действовать на формулах массива"
 
 #. FIXME FIXME : disable copying part of an array
-#: src/gnumeric.xml.h:33 src/selection.c:682 src/workbook-control-gui.c:2134
+#: src/gnumeric.xml.h:33 src/selection.c:688 src/workbook-control-gui.c:2176
 msgid "Copy"
 msgstr "Скопировать"
 
-#: src/gnumeric.xml.h:52 src/selection.c:710 src/workbook-control-gui.c:2131
+#: src/gnumeric.xml.h:52 src/selection.c:716 src/workbook-control-gui.c:2173
 msgid "Cut"
 msgstr "Вырезать"
 
-#: src/sheet-control-gui.c:449
+#: src/sheet-control-gui.c:461
 #, c-format
 msgid "Row: %d"
 msgstr "Строка: %d"
 
-#: src/sheet-control-gui.c:460
+#: src/sheet-control-gui.c:472
 #, c-format
 msgid "Column: %s"
 msgstr "Столбец: %s"
 
-#: src/gnumeric.xml.h:49 src/sheet-control-gui.c:1081
+#: src/gnumeric.xml.h:49 src/sheet-control-gui.c:1093
 msgid "Cu_t"
 msgstr "Вырезать"
 
-#: src/gnumeric.xml.h:230 src/sheet-control-gui.c:1085
+#: src/gnumeric.xml.h:230 src/sheet-control-gui.c:1097
 msgid "_Paste"
 msgstr "Вставить"
 
-#: src/sheet-control-gui.c:1087
+#: src/sheet-control-gui.c:1099
 msgid "Paste _Special"
 msgstr "Специальная вставка"
 
@@ -14967,58 +14963,58 @@ msgstr "Специальная вставка"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1099
+#: src/sheet-control-gui.c:1111
 msgid "_Insert..."
 msgstr "Вставка..."
 
-#: src/gnumeric.xml.h:212 src/sheet-control-gui.c:1101
-#: src/workbook-control-gui.c:1852
+#: src/gnumeric.xml.h:212 src/sheet-control-gui.c:1113
+#: src/workbook-control-gui.c:1894
 msgid "_Delete..."
 msgstr "Удаление..."
 
-#: src/sheet-control-gui.c:1103
+#: src/sheet-control-gui.c:1115
 msgid "_Insert Column(s)"
 msgstr "Вставить столбцы"
 
-#: src/sheet-control-gui.c:1105
+#: src/sheet-control-gui.c:1117
 msgid "_Delete Column(s)"
 msgstr "Удалить столбцы"
 
-#: src/sheet-control-gui.c:1107
+#: src/sheet-control-gui.c:1119
 msgid "_Insert Row(s)"
 msgstr "Вставить строки"
 
-#: src/sheet-control-gui.c:1109
+#: src/sheet-control-gui.c:1121
 msgid "_Delete Row(s)"
 msgstr "Удалить строки"
 
-#: src/sheet-control-gui.c:1112
+#: src/sheet-control-gui.c:1124
 msgid "Clear Co_ntents"
 msgstr "Очистить содержимое"
 
-#: src/sheet-control-gui.c:1118
+#: src/sheet-control-gui.c:1130
 msgid "_Format Cells..."
 msgstr "Формат ячеек..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1122
+#: src/sheet-control-gui.c:1134
 msgid "Column _Width..."
 msgstr "Ширина столбца..."
 
-#: src/gnumeric.xml.h:222 src/sheet-control-gui.c:1124
-#: src/sheet-control-gui.c:1132 src/workbook-control-gui.c:1958
-#: src/workbook-control-gui.c:1977
+#: src/gnumeric.xml.h:222 src/sheet-control-gui.c:1136
+#: src/sheet-control-gui.c:1144 src/workbook-control-gui.c:2000
+#: src/workbook-control-gui.c:2019
 msgid "_Hide"
 msgstr "Скрыть"
 
-#: src/gnumeric.xml.h:246 src/sheet-control-gui.c:1126
-#: src/sheet-control-gui.c:1134 src/workbook-control-gui.c:1961
-#: src/workbook-control-gui.c:1980
+#: src/gnumeric.xml.h:246 src/sheet-control-gui.c:1138
+#: src/sheet-control-gui.c:1146 src/workbook-control-gui.c:2003
+#: src/workbook-control-gui.c:2022
 msgid "_Unhide"
 msgstr "Показать"
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1130
+#: src/sheet-control-gui.c:1142
 msgid "_Row Height..."
 msgstr "Высота строки..."
 
@@ -15036,23 +15032,23 @@ msgstr "Кнопка"
 msgid "Checkbox Configure"
 msgstr "Настройка граф для отметки"
 
-#: src/sheet-object.c:80
+#: src/sheet-object.c:81
 msgid "Configure"
 msgstr "Настройка"
 
-#: src/sheet.c:2832 src/sheet.c:2842
+#: src/sheet.c:2812 src/sheet.c:2822
 msgid "Insert Columns"
 msgstr "Вставить столбцы"
 
-#: src/sheet.c:2911
+#: src/sheet.c:2891
 msgid "Delete Columns"
 msgstr "Удалить столбцы"
 
-#: src/sheet.c:2979 src/sheet.c:2989
+#: src/sheet.c:2959 src/sheet.c:2969
 msgid "Insert Rows"
 msgstr "Вставить строки"
 
-#: src/sheet.c:3058
+#: src/sheet.c:3038
 msgid "Delete Rows"
 msgstr "Удалить строки"
 
@@ -15208,11 +15204,11 @@ msgstr "Импорт текстового файла"
 msgid "Text File Export (*.csv)"
 msgstr "Экспорт тестового файла (*.csv)"
 
-#: src/style.c:244 src/style.c:246
+#: src/style.c:245 src/style.c:247
 msgid "<Has not been set>"
 msgstr "<Не был установлен>"
 
-#: src/style.c:249
+#: src/style.c:250
 #, c-format
 msgid ""
 "Gnumeric failed to find a suitable default font.\n"
@@ -15251,11 +15247,11 @@ msgstr ""
 "\n"
 "Спасибо! -- Команда Gnumeric\n"
 
-#: src/style.c:266
+#: src/style.c:267
 msgid "does not have a valid entry for Helvetica"
 msgstr "нет подходящей записи для шрифта Helvetica"
 
-#: src/style.c:267
+#: src/style.c:268
 msgid "could not be found in the expected location"
 msgstr "невозможно найти в ожидаемом месте"
 
@@ -15528,79 +15524,91 @@ msgstr "Овал"
 msgid "Creates an ellipse object"
 msgstr "Создать овал"
 
-#: src/workbook-view.c:217
+#: src/workbook-view.c:235
 #, c-format
 msgid "%dLx%dC"
 msgstr "%dLx%dC"
 
-#: src/workbook-view.c:361
+#: src/workbook-view.c:379
 msgid "Internal ERROR"
 msgstr "Внутренняя ОШИБКА"
 
-#: src/workbook-control-gui.c:206
+#: src/workbook-control-gui.c:208
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:391
+#: src/workbook-control-gui.c:393
 msgid "Add another sheet"
 msgstr "Добавить другой лист"
 
-#: src/workbook-control-gui.c:392
+#: src/workbook-control-gui.c:394
 msgid "Remove this sheet"
 msgstr "Удалить этот лист"
 
-#: src/workbook-control-gui.c:393
+#: src/workbook-control-gui.c:395
 msgid "Rename this sheet"
 msgstr "Переименовать этот лист"
 
-#: src/workbook-control-gui.c:394
+#: src/workbook-control-gui.c:396
 msgid "Duplicate this sheet"
 msgstr "Сделать копию этого листа"
 
-#: src/workbook-control-gui.c:395
+#: src/workbook-control-gui.c:397
 msgid "Re-order sheets"
 msgstr "Переупорядочить листы"
 
-#: src/workbook-control-gui.c:738
+#: src/workbook-control-gui.c:737
 msgid "Nothing"
 msgstr "Ничего"
 
-#: src/workbook-control-gui.c:765 src/workbook-control-gui.c:2144
-#: src/workbook-control-gui.c:2329 src/workbook-control-gui.c:2369
+#: src/workbook-control-gui.c:764 src/workbook-control-gui.c:2186
+#: src/workbook-control-gui.c:2371 src/workbook-control-gui.c:2411
 msgid "Undo"
 msgstr "Откат"
 
-#: src/workbook-control-gui.c:766 src/workbook-control-gui.c:2147
-#: src/workbook-control-gui.c:2337 src/workbook-control-gui.c:2371
+#: src/workbook-control-gui.c:765 src/workbook-control-gui.c:2189
+#: src/workbook-control-gui.c:2379 src/workbook-control-gui.c:2413
 msgid "Redo"
 msgstr "Возврат"
 
-#: src/gnumeric.xml.h:245 src/workbook-control-gui.c:769
+#: src/gnumeric.xml.h:245 src/workbook-control-gui.c:768
 msgid "_Undo"
 msgstr "Откат"
 
-#: src/gnumeric.xml.h:233 src/workbook-control-gui.c:771
+#: src/gnumeric.xml.h:233 src/workbook-control-gui.c:770
 msgid "_Redo"
 msgstr "Возврат"
 
-#: src/workbook-control-gui.c:844
+#: src/workbook-control-gui.c:843
 msgid "Would split an array."
 msgstr ""
 
-#: src/workbook-control-gui.c:887
+#: src/workbook-control-gui.c:886
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "В книге %s есть несохраненные изменения, сохранить их?"
 
-#: src/workbook-control-gui.c:890
+#: src/workbook-control-gui.c:889
 msgid "Workbook has unsaved changes, save them?"
 msgstr "В книге есть несохраненные изменения, сохранить их?"
+
+#: src/workbook-control-gui.c:1271
+#, c-format
+msgid ""
+"In cell %s, the current contents\n"
+"\t%s\n"
+"would have been replaced by\n"
+"\t%s\n"
+"which is invalid.\n"
+"\n"
+"The replace has been aborted and nothing has been changed."
+msgstr ""
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
 #. * we do need to check for arrays and merged cells
 #.
-#: src/workbook-control-gui.c:1347
+#: src/workbook-control-gui.c:1389
 msgid "Insert rows"
 msgstr "Вставить строки"
 
@@ -15608,518 +15616,523 @@ msgstr "Вставить строки"
 #. * non-discrete selected region, (use selection_apply)
 #. * we do need to check for arrays and merged cells
 #.
-#: src/workbook-control-gui.c:1373
+#: src/workbook-control-gui.c:1415
 msgid "Insert cols"
 msgstr "Вставить столбцы"
 
-#: src/workbook-control-gui.c:1402
+#: src/workbook-control-gui.c:1444
 msgid "Select an object to add"
 msgstr "Выбрать объект для вставки"
 
-#: src/workbook-control-gui.c:1412
+#: src/workbook-control-gui.c:1454
 msgid "Unable to create object of type '"
 msgstr "Невозможно создать объект типа \""
 
-#: src/gnumeric.xml.h:227 src/workbook-control-gui.c:1730
+#: src/gnumeric.xml.h:227 src/workbook-control-gui.c:1772
 msgid "_New"
 msgstr "Новый"
 
-#: src/gnumeric.xml.h:44 src/workbook-control-gui.c:1730
+#: src/gnumeric.xml.h:44 src/workbook-control-gui.c:1772
 msgid "Create a new spreadsheet"
 msgstr "Создать новую таблицу"
 
-#: src/gnumeric.xml.h:223 src/workbook-control-gui.c:1734
+#: src/gnumeric.xml.h:223 src/workbook-control-gui.c:1776
 msgid "_Import..."
 msgstr "Импорт..."
 
-#: src/gnumeric.xml.h:86 src/workbook-control-gui.c:1734
+#: src/gnumeric.xml.h:86 src/workbook-control-gui.c:1776
 msgid "Imports a file"
 msgstr "Импортировать файл"
 
-#: src/workbook-control-gui.c:1744 src/workbook-control-gui.c:2125
-msgid "Print pre_view"
+#: src/gnumeric.xml.h:139 src/workbook-control-gui.c:1786
+msgid "Print Pre_view"
 msgstr "Просмотр печати"
 
-#: src/gnumeric.xml.h:185 src/workbook-control-gui.c:1750
+#: src/gnumeric.xml.h:140 src/workbook-control-gui.c:1786
+#: src/workbook-control-gui.c:2167
+msgid "Print Preview"
+msgstr "Просмотр печати"
+
+#: src/gnumeric.xml.h:185 src/workbook-control-gui.c:1792
 msgid "Su_mmary..."
 msgstr "Итого..."
 
-#: src/gnumeric.xml.h:188 src/workbook-control-gui.c:1751
+#: src/gnumeric.xml.h:188 src/workbook-control-gui.c:1793
 msgid "Summary information"
 msgstr "Суммарная информация"
 
-#: src/gnumeric.xml.h:199 src/workbook-control-gui.c:1764
+#: src/gnumeric.xml.h:199 src/workbook-control-gui.c:1806
 msgid "_All"
 msgstr "Все"
 
-#: src/gnumeric.xml.h:29 src/workbook-control-gui.c:1765
+#: src/gnumeric.xml.h:29 src/workbook-control-gui.c:1807
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Очистить в выделенных ячейках формат, комментарии и содержимое"
 
-#: src/gnumeric.xml.h:217 src/workbook-control-gui.c:1767
+#: src/gnumeric.xml.h:217 src/workbook-control-gui.c:1809
 msgid "_Formats"
 msgstr "Формат"
 
-#: src/gnumeric.xml.h:28 src/workbook-control-gui.c:1768
+#: src/gnumeric.xml.h:28 src/workbook-control-gui.c:1810
 msgid "Clear the selected cells' formats"
 msgstr "Очистить в выделенных ячейках формат"
 
-#: src/gnumeric.xml.h:26 src/workbook-control-gui.c:1771
+#: src/gnumeric.xml.h:26 src/workbook-control-gui.c:1813
 msgid "Clear the selected cells' comments"
 msgstr "Очистить в выделенных ячейках комментарии"
 
-#: src/gnumeric.xml.h:207 src/workbook-control-gui.c:1773
+#: src/gnumeric.xml.h:207 src/workbook-control-gui.c:1815
 msgid "_Content"
 msgstr "Содержимое"
 
-#: src/gnumeric.xml.h:27 src/workbook-control-gui.c:1774
+#: src/gnumeric.xml.h:27 src/workbook-control-gui.c:1816
 msgid "Clear the selected cells' contents"
 msgstr "Очистить в выделенных ячейках содержимое"
 
-#: src/gnumeric.xml.h:167 src/workbook-control-gui.c:1782
+#: src/gnumeric.xml.h:167 src/workbook-control-gui.c:1824
 msgid "Select _All"
 msgstr "Выделить все"
 
-#: src/gnumeric.xml.h:171 src/workbook-control-gui.c:1783
+#: src/gnumeric.xml.h:171 src/workbook-control-gui.c:1825
 msgid "Select all cells in the spreadsheet"
 msgstr "Выделить все ячейки в таблице"
 
-#: src/gnumeric.xml.h:170 src/workbook-control-gui.c:1787
+#: src/gnumeric.xml.h:170 src/workbook-control-gui.c:1829
 msgid "Select _Row"
 msgstr "Выделить строку"
 
-#: src/gnumeric.xml.h:175 src/workbook-control-gui.c:1788
+#: src/gnumeric.xml.h:175 src/workbook-control-gui.c:1830
 msgid "Select an entire row"
 msgstr "Выделить всю строку"
 
-#: src/gnumeric.xml.h:168 src/workbook-control-gui.c:1792
+#: src/gnumeric.xml.h:168 src/workbook-control-gui.c:1834
 msgid "Select _Column"
 msgstr "Выделить столбец"
 
-#: src/gnumeric.xml.h:174 src/workbook-control-gui.c:1793
+#: src/gnumeric.xml.h:174 src/workbook-control-gui.c:1835
 msgid "Select an entire column"
 msgstr "Выделить весь столбец"
 
-#: src/gnumeric.xml.h:166 src/workbook-control-gui.c:1797
+#: src/gnumeric.xml.h:166 src/workbook-control-gui.c:1839
 msgid "Select Arra_y"
 msgstr "Выделить область"
 
-#: src/gnumeric.xml.h:173 src/workbook-control-gui.c:1798
+#: src/gnumeric.xml.h:173 src/workbook-control-gui.c:1840
 msgid "Select an array of cells"
 msgstr "Выделение массива ячеек"
 
-#: src/gnumeric.xml.h:169 src/workbook-control-gui.c:1802
+#: src/gnumeric.xml.h:169 src/workbook-control-gui.c:1844
 msgid "Select _Depends"
 msgstr "Выделить зависимости"
 
-#: src/workbook-control-gui.c:1803
+#: src/workbook-control-gui.c:1845
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "Выделить все ячейки, которые зависят от редактируемой ячейки."
 
-#: src/gnumeric.xml.h:213 src/workbook-control-gui.c:1810
+#: src/gnumeric.xml.h:213 src/workbook-control-gui.c:1852
 msgid "_Duplicate"
 msgstr "Дублировать"
 
-#: src/gnumeric.xml.h:113 src/workbook-control-gui.c:1811
+#: src/gnumeric.xml.h:113 src/workbook-control-gui.c:1853
 msgid "Make a copy of the current sheet"
 msgstr "Сделать копию текущей таблицы"
 
-#: src/gnumeric.xml.h:224 src/workbook-control-gui.c:1814
-#: src/workbook-control-gui.c:2100
+#: src/gnumeric.xml.h:224 src/workbook-control-gui.c:1856
+#: src/workbook-control-gui.c:2142
 msgid "_Insert"
 msgstr "Вставка"
 
-#: src/gnumeric.xml.h:92 src/workbook-control-gui.c:1815
+#: src/gnumeric.xml.h:92 src/workbook-control-gui.c:1857
 msgid "Insert a new sheet"
 msgstr "Вставить новую таблицу"
 
-#: src/gnumeric.xml.h:148 src/workbook-control-gui.c:1818
+#: src/gnumeric.xml.h:148 src/workbook-control-gui.c:1860
 msgid "Re_name..."
 msgstr "Переименование..."
 
-#: src/gnumeric.xml.h:154 src/workbook-control-gui.c:1819
+#: src/gnumeric.xml.h:154 src/workbook-control-gui.c:1861
 msgid "Rename the current sheet"
 msgstr "Переименовать текущую таблицу"
 
-#: src/gnumeric.xml.h:146 src/workbook-control-gui.c:1822
-#: src/workbook-control-gui.c:1993
+#: src/gnumeric.xml.h:146 src/workbook-control-gui.c:1864
+#: src/workbook-control-gui.c:2035
 msgid "Re-_Order Sheets..."
 msgstr "Упорядочить листы..."
 
-#: src/gnumeric.xml.h:103 src/workbook-control-gui.c:1827
+#: src/gnumeric.xml.h:103 src/workbook-control-gui.c:1869
 msgid "Irrevocably remove an entire sheet"
 msgstr "Безвозвратное удаление целой таблицы"
 
-#: src/workbook-control-gui.c:1844
+#: src/workbook-control-gui.c:1886
 msgid "P_aste special..."
 msgstr "Специальная вставка..."
 
-#: src/gnumeric.xml.h:136 src/workbook-control-gui.c:1845
+#: src/gnumeric.xml.h:136 src/workbook-control-gui.c:1887
 msgid "Paste with optional filters and transformations"
 msgstr "Вставка с дополнительными фильтрами и преобразованиями"
 
-#: src/gnumeric.xml.h:14 src/workbook-control-gui.c:1850
+#: src/gnumeric.xml.h:14 src/workbook-control-gui.c:1892
 msgid "C_lear"
 msgstr "Очистить"
 
-#: src/workbook-control-gui.c:1853
+#: src/workbook-control-gui.c:1895
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Удалить выделенные ячейки, сдвигая другие на их место"
 
-#: src/gnumeric.xml.h:157 src/workbook-control-gui.c:1857
+#: src/gnumeric.xml.h:157 src/workbook-control-gui.c:1899
 msgid "S_heet"
 msgstr "Лист"
 
-#: src/gnumeric.xml.h:238 src/workbook-control-gui.c:1859
+#: src/gnumeric.xml.h:238 src/workbook-control-gui.c:1901
 msgid "_Select"
 msgstr "Выделение"
 
-#: src/gnumeric.xml.h:164 src/workbook-control-gui.c:1861
+#: src/gnumeric.xml.h:164 src/workbook-control-gui.c:1903
 msgid "Search and Replace..."
 msgstr "Поиск и замена..."
 
-#: src/gnumeric.xml.h:165 src/workbook-control-gui.c:1862
+#: src/gnumeric.xml.h:165 src/workbook-control-gui.c:1904
 msgid "Search for some text and replace it with something else"
 msgstr "Поиск некоторого текста и замена его чем-то еще"
 
 #. Default <Ctrl-G> to be goto
-#: src/gnumeric.xml.h:219 src/workbook-control-gui.c:1866
+#: src/gnumeric.xml.h:219 src/workbook-control-gui.c:1908
 msgid "_Goto cell..."
 msgstr "Перейти к ячейке..."
 
-#: src/gnumeric.xml.h:107 src/workbook-control-gui.c:1867
+#: src/gnumeric.xml.h:107 src/workbook-control-gui.c:1909
 msgid "Jump to a specified cell"
 msgstr "Перейти к указанной ячейке"
 
 #. Default <F9> to recalculate
-#: src/gnumeric.xml.h:149 src/workbook-control-gui.c:1872
+#: src/gnumeric.xml.h:149 src/workbook-control-gui.c:1914
 msgid "Recalculate"
 msgstr "Пересчитать"
 
-#: src/gnumeric.xml.h:150 src/workbook-control-gui.c:1873
+#: src/gnumeric.xml.h:150 src/workbook-control-gui.c:1915
 msgid "Recalculate the spreadsheet"
 msgstr "Пересчитать таблицу"
 
-#: src/gnumeric.xml.h:250 src/workbook-control-gui.c:1883
+#: src/gnumeric.xml.h:250 src/workbook-control-gui.c:1925
 msgid "_Zoom..."
 msgstr "Масштаб..."
 
-#: src/gnumeric.xml.h:196 src/workbook-control-gui.c:1884
+#: src/gnumeric.xml.h:196 src/workbook-control-gui.c:1926
 msgid "Zoom the spreadsheet in or out"
 msgstr "Увеличение и уменьшение масштаба таблицы"
 
-#: src/gnumeric.xml.h:126 src/workbook-control-gui.c:1886
+#: src/gnumeric.xml.h:126 src/workbook-control-gui.c:1928
 msgid "New _Shared"
 msgstr "Новый разделяемый"
 
-#: src/gnumeric.xml.h:43 src/workbook-control-gui.c:1887
+#: src/gnumeric.xml.h:43 src/workbook-control-gui.c:1929
 msgid "Create a new shared view of the workbook"
 msgstr "Создать новый разделяемый вид рабочей книги"
 
-#: src/gnumeric.xml.h:127 src/workbook-control-gui.c:1889
+#: src/gnumeric.xml.h:127 src/workbook-control-gui.c:1931
 msgid "New _Unshared"
 msgstr "Новый неразделяемый"
 
-#: src/gnumeric.xml.h:45 src/workbook-control-gui.c:1890
+#: src/gnumeric.xml.h:45 src/workbook-control-gui.c:1932
 msgid "Create a new unshared view of the workbook"
 msgstr "Создать новый неразделяемый вид рабочей книги"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/gnumeric.xml.h:50 src/workbook-control-gui.c:1899
+#: src/gnumeric.xml.h:50 src/workbook-control-gui.c:1941
 msgid "Current _date"
 msgstr "Текущая дата"
 
-#: src/gnumeric.xml.h:99 src/workbook-control-gui.c:1900
+#: src/gnumeric.xml.h:99 src/workbook-control-gui.c:1942
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Вставить текущую дату в выделенные ячейки"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/gnumeric.xml.h:51 src/workbook-control-gui.c:1905
+#: src/gnumeric.xml.h:51 src/workbook-control-gui.c:1947
 msgid "Current _time"
 msgstr "Текущее время"
 
-#: src/gnumeric.xml.h:100 src/workbook-control-gui.c:1906
+#: src/gnumeric.xml.h:100 src/workbook-control-gui.c:1948
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Вставить текущее время в выделенные ячейки"
 
-#: src/workbook-control-gui.c:1913
+#: src/workbook-control-gui.c:1955
 msgid "_Define..."
 msgstr "Определить..."
 
-#: src/gnumeric.xml.h:62 src/workbook-control-gui.c:1914
+#: src/gnumeric.xml.h:62 src/workbook-control-gui.c:1956
 msgid "Edit sheet and workbook names"
 msgstr "Правка имен таблицы и рабочей книги"
 
-#: src/workbook-control-gui.c:1917
+#: src/workbook-control-gui.c:1959
 msgid "_Auto generate names..."
 msgstr "Автогенерация имен..."
 
-#: src/workbook-control-gui.c:1918
+#: src/workbook-control-gui.c:1960
 msgid "Use the current selection to create names"
 msgstr "Использовать текущее выделение для создания имен"
 
-#: src/gnumeric.xml.h:239 src/workbook-control-gui.c:1925
-#: src/workbook-control-gui.c:2033
+#: src/gnumeric.xml.h:239 src/workbook-control-gui.c:1967
+#: src/workbook-control-gui.c:2075
 msgid "_Sheet"
 msgstr "Таблица"
 
-#: src/gnumeric.xml.h:93 src/workbook-control-gui.c:1926
+#: src/gnumeric.xml.h:93 src/workbook-control-gui.c:1968
 msgid "Insert a new spreadsheet"
 msgstr "Вставить новую таблицу"
 
-#: src/gnumeric.xml.h:98 src/workbook-control-gui.c:1929
+#: src/gnumeric.xml.h:98 src/workbook-control-gui.c:1971
 msgid "Insert new rows"
 msgstr "Вставить новые строки"
 
-#: src/gnumeric.xml.h:97 src/workbook-control-gui.c:1932
+#: src/gnumeric.xml.h:97 src/workbook-control-gui.c:1974
 msgid "Insert new columns"
 msgstr "Вставить новые столбцы"
 
-#: src/gnumeric.xml.h:13 src/workbook-control-gui.c:1934
+#: src/gnumeric.xml.h:13 src/workbook-control-gui.c:1976
 msgid "C_ells..."
 msgstr "Ячейки..."
 
-#: src/gnumeric.xml.h:96 src/workbook-control-gui.c:1935
+#: src/gnumeric.xml.h:96 src/workbook-control-gui.c:1977
 msgid "Insert new cells"
 msgstr "Вставить новые ячейки"
 
-#: src/gnumeric.xml.h:226 src/workbook-control-gui.c:1940
+#: src/gnumeric.xml.h:226 src/workbook-control-gui.c:1982
 msgid "_Name"
 msgstr "Название"
 
-#: src/workbook-control-gui.c:1942
+#: src/workbook-control-gui.c:1984
 msgid "_Add\\modify comment..."
 msgstr "Добавить/Изменить комментарий..."
 
-#: src/gnumeric.xml.h:64 src/workbook-control-gui.c:1943
+#: src/gnumeric.xml.h:64 src/workbook-control-gui.c:1985
 msgid "Edit the selected cell's comment"
 msgstr "Правка комментариев для выделенных ячеек"
 
-#: src/gnumeric.xml.h:158 src/workbook-control-gui.c:1946
+#: src/gnumeric.xml.h:158 src/workbook-control-gui.c:1988
 msgid "S_pecial"
 msgstr "Специальный"
 
-#: src/gnumeric.xml.h:201 src/workbook-control-gui.c:1952
-#: src/workbook-control-gui.c:1971
+#: src/gnumeric.xml.h:201 src/workbook-control-gui.c:1994
+#: src/workbook-control-gui.c:2013
 msgid "_Auto fit selection"
 msgstr "Автозаполнение выделения"
 
-#: src/gnumeric.xml.h:248 src/workbook-control-gui.c:1955
+#: src/gnumeric.xml.h:248 src/workbook-control-gui.c:1997
 msgid "_Width..."
 msgstr "Ширина..."
 
-#: src/gnumeric.xml.h:243 src/workbook-control-gui.c:1964
+#: src/gnumeric.xml.h:243 src/workbook-control-gui.c:2006
 msgid "_Standard Width"
 msgstr "Стандартная ширина"
 
-#: src/gnumeric.xml.h:220 src/workbook-control-gui.c:1974
+#: src/gnumeric.xml.h:220 src/workbook-control-gui.c:2016
 msgid "_Height..."
 msgstr "Высота..."
 
-#: src/gnumeric.xml.h:242 src/workbook-control-gui.c:1983
+#: src/gnumeric.xml.h:242 src/workbook-control-gui.c:2025
 msgid "_Standard Height"
 msgstr "Стандартная высота"
 
-#: src/workbook-control-gui.c:1990
+#: src/workbook-control-gui.c:2032
 msgid "_Change name"
 msgstr "Изменить название"
 
-#: src/gnumeric.xml.h:56 src/workbook-control-gui.c:1997
+#: src/gnumeric.xml.h:56 src/workbook-control-gui.c:2039
 msgid "Display _Formulas"
 msgstr "Показать формулы"
 
-#: src/gnumeric.xml.h:83 src/workbook-control-gui.c:2002
+#: src/gnumeric.xml.h:83 src/workbook-control-gui.c:2044
 msgid "Hide _Zeros"
 msgstr "Скрыть нули"
 
-#: src/gnumeric.xml.h:81 src/workbook-control-gui.c:2007
+#: src/gnumeric.xml.h:81 src/workbook-control-gui.c:2049
 msgid "Hide _Gridlines"
 msgstr "Скрыть линии сетки"
 
-#: src/workbook-control-gui.c:2012
+#: src/workbook-control-gui.c:2054
 msgid "Hide _Column Header"
 msgstr "Скрыть заголовок столбца"
 
-#: src/workbook-control-gui.c:2017
+#: src/workbook-control-gui.c:2059
 msgid "Hide _Row Header"
 msgstr "Скрыть заголовок строки"
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/gnumeric.xml.h:203 src/workbook-control-gui.c:2027
+#: src/gnumeric.xml.h:203 src/workbook-control-gui.c:2069
 msgid "_Cells..."
 msgstr "Ячейки..."
 
-#: src/gnumeric.xml.h:122 src/workbook-control-gui.c:2028
+#: src/gnumeric.xml.h:122 src/workbook-control-gui.c:2070
 msgid "Modify the formatting of the selected cells"
 msgstr "Изменить форматирование выделенных ячеек"
 
-#: src/gnumeric.xml.h:15 src/workbook-control-gui.c:2031
+#: src/gnumeric.xml.h:15 src/workbook-control-gui.c:2073
 msgid "C_olumn"
 msgstr "Столбец"
 
-#: src/gnumeric.xml.h:235 src/workbook-control-gui.c:2032
+#: src/gnumeric.xml.h:235 src/workbook-control-gui.c:2074
 msgid "_Row"
 msgstr "Строка"
 
-#: src/gnumeric.xml.h:202 src/workbook-control-gui.c:2035
+#: src/gnumeric.xml.h:202 src/workbook-control-gui.c:2077
 msgid "_Autoformat..."
 msgstr "Автоформатирование..."
 
-#: src/gnumeric.xml.h:74 src/workbook-control-gui.c:2036
+#: src/gnumeric.xml.h:74 src/workbook-control-gui.c:2078
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 "Форматирование области ячеек в соответствии с предопределенным шаблоном"
 
-#: src/gnumeric.xml.h:249 src/workbook-control-gui.c:2039
+#: src/gnumeric.xml.h:249 src/workbook-control-gui.c:2081
 msgid "_Workbook..."
 msgstr "Рабочая книга..."
 
-#: src/gnumeric.xml.h:123 src/workbook-control-gui.c:2040
+#: src/gnumeric.xml.h:123 src/workbook-control-gui.c:2082
 msgid "Modify the workbook attributes"
 msgstr "Изменить атрибуты рабочей книги"
 
-#: src/gnumeric.xml.h:231 src/workbook-control-gui.c:2047
+#: src/gnumeric.xml.h:231 src/workbook-control-gui.c:2089
 msgid "_Plug-ins..."
 msgstr "Дополнения..."
 
-#: src/workbook-control-gui.c:2048
+#: src/workbook-control-gui.c:2090
 msgid "Manage available plugin modules."
 msgstr "Управление доступными модулями дополнений."
 
-#: src/gnumeric.xml.h:6 src/workbook-control-gui.c:2053
+#: src/gnumeric.xml.h:6 src/workbook-control-gui.c:2095
 msgid "Auto _Correct..."
 msgstr "Автокоррекция..."
 
-#: src/gnumeric.xml.h:7 src/workbook-control-gui.c:2054
+#: src/gnumeric.xml.h:7 src/workbook-control-gui.c:2096
 msgid "Automatically perform simple spell checking"
 msgstr "Автоматически выполнять простую проверку правописания"
 
-#: src/gnumeric.xml.h:200 src/workbook-control-gui.c:2056
+#: src/gnumeric.xml.h:200 src/workbook-control-gui.c:2098
 msgid "_Auto Save..."
 msgstr "Автосохранение..."
 
-#: src/gnumeric.xml.h:8 src/workbook-control-gui.c:2057
+#: src/gnumeric.xml.h:8 src/workbook-control-gui.c:2099
 msgid "Automatically save the current document at regular intervals"
 msgstr "Автоматически сохранять текущий документ через регулярные интервалы"
 
-#: src/gnumeric.xml.h:218 src/workbook-control-gui.c:2062
+#: src/gnumeric.xml.h:218 src/workbook-control-gui.c:2104
 msgid "_Goal Seek..."
 msgstr "Поиск цели..."
 
-#: src/gnumeric.xml.h:105 src/workbook-control-gui.c:2063
+#: src/gnumeric.xml.h:105 src/workbook-control-gui.c:2105
 msgid "Iteratively recalculate to find a target value"
 msgstr "Итеративное перевычисление для поиска целевого значения"
 
-#: src/gnumeric.xml.h:240 src/workbook-control-gui.c:2065
+#: src/gnumeric.xml.h:240 src/workbook-control-gui.c:2107
 msgid "_Solver..."
 msgstr "Решение..."
 
-#: src/gnumeric.xml.h:106 src/workbook-control-gui.c:2066
+#: src/gnumeric.xml.h:106 src/workbook-control-gui.c:2108
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Итеративное перевычисление с ограничениями для достижения целевого значения"
 
-#: src/gnumeric.xml.h:210 src/workbook-control-gui.c:2071
+#: src/gnumeric.xml.h:210 src/workbook-control-gui.c:2113
 msgid "_Data Analysis..."
 msgstr "Анализ данных..."
 
-#: src/workbook-control-gui.c:2072
+#: src/workbook-control-gui.c:2114
 msgid "Statistical methods."
 msgstr "Статистические методы."
 
-#: src/gnumeric.xml.h:241 src/workbook-control-gui.c:2080
+#: src/gnumeric.xml.h:241 src/workbook-control-gui.c:2122
 msgid "_Sort..."
 msgstr "Сортировка..."
 
-#: src/gnumeric.xml.h:179 src/workbook-control-gui.c:2081
+#: src/gnumeric.xml.h:179 src/workbook-control-gui.c:2123
 msgid "Sort the selected cells"
 msgstr "Сортировать выделенные ячейки"
 
-#: src/gnumeric.xml.h:216 src/workbook-control-gui.c:2083
+#: src/gnumeric.xml.h:216 src/workbook-control-gui.c:2125
 msgid "_Filter..."
 msgstr "Фильтр..."
 
-#: src/gnumeric.xml.h:69 src/workbook-control-gui.c:2084
+#: src/gnumeric.xml.h:69 src/workbook-control-gui.c:2126
 msgid "Filter data with given criteria"
 msgstr "Фильтрация данных по заданным критериям"
 
-#: src/gnumeric.xml.h:68 src/workbook-control-gui.c:2101
+#: src/gnumeric.xml.h:68 src/workbook-control-gui.c:2143
 msgid "F_ormat"
 msgstr "Формат"
 
-#: src/gnumeric.xml.h:244 src/workbook-control-gui.c:2102
+#: src/gnumeric.xml.h:244 src/workbook-control-gui.c:2144
 msgid "_Tools"
 msgstr "Инструменты"
 
-#: src/gnumeric.xml.h:209 src/workbook-control-gui.c:2103
+#: src/gnumeric.xml.h:209 src/workbook-control-gui.c:2145
 msgid "_Data"
 msgstr "Данные"
 
-#: src/gnumeric.xml.h:125 src/workbook-control-gui.c:2110
+#: src/gnumeric.xml.h:125 src/workbook-control-gui.c:2152
 msgid "New"
 msgstr "Новая"
 
-#: src/workbook-control-gui.c:2110
+#: src/workbook-control-gui.c:2152
 msgid "Creates a new workbook"
 msgstr "Создать новую книгу"
 
-#: src/gnumeric.xml.h:128 src/workbook-control-gui.c:2113
+#: src/gnumeric.xml.h:128 src/workbook-control-gui.c:2155
 msgid "Open"
 msgstr "Открыть"
 
-#: src/workbook-control-gui.c:2113
+#: src/workbook-control-gui.c:2155
 msgid "Opens an existing workbook"
 msgstr "Открыть существующую книгу"
 
-#: src/gnumeric.xml.h:159 src/workbook-control-gui.c:2116
+#: src/gnumeric.xml.h:159 src/workbook-control-gui.c:2158
 msgid "Save"
 msgstr "Сохранить"
 
-#: src/workbook-control-gui.c:2116
+#: src/workbook-control-gui.c:2158
 msgid "Saves the workbook"
 msgstr "Сохранить книгу"
 
-#: src/workbook-control-gui.c:2122
+#: src/workbook-control-gui.c:2164
 msgid "Prints the workbook"
 msgstr "Напечатать книгу"
 
-#: src/workbook-control-gui.c:2131
+#: src/workbook-control-gui.c:2173
 msgid "Cuts the selection to the clipboard"
 msgstr "Вырезать выделение в буфер обмена"
 
-#: src/workbook-control-gui.c:2134
+#: src/workbook-control-gui.c:2176
 msgid "Copies the selection to the clipboard"
 msgstr "Скопировать выделение в буфер обмена"
 
-#: src/workbook-control-gui.c:2137
+#: src/workbook-control-gui.c:2179
 msgid "Pastes the clipboard"
 msgstr "Вставить из буфера обмена"
 
-#: src/workbook-control-gui.c:2144
+#: src/workbook-control-gui.c:2186
 msgid "Undo the operation"
 msgstr "Откат операции"
 
-#: src/workbook-control-gui.c:2147
+#: src/workbook-control-gui.c:2189
 msgid "Redo the operation"
 msgstr "Повтор отмененной операции"
 
-#: src/workbook-control-gui.c:2157
+#: src/workbook-control-gui.c:2199
 msgid "Sum into the current cell."
 msgstr "Сумма в текущей ячейке."
 
-#: src/workbook-control-gui.c:2160
+#: src/workbook-control-gui.c:2202
 msgid "Function"
 msgstr "Функция"
 
-#: src/workbook-control-gui.c:2160
+#: src/workbook-control-gui.c:2202
 msgid "Edit a function in the current cell."
 msgstr "Правка функции в текущей ячейке."
 
-#: src/gnumeric.xml.h:177 src/workbook-control-gui.c:2164
+#: src/gnumeric.xml.h:177 src/workbook-control-gui.c:2206
 msgid "Sort Ascending"
 msgstr "Возрастающая сортировка"
 
-#: src/workbook-control-gui.c:2164
+#: src/workbook-control-gui.c:2206
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
@@ -16127,11 +16140,11 @@ msgstr ""
 "Отсортировать выделенный диапазон в возрастающем порядке значений первого "
 "столбца выделения."
 
-#: src/gnumeric.xml.h:178 src/workbook-control-gui.c:2167
+#: src/gnumeric.xml.h:178 src/workbook-control-gui.c:2209
 msgid "Sort Descending"
 msgstr "Убывающая сортировка"
 
-#: src/workbook-control-gui.c:2167
+#: src/workbook-control-gui.c:2209
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
@@ -16139,11 +16152,11 @@ msgstr ""
 "Отсортировать выделенный диапазон в убывающем порядке значений первого "
 "столбца выделения."
 
-#: src/workbook-control-gui.c:2890
+#: src/workbook-control-gui.c:2932
 msgid "Min"
 msgstr "Мин"
 
-#: src/workbook-control-gui.c:2891
+#: src/workbook-control-gui.c:2933
 msgid "Max"
 msgstr "Макс"
 
@@ -16152,40 +16165,40 @@ msgstr "Макс"
 msgid "Book%d.gnumeric"
 msgstr "Книга%d.gnumeric"
 
-#: src/workbook.c:1176
+#: src/workbook.c:1166
 msgid "Sheet name"
 msgstr "Название листа"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1167
 msgid "must have at least 1 letter"
 msgstr "должна быть хотя бы 1 буква"
 
-#: src/workbook.c:1190
+#: src/workbook.c:1180
 #, c-format
 msgid "There is already a sheet named '%s'"
 msgstr "Уже есть таблица названная \"%s\""
 
-#: src/xml-io.c:3262
+#: src/xml-io.c:3155
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Неправильные XML данные в буфере обмена. Дерево пусто?"
 
-#: src/xml-io.c:3315
+#: src/xml-io.c:3208
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Это не файл рабочей книги Gnumeric"
 
-#: src/xml-io.c:3376
+#: src/xml-io.c:3269
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
 
-#: src/xml-io-autoft.c:420
+#: src/xml-io-autoft.c:421
 msgid "Error while trying to load autoformat template"
 msgstr "Ошибка при попытке загрузить шаблон автоформатирования"
 
-#: src/xml-io-autoft.c:437
+#: src/xml-io-autoft.c:438
 msgid "Is not an autoformat template file"
 msgstr "Не является файлом шаблона автоформата"
 
-#: src/xml-io-autoft.c:447
+#: src/xml-io-autoft.c:448
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Ошибка при попытке построить файл шаблона автоформатирования"
 
@@ -16468,14 +16481,6 @@ msgstr "Вставить из буфера обмена"
 #: src/gnumeric.xml.h:135
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "Вставить содержимое буфера обмена или буфера вырезания"
-
-#: src/gnumeric.xml.h:139
-msgid "Print Pre_view"
-msgstr "Просмотр печати"
-
-#: src/gnumeric.xml.h:140
-msgid "Print Preview"
-msgstr "Просмотр печати"
 
 #: src/gnumeric.xml.h:141
 msgid "Print S_etup"
