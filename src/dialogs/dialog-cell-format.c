@@ -1721,12 +1721,9 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, GladeXML  *gui, gboolean is_multi
 	/* Ok, edit events from now on are real */
 	state.enable_edit = TRUE;
 
-	/* Bring up the dialog */
-	res = gnome_dialog_run (GNOME_DIALOG (dialog));
-
-	/* If the user closed the dialog with prejudice, its already destroyed */
-	if (res >= 0)
-		gnome_dialog_close (GNOME_DIALOG (dialog));
+	/* Bring up the dialog, and run it until someone hits ok or cancel */
+	while ((res = gnome_dialog_run (GNOME_DIALOG (dialog))) > 0)
+		;
 }
 
 /* Wrapper to ensure the libglade object gets removed on error */

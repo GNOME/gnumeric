@@ -1,5 +1,8 @@
 1999-11-06  Jody Goldberg <jgoldberg@home.com>
 
+	* src/dialogs/dialog-cell-format.c (fmt_dialog_impl) : Dont close the
+	  dialog until ok or cancel is pressed.
+
 	* src/selection.c (sheet_selection_height_update) : Call the
 	  autoresize code for non user sized rows.  Do not just hard code the
 	  new height.
