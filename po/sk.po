@@ -1,15 +1,17 @@
+# translation of sk.po to Slovak
 # Gnumeric Slovak translation
 # Copyright (c) 1999,2000,2001,2002 The Free Software Foundation
 # 1999 Bobo Rajec
 # 2000,2001,2002 Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
+# Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>, 2002
 #: plugins/fn-stat/functions.c:4761 plugins/fn-stat/functions.c:4813
 #: plugins/fn-stat/functions.c:4817 plugins/fn-stat/functions.c:4819
 #: src/dialogs/dialog-sheet-order.c:397
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.0\n"
-"POT-Creation-Date: 2002-05-29 18:00-0400\n"
-"PO-Revision-Date: 2002-03-26 15:41+0100\n"
+"Project-Id-Version: sk\n"
+"POT-Creation-Date: 2002-05-31 15:21+0200\n"
+"PO-Revision-Date: 2002-05-31 15:58+0200\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -18,22 +20,19 @@ msgstr ""
 "<bobo@bobo.bspc.sk>\n"
 "Date: 1999-04-30 12:12:02+0000\n"
 "From: Bobo Rajec,BSP Consulting,+42 7 5330 017,, <bobo@bobo.bspc.sk>\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0beta2\n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
-#, fuzzy
 msgid "Gnumeric Workbook"
-msgstr "Nie je súbor so zošitom Gnumeric"
+msgstr "Zošiť Gnumeric"
 
 #: GNOME_Gnumeric.server.in.in.h:2
-#, fuzzy
 msgid "Gnumeric Workbook Viewer"
-msgstr "Nie je súbor so zošitom Gnumeric"
+msgstr "Prehliadač Zošita Gnumeric"
 
 #: GNOME_Gnumeric.server.in.in.h:3
-#, fuzzy
 msgid "Gnumeric Workbook viewer factory"
-msgstr "Nie je súbor so zošitom Gnumeric"
+msgstr "Vytváracie rozhranie prehliadača zošita Gnumeric"
 
 #: gnumeric.desktop.in.h:1
 msgid "Gnumeric Spreadsheet"
@@ -476,8 +475,7 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Modul pre Data Interchange Format (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Zapisuje a číta informácie uložené v Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:104
@@ -542,12 +540,11 @@ msgstr "Neboli nájdené žiadne zošitové kanále."
 
 #: plugins/excel/ms-excel-read.c:4741
 msgid "This file is encrypted"
-msgstr ""
+msgstr "Tento súbor je šifrovaný"
 
 #: plugins/excel/ms-excel-read.c:4743
-#, fuzzy
 msgid "Invalid password"
-msgstr "Neplatný výraz"
+msgstr "Neplatné heslo"
 
 #: plugins/excel/ms-excel-read.c:4866
 msgid "Unable to locate valid MS Excel workbook"
@@ -967,18 +964,16 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-database/plugin.xml.in.h:1
-#, fuzzy
 msgid "Database Functions"
-msgstr "Funkcie Python"
+msgstr "Databázové funkcie"
 
 #: plugins/fn-database/plugin.xml.in.h:2
-#, fuzzy
 msgid "Database/Time"
-msgstr "Dátum / Čas"
+msgstr "Databáza/Čas"
 
 #: plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
-msgstr ""
+msgstr "Funkcie pre hľadanie hodnôt v databázach"
 
 #: plugins/fn-date/functions.c:52
 msgid ""
@@ -1628,16 +1623,15 @@ msgstr ""
 
 #: plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
-msgstr ""
+msgstr "Funkcie pre dátum a čas"
 
 #: plugins/fn-date/plugin.xml.in.h:2
-#, fuzzy
 msgid "Date/Time"
-msgstr "Dátum / Čas"
+msgstr "Dátum/Čas"
 
 #: plugins/fn-date/plugin.xml.in.h:3
 msgid "Functions manipulating dates and time"
-msgstr ""
+msgstr "Funkcie pre prácu s dátumom a časom"
 
 #: plugins/fn-eng/functions.c:114
 msgid ""
@@ -2763,13 +2757,12 @@ msgid "Engineering"
 msgstr "Inžinierske"
 
 #: plugins/fn-eng/plugin.xml.in.h:2
-#, fuzzy
 msgid "Engineering Functions"
-msgstr "Inžinierske"
+msgstr "Inžinierske funkcie"
 
 #: plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
-msgstr ""
+msgstr "Funkcie pre komplexné čísla, prevody medzi sústavami a ďalšie"
 
 #: plugins/fn-financial/functions.c:365
 msgid ""
@@ -4797,13 +4790,12 @@ msgstr ""
 "@SEEALSO=DB"
 
 #: plugins/fn-financial/plugin.xml.in.h:2
-#, fuzzy
 msgid "Financial Functions"
-msgstr "Finančné produkty"
+msgstr "Finančné funkcie"
 
 #: plugins/fn-financial/plugin.xml.in.h:3
 msgid "Interest rate calculations"
-msgstr ""
+msgstr "Výpočty úrokových mier"
 
 #: plugins/fn-info/functions.c:107
 msgid ""
@@ -5329,21 +5321,19 @@ msgstr ""
 
 #: plugins/fn-info/functions.c:2071
 msgid "info_type, cell"
-msgstr ""
+msgstr "info_type, bunka"
 
 #: plugins/fn-info/functions.c:2072
-#, fuzzy
 msgid "range"
-msgstr "Rozsah"
+msgstr "rozsah"
 
 #: plugins/fn-info/functions.c:2073 plugins/fn-string/functions.c:1234
 #: plugins/fn-string/functions.c:1235 plugins/fn-string/functions.c:1242
 #: plugins/fn-string/functions.c:1243 plugins/fn-string/functions.c:1244
 #: plugins/fn-string/functions.c:1253 plugins/fn-string/functions.c:1254
 #: plugins/fn-string/functions.c:1255
-#, fuzzy
 msgid "text"
-msgstr "Te_xt"
+msgstr "text"
 
 #: plugins/fn-info/functions.c:2074 plugins/fn-info/functions.c:2077
 #: plugins/fn-info/functions.c:2078 plugins/fn-info/functions.c:2079
@@ -5353,37 +5343,32 @@ msgstr "Te_xt"
 #: plugins/fn-info/functions.c:2086 plugins/fn-info/functions.c:2087
 #: plugins/fn-info/functions.c:2088 plugins/fn-info/functions.c:2090
 #: plugins/fn-string/functions.c:1251
-#, fuzzy
 msgid "value"
-msgstr "Hodnoty"
+msgstr "hodnota"
 
 #: plugins/fn-info/functions.c:2075
-#, fuzzy
 msgid "cell"
-msgstr "Bunka"
+msgstr "bunka"
 
 #: plugins/fn-info/functions.c:2076
-#, fuzzy
 msgid "info_type"
-msgstr "Neznámy typ informácií"
+msgstr "info_type"
 
 #: plugins/fn-info/functions.c:2091
-#, fuzzy
 msgid "string"
-msgstr "Textové"
+msgstr "reťazec"
 
 #: plugins/fn-info/plugin.xml.in.h:1
 msgid "Functions for inspecting values, cells, and more"
-msgstr ""
+msgstr "Funkcie pre zisťovanie hodnôt, buniek a ďalšie"
 
 #: plugins/fn-info/plugin.xml.in.h:2
 msgid "Information"
 msgstr "Informácie"
 
 #: plugins/fn-info/plugin.xml.in.h:3
-#, fuzzy
 msgid "Information Functions"
-msgstr "Informácie"
+msgstr "Informačné funkcie"
 
 #: plugins/fn-logical/functions.c:45
 msgid ""
@@ -5486,7 +5471,6 @@ msgstr ""
 "@SEEALSO=AND, NOT"
 
 #: plugins/fn-logical/functions.c:192
-#, fuzzy
 msgid ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
@@ -5503,20 +5487,19 @@ msgid ""
 "\n"
 "@SEEALSO=OR, AND, NOT"
 msgstr ""
-"@FUNCTION=OR\n"
-"@SYNTAX=OR(b1, b2, ...)\n"
-"@DESCRIPTION=OR implementuje logické OR: výsledok je TRUE ak je aspoň jedna "
-"z hodnôt vyhodnotená ako TRUE.\n"
+"@FUNCTION=XOR\n"
+"@SYNTAX=XOR(b1, b2, ...)\n"
+"@DESCRIPTION=XOR implementuje logické exkluzívne OR: výsledok je TRUE ak "
+"je nepárny počet parametrov vyhodnotený ako TRUE.\n"
 "@b1, až @bN sú výrazy, ktoré by mali mať ako výsledok TRUE alebo FALSE.  Ak "
 "je výsledkom číslo, 0 sa chápe ako FALSE a všetko ostatné ako TRUE.\n"
 "Ak hodnoty obsahujú reťazce alebo prázdne bunky, sú ignorované. Ak neboli "
 "zadané žiadne logické hodnoty, funkcia vracia chybu #VALUE!.\n"
-"Táto funkcia je kompatibilná s Excelom. \n"
 "@EXAMPLES=\n"
-"OR(TRUE,FALSE) sa rovná TRUE.\n"
-"OR(3>4,4<3) sa rovná FALSE.\n"
+"XOR(TRUE,FALSE) sa rovná TRUE.\n"
+"XOR(3>4,4<3) sa rovná FALSE.\n"
 "\n"
-"@SEEALSO=AND, NOT"
+"@SEEALSO=OR, AND, NOT"
 
 #: plugins/fn-logical/functions.c:246
 msgid ""
@@ -5602,7 +5585,7 @@ msgstr ""
 #: plugins/fn-stat/functions.c:4853 plugins/fn-stat/functions.c:4855
 #: src/func-builtin.c:225 src/func-builtin.c:231
 msgid "number,number,"
-msgstr ""
+msgstr "číslo,číslo,"
 
 #: plugins/fn-logical/functions.c:356 plugins/fn-logical/functions.c:358
 #: plugins/fn-logical/functions.c:359 plugins/fn-math/functions.c:3218
@@ -5624,26 +5607,24 @@ msgstr ""
 #: plugins/fn-stat/functions.c:4741 plugins/fn-stat/functions.c:4743
 #: plugins/fn-stat/functions.c:4751 plugins/fn-stat/functions.c:4799
 #: plugins/fn-string/functions.c:1233
-#, fuzzy
 msgid "number"
-msgstr "Čísla"
+msgstr "číslo"
 
 #: plugins/fn-logical/functions.c:357
 msgid "condition,if true,if false"
-msgstr ""
+msgstr "podmienka,ak platí,ak neplatí"
 
 #: plugins/fn-logical/plugin.xml.in.h:1
 msgid "Functions for manipulating truth values"
-msgstr ""
+msgstr "Funkcie pre prácu s pravdivostnými hodnotami"
 
 #: plugins/fn-logical/plugin.xml.in.h:2
 msgid "Logical"
 msgstr "Logické"
 
 #: plugins/fn-logical/plugin.xml.in.h:3
-#, fuzzy
 msgid "Logical Functions"
-msgstr "Funkcia"
+msgstr "Logické funkcie"
 
 #: plugins/fn-lookup/functions.c:341
 msgid ""
@@ -5718,7 +5699,6 @@ msgid "#ARG!"
 msgstr "#ARG!"
 
 #: plugins/fn-lookup/functions.c:502
-#, fuzzy
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -6053,65 +6033,60 @@ msgstr ""
 
 #: plugins/fn-lookup/functions.c:1145
 msgid "row_num,col_num,abs_num,a1,text"
-msgstr ""
+msgstr "číslo_riadku,číslo_stĺpca,abs_počet,a1,text"
 
 #: plugins/fn-lookup/functions.c:1147
 msgid "index,value,"
-msgstr ""
+msgstr "index,hodnota,"
 
 #: plugins/fn-lookup/functions.c:1149 plugins/fn-lookup/functions.c:1151
 #: plugins/fn-lookup/functions.c:1167 plugins/fn-lookup/functions.c:1169
-#, fuzzy
 msgid "ref"
-msgstr "červená"
+msgstr "ref"
 
 #: plugins/fn-lookup/functions.c:1153 plugins/fn-lookup/functions.c:1173
 msgid "val,range,col_idx,approx,as_index"
-msgstr ""
+msgstr "hodnota,rozsah,idx_stĺ,pribl,ako_index"
 
 #: plugins/fn-lookup/functions.c:1155
 msgid "link_location, label"
-msgstr ""
+msgstr "umiestnenie_odkazu,popis"
 
 #: plugins/fn-lookup/functions.c:1157
 msgid "ref_string,format"
-msgstr ""
+msgstr "ref_reťazec,formát"
 
 #: plugins/fn-lookup/functions.c:1159
 msgid "reference,row,col,area"
-msgstr ""
+msgstr "referencia,riadok,stĺpec,oblasť"
 
 #: plugins/fn-lookup/functions.c:1161
-#, fuzzy
 msgid "val,range,range"
-msgstr "Rozsah"
+msgstr "hodnota,rozsah,rozsah"
 
 #: plugins/fn-lookup/functions.c:1163
 msgid "val,range,approx"
-msgstr ""
+msgstr "hodnota,rozsah,približ"
 
 #: plugins/fn-lookup/functions.c:1165
 msgid "ref,row,col,height,width"
-msgstr ""
+msgstr "ref,riadok,stĺpec,výšla,šírka"
 
 #: plugins/fn-lookup/functions.c:1171 plugins/fn-math/functions.c:3282
-#, fuzzy
 msgid "array"
-msgstr "Pole"
+msgstr "pole"
 
 #: plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
-msgstr ""
+msgstr "Funkcie pre hľadanie hodnôt v rozsahoch"
 
 #: plugins/fn-lookup/plugin.xml.in.h:2
-#, fuzzy
 msgid "Lookup"
-msgstr "Dáta / Hľadanie"
+msgstr "Hľadanie"
 
 #: plugins/fn-lookup/plugin.xml.in.h:3
-#, fuzzy
 msgid "Lookup Functions"
-msgstr "Funkcia"
+msgstr "Funkcie pre hľadanie"
 
 #: plugins/fn-math/functions.c:140
 msgid ""
@@ -7824,113 +7799,103 @@ msgstr ""
 
 #: plugins/fn-math/functions.c:3225
 msgid "xnum,ynum"
-msgstr ""
+msgstr "xnum,ynum"
 
 #: plugins/fn-math/functions.c:3228
-#, fuzzy
 msgid "range,criteria"
-msgstr "Kritérium"
+msgstr "rozsah,kritéria"
 
 #: plugins/fn-math/functions.c:3230
 msgid "number,significance"
-msgstr ""
+msgstr "počet,významnosť"
 
 #: plugins/fn-math/functions.c:3236 plugins/fn-stat/functions.c:4731
 msgid "n,k"
-msgstr ""
+msgstr "n,k"
 
 #: plugins/fn-math/functions.c:3238
 msgid "number,number"
-msgstr ""
+msgstr "číslo,číslo"
 
 #: plugins/fn-math/functions.c:3242
-#, fuzzy
 msgid "number,base"
-msgstr "Čísla"
+msgstr "číslo,základ"
 
 #: plugins/fn-math/functions.c:3245 plugins/fn-math/functions.c:3251
 msgid "numerator,denominator"
-msgstr ""
+msgstr "delenec,deliteľ"
 
 #: plugins/fn-math/functions.c:3246
 msgid "number,multiple"
-msgstr ""
+msgstr "číslo,násobok"
 
 #: plugins/fn-math/functions.c:3249
 msgid "base,exponent"
-msgstr ""
+msgstr "základ,exponent"
 
 #: plugins/fn-math/functions.c:3254 plugins/fn-stat/functions.c:4801
 msgid "p"
-msgstr ""
+msgstr "p "
 
 #: plugins/fn-math/functions.c:3255
-#, fuzzy
 msgid "bottom,top"
-msgstr "Dole"
+msgstr "dole,hore"
 
 #: plugins/fn-math/functions.c:3256
-#, fuzzy
 msgid "p,trials"
-msgstr "Apríl"
+msgstr "p,pokusy"
 
 #: plugins/fn-math/functions.c:3257
 msgid "b"
-msgstr ""
+msgstr "b"
 
 #: plugins/fn-math/functions.c:3258
-#, fuzzy
 msgid "p,failures"
-msgstr "Hodnoty"
+msgstr "p,zlyhania"
 
 #: plugins/fn-math/functions.c:3259
-#, fuzzy
 msgid "lambda"
-msgstr "_Lambda:"
+msgstr "lambda"
 
 #: plugins/fn-math/functions.c:3260
 msgid "number,type"
-msgstr ""
+msgstr "počet,typ"
 
 #: plugins/fn-math/functions.c:3261 plugins/fn-math/functions.c:3262
 #: plugins/fn-math/functions.c:3263 plugins/fn-math/functions.c:3279
-#, fuzzy
 msgid "number,digits"
-msgstr "Čísla"
+msgstr "počet,číslice"
 
 #: plugins/fn-math/functions.c:3264
-#, fuzzy
 msgid "x,n,m,coefficients"
-msgstr "Koeficient"
+msgstr "x,n,m,koeficienty"
 
 #: plugins/fn-math/functions.c:3271
 msgid "range,criteria,actual_range"
-msgstr ""
+msgstr "rozsah,kritéria,skutočný_rozsah"
 
 #: plugins/fn-math/functions.c:3272
-#, fuzzy
 msgid "range,range,"
-msgstr "Rozsah"
+msgstr "rozsah,rozsah,"
 
 #: plugins/fn-math/functions.c:3274 plugins/fn-math/functions.c:3275
 #: plugins/fn-math/functions.c:3276 plugins/fn-math/functions.c:3281
 #: plugins/fn-stat/functions.c:4725 plugins/fn-stat/functions.c:4727
 #: plugins/fn-stat/functions.c:4807 plugins/fn-stat/functions.c:4815
 msgid "array1,array2"
-msgstr ""
+msgstr "pole1,pole2"
 
 #: plugins/fn-math/functions.c:3283 plugins/fn-math/functions.c:3285
 msgid "array,matrix_type,bandsize"
-msgstr ""
+msgstr "pole,typ_matice,veľkosť"
 
 #: plugins/fn-math/plugin.xml.in.h:1
-#, fuzzy
 msgid "Math Functions"
-msgstr "Funkcie Python"
+msgstr "Matematické funkcie"
 
 #: plugins/fn-math/plugin.xml.in.h:2
 msgid "Mathematical Functions"
-msgstr ""
+msgstr "Matematické funkcie"
 
 #. *************************************************************************
 #: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:207
@@ -10351,171 +10316,173 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=CRONBACH\n"
+"@SYNTAX=CRONBACH(ref1,ref2,...)\n"
+"@DESCRIPTION=CRONBACH vracia Cronbachovu alfa pre dané prípady.\n"
+"@ref1 je množina dát, @ref2 je druhá množina dát, atď..\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: plugins/fn-stat/functions.c:4703
 msgid "x,alpha,beta,a,b"
-msgstr ""
+msgstr "x,alfa,beta,a,b"
 
 #: plugins/fn-stat/functions.c:4705
 msgid "p,alpha,beta,a,b"
-msgstr ""
+msgstr "p,alfa,beta,a,b"
 
 #: plugins/fn-stat/functions.c:4707
 msgid "n,t,p,c"
-msgstr ""
+msgstr "n,t,p,c"
 
 #: plugins/fn-stat/functions.c:4709
 msgid "x,dof"
-msgstr ""
+msgstr "x,dof"
 
 #: plugins/fn-stat/functions.c:4711 plugins/fn-stat/functions.c:4841
 msgid "p,dof"
-msgstr ""
+msgstr "p,dof"
 
 #: plugins/fn-stat/functions.c:4713
 msgid "act_range,theo_range"
-msgstr ""
+msgstr "skut_rozsah,teor_rozsah"
 
 #: plugins/fn-stat/functions.c:4715
 msgid "x,stddev,size"
-msgstr ""
+msgstr "x,odchýlka,veľkosť"
 
 #: plugins/fn-stat/functions.c:4721
 msgid "trials,p,alpha"
-msgstr ""
+msgstr "pokusy,p,alfa"
 
 #: plugins/fn-stat/functions.c:4723
 msgid "ref,ref,"
-msgstr ""
+msgstr "ref,ref,"
 
 #: plugins/fn-stat/functions.c:4733
-#, fuzzy
 msgid "x,mean,cumulative"
-msgstr "Kumulatívne %"
+msgstr "x,priemer,kumulatívne"
 
 #: plugins/fn-stat/functions.c:4735
-#, fuzzy
 msgid "x,y,cumulative"
-msgstr "Kumulatívne %"
+msgstr "x,y,kumulatívne"
 
 #: plugins/fn-stat/functions.c:4737
 msgid "x,dof of num,dof of denom"
-msgstr ""
+msgstr "x,dof delenca,dof deliteľa"
 
 #: plugins/fn-stat/functions.c:4739
 msgid "p,dof of num,dof of denom"
-msgstr ""
+msgstr "p,dof delenca,dof deliteľa"
 
 #: plugins/fn-stat/functions.c:4745
 msgid "x,known y's,known x's"
-msgstr ""
+msgstr "x,známe y,známe x"
 
 #: plugins/fn-stat/functions.c:4747
 msgid "data_array,bins_array"
-msgstr ""
+msgstr "pole_dát,pole_priečinkov"
 
 #: plugins/fn-stat/functions.c:4749
 msgid "arr1,arr2"
-msgstr ""
+msgstr "pole1,pole2"
 
 #: plugins/fn-stat/functions.c:4753
 msgid "number,alpha,beta,cum"
-msgstr ""
+msgstr "počet,alfa,beta,kum"
 
 #: plugins/fn-stat/functions.c:4755
 msgid "number,alpha,beta"
-msgstr ""
+msgstr "počet,alfa,beta"
 
 #: plugins/fn-stat/functions.c:4759 plugins/fn-stat/functions.c:4843
 msgid "known_y's,known_x's,new_x's,const"
-msgstr ""
+msgstr "známe_y,známe_x,nové_x,konšt"
 
 #: plugins/fn-stat/functions.c:4763
 msgid "x,n,M,N"
-msgstr ""
+msgstr "x,n,M,N"
 
 #: plugins/fn-stat/functions.c:4773 plugins/fn-stat/functions.c:4775
 msgid "known_y's,known_x's,const,stat"
-msgstr ""
+msgstr "známe_y,známe_x,konšt,stat"
 
 #: plugins/fn-stat/functions.c:4777
 msgid "p,mean,stddev"
-msgstr ""
+msgstr "p,priemer,odchýlka"
 
 #: plugins/fn-stat/functions.c:4779
 msgid "x,meean,stdev"
-msgstr ""
+msgstr "x,priemer,odchýlka"
 
 #: plugins/fn-stat/functions.c:4793
 msgid "f,t,p"
-msgstr ""
+msgstr "f,t,p"
 
 #: plugins/fn-stat/functions.c:4795
 msgid "x,mean,stdev,cumulative"
-msgstr ""
+msgstr "x,priemer,odchýlka,kumulatívne"
 
 #: plugins/fn-stat/functions.c:4797
 msgid "p,mean,stdev"
-msgstr ""
+msgstr "p,priemer,odchýlka"
 
 #: plugins/fn-stat/functions.c:4803
-#, fuzzy
 msgid "array,k"
-msgstr "Pole"
+msgstr "pole,k"
 
 #: plugins/fn-stat/functions.c:4805
 msgid "array,x,significance"
-msgstr ""
+msgstr "pole,x,významnosť"
 
 #: plugins/fn-stat/functions.c:4809
 msgid "x_range,prob_range,lower_limit,upper_limit"
-msgstr ""
+msgstr "x_rozsah,pravd_rozsah,dolný_limit,horný_limit"
 
 #: plugins/fn-stat/functions.c:4811
 msgid "array,quart"
-msgstr ""
+msgstr "pole,kvart"
 
 #: plugins/fn-stat/functions.c:4821 plugins/fn-stat/functions.c:4835
 msgid "known_y's,known_x's"
-msgstr ""
+msgstr "známe_y,zname_x"
 
 #: plugins/fn-stat/functions.c:4825
 msgid "x,mean,stddev"
-msgstr ""
+msgstr "x,priemer,odchýlka"
 
 #: plugins/fn-stat/functions.c:4837
 msgid "function_nbr,ref,ref,"
-msgstr ""
+msgstr "číslo_funkcie,ref,ref,"
 
 #: plugins/fn-stat/functions.c:4839
 msgid "x,dof,tails"
-msgstr ""
+msgstr "x,dof,konce"
 
 #: plugins/fn-stat/functions.c:4845
-#, fuzzy
 msgid "ref,fraction"
-msgstr "Operácia"
+msgstr "ref,zlomok"
 
 #: plugins/fn-stat/functions.c:4847
 msgid "array1,array2,tails,type"
-msgstr ""
+msgstr "pole1,pole2,konce,typ"
 
 #: plugins/fn-stat/functions.c:4857
 msgid "x.alpha,beta,cumulative"
-msgstr ""
+msgstr "x.alfa,beta,kumulatívne"
 
 #: plugins/fn-stat/functions.c:4859
 msgid "ref,x"
-msgstr ""
+msgstr "ref,x"
 
 #: plugins/fn-stat/plugin.xml.in.h:1
-#, fuzzy
 msgid "Statistical Functions"
-msgstr "Funkcia"
+msgstr "Štatistické funkcie"
 
 #: plugins/fn-stat/plugin.xml.in.h:2
 msgid "Statistics"
-msgstr "Štatistické"
+msgstr "Štatistika"
 
 #: plugins/fn-string/functions.c:56
 msgid ""
@@ -10857,9 +10824,8 @@ msgstr ""
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
 #: plugins/fn-string/functions.c:625
-#, fuzzy
 msgid "Arguments out of range"
-msgstr "Číslo je mimo rozsah"
+msgstr "Argumenty sú mimo rozsah"
 
 #: plugins/fn-string/functions.c:645
 msgid ""
@@ -11038,66 +11004,64 @@ msgstr ""
 
 #: plugins/fn-string/functions.c:1236
 msgid "text,text,"
-msgstr ""
+msgstr "text,text,"
 
 #: plugins/fn-string/functions.c:1237
-#, fuzzy
 msgid "num,decimals"
-msgstr "Odstrániť desatinné miesta"
+msgstr "počet,desatinné_miesta"
 
 #: plugins/fn-string/functions.c:1238
 msgid "text1,text2"
-msgstr ""
+msgstr "text1,text2"
 
 #: plugins/fn-string/functions.c:1239
 msgid "text1,text2,num"
-msgstr ""
+msgstr "text1,text2,počet"
 
 #: plugins/fn-string/functions.c:1240
 msgid "num,decs,no_commas"
-msgstr ""
+msgstr "počet,des,bez_čiarok"
 
 #: plugins/fn-string/functions.c:1241 plugins/fn-string/functions.c:1248
 msgid "text,num_chars"
-msgstr ""
+msgstr "text,počet_znakov"
 
 #: plugins/fn-string/functions.c:1245
 msgid "text,pos,num"
-msgstr ""
+msgstr "text,poz,počet"
 
 #: plugins/fn-string/functions.c:1246
 msgid "old,start,num,new"
-msgstr ""
+msgstr "starý,zač,počet,nový"
 
 #: plugins/fn-string/functions.c:1247
 msgid "text,num"
-msgstr ""
+msgstr "text,počet"
 
 #: plugins/fn-string/functions.c:1249
 msgid "find,within,start_num"
-msgstr ""
+msgstr "nájsť,v,zač_číslo"
 
 #: plugins/fn-string/functions.c:1250
 msgid "text,old,new,num"
-msgstr ""
+msgstr "text,starý,nový,počet"
 
 #: plugins/fn-string/functions.c:1252
 msgid "value,format_text"
-msgstr ""
+msgstr "hodnota,formát_textu"
 
 #: plugins/fn-string/plugin.xml.in.h:1
 msgid "Functions for manipulating strings"
-msgstr ""
+msgstr "Funkcie pre prácu s reťazcami"
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:140
 #: src/func.c:643
 msgid "String"
-msgstr "Textové"
+msgstr "Reťazec"
 
 #: plugins/fn-string/plugin.xml.in.h:3
-#, fuzzy
 msgid "String Functions"
-msgstr "Funkcie Python"
+msgstr "Textové funkcie"
 
 #: plugins/gb/plugin.c:138
 msgid "Unknown GB error"
@@ -11180,9 +11144,8 @@ msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Poskytuje podporu pre ukladanie Gnome Glossary do súborov .po."
 
 #: plugins/guile/plugin.c:107
-#, fuzzy
 msgid "Guile error"
-msgstr "Viacnásobné chyby"
+msgstr "Chyba Guile"
 
 #: plugins/guile/plugin.xml.in.h:1
 msgid "Guile Plugin"
@@ -11193,22 +11156,20 @@ msgid "This plugin enables Guile(scheme) support in Gnumeric"
 msgstr "Tento modul poskytuje podporu Guile(scheme) pre Gnumeric"
 
 #: plugins/guile/smob-value.c:102
-#, fuzzy
 msgid "Unable to convert value from Guile"
-msgstr "Nepodarilo sa zatvoriť súbor s modulom \"%s\"."
+msgstr "Nepodarilo sa previesť hodnotu z Guile"
 
 #: plugins/guile/smob-value.c:163
 msgid "Not a Guile boolean"
-msgstr ""
+msgstr "Nie je pravdivostná hodnota Guile"
 
 #: plugins/guile/smob-value.c:181
-#, fuzzy
 msgid "Not a Guile number"
-msgstr "Záporné číslo:"
+msgstr "Nie je číslo Guile"
 
 #: plugins/guile/smob-value.c:199
 msgid "Not a Guile string"
-msgstr ""
+msgstr "Nie je reťazec Guile"
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "DVI TeX (via groff)"
@@ -11386,7 +11347,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -11997,9 +11958,8 @@ msgid "Centers the text in each selection"
 msgstr "Vystredí vybraný text "
 
 #: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2864
-#, fuzzy
 msgid "Change Gnumeric Preferences"
-msgstr "externé referencie"
+msgstr "Zmeniť nastavenie Gnumeric"
 
 #: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3125
 msgid "Change height of the selected rows"
@@ -12251,7 +12211,7 @@ msgstr "Upraví mená listu a zošita"
 
 #: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3199
 msgid "Edit the Gnumeric Preferences"
-msgstr ""
+msgstr "Upraví nastavenie Gnumeric"
 
 #: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3096
 msgid "Edit the selected cell's comment"
@@ -12388,9 +12348,8 @@ msgid "Insert Shaped Component"
 msgstr "Vložiť tvarovaný komponent"
 
 #: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3090
-#, fuzzy
 msgid "Insert a function into the selected cell"
-msgstr "Vloží aktuálny čas do vybraných buniek"
+msgstr "Vloží funkciu do vybranej bunky"
 
 #: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:590
 #: src/workbook-control-gui.c:2945
@@ -12406,9 +12365,8 @@ msgid "Insert a shaped component into the spreadsheet"
 msgstr "Vloží tvarovaný komponent do zošitu"
 
 #: src/GNOME_Gnumeric.xml.h:118
-#, fuzzy
 msgid "Insert an image"
-msgstr "_Pridať nový"
+msgstr "Vloží obrázok"
 
 #: src/GNOME_Gnumeric.xml.h:119
 msgid "Insert an object into the spreadsheet"
@@ -12460,8 +12418,7 @@ msgstr "Opakovane prepočítava pre nájdenie cieľovej hodnoty"
 
 #: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3321
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
+msgstr "Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
 
 #: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:3006
 msgid "Jump to a specified cell"
@@ -12524,9 +12481,8 @@ msgstr "Správa dostupných modulov"
 
 #: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2953
 #: src/workbook-control-gui.c:3147
-#, fuzzy
 msgid "Manage the sheets in this workbook"
-msgstr "V zošite nie sú listy."
+msgstr "Správa listov v tomto zošite"
 
 #: src/GNOME_Gnumeric.xml.h:147
 msgid "Mark the current selection for movement"
@@ -12631,9 +12587,8 @@ msgid "Periodic and random samples"
 msgstr "Periodické a náhodné výbery"
 
 #: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2863
-#, fuzzy
 msgid "Preferen_ces..."
-msgstr "_Vlastnosti..."
+msgstr "Nas_tavenie..."
 
 #: src/GNOME_Gnumeric.xml.h:173 src/dialogs/print.glade.h:13
 #: src/workbook-control-gui.c:3429
@@ -12841,19 +12796,16 @@ msgid "Sort Descending"
 msgstr "Utriediť zostupne"
 
 #: src/GNOME_Gnumeric.xml.h:223
-#, fuzzy
 msgid "Sorts the selected cells"
 msgstr "Utriedi vybrané bunky"
 
 #: src/GNOME_Gnumeric.xml.h:224
-#, fuzzy
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected"
 msgstr "Utriedi vybranú oblasť vzostupne podľa prvého vybraného stĺpca"
 
 #: src/GNOME_Gnumeric.xml.h:225
-#, fuzzy
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected"
@@ -12938,7 +12890,6 @@ msgid "Undo the last action"
 msgstr "Vráti poslednú akciu"
 
 #: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3241
-#, fuzzy
 msgid "Unpaired Samples, _Equal Var.: T-Test"
 msgstr "Nepárové výbery, _rovnaké odchýlky: T-Test"
 
@@ -13084,14 +13035,12 @@ msgid "_Freeze Panes"
 msgstr "_Zmraziť rozdelenie okna"
 
 #: src/GNOME_Gnumeric.xml.h:278 src/workbook-control-gui.c:3089
-#, fuzzy
 msgid "_Function..."
-msgstr "_Funkcia:"
+msgstr "_Funkcia..."
 
 #: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3198
-#, fuzzy
 msgid "_Gnumeric..."
-msgstr "Gnumeric"
+msgstr "_Gnumeric..."
 
 #: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3316
 msgid "_Goal Seek..."
@@ -13132,9 +13081,8 @@ msgid "_Histogram"
 msgstr "_Histogram"
 
 #: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3085
-#, fuzzy
 msgid "_Image..."
-msgstr "_Pridať..."
+msgstr "_Obrázok..."
 
 #: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:2845
 msgid "_Import..."
@@ -13422,9 +13370,8 @@ msgid "Would split an array"
 msgstr "Rozdelí pole"
 
 #: src/commands.c:309
-#, fuzzy
 msgid "..."
-msgstr "Otvoriť..."
+msgstr "..."
 
 #: src/commands.c:737 src/commands.c:847
 msgid "Set Text"
@@ -13531,14 +13478,14 @@ msgid "Setting height of row %s to %d pixels"
 msgstr "Nastavenie výšky riadkov %s na %d bodov"
 
 #: src/commands.c:1734
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of column %s to default"
-msgstr "Nastavenie šírky stĺpcov %s na %d bodov"
+msgstr "Nastavenie šírky stĺpca %s na štandarnú"
 
 #: src/commands.c:1737
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of row %s to default"
-msgstr "Nastavenie výšky riadkov %s na %d bodov"
+msgstr "Nastavenie výšky riadku %s na štandardnú"
 
 #: src/commands.c:1741 src/commands.c:1742
 #, c-format
@@ -13556,14 +13503,14 @@ msgid "Setting height of rows %s to %d pixels"
 msgstr "Nastavenie výšky riadkov %s na %d bodov"
 
 #: src/commands.c:1751
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of columns %s to default"
-msgstr "Nastavenie šírky stĺpcov %s na %d bodov"
+msgstr "Nastavenie šírky stĺpcov %s na štandardnú"
 
 #: src/commands.c:1753
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of rows %s to default"
-msgstr "Nastavenie výšky riadkov %s na %d bodov"
+msgstr "Nastavenie výšky riadkov %s na štandardnú"
 
 #: src/commands.c:1836
 #, c-format
@@ -13771,33 +13718,29 @@ msgid "Changing summary info"
 msgstr "Zmena informácií súhrnu"
 
 #: src/commands.c:4963
-#, fuzzy
 msgid "Raise object"
-msgstr "Zmeniť veľkosť objektu"
+msgstr "Presun objektu vyššie"
 
 #: src/commands.c:4966
-#, fuzzy
 msgid "Lower object"
-msgstr "Presunúť objekt"
+msgstr "Presun objektu nižšie"
 
 #: src/commands.c:4969
-#, fuzzy
 msgid "Raise object to top"
-msgstr "Zmeniť veľkosť objektu"
+msgstr "Presun objektu dopredu"
 
 #: src/commands.c:4972
 msgid "Lower object to bottom"
-msgstr ""
+msgstr "Presun objektu dozadu"
 
 #: src/commands.c:5090
-#, fuzzy, c-format
+#, c-format
 msgid "Print Setup For %s"
-msgstr "Nastavenie tlače."
+msgstr "Nastavenie tlače pre %s"
 
 #: src/commands.c:5092
-#, fuzzy
 msgid "Print Setup For All Sheets"
-msgstr "Listy"
+msgstr "Nastavenie tlače pre všetky listy"
 
 #: src/dates.c:17
 msgid "*Sun"
@@ -14511,8 +14454,7 @@ msgstr "Veľké kruhy"
 
 #: src/dialogs/cell-format.glade.h:54
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr ""
-"Zamykanie buniek alebo skrývanie vzorcov má zmysel len u chránených listov."
+msgstr "Zamykanie buniek alebo skrývanie vzorcov má zmysel len u chránených listov."
 
 #: src/dialogs/cell-format.glade.h:55
 msgid "Message:"
@@ -14787,42 +14729,36 @@ msgid "_Wrap text"
 msgstr "Za_lamovať text"
 
 #: src/dialogs/cell-format.glade.h:129
-#, fuzzy
 msgid "min <= val <= max         (between)"
-msgstr "min &lt;= hodnota &lt;= max       (medzi)"
+msgstr "min <= hodnota <= max       (medzi)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "hodnota != hranica                  (rovná)"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
 msgid "val <  bound                  (less than)"
-msgstr "hodnota &lt;  hranica                 (menšia)"
+msgstr "hodnota <  hranica                 (menšia)"
 
 #: src/dialogs/cell-format.glade.h:132
-#, fuzzy
 msgid "val <= min || max <= val (not between)"
-msgstr "hodnota &lt;= min || max &lt;= hodnota (nie medzi)"
+msgstr "hodnota <= min || max <= hodnota (nie medzi)"
 
 #: src/dialogs/cell-format.glade.h:133
-#, fuzzy
 msgid "val <=bound                  (less than or equal to)"
-msgstr "hodnota &lt;= hranica                 (menšia alebo rovná)"
+msgstr "hodnota <= hranica                 (menšia alebo rovná)"
 
 #: src/dialogs/cell-format.glade.h:134
 msgid "val == bound                 (equal to)"
 msgstr "hodnota == hranica                 (rovná)"
 
 #: src/dialogs/cell-format.glade.h:135
-#, fuzzy
 msgid "val >  bound                  (greater than)"
-msgstr "hodnota &gt;  hranica                 (väčšia)"
+msgstr "hodnota >  hranica                 (väčšia)"
 
 #: src/dialogs/cell-format.glade.h:136
-#, fuzzy
 msgid "val >=bound                  (greater than or equal to)"
-msgstr "hodnota &gt;= hranica                 (väčšia alebo rovná)"
+msgstr "hodnota >= hranica                 (väčšia alebo rovná)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -14854,9 +14790,8 @@ msgid "Sort..."
 msgstr "Utriediť..."
 
 #: src/dialogs/cell-sort.glade.h:8
-#, fuzzy
 msgid "_Preserves Formats"
-msgstr "_Zachovať veľkosť písmen"
+msgstr "_Zachovať formát"
 
 #: src/dialogs/cell-sort.glade.h:9
 msgid "_Right-Left"
@@ -14867,7 +14802,6 @@ msgid "_Top-Bottom"
 msgstr "Z_hora dolu"
 
 #: src/dialogs/col-width.glade.h:1
-#, fuzzy
 msgid "Column Width"
 msgstr "Šírka stĺpca"
 
@@ -14876,9 +14810,8 @@ msgid "_Column width (pts):"
 msgstr "Ší_rka stĺpca (body):"
 
 #: src/dialogs/col-width.glade.h:3 src/dialogs/row-height.glade.h:3
-#, fuzzy
 msgid "_Use Default"
-msgstr "Štandardné"
+msgstr "_Použiť štandardné"
 
 #: src/dialogs/consolidate.glade.h:1
 msgid "Add the entered area to the list of source areas"
@@ -15342,8 +15275,7 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre výbery."
 
 #: src/dialogs/dialog-analysis-tools.c:2042 src/tools/analysis-tools.c:2152
 #: src/tools/analysis-tools.c:2230
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr "Pre každú premennú regresie musí byť rovnaký počet položiek."
 
 #: src/dialogs/dialog-analysis-tools.c:2160 src/dialogs/regression.glade.h:19
@@ -15376,22 +15308,21 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre histogram."
 
 #: src/dialogs/dialog-analysis-tools.c:3091
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr ""
-"Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
+msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
 
 #: src/dialogs/dialog-analysis-tools.c:3150
-#, fuzzy
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
-msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce dát a popisov."
+msgstr ""
+"Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce a dva "
+"riadky dát a popisov."
 
 #: src/dialogs/dialog-analysis-tools.c:3153
-#, fuzzy
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
-msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce dát a popisov."
+msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce a dva riadky dát."
 
 #: src/dialogs/dialog-analysis-tools.c:3159
 msgid ""
@@ -15400,25 +15331,22 @@ msgid ""
 msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce dát a popisov."
 
 #: src/dialogs/dialog-analysis-tools.c:3162
-#, fuzzy
 msgid "The given input range should contain at least two columns of data."
-msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce dát a popisov."
+msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce dát."
 
 #: src/dialogs/dialog-analysis-tools.c:3168
-#, fuzzy
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
-msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce dát a popisov."
+msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva riadky dát a popisov."
 
 #: src/dialogs/dialog-analysis-tools.c:3171
-#, fuzzy
 msgid "The given input range should contain at least two rows of data."
-msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce dát a popisov."
+msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva riadky dát."
 
 #: src/dialogs/dialog-analysis-tools.c:3177
 msgid "The number of data rows must be a multiple of the replication number."
-msgstr ""
+msgstr "Počet riadkov dát musí byť násobok počtu replikácií."
 
 #: src/dialogs/dialog-analysis-tools.c:3312
 msgid "Could not create the ANOVA (two factor) tool dialog."
@@ -15587,7 +15515,7 @@ msgstr "Hodnota:"
 
 #: src/dialogs/dialog-cell-format.c:2399
 msgid "The validation criteria are unusable. Disable validation?"
-msgstr ""
+msgstr "Validačné kritérium je nepoužiteľné. Vypnúť validáciu?"
 
 #: src/dialogs/dialog-cell-format.c:2663 src/workbook-format-toolbar.c:816
 msgid "Clear Background"
@@ -15620,15 +15548,13 @@ msgid "Could not create the Cell-Sort dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg pre triedenie buniek."
 
 #: src/dialogs/dialog-col-width.c:224
-#, fuzzy
 msgid "Set standard/default column width"
 msgstr "Zmení štandardnú šírku stĺpca"
 
 #: src/dialogs/dialog-col-width.c:229
 #, c-format
-msgid ""
-"Set column width of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr ""
+msgid "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
+msgstr "Nastaviť šírku stĺpca výberu na <span style='italic' weight='bold'>%s</span>"
 
 #: src/dialogs/dialog-consolidate.c:136
 #, c-format
@@ -15945,21 +15871,23 @@ msgstr "Popis"
 
 #: src/dialogs/dialog-preferences.c:657
 msgid "The items on this page customize the behaviour of the undo/redo system."
-msgstr ""
+msgstr "Položky na tejto stránke upravujú chovanie systému krokov späť."
 
 #: src/dialogs/dialog-preferences.c:796
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
+"Položky na tejto stránke upravujú počiatočné nastavenia v "
+"dialógu triedenia a chovanie tlačidiel triedenia v paneloch nástrojov."
 
 #: src/dialogs/dialog-preferences.c:931
 msgid "The items on this page customize the new default workbook."
-msgstr ""
+msgstr "Položky na tejto stránke upravujú štandardný nový zošiť."
 
 #: src/dialogs/dialog-preferences.c:1103
 msgid "The items on this page are related to the saving and opening of files."
-msgstr ""
+msgstr "Položky na tejto stránke sa týkajú ukladania a otvárania súborov."
 
 #: src/dialogs/dialog-printer-setup.c:859
 msgid "Customize header"
@@ -16058,15 +15986,13 @@ msgid "Could not create the Random Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre popisnú štatistiku."
 
 #: src/dialogs/dialog-row-height.c:224
-#, fuzzy
 msgid "Set standard/default row height"
 msgstr "Zmení štandardnú výšku riadku"
 
 #: src/dialogs/dialog-row-height.c:229
 #, c-format
-msgid ""
-"Set row height of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr ""
+msgid "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
+msgstr "Nastaviť výšku riadku výberu na <span style='italic' weight='bold'>%s</span>"
 
 #: src/dialogs/dialog-search-replace.c:148 src/dialogs/dialog-search.c:358
 msgid "You must select some cell types to search."
@@ -16138,7 +16064,7 @@ msgstr "Celé číslo"
 msgid "Bool"
 msgstr "Bool"
 
-#: src/dialogs/dialog-solver.c:682
+#: src/dialogs/dialog-solver.c:683
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -16146,7 +16072,7 @@ msgstr ""
 "Riešiteľ našiel optimálne riešenie. Všetky obmedzenia a podmienky "
 "optimálnosti sú uspokojené.\n"
 
-#: src/dialogs/dialog-solver.c:691
+#: src/dialogs/dialog-solver.c:692
 msgid ""
 "Sensitivity nor limits report are not meaningful if the program has integer "
 "constraints. These reports will thus not be created."
@@ -16154,26 +16080,23 @@ msgstr ""
 "Správy o citlivosti a limitoch nemajú zmysel, ak program má celočíselné "
 "obmedzenia. Tieto správy preto nebudú vygenerované."
 
-#: src/dialogs/dialog-solver.c:709
-msgid ""
-"The Target Cell value specified does not converge!  The program is unbounded."
+#: src/dialogs/dialog-solver.c:710
+msgid "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr "Hodnota cieľovej bunky nekonverguje! Program je neohraničený."
 
-#: src/dialogs/dialog-solver.c:723
+#: src/dialogs/dialog-solver.c:724
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
-msgstr ""
-"Vhodné riešenie nenájdené. Všetky obmedzenia naraz nie je možné dosiahnuť."
+msgstr "Vhodné riešenie nenájdené. Všetky obmedzenia naraz nie je možné dosiahnuť."
 
-#: src/dialogs/dialog-solver.c:738
+#: src/dialogs/dialog-solver.c:739
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
-msgstr ""
-"Presiahnutý maximálny počet iterácií. Optimálnu hodnotu sa nepodarilo nájsť."
+msgstr "Presiahnutý maximálny počet iterácií. Optimálnu hodnotu sa nepodarilo nájsť."
 
-#: src/dialogs/dialog-solver.c:752
+#: src/dialogs/dialog-solver.c:753
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
@@ -16181,32 +16104,32 @@ msgstr ""
 "Presiahnutý maximálny čas. Optimálnu hodnotu sa v zadanom čase nepodarilo "
 "nájsť."
 
-#: src/dialogs/dialog-solver.c:792
+#: src/dialogs/dialog-solver.c:796
 msgid "Unknown error."
 msgstr "Neznáma chyba."
 
-#: src/dialogs/dialog-solver.c:809
+#: src/dialogs/dialog-solver.c:813
 msgid "You have not specified a problem to be solved"
 msgstr "Nezadali ste problém, ktorý sa má riešiť"
 
-#: src/dialogs/dialog-solver.c:828 src/tools/solver/solver.c:392
+#: src/dialogs/dialog-solver.c:832 src/tools/solver/solver.c:392
 msgid "Target cell should contain a formula."
 msgstr "Cieľová bunka by mala obsahovať výraz."
 
-#: src/dialogs/dialog-solver.c:861
+#: src/dialogs/dialog-solver.c:865
 msgid "The value given in 'Max Iterations' is not valid."
 msgstr "Hodnota zadaná do 'Max. iterácií' nie je platná."
 
-#: src/dialogs/dialog-solver.c:872
+#: src/dialogs/dialog-solver.c:876
 msgid "The value given in 'Max Time (sec.)' is not valid."
 msgstr "Hodnota zadaná do 'Max. čas (sek.)' nie je platná."
 
-#: src/dialogs/dialog-solver.c:909
+#: src/dialogs/dialog-solver.c:913
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Obmedzenie '%s' je pre bunku, ktorá nie je vstupná."
 
-#: src/dialogs/dialog-solver.c:1216
+#: src/dialogs/dialog-solver.c:1220
 msgid "Could not create the Solver dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre riešiteľa."
 
@@ -16232,24 +16155,20 @@ msgid "'"
 msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
 msgid "<- Remove"
-msgstr "Odstrániť"
+msgstr "<- Odstrániť"
 
 #: src/dialogs/dialog-stf-export.glade.h:4
-#, fuzzy
 msgid "<- Remove all"
-msgstr "&lt;- Odstrániť všetky"
+msgstr "<- Odstrániť všetky"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
-#, fuzzy
 msgid "Add ->"
-msgstr "Pridať"
+msgstr "Pridať ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-#, fuzzy
 msgid "Add all ->"
-msgstr "Pridať všetky -&gt;"
+msgstr "Pridať všetky ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -16389,14 +16308,6 @@ msgstr "RIADKY PRÍLIŠ DLHÉ!"
 msgid "Data (from %s)"
 msgstr "Dáta (z %s)"
 
-#. xgettext:
-#. * The name of the default font for this locale.
-#. * Preferably something with the correct encoding.
-#.
-#: src/dialogs/dialog-stf-preview.c:630 src/style.c:173
-msgid "fixed"
-msgstr "fixed"
-
 #: src/dialogs/dialog-stf-preview.h:32
 #, c-format
 msgid "Column %d"
@@ -16494,8 +16405,7 @@ msgstr "Definujte šírku každého stĺpca ručne."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr ""
-"Každý stĺpec textu je oddelený 'oddeľovacím' znakom, napríklad bodkočiarkou."
+msgstr "Každý stĺpec textu je oddelený 'oddeľovacím' znakom, napríklad bodkočiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -16600,10 +16510,8 @@ msgid "See two successive separators as one."
 msgstr "Chápať dva za sebou idúce oddeľovače ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
-msgstr ""
-"Chápať dva za sebou idúce indikátory textu ako jeden, ktorý neukončuje bunku."
+msgid "See two successive text indicators as one that does not terminate the cell."
+msgstr "Chápať dva za sebou idúce indikátory textu ako jeden, ktorý neukončuje bunku."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -17126,9 +17034,8 @@ msgid "Plugin Manager"
 msgstr "Správca modulov"
 
 #: src/dialogs/plugin-manager.glade.h:10
-#, fuzzy
 msgid "Plugin _list"
-msgstr "Zoznam modulov"
+msgstr "_Zoznam modulov"
 
 #: src/dialogs/plugin-manager.glade.h:11
 msgid "_Activate all plugins"
@@ -17139,18 +17046,16 @@ msgid "_Deactivate all plugins"
 msgstr "_Deaktivovať všetky moduly"
 
 #: src/dialogs/plugin-manager.glade.h:13
-#, fuzzy
 msgid "_Directories"
-msgstr "Priečinok"
+msgstr "_Priečinky"
 
 #: src/dialogs/plugin-manager.glade.h:14
-#, fuzzy
 msgid "_Plugin details"
-msgstr "Detaily modulu"
+msgstr "Detaily _modulu"
 
 #: src/dialogs/plugin-manager.glade.h:15
 msgid "_Scan plugin directories"
-msgstr ""
+msgstr "_Prehľadať priečinky modulov"
 
 #: src/dialogs/print.glade.h:2
 #, no-c-format
@@ -17158,13 +17063,12 @@ msgid "% of normal size"
 msgstr "% normálnej veľkosti"
 
 #: src/dialogs/print.glade.h:3
-#, fuzzy
 msgid "Apply _to:"
-msgstr "Použiť _písma"
+msgstr "Použiť _na:"
 
 #: src/dialogs/print.glade.h:4
 msgid "Apply to _all sheets."
-msgstr ""
+msgstr "Použiť na _všetky listy:"
 
 #: src/dialogs/print.glade.h:5
 msgid "Center on page"
@@ -17329,7 +17233,6 @@ msgid "_Force Intercept To Be Zero"
 msgstr "_Vynútiť priechod nulou"
 
 #: src/dialogs/row-height.glade.h:1
-#, fuzzy
 msgid "Row Height"
 msgstr "Výška riadku"
 
@@ -17658,9 +17561,8 @@ msgid "Manage Sheets..."
 msgstr "Správa listov..."
 
 #: src/dialogs/so-arrow.glade.h:1
-#, fuzzy
 msgid "Configure Arrow/Line"
-msgstr "Nastavenie čiary alebo šipky"
+msgstr "Nastaviť čiaru/šipku"
 
 #: src/dialogs/so-arrow.glade.h:2
 msgid "Distance from tip of arrowhead to the center point"
@@ -17679,9 +17581,8 @@ msgid "Checkbox Configure"
 msgstr "Nastavenie zaškrtávacieho tlačidla"
 
 #: src/dialogs/so-fill.glade.h:1
-#, fuzzy
 msgid "Configure Filled Object"
-msgstr "Nastaví vyplnený objekt"
+msgstr "Nastaviť vyplnený objekt"
 
 #: src/dialogs/so-scrollbar.glade.h:1
 msgid "Scrollbar Configure"
@@ -17728,12 +17629,11 @@ msgstr "Max ča_s (sek.)"
 #: src/dialogs/solver.glade.h:15 src/tools/solver/reports-write.c:813
 #: src/tools/solver/reports-write.c:821
 msgid "Model Assumptions:"
-msgstr ""
+msgstr "Predpoklady modelu:"
 
 #: src/dialogs/solver.glade.h:16
-#, fuzzy
 msgid "Options:"
-msgstr "Možnosti"
+msgstr "Možnosti:"
 
 #: src/dialogs/solver.glade.h:17
 msgid "P_rogram"
@@ -17880,8 +17780,7 @@ msgid "Tabulate Dependency"
 msgstr "Tabulovať závislosti"
 
 #: src/dialogs/tabulate.glade.h:10
-msgid ""
-"Use down for first source, right for second, and multiple sheets for third"
+msgid "Use down for first source, right for second, and multiple sheets for third"
 msgstr "Prejsť dolu pre prvý zdroj, vpravo pre druhý a ďalšie listy pre tretí"
 
 #: src/dialogs/tabulate.glade.h:11
@@ -17999,8 +17898,7 @@ msgid "Saving over old files of this type is disabled for safety."
 msgstr "Uloženie do starých súborov tohto typu je kvôli bezpečenosti vypnuté."
 
 #: src/file.c:493
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Túto funkciu môžete bezpečne vypnúť úpravou zodpovedajúceho súboru plugin."
 "xml."
@@ -18019,10 +17917,8 @@ msgstr "Nie je šablóna autoformátu"
 
 #: src/format-template.c:968
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
-msgstr ""
-"Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
+msgstr "Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
 
 #: src/format-template.c:972
 #, c-format
@@ -19498,9 +19394,8 @@ msgstr ""
 "@SEEALSO="
 
 #: src/func-builtin.c:239
-#, fuzzy
 msgid "permit_intersection"
-msgstr "Na stred výberu"
+msgstr "permit_intersection"
 
 #: src/func.c:95
 #, c-format
@@ -19666,9 +19561,8 @@ msgid "Which file format would you like?"
 msgstr "Ktorý formát súboru chcete?"
 
 #: src/gui-util.c:252
-#, fuzzy
 msgid "Multiple errors\n"
-msgstr "Viacnásobné chyby"
+msgstr "Viacnásobné chyby\n"
 
 #: src/gui-util.c:794
 #, c-format
@@ -19679,15 +19573,13 @@ msgstr "Súbor '%s' sa nedá otvoriť"
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "modfgnum."
-msgstr ""
-"Táto verzia Gnumeric bola preložená s nedostatočnou presnosťou modfgnum."
+msgstr "Táto verzia Gnumeric bola preložená s nedostatočnou presnosťou modfgnum."
 
 #: src/gutils.c:629
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "frexpgnum."
-msgstr ""
-"Táto verzia Gnumeric bola preložená s nedostatočnou presnosťou frexpgnum."
+msgstr "Táto verzia Gnumeric bola preložená s nedostatočnou presnosťou frexpgnum."
 
 #: src/gutils.c:682
 msgid ""
@@ -20523,6 +20415,14 @@ msgstr "Import textového súboru (nastaviteľné)"
 msgid "Text export (configurable)"
 msgstr "Export textového súboru (nastaviteľné)"
 
+#. xgettext:
+#. * The name of the default font for this locale.
+#. * Preferably something with the correct encoding.
+#.
+#: src/style.c:173
+msgid "fixed"
+msgstr "fixed"
+
 #: src/tools/analysis-tools.c:214 src/tools/analysis-tools.c:3260
 #, c-format
 msgid "Row %i"
@@ -20548,18 +20448,18 @@ msgid "Correlations"
 msgstr "Korelácie"
 
 #: src/tools/analysis-tools.c:761
-#, fuzzy, c-format
+#, c-format
 msgid "Correlation (%s)"
-msgstr "Korelácie"
+msgstr "Korelácia (%s)"
 
 #: src/tools/analysis-tools.c:815
 msgid "Covariances"
 msgstr "Kovariancie"
 
 #: src/tools/analysis-tools.c:871
-#, fuzzy, c-format
+#, c-format
 msgid "Covariance (%s)"
-msgstr "Kovariancie"
+msgstr "Kovariancia (%s)"
 
 #.
 #. * Note to translators: in the following string and others like it,
@@ -20592,18 +20492,18 @@ msgid "Smallest (%d)"
 msgstr "Najmenší (%d)"
 
 #: src/tools/analysis-tools.c:1166
-#, fuzzy, c-format
+#, c-format
 msgid "Descriptive Statistics (%s)"
-msgstr "Popisná štatistika"
+msgstr "Popisná štatistika (%s)"
 
 #: src/tools/analysis-tools.c:1244
 msgid "The requested sample size is to large for a periodic sample."
-msgstr ""
+msgstr "Požadovaná veľkosť výberu je veľká pre periodický výber."
 
 #: src/tools/analysis-tools.c:1292
-#, fuzzy, c-format
+#, c-format
 msgid "Sampling (%s)"
-msgstr "Výbery"
+msgstr "Výbery (%s)"
 
 #: src/tools/analysis-tools.c:1336 src/tools/analysis-tools.c:1338
 #: src/tools/analysis-tools.c:1471 src/tools/analysis-tools.c:1473
@@ -20626,16 +20526,15 @@ msgstr ""
 "alternatívu"
 
 #: src/tools/analysis-tools.c:1418
-#, fuzzy, c-format
+#, c-format
 msgid "z-Test (%s)"
-msgstr "z-Test"
+msgstr "z-Test (%s)"
 
 #: src/tools/analysis-tools.c:1428 src/tools/analysis-tools.c:1431
 msgid "z-Test"
 msgstr "z-Test"
 
 #: src/tools/analysis-tools.c:1479
-#, fuzzy
 msgid "The 2 input ranges must have the same size."
 msgstr "Dva vstupné intervaly musia mať rovnakú veľkosť."
 
@@ -20653,7 +20552,7 @@ msgstr ""
 #: src/tools/analysis-tools.c:1608
 #, c-format
 msgid "t-Test, paired (%s)"
-msgstr ""
+msgstr "t-Test, párový (%s)"
 
 #: src/tools/analysis-tools.c:1618 src/tools/analysis-tools.c:1621
 #: src/tools/analysis-tools.c:1763 src/tools/analysis-tools.c:1766
@@ -20673,9 +20572,9 @@ msgstr ""
 "obojstrannú alternatívu/kritická hodnota t pre obojstrannú alternatívu"
 
 #: src/tools/analysis-tools.c:1753 src/tools/analysis-tools.c:1891
-#, fuzzy, c-format
+#, c-format
 msgid "t-Test (%s)"
-msgstr "t-Test"
+msgstr "t-Test (%s)"
 
 #: src/tools/analysis-tools.c:1794
 msgid ""
@@ -20690,7 +20589,7 @@ msgstr ""
 
 #: src/tools/analysis-tools.c:1949
 msgid "A data set is empty"
-msgstr ""
+msgstr "Množina dát prázdna"
 
 #: src/tools/analysis-tools.c:1957
 msgid ""
@@ -20703,9 +20602,9 @@ msgstr ""
 "kritická hodnota F pre obojstrannú alternatívu"
 
 #: src/tools/analysis-tools.c:2059
-#, fuzzy, c-format
+#, c-format
 msgid "F-Test (%s)"
-msgstr "F-Test"
+msgstr "F-Test (%s)"
 
 #: src/tools/analysis-tools.c:2069 src/tools/analysis-tools.c:2072
 msgid "F-Test"
@@ -20773,8 +20672,7 @@ msgstr ""
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
-msgstr ""
-"Pravdepodobnosť absolútnej hodnoty pozorovania je väčšia ako t-hodnoty."
+msgstr "Pravdepodobnosť absolútnej hodnoty pozorovania je väčšia ako t-hodnoty."
 
 #: src/tools/analysis-tools.c:2399
 msgid ""
@@ -20785,23 +20683,23 @@ msgstr ""
 "Nespoliehajte sa na výsledok regresie."
 
 #: src/tools/analysis-tools.c:2414
-#, fuzzy, c-format
+#, c-format
 msgid "Regression (%s)"
-msgstr "Regresia"
+msgstr "Regresia (%s)"
 
 #: src/tools/analysis-tools.c:2478
 msgid "Standard Error"
 msgstr "Smerodajná chyba"
 
 #: src/tools/analysis-tools.c:2539
-#, fuzzy, c-format
+#, c-format
 msgid "Moving Average (%s)"
-msgstr "Kĺzavé priemery"
+msgstr "Kĺzavé priemery (%s)"
 
 #: src/tools/analysis-tools.c:2632
-#, fuzzy, c-format
+#, c-format
 msgid "Exponential Smoothing (%s)"
-msgstr "Exponenciálne vyhladenie"
+msgstr "Exponenciálne vyhladenie (%s)"
 
 #: src/tools/analysis-tools.c:2645 src/tools/analysis-tools.c:2648
 msgid "Exponential Smoothing"
@@ -20816,14 +20714,13 @@ msgid "Rank"
 msgstr "Rozloženie"
 
 #: src/tools/analysis-tools.c:2703
-#, fuzzy
 msgid "Percentile"
-msgstr "Percento"
+msgstr "Percentil"
 
 #: src/tools/analysis-tools.c:2763
-#, fuzzy, c-format
+#, c-format
 msgid "Ranks (%s)"
-msgstr "%s (%s)"
+msgstr "Triedy (%s)"
 
 #: src/tools/analysis-tools.c:2775 src/tools/analysis-tools.c:2778
 msgid "Ranks"
@@ -20864,7 +20761,6 @@ msgid "Single Factor ANOVA"
 msgstr "Jednoduché triedenie ANOVA"
 
 #: src/tools/analysis-tools.c:3076
-#, fuzzy
 msgid "The input range contains non-numeric data."
 msgstr "Zadaný vstupný rozsah obsahuje nečíselné dáta."
 
@@ -20881,7 +20777,6 @@ msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Zdroj variability/Riadky/Stĺpce/Chyba/Celkom"
 
 #: src/tools/analysis-tools.c:3305
-#, fuzzy
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "Jedna z kombinácií faktorov neobsahuje žiadne pozorovania."
 
@@ -20901,17 +20796,16 @@ msgstr "/ANOVA/Zdroj variability/Riadky/Stĺpce/Interakcia/V rámci"
 #: src/tools/analysis-tools.c:3631
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
-msgstr ""
+msgstr "Dvojité triedenie ANOVA (%s) bez opakovania"
 
 #: src/tools/analysis-tools.c:3632
-#, fuzzy, c-format
+#, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
-msgstr "Anova: Dvojité triedenie s opakovaním"
+msgstr "Dvojité triedenie ANOVA (%s) s opakovaním"
 
 #: src/tools/analysis-tools.c:3650
-#, fuzzy
 msgid "Two Factor ANOVA"
-msgstr "Jednoduché triedenie ANOVA"
+msgstr "Dvojité triedenie ANOVA"
 
 #: src/tools/analysis-tools.c:3829
 #, c-format
@@ -20949,9 +20843,9 @@ msgid "Cumulative %"
 msgstr "Kumulatívne %"
 
 #: src/tools/analysis-tools.c:4015
-#, fuzzy, c-format
+#, c-format
 msgid "Histogram (%s)"
-msgstr "Histogram"
+msgstr "Histogram (%s)"
 
 #: src/tools/analysis-tools.c:4122 src/tools/solver/reports-write.c:749
 msgid "Real"
@@ -20964,12 +20858,11 @@ msgstr "Imaginárna"
 #: src/tools/analysis-tools.c:4183
 #, c-format
 msgid "Fourier Series (%s)"
-msgstr ""
+msgstr "Fourierove rady (%s)"
 
 #: src/tools/analysis-tools.c:4195 src/tools/analysis-tools.c:4198
-#, fuzzy
 msgid "Fourier Series"
-msgstr "Fourierova analýza"
+msgstr "Fourierove rady"
 
 #: src/tools/dao.c:121
 msgid "New Sheet"
@@ -21004,9 +20897,9 @@ msgid "The probabilities may not all be 0!"
 msgstr "Pravdepodobnosti nemôžu byť všetky 0."
 
 #: src/tools/random-generator.c:301
-#, fuzzy, c-format
+#, c-format
 msgid "Random Numbers (%s)"
-msgstr "Náhodné čísla"
+msgstr "Náhodné čísla (%s)"
 
 #: src/tools/solver/reports-write.c:108
 msgid "Gnumeric Solver"
@@ -21051,9 +20944,9 @@ msgstr "Záväzný"
 msgid "Not Binding"
 msgstr "Nezáväzný"
 
-#: src/tools/solver/reports-write.c:263 src/tools/solver/reports-write.c:995
+#: src/tools/solver/reports-write.c:263 src/tools/solver/reports-write.c:998
 msgid "Assume that all variables are integer."
-msgstr ""
+msgstr "Predpokladať, že všetky premenné sú celočíselné."
 
 #: src/tools/solver/reports-write.c:273
 msgid "Target Cell (Maximize)"
@@ -21177,41 +21070,36 @@ msgid "Performance Report"
 msgstr "Správa o výkone"
 
 #: src/tools/solver/reports-write.c:609
-#, fuzzy
 msgid "Minimization"
-msgstr "Zväčšenie"
+msgstr "Minimalizácia"
 
 #: src/tools/solver/reports-write.c:612
-#, fuzzy
 msgid "Maximization"
-msgstr "Zväčšenie"
+msgstr "Maximalizácia"
 
 #: src/tools/solver/reports-write.c:615
-#, fuzzy
 msgid "Target value search"
-msgstr "Začať hľadanie"
+msgstr "Hľadanie cieľovej hodnoty"
 
 #: src/tools/solver/reports-write.c:622
 msgid "Optimal solution found"
-msgstr ""
+msgstr "Nájdené optimálne riešenie"
 
 #: src/tools/solver/reports-write.c:625
 msgid "Unbounded problem"
-msgstr ""
+msgstr "Neohraničený problém"
 
 #: src/tools/solver/reports-write.c:628
 msgid "Infeasible problem"
-msgstr ""
+msgstr "Neriešiteľný problém"
 
 #: src/tools/solver/reports-write.c:632
-#, fuzzy
 msgid "Maximum number of iterations exceeded: optimization interupted"
-msgstr ""
-"Presiahnutý maximálny počet iterácií. Optimálnu hodnotu sa nepodarilo nájsť."
+msgstr "Presiahnutý maximálny počet iterácií: optimalizácia prerušená"
 
 #: src/tools/solver/reports-write.c:637
 msgid "Maximum time exceeded: optimization interupted"
-msgstr ""
+msgstr "Prekročený maximálny čas: optimalizácia prerušená"
 
 #.
 #. * Fill in the labels of `Problem Size' section.
@@ -21305,19 +21193,16 @@ msgid "Algorithm:"
 msgstr "Algoritmus:"
 
 #: src/tools/solver/reports-write.c:814
-#, fuzzy
 msgid "Autoscaling:"
-msgstr "Automatické škálovanie"
+msgstr "Automatické škálovanie:"
 
 #: src/tools/solver/reports-write.c:815
-#, fuzzy
 msgid "Max Iterations:"
-msgstr "Max _iterácií"
+msgstr "Max iterácií:"
 
 #: src/tools/solver/reports-write.c:816
-#, fuzzy
 msgid "Max Time:"
-msgstr "Max :"
+msgstr "Max čas:"
 
 #. Set the options.
 #: src/tools/solver/reports-write.c:820
@@ -21325,28 +21210,25 @@ msgid "LP Solve 3.2"
 msgstr "LP Solve 3.2"
 
 #: src/tools/solver/reports-write.c:829
-#, fuzzy
 msgid "Non-Negative"
-msgstr "Predpokladať _nezáporné"
+msgstr "Nie nezáporné"
 
 #: src/tools/solver/reports-write.c:834
 msgid "Yes"
-msgstr ""
+msgstr "Áno"
 
 #: src/tools/solver/reports-write.c:836
-#, fuzzy
 msgid "No"
-msgstr "Žiadne"
+msgstr "Nie"
 
 #. Fill in other titles.
 #: src/tools/solver/reports-write.c:858
-#, fuzzy
 msgid "General Information"
-msgstr "Informácie"
+msgstr "Všeobecné informácie"
 
 #: src/tools/solver/reports-write.c:859
 msgid "Problem Size"
-msgstr ""
+msgstr "Veľkosť problému"
 
 #: src/tools/solver/reports-write.c:860
 msgid "Data Sparsity"
@@ -21360,28 +21242,28 @@ msgstr "Čas výpočtu"
 msgid "System Information"
 msgstr "Systémové informácie"
 
-#: src/tools/solver/reports-write.c:878 src/tools/solver/reports-write.c:1015
+#: src/tools/solver/reports-write.c:878 src/tools/solver/reports-write.c:1018
 msgid "Program Report"
 msgstr "Správa o programe"
 
-#: src/tools/solver/reports-write.c:1004
+#: src/tools/solver/reports-write.c:1007
 msgid "Assume that all variables take only positive values."
-msgstr ""
+msgstr "Predpokladať, že všetky premenné sú iba kladné."
 
-#: src/tools/solver/reports-write.c:1020
+#: src/tools/solver/reports-write.c:1023
 msgid "Minimize"
 msgstr "Minimalizovať"
 
-#: src/tools/solver/reports-write.c:1023
+#: src/tools/solver/reports-write.c:1026
 msgid "Maximize"
 msgstr "Maximalizovať"
 
-#: src/tools/solver/reports-write.c:1026
+#: src/tools/solver/reports-write.c:1029
 msgid "Equal to"
 msgstr "Rovnaké ako"
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:1032
+#: src/tools/solver/reports-write.c:1035
 msgid "Subject to"
 msgstr "Vzhľadom na"
 
@@ -21389,9 +21271,17 @@ msgstr "Vzhľadom na"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:1047 src/tools/solver/reports-write.c:1060
+#: src/tools/solver/reports-write.c:1056 src/tools/solver/reports-write.c:1069
 msgid "Dual Program Report"
 msgstr "Dvojitá správa o programe"
+
+#: src/tools/solver/reports.c:365
+msgid ""
+"Model is too large for program report generation. Program report was not "
+"created."
+msgstr ""
+"Model je príliš veľký, aby program mohol vygenerovať správu. "
+"Správa nebola vytvorená."
 
 #: src/tools/solver/solver.c:408
 msgid ""
@@ -21525,26 +21415,24 @@ msgstr "Opakovať vrátené"
 
 #: src/workbook-control-gui.c:1196
 msgid "Password :"
-msgstr ""
+msgstr "Heslo:"
 
 #: src/workbook-control-gui.c:1345
-#, fuzzy, c-format
+#, c-format
 msgid "Workbook '%s' has unsaved changes :"
-msgstr "Zošit %s obsahuje zmeny, ktoré neboli uložené, uložiť?"
+msgstr "Zošit %s obsahuje zmeny, ktoré neboli uložené:"
 
 #: src/workbook-control-gui.c:1348
-#, fuzzy
 msgid "Workbook has unsaved changes :"
-msgstr "Zošit obsahuje zmeny, ktoré neboli uložené, uložiť?"
+msgstr "Zošit obsahuje zmeny, ktoré neboli uložené:"
 
 #: src/workbook-control-gui.c:1357
 msgid "Don't Quit"
-msgstr ""
+msgstr "Nekončiť"
 
 #: src/workbook-control-gui.c:1358
-#, fuzzy
 msgid "Discard All"
-msgstr "Zahodiť"
+msgstr "Zahodiť všetko"
 
 #: src/workbook-control-gui.c:1359 src/workbook-control-gui.c:1366
 #: src/workbook-control-gui.c:4730 src/workbook-control-gui.c:4735
@@ -21552,13 +21440,12 @@ msgid "Discard"
 msgstr "Zahodiť"
 
 #: src/workbook-control-gui.c:1360
-#, fuzzy
 msgid "Save All"
-msgstr "Uložiť"
+msgstr "Uložiť všetko"
 
 #: src/workbook-control-gui.c:1365
 msgid "Don't Close"
-msgstr ""
+msgstr "Nezatvárať"
 
 #: src/workbook-control-gui.c:1917
 #, c-format
@@ -21601,14 +21488,12 @@ msgid "Insert columns"
 msgstr "Vložiť stĺpce"
 
 #: src/workbook-control-gui.c:2533 src/workbook-control-gui.c:2551
-#, fuzzy
 msgid "Show Detail"
-msgstr "_Zobraziť detaily"
+msgstr "Zobraziť detaily"
 
 #: src/workbook-control-gui.c:2533 src/workbook-control-gui.c:2551
-#, fuzzy
 msgid "Hide Detail"
-msgstr "_Skryť detaily"
+msgstr "Skryť detaily"
 
 #: src/workbook-control-gui.c:2539
 msgid "can only be performed on an existing group"
@@ -21640,8 +21525,7 @@ msgid "Select all the cells that depend on the current edit cell."
 msgstr "Vyberie všetky bunky, ktoré závisia na aktuálne upravovanej bunke."
 
 #: src/workbook-control-gui.c:2927
-msgid ""
-"Merges columnar data into a sheet creating duplicate sheets for each row."
+msgid "Merges columnar data into a sheet creating duplicate sheets for each row."
 msgstr ""
 "Spojí stĺpcové dáta do listu vytvorením duplikovaných listov pre každý "
 "riadok."
@@ -21667,9 +21551,8 @@ msgid "Use the current selection to create names"
 msgstr "Použije aktuálny výber pre vytvorenie mien"
 
 #: src/workbook-control-gui.c:3086
-#, fuzzy
 msgid "Insert an image..."
-msgstr "_Pridať..."
+msgstr "Vložiť obrázok..."
 
 #: src/workbook-control-gui.c:3170
 msgid "Hide _Column Header"
@@ -22339,3 +22222,4 @@ msgstr "Súborový formát Gnumeric XML"
 
 #~ msgid "Sheet name"
 #~ msgstr "Meno listu"
+
