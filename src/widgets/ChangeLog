@@ -1,5 +1,7 @@
 2000-04-05  Jody Goldberg <jgoldberg@home.com>
 
+	* widget-color-combo.c (color_combo_finalize) : Unref the tooltip too.
+
 	* gtk-combo-text.c (gtk_combo_text_destroy) : New routine.
 	(gtk_combo_text_class_init) : Install a destructor.
 

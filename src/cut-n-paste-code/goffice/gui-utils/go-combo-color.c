@@ -37,6 +37,7 @@ struct _ColorCombo {
 	GnomeCanvasItem *preview_color_item;
 
 	GtkWidget       *color_table;
+	GtkTooltips     *tool_tip;
 
 	/*
 	 * Array of colors
@@ -106,8 +107,14 @@ color_combo_finalize (GtkObject *object)
 {
 	ColorCombo *cc = COLOR_COMBO (object);
 
-	if (cc->current)
+	if (cc->current) {
 		g_free (cc->current);
+		cc->current = NULL;
+	}
+	if (cc->tool_tip) {
+		gtk_object_unref (GTK_OBJECT (cc->tool_tip));
+		cc->tool_tip = NULL;
+	}
 	
 	if (cc->custom_color_allocated) {
 	        gdk_colormap_free_colors (gdk_imlib_get_colormap (), &cc->custom_color, 1);
@@ -267,7 +274,7 @@ color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols,
 				    GTK_SIGNAL_FUNC(cb_nocolor_clicked), cc);
 	}
 
-	tool_tip = gtk_tooltips_new();
+	cc->tool_tip = tool_tip = gtk_tooltips_new();
 	total = 0;
 	for (row = 0; row < nrows; row++){
 		for (col = 0; col < ncols; col++){
