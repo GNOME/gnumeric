@@ -1,11 +1,3 @@
-/*
- * xml-io.h: interfaces to save/read gnumeric Sheets using an XML encoding.
- *
- * Daniel Veillard <Daniel.Veillard@w3.org>
- *
- * $Id$
- */
-
 #ifndef GNUMERIC_XML_IO_H
 #define GNUMERIC_XML_IO_H
 
@@ -14,24 +6,10 @@
 #include <bonobo/bonobo-stream.h>
 #endif
 #include "gnumeric.h"
+#include "xml-io-version.h"
 #include "file.h"
 #include <gnome-xml/tree.h>
 #include <gnome-xml/xmlmemory.h>
-
-typedef enum
-{
-    GNUM_XML_V1,
-    GNUM_XML_V2,
-    GNUM_XML_V3,	/* >= 0.52 */
-    GNUM_XML_V4,	/* >= 0.57 */
-    GNUM_XML_V5,	/* >= 0.58 */
-    GNUM_XML_V6,	/* >= 0.62 */
-    GNUM_XML_V7,        /* >= 0.66 */
-    GNUM_XML_V8,        /* >= 0.71 */
-    
-    /* NOTE : Keep this up to date (and in sync with the schema) */
-    GNUM_XML_LATEST = GNUM_XML_V8
-} GnumericXMLVersion;
 
 typedef struct _XmlParseContext XmlParseContext;
 

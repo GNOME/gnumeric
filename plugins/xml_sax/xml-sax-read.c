@@ -21,8 +21,8 @@
  * USA
  */
 
-#include "config.h"
-#include <gnome.h>
+#include <config.h>
+#include "xml-io-version.h"
 #include "gnumeric.h"
 #include "io-context.h"
 #include "plugin.h"
@@ -50,6 +50,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <gnome.h>
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/parserInternals.h>
@@ -259,6 +260,7 @@ STATE_WB,
 					STATE_PRINT_MARGIN_RIGHT,
 					STATE_PRINT_MARGIN_HEADER,
 					STATE_PRINT_MARGIN_FOOTER,
+                                STATE_PRINT_SCALE,
 				STATE_PRINT_VCENTER,
 				STATE_PRINT_HCENTER,
 				STATE_PRINT_GRID,
@@ -356,6 +358,7 @@ static char const * const xmlSax_state_names[] =
 					"gmr:right",
 					"gmr:header",
 					"gmr:footer",
+				"gmr:Scale",
 				"gmr:vcenter",
 				"gmr:hcenter",
 				"gmr:grid",
@@ -408,21 +411,6 @@ static char const * const xmlSax_state_names[] =
 NULL
 };
 
-typedef enum
-{
-    GNUM_XML_UNKNOWN = 0,
-    GNUM_XML_V1,
-    GNUM_XML_V2,
-    GNUM_XML_V3,	/* >= 0.52 */
-    GNUM_XML_V4,	/* >= 0.57 */
-    GNUM_XML_V5,	/* >= 0.58 */
-    GNUM_XML_V6,	/* >= 0.62 */
-    GNUM_XML_V7,        /* >= 0.66 */
-    GNUM_XML_V8,        /* >= 0.68 */
-
-    /* NOTE : Keep this up to date */
-    GNUM_XML_LATEST = GNUM_XML_V8
-} GnumericXMLVersion;
 typedef struct _XMLSaxParseState
 {
 	xmlSaxState state;
@@ -828,6 +816,30 @@ xml_sax_print_margins (XMLSaxParseState *state, CHAR const **attrs)
 				pu->desired_display = UNIT_INCH;
 		} else
 			xml_sax_unknown_attr (state, attrs, "Margin");
+	}
+}
+
+static void
+xml_sax_print_scale (XMLSaxParseState *state, CHAR const **attrs)
+{
+	PrintInformation *pi;
+	double percentage;
+	int cols, rows;
+
+	g_return_if_fail (state->sheet != NULL);
+	g_return_if_fail (state->sheet->print_info != NULL);
+
+	pi = state->sheet->print_info;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (!strcmp (attrs[0], "type"))
+			pi->scaling.type = strcmp (attrs[1], "percentage")
+				? SIZE_FIT : PERCENTAGE;
+		else if (xml_sax_attr_double (attrs, "percentage", &percentage))
+			pi->scaling.percentage = percentage;
+		else if (xml_sax_attr_int (attrs, "cols", &cols))
+			pi->scaling.dim.cols = cols;
+		else if (xml_sax_attr_int (attrs, "rows", &rows))
+			pi->scaling.dim.rows = rows;
 	}
 }
 
@@ -1635,6 +1647,8 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 
 	case STATE_SHEET_PRINTINFO :
 		if (xml_sax_switch_state (state, name, STATE_PRINT_MARGINS)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_SCALE)) {
+			xml_sax_print_scale (state, attrs);
 		} else if (xml_sax_switch_state (state, name, STATE_PRINT_VCENTER)) {
 		} else if (xml_sax_switch_state (state, name, STATE_PRINT_HCENTER)) {
 		} else if (xml_sax_switch_state (state, name, STATE_PRINT_GRID)) {
@@ -1658,8 +1672,7 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_BOTTOM) ||
 		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_LEFT) ||
 		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_RIGHT) ||
-		    xml_sax_switch_state (state, name,
-				     STATE_PRINT_MARGIN_HEADER) ||
+		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_HEADER) ||
 		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_FOOTER)) {
 			xml_sax_print_margins (state, attrs);
 		} else

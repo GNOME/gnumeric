@@ -237,6 +237,7 @@ GNUMERIC_BASE =					\
 	workbook-control-gui-priv.h 		\
 	xml-io.c				\
 	xml-io.h				\
+	xml-io-version.h			\
 	xml-io-autoft.c				\
 	xml-io-autoft.h
 

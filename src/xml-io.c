@@ -1033,6 +1033,16 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 	xml_node_set_print_unit (child, "header", &pi->margins.header);
 	xml_node_set_print_unit (child, "footer", &pi->margins.footer);
 
+	child = xmlNewChild (cur, ctxt->ns, "Scale", NULL);
+	if (pi->scaling.type == PERCENTAGE) {
+		xml_node_set_cstr  (child, "type", "percentage");
+		xml_node_set_double  (child, "percentage", pi->scaling.percentage, -1);
+	} else {
+		xml_node_set_cstr  (child, "type", "size_fit");
+		xml_node_set_double  (child, "cols", pi->scaling.dim.cols, -1);
+		xml_node_set_double  (child, "rows", pi->scaling.dim.rows, -1);
+	}
+
 	child = xmlNewChild (cur, ctxt->ns, "vcenter", NULL);
 	xml_node_set_int  (child, "value", pi->center_vertically);
 	child = xmlNewChild (cur, ctxt->ns, "hcenter", NULL);
@@ -1164,6 +1174,27 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	if ((child = e_xml_get_child_by_name (tree, "Margins"))) {
 		xml_read_print_margins (ctxt, child);
+	}
+	if ((child = e_xml_get_child_by_name (tree, "Scale"))) {
+		xmlChar *type = xml_node_get_cstr  (child, "type");
+		if (type != NULL) {
+			if (!strcmp (type, "percentage")) {
+				double tmp;
+				pi->scaling.type = PERCENTAGE;
+				if (xml_node_get_double (child, "percentage", &tmp))
+					pi->scaling.percentage = tmp;
+			} else {
+				int cols, rows;
+				pi->scaling.type = SIZE_FIT;
+				if (xml_node_get_int (child, "cols", &cols) &&
+				    xml_node_get_int (child, "rows", &rows)) {
+					pi->scaling.dim.cols = cols;
+					pi->scaling.dim.rows = rows;
+				}
+			}
+
+			xmlFree (type);
+		}
 	}
 	if ((child = e_xml_get_child_by_name (tree, "vcenter"))) {
 		xml_node_get_int  (child, "value", &b);

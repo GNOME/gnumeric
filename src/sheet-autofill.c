@@ -418,6 +418,7 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 		else if (fi->type != FILL_NUMBER)
 			return;
 	}
+	/* fall through */
 
 	case FILL_NUMBER: {
 		double a, b;
@@ -564,12 +565,6 @@ autofill_destroy_fill_items (GList *all_items)
 static void
 autofill_cell (Cell *cell, int idx, FillItem *fi)
 {
-	if (fi->type == FILL_DAYS) {
-		FillItem *last = fi->group_last;
-		g_return_if_fail (last != NULL);
-		fi->type = FILL_MONTHS;
-	}
-
 	switch (fi->type) {
 	case FILL_EMPTY:
 	case FILL_INVALID:
@@ -616,9 +611,10 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		if (last->delta_is_float) {
 			double const d = value_get_as_float (last->v.value);
 			v = value_new_float (d + idx * last->delta.d_float);
-		} else
-			v = value_new_int (last->v.value->v_int.val +
-					   idx * last->delta.d_int);
+		} else {
+			int const i = value_get_as_int (last->v.value);
+			v = value_new_int (i + idx * last->delta.d_int);
+		}
 		cell_set_value (cell, v, fi->fmt);
 		return;
 	}
@@ -643,6 +639,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 				g_date_subtract_years (date, -d);
 		}
 		d = datetime_g_to_serial (date);
+		g_date_free (date);
 
 		res -= floor (res);
 		v = (res < 1e-6) ? value_new_int (d)

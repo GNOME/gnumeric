@@ -757,8 +757,10 @@ compute_value (char const *s, const regmatch_t *mp,
 		switch (type) {
 		case MATCH_MONTH_FULL:
 			month = table_lookup (str, month_long);
-			if (month == -1)
+			if (month == -1) {
+				g_free (str);
 				return NULL;
+			}
 			month++;
 			break;
 
@@ -768,8 +770,10 @@ compute_value (char const *s, const regmatch_t *mp,
 
 		case MATCH_MONTH_SHORT:
 			month = table_lookup (str, month_short);
-			if (month == -1)
+			if (month == -1) {
+				g_free (str);
 				return NULL;
+			}
 			month++;
 			break;
 
@@ -789,15 +793,19 @@ compute_value (char const *s, const regmatch_t *mp,
 				/* FIXME: this loop is bogus.  */
 				do {
 					int thisnumber;
-					if (fabs (number) > DBL_MAX/1000.)
+					if (fabs (number) > DBL_MAX/1000.) {
+						g_free (str);
 						return NULL;
+					}
 
 					number *= 1000.;
 
 					errno = 0; /* strtol sets errno, but does not clear it.  */
 					thisnumber = strtol (ptr, &ptr, 10);
-					if (errno == ERANGE)
+					if (errno == ERANGE) {
+						g_free (str);
 						return NULL;
+					}
 					if (number >= 0)
 						number += thisnumber;
 					else
@@ -878,7 +886,7 @@ compute_value (char const *s, const regmatch_t *mp,
 			break;
 
 		case MATCH_STRING_CONSTANT:
-			return value_new_string (str);
+			return value_new_string_str (string_get_nocopy (str));
 
 		default :
 			g_warning ("compute_value: This should not happen\n");

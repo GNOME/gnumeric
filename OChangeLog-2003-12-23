@@ -1,5 +1,17 @@
 2001-10-25  Jody Goldberg <jgoldberg@home.com>
 
+	* src/number-match.c (compute_value) : fix leaks.
+
+	* src/sheet-autofill.c (autofill_cell) : fix leak.
+
+	* gnumeric.xsd : add the scaling information.
+
+	* src/xml-io.c (xml_write_print_info) : why weren't we saving scaling
+	  info ?
+	(xml_read_print_info) : or reading back.
+
+2001-10-25  Jody Goldberg <jgoldberg@home.com>
+
 	* src/ranges.c (global_range_list_parse) : put things in the right
 	  order.
 	(global_range_list_foreach) : new routine designed to replace old
