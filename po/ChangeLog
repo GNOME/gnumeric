@@ -1,3 +1,8 @@
+2004-12-03  Jan Morén  <jan.moren@lucs.lu.se>
+
+	* sv.po: Updated Swedish translation.
+	* Changelog: Reencoded into utf-8 
+
 2004-11-30  Raphael Higino  <raphaelh@cvs.gnome.org>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
@@ -26,11 +31,11 @@
 
 	* es.po: Updated Spanish translation.
 
-2004-11-28  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-11-28  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2004-11-28  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-11-28  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -70,7 +75,7 @@
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
 
-2004-11-15  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-11-15  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -87,7 +92,7 @@
 
 	* ca.po: Updated Catalan translation.
 
-2004-11-09  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-11-09  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -113,7 +118,7 @@
 
 	* cs.po: Updated Czech translation.
 
-2004-11-03  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-11-03  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -249,15 +254,15 @@
 
 	* cs.po: Updated Czech translation.
 
-2004-10-08  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-10-08  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2004-10-08  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-10-08  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2004-10-08  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-10-08  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -285,7 +290,7 @@
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
 
-2004-10-04  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-10-04  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -314,7 +319,7 @@
 
 	* en_CA.po: Updated Canadian English translation.
 
-2004-09-28  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-09-28  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -322,11 +327,11 @@
 
 	* en_CA.po: Updated Canadian English translation.
 
-2004-09-27  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-09-27  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2004-09-27  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-09-27  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* POTFILES.in: Removed so-arrow.glade and so-fill.glade.
 
@@ -342,7 +347,7 @@
 
 	* en_GB.po: Updated British translation.
 
-2004-09-26  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-09-26  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -402,7 +407,7 @@
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
 
-2004-09-13  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-09-13  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -422,7 +427,7 @@
 
 	* ja.po: Update Japanese translation.
 
-2004-09-10  Jan Mor�n  <jan.moren@lucs.lu.se>
+2004-09-10  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -564,7 +569,7 @@
 	* ja.po: Update Japanese translation.
 		 (Confirmed with msgfmt in gettext-0.14.1)
 
-2004-02-10  Jan Morén  <jan.moren@lucs.lu.se>
+2004-02-10  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -579,7 +584,7 @@
         * POTFILES.in: Sync with source tree.
         * POTFILES.skip: Sync with source tree.
 
-2004-02-08  Tomasz K�oczko <kloczek@pld.org.pl>
+2004-02-08  Tomasz K³oczko <kloczek@pld.org.pl>
 
 	* ja.po: Fixed format specyfications (gettext 0.14.x is more strict
 	  on some kind of bugs) by s#%s#%2$s# and s#%d#%1$d#
@@ -611,7 +616,7 @@
 	* pt_BR.po: partial update for translation by
 	  Afonso Celso Medina <afmedina@uol.com.br>
 
-2004-01-06  Jan Morén  <jan.moren@lucs.lu.se>
+2004-01-06  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -653,7 +658,7 @@
 
 	* es.po: Updated Spanish translation
 
-2003-12-08  Danilo Šegan  <dsegan@gmx.net>
+2003-12-08  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Cleaned up one fuzzy message.
 
@@ -673,7 +678,7 @@
 
 	* de.po: Updated German translation.
 
-2003-11-21  Danilo Šegan  <dsegan@gmx.net>
+2003-11-21  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -690,7 +695,7 @@
 
 	* cs.po: Updated Czech translation.
 
-2003-11-12  Jan Morén  <jan.moren@lucs.lu.se>
+2003-11-12  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -699,7 +704,7 @@
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>.
 		 
-2003-11-01  Danilo Šegan  <dsegan@gmx.net>
+2003-11-01  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -708,7 +713,7 @@
 	* es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>.
 		 
-2003-10-31  Jan Morén  <jan.moren@lucs.lu.se>
+2003-10-31  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -716,11 +721,11 @@
 
 	* nl.po: Dutch translation updated by Tino Meinen.
 
-2003-10-30  Danilo Šegan  <dsegan@gmx.net>
+2003-10-30  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
-2003-10-29  Jan Morén  <jan.moren@lucs.lu.se>
+2003-10-29  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -736,11 +741,11 @@
 
 	* de.po: Updated German translation.
 
-2003-10-28  Jan Morén  <jan.moren@lucs.lu.se>
+2003-10-28  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-10-28  Danilo Šegan  <dsegan@gmx.net>
+2003-10-28  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Tiny update to Serbian translation.
 
@@ -748,11 +753,11 @@
 
 	* pt.po: Updated Portuguese translation.
 
-2003-10-27  Danilo Šegan  <dsegan@gmx.net>
+2003-10-27  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Another small update to Serbian translation.
 
-2003-10-26  Danilo Šegan  <dsegan@gmx.net>
+2003-10-26  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Small update to Serbian translation.
 
@@ -773,7 +778,7 @@
 
 	* pt.po: Updated Portuguese translation.
 
-2003-10-07  Jan Morén  <jan.moren@lucs.lu.se>
+2003-10-07  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -832,7 +837,7 @@
 
 	* ja.po: Update Japanese translation.
 
-2003-09-17  Danilo Šegan  <dsegan@gmx.net>
+2003-09-17  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -867,7 +872,7 @@
 	<franciscojavier.fernandez.serrador@hispalinux.es>
 	* es.po : update
 
-2003-09-14  Danilo Šegan  <dsegan@gmx.net>
+2003-09-14  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -879,7 +884,7 @@
 
 	* pt.po: Updated Portuguese translation.
 
-2003-09-14  Jan Morén  <jan.moren@lucs.lu.se>
+2003-09-14  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -887,7 +892,7 @@
 
 	* el.po: Updated Greek translation.
 
-2003-09-14  Danilo Šegan  <dsegan@gmx.net>
+2003-09-14  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -895,11 +900,11 @@
 
 	* ru.po: Updated russian translation.
 
-2003-09-13  Danilo Šegan  <dsegan@gmx.net>
+2003-09-13  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
-2003-09-11  Danilo Šegan  <dsegan@gmx.net>
+2003-09-11  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -907,7 +912,7 @@
 
 	* ja.po: Update Japanese translation.
 
-2003-09-10  Jan Morén  <jan.moren@lucs.lu.se>
+2003-09-10  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -936,7 +941,7 @@
 
 	* pt.po: Updated Portuguese translation.
 
-2003-09-08  Danilo Šegan  <dsegan@gmx.net>
+2003-09-08  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -950,7 +955,7 @@
 	* ca.po: Updated Catalan translation by
 	Jordi Negrevernis i Font <jorneg@retemail.es>.
 
-2003-09-08  Jan Morén  <jan.moren@lucs.lu.se>
+2003-09-08  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -958,7 +963,7 @@
 
 	* POTFILES.in : Add missing util classes from the charting engine
 
-2003-09-08  Danilo Šegan  <dsegan@gmx.net>
+2003-09-08  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation by Serbian 
 	team (Prevod.org).
@@ -971,7 +976,7 @@
 
 	* nl.po: Dutch translation updated by Tino Meinen.
 
-2003-09-07  Jan Morén  <jan.moren@lucs.lu.se>
+2003-09-07  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -983,7 +988,7 @@
 
 	* no.po: Updated Norwegian translation.
 
-2003-09-06  Jan Morén  <jan.moren@lucs.lu.se>
+2003-09-06  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1008,7 +1013,7 @@
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>.
 
-2003-09-02  Jan Morén  <jan.moren@lucs.lu.se>
+2003-09-02  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1024,7 +1029,7 @@
 
 	* cs.po: Updated Czech translation.
 
-2003-08-31  Jan Morén  <jan.moren@lucs.lu.se>
+2003-08-31  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1063,7 +1068,7 @@
 
 	* de.po: Updated German translation.
 
-2003-08-23  Jan Morén  <jan.moren@lucs.lu.se>
+2003-08-23  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1071,7 +1076,7 @@
 
 	* Release 1.1.20
 
-2003-08-21  Jan Morén  <jan.moren@lucs.lu.se>
+2003-08-21  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1087,7 +1092,7 @@
 
 	* pt.po: Updated Portuguese translation.
 
-2003-08-15  Danilo Šegan  <dsegan@gmx.net>
+2003-08-15  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Added Serbian translation by Serbian 
 	team (Prevod.org).
@@ -1097,7 +1102,7 @@
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>.
 
-2003-08-13  Jan Morén  <jan.moren@lucs.lu.se>
+2003-08-13  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1110,7 +1115,7 @@
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>.
 
-2003-08-11  Carlos Perelló Marín <carlos@gnome.org>
+2003-08-11  Carlos PerellÃ³ MarÃ­n <carlos@gnome.org>
 
 	* POTFILES.in: Added a label so intltool can know
 	the encoding used inside the files. Old intltool releases
@@ -1165,7 +1170,7 @@
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>.
 
-2003-07-29  Jan Morén  <jan.moren@lucs.lu.se>
+2003-07-29  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1202,11 +1207,11 @@
 
 	* cs.po: Updated Czech translation.
 
-2003-07-25  Jan Morén  <jan.moren@lucs.lu.se>
+2003-07-25  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-07-25  Jan Morén  <jan.moren@lucs.lu.se>
+2003-07-25  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1292,7 +1297,7 @@
 
 	* cs.po: Updated Czech translation.
 
-2003-07-11  Tõivo Leedjärv  <toivo@linux.ee>
+2003-07-11  TÃµivo LeedjÃ¤rv  <toivo@linux.ee>
 
 	* et.po: Updated Estonian translation
 	by Priit Laes <amd@tt.ee>.
@@ -1369,11 +1374,11 @@
 
 	* cs.po: Updated Czech translation.
 
-2003-06-27  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-27  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-26  Tõivo Leedjärv  <toivo@linux.ee>
+2003-06-26  TÃµivo LeedjÃ¤rv  <toivo@linux.ee>
 
 	* et.po: Updated Estonian translation
 	by Priit Laes <amd@tt.ee>.
@@ -1398,7 +1403,7 @@
 
 	* ca.po: Updated Catalan translation from Jordi Negrevernis i Font.
 
-2003-06-19  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-19  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1406,15 +1411,15 @@
 
 	* POTFILES.in: Added src/widgets/widget-locale-selector.c
 
-2003-06-18  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-18  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-18  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-18  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-18  Jan MorÃ�n  <jan.moren@lucs.lu.se>
+2003-06-18  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1423,19 +1428,19 @@
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>.
 
-2003-06-16  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-16  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-15  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-15  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-14  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-14  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-14  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-14  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1443,11 +1448,11 @@
 
 	* ml.po: Updated Malayalam translation.
 
-2003-06-13  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-13  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-12  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-12  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1455,15 +1460,15 @@
 
 	* en_CA.po: added
 
-2003-06-12  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-12  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-12  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-12  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-12  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-12  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1484,11 +1489,11 @@
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>
 
-2003-06-11  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-11  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-11  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-11  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1511,7 +1516,7 @@
 
 	* Release 1.1.19
 
-2003-06-07  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-07  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1524,19 +1529,19 @@
 
 	* Release 1.1.18
 
-2003-06-06  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-06  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-04  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-04  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-04  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-04  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-01  Jan Morén  <jan.moren@lucs.lu.se>
+2003-06-01  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1544,11 +1549,11 @@
 
 	* he.po: Updated Hebrew translation.
 
-2003-05-31  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-31  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-05-30  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-30  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1561,11 +1566,11 @@
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>
 
-2003-05-28  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-28  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation (fixed ridiculous spelling error).
 
-2003-05-27  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-27  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1589,11 +1594,11 @@
 
         * pt.po: Updated Portuguese translation.
 
-2003-05-23  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-23  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-05-22  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-22  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1605,11 +1610,11 @@
 
 	* nl.po: Dutch translation updated by Tino Meinen.
 
-2003-05-16  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-16  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-05-15  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-15  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1617,7 +1622,7 @@
 
 	* de.po: Updated German translation
 	
-2003-05-14  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-14  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1625,7 +1630,7 @@
 
 	* sv.po: Fix typo
 
-2003-05-12  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-12  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1637,7 +1642,7 @@
 
 	* cs.po: Updated Czech translation.
 
-2003-05-10  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-10  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1646,11 +1651,11 @@
         * es.po: Updated Spanish translation by
                  Francisco Javier Fernandez <serrador@arrakis.es>.
 
-2003-05-08  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-08  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-05-07  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-07  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1663,7 +1668,7 @@
 
 	* cs.po: Updated Czech translation.
 
-2003-05-06  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-06  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1680,15 +1685,15 @@
 
 	* POTFILES.in: add src/charset.c
 
-2003-05-03  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-03  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-05-01  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-05-01  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-04-22  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-04-22  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1700,11 +1705,11 @@
 
 	* zh_TW.po: Updated traditional Chinese translation.
 
-2003-04-19  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-04-19  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2003-04-19  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-04-19  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1857,7 +1862,7 @@
 
 	* no.po: Updated Norwegian (bokmal) translation.
 
-2003-01-14  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-01-14  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1873,7 +1878,7 @@
 
 	* am.po: Added Amharic translation.
 
-2003-01-03  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2003-01-03  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1889,11 +1894,11 @@
 
 	* Release 1.1.15
 
-2002-12-26  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-12-26  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2002-12-24  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-12-24  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1919,11 +1924,11 @@
 	* fr.po: Updated French translation from ENORMOUS work of
 	Olivier Jousselin <oj@marylou.fr>.
 
-2002-12-14  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-12-14  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2002-12-14  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-12-14  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1932,7 +1937,7 @@
 	* fr.po: Updated French translation from ENORMOUS work of
 	Olivier Jousselin <oj@marylou.fr>.
 
-2002-12-13  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-12-13  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1940,15 +1945,15 @@
 
 	* nl.po: Dutch translation updated by Tino Meinen.
 
-2002-12-07  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-12-07  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2002-12-07  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-12-07  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2002-12-05  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-12-05  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1960,15 +1965,15 @@
 
 	* POTFILES.in (schemas) : add the autofilter dialogs
 
-2002-12-05  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-12-05  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2002-12-04  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-12-04  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2002-12-04  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-12-04  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1980,11 +1985,11 @@
 
 	* POTFILES.in : add filter and pivottable
 
-2002-12-01  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-12-01  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
-2002-11-30  Jan Mor?©n  <jan.moren@lucs.lu.se>
+2002-11-30  Jan Mor?Â©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -1994,7 +1999,7 @@
 
 2002-11-25  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm?¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â¥l) translation.
 
 2002-11-22  Christian Neumair  <chris@gnome-de.org>
 
@@ -2099,7 +2104,7 @@
 
 2002-09-23  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm?¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â¥l) translation.
 
 2002-09-23  Christian Neumair  <chris@gnome-de.org>
 
@@ -2119,7 +2124,7 @@
 
 2002-09-21  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm?¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â¥l) translation.
 
 2002-09-16 Pablo Gonzalo del Campo <pablodc@bigfoot.com>
 
@@ -2203,7 +2208,7 @@
 
 2002-08-13  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm?¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â¥l) translation.
 
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
@@ -2336,7 +2341,7 @@
 2002-06-11  German Poo-Caaman~o  <gpoo@ubiobio.cl>
 
 	* es.po: Updated spanish translation by
-	  Juan Manuel Garc?­a Molina <juanma_gm@wanadoo.es>
+	  Juan Manuel Garc?Â­a Molina <juanma_gm@wanadoo.es>
 
 2002-06-10  Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
 
@@ -2381,7 +2386,7 @@
 
 2002-05-17  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm?¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â¥l) translation.
 
 2002-05-14  Pablo Saratxaga  <pablo@mandrakesoft.com>
 
@@ -2495,7 +2500,7 @@
 
 	* POTFILES.in : added src/dialogs/goto.glade
 
-2002-03-16  Carlos Perell-A?³ Mar?­n <carlos@gnome-db.org>$)B
+2002-03-16  Carlos Perell-A?Â³ Mar?Â­n <carlos@gnome-db.org>$)B
 
 	* POTFILES.in: /s/GNOME_Gnumeric.server.in/GNOME_Gnumeric.server.in.in/
 
@@ -2585,11 +2590,11 @@
 
 2002-02-22  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg-A?Œn & Deniz.$)B
+	* tr.po: Committed updated Turkish translation by Nilg-A?Ån & Deniz.$)B
 
 2002-02-22  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm-A?¥l) translation.$)B
+	* no.po: Updated Norwegian (bokm-A?Â¥l) translation.$)B
 
 2002-02-18  Jarkko Ranta  <jjranta@cc.joensuu.fi>
 
@@ -2632,7 +2637,7 @@
 
 2002-01-27  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm-A?¥l) translation.$)B
+	* no.po: Updated Norwegian (bokm-A?Â¥l) translation.$)B
 
 2002-01-27  Christian Rose  <menthos@menthos.com>
 
@@ -2660,7 +2665,7 @@
 
 2002-01-22  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm-A?¥l) translation.$)B
+	* no.po: Updated Norwegian (bokm-A?Â¥l) translation.$)B
 
 2002-01-21  Christian Rose  <menthos@menthos.com>
 
@@ -2753,7 +2758,7 @@
 
 2002-01-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm-A?¥l) translation.$)B
+	* no.po: Updated Norwegian (bokm-A?Â¥l) translation.$)B
 
 2002-01-11  Christian Rose  <menthos@menthos.com>
 
@@ -2797,7 +2802,7 @@
 2002-01-06  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation, and made some changes.
-	Thanks to J-A?¶rgen Tegn?©r <jorgen.tegner@telia.com> for his suggestions.$)B
+	Thanks to J-A?Â¶rgen Tegn?Â©r <jorgen.tegner@telia.com> for his suggestions.$)B
 
 2002-01-06  Duarte Loreto <happyguy_pt@hotmail.com>
 
@@ -2829,7 +2834,7 @@
 
 	* sv.po: Updated Swedish translation, and also fixed some errors.
 	Thanks to Tommy Pettersson <ptp@lysator.liu.se> for his continued
-	review and to G-A?¶ran Uddeborg <goeran@uddeborg.pp.se> for suggestions.$)B
+	review and to G-A?Â¶ran Uddeborg <goeran@uddeborg.pp.se> for suggestions.$)B
 
 2002-01-02  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
@@ -2878,14 +2883,14 @@
 	* zh_TW.po: Updated traditional Chinese translation a bit, and
 	revert back to native encoding instead of UTF-8.
 
-2001-12-30  T-A?µivo Leedj?€rv  <leedjarv@interest.ee>$)B
+2001-12-30  T-A?Âµivo Leedj?â¬rv  <leedjarv@interest.ee>$)B
 
 	* et.po: Updated Estonian translation
 	by Ain Vagula <ain@riiska.ee>
 
 2001-12-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm-A?¥l) translation.$)B
+	* no.po: Updated Norwegian (bokm-A?Â¥l) translation.$)B
 
 2001-12-30  Christian Rose  <menthos@menthos.com>
 
@@ -2926,13 +2931,13 @@
 
 2001-12-26  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg-A?Œn.$)B
+	* tr.po: Committed updated Turkish translation by Nilg-A?Ån.$)B
 
 2001-12-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.1
 
-2001-12-23  Germ?-A??n Poo-Caama??±o  <gpoo@ubiobio.cl>$)B
+2001-12-23  Germ?Â-A??n Poo-Caama?Â?Â±o  <gpoo@ubiobio.cl>$)B
 
 	* es.po: Updated spanish translation
 
@@ -2948,19 +2953,19 @@
 
 	* ja.po: Updated Japanese translation.
 
-2001-12-23  Germ?-A??n Poo-Caama??±o  <gpoo@ubiobio.cl>$)B
+2001-12-23  Germ?Â-A??n Poo-Caama?Â?Â±o  <gpoo@ubiobio.cl>$)B
 
 	* es.po: Updated spanish translation
 
-2001-12-23  Germ?-A??n Poo-Caama??±o  <gpoo@ubiobio.cl>$)B
+2001-12-23  Germ?Â-A??n Poo-Caama?Â?Â±o  <gpoo@ubiobio.cl>$)B
 
 	* es.po: Updated spanish translation.
 
-2001-12-22  Germ?-A??n Poo-Caama??±o  <gpoo@ubiobio.cl>$)B
+2001-12-22  Germ?Â-A??n Poo-Caama?Â?Â±o  <gpoo@ubiobio.cl>$)B
 
 	* es.po: Updated spanish translation.
 
-2001-12-22  Germ?-A??n Poo-Caama??±o  <gpoo@ubiobio.cl>$)B
+2001-12-22  Germ?Â-A??n Poo-Caama?Â?Â±o  <gpoo@ubiobio.cl>$)B
 
 	* es.po: Updated spanish translation.
 
@@ -2981,7 +2986,7 @@
 	* pl.po: Updated Polish translation by
 	GNOME PL Team <translators@gnome.pl>.
 
-2001-12-21  Germ?-A??n Poo-Caama??±o  <gpoo@ubiobio.cl>$)B
+2001-12-21  Germ?Â-A??n Poo-Caama?Â?Â±o  <gpoo@ubiobio.cl>$)B
 
 	* es.po: Updated spanish translation.
 
@@ -3070,7 +3075,7 @@
 
 2001-12-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm???¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â?Â?Â¥l) translation.
 
 2001-12-12  Abel Cheung  <maddog@linux.org.hk>
 
@@ -3105,7 +3110,7 @@
 
 2001-12-06  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg???�n.
+	* tr.po: Committed updated Turkish translation by Nilg?Â?Â?ÅÂn.
 
 2001-12-06  Jarkko Ranta  <jjranta@cc.joensuu.fi>
 
@@ -3142,7 +3147,7 @@
 
 2001-11-29  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm???¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â?Â?Â¥l) translation.
 
 2001-11-29  Abel Cheung  <maddog@linux.org.hk>
 
@@ -3163,7 +3168,7 @@
 
 2001-11-25  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm???¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â?Â?Â¥l) translation.
 
 2001-11-22  Christian Rose  <menthos@menthos.com>
 
@@ -3191,7 +3196,7 @@
 
 2001-11-15  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg???Œn.
+	* tr.po: Committed updated Turkish translation by Nilg?Â?Â?Ån.
 
 2000-11-15  Christophe Merlet  <christophe@merlet.net>
 
@@ -3237,7 +3242,7 @@
 
 2001-11-06  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg???Œn.
+	* tr.po: Committed updated Turkish translation by Nilg?Â?Â?Ån.
 
 2001-11-06  Jody Goldberg <jgoldberg@home.com>
 
@@ -3389,7 +3394,7 @@
 
 2001-10-01  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm???¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â?Â?Â¥l) translation.
 
 2001-09-28  Valek Filippov  <frob@df.ru>
 
@@ -3414,13 +3419,13 @@
 
 2001-09-14  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm???¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â?Â?Â¥l) translation.
 
 2001-09-03  Christian Rose  <menthos@menthos.com>
 
 	* POTFILES.in: Removed non-existant src/gnumeric-util.c.
 	* sv.po: Added additional translations from
-	J???¶rgen Tegnir <jorgen.tegner@telia.com>, and updated
+	J?Â?Â?Â¶rgen Tegnir <jorgen.tegner@telia.com>, and updated
 	some more.
 
 2001-08-31  Abel Cheung  <maddog@linux.org.hk>
@@ -3477,7 +3482,7 @@
 
 2001-08-08  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm???¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â?Â?Â¥l) translation.
 	* nn.po: Updated Norwegian (nynorsk) translation from
 	Roy-Magne Mo <rmo@sunnmore.net>.
 
@@ -3532,7 +3537,7 @@
 
 2001-08-08  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm???¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â?Â?Â¥l) translation.
 
 2001-08-07  Yukihiro Nakai <ynakai@redhat.com>
 
@@ -3946,7 +3951,7 @@
 
 2001-02-21  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm???¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â?Â?Â¥l) translation.
 
 2001-02-21  Jody Goldberg <jgoldberg@home.com>
 
@@ -4007,7 +4012,7 @@
 
 2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm???¥l) translation.
+	* no.po: Updated Norwegian (bokm?Â?Â?Â¥l) translation.
 
 2001-02-12  Valek Filippov  <frob@df.ru>
 

@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-28 22:56-0500\n"
-"PO-Revision-Date: 2004-11-28 21:50+0900\n"
+"POT-Creation-Date: 2004-12-03 14:31+0900\n"
+"PO-Revision-Date: 2004-11-03 14:33+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21360,16 +21360,15 @@ msgstr "Multidimensionella punkter, med cirkel i varje punkt."
 msgid "Plot X, Y and bubble size."
 msgstr "Plotta X, Y och bubbelstorlek."
 
-#. really 3_1
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "XY Lines"
 msgstr "XY-linjer"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "XY Points"
 msgstr "XY-punkter"
 
@@ -27933,7 +27932,7 @@ msgstr "Funktionen finns inte"
 msgid "Filled Object Properties"
 msgstr "Egenskaper för fyllda objekt"
 
-#: src/gnm-so-line.c:148
+#: src/gnm-so-line.c:150
 msgid "Line/Arrow Properties"
 msgstr "Linje/Pil-egenskaper"
 
@@ -29184,18 +29183,18 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"gnumeric version \"%s\"\n"
+"ssconvert version \"%s\"\n"
 "datakatalog := \"%s\"\n"
 "bibliotekskatalog := \"%s\"\n"
 
 #: src/ssindex.c:195
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ssindex version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"gnumeric version \"%s\"\n"
+"ssindex version \"%s\"\n"
 "datakatalog := \"%s\"\n"
 "bibliotekskatalog := \"%s\"\n"
 
