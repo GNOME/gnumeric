@@ -3910,7 +3910,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>PRODUCT returns the product of all the values and cells referenced in the argument list.  Empty cells are ignored and the empty product in 1.</para>
+        <para>PRODUCT returns the product of all the values and cells referenced in the argument list.  Empty cells are ignored and the empty product is 1.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -4381,7 +4381,8 @@
         <para>EXACT("key","key") equals TRUE.</para>        <para>EXACT("key","Key") equals FALSE.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-LEN">LEN</link>.
+      <para>        <link linkend="gnumeric-LEN">LEN</link>,
+        <link linkend="gnumeric-SEARCH">SEARCH</link>.
       </para>
     </refsect1>
   </refentry>
@@ -4922,7 +4923,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>FIND returns position of @string1 in @string2 (case-sesitive), searching only from character @start onwards (assumed 1 if omitted).</para>
+        <para>FIND returns position of @string1 in @string2 (case-sensitive), searching only from character @start onwards (assuming 1 if omitted).</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -6786,34 +6787,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-EXPRESSION">EXPRESSION</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>EXPRESSION</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>EXPRESSION(cell)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>EXPRESSION returns expression in @cell as a string, orempty if the cell is not an expression.</para>
-
-    </refsect1>      <refsect1>
-        <title>Examples</title>
-        <para></para>
-        <para>in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.</para>        <para>in A2 EXPRESSION(A3) equals empty.</para>        <para></para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-TEXT">TEXT</link>.
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-TBILLPRICE">TBILLPRICE</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -6835,6 +6808,34 @@
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-TBILLEQ">TBILLEQ</link>,
         <link linkend="gnumeric-TBILLYIELD">TBILLYIELD</link>.
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-EXPRESSION">EXPRESSION</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>EXPRESSION</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>EXPRESSION(cell)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>EXPRESSION returns expression in @cell as a string, orempty if the cell is not an expression.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para>in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.</para>        <para>in A2 EXPRESSION(A3) equals empty.</para>        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TEXT">TEXT</link>.
       </para>
     </refsect1>
   </refentry>
@@ -8621,7 +8622,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>HYPERLINK(reference)</synopsis>
+      <synopsis>HYPERLINK(link_location, optional_label)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -9886,7 +9887,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ACOSH  function  calculates  the inverse hyperbolic cosine of @x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, acosh() returns the NUM! error. This function is Excel compatible.</para>
+        <para>ACOSH  function  calculates  the inverse hyperbolic cosine of @x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, ACOSH() returns the NUM! error. This function is Excel compatible.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -9898,34 +9899,6 @@
         <link linkend="gnumeric-ASINH">ASINH</link>,
         <link linkend="gnumeric-DEGREES">DEGREES</link>,
         <link linkend="gnumeric-RADIANS">RADIANS</link>.
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
-      <refentrytitle><anchor id="gnumeric-TRUNC">TRUNC</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>TRUNC</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>TRUNC(number[,digits])</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>TRUNC function returns the value of @number truncated to the number of digits specified. If @digits is omitted then @digits defaults to zero. This function is Excel compatible.</para>
-
-    </refsect1>      <refsect1>
-        <title>Examples</title>
-        <para></para>
-        <para>TRUNC(3.12) equals 3.</para>        <para>TRUNC(4.15,1) equals 4.1.</para>        <para></para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-INT">INT</link>.
       </para>
     </refsect1>
   </refentry>
@@ -9957,6 +9930,34 @@
         <link linkend="gnumeric-MID">MID</link>,
         <link linkend="gnumeric-REPLACE">REPLACE</link>,
         <link linkend="gnumeric-SUBSTITUTE">SUBSTITUTE</link>.
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TRUNC">TRUNC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TRUNC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TRUNC(number[,digits])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>TRUNC function returns the value of @number truncated to the number of digits specified. If @digits is omitted then @digits defaults to zero. This function is Excel compatible.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para>TRUNC(3.12) equals 3.</para>        <para>TRUNC(4.15,1) equals 4.1.</para>        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-INT">INT</link>.
       </para>
     </refsect1>
   </refentry>

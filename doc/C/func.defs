@@ -1223,7 +1223,7 @@ TAN(3) equals -0.1425465.
 
 @FUNCTION=G_PRODUCT
 @SYNTAX=G_PRODUCT(value1, value2, ...)
-@DESCRIPTION=PRODUCT returns the product of all the values and cells referenced in the argument list.  Empty cells are ignored and the empty product in 1.
+@DESCRIPTION=PRODUCT returns the product of all the values and cells referenced in the argument list.  Empty cells are ignored and the empty product is 1.
 @EXAMPLES=
 G_PRODUCT(2,5,9) equals 90.
 
@@ -1383,7 +1383,7 @@ VARP(A1:A5) equals 94.112.
 EXACT("key","key") equals TRUE.
 EXACT("key","Key") equals FALSE.
 
-@SEEALSO=LEN
+@SEEALSO=LEN, SEARCH
 
 @FUNCTION=EDATE
 @SYNTAX=EDATE(date,months)
@@ -1566,7 +1566,7 @@ ROUND(1501.15,-2) equals 1500.0.
 
 @FUNCTION=FIND
 @SYNTAX=FIND(string1,string2[,start])
-@DESCRIPTION=FIND returns position of @string1 in @string2 (case-sesitive), searching only from character @start onwards (assumed 1 if omitted).
+@DESCRIPTION=FIND returns position of @string1 in @string2 (case-sensitive), searching only from character @start onwards (assuming 1 if omitted).
 @EXAMPLES=
 FIND("ac","Jack") equals 2.
 
@@ -2219,6 +2219,14 @@ DSUM(A1:C7, "Salary", A9:B11) equals 81565.
 
 @SEEALSO=DPRODUCT
 
+@FUNCTION=TBILLPRICE
+@SYNTAX=TBILLPRICE(settlement,maturity,discount)
+@DESCRIPTION=TBILLPRICE function returns the price per $100 value for a treasury bill where @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns #NUM! error. If @discount is negative, TBILLPRICE returns #NUM! error. 
+@EXAMPLES=
+
+@SEEALSO=TBILLEQ,TBILLYIELD
+
 @FUNCTION=EXPRESSION
 @SYNTAX=EXPRESSION(cell)
 @DESCRIPTION=EXPRESSION returns expression in @cell as a string, orempty if the cell is not an expression.
@@ -2227,14 +2235,6 @@ in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.
 in A2 EXPRESSION(A3) equals empty.
 
 @SEEALSO=TEXT
-
-@FUNCTION=TBILLPRICE
-@SYNTAX=TBILLPRICE(settlement,maturity,discount)
-@DESCRIPTION=TBILLPRICE function returns the price per $100 value for a treasury bill where @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. 
-If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns #NUM! error. If @discount is negative, TBILLPRICE returns #NUM! error. 
-@EXAMPLES=
-
-@SEEALSO=TBILLEQ,TBILLYIELD
 
 @FUNCTION=RandExp
 @SYNTAX=RandExp(b)
@@ -2791,7 +2791,7 @@ IRR(A1:A8) returns 0.04375.
 @SEEALSO=FV,NPV,PV
 
 @FUNCTION=HYPERLINK
-@SYNTAX=HYPERLINK(reference)
+@SYNTAX=HYPERLINK(link_location, optional_label)
 @DESCRIPTION=The HYPERLINK function currently returns its 2nd argument, or if that is omitted the 1st argument.
 
 @EXAMPLES=
@@ -3267,12 +3267,20 @@ COUNTIF(A1:A5,">28") equals 2.
 
 @FUNCTION=ACOSH
 @SYNTAX=ACOSH(x)
-@DESCRIPTION=ACOSH  function  calculates  the inverse hyperbolic cosine of @x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, acosh() returns the NUM! error. This function is Excel compatible. 
+@DESCRIPTION=ACOSH  function  calculates  the inverse hyperbolic cosine of @x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, ACOSH() returns the NUM! error. This function is Excel compatible. 
 @EXAMPLES=
 ACOSH(2) equals 1.31696.
 ACOSH(5.3) equals 2.35183.
 
 @SEEALSO=ACOS, ASINH, DEGREES, RADIANS 
+
+@FUNCTION=TRIM
+@SYNTAX=TRIM(text)
+@DESCRIPTION=TRIM returns @text with only single spaces between words.
+@EXAMPLES=
+TRIM("  a bbb  cc") equals "a bbb cc".
+
+@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE
 
 @FUNCTION=TRUNC
 @SYNTAX=TRUNC(number[,digits])
@@ -3282,14 +3290,6 @@ TRUNC(3.12) equals 3.
 TRUNC(4.15,1) equals 4.1.
 
 @SEEALSO=INT
-
-@FUNCTION=TRIM
-@SYNTAX=TRIM(text)
-@DESCRIPTION=TRIM returns @text with only single spaces between words.
-@EXAMPLES=
-TRIM("  a bbb  cc") equals "a bbb cc".
-
-@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE
 
 @FUNCTION=PROB
 @SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])
