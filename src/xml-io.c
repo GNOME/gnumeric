@@ -4252,14 +4252,14 @@ xml_init (void)
 	GnmFileOpener *opener;
 	char const *desc = _("Gnumeric XML file format");
 
-	opener = gnm_file_opener_new (
-	             "Gnumeric_XmlIO:gnum_xml", desc,
-	             xml_probe, gnumeric_xml_read_workbook);
-	xml_saver = gnm_file_saver_new (
-	            "Gnumeric_XmlIO:gnum_xml", "gnumeric", desc,
-	            FILE_FL_AUTO, gnumeric_xml_write_workbook);
+	opener = gnm_file_opener_new ("Gnumeric_XmlIO:gnum_xml",
+			_("Gnumeric XML (*.gnumeric)"),
+			xml_probe, gnumeric_xml_read_workbook);
+	xml_saver = gnm_file_saver_new ("Gnumeric_XmlIO:gnum_xml", "gnumeric",
+			_("Gnumeric XML (*.gnumeric) original slow exporter"),
+			FILE_FL_AUTO, gnumeric_xml_write_workbook);
 	gnm_file_opener_register (opener, 50);
-	gnm_file_saver_register_as_default (xml_saver, 50);
+	gnm_file_saver_register_as_default (xml_saver, 30);
 
 	xml_sax_prober.comment    = NULL;
 	xml_sax_prober.warning    = NULL;

@@ -67,6 +67,8 @@ plugins/oleo/oleo.c
 plugins/oleo/plugin.xml.in
 plugins/openoffice/openoffice-read.c
 plugins/openoffice/plugin.xml.in
+plugins/paradox/paradox.c
+plugins/paradox/plugin.xml.in
 plugins/perl/plugin.xml.in
 plugins/plan-perfect/pln.c
 plugins/plan-perfect/plugin.xml.in

@@ -1,5 +1,15 @@
 2004-07-19  Jody Goldberg <jody@gnome.org>
 
+	* src/xml-io.c (xml_init) : make the dom exporter a lower priority
+	  than the sax exporter so that we can start phasing it out.
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+	Uwe Steinmann <uwe@steinmann.cx>
+
+	* plugins/Makefile.am : merge in the paradox importer
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : Post release version bump
 
 2004-07-19  Jody Goldberg <jody@gnome.org>

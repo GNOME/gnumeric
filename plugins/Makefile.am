@@ -52,8 +52,14 @@ else
 PSICONV_DIR=
 endif
 
+if WITH_PARADOX
+PARADOX_DIR=paradox
+else
+PARADOX_DIR=
+endif
+
 SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif qpro \
-	plan-perfect xml_sax applix mps openoffice $(PSICONV_DIR)
+	plan-perfect xml_sax applix mps openoffice $(PSICONV_DIR) $(PARADOX_DIR)
 
 SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-financial fn-info \
 	fn-logical fn-complex fn-lookup fn-math fn-stat fn-string fn-random \

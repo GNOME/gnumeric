@@ -315,6 +315,30 @@ dnl fi
 enable_psiconv=false
 AM_CONDITIONAL(WITH_PSICONV,$enable_psiconv)
 
+try_paradox=true
+enable_paradox=false
+AC_ARG_WITH(paradox,
+	[--{with,without}-paradox Compile with Paradox support or without it],
+	if test "x$withval" = xno; then
+		try_paradox=false
+	fi
+)
+
+if $try_paradox; then
+	PKG_CHECK_MODULES(PARADOX, [
+		pxlib >= 0.2.0
+		],	
+		[paradox_msg="yes"],
+		[paradox_msg="missing dependencies"])
+fi
+
+if test "x$paradox_msg" = "xyes"; then
+	enable_paradox=true
+fi
+AM_CONDITIONAL(WITH_PARADOX, $enable_paradox)
+AC_SUBST(PARADOX_LIBS)
+AC_SUBST(PARADOX_CFLAGS)
+
 dnl **************************************************
 dnl stolen from gtk+
 AC_MSG_CHECKING(whether make is GNU Make)
@@ -842,6 +866,7 @@ plugins/openoffice/Makefile
 plugins/psiconv/Makefile
 plugins/mps/Makefile
 plugins/sample_datasource/Makefile
+plugins/paradox/Makefile
 po/Makefile.in
 schemas/Makefile
 templates/Makefile

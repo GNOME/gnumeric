@@ -1,3 +1,13 @@
+Gnumeric 1.3.2
+
+Jody:
+	* Use SAX exporter by default.
+
+Uwe Steinmann:
+	* Paradox DB import.
+
+--------------------------------------------------------------------------
+
 Gnumeric 1.3.1
 
 Andreas:
