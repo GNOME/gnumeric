@@ -609,7 +609,9 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 			return FALSE;
 		/* Is this the right way to append a newline ?? */
 		if (state == GDK_MOD1_MASK) {
-			gtk_entry_append_text (entry, "\n");
+			gint pos = gtk_editable_get_position (GTK_EDITABLE (entry));
+			gtk_editable_insert_text (GTK_EDITABLE (entry), "\n", 1, &pos);
+			gtk_editable_set_position (GTK_EDITABLE (entry), pos+1);
 			return TRUE;
 		}
 
