@@ -219,8 +219,6 @@ queue_sync (ItemEdit *item_edit)
 static void
 scan_at (const char *text, int *scan)
 {
-	int i;
-	
 	while (*scan > 0){
 		const char *p = &text [(*scan)-1];
 		char c = *p;
@@ -326,9 +324,10 @@ scan_for_range (ItemEdit *item_edit, GtkEntry *entry)
 {
 	Range range;
 	
-	if (point_is_inside_range (item_edit, entry, &range))
-		entry_create_feedback_range (item_edit, &range);
-	else
+	if (point_is_inside_range (item_edit, entry, &range)){
+		if (!item_edit->feedback_disabled)
+			entry_create_feedback_range (item_edit, &range);
+	} else
 		entry_destroy_feedback_range (item_edit);
 }
 
@@ -478,4 +477,23 @@ item_edit_get_type (void)
 	}
 
 	return item_edit_type;
+}
+
+void
+item_edit_disable_highlight (ItemEdit *item_edit)
+{
+	g_return_if_fail (item_edit != NULL);
+	g_return_if_fail (IS_ITEM_EDIT (item_edit));
+
+	entry_destroy_feedback_range (item_edit);
+	item_edit->feedback_disabled = TRUE;
+}
+
+void
+item_edit_enable_highlight (ItemEdit *item_edit)
+{
+	g_return_if_fail (item_edit != NULL);
+	g_return_if_fail (IS_ITEM_EDIT (item_edit));
+
+	item_edit->feedback_disabled = FALSE;
 }

@@ -4,7 +4,12 @@
 typedef struct _GraphVector GraphVector;
 
 typedef void (*GraphVectorChangeNotifyFn)(GraphVector *gv, CORBA_short low, CORBA_short high, void *data);
-					  
+
+typedef struct {
+	POA_GNOME_Gnumeric_VectorNotify corba_server;
+	GraphVector *graph_vector;
+} NotifierServer;
+
 struct _GraphVector {
 	GNOME_Gnumeric_Vector vector_object;
 
@@ -15,6 +20,13 @@ struct _GraphVector {
 	} u;
 	GraphVectorChangeNotifyFn  change;
 	void                      *change_data;
+
+	/*
+	 * This is our servant that gets invoked by remote clients to tell
+	 * us about changes
+	 */
+	NotifierServer *notifier_server;
+	CORBA_Object    corba_object_reference;
 };
 
 GraphVector *graph_vector_new         (GNOME_Gnumeric_Vector vector,

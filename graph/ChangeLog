@@ -1,3 +1,20 @@
+2000-03-23  Miguel de Icaza  <miguel@helixcode.com>
+
+	* graph-view.c (graph_view_update): Also handle DIRTY_DATA here.
+
+	* graph-vector.c (impl_changed): Implement vector cache flushing
+	on changes. 
+
+2000-03-21  Miguel de Icaza  <miguel@helixcode.com>
+
+	* graph-vector.c (destroy_notifier, setup_notifier): Added
+	notifier support to the vectors.
+	(graph_vector_new): Memory leak fix;  Duplicate the vector value on
+	receiving. 
+
+	* layout.c (impl_add_series): Set the notifier here.
+
+	
 2000-03-17  Michael Meeks  <michael@helixcode.com>
 
 	* graph-vector.c (graph_vector_destroy): fix to notifier.

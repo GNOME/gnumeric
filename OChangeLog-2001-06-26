@@ -1,3 +1,20 @@
+2000-03-23  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/gnumeric-sheet.c (start_cell_selection_at): Disable feedback
+	when the anting cursor is created
+	(gnumeric_sheet_stop_cell_selection): Enable feedback when the
+	anting cursor is destroyed.
+
+	* src/item-edit.c (scan_for_range): Enable feedback only if we are
+	allowed to.
+	(item_edit_enable_highlight, item_edit_disable_highlight): New
+	functions to control the feedback display.
+
+2000-03-21  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/sheet-vector.c (impl_vector_set_notify): Duplicate the
+	object here.
+
 2000-03-23  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_set_{left_col, top_row}) :

@@ -35,9 +35,6 @@ typedef struct {
 	int      state;
 	int      tag;
 
-	/* Location of auto fill handle */
-	gboolean auto_fill_handle_at_top;
-
 	/*
 	 * For the autofill mode:
 	 *     Where the action started (base_x, base_y) and the
@@ -57,6 +54,9 @@ typedef struct {
 
 	int      visible:1;
 	int      use_color:1;
+	/* Location of auto fill handle */
+	int      auto_fill_handle_at_top:1;
+
 	
 	GdkPixmap *stipple;
 	GdkColor  color;

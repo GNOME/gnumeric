@@ -276,8 +276,8 @@ graph_view_update (GraphView *graph_view, int dirty_flags)
 		graph_view->dirty_flags &= ~DIRTY_TYPE;
 	}
 	
-	if (graph_view->dirty_flags & (DIRTY_BBOX|DIRTY_SHAPE)){
-		graph_view->dirty_flags &= ~(DIRTY_BBOX | DIRTY_SHAPE);
+	if (graph_view->dirty_flags & (DIRTY_BBOX|DIRTY_SHAPE|DIRTY_DATA)){
+		graph_view->dirty_flags &= ~(DIRTY_BBOX | DIRTY_SHAPE | DIRTY_DATA);
 		gnome_canvas_update_bbox (
 			GNOME_CANVAS_ITEM (graph_view),
 			graph_view->bbox.x0,

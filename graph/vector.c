@@ -26,7 +26,8 @@ vector_destroy (GtkObject *object)
 }
 
 static CORBA_boolean
-impl_vector_only_numbers (PortableServer_Servant servant, CORBA_Environment *ev)
+impl_vector_only_numbers (PortableServer_Servant servant, 
+			  CORBA_Environment *ev)
 {
 	Vector *vec = vector_from_servant (servant);
 

@@ -297,6 +297,8 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 	item_cursor_set_spin_base (gsheet->sel_cursor, col, row);
 	item_cursor_set_bounds (ITEM_CURSOR (gsheet->sel_cursor), col, row, col, row);
 
+	item_edit_disable_highlight (ITEM_EDIT (gsheet->item_editor));
+
 	gsheet->sel_cursor_pos = GTK_EDITABLE (gsheet->entry)->current_pos;
 	gsheet->sel_text_len = 0;
 }
@@ -335,6 +337,7 @@ gnumeric_sheet_stop_cell_selection (GnumericSheet *gsheet, gboolean const clear_
 	gsheet->selecting_cell = FALSE;
 	gtk_object_destroy (GTK_OBJECT (gsheet->sel_cursor));
 	gsheet->sel_cursor = NULL;
+	item_edit_enable_highlight (ITEM_EDIT (gsheet->item_editor));
 
 	/* Make the primary cursor visible again */
 	item_cursor_set_visibility (gsheet->item_cursor, TRUE);

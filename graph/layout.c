@@ -71,10 +71,20 @@ impl_reset_series (PortableServer_Servant servant, CORBA_Environment *ev)
 }
 
 static void
-impl_add_series (PortableServer_Servant servant, GNOME_Gnumeric_Vector vector, CORBA_Environment *ev)
+vector_data_changed (GraphVector *gc, CORBA_short low, CORBA_short high, void *data)
+{
+	Layout *layout = data;
+
+	graph_update (layout->graph, DIRTY_DATA);
+}
+
+static void
+impl_add_series (PortableServer_Servant servant, const GNOME_Gnumeric_Vector vector,
+		 const CORBA_char *series_name, CORBA_Environment *ev)
 {
 	Layout *layout = layout_from_servant (servant);
 	GraphVector **v;
+	GraphVector *gv;
 	
 	v = g_renew (GraphVector *, layout->vectors, layout->n_series+1);
 	if (v == NULL){
@@ -83,15 +93,13 @@ impl_add_series (PortableServer_Servant servant, GNOME_Gnumeric_Vector vector, C
 	}
 
 	layout->vectors = v;
-	
-	layout->vectors [layout->n_series] = graph_vector_new (vector, NULL, NULL, 0);
-	layout->n_series++;
 
-#if 0
-	GNOME_Gnumeric_Vector_set_notify ();
-#endif
-	g_warning ("Set the notification function here");
+	gv = graph_vector_new (vector, vector_data_changed, layout, 0);
+	layout->vectors [layout->n_series] = gv;
+	layout->n_series++;
 	
+	GNOME_Gnumeric_Vector_set_notify (vector, gv->corba_object_reference, ev);
+
 	graph_update (layout->graph, DIRTY_DATA);
 }
 

@@ -26,8 +26,10 @@ static POA_GNOME_Gnumeric_Vector__vepv vector_vepv;
 static BonoboObjectClass *vector_parent_class;
 
 static CORBA_boolean
-impl_vector_only_numbers (PortableServer_Servant servant, CORBA_Environment *ev)
+impl_vector_only_numbers (PortableServer_Servant servant, 
+			  CORBA_Environment *ev)
 {
+	printf ("FIXME: We are always reporting only numbers = TRUE\n");
 	return CORBA_TRUE;
 }
 
@@ -245,7 +247,7 @@ impl_vector_set_notify (PortableServer_Servant servant,
 {
 	SheetVector *vec = vector_from_servant (servant);
 
-	vec->notify = vector_notify;
+	vec->notify = CORBA_Object_duplicate (vector_notify, ev);
 }
 
 
@@ -253,9 +255,14 @@ static void
 sheet_vector_destroy (GtkObject *object)
 {
 	SheetVector *vec = SHEET_VECTOR (object);
-
+	CORBA_Environment ev;
+	
 	if (vec->sheet != NULL)
 		g_error ("SheetVector has not been detached prior to destruction");
+
+	CORBA_exception_init (&ev);
+	CORBA_Object_release (vec->notify, &ev);
+	CORBA_exception_free (&ev);
 	
 	if (vec->blocks)
 		g_free (vec->blocks);

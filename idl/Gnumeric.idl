@@ -284,7 +284,7 @@ module GNOME {
 			exception OutOfRange {};
 			exception Failed {};
 
-			boolean     only_numbers ();
+		        boolean     only_numbers   ();
 			DoubleVec   get_numbers    (in short low, in short high) raises (OutOfRange);
 			VecValueVec get_vec_values (in short low, in short high) raises (OutOfRange);
 
