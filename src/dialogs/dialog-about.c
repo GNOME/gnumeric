@@ -222,7 +222,7 @@ cb_about_animate (GnmAboutState *state)
 	} else
 		state->fade_state++;
 
-	/* 1-((x-25)/25)**4 */
+	/* 1-((x-25)/25)**2 */
 	alpha = (state->fade_state - FADE_STATES) / (double)FADE_STATES;
 	alpha *= alpha;
 	state->contributor_style->font.color = UINT_RGBA_CHANGE_A (
