@@ -78,7 +78,6 @@ GNUMERIC_BASE =					\
 	complex.c				\
 	dependent.h				\
 	dependent.c				\
-	error-info.c				\
 	expr.c					\
 	expr.h					\
 	expr-impl.h				\

@@ -1,3 +1,7 @@
+2005-02-09  Jon K Hellan  <hellan@acm.org>
+
+	* src/Makefile.am (GNUMERIC_BASE): Remove error-info.c.
+
 2005-02-09  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/error-info.h: Nuke, we are using <goffice/app/error-info.h>.
