@@ -59,7 +59,7 @@ lprec *lp_solve_make_lp(int rows, int columns)
 	newlp->rh = g_new0 (gnum_float, rows + 1);
 	newlp->rhs = g_new0 (gnum_float, rows + 1);
 
-	newlp->must_be_int = g_new0 (short, sum + 1);
+	newlp->must_be_int = g_new0 (char, sum + 1);
 	for (i = 0; i <= sum; i++)
 	        newlp->must_be_int[i] = FALSE;
 
@@ -73,8 +73,8 @@ lprec *lp_solve_make_lp(int rows, int columns)
 
 	newlp->basis_valid = TRUE;
 	newlp->bas = g_new0 (int, rows+1);
-	newlp->basis = g_new0 (short, sum + 1);
-	newlp->lower = g_new0 (short, sum + 1);
+	newlp->basis = g_new0 (char, sum + 1);
+	newlp->lower = g_new0 (char, sum + 1);
 
 	for (i = 0; i <= rows; i++) {
 	        newlp->bas[i] = i;
@@ -119,8 +119,7 @@ lprec *lp_solve_make_lp(int rows, int columns)
 	newlp->scaling_used = FALSE;
 	newlp->columns_scaled = FALSE;
 
-	newlp->ch_sign = g_new0 (short, rows + 1);
-
+	newlp->ch_sign = g_new0 (char, rows + 1);
 	for (i = 0; i <= rows; i++)
 	        newlp->ch_sign[i] = FALSE;
 
@@ -212,14 +211,14 @@ void inc_row_space(lprec *lp)
 		lp->best_solution = g_renew (gnum_float, lp->best_solution,
 					     lp->sum_alloc + 1);
 		lp->row_end = g_renew (int, lp->row_end, lp->rows_alloc + 1);
-		lp->basis = g_renew (short, lp->basis, lp->sum_alloc + 1);
-		lp->lower = g_renew (short, lp->lower, lp->sum_alloc + 1);
-		lp->must_be_int = g_renew (short, lp->must_be_int,
+		lp->basis = g_renew (char, lp->basis, lp->sum_alloc + 1);
+		lp->lower = g_renew (char, lp->lower, lp->sum_alloc + 1);
+		lp->must_be_int = g_renew (char, lp->must_be_int,
 					   lp->sum_alloc + 1);
 		lp->bas = g_renew (int, lp->bas, lp->rows_alloc + 1);
 		lp->duals = g_renew (gnum_float, lp->duals,
 				     lp->rows_alloc + 1);
-		lp->ch_sign = g_renew (short, lp->ch_sign, lp->rows_alloc + 1);
+		lp->ch_sign = g_renew (char, lp->ch_sign, lp->rows_alloc + 1);
 		lp->eta_col_end = g_renew (int, lp->eta_col_end,
 					   lp->rows_alloc
 					   + lp->max_num_inv + 1);
@@ -237,7 +236,7 @@ void inc_col_space(lprec *lp)
         if (lp->columns >= lp->columns_alloc) {
 	        lp->columns_alloc = lp->columns + 10;
 		lp->sum_alloc = lp->rows_alloc + lp->columns_alloc;
-		lp->must_be_int = g_renew (short, lp->must_be_int,
+		lp->must_be_int = g_renew (char, lp->must_be_int,
 					   lp->sum_alloc + 1);
 		lp->orig_upbo = g_renew (gnum_float, lp->orig_upbo,
 					 lp->sum_alloc + 1);
@@ -249,8 +248,8 @@ void inc_col_space(lprec *lp)
 					lp->sum_alloc + 1);
 		lp->best_solution = g_renew (gnum_float, lp->best_solution,
 					     lp->sum_alloc + 1);
-		lp->basis = g_renew (short, lp->basis, lp->sum_alloc + 1);
-		lp->lower = g_renew (short, lp->lower, lp->sum_alloc + 1);
+		lp->basis = g_renew (char, lp->basis, lp->sum_alloc + 1);
+		lp->lower = g_renew (char, lp->lower, lp->sum_alloc + 1);
 		if (lp->names_used)
 		        lp->col_name = g_renew (nstring, lp->col_name,
 						lp->columns_alloc + 1);
@@ -374,7 +373,7 @@ void str_set_obj_fn(lprec *lp, char *row)
 	arow = g_new (gnum_float, lp->columns + 1);
 	p = row;
 	for (i = 1; i <= lp->columns; i++) {
-	        arow[i] = (gnum_float) strtod(p, &newp);
+	        arow[i] = strtognum(p, &newp);
 		if (p == newp)
 		        g_print("Bad string in str_set_obj_fn");
 		else
@@ -507,7 +506,7 @@ void str_add_constraint(lprec *lp,
 	p    = row_string;
  
 	for (i = 1; i <= lp->columns; i++) {
-	        aRow[i] = (gnum_float) strtod(p, &newp);
+	        aRow[i] = strtognum(p, &newp);
 		if (p == newp)
 		        g_print ("Bad string in str_add_constr");
 		else
@@ -580,12 +579,18 @@ void add_lag_con(lprec *lp, gnum_float *row, SolverConstraintType con_type,
         int        i;
 	gnum_float sign;
 
-	if (con_type == SolverLE || con_type == SolverEQ)
+	switch (con_type) {
+	case SolverLE:
+	case SolverEQ:
 	        sign = 1;
-	else if (con_type == SolverGE)
-	        sign = -1;
-	else
-	        g_print("con_type not implemented\n");
+		break;
+	case SolverGE:
+		sign = -1;
+		break;
+	default:
+	        g_error ("con_type not implemented");
+		return;
+	}
 
 	lp->nr_lagrange++;
 	if (lp->nr_lagrange == 1) {
@@ -623,7 +628,7 @@ void str_add_lag_con(lprec *lp, char *row, SolverConstraintType con_type,
 	p     = row;
  
 	for (i = 1; i <= lp->columns; i++) {
-	        a_row[i] = (gnum_float) strtod(p, &new_p);
+	        a_row[i] = strtognum(p, &new_p);
 		if (p == new_p)
 		        g_print("Bad string in str_add_lag_con");
 		else
@@ -685,7 +690,7 @@ void str_add_column(lprec *lp, char *col_string)
 	p    = col_string;
  
 	for (i = 0; i <= lp->rows; i++) {
-	        aCol[i] = (gnum_float) strtod(p, &newp);
+	        aCol[i] = strtognum(p, &newp);
 		if (p == newp)
 		        g_print("Bad string in str_add_column");
 		else
@@ -769,7 +774,7 @@ void set_lowbo(lprec *lp, int column, gnum_float value)
 	lp->orig_lowbo[lp->rows + column] = value;
 }
 
-void lp_solve_set_int(lprec *lp, int column, short must_be_int)
+void lp_solve_set_int(lprec *lp, int column, gboolean must_be_int)
 {
         if (column > lp->columns || column < 1)
 	        g_print("Column out of range");
@@ -830,7 +835,7 @@ void str_set_rh_vec(lprec *lp, char *rh_string)
 	p = rh_string;
  
 	for (i = 1; i <= lp->rows; i++) {
-	        newrh[i] = (gnum_float) strtod(p, &newp);
+	        newrh[i] = strtognum(p, &newp);
 		if (p == newp)
 		        g_print("Bad string in str_set_rh_vec");
 		else
@@ -1015,7 +1020,8 @@ void get_reduced_costs(lprec *lp, gnum_float *rc)
 	        my_round(rc[i], lp->epsd);
 }   
 
-short is_feasible(lprec *lp, gnum_float *values)
+gboolean
+is_feasible (lprec *lp, gnum_float *values)
 {
         int        i, elmnr;
 	gnum_float *this_rhs;
@@ -1062,7 +1068,8 @@ short is_feasible(lprec *lp, gnum_float *values)
 }
 
 /* fixed by Enrico Faggiolo */
-short column_in_lp(lprec *lp, gnum_float *testcolumn)
+gboolean
+column_in_lp (lprec *lp, gnum_float *testcolumn)
 {
         int        i, j;
 	int        nz, ident;

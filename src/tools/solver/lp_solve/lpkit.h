@@ -123,16 +123,16 @@ typedef struct _lprec
 {
         nstring    lp_name;	      /* the name of the lp */
 
-        short      verbose;           /* ## Verbose flag */
-        short      print_duals;       /* ## PrintDuals flag for PrintSolution
+        gboolean   verbose;           /* ## Verbose flag */
+        gboolean   print_duals;       /* ## PrintDuals flag for PrintSolution
 				       */
-        short      print_sol;         /* ## used in lp_solve */
-        short      debug;             /* ## Print B&B information */
-        short      print_at_invert;   /* ## Print information at every
+        gboolean   print_sol;         /* ## used in lp_solve */
+        gboolean   debug;             /* ## Print B&B information */
+        gboolean   print_at_invert;   /* ## Print information at every
 				       * reinversion */
-        short      trace;             /* ## Print information on pivot
+        gboolean   trace;             /* ## Print information on pivot
 				       * selection */
-        short      anti_degen;	      /* ## Do perturbations */
+        gboolean   anti_degen;	      /* ## Do perturbations */
 
         int	   rows;              /* Nr of constraint rows in the problem
 				       */
@@ -144,7 +144,7 @@ typedef struct _lprec
 				       * slacks */
         int        sum_alloc;
 
-        short      names_used;        /* Flag to indicate if names for rows and
+        gboolean   names_used;        /* Flag to indicate if names for rows and
 				       * columns are used */
         nstring    *row_name;	      /* rows_alloc+1 */
         nstring    *col_name;	      /* columns_alloc+1 */
@@ -163,7 +163,7 @@ typedef struct _lprec
         int        *col_no;           /* mat_alloc :From Row 1 on, col_no
 				       * contains the column nr. of the
 				       * nonzero elements, row by row */
-        short      row_end_valid;     /* true if row_end & col_no are valid */
+        gboolean   row_end_valid;     /* true if row_end & col_no are valid */
         int        *row_end;          /* rows_alloc+1 :row_end[i] is the index
 				       * of the first element in Colno after
 				       * row i */
@@ -174,7 +174,7 @@ typedef struct _lprec
 				       * Bound transformation */
         gnum_float *rhs;	      /* rows_alloc+1 :The RHS of the current
 				       * simplex tableau */
-        short      *must_be_int;      /* sum_alloc+1 :TRUE if variable must be 
+        char       *must_be_int;      /* sum_alloc+1 :TRUE if variable must be 
 				       * Integer */
         gnum_float *orig_upbo;        /* sum_alloc+1 :Bound before
 				       * transformations */
@@ -184,16 +184,16 @@ typedef struct _lprec
         gnum_float *lowbo;            /*  "       "  :Lower bound after 
 				       * transformation & B&B work */
 
-        short      basis_valid;       /* TRUE is the basis is still valid */
+        gboolean   basis_valid;       /* TRUE is the basis is still valid */
         int        *bas;              /* rows_alloc+1 :The basis column list */
-        short      *basis;            /* sum_alloc+1 : basis[i] is TRUE if
+        char       *basis;            /* sum_alloc+1 : basis[i] is TRUE if
 				       * the column is in the basis */
-        short      *lower;            /*  "       "  :TRUE is the variable is
+        char       *lower;            /*  "       "  :TRUE is the variable is
 				       * at its lower bound (or in the basis),
 				       * it is FALSE if the variable is at
 				       * its upper bound */
 
-        short      eta_valid;         /* TRUE if current Eta structures are
+        gboolean   eta_valid;         /* TRUE if current Eta structures are
 				       * valid */
         int        eta_alloc;         /* The allocated memory for Eta */
         int        eta_size;          /* The number of Eta columns */
@@ -211,7 +211,7 @@ typedef struct _lprec
         short	   bb_rule;	      /* what rule for selecting B&B variables
 				       */
 
-        short      break_at_int;      /* TRUE if stop at first integer better
+        gboolean   break_at_int;      /* TRUE if stop at first integer better
 				       * than break_value */
         gnum_float break_value;        
 
@@ -235,16 +235,16 @@ typedef struct _lprec
         gnum_float *duals;            /* rows_alloc+1 :The dual variables of
 				       * the last LP */
   
-        short      maximise;          /* TRUE if the goal is to maximise the 
+        gboolean   maximise;          /* TRUE if the goal is to maximise the 
 				       * objective function */
-        short      floor_first;       /* TRUE if B&B does floor bound first */
-        short      *ch_sign;          /* rows_alloc+1 :TRUE if the Row in the
+        gboolean   floor_first;       /* TRUE if B&B does floor bound first */
+        char       *ch_sign;          /* rows_alloc+1 :TRUE if the Row in the
 				       * matrix has changed sign 
 				       * (a`x > b, x>=0) is translated to 
 				       * s + -a`x = -b with x>=0, s>=0) */ 
 
-        short      scaling_used;      /* TRUE if scaling is used */
-        short      columns_scaled;    /* TRUE is the columns are scaled too,
+        gboolean   scaling_used;      /* TRUE if scaling is used */
+        gboolean   columns_scaled;    /* TRUE is the columns are scaled too,
 				       * Only use if all variables are
 				       * non-integer */
         gnum_float *scale;            /* sum_alloc+1:0..Rows the scaling of
@@ -264,7 +264,7 @@ typedef struct _lprec
 				       * SolverEQ */
         gnum_float lag_bound;	      /* the lagrangian lower bound */
 
-        short      valid;	      /* Has this lp pased the 'test' */
+        gboolean   valid;	      /* Has this lp pased the 'test' */
         gnum_float infinite;          /* ## numerical stuff */
         gnum_float epsilon;           /* ## */
         gnum_float epsb;              /* ## */
@@ -290,7 +290,7 @@ lprec      *lp_solve_make_lp (int rows, int columns);
    no scaling
    default basis */
 
-lprec      *read_lp_file (FILE *input, short verbose, nstring lp_name);
+lprec      *read_lp_file (FILE *input, gboolean verbose, nstring lp_name);
 /* create and read an .lp file from input (input must be open) */
 
 void       lp_solve_delete_lp (lprec *lp);
@@ -345,7 +345,7 @@ void       set_upbo (lprec *lp, int column, gnum_float value);
 void       set_lowbo (lprec *lp, int column, gnum_float value);
 /* Set the lowerbound of a variable */
 
-void       lp_solve_set_int (lprec *lp, int column, short must_be_int);
+void       lp_solve_set_int (lprec *lp, int column, gboolean must_be_int);
 /* Set the type of variable, if must_be_int = TRUE then the variable must
  * be integer */
 
@@ -383,7 +383,7 @@ int        lp_solve_solve (lprec *lp);
 /* Solve the problem */
 
 int        lag_solve (lprec *lp, gnum_float start_bound, int num_iter,
-		      short verbose);
+		      gboolean verbose);
 /* Do NumIter iterations with Lagrangian relaxation constraints */
 
 void       reset_basis (lprec *lp);
@@ -401,10 +401,10 @@ void       get_column (lprec *lp, int col_nr, gnum_float *column);
 void       get_reduced_costs (lprec *lp, gnum_float *rc);
 /* get the reduced costs vector */
 
-short      is_feasible (lprec *lp, gnum_float *values);
+gboolean   is_feasible (lprec *lp, gnum_float *values);
 /* returns TRUE if the vector in values is a feasible solution to the lp */
 
-short      column_in_lp (lprec *lp, gnum_float *column);
+gboolean   column_in_lp (lprec *lp, gnum_float *column);
 /* returns TRUE if column is already present in lp. (Does not look at bounds
  * and types, only looks at matrix values */
 

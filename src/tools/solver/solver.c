@@ -35,7 +35,7 @@
  * SolverLPAlgorithm data structure.  The algorithms should be able to
  * do MILP as well.  Feel free to add new algorithms.
  */
-SolverLPAlgorithm lp_algorithm[] = {
+static SolverLPAlgorithm lp_algorithm[] = {
         {
 	        NULL,
 		(solver_lp_init_fn*)             lp_solve_init,
@@ -48,7 +48,7 @@ SolverLPAlgorithm lp_algorithm[] = {
 		(solver_lp_solve_fn*)            lp_solve_solve,
 		(solver_lp_get_obj_fn_value_fn*) lp_solve_get_value_of_obj_fn
 	},
-	NULL
+	{ NULL }
 };
 
 
@@ -341,7 +341,6 @@ check_program_definition_failures (Sheet            *sheet,
 {
 	CellList *inputs;
 	GSList   *c;
-	GList    *tmp;
 	Cell     *cell;
 	int      i, n;
 
@@ -433,7 +432,7 @@ check_program_definition_failures (Sheet            *sheet,
 SolverResults *
 solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 {
-	const SolverParameters *param = sheet->solver_parameters;
+	SolverParameters       *param = sheet->solver_parameters;
 	SolverProgram          *program;
 	SolverResults          *res;
 	Cell                   *cell;

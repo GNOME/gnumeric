@@ -571,7 +571,7 @@ static short rowprim(lprec      *lp,
 		     gnum_float *pcol)
 {
         int  i;
-	gnum_float f, quot; 
+	gnum_float f = -42, quot; 
 
 	(*row_nr) = 0;
 	(*theta) = lp->infinite;
@@ -824,14 +824,15 @@ static short coldual(lprec      *lp,
 	return((*colnr) > 0);
 } /* coldual */
 
-static void iteration(lprec      *lp,
-		      int        row_nr,
-		      int        varin,
-		      gnum_float *theta,
-		      gnum_float up,
-		      short      *minit,
-		      short      *low,
-		      short      primal)
+static void
+iteration (lprec      *lp,
+	   int        row_nr,
+	   int        varin,
+	   gnum_float *theta,
+	   gnum_float up,
+	   gboolean   *minit,
+	   char       *low,
+	   gboolean   primal)
 {
         int        i, k, varout;
 	gnum_float f;
@@ -918,9 +919,9 @@ static int solvelp(lprec *lp)
 {
         int        i, j, varnr;
 	gnum_float f, theta;
-	short      primal;
+	gboolean   primal;
 	gnum_float *drow, *prow, *Pcol;
-	short      minit;
+	gboolean   minit;
 	int        colnr, row_nr;
 	short      *test; 
 
@@ -1282,15 +1283,17 @@ static void check_solution(lprec      *lp,
 } /* check_solution */
 #endif
 
-static int milpsolve(lprec      *lp,
-		     gnum_float *upbo,
-		     gnum_float *lowbo,
-		     short      *sbasis,
-		     short      *slower,
-		     int        *sbas,
-		     int        recursive)
+static int
+milpsolve (lprec      *lp,
+	   gnum_float *upbo,
+	   gnum_float *lowbo,
+	   char       *sbasis,
+	   char       *slower,
+	   int        *sbas,
+	   gboolean   recursive)
 {
-        int        i, j, failure, notint, is_worse;
+        int i, j, failure, is_worse;
+	int notint = -1;
 	gnum_float theta, tmpreal;
 
 	if (Break_bb)
@@ -1480,24 +1483,24 @@ static int milpsolve(lprec      *lp,
 		        /* set up two new problems */
 		        gnum_float *new_upbo, *new_lowbo;
 			gnum_float new_bound;
-			short      *new_lower,*new_basis;
+			char       *new_lower, *new_basis;
 			int        *new_bas;
 			int        resone, restwo;
 			
 			/* allocate room for them */
 			new_upbo  = g_new (gnum_float,  lp->sum + 1);
 			new_lowbo = g_new (gnum_float,  lp->sum + 1);
-			new_lower = g_new (short, lp->sum + 1);
-			new_basis = g_new (short, lp->sum + 1);
+			new_lower = g_new (char, lp->sum + 1);
+			new_basis = g_new (char, lp->sum + 1);
 			new_bas   = g_new (int,   lp->rows + 1);
 			memcpy (new_upbo,  upbo,      (lp->sum + 1)
 				* sizeof(gnum_float));
 			memcpy (new_lowbo, lowbo,     (lp->sum + 1)
 				* sizeof(gnum_float));
 			memcpy (new_lower, lp->lower, (lp->sum + 1)
-				* sizeof(short));
+				* sizeof(char));
 			memcpy (new_basis, lp->basis, (lp->sum + 1)
-				* sizeof(short));
+				* sizeof(char));
 			memcpy (new_bas,   lp->bas,   (lp->rows + 1)
 				* sizeof(int));
    
@@ -1747,7 +1750,8 @@ int lp_solve_solve(lprec *lp)
 	return (SOLVER_LP_FAILURE);
 } /* solve */
 
-int lag_solve(lprec *lp, gnum_float start_bound, int num_iter, short verbose)
+int
+lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 {
         int        i, j, result, citer;
 	short      status, OrigFeas, AnyFeas, same_basis;

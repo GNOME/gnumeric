@@ -1,3 +1,16 @@
+2002-03-07  Morten Welinder  <terra@diku.dk>
+
+	* lpkit.h (_lprec): Change must_be_int, ch_sign, lower, and basis
+	to char *.  Change scalar truth value fields to gboolean.
+
+	* lpkit.c: Use strtognum, not strtod.
+
+	* solve.c (milpsolve): Fix warning.
+
+	* lp-solve-debug.c (lp_solve_debug_print): Constify.
+
+	* lpkit.c (add_lag_con): Fix warning.
+
 2002-03-04 Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
 
 	* Initial import of the lp-solve-3.2 package.  Lot's of changes

@@ -81,7 +81,8 @@ void lp_solve_debug_print_bounds (lprec *lp, gnum_float *upbo, gnum_float *lowbo
 } /* lp_solve_debug_print_bounds */
 
 
-void lp_solve_debug_print(lprec *lp, char *format, ...)
+void
+lp_solve_debug_print (lprec *lp, const char *format, ...)
 {
         va_list ap;
 
