@@ -17,7 +17,7 @@
 	  the expresion entry widget
 	* src/widgets/gnumeric-expr-entry.[ch] : implement GtkCellEditables 
 	  interface
-	* Makefile.am : add gnumeric-cell-renderer-expr-entry.[ch
+	* Makefile.am : add gnumeric-cell-renderer-expr-entry.[ch]
 
 2002-03-17  Jody Goldberg <jody@gnome.org>
 
