@@ -15,6 +15,7 @@ Morten:
 	* Fix stf import crash for empty files.
 	* Improve generation of binomial and negative-binomial random
 	  numbers.
+	* Fix stf dialog problem with WM close.
 
 --------------------------------------------------------------------------
 

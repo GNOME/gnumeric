@@ -429,6 +429,9 @@ stf_dialog_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->druid),
 		"cancel",
 		G_CALLBACK (stf_dialog_druid_cancel), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->druid),
+		"destroy",
+		G_CALLBACK (stf_dialog_druid_cancel), pagedata);
 
 	/* And for the surrounding window */
 
@@ -525,6 +528,8 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	stf_dialog_set_initial_keyboard_focus (&pagedata);
 	gtk_widget_grab_default (pagedata.druid->next);
 
+	g_object_ref (pagedata.window);
+
 	gnumeric_set_transient (wbcg_toplevel (wbcg), pagedata.window);
 	gtk_widget_show (GTK_WIDGET (pagedata.window));
 	gtk_main ();
@@ -559,6 +564,7 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	stf_dialog_format_page_cleanup (&pagedata);
 
 	gtk_widget_destroy (GTK_WIDGET (pagedata.window));
+	g_object_unref (pagedata.window);
 	g_object_unref (G_OBJECT (gui));
 
 	return dialogresult;

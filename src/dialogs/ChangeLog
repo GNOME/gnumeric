@@ -1,3 +1,9 @@
+2003-05-13  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf.c (stf_dialog): Make sure we hold a ref to the window
+	so it doesn't disappear underneath us.
+	(stf_dialog_attach_page_signals): Hook up a destroy signal.
+
 2003-05-12  Jody Goldberg <jody@gnome.org>
 
 	* cell-format.glade : fix hig-ification
