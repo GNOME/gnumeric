@@ -1099,8 +1099,8 @@ header_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
 		      GdkEvent *event, PrinterSetupState *state)
 {
 	if (event == NULL ||
-	    event->button.button != 1 ||
-	    event->type != GDK_2BUTTON_PRESS)
+	    event->type != GDK_2BUTTON_PRESS ||
+	    event->button.button != 1)
 		return FALSE;
 	do_hf_customize (TRUE, state);
 	return TRUE;
@@ -1111,8 +1111,8 @@ footer_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
 		      GdkEvent *event, PrinterSetupState *state)
 {
 	if (event == NULL ||
-	    event->button.button != 1 ||
-	    event->type != GDK_2BUTTON_PRESS)
+	    event->type != GDK_2BUTTON_PRESS ||
+	    event->button.button != 1)
 		return FALSE;
 	do_hf_customize (FALSE, state);
 	return TRUE;

@@ -1,3 +1,8 @@
+2005-04-03  Jody Goldberg <jody@gnome.org>
+
+	* dialog-printer-setup.c (header_preview_event) : suppress warning.
+	(footer_preview_event) : ditto.
+
 2005-03-22  Jody Goldberg <jody@gnome.org>
 
 	* consolidate.glade : Merge in an ancient HIG patch from Manny
