@@ -5593,7 +5593,7 @@
 	    <label>_Output Range:</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
-	    <group>ftest_output</group>
+	    <group>hist_output</group>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>

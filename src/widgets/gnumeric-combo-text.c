@@ -297,7 +297,7 @@ gnm_combo_text_set_text (GnmComboText *ct, const gchar *text,
 	GtkWidget *child;
 	GtkList   *list;
 	GList *ptr, *current;
-	char const *label;
+	char const *label = "";
 
 	list = GTK_LIST (ct->list);
 	/* Be careful */
