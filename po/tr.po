@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-23 16:12-0500\n"
+"POT-Creation-Date: 2003-12-28 21:45+0000\n"
 "PO-Revision-Date: 2003-02-17 15:28+0200\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@superonline.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -887,7 +887,7 @@ msgstr ""
 "Kodlama sorunları nedeniyle kısalmış olan bir dizgenin uzunluğu zaten "
 "yazılır."
 
-#: plugins/excel/ms-excel-write.c:3759
+#: plugins/excel/ms-excel-write.c:3760
 #, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -896,7 +896,7 @@ msgstr ""
 "Excel 95 olarak kaydedildiğinde veri kaybı olacak. Çünkü excel 95 %d satırı "
 "destekler, bu defter ise %d satır içeriyor."
 
-#: plugins/excel/ms-excel-write.c:3766
+#: plugins/excel/ms-excel-write.c:3767
 #, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -905,11 +905,11 @@ msgstr ""
 "Excel olarak kaydedildiğinde veri kaybı olacak. Çünkü excel %d satırı "
 "destekler, bu defter ise %d satır içeriyor."
 
-#: plugins/excel/ms-excel-write.c:4285
+#: plugins/excel/ms-excel-write.c:4287
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "'Kitap' veri yolu yazmak için açılamadı\n"
 
-#: plugins/excel/ms-excel-write.c:4305
+#: plugins/excel/ms-excel-write.c:4307
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "'Defter' veri yolu yazmak için açılamadı\n"
 
@@ -17956,7 +17956,7 @@ msgstr "Koşullar:"
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
 #: src/dialogs/dialog-simulation.c:226 src/dialogs/dialog-zoom.c:198
-#: src/format-template.c:247 src/tools/solver/reports-write.c:81
+#: src/format-template.c:248 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
 #: src/tools/solver/reports-write.c:395 src/tools/solver/reports-write.c:402
@@ -19548,7 +19548,7 @@ msgstr "Seçimi panoya kopyalar"
 msgid "Copy the selection to the clipboard"
 msgstr "Seçimi panoya kopyalar"
 
-#: src/GNOME_Gnumeric.xml.h:54 src/dialogs/covariance.glade.h:3
+#: src/GNOME_Gnumeric.xml.h:54 src/dialogs/covariance.glade.h:1
 #: src/tools/analysis-tools.c:888 src/tools/analysis-tools.c:891
 #: src/workbook-control-gui.c:3794
 msgid "Covariance"
@@ -19754,7 +19754,7 @@ msgstr "Önalan"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Önceden tanımlı şablonla ilişkili bir göze bölgesini biçimlendirir"
 
-#: src/GNOME_Gnumeric.xml.h:102 src/dialogs/fourier-analysis.glade.h:3
+#: src/GNOME_Gnumeric.xml.h:102 src/dialogs/fourier-analysis.glade.h:1
 #: src/workbook-control-gui.c:3803
 msgid "Fourier Analysis"
 msgstr "Fourier Analizi"
@@ -20358,7 +20358,7 @@ msgid "Statistical Anal_ysis"
 msgstr "İstatistiksel _Analiz"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4033
-#: src/workbook-control-gui.c:4853 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4849 src/workbook-view.c:540
 msgid "Sum"
 msgstr "Toplam"
 
@@ -20503,13 +20503,13 @@ msgid "_Close"
 msgstr "Kapa_t"
 
 #: src/GNOME_Gnumeric.xml.h:275 src/dialogs/anova-one.glade.h:13
-#: src/dialogs/colrow.glade.h:2 src/dialogs/correlation.glade.h:9
-#: src/dialogs/covariance.glade.h:9 src/dialogs/descriptive-stats.glade.h:19
-#: src/dialogs/exp-smoothing.glade.h:11
-#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:24
-#: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:12
-#: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:5 src/workbook-control-gui.c:3584
+#: src/dialogs/colrow.glade.h:2 src/dialogs/correlation.glade.h:4
+#: src/dialogs/covariance.glade.h:4 src/dialogs/descriptive-stats.glade.h:14
+#: src/dialogs/exp-smoothing.glade.h:6 src/dialogs/fourier-analysis.glade.h:5
+#: src/dialogs/histogram.glade.h:16 src/dialogs/moving-averages.glade.h:7
+#: src/dialogs/rank.glade.h:7 src/dialogs/regression.glade.h:8
+#: src/dialogs/sampling.glade.h:11 src/dialogs/shuffle.glade.h:5
+#: src/workbook-control-gui.c:3584
 msgid "_Columns"
 msgstr "Süt_un"
 
@@ -20738,12 +20738,12 @@ msgid "_Row"
 msgstr "_Satır"
 
 #: src/GNOME_Gnumeric.xml.h:326 src/dialogs/anova-one.glade.h:20
-#: src/dialogs/colrow.glade.h:3 src/dialogs/correlation.glade.h:16
-#: src/dialogs/covariance.glade.h:16 src/dialogs/descriptive-stats.glade.h:26
-#: src/dialogs/exp-smoothing.glade.h:19
-#: src/dialogs/fourier-analysis.glade.h:17 src/dialogs/histogram.glade.h:30
-#: src/dialogs/moving-averages.glade.h:19 src/dialogs/rank.glade.h:19
-#: src/dialogs/regression.glade.h:20 src/dialogs/sampling.glade.h:25
+#: src/dialogs/colrow.glade.h:3 src/dialogs/correlation.glade.h:9
+#: src/dialogs/covariance.glade.h:9 src/dialogs/descriptive-stats.glade.h:19
+#: src/dialogs/exp-smoothing.glade.h:12
+#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:23
+#: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:12
+#: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
 #: src/dialogs/shuffle.glade.h:6 src/workbook-control-gui.c:3587
 msgid "_Rows"
 msgstr "_Satır"
@@ -21929,7 +21929,7 @@ msgstr "Etiketler"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:290
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:27
+#: src/dialogs/consolidate.glade.h:27 src/dialogs/dao.glade.h:7
 msgid "Values"
 msgstr "Değerler"
 
@@ -22772,13 +22772,8 @@ msgstr "Aralık"
 
 #: src/dialogs/advanced-filter.glade.h:1 src/dialogs/anova-one.glade.h:4
 #: src/dialogs/anova-two.glade.h:5 src/dialogs/consolidate.glade.h:2
-#: src/dialogs/correlation.glade.h:1 src/dialogs/covariance.glade.h:1
-#: src/dialogs/descriptive-stats.glade.h:5 src/dialogs/exp-smoothing.glade.h:3
-#: src/dialogs/fill-series.glade.h:2 src/dialogs/fourier-analysis.glade.h:1
-#: src/dialogs/mean-tests.glade.h:4 src/dialogs/moving-averages.glade.h:3
-#: src/dialogs/random-generation.glade.h:3 src/dialogs/rank.glade.h:1
-#: src/dialogs/regression.glade.h:3 src/dialogs/sampling.glade.h:3
-#: src/dialogs/simulation.glade.h:4 src/dialogs/variance-tests.glade.h:3
+#: src/dialogs/fill-series.glade.h:2 src/dialogs/random-generation.glade.h:3
+#: src/dialogs/simulation.glade.h:4
 msgid "A_utofit Columns"
 msgstr "Sütunları _Otomatik Sığdır"
 
@@ -22787,7 +22782,6 @@ msgid "Advanced Filter"
 msgstr "Gelişmiş Süzgeç"
 
 #: src/dialogs/advanced-filter.glade.h:3
-#: src/dialogs/dialog-advanced-filter.c:199
 msgid "Criteria _Range:"
 msgstr "K_oşul Aralığı:"
 
@@ -22801,13 +22795,8 @@ msgstr "_Liste Aralığı:"
 
 #: src/dialogs/advanced-filter.glade.h:6 src/dialogs/anova-one.glade.h:7
 #: src/dialogs/anova-two.glade.h:7 src/dialogs/consolidate.glade.h:15
-#: src/dialogs/correlation.glade.h:5 src/dialogs/covariance.glade.h:5
-#: src/dialogs/descriptive-stats.glade.h:13
-#: src/dialogs/exp-smoothing.glade.h:7 src/dialogs/fill-series.glade.h:7
-#: src/dialogs/fourier-analysis.glade.h:6
-#: src/dialogs/random-generation.glade.h:5 src/dialogs/rank.glade.h:5
-#: src/dialogs/regression.glade.h:7 src/dialogs/simulation.glade.h:12
-#: src/dialogs/variance-tests.glade.h:5
+#: src/dialogs/fill-series.glade.h:7 src/dialogs/random-generation.glade.h:5
+#: src/dialogs/simulation.glade.h:12
 msgid "N_ew Workbook"
 msgstr "Yeni _Defter"
 
@@ -22821,25 +22810,15 @@ msgstr "Yerinde Sü_z"
 
 #: src/dialogs/advanced-filter.glade.h:9 src/dialogs/anova-one.glade.h:17
 #: src/dialogs/anova-two.glade.h:16 src/dialogs/consolidate.glade.h:30
-#: src/dialogs/correlation.glade.h:13 src/dialogs/covariance.glade.h:13
-#: src/dialogs/descriptive-stats.glade.h:23
-#: src/dialogs/exp-smoothing.glade.h:16 src/dialogs/fill-series.glade.h:20
-#: src/dialogs/fourier-analysis.glade.h:14
-#: src/dialogs/random-generation.glade.h:13 src/dialogs/rank.glade.h:16
-#: src/dialogs/regression.glade.h:17 src/dialogs/simulation.glade.h:21
-#: src/dialogs/variance-tests.glade.h:14
+#: src/dialogs/fill-series.glade.h:20 src/dialogs/random-generation.glade.h:13
+#: src/dialogs/simulation.glade.h:21
 msgid "_New Sheet"
 msgstr "Yeni Çi_zelge"
 
 #: src/dialogs/advanced-filter.glade.h:10 src/dialogs/anova-one.glade.h:19
 #: src/dialogs/anova-two.glade.h:18 src/dialogs/consolidate.glade.h:32
-#: src/dialogs/correlation.glade.h:15 src/dialogs/covariance.glade.h:15
-#: src/dialogs/descriptive-stats.glade.h:25
-#: src/dialogs/exp-smoothing.glade.h:18 src/dialogs/fill-series.glade.h:22
-#: src/dialogs/fourier-analysis.glade.h:16 src/dialogs/mean-tests.glade.h:24
-#: src/dialogs/random-generation.glade.h:15 src/dialogs/rank.glade.h:18
-#: src/dialogs/regression.glade.h:19 src/dialogs/simulation.glade.h:23
-#: src/dialogs/variance-tests.glade.h:16
+#: src/dialogs/fill-series.glade.h:22 src/dialogs/random-generation.glade.h:15
+#: src/dialogs/simulation.glade.h:23
 msgid "_Output Range:"
 msgstr "Çı_ktı Aralığı:"
 
@@ -22879,58 +22858,37 @@ msgid "ANOVA - Single Factor"
 msgstr "Anova - Tek çarpan"
 
 #: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:6
-#: src/dialogs/consolidate.glade.h:5 src/dialogs/correlation.glade.h:2
-#: src/dialogs/covariance.glade.h:2 src/dialogs/descriptive-stats.glade.h:6
-#: src/dialogs/exp-smoothing.glade.h:4 src/dialogs/fill-series.glade.h:3
-#: src/dialogs/fourier-analysis.glade.h:2 src/dialogs/mean-tests.glade.h:5
-#: src/dialogs/moving-averages.glade.h:4
-#: src/dialogs/random-generation.glade.h:4 src/dialogs/rank.glade.h:3
-#: src/dialogs/regression.glade.h:4 src/dialogs/sampling.glade.h:4
-#: src/dialogs/variance-tests.glade.h:4
+#: src/dialogs/consolidate.glade.h:5 src/dialogs/fill-series.glade.h:3
+#: src/dialogs/random-generation.glade.h:4
 msgid "Clear Output Range"
 msgstr "Çıktı Aralığını Temizle"
 
-#: src/dialogs/anova-one.glade.h:6 src/dialogs/correlation.glade.h:4
-#: src/dialogs/covariance.glade.h:4 src/dialogs/descriptive-stats.glade.h:9
-#: src/dialogs/exp-smoothing.glade.h:6 src/dialogs/fourier-analysis.glade.h:4
-#: src/dialogs/histogram.glade.h:5 src/dialogs/moving-averages.glade.h:5
-#: src/dialogs/rank.glade.h:4 src/dialogs/regression.glade.h:6
-#: src/dialogs/sampling.glade.h:5
+#: src/dialogs/anova-one.glade.h:6 src/dialogs/correlation.glade.h:2
+#: src/dialogs/covariance.glade.h:2 src/dialogs/descriptive-stats.glade.h:7
+#: src/dialogs/fourier-analysis.glade.h:2 src/dialogs/rank.glade.h:2
 msgid "Grouped By:"
 msgstr "Bununla Grupla:"
 
 #: src/dialogs/anova-one.glade.h:8 src/dialogs/anova-two.glade.h:9
-#: src/dialogs/descriptive-stats.glade.h:14
-#: src/dialogs/exp-smoothing.glade.h:8 src/dialogs/fill-series.glade.h:8
-#: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:13
-#: src/dialogs/moving-averages.glade.h:10
-#: src/dialogs/random-generation.glade.h:7 src/dialogs/rank.glade.h:6
-#: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:9
+#: src/dialogs/descriptive-stats.glade.h:11
+#: src/dialogs/exp-smoothing.glade.h:5 src/dialogs/fill-series.glade.h:8
+#: src/dialogs/fourier-analysis.glade.h:4 src/dialogs/histogram.glade.h:10
+#: src/dialogs/moving-averages.glade.h:6
+#: src/dialogs/random-generation.glade.h:7 src/dialogs/rank.glade.h:3
+#: src/dialogs/regression.glade.h:5 src/dialogs/sampling.glade.h:5
 #, fuzzy
 msgid "O_ptions"
 msgstr "Seçenekler"
 
 #: src/dialogs/anova-one.glade.h:9 src/dialogs/anova-two.glade.h:10
-#: src/dialogs/consolidate.glade.h:17 src/dialogs/correlation.glade.h:6
-#: src/dialogs/covariance.glade.h:6 src/dialogs/descriptive-stats.glade.h:15
-#: src/dialogs/exp-smoothing.glade.h:9 src/dialogs/fill-series.glade.h:9
-#: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/mean-tests.glade.h:11
-#: src/dialogs/moving-averages.glade.h:12
-#: src/dialogs/random-generation.glade.h:9 src/dialogs/rank.glade.h:8
-#: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:12
-#: src/dialogs/variance-tests.glade.h:6
+#: src/dialogs/consolidate.glade.h:17 src/dialogs/fill-series.glade.h:9
+#: src/dialogs/random-generation.glade.h:9
 msgid "Retain Output Range Comments"
 msgstr "Kalan Çıktı Aralığı Açıklamaları"
 
 #: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:11
-#: src/dialogs/consolidate.glade.h:18 src/dialogs/correlation.glade.h:7
-#: src/dialogs/covariance.glade.h:7 src/dialogs/descriptive-stats.glade.h:16
-#: src/dialogs/exp-smoothing.glade.h:10 src/dialogs/fill-series.glade.h:10
-#: src/dialogs/fourier-analysis.glade.h:9 src/dialogs/mean-tests.glade.h:12
-#: src/dialogs/moving-averages.glade.h:13
-#: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:9
-#: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:13
-#: src/dialogs/variance-tests.glade.h:7
+#: src/dialogs/consolidate.glade.h:18 src/dialogs/fill-series.glade.h:10
+#: src/dialogs/random-generation.glade.h:10
 msgid "Retain Output Range Formatting"
 msgstr "Kalan Çıktı Aralığı Biçemlemesi"
 
@@ -22938,56 +22896,52 @@ msgstr "Kalan Çıktı Aralığı Biçemlemesi"
 msgid "_Alpha = "
 msgstr "_Alfa = "
 
-#: src/dialogs/anova-one.glade.h:12 src/dialogs/correlation.glade.h:8
-#: src/dialogs/covariance.glade.h:8 src/dialogs/descriptive-stats.glade.h:18
-#: src/dialogs/histogram.glade.h:18 src/dialogs/rank.glade.h:11
-#: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:17
+#: src/dialogs/anova-one.glade.h:12 src/dialogs/correlation.glade.h:3
+#: src/dialogs/covariance.glade.h:3 src/dialogs/descriptive-stats.glade.h:13
+#: src/dialogs/histogram.glade.h:12 src/dialogs/rank.glade.h:6
+#: src/dialogs/regression.glade.h:7 src/dialogs/sampling.glade.h:10
 msgid "_Areas"
 msgstr "_Alanlar"
 
 #: src/dialogs/anova-one.glade.h:14 src/dialogs/anova-two.glade.h:13
-#: src/dialogs/consolidate.glade.h:29 src/dialogs/correlation.glade.h:10
-#: src/dialogs/covariance.glade.h:10 src/dialogs/descriptive-stats.glade.h:20
-#: src/dialogs/exp-smoothing.glade.h:13
-#: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:25
-#: src/dialogs/mean-tests.glade.h:20 src/dialogs/moving-averages.glade.h:15
-#: src/dialogs/rank.glade.h:13 src/dialogs/regression.glade.h:15
-#: src/dialogs/sampling.glade.h:19 src/dialogs/variance-tests.glade.h:12
+#: src/dialogs/consolidate.glade.h:29 src/dialogs/correlation.glade.h:5
+#: src/dialogs/covariance.glade.h:5 src/dialogs/descriptive-stats.glade.h:15
+#: src/dialogs/exp-smoothing.glade.h:8 src/dialogs/fourier-analysis.glade.h:6
+#: src/dialogs/histogram.glade.h:17 src/dialogs/mean-tests.glade.h:14
+#: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:8
+#: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:12
+#: src/dialogs/variance-tests.glade.h:7
 #, fuzzy
 msgid "_Input"
 msgstr "Int"
 
 #: src/dialogs/anova-one.glade.h:15 src/dialogs/anova-two.glade.h:14
-#: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
-#: src/dialogs/descriptive-stats.glade.h:21
-#: src/dialogs/dialog-analysis-tools.c:341
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/dialog-shuffle.c:151
-#: src/dialogs/exp-smoothing.glade.h:14
-#: src/dialogs/fourier-analysis.glade.h:12
-#: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
+#: src/dialogs/correlation.glade.h:6 src/dialogs/covariance.glade.h:6
+#: src/dialogs/descriptive-stats.glade.h:16
+#: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/rank.glade.h:9
 msgid "_Input Range:"
 msgstr "G_irdi Aralığı:"
 
 #: src/dialogs/anova-one.glade.h:16 src/dialogs/anova-two.glade.h:15
-#: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
-#: src/dialogs/descriptive-stats.glade.h:22
-#: src/dialogs/exp-smoothing.glade.h:15
-#: src/dialogs/fourier-analysis.glade.h:13 src/dialogs/mean-tests.glade.h:22
-#: src/dialogs/moving-averages.glade.h:17 src/dialogs/rank.glade.h:15
-#: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:21
-#: src/dialogs/variance-tests.glade.h:13
+#: src/dialogs/correlation.glade.h:7 src/dialogs/covariance.glade.h:7
+#: src/dialogs/descriptive-stats.glade.h:17
+#: src/dialogs/exp-smoothing.glade.h:10 src/dialogs/fourier-analysis.glade.h:8
+#: src/dialogs/histogram.glade.h:18 src/dialogs/mean-tests.glade.h:16
+#: src/dialogs/moving-averages.glade.h:10 src/dialogs/rank.glade.h:10
+#: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:14
+#: src/dialogs/variance-tests.glade.h:8
 msgid "_Labels"
 msgstr "_Etiketler"
 
 #: src/dialogs/anova-one.glade.h:18 src/dialogs/anova-two.glade.h:17
-#: src/dialogs/consolidate.glade.h:31 src/dialogs/correlation.glade.h:14
-#: src/dialogs/covariance.glade.h:14 src/dialogs/descriptive-stats.glade.h:24
-#: src/dialogs/exp-smoothing.glade.h:17 src/dialogs/fill-series.glade.h:21
-#: src/dialogs/fourier-analysis.glade.h:15 src/dialogs/histogram.glade.h:27
-#: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:18
-#: src/dialogs/random-generation.glade.h:14 src/dialogs/rank.glade.h:17
-#: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:22
-#: src/dialogs/variance-tests.glade.h:15
+#: src/dialogs/consolidate.glade.h:31 src/dialogs/correlation.glade.h:8
+#: src/dialogs/covariance.glade.h:8 src/dialogs/descriptive-stats.glade.h:18
+#: src/dialogs/exp-smoothing.glade.h:11 src/dialogs/fill-series.glade.h:21
+#: src/dialogs/fourier-analysis.glade.h:9 src/dialogs/histogram.glade.h:20
+#: src/dialogs/mean-tests.glade.h:17 src/dialogs/moving-averages.glade.h:11
+#: src/dialogs/random-generation.glade.h:14 src/dialogs/rank.glade.h:11
+#: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:15
+#: src/dialogs/variance-tests.glade.h:9
 #, fuzzy
 msgid "_Output"
 msgstr "Çıktı"
@@ -23592,32 +23546,66 @@ msgid "<span weight=\"bold\">Sort Specification</span>"
 msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:3
+msgid ""
+"Adds any fields in the range box to the left to the sort criteria or allows "
+"selection of fields from a menu."
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:4
+msgid "Clear all fields from the sort specification"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:5
 #, fuzzy
 msgid "Direction:"
 msgstr "Dizin"
 
-#: src/dialogs/cell-sort.glade.h:4
+#: src/dialogs/cell-sort.glade.h:6
+msgid "Move selected field up in the sort order"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:7
+msgid "Move the selected field down in the sort order"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:8
 #, fuzzy
 msgid "Range:"
 msgstr "Aralık"
 
-#: src/dialogs/cell-sort.glade.h:5
+#: src/dialogs/cell-sort.glade.h:9
+msgid "Remove the selected field from the sort specification"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:10
+#, fuzzy
+msgid "Sort columns by the specified rows"
+msgstr "Belirtilen URL'ye gider"
+
+#: src/dialogs/cell-sort.glade.h:11
 msgid "Sort range has a _header"
 msgstr ""
 
-#: src/dialogs/cell-sort.glade.h:6
+#: src/dialogs/cell-sort.glade.h:12
+#, fuzzy
+msgid "Sort rows by the specified columns"
+msgstr "Belirtilen URL'ye gider"
+
+#: src/dialogs/cell-sort.glade.h:13
 msgid "Sort..."
 msgstr "Sırala..."
 
-#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-stf-export.glade.h:39
-msgid "_Preserves Formats"
-msgstr "_Biçemleri Korur"
+#: src/dialogs/cell-sort.glade.h:14
+#, fuzzy
+msgid "Sorting _preserves formats"
+msgstr "Saklama Biçemlerini Sırala"
 
-#: src/dialogs/cell-sort.glade.h:8
-msgid "_Right-Left"
-msgstr "S_ağ ve Sol"
+#: src/dialogs/cell-sort.glade.h:15
+#, fuzzy
+msgid "_Left-Right"
+msgstr "S_ağ"
 
-#: src/dialogs/cell-sort.glade.h:9
+#: src/dialogs/cell-sort.glade.h:16
 msgid "_Top-Bottom"
 msgstr "Ü_st ve Alt"
 
@@ -23662,7 +23650,7 @@ msgstr "Veri birleştirme"
 msgid "Delete the currently selected source area"
 msgstr "Seçili kaynak alanını siler"
 
-#: src/dialogs/consolidate.glade.h:9
+#: src/dialogs/consolidate.glade.h:9 src/dialogs/dao.glade.h:3
 msgid "Formulas"
 msgstr "Formüller"
 
@@ -23731,7 +23719,7 @@ msgstr ""
 msgid "_Function:"
 msgstr "İşle_v:"
 
-#: src/dialogs/consolidate.glade.h:33
+#: src/dialogs/consolidate.glade.h:33 src/dialogs/dao.glade.h:10
 msgid "_Put:"
 msgstr "_Koy:"
 
@@ -23740,10 +23728,44 @@ msgstr "_Koy:"
 msgid "_Source areas:"
 msgstr "Kaynak alanları"
 
-#: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:784
+#: src/dialogs/correlation.glade.h:1 src/tools/analysis-tools.c:784
 #: src/tools/analysis-tools.c:787
 msgid "Correlation"
 msgstr "Bağıntılama"
+
+#: src/dialogs/dao.glade.h:1
+msgid "A_utofit columns"
+msgstr "Sütunları _otomatik sığdır"
+
+#: src/dialogs/dao.glade.h:2
+#, fuzzy
+msgid "Clear output range"
+msgstr "Çıktı Aralığını Temizle"
+
+#: src/dialogs/dao.glade.h:4
+#, fuzzy
+msgid "N_ew workbook"
+msgstr "Yeni _Defter"
+
+#: src/dialogs/dao.glade.h:5
+#, fuzzy
+msgid "Retain output range comments"
+msgstr "Kalan Çıktı Aralığı Açıklamaları"
+
+#: src/dialogs/dao.glade.h:6
+#, fuzzy
+msgid "Retain output range formatting"
+msgstr "Kalan Çıktı Aralığı Biçemlemesi"
+
+#: src/dialogs/dao.glade.h:8
+#, fuzzy
+msgid "_New sheet"
+msgstr "Yeni Çi_zelge"
+
+#: src/dialogs/dao.glade.h:9
+#, fuzzy
+msgid "_Output range:"
+msgstr "Çı_ktı Aralığı:"
 
 #: src/dialogs/delete-cells.glade.h:1
 msgid "<span weight=\"bold\">Delete Method</span>"
@@ -23778,28 +23800,28 @@ msgstr "(1 - alfa) = "
 msgid ".95"
 msgstr ".95"
 
-#: src/dialogs/descriptive-stats.glade.h:7
+#: src/dialogs/descriptive-stats.glade.h:5
 msgid "Confidence Interval for the _Mean"
 msgstr "Ortalama için _Emniyet Aralığı"
 
-#: src/dialogs/descriptive-stats.glade.h:8 src/tools/analysis-tools.c:1182
+#: src/dialogs/descriptive-stats.glade.h:6 src/tools/analysis-tools.c:1182
 #: src/tools/analysis-tools.c:1185
 msgid "Descriptive Statistics"
 msgstr "Tanımsal İstatistikler"
 
-#: src/dialogs/descriptive-stats.glade.h:10
+#: src/dialogs/descriptive-stats.glade.h:8
 msgid "K = "
 msgstr "K = "
 
-#: src/dialogs/descriptive-stats.glade.h:11
+#: src/dialogs/descriptive-stats.glade.h:9
 msgid "Kth Largest"
 msgstr "En büyük K'ıncı"
 
-#: src/dialogs/descriptive-stats.glade.h:12
+#: src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Smallest"
 msgstr "En küçük K'ıncı"
 
-#: src/dialogs/descriptive-stats.glade.h:17
+#: src/dialogs/descriptive-stats.glade.h:12
 msgid "S_ummary Statistics"
 msgstr "Ö_zet İstatistikleri"
 
@@ -23983,58 +24005,54 @@ msgid "No matching records were found."
 msgstr "Eşleşen kayıt yok."
 
 #: src/dialogs/dialog-advanced-filter.c:162
-#: src/dialogs/dialog-analysis-tools.c:588
-#: src/dialogs/dialog-analysis-tools.c:706
-#: src/dialogs/dialog-analysis-tools.c:1988
-#: src/dialogs/dialog-analysis-tools.c:2878
+#: src/dialogs/dialog-analysis-tools.c:596
+#: src/dialogs/dialog-analysis-tools.c:715
+#: src/dialogs/dialog-analysis-tools.c:1964
+#: src/dialogs/dialog-analysis-tools.c:2817
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Umulmadık bir hata saptandı: %d."
 
 #: src/dialogs/dialog-advanced-filter.c:199
-msgid "_List Range:"
-msgstr "_Liste Aralığı:"
-
-#: src/dialogs/dialog-advanced-filter.c:200
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Gelişmiş Süzme diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:692
+#: src/dialogs/dialog-analysis-tools.c:582
+#: src/dialogs/dialog-analysis-tools.c:701
 msgid "The selected input rows must have equal size!"
 msgstr "Seçilen girdi satırları eşit uzunlukta olmalı!"
 
-#: src/dialogs/dialog-analysis-tools.c:579
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:587
+#: src/dialogs/dialog-analysis-tools.c:706
 msgid "The selected input columns must have equal size!"
 msgstr "Seçilen girdi sütunları eşit yükseklikte olmalı!"
 
-#: src/dialogs/dialog-analysis-tools.c:584
-#: src/dialogs/dialog-analysis-tools.c:702
+#: src/dialogs/dialog-analysis-tools.c:592
+#: src/dialogs/dialog-analysis-tools.c:711
 msgid "The selected input areas must have equal size!"
 msgstr "Seçilen girdi alanları aynı boyutlarda olmalı!"
 
-#: src/dialogs/dialog-analysis-tools.c:631
+#: src/dialogs/dialog-analysis-tools.c:639
 msgid "Could not create the Correlation Tool dialog."
 msgstr "İlinti Araçları diyaloğu oluştururlamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:749
+#: src/dialogs/dialog-analysis-tools.c:758
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Uyumsuzluk Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:838
+#: src/dialogs/dialog-analysis-tools.c:848
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Sıralama ve Oranlama Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:928
+#: src/dialogs/dialog-analysis-tools.c:938
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Fourier Analizi Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1090
+#: src/dialogs/dialog-analysis-tools.c:1092
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Açıklamalı İstatistikler Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1232
+#: src/dialogs/dialog-analysis-tools.c:1235
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -24042,7 +24060,7 @@ msgstr ""
 "Lütfen 1.değişken için\n"
 "dağılım değişimini girin."
 
-#: src/dialogs/dialog-analysis-tools.c:1241
+#: src/dialogs/dialog-analysis-tools.c:1244
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -24050,73 +24068,45 @@ msgstr ""
 "Lütfen 2. değişken için\n"
 "dağılım değişimini girin."
 
-#: src/dialogs/dialog-analysis-tools.c:1466
-msgid "Var_iable 1 Range:"
-msgstr "_1. Değişken Aralığı:"
-
-#: src/dialogs/dialog-analysis-tools.c:1467
-msgid "_Variable 2 Range:"
-msgstr "_2. Değişken Aralığı:"
-
-#: src/dialogs/dialog-analysis-tools.c:1468
+#: src/dialogs/dialog-analysis-tools.c:1460
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Ortalama Testleri Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1665
-msgid "Var_iable 1 Range"
-msgstr "_1. Değişken Aralığı"
-
-#: src/dialogs/dialog-analysis-tools.c:1665
-msgid "_Variable 2 Range"
-msgstr "_2. Değişken Aralığı"
-
-#: src/dialogs/dialog-analysis-tools.c:1666
+#: src/dialogs/dialog-analysis-tools.c:1649
 msgid "Could not create the FTest Tool dialog."
 msgstr "FTest Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1868
+#: src/dialogs/dialog-analysis-tools.c:1843
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Örnekleme Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1983 src/tools/analysis-tools.c:2152
+#: src/dialogs/dialog-analysis-tools.c:1959 src/tools/analysis-tools.c:2152
 #: src/tools/analysis-tools.c:2231
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Sapma içindeki her değişken için aynı sayıda girdi olmalıdır."
 
-#: src/dialogs/dialog-analysis-tools.c:2086 src/dialogs/regression.glade.h:21
-msgid "_X Variables:"
-msgstr "_X Değişkenleri:"
-
-#: src/dialogs/dialog-analysis-tools.c:2086 src/dialogs/regression.glade.h:22
-msgid "_Y Variable:"
-msgstr "_Y Değişkeni:"
-
-#: src/dialogs/dialog-analysis-tools.c:2087
+#: src/dialogs/dialog-analysis-tools.c:2053
 msgid "Could not create the Regression Tool dialog."
 msgstr "Sapma Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:2223
+#: src/dialogs/dialog-analysis-tools.c:2181
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Üstel Yuvarlama Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:2364
+#: src/dialogs/dialog-analysis-tools.c:2314
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Hareketli Ortalama Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/histogram.glade.h:3
-msgid "Bin _Range:"
-msgstr "K_utu Aralığı:"
-
-#: src/dialogs/dialog-analysis-tools.c:2587
+#: src/dialogs/dialog-analysis-tools.c:2525
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Çubuklu Grafik Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:2765
+#: src/dialogs/dialog-analysis-tools.c:2704
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "ANOVA (tek çarpan) Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:2844
+#: src/dialogs/dialog-analysis-tools.c:2783
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -24124,38 +24114,38 @@ msgstr ""
 "Verilen girdi aralığı en az iki veri sütunu ve iki veri satırını etiketleri "
 "ile içermeli."
 
-#: src/dialogs/dialog-analysis-tools.c:2847
+#: src/dialogs/dialog-analysis-tools.c:2786
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 "Verilen girdi aralığı en az iki veri sütunu ve iki veri satırı içermeli."
 
-#: src/dialogs/dialog-analysis-tools.c:2853
+#: src/dialogs/dialog-analysis-tools.c:2792
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr "Verilen girdi alanı en az iki veri sütunu ve etiketlerini içermeli."
 
-#: src/dialogs/dialog-analysis-tools.c:2856
+#: src/dialogs/dialog-analysis-tools.c:2795
 msgid "The given input range should contain at least two columns of data."
 msgstr "Verilen girdi aralığı en az iki veri sütunu içermeli."
 
-#: src/dialogs/dialog-analysis-tools.c:2862
+#: src/dialogs/dialog-analysis-tools.c:2801
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr "Verilen girdi aralığı en az iki veri satırı ve etiketlerini içermeli."
 
-#: src/dialogs/dialog-analysis-tools.c:2865
+#: src/dialogs/dialog-analysis-tools.c:2804
 msgid "The given input range should contain at least two rows of data."
 msgstr "Verilen girdi aralığı en az iki veri satırı içermeli."
 
-#: src/dialogs/dialog-analysis-tools.c:2872
+#: src/dialogs/dialog-analysis-tools.c:2811
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "Veri satırlarının sayısı kopyalama sayısının katları olmalıdır."
 
-#: src/dialogs/dialog-analysis-tools.c:2969
+#: src/dialogs/dialog-analysis-tools.c:2908
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "ANOVA (iki çarpan) Araçları diyaloğu oluşturulamadı."
 
@@ -24327,19 +24317,44 @@ msgstr "Sütun %s"
 msgid "Row %s"
 msgstr "Satır %s"
 
-#: src/dialogs/dialog-cell-sort.c:1039
+#: src/dialogs/dialog-cell-sort.c:154 src/tools/solver/reports-write.c:688
+#, c-format
+msgid "%s (%s)"
+msgstr "%s (%s)"
+
+#: src/dialogs/dialog-cell-sort.c:319
+#, fuzzy, c-format
+msgid "%s to %s"
+msgstr "%s (%s)"
+
+#: src/dialogs/dialog-cell-sort.c:787
+#, fuzzy
+msgid "no available row"
+msgstr "< Kullanışsız >"
+
+#: src/dialogs/dialog-cell-sort.c:787
+#, fuzzy
+msgid "no available column"
+msgstr "< Kullanışsız >"
+
+#: src/dialogs/dialog-cell-sort.c:1030
+#, fuzzy
+msgid "Header"
+msgstr "Sayfa_başı:"
+
+#: src/dialogs/dialog-cell-sort.c:1035
 msgid "Row/Column"
 msgstr "Satır/Sütun"
 
-#: src/dialogs/dialog-cell-sort.c:1059
+#: src/dialogs/dialog-cell-sort.c:1055
 msgid "Case Sensitive"
 msgstr "Harf Büyüklüğüne Duyarlı"
 
-#: src/dialogs/dialog-cell-sort.c:1079
+#: src/dialogs/dialog-cell-sort.c:1075
 msgid "By Value"
 msgstr "Değeriyle"
 
-#: src/dialogs/dialog-cell-sort.c:1214
+#: src/dialogs/dialog-cell-sort.c:1210
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Göze Sıralama diyaloğu oluşturulamadı."
 
@@ -24370,7 +24385,7 @@ msgstr "%s bölgesi hedef bölge ile karışıyor"
 msgid "The output range overlaps with the input ranges."
 msgstr "Çıktı aralığı geçersiz."
 
-#: src/dialogs/dialog-consolidate.c:564
+#: src/dialogs/dialog-consolidate.c:563
 #, fuzzy
 msgid "Could not create the Consolidate dialog."
 msgstr "Otomatik kayıt diyaloğu oluşturulamadı."
@@ -24392,7 +24407,7 @@ msgstr "Sil"
 msgid "Could not create the Delete Cell dialog."
 msgstr "Göze Silme diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-fill-series.c:267
+#: src/dialogs/dialog-fill-series.c:266
 #, fuzzy
 msgid "Could not create the Fill Series dialog."
 msgstr "Çözümleyici diyaloğu oluşturulamadı."
@@ -24997,7 +25012,7 @@ msgstr "nu Değeri:"
 msgid "Weibull"
 msgstr "Weibull"
 
-#: src/dialogs/dialog-random-generator.c:859
+#: src/dialogs/dialog-random-generator.c:858
 msgid "Could not create the Random Tool dialog."
 msgstr "Rasgele Araçları diyaloğu oluşturulamadı."
 
@@ -25045,11 +25060,6 @@ msgstr ""
 msgid "Could not create the Scenario Add dialog."
 msgstr "Çözümleyici diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-scenarios.c:228 src/dialogs/scenario-add.glade.h:5
-#, fuzzy
-msgid "_Changing cells:"
-msgstr "_Değiştiren Gözeler:"
-
 #: src/dialogs/dialog-scenarios.c:243
 #, fuzzy
 msgid "Created on "
@@ -25063,12 +25073,6 @@ msgstr ""
 #, fuzzy
 msgid "Could not create the Scenarios dialog."
 msgstr "Çözümleyici diyaloğu oluşturulamadı."
-
-#: src/dialogs/dialog-scenarios.c:650 src/dialogs/scenario-manager.glade.h:10
-#: src/tools/scenarios.c:628
-#, fuzzy
-msgid "Result Cells:"
-msgstr "Sonuç gözesi"
 
 #: src/dialogs/dialog-search-replace.c:156 src/dialogs/dialog-search.c:331
 msgid "You must select some cell types to search."
@@ -25134,7 +25138,7 @@ msgstr "Çizelge sırası değişti. Listenin güncellenmesini ister misiniz?"
 msgid "The input range is invalid."
 msgstr "Çıktı aralığı geçersiz."
 
-#: src/dialogs/dialog-shuffle.c:152
+#: src/dialogs/dialog-shuffle.c:151
 #, fuzzy
 msgid "Could not create the Data Shuffling dialog."
 msgstr "Benzetim diyaloğu oluşturulamadı."
@@ -25182,16 +25186,16 @@ msgid "Variable"
 msgstr "Değişken"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:4854
+#: src/workbook-control-gui.c:4850
 msgid "Min"
 msgstr "Asgari"
 
-#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4856
+#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4852
 msgid "Average"
 msgstr "Ortalama"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:4855
+#: src/workbook-control-gui.c:4851
 msgid "Max"
 msgstr "Azami"
 
@@ -25206,14 +25210,6 @@ msgid ""
 msgstr "Yuvarlanan ilk sayı sonuncusundan büyük ya da eşit olmalıdır."
 
 #: src/dialogs/dialog-simulation.c:430
-msgid "_Inputs:"
-msgstr "_Girdiler:"
-
-#: src/dialogs/dialog-simulation.c:430
-msgid "_Outputs:"
-msgstr "Çı_ktılar:"
-
-#: src/dialogs/dialog-simulation.c:431
 msgid "Could not create the Simulation dialog."
 msgstr "Benzetim diyaloğu oluşturulamadı."
 
@@ -25475,6 +25471,10 @@ msgstr "Bilinmeyen operatör"
 #: src/dialogs/dialog-stf-export.glade.h:38
 msgid "Windows (carriage return + linefeed)"
 msgstr "Windows (CRLF)"
+
+#: src/dialogs/dialog-stf-export.glade.h:39
+msgid "_Preserves Formats"
+msgstr "_Biçemleri Korur"
 
 #: src/dialogs/dialog-stf-export.glade.h:40 src/dialogs/dialog-stf.glade.h:64
 msgid "`"
@@ -25943,17 +25943,30 @@ msgstr "Seçimi Sığ_dır %"
 msgid "0.2"
 msgstr "0.2"
 
-#: src/dialogs/exp-smoothing.glade.h:5 src/tools/analysis-tools.c:2689
+#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:2689
 #: src/tools/analysis-tools.c:2692
 msgid "Exponential Smoothing"
 msgstr "Üstel Yuvarlama"
 
-#: src/dialogs/exp-smoothing.glade.h:12
+#: src/dialogs/exp-smoothing.glade.h:4 src/dialogs/histogram.glade.h:5
+#: src/dialogs/moving-averages.glade.h:3 src/dialogs/regression.glade.h:4
+#: src/dialogs/sampling.glade.h:3
+#, fuzzy
+msgid "Grouped by:"
+msgstr "Bununla Grupla:"
+
+#: src/dialogs/exp-smoothing.glade.h:7
 msgid "_Damping factor:"
 msgstr "_Bastırma çarpanı:"
 
-#: src/dialogs/exp-smoothing.glade.h:20 src/dialogs/moving-averages.glade.h:20
-msgid "_Standard Errors"
+#: src/dialogs/exp-smoothing.glade.h:9 src/dialogs/moving-averages.glade.h:9
+#, fuzzy
+msgid "_Input range:"
+msgstr "G_irdi Aralığı:"
+
+#: src/dialogs/exp-smoothing.glade.h:13 src/dialogs/moving-averages.glade.h:13
+#, fuzzy
+msgid "_Standard errors"
 msgstr "_Standart Hatalar"
 
 #: src/dialogs/fill-series.glade.h:4
@@ -26139,7 +26152,7 @@ msgstr "_Binler ayracı Kullan"
 msgid "Formula Guru"
 msgstr "Formül Ustası"
 
-#: src/dialogs/fourier-analysis.glade.h:5
+#: src/dialogs/fourier-analysis.glade.h:3
 msgid "I_nverse"
 msgstr "_Ters"
 
@@ -26220,11 +26233,18 @@ msgid "_Right section:"
 msgstr "S_ağ bölüm:"
 
 #: src/dialogs/histogram.glade.h:2
-msgid "Bin _Labels"
+#, fuzzy
+msgid "Bin _labels"
 msgstr "K_utu Etiketleri"
 
+#: src/dialogs/histogram.glade.h:3
+#, fuzzy
+msgid "Bin _range:"
+msgstr "K_utu Aralığı:"
+
 #: src/dialogs/histogram.glade.h:4
-msgid "C_umulative Percentages"
+#, fuzzy
+msgid "C_umulative percentages"
 msgstr "_Kümülatif Yüzdeler"
 
 #: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4069
@@ -26233,89 +26253,50 @@ msgid "Histogram"
 msgstr "Çubuklu Grafik"
 
 #: src/dialogs/histogram.glade.h:7
-msgid "Input _Labels"
-msgstr "Girdi _Etiketleri"
-
-#: src/dialogs/histogram.glade.h:8
-msgid "Input _Range:"
+#, fuzzy
+msgid "Input _range:"
 msgstr "Girdi _Aralığı:"
 
-#: src/dialogs/histogram.glade.h:9
+#: src/dialogs/histogram.glade.h:8
 msgid "M_in:"
 msgstr "A_sgari:"
 
-#: src/dialogs/histogram.glade.h:10
+#: src/dialogs/histogram.glade.h:9
 msgid "Ma_x:"
 msgstr "A_zami:"
 
-#: src/dialogs/histogram.glade.h:11 src/dialogs/mean-tests.glade.h:8
-#: src/dialogs/moving-averages.glade.h:8 src/dialogs/sampling.glade.h:7
+#: src/dialogs/histogram.glade.h:11
 #, fuzzy
-msgid "New _Sheet"
-msgstr "Yeni Çizelge"
-
-#: src/dialogs/histogram.glade.h:12 src/dialogs/mean-tests.glade.h:9
-#: src/dialogs/moving-averages.glade.h:9 src/dialogs/sampling.glade.h:8
-#, fuzzy
-msgid "New _Workbook"
-msgstr "Yeni Defter"
-
-#: src/dialogs/histogram.glade.h:14 src/dialogs/moving-averages.glade.h:11
-#: src/dialogs/sampling.glade.h:10
-#, fuzzy
-msgid "Output _Range:"
-msgstr "Çı_ktı Aralığı:"
-
-#: src/dialogs/histogram.glade.h:15
-msgid "Pareto (_Sorted)"
+msgid "Pareto (_sorted)"
 msgstr "Pareto (_Sıralı)"
 
-#: src/dialogs/histogram.glade.h:16
-#, fuzzy
-msgid "Retain Output Range _Comments"
-msgstr "Kalan Çıktı Aralığı Açıklamaları"
-
-#: src/dialogs/histogram.glade.h:17
-#, fuzzy
-msgid "Retain Output Range _Formatting"
-msgstr "Kalan Çıktı Aralığı Biçemlemesi"
-
-#: src/dialogs/histogram.glade.h:19
-#, fuzzy
-msgid "_Autofit Columns"
-msgstr "Sütunları _Otomatik Sığdır"
-
-#: src/dialogs/histogram.glade.h:20
+#: src/dialogs/histogram.glade.h:13
 #, fuzzy
 msgid "_Bins"
 msgstr "Kutu"
 
-#: src/dialogs/histogram.glade.h:21
-msgid "_Calculated Bins"
+#: src/dialogs/histogram.glade.h:14
+#, fuzzy
+msgid "_Calculated bins"
 msgstr "_Hesaplanmış Kutular"
 
-#: src/dialogs/histogram.glade.h:22
+#: src/dialogs/histogram.glade.h:15
 #, fuzzy
-msgid "_Chart Output"
+msgid "_Chart output"
 msgstr "Grafik Çıktısı"
 
-#: src/dialogs/histogram.glade.h:23
-#, fuzzy
-msgid "_Clear Output Range"
-msgstr "Çıktı Aralığını Temizle"
-
-#: src/dialogs/histogram.glade.h:26
+#: src/dialogs/histogram.glade.h:19
 msgid "_N:"
 msgstr "_N:"
 
-#: src/dialogs/histogram.glade.h:28
+#: src/dialogs/histogram.glade.h:21
 #, fuzzy
 msgid "_Percentages"
 msgstr "_Yüzde"
 
-#: src/dialogs/histogram.glade.h:29
+#: src/dialogs/histogram.glade.h:22
 #, fuzzy
-msgid "_Predetermined Bins"
+msgid "_Predetermined bins"
 msgstr "Önceden Saptanmış Kutular"
 
 #: src/dialogs/hyperlink.glade.h:2
@@ -26375,82 +26356,86 @@ msgstr "Süt_un ekle"
 msgid "_Shift cells right"
 msgstr "Gözeleri _sağa kaydır"
 
-#: src/dialogs/mean-tests.glade.h:6
+#: src/dialogs/mean-tests.glade.h:4
 msgid "E_qual"
 msgstr "Eşi_t"
 
-#: src/dialogs/mean-tests.glade.h:7
+#: src/dialogs/mean-tests.glade.h:5
 #, fuzzy
-msgid "Hypothesized Mean _Difference:"
+msgid "Hypothesized mean _difference:"
 msgstr "_Varsayımlı Ortalama Farkı:"
 
-#: src/dialogs/mean-tests.glade.h:10
-msgid "Population Variances are:"
+#: src/dialogs/mean-tests.glade.h:6
+#, fuzzy
+msgid "Population variances are:"
 msgstr "Dağılım Değişimleri:"
 
-#: src/dialogs/mean-tests.glade.h:13
+#: src/dialogs/mean-tests.glade.h:7
 msgid "Testing the Difference of 2 Means"
 msgstr "2 Ortalamanın Farkının Sınanması"
 
-#: src/dialogs/mean-tests.glade.h:14
+#: src/dialogs/mean-tests.glade.h:8
 #, fuzzy
-msgid "Variable _1 Population Variance:"
+msgid "Variable _1 population variance:"
 msgstr "1. Değişkenin Dğlm Değişimi:"
 
-#: src/dialogs/mean-tests.glade.h:15 src/dialogs/variance-tests.glade.h:9
-msgid "Variable _1 Range:"
+#: src/dialogs/mean-tests.glade.h:9 src/dialogs/variance-tests.glade.h:4
+#, fuzzy
+msgid "Variable _1 range:"
 msgstr "_1. Değişken Aralığı:"
 
-#: src/dialogs/mean-tests.glade.h:16
+#: src/dialogs/mean-tests.glade.h:10
 #, fuzzy
-msgid "Variable _2 Population Variance:"
+msgid "Variable _2 population variance:"
 msgstr "2. Değişkenin Dğlm Değişimi:"
 
-#: src/dialogs/mean-tests.glade.h:17 src/dialogs/variance-tests.glade.h:10
-msgid "Variable _2 Range:"
+#: src/dialogs/mean-tests.glade.h:11 src/dialogs/variance-tests.glade.h:5
+#, fuzzy
+msgid "Variable _2 range:"
 msgstr "_2. Değişken Aralığı:"
 
-#: src/dialogs/mean-tests.glade.h:18
+#: src/dialogs/mean-tests.glade.h:12
 msgid "Variables are:"
 msgstr "Değişkenler:"
 
-#: src/dialogs/mean-tests.glade.h:19 src/dialogs/variance-tests.glade.h:11
-msgid "_Alpha ="
-msgstr "_Alfa ="
+#: src/dialogs/mean-tests.glade.h:13 src/dialogs/variance-tests.glade.h:6
+#, fuzzy
+msgid "_Alpha:"
+msgstr "_alfa:"
 
-#: src/dialogs/mean-tests.glade.h:21
+#: src/dialogs/mean-tests.glade.h:15
 msgid "_Known"
 msgstr "_Bilinen"
 
-#: src/dialogs/mean-tests.glade.h:25
+#: src/dialogs/mean-tests.glade.h:18
 msgid "_Paired"
 msgstr "_Eşli"
 
-#: src/dialogs/mean-tests.glade.h:26
+#: src/dialogs/mean-tests.glade.h:19
 #, fuzzy
-msgid "_Population Variances are:"
+msgid "_Population variances are:"
 msgstr "Dağılım Değişimleri:"
 
-#: src/dialogs/mean-tests.glade.h:27
+#: src/dialogs/mean-tests.glade.h:20
 #, fuzzy
 msgid "_Populations"
 msgstr "_Seçenekler"
 
-#: src/dialogs/mean-tests.glade.h:28 src/dialogs/variance-tests.glade.h:17
+#: src/dialogs/mean-tests.glade.h:21 src/dialogs/variance-tests.glade.h:10
 #, fuzzy
 msgid "_Test"
 msgstr "Sınama"
 
-#: src/dialogs/mean-tests.glade.h:29
+#: src/dialogs/mean-tests.glade.h:22
 msgid "_Unequal"
 msgstr "_Eşitsiz"
 
-#: src/dialogs/mean-tests.glade.h:30
+#: src/dialogs/mean-tests.glade.h:23
 #, fuzzy
 msgid "_Unknown"
 msgstr "Bilinmeyen"
 
-#: src/dialogs/mean-tests.glade.h:31
+#: src/dialogs/mean-tests.glade.h:24
 #, fuzzy
 msgid "_Unpaired"
 msgstr "Ay_rık"
@@ -26473,11 +26458,11 @@ msgstr "Katıştır"
 msgid "3"
 msgstr "3"
 
-#: src/dialogs/moving-averages.glade.h:6
+#: src/dialogs/moving-averages.glade.h:4
 msgid "In_terval:"
 msgstr "_Aralık:"
 
-#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2556
+#: src/dialogs/moving-averages.glade.h:5 src/tools/analysis-tools.c:2556
 #: src/tools/analysis-tools.c:2559
 msgid "Moving Average"
 msgstr "Hareket Ortalaması"
@@ -26760,19 +26745,19 @@ msgstr "_Dağılım:"
 msgid "_Random Numbers"
 msgstr "Rasgele Sayılar"
 
-#: src/dialogs/rank.glade.h:2
+#: src/dialogs/rank.glade.h:1
 msgid "Average _Rank"
 msgstr "Sıralama O_rtalaması"
 
-#: src/dialogs/rank.glade.h:7
+#: src/dialogs/rank.glade.h:4
 msgid "Rank and Percentile"
 msgstr "Sıralama ve Oranlama"
 
-#: src/dialogs/rank.glade.h:10
+#: src/dialogs/rank.glade.h:5
 msgid "Ties:"
 msgstr "Düğümler:"
 
-#: src/dialogs/rank.glade.h:20
+#: src/dialogs/rank.glade.h:13
 msgid "_Top Rank"
 msgstr "_Tepe Sıralama"
 
@@ -26780,18 +26765,30 @@ msgstr "_Tepe Sıralama"
 msgid "0.95"
 msgstr "0.95"
 
-#: src/dialogs/regression.glade.h:5
-msgid "Confidence Level:"
+#: src/dialogs/regression.glade.h:3
+#, fuzzy
+msgid "Confidence level:"
 msgstr "Emniyet Aralığı Seviyesi:"
 
-#: src/dialogs/regression.glade.h:9 src/tools/analysis-tools.c:2435
+#: src/dialogs/regression.glade.h:6 src/tools/analysis-tools.c:2435
 #: src/tools/analysis-tools.c:2438
 msgid "Regression"
 msgstr "Sapma"
 
-#: src/dialogs/regression.glade.h:14
-msgid "_Force Intercept To Be Zero"
+#: src/dialogs/regression.glade.h:9
+#, fuzzy
+msgid "_Force intercept to be zero"
 msgstr "_Kesişme Yerinin Sıfır Olmasını Sağla"
+
+#: src/dialogs/regression.glade.h:14
+#, fuzzy
+msgid "_X variables:"
+msgstr "_X Değişkenleri:"
+
+#: src/dialogs/regression.glade.h:15
+#, fuzzy
+msgid "_Y variable:"
+msgstr "_Y Değişkeni:"
 
 #: src/dialogs/row-height.glade.h:1
 msgid "Row Height"
@@ -26802,35 +26799,39 @@ msgstr "Satır Yüksekliği"
 msgid "_Row height (pt.):"
 msgstr "_Satır Yüksekliği (punto):"
 
-#: src/dialogs/sampling.glade.h:6
-msgid "N_umber of Samples:"
+#: src/dialogs/sampling.glade.h:4
+#, fuzzy
+msgid "N_umber of samples:"
 msgstr "Ör_nek Sayısı:"
 
-#: src/dialogs/sampling.glade.h:11
+#: src/dialogs/sampling.glade.h:6
 msgid "Per_iod:"
 msgstr "Per_iyot:"
 
-#: src/dialogs/sampling.glade.h:14
+#: src/dialogs/sampling.glade.h:7
 msgid "Sampling"
 msgstr "Örnekleme"
 
-#: src/dialogs/sampling.glade.h:15
-msgid "Sampling Method:"
+#: src/dialogs/sampling.glade.h:8
+#, fuzzy
+msgid "Sampling method:"
 msgstr "Örnekleme Yöntemi:"
 
-#: src/dialogs/sampling.glade.h:16
-msgid "Size of Sample:"
+#: src/dialogs/sampling.glade.h:9
+#, fuzzy
+msgid "Size of sample:"
 msgstr "Örnek Boyu:"
 
-#: src/dialogs/sampling.glade.h:20
-msgid "_Input Range: "
+#: src/dialogs/sampling.glade.h:13
+#, fuzzy
+msgid "_Input range: "
 msgstr "G_irdi Aralığı: "
 
-#: src/dialogs/sampling.glade.h:23
+#: src/dialogs/sampling.glade.h:16
 msgid "_Periodic"
 msgstr "_Dönemsel"
 
-#: src/dialogs/sampling.glade.h:24
+#: src/dialogs/sampling.glade.h:17
 msgid "_Random"
 msgstr "_Rasgele"
 
@@ -26847,6 +26848,11 @@ msgstr "Yorum"
 #, fuzzy
 msgid "Scenario name:"
 msgstr "Seri ismi"
+
+#: src/dialogs/scenario-add.glade.h:5
+#, fuzzy
+msgid "_Changing cells:"
+msgstr "_Değiştiren Gözeler:"
 
 #: src/dialogs/scenario-manager.glade.h:3
 #, fuzzy
@@ -26872,6 +26878,11 @@ msgstr "Belgenin Kısa Bilgileri"
 #, fuzzy
 msgid "Create _Report"
 msgstr "Program Raporu"
+
+#: src/dialogs/scenario-manager.glade.h:10 src/tools/scenarios.c:628
+#, fuzzy
+msgid "Result Cells:"
+msgstr "Sonuç gözesi"
 
 #: src/dialogs/scenario-manager.glade.h:11
 #, fuzzy
@@ -27622,7 +27633,7 @@ msgstr "_Koordinat"
 msgid "_Visual"
 msgstr "_Görsel"
 
-#: src/dialogs/variance-tests.glade.h:8
+#: src/dialogs/variance-tests.glade.h:3
 msgid "Testing Equality of 2 Variances (F-Test)"
 msgstr "2 Değişimin Eşitlik Sınaması (F-Test)"
 
@@ -27774,37 +27785,37 @@ msgstr ""
 "İlgili eklenti.xml dosyasını düzenleyerek, bu emniyet özelliğini "
 "kapatabilirsiniz."
 
-#: src/format-template.c:467
+#: src/format-template.c:468
 msgid "Error while trying to load autoformat template"
 msgstr "Otomatik biçim şablonu yüklenirken hata oluştu"
 
-#: src/format-template.c:484
+#: src/format-template.c:485
 msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 "Otomatik biçemleme şablonu dosyasından ağacı kurgulamaya çalışırken hata "
 "oluştu"
 
-#: src/format-template.c:490
+#: src/format-template.c:491
 msgid "Is not an autoformat template file"
 msgstr "Otomatik biçimleme şablonu dosyası değil"
 
-#: src/format-template.c:493
+#: src/format-template.c:494
 #, fuzzy
 msgid "Invalid xml file. Tree is empty?"
 msgstr "xml dosyası geçersiz. Ağaç boş mu?"
 
-#: src/format-template.c:826
+#: src/format-template.c:827
 #, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr "Hedef bölge çok küçük.  En azından %d satır x %d sütun olmalıydı"
 
-#: src/format-template.c:830
+#: src/format-template.c:831
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr "Hedef bölge çok küçük. En azından %d sütun genişlikte olmalıydı"
 
-#: src/format-template.c:834
+#: src/format-template.c:835
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Hedef bölge çok küçük. En azından %d satır yüksekliğinde olmalıydı"
@@ -28875,15 +28886,15 @@ msgstr "Sağa Kaydı_r ve Taşı"
 msgid "C_ancel"
 msgstr "İp_tal"
 
-#: src/main-application.c:55
+#: src/main-application.c:55 src/ssconvert.c:38
 msgid "Display Gnumeric's version"
 msgstr "Gnumeric sürümünü göster"
 
-#: src/main-application.c:57
+#: src/main-application.c:57 src/ssconvert.c:41
 msgid "Set the root library directory"
 msgstr "Kök kütüphane dizinini tanımla"
 
-#: src/main-application.c:59
+#: src/main-application.c:59 src/ssconvert.c:43
 msgid "Adjust the root data directory"
 msgstr "Kök veri dizinini ayarla"
 
@@ -30194,23 +30205,23 @@ msgstr "Fourier Serisi (%s)"
 msgid "Fourier Series"
 msgstr "Fourier Serisi"
 
-#: src/tools/dao.c:129
+#: src/tools/dao.c:148
 msgid "New Sheet"
 msgstr "Yeni Çizelge"
 
-#: src/tools/dao.c:132
+#: src/tools/dao.c:151
 msgid "New Workbook"
 msgstr "Yeni Defter"
 
-#: src/tools/dao.c:861
+#: src/tools/dao.c:880
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: src/tools/dao.c:867
+#: src/tools/dao.c:886
 msgid "Worksheet:"
 msgstr "Çalışma Defteri:"
 
-#: src/tools/dao.c:875
+#: src/tools/dao.c:894
 msgid "Report Created: "
 msgstr "Rapor Tarihi: "
 
@@ -30312,7 +30323,7 @@ msgstr "Kurtozis"
 msgid "Range"
 msgstr "Aralık"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:4857
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4853
 msgid "Count"
 msgstr "Sayaç"
 
@@ -30609,11 +30620,6 @@ msgstr "İşletim Sistemi"
 #: src/tools/solver/reports-write.c:683
 msgid "Unknown"
 msgstr "Bilinmeyen"
-
-#: src/tools/solver/reports-write.c:688
-#, c-format
-msgid "%s (%s)"
-msgstr "%s (%s)"
 
 #: src/tools/solver/reports-write.c:703 src/tools/solver/reports-write.c:711
 msgid "Model Assumptions:"
@@ -32462,30 +32468,30 @@ msgstr "İşlemi geri al"
 msgid "Redo the operation"
 msgstr "İşlemi ileri al"
 
-#: src/workbook-control-gui.c:5150
+#: src/workbook-control-gui.c:5140
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "\"%s\" dosyasının biçemi bilinmiyor."
 
-#: src/workbook-control-gui.c:5196
+#: src/workbook-control-gui.c:5186
 msgid "Send"
 msgstr "Gönder"
 
-#: src/workbook-control-gui.c:5196
+#: src/workbook-control-gui.c:5186
 msgid "Send the current file in email"
 msgstr "Mevcut dosyayı e-posta ile gönder"
 
-#: src/workbook-control-gui.c:5436 src/workbook-control-gui.c:5451
+#: src/workbook-control-gui.c:5426 src/workbook-control-gui.c:5441
 #, fuzzy
 msgid "_Re-Edit"
 msgstr "Yeniden Düzenle"
 
-#: src/workbook-control-gui.c:5437 src/workbook-control-gui.c:5442
+#: src/workbook-control-gui.c:5427 src/workbook-control-gui.c:5432
 #, fuzzy
 msgid "_Discard"
 msgstr "İptal"
 
-#: src/workbook-control-gui.c:5441 src/workbook-control-gui.c:5452
+#: src/workbook-control-gui.c:5431 src/workbook-control-gui.c:5442
 #, fuzzy
 msgid "_Accept"
 msgstr "Kabul"
@@ -32712,6 +32718,91 @@ msgstr "Dosya kaydedilirken başarısızlık"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML dosya biçemi"
 
+#: src/ssconvert.c:46
+msgid "Optionally specify an encoding for imported content"
+msgstr ""
+
+#: src/ssconvert.c:46
+msgid "ENCODING"
+msgstr ""
+
+#: src/ssconvert.c:48
+msgid "Optionally specify which exporter to use"
+msgstr ""
+
+#: src/ssconvert.c:50 src/ssconvert.c:52
+msgid "List the available exporters"
+msgstr ""
+
+#: src/ssconvert.c:81
+#, fuzzy, c-format
+msgid ""
+"ssconvert version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+msgstr ""
+"gnumeric sürümü: '%s'\n"
+"veri dizini := '%s'\n"
+"kitaplık dizini := '%s'\n"
+
+#~ msgid "_Right-Left"
+#~ msgstr "S_ağ ve Sol"
+
+#~ msgid "_List Range:"
+#~ msgstr "_Liste Aralığı:"
+
+#~ msgid "Var_iable 1 Range:"
+#~ msgstr "_1. Değişken Aralığı:"
+
+#~ msgid "_Variable 2 Range:"
+#~ msgstr "_2. Değişken Aralığı:"
+
+#~ msgid "Var_iable 1 Range"
+#~ msgstr "_1. Değişken Aralığı"
+
+#~ msgid "_Variable 2 Range"
+#~ msgstr "_2. Değişken Aralığı"
+
+#~ msgid "_Inputs:"
+#~ msgstr "_Girdiler:"
+
+#~ msgid "_Outputs:"
+#~ msgstr "Çı_ktılar:"
+
+#~ msgid "Input _Labels"
+#~ msgstr "Girdi _Etiketleri"
+
+#, fuzzy
+#~ msgid "New _Sheet"
+#~ msgstr "Yeni Çizelge"
+
+#, fuzzy
+#~ msgid "New _Workbook"
+#~ msgstr "Yeni Defter"
+
+#, fuzzy
+#~ msgid "Output _Range:"
+#~ msgstr "Çı_ktı Aralığı:"
+
+#, fuzzy
+#~ msgid "Retain Output Range _Comments"
+#~ msgstr "Kalan Çıktı Aralığı Açıklamaları"
+
+#, fuzzy
+#~ msgid "Retain Output Range _Formatting"
+#~ msgstr "Kalan Çıktı Aralığı Biçemlemesi"
+
+#, fuzzy
+#~ msgid "_Autofit Columns"
+#~ msgstr "Sütunları _Otomatik Sığdır"
+
+#, fuzzy
+#~ msgid "_Clear Output Range"
+#~ msgstr "Çıktı Aralığını Temizle"
+
+#~ msgid "_Alpha ="
+#~ msgstr "_Alfa ="
+
 #~ msgid "Failure parsing AutoFilter."
 #~ msgstr "OtoSüzgeç çözümlenemiyor."
 
@@ -32755,9 +32846,6 @@ msgstr "Gnumeric XML dosya biçemi"
 #, fuzzy
 #~ msgid "Summary Report:"
 #~ msgstr "Sonuçların Özeti: "
-
-#~ msgid "A_utofit columns"
-#~ msgstr "Sütunları _otomatik sığdır"
 
 #~ msgid "Inputs: "
 #~ msgstr "Girdiler: "
@@ -32855,10 +32943,6 @@ msgstr "Gnumeric XML dosya biçemi"
 
 #~ msgid "Deletion of sheets is not undoable. Do you want to proceed?"
 #~ msgstr "Silinen çizelgeler geri alınamaz. Silinsin mi?"
-
-#, fuzzy
-#~ msgid "_Alpha:"
-#~ msgstr "_alfa:"
 
 #~ msgid "Are you sure you want to remove the sheet called `%s'?"
 #~ msgstr "`%s' çizelgesini gerçekten silmek istiyor musunuz?"
