@@ -1,3 +1,7 @@
+2003-09-07  Jody Goldberg <jody@gnome.org>
+
+	* POTFILES.in : Add missing util classes from the charting engine
+
 2003-09-08  Danilo Šegan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation by Serbian 

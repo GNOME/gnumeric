@@ -1,3 +1,10 @@
+2003-09-07  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* widget-color-combo.c (color_combo_set_color_internal): use a pixbuf instead of a foo-canvas for the
+	preview. Makes the color combo look prettier, especially when mouse is
+	over.
+	(color_combo_construct): idem.
+	
 2003-09-06  Jon K Hellan  <hellan@acm.org>
 
 	* widget-font-selector.c (fs_modify_style): Merge before emitting

@@ -138,6 +138,11 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in
+src/cut-n-paste-code/goffice/utils/go-color.c 
+src/cut-n-paste-code/goffice/utils/go-font.c 
+src/cut-n-paste-code/goffice/utils/go-gradient.c 
+src/cut-n-paste-code/goffice/utils/go-marker.c 
+src/cut-n-paste-code/goffice/utils/go-pattern.c 
 src/dates.c
 src/dependent.c
 src/dialogs/advanced-filter.glade

@@ -44,10 +44,12 @@ typedef struct _ColorCombo {
 	GtkComboBox     combo_box;
 
 	/*
-	 * Canvas where we display
+	 * GtkImage where we display
 	 */
 	GtkWidget       *preview_button;
-	FooCanvasItem *preview_color_item;
+	GtkWidget	*preview_image;
+	gboolean	preview_is_icon;
+
 	ColorPalette    *palette;
 
 	GdkColor  default_color_save;

@@ -71,6 +71,9 @@ typedef struct {
 			GdkPixbuf *image;	
 		} image;
 	} fill;
+	struct {
+		GtkWidget *combo;
+	} marker;
 } StylePrefState;
 
 /* utility routines */
@@ -614,17 +617,36 @@ gog_object_dup_style_and_marker (GogObject *obj)
 	gog_style_set_marker (res, go_marker_dup (res->marker));
 	return res;
 }
-
 static void
-cb_marker_shape_changed (GtkOptionMenu *menu, StylePrefState *state)
+cb_marker_shape_changed (GtkWidget *cc, int shape, StylePrefState const *state)
 {
 	GogStyle *style = gog_object_dup_style_and_marker (state->obj);
-	guint shape = gtk_option_menu_get_history (menu);
-	if (shape  == 0)
-		go_marker_set_shape (style->marker, style->marker->defaults.shape);
-	else
-		go_marker_set_shape (style->marker, shape - 1);
+	go_marker_set_shape (style->marker, shape);
 	gog_object_set_style (state->obj, style);
+}
+
+static void
+populate_marker_combo (StylePrefState *state, GogStyle const *style)
+{
+	GtkWidget *combo, *table;
+
+	if (state->marker.combo != NULL)
+		gtk_widget_destroy (state->marker.combo);
+
+	state->marker.combo = combo = go_marker_selector (
+	        go_marker_get_outline_color (style->marker),
+		go_marker_get_fill_color (style->marker));
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (glade_xml_get_widget (state->gui, "marker_shape_label")), combo);
+
+	table = glade_xml_get_widget (state->gui, "marker_table");
+	gtk_table_attach (GTK_TABLE (table), combo, 1, 2, 0, 1, 0, 0, 0, 0);
+	pixmap_combo_select_pixmap (PIXMAP_COMBO (combo), 
+				    go_marker_get_shape (style->marker));
+	g_signal_connect (G_OBJECT (combo),
+		"changed",
+		G_CALLBACK (cb_marker_shape_changed), state);
+	gtk_widget_show (combo);
 }
 
 static void
@@ -639,6 +661,7 @@ cb_marker_outline_color_changed (GtkWidget *cc,
 	else
 		go_marker_set_outline_color (style->marker, color_combo_get_gocolor (cc));
 	gog_object_set_style (state->obj, style);
+	populate_marker_combo (state, style);
 }
 
 static void
@@ -653,6 +676,7 @@ cb_marker_fill_color_changed (GtkWidget *cc,
 	else
 		go_marker_set_fill_color (style->marker, color_combo_get_gocolor (cc));
 	gog_object_set_style (state->obj, style);
+	populate_marker_combo (state, style);
 }
 
 static void
@@ -675,14 +699,7 @@ marker_init (StylePrefState *state, GogStyle const *style, gboolean enable)
 	
 	table = glade_xml_get_widget (state->gui, "marker_table");
 
-	w = glade_xml_get_widget (state->gui, "marker_shape_menu");
-	if (style->marker->shape == style->marker->defaults.shape)
-		gtk_option_menu_set_history (GTK_OPTION_MENU (w), 0);
-	else
-		gtk_option_menu_set_history (GTK_OPTION_MENU (w), style->marker->shape + 1);
-	g_signal_connect (G_OBJECT (w),
-		"changed",
-		G_CALLBACK (cb_marker_shape_changed), state);
+	populate_marker_combo (state, style);
 
 	w = create_color_combo (state, style->marker->outline_color,
 		"pattern_foreground", "marker_outline_label",

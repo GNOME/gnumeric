@@ -358,6 +358,10 @@ gog_renderer_gnome_print_draw_marker (GogRenderer *renderer, double x, double y)
 
 	go_marker_get_paths (marker, &outline_path_raw, &fill_path_raw);
 
+	if ((outline_path_raw == NULL) ||
+	    (fill_path_raw == NULL))
+		return;
+
 	gnome_print_gsave (prend->gp_context);
 
 	half_size = gog_renderer_line_size (renderer, marker->size) / 2.0;

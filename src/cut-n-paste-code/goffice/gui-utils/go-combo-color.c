@@ -53,10 +53,18 @@ static guint color_combo_signals [LAST_SIGNAL] = { 0, };
 static GObjectClass *color_combo_parent_class;
 
 #define make_color(CC,COL) (((COL) != NULL) ? (COL) : ((CC) ? ((CC)->default_color) : NULL))
+#define RGBA_TO_UINT(r,g,b,a)	((((guint)(r))<<24)|(((guint)(g))<<16)|(((guint)(b))<<8)|(guint)(a))
+#define GDK_TO_UINT(c)	RGBA_TO_UINT(((c).red>>8), ((c).green>>8), ((c).blue>>8), 0xff)
+
+#define PREVIEW_SIZE 20
 
 static void
 color_combo_set_color_internal (ColorCombo *cc, GdkColor *color)
 {
+	guint color_y, color_height;
+	guint height, width;
+	GdkPixbuf *pixbuf;
+	GdkPixbuf *color_pixbuf;
 	GdkColor *new_color;
 	GdkColor *outline_color;
 
@@ -64,10 +72,39 @@ color_combo_set_color_internal (ColorCombo *cc, GdkColor *color)
 	/* If the new and the default are NULL draw an outline */
 	outline_color = (new_color) ? new_color : &gs_dark_gray;
 
-	foo_canvas_item_set (cc->preview_color_item,
-			       "fill_color_gdk", new_color,
-			       "outline_color_gdk", outline_color,
-			       NULL);
+	pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (cc->preview_image));
+
+	if (!pixbuf)
+		return;
+
+	width = gdk_pixbuf_get_width (pixbuf);
+	height = gdk_pixbuf_get_height (pixbuf);
+
+	if (cc->preview_is_icon) {
+		color_y = height - 4;
+		color_height = 4;
+	}
+	else {
+		color_y = 0;
+		color_height = height;
+	}
+
+	color_pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
+				       TRUE, 8,
+				       width,
+				       color_height);
+	gdk_pixbuf_fill (color_pixbuf, GDK_TO_UINT (*outline_color));
+	gdk_pixbuf_copy_area (color_pixbuf, 0, 0, width, color_height,
+			      pixbuf, 0, color_y);
+
+	if (new_color != NULL)
+		gdk_pixbuf_fill (color_pixbuf, GDK_TO_UINT (*new_color));
+	else
+		gdk_pixbuf_fill (color_pixbuf, 0xffffff00);
+	gdk_pixbuf_copy_area (color_pixbuf, 0, 0, width - 2, color_height -2,
+			      pixbuf, 1, color_y + 1);
+
+	g_object_unref (color_pixbuf);
 }
 
 static void
@@ -196,61 +233,39 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 		       ColorGroup *color_group)
 {
 	GdkColor *color;
-	GtkWidget *vbox;
-	FooCanvas     *preview_canvas;
+	GdkPixbuf *pixbuf = NULL;
 
 	g_return_if_fail (cc != NULL);
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 
 	/*
-	 * Our button with the canvas preview
+	 * Our button with the gtk_image preview
 	 */
 	cc->preview_button = gtk_button_new ();
+	cc->preview_is_icon = FALSE;
+	
+	if (icon)
+		/* use icon only if size > 4*4 */
+		if ((gdk_pixbuf_get_width (icon) > 4) && 
+		    (gdk_pixbuf_get_height (icon) > 4))
+		{
+			cc->preview_is_icon = TRUE;
+			pixbuf = gdk_pixbuf_copy (icon);
+		}
+	
+	if (pixbuf == NULL)
+		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
+					 TRUE, 8, 
+					 PREVIEW_SIZE, 
+					 PREVIEW_SIZE);
+
+	cc->preview_image = gtk_image_new_from_pixbuf (pixbuf);
+	g_object_unref (pixbuf);
+
 	gtk_button_set_relief (GTK_BUTTON (cc->preview_button), GTK_RELIEF_NONE);
-
-	preview_canvas = FOO_CANVAS (foo_canvas_new ());
-
-	foo_canvas_set_scroll_region (preview_canvas, 0, 0, 24, 24);
-	if (icon) {
-		foo_canvas_item_new (
-			FOO_CANVAS_GROUP (foo_canvas_root (preview_canvas)),
-			FOO_TYPE_CANVAS_PIXBUF,
-			"pixbuf", icon,
-			"x",      0.0,
-			"y",      0.0,
-			"anchor", GTK_ANCHOR_NW,
-			NULL);
-
-		cc->preview_color_item = foo_canvas_item_new (
-			FOO_CANVAS_GROUP (foo_canvas_root (preview_canvas)),
-			foo_canvas_rect_get_type (),
-			"x1",         3.0,
-			"y1",         19.0,
-			"x2",         20.0,
-			"y2",         22.0,
-			"fill_color", "black",
-			"width_pixels", 1,
-			NULL);
-	} else
-		cc->preview_color_item = foo_canvas_item_new (
-			FOO_CANVAS_GROUP (foo_canvas_root (preview_canvas)),
-			foo_canvas_rect_get_type (),
-			"x1",         2.0,
-			"y1",         1.0,
-			"x2",         21.0,
-			"y2",         22.0,
-			"fill_color", "black",
-			"width_pixels", 1,
-			NULL);
-
-	gtk_widget_set_size_request (GTK_WIDGET (preview_canvas), 24, 22);
-	/* Wrap inside a vbox with border 1 because canvas would
-	 * overpaint focus indicator */
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 1);
- 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (preview_canvas),
-			    TRUE, TRUE, 0);
- 	gtk_container_add (GTK_CONTAINER (cc->preview_button), vbox);
+	gtk_widget_show (cc->preview_image);
+	
+	gtk_container_add (GTK_CONTAINER (cc->preview_button), cc->preview_image);
 	g_signal_connect (G_OBJECT (cc), "screen-changed", G_CALLBACK (cb_screen_changed), NULL);
 	g_signal_connect (cc->preview_button, "clicked",
 			  G_CALLBACK (preview_clicked), cc);

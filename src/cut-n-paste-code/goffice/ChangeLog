@@ -1,5 +1,20 @@
 2003-09-07  Jody Goldberg <jody@gnome.org>
 
+	* utils/go-marker.c (go_marker_selector) : Add marker names.
+
+2003-09-07  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* utils/go-marker.c : removed unused property and signal stuff.
+	(go_marker_selector) : new.
+	* graph/gog-style.c (populate_marker_combo) : new.
+	(marker_init) : use the marker combo.
+	* graph/gog-style-prefs.glade : removed marker option menu.
+	* graph/gog-renderer-gnome-print.c 
+	(gog_renderer_gnome_print_draw_marker): returns when one of the path
+	is NULL (fix a crash).
+	
+2003-09-07  Jody Goldberg <jody@gnome.org>
+
 	* graph/gog-styled-object.c (gog_styled_object_set_property) : set the
 	  interesting field for a style.
 	(gog_styled_object_init) : ditto.

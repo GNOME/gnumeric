@@ -2,7 +2,6 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
-<requires lib="gnome"/>
 
 <widget class="GtkWindow" id="gog_style_prefs_window">
   <property name="visible">True</property>
@@ -1310,7 +1309,6 @@
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">marker_shape_menu</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">0</property>
@@ -1435,171 +1433,6 @@
 		      <property name="right_attach">3</property>
 		      <property name="top_attach">3</property>
 		      <property name="bottom_attach">4</property>
-		      <property name="y_options"></property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkOptionMenu" id="marker_shape_menu">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="history">0</property>
-
-		      <child>
-			<widget class="GtkMenu" id="menu1">
-
-			  <child>
-			    <widget class="GtkMenuItem" id="automatic1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Automatic</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_automatic1_activate" last_modification_time="Tue, 02 Sep 2003 08:22:12 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="none1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">None</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_none1_activate" last_modification_time="Sat, 16 Aug 2003 17:01:16 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="square1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Square</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_square1_activate" last_modification_time="Wed, 06 Aug 2003 18:59:56 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="diamond1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Diamond</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_diamond1_activate" last_modification_time="Sat, 16 Aug 2003 22:25:56 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="triangle_down1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Triangle down</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_triangle_down1_activate" last_modification_time="Wed, 06 Aug 2003 19:00:20 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="triangle_up1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Triangle up</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_triangle_up1_activate" last_modification_time="Wed, 06 Aug 2003 19:00:20 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="triangle_right1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Triangle right</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_triangle_right1_activate" last_modification_time="Sat, 16 Aug 2003 22:25:56 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="triangle_left1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Triangle left</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_triangle_left1_activate" last_modification_time="Sat, 16 Aug 2003 22:25:56 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="circle1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Circle</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_circle1_activate" last_modification_time="Wed, 27 Aug 2003 13:37:46 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="x1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">X</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_x1_activate" last_modification_time="Wed, 27 Aug 2003 15:19:29 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="cross1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Cross</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_cross1_activate" last_modification_time="Wed, 27 Aug 2003 15:19:29 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="asterisk1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Asterisk</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_asterisk1_activate" last_modification_time="Wed, 27 Aug 2003 15:19:29 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="bar1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">bar</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_bar1_activate" last_modification_time="Thu, 28 Aug 2003 15:51:27 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="half_bar1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Half bar</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_half_bar1_activate" last_modification_time="Thu, 28 Aug 2003 15:51:27 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="butterfly1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Butterfly</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_butterfly1_activate" last_modification_time="Thu, 28 Aug 2003 15:36:53 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="hourglass1">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Hourglass</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_hourglass1_activate" last_modification_time="Thu, 28 Aug 2003 15:36:53 GMT"/>
-			    </widget>
-			  </child>
-			</widget>
-		      </child>
-		    </widget>
-		    <packing>
-		      <property name="left_attach">1</property>
-		      <property name="right_attach">3</property>
-		      <property name="top_attach">0</property>
-		      <property name="bottom_attach">1</property>
-		      <property name="x_options">fill</property>
 		      <property name="y_options"></property>
 		    </packing>
 		  </child>

@@ -9,6 +9,8 @@ Ben Liblit:
 
 Emmanuel Pacaud:
 	* Initial support for line markers.
+	* Add a combo for marker selection.
+	* Make colour combo less ugly for themes.
 
 Jody:
 	* Get the lifecycle of copied GogGraphs running smoothly.

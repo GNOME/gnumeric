@@ -34,6 +34,9 @@
 #include <gnumeric-config.h>
 #include <glade/glade-xml.h>
 #include <widgets/widget-color-combo.h>
+#include <widgets/widget-pixmap-combo.h>
+
+#include <gdk-pixbuf/gdk-pixdata.h>
 
 #include <src/mathfunc.h>
 #include <src/gnumeric-i18n.h>
@@ -43,30 +46,11 @@
 #define MARKER_DEFAULT_SIZE 5
 #define MARKER_OUTLINE_WIDTH 0.1
 
-enum
-{
-	MARKER_PROP_0,
-	MARKER_PROP_SHAPE,
-	MARKER_PROP_OUTLINE_COLOR,
-	MARKER_PROP_FILL_COLOR,
-	MARKER_PROP_SIZE
-};
-
-enum
-{
-	MARKER_CHANGED,
-	LAST_SIGNAL
-};
-
 typedef struct {
 	GObjectClass	base;
-	
-	gboolean (*changed) (GOMarker *marker);
 } GOMarkerClass;
 
 #define GO_MARKER_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS((o),  GO_MARKER_TYPE, GOMarkerClass))
-
-static guint marker_signals[LAST_SIGNAL] = { 0 };
 
 static ArtVpath const square_path[] = { 
 	{ART_MOVETO, -1.0, -1.0},
@@ -230,12 +214,12 @@ static ArtVpath const hourglass_path[] = {
 typedef struct
 {
 	char const *name;
-	ArtVpath const * outline_path;
-	ArtVpath const * fill_path;
+	ArtVpath const *outline_path;
+	ArtVpath const *fill_path;
 } MarkerShape;
 	
 static MarkerShape const marker_shapes[GO_MARKER_LAST] = {
-	{ N_("none"),		NULL},
+	{ N_("none"),		NULL, NULL},
 	{ N_("square"),		square_path, square_path},
 	{ N_("diamond"),	diamond_path, diamond_path},
 	{ N_("triangle down"),	triangle_down_path, triangle_down_path},
@@ -254,34 +238,27 @@ static MarkerShape const marker_shapes[GO_MARKER_LAST] = {
 
 static struct {
 	GOMarkerShape shape;
-	const gchar  *name;
+	char const *name;
 } marker_shape_names[] = {
-	GO_MARKER_NONE,           "none",
-	GO_MARKER_SQUARE,         "square",
-	GO_MARKER_DIAMOND,        "diamond",
-	GO_MARKER_TRIANGLE_DOWN,  "triangle-down",
-	GO_MARKER_TRIANGLE_UP,    "triangle-up",
-	GO_MARKER_TRIANGLE_RIGHT, "triangle-right",
-	GO_MARKER_TRIANGLE_LEFT,  "triangle-left",
-	GO_MARKER_CIRCLE,         "circle",
-	GO_MARKER_X,              "x",
-	GO_MARKER_CROSS,          "cross",
-	GO_MARKER_ASTERISK,       "asterisk",
-	GO_MARKER_BAR,            "bar",
-	GO_MARKER_HALF_BAR,       "half-bar",
-	GO_MARKER_BUTTERFLY,      "butterfly",
-	GO_MARKER_HOURGLASS,      "hourglass"
+	{ GO_MARKER_NONE,           "none" },
+	{ GO_MARKER_SQUARE,         "square" },
+	{ GO_MARKER_DIAMOND,        "diamond" },
+	{ GO_MARKER_TRIANGLE_DOWN,  "triangle-down" },
+	{ GO_MARKER_TRIANGLE_UP,    "triangle-up" },
+	{ GO_MARKER_TRIANGLE_RIGHT, "triangle-right" },
+	{ GO_MARKER_TRIANGLE_LEFT,  "triangle-left" },
+	{ GO_MARKER_CIRCLE,         "circle" },
+	{ GO_MARKER_X,              "x" },
+	{ GO_MARKER_CROSS,          "cross" },
+	{ GO_MARKER_ASTERISK,       "asterisk" },
+	{ GO_MARKER_BAR,            "bar" },
+	{ GO_MARKER_HALF_BAR,       "half-bar" },
+	{ GO_MARKER_BUTTERFLY,      "butterfly" },
+	{ GO_MARKER_HOURGLASS,      "hourglass" }
 };
 
 static GObjectClass *marker_parent_klass;
 
-static void
-marker_changed (GOMarker * marker)
-{
-	marker->is_pixbuf_valid = FALSE;
-	g_signal_emit (G_OBJECT (marker), marker_signals [MARKER_CHANGED], 0);
-}
-	
 static GdkPixbuf *
 marker_create_pixbuf_with_size (GOMarker * marker, guint size)
 {
@@ -360,69 +337,6 @@ marker_update_pixbuf (GOMarker * marker)
 }
 
 static void
-go_marker_set_property (GObject *obj, guint param_id,
-			 GValue const *value, GParamSpec *pspec)
-{
-	gboolean is_changed = FALSE;
-	GOMarker *marker = GO_MARKER (obj);
-
-	switch (param_id) {
-	case MARKER_PROP_SHAPE: {
-		int i;
-		char const *str = g_value_get_string (value);
-		for (i=0; (i < GO_MARKER_LAST) && (!is_changed); i++)
-			if (!g_ascii_strcasecmp (str, marker_shapes[i].name)) {
-				marker->shape = i;
-				is_changed = TRUE;
-			}
-		break;
-	}
-	case MARKER_PROP_OUTLINE_COLOR:
-		marker->outline_color = g_value_get_uint (value);
-		is_changed = TRUE;
-		break;
-	case MARKER_PROP_FILL_COLOR:
-		marker->fill_color = g_value_get_uint (value);
-		is_changed = TRUE;
-		break;
-	case MARKER_PROP_SIZE:
-		marker->size = g_value_get_uint (value);
-		is_changed = TRUE;
-		break;
-
-	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 return; /* NOTE : RETURN */
-	}
-
-	if (is_changed)
-		marker_changed (marker);
-}
-
-static void
-go_marker_get_property (GObject *obj, guint param_id,
-			 GValue *value, GParamSpec *pspec)
-{
-	GOMarker const *marker = GO_MARKER (obj);
-
-	switch (param_id) {
-		case MARKER_PROP_SHAPE:
-			g_value_set_string (value, marker_shapes[marker->shape].name);
-			break;
-		case MARKER_PROP_OUTLINE_COLOR:
-			g_value_set_uint (value, marker->outline_color);
-			break;
-		case MARKER_PROP_FILL_COLOR:
-			g_value_set_uint (value, marker->fill_color);
-			break;
-		case MARKER_PROP_SIZE:
-			g_value_set_uint (value, marker->size);
-			break;
-
-	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 break;
-	}
-}
-static void
 go_marker_finalize (GObject * obj)
 {
 	GOMarker * marker = GO_MARKER (obj);
@@ -455,67 +369,28 @@ go_marker_class_init (GOMarkerClass * marker_klass)
 	GObjectClass * gobject_klass = (GObjectClass *)marker_klass;
 
 	marker_parent_klass = g_type_class_peek_parent (gobject_klass);
-	gobject_klass->set_property = go_marker_set_property;
-	gobject_klass->get_property = go_marker_get_property;
-
-	marker_signals[MARKER_CHANGED] =
-		g_signal_new ("changed",
-			      G_TYPE_FROM_CLASS (marker_klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GOMarkerClass, changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-
-	g_object_class_install_property (gobject_klass, MARKER_PROP_SHAPE,
-		g_param_spec_string ("shape", "shape",
-			"Shape of marker",
-			"square", G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_klass, MARKER_PROP_OUTLINE_COLOR,
-		g_param_spec_uint ("outline", "outline",
-			"Color of outline", 0, 0xFFFFFFFF, 0x000000FF, G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_klass, MARKER_PROP_FILL_COLOR,
-		g_param_spec_uint ("fill", "fill",
-			"Filling color", 0, 0xFFFFFFFF, 0xFFFFFFFF, G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_klass, MARKER_PROP_SIZE,
-		g_param_spec_uint ("size", "size",
-			"Marker size", 0, G_MAXINT, MARKER_DEFAULT_SIZE, G_PARAM_READWRITE));
-
+	
 	gobject_klass->finalize	    = go_marker_finalize;
 }
 
 GOMarkerShape
-go_marker_shape_from_str (const gchar *name)
+go_marker_shape_from_str (char const *name)
 {
-	unsigned i;
-	GOMarkerShape ret = GO_MARKER_NONE;
-
-	for (i = 0; 
-	     i < sizeof marker_shape_names / sizeof marker_shape_names[0]; 
-	     i++) {
-		if (strcmp (marker_shape_names[i].name, name) == 0) {
-			ret = marker_shape_names[i].shape;
-			break;
-		}
-	}
-	return ret;
+	unsigned i = G_N_ELEMENTS (marker_shape_names);
+	while (i-- > 0)
+		if (g_ascii_strcasecmp (marker_shape_names[i].name, name) == 0)
+			return marker_shape_names[i].shape;
+	return GO_MARKER_NONE;
 }
 
-const gchar *
+char const *
 go_marker_shape_as_str (GOMarkerShape shape)
 {
-	unsigned i;
-	const gchar *ret = "pattern";
-
-	for (i = 0; 
-	     i < sizeof marker_shape_names / sizeof marker_shape_names[0]; 
-	     i++) {
-		if (marker_shape_names[i].shape == shape) {
-			ret = marker_shape_names[i].name;
-			break;
-		}
-	}
-	return ret;
+	unsigned i = G_N_ELEMENTS (marker_shape_names);
+	while (i-- > 0)
+		if (marker_shape_names[i].shape == shape)
+			return marker_shape_names[i].name;
+	return "pattern";
 }
 
 gboolean
@@ -528,14 +403,14 @@ go_marker_is_auto (GOMarker *marker)
 
 void
 go_marker_get_paths (GOMarker * marker,
-		      const ArtVpath **outline_path,
-		      const ArtVpath **fill_path)
+		     ArtVpath const **outline_path,
+		     ArtVpath const **fill_path)
 {
 	*outline_path = marker_shapes[marker->shape].outline_path;
 	*fill_path = marker_shapes[marker->shape].fill_path;
 }
 
-const GdkPixbuf *
+GdkPixbuf const *
 go_marker_get_pixbuf (GOMarker * marker)
 {
 	g_return_val_if_fail (IS_GO_MARKER (marker), NULL);
@@ -568,7 +443,7 @@ go_marker_set_shape (GOMarker *marker, GOMarkerShape shape)
 	
 	marker->shape = shape;
 
-	marker_changed (marker);
+	marker->is_pixbuf_valid = FALSE;
 }
 	
 GOColor
@@ -584,7 +459,7 @@ go_marker_set_outline_color (GOMarker *marker, GOColor color)
 	
 	marker->outline_color = color;
 
-	marker_changed (marker);
+	marker->is_pixbuf_valid = FALSE;
 }
 	
 GOColor
@@ -600,7 +475,7 @@ go_marker_set_fill_color (GOMarker *marker, GOColor color)
 	
 	marker->fill_color = color;
 
-	marker_changed (marker);
+	marker->is_pixbuf_valid = FALSE;
 }
 	
 int
@@ -623,7 +498,7 @@ go_marker_set_size (GOMarker *marker, int size)
 	
 	marker->size = size;
 
-	marker_changed (marker);
+	marker->is_pixbuf_valid = FALSE;
 }
 
 void
@@ -668,3 +543,75 @@ go_marker_new (void)
 GSF_CLASS (GOMarker, go_marker,
 	   go_marker_class_init, go_marker_init,
 	   G_TYPE_OBJECT)
+
+/*---------------------------------------------------------------------------*/
+
+#define SELECTOR_PIXBUF_SIZE 20
+#define SELECTOR_MARKER_SIZE 15
+
+GtkWidget *
+go_marker_selector (GOColor outline_color, GOColor fill_color)
+{
+	static PixmapComboElement elements[] = {
+		{ NULL, NULL, GO_MARKER_NONE},
+		{ NULL, NULL, GO_MARKER_SQUARE },
+		{ NULL, NULL, GO_MARKER_DIAMOND},
+		{ NULL, NULL, GO_MARKER_TRIANGLE_DOWN},
+		{ NULL, NULL, GO_MARKER_TRIANGLE_UP},
+		{ NULL, NULL, GO_MARKER_TRIANGLE_RIGHT},
+		{ NULL, NULL, GO_MARKER_TRIANGLE_LEFT},
+		{ NULL, NULL, GO_MARKER_CIRCLE},
+		{ NULL, NULL, GO_MARKER_X},
+		{ NULL, NULL, GO_MARKER_CROSS},
+		{ NULL, NULL, GO_MARKER_ASTERISK},
+		{ NULL, NULL, GO_MARKER_BAR},
+		{ NULL, NULL, GO_MARKER_HALF_BAR},
+		{ NULL, NULL, GO_MARKER_BUTTERFLY},
+		{ NULL, NULL, GO_MARKER_HOURGLASS}
+	};
+
+	guint i, length;
+	gpointer data;
+	GdkPixdata pixdata;
+	GtkWidget *widget;
+	GdkPixbuf const *marker_pixbuf = NULL;
+	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 
+					    TRUE, 8, 
+					    SELECTOR_PIXBUF_SIZE, 
+					    SELECTOR_PIXBUF_SIZE);
+	GOMarker * marker = go_marker_new ();
+
+	go_marker_set_fill_color (marker, fill_color);
+	go_marker_set_outline_color (marker, outline_color);
+	go_marker_set_size (marker, 15);
+
+	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
+		if (elements[i].inline_gdkpixbuf != NULL)
+			g_free ((gpointer) elements[i].inline_gdkpixbuf);
+
+		go_marker_set_shape (marker, elements[i].id);
+		marker_pixbuf = go_marker_get_pixbuf (marker);
+
+		gdk_pixbuf_fill (pixbuf, 0xffffff00);
+		if (marker_pixbuf) 
+			gdk_pixbuf_copy_area (marker_pixbuf, 0, 0,
+					      gdk_pixbuf_get_width (marker_pixbuf),
+					      gdk_pixbuf_get_height (marker_pixbuf),
+					      pixbuf, 
+					      (SELECTOR_PIXBUF_SIZE - 
+					       gdk_pixbuf_get_width (marker_pixbuf)) / 2,
+					      (SELECTOR_PIXBUF_SIZE - 
+					       gdk_pixbuf_get_height (marker_pixbuf)) /2);
+
+		data = gdk_pixdata_from_pixbuf (&pixdata, pixbuf, FALSE);
+		elements[i].inline_gdkpixbuf = gdk_pixdata_serialize (&pixdata, &length);
+		elements[i].untranslated_tooltip = marker_shapes [marker->shape].name;
+		g_free (data);
+	}
+	g_object_unref (marker);
+	g_object_unref (pixbuf);
+
+	widget = pixmap_combo_new (elements, 4, 4);
+	gtk_combo_box_set_tearable (GTK_COMBO_BOX (widget), FALSE);
+	return widget;
+}
