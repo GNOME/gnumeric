@@ -1,5 +1,8 @@
 2002-06-19  Morten Welinder  <terra@diku.dk>
 
+	* import-R (import_file): Remove some old hacks that are no longer
+	needed.
+
 	* import-R: Import also pexp.c and pweibull.c.
 
 2002-05-29  Jody Goldberg <jody@gnome.org>

@@ -103,10 +103,6 @@ sub import_file {
 	    s/\b(M_LN2|M_PI|M_PI_2|M_SQRT2|M_2PI)\b/$1gnum/g;
 	    s/([-+]?\d*\.(\d{10,})([eE][-+]?\d+)?)/GNUM_const\($1\)/g;
 
-	    # Specific optimization.
-	    s/\(y > 1e-6\)/\(1\)/;
-	    s/= expgnum\(y\) - 1;/= expm1gnum\(y\);/;
-
 	    # These are made static.
 	    s/^gnum_float\s+(pbeta_both|stirlerr|bd0|dpois_raw|chebyshev_init|chebyshev_eval|lgammacor|lbeta|pbeta_raw|dbinom_raw)/static gnum_float $1/;
 
