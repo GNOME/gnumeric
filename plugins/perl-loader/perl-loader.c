@@ -115,21 +115,21 @@ gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 {
 	//GnmPluginLoaderPerl *loader_perl = GNM_PLUGIN_LOADER_PERL (loader);
 
-	char *argv[] = { "", NULL, NULL, NULL };
-	char *arg;
+	char *argv[] = { (char*)"", NULL, NULL, NULL };
+	const char *arg;
 
 	arg = gnm_plugin_get_dir_name (loader->plugin);
 	argv[1] = g_strconcat ("-I", arg, NULL);
 	argv[2] = g_build_filename (arg, "perl_func.pl", NULL);
-	g_free (arg);
 
 	if (g_file_test (argv[2], G_FILE_TEST_EXISTS)) {
 		gnm_perl_interp = perl_alloc ();
 		perl_construct (gnm_perl_interp);
 		perl_parse (gnm_perl_interp, xs_init, 3, argv, NULL);
 		my_perl = gnm_perl_interp;
+#ifdef PERL_EXIT_DESTRUCT_END
 		PL_exit_flags |= PERL_EXIT_DESTRUCT_END;
-
+#endif
 	} else {
 		*ret_error = error_info_new_printf (
 			     _("perl_func.pl doesn't exit."));
@@ -232,6 +232,7 @@ call_perl_function_args (FunctionEvalInfo *ei, GnmValue **args)
 	gint i;
 	gchar *perl_func = NULL;
 	GnmValue* result = NULL;
+	dSP;
 
 	fndef = ei->func_call->func;
 	perl_func = g_strconcat ("func_", fndef->name, NULL);
@@ -239,7 +240,6 @@ call_perl_function_args (FunctionEvalInfo *ei, GnmValue **args)
 	function_def_count_args (fndef, &min_n_args, &max_n_args);
 	for (n_args = min_n_args; n_args < max_n_args && args[n_args] != NULL; n_args++);
 
-	dSP;
 	ENTER;
 	SAVETMPS;
 	PUSHMARK(SP);
