@@ -347,7 +347,7 @@ gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_ro
 		return NULL;
 	}
 
-	c = value_gets_as_double (count->v);
+	c = value_get_as_double (count);
 	
 	if (c == 0.0){
 		*error_string = "Division by zero";
@@ -355,7 +355,7 @@ gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_ro
 		return NULL;
 	}
 	
-	result = value_float (value_get_as_double (sum->v) / c);
+	result = value_float (value_get_as_double (sum) / c);
 
 	value_release (count);
 	value_release (sum);
