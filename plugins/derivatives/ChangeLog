@@ -1,3 +1,8 @@
+2002-01-22  Christian Rose  <menthos@menthos.com>
+
+	* options.c: Added xgettext:no-c-format hints to the
+	messages containing percent characters.
+
 2002-01-18  Neil Booth  <neil@daikokuya.demon.co.uk>
 
     * options.c (help_opt_bs_call, help_opt_bs_put,

@@ -372,6 +372,7 @@ static char *help_opt_bs_put_delta = {
 };
 
 static char *help_opt_bs_call_rho = {
+        /* xgettext:no-c-format */
 	N_("@FUNCTION=opt_bs_call_rho\n"
 	   "@SYNTAX=opt_bs_call_rho(strike,price,volatility,days_to_maturity,rate)\n"
 	   "@DESCRIPTION="
@@ -395,6 +396,7 @@ static char *help_opt_bs_call_rho = {
 };
 
 static char *help_opt_bs_put_rho = {
+        /* xgettext:no-c-format */
 	N_("@FUNCTION=opt_bs_put_rho\n"
 	   "@SYNTAX=opt_bs_put_rho(strike,price,volatility,days_to_maturity,rate)\n"
 	   "@DESCRIPTION="
@@ -487,6 +489,7 @@ static char *help_opt_bs_gamma = {
 };
 
 static char *help_opt_bs_vega = {
+        /* xgettext:no-c-format */
 	N_("@FUNCTION=opt_bs_vega\n"
 	   "@SYNTAX=opt_bs_bega(strike,price,volatility,days_to_maturity,rate)\n"
 	   "@DESCRIPTION="
