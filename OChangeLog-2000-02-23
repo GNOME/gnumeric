@@ -1,3 +1,8 @@
+1999-03-17  Vladimir Vuksan <vuksan@veus.hr>
+ 
+ 	* src/fn-financial.c: Added new functions gnumeric_ipmt,
+	gnumeric_ppmt, gnumeric_duration.
+ 
 1999-03-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
  
  	* src/fn-math.c: combin added.
