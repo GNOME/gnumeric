@@ -1,3 +1,7 @@
+1999-09-24  Morten Welinder  <terra@diku.dk>
+
+	* src/widgets/gtk-combo-box.c (gtk_combo_box_finalize): Plug leak.
+
 1999-09-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (do_expr_decode_tree) : Handle missing arguments.

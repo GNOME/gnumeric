@@ -51,6 +51,7 @@ gtk_combo_box_finalize (GtkObject *object)
 	GtkComboBox *combo_box = GTK_COMBO_BOX (object);
 
 	gtk_object_destroy (GTK_OBJECT (combo_box->priv->popwin));
+	gtk_object_unref (GTK_OBJECT (combo_box->priv->popwin));
 	g_free (combo_box->priv);
 
 	GTK_OBJECT_CLASS (gtk_combo_box_parent_class)->finalize (object);
