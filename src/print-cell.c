@@ -755,9 +755,12 @@ print_cell_range (GnomePrintContext *context,
 				if (cell_is_blank (cell)) {
 					if (!output)
 						printed |= mstyle_visible_in_blank (mstyle);
-				} else if (output)
-					print_cell (cell, mstyle, NULL,
-						    context, x, y);
+				} else {
+					printed = TRUE;
+					if (output)
+						print_cell (cell, mstyle, NULL,
+							    context, x, y);
+				}
 
 				mstyle_unref (mstyle);
 

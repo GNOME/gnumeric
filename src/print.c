@@ -759,7 +759,7 @@ print_range_right_then_down (Sheet *sheet, Range r, PrintJobInfo *pj,
 			usable_y = usable_y_repeating;
 		
 		row_count = compute_group (sheet, row, r.end.row,
-					       usable_y, sheet_row_get_info);
+					   usable_y, sheet_row_get_info);
 			
 		while (col < r.end.col) {
 			int col_count;
