@@ -3014,9 +3014,9 @@ xml_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl)
 		char const *extension = g_extension_pointer (filename);
 
 		return (extension != NULL &&
-		        g_strcasecmp (extension, "gnumeric") == 0 ||
-		        g_strcasecmp (extension, "xml.gz") == 0 ||
-		        g_strcasecmp (extension, "xml") == 0);
+		        (g_strcasecmp (extension, "gnumeric") == 0 ||
+			 g_strcasecmp (extension, "xml.gz") == 0 ||
+			 g_strcasecmp (extension, "xml") == 0));
 	}
 
 	/*

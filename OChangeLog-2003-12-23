@@ -1,3 +1,14 @@
+2001-10-01  Morten Welinder  <terra@diku.dk>
+
+	* src/search.h (SearchReplaceQuery): Add SRQ_query.
+
+	* src/commands.c (cmd_search_replace_do_cell): Implement querying.
+
+	* src/workbook-control-gui.c (cb_edit_search_replace_query):
+ 	implement SRQ_query.
+
+	* src/xml-io.c (xml_probe): Please gcc.
+
 2001-09-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-object-widget.c (sheet_widget_checkbox_user_config) : Use

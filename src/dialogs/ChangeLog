@@ -1,3 +1,8 @@
+2001-10-01  Morten Welinder  <terra@diku.dk>
+
+	* dialog-search-replace.c (dialog_search_replace_query): New
+ 	(modal) dialog.
+
 2001-10-01  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-graph-guru.c (vector_state_fill) : Use

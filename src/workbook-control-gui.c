@@ -1696,6 +1696,41 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 err);
 		g_free (err);
+		break;
+	}
+
+	case SRQ_query: {
+		Cell *cell = va_arg (pvar, Cell *);
+		const char *old_text = va_arg (pvar, const char *);
+		const char *new_text = va_arg (pvar, const char *);
+		char *pos_name;
+		ParsePos pp;
+		CellRef cr;
+
+		Sheet *sheet = cell->base.sheet;
+		int col = cell->pos.col;
+		int row = cell->pos.row;
+
+		cr.sheet = sheet;
+		cr.col = col;
+		cr.row = row;
+		cr.col_relative = 0;
+		cr.row_relative = 0;
+		pp.sheet = sheet;
+		pp.wb = sheet->workbook;
+		pp.eval = cell->pos;
+
+		WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
+			wb_view_sheet_focus (view, sheet);
+		});
+		sheet_selection_set (sheet, col, row, col, row, col, row);
+		sheet_make_cell_visible (sheet, col, row);
+
+		pos_name = cellref_name (&cr, &pp, FALSE);
+		res = dialog_search_replace_query (wbcg, sr, pos_name,
+						   old_text, new_text);
+		g_free (pos_name);
+		break;
 	}
 
 	}

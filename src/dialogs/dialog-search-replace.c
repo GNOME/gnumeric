@@ -56,6 +56,13 @@ is_checked (GladeXML *gui, const char *name)
 	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 }
 
+static void
+set_checked (GladeXML *gui, const char *name, gboolean checked)
+{
+	GtkWidget *w = glade_xml_get_widget (gui, name);
+	return gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), checked);
+}
+
 static char *
 get_text (GladeXML *gui, const char *name)
 {
@@ -235,4 +242,48 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
 
 	non_model_dialog (wbcg, dialog);
+}
+
+
+int
+dialog_search_replace_query (WorkbookControlGUI *wbcg,
+			     SearchReplace *sr,
+			     const char *location,
+			     const char *old_text,
+			     const char *new_text)
+{
+	GladeXML *gui;
+	GnomeDialog *dialog;
+	int res;
+
+	g_return_val_if_fail (wbcg != NULL, 0);
+
+	gui = gnumeric_glade_xml_new (wbcg, "search-replace.glade");
+        if (gui == NULL)
+                return 0;
+
+	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "query_dialog"));
+
+	gtk_entry_set_text (GTK_ENTRY (glade_xml_get_widget (gui, "qd_location")),
+			    location);
+	gtk_entry_set_text (GTK_ENTRY (glade_xml_get_widget (gui, "qd_old_text")),
+			    old_text);
+	gtk_entry_set_text (GTK_ENTRY (glade_xml_get_widget (gui, "qd_new_text")),
+			    new_text);
+	set_checked (gui, "qd_query", sr->query);
+
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+
+	gtk_widget_show_all (dialog->vbox);
+
+	res = gnumeric_dialog_run (wbcg, dialog);
+
+	/* Unless cancel is pressed, propagate the query setting back.  */
+	if (res != -1)
+		sr->query = is_checked (gui, "qd_query");
+
+	if (res != -1)
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	return res;
 }

@@ -15,7 +15,8 @@ typedef enum { SRS_workbook = 0,
 	       SRS_sheet,
 	       SRS_range } SearchReplaceScope;
 
-typedef enum { SRQ_fail } SearchReplaceQuery;
+typedef enum { SRQ_fail,
+	       SRQ_query } SearchReplaceQuery;
 
 typedef  int (*SearchReplaceQueryFunc) (SearchReplaceQuery q, SearchReplace *sr, ...);
 
@@ -48,6 +49,9 @@ struct _SearchReplace {
 	 *
 	 * SRQ_fail (..., Cell *cell, const char *old, const char *new)
 	 *   Inform the user that an error occurred in SRE_fail mode.
+	 *
+	 * SRQ_query (..., Cell *cell, const char *old, const char *new)
+	 *   Ask user whether to change.  (-1=cancel, 0=yes, 1=no.)
 	 */
 	SearchReplaceQueryFunc query_func;
 	void *user_data;
