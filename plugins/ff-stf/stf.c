@@ -2,7 +2,7 @@
  * stf.c : reads sheets using CSV/Fixed encoding while allowing
  *         fine-tuning of the import process 
  *
- * Copyright (C) 1999 Almer. S. Tigelaar.
+ * Copyright (C) Almer. S. Tigelaar.
  * EMail: almer1@dds.nl or almer-t@bigfoot.com
  *
  * This program is free software; you can redistribute it and/or modify
@@ -48,20 +48,44 @@
 #define STF_NO_FILE_DESCRIPTOR -1
 #define STF_NO_DATA 0
 
+/**
+ * stf_is_valid_input
+ * @src : a structure containing file information
+ *
+ * returns weather the input data is valid to import.
+ * (meaning it checks weather it is text only)
+ *
+ * returns : true if valid, false otherwise
+ **/
+static gboolean
+stf_is_valid_input (FileSource_t *src)
+{
+	gboolean valid;
+	const char *iterator = src->data;
+
+	if (src->len == 0)
+		return FALSE;
+
+	valid = TRUE;
+	while (*iterator) {
+		if (!isprint (*iterator) && *iterator != '\n' && *iterator != '\t') {
+			valid = FALSE;
+			break;
+		}
+		iterator++;
+	} 
+	
+	return valid;
+}
 
 /**
  * stf_convert_to_unix
  * @src : a structure containing file information
  *
- * This function will convert the memory-mapped file @src->data into a
+ * This function will convert the @src->data into a
  * unix line-terminated format. this means that CRLF (windows) will be converted to LF
  * and CR (Macintosh) to LF
- * It will unmap the original file and create a new mapping which contains a modified
- * copy of the original @src->data
- * NOTE : we don't know in advance how big the resulting memory chunk will be, it will
- *        either be smaller even or as big as the originally mapped file
- *        Therefore we allocate the buffer to be AT LEAST the size of the originally
- *        mapped file. 
+ * NOTE : This will not resize the buffer
  * 
  * returns : TRUE on success, FALSE otherwise.
  **/
@@ -69,37 +93,33 @@ static gboolean
 stf_convert_to_unix (FileSource_t *src)
 {
 	const char *iterator = src->data;
-	char *newdata, *newiterator;
+	char *dest = (char *) src->data;
+	int len = 0;
 
 	if (iterator == STF_NO_DATA)
 		return FALSE;
-
-	if (MAP_FAILED == (newdata = (char *) (mmap (0, src->len, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0, 0))))
-		return FALSE;
-
-	newiterator = newdata;
 	
 	while (*iterator) {
+	
 		if (*iterator == '\r') {
 			const char *temp = iterator;
 			temp++;
-			
+
 			if (*temp != '\n') {
-				*newiterator = '\n';
-				newiterator++;
+				*dest = '\n';
+				dest++;
+				len++;
 			}
 			iterator++;
 		}
 
-		*newiterator = *iterator;
+		*dest = *iterator;
 		
 		iterator++;
-		newiterator++;
+		dest++;
+		len++;
 	}
-		
-	munmap ( (char *) src->data, src->len);
-	src->data = (const char *) newdata;
-	src->cur  = src->data;
+	*dest = '\0';
 	
 	return TRUE;
 }
@@ -130,18 +150,18 @@ stf_get_lines_count (const char *text)
 
 
 /**
- * stf_close_and_unmap 
- * @src : struct containing information about the file to close&unmap
+ * stf_close_and_free
+ * @src : struct containing information about the file to close&buffer to free
  *
- * Will close and unmap the file in @src
+ * Will close the file in @src and will free the buffer in @src
  *
  * returns : nothing
  **/
 static void
-stf_close_and_unmap (FileSource_t *src)
+stf_close_and_free (FileSource_t *src)
 {
 	if (src->data != STF_NO_DATA) {
-		munmap ( (char *) src->data, src->len);
+		g_free ( (char *) src->data);
 		src->data = STF_NO_DATA;
 	}
 
@@ -152,21 +172,20 @@ stf_close_and_unmap (FileSource_t *src)
 }
 
 /**
- * stf_open_and_map
- * @filename : name of the file to open&map
+ * stf_open_and_read
+ * @filename : name of the file to open&read
  * @src : struct to store the file information/memory locations in
  * 
- * Will open filename, map in memory and fill a FileSource_t structure
- * accordingly
+ * Will open filename, read the file into a g_alloced memory buffer
+ * and fill a FileSource_t structure accordingly
  *
- * returns : true if successfully openend and mapped, false otherwise.
+ * returns : true if successfully opend and read, false otherwise.
  **/
 static gboolean
-stf_open_and_map (FileSource_t *src)
+stf_open_and_read (FileSource_t *src)
 {
 	struct stat sbuf;
-	char const *data;
-	int len;
+	const char *data;
 	int const fd = open (src->filename, O_RDONLY);
 
 	if (fd < 0)
@@ -177,22 +196,16 @@ stf_open_and_map (FileSource_t *src)
 		return FALSE;
 	}
 
-	len = sbuf.st_size;
-	if (MAP_FAILED != (data = (char const *) (mmap (0, len, PROT_READ, MAP_PRIVATE, fd, 0)))) {
 
-		src->data  = data;
-		src->cur   = data;
-		src->len   = len;
+	data = g_malloc0 (sbuf.st_size + 1);
+	
+	if (read (fd, (char *) data, sbuf.st_size) != sbuf.st_size)
+		return FALSE;
 		
-	} else {
-		close (fd);
-		return FALSE;
-	}
+	src->len  = sbuf.st_size;
+	src->data = data;
+	src->cur  = data;
 
-	if (!stf_convert_to_unix (src)) {
-		stf_close_and_unmap (src);
-		return FALSE;
-	}
 	return TRUE;
 }
 
@@ -220,11 +233,24 @@ stf_read_workbook (Workbook *book, char const *filename)
 	src.rowcount = 0;
 	src.colcount = 0;
 
-	if (!stf_open_and_map (&src)) {
-		stf_close_and_unmap (&src);
+	if (!stf_open_and_read (&src)) {
+		stf_close_and_free (&src);
 		success = g_strdup (_("Error while trying to memory map file"));
 		return success;
 	}
+
+	if (!stf_convert_to_unix (&src)) {
+		stf_close_and_free (&src);
+		success = g_strdup (_("Error while trying to pre-convert file"));
+		return success;
+		}
+
+	if (!stf_is_valid_input (&src)) {
+		stf_close_and_free (&src);
+		success = g_strdup (_("This file does not seem to be a valid text file"));
+		return success;
+	}
+		
 	src.totallines = stf_get_lines_count (src.data);
 	src.lines      = src.totallines;
 	
@@ -242,7 +268,7 @@ stf_read_workbook (Workbook *book, char const *filename)
 		workbook_detach_sheet (book, src.sheet, TRUE);
 	}
 
-	stf_close_and_unmap (&src);
+	stf_close_and_free (&src);
 	
 	return (success);
 }
@@ -310,16 +336,3 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	return PLUGIN_OK;
 }
-
- 
-
- 
-
-
-
-
-
-
-
-
-

@@ -6,7 +6,7 @@
  *
  * returns : if @character points to a character which is a newline or a return it will return
  *           true, false otherwise.
- **/
+ **
 gboolean
 stf_is_line_terminator (const char *character)
 {
@@ -14,7 +14,7 @@ stf_is_line_terminator (const char *character)
 		return TRUE;
 
 	return FALSE;
-}
+}*/
 
 /**
  * set_center_prevent_rectangle_size

@@ -66,7 +66,7 @@ stf_separated_parse_column (FileSource_t *src, SeparatedInfo_t *sepinfo)
 
 	res = g_string_new ("");
 	
-	while (*cur && !stf_is_line_terminator(cur)) {
+	while (*cur && *cur != '\n') {
 
 		if (!sawstringterm) {
 			if (*cur == sepinfo->string) {
@@ -94,8 +94,8 @@ stf_separated_parse_column (FileSource_t *src, SeparatedInfo_t *sepinfo)
 		cur++;
 	}
 
-	/* Only skip over cell terminators, not line terminators */
-	if (!stf_is_line_terminator (cur))
+	/* Only skip over cell terminators, not line terminators or terminating nulls*/
+	if (*cur != '\n' && *cur)
 		cur++;
 
 	src->cur = cur;
@@ -143,14 +143,14 @@ stf_separated_parse_sheet_partial (FileSource_t *src, SeparatedInfo_t *sepinfo, 
 		col = 0;
 
 		if (row >= fromline && !sheet_cell_get (src->sheet, 0, row)) {
-			while (*src->cur && !stf_is_line_terminator (src->cur)) {
+			while (*src->cur && *src->cur != '\n') {
 				Cell *newcell;
 				
 				field = stf_separated_parse_column (src, sepinfo);
 				
 				if (!field)
 					field = g_strdup ("");
-					
+				
 				newcell = sheet_cell_new (src->sheet, col, row);
 				cell_set_text_simple (newcell, field);
 				g_free(field);
@@ -164,7 +164,7 @@ stf_separated_parse_sheet_partial (FileSource_t *src, SeparatedInfo_t *sepinfo, 
 		} else {
 			Cell *cell;
 			
-			while (*src->cur && !stf_is_line_terminator (src->cur))
+			while (*src->cur && *src->cur != '\n')
 				src->cur++;
 
 			/* This is an ugly hack, is there a better way to do this??? */
@@ -175,7 +175,8 @@ stf_separated_parse_sheet_partial (FileSource_t *src, SeparatedInfo_t *sepinfo, 
 			col--;
 		}
 
-		src->cur++;
+		if (*src->cur)
+			src->cur++;
 
 		if (++row >= SHEET_MAX_ROWS) {
 			g_warning (WARN_ROWS_MSG, SHEET_MAX_ROWS);

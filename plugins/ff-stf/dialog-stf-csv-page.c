@@ -19,6 +19,16 @@
  * SIGNAL HANDLERS
  *************************************************************************************************/
 
+/**
+ * csv_page_global_change
+ * @widget : the widget which emmited the signal
+ * @data : mother struct
+ *
+ * This will update the preview based on the state of
+ * the widgets on the csv page
+ *
+ * returns : nothing
+ **/
 static void
 csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 {
@@ -74,12 +84,52 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 	stf_preview_render (info->csv_run_renderdata);
 }
 
+/**
+ * csv_page_scroll_value_changed
+ * @adjustment : The gtkadjustment that emitted the signal
+ * @data : a mother struct
+ *
+ * This signal responds to changes in the scrollbar and
+ * will force a redraw of the preview
+ *
+ * returns : nothing
+ **/
 static void
 csv_page_scroll_value_changed (GtkAdjustment *adjustment, DruidPageData_t *data)
 {
 	CsvInfo_t *info = data->csv_info;
 
 	stf_preview_set_startrow (info->csv_run_renderdata, adjustment->value);
+	csv_page_global_change (NULL, data);
+}
+
+/**
+ * csv_page_custom_toggled
+ * @button : the Checkbutton that emmited the signal
+ * @data : a mother struct
+ *
+ * This will nicely activate the @data->csv_info->csv_customseparator widget
+ * so the user can enter text into it.
+ * It will also gray out this widget if the @button is not selected.
+ *
+ * returns : nothing
+ **/
+static void
+csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
+{
+	CsvInfo_t *info = data->csv_info;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
+		gtk_widget_set_sensitive   (GTK_WIDGET (info->csv_customseparator), TRUE);
+		gtk_widget_grab_focus      (GTK_WIDGET (info->csv_customseparator));
+		gtk_editable_select_region (GTK_EDITABLE (info->csv_customseparator), 0, -1);
+		
+	}
+	else {
+		gtk_widget_set_sensitive (GTK_WIDGET (info->csv_customseparator), FALSE);
+		gtk_editable_select_region (GTK_EDITABLE (info->csv_customseparator), 0, 0); /* If we don't use this the selection will remain blue */
+	}
+
 	csv_page_global_change (NULL, data);
 }
 
@@ -107,15 +157,19 @@ csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *page
 
 	sheet_destroy_contents (pagedata->src->sheet);	
 	GTK_RANGE (info->csv_scroll)->adjustment->upper = pagedata->src->lines + 1;
-	
-/*	gtk_signal_emit_by_name (GTK_OBJECT (info->csv_tab),
-				 "toggled",
-				 info->csv_tab,
-				 pagedata,
-				 NULL);*/
-	csv_page_global_change (NULL, pagedata);
+
+	/* Calling this routine will also automatically call global change which updates the preview too */
+	csv_page_custom_toggled (info->csv_custom, pagedata);
 }
 
+/**
+ * csv_page_cleanup
+ * @pagedata : mother struct
+ *
+ * Will cleanup csv page run-time data
+ *
+ * returns : nothing
+ **/
 void
 csv_page_cleanup (DruidPageData_t *pagedata)
 {
@@ -187,7 +241,7 @@ csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (info->csv_custom),
 			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    GTK_SIGNAL_FUNC (csv_page_custom_toggled),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (info->csv_customseparator),
 			    "changed",
@@ -207,13 +261,6 @@ csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    GTK_SIGNAL_FUNC (csv_page_scroll_value_changed),
 			    pagedata);
 }
-
-
-
-
-
-
-
 
 
 

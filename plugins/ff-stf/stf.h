@@ -8,11 +8,11 @@ typedef struct {
 	int        fd;                     /* File descriptor */
 	char const *filename;              /* Filename */
 	
-	char const *data, *cur;     /* Memory mapped file and current position */
+	char const *data, *cur;     /* Memory buffer with the file contents and pointer to the current position */
 	int        len;             /* Length of the file */
 	
 	int   line;                 /* Current line */
-	int   lines;                /* Number of lines calculated from *cur */
+	int   lines;                /* Number of lines calculated from *cur to the end of the buffer */
 	int   totallines;           /* Total number of lines (*data) */
 	Sheet *sheet;               /* Target workbook sheet */
 

@@ -60,7 +60,7 @@ stf_preview_render_col (RenderData_t *renderdata, unsigned long col, double cols
 	TextInfo_t textinfo;
 	ColumnInfo_t colinfo;
 	int i, loopstart;
-	char *celltext;
+	char *celltext, *color;
 	double ypos = 0.0, colwidth = 0.0, cellheight;
 
 	renderdata->rowsrendered = 0;
@@ -112,7 +112,13 @@ stf_preview_render_col (RenderData_t *renderdata, unsigned long col, double cols
 	colwidth += TEXT_OFFSET;
 
 	cellheight = textinfo.textheight + TEXT_VPADDING;
+		
 	for (i = 0; i < renderdata->rowsrendered; i++) {
+		if (i != 0)
+			color = "White";
+		else
+			color = "Gray";
+		
 		colrect = GNOME_CANVAS_RECT (gnome_canvas_item_new (renderdata->group,
 								    gnome_canvas_rect_get_type (),
 								    "x1", colstart,
@@ -121,7 +127,7 @@ stf_preview_render_col (RenderData_t *renderdata, unsigned long col, double cols
 								    "y2", (i + 1) * cellheight,
 								    "width_pixels", (int) 1,
 								    "outline_color", "Black",
-								    "fill_color", "White",
+								    "fill_color", color,
 								    NULL));
 		gnome_canvas_item_lower_to_bottom (GNOME_CANVAS_ITEM (colrect));
 	}

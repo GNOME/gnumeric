@@ -1,3 +1,41 @@
+2000-01-15  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* stf-separated.c, stf-fixed.c :
+	If a file's last line has _no_ line terminator but instead ends 
+	with a \0 both the fixed and separated parse functions would skip
+	over this \0 and continue parsing past the buffer, this is fixed
+	now.
+
+	* dialog-stf.c :
+	Pressing the Back button on the main page would result in a 
+	Page Cycle Error from the STF and another error from the Druid.
+	Fixed.
+
+	* stf.c : 
+	No more memory mapping is done, this caused portability problems 
+	and is now replaced with read and a dynamically allocated buffer.
+
+	* stf.c :
+	Added a check (stf_is_valid_input_data) which will check the data 
+	and see if it _really_ is a valid text file/valid input data.
+	
+	* stf-util.c, stf-util.h, stf-fixed.c, stf-separated.c : 
+	References to the overkill (stf_is_line_terminator) function have 
+	been replaced by *buffer != '\n'.
+
+	* dialog-stf-csv-page.c :
+	Attached a new signal to the Custom Checkbutton on the Separation 
+	Customization page so that the text widget next to it will do nice 
+	stuff like changing sensitivity and auto focus.
+
+	* dialog-stf-csv-page.c :
+	Added some gnome style headers 
+	they weren't all there yet
+	
+	* stf-preview.c:
+	Made the column headers in the preview gray to make them more 
+	distinguishable from the cells that contain data.
+
 2000-01-15    <miguel@gnu.org>
 
 	* stf.c (init_plugin): Renamed to be more obvious

@@ -12,14 +12,6 @@
 
 #define GLADE_FILE "stf.glade"
 
-/*
-static void
-dialog_stf_druid_page_cancel_callback (gint reply, gpointer data)
-{
-	g_warning("%d", reply);
-
-}*/
-
 /**
  * dialog_stf_druid_page_cancel
  * @page : Active druid page
@@ -151,6 +143,9 @@ dialog_stf_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 		return FALSE;
 	}
 
+	if (newpos == DPG_MAIN) 
+		gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE);
+	
         nextpage = dialog_stf_druid_position_to_page (data, newpos);
 	if (!nextpage) {
 		g_warning ("Page Cycle Error : Invalid page");
@@ -159,6 +154,9 @@ dialog_stf_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 	
 	gnome_druid_set_page (data->druid, nextpage);
 	data->position = newpos;
+
+	if (newpos == DPG_MAIN) 
+		gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE);
 
 	return TRUE;
 }
@@ -223,7 +221,8 @@ dialog_stf_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->stop_page   = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "stop_page"));
 
 	pagedata->position  = DPG_MAIN;
-
+	gnome_druid_set_buttons_sensitive (pagedata->druid, FALSE, TRUE, TRUE);
+	
 	/* Signals for individual pages */
 
 	gtk_signal_connect (GTK_OBJECT (pagedata->main_page), 
@@ -365,7 +364,7 @@ dialog_stf (FileSource_t *src)
 	gtk_object_unref (GTK_OBJECT (gui));
 
 	if (pagedata.canceled)
-		result = g_strdup (_("CANCEL"));
+		result = "CANCEL";
 	else
 		result = NULL;
 		

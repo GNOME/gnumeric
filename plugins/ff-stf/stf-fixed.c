@@ -34,7 +34,7 @@ stf_fixed_parse_column (FileSource_t *src, ParseFixedInfo_t *fixinfo)
 	else
 		splitval = -1;
 
-	while (*cur && !stf_is_line_terminator (cur) && splitval != fixinfo->linepos) {
+	while (*cur && *cur != '\n'  && splitval != fixinfo->linepos) {
 		g_string_append_c (res, *cur);
 
 		fixinfo->linepos++;
@@ -98,7 +98,7 @@ stf_fixed_parse_sheet_partial (FileSource_t *src, ParseFixedInfo_t *fixinfo, int
 		col = 0;
 
 		if (row >= fromline && !sheet_cell_get (src->sheet, 0, row)) {
-			while (*src->cur && !stf_is_line_terminator(src->cur)) {
+			while (*src->cur && *src->cur != '\n') {
 				Cell* newcell;
 			
 				field = stf_fixed_parse_column (src, fixinfo);
@@ -116,11 +116,12 @@ stf_fixed_parse_sheet_partial (FileSource_t *src, ParseFixedInfo_t *fixinfo, int
 				fixinfo->rulepos++;
 			}
 		} else {
-			while (*src->cur && !stf_is_line_terminator (src->cur))
+			while (*src->cur && *src->cur != '\n')
 				src->cur++;
 		}
-	      
-		src->cur++;
+
+		if (*src->cur) 
+			src->cur++;
 
 		if (++row >= SHEET_MAX_ROWS) {
 			g_warning (WARN_ROWS_MSG, SHEET_MAX_ROWS);
