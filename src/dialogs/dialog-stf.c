@@ -55,10 +55,10 @@ stf_dialog_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanva
 	g_return_if_fail (canvas != NULL);
 	g_return_if_fail (rectangle != NULL);
 
-	gtk_object_get (GTK_OBJECT (canvas),
-			"width", &canvaswidth,
-			"height", &canvasheight,
-			NULL);
+	g_object_get (G_OBJECT (canvas),
+		      "width", &canvaswidth,
+		      "height", &canvasheight,
+		      NULL);
 
 	if (width < canvaswidth)
 		rectwidth = canvaswidth;

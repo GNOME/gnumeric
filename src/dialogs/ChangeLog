@@ -1,3 +1,24 @@
+2003-05-20  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-preview.c (stf_preview_draw_text,
+	stf_preview_get_displayed_rowcount):
+	s/gtk_object_get/g_object_get/.
+
+	* dialog-stf-main-page.c (main_page_set_scroll_region_and_prevent_center): Ditto.
+
+	* dialog-stf.c (stf_dialog_set_scroll_region_and_prevent_center): Ditto.
+
+	* dialog-analysis-tools.c (dialog_ttest_tool, dialog_ttest_tool):
+	Use g_object_[sg]et_data, not gtk_-ditto.
+	* dialog-printer-setup.c (do_hf_customize, hf_customize_apply):
+	Ditto.
+
+	* dialog-random-generator.c (dialog_random_realized): Use
+	gtk_widget_set_size_request, not gtk_widget_set_usize.
+
+	* dialog-analysis-tools.c (dialog_sampling_realized,
+	dialog_ttest_realized): Ditto.
+
 2003-05-19  Jody Goldberg <jody@gnome.org>
 
 	* dialog-random-generator.c (dialog_random_tool_init) : no need to
@@ -6,12 +27,6 @@
 	* cell-sort.glade : fix radio group for direction
 
 2003-05-19  Morten Welinder  <terra@gnome.org>
-
-	* dialog-random-generator.c (dialog_random_realized): Use
-	gtk_widget_set_size_request, not gtk_widget_set_usize.
-
-	* dialog-analysis-tools.c (dialog_sampling_realized,
-	dialog_ttest_realized): Ditto.
 
 	* dialog-printer-setup.c (unit_editor_configure): Use
 	gtk_widget_set_size_request, not gtk_widget_set_usize.  Avoid

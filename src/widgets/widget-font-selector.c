@@ -6,6 +6,9 @@
  *   Miguel de Icaza (miguel@gnu.org)
  *   Almer S. Tigelaar (almer@gnome.org)
  */
+
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>

@@ -5,6 +5,9 @@
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
  */
+
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include "gnumeric.h"
@@ -879,9 +882,9 @@ static void
 popup_item_activate (GtkWidget *item, gpointer *user_data)
 {
 	GnumericPopupMenuElement const *elem =
-		gtk_object_get_data (GTK_OBJECT (item), "descriptor");
+		g_object_get_data (G_OBJECT (item), "descriptor");
 	GnumericPopupMenuHandler handler =
-		gtk_object_get_data (GTK_OBJECT (item), "handler");
+		g_object_get_data (G_OBJECT (item), "handler");
 
 	g_return_if_fail (elem != NULL);
 	g_return_if_fail (handler != NULL);
@@ -938,10 +941,10 @@ gnumeric_create_popup_menu_list (GSList *elements,
 			g_signal_connect (G_OBJECT (item),
 				"activate",
 				G_CALLBACK (&popup_item_activate), user_data);
-			gtk_object_set_data (
-				GTK_OBJECT (item), "descriptor", (gpointer)(element));
-			gtk_object_set_data (
-				GTK_OBJECT (item), "handler", (gpointer)handler);
+			g_object_set_data (
+				G_OBJECT (item), "descriptor", (gpointer)(element));
+			g_object_set_data (
+				G_OBJECT (item), "handler", (gpointer)handler);
 		}
 
 		gtk_widget_show (item);

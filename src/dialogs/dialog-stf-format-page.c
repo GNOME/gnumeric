@@ -18,6 +18,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
@@ -254,7 +256,7 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 
 		if (info->format_run_sublist_select) {
 			found = 0;
-			for (i = 0; i < info->format_sublist->rows; i++) {
+			for (i = 0; i < GTK_CLIST (info->format_sublist)->rows; i++) {
 				gtk_clist_get_text (info->format_sublist, i, 0, t);
 				if (strcmp (t[0], new_fmt)==0) {
 					found = i;

@@ -64,10 +64,10 @@ main_page_set_scroll_region_and_prevent_center (DruidPageData_t *data)
 	MainInfo_t *info = data->main_info;
 	double textwidth, textheight;
 
-	gtk_object_get (GTK_OBJECT (info->main_run_text),
-			"text_width", &textwidth,
-			"text_height", &textheight,
-			NULL);
+	g_object_get (G_OBJECT (info->main_run_text),
+		      "text_width", &textwidth,
+		      "text_height", &textheight,
+		      NULL);
 	textwidth += TEXT_OFFSET;
 
 	stf_dialog_set_scroll_region_and_prevent_center (info->main_canvas,

@@ -11,6 +11,9 @@
  *   * Feedback on expressions in the spreadsheet (referenced cells or
  *     ranges are highlighted on the spreadsheet).
  */
+
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include "gnumeric.h"

@@ -2,6 +2,9 @@
 /*
  * gnumeric-combo-text: A combo box for selecting from a list.
  */
+
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "gnumeric-combo-text.h"

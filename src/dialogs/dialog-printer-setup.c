@@ -935,8 +935,8 @@ hf_customize_apply (G_GNUC_UNUSED GtkWidget *button,
 	middle_format = text_get (GTK_EDITABLE (middle));
 	right_format  = text_get (GTK_EDITABLE (right));
 
-	header = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (dialog), "header"));
-	state = gtk_object_get_data (GTK_OBJECT (dialog), "state");
+	header = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (dialog), "header"));
+	state = g_object_get_data (G_OBJECT (dialog), "state");
 
 	if (header)
 		config = &state->header;
@@ -1038,8 +1038,8 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 
 
 	/* Remember whether it is customizing header or footer. */
-	gtk_object_set_data (GTK_OBJECT (dialog), "header", GINT_TO_POINTER (header));
-	gtk_object_set_data (GTK_OBJECT (dialog), "state", state);
+	g_object_set_data (G_OBJECT (dialog), "header", GINT_TO_POINTER (header));
+	g_object_set_data (G_OBJECT (dialog), "state", state);
 
 	/* Setup bindings to mark when the entries are modified. */
 	g_signal_connect (GTK_OBJECT (left), "changed",

@@ -22,6 +22,10 @@
 
 2003-05-19  Morten Welinder  <terra@gnome.org>
 
+	* src/history.c (file_history_cmd): Use GObject methods.
+	(history_menu_item_create): Ditto.
+	* src/gui-util.c (popup_item_activate): Ditto.
+
 	* src/workbook-control-gui.c (workbook_create_standard_toolbar):
 	Use gtk_widget_set_size_request, not gtk_widget_set_usize.
 	(workbook_setup_auto_calc): Ditto.

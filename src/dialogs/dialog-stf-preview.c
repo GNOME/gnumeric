@@ -85,9 +85,9 @@ stf_preview_draw_text (GnomeCanvasGroup *group, const char *text,
 							       "x", x,
 							       "y", y,
 							       NULL));
-	gtk_object_get (GTK_OBJECT (canvastext),
-			"text_width", &textwidth,
-			NULL);
+	g_object_get (G_OBJECT (canvastext),
+		      "text_width", &textwidth,
+		      NULL);
 
 	return textwidth;
 }
@@ -820,9 +820,9 @@ stf_preview_get_displayed_rowcount (RenderData_t *renderdata)
 	g_return_val_if_fail (renderdata->canvas != NULL, 0);
 
 
-	gtk_object_get (GTK_OBJECT (renderdata->canvas),
-			"height", &canvasheight,
-			NULL);
+	g_object_get (G_OBJECT (renderdata->canvas),
+		      "height", &canvasheight,
+		      NULL);
 
 	rowcount = (canvasheight / renderdata->charheight) + 1;
 

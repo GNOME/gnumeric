@@ -1458,7 +1458,7 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 	/* Only pop up one copy per workbook */
 	dialog = gnumeric_dialog_raise_if_exists (wbcg, TTEST_KEY);
 	if (dialog) {
-		state = gtk_object_get_data (GTK_OBJECT (dialog), "state");
+		state = g_object_get_data (G_OBJECT (dialog), "state");
                 state->invocation = test;
 		dialog_ttest_adjust_to_invocation (state);
 		return 0;
@@ -1479,7 +1479,7 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
-	gtk_object_set_data (GTK_OBJECT (state->base.dialog), "state", state);
+	g_object_set_data (G_OBJECT (state->base.dialog), "state", state);
 
 	state->paired_button  = glade_xml_get_widget (state->base.gui, "paired-button");
 	state->unpaired_button  = glade_xml_get_widget (state->base.gui, "unpaired-button");

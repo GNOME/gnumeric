@@ -57,7 +57,7 @@ typedef struct {
 
 /* for the fixed_page */
 typedef struct {
-	GtkCList      *fixed_collist;
+	/*GtkCList*/void      *fixed_collist;
 	GtkSpinButton *fixed_colend;
 	GtkButton     *fixed_add, *fixed_remove, *fixed_clear, *fixed_auto;
 	GnomeCanvas   *fixed_canvas;
@@ -76,7 +76,7 @@ typedef struct {
 
 /* for the format_page */
 typedef struct {
-	GtkCList          *format_collist, *format_sublist;
+	/*GtkCList*/ void          *format_collist, *format_sublist;
 	GtkScrolledWindow *format_sublistholder;
 	GtkEntry          *format_format;
 	GnomeCanvas       *format_canvas;

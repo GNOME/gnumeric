@@ -18,6 +18,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
@@ -101,7 +103,7 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 	int i, temp;
 
 	stf_parse_options_fixed_splitpositions_clear (parseoptions);
-	for (i = 0; i < info->fixed_collist->rows; i++) {
+	for (i = 0; i < GTK_CLIST (info->fixed_collist)->rows; i++) {
 		gtk_clist_get_text (info->fixed_collist, i, 1, t);
 		temp = atoi (t[0]);
 		stf_parse_options_fixed_splitpositions_add (parseoptions, temp);
@@ -201,7 +203,7 @@ fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *even
 				} else
 					min = 1;
 
-				if (info->fixed_run_column < info->fixed_collist->rows - 2) {
+				if (info->fixed_run_column < GTK_CLIST (info->fixed_collist)->rows - 2) {
 
 					gtk_clist_get_text (info->fixed_collist, info->fixed_run_column + 1, 1, t);
 					max = atoi (t[0]) - 1;
@@ -330,7 +332,7 @@ fixed_page_canvas_button_release_event (GnomeCanvas *canvas, GdkEventButton *eve
 			g_free (row[0]);
 			g_free (row[1]);
 
-			for (i = colindex; i < info->fixed_collist->rows; i++) {
+			for (i = colindex; i < GTK_CLIST (info->fixed_collist)->rows; i++) {
 				char *text = g_strdup_printf ("%d", i);
 
 				gtk_clist_set_text (info->fixed_collist, i, 0, text);
@@ -396,7 +398,7 @@ fixed_page_colend_changed (GtkSpinButton *button, DruidPageData_t *data)
 	FixedInfo_t *info = data->fixed_info;
 	char *text;
 
-	if (info->fixed_run_index < 0 || (info->fixed_run_index == info->fixed_collist->rows - 1))
+	if (info->fixed_run_index < 0 || (info->fixed_run_index == GTK_CLIST (info->fixed_collist)->rows - 1))
 		return;
 
 	text = gtk_editable_get_chars (GTK_EDITABLE (button), 0, -1);
@@ -421,7 +423,7 @@ fixed_page_add_clicked (G_GNUC_UNUSED GtkButton *button,
 {
 	FixedInfo_t *info = data->fixed_info;
 	char *tget[1], *tset[2];
-	int colindex = info->fixed_collist->rows;
+	int colindex = GTK_CLIST (info->fixed_collist)->rows;
 
 	if (colindex > 1) {
 
@@ -443,8 +445,8 @@ fixed_page_add_clicked (G_GNUC_UNUSED GtkButton *button,
 	g_free (tset[0]);
 	g_free (tset[1]);
 
-	gtk_clist_select_row (info->fixed_collist, info->fixed_collist->rows - 2, 0);
-	gnumeric_clist_moveto (info->fixed_collist, info->fixed_collist->rows - 2);
+	gtk_clist_select_row (info->fixed_collist, GTK_CLIST (info->fixed_collist)->rows - 2, 0);
+	gnumeric_clist_moveto (info->fixed_collist, GTK_CLIST (info->fixed_collist)->rows - 2);
 
 	fixed_page_update_preview (data);
 }
@@ -465,12 +467,12 @@ fixed_page_remove_clicked (G_GNUC_UNUSED GtkButton *button,
 	FixedInfo_t *info = data->fixed_info;
 	int i;
 
-	if (info->fixed_run_index < 0 || (info->fixed_run_index == info->fixed_collist->rows - 1))
+	if (info->fixed_run_index < 0 || (info->fixed_run_index == GTK_CLIST (info->fixed_collist)->rows - 1))
 		info->fixed_run_index--;
 
 	gtk_clist_remove (info->fixed_collist, info->fixed_run_index);
 
-	for (i = info->fixed_run_index; i < info->fixed_collist->rows; i++) {
+	for (i = info->fixed_run_index; i < GTK_CLIST (info->fixed_collist)->rows; i++) {
 		char *text = g_strdup_printf ("%d", i);
 
 		gtk_clist_set_text (info->fixed_collist, i, 0, text);
