@@ -578,6 +578,7 @@ workbook_create_format_toolbar (Workbook *wb)
 	gtk_toolbar_append_widget (
 		GTK_TOOLBAR (toolbar),
 		wb->priv->fore_combo, _("Foreground"), NULL);
+
 	gtk_toolbar_append_widget (
 		GTK_TOOLBAR (toolbar),
 		wb->priv->back_combo, _("Background"), NULL);
