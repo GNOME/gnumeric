@@ -1,3 +1,8 @@
+1999-03-10  Michael Meeks  <michael@imaginator.com>
+
+	* ms-formula.c: Inserted all the statistics formulae from
+	5.0a into the translation table.
+	
 1999-03-09  Michael Meeks  <michael@imaginator.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Hacked out the

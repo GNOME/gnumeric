@@ -92,10 +92,6 @@ GNOME Spread Sheet task list
 
 * Excel importing
 
-   Hash cache functions,
-
-   Sort out setting colours on cells,
-
    Sort out mul-blank records.
 
    Sensible Unicode support.
@@ -103,11 +99,9 @@ GNOME Spread Sheet task list
    Add collation of BIFF continuation records to the
    previous record, to save many checks in the code.
 
-   Sort out formula conversion to use gnumerics representation
-   instead of strings.
-
 * OLE
 
    Serious testing required.
    Integrate 'advance' into read_copy, and write, and rename to lseek
 
+   Snarf wine OLE API.

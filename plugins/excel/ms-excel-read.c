@@ -1251,22 +1251,10 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 				row = EX_GETROW (q);
 				col = EX_GETCOL (q);
 				ptr = (q->data + 4);
-				lastcol = BIFF_GETWORD (q->data + q->length - 2);	/*
-											 * guess 
-											 */
+				lastcol = BIFF_GETWORD (q->data + q->length - 2);
 /*				printf ("Cells in row %d are blank starting at col %d until col %d (0x%x)\n",
 				row, col, lastcol, lastcol); */
-				/*
-				 * if (lastcol<col)  What to do in this case ? 
-				 * {
-				 * printf ("Serious implentation documentation error\n");
-				 * break;
-				 * }
-				 */
 				incr = (lastcol > col) ? 1 : -1;
-				/*
-				 * g_assert (((lastcol-col)*incr+1)*2+6<=q->length); 
-				 */
 				while (col != lastcol){
 					ms_excel_sheet_insert (sheet, BIFF_GETWORD (ptr), EX_GETCOL (q), EX_GETROW (q), 0);
 					col += incr;
@@ -1493,8 +1481,11 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		case BIFF_STRING: /* FIXME: S59DE9.HTM */
 		{
 			char *txt ;
-			printf ("This cell evaluated to '%s': so what ? data:\n", (txt = biff_get_text (q->data + 2, BIFF_GETWORD(q->data)))) ;
-			if (txt) g_free (txt) ;
+			if (EXCEL_DEBUG>0)
+			{
+				printf ("This cell evaluated to '%s': so what ? data:\n", (txt = biff_get_text (q->data + 2, BIFF_GETWORD(q->data)))) ;
+				if (txt) g_free (txt) ;
+			}
 			break ;
 		}
 		case BIFF_BOOLERR: /* S59D5F.HTM */
