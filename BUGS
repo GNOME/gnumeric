@@ -4,13 +4,13 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Delete sheet does not properly clear deleted cells from the depend lists of
-  the remainder.
 - FALSE is written in a locale specific format.  Apparently so are number formats.
 
 Long term breakage
 ------------------
 - The max row/col scroll size is still hard coded.
+
+- Sorting should move styles too.
 
 - Increase/Decrease precision toolbar buttons should look at the displayed
   precision for the edit cell and assign the changed value to the entire
