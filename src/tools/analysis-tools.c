@@ -494,6 +494,26 @@ cb_cut_into_rows (gpointer data, gpointer user_data)
 	return;
 }
 
+/*
+ *  cb_adjust_areas:
+ *  @data:
+ *  @user_data:
+ *
+ */
+static void
+cb_adjust_areas (gpointer data, G_GNUC_UNUSED gpointer user_data)
+{
+	GnmValue *range = (GnmValue *)data;
+
+	if (range == NULL || (range->type != VALUE_CELLRANGE)) {
+		return;
+	}
+
+	range->v_range.cell.a.col_relative = 0;
+	range->v_range.cell.a.row_relative = 0;
+	range->v_range.cell.b.col_relative = 0;
+	range->v_range.cell.b.row_relative = 0;
+}
 
 /*
  *  prepare_input_range:
@@ -519,6 +539,7 @@ prepare_input_range (GSList **input_range, group_by_t group_by)
 		return;
 	case GROUPED_BY_AREA:
 	default:
+		g_slist_foreach (*input_range, cb_adjust_areas, NULL);
 		return;
 	}
 }
@@ -3151,6 +3172,7 @@ finish_anova_single_factor_tool:
 
 	destroy_data_set_list (data);
 
+	dao_redraw_respan (dao);
         return FALSE;
 }
 
