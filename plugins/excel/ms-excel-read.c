@@ -1686,8 +1686,12 @@ ms_excel_read_name (BIFF_QUERY * q)
 	ptr+= help_txt_len ;
 	status_txt = biff_get_text (ptr, status_txt_len, NULL) ;
 
-	printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n", name, menu_txt, descr_txt,
-		help_txt, status_txt) ;
+	printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n",
+		name ? name : "(null)",
+		menu_txt ? menu_txt : "(null)",
+		descr_txt ? descr_txt : "(null)",
+		help_txt ? help_txt : "(null)",
+		status_txt ? status_txt : "(null)");
 	dump (name_def_data, name_def_len) ;
 
 	/* Unpack flags */
@@ -2541,7 +2545,8 @@ ms_excel_read_workbook (MS_OLE * file)
 						printf ("FIXME: Serious SST overrun lost %d of %d strings!\n",
 							wb->global_string_max - k, wb->global_string_max) ;
 						printf ("Last string was '%s' 0x%x > 0x%x\n",
-							wb->global_strings[k-1], tot_len, q->length);
+							wb->global_strings[k-1] ? wb->global_strings[k-1] : "(null)",
+							tot_len, q->length);
 
 						break ;
 					}

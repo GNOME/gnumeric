@@ -62,8 +62,8 @@ struct _CellRef {
 	Sheet *sheet;
 	int   col, row;
 
-	unsigned int col_relative:1;
-	unsigned int row_relative:1;
+	unsigned char col_relative;
+	unsigned char row_relative;
 };
 
 struct _Value {

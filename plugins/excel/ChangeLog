@@ -1,3 +1,8 @@
+1999-06-17  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (ms_excel_read_name): Don't print null pointers.
+	(ms_excel_read_workbook): Ditto.
+
 1999-06-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* ms-formula-read.c (formula_func_data): LOG, ROMAN, TRUNC, and

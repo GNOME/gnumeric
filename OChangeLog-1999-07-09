@@ -1,5 +1,9 @@
 1999-06-17  Morten Welinder  <terra@diku.dk>
 
+	* src/expr.h: Avoid using bitfields here.  They are slow and
+ 	confuse tools like Purify.  And used like this they don't save any
+ 	space anyway.
+
 	* src/complex.c: Fix includes.
 
 	* src/fn-eng.c (gnumeric_impower): Use new complex_pow.
