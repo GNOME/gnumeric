@@ -326,13 +326,11 @@ void       str_add_lag_con (lprec *lp, char *row,
 			    SolverConstraintType con_type, gnum_float rhs);
 /* The same, but with string input */
 
-#if 0
 void       lp_solve_set_upbo (lprec *lp, int column, gnum_float value);
 /* Set the upperbound of a variable */
 
 void       lp_solve_set_lowbo (lprec *lp, int column, gnum_float value);
 /* Set the lowerbound of a variable */
-#endif
 
 void       lp_solve_set_int (lprec *lp, int column, gboolean must_be_int);
 /* Set the type of variable, if must_be_int = TRUE then the variable must

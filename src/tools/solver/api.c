@@ -115,6 +115,14 @@
  *   Returns the shadow prize for a constraint.  If the optimal value was not
  *   found the result is undetermined.  The row numbering begins from zero.
  *
+ * typedef void          (solver_lp_set_option_fn)       (SolverProgram p,
+ *                                                        SolverOptionType option,
+ *  					                  const gboolean *b_value,
+ *                                                        const gnum_float *f_value,
+ *                                                        const int *i_value);
+ *   Sets an option for the solver algorithm.  `option' specifieces which option is
+ *   to be set and `b_value', `f_value', and/or `i_value' passes the option value(s).
+ *   Each one of those can point to NULL.
 */
 
 /* ------------------------------------------------------------------------- */
@@ -210,6 +218,35 @@ w_lp_solve_get_dual (SolverProgram lp, int row)
         lprec *p = (lprec *) lp;
 
         return p->duals [row + 1];
+}
+
+gboolean
+w_lp_solve_set_option (SolverProgram lp, SolverOptionType option,
+		       const gboolean *b_value,
+		       const gnum_float *f_value, const int *i_value)
+{
+	lprec *p = (lprec *) lp;
+        int   i;
+
+        switch (option) {
+	case SolverOptAssumeNonNegative:
+	        if (*b_value)
+		        for (i = 0; i < p->columns; i++)
+			        lp_solve_set_lowbo (p, i, 0.0);
+	        return FALSE;
+	case SolverOptAutomaticScaling:
+	        if (*b_value)
+		        lp_solve_auto_scale (p);
+	        return FALSE;
+	case SolverOptMaxIter:
+printf("FIXME: Max iter=%d\n", *i_value);
+	        return FALSE;
+	case SolverOptMaxTimeSec:
+printf("FIXME: Max time (sec.)=%d\n", *i_value);
+	        return FALSE;
+	default:
+	        return TRUE;
+	}
 }
 
 
@@ -346,6 +383,14 @@ w_glpk_get_dual (SolverProgram lp, int row)
         /* FIXME */
 }
 
+gboolean
+w_glpk_set_option (SolverProgram lp, SolverOptionType option,
+		   const gboolean *b_value,
+		   const gnum_float *f_value, const int *i_value)
+{
+        /* FIXME */
+}
+
 #endif
 
 
@@ -372,7 +417,8 @@ SolverLPAlgorithm lp_algorithm [] = {
 		(solver_lp_solve_fn*)            w_lp_solve_solve,
 		(solver_lp_get_obj_fn_value_fn*) w_lp_solve_get_value_of_obj_fn,
 		(solver_lp_get_obj_fn_var_fn*)   w_lp_solve_get_solution,
-		(solver_lp_get_shadow_prize_fn*) w_lp_solve_get_dual
+		(solver_lp_get_shadow_prize_fn*) w_lp_solve_get_dual,
+		(solver_lp_set_option_fn*)       w_lp_solve_set_option
 	},
 
 #if __HAVE_GLPK__
@@ -390,7 +436,8 @@ SolverLPAlgorithm lp_algorithm [] = {
 		(solver_lp_solve_fn*)            w_glpk_solve,
 		(solver_lp_get_obj_fn_value_fn*) w_glpk_get_value_of_obj_fn,
 		(solver_lp_get_obj_fn_var_fn*)   w_glpk_get_solution,
-		(solver_lp_get_shadow_prize_fn*) w_glpk_get_dual
+		(solver_lp_get_shadow_prize_fn*) w_glpk_get_dual,
+		(solver_lp_set_option_fn*)       w_glpk_set_option
 	},
 #endif
 

@@ -3,7 +3,6 @@ Regarding LP & ILP:
 
 Critical bugs:
   * fix crash: INT constraints support
-  * fix crash: MPS import when a model has already defined
   * fix bug: solver parameters when the sheet is duplicated
 
 Usability fixes:
@@ -24,7 +23,9 @@ Feature enhancements:
     - algorithm selection
     - max iterations
     - max time
-    - scaling
+    - rounding of close zeros
+    - obj. fn. range
+    - show iteration results
   * sensitivity report:
     - fix reduced cost
     - fix adjustable cells: allowable increase

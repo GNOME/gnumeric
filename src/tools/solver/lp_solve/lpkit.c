@@ -292,7 +292,6 @@ lp_solve_set_mat (lprec *lp, int Row, int Column, gnum_float Value)
 	}
 }
 
-#if 0
 void
 lp_solve_set_upbo (lprec *lp, int column, gnum_float value)
 {
@@ -322,7 +321,6 @@ lp_solve_set_lowbo (lprec *lp, int column, gnum_float value)
 	lp->eta_valid = FALSE;
 	lp->orig_lowbo[lp->rows + column] = value;
 }
-#endif
 
 void
 lp_solve_set_int (lprec *lp, int column, gboolean must_be_int)

@@ -265,22 +265,22 @@ static SolverProgram
 lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 		gchar **errmsg)
 {
-        SolverProgram  program;
-	Cell          *target;
-	gnum_float    x;
-	int           i, n;
+        SolverProgram     program;
+	SolverLPAlgorithm *alg;
+	Cell              *target;
+	gnum_float        x;
+	int               i, n;
 
 	/* Initialize the SolverProgram structure. */
-	program = lp_algorithm[param->options.algorithm].init_fn
-	        (param->n_variables, param->n_constraints);
+	alg = &lp_algorithm[param->options.algorithm];
+	program = alg->init_fn (param->n_variables, param->n_constraints);
 
 	/* Set up the objective function coefficients. */
 	target = get_solver_target_cell (sheet);
 	for (i = 0; i < param->n_variables; i++) {
 	        x = get_lp_coeff (target, get_solver_input_var (res, i));
 		if (x != 0) {
-		        lp_algorithm[param->options.algorithm].
-			        set_obj_fn (program, i, x);
+		        alg->set_obj_fn (program, i, x);
 			res->n_nonzeros_in_obj += 1;
 			res->obj_coeff[i] = x;
 		}
@@ -313,8 +313,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 		}
 
 		if (c->type == SolverINT) {
-		        lp_algorithm[param->options.algorithm].
-			        set_int_fn (program, i, TRUE);
+		        alg->set_int_fn (program, i, TRUE);
 			res->ilp_flag = TRUE;
 		        continue;
 		}
@@ -323,8 +322,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 					  get_solver_input_var (res, n));
 			if (x != 0) {
 			        res->n_nonzeros_in_mat += 1;
-				lp_algorithm[param->options.algorithm].
-				        set_constr_mat_fn (program, n, i, x);
+				alg->set_constr_mat_fn (program, n, i, x);
 				res->constr_coeff[i][n] = x;
 			}
 		}
@@ -341,25 +339,37 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 		}
 
 		x = value_get_as_float (target->value);
-		lp_algorithm[param->options.algorithm].
-		        set_constr_rhs_fn (program, i, x);
-		lp_algorithm[param->options.algorithm].
-		        set_constr_type_fn (program, i, c->type);
+		alg->set_constr_rhs_fn (program, i, x);
+		alg->set_constr_type_fn (program, i, c->type);
 	}
 
 	/* Set up the problem type. */
 	switch (param->problem_type) {
 	case SolverMinimize:
-	        lp_algorithm[param->options.algorithm].minim_fn (program);
+	        alg->minim_fn (program);
 	        break;
 	case SolverMaximize:
-	        lp_algorithm[param->options.algorithm].maxim_fn (program);
+	        alg->maxim_fn (program);
 	        break;
 	case SolverEqualTo:
 	        return NULL; /* FIXME: Equal to feature not yet implemented. */
 	default:
 	        return NULL;
 	}
+
+	/* Set options. */
+	if (alg->set_option_fn (program, SolverOptAssumeNonNegative,
+				&(param->options.assume_non_negative), NULL, NULL))
+	        return NULL;
+	if (alg->set_option_fn (program, SolverOptAutomaticScaling,
+				&(param->options.automatic_scaling), NULL, NULL))
+	        return NULL;
+	if (alg->set_option_fn (program, SolverOptMaxIter, NULL, NULL,
+				&(param->options.max_iter)))
+	        return NULL;
+	if (alg->set_option_fn (program, SolverOptMaxTimeSec, NULL, NULL,
+				&(param->options.max_time_sec)))
+	        return NULL;
 
 	lp_solve_print_lp (program);
 

@@ -26,6 +26,11 @@ typedef enum {
         LPSolve = 0
 } SolverLPAlgorithmType;
 
+typedef enum {
+        SolverOptAssumeNonNegative, SolverOptAutomaticScaling, SolverOptMaxIter,
+	SolverOptMaxTimeSec
+}  SolverOptionType;
+
 typedef gpointer SolverProgram;
 
 
@@ -62,6 +67,11 @@ typedef gnum_float
         (solver_lp_get_obj_fn_var_fn)   (SolverProgram p, int col);
 typedef gnum_float
         (solver_lp_get_shadow_prize_fn) (SolverProgram p, int row);
+typedef gboolean
+        (solver_lp_set_option_fn)       (SolverProgram p, SolverOptionType option,
+					 const gboolean *b_value,
+					 const gnum_float *f_value,
+					 const int *i_value);
 
 
 typedef struct {
@@ -79,19 +89,16 @@ typedef struct {
         solver_lp_get_obj_fn_value_fn *get_obj_fn_value_fn;
         solver_lp_get_obj_fn_var_fn   *get_obj_fn_var_fn;
         solver_lp_get_shadow_prize_fn *get_shadow_prize_fn;
+        solver_lp_set_option_fn       *set_option_fn;
 } SolverLPAlgorithm;
 
 struct _SolverOptions {
         int                   max_time_sec;
-        int                   iterations;
-        gnum_float            precision;
-        gnum_float            tolerance;
-        gnum_float            convergence;
-        gnum_float            equal_to_value;
+        int                   max_iter;
         gboolean              assume_linear_model;
         gboolean              assume_non_negative;
         gboolean              automatic_scaling;
-        gboolean              show_iteration_results;
+        gboolean              show_iter_results;
         gboolean              answer_report;
         gboolean              sensitivity_report;
         gboolean              limits_report;
