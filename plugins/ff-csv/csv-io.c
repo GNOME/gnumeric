@@ -112,6 +112,10 @@ csv_parse_sheet (FileSource_t *src)
 	return TRUE;
 }
 
+#ifndef MAP_FAILED
+#   define MAP_FAILED -1
+#endif
+
 static gboolean
 csv_read_workbook (Workbook *book, char const *filename)
 {

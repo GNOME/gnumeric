@@ -1,3 +1,8 @@
+1999-11-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* csv-io.c (MAP_FAILED): Define MAP_FAILED for those systems that
+	do not define it.
+
 1999-11-18  Jeff Garzik  <jgarzik@mandrakesoft.com>
 
 	* csv-io.c (csv_write_cell): Properly quote " chars.
