@@ -245,44 +245,6 @@ ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID 
 	return RGBA_TO_UINT (r,g,b,0xff);
 }
 
-static SheetObject *
-ms_sheet_create_image (MSObj *obj, MSEscherBlip *blip)
-{
-	SheetObject *so;
-	MSObjAttr *crop_left_attr = ms_obj_attr_bag_lookup
-		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_LEFT);
-	MSObjAttr *crop_top_attr = ms_obj_attr_bag_lookup
-		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_TOP);
-	MSObjAttr *crop_right_attr = ms_obj_attr_bag_lookup
-		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_RIGHT);
-	MSObjAttr *crop_bottom_attr = ms_obj_attr_bag_lookup
-		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_BOTTOM);
-	double crop_left_val = 0.0;
-	double crop_top_val = 0.0;
-	double crop_right_val = 0.0;
-	double crop_bottom_val = 0.0;
-
-	so = sheet_object_image_new (blip->type, blip->data, blip->data_len,
-				     !blip->needs_free);
-
-	if (!so)
-		return NULL;
-
-	if (crop_left_attr)
-		crop_left_val   = (double) crop_left_attr->v.v_uint / 65536.;
-	if (crop_top_attr)
-		crop_top_val    = (double) crop_top_attr->v.v_uint / 65536.;
-	if (crop_right_attr)
-		crop_right_val  = (double) crop_right_attr->v.v_uint / 65536.;
-	if (crop_bottom_attr)
-		crop_bottom_val = (double) crop_bottom_attr->v.v_uint / 65536.;
-	sheet_object_image_set_crop (SHEET_OBJECT_IMAGE (so),
-				     crop_left_val, crop_top_val,
-				     crop_right_val, crop_bottom_val);
-
-	return so;
-}
-
 /**
  * ms_sheet_obj_anchor_to_pos:
  * @points	Array which receives anchor coordinates in points
@@ -465,25 +427,37 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		break;
 
 	case 0x08: { /* Picture */
-		MSObjAttr *blip_id = ms_obj_attr_bag_lookup (obj->attrs,
-			MS_OBJ_ATTR_BLIP_ID);
+		double crop_left = 0.0;
+		double crop_top  = 0.0;
+		double crop_right = 0.0;
+		double crop_bottom = 0.0;
 
-		if (blip_id != NULL) {
+		if ((attr = ms_obj_attr_bag_lookup (obj->attrs,
+			MS_OBJ_ATTR_BLIP_ID)) != NULL) {
 			MSEscherBlip *blip = ms_container_get_blip (container,
-				blip_id->v.v_uint - 1);
+				attr->v.v_uint - 1);
 			if (blip != NULL) {
-				so = ms_sheet_create_image (obj, blip);
+				sheet_object_image_set_image (SHEET_OBJECT_IMAGE (so),
+					blip->type, blip->data, blip->data_len,
+					!blip->needs_free);
 				blip->needs_free = FALSE; /* image took over managing data */
 			}
 		}
+		if ((attr = ms_obj_attr_bag_lookup (obj->attrs,
+		     MS_OBJ_ATTR_BLIP_CROP_LEFT)) != NULL)
+			crop_left   = (double) attr->v.v_uint / 65536.;
+		if ((attr = ms_obj_attr_bag_lookup (obj->attrs,
+		     MS_OBJ_ATTR_BLIP_CROP_RIGHT)) != NULL)
+			crop_right  = (double) attr->v.v_uint / 65536.;
+		if ((attr = ms_obj_attr_bag_lookup (obj->attrs,
+		     MS_OBJ_ATTR_BLIP_CROP_TOP)) != NULL)
+			crop_top     = (double) attr->v.v_uint / 65536.;
+		if ((attr = ms_obj_attr_bag_lookup (obj->attrs,
+		     MS_OBJ_ATTR_BLIP_CROP_BOTTOM)) != NULL)
+			crop_bottom = (double) attr->v.v_uint / 65536.;
 
-		/* replace blips we don't know how to handle with rectangles */
-		if (so == NULL)
-			so = g_object_new (GNM_SO_FILLED_TYPE, NULL);  /* placeholder */
-
-#warning Free the objects.  I have a patch for this once 1.4.0 is out
-		if (so != obj->gnum_obj)
-			g_object_unref (so);
+		sheet_object_image_set_crop (SHEET_OBJECT_IMAGE (so),
+			crop_left, crop_top, crop_right, crop_bottom);
 		break;
 	}
 
@@ -571,24 +545,8 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	/* Button */
 	case 0x07: so = g_object_new (sheet_widget_button_get_type (), NULL);
 		break;
-	case 0x08: { /* Picture */
-		MSObjAttr *blip_id = ms_obj_attr_bag_lookup (obj->attrs,
-			MS_OBJ_ATTR_BLIP_ID);
-
-		if (blip_id != NULL) {
-			MSEscherBlip *blip = ms_container_get_blip (container,
-				blip_id->v.v_uint - 1);
-			if (blip != NULL) {
-				so = ms_sheet_create_image (obj, blip);
-				blip->needs_free = FALSE; /* image took over managing data */
-			}
-		}
-
-		/* replace blips we don't know how to handle with rectangles */
-		if (so == NULL)
-			so = g_object_new (GNM_SO_FILLED_TYPE, NULL);  /* placeholder */
+	case 0x08: so = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL); /* Picture */
 		break;
-	}
 	case 0x09: so = g_object_new (GNM_SO_POLYGON_TYPE, NULL);
 		break;
 	case 0x0B: so = g_object_new (sheet_widget_checkbox_get_type (), NULL);

@@ -1,3 +1,13 @@
+2004-11-13  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_sheet_realize_obj) : We have a clear separation
+	  between create and realize now, we should use it.  This routine sets
+	  the content.
+	(ms_sheet_create_obj) : this one creates objects for use later.
+	  I am not entire happy with this split.  It no longer feels
+	  necessary but it is much too close to release to contemplate
+	  cleaning it up.
+
 2004-12-17  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=161534

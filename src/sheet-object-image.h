@@ -10,9 +10,10 @@
 typedef struct _SheetObjectImage SheetObjectImage;
 
 GType	     sheet_object_image_get_type (void);
-SheetObject *sheet_object_image_new (char const   *type,
+void sheet_object_image_set_image (SheetObjectImage *soi,
+				   char const   *type,
 				     guint8       *data,
-				     guint32	   data_len,
+				   unsigned	 data_len,
 				     gboolean      copy_data);
 void sheet_object_image_set_crop (SheetObjectImage *soi,
 				  double crop_left,  double crop_top,

@@ -122,26 +122,29 @@ enum {
 };
 
 /**
- * sheet_object_image_new :
+ * sheet_object_image_set_image :
+ * @so : #SheetObjectImage
  * @type :
  * @data :
  * @data_len
  * @copy_data :
- */
-SheetObject *
-sheet_object_image_new (char const   *type,
+ *
+ * Assign raw data and type to @so assuming that it has not been initialized
+ * yet.
+ **/
+void
+sheet_object_image_set_image (SheetObjectImage *soi,
+			      char const   *type,
 			guint8       *data,
-			guint32	      data_len,
+			      unsigned      data_len,
 			gboolean      copy_data)
 {
-	SheetObjectImage *soi;
+	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (soi));
+	g_return_if_fail (soi->bytes.data == NULL && soi->bytes.len == 0);
 
-	soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
 	soi->type       = g_strdup (type);
 	soi->bytes.len  = data_len;
 	soi->bytes.data = copy_data ? g_memdup (data, data_len) : data;
-	
-	return SHEET_OBJECT (soi);
 }
 
 void
@@ -209,7 +212,7 @@ soi_info_cb (GdkPixbufLoader *loader,
  * be sure to unref the result if it is non-NULL
  *
  * TODO : this is really overkill for now.
- * only wmf/emf will require regenerating the pixbug for different scale
+ * only wmf/emf will require regenerating the pixbuf for different scale
  * factors.  And even then we should cache them.
  */
 static GdkPixbuf *
@@ -226,6 +229,8 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 
 	data     = soi->bytes.data;
 	data_len = soi->bytes.len;
+	if (data == NULL || data_len == 0)
+		return pixbuf;
 
 	if (soi->type != NULL && !strcmp (soi->type, "wmf"))
 		loader = gdk_pixbuf_loader_new_with_type (soi->type, &err);

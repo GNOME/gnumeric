@@ -1,3 +1,9 @@
+2004-12-17  Jody Goldberg <jody@gnome.org>
+
+	From Ivan Wong :
+	http://bugzilla.gnome.org/show_bug.cgi?id=159860
+	* utils/go-file.c (go_url_show) : Use ShellExecute on win32
+
 2004-12-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/plot-xy/gog-xy.c (gog_xy_series_init_style): don't disable

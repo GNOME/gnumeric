@@ -1,3 +1,12 @@
+2004-11-14  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-image.c (sheet_object_image_set_image) : renamed
+	  from sheet_object_image_new to make the life cycle simpler for
+	  importers.
+	(soi_get_pixbuf) : No data == no pixbuf
+	* src/wbcg-actions.c (cb_insert_image) : adjust to the name and
+	  semantic change of sheet_object_image_set_image.
+
 2004-12-17  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_cell_NEW): Fix origin correction.

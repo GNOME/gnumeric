@@ -177,9 +177,8 @@ go_dirname_from_uri (const char *uri, gboolean brief)
 	g_free (raw_uri);
 #else
 	char *uri_dirname = g_path_get_dirname (uri);
-	char *dir = uri_dirname ? go_filename_from_uri (uri_dirname) : NULL;
+	dirname = uri_dirname ? go_filename_from_uri (uri_dirname) : NULL;
 	dirname = dirname ? g_strconcat ("file://", dirname, NULL) : NULL;
-	g_free (dir);
 	g_free (uri_dirname);
 #endif
 
@@ -404,6 +403,11 @@ check_program (char const *prog)
 GError *
 go_url_show (gchar const *url)
 {
+#ifdef G_OS_WIN32
+	ShellExecute (NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);  
+
+	return NULL;
+#else
 	GError *err = NULL;
 #ifdef WITH_GNOME
 	gnome_url_show (url, &err);
@@ -414,49 +418,6 @@ go_url_show (gchar const *url)
 
 	/* 1) Check BROWSER env var */
 	browser = check_program (getenv ("BROWSER"));
-
-#ifdef G_OS_WIN32
-{
-	char *ptr, *longpath;
-	HKEY hKey;
-	unsigned long lType;
-	DWORD dwSize;
-
-	/* 2) Check registry */
-	if (browser == NULL &&
-	    RegOpenKeyEx (HKEY_CLASSES_ROOT, "http\\shell\\open\\command", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
-		if(RegQueryValueEx (hKey, NULL, NULL, &lType, NULL, &dwSize) == ERROR_SUCCESS) {
-			unsigned char *buf = g_new (unsigned char, dwSize + 1);
-			RegQueryValueEx (hKey, NULL, NULL, &lType, buf, &dwSize);
-			browser = check_program (buf);
-			g_free (buf);
-		}
-		RegCloseKey(hKey);
-	}
-
-	/* some win32 specific url cleanup */
-	/* If this is a file:// URL, strip off file:// and make it backslashed */
-	if (g_ascii_strncasecmp (url, "file://", 7) == 0) {
-		url += 7;
-
-		/* View as WebPage likes to throw in an extra /\ just for fun,
-		 * strip it off */
-		if (strncmp (url, "/\\", 2) == 0)
-			url += 2;
-
-		longpath = g_strdup (url);
-		/* s/forward-slash/back-slash/ */
-		for (ptr = longpath ; *ptr ; ptr++)
-			if (*ptr == '/')
-				*ptr = '\\';
-
-		clean_url = g_new (char, MAX_PATH);
-		/* Convert to 8.3 in case of spaces in path */
-		GetShortPathName (longpath, clean_url, MAX_PATH);
-		g_free (longpath);
-	}
-}
-#endif
 
 	if (browser == NULL) {
 		static char const * const browsers[] = {
@@ -515,5 +476,6 @@ go_url_show (gchar const *url)
 	g_free (browser);
 	g_free (clean_url);
 	return err;
+#endif
 #endif
 }

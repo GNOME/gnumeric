@@ -12,10 +12,9 @@ Release Critical
     : tie the custom ui into action sensitivity pools
     : kasal's popt patch
     : support array evaluation for =LARGE and friends
-    http://bugzilla.gnome.org/show_bug.cgi?id=157997
-    : image import from xl95
     http://bugzilla.gnome.org/show_bug.cgi?id=159581
     : undo has dep leaks
+    : Ivan's win32 build patch
 
 Worries
 -------

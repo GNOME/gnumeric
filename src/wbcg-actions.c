@@ -914,8 +914,9 @@ static GNM_ACTION_DEF (cb_insert_image)
 		if (input != NULL) {
 			unsigned len = gsf_input_size (input);
 			guint8 const *data = gsf_input_read (input, len, NULL);
-			scg_mode_create_object (wbcg_cur_scg (wbcg),
-				sheet_object_image_new ("", (guint8 *)data, len, TRUE));
+			SheetObjectImage *soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
+			sheet_object_image_set_image (soi, "", (guint8 *)data, len, TRUE);
+			scg_mode_create_object (wbcg_cur_scg (wbcg), SHEET_OBJECT (soi));
 			g_object_unref (input);
 		} else
 			gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);

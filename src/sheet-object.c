@@ -294,6 +294,15 @@ sheet_object_get_sheet (SheetObject const *so)
 	return so->sheet;
 }
 
+static int
+cb_create_views (SheetObject *so)
+{
+	g_object_set_data (G_OBJECT (so), "create_view_handler", NULL);
+	SHEET_FOREACH_CONTROL (so->sheet, view, control,
+		sc_object_create_view (control, so););
+	sheet_object_update_bounds (so, NULL);
+	return FALSE;
+}
 
 /**
  * sheet_object_set_sheet :
@@ -321,12 +330,13 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 
 	g_object_ref (G_OBJECT (so));
 	sheet->sheet_objects = g_list_prepend (sheet->sheet_objects, so);
-	SHEET_FOREACH_CONTROL (so->sheet, view, control,
-		sc_object_create_view (control, so););
-	sheet_object_update_bounds (so, NULL);
-
 	/* FIXME : add a flag to sheet to have sheet_update do this */
 	sheet_objects_max_extent (sheet);
+
+	if (NULL == g_object_get_data (G_OBJECT (so), "create_view_handler")) {
+		guint id = g_idle_add ((GSourceFunc) cb_create_views, so);
+		g_object_set_data (G_OBJECT (so), "create_view_handler", GUINT_TO_POINTER (id));
+	}
 
 	return FALSE;
 }
@@ -344,12 +354,20 @@ gboolean
 sheet_object_clear_sheet (SheetObject *so)
 {
 	GList *ptr;
+	gpointer view_handler;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
 	g_return_val_if_fail (IS_SHEET (so->sheet), TRUE);
 
 	ptr = g_list_find (so->sheet->sheet_objects, so);
 	g_return_val_if_fail (ptr != NULL, TRUE);
+
+	/* clear any pending attempts to create views */
+	view_handler = g_object_get_data (G_OBJECT (so), "create_view_handler");
+	if (NULL != view_handler) {
+		g_source_remove (GPOINTER_TO_UINT (view_handler));
+		g_object_set_data (G_OBJECT (so), "create_view_handler", NULL);
+	}
 
 	/* The views remove themselves from the list */
 	while (so->realized_list != NULL)
