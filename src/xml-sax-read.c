@@ -1270,7 +1270,8 @@ xml_sax_named_expr_end (GsfXmlSAXState *gsf_state)
 
 	parse_error_init (&perr);
 	expr = gnm_expr_parse_str (state->name.value, &pos,
-		GNM_EXPR_PARSE_DEFAULT, gnm_expr_conventions_default_1_0, &perr);
+				   GNM_EXPR_PARSE_DEFAULT,
+				   gnm_expr_conventions_default, &perr);
 	if (expr != NULL) {
 		char *err = NULL;
 		expr_name_add (&pos, state->name.name, expr, &err, TRUE);

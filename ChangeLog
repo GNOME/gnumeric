@@ -1,3 +1,9 @@
+2002-12-19  Morten Welinder  <terra@diku.dk>
+
+	* src/parse-util.c (gnm_expr_conventions_default_1_0): Delete.
+	(parse_util_init): Don't set up gnm_expr_conventions_default_1_0.
+	(parse_util_shutdown): Don't free it.
+
 2002-12-17  Morten Welinder  <terra@diku.dk>
 
 	* src/value.c (value_new_from_string): Take new "translated"

@@ -1,3 +1,9 @@
+2002-12-19  Morten Welinder  <terra@diku.dk>
+
+	* xml-sax-read.c (xml_sax_named_expr_end):
+	s/gnm_expr_conventions_default_1_0/gnm_expr_conventions_default/.
+	They're both wrong, but I want to get rid of the former.
+
 2002-12-03  Morten Welinder  <terra@diku.dk>
 
 	* xml-sax-read.c (xml_sax_print_margins_unit): Use

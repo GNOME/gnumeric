@@ -1027,7 +1027,6 @@ gnm_expr_conventions_free (GnmExprConventions *c)
 /* ------------------------------------------------------------------------- */
 
 GnmExprConventions *gnm_expr_conventions_default;
-GnmExprConventions *gnm_expr_conventions_default_1_0;
 
 void
 parse_util_init (void)
@@ -1037,12 +1036,6 @@ parse_util_init (void)
 	gnm_expr_conventions_default->range_sep_colon = TRUE;
 	gnm_expr_conventions_default->sheet_sep_exclamation = TRUE;
 	gnm_expr_conventions_default->dots_in_names = TRUE;
-
-	gnm_expr_conventions_default_1_0 = gnm_expr_conventions_new ();
-	gnm_expr_conventions_default_1_0->ref_parser = gnm_1_0_rangeref_parse;
-	gnm_expr_conventions_default_1_0->range_sep_colon = TRUE;
-	gnm_expr_conventions_default_1_0->sheet_sep_exclamation = TRUE;
-	gnm_expr_conventions_default_1_0->dots_in_names = TRUE;
 }
 
 void
@@ -1050,9 +1043,6 @@ parse_util_shutdown (void)
 {
 	gnm_expr_conventions_free (gnm_expr_conventions_default);
 	gnm_expr_conventions_default = NULL;
-
-	gnm_expr_conventions_free (gnm_expr_conventions_default_1_0);
-	gnm_expr_conventions_default_1_0 = NULL;
 }
 
 GnmExpr const *
