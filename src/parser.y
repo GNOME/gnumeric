@@ -959,7 +959,6 @@ yylex (void)
 	}
 
 	if (g_unichar_isalpha (c) || c == '_' || c == '$'){
-		char const *start = state->expr_text - 1;
 		gunichar tmp;
 
 		while ((tmp = g_utf8_get_char (state->expr_text)) != 0 &&
@@ -971,6 +970,23 @@ yylex (void)
 			value_new_string_nocopy (g_strndup (start, state->expr_text - start))));
 		return STRING;
 	}
+
+	/* Error constants.  */
+	if (c == '#') {
+		gunichar tmp;
+
+		while ((tmp = g_utf8_get_char (state->expr_text)) != 0 &&
+		       !g_unichar_isspace (tmp)) {
+			state->expr_text = g_utf8_next_char (state->expr_text);
+			if (tmp == '!') {
+				yylval.expr = register_expr_allocation
+					(gnm_expr_new_constant (
+						value_new_string_nocopy (g_strndup (start, state->expr_text - start))));
+				return STRING;
+			}
+		}
+	}
+
 
 	if (c == '\n' || c == 0)
 		return 0;
