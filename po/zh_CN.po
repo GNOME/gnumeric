@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
-"POT-Creation-Date: 2002-02-14 02:29-0500\n"
+"POT-Creation-Date: 2002-02-18 00:59-0500\n"
 "PO-Revision-Date: 2001-08-10 11:05-0400\n"
 "Last-Translator: Donald Park <xlpark@kankou.cs.uec.ac.jp>\n"
 "Language-Team: Chinese Team\n"
@@ -22,7 +22,7 @@ msgstr "插入一个新的电子表格"
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME 电子表格"
 
-#: plugins/applix/applix-read.c:85
+#: plugins/applix/applix-read.c:91
 msgid "Parse error while reading Applix file."
 msgstr "当读 Applix 文件时出现文法错误."
 
@@ -258,7 +258,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4485
+#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4455
 #: plugins/mps/mps.c:578 src/xml-io.c:3230
 msgid "Reading file..."
 msgstr "读文件..."
@@ -377,25 +377,25 @@ msgstr ""
 msgid "Module%d"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:4480
+#: plugins/excel/ms-excel-read.c:4450
 msgid "No book or workbook streams found."
 msgstr "没有发现账本或者工作账本流"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4644
+#: plugins/excel/ms-excel-read.c:4614
 msgid "Password protected workbooks are not supported yet."
 msgstr "用口令保护的工作账本还未支持"
 
-#: plugins/excel/ms-excel-read.c:4757
+#: plugins/excel/ms-excel-read.c:4727
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "不能找到有效的微软 Excel 工作账本"
 
-#: plugins/excel/ms-excel-write.c:3504
+#: plugins/excel/ms-excel-write.c:3503
 #, fuzzy, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "对这种格式有太多的行数"
 
-#: plugins/excel/ms-excel-write.c:3732
+#: plugins/excel/ms-excel-write.c:3731
 msgid "Can't open stream for writing\n"
 msgstr "不能打开写入流\n"
 
@@ -493,7 +493,7 @@ msgid "Error: no recordsets were returned"
 msgstr ""
 
 # src/dialog-cell-format.c:68
-#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1365
+#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1364
 msgid "Database"
 msgstr "数据库"
 
@@ -1340,7 +1340,7 @@ msgstr "自动执行简单的拼写检查"
 msgid "Automatically save the current document at regular intervals"
 msgstr "在正常间隔内自动存储当前文档"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2577
+#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2576
 #: src/workbook-format-toolbar.c:797 src/workbook-format-toolbar.c:854
 msgid "Background"
 msgstr "背景"
@@ -1572,7 +1572,7 @@ msgid "Create an arrow"
 msgstr "创建一个箭头"
 
 # src/item-grid.c:526 src/workbook.c:847
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1378
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1409
 msgid "Cu_t"
 msgstr "剪下(_T)"
 
@@ -1708,7 +1708,7 @@ msgstr "字体大小"
 msgid "Font selector"
 msgstr "字体选择"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2571
 #: src/workbook-format-toolbar.c:823 src/workbook-format-toolbar.c:857
 msgid "Foreground"
 msgstr "前景色"
@@ -2314,7 +2314,7 @@ msgstr "数据分析"
 
 # src/workbook.c:1130
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3190
-#: src/workbook-control-gui.c:3805 src/workbook-view.c:453
+#: src/workbook-control-gui.c:3809 src/workbook-view.c:453
 msgid "Sum"
 msgstr "合计"
 
@@ -2464,7 +2464,7 @@ msgstr "内容(_C)"
 
 # src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:850
 #: src/GNOME_Gnumeric.xml.h:257 src/item-cursor.c:1029
-#: src/sheet-control-gui.c:1380
+#: src/sheet-control-gui.c:1411
 msgid "_Copy"
 msgstr "复制(_C)"
 
@@ -2485,7 +2485,7 @@ msgid "_Define..."
 msgstr "定义(_D)..."
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
-#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1398
+#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1429
 #: src/workbook-control-gui.c:2719
 msgid "_Delete..."
 msgstr "删除(_D)..."
@@ -2567,8 +2567,8 @@ msgstr "组与轮廓(_G)"
 msgid "_Help"
 msgstr "帮助(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1421
-#: src/sheet-control-gui.c:1429 src/workbook-control-gui.c:2840
+#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1452
+#: src/sheet-control-gui.c:1460 src/workbook-control-gui.c:2840
 #: src/workbook-control-gui.c:2859
 msgid "_Hide"
 msgstr "隐藏(_H)"
@@ -2638,7 +2638,7 @@ msgid "_Paired Samples: T-Test"
 msgstr ""
 
 # src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
-#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1382
+#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1413
 msgid "_Paste"
 msgstr "贴上(_P)"
 
@@ -2762,8 +2762,8 @@ msgstr "不做(_U)"
 msgid "_Ungroup"
 msgstr "合并(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1423
-#: src/sheet-control-gui.c:1431 src/workbook-control-gui.c:2843
+#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1454
+#: src/sheet-control-gui.c:1462 src/workbook-control-gui.c:2843
 #: src/workbook-control-gui.c:2862
 msgid "_Unhide"
 msgstr "取消隐藏(_U)"
@@ -4264,7 +4264,7 @@ msgid ""
 msgstr ""
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:4116
+#: src/dialogs/dialog-analysis-tools.c:4114
 #, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "无法创建 Name Guru."
@@ -4372,7 +4372,7 @@ msgstr "37"
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:641
+#: src/dialogs/dialog-autoformat.c:639
 #, fuzzy
 msgid "An error occurred while reading the category list"
 msgstr "当读入分类表时出现错误"
@@ -4380,7 +4380,7 @@ msgstr "当读入分类表时出现错误"
 # src/dialog-cell-format.c:358 src/formats.c:16 src/number-match.c:455
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:651 src/format.c:1649 src/format.c:1741
+#: src/dialogs/dialog-autoformat.c:649 src/format.c:1649 src/format.c:1741
 #: src/format.c:1750 src/format.c:1819
 msgid "General"
 msgstr "一般"
@@ -4432,57 +4432,57 @@ msgstr "双重"
 msgid "None"
 msgstr "无"
 
-#: src/dialogs/dialog-cell-format.c:2100
+#: src/dialogs/dialog-cell-format.c:2099
 #, fuzzy
 msgid "Source"
 msgstr "源域"
 
-#: src/dialogs/dialog-cell-format.c:2101
+#: src/dialogs/dialog-cell-format.c:2100
 #, fuzzy
 msgid "Criteria"
 msgstr "检索条件范围(_R)"
 
 # src/workbook.c:1131
-#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2120
+#: src/dialogs/dialog-cell-format.c:2112 src/dialogs/dialog-cell-format.c:2119
 #, fuzzy
 msgid "Min :"
 msgstr "最小"
 
 # src/workbook.c:1132
-#: src/dialogs/dialog-cell-format.c:2114 src/dialogs/dialog-cell-format.c:2123
+#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2122
 #, fuzzy
 msgid "Max :"
 msgstr "最大"
 
 # src/dialog-paste-special.c:22
-#: src/dialogs/dialog-cell-format.c:2117
+#: src/dialogs/dialog-cell-format.c:2116
 msgid "Value :"
 msgstr "值 :"
 
 # src/dialog-cell-format.c:309
-#: src/dialogs/dialog-cell-format.c:2503
+#: src/dialogs/dialog-cell-format.c:2502
 msgid "Format Cells"
 msgstr "格式化单元"
 
 # src/workbook.c:783 src/workbook.c:789
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
-#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2566 src/dialogs/dialog-cell-format.c:2571
+#: src/dialogs/dialog-cell-format.c:2581 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:816
 msgid "Automatic"
 msgstr "自动调整"
 
 # src/workbook.c:870
-#: src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/dialog-cell-format.c:2566
 msgid "Border"
 msgstr "边框线"
 
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:789
+#: src/dialogs/dialog-cell-format.c:2576 src/workbook-format-toolbar.c:789
 msgid "Clear Background"
 msgstr "清除背景"
 
 # src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
-#: src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/dialog-cell-format.c:2581
 msgid "Pattern"
 msgstr "贴上"
 
@@ -4851,24 +4851,24 @@ msgstr "插件列表"
 msgid "Plugin details"
 msgstr "插件的详细内容"
 
-#: src/dialogs/dialog-printer-setup.c:985
-#: src/dialogs/dialog-printer-setup.c:1116
+#: src/dialogs/dialog-printer-setup.c:983
+#: src/dialogs/dialog-printer-setup.c:1114
 #, fuzzy
 msgid "Customize header"
 msgstr "自订页眉(_H)"
 
-#: src/dialogs/dialog-printer-setup.c:987
-#: src/dialogs/dialog-printer-setup.c:1122
+#: src/dialogs/dialog-printer-setup.c:985
+#: src/dialogs/dialog-printer-setup.c:1120
 #, fuzzy
 msgid "Customize footer"
 msgstr "自订脚注(_F)"
 
 # src/dialog-cell-format.c:633
-#: src/dialogs/dialog-printer-setup.c:1115
+#: src/dialogs/dialog-printer-setup.c:1113
 msgid "Custom header configuration"
 msgstr "优化头配置"
 
-#: src/dialogs/dialog-printer-setup.c:1121
+#: src/dialogs/dialog-printer-setup.c:1119
 msgid "Custom footer configuration"
 msgstr "优化尾配置"
 
@@ -4992,7 +4992,7 @@ msgstr "数据 (从 %s)"
 #. * The name of the default font for this locale.
 #. * Preferably something with the correct encoding.
 #.
-#: src/dialogs/dialog-stf-preview.c:616 src/style.c:97
+#: src/dialogs/dialog-stf-preview.c:614 src/style.c:97
 msgid "fixed"
 msgstr ""
 
@@ -6593,7 +6593,7 @@ msgid "Function does not exist"
 msgstr "函数不存在"
 
 #. *************************************************************************
-#: src/functions/fn-database.c:505
+#: src/functions/fn-database.c:504
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -6604,7 +6604,7 @@ msgstr ""
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
 "@DESCRIPTION=DAVERAGE 函数返回在表或数据库中满足指定条件的记录的平均值. \n"
 
-#: src/functions/fn-database.c:513
+#: src/functions/fn-database.c:512
 #, fuzzy
 msgid ""
 "\n"
@@ -6624,7 +6624,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:575
+#: src/functions/fn-database.c:574
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -6636,7 +6636,7 @@ msgstr ""
 "@DESCRIPTION=DCOUNT 函数计算在数据库中满足指定条件且单元中包含数值的单元的个"
 "数. \n"
 
-#: src/functions/fn-database.c:583
+#: src/functions/fn-database.c:582
 #, fuzzy
 msgid ""
 "\n"
@@ -6654,7 +6654,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAVERAGE"
 
-#: src/functions/fn-database.c:637
+#: src/functions/fn-database.c:636
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -6666,7 +6666,7 @@ msgstr ""
 "@DESCRIPTION=DCOUNTA 函数计算在数据库中满足指定条件且单元中包含数据的单元的个"
 "数. \n"
 
-#: src/functions/fn-database.c:645
+#: src/functions/fn-database.c:644
 #, fuzzy
 msgid ""
 "\n"
@@ -6684,7 +6684,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:696
+#: src/functions/fn-database.c:695
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -6695,7 +6695,7 @@ msgstr ""
 "@SYNTAX=DGET(database,field,criteria)\n"
 "@DESCRIPTION=DGET 函数返回列中满足指定条件的记录的一个值. \n"
 
-#: src/functions/fn-database.c:704
+#: src/functions/fn-database.c:703
 #, fuzzy
 msgid ""
 "\n"
@@ -6715,7 +6715,7 @@ msgstr ""
 "大于一个, 则 DGET 返回 #NUM! 错误. \n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:765
+#: src/functions/fn-database.c:764
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -6726,7 +6726,7 @@ msgstr ""
 "@SYNTAX=DMAX(database,field,criteria)\n"
 "@DESCRIPTION=DMAX 函数返回在列中满足指定条件的记录的最大值. \n"
 
-#: src/functions/fn-database.c:773
+#: src/functions/fn-database.c:772
 #, fuzzy
 msgid ""
 "\n"
@@ -6744,7 +6744,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMIN"
 
-#: src/functions/fn-database.c:837
+#: src/functions/fn-database.c:836
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -6755,7 +6755,7 @@ msgstr ""
 "@SYNTAX=DMIN(database,field,criteria)\n"
 "@DESCRIPTION=DMIN 函数返回在列中满足指定条件的记录的最小值. \n"
 
-#: src/functions/fn-database.c:845
+#: src/functions/fn-database.c:844
 #, fuzzy
 msgid ""
 "\n"
@@ -6771,7 +6771,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMAX"
 
-#: src/functions/fn-database.c:908
+#: src/functions/fn-database.c:907
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -6782,7 +6782,7 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
 "@DESCRIPTION=DPRODUCT 函数返回在列中满足指定条件的记录的乘积. \n"
 
-#: src/functions/fn-database.c:916
+#: src/functions/fn-database.c:915
 #, fuzzy
 msgid ""
 "\n"
@@ -6796,7 +6796,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSUM"
 
-#: src/functions/fn-database.c:976
+#: src/functions/fn-database.c:975
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -6809,7 +6809,7 @@ msgstr ""
 "@DESCRIPTION=DSTDEV 函数返回基于样本的满足指定条件的母函数的标准偏差的评估"
 "值. 母函数由满足指定条件的记录组成. \n"
 
-#: src/functions/fn-database.c:985
+#: src/functions/fn-database.c:984
 #, fuzzy
 msgid ""
 "\n"
@@ -6825,7 +6825,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEVP"
 
-#: src/functions/fn-database.c:1043
+#: src/functions/fn-database.c:1042
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -6838,7 +6838,7 @@ msgstr ""
 "@DESCRIPTION=DSTDEVP 函数返回基于全域的满足指定条件的母函数的标准偏差. 母函数"
 "由满足指定条件的记录组成. \n"
 
-#: src/functions/fn-database.c:1052
+#: src/functions/fn-database.c:1051
 #, fuzzy
 msgid ""
 "\n"
@@ -6854,7 +6854,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEV"
 
-#: src/functions/fn-database.c:1112
+#: src/functions/fn-database.c:1111
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -6865,7 +6865,7 @@ msgstr ""
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=DSUM 函数返回在列中满足指定条件的记录的总数. \n"
 
-#: src/functions/fn-database.c:1120
+#: src/functions/fn-database.c:1119
 #, fuzzy
 msgid ""
 "\n"
@@ -6881,7 +6881,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DPRODUCT"
 
-#: src/functions/fn-database.c:1180
+#: src/functions/fn-database.c:1179
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -6894,7 +6894,7 @@ msgstr ""
 "@DESCRIPTION=DVAR 函数返回基于样本的母函数方差的评估值. 母函数由满足指定条件"
 "的记录组成. \n"
 
-#: src/functions/fn-database.c:1189
+#: src/functions/fn-database.c:1188
 #, fuzzy
 msgid ""
 "\n"
@@ -6910,7 +6910,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVARP"
 
-#: src/functions/fn-database.c:1249
+#: src/functions/fn-database.c:1248
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -6923,7 +6923,7 @@ msgstr ""
 "@DESCRIPTION=DVARP 函数返回基于整体全域的母函数方差. 母函数由满足指定条件的记"
 "录组成. \n"
 
-#: src/functions/fn-database.c:1258
+#: src/functions/fn-database.c:1257
 #, fuzzy
 msgid ""
 "\n"
@@ -6939,7 +6939,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVAR"
 
-#: src/functions/fn-database.c:1319
+#: src/functions/fn-database.c:1318
 #, fuzzy
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
@@ -13442,7 +13442,7 @@ msgstr ""
 "@SEEALSO="
 
 # src/workbook.c:761 src/workbook.c:809
-#: src/functions/fn-sheet.c:141 src/workbook.c:1032 src/xml-io.c:2943
+#: src/functions/fn-sheet.c:141 src/workbook.c:1030 src/xml-io.c:2943
 msgid "Sheet"
 msgstr "表格"
 
@@ -16414,7 +16414,7 @@ msgid "Show details"
 msgstr "显示详细内容"
 
 # src/plugin.c:40
-#: src/gui-util.c:874
+#: src/gui-util.c:873
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "无法打开文件 '%s'"
@@ -17141,7 +17141,7 @@ msgid "cannot be performed with multiple ranges selected"
 msgstr "不能跨过数个区段执行"
 
 # src/dialog-paste-special.c:56 src/item-grid.c:529
-#: src/sheet-control-gui.c:1384
+#: src/sheet-control-gui.c:1415
 msgid "Paste _Special"
 msgstr "选择性贴上(_S)"
 
@@ -17153,48 +17153,48 @@ msgstr "选择性贴上(_S)"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1396
+#: src/sheet-control-gui.c:1427
 msgid "_Insert..."
 msgstr "插入(_I)..."
 
 # src/dialog-insert-cells.c:37
-#: src/sheet-control-gui.c:1400
+#: src/sheet-control-gui.c:1431
 msgid "_Insert Column(s)"
 msgstr "插入列(_I)"
 
 # src/dialog-delete-cells.c:36
-#: src/sheet-control-gui.c:1402
+#: src/sheet-control-gui.c:1433
 msgid "_Delete Column(s)"
 msgstr "删除列(_D)"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/sheet-control-gui.c:1404
+#: src/sheet-control-gui.c:1435
 msgid "_Insert Row(s)"
 msgstr "插入行(_I)"
 
 # src/dialog-delete-cells.c:35
-#: src/sheet-control-gui.c:1406
+#: src/sheet-control-gui.c:1437
 msgid "_Delete Row(s)"
 msgstr "删除行(_D)"
 
 # src/workbook.c:703
-#: src/sheet-control-gui.c:1409
+#: src/sheet-control-gui.c:1440
 msgid "Clear Co_ntents"
 msgstr "清除内容(_N)"
 
 # src/workbook.c:763 src/workbook.c:801
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1446
 msgid "_Format Cells..."
 msgstr "格式化储存格(_F)..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1450
 msgid "Column _Width..."
 msgstr "列宽(_W)..."
 
 # src/workbook.c:790
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1427
+#: src/sheet-control-gui.c:1458
 msgid "_Row Height..."
 msgstr "行高度(_R)..."
 
@@ -17219,69 +17219,69 @@ msgstr "不能为 '%s' 创建对象"
 msgid "Could not load file: %s"
 msgstr "无法装入文件: %s"
 
-#: src/sheet-object-graphic.c:445
+#: src/sheet-object-graphic.c:446
 msgid "Configure line or arrow"
 msgstr ""
 
 # src/dialog-cell-format.c:918
-#: src/sheet-object-graphic.c:459
+#: src/sheet-object-graphic.c:460
 msgid "Color"
 msgstr "颜色"
 
-#: src/sheet-object-graphic.c:461
+#: src/sheet-object-graphic.c:462
 #, fuzzy
 msgid "Line Width"
 msgstr "固定宽度(_D)"
 
 # src/workbook.c:765
-#: src/sheet-object-graphic.c:465
+#: src/sheet-object-graphic.c:466
 #, fuzzy
 msgid "Arrow tip"
 msgstr "箭头"
 
-#: src/sheet-object-graphic.c:467
+#: src/sheet-object-graphic.c:468
 #, fuzzy
 msgid "Arrow length"
 msgstr "错误通知(_E)"
 
 # src/workbook.c:870
-#: src/sheet-object-graphic.c:469
+#: src/sheet-object-graphic.c:470
 #, fuzzy
 msgid "Arrow width"
 msgstr "边框线"
 
-#: src/sheet-object-graphic.c:503
+#: src/sheet-object-graphic.c:504
 msgid "Distance from tip of arrowhead to the center point"
 msgstr ""
 
-#: src/sheet-object-graphic.c:505
+#: src/sheet-object-graphic.c:506
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
 msgstr ""
 
-#: src/sheet-object-graphic.c:508
+#: src/sheet-object-graphic.c:509
 msgid "Distance of trailing point from outside edge of shaft"
 msgstr ""
 
-#: src/sheet-object-graphic.c:842
+#: src/sheet-object-graphic.c:843
 msgid "Configure filled object"
 msgstr ""
 
-#: src/sheet-object-graphic.c:854
+#: src/sheet-object-graphic.c:855
 #, fuzzy
 msgid "Outline color"
 msgstr "下部轮廓(_B)"
 
-#: src/sheet-object-graphic.c:856
+#: src/sheet-object-graphic.c:857
 msgid "Fill color"
 msgstr ""
 
 # src/workbook.c:870
-#: src/sheet-object-graphic.c:858
+#: src/sheet-object-graphic.c:859
 #, fuzzy
 msgid "Border width"
 msgstr "边框线"
 
-#: src/sheet-object-graphic.c:864 src/sheet-object-graphic.c:870
+#: src/sheet-object-graphic.c:865 src/sheet-object-graphic.c:871
 #, fuzzy
 msgid "Transparent"
 msgstr "行列互换"
@@ -17536,67 +17536,6 @@ msgstr "文本文件输入 (可自订)"
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "文本文件输入 (可自订)"
-
-#: src/style.c:284 src/style.c:286
-msgid "<Has not been set>"
-msgstr "<还未设置>"
-
-#: src/style.c:289
-#, fuzzy, c-format
-msgid ""
-"Gnumeric failed to find a suitable default font.\n"
-"Your gnome-print installation is likely incomplete.  Please\n"
-"try reinstalling gnome-print.\n"
-"\n"
-"%s\n"
-"\n"
-"If you still have no luck, please file a proper bug report (see\n"
-"http://bugzilla.gnome.org) including the following extra items:\n"
-"\n"
-"1) The content of your fontmap2 file, if the file exists.\n"
-"\t(typically located in %s)\n"
-"2) The value of the LC_ALL environment variable\n"
-"\tLC_ALL=%s\n"
-"3) The value of the LANG environment variable\n"
-"\tLANG=%s\n"
-"4) What version of libxml gnumeric is running with.\n"
-"\tYou may be able to use the 'ldd' command to get that information.\n"
-"5) What version of gnome-print gnumeric is running with.\n"
-"\tYou may be able to use the 'ldd' command to get that information.\n"
-"\n"
-"Thanks -- the Gnumeric Team\n"
-msgstr ""
-"当差找适当的缺省字体时 Gnumeric 失败.\n"
-"您的 gnome-print 按装好象不完全.\n"
-"请试重新按装.\n"
-"\n"
-"%s\n"
-"\n"
-"如果仍不行, 请提出适当的错误报告 (参见 http://bugzilla.gnome.org), \n"
-"此报告包括以下的项目:\n"
-"\n"
-"1) 如果 fontmap 文件存在, 则此文件的内容\n"
-"\t(通常在 %s 目录下)\n"
-"2) 环境变量 LC_ALL 的值\n"
-"\tLC_ALL=%s\n"
-"3) 环境变量 LANG 的值\n"
-"\tLANG=%s\n"
-"4) gnumeric 正在运行时 libxml 的版本.\n"
-"\t您可以通过 'ldd' 命令来取得此信息.\n"
-"5) gnumeric 正在运行时 gnome-print 的版本.\n"
-"\t您可以通过 'ldd' 命令来取得此信息.\n"
-"\n"
-"谢谢 -- Gnumeric 开发组\n"
-
-#: src/style.c:309
-#, fuzzy
-msgid "Your fontmap2 file does not have a valid entry for Helvetica."
-msgstr "对 Helvetica, fontmap 文件没有一个有效的入口."
-
-#: src/style.c:310
-#, fuzzy
-msgid "Your fontmap2 file could not be found in the expected location."
-msgstr "在所希望的目录中, 没有找到 fontmap 文件."
 
 #: src/validation.c:138
 #, c-format
@@ -17956,45 +17895,45 @@ msgid "Zoom"
 msgstr "缩放"
 
 # src/workbook.c:1131
-#: src/workbook-control-gui.c:3806
+#: src/workbook-control-gui.c:3810
 msgid "Min"
 msgstr "最小"
 
 # src/workbook.c:1132
-#: src/workbook-control-gui.c:3807
+#: src/workbook-control-gui.c:3811
 msgid "Max"
 msgstr "最大"
 
 # src/workbook.c:1133
-#: src/workbook-control-gui.c:3808
+#: src/workbook-control-gui.c:3812
 msgid "Average"
 msgstr "平均"
 
 # src/workbook.c:1134
-#: src/workbook-control-gui.c:3809
+#: src/workbook-control-gui.c:3813
 msgid "Count"
 msgstr "回数"
 
 # src/dates.c:26
-#: src/workbook-control-gui.c:4139
+#: src/workbook-control-gui.c:4143
 msgid "Send"
 msgstr "发送"
 
-#: src/workbook-control-gui.c:4139
+#: src/workbook-control-gui.c:4143
 msgid "Send the current file in email"
 msgstr "用电子邮件发送当前的文件"
 
-#: src/workbook-control-gui.c:4341
+#: src/workbook-control-gui.c:4345
 #, fuzzy
 msgid "Re-Edit"
 msgstr "编辑(_E)"
 
-#: src/workbook-control-gui.c:4342 src/workbook-control-gui.c:4347
+#: src/workbook-control-gui.c:4346 src/workbook-control-gui.c:4351
 #, fuzzy
 msgid "Discard"
 msgstr "离散"
 
-#: src/workbook-control-gui.c:4346
+#: src/workbook-control-gui.c:4350
 msgid "Accept"
 msgstr ""
 
@@ -18253,15 +18192,15 @@ msgid "Book%d.%s"
 msgstr "本 %d.%s"
 
 # src/workbook.c:1810 src/workbook.c:1838
-#: src/workbook.c:1189
+#: src/workbook.c:1187
 msgid "Sheet name"
 msgstr "表名"
 
-#: src/workbook.c:1190
+#: src/workbook.c:1188
 msgid "must have at least 1 letter"
 msgstr "至少一定要有一个字符"
 
-#: src/workbook.c:1203
+#: src/workbook.c:1201
 msgid "There is already a sheet named"
 msgstr "已经有一个表名"
 
@@ -18296,6 +18235,63 @@ msgstr "不是 Gnumeric 工作本文件"
 #: src/xml-io.c:3319
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 文件格式"
+
+#~ msgid "<Has not been set>"
+#~ msgstr "<还未设置>"
+
+#, fuzzy
+#~ msgid ""
+#~ "Gnumeric failed to find a suitable default font.\n"
+#~ "Your gnome-print installation is likely incomplete.  Please\n"
+#~ "try reinstalling gnome-print.\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "If you still have no luck, please file a proper bug report (see\n"
+#~ "http://bugzilla.gnome.org) including the following extra items:\n"
+#~ "\n"
+#~ "1) The content of your fontmap2 file, if the file exists.\n"
+#~ "\t(typically located in %s)\n"
+#~ "2) The value of the LC_ALL environment variable\n"
+#~ "\tLC_ALL=%s\n"
+#~ "3) The value of the LANG environment variable\n"
+#~ "\tLANG=%s\n"
+#~ "4) What version of libxml gnumeric is running with.\n"
+#~ "\tYou may be able to use the 'ldd' command to get that information.\n"
+#~ "5) What version of gnome-print gnumeric is running with.\n"
+#~ "\tYou may be able to use the 'ldd' command to get that information.\n"
+#~ "\n"
+#~ "Thanks -- the Gnumeric Team\n"
+#~ msgstr ""
+#~ "当差找适当的缺省字体时 Gnumeric 失败.\n"
+#~ "您的 gnome-print 按装好象不完全.\n"
+#~ "请试重新按装.\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "如果仍不行, 请提出适当的错误报告 (参见 http://bugzilla.gnome.org), \n"
+#~ "此报告包括以下的项目:\n"
+#~ "\n"
+#~ "1) 如果 fontmap 文件存在, 则此文件的内容\n"
+#~ "\t(通常在 %s 目录下)\n"
+#~ "2) 环境变量 LC_ALL 的值\n"
+#~ "\tLC_ALL=%s\n"
+#~ "3) 环境变量 LANG 的值\n"
+#~ "\tLANG=%s\n"
+#~ "4) gnumeric 正在运行时 libxml 的版本.\n"
+#~ "\t您可以通过 'ldd' 命令来取得此信息.\n"
+#~ "5) gnumeric 正在运行时 gnome-print 的版本.\n"
+#~ "\t您可以通过 'ldd' 命令来取得此信息.\n"
+#~ "\n"
+#~ "谢谢 -- Gnumeric 开发组\n"
+
+#, fuzzy
+#~ msgid "Your fontmap2 file does not have a valid entry for Helvetica."
+#~ msgstr "对 Helvetica, fontmap 文件没有一个有效的入口."
+
+#, fuzzy
+#~ msgid "Your fontmap2 file could not be found in the expected location."
+#~ msgstr "在所希望的目录中, 没有找到 fontmap 文件."
 
 #~ msgid "Edit the name of the current sheet"
 #~ msgstr "编辑当前表格的名字"

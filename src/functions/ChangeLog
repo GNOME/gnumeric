@@ -1,3 +1,7 @@
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
 2002-02-17  Jody Goldberg <jody@gnome.org>
 
 	* fn-database.c (parse_criteria_range) : use cell_is_blank.

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
-"POT-Creation-Date: 2002-02-14 02:29-0500\n"
+"POT-Creation-Date: 2002-02-18 00:59-0500\n"
 "PO-Revision-Date: 2001-09-30 16:07+0200\n"
 "Last-Translator: Softcatalà <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <linux@softcatala.org>\n"
@@ -23,7 +23,7 @@ msgstr "Pàgina d'ajuda de Gnumeric"
 msgid "The GNOME Spreadsheet"
 msgstr "Gestor de fulls de càlcul del GNOME"
 
-#: plugins/applix/applix-read.c:85
+#: plugins/applix/applix-read.c:91
 msgid "Parse error while reading Applix file."
 msgstr "S'ha produït un error d'anàlisi en llegir el fitxer Applix."
 
@@ -262,7 +262,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4485
+#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4455
 #: plugins/mps/mps.c:578 src/xml-io.c:3230
 msgid "Reading file..."
 msgstr "S'està llegint el fitxer..."
@@ -390,27 +390,27 @@ msgstr ""
 msgid "Module%d"
 msgstr "Mode"
 
-#: plugins/excel/ms-excel-read.c:4480
+#: plugins/excel/ms-excel-read.c:4450
 msgid "No book or workbook streams found."
 msgstr "No s'han trobat fluxos de llibres ni llibres de treball"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4644
+#: plugins/excel/ms-excel-read.c:4614
 msgid "Password protected workbooks are not supported yet."
 msgstr ""
 "La protecció mitjançant contrasenya dels llibres de treball encara no s'ha "
 "implementat."
 
-#: plugins/excel/ms-excel-read.c:4757
+#: plugins/excel/ms-excel-read.c:4727
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "No es pot trobar un llibre de treball de MS Excel vàlid"
 
-#: plugins/excel/ms-excel-write.c:3504
+#: plugins/excel/ms-excel-write.c:3503
 #, fuzzy, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Hi ha massa files per aquest format"
 
-#: plugins/excel/ms-excel-write.c:3732
+#: plugins/excel/ms-excel-write.c:3731
 msgid "Can't open stream for writing\n"
 msgstr "No es pot obrir el flux d'escriptura\n"
 
@@ -507,7 +507,7 @@ msgstr "Error: no s'ha pogut obrir la connexió a %s"
 msgid "Error: no recordsets were returned"
 msgstr ""
 
-#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1365
+#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1364
 msgid "Database"
 msgstr "Base de dades"
 
@@ -1337,7 +1337,7 @@ msgstr "Realitza una correcció ortogràfica simple automàticament"
 msgid "Automatically save the current document at regular intervals"
 msgstr "Desa el document actual a intervals regulars actualment"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2577
+#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2576
 #: src/workbook-format-toolbar.c:797 src/workbook-format-toolbar.c:854
 msgid "Background"
 msgstr "Fons"
@@ -1558,7 +1558,7 @@ msgstr "Crea un marc"
 msgid "Create an arrow"
 msgstr "Crea una fletxa"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1378
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1409
 msgid "Cu_t"
 msgstr "Tall_a"
 
@@ -1684,7 +1684,7 @@ msgstr "Mida de la lletra"
 msgid "Font selector"
 msgstr "Selector de tipus de lletra"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2571
 #: src/workbook-format-toolbar.c:823 src/workbook-format-toolbar.c:857
 msgid "Foreground"
 msgstr "Primer pla"
@@ -2249,7 +2249,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Anàlisi de dades"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3190
-#: src/workbook-control-gui.c:3805 src/workbook-view.c:453
+#: src/workbook-control-gui.c:3809 src/workbook-view.c:453
 msgid "Sum"
 msgstr "Suma"
 
@@ -2395,7 +2395,7 @@ msgid "_Content"
 msgstr "_Contingut"
 
 #: src/GNOME_Gnumeric.xml.h:257 src/item-cursor.c:1029
-#: src/sheet-control-gui.c:1380
+#: src/sheet-control-gui.c:1411
 msgid "_Copy"
 msgstr "_Copia"
 
@@ -2412,7 +2412,7 @@ msgstr "_Dades"
 msgid "_Define..."
 msgstr "_Defineix..."
 
-#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1398
+#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1429
 #: src/workbook-control-gui.c:2719
 msgid "_Delete..."
 msgstr "_Suprimeix"
@@ -2487,8 +2487,8 @@ msgstr "_Grup i Contorn"
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1421
-#: src/sheet-control-gui.c:1429 src/workbook-control-gui.c:2840
+#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1452
+#: src/sheet-control-gui.c:1460 src/workbook-control-gui.c:2840
 #: src/workbook-control-gui.c:2859
 msgid "_Hide"
 msgstr "_Oculta"
@@ -2551,7 +2551,7 @@ msgstr "Obre"
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1382
+#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1413
 msgid "_Paste"
 msgstr "_Enganxa"
 
@@ -2663,8 +2663,8 @@ msgstr "_Desfés"
 msgid "_Ungroup"
 msgstr "_Desagrupa"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1423
-#: src/sheet-control-gui.c:1431 src/workbook-control-gui.c:2843
+#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1454
+#: src/sheet-control-gui.c:1462 src/workbook-control-gui.c:2843
 #: src/workbook-control-gui.c:2862
 msgid "_Unhide"
 msgstr "_Mostra"
@@ -4055,7 +4055,7 @@ msgid ""
 "any observations!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:4116
+#: src/dialogs/dialog-analysis-tools.c:4114
 #, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "No s'ha pogut crear el Name Guru."
@@ -4157,14 +4157,14 @@ msgstr "37"
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:641
+#: src/dialogs/dialog-autoformat.c:639
 #, fuzzy
 msgid "An error occurred while reading the category list"
 msgstr "S'ha produït un error en llegir la llista de categories"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:651 src/format.c:1649 src/format.c:1741
+#: src/dialogs/dialog-autoformat.c:649 src/format.c:1649 src/format.c:1741
 #: src/format.c:1750 src/format.c:1819
 msgid "General"
 msgstr "General"
@@ -4209,51 +4209,51 @@ msgstr "Doble"
 msgid "None"
 msgstr "Cap"
 
-#: src/dialogs/dialog-cell-format.c:2100
+#: src/dialogs/dialog-cell-format.c:2099
 #, fuzzy
 msgid "Source"
 msgstr "Àrees origen"
 
-#: src/dialogs/dialog-cell-format.c:2101
+#: src/dialogs/dialog-cell-format.c:2100
 #, fuzzy
 msgid "Criteria"
 msgstr "C_riteri de abast:"
 
-#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2120
+#: src/dialogs/dialog-cell-format.c:2112 src/dialogs/dialog-cell-format.c:2119
 #, fuzzy
 msgid "Min :"
 msgstr "Mínim"
 
-#: src/dialogs/dialog-cell-format.c:2114 src/dialogs/dialog-cell-format.c:2123
+#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2122
 #, fuzzy
 msgid "Max :"
 msgstr "Màxim"
 
-#: src/dialogs/dialog-cell-format.c:2117
+#: src/dialogs/dialog-cell-format.c:2116
 msgid "Value :"
 msgstr "Valor :"
 
-#: src/dialogs/dialog-cell-format.c:2503
+#: src/dialogs/dialog-cell-format.c:2502
 msgid "Format Cells"
 msgstr "Formata cel·les"
 
 # src/functions/fn-information.c:308 src/workbook-format-toolbar.c:649
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
-#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2566 src/dialogs/dialog-cell-format.c:2571
+#: src/dialogs/dialog-cell-format.c:2581 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:816
 msgid "Automatic"
 msgstr "Automàtic"
 
-#: src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/dialog-cell-format.c:2566
 msgid "Border"
 msgstr "Contorn"
 
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:789
+#: src/dialogs/dialog-cell-format.c:2576 src/workbook-format-toolbar.c:789
 msgid "Clear Background"
 msgstr "Buida el fons"
 
-#: src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/dialog-cell-format.c:2581
 msgid "Pattern"
 msgstr "Patró"
 
@@ -4590,23 +4590,23 @@ msgstr "Llista de connectors"
 msgid "Plugin details"
 msgstr "Detalls del connector"
 
-#: src/dialogs/dialog-printer-setup.c:985
-#: src/dialogs/dialog-printer-setup.c:1116
+#: src/dialogs/dialog-printer-setup.c:983
+#: src/dialogs/dialog-printer-setup.c:1114
 #, fuzzy
 msgid "Customize header"
 msgstr "Personalitza la _capçalera"
 
-#: src/dialogs/dialog-printer-setup.c:987
-#: src/dialogs/dialog-printer-setup.c:1122
+#: src/dialogs/dialog-printer-setup.c:985
+#: src/dialogs/dialog-printer-setup.c:1120
 #, fuzzy
 msgid "Customize footer"
 msgstr "Personalitza el _peu de pàgina"
 
-#: src/dialogs/dialog-printer-setup.c:1115
+#: src/dialogs/dialog-printer-setup.c:1113
 msgid "Custom header configuration"
 msgstr "Configuració de la capçalera personalitzada"
 
-#: src/dialogs/dialog-printer-setup.c:1121
+#: src/dialogs/dialog-printer-setup.c:1119
 msgid "Custom footer configuration"
 msgstr "Configuració del peu de pàgina personalitzat"
 
@@ -4722,7 +4722,7 @@ msgstr "Dades (de %s)"
 #. * The name of the default font for this locale.
 #. * Preferably something with the correct encoding.
 #.
-#: src/dialogs/dialog-stf-preview.c:616 src/style.c:97
+#: src/dialogs/dialog-stf-preview.c:614 src/style.c:97
 msgid "fixed"
 msgstr ""
 
@@ -6304,7 +6304,7 @@ msgid "Function does not exist"
 msgstr "Funció inexistent"
 
 #. *************************************************************************
-#: src/functions/fn-database.c:505
+#: src/functions/fn-database.c:504
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -6316,7 +6316,7 @@ msgstr ""
 "@DESCRIPTION=La funció DAVERAGE retorna la mitjana dels valors d'una llista "
 "o base de dades que compleixen unes condicions especificades. \n"
 
-#: src/functions/fn-database.c:513
+#: src/functions/fn-database.c:512
 #, fuzzy
 msgid ""
 "\n"
@@ -6336,7 +6336,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:575
+#: src/functions/fn-database.c:574
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -6348,7 +6348,7 @@ msgstr ""
 "@DESCRIPTION=La funció DCOUNT compta les cel·les que contenen nombres en una "
 "base de dades i que compleixen les condicions especificades. \n"
 
-#: src/functions/fn-database.c:583
+#: src/functions/fn-database.c:582
 #, fuzzy
 msgid ""
 "\n"
@@ -6366,7 +6366,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAVERAGE"
 
-#: src/functions/fn-database.c:637
+#: src/functions/fn-database.c:636
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -6378,7 +6378,7 @@ msgstr ""
 "@DESCRIPTION=La funció DCOUNTA compta les cel·les que contenen dades en una "
 "base de dades i que compleixen les condicions especificades. \n"
 
-#: src/functions/fn-database.c:645
+#: src/functions/fn-database.c:644
 #, fuzzy
 msgid ""
 "\n"
@@ -6396,7 +6396,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:696
+#: src/functions/fn-database.c:695
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -6408,7 +6408,7 @@ msgstr ""
 "@DESCRIPTION=La funció DGET retorna un sol valor d'una columna que compleix "
 "les condicions especificades. \n"
 
-#: src/functions/fn-database.c:704
+#: src/functions/fn-database.c:703
 #, fuzzy
 msgid ""
 "\n"
@@ -6429,7 +6429,7 @@ msgstr ""
 "l'error #NUM!. \n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:765
+#: src/functions/fn-database.c:764
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -6441,7 +6441,7 @@ msgstr ""
 "@DESCRIPTION=La funció DMAX retorna el nombre més gran d'una columna que "
 "compleix les condicions especificades. \n"
 
-#: src/functions/fn-database.c:773
+#: src/functions/fn-database.c:772
 #, fuzzy
 msgid ""
 "\n"
@@ -6459,7 +6459,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMIN"
 
-#: src/functions/fn-database.c:837
+#: src/functions/fn-database.c:836
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -6471,7 +6471,7 @@ msgstr ""
 "@DESCRIPTION=La funció DMIN retorna el nombre més petit d'una columna que "
 "compleix les condicions especificades. \n"
 
-#: src/functions/fn-database.c:845
+#: src/functions/fn-database.c:844
 #, fuzzy
 msgid ""
 "\n"
@@ -6487,7 +6487,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMAX"
 
-#: src/functions/fn-database.c:908
+#: src/functions/fn-database.c:907
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -6499,7 +6499,7 @@ msgstr ""
 "@DESCRIPTION=La funció DPRODUCT retorna el producte de nombres d'una columna "
 "que compleixen les condicions especificades. \n"
 
-#: src/functions/fn-database.c:916
+#: src/functions/fn-database.c:915
 #, fuzzy
 msgid ""
 "\n"
@@ -6513,7 +6513,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSUM"
 
-#: src/functions/fn-database.c:976
+#: src/functions/fn-database.c:975
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -6527,7 +6527,7 @@ msgstr ""
 "població basada en una mostra. Les poblacions consisteixen en nombres que "
 "compleixen les condicions especificades. \n"
 
-#: src/functions/fn-database.c:985
+#: src/functions/fn-database.c:984
 #, fuzzy
 msgid ""
 "\n"
@@ -6543,7 +6543,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEVP"
 
-#: src/functions/fn-database.c:1043
+#: src/functions/fn-database.c:1042
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -6557,7 +6557,7 @@ msgstr ""
 "basada en les poblacions senceres. Les poblacions consisteixen en nombres "
 "que compleixen les condicions especificades. \n"
 
-#: src/functions/fn-database.c:1052
+#: src/functions/fn-database.c:1051
 #, fuzzy
 msgid ""
 "\n"
@@ -6573,7 +6573,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEV"
 
-#: src/functions/fn-database.c:1112
+#: src/functions/fn-database.c:1111
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -6585,7 +6585,7 @@ msgstr ""
 "@DESCRIPTION=La funció DSUM retorna la suma dels nombres d'una columna que "
 "compleixen les condicions especificades. \n"
 
-#: src/functions/fn-database.c:1120
+#: src/functions/fn-database.c:1119
 #, fuzzy
 msgid ""
 "\n"
@@ -6601,7 +6601,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DPRODUCT"
 
-#: src/functions/fn-database.c:1180
+#: src/functions/fn-database.c:1179
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -6615,7 +6615,7 @@ msgstr ""
 "població basada en una mostra. Les poblacions consisteixen en nombres que "
 "compleixen les condicions especificades. \n"
 
-#: src/functions/fn-database.c:1189
+#: src/functions/fn-database.c:1188
 #, fuzzy
 msgid ""
 "\n"
@@ -6631,7 +6631,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVARP"
 
-#: src/functions/fn-database.c:1249
+#: src/functions/fn-database.c:1248
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -6645,7 +6645,7 @@ msgstr ""
 "poblacions senceres. Les poblacions consisteixen en nombres que compleixen "
 "les condicions especificades. \n"
 
-#: src/functions/fn-database.c:1258
+#: src/functions/fn-database.c:1257
 #, fuzzy
 msgid ""
 "\n"
@@ -6661,7 +6661,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVAR"
 
-#: src/functions/fn-database.c:1319
+#: src/functions/fn-database.c:1318
 #, fuzzy
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
@@ -13570,7 +13570,7 @@ msgstr ""
 "@SEEALSO="
 
 # src/functions/fn-sheet.c:104
-#: src/functions/fn-sheet.c:141 src/workbook.c:1032 src/xml-io.c:2943
+#: src/functions/fn-sheet.c:141 src/workbook.c:1030 src/xml-io.c:2943
 msgid "Sheet"
 msgstr "Full"
 
@@ -16728,7 +16728,7 @@ msgstr "Missatge d'error detallat"
 msgid "Show details"
 msgstr "Mostra els detalls"
 
-#: src/gui-util.c:874
+#: src/gui-util.c:873
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "No es pot obrir el fitxer '%s'"
@@ -17431,7 +17431,7 @@ msgstr "Barra inclinada negra de cua invàlida en el reemplaçament."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "No es pot realitzar amb seleccions d'àmbit múltiples"
 
-#: src/sheet-control-gui.c:1384
+#: src/sheet-control-gui.c:1415
 msgid "Paste _Special"
 msgstr "Enganxa_especial"
 
@@ -17442,41 +17442,41 @@ msgstr "Enganxa_especial"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1396
+#: src/sheet-control-gui.c:1427
 msgid "_Insert..."
 msgstr "_Insereix..."
 
-#: src/sheet-control-gui.c:1400
+#: src/sheet-control-gui.c:1431
 msgid "_Insert Column(s)"
 msgstr "_Insereix columna(es)"
 
-#: src/sheet-control-gui.c:1402
+#: src/sheet-control-gui.c:1433
 msgid "_Delete Column(s)"
 msgstr "_Suprimeix columna(es)"
 
-#: src/sheet-control-gui.c:1404
+#: src/sheet-control-gui.c:1435
 msgid "_Insert Row(s)"
 msgstr "_Insereix fila(es)"
 
-#: src/sheet-control-gui.c:1406
+#: src/sheet-control-gui.c:1437
 msgid "_Delete Row(s)"
 msgstr "_Suprimeix fila(es)"
 
-#: src/sheet-control-gui.c:1409
+#: src/sheet-control-gui.c:1440
 msgid "Clear Co_ntents"
 msgstr "Buida Co_ntingut"
 
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1446
 msgid "_Format Cells..."
 msgstr "_Format de cel·les..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1450
 msgid "Column _Width..."
 msgstr "Amplada de _Columna..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1427
+#: src/sheet-control-gui.c:1458
 msgid "_Row Height..."
 msgstr "_Alçada de columna..."
 
@@ -17499,65 +17499,65 @@ msgstr "no es pot crear cap objecte per a '%s'"
 msgid "Could not load file: %s"
 msgstr "No s'ha pogut carregar el fitxer: %s"
 
-#: src/sheet-object-graphic.c:445
+#: src/sheet-object-graphic.c:446
 msgid "Configure line or arrow"
 msgstr ""
 
-#: src/sheet-object-graphic.c:459
+#: src/sheet-object-graphic.c:460
 msgid "Color"
 msgstr "Color"
 
-#: src/sheet-object-graphic.c:461
+#: src/sheet-object-graphic.c:462
 #, fuzzy
 msgid "Line Width"
 msgstr "_Amplada fixa"
 
-#: src/sheet-object-graphic.c:465
+#: src/sheet-object-graphic.c:466
 #, fuzzy
 msgid "Arrow tip"
 msgstr "Fletxa"
 
-#: src/sheet-object-graphic.c:467
+#: src/sheet-object-graphic.c:468
 #, fuzzy
 msgid "Arrow length"
 msgstr "Alerta d'_error"
 
-#: src/sheet-object-graphic.c:469
+#: src/sheet-object-graphic.c:470
 #, fuzzy
 msgid "Arrow width"
 msgstr "Contorn"
 
-#: src/sheet-object-graphic.c:503
+#: src/sheet-object-graphic.c:504
 msgid "Distance from tip of arrowhead to the center point"
 msgstr ""
 
-#: src/sheet-object-graphic.c:505
+#: src/sheet-object-graphic.c:506
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
 msgstr ""
 
-#: src/sheet-object-graphic.c:508
+#: src/sheet-object-graphic.c:509
 msgid "Distance of trailing point from outside edge of shaft"
 msgstr ""
 
-#: src/sheet-object-graphic.c:842
+#: src/sheet-object-graphic.c:843
 msgid "Configure filled object"
 msgstr ""
 
-#: src/sheet-object-graphic.c:854
+#: src/sheet-object-graphic.c:855
 #, fuzzy
 msgid "Outline color"
 msgstr "Contorns a _sota"
 
-#: src/sheet-object-graphic.c:856
+#: src/sheet-object-graphic.c:857
 msgid "Fill color"
 msgstr ""
 
-#: src/sheet-object-graphic.c:858
+#: src/sheet-object-graphic.c:859
 #, fuzzy
 msgid "Border width"
 msgstr "Contorn"
 
-#: src/sheet-object-graphic.c:864 src/sheet-object-graphic.c:870
+#: src/sheet-object-graphic.c:865 src/sheet-object-graphic.c:871
 #, fuzzy
 msgid "Transparent"
 msgstr "Transposa"
@@ -17797,67 +17797,6 @@ msgstr "Importació de fitxers de text (personalitzable)"
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Importació de fitxers de text (personalitzable)"
-
-#: src/style.c:284 src/style.c:286
-msgid "<Has not been set>"
-msgstr "<No s'ha especificat>"
-
-#: src/style.c:289
-#, fuzzy, c-format
-msgid ""
-"Gnumeric failed to find a suitable default font.\n"
-"Your gnome-print installation is likely incomplete.  Please\n"
-"try reinstalling gnome-print.\n"
-"\n"
-"%s\n"
-"\n"
-"If you still have no luck, please file a proper bug report (see\n"
-"http://bugzilla.gnome.org) including the following extra items:\n"
-"\n"
-"1) The content of your fontmap2 file, if the file exists.\n"
-"\t(typically located in %s)\n"
-"2) The value of the LC_ALL environment variable\n"
-"\tLC_ALL=%s\n"
-"3) The value of the LANG environment variable\n"
-"\tLANG=%s\n"
-"4) What version of libxml gnumeric is running with.\n"
-"\tYou may be able to use the 'ldd' command to get that information.\n"
-"5) What version of gnome-print gnumeric is running with.\n"
-"\tYou may be able to use the 'ldd' command to get that information.\n"
-"\n"
-"Thanks -- the Gnumeric Team\n"
-msgstr ""
-"Gnumeric no ha pogut trobar un tipus de lletra predeterminada adequada.\n"
-"La instalació del gnome-print probablement estigui incompleta.\n"
-"Si us plau, torneu a instalar-lo.\n"
-" \n"
-"%s\n"
-"\n"
-"Si encara no teniu sort, si us plau ompliu un informe d'error correctament "
-"(vegeu http://bugzilla.gnome.org) incloent els següents elements:\n"
-"\n"
-"1) El contingut del vostre fitxer de fonts (fontmap), si existeix.\n"
-"\t (situat habitualment a %s)\n"
-"2) El valor de la variable d'entorn LC_ALL\n"
-"\tLC_ALL=%s\n"
-"3) El valor de la variable d'entorn LANG\n"
-"\tLANG=%s\n"
-"4) La versió de libxml del gnumeric que feu servir.\n"
-"\tHauríeu de poder utilitzar l'ordre 'ldd' per obtenir aquesta informació.\n"
-"5) La versió de gnome-print del gnumeric que feu servir.\n"
-"\tHauríeu de poder utilitzar l'ordre 'ldd' per obtenir aquesta informació.\n"
-"\n"
-"Gràcies -- L'equip Gnumeric\n"
-
-#: src/style.c:309
-#, fuzzy
-msgid "Your fontmap2 file does not have a valid entry for Helvetica."
-msgstr "El fitxer de mapa de fonts no té una entrada vàlida per Helvetica"
-
-#: src/style.c:310
-#, fuzzy
-msgid "Your fontmap2 file could not be found in the expected location."
-msgstr "No es pot trobar el fitxer de mapa de fonts a la ubicació esperada."
 
 #: src/validation.c:138
 #, c-format
@@ -18202,41 +18141,41 @@ msgstr ""
 msgid "Zoom"
 msgstr "Zoom"
 
-#: src/workbook-control-gui.c:3806
+#: src/workbook-control-gui.c:3810
 msgid "Min"
 msgstr "Mínim"
 
-#: src/workbook-control-gui.c:3807
+#: src/workbook-control-gui.c:3811
 msgid "Max"
 msgstr "Màxim"
 
-#: src/workbook-control-gui.c:3808
+#: src/workbook-control-gui.c:3812
 msgid "Average"
 msgstr "Mitjana"
 
-#: src/workbook-control-gui.c:3809
+#: src/workbook-control-gui.c:3813
 msgid "Count"
 msgstr "Compta"
 
-#: src/workbook-control-gui.c:4139
+#: src/workbook-control-gui.c:4143
 msgid "Send"
 msgstr "Envia"
 
-#: src/workbook-control-gui.c:4139
+#: src/workbook-control-gui.c:4143
 msgid "Send the current file in email"
 msgstr "Envia el fitxer actual per correu electrònic"
 
-#: src/workbook-control-gui.c:4341
+#: src/workbook-control-gui.c:4345
 #, fuzzy
 msgid "Re-Edit"
 msgstr "_Edita"
 
-#: src/workbook-control-gui.c:4342 src/workbook-control-gui.c:4347
+#: src/workbook-control-gui.c:4346 src/workbook-control-gui.c:4351
 #, fuzzy
 msgid "Discard"
 msgstr "Discret"
 
-#: src/workbook-control-gui.c:4346
+#: src/workbook-control-gui.c:4350
 msgid "Accept"
 msgstr ""
 
@@ -18473,15 +18412,15 @@ msgstr "Format de fitxer no implementat"
 msgid "Book%d.%s"
 msgstr "llibre%d.%s"
 
-#: src/workbook.c:1189
+#: src/workbook.c:1187
 msgid "Sheet name"
 msgstr "Nom del full"
 
-#: src/workbook.c:1190
+#: src/workbook.c:1188
 msgid "must have at least 1 letter"
 msgstr "es necessita almenys 1 lletra"
 
-#: src/workbook.c:1203
+#: src/workbook.c:1201
 msgid "There is already a sheet named"
 msgstr "Ja hi ha un full amb el nom"
 
@@ -18514,6 +18453,66 @@ msgstr "No és un fitxer de llibre de treball del Gnumeric"
 #: src/xml-io.c:3319
 msgid "Gnumeric XML file format"
 msgstr "Format de fitxer Gnumeric XML"
+
+#~ msgid "<Has not been set>"
+#~ msgstr "<No s'ha especificat>"
+
+#, fuzzy
+#~ msgid ""
+#~ "Gnumeric failed to find a suitable default font.\n"
+#~ "Your gnome-print installation is likely incomplete.  Please\n"
+#~ "try reinstalling gnome-print.\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "If you still have no luck, please file a proper bug report (see\n"
+#~ "http://bugzilla.gnome.org) including the following extra items:\n"
+#~ "\n"
+#~ "1) The content of your fontmap2 file, if the file exists.\n"
+#~ "\t(typically located in %s)\n"
+#~ "2) The value of the LC_ALL environment variable\n"
+#~ "\tLC_ALL=%s\n"
+#~ "3) The value of the LANG environment variable\n"
+#~ "\tLANG=%s\n"
+#~ "4) What version of libxml gnumeric is running with.\n"
+#~ "\tYou may be able to use the 'ldd' command to get that information.\n"
+#~ "5) What version of gnome-print gnumeric is running with.\n"
+#~ "\tYou may be able to use the 'ldd' command to get that information.\n"
+#~ "\n"
+#~ "Thanks -- the Gnumeric Team\n"
+#~ msgstr ""
+#~ "Gnumeric no ha pogut trobar un tipus de lletra predeterminada adequada.\n"
+#~ "La instalació del gnome-print probablement estigui incompleta.\n"
+#~ "Si us plau, torneu a instalar-lo.\n"
+#~ " \n"
+#~ "%s\n"
+#~ "\n"
+#~ "Si encara no teniu sort, si us plau ompliu un informe d'error "
+#~ "correctament (vegeu http://bugzilla.gnome.org) incloent els següents "
+#~ "elements:\n"
+#~ "\n"
+#~ "1) El contingut del vostre fitxer de fonts (fontmap), si existeix.\n"
+#~ "\t (situat habitualment a %s)\n"
+#~ "2) El valor de la variable d'entorn LC_ALL\n"
+#~ "\tLC_ALL=%s\n"
+#~ "3) El valor de la variable d'entorn LANG\n"
+#~ "\tLANG=%s\n"
+#~ "4) La versió de libxml del gnumeric que feu servir.\n"
+#~ "\tHauríeu de poder utilitzar l'ordre 'ldd' per obtenir aquesta "
+#~ "informació.\n"
+#~ "5) La versió de gnome-print del gnumeric que feu servir.\n"
+#~ "\tHauríeu de poder utilitzar l'ordre 'ldd' per obtenir aquesta "
+#~ "informació.\n"
+#~ "\n"
+#~ "Gràcies -- L'equip Gnumeric\n"
+
+#, fuzzy
+#~ msgid "Your fontmap2 file does not have a valid entry for Helvetica."
+#~ msgstr "El fitxer de mapa de fonts no té una entrada vàlida per Helvetica"
+
+#, fuzzy
+#~ msgid "Your fontmap2 file could not be found in the expected location."
+#~ msgstr "No es pot trobar el fitxer de mapa de fonts a la ubicació esperada."
 
 #~ msgid "Edit the name of the current sheet"
 #~ msgstr "Edita el nom del full actual"

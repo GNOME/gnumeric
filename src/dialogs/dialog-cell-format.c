@@ -2308,15 +2308,12 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 
 /*****************************************************************************/
 
-/* Handler for the apply button */
+/* button handlers */
 static void
-cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
+cb_fmt_dialog_dialog_apply (GtkWidget *ignore, FormatState *state)
 {
 	StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
 	int i;
-
-	if (page != -1)
-		return;
 
 	if (state->validation.changed)
 		validation_rebuild_validation (state);
@@ -2646,7 +2643,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	tmp = glade_xml_get_widget (state->gui, "okbutton");
 	g_signal_connect (G_OBJECT (tmp),
 		"clicked",
-		G_CALLBACK (cb_fmt_dialog_dialog_apply), state);
+		G_CALLBACK (cb_fmt_dialog_dialog_), state);
 	state->apply_button = glade_xml_get_widget (state->gui, "applybutton");
 	gtk_widget_set_sensitive (state->apply_button, FALSE);
 	g_signal_connect (G_OBJECT (state->apply_button),

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-02-14 02:29-0500\n"
+"POT-Creation-Date: 2002-02-18 00:59-0500\n"
 "PO-Revision-Date: 2002-01-21 11:50+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Wstawia nowy arkusz"
 msgid "The GNOME Spreadsheet"
 msgstr "Arkusz kalkulacyjny ¶rodowiska GNOME"
 
-#: plugins/applix/applix-read.c:85
+#: plugins/applix/applix-read.c:91
 msgid "Parse error while reading Applix file."
 msgstr "B³±d sk³adniowy przy odczycie pliku Applix."
 
@@ -261,7 +261,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4485
+#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4455
 #: plugins/mps/mps.c:578 src/xml-io.c:3230
 msgid "Reading file..."
 msgstr "Wczytywanie pliku..."
@@ -383,25 +383,25 @@ msgstr "Wykres%d"
 msgid "Module%d"
 msgstr "Modu³%d"
 
-#: plugins/excel/ms-excel-read.c:4480
+#: plugins/excel/ms-excel-read.c:4450
 msgid "No book or workbook streams found."
 msgstr "Nie odnaleziono strumieni zeszytów."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4644
+#: plugins/excel/ms-excel-read.c:4614
 msgid "Password protected workbooks are not supported yet."
 msgstr "Zeszyty zabezpieczone has³em nie s± jeszcze obs³ugiwane."
 
-#: plugins/excel/ms-excel-read.c:4757
+#: plugins/excel/ms-excel-read.c:4727
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nie mo¿na odnale¼æ poprawnego zeszytu MS Excela"
 
-#: plugins/excel/ms-excel-write.c:3504
+#: plugins/excel/ms-excel-write.c:3503
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Zbyt wiele wierszy dla tego formatu (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3732
+#: plugins/excel/ms-excel-write.c:3731
 msgid "Can't open stream for writing\n"
 msgstr "Nie mo¿na otworzyæ strumienia do zapisu\n"
 
@@ -494,7 +494,7 @@ msgstr "B³±d: nie mo¿na nawi±zaæ po³±czenia z %s"
 msgid "Error: no recordsets were returned"
 msgstr ""
 
-#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1365
+#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1364
 msgid "Database"
 msgstr "Baza danych"
 
@@ -1273,7 +1273,7 @@ msgstr "Automatyczne wykonywanie prostego sprawdzania pisowni"
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automatyczny zapis bie¿±cego dokumentu w regularnych ostêpach czasu"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2577
+#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2576
 #: src/workbook-format-toolbar.c:797 src/workbook-format-toolbar.c:854
 msgid "Background"
 msgstr "T³o"
@@ -1489,7 +1489,7 @@ msgstr "Tworzy pasek przewijania"
 msgid "Create an arrow"
 msgstr "Tworzy strza³kê"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1378
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1409
 msgid "Cu_t"
 msgstr "_Wytnij"
 
@@ -1611,7 +1611,7 @@ msgstr "Rozmiar czcionki"
 msgid "Font selector"
 msgstr "Wybór czcionki"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2571
 #: src/workbook-format-toolbar.c:823 src/workbook-format-toolbar.c:857
 msgid "Foreground"
 msgstr "U¿ywany kolor"
@@ -2158,7 +2158,7 @@ msgid "Statistical Anal_ysis"
 msgstr "_Analiza statystyczna"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3190
-#: src/workbook-control-gui.c:3805 src/workbook-view.c:453
+#: src/workbook-control-gui.c:3809 src/workbook-view.c:453
 msgid "Sum"
 msgstr "Suma"
 
@@ -2300,7 +2300,7 @@ msgid "_Content"
 msgstr "_Zawarto¶æ"
 
 #: src/GNOME_Gnumeric.xml.h:257 src/item-cursor.c:1029
-#: src/sheet-control-gui.c:1380
+#: src/sheet-control-gui.c:1411
 msgid "_Copy"
 msgstr "S_kopiuj"
 
@@ -2316,7 +2316,7 @@ msgstr "_Dane"
 msgid "_Define..."
 msgstr "_Zdefiniuj..."
 
-#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1398
+#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1429
 #: src/workbook-control-gui.c:2719
 msgid "_Delete..."
 msgstr "_Usuñ..."
@@ -2386,8 +2386,8 @@ msgstr "_Grupy i konspekt"
 msgid "_Help"
 msgstr "Pomo_c"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1421
-#: src/sheet-control-gui.c:1429 src/workbook-control-gui.c:2840
+#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1452
+#: src/sheet-control-gui.c:1460 src/workbook-control-gui.c:2840
 #: src/workbook-control-gui.c:2859
 msgid "_Hide"
 msgstr "Uk_ryj"
@@ -2445,7 +2445,7 @@ msgstr "_Otwórz..."
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1382
+#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1413
 msgid "_Paste"
 msgstr "Wk_lej"
 
@@ -2550,8 +2550,8 @@ msgstr "Cof_nij"
 msgid "_Ungroup"
 msgstr "_Rozgrupuj"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1423
-#: src/sheet-control-gui.c:1431 src/workbook-control-gui.c:2843
+#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1454
+#: src/sheet-control-gui.c:1462 src/workbook-control-gui.c:2843
 #: src/workbook-control-gui.c:2862
 msgid "_Unhide"
 msgstr "_Odkryj"
@@ -3886,7 +3886,7 @@ msgid ""
 "any observations!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:4116
+#: src/dialogs/dialog-analysis-tools.c:4114
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr ""
 
@@ -3986,13 +3986,13 @@ msgstr "37"
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:641
+#: src/dialogs/dialog-autoformat.c:639
 msgid "An error occurred while reading the category list"
 msgstr "Podczas odczytu listy kategorii wyst±pi³ b³±d"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:651 src/format.c:1649 src/format.c:1741
+#: src/dialogs/dialog-autoformat.c:649 src/format.c:1649 src/format.c:1741
 #: src/format.c:1750 src/format.c:1819
 msgid "General"
 msgstr "Ogólne"
@@ -4037,46 +4037,46 @@ msgstr "Podwójne"
 msgid "None"
 msgstr "Brak"
 
-#: src/dialogs/dialog-cell-format.c:2100
+#: src/dialogs/dialog-cell-format.c:2099
 msgid "Source"
 msgstr "¬ród³o"
 
-#: src/dialogs/dialog-cell-format.c:2101
+#: src/dialogs/dialog-cell-format.c:2100
 msgid "Criteria"
 msgstr "Kryterium"
 
-#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2120
+#: src/dialogs/dialog-cell-format.c:2112 src/dialogs/dialog-cell-format.c:2119
 msgid "Min :"
 msgstr "Minimum :"
 
-#: src/dialogs/dialog-cell-format.c:2114 src/dialogs/dialog-cell-format.c:2123
+#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2122
 msgid "Max :"
 msgstr "Maksimum :"
 
-#: src/dialogs/dialog-cell-format.c:2117
+#: src/dialogs/dialog-cell-format.c:2116
 msgid "Value :"
 msgstr "Warto¶æ :"
 
-#: src/dialogs/dialog-cell-format.c:2503
+#: src/dialogs/dialog-cell-format.c:2502
 msgid "Format Cells"
 msgstr "Format komórek"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
-#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2566 src/dialogs/dialog-cell-format.c:2571
+#: src/dialogs/dialog-cell-format.c:2581 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:816
 msgid "Automatic"
 msgstr "Automatyczny"
 
-#: src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/dialog-cell-format.c:2566
 msgid "Border"
 msgstr "Krawêd¼"
 
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:789
+#: src/dialogs/dialog-cell-format.c:2576 src/workbook-format-toolbar.c:789
 msgid "Clear Background"
 msgstr "Wyczy¶æ t³o"
 
-#: src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/dialog-cell-format.c:2581
 msgid "Pattern"
 msgstr "Deseñ"
 
@@ -4397,21 +4397,21 @@ msgstr "Lista wtyczek"
 msgid "Plugin details"
 msgstr "Szczegó³y wtyczki"
 
-#: src/dialogs/dialog-printer-setup.c:985
-#: src/dialogs/dialog-printer-setup.c:1116
+#: src/dialogs/dialog-printer-setup.c:983
+#: src/dialogs/dialog-printer-setup.c:1114
 msgid "Customize header"
 msgstr "Zmieñ g³ówkê"
 
-#: src/dialogs/dialog-printer-setup.c:987
-#: src/dialogs/dialog-printer-setup.c:1122
+#: src/dialogs/dialog-printer-setup.c:985
+#: src/dialogs/dialog-printer-setup.c:1120
 msgid "Customize footer"
 msgstr "Zmieñ stopkê"
 
-#: src/dialogs/dialog-printer-setup.c:1115
+#: src/dialogs/dialog-printer-setup.c:1113
 msgid "Custom header configuration"
 msgstr "Dowolna konfiguracja nag³ówka"
 
-#: src/dialogs/dialog-printer-setup.c:1121
+#: src/dialogs/dialog-printer-setup.c:1119
 msgid "Custom footer configuration"
 msgstr "Niestandardowa konfiguracja stopki"
 
@@ -4523,7 +4523,7 @@ msgstr "Dane (z pliku %s)"
 #. * The name of the default font for this locale.
 #. * Preferably something with the correct encoding.
 #.
-#: src/dialogs/dialog-stf-preview.c:616 src/style.c:97
+#: src/dialogs/dialog-stf-preview.c:614 src/style.c:97
 msgid "fixed"
 msgstr "fixed"
 
@@ -6092,7 +6092,7 @@ msgid "Function does not exist"
 msgstr "Funkcja nie istnieje"
 
 #. *************************************************************************
-#: src/functions/fn-database.c:505
+#: src/functions/fn-database.c:504
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -6104,7 +6104,7 @@ msgstr ""
 "@DESCRIPTION=Funkcja DAVERAGE zwraca ¶redni± z tych warto¶ci na li¶cie lub w "
 "bazie danych, które spe³niaj± okre¶lone kryteria. \n"
 
-#: src/functions/fn-database.c:513
+#: src/functions/fn-database.c:512
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6124,7 +6124,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:575
+#: src/functions/fn-database.c:574
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -6136,7 +6136,7 @@ msgstr ""
 "@DESCRIPTION=Funkcja DCOUNT zlicza komórki zawieraj±ce te liczby z bazy "
 "danych, które spe³niaj± okre¶lone kryteria. \n"
 
-#: src/functions/fn-database.c:583
+#: src/functions/fn-database.c:582
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6154,7 +6154,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAVERAGE"
 
-#: src/functions/fn-database.c:637
+#: src/functions/fn-database.c:636
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -6166,7 +6166,7 @@ msgstr ""
 "@DESCRIPTION=Funkcja DCOUNTA zlicza komórki, które zawieraj± dane z bazy "
 "danych spe³niaj±ce okre¶lone kryteria. \n"
 
-#: src/functions/fn-database.c:645
+#: src/functions/fn-database.c:644
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6184,7 +6184,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:696
+#: src/functions/fn-database.c:695
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -6196,7 +6196,7 @@ msgstr ""
 "@DESCRIPTION=Funkcja DGET zwraca pojedyncz± warto¶æ z kolumny, która spe³nia "
 "okre¶lone kryteria. \n"
 
-#: src/functions/fn-database.c:704
+#: src/functions/fn-database.c:703
 #, fuzzy
 msgid ""
 "\n"
@@ -6218,7 +6218,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:765
+#: src/functions/fn-database.c:764
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -6230,7 +6230,7 @@ msgstr ""
 "@DESCRIPTION=Funkcja DMAX zwraca najwiêksz± warto¶æ z kolumny, która spe³nia "
 "okre¶lone kryteria. \n"
 
-#: src/functions/fn-database.c:773
+#: src/functions/fn-database.c:772
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6248,7 +6248,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMIN"
 
-#: src/functions/fn-database.c:837
+#: src/functions/fn-database.c:836
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -6260,7 +6260,7 @@ msgstr ""
 "@DESCRIPTION=Funkcja DMIN zwraca najmniejsz± warto¶æ z kolumny, która "
 "spe³nia okre¶lone warunki. \n"
 
-#: src/functions/fn-database.c:845
+#: src/functions/fn-database.c:844
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6276,7 +6276,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMAX"
 
-#: src/functions/fn-database.c:908
+#: src/functions/fn-database.c:907
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -6288,7 +6288,7 @@ msgstr ""
 "@DESCRIPTION=Funkcja DPRODUCT zwraca iloczyn tych liczb w kolumnie które "
 "spe³niaj± okre¶lone warunki. \n"
 
-#: src/functions/fn-database.c:916
+#: src/functions/fn-database.c:915
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6302,7 +6302,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSUM"
 
-#: src/functions/fn-database.c:976
+#: src/functions/fn-database.c:975
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -6316,7 +6316,7 @@ msgstr ""
 "populacji opartej na próbie. Populacja sk³ada siê z liczb spe³niaj±cych "
 "okre¶lone warunki. \n"
 
-#: src/functions/fn-database.c:985
+#: src/functions/fn-database.c:984
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6332,7 +6332,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEVP"
 
-#: src/functions/fn-database.c:1043
+#: src/functions/fn-database.c:1042
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -6346,7 +6346,7 @@ msgstr ""
 "oparciu o ca³e populacje. Populacje sk³adaj± siê z liczb spe³niaj±cych "
 "okre¶lone warunki. \n"
 
-#: src/functions/fn-database.c:1052
+#: src/functions/fn-database.c:1051
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6362,7 +6362,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEV"
 
-#: src/functions/fn-database.c:1112
+#: src/functions/fn-database.c:1111
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -6374,7 +6374,7 @@ msgstr ""
 "@DESCRIPTION=Funkcja DSUM zwraca sumê liczb w kolumnie, które spe³niaj± "
 "okre¶lone kryteria. \n"
 
-#: src/functions/fn-database.c:1120
+#: src/functions/fn-database.c:1119
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6390,7 +6390,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DPRODUCT"
 
-#: src/functions/fn-database.c:1180
+#: src/functions/fn-database.c:1179
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -6403,7 +6403,7 @@ msgstr ""
 "@DESCRIPTION=Funkcja DVAR zwraca estymator wariancji z populacji opartej na "
 "próbie. Populacje sk³adaj± siê z liczb spe³niaj±cych okre¶lone kryteria. \n"
 
-#: src/functions/fn-database.c:1189
+#: src/functions/fn-database.c:1188
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6419,7 +6419,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVARP"
 
-#: src/functions/fn-database.c:1249
+#: src/functions/fn-database.c:1248
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -6433,7 +6433,7 @@ msgstr ""
 "populacje. Populacje sk³adaj± siê z liczb, które spe³niaj± okre¶lone "
 "kryteria. \n"
 
-#: src/functions/fn-database.c:1258
+#: src/functions/fn-database.c:1257
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6449,7 +6449,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVAR"
 
-#: src/functions/fn-database.c:1319
+#: src/functions/fn-database.c:1318
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
@@ -12387,7 +12387,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-sheet.c:141 src/workbook.c:1032 src/xml-io.c:2943
+#: src/functions/fn-sheet.c:141 src/workbook.c:1030 src/xml-io.c:2943
 msgid "Sheet"
 msgstr "Arkusz"
 
@@ -15474,7 +15474,7 @@ msgstr "Szczegó³owy komunikat o b³êdzie"
 msgid "Show details"
 msgstr "Wy¶wietl szczegó³y"
 
-#: src/gui-util.c:874
+#: src/gui-util.c:873
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Nie mo¿na otworzyæ pliku \"%s\""
@@ -16164,7 +16164,7 @@ msgstr ""
 msgid "cannot be performed with multiple ranges selected"
 msgstr "nie mo¿e zostaæ wykonane z wielokrotnym zaznaczeniem"
 
-#: src/sheet-control-gui.c:1384
+#: src/sheet-control-gui.c:1415
 msgid "Paste _Special"
 msgstr "Wklej sp_ecjalnie"
 
@@ -16175,41 +16175,41 @@ msgstr "Wklej sp_ecjalnie"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1396
+#: src/sheet-control-gui.c:1427
 msgid "_Insert..."
 msgstr "W_staw..."
 
-#: src/sheet-control-gui.c:1400
+#: src/sheet-control-gui.c:1431
 msgid "_Insert Column(s)"
 msgstr "W_staw kolumny"
 
-#: src/sheet-control-gui.c:1402
+#: src/sheet-control-gui.c:1433
 msgid "_Delete Column(s)"
 msgstr "_Usuñ kolumny"
 
-#: src/sheet-control-gui.c:1404
+#: src/sheet-control-gui.c:1435
 msgid "_Insert Row(s)"
 msgstr "W_staw wiersze"
 
-#: src/sheet-control-gui.c:1406
+#: src/sheet-control-gui.c:1437
 msgid "_Delete Row(s)"
 msgstr "_Usuñ wiersze"
 
-#: src/sheet-control-gui.c:1409
+#: src/sheet-control-gui.c:1440
 msgid "Clear Co_ntents"
 msgstr "Wyczy¶æ _zawarto¶æ"
 
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1446
 msgid "_Format Cells..."
 msgstr "_Format komórek..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1450
 msgid "Column _Width..."
 msgstr "Szeroko¶æ kolu_mny..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1427
+#: src/sheet-control-gui.c:1458
 msgid "_Row Height..."
 msgstr "Wysoko¶æ wiersz_a..."
 
@@ -16231,60 +16231,60 @@ msgstr "nie mo¿na stworzyæ obiektu dla \"%s\""
 msgid "Could not load file: %s"
 msgstr "Nie mo¿na wczytaæ pliku: %s"
 
-#: src/sheet-object-graphic.c:445
+#: src/sheet-object-graphic.c:446
 msgid "Configure line or arrow"
 msgstr "Konfiguracja linii lub strza³ki"
 
-#: src/sheet-object-graphic.c:459
+#: src/sheet-object-graphic.c:460
 msgid "Color"
 msgstr "Kolor"
 
-#: src/sheet-object-graphic.c:461
+#: src/sheet-object-graphic.c:462
 msgid "Line Width"
 msgstr "Szeroko¶æ linii"
 
-#: src/sheet-object-graphic.c:465
+#: src/sheet-object-graphic.c:466
 msgid "Arrow tip"
 msgstr "Czubek strza³ki"
 
-#: src/sheet-object-graphic.c:467
+#: src/sheet-object-graphic.c:468
 msgid "Arrow length"
 msgstr "D³ugo¶æ strza³ki"
 
-#: src/sheet-object-graphic.c:469
+#: src/sheet-object-graphic.c:470
 msgid "Arrow width"
 msgstr "Szeroko¶æ strza³ki"
 
-#: src/sheet-object-graphic.c:503
+#: src/sheet-object-graphic.c:504
 msgid "Distance from tip of arrowhead to the center point"
 msgstr "Odleg³o¶æ od czubka grota do jego punktu ¶rodkowego"
 
-#: src/sheet-object-graphic.c:505
+#: src/sheet-object-graphic.c:506
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
 msgstr ""
 "Odleg³o¶æ od czubka grota do jego punktu koñcowego, liczona wzd³u¿ krawêdzi"
 
-#: src/sheet-object-graphic.c:508
+#: src/sheet-object-graphic.c:509
 msgid "Distance of trailing point from outside edge of shaft"
 msgstr "Odleg³o¶æ od punktu koñcowego grota do osi strza³ki"
 
-#: src/sheet-object-graphic.c:842
+#: src/sheet-object-graphic.c:843
 msgid "Configure filled object"
 msgstr "Konfiguracja wype³nionego obiektu"
 
-#: src/sheet-object-graphic.c:854
+#: src/sheet-object-graphic.c:855
 msgid "Outline color"
 msgstr "Kolor obwódki"
 
-#: src/sheet-object-graphic.c:856
+#: src/sheet-object-graphic.c:857
 msgid "Fill color"
 msgstr "Kolor wype³nienia"
 
-#: src/sheet-object-graphic.c:858
+#: src/sheet-object-graphic.c:859
 msgid "Border width"
 msgstr "Szeroko¶æ krawêdzi"
 
-#: src/sheet-object-graphic.c:864 src/sheet-object-graphic.c:870
+#: src/sheet-object-graphic.c:865 src/sheet-object-graphic.c:871
 msgid "Transparent"
 msgstr "Przezroczysto¶æ"
 
@@ -16519,68 +16519,6 @@ msgstr "Import plików tekstowych (konfigurowalny)"
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Import plików tekstowych (konfigurowalny)"
-
-#: src/style.c:284 src/style.c:286
-msgid "<Has not been set>"
-msgstr "<Nie zosta³ ustawiony>"
-
-#: src/style.c:289
-#, c-format
-msgid ""
-"Gnumeric failed to find a suitable default font.\n"
-"Your gnome-print installation is likely incomplete.  Please\n"
-"try reinstalling gnome-print.\n"
-"\n"
-"%s\n"
-"\n"
-"If you still have no luck, please file a proper bug report (see\n"
-"http://bugzilla.gnome.org) including the following extra items:\n"
-"\n"
-"1) The content of your fontmap2 file, if the file exists.\n"
-"\t(typically located in %s)\n"
-"2) The value of the LC_ALL environment variable\n"
-"\tLC_ALL=%s\n"
-"3) The value of the LANG environment variable\n"
-"\tLANG=%s\n"
-"4) What version of libxml gnumeric is running with.\n"
-"\tYou may be able to use the 'ldd' command to get that information.\n"
-"5) What version of gnome-print gnumeric is running with.\n"
-"\tYou may be able to use the 'ldd' command to get that information.\n"
-"\n"
-"Thanks -- the Gnumeric Team\n"
-msgstr ""
-"Nie powiod³o siê odnalezienie odpowiedniej domy¶lnej czcionki.\n"
-"Instalacja gnome-print w systemie jest prawdopodobnie niepe³na. Spróbuj\n"
-"przeinstalowaæ tê bibliotekê.\n"
-"\n"
-"%s\n"
-"Je¶li problem nie zostanie rozwi±zany, wype³nij poprawne zg³oszenie\n"
-"b³êdu (zobacz http://bugzilla.gnome.org) za³±czaj±c nastêpuj±ce elementy:\n"
-"\n"
-"1) Zawarto¶æ pliku fontmap2 z map± czcionek, je¶li plik istnieje.\n"
-"\t(zwykle jest umieszczony w %s)\n"
-"2) Warto¶æ zmiennej ¶rodowiskowej LC_ALL\n"
-"\tLC_ALL=%s\n"
-"3) Warto¶æ zmiennej ¶rodowiskowej LANG\n"
-"\tLANG=%s\n"
-"4) Numer wersji biblioteki libxml, z któr± zosta³ uruchomiony Gnumeric.\n"
-"   Informacjê te mo¿esz uzyskaæ po u¿yciu polecenia \"ldd\".\n"
-"5) Numer wersji biblioteki gnome-print, z któr± zosta³ uruchomiony "
-"Gnumeric.\n"
-"   Informacjê te mo¿esz uzyskaæ po u¿yciu polecenia \"ldd\".\n"
-"\n"
-"Dziêkujemy -- Zespó³ Twórców Gnumerica\n"
-
-#: src/style.c:309
-msgid "Your fontmap2 file does not have a valid entry for Helvetica."
-msgstr ""
-"Plik fontmap2 z map± czcionek nie zawiera poprawnego wpisu dla czcionki "
-"Helvetica."
-
-#: src/style.c:310
-msgid "Your fontmap2 file could not be found in the expected location."
-msgstr ""
-"Plik fontmap2  z map± czcionek nie zosta³ odnaleziony w oczekiwanym miejscu."
 
 #: src/validation.c:138
 #, c-format
@@ -16921,39 +16859,39 @@ msgstr ""
 msgid "Zoom"
 msgstr "Powiêkszenie"
 
-#: src/workbook-control-gui.c:3806
+#: src/workbook-control-gui.c:3810
 msgid "Min"
 msgstr "Minimum"
 
-#: src/workbook-control-gui.c:3807
+#: src/workbook-control-gui.c:3811
 msgid "Max"
 msgstr "Maksimum"
 
-#: src/workbook-control-gui.c:3808
+#: src/workbook-control-gui.c:3812
 msgid "Average"
 msgstr "¦rednia"
 
-#: src/workbook-control-gui.c:3809
+#: src/workbook-control-gui.c:3813
 msgid "Count"
 msgstr "Liczba"
 
-#: src/workbook-control-gui.c:4139
+#: src/workbook-control-gui.c:4143
 msgid "Send"
 msgstr "Wy¶lij"
 
-#: src/workbook-control-gui.c:4139
+#: src/workbook-control-gui.c:4143
 msgid "Send the current file in email"
 msgstr "Wysy³a bie¿±cy plik w li¶cie do innej osoby"
 
-#: src/workbook-control-gui.c:4341
+#: src/workbook-control-gui.c:4345
 msgid "Re-Edit"
 msgstr "Zredaguj"
 
-#: src/workbook-control-gui.c:4342 src/workbook-control-gui.c:4347
+#: src/workbook-control-gui.c:4346 src/workbook-control-gui.c:4351
 msgid "Discard"
 msgstr "Porzuæ"
 
-#: src/workbook-control-gui.c:4346
+#: src/workbook-control-gui.c:4350
 msgid "Accept"
 msgstr "Zaakceptuj"
 
@@ -17188,15 +17126,15 @@ msgstr "Nieobs³ugiwany format pliku."
 msgid "Book%d.%s"
 msgstr "Zeszyt%d.%s"
 
-#: src/workbook.c:1189
+#: src/workbook.c:1187
 msgid "Sheet name"
 msgstr "Nazwa arkusza"
 
-#: src/workbook.c:1190
+#: src/workbook.c:1188
 msgid "must have at least 1 letter"
 msgstr "musi zawieraæ co najmniej jedn± literê"
 
-#: src/workbook.c:1203
+#: src/workbook.c:1201
 msgid "There is already a sheet named"
 msgstr "Istnieje ju¿ arkusz o nazwie"
 
@@ -17226,6 +17164,65 @@ msgstr "Plik nie zawiera zeszytu Gnumerica"
 #: src/xml-io.c:3319
 msgid "Gnumeric XML file format"
 msgstr "Format Gnumeric XML"
+
+#~ msgid "<Has not been set>"
+#~ msgstr "<Nie zosta³ ustawiony>"
+
+#~ msgid ""
+#~ "Gnumeric failed to find a suitable default font.\n"
+#~ "Your gnome-print installation is likely incomplete.  Please\n"
+#~ "try reinstalling gnome-print.\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "If you still have no luck, please file a proper bug report (see\n"
+#~ "http://bugzilla.gnome.org) including the following extra items:\n"
+#~ "\n"
+#~ "1) The content of your fontmap2 file, if the file exists.\n"
+#~ "\t(typically located in %s)\n"
+#~ "2) The value of the LC_ALL environment variable\n"
+#~ "\tLC_ALL=%s\n"
+#~ "3) The value of the LANG environment variable\n"
+#~ "\tLANG=%s\n"
+#~ "4) What version of libxml gnumeric is running with.\n"
+#~ "\tYou may be able to use the 'ldd' command to get that information.\n"
+#~ "5) What version of gnome-print gnumeric is running with.\n"
+#~ "\tYou may be able to use the 'ldd' command to get that information.\n"
+#~ "\n"
+#~ "Thanks -- the Gnumeric Team\n"
+#~ msgstr ""
+#~ "Nie powiod³o siê odnalezienie odpowiedniej domy¶lnej czcionki.\n"
+#~ "Instalacja gnome-print w systemie jest prawdopodobnie niepe³na. Spróbuj\n"
+#~ "przeinstalowaæ tê bibliotekê.\n"
+#~ "\n"
+#~ "%s\n"
+#~ "Je¶li problem nie zostanie rozwi±zany, wype³nij poprawne zg³oszenie\n"
+#~ "b³êdu (zobacz http://bugzilla.gnome.org) za³±czaj±c nastêpuj±ce "
+#~ "elementy:\n"
+#~ "\n"
+#~ "1) Zawarto¶æ pliku fontmap2 z map± czcionek, je¶li plik istnieje.\n"
+#~ "\t(zwykle jest umieszczony w %s)\n"
+#~ "2) Warto¶æ zmiennej ¶rodowiskowej LC_ALL\n"
+#~ "\tLC_ALL=%s\n"
+#~ "3) Warto¶æ zmiennej ¶rodowiskowej LANG\n"
+#~ "\tLANG=%s\n"
+#~ "4) Numer wersji biblioteki libxml, z któr± zosta³ uruchomiony Gnumeric.\n"
+#~ "   Informacjê te mo¿esz uzyskaæ po u¿yciu polecenia \"ldd\".\n"
+#~ "5) Numer wersji biblioteki gnome-print, z któr± zosta³ uruchomiony "
+#~ "Gnumeric.\n"
+#~ "   Informacjê te mo¿esz uzyskaæ po u¿yciu polecenia \"ldd\".\n"
+#~ "\n"
+#~ "Dziêkujemy -- Zespó³ Twórców Gnumerica\n"
+
+#~ msgid "Your fontmap2 file does not have a valid entry for Helvetica."
+#~ msgstr ""
+#~ "Plik fontmap2 z map± czcionek nie zawiera poprawnego wpisu dla czcionki "
+#~ "Helvetica."
+
+#~ msgid "Your fontmap2 file could not be found in the expected location."
+#~ msgstr ""
+#~ "Plik fontmap2  z map± czcionek nie zosta³ odnaleziony w oczekiwanym "
+#~ "miejscu."
 
 #~ msgid "Edit the name of the current sheet"
 #~ msgstr "Modyfikuje nazwê bie¿±cego arkusza"

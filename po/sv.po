@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-02-14 02:29-0500\n"
+"POT-Creation-Date: 2002-02-18 00:59-0500\n"
 "PO-Revision-Date: 2002-01-31 14:18+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -45,7 +45,7 @@ msgstr "Kalkylprogrammet Gnumeric"
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME-kalkylprogrammet"
 
-#: plugins/applix/applix-read.c:85
+#: plugins/applix/applix-read.c:91
 msgid "Parse error while reading Applix file."
 msgstr "Tolkningsfel vid läsning av Applix-fil"
 
@@ -445,7 +445,7 @@ msgstr ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
 "opt_bs_gamma"
 
-#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4485
+#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4455
 #: plugins/mps/mps.c:578 src/xml-io.c:3230
 msgid "Reading file..."
 msgstr "Läser fil..."
@@ -568,25 +568,25 @@ msgstr "Diagram%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4480
+#: plugins/excel/ms-excel-read.c:4450
 msgid "No book or workbook streams found."
 msgstr "Kunde inte hitta ström med bok eller arbetsbok."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4644
+#: plugins/excel/ms-excel-read.c:4614
 msgid "Password protected workbooks are not supported yet."
 msgstr "Lösenordsskyddade arbetsböcker stöds ännu inte."
 
-#: plugins/excel/ms-excel-read.c:4757
+#: plugins/excel/ms-excel-read.c:4727
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
-#: plugins/excel/ms-excel-write.c:3504
+#: plugins/excel/ms-excel-write.c:3503
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "För många rader för detta format (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3732
+#: plugins/excel/ms-excel-write.c:3731
 msgid "Can't open stream for writing\n"
 msgstr "Kan inte öppna ström för skrivning\n"
 
@@ -678,7 +678,7 @@ msgstr "Fel: kunde inte öppna anslutning till %s"
 msgid "Error: no recordsets were returned"
 msgstr "Fel: inga postsamlingar returnerades"
 
-#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1365
+#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1364
 msgid "Database"
 msgstr "Databas"
 
@@ -1454,7 +1454,7 @@ msgstr "Utför en enkel stavningskontroll automatiskt"
 msgid "Automatically save the current document at regular intervals"
 msgstr "Spara det aktuella dokumentet automatiskt med regelbundna mellanrum"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2577
+#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2576
 #: src/workbook-format-toolbar.c:797 src/workbook-format-toolbar.c:854
 msgid "Background"
 msgstr "Bakgrund"
@@ -1676,7 +1676,7 @@ msgstr "Skapa en rullningslist"
 msgid "Create an arrow"
 msgstr "Skapa en pil"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1378
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1409
 msgid "Cu_t"
 msgstr "Klipp _ut"
 
@@ -1798,7 +1798,7 @@ msgstr "Typsnittstorlek"
 msgid "Font selector"
 msgstr "Typsnittsväljare"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2571
 #: src/workbook-format-toolbar.c:823 src/workbook-format-toolbar.c:857
 msgid "Foreground"
 msgstr "Förgrund"
@@ -2345,7 +2345,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Statistisk anal_ys"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3190
-#: src/workbook-control-gui.c:3805 src/workbook-view.c:453
+#: src/workbook-control-gui.c:3809 src/workbook-view.c:453
 msgid "Sum"
 msgstr "Summa"
 
@@ -2484,7 +2484,7 @@ msgid "_Content"
 msgstr "_Innehåll"
 
 #: src/GNOME_Gnumeric.xml.h:257 src/item-cursor.c:1029
-#: src/sheet-control-gui.c:1380
+#: src/sheet-control-gui.c:1411
 msgid "_Copy"
 msgstr "_Kopiera"
 
@@ -2500,7 +2500,7 @@ msgstr "_Data"
 msgid "_Define..."
 msgstr "_Definiera..."
 
-#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1398
+#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1429
 #: src/workbook-control-gui.c:2719
 msgid "_Delete..."
 msgstr "_Ta bort..."
@@ -2570,8 +2570,8 @@ msgstr "_Grupp och kontur"
 msgid "_Help"
 msgstr "_Hjälp"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1421
-#: src/sheet-control-gui.c:1429 src/workbook-control-gui.c:2840
+#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1452
+#: src/sheet-control-gui.c:1460 src/workbook-control-gui.c:2840
 #: src/workbook-control-gui.c:2859
 msgid "_Hide"
 msgstr "_Dölj"
@@ -2629,7 +2629,7 @@ msgstr "_Öppna..."
 msgid "_Paired Samples: T-Test"
 msgstr "_Parade prover: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1382
+#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1413
 msgid "_Paste"
 msgstr "Klistra i_n"
 
@@ -2734,8 +2734,8 @@ msgstr "_Ångra"
 msgid "_Ungroup"
 msgstr "_Ogruppera"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1423
-#: src/sheet-control-gui.c:1431 src/workbook-control-gui.c:2843
+#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1454
+#: src/sheet-control-gui.c:1462 src/workbook-control-gui.c:2843
 #: src/workbook-control-gui.c:2862
 msgid "_Unhide"
 msgstr "_Visa"
@@ -4090,7 +4090,7 @@ msgstr ""
 "En av faktorkombinationerna innehåller inga\n"
 "observationer!"
 
-#: src/dialogs/dialog-analysis-tools.c:4116
+#: src/dialogs/dialog-analysis-tools.c:4114
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Kunde inte skapa ANOVA-verktygsdialogen (dubbel faktor)."
 
@@ -4190,13 +4190,13 @@ msgstr "37"
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:641
+#: src/dialogs/dialog-autoformat.c:639
 msgid "An error occurred while reading the category list"
 msgstr "Ett fel uppstod vid läsning av kategorilistan"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:651 src/format.c:1649 src/format.c:1741
+#: src/dialogs/dialog-autoformat.c:649 src/format.c:1649 src/format.c:1741
 #: src/format.c:1750 src/format.c:1819
 msgid "General"
 msgstr "Allmän"
@@ -4240,46 +4240,46 @@ msgstr "Dubbel"
 msgid "None"
 msgstr "Ingen"
 
-#: src/dialogs/dialog-cell-format.c:2100
+#: src/dialogs/dialog-cell-format.c:2099
 msgid "Source"
 msgstr "Källområde"
 
-#: src/dialogs/dialog-cell-format.c:2101
+#: src/dialogs/dialog-cell-format.c:2100
 msgid "Criteria"
 msgstr "Kriterium:"
 
-#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2120
+#: src/dialogs/dialog-cell-format.c:2112 src/dialogs/dialog-cell-format.c:2119
 msgid "Min :"
 msgstr "Min:"
 
-#: src/dialogs/dialog-cell-format.c:2114 src/dialogs/dialog-cell-format.c:2123
+#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2122
 msgid "Max :"
 msgstr "Max:"
 
-#: src/dialogs/dialog-cell-format.c:2117
+#: src/dialogs/dialog-cell-format.c:2116
 msgid "Value :"
 msgstr "Värde:"
 
-#: src/dialogs/dialog-cell-format.c:2503
+#: src/dialogs/dialog-cell-format.c:2502
 msgid "Format Cells"
 msgstr "Formatera celler"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
-#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2566 src/dialogs/dialog-cell-format.c:2571
+#: src/dialogs/dialog-cell-format.c:2581 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:816
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/dialog-cell-format.c:2566
 msgid "Border"
 msgstr "Kant"
 
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:789
+#: src/dialogs/dialog-cell-format.c:2576 src/workbook-format-toolbar.c:789
 msgid "Clear Background"
 msgstr "Töm bakgrund"
 
-#: src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/dialog-cell-format.c:2581
 msgid "Pattern"
 msgstr "Mönster"
 
@@ -4601,21 +4601,21 @@ msgstr "Lista över insticksmoduler"
 msgid "Plugin details"
 msgstr "Detaljer för insticksmodul"
 
-#: src/dialogs/dialog-printer-setup.c:985
-#: src/dialogs/dialog-printer-setup.c:1116
+#: src/dialogs/dialog-printer-setup.c:983
+#: src/dialogs/dialog-printer-setup.c:1114
 msgid "Customize header"
 msgstr "Anpassa sidhuvud"
 
-#: src/dialogs/dialog-printer-setup.c:987
-#: src/dialogs/dialog-printer-setup.c:1122
+#: src/dialogs/dialog-printer-setup.c:985
+#: src/dialogs/dialog-printer-setup.c:1120
 msgid "Customize footer"
 msgstr "Anpassa sidfot"
 
-#: src/dialogs/dialog-printer-setup.c:1115
+#: src/dialogs/dialog-printer-setup.c:1113
 msgid "Custom header configuration"
 msgstr "Anpassa sidhuvudskonfiguration"
 
-#: src/dialogs/dialog-printer-setup.c:1121
+#: src/dialogs/dialog-printer-setup.c:1119
 msgid "Custom footer configuration"
 msgstr "Anpassa sidfotskonfiguration"
 
@@ -4727,7 +4727,7 @@ msgstr "Data (från %s)"
 #. * The name of the default font for this locale.
 #. * Preferably something with the correct encoding.
 #.
-#: src/dialogs/dialog-stf-preview.c:616 src/style.c:97
+#: src/dialogs/dialog-stf-preview.c:614 src/style.c:97
 msgid "fixed"
 msgstr "fixed"
 
@@ -6289,7 +6289,7 @@ msgid "Function does not exist"
 msgstr "Funktionen finns inte"
 
 #. *************************************************************************
-#: src/functions/fn-database.c:505
+#: src/functions/fn-database.c:504
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -6301,7 +6301,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen DAVERAGE returnerar medelvärdet av värdena i en "
 "lista eller databas som överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:513
+#: src/functions/fn-database.c:512
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6321,7 +6321,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:575
+#: src/functions/fn-database.c:574
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -6333,7 +6333,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen DCOUNT räknar antalet celler i en databas som "
 "innehåller tal som överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:583
+#: src/functions/fn-database.c:582
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6351,7 +6351,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAVERAGE"
 
-#: src/functions/fn-database.c:637
+#: src/functions/fn-database.c:636
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -6363,7 +6363,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen DCOUNTA räknar antalet celler i en databas som "
 "innehåller data som överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:645
+#: src/functions/fn-database.c:644
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6381,7 +6381,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:696
+#: src/functions/fn-database.c:695
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -6393,7 +6393,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen DGET returnerar ett ensamt värde från en kolumn som "
 "överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:704
+#: src/functions/fn-database.c:703
 msgid ""
 "\n"
 "If none of the items match the conditions, DGET returns #VALUE! error. If "
@@ -6414,7 +6414,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:765
+#: src/functions/fn-database.c:764
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -6426,7 +6426,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen DMAX returnerar det största värdet från en kolumn "
 "som överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:773
+#: src/functions/fn-database.c:772
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6444,7 +6444,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMIN"
 
-#: src/functions/fn-database.c:837
+#: src/functions/fn-database.c:836
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -6456,7 +6456,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen DMIN returnerar det minsta värdet från en kolumn som "
 "överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:845
+#: src/functions/fn-database.c:844
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6472,7 +6472,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMAX"
 
-#: src/functions/fn-database.c:908
+#: src/functions/fn-database.c:907
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -6484,7 +6484,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen DPRODUCT returnerar produkten av de värden från en "
 "kolumn som överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:916
+#: src/functions/fn-database.c:915
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6498,7 +6498,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSUM"
 
-#: src/functions/fn-database.c:976
+#: src/functions/fn-database.c:975
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -6512,7 +6512,7 @@ msgstr ""
 "standardavvikelsen av ett stickprov. Stickprovet består av värden som "
 "överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:985
+#: src/functions/fn-database.c:984
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6528,7 +6528,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEVP"
 
-#: src/functions/fn-database.c:1043
+#: src/functions/fn-database.c:1042
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -6542,7 +6542,7 @@ msgstr ""
 "standardavvikelsen av en population. Populationen består av värden som "
 "överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:1052
+#: src/functions/fn-database.c:1051
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6558,7 +6558,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEV"
 
-#: src/functions/fn-database.c:1112
+#: src/functions/fn-database.c:1111
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -6570,7 +6570,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen DSUM returnerar summan av värdena från en kolumn som "
 "överensstämmer med de villkor som angivits.\n"
 
-#: src/functions/fn-database.c:1120
+#: src/functions/fn-database.c:1119
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6586,7 +6586,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DPRODUCT"
 
-#: src/functions/fn-database.c:1180
+#: src/functions/fn-database.c:1179
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -6600,7 +6600,7 @@ msgstr ""
 "population. Populationen består av värden som överensstämmer med de villkor "
 "som angivits.\n"
 
-#: src/functions/fn-database.c:1189
+#: src/functions/fn-database.c:1188
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6616,7 +6616,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVARP"
 
-#: src/functions/fn-database.c:1249
+#: src/functions/fn-database.c:1248
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -6630,7 +6630,7 @@ msgstr ""
 "stickprov. Stickprovet består av värden som överensstämmer med de villkor "
 "som angivits.\n"
 
-#: src/functions/fn-database.c:1258
+#: src/functions/fn-database.c:1257
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6646,7 +6646,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVAR"
 
-#: src/functions/fn-database.c:1319
+#: src/functions/fn-database.c:1318
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
@@ -13497,7 +13497,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-sheet.c:141 src/workbook.c:1032 src/xml-io.c:2943
+#: src/functions/fn-sheet.c:141 src/workbook.c:1030 src/xml-io.c:2943
 msgid "Sheet"
 msgstr "Blad"
 
@@ -16555,7 +16555,7 @@ msgstr "Detaljerat felmeddelande"
 msgid "Show details"
 msgstr "Visa detaljer"
 
-#: src/gui-util.c:874
+#: src/gui-util.c:873
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Kan inte öppna filen \"%s\""
@@ -17243,7 +17243,7 @@ msgstr "Ogiltigt eftersläpande omvänt snedstreck i ersättning."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "kan inte utföras med flera valda intervall"
 
-#: src/sheet-control-gui.c:1384
+#: src/sheet-control-gui.c:1415
 msgid "Paste _Special"
 msgstr "Klistra in _special"
 
@@ -17254,41 +17254,41 @@ msgstr "Klistra in _special"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1396
+#: src/sheet-control-gui.c:1427
 msgid "_Insert..."
 msgstr "_Infoga..."
 
-#: src/sheet-control-gui.c:1400
+#: src/sheet-control-gui.c:1431
 msgid "_Insert Column(s)"
 msgstr "_Infoga kolumn(er)"
 
-#: src/sheet-control-gui.c:1402
+#: src/sheet-control-gui.c:1433
 msgid "_Delete Column(s)"
 msgstr "Ta _bort kolumn(er)"
 
-#: src/sheet-control-gui.c:1404
+#: src/sheet-control-gui.c:1435
 msgid "_Insert Row(s)"
 msgstr "_Infoga rad(er)"
 
-#: src/sheet-control-gui.c:1406
+#: src/sheet-control-gui.c:1437
 msgid "_Delete Row(s)"
 msgstr "Ta _bort rad(er)"
 
-#: src/sheet-control-gui.c:1409
+#: src/sheet-control-gui.c:1440
 msgid "Clear Co_ntents"
 msgstr "Ta bort i_nnehåll"
 
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1446
 msgid "_Format Cells..."
 msgstr "_Formatera celler..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1450
 msgid "Column _Width..."
 msgstr "_Kolumnbredd..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1427
+#: src/sheet-control-gui.c:1458
 msgid "_Row Height..."
 msgstr "_Radhöjd..."
 
@@ -17310,61 +17310,61 @@ msgstr "kan inte skapa object för \"%s\""
 msgid "Could not load file: %s"
 msgstr "Kunde inte läsa in fil: %s"
 
-#: src/sheet-object-graphic.c:445
+#: src/sheet-object-graphic.c:446
 msgid "Configure line or arrow"
 msgstr "Konfigurera linje eller pil"
 
-#: src/sheet-object-graphic.c:459
+#: src/sheet-object-graphic.c:460
 msgid "Color"
 msgstr "Färg"
 
-#: src/sheet-object-graphic.c:461
+#: src/sheet-object-graphic.c:462
 msgid "Line Width"
 msgstr "Linjebredd"
 
-#: src/sheet-object-graphic.c:465
+#: src/sheet-object-graphic.c:466
 msgid "Arrow tip"
 msgstr "Piltips"
 
-#: src/sheet-object-graphic.c:467
+#: src/sheet-object-graphic.c:468
 msgid "Arrow length"
 msgstr "Pillängd"
 
-#: src/sheet-object-graphic.c:469
+#: src/sheet-object-graphic.c:470
 msgid "Arrow width"
 msgstr "Pilbredd"
 
-#: src/sheet-object-graphic.c:503
+#: src/sheet-object-graphic.c:504
 msgid "Distance from tip of arrowhead to the center point"
 msgstr "Avstånd från spetsen på pilhuvudet till mittpunkten"
 
-#: src/sheet-object-graphic.c:505
+#: src/sheet-object-graphic.c:506
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
 msgstr ""
 "Avstånd från spetsen på pilhuvudet till efterföljande punkt, mätt längs "
 "skaftet"
 
-#: src/sheet-object-graphic.c:508
+#: src/sheet-object-graphic.c:509
 msgid "Distance of trailing point from outside edge of shaft"
 msgstr "Avstånd från efterföljande punkt från utanför hörn på skaftet"
 
-#: src/sheet-object-graphic.c:842
+#: src/sheet-object-graphic.c:843
 msgid "Configure filled object"
 msgstr "Konfigurera fyllt objekt"
 
-#: src/sheet-object-graphic.c:854
+#: src/sheet-object-graphic.c:855
 msgid "Outline color"
 msgstr "Konturfärg"
 
-#: src/sheet-object-graphic.c:856
+#: src/sheet-object-graphic.c:857
 msgid "Fill color"
 msgstr "Fyllningsfärg"
 
-#: src/sheet-object-graphic.c:858
+#: src/sheet-object-graphic.c:859
 msgid "Border width"
 msgstr "Kantbredd"
 
-#: src/sheet-object-graphic.c:864 src/sheet-object-graphic.c:870
+#: src/sheet-object-graphic.c:865 src/sheet-object-graphic.c:871
 msgid "Transparent"
 msgstr "Genomskinlig"
 
@@ -17599,68 +17599,6 @@ msgstr "Textfilsimport (anpassningsbar)"
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Textfilsimport (anpassningsbar)"
-
-#: src/style.c:284 src/style.c:286
-msgid "<Has not been set>"
-msgstr "<Har inte ställts in>"
-
-#: src/style.c:289
-#, c-format
-msgid ""
-"Gnumeric failed to find a suitable default font.\n"
-"Your gnome-print installation is likely incomplete.  Please\n"
-"try reinstalling gnome-print.\n"
-"\n"
-"%s\n"
-"\n"
-"If you still have no luck, please file a proper bug report (see\n"
-"http://bugzilla.gnome.org) including the following extra items:\n"
-"\n"
-"1) The content of your fontmap2 file, if the file exists.\n"
-"\t(typically located in %s)\n"
-"2) The value of the LC_ALL environment variable\n"
-"\tLC_ALL=%s\n"
-"3) The value of the LANG environment variable\n"
-"\tLANG=%s\n"
-"4) What version of libxml gnumeric is running with.\n"
-"\tYou may be able to use the 'ldd' command to get that information.\n"
-"5) What version of gnome-print gnumeric is running with.\n"
-"\tYou may be able to use the 'ldd' command to get that information.\n"
-"\n"
-"Thanks -- the Gnumeric Team\n"
-msgstr ""
-"Gnumeric misslyckades med att hitta ett lämpligt standardtypsnitt.\n"
-"Din installation av gnome-print är troligtvis inte komplett. Försök\n"
-"installera om gnome-print.\n"
-"\n"
-"%s\n"
-"\n"
-"Om du fortfarande inte har någon tur bör du skicka in en fullständig\n"
-"felrapport (se http://bugzilla.gnome.org) som innehåller följande\n"
-"extra information:\n"
-"\n"
-"1) Innehållet i din \"fontmap2\"-fil, om filen existerar.\n"
-"\t(normalt finns den i %s)\n"
-"2) Värdet på miljövariabeln LC_ALL\n"
-"\tLC_ALL=%s\n"
-"3) Värdet på miljövariabeln LANG\n"
-"\tLANG=%s\n"
-"4) Vilken version av libxml som gnumeric kör med.\n"
-"\tDu kan i vissa fall använda komamndot \"ldd\" för att få\n"
-"\tfram den informationen.\n"
-"5) Vilken version av gnome-print som gnumeric kör med.\n"
-"\tDu kan i vissa fall använda kommandot \"ldd\" för att få\n"
-"\tfram den informationen.\n"
-"\n"
-"Tack -- Gnumeric-teamet\n"
-
-#: src/style.c:309
-msgid "Your fontmap2 file does not have a valid entry for Helvetica."
-msgstr "Din \"fontmap2\"-fil har inte en giltig post för Helvetica."
-
-#: src/style.c:310
-msgid "Your fontmap2 file could not be found in the expected location."
-msgstr "Din \"fontmap2\"-fil kunde inte hittas på den förväntade platsen."
 
 #: src/validation.c:138
 #, c-format
@@ -18004,39 +17942,39 @@ msgstr ""
 msgid "Zoom"
 msgstr "Zooma"
 
-#: src/workbook-control-gui.c:3806
+#: src/workbook-control-gui.c:3810
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook-control-gui.c:3807
+#: src/workbook-control-gui.c:3811
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook-control-gui.c:3808
+#: src/workbook-control-gui.c:3812
 msgid "Average"
 msgstr "Medelvärde"
 
-#: src/workbook-control-gui.c:3809
+#: src/workbook-control-gui.c:3813
 msgid "Count"
 msgstr "Räkna"
 
-#: src/workbook-control-gui.c:4139
+#: src/workbook-control-gui.c:4143
 msgid "Send"
 msgstr "Skicka"
 
-#: src/workbook-control-gui.c:4139
+#: src/workbook-control-gui.c:4143
 msgid "Send the current file in email"
 msgstr "Skicka den aktuella filen med e-post"
 
-#: src/workbook-control-gui.c:4341
+#: src/workbook-control-gui.c:4345
 msgid "Re-Edit"
 msgstr "Redigera om"
 
-#: src/workbook-control-gui.c:4342 src/workbook-control-gui.c:4347
+#: src/workbook-control-gui.c:4346 src/workbook-control-gui.c:4351
 msgid "Discard"
 msgstr "Förkasta"
 
-#: src/workbook-control-gui.c:4346
+#: src/workbook-control-gui.c:4350
 msgid "Accept"
 msgstr "Acceptera"
 
@@ -18270,15 +18208,15 @@ msgstr "Filformatet stöds inte."
 msgid "Book%d.%s"
 msgstr "Blad%d.%s"
 
-#: src/workbook.c:1189
+#: src/workbook.c:1187
 msgid "Sheet name"
 msgstr "Bladnamn"
 
-#: src/workbook.c:1190
+#: src/workbook.c:1188
 msgid "must have at least 1 letter"
 msgstr "måste ha åtminstone 1 bokstav"
 
-#: src/workbook.c:1203
+#: src/workbook.c:1201
 msgid "There is already a sheet named"
 msgstr "Det finns redan ett blad med namnet"
 
@@ -18309,6 +18247,63 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 #: src/xml-io.c:3319
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "<Has not been set>"
+#~ msgstr "<Har inte ställts in>"
+
+#~ msgid ""
+#~ "Gnumeric failed to find a suitable default font.\n"
+#~ "Your gnome-print installation is likely incomplete.  Please\n"
+#~ "try reinstalling gnome-print.\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "If you still have no luck, please file a proper bug report (see\n"
+#~ "http://bugzilla.gnome.org) including the following extra items:\n"
+#~ "\n"
+#~ "1) The content of your fontmap2 file, if the file exists.\n"
+#~ "\t(typically located in %s)\n"
+#~ "2) The value of the LC_ALL environment variable\n"
+#~ "\tLC_ALL=%s\n"
+#~ "3) The value of the LANG environment variable\n"
+#~ "\tLANG=%s\n"
+#~ "4) What version of libxml gnumeric is running with.\n"
+#~ "\tYou may be able to use the 'ldd' command to get that information.\n"
+#~ "5) What version of gnome-print gnumeric is running with.\n"
+#~ "\tYou may be able to use the 'ldd' command to get that information.\n"
+#~ "\n"
+#~ "Thanks -- the Gnumeric Team\n"
+#~ msgstr ""
+#~ "Gnumeric misslyckades med att hitta ett lämpligt standardtypsnitt.\n"
+#~ "Din installation av gnome-print är troligtvis inte komplett. Försök\n"
+#~ "installera om gnome-print.\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Om du fortfarande inte har någon tur bör du skicka in en fullständig\n"
+#~ "felrapport (se http://bugzilla.gnome.org) som innehåller följande\n"
+#~ "extra information:\n"
+#~ "\n"
+#~ "1) Innehållet i din \"fontmap2\"-fil, om filen existerar.\n"
+#~ "\t(normalt finns den i %s)\n"
+#~ "2) Värdet på miljövariabeln LC_ALL\n"
+#~ "\tLC_ALL=%s\n"
+#~ "3) Värdet på miljövariabeln LANG\n"
+#~ "\tLANG=%s\n"
+#~ "4) Vilken version av libxml som gnumeric kör med.\n"
+#~ "\tDu kan i vissa fall använda komamndot \"ldd\" för att få\n"
+#~ "\tfram den informationen.\n"
+#~ "5) Vilken version av gnome-print som gnumeric kör med.\n"
+#~ "\tDu kan i vissa fall använda kommandot \"ldd\" för att få\n"
+#~ "\tfram den informationen.\n"
+#~ "\n"
+#~ "Tack -- Gnumeric-teamet\n"
+
+#~ msgid "Your fontmap2 file does not have a valid entry for Helvetica."
+#~ msgstr "Din \"fontmap2\"-fil har inte en giltig post för Helvetica."
+
+#~ msgid "Your fontmap2 file could not be found in the expected location."
+#~ msgstr "Din \"fontmap2\"-fil kunde inte hittas på den förväntade platsen."
 
 #~ msgid ""
 #~ "@FUNCTION=NT_MU\n"

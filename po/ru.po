@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.3\n"
-"POT-Creation-Date: 2002-02-14 02:29-0500\n"
+"POT-Creation-Date: 2002-02-18 00:59-0500\n"
 "PO-Revision-Date: 2002-01-21 17:53+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
@@ -20,7 +20,7 @@ msgstr "Вставить новую таблицу"
 msgid "The GNOME Spreadsheet"
 msgstr "Электронная таблица GNOME"
 
-#: plugins/applix/applix-read.c:85
+#: plugins/applix/applix-read.c:91
 msgid "Parse error while reading Applix file."
 msgstr "Ошибка анализа при чтении файла Applix."
 
@@ -255,7 +255,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4485
+#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4455
 #: plugins/mps/mps.c:578 src/xml-io.c:3230
 msgid "Reading file..."
 msgstr "Чтение файла..."
@@ -379,25 +379,25 @@ msgstr "Диаграмма%d"
 msgid "Module%d"
 msgstr "Модуль%d"
 
-#: plugins/excel/ms-excel-read.c:4480
+#: plugins/excel/ms-excel-read.c:4450
 msgid "No book or workbook streams found."
 msgstr "Не найден поток книги или рабочей книги."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4644
+#: plugins/excel/ms-excel-read.c:4614
 msgid "Password protected workbooks are not supported yet."
 msgstr "Защищенные паролем книги пока не поддерживаются."
 
-#: plugins/excel/ms-excel-read.c:4757
+#: plugins/excel/ms-excel-read.c:4727
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не удалось найти рабочую книгу MS Excel"
 
-#: plugins/excel/ms-excel-write.c:3504
+#: plugins/excel/ms-excel-write.c:3503
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Слишком много строк для этого формата (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3732
+#: plugins/excel/ms-excel-write.c:3731
 msgid "Can't open stream for writing\n"
 msgstr "Невозможно открыть поток для записи\n"
 
@@ -490,7 +490,7 @@ msgstr "Ошибка: невозможно открыть соединение с %s"
 msgid "Error: no recordsets were returned"
 msgstr ""
 
-#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1365
+#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1364
 msgid "Database"
 msgstr "Базы данных"
 
@@ -1269,7 +1269,7 @@ msgstr "Автоматически выполнять простую проверку правописания"
 msgid "Automatically save the current document at regular intervals"
 msgstr "Автоматически сохранять текущий документ через регулярные интервалы"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2577
+#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2576
 #: src/workbook-format-toolbar.c:797 src/workbook-format-toolbar.c:854
 msgid "Background"
 msgstr "Фон"
@@ -1485,7 +1485,7 @@ msgstr "Создать полосу прокрутки"
 msgid "Create an arrow"
 msgstr "Создать стрелку"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1378
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1409
 msgid "Cu_t"
 msgstr "Вырезать"
 
@@ -1607,7 +1607,7 @@ msgstr "Размер шрифта"
 msgid "Font selector"
 msgstr "Выбор шрифта"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2571
 #: src/workbook-format-toolbar.c:823 src/workbook-format-toolbar.c:857
 msgid "Foreground"
 msgstr "Передний план"
@@ -2155,7 +2155,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Статистический анализ"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3190
-#: src/workbook-control-gui.c:3805 src/workbook-view.c:453
+#: src/workbook-control-gui.c:3809 src/workbook-view.c:453
 msgid "Sum"
 msgstr "Сумма"
 
@@ -2294,7 +2294,7 @@ msgid "_Content"
 msgstr "Содержимое"
 
 #: src/GNOME_Gnumeric.xml.h:257 src/item-cursor.c:1029
-#: src/sheet-control-gui.c:1380
+#: src/sheet-control-gui.c:1411
 msgid "_Copy"
 msgstr "Скопировать"
 
@@ -2310,7 +2310,7 @@ msgstr "Данные"
 msgid "_Define..."
 msgstr "Определить..."
 
-#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1398
+#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1429
 #: src/workbook-control-gui.c:2719
 msgid "_Delete..."
 msgstr "Удаление..."
@@ -2380,8 +2380,8 @@ msgstr "Группы и структуры"
 msgid "_Help"
 msgstr "Справка"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1421
-#: src/sheet-control-gui.c:1429 src/workbook-control-gui.c:2840
+#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1452
+#: src/sheet-control-gui.c:1460 src/workbook-control-gui.c:2840
 #: src/workbook-control-gui.c:2859
 msgid "_Hide"
 msgstr "Скрыть"
@@ -2439,7 +2439,7 @@ msgstr "Открыть..."
 msgid "_Paired Samples: T-Test"
 msgstr "Парные выборки: T-тест"
 
-#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1382
+#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1413
 msgid "_Paste"
 msgstr "Вставить"
 
@@ -2544,8 +2544,8 @@ msgstr "Откат"
 msgid "_Ungroup"
 msgstr "Разгруппировать"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1423
-#: src/sheet-control-gui.c:1431 src/workbook-control-gui.c:2843
+#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1454
+#: src/sheet-control-gui.c:1462 src/workbook-control-gui.c:2843
 #: src/workbook-control-gui.c:2862
 msgid "_Unhide"
 msgstr "Показать"
@@ -3899,7 +3899,7 @@ msgid ""
 "any observations!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:4116
+#: src/dialogs/dialog-analysis-tools.c:4114
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Невозможно создать диалог двухфакторного дисперсионного анализа."
 
@@ -3999,13 +3999,13 @@ msgstr "37"
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:641
+#: src/dialogs/dialog-autoformat.c:639
 msgid "An error occurred while reading the category list"
 msgstr "При чтении списка категорий возникла ошибка"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:651 src/format.c:1649 src/format.c:1741
+#: src/dialogs/dialog-autoformat.c:649 src/format.c:1649 src/format.c:1741
 #: src/format.c:1750 src/format.c:1819
 msgid "General"
 msgstr "Общий"
@@ -4050,46 +4050,46 @@ msgstr "Двойной"
 msgid "None"
 msgstr "Нет"
 
-#: src/dialogs/dialog-cell-format.c:2100
+#: src/dialogs/dialog-cell-format.c:2099
 msgid "Source"
 msgstr "Источник"
 
-#: src/dialogs/dialog-cell-format.c:2101
+#: src/dialogs/dialog-cell-format.c:2100
 msgid "Criteria"
 msgstr "Критерий"
 
-#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2120
+#: src/dialogs/dialog-cell-format.c:2112 src/dialogs/dialog-cell-format.c:2119
 msgid "Min :"
 msgstr "Мин. :"
 
-#: src/dialogs/dialog-cell-format.c:2114 src/dialogs/dialog-cell-format.c:2123
+#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2122
 msgid "Max :"
 msgstr "Макс. :"
 
-#: src/dialogs/dialog-cell-format.c:2117
+#: src/dialogs/dialog-cell-format.c:2116
 msgid "Value :"
 msgstr "Значение :"
 
-#: src/dialogs/dialog-cell-format.c:2503
+#: src/dialogs/dialog-cell-format.c:2502
 msgid "Format Cells"
 msgstr "Формат ячеек"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
-#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2566 src/dialogs/dialog-cell-format.c:2571
+#: src/dialogs/dialog-cell-format.c:2581 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:816
 msgid "Automatic"
 msgstr "Автоматически"
 
-#: src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/dialog-cell-format.c:2566
 msgid "Border"
 msgstr "Рамка"
 
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:789
+#: src/dialogs/dialog-cell-format.c:2576 src/workbook-format-toolbar.c:789
 msgid "Clear Background"
 msgstr "Очистить фон"
 
-#: src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/dialog-cell-format.c:2581
 msgid "Pattern"
 msgstr "Шаблон"
 
@@ -4411,21 +4411,21 @@ msgstr "Список дополнений"
 msgid "Plugin details"
 msgstr "Сведения о дополнениях"
 
-#: src/dialogs/dialog-printer-setup.c:985
-#: src/dialogs/dialog-printer-setup.c:1116
+#: src/dialogs/dialog-printer-setup.c:983
+#: src/dialogs/dialog-printer-setup.c:1114
 msgid "Customize header"
 msgstr "Настроить заголовок"
 
-#: src/dialogs/dialog-printer-setup.c:987
-#: src/dialogs/dialog-printer-setup.c:1122
+#: src/dialogs/dialog-printer-setup.c:985
+#: src/dialogs/dialog-printer-setup.c:1120
 msgid "Customize footer"
 msgstr "Настроить сноску"
 
-#: src/dialogs/dialog-printer-setup.c:1115
+#: src/dialogs/dialog-printer-setup.c:1113
 msgid "Custom header configuration"
 msgstr "Конфигурация пользовательского заголовка"
 
-#: src/dialogs/dialog-printer-setup.c:1121
+#: src/dialogs/dialog-printer-setup.c:1119
 msgid "Custom footer configuration"
 msgstr "Конфигурация пользовательской сноски"
 
@@ -4539,7 +4539,7 @@ msgstr "Данные (из %s)"
 #. * The name of the default font for this locale.
 #. * Preferably something with the correct encoding.
 #.
-#: src/dialogs/dialog-stf-preview.c:616 src/style.c:97
+#: src/dialogs/dialog-stf-preview.c:614 src/style.c:97
 msgid "fixed"
 msgstr "fixed"
 
@@ -6107,7 +6107,7 @@ msgstr "Функция не существует"
 
 # "Magnification"
 #. *************************************************************************
-#: src/functions/fn-database.c:505
+#: src/functions/fn-database.c:504
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -6119,7 +6119,7 @@ msgstr ""
 "@DESCRIPTION=Функция DAVERAGE возвращает среднее значений из списка или базы "
 "данных удовлетворяющих указанным условиям. \n"
 
-#: src/functions/fn-database.c:513
+#: src/functions/fn-database.c:512
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6139,7 +6139,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:575
+#: src/functions/fn-database.c:574
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -6151,7 +6151,7 @@ msgstr ""
 "@DESCRIPTION=Функция DCOUNT подсчитывает ячейки содержащие числа в базе "
 "данных удовлетворяющей указанному условию. \n"
 
-#: src/functions/fn-database.c:583
+#: src/functions/fn-database.c:582
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6169,7 +6169,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAVERAGE"
 
-#: src/functions/fn-database.c:637
+#: src/functions/fn-database.c:636
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -6181,7 +6181,7 @@ msgstr ""
 "@DESCRIPTION=Функция DCOUNTA подсчитывает ячейки  содержащие данные в базе "
 "данных удовлетворяющей указанному условию. \n"
 
-#: src/functions/fn-database.c:645
+#: src/functions/fn-database.c:644
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6199,7 +6199,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:696
+#: src/functions/fn-database.c:695
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -6211,7 +6211,7 @@ msgstr ""
 "@DESCRIPTION=Функция DGET возвращает одно значение из столбца "
 "удовлетворяющего указанному условию. \n"
 
-#: src/functions/fn-database.c:704
+#: src/functions/fn-database.c:703
 msgid ""
 "\n"
 "If none of the items match the conditions, DGET returns #VALUE! error. If "
@@ -6232,7 +6232,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:765
+#: src/functions/fn-database.c:764
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -6244,7 +6244,7 @@ msgstr ""
 "@DESCRIPTION=Функция DMAX возвращает наибольшее значение в столбце "
 "удовлетворяющем указанному условию. \n"
 
-#: src/functions/fn-database.c:773
+#: src/functions/fn-database.c:772
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6262,7 +6262,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMIN"
 
-#: src/functions/fn-database.c:837
+#: src/functions/fn-database.c:836
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -6274,7 +6274,7 @@ msgstr ""
 "@DESCRIPTION=Функция DMIN возвращает наименьшее значение в столбце "
 "удовлетворяющем указанному условию. \n"
 
-#: src/functions/fn-database.c:845
+#: src/functions/fn-database.c:844
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6290,7 +6290,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DMAX"
 
-#: src/functions/fn-database.c:908
+#: src/functions/fn-database.c:907
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -6302,7 +6302,7 @@ msgstr ""
 "@DESCRIPTION=Функция DPRODUCT возвращает произведение чисел в столбце "
 "удовлетворяющем указанному условию. \n"
 
-#: src/functions/fn-database.c:916
+#: src/functions/fn-database.c:915
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6316,7 +6316,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSUM"
 
-#: src/functions/fn-database.c:976
+#: src/functions/fn-database.c:975
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -6330,7 +6330,7 @@ msgstr ""
 "генеральной совокупности основанное на выборке. Генеральная совокупность "
 "состоит из чисел удовлетворяющих указанному условию. \n"
 
-#: src/functions/fn-database.c:985
+#: src/functions/fn-database.c:984
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6346,7 +6346,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEVP"
 
-#: src/functions/fn-database.c:1043
+#: src/functions/fn-database.c:1042
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -6360,7 +6360,7 @@ msgstr ""
 "совокупности на основе полной совокупности. Генеральная совокупность состоит "
 "из чисел удовлетворяющих указанным условиям. \n"
 
-#: src/functions/fn-database.c:1052
+#: src/functions/fn-database.c:1051
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6376,7 +6376,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DSTDEV"
 
-#: src/functions/fn-database.c:1112
+#: src/functions/fn-database.c:1111
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -6388,7 +6388,7 @@ msgstr ""
 "@DESCRIPTION=Функция DSUM возвращает сумму чисел в столбце удовлетворяющем "
 "указанному условию. \n"
 
-#: src/functions/fn-database.c:1120
+#: src/functions/fn-database.c:1119
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6404,7 +6404,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DPRODUCT"
 
-#: src/functions/fn-database.c:1180
+#: src/functions/fn-database.c:1179
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -6418,7 +6418,7 @@ msgstr ""
 "совокупности на основе выборки. Генеральная совокупность содержит числа "
 "удовлетворяющие указанному условию. \n"
 
-#: src/functions/fn-database.c:1189
+#: src/functions/fn-database.c:1188
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6434,7 +6434,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVARP"
 
-#: src/functions/fn-database.c:1249
+#: src/functions/fn-database.c:1248
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -6448,7 +6448,7 @@ msgstr ""
 "основе полной совокупности. Генеральная совокупность состоит из чисел "
 "удовлетворяющих указанным условиям. \n"
 
-#: src/functions/fn-database.c:1258
+#: src/functions/fn-database.c:1257
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6464,7 +6464,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DVAR"
 
-#: src/functions/fn-database.c:1319
+#: src/functions/fn-database.c:1318
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
@@ -12538,7 +12538,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-sheet.c:141 src/workbook.c:1032 src/xml-io.c:2943
+#: src/functions/fn-sheet.c:141 src/workbook.c:1030 src/xml-io.c:2943
 msgid "Sheet"
 msgstr "Лист"
 
@@ -15579,7 +15579,7 @@ msgstr "Подробное сообщение об ошибке"
 msgid "Show details"
 msgstr "Показать подробности"
 
-#: src/gui-util.c:874
+#: src/gui-util.c:873
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Не удалось открыть файл '%s'"
@@ -16270,7 +16270,7 @@ msgstr "Недопустимая завершающая обратная косая в заменяющей строке."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "не может быть выполнено при множественных выделениях"
 
-#: src/sheet-control-gui.c:1384
+#: src/sheet-control-gui.c:1415
 msgid "Paste _Special"
 msgstr "Специальная вставка"
 
@@ -16281,41 +16281,41 @@ msgstr "Специальная вставка"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1396
+#: src/sheet-control-gui.c:1427
 msgid "_Insert..."
 msgstr "Вставка..."
 
-#: src/sheet-control-gui.c:1400
+#: src/sheet-control-gui.c:1431
 msgid "_Insert Column(s)"
 msgstr "Вставить столбцы"
 
-#: src/sheet-control-gui.c:1402
+#: src/sheet-control-gui.c:1433
 msgid "_Delete Column(s)"
 msgstr "Удалить столбцы"
 
-#: src/sheet-control-gui.c:1404
+#: src/sheet-control-gui.c:1435
 msgid "_Insert Row(s)"
 msgstr "Вставить строки"
 
-#: src/sheet-control-gui.c:1406
+#: src/sheet-control-gui.c:1437
 msgid "_Delete Row(s)"
 msgstr "Удалить строки"
 
-#: src/sheet-control-gui.c:1409
+#: src/sheet-control-gui.c:1440
 msgid "Clear Co_ntents"
 msgstr "Очистить содержимое"
 
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1446
 msgid "_Format Cells..."
 msgstr "Формат ячеек..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1450
 msgid "Column _Width..."
 msgstr "Ширина столбца..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1427
+#: src/sheet-control-gui.c:1458
 msgid "_Row Height..."
 msgstr "Высота строки..."
 
@@ -16337,59 +16337,59 @@ msgstr "Невозможно создать объект для \"%s\""
 msgid "Could not load file: %s"
 msgstr "Невозможно загрузить файл: %s"
 
-#: src/sheet-object-graphic.c:445
+#: src/sheet-object-graphic.c:446
 msgid "Configure line or arrow"
 msgstr "Настройка линии или стрелка"
 
-#: src/sheet-object-graphic.c:459
+#: src/sheet-object-graphic.c:460
 msgid "Color"
 msgstr "Окрашивание"
 
-#: src/sheet-object-graphic.c:461
+#: src/sheet-object-graphic.c:462
 msgid "Line Width"
 msgstr "Ширина линии"
 
-#: src/sheet-object-graphic.c:465
+#: src/sheet-object-graphic.c:466
 msgid "Arrow tip"
 msgstr "Тип стрелки"
 
-#: src/sheet-object-graphic.c:467
+#: src/sheet-object-graphic.c:468
 msgid "Arrow length"
 msgstr "Длина стрелки"
 
-#: src/sheet-object-graphic.c:469
+#: src/sheet-object-graphic.c:470
 msgid "Arrow width"
 msgstr "Ширина стрелки"
 
-#: src/sheet-object-graphic.c:503
+#: src/sheet-object-graphic.c:504
 msgid "Distance from tip of arrowhead to the center point"
 msgstr "Расстояние от концов наконечника стрелки до центральной точки"
 
-#: src/sheet-object-graphic.c:505
+#: src/sheet-object-graphic.c:506
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
 msgstr ""
 
-#: src/sheet-object-graphic.c:508
+#: src/sheet-object-graphic.c:509
 msgid "Distance of trailing point from outside edge of shaft"
 msgstr ""
 
-#: src/sheet-object-graphic.c:842
+#: src/sheet-object-graphic.c:843
 msgid "Configure filled object"
 msgstr "Настройка закрашенного объекта"
 
-#: src/sheet-object-graphic.c:854
+#: src/sheet-object-graphic.c:855
 msgid "Outline color"
 msgstr "Цвет контура"
 
-#: src/sheet-object-graphic.c:856
+#: src/sheet-object-graphic.c:857
 msgid "Fill color"
 msgstr "Цвет заливки"
 
-#: src/sheet-object-graphic.c:858
+#: src/sheet-object-graphic.c:859
 msgid "Border width"
 msgstr "Ширина рамки"
 
-#: src/sheet-object-graphic.c:864 src/sheet-object-graphic.c:870
+#: src/sheet-object-graphic.c:865 src/sheet-object-graphic.c:871
 msgid "Transparent"
 msgstr "Прозначный"
 
@@ -16625,64 +16625,6 @@ msgstr "Импорт текстового файла (настраиваемый)"
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Импорт текстового файла (настраиваемый)"
-
-#: src/style.c:284 src/style.c:286
-msgid "<Has not been set>"
-msgstr "<Не был установлен>"
-
-#: src/style.c:289
-#, c-format
-msgid ""
-"Gnumeric failed to find a suitable default font.\n"
-"Your gnome-print installation is likely incomplete.  Please\n"
-"try reinstalling gnome-print.\n"
-"\n"
-"%s\n"
-"\n"
-"If you still have no luck, please file a proper bug report (see\n"
-"http://bugzilla.gnome.org) including the following extra items:\n"
-"\n"
-"1) The content of your fontmap2 file, if the file exists.\n"
-"\t(typically located in %s)\n"
-"2) The value of the LC_ALL environment variable\n"
-"\tLC_ALL=%s\n"
-"3) The value of the LANG environment variable\n"
-"\tLANG=%s\n"
-"4) What version of libxml gnumeric is running with.\n"
-"\tYou may be able to use the 'ldd' command to get that information.\n"
-"5) What version of gnome-print gnumeric is running with.\n"
-"\tYou may be able to use the 'ldd' command to get that information.\n"
-"\n"
-"Thanks -- the Gnumeric Team\n"
-msgstr ""
-"Gnumeric не удалось найти подходящий исходный шрифт.\n"
-"Пожалуйста, проверьте вашу установку gnome-print.\n"
-"Возможно его требуется переустановить.\n"
-"\n"
-"%s\n"
-"\n"
-"Если вы все еще несчастны, пожалуйста отправьте сообщение об ошибке\n"
-"(см. http://bugzilla.gnome.org) включающее следующие дополнительные "
-"элементы:\n"
-"\n"
-"1) Содержимое вашего файла fontmap, если файл существует.\n"
-"        (обычно располагается в %s)\n"
-"2) Значение переменной окружения LC_ALL\n"
-"        LC_ALL=%s\n"
-"3) Значение переменной окружения LANG\n"
-"        LANG=%s\n"
-"4) С какой версией libxml запущен gnumeric.\n"
-"   Вы можете использовать команду \"ldd\", чтобы узнать это.\n"
-"\n"
-"Спасибо! -- Команда Gnumeric\n"
-
-#: src/style.c:309
-msgid "Your fontmap2 file does not have a valid entry for Helvetica."
-msgstr "В вашем файле fontmap2 нет подходящей записи для шрифта Helvetica."
-
-#: src/style.c:310
-msgid "Your fontmap2 file could not be found in the expected location."
-msgstr "Не удалось найти ваш файл fontmap2 в ожидаемом месте."
 
 #: src/validation.c:138
 #, c-format
@@ -17029,39 +16971,39 @@ msgstr ""
 msgid "Zoom"
 msgstr "Масштаб"
 
-#: src/workbook-control-gui.c:3806
+#: src/workbook-control-gui.c:3810
 msgid "Min"
 msgstr "Мин"
 
-#: src/workbook-control-gui.c:3807
+#: src/workbook-control-gui.c:3811
 msgid "Max"
 msgstr "Макс"
 
-#: src/workbook-control-gui.c:3808
+#: src/workbook-control-gui.c:3812
 msgid "Average"
 msgstr "Среднее"
 
-#: src/workbook-control-gui.c:3809
+#: src/workbook-control-gui.c:3813
 msgid "Count"
 msgstr "Количество"
 
-#: src/workbook-control-gui.c:4139
+#: src/workbook-control-gui.c:4143
 msgid "Send"
 msgstr "Отправить"
 
-#: src/workbook-control-gui.c:4139
+#: src/workbook-control-gui.c:4143
 msgid "Send the current file in email"
 msgstr "Отправить текущий файл по эл.почте"
 
-#: src/workbook-control-gui.c:4341
+#: src/workbook-control-gui.c:4345
 msgid "Re-Edit"
 msgstr "Переправить"
 
-#: src/workbook-control-gui.c:4342 src/workbook-control-gui.c:4347
+#: src/workbook-control-gui.c:4346 src/workbook-control-gui.c:4351
 msgid "Discard"
 msgstr "Отказаться"
 
-#: src/workbook-control-gui.c:4346
+#: src/workbook-control-gui.c:4350
 msgid "Accept"
 msgstr "Принять"
 
@@ -17296,15 +17238,15 @@ msgstr "Неподдерживаемый формат файла."
 msgid "Book%d.%s"
 msgstr "Книга%d.%s"
 
-#: src/workbook.c:1189
+#: src/workbook.c:1187
 msgid "Sheet name"
 msgstr "Название листа"
 
-#: src/workbook.c:1190
+#: src/workbook.c:1188
 msgid "must have at least 1 letter"
 msgstr "должна быть хотя бы 1 буква"
 
-#: src/workbook.c:1203
+#: src/workbook.c:1201
 msgid "There is already a sheet named"
 msgstr "Уже есть таблица названная"
 
@@ -17334,6 +17276,59 @@ msgstr "Это не файл рабочей книги Gnumeric"
 #: src/xml-io.c:3319
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
+
+#~ msgid "<Has not been set>"
+#~ msgstr "<Не был установлен>"
+
+#~ msgid ""
+#~ "Gnumeric failed to find a suitable default font.\n"
+#~ "Your gnome-print installation is likely incomplete.  Please\n"
+#~ "try reinstalling gnome-print.\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "If you still have no luck, please file a proper bug report (see\n"
+#~ "http://bugzilla.gnome.org) including the following extra items:\n"
+#~ "\n"
+#~ "1) The content of your fontmap2 file, if the file exists.\n"
+#~ "\t(typically located in %s)\n"
+#~ "2) The value of the LC_ALL environment variable\n"
+#~ "\tLC_ALL=%s\n"
+#~ "3) The value of the LANG environment variable\n"
+#~ "\tLANG=%s\n"
+#~ "4) What version of libxml gnumeric is running with.\n"
+#~ "\tYou may be able to use the 'ldd' command to get that information.\n"
+#~ "5) What version of gnome-print gnumeric is running with.\n"
+#~ "\tYou may be able to use the 'ldd' command to get that information.\n"
+#~ "\n"
+#~ "Thanks -- the Gnumeric Team\n"
+#~ msgstr ""
+#~ "Gnumeric не удалось найти подходящий исходный шрифт.\n"
+#~ "Пожалуйста, проверьте вашу установку gnome-print.\n"
+#~ "Возможно его требуется переустановить.\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Если вы все еще несчастны, пожалуйста отправьте сообщение об ошибке\n"
+#~ "(см. http://bugzilla.gnome.org) включающее следующие дополнительные "
+#~ "элементы:\n"
+#~ "\n"
+#~ "1) Содержимое вашего файла fontmap, если файл существует.\n"
+#~ "        (обычно располагается в %s)\n"
+#~ "2) Значение переменной окружения LC_ALL\n"
+#~ "        LC_ALL=%s\n"
+#~ "3) Значение переменной окружения LANG\n"
+#~ "        LANG=%s\n"
+#~ "4) С какой версией libxml запущен gnumeric.\n"
+#~ "   Вы можете использовать команду \"ldd\", чтобы узнать это.\n"
+#~ "\n"
+#~ "Спасибо! -- Команда Gnumeric\n"
+
+#~ msgid "Your fontmap2 file does not have a valid entry for Helvetica."
+#~ msgstr "В вашем файле fontmap2 нет подходящей записи для шрифта Helvetica."
+
+#~ msgid "Your fontmap2 file could not be found in the expected location."
+#~ msgstr "Не удалось найти ваш файл fontmap2 в ожидаемом месте."
 
 #~ msgid "Edit the name of the current sheet"
 #~ msgstr "Правка названия текущей таблицы"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-02-14 02:29-0500\n"
+"POT-Creation-Date: 2002-02-18 00:59-0500\n"
 "PO-Revision-Date: 2001-12-25 21:12+0200\n"
 "Last-Translator: Ain Vagula <ain@riiska.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -23,7 +23,7 @@ msgstr "Lisa uus tabel"
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME Tabelitöötlus"
 
-#: plugins/applix/applix-read.c:85
+#: plugins/applix/applix-read.c:91
 msgid "Parse error while reading Applix file."
 msgstr "Tuvastamise viga Applixi faili lugemisel."
 
@@ -259,7 +259,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4485
+#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4455
 #: plugins/mps/mps.c:578 src/xml-io.c:3230
 msgid "Reading file..."
 msgstr "Faili lugemine..."
@@ -380,25 +380,25 @@ msgstr "Diagramm%d"
 msgid "Module%d"
 msgstr "Moodul%d"
 
-#: plugins/excel/ms-excel-read.c:4480
+#: plugins/excel/ms-excel-read.c:4450
 msgid "No book or workbook streams found."
 msgstr "Raamatut ega nende kogumit ei leitud"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4644
+#: plugins/excel/ms-excel-read.c:4614
 msgid "Password protected workbooks are not supported yet."
 msgstr "Raamatute kaitsmine parooliga ei ole veel toetatud"
 
-#: plugins/excel/ms-excel-read.c:4757
+#: plugins/excel/ms-excel-read.c:4727
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Ei suuda leida sobivat MS Exceli raamatut"
 
-#: plugins/excel/ms-excel-write.c:3504
+#: plugins/excel/ms-excel-write.c:3503
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Liiga palju ridu selle formaadi (%d > %d) jaoks"
 
-#: plugins/excel/ms-excel-write.c:3732
+#: plugins/excel/ms-excel-write.c:3731
 msgid "Can't open stream for writing\n"
 msgstr "Ei saa avada andmevoogu kirjutamiseks\n"
 
@@ -492,7 +492,7 @@ msgstr "Viga: ei suuda luua ühendust %s"
 msgid "Error: no recordsets were returned"
 msgstr ""
 
-#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1365
+#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1364
 msgid "Database"
 msgstr "Andmebaas"
 
@@ -1282,7 +1282,7 @@ msgstr "Lihtsa õigekirjakontrolli automaatne teostamine"
 msgid "Automatically save the current document at regular intervals"
 msgstr "Dokumendi salvestamine kindla intervalliga automaatselt"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2577
+#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2576
 #: src/workbook-format-toolbar.c:797 src/workbook-format-toolbar.c:854
 msgid "Background"
 msgstr "Taust"
@@ -1501,7 +1501,7 @@ msgstr "Tee raam"
 msgid "Create an arrow"
 msgstr "Tee nool"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1378
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1409
 msgid "Cu_t"
 msgstr "Lõ_ika"
 
@@ -1626,7 +1626,7 @@ msgstr "Fondi suurus"
 msgid "Font selector"
 msgstr "Fondi valimine"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2571
 #: src/workbook-format-toolbar.c:823 src/workbook-format-toolbar.c:857
 msgid "Foreground"
 msgstr "Esiplaan"
@@ -2177,7 +2177,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Statistilised meetodid"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3190
-#: src/workbook-control-gui.c:3805 src/workbook-view.c:453
+#: src/workbook-control-gui.c:3809 src/workbook-view.c:453
 msgid "Sum"
 msgstr "Summa"
 
@@ -2319,7 +2319,7 @@ msgid "_Content"
 msgstr "_Sisu"
 
 #: src/GNOME_Gnumeric.xml.h:257 src/item-cursor.c:1029
-#: src/sheet-control-gui.c:1380
+#: src/sheet-control-gui.c:1411
 msgid "_Copy"
 msgstr "_Kopeeri"
 
@@ -2336,7 +2336,7 @@ msgstr "An_dmed"
 msgid "_Define..."
 msgstr "_Määra..."
 
-#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1398
+#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1429
 #: src/workbook-control-gui.c:2719
 msgid "_Delete..."
 msgstr "_Kustuta..."
@@ -2410,8 +2410,8 @@ msgstr "_Grupeeri ja too välja"
 msgid "_Help"
 msgstr "_Abi"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1421
-#: src/sheet-control-gui.c:1429 src/workbook-control-gui.c:2840
+#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1452
+#: src/sheet-control-gui.c:1460 src/workbook-control-gui.c:2840
 #: src/workbook-control-gui.c:2859
 msgid "_Hide"
 msgstr "_Peida"
@@ -2473,7 +2473,7 @@ msgstr "_Ava..."
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1382
+#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1413
 msgid "_Paste"
 msgstr "_Aseta"
 
@@ -2583,8 +2583,8 @@ msgstr "_Tühista"
 msgid "_Ungroup"
 msgstr "_Lõhu grupid"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1423
-#: src/sheet-control-gui.c:1431 src/workbook-control-gui.c:2843
+#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1454
+#: src/sheet-control-gui.c:1462 src/workbook-control-gui.c:2843
 #: src/workbook-control-gui.c:2862
 msgid "_Unhide"
 msgstr "_Näita"
@@ -3942,7 +3942,7 @@ msgid ""
 "any observations!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:4116
+#: src/dialogs/dialog-analysis-tools.c:4114
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr ""
 "Ei suudetud luua dispersioonianalüüsi (kahe faktoriga) töövahendi dialoogi."
@@ -4043,13 +4043,13 @@ msgstr "37"
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:641
+#: src/dialogs/dialog-autoformat.c:639
 msgid "An error occurred while reading the category list"
 msgstr "Kategooriate loendit lugedes tekkis viga"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:651 src/format.c:1649 src/format.c:1741
+#: src/dialogs/dialog-autoformat.c:649 src/format.c:1649 src/format.c:1741
 #: src/format.c:1750 src/format.c:1819
 msgid "General"
 msgstr "Üldine"
@@ -4094,49 +4094,49 @@ msgstr "Topelt"
 msgid "None"
 msgstr "Puudub"
 
-#: src/dialogs/dialog-cell-format.c:2100
+#: src/dialogs/dialog-cell-format.c:2099
 #, fuzzy
 msgid "Source"
 msgstr "Lähtealad"
 
-#: src/dialogs/dialog-cell-format.c:2101
+#: src/dialogs/dialog-cell-format.c:2100
 msgid "Criteria"
 msgstr "Kriteerium"
 
-#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2120
+#: src/dialogs/dialog-cell-format.c:2112 src/dialogs/dialog-cell-format.c:2119
 #, fuzzy
 msgid "Min :"
 msgstr "Min"
 
-#: src/dialogs/dialog-cell-format.c:2114 src/dialogs/dialog-cell-format.c:2123
+#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2122
 #, fuzzy
 msgid "Max :"
 msgstr "Max"
 
-#: src/dialogs/dialog-cell-format.c:2117
+#: src/dialogs/dialog-cell-format.c:2116
 msgid "Value :"
 msgstr "Väärtus :"
 
-#: src/dialogs/dialog-cell-format.c:2503
+#: src/dialogs/dialog-cell-format.c:2502
 msgid "Format Cells"
 msgstr "Lahtri vorming"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
-#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2566 src/dialogs/dialog-cell-format.c:2571
+#: src/dialogs/dialog-cell-format.c:2581 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:816
 msgid "Automatic"
 msgstr "Automaatne"
 
-#: src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/dialog-cell-format.c:2566
 msgid "Border"
 msgstr "Piire"
 
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:789
+#: src/dialogs/dialog-cell-format.c:2576 src/workbook-format-toolbar.c:789
 msgid "Clear Background"
 msgstr "Puhas taust"
 
-#: src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/dialog-cell-format.c:2581
 msgid "Pattern"
 msgstr "Muster"
 
@@ -4459,21 +4459,21 @@ msgstr "Pluginate nimekiri"
 msgid "Plugin details"
 msgstr "Pluginate üksikasjad"
 
-#: src/dialogs/dialog-printer-setup.c:985
-#: src/dialogs/dialog-printer-setup.c:1116
+#: src/dialogs/dialog-printer-setup.c:983
+#: src/dialogs/dialog-printer-setup.c:1114
 msgid "Customize header"
 msgstr "Kohanda päist"
 
-#: src/dialogs/dialog-printer-setup.c:987
-#: src/dialogs/dialog-printer-setup.c:1122
+#: src/dialogs/dialog-printer-setup.c:985
+#: src/dialogs/dialog-printer-setup.c:1120
 msgid "Customize footer"
 msgstr "Kohanda jalust"
 
-#: src/dialogs/dialog-printer-setup.c:1115
+#: src/dialogs/dialog-printer-setup.c:1113
 msgid "Custom header configuration"
 msgstr "Kohandatud päise seadistamine"
 
-#: src/dialogs/dialog-printer-setup.c:1121
+#: src/dialogs/dialog-printer-setup.c:1119
 msgid "Custom footer configuration"
 msgstr "Kohandatud jaluse seadistamine"
 
@@ -4585,7 +4585,7 @@ msgstr "Andmed (%s -st)"
 #. * The name of the default font for this locale.
 #. * Preferably something with the correct encoding.
 #.
-#: src/dialogs/dialog-stf-preview.c:616 src/style.c:97
+#: src/dialogs/dialog-stf-preview.c:614 src/style.c:97
 msgid "fixed"
 msgstr "fikseeritud"
 
@@ -6158,7 +6158,7 @@ msgid "Function does not exist"
 msgstr "Funktsiooni pole olemas"
 
 #. *************************************************************************
-#: src/functions/fn-database.c:505
+#: src/functions/fn-database.c:504
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -6170,7 +6170,7 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DAVERAGE tagastab loendi või tingimustele vastava "
 "andmebaasi väärtuste keskmise. \n"
 
-#: src/functions/fn-database.c:513
+#: src/functions/fn-database.c:512
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6182,7 +6182,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr ""
 
-#: src/functions/fn-database.c:575
+#: src/functions/fn-database.c:574
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -6194,7 +6194,7 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DCOUNT loeb lahtreid, mis sisaldavad numbreid "
 "tingimustele vastavasse andmebaasi. \n"
 
-#: src/functions/fn-database.c:583
+#: src/functions/fn-database.c:582
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6205,7 +6205,7 @@ msgid ""
 "@SEEALSO=DAVERAGE"
 msgstr ""
 
-#: src/functions/fn-database.c:637
+#: src/functions/fn-database.c:636
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -6217,7 +6217,7 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DCOUNTA loeb lahtreid, mis sisaldavad andmeid "
 "tingimustele vastavasse andmebaasi. \n"
 
-#: src/functions/fn-database.c:645
+#: src/functions/fn-database.c:644
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6228,7 +6228,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr ""
 
-#: src/functions/fn-database.c:696
+#: src/functions/fn-database.c:695
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -6240,7 +6240,7 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DGET tagastab üksiku väärtuse veerust, mis vastab "
 "esitatud tingimustele. \n"
 
-#: src/functions/fn-database.c:704
+#: src/functions/fn-database.c:703
 msgid ""
 "\n"
 "If none of the items match the conditions, DGET returns #VALUE! error. If "
@@ -6252,7 +6252,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr ""
 
-#: src/functions/fn-database.c:765
+#: src/functions/fn-database.c:764
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -6264,7 +6264,7 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DMAX tagastab suurima arvu veerus, mis vastab "
 "esitatud tingimustele. \n"
 
-#: src/functions/fn-database.c:773
+#: src/functions/fn-database.c:772
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6275,7 +6275,7 @@ msgid ""
 "@SEEALSO=DMIN"
 msgstr ""
 
-#: src/functions/fn-database.c:837
+#: src/functions/fn-database.c:836
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -6287,7 +6287,7 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DMIN tagastab vähima arvu veerus, mis vastab "
 "esitatud tingimustele. \n"
 
-#: src/functions/fn-database.c:845
+#: src/functions/fn-database.c:844
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6297,7 +6297,7 @@ msgid ""
 "@SEEALSO=DMAX"
 msgstr ""
 
-#: src/functions/fn-database.c:908
+#: src/functions/fn-database.c:907
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -6309,7 +6309,7 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DPRODUCT tagastab määratud tingimustele vastava "
 "veeru arvude korrutise. \n"
 
-#: src/functions/fn-database.c:916
+#: src/functions/fn-database.c:915
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6318,7 +6318,7 @@ msgid ""
 "@SEEALSO=DSUM"
 msgstr ""
 
-#: src/functions/fn-database.c:976
+#: src/functions/fn-database.c:975
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -6332,7 +6332,7 @@ msgstr ""
 "liikmetestandardjaotuse. Hulgad koosnevad arvudest, mis vastavad määratud "
 "tingimustele. \n"
 
-#: src/functions/fn-database.c:985
+#: src/functions/fn-database.c:984
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6342,7 +6342,7 @@ msgid ""
 "@SEEALSO=DSTDEVP"
 msgstr ""
 
-#: src/functions/fn-database.c:1043
+#: src/functions/fn-database.c:1042
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -6355,7 +6355,7 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DSTDEVP tagastab hulga liikmete standardjaotuse. "
 "Hulgad koosnevad arvudest, mis vastavad määratud tingimustele. \n"
 
-#: src/functions/fn-database.c:1052
+#: src/functions/fn-database.c:1051
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6365,7 +6365,7 @@ msgid ""
 "@SEEALSO=DSTDEV"
 msgstr ""
 
-#: src/functions/fn-database.c:1112
+#: src/functions/fn-database.c:1111
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -6377,7 +6377,7 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DSUM tagastab arvude summa veerus, mis vastab "
 "määratud tingimustele. \n"
 
-#: src/functions/fn-database.c:1120
+#: src/functions/fn-database.c:1119
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6387,7 +6387,7 @@ msgid ""
 "@SEEALSO=DPRODUCT"
 msgstr ""
 
-#: src/functions/fn-database.c:1180
+#: src/functions/fn-database.c:1179
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -6401,7 +6401,7 @@ msgstr ""
 "dispersiooni. Hulgad koosnevad arvudest, mis vastavad määratud "
 "tingimustele. \n"
 
-#: src/functions/fn-database.c:1189
+#: src/functions/fn-database.c:1188
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6411,7 +6411,7 @@ msgid ""
 "@SEEALSO=DVARP"
 msgstr ""
 
-#: src/functions/fn-database.c:1249
+#: src/functions/fn-database.c:1248
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -6424,7 +6424,7 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DVARP tagastab kogu hulga liikmete dispersiooni. "
 "Hulgad koosnevad arvudest, mis vastavad määratud tingimustele. \n"
 
-#: src/functions/fn-database.c:1258
+#: src/functions/fn-database.c:1257
 msgid ""
 "\n"
 "@EXAMPLES=\n"
@@ -6434,7 +6434,7 @@ msgid ""
 "@SEEALSO=DVAR"
 msgstr ""
 
-#: src/functions/fn-database.c:1319
+#: src/functions/fn-database.c:1318
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
@@ -13149,7 +13149,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-sheet.c:141 src/workbook.c:1032 src/xml-io.c:2943
+#: src/functions/fn-sheet.c:141 src/workbook.c:1030 src/xml-io.c:2943
 msgid "Sheet"
 msgstr "Leht"
 
@@ -16183,7 +16183,7 @@ msgstr "Üksikasjalik veateade"
 msgid "Show details"
 msgstr "Näita üksikasju"
 
-#: src/gui-util.c:874
+#: src/gui-util.c:873
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Ei saa avada faili '%s'"
@@ -16864,7 +16864,7 @@ msgstr "Vigane tagumine kurakaldkriips asendamises."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "ei ole võimalik teostada mitme valitud vahemiku puhul"
 
-#: src/sheet-control-gui.c:1384
+#: src/sheet-control-gui.c:1415
 msgid "Paste _Special"
 msgstr "Aseta _teisiti"
 
@@ -16875,41 +16875,41 @@ msgstr "Aseta _teisiti"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1396
+#: src/sheet-control-gui.c:1427
 msgid "_Insert..."
 msgstr "_Lisa..."
 
-#: src/sheet-control-gui.c:1400
+#: src/sheet-control-gui.c:1431
 msgid "_Insert Column(s)"
 msgstr "Lisa veerg (veerud)"
 
-#: src/sheet-control-gui.c:1402
+#: src/sheet-control-gui.c:1433
 msgid "_Delete Column(s)"
 msgstr "Kustuta veerg (veerud)"
 
-#: src/sheet-control-gui.c:1404
+#: src/sheet-control-gui.c:1435
 msgid "_Insert Row(s)"
 msgstr "Lisa rida (read)"
 
-#: src/sheet-control-gui.c:1406
+#: src/sheet-control-gui.c:1437
 msgid "_Delete Row(s)"
 msgstr "Kustuta rida (read)"
 
-#: src/sheet-control-gui.c:1409
+#: src/sheet-control-gui.c:1440
 msgid "Clear Co_ntents"
 msgstr "Eemalda s_isu"
 
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1446
 msgid "_Format Cells..."
 msgstr "_Vorminda lahtrid..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1450
 msgid "Column _Width..."
 msgstr "Veeru _laius..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1427
+#: src/sheet-control-gui.c:1458
 msgid "_Row Height..."
 msgstr "_Rea kõrgus..."
 
@@ -16931,59 +16931,59 @@ msgstr "ei suuda luua objekti '%s'"
 msgid "Could not load file: %s"
 msgstr "Ei suuda laadida faili: %s"
 
-#: src/sheet-object-graphic.c:445
+#: src/sheet-object-graphic.c:446
 msgid "Configure line or arrow"
 msgstr "Seadista joont või noolt"
 
-#: src/sheet-object-graphic.c:459
+#: src/sheet-object-graphic.c:460
 msgid "Color"
 msgstr "Värv"
 
-#: src/sheet-object-graphic.c:461
+#: src/sheet-object-graphic.c:462
 msgid "Line Width"
 msgstr "Joone laius"
 
-#: src/sheet-object-graphic.c:465
+#: src/sheet-object-graphic.c:466
 msgid "Arrow tip"
 msgstr "Noole ots"
 
-#: src/sheet-object-graphic.c:467
+#: src/sheet-object-graphic.c:468
 msgid "Arrow length"
 msgstr "Noole pikkus"
 
-#: src/sheet-object-graphic.c:469
+#: src/sheet-object-graphic.c:470
 msgid "Arrow width"
 msgstr "Noole laius"
 
-#: src/sheet-object-graphic.c:503
+#: src/sheet-object-graphic.c:504
 msgid "Distance from tip of arrowhead to the center point"
 msgstr "Kaugus noole tipust kuni keskpunktini"
 
-#: src/sheet-object-graphic.c:505
+#: src/sheet-object-graphic.c:506
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
 msgstr "Kaugus nooletipust kuni tagapunktini mõõdetuna piki saba"
 
-#: src/sheet-object-graphic.c:508
+#: src/sheet-object-graphic.c:509
 msgid "Distance of trailing point from outside edge of shaft"
 msgstr "Kaugus tagumisest punktist kuni saba välimise punktini"
 
-#: src/sheet-object-graphic.c:842
+#: src/sheet-object-graphic.c:843
 msgid "Configure filled object"
 msgstr "Täidetud objekti seadistamine"
 
-#: src/sheet-object-graphic.c:854
+#: src/sheet-object-graphic.c:855
 msgid "Outline color"
 msgstr "Äärejoone värv"
 
-#: src/sheet-object-graphic.c:856
+#: src/sheet-object-graphic.c:857
 msgid "Fill color"
 msgstr "Täitmise värv"
 
-#: src/sheet-object-graphic.c:858
+#: src/sheet-object-graphic.c:859
 msgid "Border width"
 msgstr "Piirde laius"
 
-#: src/sheet-object-graphic.c:864 src/sheet-object-graphic.c:870
+#: src/sheet-object-graphic.c:865 src/sheet-object-graphic.c:871
 msgid "Transparent"
 msgstr "Läbipaistev"
 
@@ -17219,65 +17219,6 @@ msgstr "Tektifaili import (kohandatav)"
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Tektifaili import (kohandatav)"
-
-#: src/style.c:284 src/style.c:286
-msgid "<Has not been set>"
-msgstr "<Määramata>"
-
-#: src/style.c:289
-#, c-format
-msgid ""
-"Gnumeric failed to find a suitable default font.\n"
-"Your gnome-print installation is likely incomplete.  Please\n"
-"try reinstalling gnome-print.\n"
-"\n"
-"%s\n"
-"\n"
-"If you still have no luck, please file a proper bug report (see\n"
-"http://bugzilla.gnome.org) including the following extra items:\n"
-"\n"
-"1) The content of your fontmap2 file, if the file exists.\n"
-"\t(typically located in %s)\n"
-"2) The value of the LC_ALL environment variable\n"
-"\tLC_ALL=%s\n"
-"3) The value of the LANG environment variable\n"
-"\tLANG=%s\n"
-"4) What version of libxml gnumeric is running with.\n"
-"\tYou may be able to use the 'ldd' command to get that information.\n"
-"5) What version of gnome-print gnumeric is running with.\n"
-"\tYou may be able to use the 'ldd' command to get that information.\n"
-"\n"
-"Thanks -- the Gnumeric Team\n"
-msgstr ""
-"Gnumeric ei suutnud leida sobivat vaikimisi fonti.\n"
-"Tõenäoliselt on sinu gnome-print'i installatsioon vigane.  Proovi\n"
-"palun see uuesti installeerida.\n"
-"\n"
-"%s\n"
-"\n"
-"Juhul, kui see ei aita, saada palun täielik vearaport (vaata\n"
-"http://bugzilla.gnome.org) lisades järgnevad asjad:\n"
-"\n"
-"1) Oma fontmap2 faili sisu, kui see olemas on.\n"
-"\t(tavaliselt asub %s)\n"
-"2) LC_ALL keskkonnamuutuja väärtus\n"
-"\tLC_ALL=%s\n"
-"3) LANG keskkonnamuutuja väärtus\n"
-"\tLANG=%s\n"
-"4) Mis libxml versiooni Gnumeric kasutab.\n"
-"\tSa pead saama kasutada 'ldd' käsku selle info saamiseks.\n"
-"5) Mis gnome-print versiooni Gnumeric kasutab.\n"
-"\tSa pead saama kasutada 'ldd' käsku selle info saamiseks.\n"
-"\n"
-"Täname -- Gnumericu meeskond\n"
-
-#: src/style.c:309
-msgid "Your fontmap2 file does not have a valid entry for Helvetica."
-msgstr "Sinu fontmap2 failis ei ole sobivat kirjet Helvetica jaoks."
-
-#: src/style.c:310
-msgid "Your fontmap2 file could not be found in the expected location."
-msgstr "Sinu fontmap2 faili ei leitud oodatud asukohas."
 
 #: src/validation.c:138
 #, c-format
@@ -17622,39 +17563,39 @@ msgstr ""
 msgid "Zoom"
 msgstr "Suurendamine"
 
-#: src/workbook-control-gui.c:3806
+#: src/workbook-control-gui.c:3810
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook-control-gui.c:3807
+#: src/workbook-control-gui.c:3811
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook-control-gui.c:3808
+#: src/workbook-control-gui.c:3812
 msgid "Average"
 msgstr "Keskmine"
 
-#: src/workbook-control-gui.c:3809
+#: src/workbook-control-gui.c:3813
 msgid "Count"
 msgstr "Loend"
 
-#: src/workbook-control-gui.c:4139
+#: src/workbook-control-gui.c:4143
 msgid "Send"
 msgstr "Saada"
 
-#: src/workbook-control-gui.c:4139
+#: src/workbook-control-gui.c:4143
 msgid "Send the current file in email"
 msgstr "Saada käesolev fail elektronpostiga"
 
-#: src/workbook-control-gui.c:4341
+#: src/workbook-control-gui.c:4345
 msgid "Re-Edit"
 msgstr "Muuda uuesti"
 
-#: src/workbook-control-gui.c:4342 src/workbook-control-gui.c:4347
+#: src/workbook-control-gui.c:4346 src/workbook-control-gui.c:4351
 msgid "Discard"
 msgstr "Keeldu"
 
-#: src/workbook-control-gui.c:4346
+#: src/workbook-control-gui.c:4350
 msgid "Accept"
 msgstr "Nõustu"
 
@@ -17891,15 +17832,15 @@ msgstr "Toetamata failiformaat."
 msgid "Book%d.%s"
 msgstr "Raamat%d.%s"
 
-#: src/workbook.c:1189
+#: src/workbook.c:1187
 msgid "Sheet name"
 msgstr "Lehe nimi"
 
-#: src/workbook.c:1190
+#: src/workbook.c:1188
 msgid "must have at least 1 letter"
 msgstr "vähemalt 1 täht peab olema"
 
-#: src/workbook.c:1203
+#: src/workbook.c:1201
 msgid "There is already a sheet named"
 msgstr "On juba leht nimega"
 
@@ -17929,6 +17870,60 @@ msgstr "Ei ole Gnumericu tabelifail"
 #: src/xml-io.c:3319
 msgid "Gnumeric XML file format"
 msgstr "Gnumericu XML failiformaat"
+
+#~ msgid "<Has not been set>"
+#~ msgstr "<Määramata>"
+
+#~ msgid ""
+#~ "Gnumeric failed to find a suitable default font.\n"
+#~ "Your gnome-print installation is likely incomplete.  Please\n"
+#~ "try reinstalling gnome-print.\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "If you still have no luck, please file a proper bug report (see\n"
+#~ "http://bugzilla.gnome.org) including the following extra items:\n"
+#~ "\n"
+#~ "1) The content of your fontmap2 file, if the file exists.\n"
+#~ "\t(typically located in %s)\n"
+#~ "2) The value of the LC_ALL environment variable\n"
+#~ "\tLC_ALL=%s\n"
+#~ "3) The value of the LANG environment variable\n"
+#~ "\tLANG=%s\n"
+#~ "4) What version of libxml gnumeric is running with.\n"
+#~ "\tYou may be able to use the 'ldd' command to get that information.\n"
+#~ "5) What version of gnome-print gnumeric is running with.\n"
+#~ "\tYou may be able to use the 'ldd' command to get that information.\n"
+#~ "\n"
+#~ "Thanks -- the Gnumeric Team\n"
+#~ msgstr ""
+#~ "Gnumeric ei suutnud leida sobivat vaikimisi fonti.\n"
+#~ "Tõenäoliselt on sinu gnome-print'i installatsioon vigane.  Proovi\n"
+#~ "palun see uuesti installeerida.\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Juhul, kui see ei aita, saada palun täielik vearaport (vaata\n"
+#~ "http://bugzilla.gnome.org) lisades järgnevad asjad:\n"
+#~ "\n"
+#~ "1) Oma fontmap2 faili sisu, kui see olemas on.\n"
+#~ "\t(tavaliselt asub %s)\n"
+#~ "2) LC_ALL keskkonnamuutuja väärtus\n"
+#~ "\tLC_ALL=%s\n"
+#~ "3) LANG keskkonnamuutuja väärtus\n"
+#~ "\tLANG=%s\n"
+#~ "4) Mis libxml versiooni Gnumeric kasutab.\n"
+#~ "\tSa pead saama kasutada 'ldd' käsku selle info saamiseks.\n"
+#~ "5) Mis gnome-print versiooni Gnumeric kasutab.\n"
+#~ "\tSa pead saama kasutada 'ldd' käsku selle info saamiseks.\n"
+#~ "\n"
+#~ "Täname -- Gnumericu meeskond\n"
+
+#~ msgid "Your fontmap2 file does not have a valid entry for Helvetica."
+#~ msgstr "Sinu fontmap2 failis ei ole sobivat kirjet Helvetica jaoks."
+
+#~ msgid "Your fontmap2 file could not be found in the expected location."
+#~ msgstr "Sinu fontmap2 faili ei leitud oodatud asukohas."
 
 #~ msgid "Edit the name of the current sheet"
 #~ msgstr "Muuda käesoleva lehe nime"
