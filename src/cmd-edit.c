@@ -36,27 +36,9 @@
 #include "commands.h"
 #include "clipboard.h"
 
+#include <gtk/gtk.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <gtk/gtk.h>
-
-/**
- * cmd_select_all:
- * @sheet: The sheet
- *
- * Selects all of the cells in the sheet
- */
-void
-cmd_select_all (Sheet *sheet)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	sheet_selection_reset (sheet);
-	sheet_selection_add_range (sheet, 0, 0, 0, 0,
-				   SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-
-	sheet_update (sheet);
-}
 
 /**
  * cmd_select_cur_row:

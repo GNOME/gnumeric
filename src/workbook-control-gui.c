@@ -1557,7 +1557,7 @@ cb_edit_clear_content (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_edit_select_all (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	cmd_select_all (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)));
+	scg_select_all (wb_control_gui_cur_sheet (wbcg));
 }
 static void
 cb_edit_select_row (GtkWidget *widget, WorkbookControlGUI *wbcg)

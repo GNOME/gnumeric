@@ -162,7 +162,8 @@ item_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 static void
 item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 			     int start_x, int start_y,
-			     Range const *view, Range const *range)
+			     Range const *view, Range const *range,
+			     gboolean draw_selection)
 {
 	int l, r, t, b, last;
 	GdkGC *gc = ig->gc.empty;
@@ -171,9 +172,10 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 
 	/* load style from corner which may not be visible */
 	MStyle const *style = sheet_style_get (sheet, range->start.col, range->start.row);
-	gboolean const is_selected = (sheet->edit_pos.col != range->start.col ||
-				      sheet->edit_pos.row != range->start.row) &&
-				     sheet_is_full_range_selected (sheet, range);
+	gboolean const is_selected = draw_selection &&
+		(sheet->edit_pos.col != range->start.col ||
+		 sheet->edit_pos.row != range->start.row) &&
+		sheet_is_full_range_selected (sheet, range);
 
 	l = r = start_x;
 	if (view->start.col < range->start.col)
@@ -193,8 +195,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 
 	/* Check for background THEN selection */
 	if (gnumeric_background_set_gc (style, gc,
-					ig->canvas_item.canvas,
-					is_selected) ||
+			ig->canvas_item.canvas, is_selected) ||
 	    is_selected)
 		/* Remember X excludes the far pixels */
 		gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
@@ -228,14 +229,13 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 static void
 item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 			   MStyle const *style,
-			   int col, int row, int x, int y, int w, int h)
+			   int col, int row, int x, int y, int w, int h,
+			   gboolean draw_selection)
 {
 	GdkGC                 *gc    = ig->gc.empty;
-	SheetControlGUI const *scg   = ig->scg;
-	Sheet const           *sheet = ((SheetControl *) scg)->sheet;
-	gboolean const is_selected =
-		scg->current_object == NULL && scg->new_object == NULL &&
-		!(sheet->edit_pos.col == col && sheet->edit_pos.row == row) &&
+	Sheet const           *sheet = ((SheetControl *) ig->scg)->sheet;
+	gboolean const is_selected = draw_selection &&
+		(sheet->edit_pos.col != col || sheet->edit_pos.row != row) &&
 		sheet_is_cell_selected (sheet, col, row);
 	gboolean const has_back =
 		gnumeric_background_set_gc (style, gc,
@@ -293,6 +293,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		 *merged_used, *merged_unused, *ptr, **lag;
 
 	int *colwidths = NULL;
+
+	gboolean const draw_selection = 
+		ig->scg->current_object == NULL &&
+		ig->scg->new_object == NULL;
 
 #if 0
 	printf ("%s%s:", col_name(start_col), row_name(start_row));
@@ -403,7 +407,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 				if (ci->visible)
 					item_grid_draw_merged_range (drawable, ig,
-								     diff_x, y, &view, r);
+						diff_x, y, &view, r, draw_selection);
 			} else {
 				lag = &(ptr->next);
 				ptr = ptr->next;
@@ -469,9 +473,9 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 			style = sr.styles [col];
 			item_grid_draw_background (drawable, ig,
-						   style, col, row, x, y,
-						   ci->size_pixels,
-						   ri->size_pixels);
+				style, col, row, x, y,
+				ci->size_pixels, ri->size_pixels,
+				draw_selection);
 
 			/* Is this part of a span?
 			 * 1) There are cells allocated in the row

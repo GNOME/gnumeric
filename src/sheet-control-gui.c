@@ -404,25 +404,26 @@ scg_colrow_size_set (SheetControlGUI *scg,
 						     sheet, new_size_pixels);
 }
 
-static void
+void
 scg_select_all (SheetControlGUI *scg)
 {
 	SheetControl *sc = (SheetControl *) scg;
 	Sheet *sheet = sc->sheet;
 	gboolean const rangesel = wbcg_rangesel_possible (scg->wbcg);
 
-	if (!rangesel) {
-		if (!wbcg_edit_has_guru (scg->wbcg)) {
-			wbcg_edit_finish (scg->wbcg, FALSE);
-			cmd_select_all (sheet);
-		}
-	} else {
+	if (rangesel) {
 		if (!scg->rangesel.active)
 			scg_rangesel_start (scg, 0, 0);
 		scg_rangesel_bound (
 			scg, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-		sheet_update (sheet);
+	} else if (!wbcg_edit_has_guru (scg->wbcg)) {
+		scg_mode_edit (SHEET_CONTROL (sc));
+		wbcg_edit_finish (scg->wbcg, FALSE);
+		sheet_selection_reset (sheet);
+		sheet_selection_add_range (sheet, 0, 0, 0, 0,
+			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	}
+	sheet_update (sheet);
 }
 
 void

@@ -212,9 +212,12 @@ open_cb (GtkMenuItem *item, SheetObjectBonobo *sob)
 
 	g_return_if_fail (sob->has_persist_file || sob->has_persist_stream);
 
+	filename = get_file_name ();
+	if (filename == NULL)
+		return;
+
 	CORBA_exception_init (&ev);
 
-	filename = get_file_name ();
 	sheet_object_bonobo_load_file (sob, filename, &ev);
 	g_free (filename);
 	if (BONOBO_EX (&ev)) {
