@@ -1,3 +1,22 @@
+2001-05-09  Jon K Hellan  <hellan@acm.org>
+
+	* search-replace.glade: Rename hbox holding range field from hbox2
+	to range-hbox. Remove range combo, let C code add it on the fly.
+
+	* dialog-search-replace.c (ok_clicked): Get text from widget
+	stored in context.
+	(dialog_destroy): Detach guru.
+	(set_focus): New function. Redirect workbook input when an
+	ExprEntry receives focus. Reset when another type of widget
+	receives focus.
+	(range_focused): New function. Set "range" radio button active
+	when focus enters range field.
+	(non_model_dialog): Use gnumeric_keyed_dialog.
+	(dialog_search_replace): Raise existing s+r dialog if there is
+	one.  Add ExprEntry widget on the fly to hold range. Add focus
+	handlers set_focus and range_focused. Attach scg to ExprEntry and
+	dialog to workbook as guru.
+
 2001-05-08  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-advanced-filter.c : cleanup includes.

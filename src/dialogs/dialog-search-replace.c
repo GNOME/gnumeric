@@ -12,11 +12,16 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "search.h"
+#include "widgets/gnumeric-expr-combo.h"
+#include "workbook-edit.h"
+
+#define SEARCH_REPLACE_KEY "search-replace-dialog"
 
 typedef struct {
 	WorkbookControlGUI *wbcg;
 	GladeXML *gui;
 	GnomeDialog *dialog;
+	GnumericExprEntry *rangetext;
 	SearchReplaceDialogCallback cb;
 } DialogState;
 
@@ -77,7 +82,8 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 
 	i = gnumeric_glade_group_value (gui, scope_group);
 	sr->scope = (i == -1) ? SRS_sheet : (SearchReplaceScope)i;
-	sr->range_text = get_text (gui, "rangetext");
+	sr->range_text = g_strdup (
+		gtk_entry_get_text (GTK_ENTRY (dd->rangetext)));
 
 	sr->query = is_checked (gui, "query");
 	sr->ignore_case = is_checked (gui, "ignore_case");
@@ -129,19 +135,36 @@ dialog_destroy (GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
 	gtk_object_unref (GTK_OBJECT (gui));
+	workbook_edit_detach_guru (dd->wbcg);
 	memset (dd, 0, sizeof (*dd));
 	g_free (dd);
 }
 
 
 static void
+set_focus (GtkWidget *widget, GtkWidget *focus_widget, DialogState *dd)
+{
+	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget))
+		workbook_set_entry (dd->wbcg,
+				    GNUMERIC_EXPR_ENTRY (focus_widget));
+	else
+		workbook_set_entry (dd->wbcg, NULL);
+
+}
+
+static gboolean
+range_focused (GtkWidget *widget, GdkEventFocus   *event, DialogState *dd)
+{
+	GtkWidget *scope_range = glade_xml_get_widget (dd->gui, "scope_range");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scope_range), TRUE);
+	return FALSE;
+}
+
+static void
 non_model_dialog (WorkbookControlGUI *wbcg, GnomeDialog *dialog)
 {
-	GtkWindow *toplevel = wb_control_gui_toplevel (wbcg);
-
-	if (GTK_WINDOW (dialog)->transient_parent != toplevel)
-		gnome_dialog_set_parent (dialog, toplevel);
-
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), SEARCH_REPLACE_KEY);
+	
 	gtk_widget_show (GTK_WIDGET (dialog));
 }
 
@@ -152,9 +175,13 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 {
 	GladeXML *gui;
 	GnomeDialog *dialog;
+	GtkBox *hbox;
 	DialogState *dd;
 
 	g_return_if_fail (wbcg != NULL);
+
+	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_REPLACE_KEY))
+		return;
 
 	gui = gnumeric_glade_xml_new (wbcg, "search-replace.glade");
         if (gui == NULL)
@@ -170,6 +197,15 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
+	dd->rangetext = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	gnumeric_expr_entry_set_flags (
+		GNUMERIC_EXPR_ENTRY (dd->rangetext),
+		GNUM_EE_SHEET_OPTIONAL, GNUM_EE_SHEET_OPTIONAL);
+	hbox = GTK_BOX (glade_xml_get_widget (gui, "range-hbox"));
+	gtk_box_pack_start (hbox, GTK_WIDGET (dd->rangetext),
+			    TRUE, TRUE, 0);
+	gtk_widget_show (GTK_WIDGET (dd->rangetext));
+	
 	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "ok_button")),
 			    "clicked",
 			    GTK_SIGNAL_FUNC (ok_clicked),
@@ -182,8 +218,15 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 			    "destroy",
 			    GTK_SIGNAL_FUNC (dialog_destroy),
 			    dd);
+	gtk_signal_connect (GTK_OBJECT (dialog), "set-focus",
+			    GTK_SIGNAL_FUNC (set_focus), dd);
+	gtk_signal_connect (GTK_OBJECT (dd->rangetext), "focus_in_event",
+			    GTK_SIGNAL_FUNC (range_focused), dd);
 
 	gtk_widget_show_all (dialog->vbox);
+	gnumeric_expr_entry_set_scg (dd->rangetext,
+				     wb_control_gui_cur_sheet (wbcg));
+	workbook_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
 
 	non_model_dialog (wbcg, dialog);
 }
