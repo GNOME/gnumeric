@@ -1,3 +1,7 @@
+1999-09-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/workbook.c: Added ``Delete...'' entry to ``Edit'' menu.
+
 1999-09-17  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/workbook-cmd.c: New file.  Moved a bunch of commands here,
