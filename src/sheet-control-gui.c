@@ -1508,13 +1508,18 @@ set_item_x_y (SheetControlGUI *scg, GtkObject *so_view, int idx,
 		       NULL);
 }
 
+#define normalize_high_low(d1,d2) if (d2<d1){ double tmp=d1; d1=d2; d2=tmp;}
+
 static void
 set_acetate_coords (SheetControlGUI *scg, GtkObject *so_view,
 		    double l, double t, double r, double b)
 {
-	l -= 10.; r += 10.;
-	t -= 10.; b += 10.;
+	normalize_high_low (l,r);
+	normalize_high_low (t,b);
 
+	t -= 10.; b += 10.;
+	l -= 10.; r += 10.;
+	
 	if (scg->control_points [8] == NULL) {
 		GnomeCanvasItem *item;
 		GtkWidget *event_box = gtk_event_box_new ();

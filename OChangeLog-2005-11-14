@@ -1,5 +1,10 @@
 2001-05-20  Chema Celorio  <chema@celorio.com>
 
+	* src/sheet-control-gui.c (set_acetate_coords): make sure the accetate
+	honors the direction of the object.
+
+2001-05-20  Chema Celorio  <chema@celorio.com>
+
 	* src/sheet-object.c (sheet_object_init): initialize the so->direction
 	to _UNKNOWN
 	(sheet_object_direction_set): impl.
