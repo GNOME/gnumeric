@@ -1909,7 +1909,8 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 0)
-		printf ("Formula in %s%d;\n", col_name (col), row + 1);
+		printf ("Formula in %s!%s;\n",
+			cell->base.sheet->name_quoted, cell_name (cell));
 #endif
 
 	/* TODO TODO TODO: Wishlist
@@ -1984,8 +1985,8 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 			break;
 
 		default:
-			printf ("Unknown type (%x) for cell's current val\n",
-				val_type);
+			printf ("Unknown type (%x) for cell's (%s) current val\n",
+				val_type, cell_name (cell));
 		};
 	}
 
@@ -2027,7 +2028,8 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 			} else {
 				EvalPos pos;
 				val = value_new_error (eval_pos_init_cell (&pos, cell), "INVALID STRING");
-				g_warning ("EXCEL: invalid STRING record");
+				g_warning ("EXCEL: invalid STRING record in %s",
+					   cell_name (cell));
 			}
 		} else {
 			/*
@@ -2036,7 +2038,8 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 			 */
 			EvalPos pos;
 			val = value_new_error (eval_pos_init_cell (&pos, cell), "MISSING STRING");
-			g_warning ("EXCEL: missing STRING record");
+			g_warning ("EXCEL: missing STRING record for %s",
+				   cell_name (cell));
 		}
 	}
 
@@ -2044,19 +2047,18 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 	if (val == NULL) {
 		EvalPos pos;
 		val = value_new_error (eval_pos_init_cell (&pos, cell), "MISSING Value");
-		g_warning ("EXCEL: Invalid state.  Missing Value?");
+		g_warning ("EXCEL: Invalid state.  Missing Value in %s?",
+			   cell_name (cell));
 	}
 
 	if (cell_is_array (cell)) {
-		/*
-		 * Array expressions were already stored in the
-		 * cells (without recalc) handle either the first instance
-		 * or the followers.
+		/* Array expressions were already stored in the cells (without
+		 * recalc), and without a value.  Handle either the first
+		 * instance or the followers.
 		 */
 		if (expr == NULL && !array_elem) {
-			g_warning ("EXCEL: How does cell %s%d have an array expression ?",
-				   col_name (cell->pos.col),
-				   cell->pos.row);
+			g_warning ("EXCEL: How does cell %s have an array expression ?",
+				   cell_name (cell));
 			cell_set_value (cell, val, NULL);
 		} else
 			cell_assign_value (cell, val, NULL);
@@ -2068,7 +2070,8 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 		 * NOTE: Only the expression is screwed.
 		 * The value and format can still be set.
 		 */
-		g_warning ("EXCEL: Shared formula problems");
+		g_warning ("EXCEL: Shared formula problems in %s!%s",
+			   cell->base.sheet->name_quoted, cell_name (cell));
 		cell_set_value (cell, val, NULL);
 	}
 
@@ -4055,7 +4058,7 @@ ms_excel_read_bof (BiffQuery *q,
 		   ExcelWorkbook *wb,
 		   WorkbookView *wb_view,
 		   IOContext *context,
-		   MsBiffBofData **version, int current_sheet)
+		   MsBiffBofData **version, int *current_sheet)
 {
 	/* The first BOF seems to be OK, the rest lie ? */
 	MsBiffVersion vv = MS_BIFF_V_UNKNOWN;
@@ -4092,7 +4095,7 @@ ms_excel_read_bof (BiffQuery *q,
 			g_hash_table_lookup (wb->boundsheet_data_by_stream,
 					     &q->streamPos);
 		if (bsh) {
-			ExcelSheet *esheet = ms_excel_workbook_get_sheet (wb, current_sheet);
+			ExcelSheet *esheet = ms_excel_workbook_get_sheet (wb, *current_sheet);
 			gboolean    kill  = FALSE;
 
 			ms_excel_sheet_set_version (esheet, ver->version);
@@ -4106,7 +4109,7 @@ ms_excel_read_bof (BiffQuery *q,
 				 * for everysheet that is removed.
 				 */
 				if (sheet_is_pristine (esheet->gnum_sheet) &&
-				    current_sheet > 0)
+				    *current_sheet > 0)
 					kill = TRUE;
 #endif
 			} else
@@ -4115,13 +4118,13 @@ ms_excel_read_bof (BiffQuery *q,
 			if (kill) {
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_read_debug > 1)
-					printf ("Blank or broken sheet %d\n", current_sheet);
+					printf ("Blank or broken sheet %d\n", *current_sheet);
 #endif
 				if (ms_excel_workbook_detach (esheet->wb, esheet))
 					ms_excel_sheet_destroy (esheet);
 			}
 
-			current_sheet++;
+			(*current_sheet)++;
 		} else
 			printf ("Sheet offset in stream of %x not found in list\n", q->streamPos);
 	} else if (ver->type == MS_BIFF_TYPE_Chart)
@@ -4229,7 +4232,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		switch (q->ls_op) {
 		case BIFF_BOF:
-			wb = ms_excel_read_bof (q, wb, wb_view, context, &ver, current_sheet);
+			wb = ms_excel_read_bof (q, wb, wb_view, context, &ver, &current_sheet);
 			break;
 
 		case BIFF_EOF: /* FIXME: Perhaps we should finish here ? */
