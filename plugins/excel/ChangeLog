@@ -1,3 +1,8 @@
+2004-01-14  Jody Goldberg <jody@gnome.org>
+
+	From Nick Lamb <njl98r@ecs.soton.ac.uk>
+	* ms-biff.c : Merge in patch to support xor based 'encryption'
+
 2004-01-12  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=130791
