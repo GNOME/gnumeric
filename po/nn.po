@@ -2,16 +2,17 @@
 # Copyright (C) 2001 Roy-Magne Mo
 # Roy-Magne Mo <rmo@sunnmore.net>, 2001
 # Kjartan Maraas  <kmaraas@gnome.org>, 2001.
+# 
 #: src/main.c:108
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.69\n"
-"POT-Creation-Date: 2001-12-16 02:50-0500\n"
-"PO-Revision-Date: 2001-12-14 14:29+0100\n"
+"Project-Id-Version: gnumeric 0.99.0\n"
+"POT-Creation-Date: 2001-12-18 12:09+0100\n"
+"PO-Revision-Date: 2001-12-18 12:07+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
-"Language-Team: nynorsk <nn@li.org>\n"
+"Language-Team: Norwegian/Nynorsk <no@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: plugins/applix/applix-read.c:78
@@ -43,7 +44,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funksjonar relatert finansielle avleiingar"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
-#: plugins/mps/mps.c:571 src/xml-io.c:3425
+#: plugins/mps/mps.c:571 src/xml-io.c:3442
 msgid "Reading file..."
 msgstr "Les fil ..."
 
@@ -250,14 +251,14 @@ msgstr ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(i)\n"
 "@DESCRIPTION=EXECSQL-funksjonen let deg køyre ein kommando på ein\n"
-"database-tenar, og returnerar resultatet i reknearket\n"
+"databasetenar, og returnerar resultatet i reknearket\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO="
 
 #: plugins/gda/plugin-gda.c:138
 msgid "Format: execSQL(dsn,user,password,sql)"
-msgstr "Format: execSQL(dsn,brukar,passord,sql)"
+msgstr "Format: execSQL(dsn;brukar;passord;sql)"
 
 #: plugins/gda/plugin-gda.c:144
 msgid "Error: could not initialize connection pool"
@@ -903,11 +904,11 @@ msgstr "EKSPERIMENTELL SAX basert XML"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Den neste generasjons sax basert xml I/O delsystem"
 
-#: plugins/xml_sax/xml-sax-read.c:2230
+#: plugins/xml_sax/xml-sax-read.c:2228
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt () feila."
 
-#: plugins/xml_sax/xml-sax-read.c:2239
+#: plugins/xml_sax/xml-sax-read.c:2237
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet er ikkje rett utforma!"
 
@@ -956,7 +957,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "Automatisk lagre gjeldande dokument med jamne mellomrom"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:840
+#: src/dialogs/dialog-cell-format.c:2695 src/workbook-format-toolbar.c:840
 #: src/workbook-format-toolbar.c:896
 msgid "Background"
 msgstr "Bakgrunn"
@@ -1246,7 +1247,7 @@ msgstr "Skriftstorleik"
 msgid "Font selector"
 msgstr "Skrifttypevelgar"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2694
+#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2690
 #: src/workbook-format-toolbar.c:865 src/workbook-format-toolbar.c:899
 msgid "Foreground"
 msgstr "Framgrunn"
@@ -1573,11 +1574,11 @@ msgstr "Radioknapp"
 #: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2560
 #: src/workbook-control-gui.c:2761
 msgid "Re-_Order Sheets..."
-msgstr "_Omorganiser ark"
+msgstr "_Omsorter ark"
 
 #: src/GNOME_Gnumeric.xml.h:160
 msgid "Re-_Order..."
-msgstr "_Omorganiser ..."
+msgstr "_Omsorter ..."
 
 #: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2556
 msgid "Re_name..."
@@ -1825,7 +1826,7 @@ msgstr "_Om ..."
 
 #: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2710
 msgid "_Add / Modify comment..."
-msgstr "_Legg til/endra kommentar ..."
+msgstr "_Legg til/endre kommentar ..."
 
 #: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2493
 msgid "_All"
@@ -1875,7 +1876,7 @@ msgstr "_Konsolider ..."
 msgid "_Content"
 msgstr "_Innhald"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1016
+#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1014
 #: src/sheet-control-gui.c:1392 src/workbook-control-gui.c:2588
 msgid "_Copy"
 msgstr "_Kopier"
@@ -1936,9 +1937,8 @@ msgid "_Goto cell..."
 msgstr "_Gå til celle ..."
 
 #: src/GNOME_Gnumeric.xml.h:244
-#, fuzzy
 msgid "_Graph"
-msgstr "_Gruppe"
+msgstr "_Graf"
 
 #: src/GNOME_Gnumeric.xml.h:245
 msgid "_Group"
@@ -2009,7 +2009,7 @@ msgstr "S_kriv ut"
 msgid "_Redo"
 msgstr "Gje_r om"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:12
 #: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2564
 msgid "_Remove"
 msgstr "Fje_rn"
@@ -2314,7 +2314,7 @@ msgstr "Anova: Enkel faktor"
 
 #: src/analysis-tools.c:2797 src/analysis-tools.c:3243
 msgid "SUMMARY"
-msgstr "SUMMARY"
+msgstr "SAMANDRAG"
 
 #: src/analysis-tools.c:2798
 msgid "/Groups/Count/Sum/Average/Variance"
@@ -2408,7 +2408,7 @@ msgstr "Kumulativ %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Feil «%s» ved opning av arbeidsbok-strøym"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:424 src/xml-io.c:3448
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:424 src/xml-io.c:3465
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml-fil.Treet er tomt?"
 
@@ -2986,7 +2986,7 @@ msgstr "Analyseverkty"
 #: src/dialogs/anova-one.glade.h:1 src/dialogs/anova-two.glade.h:1
 #: src/dialogs/mean-tests.glade.h:2 src/dialogs/variance-tests.glade.h:1
 msgid "0.05"
-msgstr "0.05"
+msgstr "0,05"
 
 #: src/dialogs/anova-one.glade.h:2
 msgid "ANOVA - Single Factor"
@@ -3116,44 +3116,40 @@ msgid "Correct _TWo INitial CApitals                           "
 msgstr "Rett _to store bokstavar først i eit ord"
 
 #: src/dialogs/autocorrect.glade.h:5
-msgid "Correct accidental use of _cAPS LOCK key"
-msgstr "Korriger uheldig bruk av _cAPS LOCK"
-
-#: src/dialogs/autocorrect.glade.h:6
 msgid "Do _not correct:"
 msgstr "Ikkje _rett:"
 
-#: src/dialogs/autocorrect.glade.h:7
+#: src/dialogs/autocorrect.glade.h:6
 msgid "Re_place:"
 msgstr "Ers_tatt:"
 
-#: src/dialogs/autocorrect.glade.h:8 src/dialogs/consolidate.glade.h:26
+#: src/dialogs/autocorrect.glade.h:7 src/dialogs/consolidate.glade.h:26
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:6
 #: src/dialogs/solver.glade.h:16
 msgid "_Add"
 msgstr "_Legg til"
 
-#: src/dialogs/autocorrect.glade.h:9
+#: src/dialogs/autocorrect.glade.h:8
 msgid "_Do not capitalize after:"
 msgstr "_Ikkje store bokstavar etter:"
 
-#: src/dialogs/autocorrect.glade.h:10
+#: src/dialogs/autocorrect.glade.h:9
 msgid "_First Letter"
 msgstr "_Første bokstav"
 
-#: src/dialogs/autocorrect.glade.h:11 src/dialogs/cell-format.glade.h:111
+#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:111
 msgid "_General"
 msgstr "_Generelt"
 
-#: src/dialogs/autocorrect.glade.h:12
+#: src/dialogs/autocorrect.glade.h:11
 msgid "_INitial CApitals"
 msgstr "_INnleiande STore teikn"
 
-#: src/dialogs/autocorrect.glade.h:14
+#: src/dialogs/autocorrect.glade.h:13
 msgid "_Replace text when typed"
 msgstr "E_rstatt tekst ved inntasting"
 
-#: src/dialogs/autocorrect.glade.h:15
+#: src/dialogs/autocorrect.glade.h:14
 msgid "_With:"
 msgstr "_Breidd:"
 
@@ -3272,7 +3268,7 @@ msgstr "$"
 #: src/dialogs/cell-format.glade.h:3
 #, no-c-format
 msgid "12.5% Grey"
-msgstr "12.5% grå"
+msgstr "12,5% grå"
 
 #: src/dialogs/cell-format.glade.h:5
 #, no-c-format
@@ -3287,7 +3283,7 @@ msgstr "50% grå"
 #: src/dialogs/cell-format.glade.h:9
 #, no-c-format
 msgid "6.25% Grey"
-msgstr "6.25% grå"
+msgstr "6,25% grå"
 
 #: src/dialogs/cell-format.glade.h:11
 #, no-c-format
@@ -3314,7 +3310,7 @@ msgstr "Alle verdiar                 (ingen validering)"
 msgid "Background Color"
 msgstr "Bakgrunnsfarge"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2689
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2685
 msgid "Border"
 msgstr "Kant"
 
@@ -3501,7 +3497,7 @@ msgstr "Retning"
 msgid "Outline"
 msgstr "Oversikt"
 
-#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2704
+#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2700
 msgid "Pattern"
 msgstr "Mønster"
 
@@ -3613,7 +3609,7 @@ msgstr "Tid"
 
 #: src/dialogs/cell-format.glade.h:95
 msgid "Title :"
-msgstr "Tittel: "
+msgstr "Tittel : "
 
 #: src/dialogs/cell-format.glade.h:96
 msgid "Top"
@@ -3629,7 +3625,7 @@ msgstr "Godkjenning"
 
 #: src/dialogs/cell-format.glade.h:99
 msgid "Vertical Alignment"
-msgstr "Vertikal justering"
+msgstr "Loddrett justering"
 
 #: src/dialogs/cell-format.glade.h:100
 msgid "Vertical Stripe"
@@ -4016,7 +4012,7 @@ msgstr "Jody Goldberg, vedlikehaldar."
 
 #: src/dialogs/dialog-about.c:32
 msgid "Sean Atkinson, functions and X-Base importing."
-msgstr "Sean Atkinson, funksjonar og X-Base importering."
+msgstr "Sean Atkinson, funksjonar og import av X-Base."
 
 #: src/dialogs/dialog-about.c:33
 msgid "Grandma Chema Celorio, Tester and sheet copy."
@@ -4063,7 +4059,7 @@ msgstr "Jon K. Hellan, Gnumeric hacker."
 
 #: src/dialogs/dialog-about.c:46
 msgid "Ross Ihaka, special functions."
-msgstr "Ross Ihaka, Spesial funksjonar."
+msgstr "Ross Ihaka, Spesialfunksjonar."
 
 #: src/dialogs/dialog-about.c:47
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
@@ -4087,7 +4083,7 @@ msgstr "Takashi Matsuda, opprinneleg tekst tilleggsmodul."
 
 #: src/dialogs/dialog-about.c:52
 msgid "Michael Meeks, Excel and OLE2 importing."
-msgstr "Michael Meeks, Excel and OLE2 importering."
+msgstr "Michael Meeks, import av Excel and OLE2."
 
 #: src/dialogs/dialog-about.c:53
 msgid "Lutz Muller, SheetObject improvements"
@@ -4154,24 +4150,24 @@ msgstr "Gnumeric Heimeside"
 msgid "Contract Support"
 msgstr "Kommersiell support"
 
-#: src/dialogs/dialog-advanced-filter.c:256
+#: src/dialogs/dialog-advanced-filter.c:253
 msgid "You should introduce a valid cell names in 'List Range:'"
 msgstr "Du må taste inn eit gyldig cellenamn i «Listeområde:»"
 
-#: src/dialogs/dialog-advanced-filter.c:270
+#: src/dialogs/dialog-advanced-filter.c:266
 msgid "You should introduce a valid cell names in 'Criteria Range:'"
 msgstr "Du må taste inn eit gyldig cellenamn i «Kriterieområde:»"
 
-#: src/dialogs/dialog-advanced-filter.c:289
+#: src/dialogs/dialog-advanced-filter.c:280
 msgid "You should introduce a valid cell range in 'Copy To:'"
 msgstr "Du må taste inn eit gyldig cellenamn i «Kopier til»"
 
-#: src/dialogs/dialog-advanced-filter.c:331
+#: src/dialogs/dialog-advanced-filter.c:327
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
 msgstr ""
-"Du må taste inn likt tal på kolonne i 'Listeområde' og i'Kriterieområde'"
+"Du må taste inn likt tal på kolonne i «Listeområde» og i «Kriterieområde»"
 
 #: src/dialogs/dialog-analysis-tools.c:1101
 #: src/dialogs/dialog-analysis-tools.c:1216
@@ -4316,7 +4312,7 @@ msgstr "Eksponentiell"
 
 #: src/dialogs/dialog-analysis-tools.c:2549
 msgid "_b Value:"
-msgstr "_b verdi:"
+msgstr "_b-verdi:"
 
 #: src/dialogs/dialog-analysis-tools.c:2551
 msgid "Binomial"
@@ -4326,7 +4322,7 @@ msgstr "Binominell"
 #: src/dialogs/dialog-analysis-tools.c:2553
 #: src/dialogs/dialog-analysis-tools.c:2556
 msgid "_p Value:"
-msgstr "_p verdi:"
+msgstr "_p-verdi:"
 
 #: src/dialogs/dialog-analysis-tools.c:2551
 msgid "N_umber of Trials:"
@@ -4389,7 +4385,7 @@ msgstr "_X-variablar:"
 
 #: src/dialogs/dialog-analysis-tools.c:3243
 msgid "_Y Variable:"
-msgstr "_Y Variabel:"
+msgstr "_Y-Variabel:"
 
 #: src/dialogs/dialog-analysis-tools.c:3310
 msgid "Could not create the Regression Tool dialog."
@@ -4493,7 +4489,7 @@ msgstr "t-Test: To-prøve for ulik varians"
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Test: To-prøve for medianar"
 
-#: src/dialogs/dialog-autocorrect.c:293
+#: src/dialogs/dialog-autocorrect.c:292
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Kunne ikkje opprette Autokorriger-sdialogen."
 
@@ -4635,30 +4631,30 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Raud]("
 
-#: src/dialogs/dialog-cell-format.c:2153 src/dialogs/dialog-cell-format.c:2162
+#: src/dialogs/dialog-cell-format.c:2149 src/dialogs/dialog-cell-format.c:2158
 msgid "Minimum :"
 msgstr "Minimum :"
 
-#: src/dialogs/dialog-cell-format.c:2154 src/dialogs/dialog-cell-format.c:2166
+#: src/dialogs/dialog-cell-format.c:2150 src/dialogs/dialog-cell-format.c:2162
 msgid "Maximum :"
 msgstr "Maksimum :"
 
-#: src/dialogs/dialog-cell-format.c:2158
+#: src/dialogs/dialog-cell-format.c:2154
 msgid "Value :"
 msgstr "Verdi:"
 
-#: src/dialogs/dialog-cell-format.c:2623
+#: src/dialogs/dialog-cell-format.c:2619
 msgid "Format Cells"
 msgstr "Format:Celler"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2689 src/dialogs/dialog-cell-format.c:2694
-#: src/dialogs/dialog-cell-format.c:2704 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2685 src/dialogs/dialog-cell-format.c:2690
+#: src/dialogs/dialog-cell-format.c:2700 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:858
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:833
+#: src/dialogs/dialog-cell-format.c:2695 src/workbook-format-toolbar.c:833
 msgid "Clear Background"
 msgstr "Klar bakgrunn"
 
@@ -4863,7 +4859,7 @@ msgstr "Innhald"
 
 #: src/dialogs/dialog-paste-special.c:28
 msgid "As Value"
-msgstr "Som Verdi"
+msgstr "Som verdi"
 
 #: src/dialogs/dialog-paste-special.c:29
 msgid "Formats"
@@ -4962,7 +4958,7 @@ msgstr "Feil ved utkopling av tilleggsmodul"
 #: src/dialogs/dialog-plugin-manager.c:476
 #, c-format
 msgid "%s[in memory, marked for deactivation]"
-msgstr "% [lasta i minnet, merka for utkopling]"
+msgstr "%s [lasta i minnet, merka for utkopling]"
 
 #: src/dialogs/dialog-plugin-manager.c:479
 #, c-format
@@ -5225,7 +5221,7 @@ msgstr "Autooppdag fann ingen kolonner i teksta, Prøv manuelt"
 #: src/dialogs/dialog-stf-main-page.c:85
 #, c-format
 msgid "%d lines to import"
-msgstr "%d linjer å importera"
+msgstr "%d linjer å importere"
 
 #: src/dialogs/dialog-stf-main-page.c:227
 msgid "LINES TOO LONG!"
@@ -5436,7 +5432,7 @@ msgstr "Sjå på to separatorar som ein"
 
 #: src/dialogs/dialog-stf.glade.h:46
 msgid "S_pace"
-msgstr "Mellomrom"
+msgstr "_Mellomrom"
 
 #: src/dialogs/dialog-stf.glade.h:47
 msgid "See two successive separators as one."
@@ -5492,7 +5488,7 @@ msgstr "_Skråstrek (/)"
 
 #: src/dialogs/dialog-stf.glade.h:57
 msgid "Ta_b"
-msgstr "Tabulator"
+msgstr "Ta_bulator"
 
 #: src/dialogs/dialog-stf.glade.h:58
 msgid "Te_xt indicator : "
@@ -5643,11 +5639,11 @@ msgstr "(Maksimum):"
 
 #: src/dialogs/goalseek.glade.h:2
 msgid "(Minimum):"
-msgstr "(Minimum) :"
+msgstr "(Minimum):"
 
 #: src/dialogs/goalseek.glade.h:3
 msgid "By Changing Cell:"
-msgstr "Ved å endra celle:"
+msgstr "Ved å endre celle:"
 
 #: src/dialogs/goalseek.glade.h:4
 msgid "Current Value:"
@@ -5930,7 +5926,7 @@ msgstr "Meldingshovud:"
 msgid "Headers and footers"
 msgstr "Topp- og botntekst"
 
-#: src/dialogs/print.glade.h:10 src/print-info.c:430
+#: src/dialogs/print.glade.h:10 src/print-info.c:427
 msgid "In"
 msgstr "I"
 
@@ -5979,7 +5975,7 @@ msgid "Scale"
 msgstr "Skalert"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:139
-#: src/workbook.c:1060 src/xml-io.c:3058
+#: src/workbook.c:1060 src/xml-io.c:3150
 msgid "Sheet"
 msgstr "Ark"
 
@@ -5989,7 +5985,7 @@ msgstr "Stilar utan innhald"
 
 #: src/dialogs/print.glade.h:27
 msgid "Titles to print"
-msgstr "Titlar å skriva ut"
+msgstr "Titlar å skrive ut"
 
 #: src/dialogs/print.glade.h:28
 msgid "_Adjust to:"
@@ -6025,7 +6021,7 @@ msgstr "_Rutenett"
 
 #: src/dialogs/print.glade.h:36
 msgid "_Horizontally"
-msgstr "_Horisontalt"
+msgstr "_Vassrett"
 
 #: src/dialogs/print.glade.h:37
 msgid "_Landscape"
@@ -6056,11 +6052,11 @@ msgid "_Vertically"
 msgstr "_Vertikalt"
 
 #. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:44 src/print-info.c:429
+#: src/dialogs/print.glade.h:44 src/print-info.c:426
 msgid "cm"
 msgstr "cm"
 
-#: src/dialogs/print.glade.h:45 src/print-info.c:428
+#: src/dialogs/print.glade.h:45 src/print-info.c:425
 msgid "mm"
 msgstr "mm"
 
@@ -6068,7 +6064,7 @@ msgstr "mm"
 msgid "page(s) wide by"
 msgstr "side(r) breidare med"
 
-#: src/dialogs/print.glade.h:47 src/print-info.c:427
+#: src/dialogs/print.glade.h:47 src/print-info.c:424
 msgid "pts"
 msgstr "punkt"
 
@@ -6522,7 +6518,7 @@ msgstr "Gå ut i frå ikkje negativ"
 
 #: src/dialogs/solver.glade.h:6
 msgid "B_y Changing Cells: "
-msgstr "Ved å endra celler:"
+msgstr "Ved å endre celler:"
 
 #: src/dialogs/solver.glade.h:7 src/solver-lp.c:952 src/solver-lp.c:1086
 msgid "Constraints"
@@ -7152,7 +7148,7 @@ msgstr "[$ETB]"
 
 #: src/formats.c:303
 msgid "Ethiopian birr"
-msgstr "Ethiopian birr"
+msgstr "Etiopisk birr"
 
 #: src/formats.c:304
 msgid "[$EUR]"
@@ -7320,7 +7316,7 @@ msgstr "[$IEP]"
 
 #: src/formats.c:324
 msgid "Irish punt"
-msgstr "Irisk punt"
+msgstr "Irsk punt"
 
 #: src/formats.c:325
 msgid "[$IEX]"
@@ -7808,7 +7804,7 @@ msgstr "[$SDP]"
 
 #: src/formats.c:385
 msgid "Sudanese pound"
-msgstr "Sudanesk pund"
+msgstr "Sudanesisk pund"
 
 #: src/formats.c:386
 msgid "[$SEK]"
@@ -7816,7 +7812,7 @@ msgstr "[$SEK]"
 
 #: src/formats.c:386
 msgid "Swedish krona"
-msgstr "Swedish krona"
+msgstr "Svensk krone"
 
 #: src/formats.c:387
 msgid "[$SGD]"
@@ -7840,7 +7836,7 @@ msgstr "[$SIT]"
 
 #: src/formats.c:389
 msgid "Slovenia tolar"
-msgstr "Slovenia tolar"
+msgstr "Slovensk tolar"
 
 #: src/formats.c:390
 msgid "[$SLL]"
@@ -7880,7 +7876,7 @@ msgstr "[$SUR]"
 
 #: src/formats.c:394
 msgid "USSR rouble"
-msgstr "USSR rouble"
+msgstr "Russisk rubel"
 
 #: src/formats.c:395
 msgid "[$SVC]"
@@ -7920,7 +7916,7 @@ msgstr "[$TND]"
 
 #: src/formats.c:399
 msgid "Tunisian dinar"
-msgstr "Tunisian dinar"
+msgstr "Tunisisk dinar"
 
 #: src/formats.c:400
 msgid "[$TOP]"
@@ -8000,7 +7996,7 @@ msgstr "[$UYP]"
 
 #: src/formats.c:409
 msgid "Uruguayan peso"
-msgstr "Uruguask peso"
+msgstr "Uruguansk peso"
 
 #: src/formats.c:410
 msgid "[$VEB]"
@@ -8008,7 +8004,7 @@ msgstr "[$VEB]"
 
 #: src/formats.c:410
 msgid "Venezuelan bolivar"
-msgstr "Venezuelan bolivar"
+msgstr "Venezuleansk bolivar"
 
 #: src/formats.c:411
 msgid "[$VND]"
@@ -8032,7 +8028,7 @@ msgstr "[$WST]"
 
 #: src/formats.c:413
 msgid "Samoan tala"
-msgstr "Samoan tala"
+msgstr "Samoansk tala"
 
 #: src/formats.c:414
 msgid "[$XCD]"
@@ -8048,7 +8044,7 @@ msgstr "[$XEU]"
 
 #: src/formats.c:415
 msgid "European currency unit"
-msgstr "Europesk calutaeining"
+msgstr "Europesk valutaeining"
 
 #: src/formats.c:416
 msgid "[$YDD]"
@@ -14593,7 +14589,6 @@ msgstr ""
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-string.c:123
-#, fuzzy
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -14605,17 +14600,15 @@ msgid ""
 "\n"
 "@SEEALSO=MID, RIGHT"
 msgstr ""
-"@FUNCTION=ATANH\n"
-"@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=ATANH()-funksjonen reknar ut den inverse tangens hyperbolikus "
-"til @x, altså den verdien som har @x til tangens hyperbolikus. Dersom "
-"absoluttverdien av @x er større enn 1,0, returnerer atanh() NUM! -feil. "
-"Denne funksjonen er Excel-kompatibel.\n"
-"@ECAMPLES=\n"
-"ATANH(0.5)  er lik 0.549306.\n"
-" ATANH(0.8)  er lik 1.098612.\n"
+"@FUNCTION=LEFT\n"
+"@SYNTAX=LEFT(tekst[,tal_på_teikn])\n"
+"@DESCRIPTION=LEFT returnerar dei @num_chars teikn til venstre, eller teiknet "
+"lenggt til venstre dersom @num_chars ikkje er spesifisert.\n"
+"Denne funksjonen er Excel-kompatibel. \n"
+"@EXAMPLES=\n"
+"LEFT(\"Katalog\";3) er lik \"Kat\".\n"
 "\n"
-"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
+"@SEEALSO=MID, RIGHT"
 
 #: src/functions/fn-string.c:159
 #, fuzzy
@@ -15078,7 +15071,7 @@ msgstr "Formater som tid"
 msgid "Format as alternative Number"
 msgstr "Formater som alternativt nummer"
 
-#: src/gnumeric-canvas.c:497
+#: src/gnumeric-canvas.c:503
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Fila «%s» har ukjent format"
@@ -15190,7 +15183,7 @@ msgstr "Vis detaljar"
 #: src/gui-util.c:863
 #, c-format
 msgid "Unable to open file '%s'"
-msgstr "Kan ikkje opne fila '%s'"
+msgstr "Kan ikkje opne fila «%s»"
 
 #: src/gui-validation.c:43
 msgid "The value you enter :\n"
@@ -15233,7 +15226,7 @@ msgstr "Uttrykket må vere sant"
 #: src/gui-validation.c:83
 #, c-format
 msgid "<unknown> <%s>\n"
-msgstr ""
+msgstr "<ukjent><%s>\n"
 
 #: src/gui-validation.c:99
 msgid "Must be a whole number\n"
@@ -15290,9 +15283,8 @@ msgstr "Forkast"
 #. * 'File' menu
 #.
 #: src/history.c:129
-#, fuzzy
 msgid "File/Print Preview..."
-msgstr "Fil/Førehandsvising av utskrift"
+msgstr "Fil/Førehandsvising av utskrift ..."
 
 #: src/history.c:142
 msgid "File/Print Preview"
@@ -15312,7 +15304,7 @@ msgstr "Breidde: %.2f punkt (%d pikslar)"
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Høgde: %.2f punkt (%d pikslar)"
 
-#: src/item-cursor.c:903
+#: src/item-cursor.c:901
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -15322,35 +15314,35 @@ msgstr ""
 "eksisterande cella i det området. Vil du at eg skal \n"
 "erstatte innhaldet i dette området?"
 
-#: src/item-cursor.c:1013
+#: src/item-cursor.c:1011
 msgid "_Move"
 msgstr "Flytt"
 
-#: src/item-cursor.c:1019
+#: src/item-cursor.c:1017
 msgid "Copy _Formats"
 msgstr "Kopier _format"
 
-#: src/item-cursor.c:1021
+#: src/item-cursor.c:1019
 msgid "Copy _Values"
 msgstr "Kopier _Verdiar"
 
-#: src/item-cursor.c:1026
+#: src/item-cursor.c:1024
 msgid "Shift _Down and Copy"
 msgstr "Flytt ned og kopier"
 
-#: src/item-cursor.c:1028
+#: src/item-cursor.c:1026
 msgid "Shift _Right and Copy"
 msgstr "Flytt til høgre og kopier"
 
-#: src/item-cursor.c:1030
+#: src/item-cursor.c:1028
 msgid "Shift Dow_n and Move"
 msgstr "Gå ned og flytt"
 
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1030
 msgid "Shift Righ_t and Move"
 msgstr "Gå til høgre og flytt celler"
 
-#: src/item-cursor.c:1037
+#: src/item-cursor.c:1035
 msgid "C_ancel"
 msgstr "_Avbryt"
 
@@ -15693,7 +15685,7 @@ msgstr "Feil ved opning av fil «%s» for lesing."
 msgid "Unable to mmap the file."
 msgstr "Ikkje i stand til å mmappe fila."
 
-#: src/plugin-util.c:311 src/xml-io.c:3414
+#: src/plugin-util.c:311 src/xml-io.c:3431
 msgid "Cannot get file size."
 msgstr "Klarar ikkje å få tak i filstorleik."
 
@@ -15777,13 +15769,13 @@ msgstr "Feil ved initialisering av tilleggsmodullastar («%s»)."
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be activated."
 msgstr ""
-"Vi er avhengig av tilleggsmodul med id=\"%s\" som ikkje kunne aktiviserast."
+"Vi er avhengig av tilleggsmodul med id=«%s» som ikkje kunne aktiviserast."
 
 #: src/plugin.c:1044 src/plugin.c:1232
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which is not available."
 msgstr ""
-"Vi er avhening av ein tilleggsmodul med id=\"%s\" som ikkje er tilgjengeleg."
+"Vi er avhening av ein tilleggsmodul med id=«%s» som ikkje er tilgjengeleg."
 
 #: src/plugin.c:1057
 #, c-format
@@ -15803,7 +15795,7 @@ msgstr "Kan ikkje laste tilleggsmodul lastar."
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be loaded."
 msgstr ""
-"Vi er avhengig av ein tilleggsmodul med id=\"%s\" som ikkje kunne lastast."
+"Vi er avhengig av ein tilleggsmodul med id=«%s» som ikkje kunne lastast."
 
 #: src/plugin.c:1308
 #, c-format
@@ -15834,7 +15826,7 @@ msgid "Errors while initializing plugin system."
 msgstr "Feil ved initisialisering av tilleggsmodulsystemet."
 
 #: src/print-info.c:24 src/print-info.c:27 src/print-info.c:28
-#: src/print-info.c:279
+#: src/print-info.c:276
 msgid "Page &[PAGE]"
 msgstr "Side &[PAGE]"
 
@@ -15843,7 +15835,7 @@ msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Side &[PAGE] av &[PAGES]"
 
 #: src/print-info.c:26 src/print-info.c:27 src/print-info.c:28
-#: src/print-info.c:30 src/print-info.c:278
+#: src/print-info.c:30 src/print-info.c:275
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
@@ -15851,43 +15843,43 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:427
+#: src/print-info.c:424
 msgid "points"
 msgstr "punkt"
 
-#: src/print-info.c:428
+#: src/print-info.c:425
 msgid "millimeter"
 msgstr "millimeter"
 
-#: src/print-info.c:429
+#: src/print-info.c:426
 msgid "centimeter"
 msgstr "centimeter"
 
-#: src/print-info.c:430
+#: src/print-info.c:427
 msgid "inch"
 msgstr "tomme"
 
-#: src/print-info.c:520
+#: src/print-info.c:517
 msgid "Sheet 1"
 msgstr "Ark 1"
 
-#: src/print-info.c:583
+#: src/print-info.c:580
 msgid "tab"
-msgstr "tabulator"
+msgstr "fane"
 
-#: src/print-info.c:584
+#: src/print-info.c:581
 msgid "page"
 msgstr "side"
 
-#: src/print-info.c:585
+#: src/print-info.c:582
 msgid "pages"
 msgstr "sider"
 
-#: src/print-info.c:586
+#: src/print-info.c:583
 msgid "date"
 msgstr "dato"
 
-#: src/print-info.c:587
+#: src/print-info.c:584
 msgid "time"
 msgstr "tid"
 
@@ -15960,7 +15952,7 @@ msgstr "Kolonne: %s"
 
 #: src/sheet-control-gui.c:1396
 msgid "Paste _Special"
-msgstr "Lim inn spesiell"
+msgstr "Lim inn _spesiell"
 
 #. TODO : One day make the labels smarter.  Generate them to include
 #. * quantities.
@@ -16074,7 +16066,7 @@ msgstr "Omriss farge"
 
 #: src/sheet-object-graphic.c:855
 msgid "Fill color"
-msgstr "Fyll farge"
+msgstr "Fyllfarge"
 
 #: src/sheet-object-graphic.c:857
 msgid "Border width"
@@ -16927,32 +16919,42 @@ msgstr "Er ikkje ei autoformat malfil"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Feil ved forsøk på å bygge tre frå autoformat malfil"
 
+#: src/xml-io.c:2866
+msgid "Unparsable xml in clipboard"
+msgstr "Utolkbar xml i utklippstavla"
+
+#: src/xml-io.c:2873
+msgid "Clipboard is in unknown format"
+msgstr "Utklippstavla er i ukjent format"
+
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3184
+#: src/xml-io.c:3276
 msgid "Processing file..."
 msgstr "Prosesserar fil ..."
 
-#: src/xml-io.c:3362
-msgid "Invalid xml clipboard data. Tree is empty ?"
-msgstr "Ugyldig xml klippebord-data. Er treet tomt ?"
-
-#: src/xml-io.c:3422
+#: src/xml-io.c:3439
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Ikkje nok minne til å opprette zlib dekompresjon stadie."
 
-#: src/xml-io.c:3457
+#: src/xml-io.c:3474
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Er ikkje ei Gnumeric Arbeidsbok fil"
 
-#: src/xml-io.c:3514
+#: src/xml-io.c:3531
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME reknearket "
+
+#~ msgid "Correct accidental use of _cAPS LOCK key"
+#~ msgstr "Korriger uheldig bruk av _cAPS LOCK"
+
+#~ msgid "Invalid xml clipboard data. Tree is empty ?"
+#~ msgstr "Ugyldig xml klippebord-data. Er treet tomt ?"
 
 #~ msgid "LaTeX 2.09 (*.tex)"
 #~ msgstr "LaTeX 2.09 (*.tex)"
