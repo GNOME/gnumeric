@@ -198,6 +198,8 @@ pixmap_combo_select_pixmap (PixmapCombo *pc, int index)
 	g_return_if_fail (0 <= index);
 	g_return_if_fail (index < pc->num_elements);
 
+	pc->last_index = index;
+
 	gtk_container_remove (
 		GTK_CONTAINER (pc->preview_button),
 		pc->preview_pixmap);
