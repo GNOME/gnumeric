@@ -1,3 +1,8 @@
+2002-08-03  Jody Goldberg <jody@gnome.org>
+
+	* lotus-formula.c : mechanism for argument mapping.
+	Fix more arg counts to avoid leaking.
+
 2002-08-02  Jody Goldberg <jody@gnome.org>
 
 	* lotus-formula.c (make_function) : generate placeholders for unknowns.
