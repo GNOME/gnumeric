@@ -1177,9 +1177,6 @@ static GnomeUIInfo workbook_file_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Save"), N_("Saves the workbook"),
 		file_save_cmd, GNOME_STOCK_PIXMAP_SAVE),
-	GNOMEUIINFO_ITEM_STOCK(
-		N_("Print"), N_("Prints the workbook"),
-		file_print_cmd, GNOME_STOCK_PIXMAP_PRINT),
 
 	GNOMEUIINFO_END
 };
@@ -1622,12 +1619,14 @@ deps_output (GtkWidget *widget, Workbook *wb)
 			_("Selection must be a single range"));
 		return;
 	}
+
 	printf ("The cells that depend on ");
 	range_dump (selection);
 
 	list = region_get_dependencies (sheet,
 					selection->start.col, selection->start.row,
 					selection->end.col, selection->end.row);
+
 	if (!list)
 		printf ("No dependencies\n");
 
@@ -2136,6 +2135,9 @@ workbook_create_toolbars (Workbook *wb)
 			tb->name,
 			GNOME_DOCK_ITEM_BEH_NORMAL,
 			GNOME_DOCK_TOP, tb->band_num, tb->band_pos, 0);
+
+		gtk_toolbar_set_style (GTK_TOOLBAR (priv->toolbars [i].gtk_toolbar),
+				       GTK_TOOLBAR_ICONS);
 	}
 }
 

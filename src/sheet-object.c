@@ -40,29 +40,6 @@ typedef struct {
 } ObjectCoords;
 
 static void
-window_to_world (GnomeCanvas *canvas, gdouble *x, gdouble *y)
-{
-/*	double zoom = so->sheet->last_zoom_factor_used;*/
-#define DISPLAY_X1(canvas) (GNOME_CANVAS (canvas)->layout.xoffset)
-#define DISPLAY_Y1(canvas) (GNOME_CANVAS (canvas)->layout.yoffset)
-
-/*	printf ("w2w %f %f -> ", *x, *y); */
-	*x = canvas->scroll_x1 +
-		(*x + DISPLAY_X1 (canvas) - canvas->zoom_xofs) /
-		canvas->pixels_per_unit;
-	*y = canvas->scroll_y1 +
-		(*y + DISPLAY_Y1 (canvas) - canvas->zoom_yofs) /
-		canvas->pixels_per_unit;
-/*	printf ("%f %f, offsets %d %d, display %d %d ppu %f\n", *x, *y,
-	canvas->zoom_xofs, canvas->zoom_yofs, DISPLAY_X1 (canvas),
-		DISPLAY_Y1 (canvas), canvas->pixels_per_unit); */
-/*	*x = canvas->scroll_x1 +
-		(*x + DISPLAY_X1 (canvas) - canvas->zoom_xofs) * zoom;
-	*y = canvas->scroll_y1 +
-	(*y + DISPLAY_Y1 (canvas) - canvas->zoom_yofs) * zoom;*/
-}
-
-static void
 sheet_release_coords (Sheet *sheet)
 {
 	GList *l;
@@ -166,15 +143,16 @@ sheet_object_construct (SheetObject *sheet_object, Sheet *sheet)
 }
 
 void
-sheet_object_drop_file (SheetView *sheet_view, gint x, gint y, const char *fname)
+sheet_object_drop_file (GnumericSheet *gsheet, gint x, gint y, const char *fname)
 {
 #if ENABLE_BONOBO
 	const char *mime_type;
 	const char *mime_goad_id;
 	char *msg = NULL;
 	
-	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (sheet_view->sheet != NULL);
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (gsheet->sheet_view != NULL);
+	g_return_if_fail (gsheet->sheet_view->sheet != NULL);
 
 	if (!(mime_type = gnome_mime_type (fname))) {
 		msg = g_strdup_printf ("unknown mime type for '%s'", (char *)fname);
@@ -183,17 +161,13 @@ sheet_object_drop_file (SheetView *sheet_view, gint x, gint y, const char *fname
 		msg = g_strdup_printf ("no mime mapping for '%s'", mime_type);
 		gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
 	} else {
-		GnumericSheet *gsheet;
 		SheetObject   *obj;
 		ObjectCoords   pos;
 
-		gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
-		pos.x = x;
-		pos.y = y;
-		window_to_world (GNOME_CANVAS (gsheet), &pos.x, &pos.y);
+		gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), x, y, &pos.x, &pos.y);
 
-		obj = sheet_object_container_new (sheet_view->sheet, pos.x, pos.y,
-						  pos.x+100.0, pos.y+100.0,
+		obj = sheet_object_container_new (gsheet->sheet_view->sheet, pos.x, pos.y,
+						  pos.x + 100.0, pos.y + 100.0,
 						  mime_goad_id);
 		if (!sheet_object_container_land (obj, fname, TRUE)) {
 			msg = g_strdup_printf ("Failed to bind or create client site for '%s'",
@@ -507,9 +481,7 @@ sheet_motion_notify (GnumericSheet *gsheet, GdkEvent *event, Sheet *sheet)
 
 	so = SHEET_OBJECT (sheet->current_object);
 
-	brx = event->button.x;
-	bry = event->button.y;
-	window_to_world (GNOME_CANVAS (gsheet), &brx, &bry);
+	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), event->button.x, event->button.y, &brx, &bry);
 	
 	tl = (ObjectCoords *)sheet->coords->data;
 
@@ -543,10 +515,7 @@ sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet
 	/* Do not propagate this event further */
 	gtk_signal_emit_stop_by_name (GTK_OBJECT (gsheet), "button_release_event");
 
-
-	brx = event->x;
-	bry = event->y;
-	window_to_world (GNOME_CANVAS (gsheet), &brx, &bry);
+	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), event->x, event->y,&brx, &bry);
 	
 	tl = (ObjectCoords *)sheet->coords->data;
 
@@ -581,9 +550,7 @@ sheet_button_press (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 
 	oc = g_new (ObjectCoords, 1);
 
-	oc->x = event->x;
-	oc->y = event->y;
-	window_to_world (GNOME_CANVAS (gsheet), &oc->x, &oc->y);
+	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), event->x, event->y, &oc->x, &oc->y);
 	
 	sheet->coords = g_list_append (sheet->coords, oc);
 
@@ -627,7 +594,7 @@ sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
 	sheet->modified = TRUE;
 	
 	/* Disconnect the signal handlers for object creation */
-	for (l = sheet->sheet_views; l; l = l->next){
+	for (l = sheet->sheet_views; l; l = l->next) {
 		SheetView *sheet_view = l->data;
 		GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 
@@ -700,7 +667,7 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 		return;
 	}
 
-	switch (sheet->mode){
+	switch (sheet->mode) {
 	case SHEET_MODE_CREATE_LINE:
 	case SHEET_MODE_CREATE_ARROW:
 	case SHEET_MODE_CREATE_OVAL:
@@ -708,7 +675,8 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 	case SHEET_MODE_CREATE_GRAPHIC:
 	case SHEET_MODE_CREATE_BUTTON:
 	case SHEET_MODE_CREATE_CHECKBOX:
-		for (l = sheet->sheet_views; l; l = l->next){
+		for (l = sheet->sheet_views; l; l = l->next) {
+
 			SheetView *sheet_view = l->data;
 			GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 			
@@ -733,11 +701,11 @@ sheet_object_destroy_control_points (Sheet *sheet)
 {
 	GList *l;
 
-	for (l = sheet->sheet_views; l; l = l->next){
+	for (l = sheet->sheet_views; l; l = l->next) {
 		SheetView *sheet_view = l->data;
 		int i;
 		
-		for (i = 0; i < 8; i++){
+		for (i = 0; i < 8; i++) {
 			gtk_object_destroy (GTK_OBJECT (sheet_view->control_points [i]));
 			sheet_view->control_points [i] = NULL;
 		}

@@ -915,7 +915,6 @@ xml_get_print_hf (xmlNodePtr node, PrintHF * const hf)
 	
 	g_return_if_fail (hf != NULL);
 	g_return_if_fail (node != NULL);
-	g_return_if_fail (node->childs != NULL);
 
 	txt = xml_value_get (node, "Left");
 	if (txt)

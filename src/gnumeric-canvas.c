@@ -908,6 +908,33 @@ gnumeric_sheet_drag_data_get (GtkWidget *widget,
 #endif
 }
 
+static void
+gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
+				  GdkDragContext   *context,
+				  gint              x,
+				  gint              y,
+				  GtkSelectionData *selection_data,
+				  guint             info,
+				  guint             time,
+				  GnumericSheet    *gsheet)
+{
+	GList *names, *tmp_list;
+
+	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
+	tmp_list = names;
+
+	while (tmp_list) {
+		Workbook *new_wb;
+
+		if ((new_wb = workbook_try_read (tmp_list->data)))
+			gtk_widget_show (new_wb->toplevel);
+		else
+		        sheet_object_drop_file (gsheet, x, y, tmp_list->data);
+
+		tmp_list = tmp_list->next;
+	}
+}
+
 GtkWidget *
 gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 {
@@ -919,6 +946,10 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 	GtkWidget *entry;
 	Sheet     *sheet;
 	Workbook  *workbook;
+	static GtkTargetEntry drag_types[] = {
+		{ "text/uri-list", 0, 0 },
+	};
+	static gint n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
 
 	g_return_val_if_fail (sheet_view  != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET_VIEW (sheet_view), NULL);
@@ -964,7 +995,17 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 	gtk_signal_connect (
 		GTK_OBJECT (widget), "drag_data_get",
 		GTK_SIGNAL_FUNC (gnumeric_sheet_drag_data_get), NULL);
-	
+
+	gtk_drag_dest_set (widget,
+			   GTK_DEST_DEFAULT_ALL,
+			   drag_types, n_drag_types,
+			   GDK_ACTION_COPY);
+
+	gtk_signal_connect (GTK_OBJECT (widget),
+			    "drag_data_received",
+			    GTK_SIGNAL_FUNC (gnumeric_sheet_filenames_dropped),
+			    widget);
+
 	return widget;
 }
 

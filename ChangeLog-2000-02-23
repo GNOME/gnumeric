@@ -1,3 +1,25 @@
+1999-09-15  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/sheet-object.c (window_to_world): Remove.
+	(sheet_motion_notify, sheet_button_release, sheet_object_drop_file): 
+	clean to use gnome_canvas_window_to_world.
+
+	* src/sheet-view.c (sheet_view_construct, (filenames_dropped): move
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_filenames_dropped),
+	(gnumeric_sheet_new): to here + rename; makes more sense.
+
+	* src/sheet-object.c (sheet_object_drop_file): Take a GnumericSheet.
+
+	* src/parser.y (array_row:): Manged to support wierd MS style array
+	semantics some people get {1\2\3;4\5\6} instead of {1,2,3;4,5,6}.
+
+	* src/workbook.c (workbook_file_toolbar): Remove duplicate print icon.
+
+	* src/pixmaps/preview.xpm: Stop gap icon; improved.
+
+	* src/xml-io.c (xml_get_print_hf): Remove redundant precondition.
+
 1999-09-14  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/workbook.c: Split toolbars into mulitple toolbars;  Add a

@@ -72,6 +72,7 @@ static const char **parser_desired_format;
 /* Locale info.  */
 static char parser_decimal_point;
 static char parser_separator;
+static char parser_array_col_separator;
  
 static ExprTree **parser_result;
 
@@ -276,10 +277,21 @@ array_row: array_exp {
 		$$ = g_list_prepend (NULL, $1);
 		alloc_glist ($$);
         }
-	| array_exp SEPARATOR array_row {
-		forget_glist ($3);
-		$$ = g_list_prepend ($3, $1);
-		alloc_glist  ($$);
+	| array_exp ',' array_row {
+		if (parser_array_col_separator == ',') {
+			forget_glist ($3);
+			$$ = g_list_prepend ($3, $1);
+			alloc_glist  ($$);
+		} else
+			parser_error = PARSE_ERR_SYNTAX;
+	}
+	| array_exp '\\' array_row {
+		if (parser_array_col_separator == '\\') {
+			forget_glist ($3);
+			$$ = g_list_prepend ($3, $1);
+			alloc_glist  ($$);
+		} else
+			parser_error = PARSE_ERR_SYNTAX;
 	}
         | { $$ = NULL; }
 	;
@@ -783,11 +795,14 @@ gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
 	else
 		parser_decimal_point = '.';
 
-	if (parser_decimal_point == ',')
+	if (parser_decimal_point == ',') {
 		parser_separator = ';';
-	else
+		parser_array_col_separator = '\\'; /* ! */
+	} else {
 		parser_separator = ',';
-		
+		parser_array_col_separator = ',';
+	}
+
 	yyparse ();
 
 	if (parser_error == PARSE_OK)
