@@ -1241,78 +1241,78 @@ sv_selection_walk_step (SheetView *sv,
 	sv_make_cell_visible (sv, destination.col, destination.row, TRUE);
 }
 
+#ifdef NEW_GRAPHS
+#include <goffice/graph/go-plot-data.h>
+#include <goffice/graph/go-plot.h>
+#include <expr.h>
+#endif
+
+/* FIXME cheat to avoid having graph types in public headers
+ * change the gpointer to a GOPlot soon
+ */
 void
-sv_selection_to_plot (SheetView *sv, gpointer plot)
+sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 {
+#ifdef NEW_GRAPHS
 	GList *ptr = g_list_last (sv->selections);
 	Range const *r = ptr->data;
 	int num_cols = range_width (r);
 	int num_rows = range_height (r);
+	Sheet *sheet = sv_sheet (sv);
+	CellRef header;
+	GOPlot *plot = go_plot;
+	GOPlotDesc const *plot_desc;
+	GOPlotSeries *series;
 
 	/* Excel docs claim that rows == cols uses rows */
 	gboolean default_to_cols = (num_cols < num_rows);
 
-	/* selections are in reverse order */
-	ptr = g_list_last (sv->selections);
-	for (; ptr != NULL; ptr = ptr->prev)
-		;
-#if 0
-{
-	int i, count;
-	gboolean has_header, as_cols;
-	Range vector = *src;
-	CellRef header;
+	plot_desc = go_plot_description (plot);
+	series = go_plot_new_series (plot);
 
-	if (range_trim (sheet, &vector, TRUE) ||
-	    range_trim (sheet, &vector, FALSE))
-		return;
-
-	/* Special case the handling of a vector rather than a range.
-	 * it should stay in its orientation,  only ranges get split
-	 */
-	as_cols = (src->start.col == src->end.col || default_to_cols);
-	has_header = range_has_header (sheet, src, as_cols, TRUE);
 	header.sheet = sheet;
 	header.col_relative = header.row_relative = FALSE;
-	header.col = vector.start.col;
-	header.row = vector.start.row;
 
-	if (as_cols) {
-		if (has_header)
-			vector.start.row++;
-		count = vector.end.col - vector.start.col;
-		vector.end.col = vector.start.col;
-	} else {
-		if (has_header)
-			vector.start.col++;
-		count = vector.end.row - vector.start.row;
-		vector.end.row = vector.start.row;
-	}
+	/* selections are in reverse order */
+	ptr = g_list_last (sv->selections);
+	for (; ptr != NULL; ptr = ptr->prev) {
+		int i, count;
+		gboolean has_header, as_cols;
+		Range vector = *((Range const *)ptr->data);
 
-	for (i = 0 ; i <= count ; i++) {
-		int data_id = gnm_graph_add_vector (graph,
-			gnm_expr_new_constant (
-				value_new_cellrange_r (sheet, &vector)),
-			GNM_VECTOR_AUTO, sheet);
-
+		/* Special case the handling of a vector rather than a range.
+		 * it should stay in its orientation,  only ranges get split
+		 */
+		as_cols = (vector.start.col == vector.end.col || default_to_cols);
+		has_header = range_has_header (sheet, &vector, as_cols, TRUE);
 		if (has_header) {
-			GnmGraphVector *h_vec, *d_vec;
-			int header_id = gnm_graph_add_vector (graph,
-				gnm_expr_new_cellref (&header),
-				GNM_VECTOR_STRING, sheet);
-			h_vec = g_ptr_array_index (graph->vectors, header_id);
-			h_vec->is_header = TRUE;
-			d_vec = g_ptr_array_index (graph->vectors, data_id);
-			d_vec->header = h_vec;
+			header.col = vector.start.col;
+			header.row = vector.start.row;
 		}
 
-		if (as_cols)
-			vector.end.col = vector.start.col = ++header.col;
-		else
-			vector.end.row = vector.start.row = ++header.row;
-	}
-}
+		if (as_cols) {
+			if (has_header)
+				vector.start.row++;
+			count = vector.end.col - vector.start.col;
+			vector.end.col = vector.start.col;
+		} else {
+			if (has_header)
+				vector.start.col++;
+			count = vector.end.row - vector.start.row;
+			vector.end.row = vector.start.row;
+		}
 
-	gnm_graph_arrange_vectors (state->graph);
+		for (i = 0 ; i <= count ; i++) {
+			gnm_expr_new_constant (value_new_cellrange_r (sheet, &vector));
+
+			if (has_header)
+				gnm_expr_new_cellref (&header);
+
+			if (as_cols)
+				header.col = vector.start.col = ++vector.end.col;
+			else
+				header.row = vector.start.row = ++vector.end.row;
+		}
+	}
 #endif
 }
