@@ -2,6 +2,8 @@ Gnumeric 0.58
 
 Almer:
 	* Undo for autoformat.
+	* Beautify stf dialog.
+	* Stf and other bugfixes.
 
 Jody:
 	* Fix popup context menus.

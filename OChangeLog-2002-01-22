@@ -1,5 +1,10 @@
 2000-11-01  Almer S. Tigelaar  <almer1@dds.nl>
 
+	* src/dialogs/dialog-stf.glade: 
+	Beautify dialog.
+
+2000-11-01  Almer S. Tigelaar  <almer1@dds.nl>
+
 	* src/print-cell.c:
 	(print_cell_range): Fix #29442, if a cell's background
 	is 'printed' this also counts as a 'printed cell'

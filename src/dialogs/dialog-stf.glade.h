@@ -6,24 +6,28 @@
 
 gchar *s = N_("Gnumeric : Importing structured text");
 gchar *s = N_("Data type and number of lines");
-gchar *s = N_("Select the structure of the text that most closely matches the data. Separated means that the each column is separated by a 'separation' character and fixed width means that you can define the width of each column yourself. In addition to that you can specify wether you want to trim spaces and how, if you are not sure just leave this at the default setting. You should also select what part of the data you want to import by adjusting the from and to line.");
+gchar *s = N_("Select the structure of the text that most closely matches the data.");
 gchar *s = N_("Formatting options");
 gchar *s = N_("Trim :");
 gchar *s = N_("Original data type :");
-gchar *s = N_("Always (Both sides)\n"
-              "Never\n"
-              "On left side only\n"
-              "On right side only\n"
-              "");
+gchar *s = N_("Trim leading and trailing spaces from each column, if you are unsure you should leave this at the default setting");
+gchar *s = N_("Always (Both sides)");
+gchar *s = N_("Never");
+gchar *s = N_("On left side only");
+gchar *s = N_("On right side only");
+gchar *s = N_("Each column in the text is separated by a 'separation' character, e.g. a semicolon");
 gchar *s = N_("_Separated");
+gchar *s = N_("Define the width of each column manually");
 gchar *s = N_("Fixed wi_dth");
 gchar *s = N_("Lines to import");
 gchar *s = N_("Fr_om line :");
+gchar *s = N_("Actual processing will start at this line, any previous lines will be ignored");
 gchar *s = N_("_To line : ");
+gchar *s = N_("Processing ends at this line, any subsequent lines will be ignored");
 gchar *s = N_("Number of lines to import");
 gchar *s = N_("Example");
 gchar *s = N_("Separation customization");
-gchar *s = N_("Select the separators that appear in the text (you can choose multiple separators if desired and also enter a custom one). You may choose the string indicator and wether you want to see two successive separators as one aswell. Changes will reflect in the example below.");
+gchar *s = N_("Select the separators that appear in the text (you can choose multiple separators if desired and also enter a custom one)");
 gchar *s = N_("Separators");
 gchar *s = N_("C_ustom");
 gchar *s = N_("H_yphen (-)");
@@ -35,31 +39,42 @@ gchar *s = N_("Co_mma (,)");
 gchar *s = N_("P_ipe (|)");
 gchar *s = N_("Semicolo_n (;)");
 gchar *s = N_("Slas_h (/)");
+gchar *s = N_("Custom separator, this can be any character");
 gchar *s = N_("Misc");
+gchar *s = N_("See two successive separators as one");
 gchar *s = N_("S_ee two separators as one");
-gchar *s = N_("_Adjacent quotes escaped");
+gchar *s = N_("See two successive text indicators as one that does not terminate the cell");
+gchar *s = N_("_Adjacent text indicators escaped");
 gchar *s = N_("Te_xt indicator : ");
-gchar *s = N_("\"\n"
-              "'\n"
-              "`\n"
-              "");
+gchar *s = N_("\"");
+gchar *s = N_("'");
+gchar *s = N_("`");
+gchar *s = N_("Character interpreted as quote character. If the separation character is encountered within quotes it will be ignored");
 gchar *s = N_("\"");
 gchar *s = N_("Example");
 gchar *s = N_("Fixed width customization");
-gchar *s = N_("Customize the columns using the add/remove buttons or the mouse : left click to create a new column, right click on a colum border to delete an existing column and hold the left mouse button on a column border and drag to resize a column. Auto column discovery will try to recognize columns in the text automatically.");
+gchar *s = N_("Customize the columns using the buttons or the mouse (hover mouse above example for instructions)");
 gchar *s = N_("Columns");
 gchar *s = N_("Column");
 gchar *s = N_("End");
 gchar *s = N_("Co_lumn end : ");
+gchar *s = N_("Set the end of this column");
+gchar *s = N_("Add a new column");
 gchar *s = N_("_Add");
+gchar *s = N_("Remove selected column");
 gchar *s = N_("_Remove");
+gchar *s = N_("Clear list of columns");
 gchar *s = N_("_Clear");
+gchar *s = N_("Attempt to recognize columns in the text automatically");
 gchar *s = N_("Auto Column _Discovery");
 gchar *s = N_("Example");
+gchar *s = N_("Left click to create a new column, right click on a column border to delete an existing column or hold the left mouse button on a column border and drag to resize a column");
 gchar *s = N_("Column formatting");
-gchar *s = N_("Select the format for each column. You can click in the column list on the left to select a column, or you can click in the preview. You can then enter a custom format or select one from the list on the right.");
+gchar *s = N_("Select the format for each column. You can click in the column list on the left or in the example to select a column. You can then enter a custom format or select one from the list on the right.");
 gchar *s = N_("Per column formatting");
 gchar *s = N_("Column");
 gchar *s = N_("Format");
 gchar *s = N_("_Format :");
+gchar *s = N_("Formatting for the selected column");
 gchar *s = N_("Example");
+gchar *s = N_("Click to select a column");

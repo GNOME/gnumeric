@@ -79,7 +79,7 @@
 	      <class>GtkLabel</class>
 	      <name>label1</name>
 	      <width>505</width>
-	      <label>Select the structure of the text that most closely matches the data. Separated means that the each column is separated by a 'separation' character and fixed width means that you can define the width of each column yourself. In addition to that you can specify wether you want to trim spaces and how, if you are not sure just leave this at the default setting. You should also select what part of the data you want to import by adjusting the from and to line.</label>
+	      <label>Select the structure of the text that most closely matches the data.</label>
 	      <justify>GTK_JUSTIFY_LEFT</justify>
 	      <wrap>True</wrap>
 	      <xalign>7.45058e-09</xalign>
@@ -170,6 +170,7 @@
 		<widget>
 		  <class>GtkOptionMenu</class>
 		  <name>main_trim</name>
+		  <tooltip>Trim leading and trailing spaces from each column, if you are unsure you should leave this at the default setting</tooltip>
 		  <can_focus>True</can_focus>
 		  <items>Always (Both sides)
 Never
@@ -196,6 +197,7 @@ On right side only
 		<widget>
 		  <class>GtkRadioButton</class>
 		  <name>main_separated</name>
+		  <tooltip>Each column in the text is separated by a 'separation' character, e.g. a semicolon</tooltip>
 		  <can_focus>True</can_focus>
 		  <label>_Separated</label>
 		  <active>True</active>
@@ -220,6 +222,7 @@ On right side only
 		<widget>
 		  <class>GtkRadioButton</class>
 		  <name>main_fixed</name>
+		  <tooltip>Define the width of each column manually</tooltip>
 		  <can_focus>True</can_focus>
 		  <label>Fixed wi_dth</label>
 		  <active>False</active>
@@ -251,7 +254,7 @@ On right side only
 	      <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	      <child>
 		<padding>0</padding>
-		<expand>False</expand>
+		<expand>True</expand>
 		<fill>True</fill>
 	      </child>
 
@@ -284,6 +287,7 @@ On right side only
 		  <class>GtkSpinButton</class>
 		  <name>main_startrow</name>
 		  <width>96</width>
+		  <tooltip>Actual processing will start at this line, any previous lines will be ignored</tooltip>
 		  <can_focus>True</can_focus>
 		  <climb_rate>1</climb_rate>
 		  <digits>0</digits>
@@ -326,6 +330,7 @@ On right side only
 		  <class>GtkSpinButton</class>
 		  <name>main_stoprow</name>
 		  <width>96</width>
+		  <tooltip>Processing ends at this line, any subsequent lines will be ignored</tooltip>
 		  <can_focus>True</can_focus>
 		  <climb_rate>1</climb_rate>
 		  <digits>0</digits>
@@ -375,7 +380,7 @@ On right side only
 	      <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	      <child>
 		<padding>0</padding>
-		<expand>True</expand>
+		<expand>False</expand>
 		<fill>True</fill>
 	      </child>
 
@@ -445,7 +450,7 @@ On right side only
 	    <class>GtkLabel</class>
 	    <name>label4</name>
 	    <width>505</width>
-	    <label>Select the separators that appear in the text (you can choose multiple separators if desired and also enter a custom one). You may choose the string indicator and wether you want to see two successive separators as one aswell. Changes will reflect in the example below.</label>
+	    <label>Select the separators that appear in the text (you can choose multiple separators if desired and also enter a custom one)</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>True</wrap>
 	    <xalign>7.45058e-09</xalign>
@@ -726,6 +731,7 @@ On right side only
 		  <class>GtkEntry</class>
 		  <name>csv_customseparator</name>
 		  <width>90</width>
+		  <tooltip>Custom separator, this can be any character</tooltip>
 		  <can_focus>True</can_focus>
 		  <editable>True</editable>
 		  <text_visible>True</text_visible>
@@ -771,6 +777,7 @@ On right side only
 		<widget>
 		  <class>GtkCheckButton</class>
 		  <name>csv_duplicates</name>
+		  <tooltip>See two successive separators as one</tooltip>
 		  <can_focus>True</can_focus>
 		  <label>S_ee two separators as one</label>
 		  <active>False</active>
@@ -785,8 +792,9 @@ On right side only
 		<widget>
 		  <class>GtkCheckButton</class>
 		  <name>csv_2x_indicator</name>
+		  <tooltip>See two successive text indicators as one that does not terminate the cell</tooltip>
 		  <can_focus>True</can_focus>
-		  <label>_Adjacent quotes escaped</label>
+		  <label>_Adjacent text indicators escaped</label>
 		  <active>True</active>
 		  <draw_indicator>True</draw_indicator>
 		  <child>
@@ -848,6 +856,7 @@ On right side only
 		      <child_name>GtkCombo:entry</child_name>
 		      <name>csv_textfield</name>
 		      <width>90</width>
+		      <tooltip>Character interpreted as quote character. If the separation character is encountered within quotes it will be ignored</tooltip>
 		      <can_focus>True</can_focus>
 		      <editable>True</editable>
 		      <text_visible>True</text_visible>
@@ -984,10 +993,10 @@ On right side only
 	    <class>GtkLabel</class>
 	    <name>label16</name>
 	    <width>505</width>
-	    <label>Customize the columns using the add/remove buttons or the mouse : left click to create a new column, right click on a colum border to delete an existing column and hold the left mouse button on a column border and drag to resize a column. Auto column discovery will try to recognize columns in the text automatically.</label>
+	    <label>Customize the columns using the buttons or the mouse (hover mouse above example for instructions)</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>True</wrap>
-	    <xalign>7.45058e-09</xalign>
+	    <xalign>0</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
@@ -1148,6 +1157,7 @@ On right side only
 			<class>GtkSpinButton</class>
 			<name>fixed_colend</name>
 			<width>127</width>
+			<tooltip>Set the end of this column</tooltip>
 			<can_focus>True</can_focus>
 			<climb_rate>1</climb_rate>
 			<digits>0</digits>
@@ -1199,25 +1209,31 @@ On right side only
 		      <widget>
 			<class>GtkButton</class>
 			<name>fixed_add</name>
+			<tooltip>Add a new column</tooltip>
 			<can_default>True</can_default>
 			<can_focus>True</can_focus>
 			<label>_Add</label>
+			<relief>GTK_RELIEF_NORMAL</relief>
 		      </widget>
 
 		      <widget>
 			<class>GtkButton</class>
 			<name>fixed_remove</name>
+			<tooltip>Remove selected column</tooltip>
 			<can_default>True</can_default>
 			<can_focus>True</can_focus>
 			<label>_Remove</label>
+			<relief>GTK_RELIEF_NORMAL</relief>
 		      </widget>
 
 		      <widget>
 			<class>GtkButton</class>
 			<name>fixed_clear</name>
+			<tooltip>Clear list of columns</tooltip>
 			<can_default>True</can_default>
 			<can_focus>True</can_focus>
 			<label>_Clear</label>
+			<relief>GTK_RELIEF_NORMAL</relief>
 		      </widget>
 		    </widget>
 		  </widget>
@@ -1240,9 +1256,11 @@ On right side only
 		    <widget>
 		      <class>GtkButton</class>
 		      <name>fixed_auto</name>
+		      <tooltip>Attempt to recognize columns in the text automatically</tooltip>
 		      <can_default>True</can_default>
 		      <can_focus>True</can_focus>
 		      <label>Auto Column _Discovery</label>
+		      <relief>GTK_RELIEF_NORMAL</relief>
 		    </widget>
 		  </widget>
 		</widget>
@@ -1288,6 +1306,7 @@ On right side only
 		  <name>fixed_canvas</name>
 		  <width>473</width>
 		  <height>150</height>
+		  <tooltip>Left click to create a new column, right click on a column border to delete an existing column or hold the left mouse button on a column border and drag to resize a column</tooltip>
 		  <can_focus>True</can_focus>
 		  <anti_aliased>False</anti_aliased>
 		  <scroll_x1>0</scroll_x1>
@@ -1374,7 +1393,7 @@ On right side only
 	    <class>GtkLabel</class>
 	    <name>label6</name>
 	    <width>505</width>
-	    <label>Select the format for each column. You can click in the column list on the left to select a column, or you can click in the preview. You can then enter a custom format or select one from the list on the right.</label>
+	    <label>Select the format for each column. You can click in the column list on the left or in the example to select a column. You can then enter a custom format or select one from the list on the right.</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>True</wrap>
 	    <xalign>7.45058e-09</xalign>
@@ -1502,6 +1521,7 @@ On right side only
 		  <widget>
 		    <class>GtkEntry</class>
 		    <name>format_format</name>
+		    <tooltip>Formatting for the selected column</tooltip>
 		    <can_focus>True</can_focus>
 		    <editable>True</editable>
 		    <text_visible>True</text_visible>
@@ -1595,6 +1615,7 @@ On right side only
 		  <name>format_canvas</name>
 		  <width>473</width>
 		  <height>150</height>
+		  <tooltip>Click to select a column</tooltip>
 		  <can_focus>True</can_focus>
 		  <anti_aliased>False</anti_aliased>
 		  <scroll_x1>0</scroll_x1>
