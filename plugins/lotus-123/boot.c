@@ -33,13 +33,14 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean lotus_file_probe (GnumFileOpener const *fo, const gchar *file_name);
+gboolean lotus_file_probe (GnumFileOpener const *fo, const gchar *file_name,
+                           FileProbeLevel pl);
 void     lotus_file_open (GnumFileOpener const *fo, IOContext *io_context,
                           WorkbookView *wb_view, const char *filename);
 
 
 gboolean
-lotus_file_probe (GnumFileOpener const *fo, const gchar *file_name)
+lotus_file_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeLevel pl)
 {
 	char magic[4];
 	FILE *f;
