@@ -51,10 +51,13 @@ void correlation_tool (Workbook *wb, Sheet *current_sheet,
 void covariance_tool (Workbook *wb, Sheet *current_sheet, 
 		      Range *input_range, int columns_flag,
 		      data_analysis_output_t *dao);
-void
-descriptive_stat_tool (Workbook *wb, Sheet *current_sheet, 
-                       Range *input_range, int columns_flag,
-		       descriptive_stat_tool_t *ds,
-		       data_analysis_output_t *dao);
+void descriptive_stat_tool (Workbook *wb, Sheet *current_sheet, 
+			    Range *input_range, int columns_flag,
+			    descriptive_stat_tool_t *ds,
+			    data_analysis_output_t *dao);
+
+int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
+		   gboolean periodic_flag, int size,
+		   data_analysis_output_t *dao);
 
 #endif /* GNUMERIC_DIALOGS_H */

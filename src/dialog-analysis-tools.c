@@ -46,6 +46,7 @@ tool_list_t tools[] = {
         { { "Correlation", NULL }, dummy_fun },
         { { "Covariance", NULL }, dummy_fun },
         { { "Descriptive Statistics", NULL }, dummy_fun },
+        { { "Sampling", NULL }, dummy_fun },
 	{ { NULL, NULL }, NULL }
 };
 
@@ -112,6 +113,13 @@ static char *groupped_ops [] = {
         NULL
 };
 
+static char *sample_method_ops [] = {
+        N_("Periodic"),
+        N_("Random"),
+        NULL
+};
+
+
 static void
 add_check_buttons (GtkWidget *box, check_button_t *cbs)
 {
@@ -149,15 +157,16 @@ tool_dialog_range(Workbook *wb, Sheet *sheet, int ti)
 	static GtkWidget *input_range, *groupped_label;
 	static GtkWidget *input_range_label;
 	static GtkWidget *check_buttons;
-	static GSList    *group_ops;
+	static GSList    *group_ops, *sampling_ops;
 	static GtkWidget *r;
+	static GtkWidget *sampling_entry[2];
 
 	data_analysis_output_t  dao;
 
 	char  *text;
 	int   selection;
 	static Range range_input;
-	int   i;
+	int   i=0, size;
 
 	if (!dialog[ti]) {
 		dialog[ti] = gnome_dialog_new (_(tools[ti].name.col1),
@@ -183,11 +192,14 @@ tool_dialog_range(Workbook *wb, Sheet *sheet, int ti)
 					     input_range_label);
 		gtk_box_pack_start_defaults (GTK_BOX (hbox_x),
 					     input_range);
+
+		group_ops = NULL;
+		if (ti == 3)
+		        goto skip_groupped;
 		groupped_label = gtk_label_new ("Groupped By:");
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog[ti])->vbox), 
 					     groupped_label);
-		group_ops = NULL;
 		for (i = 0; groupped_ops [i]; i++) {
 			r = gtk_radio_button_new_with_label (group_ops,
 							     _(groupped_ops[i])
@@ -199,12 +211,56 @@ tool_dialog_range(Workbook *wb, Sheet *sheet, int ti)
 						      (dialog[ti])->vbox), 
 					     group_box);
 
+	skip_groupped:
+
+		/* Tool specific buttons and entries */
 		if (ti == 2) {
 		        check_buttons = gtk_vbox_new (FALSE, 0);
 		        add_check_buttons(check_buttons, desc_stat_buttons);
 			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG
 						     (dialog[ti])->vbox), 
 					    check_buttons, TRUE, TRUE, 0);
+		} else if (ti == 3) {
+		        GtkWidget *sampling_label =
+			  gtk_label_new ("Sampling Method:");
+			GtkWidget *sampling_box;
+
+			gtk_box_pack_start_defaults
+			  (GTK_BOX (GNOME_DIALOG(dialog[ti])->vbox), 
+			   sampling_label);
+
+		        sampling_box = gtk_vbox_new (FALSE, 0);
+			sampling_ops = NULL;
+			for (i = 0; sample_method_ops [i]; i++) {
+			        GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+			        GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
+				GtkWidget *label;
+
+				if (i==0)
+				        label = gtk_label_new ("Period:");
+				else
+				        label =
+					  gtk_label_new ("Number of Samples:");
+				sampling_entry[i] =
+				  gtk_entry_new_with_max_length (20);
+			        r = gtk_radio_button_new_with_label
+				  (sampling_ops, _(sample_method_ops[i]));
+				sampling_ops = GTK_RADIO_BUTTON (r)->group;
+				gtk_box_pack_start_defaults (GTK_BOX (hbox),
+							     label);
+				gtk_box_pack_start_defaults(GTK_BOX (hbox),
+							    sampling_entry[i]);
+				gtk_box_pack_start_defaults (GTK_BOX (vbox),
+							     r);
+				gtk_box_pack_start_defaults (GTK_BOX (vbox),
+							     hbox);
+				gtk_box_pack_start_defaults
+				  (GTK_BOX (GNOME_DIALOG(dialog[ti])->vbox),
+				   vbox);
+			}
+			gtk_box_pack_start_defaults
+			  (GTK_BOX (GNOME_DIALOG(dialog[ti])->vbox), 
+			   sampling_box);
 		}
 
 		gtk_widget_show_all (dialog[ti]);
@@ -221,7 +277,8 @@ tool_dialog_loop:
 		return;
 	}
 
-	i = gtk_radio_group_get_selected (group_ops);
+	if (ti != 3)
+	        i = gtk_radio_group_get_selected (group_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (input_range));
 	if (!parse_range (text, &range_input.start_col,
@@ -257,6 +314,12 @@ tool_dialog_loop:
 		ds.k_smallest = atoi(text);
 
 	        descriptive_stat_tool(wb, sheet, &range_input, !i, &ds, &dao);
+		break;
+	case 3:
+	        i = gtk_radio_group_get_selected(sampling_ops);
+		text = gtk_entry_get_text (GTK_ENTRY (sampling_entry[i]));
+		size = atoi(text);
+	        sampling_tool (wb, sheet, &range_input, !i, size, &dao);
 		break;
 	}
 

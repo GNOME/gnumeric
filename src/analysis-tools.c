@@ -9,9 +9,12 @@
 #include <gnome.h>
 #include <string.h>
 #include <math.h>
+#include "mathfunc.h"
+#include "numbers.h"
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
+#include "utils.h"
 
 
 
@@ -28,6 +31,17 @@ typedef struct {
 
 
 /***** Some general routines ***********************************************/
+
+static int
+int_compare (const int *x, const int *y)
+{
+        if (*x < *y)
+	        return -1;
+	else if (*x == *y)
+	        return 0;
+	else
+	        return 1;
+}
 
 static gint
 float_compare (const float_t *a, const float_t *b)
@@ -69,6 +83,51 @@ set_cell (data_analysis_output_t *dao, int col, int row, char *text)
 	return cell;
 }
 
+static void
+get_data(Sheet *sheet, Range *range, data_set_t *data)
+{
+        gpointer p;
+	Cell     *cell;
+	Value    *v;
+	float_t  x;
+	int      row, col;
+
+	data->sum = 0;
+	data->sum2 = 0;
+	data->sqrsum = 0;
+	data->n = 0;
+	data->array = NULL;
+
+	for (col=range->start_col; col<=range->end_col; col++)
+	        for (row=range->start_row; row<=range->end_row; row++) {
+		        cell = sheet_cell_get(sheet, col, row);
+			if (cell != NULL && cell->value != NULL) {
+			        v = cell->value;
+				if (VALUE_IS_NUMBER(v))
+				        x = value_get_as_float (v);
+				else
+				        x = 0;
+
+				p = g_new(float_t, 1);
+				*((float_t *) p) = x;
+				data->array = g_slist_append(data->array, p);
+				data->sum += x;
+				data->sqrsum += x*x;
+				if (data->n == 0) {
+				        data->min = x;
+					data->max = x;
+				} else {
+				        if (data->min > x)
+					        data->min = x;
+					if (data->max < x)
+					        data->max = x;
+				}
+				data->n++;
+			}
+		}
+
+	data->sum2 = data->sum * data->sum;
+}
 
 static void
 get_data_groupped_by_columns(Sheet *sheet, Range *range, int col,
@@ -602,9 +661,10 @@ summary_statistics(Workbook *wb, data_set_t *data_set, int vars,
 }
 
 static void
-confidence_level(Workbook *wb, data_set_t *data_set, int vars,
+confidence_level(Workbook *wb, data_set_t *data_set, int vars, float_t c_level,
 		 data_analysis_output_t *dao)
 {
+        float_t x;
         char    buf[256];
         int col;
 
@@ -615,10 +675,19 @@ confidence_level(Workbook *wb, data_set_t *data_set, int vars,
 	}
 
 	for (col=0; col<vars; col++) {
+	        float_t stdev = sqrt((data_set[col].sqrsum - 
+				      data_set[col].sum2/data_set[col].n) /
+				     (data_set[col].n - 1));
+
 	        sprintf(buf, "Column %d", col+1);
 		set_cell (dao, col+1, 0, buf);
+
+		x = -qnorm(c_level / 2, 0, 1) * (stdev/sqrt(data_set[col].n));
+		sprintf(buf, "%f", x);
+		set_cell (dao, col+1, 2, buf);
 	}
-        set_cell (dao, 0, 2, "Confidence Level(x%)");
+	sprintf(buf, "Confidence Level(%g%%)", c_level*100);
+        set_cell (dao, 0, 2, buf);
 }
 
 static void
@@ -714,7 +783,7 @@ descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
         if (ds->summary_statistics)
                 summary_statistics(wb, data_sets, vars, dao);
         if (ds->confidence_level)
-                confidence_level(wb, data_sets, vars, dao);
+                confidence_level(wb, data_sets, vars, ds->c_level, dao);
         if (ds->kth_largest)
                 kth_largest(wb, data_sets, vars, ds->k_largest, dao);
         if (ds->kth_smallest)
@@ -722,4 +791,128 @@ descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
 
 	for (i=0; i<vars; i++)
 	        free_data_set(&data_sets[i]);
+}
+
+
+
+/************* Sampling Tool *********************************************
+ *
+ * Sampling tool takes a sample from a given data set.  Sample can be
+ * a random sample where a given number of data points are selected
+ * randomly from the data set.  The sample can also be a periodic
+ * sample where, for example, every fourth data element is selected to
+ * the sample.  The results are given in a table which can be printed
+ * out in a new sheet, in a new workbook, or simply into an existing
+ * sheet.
+ *
+ * TODO: a new workbook output and output to an existing sheet
+ *
+ **/
+
+
+/* Returns 1 if error occured, for example random sample size is
+ * larger than the data set.
+ **/
+int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
+		   gboolean periodic_flag, int size,
+		   data_analysis_output_t *dao)
+{
+        data_set_t data_set;
+	char       buf[256];
+	float_t    x;
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "Sample");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
+
+	get_data(sheet, input_range, &data_set);
+
+	if (periodic_flag) {
+	        GSList *current = data_set.array;
+		int    counter = size-1;
+		int    row = 0;
+
+		while (current != NULL) {
+		        if (++counter == size) {
+			        x = *((float_t *) current->data);
+				sprintf(buf, "%f", x);
+				set_cell (dao, 0, row++, buf);
+				counter = 0;
+			}
+		        current = current->next;
+		}
+	} else {
+	        int     *index_tbl;
+		int     i, n, x;
+		GSList  *current = data_set.array;
+		int     counter = 0;
+		int     row=0;
+
+	        if (size > data_set.n)
+		        return 1;
+
+		if (size <= data_set.n/2) {
+		        index_tbl = g_new(int, size);
+
+			for (i=0; i<size; i++) {
+			try_again_1:
+			        x = random_01() * size;
+				for (n=0; n<i; n++)
+				        if (index_tbl[n] == x)
+					        goto try_again_1;
+				index_tbl[i] = x;
+			}
+			qsort(index_tbl, size, sizeof(int), 
+			      int_compare);
+			n = 0;
+			while (current != NULL) {
+			        if (counter++ == index_tbl[n]) {
+					sprintf(buf, "%f", 
+						*((float_t *) current->data));
+					set_cell (dao, 0, row++, buf);
+					++n;
+				}
+				current = current->next;
+			}
+			g_free(index_tbl);
+		} else {
+		        if (data_set.n != size)
+			        index_tbl = g_new(int, data_set.n-size);
+			else {
+			        index_tbl = g_new(int, 1);
+				index_tbl[0] = -1;
+			}
+
+			for (i=0; i<data_set.n-size; i++) {
+			try_again_2:
+			        x = random_01() * size;
+				for (n=0; n<i; n++)
+				        if (index_tbl[n] == x)
+					        goto try_again_2;
+				index_tbl[i] = x;
+			}
+			if (data_set.n != size)
+			        qsort(index_tbl, size, sizeof(int), 
+				      int_compare);
+			n = 0;
+			while (current != NULL) {
+			        if (counter++ == index_tbl[n])
+					++n;
+				else {
+					sprintf(buf, "%f", 
+						*((float_t *) current->data));
+					set_cell (dao, 0, row++, buf);
+				}
+				current = current->next;
+			}
+			g_free(index_tbl);
+		}
+		
+	}
+
+	free_data_set (&data_set);
+
+	return 0;
 }

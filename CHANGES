@@ -10,6 +10,7 @@ Jukka:
 	* Started the implementation of Data Analysis tools
 	- Implemented Correlation and Covariance tools
 	- Implemented Descriptive Statistics Tool
+	- Implemented Sampling Tool
 	* Added the following functions:
 	- FORECAST() and INTERCEPT().
         * And fixed these functions:
