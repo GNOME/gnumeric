@@ -302,7 +302,7 @@ setup_rotation (PrintJobInfo *pj)
 
 	if (pj->pi->orientation == PRINT_ORIENT_VERTICAL)
 		return;
-	
+
 	art_affine_rotate (affine, 90.0);
 	gnome_print_concat (pj->print_context, affine);
 
@@ -372,15 +372,15 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	for (i = 0; i < pj->n_copies; i++){
 		double x = base_x;
 		double y = base_y;
+		char *pagenotxt;
 
-		{
-			char *text;
-			text = hf_format_render (_("&[PAGE]"),
-						 pj->render_info, HF_RENDER_PRINT);
-			if (!text) text = g_strdup_printf ("%d", pj->render_info->page);
-			gnome_print_beginpage (pj->print_context, text);
-			g_free (text);
-		}
+		/* Note: we cannot have spaces in page numbers.  */
+		pagenotxt = hf_format_render (_("&[PAGE]"),
+					      pj->render_info, HF_RENDER_PRINT);
+		if (!pagenotxt)
+			pagenotxt = g_strdup_printf ("%d", pj->render_info->page);
+		gnome_print_beginpage (pj->print_context, pagenotxt);
+		g_free (pagenotxt);
 
 		setup_rotation (pj);	
 		print_headers (pj);
@@ -910,7 +910,7 @@ sheet_print (Sheet *sheet, gboolean preview,
 		pj->start_page = first-1;
 		pj->end_page = end-1;
 	}
-  
+
 	gpm = gnome_print_master_new ();
 	gnome_print_master_set_paper (gpm, pj->pi->paper);
 	if (printer)
@@ -943,7 +943,10 @@ sheet_print (Sheet *sheet, gboolean preview,
 	gnome_print_master_close (gpm);
 
 	if (preview) {
-		pmp = gnome_print_master_preview_new (gpm, _("Print preview"));
+		gboolean landscape = pj->pi->orientation == PRINT_ORIENT_HORIZONTAL;
+		pmp = gnome_print_master_preview_new (gpm,
+						      _("Print preview"),
+						      landscape);
 		gtk_widget_show (GTK_WIDGET (pmp));
 	} else {
 		gnome_print_master_print (gpm);
