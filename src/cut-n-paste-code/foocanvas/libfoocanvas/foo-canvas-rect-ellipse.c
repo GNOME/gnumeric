@@ -44,6 +44,7 @@
 #include <string.h>
 
 #ifdef HAVE_RENDER
+#include <gdk/gdkx.h>
 #include <X11/extensions/Xrender.h>
 #endif
 

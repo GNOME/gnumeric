@@ -22,6 +22,7 @@ cat <<EOF
 #ifndef GNUMERIC_PATHS_H
 #define GNUMERIC_PATHS_H
 
+#define GNUMERIC_VERSION "$gnumeric_version"
 #define GNUMERIC_PREFIX "$gnumeric_prefix"
 #define GNUMERIC_SYSCONFDIR "$gnumeric_sysconfdir"
 #define GNUMERIC_DATADIR "$gnumeric_datadir"

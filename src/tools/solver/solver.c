@@ -44,8 +44,9 @@
 #include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
+#ifdef HAVE_TIMES
 #include <sys/times.h>
-
+#endif
 
 extern const gchar *solver_max_time_err;
 

@@ -215,7 +215,7 @@ go_file_create (char const *uri, GError **err)
 #ifdef WITH_GNOME
 	return gsf_output_gnomevfs_new (uri, err);
 #else
-	g_set_error (err, gsf_output_error (), 0,
+	g_set_error (err, gsf_output_error_id (), 0,
 		     "Invalid or non-supported URI");
 	return NULL; 
 #endif

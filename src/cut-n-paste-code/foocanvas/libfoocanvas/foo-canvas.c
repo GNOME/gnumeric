@@ -2788,7 +2788,12 @@ foo_canvas_key (GtkWidget *widget, GdkEventKey *event)
 
 	canvas = FOO_CANVAS (widget);
 
-	return emit_event (canvas, (GdkEvent *) event);
+	if (emit_event (canvas, (GdkEvent *) event))
+		return TRUE;
+	if (event->type == GDK_KEY_RELEASE)
+		return GTK_WIDGET_CLASS (canvas_parent_class)->key_release_event (widget, event);
+	else
+		return GTK_WIDGET_CLASS (canvas_parent_class)->key_press_event (widget, event);
 }
 
 

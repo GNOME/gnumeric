@@ -26,9 +26,7 @@
 #include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <sys/types.h>
-#include <sys/mman.h>
 #include <unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "cell.h"

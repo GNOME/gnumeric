@@ -1562,7 +1562,7 @@ static GtkActionEntry actions[] = {
 		G_CALLBACK (cb_insert_rows) },
 
 	{ "ChartGuru", "Gnumeric_GraphGuru", N_("C_hart..."),
-		NULL, N_("Launch the Chart Guru"),
+		NULL, N_("Insert a Chart"),
 		G_CALLBACK (cb_launch_chart_guru) },
 	{ "InsertImage", "Gnumeric_InsertImage", N_("_Image..."),
 		NULL, N_("Insert an image"),

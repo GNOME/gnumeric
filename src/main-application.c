@@ -52,6 +52,10 @@ int gnumeric_no_splash = FALSE;
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
 
+/* Even given popt.h, compiler won't be able to resolve the popt macros
+   as const expressions in the initializer without this decl on win32 */
+extern struct poptOption poptHelpOptions[];
+
 static struct poptOption const
 gnumeric_popt_options[] = {
 	{ "version", 'v', POPT_ARG_NONE, &gnumeric_show_version, 0,

@@ -32,12 +32,9 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/wait.h>
 #include <sys/time.h>
-#include <sys/utsname.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <fnmatch.h>
 #include <locale.h>
 #include <gmodule.h>
 #include <application.h>

@@ -150,12 +150,14 @@ Pending Patches
 - load/save of external references
 - all the merged cell singleton bugs
 
+- R1C1
 - finish corba plugin
 - conditional formats : could be done if someone wanted to work on the dialog
 - scripting
 - undo/redo transaction file
 - drawing rotated borders
-- ssconvert for non-gnome
+- repeat (http://bugzilla.gnome.org/show_bug.cgi?id=143244)	(DONE)
+- ssconvert for non-gnome					(DONE)
 
 Excel i/o
     - 'Forms' import.
@@ -236,12 +238,12 @@ Short Term Goals
 	1.8.5) const vector value				(DONE)
 	1.8.6) const vector string				(DONE)
 	1.8.7) translation of const vector strings		(DONE)
-    1.9) Pie Plot
+    1.9) Pie Plot						(DONE)
 	1.9.1) Make the segments curve				(DONE)
 	1.9.2) extracted segments				(DONE)
 	1.9.3) Rings						(DONE)
-	1.9.4) extracting single wedges
-	1.9.5) formating single wedges
+	1.9.4) extracting single wedges				(DONE)
+	1.9.5) formating single wedges				(DONE)
     1.10) Bar/Col Plot						(DONE)
 	1.10.1) merge bar/col stack type bools into 1 enum	(DONE)
 	1.10.2) normal						(DONE)
@@ -283,7 +285,7 @@ Short Term Goals
 	1.14.9) Add a font selector to the editor		(DONE)
 	1.14.10) Value formating (at least percentage and date)	(DONE)
 	1.14.11) Support index type axis			(DONE)
-	1.14.12) Use a map function (log, invert, date)
+	1.14.12) Use a map function (log, invert, date) {emmanuel}
 	1.14.13) Allow a plot to select a different axis
 	1.14.14) Filter add plot in guru to matching types
 	1.14.15) Editor for min/max/major/minor			(DONE)
@@ -332,13 +334,11 @@ Short Term Goals
 	    1.20.1.6) patterns					(DONE)
 	1.20.2) outline line pattern
 	1.20.3) font selector					(DONE)
-	1.20.4) Support 'auto' settings
+	1.20.4) Support 'auto' settings				(DONE)
 	    1.20.4.1) outline (colour)				(DONE)
 	    1.20.4.2) line (color)				(DONE)
 	    1.20.4.3) fill (colors)	 			(DONE)
 	    1.20.4.4) marker 					(DONE)
-	    1.20.4.5) font 
-	    1.20.4.6) fill type
 	1.20.5) image selector
 	    1.20.5.1) drag destination for background images
 	    1.20.5.2) scale image preview                       (DONE)
@@ -350,6 +350,7 @@ Short Term Goals
 	1.21.3) selector for graphs
 	1.21.4) How to change a graph's theme
 	1.21.5) Use Roles rather than Types to enumerate	(DONE)
+	1.21.5) Allow type aliases				(DONE)
     1.22) Legend
 	1.22.1) Set up cardinality framework.			(DONE)
 	1.22.2) Get things to update when chart changes		(DONE)
@@ -522,6 +523,7 @@ Short Term Goals
 	    6.14.1.5) collect fmts
 	    6.14.1.6) Create a NullRenderer for measurement
 	    6.14.1.7) Handle multiple charts in a graph
+	    6.14.1.8) spid group allocation for gradients
 	6.14.2) Pie						(DONE)
 	    6.14.2.1) Basic					(DONE)
 	    6.14.2.2) Ring					(DONE)
@@ -561,6 +563,7 @@ Short Term Goals
 	6.14.10) OOo compat
 	    6.14.10.1) Bubble seems broken
 	    6.14.10.2) Markers are not appearing
+	6.14.11) Singletons
     6.15) Store and round trip macros (functional, but could be prettier)
 	6.15.1) blob CompObj stream				(DONE)
 	6.15.2) blob property streams to get the flags		(DONE)
@@ -650,6 +653,8 @@ Short Term Goals
     30.3) support command line flags via popt
     30.4) remove bogosity of function pointers that are unused
     	in the base instance.
+    30.5) Allow import of multiple views
+    30.5) Allow export of multiple views
 
 31) sylk
     31.1) importer
