@@ -614,6 +614,8 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
 		}
 	}
 
+
+#ifdef ENABLE_BONOBO
 	for (l = pj->sheet_objects; l; l = l->next) {
 		SheetObjectPrintInfo *pi = l->data;
 
@@ -623,6 +625,7 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
 	}
 	g_list_free (pj->sheet_objects);
 	pj->sheet_objects = NULL;
+#endif
 
 	g_list_free (cols);
 	g_list_free (rows);
