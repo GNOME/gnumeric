@@ -748,17 +748,20 @@ print_cell_range (GnomePrintContext *context,
 				Cell *cell = sheet_cell_get (sheet, col, row);
 				MStyle *mstyle = NULL;
 
-				if (output)
+				if (output) {
 					mstyle = print_cell_background (
 						context, sheet, ci, ri,
 						col, row, x, y, FALSE);
-
+				}
+				
 				if (!cell_is_blank (cell)){
 					if (output)
 						print_cell (cell, mstyle, NULL,
 							    context, x, y);
-					printed = TRUE;
 				}
+
+				printed = TRUE;
+				
 				if (mstyle)
 					mstyle_unref (mstyle);
 
