@@ -1326,7 +1326,7 @@ static GNM_ACTION_DEF (cb_format_row_unhide)
 #endif
 
 /* Actions that are always sensitive */
-static GtkActionEntry permanent_actions[] = {
+static /* const 142334 */ GtkActionEntry permanent_actions[] = {
 	{ "MenuFile",		NULL, N_("_File") },
 	{ "MenuEdit",		NULL, N_("_Edit") },
 		{ "MenuEditClear",	GTK_STOCK_CLEAR, N_("C_lear") },
@@ -1383,7 +1383,7 @@ static GtkActionEntry permanent_actions[] = {
 
 };
 
-static GtkActionEntry actions[] = {
+static /* const 142334 */ GtkActionEntry actions[] = {
 /* File */
 	{ "FileNew", GTK_STOCK_NEW, NULL,
 		NULL, N_("Create a new workbook"),
@@ -1926,7 +1926,7 @@ TOGGLE_HANDLER (outline_symbols_right,{
 		sheet_adjust_preferences (sheet, TRUE, TRUE);
 })
 
-static GtkToggleActionEntry toggle_actions[] = {
+static /* const 142334 */ GtkToggleActionEntry toggle_actions[] = {
 	{ "SheetDisplayOutlines", NULL, N_("Display _Outlines"),
 		NULL, N_("Toggle whether or not to display outline groups"),
 		G_CALLBACK (cb_sheet_pref_display_outlines) },
@@ -1997,7 +1997,7 @@ static GtkToggleActionEntry toggle_actions[] = {
 	        G_CALLBACK (cb_view_statusbar), TRUE }
 };
 
-static GtkToggleActionEntry font_toggle_actions[] = {
+static /* const 142334 */ GtkToggleActionEntry font_toggle_actions[] = {
 	{ "FontBold", GTK_STOCK_BOLD,
 		N_("_Bold"), "<control>B",
 		N_("Bold"), G_CALLBACK (cb_font_bold), FALSE },
