@@ -1,12 +1,17 @@
+1998-09-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/render-ascii.c (cell_region_render_ascii): Ok, remove the
+	leaks now.
+
 1998-09-25 Adrian Likins <adrian@gimp.org>
 
-	*docs/cell_refer.sgml
-         docs/gnumeric.sgml
-         docs/editing.sgml: Change the structure of the outline
+	*doc/cell_refer.sgml
+         doc/gnumeric.sgml
+         doc/editing.sgml: Change the structure of the outline
          of the docs to make a bit mroe sense. Added some more
          docs too.
 
-        *docs/cell-*.jpg, docs/selection[8,9,10].jpg: more jpgs
+        *doc/cell-*.jpg, doc/selection[8,9,10].jpg: more jpgs
 
 1998-09-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
@@ -45,16 +50,16 @@
 
 1998-09-25 Adrian Likins <adrian@gimp.org>
 
-	* docs/dndselection.sgml, selection.sml: more docs, some
+	* doc/dndselection.sgml, selection.sml: more docs, some
         on creating selections, and some on moving/copying cells
-	* docs/dndselection-*.jpg, selection-*.jpg: jpegs to 
+	* doc/dndselection-*.jpg, selection-*.jpg: jpegs to 
         accompany the docs.
 
 1998-09-24 Adrian Likins <adrian@gimp.org>
 
-       * docs/gnumeric.sgml, autofill.sgml: Some docs on the autofill 
+       * doc/gnumeric.sgml, autofill.sgml: Some docs on the autofill 
         stuff.
-       * docs/autofill-[1..10].jpg: jpegs accompaning the autofill docs
+       * doc/autofill-[1..10].jpg: jpegs accompaning the autofill docs
 
 1998-09-24  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 

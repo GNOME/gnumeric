@@ -14,10 +14,10 @@
 char *
 cell_region_render_ascii (CellRegion *cr)
 {
-	int col, row;
-	char ***data;
+	GString *all, *line;
 	GList *l;
-	GString *all;
+	char ***data, *return_val;
+	int col, row;
 
 	g_assert (cr != NULL);
 	data = g_new0 (char **, cr->rows);
@@ -32,21 +32,30 @@ cell_region_render_ascii (CellRegion *cr)
 	}
 
 	all = g_string_new (NULL);
+	line = g_string_new (NULL);
 	for (row = 0; row < cr->rows; row++){
-		GString *str;
-
-		str = g_string_new (NULL);
-
+		g_string_assign (line, "");
+		
 		for (col = 0; col < cr->cols; col++){
 			if (data [row][col])
-				g_string_append (str, data [row][col]);
-			g_string_append_c (str, '\t');
+				g_string_append (line, data [row][col]);
+			g_string_append_c (line, '\t');
 		}
-		g_string_append (all, str->str);
+		g_string_append (all, line->str);
 		g_string_append_c (all, '\n');
 	}
 
-	return all->str;
+	return_val = g_strdup (all->str);
+
+	/* Release, everything we used */
+	g_string_free (line, TRUE);
+	g_string_free (all, TRUE);
+
+	for (row = 0; row < cr->rows; row++)
+		g_free (data [row]);
+	g_free (data);
+
+	return return_val;
 }
 
 

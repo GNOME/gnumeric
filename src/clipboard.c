@@ -101,11 +101,16 @@ CellRegion *
 clipboard_copy_cell_range (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
 {
 	append_cell_closure_t c;
-
+	GtkEditable *editable;
+	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (start_col <= end_col, NULL);
 	g_return_val_if_fail (start_row <= end_row, NULL);
+
+	if (!editable){
+		editable = GTK_EDITABLE (gtk_type_new (gtk_editable_get_type ()));
+	}
 	
 	c.r = g_new0 (CellRegion, 1);
 
@@ -166,7 +171,7 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 	GList *deps;
 	int formulas = 0;
 	int col, row;
-
+	
 	g_return_if_fail (region != NULL);
 	g_return_if_fail (dest_sheet != NULL);
 	g_return_if_fail (IS_SHEET (dest_sheet));

@@ -2,11 +2,8 @@
  * Rudimentary support for Python in gnumeric.
  */
 
-#include <string.h>
-
-#include <glib.h>
 #include <gnome.h>
-
+#include <string.h>
 #include "../../src/gnumeric.h"
 #include "../../src/symbol.h"
 #include "../../src/plugin.h"
@@ -178,20 +175,18 @@ no_unloading_for_me(PluginData *pd)
 int
 init_plugin(PluginData * pd)
 {
-  PyObject *m, *d, *f;
-
   pd->can_unload = no_unloading_for_me;
   pd->title = g_strdup("Python Plugin");
 
 
   /* initialize the python interpreter */
-  Py_SetProgramName("gnumeric");
-  Py_Initialize();
+  Py_SetProgramName ("gnumeric");
+  Py_Initialize ();
 
   /* setup standard functions */
-  initgnumeric();
-  if (PyErr_Occurred()) {
-    PyErr_Print();
+  initgnumeric ();
+  if (PyErr_Occurred ()) {
+    PyErr_Print ();
     return -1;
   }
 

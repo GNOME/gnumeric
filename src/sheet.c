@@ -2204,7 +2204,7 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->selections);
-	
+
 	content = sheet->workbook->clipboard_contents;
 	
 	if (!content)
@@ -2228,7 +2228,7 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 
 	end_col = dest_col + paste_width - 1;
 	end_row = dest_row + paste_height - 1;
-	
+
 	clipboard_paste_region (content, sheet, dest_col, dest_row,
 				paste_width, paste_height, paste_flags);
 	
