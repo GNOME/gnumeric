@@ -1628,20 +1628,17 @@ ms_biff_query_data_to_stream (BIFF_QUERY *bq)
 	return ans;
 }
 
-#if G_BYTE_ORDER != G_LITTLE_ENDIAN
+#if G_BYTE_ORDER == G_BIG_ENDIAN
 double biff_getdouble(guint8 *p)
 {
     double d;
     int i;
     guint8 *t = (guint8 *)&d;
+    int sd = sizeof (d);
 
-    p += 4;
-    for (i = 0; i < 4; i++)
-        *t++ = *p++;
+    for (i = 0; i < sd; i++)
+      t[i] = p[sd - 1 - i];
 
-    p -= 8;
-    for (i = 0; i < 4; i++)
-	*t++ = *p++;
     return d;
 }
 #endif
