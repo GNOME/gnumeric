@@ -78,6 +78,7 @@
 
 #include <ctype.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <errno.h>
 
 gboolean
@@ -3701,8 +3702,18 @@ show_gui (WorkbookControlGUI *wbcg)
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	int sx = MAX (gdk_screen_width  (), 600);
 	int sy = MAX (gdk_screen_height (), 200);
+	int x_loc = 0;
+	int y_loc = 0;
+	gboolean reposition_window;
 
-	/* Set grid size to preferred width */
+	reposition_window = x_geometry && wbv && 
+		(wbv->preferred_width == 0 && wbv->preferred_height == 0) &&
+		sscanf (x_geometry, "%ix%i+%i+%i", 
+			&wbv->preferred_width, &wbv->preferred_height,
+			&x_loc, &y_loc) > 2;
+	x_geometry = NULL;
+
+/* Set grid size to preferred width */
 	if (wbv && (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
 		int pwidth = wbv->preferred_width;
 		int pheight = wbv->preferred_height;
@@ -3732,6 +3743,9 @@ show_gui (WorkbookControlGUI *wbcg)
 	}
 
 	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));
+
+	if (reposition_window)
+		gtk_window_reposition(wbcg->toplevel, x_loc, y_loc);
 
 	/* rehide headers if necessary */
 	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))) {

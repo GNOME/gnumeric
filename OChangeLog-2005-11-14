@@ -1,3 +1,9 @@
+2001-11-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	* src/workbook-control-gui.c (show_gui) : use -geometry option from
+	  command line (if available) for first window
+	* src/main.h : new static variable x_geometry
+	* src/main.c : new command line option -geometry (#57588)
+
 2001-11-27  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (xml_write_names) : export the position correctly.

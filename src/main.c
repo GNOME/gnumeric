@@ -72,6 +72,7 @@ static const char **startup_files = NULL;
 static int gnumeric_show_version = FALSE;
 char *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char *gnumeric_data_dir = GNUMERIC_DATADIR;
+char *x_geometry;
 
 poptContext ctx;
 
@@ -102,6 +103,9 @@ gnumeric_popt_options[] = {
 	    &libole2_debug, 0,
 	  N_("Enables extra consistency checking while reading ole files"),
 	  NULL  },
+
+	{ "geometry", 'g', POPT_ARG_STRING, &x_geometry, 0,
+	  N_(""), NULL  }, /* POST-RELEASE-FIX: describe option*/
 
 	{ NULL, '\0', 0, NULL, 0 }
 };

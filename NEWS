@@ -8,6 +8,7 @@ Andreas:
 	* Fix parsing error in analysis tools expecting sheet references
           when none is given
 	* Fix sheet reference in database function criteria (# 65353 (1))
+	* Implement -geometry cmd line option
 
 Jody:
 	* Tricky corner cases for style applications.

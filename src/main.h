@@ -9,6 +9,7 @@ extern int gnumeric_debugging;
 extern int style_debugging;
 extern int dependency_debugging;
 extern gboolean initial_workbook_open_complete;
+extern char *x_geometry;
 
 void   gnumeric_arg_parse (int argc, char *argv []);
 
