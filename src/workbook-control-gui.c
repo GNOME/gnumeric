@@ -479,11 +479,11 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		void (*function) (GtkWidget *widget, SheetControlGUI *scg);
 		int  flags;
 	} const sheet_label_context_actions [] = {
-		{ N_("Add another sheet"), &sheet_action_add_sheet, 0 },
-		{ N_("Remove this sheet"), &delete_sheet_if_possible, SHEET_CONTEXT_TEST_SIZE },
-		{ N_("Rename this sheet"), &sheet_action_rename_sheet, 0 },
 		{ N_("Duplicate this sheet"), &sheet_action_clone_sheet, 0 },
+		{ N_("Insert a new sheet"), &sheet_action_add_sheet, 0 },
+		{ N_("Rename this sheet"), &sheet_action_rename_sheet, 0 },
 		{ N_("Re-order sheets"), &sheet_action_reorder_sheet, SHEET_CONTEXT_TEST_SIZE },
+		{ N_("Remove this sheet"), &delete_sheet_if_possible, SHEET_CONTEXT_TEST_SIZE },
 		{ NULL, NULL }
 	};
 

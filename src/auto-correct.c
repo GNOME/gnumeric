@@ -149,9 +149,11 @@ autocorrect_tool (char const *command)
 
 		for (s = ucommand; *s; s = p+1) {
 		skip_first_letter:
-			p = strchr(s, '.');
-			if (p == NULL)
+			for (p = s; s != '\0' && !ispunct (p) ; p++)
+				;
+			if (p == '\0')
 				break;
+
 			while (isspace(*s))
 				++s;
 			if (islower (*s) && (s == ucommand || isspace (s[-1]))) {

@@ -1,5 +1,10 @@
 2001-12-29  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c (sheet_menu_label_run) : make the context menu
+	  match the standard menus.
+
+	* src/auto-correct.c (autocorrect_tool) : Use ispunct.
+
 	* src/sheet-merge.c (sheet_merge_add) : update the status of the
 	  merged region.
 	(sheet_merge_remove) : ditto.
