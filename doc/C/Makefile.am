@@ -21,11 +21,6 @@ SGML_FILES =			\
 	text-entry.sgml		\
 	worksheet.sgml
 
-TEXT_FILES =			\
-	Design			\
-	Future-Roadmap		\
-	saving.txt
-
 PERL_FILES = 			\
 	make-index.pl		\
 	make-docbook.pl	
