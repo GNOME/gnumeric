@@ -2299,7 +2299,7 @@ typedef struct {
 	GnmExprEntry *entry;
 	GogDataset *dataset;
 	int dim_i;
-	gboolean prefers_scalar;
+	GogDataType data_type;
 } GraphDimEditor;
 
 static void
@@ -2334,7 +2334,7 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 		/* TODO : add some error dialogs split out
 		 * the code in workbok_edit to add parens.  */
 		if (expr == NULL) {
-			if (editor->prefers_scalar)
+			if (editor->data_type == GOG_DATA_SCALAR)
 				expr = gnm_expr_new_constant (value_new_string (
 					gnm_expr_entry_get_text	(editor->entry)));
 			else {
@@ -2347,9 +2347,16 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 			}
 		}
 
-		data = (editor->prefers_scalar)
-			? gnm_go_data_scalar_new_expr (sheet, expr)
-			: gnm_go_data_vector_new_expr (sheet, expr);
+		switch (editor->data_type) {
+		case GOG_DATA_SCALAR:
+			data = gnm_go_data_scalar_new_expr (sheet, expr);
+			break;
+		case GOG_DATA_VECTOR:
+			data = gnm_go_data_vector_new_expr (sheet, expr);
+			break;
+		case GOG_DATA_MATRIX:
+			data = gnm_go_data_matrix_new_expr (sheet, expr);
+		}
 	}
 
 	/* The SheetObjectGraph does the magic to link things in */
@@ -2386,7 +2393,7 @@ graph_dim_editor_free (GraphDimEditor *editor)
 
 static gpointer
 wbcg_data_allocator_editor (GogDataAllocator *dalloc,
-			    GogDataset *dataset, int dim_i, gboolean prefers_scalar)
+			    GogDataset *dataset, int dim_i, GogDataType data_type)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (dalloc);
 	GraphDimEditor *editor;
@@ -2395,7 +2402,7 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 	editor = g_new (GraphDimEditor, 1);
 	editor->dataset		= dataset;
 	editor->dim_i		= dim_i;
-	editor->prefers_scalar	= prefers_scalar;
+	editor->data_type	= data_type;
 	editor->entry  		= gnm_expr_entry_new (wbcg, TRUE);
 	g_object_weak_ref (G_OBJECT (editor->dataset),
 		(GWeakNotify) cb_dim_editor_weakref_notify, editor);

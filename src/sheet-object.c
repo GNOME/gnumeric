@@ -898,6 +898,7 @@ sheet_objects_init (void)
 	SHEET_OBJECT_IMAGE_TYPE;
 	GNM_GO_DATA_SCALAR_TYPE;
 	GNM_GO_DATA_VECTOR_TYPE;
+	GNM_GO_DATA_MATRIX_TYPE;
 	CELL_COMMENT_TYPE;
 
 	sheet_object_widget_register ();

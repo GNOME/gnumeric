@@ -681,6 +681,405 @@ gnm_go_data_vector_new_expr (Sheet *sheet, GnmExpr const *expr)
 	return GO_DATA (res);
 }
 
+/**************************************************************************/
+
+struct _GnmGODataMatrix {
+	GODataMatrix	base;
+	GnmDependent	 dep;
+	GnmValue	*val;
+};
+typedef GODataMatrixClass GnmGODataMatrixClass;
+
+#define DEP_TO_MATRIX(d_ptr) (GnmGODataMatrix *)(((char *)d_ptr) - G_STRUCT_OFFSET (GnmGODataMatrix, dep))
+
+static GObjectClass *matrix_parent_klass;
+
+static void
+gnm_go_data_matrix_eval (GnmDependent *dep)
+{
+	GnmGODataMatrix *mat = DEP_TO_MATRIX (dep);
+
+	if (mat->val != NULL) {
+		value_release (mat->val);
+		mat->val = NULL;
+	}
+	go_data_emit_changed (GO_DATA (mat));
+}
+
+static void
+gnm_go_data_matrix_finalize (GObject *obj)
+{
+	GnmGODataMatrix *mat = (GnmGODataMatrix *)obj;
+
+	dependent_set_expr (&mat->dep, NULL);
+	if (mat->val != NULL) {
+		value_release (mat->val);
+		mat->val = NULL;
+	}
+	if (mat->base.values != NULL) {
+		g_free (mat->base.values);
+		mat->base.values = NULL;
+	}
+
+	(*matrix_parent_klass->finalize) (obj);
+}
+
+static void
+gnm_go_data_matrix_load_size (GODataMatrix *dat)
+{
+	GnmGODataMatrix *mat = (GnmGODataMatrix *)dat;
+	GnmEvalPos ep;
+	GnmRange r;
+	Sheet *start_sheet, *end_sheet;
+	unsigned h, w;
+	int old_rows = dat->size.rows, old_columns = dat->size.columns;
+
+	eval_pos_init_dep (&ep, &mat->dep);
+	if (mat->val == NULL)
+		mat->val = gnm_expr_eval (mat->dep.expression, &ep,
+			GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
+
+#if 0
+	{
+		char *str = go_data_as_str (dat);
+		g_warning ("load_len '%s'", str);
+		g_free (str);
+	}
+#endif
+
+	if (mat->val != NULL) {
+		switch (mat->val->type) {
+		case VALUE_CELLRANGE:
+			rangeref_normalize (&mat->val->v_range.cell, &ep,
+				&start_sheet, &end_sheet, &r);
+			if (r.end.col > start_sheet->cols.max_used)
+				r.end.col = start_sheet->cols.max_used;
+			if (r.end.row > start_sheet->rows.max_used)
+				r.end.row = start_sheet->rows.max_used;
+
+			if (r.end.col >= r.start.col && r.end.row >= r.start.row) {
+				w = range_width (&r);
+				h = range_height (&r);
+				if (w > 0 && h > 0) {
+					dat->size.rows = h;
+					dat->size.columns = w;
+				}
+				else {
+					dat->size.rows = 0;
+					dat->size.columns = 0;
+				}
+			} else {
+				dat->size.rows = 0;
+				dat->size.columns = 0;
+			}
+			break;
+
+		case VALUE_ARRAY :
+			dat->size.rows = mat->val->v_array.y;
+			dat->size.columns = mat->val->v_array.x;
+			break;
+
+		default :
+			dat->size.rows = 1;
+			dat->size.columns = 1;
+		}
+	} else {
+		dat->size.rows = 0;
+		dat->size.columns = 0;
+	}
+	if (dat->values != NULL &&
+			(old_rows != dat->size.rows || old_columns != dat->size.columns)) {
+		g_free (dat->values);
+		dat->values = NULL;
+	}
+	dat->base.flags |= GO_DATA_MATRIX_SIZE_CACHED;
+}
+
+struct assign_matrix_closure {
+	double minimum, maximum;
+	double *vals;
+	int first_row, first_col;
+	int last_row, last_col;
+	int row, col, columns, k;
+};
+
+static GnmValue *
+cb_assign_matrix_val (Sheet *sheet, int col, int row,
+	       GnmCell *cell, struct assign_matrix_closure *dat)
+{
+	GnmValue *v;
+	double res;
+
+	if (dat->first_row == -1)
+		dat->first_row = row;
+	dat->row = row - dat->first_row;
+
+	if (dat->first_col == -1)
+		dat->first_col = col;
+	dat->col = col - dat->first_col;
+	
+	if (cell != NULL) {
+		cell_eval (cell);
+		v = cell->value;
+	} else
+		v = NULL;
+	
+
+	if (VALUE_IS_EMPTY_OR_ERROR (v)) {
+		dat->vals[dat->row * dat->columns + dat->col] = go_nan;
+		return NULL;
+	}
+
+	if (dat->last_row < dat->row)
+		dat->last_row = dat->row;
+	if (dat->last_col < dat->col)
+		dat->last_col = dat->col;
+
+	if (v->type == VALUE_STRING) {
+		v = format_match_number (v->v_str.val->str, NULL,
+				workbook_date_conv (sheet->workbook));
+		if (v == NULL) {
+			dat->vals[dat->row * dat->columns + dat->col] = go_nan;
+			/* may be go_pinf should be more appropriate? */
+			return NULL;
+		}
+		res = value_get_as_float (v);
+		value_release (v);
+	} else
+		res = value_get_as_float (v);
+
+	dat->vals[dat->row * dat->columns + dat->col] = res;
+	if (dat->minimum > res)
+		dat->minimum = res;
+	if (dat->maximum < res)
+		dat->maximum = res;
+	return NULL;
+}
+
+static void
+gnm_go_data_matrix_load_values (GODataMatrix *dat)
+{
+	GnmGODataMatrix *mat = (GnmGODataMatrix *)dat;
+	GnmEvalPos ep;
+	GnmRange r;
+	Sheet *start_sheet, *end_sheet;
+	GOMatrixSize size = go_data_matrix_get_size (dat); /* force calculation */
+	double *vals, minimum, maximum;
+	GnmValue *v;
+	int row, col, cur;
+	struct assign_matrix_closure closure;
+
+	if (size.rows <= 0 || size.columns <= 0) {
+		dat->values = NULL;
+		dat->minimum = go_nan;
+		dat->maximum = go_nan;
+		dat->base.flags |= GO_DATA_CACHE_IS_VALID;
+		return;
+	}
+
+	if (dat->values == NULL)
+		dat->values = g_new (double, size.rows * size.columns);
+	vals = dat->values;
+	switch (mat->val->type) {
+	case VALUE_CELLRANGE:
+		rangeref_normalize (&mat->val->v_range.cell,
+			eval_pos_init_dep (&ep, &mat->dep),
+			&start_sheet, &end_sheet, &r);
+
+		/* In case the sheet is empty */
+		if (r.start.col <= r.end.col && r.start.row <= r.end.row) {
+			closure.maximum = - G_MAXDOUBLE;
+			closure.minimum = G_MAXDOUBLE;
+			closure.vals = dat->values;
+			closure.first_row = closure.last_row = -1;
+			closure.first_col = closure.last_col = -1;
+			closure.row = closure.col = 0;
+			closure.columns = dat->size.columns;
+			sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
+				r.start.col, r.start.row, r.end.col, r.end.row,
+				(CellIterFunc)cb_assign_matrix_val, &closure);
+#warning Should we clip the matrix?
+			minimum = closure.minimum;
+			maximum = closure.maximum;
+			if (minimum > maximum)
+				minimum = maximum = go_nan;
+		} else
+			minimum = maximum = vals[0] = go_nan;
+		break;
+
+	case VALUE_ARRAY :
+		maximum = - G_MAXDOUBLE;
+		minimum = G_MAXDOUBLE;
+		for (col = 0; col < size.columns; col ++)
+			for (row = 0; row < size.rows; row++) {
+				v = mat->val->v_array.vals[row][col];
+				cur = col * size.rows + row;
+				if (VALUE_IS_EMPTY_OR_ERROR (v)) {
+					vals[row * size.columns + col] = go_nan;
+					continue;
+				} else if (v->type == VALUE_STRING) {
+					GnmValue *tmp = format_match_number (v->v_str.val->str, NULL,
+							workbook_date_conv (mat->dep.sheet->workbook));
+					if (tmp != NULL) {
+						vals[cur] = value_get_as_float (tmp);
+						value_release (tmp);
+					} else {
+						vals[cur] = go_nan;
+						continue;
+					}
+				} else
+					vals[cur] = value_get_as_float (v);
+				if (minimum > vals[cur])
+					minimum = vals[cur];
+				if (maximum < vals[cur])
+					maximum = vals[cur];
+			}
+		if (minimum > maximum)
+			minimum = maximum = go_nan;
+		break;
+
+	case VALUE_STRING :
+		v = format_match_number (mat->val->v_str.val->str, NULL,
+			workbook_date_conv (mat->dep.sheet->workbook));
+		if (v != NULL) {
+			vals[0] = value_get_as_float (v);
+			minimum = maximum = go_nan;
+			value_release (v);
+			break;
+		}
+		/* fall through to errors */
+
+	case VALUE_EMPTY :
+	case VALUE_ERROR :
+		minimum = maximum = vals[0] = go_nan;
+		break;
+	default :
+		vals[0] = value_get_as_float (mat->val);
+		minimum = maximum = go_nan;
+		break;
+	}
+
+	dat->values = vals;
+	dat->minimum = minimum;
+	dat->maximum = maximum;
+	dat->base.flags |= GO_DATA_CACHE_IS_VALID;
+}
+
+static double
+gnm_go_data_matrix_get_value (GODataMatrix *dat, unsigned i, unsigned j)
+{
+	GnmGODataMatrix *mat = (GnmGODataMatrix *)dat;
+	GnmValue *v;
+	GnmEvalPos ep;
+	gboolean valid;
+
+	if (mat->val == NULL)
+		gnm_go_data_matrix_load_size (dat);
+
+	eval_pos_init_dep (&ep, &mat->dep);
+	v = (GnmValue*) value_area_get_x_y (mat->val, i, j, &ep);
+	v = value_coerce_to_number (v, &valid, &ep);
+
+	if (valid) {
+		gnm_float res = value_get_as_float (v);
+		value_release (v);
+		return res;
+	}
+	return go_nan;
+}
+
+static char *
+gnm_go_data_matrix_get_str (GODataMatrix *dat, unsigned i, unsigned j)
+{
+	GnmGODataMatrix *mat = (GnmGODataMatrix *)dat;
+	GnmValue const *v;
+	GnmEvalPos ep;
+	GnmFormat const *format = NULL;
+	GnmDateConventions const *date_conv = NULL;
+
+	if (mat->val == NULL)
+		gnm_go_data_matrix_load_size (dat);
+
+	g_return_val_if_fail (mat->val != NULL, NULL);
+
+	v = mat->val;
+	eval_pos_init_dep (&ep, &mat->dep);
+	if (v->type == VALUE_CELLRANGE) {
+		Sheet *start_sheet, *end_sheet;
+		GnmCell  *cell;
+		GnmRange  r;
+
+		rangeref_normalize (&v->v_range.cell, &ep,
+				    &start_sheet, &end_sheet, &r);
+		r.start.row += i;
+		r.start.col += j;
+		cell = sheet_cell_get (start_sheet, r.start.col, r.start.row);
+		if (cell == NULL)
+			return NULL;
+		cell_eval (cell);
+		v = cell->value;
+		format = cell_get_format (cell);
+		date_conv = workbook_date_conv (start_sheet->workbook);
+	} else if (v->type == VALUE_ARRAY)
+		v = value_area_get_x_y (v, i, j, &ep);
+
+	switch (v->type){
+	case VALUE_ARRAY:
+	case VALUE_CELLRANGE:
+		g_warning ("nested non-scalar types ?");
+		return NULL;
+
+	default :
+		return format_value (format, v, NULL, 8, date_conv);
+	}
+}
+
+static void
+gnm_go_data_matrix_class_init (GObjectClass *gobject_klass)
+{
+	GODataClass *godata_klass = (GODataClass *) gobject_klass;
+	GODataMatrixClass *matrix_klass = (GODataMatrixClass *) gobject_klass;
+
+	matrix_parent_klass = g_type_class_peek_parent (gobject_klass);
+	gobject_klass->finalize		= gnm_go_data_matrix_finalize;
+	godata_klass->dup		= gnm_go_data_dup;
+	godata_klass->eq		= gnm_go_data_eq;
+	godata_klass->preferred_fmt	= gnm_go_data_preferred_fmt;
+	godata_klass->as_str		= gnm_go_data_as_str;
+	godata_klass->from_str		= gnm_go_data_from_str;
+	matrix_klass->load_size		= gnm_go_data_matrix_load_size;
+	matrix_klass->load_values	= gnm_go_data_matrix_load_values;
+	matrix_klass->get_value		= gnm_go_data_matrix_get_value;
+	matrix_klass->get_str		= gnm_go_data_matrix_get_str;
+}
+
+static void
+gnm_go_data_matrix_debug_name (GnmDependent const *dep, FILE *out)
+{
+	fprintf (out, "GraphMatrix%p", dep);
+}
+static DEPENDENT_MAKE_TYPE (gnm_go_data_matrix, NULL)
+
+static void
+gnm_go_data_matrix_init (GObject *obj)
+{
+	GnmGODataMatrix *mat = (GnmGODataMatrix *)obj;
+	mat->dep.flags = gnm_go_data_matrix_get_dep_type ();
+}
+
+GSF_CLASS (GnmGODataMatrix, gnm_go_data_matrix,
+	   gnm_go_data_matrix_class_init, gnm_go_data_matrix_init,
+	   GO_DATA_MATRIX_TYPE)
+
+GOData *
+gnm_go_data_matrix_new_expr (Sheet *sheet, GnmExpr const *expr)
+{
+	GnmGODataMatrix *res = g_object_new (gnm_go_data_matrix_get_type (), NULL);
+	res->dep.expression = expr;
+	res->dep.sheet = sheet;
+	return GO_DATA (res);
+}
+
 /*******************************************************************************/
 
 static GnmDependent *
@@ -690,5 +1089,7 @@ gnm_go_data_get_dep (GOData const *dat)
 		return &((GnmGODataScalar *)dat)->dep;
 	if (IS_GNM_GO_DATA_VECTOR (dat))
 		return &((GnmGODataVector *)dat)->dep;
+	if (IS_GNM_GO_DATA_MATRIX (dat))
+		return &((GnmGODataMatrix *)dat)->dep;
 	return NULL;
 }

@@ -1329,6 +1329,47 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 	ptr = g_list_last (sv->selections);
 
 /* FIXME : a cheesy quick implementation */
+	cur_dim = desc->series.num_dim - 1;
+	if (desc->series.dim[cur_dim].val_type == GOG_DIM_MATRIX) {
+		/* Here, only the first range is used. It is assumed it is large enough
+		to retrieve the axis data and the matrix z values. We probably should raise
+		an error condition if it is not the case */
+		GnmRange vector = *((GnmRange const *)ptr->data);
+		int start_row = vector.start.row;
+		int start_col = vector.start.col;
+		int end_row = vector.end.row;
+		int end_col = vector.end.col;
+		/* check if we need X and Y axis labels */
+		if (desc->series.num_dim > 1) {
+			/* first row will be used as X labels */
+			start_row ++;
+			if (desc->series.num_dim > 2) {
+				/* first column will be used as Y labels */
+				start_col ++;
+				vector.start.row = start_row;
+				vector.start.col = vector.end.col = start_col - 1;
+				gog_series_set_dim (series, cur_dim - 1,
+					gnm_go_data_vector_new_expr (sheet,
+						gnm_expr_new_constant (
+							value_new_cellrange_r (sheet, &vector))), NULL);
+			}
+			vector.start.row = vector.end.row  = start_row - 1;
+			vector.start.col = start_col;
+			vector.end.col = end_col;
+			/* we assume that there are at most three dims (X, Y and Z) */
+			gog_series_set_dim (series, 0,
+				gnm_go_data_vector_new_expr (sheet,
+					gnm_expr_new_constant (
+						value_new_cellrange_r (sheet, &vector))), NULL);
+		}
+		vector.start.row = start_row;
+		vector.end.row = end_row;
+		gog_series_set_dim (series, cur_dim,
+			gnm_go_data_matrix_new_expr (sheet,
+				gnm_expr_new_constant (
+					value_new_cellrange_r (sheet, &vector))), NULL);
+		return;
+	}
 	cur_dim = 0;
 	for (; ptr != NULL; ptr = ptr->prev) {
 		GnmRange vector = *((GnmRange const *)ptr->data);

@@ -1,3 +1,19 @@
+2004-10-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c: (gnm_go_data_matrix_eval),
+	(gnm_go_data_matrix_finalize), (gnm_go_data_matrix_load_size),
+	(cb_assign_matrix_val), (gnm_go_data_matrix_load_values),
+	(gnm_go_data_matrix_get_value), (gnm_go_data_matrix_get_str),
+	(gnm_go_data_matrix_class_init), (gnm_go_data_matrix_debug_name),
+	(gnm_go_data_matrix_init), (gnm_go_data_matrix_new_expr),
+	(gnm_go_data_get_dep): New GnmGODataMatrix class.
+	* src/graph.h: ditto.
+	* src/selection.c: (sv_selection_to_plot): updated to use GnmGODataMatrix
+	and related stuff.
+	* src/sheet-object.c: (sheet_objects_init): ditto.
+	* src/workbook-control-gui.c: (cb_graph_dim_editor_update),
+	(wbcg_data_allocator_editor): ditto.
+
 2004-10-08  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : throw in

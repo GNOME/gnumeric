@@ -26,4 +26,12 @@ typedef struct _GnmGODataVector GnmGODataVector;
 GType	 gnm_go_data_vector_get_type  (void);
 GOData	*gnm_go_data_vector_new_expr  (Sheet *sheet, GnmExpr const *expr);
 
+#define GNM_GO_DATA_MATRIX_TYPE	 (gnm_go_data_matrix_get_type ())
+#define GNM_GO_DATA_MATRIX(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_GO_DATA_MATRIX_TYPE, GnmGODataMatrix))
+#define IS_GNM_GO_DATA_MATRIX(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_GO_DATA_MATRIX_TYPE))
+
+typedef struct _GnmGODataMatrix GnmGODataMatrix;
+GType	 gnm_go_data_matrix_get_type  (void);
+GOData	*gnm_go_data_matrix_new_expr  (Sheet *sheet, GnmExpr const *expr);
+
 #endif /* GNUMERIC_GRAPH_H */
