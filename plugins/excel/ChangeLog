@@ -1,3 +1,10 @@
+2001-04-04  Morten Welinder  <terra@diku.dk>
+
+	* ms-escher.c (ms_escher_blip_destroy): Plug leak.
+
+	* ms-excel-util.c (lookup_font_base_char_width_new): Implement
+ 	negative caching.
+
 2001-04-01  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-obj.c (ms_obj_read_biff8_obj) : when reading the mystery trailing

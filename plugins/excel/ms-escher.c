@@ -86,6 +86,7 @@ ms_escher_blip_destroy (MSEscherBlip *blip)
 	g_free (blip->raw_data);
 	blip->raw_data = NULL;
 #endif
+	g_free (blip);
 }
 
 /*

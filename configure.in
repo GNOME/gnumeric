@@ -94,7 +94,7 @@ AC_SUBST(GNOMEGNORBA_LIBS)
 dnl ******************************
 dnl gnome-xml checking
 dnl ******************************
-AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.10 <= version < 2.0.0)
+AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.10 <= version < 2.0.0 )
 xml_ok=no
 if xml-config --libs > /dev/null 2>&1; then 
     verstxt=`xml-config --version`

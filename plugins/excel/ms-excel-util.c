@@ -168,7 +168,8 @@ two_way_table_idx_to_key (const TwoWayTable *table, gint idx)
 
 /***************************************************************************/
 
-static GHashTable * xl_font_width_hash = NULL;
+static GHashTable *xl_font_width_hash = NULL;
+static GHashTable *xl_font_width_warned = NULL;
 
 struct XL_font_width {
     int const char_width_pts;
@@ -261,16 +262,26 @@ init_xl_font_widths (void)
 	};
 	int i;
 
-	if (xl_font_width_hash == NULL)
+	if (xl_font_width_hash == NULL) {
 		xl_font_width_hash =
 		    g_hash_table_new (&g_str_hash, &g_str_equal);
+		xl_font_width_warned =
+		    g_hash_table_new (&g_str_hash, &g_str_equal);
+	}
 
-	g_return_if_fail (xl_font_width_hash != NULL);
+	g_assert (xl_font_width_hash != NULL);
+	g_assert (xl_font_width_warned != NULL);
 
 	for (i = 0; widths[i].name != NULL ; ++i)
 		g_hash_table_insert (xl_font_width_hash,
 				     (gpointer)widths[i].name,
 				     (gpointer)(widths+i));
+}
+
+static void
+cb_destroy_xl_font_widths (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
 }
 
 void
@@ -279,6 +290,12 @@ destroy_xl_font_widths (void)
 	if (xl_font_width_hash) {
 		g_hash_table_destroy (xl_font_width_hash);
 		xl_font_width_hash = NULL;
+
+		g_hash_table_foreach (xl_font_width_warned,
+				      cb_destroy_xl_font_widths,
+				      NULL);
+		g_hash_table_destroy (xl_font_width_warned);
+		xl_font_width_warned = NULL;
 	}
 }
 
@@ -301,7 +318,7 @@ lookup_font_base_char_width_new (char const * const name, double size_pts,
 	size_pts /= 20.;
 	if (res != NULL) {
 		struct XL_font_width const * info = res;
-		float width = (is_default)
+		double width = (is_default)
 			? info->defaultchar_width_pts
 			: info->char_width_pts;
 
@@ -324,7 +341,11 @@ lookup_font_base_char_width_new (char const * const name, double size_pts,
 		return width;
 	}
 
-	g_warning ("EXCEL : unknown widths for font '%s', guessing", name);
+	if (!g_hash_table_lookup (xl_font_width_warned, name)) {
+		char *namecopy = g_strdup (name);
+		g_warning ("EXCEL : unknown widths for font '%s', guessing", name);
+		g_hash_table_insert (xl_font_width_warned, namecopy, namecopy);
+	}
 
 	/* Use a rough heuristic for unknown fonts. */
 	return .5625 * size_pts;
