@@ -465,8 +465,8 @@ cb_order_sheet_row_col (const void *_a, const void *_b)
 	const EvalPos *b = *(const EvalPos **)_b;
 	int i;
 
-	/* By sheet name.  FIXME: Any better way than this?  */
-	i = g_utf8_collate (a->sheet->name_unquoted, b->sheet->name_unquoted);
+	i = strcmp (a->sheet->name_unquoted_collate_key,
+	            b->sheet->name_unquoted_collate_key);
 
 	/* By row number.  */
 	if (!i) i = (a->eval.row - b->eval.row);
@@ -484,8 +484,8 @@ cb_order_sheet_col_row (const void *_a, const void *_b)
 	const EvalPos *b = *(const EvalPos **)_b;
 	int i;
 
-	/* By sheet name.  FIXME: Any better way than this?  */
-	i = g_utf8_collate (a->sheet->name_unquoted, b->sheet->name_unquoted);
+	i = strcmp (a->sheet->name_unquoted_collate_key,
+	            b->sheet->name_unquoted_collate_key);
 
 	/* By column number.  */
 	if (!i) i = (a->eval.col - b->eval.col);

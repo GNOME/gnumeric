@@ -18,6 +18,7 @@ struct _Sheet {
 
 	char        *name_quoted;
 	char        *name_unquoted;
+	char        *name_unquoted_collate_key;
 
 	SheetStyleData *style_data; /* See sheet-style.c */
 

@@ -88,8 +88,11 @@ sheet_rename (Sheet *sheet, char const *new_name)
 
 	g_free (sheet->name_quoted);
 	g_free (sheet->name_unquoted);
-	sheet->name_unquoted = g_strdup (new_name);
+	g_free (sheet->name_unquoted_collate_key);
 	sheet->name_quoted = sheet_name_quote (new_name);
+	sheet->name_unquoted = g_strdup (new_name);
+	sheet->name_unquoted_collate_key =
+		g_utf8_collate_key (sheet->name_unquoted, -1);
 }
 
 void
@@ -152,6 +155,8 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->workbook = wb;
 	sheet->name_unquoted = g_strdup (name);
 	sheet->name_quoted = sheet_name_quote (name);
+	sheet->name_unquoted_collate_key =
+		g_utf8_collate_key (sheet->name_unquoted, -1);
 	sheet_style_init (sheet);
 
 	sheet->sheet_objects = NULL;
@@ -2671,6 +2676,7 @@ sheet_destroy (Sheet *sheet)
 
 	g_free (sheet->name_quoted);
 	g_free (sheet->name_unquoted);
+	g_free (sheet->name_unquoted_collate_key);
 	solver_param_destroy (sheet->solver_parameters);
 
 	sheet_deps_destroy (sheet);

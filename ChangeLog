@@ -1,3 +1,14 @@
+2002-08-13  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/sheet.h (struct _Sheet): Added name_unquoted_collate_key.
+
+	* src/sheet.c
+	(sheet_rename, sheet_new): Generate collation key for unquoted name
+	(sheet_destroy): g_free it here
+
+	* src/search.c (cb_order_sheet_row_col, cb_order_sheet_col_row):
+	Compare sheet names using strcmp() on collation keys
+
 2002-08-13  Peteris Krisjanis <peteris.krisjanis@os.lv>
 
 	* configure.in: (ALL_LINGUAS) Latvian (lv) language support.
