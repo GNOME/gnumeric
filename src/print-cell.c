@@ -167,40 +167,42 @@ print_show (GnomePrintContext *pc, char const *text)
 	wchar_t* wcs,wcbuf[4096];
 	char* utf8,utf8buf[4096];
 	
-	int conv_status;
-	int n = strlen(text);
+	size_t conv_status;
+	int n = strlen (text);
 	int retval;
+	const int wcbuf_len = sizeof (wcbuf) / sizeof (wcbuf[0]);
 
 	g_return_val_if_fail (pc && text, -1);	
 	
-	if ( n > (sizeof(wcbuf)/sizeof(wcbuf[0])))
-		wcs = g_new(wchar_t,n);
+	if ( n > wcbuf_len)
+		wcs = g_new (wchar_t,n);
 	else
 		wcs = wcbuf;
 
-	conv_status = mbstowcs(wcs, text, n);
+	conv_status = mbstowcs (wcs, text, n);
 
 	if (conv_status == (size_t)(-1)){
 		if (wcs != wcbuf)
 			g_free (wcs);
 		return 0;
 	};
-	if (conv_status * 6 > sizeof(utf8buf))
-		utf8 = g_new(gchar, conv_status * 6);
+	if (conv_status * 6 > sizeof (utf8buf))
+		utf8 = g_new (gchar, conv_status * 6);
 	else
 		utf8 = utf8buf;
+
 	{
-		int i;
+		size_t i;
 		char* p = utf8;
 		for(i = 0; i < conv_status; ++i)
 			p += g_unichar_to_utf8 ( (gint) wcs[i], p);
 		if (wcs != wcbuf)
-			g_free(wcs);			
+			g_free (wcs);			
 		retval = gnome_print_show_sized (pc, utf8, p - utf8);			
 	}	
 
 	if (utf8 != utf8buf)
-		g_free(utf8);
+		g_free (utf8);
 	return retval;		
 #else
 	return print_show_iso8859_1 (pc, text);
@@ -208,19 +210,19 @@ print_show (GnomePrintContext *pc, char const *text)
 };
 
 double
-get_width_string_n (GnomeFont *font,char const* text,guint n)
+get_width_string_n (GnomeFont *font, char const* text, guint n)
 {
 #ifdef _PROPER_I18N
-	wchar_t* wcs,wcbuf[4000];
-	int conv_status,i;
+	wchar_t* wcs, wcbuf[4000];
+	size_t conv_status, i;
 	double total = 0;	
 	
 	if ( n > (sizeof(wcbuf)/sizeof(wcbuf[0])))
-		wcs = g_new(wchar_t,n);
+		wcs = g_new (wchar_t,n);
 	else
 		wcs = wcbuf;
 
-	conv_status = mbstowcs(wcs, text, n);
+	conv_status = mbstowcs (wcs, text, n);
 
 	if (conv_status == (size_t)(-1)){
 		if (wcs != wcbuf)
@@ -228,11 +230,11 @@ get_width_string_n (GnomeFont *font,char const* text,guint n)
 		return 0;
 	};
 	for (i = 0; i < conv_status; ++i)
-		total += gnome_font_get_glyph_width(font, 
-				gnome_font_lookup_default(font, wcs[i]));
+		total += gnome_font_get_glyph_width (font, 
+				gnome_font_lookup_default (font, wcs[i]));
 
 	if (wcs != wcbuf)
-		g_free(wcs);
+		g_free (wcs);
 	return total;
 #else
 	return gnome_font_get_width_string_n (font, text, n);

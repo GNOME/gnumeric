@@ -70,7 +70,7 @@ hash_table_destroy_entry_cb (gpointer pkey, gpointer pvalue, gpointer data)
 static GHashTable *
 hash_table_destroy (GHashTable *table)
 {
-	int size;
+	int size, removed;
 
 	if (table == NULL)
 		return NULL;
@@ -81,8 +81,9 @@ hash_table_destroy (GHashTable *table)
 	 * before removal as a sanity check
 	 */
 	size = g_hash_table_size (table);
+	removed = g_hash_table_foreach_remove (table, hash_table_destroy_entry_cb, NULL);
 
-	if (g_hash_table_foreach_remove (table, hash_table_destroy_entry_cb, NULL) != size)
+	if (removed != size)
 		g_warning ("format-template.c: Not all items removed from hash table!");
 
 	g_hash_table_destroy (table);

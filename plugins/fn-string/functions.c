@@ -217,22 +217,23 @@ gnumeric_mid  (FunctionEvalInfo *ei, Value **argv)
 	char *s, *source;
 
 	if (argv [0]->type != VALUE_STRING ||
-	    argv [1]->type != VALUE_INTEGER ||
-	    argv [2]->type != VALUE_INTEGER)
+	    !VALUE_IS_NUMBER (argv [1]) ||
+	    !VALUE_IS_NUMBER (argv [2]))
 		return value_new_error (ei->pos, _("Type mismatch"));
 
-	len = value_get_as_int (argv [2]);
 	pos = value_get_as_int (argv [1]);
+	len = value_get_as_int (argv [2]);
 
 	if (len < 0 || pos <= 0)
 		return value_new_error (ei->pos, _("Invalid arguments"));
 
+	pos--;  /* Make pos zero-based.  */
+
 	source = argv [0]->v_str.val->str;
-	if (pos > strlen (source))
-		return value_new_string ("");
-	pos--;
-	s = g_new (gchar, len+1);
-	strncpy (s, &source[pos], len);
+	len = MIN (len, (int)strlen (source) - pos);
+
+	s = g_new (gchar, len + 1);
+	memcpy (s, source + pos, len);
 	s[len] = '\0';
 	v = value_new_string (s);
 	g_free (s);
@@ -468,24 +469,32 @@ static char *help_find = {
 static Value *
 gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 {
-	int count;
-	char *s, *p;
+	int count, haystacksize;
+	char *haystack, *needle;
+	Value *res;
 
-	if (argv[2])
-		count = value_get_as_int(argv[2]);
-	else
-		count = 1;
+	needle = value_get_as_string (argv[0]);
+	haystack = value_get_as_string (argv[1]);
+	count = argv[2] ? value_get_as_int (argv[2]) : 1;
 
-	if ( count > strlen(argv[1]->v_str.val->str) ||
-	     count == 0) /* start position too high or low */
-		return value_new_error (ei->pos, _("Invalid argument"));
+	haystacksize = strlen (haystack);
 
-	g_assert (count >= 1);
-	s = argv[1]->v_str.val->str + count - 1;
-	if ( (p = strstr(s, argv[0]->v_str.val->str)) == NULL )
-		return value_new_error (ei->pos, _("Invalid argument"));
+	if (count <= 0 || count > haystacksize) {
+		res = value_new_error (ei->pos, gnumeric_err_VALUE);
+	} else {
+		const char *haystart = haystack + (count - 1);
+		const char *p = strstr (haystart, needle);
+		if (p)
+			res = value_new_int (count + (p - haystart));
+		else
+			/* Really?  */
+			res = value_new_error (ei->pos, gnumeric_err_VALUE);
+	}
 
-	return value_new_int (count + p - s);
+	g_free (needle);
+	g_free (haystack);
+
+	return res;
 }
 
 /***************************************************************************/
@@ -978,8 +987,8 @@ gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	gchar *text, *old, *new, *p ,*f;
-	gint num;
-	guint oldlen, newlen, len, inst;
+	int num;
+	int oldlen, newlen, len, inst;
 	struct subs_string *s;
 
 	text = value_get_as_string (argv[0]);
@@ -1001,14 +1010,14 @@ gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 
 	p = text;
 	inst = 0;
-	while (p-text < len) {
-		if ( (f=strstr(p, old)) == NULL )
+	while (p - text < len) {
+		if ( (f = strstr (p, old)) == NULL )
 			break;
 		if (num == 0 || num == ++inst) {
 			if (s == NULL) {
 				strncpy (f, new, newlen);
 			} else {
-				subs_string_append_n (s, p, f-p);
+				subs_string_append_n (s, p, f - p);
 				subs_string_append_n (s, new, newlen);
 			}
 			if (num != 0 && num == inst)
@@ -1017,7 +1026,7 @@ gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 		p = f + oldlen;
 	}
 	if (newlen != oldlen) { /* FIXME: (p-text) might be bad ? */
-		subs_string_append_n (s, p, len - (p-text) );
+		subs_string_append_n (s, p, len - (p - text) );
 		p = s->str;
 	} else
 		p = text;
@@ -1215,27 +1224,27 @@ match_string(gchar *str, string_search_t *cond, gchar **match_start,
 {
         gchar *p;
 
-        if (cond->min_skip > strlen(str))
+        if (cond->min_skip > (int)strlen (str))
 		return 0;
 
 	if (*cond->str == '\0') {
 	         *match_start = str;
-		 *match_end = str+1;
+		 *match_end = str + 1;
 		 return 1;
 	}
-        p = strstr(str+cond->min_skip, cond->str);
+        p = strstr(str + cond->min_skip, cond->str);
 
 	/* Check no match case */
 	if (p == NULL)
 		return 0;
 
 	/* Check if match in a wrong place and no wildcard */
-	if (! cond->wildcard_prefix && p > str+cond->min_skip)
+	if (!cond->wildcard_prefix && p > str + cond->min_skip)
 		return 0;
 
 	/* Matches correctly */
-	*match_start = p-cond->min_skip;
-	*match_end = p+strlen(cond->str);
+	*match_start = p - cond->min_skip;
+	*match_end = p + strlen(cond->str);
 
 	return 1;
 }

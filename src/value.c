@@ -199,7 +199,7 @@ value_new_array_non_init (guint cols, guint rows)
 Value *
 value_new_array (guint cols, guint rows)
 {
-	int x, y;
+	guint x, y;
 	ValueArray *v = (ValueArray *)value_new_array_non_init (cols, rows);
 
 	for (x = 0; x < cols; x++) {
@@ -213,7 +213,7 @@ value_new_array (guint cols, guint rows)
 Value *
 value_new_array_empty (guint cols, guint rows)
 {
-	int x, y;
+	guint x, y;
 	ValueArray *v = (ValueArray *)value_new_array_non_init (cols, rows);
 
 	for (x = 0; x < cols; x++) {
@@ -315,7 +315,7 @@ value_release (Value *value)
 
 	case VALUE_ARRAY: {
 		ValueArray *v = (ValueArray *)value;
-		guint x, y;
+		int x, y;
 
 		for (x = 0; x < v->x; x++) {
 			for (y = 0; y < v->y; y++) {
@@ -481,7 +481,7 @@ value_get_as_string (const Value *value)
 		char const row_sep = format_get_arg_sep ();
 		char const col_sep = format_get_col_sep ();
 		GString *str = g_string_new ("{");
-		guint x, y;
+		int x, y;
 		char *ans;
 
 		for (y = 0; y < value->v_array.y; y++){

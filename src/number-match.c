@@ -560,8 +560,11 @@ static struct gnumeric_error_info
 static char const *
 gnumeric_error_init (int const indx, char const * str)
 {
+	const int gnumeric_error_data_count =
+		sizeof (gnumeric_error_data) / sizeof (struct gnumeric_error_info);
+
 	g_return_val_if_fail (indx >= 0, str);
-	g_return_val_if_fail (indx < sizeof (gnumeric_error_data) / sizeof (struct gnumeric_error_info), str);
+	g_return_val_if_fail (indx < gnumeric_error_data_count, str);
 
 	gnumeric_error_data[indx].str = str;
 	gnumeric_error_data[indx].len = strlen (str);

@@ -1,3 +1,14 @@
+2001-04-26  Morten Welinder  <terra@diku.dk>
+
+	* fn-string.c (gnumeric_mid): Un-suckify.
+	(gnumeric_find): Un-suckify.
+	(gnumeric_substitute): Warning killer.
+	(match_string): Warning killer.
+
+	* fn-information.c (translate_cell_format): Warning killer.
+
+	* fn-eng.c (val_to_base): Warning killer.
+
 2001-04-29  Almer S. Tigelaar  <almer@gnome.org>
 
 	* fn-information.c (gnumeric_cell): Implement remaining

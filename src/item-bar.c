@@ -265,7 +265,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 	ColRowInfo const *cri;
 	int pixels;
 	gboolean prev_visible;
-	unsigned prev_level;
+	int prev_level;
 	GdkRectangle rect;
 	gboolean has_object = scg->new_object != NULL || scg->current_object != NULL;
 

@@ -124,6 +124,7 @@ translate_cell_format (StyleFormat const *format)
 {
 	int i;
 	char *fmt;
+	const int translate_table_count = sizeof (translate_table) / sizeof(translate_t);
 
 	if (format == NULL)
 		return value_new_string ("G");
@@ -133,7 +134,7 @@ translate_cell_format (StyleFormat const *format)
 	/*
 	 * TODO : What does this do in different locales ??
 	 */
-	for (i = 0; i < sizeof (translate_table)/sizeof(translate_t); i++) {
+	for (i = 0; i < translate_table_count; i++) {
 		const translate_t *t = &translate_table[i];
 		
 		if (!g_strcasecmp (fmt, t->format)) {

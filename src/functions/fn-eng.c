@@ -118,7 +118,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 
 	if (places > max)
 		max = places;
-	if (max >= sizeof (buffer))
+	if (max >= (int)sizeof (buffer))
 		return value_new_error (ei->pos, _("Unimplemented"));
 
 	for (digit = max - 1; digit >= 0; digit--) {

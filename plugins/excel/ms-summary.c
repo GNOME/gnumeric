@@ -42,7 +42,7 @@ typedef struct {
 	SummaryItemBuiltin gnumeric;
 } mapping_t;
 
-mapping_t excel_to_gnum_mapping[] =
+static const mapping_t excel_to_gnum_mapping[] =
 { /* Needs beefing up */
 	{ MS_OLE_SUMMARY_CODEPAGE,     MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_CODEPAGE },
 	{ MS_OLE_SUMMARY_TITLE,        MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_TITLE },
@@ -77,8 +77,9 @@ mapping_t excel_to_gnum_mapping[] =
 	{ MS_OLE_SUMMARY_LINKSDIRTY,   MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_LINKSDIRTY }
 };
 
+#define EXCEL_TO_GNUM_MAPPING_COUNT \
+	((int)(sizeof (excel_to_gnum_mapping) / sizeof (excel_to_gnum_mapping[0])))
 
-int sum_name_to_excel (gchar *name, MsOleSummaryPID *pid, MsOlePropertySetID psid);
 
 /*static SummaryItemBuiltin
 excel_to_gnumeric (guint32 type)
@@ -99,8 +100,8 @@ excel_to_gnumeric (guint32 type)
  *  converts it back to an MsOleSummaryPID.
  *
  **/
-int
-sum_name_to_excel (gchar *name, MsOleSummaryPID *pid, MsOlePropertySetID psid)
+static int
+sum_name_to_excel (const gchar *name, MsOleSummaryPID *pid, MsOlePropertySetID psid)
 {
 	gint	 i, j;
 
@@ -110,9 +111,9 @@ sum_name_to_excel (gchar *name, MsOleSummaryPID *pid, MsOlePropertySetID psid)
 	 *  in excel_to_gnum_mapping[].  What we want is the corresponding
 	 *  MsOleSummaryPID in that same array.
 	 */
-	for (i = 0; i < sizeof (summary_item_name); i++) {
+	for (i = 0; i < SUMMARY_I_MAX; i++) {
 		if (g_strcasecmp (summary_item_name[i], name) == 0) {
-			for (j = 0; j < sizeof (excel_to_gnum_mapping) / sizeof (mapping_t); j++) {
+			for (j = 0; j < EXCEL_TO_GNUM_MAPPING_COUNT; j++) {
 			        if ((excel_to_gnum_mapping[j].ps_id    == psid) &&
 				    (excel_to_gnum_mapping[j].gnumeric ==    i)    ) {
 					*pid = excel_to_gnum_mapping[j].excel;
@@ -135,7 +136,7 @@ read_summary_items (SummaryInfo *sin, MsOleSummary *si, MsOlePropertySetID psid)
 	SummaryItem *sit;
 	gboolean     ok;
 
-	for (i = 0; i < sizeof (excel_to_gnum_mapping)/sizeof(mapping_t); i++) {
+	for (i = 0; i < EXCEL_TO_GNUM_MAPPING_COUNT; i++) {
 		if (excel_to_gnum_mapping[i].ps_id == psid) {
 			MsOleSummaryPID  p = excel_to_gnum_mapping[i].excel;
 			gchar           *name;

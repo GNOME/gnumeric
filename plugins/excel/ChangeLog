@@ -1,3 +1,9 @@
+2001-04-30  Morten Welinder  <terra@diku.dk>
+
+	* ms-summary.c (sum_name_to_excel): Fix index count.  Constify.
+  	Make static.
+	(excel_to_gnum_mapping): Make static.
+
 2001-04-29  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-write.c (write_window2) : Headers are in default style.

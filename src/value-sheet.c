@@ -140,7 +140,7 @@ value_cellrange_get_as_string (const Value *value, gboolean use_relative_syntax)
 	return ans;
 }
 
-guint
+int
 value_area_get_width (const EvalPos *ep, Value const *v)
 {
 	g_return_val_if_fail (v, 0);
@@ -166,7 +166,7 @@ value_area_get_width (const EvalPos *ep, Value const *v)
 	}
 }
 
-guint
+int
 value_area_get_height (const EvalPos *ep, Value const *v)
 {
 	g_return_val_if_fail (v, 0);

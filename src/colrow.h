@@ -8,7 +8,7 @@ struct _ColRowInfo {
 
 	/* Size including margins, and right grid line */
 	float	 size_pts;
-	unsigned size_pixels;
+	int      size_pixels;
 
 	/* These are not scaled, and are the same in points and pixels */
 	unsigned  margin_a	: 3;  	/* top/left margin */

@@ -1,3 +1,27 @@
+2001-04-30  Morten Welinder  <terra@diku.dk>
+
+	* src/func.c (tokenized_help_find): Warning killer.
+
+	* src/value.c (value_new_array): Kill warnings.
+	(value_new_array_empty): Ditto.
+	(value_release): Ditto.
+
+	* src/print-cell.c (print_show): Use proper types.
+	(get_width_string_n): Ditto.
+
+	* src/number-match.c (gnumeric_error_init): Warning killer.
+
+	* src/parser.y (deallocate_all): Warning killer.
+
+	* src/item-bar.c (item_bar_draw): Avoid signedness problems.
+
+	* src/format-template.c (hash_table_destroy): Warning killer.
+
+	* src/colrow.h (struct _ColRowInfo): Make size_pixels an int.
+
+	* src/value-sheet.c (value_area_get_width, value_area_get_height):
+ 	Return an int, not a guint.
+
 2001-04-30  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/commands.c (cmd_clear_selection): More descriptive

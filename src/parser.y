@@ -95,7 +95,7 @@ deallocate_all (void)
 {
 	int i;
 
-	for (i = 0; i < deallocate_stack->len; i += 2) {
+	for (i = 0; i < (int)deallocate_stack->len; i += 2) {
 		ParseDeallocator freer = g_ptr_array_index (deallocate_stack, i + 1);
 		freer (g_ptr_array_index (deallocate_stack, i));
 	}
