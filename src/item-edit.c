@@ -47,7 +47,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	char *text;
 	int  cursor_pos, text_len, first_part_len, total_len;
 
-	font = item_edit->style->font->font;
+	font = style_font_gdk_font (item_edit->style->font);
 	
 	text = gtk_entry_get_text (GTK_ENTRY (item_edit->editor));
 	text_len = strlen (text);

@@ -1,3 +1,17 @@
+1999-02-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/style.c (font_equal): Adapt function to the new StyleFont. 
+	(style_font_new, style_font_new_simple): Adapt for the upcoming
+	gnome-print support. 
+	(font_init): Adapt.
+
+	* src/xml-io.c: Use Gnome Print font scheme.
+	* src/workbook.c: ditto.
+	* src/cell.c: ditto.
+	* src/item-bar.c, src/item-edit.c: ditto
+	
+	* src/dialog-cell-format.c: Disable font selector for now.
+	
 1999-02-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (cell_draw): Make the clip region one pixel bigger to

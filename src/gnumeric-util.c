@@ -160,6 +160,7 @@ font_change_component (char *fontname, int idx, char *newvalue)
 	return res;
 }
 
+#if 0
 char *
 font_get_bold_name (char *fontname)
 {
@@ -183,4 +184,17 @@ font_get_italic_name (char *fontname)
 	}
 
 	return f;
+}
+#endif
+
+char *
+font_get_bold_name (char *fontname)
+{
+	return NULL;
+}
+
+char *
+font_get_italic_name (char *fontname)
+{
+	return NULL;
 }

@@ -12,9 +12,7 @@
 #include "format.h"
 #include "color.h"
 
-#define DEFAULT_FONT      "-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*"
-#define DEFAULT_BOLD_FONT "-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-*-*"
-#define DEFAULT_ITALIC_FONT "-adobe-helvetica-medium-o-normal--*-120-*-*-*-*-*-*"
+#define DEFAULT_FONT      "Helvetica"
 #define DEFAULT_SIZE 12
 
 static GHashTable *style_format_hash;
@@ -70,61 +68,40 @@ style_format_unref (StyleFormat *sf)
 	g_free (sf);
 }
 
-static void
-font_compute_hints (StyleFont *font)
-{
-	char *p = font->font_name;
-	int hyphens = 0;
-	
-	font->hint_is_bold = 0;
-	font->hint_is_italic = 0;
-
-	for (;*p; p++){
-		if (*p == '-'){
-			hyphens++;
-
-			if (hyphens == 3 && (strncmp (p+1, "bold", 4) == 0))
-				font->hint_is_bold = 1;
-
-			if (hyphens == 4){
-				if (*(p+1) == 'o' || *(p+1) == 'i')
-					font->hint_is_italic = 1;
-			}
-
-			if (hyphens > 5)
-				break;
-		}
-	}
-}
-
 StyleFont *
-style_font_new_simple (char *font_name, int units)
+style_font_new_simple (char *font_name, double size, double scale, int bold, int italic)
 {
 	StyleFont *font;
 	StyleFont key;
 
 	g_return_val_if_fail (font_name != NULL, NULL);
-	g_return_val_if_fail (units != 0, NULL);
+	g_return_val_if_fail (size != 0, NULL);
 
 	key.font_name = font_name;
-	key.units    = units;
+	key.size      = size;
+	key.is_bold   = bold;
+	key.is_italic = italic;
 	
 	font = (StyleFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (!font){
-		GdkFont *gdk_font;
+		GnomeDisplayFont *display_font;
 
-		gdk_font = gdk_font_load (font_name);
+		display_font = gnome_get_display_font (
+			font_name,
+			bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
+			italic,
+			size, 1.0);
 		
-		if (!gdk_font)
+		if (!display_font)
 			return NULL;
 		
 		font = g_new0 (StyleFont, 1);
 		font->font_name = g_strdup (font_name);
-		font->units    = units;
-		font->font     = gdk_font_load (font_name);
-
-		font_compute_hints (font);
-		
+		font->size      = size;
+		font->scale     = scale;
+		font->dfont     = display_font;
+		font->is_bold   = bold;
+		font->is_italic = italic;
 		g_hash_table_insert (style_font_hash, font, font);
 	}
 	font->ref_count++;
@@ -133,20 +110,62 @@ style_font_new_simple (char *font_name, int units)
 }
 
 StyleFont *
-style_font_new (char *font_name, int units)
+style_font_new (char *font_name, double size, double scale, int bold, int italic)
 {
 	StyleFont *font;
 
 	g_return_val_if_fail (font_name != NULL, NULL);
-	g_return_val_if_fail (units != 0, NULL);
+	g_return_val_if_fail (size != 0, NULL);
 
-	font = style_font_new_simple (font_name, units);
+	font = style_font_new_simple (font_name, size, scale, bold, italic);
 	if (!font){
 		font = gnumeric_default_font;
 		style_font_ref (font);
 	}
 
 	return font;
+}
+
+GdkFont *
+style_font_gdk_font (StyleFont *sf)
+{
+	g_return_val_if_fail (sf != NULL, NULL);
+
+	return sf->dfont->gdk_font;
+}
+
+GnomeFont *
+style_font_gnome_font (StyleFont *sf)
+{
+	g_return_val_if_fail (sf != NULL, NULL);
+
+	return sf->dfont->gnome_font;
+}
+
+int
+style_font_get_height (StyleFont *sf)
+{
+	GdkFont *gdk_font;
+	GnomeFont *gnome_font;
+	static int warning_shown;
+	int height;
+
+	g_return_val_if_fail (sf != NULL, 0);
+
+	gdk_font = sf->dfont->gdk_font;
+
+	height = gdk_font->ascent + gdk_font->descent;
+
+	gnome_font = sf->dfont->gnome_font;
+	
+	if (height < gnome_font->size)
+		height = gnome_font->size;
+
+	if (!warning_shown){
+		g_warning ("this should use a gnome-print provided method");
+		warning_shown = 1;
+	}
+	return height;
 }
 
 void
@@ -290,15 +309,24 @@ style_new (void)
 	style = g_new0 (Style, 1);
 
 	style->valid_flags = STYLE_ALL;
-	
+
 	style->format      = style_format_new ("General");
-	style->font        = style_font_new (DEFAULT_FONT, DEFAULT_SIZE);
+	style->font        = style_font_new (DEFAULT_FONT, DEFAULT_SIZE, 1.0, FALSE, FALSE);
 	style->border      = style_border_new_plain ();
 	style->fore_color  = style_color_new (0, 0, 0);
 	style->back_color  = style_color_new (0xffff, 0xffff, 0xffff);
 	style->halign      = HALIGN_GENERAL;
 	style->valign      = VALIGN_CENTER;
 	style->orientation = ORIENT_HORIZ;
+
+	{
+		static int warning_shown;
+
+		if (!warning_shown){
+			g_warning ("Font style created at zoom factor 1.0");
+			warning_shown = TRUE;
+		}
+	}
 
 	return style;
 }
@@ -389,9 +417,14 @@ font_equal (gconstpointer v, gconstpointer v2)
 	StyleFont *k1 = (StyleFont *) v;
 	StyleFont *k2 = (StyleFont *) v2;
 
-	if (k1->units != k2->units)
+	if (k1->size != k2->size)
 		return 0;
-	
+	if (k1->is_bold != k2->is_bold)
+		return 0;
+	if (k1->is_italic != k2->is_italic)
+		return 0;
+	if (k1->scale != k2->scale)
+		return 0;
 	return !strcmp (k1->font_name, k2->font_name);
 }
 
@@ -400,7 +433,7 @@ font_hash (gconstpointer v)
 {
 	StyleFont *k = (StyleFont *) v;
 
-	return k->units + g_str_hash (k->font_name);
+	return k->size + g_str_hash (k->font_name);
 }
 
 static gint
@@ -512,16 +545,25 @@ style_merge_to (Style *target, Style *source)
 static void
 font_init (void)
 {
-	gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE);
-
-	if (!gnumeric_default_font)
-		gnumeric_default_font = style_font_new_simple ("fixed", DEFAULT_SIZE);
+	gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE, 1.0, FALSE, FALSE);
 
 	if (!gnumeric_default_font)
 		g_error ("Could not load the default font");
 
-	gnumeric_default_bold_font = style_font_new (DEFAULT_BOLD_FONT, DEFAULT_SIZE);
-	gnumeric_default_italic_font = style_font_new (DEFAULT_ITALIC_FONT, DEFAULT_SIZE);
+	g_warning ("Using hard coded 14!\n");
+	
+	gnumeric_default_bold_font = style_font_new (DEFAULT_FONT, 13, 1.0, TRUE, FALSE);
+	gnumeric_default_italic_font = style_font_new (DEFAULT_FONT, 13, 1.0, FALSE, TRUE);
+
+	printf ("Font: %s\n", gnumeric_default_bold_font->dfont->x_font_name);
+	{
+		static int warning_shown;
+
+		if (!warning_shown){
+			g_warning ("Style created with scale is 1.0");
+			warning_shown = TRUE;
+		}
+	}
 }
 
 void

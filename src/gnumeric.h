@@ -1,4 +1,5 @@
 #include "numbers.h"
+#include <libgnomeprint/gnome-font.h>
 #include "style.h"
 #include "symbol.h"
 #include "str.h"

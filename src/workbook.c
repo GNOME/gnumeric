@@ -107,15 +107,12 @@ center_cmd (GtkWidget *widget, Workbook *wb)
 /*
  * change_selection_font
  * @wb:  The workbook to operate on
- * @idx: the index in the X Logical font description to try to replace with
- * @new: list of possible values we want to substitute with.
+ * @bold: -1 to leave unchanged, 0 to clear, 1 to set
+ * @italic: -1 to leave unchanged, 0 to clear, 1 to set
  *
- * Changes the font for the selection for the range: it does this by replacing
- * the idxth component (counting from zero) of the X logical font description
- * with the values listed (in order of preference) in the new array.
  */
 static void
-change_selection_font (Workbook *wb, int idx, char *new[])
+change_selection_font (Workbook *wb, int bold, int italic)
 {
 	Sheet *sheet;
 	GList *cells, *l;
@@ -124,22 +121,22 @@ change_selection_font (Workbook *wb, int idx, char *new[])
 	cells = sheet_selection_to_list (sheet);
 
 	for (l = cells; l; l = l->next){
+		StyleFont *cell_font;
 		Cell *cell = l->data;
-		char *old_name, *new_name;
 		int i;
 		StyleFont *f;
 
-		for (i = 0; new [i]; i++){
-			old_name = cell->style->font->font_name;
-			new_name = font_change_component (old_name, idx, new [i]);
-			f = style_font_new_simple (new_name, cell->style->font->units);
-			g_free (new_name);
-			
-			if (f){
-				cell_set_font_from_style (cell, f);
-				break;
-			}
-		}
+		cell_font = cell->style->font;
+		
+		f = style_font_new (
+			cell_font->font_name,
+			cell_font->size,
+			cell_font->scale,
+			bold == -1 ? cell_font->is_bold : bold,
+			italic == -1 ? cell_font->is_italic : italic);
+
+		if (f)
+			cell_set_font_from_style (cell, f);
 	}
 
 	g_list_free (cells);
@@ -149,26 +146,16 @@ static void
 bold_cmd (GtkWidget *widget, Workbook *wb)
 {
 	GtkToggleButton *t = GTK_TOGGLE_BUTTON (widget);
-	char *bold_names   [] = { "bold", NULL };
-	char *normal_names [] = { "regular", "medium", "light", NULL };
 
-	if (!t->active)
-		change_selection_font (wb, 2, normal_names);
-	else
-		change_selection_font (wb, 2, bold_names);
+	change_selection_font (wb, t->active, -1);
 }
 
 static void
 italic_cmd (GtkWidget *widget, Workbook *wb)
 {
 	GtkToggleButton *t = GTK_TOGGLE_BUTTON (widget);
-	char *italic_names   [] = { "i", "o", NULL };
-	char *normal_names [] = { "r", NULL };
 
-	if (!t->active)
-		change_selection_font (wb, 3, normal_names);
-	else
-		change_selection_font (wb, 3, italic_names);
+	change_selection_font (wb, -1, t->active);
 }
 
 static void

@@ -861,7 +861,7 @@ writeXmlStyle (parseXmlContextPtr ctxt, Style * style)
 			child = xmlNewChild (cur, ctxt->ns, "Font", 
 			           xmlEncodeEntities(ctxt->doc,
 				                     style->font->font_name));
-			xmlSetIntValue (child, "Unit", style->font->units);
+			xmlSetIntValue (child, "Unit", style->font->size);
 			sprintf (str, "FontDef%d", ctxt->fontIdx++);
 			xmlNewProp (child, "NAME", str);
 			g_hash_table_insert (ctxt->nameTable, g_strdup (str), style->font);
@@ -949,7 +949,7 @@ readXmlStyle (parseXmlContextPtr ctxt, xmlNodePtr tree, Style * ret)
 				xmlGetIntValue (child, "Unit", &units);
 				font = xmlNodeGetContent(child);
 				if (font != NULL) {
-					ret->font = style_font_new (font, units);
+					ret->font = style_font_new (font, units, 1.0, 0, 0);
 					free(font);
 				}
 				if (ret->font){

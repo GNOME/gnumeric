@@ -16,17 +16,14 @@ typedef struct {
 } StyleFormat;
 
 typedef struct {
-	int      ref_count;
-	char     *font_name;
-	int      units;
-	GdkFont  *font;
+	int                ref_count;
+	char              *font_name;
+	double             size;
+	double             scale;
+	GnomeDisplayFont  *dfont;
 
-	/*
-	 * These are runtime optimizations, there is no need to save these
-	 * they get computed at StyleFont creation time.
-	 */
-	unsigned int hint_is_bold:1;
-	unsigned int hint_is_italic:1;
+	unsigned int is_bold:1;
+	unsigned int is_italic:1;
 } StyleFont;
 
 typedef struct {
@@ -136,8 +133,15 @@ StyleFormat   *style_format_new       (char *name);
 void           style_format_ref       (StyleFormat *sf);
 void           style_format_unref     (StyleFormat *sf);
 				      
-StyleFont     *style_font_new         (char *font_name, int units);
-StyleFont     *style_font_new_simple  (char *font_name, int units);
+StyleFont     *style_font_new         (char *font_name,
+				       double size, double scale,
+				       int bold, int italic);
+StyleFont     *style_font_new_simple  (char *font_name,
+				       double size, double scale,
+				       int bold, int italic);
+GdkFont       *style_font_gdk_font    (StyleFont *sf);
+GnomeFont     *style_font_gnome_font  (StyleFont *sf);
+int            style_font_get_height  (StyleFont *sf);
 void           style_font_ref         (StyleFont *sf);
 void           style_font_unref       (StyleFont *sf);
 

@@ -127,7 +127,8 @@ gnumeric_corba_SOURCES = 		\
 	$(GNUMERIC_CORBA_GENERATED)	\
 	$(GNUMERIC_BASE_SOURCES)
 
-gnumeric_LDFLAGS = -export-dynamic
+gnumeric_LDFLAGS = -export-dynamic `gnome-config --libs print`
+
 gnumeric_corba_LDFLAGS = $(gnumeric_LDFLAGS)
 
 gnumeric_LDADD = 			\

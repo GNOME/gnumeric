@@ -150,11 +150,19 @@ void
 cell_set_font (Cell *cell, char *font_name)
 {
 	StyleFont *style_font;
-
+	Sheet *sheet;
+	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (font_name != NULL);
 
-	style_font = style_font_new (font_name, 1);
+	sheet = cell->sheet;
+	
+	style_font = style_font_new (
+		font_name,
+		cell->style->font->size,
+		sheet->last_zoom_factor_used,
+		cell->style->font->is_bold,
+		cell->style->font->is_italic);
 
 	if (style_font)
 		cell_set_font_from_style (cell, style_font);
@@ -1122,11 +1130,12 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 void
 calc_text_dimensions (int is_number, Style *style, char *text, int cell_w, int cell_h, int *h, int *w)
 {
-	GdkFont *font = style->font->font;
+	StyleFont *style_font = style->font;
+	GnomeFont *gnome_font = style_font->dfont->gnome_font;
 	int text_width, font_height;
 	
-	text_width = gdk_string_width (font, text);
-	font_height = font->ascent + font->descent;
+	text_width = gnome_font_get_width_string (gnome_font, text);
+	font_height = style_font_get_height (style_font);
 	
 	if (text_width < cell_w || is_number){
 		*w = text_width;
@@ -1152,14 +1161,17 @@ calc_text_dimensions (int is_number, Style *style, char *text, int cell_w, int c
 			if (last_was_cut_point && *p != ' ')
 				ideal_cut_spot = p;
 			
-			len = gdk_text_width (font, p, 1);
+			len = gnome_font_get_width (gnome_font, *p);
 
 			/* If we have overflowed the cell, wrap */
 			if (used + len > cell_w){
 				if (ideal_cut_spot){
 					int n = p - ideal_cut_spot;
-					
-					used = gdk_text_width (font, ideal_cut_spot, n);
+					char *copy = alloca (n + 1);
+
+					strncpy (copy, ideal_cut_spot, n);
+					copy [n] = 0;
+					used = gnome_font_get_width_string (gnome_font, copy);
 				} else {
 					used = len;
 				}
@@ -1336,7 +1348,7 @@ int
 cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
 {
 	Style        *style = cell->style;
-	GdkFont      *font = style->font->font;
+	GdkFont      *font = style_font_gdk_font (cell->style->font);
 	SheetView    *sheet_view = sv;
 	GdkGC        *white_gc = GTK_WIDGET (sheet_view->sheet_view)->style->white_gc;
 	GdkRectangle rect;
@@ -1354,7 +1366,7 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	width  = COL_INTERNAL_WIDTH (cell->col);
 	height = ROW_INTERNAL_HEIGHT (cell->row);
 
-	font_height = font->ascent + font->descent;
+	font_height = style_font_get_height (cell->style->font);
 	
 	halign = cell_get_horizontal_align (cell);
 

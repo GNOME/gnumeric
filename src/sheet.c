@@ -907,8 +907,8 @@ sheet_update_controls (Sheet *sheet)
 	if (cells){
 		Cell *cell = cells->data;
 
-		bold_first = cell->style->font->hint_is_bold;
-		italic_first = cell->style->font->hint_is_italic;
+		bold_first = cell->style->font->is_bold;
+		italic_first = cell->style->font->is_italic;
 		
 		l = cells->next;
 	}
@@ -922,8 +922,8 @@ sheet_update_controls (Sheet *sheet)
 		Style *style;
 		
 		style = sheet_style_compute (sheet, ss->start_col, ss->start_row, NULL);
-		bold_first = style->font->hint_is_bold;
-		italic_first = style->font->hint_is_italic;
+		bold_first = style->font->is_bold;
+		italic_first = style->font->is_italic;
 		style_destroy (style);
 			
 		/* Initialize the pointer that is going to be used next */
@@ -936,10 +936,10 @@ sheet_update_controls (Sheet *sheet)
 	for (; l; l = l->next){
 		Cell *cell = l->data;
 
-		if (italic_first != cell->style->font->hint_is_italic)
+		if (italic_first != cell->style->font->is_italic)
 			italic_common = FALSE;
 
-		if (bold_first != cell->style->font->hint_is_bold)
+		if (bold_first != cell->style->font->is_bold)
 			bold_common = FALSE;
 
 		if (bold_common == FALSE && italic_common == FALSE)
