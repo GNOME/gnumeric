@@ -1,5 +1,8 @@
 2002-01-04  Kevin Breit  <mrproper@ximian.com>
 
+	* new/gnumeric.xml: Added my name to the author list
+	Redo the introduction paragraph
+
 	* new/appendix-glossary.xml: I'm stupid.  I named this wrong.  Renamed to .xml instead of .sgml.
 
 	* new/gnumeric.xml: Made work with the glossary

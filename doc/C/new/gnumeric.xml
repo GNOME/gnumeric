@@ -33,6 +33,7 @@ This document is written in 2nd person.  If your language has a formal
     
     <authorgroup>
       <author><firstname>Eric</firstname><surname>Baudais</surname></author>
+      <author><firstname>Kevin</firstname><surname>Breit</surname></author>
     </authorgroup>
     
     <releaseinfo>
@@ -80,9 +81,10 @@ This document is written in 2nd person.  If your language has a formal
     <para>
       <application>Gnumeric</application> is a spreadsheet program.  It's 
       goal is to provide you with a tool to manipulate and calculate 
-      data.  Many different people will have many different uses for 
-      <application>Gnumeric</application> from school teachers and 
-      administrators to accountants and financial analysists.
+      data.  Different people will have many different uses for 
+      <application>Gnumeric</application>.  Spreadsheet applications
+      have found themselves a home in most professions ranging from a
+      school teacher to financial manager.
     </para>	
     
   </chapter>
