@@ -39,7 +39,6 @@ static SymbolTable *global_symbol_table = NULL;
 extern void stat_functions_init        (void);
 extern void lookup_functions_init      (void);
 extern void database_functions_init    (void);
-extern void information_functions_init (void);
 
 void
 functions_init (void)
@@ -49,7 +48,6 @@ functions_init (void)
 	stat_functions_init ();
 	lookup_functions_init ();
 	database_functions_init ();
-	information_functions_init ();
 	func_builtin_init ();
 }
 
