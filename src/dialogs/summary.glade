@@ -29,6 +29,7 @@
   <class>GnomeDialog</class>
   <name>SummaryInformation</name>
   <visible>False</visible>
+  <title>Summary</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>

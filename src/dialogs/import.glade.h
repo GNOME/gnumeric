@@ -4,5 +4,6 @@
  * DO NOT compile it as part of your application.
  */
 
+gchar *s = N_("Import");
 gchar *s = N_("Choose an import filter for loading the file:");
 gchar *s = N_("label2");

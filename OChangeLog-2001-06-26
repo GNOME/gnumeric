@@ -1,3 +1,25 @@
+2000-05-01  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/dialog-analysis-tools.c (selection_made): Popup tool
+	and dismiss chooser on double click.
+
+	* src/dialogs/col-width.glade: Add title
+	* src/dialogs/import.glade: Ditto
+	* src/dialogs/row-height.glade: Ditto
+	* src/dialogs/sheet-rename.glade: Ditto
+	* src/dialogs/summary.glade: Ditto
+	
+	* src/dialogs/analysis-tools.glade (All dialogs): Add padding
+	between input and output frames.
+	(TTest1 dialog, TTest2 dialog, TTest3 dialog, Anova2 dialog,
+	MovingAverage dialog): Remove spaces from label string.
+	(Anova1 dialog, Correlation dialog, Covariance dialog,
+	RankAndPercentile dialog): Use table in input frame. Get rid of
+	frame around "Grouped by". Use alignment and fill instead of
+	spaces to place label strings. Minor output options tweaks.
+	(MovingAverage dialog): Place all user widgets inside the same
+	vbox to make padding uniform.
+
 2000-05-01  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: Handle oafinfo.in

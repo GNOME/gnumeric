@@ -4,4 +4,5 @@
  * DO NOT compile it as part of your application.
  */
 
+gchar *s = N_("Row height");
 gchar *s = N_("_Row height:");

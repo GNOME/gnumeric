@@ -30,6 +30,7 @@
   <name>import-dialog</name>
   <border_width>2</border_width>
   <visible>False</visible>
+  <title>Import</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
@@ -124,7 +125,7 @@
       <class>GtkHButtonBox</class>
       <child_name>GnomeDialog:action_area</child_name>
       <name>dialog-action_area1</name>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
+      <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
       <spacing>8</spacing>
       <child_min_width>85</child_min_width>
       <child_min_height>27</child_min_height>

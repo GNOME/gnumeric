@@ -2534,9 +2534,16 @@ static void
 selection_made (GtkWidget *clist, gint row, gint column,
 	       GdkEventButton *event, gpointer data)
 {
-        selected_row = row;
-}
+	GtkWidget *dialog;
 
+        selected_row = row;
+	/* If the tool is double-clicked we pop up the tool and dismiss
+           chooser. */
+	if (event && event->type == GDK_2BUTTON_PRESS) {
+		dialog = gtk_widget_get_toplevel (GTK_WIDGET (clist));
+		gtk_signal_emit_by_name (GTK_OBJECT (dialog), "clicked", 0);
+	}
+}
 
 void
 dialog_data_analysis (Workbook *wb, Sheet *sheet)

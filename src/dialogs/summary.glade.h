@@ -4,6 +4,7 @@
  * DO NOT compile it as part of your application.
  */
 
+gchar *s = N_("Summary");
 gchar *s = N_("Title");
 gchar *s = N_("Author");
 gchar *s = N_("Category");

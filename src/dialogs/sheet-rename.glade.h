@@ -4,4 +4,5 @@
  * DO NOT compile it as part of your application.
  */
 
+gchar *s = N_("Rename sheet");
 gchar *s = N_("Enter new _sheet name:");

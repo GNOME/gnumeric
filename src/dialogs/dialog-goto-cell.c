@@ -17,9 +17,15 @@ static void
 cb_row_selected (GtkCList *clist, int row, int col, GdkEvent *event, GtkEntry *entry)
 {
 	char *text;
+	GtkWidget *dialog;
 
 	gtk_clist_get_text (clist, row, col, &text);
 	gtk_entry_set_text (entry, text);
+	/* If the tool is double-clicked we dismiss dialog. */
+	if (event && event->type == GDK_2BUTTON_PRESS) {
+		dialog = gtk_widget_get_toplevel (GTK_WIDGET (clist));
+		gtk_signal_emit_by_name (GTK_OBJECT (dialog), "clicked", 0);
+	}
 }
 
 void
@@ -42,8 +48,8 @@ dialog_goto_cell (Workbook *wb)
 		dialog = gnome_dialog_new (_("Go to..."),
 					   GNOME_STOCK_BUTTON_OK,
 					   GNOME_STOCK_BUTTON_CANCEL,
-					   _("Special..."),
-					   GNOME_STOCK_BUTTON_HELP,
+					   /*  _("Special..."), */
+					   /* GNOME_STOCK_BUTTON_HELP, */
 					   NULL);
 		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
 		gnome_dialog_set_default(GNOME_DIALOG(dialog), GNOME_OK);
