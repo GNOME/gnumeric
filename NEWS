@@ -22,6 +22,7 @@ Frank:
 
 Jody:
 	* Begin exception handling for corba vs gui.
+	* Add some simple version protection for plugins.
 	* Bug fixing.
 
 Cort:
