@@ -12,7 +12,9 @@ gnumeric_help_DATA = 	\
 
 SGML_FILES =			\
 	analysis-tools.sgml	\
+	authors.sgml		\
 	autofill.sgml		\
+	autosave.sgml		\
 	cell_refer.sgml		\
 	dndselection.sgml	\
 	editing.sgml		\
@@ -23,8 +25,12 @@ SGML_FILES =			\
 	func-footer.sgml	\
 	functions.sgml		\
 	gnumeric.sgml		\
+	introduction.sgml	\
+	license.sgml		\
 	number-format.sgml	\
+	printing.sgml		\
 	selections.sgml		\
+	solver.sgml		\
 	text-entry.sgml		\
 	worksheet.sgml
 
@@ -67,7 +73,7 @@ dist-hook:
 	-cp $(srcdir)/gnumeric/*.html gnumeric/*.css $(distdir)/gnumeric
 	-cp $(srcdir)/gnumeric.html $(distdir)
 	mkdir $(distdir)/images
-	-cp $(srcdir)/images/*.gif $(srcdir)/images/*.jpg $(distdir)/images
+	-cp $(srcdir)/images/*.gif $(srcdir)/images/*.jpg $(srcdir)/images/*.png $(distdir)/images
 
 install-data-local: gnumeric.html
 	$(mkinstalldirs) $(DESTDIR)$(gnumeric_helpdir)/images

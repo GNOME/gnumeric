@@ -99,7 +99,7 @@
 
   <para>In addition to the names you define there are built in names:</para>
   <itemizedlist>
-    <listitem>"Sheet_Title:" this returns the name of the current sheet</listitem>
+    <listitem><para>"Sheet_Title:" this returns the name of the current sheet</para></listitem>
   </itemizedlist>
 
   </sect2>

@@ -129,7 +129,7 @@
 <listitem><para><link linkend="gnumeric-GESTEP">GESTEP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GETPIVOTDATA">GETPIVOTDATA</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GROWTH">GROWTH</link></para></listitem>
-<listitem><para><link linkend="gnumeric-G_PRODUCT">G_PRODUCT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-G-PRODUCT">G_PRODUCT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-HARMEAN">HARMEAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-HEX2BIN">HEX2BIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-HEX2DEC">HEX2DEC</link></para></listitem>
@@ -1037,7 +1037,7 @@
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-SUM">SUM</link>
 ,         <link linkend="gnumeric-COUNT">COUNT</link>
-,         <link linkend="gnumeric-G_PRODUCT">G_PRODUCT</link>
+,         <link linkend="gnumeric-G-PRODUCT">G_PRODUCT</link>
       </para>
     </refsect1>
   </refentry>
@@ -3838,7 +3838,7 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-G_PRODUCT">G_PRODUCT</refentrytitle><refmiscinfo></refmiscinfo>
+      <refentrytitle><anchor id="gnumeric-G-PRODUCT">G_PRODUCT</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
       <refname>G_PRODUCT</refname>
