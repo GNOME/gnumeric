@@ -3038,6 +3038,8 @@ scg_drag_data_received (SheetControlGUI *scg, double x, double y,
 		for (l = urls; l; l = l-> next) {
 			const char *uri_str = l->data;
 			char *mime = go_get_mime_type (uri_str);
+			if (!mime)
+				continue;
 			if (!strncmp (mime, "image/", 6)) {
 				scg_drag_receive_img_uri (scg, x, y, uri_str);
 			} else if (!strcmp (mime, "application/x-gnumeric") ||

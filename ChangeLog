@@ -1,5 +1,9 @@
 2005-03-07  Jon K Hellan  <hellan@acm.org>
 
+	* src/sheet-control-gui.c (scg_drag_data_received): Check for NULL.
+
+2005-03-07  Jon K Hellan  <hellan@acm.org>
+
 	* src/workbook-control-gui.c (cb_wbcg_drag_data_received):
 	Delegate text/uri-list to scg_drag_data_received.
 
