@@ -55,6 +55,9 @@ Morten:
 	* Support for --with-long-double
 	* Constify C strings.
 
+Scott Ananian:
+	* Update the debian control files.
+
 --------------------------------------------------------------------------
 Gnumeric 1.0.3
 
