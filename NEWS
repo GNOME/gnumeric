@@ -45,6 +45,10 @@ Michael:
 
 Miguel:
 	* Charting work
+	* Wizard for charting 
+	* Bug fixes.
+	* Visual cell references while editing.
+	* Implemented Gnumeric-side vectors for graphics support.
 
 Dom Lachowicz :
 	* libgladify the plugin manager.
