@@ -121,6 +121,17 @@ ms_parse_object_anchor (int anchor[4],
 		float const tmp = (i&1) /* odds are rows */
 		    ? sheet_row_get_unit_distance (sheet, 0, pos)
 		    : sheet_col_get_unit_distance (sheet, 0, pos);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 1) {
+			printf ("%f units (%d pixels) from ",
+				margin, (int)(zoom * margin));
+			if (i&1)
+				printf ("row %d;\n", pos+1);
+			else
+				printf ("col %s (%d);\n", col_name(pos), pos);
+		}
+#endif
+
 		margin += tmp;
 		margin *= zoom;
 
@@ -490,7 +501,7 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
 		if (obj->excel_type < sizeof(object_type_names)/sizeof(char*))
 			type_name = object_type_names[obj->excel_type];
 
-		printf ("\n\nObject (%d) is a '%s'\n", obj->id, type_name);
+		printf ("Object (%d) is a '%s'\n", obj->id, type_name);
 	}
 #endif
 

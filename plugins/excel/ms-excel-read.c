@@ -3231,7 +3231,6 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 #endif
 
 	cell_deep_thaw_redraws ();
-/*	cell_deep_thaw_dependencies (); */
 
 	if (wb) {
 		workbook_recalc (wb->gnum_wb);
