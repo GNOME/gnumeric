@@ -1,3 +1,19 @@
+2000-12-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c (cb_unmerge_cells) : hook up the
+	  commands.
+	(cb_merge_cells) : ditto.  Although merge is not yet implemented.
+
+	* src/sheet.c (sheet_update_only_grid) : Add support for repositioning
+	  the selection.
+	(sheet_region_unmerge) : set the flag here.
+	(sheet_region_merge) : and here.
+
+	* src/commands.c (cmd_unmerge_cells) : implement.
+	(cmd_unmerge_cells_destroy) : ditto.
+	(cmd_unmerge_cells_redo) : ditto.
+	(cmd_unmerge_cells_undo) : ditto.
+
 2000-12-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (cb_move_cursor) : fix old off by 1 error.

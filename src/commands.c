@@ -2470,7 +2470,7 @@ cmd_merge_cells_destroy (GtkObject *cmd)
  * Return value: TRUE if there was a problem
  **/
 gboolean
-cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet)
+cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GList *selection)
 {
 	GtkObject *obj;
 	CmdMergeCells *me;
@@ -2496,6 +2496,9 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet)
 typedef struct {
 	GnumericCommand parent;
 
+	Sheet	*sheet;
+	GArray	*regions;
+	GArray	*search_ranges;
 } CmdUnmergeCells;
 
 GNUMERIC_MAKE_COMMAND (CmdUnmergeCells, cmd_unmerge_cells);
@@ -2504,8 +2507,22 @@ static gboolean
 cmd_unmerge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdUnmergeCells *me = CMD_UNMERGE_CELLS (cmd);
+	int i;
 
 	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->regions != NULL, TRUE);
+
+	for (i = 0 ; i < me->regions->len ; ++i) {
+		Range const *tmp = &(g_array_index (me->regions, Range, i));
+		sheet_region_merge (COMMAND_CONTEXT (wbc), me->sheet, tmp);
+		sheet_range_calc_spans (me->sheet, *tmp, SPANCALC_RE_RENDER);
+	}
+
+	g_array_free (me->regions, TRUE);
+	me->regions = NULL;
+
+	sheet_set_dirty (me->sheet, TRUE);
+	sheet_update (me->sheet);
 
 	return FALSE;
 }
@@ -2514,8 +2531,28 @@ static gboolean
 cmd_unmerge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdUnmergeCells *me = CMD_UNMERGE_CELLS (cmd);
+	int i;
 
 	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->regions == NULL, TRUE);
+
+	me->regions = g_array_new (FALSE, FALSE, sizeof (Range));
+	for (i = 0 ; i < me->search_ranges->len ; ++i) {
+		GSList *ptr, *merged = sheet_region_get_merged (me->sheet,
+			&(g_array_index (me->search_ranges, Range, i)));
+		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
+			Range tmp = *(Range *)(ptr->data);
+			g_array_append_val (me->regions, tmp);
+			sheet_region_unmerge (COMMAND_CONTEXT (wbc),
+					      me->sheet, &tmp);
+			sheet_range_calc_spans (me->sheet, tmp,
+						SPANCALC_RE_RENDER);
+		}
+		g_slist_free (merged);
+	}
+
+	sheet_set_dirty (me->sheet, TRUE);
+	sheet_update (me->sheet);
 
 	return FALSE;
 }
@@ -2524,6 +2561,15 @@ static void
 cmd_unmerge_cells_destroy (GtkObject *cmd)
 {
 	CmdUnmergeCells *me = CMD_UNMERGE_CELLS (cmd);
+
+	if (me->regions != NULL) {
+		g_array_free (me->regions, TRUE);
+		me->regions = NULL;
+	}
+	if (me->search_ranges != NULL) {
+		g_array_free (me->search_ranges, TRUE);
+		me->search_ranges = NULL;
+	}
 
 	gnumeric_command_destroy (cmd);
 }
@@ -2535,16 +2581,21 @@ cmd_unmerge_cells_destroy (GtkObject *cmd)
  * Return value: TRUE if there was a problem
  **/
 gboolean
-cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet)
+cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GList *selection)
 {
 	GtkObject *obj;
 	CmdUnmergeCells *me;
-	GSList    *l;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
 	obj = gtk_type_new (CMD_UNMERGE_CELLS_TYPE);
 	me = CMD_UNMERGE_CELLS (obj);
+
+	me->sheet = sheet;
+	me->regions = NULL;
+	me->search_ranges = g_array_new (FALSE, FALSE, sizeof (Range));
+	for ( ; selection != NULL ; selection = selection->next)
+		g_array_append_val (me->search_ranges, *(Range *)selection->data);
 
 	me->parent.size = 1;
 	me->parent.cmd_descriptor = g_strdup (_("Unmerge Cells"));

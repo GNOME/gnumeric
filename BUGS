@@ -100,7 +100,6 @@ STF - pasting a single line should not invoke the importer
     - autofill
     - undo/redo (even for row/col ins/del)
     - width of cell for general format
-    - selection after row/col ins/del
     - printing
 
 Dialogs

@@ -15,6 +15,7 @@ struct _SheetPrivate {
 	} edit_pos;
 
 	gboolean	 selection_content_changed;
+	gboolean	 reposition_selection;
 	gboolean	 recompute_visibility;
 	gboolean	 recompute_spans;
 	gboolean	 resize_scrollbar;

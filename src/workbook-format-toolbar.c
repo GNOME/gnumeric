@@ -100,11 +100,17 @@ center_across_selection_cmd (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 static void
 cb_merge_cells (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	cmd_merge_cells (wbc, sheet, sheet->selections);
 }
 
 static void
 cb_unmerge_cells (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	cmd_unmerge_cells (wbc, sheet, sheet->selections);
 }
 
 /*

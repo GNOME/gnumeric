@@ -154,6 +154,7 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->priv->edit_pos.format_changed   = FALSE;
 
 	sheet->priv->selection_content_changed = FALSE;
+	sheet->priv->reposition_selection = FALSE;
 	sheet->priv->recompute_visibility = FALSE;
 	sheet->priv->recompute_spans = FALSE;
 	sheet->priv->reposition_objects.row = SHEET_MAX_ROWS;
@@ -716,6 +717,16 @@ sheet_update_only_grid (Sheet const *sheet)
 	g_return_if_fail (sheet != NULL);
 
 	p = sheet->priv;
+
+	if (p->reposition_selection) {
+		p->reposition_selection = TRUE;
+		sheet_selection_set ((Sheet *)sheet, /* cheat */
+				     sheet->edit_pos.col, sheet->edit_pos.row,
+				     sheet->cursor.base_corner.col,
+				     sheet->cursor.base_corner.row,
+				     sheet->cursor.move_corner.col,
+				     sheet->cursor.move_corner.row);
+	}
 
 	if (p->recompute_spans) {
 		p->recompute_spans = FALSE;
@@ -3868,8 +3879,8 @@ range_row_cmp (Range const *a, Range const *b)
  * @sheet : the sheet which will contain the region
  * @src : The region to merge
  *
- * Add a range to the list of merge targets.  Checks for array spliting
- * returns TRUE if there was an error.
+ * Add a range to the list of merge targets.  Checks for array spliting returns
+ * TRUE if there was an error.  Does not regen spans, redraw or render.
  */
 gboolean
 sheet_region_merge (CommandContext *cc, Sheet *sheet, Range const *range)
@@ -3901,6 +3912,7 @@ sheet_region_merge (CommandContext *cc, Sheet *sheet, Range const *range)
 	sheet->list_merged = g_slist_insert_sorted (sheet->list_merged, r_copy,
 						    (GCompareFunc)range_row_cmp);
 
+	sheet->priv->reposition_selection = TRUE;
 	return FALSE;
 }
 
@@ -3931,6 +3943,7 @@ sheet_region_unmerge (CommandContext *cc, Sheet *sheet, Range const *range)
 	sheet->list_merged = g_slist_remove (sheet->list_merged, r_copy);
 	g_free (r_copy);
 
+	sheet->priv->reposition_selection = TRUE;
 	return FALSE;
 }
 
