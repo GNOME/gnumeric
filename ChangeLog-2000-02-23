@@ -21,6 +21,10 @@
 	* src/dialogs/{cell-format,font-sel}.glade.h : Regenerate from
 	  current .glade files.
 
+1999-11-19  Kevin Handy  <kth@srv.net>
+
+	* configure.in, plugins/Makefile.am: add DIF import/export filter
+
 1999-11-19  JP Rosevear  <jpr@arcavia.com>
 
 	* src/dialogs/dialog-cell-sort.c: Allow selection of the columns
