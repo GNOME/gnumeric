@@ -4,6 +4,8 @@
 	  width & height.  Return cell_value directly for 1x1 results.
 	(gnumeric_hyperlink) : Add stub.
 
+	* src/expr-name.[ch] (expr_name_add, expr_name_lookup) : Const.
+
 1999-07-13  Michael Meeks  <michael@edenproject.org>
 
 	* src/Makefile.am (GNUMERIC_BASE_SOURCES): add summary.[ch]

@@ -18,7 +18,7 @@
 static GList *global_names = NULL;
 
 ExprName *
-expr_name_lookup (Workbook *wb, char *name)
+expr_name_lookup (Workbook *wb, char const *name)
 {
 	GList *p = global_names;
 	while (p) {
@@ -56,7 +56,7 @@ add_real (Workbook *wb, char *name, gboolean builtin,
 }
 
 ExprName *
-expr_name_add (Workbook *wb, char *name,
+expr_name_add (Workbook *wb, char const *name,
 	       ExprTree *expr, char **error_msg)
 {
 	ExprName *expr_name;

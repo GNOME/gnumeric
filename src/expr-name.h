@@ -13,11 +13,11 @@
 void      expr_name_init       (void);
 
 /* Attach a name to a workbook */
-ExprName *expr_name_add        (Workbook *wb, char *name,
+ExprName *expr_name_add        (Workbook *wb, char const *name,
 				ExprTree *expr, char **error_msg);
 
 /* Lookup - use sparingly */
-ExprName *expr_name_lookup     (Workbook *wb, char *name);
+ExprName *expr_name_lookup     (Workbook *wb, char const *name);
 
 /* Remove a name from a workbook */
 void      expr_name_remove     (ExprName *exprn);
