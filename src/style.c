@@ -50,6 +50,7 @@ get_substitute_font (gchar const *fontname)
 		{ "Times New Roman", "Times"},
 		{ "Tms Rmn",	     "Times"},
 		{ "Arial",           "Sans"},
+		{ "Albany",          "Sans"},
 		{ "Helvetica",       "Sans"},
 		{ "Courier New",     "Courier"},
 		{ "£Í£Ó £Ð¥´¥·¥Ã¥¯", "Kochi Gothic"},
@@ -581,9 +582,13 @@ gnm_font_find_closest_from_weight_slant (const guchar *family,
 			family = "Sans Regular";
 		else if (!g_ascii_strcasecmp (family, "Helvetica"))
 			family = "Sans";
+		else if (!g_ascii_strcasecmp (family, "Albany"))
+			family = "Arial";
 		/* one of the arials */
 		else if (!g_ascii_strncasecmp (family, "Arial ", 6))
 			family = "Arial";
+		else if (!g_ascii_strcasecmp (family, "Arial"))
+			family = "Sans";
 		else
 			return font;
 

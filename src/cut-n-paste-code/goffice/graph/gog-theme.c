@@ -382,15 +382,15 @@ gog_themes_init	(void)
 
 	/* graph */
 	style = gog_style_new ();
-	style->outline.width = -1;
+	style->outline.width = 0; /* hairline */
+	style->outline.color = RGBA_BLACK;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogGraph", NULL);
 
 	/* chart */
 	style = gog_style_new ();
-	style->outline.width = 0; /* hairline */
-	style->outline.color = RGBA_BLACK;
+	style->outline.width = -1;
 	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style, NULL, "GogChart", NULL);
 

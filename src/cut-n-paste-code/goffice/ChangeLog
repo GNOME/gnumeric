@@ -1,3 +1,8 @@
+2003-09-16  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-theme.c (gog_themes_init) : change the default theme for
+	Adrian.
+
 2003-09-16  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-renderer-pixbuf.c (make_layout): Change to way font

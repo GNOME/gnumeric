@@ -11,18 +11,23 @@ Release Critical
     - Print to file name always output.ps
     - Does pdf work ?
 
-* When we release 1.1.18, we should ask people to nominate certain foreign
-  encodings as major.
-
 Pending Patches
 ---------------
 
-    - updated spanish translation
+    - BIFF2-4			: Nick Lamb 		: on list
+    - ReFreeze			: John Gill 		: on list
+    - smarter autofiler		: john gill 		: mail
+    - SVG export improvements	: jean brefort		: mail
+    - ATK relations		: Manny 		: mail
+
     http://bugzilla.gnome.org/show_bug.cgi?id=84062
     - XIM menu, blocking on gtk changes
 
 Short Term Goals
 ----------------
+
+* When we release 1.1.18, we should ask people to nominate certain foreign
+  encodings as major.
 
 * compartmentalize gconf support
 - validate expression names to ensure that they are not simple values (eg TRUE)
@@ -41,7 +46,7 @@ Short Term Goals
     0.6)  alpha channel support for color combos		(DONE)
     0.7)  Add mnemonic_activate for color combos		(DONE)
     0.8)  Add mnemonic_activate for ExprEntry			(DONE)
-    0.9)  Queue update for changed/deleted in ExprEntry ?	(DONE)
+    0.9)  Queue update for changed/deleted in ExprEntry ?
     0.10) Menu mnemonics for Edit -> Fill -> merge & series	(DONE)
     0.11) Fix warning on destruction of torn off combo		(DONE)
     0.12) Use 'Chart' in the ui to be compatible		(DONE)
@@ -94,11 +99,12 @@ Short Term Goals
 	1.7.6) Avoid leaking GODatas when faced with an unknown	(DONE)
 	       plot type.
 	1.7.7) double axis import on simple_bar2
+	1.7.8) Axis bounds
+	1.7.9) log scale
     1.8) data sources
 	1.8.1) vector and scalar data sources from gnumeric	(DONE)
-	1.8.2) static vector and scalar data sources for utils
-	1.8.3) an index source
-	1.8.4) Add min/max elements to vector			(DONE)
+	1.8.2) Add min/max elements to vector			(DONE)
+	1.8.3) static vector and scalar data sources for utils
     1.9) Pie Plot
 	1.9.1) Make the segments curve				(DONE)
 	1.9.2) extracted segments				(DONE)
@@ -120,6 +126,7 @@ Short Term Goals
 	1.11.2)	Stacked						(DONE)
 	1.11.3)	Percentage					(DONE)
 	1.11.4)	sub type with no-marker by default
+	1.11.5) Check the X axis scaling
     1.12) X/Y (Scatter) Plot
 	1.12.1) Add simple implementation			(DONE)
 	1.12.2) Take marker sizes into account at bounds
@@ -144,7 +151,7 @@ Short Term Goals
 	1.14.9) Add a font selector to the editor		(DONE)
 	1.14.10) Value formating (at least percentage and date)
 	1.14.11) Support index type axis			(DONE)
-	1.14.12) Support inverted axis
+	1.14.12) Use a map function (log, invert, date)
 	1.14.13) Allow a plot to select a different axis
 	1.14.14) Filter add plot in guru to matching types
 	1.14.15) Editor for min/max/major/minor			(DONE)
@@ -153,6 +160,7 @@ Short Term Goals
 	1.14.18) Draw major ticks out				(DONE)
 	1.14.19) Draw minor ticks in
 	1.14.20) Draw minor ticks out
+	1.14.21) Why don't we honour selected font ?
     1.15) per series plot type specific data			(DONE)
     1.16) libart based render akin to guppicanvas.		(DONE)
 	1.16.1) Solid background fills				(DONE)
