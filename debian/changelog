@@ -1,3 +1,26 @@
+gnumeric (1.4.2-2) unstable; urgency=high
+
+  * Backported fixes and improvements from CVS gnumeric-1-4 branch:
+    * [src/file.c] (gnm_file_saver_save) Produce an error when no proper UTF-8
+      filename was produced. (Closes: #291265)
+    * [po/pt_BR.po] Updated Brazilian Portuguese translation.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 23 Jan 2005 16:06:53 +0100
+
+gnumeric (1.4.2-1) unstable; urgency=low
+
+  * New upstream release. Changes include:
+    * Redo var width content when resizing all cols at once (Closes: #288157)
+    * Fix comment indicator position when zoomed (Closes: #290388)
+    * src/libgnumeric.h (gnumeric_popt_options): remove from here. 
+      (Closes: #286882)
+    * Draw rotated text and print rotated text. (Closes: #289262)
+  * [debian/control] Fixed some lintian/linda warnings.
+  * [debian/gnumeric-common.install] Removed
+    /usr/share/mc/templates/gnumeric.desktop
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 17 Jan 2005 21:09:29 +0100
+
 gnumeric (1.4.1-1) unstable; urgency=medium
 
   * New upstream bugfix release.
