@@ -1,3 +1,9 @@
+2003-03-18  Jody Goldberg <jody@gnome.org>
+	For Alex Duggan <aldug@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=106799
+	* dialog-about.c (dialog_about) : set the icon.
+
 2003-03-13  Jody Goldberg <jody@gnome.org>
 
 	* dialog-autocorrect.c (cb_autocorrect_key_press) : delete.

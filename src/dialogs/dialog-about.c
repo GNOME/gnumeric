@@ -38,6 +38,7 @@ void
 dialog_about (WorkbookControlGUI *wbcg)
 {
         GtkWidget *about, *hbox;
+        GdkPixbuf *icon;
 	static gboolean translated = FALSE;
 
         gchar const *authors[] = {
@@ -103,27 +104,22 @@ dialog_about (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, ABOUT_KEY))
 		return;
 
+	icon = gnumeric_load_pixbuf ("gnome-gnumeric.png");
         about = gnome_about_new (_("Gnumeric"), VERSION,
 				 "Copyright \xc2\xa9 1998-2000 Miguel de Icaza\n"
-				 "Copyright \xc2\xa9 2001-2002 Jody Goldberg",
+				 "Copyright \xc2\xa9 2001-2003 Jody Goldberg",
 				 _("A production ready spreadsheet"),
 				 authors, documenters,
 /* Translate the following string with the names of all translators for this locale. */
-				 _("This is an untranslated version of Gnumeric."),
-				 gdk_pixbuf_new_from_file ("gnome-gnumeric.png", NULL));
+				 _("This is an untranslated version of Gnumeric."), icon);
+	if (icon != NULL)
+	    gdk_pixbuf_unref (icon);
 
 	hbox = gtk_hbox_new (TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox),
 		gnome_href_new ("http://www.gnumeric.org", _("Gnumeric Home Page")),
 		FALSE, FALSE, 0);
 
-#ifdef WEB_BIT_ROT
-	{
-		GtkWidget *href = gnome_href_new ("http://www.ximian.com/apps/gnumeric.php3",
-						  _("Contract Support"));
-		gtk_box_pack_start (GTK_BOX (hbox), href, FALSE, FALSE, 0);
-	}
-#endif
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (about)->vbox),
 			    hbox, TRUE, FALSE, 0);
 	gtk_widget_show_all (hbox);
