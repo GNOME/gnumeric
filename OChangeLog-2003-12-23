@@ -1,5 +1,8 @@
 2003-05-22  Morten Welinder  <terra@gnome.org>
 
+	* src/item-bar.c (item_bar_realize): Set cursor for the right
+	display.
+
 	* src/workbook-control-gui.c (workbook_control_gui_new): Extra
 	argument here is a GdkScreen pointer.  Supply that to
 	workbook_control_gui_init.  All callers changed.

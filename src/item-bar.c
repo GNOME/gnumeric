@@ -192,6 +192,7 @@ item_bar_realize (FooCanvasItem *item)
 	ItemBar *ib;
 	GdkWindow *window;
 	GtkStyle *style;
+	GdkDisplay *display;
 
 	if (FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)
 		(*FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)(item);
@@ -213,11 +214,12 @@ item_bar_realize (FooCanvasItem *item)
 	gdk_gc_set_line_attributes (ib->lines, 2, GDK_LINE_SOLID,
 				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
 
-	ib->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
+	ib->normal_cursor = gdk_cursor_new_for_display (display, GDK_LEFT_PTR);
 	if (ib->is_col_header)
-		ib->change_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
+		ib->change_cursor = gdk_cursor_new_for_display (display, GDK_SB_H_DOUBLE_ARROW);
 	else
-		ib->change_cursor = gdk_cursor_new (GDK_SB_V_DOUBLE_ARROW);
+		ib->change_cursor = gdk_cursor_new_for_display (display, GDK_SB_V_DOUBLE_ARROW);
 	item_bar_calc_size (ib);
 }
 
