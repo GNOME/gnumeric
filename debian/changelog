@@ -1,3 +1,20 @@
+gnumeric (1.4.3-3) unstable; urgency=high
+
+  * [NEWS, ChangeLog, plugins/fn-math/ChangeLog,
+    plugins/fn-math/functions.c, src/colrow.c, src/gnumeric-gconf.c,
+    src/gnumeric-gconf.h, src/dialogs/ChangeLog,
+    src/dialogs/dialog-stf-export.c] Updated from CVS gnumeric-1-4 branch to
+    address
+    * a crash on page setup
+      http://bugzilla.gnome.org/show_bug.cgi?id=171503
+    * problems which broke the sumif and countif functions
+      http://bugzilla.gnome.org/show_bug.cgi?id=171509
+    (Closes: #303085)
+    * three leaks in structured text export which caused crashes on exit.
+      http://bugzilla.gnome.org/show_bug.cgi?id=128936
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue,  5 Apr 2005 07:04:02 +0200
+
 gnumeric (1.4.3-2) unstable; urgency=high
 
   * [NEWS, ChangeLog, plugins/qpro/ChangeLog, plugins/qpro/plugin.xml.in,
