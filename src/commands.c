@@ -929,7 +929,6 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
 	GnmExpr const *expr = NULL;
 	GSList *l;
-	char const *start;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -943,16 +942,9 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 					       wbc, _("Set Text")))
 		return TRUE;
 
-	/*
-	 * Only enter an array formula if
-	 *   1) the text is a formula
-	 *   2) It's entered as an array formula
-	 *   3) There is only one 1 selection
-	 */
-	l = me->selection;
-	start = gnm_expr_char_start_p (me->text);
-	if (start != NULL && me->as_array && l != NULL && l->next == NULL) {
-		expr = gnm_expr_parse_str_simple (start, &me->pp);
+	if (me->as_array) {
+		expr = gnm_expr_parse_str_simple (
+			gnm_expr_char_start_p (me->text), &me->pp);
 		if (expr == NULL)
 			return TRUE;
 	}
@@ -1028,11 +1020,24 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 
 	/* Store the specs for the object */
 	me->text        = g_strdup (new_text);
-	me->as_array    = as_array;
 	me->selection   = selection_get_ranges (sv, FALSE /* No intersection */);
 	me->old_content = NULL;
 
-	parse_pos_init_editpos (&me->pp, sv);
+	/* Only enter an array formula if
+	 *   1) the text is a formula
+	 *   2) It's entered as an array formula
+	 *   3) There is only one 1 selection
+	 */
+	me->as_array = (as_array && gnm_expr_char_start_p (me->text) != NULL &&
+			me->selection != NULL && me->selection->next == NULL);
+	if (me->as_array) {
+		/* parse the array expr relative to the top left */
+		Range const *r = me->selection->data;
+		parse_pos_init (&me->pp, NULL, sv_sheet (sv),
+			MIN (r->start.col, r->end.col),
+			MIN (r->start.row, r->end.row));
+	} else
+		parse_pos_init_editpos (&me->pp, sv);
 
 	text = make_undo_text (new_text,
 			       max_descriptor_width (),

@@ -1,5 +1,10 @@
 2002-09-24  Jody Goldberg <jody@gnome.org>
 
+	* src/commands.c (cmd_area_set_text) : we can test for as_array here.
+	  rather than in _redo.  Then make sure that array formulas are parsed
+	  relative to the top left of the target region rather than the
+	  edit_pos.
+
 	* src/parser.y (build_range_ctor) : finish error message so that
 	  things compile again.
 
