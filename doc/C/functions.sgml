@@ -24,6 +24,7 @@
 <listitem><para><link linkend="gnumeric-CEIL">CEIL</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CEILING">CEILING</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CHAR">CHAR</link></para></listitem>
+<listitem><para><link linkend="gnumeric-CHOOSE">CHOOSE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CLEAN">CLEAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CODE">CODE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-COLUMN">COLUMN</link></para></listitem>
@@ -52,10 +53,12 @@
 <listitem><para><link linkend="gnumeric-EFFECT">EFFECT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ERF">ERF</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ERFC">ERFC</link></para></listitem>
+<listitem><para><link linkend="gnumeric-EVEN">EVEN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXACT">EXACT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXP">EXP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXPONDIST">EXPONDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FACT">FACT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-FACTDOUBLE">FACTDOUBLE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FIND">FIND</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FISHER">FISHER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FISHERINV">FISHERINV</link></para></listitem>
@@ -85,6 +88,7 @@
 <listitem><para><link linkend="gnumeric-LOG">LOG</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOG10">LOG10</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOG2">LOG2</link></para></listitem>
+<listitem><para><link linkend="gnumeric-LOGINV">LOGINV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOGNORMDIST">LOGNORMDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOWER">LOWER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MAX">MAX</link></para></listitem>
@@ -98,7 +102,9 @@
 <listitem><para><link linkend="gnumeric-NEGBINOMDIST">NEGBINOMDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NOMINAL">NOMINAL</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NORMDIST">NORMDIST</link></para></listitem>
+<listitem><para><link linkend="gnumeric-NORMINV">NORMINV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NORMSDIST">NORMSDIST</link></para></listitem>
+<listitem><para><link linkend="gnumeric-NORMSINV">NORMSINV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NOT">NOT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NOW">NOW</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NPER">NPER</link></para></listitem>
@@ -106,6 +112,8 @@
 <listitem><para><link linkend="gnumeric-OCT2BIN">OCT2BIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-OCT2DEC">OCT2DEC</link></para></listitem>
 <listitem><para><link linkend="gnumeric-OCT2HEX">OCT2HEX</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ODD">ODD</link></para></listitem>
+<listitem><para><link linkend="gnumeric-OFFSET">OFFSET</link></para></listitem>
 <listitem><para><link linkend="gnumeric-OR">OR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PEARSON">PEARSON</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PERMUT">PERMUT</link></para></listitem>
@@ -116,14 +124,17 @@
 <listitem><para><link linkend="gnumeric-PPMT">PPMT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PROPER">PROPER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PV">PV</link></para></listitem>
+<listitem><para><link linkend="gnumeric-QUOTIENT">QUOTIENT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RADIANS">RADIANS</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RAND">RAND</link></para></listitem>
+<listitem><para><link linkend="gnumeric-RANDBETWEEN">RANDBETWEEN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RANK">RANK</link></para></listitem>
 <listitem><para><link linkend="gnumeric-REPLACE">REPLACE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-REPT">REPT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RIGHT">RIGHT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ROW">ROW</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ROWS">ROWS</link></para></listitem>
+<listitem><para><link linkend="gnumeric-RSQ">RSQ</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SECOND">SECOND</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SELECTION">SELECTION</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SIGN">SIGN</link></para></listitem>
@@ -155,6 +166,7 @@
 <listitem><para><link linkend="gnumeric-VLOOKUP">VLOOKUP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-WEIBULL">WEIBULL</link></para></listitem>
 <listitem><para><link linkend="gnumeric-YEAR">YEAR</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ZTEST">ZTEST</link></para></listitem>
 </itemizedlist>
 
 
@@ -236,6 +248,56 @@
 ,         <link linkend="gnumeric-COSH">COSH</link>
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
 ,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-CHOOSE">CHOOSE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>CHOOSE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>CHOOSE(index[,value1][,value2]...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>CORREL returns the value of index @index.index is rounded to an integer if it is not.</para>
+        <para>if index < 1 or index > number of values: returns #VAL!.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-COVAR">COVAR</link>
+,         <link linkend="gnumeric-FISHER">FISHER</link>
+,         <link linkend="gnumeric-FISHERINV">FISHERINV</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-RANDBETWEEN">RANDBETWEEN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>RANDBETWEEN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>RANDBETWEEN(bottom,top)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>RANDBETWEEN function returns a random integer number between @bottom and @top. </para>
+        <para>If @bottom or @top is non-integer it is truncated. If @bottom > @top RANDBETWEEN returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-RAND">RAND</link>
       </para>
     </refsect1>
   </refentry>
@@ -463,6 +525,30 @@
       <para>        <link linkend="gnumeric-COLUMN">COLUMN</link>
 ,         <link linkend="gnumeric-COLUMNS">COLUMNS</link>
 ,         <link linkend="gnumeric-ROWS">ROWS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-QUOTIENT">QUOTIENT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>QUOTIENT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>QUOTIENT(num,den)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>QUOTIENT function returns the integer portion of a division. @num is the divided and @den is the divisor. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-MOD">MOD</link>
       </para>
     </refsect1>
   </refentry>
@@ -841,6 +927,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-ODD">ODD</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ODD</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ODD(number)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>ODD function returns the number rounded up to the nearest odd integer. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-EVEN">EVEN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-PEARSON">PEARSON</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -986,6 +1096,58 @@
       <para>        <link linkend="gnumeric-COVAR">COVAR</link>
 ,         <link linkend="gnumeric-FISHER">FISHER</link>
 ,         <link linkend="gnumeric-FISHERINV">FISHERINV</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-EVEN">EVEN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>EVEN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>EVEN(number)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>EVEN function returns the number rounded up to the nearest even integer. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ODD">ODD</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-NORMINV">NORMINV</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>NORMINV</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>NORMINV(p,mean,stdev)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The NORMINV function returns the inverse of the normal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stdev is the standard deviation of the distribution. NORMINV uses an iterative algorithm for calculating the result. If NORMINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. </para>
+        <para>If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-NORMDIST">NORMDIST</link>
+,         <link linkend="gnumeric-NORMSDIST">NORMSDIST</link>
+,         <link linkend="gnumeric-NORMSINV">NORMSINV</link>
+,         <link linkend="gnumeric-STANDARDIZE">STANDARDIZE</link>
+,         <link linkend="gnumeric-ZTEST">ZTEST</link>
       </para>
     </refsect1>
   </refentry>
@@ -1513,6 +1675,31 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-RADIANS">RADIANS</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>RADIANS</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>RADIANS(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Computes the number of radians equivalent to  x degrees. </para>
+        <para>Performing this function on a string or empty cell simply does nothing. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PI">PI</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-TRIMMEAN">TRIMMEAN</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1541,31 +1728,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-RADIANS">RADIANS</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>RADIANS</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>RADIANS(x)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>Computes the number of radians equivalent to  x degrees. </para>
-        <para>Performing this function on a string or empty cell simply does nothing. </para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-PI">PI</link>
-,         <link linkend="gnumeric-DEGREES">DEGREES</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-ASIN">ASIN</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1586,6 +1748,35 @@
 ,         <link linkend="gnumeric-ASINH">ASINH</link>
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
 ,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ZTEST">ZTEST</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ZTEST</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ZTEST(ref,x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>ZTEST returns the two-tailed probability of a z-test. </para>
+        <para>@ref is the data set and @x is the value to be tested. </para>        <para>If ref contains less than two data items ZTEST returns #DIV/0! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-CONFIDENCE">CONFIDENCE</link>
+,         <link linkend="gnumeric-NORMDIST">NORMDIST</link>
+,         <link linkend="gnumeric-NORMINV">NORMINV</link>
+,         <link linkend="gnumeric-NORMSDIST">NORMSDIST</link>
+,         <link linkend="gnumeric-NORMSINV">NORMSINV</link>
+,         <link linkend="gnumeric-STANDARDIZE">STANDARDIZE</link>
       </para>
     </refsect1>
   </refentry>
@@ -1712,6 +1903,66 @@
 ,         <link linkend="gnumeric-COS">COS</link>
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
 ,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-LOGINV">LOGINV</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LOGINV</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LOGINV(p,mean,stdev)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The LOGINV function returns the inverse of the lognormal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stdev is the standard deviation of the distribution. LOGINV uses an iterative algorithm for calculating the result. If LOGINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. </para>
+        <para>If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-EXP">EXP</link>
+,         <link linkend="gnumeric-LN">LN</link>
+,         <link linkend="gnumeric-LOG">LOG</link>
+,         <link linkend="gnumeric-LOG10">LOG10</link>
+,         <link linkend="gnumeric-LOGNORMDIST">LOGNORMDIST</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-RSQ">RSQ</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>RSQ</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>RSQ(array1,array2)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>RSQ returns the square of the Pearson correllation coefficient of two data sets. </para>
+        <para>Strings and empty cells are simply ignored.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-CORREL">CORREL</link>
+,         <link linkend="gnumeric-COVAR">COVAR</link>
+,         <link linkend="gnumeric-INTERPCEPT">INTERPCEPT</link>
+,         <link linkend="gnumeric-LINEST">LINEST</link>
+,         <link linkend="gnumeric-LOGEST">LOGEST</link>
+,         <link linkend="gnumeric-PEARSON">PEARSON</link>
+,         <link linkend="gnumeric-SLOPE">SLOPE</link>
+,         <link linkend="gnumeric-STEYX">STEYX</link>
+,         <link linkend="gnumeric-TREND">TREND</link>
       </para>
     </refsect1>
   </refentry>
@@ -2048,6 +2299,32 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-NOMINAL">NOMINAL</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-OFFSET">OFFSET</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>OFFSET</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>OFFSET(range,row,col,height,width)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The OFFSET function returns a cell range.The cell range starts at offset (col,row) from range, and is of height @height and width @width.</para>
+        <para>If range is neither a reference nor a range returns #VALUE!.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-COLUMN">COLUMN</link>
+,         <link linkend="gnumeric-COLUMNS">COLUMNS</link>
+,         <link linkend="gnumeric-ROWS">ROWS</link>
       </para>
     </refsect1>
   </refentry>
@@ -3203,22 +3480,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-SKEW">SKEW</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>SKEW</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>SKEW(n1, n2, ...)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>SKEW returns the skewness of a distribution. </para>
-        <para>Strings and empty cells are simply ignored.</para>        <para>If less than three numbers are given SKEW returns #DIV/0! error. @SEEALSO=VAR</para>        <para></para>
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-AVERAGE">AVERAGE</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3266,6 +3527,22 @@
   </refentry>
 
 
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-SKEW">SKEW</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SKEW</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SKEW(n1, n2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>SKEW returns the skewness of a distribution. </para>
+        <para>Strings and empty cells are simply ignored.</para>        <para>If less than three numbers are given SKEW returns #DIV/0! error. @SEEALSO=VAR</para>        <para></para>
 
   <refentry>
     <refmeta>
@@ -3591,6 +3868,34 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-NORMSINV">NORMSINV</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>NORMSINV</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>NORMSINV(p)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The NORMSINV function returns the inverse of the standard normal cumulative distribution. @p is the given probability corresponding to the normal distribution. NORMSINV uses an iterative algorithm for calculating the result. If NORMSINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. </para>
+        <para>If @p < 0 or @p > 1 NORMSINV returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-NORMDIST">NORMDIST</link>
+,         <link linkend="gnumeric-NORMINV">NORMINV</link>
+,         <link linkend="gnumeric-NORMSDIST">NORMSDIST</link>
+,         <link linkend="gnumeric-STANDARDIZE">STANDARDIZE</link>
+,         <link linkend="gnumeric-ZTEST">ZTEST</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-DEC2HEX">DEC2HEX</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3770,6 +4075,30 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ERF">ERF</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-FACTDOUBLE">FACTDOUBLE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>FACTDOUBLE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>FACTDOUBLE(number)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>FACTDOUBLE function returns the double factorial of a number. </para>
+        <para>If @number is not an integer, it is truncated. If @number is negative FACTDOUBLE returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-FACT">FACT</link>
       </para>
     </refsect1>
   </refentry>

@@ -875,7 +875,9 @@ static GnomeUIInfo workbook_menu [] = {
 	GNOMEUIINFO_MENU_VIEW_TREE(workbook_menu_view),
 	{ GNOME_APP_UI_SUBTREE, N_("_Insert"), NULL, workbook_menu_insert },
 	{ GNOME_APP_UI_SUBTREE, N_("F_ormat"), NULL, workbook_menu_format },
+#if UNTIL_FINISHED
 	{ GNOME_APP_UI_SUBTREE, N_("T_ools"), NULL, workbook_menu_tools },
+#endif
 	GNOMEUIINFO_MENU_HELP_TREE(workbook_menu_help),
 	GNOMEUIINFO_END
 };

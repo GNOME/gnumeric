@@ -19,7 +19,6 @@ SGML_FILES =			\
 	number-format.sgml	\
 	selections.sgml		\
 	text-entry.sgml		\
-	translating.sgml	\
 	worksheet.sgml
 
 TEXT_FILES =			\

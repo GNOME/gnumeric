@@ -16,6 +16,18 @@ Performing this function on a string or empty cell simply does nothing. This fun
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
 
+@FUNCTION=CHOOSE
+@SYNTAX=CHOOSE(index[,value1][,value2]...)
+@DESCRIPTION=CORREL returns the value of index @index.index is rounded to an integer if it is not.
+if index < 1 or index > number of values: returns #VAL!.
+@SEEALSO=COVAR,FISHER,FISHERINV
+
+@FUNCTION=RANDBETWEEN
+@SYNTAX=RANDBETWEEN(bottom,top)
+@DESCRIPTION=RANDBETWEEN function returns a random integer number between @bottom and @top. 
+If @bottom or @top is non-integer it is truncated. If @bottom > @top RANDBETWEEN returns #NUM! error. 
+@SEEALSO=RAND
+
 @FUNCTION=STDEV
 @SYNTAX=STDEV(b1, b2, ...)
 @DESCRIPTION=STDEV returns standard deviation of a set of numbers treating these numbers as members of a population
@@ -71,6 +83,11 @@ Performing this function on a string or empty cell simply does nothing.
 @DESCRIPTION=The ROW function returns an array of the row numbers taking a default argument of the containing cell position.
 If reference is neither an array nor a reference nor a range returns #VALUE!.
 @SEEALSO=COLUMN,COLUMNS,ROWS
+
+@FUNCTION=QUOTIENT
+@SYNTAX=QUOTIENT(num,den)
+@DESCRIPTION=QUOTIENT function returns the integer portion of a division. @num is the divided and @den is the divisor. 
+@SEEALSO=MOD
 
 @FUNCTION=BIN2HEX
 @SYNTAX=BIN2HEX(number[,places])
@@ -168,6 +185,11 @@ If the values contain strings or empty cells those values are ignored.  If no lo
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=TAN, COS, SIN, DEGREES, RADIANS
 
+@FUNCTION=ODD
+@SYNTAX=ODD(number)
+@DESCRIPTION=ODD function returns the number rounded up to the nearest odd integer. 
+@SEEALSO=EVEN
+
 @FUNCTION=PEARSON
 @SYNTAX=PEARSON(array1,array2)
 @DESCRIPTION=PEARSON returns the Pearson correllation coefficient of two data sets. 
@@ -203,6 +225,17 @@ Performing this function on a string or empty cell returns an error
 @DESCRIPTION=CORREL returns the correllation coefficient of two data sets. 
 Strings and empty cells are simply ignored.
 @SEEALSO=COVAR,FISHER,FISHERINV
+
+@FUNCTION=EVEN
+@SYNTAX=EVEN(number)
+@DESCRIPTION=EVEN function returns the number rounded up to the nearest even integer. 
+@SEEALSO=ODD
+
+@FUNCTION=NORMINV
+@SYNTAX=NORMINV(p,mean,stdev)
+@DESCRIPTION=The NORMINV function returns the inverse of the normal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stdev is the standard deviation of the distribution. NORMINV uses an iterative algorithm for calculating the result. If NORMINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. 
+If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error. 
+@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST
 
 @FUNCTION=LARGE
 @SYNTAX=LARGE(n1, n2, ..., k)
@@ -329,22 +362,29 @@ Depriciation expense = ( cost - salvage value ) / life
 This function is called with no arguments.
 @SEEALSO=
 
-@FUNCTION=TRIMMEAN
-@SYNTAX=TRIMMEAN(ref,percent)
-@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @percent is the percentage of number excluded from the mean. For example, if percent=0.2 and the data set contans 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the set. 
-@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE
-
 @FUNCTION=RADIANS
 @SYNTAX=RADIANS(x)
 @DESCRIPTION=Computes the number of radians equivalent to  x degrees. 
 Performing this function on a string or empty cell simply does nothing. 
 @SEEALSO=PI,DEGREES
 
+@FUNCTION=TRIMMEAN
+@SYNTAX=TRIMMEAN(ref,percent)
+@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @percent is the percentage of number excluded from the mean. For example, if percent=0.2 and the data set contans 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the set. 
+@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE
+
 @FUNCTION=ASIN
 @SYNTAX=ASIN(x)
 @DESCRIPTION=The ASIN function calculates the arc sine of x; that is the value whose sine is x. If x falls outside  the  range -1 to 1, ASIN fails and returns the error 'asin - domain error'   
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS
+
+@FUNCTION=ZTEST
+@SYNTAX=ZTEST(ref,x)
+@DESCRIPTION=ZTEST returns the two-tailed probability of a z-test. 
+@ref is the data set and @x is the value to be tested. 
+If ref contains less than two data items ZTEST returns #DIV/0! error. 
+@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE
 
 @FUNCTION=PV
 @SYNTAX=PV(rate,nper,pmt,fv,type)
@@ -375,6 +415,18 @@ Performing this function on a string or empty cell simply does nothing.
 @DESCRIPTION=The ASINH  function  calculates  the inverse hyperbolic  sine of x; that is the value whose hyperbolic sine is x. 
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS
+
+@FUNCTION=LOGINV
+@SYNTAX=LOGINV(p,mean,stdev)
+@DESCRIPTION=The LOGINV function returns the inverse of the lognormal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stdev is the standard deviation of the distribution. LOGINV uses an iterative algorithm for calculating the result. If LOGINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. 
+If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error. 
+@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST
+
+@FUNCTION=RSQ
+@SYNTAX=RSQ(array1,array2)
+@DESCRIPTION=RSQ returns the square of the Pearson correllation coefficient of two data sets. 
+Strings and empty cells are simply ignored.
+@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND
 
 @FUNCTION=REPLACE
 @SYNTAX=REPLACE(old,start,num,new)
@@ -458,6 +510,12 @@ For example credit cards will list an APR (annual percentage rate) which is a no
 For example if you wanted to find out how much you are actually paying interest on your credit card that states an APR of 19% that is compounded monthly you would type in:
 =EFFECT(.19,12) and you would get .2075 or 20.75%. That is the effective percentage you will pay on your loan.
 @SEEALSO=NOMINAL
+
+@FUNCTION=OFFSET
+@SYNTAX=OFFSET(range,row,col,height,width)
+@DESCRIPTION=The OFFSET function returns a cell range.The cell range starts at offset (col,row) from range, and is of height @height and width @width.
+If range is neither a reference nor a range returns #VALUE!.
+@SEEALSO=COLUMN,COLUMNS,ROWS
 
 @FUNCTION=GCD
 @SYNTAX=GCD(n1,n2)
@@ -723,12 +781,6 @@ if places is too small or negative #NUM! error is returned.
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS
 
-@FUNCTION=SKEW
-@SYNTAX=SKEW(n1, n2, ...)
-@DESCRIPTION=SKEW returns the skewness of a distribution. 
-Strings and empty cells are simply ignored.
-If less than three numbers are given SKEW returns #DIV/0! error. @SEEALSO=VAR
-
 @FUNCTION=AVERAGE
 @SYNTAX=AVERAGE(value1, value2,...)
 @DESCRIPTION=Computes the average of all the values and cells referenced in the argument list.  This is equivalent to the sum of the arguments divided by the count of the arguments.
@@ -740,6 +792,12 @@ If less than three numbers are given SKEW returns #DIV/0! error. @SEEALSO=VAR
 Serial Numbers in Gnumeric are represented as follows:The integral part is the number of days since the 1st of January of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds
 For example: .0 represents the beginning of the day, and 0.5 represents noon
 @SEEALSO=TODAY, NOW
+
+@FUNCTION=SKEW
+@SYNTAX=SKEW(n1, n2, ...)
+@DESCRIPTION=SKEW returns the skewness of a distribution. 
+Strings and empty cells are simply ignored.
+If less than three numbers are given SKEW returns #DIV/0! error. @SEEALSO=VAR
 
 @FUNCTION=SIGN
 @SYNTAX=SIGN(number)
@@ -821,6 +879,12 @@ Performing this function on a string or empty cell simply does nothing. This fun
 @SYNTAX=NPV(rate,v1,v2,...)
 @DESCRIPTION=Calculates the net present value of an investment.@SEEALSO=PV
 
+@FUNCTION=NORMSINV
+@SYNTAX=NORMSINV(p)
+@DESCRIPTION=The NORMSINV function returns the inverse of the standard normal cumulative distribution. @p is the given probability corresponding to the normal distribution. NORMSINV uses an iterative algorithm for calculating the result. If NORMSINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. 
+If @p < 0 or @p > 1 NORMSINV returns #NUM! error. 
+@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST
+
 @FUNCTION=DEC2HEX
 @SYNTAX=DEC2HEX(number[,places])
 @DESCRIPTION=The DEC2HEX function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
@@ -868,6 +932,12 @@ Performing this function on a string or empty cell simply does nothing.
 @DESCRIPTION=The ERFC function returns the integral of the complimentary error function between the limits 0 and x. 
 if x is not numeric a #VALUE! error is returned.if x < 0 a #NUM! error is returned.
 @SEEALSO=ERF
+
+@FUNCTION=FACTDOUBLE
+@SYNTAX=FACTDOUBLE(number)
+@DESCRIPTION=FACTDOUBLE function returns the double factorial of a number. 
+If @number is not an integer, it is truncated. If @number is negative FACTDOUBLE returns #NUM! error. 
+@SEEALSO=FACT
 
 @FUNCTION=NPER
 @SYNTAX=NPER(rate,pmt,pv,fv,type)
