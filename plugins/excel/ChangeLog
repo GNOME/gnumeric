@@ -1,3 +1,8 @@
+2000-02-18  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_get_style_from_xf) : Hard code 'auto'
+	  border colours to black for now.  We are not guessing well.
+
 2000-02-15  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-obj.c (object_anchor_to_position) : Improve debug output.

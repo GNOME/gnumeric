@@ -57,14 +57,11 @@ ccc_init_class (GtkObjectClass *object_class)
 GNUMERIC_MAKE_TYPE(command_context_corba, "CommandContextCorba", CommandContextCorba, ccc_init_class, NULL, PARENT_TYPE)
 
 CommandContext *
-command_context_corba_new (Workbook *wb)
+command_context_corba_new ()
 {
 	CommandContextCorba *ccg;
 
 	ccg = gtk_type_new (command_context_corba_get_type ());
-
-	ccg->wb = wb;
 	
 	return COMMAND_CONTEXT (ccg);
 }
-

@@ -12,7 +12,6 @@
 
 typedef struct {
 	CommandContext parent;
-	Workbook *wb;
 } CommandContextCorba;
 
 typedef struct {
@@ -20,7 +19,7 @@ typedef struct {
 } CommandContextCorbaClass;
 
 GtkType         command_context_corba_get_type (void);
-CommandContext *command_context_corba_new      (Workbook *wb);
+CommandContext *command_context_corba_new      (void);
 
 #endif /* GNUMERIC_COMMAND_CONTEXT_CORBA_H */
 

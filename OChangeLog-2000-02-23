@@ -1,5 +1,17 @@
 2000-02-19  Jody Goldberg <jgoldberg@home.com>
 
+	* src/corba-workbook-factory.c (WorkbookFactory_read) : Create a tmp
+	  corba context with which to report problems while reading a new
+	  workbook.  This is a temporary work around until corba_context is
+	  implemented and we see what the requirements are.
+
+	* src/command-context-corba.c (command_context_corba_new) : longer
+	  require a workbook.
+
+	* src/corba-workbook.c (workbook_corba_setup) : Support above change.
+
+2000-02-19  Jody Goldberg <jgoldberg@home.com>
+
 	* src/selection.c (sheet_selection_extend) : Don't store the results
 	  of the move directly into sheet::cursor::move_corner.  That makes
 	  sheet_selection_extend_to think there is nothing to be done.

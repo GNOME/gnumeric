@@ -231,7 +231,7 @@ workbook_corba_setup (Workbook *workbook)
 	CORBA_free (objid);
 	workbook->corba_server = PortableServer_POA_servant_to_reference (gnumeric_poa, ws, &ev);
 
-	workbook->priv->corba_context = command_context_corba_new (workbook);
+	workbook->priv->corba_context = command_context_corba_new ();
 	CORBA_exception_free (&ev);
 }
 

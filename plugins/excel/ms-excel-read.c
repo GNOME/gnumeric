@@ -1226,7 +1226,11 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 		int const color_index = xf->border_color[i];
 		/* Handle auto colours */
 		StyleColor *color = (color_index == 64 || color_index == 65 || color_index == 127)
+#if 0
+			/* FIXME : This does not choose well, hard code to black for now */
 			? black_or_white_contrast (back_color)
+#endif
+			? style_color_black ()
 			: ms_excel_palette_get (sheet->wb->palette,
 						color_index);
 		if (xf->border_type [i] != STYLE_BORDER_NONE) {
@@ -2410,7 +2414,8 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 	guint16 const end_col = MS_OLE_GET_GUINT16(q->data+4) - 1;
 	guint16 const height = MS_OLE_GET_GUINT16(q->data+6);
 	guint16 const flags = MS_OLE_GET_GUINT16(q->data+12);
-	guint16 const xf = MS_OLE_GET_GUINT16(q->data+14) & 0xfff;
+	guint16 const flags2 = MS_OLE_GET_GUINT16(q->data+14);
+	guint16 const xf = flags2 & 0xfff;
 
 	/* If the bit is on it indicates that the row is of 'standard' height.
 	 * However the remaining bits still include the size.
@@ -2418,14 +2423,20 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 	gboolean const is_std_height = (height & 0x8000) != 0;
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 1)
+	if (ms_excel_read_debug > 1) {
 		printf ("Row %d height 0x%x;\n", row+1, height);
+		if (is_std_height)
+			puts ("Is Std Height");
+		if (flags2 & 0x1000)
+			puts ("Top thick");
+		if (flags2 & 0x2000)
+			puts ("Bottom thick");
+	}
 #endif
 
-	/* TODO : Set put mechanism in place to increase the margins */
-	/* TODO : sync the approach used for the columns with the row.
-	 *       columns actually set the size even when it is the default.
-	 *       Why ?
+	/* TODO : Put mechanism in place to handle thick margins */
+	/* TODO : Columns actually set the size even when it is the default.
+	 *        Which approach is better ?
 	 */
 	/* TODO : We should store the default row style too.
 	 *        Which has precedence rows or cols ??
