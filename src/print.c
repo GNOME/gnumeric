@@ -697,7 +697,8 @@ sheet_print (Sheet *sheet, gboolean preview,
 							GNOME_PRINT_RANGE_SELECTION|GNOME_PRINT_RANGE_RANGE,
 							1, workbook_sheet_count(sheet->workbook),
 							_("Active sheet"), _("Sheets"));
-		switch(gnome_dialog_run(GNOME_DIALOG(gpd))) {
+		switch(gnumeric_dialog_run (sheet->workbook,
+					    GNOME_DIALOG(gpd))) {
 		case GNOME_PRINT_PRINT:
 			break;
 		case GNOME_PRINT_PREVIEW:
