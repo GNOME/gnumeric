@@ -343,11 +343,9 @@ write_sheet (BIFF_PUT *bp, SHEET *sheet)
 }
 
 static void
-new_sheet (gpointer key, gpointer val, gpointer iwb)
+new_sheet (WORKBOOK *wb, Sheet *value)
 {
 	SHEET     *sheet = g_new (SHEET, 1);
-	Sheet     *value = (Sheet *)val;
-	WORKBOOK  *wb    = (WORKBOOK *)iwb;
 
 	g_return_if_fail (value);
 	g_return_if_fail (wb);
@@ -366,12 +364,18 @@ write_workbook (BIFF_PUT *bp, Workbook *gwb, eBiff_version ver)
 	WORKBOOK *wb = g_new (WORKBOOK, 1);
 	SHEET    *s  = 0;
 	int       lp;
+	GList    *sheets;
 
 	wb->ver      = ver;
 	wb->gnum_wb  = gwb;
 	wb->sheets   = g_ptr_array_new ();
 	
-	g_hash_table_foreach (gwb->sheets, new_sheet, wb);
+	sheets = workbook_sheets (gwb);
+	while (sheets) {
+		new_sheet (wb, sheets->data);
+		sheets = g_list_next (sheets);
+	}
+	g_list_free (sheets);
 
 	/* Workbook */
 	biff_bof_write (bp, ver, eBiffTWorkbook);

@@ -20,6 +20,8 @@ Miguel
 
 Michael
 	* Re-wrote the OLE block layer again...
+	* Tentative alpha Excel sheet writing ( --debug=1 )
+	* Fix writing code to preserve sheet order.
 
 Nick Lamb
 	* Lots of work adding excel function mappings.

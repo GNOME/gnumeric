@@ -2253,7 +2253,7 @@ workbook_invalidate_references (Workbook *wb, Sheet *sheet, int col, int row,
 }
 
 
-
+/* Old code discarded the order
 static void
 cb_workbook_sheets (gpointer key, gpointer value, gpointer user_data)
 {
@@ -2262,16 +2262,32 @@ cb_workbook_sheets (gpointer key, gpointer value, gpointer user_data)
 
 	*l = g_list_prepend (*l, sheet);
 }
-
+*/
 
 GList *
 workbook_sheets (Workbook *wb)
 {
-	GList *sheets = NULL;
+	GList *list = NULL;
+	GtkNotebook *notebook;
+	int sheets, i;
 
-	g_return_val_if_fail (wb != NULL, NULL);
-	g_hash_table_foreach (wb->sheets, cb_workbook_sheets, &sheets);
-	return sheets;
+	g_return_val_if_fail (wb, NULL);
+	g_return_val_if_fail (wb->notebook, NULL);
+
+	notebook = GTK_NOTEBOOK (wb->notebook);
+	sheets = workbook_sheet_count (wb);
+
+	for (i = 0; i < sheets; i++){
+		Sheet *this_sheet;
+		GtkWidget *w;
+
+		w = gtk_notebook_get_nth_page (notebook, i);
+		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
+		
+		list = g_list_append (list, this_sheet);
+	}
+
+	return list;
 }
 
 typedef struct {

@@ -1491,23 +1491,6 @@ readXmlSheet (parseXmlContextPtr ctxt, xmlNodePtr tree)
 }
 
 /*
- * Create an XML subtree equivalent to the given sheet
- * and add it to the parent
- */
-static void
-writeXmlSheetTo (gpointer key, gpointer value, gpointer data)
-{
-	parseXmlContextPtr ctxt = (parseXmlContextPtr) data;
-	xmlNodePtr cur, parent;
-	Sheet *sheet = (Sheet *) value;
-
-	parent = ctxt->parent;
-	cur = writeXmlSheet (ctxt, sheet);
-	ctxt->parent = parent;
-	xmlAddChild (parent, cur);
-}
-
-/*
  * Create an XML subtree of doc equivalent to the given Workbook.
  */
 static xmlNodePtr
@@ -1515,6 +1498,7 @@ writeXmlWorkbook (parseXmlContextPtr ctxt, Workbook *wb)
 {
 	xmlNodePtr cur;
 	xmlNodePtr child;
+	GList *sheets;
 
 	/*
 	 * General informations about the Sheet.
@@ -1537,8 +1521,20 @@ writeXmlWorkbook (parseXmlContextPtr ctxt, Workbook *wb)
 	 */
 	child = xmlNewChild (cur, ctxt->ns, "Sheets", NULL);
 	ctxt->parent = child;
-	g_hash_table_foreach (wb->sheets, writeXmlSheetTo, ctxt);
-	
+
+	sheets = workbook_sheets (wb);
+	while (sheets) {
+		xmlNodePtr cur, parent;
+		Sheet *sheet = sheets->data;
+		
+		parent = ctxt->parent;
+		cur = writeXmlSheet (ctxt, sheet);
+		ctxt->parent = parent;
+		xmlAddChild (parent, cur);
+
+		sheets = g_list_next (sheets);
+	}
+	g_list_free (sheets);
 	return cur;
 }
 

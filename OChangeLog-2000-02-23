@@ -1,3 +1,17 @@
+1999-05-26  Michael Meeks  <michael@imaginator.com>
+
+	* src/file.c (file_saver_is_default_format): Fixed bug causing
+	incorrect format to be displayed.
+	(fill_save_menu): Wait until we have populated the option menu
+	before setting the current item.
+	(make_format_chooser): Move some code into file_save_menu.
+
+	* src/xml-io.c (writeXmlSheetTo): Removed,
+	(writeXmlWorkbook): Use the order workbook_sheets list.
+
+	* src/workbook.c (cb_workbook_sheets): Commented out
+	(workbook_sheets): Get sheets in order from notebook tabs.
+
 1999-05-25  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c, src/mathfunc.h: New files, mostly taken from the

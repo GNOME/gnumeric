@@ -187,12 +187,13 @@ file_saver_is_default_format (FileSaver *saver)
 {
 	if (current_saver == saver)
 		return TRUE;
-
-	if (strcmp (saver->extension, ".gnumeric") == 0){
-		if (current_saver == NULL)
+	
+	if (current_saver == NULL)
+		if (strcmp (saver->extension, ".gnumeric") == 0) {
 			current_saver = saver;
-		return TRUE;
-	}
+			return TRUE;
+		}
+
 	return FALSE;
 }
 
@@ -200,7 +201,7 @@ static void
 fill_save_menu (GtkOptionMenu *omenu, GtkMenu *menu)
 {
 	GList *l;
-	int i;
+	int i, selected=-1;
 
 	for (i = 0, l = gnumeric_file_savers; l; l = l->next, i++){
 		GtkWidget *menu_item;
@@ -212,11 +213,15 @@ fill_save_menu (GtkOptionMenu *omenu, GtkMenu *menu)
 		gtk_menu_append (menu, menu_item);
 
 		if (file_saver_is_default_format (fs))
-			gtk_option_menu_set_history (omenu, i);
+			selected = i;
 
 		gtk_signal_connect (GTK_OBJECT (menu_item), "activate",
 				    GTK_SIGNAL_FUNC(saver_activate), fs);
 	}
+
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), GTK_WIDGET (menu));
+	if (selected > 0)
+		gtk_option_menu_set_history (omenu, selected);
 }
 
 static GtkWidget *
@@ -235,8 +240,6 @@ make_format_chooser (void)
 	gtk_box_pack_start (GTK_BOX (box), label, FALSE, FALSE, GNOME_PAD);
 	gtk_box_pack_start (GTK_BOX (box), omenu, FALSE, TRUE, GNOME_PAD);
 	gtk_widget_show_all (box);
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
 
 	return box;
 }
@@ -283,7 +286,6 @@ workbook_save_as (Workbook *wb)
 	gtk_box_pack_start (GTK_BOX (fsel->action_area), format_selector,
 			    FALSE, TRUE, 0);
 
-
 	/* Connect the signals for Ok and Cancel */
 	gtk_signal_connect (GTK_OBJECT (fsel->ok_button), "clicked",
 			    GTK_SIGNAL_FUNC (set_ok), &accepted);
@@ -311,7 +313,8 @@ workbook_save_as (Workbook *wb)
 
 			current_saver = insure_saver (current_saver);
 			if (!current_saver)
-				gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, _("Sorry, there are no file savers loaded, I cannot save"));
+				gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+						 _("Sorry, there are no file savers loaded, I cannot save"));
 			else {
 				if (strchr (base, '.') == NULL){
 					name = g_strconcat (name, current_saver->extension, NULL);
