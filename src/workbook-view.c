@@ -20,7 +20,6 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "workbook-view.h"
 
@@ -34,7 +33,6 @@
 #include "str.h"
 #include "gnm-format.h"
 #include "func.h"
-#include <goffice/app/file.h>
 #include "expr.h"
 #include "expr-name.h"
 #include "expr-impl.h"
@@ -45,14 +43,16 @@
 #include "position.h"
 #include "cell.h"
 #include "gutils.h"
-#include <goffice/app/io-context.h>
 #include "command-context.h"
 #include "auto-format.h"
 
+#include <goffice/app/file.h>
+#include <goffice/app/io-context.h>
 #include <gsf/gsf.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-input.h>
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <locale.h>
 #include <string.h>
@@ -789,7 +789,7 @@ cb_cleanup_sendto (gpointer path)
 gboolean
 wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 {
-	gboolean problem;
+	gboolean problem = FALSE;
 	IOContext	*io_context;
 	Workbook	*wb;
 	GOFileSaver	*fs;
