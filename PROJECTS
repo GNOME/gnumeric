@@ -33,6 +33,8 @@ Description                                             Difficulty  Integration
   missing or do not conform to the style guides, 
 
 - Add dynamic tooltips to the toolbar combo boxes	Medium	    Low
+  eg when mousing over the colour combo toolbar
+     we should be told what colour is selected.
 
 - gtk-combo-box : should handle standard keys		Low	    Low
   Enter = accept.
