@@ -1,3 +1,7 @@
+2002-09-09  Morten Welinder  <terra@diku.dk>
+
+	* src/item-edit.c (item_edit_destroy): Plug leak.
+
 2002-09-06  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-component.c

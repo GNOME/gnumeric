@@ -357,6 +357,11 @@ item_edit_destroy (GtkObject *o)
 	}
 	scg_set_display_cursor (item_edit->scg);
 
+	if (item_edit->style_font) {
+		style_font_unref (item_edit->style_font);
+		item_edit->style_font = NULL;
+	}
+
 	if (GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)(o);
 }
