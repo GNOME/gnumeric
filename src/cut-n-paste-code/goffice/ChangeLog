@@ -1,3 +1,12 @@
+2003-10-14  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis.c (axis_get_entry) : Add a user_defined parameter in
+	order to know if the returned value is defined by user or computed.
+	(gog_axis_update) : Use user defined bound for the tick spacing
+	calculation.
+	(gog_axis_num_markers) : round to nearest value instead of the
+	automatic double to int cast that removes the fractionnal part.
+	
 2003-10-18  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-chart-impl.h : Inherit from GogOutlinedObject and use the
