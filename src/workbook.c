@@ -216,6 +216,7 @@ workbook_do_destroy (Workbook *wb)
 
 	g_list_free (wb->eval_queue);
 
+	g_free (wb->toolbar);
 	if (wb->auto_expr){
 		expr_tree_unref (wb->auto_expr);
 		string_unref (wb->auto_expr_desc);
@@ -1276,7 +1277,10 @@ workbook_new (void)
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
 	gnome_app_install_menu_hints(GNOME_APP (wb->toplevel), workbook_menu);
-	gnome_app_create_toolbar_with_data (GNOME_APP (wb->toplevel), workbook_toolbar, wb);
+
+	wb->toolbar = g_malloc (sizeof (workbook_toolbar));
+	memcpy (wb->toolbar, &workbook_toolbar, sizeof (workbook_toolbar));
+	gnome_app_create_toolbar_with_data (GNOME_APP (wb->toplevel), (GnomeUIInfo *) wb->toolbar, wb);
 
 	item = gnome_app_get_dock_item_by_name (GNOME_APP (wb->toplevel), GNOME_APP_TOOLBAR_NAME);
 	toolbar = gnome_dock_item_get_child (item);
@@ -1799,6 +1803,7 @@ void
 workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data)
 {
 	GtkToggleButton *t;
+	GnomeUIInfo *toolbar = workbook->toolbar;
 	int set;
 	
 	g_return_if_fail (workbook != NULL);
@@ -1806,7 +1811,7 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 	switch (type){
 	case WORKBOOK_FEEDBACK_BOLD:
 		t = GTK_TOGGLE_BUTTON (
-			workbook_toolbar [TOOLBAR_BOLD_BUTTON_INDEX].widget);
+			toolbar [TOOLBAR_BOLD_BUTTON_INDEX].widget);
 		set = data != NULL;
 
 		gtk_toggle_button_set_active (t, set);
@@ -1814,7 +1819,7 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 		
 	case WORKBOOK_FEEDBACK_ITALIC:
 		t = GTK_TOGGLE_BUTTON (
-			workbook_toolbar [TOOLBAR_ITALIC_BUTTON_INDEX].widget);
+			toolbar [TOOLBAR_ITALIC_BUTTON_INDEX].widget);
 		set = data != NULL;
 
 		gtk_toggle_button_set_active (t, set);

@@ -67,6 +67,8 @@ typedef struct {
 	 * to the asyncronous paste callback
 	 */
 	void       *clipboard_paste_callback_data;
+
+	void       *toolbar;
 } Workbook;
 
 typedef struct {

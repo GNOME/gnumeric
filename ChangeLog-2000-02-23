@@ -1,3 +1,10 @@
+1999-02-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_new): Make a local copy of the toolbar,
+	as we use this to update the radio buttons. 
+	(workbook_do_destroy): Free the toolbar.
+	(workbook_feedback_set): Use the per-workbook toolbar here.
+
 1999-02-19  Michael Meeks  <sca20@cam.ac.uk>
 
 	* plugins/excel/ms-formula.c: Inserted a whole scad
