@@ -3606,9 +3606,9 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 		SINGLE_ROW = 3,
 		OTHER      = 4
 	}                 ytype;
-	regression_stat_t extra_stat;
+	regression_stat_t *extra_stat;
 
-	memset (&extra_stat, 0, sizeof (extra_stat));
+	extra_stat = regression_stat_new ();
 	dim = 0;
 
 	if (argv[0] == NULL || (argv[0]->type != VALUE_ARRAY && argv[0]->type != VALUE_CELLRANGE)){
@@ -3766,7 +3766,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	linres = g_new (gnum_float, dim + 1);
 
 	if (linear_regression (xss, dim, ys, nx, affine,
-			       linres, &extra_stat)) {
+			       linres, extra_stat)) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -3775,22 +3775,22 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 		result = value_new_array (dim + 1, 5);
 
 		value_array_set (result, 0, 2,
-				 value_new_float (extra_stat.sqr_r));
+				 value_new_float (extra_stat->sqr_r));
 		value_array_set (result, 1, 2,
-				 value_new_float (sqrtgnum (extra_stat.var)));
+				 value_new_float (sqrtgnum (extra_stat->var)));
 		value_array_set (result, 0, 3,
-				 value_new_float (extra_stat.F));
+				 value_new_float (extra_stat->F));
 		value_array_set (result, 1, 3,
-				 value_new_float (extra_stat.df_resid));
+				 value_new_float (extra_stat->df_resid));
 		value_array_set (result, 0, 4,
-				 value_new_float (extra_stat.ss_reg));
+				 value_new_float (extra_stat->ss_reg));
 		value_array_set (result, 1, 4,
-				 value_new_float (extra_stat.ss_resid));
+				 value_new_float (extra_stat->ss_resid));
 		for (i = 0; i < dim; i++)
 			value_array_set (result, dim - i - 1, 1,
-					 value_new_float (extra_stat.se[i+affine]));
+					 value_new_float (extra_stat->se[i+affine]));
 		value_array_set (result, dim, 1,
-				 value_new_float (extra_stat.se[0]));
+				 value_new_float (extra_stat->se[0]));
 	} else
 		result = value_new_array (dim + 1, 1);
 
@@ -3799,14 +3799,15 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 		value_array_set (result, dim - i - 1, 0, value_new_float (linres[i + 1]));
 
  out:
-	for (i = 0; i < dim; i++)
-		g_free (xss[i]);
-	g_free (xss);
+	if (xss) {
+		for (i = 0; i < dim; i++)
+			g_free (xss[i]);
+		g_free (xss);
+	}
 	g_free (ys);
 	g_free (linres);
-	g_free (extra_stat.se);
-	g_free (extra_stat.xbar);
-	g_free (extra_stat.t);
+	regression_stat_destroy (extra_stat);
+
 	return result;
 }
 
@@ -3968,7 +3969,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	int               xarg = 0;
 	gnum_float        *expres = NULL;
 	gboolean          stat, err;
-	regression_stat_t extra_stat;
+	regression_stat_t *extra_stat;
 	enum {
 		ARRAY      = 1,
 		SINGLE_COL = 2,
@@ -3976,7 +3977,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 		OTHER      = 4
 	}                 ytype;
 
-	memset (&extra_stat, 0, sizeof (extra_stat));
+	extra_stat = regression_stat_new ();
 	dim = 0;
 
 	if (argv[0] == NULL || (argv[0]->type != VALUE_ARRAY && argv[0]->type != VALUE_CELLRANGE)){
@@ -4132,7 +4133,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 
 	expres = g_new (gnum_float, dim + 1);
 	if (exponential_regression (xss, dim, ys, nx, affine,
-				    expres, &extra_stat)) {
+				    expres, extra_stat)) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -4141,22 +4142,22 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 		result = value_new_array (dim + 1, 5);
 
 		value_array_set (result, 0, 2,
-				 value_new_float (extra_stat.sqr_r));
+				 value_new_float (extra_stat->sqr_r));
 		value_array_set (result, 1, 2,
-				 value_new_float (sqrtgnum (extra_stat.var))); /* Still wrong ! */
+				 value_new_float (sqrtgnum (extra_stat->var))); /* Still wrong ! */
 		value_array_set (result, 0, 3,
-				 value_new_float (extra_stat.F));
+				 value_new_float (extra_stat->F));
 		value_array_set (result, 1, 3,
-				 value_new_float (extra_stat.df_resid));
+				 value_new_float (extra_stat->df_resid));
 		value_array_set (result, 0, 4,
-				 value_new_float (extra_stat.ss_reg));
+				 value_new_float (extra_stat->ss_reg));
 		value_array_set (result, 1, 4,
-				 value_new_float (extra_stat.ss_resid));
+				 value_new_float (extra_stat->ss_resid));
 		for (i = 0; i < dim; i++)
 			value_array_set (result, dim - i - 1, 1,
-					 value_new_float (extra_stat.se[i + affine]));
+					 value_new_float (extra_stat->se[i + affine]));
 		value_array_set (result, dim, 1,
-				 value_new_float (extra_stat.se[0]));
+				 value_new_float (extra_stat->se[0]));
 	} else
 		result = value_new_array (dim + 1, 1);
 
@@ -4165,14 +4166,14 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 		value_array_set (result, dim - i - 1, 0, value_new_float (expres[i + 1]));
 
  out:
-	for (i = 0; i < dim; i++)
-		g_free (xss[i]);
-	g_free (xss);
+	if (xss) {
+		for (i = 0; i < dim; i++)
+			g_free (xss[i]);
+		g_free (xss);
+	}
 	g_free (ys);
 	g_free (expres);
-	g_free (extra_stat.se);
-	g_free (extra_stat.xbar);
-	g_free (extra_stat.t);
+	regression_stat_destroy (extra_stat);
 
 	return result;
 }
