@@ -99,7 +99,7 @@ biff_string_get_flags (BYTE *ptr,
  *  FIXME: see S59D47.HTM for full description
  **/
 char *
-biff_get_text (BYTE *pos, int length, guint32* byte_length)
+biff_get_text (BYTE *pos, guint32 length, guint32* byte_length)
 {
 	int lp ;
 	char *ans;
@@ -751,7 +751,8 @@ ms_excel_set_cell_colors (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf
 	int col;
 
 	if (!p || !xf) {
-		printf ("Internal Error: No palette !\n") ;
+		if (EXCEL_DEBUG>0)
+			printf ("Internal Error: No palette !\n") ;
 		return;
 	}
 
@@ -787,7 +788,7 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 		printf ("Duff StyleFont\n") ;
 }
 
-void
+static void
 ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, guint16 xfidx)
 {
 	GList *ptr;
@@ -1504,24 +1505,40 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		}
 		break;
 	}
+	case BIFF_SHRFMLA: /* See: S59DE4.HTM */
 	case BIFF_ARRAY: /* See: S59D57.HTM */
 	{
 		int array_col_first, array_col_last ;
 		int array_row_first, array_row_last ;
 		int xlp, ylp ;
+		BYTE *data ;
+		int data_len ;
 
 		array_row_first = BIFF_GETWORD(q->data + 0) ;
 		array_row_last  = BIFF_GETWORD(q->data + 2) ;
 		array_col_first = BIFF_GETBYTE(q->data + 4) ;
 		array_col_last  = BIFF_GETBYTE(q->data + 5) ;
 
-		printf ("Array Formula of extent %d %d %d %d\n",
+		switch (q->ls_op) {
+		case BIFF_SHRFMLA:
+			data = q->data + 10 ;
+			data_len = BIFF_GETWORD(q->data + 8) ;
+			break ;
+		default:{
+/*				int options  = BIFF_GETWORD(q->data + 6) ; not so useful */
+				g_assert (q->ls_op == BIFF_ARRAY) ;
+				data = q->data + 14 ;
+				data_len = BIFF_GETWORD(q->data + 12) ;
+				break ;	
+			}
+		}
+		printf ("%s Formula of extent %d %d %d %d\n", q->ls_op==BIFF_ARRAY?"Array":"Shrfmla",
 			array_col_first, array_row_first, array_col_last, array_row_last) ;
 		for (xlp=array_col_first;xlp<=array_col_last;xlp++)
 			for (ylp=array_row_first;ylp<=array_row_last;ylp++)
 			{
-				char *txt = ms_excel_parse_formula (sheet, (q->data + 14),
-								    xlp, ylp, BIFF_GETWORD(q->data+12)) ;
+				char *txt = ms_excel_parse_formula (sheet, data,
+								    xlp, ylp, data_len) ;
 				/* FIXME: Magic XF number: 0 */
 				ms_excel_sheet_insert (sheet, 0, xlp, ylp, txt) ;
 				g_free(txt) ;
@@ -1680,6 +1697,8 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 	printf ("----------------- Sheet -------------\n");
 
 	while (ms_biff_query_next (q)){
+		if (EXCEL_DEBUG>5)
+			printf ("Opcode : 0x%x\n", q->opcode) ;
 		switch (q->ls_op){
 		case BIFF_EOF:
 			if (q->streamPos == blankSheetPos || sheet->blank)
@@ -1850,6 +1869,8 @@ ms_excelReadWorkbook (MS_OLE * file)
 
 		while (ms_biff_query_next (q))
 		{
+			if (EXCEL_DEBUG>5)
+				printf ("Opcode : 0x%x\n", q->opcode) ;
 			switch (q->ls_op)
 			{
 			case BIFF_BOF:
@@ -1919,8 +1940,8 @@ ms_excelReadWorkbook (MS_OLE * file)
 				break;
 			case BIFF_SST: /* see S59DE7.HTM */
 			{
-				int length, k ;
-				char *tmp ;
+				guint32 length, k ;
+				BYTE *tmp ;
 
 				if (EXCEL_DEBUG>4) {
 					printf ("SST\n") ;
@@ -2002,7 +2023,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 					dump (q->data, q->length);
 					break ;
 				default:
-					if (EXCEL_DEBUG>0)
+					if (EXCEL_DEBUG>0 && EXCEL_DEBUG<=5)
 						printf ("Opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
 					if (EXCEL_DEBUG>2)
 						dump (q->data, q->length); 

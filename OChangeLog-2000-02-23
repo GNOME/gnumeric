@@ -1,3 +1,9 @@
+1999-04-02 Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-sheet.c (gnumeric_if): Fix to allow variable
+	arguments, updated help & struct to comply, removed
+	possible memory leak. ( Luke 17:3,4 )
+
 1999-04-01 Michael Meeks  <michael@imaginator.com>
 
 	* src/workbook.c (sheet_action_delete_sheet): Fix docs.

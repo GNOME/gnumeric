@@ -18,6 +18,8 @@
 #include "ms-excel-biff.h"
 #include "ms-formula.h"
 
+#define FORMULA_DEBUG 0
+
 #define NO_PRECEDENCE 256
 
 /**
@@ -58,7 +60,7 @@ FORMULA_OP_DATA formula_op_data[] = {
 FORMULA_FUNC_DATA formula_func_data[] =
 {
 	{ "COUNT", 2 },
-	{ "IF", 8 },
+	{ "IF", -1 },
 	{ "ISNA", 1 },
 	{ "ISERROR", 1 },
 	{ "SUM", -1 },
@@ -81,8 +83,8 @@ FORMULA_FUNC_DATA formula_func_data[] =
 	{ "EXP", 1 },
 	{ "LN", 1 },
 	{ "LOG10", 1 },
-	{ "0x18", 8 },
-	{ "0x19", 8 },
+	{ "ABS", 1 },
+	{ "INT", 1 },
 	{ "SIGN", 1 },
 	{ "0x1b", 8 },
 	{ "0x1c", 8 },
@@ -424,7 +426,8 @@ FORMULA_FUNC_DATA formula_func_data[] =
  *  A useful routine for extracting data from a common
  * storage structure.
  **/
-static CellRef *getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow)
+static CellRef *
+getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow)
 {
 	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
 	cr->col          = col ;
@@ -443,7 +446,8 @@ static CellRef *getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curco
  *  A useful routine for extracting data from a common
  * storage structure.
  **/
-static CellRef *getRefV8(MS_EXCEL_SHEET *sheet, WORD row, WORD gbitcl, int curcol, int currow)
+static CellRef *
+getRefV8(MS_EXCEL_SHEET *sheet, WORD row, WORD gbitcl, int curcol, int currow)
 {
 	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
 	cr->row          = row ;
@@ -465,7 +469,8 @@ typedef struct _PARSE_DATA
 	int  precedence ;
 } PARSE_DATA ;
 
-static PARSE_DATA *parse_data_new (char *buffer, int precedence)
+static PARSE_DATA *
+parse_data_new (char *buffer, int precedence)
 {
 	PARSE_DATA *ans = g_new (PARSE_DATA, 1) ;
 	if (!buffer)
@@ -476,7 +481,8 @@ static PARSE_DATA *parse_data_new (char *buffer, int precedence)
 	return ans ;
 }
 
-static void parse_data_free (PARSE_DATA *ptr)
+static void
+parse_data_free (PARSE_DATA *ptr)
 {
 	if (ptr->name)
 		g_free (ptr->name) ;
@@ -489,7 +495,8 @@ typedef struct _PARSE_LIST
 	int   length ;
 } PARSE_LIST ;
 
-static PARSE_LIST *parse_list_new ()
+static PARSE_LIST *
+parse_list_new ()
 {
 	PARSE_LIST *ans = (PARSE_LIST *)g_malloc (sizeof(PARSE_LIST)) ;
 	ans->data   = 0 ;
@@ -497,19 +504,23 @@ static PARSE_LIST *parse_list_new ()
 	return ans ;
 }
 
-static void parse_list_push (PARSE_LIST *list, PARSE_DATA *pd)
+static void
+parse_list_push (PARSE_LIST *list, PARSE_DATA *pd)
 {
-/*	printf ("Pushing '%s'\n", pd->name) ; */
+	if (FORMULA_DEBUG>0)
+		printf ("Pushing '%s'\n", pd->name) ;
 	list->data = g_list_append (list->data, pd) ;
 	list->length++ ;
 }
 
-static void parse_list_push_raw (PARSE_LIST *list, char *buffer, int precedence)
+static void
+parse_list_push_raw (PARSE_LIST *list, char *buffer, int precedence)
 {
 	parse_list_push(list, parse_data_new (buffer, precedence)) ;
 }
 
-static PARSE_DATA *parse_list_pop (PARSE_LIST *list)
+static PARSE_DATA *
+parse_list_pop (PARSE_LIST *list)
 {
 	GList *tmp ;
 	PARSE_DATA *ans ;
@@ -523,7 +534,8 @@ static PARSE_DATA *parse_list_pop (PARSE_LIST *list)
 	return ans ;
 }
 
-static void parse_list_free (PARSE_LIST *list)
+static void 
+parse_list_free (PARSE_LIST *list)
 {
 	while (list->data)
 		parse_data_free (parse_list_pop(list)) ;
@@ -591,7 +603,8 @@ static char *parse_list_to_equation (PARSE_LIST *list)
 
       strcpy (formula, "=") ;
       strcat (formula, pd->name) ;
-/*      printf ("Formula : '%s'\n", formula) ; */
+      if (FORMULA_DEBUG>1)
+	      printf ("Formula : '%s'\n", formula) ;
       return formula ;
     }
   else
@@ -715,6 +728,8 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		int ptgbase = ((ptg & 0x40) ? (ptg | 0x20): ptg) & 0x3F ;
 		if (ptg > FORMULA_PTG_MAX)
 			break ;
+		if (FORMULA_DEBUG>0)
+			printf ("Ptg : 0x%x -> 0x%x\n", ptg, ptgbase) ;
 		switch (ptgbase)
 		{
 		case FORMULA_PTG_REF:
@@ -925,23 +940,45 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			guint8  grbit = BIFF_GETBYTE(cur) ;
 			guint16 w     = BIFF_GETWORD(cur+1) ;
 			ptg_length = 3 ;
-			if (grbit & 0x40) /* AttrSpace */
-			{
+			if (grbit & 0x01) {
+				if (FORMULA_DEBUG>0)
+					printf ("A volatile function: so what\n") ;
+			} else if (grbit & 0x02) { /* AttrIf: 'optimised' IF function */
+				/* Who cares if the TRUE expr has a goto at the end */
+				char *txt ;
+				printf ("Optimised IF 0x%x 0x%x\n", grbit, w) ;
+				dump (mem, length) ;
+				if (w)
+					txt = ms_excel_parse_formula (sheet, cur+ptg_length,
+								      fn_col, fn_row, w) ;
+				else
+					txt = g_strdup(" ") ;
+				txt[0] = ' ' ; /* Kill the = */
+				parse_list_push_raw (stack, txt, NO_PRECEDENCE) ;
+				ptg_length += w ;
+			} else if (grbit & 0x08) { /* AttrGoto */
+				if (FORMULA_DEBUG>2) {
+					printf ("Goto %d: cur = 0x%x\n", w, (int)(cur-mem)) ;
+					dump (mem, length) ;
+				}
+				ptg_length = w ;
+			} else if (grbit & 0x10) { /* AttrSum: 'optimised' SUM function */
+				if (!make_function (stack, 0x04, 1))
+				{
+					error = 1 ;
+					printf ("Error in optimised SUM\n") ;
+				}
+			} else if (grbit & 0x40) { /* AttrSpace */
 				guint8 num_space = BIFF_GETBYTE(cur+2) ;
 				guint8 attrs     = BIFF_GETBYTE(cur+1) ;
 				if (attrs == 00) /* bitFSpace : ignore it */
 				/* Could perhaps pop top arg & append space ? */ ;
 				else
 					printf ("Redundant whitespace in formula 0x%x count %d\n", attrs, num_space) ;
-			}
-			if (grbit & 0x10) { /* AttrSum: Optimised SUM function */
-				if (!make_function (stack, 0x04, 1))
-				{
-					error = 1 ;
-					printf ("Error in optimised SUM\n") ;
-				}
-			} else
+			} else {
 				printf ("Unknown PTG Attr 0x%x 0x%x\n", grbit, w) ;
+				error = 1 ;
+			}
 		break ;
 		}
 		case FORMULA_PTG_ERR:

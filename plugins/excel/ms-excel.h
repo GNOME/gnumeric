@@ -33,7 +33,6 @@ typedef struct _MS_EXCEL_SHEET
 } MS_EXCEL_SHEET ;
 
 extern void ms_excel_sheet_insert (MS_EXCEL_SHEET *sheet, int xfidx, int col, int row, char *text) ;
-extern void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, guint16 xfidx) ;
 
 typedef struct _MS_EXCEL_PALETTE
 {
@@ -92,7 +91,7 @@ typedef struct _MS_EXCEL_WORKBOOK
 } MS_EXCEL_WORKBOOK ;
 
 extern char* biff_get_externsheet_name (MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first) ;
-extern char* biff_get_text (BYTE *ptr, int length, guint32 *byte_length) ;
+extern char* biff_get_text (BYTE *ptr, guint32 length, guint32 *byte_length) ;
 extern char* biff_get_error_text (guint8 err) ;
 extern char* biff_name_data_get_name (MS_EXCEL_SHEET *sheet, guint16 idx) ;
 #endif

@@ -15,13 +15,14 @@
 
 static char *help_if = {
 	N_("@FUNCTION=IF\n"
-	   "@SYNTAX=IF(condition,if-true,if-false)\n"
+	   "@SYNTAX=IF(condition[,if-true,if-false])\n"
 
 	   "@DESCRIPTION="
 	   "Use the IF statement to evaluate conditionally other expressions "
 	   "IF evaluates @condition.  If @condition returns a non-zero value "
 	   "the result of the IF expression is the @if-true expression, otherwise "
-	   "IF evaluates to the value of @if-false"
+	   "IF evaluates to the value of @if-false."
+	   "If ommitted if-true defaults to TRUE and if-false to FALSE."
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -31,10 +32,11 @@ gnumeric_if (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, ch
 {
 	ExprTree *expr;
 	Value *value;
-	int err, ret;
+	int err, ret, args;
 		
 	/* Type checking */
-	if (g_list_length (expr_node_list) != 3){
+	args = g_list_length (expr_node_list) ;
+	if (args < 1 || args > 3) {
 		*error_string = _("Invalid number of arguments");
 		return NULL;
 	}
@@ -46,15 +48,22 @@ gnumeric_if (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, ch
 
 	/* Choose which expression we will evaluate */
 	ret = value_get_bool (value, &err);
+	value_release (value);
 	if (err)
 		return NULL;
 	
-	if (ret)
-		expr = (ExprTree *) expr_node_list->next->data;
-	else
-		expr = (ExprTree *) expr_node_list->next->next->data;
-
-	value_release (value);
+	if (ret) {
+		if (expr_node_list->next)
+			expr = (ExprTree *) expr_node_list->next->data;
+		else
+			return value_int (1) ;
+	} else {
+		if (expr_node_list->next && 
+		    expr_node_list->next->next)
+			expr = (ExprTree *) expr_node_list->next->next->data;
+		else
+			return value_int (0) ;
+	}
 
 	/* Return the result */
 	return eval_expr (tsheet, (ExprTree *) expr, eval_col, eval_row, error_string);

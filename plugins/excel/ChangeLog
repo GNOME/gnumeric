@@ -1,3 +1,20 @@
+1999-04-02  Michael Meeks  <michael@imaginator.com>
+
+	* ms-formula.c (ms_excel_parse_formula): PTG_ATTR: corrected
+	debug output semantics.
+	Set IF to var-arg ( fn: 0x1 ).
+	Various Debug bits made conditional.
+	Implemented 'optimised' = 'hopelessly obfuscated' IF function.
+	Ignored 'Volatile' PTG_ATTR.
+	Added INT to table.
+
+	* ms-excel.c (ms_excel_set_cell_xf): Made static for safety.
+	(ms_excelReadWorkbook): BIFF_SST: fixed up a few types.
+	(biff_get_text): Fixed types.
+	
+	* ms-excel.h: removed prototype for same.
+	fixed biff_get_text type.
+	
 1999-04-01  Michael Meeks  <michael@imaginator.com>
 
 	* ms-excel.c (ms_excelReadWorkbook): Major string table fix
