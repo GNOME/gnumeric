@@ -4376,6 +4376,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	}
 #endif
 	excel_iconv_close (current_workbook_iconv);
+	current_workbook_iconv = 0;
 	if (wb) {
 		/* Cleanup */
 		ms_excel_workbook_destroy (wb);

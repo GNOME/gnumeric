@@ -1,3 +1,21 @@
+2001-05-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/application.c (application_real_time_auto_expr_recalc) : new
+	  function.
+
+	* src/sheet.c (auto_expr_timer_clear) : new function.
+	(sheet_update) : toggle the selection_content_changed flag here and
+	  use a timer rather than an idle handler.
+
+	* src/workbook-edit.c (wbcg_edit_ctor) : Init the sensitivity timer.
+
+	* src/workbook-control-gui.c (workbook_setup_edit_area) : Use
+	  wbcg_edit_ctor.
+	(wbcg_destroy) : use wbcg_edit_dtor.
+
+	* src/main.c (gnumeric_main) : setlocale (LC_ALL, NULL) to force
+	  initialization of LC_* from the environment.
+
 2001-05-11  Jon K Hellan  <hellan@acm.org>
  
  	* src/sheet-control-gui.c (scg_rangesel_changed): Improve handling

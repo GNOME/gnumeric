@@ -41,4 +41,6 @@ double	     application_dpi_to_pixels (void);
 gboolean     application_use_auto_complete_get (void);
 void         application_use_auto_complete_set (gboolean use_auto_complete);
 
+int	     application_auto_expr_recalc_lag  (void);
+
 #endif /* GNUMERIC_APPLICATION_H */

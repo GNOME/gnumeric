@@ -1671,6 +1671,11 @@ expr_tree_get_func_def (ExprTree const *expr)
 	return expr->func.func;
 }
 
+/**
+ * expr_tree_first_func :
+ * @expr :
+ *
+ */
 ExprTree const *
 expr_tree_first_func (ExprTree const *expr)
 {
@@ -1703,4 +1708,58 @@ expr_tree_first_func (ExprTree const *expr)
 
 	g_assert_not_reached ();
 	return NULL;
+}
+
+/**
+ * expr_tree_container :
+ */
+void
+expr_boundingbox (ExprTree const *expr, CellPos const *pos, Range *bound)
+{
+	g_return_if_fail (expr != NULL);
+
+	switch (expr->any.oper) {
+	case OPER_ANY_BINARY:
+		expr_boundingbox (expr->binary.value_a, pos, bound);
+		expr_boundingbox (expr->binary.value_b, pos, bound);
+		break;
+
+	case OPER_ANY_UNARY:
+		expr_boundingbox (expr->unary.value, pos, bound);
+		break;
+
+	case OPER_FUNCALL: {
+		GList *l;
+		for (l = expr->func.arg_list; l; l = l->next)
+			expr_boundingbox (l->data, pos, bound);
+		break;
+	}
+
+	case OPER_NAME:
+		/* Do NOT validate the name. */
+		/* TODO : is that correct ? */
+		break;
+
+	case OPER_VAR:
+		break;
+
+	case OPER_CONSTANT: {
+		Value const *v = expr->constant.value;
+
+		if (v->type == VALUE_CELLRANGE) {
+			CellRef ref_a = v->v_range.cell.a;
+			CellRef ref_b = v->v_range.cell.b;
+		}
+		break;
+	}
+
+	case OPER_ARRAY: {
+		ExprArray const * a = &expr->array;
+		if (a->x == 0 && a->y == 0)
+			expr_boundingbox (a->corner.expr, pos, bound);
+		break;
+	}
+	}
+
+	g_assert_not_reached ();
 }

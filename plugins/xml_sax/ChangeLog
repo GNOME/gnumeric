@@ -1,3 +1,25 @@
+2001-05-11  Jody Goldberg <jgoldberg@home.com>
+
+	* xml-sax-read.c (xml_sax_characters) : add sheet_merge.
+	(xml_sax_start_element) : add sheet_merge, and sheet_merged_regions.
+	(xml_sax_end_element) : call xml_sax_parse_merge.
+	(xml_sax_parse_merge) : new function.
+	(xml_sax_parse_sheet_end) : new function to set the zoom after the
+	  content.
+	(xml_sax_parse_sheet_start) : renamed from xml_sax_parse_sheet.
+	(xml_parse_sheet_zoom) : just store the zoom don't set till later.
+	(xml_sax_cols_rows) : new function.
+
+2001-05-10  Jody Goldberg <jgoldberg@home.com>
+
+	* xml-sax-read.c (xml_sax_parse_attr_bool) : new function.
+	(xmlSaxParseSheet) : use it here.
+	(xml_sax_parse_wb) : fix inverted cmp.
+	(xmlSaxParseSheet) : no sheet yet here.  Just store the prefs for
+	  later.
+	(xmlSaxParseSheet) : use any saved prefs.
+	(xml_sax_file_open) : typo.
+
 2001-04-27  Jody Goldberg <jgoldberg@home.com>
 
 	* xml-sax-read.c (xml_sax_unknown_attr) : Start

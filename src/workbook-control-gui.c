@@ -2924,7 +2924,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 
 	wbcg->selection_descriptor     = gtk_entry_new ();
 
-	workbook_edit_init (wbcg);
+	wbcg_edit_ctor (wbcg);
 	entry = GTK_ENTRY (workbook_get_entry (wbcg));
 
 	box           = gtk_hbox_new (0, 0);
@@ -3061,6 +3061,7 @@ wbcg_destroy (GtkObject *obj)
 		GTK_SIGNAL_FUNC (wbcg_set_focus), wbcg);
 
 	workbook_auto_complete_destroy (wbcg);
+	wbcg_edit_dtor (wbcg);
 
 	gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), NULL);
 

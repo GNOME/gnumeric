@@ -101,6 +101,7 @@ typedef struct
 	GList           *history_list;
 
 	gboolean         edit_auto_complete;
+	int         	 auto_expr_recalc_lag;
 } GnumericApplication;
 
 static GnumericApplication app;
@@ -233,6 +234,14 @@ application_init (void)
 
 	gnome_config_push_prefix ("Gnumeric/Editing/");
 	app.edit_auto_complete = gnome_config_get_bool ("AutoComplete=true");
+
+	/* If positive auto expressions are recalculated within <lag>
+	 * millesecond after a change.
+	 * if negative they are recalculated with <lag> milleseconds after the
+	 * last change where 'last' is defined as a periond > <lag> after a
+	 * change with no changes.
+	 */
+	app.auto_expr_recalc_lag = gnome_config_get_int ("AutoExprRecalcLag=200");
 	gnome_config_pop_prefix ();
 }
 
@@ -328,7 +337,7 @@ application_clipboard_copy (WorkbookControl *wbc,
 	g_return_if_fail (area != NULL);
 
 	if (application_set_selected_sheet (wbc, sheet) ) {
-		GList *l = NULL;
+		GList *l;
 		
 		app.clipboard_cut_range = *area;
 		app.clipboard_copied_contents =
@@ -342,7 +351,7 @@ application_clipboard_copy (WorkbookControl *wbc,
 		 * The 'area' and the list itself will be copied
 		 * entirely. We ant the copied range on the sheet.
 		 */
-		l = g_list_append (l, (Range *) area);
+		l = g_list_append (NULL, (Range *) area);
 		sheet_ant (sheet, l);
 		g_list_free (l);
 	}
@@ -367,7 +376,7 @@ application_clipboard_cut (WorkbookControl *wbc,
 	g_return_if_fail (area != NULL);
 
 	if (application_set_selected_sheet (wbc, sheet) ) {
-		GList *l = NULL;
+		GList *l;
 		
 		app.clipboard_cut_range = *area;
 
@@ -380,7 +389,7 @@ application_clipboard_cut (WorkbookControl *wbc,
 		 * The 'area' and the list itself will be copied
 		 * entirely. We ant the cut range on the sheet.
 		 */
-		l = g_list_append (l, (Range *) area);
+		l = g_list_append (NULL, (Range *) area);
 		sheet_ant (sheet, l);
 		g_list_free (l);
 	}
@@ -658,6 +667,12 @@ gboolean
 application_use_auto_complete_get (void)
 {
 	return app.edit_auto_complete;
+}
+
+int
+application_auto_expr_recalc_lag (void)
+{
+	return app.auto_expr_recalc_lag;
 }
 
 void

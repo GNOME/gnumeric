@@ -8,9 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - Performance regression: navigating and (say) selecting an area in,
-      for example, statfuns.xls takes an embarrassingly long time.
-
     - smarter support for unicode characters that do not convert to the
       current encoding during XL import.
 
@@ -34,9 +31,6 @@ Names :
     : Changing an expression name that is in use does not recalc, or regen
       depends correctly.
     : references in names do not get changed with cut/paste or ins/del row/col.
-
-- range selection support for merged cells, should name the corner not the
-  content.
 
 - When using the new range-selector for dialogs with only one range, it
   should not be necessary to select the range field before selecting the

@@ -25,6 +25,7 @@ void        workbook_auto_complete_destroy   (WorkbookControlGUI *wbcg);
 char const *workbook_edit_get_display_text   (WorkbookControlGUI *wbcg);
 gboolean    workbook_auto_completing         (WorkbookControlGUI *wbcg);
 
-void        workbook_edit_init               (WorkbookControlGUI *wbcg);
+void wbcg_edit_ctor (WorkbookControlGUI *wbcg);
+void wbcg_edit_dtor (WorkbookControlGUI *wbcg);
 
 #endif /* GNUMERIC_WORKBOOK_EDIT_H */

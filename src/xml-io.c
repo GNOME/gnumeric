@@ -2761,16 +2761,14 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 			xml_read_cell (ctxt, cell);
 	}
 
-	/*
-	 * Solver informations
-	 */
-    child = e_xml_get_child_by_name (tree, "Solver");
+	child = e_xml_get_child_by_name (tree, "Solver");
 	if (child != NULL)
 	        xml_read_solver (ret, ctxt, child, &(ret->solver_parameters));
 
 	xml_dispose_read_cell_styles (ctxt);
 
-	/* Initialize the ColRowInfo's ->size_pixels data */
+	/* Init ColRowInfo's size_pixels and force a full respan */
+	sheet_flag_recompute_spans (ret);
 	sheet_set_zoom_factor (ret, zoom_factor, FALSE, FALSE);
 
 	return ret;

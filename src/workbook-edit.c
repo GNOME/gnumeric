@@ -84,26 +84,30 @@ workbook_edit_toolbars_set_sensitive (WorkbookControlGUI *wbcg, gboolean sensiti
 
 }
 
+static void
+toolbar_timer_clear (WorkbookControlGUI *wbcg)
+{
+	/* Remove previous ui timer */
+	if (wbcg->toolbar_sensitivity_timer != 0) {
+		gtk_timeout_remove (wbcg->toolbar_sensitivity_timer);
+		wbcg->toolbar_sensitivity_timer = 0;
+	}
+}
+
 static gboolean
 cb_thaw_ui_toolbar (gpointer *data)
 {
         WorkbookControlGUI *wbcg = (WorkbookControlGUI *)data;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
-	
+
 	workbook_edit_toolbars_set_sensitive (wbcg, TRUE);
-	
-	if (wbcg->ui_timer != 0) {
-		gtk_timeout_remove (wbcg->ui_timer);
-		wbcg->ui_timer = 0;
-	}
-	
+	toolbar_timer_clear (wbcg);
+
 	return TRUE;
 }
 
 /* In milliseconds */
-#define UI_THAW_DELAY 500
-
 static void
 workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean flag2)
 {
@@ -112,18 +116,15 @@ workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean 
 	gtk_widget_set_sensitive (wbcg->cancel_button, flag1);
 
 	gtk_widget_set_sensitive (wbcg->func_button, flag2);
-	
-	/* Remove previous ui timer */	
-	if (wbcg->ui_timer != 0) {
-		gtk_timeout_remove (wbcg->ui_timer);
-		wbcg->ui_timer = 0;
-	}
-	
+	toolbar_timer_clear (wbcg);
+
 	/* Toolbars are insensitive while editing */
 	if (flag2) {
 		/* We put the re-enabling of the ui on a timer */
-		wbcg->ui_timer = gtk_timeout_add (UI_THAW_DELAY, (GtkFunction) cb_thaw_ui_toolbar,
-						  wbcg);
+		wbcg->toolbar_sensitivity_timer =
+			gtk_timeout_add (500, /* seems a reasonable amount */
+					 (GtkFunction) cb_thaw_ui_toolbar,
+					 wbcg);
 	} else
 		workbook_edit_toolbars_set_sensitive (wbcg, flag2);
 }
@@ -151,9 +152,9 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean accept)
 		return TRUE;
 
 	g_return_val_if_fail (wbcg->editing_sheet != NULL, TRUE);
-	
+
 	sheet = wbcg->editing_sheet;
-	
+
 	/* Save the results before changing focus */
 	if (accept) {
 		char const *txt = workbook_edit_get_display_text (wbcg);
@@ -167,9 +168,9 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean accept)
 			parse_pos_init (&pp, wb_control_workbook (wbc), sheet,
 					sheet->edit_pos.col, sheet->edit_pos.row);
 			parse_error_init (&perr);
-			
+
 			tree = gnumeric_expr_parser (expr_txt, &pp, TRUE, FALSE, NULL, &perr);
-			
+
 			if (!tree) {
 				/*
 				 *If begin and end char are zero we'll simply
@@ -183,7 +184,7 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean accept)
 					gtk_entry_select_region (
 						GTK_ENTRY (workbook_get_entry (wbcg)),
 						perr.begin_char, perr.end_char);
-						
+
 				gnome_error_dialog_parented (perr.message, wbcg->toplevel);
 				parse_error_free (&perr);
 
@@ -209,8 +210,8 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean accept)
 		/* Reload the entry widget with the original contents */
 		wb_view_edit_line_set (wbv, wbc);
 	}
-	
-	/* Stop editing */	
+
+	/* Stop editing */
 	wbcg->editing = FALSE;
 	wbcg->editing_sheet = NULL;
 	wbcg->editing_cell = NULL;
@@ -534,7 +535,7 @@ workbook_edit_get_display_text (WorkbookControlGUI *wbcg)
 
 /* Initializes the Workbook entry */
 void
-workbook_edit_init (WorkbookControlGUI *wbcg)
+wbcg_edit_ctor (WorkbookControlGUI *wbcg)
 {
 	g_assert (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	g_assert (wbcg->edit_line.entry == NULL);
@@ -544,4 +545,11 @@ workbook_edit_init (WorkbookControlGUI *wbcg)
 	wbcg->edit_line.temp_entry = NULL;
 	wbcg->edit_line.guru = NULL;
 	wbcg->edit_line.signal_changed = -1;
+	wbcg->toolbar_sensitivity_timer = 0;
+}
+
+void
+wbcg_edit_dtor (WorkbookControlGUI *wbcg)
+{
+	toolbar_timer_clear (wbcg);
 }

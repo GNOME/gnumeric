@@ -1,3 +1,8 @@
+2001-05-11  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_workbook) : clear the global handle
+	  after it is closed.
+
 2001-05-11  Almer S. Tigelaar  <almer@gnome.org>
 
 	* ms-excel-write.c (write_sheet_bools): Write dimensions as

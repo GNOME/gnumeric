@@ -234,6 +234,7 @@ void	    sheet_flag_status_update_cell  (Cell const *c);
 void	    sheet_flag_status_update_range (Sheet const *s, Range const *r);
 void        sheet_flag_format_update_range (Sheet const *s, Range const *r);
 void        sheet_flag_selection_change    (Sheet const *s);
+void	    sheet_flag_recompute_spans	   (Sheet const *s);
 void	    sheet_update_only_grid	   (Sheet const *s);
 void        sheet_update                   (Sheet const *s);
 void	    sheet_scrollbar_config	   (Sheet const *s);

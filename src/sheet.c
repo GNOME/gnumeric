@@ -8,9 +8,6 @@
  *  Jody Goldberg (jgoldbeg@home.com)
  */
 #include <config.h>
-#include <ctype.h>
-#include <gnome.h>
-#include <string.h>
 #include "gnumeric.h"
 #include "command-context.h"
 #include "sheet-control-gui.h"
@@ -43,6 +40,11 @@
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 
+#include <gnome.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+
 static void sheet_redraw_partial_row (Sheet const *sheet, int row,
 				      int start_col, int end_col);
 
@@ -50,12 +52,12 @@ void
 sheet_unant (Sheet *sheet)
 {
 	GList *l;
-	
+
 	g_return_if_fail (sheet != NULL);
 
 	if (!sheet->ants)
 		return;
-		
+
 	for (l = sheet->ants; l != NULL; l = l->next) {
 		Range *ss = l->data;
 		g_free (ss);
@@ -78,7 +80,7 @@ sheet_ant (Sheet *sheet, GList *ranges)
 
 	if (sheet->ants != NULL)
 		sheet_unant (sheet);
-		
+
 	/*
 	 * We need to copy the whole selection to the
 	 * 'ant' list which contains all currently anted
@@ -91,7 +93,7 @@ sheet_ant (Sheet *sheet, GList *ranges)
 		sheet->ants = g_list_prepend (sheet->ants, range_dup (ss));
 	}
 	sheet->ants = g_list_reverse (sheet->ants);
-	
+
 	SHEET_FOREACH_CONTROL (sheet, control,
 		scg_ant (control););
 }
@@ -183,7 +185,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->priv->reposition_objects.row = SHEET_MAX_ROWS;
 	sheet->priv->reposition_objects.col = SHEET_MAX_COLS;
 
-	sheet->priv->auto_expr_idle_id = 0;
+	sheet->priv->auto_expr_timer = 0;
 
 	sheet->signature = SHEET_SIGNATURE;
 	sheet->workbook = wb;
@@ -240,7 +242,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->outline_symbols_below = TRUE;
 	sheet->outline_symbols_right = TRUE;
 	sheet->frozen_corner.col = sheet->frozen_corner.row = -1;
-	
+
 	/* Init menu states */
 	sheet->priv->enable_insert_rows = TRUE;
 	sheet->priv->enable_insert_cols = TRUE;
@@ -731,6 +733,18 @@ sheet_flag_selection_change (Sheet const *sheet)
 }
 
 /**
+ * sheet_flag_recompute_spans:
+ *    flag the sheet as requiring a full span recomputation.
+ *
+ * @sheet :
+ */
+void
+sheet_flag_recompute_spans (Sheet const *sheet)
+{
+	sheet->priv->recompute_spans = TRUE;
+}
+
+/**
  * sheet_update_only_grid :
  *
  * Should be called after a logical command has finished processing
@@ -805,22 +819,29 @@ sheet_update_only_grid (Sheet const *sheet)
 	}
 }
 
+static void
+auto_expr_timer_clear (SheetPrivate *p)
+{
+	if (p->auto_expr_timer != 0) {
+		gtk_timeout_remove (p->auto_expr_timer);
+		p->auto_expr_timer = 0;
+	}
+}
+
 static gboolean
-sheet_update_auto_expr_idle_func (gpointer data)
+cb_sheet_update_auto_expr (gpointer data)
 {
 	Sheet *sheet = (Sheet *) data;
 	SheetPrivate *p;
 
 	p = sheet->priv;
-	if (p->selection_content_changed) {
-		p->selection_content_changed = FALSE;
-		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
-		{
-			if (wb_view_cur_sheet (view) == sheet)
-				wb_view_auto_expr_recalc (view, TRUE);
-		});
-	}
-	p->auto_expr_idle_id = 0;
+	WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
+	{
+		if (wb_view_cur_sheet (view) == sheet)
+			wb_view_auto_expr_recalc (view, TRUE);
+	});
+
+	p->auto_expr_timer = 0;
 	return FALSE;
 }
 
@@ -873,8 +894,15 @@ sheet_update (Sheet const *sheet)
 		});
 	}
 
-	if (p->selection_content_changed && p->auto_expr_idle_id == 0)
-		p->auto_expr_idle_id = g_idle_add (sheet_update_auto_expr_idle_func, (gpointer) sheet);
+	if (p->selection_content_changed) {
+		int const lag = application_auto_expr_recalc_lag ();
+		p->selection_content_changed = FALSE;
+		if (p->auto_expr_timer == 0 || lag < 0) {
+			auto_expr_timer_clear (p);
+			p->auto_expr_timer = gtk_timeout_add (abs (lag), /* seems ok */
+				cb_sheet_update_auto_expr, (gpointer) sheet);
+		}
+	}
 }
 
 /**
@@ -1292,7 +1320,7 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 /**
  * sheet_cell_set_text:
  *
- * Marks the sheet as dirty 
+ * Marks the sheet as dirty
  * Clears old spans.
  * Flags status updates
  * Queues recalcs
@@ -1336,7 +1364,7 @@ sheet_cell_set_text (Cell *cell, char const *text)
 /**
  * sheet_cell_set_expr:
  *
- * Marks the sheet as dirty 
+ * Marks the sheet as dirty
  * Clears old spans.
  * Flags status updates
  * Queues recalcs
@@ -2619,6 +2647,8 @@ void
 sheet_destroy (Sheet *sheet)
 {
 	g_return_if_fail (IS_SHEET (sheet));
+
+	auto_expr_timer_clear (sheet->priv);
 
 	if (sheet->print_info) {
 		print_info_free (sheet->print_info);
@@ -3956,7 +3986,7 @@ sheet_menu_state_enable_insert (Sheet *sheet, gboolean col, gboolean row)
 		flags |= MS_INSERT_CELLS;
 		sheet->priv->enable_insert_cells = (col|row);
 	}
-	    
+
 	if (!flags)
 		return;
 
@@ -4016,7 +4046,7 @@ sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 	colrow_foreach (&src->rows, 0, SHEET_MAX_ROWS-1,
 			&sheet_clone_colrow_info_item, &closure);
 
-	sheet_col_set_default_size_pixels (dst, 
+	sheet_col_set_default_size_pixels (dst,
 		sheet_col_get_default_size_pixels (src));
 	sheet_row_set_default_size_pixels (dst,
 		sheet_row_get_default_size_pixels (src));
@@ -4028,7 +4058,7 @@ sheet_clone_styles (Sheet const *src, Sheet *dst)
 	Range r;
 	StyleList *styles;
 	CellPos	corner = { 0, 0 };
-	
+
 	styles = sheet_style_get_list (src, range_init_full_sheet (&r));
 	sheet_style_set_list (dst, &corner, FALSE, styles);
 	style_list_free	(styles);
@@ -4086,7 +4116,7 @@ sheet_clone_names (Sheet const *src, Sheet *dst)
 		g_warning ("We are not duplicating names yet. Function not implemented\n");
 		warned = TRUE;
 	}
-	
+
 	names = g_list_copy (src->names);
 #if 0	/* Feature not implemented, not cloning it yet. */
 	for (; names; names = names->next) {

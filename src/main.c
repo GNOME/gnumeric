@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <gnome.h>
+#include <locale.h>
 #include "gnumeric.h"
 #include "xml-io.h"
 #ifdef ENABLE_BONOBO
@@ -130,6 +131,11 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
+
+	/* Force all of the locale segments to update from the environment.
+	 * Unless we do this they will default to C
+	 */
+	setlocale (LC_ALL, "");
 
 	gnumeric_arg_parse (argc, argv);
 

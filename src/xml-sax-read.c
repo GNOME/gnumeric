@@ -29,6 +29,8 @@
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
 #include "sheet-style.h"
+#include "sheet-merge.h"
+#include "ranges.h"
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"
@@ -59,7 +61,7 @@ void     xml_sax_file_open (FileOpener const *fo, IOContext *io_context,
 /*****************************************************************************/
 
 static int
-xml_sax_parse_attr_double (CHAR const * const *attrs, char const *name, double * res)
+xml_sax_attr_double (CHAR const * const *attrs, char const *name, double * res)
 {
 	char *end;
 	double tmp;
@@ -81,7 +83,7 @@ xml_sax_parse_attr_double (CHAR const * const *attrs, char const *name, double *
 	return TRUE;
 }
 static gboolean
-xml_sax_parse_double (CHAR const *chars, double *res)
+xml_sax_double (CHAR const *chars, double *res)
 {
 	char *end;
 	*res = g_strtod (chars, &end);
@@ -89,7 +91,22 @@ xml_sax_parse_double (CHAR const *chars, double *res)
 }
 
 static int
-xml_sax_parse_attr_int (CHAR const * const *attrs, char const *name, int *res)
+xml_sax_attr_bool (CHAR const * const *attrs, char const *name, int *res)
+{
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (strcmp (attrs[0], name))
+		return FALSE;
+
+	*res = g_strcasecmp (attrs[1], "false") && strcmp (attrs[1], "0");
+
+	return TRUE;
+}
+
+static int
+xml_sax_attr_int (CHAR const * const *attrs, char const *name, int *res)
 {
 	char *end;
 	int tmp;
@@ -112,7 +129,7 @@ xml_sax_parse_attr_int (CHAR const * const *attrs, char const *name, int *res)
 }
 
 static gboolean
-xml_sax_parse_int (CHAR const *chars, int *res)
+xml_sax_int (CHAR const *chars, int *res)
 {
 	char *end;
 	*res = strtol (chars, &end, 10);
@@ -120,7 +137,7 @@ xml_sax_parse_int (CHAR const *chars, int *res)
 }
 
 static int
-xml_sax_parse_color (CHAR const * const *attrs, char const *name, StyleColor **res)
+xml_sax_color (CHAR const * const *attrs, char const *name, StyleColor **res)
 {
 	int red, green, blue;
 
@@ -141,17 +158,17 @@ xml_sax_parse_color (CHAR const * const *attrs, char const *name, StyleColor **r
 }
 
 static gboolean
-xml_sax_parse_range (CHAR const * const *attrs, Range *res)
+xml_sax_range (CHAR const * const *attrs, Range *res)
 {
 	int flags = 0;
 	for (; attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_parse_attr_int (attrs, "startCol", &res->start.col))
+		if (xml_sax_attr_int (attrs, "startCol", &res->start.col))
 			flags |= 0x1;
-		else if (xml_sax_parse_attr_int (attrs, "startRow", &res->start.row))
+		else if (xml_sax_attr_int (attrs, "startRow", &res->start.row))
 			flags |= 0x2;
-		else if (xml_sax_parse_attr_int (attrs, "endCol", &res->end.col))
+		else if (xml_sax_attr_int (attrs, "endCol", &res->end.col))
 			flags |= 0x4;
-		else if (xml_sax_parse_attr_int (attrs, "endRow", &res->end.row))
+		else if (xml_sax_attr_int (attrs, "endRow", &res->end.row))
 			flags |= 0x8;
 		else
 			return FALSE;
@@ -219,6 +236,7 @@ STATE_WB,
 				STATE_PRINT_HEADER,
 				STATE_PRINT_FOOTER,
 				STATE_PRINT_PAPER,
+				STATE_PRINT_EVEN_ONLY_STYLE,
 			STATE_SHEET_STYLES,
 				STATE_STYLE_REGION,
 					STATE_STYLE_STYLE,
@@ -239,6 +257,8 @@ STATE_WB,
 			STATE_SHEET_CELLS,
 				STATE_CELL,
 					STATE_CELL_CONTENT,
+			STATE_SHEET_MERGED_REGION,
+				STATE_SHEET_MERGE,
 			STATE_SHEET_SOLVER,
 		STATE_SHEET_OBJECTS,
 				STATE_OBJECT_POINTS,
@@ -247,6 +267,7 @@ STATE_WB,
 			STATE_OBJECT_ARROW,
 			STATE_OBJECT_LINE,
 
+	STATE_NAMES,
 	STATE_WB_VIEW,
 
 	STATE_UNKNOWN
@@ -299,6 +320,7 @@ static char const * const xmlSax_state_names[] =
 				"gmr:Footer",
 				"gmr:Header",
 				"gmr:paper",
+				"gmr:even_if_only_styles",
 			"gmr:Styles",
 				"gmr:StyleRegion",
 					"gmr:Style",
@@ -320,6 +342,8 @@ static char const * const xmlSax_state_names[] =
 			"gmr:Cells",
 				"gmr:Cell",
 					"gmr:Content",
+			"gmr:MergedRegions",
+				"gmr:Merge",
 			"gmr:Solver",
 			"gmr:Objects",
 					"gmr:Points",
@@ -327,6 +351,7 @@ static char const * const xmlSax_state_names[] =
 				"gmr:Ellipse",
 				"gmr:Arrow",
 				"gmr:Line",
+	"gmr:Names",
 	"gmr:UIData",
 
 	"Unknown",
@@ -379,6 +404,15 @@ typedef struct _XMLSaxParseState
 
 	GString *content;
 
+	int display_formulas;
+	int hide_zero;
+	int hide_grid;
+	int hide_col_header;
+	int hide_row_header;
+	int display_outlines;
+	int outline_symbols_below;
+	int outline_symbols_right;
+
 	/* expressions with ref > 1 a map from index -> expr pointer */
 	GHashTable *expr_map;
 } XMLSaxParseState;
@@ -428,7 +462,7 @@ xml_sax_fatal_error (XMLSaxParseState *state, const char *msg, ...)
 /****************************************************************************/
 
 static void
-xml_sax_parse_wb (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_wb (XMLSaxParseState *state, CHAR const **attrs)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (strcmp (attrs[0], "xmlns:gmr") == 0) {
@@ -446,7 +480,7 @@ xml_sax_parse_wb (XMLSaxParseState *state, CHAR const **attrs)
 			};
 			int i;
 			for (i = 0 ; GnumericVersions [i].id != NULL ; ++i )
-				if (strcmp (attrs[0], GnumericVersions [i].id)) {
+				if (strcmp (attrs[0], GnumericVersions [i].id) == 0) {
 					if (state->version != GNUM_XML_UNKNOWN)
 						xml_sax_warning (state, "Multiple version specifications.  Assuming %d",
 								state->version);
@@ -458,17 +492,17 @@ xml_sax_parse_wb (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xml_sax_parse_wb_view (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_wb_view (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int sheet_index;
 	int width = -1, height = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_parse_attr_int (attrs, "SelectedTab", &sheet_index))
+		if (xml_sax_attr_int (attrs, "SelectedTab", &sheet_index))
 			wb_view_sheet_focus (state->wb_view,
 				workbook_sheet_by_index (state->wb, sheet_index));
-		else if (xml_sax_parse_attr_int (attrs, "Width", &width)) ;
-		else if (xml_sax_parse_attr_int (attrs, "Height", &height)) ;
+		else if (xml_sax_attr_int (attrs, "Width", &width)) ;
+		else if (xml_sax_attr_int (attrs, "Height", &height)) ;
 		else
 			xml_sax_unknown_attr (state, attrs, "WorkbookView");
 
@@ -537,7 +571,7 @@ xml_sax_finish_parse_wb_attr (XMLSaxParseState *state)
 }
 
 static void
-xmlSax_free_arg_list (GList *start)
+xml_sax_free_arg_list (GList *start)
 {
 	GList *list = start;
 	while (list) {
@@ -552,7 +586,7 @@ xmlSax_free_arg_list (GList *start)
 }
 
 static void
-xmlSax_parse_attr_elem (XMLSaxParseState *state)
+xml_sax_attr_elem (XMLSaxParseState *state)
 {
 	char const * content = state->content->str;
 	int const len = state->content->len;
@@ -571,7 +605,7 @@ xmlSax_parse_attr_elem (XMLSaxParseState *state)
 	case STATE_WB_ATTRIBUTES_ELEM_TYPE :
 	{
 		int type;
-		if (xml_sax_parse_int (content, &type))
+		if (xml_sax_int (content, &type))
 			state->attribute.type = type;
 		break;
 	}
@@ -579,59 +613,94 @@ xmlSax_parse_attr_elem (XMLSaxParseState *state)
 	default :
 		g_assert_not_reached ();
 	};
-
 }
 
 static void
-xmlSaxParseSheet (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_sheet_start (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int tmp;
 
+	state->hide_col_header = state->hide_row_header =
+	state->display_formulas = state->hide_zero =
+	state->hide_grid = state->display_outlines =
+	state->outline_symbols_below = state->outline_symbols_right = -1;
+	state->sheet_zoom = 1.; /* default */
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_parse_attr_int (attrs, "DisplayFormulas", &tmp))
-			state->sheet->display_formulas = tmp;
-		else if (xml_sax_parse_attr_int (attrs, "HideZero", &tmp))
-			state->sheet->hide_zero = tmp;
-		else if (xml_sax_parse_attr_int (attrs, "HideGrid", &tmp))
-			state->sheet->hide_grid = tmp;
-		else if (xml_sax_parse_attr_int (attrs, "HideColHeader", &tmp))
-			state->sheet->hide_col_header = tmp;
-		else if (xml_sax_parse_attr_int (attrs, "HideRowHeader", &tmp))
-			state->sheet->hide_row_header = tmp;
-		else if (xml_sax_parse_attr_int (attrs, "DisplayOutlines", &tmp))
-			state->sheet->display_outlines = tmp;
-		else if (xml_sax_parse_attr_int (attrs, "OutlineSymbolsBelow", &tmp))
-			state->sheet->outline_symbols_below = tmp;
-		else if (xml_sax_parse_attr_int (attrs, "OutlineSymbolsRight", &tmp))
-			state->sheet->outline_symbols_right = tmp;
+		if (xml_sax_attr_bool (attrs, "DisplayFormulas", &tmp))
+			state->display_formulas = tmp;
+		else if (xml_sax_attr_bool (attrs, "HideZero", &tmp))
+			state->hide_zero = tmp;
+		else if (xml_sax_attr_bool (attrs, "HideGrid", &tmp))
+			state->hide_grid = tmp;
+		else if (xml_sax_attr_bool (attrs, "HideColHeader", &tmp))
+			state->hide_col_header = tmp;
+		else if (xml_sax_attr_bool (attrs, "HideRowHeader", &tmp))
+			state->hide_row_header = tmp;
+		else if (xml_sax_attr_bool (attrs, "DisplayOutlines", &tmp))
+			state->display_outlines = tmp;
+		else if (xml_sax_attr_bool (attrs, "OutlineSymbolsBelow", &tmp))
+			state->outline_symbols_below = tmp;
+		else if (xml_sax_attr_bool (attrs, "OutlineSymbolsRight", &tmp))
+			state->outline_symbols_right = tmp;
 		else
 			xml_sax_unknown_attr (state, attrs, "Sheet");
 }
 
 static void
-xmlSaxParseSheetName (XMLSaxParseState *state)
+xml_sax_sheet_end (XMLSaxParseState *state)
+{
+	g_return_if_fail (state->sheet != NULL);
+
+	/* Init ColRowInfo's size_pixels and force a full respan */
+	sheet_flag_recompute_spans (state->sheet);
+	sheet_set_zoom_factor (state->sheet, state->sheet_zoom,
+			       FALSE, FALSE);
+	state->sheet = NULL;
+}
+
+static void
+xml_sax_sheet_name (XMLSaxParseState *state)
 {
 	char const * content = state->content->str;
 	g_return_if_fail (state->sheet == NULL);
 
 	state->sheet = sheet_new (state->wb, content);
+
+	if (state->display_formulas >= 0)
+		state->sheet->display_formulas = state->display_formulas;
+	if (state->hide_zero >= 0)
+		state->sheet->hide_zero = state->hide_zero;
+	if (state->hide_grid >= 0)
+		state->sheet->hide_grid = state->hide_grid;
+	if (state->hide_col_header >= 0)
+		state->sheet->hide_col_header = state->hide_col_header;
+	if (state->hide_row_header >= 0)
+		state->sheet->hide_row_header = state->hide_row_header;
+	if (state->display_outlines >= 0)
+		state->sheet->display_outlines = state->display_outlines;
+	if (state->outline_symbols_below >= 0)
+		state->sheet->outline_symbols_below = state->outline_symbols_below;
+	if (state->outline_symbols_right >= 0)
+		state->sheet->outline_symbols_right = state->outline_symbols_right;
+
 	workbook_sheet_attach (state->wb, state->sheet, NULL);
 }
 
 static void
-xmlSaxParseSheetZoom (XMLSaxParseState *state)
+xml_parse_sheet_zoom (XMLSaxParseState *state)
 {
 	char const * content = state->content->str;
 	double zoom;
 
 	g_return_if_fail (state->sheet != NULL);
 
-	if (xml_sax_parse_double (content, &zoom))
-		sheet_set_zoom_factor (state->sheet, zoom, FALSE, FALSE);
+	if (xml_sax_double (content, &zoom))
+		state->sheet_zoom = zoom;
 }
 
 static void
-xmlSaxParseMargin (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_print_margins (XMLSaxParseState *state, CHAR const **attrs)
 {
 	PrintInformation *pi;
 	PrintUnit *pu;
@@ -665,7 +734,7 @@ xmlSaxParseMargin (XMLSaxParseState *state, CHAR const **attrs)
 	}
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_parse_attr_double (attrs, "Points", &points))
+		if (xml_sax_attr_double (attrs, "Points", &points))
 			pu->points = points;
 		else if (!strcmp (attrs[0], "PrefUnit")) {
 			if (!strcmp (attrs[1], "points"))
@@ -685,7 +754,7 @@ static void
 xmlSaxParseSelectionRange (XMLSaxParseState *state, CHAR const **attrs)
 {
 	Range r;
-	if (xml_sax_parse_range (attrs, &r))
+	if (xml_sax_range (attrs, &r))
 		sheet_selection_add_range (state->sheet,
 					   r.start.col, r.start.row,
 					   r.start.col, r.start.row,
@@ -693,15 +762,15 @@ xmlSaxParseSelectionRange (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xmlSaxParseSelection (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_selection (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int col = -1, row = -1;
 
 	sheet_selection_reset (state->sheet);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_parse_attr_int (attrs, "CursorCol", &col)) ;
-		else if (xml_sax_parse_attr_int (attrs, "CursorRow", &row)) ;
+		if (xml_sax_attr_int (attrs, "CursorCol", &col)) ;
+		else if (xml_sax_attr_int (attrs, "CursorRow", &row)) ;
 		else
 			xml_sax_unknown_attr (state, attrs, "Selection");
 
@@ -714,7 +783,7 @@ xmlSaxParseSelection (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xmlSaxFinishSelection (XMLSaxParseState *state)
+xml_sax_selection_end (XMLSaxParseState *state)
 {
 	CellPos const pos = state->cell;
 
@@ -727,7 +796,23 @@ xmlSaxFinishSelection (XMLSaxParseState *state)
 }
 
 static void
-xmlSaxParseColRow (XMLSaxParseState *state, CHAR const **attrs, gboolean is_col)
+xml_sax_cols_rows (XMLSaxParseState *state, CHAR const **attrs, gboolean is_col)
+{
+	double def_size;
+
+	g_return_if_fail (state->sheet != NULL);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (xml_sax_attr_double (attrs, "DefaultSizePts", &def_size)) {
+			if (is_col)
+				sheet_col_set_default_size_pts (state->sheet, def_size);
+			else
+				sheet_row_set_default_size_pts (state->sheet, def_size);
+		}
+}
+
+static void
+xml_sax_colrow (XMLSaxParseState *state, CHAR const **attrs, gboolean is_col)
 {
 	ColRowInfo *cri = NULL;
 	double size = -1.;
@@ -737,7 +822,7 @@ xmlSaxParseColRow (XMLSaxParseState *state, CHAR const **attrs, gboolean is_col)
 	g_return_if_fail (state->sheet != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_parse_attr_int (attrs, "No", &dummy)) {
+		if (xml_sax_attr_int (attrs, "No", &dummy)) {
 			g_return_if_fail (cri == NULL);
 
 			cri = is_col
@@ -746,19 +831,19 @@ xmlSaxParseColRow (XMLSaxParseState *state, CHAR const **attrs, gboolean is_col)
 		} else {
 			g_return_if_fail (cri != NULL);
 
-			if (xml_sax_parse_attr_double (attrs, "Unit", &size)) ;
-			else if (xml_sax_parse_attr_int (attrs, "Count", &count)) ;
-			else if (xml_sax_parse_attr_int (attrs, "MarginA", &dummy))
+			if (xml_sax_attr_double (attrs, "Unit", &size)) ;
+			else if (xml_sax_attr_int (attrs, "Count", &count)) ;
+			else if (xml_sax_attr_int (attrs, "MarginA", &dummy))
 				cri->margin_a = dummy;
-			else if (xml_sax_parse_attr_int (attrs, "MarginB", &dummy))
+			else if (xml_sax_attr_int (attrs, "MarginB", &dummy))
 				cri->margin_b = dummy;
-			else if (xml_sax_parse_attr_int (attrs, "HardSize", &dummy))
+			else if (xml_sax_attr_int (attrs, "HardSize", &dummy))
 				cri->hard_size = dummy;
-			else if (xml_sax_parse_attr_int (attrs, "Hidden", &dummy))
+			else if (xml_sax_attr_int (attrs, "Hidden", &dummy))
 				cri->visible = !dummy;
-			else if (xml_sax_parse_attr_int (attrs, "Collapsed", &dummy))
+			else if (xml_sax_attr_int (attrs, "Collapsed", &dummy))
 				cri->is_collapsed = dummy;
-			else if (xml_sax_parse_attr_int (attrs, "OutlineLevel", &dummy))
+			else if (xml_sax_attr_int (attrs, "OutlineLevel", &dummy))
 				cri->outline_level = dummy;
 			else
 				xml_sax_unknown_attr (state, attrs, "ColRow");
@@ -783,18 +868,31 @@ xmlSaxParseColRow (XMLSaxParseState *state, CHAR const **attrs, gboolean is_col)
 }
 
 static void
-xmlSaxParseStyleRegion (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_style_region_start (XMLSaxParseState *state, CHAR const **attrs)
 {
 	g_return_if_fail (state->style_range_init == FALSE);
 	g_return_if_fail (state->style == NULL);
 
 	state->style = mstyle_new ();
 	state->style_range_init =
-		xml_sax_parse_range (attrs, &state->style_range);
+		xml_sax_range (attrs, &state->style_range);
 }
 
 static void
-xmlSaxParseStyleRegionStyle (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_style_region_end (XMLSaxParseState *state)
+{
+	g_return_if_fail (state->style_range_init);
+	g_return_if_fail (state->style != NULL);
+	g_return_if_fail (state->sheet != NULL);
+
+	sheet_style_set_range (state->sheet, &state->style_range, state->style);
+
+	state->style_range_init = FALSE;
+	state->style = NULL;
+}
+
+static void
+xml_sax_styleregion_start (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int val;
 	StyleColor *colour;
@@ -802,28 +900,28 @@ xmlSaxParseStyleRegionStyle (XMLSaxParseState *state, CHAR const **attrs)
 	g_return_if_fail (state->style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_parse_attr_int (attrs, "HAlign", &val))
+		if (xml_sax_attr_int (attrs, "HAlign", &val))
 			mstyle_set_align_h (state->style, val);
-		else if (xml_sax_parse_attr_int (attrs, "VAlign", &val))
+		else if (xml_sax_attr_int (attrs, "VAlign", &val))
 			mstyle_set_align_v (state->style, val);
 
 		/* Pre version V6 */
-		else if (xml_sax_parse_attr_int (attrs, "Fit", &val))
+		else if (xml_sax_attr_int (attrs, "Fit", &val))
 			mstyle_set_wrap_text (state->style, val);
 
-		else if (xml_sax_parse_attr_int (attrs, "WrapText", &val))
+		else if (xml_sax_attr_int (attrs, "WrapText", &val))
 			mstyle_set_wrap_text (state->style, val);
-		else if (xml_sax_parse_attr_int (attrs, "Orient", &val))
+		else if (xml_sax_attr_int (attrs, "Orient", &val))
 			mstyle_set_orientation (state->style, val);
-		else if (xml_sax_parse_attr_int (attrs, "Shade", &val))
+		else if (xml_sax_attr_int (attrs, "Shade", &val))
 			mstyle_set_pattern (state->style, val);
-		else if (xml_sax_parse_attr_int (attrs, "Indent", &val))
+		else if (xml_sax_attr_int (attrs, "Indent", &val))
 			mstyle_set_indent (state->style, val);
-		else if (xml_sax_parse_color (attrs, "Fore", &colour))
+		else if (xml_sax_color (attrs, "Fore", &colour))
 			mstyle_set_color (state->style, MSTYLE_COLOR_FORE, colour);
-		else if (xml_sax_parse_color (attrs, "Back", &colour))
+		else if (xml_sax_color (attrs, "Back", &colour))
 			mstyle_set_color (state->style, MSTYLE_COLOR_BACK, colour);
-		else if (xml_sax_parse_color (attrs, "PatternColor", &colour))
+		else if (xml_sax_color (attrs, "PatternColor", &colour))
 			mstyle_set_color (state->style, MSTYLE_COLOR_PATTERN, colour);
 		else if (!strcmp (attrs[0], "Format"))
 			mstyle_set_format_text (state->style, attrs[1]);
@@ -833,7 +931,7 @@ xmlSaxParseStyleRegionStyle (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xmlSaxParseStyleRegionFont (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_styleregion_font (XMLSaxParseState *state, CHAR const **attrs)
 {
 	double size_pts = 10.;
 	int val;
@@ -841,15 +939,15 @@ xmlSaxParseStyleRegionFont (XMLSaxParseState *state, CHAR const **attrs)
 	g_return_if_fail (state->style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_parse_attr_double (attrs, "Unit", &size_pts))
+		if (xml_sax_attr_double (attrs, "Unit", &size_pts))
 			mstyle_set_font_size (state->style, size_pts);
-		else if (xml_sax_parse_attr_int (attrs, "Bold", &val))
+		else if (xml_sax_attr_int (attrs, "Bold", &val))
 			mstyle_set_font_bold (state->style, val);
-		else if (xml_sax_parse_attr_int (attrs, "Italic", &val))
+		else if (xml_sax_attr_int (attrs, "Italic", &val))
 			mstyle_set_font_italic (state->style, val);
-		else if (xml_sax_parse_attr_int (attrs, "Underline", &val))
+		else if (xml_sax_attr_int (attrs, "Underline", &val))
 			mstyle_set_font_uline (state->style, (StyleUnderlineType)val);
-		else if (xml_sax_parse_attr_int (attrs, "StrikeThrough", &val))
+		else if (xml_sax_attr_int (attrs, "StrikeThrough", &val))
 			mstyle_set_font_strike (state->style, val ? TRUE : FALSE);
 		else
 			xml_sax_unknown_attr (state, attrs, "StyleFont");
@@ -905,7 +1003,7 @@ style_font_read_from_x11 (MStyle *mstyle, const char *fontname)
 }
 
 static void
-xmlSaxFinishStyleRegionFont (XMLSaxParseState *state)
+xml_sax_styleregion_font_end (XMLSaxParseState *state)
 {
 	if (state->content->len > 0) {
 		char const * content = state->content->str;
@@ -926,8 +1024,8 @@ xmlSaxParseStyleRegionBorders (XMLSaxParseState *state, CHAR const **attrs)
 
 	/* Colour is optional */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_parse_color (attrs, "Color", &colour)) ;
-		else if (xml_sax_parse_attr_int (attrs, "Style", &pattern)) ;
+		if (xml_sax_color (attrs, "Color", &colour)) ;
+		else if (xml_sax_attr_int (attrs, "Style", &pattern)) ;
 		else
 			xml_sax_unknown_attr (state, attrs, "StyleBorder");
 	}
@@ -958,12 +1056,12 @@ xmlSaxParseCell (XMLSaxParseState *state, CHAR const **attrs)
 	g_return_if_fail (state->expr_id == -1);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_parse_attr_int (attrs, "Col", &col)) ;
-		else if (xml_sax_parse_attr_int (attrs, "Row", &row)) ;
-		else if (xml_sax_parse_attr_int (attrs, "Cols", &cols)) ;
-		else if (xml_sax_parse_attr_int (attrs, "Rows", &rows)) ;
-		else if (xml_sax_parse_attr_int (attrs, "ExprID", &expr_id)) ;
-		else if (xml_sax_parse_attr_int (attrs, "ValueType", &value_type)) ;
+		if (xml_sax_attr_int (attrs, "Col", &col)) ;
+		else if (xml_sax_attr_int (attrs, "Row", &row)) ;
+		else if (xml_sax_attr_int (attrs, "Cols", &cols)) ;
+		else if (xml_sax_attr_int (attrs, "Rows", &rows)) ;
+		else if (xml_sax_attr_int (attrs, "ExprID", &expr_id)) ;
+		else if (xml_sax_attr_int (attrs, "ValueType", &value_type)) ;
 		else if (!strcmp (attrs[0], "ValueFormat"))
 			value_fmt = attrs[1];
 		else
@@ -1066,7 +1164,7 @@ xml_not_used_old_array_spec (Cell *cell, char const *content)
 }
 
 static void
-xmlSaxParseCellContent (XMLSaxParseState *state)
+xml_sax_cell_content (XMLSaxParseState *state)
 {
 	gboolean is_new_cell, is_post_52_array = FALSE;
 	Cell *cell;
@@ -1147,7 +1245,19 @@ xmlSaxParseCellContent (XMLSaxParseState *state)
 }
 
 static void
-xmlSaxParseObject (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_merge (XMLSaxParseState *state)
+{
+	Range r;
+	g_return_if_fail (state->content->len > 0);
+
+	if (parse_range (state->content->str,
+			 &r.start.col, &r.start.row,
+			 &r.end.col, &r.end.row))
+		sheet_merge_add (NULL, state->sheet, &r, FALSE);
+}
+
+static void
+xml_sax_object (XMLSaxParseState *state, CHAR const **attrs)
 {
 }
 
@@ -1188,7 +1298,7 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 	switch (state->state) {
 	case STATE_START:
 		if (xml_sax_switch_state (state, name, STATE_WB)) {
-			xml_sax_parse_wb (state, attrs);
+			xml_sax_wb (state, attrs);
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
@@ -1197,11 +1307,13 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		if (xml_sax_switch_state (state, name, STATE_WB_ATTRIBUTES)) {
 		} else if (xml_sax_switch_state (state, name, STATE_WB_SUMMARY)) {
 		} else if (xml_sax_switch_state (state, name, STATE_WB_GEOMETRY)) {
-			xml_sax_parse_wb_view (state, attrs);
+			xml_sax_wb_view (state, attrs);
 		} else if (xml_sax_switch_state (state, name, STATE_WB_SHEETS)) {
-		} else if (xml_sax_switch_state (state, name, STATE_WB_VIEW))
-			xml_sax_parse_wb_view (state, attrs);
-		else
+		} else if (xml_sax_switch_state (state, name, STATE_WB_VIEW)) {
+			xml_sax_wb_view (state, attrs);
+		} else if (xml_sax_switch_state (state, name, STATE_NAMES)) {
+			/* TODO : parse these */
+		} else
 			xml_sax_unknown_state (state, name);
 		break;
 
@@ -1235,7 +1347,7 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 
 	case STATE_WB_SHEETS :
 		if (xml_sax_switch_state (state, name, STATE_SHEET)) {
-			xmlSaxParseSheet (state, attrs);
+			xml_sax_sheet_start (state, attrs);
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
@@ -1248,13 +1360,21 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_PRINTINFO)) {
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_STYLES)) {
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_COLS)) {
+			xml_sax_cols_rows (state, attrs, TRUE);
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_ROWS)) {
+			xml_sax_cols_rows (state, attrs, FALSE);
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_SELECTIONS)) {
-			xmlSaxParseSelection (state, attrs);
+			xml_sax_selection (state, attrs);
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_CELLS)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_MERGED_REGION)) {
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_SOLVER)) {
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_OBJECTS)) {
 		} else
+			xml_sax_unknown_state (state, name);
+		break;
+
+	case STATE_SHEET_MERGED_REGION :
+		if (!xml_sax_switch_state (state, name, STATE_SHEET_MERGE))
 			xml_sax_unknown_state (state, name);
 		break;
 
@@ -1273,6 +1393,7 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		} else if (xml_sax_switch_state (state, name, STATE_PRINT_HEADER)) {
 		} else if (xml_sax_switch_state (state, name, STATE_PRINT_FOOTER)) {
 		} else if (xml_sax_switch_state (state, name, STATE_PRINT_PAPER)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_EVEN_ONLY_STYLE)) {
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
@@ -1285,28 +1406,28 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		    xml_sax_switch_state (state, name,
 				     STATE_PRINT_MARGIN_HEADER) ||
 		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_FOOTER)) {
-			xmlSaxParseMargin (state, attrs);
+			xml_sax_print_margins (state, attrs);
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_SHEET_STYLES :
 		if (xml_sax_switch_state (state, name, STATE_STYLE_REGION))
-			xmlSaxParseStyleRegion (state, attrs);
+			xml_sax_style_region_start (state, attrs);
 		else
 			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_STYLE_REGION :
 		if (xml_sax_switch_state (state, name, STATE_STYLE_STYLE))
-			xmlSaxParseStyleRegionStyle (state, attrs);
+			xml_sax_styleregion_start (state, attrs);
 		else
 			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_STYLE_STYLE :
 		if (xml_sax_switch_state (state, name, STATE_STYLE_FONT))
-			xmlSaxParseStyleRegionFont (state, attrs);
+			xml_sax_styleregion_font (state, attrs);
 		else if (xml_sax_switch_state (state, name, STATE_STYLE_BORDER)) {
 		} else
 			xml_sax_unknown_state (state, name);
@@ -1326,14 +1447,14 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 
 	case STATE_SHEET_COLS :
 		if (xml_sax_switch_state (state, name, STATE_COL))
-			xmlSaxParseColRow (state, attrs, TRUE);
+			xml_sax_colrow (state, attrs, TRUE);
 		else
 			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_SHEET_ROWS :
 		if (xml_sax_switch_state (state, name, STATE_ROW))
-			xmlSaxParseColRow (state, attrs, FALSE);
+			xml_sax_colrow (state, attrs, FALSE);
 		else
 			xml_sax_unknown_state (state, name);
 		break;
@@ -1362,7 +1483,7 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		    xml_sax_switch_state (state, name, STATE_OBJECT_ELLIPSE) ||
 		    xml_sax_switch_state (state, name, STATE_OBJECT_ARROW) ||
 		    xml_sax_switch_state (state, name, STATE_OBJECT_LINE)) {
-			xmlSaxParseObject (state, attrs);
+			xml_sax_object (state, attrs);
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
@@ -1394,7 +1515,7 @@ xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 
 	switch (state->state) {
 	case STATE_SHEET :
-		state->sheet = NULL;
+		xml_sax_sheet_end (state);
 		break;
 
 	case STATE_WB_ATTRIBUTES_ELEM :
@@ -1403,51 +1524,44 @@ xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 
 	case STATE_WB_ATTRIBUTES :
 		wb_view_set_attributev (state->wb_view, state->attributes);
-		xmlSax_free_arg_list (state->attributes);
+		xml_sax_free_arg_list (state->attributes);
 		state->attributes = NULL;
 		break;
 
 	case STATE_SHEET_SELECTIONS :
-		xmlSaxFinishSelection (state);
+		xml_sax_selection_end (state);
 		break;
 
 	case STATE_STYLE_REGION :
-		g_return_if_fail (state->style_range_init);
-		g_return_if_fail (state->style != NULL);
-		g_return_if_fail (state->sheet != NULL);
-
-		sheet_style_set_range (state->sheet, &state->style_range, state->style);
-
-		state->style_range_init = FALSE;
-		state->style = NULL;
+		xml_sax_style_region_end (state);
 		break;
 
 	case STATE_STYLE_FONT :
-		xmlSaxFinishStyleRegionFont (state);
-		g_string_truncate(state->content, 0);
+		xml_sax_styleregion_font_end (state);
+		g_string_truncate (state->content, 0);
 		break;
 
 	case STATE_WB_ATTRIBUTES_ELEM_NAME :
 	case STATE_WB_ATTRIBUTES_ELEM_TYPE :
 	case STATE_WB_ATTRIBUTES_ELEM_VALUE :
-		xmlSax_parse_attr_elem (state);
-		g_string_truncate(state->content, 0);
+		xml_sax_attr_elem (state);
+		g_string_truncate (state->content, 0);
 		break;
 
 	case STATE_WB_SUMMARY_ITEM_NAME :
 	case STATE_WB_SUMMARY_ITEM_VALUE_STR :
 	case STATE_WB_SUMMARY_ITEM_VALUE_INT :
-		g_string_truncate(state->content, 0);
+		g_string_truncate (state->content, 0);
 		break;
 
 	case STATE_SHEET_NAME :
-		xmlSaxParseSheetName (state);
-		g_string_truncate(state->content, 0);
+		xml_sax_sheet_name (state);
+		g_string_truncate (state->content, 0);
 		break;
 
 	case STATE_SHEET_ZOOM :
-		xmlSaxParseSheetZoom (state);
-		g_string_truncate(state->content, 0);
+		xml_parse_sheet_zoom (state);
+		g_string_truncate (state->content, 0);
 		break;
 
 	case STATE_PRINT_MARGIN_TOP :
@@ -1459,19 +1573,24 @@ xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 	case STATE_PRINT_ORDER :
 	case STATE_PRINT_ORIENT :
 	case STATE_PRINT_PAPER :
-		g_string_truncate(state->content, 0);
+	case STATE_PRINT_EVEN_ONLY_STYLE :
+		g_string_truncate (state->content, 0);
 		break;
 
 	case STATE_CELL :
 		if (state->cell.row >= 0 || state->cell.col >= 0)
-			xmlSaxParseCellContent (state);
+			xml_sax_cell_content (state);
 		break;
 
 	case STATE_CELL_CONTENT :
-		xmlSaxParseCellContent (state);
-		g_string_truncate(state->content, 0);
+		xml_sax_cell_content (state);
+		g_string_truncate (state->content, 0);
 		break;
 
+	case STATE_SHEET_MERGE :
+		xml_sax_merge (state);
+		g_string_truncate (state->content, 0);
+		break;
 	default :
 		break;
 	};
@@ -1502,8 +1621,10 @@ xml_sax_characters (XMLSaxParseState *state, const CHAR *chars, int len)
 	case STATE_PRINT_ORDER :
 	case STATE_PRINT_ORIENT :
 	case STATE_PRINT_PAPER :
+	case STATE_PRINT_EVEN_ONLY_STYLE :
 	case STATE_STYLE_FONT :
 	case STATE_CELL_CONTENT :
+	case STATE_SHEET_MERGE :
 		while (len-- > 0)
 			g_string_append_c (state->content, *chars++);
 
@@ -1605,7 +1726,7 @@ xml_sax_file_open (FileOpener const *fo, IOContext *io_context,
 	if (ctxt == NULL) { 
 		gnumeric_io_error_info_set (io_context,
 		                            error_info_new_str (
-		                            _("xmlCreateFileParserCtxt() failed.")));
+		                            _("xmlCreateFileParserCtxt () failed.")));
 		return;
 	}
 	ctxt->sax = &xmlSaxSAXParser;
@@ -1613,11 +1734,11 @@ xml_sax_file_open (FileOpener const *fo, IOContext *io_context,
 
 	xmlParseDocument (ctxt);
 
-	if (ctxt->wellFormed) {
+	if (!ctxt->wellFormed)
 		gnumeric_io_error_info_set (io_context,
 		                            error_info_new_str (
 		                            _("XML document not well formed!")));
-	}
+
 	ctxt->sax = NULL;
 	xmlFreeParserCtxt (ctxt);
 }
