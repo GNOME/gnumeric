@@ -25,6 +25,15 @@
 /* Allocation with disposal-on-error */
 
 /*
+ * Defined: the stack itself will be kept in use.  This isn't much, btw.
+ *   This setting is good for speed.
+ *
+ * Not defined: memory will be freed.  The is good for finding leaks in the
+ * program.  (Here and elsewhere.)
+ */
+#define KEEP_DEALLOCATION_STACK_BETWEEN_CALLS
+
+/*
  * If some dork enters "=1+2+2*(1+" we have already allocated space for
  * "1+2", "2", and "1" before the parser sees the syntax error and warps
  * us to the error production in the "line" non-terminal.
@@ -56,72 +65,65 @@ free_expr_list_list (GList *list)
 }
 
 typedef void (*ParseDeallocator) (void *);
-typedef struct {
-	void *data;
-	ParseDeallocator freer;
-} AllocRec;
+static GPtrArray *deallocate_stack;
 
-static GList *alloc_list;
+static void
+deallocate_init (void)
+{
+	deallocate_stack = g_ptr_array_new ();
+}
+
+#ifndef KEEP_DEALLOCATION_STACK_BETWEEN_CALLS
+static void
+deallocate_uninit (void)
+{
+	g_ptr_array_free (deallocate_stack, TRUE);
+	deallocate_stack = NULL;
+}
+#endif
 
 static void
 deallocate_all (void)
 {
-	GList *l;
+	int i;
 
-	for (l = alloc_list; l; l = l->next) {
-		AllocRec *rec = l->data;
-		/* fprintf (stderr, "*** freeing %p ***\n", rec->data); */
-		rec->freer (rec->data);
-		g_free (rec);
+	for (i = 0; i < deallocate_stack->len; i += 2) {
+		ParseDeallocator freer = g_ptr_array_index (deallocate_stack, i + 1);
+		freer (g_ptr_array_index (deallocate_stack, i));
 	}
-	g_list_free (alloc_list);
-	alloc_list = NULL;
+
+	g_ptr_array_set_size (deallocate_stack, 0);
 }
 
 static void
 deallocate_assert_empty (void)
 {
-	GList *l;
-
-	if (alloc_list == NULL)
+	if (deallocate_stack->len == 0)
 		return;
 
-	fprintf (stderr, "Problem in parser.y: alloc_list not empty as expected:\n");
-	for (l = alloc_list; l; l = l->next) {
-		AllocRec *rec = l->data;
-
-		if (rec->freer == (ParseDeallocator)&expr_tree_unref) {
-			fprintf (stderr, "Expression:\n");
-			expr_dump_tree (rec->data);
-		} else if (rec->freer == (ParseDeallocator)&free_expr_list) {
-			GList *l = rec->data;
-
-			fprintf (stderr, "Expression list begin:\n");
-			while (l) {
-				expr_dump_tree (l->data);
-				l = l->next;
-			}
-			fprintf (stderr, "Expression list end:\n");
-		} else {
-			fprintf (stderr, "Unknown type.\n");
-		}
-	}
+	g_warning ("deallocate_stack not empty as expected.");
 	deallocate_all ();
 }
 
 static void *
 register_allocation (void *data, ParseDeallocator freer)
 {
-	AllocRec *rec;
-
 	/* It's handy to be able to register and unregister NULLs.  */
-	if (!data)
-		return NULL;
+	if (data) {
+		int len;
+		/*
+		 * There are really only a few different freers, so we
+		 * could encode the freer in the lower bits of the data
+		 * pointer.  Unfortunately, no-one can predict how high
+		 * Miguel would jump when he found out.
+		 */
+		len = deallocate_stack->len;
+		g_ptr_array_set_size (deallocate_stack, len + 2);
+		g_ptr_array_index (deallocate_stack, len) = data;
+		g_ptr_array_index (deallocate_stack, len + 1) = freer;
+	}
 
-	rec = g_new (AllocRec, 1);
-	rec->data = data;
-	rec->freer = freer;
-	alloc_list = g_list_prepend (alloc_list, rec);
+	/* Returning the pointer here improved readability of the caller.  */
 	return data;
 }
 
@@ -137,25 +139,20 @@ register_allocation (void *data, ParseDeallocator freer)
 static void
 unregister_allocation (const void *data)
 {
-	GList *l;
+	int pos;
 
 	/* It's handy to be able to register and unregister NULLs.  */
 	if (!data)
 		return;
 
-	for (l = alloc_list; l; l = l->next) {
-		AllocRec *rec = l->data;
-		if (rec->data == data) {
-			alloc_list = g_list_remove_link (alloc_list, l);
-			g_list_free_1 (l);
-			g_free (rec);
-			return;
-		}
-		/* fprintf (stderr, "STEP\n");  */
+	pos = deallocate_stack->len - 2;
+	if (pos < 0 ||
+	    data != g_ptr_array_index (deallocate_stack, pos)) {
+		g_warning ("Unbalanced allocation registration");
+		return;
 	}
 
-	/* Not good.  */
-	g_warning ("Unbalanced allocation registration in parser.y");
+	g_ptr_array_set_size (deallocate_stack, pos);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -776,6 +773,9 @@ gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
 		parser_array_col_separator = ',';
 	}
 
+	if (deallocate_stack == NULL)
+		deallocate_init ();
+
 	yyparse ();
 
 	if (parser_error == PARSE_OK)
@@ -785,6 +785,10 @@ gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
 		deallocate_all ();
 		*parser_result = NULL;
 	}
+
+#ifndef KEEP_DEALLOCATION_STACK_BETWEEN_CALLS
+	deallocate_uninit ();
+#endif
 
 	return parser_error;
 }

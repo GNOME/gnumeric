@@ -1,3 +1,8 @@
+2000-01-13  Morten Welinder  <terra@diku.dk>
+
+	* src/parser.y (gnumeric_expr_parser): Avoid zillions of g_mallocs and
+ 	frees of the deallocation stuff.
+
 2000-01-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-view.c (horizontal_scroll_event,
