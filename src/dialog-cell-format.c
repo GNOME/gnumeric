@@ -768,7 +768,7 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 	make_radio_notify_change (background_radio_list, prop_win);
 	
 	gtk_table_attach (t, fore, 0, 1, 0, 1, e, 0, 4, 4);
-	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4);
+/*	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4); */
 
 	gtk_widget_show_all (GTK_WIDGET (t));
 
