@@ -29,40 +29,31 @@ Pending Patches
     0.6) Add mnemonic_activate for ExprEntry			(DONE)
     0.7) Queue update for changed/deleted in ExprEntry ?
     0.8) menu mnemonics for Edit -> Fill -> merge & series
-    0.9) problem with colour combo:
-	> 1. start gnumeric
-	> 2. tear off the fg colour combo
-	> 3. untear it
-	> 4. exit
-	> ==> (gnumeric:8813): GLib-GObject-WARNING **: invalid unclassed pointer in cast to `GtkObject'
-	> ...
+    0.9) Fix warning on destruction of torn off combo		(DONE)
 
 1) graphs							{Jody}
     1.1) Split plot xml file engine, type, and family plugins	(DONE)
     1.2) Use the registered engines to create plots		(DONE)
     1.3) xml -> GValue parsing for type args			(DONE)
-    1.4) Simple Background item					(DONE)
-    1.5) Simple Pie Plot					(DONE)
+    1.4) Simple Background item
+    1.5) Simple Pie Plot
     1.6) 1st pass at Graph Guru					(DONE)
     1.7) vector and scalar data sources from gnumeric		(DONE)
     1.8) data allocator in gnumeric				(DONE)
     1.9) handle short series with early optionals in allocator
     1.10) static vector and scalar data sources for utils
-    1.11) chart group canvas item				(DONE)
-    1.12) 2d plot group canvas item
-    1.13) merge bar/col stack type bools into 1 enum
-    1.14) Rethink GraphItem lifecyle to simplify removal
-	- set_parent takes a role				(DONE)
-	- set_parent takes a remove_func ?
-    1.15) Decide on recalc strategy
-    1.16) per series plot type specific data
-    1.17) replace canvas base items and 'new_view' with a
+    1.11) merge bar/col stack type bools into 1 enum
+    1.12) Rethink GraphItem lifecyle to simplify removal	(DONE)
+    1.13) Extend GogObjectRole to include more handlers		(DONE)
+    1.14) Decide on recalc strategy
+    1.15) per series plot type specific data
+    1.16) replace canvas base items and 'new_view' with a
           libart based render akin to guppicanvas.
-    1.18) Connect the user_config handler for SheetObjectGraph
+    1.17) Connect the user_config handler for SheetObjectGraph
           to test the guru on existing graphs
-    1.19) Extend sheet object anchor assignment to call object
-          specfic handlers so that we can set the logical size of
-	  the graph.
+    1.18) Extend sheet object anchor assignment to call object	(DONE)
+          specfic handlers so that we can set the logical size
+	  of the graph.
 
     Pinch Guppi's property bag code for GOGraphItem ?
     gradient for background item

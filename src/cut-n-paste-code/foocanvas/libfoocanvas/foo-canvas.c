@@ -1431,7 +1431,7 @@ foo_canvas_group_map (FooCanvasItem *item)
 
 		if (i->object.flags & FOO_CANVAS_ITEM_VISIBLE &&
 		    !(i->object.flags & FOO_CANVAS_ITEM_MAPPED)) {
-			if (!(i->object.flags & FOO_CANVAS_ITEM_MAPPED))
+			if (!(i->object.flags & FOO_CANVAS_ITEM_REALIZED))
 				(* FOO_CANVAS_ITEM_GET_CLASS (i)->realize) (i);
 
 			(* FOO_CANVAS_ITEM_GET_CLASS (i)->map) (i);
