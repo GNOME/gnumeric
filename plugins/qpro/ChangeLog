@@ -1,3 +1,8 @@
+2002-11-18  Morten Welinder  <terra@diku.dk>
+
+	* qpro-read.c (expr_stack_pop): New function.
+	(qpro_parse_formula): Clean up using expr_stack_pop.
+
 2002-11-15  Morten Welinder  <terra@diku.dk>
 
 	* qpro-read.c (qpro_parse_formula): Handle functions, OR, AND,

@@ -155,12 +155,13 @@ qpro_validate_len (QProReadState *state, char const *id, guint16 len, int expect
 	return TRUE;
 }
 
+enum { ARGS_UNKNOWN = -1, ARGS_COUNT_FOLLOWS = -2 };
 
 static const struct {
 	const char *name;
 	int args;
 } qpro_functions[QPRO_OP_LAST_FUNC - QPRO_OP_FIRST_FUNC + 1] = {
-	{ "err", -1 },
+	{ "err", ARGS_UNKNOWN },
 	{ "abs", 1 },
 	{ "int", 1 },
 	{ "sqrt", 1 },
@@ -176,7 +177,7 @@ static const struct {
 	{ "acos", 1 },
 	{ "exp", 1 },
 	{ "mod", 2 },
-	{ "choose", -2 },
+	{ "choose", ARGS_COUNT_FOLLOWS },
 	{ "isna", 1 },
 	{ "iserr", 1 },
 	{ "false", 0 },
@@ -184,112 +185,112 @@ static const struct {
 	{ "rand", 0 },
 	{ "date", 1 },
 	{ "now", 0 },
-	{ "pmt", -1 },
-	{ "pv", -1 },
-	{ "fv", -1 },
+	{ "pmt", ARGS_UNKNOWN },
+	{ "pv", ARGS_UNKNOWN },
+	{ "fv", ARGS_UNKNOWN },
 	{ "if", 3 },
 	{ "day", 1 },
 	{ "month", 1 },
 	{ "year", 1 },
-	{ "round", -1 },
+	{ "round", ARGS_UNKNOWN },
 	{ "time", 1 },
 	{ "hour", 1 },
 	{ "minute", 1 },
 	{ "second", 1 },
-	{ "isnum", -1 },
-	{ "isstr", -1 },
-	{ "length", -1 },
-	{ "value", -1 },
-	{ "string", -1 },
-	{ "mid", -1 },
+	{ "isnum", ARGS_UNKNOWN },
+	{ "isstr", ARGS_UNKNOWN },
+	{ "len", ARGS_UNKNOWN },
+	{ "value", ARGS_UNKNOWN },
+	{ "string", ARGS_UNKNOWN },
+	{ "mid", ARGS_UNKNOWN },
 	{ "char", 1 },
 	{ "code", 1 },
-	{ "find", -1 },
-	{ "dateval", -1 },
-	{ "timeval", -1 },
-	{ "cellptr", -1 },
-	{ "sum", -2 },
-	{ "avg", -2 },
-	{ "count", -2 },
-	{ "min", -2 },
-	{ "max", -2 },
+	{ "find", ARGS_UNKNOWN },
+	{ "dateval", ARGS_UNKNOWN },
+	{ "timeval", ARGS_UNKNOWN },
+	{ "cellptr", ARGS_UNKNOWN },
+	{ "sum", ARGS_COUNT_FOLLOWS },
+	{ "avg", ARGS_COUNT_FOLLOWS },
+	{ "count", ARGS_COUNT_FOLLOWS },
+	{ "min", ARGS_COUNT_FOLLOWS },
+	{ "max", ARGS_COUNT_FOLLOWS },
 	{ "vlookup", 3 },
-	{ "npv1", -1 },
-	{ "var", -2 },
-	{ "std", -2 },
-	{ "irr", -1 },
-	{ "hlookup", -1 },
-	{ "dsum", -1 },
-	{ "davg", -1 },
-	{ "dcount", -1 },
-	{ "dmin", -1 },
-	{ "dmax", -1 },
-	{ "dvar", -1 },
-	{ "dstd", -1 },
-	{ "index2d", -1 },
-	{ "cols", -1 },
-	{ "rows", -1 },
-	{ "repeat", -1 },
+	{ "npv1", ARGS_UNKNOWN },
+	{ "var", ARGS_COUNT_FOLLOWS },
+	{ "std", ARGS_COUNT_FOLLOWS },
+	{ "irr", ARGS_UNKNOWN },
+	{ "hlookup", ARGS_UNKNOWN },
+	{ "dsum", ARGS_UNKNOWN },
+	{ "davg", ARGS_UNKNOWN },
+	{ "dcount", ARGS_UNKNOWN },
+	{ "dmin", ARGS_UNKNOWN },
+	{ "dmax", ARGS_UNKNOWN },
+	{ "dvar", ARGS_UNKNOWN },
+	{ "dstd", ARGS_UNKNOWN },
+	{ "index2d", ARGS_UNKNOWN },
+	{ "cols", ARGS_UNKNOWN },
+	{ "rows", ARGS_UNKNOWN },
+	{ "repeat", ARGS_UNKNOWN },
 	{ "upper", 1 },
 	{ "lower", 1 },
 	{ "left", 2 },
 	{ "right", 2 },
-	{ "replace", -1 },
-	{ "proper", -1 },
-	{ "cell", -1 },
+	{ "replace", ARGS_UNKNOWN },
+	{ "proper", ARGS_UNKNOWN },
+	{ "cell", ARGS_UNKNOWN },
 	{ "trim", 1 },
 	{ "clean", 1 },
-	{ "s", -1 },
-	{ "n", -1 },
-	{ "exact", -1 },
-	{ "call", -1 },
-	{ "at", -1 },
-	{ "rate", -1 },
-	{ "term", -1 },
-	{ "cterm", -1 },
-	{ "sln", -1 },
-	{ "syd", -1 },
-	{ "ddb", -1 },
-	{ "stdp", -2 },
-	{ "varp", -2 },
-	{ "dstds", -1 },
-	{ "dvars", -1 },
-	{ "pval", -1 },
-	{ "paymt", -1 },
-	{ "fval", -1 },
-	{ "nper", -1 },
-	{ "irate", -1 },
-	{ "ipaymt", -1 },
-	{ "ppaymt", -1 },
-	{ "sumproduct", -1 },
-	{ "memavail", -1 },
-	{ "mememsavail", -1 },
-	{ "fileexists", -1 },
-	{ "curvalue", -1 },
+	{ "s", ARGS_UNKNOWN },
+	{ "n", ARGS_UNKNOWN },
+	{ "exact", ARGS_UNKNOWN },
+	{ "call", ARGS_UNKNOWN },
+	{ "at", ARGS_UNKNOWN },
+	{ "rate", ARGS_UNKNOWN },
+	{ "term", ARGS_UNKNOWN },
+	{ "cterm", ARGS_UNKNOWN },
+	{ "sln", ARGS_UNKNOWN },
+	{ "syd", ARGS_UNKNOWN },
+	{ "ddb", ARGS_UNKNOWN },
+	{ "stdp", ARGS_COUNT_FOLLOWS },
+	{ "varp", ARGS_COUNT_FOLLOWS },
+	{ "dstds", ARGS_UNKNOWN },
+	{ "dvars", ARGS_UNKNOWN },
+	{ "pval", ARGS_UNKNOWN },
+	{ "paymt", ARGS_UNKNOWN },
+	{ "fval", ARGS_UNKNOWN },
+	{ "nper", ARGS_UNKNOWN },
+	{ "irate", ARGS_UNKNOWN },
+	{ "ipaymt", ARGS_UNKNOWN },
+	{ "ppaymt", ARGS_UNKNOWN },
+	{ "sumproduct", ARGS_UNKNOWN },
+	{ "memavail", ARGS_UNKNOWN },
+	{ "mememsavail", ARGS_UNKNOWN },
+	{ "fileexists", ARGS_UNKNOWN },
+	{ "curvalue", ARGS_UNKNOWN },
 	{ "degrees", 1 },
 	{ "radians", 1 },
-	{ "hex2dec", -1 },
-	{ "dec2hex", -1 },
+	{ "hex2dec", ARGS_UNKNOWN },
+	{ "dec2hex", ARGS_UNKNOWN },
 	{ "today", 0 },
-	{ "npv2", -1 },
-	{ "cellindex2d", -1 },
-	{ "version", -1 },
-	{ NULL, -1 },
-	{ NULL, -1 },
-	{ NULL, -1 },
-	{ NULL, -1 },
-	{ NULL, -1 },
-	{ NULL, -1 },
-	{ NULL, -1 },
-	{ NULL, -1 },
-	{ "sheets", -1 },
-	{ NULL, -1 },
-	{ NULL, -1 },
-	{ "index3d", -1 },
-	{ "cellindex3d", -1 },
-	{ "property", -1 },
-	{ "ddelink", -1 },
-	{ "command", -1 }
+	{ "npv2", ARGS_UNKNOWN },
+	{ "cellindex2d", ARGS_UNKNOWN },
+	{ "version", ARGS_UNKNOWN },
+	{ NULL, ARGS_UNKNOWN },
+	{ NULL, ARGS_UNKNOWN },
+	{ NULL, ARGS_UNKNOWN },
+	{ NULL, ARGS_UNKNOWN },
+	{ NULL, ARGS_UNKNOWN },
+	{ NULL, ARGS_UNKNOWN },
+	{ NULL, ARGS_UNKNOWN },
+	{ NULL, ARGS_UNKNOWN },
+	{ "sheets", ARGS_UNKNOWN },
+	{ NULL, ARGS_UNKNOWN },
+	{ NULL, ARGS_UNKNOWN },
+	{ "index3d", ARGS_UNKNOWN },
+	{ "cellindex3d", ARGS_UNKNOWN },
+	{ "property", ARGS_UNKNOWN },
+	{ "ddelink", ARGS_UNKNOWN },
+	{ "command", ARGS_UNKNOWN }
 };
 
 #ifdef DEBUG_MISSING
@@ -306,7 +307,7 @@ dump_missing_functions (void)
 			GnmFunc *f;
 			int dummy;
 
-			if (!name || args != -1)
+			if (!name || args != ARGS_UNKNOWN)
 				continue;
 
 			f = gnm_func_lookup (name, NULL);
@@ -324,6 +325,23 @@ dump_missing_functions (void)
 	}
 }
 #endif
+
+static const GnmExpr *
+expr_stack_pop (GSList **pstack)
+{
+	const GnmExpr *expr;
+	GSList *next;
+
+	g_return_val_if_fail (pstack != NULL, NULL);
+
+	expr = (*pstack)->data;
+	next = (*pstack)->next;
+
+	g_slist_free_1 (*pstack);
+
+	*pstack = next;
+	return expr;
+}
 
 
 static void
@@ -415,9 +433,11 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			refs += 10;
 			break;
 		}
-		case QPRO_OP_EOF:	break; /* exit */
+		case QPRO_OP_EOF:
+			break; /* exit */
 
-		case QPRO_OP_PAREN:     break; /* Currently just ignore.  */
+		case QPRO_OP_PAREN:
+			break; /* Currently just ignore.  */
 
 		case QPRO_OP_CONST_INT:
 			expr = gnm_expr_new_constant (
@@ -451,16 +471,8 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 				0, 0, 0, 0,
 				GNM_EXPR_OP_CAT
 			};
-			GnmExpr const *l, *r;
-			GSList *tmp = stack;
-
-			g_return_if_fail (stack != NULL && stack->next != NULL);
-			r = stack->data;
-			l = stack->next->data;
-
-			stack = stack->next->next;
-			tmp->next->next = NULL;
-			g_slist_free (tmp);
+			GnmExpr const *r = expr_stack_pop (&stack);
+			GnmExpr const *l = expr_stack_pop (&stack);
 			expr = gnm_expr_new_binary (
 				l, binop_map [*fmla - QPRO_OP_ADD], r);
 			break;
@@ -468,56 +480,29 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 
 		case QPRO_OP_AND:
 		case QPRO_OP_OR: {
-			GSList *tmp = stack;
 			GnmFunc *f = gnm_func_lookup (*fmla == QPRO_OP_OR ? "or" : "and",
 						      NULL);
-			GnmExprList *arglist;
-
-			g_return_if_fail (stack != NULL && stack->next != NULL);
-
-			arglist = g_slist_prepend (NULL, stack->data);
-			arglist = g_slist_prepend (arglist, stack->next->data);
-
-			stack = stack->next->next;
-			tmp->next->next = NULL;
-			g_slist_free (tmp);
-
+			GnmExprList *arglist = NULL;
+			arglist = g_slist_prepend (arglist, (gpointer)expr_stack_pop (&stack));
+			arglist = g_slist_prepend (arglist, (gpointer)expr_stack_pop (&stack));
 			expr = gnm_expr_new_funcall (f, arglist);
 			break;
 		}
 
 		case QPRO_OP_NOT: {
-			GSList *tmp = stack;
 			GnmFunc *f = gnm_func_lookup ("NOT", NULL);
-			GnmExprList *arglist;
-
-			g_return_if_fail (stack != NULL);
-			arglist = g_slist_prepend (NULL, stack->data);
-
-			stack = stack->next;
-			tmp->next= NULL;
-			g_slist_free (tmp);
-
+			GnmExprList *arglist = g_slist_prepend (NULL, (gpointer)expr_stack_pop (&stack));
 			expr = gnm_expr_new_funcall (f, arglist);
 			break;
 		}
 
 		case QPRO_OP_UNARY_NEG:
-		case QPRO_OP_UNARY_PLUS: {
-			GSList *tmp = stack;
-
-			g_return_if_fail (stack != NULL);
-			expr = stack->data;
-
-			stack = stack->next;
-			tmp->next= NULL;
-			g_slist_free (tmp);
-
+		case QPRO_OP_UNARY_PLUS:
+			expr = expr_stack_pop (&stack);
 			expr = gnm_expr_new_unary ((*fmla == QPRO_OP_UNARY_NEG)
 				? GNM_EXPR_OP_UNARY_NEG : GNM_EXPR_OP_UNARY_PLUS,
 				expr);
 			break;
-		}
 
 		default:
 			if (QPRO_OP_FIRST_FUNC <= *fmla && *fmla <= QPRO_OP_LAST_FUNC) {
@@ -540,7 +525,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 					break;
 				}
 
-				if (args == -1) {
+				if (args == ARGS_UNKNOWN) {
 					g_warning ("QPRO function %s is not supported.",
 						   name);
 					for (tmp = stack; tmp; tmp = tmp->next) {
@@ -559,21 +544,14 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 					break;
 				}
 
-				if (args == -2) {
+				if (args == ARGS_COUNT_FOLLOWS) {
 					args = fmla[1];
 					len++;
 				}
 
-				while (args > 0) {
-					GSList *cut = stack;
-					arglist = g_slist_prepend (arglist, stack->data);
-					args--;
-					stack = stack->next;
-					if (args == 0) {
-						cut->next = NULL;
-						g_slist_free (tmp);
-					}
-				}
+				while (args-- > 0)
+					arglist = g_slist_prepend (arglist,
+								   (gpointer)expr_stack_pop (&stack));
 				expr = gnm_expr_new_funcall (f, arglist);
 				break;
 			} else {
@@ -866,7 +844,7 @@ qpro_file_open (GnumFileOpener const *fo, IOContext *context,
 			g_object_unref (G_OBJECT (stream));
 		} else
 			gnm_io_warning (context,
-				_("Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro file ?"));
+				_("Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro file?"));
 		g_object_unref (G_OBJECT (ole));
 	} else
 		qpro_read_workbook (&state, input);
