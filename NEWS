@@ -4,6 +4,7 @@ Andreas:
 	* Add XHTML exporter
 	* Fix minor bug in the sort dialog
 	* Fix leak
+	* Fix 95333
 
 Chris Benedict:
 	* Do not allow all sheets in a workbook to be deleted.

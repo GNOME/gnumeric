@@ -1,3 +1,9 @@
+2002-10-10  Andreas J. Guelzow
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=95333
+	* src/item-grid.c (item_grid_button_press): do not start editing if
+	  the second half of a double click is in a different cell.
+
 2002-10-09  Morten Welinder  <terra@diku.dk>
 
 	* src/gnumeric-graph.c (struct _GnmGraphVector): Avoid "gboolean

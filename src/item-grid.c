@@ -866,6 +866,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	Sheet *sheet = sc->sheet;
 	CellPos	pos;
 	int x, y;
+	gboolean already_selected;
 
 	gnm_canvas_slide_stop (gcanvas);
 
@@ -934,7 +935,8 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	/* button 1 will always change the selection,  the other buttons will
 	 * only effect things if the target is not already selected.
 	 */
-	if (event->button == 1 || !sv_is_pos_selected (sc->view, pos.col, pos.row)) {
+	already_selected = sv_is_pos_selected (sc->view, pos.col, pos.row);
+	if (event->button == 1 || !already_selected) {
 		if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 			sv_selection_reset (sc->view);
 
@@ -950,13 +952,23 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
       	switch (event->button) {
 	case 1: {
 		guint32 double_click_time;
-		g_object_get (gtk_widget_get_settings (GTK_WIDGET (canvas)),
-			"gtk-double-click-time", &double_click_time,
-			NULL);
 
-		if ((ig->last_click_time + double_click_time) > event->time &&
-		    wbcg_edit_start (scg->wbcg, FALSE, FALSE))
-			break;
+		/*
+		 *  If the second click is on a different cell than the
+		 *  first one this can not be a double-click
+		 */
+		if (already_selected) {
+			g_object_get (gtk_widget_get_settings 
+				      (GTK_WIDGET (canvas)),
+				      "gtk-double-click-time", 
+				      &double_click_time,
+				      NULL);
+			
+			if ((ig->last_click_time + double_click_time)
+			    > event->time &&
+			    wbcg_edit_start (scg->wbcg, FALSE, FALSE))
+				break;
+		}
 
 		ig->last_click_time = event->time;
 		ig->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
