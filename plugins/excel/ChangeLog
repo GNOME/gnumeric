@@ -1,3 +1,8 @@
+1999-09-21  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_workbook) : Prefer 'workbook' to
+	  'book' so that we use Biff8 for dual stream files.
+
 1999-09-20  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ms-formula-write.c (formula_cache_new_std): Split.

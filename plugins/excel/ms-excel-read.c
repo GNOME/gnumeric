@@ -2783,14 +2783,13 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 	int current_sheet = 0;
 
 	cell_deep_freeze_redraws ();
-/*	cell_deep_freeze_dependencies (); */
 
 	/* Find that book file */
-	result = ms_ole_stream_open (&stream, file, "/", "book", 'r');
+	result = ms_ole_stream_open (&stream, file, "/", "workbook", 'r');
 	if (result != MS_OLE_ERR_OK) {
 		ms_ole_stream_close (&stream);
 
-		result = ms_ole_stream_open (&stream, file, "/", "workbook", 'r');
+		result = ms_ole_stream_open (&stream, file, "/", "book", 'r');
 		if (result != MS_OLE_ERR_OK) {
 			ms_ole_stream_close (&stream);
 			g_warning ("No Excel stream found: wierd");
