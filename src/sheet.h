@@ -143,6 +143,8 @@ struct _Sheet {
 	GHashTable *dependency_hash;
 
 	void         *corba_server;
+
+	PrintInformation *print_info;
 };
 
 #define SHEET_SIGNATURE 0x12349876

@@ -304,8 +304,9 @@ static void
 grid_view_activate (GridView *grid_view)
 {
 	/* FIXME: Do we need to do any more work here? */
-	gtk_signal_emit_by_name(GTK_OBJECT(grid_view->view.plug), "set_focus",
-				grid_view->sheet_view->sheet_view);
+	g_warning ("FIXME: plug is now private, can't set_focus");
+/*	gtk_signal_emit_by_name (GTK_OBJECT (grid_view->view.plug), "set_focus",
+	grid_view->sheet_view->sheet_view);*/
 			
 	gnome_view_activate_notify(GNOME_VIEW(grid_view), TRUE);
 }
@@ -327,8 +328,10 @@ grid_view_new (EmbeddableGrid *eg)
 	grid_view->embeddable = eg;
 	grid_view->sheet_view = sheet_new_sheet_view (eg->sheet);
 	gtk_widget_show (grid_view->sheet_view);
-	gnome_view_construct (
-		GNOME_VIEW (grid_view), corba_grid_view, GTK_WIDGET (grid_view->sheet_view));
+	g_warning ("FIXME: view_construct API changed");
+/*	gnome_view_construct (
+		GNOME_VIEW (grid_view), corba_grid_view,
+		GTK_WIDGET (grid_view->sheet_view));*/
 
 	eg->views = g_list_prepend (eg->views, grid_view);
 

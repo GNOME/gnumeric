@@ -1,3 +1,50 @@
+1999-09-12  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/embeddable-grid.c (grid_view_activate): Hack to cope with new
+	private Bonobo plug, just emit a warning.
+	(grid_view_new): similarly hacked.
+
+	* src/eval.c: Include ranges.h
+
+	* src/selection.c (sheet_selection_first_range): Remove unused and
+	cryptic base_col / base_row.
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): remove base
+	stuff.
+
+	* src/workbook.c (print_setup_cmd, file_print_cmd),
+	(file_print_preview_cmd): New print stuff.
+	(deps_output): update to new first_range.
+
+	* src/print-preview.c (print_preview_new): More wb->sheet.
+	(sheet_destroyed): Renamed, (create_preview_canvas, render_page),
+	(preview_file_print_cmd, create_toplevel): wb->sheet.
+	include print.h (preview_file_print_cmd): Add active_sheet.
+	(create_toplevel): Update name calc + add preconditions.
+
+	* src/print-preview.h: update prototype + add _context proto.
+
+	* src/print.c (print_job_info_get): more wb->sheet.
+	(printjob_init_sheet): split out. (sheet_print_selection): implement.
+
+	* src/sheet.c (sheet_new, sheet_destroy): Add print info bits.
+
+	* src/workbook.c (workbook_do_destroy, workbook_init): Clean
+	print-info bits.
+
+	* src/dialogs/dialog-printer-setup.c (dialog_print_info_t):
+	convert workbook -> sheet (do_print_preview_cb, do_print_cb),
+	(dialog_print_info_new, dialog_printer_setup): ditto.
+	(do_setup_main_dialog): preconditions.
+
+	* src/dialogs/dialogs.h: Change prototype.
+
+	* src/print.c (workbook_print): Implemented PRINT_ACTIVE_SHEETS,
+	added default_range paramter: use for now; renamed (sheet_print)
+	(print_sheet): preconditions (sheet_print_selection): renamed.
+
+	* src/print.h (workbook_print): Move PrintRange enum here & re-name.
+
 1999-09-11  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/workbook.c (workbook_delete_event): Fix the delete_event

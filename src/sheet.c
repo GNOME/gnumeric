@@ -19,6 +19,7 @@
 #include "clipboard.h"
 #include "selection.h"
 #include "ranges.h"
+#include "print-info.h"
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
 #endif
@@ -187,6 +188,7 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->last_zoom_factor_used = -1.0;
 	sheet->max_col_used = 0;
 	sheet->max_row_used = 0;
+	sheet->print_info   = print_info_new ();
 
 	sheet->cell_hash = g_hash_table_new (cell_hash, cell_compare);
 
@@ -2164,6 +2166,11 @@ sheet_destroy (Sheet *sheet)
 
 	g_assert (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
+
+	if (sheet->print_info) {
+		print_info_free (sheet->print_info);
+		sheet->print_info = NULL;
+	}	
 
 	if (sheet->dependency_hash != NULL) {
 		if (g_hash_table_size (sheet->dependency_hash) != 0)

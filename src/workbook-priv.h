@@ -101,8 +101,6 @@ struct _Workbook {
 	 */
 	void       *clipboard_paste_callback_data;
 
-	PrintInformation *print_info;
-
 	void       *toolbar;
 
 	void       *corba_server;

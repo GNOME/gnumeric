@@ -10,6 +10,7 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "utils.h"
+#include "ranges.h"
 #include "eval.h"
 
 #undef DEBUG_EVALUATION

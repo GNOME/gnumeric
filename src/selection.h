@@ -19,7 +19,6 @@ void        sheet_selection_append_range (Sheet *sheet,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
 int         sheet_selection_first_range  (Sheet *sheet,
-					  int *base_col,  int *base_row,
 					  int *start_col, int *start_row,
 					  int *end_col,   int *end_row);
 void        sheet_selection_free         (Sheet *sheet);

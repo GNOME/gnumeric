@@ -23,9 +23,9 @@
 #include "clipboard.h"
 #include "utils.h"
 #include "widgets/widget-editable-label.h"
-#include "print-info.h"
 #include "ranges.h"
 #include "selection.h"
+#include "print.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/gnome-persist-file.h>
@@ -355,11 +355,6 @@ workbook_do_destroy (Workbook *wb)
 	if (wb->clipboard_contents) {
 		clipboard_release (wb->clipboard_contents);
 		wb->clipboard_contents = NULL;
-	}
-
-	if (wb->print_info) {
-		print_info_free (wb->print_info);
-		wb->print_info = NULL;
 	}
 
 	/* Remove ourselves from the list of workbooks.  */
@@ -851,19 +846,28 @@ data_analysis_cmd (GtkWidget *widget, Workbook *wb)
 static void
 print_setup_cmd (GtkWidget *widget, Workbook *wb)
 {
-	dialog_printer_setup (wb);
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	dialog_printer_setup (sheet);
 }
 
 static void
 file_print_cmd (GtkWidget *widget, Workbook *wb)
 {
-	workbook_print (wb, FALSE);
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_print (sheet, FALSE, PRINT_ACTIVE_SHEET);
 }
 
 static void
 file_print_preview_cmd (GtkWidget *widget, Workbook *wb)
 {
-	workbook_print (wb, TRUE);
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_print (sheet, TRUE, PRINT_ACTIVE_SHEET);
 }
 
 static void
@@ -1475,7 +1479,7 @@ deps_output (GtkWidget *widget, Workbook *wb)
 	summary_info_dump (wb->summary_info);
 
 	if (!sheet_selection_first_range (
-		sheet, &dummy, &dummy, &col, &row, &dummy, &dummy)){
+		sheet, &col, &row, &dummy, &dummy)){
 		gnumeric_notice (
 			wb, GNOME_MESSAGE_BOX_ERROR,
 			_("Selection must be a single range"));
@@ -1907,7 +1911,6 @@ workbook_init (GtkObject *object)
 
 	wb->sheets       = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 	wb->names        = NULL;
-	wb->print_info   = print_info_new ();
 	wb->symbol_names = symbol_table_new ();
 	wb->max_iterations = 1;
 	wb->summary_info   = summary_info_new ();

@@ -4,7 +4,7 @@
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)
  *
- * Handles printing of Workbooks.
+ * Handles printing of Sheets.
  *
  */
 #include <config.h>
@@ -19,6 +19,7 @@
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
 #include "sheet-object.h"
+#include "selection.h"
 #include "dialogs.h"
 #include "main.h"
 #include "file.h"
@@ -30,12 +31,6 @@
 
 #define MARGIN_X 1
 #define MARGIN_Y 1
-
-typedef enum {
-	PRINT_ALL,
-	PRINT_SELECTION,
-	PRINT_ACTIVE_SHEETS
-} PrintRange;
 
 typedef struct {
 	/*
@@ -62,7 +57,7 @@ typedef struct {
 	/*
 	 * Part 3: Handy pointers
 	 */
-	Workbook *wb;
+	Sheet *sheet;
 	PrintInformation *pi;
 	GnomePrintContext *print_context;
 
@@ -425,12 +420,6 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 	g_list_free (rows);
 }
 
-static void
-workbook_print_selection (Workbook *wb, PrintJobInfo *pj)
-{
-	
-}
-
 static double
 print_range_used_units (Sheet *sheet, gboolean compute_rows, PrintRepeatRange *range)
 {
@@ -447,16 +436,13 @@ print_range_used_units (Sheet *sheet, gboolean compute_rows, PrintRepeatRange *r
 }
 
 static void
-print_sheet (gpointer key, gpointer value, gpointer user_data)
+print_job_info_init_sheet (Sheet *sheet, PrintJobInfo *pj)
 {
-	PrintJobInfo *pj = user_data;
-	Sheet *sheet = value;
-
 	/*
 	 * This should be set in print_job_info_get, but we need
 	 * to get access to one of the sheets
 	 */
-	if (pj->pi->print_titles){
+	if (pj->pi->print_titles) {
 		pj->titles_used_x = sheet->default_col_style.units;
 		pj->titles_used_y = sheet->default_row_style.units;
 	} else {
@@ -470,21 +456,52 @@ print_sheet (gpointer key, gpointer value, gpointer user_data)
 		sheet, FALSE, &pj->pi->repeat_left);
 
 	pj->render_info->sheet = sheet;
-	
+}
+
+static void
+print_sheet (gpointer key, gpointer value, gpointer user_data)
+{
+	PrintJobInfo *pj = user_data;
+	Sheet *sheet = value;
+
+	g_return_if_fail (pj != NULL);
+	g_return_if_fail (sheet != NULL);
+
+	print_job_info_init_sheet (sheet, pj);
+
 	print_sheet_range (sheet, 0, 0, sheet->max_col_used+1, sheet->max_row_used+1, pj);
+}
+
+static void
+sheet_print_selection (Sheet *sheet, PrintJobInfo *pj)
+{
+	int tlx, tly, brx, bry;
+
+	if (!sheet_selection_first_range (sheet, &tlx, &tly, &brx, &bry)) {
+		gnumeric_notice (
+			sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
+			_("Selection must be a single range"));
+		return;
+	}
+
+	print_job_info_init_sheet (sheet, pj);
+	print_sheet_range (sheet, tlx, tly,
+			   brx + 1, bry + 1, pj);
 }
 
 static void
 workbook_print_all (Workbook *wb, PrintJobInfo *pj)
 {
+	g_return_if_fail (wb != NULL);
+
 	g_hash_table_foreach (wb->sheets, print_sheet, pj);
 }
 
 static PrintJobInfo *
-print_job_info_get (Workbook *wb)
+print_job_info_get (Sheet *sheet)
 {
 	PrintJobInfo *pj;
-	PrintMargins *pm = &wb->print_info->margins;
+	PrintMargins *pm = &sheet->print_info->margins;
 	int width, height;
 	
 	pj = g_new0 (PrintJobInfo, 1);
@@ -492,23 +509,23 @@ print_job_info_get (Workbook *wb)
 	/*
 	 * Handy pointers
 	 */
-	pj->wb = wb;
-	pj->pi = wb->print_info;
+	pj->sheet = sheet;
+	pj->pi    = sheet->print_info;
 
 	/*
 	 * Values that should be entered in a dialog box
 	 */
 	pj->start_page = 0;
 	pj->end_page = -1;
-	pj->range = PRINT_ALL;
+	pj->range = PRINT_ALL_SHEETS;
 	pj->sorted_print = TRUE;
 	pj->n_copies = 1;
 
 	/* Precompute information */
-	width  = gnome_paper_pswidth (pj->pi->paper);
+	width  = gnome_paper_pswidth  (pj->pi->paper);
 	height = gnome_paper_psheight (pj->pi->paper);
 
-	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL){
+	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL) {
 		pj->width = height;
 		pj->height = width;
 	} else {
@@ -524,7 +541,7 @@ print_job_info_get (Workbook *wb)
 	 * Setup render info
 	 */
 	pj->render_info = hf_render_info_new ();
-	pj->render_info->wb = wb;
+	pj->render_info->sheet = sheet;
 
 	pj->decoration_font = gnome_font_new ("Helvetica", 12);
 	
@@ -556,36 +573,36 @@ setup_rotation (PrintJobInfo *pj)
 }
 
 void
-workbook_print (Workbook *wb, gboolean preview)
+sheet_print (Sheet *sheet, gboolean preview,
+	     PrintRange default_range)
 {
 	GnomePrinter *printer = NULL;
 	PrintJobInfo *pj;
-	Sheet *sheet;
 	int loop, i;
 	
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (sheet != NULL);
 	
-	sheet = workbook_get_current_sheet (wb);
-
-	if (!preview){
+	if (!preview) {
+		/* FIXME: we need to whack a selection/active/entire
+		   choice in here, with a default, for now force default */
 		printer = gnome_printer_dialog_new_modal ();
 		if (!printer)
 			return;
 	}
 		
-	pj = print_job_info_get (wb);
+	pj = print_job_info_get (sheet);
+	pj->range = default_range; /* for now */
 
-	if (pj->sorted_print){
+	if (pj->sorted_print) {
 		loop = pj->n_copies;
 		pj->n_copies = 1;
-	} else {
+	} else
 		loop = 1;
-	}
 
-	if (preview){
+	if (preview) {
 		pj->n_copies = 1;
 		loop = 1;
-		pj->preview = print_preview_new (wb);
+		pj->preview = print_preview_new (sheet);
 		pj->print_context = print_preview_context (pj->preview);
 	} else {
 		pj->preview = NULL;
@@ -593,21 +610,26 @@ workbook_print (Workbook *wb, gboolean preview)
 			printer, gnome_paper_name (pj->pi->paper));
 	}
 
-	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL){
+	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL)
 		setup_rotation (pj);
-	}
 	
-	for (i = 0; i < loop; i++){
-		switch (pj->range){
-		case PRINT_SELECTION:
-			workbook_print_selection (wb, pj);
+	for (i = 0; i < loop; i++) {
+		switch (pj->range) {
+
+		case PRINT_ACTIVE_SHEET:
+			print_sheet (NULL, sheet, pj);
+			break;
+
+		case PRINT_ALL_SHEETS:
+			workbook_print_all (sheet->workbook, pj);
+			break;
+
+		case PRINT_SHEET_SELECTION:
+			sheet_print_selection (sheet, pj);
 			break;
 			
-		case PRINT_ALL:
-			workbook_print_all (wb, pj);
-			break;
-			
-		case PRINT_ACTIVE_SHEETS:
+		default:
+			g_error ("mis-enumerated print type");
 			break;
 		}
 	}
@@ -624,4 +646,3 @@ workbook_print (Workbook *wb, gboolean preview)
 	
 	print_job_info_destroy (pj);
 }
-

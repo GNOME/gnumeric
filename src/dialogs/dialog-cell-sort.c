@@ -301,16 +301,16 @@ static void del_clause(GtkWidget * widget, SORT_FLOW * sf)
 void dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 {
 	int lp;
-	int base_col, base_row, start_col, start_row, end_col, end_row;
+	int start_col, start_row, end_col, end_row;
 	SORT_FLOW sort_flow;
 
 	g_return_if_fail(inwb);
 	g_return_if_fail(sheet);
 	g_return_if_fail(IS_SHEET(sheet));
 
-	if (!sheet_selection_first_range(sheet, &base_col, &base_row,
-					 &start_col, &start_row,
-					 &end_col, &end_row)){
+	if (!sheet_selection_first_range (sheet,
+					  &start_col, &start_row,
+					  &end_col, &end_row)){
 		gnumeric_notice(inwb, GNOME_MESSAGE_BOX_ERROR,
 				_("Selection must be a single range"));
 		return;

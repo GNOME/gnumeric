@@ -15,6 +15,7 @@ Michael:
 	* Implemented drop filename -> Bonobo component conversion,
 	* More intelligent workbook sizing.
 	* Fixed sheet tab focus / editing.
+	* Per sheet page setup / preview.
 
 Miguel:
 	* Implemented Print Preview

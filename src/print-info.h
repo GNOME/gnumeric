@@ -98,7 +98,6 @@ typedef enum {
 } HFRenderType;
 
 typedef struct {
-	Workbook *wb;
 	Sheet    *sheet;
 	int       page;
 	int       pages;

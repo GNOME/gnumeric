@@ -115,7 +115,6 @@ sheet_selection_append_range (Sheet *sheet,
  **/
 int
 sheet_selection_first_range (Sheet *sheet,
-			      int *base_col,  int *base_row,
 			      int *start_col, int *start_row,
 			      int *end_col,   int *end_row)
 {
@@ -133,8 +132,6 @@ sheet_selection_first_range (Sheet *sheet,
 		return 0;
 
 	ss = l->data;
-	*base_col = ss->base.col;
-	*base_row = ss->base.row;
 	*start_col = ss->user.start.col;
 	*start_row = ss->user.start.row;
 	*end_col = ss->user.end.col;

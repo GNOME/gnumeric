@@ -43,7 +43,7 @@ typedef struct {
 } PreviewInfo;
 
 typedef struct {
-	Workbook         *workbook;
+	Sheet            *sheet;
 	GladeXML         *gui;
 	PrintInformation *pi;
 	GtkWidget        *dialog;
@@ -710,14 +710,14 @@ static void
 do_print_cb (GtkWidget *w, dialog_print_info_t *dpi)
 {
 	fetch_settings (dpi);
-	workbook_print (dpi->workbook, FALSE);
+	sheet_print (dpi->sheet, FALSE, PRINT_ACTIVE_SHEET);
 }
 
 static void
 do_print_preview_cb (GtkWidget *w, dialog_print_info_t *dpi)
 {
 	fetch_settings (dpi);
-	workbook_print (dpi->workbook, TRUE);
+	sheet_print (dpi->sheet, TRUE, PRINT_ACTIVE_SHEET);
 }
 
 static void
@@ -725,6 +725,10 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 {
 	GtkWidget *notebook, *old_parent;
 	int i;
+
+	g_return_if_fail (dpi != NULL);
+	g_return_if_fail (dpi->sheet != NULL);
+	g_return_if_fail (dpi->sheet->workbook != NULL);
 	
 	/*
 	 * Moves the whole thing into a GnomeDialog, needed until
@@ -735,7 +739,8 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 		GNOME_STOCK_BUTTON_OK,
 		GNOME_STOCK_BUTTON_CANCEL,
 		NULL);
-	gnome_dialog_set_parent (GNOME_DIALOG (dpi->dialog), GTK_WINDOW (dpi->workbook->toplevel));
+	gnome_dialog_set_parent (GNOME_DIALOG (dpi->dialog),
+				 GTK_WINDOW (dpi->sheet->workbook->toplevel));
 	gtk_window_set_policy (GTK_WINDOW (dpi->dialog), FALSE, TRUE, TRUE);
 
 	notebook = glade_xml_get_widget (dpi->gui, "print-setup-notebook");
@@ -745,7 +750,7 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 	
 	gtk_widget_queue_resize (notebook);
 
-	for (i = 1; i < 5; i++){
+	for (i = 1; i < 5; i++) {
 		GtkWidget *w;
 		char *print = g_strdup_printf ("print-%d", i);
 		char *preview = g_strdup_printf ("preview-%d", i);
@@ -763,8 +768,7 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 	/*
 	 * Hide non-functional buttons for now
 	 */
-
-	for (i = 1; i < 5; i++){
+	for (i = 1; i < 5; i++) {
 		char *options = g_strdup_printf ("options-%d", i);
 		GtkWidget *w;
 
@@ -776,7 +780,7 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 }
 
 static dialog_print_info_t *
-dialog_print_info_new (Workbook *wb)
+dialog_print_info_new (Sheet *sheet)
 {
 	dialog_print_info_t *dpi;
 	GladeXML *gui;
@@ -788,9 +792,9 @@ dialog_print_info_new (Workbook *wb)
 	}
 
 	dpi = g_new0 (dialog_print_info_t, 1);
-	dpi->workbook = wb;
-	dpi->gui = gui;
-	dpi->pi = wb->print_info;
+	dpi->sheet = sheet;
+	dpi->gui   = gui;
+	dpi->pi    = sheet->print_info;
 	
 	return dpi;
 }
@@ -926,12 +930,12 @@ dialog_print_info_destroy (dialog_print_info_t *dpi)
 }
 
 void
-dialog_printer_setup (Workbook *wb)
+dialog_printer_setup (Sheet *sheet)
 {
 	dialog_print_info_t *dpi;
 	int v;
 
-	dpi = dialog_print_info_new (wb);
+	dpi = dialog_print_info_new (sheet);
 	if (!dpi)
 		return;
 

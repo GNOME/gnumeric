@@ -4,7 +4,7 @@
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)
  *
- * Given the large memory usage of an entire workbook on
+ * Given the large memory usage of an entire sheet on
  * a canvas, we have now taken a new approach: we keep in
  * a GNOME Print Metafile each page.  And we render this
  * metafile into the printing context on page switch.
@@ -24,8 +24,9 @@
 #include "sheet-object.h"
 #include "dialogs.h"
 #include "main.h"
-#include "print-preview.h"
+#include "print.h"
 #include "print-info.h"
+#include "print-preview.h"
 #include "cursors.h"
 #include "pixmaps/zoom_in.xpm"
 #include "pixmaps/zoom_out.xpm"
@@ -43,7 +44,7 @@ typedef enum {
 struct _PrintPreview {
 	GnomeApp *toplevel;
 
-	Workbook             *workbook;
+	Sheet                *sheet;
 
 	/*
 	 * printing contexts:
@@ -76,7 +77,7 @@ struct _PrintPreview {
 	double               base_x, base_y;
 
 	/*
-	 * Signal ID for the workbook destroy watcher
+	 * Signal ID for the sheet destroy watcher
 	 */
 	guint                destroy_id;
 };
@@ -98,7 +99,7 @@ render_page (PrintPreview *pp, int page)
 	/*
 	 * Create the preview printing context
 	 */
-	paper = pp->workbook->print_info->paper;
+	paper = pp->sheet->print_info->paper;
 	paper_name = gnome_paper_name (paper);
 	pp->preview = gnome_print_preview_new (pp->canvas, paper_name);
 
@@ -247,7 +248,7 @@ create_preview_canvas (PrintPreview *pp)
 	/*
 	 * Create the preview printing context
 	 */
-	paper = pp->workbook->print_info->paper;
+	paper = pp->sheet->print_info->paper;
 	paper_name = gnome_paper_name (paper);
 	pp->preview = gnome_print_preview_new (pp->canvas, paper_name);
 
@@ -308,7 +309,7 @@ create_preview_canvas (PrintPreview *pp)
 static void
 preview_destroyed (void *unused, PrintPreview *pp)
 {
-	gtk_signal_disconnect (GTK_OBJECT (pp->workbook), pp->destroy_id);
+	gtk_signal_disconnect (GTK_OBJECT (pp->sheet), pp->destroy_id);
 	gtk_object_unref (GTK_OBJECT (pp->preview));
 	gtk_object_unref (GTK_OBJECT (pp->metafile));
 	g_free (pp->toolbar);
@@ -324,7 +325,7 @@ preview_close_cmd (void *unused, PrintPreview *pp)
 static void
 preview_file_print_cmd (void *unused, PrintPreview *pp)
 {
-	workbook_print (pp->workbook, FALSE);
+	sheet_print (pp->sheet, FALSE, PRINT_ACTIVE_SHEET);
 }
 
 static void
@@ -459,26 +460,32 @@ static void
 create_toplevel (PrintPreview *pp)
 {
 	GtkWidget *toplevel;
-	char *name;
+	char *name, *txta, *txtb;
 	gint width, height;
 	const GnomePaper *paper;
 	
-	name = g_strdup_printf (_("Preview for %s"),
-				pp->workbook->filename ?
-				pp->workbook->filename :
-				_("the workbook"));
+	g_return_if_fail (pp != NULL);
+	g_return_if_fail (pp->sheet != NULL);
+	g_return_if_fail (pp->sheet->workbook != NULL);
+	g_return_if_fail (pp->sheet->print_info != NULL);
+
+	txta = pp->sheet->name;
+	txtb = pp->sheet->workbook->filename;
+	name = g_strdup_printf (_("Preview for %s in %s"),
+				txta ? txta : _("the sheet"),
+				txtb ? txtb : _("the workbook"));
 	toplevel = gnome_app_new ("Gnumeric", name);
 	g_free (name);
 
-	paper = pp->workbook->print_info->paper;
-	width = gnome_paper_pswidth (paper) + PAGE_PAD * 3;
+	paper  = pp->sheet->print_info->paper;
+	width  = gnome_paper_pswidth  (paper) + PAGE_PAD * 3;
 	height = gnome_paper_psheight (paper) + PAGE_PAD * 3;
 	
-	if (width > gdk_screen_width ()-40)
-		width = gdk_screen_width ()-40;
+	if (width > gdk_screen_width () - 40)
+		width = gdk_screen_width () - 40;
 
-	if (height > gdk_screen_height ()-100)
-		height = gdk_screen_height ()-100;
+	if (height > gdk_screen_height () - 100)
+		height = gdk_screen_height () - 100;
 	
 	gtk_widget_set_usize (toplevel, width, height);
 	gtk_window_set_policy (GTK_WINDOW (toplevel), TRUE, TRUE, FALSE);
@@ -512,36 +519,36 @@ print_preview_context (PrintPreview *pp)
 }
 
 static void
-workbook_destroyed (void *unused, PrintPreview *pp)
+sheet_destroyed (void *unused, PrintPreview *pp)
 {
 	gtk_object_destroy (GTK_OBJECT (pp->toplevel));
 }
 
 PrintPreview *
-print_preview_new (Workbook *wb)
+print_preview_new (Sheet *sheet)
 {
 	PrintPreview *pp;
 
-	g_return_val_if_fail (wb != NULL, NULL);
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	
 	pp = g_new0 (PrintPreview, 1);
 
-	pp->workbook = wb;
+	pp->sheet = sheet;
 	
 	create_toplevel (pp);
 	create_preview_canvas (pp);
 
 	pp->destroy_id = gtk_signal_connect (
-		GTK_OBJECT (pp->workbook), "destroy",
-		GTK_SIGNAL_FUNC (workbook_destroyed), pp);
+		GTK_OBJECT (pp->sheet), "destroy",
+		GTK_SIGNAL_FUNC (sheet_destroyed), pp);
 
 	{
 		static int warning_shown;
 
-		if (!warning_shown){
+		if (!warning_shown) {
 			gnumeric_notice (
-				wb,
+				sheet->workbook,
 				GNOME_MESSAGE_BOX_WARNING,
 				_("The Print Preview feature is being developed.\n"
 				  "The results of the preview is not correct currently,\n"
