@@ -136,6 +136,12 @@ graphic_wizard_guess_series (WizardGraphicContext *gc, SeriesOrientation orienta
 	}
 }
 
+static int
+graphic_context_data_range_count (WizardGraphicContext *gc)
+{
+	return g_list_length (gc->data_range_list);
+}
+
 static void
 graphic_context_auto_guess_series (WizardGraphicContext *gc)
 {
@@ -184,8 +190,9 @@ WizardGraphicContext *
 graphic_context_new (Workbook *wb, GladeXML *gui)
 {
 	WizardGraphicContext *gc;
-	BonoboClientSite *client_site;
-	BonoboObjectClient *object_server;
+	BonoboClientSite     *client_site;
+	BonoboObjectClient   *object_server;
+	CORBA_Environment     ev;
 	
 	g_return_val_if_fail (wb != NULL, NULL);
 
@@ -208,13 +215,16 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	if (!bonobo_client_site_bind_embeddable (client_site, object_server))
 		goto error_binding;
 
-	gc->layout = bonobo_object_query_interface (BONOBO_OBJECT (object), "IDL:GNOME/Graph/Layout:1.0");
+	gc->layout = bonobo_object_query_interface (BONOBO_OBJECT (object_server),
+						    "IDL:GNOME/Graph/Layout:1.0");
 	if (gc->layout == CORBA_OBJECT_NIL)
 		goto error_qi;
 
+	CORBA_exception_init (&ev);
 	gc->chart = GNOME_Graph_Layout_get_chart (gc->layout, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		goto error_get_chart;
+	CORBA_exception_free (&ev);
 
 	/*
 	 * Create the graphic context
@@ -233,10 +243,11 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 
 	graphic_context_auto_guess_series (gc);
 
-
 	return gc;
 
 error_get_chart:
+	CORBA_exception_free (&ev);
+
 error_qi:
 	
 error_binding:
@@ -251,7 +262,8 @@ error_activation:
 void
 graphic_context_destroy (WizardGraphicContext *gc)
 {
-	GList *l;
+	GList             *l;
+	CORBA_Environment  ev;
 	
 	g_return_if_fail (gc != NULL);
 	g_return_if_fail (IS_GRAPHIC_CONTEXT (gc));
@@ -282,8 +294,10 @@ graphic_context_destroy (WizardGraphicContext *gc)
 
 		gtk_object_unref (GTK_OBJECT (view_frame));
 	}
+	CORBA_exception_init (&ev);
 	CORBA_Object_release (gc->layout, &ev);
 	CORBA_Object_release (gc->chart, &ev);
+	CORBA_exception_free (&ev);
 	
 	g_free (gc);
 }
@@ -323,12 +337,6 @@ graphic_context_data_range_clear (WizardGraphicContext *gc)
 	}
 	g_list_free (gc->data_range_list);
 	gc->data_range_list = NULL;
-}
-
-int
-graphic_context_data_range_count (WizardGraphicContext *gc)
-{
-	return g_list_length (gc->data_range_list);
 }
 
 /**

@@ -1,5 +1,14 @@
+#ifndef __GNUMERIC_IDL__
+#define __GNUMERIC_IDL__
 
 #include <Bonobo.idl>
+
+#if !defined(__GNUMERIC_COMPILATION) && defined(__ORBIT_IDL__)
+%{
+#pragma include_defs src/Gnumeric.h
+%}
+#pragma inhibit push
+#endif
 
 module GNOME {
 	module Gnumeric {
@@ -306,6 +315,8 @@ module GNOME {
 };
 
 
+#if !defined(__GNUMERIC_COMPILATION) && defined(__ORBIT_IDL__)
+#pragma inhibit pop
+#endif
 
-
-
+#endif /* __GNUMERIC_IDL__ */

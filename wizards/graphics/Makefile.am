@@ -17,9 +17,6 @@ noinst_LIBRARIES = libwizard_graphics.a
 
 libwizard_graphics_a_SOURCES =		\
 	main.c				\
-	graphic-context.c		\
-	graphic-type.c			\
-	graphic-context.h		\
 	wizard.h
 
 INCLUDES = 						\

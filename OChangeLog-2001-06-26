@@ -1,3 +1,10 @@
+2000-03-06  Michael Meeks  <michael@helixcode.com>
+
+	* src/Gnumeric.idl: add nasty mess copied from Bonobo.
+
+	* src/Makefile.am ($(GNUMERIC_CORBA_GENERATED)): Add -D__GNUMERIC_COMPILE
+	
+
 2000-03-05  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* doc/C/solver.sgml, doc/C/images/solver-0[1,2,3,4,5].jpg: Added

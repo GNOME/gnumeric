@@ -18,6 +18,7 @@
 #include "wizard.h"
 #include "graphic-type.h"
 
+#if 0
 #define LAST_PAGE 2
 
 extern void (*graphic_wizard_hook)(Workbook *wb);
@@ -149,9 +150,11 @@ boot_wizard (Workbook *wb)
 }
 #endif
 
+#endif
 void
 graphics_wizard (Workbook *wb)
 {
+#if 0
 	GladeXML *gui;
 	WizardGraphicContext *gc;
 	GtkWidget *toplevel;
@@ -195,4 +198,6 @@ graphics_wizard (Workbook *wb)
 	gtk_widget_grab_focus (toplevel);
 
 	gtk_main ();
+#endif
 }
+

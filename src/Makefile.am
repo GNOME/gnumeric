@@ -218,7 +218,7 @@ GNUMERIC_BONOBO_SOURCES = 			\
 Gnumeric-impl.o: Gnumeric.h
 
 $(GNUMERIC_CORBA_GENERATED): Gnumeric.idl 
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Gnumeric.idl
+	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Gnumeric.idl -D__GNUMERIC_COMPILATION
 
 gnumeric_SOURCES =					\
 	main.c						\

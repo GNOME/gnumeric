@@ -1,3 +1,9 @@
+2000-03-06  Michael Meeks  <michael@helixcode.com>
+
+	* graphic-context.c (graphic_context_data_range_count): make static.
+	(graphic_context_new): pass object_server not object to qi.
+	Add CORBA_ (graphic_context_destroy): ditto.
+
 2000-03-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* graphic-context.c (graphic_context_auto_guess_series): Set the
