@@ -30,6 +30,8 @@ Morten:
 	http://bugzilla.gnome.org/show_bug.cgi?id=135609
 	* Fix pretty-print (and thus saving) problem with ranges like
 	  $B$1:$B1.
+	http://bugzilla.gnome.org/show_bug.cgi?id=136639
+	* Work around theme engine crash.
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.6
