@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: AC_PACKAGE_NAME AC_PACKAGE_VERSION\n"
-"POT-Creation-Date: 2002-12-11 00:35-0500\n"
+"POT-Creation-Date: 2002-12-22 00:37-0500\n"
 "PO-Revision-Date: 2002-09-11 04:23+0900\n"
 "Last-Translator: Jae-kyun Lee<kida@power.yeungnam.ac.kr>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
@@ -542,8 +542,8 @@ msgstr ""
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5080
-#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3552
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5087
+#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3580
 msgid "Reading file..."
 msgstr "파일을 읽는중..."
 
@@ -624,99 +624,99 @@ msgstr "저장 준비중..."
 msgid "Saving file..."
 msgstr "파일을 저장하는 중..."
 
-#: plugins/excel/ms-excel-read.c:936
+#: plugins/excel/ms-excel-read.c:935
 msgid "Workbook uses unsupported 1904 Date System, Dates will be incorrect"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:990
+#: plugins/excel/ms-excel-read.c:987
 msgid "#UNKNOWN!"
 msgstr "#모름!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1082 plugins/excel/ms-excel-read.c:1093
-#: plugins/oleo/oleo.c:339 plugins/psiconv/psiconv-read.c:516
+#: plugins/excel/ms-excel-read.c:1078 plugins/excel/ms-excel-read.c:1089
+#: plugins/oleo/oleo.c:345 plugins/psiconv/psiconv-read.c:516
 #: src/dialogs/dialog-sheet-order.c:433 src/dialogs/dialog-sheet-order.c:437
 #, c-format
 msgid "Sheet%d"
 msgstr "시트%d"
 
-#: plugins/excel/ms-excel-read.c:1096
+#: plugins/excel/ms-excel-read.c:1092
 #, c-format
 msgid "Macro%d"
 msgstr "매크로%d"
 
-#: plugins/excel/ms-excel-read.c:1099
+#: plugins/excel/ms-excel-read.c:1095
 #, c-format
 msgid "Chart%d"
 msgstr "도표%d"
 
-#: plugins/excel/ms-excel-read.c:1102
+#: plugins/excel/ms-excel-read.c:1098
 #, c-format
 msgid "Module%d"
 msgstr "모듈%d"
 
-#: plugins/excel/ms-excel-read.c:2666
+#: plugins/excel/ms-excel-read.c:2662
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2723
+#: plugins/excel/ms-excel-read.c:2718
 #, c-format
 msgid ""
 "DDE links are no supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2729
+#: plugins/excel/ms-excel-read.c:2724
 #, c-format
 msgid ""
 "OLE links are no supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2781
+#: plugins/excel/ms-excel-read.c:2776
 #, fuzzy
 msgid "Failure parsing AutoFilter."
 msgstr "파일 닫기 에러, 에러: %s"
 
-#: plugins/excel/ms-excel-read.c:4490
+#: plugins/excel/ms-excel-read.c:4499
 msgid "external references"
 msgstr "외부 참조"
 
-#: plugins/excel/ms-excel-read.c:5224
+#: plugins/excel/ms-excel-read.c:5231
 msgid "This file is encrypted"
 msgstr "이 파일은 암호화되었습니다"
 
-#: plugins/excel/ms-excel-read.c:5226
+#: plugins/excel/ms-excel-read.c:5233
 msgid "No password supplied"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:5230
+#: plugins/excel/ms-excel-read.c:5237
 msgid "Invalid password"
 msgstr "잘못된 열쇠글"
 
-#: plugins/excel/ms-excel-read.c:5325
+#: plugins/excel/ms-excel-read.c:5332
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "제대로 된 MS 엑셀 워크북을 찾을 수 없음"
 
-#: plugins/excel/ms-excel-write.c:142
+#: plugins/excel/ms-excel-write.c:148
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3151 plugins/excel/ms-excel-write.c:3156
+#: plugins/excel/ms-excel-write.c:3651 plugins/excel/ms-excel-write.c:3656
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3528
+#: plugins/excel/ms-excel-write.c:4049
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3548
+#: plugins/excel/ms-excel-write.c:4069
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr ""
 
@@ -724,7 +724,7 @@ msgstr ""
 msgid "Broken function"
 msgstr "깨진 함수"
 
-#: plugins/excel/ms-formula-write.c:411
+#: plugins/excel/ms-formula-write.c:423
 #, c-format
 msgid ""
 "Too many arguments for function, MS Excel expects exactly %d and we have more"
@@ -2589,7 +2589,7 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 
-#: plugins/fn-date/functions.c:381
+#: plugins/fn-date/functions.c:380
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -2607,7 +2607,7 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 
-#: plugins/fn-date/functions.c:436
+#: plugins/fn-date/functions.c:435
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -2622,7 +2622,7 @@ msgid ""
 "@SEEALSO=NOW"
 msgstr ""
 
-#: plugins/fn-date/functions.c:459
+#: plugins/fn-date/functions.c:458
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -2645,7 +2645,7 @@ msgid ""
 "@SEEALSO=TODAY"
 msgstr ""
 
-#: plugins/fn-date/functions.c:490
+#: plugins/fn-date/functions.c:489
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -2659,7 +2659,7 @@ msgid ""
 "@SEEALSO=HOUR"
 msgstr ""
 
-#: plugins/fn-date/functions.c:519
+#: plugins/fn-date/functions.c:518
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -2675,7 +2675,7 @@ msgid ""
 "@SEEALSO=HOUR,MINUTE"
 msgstr ""
 
-#: plugins/fn-date/functions.c:544
+#: plugins/fn-date/functions.c:543
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -2692,7 +2692,7 @@ msgid ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 
-#: plugins/fn-date/functions.c:573
+#: plugins/fn-date/functions.c:572
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -2709,7 +2709,7 @@ msgid ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 
-#: plugins/fn-date/functions.c:603
+#: plugins/fn-date/functions.c:602
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -2726,7 +2726,7 @@ msgid ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 
-#: plugins/fn-date/functions.c:633
+#: plugins/fn-date/functions.c:632
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -2742,7 +2742,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 
-#: plugins/fn-date/functions.c:667
+#: plugins/fn-date/functions.c:666
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -2758,7 +2758,7 @@ msgid ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 
-#: plugins/fn-date/functions.c:701
+#: plugins/fn-date/functions.c:700
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -2774,7 +2774,7 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: plugins/fn-date/functions.c:735
+#: plugins/fn-date/functions.c:734
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number[, method])\n"
@@ -2797,7 +2797,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: plugins/fn-date/functions.c:788
+#: plugins/fn-date/functions.c:787
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -2822,7 +2822,7 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: plugins/fn-date/functions.c:892
+#: plugins/fn-date/functions.c:891
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -2839,7 +2839,7 @@ msgid ""
 "@SEEALSO=MONTH"
 msgstr ""
 
-#: plugins/fn-date/functions.c:940
+#: plugins/fn-date/functions.c:939
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -2858,12 +2858,12 @@ msgid ""
 msgstr ""
 
 #. Path of the current directory or folder.
-#: plugins/fn-date/functions.c:975 plugins/fn-eng/functions.c:100
-#: plugins/fn-info/functions.c:1270 plugins/fn-info/functions.c:1286
+#: plugins/fn-date/functions.c:974 plugins/fn-eng/functions.c:100
+#: plugins/fn-info/functions.c:1281 plugins/fn-info/functions.c:1297
 msgid "Unimplemented"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1010
+#: plugins/fn-date/functions.c:1009
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -2880,7 +2880,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1138
+#: plugins/fn-date/functions.c:1137
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -2900,7 +2900,7 @@ msgid ""
 "@SEEALSO=WEEKNUM, ISOYEAR"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1180
+#: plugins/fn-date/functions.c:1179
 msgid ""
 "@FUNCTION=ISOYEAR\n"
 "@SYNTAX=ISOYEAR (date)\n"
@@ -2919,7 +2919,7 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1231
+#: plugins/fn-date/functions.c:1230
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -2943,7 +2943,7 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1282
+#: plugins/fn-date/functions.c:1281
 msgid ""
 "@FUNCTION=YEARFRAC\n"
 "@SYNTAX=WEEKNUM (start_date, end_date, basis)\n"
@@ -2955,68 +2955,68 @@ msgid ""
 "@SEEALSO=DATEDIF"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1303
+#: plugins/fn-date/functions.c:1302
 msgid "year,month,day"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1307
+#: plugins/fn-date/functions.c:1306
 #, fuzzy
 msgid "date_str"
 msgstr "날짜"
 
-#: plugins/fn-date/functions.c:1311
+#: plugins/fn-date/functions.c:1310
 msgid "date1,date2,Interval"
 msgstr ""
 
 #. TODO UNIMPLEMENTED and UNTESTED seems new to XL 2k
-#: plugins/fn-date/functions.c:1315 plugins/fn-date/functions.c:1339
-#: plugins/fn-date/functions.c:1367 plugins/fn-date/functions.c:1371
-#: plugins/fn-date/functions.c:1379 plugins/fn-date/functions.c:1385
-#: plugins/fn-date/functions.c:1397 plugins/fn-date/functions.c:1401
+#: plugins/fn-date/functions.c:1314 plugins/fn-date/functions.c:1338
+#: plugins/fn-date/functions.c:1366 plugins/fn-date/functions.c:1370
+#: plugins/fn-date/functions.c:1378 plugins/fn-date/functions.c:1384
+#: plugins/fn-date/functions.c:1396 plugins/fn-date/functions.c:1400
 #: src/print-info.c:506
 msgid "date"
 msgstr "날짜"
 
-#: plugins/fn-date/functions.c:1319
+#: plugins/fn-date/functions.c:1318
 msgid "date1,date2,method"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1323
+#: plugins/fn-date/functions.c:1322
 msgid "serial_number,months"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1327
+#: plugins/fn-date/functions.c:1326
 msgid "start_date,months"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1331 plugins/fn-date/functions.c:1335
-#: plugins/fn-date/functions.c:1351 src/print-info.c:507
+#: plugins/fn-date/functions.c:1330 plugins/fn-date/functions.c:1334
+#: plugins/fn-date/functions.c:1350 src/print-info.c:507
 msgid "time"
 msgstr "시간"
 
-#: plugins/fn-date/functions.c:1343
+#: plugins/fn-date/functions.c:1342
 msgid "start_date,end_date,holidays"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1355
+#: plugins/fn-date/functions.c:1354
 msgid "hours,minutes,seconds"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1359
+#: plugins/fn-date/functions.c:1358
 #, fuzzy
 msgid "timetext"
 msgstr "시간"
 
-#: plugins/fn-date/functions.c:1375
+#: plugins/fn-date/functions.c:1374
 msgid "date,days,holidays"
 msgstr ""
 
-#: plugins/fn-date/functions.c:1389
+#: plugins/fn-date/functions.c:1388
 #, fuzzy
 msgid "unixtime"
 msgstr "시간"
 
-#: plugins/fn-date/functions.c:1393
+#: plugins/fn-date/functions.c:1392
 #, fuzzy
 msgid "serial"
 msgstr "보통"
@@ -4961,7 +4961,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1151
+#: plugins/fn-info/functions.c:1162
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -4974,7 +4974,7 @@ msgid ""
 "@SEEALSO=TEXT"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1194
+#: plugins/fn-info/functions.c:1205
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -4988,7 +4988,7 @@ msgid ""
 "@SEEALSO=COUNT"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1238
+#: plugins/fn-info/functions.c:1249
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(type)\n"
@@ -5015,31 +5015,31 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1293
+#: plugins/fn-info/functions.c:1304
 msgid "Unknown version"
 msgstr "모르는 버젼"
 
-#: plugins/fn-info/functions.c:1295
+#: plugins/fn-info/functions.c:1306
 #, c-format
 msgid "%s version %s"
 msgstr ""
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: plugins/fn-info/functions.c:1302 src/dialogs/dialog-cell-format.c:2920
-#: src/dialogs/dialog-cell-format.c:2925 src/dialogs/dialog-cell-format.c:2935
+#: plugins/fn-info/functions.c:1313 src/dialogs/dialog-cell-format.c:2918
+#: src/dialogs/dialog-cell-format.c:2923 src/dialogs/dialog-cell-format.c:2933
 #: src/workbook-format-toolbar.c:837
 msgid "Automatic"
 msgstr "자동"
 
-#: plugins/fn-info/functions.c:1311
+#: plugins/fn-info/functions.c:1322
 msgid "Unknown system"
 msgstr "모르는 시스템"
 
-#: plugins/fn-info/functions.c:1321
+#: plugins/fn-info/functions.c:1332
 msgid "Unknown info_type"
 msgstr "모르는 정보형태"
 
-#: plugins/fn-info/functions.c:1327
+#: plugins/fn-info/functions.c:1338
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -5053,7 +5053,7 @@ msgid ""
 "@SEEALSO=ERROR"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1349
+#: plugins/fn-info/functions.c:1360
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -5067,7 +5067,7 @@ msgid ""
 "@SEEALSO=NA"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1376
+#: plugins/fn-info/functions.c:1386
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -5081,7 +5081,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1399
+#: plugins/fn-info/functions.c:1409
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -5103,7 +5103,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1451
+#: plugins/fn-info/functions.c:1448
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -5117,7 +5117,7 @@ msgid ""
 "@SEEALSO=ISNA"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1473
+#: plugins/fn-info/functions.c:1470
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -5129,7 +5129,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1494
+#: plugins/fn-info/functions.c:1491
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -5143,12 +5143,12 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1514 plugins/fn-info/functions.c:1675
+#: plugins/fn-info/functions.c:1511 plugins/fn-info/functions.c:1672
 #: src/func.c:791
 msgid "Invalid number of arguments"
 msgstr "인자 갯수가 틀림"
 
-#: plugins/fn-info/functions.c:1544
+#: plugins/fn-info/functions.c:1541
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -5162,7 +5162,7 @@ msgid ""
 "@SEEALSO=ISODD"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1566
+#: plugins/fn-info/functions.c:1563
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -5176,7 +5176,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1588
+#: plugins/fn-info/functions.c:1585
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -5190,7 +5190,7 @@ msgid ""
 "@SEEALSO=ISTEXT"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1610
+#: plugins/fn-info/functions.c:1607
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -5204,7 +5204,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1633
+#: plugins/fn-info/functions.c:1630
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -5218,7 +5218,7 @@ msgid ""
 "@SEEALSO=ISEVEN"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1655
+#: plugins/fn-info/functions.c:1652
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -5232,7 +5232,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1687
+#: plugins/fn-info/functions.c:1684
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -5246,7 +5246,7 @@ msgid ""
 "@SEEALSO=ISNONTEXT"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1709
+#: plugins/fn-info/functions.c:1706
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -5261,7 +5261,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1748
+#: plugins/fn-info/functions.c:1745
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -5281,7 +5281,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1797
+#: plugins/fn-info/functions.c:1794
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -5294,31 +5294,31 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1825
+#: plugins/fn-info/functions.c:1822
 msgid "info_type, cell"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1828 plugins/fn-info/functions.c:1834
-#: plugins/fn-info/functions.c:1837 plugins/fn-info/functions.c:1840
-#: plugins/fn-info/functions.c:1843 plugins/fn-info/functions.c:1846
-#: plugins/fn-info/functions.c:1849 plugins/fn-info/functions.c:1852
-#: plugins/fn-info/functions.c:1855 plugins/fn-info/functions.c:1858
-#: plugins/fn-info/functions.c:1861 plugins/fn-info/functions.c:1864
-#: plugins/fn-info/functions.c:1867 plugins/fn-info/functions.c:1873
+#: plugins/fn-info/functions.c:1825 plugins/fn-info/functions.c:1831
+#: plugins/fn-info/functions.c:1834 plugins/fn-info/functions.c:1837
+#: plugins/fn-info/functions.c:1840 plugins/fn-info/functions.c:1843
+#: plugins/fn-info/functions.c:1846 plugins/fn-info/functions.c:1849
+#: plugins/fn-info/functions.c:1852 plugins/fn-info/functions.c:1855
+#: plugins/fn-info/functions.c:1858 plugins/fn-info/functions.c:1861
+#: plugins/fn-info/functions.c:1864 plugins/fn-info/functions.c:1870
 #: plugins/fn-string/functions.c:1121
 msgid "value"
 msgstr "값"
 
-#: plugins/fn-info/functions.c:1831
+#: plugins/fn-info/functions.c:1828
 msgid "info_type"
 msgstr "정보 형식(_t)"
 
 #. XL stores this in statistical ?
-#: plugins/fn-info/functions.c:1878
+#: plugins/fn-info/functions.c:1875
 msgid "range"
 msgstr "범위"
 
-#: plugins/fn-info/functions.c:1882 plugins/fn-string/functions.c:1070
+#: plugins/fn-info/functions.c:1879 plugins/fn-string/functions.c:1070
 #: plugins/fn-string/functions.c:1073 plugins/fn-string/functions.c:1094
 #: plugins/fn-string/functions.c:1097 plugins/fn-string/functions.c:1103
 #: plugins/fn-string/functions.c:1127 plugins/fn-string/functions.c:1130
@@ -5326,11 +5326,11 @@ msgstr "범위"
 msgid "text"
 msgstr "텍스트"
 
-#: plugins/fn-info/functions.c:1885
+#: plugins/fn-info/functions.c:1882
 msgid "cell"
 msgstr "셀"
 
-#: plugins/fn-info/functions.c:1888
+#: plugins/fn-info/functions.c:1885
 msgid "string"
 msgstr "문자열"
 
@@ -5480,44 +5480,44 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-logical/functions.c:324 plugins/fn-logical/functions.c:328
-#: plugins/fn-logical/functions.c:348 plugins/fn-math/functions.c:3244
-#: plugins/fn-stat/functions.c:5574 plugins/fn-stat/functions.c:5578
-#: plugins/fn-stat/functions.c:5582 plugins/fn-stat/functions.c:5620
-#: plugins/fn-stat/functions.c:5623 plugins/fn-stat/functions.c:5632
-#: plugins/fn-stat/functions.c:5668 plugins/fn-stat/functions.c:5682
-#: plugins/fn-stat/functions.c:5685 plugins/fn-stat/functions.c:5688
-#: plugins/fn-stat/functions.c:5710 plugins/fn-stat/functions.c:5714
-#: plugins/fn-stat/functions.c:5718 plugins/fn-stat/functions.c:5722
-#: plugins/fn-stat/functions.c:5726 plugins/fn-stat/functions.c:5730
-#: plugins/fn-stat/functions.c:5776 plugins/fn-stat/functions.c:5783
-#: plugins/fn-stat/functions.c:5787 plugins/fn-stat/functions.c:5791
-#: plugins/fn-stat/functions.c:5795 plugins/fn-stat/functions.c:5824
-#: plugins/fn-stat/functions.c:5827 plugins/fn-stat/functions.c:5830
-#: plugins/fn-stat/functions.c:5833 plugins/fn-stat/functions.c:5849
+#: plugins/fn-logical/functions.c:348 plugins/fn-math/functions.c:3220
+#: plugins/fn-stat/functions.c:5568 plugins/fn-stat/functions.c:5572
+#: plugins/fn-stat/functions.c:5576 plugins/fn-stat/functions.c:5614
+#: plugins/fn-stat/functions.c:5617 plugins/fn-stat/functions.c:5626
+#: plugins/fn-stat/functions.c:5662 plugins/fn-stat/functions.c:5676
+#: plugins/fn-stat/functions.c:5679 plugins/fn-stat/functions.c:5682
+#: plugins/fn-stat/functions.c:5704 plugins/fn-stat/functions.c:5708
+#: plugins/fn-stat/functions.c:5712 plugins/fn-stat/functions.c:5716
+#: plugins/fn-stat/functions.c:5720 plugins/fn-stat/functions.c:5724
+#: plugins/fn-stat/functions.c:5770 plugins/fn-stat/functions.c:5777
+#: plugins/fn-stat/functions.c:5781 plugins/fn-stat/functions.c:5785
+#: plugins/fn-stat/functions.c:5789 plugins/fn-stat/functions.c:5818
+#: plugins/fn-stat/functions.c:5821 plugins/fn-stat/functions.c:5824
+#: plugins/fn-stat/functions.c:5827 plugins/fn-stat/functions.c:5843
 #: src/func-builtin.c:134 src/func-builtin.c:140
 msgid "number,number,"
 msgstr ""
 
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:332 plugins/fn-math/functions.c:3085
-#: plugins/fn-math/functions.c:3089 plugins/fn-math/functions.c:3092
-#: plugins/fn-math/functions.c:3095 plugins/fn-math/functions.c:3098
-#: plugins/fn-math/functions.c:3101 plugins/fn-math/functions.c:3104
-#: plugins/fn-math/functions.c:3110 plugins/fn-math/functions.c:3119
-#: plugins/fn-math/functions.c:3128 plugins/fn-math/functions.c:3136
-#: plugins/fn-math/functions.c:3139 plugins/fn-math/functions.c:3142
-#: plugins/fn-math/functions.c:3145 plugins/fn-math/functions.c:3150
-#: plugins/fn-math/functions.c:3154 plugins/fn-math/functions.c:3160
-#: plugins/fn-math/functions.c:3167 plugins/fn-math/functions.c:3174
-#: plugins/fn-math/functions.c:3180 plugins/fn-math/functions.c:3183
-#: plugins/fn-math/functions.c:3196 plugins/fn-math/functions.c:3202
-#: plugins/fn-math/functions.c:3208 plugins/fn-math/functions.c:3229
-#: plugins/fn-math/functions.c:3232 plugins/fn-math/functions.c:3235
-#: plugins/fn-math/functions.c:3238 plugins/fn-math/functions.c:3241
-#: plugins/fn-math/functions.c:3254 plugins/fn-math/functions.c:3266
-#: plugins/fn-math/functions.c:3269 plugins/fn-stat/functions.c:5644
-#: plugins/fn-stat/functions.c:5647 plugins/fn-stat/functions.c:5665
-#: plugins/fn-stat/functions.c:5743 plugins/fn-string/functions.c:1067
+#: plugins/fn-logical/functions.c:332 plugins/fn-math/functions.c:3061
+#: plugins/fn-math/functions.c:3065 plugins/fn-math/functions.c:3068
+#: plugins/fn-math/functions.c:3071 plugins/fn-math/functions.c:3074
+#: plugins/fn-math/functions.c:3077 plugins/fn-math/functions.c:3080
+#: plugins/fn-math/functions.c:3086 plugins/fn-math/functions.c:3095
+#: plugins/fn-math/functions.c:3104 plugins/fn-math/functions.c:3112
+#: plugins/fn-math/functions.c:3115 plugins/fn-math/functions.c:3118
+#: plugins/fn-math/functions.c:3121 plugins/fn-math/functions.c:3126
+#: plugins/fn-math/functions.c:3130 plugins/fn-math/functions.c:3136
+#: plugins/fn-math/functions.c:3143 plugins/fn-math/functions.c:3150
+#: plugins/fn-math/functions.c:3156 plugins/fn-math/functions.c:3159
+#: plugins/fn-math/functions.c:3172 plugins/fn-math/functions.c:3178
+#: plugins/fn-math/functions.c:3184 plugins/fn-math/functions.c:3205
+#: plugins/fn-math/functions.c:3208 plugins/fn-math/functions.c:3211
+#: plugins/fn-math/functions.c:3214 plugins/fn-math/functions.c:3217
+#: plugins/fn-math/functions.c:3230 plugins/fn-math/functions.c:3242
+#: plugins/fn-math/functions.c:3245 plugins/fn-stat/functions.c:5638
+#: plugins/fn-stat/functions.c:5641 plugins/fn-stat/functions.c:5659
+#: plugins/fn-stat/functions.c:5737 plugins/fn-string/functions.c:1067
 msgid "number"
 msgstr "숫자"
 
@@ -5861,7 +5861,7 @@ msgstr ""
 msgid "ref,row,col,height,width"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1227 plugins/fn-math/functions.c:3282
+#: plugins/fn-lookup/functions.c:1227 plugins/fn-math/functions.c:3258
 msgid "array"
 msgstr "배열"
 
@@ -6208,7 +6208,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:919
+#: plugins/fn-math/functions.c:913
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -6222,7 +6222,7 @@ msgid ""
 "@SEEALSO=BETA,GAMMALN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:945
+#: plugins/fn-math/functions.c:939
 msgid ""
 "@FUNCTION=BETALN\n"
 "@SYNTAX=BETALN(a,b)\n"
@@ -6236,7 +6236,7 @@ msgid ""
 "@SEEALSO=BETA,GAMMALN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:972
+#: plugins/fn-math/functions.c:966
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -6254,7 +6254,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:1007
+#: plugins/fn-math/functions.c:999
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -6273,7 +6273,7 @@ msgid ""
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1045
+#: plugins/fn-math/functions.c:1037
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -6289,7 +6289,7 @@ msgid ""
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1070
+#: plugins/fn-math/functions.c:1062
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
@@ -6319,7 +6319,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 
-#: plugins/fn-math/functions.c:1110
+#: plugins/fn-math/functions.c:1096
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -6334,7 +6334,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1141
+#: plugins/fn-math/functions.c:1125
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -6349,7 +6349,7 @@ msgid ""
 "@SEEALSO=EXP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1175
+#: plugins/fn-math/functions.c:1157
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -6363,7 +6363,7 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1203
+#: plugins/fn-math/functions.c:1183
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -6378,7 +6378,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1232
+#: plugins/fn-math/functions.c:1212
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -6394,7 +6394,7 @@ msgid ""
 "@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1283
+#: plugins/fn-math/functions.c:1263
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -6409,7 +6409,7 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1307
+#: plugins/fn-math/functions.c:1287
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -6424,7 +6424,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1330
+#: plugins/fn-math/functions.c:1310
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -6441,7 +6441,7 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1354
+#: plugins/fn-math/functions.c:1334
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -6456,7 +6456,7 @@ msgid ""
 "@SEEALSO=POWER"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1382
+#: plugins/fn-math/functions.c:1362
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -6474,7 +6474,7 @@ msgid ""
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1414
+#: plugins/fn-math/functions.c:1394
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -6491,7 +6491,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1445
+#: plugins/fn-math/functions.c:1425
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -6506,7 +6506,7 @@ msgid ""
 "@SEEALSO=SUM"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1474
+#: plugins/fn-math/functions.c:1454
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -6521,7 +6521,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1502
+#: plugins/fn-math/functions.c:1482
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -6536,7 +6536,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1525
+#: plugins/fn-math/functions.c:1505
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -6553,7 +6553,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1548
+#: plugins/fn-math/functions.c:1528
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -6569,7 +6569,7 @@ msgid ""
 "@SEEALSO=SQRTPI"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1573
+#: plugins/fn-math/functions.c:1553
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -6586,7 +6586,7 @@ msgid ""
 "@SEEALSO=INT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1608
+#: plugins/fn-math/functions.c:1588
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -6601,7 +6601,7 @@ msgid ""
 "@SEEALSO=ODD"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1646
+#: plugins/fn-math/functions.c:1626
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -6616,7 +6616,7 @@ msgid ""
 "@SEEALSO=EVEN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1684
+#: plugins/fn-math/functions.c:1664
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -6633,7 +6633,7 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1722
+#: plugins/fn-math/functions.c:1702
 msgid ""
 "@FUNCTION=FIB\n"
 "@SYNTAX=FIB(number)\n"
@@ -6648,7 +6648,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:1770
+#: plugins/fn-math/functions.c:1750
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denumerator)\n"
@@ -6663,7 +6663,7 @@ msgid ""
 "@SEEALSO=MOD"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1802
+#: plugins/fn-math/functions.c:1782
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -6680,7 +6680,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:1836
+#: plugins/fn-math/functions.c:1816
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -6695,7 +6695,7 @@ msgid ""
 "@SEEALSO=PI"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1865
+#: plugins/fn-math/functions.c:1845
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -6720,7 +6720,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDUP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1909
+#: plugins/fn-math/functions.c:1889
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -6745,7 +6745,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1950
+#: plugins/fn-math/functions.c:1930
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -6771,7 +6771,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDDOWN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1994
+#: plugins/fn-math/functions.c:1974
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -6790,7 +6790,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2048
+#: plugins/fn-math/functions.c:2028
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -6814,7 +6814,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:2314
+#: plugins/fn-math/functions.c:2294
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -6837,14 +6837,14 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2PY2"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2370 plugins/fn-math/functions.c:2390
-#: plugins/fn-math/functions.c:2483 plugins/fn-math/functions.c:2503
-#: plugins/fn-math/functions.c:2594 plugins/fn-math/functions.c:2614
+#: plugins/fn-math/functions.c:2350 plugins/fn-math/functions.c:2370
+#: plugins/fn-math/functions.c:2463 plugins/fn-math/functions.c:2483
+#: plugins/fn-math/functions.c:2574 plugins/fn-math/functions.c:2594
 #: plugins/fn-stat/functions.c:2866 plugins/fn-stat/functions.c:2896
 msgid "Array version not implemented!"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2428
+#: plugins/fn-math/functions.c:2408
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -6867,7 +6867,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2539
+#: plugins/fn-math/functions.c:2519
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -6890,7 +6890,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2652
+#: plugins/fn-math/functions.c:2632
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -6909,7 +6909,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2710
+#: plugins/fn-math/functions.c:2690
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -6926,11 +6926,7 @@ msgid ""
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2759
-msgid "#3D MULT?"
-msgstr ""
-
-#: plugins/fn-math/functions.c:2839
+#: plugins/fn-math/functions.c:2817
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -6945,7 +6941,7 @@ msgid ""
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2915
+#: plugins/fn-math/functions.c:2893
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -6964,7 +6960,7 @@ msgid ""
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2973
+#: plugins/fn-math/functions.c:2949
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -6985,11 +6981,11 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3107
+#: plugins/fn-math/functions.c:3083
 msgid "xnum,ynum"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3113 plugins/fn-math/functions.c:3116
+#: plugins/fn-math/functions.c:3089 plugins/fn-math/functions.c:3092
 #: plugins/fn-random/functions.c:1100 plugins/fn-random/functions.c:1121
 #: plugins/fn-random/functions.c:1127 plugins/fn-random/functions.c:1166
 #: plugins/fn-random/functions.c:1181 plugins/fn-random/functions.c:1184
@@ -6997,67 +6993,67 @@ msgid "a,b"
 msgstr ""
 
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3124
+#: plugins/fn-math/functions.c:3100
 msgid "range,criteria"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3132
+#: plugins/fn-math/functions.c:3108
 msgid "number,significance"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3157 plugins/fn-stat/functions.c:5758
+#: plugins/fn-math/functions.c:3133 plugins/fn-stat/functions.c:5752
 msgid "n,k"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3164
+#: plugins/fn-math/functions.c:3140
 msgid "number,number"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3177
+#: plugins/fn-math/functions.c:3153
 msgid "number,base"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3186 plugins/fn-math/functions.c:3205
+#: plugins/fn-math/functions.c:3162 plugins/fn-math/functions.c:3181
 msgid "numerator,denominator"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3189
+#: plugins/fn-math/functions.c:3165
 msgid "number,multiple"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3199
+#: plugins/fn-math/functions.c:3175
 msgid "base,exponent"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3211
+#: plugins/fn-math/functions.c:3187
 msgid "number,type"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3214 plugins/fn-math/functions.c:3218
-#: plugins/fn-math/functions.c:3222 plugins/fn-math/functions.c:3272
+#: plugins/fn-math/functions.c:3190 plugins/fn-math/functions.c:3194
+#: plugins/fn-math/functions.c:3198 plugins/fn-math/functions.c:3248
 msgid "number,digits"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3226
+#: plugins/fn-math/functions.c:3202
 msgid "x,n,m,coefficients"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3248
+#: plugins/fn-math/functions.c:3224
 msgid "range,criteria,actual_range"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3251
+#: plugins/fn-math/functions.c:3227
 msgid "range,range,"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3257 plugins/fn-math/functions.c:3260
-#: plugins/fn-math/functions.c:3263 plugins/fn-math/functions.c:3279
-#: plugins/fn-stat/functions.c:5617 plugins/fn-stat/functions.c:5626
-#: plugins/fn-stat/functions.c:5749 plugins/fn-stat/functions.c:5802
+#: plugins/fn-math/functions.c:3233 plugins/fn-math/functions.c:3236
+#: plugins/fn-math/functions.c:3239 plugins/fn-math/functions.c:3255
+#: plugins/fn-stat/functions.c:5611 plugins/fn-stat/functions.c:5620
+#: plugins/fn-stat/functions.c:5743 plugins/fn-stat/functions.c:5796
 msgid "array1,array2"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3285 plugins/fn-math/functions.c:3289
+#: plugins/fn-math/functions.c:3261 plugins/fn-math/functions.c:3265
 msgid "array,matrix_type,bandsize"
 msgstr ""
 
@@ -7585,7 +7581,7 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:1097 plugins/fn-random/functions.c:1133
-#: plugins/fn-random/functions.c:1151 plugins/fn-stat/functions.c:5746
+#: plugins/fn-random/functions.c:1151 plugins/fn-stat/functions.c:5740
 msgid "p"
 msgstr ""
 
@@ -9120,7 +9116,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4071
+#: plugins/fn-stat/functions.c:4070
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -9155,7 +9151,7 @@ msgid ""
 "@SEEALSO=LOGFIT,LINEST,LOGEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4348
+#: plugins/fn-stat/functions.c:4346
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -9188,7 +9184,7 @@ msgid ""
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4448
+#: plugins/fn-stat/functions.c:4446
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -9212,7 +9208,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4561
+#: plugins/fn-stat/functions.c:4558
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -9243,7 +9239,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4814
+#: plugins/fn-stat/functions.c:4810
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -9265,7 +9261,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4927
+#: plugins/fn-stat/functions.c:4922
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -9287,7 +9283,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4998
+#: plugins/fn-stat/functions.c:4993
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -9308,7 +9304,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5048
+#: plugins/fn-stat/functions.c:5043
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -9325,7 +9321,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5092
+#: plugins/fn-stat/functions.c:5087
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -9361,7 +9357,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5192
+#: plugins/fn-stat/functions.c:5187
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -9372,7 +9368,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5322
+#: plugins/fn-stat/functions.c:5316
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -9389,7 +9385,7 @@ msgid ""
 "@SEEALSO=RANDGEOM"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5358
+#: plugins/fn-stat/functions.c:5352
 msgid ""
 "@FUNCTION=LOGISTIC\n"
 "@SYNTAX=LOGISTIC(x,a)\n"
@@ -9402,7 +9398,7 @@ msgid ""
 "@SEEALSO=RANDLOGISTIC"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5394
+#: plugins/fn-stat/functions.c:5388
 msgid ""
 "@FUNCTION=PARETO\n"
 "@SYNTAX=PARETO(x,a,b)\n"
@@ -9415,7 +9411,7 @@ msgid ""
 "@SEEALSO=RANDPARETO"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5432
+#: plugins/fn-stat/functions.c:5426
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
 "@SYNTAX=RAYLEIGH(x,sigma)\n"
@@ -9428,7 +9424,7 @@ msgid ""
 "@SEEALSO=RANDRAYLEIGH"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5472
+#: plugins/fn-stat/functions.c:5466
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
 "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
@@ -9441,7 +9437,7 @@ msgid ""
 "@SEEALSO=RANDRAYLEIGHTAIL"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5515
+#: plugins/fn-stat/functions.c:5509
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
@@ -9454,7 +9450,7 @@ msgid ""
 "@SEEALSO=RANDEXPPOW"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5546
+#: plugins/fn-stat/functions.c:5540
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -9466,185 +9462,185 @@ msgid ""
 "@SEEALSO=RANDLAPLACE"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5587 plugins/fn-stat/functions.c:5846
+#: plugins/fn-stat/functions.c:5581 plugins/fn-stat/functions.c:5840
 msgid "k,p"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5591
+#: plugins/fn-stat/functions.c:5585
 msgid "x,alpha,beta,a,b"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5594
+#: plugins/fn-stat/functions.c:5588
 msgid "p,alpha,beta,a,b"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5597
+#: plugins/fn-stat/functions.c:5591
 msgid "n,t,p,c"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5601
+#: plugins/fn-stat/functions.c:5595
 msgid "x,a,cum"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5605
+#: plugins/fn-stat/functions.c:5599
 msgid "x,dof"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5608 plugins/fn-stat/functions.c:5811
+#: plugins/fn-stat/functions.c:5602 plugins/fn-stat/functions.c:5805
 msgid "p,dof"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5611
+#: plugins/fn-stat/functions.c:5605
 msgid "act_range,theo_range"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5614
+#: plugins/fn-stat/functions.c:5608
 msgid "x,stddev,size"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5629
+#: plugins/fn-stat/functions.c:5623
 msgid "trials,p,alpha"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5635
+#: plugins/fn-stat/functions.c:5629
 msgid "x,y,cumulative"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5638
+#: plugins/fn-stat/functions.c:5632
 msgid "x,dof of num,dof of denom"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5641
+#: plugins/fn-stat/functions.c:5635
 msgid "p,dof of num,dof of denom"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5650
+#: plugins/fn-stat/functions.c:5644
 msgid "x,known y's,known x's"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5653
+#: plugins/fn-stat/functions.c:5647
 msgid "data_array,bins_array"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5656
+#: plugins/fn-stat/functions.c:5650
 msgid "arr1,arr2"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5659
+#: plugins/fn-stat/functions.c:5653
 msgid "number,alpha,beta,cum"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5662
+#: plugins/fn-stat/functions.c:5656
 msgid "number,alpha,beta"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5672 plugins/fn-stat/functions.c:5814
+#: plugins/fn-stat/functions.c:5666 plugins/fn-stat/functions.c:5808
 msgid "known_y's,known_x's,new_x's,const"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5679
+#: plugins/fn-stat/functions.c:5673
 msgid "x,n,M,N"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5692 plugins/fn-stat/functions.c:5695
-#: plugins/fn-stat/functions.c:5707
+#: plugins/fn-stat/functions.c:5686 plugins/fn-stat/functions.c:5689
+#: plugins/fn-stat/functions.c:5701
 msgid "known_y's,known_x's,const,stat"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5698 plugins/fn-stat/functions.c:5773
-#: plugins/fn-stat/functions.c:5799
+#: plugins/fn-stat/functions.c:5692 plugins/fn-stat/functions.c:5767
+#: plugins/fn-stat/functions.c:5793
 msgid "known_y's,known_x's"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5701
+#: plugins/fn-stat/functions.c:5695
 msgid "p,mean,stddev"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5704
+#: plugins/fn-stat/functions.c:5698
 msgid "x,meean,stdev"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5734
+#: plugins/fn-stat/functions.c:5728
 msgid "f,t,p"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5737
+#: plugins/fn-stat/functions.c:5731
 msgid "x,mean,stdev,cumulative"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5740
+#: plugins/fn-stat/functions.c:5734
 msgid "p,mean,stdev"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5752
+#: plugins/fn-stat/functions.c:5746
 msgid "array,k"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5755
+#: plugins/fn-stat/functions.c:5749
 msgid "array,x,significance"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5761
+#: plugins/fn-stat/functions.c:5755
 msgid "x,mean,cumulative"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5764
+#: plugins/fn-stat/functions.c:5758
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5767
+#: plugins/fn-stat/functions.c:5761
 msgid "array,quart"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5780
+#: plugins/fn-stat/functions.c:5774
 msgid "x,mean,stddev"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5808
+#: plugins/fn-stat/functions.c:5802
 msgid "x,dof,tails"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5817
+#: plugins/fn-stat/functions.c:5811
 msgid "ref,fraction"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5821
+#: plugins/fn-stat/functions.c:5815
 msgid "array1,array2,tails,type"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5836
+#: plugins/fn-stat/functions.c:5830
 msgid "x.alpha,beta,cumulative"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5839
+#: plugins/fn-stat/functions.c:5833
 msgid "ref,x"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5843 plugins/fn-stat/functions.c:5861
+#: plugins/fn-stat/functions.c:5837 plugins/fn-stat/functions.c:5855
 msgid "x,a,b"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5852
+#: plugins/fn-stat/functions.c:5846
 msgid "x"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5855 plugins/fn-stat/functions.c:5858
+#: plugins/fn-stat/functions.c:5849 plugins/fn-stat/functions.c:5852
 msgid "x,a"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5864
+#: plugins/fn-stat/functions.c:5858
 msgid "x,sigma"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5867
+#: plugins/fn-stat/functions.c:5861
 msgid "x,a,sigma"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5873
+#: plugins/fn-stat/functions.c:5867
 msgid "function_nbr,ref,ref,"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5876
+#: plugins/fn-stat/functions.c:5870
 msgid "ref,ref,"
 msgstr ""
 
@@ -10144,34 +10140,34 @@ msgstr "PO 파일 형식의 그놈 용어집"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr ""
 
-#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:3016
+#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:3044
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "클립보드 내용 붙이기"
 
-#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:3023
+#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:3051
 msgid "Clipboard is in unknown format"
 msgstr "모르는 클립보드 형식"
 
 #: plugins/gnumeric_1_0/xml-io.c:3112 plugins/xbase/boot.c:172
-#: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:731
+#: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:721
 #: src/dialogs/print.glade.h:20 src/workbook.c:1047 src/workbook.c:1377
-#: src/xml-io.c:3303
+#: src/xml-io.c:3331
 msgid "Sheet"
 msgstr "시트"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3430
+#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3458
 msgid "Processing file..."
 msgstr "파일 처리중..."
 
-#: plugins/gnumeric_1_0/xml-io.c:3412 src/xml-io.c:3594
+#: plugins/gnumeric_1_0/xml-io.c:3412
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Gnumeric 워크북 파일이 아닙니다"
 
-#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3631
+#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3659
 #, fuzzy
 msgid "Failure saving file"
 msgstr "파일 닫기 에러, 에러: %s"
@@ -10282,7 +10278,7 @@ msgstr ""
 msgid "Constraints:"
 msgstr ""
 
-#: plugins/mps/mps.c:247 src/commands.c:5412
+#: plugins/mps/mps.c:247 src/commands.c:5413
 #: src/cut-n-paste-code/egg/menu/egg-action.c:120
 #: src/dialogs/dialog-define-names.c:499 src/dialogs/dialog-formula-guru.c:813
 #: src/dialogs/dialog-function-select.c:419
@@ -10304,7 +10300,7 @@ msgstr "값"
 #. * Fill in the labels of `General Info' section.
 #.
 #: plugins/mps/mps.c:275 src/dialogs/dialog-formula-guru.c:817
-#: src/dialogs/dialog-search.c:733 src/tools/solver/reports-write.c:562
+#: src/dialogs/dialog-search.c:723 src/tools/solver/reports-write.c:562
 msgid "Type"
 msgstr "형식"
 
@@ -10549,12 +10545,12 @@ msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr "파일 '%s'를 열 수 없습니다"
 
-#: plugins/openoffice/openoffice-read.c:865
+#: plugins/openoffice/openoffice-read.c:869
 msgid "No stream named content.xml found."
 msgstr ""
 
-#: plugins/openoffice/openoffice-read.c:905
-#: plugins/xml_sax/xml-sax-read.c:1467
+#: plugins/openoffice/openoffice-read.c:909
+#: plugins/xml_sax/xml-sax-read.c:1468
 msgid "XML document not well formed!"
 msgstr ""
 
@@ -10579,21 +10575,21 @@ msgstr "펄 함수 만들기 사용"
 msgid "Perl"
 msgstr "펄"
 
-#: plugins/plan-perfect/pln.c:503
+#: plugins/plan-perfect/pln.c:504
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr "PLN : 스프레드시트가 암호화되어 있습니다"
 
-#: plugins/plan-perfect/pln.c:570
+#: plugins/plan-perfect/pln.c:571
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr ""
 
-#: plugins/plan-perfect/pln.c:574
+#: plugins/plan-perfect/pln.c:575
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
 
-#: plugins/plan-perfect/pln.c:667
+#: plugins/plan-perfect/pln.c:668
 msgid "PLN : Not a PlanPerfect File"
 msgstr "PLN : PlanPerfect 파일이 아닙니다"
 
@@ -10899,20 +10895,20 @@ msgid "About this application"
 msgstr "이 응용프로그램은"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1358
-#: src/workbook-control-gui.c:3732
+#: src/workbook-control-gui.c:3736
 #, fuzzy
 msgid "Add _Auto Filter"
 msgstr "고급 거르개"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3695
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3699
 msgid "Add an outline group"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3733
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3737
 msgid "Add or remove a filter"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3738
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3742
 msgid "Advanced _Filter..."
 msgstr "고급 거르개(_F)..."
 
@@ -10928,28 +10924,28 @@ msgstr ""
 msgid "Arrow"
 msgstr "화살표"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3657
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3661
 msgid "Auto _Correct..."
 msgstr "자동 고침(_C)..."
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3263
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3267
 msgid "Auto_fill"
 msgstr "자동 채움(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3264
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3268
 msgid "Automatically fill the current selection"
 msgstr "지금 선택된 곳에 자동으로 채웁니다"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3658
+#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3662
 msgid "Automatically perform simple spell checking"
 msgstr "자동으로 간단한 맞춤법 검사를 합니다"
 
-#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3661
+#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3665
 msgid "Automatically save the current document at regular intervals"
 msgstr "현재 문서를 일정한 간격마다 자동으로 저장합니다"
 
 #: src/GNOME_Gnumeric.xml.h:14 src/dialogs/cell-format.glade.h:15
-#: src/dialogs/dialog-cell-format.c:2930 src/workbook-format-toolbar.c:818
+#: src/dialogs/dialog-cell-format.c:2928 src/workbook-format-toolbar.c:818
 #: src/workbook-format-toolbar.c:876
 msgid "Background"
 msgstr "바탕색"
@@ -10969,15 +10965,15 @@ msgstr "테두리"
 msgid "Button"
 msgstr "단추"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:3411
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:3415
 msgid "C_ells..."
 msgstr "셀(_E)..."
 
-#: src/GNOME_Gnumeric.xml.h:19 src/workbook-control-gui.c:3320
+#: src/GNOME_Gnumeric.xml.h:19 src/workbook-control-gui.c:3324
 msgid "C_lear"
 msgstr "지우기(_L)"
 
-#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3541
+#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3545
 msgid "C_olumn"
 msgstr "칸(_O)"
 
@@ -10995,23 +10991,23 @@ msgstr "중앙 섹션:"
 msgid "Center across the selected cells"
 msgstr "선택된 셀들을 정렬"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3205
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3209
 msgid "Change Gnumeric Preferences"
 msgstr "Gnumeric의 기본 설정을 바꿉니다"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3475
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3479
 msgid "Change height of the selected rows"
 msgstr "선택한 줄의 높이를 바꿉니다"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3468
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3472
 msgid "Change the default column width"
 msgstr "칸의 기본 너비를 바꿉니다"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3487
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3491
 msgid "Change the default row height"
 msgstr "줄의 기본 높이를 바꿉니다"
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3456
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3460
 msgid "Change width of the selected columns"
 msgstr "선택한 칸의 너비를 바꿉니다"
 
@@ -11019,19 +11015,19 @@ msgstr "선택한 칸의 너비를 바꿉니다"
 msgid "Checkbox"
 msgstr "체크상자"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3224
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3228
 msgid "Clear the selected cells' comments"
 msgstr "선택된 셀의 설명을 지웁니다"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3227
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3231
 msgid "Clear the selected cells' contents"
 msgstr "선택된 셀의 내용을 지웁니다"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3221
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3225
 msgid "Clear the selected cells' formats"
 msgstr "선택된 셀의 형식을 지웁니다"
 
-#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:3218
+#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:3222
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "선택된 셀의 형식, 설명 및 내용을 지웁니다"
 
@@ -11040,15 +11036,15 @@ msgid "Close the current file"
 msgstr "현재 파일을 닫습니다"
 
 #: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:6
-#: src/workbook-control-gui.c:3223
+#: src/workbook-control-gui.c:3227
 msgid "Co_mments"
 msgstr "설명(_M)"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3616
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3620
 msgid "Co_variance"
 msgstr "공분산(_v)"
 
-#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3689
+#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3693
 msgid "Collapse an outline group"
 msgstr ""
 
@@ -11056,29 +11052,29 @@ msgstr ""
 msgid "Combo Box"
 msgstr "콤보 상자"
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3588
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3592
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3592
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3596
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3597
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3601
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3602
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3606
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3644
+#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3648
 msgid "Comparing two population variances"
 msgstr ""
 
@@ -11086,12 +11082,12 @@ msgstr ""
 msgid "Configure toolbars"
 msgstr "도구막대를 설정합니다"
 
-#: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3761
+#: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3765
 msgid "Consolidate regions using a function"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:46 src/sheet-view.c:309
-#: src/workbook-control-gui.c:3817
+#: src/workbook-control-gui.c:3821
 msgid "Copy"
 msgstr "복사"
 
@@ -11099,14 +11095,14 @@ msgstr "복사"
 msgid "Copy the selection"
 msgstr "선택한 것을 복사합니다"
 
-#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3817
+#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3821
 #, fuzzy
 msgid "Copy the selection to the clipboard"
 msgstr "선택한 내용을 클립보드로 복사"
 
 #: src/GNOME_Gnumeric.xml.h:49 src/dialogs/covariance.glade.h:3
-#: src/tools/analysis-tools.c:891 src/tools/analysis-tools.c:894
-#: src/workbook-control-gui.c:3617
+#: src/tools/analysis-tools.c:892 src/tools/analysis-tools.c:895
+#: src/workbook-control-gui.c:3621
 msgid "Covariance"
 msgstr "공분산"
 
@@ -11139,19 +11135,19 @@ msgstr "선 그리기"
 msgid "Create a list"
 msgstr "목록을 만듭니다"
 
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:3363
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:3367
 msgid "Create a new shared view of the workbook"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3178
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3182
 msgid "Create a new spreadsheet"
 msgstr "새 스프레드시트를 만듭니다"
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3366
+#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3370
 msgid "Create a new unshared view of the workbook"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3793
+#: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3797
 msgid "Create a new workbook"
 msgstr "새 워크북을 만듭니다"
 
@@ -11188,17 +11184,17 @@ msgid "Cu_t"
 msgstr "자르기(_T)"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:68 src/workbook-control-gui.c:3384
+#: src/GNOME_Gnumeric.xml.h:68 src/workbook-control-gui.c:3388
 msgid "Current _date"
 msgstr "현재 날짜(_D)"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:3390
+#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:3394
 msgid "Current _time"
 msgstr "현재 시간(_T)"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/sheet-view.c:334 src/sheet-view.c:337
-#: src/workbook-control-gui.c:3814
+#: src/workbook-control-gui.c:3818
 msgid "Cut"
 msgstr "자르기"
 
@@ -11206,7 +11202,7 @@ msgstr "자르기"
 msgid "Cut the selection"
 msgstr "선택한 것을 자릅니다"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3814
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3818
 #, fuzzy
 msgid "Cut the selection to the clipboard"
 msgstr "선택한 내용을 클립보드로 잘라보내기"
@@ -11224,36 +11220,36 @@ msgstr ""
 msgid "Decrease the number of decimals displayed"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3502
+#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3506
 msgid "Display _Formulas"
 msgstr "식 보이기(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3704
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3708
 msgid "Display _Outlines"
 msgstr "테두리 보이기(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3503
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3507
 msgid "Display the value of a formula or the formula itself"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3848
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3852
 #, fuzzy
 msgid "Edit a function in the current cell"
 msgstr "현재 셀에 있는 함수 편집"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3201
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3205
 msgid "Edit descriptive information"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3399
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3403
 msgid "Edit sheet and workbook names"
 msgstr "시트와 워크북의 이름 편집"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3549
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3553
 msgid "Edit the Gnumeric Preferences"
 msgstr "Gnumeric의 기본 설정을 고칩니다"
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3441
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3445
 msgid "Edit the selected cell's comment"
 msgstr "선택된 셀의 주석 편집"
 
@@ -11261,27 +11257,27 @@ msgstr "선택된 셀의 주석 편집"
 msgid "Ellipse"
 msgstr "타원"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3459
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3463
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3478
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3482
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3575
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3579
 msgid "Exponential smoothing"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3623
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3627
 msgid "F_orecasting"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3784
+#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3788
 msgid "F_ormat"
 msgstr "형식(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3739
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3743
 msgid "Filter data with given criteria"
 msgstr ""
 
@@ -11300,17 +11296,17 @@ msgstr "글꼴을 고릅니다"
 msgid "Font size"
 msgstr "글꼴의 크기를 고릅니다"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/dialogs/dialog-cell-format.c:2925
+#: src/GNOME_Gnumeric.xml.h:94 src/dialogs/dialog-cell-format.c:2923
 #: src/workbook-format-toolbar.c:843 src/workbook-format-toolbar.c:879
 msgid "Foreground"
 msgstr "글자색"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3553
+#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3557
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:96 src/dialogs/fourier-analysis.glade.h:3
-#: src/workbook-control-gui.c:3626
+#: src/workbook-control-gui.c:3630
 msgid "Fourier Analysis"
 msgstr "푸리에 분석"
 
@@ -11320,71 +11316,72 @@ msgid "Frame"
 msgstr "프레임"
 
 #: src/GNOME_Gnumeric.xml.h:98 src/workbook-control-gui.c:1343
-#: src/workbook-control-gui.c:3375
+#: src/workbook-control-gui.c:3379
 msgid "Freeze the top left of the sheet"
 msgstr "시트의 왼쪽 윗부분 고정"
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:3847
+#: src/GNOME_Gnumeric.xml.h:99 src/dialogs/function-select.glade.h:3
+#: src/workbook-control-gui.c:3851
 msgid "Function"
 msgstr "함수"
 
-#: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:3273
+#: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:3277
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3768
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3772
 #, fuzzy
 msgid "Get _External Data"
 msgstr "외부 연결"
 
 #: src/GNOME_Gnumeric.xml.h:102 src/dialogs/graph-guru.glade.h:2
-#: src/workbook-control-gui.c:3860
+#: src/workbook-control-gui.c:3864
 msgid "Graph Guru"
 msgstr "그래프 전문가"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3474
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3478
 msgid "H_eight..."
 msgstr "높이(_E)..."
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3520
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3524
 msgid "Hide _Column Headers"
 msgstr "칸의 머릿글을 숨기기(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3514
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3518
 msgid "Hide _Gridlines"
 msgstr "격자선 숨기기(_G)"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3526
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3530
 msgid "Hide _Row Headers"
 msgstr "줄의 머릿글을 숨기기(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3508
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3512
 msgid "Hide _Zeros"
 msgstr "0 을 숨기기(_Z)"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3462
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3466
 msgid "Hide the selected columns"
 msgstr "선택된 칸을 숨기기"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3481
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3485
 msgid "Hide the selected rows"
 msgstr "선택된 줄을 숨기기"
 
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3444
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3448
 msgid "Hyper_link..."
 msgstr "하이퍼링크(_l)"
 
-#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3839
+#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3843
 #, fuzzy
 msgid "Hyperlink"
 msgstr "하이퍼링크(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3725
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3729
 #, fuzzy
 msgid "Import _Text File..."
 msgstr "파일을 가져옵니다"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3726
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3730
 #, fuzzy
 msgid "Import the text from a file"
 msgstr "파일을 가져옵니다"
@@ -11410,22 +11407,22 @@ msgstr ""
 msgid "Insert Shaped Component"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:3445
-#: src/workbook-control-gui.c:3840
+#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:3449
+#: src/workbook-control-gui.c:3844
 #, fuzzy
 msgid "Insert a Hyperlink"
 msgstr "그림을 넣습니다"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3435
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3439
 msgid "Insert a function into the selected cell"
 msgstr "선택된 셀에 함수 넣기"
 
 #: src/GNOME_Gnumeric.xml.h:121 src/workbook-control-gui.c:611
-#: src/workbook-control-gui.c:3285
+#: src/workbook-control-gui.c:3289
 msgid "Insert a new sheet"
 msgstr "새 시트를 넣습니다"
 
-#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:3421
+#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:3425
 msgid "Insert a new spreadsheet"
 msgstr "새 스프레드시트를 넣습니다"
 
@@ -11433,7 +11430,7 @@ msgstr "새 스프레드시트를 넣습니다"
 msgid "Insert a shaped component into the spreadsheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3431
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3435
 msgid "Insert an image"
 msgstr "그림을 넣습니다"
 
@@ -11441,23 +11438,23 @@ msgstr "그림을 넣습니다"
 msgid "Insert an object into the spreadsheet"
 msgstr "스프레드시트에 객체를 넣습니다"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3412
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3416
 msgid "Insert new cells"
 msgstr "새 셀 넣기"
 
-#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3415
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3419
 msgid "Insert new columns"
 msgstr "새로운 칸 넣기"
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3418
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3422
 msgid "Insert new rows"
 msgstr "새로운 줄 넣기"
 
-#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3385
+#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3389
 msgid "Insert the current date into the selected cell(s)"
 msgstr "선택된 셀에 현재 날짜 삽입"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3391
+#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3395
 msgid "Insert the current time into the selected cell(s)"
 msgstr "선택된 셀에 현재 시간 삽입"
 
@@ -11469,7 +11466,7 @@ msgstr "보노보 객체 삽입"
 msgid "Inserts a Shaped Bonobo object"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3297
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3301
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
@@ -11478,15 +11475,15 @@ msgstr ""
 msgid "Italic"
 msgstr "기울임"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:3667
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:3671
 msgid "Iteratively recalculate to find a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3671
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3675
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3346
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3350
 msgid "Jump to a specified cell"
 msgstr "주어진 셀로 가기"
 
@@ -11496,8 +11493,8 @@ msgstr "주어진 셀로 가기"
 msgid "Label"
 msgstr "꼬리표"
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3427
-#: src/workbook-control-gui.c:3861
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3431
+#: src/workbook-control-gui.c:3865
 msgid "Launch the Graph Guru"
 msgstr "그래프 전문가 시작"
 
@@ -11519,28 +11516,28 @@ msgstr "선"
 msgid "List"
 msgstr "목록"
 
-#: src/GNOME_Gnumeric.xml.h:144 src/workbook-control-gui.c:3281
+#: src/GNOME_Gnumeric.xml.h:144 src/workbook-control-gui.c:3285
 msgid "Make a copy of the current sheet"
 msgstr "현재 시트를 빼낍니다"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:3270
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:3274
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3465
+#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3469
 msgid "Make any hidden columns in the selection visible"
 msgstr "선택된 곳의 감춰진 칸을 모두 보이기"
 
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3484
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3488
 msgid "Make any hidden rows in the selection visible"
 msgstr "선택된 곳의 감춰진 줄을 모두 보이기"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3652
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3656
 msgid "Manage available plugin modules"
 msgstr "쓸 수 있는 플러그인 모듈을 관리합니다"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3293
-#: src/workbook-control-gui.c:3497
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3297
+#: src/workbook-control-gui.c:3501
 msgid "Manage the sheets in this workbook"
 msgstr "이 워크북의 시트를 관리합니다"
 
@@ -11554,20 +11551,20 @@ msgid "Merge a range of cells"
 msgstr "범위의 셀을 합칩니다"
 
 #: src/GNOME_Gnumeric.xml.h:152 src/dialogs/merge.glade.h:2
-#: src/workbook-control-gui.c:3266
+#: src/workbook-control-gui.c:3270
 msgid "Merge..."
 msgstr "합치기..."
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3267
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3271
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3538
+#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3542
 msgid "Modify the formatting of the selected cells"
 msgstr "선택된 셀의 형식 수정"
 
-#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3546
+#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3550
 msgid "Modify the workbook attributes"
 msgstr "워크북 속성 수정"
 
@@ -11575,27 +11572,27 @@ msgstr "워크북 속성 수정"
 msgid "Money"
 msgstr "돈"
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3579
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3583
 msgid "Moving average"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3793
+#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3797
 msgid "New"
 msgstr "새 시트"
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3362
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3366
 msgid "New _Shared"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:3365
+#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:3369
 msgid "New _Unshared"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3563
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3567
 msgid "One Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3796
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3800
 msgid "Open"
 msgstr "열기"
 
@@ -11603,15 +11600,15 @@ msgstr "열기"
 msgid "Open a spreadsheet"
 msgstr "스프레드시트를 엽니다"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3796
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3800
 msgid "Open an existing workbook"
 msgstr "다른 워크북을 엽니다"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3710
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3714
 msgid "Outlines _Below"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3716
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3720
 msgid "Outlines _Right"
 msgstr ""
 
@@ -11620,17 +11617,17 @@ msgid "P_aste Special..."
 msgstr "특별히 붙이기(_A)..."
 
 #: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
-#: src/workbook-control-gui.c:3187
+#: src/workbook-control-gui.c:3191
 msgid "Page Set_up..."
 msgstr "쪽 설정(_U)..."
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3758
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3762
 #, fuzzy
 msgid "Parse the text in the selection into data"
 msgstr "셀의 내용을 가운데로 정렬합니다"
 
 #: src/GNOME_Gnumeric.xml.h:170 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3820
+#: src/workbook-control-gui.c:3824
 msgid "Paste"
 msgstr "붙이기"
 
@@ -11638,16 +11635,16 @@ msgstr "붙이기"
 msgid "Paste the clipboard"
 msgstr "클립보드에서 붙여 넣습니다"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3820
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3824
 #, fuzzy
 msgid "Paste the contents of the clipboard"
 msgstr "클립보드의 내용이나 잘라낸 내용을 붙여넣습니다"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3315
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3319
 msgid "Paste with optional filters and transformations"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3614
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3618
 msgid "Pearson Correlation"
 msgstr "Pearson Correlation"
 
@@ -11655,30 +11652,30 @@ msgstr "Pearson Correlation"
 msgid "Percent"
 msgstr "퍼센트"
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3638
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3642
 msgid "Periodic and random samples"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3204
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3208
 msgid "Preferen_ces..."
 msgstr "기본 설정(_C)..."
 
 #: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:13
-#: src/workbook-control-gui.c:3805
+#: src/workbook-control-gui.c:3809
 msgid "Print"
 msgstr "인쇄"
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3190
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3194
 msgid "Print Pre_view..."
 msgstr "인쇄 미리보기(_V)..."
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3808
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3812
 msgid "Print Preview"
 msgstr "인쇄 미리보기"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
 #: src/dialogs/print.glade.h:15 src/print.c:1212
-#: src/workbook-control-gui.c:3191 src/workbook-control-gui.c:3808
+#: src/workbook-control-gui.c:3195 src/workbook-control-gui.c:3812
 msgid "Print preview"
 msgstr "인쇄 미리보기"
 
@@ -11686,12 +11683,12 @@ msgstr "인쇄 미리보기"
 msgid "Print the current file"
 msgstr "현재 파일을 인쇄합니다"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3805
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3809
 msgid "Print the workbook"
 msgstr "워크북을 인쇄합니다"
 
 #: src/GNOME_Gnumeric.xml.h:184 src/GNOME_Gnumeric_Component.xml.h:8
-#: src/workbook-control-gui.c:3200
+#: src/workbook-control-gui.c:3204
 #, fuzzy
 msgid "Proper_ties..."
 msgstr "등록 정보(_R)..."
@@ -11709,20 +11706,20 @@ msgstr "라디오 버튼"
 msgid "Ranks and _Percentiles"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3632
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3636
 msgid "Ranks, placements and percentiles"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3288
-#: src/workbook-control-gui.c:3493
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3292
+#: src/workbook-control-gui.c:3497
 msgid "Re_name..."
 msgstr "이름 바꿈(_N)..."
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3351
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3355
 msgid "Recalculate"
 msgstr "다시 계산"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3352
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3356
 msgid "Recalculate the spreadsheet"
 msgstr "스프레드시트를 재계산"
 
@@ -11730,15 +11727,15 @@ msgstr "스프레드시트를 재계산"
 msgid "Rectangle"
 msgstr "직사각형"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4073
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4077
 msgid "Redo the undone action"
 msgstr "취소한 것을 다시 합니다"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3635
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3639
 msgid "Regression Analysis"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3698
+#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3702
 msgid "Remove an outline group"
 msgstr ""
 
@@ -11746,8 +11743,8 @@ msgstr ""
 msgid "Remove selected cells, shifting others into their place"
 msgstr "셀을 지우고, 아래의 내용을 밀어넣습니다"
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3289
-#: src/workbook-control-gui.c:3494
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3293
+#: src/workbook-control-gui.c:3498
 msgid "Rename the current sheet"
 msgstr "현재 시트의 이름을 바꿉니다"
 
@@ -11760,15 +11757,15 @@ msgstr "오른쪽 정렬"
 msgid "Right align"
 msgstr "오른쪽 정렬"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3327
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3331
 msgid "S_heet"
 msgstr "시트(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3449
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3453
 msgid "S_pecial"
 msgstr "특별한 기능(_P)"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3799
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3803
 msgid "Save"
 msgstr "저장"
 
@@ -11784,7 +11781,7 @@ msgstr "현재 파일을 저장합니다"
 msgid "Save the current file with a different name"
 msgstr "현재 파일을 다른 이름으로 저장합니다"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3799
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3803
 msgid "Save the current workbook"
 msgstr "현재 워크북을 저장합니다"
 
@@ -11792,60 +11789,60 @@ msgstr "현재 워크북을 저장합니다"
 msgid "Scrollbar"
 msgstr "스크롤 막대"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3339
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3343
 msgid "Search and Replace..."
 msgstr "찾아서 고치기..."
 
 #: src/GNOME_Gnumeric.xml.h:209 src/GNOME_Gnumeric_Component.xml.h:10
-#: src/workbook-control-gui.c:3334
+#: src/workbook-control-gui.c:3338
 msgid "Search for some text"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3340
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3344
 msgid "Search for some text and replace it with something else"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3333
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3337
 msgid "Search..."
 msgstr "찾기..."
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3250
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3254
 msgid "Select Arra_y"
 msgstr "배열 선택(_y)"
 
-#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3235
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3239
 msgid "Select _All"
 msgstr "모두 선택(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3240
+#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3244
 msgid "Select _Column"
 msgstr "칸 선택(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3255
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3259
 msgid "Select _Depends"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3245
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3249
 msgid "Select _Row"
 msgstr "줄 선택(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3236
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3240
 msgid "Select all cells in the spreadsheet"
 msgstr "스프레드시트의 모든 셀을 선택"
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3256
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3260
 msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3251
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3255
 msgid "Select an array of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3241
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3245
 msgid "Select an entire column"
 msgstr "전체 칸 선택"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3246
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3250
 msgid "Select an entire row"
 msgstr "전체 행 선택"
 
@@ -11864,36 +11861,36 @@ msgid "Set the format of the selected cells to percentage"
 msgstr "선택된 셀의 형식 수정"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/GNOME_Gnumeric_Component.xml.h:11
-#: src/workbook-control-gui.c:3188
+#: src/workbook-control-gui.c:3192
 msgid "Setup the page settings for your current printer"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3736
+#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3740
 msgid "Show all filtered and hidden rows"
 msgstr "걸러지거나 가려진 줄 모두 보이기"
 
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3851
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3855
 #: schemas/gnumeric-general.schemas.in.h:28
 msgid "Sort Ascending"
 msgstr "오름차순으로 정렬"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3854
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3858
 msgid "Sort Descending"
 msgstr "내림차순으로 정렬"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3748
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3752
 #, fuzzy
 msgid "Sort the selected region"
 msgstr "선택된 셀 정렬"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3852
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3856
 #, fuzzy
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr "처음 선택한 열을 기준으로 선택한 구역을 오름차순으로 정렬합니다"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3855
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3859
 #, fuzzy
 msgid ""
 "Sort the selected region in descending order based on the first column "
@@ -11908,21 +11905,21 @@ msgstr "나누기"
 msgid "Split merged ranges of cells"
 msgstr "셀의 합쳐진 곳을 나누기"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3681
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3685
 msgid "Statistical Anal_ysis"
 msgstr "통계 분석(_Y)"
 
 #: src/GNOME_Gnumeric.xml.h:235 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3844 src/workbook-control-gui.c:4594
+#: src/workbook-control-gui.c:3848 src/workbook-control-gui.c:4598
 #: src/workbook-view.c:511
 msgid "Sum"
 msgstr "합계"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3845
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3849
 msgid "Sum into the current cell"
 msgstr "현재 셀을 모두 더합니다"
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3675
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3679
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -11933,43 +11930,43 @@ msgstr ""
 msgid "Thousands Separator"
 msgstr "천단위 구분자"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3521
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3525
 msgid "Toggle whether or not to display column headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3515
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3519
 msgid "Toggle whether or not to display gridlines"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3705
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3709
 msgid "Toggle whether or not to display outline groups"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3527
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3531
 msgid "Toggle whether or not to display row headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3509
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3513
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3717
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3721
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3711
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3715
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3566
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3570
 msgid "Two Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3641
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3645
 msgid "Two _Means"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3692
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3696
 msgid "Uncollapse an outline group"
 msgstr ""
 
@@ -11977,36 +11974,36 @@ msgstr ""
 msgid "Underline"
 msgstr "밑줄"
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:4070
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:4074
 msgid "Undo the last action"
 msgstr "마지막에 한 일을 취소합니다"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3591
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3595
 msgid "Unpaired Samples, _Equal Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3596
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3600
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3752
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3756
 msgid "Validate input with preset criteria"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3629
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3633
 msgid "Various frequency tables"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3620
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3624
 msgid "Various summary statistics"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3372
-#: src/workbook-control-gui.c:4076
+#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3376
+#: src/workbook-control-gui.c:4080
 msgid "Zoom the spreadsheet in or out"
 msgstr "스프레드시트를 키우거나 줄입니다"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3611
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3615
 msgid "_ANOVA"
 msgstr ""
 
@@ -12016,29 +12013,29 @@ msgid "_About"
 msgstr "정보(_A)..."
 
 #: src/GNOME_Gnumeric.xml.h:259 src/sheet-control-gui.c:1477
-#: src/workbook-control-gui.c:3440
+#: src/workbook-control-gui.c:3444
 msgid "_Add / Modify comment..."
 msgstr "설명 더함/고침(_A)..."
 
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3217
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3221
 msgid "_All"
 msgstr "모두(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3660
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3664
 msgid "_Auto Save..."
 msgstr "자동 저장(_A)..."
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3458
-#: src/workbook-control-gui.c:3477
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3462
+#: src/workbook-control-gui.c:3481
 msgid "_Auto fit selection"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3552
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3556
 msgid "_Autoformat..."
 msgstr ""
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3537
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3541
 msgid "_Cells..."
 msgstr "셀(_C)..."
 
@@ -12053,15 +12050,15 @@ msgstr "닫기(_C)"
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:24
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:13
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:16
-#: src/workbook-control-gui.c:3414
+#: src/workbook-control-gui.c:3418
 msgid "_Columns"
 msgstr "칸(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3760
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3764
 msgid "_Consolidate..."
 msgstr "정리(_C)..."
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3226
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3230
 msgid "_Contents"
 msgstr "차례(_C)"
 
@@ -12070,30 +12067,30 @@ msgstr "차례(_C)"
 msgid "_Copy"
 msgstr "복사(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3613
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3617
 msgid "_Correlation"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:271 src/dialogs/pivottable.glade.h:8
-#: src/workbook-control-gui.c:3786
+#: src/workbook-control-gui.c:3790
 msgid "_Data"
 msgstr "데이터(_D)"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3398
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3402
 msgid "_Define..."
 msgstr "정하기(_D)..."
 
 #: src/GNOME_Gnumeric.xml.h:273 src/sheet-control-gui.c:1464
-#: src/workbook-control-gui.c:3322
+#: src/workbook-control-gui.c:3326
 msgid "_Delete..."
 msgstr "지움(_D)..."
 
-#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3619
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3623
 msgid "_Descriptive Statistics"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:275 src/dialogs/sheet-order.glade.h:2
-#: src/workbook-control-gui.c:3280
+#: src/workbook-control-gui.c:3284
 msgid "_Duplicate"
 msgstr "빼끼기(_D)"
 
@@ -12101,7 +12098,7 @@ msgstr "빼끼기(_D)"
 msgid "_Edit"
 msgstr "고치기(_E)"
 
-#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3574
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3578
 msgid "_Exponential Smoothing"
 msgstr ""
 
@@ -12110,52 +12107,52 @@ msgid "_File"
 msgstr "파일(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:279 src/dialogs/cell-format.glade.h:107
-#: src/workbook-control-gui.c:3331
+#: src/workbook-control-gui.c:3335
 msgid "_Fill"
 msgstr "채움(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3750
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3754
 msgid "_Filter"
 msgstr "거르개(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3220
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3224
 msgid "_Formats"
 msgstr "형식(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3625
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3629
 msgid "_Fourier Analysis"
 msgstr "푸리에 분석(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:1340
-#: src/workbook-control-gui.c:3374
+#: src/workbook-control-gui.c:3378
 msgid "_Freeze Panes"
 msgstr "틀 고정(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3434
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3438
 msgid "_Function..."
 msgstr "함수(_F)..."
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:3548
+#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:3552
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3666
+#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3670
 msgid "_Goal Seek..."
 msgstr "목표 찾기(_G)..."
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3345
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3349
 msgid "_Goto cell..."
 msgstr "셀 찾아가기(_G)..."
 
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3426
+#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3430
 msgid "_Graph..."
 msgstr "그래프(_G)..."
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3764
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3768
 msgid "_Group and Outline"
 msgstr "묶기와 테두리(_G)"
 
-#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3694
+#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3698
 msgid "_Group..."
 msgstr "묶음(_G)..."
 
@@ -12164,46 +12161,46 @@ msgid "_Help"
 msgstr "도움말(_H)"
 
 #: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1489
-#: src/sheet-control-gui.c:1497 src/workbook-control-gui.c:3461
-#: src/workbook-control-gui.c:3480
+#: src/sheet-control-gui.c:1497 src/workbook-control-gui.c:3465
+#: src/workbook-control-gui.c:3484
 msgid "_Hide"
 msgstr "숨기기(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3688
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3692
 msgid "_Hide Detail"
 msgstr "자세한 설명 숨기기(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3628
+#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3632
 msgid "_Histogram"
 msgstr "히스토그램(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3430
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3434
 msgid "_Image..."
 msgstr "그림(_I)..."
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3284
-#: src/workbook-control-gui.c:3783
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3288
+#: src/workbook-control-gui.c:3787
 msgid "_Insert"
 msgstr "넣기(_I)"
 
-#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3601
+#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3605
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3292
-#: src/workbook-control-gui.c:3496
+#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3296
+#: src/workbook-control-gui.c:3500
 msgid "_Manage Sheets..."
 msgstr "시트 관리(_M)..."
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3578
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3582
 msgid "_Moving Average"
 msgstr "평균값 이동(_M)"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3438
+#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3442
 msgid "_Name"
 msgstr "이름(_N)"
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3178
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3182
 msgid "_New"
 msgstr "새 시트(_N)"
 
@@ -12211,7 +12208,7 @@ msgstr "새 시트(_N)"
 msgid "_Object..."
 msgstr "객체(_O)..."
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3562
+#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3566
 msgid "_One Factor"
 msgstr ""
 
@@ -12219,7 +12216,7 @@ msgstr ""
 msgid "_Open..."
 msgstr "열기(_O)..."
 
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3587
+#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3591
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
@@ -12227,12 +12224,12 @@ msgstr ""
 msgid "_Paste"
 msgstr "붙이기(_P)"
 
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3765
+#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3769
 #, fuzzy
 msgid "_PivotTable..."
 msgstr "인쇄(_P)..."
 
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3651
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3655
 msgid "_Plug-ins..."
 msgstr "플러그인(_P)..."
 
@@ -12245,7 +12242,7 @@ msgstr "인쇄(_P)..."
 msgid "_Quit"
 msgstr "넣기(_P):"
 
-#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3272
+#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3276
 msgid "_Random Generator..."
 msgstr "무작위 숫자 생성(_R)..."
 
@@ -12253,22 +12250,22 @@ msgstr "무작위 숫자 생성(_R)..."
 msgid "_Redo"
 msgstr "다시 실행(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3634
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3638
 msgid "_Regression"
 msgstr "복구(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:314 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/pivottable.glade.h:12
-#: src/workbook-control-gui.c:3296
+#: src/workbook-control-gui.c:3300
 msgid "_Remove"
 msgstr "지우기(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3674
+#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3678
 msgid "_Risk Simulation..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:316 src/dialogs/pivottable.glade.h:13
-#: src/workbook-control-gui.c:3542
+#: src/workbook-control-gui.c:3546
 msgid "_Row"
 msgstr "줄(_R)"
 
@@ -12279,11 +12276,11 @@ msgstr "줄(_R)"
 #: src/dialogs/fourier-analysis.glade.h:16
 #: src/dialogs/moving-averages.glade.h:17 src/dialogs/rank.glade.h:18
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:23
-#: src/workbook-control-gui.c:3417
+#: src/workbook-control-gui.c:3421
 msgid "_Rows"
 msgstr "줄(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3637
+#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3641
 msgid "_Sampling"
 msgstr "샘플링(_S)"
 
@@ -12291,7 +12288,7 @@ msgstr "샘플링(_S)"
 msgid "_Save"
 msgstr "저장(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3329
+#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3333
 msgid "_Select"
 msgstr "선택(_S)"
 
@@ -12299,40 +12296,40 @@ msgstr "선택(_S)"
 msgid "_Shaped Object"
 msgstr "도형(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3420
-#: src/workbook-control-gui.c:3543
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3424
+#: src/workbook-control-gui.c:3547
 msgid "_Sheet"
 msgstr "시트(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3735
+#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3739
 msgid "_Show All"
 msgstr "모두 보기(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3691
+#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3695
 msgid "_Show Detail"
 msgstr "자세히 보기(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3670
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3674
 msgid "_Solver..."
 msgstr "해결사(_S)..."
 
-#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3747
+#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3751
 msgid "_Sort..."
 msgstr "정렬(_S)..."
 
-#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3486
+#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3490
 msgid "_Standard Height"
 msgstr "표준 높이(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3467
+#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3471
 msgid "_Standard Width"
 msgstr "표준 넓이(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3269
+#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3273
 msgid "_Tabulate Dependency..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3757
+#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3761
 #, fuzzy
 msgid "_Text to Columns..."
 msgstr "열 %s 삭제"
@@ -12341,15 +12338,15 @@ msgstr "열 %s 삭제"
 msgid "_Toolbars..."
 msgstr "도구 막대(_T)..."
 
-#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3785
+#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3789
 msgid "_Tools"
 msgstr "도구(_T)"
 
-#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3565
+#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3569
 msgid "_Two Factor"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3643
+#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3647
 msgid "_Two Variances: FTest"
 msgstr ""
 
@@ -12357,17 +12354,17 @@ msgstr ""
 msgid "_Undo"
 msgstr "되돌리기(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3697
+#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3701
 msgid "_Ungroup..."
 msgstr "묶음 취소(_U)..."
 
 #: src/GNOME_Gnumeric.xml.h:337 src/sheet-control-gui.c:1491
-#: src/sheet-control-gui.c:1499 src/workbook-control-gui.c:3464
-#: src/workbook-control-gui.c:3483
+#: src/sheet-control-gui.c:1499 src/workbook-control-gui.c:3468
+#: src/workbook-control-gui.c:3487
 msgid "_Unhide"
 msgstr "보이기(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3751
+#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3755
 msgid "_Validate..."
 msgstr ""
 
@@ -12375,15 +12372,15 @@ msgstr ""
 msgid "_View"
 msgstr "보기(_V)"
 
-#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3455
+#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3459
 msgid "_Width..."
 msgstr "너비(_W)..."
 
-#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3545
+#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3549
 msgid "_Workbook..."
 msgstr "워크북(_W)..."
 
-#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3371
+#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3375
 msgid "_Zoom..."
 msgstr "확대(_Z)..."
 
@@ -12425,16 +12422,16 @@ msgstr "셀 복사(_C)"
 msgid "_Paste Cells"
 msgstr "셀 붙이기(_P)"
 
-#: src/clipboard.c:304 src/clipboard.c:316 src/clipboard.c:327
-#: src/clipboard.c:335
+#: src/clipboard.c:300 src/clipboard.c:312 src/clipboard.c:323
+#: src/clipboard.c:331
 msgid "Unable to paste"
 msgstr "붙일 수 없습니다"
 
-#: src/clipboard.c:305
+#: src/clipboard.c:301
 msgid "Content can only be pasted by value or by link."
 msgstr ""
 
-#: src/clipboard.c:313
+#: src/clipboard.c:309
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -12442,7 +12439,7 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/clipboard.c:324
+#: src/clipboard.c:320
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -12450,7 +12447,7 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/clipboard.c:336
+#: src/clipboard.c:332
 msgid "result passes the sheet boundary"
 msgstr ""
 
@@ -12793,143 +12790,143 @@ msgid "Merging %s"
 msgstr "셀 이동"
 
 #. Corrected below.
-#: src/commands.c:3755 src/dialogs/search-replace.glade.h:20
+#: src/commands.c:3756 src/dialogs/search-replace.glade.h:20
 msgid "Search and Replace"
 msgstr "찾아서 바꾸기"
 
-#: src/commands.c:3853
+#: src/commands.c:3854
 #, fuzzy, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "열의 너비 설정"
 
-#: src/commands.c:3854
+#: src/commands.c:3855
 #, fuzzy, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "행의 높이 설정"
 
 #. Changed in initial redo.
-#: src/commands.c:3940
+#: src/commands.c:3941
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr ""
 
-#: src/commands.c:4059
+#: src/commands.c:4060
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr ""
 
-#: src/commands.c:4130
+#: src/commands.c:4131
 #, fuzzy
 msgid "Insert object"
 msgstr "객체 삽입"
 
-#: src/commands.c:4190
+#: src/commands.c:4191
 #, fuzzy
 msgid "Delete object"
 msgstr "시트 삭제(_l)"
 
-#: src/commands.c:4272
+#: src/commands.c:4273
 #, fuzzy
 msgid "Resize object"
 msgstr "선 그림"
 
-#: src/commands.c:4272
+#: src/commands.c:4273
 msgid "Move object"
 msgstr "객채 이동"
 
-#: src/commands.c:4516
+#: src/commands.c:4517
 #, fuzzy
 msgid "Renaming Sheets"
 msgstr "시트 이름바꾸기"
 
-#: src/commands.c:4519
+#: src/commands.c:4520
 #, fuzzy
 msgid "Reordering Sheets"
 msgstr "시트 순서바꾸기"
 
-#: src/commands.c:4524
+#: src/commands.c:4525
 msgid "Adding a sheet"
 msgstr "시트 더하기"
 
-#: src/commands.c:4527
+#: src/commands.c:4528
 #, c-format
 msgid "Adding sheet '%s'"
 msgstr "시트 '%s'을(를) 더함"
 
-#: src/commands.c:4531
+#: src/commands.c:4532
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "시트이름 '%s'을(를) '%s'(으)로 바꿈"
 
-#: src/commands.c:4536
+#: src/commands.c:4537
 #, fuzzy
 msgid "Changing Tab Colors"
 msgstr "%s 파일을 생성할 수 없습니다\n"
 
-#: src/commands.c:4539
+#: src/commands.c:4540
 msgid "Changing Sheet Protection"
 msgstr "시트 보호막 변경"
 
-#: src/commands.c:4542
+#: src/commands.c:4543
 #, fuzzy
 msgid "Reorganizing Sheets"
 msgstr "시트 인쇄"
 
-#: src/commands.c:4671
+#: src/commands.c:4672
 #, fuzzy, c-format
 msgid "Clearing comment of %s"
 msgstr "%s 파일을 생성할 수 없습니다\n"
 
-#: src/commands.c:4672
+#: src/commands.c:4673
 #, fuzzy, c-format
 msgid "Setting comment of %s"
 msgstr "열 %s 삭제"
 
-#: src/commands.c:5035
+#: src/commands.c:5036
 #, fuzzy, c-format
 msgid "Merging data into %s"
 msgstr "셀 이동"
 
-#: src/commands.c:5137
+#: src/commands.c:5138
 #, fuzzy
 msgid "Changing summary info"
 msgstr "%s 파일을 생성할 수 없습니다\n"
 
-#: src/commands.c:5229
+#: src/commands.c:5230
 #, fuzzy
 msgid "Raise object"
 msgstr "선 그림"
 
-#: src/commands.c:5232
+#: src/commands.c:5233
 #, fuzzy
 msgid "Lower object"
 msgstr "객체 삽입"
 
-#: src/commands.c:5235
+#: src/commands.c:5236
 #, fuzzy
 msgid "Raise object to top"
 msgstr "선 그림"
 
-#: src/commands.c:5238
+#: src/commands.c:5239
 msgid "Lower object to bottom"
 msgstr ""
 
-#: src/commands.c:5354
+#: src/commands.c:5355
 #, fuzzy, c-format
 msgid "Page Setup For %s"
 msgstr "인쇄 설정"
 
-#: src/commands.c:5356
+#: src/commands.c:5357
 #, fuzzy
 msgid "Page Setup For All Sheets"
 msgstr "시트 인쇄"
 
-#: src/commands.c:5484 src/commands.c:5566
+#: src/commands.c:5485 src/commands.c:5567
 #, fuzzy, c-format
 msgid "Define Name %s"
 msgstr "이름 정하기"
 
-#: src/commands.c:5487 src/commands.c:5569
+#: src/commands.c:5488 src/commands.c:5570
 #, c-format
 msgid "Update Name %s"
 msgstr ""
@@ -13835,7 +13832,7 @@ msgstr "아무 값                      (확인 안함)"
 msgid "Background Color:"
 msgstr "바탕색:"
 
-#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2920
+#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2918
 msgid "Border"
 msgstr "가장자리"
 
@@ -13864,7 +13861,7 @@ msgstr "색:"
 msgid "Control"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:25 src/dialogs/dialog-cell-format.c:2436
+#: src/dialogs/cell-format.glade.h:25 src/dialogs/dialog-cell-format.c:2433
 msgid "Criteria"
 msgstr "기준"
 
@@ -13919,7 +13916,7 @@ msgstr "오류 알림"
 msgid "Foreground Solid"
 msgstr "배경 색"
 
-#: src/dialogs/cell-format.glade.h:39 src/dialogs/dialog-cell-format.c:2861
+#: src/dialogs/cell-format.glade.h:39 src/dialogs/dialog-cell-format.c:2859
 msgid "Format Cells"
 msgstr "셀 형식"
 
@@ -14017,7 +14014,7 @@ msgstr "숫자"
 msgid "Outline"
 msgstr "외곽선"
 
-#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:2935
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:2933
 msgid "Pattern"
 msgstr "무늬"
 
@@ -14041,8 +14038,8 @@ msgstr "오른쪽"
 msgid "S_ymbol:"
 msgstr "기호(_Y):"
 
-#: src/dialogs/cell-format.glade.h:69 src/tools/analysis-tools.c:1307
-#: src/tools/analysis-tools.c:1310
+#: src/dialogs/cell-format.glade.h:69 src/tools/analysis-tools.c:1308
+#: src/tools/analysis-tools.c:1311
 msgid "Sample"
 msgstr "샘플"
 
@@ -14309,7 +14306,7 @@ msgstr "옵션"
 msgid "Selection has"
 msgstr "행 선택(_R)"
 
-#: src/dialogs/cell-sort.glade.h:4 src/workbook-control-gui.c:3054
+#: src/dialogs/cell-sort.glade.h:4 src/workbook-control-gui.c:3058
 msgid "Sort"
 msgstr "정렬"
 
@@ -14363,7 +14360,7 @@ msgid "Add the entered area to the list of source areas"
 msgstr "열의 너비 설정"
 
 #: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:204
-#: src/workbook-control-gui.c:4597
+#: src/workbook-control-gui.c:4601
 msgid "Average"
 msgstr "평균"
 
@@ -14377,7 +14374,7 @@ msgid "Clear the list of source areas"
 msgstr "열의 너비 설정"
 
 #: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:264
-#: src/workbook-control-gui.c:4598
+#: src/workbook-control-gui.c:4602
 msgid "Count"
 msgstr "개수"
 
@@ -14411,12 +14408,12 @@ msgid "Labels"
 msgstr "꼬리표"
 
 #: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:256 src/workbook-control-gui.c:4596
+#: src/tools/simulation.c:256 src/workbook-control-gui.c:4600
 msgid "Max"
 msgstr "최대값"
 
 #: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:254 src/workbook-control-gui.c:4595
+#: src/tools/simulation.c:254 src/workbook-control-gui.c:4599
 msgid "Min"
 msgstr "최소값"
 
@@ -14486,8 +14483,8 @@ msgstr "분수(_F)"
 msgid "_Put:"
 msgstr "넣기(_P):"
 
-#: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:781
-#: src/tools/analysis-tools.c:784
+#: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:782
+#: src/tools/analysis-tools.c:785
 msgid "Correlation"
 msgstr "상호관계"
 
@@ -14529,8 +14526,8 @@ msgstr ".95"
 msgid "Confidence Interval for the _Mean"
 msgstr "평균의 신용 수준"
 
-#: src/dialogs/descriptive-stats.glade.h:7 src/tools/analysis-tools.c:1185
-#: src/tools/analysis-tools.c:1188
+#: src/dialogs/descriptive-stats.glade.h:7 src/tools/analysis-tools.c:1186
+#: src/tools/analysis-tools.c:1189
 #, fuzzy
 msgid "Descriptive Statistics"
 msgstr "회귀 통계"
@@ -14855,8 +14852,8 @@ msgstr "인자 값을 구할 수 없습니다"
 msgid "Could not create the Sampling Tool dialog."
 msgstr "인자 값을 구할 수 없습니다"
 
-#: src/dialogs/dialog-analysis-tools.c:1986 src/tools/analysis-tools.c:2155
-#: src/tools/analysis-tools.c:2232
+#: src/dialogs/dialog-analysis-tools.c:1986 src/tools/analysis-tools.c:2156
+#: src/tools/analysis-tools.c:2231
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
@@ -14959,8 +14956,8 @@ msgid "Mrt"
 msgstr ""
 
 #: src/dialogs/dialog-autoformat.c:68 src/dialogs/dialog-autoformat.c:72
-#: src/tools/analysis-tools.c:3360 src/tools/analysis-tools.c:3370
-#: src/tools/analysis-tools.c:3378
+#: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
+#: src/tools/analysis-tools.c:3370
 msgid "Total"
 msgstr "총"
 
@@ -15047,8 +15044,8 @@ msgstr ""
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:672 src/format.c:1678 src/format.c:1770
-#: src/format.c:1779 src/format.c:1848 src/plugin-service.c:233
+#: src/dialogs/dialog-autoformat.c:672 src/format.c:1683 src/format.c:1775
+#: src/format.c:1784 src/format.c:1853 src/plugin-service.c:233
 msgid "General"
 msgstr "보통"
 
@@ -15100,28 +15097,28 @@ msgstr ""
 msgid "Double"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2435
+#: src/dialogs/dialog-cell-format.c:2432
 #, fuzzy
 msgid "Source"
 msgstr "정렬"
 
-#: src/dialogs/dialog-cell-format.c:2448 src/dialogs/dialog-cell-format.c:2455
+#: src/dialogs/dialog-cell-format.c:2445 src/dialogs/dialog-cell-format.c:2452
 msgid "Min :"
 msgstr "최소 :"
 
-#: src/dialogs/dialog-cell-format.c:2449 src/dialogs/dialog-cell-format.c:2458
+#: src/dialogs/dialog-cell-format.c:2446 src/dialogs/dialog-cell-format.c:2455
 msgid "Max :"
 msgstr "최대 :"
 
-#: src/dialogs/dialog-cell-format.c:2452
+#: src/dialogs/dialog-cell-format.c:2449
 msgid "Value :"
 msgstr "값 :"
 
-#: src/dialogs/dialog-cell-format.c:2677
+#: src/dialogs/dialog-cell-format.c:2675
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2930 src/workbook-format-toolbar.c:810
+#: src/dialogs/dialog-cell-format.c:2928 src/workbook-format-toolbar.c:810
 msgid "Clear Background"
 msgstr "배경 지우기"
 
@@ -15253,7 +15250,7 @@ msgstr "워크북"
 #.
 #. * Fill in the labels of `Target Cell' section.
 #.
-#: src/dialogs/dialog-goto-cell.c:292 src/dialogs/dialog-search.c:732
+#: src/dialogs/dialog-goto-cell.c:292 src/dialogs/dialog-search.c:722
 #: src/dialogs/tabulate.glade.h:1 src/tools/solver/reports-write.c:123
 #: src/tools/solver/reports-write.c:145 src/tools/solver/reports-write.c:172
 #: src/tools/solver/reports-write.c:279 src/tools/solver/reports-write.c:325
@@ -15303,7 +15300,7 @@ msgstr ""
 
 #: src/dialogs/dialog-graph-guru.c:1551
 #: src/dialogs/dialog-plugin-manager.c:694
-#: src/dialogs/dialog-preferences.c:507
+#: src/dialogs/dialog-preferences.c:507 src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "설명"
 
@@ -15397,7 +15394,7 @@ msgstr "평균"
 msgid "All"
 msgstr "모두"
 
-#: src/dialogs/dialog-paste-special.c:40 src/dialogs/dialog-search.c:734
+#: src/dialogs/dialog-paste-special.c:40 src/dialogs/dialog-search.c:724
 #, fuzzy
 msgid "Content"
 msgstr "내용(_C)"
@@ -15520,15 +15517,15 @@ msgid "Directory"
 msgstr "디렉토리"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:376 src/format.c:1577
-#: src/number-match.c:1112 src/value-sheet.c:33 src/value.c:298
-#: src/value.c:650
+#: src/dialogs/dialog-preferences.c:376 src/format.c:1582
+#: src/number-match.c:1068 src/value-sheet.c:33 src/value.c:402
+#: src/value.c:772
 msgid "TRUE"
 msgstr "참"
 
-#: src/dialogs/dialog-preferences.c:377 src/format.c:1577
-#: src/number-match.c:1114 src/value-sheet.c:33 src/value.c:300
-#: src/value.c:650
+#: src/dialogs/dialog-preferences.c:377 src/format.c:1582
+#: src/number-match.c:1070 src/value-sheet.c:33 src/value.c:403
+#: src/value.c:772
 msgid "FALSE"
 msgstr "거짓"
 
@@ -15822,7 +15819,7 @@ msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 
-#: src/dialogs/dialog-search-replace.c:151 src/dialogs/dialog-search.c:665
+#: src/dialogs/dialog-search-replace.c:151 src/dialogs/dialog-search.c:655
 msgid "You must select some cell types to search."
 msgstr "찾기를 하시려면 셀을 선택하여야 합니다."
 
@@ -16541,7 +16538,7 @@ msgstr "유효한 셀이름을 '대상 셀'에 입력하셔야 합니다"
 msgid "The target cell should contain an expression"
 msgstr ""
 
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3973
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3965
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -16559,7 +16556,7 @@ msgstr "확대"
 msgid "Sheets"
 msgstr "시트"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4036
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4040
 msgid "Zoom"
 msgstr "확대"
 
@@ -16596,8 +16593,8 @@ msgstr "오른쪽 섹션:"
 msgid "0.2"
 msgstr "0.2"
 
-#: src/dialogs/exp-smoothing.glade.h:4 src/tools/analysis-tools.c:2687
-#: src/tools/analysis-tools.c:2690
+#: src/dialogs/exp-smoothing.glade.h:4 src/tools/analysis-tools.c:2688
+#: src/tools/analysis-tools.c:2691
 msgid "Exponential Smoothing"
 msgstr ""
 
@@ -16633,6 +16630,11 @@ msgid "I_nverse"
 msgstr "증가"
 
 #: src/dialogs/function-select.glade.h:1
+#, fuzzy
+msgid "Category"
+msgstr "범주(_C)"
+
+#: src/dialogs/function-select.glade.h:4
 msgid "Function Selector"
 msgstr "함수 선택기"
 
@@ -16742,8 +16744,8 @@ msgstr "퍼센트(_P)"
 msgid "Chart Output"
 msgstr "차트 출력"
 
-#: src/dialogs/histogram.glade.h:8 src/tools/analysis-tools.c:4074
-#: src/tools/analysis-tools.c:4077
+#: src/dialogs/histogram.glade.h:8 src/tools/analysis-tools.c:4066
+#: src/tools/analysis-tools.c:4069
 msgid "Histogram"
 msgstr "히스토그램"
 
@@ -16947,8 +16949,8 @@ msgstr "1"
 msgid "In_terval:"
 msgstr "간격(_t):"
 
-#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2554
-#: src/tools/analysis-tools.c:2557
+#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2555
+#: src/tools/analysis-tools.c:2558
 msgid "Moving Average"
 msgstr "이동 평균"
 
@@ -17273,8 +17275,8 @@ msgstr "0.95"
 msgid "Confidence Level:"
 msgstr "신용 수준:"
 
-#: src/dialogs/regression.glade.h:9 src/tools/analysis-tools.c:2433
-#: src/tools/analysis-tools.c:2436
+#: src/dialogs/regression.glade.h:9 src/tools/analysis-tools.c:2434
+#: src/tools/analysis-tools.c:2437
 msgid "Regression"
 msgstr "회귀"
 
@@ -18112,17 +18114,17 @@ msgstr "보호"
 msgid "_Workbook Protected"
 msgstr "워크북"
 
-#: src/expr-name.c:346
+#: src/expr-name.c:354
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr ""
 
-#: src/expr-name.c:377
+#: src/expr-name.c:385
 #, fuzzy, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "시트에서 이미 정의되었습니다"
 
-#: src/expr-name.c:378
+#: src/expr-name.c:386
 #, fuzzy, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "새 워크북 생성"
@@ -18131,11 +18133,11 @@ msgstr "새 워크북 생성"
 msgid "Internal type error"
 msgstr "내부 유형 에러"
 
-#: src/expr.c:901
+#: src/expr.c:900
 msgid "Unknown operator"
 msgstr "모르는 연산자"
 
-#: src/expr.c:1111
+#: src/expr.c:1110
 msgid "Unknown evaluation error"
 msgstr "모르는 계산 에러"
 
@@ -18214,40 +18216,40 @@ msgstr ""
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr ""
 
-#: src/format.c:593
+#: src/format.c:598
 msgid "black"
 msgstr "검정색"
 
-#: src/format.c:594
+#: src/format.c:599
 msgid "blue"
 msgstr "청색"
 
-#: src/format.c:595
+#: src/format.c:600
 msgid "cyan"
 msgstr "청록색"
 
-#: src/format.c:596
+#: src/format.c:601
 msgid "green"
 msgstr "녹색"
 
-#: src/format.c:597
+#: src/format.c:602
 msgid "magenta"
 msgstr "진홍색"
 
-#: src/format.c:598
+#: src/format.c:603
 msgid "red"
 msgstr "적색"
 
-#: src/format.c:599
+#: src/format.c:604
 msgid "white"
 msgstr "흰색"
 
-#: src/format.c:600
+#: src/format.c:605
 msgid "yellow"
 msgstr "황색"
 
 #. Array of arrays ??
-#: src/format.c:1612
+#: src/format.c:1617
 msgid "ARRAY"
 msgstr "배열"
 
@@ -19095,7 +19097,7 @@ msgid "File format:"
 msgstr "파일 형식:"
 
 #. Pack it into file selector
-#: src/gui-file.c:143 src/workbook-control-gui.c:3005
+#: src/gui-file.c:143 src/workbook-control-gui.c:3009
 msgid "Load file"
 msgstr "파일 불러오기"
 
@@ -19167,19 +19169,19 @@ msgstr "곱하기"
 msgid "Unable to open file '%s'"
 msgstr "파일 '%s'를 열 수 없습니다"
 
-#: src/gutils.c:424
+#: src/gutils.c:447
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "modfgnum."
 msgstr ""
 
-#: src/gutils.c:518
+#: src/gutils.c:541
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "frexpgnum."
 msgstr ""
 
-#: src/gutils.c:571
+#: src/gutils.c:594
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
@@ -19352,38 +19354,6 @@ msgstr ""
 "datadir := %s\n"
 "libdir := %s\n"
 
-#: src/number-match.c:697
-msgid "#NULL!"
-msgstr "#NULL!"
-
-#: src/number-match.c:698
-msgid "#DIV/0!"
-msgstr "#DIV/0!"
-
-#: src/number-match.c:699
-msgid "#VALUE!"
-msgstr "#VALUE!"
-
-#: src/number-match.c:700
-msgid "#REF!"
-msgstr "#REF!"
-
-#: src/number-match.c:701
-msgid "#NAME?"
-msgstr "#NAME?"
-
-#: src/number-match.c:702
-msgid "#NUM!"
-msgstr "#NUM!"
-
-#: src/number-match.c:703
-msgid "#N/A"
-msgstr "#N/A"
-
-#: src/number-match.c:704
-msgid "#RECALC!"
-msgstr "#RECALC!"
-
 #: src/parser.y:345
 msgid "Constructed ranges use simple references"
 msgstr ""
@@ -19397,60 +19367,64 @@ msgstr ""
 msgid "Unknown sheet '%s'"
 msgstr "모르는 시스템"
 
-#: src/parser.y:553
+#: src/parser.y:556
 #, fuzzy
 msgid "() is an invalid expression"
 msgstr "회귀"
 
-#: src/parser.y:586 src/parser.y:608
+#: src/parser.y:589 src/parser.y:611
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr ""
 
-#: src/parser.y:662
+#: src/parser.y:665
 #, c-format
 msgid "Unknown workbook '%s'"
 msgstr "모르는 워크북 '%s'"
 
-#: src/parser.y:753
+#: src/parser.y:756
 msgid "This locale uses '\\' rather than ',' to separate array columns."
 msgstr ""
 
-#: src/parser.y:766
+#: src/parser.y:769
 msgid "This locale uses ',' rather than '\\' to separate array columns."
 msgstr ""
 
-#: src/parser.y:895 src/parser.y:1118
+#: src/parser.y:889 src/parser.y:1138
 msgid "Could not find matching closing quote"
 msgstr ""
 
-#: src/parser.y:1004
+#: src/parser.y:998
 #, fuzzy
 msgid "Sheet name is required"
 msgstr "시트 이름"
 
-#: src/parser.y:1057 src/parser.y:1066 src/parser.y:1091
+#: src/parser.y:1051 src/parser.y:1060 src/parser.y:1085
 msgid "The number is out of range"
 msgstr "숫자가 허용범위를 넘어갔습니다"
 
-#: src/parser.y:1284
+#: src/parser.y:1120
+msgid "Improperly formatted error token"
+msgstr ""
+
+#: src/parser.y:1283
 msgid "Multiple expressions are not supported in this context"
 msgstr ""
 
-#: src/parser.y:1307
+#: src/parser.y:1306
 msgid "Could not find matching opening parenthesis"
 msgstr ""
 
-#: src/parser.y:1311
+#: src/parser.y:1310
 msgid "Could not find matching closing parenthesis"
 msgstr ""
 
-#: src/parser.y:1315
+#: src/parser.y:1314
 #, fuzzy
 msgid "Invalid expression"
 msgstr "회귀"
 
-#: src/parser.y:1319
+#: src/parser.y:1318
 #, c-format
 msgid "Unexpected token %c"
 msgstr ""
@@ -20063,12 +20037,12 @@ msgstr "열 삽입"
 msgid "Insert Rows"
 msgstr "행 삽입"
 
-#: src/stf-parse.c:38
+#: src/stf-parse.c:43
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr ""
 
-#: src/stf-parse.c:39
+#: src/stf-parse.c:44
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr ""
@@ -20135,12 +20109,12 @@ msgstr "텍스트 파일 읽어들이기"
 msgid "Text export (configurable)"
 msgstr "텍스트 파일 읽어들이기"
 
-#: src/tools/analysis-tools.c:214 src/tools/analysis-tools.c:3301
+#: src/tools/analysis-tools.c:214 src/tools/analysis-tools.c:3296
 #, fuzzy, c-format
 msgid "Row %i"
 msgstr "가로 %d"
 
-#: src/tools/analysis-tools.c:217 src/tools/analysis-tools.c:3293
+#: src/tools/analysis-tools.c:217 src/tools/analysis-tools.c:3288
 #, fuzzy, c-format
 msgid "Column %i"
 msgstr "세로 %d"
@@ -20155,20 +20129,20 @@ msgstr "최소"
 msgid "Area %i"
 msgstr "%i 영역"
 
-#: src/tools/analysis-tools.c:709
+#: src/tools/analysis-tools.c:710
 msgid "Correlations"
 msgstr "상호관계"
 
-#: src/tools/analysis-tools.c:765
+#: src/tools/analysis-tools.c:766
 #, fuzzy, c-format
 msgid "Correlation (%s)"
 msgstr "상호관계"
 
-#: src/tools/analysis-tools.c:819
+#: src/tools/analysis-tools.c:820
 msgid "Covariances"
 msgstr "공분산"
 
-#: src/tools/analysis-tools.c:875
+#: src/tools/analysis-tools.c:876
 #, fuzzy, c-format
 msgid "Covariance (%s)"
 msgstr "공분산"
@@ -20180,144 +20154,144 @@ msgstr "공분산"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/tools/analysis-tools.c:938
+#: src/tools/analysis-tools.c:939
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1025
+#: src/tools/analysis-tools.c:1026
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1063
+#: src/tools/analysis-tools.c:1064
 #, c-format
 msgid "Largest (%d)"
 msgstr "가장 큼 (%d)"
 
-#: src/tools/analysis-tools.c:1086
+#: src/tools/analysis-tools.c:1087
 #, c-format
 msgid "Smallest (%d)"
 msgstr "가장 작음 (%d)"
 
-#: src/tools/analysis-tools.c:1170
+#: src/tools/analysis-tools.c:1171
 #, fuzzy, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "회귀 통계"
 
-#: src/tools/analysis-tools.c:1248
+#: src/tools/analysis-tools.c:1249
 msgid "The requested sample size is to large for a periodic sample."
 msgstr ""
 
-#: src/tools/analysis-tools.c:1295
+#: src/tools/analysis-tools.c:1296
 #, c-format
 msgid "Sampling (%s)"
 msgstr "샘플링 (%s)"
 
-#: src/tools/analysis-tools.c:1339 src/tools/analysis-tools.c:1341
-#: src/tools/analysis-tools.c:1474 src/tools/analysis-tools.c:1476
-#: src/tools/analysis-tools.c:1650 src/tools/analysis-tools.c:1652
-#: src/tools/analysis-tools.c:1792 src/tools/analysis-tools.c:1794
-#: src/tools/analysis-tools.c:1943 src/tools/analysis-tools.c:1945
+#: src/tools/analysis-tools.c:1340 src/tools/analysis-tools.c:1342
+#: src/tools/analysis-tools.c:1475 src/tools/analysis-tools.c:1477
+#: src/tools/analysis-tools.c:1651 src/tools/analysis-tools.c:1653
+#: src/tools/analysis-tools.c:1793 src/tools/analysis-tools.c:1795
+#: src/tools/analysis-tools.c:1944 src/tools/analysis-tools.c:1946
 #, c-format
 msgid "Variable %i"
 msgstr "변수 %i"
 
-#: src/tools/analysis-tools.c:1344
+#: src/tools/analysis-tools.c:1345
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1421
+#: src/tools/analysis-tools.c:1422
 #, fuzzy, c-format
 msgid "z-Test (%s)"
 msgstr "z-테스트"
 
-#: src/tools/analysis-tools.c:1431 src/tools/analysis-tools.c:1434
+#: src/tools/analysis-tools.c:1432 src/tools/analysis-tools.c:1435
 msgid "z-Test"
 msgstr "z-테스트"
 
-#: src/tools/analysis-tools.c:1482
+#: src/tools/analysis-tools.c:1483
 msgid "The 2 input ranges must have the same size."
 msgstr ""
 
-#: src/tools/analysis-tools.c:1491
+#: src/tools/analysis-tools.c:1492
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1611
+#: src/tools/analysis-tools.c:1612
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1621 src/tools/analysis-tools.c:1624
-#: src/tools/analysis-tools.c:1766 src/tools/analysis-tools.c:1769
-#: src/tools/analysis-tools.c:1904 src/tools/analysis-tools.c:1907
+#: src/tools/analysis-tools.c:1622 src/tools/analysis-tools.c:1625
+#: src/tools/analysis-tools.c:1767 src/tools/analysis-tools.c:1770
+#: src/tools/analysis-tools.c:1905 src/tools/analysis-tools.c:1908
 msgid "t-Test"
 msgstr "t-테스트"
 
-#: src/tools/analysis-tools.c:1655
+#: src/tools/analysis-tools.c:1656
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1756 src/tools/analysis-tools.c:1894
+#: src/tools/analysis-tools.c:1757 src/tools/analysis-tools.c:1895
 #, fuzzy, c-format
 msgid "t-Test (%s)"
 msgstr "t-테스트"
 
-#: src/tools/analysis-tools.c:1797
+#: src/tools/analysis-tools.c:1798
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1952
+#: src/tools/analysis-tools.c:1953
 msgid "A data set is empty"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1960
+#: src/tools/analysis-tools.c:1961
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2062
+#: src/tools/analysis-tools.c:2063
 #, fuzzy, c-format
 msgid "F-Test (%s)"
 msgstr "F-테스트"
 
-#: src/tools/analysis-tools.c:2072 src/tools/analysis-tools.c:2075
+#: src/tools/analysis-tools.c:2073 src/tools/analysis-tools.c:2076
 msgid "F-Test"
 msgstr "F-테스트"
 
-#: src/tools/analysis-tools.c:2149
+#: src/tools/analysis-tools.c:2150
 #, fuzzy
 msgid "Y Variable"
 msgstr "변수 1"
 
-#: src/tools/analysis-tools.c:2209
+#: src/tools/analysis-tools.c:2208
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
 msgstr ""
 
-#: src/tools/analysis-tools.c:2216
+#: src/tools/analysis-tools.c:2215
 msgid ""
 "Two or more of the independent variables are nearly linear\n"
 "dependent.  All numerical precision was lost in the computation."
 msgstr ""
 
-#: src/tools/analysis-tools.c:2223
+#: src/tools/analysis-tools.c:2222
 msgid ""
 "Two or more of the independent variables are linearly\n"
 "dependent, and the regression cannot be calculated.\n"
@@ -20330,219 +20304,219 @@ msgstr ""
 #. analysis_tool_regression_engine_last_check
 #. we have to figure out which data we have to trnasfer from
 #. to here
-#: src/tools/analysis-tools.c:2248
+#: src/tools/analysis-tools.c:2247
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2269
+#: src/tools/analysis-tools.c:2270
 msgid "/df/SS/MS/F/Significance of F"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2276
+#: src/tools/analysis-tools.c:2277
 #, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
 "%%"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2293
+#: src/tools/analysis-tools.c:2294
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2401
+#: src/tools/analysis-tools.c:2402
 msgid ""
 "Two or more of the independent variables are nearly linear\n"
 "dependent.  Treat the regression result with great care!"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2416
+#: src/tools/analysis-tools.c:2417
 #, fuzzy, c-format
 msgid "Regression (%s)"
 msgstr "회귀"
 
-#: src/tools/analysis-tools.c:2480
+#: src/tools/analysis-tools.c:2481
 msgid "Standard Error"
 msgstr "표준 에러"
 
-#: src/tools/analysis-tools.c:2541
+#: src/tools/analysis-tools.c:2542
 #, fuzzy, c-format
 msgid "Moving Average (%s)"
 msgstr "이동 평균"
 
-#: src/tools/analysis-tools.c:2674
+#: src/tools/analysis-tools.c:2675
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "지수평활법 (%s)"
 
-#: src/tools/analysis-tools.c:2742
+#: src/tools/analysis-tools.c:2743
 msgid "Point"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2744
+#: src/tools/analysis-tools.c:2745
 msgid "Rank"
 msgstr "등급"
 
-#: src/tools/analysis-tools.c:2745
+#: src/tools/analysis-tools.c:2746
 #, fuzzy
 msgid "Percentile"
 msgstr "퍼센트"
 
-#: src/tools/analysis-tools.c:2805
+#: src/tools/analysis-tools.c:2806
 #, fuzzy, c-format
 msgid "Ranks (%s)"
 msgstr "등급"
 
-#: src/tools/analysis-tools.c:2817 src/tools/analysis-tools.c:2820
+#: src/tools/analysis-tools.c:2818 src/tools/analysis-tools.c:2821
 msgid "Ranks"
 msgstr "등급"
 
-#: src/tools/analysis-tools.c:2858
+#: src/tools/analysis-tools.c:2859
 msgid "Anova: Single Factor"
 msgstr "Anova: Single Factor"
 
-#: src/tools/analysis-tools.c:2859 src/tools/analysis-tools.c:3356
+#: src/tools/analysis-tools.c:2860 src/tools/analysis-tools.c:3348
 #: src/tools/simulation.c:343
 msgid "SUMMARY"
 msgstr "요약"
 
-#: src/tools/analysis-tools.c:2860
+#: src/tools/analysis-tools.c:2861
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2914
+#: src/tools/analysis-tools.c:2915
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2919 src/tools/analysis-tools.c:3202
-#: src/tools/analysis-tools.c:3380
+#: src/tools/analysis-tools.c:2920 src/tools/analysis-tools.c:3197
+#: src/tools/analysis-tools.c:3372
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2997
+#: src/tools/analysis-tools.c:2998
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "일원 분산분석(%s)"
 
-#: src/tools/analysis-tools.c:3008 src/tools/analysis-tools.c:3687
+#: src/tools/analysis-tools.c:3009 src/tools/analysis-tools.c:3679
 msgid "Anova"
 msgstr "분산분석"
 
-#: src/tools/analysis-tools.c:3011
+#: src/tools/analysis-tools.c:3012
 #, fuzzy
 msgid "Single Factor ANOVA"
 msgstr "Anova: Single Factor"
 
-#: src/tools/analysis-tools.c:3118
+#: src/tools/analysis-tools.c:3119
 msgid "The input range contains non-numeric data."
 msgstr ""
 
-#: src/tools/analysis-tools.c:3126
+#: src/tools/analysis-tools.c:3127
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3127
+#: src/tools/analysis-tools.c:3128
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3196
+#: src/tools/analysis-tools.c:3191
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3346
+#: src/tools/analysis-tools.c:3338
 msgid "One of the factor combinations does not contain any observations!"
 msgstr ""
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:3355
+#: src/tools/analysis-tools.c:3347
 msgid "Anova: Two-Factor With Replication"
 msgstr "분산분석: 반복되는 두 인자"
 
-#: src/tools/analysis-tools.c:3362
+#: src/tools/analysis-tools.c:3354
 msgid "/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3372
+#: src/tools/analysis-tools.c:3364
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3671
+#: src/tools/analysis-tools.c:3663
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "반복없는 이원 분산분석(%s)"
 
-#: src/tools/analysis-tools.c:3672
+#: src/tools/analysis-tools.c:3664
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "반복되는 이원 분산분석(%s)"
 
-#: src/tools/analysis-tools.c:3690
+#: src/tools/analysis-tools.c:3682
 #, fuzzy
 msgid "Two Factor ANOVA"
 msgstr "Anova: Single Factor"
 
-#: src/tools/analysis-tools.c:3869
+#: src/tools/analysis-tools.c:3861
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:3873
+#: src/tools/analysis-tools.c:3865
 msgid "Too Small"
 msgstr "너무 작음"
 
-#: src/tools/analysis-tools.c:3890
+#: src/tools/analysis-tools.c:3882
 #, fuzzy
 msgid "More"
 msgstr "양식"
 
-#: src/tools/analysis-tools.c:3898
+#: src/tools/analysis-tools.c:3890
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/tools/analysis-tools.c:3902
+#: src/tools/analysis-tools.c:3894
 #, fuzzy
 msgid "Too Large"
 msgstr "K번째 큼"
 
-#: src/tools/analysis-tools.c:3946
+#: src/tools/analysis-tools.c:3938
 #, fuzzy
 msgid "Bin"
 msgstr "최소"
 
-#: src/tools/analysis-tools.c:3971
+#: src/tools/analysis-tools.c:3963
 msgid "Frequency"
 msgstr "빈도"
 
-#: src/tools/analysis-tools.c:3976
+#: src/tools/analysis-tools.c:3968
 #, no-c-format
 msgid "Cumulative %"
 msgstr "누적 %"
 
-#: src/tools/analysis-tools.c:4055
+#: src/tools/analysis-tools.c:4047
 #, c-format
 msgid "Histogram (%s)"
 msgstr "히스토그램 (%s)"
 
-#: src/tools/analysis-tools.c:4162 src/tools/solver/reports-write.c:691
+#: src/tools/analysis-tools.c:4154 src/tools/solver/reports-write.c:691
 #, fuzzy
 msgid "Real"
 msgstr "잔여"
 
-#: src/tools/analysis-tools.c:4163
+#: src/tools/analysis-tools.c:4155
 #, fuzzy
 msgid "Imaginary"
 msgstr "1월"
 
-#: src/tools/analysis-tools.c:4223
+#: src/tools/analysis-tools.c:4215
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "푸리에 급수 (%s)"
 
-#: src/tools/analysis-tools.c:4235 src/tools/analysis-tools.c:4238
+#: src/tools/analysis-tools.c:4227 src/tools/analysis-tools.c:4230
 msgid "Fourier Series"
 msgstr "푸리에 급수"
 
@@ -20554,15 +20528,15 @@ msgstr "새 시트"
 msgid "New Workbook"
 msgstr "새 워크북"
 
-#: src/tools/dao.c:743
+#: src/tools/dao.c:742
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: src/tools/dao.c:748
+#: src/tools/dao.c:747
 msgid "Worksheet:"
 msgstr "워크시트:"
 
-#: src/tools/dao.c:755
+#: src/tools/dao.c:754
 msgid "Report Created: "
 msgstr ""
 
@@ -21094,7 +21068,39 @@ msgstr ""
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric XML 파일 형식"
 
-#: src/widgets/gnumeric-expr-entry.c:1195
+#: src/value.c:51
+msgid "#NULL!"
+msgstr "#NULL!"
+
+#: src/value.c:52
+msgid "#DIV/0!"
+msgstr "#DIV/0!"
+
+#: src/value.c:53
+msgid "#VALUE!"
+msgstr "#VALUE!"
+
+#: src/value.c:54
+msgid "#REF!"
+msgstr "#REF!"
+
+#: src/value.c:55
+msgid "#NAME?"
+msgstr "#NAME?"
+
+#: src/value.c:56
+msgid "#NUM!"
+msgstr "#NUM!"
+
+#: src/value.c:57
+msgid "#N/A"
+msgstr "#N/A"
+
+#: src/value.c:58
+msgid "#RECALC!"
+msgstr "#RECALC!"
+
+#: src/widgets/gnumeric-expr-entry.c:1199
 #, fuzzy
 msgid "Expecting a single range"
 msgstr "선택은 단일 범위여야만 합니다."
@@ -21165,13 +21171,13 @@ msgstr "<- 모두 지움"
 msgid "Add a filter"
 msgstr "고급 거르개"
 
-#: src/workbook-control-gui.c:1380 src/workbook-control-gui.c:3827
-#: src/workbook-control-gui.c:4048
+#: src/workbook-control-gui.c:1380 src/workbook-control-gui.c:3831
+#: src/workbook-control-gui.c:4052
 msgid "Undo"
 msgstr "실행 취소"
 
-#: src/workbook-control-gui.c:1381 src/workbook-control-gui.c:3830
-#: src/workbook-control-gui.c:4055
+#: src/workbook-control-gui.c:1381 src/workbook-control-gui.c:3834
+#: src/workbook-control-gui.c:4059
 msgid "Redo"
 msgstr "취소 복구"
 
@@ -21198,8 +21204,8 @@ msgid "Discard All"
 msgstr "모두 취소"
 
 #: src/workbook-control-gui.c:1617 src/workbook-control-gui.c:1624
-#: src/workbook-control-gui.c:1630 src/workbook-control-gui.c:5170
-#: src/workbook-control-gui.c:5175
+#: src/workbook-control-gui.c:1630 src/workbook-control-gui.c:5174
+#: src/workbook-control-gui.c:5179
 msgid "Discard"
 msgstr "무시"
 
@@ -21245,92 +21251,101 @@ msgstr "열 넣기"
 msgid "Add Filter"
 msgstr "고급 거르개"
 
-#: src/workbook-control-gui.c:2863 src/workbook-control-gui.c:2882
+#: src/workbook-control-gui.c:2813
+#, fuzzy
+msgid "AutoFilter"
+msgstr "고급 거르개"
+
+#: src/workbook-control-gui.c:2813
+msgid "Requires more than 1 row"
+msgstr ""
+
+#: src/workbook-control-gui.c:2867 src/workbook-control-gui.c:2886
 #, fuzzy
 msgid "Show Detail"
 msgstr "파일 상세설명(_F)"
 
-#: src/workbook-control-gui.c:2863 src/workbook-control-gui.c:2882
+#: src/workbook-control-gui.c:2867 src/workbook-control-gui.c:2886
 #, fuzzy
 msgid "Hide Detail"
 msgstr "파일 상세설명(_F)"
 
-#: src/workbook-control-gui.c:2870
+#: src/workbook-control-gui.c:2874
 msgid "can only be performed on an existing group"
 msgstr ""
 
-#: src/workbook-control-gui.c:2928
+#: src/workbook-control-gui.c:2932
 msgid "Group"
 msgstr "묶음"
 
-#: src/workbook-control-gui.c:2928
+#: src/workbook-control-gui.c:2932
 msgid "Ungroup"
 msgstr "묶음 취소"
 
-#: src/workbook-control-gui.c:3119
+#: src/workbook-control-gui.c:3123
 msgid "Select an object to add"
 msgstr "추가할 객체 선택"
 
-#: src/workbook-control-gui.c:3130
+#: src/workbook-control-gui.c:3134
 #, fuzzy, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "%s 파일을 생성할 수 없습니다\n"
 
-#: src/workbook-control-gui.c:3314
+#: src/workbook-control-gui.c:3318
 msgid "P_aste special..."
 msgstr "특별히 붙이기(_a)..."
 
-#: src/workbook-control-gui.c:3323
+#: src/workbook-control-gui.c:3327
 msgid "Remove selected cells, shifting other into their place"
 msgstr ""
 
-#: src/workbook-control-gui.c:3403
+#: src/workbook-control-gui.c:3407
 #, fuzzy
 msgid "_Auto generate names..."
 msgstr "자동 저장(_A)..."
 
-#: src/workbook-control-gui.c:3404
+#: src/workbook-control-gui.c:3408
 #, fuzzy
 msgid "Use the current selection to create names"
 msgstr "선택한 내용을 클립보드로 잘라보내기"
 
-#: src/workbook-control-gui.c:3631
+#: src/workbook-control-gui.c:3635
 #, fuzzy
 msgid "Ranks And _Percentiles"
 msgstr "등급과 백분위수"
 
-#: src/workbook-control-gui.c:3766
+#: src/workbook-control-gui.c:3770
 #, fuzzy
 msgid "Create a pivot table."
 msgstr "꼬리표를 만듭니다"
 
-#: src/workbook-control-gui.c:3827
+#: src/workbook-control-gui.c:3831
 msgid "Undo the operation"
 msgstr "동작 취소"
 
-#: src/workbook-control-gui.c:3830
+#: src/workbook-control-gui.c:3834
 msgid "Redo the operation"
 msgstr "동작 다시실행"
 
-#: src/workbook-control-gui.c:4886
+#: src/workbook-control-gui.c:4890
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "\"%s\" 파일은 모르는 형식입니다."
 
-#: src/workbook-control-gui.c:4937
+#: src/workbook-control-gui.c:4941
 msgid "Send"
 msgstr "보냄"
 
-#: src/workbook-control-gui.c:4937
+#: src/workbook-control-gui.c:4941
 msgid "Send the current file in email"
 msgstr "현재 파일을 메일로 보냅니다"
 
-#: src/workbook-control-gui.c:5169 src/workbook-control-gui.c:5184
+#: src/workbook-control-gui.c:5173 src/workbook-control-gui.c:5188
 #, fuzzy
 msgid "Re-Edit"
 msgstr "필터(_F)..."
 
-#: src/workbook-control-gui.c:5174 src/workbook-control-gui.c:5185
+#: src/workbook-control-gui.c:5178 src/workbook-control-gui.c:5189
 msgid "Accept"
 msgstr "승인"
 
@@ -21467,7 +21482,7 @@ msgstr ""
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:572 src/workbook-view.c:785
+#: src/workbook-view.c:572 src/workbook-view.c:797
 #, fuzzy
 msgid "The filename given is not valid."
 msgstr "찾을 범위가 적절하지 않습니다."
@@ -21476,11 +21491,11 @@ msgstr "찾을 범위가 적절하지 않습니다."
 msgid "Default file saver is not available."
 msgstr ""
 
-#: src/workbook-view.c:731
+#: src/workbook-view.c:743
 msgid "Unsupported file format."
 msgstr "지원하지 않는 파일 형식."
 
-#: src/workbook-view.c:778
+#: src/workbook-view.c:790
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""
@@ -21502,7 +21517,12 @@ msgstr "같은 이름을 가진 시트가 있습니다"
 msgid "You may not use this name twice"
 msgstr "이 이름을 두번 쓸 수 없습니다"
 
-#: src/xml-io.c:3663
+#: src/xml-io.c:3622
+#, fuzzy
+msgid "The file is not a Gnumeric Workbook file"
+msgstr "Gnumeric 워크북 파일이 아닙니다"
+
+#: src/xml-io.c:3691
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 파일 형식"
 

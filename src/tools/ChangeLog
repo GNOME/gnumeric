@@ -1,3 +1,7 @@
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
 2002-12-17  Jody Goldberg <jody@gnome.org>
 
 	* simulation.c (simulation_tool) : patch minor memory overrun.

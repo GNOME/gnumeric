@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.1.13\n"
-"POT-Creation-Date: 2002-12-17 19:16+0100\n"
+"POT-Creation-Date: 2002-12-22 00:37-0500\n"
 "PO-Revision-Date: 2002-12-17 18:50+0100\n"
 "Last-Translator: Olivier Jousselin <oj@marylou.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -858,7 +858,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Fonctions relatives aux produits financiers"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5087
-#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3551
+#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3580
 msgid "Reading file..."
 msgstr "Lecture du fichier..."
 
@@ -956,7 +956,7 @@ msgstr "#INCONNU!"
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1078 plugins/excel/ms-excel-read.c:1089
-#: plugins/oleo/oleo.c:339 plugins/psiconv/psiconv-read.c:516
+#: plugins/oleo/oleo.c:345 plugins/psiconv/psiconv-read.c:516
 #: src/dialogs/dialog-sheet-order.c:433 src/dialogs/dialog-sheet-order.c:437
 #, c-format
 msgid "Sheet%d"
@@ -1024,7 +1024,7 @@ msgstr "Mot de passe invalide"
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Impossible de trouver un classeur MS Excel valide"
 
-#: plugins/excel/ms-excel-write.c:144
+#: plugins/excel/ms-excel-write.c:148
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
@@ -1034,16 +1034,16 @@ msgstr ""
 "Une longueur a déjà été affectée à cette chaîne, et elle est tronquée à "
 "cause de problèmes d'encodage."
 
-#: plugins/excel/ms-excel-write.c:3355 plugins/excel/ms-excel-write.c:3360
+#: plugins/excel/ms-excel-write.c:3651 plugins/excel/ms-excel-write.c:3656
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Trop de lignes pour ce format (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3735
+#: plugins/excel/ms-excel-write.c:4049
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Impossible d'ouvrir le flux « Livre » pour l'écriture\n"
 
-#: plugins/excel/ms-excel-write.c:3755
+#: plugins/excel/ms-excel-write.c:4069
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Impossible d'ouvrir le flux « Classeur » pour l'écriture\n"
 
@@ -1051,7 +1051,7 @@ msgstr "Impossible d'ouvrir le flux « Classeur » pour l'écriture\n"
 msgid "Broken function"
 msgstr "Fonction corrompue"
 
-#: plugins/excel/ms-formula-write.c:420
+#: plugins/excel/ms-formula-write.c:423
 #, c-format
 msgid ""
 "Too many arguments for function, MS Excel expects exactly %d and we have more"
@@ -4094,7 +4094,7 @@ msgstr ""
 
 #. Path of the current directory or folder.
 #: plugins/fn-date/functions.c:974 plugins/fn-eng/functions.c:100
-#: plugins/fn-info/functions.c:1270 plugins/fn-info/functions.c:1286
+#: plugins/fn-info/functions.c:1281 plugins/fn-info/functions.c:1297
 msgid "Unimplemented"
 msgstr "Non implémenté"
 
@@ -7618,7 +7618,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1151
+#: plugins/fn-info/functions.c:1162
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -7641,7 +7641,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TEXT"
 
-#: plugins/fn-info/functions.c:1194
+#: plugins/fn-info/functions.c:1205
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -7665,7 +7665,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT"
 
-#: plugins/fn-info/functions.c:1238
+#: plugins/fn-info/functions.c:1249
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(type)\n"
@@ -7711,31 +7711,31 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1293
+#: plugins/fn-info/functions.c:1304
 msgid "Unknown version"
 msgstr "Version inconnue"
 
-#: plugins/fn-info/functions.c:1295
+#: plugins/fn-info/functions.c:1306
 #, c-format
 msgid "%s version %s"
 msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: plugins/fn-info/functions.c:1302 src/dialogs/dialog-cell-format.c:2918
+#: plugins/fn-info/functions.c:1313 src/dialogs/dialog-cell-format.c:2918
 #: src/dialogs/dialog-cell-format.c:2923 src/dialogs/dialog-cell-format.c:2933
 #: src/workbook-format-toolbar.c:837
 msgid "Automatic"
 msgstr "Automatique"
 
-#: plugins/fn-info/functions.c:1311
+#: plugins/fn-info/functions.c:1322
 msgid "Unknown system"
 msgstr "Système inconnu"
 
-#: plugins/fn-info/functions.c:1321
+#: plugins/fn-info/functions.c:1332
 msgid "Unknown info_type"
 msgstr "info_type inconnu"
 
-#: plugins/fn-info/functions.c:1327
+#: plugins/fn-info/functions.c:1338
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -7758,7 +7758,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERROR"
 
-#: plugins/fn-info/functions.c:1349
+#: plugins/fn-info/functions.c:1360
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -7781,7 +7781,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1375
+#: plugins/fn-info/functions.c:1386
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -7805,7 +7805,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1398
+#: plugins/fn-info/functions.c:1409
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -7843,7 +7843,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: plugins/fn-info/functions.c:1437
+#: plugins/fn-info/functions.c:1448
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -7866,7 +7866,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1459
+#: plugins/fn-info/functions.c:1470
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -7885,7 +7885,7 @@ msgstr ""
 "ERROR(\"#MON ERREUR!\")\n"
 "@SEEALSO=ISERROR"
 
-#: plugins/fn-info/functions.c:1480
+#: plugins/fn-info/functions.c:1491
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -7907,12 +7907,12 @@ msgstr ""
 "ISBLANK(A1)\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1500 plugins/fn-info/functions.c:1661
+#: plugins/fn-info/functions.c:1511 plugins/fn-info/functions.c:1672
 #: src/func.c:791
 msgid "Invalid number of arguments"
 msgstr "Nombre d'arguments invalide"
 
-#: plugins/fn-info/functions.c:1530
+#: plugins/fn-info/functions.c:1541
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -7934,7 +7934,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISODD"
 
-#: plugins/fn-info/functions.c:1552
+#: plugins/fn-info/functions.c:1563
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -7957,7 +7957,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1574
+#: plugins/fn-info/functions.c:1585
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -7981,7 +7981,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTEXT"
 
-#: plugins/fn-info/functions.c:1596
+#: plugins/fn-info/functions.c:1607
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -8004,7 +8004,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1619
+#: plugins/fn-info/functions.c:1630
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -8026,7 +8026,7 @@ msgstr ""
 "ISODD(3) renvoie VRAI\n"
 "@SEEALSO=ISEVEN"
 
-#: plugins/fn-info/functions.c:1641
+#: plugins/fn-info/functions.c:1652
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -8049,7 +8049,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1673
+#: plugins/fn-info/functions.c:1684
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -8072,7 +8072,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISNONTEXT"
 
-#: plugins/fn-info/functions.c:1695
+#: plugins/fn-info/functions.c:1706
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -8096,7 +8096,7 @@ msgstr ""
 "N(\"42\") vaut 42.\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1734
+#: plugins/fn-info/functions.c:1745
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -8131,7 +8131,7 @@ msgstr ""
 "TYPE (\"texte\") vaut 2\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1783
+#: plugins/fn-info/functions.c:1794
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -8154,31 +8154,31 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1811
+#: plugins/fn-info/functions.c:1822
 msgid "info_type, cell"
 msgstr "type_info;cellule"
 
-#: plugins/fn-info/functions.c:1814 plugins/fn-info/functions.c:1820
-#: plugins/fn-info/functions.c:1823 plugins/fn-info/functions.c:1826
-#: plugins/fn-info/functions.c:1829 plugins/fn-info/functions.c:1832
-#: plugins/fn-info/functions.c:1835 plugins/fn-info/functions.c:1838
-#: plugins/fn-info/functions.c:1841 plugins/fn-info/functions.c:1844
-#: plugins/fn-info/functions.c:1847 plugins/fn-info/functions.c:1850
-#: plugins/fn-info/functions.c:1853 plugins/fn-info/functions.c:1859
+#: plugins/fn-info/functions.c:1825 plugins/fn-info/functions.c:1831
+#: plugins/fn-info/functions.c:1834 plugins/fn-info/functions.c:1837
+#: plugins/fn-info/functions.c:1840 plugins/fn-info/functions.c:1843
+#: plugins/fn-info/functions.c:1846 plugins/fn-info/functions.c:1849
+#: plugins/fn-info/functions.c:1852 plugins/fn-info/functions.c:1855
+#: plugins/fn-info/functions.c:1858 plugins/fn-info/functions.c:1861
+#: plugins/fn-info/functions.c:1864 plugins/fn-info/functions.c:1870
 #: plugins/fn-string/functions.c:1121
 msgid "value"
 msgstr "valeur"
 
-#: plugins/fn-info/functions.c:1817
+#: plugins/fn-info/functions.c:1828
 msgid "info_type"
 msgstr "type_info inconnu"
 
 #. XL stores this in statistical ?
-#: plugins/fn-info/functions.c:1864
+#: plugins/fn-info/functions.c:1875
 msgid "range"
 msgstr "intervalle"
 
-#: plugins/fn-info/functions.c:1868 plugins/fn-string/functions.c:1070
+#: plugins/fn-info/functions.c:1879 plugins/fn-string/functions.c:1070
 #: plugins/fn-string/functions.c:1073 plugins/fn-string/functions.c:1094
 #: plugins/fn-string/functions.c:1097 plugins/fn-string/functions.c:1103
 #: plugins/fn-string/functions.c:1127 plugins/fn-string/functions.c:1130
@@ -8186,11 +8186,11 @@ msgstr "intervalle"
 msgid "text"
 msgstr "texte"
 
-#: plugins/fn-info/functions.c:1871
+#: plugins/fn-info/functions.c:1882
 msgid "cell"
 msgstr "cellule"
 
-#: plugins/fn-info/functions.c:1874
+#: plugins/fn-info/functions.c:1885
 msgid "string"
 msgstr "chaîne"
 
@@ -8425,7 +8425,7 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-logical/functions.c:324 plugins/fn-logical/functions.c:328
-#: plugins/fn-logical/functions.c:348 plugins/fn-math/functions.c:3221
+#: plugins/fn-logical/functions.c:348 plugins/fn-math/functions.c:3220
 #: plugins/fn-stat/functions.c:5568 plugins/fn-stat/functions.c:5572
 #: plugins/fn-stat/functions.c:5576 plugins/fn-stat/functions.c:5614
 #: plugins/fn-stat/functions.c:5617 plugins/fn-stat/functions.c:5626
@@ -8444,23 +8444,23 @@ msgid "number,number,"
 msgstr "nombre;nombre"
 
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:332 plugins/fn-math/functions.c:3062
-#: plugins/fn-math/functions.c:3066 plugins/fn-math/functions.c:3069
-#: plugins/fn-math/functions.c:3072 plugins/fn-math/functions.c:3075
-#: plugins/fn-math/functions.c:3078 plugins/fn-math/functions.c:3081
-#: plugins/fn-math/functions.c:3087 plugins/fn-math/functions.c:3096
-#: plugins/fn-math/functions.c:3105 plugins/fn-math/functions.c:3113
-#: plugins/fn-math/functions.c:3116 plugins/fn-math/functions.c:3119
-#: plugins/fn-math/functions.c:3122 plugins/fn-math/functions.c:3127
-#: plugins/fn-math/functions.c:3131 plugins/fn-math/functions.c:3137
-#: plugins/fn-math/functions.c:3144 plugins/fn-math/functions.c:3151
-#: plugins/fn-math/functions.c:3157 plugins/fn-math/functions.c:3160
-#: plugins/fn-math/functions.c:3173 plugins/fn-math/functions.c:3179
-#: plugins/fn-math/functions.c:3185 plugins/fn-math/functions.c:3206
-#: plugins/fn-math/functions.c:3209 plugins/fn-math/functions.c:3212
-#: plugins/fn-math/functions.c:3215 plugins/fn-math/functions.c:3218
-#: plugins/fn-math/functions.c:3231 plugins/fn-math/functions.c:3243
-#: plugins/fn-math/functions.c:3246 plugins/fn-stat/functions.c:5638
+#: plugins/fn-logical/functions.c:332 plugins/fn-math/functions.c:3061
+#: plugins/fn-math/functions.c:3065 plugins/fn-math/functions.c:3068
+#: plugins/fn-math/functions.c:3071 plugins/fn-math/functions.c:3074
+#: plugins/fn-math/functions.c:3077 plugins/fn-math/functions.c:3080
+#: plugins/fn-math/functions.c:3086 plugins/fn-math/functions.c:3095
+#: plugins/fn-math/functions.c:3104 plugins/fn-math/functions.c:3112
+#: plugins/fn-math/functions.c:3115 plugins/fn-math/functions.c:3118
+#: plugins/fn-math/functions.c:3121 plugins/fn-math/functions.c:3126
+#: plugins/fn-math/functions.c:3130 plugins/fn-math/functions.c:3136
+#: plugins/fn-math/functions.c:3143 plugins/fn-math/functions.c:3150
+#: plugins/fn-math/functions.c:3156 plugins/fn-math/functions.c:3159
+#: plugins/fn-math/functions.c:3172 plugins/fn-math/functions.c:3178
+#: plugins/fn-math/functions.c:3184 plugins/fn-math/functions.c:3205
+#: plugins/fn-math/functions.c:3208 plugins/fn-math/functions.c:3211
+#: plugins/fn-math/functions.c:3214 plugins/fn-math/functions.c:3217
+#: plugins/fn-math/functions.c:3230 plugins/fn-math/functions.c:3242
+#: plugins/fn-math/functions.c:3245 plugins/fn-stat/functions.c:5638
 #: plugins/fn-stat/functions.c:5641 plugins/fn-stat/functions.c:5659
 #: plugins/fn-stat/functions.c:5737 plugins/fn-string/functions.c:1067
 msgid "number"
@@ -8993,7 +8993,7 @@ msgstr "valeur;intervalle;approx"
 msgid "ref,row,col,height,width"
 msgstr "réf;ligne;col;hauteur;largeur"
 
-#: plugins/fn-lookup/functions.c:1227 plugins/fn-math/functions.c:3259
+#: plugins/fn-lookup/functions.c:1227 plugins/fn-math/functions.c:3258
 msgid "array"
 msgstr "tableau"
 
@@ -10740,7 +10740,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: plugins/fn-math/functions.c:2950
+#: plugins/fn-math/functions.c:2949
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -10777,11 +10777,11 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: plugins/fn-math/functions.c:3084
+#: plugins/fn-math/functions.c:3083
 msgid "xnum,ynum"
 msgstr "xnum;ynum"
 
-#: plugins/fn-math/functions.c:3090 plugins/fn-math/functions.c:3093
+#: plugins/fn-math/functions.c:3089 plugins/fn-math/functions.c:3092
 #: plugins/fn-random/functions.c:1100 plugins/fn-random/functions.c:1121
 #: plugins/fn-random/functions.c:1127 plugins/fn-random/functions.c:1166
 #: plugins/fn-random/functions.c:1181 plugins/fn-random/functions.c:1184
@@ -10789,67 +10789,67 @@ msgid "a,b"
 msgstr "a;b"
 
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3101
+#: plugins/fn-math/functions.c:3100
 msgid "range,criteria"
 msgstr "intervalle;critères"
 
-#: plugins/fn-math/functions.c:3109
+#: plugins/fn-math/functions.c:3108
 msgid "number,significance"
 msgstr "nombre;précision"
 
-#: plugins/fn-math/functions.c:3134 plugins/fn-stat/functions.c:5752
+#: plugins/fn-math/functions.c:3133 plugins/fn-stat/functions.c:5752
 msgid "n,k"
 msgstr "n;k"
 
-#: plugins/fn-math/functions.c:3141
+#: plugins/fn-math/functions.c:3140
 msgid "number,number"
 msgstr "nombre;nombre"
 
-#: plugins/fn-math/functions.c:3154
+#: plugins/fn-math/functions.c:3153
 msgid "number,base"
 msgstr "nombre;base"
 
-#: plugins/fn-math/functions.c:3163 plugins/fn-math/functions.c:3182
+#: plugins/fn-math/functions.c:3162 plugins/fn-math/functions.c:3181
 msgid "numerator,denominator"
 msgstr "numérateur;dénominateur"
 
-#: plugins/fn-math/functions.c:3166
+#: plugins/fn-math/functions.c:3165
 msgid "number,multiple"
 msgstr "nombre;multiple"
 
-#: plugins/fn-math/functions.c:3176
+#: plugins/fn-math/functions.c:3175
 msgid "base,exponent"
 msgstr "base;exposant"
 
-#: plugins/fn-math/functions.c:3188
+#: plugins/fn-math/functions.c:3187
 msgid "number,type"
 msgstr "nombre;type"
 
-#: plugins/fn-math/functions.c:3191 plugins/fn-math/functions.c:3195
-#: plugins/fn-math/functions.c:3199 plugins/fn-math/functions.c:3249
+#: plugins/fn-math/functions.c:3190 plugins/fn-math/functions.c:3194
+#: plugins/fn-math/functions.c:3198 plugins/fn-math/functions.c:3248
 msgid "number,digits"
 msgstr "nombre, chiffres"
 
-#: plugins/fn-math/functions.c:3203
+#: plugins/fn-math/functions.c:3202
 msgid "x,n,m,coefficients"
 msgstr "x;n;m;coefficients"
 
-#: plugins/fn-math/functions.c:3225
+#: plugins/fn-math/functions.c:3224
 msgid "range,criteria,actual_range"
 msgstr "intervalle;critères;intervalle_réel"
 
-#: plugins/fn-math/functions.c:3228
+#: plugins/fn-math/functions.c:3227
 msgid "range,range,"
 msgstr "intervalle;intervalle"
 
-#: plugins/fn-math/functions.c:3234 plugins/fn-math/functions.c:3237
-#: plugins/fn-math/functions.c:3240 plugins/fn-math/functions.c:3256
+#: plugins/fn-math/functions.c:3233 plugins/fn-math/functions.c:3236
+#: plugins/fn-math/functions.c:3239 plugins/fn-math/functions.c:3255
 #: plugins/fn-stat/functions.c:5611 plugins/fn-stat/functions.c:5620
 #: plugins/fn-stat/functions.c:5743 plugins/fn-stat/functions.c:5796
 msgid "array1,array2"
 msgstr "tableau1;tableau2"
 
-#: plugins/fn-math/functions.c:3262 plugins/fn-math/functions.c:3266
+#: plugins/fn-math/functions.c:3261 plugins/fn-math/functions.c:3265
 msgid "array,matrix_type,bandsize"
 msgstr "tableau;type_matrice;taille"
 
@@ -15726,25 +15726,25 @@ msgstr ""
 "Il fournit le support pour sauver le glossaire de Gnome dans des fichiers ."
 "po."
 
-#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:3015
+#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:3044
 msgid "Unparsable xml in clipboard"
 msgstr "Impossible d'analyser le xml contenu dans le presse-papiers"
 
-#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:3022
+#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:3051
 msgid "Clipboard is in unknown format"
 msgstr "Le format du presse-papiers est inconnu"
 
 #: plugins/gnumeric_1_0/xml-io.c:3112 plugins/xbase/boot.c:172
 #: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:721
 #: src/dialogs/print.glade.h:20 src/workbook.c:1047 src/workbook.c:1377
-#: src/xml-io.c:3302
+#: src/xml-io.c:3331
 msgid "Sheet"
 msgstr "Feuille"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3429
+#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3458
 msgid "Processing file..."
 msgstr "Traitement du fichier..."
 
@@ -15752,7 +15752,7 @@ msgstr "Traitement du fichier..."
 msgid "Is not an Gnumeric Workbook file"
 msgstr "N'est pas un fichier classeur Gnumeric"
 
-#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3630
+#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3659
 msgid "Failure saving file"
 msgstr "Erreur lors de l'enregistrement du fichier."
 
@@ -16218,7 +16218,7 @@ msgid "No stream named content.xml found."
 msgstr "Impossible de trouver un flux nommé content.xml"
 
 #: plugins/openoffice/openoffice-read.c:909
-#: plugins/xml_sax/xml-sax-read.c:1467
+#: plugins/xml_sax/xml-sax-read.c:1468
 msgid "XML document not well formed!"
 msgstr "Document XML pas bien formé !"
 
@@ -16242,23 +16242,23 @@ msgstr "Permet la création de fonctions en Perl"
 msgid "Perl"
 msgstr "Perl"
 
-#: plugins/plan-perfect/pln.c:501
+#: plugins/plan-perfect/pln.c:504
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr "PLN : La feuille de calcul est chiffrée par un mot de passe"
 
-#: plugins/plan-perfect/pln.c:568
+#: plugins/plan-perfect/pln.c:571
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr ""
 "Données ignorées : elles prétendent être dans la ligne %u, > ligne max %u"
 
-#: plugins/plan-perfect/pln.c:572
+#: plugins/plan-perfect/pln.c:575
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
 "Données ignorées : elles prétendent être dans la colonne %u, > colonne max %u"
 
-#: plugins/plan-perfect/pln.c:665
+#: plugins/plan-perfect/pln.c:668
 msgid "PLN : Not a PlanPerfect File"
 msgstr "PLN : N'est pas un fichier PlanPerfect"
 
@@ -16780,7 +16780,7 @@ msgid "Copy the selection to the clipboard"
 msgstr "Copier la sélection vers le presse-papiers"
 
 #: src/GNOME_Gnumeric.xml.h:49 src/dialogs/covariance.glade.h:3
-#: src/tools/analysis-tools.c:893 src/tools/analysis-tools.c:896
+#: src/tools/analysis-tools.c:892 src/tools/analysis-tools.c:895
 #: src/workbook-control-gui.c:3621
 msgid "Covariance"
 msgstr "Covariance"
@@ -18084,16 +18084,16 @@ msgstr "_Copier les cellules"
 msgid "_Paste Cells"
 msgstr "C_oller les cellules"
 
-#: src/clipboard.c:304 src/clipboard.c:316 src/clipboard.c:327
-#: src/clipboard.c:335
+#: src/clipboard.c:300 src/clipboard.c:312 src/clipboard.c:323
+#: src/clipboard.c:331
 msgid "Unable to paste"
 msgstr "Impossible de coller"
 
-#: src/clipboard.c:305
+#: src/clipboard.c:301
 msgid "Content can only be pasted by value or by link."
 msgstr "Seul la valeur ou le lien peuvent être collés."
 
-#: src/clipboard.c:313
+#: src/clipboard.c:309
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -18106,7 +18106,7 @@ msgstr ""
 "Essayez de sélectionner une seule cellule ou une aire de même forme et "
 "taille."
 
-#: src/clipboard.c:324
+#: src/clipboard.c:320
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -18119,7 +18119,7 @@ msgstr ""
 "Essayez de sélectionner une seule cellule ou une aire de même forme et "
 "taille."
 
-#: src/clipboard.c:336
+#: src/clipboard.c:332
 msgid "result passes the sheet boundary"
 msgstr "le résultat franchit les limites de la feuille"
 
@@ -19658,8 +19658,8 @@ msgstr "Droite"
 msgid "S_ymbol:"
 msgstr "S_ymbol :"
 
-#: src/dialogs/cell-format.glade.h:69 src/tools/analysis-tools.c:1309
-#: src/tools/analysis-tools.c:1312
+#: src/dialogs/cell-format.glade.h:69 src/tools/analysis-tools.c:1308
+#: src/tools/analysis-tools.c:1311
 msgid "Sample"
 msgstr "Exemple"
 
@@ -20080,8 +20080,8 @@ msgstr "_Fonction :"
 msgid "_Put:"
 msgstr "_Mettre :"
 
-#: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:783
-#: src/tools/analysis-tools.c:786
+#: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:782
+#: src/tools/analysis-tools.c:785
 msgid "Correlation"
 msgstr "Corrélation"
 
@@ -20121,8 +20121,8 @@ msgstr "0.95"
 msgid "Confidence Interval for the _Mean"
 msgstr "Intervalle de confiance pour la _moyenne"
 
-#: src/dialogs/descriptive-stats.glade.h:7 src/tools/analysis-tools.c:1187
-#: src/tools/analysis-tools.c:1190
+#: src/dialogs/descriptive-stats.glade.h:7 src/tools/analysis-tools.c:1186
+#: src/tools/analysis-tools.c:1189
 msgid "Descriptive Statistics"
 msgstr "Statistiques Descriptives"
 
@@ -20423,8 +20423,8 @@ msgstr "Impossible de créer le dialogue pour l'outil de test F"
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil d'échantillonage"
 
-#: src/dialogs/dialog-analysis-tools.c:1986 src/tools/analysis-tools.c:2157
-#: src/tools/analysis-tools.c:2234
+#: src/dialogs/dialog-analysis-tools.c:1986 src/tools/analysis-tools.c:2156
+#: src/tools/analysis-tools.c:2231
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
@@ -20532,8 +20532,8 @@ msgid "Mrt"
 msgstr "Mrt"
 
 #: src/dialogs/dialog-autoformat.c:68 src/dialogs/dialog-autoformat.c:72
-#: src/tools/analysis-tools.c:3362 src/tools/analysis-tools.c:3372
-#: src/tools/analysis-tools.c:3380
+#: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
+#: src/tools/analysis-tools.c:3370
 msgid "Total"
 msgstr "Total"
 
@@ -20619,8 +20619,8 @@ msgstr "Une erreur est apparue durant la lecture de la liste de catégories"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:672 src/format.c:1678 src/format.c:1770
-#: src/format.c:1779 src/format.c:1848 src/plugin-service.c:233
+#: src/dialogs/dialog-autoformat.c:672 src/format.c:1683 src/format.c:1775
+#: src/format.c:1784 src/format.c:1853 src/plugin-service.c:233
 msgid "General"
 msgstr "Général"
 
@@ -21073,15 +21073,15 @@ msgid "Directory"
 msgstr "Répertoire"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:376 src/format.c:1577
+#: src/dialogs/dialog-preferences.c:376 src/format.c:1582
 #: src/number-match.c:1068 src/value-sheet.c:33 src/value.c:402
-#: src/value.c:754
+#: src/value.c:772
 msgid "TRUE"
 msgstr "VRAI"
 
-#: src/dialogs/dialog-preferences.c:377 src/format.c:1577
-#: src/number-match.c:1070 src/value-sheet.c:33 src/value.c:404
-#: src/value.c:754
+#: src/dialogs/dialog-preferences.c:377 src/format.c:1582
+#: src/number-match.c:1070 src/value-sheet.c:33 src/value.c:403
+#: src/value.c:772
 msgid "FALSE"
 msgstr "FAUX"
 
@@ -22098,7 +22098,7 @@ msgstr ""
 msgid "The target cell should contain an expression"
 msgstr "La cellule cible doit contenir une expression"
 
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3975
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3965
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -22153,8 +22153,8 @@ msgstr "_Remplir la sélection %"
 msgid "0.2"
 msgstr "0.2"
 
-#: src/dialogs/exp-smoothing.glade.h:4 src/tools/analysis-tools.c:2689
-#: src/tools/analysis-tools.c:2692
+#: src/dialogs/exp-smoothing.glade.h:4 src/tools/analysis-tools.c:2688
+#: src/tools/analysis-tools.c:2691
 msgid "Exponential Smoothing"
 msgstr "Lissage exponentiel"
 
@@ -22290,8 +22290,8 @@ msgstr "Pourcentages _cumulatifs"
 msgid "Chart Output"
 msgstr "Afficher sous forme de dessin"
 
-#: src/dialogs/histogram.glade.h:8 src/tools/analysis-tools.c:4076
-#: src/tools/analysis-tools.c:4079
+#: src/dialogs/histogram.glade.h:8 src/tools/analysis-tools.c:4066
+#: src/tools/analysis-tools.c:4069
 msgid "Histogram"
 msgstr "Histogramme"
 
@@ -22475,8 +22475,8 @@ msgstr "3"
 msgid "In_terval:"
 msgstr "In_tervalle :"
 
-#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2556
-#: src/tools/analysis-tools.c:2559
+#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2555
+#: src/tools/analysis-tools.c:2558
 msgid "Moving Average"
 msgstr "Moyenne mobile"
 
@@ -22777,8 +22777,8 @@ msgstr "0.95"
 msgid "Confidence Level:"
 msgstr "Niveau de confiance :"
 
-#: src/dialogs/regression.glade.h:9 src/tools/analysis-tools.c:2435
-#: src/tools/analysis-tools.c:2438
+#: src/dialogs/regression.glade.h:9 src/tools/analysis-tools.c:2434
+#: src/tools/analysis-tools.c:2437
 msgid "Regression"
 msgstr "Régression"
 
@@ -23632,40 +23632,40 @@ msgid "The target region is too small.  It should be at least %d rows high"
 msgstr ""
 "La région cible est trop petite. Elle devrait contenir au moins %d lignes"
 
-#: src/format.c:593
+#: src/format.c:598
 msgid "black"
 msgstr "noir"
 
-#: src/format.c:594
+#: src/format.c:599
 msgid "blue"
 msgstr "bleu"
 
-#: src/format.c:595
+#: src/format.c:600
 msgid "cyan"
 msgstr "cyan"
 
-#: src/format.c:596
+#: src/format.c:601
 msgid "green"
 msgstr "vert"
 
-#: src/format.c:597
+#: src/format.c:602
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:598
+#: src/format.c:603
 msgid "red"
 msgstr "rouge"
 
-#: src/format.c:599
+#: src/format.c:604
 msgid "white"
 msgstr "blanc"
 
-#: src/format.c:600
+#: src/format.c:605
 msgid "yellow"
 msgstr "jaune"
 
 #. Array of arrays ??
-#: src/format.c:1612
+#: src/format.c:1617
 msgid "ARRAY"
 msgstr "TABLEAU"
 
@@ -24820,65 +24820,65 @@ msgstr "Tous les éléments de l'ensemble doivent être des références."
 msgid "Unknown sheet '%s'"
 msgstr "Feuille inconnue « %s »"
 
-#: src/parser.y:553
+#: src/parser.y:556
 msgid "() is an invalid expression"
 msgstr "() est une expression invalide"
 
-#: src/parser.y:586 src/parser.y:608
+#: src/parser.y:589 src/parser.y:611
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "Le nom '%s' n'existe pas dans la feuille '%s'"
 
-#: src/parser.y:662
+#: src/parser.y:665
 #, c-format
 msgid "Unknown workbook '%s'"
 msgstr "Classeur inconnu « %s »"
 
-#: src/parser.y:753
+#: src/parser.y:756
 msgid "This locale uses '\\' rather than ',' to separate array columns."
 msgstr ""
 "Cette locale utilise « \\ » au lieu de « , » pour délimiter des colonnes de "
 "tableaux."
 
-#: src/parser.y:766
+#: src/parser.y:769
 msgid "This locale uses ',' rather than '\\' to separate array columns."
 msgstr ""
 "Cette locale utilise « , » au lieu de « \\ » pour délimiter des colonnes de "
 "tableaux."
 
-#: src/parser.y:886 src/parser.y:1135
+#: src/parser.y:889 src/parser.y:1138
 msgid "Could not find matching closing quote"
 msgstr "Guillemets fermants manquants"
 
-#: src/parser.y:995
+#: src/parser.y:998
 msgid "Sheet name is required"
 msgstr "Le nom de la feuille n'a pas été fourni."
 
-#: src/parser.y:1048 src/parser.y:1057 src/parser.y:1082
+#: src/parser.y:1051 src/parser.y:1060 src/parser.y:1085
 msgid "The number is out of range"
 msgstr "Le nombre est en dehors de l'intervalle"
 
-#: src/parser.y:1117
+#: src/parser.y:1120
 msgid "Improperly formatted error token"
 msgstr "Jeton d'erreur improprement formatté"
 
-#: src/parser.y:1280
+#: src/parser.y:1283
 msgid "Multiple expressions are not supported in this context"
 msgstr "Les expressions multiples ne sont pas supportées dans ce contexte."
 
-#: src/parser.y:1303
+#: src/parser.y:1306
 msgid "Could not find matching opening parenthesis"
 msgstr "Parenthèse ouvrante manquante"
 
-#: src/parser.y:1307
+#: src/parser.y:1310
 msgid "Could not find matching closing parenthesis"
 msgstr "Parenthèse fermante manquante"
 
-#: src/parser.y:1311
+#: src/parser.y:1314
 msgid "Invalid expression"
 msgstr "Expression invalide"
 
-#: src/parser.y:1315
+#: src/parser.y:1318
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Token inattendu %c"
@@ -25481,12 +25481,12 @@ msgstr "Insérer colonnes"
 msgid "Insert Rows"
 msgstr "Insérer lignes"
 
-#: src/stf-parse.c:38
+#: src/stf-parse.c:43
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr "Trop de lignes dans les données à lire : %d"
 
-#: src/stf-parse.c:39
+#: src/stf-parse.c:44
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr "Trop de colonnes dans les données à lire : %d"
@@ -25556,12 +25556,12 @@ msgstr "Importation de texte (paramétrable)"
 msgid "Text export (configurable)"
 msgstr "Exportation de texte (paramétrable)"
 
-#: src/tools/analysis-tools.c:214 src/tools/analysis-tools.c:3303
+#: src/tools/analysis-tools.c:214 src/tools/analysis-tools.c:3296
 #, c-format
 msgid "Row %i"
 msgstr "Ligne %i"
 
-#: src/tools/analysis-tools.c:217 src/tools/analysis-tools.c:3295
+#: src/tools/analysis-tools.c:217 src/tools/analysis-tools.c:3288
 #, c-format
 msgid "Column %i"
 msgstr "Colonne %i"
@@ -25576,20 +25576,20 @@ msgstr "Valeurs %i"
 msgid "Area %i"
 msgstr "Zone %i"
 
-#: src/tools/analysis-tools.c:711
+#: src/tools/analysis-tools.c:710
 msgid "Correlations"
 msgstr "Corrélations"
 
-#: src/tools/analysis-tools.c:767
+#: src/tools/analysis-tools.c:766
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Corrélation (%s)"
 
-#: src/tools/analysis-tools.c:821
+#: src/tools/analysis-tools.c:820
 msgid "Covariances"
 msgstr "Covariances"
 
-#: src/tools/analysis-tools.c:877
+#: src/tools/analysis-tools.c:876
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Covariance (%s)"
@@ -25601,7 +25601,7 @@ msgstr "Covariance (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/tools/analysis-tools.c:940
+#: src/tools/analysis-tools.c:939
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -25609,47 +25609,47 @@ msgstr ""
 "Moyenne/Err std/Médiane/Mode/Ecart type/Var éch./Kurtosis/Skewness/"
 "Intervalle/Min/Max/Somme/Nombre"
 
-#: src/tools/analysis-tools.c:1027
+#: src/tools/analysis-tools.c:1026
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% IC pour moyenne de/à"
 
-#: src/tools/analysis-tools.c:1065
+#: src/tools/analysis-tools.c:1064
 #, c-format
 msgid "Largest (%d)"
 msgstr "Plus grand (%d)"
 
-#: src/tools/analysis-tools.c:1088
+#: src/tools/analysis-tools.c:1087
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Plus petit (%d)"
 
-#: src/tools/analysis-tools.c:1172
+#: src/tools/analysis-tools.c:1171
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Statistiques Descriptives (%s)"
 
-#: src/tools/analysis-tools.c:1250
+#: src/tools/analysis-tools.c:1249
 msgid "The requested sample size is to large for a periodic sample."
 msgstr ""
 "La taille d'échantillon demandée est trop grande pour un échantillonage "
 "périodique."
 
-#: src/tools/analysis-tools.c:1297
+#: src/tools/analysis-tools.c:1296
 #, c-format
 msgid "Sampling (%s)"
 msgstr "Échantillonage (%s)"
 
-#: src/tools/analysis-tools.c:1341 src/tools/analysis-tools.c:1343
-#: src/tools/analysis-tools.c:1476 src/tools/analysis-tools.c:1478
-#: src/tools/analysis-tools.c:1652 src/tools/analysis-tools.c:1654
-#: src/tools/analysis-tools.c:1794 src/tools/analysis-tools.c:1796
-#: src/tools/analysis-tools.c:1945 src/tools/analysis-tools.c:1947
+#: src/tools/analysis-tools.c:1340 src/tools/analysis-tools.c:1342
+#: src/tools/analysis-tools.c:1475 src/tools/analysis-tools.c:1477
+#: src/tools/analysis-tools.c:1651 src/tools/analysis-tools.c:1653
+#: src/tools/analysis-tools.c:1793 src/tools/analysis-tools.c:1795
+#: src/tools/analysis-tools.c:1944 src/tools/analysis-tools.c:1946
 #, c-format
 msgid "Variable %i"
 msgstr "Variable %i"
 
-#: src/tools/analysis-tools.c:1346
+#: src/tools/analysis-tools.c:1345
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -25659,20 +25659,20 @@ msgstr ""
 "observée/z/P (Z<=z) unilatéral/z critique unilat./P (Z<=z) bilatéral/z "
 "critique bilat./"
 
-#: src/tools/analysis-tools.c:1423
+#: src/tools/analysis-tools.c:1422
 #, c-format
 msgid "z-Test (%s)"
 msgstr "Test Z (%s)"
 
-#: src/tools/analysis-tools.c:1433 src/tools/analysis-tools.c:1436
+#: src/tools/analysis-tools.c:1432 src/tools/analysis-tools.c:1435
 msgid "z-Test"
 msgstr "Test Z"
 
-#: src/tools/analysis-tools.c:1484
+#: src/tools/analysis-tools.c:1483
 msgid "The 2 input ranges must have the same size."
 msgstr "Les 2 zones d'entrée sélectionnées doivent être de même taille !"
 
-#: src/tools/analysis-tools.c:1493
+#: src/tools/analysis-tools.c:1492
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -25682,18 +25682,18 @@ msgstr ""
 "dt/stat T/P (T<=t) unilatéral/t critique unilat./P (T<=t) bilatéral/t "
 "critique bilat./"
 
-#: src/tools/analysis-tools.c:1613
+#: src/tools/analysis-tools.c:1612
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "Test T, apparié (%s)"
 
-#: src/tools/analysis-tools.c:1623 src/tools/analysis-tools.c:1626
-#: src/tools/analysis-tools.c:1768 src/tools/analysis-tools.c:1771
-#: src/tools/analysis-tools.c:1906 src/tools/analysis-tools.c:1909
+#: src/tools/analysis-tools.c:1622 src/tools/analysis-tools.c:1625
+#: src/tools/analysis-tools.c:1767 src/tools/analysis-tools.c:1770
+#: src/tools/analysis-tools.c:1905 src/tools/analysis-tools.c:1908
 msgid "t-Test"
 msgstr "Test T"
 
-#: src/tools/analysis-tools.c:1657
+#: src/tools/analysis-tools.c:1656
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -25703,12 +25703,12 @@ msgstr ""
 "Diff. de moyenne observée/df/Stat T/P (T<=t) unilatéral/t critique "
 "unilatéral/P (T<=t) bilatéral/t critique bilatéral"
 
-#: src/tools/analysis-tools.c:1758 src/tools/analysis-tools.c:1896
+#: src/tools/analysis-tools.c:1757 src/tools/analysis-tools.c:1895
 #, c-format
 msgid "t-Test (%s)"
 msgstr "Test T (%s)"
 
-#: src/tools/analysis-tools.c:1799
+#: src/tools/analysis-tools.c:1798
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -25718,11 +25718,11 @@ msgstr ""
 "observée/df/stat T/P (T<=t) unilatéral/t critique unilat./P (T<=t) bilatéral/"
 "t critique bilat./"
 
-#: src/tools/analysis-tools.c:1954
+#: src/tools/analysis-tools.c:1953
 msgid "A data set is empty"
 msgstr "Un jeu de données est vide"
 
-#: src/tools/analysis-tools.c:1962
+#: src/tools/analysis-tools.c:1961
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -25731,20 +25731,20 @@ msgstr ""
 "P (F<=f) cÔté gauche/F critique cÔté gauche/P (F<=f) bilatéral/F critique "
 "bilatéral"
 
-#: src/tools/analysis-tools.c:2064
+#: src/tools/analysis-tools.c:2063
 #, c-format
 msgid "F-Test (%s)"
 msgstr "Test F (%s)"
 
-#: src/tools/analysis-tools.c:2074 src/tools/analysis-tools.c:2077
+#: src/tools/analysis-tools.c:2073 src/tools/analysis-tools.c:2076
 msgid "F-Test"
 msgstr "Test F"
 
-#: src/tools/analysis-tools.c:2151
+#: src/tools/analysis-tools.c:2150
 msgid "Y Variable"
 msgstr "Variable Y"
 
-#: src/tools/analysis-tools.c:2211
+#: src/tools/analysis-tools.c:2208
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -25752,7 +25752,7 @@ msgstr ""
 "Il y a trop peu de points de données pour cette régression.\n"
 "Il doit y en avoir au moins autant que de variables libres."
 
-#: src/tools/analysis-tools.c:2218
+#: src/tools/analysis-tools.c:2215
 msgid ""
 "Two or more of the independent variables are nearly linear\n"
 "dependent.  All numerical precision was lost in the computation."
@@ -25760,7 +25760,7 @@ msgstr ""
 "Au moins deux variables indépendantes sont presque linéairement dépendantes. "
 "La précision numérique est donc fortement dégradée."
 
-#: src/tools/analysis-tools.c:2225
+#: src/tools/analysis-tools.c:2222
 msgid ""
 "Two or more of the independent variables are linearly\n"
 "dependent, and the regression cannot be calculated.\n"
@@ -25776,7 +25776,7 @@ msgstr ""
 #. analysis_tool_regression_engine_last_check
 #. we have to figure out which data we have to trnasfer from
 #. to here
-#: src/tools/analysis-tools.c:2250
+#: src/tools/analysis-tools.c:2247
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -25784,11 +25784,11 @@ msgstr ""
 "/RÉSUMÉ//Stats de régression/R multiple/R^2/R^2 ajusté/Err standard/"
 "Observations//ANOVA//Régression/Résidu/Total///Intersection"
 
-#: src/tools/analysis-tools.c:2271
+#: src/tools/analysis-tools.c:2270
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Significativité de F"
 
-#: src/tools/analysis-tools.c:2278
+#: src/tools/analysis-tools.c:2277
 #, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
@@ -25797,7 +25797,7 @@ msgstr ""
 "/Coefficients/Erreur std/Stat T/Valeur P/%%0.0%s%%%% plus bas/%%0.0%s%%%% "
 "plus haut"
 
-#: src/tools/analysis-tools.c:2295
+#: src/tools/analysis-tools.c:2294
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
@@ -25805,7 +25805,7 @@ msgstr ""
 "Probabilité que la valeur d''une observation soit lpus grande que la valeur "
 "de T"
 
-#: src/tools/analysis-tools.c:2403
+#: src/tools/analysis-tools.c:2402
 msgid ""
 "Two or more of the independent variables are nearly linear\n"
 "dependent.  Treat the regression result with great care!"
@@ -25813,182 +25813,182 @@ msgstr ""
 "Au moins deux variables indépendantes sont presque linéairement dépendantes. "
 "Méfiez-vous beaucoup des résultats de cette régression !"
 
-#: src/tools/analysis-tools.c:2418
+#: src/tools/analysis-tools.c:2417
 #, c-format
 msgid "Regression (%s)"
 msgstr "Régression (%s)"
 
-#: src/tools/analysis-tools.c:2482
+#: src/tools/analysis-tools.c:2481
 msgid "Standard Error"
 msgstr "Erreur standard"
 
-#: src/tools/analysis-tools.c:2543
+#: src/tools/analysis-tools.c:2542
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Moyennes mobiles (%s)"
 
-#: src/tools/analysis-tools.c:2676
+#: src/tools/analysis-tools.c:2675
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Lissage exponentiel (%s)"
 
-#: src/tools/analysis-tools.c:2744
+#: src/tools/analysis-tools.c:2743
 msgid "Point"
 msgstr "Point"
 
-#: src/tools/analysis-tools.c:2746
+#: src/tools/analysis-tools.c:2745
 msgid "Rank"
 msgstr "Rang"
 
-#: src/tools/analysis-tools.c:2747
+#: src/tools/analysis-tools.c:2746
 msgid "Percentile"
 msgstr "Pourcentage"
 
-#: src/tools/analysis-tools.c:2807
+#: src/tools/analysis-tools.c:2806
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Rangs (%s)"
 
-#: src/tools/analysis-tools.c:2819 src/tools/analysis-tools.c:2822
+#: src/tools/analysis-tools.c:2818 src/tools/analysis-tools.c:2821
 msgid "Ranks"
 msgstr "Rangs"
 
-#: src/tools/analysis-tools.c:2860
+#: src/tools/analysis-tools.c:2859
 msgid "Anova: Single Factor"
 msgstr "Anova : Facteur unique"
 
-#: src/tools/analysis-tools.c:2861 src/tools/analysis-tools.c:3358
+#: src/tools/analysis-tools.c:2860 src/tools/analysis-tools.c:3348
 #: src/tools/simulation.c:343
 msgid "SUMMARY"
 msgstr "RÉSUMÉ"
 
-#: src/tools/analysis-tools.c:2862
+#: src/tools/analysis-tools.c:2861
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Groupes/Effectif/Somme/Moyenne/Variance"
 
-#: src/tools/analysis-tools.c:2916
+#: src/tools/analysis-tools.c:2915
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Source de variation/Inter-groupes/Intra-groupes/Total"
 
-#: src/tools/analysis-tools.c:2921 src/tools/analysis-tools.c:3204
-#: src/tools/analysis-tools.c:3382
+#: src/tools/analysis-tools.c:2920 src/tools/analysis-tools.c:3197
+#: src/tools/analysis-tools.c:3372
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/Valeur P/F critique"
 
-#: src/tools/analysis-tools.c:2999
+#: src/tools/analysis-tools.c:2998
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Facteur unique ANOVA (%s)"
 
-#: src/tools/analysis-tools.c:3010 src/tools/analysis-tools.c:3689
+#: src/tools/analysis-tools.c:3009 src/tools/analysis-tools.c:3679
 msgid "Anova"
 msgstr "Anova"
 
-#: src/tools/analysis-tools.c:3013
+#: src/tools/analysis-tools.c:3012
 msgid "Single Factor ANOVA"
 msgstr "Facteur unique ANOVA"
 
-#: src/tools/analysis-tools.c:3120
+#: src/tools/analysis-tools.c:3119
 msgid "The input range contains non-numeric data."
 msgstr "L'intervalle d'entrée fourni contient des données non numériques."
 
-#: src/tools/analysis-tools.c:3128
+#: src/tools/analysis-tools.c:3127
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova : Two-Factor sans réplication"
 
-#: src/tools/analysis-tools.c:3129
+#: src/tools/analysis-tools.c:3128
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/RÉSUMÉ/Effectif/Somme/Moyenne/Variance"
 
-#: src/tools/analysis-tools.c:3198
+#: src/tools/analysis-tools.c:3191
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Source de variation/Lignes/Colonnes/Erreur/Total"
 
-#: src/tools/analysis-tools.c:3348
+#: src/tools/analysis-tools.c:3338
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "L'une des combinaisons de facteurs ne contient aucune observation !"
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:3357
+#: src/tools/analysis-tools.c:3347
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova : Two-Factor avec réplication"
 
-#: src/tools/analysis-tools.c:3364
+#: src/tools/analysis-tools.c:3354
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Effectif/Somme/Moyenne/Variance"
 
-#: src/tools/analysis-tools.c:3374
+#: src/tools/analysis-tools.c:3364
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Source de variation/Lignes/Colonnes/Interaction/Intervalle"
 
-#: src/tools/analysis-tools.c:3673
+#: src/tools/analysis-tools.c:3663
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "Deux facteurs ANOVA (%s), sans réplication"
 
-#: src/tools/analysis-tools.c:3674
+#: src/tools/analysis-tools.c:3664
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Deux facteurs ANOVA (%s), avec réplication"
 
-#: src/tools/analysis-tools.c:3692
+#: src/tools/analysis-tools.c:3682
 msgid "Two Factor ANOVA"
 msgstr "Deux facteurs ANOVA"
 
-#: src/tools/analysis-tools.c:3871
+#: src/tools/analysis-tools.c:3861
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:3875
+#: src/tools/analysis-tools.c:3865
 msgid "Too Small"
 msgstr "Trop petit"
 
-#: src/tools/analysis-tools.c:3892
+#: src/tools/analysis-tools.c:3882
 msgid "More"
 msgstr "Suite"
 
-#: src/tools/analysis-tools.c:3900
+#: src/tools/analysis-tools.c:3890
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/tools/analysis-tools.c:3904
+#: src/tools/analysis-tools.c:3894
 msgid "Too Large"
 msgstr "Trop grand"
 
-#: src/tools/analysis-tools.c:3948
+#: src/tools/analysis-tools.c:3938
 msgid "Bin"
 msgstr "Valeurs"
 
-#: src/tools/analysis-tools.c:3973
+#: src/tools/analysis-tools.c:3963
 msgid "Frequency"
 msgstr "Fréquence"
 
-#: src/tools/analysis-tools.c:3978
+#: src/tools/analysis-tools.c:3968
 #, no-c-format
 msgid "Cumulative %"
 msgstr "% cumulatif"
 
-#: src/tools/analysis-tools.c:4057
+#: src/tools/analysis-tools.c:4047
 #, c-format
 msgid "Histogram (%s)"
 msgstr "Histogramme (%s)"
 
-#: src/tools/analysis-tools.c:4164 src/tools/solver/reports-write.c:691
+#: src/tools/analysis-tools.c:4154 src/tools/solver/reports-write.c:691
 msgid "Real"
 msgstr "Réel"
 
-#: src/tools/analysis-tools.c:4165
+#: src/tools/analysis-tools.c:4155
 msgid "Imaginary"
 msgstr "Imaginaire"
 
-#: src/tools/analysis-tools.c:4225
+#: src/tools/analysis-tools.c:4215
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Séries de Fourier (%s)"
 
-#: src/tools/analysis-tools.c:4237 src/tools/analysis-tools.c:4240
+#: src/tools/analysis-tools.c:4227 src/tools/analysis-tools.c:4230
 msgid "Fourier Series"
 msgstr "Séries de Fourier"
 
@@ -26561,7 +26561,7 @@ msgstr "#N/A"
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
-#: src/widgets/gnumeric-expr-entry.c:1195
+#: src/widgets/gnumeric-expr-entry.c:1199
 msgid "Expecting a single range"
 msgstr "Attends un intervalle unique"
 
@@ -26931,7 +26931,7 @@ msgstr "Une erreur inexpliquée est survenue lors de l'enregistrement de %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:572 src/workbook-view.c:785
+#: src/workbook-view.c:572 src/workbook-view.c:797
 msgid "The filename given is not valid."
 msgstr "Le nom de fichier est invalide."
 
@@ -26939,11 +26939,11 @@ msgstr "Le nom de fichier est invalide."
 msgid "Default file saver is not available."
 msgstr "L'enregistreur de fichier par défaut n'est pas accessible"
 
-#: src/workbook-view.c:731
+#: src/workbook-view.c:743
 msgid "Unsupported file format."
 msgstr "Format de fichier non supporté."
 
-#: src/workbook-view.c:778
+#: src/workbook-view.c:790
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Une erreur inexpliquée est survenue lors de l'ouverture de %s"
@@ -26965,11 +26965,11 @@ msgstr "Il y a déjà une feuille nommée"
 msgid "You may not use this name twice"
 msgstr "Vous ne pouvez pas utiliser ce nom deux fois"
 
-#: src/xml-io.c:3593
+#: src/xml-io.c:3622
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Le fichier n'est pas un fichier classeur Gnumeric"
 
-#: src/xml-io.c:3662
+#: src/xml-io.c:3691
 msgid "Gnumeric XML file format"
 msgstr "Format de fichier Gnumeric XML"
 
