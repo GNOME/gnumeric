@@ -1,5 +1,9 @@
 2001-12-19  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=67208
+	* src/func.c (tokenized_help_new) : be more picky about parsing
+	  the help tokens.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=67218
 	* src/sheet-object-graphic.c (sheet_object_graphic_user_config) :
 	  'Transparent' makes no sense for lines & arrows.

@@ -14,10 +14,6 @@ Release Critical
 - ins/del col/row undo with deleted objects (66666)
 - ensure that minimum sizes for cols/rows are not violated
 
-- Fix help tokenizer
-    : Tino's example of \n\n truncating.
-    : How to support @EXAMPLE
-
 Pending Patches
 ---------------
 

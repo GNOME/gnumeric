@@ -23,6 +23,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 /* These are not supported yet */
 typedef enum {
@@ -1062,7 +1063,16 @@ tokenized_help_new (FunctionDefinition const *fn_def)
 			if (ptr[0] == '\\' && ptr[1])
 				ptr += 2;
 
-			if (*ptr == '@' && seek_at && last_newline) {
+			/* FIXME : This is hugely ugly.  we need a decent
+			 * format for this stuff.
+			 * @SECTION=content is damn ugly considering we
+			 * are saying things like @r = bob in side the content.
+			 * for now make the assumption that any args will
+			 * always start with lower case.
+			 */
+			if (*ptr == '@' && isupper (*(unsigned char *)(ptr +1)) &&
+			    seek_at && last_newline) {
+				/* previous newline if this is not the first */
 				if (ptr != start)
 					*(ptr-1) = '\0';
 				else
