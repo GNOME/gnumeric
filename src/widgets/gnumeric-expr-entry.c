@@ -778,7 +778,8 @@ gnumeric_expr_entry_parse (GnumericExprEntry *ee, ParsePos const *pp)
 
 	/* Reset the entry in case something changed */
 	str = expr_tree_as_string (expr, pp);
-	gtk_entry_set_text (GTK_ENTRY (ee), str);
+	if (strcmp (str, text))
+		gtk_entry_set_text (GTK_ENTRY (ee), str);
 	g_free (str);
 
 	return expr;
