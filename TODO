@@ -33,7 +33,7 @@ to features that already work.
        ODDFYIELD, and VDB.
 
    + Fix or finish the following functions :
-     - ODDFPRICE, ODDLPRICE, ODDLYIELD, XIRR, XNPV, YIELD, and YIELDDISC.
+     - ODDFPRICE, ODDLPRICE, ODDLYIELD, XIRR, XNPV, and YIELDDISC.
 
 * Data Analysis Tools
   - Exponential smoothing
