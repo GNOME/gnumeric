@@ -1,3 +1,8 @@
+2000-02-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* doc/C/autosave.sgml: New file added.  Documentation of the
+	AutoSave tool.
+
 2000-02-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-format-toolbar.c (workbook_create_format_toolbar) :
