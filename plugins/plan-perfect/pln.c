@@ -306,7 +306,6 @@ pln_parse_formula(const char* ch, int row, int col)
 	char *svalue, *svalue1;
 	int xlength;
 	int row1, col1;
-	double dvalue;
 	int i;
 
 	result1 = g_strdup("=");
@@ -703,7 +702,7 @@ pln_parse_sheet (FileSource_t *src)
 	int rcode, rlength;
 	int crow, ccol, ctype, cformat, chelp, clength, cattr, cwidth;
 	int cextra;
-	Cell *cell;
+	Cell *cell = NULL;
 	double dvalue;
 	char* svalue;
 	int lastrow = SHEET_MAX_ROWS;
@@ -841,7 +840,7 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 			break;
 		}
 
-		if (clength != 0)
+		if (clength != 0 && cell != NULL)
 		{
 			svalue = pln_parse_formula(src->cur + 20 + cextra,
 				crow, ccol);

@@ -1,3 +1,7 @@
+2000-01-13  Jody Goldberg <jgoldberg@home.com>
+
+	* text-io.c (text_read_workbook) : No need to manually set the title.
+
 1999-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* text-io.c (readTextWorkbook) : Return an error string.

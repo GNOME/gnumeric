@@ -83,3 +83,36 @@ workbook_view_set_undo_redo_state (Workbook const * const wb,
 #endif
 }
 
+void
+workbook_view_set_size (Workbook const * const wb,
+			int width_in_points,
+			int height_in_points)
+{
+	int const screen_width = gdk_screen_width ();
+	int const screen_height = gdk_screen_height ();
+	gtk_window_set_default_size (GTK_WINDOW (wb->toplevel),
+				     MIN (screen_width - 64, width_in_points),
+				     MIN (screen_height - 64, height_in_points));
+}
+
+/**
+ * workbook_view_set_title:
+ * @wb: the workbook to modify
+ * @title: the title for the toplevel window
+ *
+ * Sets the toplevel window title of @wb to be @title
+ */
+void
+workbook_view_set_title (Workbook const * const wb,
+			 char const * const title)
+{
+	char *full_title;
+
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (title != NULL);
+
+	full_title = g_strconcat (title, _(" : Gnumeric"), NULL);
+
+ 	gtk_window_set_title (GTK_WINDOW (wb->toplevel), full_title);
+	g_free (full_title);
+}

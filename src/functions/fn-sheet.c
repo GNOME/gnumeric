@@ -72,7 +72,7 @@ accumulate_regions (Sheet *sheet,
 static Value *
 gnumeric_selection (FunctionEvalInfo *ei, Value *argv [])
 {
-	Sheet * const sheet = ei->pos.sheet;
+	Sheet * const sheet = ei->pos->sheet;
 	gboolean const permit_intersection = argv [0]->v.v_bool;
 	Value * res;
 	int i;

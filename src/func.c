@@ -133,15 +133,13 @@ function_iterate_argument_values (const EvalPosition      *ep,
 				  gboolean                strict)
 {
 	Value * result = NULL;
-	FunctionEvalInfo fs;
 
 	for (; result == NULL && expr_node_list;
 	     expr_node_list = expr_node_list->next){
 		ExprTree const * tree = (ExprTree const *) expr_node_list->data;
 		Value *val;
 
-		func_eval_info_pos (&fs, ep);
-		val = eval_expr (&fs, tree);
+		val = eval_expr (ep, tree);
 
 		if (strict) {
 			if (value_is_empty_cell (val)) {
@@ -243,7 +241,7 @@ function_def_get_name (FunctionDefinition *fndef)
  * 
  **/
 inline void
-function_def_count_args (FunctionDefinition *fndef,
+function_def_count_args (FunctionDefinition const *fndef,
 			 int *min, int *max)
 {
 	const char *ptr;
@@ -284,7 +282,7 @@ function_def_count_args (FunctionDefinition *fndef,
  * Return value: the type of the argument
  **/
 inline char
-function_def_get_arg_type (FunctionDefinition *fndef,
+function_def_get_arg_type (FunctionDefinition const *fndef,
 			   int arg_idx)
 {
 	const char *ptr;
@@ -349,14 +347,14 @@ function_marshal_arg (FunctionEvalInfo *ei,
 	     arg_type == 'r'))
 		v = value_new_cellrange (&t->u.ref, &t->u.ref);
 	else
-		v = eval_expr (ei, t);
+		v = eval_expr (ei->pos, t);
 		
 	switch (arg_type) {
 
 	case 'f':
 	case 'b':
 		if (v->type == VALUE_CELLRANGE) {
-			v = expr_implicit_intersection (&ei->pos, v);
+			v = expr_implicit_intersection (ei->pos, v);
 			if (v == NULL)
 				break;
 		}
@@ -369,7 +367,7 @@ function_marshal_arg (FunctionEvalInfo *ei,
 
 	case 's':
 		if (v->type == VALUE_CELLRANGE) {
-			v = expr_implicit_intersection (&ei->pos, v);
+			v = expr_implicit_intersection (ei->pos, v);
 			if (v == NULL)
 				break;
 		}
@@ -382,8 +380,8 @@ function_marshal_arg (FunctionEvalInfo *ei,
 		if (v->type != VALUE_CELLRANGE)
 			*type_mismatch = TRUE;
 		else {
-			cell_ref_make_absolute (&v->v.cell_range.cell_a, &ei->pos);
-			cell_ref_make_absolute (&v->v.cell_range.cell_b, &ei->pos);
+			cell_ref_make_absolute (&v->v.cell_range.cell_a, ei->pos);
+			cell_ref_make_absolute (&v->v.cell_range.cell_b, ei->pos);
 		}
 		break;
 
@@ -398,8 +396,8 @@ function_marshal_arg (FunctionEvalInfo *ei,
 			*type_mismatch = TRUE;
 			
 		if (v->type == VALUE_CELLRANGE) {
-			cell_ref_make_absolute (&v->v.cell_range.cell_a, &ei->pos);
-			cell_ref_make_absolute (&v->v.cell_range.cell_b, &ei->pos);
+			cell_ref_make_absolute (&v->v.cell_range.cell_a, ei->pos);
+			cell_ref_make_absolute (&v->v.cell_range.cell_b, ei->pos);
 		}
 		break;
 	}
@@ -419,7 +417,7 @@ Value *
 function_call_with_list (FunctionEvalInfo        *ei,
 			 GList                   *l)
 {
-	FunctionDefinition *fd;
+	FunctionDefinition const *fd;
 	int argc, arg;
 	Value *v = NULL;
 	Value **values;
@@ -439,7 +437,7 @@ function_call_with_list (FunctionEvalInfo        *ei,
 				 &fn_argc_max);
 
 	if (argc > fn_argc_max || argc < fn_argc_min)
-		return value_new_error (&ei->pos,
+		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
 	values = g_new (Value *, fn_argc_max);
@@ -455,7 +453,7 @@ function_call_with_list (FunctionEvalInfo        *ei,
 
 		if (type_mismatch || values [arg] == NULL) {
 			free_values (values, arg + 1);
-			return value_new_error (&ei->pos, gnumeric_err_VALUE);
+			return value_new_error (ei->pos, gnumeric_err_VALUE);
 		}
 	}
 	while (arg < fn_argc_max)
@@ -671,9 +669,10 @@ function_def_call_with_values (const EvalPosition *ep,
 			       Value              *values [])
 {
 	Value *retval;
-	FunctionEvalInfo s;
+	FunctionEvalInfo fs;
 
-	func_eval_info_pos (&s, ep);
+	fs.pos = ep;
+	fs.func_def = fndef;
 
 	if (fndef->fn_type == FUNCTION_NODES) {
 		/*
@@ -696,7 +695,7 @@ function_def_call_with_values (const EvalPosition *ep,
 			}
 		}
 
-		retval = fndef->fn.fn_nodes (&s, l);
+		retval = fndef->fn.fn_nodes (&fs, l);
 
 		if (tree) {
 			g_free (tree);
@@ -704,7 +703,7 @@ function_def_call_with_values (const EvalPosition *ep,
 		}
 
 	} else
-		retval = fndef->fn.fn_args (&s, values);
+		retval = fndef->fn.fn_args (&fs, values);
 
 	return retval;
 }

@@ -991,7 +991,11 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 
 		v = value_new_int (n);
 
-		/* TODO : why do we need the '>' ? */
+		/* FIXME : the '>' prefix is intended to give the translators
+		 * a change to provide a locale specific date format.
+		 * This is ugly because the format may not show up in the
+		 * list of date formats, and will be marked custom
+		 */
 		prefered_format = _(">mm/dd/yyyy");
 	} else {
 		time_t t = time (NULL);
@@ -999,7 +1003,7 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 		float_t serial = (tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec)/(24*3600.0);
 		v = value_new_float (serial);
 
-		/* TODO : why do we need the '>' ? */
+		/* FIXME : See comment above */
 		prefered_format = _(">hh:mm");
 	}
 
@@ -1166,4 +1170,5 @@ cmd_resize_row_col (CommandContext *context, gboolean is_col,
  *        even have stubs
  * - Autofill
  * - Array formula creation.
+ * - Sorting (jpr is working on this ?)
  */

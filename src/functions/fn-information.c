@@ -31,7 +31,7 @@ get_value_class (FunctionEvalInfo *ei, ExprTree *expr)
 	Value *value;
 	enum Value_Class res;
 
-	value = eval_expr (ei, expr);
+	value = eval_expr (ei->pos, expr);
 	if (value) {
 		switch (value->type) {
 		case VALUE_INTEGER:
@@ -153,9 +153,9 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		/* 1 if the cell is formatted in color for negative values;
 		 * otherwise returns 0 (zero).
 		 */
-		return value_new_error (&ei->pos, _("Unimplemented"));
+		return value_new_error (ei->pos, _("Unimplemented"));
 	} else if (!g_strcasecmp (info_type, "contents")) {
-		Cell *cell = sheet_cell_get (ei->pos.sheet, ref.col, ref.row);
+		Cell *cell = sheet_cell_get (ei->pos->sheet, ref.col, ref.row);
 		if (cell && cell->value)
 			return value_duplicate (cell->value);
 		g_warning ("Untested / checked");
@@ -165,9 +165,9 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		 * reference, as text. Returns empty text ("") if the worksheet
 		 * that contains reference has not yet been saved.
 		 */
-		return value_new_error (&ei->pos, _("Unimplemented"));
+		return value_new_error (ei->pos, _("Unimplemented"));
 	} else if (!g_strcasecmp (info_type, "format")) {
-		MStyle *mstyle = sheet_style_compute (ei->pos.sheet, ref.col, ref.row);
+		MStyle *mstyle = sheet_style_compute (ei->pos->sheet, ref.col, ref.row);
 		Value *val     = translate_cell_format (mstyle_get_format (mstyle));
 		mstyle_unref (mstyle);
 		return val;
@@ -180,16 +180,16 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		 * fill-aligned text, and empty text ("") if the cell contains
 		 * anything else.  
 		 */
-		return value_new_error (&ei->pos, _("Unimplemented"));
+		return value_new_error (ei->pos, _("Unimplemented"));
 	} else if (!g_strcasecmp (info_type, "protect")) {
 		/* 0 if the cell is not locked, and 1 if the cell is locked. */
-		return value_new_error (&ei->pos, _("Unimplemented"));
+		return value_new_error (ei->pos, _("Unimplemented"));
 	} else if (!g_strcasecmp (info_type, "row")) {
 		return value_new_int (ref.row + 1);
 	} else if (!g_strcasecmp (info_type, "type")) {
 		Cell *cell;
 
-		cell = sheet_cell_get (ei->pos.sheet, ref.col, ref.row);
+		cell = sheet_cell_get (ei->pos->sheet, ref.col, ref.row);
 		if (cell && cell->value) {
 			if (cell->value->type == VALUE_STRING)
 				return value_new_string ("l");
@@ -202,10 +202,10 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		 * unit of column width is equal to the width of one character
 		 * in the default font size.
 		 */
-		return value_new_error (&ei->pos, _("Unimplemented"));
+		return value_new_error (ei->pos, _("Unimplemented"));
 	}
 
-	return value_new_error (&ei->pos, _("Unknown info_type"));
+	return value_new_error (ei->pos, _("Unknown info_type"));
 }
 
 /***************************************************************************/
@@ -233,7 +233,7 @@ gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 	int   count;
 
 	range = args[0];
-	sheet = eval_sheet (ei->pos.sheet, ei->pos.sheet);
+	sheet = eval_sheet (ei->pos->sheet, ei->pos->sheet);
 	col_a = range->v.cell_range.cell_a.col;
 	col_b = range->v.cell_range.cell_b.col;
 	row_a = range->v.cell_range.cell_a.row;
@@ -270,7 +270,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 	char const * const info_type = argv [0]->v.str->str;
 	if (!strcasecmp (info_type, "directory")) {
 		/* Path of the current directory or folder.  */
-		return value_new_error (&ei->pos, _("Unimplemented"));
+		return value_new_error (ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "memavail")) {
 		/* Amount of memory available, in bytes.  */
 		return value_new_int (15 << 20);  /* Good enough... */
@@ -286,13 +286,13 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 		 * reference of the top and leftmost cell visible in the
 		 * window, based on the current scrolling position.
 		 */
-		return value_new_error (&ei->pos, _("Unimplemented"));
+		return value_new_error (ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "osversion")) {
 		/* Current operating system version, as text.  */
 		struct utsname unamedata;
 
 		if (uname (&unamedata) == -1)
-			return value_new_error (&ei->pos,
+			return value_new_error (ei->pos,
 						_("Unknown version"));
 		else {
 			char *tmp = g_strdup_printf (_("%s version %s"),
@@ -313,7 +313,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 		struct utsname unamedata;
 
 		if (uname (&unamedata) == -1)
-			return value_new_error (&ei->pos, _("Unknown system"));
+			return value_new_error (ei->pos, _("Unknown system"));
 		else
 			return value_new_string (unamedata.sysname);
 	} else if (!strcasecmp (info_type, "totmem")) {
@@ -323,7 +323,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 		return value_new_int (16 << 20);  /* Good enough... */
 	}
 
-	return value_new_error (&ei->pos, _("Unknown info_type"));
+	return value_new_error (ei->pos, _("Unknown info_type"));
 }
 
 /***************************************************************************/
@@ -345,17 +345,17 @@ static char *help_iserror = {
  * directly 
  */
 static Value *
-gnumeric_check_for_err (FunctionEvalInfo *eval_info, GList *expr_node_list,
+gnumeric_check_for_err (FunctionEvalInfo *ei, GList *expr_node_list,
 			Value ** err)
 {
 	Value * tmp;
 
 	if (g_list_length (expr_node_list) != 1) {
-		*err = value_new_error(&eval_info->pos,
+		*err = value_new_error(ei->pos,
 				       _("Argument mismatch"));
 		return NULL;
 	}
-	tmp = eval_expr (eval_info, (ExprTree *) expr_node_list->data);
+	tmp = eval_expr (ei->pos, (ExprTree *) expr_node_list->data);
 
 	if (tmp != NULL) {
 		if (tmp->type == VALUE_ERROR)
@@ -366,10 +366,10 @@ gnumeric_check_for_err (FunctionEvalInfo *eval_info, GList *expr_node_list,
 }
 
 static Value *
-gnumeric_iserror (FunctionEvalInfo *eval_info, GList *expr_node_list)
+gnumeric_iserror (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	Value * res, *err = NULL;
-	res = gnumeric_check_for_err (eval_info, expr_node_list, &err);
+	res = gnumeric_check_for_err (ei, expr_node_list, &err);
 	if (err != NULL)
 		return err;
 
@@ -400,12 +400,12 @@ static char *help_isna = {
  * the error handling mechanism
  */
 static Value *
-gnumeric_isna (FunctionEvalInfo *eval_info, GList *expr_node_list)
+gnumeric_isna (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	Value * res, *err = NULL;
 	gboolean b;
 
-	res = gnumeric_check_for_err (eval_info, expr_node_list, &err);
+	res = gnumeric_check_for_err (ei, expr_node_list, &err);
 	if (err != NULL)
 		return err;
 
@@ -430,12 +430,12 @@ static char *help_iserr = {
 };
 
 static Value *
-gnumeric_iserr (FunctionEvalInfo *eval_info, GList *expr_node_list)
+gnumeric_iserr (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	Value * res, *err = NULL;
 	gboolean b;
 
-	res = gnumeric_check_for_err (eval_info, expr_node_list, &err);
+	res = gnumeric_check_for_err (ei, expr_node_list, &err);
 	if (err != NULL)
 		return err;
 
@@ -468,16 +468,16 @@ static char *help_error_type = {
 };
 
 static Value *
-gnumeric_error_type (FunctionEvalInfo *eval_info, GList *expr_node_list)
+gnumeric_error_type (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	int retval = -1;
 	char const * mesg;
 	Value * res, *err = NULL;
-	res = gnumeric_check_for_err (eval_info, expr_node_list, &err);
+	res = gnumeric_check_for_err (ei, expr_node_list, &err);
 	if (err != NULL)
 		return err;
 	if (res == NULL)
-		return value_new_error (&eval_info->pos, gnumeric_err_NA);
+		return value_new_error (ei->pos, gnumeric_err_NA);
 	
 	mesg = res->v.error.mesg->str;
 	if (!strcmp (gnumeric_err_NULL, mesg))
@@ -496,7 +496,7 @@ gnumeric_error_type (FunctionEvalInfo *eval_info, GList *expr_node_list)
 		retval = 7;
 	else {
 		value_release (res);
-		return value_new_error (&eval_info->pos, gnumeric_err_NA);
+		return value_new_error (ei->pos, gnumeric_err_NA);
 	}
 
 	value_release (res);
@@ -519,9 +519,9 @@ static char *help_na = {
 };
 
 static Value *
-gnumeric_na (FunctionEvalInfo *eval_info, Value **argv)
+gnumeric_na (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (&eval_info->pos, gnumeric_err_NA);
+	return value_new_error (ei->pos, gnumeric_err_NA);
 }
 
 /***************************************************************************/
@@ -539,12 +539,12 @@ static char *help_error = {
 };
 
 static Value *
-gnumeric_error (FunctionEvalInfo *eval_info, Value *argv[])
+gnumeric_error (FunctionEvalInfo *ei, Value *argv[])
 {
 	if (argv [0]->type != VALUE_STRING)
-		return value_new_error (&eval_info->pos, _("Type mismatch"));
+		return value_new_error (ei->pos, _("Type mismatch"));
 
-	return value_new_error (&eval_info->pos, argv [0]->v.str->str);
+	return value_new_error (ei->pos, argv [0]->v.str->str);
 }
 
 /***************************************************************************/
@@ -568,7 +568,7 @@ gnumeric_isblank (FunctionEvalInfo *ei, GList *expr_node_list)
 	gboolean result = FALSE;
 	ExprTree *expr;
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos,
+		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
 	expr = expr_node_list->data;
@@ -586,9 +586,9 @@ gnumeric_isblank (FunctionEvalInfo *ei, GList *expr_node_list)
 
 	if (expr->oper == OPER_VAR) {
 		CellRef const *ref = &expr->u.ref;
-		Sheet const *sheet = eval_sheet (ref->sheet, ei->pos.sheet);
+		Sheet const *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
 		int row, col;
-		cell_get_abs_col_row(ref, &ei->pos.eval, &col, &row);
+		cell_get_abs_col_row(ref, &ei->pos->eval, &col, &row);
 		result = cell_is_blank(sheet_cell_get(sheet, col, row));
 	}
 	return value_new_bool (result);
@@ -636,7 +636,7 @@ gnumeric_islogical (FunctionEvalInfo *ei, GList *expr_node_list)
 	enum Value_Class cl;
 
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos,
+		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
 	cl = get_value_class (ei, expr_node_list->data);
@@ -663,7 +663,7 @@ static Value *
 gnumeric_isnontext (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos,
+		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
 	return value_new_bool (get_value_class (ei, expr_node_list->data)
@@ -689,7 +689,7 @@ static Value *
 gnumeric_isnumber (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos,
+		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
 	return value_new_bool (get_value_class (ei, expr_node_list->data)
@@ -738,7 +738,7 @@ gnumeric_isref (FunctionEvalInfo *ei, GList *expr_node_list)
 	ExprTree *t;
 
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos,
+		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
 	t = expr_node_list->data;
@@ -767,7 +767,7 @@ static Value *
 gnumeric_istext (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos,
+		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
 	return value_new_bool (get_value_class (ei, expr_node_list->data)
@@ -804,7 +804,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 		return value_duplicate (argv[0]);
 
 	if (argv[0]->type != VALUE_STRING)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	str = argv[0]->v.str->str;
 	if (format_match (str, &v, &format))
@@ -832,7 +832,7 @@ static Value *
 gnumeric_type (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	if (g_list_length (expr_node_list) != 1)
-		return value_new_error (&ei->pos,
+		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
 	return value_new_int (get_value_class (ei, expr_node_list->data));

@@ -1191,27 +1191,27 @@ sheet_update_auto_expr (Sheet *sheet)
 {
 	Value *v;
 	Workbook *wb = sheet->workbook;
-	FunctionEvalInfo ei;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* defaults */
 	v = NULL;
-	func_eval_info_init (&ei, sheet, 0, 0);
 
-	if (wb->auto_expr)
-		v = eval_expr (&ei, wb->auto_expr);
+	if (wb->auto_expr) {
+		EvalPosition pos;
+		eval_pos_init (&pos, sheet, 0, 0);
+		v = eval_expr (&pos, wb->auto_expr);
+		if (v) {
+			char *s;
 
-	if (v) {
-		char *s;
-
-		s = value_get_as_string (v);
-		workbook_auto_expr_label_set (wb, s);
-		g_free (s);
-		value_release (v);
-	} else
-		workbook_auto_expr_label_set (wb, _("Internal ERROR"));
+			s = value_get_as_string (v);
+			workbook_auto_expr_label_set (wb, s);
+			g_free (s);
+			value_release (v);
+		} else
+			workbook_auto_expr_label_set (wb, _("Internal ERROR"));
+	}
 }
 
 /*

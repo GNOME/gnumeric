@@ -106,7 +106,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 		year += 1900;
 
         if (!g_date_valid_dmy(1, month, year))
-		return value_new_error (&ei->pos, _("Invalid month or year"));
+		return value_new_error (ei->pos, _("Invalid month or year"));
 
         g_date_clear(&date, 1);
 
@@ -118,7 +118,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 		g_date_subtract_days (&date, -day + 1);
 
         if (!g_date_valid(&date))
-		return value_new_error (&ei->pos, _("Invalid day"));
+		return value_new_error (ei->pos, _("Invalid day"));
 
 	v = value_new_int (g_date_serial (&date));
 
@@ -180,7 +180,7 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 	date = g_date_new_serial (serial);
 
 	if (!g_date_valid(date))
-                  return value_new_error (&ei->pos, gnumeric_err_VALUE);
+                  return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (months > 0)
 	        g_date_add_months (date, months);
@@ -188,7 +188,7 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 	        g_date_subtract_months (date, -months);
 
 	if (!g_date_valid(date))
-                  return value_new_error (&ei->pos, gnumeric_err_NUM);
+                  return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	res = value_new_int (g_date_serial (date));
 	g_date_free (date);
@@ -555,7 +555,7 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 		method = value_get_as_bool (argv[2], &err) ? METHOD_EUROPE :
 		  METHOD_US;
 		if (err)
-			return value_new_error (&ei->pos, _("Unsupported method"));
+			return value_new_error (ei->pos, _("Unsupported method"));
 	} else
 		method = METHOD_US;
 
@@ -638,7 +638,7 @@ gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
 	GDate *date = get_date (argv[0]);
 
 	if (date == NULL || !g_date_valid(date))
-                  return value_new_error (&ei->pos, gnumeric_err_VALUE);
+                  return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (argv[1] != NULL)
 		months = value_get_as_int (argv[1]);
@@ -683,13 +683,13 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 	GDate *date = get_date (argv[0]);
 
 	if (date == NULL || !g_date_valid(date))
-                  return value_new_error (&ei->pos, gnumeric_err_VALUE);
+                  return value_new_error (ei->pos, gnumeric_err_VALUE);
 	weekday = g_date_weekday(date);
 
 	days = value_get_as_int (argv[1]);
 
 	if (argv[2] != NULL)
-		return value_new_error (&ei->pos, _("Unimplemented"));
+		return value_new_error (ei->pos, _("Unimplemented"));
 
 	/* FIXME : How to deal with starting dates that are weekends
 	 *         or holidays ?? */
@@ -817,13 +817,13 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 	start_serial = get_serial_weekday (start_serial, &start_offset);
 	end_serial = get_serial_weekday (end_serial, &end_offset);
 	if (start_serial < 0 || end_serial < 0)
-                  return value_new_error (&ei->pos, gnumeric_err_NUM);
+                  return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	res = end_serial - start_serial;
 	res -= ((res/7)*2);	/* Remove weekends */
 
 	if (argv[2] != NULL) {
-		value_area_foreach (&ei->pos, argv[2],
+		value_area_foreach (ei->pos, argv[2],
 				    &networkdays_holiday_callback,
 				    &close);
 	}

@@ -236,7 +236,7 @@ void
 cell_eval_content (Cell *cell)
 {
 	Value           *v;
-	FunctionEvalInfo ei;
+	EvalPosition	 pos;
 
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 1) {
@@ -251,7 +251,7 @@ cell_eval_content (Cell *cell)
 	}
 #endif
 
-	v = eval_expr (func_eval_info_cell (&ei, cell),
+	v = eval_expr (eval_pos_cell (&pos, cell),
 		       cell->parsed_node);
 
 #ifdef DEBUG_EVALUATION
@@ -267,7 +267,7 @@ cell_eval_content (Cell *cell)
 #endif
 
 	if (v == NULL)
-		v = value_new_error (&ei.pos, "Internal error");
+		v = value_new_error (&pos, "Internal error");
 
 	if (cell->value)
 		value_release (cell->value);

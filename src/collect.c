@@ -169,7 +169,7 @@ float_range_function (GList *exprlist, FunctionEvalInfo *ei,
 	float_t *vals, res;
 	int n, err;
 
-	vals = collect_floats (exprlist, &ei->pos, flags, &n, &error);
+	vals = collect_floats (exprlist, ei->pos, flags, &n, &error);
 	if (!vals)
 		return (error != value_terminate ()) ? error : NULL;
 
@@ -177,7 +177,7 @@ float_range_function (GList *exprlist, FunctionEvalInfo *ei,
 	g_free (vals);
 
 	if (err)
-		return value_new_error (&ei->pos, func_error);
+		return value_new_error (ei->pos, func_error);
 	else
 		return value_new_float (res);
 }
@@ -195,13 +195,13 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 	Value *error = NULL;
 	Value *res;
 
-	vals0 = collect_floats_value (val0, &ei->pos,
+	vals0 = collect_floats_value (val0, ei->pos,
 				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
 				      &n0, &error);
 	if (error)
 		return error;
 
-	vals1 = collect_floats_value (val1, &ei->pos,
+	vals1 = collect_floats_value (val1, ei->pos,
 				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
 				      &n1, &error);
 	if (error) {
@@ -210,12 +210,12 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 	}
 
 	if (n0 != n1 || n0 == 0)
-		res = value_new_error (&ei->pos, func_error);
+		res = value_new_error (ei->pos, func_error);
 	else {
 		float_t fres;
 
 		if (func (vals0, vals1, n0, &fres))
-			res = value_new_error (&ei->pos, func_error);
+			res = value_new_error (ei->pos, func_error);
 		else
 			res = value_new_float (fres);
 	}

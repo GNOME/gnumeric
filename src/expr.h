@@ -107,8 +107,8 @@ typedef Value *(FunctionArgs)  (FunctionEvalInfo *ei, Value **args);
 typedef Value *(FunctionNodes) (FunctionEvalInfo *ei, GList *nodes);
 
 struct _FunctionEvalInfo {
-	EvalPosition        pos;
-	FunctionDefinition *func_def;
+	EvalPosition const * pos;
+	FunctionDefinition const *func_def;
 };
 
 /*
@@ -122,9 +122,6 @@ EvalPosition     *eval_pos_init       (EvalPosition *, Sheet *s, int col, int ro
 EvalPosition     *eval_pos_cell       (EvalPosition *, Cell *);
 ParsePosition    *parse_pos_init      (ParsePosition *, Workbook *wb, int col, int row);
 ParsePosition    *parse_pos_cell      (ParsePosition *, Cell *);
-FunctionEvalInfo *func_eval_info_init (FunctionEvalInfo *s, Sheet *sheet, int col, int row);
-FunctionEvalInfo *func_eval_info_cell (FunctionEvalInfo *s, Cell *cell);
-FunctionEvalInfo *func_eval_info_pos  (FunctionEvalInfo *s, const EvalPosition *fp);
 
 /*
  * Built in / definable sheet names.
@@ -194,7 +191,7 @@ void expr_dump_tree (const ExprTree *tree);
  * Returns int(0) if the expression uses a non-existant cell for anything
  * other than an equality test.
  */
-Value       *eval_expr (FunctionEvalInfo * const s,
+Value       *eval_expr (EvalPosition const * const pos,
 			ExprTree const * const tree);
 
 Value       *expr_implicit_intersection (EvalPosition const * const pos,

@@ -2064,7 +2064,7 @@ workbook_new (void)
 	sy = MAX (gdk_screen_height () - 64, 200);
 	sx = (sx * 3) / 4;
 	sy = (sy * 3) / 4;
-	gtk_window_set_default_size (GTK_WINDOW (wb->toplevel), sx, sy);
+	workbook_view_set_size (wb, sx, sy);
 
 	/* Assign a default name */
 	do {
@@ -2677,27 +2677,6 @@ workbook_realized (Workbook *workbook, GdkWindow *window)
 }
 
 /**
- * workbook_set_title:
- * @wb: the workbook to modify
- * @title: the title for the toplevel window
- *
- * Sets the toplelve window title of @wb to be @title
- */
-void
-workbook_set_title (Workbook *wb, const char *title)
-{
-	char *full_title;
-
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (title != NULL);
-
-	full_title = g_strconcat (_("Gnumeric: "), title, NULL);
-
- 	gtk_window_set_title (GTK_WINDOW (wb->toplevel), full_title);
-	g_free (full_title);
-}
-
-/**
  * workbook_set_filename:
  * @wb: the workbook to modify
  * @name: the file name for this worksheet.
@@ -2721,7 +2700,7 @@ workbook_set_filename (Workbook *wb, const char *name)
 
 	wb->filename = g_strdup (name);
 
-	workbook_set_title (wb, g_basename (name));
+	workbook_view_set_title (wb, g_basename (name));
 
 	wb->needs_name = FALSE;
 	return TRUE;

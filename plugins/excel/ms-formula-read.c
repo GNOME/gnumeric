@@ -635,7 +635,7 @@ make_inter_sheet_ref_v7 (ExcelWorkbook *wb, guint16 extn_idx,
 static Value *
 unknownFunctionHandler (FunctionEvalInfo *ei, GList *expr_node_list)
 {
-	return value_new_error (&ei->pos, gnumeric_err_NAME);
+	return value_new_error (ei->pos, gnumeric_err_NAME);
 }
 
 static Symbol *

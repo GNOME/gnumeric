@@ -60,7 +60,7 @@ gnumeric_and (FunctionEvalInfo *ei, GList *nodes)
 	int result = -1;
 
 	/* Yes, AND is actually strict.  */
-	Value *v = function_iterate_argument_values (&ei->pos,
+	Value *v = function_iterate_argument_values (ei->pos,
 						     callback_function_and,
 						     &result, nodes, TRUE);
 	if (v != NULL)
@@ -68,7 +68,7 @@ gnumeric_and (FunctionEvalInfo *ei, GList *nodes)
 
 	/* See if there was any value worth using */
 	if (result == -1)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_bool (result);
 }
@@ -96,7 +96,7 @@ gnumeric_not (FunctionEvalInfo *ei, Value **argv)
 {
 	gboolean err, val = value_get_as_bool (argv [0], &err);
 	if (err)
-		return value_new_error (&ei->pos, _("Type Mismatch"));
+		return value_new_error (ei->pos, _("Type Mismatch"));
 	return value_new_bool (!val);
 }
 
@@ -143,7 +143,7 @@ gnumeric_or (FunctionEvalInfo *ei, GList *nodes)
 	int result = -1;
 
 	/* Yes, OR is actually strict.  */
-	Value *v = function_iterate_argument_values (&ei->pos,
+	Value *v = function_iterate_argument_values (ei->pos,
 						     callback_function_or,
 						     &result, nodes, TRUE);
 	if (v != NULL)
@@ -151,7 +151,7 @@ gnumeric_or (FunctionEvalInfo *ei, GList *nodes)
 
 	/* See if there was any value worth using */
 	if (result == -1)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_bool (result);
 }
@@ -187,11 +187,11 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 	/* Type checking */
 	args = g_list_length (expr_node_list);
 	if (args < 1 || args > 3)
-		return value_new_error (&ei->pos,
+		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
 	/* Compute the if part */
-	value = eval_expr (ei, (ExprTree *) expr_node_list->data);
+	value = eval_expr (ei->pos, (ExprTree *) expr_node_list->data);
 	if (VALUE_IS_EMPTY_OR_ERROR(value))
 		return value;
 
@@ -200,7 +200,7 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 	value_release (value);
 	if (err)
 		/* FIXME: please verify error code.  */
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (ret){
 		if (expr_node_list->next)
@@ -216,7 +216,7 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 	}
 
 	/* Return the result */
-	return eval_expr (ei, expr);
+	return eval_expr (ei->pos, expr);
 }
 
 /***************************************************************************/

@@ -347,17 +347,21 @@ expr_name_value (const ExprName *expr_name)
 
 
 Value *
-eval_expr_name (FunctionEvalInfo *ei, const ExprName *expr_name)
+eval_expr_name (EvalPosition const * const pos, const ExprName *expr_name)
 {
-	g_return_val_if_fail (ei, NULL);
+	g_return_val_if_fail (pos, NULL);
 
 	if (!expr_name)
-		return value_new_error (&ei->pos, gnumeric_err_NAME);
+		return value_new_error (pos, gnumeric_err_NAME);
 
-	if (expr_name->builtin)
-		return expr_name->t.expr_func (ei, NULL);
-	else
-		return eval_expr (ei, expr_name->t.expr_tree);
+	if (expr_name->builtin) {
+		FunctionEvalInfo ei;
+		ei.pos = pos;
+		ei.func_def = NULL; /* FIXME : This is ugly. why are there
+					no descriptors for builtins */
+		return expr_name->t.expr_func (&ei, NULL);
+	} else
+		return eval_expr (pos, expr_name->t.expr_tree);
 }
 
 /* ------------------------------------------------------------- */
@@ -365,10 +369,10 @@ eval_expr_name (FunctionEvalInfo *ei, const ExprName *expr_name)
 static Value *
 name_sheet_title (FunctionEvalInfo *ei, Value **args)
 {
-	if (!ei || !ei->pos.sheet || !ei->pos.sheet->name)
-		return value_new_error (&ei->pos, _("Error: no sheet"));
+	if (!ei || !ei->pos->sheet || !ei->pos->sheet->name)
+		return value_new_error (ei->pos, _("Error: no sheet"));
 	else
-		return value_new_string (ei->pos.sheet->name);
+		return value_new_string (ei->pos->sheet->name);
 }
 
 /* ------------------------------------------------------------- */

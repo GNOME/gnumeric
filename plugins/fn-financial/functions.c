@@ -250,7 +250,7 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 	d = annual_year_basis (argv[0], basis);
 
 	if (a < 0 || d < 0 || par <= 0 || rate <= 0 || basis < 0 || basis > 4)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	coefficient = par * rate / freq;
 	x = a / d;
@@ -309,7 +309,7 @@ gnumeric_accrintm (FunctionEvalInfo *ei, Value **argv)
 	d = annual_year_basis (argv[0], basis);
 
 	if (a < 0 || d < 0 || par <= 0 || rate <= 0 || basis < 0 || basis > 4)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (par * rate * a/d);
 }
@@ -362,7 +362,7 @@ gnumeric_intrate (FunctionEvalInfo *ei, Value **argv)
 	d = annual_year_basis (argv[0], basis);
 
 	if (basis < 0 || basis > 4 || a <= 0 || d <= 0)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float ((redemption - investment) / investment *
 				(d / a));
@@ -414,7 +414,7 @@ gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 	d = annual_year_basis (argv[0], basis);
 
 	if (a <= 0 || d <= 0 || basis < 0 || basis > 4)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (investment / (1.0 - (discount * a/d)));
 }
@@ -467,7 +467,7 @@ gnumeric_pricedisc (FunctionEvalInfo *ei, Value **argv)
 	d = annual_year_basis (argv[0], basis);
 
 	if (a <= 0 || d <= 0 || basis < 0 || basis > 4)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (redemption - discount * redemption * a/d);
 }
@@ -520,7 +520,7 @@ gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
 
 	if (a <= 0 || b <= 0 || dsm <= 0 || dim <= 0 || basis < 0 || 
 	    basis > 4)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (((100 + (dim/b * discount * 100)) /
 				 (1 + (dsm/b * yield))) -
@@ -571,7 +571,7 @@ gnumeric_disc (FunctionEvalInfo *ei, Value **argv)
 	dsm = days_monthly_basis (argv[0], argv[1], basis);
 
 	if (dsm <= 0 || b <= 0 || dsm <= 0 || basis < 0 || basis > 4)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float ((redemption - par) / redemption * (b / dsm));
 }
@@ -621,7 +621,7 @@ gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 
 	/* Rate or number of periods cannot be negative */
 	if ( (rate < 0) || (nper <= 0) )
-		return value_new_error (&ei->pos, _("effect - domain error"));
+		return value_new_error (ei->pos, _("effect - domain error"));
 
         return value_new_float ( pow( (1 + rate/nper) , nper) - 1 );
 
@@ -660,7 +660,7 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 
 	/* Rate or number of periods cannot be negative */
 	if ( (rate < 0) || (nper <= 0) )
-		return value_new_error (&ei->pos, _("nominal - domain error"));
+		return value_new_error (ei->pos, _("nominal - domain error"));
 
         return value_new_float ( nper * ( pow( 1 + rate, 1.0/nper ) - 1 ) );
 
@@ -693,7 +693,7 @@ gnumeric_ispmt (FunctionEvalInfo *ei, Value **argv)
 	pv = value_get_as_float (argv[3]);
 
 	if (per < 1 || per > nper)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	tmp = - pv * rate;
 
@@ -838,7 +838,7 @@ gnumeric_sln (FunctionEvalInfo *ei, Value **argv)
 
 	/* Life of an asset cannot be negative */
 	if (life <= 0)
-		return value_new_error (&ei->pos, _("sln - domain error"));
+		return value_new_error (ei->pos, _("sln - domain error"));
 
         return value_new_float ((cost - salvage_value) / life);
 }
@@ -882,7 +882,7 @@ gnumeric_syd (FunctionEvalInfo *ei, Value **argv)
 
 	/* Life of an asset cannot be negative */
 	if (life <= 0)
-		return value_new_error (&ei->pos, _("syd - domain error"));
+		return value_new_error (ei->pos, _("syd - domain error"));
 
         return value_new_float (((cost - salvage_value) *
 				 (life - period + 1) * 2) /
@@ -917,7 +917,7 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 	fraction = value_get_as_int (argv [1]);
 
 	if (fraction <= 0)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	tmp = fraction;
 	/* Count digits in fraction */
@@ -959,7 +959,7 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 	fraction = value_get_as_int (argv [1]);
 
 	if (fraction <= 0)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	/* Count digits in fraction */
 	tmp = fraction;
@@ -998,13 +998,13 @@ gnumeric_mirr (FunctionEvalInfo *ei, Value **argv)
 	frate = value_get_as_float (argv[1]);
 	rrate = value_get_as_float (argv[2]);
 
-	pos_values = collect_floats_value (argv[0], &ei->pos,
+	pos_values = collect_floats_value (argv[0], ei->pos,
 					   COLLECT_IGNORE_NEGATIVE,
 					   &n_pos, &result);
 	if (result)
 		goto out;
 
-	neg_values = collect_floats_value (argv[0], &ei->pos,
+	neg_values = collect_floats_value (argv[0], ei->pos,
 					   COLLECT_IGNORE_POSITIVE,
 					   &n_neg, &result);
 	if (result)
@@ -1059,13 +1059,13 @@ gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 	dsm = maturity - settlement;
 
 	if (settlement > maturity || discount < 0 || dsm > 356)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	divisor = 360 - discount * dsm;
 	/* This test probably isn't right, but it is better that not checking
 	   at all.  --MW.  */
 	if (divisor == 0)
-		return value_new_error (&ei->pos, gnumeric_err_DIV0);
+		return value_new_error (ei->pos, gnumeric_err_DIV0);
 
 	return value_new_float ((365 * discount) / divisor);
 }
@@ -1104,7 +1104,7 @@ gnumeric_tbillprice (FunctionEvalInfo *ei, Value **argv)
 	dsm = maturity - settlement;
 
 	if (settlement > maturity || discount < 0 || dsm > 356)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	res = 100 * (1.0 - (discount * dsm) / 360.0);
 
@@ -1145,7 +1145,7 @@ gnumeric_tbillyield (FunctionEvalInfo *ei, Value **argv)
 	dsm = maturity - settlement;
 
 	if (pr <= 0 || dsm <= 0 || dsm > 356)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	res = (100.0 - pr) / pr * (360.0 / dsm);
 
@@ -1217,14 +1217,14 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	/* Ignore the guess in argv[5].  */
 
 	if (udata.nper <= 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (udata.type != 0 && udata.type != 1)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (udata.pmt == 0) {
 		if (udata.pv == 0 || udata.pv * udata.fv > 0)
-			return value_new_error (&ei->pos, gnumeric_err_NUM);
+			return value_new_error (ei->pos, gnumeric_err_NUM);
 		else {
 			/* Exact case.  */
 			return value_new_float (pow (-udata.fv / udata.pv,
@@ -1253,7 +1253,7 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 #endif
 		return value_new_float (data.root);
 	} else
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -1319,7 +1319,7 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 	goal_seek_initialise (&data);
 	rate0 = 0.1; /* Ignore the guess value */
 
-	p.values = collect_floats_value (argv[0], &ei->pos,
+	p.values = collect_floats_value (argv[0], ei->pos,
 					 COLLECT_IGNORE_STRINGS,
 					 &n, &result);
 	if (result != NULL) {
@@ -1334,7 +1334,7 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 	if (status == GOAL_SEEK_OK)
 		return value_new_float (data.root);
 	else
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -1364,7 +1364,7 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 	type = value_get_as_int (argv [4]);
 
 	if (rate <= 0.0)
-		return value_new_error (&ei->pos, _("pv - domain error"));
+		return value_new_error (ei->pos, _("pv - domain error"));
 
 	/* Calculate the PVIF and FVIFA */
 	pvif = calculate_pvif (rate, nper);
@@ -1422,7 +1422,7 @@ gnumeric_npv (FunctionEvalInfo *ei, GList *nodes)
 	p.sum   = 0.0;
 	p.num   = 0;
 
-	v = function_iterate_argument_values (&ei->pos, callback_function_npv,
+	v = function_iterate_argument_values (ei->pos, callback_function_npv,
 					      &p, nodes, TRUE);
 
 	return (v != NULL) ? v : value_new_float (p.sum);
@@ -1458,21 +1458,21 @@ gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
 	rate = value_get_as_float (argv[0]);
 	sum = 0;
 
-	payments = collect_floats_value (argv[1], &ei->pos,
+	payments = collect_floats_value (argv[1], ei->pos,
 					 COLLECT_IGNORE_STRINGS |
 					 COLLECT_IGNORE_BOOLS,
 					 &p_n, &result);
 	if (result)
 		goto out;
 
-	dates = collect_floats_value (argv[2], &ei->pos,
+	dates = collect_floats_value (argv[2], ei->pos,
 				      COLLECT_DATES,
 				      &d_n, &result);
 	if (result)
 		goto out;
 
 	if (p_n != d_n)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	for (i=0; i<p_n; i++)
 	        sum += payments[i] / pow(1+rate, (dates[i]-dates[0])/365.0);
@@ -1560,7 +1560,7 @@ gnumeric_xirr (FunctionEvalInfo *ei, Value **argv)
 	goal_seek_initialise (&data);
 	rate0 = 0.1; /* Ignore the guess value */
 
-	p.values = collect_floats_value (argv[0], &ei->pos,
+	p.values = collect_floats_value (argv[0], ei->pos,
 					 COLLECT_IGNORE_STRINGS,
 					 &n, &result);
 	p.dates = NULL;
@@ -1568,7 +1568,7 @@ gnumeric_xirr (FunctionEvalInfo *ei, Value **argv)
 	if (result != NULL)
 		goto out;
 
-	p.dates = collect_floats_value (argv[1], &ei->pos,
+	p.dates = collect_floats_value (argv[1], ei->pos,
 					COLLECT_DATES,
 					&d_n, &result);
 	if (result != NULL)
@@ -1580,7 +1580,7 @@ gnumeric_xirr (FunctionEvalInfo *ei, Value **argv)
 	if (status == GOAL_SEEK_OK)
 		result = value_new_float (data.root);
 	else
-		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
 
  out:
 	g_free (p.values);
@@ -1791,12 +1791,12 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 	type = value_get_as_int (argv [4]);
 
 	if (rate <= 0.0)
-		return value_new_error (&ei->pos, gnumeric_err_DIV0);
+		return value_new_error (ei->pos, gnumeric_err_DIV0);
 
 	tmp = (pmt * (1.0 + rate * type) - fv * rate) /
 	  (pv * rate + pmt * (1.0 + rate * type));
 	if (tmp <= 0.0)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
         return value_new_float (log (tmp) / log (1.0 + rate));
 }
@@ -1828,11 +1828,11 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 	fv = value_get_as_float (argv [2]);
 
 	if (rate <= 0)
-		return value_new_error (&ei->pos, gnumeric_err_DIV0);
+		return value_new_error (ei->pos, gnumeric_err_DIV0);
 	else if (fv == 0 || pv == 0)
-		return value_new_error (&ei->pos, gnumeric_err_DIV0);
+		return value_new_error (ei->pos, gnumeric_err_DIV0);
 	else if (fv / pv < 0)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
         return value_new_float (log (fv / pv) / log (1.0 + rate));
 
@@ -1863,7 +1863,7 @@ gnumeric_fvschedule (FunctionEvalInfo *ei, Value **argv)
 	int     i, n;
 
 	pv = value_get_as_float (argv [0]);
-	schedule = collect_floats_value (argv[1], &ei->pos,
+	schedule = collect_floats_value (argv[1], ei->pos,
 					 0, &n, &result);
 	if (result)
 		goto out;
@@ -1958,7 +1958,7 @@ gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 	  break;
 	}
 
-	return value_new_error (&ei->pos, gnumeric_err_NUM);
+	return value_new_error (ei->pos, gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -1982,7 +1982,7 @@ static char *help_price = {
 static Value *
 gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
 }
 
 /***************************************************************************/
@@ -2000,7 +2000,7 @@ static char *help_yield = {
 static Value *
 gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
 }
 
 /***************************************************************************/
@@ -2018,7 +2018,7 @@ static char *help_yielddisc = {
 static Value *
 gnumeric_yielddisc (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
 }
 
 /***************************************************************************/
@@ -2036,7 +2036,7 @@ static char *help_yieldmat = {
 static Value *
 gnumeric_yieldmat (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
 }
 
 /***************************************************************************/
@@ -2054,7 +2054,7 @@ static char *help_oddfprice = {
 static Value *
 gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
 }
 
 /***************************************************************************/
@@ -2072,7 +2072,7 @@ static char *help_oddfyield = {
 static Value *
 gnumeric_oddfyield (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
 }
 
 /***************************************************************************/
@@ -2090,7 +2090,7 @@ static char *help_oddlprice = {
 static Value *
 gnumeric_oddlprice (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
 }
 
 /***************************************************************************/
@@ -2108,7 +2108,7 @@ static char *help_oddlyield = {
 static Value *
 gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
 }
 
 /***************************************************************************/

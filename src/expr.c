@@ -75,41 +75,6 @@ parse_pos_cell (ParsePosition *pp, Cell *cell)
 		cell->row->pos);
 }
 
-FunctionEvalInfo *
-func_eval_info_init (FunctionEvalInfo *eval_info, Sheet *sheet, int col, int row)
-{
-	g_return_val_if_fail (eval_info != NULL, NULL);
-       
-	eval_pos_init (&eval_info->pos, sheet, col, row);
-	eval_info->func_def = 0;
-
-	return eval_info;
-}
-
-FunctionEvalInfo *
-func_eval_info_cell (FunctionEvalInfo *eval_info, Cell *cell)
-{
-	g_return_val_if_fail (eval_info != NULL, NULL);
-	g_return_val_if_fail (cell != NULL, NULL);
-
-	return func_eval_info_init (
-		eval_info, cell->sheet,
-		cell->col->pos, cell->row->pos);
-}
-
-FunctionEvalInfo *
-func_eval_info_pos (FunctionEvalInfo *eval_info, const EvalPosition *eval_pos)
-{
-	g_return_val_if_fail (eval_info != NULL, NULL);
-	g_return_val_if_fail (eval_pos != NULL, NULL);
-
-	return func_eval_info_init (
-		eval_info,
-		eval_pos->sheet,
-		eval_pos->eval.col,
-		eval_pos->eval.row);
-}
-
 ExprTree *
 expr_tree_new_constant (Value *v)
 {
@@ -423,25 +388,27 @@ expr_tree_unref (ExprTree *tree)
 }
 
 static Value *
-eval_funcall (FunctionEvalInfo *ei, ExprTree const *tree)
+eval_funcall (EvalPosition const * const pos, ExprTree const *tree)
 {
+	FunctionEvalInfo ei;
 	const Symbol *sym;
 	FunctionDefinition *fd;
 	GList *args;
 
-	g_return_val_if_fail (ei != NULL, NULL);
+	g_return_val_if_fail (pos != NULL, NULL);
 	g_return_val_if_fail (tree != NULL, NULL);
 
 	sym = tree->u.function.symbol;
 
 	if (sym->type != SYMBOL_FUNCTION)
-		return value_new_error (&ei->pos, _("Internal error"));
+		return value_new_error (pos, _("Internal error"));
 
 	fd = (FunctionDefinition *)sym->data;
-	ei->func_def = fd;
+	ei.func_def = fd;
+	ei.pos = pos;
 	args = tree->u.function.arg_list;
 
-	return function_call_with_list (ei, args);
+	return function_call_with_list (&ei, args);
 }
 
 /**
@@ -623,18 +590,18 @@ compare (Value const * const a, Value const * const b)
  * necessary.
  */
 static void
-eval_range (FunctionEvalInfo *s, Value *v)
+eval_range (EvalPosition const * const pos, Value *v)
 {
 	int start_col, start_row, end_col, end_row;
 	CellRef * a = &v->v.cell_range.cell_a;
 	CellRef * b = &v->v.cell_range.cell_b;
-	Sheet * sheet = a->sheet ? a->sheet : s->pos.sheet;
+	Sheet * sheet = a->sheet ? a->sheet : pos->sheet;
 	Cell * cell;
 	int r, c;
-	int const gen = s->pos.sheet->workbook->generation;
+	int const gen = pos->sheet->workbook->generation;
 
-	cell_get_abs_col_row (a, &s->pos.eval, &start_col, &start_row);
-	cell_get_abs_col_row (b, &s->pos.eval, &end_col, &end_row);
+	cell_get_abs_col_row (a, &pos->eval, &start_col, &start_row);
+	cell_get_abs_col_row (b, &pos->eval, &end_col, &end_row);
 
 	if (b->sheet && a->sheet != b->sheet) {
 		g_warning ("3D references not-fully supported.\n"
@@ -652,12 +619,12 @@ eval_range (FunctionEvalInfo *s, Value *v)
 }
 
 static Value *
-eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
+eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 {
 	Value *res = NULL, *a = NULL, *b = NULL;
 	
 	g_return_val_if_fail (tree != NULL, NULL);
-	g_return_val_if_fail (s != NULL, NULL);
+	g_return_val_if_fail (pos != NULL, NULL);
 
 	switch (tree->oper){
 	case OPER_EQUAL:
@@ -668,23 +635,23 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 	case OPER_LTE: {
 		int comp;
 
-		a = eval_expr_real (s, tree->u.binary.value_a);
+		a = eval_expr_real (pos, tree->u.binary.value_a);
 		if (a != NULL) {
 			if (a->type == VALUE_CELLRANGE) {
-				a = expr_implicit_intersection (&s->pos, a);
+				a = expr_implicit_intersection (pos, a);
 				if (a == NULL)
-					return value_new_error (&s->pos, gnumeric_err_VALUE);
+					return value_new_error (pos, gnumeric_err_VALUE);
 			} else if (a->type == VALUE_ERROR)
 				return a;
 		}
 
-		b = eval_expr_real (s, tree->u.binary.value_b);
+		b = eval_expr_real (pos, tree->u.binary.value_b);
 		if (b != NULL) {
 			Value *res = NULL;
 			if (b->type == VALUE_CELLRANGE) {
-				b = expr_implicit_intersection (&s->pos, b);
+				b = expr_implicit_intersection (pos, b);
 				if (b == NULL)
-					res = value_new_error (&s->pos, gnumeric_err_VALUE);
+					res = value_new_error (pos, gnumeric_err_VALUE);
 			} else if (b->type == VALUE_ERROR)
 				res = b;
 
@@ -712,7 +679,7 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 			if (tree->oper == OPER_NOT_EQUAL)
 				return value_new_bool (TRUE);
 
-			return value_new_error (&s->pos, gnumeric_err_VALUE);
+			return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
 		switch (tree->oper) {
@@ -742,7 +709,7 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 
 		default:
 			g_assert_not_reached ();
-			res = value_new_error (&s->pos,
+			res = value_new_error (pos,
 						_("Internal type error"));
 		}
 		return res;
@@ -763,13 +730,13 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 		 */
 
 	        /* Garantees that a != NULL */
-		a = eval_expr (s, tree->u.binary.value_a);
+		a = eval_expr (pos, tree->u.binary.value_a);
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
-			a = expr_implicit_intersection (&s->pos, a);
+			a = expr_implicit_intersection (pos, a);
 			if (a == NULL)
-				return value_new_error (&s->pos, gnumeric_err_VALUE);
+				return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
 		/* 1) Error from A */
@@ -779,17 +746,17 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 		/* 2) #!VALUE error if A is not a number */
 		if (!VALUE_IS_NUMBER (a)) {
 			value_release (a);
-			return value_new_error (&s->pos, gnumeric_err_VALUE);
+			return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
 	        /* Garantees that b != NULL */
-		b = eval_expr (s, tree->u.binary.value_b);
+		b = eval_expr (pos, tree->u.binary.value_b);
 
 		/* Handle implicit intersection */
 		if (b->type == VALUE_CELLRANGE) {
-			b = expr_implicit_intersection (&s->pos, a);
+			b = expr_implicit_intersection (pos, a);
 			if (b == NULL)
-				return value_new_error (&s->pos, gnumeric_err_VALUE);
+				return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
 		/* 3) Error from B */
@@ -802,7 +769,7 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 		if (!VALUE_IS_NUMBER (b)) {
 			value_release (a);
 			value_release (b);
-			return value_new_error (&s->pos, gnumeric_err_VALUE);
+			return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
 		if (a->type != VALUE_FLOAT && b->type != VALUE_FLOAT){
@@ -843,7 +810,7 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 
 			case OPER_DIV:
 				if (ib == 0)
-					return value_new_error (&s->pos, gnumeric_err_DIV0);
+					return value_new_error (pos, gnumeric_err_DIV0);
 				dres = (double)ia / (double)ib;
 				ires = (int)dres;
 				if (dres == ires)
@@ -853,7 +820,7 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 
 			case OPER_EXP:
 				if (ia == 0 && ib <= 0)
-					return value_new_error (&s->pos, gnumeric_err_NUM);
+					return value_new_error (pos, gnumeric_err_NUM);
 				dres = pow ((double)ia, (double)ib);
 				ires = (int)dres;
 				if (dres == ires)
@@ -882,32 +849,32 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 
 			case OPER_DIV:
 				return (vb == 0.0)
-				    ? value_new_error (&s->pos,
+				    ? value_new_error (pos,
 						       gnumeric_err_DIV0)
 				    : value_new_float (va / vb);
 
 			case OPER_EXP:
 				if ((va == 0 && vb <= 0) ||
 				    (va < 0 && vb != (int)vb))
-					return value_new_error (&s->pos, gnumeric_err_NUM);
+					return value_new_error (pos, gnumeric_err_NUM);
 				return value_new_float (pow (va, vb));
 
 			default:
 				break;
 			}
 		}
-		return value_new_error (&s->pos, _("Unknown operator"));
+		return value_new_error (pos, _("Unknown operator"));
 
 	case OPER_PERCENT:
 	case OPER_NEG:
 	        /* Garantees that a != NULL */
-		a = eval_expr (s, tree->u.value);
+		a = eval_expr (pos, tree->u.value);
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
-			a = expr_implicit_intersection (&s->pos, a);
+			a = expr_implicit_intersection (pos, a);
 			if (a == NULL)
-				return value_new_error (&s->pos, gnumeric_err_VALUE);
+				return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
 		if (a->type == VALUE_ERROR)
@@ -915,7 +882,7 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 
 		if (!VALUE_IS_NUMBER (a)){
 			value_release (a);
-			return value_new_error (&s->pos, gnumeric_err_VALUE);
+			return value_new_error (pos, gnumeric_err_VALUE);
 		}
 		if (tree->oper == OPER_NEG) {
 			if (a->type == VALUE_INTEGER)
@@ -932,10 +899,10 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 	case OPER_CONCAT: {
 		char *sa, *sb, *tmp;
 
-		a = eval_expr_real (s, tree->u.binary.value_a);
+		a = eval_expr_real (pos, tree->u.binary.value_a);
 		if (a != NULL && a->type == VALUE_ERROR)
 			return a;
-		b = eval_expr_real (s, tree->u.binary.value_b);
+		b = eval_expr_real (pos, tree->u.binary.value_b);
 		if (b != NULL && b->type == VALUE_ERROR) {
 			if (a != NULL)
 				value_release (a);
@@ -959,10 +926,10 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 	}
 
 	case OPER_FUNCALL:
-		return eval_funcall (s, tree);
+		return eval_funcall (pos, tree);
 
 	case OPER_NAME:
-		return eval_expr_name (s, tree->u.name);
+		return eval_expr_name (pos, tree->u.name);
 
 	case OPER_VAR: {
 		Sheet *cell_sheet;
@@ -970,20 +937,20 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 		Cell *cell;
 		int col, row;
 
-		if (s->pos.sheet == NULL) {
+		if (pos->sheet == NULL) {
 			/* Only the test program requests this */
 			return value_new_float (3.14);
 		}
 
 		ref = &tree->u.ref;
-		cell_get_abs_col_row (ref, &s->pos.eval, &col, &row);
+		cell_get_abs_col_row (ref, &pos->eval, &col, &row);
 
-		cell_sheet = eval_sheet (ref->sheet, s->pos.sheet);
+		cell_sheet = eval_sheet (ref->sheet, pos->sheet);
 		cell = sheet_cell_get (cell_sheet, col, row);
 		if (cell == NULL)
 			return NULL;
 
-		if (cell->generation != s->pos.sheet->workbook->generation)
+		if (cell->generation != pos->sheet->workbook->generation)
 			cell_eval (cell);
 
 		return value_duplicate (cell->value);
@@ -992,7 +959,7 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 	case OPER_CONSTANT:
 		res = tree->u.constant;
 		if (res->type == VALUE_CELLRANGE)
-			eval_range (s, res);
+			eval_range (pos, res);
 		return value_duplicate (res);
 
 	case OPER_ARRAY:
@@ -1022,11 +989,11 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 			 * is an array return the result, else build an array and
 			 * iterate over the elements, but that theory needs validation.
 			 */
-			a = eval_expr_real (s, tree->u.array.corner.func.expr);
+			a = eval_expr_real (pos, tree->u.array.corner.func.expr);
 			*((Value **)&(tree->u.array.corner.func.value)) = a;
 		} else {
 			ExprTree const * const array =
-			    expr_tree_array_formula_corner (tree, &s->pos);
+			    expr_tree_array_formula_corner (tree, pos);
 			if (array)
 				a = array->u.array.corner.func.value;
 			else
@@ -1035,11 +1002,11 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 
 		if (a != NULL &&
 		    (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)) {
-			int const num_x = value_area_get_width (&s->pos, a);
-			int const num_y = value_area_get_height (&s->pos, a);
+			int const num_x = value_area_get_width (pos, a);
+			int const num_y = value_area_get_height (pos, a);
 
 			/* Evaluate relative to the upper left corner */
-			EvalPosition tmp_ep = s->pos;
+			EvalPosition tmp_ep = *pos;
 			tmp_ep.eval.col -= x;
 			tmp_ep.eval.row -= y;
 
@@ -1049,7 +1016,7 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 			if (y >= 1 && num_y == 1)
 				y = 0;
 			if (x >= num_x || y >= num_y)
-				return value_new_error (&s->pos, gnumeric_err_NA);
+				return value_new_error (pos, gnumeric_err_NA);
 
 			a = (Value *)value_area_get_x_y (&tmp_ep, a, x, y);
 		}
@@ -1060,13 +1027,13 @@ eval_expr_real (FunctionEvalInfo * const s, ExprTree const * const tree)
 	}
 	}
 
-	return value_new_error (&s->pos, _("Unknown evaluation error"));
+	return value_new_error (pos, _("Unknown evaluation error"));
 }
 
 Value *
-eval_expr (FunctionEvalInfo *s, ExprTree const *tree)
+eval_expr (EvalPosition const * const pos, ExprTree const *tree)
 {
-	Value * res = eval_expr_real (s, tree);
+	Value * res = eval_expr_real (pos, tree);
 	if (res == NULL)
 		return value_new_int (0);
 

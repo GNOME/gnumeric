@@ -1,10 +1,16 @@
+2000-01-13  Jody Goldberg <jgoldberg@home.com>
+
+	* *.[ch] : eval_expr now takes an EvalPosition rather than a FunctionEvalInfo.
+
+	* src/workbook.c (workbook_set_title) : Moved to workbook_view_set_title.
+	(workbook_new) : Use workbook_view_set_size.
+
 2000-01-13  Sergey Panov <sipan@mit.edu>
 
 	* src/functions(fn-eng.c fn-financial.c fn-logical.c
         fn-lookup.c fn-math.c fn-sheet.c fn-stat.c fn-string.c):
         Applied patches from Valek Filippov <frob@df.ru> ---
 	correcting format of the function descr. messages. 
-
 
 2000-01-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 

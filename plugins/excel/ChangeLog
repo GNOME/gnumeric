@@ -1,3 +1,8 @@
+2000-01-13  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_workbook) : Move magic scale hack
+	  into a single #define.  Use workbook_view_set_size.
+
 2000-01-10  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-obj.c (ms_read_TXO) : Return the string generated rather than

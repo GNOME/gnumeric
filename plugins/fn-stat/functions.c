@@ -305,7 +305,7 @@ gnumeric_rank (FunctionEvalInfo *ei, Value **argv)
 	p.rank = 1;
 	ret = sheet_cell_foreach_range (
 	        eval_sheet (argv[1]->v.cell_range.cell_a.sheet,
-			    ei->pos.sheet), TRUE,
+			    ei->pos->sheet), TRUE,
 		argv[1]->v.cell_range.cell_a.col,
 		argv[1]->v.cell_range.cell_a.row,
 		argv[1]->v.cell_range.cell_b.col,
@@ -314,7 +314,7 @@ gnumeric_rank (FunctionEvalInfo *ei, Value **argv)
 		&p);
 
 	if (ret != NULL)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_int (p.rank);
 }
@@ -474,7 +474,7 @@ gnumeric_negbinomdist (FunctionEvalInfo *ei, Value **argv)
 	p = value_get_as_float (argv[2]);
 
 	if ((x + r - 1) <= 0 || p < 0 || p > 1)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (combin (x + r - 1, r - 1) *
 				pow (p, r) * pow (1 - p, x));
@@ -535,7 +535,7 @@ gnumeric_normsinv (FunctionEvalInfo *ei, Value **argv)
 
         p = value_get_as_float (argv[0]);
 	if (p < 0 || p > 1)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (qnorm (p, 0, 1));
 }
@@ -573,10 +573,10 @@ gnumeric_lognormdist (FunctionEvalInfo *ei, Value **argv)
         stdev = value_get_as_float (argv[2]);
 
         if (stdev == 0)
-                return value_new_error (&ei->pos, gnumeric_err_DIV0);
+                return value_new_error (ei->pos, gnumeric_err_DIV0);
 
         if (x <= 0 || mean < 0 || stdev < 0)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (plnorm (x, mean, stdev));
 }
@@ -613,7 +613,7 @@ gnumeric_loginv (FunctionEvalInfo *ei, Value **argv)
         stdev = value_get_as_float (argv[2]);
 
 	if (p < 0 || p > 1 || stdev <= 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (qlnorm (p, mean, stdev));
 }
@@ -715,7 +715,7 @@ gnumeric_mode (FunctionEvalInfo *ei, GList *expr_node_list)
        pr.count      = 0;
 
        /* FIXME what about blanks ? */
-       function_iterate_argument_values (&ei->pos, callback_function_mode,
+       function_iterate_argument_values (ei->pos, callback_function_mode,
                                          &pr, expr_node_list, TRUE);
 
        g_hash_table_destroy (pr.hash_table);
@@ -732,7 +732,7 @@ gnumeric_mode (FunctionEvalInfo *ei, GList *expr_node_list)
 #endif
 
        if (pr.count < 2)
-		return value_new_error (&ei->pos, gnumeric_err_NA);
+		return value_new_error (ei->pos, gnumeric_err_NA);
 
        return value_new_float (pr.mode);
 }
@@ -831,7 +831,7 @@ gnumeric_count (FunctionEvalInfo *ei, GList *expr_node_list)
 	Value *result;
 
 	result = value_new_int (0);
-	function_iterate_argument_values (&ei->pos, callback_function_count,
+	function_iterate_argument_values (ei->pos, callback_function_count,
 					  result, expr_node_list, FALSE);
 
 	return result;
@@ -873,7 +873,7 @@ gnumeric_counta (FunctionEvalInfo *ei, GList *expr_node_list)
 
         result = value_new_int (0);
 
-        function_iterate_argument_values (&ei->pos, callback_function_counta,
+        function_iterate_argument_values (ei->pos, callback_function_counta,
 					  result, expr_node_list, FALSE);
 
         return result;
@@ -1072,11 +1072,11 @@ gnumeric_expondist (FunctionEvalInfo *ei, Value **argv)
 	y = value_get_as_float (argv[1]);
 
 	if (x < 0.0 || y <= 0.0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	cuml = value_get_as_bool (argv[2], &err);
 	if (err)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (cuml)
 		return value_new_float (pexp (x, 1 / y));
@@ -1116,7 +1116,7 @@ gnumeric_gammaln (FunctionEvalInfo *ei, Value **argv)
 	x = value_get_as_float (argv[0]);
 
 	if (x <= 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (lgamma(x));
 }
@@ -1153,7 +1153,7 @@ gnumeric_gammadist (FunctionEvalInfo *ei, Value **argv)
 	beta = value_get_as_float (argv[2]);
 
 	if (x < 0 || alpha <= 0 || beta <= 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	cum = value_get_as_int (argv[3]);
 	if (cum)
@@ -1193,7 +1193,7 @@ gnumeric_gammainv (FunctionEvalInfo *ei, Value **argv)
 	beta = value_get_as_float (argv[2]);
 
 	if (p < 0 || p > 1 || alpha <= 0 || beta <= 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (qgamma (p, alpha, beta));
 }
@@ -1229,7 +1229,7 @@ gnumeric_chidist (FunctionEvalInfo *ei, Value **argv)
 	dof = value_get_as_int (argv[1]);
 
 	if (dof < 1)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (1.0 - pchisq (x, dof));
 }
@@ -1263,7 +1263,7 @@ gnumeric_chiinv (FunctionEvalInfo *ei, Value **argv)
 	dof = value_get_as_int (argv[1]);
 
 	if (p < 0 || p > 1 || dof < 1)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (qchisq (1.0 - p, dof));
 }
@@ -1366,7 +1366,7 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	int              col, row, dof;
 	Value           *ret;
 
-	sheet = eval_sheet (argv[0]->v.cell.sheet, ei->pos.sheet);
+	sheet = eval_sheet (argv[0]->v.cell.sheet, ei->pos->sheet);
 	col = argv[0]->v.cell.col;
 	row = argv[0]->v.cell.row;
 	p1.cols = argv[0]->v.cell_range.cell_b.col -
@@ -1381,25 +1381,25 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	p1.columns = p1.column = NULL;
 
 	if (p1.cols != p2.cols || p1.rows != p2.rows)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	ret = function_iterate_do_value (&ei->pos, (FunctionIterateCallback)
+	ret = function_iterate_do_value (ei->pos, (FunctionIterateCallback)
 					 callback_function_chitest_actual,
 					 &p1, argv[0],
 					 TRUE);
 	if (ret != NULL)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	p2.sum = 0;
 	p2.current_cell = p1.columns->data;
 	p2.next_col = p1.columns->next;
 
-	ret = function_iterate_do_value (&ei->pos, (FunctionIterateCallback)
+	ret = function_iterate_do_value (ei->pos, (FunctionIterateCallback)
 					 callback_function_chitest_theoretical,
 					 &p2, argv[1],
 					 TRUE);
 	if (ret != NULL)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	tmp = p1.columns;
 	while (tmp != NULL) {
@@ -1453,7 +1453,7 @@ gnumeric_betadist (FunctionEvalInfo *ei, Value **argv)
 	        b = value_get_as_float (argv[4]);
 
 	if (x < a || x > b || a >= b || alpha <= 0 || beta <= 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (pbeta((x-a) / (b-a), alpha, beta));
 }
@@ -1499,7 +1499,7 @@ gnumeric_betainv (FunctionEvalInfo *ei, Value **argv)
 	        b = value_get_as_float (argv[4]);
 
 	if (p < 0 || p > 1 || a >= b || alpha <= 0 || beta <= 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float ((b-a) * qbeta(p, alpha, beta) + a);
 }
@@ -1536,7 +1536,7 @@ gnumeric_tdist (FunctionEvalInfo *ei, Value **argv)
 	tails = value_get_as_int (argv[2]);
 
 	if (dof < 1 || (tails != 1 && tails != 2))
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (tails == 1)
 	        return value_new_float (1.0 - pt (x, dof));
@@ -1573,7 +1573,7 @@ gnumeric_tinv (FunctionEvalInfo *ei, Value **argv)
 	dof = value_get_as_int (argv[1]);
 
 	if (p < 0 || p > 1 || dof < 1)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (qt (1 - p / 2, dof));
 }
@@ -1610,7 +1610,7 @@ gnumeric_fdist (FunctionEvalInfo *ei, Value **argv)
 	dof2 = value_get_as_int (argv[2]);
 
 	if (x < 0 || dof1 < 1 || dof2 < 1)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (1.0 - pf (x, dof1, dof2));
 }
@@ -1646,7 +1646,7 @@ gnumeric_finv (FunctionEvalInfo *ei, Value **argv)
 	dof2 = value_get_as_int (argv[2]);
 
 	if (p < 0 || p > 1 || dof1 < 1 || dof2 < 1)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (qf (1.0 - p, dof1, dof2));
 }
@@ -1689,7 +1689,7 @@ gnumeric_binomdist (FunctionEvalInfo *ei, Value **argv)
 	cuml = value_get_as_bool (argv[3], &err);
 
 	if (n < 0 || trials < 0 || p < 0 || p > 1 || n > trials || err)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (cuml)
 		return value_new_float (pbinom (n, trials, p));
@@ -1732,7 +1732,7 @@ gnumeric_critbinom (FunctionEvalInfo *ei, Value **argv)
         alpha = value_get_as_float (argv[2]);
 
         if (trials < 0 || p < 0 || p > 1 || alpha < 0 || alpha > 1)
-	        return value_new_error (&ei->pos, gnumeric_err_NUM);
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (qbinom (alpha, trials, p));
 }
@@ -1769,7 +1769,7 @@ gnumeric_permut (FunctionEvalInfo *ei, Value **argv)
 	if (0 <= k && k <= n)
 		return value_new_float (fact (n) / fact (n-k));
 	else
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -1806,7 +1806,7 @@ gnumeric_hypgeomdist (FunctionEvalInfo *ei, Value **argv)
 	N = value_get_as_int (argv[3]);
 
 	if (x < 0 || n < 0 || M < 0 || N < 0 || x > M || n > N)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float ((combin (M, x) * combin (N-M, n-x)) /
 				combin (N,n));
@@ -1845,10 +1845,10 @@ gnumeric_confidence (FunctionEvalInfo *ei, Value **argv)
 	size = value_get_as_int (argv[2]);
 
 	if (size == 0)
-		return value_new_error (&ei->pos, _("#DIV/0!"));
+		return value_new_error (ei->pos, _("#DIV/0!"));
 
 	if (size < 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (-qnorm (x/2, 0, 1) * (stddev/sqrt(size)));
 }
@@ -1884,9 +1884,9 @@ gnumeric_standardize (FunctionEvalInfo *ei, Value **argv)
 	stddev = value_get_as_float (argv[2]);
 
 	if (stddev == 0)
-		return value_new_error (&ei->pos, gnumeric_err_DIV0);
+		return value_new_error (ei->pos, gnumeric_err_DIV0);
 	else if (stddev < 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float ((x-mean) / stddev);
 }
@@ -1925,11 +1925,11 @@ gnumeric_weibull (FunctionEvalInfo *ei, Value **argv)
         beta = value_get_as_float (argv[2]);
 
         if (x < 0 || alpha <= 0 || beta <= 0)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
         cuml = value_get_as_bool (argv[3], &err);
         if (err)
-                return value_new_error (&ei->pos, gnumeric_err_VALUE);
+                return value_new_error (ei->pos, gnumeric_err_VALUE);
 
         if (cuml)
                 return value_new_float (pweibull (x, alpha, beta));
@@ -1970,11 +1970,11 @@ gnumeric_normdist (FunctionEvalInfo *ei, Value **argv)
         stdev = value_get_as_float (argv[2]);
 
         if (stdev <= 0)
-                return value_new_error (&ei->pos, gnumeric_err_DIV0);
+                return value_new_error (ei->pos, gnumeric_err_DIV0);
 
         cuml = value_get_as_bool (argv[3], &err);
         if (err)
-                return value_new_error (&ei->pos, gnumeric_err_VALUE);
+                return value_new_error (ei->pos, gnumeric_err_VALUE);
 
         if (cuml)
 		return value_new_float (pnorm (x, mean, stdev));
@@ -2014,7 +2014,7 @@ gnumeric_norminv (FunctionEvalInfo *ei, Value **argv)
 	stdev = value_get_as_float (argv[2]);
 
 	if (p < 0 || p > 1 || stdev <= 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (qnorm (p, mean, stdev));
 }
@@ -2179,12 +2179,12 @@ gnumeric_fisher (FunctionEvalInfo *ei, Value **argv)
         float_t x;
 
         if (!VALUE_IS_NUMBER(argv[0]))
-                return value_new_error (&ei->pos, gnumeric_err_VALUE);
+                return value_new_error (ei->pos, gnumeric_err_VALUE);
 
         x = value_get_as_float (argv[0]);
 
         if (x <= -1.0 || x >= 1.0)
-                return value_new_error (&ei->pos, gnumeric_err_NUM);
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
         return value_new_float (0.5 * log ((1.0 + x) / (1.0 - x)));
 }
@@ -2224,7 +2224,7 @@ gnumeric_poisson (FunctionEvalInfo *ei, Value **argv)
 	cuml = value_get_as_bool (argv[2], &err);
 
 	if (x <= 0 || mean <= 0 || err)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (cuml)
 		return value_new_float (ppois (x, mean));
@@ -2511,13 +2511,13 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
-			   ei->pos.eval.col, ei->pos.eval.row),
+	    (eval_pos_init(&ep, eval_sheet(ei->pos->sheet, ei->pos->sheet),
+			   ei->pos->eval.col, ei->pos->eval.row),
 	     callback_function_make_list, &x_cl, expr_node_list,
 	     TRUE);
 
 	if (err != NULL)
-	        return value_new_error (&ei->pos, gnumeric_err_NA);
+	        return value_new_error (ei->pos, gnumeric_err_NA);
 
 	g_free (tree);
 	g_list_free (expr_node_list);
@@ -2528,14 +2528,14 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet,
-					   ei->pos.sheet),
-			   ei->pos.eval.col, ei->pos.eval.row),
+	    (eval_pos_init(&ep, eval_sheet(ei->pos->sheet,
+					   ei->pos->sheet),
+			   ei->pos->eval.col, ei->pos->eval.row),
 	     callback_function_make_list, &prob_cl, expr_node_list,
 	     TRUE);
 
 	if (err != NULL)
-	        return value_new_error (&ei->pos, gnumeric_err_NA);
+	        return value_new_error (ei->pos, gnumeric_err_NA);
 
 	g_free (tree);
 	g_list_free (expr_node_list);
@@ -2554,7 +2554,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 		g_slist_free(x_cl.entries);
 		g_slist_free(prob_cl.entries);
 
-	        return value_new_error (&ei->pos, gnumeric_err_NA);
+	        return value_new_error (ei->pos, gnumeric_err_NA);
 	}
 
 	lower_limit = value_get_as_float (argv[2]);
@@ -2574,7 +2574,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 		prob = *((float_t *) list2->data);
 
 		if (prob <= 0 || prob > 1)
-		        return value_new_error (&ei->pos, gnumeric_err_NUM);
+		        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 		total_sum += prob;
 
@@ -2591,7 +2591,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(prob_cl.entries);
 
 	if (total_sum != 1)
-	        return value_new_error (&ei->pos, gnumeric_err_NUM);
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (sum);
 }
@@ -2638,7 +2638,7 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
         if (known_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 			eval_sheet (known_x->v.cell_range.cell_a.sheet,
-				    ei->pos.sheet), TRUE,
+				    ei->pos->sheet), TRUE,
 			known_x->v.cell_range.cell_a.col,
 			known_x->v.cell_range.cell_a.row,
 			known_x->v.cell_range.cell_b.col,
@@ -2659,16 +2659,16 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 			g_slist_free(items_x.list);
 			g_slist_free(items_y.list);
 
-		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		        return value_new_error (ei->pos, gnumeric_err_VALUE);
 		}
 	} else
-		return value_new_error (&ei->pos,
+		return value_new_error (ei->pos,
 					_("Array version not implemented!"));
 
         if (known_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 			eval_sheet (known_y->v.cell_range.cell_a.sheet,
-				    ei->pos.sheet),TRUE,
+				    ei->pos->sheet),TRUE,
 			known_y->v.cell_range.cell_a.col,
 			known_y->v.cell_range.cell_a.row,
 			known_y->v.cell_range.cell_b.col,
@@ -2689,10 +2689,10 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 			g_slist_free(items_x.list);
 			g_slist_free(items_y.list);
 
-		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		        return value_new_error (ei->pos, gnumeric_err_VALUE);
 		}
 	} else
-		return value_new_error (&ei->pos,
+		return value_new_error (ei->pos,
 					_("Array version not implemented!"));
 
 	if (items_x.num != items_y.num) {
@@ -2709,7 +2709,7 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 		g_slist_free(items_x.list);
 		g_slist_free(items_y.list);
 
-	        return value_new_error (&ei->pos, gnumeric_err_NA);
+	        return value_new_error (ei->pos, gnumeric_err_NA);
 	}
 
 	list1 = items_x.list;
@@ -2746,7 +2746,7 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 	den = n*sqrsum_x - sum_x*sum_x;
 
 	if (den == 0)
-	        return value_new_error (&ei->pos, gnumeric_err_NUM);
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (sqrt(k * (n*sqrsum_y-sum_y*sum_y - num/den)));
 }
@@ -2812,7 +2812,7 @@ gnumeric_ztest (FunctionEvalInfo *ei, GList *expr_node_list)
 	p.sum    = 0;
 	p.sqrsum = 0;
 
-	status = function_iterate_argument_values (&ei->pos,
+	status = function_iterate_argument_values (ei->pos,
 						   callback_function_ztest,
 						   &p, expr_node_list, TRUE);
 	if (status != NULL)
@@ -2820,12 +2820,12 @@ gnumeric_ztest (FunctionEvalInfo *ei, GList *expr_node_list)
 
 	p.num--;
 	if (p.num < 2)
-	        return value_new_error (&ei->pos, gnumeric_err_DIV0);
+	        return value_new_error (ei->pos, gnumeric_err_DIV0);
 
 	stdev = sqrt((p.sqrsum - p.sum*p.sum/p.num) / (p.num - 1));
 
 	if (stdev == 0)
-	        return value_new_error (&ei->pos, gnumeric_err_DIV0);
+	        return value_new_error (ei->pos, gnumeric_err_DIV0);
 
 	return value_new_float (1 - pnorm ((p.sum/p.num - p.x) /
 						     (stdev / sqrt(p.num)),
@@ -3155,20 +3155,20 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 	else {
 	        significance = value_get_as_int (argv[2]);
 		if (significance < 1)
-		        return value_new_error (&ei->pos, gnumeric_err_NUM);
+		        return value_new_error (ei->pos, gnumeric_err_NUM);
 	}
 
-	sheet = eval_sheet (argv[0]->v.cell.sheet, ei->pos.sheet);
+	sheet = eval_sheet (argv[0]->v.cell.sheet, ei->pos->sheet);
 	col = argv[0]->v.cell.col;
 	row = argv[0]->v.cell.row;
 
-	ret = function_iterate_do_value (&ei->pos, (FunctionIterateCallback)
+	ret = function_iterate_do_value (ei->pos, (FunctionIterateCallback)
 					 callback_function_percentrank,
 					 &p, argv[0],
 					 TRUE);
 
 	if (ret != NULL || (p.smaller + p.greater + p.equal == 0))
-	        return value_new_error (&ei->pos, gnumeric_err_NUM);
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (p.equal == 1)
 	        pr = (float_t)p.smaller / (p.smaller + p.greater);
@@ -3221,7 +3221,7 @@ gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
 
 	k = value_get_as_float (argv[1]);
 
-	data = collect_floats_value (argv[0], &ei->pos,
+	data = collect_floats_value (argv[0], ei->pos,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
 				     &n, &result);
@@ -3229,7 +3229,7 @@ gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 
 	if (n == 0 || k < 0 || k > 1) {
-		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
@@ -3294,7 +3294,7 @@ gnumeric_quartile (FunctionEvalInfo *ei, Value **argv)
 	Value   *result = NULL;
 	int     quart, n, ind;
 
-	data = collect_floats_value (argv[0], &ei->pos,
+	data = collect_floats_value (argv[0], ei->pos,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
 				     &n, &result);
@@ -3360,7 +3360,7 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 	err = function_iterate_argument_values
 	    (eval_pos_init (&ep,
 			    eval_sheet (argv[0]->v.cell_range.cell_a.sheet,
-					ei->pos.sheet),
+					ei->pos->sheet),
 			    argv[0]->v.cell_range.cell_a.col,
 			    argv[0]->v.cell_range.cell_a.row),
 	     callback_function_stat,
@@ -3368,13 +3368,13 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 	     TRUE);
 
 	if (err != NULL)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	g_free (tree);
 	g_list_free (expr_node_list);
 
 	if (cl.N <= 1)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	var1 = cl.Q / (cl.N - 1);
 	dof1 = cl.N - 1;
@@ -3389,19 +3389,19 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 	err = function_iterate_argument_values
 	        (eval_pos_init (&ep,
 				eval_sheet (argv[1]->v.cell_range.cell_a.sheet,
-					    ei->pos.sheet),
+					    ei->pos->sheet),
 				argv[1]->v.cell_range.cell_a.col,
 				argv[1]->v.cell_range.cell_a.row),
 		 callback_function_stat,
 		 &cl, expr_node_list, TRUE);
 	if (err != NULL)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	g_free (tree);
 	g_list_free (expr_node_list);
 
 	if (cl.N <= 1)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	var2 = cl.Q / (cl.N - 1);
 	dof2 = cl.N - 1;
@@ -3502,7 +3502,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 
 	if ((tails != 1 && tails != 2) ||
 	    (type < 1 || type > 3))
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (type == 1) {
 	        GSList  *current;
@@ -3520,7 +3520,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		    (eval_pos_init (&ep,
 				    eval_sheet
 				    (argv[0]->v.cell_range.cell_a.sheet,
-				     ei->pos.sheet),
+				     ei->pos->sheet),
 				    argv[0]->v.cell_range.cell_a.col,
 				    argv[0]->v.cell_range.cell_a.row),
 		     callback_function_ttest,
@@ -3544,7 +3544,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		    (eval_pos_init (&ep,
 				    eval_sheet
 				    (argv[1]->v.cell_range.cell_a.sheet,
-				     ei->pos.sheet),
+				     ei->pos->sheet),
 				    argv[1]->v.cell_range.cell_a.col,
 				    argv[1]->v.cell_range.cell_a.row),
 		     callback_function_ttest,
@@ -3598,7 +3598,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		    (eval_pos_init (&ep,
 				    eval_sheet
 				    (argv[0]->v.cell_range.cell_a.sheet,
-				     ei->pos.sheet),
+				     ei->pos->sheet),
 				    argv[0]->v.cell_range.cell_a.col,
 				    argv[0]->v.cell_range.cell_a.row),
 		     callback_function_stat,
@@ -3606,13 +3606,13 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		     TRUE);
 
 		if (err != NULL)
-			return value_new_error (&ei->pos, gnumeric_err_VALUE);
+			return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 		g_free (tree);
 		g_list_free (expr_node_list);
 
 		if (cl.N <= 1)
-			return value_new_error (&ei->pos, gnumeric_err_VALUE);
+			return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 		var1 = cl.Q / (cl.N - 1);
 		mean1 = cl.sum / cl.N;
@@ -3629,7 +3629,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		    (eval_pos_init (&ep,
 				    eval_sheet
 				    (argv[1]->v.cell_range.cell_a.sheet,
-				     ei->pos.sheet),
+				     ei->pos->sheet),
 				    argv[1]->v.cell_range.cell_a.col,
 				    argv[1]->v.cell_range.cell_a.row),
 		     callback_function_stat,
@@ -3637,13 +3637,13 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		     TRUE);
 
 		if (err != NULL)
-			return value_new_error (&ei->pos, gnumeric_err_VALUE);
+			return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 		g_free (tree);
 		g_list_free (expr_node_list);
 
 		if (cl.N <= 1)
-			return value_new_error (&ei->pos, gnumeric_err_VALUE);
+			return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 		var2 = cl.Q / (cl.N - 1);
 		mean2 = cl.sum / cl.N;
@@ -3712,13 +3712,13 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
-			   ei->pos.eval.col, ei->pos.eval.row),
+	    (eval_pos_init(&ep, eval_sheet(ei->pos->sheet, ei->pos->sheet),
+			   ei->pos->eval.col, ei->pos->eval.row),
 	     callback_function_make_list, &data_cl, expr_node_list,
 	     TRUE);
 
 	if (err != NULL)
-	        return value_new_error (&ei->pos, gnumeric_err_NA);
+	        return value_new_error (ei->pos, gnumeric_err_NA);
 
 	g_free (tree);
 	g_list_free (expr_node_list);
@@ -3729,13 +3729,13 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
-			   ei->pos.eval.col, ei->pos.eval.row),
+	    (eval_pos_init(&ep, eval_sheet(ei->pos->sheet, ei->pos->sheet),
+			   ei->pos->eval.col, ei->pos->eval.row),
 	     callback_function_make_list, &bin_cl, expr_node_list,
 	     TRUE);
 
 	if (err != NULL)
-	        return value_new_error (&ei->pos, gnumeric_err_NA);
+	        return value_new_error (ei->pos, gnumeric_err_NA);
 
 	g_free (tree);
 	g_list_free (expr_node_list);
@@ -3869,7 +3869,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	else ytype = OTHER;
 
 	if (argv[0]->type == VALUE_CELLRANGE)
-		ys = collect_floats_value (argv[0], &ei->pos,
+		ys = collect_floats_value (argv[0], ei->pos,
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &ny, &result);
@@ -3908,7 +3908,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v.cell_range.cell_a.col = i;
 			copy->v.cell_range.cell_b.col = i;
-			xss[i - firstcol] = collect_floats_value (copy, &ei->pos,
+			xss[i - firstcol] = collect_floats_value (copy, ei->pos,
 						       COLLECT_IGNORE_STRINGS |
 						       COLLECT_IGNORE_BOOLS,
 						       &nx, &result);
@@ -3920,7 +3920,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 			if (nx != ny){
 				g_free (copy);
 				dim = i - firstcol + 1;
-				result = value_new_error (&ei->pos, gnumeric_err_NUM);
+				result = value_new_error (ei->pos, gnumeric_err_NUM);
 				goto out;
 			}
 		}
@@ -3938,7 +3938,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v.cell_range.cell_a.row = i;
 			copy->v.cell_range.cell_b.row = i;
-			xss[i - firstrow] = collect_floats_value (copy, &ei->pos,
+			xss[i - firstrow] = collect_floats_value (copy, ei->pos,
 						       COLLECT_IGNORE_STRINGS |
 						       COLLECT_IGNORE_BOOLS,
 						       &nx, &result);
@@ -3950,7 +3950,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 			if (nx != ny){
 					g_free (copy);
 					dim = i - firstrow + 1;
-					result = value_new_error (&ei->pos, gnumeric_err_NUM);
+					result = value_new_error (ei->pos, gnumeric_err_NUM);
 					goto out;
 			}
 		}
@@ -3960,7 +3960,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 		xarg = 1;
 		dim = 1;
 		xss = g_new (float_t *, dim);
-		xss[0] = collect_floats_value (argv[1], &ei->pos,
+		xss[0] = collect_floats_value (argv[1], ei->pos,
 					       COLLECT_IGNORE_STRINGS |
 					       COLLECT_IGNORE_BOOLS,
 					       &nx, &result);
@@ -3970,7 +3970,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 		}
 		if (nx != ny){
 			dim = 1;
-			result = value_new_error (&ei->pos, gnumeric_err_NUM);
+			result = value_new_error (ei->pos, gnumeric_err_NUM);
 			goto out;
 		}
 	}
@@ -3978,7 +3978,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	if (argv[1 + xarg]) {
 		affine = value_get_as_bool (argv[1 + xarg], &err);
 		if (err) {
-			result = value_new_error (&ei->pos, gnumeric_err_VALUE);
+			result = value_new_error (ei->pos, gnumeric_err_VALUE);
 			goto out;
 		}
 	} else
@@ -3987,7 +3987,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	if (argv[2 + xarg]) {
 		stat = value_get_as_bool (argv[2 + xarg], &err);
 		if (err) {
-			result = value_new_error (&ei->pos,
+			result = value_new_error (ei->pos,
 						  gnumeric_err_VALUE);
 			goto out;
 		}
@@ -3998,7 +3998,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 
 	if (linear_regression (xss, dim, ys, nx, affine,
 			       linres, &extra_stat)) {
-		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
@@ -4078,7 +4078,7 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv[])
 	gboolean affine, err;
 	float_t  linres[2];
 
-	ys = collect_floats_value (argv[0], &ei->pos,
+	ys = collect_floats_value (argv[0], ei->pos,
 				   COLLECT_IGNORE_STRINGS |
 				   COLLECT_IGNORE_BOOLS,
 				   &ny, &result);
@@ -4088,19 +4088,19 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv[])
 	affine = TRUE;
 
 	if (argv[2] != NULL) {
-	        xs = collect_floats_value (argv[1], &ei->pos,
+	        xs = collect_floats_value (argv[1], ei->pos,
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &nx, &result);
 
-		nxs = collect_floats_value (argv[2], &ei->pos,
+		nxs = collect_floats_value (argv[2], ei->pos,
 					    COLLECT_IGNORE_STRINGS |
 					    COLLECT_IGNORE_BOOLS,
 					    &nnx, &result);
 		if (argv[3] != NULL) {
 		        affine = value_get_as_bool (argv[3], &err);
 			if (err) {
-			        result = value_new_error (&ei->pos,
+			        result = value_new_error (ei->pos,
 							  gnumeric_err_VALUE);
 				goto out;
 			}
@@ -4108,11 +4108,11 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv[])
 	} else {
 	        /* @new_x's is assumed to be the same as @known_x's */
 	        if (argv[1] != NULL) {
-		        xs = collect_floats_value (argv[1], &ei->pos,
+		        xs = collect_floats_value (argv[1], ei->pos,
 						   COLLECT_IGNORE_STRINGS |
 						   COLLECT_IGNORE_BOOLS,
 						   &nx, &result);
-			nxs = collect_floats_value (argv[1], &ei->pos,
+			nxs = collect_floats_value (argv[1], ei->pos,
 						    COLLECT_IGNORE_STRINGS |
 						    COLLECT_IGNORE_BOOLS,
 						    &nnx, &result);
@@ -4130,14 +4130,14 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv[])
 		goto out;
 
 	if (nx != ny) {
-		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
 	dim = 1;
 
 	if (linear_regression (&xs, dim, ys, nx, affine, linres, NULL)) {
-		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
@@ -4223,7 +4223,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	else ytype = OTHER;
 
 	if (argv[0]->type == VALUE_CELLRANGE)
-		ys = collect_floats_value (argv[0], &ei->pos,
+		ys = collect_floats_value (argv[0], ei->pos,
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &ny, &result);
@@ -4262,7 +4262,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v.cell_range.cell_a.col = i;
 			copy->v.cell_range.cell_b.col = i;
-			xss[i - firstcol] = collect_floats_value (copy, &ei->pos,
+			xss[i - firstcol] = collect_floats_value (copy, ei->pos,
 						       COLLECT_IGNORE_STRINGS |
 						       COLLECT_IGNORE_BOOLS,
 						       &nx, &result);
@@ -4274,7 +4274,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 			if (nx != ny){
 				g_free (copy);
 				dim = i - firstcol + 1;
-				result = value_new_error (&ei->pos, gnumeric_err_NUM);
+				result = value_new_error (ei->pos, gnumeric_err_NUM);
 				goto out;
 			}
 		}
@@ -4292,7 +4292,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v.cell_range.cell_a.row = i;
 			copy->v.cell_range.cell_b.row = i;
-			xss[i - firstrow] = collect_floats_value (copy, &ei->pos,
+			xss[i - firstrow] = collect_floats_value (copy, ei->pos,
 						       COLLECT_IGNORE_STRINGS |
 						       COLLECT_IGNORE_BOOLS,
 						       &nx, &result);
@@ -4304,7 +4304,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 			if (nx != ny){
 					g_free (copy);
 					dim = i - firstrow + 1;
-					result = value_new_error (&ei->pos, gnumeric_err_NUM);
+					result = value_new_error (ei->pos, gnumeric_err_NUM);
 					goto out;
 			}
 		}
@@ -4314,7 +4314,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 		xarg = 1;
 		dim = 1;
 		xss = g_new (float_t *, dim);
-		xss[0] = collect_floats_value (argv[1], &ei->pos,
+		xss[0] = collect_floats_value (argv[1], ei->pos,
 					       COLLECT_IGNORE_STRINGS |
 					       COLLECT_IGNORE_BOOLS,
 					       &nx, &result);
@@ -4324,7 +4324,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 		}
 		if (nx != ny){
 			dim = 1;
-			result = value_new_error (&ei->pos, gnumeric_err_NUM);
+			result = value_new_error (ei->pos, gnumeric_err_NUM);
 			goto out;
 		}
 	}
@@ -4332,7 +4332,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	if (argv[1 + xarg]) {
 		affine = value_get_as_bool (argv[1 + xarg], &err);
 		if (err) {
-			result = value_new_error (&ei->pos, gnumeric_err_VALUE);
+			result = value_new_error (ei->pos, gnumeric_err_VALUE);
 			goto out;
 		}
 	} else
@@ -4341,7 +4341,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	if (argv[2 + xarg]) {
 		stat = value_get_as_bool (argv[2 + xarg], &err);
 		if (err) {
-			result = value_new_error (&ei->pos,
+			result = value_new_error (ei->pos,
 						  gnumeric_err_VALUE);
 			goto out;
 		}
@@ -4351,7 +4351,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	expres = g_new (float_t, dim + 1);
 	if (exponential_regression (xss, dim, ys, nx, affine,
 			       expres, &extra_stat)) {
-		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
@@ -4435,7 +4435,7 @@ gnumeric_growth (FunctionEvalInfo *ei, Value *argv[])
 
 	affine = TRUE;
 
-	ys = collect_floats_value (argv[0], &ei->pos,
+	ys = collect_floats_value (argv[0], ei->pos,
 				   COLLECT_IGNORE_STRINGS |
 				   COLLECT_IGNORE_BOOLS,
 				   &ny, &result);
@@ -4443,19 +4443,19 @@ gnumeric_growth (FunctionEvalInfo *ei, Value *argv[])
 		goto out;
 
 	if (argv[2] != NULL) {
-	        xs = collect_floats_value (argv[1], &ei->pos,
+	        xs = collect_floats_value (argv[1], ei->pos,
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &nx, &result);
 
-		nxs = collect_floats_value (argv[2], &ei->pos,
+		nxs = collect_floats_value (argv[2], ei->pos,
 					    COLLECT_IGNORE_STRINGS |
 					    COLLECT_IGNORE_BOOLS,
 					    &nnx, &result);
 		if (argv[3] != NULL) {
 		        affine = value_get_as_bool (argv[3], &err);
 			if (err) {
-			        result = value_new_error (&ei->pos,
+			        result = value_new_error (ei->pos,
 							  gnumeric_err_VALUE);
 				goto out;
 			}
@@ -4463,11 +4463,11 @@ gnumeric_growth (FunctionEvalInfo *ei, Value *argv[])
 	} else {
 	        /* @new_x's is assumed to be the same as @known_x's */
 	        if (argv[1] != NULL) {
-		        xs = collect_floats_value (argv[1], &ei->pos,
+		        xs = collect_floats_value (argv[1], ei->pos,
 						   COLLECT_IGNORE_STRINGS |
 						   COLLECT_IGNORE_BOOLS,
 						   &nx, &result);
-		        nxs = collect_floats_value (argv[1], &ei->pos,
+		        nxs = collect_floats_value (argv[1], ei->pos,
 						    COLLECT_IGNORE_STRINGS |
 						    COLLECT_IGNORE_BOOLS,
 						    &nnx, &result);
@@ -4485,14 +4485,14 @@ gnumeric_growth (FunctionEvalInfo *ei, Value *argv[])
 		goto out;
 
 	if (nx != ny) {
-		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
 	dim = 1;
 
 	if (exponential_regression (&xs, dim, ys, nx, affine, expres, NULL)) {
-		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
@@ -4546,14 +4546,14 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv[])
 
 	x = value_get_as_float (argv[0]);
 
-	ys = collect_floats_value (argv[1], &ei->pos,
+	ys = collect_floats_value (argv[1], ei->pos,
 				   COLLECT_IGNORE_STRINGS |
 				   COLLECT_IGNORE_BOOLS,
 				   &ny, &result);
 	if (result)
 		goto out;
 
-	xs = collect_floats_value (argv[2], &ei->pos,
+	xs = collect_floats_value (argv[2], ei->pos,
 				   COLLECT_IGNORE_STRINGS |
 				   COLLECT_IGNORE_BOOLS,
 				   &nx, &result);
@@ -4561,14 +4561,14 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv[])
 		goto out;
 
 	if (nx != ny) {
-		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
 	dim = 1;
 
 	if (linear_regression (&xs, dim, ys, nx, 1, linres, NULL)) {
-		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 

@@ -349,7 +349,6 @@ text_read_workbook (Workbook *wb, const char* filename)
 	ret = readTextWorkbook (wb, filename, FALSE);
 	if (ret == NULL) {
 		workbook_set_filename (wb, filename);
-		workbook_set_title (wb, filename);
 		workbook_recalc_all (wb);
 	}
 

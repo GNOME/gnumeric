@@ -131,10 +131,10 @@ void     function_def_set_user_data    (FunctionDefinition *fndef,
 
 gpointer function_def_get_user_data    (FunctionDefinition *fndef);
 
-void     function_def_count_args       (FunctionDefinition *fndef,
+void     function_def_count_args       (FunctionDefinition const *fndef,
 					int *min, int *max);
 /* 0 based arg_index */
-char     function_def_get_arg_type     (FunctionDefinition *fndef,
+char     function_def_get_arg_type     (FunctionDefinition const *fndef,
 					int arg_idx);
 const char *function_def_get_name      (FunctionDefinition *fndef);
 

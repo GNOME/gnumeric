@@ -54,7 +54,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 	int digit;
 
 	if (src_base <= 1 || dest_base <= 1 || dest_base > 36)
-		return value_new_error (&ei->pos, _("Base error"));
+		return value_new_error (ei->pos, _("Base error"));
 
 	value = argv[0];
 	if (num_argv > 1)
@@ -64,7 +64,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 
 	if (val_places) {
 		if (!VALUE_IS_NUMBER (val_places))
-			return value_new_error (&ei->pos, gnumeric_err_VALUE);
+			return value_new_error (ei->pos, gnumeric_err_VALUE);
 		places = value_get_as_int (val_places);
 	} else
 		places = 0;
@@ -90,12 +90,12 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 		break;
 	case VALUE_EMPTY:
 	default:
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 	}
 
 	v = strtol (str, &err, src_base);
 	if (*err)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	b10 = pow (src_base, 10);
 	if (v >= b10 / 2) /* N's complement */
@@ -117,7 +117,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 	if (places > max)
 		max = places;
 	if (max >= sizeof (buffer))
-		return value_new_error (&ei->pos, _("Unimplemented"));
+		return value_new_error (ei->pos, _("Unimplemented"));
 
 	for (digit = max - 1; digit >= 0; digit--) {
 		int thisdigit;
@@ -467,7 +467,7 @@ gnumeric_besseli (FunctionEvalInfo *ei, Value **argv)
 	order = value_get_as_float (argv[1]);	/* the order */
 
 	if (order < 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	result = bessel_i (x, order, 1.0);
 	return value_new_float (result);
@@ -507,7 +507,7 @@ gnumeric_besselk (FunctionEvalInfo *ei, Value **argv)
 	order = value_get_as_float (argv[1]);	/* the order */
 
 	if (order < 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	result = bessel_k (x, order, 1.0);
 	return value_new_float (result);
@@ -544,7 +544,7 @@ gnumeric_besselj (FunctionEvalInfo *ei, Value **argv)
 	y = value_get_as_int (argv [1]);
 
 	if (y < 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (jn (y, value_get_as_float (argv [0])));
 }
@@ -580,10 +580,10 @@ gnumeric_bessely (FunctionEvalInfo *ei, Value **argv)
 	    argv[1]->type != VALUE_INTEGER &&
 	    argv[0]->type != VALUE_FLOAT &&
 	    argv[1]->type != VALUE_FLOAT)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if ((y = value_get_as_int (argv [1])) < 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (yn (y, value_get_as_float (argv [0])));
 }
@@ -664,7 +664,7 @@ gnumeric_complex (FunctionEvalInfo *ei, Value **argv)
 
 	if (strcmp(suffix, "i") != 0 &&
 	    strcmp(suffix, "j") != 0)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_complex (&c, *suffix);
 }
@@ -695,7 +695,7 @@ gnumeric_imaginary (FunctionEvalInfo *ei, Value **argv)
 	        return value_new_float (0.0);
 
 	if (value_get_as_complex (argv [0], &c, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (c.im);
 }
@@ -726,7 +726,7 @@ gnumeric_imreal (FunctionEvalInfo *ei, Value **argv)
 		return value_duplicate (argv [0]);
 
 	if (value_get_as_complex (argv [0], &c, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (c.re);
 }
@@ -754,10 +754,10 @@ gnumeric_imabs (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &c, &imunit))
-	  return value_new_error (&ei->pos, gnumeric_err_VALUE);
+	  return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (argv [0]->type != VALUE_STRING)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (complex_mod (&c));
 }
@@ -784,10 +784,10 @@ gnumeric_imconjugate (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (argv[0]->type != VALUE_STRING)
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_conj (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -815,7 +815,7 @@ gnumeric_imcos (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &c, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_cos (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -842,7 +842,7 @@ gnumeric_imtan (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &c, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_tan (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -870,7 +870,7 @@ gnumeric_imexp (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &c, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_exp (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -898,7 +898,7 @@ gnumeric_imargument (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &c, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (complex_angle (&c));
 }
@@ -929,7 +929,7 @@ gnumeric_imln (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &c, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_ln (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -957,7 +957,7 @@ gnumeric_imlog2 (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &c, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_ln (&res, &c);
 	res.re /= M_LN2;
@@ -987,7 +987,7 @@ gnumeric_imlog10 (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &c, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_ln (&res, &c);
 	res.re /= M_LN10;
@@ -1019,13 +1019,13 @@ gnumeric_impower (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &a, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (value_get_as_complex (argv [1], &b, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (complex_real_p (&a) && a.re <= 0  && !complex_real_p (&b))
-		return value_new_error (&ei->pos, gnumeric_err_DIV0);
+		return value_new_error (ei->pos, gnumeric_err_DIV0);
 
 	complex_pow (&res, &a, &b);
 	return value_new_complex (&res, imunit);
@@ -1053,13 +1053,13 @@ gnumeric_imdiv (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &a, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (value_get_as_complex (argv [1], &b, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (complex_zero_p (&b))
-		return value_new_error (&ei->pos, gnumeric_err_DIV0);
+		return value_new_error (ei->pos, gnumeric_err_DIV0);
 
 	complex_div (&res, &a, &b);
 	return value_new_complex (&res, imunit);
@@ -1087,7 +1087,7 @@ gnumeric_imsin (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &c, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_sin (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -1115,7 +1115,7 @@ gnumeric_imsqrt (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &c, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_sqrt (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -1143,10 +1143,10 @@ gnumeric_imsub (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv [0], &a, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (value_get_as_complex (argv [1], &b, &imunit))
-		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_sub (&res, &a, &b);
 	return value_new_complex (&res, imunit);
@@ -1213,7 +1213,7 @@ gnumeric_improduct (FunctionEvalInfo *ei, GList *expr_node_list)
 	p.imunit = 'j';
 	complex_real (&p.res, 1);
 
-        if ((v = function_iterate_argument_values (&ei->pos,
+        if ((v = function_iterate_argument_values (ei->pos,
 						   &callback_function_imoper,
 						   &p, expr_node_list,
 						   TRUE)) != NULL)
@@ -1247,7 +1247,7 @@ gnumeric_imsum (FunctionEvalInfo *ei, GList *expr_node_list)
 	p.imunit = 'j';
 	complex_real (&p.res, 0);
 
-        if ((v = function_iterate_argument_values (&ei->pos,
+        if ((v = function_iterate_argument_values (ei->pos,
 						   callback_function_imoper,
 						   &p, expr_node_list,
 						   TRUE)) != NULL)
@@ -1618,37 +1618,37 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	        return value_new_float (n - one_C_to_K+1);
 
 	if (convert(weight_units, prefixes, from_unit, to_unit, n, &v,
-		    &ei->pos))
+		    ei->pos))
 	        return v;
 	if (convert(distance_units, prefixes, from_unit, to_unit, n, &v,
-		    &ei->pos))
+		    ei->pos))
 	        return v;
 	if (convert(time_units, NULL, from_unit, to_unit, n, &v,
-		    &ei->pos))
+		    ei->pos))
 	        return v;
 	if (convert(pressure_units, prefixes, from_unit, to_unit, n, &v,
-		    &ei->pos))
+		    ei->pos))
 	        return v;
 	if (convert(force_units, prefixes, from_unit, to_unit, n, &v,
-		    &ei->pos))
+		    ei->pos))
 	        return v;
 	if (convert(energy_units, prefixes, from_unit, to_unit, n, &v,
-		    &ei->pos))
+		    ei->pos))
 	        return v;
 	if (convert(power_units, prefixes, from_unit, to_unit, n, &v,
-		    &ei->pos))
+		    ei->pos))
 	        return v;
 	if (convert(magnetism_units, prefixes, from_unit, to_unit, n, &v,
-		    &ei->pos))
+		    ei->pos))
 	        return v;
 	if (convert(liquid_units, prefixes, from_unit, to_unit, n, &v,
-		    &ei->pos))
+		    ei->pos))
 	        return v;
 	if (convert(magnetism_units, prefixes, from_unit, to_unit, n, &v,
-		    &ei->pos))
+		    ei->pos))
 	        return v;
 
-	return value_new_error (&ei->pos, gnumeric_err_NUM);
+	return value_new_error (ei->pos, gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -1685,7 +1685,7 @@ gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
 		upper = value_get_as_float (argv [1]);
 
 	if (lower < 0.0 || upper < 0.0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	ans = erf(lower);
 
@@ -1719,7 +1719,7 @@ gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
 	float_t x;
 
 	if ((x=value_get_as_float (argv [0]))<0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (erfc (x));
 }
@@ -1773,7 +1773,7 @@ gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
 		ans = value_get_as_float(vx) == value_get_as_float(vy);
 		break;
 	default:
-		err = value_new_error (&ei->pos, _("Impossible"));
+		err = value_new_error (ei->pos, _("Impossible"));
 	}
 	if (!argv [1])
 		value_release (vy);
@@ -1828,7 +1828,7 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 		ans = value_get_as_float(vx) >= value_get_as_float(vy);
 		break;
 	default:
-		err = value_new_error (&ei->pos, _("Impossible"));
+		err = value_new_error (ei->pos, _("Impossible"));
 	}
 	       
 	if (!argv [1])

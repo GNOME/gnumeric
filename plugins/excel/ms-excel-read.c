@@ -22,6 +22,7 @@
 #include "ranges.h"
 #include "ms-excel-util.h"
 #include "ms-excel-xf.h"
+#include "workbook-view.h"
 
 /* #define NO_DEBUG_EXCEL */
 
@@ -45,6 +46,11 @@ static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
 static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 					     ExcelSheet *ans);
 
+/* FIXME : MS quotes its measurments in 'pts' but scales that
+ * to the screen somehow.  This is a crude approximation
+ * just scales things by 1.4.
+ */
+#define MAGIC_ZOOM	1.4
 
 void
 ms_excel_unexpected_biff (BiffQuery *q, char const *const state)
@@ -1934,7 +1940,7 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 	/* HACK HACK HACK : default zoom to 1.4 for now.
 	 * See SCL for details.
 	 */
-	sheet_set_zoom_factor (ans->gnum_sheet, 1.4);
+	sheet_set_zoom_factor (ans->gnum_sheet, MAGIC_ZOOM);
 	ans->wb         = wb;
 	ans->obj_queue  = NULL;
 
@@ -3295,7 +3301,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				 * the points -> pixels depending on the monitor size.
 				 * Pick a quick scale factor to avoid looking really ugly.
 				 */
-				sheet_set_zoom_factor (sheet->gnum_sheet, zoom*1.4);
+				sheet_set_zoom_factor (sheet->gnum_sheet, zoom*MAGIC_ZOOM);
 			} else
 				g_warning ("Duff BIFF_SCL record");
 			break;
@@ -3875,8 +3881,6 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 
 		case BIFF_WINDOW1 : /* 0 NOT 1 */
 			if (q->length >= 16) {
-				int const screen_width = gdk_screen_width ();
-				int const screen_height = gdk_screen_height ();
 #if 0
 				/* In 1/20ths of a point */
 				guint16 const xPos    = MS_OLE_GET_GUINT16(q->data + 0);
@@ -3894,16 +3898,9 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 				guint16 const ratio   = MS_OLE_GET_GUINT32(q->data + 16);
 #endif
 
-				/* FIXME : MS quotes its measurments in 'pts' but scales that
-				 * to the screen somehow.  This is a crude approximation
-				 * that assumes that it uses the resolution of the screen and
-				 * scales relative to an 800x600 screen.
-				 */
-				gtk_window_set_default_size (GTK_WINDOW (wb->gnum_wb->toplevel),
-							     MIN (screen_width - 64,
-								  (screen_width * width)/(800 * 20)),
-							     MIN (screen_height - 64,
-								  (screen_height*height)/(600 * 20)));
+				workbook_view_set_size (wb->gnum_wb,
+							width*MAGIC_ZOOM / 20.,
+							height*MAGIC_ZOOM / 20.);
 
 				if (options & 0x0001)
 					printf ("Unsupported : Hidden sheet\n");

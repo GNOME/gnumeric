@@ -90,7 +90,7 @@ static Value *
 marshal_func (FunctionEvalInfo *ei, Value *argv [])
 {
 	PyObject *args, *result;
-	FunctionDefinition *fndef = ei->func_def;
+	FunctionDefinition const * const fndef = ei->func_def;
 	Value *v;
 	GList *l;
 	int i, min, max;
@@ -98,9 +98,9 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 	function_def_count_args (fndef, &min, &max);
 
 	/* Find the Python code object for this FunctionDefinition. */
-	l = g_list_find_custom (funclist, fndef, (GCompareFunc) fndef_compare);
+	l = g_list_find_custom (funclist, (gpointer)fndef, (GCompareFunc) fndef_compare);
 	if (!l)
-		return value_new_error (&ei->pos, _("Unable to lookup Python code object."));
+		return value_new_error (ei->pos, _("Unable to lookup Python code object."));
 
 	/* Build the argument list which is a Python tuple. */
 	args = PyTuple_New (min);
@@ -115,7 +115,7 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 
 	if (!result) {
 		PyErr_Clear (); /* XXX should popup window with exception info */
-		return value_new_error (&ei->pos, _("Python exception."));
+		return value_new_error (ei->pos, _("Python exception."));
 	}
 
 	v = convert_python_to_value (result);
