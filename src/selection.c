@@ -282,6 +282,7 @@ sheet_selection_redraw (Sheet const *sheet)
 				r->start.col, r->start.row,
 				r->end.col, r->end.row);
 		}
+		sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
 	}
 }
 
@@ -1281,7 +1282,9 @@ sheet_col_selection_type (Sheet const *sheet, int col)
 	g_return_val_if_fail (sheet != NULL, COL_ROW_NO_SELECTION);
 	g_return_val_if_fail (IS_SHEET (sheet), COL_ROW_NO_SELECTION);
 
-	if (sheet->selections == NULL)
+	if (sheet->selections == NULL ||
+	    sheet->new_object != NULL ||
+	    sheet->current_object != NULL)
 		return COL_ROW_NO_SELECTION;
 
 	for (l = sheet->selections; l != NULL; l = l->next){
@@ -1311,7 +1314,9 @@ sheet_row_selection_type (Sheet const *sheet, int row)
 	g_return_val_if_fail (sheet != NULL, COL_ROW_NO_SELECTION);
 	g_return_val_if_fail (IS_SHEET (sheet), COL_ROW_NO_SELECTION);
 
-	if (sheet->selections == NULL)
+	if (sheet->selections == NULL ||
+	    sheet->new_object != NULL ||
+	    sheet->current_object != NULL)
 		return COL_ROW_NO_SELECTION;
 
 	for (l = sheet->selections; l != NULL; l = l->next){

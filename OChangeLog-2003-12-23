@@ -1,3 +1,11 @@
+2000-09-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (sheet_selection_redraw) : redraw the rol/col
+	  headers too.
+	(sheet_col_selection_type) : There is no visible selection while
+	  objects are being edited/created.
+	(sheet_row_selection_type) : Ditto.
+
 2000-09-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_create_standard_toolbar) : Rename from
