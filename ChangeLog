@@ -1,3 +1,18 @@
+2000-11-03  Almer S. Tigelaar  <almer1@dds.nl>
+
+	Fix bug #21674. (Fix will kick in once the version number of the
+	XML format is bumped to GNUM_XML_V5)
+	
+	* src/print-info.c (print_info_new): Add extra commenting.
+
+	* src/xml-io.c:
+	(xml_write_print_repeat_range): New function, for saving a repeat range.
+	(xml_read_print_repeat_range): New function, for loading a repeat range.
+	(xml_write_print_info): Save the row repeat and col repeat range using
+	xml_write_print_repeat_range.
+	(xml_read_print_info): Read col and row repeat range if file format
+	version > GNUM_XML_V4 using xml_read_print_repeat_range.
+
 2000-11-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_sheet_detach) : remove unused parm.

@@ -231,6 +231,10 @@ load_formats (void)
  * print_info_new:
  *
  * Returns a newly allocated PrintInformation buffer
+ *
+ * NOTE: This reads from a globally stored configuration. If a
+ *       configuration is stored along with a sheet then that will
+ *       override these global defaults.
  */
 PrintInformation *
 print_info_new (void)

@@ -1306,10 +1306,35 @@ xml_read_attributes (XmlParseContext *ctxt, xmlNodePtr tree, GList **list)
 }
 
 static xmlNodePtr
+xml_write_print_repeat_range (XmlParseContext *ctxt, char *name, PrintRepeatRange *range)
+{
+	xmlNodePtr cur;
+	String *str;
+	char *s;
+
+	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (range != NULL, NULL);
+	
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, name, NULL);
+	if (range->use) {
+		s = value_cellrange_get_as_string ((Value *)&range->range, FALSE);
+	} else {
+		s = g_strdup ("");
+	}
+	str = string_get (s);
+	xml_set_value_string  (cur, "value", str);
+	
+	string_unref (str);
+	g_free (s);
+
+	return cur;
+}
+
+static xmlNodePtr
 xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 {
 	xmlNodePtr cur, child;
-
+	
 	g_return_val_if_fail (pi != NULL, NULL);
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "PrintInformation", NULL);
@@ -1342,6 +1367,12 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 	xml_set_value_int  (child, "value",    pi->print_titles);
 	xmlAddChild (cur, child);
 
+	child = xml_write_print_repeat_range (ctxt, "repeat_top", &pi->repeat_top);
+	xmlAddChild (cur, child);
+
+	child = xml_write_print_repeat_range (ctxt, "repeat_left", &pi->repeat_left);
+	xmlAddChild (cur, child);
+
 	if (pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT)
 		child = xmlNewDocNode (ctxt->doc, ctxt->ns, "order", "d_then_r");
 	else
@@ -1361,6 +1392,38 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 	xmlAddChild (cur, child);
 
 	return cur;
+}
+
+static void
+xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree, char *name, PrintRepeatRange *range)
+{
+	xmlNodePtr child;
+	
+	g_return_if_fail (ctxt != NULL);
+	g_return_if_fail (tree != NULL);
+	g_return_if_fail (name != NULL);
+	g_return_if_fail (range != NULL);
+	
+	if (ctxt->version > GNUM_XML_V4) {
+		if ((child = xml_search_child (tree, name))) {
+			String *s = xml_get_value_string  (child, "value");
+
+			if (strcmp (s->str, "") != 0) {
+				Value *cellrange = range_parse (NULL, s->str, TRUE);
+
+				if (cellrange) {
+					range->range = cellrange->v_range;
+					range->use   = TRUE;
+					value_release (cellrange);
+				}
+			} else {
+				range->use = FALSE;
+			}
+			string_unref (s);
+		}
+	} else {
+		range->use = FALSE;
+	}
 }
 
 static void
@@ -1417,6 +1480,9 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 		pi->print_titles          = (b == 1);
 	}
 
+	xml_read_print_repeat_range (ctxt, tree, "repeat_top", &pi->repeat_top);
+	xml_read_print_repeat_range (ctxt, tree, "repeat_left", &pi->repeat_left);
+			
 	if ((child = xml_search_child (tree, "order"))) {
 		char *txt;
 		txt = xmlNodeGetContent (child);
