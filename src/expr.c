@@ -624,6 +624,7 @@ cell_ref_restore_absolute (CellRef *cell_ref, const CellRef *orig, int eval_col,
 	}
 }
 
+#if 0
 static Value *
 eval_cell_value (Sheet *sheet, Value *value)
 {
@@ -659,6 +660,7 @@ eval_cell_value (Sheet *sheet, Value *value)
 	}
 	return res;
 }
+#endif
 
 static void
 free_values (Value **values, int top)
@@ -666,7 +668,8 @@ free_values (Value **values, int top)
 	int i;
 
 	for (i = 0; i < top; i++)
-		value_release (values [i]);
+		if (values[i])
+			value_release (values [i]);
 	g_free (values);
 }
 
@@ -676,7 +679,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 	FunctionDefinition *fd;
 	GList *l;
 	int argc, arg, i;
-	Value *v;
+	Value *v = NULL;
 
 	fd = (FunctionDefinition *) tree->u.function.symbol->data;
 
@@ -717,6 +720,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 		for (arg = 0; l; l = l->next, arg++, arg_type++){
 			ExprTree *t = (ExprTree *) l->data;
 			int type_mismatch = 0;
+			Value *v;
 
 			if (*arg_type=='|')
 				arg_type++;
@@ -771,24 +775,19 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 				}
 				break;
 			}
+			values [arg] = v;
 			if (type_mismatch){
-				free_values (values, arg);
+				free_values (values, arg + 1);
 				*error_string = _("Type mismatch");
 				return NULL;
 			}
-			values [arg] = v;
 		}
 		while (arg < fn_argc_max)
 			values [arg++] = NULL;
 		v = fd->fn (fd, values, error_string);
 
 	free_list:
-		for (i = 0; i < arg; i++){
-			if (values [i] != NULL)
-				value_release (values [i]);
-		}
-		g_free (values);
-		return v;
+		free_values (values, arg);
 	}
 	return v;
 }
@@ -901,7 +900,7 @@ compare_float_float (float_t a, float_t b)
  * Compares two (Value *) and returns one of compare_t
  */
 static compare_t
-compare (Value *a, Value *b)
+compare (const Value *a, const Value *b)
 {
 	if (a->type == VALUE_INTEGER){
 		int f;
@@ -914,7 +913,7 @@ compare (Value *a, Value *b)
 			return compare_float_float (a->v.v_int, b->v.v_float);
 
 		case VALUE_STRING:
-			f =value_get_as_float (b);
+			f = value_get_as_float (b);
 			return compare_float_float (a->v.v_int, f);
 
 		default:
@@ -933,7 +932,7 @@ compare (Value *a, Value *b)
 			return compare_float_float (a->v.v_float, b->v.v_float);
 
 		case VALUE_STRING:
-			f =value_get_as_float (b);
+			f = value_get_as_float (b);
 			return compare_float_float (a->v.v_float, f);
 
 		default:
@@ -986,48 +985,45 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 				value_release (b);
 			return NULL;
 		}
-		res = g_new (Value, 1);
-		res->type = VALUE_INTEGER;
-
 		comp = compare (a, b);
+		value_release (a);
+		value_release (b);
 
 		if (comp == TYPE_ERROR){
-			value_release (a);
-			value_release (b);
 			*error_string = _("Type error");
 			return NULL;
 		}
 
 		switch (tree->oper){
 		case OPER_EQUAL:
-			res->v.v_int = comp == IS_EQUAL;
+			res = value_new_int (comp == IS_EQUAL);
 			break;
 
 		case OPER_GT:
-			res->v.v_int = comp == IS_GREATER;
+			res = value_new_int (comp == IS_GREATER);
 			break;
 
 		case OPER_LT:
-			res->v.v_int = comp == IS_LESS;
+			res = value_new_int (comp == IS_LESS);
 			break;
 
 		case OPER_LTE:
-			res->v.v_int = (comp == IS_EQUAL || comp == IS_LESS);
+			res = value_new_int (comp == IS_EQUAL || comp == IS_LESS);
 			break;
 
 		case OPER_GTE:
-			res->v.v_int = (comp == IS_EQUAL || comp == IS_GREATER);
+			res = value_new_int (comp == IS_EQUAL || comp == IS_GREATER);
 			break;
 
 		case OPER_NOT_EQUAL:
-			res->v.v_int = comp != IS_EQUAL;
+			res = value_new_int (comp != IS_EQUAL);
 			break;
 
 		default:
-			g_warning ("This should never be reached: comparission ops\n");
+			g_assert_not_reached ();
+			*error_string = "Internal error";
+			res = NULL;
 		}
-		value_release (a);
-		value_release (b);
 		return res;
 	}
 
@@ -1223,7 +1219,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			}
 
 			if (cell->value)
-				return eval_cell_value (sheet, cell->value);
+				return value_duplicate (cell->value);
 			else {
 				if (cell->text)
 					*error_string = cell->text->str;
@@ -1232,15 +1228,12 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 				return NULL;
 			}
 		}
-		res = g_new (Value, 1);
 
-		res->type = VALUE_INTEGER;
-		res->v.v_int = 0;
-		return res;
+		return value_new_int (0);
 	}
 
 	case OPER_CONSTANT:
-		return eval_cell_value (sheet, tree->u.constant);
+		return value_duplicate (tree->u.constant);
 
 	case OPER_NEG:
 		a = eval_expr (sheet, tree->u.value,

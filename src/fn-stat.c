@@ -147,16 +147,9 @@ callback_function_stat (Sheet *sheet, Value *value, char **error_string,
 	stat_closure_t *mm = closure;
 	float_t x, dx, dm;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-		x = value->v.v_int;
-		break;
-
-	case VALUE_FLOAT:
-		x = value->v.v_float;
-		break;
-
-	default:
+	if (VALUE_IS_NUMBER (value))
+		x = value_get_as_float (value);
+	else {
 	        if (mm->afun_flag)
 		        x = 0;
 		else
@@ -262,11 +255,14 @@ Value *
 gnumeric_stdev (Sheet *sheet, GList *expr_node_list, int eval_col,
 		int eval_row, char **error_string)
 {
-	Value *ans = gnumeric_var (sheet, expr_node_list, eval_col,
-				   eval_row, error_string);
+	Value *var, *ans;
 
-	if (ans && (ans->type == VALUE_FLOAT))
-		ans->v.v_float = sqrt (ans->v.v_float);
+	var = gnumeric_var (sheet, expr_node_list, eval_col,
+			    eval_row, error_string);
+	if (!var)
+		return NULL;
+	ans = value_new_float (sqrt (value_get_as_float (var)));
+	value_release (var);
 	return ans;
 }
 
@@ -287,12 +283,14 @@ Value *
 gnumeric_stdevp (Sheet *sheet, GList *expr_node_list, int eval_col,
 		 int eval_row, char **error_string)
 {
-	Value *ans = gnumeric_varp (sheet, expr_node_list,
-				    eval_col, eval_row, error_string);
+	Value *var, *ans;
 
-	if (ans && (ans->type == VALUE_FLOAT))
-		ans->v.v_float = sqrt (ans->v.v_float);
-
+	var = gnumeric_varp (sheet, expr_node_list, eval_col,
+			     eval_row, error_string);
+	if (!var)
+		return NULL;
+	ans = value_new_float (sqrt (value_get_as_float (var)));
+	value_release (var);
 	return ans;
 }
 
@@ -320,16 +318,10 @@ callback_function_stat_inv_sum (Sheet *sheet, Value *value,
 	stat_inv_sum_t *mm = closure;
 	float_t x;
 
-	switch (value->type) {
-	case VALUE_INTEGER:
-	case VALUE_FLOAT:
-		x = value_get_as_float (value);
-		break;
-
-	default:
-		/* ignore strings */
+	if (!VALUE_IS_NUMBER (value))
 		return TRUE;
-	}
+
+	x = value_get_as_float (value);
 
 	if (x == 0) {
 		*error_string = _("#DIV/0");
@@ -368,41 +360,23 @@ callback_function_rank (Sheet *sheet, Value *value,
 			char **error_string, void *closure)
 {
 	stat_rank_t *mm = closure;
-	gpointer     p;
+	float_t x;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	        if (mm->first == TRUE)
-		        mm->x = value->v.v_int;
-		else if (mm->num == 1)
-		        mm->last = value->v.v_int;
-		else {
-	                p = g_new(float_t, 1);
-			*((float_t *) p) = mm->last;
-			mm->list = g_slist_append(mm->list, p);
-			mm->last = value->v.v_int;
-		}
-		mm->num++;
-		break;
-
-	case VALUE_FLOAT:
-	        if (mm->first == TRUE)
-		        mm->x = value->v.v_float;
-		else if (mm->num == 1)
-		        mm->last = value->v.v_float;
-		else {
-	                p = g_new(float_t, 1);
-			*((float_t *) p) = mm->last;
-			mm->list = g_slist_append(mm->list, p);
-			mm->last = value->v.v_float;
-		}
-		mm->num++;
-		break;
-
-	default:
-		/* ignore strings */
+	if (!VALUE_IS_NUMBER (value))
 		return TRUE;
+
+	x = value_get_as_float (value);
+	if (mm->first == TRUE)
+		mm->x = x;
+	else if (mm->num == 1)
+		mm->last = x;
+	else {
+		float_t *p = g_new (float_t, 1);
+		*p = mm->last;
+		mm->list = g_slist_append (mm->list, p);
+		mm->last = x;
 	}
+	mm->num++;
 	mm->first = FALSE;
 	return TRUE;
 }
@@ -427,13 +401,13 @@ gnumeric_rank (Sheet *sheet, GList *expr_node_list,
 	rank  = 1;
 
 	while (list != NULL){
-	        gpointer x;
+	        float_t *x;
 		x = list->data;
 		if (order){
-		        if (*((float_t *) x) < p.x)
+		        if (*x < p.x)
 			        rank++;
 		} else {
-		        if (*((float_t *) x) > p.x)
+		        if (*x > p.x)
 			        rank++;
 		}
 		g_free(x);
@@ -472,35 +446,21 @@ callback_function_trimmean (Sheet *sheet, Value *value,
 			    char **error_string, void *closure)
 {
 	stat_trimmean_t *mm = closure;
-	gpointer        p;
+	float_t x;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-		if (mm->first == TRUE)
-		        mm->last = value->v.v_int;
-		else {
-	                p = g_new(float_t, 1);
-			*((float_t *) p) = mm->last;
-			mm->list = g_slist_append(mm->list, p);
-			mm->last = value->v.v_int;
-		}
-		mm->num++;
-		break;
-	case VALUE_FLOAT:
-	        if (mm->first == TRUE)
-		        mm->last = value->v.v_float;
-		else {
-	                p = g_new(float_t, 1);
-			*((float_t *) p) = mm->last;
-			mm->list = g_slist_append(mm->list, p);
-			mm->last = value->v.v_float;
-		}
-		mm->num++;
-		break;
-	default:
-		/* ignore strings */
+	if (!VALUE_IS_NUMBER (value))
 		return TRUE;
+
+	x = value_get_as_float (value);
+	if (mm->first == TRUE)
+		mm->last = x;
+	else {
+		float_t *p = g_new(float_t, 1);
+		*p = mm->last;
+		mm->list = g_slist_append (mm->list, p);
+		mm->last = x;
 	}
+	mm->num++;
 	mm->first = FALSE;
 	return TRUE;
 }
@@ -536,10 +496,10 @@ gnumeric_trimmean (Sheet *sheet, GList *expr_node_list,
 
 	/* Count the sum for mean */
 	for (n = sum = 0; n < count; n++){
-	        gpointer x;
+	        float_t *x;
 
 		x = list->data;
-		sum += *((float_t *) x);
+		sum += *x;
 		g_free (x);
 		list = list->next;
 	}
@@ -568,7 +528,6 @@ static char *help_covar = {
 };
 
 typedef struct {
-	int     first;
 	guint32 num;
 	int     count;
         GSList  *array1;
@@ -582,44 +541,22 @@ callback_function_covar (Sheet *sheet, Value *value,
 			 char **error_string, void *closure)
 {
 	stat_covar_t *mm = closure;
-	gpointer     p;
+	float_t x, *p;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	        p = g_new(float_t, 1);
-
-		*((float_t *) p) = (float_t) value->v.v_int;
-
-	        if (mm->num < mm->count){
-		        mm->array1 = g_slist_append (mm->array1, p);
-			mm->sum1 += value->v.v_int;
-		} else {
-		        mm->array2 = g_slist_append (mm->array2, p);
-			mm->sum2 += value->v.v_int;
-		}
-		mm->num++;
-		break;
-
-	case VALUE_FLOAT:
-	        p = g_new(float_t, 1);
-
-		*((float_t *) p) = value->v.v_float;
-
-	        if (mm->num < mm->count){
-		        mm->array1 = g_slist_append(mm->array1, p);
-			mm->sum1 += value->v.v_float;
-		} else {
-		        mm->array2 = g_slist_append(mm->array2, p);
-			mm->sum2 += value->v.v_float;
-		}
-		mm->num++;
-		break;
-
-	default:
-		/* ignore strings */
+	if (!VALUE_IS_NUMBER (value))
 		return TRUE;
+
+        p = g_new (float_t, 1);
+	*p = x = value_get_as_float (value);
+
+	if (mm->num < mm->count){
+		mm->array1 = g_slist_append (mm->array1, p);
+		mm->sum1 += x;
+	} else {
+		mm->array2 = g_slist_append (mm->array2, p);
+		mm->sum2 += x;
 	}
-	mm->first = FALSE;
+	mm->num++;
 	return TRUE;
 }
 
@@ -631,11 +568,16 @@ gnumeric_covar (Sheet *sheet, GList *expr_node_list,
 	float_t sum, mean1, mean2;
 	int     count;
 	GSList  *list1, *list2;
+	Value *vtmp;
 
-	pr.first   = TRUE;
-	count = value_get_as_int (gnumeric_count
-	        (sheet, expr_node_list, eval_col, eval_row, error_string));
+	vtmp = gnumeric_count (sheet, expr_node_list,
+			       eval_col, eval_row, error_string);
+	if (!vtmp)
+		return NULL;
+	count = value_get_as_int (vtmp);
+	value_release (vtmp);
 
+	/* FIXME: what about count == 0?  */
 	if (count % 2 > 0){
 		*error_string = _("#NUM!");
 		return NULL;
@@ -656,11 +598,11 @@ gnumeric_covar (Sheet *sheet, GList *expr_node_list,
 	mean1 = pr.sum1 / pr.count;
 	mean2 = pr.sum2 / pr.count;
 	while (list1 != NULL && list2 != NULL){
-	        gpointer x, y;
+	        float_t *x, *y;
 
 		x = list1->data;
 		y = list2->data;
-	        sum += (*((float_t *) x) - mean1) * (*((float_t *) y) - mean2);
+	        sum += (*x - mean1) * (*y - mean2);
 
 		g_free (x);
 		g_free (y);
@@ -688,7 +630,6 @@ static char *help_correl = {
 };
 
 typedef struct {
-	int     first;
 	guint32 num;
 	int     count;
         GSList  *array1;
@@ -704,47 +645,24 @@ callback_function_correl (Sheet *sheet, Value *value,
 			  char **error_string, void *closure)
 {
 	stat_correl_t *mm = closure;
-	gpointer     p;
+	float_t x, *p;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	        p = g_new (float_t, 1);
-
-		*((float_t *) p) = (float_t) value->v.v_int;
-
-	        if (mm->num < mm->count){
-		        mm->array1 = g_slist_append (mm->array1, p);
-			mm->sum1 += value->v.v_int;
-			mm->sqrsum1 += value->v.v_int * value->v.v_int;
-		} else {
-		        mm->array2 = g_slist_append (mm->array2, p);
-			mm->sum2 += value->v.v_int;
-			mm->sqrsum2 += value->v.v_int * value->v.v_int;
-		}
-		mm->num++;
-		break;
-
-	case VALUE_FLOAT:
-	        p = g_new (float_t, 1);
-		*((float_t *) p) = value->v.v_float;
-
-	        if (mm->num < mm->count){
-		        mm->array1 = g_slist_append (mm->array1, p);
-			mm->sum1 += value->v.v_float;
-			mm->sqrsum1 += value->v.v_float * value->v.v_float;
-		} else {
-		        mm->array2 = g_slist_append (mm->array2, p);
-			mm->sum2 += value->v.v_float;
-			mm->sqrsum2 += value->v.v_float * value->v.v_float;
-		}
-		mm->num++;
-		break;
-
-	default:
-		/* ignore strings */
+	if (!VALUE_IS_NUMBER (value))
 		return TRUE;
+
+	p = g_new (float_t, 1);
+	*p = x = value_get_as_float (value);
+
+	if (mm->num < mm->count){
+		mm->array1 = g_slist_append (mm->array1, p);
+		mm->sum1 += x;
+		mm->sqrsum1 += x * x;
+	} else {
+		mm->array2 = g_slist_append (mm->array2, p);
+		mm->sum2 += x;
+		mm->sqrsum2 += x * x;
 	}
-	mm->first = FALSE;
+	mm->num++;
 	return TRUE;
 }
 
@@ -756,10 +674,14 @@ gnumeric_correl (Sheet *sheet, GList *expr_node_list,
 	float_t sum, tmp;
 	int     count;
 	GSList  *list1, *list2;
+	Value *vtmp;
 
-	pr.first   = TRUE;
-	count = value_get_as_int(gnumeric_count
-	        (sheet, expr_node_list, eval_col, eval_row, error_string));
+	vtmp = gnumeric_count (sheet, expr_node_list,
+			       eval_col, eval_row, error_string);
+	if (!vtmp)
+		return NULL;
+	count = value_get_as_int (vtmp);
+	value_release (vtmp);
 	if (count % 2 > 0){
 		*error_string = _("#NUM!");
 		return NULL;
@@ -781,11 +703,11 @@ gnumeric_correl (Sheet *sheet, GList *expr_node_list,
 	sum = 0.0;
 
 	while (list1 != NULL && list2 != NULL){
-	        gpointer x, y;
+	        float_t *x, *y;
 
 		x = list1->data;
 		y = list2->data;
-	        sum += (*((float_t *) x)) * (*((float_t *) y));
+	        sum += *x * *y;
 		g_free (x);
 		g_free (y);
 		list1 = list1->next;
@@ -1016,7 +938,6 @@ static char *help_mode = {
 typedef struct {
        GHashTable *hash_table;
        GSList     *items;
-       int        first;
        float_t    mode;
        int        count;
 } stat_mode_t;
@@ -1026,40 +947,27 @@ callback_function_mode (Sheet *sheet, Value *value,
 			char **error_string, void *closure)
 {
        stat_mode_t *mm = closure;
-       gpointer p;
        float_t  key;
-       int      count;
+       int      *p, count;
 
-       switch (value->type){
-       case VALUE_INTEGER:
-	       key = (float_t) value->v.v_int;
-	       break;
-       case VALUE_FLOAT:
-	       key = value->v.v_float;
-	       break;
-       default:
-               /* ignore strings */
+       if (!VALUE_IS_NUMBER (value))
 	       return TRUE;
-       }
 
+       key = value_get_as_float (value);
        p = g_hash_table_lookup (mm->hash_table, &key);
 
        if (p == NULL){
 	       p = g_new (int, 1);
 	       mm->items = g_slist_append (mm->items, p);
-	       *((int *) p) = 1;
+	       *p = count = 1;
 	       g_hash_table_insert (mm->hash_table, &key, p);
-	       count = 1;
-       } else {
-	       *((int *) p) += 1;
-	       count = *((int *) p);
-       }
+       } else
+	       *p = count = *p + 1;
 
-       if (count > mm->count){
+       if (count > mm->count) {
 	       mm->count = count;
 	       mm->mode = key;
        }
-       mm->first = FALSE;
        return TRUE;
 }
 
@@ -1069,8 +977,6 @@ gnumeric_mode (Sheet *sheet, GList *expr_node_list,
 {
        GSList *tmp;
        stat_mode_t pr;
-
-       pr.first = TRUE;
 
        pr.hash_table = g_hash_table_new((GHashFunc) float_hash,
 					(GCompareFunc) float_equal);
@@ -1130,7 +1036,6 @@ static char *help_geomean = {
 };
 
 typedef struct {
-	int first;
 	guint32 num;
 	float_t product;
 } stat_prod_t;
@@ -1141,23 +1046,11 @@ callback_function_stat_prod (Sheet *sheet, Value *value,
 {
 	stat_prod_t *mm = closure;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-		mm->num++;
-		mm->product = mm->first ?
-		  value->v.v_int:mm->product*value->v.v_int;
-		break;
-
-	case VALUE_FLOAT:
-		mm->num++;
-		mm->product = mm->first ?
-		  value->v.v_float:mm->product*value->v.v_float;
-		break;
-	default:
-		/* ignore strings */
+	if (!VALUE_IS_NUMBER (value))
 		return TRUE;
-	}
-	mm->first = FALSE;
+
+	mm->num++;
+	mm->product *= value_get_as_float (value);
 	return TRUE;
 }
 
@@ -1168,16 +1061,14 @@ gnumeric_geomean (Sheet *sheet, GList *expr_node_list,
 	stat_prod_t pr;
 	float_t num;
 
-	pr.first   = TRUE;
 	pr.num     = 0;
-	pr.product = 0.0;
+	pr.product = 1.0;
 
 	function_iterate_argument_values (sheet, callback_function_stat_prod,
 					  &pr, expr_node_list,
 					  eval_col, eval_row, error_string);
-
-	num = (float_t)pr.num;
-	return value_new_float (pow (pr.product, 1.0/num));
+	/* FIXME: What should happen with negative numbers?  */
+	return value_new_float (pow (pr.product, 1.0 / pr.num));
 }
 
 static char *help_count = {
@@ -1200,15 +1091,8 @@ callback_function_count (Sheet *sheet, Value *value,
 {
 	Value *result = (Value *) closure;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	case VALUE_FLOAT:
+	if (VALUE_IS_NUMBER (value))
 		result->v.v_int++;
-		break;
-
-	default:
-		break;
-	}
 	return TRUE;
 }
 
@@ -1218,14 +1102,10 @@ gnumeric_count (Sheet *sheet, GList *expr_node_list,
 {
 	Value *result;
 
-	result = g_new (Value, 1);
-	result->type = VALUE_INTEGER;
-	result->v.v_int = 0;
-
+	result = value_new_int (0);
 	function_iterate_argument_values (sheet, callback_function_count,
 					  result, expr_node_list,
 					  eval_col, eval_row, error_string);
-
 	return result;
 }
 
@@ -1266,14 +1146,10 @@ gnumeric_counta (Sheet *sheet, GList *expr_node_list,
 {
         Value *result;
 
-        result = g_new (Value, 1);
-        result->type = VALUE_INTEGER;
-        result->v.v_int = 0;
-
+        result = value_new_int (0);
         function_iterate_argument_values (sheet, callback_function_counta,
 					  result, expr_node_list,
                                           eval_col, eval_row, error_string);
-
         return result;
 }
 
@@ -1293,36 +1169,29 @@ Value *
 gnumeric_average (Sheet *sheet, GList *expr_node_list,
 		  int eval_col, int eval_row, char **error_string)
 {
-	Value *result;
-	Value *sum, *count;
-	double c;
+	Value *vtmp;
+	float_t sum, count;
 
-	sum = gnumeric_sum (sheet, expr_node_list,
-			    eval_col, eval_row, error_string);
-	if (!sum)
+	vtmp = gnumeric_sum (sheet, expr_node_list,
+			     eval_col, eval_row, error_string);
+	if (!vtmp)
 		return NULL;
+	sum = value_get_as_float (vtmp);
+	value_release (vtmp);
 
-	count = gnumeric_count (sheet, expr_node_list,
-				eval_col, eval_row, error_string);
-	if (!count){
-		value_release (sum);
+	vtmp = gnumeric_count (sheet, expr_node_list,
+			       eval_col, eval_row, error_string);
+	if (!vtmp)
 		return NULL;
-	}
+	count = value_get_as_float (vtmp);
+	value_release (vtmp);
 
-	c = value_get_as_float (count);
-
-	if (c == 0.0){
+	if (count == 0) {
 		*error_string = _("#DIV/0!");
-		value_release (sum);
 		return NULL;
 	}
 
-	result = value_new_float (value_get_as_float (sum) / c);
-
-	value_release (count);
-	value_release (sum);
-
-	return result;
+	return value_new_float (sum / count);
 }
 
 static char *help_min = {
@@ -1421,9 +1290,7 @@ gnumeric_min (Sheet *sheet, GList *expr_node_list,
 
 	closure.operation = OPER_MIN;
 	closure.found  = 0;
-	closure.result = g_new (Value, 1);
-	closure.result->type = VALUE_FLOAT;
-	closure.result->v.v_float = 0;
+	closure.result = value_new_float (0);
 
 	function_iterate_argument_values (sheet, callback_function_min_max,
 					  &closure, expr_node_list,
@@ -1440,9 +1307,7 @@ gnumeric_max (Sheet *sheet, GList *expr_node_list,
 
 	closure.operation = OPER_MAX;
 	closure.found  = 0;
-	closure.result = g_new (Value, 1);
-	closure.result->type = VALUE_FLOAT;
-	closure.result->v.v_float = 0;
+	closure.result = value_new_float (0);
 
 	function_iterate_argument_values (sheet, callback_function_min_max,
 					  &closure, expr_node_list,
@@ -1465,7 +1330,6 @@ static char *help_skew = {
 };
 
 typedef struct {
-	int first;
 	guint32 num;
         float_t mean;
         float_t stddev;
@@ -1477,25 +1341,14 @@ callback_function_skew_sum (Sheet *sheet, Value *value,
 			    char **error_string, void *closure)
 {
 	stat_skew_sum_t *mm = closure;
-	float tmp;
+	float_t tmp;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	        tmp = (value->v.v_int - mm->mean) / mm->stddev;
-		mm->num++;
-		mm->sum += tmp * tmp * tmp;
-		break;
-
-	case VALUE_FLOAT:
-	        tmp = (value->v.v_float - mm->mean) / mm->stddev;
-		mm->num++;
-		mm->sum += tmp * tmp * tmp;
-		break;
-	default:
-		/* ignore strings */
+	if (!VALUE_IS_NUMBER (value))
 		return TRUE;
-	}
-	mm->first = FALSE;
+
+	tmp = (value_get_as_float (value) - mm->mean) / mm->stddev;
+	mm->num++;
+	mm->sum += tmp * tmp * tmp;
 	return TRUE;
 }
 
@@ -1504,16 +1357,28 @@ gnumeric_skew (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
 	stat_skew_sum_t pr;
-	float_t num;
+	Value *vtmp;
 
-	pr.first   = TRUE;
-
-	pr.mean = value_get_as_float (gnumeric_average
-	        (sheet, expr_node_list, eval_col, eval_row, error_string));
-	pr.stddev = value_get_as_float (gnumeric_stdev
-	        (sheet, expr_node_list, eval_col, eval_row, error_string));
 	pr.num  = 0;
 	pr.sum  = 0.0;
+
+	vtmp = gnumeric_average (sheet, expr_node_list,
+				 eval_col, eval_row, error_string);
+	if (!vtmp)
+		return NULL;
+	pr.mean = value_get_as_float (vtmp);
+	value_release (vtmp);
+
+	vtmp = gnumeric_stdev (sheet, expr_node_list,
+			       eval_col, eval_row, error_string);
+	if (!vtmp)
+		return NULL;
+	pr.stddev = value_get_as_float (vtmp);
+	value_release (vtmp);
+
+	/* FIXME: Check this.  */
+	if (pr.stddev == 0)
+		return value_new_float (0);
 
 	function_iterate_argument_values (sheet, callback_function_skew_sum,
 					  &pr, expr_node_list,
@@ -1524,8 +1389,7 @@ gnumeric_skew (Sheet *sheet, GList *expr_node_list,
 		return NULL;
 	}
 
-	num = (float_t)pr.num;
-	return value_new_float ((pr.num / ((pr.num-1.0) * (pr.num-2.0))) * pr.sum);
+	return value_new_float (pr.sum * pr.num / (pr.num - 1) / (pr.num - 2));
 }
 
 static char *help_expondist = {
@@ -1589,12 +1453,6 @@ gnumeric_gammaln (struct FunctionDefinition *i,
 		  Value *argv [], char **error_string)
 {
 	float_t x;
-
-	if (argv[0]->type != VALUE_INTEGER &&
-	    argv[0]->type != VALUE_FLOAT){
-		*error_string = _("#VALUE!");
-		return NULL;
-	}
 
 	/* FIXME: the gamma function is defined for all real numbers except
 	 * the integers 0, -1, -2, ...  It is positive (and log(gamma(x)) is
@@ -1770,22 +1628,13 @@ callback_function_chitest_actual (Sheet *sheet, Value *value,
 				  char **error_string, void *closure)
 {
 	stat_chitest_t *mm = closure;
-	gpointer       p;
-	float_t        tmp;
+	float_t        *p;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	        tmp = value->v.v_int;
-		break;
-	case VALUE_FLOAT:
-	        tmp = value->v.v_float;
-		break;
-	default:
-	        return FALSE;
-	}
+	if (!VALUE_IS_NUMBER (value))
+		return FALSE;
 
-	p = g_new(float_t, 1);
-	*((float_t *) p) = tmp;
+	p = g_new (float_t, 1);
+	*p = value_get_as_float (value);
 	mm->column = g_slist_append(mm->column, p);
 
 	mm->row++;
@@ -1812,29 +1661,22 @@ callback_function_chitest_theoretical (Sheet *sheet, Value *value,
 				       char **error_string, void *closure)
 {
 	stat_chitest_t_t *mm = closure;
-	gpointer         p;
-	float_t          a, e;
+	float_t          a, e, *p;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	        e = value->v.v_int;
-		break;
-	case VALUE_FLOAT:
-	        e = value->v.v_float;
-		break;
-	default:
-	        return FALSE;
-	}
+	if (!VALUE_IS_NUMBER (value))
+		return FALSE;
+
+	e = value_get_as_float (value);
 
 	if (mm->current_cell == NULL) {
 	        mm->current_cell = mm->next_col->data;
 		mm->next_col = mm->next_col->next;
 	}
 	p = mm->current_cell->data;
-	a = *((float_t *) p);
+	a = *p;
 
 	mm->sum += ((a-e) * (a-e)) / e;
-	g_free(p);
+	g_free (p);
 	mm->current_cell = mm->current_cell->next;
 
 	return TRUE;
@@ -2519,7 +2361,6 @@ static char *help_kurt = {
 };
 
 typedef struct {
-        int first;
         guint32 num;
         float_t mean;
         float_t stddev;
@@ -2531,27 +2372,14 @@ callback_function_kurt_sum (Sheet *sheet, Value *value,
 			    char **error_string, void *closure)
 {
         stat_kurt_sum_t *mm = closure;
-        float_t tmp;
+        float_t x;
 
-        switch (value->type){
-        case VALUE_INTEGER:
-                tmp = (value->v.v_int - mm->mean) / mm->stddev;
-                tmp *= tmp;
-                mm->num++;
-                mm->sum += tmp * tmp;
-                break;
-
-        case VALUE_FLOAT:
-                tmp = (value->v.v_float - mm->mean) / mm->stddev;
-                tmp *= tmp;
-                mm->num++;
-                mm->sum += tmp * tmp;
-                break;
-        default:
-                /* ignore strings */
+	if (!VALUE_IS_NUMBER (value))
 		return TRUE;
-        }
-	mm->first = FALSE;
+
+	x = (value_get_as_float (value) - mm->mean) / mm->stddev;
+	mm->num++;
+	mm->sum += (x * x) * (x * x);
 	return TRUE;
 }
 
@@ -2562,7 +2390,6 @@ gnumeric_kurt (Sheet *sheet, GList *expr_node_list,
         stat_kurt_sum_t pr;
 	Value *vtmp;
 
-	pr.first = TRUE;
 	pr.num  = 0;
 	pr.sum  = 0.0;
 
@@ -2617,7 +2444,6 @@ static char *help_avedev = {
 };
 
 typedef struct {
-        int first;
         guint32 num;
         float_t mean;
         float_t sum;
@@ -2629,20 +2455,11 @@ callback_function_stat_avedev_sum (Sheet *sheet, Value *value,
 {
         stat_avedev_sum_t *mm = closure;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	        mm->num++;
-                mm->sum += fabs(value->v.v_int - mm->mean);
-                break;
-        case VALUE_FLOAT:
-                mm->num++;
-                mm->sum += fabs(value->v.v_float - mm->mean);
-                break;
-        default:
-                /* ignore strings */
+	if (!VALUE_IS_NUMBER (value))
 		return TRUE;
-        }
-        mm->first = FALSE;
+
+	mm->num++;
+	mm->sum += fabs (value_get_as_float (value) - mm->mean);
         return TRUE;
 }
 
@@ -2651,22 +2468,24 @@ gnumeric_avedev (Sheet *sheet, GList *expr_node_list,
 		 int eval_col, int eval_row, char **error_string)
 {
         stat_avedev_sum_t pr;
-        float_t num;
+	Value *vtmp;
 
-        pr.first = TRUE;
         pr.num   = 0;
         pr.sum   = 0.0;
-        pr.mean  = value_get_as_float (gnumeric_average
-	 			       (sheet, expr_node_list,
-				        eval_col, eval_row, error_string));
+
+	vtmp = gnumeric_average (sheet, expr_node_list,
+				 eval_col, eval_row, error_string);
+	if (!vtmp)
+		return NULL;
+	pr.mean = value_get_as_float (vtmp);
+	value_release (vtmp);
 
 	function_iterate_argument_values (sheet,
 					  callback_function_stat_avedev_sum,
 					  &pr, expr_node_list,
 					  eval_col, eval_row, error_string);
 
-	num = (float_t)pr.num;
-	return value_new_float ((1.0/num) * pr.sum);
+	return value_new_float (pr.sum / pr.num);
 }
 
 static char *help_devsq = {
@@ -2753,13 +2572,6 @@ gnumeric_poisson (struct FunctionDefinition *i,
 	float_t x, mean;
 	int cuml, err;
 
-	if (argv[0]->type != VALUE_INTEGER &&
-	    argv[0]->type != VALUE_FLOAT &&
-	    argv[1]->type != VALUE_INTEGER &&
-	    argv[1]->type != VALUE_FLOAT){
-		*error_string = _("#VALUE!");
-		return NULL;
-	}
 	x = value_get_as_int (argv [0]);
 	mean = value_get_as_float (argv [1]);
 	if (x<=0  || mean <=0){
@@ -2803,10 +2615,15 @@ gnumeric_pearson (Sheet *sheet, GList *expr_node_list,
 	float_t sum;
 	int     count;
 	GSList  *list1, *list2;
+	Value *vtmp;
 
-	pr.first   = TRUE;
-	count = value_get_as_int(gnumeric_count
-	        (sheet, expr_node_list, eval_col, eval_row, error_string));
+	vtmp = gnumeric_count (sheet, expr_node_list,
+			       eval_col, eval_row, error_string);
+	if (!vtmp)
+		return NULL;
+	count = value_get_as_int (vtmp);
+	value_release (vtmp);
+
 	if (count % 2 > 0){
 		*error_string = _("#NUM!");
 		return NULL;
@@ -2828,10 +2645,10 @@ gnumeric_pearson (Sheet *sheet, GList *expr_node_list,
 	sum = 0.0;
 
 	while (list1 != NULL && list2 != NULL){
-	        gpointer x, y;
+	        float_t *x, *y;
 		x = list1->data;
 		y = list2->data;
-	        sum += (*((float_t *) x)) * (*((float_t *) y));
+	        sum += *x * *y;
 		g_free(x);
 		g_free(y);
 		list1 = list1->next;
@@ -2868,14 +2685,20 @@ gnumeric_rsq (Sheet *sheet, GList *expr_node_list,
 	float_t sum, r;
 	int     count;
 	GSList  *list1, *list2;
+	Value *vtmp;
 
-	pr.first   = TRUE;
-	count = value_get_as_int(gnumeric_count
-	        (sheet, expr_node_list, eval_col, eval_row, error_string));
+	vtmp = gnumeric_count (sheet, expr_node_list,
+			       eval_col, eval_row, error_string);
+	if (!vtmp)
+		return NULL;
+	count = value_get_as_int (vtmp);
+	value_release (vtmp);
 	if (count % 2 > 0){
 		*error_string = _("#NUM!");
 		return NULL;
 	}
+	/* FIXME: what about count == 0?  */
+
 	pr.count   = count / 2;
 	pr.num     = 0;
 	pr.sum1    = 0.0;
@@ -2893,10 +2716,10 @@ gnumeric_rsq (Sheet *sheet, GList *expr_node_list,
 	sum = 0.0;
 
 	while (list1 != NULL && list2 != NULL){
-	        gpointer x, y;
+	        float_t *x, *y;
 		x = list1->data;
 		y = list2->data;
-	        sum += (*((float_t *) x)) * (*((float_t *) y));
+	        sum += *x * *y;
 		g_free(x);
 		g_free(y);
 		list1 = list1->next;
@@ -2917,17 +2740,16 @@ static char *help_median = {
           "@SYNTAX=MEDIAN(n1, n2, ...)\n"
 
           "@DESCRIPTION="
-          "MEDIAN returns the median of the given data set. "
+          "MEDIAN returns the median of the given data set."
           "\n"
           "Strings and empty cells are simply ignored."
 	  "If even numbers are given MEDIAN returns the average of the two "
-	  "numbers in the middle. "
+	  "numbers in the middle."
           "\n"
           "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM")
 };
 
 typedef struct {
-	int     first;
 	guint32 num;
         GSList  *list;
 } stat_median_t;
@@ -2937,26 +2759,15 @@ callback_function_median (Sheet *sheet, Value *value,
 			  char **error_string, void *closure)
 {
 	stat_median_t *mm = closure;
-	gpointer        p;
+	float_t *p;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	        p = g_new(float_t, 1);
-		*((float_t *) p) = value->v.v_int;
-		mm->list = g_slist_append(mm->list, p);
-		mm->num++;
-		break;
-	case VALUE_FLOAT:
-	        p = g_new(float_t, 1);
-		*((float_t *) p) = value->v.v_float;
-		mm->list = g_slist_append(mm->list, p);
-		mm->num++;
-		break;
-	default:
-		/* ignore strings */
+	if (!VALUE_IS_NUMBER (value))
 		return TRUE;
-	}
-	mm->first = FALSE;
+
+	p = g_new (float_t, 1);
+	*p = value_get_as_float (value);
+	mm->list = g_slist_append (mm->list, p);
+	mm->num++;
 	return TRUE;
 }
 
@@ -2969,7 +2780,6 @@ gnumeric_median (Sheet *sheet, GList *expr_node_list,
 	int             median_ind, n;
 	float_t         median;
 
-	p.first = TRUE;
 	p.num   = 0;
 	p.list  = NULL;
 
@@ -2977,9 +2787,11 @@ gnumeric_median (Sheet *sheet, GList *expr_node_list,
 					  &p, expr_node_list,
 					  eval_col, eval_row, error_string);
 
-	median_ind = (p.num-1) / 2;
+	median_ind = (p.num - 1) / 2;
 	p.list = g_slist_sort (p.list, (GCompareFunc) float_compare);
 	list  = p.list;
+
+	/* FIXME: what about zero elements?  */
 
 	/* Skip half of the list */
 	for (n=0; n<median_ind; n++){
@@ -2987,9 +2799,10 @@ gnumeric_median (Sheet *sheet, GList *expr_node_list,
 		list = list->next;
 	}
 
-	if ((p.num-1) % 2 == 0)
+	if (p.num % 2)
 	        median = *((float_t *) list->data);
 	else
+		/* FIXME: is this really right?  */
 	        median = (*((float_t *) list->data) +
 			  *((float_t *) list->next->data)) / 2.0;
 
@@ -3145,28 +2958,17 @@ callback_function_list (Sheet *sheet, int col, int row,
 			Cell *cell, void *user_data)
 {
         stat_list_t *mm = user_data;
-        float_t     x;
-	gpointer    p;
+	float_t *p;
 
 	if (cell == NULL || cell->value == NULL)
 	        return TRUE;
+	if (!VALUE_IS_NUMBER (cell->value))
+		return TRUE;
 
-        switch (cell->value->type) {
-	case VALUE_INTEGER:
-	        x = cell->value->v.v_int;
-		break;
-	case VALUE_FLOAT:
-	        x = cell->value->v.v_float;
-		break;
-	default:
-	        return TRUE;
-	}
-
-	p = g_new(float_t, 1);
-	*((float_t *) p) = x;
-	mm->list = g_slist_append(mm->list, p);
+	p = g_new (float_t, 1);
+	*p = value_get_as_float (cell->value);
+	mm->list = g_slist_append (mm->list, p);
 	mm->num++;
-
 	return TRUE;
 }
 
@@ -3516,23 +3318,15 @@ callback_function_ztest (Sheet *sheet, Value *value,
 	stat_ztest_t *mm = closure;
 	float_t last;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	        last = value->v.v_int;
-		break;
-	case VALUE_FLOAT:
-	        last = value->v.v_float;
-		break;
-	default:
+	if (!VALUE_IS_NUMBER (value))
 		return FALSE;
-	}
-	if (mm->num == 0)
-	        mm->x = last;
-	else {
+
+	last = value_get_as_float (value);
+	if (mm->num > 0) {
 	        mm->sum += mm->x;
 		mm->sqrsum += mm->x * mm->x;
-		mm->x = last;
 	}
+	mm->x = last;
 	mm->num++;
 	return TRUE;
 }
@@ -3706,9 +3500,7 @@ gnumeric_maxa (Sheet *sheet, GList *expr_node_list,
 
 	closure.operation = OPER_MAX;
 	closure.found  = 0;
-	closure.result = g_new (Value, 1);
-	closure.result->type = VALUE_FLOAT;
-	closure.result->v.v_float = 0;
+	closure.result = value_new_float (0);
 
 	function_iterate_argument_values (sheet, callback_function_mina_maxa,
 					  &closure, expr_node_list,
@@ -3739,9 +3531,7 @@ gnumeric_mina (Sheet *sheet, GList *expr_node_list,
 
 	closure.operation = OPER_MIN;
 	closure.found  = 0;
-	closure.result = g_new (Value, 1);
-	closure.result->type = VALUE_FLOAT;
-	closure.result->v.v_float = 0;
+	closure.result = value_new_float (0);
 
 	function_iterate_argument_values (sheet, callback_function_mina_maxa,
 					  &closure, expr_node_list,
@@ -3840,11 +3630,14 @@ static Value *
 gnumeric_stdeva (Sheet *sheet, GList *expr_node_list, int eval_col,
 		 int eval_row, char **error_string)
 {
-	Value *ans = gnumeric_vara (sheet, expr_node_list, eval_col,
-				    eval_row, error_string);
+	Value *var, *ans;
 
-	if (ans && (ans->type == VALUE_FLOAT))
-		ans->v.v_float = sqrt (ans->v.v_float);
+	var = gnumeric_vara (sheet, expr_node_list, eval_col,
+			     eval_row, error_string);
+	if (!var)
+		return NULL;
+	ans = value_new_float (sqrt (value_get_as_float (var)));
+	value_release (var);
 	return ans;
 }
 
@@ -3867,12 +3660,14 @@ static Value *
 gnumeric_stdevpa (Sheet *sheet, GList *expr_node_list, int eval_col,
 		  int eval_row, char **error_string)
 {
-	Value *ans = gnumeric_varpa (sheet, expr_node_list,
-				     eval_col, eval_row, error_string);
+	Value *var, *ans;
 
-	if (ans && (ans->type == VALUE_FLOAT))
-		ans->v.v_float = sqrt (ans->v.v_float);
-
+	var = gnumeric_varpa (sheet, expr_node_list, eval_col,
+			      eval_row, error_string);
+	if (!var)
+		return NULL;
+	ans = value_new_float (sqrt (value_get_as_float (var)));
+	value_release (var);
 	return ans;
 }
 
@@ -3881,7 +3676,7 @@ static char *help_slope = {
 	   "@SYNTAX=SLOPE(known_y's,known_x's)\n"
 
 	   "@DESCRIPTION="
-	   "SLOPE returns the slope of the linear regression line. "
+	   "SLOPE returns the slope of the linear regression line."
 	   "\n"
 	   "@SEEALSO=STDEV,STDEVPA")
 };
@@ -4061,16 +3856,10 @@ callback_function_percentrank (Sheet *sheet, Value *value,
         stat_percentrank_t *p = user_data;
 	float_t y;
 
-        switch (value->type) {
-	case VALUE_INTEGER:
-	        y = value->v.v_int;
-		break;
-	case VALUE_FLOAT:
-	        y = value->v.v_float;
-		break;
-	default:
-	        return FALSE;
-	}
+	if (!VALUE_IS_NUMBER (value))
+		return FALSE;
+
+	y = value_get_as_float (value);
 
 	if (y < p->x)
 	        p->smaller++;

@@ -37,7 +37,7 @@ callback_function_and (Sheet *sheet, Value *value,
 		       char **error_string, void *closure)
 {
 	Value *result = closure;
-	
+
 	switch (value->type){
 	case VALUE_INTEGER:
 		if (value->v.v_int == 0){
@@ -58,7 +58,7 @@ callback_function_and (Sheet *sheet, Value *value,
 		/* ignore strings */
 		break;
 	}
-	
+
 	return TRUE;
 }
 
@@ -68,9 +68,7 @@ gnumeric_and (Sheet *sheet, GList *expr_node_list,
 {
 	Value *result;
 
-	result = g_new (Value, 1);
-	result->type = VALUE_INTEGER;
-	result->v.v_int = -1;
+	result = value_new_int (-1);
 
 	function_iterate_argument_values (sheet, callback_function_and,
 					  result, expr_node_list,
@@ -102,9 +100,9 @@ gnumeric_not (struct FunctionDefinition *i,
 	      Value *argv [], char **error_string)
 {
 	int b;
-	
+
 	b = value_get_as_int (argv [0]);
-	
+
 	return value_new_int (!b);
 }
 
@@ -161,9 +159,7 @@ gnumeric_or (Sheet *sheet, GList *expr_node_list,
 {
 	Value *result;
 
-	result = g_new (Value, 1);
-	result->type = VALUE_INTEGER;
-	result->v.v_int = -1;
+	result = value_new_int (-1);
 
 	function_iterate_argument_values (sheet, callback_function_or,
 					  result, expr_node_list,
@@ -233,8 +229,7 @@ gnumeric_if (Sheet *sheet, GList *expr_node_list,
 	}
 
 	/* Return the result */
-	return eval_expr (sheet, (ExprTree *) expr, eval_col,
-			  eval_row, error_string);
+	return eval_expr (sheet, expr, eval_col, eval_row, error_string);
 }
 
 

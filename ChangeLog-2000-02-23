@@ -1,3 +1,37 @@
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_skew): Fix crashes and leaks.
+	(gnumeric_covar): Ditto.
+	(gnumeric_rsq): Ditto.
+	(gnumeric_pearson): Ditto.
+	(gnumeric_correl): Ditto.
+	(gnumeric_avedev): Ditto.
+
+	(gnumeric_stdev): Don't make assumptions of the type of VAR.
+	(gnumeric_stdevp): Ditto.
+	(gnumeric_stdeva): Ditto.
+	(gnumeric_stdevpa): Ditto.
+
+	(callback_function_covar): Simplify greatly.
+	(callback_function_correl): Ditto.
+	(callback_function_stat_avedev_sum): Ditto.
+	(callback_function_skew_sum): Ditto.  Also improve precision.
+	(callback_function_rank): Ditto.
+	(callback_function_trimmean): Ditto.
+	(callback_function_mode): Ditto.
+	(callback_function_stat_prod): Ditto.
+	(callback_function_count): Ditto.
+	(callback_function_kurt_sum): Ditto.
+	(callback_function_ztest): Ditto.
+	(callback_function_list): Ditto.
+	(callback_function_percentrank): Ditto.
+	(gnumeric_skew): Handle zero stddev.
+
+	* src/expr.c (eval_cell_value): Delete.  Use value_duplicate
+ 	instead.
+	(eval_funcall): Fix memory corruption on error.  Fix serious leak.
+	(free_values): Only free non-NULLs.
+
 1999-06-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/file.c (dialog_query_load_file): 
