@@ -59,6 +59,7 @@ Morten:
 	* Fix unnecessary singularities for IPMT, PPMT, and NPER.
 	* Make print-info use GnomePrintUnit instead of our own half-baked
 	  stuff.
+	* Overhaul error value layers.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.12
