@@ -1,3 +1,8 @@
+2000-11-09  Morten Welinder  <terra@diku.dk>
+
+	* src/border.c (style_border_unref): Take border out of hash table
+ 	before we destroy the hashed fields.
+
 2000-11-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-view.c (workbook_view_init) : Add prototype.

@@ -330,6 +330,9 @@ style_border_unref (MStyleBorder *border)
 	 */
 	g_return_if_fail (border != style_border_none ());
 
+	/* Remove here, before we mess with the hashed fields.  */
+	g_hash_table_remove (border_hash, border);
+
 	if (border->color) {
 		style_color_unref (border->color);
 		border->color = NULL;
@@ -339,8 +342,6 @@ style_border_unref (MStyleBorder *border)
 		gdk_gc_unref (border->gc);
 		border->gc = NULL;
 	}
-
-	g_hash_table_remove (border_hash, border);
 
 	g_free (border);
 }
