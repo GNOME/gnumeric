@@ -1,3 +1,7 @@
+2002-11-07  Jody Goldberg <jody@gnome.org>
+
+	* src/item-edit.c (item_edit_draw) : fix bounding box.
+
 2002-11-07   Andreas J. Guelzow  <aguelzow@taliesin.ca> for
 	Evert Verhellen <evert.verhellen@advalvas.be>:
 

@@ -9,8 +9,6 @@ Release Critical
 
 - validate expression names to ensure that they are not simple values (eg TRUE)
 - height calculation in render value is hosed for embedded new lines
-- Update www since FACT became a superset of XL.  (BETA?  BETALN?)
-- fix remnants from the death of saver
 - Add plugin and local SUPBOOKS for xl97 export to bring it up to par with xl95
 
 Pending Patches
@@ -74,7 +72,7 @@ Pending Patches
     17.2) smarter handling for groups at the edge of selection
     17.3) implement 'clicked' for numbers callbacks
 18) 3D reference fixes on sheet deletion
-19) 'discard' for invalid expressions enters text as string
+19) 'discard' for invalid expressions enters text as string	(DONE)
 
 UTF-8: (grep for ctype.h is a good start)
     - Audit string functions for utf8: CHAR, CODE, SUBSTITUTE, SEARCH.
@@ -188,11 +186,6 @@ Misc stuff that should be fixed
     : improve uniform_get to handle full sheet more quickly.
     : Borders
 	* use new border code for cell format dialog (possibly preview-grid)
-    : Underline
-	* should scale with font size.  (Say, max (1, font->descent/4?)
-	  gnome-print has a function we could use for printing which returns the
-	  underline thickness.
-	* Should be visible in the edit-item (should edit item use cell_draw ?)
 
 - SheetObjects
     : Add acetate_create virtual to handle shaped objects.

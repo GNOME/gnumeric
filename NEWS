@@ -20,6 +20,7 @@ Jody
 	* Switch to foocanvas for performance
 	* Just in time rendering for clipboard
 	* Add 'require_explicit_enable' for plugins
+	* Support writing dual stream xls files
 
 Morten:
 	* Spelling fixes all over.
