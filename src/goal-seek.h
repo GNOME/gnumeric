@@ -26,6 +26,11 @@ typedef GoalSeekStatus (*GoalSeekFunction) (float_t x, float_t *y, void *user_da
 
 void goal_seek_initialise (GoalSeekData *data);
 
+GoalSeekStatus goal_seek_point (GoalSeekFunction f,
+				GoalSeekData *data,
+				void *user_data,
+				float_t x0);
+
 GoalSeekStatus goal_seek_newton (GoalSeekFunction f,
 				 GoalSeekFunction df,
 				 GoalSeekData *data,

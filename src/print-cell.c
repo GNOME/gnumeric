@@ -52,12 +52,12 @@ print_hline (GnomePrintContext *context,
 int
 print_show_iso8859_1 (GnomePrintContext *pc, char const *text)
 {
-	guint32 u4text[128];
+	guint32 u4text[128], *u4p;
 	guint32 *dynp = NULL;
 	size_t len;
 	int ret;
 	char const *p;
-	char *u4p, *outp;
+	char *outp;
 
 	g_return_val_if_fail (pc && text, -1);
 

@@ -9,6 +9,7 @@
  */
 #include <config.h>
 #include <math.h>
+#include <limits.h>
 #include "gnumeric.h"
 #include "parse-util.h"
 #include "cell.h"
@@ -1549,12 +1550,11 @@ typedef struct {
 static GoalSeekStatus
 gnumeric_rate_f (float_t rate, float_t *y, void *user_data)
 {
-	if (rate > -1.0) {
+	if (rate > -1.0 && rate != 0) {
 		gnumeric_rate_t *data = user_data;
 
 		*y = data->pv * calculate_pvif (rate, data->nper) +
-			data->pmt * (1 + rate * data->type) *
-		  calculate_fvifa (rate, data->nper) +
+			data->pmt * (1 + rate * data->type) * calculate_fvifa (rate, data->nper) +
 			data->fv;
 		return GOAL_SEEK_OK;
 	} else
@@ -1620,8 +1620,34 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	printf ("Guess = %.15g\n", rate0);
 #endif
 	goal_seek_initialise (&data);
+
+	/* Respect the sign of the guess.  */
+	if (rate0 >= 0) {
+		data.xmin = 0;
+		data.xmax = MIN (data.xmax,
+				 pow (DBL_MAX / 1e10, 1.0 / udata.nper) - 1);
+	} else {
+		data.xmin = MAX (data.xmin,
+				 -pow (DBL_MAX / 1e10, 1.0 / udata.nper) + 1);
+		data.xmax = 0;
+	}
+
+	/* Newton search from guess.  */
 	status = goal_seek_newton (&gnumeric_rate_f, &gnumeric_rate_df,
 				   &data, &udata, rate0);
+
+	if (status != GOAL_SEEK_OK) {
+		int factor;
+		/* Lay a net of test points around the guess.  */
+		for (factor = 2; factor < 100; factor *= 2) {
+			goal_seek_point (&gnumeric_rate_f, &data, &udata, rate0 * factor);
+			goal_seek_point (&gnumeric_rate_f, &data, &udata, rate0 / factor);
+		}
+
+		/* Pray we got both sides of the root.  */
+		status = goal_seek_bisection (&gnumeric_rate_f, &data, &udata);
+	}
+
 	if (status == GOAL_SEEK_OK) {
 #if 0
 		printf ("Root = %.15g\n\n", data.root);

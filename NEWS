@@ -46,6 +46,7 @@ Morten:
 	* Fixed many bogusities in xbase plugin.
 	* Cleanup limits in numtheory.  Added BITXOR.
 	* Fixed RATE, SLD, and SYD.
+	* Improved RATE's root searching.
 
 Pablo De Napoli:
 	* New NT_MU function in numtheory.

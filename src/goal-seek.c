@@ -111,6 +111,31 @@ goal_seek_initialise (GoalSeekData *data)
 	data->precision = 1e-10;
 }
 
+
+/*
+ * Seek a goal using a single point.
+ */
+GoalSeekStatus
+goal_seek_point (GoalSeekFunction f, GoalSeekData *data,
+		 void *user_data, float_t x0)
+{
+	GoalSeekStatus status;
+	float_t y0;
+
+	if (x0 < data->xmin || x0 > data->xmax)
+		return GOAL_SEEK_ERROR;
+
+	status = f (x0, &y0, user_data);
+	if (status != GOAL_SEEK_OK)
+		return status;
+
+	if (update_data (x0, y0, data))
+		return GOAL_SEEK_OK;
+
+	return GOAL_SEEK_ERROR;
+}
+
+
 /*
  * Seek a goal (root) using Newton's iterative method.
  *
