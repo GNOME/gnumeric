@@ -18120,9 +18120,8 @@ msgid "_Tabulate Dependency..."
 msgstr "依存関係を表にする(_T)..."
 
 #: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3898
-#, fuzzy
 msgid "_Text to Columns..."
-msgstr "列の自動調整(_U)"
+msgstr "テキストを列に(_T)..."
 
 #: src/GNOME_Gnumeric.xml.h:339
 msgid "_Toolbars..."
@@ -18304,9 +18303,8 @@ msgid "%s is locked. Unprotect the workbook to enable editing."
 msgstr "ワークブックは編集可能です (保護なし)"
 
 #: src/commands.c:255
-#, fuzzy, c-format
 msgid "%s is locked. Unprotect the sheet to enable editing."
-msgstr "シートは編集可能です (保護なし)"
+msgstr "%s はロックされています。シートを編集するには保護を解除してください。"
 
 #: src/commands.c:426
 msgid "..."
@@ -20580,7 +20578,6 @@ msgid "<b>Error alerts</b>"
 msgstr "<b>エラー通知</b>"
 
 #: src/dialogs/cell-format.glade.h:16
-#, fuzzy
 msgid "<b>Horizontal alignment</b>"
 msgstr "<b>水平位置</b>"
 
@@ -20601,7 +20598,6 @@ msgid "<b>Style</b>"
 msgstr "<b>スタイル</b>"
 
 #: src/dialogs/cell-format.glade.h:22
-#, fuzzy
 msgid "<b>Vertical alignment</b>"
 msgstr "<b>垂直位置</b>"
 
@@ -21646,9 +21642,8 @@ msgid "Source region %s overlaps with the destination region"
 msgstr "対象元の場所 %s は対象先の場所と同じです"
 
 #: src/dialogs/dialog-consolidate.c:325
-#, fuzzy
 msgid "The output range overlaps with the input ranges."
-msgstr "出力範囲が正しくありません。"
+msgstr "出力範囲が入力範囲に重なっています。"
 
 #: src/dialogs/dialog-consolidate.c:558
 #, fuzzy
@@ -22311,14 +22306,12 @@ msgstr ""
 "トして下さい。"
 
 #: src/dialogs/dialog-scenarios.c:122
-#, fuzzy
 msgid "Invalid changing cells"
-msgstr "変更するセル:"
+msgstr "変更中のセルが正しくありません"
 
 #: src/dialogs/dialog-scenarios.c:130
-#, fuzzy
 msgid "Changing cells should be on the current sheet only."
-msgstr "編集中のシートでのみ検索と置換を行います"
+msgstr "変更中のセルは現在のシートになければなりません。"
 
 #: src/dialogs/dialog-scenarios.c:141
 #, fuzzy
@@ -22931,14 +22924,12 @@ msgstr ""
 "テキストのそれぞれの列は'分割'文字で分割されています。例えばセミコロンなど"
 
 #: src/dialogs/dialog-stf.glade.h:18
-#, fuzzy
 msgid "Encoding:"
-msgstr "バインド"
+msgstr "エンコーディング:"
 
 #: src/dialogs/dialog-stf.glade.h:19
-#, fuzzy
 msgid "F_inish"
-msgstr "終了(_F)"
+msgstr "終了(_I)"
 
 #: src/dialogs/dialog-stf.glade.h:20
 #, fuzzy
@@ -22959,16 +22950,15 @@ msgstr "ハイフン(-) (_Y)"
 
 #: src/dialogs/dialog-stf.glade.h:24
 msgid "Line breaks:"
-msgstr ""
+msgstr "改行:"
 
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Lines to import"
 msgstr "インポートする行"
 
 #: src/dialogs/dialog-stf.glade.h:26
-#, fuzzy
 msgid "Main"
-msgstr "最小"
+msgstr "メイン"
 
 #: src/dialogs/dialog-stf.glade.h:28
 msgid "Number of lines to import"
@@ -23088,9 +23078,8 @@ msgid "_Adjacent text indicators escaped"
 msgstr "隣接するテキストインジケータを抜き取る(_A)"
 
 #: src/dialogs/dialog-stf.glade.h:55
-#, fuzzy
 msgid "_Auto Column Discovery"
-msgstr "自動列探索(_D)"
+msgstr "自動列探索(_A)"
 
 #: src/dialogs/dialog-stf.glade.h:56
 msgid "_Clear"
@@ -23259,12 +23248,11 @@ msgstr "標準誤差(_S)"
 
 #: src/dialogs/fill-series.glade.h:4
 msgid "D_ay"
-msgstr ""
+msgstr "日(_A)"
 
 #: src/dialogs/fill-series.glade.h:5
-#, fuzzy
 msgid "Date unit:"
-msgstr "詳細を表示しない"
+msgstr "日付ユニット:"
 
 #: src/dialogs/fill-series.glade.h:6 src/tools/fill-series.c:413
 #: src/tools/fill-series.c:416
@@ -23278,24 +23266,20 @@ msgid "Series in:"
 msgstr "連続名"
 
 #: src/dialogs/fill-series.glade.h:12
-#, fuzzy
 msgid "Start Value: "
-msgstr "_p 値(_P):"
+msgstr "開始値:"
 
 #: src/dialogs/fill-series.glade.h:13
-#, fuzzy
 msgid "Step Value: "
-msgstr "_p 値(_P):"
+msgstr "ステップ値: "
 
 #: src/dialogs/fill-series.glade.h:14
-#, fuzzy
 msgid "Stop Value: "
-msgstr "_p 値(_P):"
+msgstr "ストップ値: "
 
 #: src/dialogs/fill-series.glade.h:15
-#, fuzzy
 msgid "Type:"
-msgstr "型(_T):"
+msgstr "型:"
 
 #: src/dialogs/fill-series.glade.h:16
 msgid "_Date"
@@ -23307,17 +23291,14 @@ msgid "_Growth"
 msgstr "グループ化(_G)"
 
 #: src/dialogs/fill-series.glade.h:18
-#, fuzzy
 msgid "_Linear"
-msgstr "直線"
+msgstr "直線(_L)"
 
 #: src/dialogs/fill-series.glade.h:19
-#, fuzzy
 msgid "_Month"
-msgstr "*月"
+msgstr "月(_M)"
 
 #: src/dialogs/fill-series.glade.h:23
-#, fuzzy
 msgid "_Series"
 msgstr "連続(_S)"
 
@@ -23568,9 +23549,8 @@ msgid "Retain Output Range _Formatting"
 msgstr "出力範囲の書式を保持します"
 
 #: src/dialogs/histogram.glade.h:19
-#, fuzzy
 msgid "_Autofit Columns"
-msgstr "列の自動調整(_U)"
+msgstr "列の自動調整(_A)"
 
 #: src/dialogs/histogram.glade.h:20
 #, fuzzy
@@ -23706,13 +23686,12 @@ msgid "_Paired"
 msgstr "対(_P)"
 
 #: src/dialogs/mean-tests.glade.h:26
-#, fuzzy
 msgid "_Population Variances are:"
-msgstr "人口の変化:"
+msgstr "母分散は(_P):"
 
 #: src/dialogs/mean-tests.glade.h:27
 msgid "_Populations"
-msgstr "人口(_P)"
+msgstr "母集団(_P)"
 
 #: src/dialogs/mean-tests.glade.h:28 src/dialogs/variance-tests.glade.h:17
 msgid "_Test"
@@ -23727,9 +23706,8 @@ msgid "_Unknown"
 msgstr "不明(_U)"
 
 #: src/dialogs/mean-tests.glade.h:31
-#, fuzzy
 msgid "_Unpaired"
-msgstr "非対(_R)"
+msgstr "非対(_U)"
 
 #: src/dialogs/merge.glade.h:1
 msgid "Merge _Range:"
@@ -24001,13 +23979,12 @@ msgid "_Vertically"
 msgstr "垂直(_V)"
 
 #: src/dialogs/print.glade.h:36
-#, fuzzy
 msgid "_page(s) wide by"
-msgstr "ページの幅に"
+msgstr "ページの幅に(_P)"
 
 #: src/dialogs/print.glade.h:37
 msgid "_tall"
-msgstr "高さ(_t)"
+msgstr "高さ(_T)"
 
 #: src/dialogs/random-generation.glade.h:6
 msgid "Number of _Variables:"
@@ -24026,9 +24003,8 @@ msgid "_Distribution:"
 msgstr "分散(_D):"
 
 #: src/dialogs/random-generation.glade.h:16
-#, fuzzy
 msgid "_Random Numbers"
-msgstr "乱数"
+msgstr "乱数(_R)"
 
 #: src/dialogs/rank.glade.h:2
 msgid "Average _Rank"
@@ -24068,9 +24044,8 @@ msgid "Row Height"
 msgstr "行の高さ"
 
 #: src/dialogs/row-height.glade.h:2
-#, fuzzy
 msgid "_Row height (pt.):"
-msgstr "行の高さ(pts) (_R):"
+msgstr "行の高さ(pt.) (_R):"
 
 #: src/dialogs/sampling.glade.h:6
 msgid "N_umber of Samples:"
@@ -24106,7 +24081,7 @@ msgstr "乱数(_R)"
 
 #: src/dialogs/scenario-add.glade.h:2
 msgid "Add Scenario"
-msgstr ""
+msgstr "シナリオの追加"
 
 #: src/dialogs/scenario-add.glade.h:3 src/dialogs/scenario-manager.glade.h:3
 msgid "Comment:"
@@ -24117,34 +24092,28 @@ msgid "Scenario name:"
 msgstr "シナリオ名:"
 
 #: src/dialogs/scenario-manager.glade.h:2
-#, fuzzy
 msgid "Changing cells:"
-msgstr "変更するセル:"
+msgstr "変更中のセル:"
 
 #: src/dialogs/scenario-manager.glade.h:4
-#, fuzzy
 msgid "Create _Report"
-msgstr "プログラムの報告"
+msgstr "プログラムの作成(_R)"
 
 #: src/dialogs/scenario-manager.glade.h:7
-#, fuzzy
 msgid "Scenario Manager"
-msgstr "プラグイン・マネージャ"
+msgstr "シナリオ・マネージャ"
 
 #: src/dialogs/scenario-manager.glade.h:8
-#, fuzzy
 msgid "Scenarios:"
-msgstr "セパレータ"
+msgstr "シナリオ:"
 
 #: src/dialogs/scenario-manager.glade.h:9
-#, fuzzy
 msgid "Show"
-msgstr "影"
+msgstr "表示"
 
 #: src/dialogs/scenario-manager.glade.h:10
-#, fuzzy
 msgid "Summary Report:"
-msgstr "要約"
+msgstr "サマリレポート:"
 
 #: src/dialogs/search-replace.glade.h:2
 msgid "<span weight=\"bold\">Change Cells Containing</span>"
@@ -24152,16 +24121,15 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">その他</span>"
 
 #: src/dialogs/search-replace.glade.h:4
 msgid "<span weight=\"bold\">Search Text Type</span>"
-msgstr ""
+msgstr "<span weidht=\"bold\">検索テキストタイプ</span>"
 
 #: src/dialogs/search-replace.glade.h:5 src/dialogs/search.glade.h:1
-#, fuzzy
 msgid "Advanced"
-msgstr "高度(_A)"
+msgstr "上級"
 
 #: src/dialogs/search-replace.glade.h:6
 msgid "Ask before each change"
@@ -24180,9 +24148,8 @@ msgid "Do not consider matches in the middle of words"
 msgstr "語の中のマッチングを考慮しない"
 
 #: src/dialogs/search-replace.glade.h:10
-#, fuzzy
 msgid "Error Behaviour"
-msgstr "振る舞いのエラー(_B)"
+msgstr "エラー時の動作"
 
 #: src/dialogs/search-replace.glade.h:11
 msgid "Fail without any changes actually being done to any cell"
@@ -24265,9 +24232,8 @@ msgid "The search text is a regular expression"
 msgstr "検索文字列は正規表現"
 
 #: src/dialogs/search-replace.glade.h:33 src/dialogs/search.glade.h:27
-#, fuzzy
 msgid "The search text is taken literally."
-msgstr "検索文字列はトークン"
+msgstr "検索文字列はリテラルであると解釈されます。"
 
 #: src/dialogs/search-replace.glade.h:34
 msgid "Turn unparsable entries into string values"
@@ -24382,18 +24348,16 @@ msgid "Find text within string values"
 msgstr "文字列変数を含む文の検索"
 
 #: src/dialogs/search.glade.h:9
-#, fuzzy
 msgid "Find text within the calculated values of expressions"
-msgstr "数式を含む文の検索"
+msgstr "式の計算値の中で文を検索"
 
 #: src/dialogs/search.glade.h:10
 msgid "Match _whole words only"
 msgstr "完全な単語にのみ一致(_W)"
 
 #: src/dialogs/search.glade.h:11
-#, fuzzy
 msgid "Matches"
-msgstr "一致するもの(_M)"
+msgstr "一致"
 
 #: src/dialogs/search.glade.h:12
 msgid "Miscellaneous"
@@ -24440,14 +24404,12 @@ msgid "_Range"
 msgstr "範囲(_R)"
 
 #: src/dialogs/search.glade.h:37
-#, fuzzy
 msgid "_Results"
-msgstr "結果"
+msgstr "結果(_R)"
 
 #: src/dialogs/search.glade.h:39
-#, fuzzy
 msgid "_Search for:"
-msgstr "検索対象(_S)"
+msgstr "検索対象(_S):"
 
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Manage Sheets..."
@@ -24455,69 +24417,59 @@ msgstr "シートの管理..."
 
 #: src/dialogs/shuffle.glade.h:1
 msgid "Data Shuffling"
-msgstr ""
+msgstr "データのシャッフリング"
 
 #: src/dialogs/shuffle.glade.h:2
-#, fuzzy
 msgid "Input Range: "
-msgstr "入力範囲(_I): "
+msgstr "入力範囲: "
 
 #: src/dialogs/shuffle.glade.h:3
-#, fuzzy
 msgid "Shuffle Method: "
-msgstr "サンプリング方法:"
+msgstr "シャッフルの方法: "
 
 #: src/dialogs/shuffle.glade.h:4
-#, fuzzy
 msgid "_Area"
 msgstr "範囲(_A)"
 
 #: src/dialogs/simulation.glade.h:1
-#, fuzzy
 msgid "A_utofit columns"
 msgstr "列の自動調整(_U)"
 
 #: src/dialogs/simulation.glade.h:2
 msgid "Find Max."
-msgstr ""
+msgstr "最大検索。"
 
 #: src/dialogs/simulation.glade.h:3
-#, fuzzy
 msgid "Find Min."
-msgstr "バインド"
+msgstr "最小検索。"
 
 #: src/dialogs/simulation.glade.h:4
 msgid "First Round #: "
-msgstr ""
+msgstr "開始ラウンド #:"
 
 #: src/dialogs/simulation.glade.h:5
-#, fuzzy
 msgid "Inputs: "
-msgstr "入力(_I)"
+msgstr "入力: "
 
 #: src/dialogs/simulation.glade.h:6
-#, fuzzy
 msgid "Iterations: "
-msgstr "演算"
+msgstr "繰り返し: "
 
 #: src/dialogs/simulation.glade.h:7
-#, fuzzy
 msgid "Last Round #: "
-msgstr "最後の結果:"
+msgstr "最終ラウンド #: "
 
 #: src/dialogs/simulation.glade.h:8
-#, fuzzy
 msgid "Max Time:       "
-msgstr "最大 :"
+msgstr "最大時間:       "
 
 #: src/dialogs/simulation.glade.h:10
 msgid "Next Sim."
-msgstr ""
+msgstr "次のシミュレーション。"
 
 #: src/dialogs/simulation.glade.h:11
-#, fuzzy
 msgid "Output: "
-msgstr "出力"
+msgstr "出力: "
 
 #: src/dialogs/simulation.glade.h:12
 msgid "Outputs: "
@@ -24525,7 +24477,7 @@ msgstr "出力: "
 
 #: src/dialogs/simulation.glade.h:13
 msgid "Prev. Sim. "
-msgstr ""
+msgstr "前のシミュレーション。"
 
 #: src/dialogs/simulation.glade.h:14
 msgid "Reporting: "
@@ -24542,7 +24494,7 @@ msgstr "シミュレーション: "
 
 #: src/dialogs/simulation.glade.h:17
 msgid "Summary of Results: "
-msgstr ""
+msgstr "結果のサマリ:"
 
 #: src/dialogs/simulation.glade.h:18
 msgid "Summary report grupped by rounds"
@@ -24550,7 +24502,7 @@ msgstr ""
 
 #: src/dialogs/simulation.glade.h:19
 msgid "Summary: "
-msgstr "要約: "
+msgstr "サマリ: "
 
 #: src/dialogs/simulation.glade.h:20
 msgid "Variables: "
@@ -24566,7 +24518,7 @@ msgstr "出力範囲(_O): "
 
 #: src/dialogs/simulation.glade.h:24
 msgid "_Summary"
-msgstr "要約(_S)"
+msgstr "サマリ(_S)"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Arrow Length:"
@@ -24792,7 +24744,7 @@ msgstr "目的のセルを設定(_S):"
 
 #: src/dialogs/summary.glade.h:2
 msgid "<span weight=\"bold\">Document Summary Information</span>"
-msgstr "<span weight=\"bold\">ドキュメントの要約情報</span>"
+msgstr "<span weight=\"bold\">ドキュメントのサマリ情報</span>"
 
 #: src/dialogs/summary.glade.h:3
 msgid "C_omments:"
@@ -24808,7 +24760,7 @@ msgstr "ファイル:"
 
 #: src/dialogs/summary.glade.h:6
 msgid "Summary"
-msgstr "要約"
+msgstr "サマリ"
 
 #: src/dialogs/summary.glade.h:7
 msgid "_Author:"
@@ -24986,9 +24938,8 @@ msgid "'%s' has a circular reference"
 msgstr "'%s' が参照を繰り返しています"
 
 #: src/expr-name.c:377 src/expr-name.c:557
-#, fuzzy, c-format
 msgid "'%s' is already defined in sheet"
-msgstr "シートで既に定義されています"
+msgstr "'%s' はシートで既に定義されています"
 
 #: src/expr-name.c:378 src/expr-name.c:558
 #, c-format
@@ -25036,9 +24987,8 @@ msgid "Is not an autoformat template file"
 msgstr "自動書式のテンプレートファイルではありません"
 
 #: src/format-template.c:493
-#, fuzzy
 msgid "Invalid xml file. Tree is empty?"
-msgstr "不正な xml ファイルです。ツリーは空ですか？"
+msgstr "xml ファイルは正しくありません。ツリーは空ですか?"
 
 #: src/format-template.c:826
 #, c-format
@@ -26632,14 +26582,12 @@ msgid "&[DATE]"
 msgstr "&[DATE]"
 
 #: src/print-info.c:536
-#, fuzzy
 msgid "File Name"
-msgstr "新しい名前"
+msgstr "ファイル名"
 
 #: src/print-info.c:567
-#, fuzzy
 msgid "Path "
-msgstr "貼付け"
+msgstr "パス "
 
 #: src/print-info.c:575
 msgid "tab"
@@ -26658,9 +26606,8 @@ msgid "file"
 msgstr "ファイル"
 
 #: src/print-info.c:581
-#, fuzzy
 msgid "path"
-msgstr "わらふき"
+msgstr "パス"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:576
@@ -27424,9 +27371,8 @@ msgid "Report Created: "
 msgstr "作成済みの報告: "
 
 #: src/tools/fill-series.c:403
-#, fuzzy, c-format
 msgid "Fill Series (%s)"
-msgstr "フーリエ級数"
+msgstr "繰り返し (%s)"
 
 #: src/tools/random-generator.c:107
 msgid ""
@@ -27698,9 +27644,8 @@ msgid "Performance Report"
 msgstr "パフォーマンスの報告"
 
 #: src/tools/solver/reports-write.c:520
-#, fuzzy
 msgid "Number of Iterations"
-msgstr "最大繰り返し数(_I)"
+msgstr "繰り返し数"
 
 #: src/tools/solver/reports-write.c:526
 msgid "Minimization"
@@ -27711,9 +27656,8 @@ msgid "Maximization"
 msgstr "最大化"
 
 #: src/tools/solver/reports-write.c:532
-#, fuzzy
 msgid "Target value search"
-msgstr "検索の開始"
+msgstr "対象値検索"
 
 #: src/tools/solver/reports-write.c:539
 msgid "Optimal solution found"
@@ -27743,12 +27687,10 @@ msgid "Variables"
 msgstr "変数"
 
 #: src/tools/solver/reports-write.c:573
-#, fuzzy
 msgid "Integer Constraints"
 msgstr "整数の制限"
 
 #: src/tools/solver/reports-write.c:574
-#, fuzzy
 msgid "Boolean Constraints"
 msgstr "論理値の制限"
 
@@ -28076,7 +28018,6 @@ msgid "dull blue"
 msgstr "セル値"
 
 #: src/widgets/color-palette.c:573 src/widgets/color-palette.c:626
-#, fuzzy
 msgid "blue"
 msgstr "青"
 
@@ -28085,9 +28026,8 @@ msgid "dull purple"
 msgstr ""
 
 #: src/widgets/color-palette.c:575
-#, fuzzy
 msgid "dark gray"
-msgstr "配列"
+msgstr "ダークグレー"
 
 #: src/widgets/color-palette.c:578
 msgid "red"
@@ -29628,9 +29568,8 @@ msgid "Decrease precision"
 msgstr "精度の減少"
 
 #: src/workbook-format-toolbar.c:357
-#, fuzzy
 msgid "Toggle thousands separator"
-msgstr "カンマ"
+msgstr "1000ごとのセパレータのトグル"
 
 #: src/workbook-format-toolbar.c:547
 msgid "Set Foreground Color"
@@ -29744,14 +29683,12 @@ msgid "Book%d.%s"
 msgstr "Book%d.%s"
 
 #: src/workbook.c:1247
-#, fuzzy
 msgid "Sheet name is NULL"
-msgstr "シート名が必要"
+msgstr "シート名がNULLです"
 
 #: src/workbook.c:1258
-#, fuzzy
 msgid "Sheet name is not valid utf-8"
-msgstr "シート名が必要"
+msgstr "シート名が正しいUTF-8ではありません"
 
 #: src/workbook.c:1267
 msgid "Sheet name must have at least 1 letter"
