@@ -257,45 +257,6 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 		GError * error = NULL;
 		char * encoded_text = NULL;
 
-		if (export_options->charset != NULL)
-		{
-			if (!g_str_equal (export_options->charset, "UTF-8"))
-			{
-				char *use_charset;
-
-				if (export_options->transliterate_mode == TRANSLITERATE_MODE_ESCAPE)
-					use_charset = g_strdup
-						(export_options->charset);
-				else
-					use_charset = g_strconcat
-						(export_options->charset, "//TRANSLIT", NULL);
-
-				encoded_text = g_convert_with_fallback
-					(text,
-					 strlen (text),
-					 use_charset,
-					 "UTF-8",
-					 NULL,
-					 &bytes_read,
-					 &bytes_written,
-					 &error);
-				if (error != NULL)
-				{
-					g_warning ("stf-export.c in %s charset : %s",
-						   use_charset,
-						   error->message);
-					g_warning
-						("the following cell will be exported as UTF-8 :\n%s", s);
-					g_error_free (error);
-				}
-				else
-				{
-					s = encoded_text;
-				}
-				g_free (use_charset);
-			}
-		}
-
 		if (export_options->quoting_mode == QUOTING_MODE_AUTO) {
 			if (g_utf8_strchr (s, -1, export_options->cell_separator) ||
 			    g_utf8_strchr (s, -1, export_options->quoting_char) ||
@@ -323,12 +284,52 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 		if (quoting)
 			g_string_append_unichar (res, export_options->quoting_char);
 
-		if (!export_options->write_func (res->str, export_options->write_data))
+		g_free (text);
+
+		if (export_options->charset != NULL && !g_str_equal (export_options->charset, "UTF-8"))
+		{
+			char *use_charset;
+			
+			if (export_options->transliterate_mode == TRANSLITERATE_MODE_ESCAPE)
+				use_charset = g_strdup
+					(export_options->charset);
+			else
+				use_charset = g_strconcat
+					(export_options->charset, "//TRANSLIT", NULL);
+			
+			encoded_text = g_convert_with_fallback
+				(res->str,
+				 res->len,
+				 use_charset,
+				 "UTF-8",
+				 NULL,
+				 &bytes_read,
+				 &bytes_written,
+				 &error);
+			if (error != NULL)
+			{
+				g_warning ("stf-export.c in %s charset : %s",
+					   use_charset,
+					   error->message);
+				g_warning
+					("the following cell will be exported as UTF-8 :\n%s", res->str);
+				g_error_free (error);
+				g_free (encoded_text);
+				encoded_text = NULL;
+			}
+			g_free (use_charset);
+		}
+
+		if (!export_options->write_func (encoded_text ? encoded_text : res->str, 
+						 export_options->write_data))
+		{
+			g_free (encoded_text);
+			g_string_free (res, TRUE);
 			return FALSE;
+		}
 
 		g_free (encoded_text);
 		g_string_free (res, TRUE);
-		g_free (text);
 	}
 
 	return TRUE;

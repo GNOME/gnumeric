@@ -1,3 +1,9 @@
+2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=114777
+	* src/stf-export.c (stf_export_cell): quote content before 
+	converting it into some other encoding. (fix leaks on the side)
+
 2003-06-10  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-image.c (sheet_object_image_print) : fix.
