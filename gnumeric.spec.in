@@ -1,4 +1,3 @@
-%define  ver     @VERSION@
 %define  RELEASE 1
 %define  rel     %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
 %define  prefix  /usr
@@ -6,13 +5,13 @@
 
 Summary: the GNOME spreadsheet
 Name: 		gnumeric
-Version: 	%ver
+Version: 	@VERSION@
 Release: 	%rel
 Copyright: 	GPL
 Group: 		Applications/Spreadsheets
-Source: ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-%{ver}.tar.gz
+Source: ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-%{version}.tar.gz
 Url:		http://www.gnome.org/gnumeric
-BuildRoot:	/var/tmp/gnumeric-%{PACKAGE_VERSION}-root
+BuildRoot:	/var/tmp/%{name}-%{PACKAGE_VERSION}-root
 Docdir: 	%{prefix}/doc
 
 Requires: gtk+ >= 1.2.7
@@ -40,7 +39,9 @@ usability. Hopefully we left the bugs behind :).
   MYARCH_FLAGS="--host=alpha-redhat-linux"
 %endif
 # Configure only showing me failures.
-CFLAGS="$RPM_OPT_FLAGS" ./configure --quiet --prefix=%prefix --without-bonobo --without-gb $MYARCH_FLAGS --sysconfdir=/etc
+CFLAGS="$RPM_OPT_FLAGS" \
+./configure --quiet --prefix=%prefix --sysconfdir=%{sysconfdir} \
+            --without-bonobo --without-gb $MYARCH_FLAGS 
 
 if [ "$SMP" != "" ]; then
 	make -j$SMP "MAKE=make -j$SMP"
@@ -51,13 +52,14 @@ fi
 %install
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
 
-make prefix=$RPM_BUILD_ROOT%{prefix} sysconfdir=$RPM_BUILD_ROOT/etc install
+make prefix=$RPM_BUILD_ROOT%{prefix} sysconfdir=$RPM_BUILD_ROOT%{sysconfdir} install
 #
 # Auto detect the lang files.
 #
 if [ -f /usr/lib/rpm/find-lang.sh ] ; then
  /usr/lib/rpm/find-lang.sh $RPM_BUILD_ROOT %name
- sed "s:(644, root, root, 755):(444, bin, bin, 555):" %{name}.lang >tmp.lang && mv tmp.lang %{name}.lang
+ sed "s:(644, root, root, 755):(444, bin, bin, 555):" %{name}.lang \
+ >tmp.lang && mv tmp.lang %{name}.lang
 fi
 
 
@@ -93,6 +95,10 @@ fi
 %doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
 
 %changelog
+* Mon May 15 2000 Karl Eichwalder <ke@suse.de>
+- Use %{version}, %{name} and %{sysconfdir} more consistently.
+- Avoid long lines.
+
 * Thu Mar 29 2000 Kjartan Maraas <kmaraas@online.no>
 - Removed gnome-gnumeric-xl.png since it is nowhere to be found.
 - Added --without-bonobo and --without-gb.

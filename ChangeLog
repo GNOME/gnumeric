@@ -1,3 +1,8 @@
+2000-05-16  Karl Eichwalder  <ke@suse.de>
+
+	* gnumeric.spec.in: Use %{version}, %{name} and %{sysconfdir} more
+	consistently. Avoid long lines.
+
 2000-05-15  Jesus Bravo Alvarez  <jba@pobox.com>
 
 	* configure.in: Added gl (Galician) to ALL_LINGUAS
