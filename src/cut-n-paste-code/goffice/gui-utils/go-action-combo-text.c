@@ -21,7 +21,7 @@
 #include <goffice/goffice-config.h>
 #include "go-action-combo-text.h"
 #include "go-combo-box.h"
-#include <src/widgets/gnumeric-combo-text.h>
+#include "go-combo-text.h"
 #include <src/gui-util.h>
 
 #include <gtk/gtkaction.h>
@@ -31,7 +31,7 @@
 
 typedef struct {
 	GtkToolItem	 base;
-	GnmComboText	*combo; /* container has a ref, not us */
+	GoComboText	*combo; /* container has a ref, not us */
 } GOToolComboText;
 typedef GtkToolItemClass GOToolComboTextClass;
 
@@ -108,7 +108,7 @@ go_action_combo_disconnect_proxy (GtkAction *action,
 #endif
 
 static gboolean
-cb_entry_changed (GnmComboText *ct, char const *text, GOActionComboText *taction)
+cb_entry_changed (GoComboText *ct, char const *text, GOActionComboText *taction)
 {
 	set_entry_val (taction, text);
 	gtk_action_activate (GTK_ACTION (taction));
@@ -123,18 +123,18 @@ go_action_combo_create_tool_item (GtkAction *act)
 	GSList *ptr;
 	int tmp, w = -1;
 
-	tool->combo = (GnmComboText *)gnm_combo_text_new (NULL);
+	tool->combo = (GoComboText *)go_combo_text_new (NULL);
 	if (taction->largest_elem != NULL)
 		w = gnm_measure_string (
 			gtk_widget_get_pango_context (GTK_WIDGET (tool->combo)),
-			gnm_combo_text_get_entry (tool->combo)->style->font_desc, 
+			go_combo_text_get_entry (tool->combo)->style->font_desc, 
 			taction->largest_elem);
 	for (ptr = taction->elements; ptr != NULL ; ptr = ptr->next) {
-		gnm_combo_text_add_item	(tool->combo, ptr->data);
+		go_combo_text_add_item	(tool->combo, ptr->data);
 		if (taction->largest_elem == NULL) {
 			tmp = gnm_measure_string (
 				gtk_widget_get_pango_context (GTK_WIDGET (tool->combo)),
-				gnm_combo_text_get_entry (tool->combo)->style->font_desc, 
+				go_combo_text_get_entry (tool->combo)->style->font_desc, 
 				ptr->data);
 			if (w < tmp)
 				w = tmp;
@@ -144,7 +144,7 @@ go_action_combo_create_tool_item (GtkAction *act)
 	go_combo_box_set_title (GO_COMBO_BOX (tool->combo),
 		_(gtk_action_get_name (act)));
 	gtk_widget_set_size_request (
-		gnm_combo_text_get_entry (tool->combo), w, -1);
+		go_combo_text_get_entry (tool->combo), w, -1);
 	g_object_set (G_OBJECT (tool), "visible_vertical", FALSE, NULL);
 
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
@@ -210,5 +210,5 @@ go_action_combo_text_set_entry (GOActionComboText *taction, char const *text,
 	set_entry_val (taction, text);
 	for ( ; ptr != NULL ; ptr = ptr->next)
 		if (IS_GO_TOOL_COMBO_TEXT (ptr->data))
-			gnm_combo_text_set_text (GO_TOOL_COMBO_TEXT (ptr->data)->combo, text, dir);
+			go_combo_text_set_text (GO_TOOL_COMBO_TEXT (ptr->data)->combo, text, dir);
 }

@@ -16,6 +16,8 @@ libgoffice_gui_utils_la_SOURCES =	\
 	go-combo-color.h		\
 	go-combo-pixmaps.h		\
 	go-combo-pixmaps.c		\
+	go-combo-text.c			\
+	go-combo-text.h			\
 	\
 	go-action-combo-color.c 	\
 	go-action-combo-color.h 	\

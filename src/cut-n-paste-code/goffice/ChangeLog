@@ -1,3 +1,14 @@
+2004-05-26  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* gui-utils/Makefile.am: added go-combo-text.h
+	* gui-utils/go-action-combo-text.c: (cb_entry_changed),
+	(go_action_combo_create_tool_item),
+	(go_action_combo_text_set_entry):
+	* gui-utils/go-combo-text.h: was gnumeric-combo-text.h
+	* gui-utils/go-combo-text.c: was gnumeric-combo-text.c,
+	replaced GtkList by GtkTreeView
+	* gui-utils/go-marshalers.list: added BOOLEAN:POINTER
+
 2004-05-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-chart.c (gog_chart_view_class_init) : set call_parent_render
