@@ -13169,7 +13169,7 @@ msgstr "Es imposible abrir el archivo '%s'"
 #. * 'File' menu
 #.
 #: src/history.c:124 src/history.c:137
-msgid "File/Print preview"
+msgid "File/Print Preview"
 msgstr "Archivo/Previsualización de la impresión"
 
 #: src/history.c:225
@@ -15149,12 +15149,10 @@ msgid "Paste the contents of the clipboard or cut buffer"
 msgstr ""
 
 #: po/tmp/gnumeric.xml.h:142
-#, fuzzy
 msgid "Print Pre_view"
 msgstr "Pre_visualización de la impresión"
 
 #: po/tmp/gnumeric.xml.h:143
-#, fuzzy
 msgid "Print Preview"
 msgstr "Previsualización de la impresión"
 
