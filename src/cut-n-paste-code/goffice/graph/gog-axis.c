@@ -496,28 +496,30 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 		N_("Mi_nor Ticks"),
 		N_("_Cross")
 	};
-	ElemToggleData *closure;
+	ElemToggleData *info;
+	GClosure *closure;
 	GtkWidget *editor = gog_data_allocator_editor (dalloc, set, dim, TRUE);
-	GOData *dat = gog_dataset_get_dim (set, dim);
 	char *txt = g_strconcat (_(dim_name [dim]), ":", NULL);
 	GtkWidget *toggle = gtk_check_button_new_with_mnemonic (txt);
 	g_free (txt);
 
-	closure = g_new0 (ElemToggleData, 1);
-	closure->editor = editor;
-	closure->set = set;
-	closure->dim = dim;
-	closure->toggle = GTK_TOGGLE_BUTTON (toggle);
-	g_signal_connect_data (G_OBJECT (toggle),
+	info = g_new0 (ElemToggleData, 1);
+	info->editor = editor;
+	info->set = set;
+	info->dim = dim;
+	info->toggle = GTK_TOGGLE_BUTTON (toggle);
+	g_signal_connect (G_OBJECT (toggle),
 		"toggled",
-		G_CALLBACK (cb_enable_dim), closure,
-		(GClosureNotify)g_free, 0);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle), dat == NULL);
+		G_CALLBACK (cb_enable_dim), info);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle),
+		gog_dataset_get_dim (set, dim) == NULL);
 
-	g_signal_connect_data (G_OBJECT (set),
+	closure = g_cclosure_new (G_CALLBACK (cb_axis_bound_changed),
+				  info, (GClosureNotify)g_free);
+	g_object_watch_closure (G_OBJECT (toggle), closure);
+	g_signal_connect_closure (G_OBJECT (set),
 		"changed",
-		G_CALLBACK (cb_axis_bound_changed), closure,
-		NULL, 0);
+		closure, FALSE);
 
 	gtk_table_attach (table, toggle,
 		0, 1, dim + 1, dim + 2, GTK_FILL, 0, 5, 3);

@@ -1,18 +1,23 @@
+2003-11-02  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (make_dim_editor) : Use closures to avoid having a
+	  callback after a widget has been destroyed.
+
 2003-11-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
   
   	http://bugzilla.gnome.org/show_bug.cgi?id=125419
-  	* graph/gog-renderer.[ch] (gog_renderer_start_clipping),
-  	(gog_renderer_stop_clipping) : new. Implement clipping of drawing.
+	* graph/gog-renderer.[ch] (gog_renderer_start_clipping),
+	(gog_renderer_stop_clipping) : new. Implement clipping of drawing.
   	Only one level of clipping is allowed. 
 	* graph/gog-renderer[svg, pixbuf, gnome-print] 
-  	(gog_renderer_.._start_clipping),
-  	(gog_renderer_.._stop_clipping) : new.
-  	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_path),
+	(gog_renderer_.._start_clipping),
+	(gog_renderer_.._stop_clipping) : new.
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_path),
 	(gog_renderer_pixbuf_draw_polygon),
 	(gog_renderer_pixbuf_draw_text) : handle offset for drawing when
 	clipping.
 	* graph/gog-rendere-gnome-print.c (make_rectangle_path) : new;
- 	* graph/gog-chart.c (gog_chart_render) : new. Use the same clipping
+	* graph/gog-chart.c (gog_chart_render) : new. Use the same clipping
  	region for all plots.
   	
 2003-11-01 Jean Brefort <jean.brefort@ac-dijon.fr>
