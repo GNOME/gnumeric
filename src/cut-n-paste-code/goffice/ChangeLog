@@ -1,5 +1,15 @@
 2003-09-14  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-axis.c (axis_get_entry) : new utility.
+	(gog_axis_get_bounds) : use it here.
+	(gog_axis_num_markers) : here.
+	(gog_axis_get_marker) : and here.
+	(role_label_can_add) : new.
+	(gog_axis_class_init) : use it here to disable labels on the Y axis
+	  until we can get a smarter layout engine.
+
+2003-09-14  Jody Goldberg <jody@gnome.org>
+
 	* graph/gog-axis.c (gog_axis_update) : yet another layer of heuristic
 	  to handle -1 .. 1 better.
 	(gog_axis_get_marker) : force to 0.

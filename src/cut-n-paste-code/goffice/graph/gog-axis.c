@@ -107,6 +107,12 @@ role_label_post_add (GogObject *parent, GogObject *label)
 			? (GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER)
 			: (GOG_POSITION_N|GOG_POSITION_ALIGN_END);
 }
+static gboolean
+role_label_can_add (GogObject const *parent)
+{
+	GogAxis const *axis = GOG_AXIS (parent);
+	return axis->type == GOG_AXIS_X;
+}
 
 static gboolean
 gog_axis_set_pos (GogAxis *axis, GogAxisPosition pos)
@@ -517,7 +523,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	static GogObjectRole const roles[] = {
 		{ N_("Label"), "GogLabel", 0,
 		  GOG_POSITION_COMPASS, GOG_POSITION_S|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
-		  NULL, NULL, NULL, role_label_post_add, NULL, NULL, { -1 } }
+		  role_label_can_add, NULL, NULL, role_label_post_add, NULL, NULL, { -1 } }
 	};
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) gog_klass;
@@ -653,31 +659,35 @@ gog_axis_get_pos (GogAxis const *axis)
 	return axis->pos;
 }
 
-gboolean
-gog_axis_get_bounds (GogAxis const *axis, double *min_bound, double *max_bound)
+static double
+axis_get_entry (GogAxis const *axis, unsigned i)
 {
-	GOData *dat;
-	double  tmp;
+	GOData *dat = axis->source [i].data;
+	if (dat != NULL && IS_GO_DATA_SCALAR (dat)) {
+		double tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
+		if (finite (tmp))
+			return tmp;
+	}
+	return axis->auto_bound [i];
+}
 
+/**
+ * gog_axis_get_bounds :
+ * @axis : #GogAxis
+ * @minima : result
+ * @maxima : result
+ *
+ * return TRUE if the bounds stored in @minima and @maxima are sane
+ **/
+gboolean
+gog_axis_get_bounds (GogAxis const *axis, double *minima, double *maxima)
+{
 	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
 
-	*min_bound = axis->auto_bound [AXIS_ELEM_MIN];
-	dat = axis->source [AXIS_ELEM_MIN].data;
-	if (dat != NULL && IS_GO_DATA_SCALAR (dat)) {
-		tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
-		if (finite (tmp))
-			*min_bound = tmp;
-	}
+	*minima = axis_get_entry (axis, AXIS_ELEM_MIN);
+	*maxima = axis_get_entry (axis, AXIS_ELEM_MAX);
 
-	*max_bound = axis->auto_bound [AXIS_ELEM_MAX];
-	dat = axis->source [AXIS_ELEM_MAX].data;
-	if (dat != NULL && IS_GO_DATA_SCALAR (dat)) {
-		tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
-		if (finite (tmp))
-			*max_bound = tmp;
-	}
-
-	return TRUE;
+	return finite (*minima) && finite (*maxima) && *minima < *maxima;
 }
 
 /**
@@ -766,20 +776,23 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
 static unsigned
 gog_axis_num_markers (GogAxis *axis)
 {
-	if (axis->auto_bound [AXIS_ELEM_MAJOR_TICK] <= 0.)
+	double minima, maxima, major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK);
+
+	if (major_tick <= 0. || !gog_axis_get_bounds (axis, &minima, &maxima))
 		return 0;
 
-	return 1 + fabs (axis->auto_bound [AXIS_ELEM_MAX] - axis->auto_bound [AXIS_ELEM_MIN]) / (double)axis->auto_bound [AXIS_ELEM_MAJOR_TICK];
+	return 1 + fabs (maxima - minima) / major_tick;
 }
 
 static char *
 gog_axis_get_marker (GogAxis *axis, unsigned i)
 {
-	double val =axis->auto_bound [AXIS_ELEM_MIN] +
-		((double)i) * axis->auto_bound [AXIS_ELEM_MAJOR_TICK];
+	double major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK);
+	double val = axis_get_entry (axis, AXIS_ELEM_MIN) +
+		(((double)i) * major_tick);
 
 	/* force display to 0 if it is within less than a  step */
-	if (fabs (val) < fabs (axis->auto_bound [AXIS_ELEM_MAJOR_TICK] / 10.0))
+	if (fabs (val) < major_tick / 10.0)
 		val = 0.;
 
 	return g_strdup_printf ("%g", val);

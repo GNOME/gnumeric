@@ -158,8 +158,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (num_elements <= 0 || num_series <= 0)
 		return;
 
-	if (!gog_axis_get_bounds (GOG_PLOT (model)->axis[1], &val_min, &val_max) ||
-	    val_min >= val_max)
+	if (!gog_axis_get_bounds (GOG_PLOT (model)->axis[1], &val_min, &val_max))
 		return;
 
 	vals    = g_alloca (num_series * sizeof (double *));

@@ -19,6 +19,7 @@ Release Critical
 * Charts
     - Index axis labels (1.14.12)
     - connect up or disable axis editor (1.14.{11,13})
+    - honor manual bounds when genreating markers
 
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.
@@ -26,6 +27,8 @@ Release Critical
 Pending Patches
 ---------------
 
+    - japanese saver
+    - updated spanish translation
     http://bugzilla.gnome.org/show_bug.cgi?id=84062
     - XIM menu, blocking on gtk changes
 

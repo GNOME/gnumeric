@@ -220,16 +220,14 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogStyle const *style;
 	gboolean prev_valid, show_marks, show_lines;
 
-	if (!gog_axis_get_bounds (model->base.axis[0], &x_min, &x_max) ||
-	    x_min >= x_max)
+	if (!gog_axis_get_bounds (model->base.axis[0], &x_min, &x_max))
 		return;
 	x_scale = view->residual.w / (x_max - x_min);
 	x_off   = view->residual.x - x_scale * x_min;
 	x_min   = view->residual.x;
 	x_max   = x_min + view->residual.w;
 
-	if (!gog_axis_get_bounds (model->base.axis[1], &y_min, &y_max) ||
-	    y_min >= y_max)
+	if (!gog_axis_get_bounds (model->base.axis[1], &y_min, &y_max))
 		return;
 	y_scale = - view->residual.h / (y_max - y_min);
 	y_off   =   view->residual.y + view->residual.h - y_scale * y_min;
