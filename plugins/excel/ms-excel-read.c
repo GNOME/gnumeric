@@ -3310,7 +3310,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
 			sheet->obj_queue = g_list_append (sheet->obj_queue,
-							  ms_read_OBJ (q, wb, sheet->gnum_sheet));
+							  ms_read_OBJ (q, wb, sheet));
 			break;
 
 		case BIFF_SELECTION:
@@ -3850,7 +3850,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 					current_sheet++;
 				}
 			} else if (ver->type == MS_BIFF_TYPE_Chart)
-				ms_excel_chart (q, wb, ver);
+				ms_excel_chart (q, wb, NULL, ver);
 			else if (ver->type == MS_BIFF_TYPE_VBModule ||
 				 ver->type == MS_BIFF_TYPE_Macrosheet) {
 				/* Skip contents of Module, or MacroSheet */

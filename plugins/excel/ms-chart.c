@@ -29,6 +29,7 @@ typedef struct
 	MsBiffVersion	 ver;
 	guint32		 prev_opcode;
 	ExcelWorkbook	*wb;
+	ExcelSheet	*sheet;
 
 	GnumericChart	*chart;
 } ExcelChartState;
@@ -75,12 +76,15 @@ static gboolean
 BC_R(3dbarshape)(ExcelChartHandler const *handle,
 		 ExcelChartState *s, BiffQuery *q)
 {
-	/*
-	 * All the charts I've seen have this record with value 0x0000
-	 * its probably an enum of sorts.
-	 */
 	guint16 const type = MS_OLE_GET_GUINT16 (q->data);
-	printf ("shape %d\n", type);
+	switch (type) {
+	case 0 : puts ("box"); break;
+	case 1 : puts ("cylinder"); break;
+	case 256 : puts ("pyramid"); break;
+	case 257 : puts ("cone"); break;
+	default :
+	    printf ("unknown 3dshape %d\n", type);
+	};
 
 	return FALSE;
 }
@@ -144,17 +148,23 @@ static gboolean
 BC_R(ai)(ExcelChartHandler const *handle,
 	 ExcelChartState *s, BiffQuery *q)
 {
-	guint8 const id = MS_OLE_GET_GUINT8 (q->data);
-	guint8 const rt = MS_OLE_GET_GUINT8 (q->data + 1);
+	guint8 const link_type = MS_OLE_GET_GUINT8 (q->data);
+	guint8 const ref_type = MS_OLE_GET_GUINT8 (q->data + 1);
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data + 2);
-	guint16 const fmt_index = MS_OLE_GET_GUINT16 (q->data + 4);
 	guint16 const length = MS_OLE_GET_GUINT16 (q->data + 6);
-	StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);
 
-	if (fmt != NULL)
-		printf ("Format = '%s';\n", fmt->format);
+	/* Rest are 0 */
+	if (flags&0x01) {
+		guint16 const fmt_index = MS_OLE_GET_GUINT16 (q->data + 4);
+		StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);
+		puts ("Has Custom number format");
+		if (fmt != NULL)
+			printf ("Format = '%s';\n", fmt->format);
 
-	switch (id) {
+	} else
+		puts ("Uses number format from data source");
+
+	switch (link_type) {
 	case 0 : puts ("Linking title or text"); break;
 	case 1 : puts ("Linking values"); break;
 	case 2 : puts ("Linking categories"); break;
@@ -162,35 +172,50 @@ BC_R(ai)(ExcelChartHandler const *handle,
 	/* This is undocumented, but makes sense */
 	case 3 : puts ("Linking bubbles"); break;
 	default :
-		 printf ("Unknown link type(%x)\n", id);
+		 printf ("Unknown link type(%x)\n", link_type);
 	};
-	switch (rt) {
+	switch (ref_type) {
 	case 0 : puts ("Use default categories"); break;
 	case 1 : puts ("Text/Value entered directly"); break;
 	case 2 : puts ("Linked to Worksheet"); break;
+	case 4 : puts ("'Error reported' what the heck is this ??"); break;
 	default :
-		 printf ("UKNOWN :data source (%x)\n", id);
+		 printf ("UKNOWN : reference type (%x)\n", ref_type);
 	};
 
-	{
-		/* Simulate a sheet */
-		ExcelSheet sheet;
+	/* (2) == linked to workbook */
+	if (ref_type == 2) {
+		ExcelSheet dummy_sheet, *s_ptr;
+		ParsePos pp;
+		Workbook *wb;
+		Sheet *sheet;
 		ExprTree *expr;
-		sheet.ver = s->ver;
-		sheet.wb = s->wb;
-		sheet.gnum_sheet = NULL;
-		sheet.shared_formulae = NULL;
+		char *tmp;
 
-		if (length > 0)
-			expr = ms_excel_parse_formula (s->wb, &sheet, q->data+8, 0, 0,
-						       FALSE, length, NULL);
-	}
+		g_return_val_if_fail (length > 0, TRUE);
 
-	/* Rest are 0 */
-	if (flags&0x01)
-		puts ("Has Custom number format");
-	else
-		puts ("Uses number format from data source");
+		s_ptr = s->sheet;
+		if (s_ptr == NULL) {
+			/* FIXME : Simulate a sheet until we can parse without one */
+			dummy_sheet.ver = s->ver;
+			dummy_sheet.wb = s->wb;
+			dummy_sheet.gnum_sheet = NULL;
+			dummy_sheet.shared_formulae = NULL;
+			s_ptr = &dummy_sheet;
+		}
+
+		sheet = s_ptr->gnum_sheet;
+		wb = (sheet == NULL) ? s->wb->gnum_wb : NULL;
+		expr = ms_excel_parse_formula (s->wb, s_ptr, q->data+8,
+					       0, 0, FALSE, length, NULL);
+		tmp = expr_tree_as_string (expr,
+					   parse_pos_init (&pp, wb, sheet,0,0));
+		puts (tmp);
+		expr_tree_unref (expr);
+		g_free (tmp);
+	} else
+		g_return_val_if_fail (length == 0, TRUE);
+
 	return FALSE;
 }
 
@@ -276,15 +301,23 @@ static gboolean
 BC_R(areaformat)(ExcelChartHandler const *handle,
 		 ExcelChartState *s, BiffQuery *q)
 {
-#if 0
 	StyleColor *fore = BC_R(color) (q->data, "Area Fore");
 	StyleColor *back = BC_R(color) (q->data+4, "Area Back");
 	guint16 const pattern = MS_OLE_GET_GUINT16 (q->data+8);
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data+10);
 	gboolean const auto_format = (flags & 0x01) ? TRUE : FALSE;
 	gboolean const swap_color_for_negative = flags & 0x02;
-#endif
 
+	printf ("pattern = %d;\n", pattern);
+	if (auto_format)
+		puts ("Use auto format;");
+	if (swap_color_for_negative)
+		puts ("Swap fore and back colours when displaying negatives;");
+
+#if 0
+	/* Ignore the colour indicies.  Use the colours themselves
+	 * to avoid problems with guessing the strange index values
+	 */
 	if (s->ver >= MS_BIFF_V8)
 	{
 		guint16 const fore_index = MS_OLE_GET_GUINT16 (q->data+12);
@@ -295,6 +328,7 @@ BC_R(areaformat)(ExcelChartHandler const *handle,
 		ms_excel_palette_get (s->wb->palette, fore_index);
 		ms_excel_palette_get (s->wb->palette, back_index);
 	}
+#endif
 	return FALSE;
 }
 
@@ -1046,6 +1080,10 @@ BC_R(lineformat)(ExcelChartHandler const *handle,
 	auto_format = (flags & 0x01) ? TRUE : FALSE;
 	draw_ticks = (flags & 0x04) ? TRUE : FALSE;
 
+#if 0
+	/* Ignore the colour indicies.  Use the colours themselves
+	 * to avoid problems with guessing the strange index values
+	 */
 	if (s->ver >= MS_BIFF_V8)
 	{
 		guint16 const color_index = MS_OLE_GET_GUINT16 (q->data+10);
@@ -1053,6 +1091,7 @@ BC_R(lineformat)(ExcelChartHandler const *handle,
 		/* Ignore result for now */
 		ms_excel_palette_get (s->wb->palette, color_index);
 	}
+#endif
 	return FALSE;
 }
 
@@ -1113,20 +1152,20 @@ BC_R(markerformat)(ExcelChartHandler const *handle,
 
 	if (s->ver >= MS_BIFF_V8)
 	{
-		/* What are these for ?
-		 * We already have the colors ?
-		 */
+#if 0
+	/* Ignore the colour indicies.  Use the colours themselves
+	 * to avoid problems with guessing the strange index values
+	 */
 		StyleColor const * marker_border =
 		    ms_excel_palette_get (s->wb->palette,
 					  MS_OLE_GET_GUINT16 (q->data+12));
 		StyleColor const * marker_fill =
 		    ms_excel_palette_get (s->wb->palette,
 					  MS_OLE_GET_GUINT16 (q->data+14));
+#endif
 		guint32 const marker_size = MS_OLE_GET_GUINT32 (q->data+16);
 
-		printf ("Marker is %u, with border %x and interior %x\n",
-			marker_size,
-			(guint32)marker_border, (guint32)marker_fill);
+		printf ("Marker is %u\n", marker_size);
 	}
 	return FALSE;
 }
@@ -1910,7 +1949,8 @@ ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
 }
 
 void
-ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, MsBiffBofData *bof)
+ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet,
+		MsBiffBofData *bof)
 {
 	int const num_handler = sizeof(chart_biff_handler) /
 		sizeof(ExcelChartHandler *);
@@ -1926,6 +1966,7 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, MsBiffBofData *bof)
 	state.depth = 0;
 	state.prev_opcode = 0xdead; /* Invalid */
 	state.wb = wb;
+	state.sheet = sheet;
 	state.chart = gnumeric_chart_new ();
 
 	if (ms_excel_chart_debug > 0)
@@ -1989,6 +2030,11 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, MsBiffBofData *bof)
 				break;
 
 			case BIFF_NUMBER:	/* Should figure out what these are associated with */
+			{
+				printf ("%f\n", BIFF_GETDOUBLE (q->data + 6));
+				break;
+			}
+
 			case BIFF_HEADER :	/* Skip for Now */
 			case BIFF_FOOTER :	/* Skip for Now */
 			case BIFF_HCENTER :	/* Skip for Now */
@@ -2019,7 +2065,7 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, MsBiffBofData *bof)
 }
 
 void
-ms_excel_read_chart (BiffQuery *q, ExcelWorkbook *wb)
+ms_excel_read_chart (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 {
 	MsBiffBofData *bof;
 
@@ -2027,6 +2073,6 @@ ms_excel_read_chart (BiffQuery *q, ExcelWorkbook *wb)
 	g_return_if_fail (ms_biff_query_next (q));
 	bof = ms_biff_bof_data_new (q);
 	if (bof->version != MS_BIFF_V_UNKNOWN)
-		ms_excel_chart (q, wb, bof);
+		ms_excel_chart (q, wb, sheet, bof);
 	ms_biff_bof_data_destroy (bof);
 }

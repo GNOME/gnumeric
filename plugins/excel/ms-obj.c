@@ -577,7 +577,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook *wb,
 }
 
 MSObj *
-ms_read_OBJ (BiffQuery *q, ExcelWorkbook *wb, Sheet *sheet)
+ms_read_OBJ (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 {
 	static char * object_type_names[] =
 	{
@@ -621,8 +621,8 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook *wb, Sheet *sheet)
 		printf ("{ /* OBJ start */\n");
 #endif
 	errors = (wb->ver >= MS_BIFF_V8)
-		? ms_obj_read_biff8_obj (q, wb, sheet, obj)
-		: ms_obj_read_pre_biff8_obj (q, wb, sheet, obj);
+		? ms_obj_read_biff8_obj (q, wb, sheet->gnum_sheet, obj)
+		: ms_obj_read_pre_biff8_obj (q, wb, sheet->gnum_sheet, obj);
 
 	if (errors) {
 		g_free (obj);
@@ -642,7 +642,7 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook *wb, Sheet *sheet)
 	case 0x05 : /* Chart */
 		type = SHEET_OBJECT_BOX;
 		/* There should be a BOF next */
-		ms_excel_read_chart (q, wb);
+		ms_excel_read_chart (q, wb, sheet);
 		break;
 
 	case 0x01 : /* Line */

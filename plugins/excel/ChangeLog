@@ -1,3 +1,25 @@
+2000-07-06  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (ms_read_OBJ) : Take an ExcelSheet.
+
+	* ms-escher.c (ms_escher_read_ClientData) : ms_read_OBJ takes a sheet.
+	* ms-excel-read.c (ms_excel_read_sheet) : Ditto.
+	(ms_excel_read_workbook) : Ditto.
+
+	* ms-chart.c (3dbarshape) : A bit of research into probable values of
+	  the enum.
+	(ai) : After some thought this makes more sense.  We should only see
+	  an expression if we are linked to the workbook.  Similarly we should
+	  only see a format if one is specified.  We really need to avoid this
+	  kludge of needing a dummy sheet.
+	(areaformat) : Ignore colour index, use the stored colour.  Add some
+	  more debug info.
+	(lineformat) : Ditto.
+	(markerformat) : Ditto.
+	(ms_excel_chart) : Take an optional ExcelSheet.
+	  Parse BIFF_NUMBER records when they appear.
+	(ms_excel_read_chart) : Take an optional ExcelSheet.
+
 2000-07-05  Michael Meeks  <michael@helixcode.com>
 
 	* ms-obj.c (ms_obj_realize): rename sheet_object_container constructor.

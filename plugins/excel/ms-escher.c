@@ -1742,7 +1742,6 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 	int     i;
 	guint16 opcode;
 	MSObj  *obj;
-	ExcelSheet *sheet;
 
 	g_return_val_if_fail (state->sheet != NULL, TRUE);
 	g_return_val_if_fail (h->len == common_header_len, TRUE);
@@ -1753,8 +1752,7 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 	g_return_val_if_fail (opcode == BIFF_OBJ, TRUE);
 	g_return_val_if_fail (ms_biff_query_next (state->q), TRUE);
 
-	sheet = state->sheet;
-	obj = ms_read_OBJ (state->q, state->wb, sheet->gnum_sheet);
+	obj = ms_read_OBJ (state->q, state->wb, state->sheet);
 
 	if (obj == NULL)
 		return FALSE;
@@ -1775,8 +1773,7 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 		break;
 	};
 
-	sheet->obj_queue = g_list_append (sheet->obj_queue,
-					  obj);
+	state->sheet->obj_queue = g_list_append (state->sheet->obj_queue, obj);
 	return FALSE;
 }
 
