@@ -34,8 +34,12 @@ Jody:
 	* Printing improvements.
 
 Jon:
-	* Cursor fixes and speedups.
+	* GUI polishing.
+	* File history improvements.
 	* Python plugin enhancements.
+        * Error reporting improvements.
+	* Cursor fixes and speedups.
+	* CORBA bugfixes.
 
 ERDI Gergo :
 	* Add a zoom element to the toolbar.
