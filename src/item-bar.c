@@ -694,7 +694,6 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				gtk_widget_show_all (gtk_widget_get_toplevel (item_bar->tip));
 			}
 		} else {
-
 			item_bar->start_selection = element;
 			gnome_canvas_item_grab (item,
 						GDK_POINTER_MOTION_MASK |

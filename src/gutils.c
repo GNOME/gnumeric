@@ -48,7 +48,8 @@ gnumeric_sys_data_dir (const char *subdir)
 {
 	extern char *gnumeric_data_dir;
 
-	return g_strconcat (gnumeric_data_dir, subdir, "/", NULL);
+	return g_strconcat (gnumeric_data_dir, G_DIR_SEPARATOR_S,
+			    subdir, G_DIR_SEPARATOR_S, NULL);
 }
 
 char *
@@ -56,7 +57,8 @@ gnumeric_sys_lib_dir (const char *subdir)
 {
 	extern char *gnumeric_lib_dir;
 
-	return g_strconcat (gnumeric_lib_dir, subdir, "/", NULL);
+	return g_strconcat (gnumeric_lib_dir, G_DIR_SEPARATOR_S,
+			    subdir, G_DIR_SEPARATOR_S, NULL);
 }
 
 #define GLADE_SUFFIX	"glade"
@@ -81,8 +83,8 @@ gnumeric_usr_dir (const char *subdir)
 
 	if (home_dir != NULL)
 		return g_strconcat (
-			home_dir, "/.gnumeric/" GNUMERIC_VERSION "/",
-			subdir, "/", NULL);
+			home_dir, G_DIR_SEPARATOR_S ".gnumeric/" GNUMERIC_VERSION G_DIR_SEPARATOR_S,
+			subdir, G_DIR_SEPARATOR_S, NULL);
 	return NULL;
 }
 

@@ -7,8 +7,7 @@ Release Critical
 
 - new wb_controls do not display 
     : selection string
-
-- we leak merged regions on exit
+    : comment markers
 
 Long term breakage
 ------------------

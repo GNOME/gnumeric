@@ -192,8 +192,11 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 	GdkGC  * const gc = grid->empty_gc;
 	Cell const *cell = sheet_cell_get (sheet, range->start.col, range->start.row);
 	MStyle *mstyle = sheet_style_compute (sheet, range->start.col, range->start.row);
+	gboolean const is_selected = (sheet->cursor.edit_pos.col != range->start.col ||
+				      sheet->cursor.edit_pos.row != range->start.row) &&
+				     sheet_is_full_range_selected (sheet, range);
 	gboolean const no_background = !gnumeric_background_set_gc (mstyle, gc,
-			grid->canvas_item.canvas, FALSE);
+			grid->canvas_item.canvas, is_selected);
 
 	l = r = start_x;
 	if (view->start.col <= range->start.col) {
@@ -225,10 +228,6 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 
 	/* Remember X excludes the far pixels */
 	gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
-
-	if (sheet->cursor.edit_pos.col != range->start.col ||
-	    sheet->cursor.edit_pos.row != range->start.row) {
-	}
 
 	if (cell != NULL) {
 		ColRowInfo const * const ri = cell->row_info;

@@ -3832,7 +3832,7 @@ sheet_clone_selection (Sheet const *src, Sheet *dst)
 
 	selections = g_list_copy (src->selections);
 	selections = g_list_reverse (selections);
-	for (ptr = selections ; ptr != NULL ; ptr = ptr->next) {
+	for (ptr = selections ; ptr != NULL && ptr->next != NULL ; ptr = ptr->next) {
 		Range const *range = ptr->data;
 		g_return_if_fail (range != NULL);
 		sheet_selection_add_range (dst,
@@ -3841,15 +3841,13 @@ sheet_clone_selection (Sheet const *src, Sheet *dst)
 					   range->end.col,   range->end.row);
 	}
 	g_list_free (selections);
-
-	/* Set the cursor position */
-	sheet_cursor_set (dst,
-			  src->cursor.edit_pos.col,
-			  src->cursor.edit_pos.row,
-			  src->cursor.base_corner.col,
-			  src->cursor.base_corner.row,
-			  src->cursor.move_corner.col,
-			  src->cursor.move_corner.row);
+	sheet_selection_add_range (dst,
+				   src->cursor.edit_pos.col,
+				   src->cursor.edit_pos.row,
+				   src->cursor.base_corner.col,
+				   src->cursor.base_corner.row,
+				   src->cursor.move_corner.col,
+				   src->cursor.move_corner.row);
 }
 
 static void

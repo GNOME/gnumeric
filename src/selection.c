@@ -64,49 +64,6 @@ sheet_get_selection_name (Sheet const *sheet)
 }
 
 /**
- * sheet_selection_add_range : prepends a new range to the selection list.
- *
- * @sheet          : sheet whose selection to append to.
- * @edit_{col,row} : cell to mark as the new edit cursor.
- * @base_{col,row} : stationary corner of the newly selected range.
- * @move_{col,row} : moving corner of the newly selected range.
- *
- * Prepends a range to the selection list and set the edit cursor.
- */
-void
-sheet_selection_add_range (Sheet *sheet,
-			   int edit_col, int edit_row,
-			   int base_col, int base_row,
-			   int move_col, int move_row)
-{
-	SheetSelection *ss;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	/* Create and prepend new selection */
-	ss = g_new0 (SheetSelection, 1);
-	ss->user.start.col = MIN (base_col, move_col);
-	ss->user.start.row = MIN (base_row, move_row);
-	ss->user.end.col   = MAX (base_col, move_col);
-	ss->user.end.row   = MAX (base_row, move_row);
-	sheet->selections = g_list_prepend (sheet->selections, ss);
-
-	/* Set the selection parameters, and redraw the old edit cursor */
-	sheet_cursor_set (sheet,
-			  edit_col, edit_row,
-			  base_col, base_row,
-			  move_col, move_row);
-
-	/* Redraw the newly added range so that it get shown as selected */
-	sheet_redraw_range (sheet, &ss->user);
-	sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
-
-	/* Force update of the status area */
-	sheet_flag_status_update_range (sheet, NULL /* force update */);
-}
-
-/**
  * Return 1st range.
  * Return NULL if there is more than 1 and @permit_complex is FALSE
  **/
@@ -154,12 +111,54 @@ selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
 	return FALSE;
 }
 
+/**
+ * sheet_selection_add_range : prepends a new range to the selection list.
+ *
+ * @sheet          : sheet whose selection to append to.
+ * @edit_{col,row} : cell to mark as the new edit cursor.
+ * @base_{col,row} : stationary corner of the newly selected range.
+ * @move_{col,row} : moving corner of the newly selected range.
+ *
+ * Prepends a range to the selection list and set the edit cursor.
+ */
+void
+sheet_selection_add_range (Sheet *sheet,
+			   int edit_col, int edit_row,
+			   int base_col, int base_row,
+			   int move_col, int move_row)
+{
+	SheetSelection *ss;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	/* Create and prepend new selection */
+	ss = g_new0 (SheetSelection, 1);
+	ss->user.start.col = MIN (base_col, move_col);
+	ss->user.start.row = MIN (base_row, move_row);
+	ss->user.end.col   = MAX (base_col, move_col);
+	ss->user.end.row   = MAX (base_row, move_row);
+	sheet->selections = g_list_prepend (sheet->selections, ss);
+
+	/* Set the selection parameters, and redraw the old edit cursor */
+	sheet_cursor_set (sheet,
+			  edit_col, edit_row,
+			  base_col, base_row,
+			  move_col, move_row);
+
+	/* Redraw the newly added range so that it get shown as selected */
+	sheet_redraw_range (sheet, &ss->user);
+	sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
+
+	/* Force update of the status area */
+	sheet_flag_status_update_range (sheet, NULL /* force update */);
+}
+
 void
 sheet_selection_add (Sheet *sheet, int col, int row)
 {
 	sheet_selection_add_range (sheet, col, row, col, row, col, row);
 }
-
 
 /**
  * sheet_selection_extend_to:
@@ -312,12 +311,31 @@ sheet_is_range_selected (Sheet const * const sheet, Range const *r)
 	return FALSE;
 }
 
+/*
+ * TRUE : If entire range is contained in the selection
+ */
+gboolean
+sheet_is_full_range_selected (Sheet const * const sheet, Range const *r)
+{
+	GList *list;
+
+	for (list = sheet->selections; list; list = list->next){
+		SheetSelection const *ss = list->data;
+
+		if (range_contained (r, &ss->user))
+			return TRUE;
+	}
+	return FALSE;
+}
+
 void
 sheet_selection_set (Sheet *sheet,
 		     int edit_col, int edit_row,
 		     int base_col, int base_row,
 		     int move_col, int move_row)
 {
+	GSList *merged, *ptr;
+	gboolean changed, reset_positions = FALSE;
 	SheetSelection *ss;
 	Range old_sel, new_sel;
 
@@ -331,6 +349,52 @@ sheet_selection_set (Sheet *sheet,
 	new_sel.start.row = MIN(base_row, move_row);
 	new_sel.end.col = MAX(base_col, move_col);
 	new_sel.end.row = MAX(base_row, move_row);
+
+	/* expand to include any merged regions */
+looper :
+	changed = FALSE;
+	merged = sheet_region_get_merged (sheet, &new_sel);
+	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
+		Range const *r = ptr->data;
+		if (new_sel.start.col > r->start.col) {
+			new_sel.start.col = r->start.col;
+			changed = TRUE;
+		}
+		if (new_sel.start.row > r->start.row) {
+			new_sel.start.row = r->start.row;
+			changed = TRUE;
+		}
+		if (new_sel.end.col < r->end.col) {
+			new_sel.end.col = r->end.col;
+			changed = TRUE;
+		}
+		if (new_sel.end.row < r->end.row) {
+			new_sel.end.row = r->end.row;
+			changed = TRUE;
+		}
+	}
+	g_slist_free (merged);
+	if (changed) {
+		reset_positions = TRUE;
+		goto looper;
+	}
+
+	if (reset_positions) {
+		if (base_col < move_col) {
+			base_col = new_sel.start.col;
+			move_col = new_sel.end.col;
+		} else {
+			base_col = new_sel.end.col;
+			move_col = new_sel.start.col;
+		}
+		if (base_row < move_row) {
+			base_row = new_sel.start.row;
+			move_row = new_sel.end.row;
+		} else {
+			base_row = new_sel.end.row;
+			move_row = new_sel.start.row;
+		}
+	}
 
 	if (range_equal (&ss->user, &new_sel))
 		return;

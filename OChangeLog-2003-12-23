@@ -1,3 +1,20 @@
+2000-11-20  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : Use a more conventional approach to path seperators.
+	* src/gutils.c (gnumeric_usr_dir) : Adjust here.
+	(gnumeric_sys_data_dir) : and here.
+	(gnumeric_sys_lib_dir) : and here.
+
+2000-11-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_clone_selection) : Fix.
+
+	* src/item-grid.c (item_grid_draw_merged_range) : If the merged region
+	  is fully selected paint it as such.
+
+	* src/selection.c (sheet_is_full_range_selected) : new function.
+	(sheet_selection_set) : support merged cells.
+
 2000-11-20  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet.c (sheet_destroy_contents): Eliminate merged regions.

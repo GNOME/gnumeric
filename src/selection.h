@@ -7,6 +7,7 @@
 gboolean    sheet_is_all_selected        (Sheet const * const sheet);
 gboolean    sheet_is_cell_selected       (Sheet const * const sheet, int col, int row);
 gboolean    sheet_is_range_selected      (Sheet const * const sheet, Range const *r);
+gboolean    sheet_is_full_range_selected (Sheet const * const sheet, Range const *r);
 void        sheet_selection_extend_to    (Sheet *sheet, int col, int row);
 void        sheet_selection_extend       (Sheet *sheet, int count, gboolean jump_to_boundaries,
 					  gboolean const horizontal);

@@ -104,7 +104,6 @@ move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 void
 gnumeric_sheet_move_cursor (GnumericSheet *gsheet, int col, int row)
 {
-	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
 	move_cursor (gsheet, col, row, TRUE);
@@ -115,7 +114,6 @@ gnumeric_sheet_set_cursor_bounds (GnumericSheet *gsheet,
 				  int start_col, int start_row,
 				  int end_col,   int end_row)
 {
-	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (start_row <= end_row);
 	g_return_if_fail (start_col <= end_col);
@@ -201,7 +199,6 @@ gnumeric_sheet_can_select_expr_range (GnumericSheet *gsheet)
 {
 	WorkbookControlGUI const *wbcg;
 
-	g_return_val_if_fail (gsheet != NULL, FALSE);
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), FALSE);
 
 	wbcg = gsheet->scg->wbcg;
@@ -328,7 +325,6 @@ start_cell_selection (GnumericSheet *gsheet)
 void
 gnumeric_sheet_start_cell_selection (GnumericSheet *gsheet, int col, int row)
 {
-	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
 	if (gsheet->selecting_cell)
@@ -340,7 +336,6 @@ gnumeric_sheet_start_cell_selection (GnumericSheet *gsheet, int col, int row)
 void
 gnumeric_sheet_stop_cell_selection (GnumericSheet *gsheet, gboolean const clear_string)
 {
-	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
 	if (!gsheet->selecting_cell)
@@ -379,7 +374,6 @@ gnumeric_sheet_create_editing_cursor (GnumericSheet *gsheet)
 void
 gnumeric_sheet_stop_editing (GnumericSheet *gsheet)
 {
-	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
 	gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
@@ -398,7 +392,6 @@ gnumeric_sheet_selection_extend (GnumericSheet *gsheet, int col, int row)
 {
 	ItemCursor *ic;
 
-	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (gsheet->selecting_cell);
 	g_return_if_fail (col < SHEET_MAX_COLS);
@@ -424,7 +417,6 @@ gnumeric_sheet_selection_cursor_place (GnumericSheet *gsheet, int col, int row)
 {
 	ItemCursor *ic;
 
-	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (gsheet->selecting_cell);
 	g_return_if_fail (col < SHEET_MAX_COLS);
@@ -442,7 +434,6 @@ gnumeric_sheet_selection_cursor_base (GnumericSheet *gsheet, int col, int row)
 {
 	ItemCursor *ic;
 
-	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (gsheet->selecting_cell);
 	g_return_if_fail (col < SHEET_MAX_COLS);
@@ -1291,7 +1282,6 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 	int   new_first_col, new_first_row;
 	int   col_distance, row_distance;
 
-	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
