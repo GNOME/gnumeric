@@ -37,10 +37,6 @@ typedef struct {
 	} approx_width;
 } GnmFontMetrics;
 
-GnomeFont *gnm_font_find_closest_from_weight_slant (const guchar *family, 
-						    GnomeFontWeight weight, 
-						    gboolean italic, 
-						    gdouble size);
 PangoContext *gnm_pango_context_get (void);
 
 #endif /* GNUMERIC_STYLE_FONT_H */
