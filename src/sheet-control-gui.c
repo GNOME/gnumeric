@@ -462,20 +462,20 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 			else
 				scg_rangesel_bound (scg,
 					0, index, SHEET_MAX_COLS-1, index);
+		} else if (is_cols) {
+			GnumericCanvas *gcanvas =
+				scg_pane (scg, scg->active_panes > 1 ? 3 : 0);
+			sheet_selection_add_range (sheet,
+				index, gcanvas->first.row,
+				index, 0,
+				index, SHEET_MAX_ROWS-1);
 		} else {
-			/* FIXME : do we want to take the panes into account too ? */
-			GnumericCanvas *gcanvas = scg_pane (scg, 0);
-
-			if (is_cols)
-				sheet_selection_add_range (sheet,
-					index, gcanvas->first.row,
-					index, 0,
-					index, SHEET_MAX_ROWS-1);
-			else
-				sheet_selection_add_range (sheet,
-					gcanvas->first.col, index,
-					0, index,
-					SHEET_MAX_COLS-1, index);
+			GnumericCanvas *gcanvas =
+				scg_pane (scg, scg->active_panes > 1 ? 1 : 0);
+			sheet_selection_add_range (sheet,
+				gcanvas->first.col, index,
+				0, index,
+				SHEET_MAX_COLS-1, index);
 		}
 	}
 
