@@ -548,8 +548,12 @@ set_cell_value (data_analysis_output_t *dao, int col, int row, Value *v)
 	    (col >= dao->cols || row >= dao->rows))
 	        return;
 
-	cell = sheet_cell_fetch (dao->sheet, dao->start_col + col,
-				 dao->start_row + row);
+	col += dao->start_col;
+	row += dao->start_row;
+	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS)
+		return;
+
+	cell = sheet_cell_fetch (dao->sheet, col, row);
 
 	sheet_cell_set_value (cell, v);
 }

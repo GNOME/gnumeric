@@ -1,3 +1,7 @@
+2002-03-07  Morten Welinder  <terra@diku.dk>
+
+	* analysis-tools.c (set_cell_value): Safety checks.
+
 2002-03-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* goal-seek, Makefile.am: Moved goal seek into this directory.

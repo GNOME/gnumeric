@@ -93,6 +93,7 @@ Morten:
 	  regression.
 	* Clean up Fourier analysis.
 	* Fix validation int check.
+	* Fix analysis tools crashes.
 
 Scott Ananian:
 	* Update the debian control files.
