@@ -1,0 +1,171 @@
+.TH GNUMERIC 1 "August 07, 2001" gnumeric "GNOME"
+.SH NAME
+gnumeric \- GNOME spreadsheet application
+
+.SH SYNOPSIS
+\fBgnumeric\fR [\fIOPTIONS\fR]
+
+.SH DESCRIPTION
+\fBgnumeric\fR is a powerful and easy to use spreadsheet program from the GNOME
+project. Its goal is to compete with the commercial offerings; users of Excel
+should be already familiar with \fBgnumeric\fR's advanced features. A plugin system
+lets you extend \fBgnumeric\fR with GPL extensions, and optional Python, Guile, and
+Perl plugins let you define complex functions in those popular languages.
+
+\fBgnumeric\fR will import your existing Excel, 1-2-3, Applix, Sylk, XBase and
+Oleo files and can export to LaTeX and HTML as well.
+
+.SH USAGE
+\fBgnumeric\fR is documented in great detail by \fIGnumeric's user manual\fR
+(see below).
+
+.SH OPTIONS
+This program follows the usual GNU command line syntax, with long options
+starting with two dashes (`--'). A summary of the options supported by
+\fBgnumeric\fR is included below.
+
+.SS "Oaf options"
+.TP
+\fB\-\-oaf-od-ior=\fR\fIIOR\fR
+Object directory to use when registering servers
+.TP
+\fB\-\-oaf-ior-fd=\fR\fIFD\fR
+File descriptor to print \fIIOR\fR on
+.TP
+\fB\-\-oaf-activate-iid=\fR\fIIID\fR
+\fIIID\fR to activate
+.TP
+.B \-\-oaf-private
+Prevent registering of server with OAF
+
+.SS "GNOME options"
+.TP
+.B \-\-disable-sound
+Disable sound server usage
+.TP
+.B \-\-enable-sound
+Enable sound server usage
+.TP
+\fB\-\-espeaker=\fR\fIHOSTNAME:PORT\fR
+Host:port on which the sound server to use is running
+
+.SS "Help options"
+.B \-?, \-\-help
+Show help message
+.TP
+.B \-\-usage
+Display brief usage message
+
+.SS "GTK options"
+.TP
+\fB\-\-gdk-debug=\fR\fIFLAGS\fR
+Gdk debugging flags to set
+.TP
+\fB\-\-gdk-no-debug=\fR\fIFLAGS\fR
+Gdk debugging flags to unset
+.TP
+\fB\-\-display=\fR\fIDISPLAY\fR
+X display to use
+.TP
+.B \-\-sync
+Make X calls synchronous
+.TP
+.B \-\-no-xshm
+Don't use X shared memory extension
+.TP
+\fB\-\-name=\fR\fINAME\fR
+Program name as used by the window manager
+.TP
+\fB\-\-class=\fR\fICLASS\fR
+Program class as used by the window manager
+.TP
+\fB\-\-gxid_host=\fR\fIHOST\fR
+.TP
+\fB\-\-gxid_port=\fR\fIPORT\fR
+.TP
+\fB\-\-xim-preedit=\fR\fISTYLE\fR
+.TP
+\fB\-\-xim-status=\fR\fISTYLE\fR
+.TP
+\fB\-\-gtk-debug=\fR\fIFLAGS\fR
+Gtk+ debugging flags to set
+.TP
+\fB\-\-gtk-no-debug=\fR\fIFLAGS\fR
+Gtk+ debugging flags to unset
+.TP
+\fB\-\-g-fatal-warnings\fR
+Make all warnings fatal
+.TP
+\fB\-\-gtk-module=\fR\fIMODULE\fR
+Load an additional Gtk module
+
+.SS "GNOME GUI options"
+.TP
+.B \-\-disable-crash-dialog
+
+.SS "Session management options"
+.TP
+\fB\-\-sm-client-id=\fR\fIID\fR
+Specify session management ID
+.TP
+\fB\-\-sm-config-prefix=\fR\fIPREFIX\fR
+Specify prefix of saved configuration
+.TP
+.B \-\-sm-disable
+Disable connection to session manager
+
+.SS "gnumeric options"
+.TP
+.B \-v, \-\-version
+Display \fBgnumeric\fR's version
+.TP
+\fB\-L, \-\-lib-dir=\fR\fISTRING\fR
+Set the root library directory
+.TP
+\fB\-D, \-\-data-dir=\fR\fISTRING\fR
+Adjust the root data directory
+.TP
+\fB\-\-dump-func-defs=\fR\fIFILE\fR
+Dumps the function definitions
+.TP
+\fB\-\-debug=\fR\fILEVEL\fR
+Enables some debugging functions
+.TP
+.BI \-\-debug_deps= LEVEL
+Enables some dependency related debugging functions
+.TP
+.BI \-\-debug_print= LEVEL
+Enables some print debugging behavior
+.TP
+.B \-\-quit
+Exit immediately after loading the selected books (useful for testing).
+.TP
+.B \-\-debug_ole
+Enables extra consistency checking while reading ole files
+
+.SH VERSION
+0.68
+
+.SH BUGS
+To report \fBgnumeric\fR bugs, please visit \fIhttp://bugzilla.gnome.org\fR.
+
+.SH "SEE ALSO"
+.TP
+\fBGnumeric's user manual\fR
+.I http://www.gnome.org/projects/gnumeric/doc/index.html
+.TP
+.B GnomeHelp
+.I gnome-help-browser(1)
+.TP
+.B The GNOME project
+.I http://www.gnome.org
+
+
+
+.SH AUTHORS
+.SS "gnumeric"
+Jody Goldberg <jgoldberg@home.com>
+.br
+Miguel de Icaza <miguel@helixcode.com>
+.SS "This manual page"
+Jan Schaumann <jschauma@netmeister.org>.

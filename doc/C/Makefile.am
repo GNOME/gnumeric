@@ -41,6 +41,7 @@ EXTRA_DIST = \
 	functions.sgml		\
 	func-list.sgml		\
 	func-index.sgml		\
+	gnumeric.1		\
 	$(SGML_FILES)		\
 	$(PERL_FILES)
 
