@@ -1219,7 +1219,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	     gboolean preview, PrintRange default_range)
 {
 	PrintJobInfo *pj = NULL;
-	GtkWidget *gnome_print_dialog;
+	GtkWidget *gnome_print_dialog = NULL;
 	GnomePrintJob *gpm = NULL;
  	int first = 1;
 	int end;
@@ -1268,8 +1268,9 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 			preview = FALSE;
 		done = TRUE;
 
-		if (!preview) {
-			switch (gnome_print_dialog_run (gnome_print_dialog)) {
+		if (!preview && gnome_print_dialog != NULL) {
+			switch (gnome_print_dialog_run 
+				(GNOME_PRINT_DIALOG (gnome_print_dialog))) {
 			case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
 				break;
 			case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
