@@ -5,13 +5,13 @@ Regarding LP & ILP:
 ===================
 
 Critical bugs:
-  * if the program is infeasible report it as such
   * if the program is unbounded report it as such
+  * check that the program is properly defined (e.g. no #DIV0, #NUM!, ...)
+    - a badly formulated program may crash the spreadsheet
   * fix all memory leaks
 
 Usability fixes:
-  * add keep original values dialog
-  * check that the program is properly defined (e.g. no #DIV0, #NUM!, ...)
+  * add `keep original values dialog'
   * get_lp_coeff: test that it's really LP
 
 Feature enhancements:
@@ -51,6 +51,7 @@ Feature enhancements:
       status dialog
   * computing performance improvements:
     - make the getting of LP coefficents faster
+    - the limits reporting slows things
 
 Misc:
   * add example programs into samples/solver

@@ -1,3 +1,8 @@
+2002-03-14  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-solver.c (cb_dialog_solve_clicked): If the problem is
+	infeasible report it as such.
+
 2002-03-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* merge.glade : new dialog for the Merge tool

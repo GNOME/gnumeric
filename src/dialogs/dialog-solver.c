@@ -766,7 +766,8 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 					((GtkWindow *) state->dialog,
 					 &(state->warning_dialog),
 					 GTK_MESSAGE_WARNING, errmsg);
-			else if (res->status == SOLVER_LP_OPTIMAL) {
+			else switch (res->status) {
+			case SOLVER_LP_OPTIMAL :
 				gnumeric_notice_nonmodal
 					((GtkWindow *) state->dialog,
 					 &(state->warning_dialog),
@@ -789,28 +790,35 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 						   answer, sensitivity, limits,
 						   performance, program,
 						   dual_program);
-			} else {
-				char *str;
-				if (res->status == SOLVER_LP_UNBOUNDED) {
-					str = g_strdup_printf
-						(_("The Target Cell value does "
-						   "not converge!"));
-				} else {
-					str = g_strdup_printf
-						(_("Solver was not successful:"
-						   " %s"), errmsg);
-				}
+				break;
+			case SOLVER_LP_UNBOUNDED :
 			        gnumeric_notice_nonmodal
 					((GtkWindow *) state->dialog,
 					 &(state->warning_dialog),
-					 GTK_MESSAGE_WARNING, str);
-				g_free (str);
+					 GTK_MESSAGE_WARNING, 
+					 _("The Target Cell value specified "
+					   "does not converge!  The program is "
+					   "unbounded."));
 				solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
 						   state->sheet, res,
 						   FALSE, FALSE, FALSE,
 						   performance, program,
 						   dual_program);
-
+				break;
+			case SOLVER_LP_INFEASIBLE :
+			        gnumeric_notice_nonmodal
+					((GtkWindow *) state->dialog,
+					 &(state->warning_dialog),
+					 GTK_MESSAGE_WARNING, 
+					 _("A feasible solution could not be "
+					   "found.  All specified constraints "
+					   "cannot be met simultaneously. "));
+				solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
+						   state->sheet, res,
+						   FALSE, FALSE, FALSE,
+						   performance, program,
+						   dual_program);
+				break;
 			}
 			solver_results_free (res);
 		} else {
