@@ -4,13 +4,14 @@
 <glade-interface>
 
 <widget class="GtkDialog" id="Simulation">
+  <property name="border_width">6</property>
   <property name="title" translatable="yes">Risk Simulation</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_MOUSE</property>
+  <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="has_separator">True</property>
+  <property name="has_separator">False</property>
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="vbox1">
@@ -85,7 +86,7 @@
 	    <widget class="GtkVBox" id="vbox6">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkFrame" id="frame5">
@@ -96,12 +97,13 @@
 
 		  <child>
 		    <widget class="GtkTable" id="input-table">
+                      <property name="border_width">5</property>
 		      <property name="visible">True</property>
 		      <property name="n_rows">2</property>
 		      <property name="n_columns">2</property>
 		      <property name="homogeneous">False</property>
-		      <property name="row_spacing">0</property>
-		      <property name="column_spacing">0</property>
+		      <property name="row_spacing">6</property>
+		      <property name="column_spacing">12</property>
 
 		      <child>
 			<widget class="GtkLabel" id="var2-label">
@@ -249,13 +251,13 @@
 		    <widget class="GtkVBox" id="vbox7">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkHBox" id="hbox2">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">0</property>
+			  <property name="spacing">12</property>
 
 			  <child>
 			    <placeholder/>
@@ -307,7 +309,7 @@
 			<widget class="GtkHBox" id="hbox3">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">0</property>
+			  <property name="spacing">12</property>
 
 			  <child>
 			    <widget class="GtkButton" id="prev-button">
@@ -437,7 +439,7 @@
 	    <widget class="GtkVBox" id="vbox2">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkFrame" id="frame1">
@@ -448,12 +450,13 @@
 
 		  <child>
 		    <widget class="GtkTable" id="table1">
+                      <property name="border_width">5</property>
 		      <property name="visible">True</property>
 		      <property name="n_rows">3</property>
 		      <property name="n_columns">2</property>
 		      <property name="homogeneous">False</property>
-		      <property name="row_spacing">0</property>
-		      <property name="column_spacing">0</property>
+		      <property name="row_spacing">6</property>
+		      <property name="column_spacing">12</property>
 
 		      <child>
 			<widget class="GtkSpinButton" id="first_round">
@@ -629,7 +632,7 @@
 		    <widget class="GtkVBox" id="vbox3">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkCheckButton" id="report-by-rounds-button">
@@ -665,16 +668,17 @@
 			    <widget class="GtkVBox" id="vbox4">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
-			      <property name="spacing">0</property>
+			      <property name="spacing">6</property>
 
 			      <child>
 				<widget class="GtkTable" id="output-table">
-				  <property name="visible">True</property>
+				  <property name="border_width">5</property>
+                                  <property name="visible">True</property>
 				  <property name="n_rows">3</property>
 				  <property name="n_columns">2</property>
 				  <property name="homogeneous">False</property>
-				  <property name="row_spacing">0</property>
-				  <property name="column_spacing">0</property>
+				  <property name="row_spacing">6</property>
+				  <property name="column_spacing">12</property>
 
 				  <child>
 				    <widget class="GtkRadioButton" id="newsheet-button">
@@ -826,13 +830,13 @@
 		<widget class="GtkVBox" id="vbox5">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">0</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox1">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">12</property>
 
 		      <child>
 			<widget class="GtkLabel" id="label15">
