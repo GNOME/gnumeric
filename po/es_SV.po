@@ -1,5 +1,5 @@
 # 
-# In México, Number formats are the same as in the US, so no
+# In El Salvador, Number formats are the same as in the US, so no
 # translation is required for them.
 # But the msgstr MUST be filled; otherwise it will default to es.po
 # which uses different format fro numbers.

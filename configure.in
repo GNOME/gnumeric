@@ -35,7 +35,8 @@ AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
 dnl ## internationalization support
-ALL_LINGUAS="es es_MX fr ko pt it hu cz no no_NO"
+dnl ## all 'es_??' only differ from 'es' in number formats
+ALL_LINGUAS="cs es es_DO es_GT es_HN es_MX es_PA es_PE es_SV fr hu it ko no no_NO pt"
 AM_GNU_GETTEXT
 AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
 
