@@ -13,6 +13,8 @@ gladedir   = $(datadir)/gnumeric/glade
 
 glade_DATA = graphics.glade
 
+glade_msgs = graphics.glade.h
+
 if BONOBO
 noinst_LIBRARIES = libwizard_graphics.a
 endif
@@ -20,7 +22,9 @@ endif
 libwizard_graphics_a_SOURCES =		\
 	main.c				\
 	graphic-context.c               \
+	graphic-context.h               \
 	graphic-type.c                  \
+	graphic-type.h			\
 	graphic-context.h               \
 	wizard.h
 
@@ -35,6 +39,6 @@ INCLUDES = 						\
 	-I../../src					\
 	$(GNOME_INCLUDEDIR)
 
-EXTRA_DIST = $(glade_DATA)
+EXTRA_DIST = $(glade_DATA) $(glade_msgs)
 
 
