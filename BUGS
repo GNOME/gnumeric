@@ -5,6 +5,8 @@ and longer term bugs.
 Release Critical
 ----------------
 
+Long term breakage
+------------------
 - Why does the number matching bother comparing against formats that are
   covered by 'General' ?
 
@@ -44,8 +46,6 @@ Release Critical
 
 - Fix Borders
 
-Long term breakage
-------------------
 STF - pasting a single line should not invoke the importer
 
 - locale : Saving xml should not rely on changing the textdomain to
@@ -74,9 +74,6 @@ STF - pasting a single line should not invoke the importer
   is large.  All accesses to a RangeRef need to be normalized. (1/2 done)
 
 - border style double_line does not handle all of the different intersection cases.
-
-- The File->Print Preview icon is too big.  Use the stock version when the next
-  release of gnome-libs is made.
 
 - Underline should scale with font size.  (Say, max (1, font->descent/4?)
   gnome-print has a function we could use for printing which returns the
