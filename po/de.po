@@ -40,8 +40,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.52\n"
-"POT-Creation-Date: 2000-05-07 06:26+0200\n"
-"PO-Revision-Date: 2000-05-07 10:39+02:00\n"
+"POT-Creation-Date: 2000-05-08 04:02+0200\n"
+"PO-Revision-Date: 2000-05-08 04:12+02:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgstr "DIF : Laden des Blattes fehlgeschlagen"
 
 #: plugins/dif/dif.c:292 plugins/plan-perfect/pln.c:917
 msgid "Unable to mmap the file"
-msgstr ""
+msgstr "Kann Datei nicht in den Speicherbereich (mmap) legen"
 
 #: plugins/dif/dif.c:422
 msgid "Data Interchange Format (DIF) import"
@@ -973,63 +973,63 @@ msgstr "Sie können nicht nur einen Teil eines Feldes ändern."
 msgid "Typing \"%s%s\" in %s"
 msgstr "Gebe \"%s%s\" in %s ein"
 
-#: src/commands.c:579
+#: src/commands.c:592
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Gebe \"%s%s\" ein"
 
-#: src/commands.c:765
+#: src/commands.c:778
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Füge %d Spalten vor %s ein"
 
-#: src/commands.c:766
+#: src/commands.c:779
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Füge %d Spalte vor %s ein"
 
-#: src/commands.c:777
+#: src/commands.c:790
 #, c-format
 msgid "Inserting %d rows before %d"
 msgstr "Füge %d Zeilen vor %d ein"
 
-#: src/commands.c:778
+#: src/commands.c:791
 #, c-format
 msgid "Inserting %d row before %d"
 msgstr "Füge %d Zeile vor %d ein"
 
 #. col_name uses a static buffer
-#: src/commands.c:791
+#: src/commands.c:804
 #, c-format
 msgid "Deleting %d columns %s:"
 msgstr "Lösche %d Spalten %s:"
 
-#: src/commands.c:796
+#: src/commands.c:809
 #, c-format
 msgid "Deleting column %s"
 msgstr "Lösche Spalte %s"
 
-#: src/commands.c:806
+#: src/commands.c:819
 #, c-format
 msgid "Deleting %d rows %d:%d"
 msgstr "Lösche %d Zeilen %d:%d"
 
-#: src/commands.c:808
+#: src/commands.c:821
 #, c-format
 msgid "Deleting row %d"
 msgstr "Lösche Zeile %d"
 
 # Checkit.  vs. "Delete"
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:949
+#: src/commands.c:962
 msgid "Clear"
 msgstr "Leeren"
 
-#: src/commands.c:1128
+#: src/commands.c:1141
 msgid "Format cells"
 msgstr "Zellen formatieren"
 
-#: src/commands.c:1199
+#: src/commands.c:1212
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Benenne Blatt von `%s' in `%s' um"
@@ -1041,58 +1041,58 @@ msgstr "Benenne Blatt von `%s' in `%s' um"
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1274
+#: src/commands.c:1287
 msgid ">mm/dd/yyyy"
 msgstr ">dd. mm. yyyy"
 
 #. FIXME : See comment above
-#: src/commands.c:1279
+#: src/commands.c:1292
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1336
+#: src/commands.c:1349
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Stelle aktuelles Datum ein in %s"
 
-#: src/commands.c:1337
+#: src/commands.c:1350
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Stelle aktuelle Zeit ein in %s"
 
-#: src/commands.c:1420
+#: src/commands.c:1433
 #, c-format
 msgid "Setting width of column %s"
 msgstr "Stelle Spaltenbreite auf %s ein"
 
-#: src/commands.c:1421
+#: src/commands.c:1434
 #, c-format
 msgid "Setting height of row %d"
 msgstr "Stelle Zeilenhöhe auf %d ein"
 
-#: src/commands.c:1536
+#: src/commands.c:1549
 #, c-format
 msgid "Sorting %s"
 msgstr "Sortiere %s"
 
-#: src/commands.c:1617
+#: src/commands.c:1630
 msgid "Unhide columns"
 msgstr "Spalten hervorholen"
 
-#: src/commands.c:1617
+#: src/commands.c:1630
 msgid "Hide columns"
 msgstr "Spalten verbergen"
 
-#: src/commands.c:1618
+#: src/commands.c:1631
 msgid "Unhide rows"
 msgstr "Zeilen hervorholen"
 
-#: src/commands.c:1618
+#: src/commands.c:1631
 msgid "Hide rows"
 msgstr "Zeilen verbergen"
 
 #. FIXME : improve on this
-#: src/commands.c:1726
+#: src/commands.c:1739
 msgid "Moving cells"
 msgstr "Verschiebe Zellen"
 
@@ -2161,7 +2161,8 @@ msgstr "Sie sollten einen gültigen Zellennamen bei 'Listenbereich:' eintragen."
 
 #: src/dialogs/dialog-advanced-filter.c:251
 msgid "You should introduce a valid cell names in 'Criteria Range:'"
-msgstr "Sie sollten einen gültigen Zellennamen bei 'Kriterienbereich:' eintragen."
+msgstr ""
+"Sie sollten einen gültigen Zellennamen bei 'Kriterienbereich:' eintragen."
 
 #: src/dialogs/dialog-advanced-filter.c:270
 msgid "You should introduce a valid cell range in 'Copy To:'"
@@ -2171,7 +2172,9 @@ msgstr "Sie sollten einen gültigen Zellennamen bei 'Kopieren auf:' eintragen."
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
-msgstr "Sie sollten die gleiche Anzahl an Spalten bei 'Listenbereich' und bei 'Kriterienbereich' eintragen."
+msgstr ""
+"Sie sollten die gleiche Anzahl an Spalten bei 'Listenbereich' und bei "
+"'Kriterienbereich' eintragen."
 
 #: src/dialogs/dialog-analysis-tools.c:89
 #: src/dialogs/dialog-analysis-tools.c:909
@@ -2752,22 +2755,6 @@ msgstr "Fußzeilenkonfiguration"
 msgid "Print setup"
 msgstr "Ausdruck einrichten"
 
-#: src/dialogs/dialog-printer.c:69
-msgid "active sheet"
-msgstr "aktives Blatt"
-
-#: src/dialogs/dialog-printer.c:81
-msgid "all sheets"
-msgstr "alle Blätter"
-
-#: src/dialogs/dialog-printer.c:93
-msgid "selection"
-msgstr "Auswahl"
-
-#: src/dialogs/dialog-printer.c:128
-msgid "Select Printer"
-msgstr "Drucker auswählen"
-
 #: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:2827
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
@@ -2809,7 +2796,9 @@ msgstr "Einen gültigen Zellennamen für 'Zielzelle' angeben."
 
 #: src/dialogs/dialog-solver.c:871
 msgid "You should introduce a valid cell names in 'By changing cells'"
-msgstr "Sie sollten einen gültigen Zellennamen bei 'Durch Ändern von Zellen' eintragen."
+msgstr ""
+"Sie sollten einen gültigen Zellennamen bei 'Durch Ändern von Zellen' "
+"eintragen."
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:355
 msgid "You need to select at least one sheet to export"
@@ -2889,7 +2878,7 @@ msgstr "Auswahl _einpassen %"
 msgid "%"
 msgstr "%"
 
-#: src/dialogs/dialog-zoom.glade.h:24 src/print.c:908
+#: src/dialogs/dialog-zoom.glade.h:24
 msgid "Sheets"
 msgstr "Blätter"
 
@@ -10957,23 +10946,27 @@ msgid "time"
 msgstr "Zeit"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:365
+#: src/print.c:366
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:792 src/workbook.c:1852
+#: src/print.c:793 src/workbook.c:1852
 msgid "Selection must be a single range"
 msgstr "Auswahl muss ein einzelner Bereich sein"
 
-#: src/print.c:901
+#: src/print.c:902
 msgid "Print Sheets"
 msgstr "Blätter drucken"
 
-#: src/print.c:908
-msgid "Active sheet"
-msgstr "Aktives Blatt"
+#: src/print.c:909
+msgid "Act_ive sheet"
+msgstr "Akt_ives Blatt"
 
-#: src/print.c:983 src/workbook.c:1136 src/workbook.c:1457
+#: src/print.c:909
+msgid "S_heets"
+msgstr "_Blätter"
+
+#: src/print.c:987 src/workbook.c:1136 src/workbook.c:1457
 msgid "Print preview"
 msgstr "Druckvorschau"
 
@@ -11028,16 +11021,16 @@ msgstr "Zeile: %d"
 msgid "Column: %s"
 msgstr "Spalte: %s"
 
-#: src/sheet.c:1059
+#: src/sheet.c:1072
 msgid "Internal ERROR"
 msgstr "Interner FEHLER"
 
-#: src/sheet.c:2550
+#: src/sheet.c:2568
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Ich konnte das Objekt %s nicht aktivieren"
 
-#: src/sheet.c:2562
+#: src/sheet.c:2580
 msgid "I was unable to the bind object"
 msgstr "Ich konnte das Objekt nicht binden"
 
@@ -11137,11 +11130,11 @@ msgstr ""
 
 #: src/solver-lp.c:1062 src/solver-lp.c:1114
 msgid "Increase"
-msgstr ""
+msgstr "Erhöhen"
 
 #: src/solver-lp.c:1063 src/solver-lp.c:1115
 msgid "Decrease"
-msgstr ""
+msgstr "Vermindern"
 
 #: src/solver-lp.c:1104
 msgid "Shadow"
@@ -11169,7 +11162,7 @@ msgstr ""
 
 #: src/stf.c:143
 msgid "This file does not seem to be a valid text file"
-msgstr ""
+msgstr "Diese Datei scheint keine gültige Textdatei zu sein"
 
 #: src/stf.c:171
 msgid "Parse error while trying to parse data into sheet"
@@ -12128,7 +12121,7 @@ msgstr "muss wenigstens einen Buchstaben haben"
 
 #: src/workbook.c:2736
 msgid "Duplicate Sheet name"
-msgstr "Doppelter Blattname"
+msgstr "Mehrfach vergebener Blattname"
 
 #: src/workbook.c:2887
 msgid "Add another sheet"
@@ -12146,19 +12139,19 @@ msgstr "Dieses Blatt umbenennen"
 msgid "Re-order sheets"
 msgstr "Blätter neu ordnen"
 
-#: src/xml-io.c:3129
+#: src/xml-io.c:3131
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ungültige XML-Zwischenablagedatei. Ist der Baum leer?"
 
-#: src/xml-io.c:3170
+#: src/xml-io.c:3172
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ungültige XML-Datei. Ist der Baum leer?"
 
-#: src/xml-io.c:3182
+#: src/xml-io.c:3184
 msgid "Is not an Workbook file"
 msgstr "Ist keine Arbeitsbuch-Datei"
 
-#: src/xml-io.c:3247
+#: src/xml-io.c:3249
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
 
@@ -12265,15 +12258,15 @@ msgstr "Bereiche"
 
 #: wizards/graphics/main.c:85
 msgid "Step 1 of 3: Select graphic type"
-msgstr ""
+msgstr "Schritt 1 von 3: Art der Grafik auswählen"
 
 #: wizards/graphics/main.c:88
 msgid "Step 2 of 3: Select data ranges"
-msgstr ""
+msgstr "Schritt 2 von 3: Datenbereiche auswählen"
 
 #: wizards/graphics/main.c:91
 msgid "Step 3 of 3: Customize graphic"
-msgstr ""
+msgstr "Schritt 3 von 3: Grafik anpassen"
 
 #: wizards/graphics/main.c:174
 msgid "Unable to launch the graphics service"
