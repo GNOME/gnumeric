@@ -38,16 +38,67 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
-static  gboolean
-gnm_go_data_from_str (Dependent *dep, char const *str, GObject *dat)
+static Dependent *gnm_go_data_get_dep (GOData const *obj);
+
+static  GOData *
+gnm_go_data_dup (GOData const *src)
+{
+	GOData *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
+	Dependent const *src_dep = gnm_go_data_get_dep (src);
+	Dependent *dst_dep = gnm_go_data_get_dep (dst);
+
+	dst_dep->expression = src_dep->expression;
+	dst_dep->sheet      = src_dep->sheet;
+	if (dst_dep->expression == NULL) {
+		char const *str = g_object_get_data (G_OBJECT (src), "from-str");
+		g_object_set_data_full (G_OBJECT (dst),
+			"from-str", g_strdup (str), g_free);
+	} else
+		gnm_expr_ref (dst_dep->expression);
+
+	return GO_DATA (dst);
+}
+
+static gboolean
+gnm_go_data_eq (GOData const *data_a, GOData const *data_b)
+{
+	Dependent const *a = gnm_go_data_get_dep (data_a);
+	Dependent const *b = gnm_go_data_get_dep (data_b);
+	if (a->expression == NULL && b->expression == NULL) {
+		char const *str_a = g_object_get_data (G_OBJECT (data_a), "from-str");
+		char const *str_b = g_object_get_data (G_OBJECT (data_b), "from-str");
+
+		if (str_a != NULL && str_b != NULL)
+			return 0 == strcmp (str_a, str_b);
+		return FALSE;
+	}
+
+	return gnm_expr_equal (a->expression, b->expression);
+}
+
+static char *
+gnm_go_data_as_str (GOData const *dat)
 {
 	ParsePos pp;
+	Dependent const *dep = gnm_go_data_get_dep (dat);
+	if (dep->sheet == NULL)
+		return g_strdup ("No sheet for GnmGOData");
+	return gnm_expr_as_string (dep->expression,
+		parse_pos_init_dep (&pp, dep),
+		gnm_expr_conventions_default);
+}
+
+static  gboolean
+gnm_go_data_from_str (GOData *dat, char const *str)
+{
 	GnmExpr const *expr;
-	
+	ParsePos   pp;
+	Dependent *dep = gnm_go_data_get_dep (dat);
+
 	/* Its too early in the life cycle to know where we
 	 * are.  Wait until later when we parse the sheet */
 	if (dep->sheet == NULL) {
-		g_object_set_data_full (dat,
+		g_object_set_data_full (G_OBJECT (dat),
 			"from-str", g_strdup (str), g_free);
 		return TRUE;
 	}
@@ -61,18 +112,23 @@ gnm_go_data_from_str (Dependent *dep, char const *str, GObject *dat)
 	return FALSE;
 }
 
-static void
-gnm_go_data_set_sheet (Dependent *dep, Sheet *sheet, GObject *dat)
+void
+gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 {
+	Dependent *dep = gnm_go_data_get_dep (dat);
+
+	g_return_if_fail (dep != NULL);
+
 	if (sheet != NULL) {
 		/* no expression ?
 		 * Do we need to parse one now that we have more context ? */
 		if (dep->expression == NULL) {
-			char const *str = g_object_get_data (dat, "from-str");
+			char const *str = g_object_get_data (G_OBJECT (dat), "from-str");
 			if (str != NULL) { /* bingo */
 				dep->sheet = sheet; /* cheat a bit */
-				if (gnm_go_data_from_str (dep, str, dat)) {
-					g_object_set_data (dat, "from-str", NULL); /* free it */
+				if (gnm_go_data_from_str (dat, str)) {
+					g_object_set_data (G_OBJECT (dat),
+							   "from-str", NULL); /* free it */
 					go_data_emit_changed (GO_DATA (dat));
 				}
 			}
@@ -152,42 +208,6 @@ gnm_go_data_scalar_finalize (GObject *obj)
 		(*scalar_parent_klass->finalize) (obj);
 }
 
-static gboolean
-gnm_go_data_scalar_eq (GOData const *data_a, GOData const *data_b)
-{
-	GnmGODataScalar const *a = (GnmGODataScalar const *)data_a;
-	GnmGODataScalar const *b = (GnmGODataScalar const *)data_b;
-	if (a->dep.expression == NULL && b->dep.expression == NULL) {
-		char const *str_a = g_object_get_data (G_OBJECT (data_a), "from-str");
-		char const *str_b = g_object_get_data (G_OBJECT (data_b), "from-str");
-
-		if (str_a != NULL && str_b != NULL)
-			return 0 == strcmp (str_a, str_b);
-		return FALSE;
-	}
-
-	return gnm_expr_equal (a->dep.expression, b->dep.expression);
-}
-
-static char *
-gnm_go_data_scalar_as_str (GOData const *dat)
-{
-	ParsePos pp;
-	GnmGODataScalar const *scalar = (GnmGODataScalar const *)dat;
-	if (scalar->dep.sheet == NULL)
-		return g_strdup ("No sheet scalar");
-	return gnm_expr_as_string (scalar->dep.expression,
-		parse_pos_init_dep (&pp, &scalar->dep),
-		gnm_expr_conventions_default);
-}
-
-static gboolean
-gnm_go_data_scalar_from_str (GOData *dat, char const *str)
-{
-	GnmGODataScalar *scalar = (GnmGODataScalar *)dat;
-	return gnm_go_data_from_str (&scalar->dep, str, G_OBJECT (dat));
-}
-
 static double
 gnm_go_data_scalar_get_value (GODataScalar *dat)
 {
@@ -211,9 +231,10 @@ gnm_go_data_scalar_class_init (GObjectClass *gobject_klass)
 
 	scalar_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->finalize		= gnm_go_data_scalar_finalize;
-	godata_klass->eq		= gnm_go_data_scalar_eq;
-	godata_klass->as_str		= gnm_go_data_scalar_as_str;
-	godata_klass->from_str		= gnm_go_data_scalar_from_str;
+	godata_klass->dup		= gnm_go_data_dup;
+	godata_klass->eq		= gnm_go_data_eq;
+	godata_klass->as_str		= gnm_go_data_as_str;
+	godata_klass->from_str		= gnm_go_data_from_str;
 	scalar_klass->get_value		= gnm_go_data_scalar_get_value;
 	scalar_klass->get_str		= gnm_go_data_scalar_get_str;
 }
@@ -244,12 +265,6 @@ gnm_go_data_scalar_new_expr (Sheet *sheet, GnmExpr const *expr)
 	res->dep.expression = expr;
 	res->dep.sheet = sheet;
 	return GO_DATA (res);
-}
-
-void
-gnm_go_data_scalar_set_sheet (GnmGODataScalar *scalar, Sheet *sheet)
-{
-	gnm_go_data_set_sheet (&scalar->dep, sheet, G_OBJECT (scalar));
 }
 
 /**************************************************************************/
@@ -295,41 +310,6 @@ gnm_go_data_vector_finalize (GObject *obj)
 
 	if (vector_parent_klass->finalize)
 		(*vector_parent_klass->finalize) (obj);
-}
-
-static gboolean
-gnm_go_data_vector_eq (GOData const *data_a, GOData const *data_b)
-{
-	GnmGODataVector const *a = (GnmGODataVector const *)data_a;
-	GnmGODataVector const *b = (GnmGODataVector const *)data_b;
-	if (a->dep.expression == NULL && b->dep.expression == NULL) {
-		char const *str_a = g_object_get_data (G_OBJECT (data_a), "from-str");
-		char const *str_b = g_object_get_data (G_OBJECT (data_b), "from-str");
-
-		if (str_a != NULL && str_b != NULL)
-			return 0 == strcmp (str_a, str_b);
-		return FALSE;
-	}
-	return gnm_expr_equal (a->dep.expression, b->dep.expression);
-}
-
-static char *
-gnm_go_data_vector_as_str (GOData const *dat)
-{
-	ParsePos pp;
-	GnmGODataVector const *vec = (GnmGODataVector const *)dat;
-	if (vec->dep.sheet == NULL)
-		return g_strdup ("No sheet vector");
-	return gnm_expr_as_string (vec->dep.expression,
-		parse_pos_init_dep (&pp, &vec->dep),
-		gnm_expr_conventions_default);
-}
-
-static gboolean
-gnm_go_data_vector_from_str (GOData *dat, char const *str)
-{
-	GnmGODataVector *vector = (GnmGODataVector *)dat;
-	return gnm_go_data_from_str (&vector->dep, str, G_OBJECT (dat));
 }
 
 static void
@@ -613,9 +593,10 @@ gnm_go_data_vector_class_init (GObjectClass *gobject_klass)
 
 	vector_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->finalize		= gnm_go_data_vector_finalize;
-	godata_klass->eq		= gnm_go_data_vector_eq;
-	godata_klass->as_str		= gnm_go_data_vector_as_str;
-	godata_klass->from_str		= gnm_go_data_vector_from_str;
+	godata_klass->dup		= gnm_go_data_dup;
+	godata_klass->eq		= gnm_go_data_eq;
+	godata_klass->as_str		= gnm_go_data_as_str;
+	godata_klass->from_str		= gnm_go_data_from_str;
 	vector_klass->load_len		= gnm_go_data_vector_load_len;
 	vector_klass->load_values	= gnm_go_data_vector_load_values;
 	vector_klass->get_value		= gnm_go_data_vector_get_value;
@@ -649,8 +630,13 @@ gnm_go_data_vector_new_expr (Sheet *sheet, GnmExpr const *expr)
 	return GO_DATA (res);
 }
 
-void
-gnm_go_data_vector_set_sheet (GnmGODataVector *vec, Sheet *sheet)
+/*******************************************************************************/
+
+static Dependent *
+gnm_go_data_get_dep (GOData const *dat)
 {
-	gnm_go_data_set_sheet (&vec->dep, sheet, G_OBJECT (vec));
+	if (IS_GNM_GO_DATA_SCALAR (dat))
+		return &((GnmGODataScalar *)dat)->dep;
+	g_return_val_if_fail (IS_GNM_GO_DATA_VECTOR (dat), NULL);
+	return &((GnmGODataVector *)dat)->dep;
 }

@@ -39,6 +39,19 @@ enum {
 
 static gulong go_data_signals [LAST_SIGNAL] = { 0, };
 
+/* trivial fall back */
+static GOData *
+go_data_dup_real (GOData const *src)
+{
+	char   *str = go_data_as_str (src);
+	GOData *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
+	if (dst != NULL)
+		go_data_from_str (dst, str);
+	g_free (str);
+
+	return dst;
+}
+
 static void
 go_data_init (GOData *data)
 {
@@ -46,7 +59,7 @@ go_data_init (GOData *data)
 }
 
 static void
-go_data_class_init (GObjectClass *klass)
+go_data_class_init (GODataClass *klass)
 {
 	go_data_signals [CHANGED] = g_signal_new ("changed",
 		G_TYPE_FROM_CLASS (klass),
@@ -55,11 +68,29 @@ go_data_class_init (GObjectClass *klass)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+	klass->dup = go_data_dup_real;
 }
 
 GSF_CLASS_ABSTRACT (GOData, go_data,
 		    go_data_class_init, go_data_init,
 		    G_TYPE_OBJECT)
+
+/**
+ * go_data_dup : 
+ * @src : #GOData
+ *
+ * A deep copy of @src.
+ **/
+GOData *
+go_data_dup (GOData const *src)
+{
+	if (src != NULL) {
+		GODataClass const *klass = GO_DATA_GET_CLASS (src);
+		g_return_val_if_fail (klass != NULL, NULL);
+		return (*klass->dup) (src);
+	}
+	return NULL;
+}
 
 /**
  * go_data_eq :

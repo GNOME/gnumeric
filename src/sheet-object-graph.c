@@ -69,10 +69,7 @@ static GObjectClass *parent_klass;
 static void
 sog_data_set_sheet (G_GNUC_UNUSED SheetObjectGraph *sog, GOData *data, Sheet *sheet)
 {
-	if (IS_GNM_GO_DATA_SCALAR (data))
-		gnm_go_data_scalar_set_sheet (GNM_GO_DATA_SCALAR (data), sheet);
-	else if (IS_GNM_GO_DATA_VECTOR (data))
-		gnm_go_data_vector_set_sheet (GNM_GO_DATA_VECTOR (data), sheet);
+	gnm_go_data_set_sheet (data, sheet);
 }
 
 static void

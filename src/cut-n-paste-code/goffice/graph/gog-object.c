@@ -215,26 +215,19 @@ gog_object_dup (GogObject const *src, GogObject *new_parent)
 		}
 
 	if (IS_GOG_DATASET (src)) {	/* convenience to save data */
-		GOData const *src_dat;
 		GogDataset const *src_set = GOG_DATASET (src);
-		GOData     *dst_dat;
 		GogDataset *dst_set = GOG_DATASET (dst);
-		char *str;
 
 		gog_dataset_dims (src_set, &n, &last);
-		for ( ; n <= last ; n++) {
-			src_dat = gog_dataset_get_dim (src_set, n);
-			if (src_dat == NULL)
-				continue;
-			str = go_data_as_str (src_dat);
-			dst_dat = g_object_new (G_OBJECT_TYPE (src_dat), NULL);
-			if (dst_dat != NULL && go_data_from_str (dst_dat, str))
-				gog_dataset_set_dim (dst_set, n, dst_dat, NULL);
-			g_free (str);
-		}
+		for ( ; n <= last ; n++)
+			gog_dataset_set_dim (dst_set, n,
+				go_data_dup (gog_dataset_get_dim (src_set, n)),
+				NULL);
 	}
 
 	for (ptr = src->children; ptr != NULL ; ptr = ptr->next)
+		/* children added directly to new parent, no need to use the
+		 * function result */
 		gog_object_dup (ptr->data, dst);
 
 	return dst;

@@ -2,6 +2,7 @@
 
 	* graph/gog-object.c (gog_role_cmp) : use the new priority field to
 	  be smarter.
+	(gog_object_dup) : Use the new go_data_dup.
 	(gog_object_set_parent) : use gog_role_cmp instead of just using the
 	  position.
 

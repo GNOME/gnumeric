@@ -3,6 +3,9 @@ Gnumeric 1.1.90
 Ben Liblit:
 	* Improve spec file.
 
+Jody:
+	* Get the lifecycle of copied GogGraphs running smoothly.
+
 Morten:
 	* Support End+Home key sequence.
 

@@ -148,7 +148,7 @@ Pending Patches
 	1.16.7) markers
     1.17) SheetObject editing
 	1.17.1) Connect SheetObejct::user_config handler	(DONE)
-	1.17.2) Create a gog_object_dup to avoid live updating
+	1.17.2) Create a gog_object_dup to avoid live updating	(DONE)
 	1.17.3) Add undo/redo of full GogGraph assignment
     1.18) Extend sheet object anchor assignment to call object	(DONE)
           specfic handlers so that we can set the logical size
@@ -206,7 +206,7 @@ Pending Patches
 	1.25.5) image filled polygons				(DONE)
 	1.25.6) gradient filled polygons			(DONE)
 	1.25.7) measure text
-	1.25.8) draw text
+	1.25.8) draw text					(DONE)
 
     1.26) Move 'use_one_style' from pie -> plot with 1 series	(DONE)
     1.27) Add a flag to gobject to go with its role indicating	(DONE)

@@ -1,3 +1,9 @@
+2003-08-22  Jody Goldberg <jody@gnome.org>
+
+	* src/graph.c (gnm_go_data_get_dep) : new.
+	  Use it to clear up all sorts of related concepts.
+	(gnm_go_data_dup) : new.
+
 2003-08-22  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet): Support

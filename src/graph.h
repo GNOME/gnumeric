@@ -6,6 +6,8 @@
 #include <goffice/graph/goffice-graph.h>
 #include <glib-object.h>
 
+void	 gnm_go_data_set_sheet (GOData *dat, Sheet *sheet);
+
 #define GNM_GO_DATA_SCALAR_TYPE	 (gnm_go_data_scalar_get_type ())
 #define GNM_GO_DATA_SCALAR(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_GO_DATA_SCALAR_TYPE, GnmGODataScalar))
 #define IS_GNM_GO_DATA_SCALAR(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_GO_DATA_SCALAR_TYPE))
@@ -13,7 +15,6 @@
 typedef struct _GnmGODataScalar GnmGODataScalar;
 GType	 gnm_go_data_scalar_get_type  (void);
 GOData	*gnm_go_data_scalar_new_expr  (Sheet *sheet, GnmExpr const *expr);
-void	 gnm_go_data_scalar_set_sheet (GnmGODataScalar *scalar, Sheet *sheet);
 
 #define GNM_GO_DATA_VECTOR_TYPE	 (gnm_go_data_vector_get_type ())
 #define GNM_GO_DATA_VECTOR(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_GO_DATA_VECTOR_TYPE, GnmGODataVector))
@@ -22,6 +23,5 @@ void	 gnm_go_data_scalar_set_sheet (GnmGODataScalar *scalar, Sheet *sheet);
 typedef struct _GnmGODataVector GnmGODataVector;
 GType	 gnm_go_data_vector_get_type  (void);
 GOData	*gnm_go_data_vector_new_expr  (Sheet *sheet, GnmExpr const *expr);
-void	 gnm_go_data_vector_set_sheet (GnmGODataVector *vec, Sheet *sheet);
 
 #endif /* GNUMERIC_GRAPH_H */
