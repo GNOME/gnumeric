@@ -307,7 +307,7 @@ typedef enum {
 	QPRO_OP_FUNC_N = 112,		/* @N */
 	QPRO_OP_FUNC_EXACT = 113,	/* @Exact */
 	QPRO_OP_FUNC_CALL = 114,	/* @Call */
-	QPRO_OP_FUNC_@ = 115,		/* @@ */
+	QPRO_OP_FUNC_AT = 115,		/* @@ */
 	QPRO_OP_FUNC_RATE = 116,	/* @Rate */
 	QPRO_OP_FUNC_TERM = 117,	/* @Term */
 	QPRO_OP_FUNC_CTERM = 118,	/* @Cterm */
