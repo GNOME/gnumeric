@@ -1,3 +1,8 @@
+2003-08-22  Morten Welinder  <terra@gnome.org>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet): Support
+	End+Home.
+
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=120436

@@ -3,6 +3,9 @@ Gnumeric 1.1.90
 Ben Liblit:
 	* Improve spec file.
 
+Morten:
+	* Support End+Home key sequence.
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.20
 

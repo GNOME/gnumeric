@@ -34,6 +34,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 
+#define SCROLL_LOCK_MASK GDK_MOD5_MASK
+
 static FooCanvasClass *parent_klass;
 
 static gboolean
@@ -149,14 +151,14 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		    gnm_check_ctrl_mask (gcanvas,event->keyval))
 			return TRUE;
 		movefn = (event->state & GDK_SHIFT_MASK)
-					? scg_cursor_extend
-					: scg_cursor_move;
+			? scg_cursor_extend
+			: scg_cursor_move;
 	}
 
 	switch (event->keyval) {
 	case GDK_KP_Left:
 	case GDK_Left:
-		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
+		if (event->state & SCROLL_LOCK_MASK)
 			scg_set_left_col (gcanvas->simple.scg, gcanvas->first.col - 1);
 		else if (transition_keys && jump_to_bounds)
 			scg_queue_movement 
@@ -169,7 +171,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 
 	case GDK_KP_Right:
 	case GDK_Right:
-		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
+		if (event->state & SCROLL_LOCK_MASK)
 			scg_set_left_col (gcanvas->simple.scg, gcanvas->first.col + 1);
 		else if (transition_keys && jump_to_bounds)
 			scg_queue_movement 
@@ -182,7 +184,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 
 	case GDK_KP_Up:
 	case GDK_Up:
-		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
+		if (event->state & SCROLL_LOCK_MASK)
 			scg_set_top_row (gcanvas->simple.scg, gcanvas->first.row - 1);
 		else if (transition_keys && jump_to_bounds)
 			scg_queue_movement 
@@ -195,7 +197,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 
 	case GDK_KP_Down:
 	case GDK_Down:
-		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
+		if (event->state & SCROLL_LOCK_MASK)
 			scg_set_top_row (gcanvas->simple.scg, gcanvas->first.row + 1);
 		else if (transition_keys && jump_to_bounds)
 			scg_queue_movement 
@@ -237,9 +239,14 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 
 	case GDK_KP_Home:
 	case GDK_Home:
-		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
+		if (event->state & SCROLL_LOCK_MASK) {
 			scg_set_left_col (gcanvas->simple.scg, sv->edit_pos.col);
 			scg_set_top_row (gcanvas->simple.scg, sv->edit_pos.row);
+		} else if (end_mode) {
+			/* Same as ctrl-end.  */
+			Range r = sheet_get_extent (sheet, FALSE);
+			(*movefn)(gcanvas->simple.scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
+			(*movefn)(gcanvas->simple.scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
 		} else {
 			/* do the ctrl-home jump to A1 in 2 steps */
 			(*movefn)(gcanvas->simple.scg, -SHEET_MAX_COLS, FALSE, TRUE);
@@ -250,7 +257,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 
 	case GDK_KP_End:
 	case GDK_End:
-		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
+		if (event->state & SCROLL_LOCK_MASK) {
 			int new_col = sv->edit_pos.col - (gcanvas->last_full.col - gcanvas->first.col);
 			int new_row = sv->edit_pos.row - (gcanvas->last_full.row - gcanvas->first.row);
 			scg_set_left_col (gcanvas->simple.scg, new_col);
