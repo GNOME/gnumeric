@@ -407,11 +407,12 @@ Short Term Goals
 
 29) gconf.
     29.1) Check for errors					(DONE)
-    29.2) double check that we update on remote changes
+    29.2) update on remote changes
     29.3) see if schema is installed
     29.4) Move the pref storage into app and compartmentalize
     	  the use of gconf.
-    29.5) update the preference structure on local changes	
+    29.5) update the preference structure on local changes 
+          (this is an automatic consequence of 29.2)	
 
 1.3 Targets
 -----------
@@ -476,7 +477,8 @@ Misc stuff that should be fixed
 - Make deletion work for multiple ranges.
 
 - Look into octave/matlab filters
-- Talk to shaunm about mathematica
+- Talk to shaunm about mathematica (Shouldn't we rather support non-propritary
+  maxima rather than proprietary Mathematica?)
 
 - autoformat
     - leaking styles when an edge is disabled
