@@ -1,6 +1,13 @@
+2003-07-09  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-main-page.c (main_page_set_spin_button_adjustment):
+	Don't set entry size.  The incorrect size is a gtk+ bug.
+	http://bugzilla.gnome.org/show_bug.cgi?id=116368
+
 2003-07-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* preferences.glade: replace notebook tabs with treeview
+
 	* dialog-preferences.c (dialog_pref_add_item) : new
 	(dialog_pref_select_page): new
 	(cb_dialog_pref_selection_changed): new
@@ -20,10 +27,10 @@
 	(cb_col_check_clicked): verify arguments
 	(check_columns_for_import): ditto
 	(uncheck_columns_for_import): ditto
-	(stf_dialog_format_page_cleanup): handle col_import_array_len 
+	(stf_dialog_format_page_cleanup): handle col_import_array_len
 	(stf_dialog_format_page_init): ditto
 	* dialog-stf.h: added col_import_array_len to FormatInfo_t
-	
+
 2003-07-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-format-page.c (cb_col_check_clicked): reformatted
@@ -37,7 +44,7 @@
 
 2003-07-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-stf-format-page.c (cb_col_event) : don't confuse 
+	* dialog-stf-format-page.c (cb_col_event) : don't confuse
 	  pagedata->format.renderdata->colcount with
 	  pagedata->format.col_import_count
 
@@ -131,16 +138,16 @@
 2003-06-28  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-stf-format-page.c (cb_col_check_clicked): new
-	(format_page_update_preview): create checkboxes in column 
+	(format_page_update_preview): create checkboxes in column
 	  headers
 	(stf_dialog_format_page_cleanup): clean up selected column list
 	(stf_dialog_format_page_init): initialize selected column list
-	* dialog-stf-preview.c (stf_preview_new): allocate lots of columns 
+	* dialog-stf-preview.c (stf_preview_new): allocate lots of columns
 	  in the lazy list. (We need to fix this.)
 	(stf_preview_set_lines): show all lines
 	* dialog-stf.c (stf_dialog): copy selected column list to parseoptions
-	* dialog-stf.h: new fields in FormatInfo_t 
-	
+	* dialog-stf.h: new fields in FormatInfo_t
+
 2003-06-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-function-select.c: Add a 'All Functions' category
@@ -167,7 +174,7 @@
 
 	* dialog-consolidate.c: replace GTKCList with Treeview
 	* consolidate.glade: ditto
-	
+
 2003-06-25  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf*.[ch]: Replace GnomeDruid setup with a GtkNotebook
@@ -214,7 +221,7 @@
 
 2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-stf-format-page.c (locale_changed_cb): store locale in 
+	* dialog-stf-format-page.c (locale_changed_cb): store locale in
 	  pagedata
 	* dialog-stf.c (stf_dialog): move locale to parseoptions
 
@@ -222,10 +229,10 @@
 
 	* dialog-printer-setup.c (cb_do_print): remove duplicated code
 	  by calling cb_do_print_ok
-	
+
 2003-06-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-function-select.c 
+	* dialog-function-select.c
 	(cb_dialog_function_select_fun_selection_changed): carefully
 	  count characters and cursor positions (1-off problems)
 	* format-selector.glade: percentages are not scaled
@@ -265,11 +272,11 @@
 
 	* Makefile.am : add number-format-selector.glade
 	* cell-format.glade : remove number format page
-	* number-format-selector.glade : 
-		new, based on the number format page of cell-format.glade, 
+	* number-format-selector.glade :
+		new, based on the number format page of cell-format.glade,
 		excepted the use of a GtkOptionMenu for the format category
 		selection
-	* dialog-cell-format.c 
+	* dialog-cell-format.c
 		(_FormatState) : remove number format related variables
 		(_FormatWidget) : removed
 		(generate_format),
@@ -292,7 +299,7 @@
 		state->format.spec
 		(set_initial_focus) : use number_format_selector_set_focus to
 		give the focus to the number format page
-	* dialog-stf-format-page.c 
+	* dialog-stf-format-page.c
 	 	(format_page_collist_select_row) : use
 		number_format_selector_set_style_format to set the current
 		style format of the slector widget
@@ -301,16 +308,16 @@
 		(cb_number_format_changed) : new
 		(stf_dialog_format_page_init) : remove format list creation
 		code ; add initialisation of the number format selector widget
-	* dialog-stf.c 
+	* dialog-stf.c
 		(stf_dialog_set_initial_keyboard_focus) : use
 		number_format_selector_set_focus
 	 	(stf_dialog_editables_enter) : use
 		number_format_selector_editable_enters
 	* dialog-stf.h : removed format list related variables
-	* dialog-stf.glade : 
+	* dialog-stf.glade :
 		reduced the requested size of the preview area from 250 to 100
 		removed format list in the format page
-		
+
 2003-06-16  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-csv-page.c (csv_page_parseoptions_to_gui): Use
@@ -367,7 +374,7 @@
 
 2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* mean-tests.glade: replace some abbreviations with the 
+	* mean-tests.glade: replace some abbreviations with the
 	  complete name
 
 2003-06-12  Morten Welinder  <terra@gnome.org>
@@ -441,7 +448,7 @@
 	* rank.glade: ditto
 	* regression.glade: ditto
 	* histogram.glade: fix mnemonics
-	* dao-gui-utils.c (dialog_tool_init_outputs): restore the correct 
+	* dao-gui-utils.c (dialog_tool_init_outputs): restore the correct
 	  entry field placement (broken in HIGfication)
 	* dialog-analysis-tools.c (dialog_tool_init): ditto
 
@@ -567,7 +574,7 @@
 	* shuffle.glade : add blank row and col around things to play nicely
 	  with the dao utils.
 
-	http://bugzilla.gnome.org/show_bug.cgi?id=114312   
+	http://bugzilla.gnome.org/show_bug.cgi?id=114312
 	* advanced-filter.glade : Insert a blank row above the two input lines
 	  so that the table layout matches the doa utils assumptions.
 
@@ -692,7 +699,7 @@
 
 2003-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-stf-csv-page.c: loose text indicator widgets (they are 
+	* dialog-stf-csv-page.c: loose text indicator widgets (they are
 	  needed to determine number f lines)
 	* dialog-stf-format-page.c: obtain trim option menu from
 	  main page
@@ -707,7 +714,7 @@
 
 2003-05-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-stf-export-format-page.c 
+	* dialog-stf-export-format-page.c
 	(stf_export_dialog_format_page_init): change in charmap_selector_new
 	  argument
 
@@ -731,7 +738,7 @@
 
 2003-05-12   Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-stf-csv-page.c (csv_page_global_change): the string 
+	* dialog-stf-csv-page.c (csv_page_global_change): the string
 	  indicator could be multibyte
 	* alog-stf-export.glade: replace Charset label to be consistent
 	  with import dialog
@@ -743,12 +750,12 @@
 2003-05-10   Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-csv-page.c: fix previously forgotten #include
-	
+
 2003-05-09   Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-stf-export-format-page.c 
-	(stf_export_dialog_format_page_init) : initialize 
-	  format_transliterate 
+	* dialog-stf-export-format-page.c
+	(stf_export_dialog_format_page_init) : initialize
+	  format_transliterate
 	(stf_export_dialog_format_page_result): read
 	  format_transliterate
 	* dialog-stf-export-private.h (StfE_FormatPageData_t): add
@@ -772,7 +779,7 @@
 	* dialog-stf-export-format-page.c
 	(stf_export_dialog_format_page_init): add charmap_selector widget
 	(stf_export_dialog_format_page_result): retrieve charset selection
-	
+
 	* dialog-stf-export.glade: add charset selection line
 
 2003-04-26  Jody Goldberg <jody@gnome.org>
