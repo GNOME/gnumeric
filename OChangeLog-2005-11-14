@@ -1,3 +1,8 @@
+2004-11-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/rendered-value.c (rendered_value_get_text):
+	  plug leak
+
 2004-11-01  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

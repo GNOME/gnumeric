@@ -376,7 +376,7 @@ rendered_value_recontext (RenderedValue *rv, PangoContext *context)
 const char *
 rendered_value_get_text (RenderedValue const *rv)
 {
-	g_return_val_if_fail (rv != NULL, g_strdup ("ERROR"));
+	g_return_val_if_fail (rv != NULL, "ERROR");
 	return pango_layout_get_text (rv->layout);
 }
 
