@@ -1,5 +1,10 @@
 2005-01-17  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post release version bump
+	  If everything is smooth we'll branch on Wed
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.4.2
 
 2005-01-16  Jody Goldberg <jody@gnome.org>
