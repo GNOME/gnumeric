@@ -2,13 +2,19 @@ Source: gnumeric
 Section: math
 Priority: optional
 Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
-Build-Depends: debhelper (>= 3.0), libtool, automake (>= 1.4-p4-1), autoconf (>= 2.52), gettext, bison, flex, docbook-utils, intltool, libglib1.2-dev (>= 1.2.10-3), libgnome-dev (>= 1.4.1.2-4), libgnomeprint-dev (>= 0.32-3), libglade-gnome0-dev (>= 0.16-2), libxml-dev (>= 1.8.14), libgal-dev (>= 0.19), libole2-dev (>= 0.2.4), libbonobo-dev (>= 1.0.9), python2.2-dev (>= 2.2-1), gnome-doc-tools
-Standards-Version: 3.5.6
+Build-Depends: debhelper (>= 3.0), libtool, gettext, bison, flex,
+ docbook-utils, gnome-doc-tools, scrollkeeper,
+ libglib1.2-dev (>= 1.2.10-3), libgnome-dev (>= 1.4.2-4),
+ libglade-gnome0-dev (>= 1:0.17-2.7), libgal-dev (>= 0.19.3-2.1),
+ libgnomeprint-dev (>= 0.36-5), libxml-dev (>= 1.8.14), libole2-dev (>= 0.2.4),
+ libbonobo-dev (>= 1.0.20-2.1),
+ python2.2-dev (>= 2.2-1), libgda-dev (>= 0.2.96-3.1)
+Standards-Version: 3.5.7
 
 Package: gnumeric
 Architecture: any
-Depends: ${shlibs:Depends}, gsfonts, gnome-libs-data (>= 1.4.1.2-6)
-Suggests: gnumeric-doc, gnumeric-python, eog, guppi-gnumeric, evolution
+Depends: ${shlibs:Depends}, gnome-libs-data (>= 1.4.1.2-6)
+Suggests: gnumeric-doc, gnumeric-python, gnumeric-gda, eog, guppi-gnumeric, evolution
 Replaces: zh-trans (<< 0.8-1)
 Description: A GNOME spreadsheet application
  Gnumeric is a powerful spreadsheet application that interoperates well
@@ -37,7 +43,7 @@ Description: A GNOME spreadsheet application
 Package: gnumeric-doc
 Architecture: all
 Suggests: gnome-help
-Replaces: gnumeric (<= 0.70-0.3)
+Replaces: gnumeric (<= 1.0.5-1)
 Description: Documentation for Gnumeric, the GNOME spreadsheet application
  The `Gnumeric's User Manual' in Gnome Help (HTML) format.
 
@@ -51,3 +57,10 @@ Description: Python plugins for the GNOME spreadsheet
   o Python plugin loader
   o Python functions
   o Gnome glossary
+
+Package: gnumeric-gda
+Architecture: any
+Depends: gnumeric (= ${Source-Version}), ${shlibs:Depends}
+Description: Database access plugin for the GNOME spreadsheet
+ This plugin allows Gnumeric to fetch data from databases through the 
+ Gnome Database Access framework.

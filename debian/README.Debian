@@ -1,0 +1,26 @@
+gnumeric for Debian: FAQs
+-------------------------
+
+Q: The "help" function does not work. Is gnumeric broken?
+A: Probably not. If you've got a warning like
+	Bonobo-WARNING **: Could not open help topics file NULL for app gnumeric
+   the GNOME help system could not find the gnumeric manual. Install the
+   "gnumeric-doc" package which contains the gnumeric manual.
+
+Q: The graph guru does not work. Is gnumeric broken?
+A: Probably not. Gnumeric relies on an external component for graphing to work.
+   If you want to use graphing in gnumeric, make sure you have installed a 
+   package that provides the "guppi-gnumeric" package (do 
+   "apt-cache showpkg guppi-gnumeric" to find one).
+
+Q: How do I insert an image into a worksheet?
+A: Make sure you have the "eog" package installed, and use Insert -> Object.
+
+Q: Why doesn't "File -> Send" work?
+A: Gnumeric relies on an external component for mailing workbooks. Install
+   the "evolution" package.
+
+Q: Where is the <foo> plugin?
+A: Plugins that require additional libraries or programs are packaged 
+   separately (e.g. "gnumeric-python"). Do "apt-cache search gnumeric" to
+   find them.

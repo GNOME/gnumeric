@@ -1,8 +1,180 @@
-gnumeric (1.0.4-1.1) unstable; urgency=high
+gnumeric (1.0.10-3) unstable; urgency=low
 
-  * Update from CVS.
+  * UNRELEASED
 
- -- C. Scott Ananian <cananian@alumni.princeton.edu>  Tue, 19 Feb 2002 22:36:31 +0500
+ -- <not_a_debian_release>  Wed, 30 Oct 2002 21:40:02 +0100
+
+gnumeric (1.0.10-2) unstable; urgency=medium
+
+  * Update from CVS: fix for GAMMAINV.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 25 Oct 2002 19:50:26 +0200
+
+gnumeric (1.0.10-1) unstable; urgency=medium
+
+  * New upstream maintenance release of the stable branch.
+  * Reorganised gnumeric-doc; added scrollkeeper build dependency.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  6 Oct 2002 23:54:43 +0200
+
+gnumeric (1.0.9-6) unstable; urgency=medium
+
+  * Updates from CVS, in particular:
+    * src/gnumeric-graph.c (gnm_graph_setup) : add a warning dialog if guppi
+      is not installed. (Closes: #128331)
+    * Allow format dialog to grow. (Closes: #159949)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 28 Sep 2002 12:20:53 +0200
+
+gnumeric (1.0.9-5) unstable; urgency=medium
+
+  * [configure.in] Implemented DEB_BUILD_OPTIONS change.
+  * [debian/control] Updated Standards-Version; tightened libgnome-dev build
+    dependency.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 11 Sep 2002 20:25:02 +0200
+
+gnumeric (1.0.9-4) unstable; urgency=low
+
+  * Rebuild for the rollback of the GNOME1 png2 -> png3 transition:
+    * Updated build dependencies: 
+      libgnome-dev, libgnomeprint-dev, libbonobo-dev, libglade-gnome0-dev,
+      libgal-dev, libgda-dev.
+  * The updated libgnomeprint-dev build dependency also pulls in a
+    libgnomeprint-data that now has Depends: gsfonts, so dropped our 
+    explicit gsfonts dependency.
+  * Update from CVS: Portuguese translation.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  1 Sep 2002 18:57:47 +0200
+
+gnumeric (1.0.9-3) unstable; urgency=low
+
+  * libgal-dev build dependency wasn't bumped high enough.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 21 Aug 2002 17:35:49 +0200
+
+gnumeric (1.0.9-2) unstable; urgency=low
+
+  * Updates from CVS:
+    * Fix for named expression crash.
+    * Updated French and Polish translations.
+  * Updated build dependencies on libgnome-dev, libbonobo-dev,
+    libglade-gnome0-dev, libgda-dev and libgal-dev to do away with the libpng2 
+    runtime dependency and drop some superfluous library dependencies as well.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 21 Aug 2002 11:27:21 +0200
+
+gnumeric (1.0.9-1u1) unstable; urgency=low
+
+  * New upstream maintenance release of the stable branch; primarily
+    improvements in the importers.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 19 Jul 2002 07:35:02 +0200
+
+gnumeric (1.0.8-3u1) unstable; urgency=low
+
+  * Changes to the documentation generation tools' file name generation broke 
+    Help -> Gnumeric function reference. Explicitly request the old behaviour
+    so it works again. (Closes: #152706)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 12 Jul 2002 19:43:20 +0200
+
+gnumeric (1.0.8-2u1) unstable; urgency=low
+
+  * [debian/rules]
+    * Set confflags --build (--host) as per autotools-dev recommendations.
+    * Update config.{guess,sub} if possible.
+    * New target 'source-updates' to update autotools-related files.
+    * clean: don't remove files that need autotools to be regenerated.
+  * [configure.in] Upstream already has AM_MAINTAINER_MODE.
+  * [debian/control] Dropped build dependencies on intltool, automake and 
+    autoconf.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat,  6 Jul 2002 13:52:36 +0200
+
+gnumeric (1.0.8-1u1) unstable; urgency=medium
+
+  * New upstream maintenance release of the stable branch; changes include a
+    fix for a crash when importing xls files with improper locale settings.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 18 Jun 2002 20:18:52 +0200
+
+gnumeric (1.0.7-1u1) unstable; urgency=medium
+
+  * New upstream release of the stable branch. Gnumeric 1.0.x is now firmly in
+    maintenance mode. Upstream changes include:
+    * Included simple autodetection of tab delimited vs CSV. (Closes: #147947)
+    * Backported gnumeric.desktop.in from the 1.1 tree. It now has a
+      "Categories" entry to put it in the right location in the menus
+      with GNOME2. (Closes: #148745).
+    * A validating OMF file, so no complaints anymore with scrollkeeper 0.3.7
+      and newer. (http://bugzilla.gnome.org/show_bug.cgi?id=81456)
+    * Some fixes for potential segfaults and memory problems.
+  * debian/copyright: the licence is now GPL v2; "or (at your option) any
+    later version" has been dropped.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed,  5 Jun 2002 07:34:19 +0200
+
+gnumeric (1.0.6-2) unstable; urgency=high
+
+  * Fixed doc/{es,ja,no,ru}/topic.dat to refer to 'index.html' rather than
+    'gnumeric.html'. (Closes: #144141)
+  * No longer prevent the psiconv plugin Makefile from being generated, as
+    it no longer causes the build to fail.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 23 Apr 2002 18:02:30 +0200
+
+gnumeric (1.0.6-1) unstable; urgency=high
+
+  * New upstream maintenance release.
+  * urgency high to have a chance of getting it into woody; in the current 
+    version in woody, multi-line entry is still broken (#140522).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 14 Apr 2002 17:37:29 +0200
+
+gnumeric (1.0.5-4) unstable; urgency=medium
+
+  * Added icon to the menu entry, courtesy of Ben Burton <benb@acm.org>.
+    (Closes: #140869)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed,  3 Apr 2002 20:55:40 +0200
+
+gnumeric (1.0.5-3) unstable; urgency=medium
+
+  * Packaged the GDA plugin now that GDA has gone into main. (Closes: #129056)
+  * [plugins/gda/ChangeLog, plugins/gda/plugin-gda.c] Minor changes to get the 
+    GDA plugin to build.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 29 Mar 2002 17:01:29 +0100
+
+gnumeric (1.0.5-2) unstable; urgency=medium
+
+  * Moved the OMF file to the -doc package.
+  * Handle scrollkeeper documentation (de)registration the right way, i.e. 
+    at package (de)installion time rather than at package build time. 
+    (Closes: #138079)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 13 Mar 2002 12:18:06 +0100
+
+gnumeric (1.0.5-1) unstable; urgency=medium
+
+  * New upstream release. (Closes: #130224)
+  * Don't include SGML sources in the -doc package.
+  * Added SGML files from CVS (gnome_1_4 branch) that appear to have been left 
+    out of the upstream tarball accidentally.
+  * Made the scrollkeeper stuff work.
+  * Fixed lintian warnings about python plugins code files being marked
+    executable.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 10 Mar 2002 14:57:49 +0100
+
+gnumeric (1.0.4-2) unstable; urgency=medium
+
+  * Actually register as a MIME handler. (Closes: #135178).
+  * Added a README.Debian to point to related packages, as many users do not 
+    notice Suggests: dependencies.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 22 Feb 2002 14:32:22 +0100
 
 gnumeric (1.0.4-1) unstable; urgency=high
 
@@ -724,7 +896,3 @@ gnumeric (0.2-1) unstable; urgency=low
   * Initial Release.
 
  -- Vincent Renardias <vincent@waw.com>  Sat, 26 Sep 1998 17:12:42 +0200
-
-Local variables:
-mode: debian-changelog
-End:
