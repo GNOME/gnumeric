@@ -3019,9 +3019,8 @@ msgid "Content"
 msgstr "Вм╕ст"
 
 #: src/dialogs/dialog-paste-special.c:26
-#, fuzzy
 msgid "As Value"
-msgstr "Значення"
+msgstr "Як значення"
 
 #: src/dialogs/dialog-paste-special.c:27
 msgid "Formats"
@@ -3277,7 +3276,7 @@ msgstr "Знак оклику (!)"
 
 #: po/tmp/dialog-stf.glade.h:13
 msgid "C_ustom"
-msgstr ""
+msgstr "╤нший"
 
 #: po/tmp/dialog-stf.glade.h:14
 msgid ""
@@ -3286,14 +3285,12 @@ msgid ""
 msgstr ""
 
 #: po/tmp/dialog-stf.glade.h:15
-#, fuzzy
 msgid "Clear list of columns"
-msgstr "Встановлення ширини стовпчик╕в"
+msgstr "Очистити список стовпчик╕в"
 
 #: po/tmp/dialog-stf.glade.h:16
-#, fuzzy
 msgid "Click to select a column"
-msgstr "Приховати вибран╕ стовпчики"
+msgstr "Клацн╕ть щоб вибрати стовпчик"
 
 #: po/tmp/dialog-stf.glade.h:17
 msgid "Co_lumn end : "
@@ -3313,7 +3310,7 @@ msgstr "Форматування стовпчика"
 
 #: po/tmp/dialog-stf.glade.h:22
 msgid "Custom separator, this can be any character"
-msgstr ""
+msgstr "╤нший розд╕лювач, це може бути будь-який символ"
 
 #: po/tmp/dialog-stf.glade.h:23
 msgid ""
