@@ -1,12 +1,13 @@
 Gnumeric 0.39
 
+Miguel:
+
+	* Arbitraryly shaped bonobo objects.
+	* Formatting engine supports h,m,s correctly and supports [h], [m], and [s]
+
 Jukka:
 	* Started implementation of GROWTH function
 	* Optional argument fixes for TREND function
-
---------------------------------------------------------------------------
-
-Gnumeric 0.38
 
 Arturo:
 	* Split libole2 + test program.

@@ -1,0 +1,84 @@
+Hello guys,
+
+    A new version of Gnumeric 0.39, the GNOME spreadsheet has been released.
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+* New features
+
+	* Major speedup: loading, saving, quitting, filling.
+
+	  Jody Goldberg killed the list access to column information
+	  and row information increasing speed up to 1000% for some cases.
+
+	  Loading is faster, quitting is faster, and manipulating the
+	  sheet is faster.
+
+	* Save printing information on the workbook (Morten).
+
+	* Formatting engine now supports correctly the "h", "m" and
+	  "s" specifiers to specify the padding of the number (me).
+
+	* Formatting engine now supports [h], [m] and [s] variants.
+	  These are used to compute elapsed hours, minutes and
+	  seconds, so you can add the number of hours you have worked
+	  and get a good total (me).
+
+	* Anting for "copy" operations.  Now the selection used during
+	  the copy operation is "anted".
+
+	* During column/row resizes, we now show the new dimensions
+	  of the column/row (Jody)
+
+* Functions.
+
+	* TREND() function fixed to handle its optional arguments;
+	  One dimenssional GROWTH implemented (Jukka)
+
+* User Interface Improvements
+	  
+	* User interface improvements to the dialog boxes from Jon K
+	  Hellan. 
+
+	* Dialog boxes should all "accept" when OK is pressed, cancel
+	  when ESC is pressed correctly and all should have an initial
+	  focus set (Jon, Jody, me).
+
+	* Various dialogs recoded to use glade rather than gtkcauldron
+	  (Jon).
+
+* General fixes:
+
+	* Computation fix: There was a bug introduced back when we
+	  improved the speed for the dependency hash tables.  This is
+	  now fixed (me).
+
+	* Use a dialog to report problems on font installation, rather
+	  that outputing to stdout.
+	
+	* Multiple leak fixes, and list use fixes from Morten.
+
+	* gnumeric.desktop is now a generated file.  For those using
+	  Bonobo, you should get the right desktop installed now (me).
+
+	* Handles failures from gnome-print (Morten).
+
+	* Fixes to work around some broken servers (Nick Lamb).
+
+* CORBA-side
+
+	* More interfaces and more features added in preparation for
+	  the Graphics component integration (me).
+
+* Internals
+
+	* Scanning selections is now easier, faster and more
+	  consistent thanks to Jody for providing this code.
+
+	* Columns/Rows are now segmented arrays.
+
+	* Redone the way we include Bonobo objects, this has enabled
+	  us to make Gnumeric embed arbitrarly-shaped components.
+
