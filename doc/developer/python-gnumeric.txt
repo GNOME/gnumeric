@@ -55,6 +55,7 @@ A spreadsheet function is registered using the Python function
 gnumeric.register_function:
 
 gnumeric.register_function (<function_name>,
+			    <category_name>,
 			    <parameter_declaration>,
 			    <parameter_names>,
 			    <help_string>,
@@ -62,17 +63,23 @@ gnumeric.register_function (<function_name>,
 
 The meaning of the parameters is:
 function_name	       The name of the spreadsheet function.
+category_name	       The function category.
 parameter_declaration  See below
 parameter_names        A string which lists the names of the parameters.
 help_string            Help string. The format is documented in ...
 python_function        The Python function which implements the
                        spreadsheet function.
 
+The python function must take a context as the first parameter. This
+is used when calling back into built-in functions. The other
+parameters correspond to the parameters you register for the
+spreadsheet function.
+
 Example:
 
 Here's a Python function to return the middle of a string:
 
-def gnumeric_mid(text,start_num,num_chars):
+def gnumeric_mid(context, text, start_num, num_chars):
     return text[start_num-1:start_num+num_chars-1];
 
 Here's a help string for the function:
@@ -88,8 +95,12 @@ help_mid = \
 Here's how the function can be registered. We use the spreadsheet
 function name "py_mid", because there is a built-in "mid" function:
 
-gnumeric.register_function("py_mid", "sff", "text, start_num, num_chars",
-                           help_mid, gnumeric_mid);
+gnumeric.register_function("py_mid", "Plugin demo", "sff", "text, 
+                           start_num, num_chars", help_mid, gnumeric_mid);
+
+Heres's how you can use it in a spreadsheet:
+
+py_mid("Hello", 1, 2)
 
 Parameter tokens used in Gnumeric
 ---------------------------------
@@ -148,9 +159,10 @@ Invoking Gnumeric functions from Python
 Python functions may invoke spreadsheet functions by means of the Python
 function gnumeric.apply:
 
-gnumeric.apply(<function_name>,
+gnumeric.apply(<context>,<function_name>,
 	       <arguments>)
 
+context:       Context to pass to built-in functions.
 function_name: The name of the spreadsheet function (string).
 arguments:     A sequence of the arguments. Any sequence type will do,
                but a tuple is the natural choice.

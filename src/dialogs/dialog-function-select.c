@@ -41,7 +41,7 @@ function_categories_fill (SelectorState *selector_state)
 		gchar *cols [1];
 		
 		fc = g_list_nth_data (selector_state->cats, i);
-		cols[0] = (gchar *)fc->name; /* Const cast */
+		cols[0] = (gchar *)fc->name->str; /* Const cast */
 		gtk_clist_append (cl, cols);
 
 		if (i == selector_state->selected_cat)

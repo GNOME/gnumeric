@@ -257,7 +257,7 @@ function_def_count_args (const FunctionDefinition *fndef,
 	}
 
 	i = vararg = 0;
-	for (ptr = fndef->args; *ptr; ptr++) {
+	for (ptr = fndef->args; ptr && *ptr; ptr++) {
 		if (*ptr == '|') {
 			vararg = 1;
 			*min = i;
@@ -285,7 +285,7 @@ function_def_get_arg_type (const FunctionDefinition *fndef,
 	g_return_val_if_fail (arg_idx >= 0, '?');
 	g_return_val_if_fail (fndef != NULL, '?');
 
-	for (ptr = fndef->args; *ptr; ptr++) {
+	for (ptr = fndef->args; ptr && *ptr; ptr++) {
 		if (*ptr == '|')
 			continue;
 		if (arg_idx-- == 0)
@@ -553,27 +553,32 @@ function_category_compare (gconstpointer a, gconstpointer b)
 	FunctionCategory const *cat_a = a;
 	FunctionCategory const *cat_b = b;
 
-	return g_strcasecmp (cat_a->name, cat_b->name);
+	g_return_val_if_fail (cat_a->name != NULL, 0);
+	g_return_val_if_fail (cat_b->name != NULL, 0);
+
+	return g_strcasecmp (cat_a->name->str, cat_b->name->str);
 }
 
 FunctionCategory *
 function_get_category (gchar const *description)
 {
+	GList            *gnode;
 	FunctionCategory *cat;
-	FunctionCategory  tmp;
-
+	FunctionCategory  tmpc;
+	String            tmps;
 	g_return_val_if_fail (description != NULL, NULL);
 
-	tmp.name = description;
-       	cat = (FunctionCategory *)
-		g_list_find_custom (categories, &tmp,
+	tmps.str  = description;
+	tmpc.name = &tmps;
+	gnode = g_list_find_custom (categories, &tmpc,
 				    &function_category_compare);
+       	cat = gnode ? (FunctionCategory *) (gnode->data) : NULL;
 	
 	if (cat != NULL)
 		return cat;
 
        	cat = g_new (FunctionCategory, 1);
-	cat->name = description;
+	cat->name = string_get (description);
 	cat->functions = NULL;
 	categories = g_list_insert_sorted (
 		categories, cat, &function_category_compare);

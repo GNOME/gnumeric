@@ -1,3 +1,17 @@
+2000-03-02  Jon K Hellan  <hellan@acm.org>
+
+	* doc/python-gnumeric.txt: Updated documentation 
+
+	* src/func.h: Make FunctionCategory.name a String * instead of
+	gchar *. This was necessary to allow user defined categories.
+	src/func.c (function_category_compare, function_get_category): Use
+	new FunctionCategory. Fix wrong use of g_list_find_custom.
+	(function_def_count_args, function_def_get_arg_type): Null pointer
+	check.
+
+	* src/dialogs/dialog-function-select.c (function_categories_fill):
+	ditto.
+
 2000-03-02  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/dialogs/dialog-stf-format-page.c

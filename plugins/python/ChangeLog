@@ -1,5 +1,28 @@
 2000-03-01  Jon K Hellan  <hellan@acm.org>
 
+	* python.c (exception_to_string): Rename to string_from_exception.
+	(value_from_exception): New function. Converts the current Python
+	exception to a new VALUE_ERROR.
+	(file static variable eval_pos): remove
+	(value_to_python): Fix refcounting bug re Py_None.
+	(value_from_python): Caller is now responsible for converting
+	exception to VALUE_ERROR.
+	(marshal_func): Handle optional arguments. Use
+	value_from_exception. Do away with eval_pos kludge. Consequence:
+	We must pass FunctionEvalInfo as an extra parameter to the python
+	functions.
+	(apply): Add context parameter.
+	(register_function): Add category parameter to Python
+	signature. Register function in given category.
+
+	* gnumeric_startup.py: Add category argument to all
+	register_function calls.
+	(gnumeric_mid, py_abs): Add context parameter.
+
+	* python.c 
+
+2000-03-01  Jon K Hellan  <hellan@acm.org>
+
 	* python.c (cell_ref_to_python, range_to_python,
 	cell_ref_from_python): Simplify error handling.
 	(boolean_to_python): Simplify

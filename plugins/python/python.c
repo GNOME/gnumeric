@@ -34,19 +34,14 @@ static Value *value_from_python (PyObject *o);
 /* This is standard idiom for defining exceptions in extension modules. */
 static PyObject *GnumericError;
 
-/* Yuck!
- * See comment in plugins/guile/plugin.c
- */
-static EvalPosition const *eval_pos = NULL;
-
 /**
- * exception_to_string
+ * string_from_exception
  *
  * Converts the current Python exception to a C string. Returns C string.
  * Caller must free it.
  */
 static char *
-exception_to_string ()
+string_from_exception ()
 {
 	char *header = _("Python exception");
 	char *retval = header;
@@ -88,6 +83,27 @@ cleanup:
 	PyErr_Restore (ptype, pvalue, ptraceback);
 
 	return g_strdup (retval);
+}
+
+/**
+ * value_from_exception
+ * @ei  function eval info
+ *
+ * Converts the current Python exception to a new VALUE_ERROR.
+ *
+ * For now, also prints traceback to standard error.
+ */
+static Value *
+value_from_exception (FunctionEvalInfo *ei)
+{
+	char *exc_string = string_from_exception ();
+	Value *v = value_new_error (ei->pos, exc_string);
+	g_free (exc_string);
+
+	PyErr_Print ();	/* Traceback to stderr for now */
+	PyErr_Clear ();
+
+	return v;
 }
 
 /*
@@ -253,6 +269,7 @@ value_to_python (Value *v)
 		o = range_to_python(v);
 		break;
 	case VALUE_EMPTY:
+		Py_INCREF (Py_None);
 		o = Py_None;
 		break;
 	case VALUE_BOOLEAN:	/* Sort of implemented */
@@ -495,15 +512,7 @@ value_from_python (PyObject *o)
 	} else if (range_check (o)) {
 		v = range_from_python (o);
 	} else {
-		v = value_new_error (NULL, _("Unknown Python type"));
-	}
-
-	if (!v) {
-		char *exc_string = exception_to_string ();
-		v = value_new_error (NULL, exc_string);
-		g_free (exc_string);
-		PyErr_Print ();	/* Traceback to stderr for now */
-		PyErr_Clear ();
+		PyErr_SetString  (PyExc_TypeError, _("Unknown Python type"));
 	}
 
 	return v;
@@ -527,14 +536,12 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 {
 	PyObject *args, *result;
 	FunctionDefinition const * const fndef = ei->func_def;
-	Value *v;
+	Value *v = NULL;
 	GList *l;
-	EvalPosition const *old_eval_pos;
-	int i, min, max;
-	char *exc_string;
+	int i, min, max, actual;
 	
 	function_def_count_args (fndef, &min, &max);
-
+	
 	/* Find the Python code object for this FunctionDefinition. */
 	l = g_list_find_custom (funclist, (gpointer)fndef,
 				(GCompareFunc) fndef_compare);
@@ -542,31 +549,35 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 		return value_new_error
 			(ei->pos, _("Unable to lookup Python code object."));
 
+	/* Count actual arguments */
+	for (actual = min; actual < max; actual++)
+		if (!argv [actual])
+			break;
+	
 	/* Build the argument list which is a Python tuple. */
-	args = PyTuple_New (min);
-	for (i = 0; i < min; i++) {
+	args = PyTuple_New (actual + 1);
+
+	/* First, the EvalInfo */
+	PyTuple_SetItem (args, 0, PyCObject_FromVoidPtr ((void *) ei, NULL));
+
+	/* Now, the actual arguments */
+	for (i = 0; i < actual; i++) {
 		/* ref is stolen from us */
-		PyTuple_SetItem (args, i, value_to_python (argv [i]));
+		PyTuple_SetItem (args, i + 1, value_to_python (argv [i]));
 	}
 
-	old_eval_pos = eval_pos;
-	eval_pos = ei->pos;
 	/* Call the Python object. */
 	result = PyEval_CallObject (((FuncData *)(l->data))->codeobj, args);
 	Py_DECREF (args);
-	eval_pos = old_eval_pos;
 
-	if (!result) {
-		exc_string = exception_to_string ();
-		v = value_new_error (ei->pos, exc_string);
-		g_free (exc_string);
-		PyErr_Print ();	/* Traceback to stderr for now */
-		PyErr_Clear ();
-		return v;
+	if (result) {
+		v = value_from_python (result);
+		Py_DECREF (result);
+	}
+	if (PyErr_Occurred ()) {
+		v = value_from_exception (ei);
 	}
 
-	v = value_from_python (result);
-	Py_DECREF (result);
 	return v;
 }
 
@@ -579,25 +590,31 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
  * owned reference to a Python object.
  *
  * Signature when called from Python:
- *      gnumeric.apply (string function_name, sequence arguments)
+ *      gnumeric.apply (cobject context, string function_name, 
+ *                      sequence arguments)
  */
 static PyObject *
 apply (PyObject *m, PyObject *py_args)
 {
-	PyObject *seq = NULL, *item = NULL, *retval = NULL;
+	PyObject *context = NULL, *seq = NULL, *item = NULL, *retval = NULL;
+	FunctionEvalInfo *ei;
 	char *funcname;
 	int i, num_args = 0;
 	Value **values = NULL;
 	Value *v = NULL;
 
-	if (!PyArg_ParseTuple (py_args, "sO", &funcname, &seq))
-		goto cleanup;
+	
+	if (!PyArg_ParseTuple (py_args, "OsO", &context, &funcname, &seq))
+		return NULL;
 
-	/* Second arg should be a sequence */
+	if ((ei = (FunctionEvalInfo *) PyCObject_AsVoidPtr (context)) == NULL)
+		return NULL;
+	
+	/* Third arg should be a sequence */
 	if (!PySequence_Check (seq)) {
 		PyErr_SetString (PyExc_TypeError,
 				 "Argument list must be a sequence");
-		goto cleanup;
+		return NULL;
 	}
 
 	num_args = PySequence_Length (seq);
@@ -609,10 +626,12 @@ apply (PyObject *m, PyObject *py_args)
 			goto cleanup;
 		Py_DECREF (item);
 		values[i] = value_from_python (item);
+		if (PyErr_Occurred ())
+			goto cleanup;
 	}
 	Py_INCREF (item);	/* Otherwise, we would decrement twice. */
 
-	v = function_call_with_values (eval_pos, funcname, num_args, values);
+	v = function_call_with_values (ei->pos, funcname, num_args, values);
 	if (v->type == VALUE_ERROR) {
 		/* Raise an exception */
 		retval = NULL;	
@@ -639,6 +658,7 @@ cleanup:
  *
  * Signature when called from Python:
  *      gnumeric.register_function (string function_name,
+ *                                  string category,
  *                                  string argument_format,
  *                                  string argument_names,
  *                                  string help_string,
@@ -650,10 +670,11 @@ register_function (PyObject *m, PyObject *py_args)
 	FunctionCategory *cat;
 	FunctionDefinition *fndef;
 	FuncData *fdata;
-	char *name, *args, *named_args, *help1, **help;
+	char *name, *category_name, *args, *named_args, *help1, **help;
 	PyObject *codeobj;
 
-	if (!PyArg_ParseTuple (py_args, "ssssO", &name, &args, &named_args, &help1, &codeobj))
+	if (!PyArg_ParseTuple (py_args, "sssssO", &name, &category_name,
+			       &args, &named_args, &help1, &codeobj))
 		return NULL;
 
 	if (!PyCallable_Check (codeobj)){
@@ -661,7 +682,9 @@ register_function (PyObject *m, PyObject *py_args)
 		return NULL;
 	}
 
-	cat   = function_get_category (_("Python"));
+	/* FIXME: ugly. category name should be heap allocated, but not if
+	 * the category already exists */
+	cat   = function_get_category (category_name);
 	help  = g_new (char *, 1);
 	*help = g_strdup (help1);
 	fndef = function_add_args (cat, g_strdup (name), g_strdup (args),
@@ -747,7 +770,7 @@ init_plugin (CommandContext *context, PluginData * pd)
 	/* setup standard functions */
 	initgnumeric ();
 	if (PyErr_Occurred ()) {
-		exc_string = exception_to_string ();
+		exc_string = string_from_exception ();
 		PyErr_Print (); /* Also do a full traceback to stderr */
 		gnumeric_error_plugin_problem (context, exc_string);
 		g_free (exc_string);

@@ -78,7 +78,7 @@ Value      *function_call_with_list       (FunctionEvalInfo        *ei,
  */
 typedef struct _FunctionCategory FunctionCategory;
 struct _FunctionCategory {
-	gchar const *name;
+	String const *name;
 	GList *functions;
 };
 FunctionCategory   *function_get_category (gchar const *description);
