@@ -96,7 +96,7 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 		return;
 
 	g_return_if_fail (dep->expression != NULL);
-	g_return_if_fail (!(dep->flags & DEPENDENT_IN_EXPR_LIST));
+	g_return_if_fail (dep->flags & DEPENDENT_IN_EXPR_LIST);
 
 	dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
 
