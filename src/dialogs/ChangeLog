@@ -1,3 +1,8 @@
+2004-04-13  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-csv-page.c: This no longer needs
+	GTK_DISABLE_DEPRECATED.
+
 2004-04-07  Morten Welinder  <terra@gnome.org>
 
 	* dialog-view.c (cb_view_ok_clicked): Copy toolbar visibility.

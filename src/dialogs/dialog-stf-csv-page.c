@@ -19,14 +19,10 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkCombo"
-
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialog-stf.h"
 #include "format.h"
-#include <gtk/gtkcombo.h>
 
 /*************************************************************************************************
  * SIGNAL HANDLERS
