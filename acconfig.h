@@ -14,6 +14,7 @@
 #undef USING_OAF
 #undef ENABLE_GB
 #undef HAVE_IEEEFP_H
+#undef HAVE_IEEE754_H
 #undef ENABLE_GNOME
 #undef HAVE_PSPELL
 #undef ENABLE_EVOLUTION

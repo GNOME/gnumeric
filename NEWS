@@ -1,3 +1,9 @@
+Gnumeric 1.0.2
+
+Morten:
+	* Make sure Linux ends up using IEEE_754 code in mathfunc.c.
+
+--------------------------------------------------------------------------
 Gnumeric 1.0.1
 
 Andreas:
