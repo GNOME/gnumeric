@@ -4,6 +4,9 @@ of Gnumeric spreadsheets.
 Daniel V.
 $Id$
 
+This is totally out of date.
+Update it to match the xml.
+
 -------------- Workbook : a set of spreadsheets + a style --------------
 Workbook:
    Style .  style
