@@ -2,6 +2,7 @@
 
 	* src/print-preview.c (preview_canvas_event): Add an event handler
 	for the preview canvas.  
+	Make the drag action on MOVE mode move the canvas.
 	(zoom_state): new routine, controls the toolbar widget display.
 
 	* src/cursors.c: Add new zoom in and zoom out cursors.
@@ -16,41 +17,6 @@
 	action until the division is actually being dragged.  We need this
 	to catch double-clicks for auto-sizing cells.
 	(GDK_2BUTTON_PRESS):
-
-1999-09-04  Jody Goldberg <jgoldberg@home.com>
-
-	* src/dialogs/dialog-paste-special.c : Fix typo.
-
-1999-09-03  Jody Goldberg <jgoldberg@home.com>
-
-	* src/sheet.[ch] (sheet_cursor_move) : Add flags to optionally manage
-	  the selection when moving,  taking care to handle case where we do
-	  not actually move.
-	(sheet_select_all) : Manage the selection locally.
-
-	* src/corba-sheet.c (Sheet_cursor_move) : Have sheet_cursor_move
-	  manage selection.
-	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Ditto for
-	  Ctrl-Home.
-
-	* src/item-grid.c (item_grid_button_1) : Handle selections locally.
-
-	* src/sheet-view.c (sheet_view_col_selection_changed) : Manage
-	  selections locally, and jump to the current row in the selected
-	  column, not 0.
-	(sheet_view_row_selection_changed) : Manage
-	  selections locally, and jump to the current row in the selected
-	  column, not 0.
-	(horizontal_scroll_event, vertical_scroll_event) : Emulate XL.   It
-	  does not move the cursor while scrolling.
-	(sheet_view_scrollbar_display) : Make static.
-	(sheet_view_construct) : Partial fix for bug 1820.  Scroll by 1 when
-	  left clicking on the trough.
-
-	* workbook.c (wb_edit_key_pressed) : Use sheet_cursor_move to manage
-	  the selection.
-
-1999-09-05  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/dialog-cell-format.c (create_background_radio,
 	create_foreground_radio): Set the toggle button to the colored

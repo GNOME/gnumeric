@@ -74,6 +74,11 @@ struct _PrintPreview {
 	 * Used for dragging the sheet
 	 */
 	double               base_x, base_y;
+
+	/*
+	 * Signal ID for the workbook destroy watcher
+	 */
+	guint                destroy_id;
 };
 
 /*
@@ -303,6 +308,7 @@ create_preview_canvas (PrintPreview *pp)
 static void
 preview_destroyed (void *unused, PrintPreview *pp)
 {
+	gtk_signal_disconnect (GTK_OBJECT (pp->workbook), pp->destroy_id);
 	gtk_object_unref (GTK_OBJECT (pp->preview));
 	gtk_object_unref (GTK_OBJECT (pp->metafile));
 	g_free (pp->toolbar);
@@ -526,7 +532,7 @@ print_preview_new (Workbook *wb)
 	create_toplevel (pp);
 	create_preview_canvas (pp);
 
-	gtk_signal_connect (
+	pp->destroy_id = gtk_signal_connect (
 		GTK_OBJECT (pp->workbook), "destroy",
 		GTK_SIGNAL_FUNC (workbook_destroyed), pp);
 
