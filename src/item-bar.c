@@ -288,7 +288,7 @@ item_bar_start_resize (ItemBar *item_bar, int pos)
 	/* Add a guideline to the sheet canvas */
 	item = gnome_canvas_item_new (GNOME_CANVAS_ITEM (item_bar)->canvas,
 				      group,
-				      gnome_canvas_re_get_type (),
+				      gnome_canvas_rect_get_type (),
 				      "GnomeCanvasRE::x1", x1,
 				      "GnomeCanvasRE::y1", y1,
 				      "GnomeCanvasRE::x2", x2,
