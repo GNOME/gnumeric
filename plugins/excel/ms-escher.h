@@ -15,7 +15,7 @@
 typedef struct {
 	char const  * reproid;
 #ifdef ENABLE_BONOBO
-	GnomeStream * stream;
+	BonoboStream * stream;
 #else
 	guint8      * raw_data;
 #endif

@@ -61,7 +61,7 @@ ms_escher_blip_new (guint8 const *data, guint32 len, char const *repoid,
 
 	blip->reproid  = repoid;
 #ifdef ENABLE_BONOBO
-	blip->stream   = gnome_stream_mem_create (mem, len, TRUE);
+	blip->stream   = bonobo_stream_mem_create (mem, len, TRUE);
 #else
 	blip->raw_data = mem;
 #endif
@@ -74,7 +74,7 @@ ms_escher_blip_destroy (EscherBlip *blip)
 	blip->reproid = NULL;
 #ifdef ENABLE_BONOBO
 	if (blip->stream)
-		gnome_object_destroy (GNOME_OBJECT (blip->stream));
+		bonobo_object_destroy (BONOBO_OBJECT (blip->stream));
 	blip->stream  = NULL;
 #else
 	g_free (blip->raw_data);

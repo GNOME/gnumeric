@@ -13,8 +13,8 @@
 
 #include "config.h"
 #ifdef ENABLE_BONOBO
-#	include <bonobo/gnome-stream.h>
-#	include <bonobo/gnome-stream-memory.h>
+#	include <bonobo/bonobo-stream.h>
+#	include <bonobo/bonobo-stream-memory.h>
 #	include "sheet-object-container.h"
 #else
 #	include "sheet-object.h"
