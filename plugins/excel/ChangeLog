@@ -1,3 +1,13 @@
+2002-02-05  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (black_or_white_contrast): Burn.
+	(ms_excel_palette_get): Simplify to get autocolors right. We used
+	to be too clever.
+	(ms_sheet_map_color): Use style_color_new_i8 to convert from
+	rgb888.
+	(ms_excel_read_window2): Update pattern color according to
+	icvHdr/rgbHdr grid color if fDefaultHdr flag says so.
+
 2002-02-03  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (pre_cell) : adjust to Cell::format moving into the

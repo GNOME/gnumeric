@@ -184,7 +184,7 @@ applix_read_colormap (ApplixReadState *state)
 			int const m = numbers[2];
 			int const y = numbers[3];
 			int const k = numbers[4];
-			int r, g, b;
+			guint8 r, g, b;
 
 			/* From Shelf-2.1 /gui/colorcom.c:1330 */
 			/* cmyk to rgb */
@@ -192,14 +192,9 @@ applix_read_colormap (ApplixReadState *state)
 			g = 255 - MIN(255, m+k); /* green */
 			b = 255 - MIN(255, y+k); /* blue */
 
-			/* Map from 1 byte -> 2 bytes */
-			r = (r << 8) | r;
-			g = (g << 8) | g;
-			b = (b << 8) | b;
-
 			/* Store the result */
 			g_ptr_array_add	(state->colours,
-					 style_color_new (r, g, b));
+					 style_color_new_i8 (r, g, b));
 #if 0
 			printf ("'%s' %ld %ld %ld %ld\n", buffer, numbers[1],
 				numbers[2], numbers[3], numbers[4]);

@@ -981,34 +981,6 @@ ms_excel_palette_new (BiffQuery *q)
 	return pal;
 }
 
-static StyleColor *
-black_or_white_contrast (StyleColor const * contrast)
-{
-	/* FIXME FIXME FIXME: This is a BIG guess */
-	/* Is the contrast colour closer to black or white based
-	 * on this VERY loose metric.
-	 */
-	unsigned const guess =
-	    contrast->color.red +
-	    contrast->color.green +
-	    contrast->color.blue;
-
-	d (1, printf ("Contrast 0x%x 0x%x 0x%x: 0x%x\n",
-		      contrast->color.red,
-		      contrast->color.green,
-		      contrast->color.blue,
-		      guess););
-
-	/* guess the minimum hacked pseudo-luminosity */
-	if (guess < (0x18000)) {
-		d (1, puts ("Contrast is White"););
-		return style_color_white ();
-	}
-
-	d (1, puts ("Contrast is Black"););
-	return style_color_black ();
-}
-
 StyleColor *
 ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 {
@@ -1021,12 +993,15 @@ ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 	 * The color index field seems to use
 	 *	8-63 = Palette index 0-55
 	 *
-	 *	0 = black?
-	 *	1 = white?
-	 *	64, 65, 127 = auto contrast?
+	 *	0   = black?
+	 *	1   = white?
+	 *	64  = auto pattern, auto border
+	 *      65  = auto background
+	 *      127 = auto font
 	 *
-	 *	64 appears to be associated with the the background colour
-	 *	in the WINDOW2 record.
+	 *      65 is always white, and 127 always black. 64 is black if the
+	 *      fDefaultHdr flag in WINDOW2 is unset, otherwise it's the
+	 *      grid color from WINDOW2.
 	 */
 
 	d (4, printf ("Color Index %d\n", idx););
@@ -1046,16 +1021,17 @@ ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 	}
 
 	if (pal->gnum_cols[idx] == NULL) {
-		gushort r, g, b;
-		/* scale 8 bit/color ->  16 bit/color by cloning */
-		r = (pal->red[idx] << 8) | pal->red[idx];
-		g = (pal->green[idx] << 8) | pal->green[idx];
-		b = (pal->blue[idx] << 8) | pal->blue[idx];
-		d (1, printf ("New color in slot %d: RGB= %x,%x,%x\n",
-			      idx, r, g, b););
-
-		pal->gnum_cols[idx] = style_color_new (r, g, b);
-		g_return_val_if_fail (pal->gnum_cols[idx], style_color_black ());
+		pal->gnum_cols[idx] =
+			style_color_new_i8 ((guint8) pal->red[idx],
+					    (guint8) pal->green[idx],
+					    (guint8) pal->blue[idx]);
+		g_return_val_if_fail (pal->gnum_cols[idx],
+				      style_color_black ());
+		d (1, {
+			StyleColor *sc = pal->gnum_cols[idx];
+			printf ("New color in slot %d: RGB= %x,%x,%x\n",
+				idx, sc->red, sc->green, sc->blue);
+		});
 	}
 
 	style_color_ref (pal->gnum_cols[idx]);
@@ -1213,7 +1189,7 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 
 		font_index = fd->color_idx;
 	} else
-		font_index = 127; /* Default to White */
+		font_index = 127; /* Default to Black */
 
 	/* Background */
 	mstyle_set_pattern (mstyle, xf->fill_pattern_idx);
@@ -1230,79 +1206,35 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 	d (4, printf ("back = %d, pat = %d, font = %d, pat_style = %d\n",
 		      back_index, pattern_index, font_index, xf->fill_pattern_idx););
 
-	/* ICK: FIXME
-	 * There must be a cleaner way of doing this
-	 */
-
-	/* Lets guess the state table for setting auto colours */
-	if (font_index == 127) {
-		/* The font is auto.  Lets look for info elsewhere */
-		if (back_index == 64 || back_index == 65 || back_index == 0) {
-			/* Everything is auto default to black text/pattern on white */
-			/* FIXME: This should use the 'Normal' Style */
-			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0) {
-				back_color = style_color_white ();
-				font_color = style_color_black ();
-				style_color_ref ((pattern_color = font_color));
-			} else {
-				pattern_color =
-					ms_excel_palette_get (esheet->wb->palette,
-							      pattern_index);
-
-				/* Contrast back to pattern, and font to back */
-				/* FIXME: What is correct?  */
-				back_color = (back_index == 65)
-				    ? style_color_white ()
-				    : black_or_white_contrast (pattern_color);
-				font_color = black_or_white_contrast (back_color);
-			}
-		} else {
-			back_color = ms_excel_palette_get (esheet->wb->palette,
-							   back_index);
-
-			/* Contrast font to back */
-			font_color = black_or_white_contrast (back_color);
-
-			/* Pattern is auto contrast it to back */
-			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0)
-				style_color_ref ((pattern_color = font_color));
-			else
-				pattern_color =
-					ms_excel_palette_get (esheet->wb->palette,
-							      pattern_index);
-		}
-	} else {
-		/* Use the font as a baseline */
+	if (font_index == 127)
+		font_color = style_color_auto_font ();
+	else
 		font_color = ms_excel_palette_get (esheet->wb->palette,
 						   font_index);
-
-		if (back_index == 64 || back_index == 65 || back_index == 0) {
-			/* contrast back to font and pattern to back */
-			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0) {
-				/* Contrast back to font, and pattern to back */
-				back_color = black_or_white_contrast (font_color);
-				pattern_color = black_or_white_contrast (back_color);
-			} else {
-				pattern_color =
-					ms_excel_palette_get (esheet->wb->palette,
-							      pattern_index);
-
-				/* Contrast back to pattern */
-				back_color = black_or_white_contrast (pattern_color);
-			}
-		} else {
-			back_color = ms_excel_palette_get (esheet->wb->palette,
-							   back_index);
-
-			/* Pattern is auto contrast it to back */
-			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0)
-				pattern_color = black_or_white_contrast (back_color);
-			else
-				pattern_color =
-					ms_excel_palette_get (esheet->wb->palette,
-							      pattern_index);
-		}
+	
+	switch (back_index) {
+	case 0:
+		back_color = style_color_white ();
+		break;
+	case 64:
+		back_color = sheet_style_get_auto_pattern_color
+			(esheet->gnum_sheet);
+		break;
+	case 65:
+		back_color = style_color_auto_back ();
+		break;
+	default:
+		back_color = ms_excel_palette_get (esheet->wb->palette,
+						   back_index);
+		break;
 	}
+
+	if (pattern_index == 64)
+		pattern_color = sheet_style_get_auto_pattern_color
+			(esheet->gnum_sheet);
+	else
+		pattern_color = ms_excel_palette_get (esheet->wb->palette,
+						      pattern_index);
 
 	g_return_val_if_fail (back_color && pattern_color && font_color, NULL);
 
@@ -1324,16 +1256,30 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 		MStyle *tmp = mstyle;
 		MStyleElementType const t = MSTYLE_BORDER_TOP + i;
 		int const color_index = xf->border_color[i];
-		/* Handle auto colours */
-		StyleColor *color = (color_index == 64 || color_index == 65 || color_index == 127)
-#if 0
-			/* FIXME: This does not choose well, hard code to black for now */
-			? black_or_white_contrast (back_color)
-#endif
-			? style_color_black ()
-			: ms_excel_palette_get (esheet->wb->palette,
-						color_index);
+		StyleColor *color;
 
+		switch (color_index) {
+		case 64:
+			color = sheet_style_get_auto_pattern_color
+				(esheet->gnum_sheet);
+ 	 		d (4, printf ("border with color_index=%d\n",
+				      color_index););
+			break;
+		case 65:
+			color = style_color_auto_back ();
+			/* We haven't seen this yet.
+			   We know that 64 and 127 occur in the wild */
+ 	 		d (4, printf ("border with color_index=%d\n",
+				      color_index););
+ 			break;
+		case 127:
+			color = style_color_auto_font ();
+			break;
+		default:
+			color = ms_excel_palette_get (esheet->wb->palette,
+						      color_index);
+			break;
+		}
 		mstyle_set_border (tmp, t,
 				   style_border_fetch (xf->border_type[i],
 						       color, t));
@@ -2145,8 +2091,7 @@ ms_sheet_map_color (ExcelSheet const *esheet, MSObj const *obj, MSObjAttrID id)
 	g = (attr->v.v_uint >> 8)  & 0xff;
 	b = (attr->v.v_uint >> 16) & 0xff;
 
-	/* scale 8 bit/color ->  16 bit/color by cloning */
-	return style_color_new ((r << 8) | r, (g << 8) | g, (b << 8) | b);
+	return style_color_new_i8 (r, g, b);
 }
 
 static GObject *
@@ -3403,6 +3348,9 @@ ms_excel_read_pane (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 	}
 }
 
+/**
+ * See: S59E18.HTM
+ */
 static void
 ms_excel_read_window2 (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 {
@@ -3411,6 +3359,7 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 		/* coords are 0 based */
 		guint16 top_row    = MS_OLE_GET_GUINT16 (q->data + 2);
 		guint16 left_col   = MS_OLE_GET_GUINT16 (q->data + 4);
+		guint32 const biff_pat_col = MS_OLE_GET_GUINT32 (q->data + 6);
 
 		esheet->gnum_sheet->display_formulas	= (options & 0x0001) != 0;
 		esheet->gnum_sheet->hide_grid		= (options & 0x0002) == 0;
@@ -3424,15 +3373,32 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 		 */
 		sheet_set_initial_top_left (esheet->gnum_sheet, left_col, top_row);
 
-#if 0
 		if (!(options & 0x0020)) {
-			guint32 const grid_color = MS_OLE_GET_GUINT32 (q->data + 6);
-			/* This is quicky fake code to express the idea */
-			set_grid_and_header_color (get_color_from_index (grid_color));
-			d (2, printf ("Default grid & pattern color = 0x%hx\n",
-				      grid_color););
+			StyleColor *pattern_color;
+			if (esheet->container.ver >= MS_BIFF_V8) {
+				/* Get style color from palette*/
+				pattern_color = ms_excel_palette_get (
+					esheet->wb->palette,
+					biff_pat_col & 0x7f);
+			} else {
+				guint8 r, g, b;
+
+				r = (guint8) biff_pat_col;
+				g = (guint8) (biff_pat_col >> 8);
+				b = (guint8) (biff_pat_col >> 16);
+				pattern_color = style_color_new_i8 (r, g, b);
+			}
+			d (2, printf ("auto pattern color "
+				      "0x%x 0x%x 0x%x\n",
+				      pattern_color->color.red,
+				      pattern_color->color.green,
+				      pattern_color->color.blue););
+			sheet_style_set_auto_pattern_color (
+				esheet->gnum_sheet, pattern_color);
+			/* sheet_style_set_auto_pattern_color made a copy,
+			   and is responsible for the copy's life cycle. */
+			style_color_unref (pattern_color);
 		}
-#endif
 
 		d (0, if (options & 0x0200) printf ("Sheet flag selected\n"););
 

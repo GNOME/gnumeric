@@ -30,6 +30,7 @@
 #include "format.h"
 #include "style.h"
 #include "style-border.h"
+#include "style-color.h"
 #include "cell.h"
 
 typedef union _CellTile CellTile;
@@ -37,6 +38,7 @@ struct _SheetStyleData {
 	GHashTable *style_hash;
 	CellTile   *styles;
 	MStyle	   *default_style;
+	StyleColor *auto_pattern_color;
 };
 
 /**
@@ -424,6 +426,10 @@ sheet_style_init (Sheet *sheet)
 	sheet->style_data->styles =
 		cell_tile_style_new (sheet->style_data->default_style,
 				     TILE_SIMPLE);
+	sheet->style_data->auto_pattern_color = g_new (StyleColor, 1);
+	memcpy (sheet->style_data->auto_pattern_color,
+		style_color_auto_pattern(), sizeof (StyleColor));
+	sheet->style_data->auto_pattern_color->ref_count = 1;
 }
 
 static gboolean
@@ -455,10 +461,55 @@ sheet_style_shutdown (Sheet *sheet)
 	sheet->style_data->style_hash = NULL;
 	g_hash_table_foreach_remove (table, cb_unlink, NULL);
 	g_hash_table_destroy (table);
-
-
+	style_color_unref (sheet->style_data->auto_pattern_color);
+	
 	g_free (sheet->style_data);
 	sheet->style_data = NULL;
+}
+
+/**
+ * sheet_style_set_auto_pattern_color
+ *
+ * @sheet:         The sheet
+ * @pattern_color: The color
+ *
+ * Set the color for rendering auto colored patterns in this sheet.
+ */
+void
+sheet_style_set_auto_pattern_color (Sheet  *sheet, StyleColor *pattern_color)
+{
+	StyleColor *apc;
+	int ref_count;
+	
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (sheet->style_data != NULL);
+
+	ref_count = sheet->style_data->auto_pattern_color->ref_count;
+	memcpy(sheet->style_data->auto_pattern_color, pattern_color,
+	       sizeof (StyleColor));
+	sheet->style_data->auto_pattern_color->ref_count = ref_count;
+}
+
+/**
+ * sheet_style_get_auto_pattern_color:
+ *
+ * @sheet: the sheet
+ * 
+ * Returns the color for rendering auto colored patterns in this sheet.
+ */
+StyleColor *
+sheet_style_get_auto_pattern_color (Sheet  *sheet)
+{
+	StyleColor *sc;
+	g_return_val_if_fail (IS_SHEET (sheet), style_color_black ());
+	g_return_val_if_fail (sheet->style_data != NULL, style_color_black ());
+	g_return_val_if_fail (sheet->style_data->auto_pattern_color != NULL,
+			      style_color_black ());
+
+	sc = sheet->style_data->auto_pattern_color;
+	style_color_ref (sc);
+
+	return sc;
 }
 
 /****************************************************************************/

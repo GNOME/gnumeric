@@ -1576,11 +1576,10 @@ static StyleBorder *
 border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
 {
 	BorderPicker const * edge = & state->border.edge[loc];
-	int const r = (edge->rgba >> 24) & 0xff;
-	int const g = (edge->rgba >> 16) & 0xff;
-	int const b = (edge->rgba >>  8) & 0xff;
-	StyleColor *color =
-	    style_color_new ((r << 8)|r, (g << 8)|g, (b << 8)|b);
+	guint8 const r = (guint8) (edge->rgba >> 24);
+	guint8 const g = (guint8) (edge->rgba >> 16);
+	guint8 const b = (guint8) (edge->rgba >>  8);
+	StyleColor *color = style_color_new_i8 (r, g, b);
 
 	/* Don't set borders that have not been changed */
 	if (!edge->is_set)

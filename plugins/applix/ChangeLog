@@ -1,3 +1,7 @@
+2002-02-05  Jon K Hellan  <hellan@acm.org>
+
+	* applix-read.c (applix_read_colormap): Use style_color_new_i8.
+
 2002-01-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.3

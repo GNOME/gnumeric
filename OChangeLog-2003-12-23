@@ -1,3 +1,35 @@
+2002-02-05  Jon K Hellan  <hellan@acm.org>
+
+	* src/style-color.c (style_color_new_uninterned): New
+	function. Factored out of style_color_new. Creates color
+	unconditionally, without using the hash table.
+	(style_color_new): Factor out style_color_new_uninterned.
+	(style_color_new_i8): New function. Create a style color from 8
+	bit rgb values by cloning to 16 bits.
+	(style_color_auto_font): New function. Returns an uninterned black
+	to represent Excel auto font color.
+	(style_color_auto_back): New function. Returns an uninterned white
+	to represent Excel auto background color.
+	(style_color_auto_pattern): New function. Returns an uninterned black
+	to represent Excel auto pattern color.
+	(color_equal): Include is_auto flag in comparison.
+	(color_hash): Include is_auto flag in hash function.
+
+	* src/style-color.h (style_color_new_i8, style_color_auto_font,
+	style_color_auto_back, style_color_auto_pattern): Declare
+
+	* src/sheet-style.c (struct _SheetStyleData): Add
+	auto_pattern_color.
+	(sheet_style_init): Initialize auto_pattern_color.
+	(sheet_style_shutdown): Unref auto_pattern_color.
+	(sheet_style_set_auto_pattern_color): New function. Set the auto
+	pattern color for this sheet.
+	(sheet_style_get_auto_pattern_color): New function. Get the auto
+	pattern color for this sheet.
+
+	* src/sheet-style.h (sheet_style_set_auto_pattern_color,
+	sheet_style_get_auto_pattern_color): Declare.
+
 2002-02-03  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_insert_current_date) : don't actually

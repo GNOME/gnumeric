@@ -30,6 +30,9 @@ Jody:
 	* move libole2 req into excel plugin, and make it optional.
 	* guruify autoformat dialog, and update autoformat code.
 
+Jon Kåre:
+	* More correct import of "automatic" colors from Excel
+
 Joshua R. Odom:
 	* Reorganize the custom pixmaps.
 

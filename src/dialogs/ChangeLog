@@ -1,3 +1,7 @@
+2002-02-05  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-cell-format.c (border_get_mstyle): Use style_color_new_i8.
+
 2002-02-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-cell-sort.c : fine-tune the sort dialog and connect 
