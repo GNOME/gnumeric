@@ -604,6 +604,7 @@ item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
 		watch_row = end_row;
 
 	gnumeric_sheet_make_cell_visible (gsheet, watch_col, watch_row);
+	gnumeric_sheet_cursor_set (gsheet, watch_col, watch_row);
 	gnome_canvas_update_now (GNOME_CANVAS (gsheet));
 }
 

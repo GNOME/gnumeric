@@ -1,3 +1,8 @@
+1998-12-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-cursor.c (item_cursor_set_bounds_visibly): Update the
+	cursor position as well.
+
 1998-12-10  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-excel.c (ms_excel_read_cell): Fixed serious bug
@@ -11,7 +16,6 @@
 	* src/workbook.c (filenames_dropped): Make toplevel
 	windows drop targets for files.
 
->>>>>>> 1.225
 1998-12-09  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-ole.c: Indented correctly, implemented writes
