@@ -698,6 +698,7 @@ plugins/fn-lookup/Makefile
 plugins/fn-math/Makefile
 plugins/fn-stat/Makefile
 plugins/fn-string/Makefile
+plugins/fn-random/Makefile
 plugins/derivatives/Makefile
 plugins/sc/Makefile
 plugins/sylk/Makefile
