@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "POT-Creation-Date: 2000-11-18 13:14-0500\n"
-"PO-Revision-Date: 2000-11-14 21:03+0100\n"
+"PO-Revision-Date: 2000-11-22 09:54+0100\n"
 "Last-Translator: Andras TIMAR <timar_a@freemail.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -1095,7 +1095,7 @@ msgstr "Csoportokon belül"
 #: po/tmp/analysis-tools.glade.h:11 src/analysis-tools.c:2498
 #: src/dialogs/dialog-analysis-tools.c:87
 msgid "Anova: Two-Factor Without Replication"
-msgstr "Varianciaanalízis: kéttényezõs, ismétlések néklül"
+msgstr "Varianciaanalízis: kéttényezõs, ismétlések nélkül"
 
 #: src/analysis-tools.c:2603 src/dialogs/dialog-analysis-tools.c:405
 msgid "Rows"
@@ -2104,14 +2104,12 @@ msgid "None"
 msgstr "Nincs"
 
 #: po/tmp/cell-format.glade.h:47
-#, fuzzy
 msgid "None\n"
-msgstr "Nincs"
+msgstr "Nincs\n"
 
 #: po/tmp/cell-format.glade.h:48
-#, fuzzy
 msgid "Single\n"
-msgstr "Egyszeres"
+msgstr "Egyszeres\n"
 
 #: po/tmp/cell-format.glade.h:49 src/dialogs/dialog-cell-format.c:1206
 #: src/dialogs/dialog-cell-format.c:1272
@@ -3207,17 +3205,17 @@ msgid "\""
 msgstr "\""
 
 #: po/tmp/dialog-stf-export.glade.h:10 po/tmp/dialog-stf.glade.h:8
-#, fuzzy
+
 msgid "\"\n"
-msgstr "\""
+msgstr "\"\n"
 
 #: po/tmp/dialog-stf-export.glade.h:11 po/tmp/dialog-stf.glade.h:9
 msgid "'\n"
-msgstr ""
+msgstr "'\n"
 
 #: po/tmp/dialog-stf-export.glade.h:12 po/tmp/dialog-stf.glade.h:10
 msgid "`"
-msgstr ""
+msgstr "`"
 
 #: po/tmp/dialog-stf-export.glade.h:13
 msgid "Add ->"
@@ -3229,16 +3227,15 @@ msgstr "Összes hozzáadása ->"
 
 #: po/tmp/dialog-stf-export.glade.h:15
 msgid "Automatic (puts quotes where needed)\n"
-msgstr ""
+msgstr "Automatikus (kirakja az idézõjeleket, ahova kell)\n"
 
 #: po/tmp/dialog-stf-export.glade.h:16
 msgid "Always\n"
-msgstr ""
+msgstr "Mindig\n"
 
 #: po/tmp/dialog-stf-export.glade.h:17
-#, fuzzy
 msgid "Never"
-msgstr "november"
+msgstr "Soha"
 
 #: po/tmp/dialog-stf-export.glade.h:18
 msgid "Available sheets"
@@ -3290,46 +3287,40 @@ msgid "Sheets to export"
 msgstr "Exportálandó lapok"
 
 #: po/tmp/dialog-stf-export.glade.h:29
-#, fuzzy
 msgid "Space\n"
-msgstr "S_zóköz"
+msgstr "Szóköz\n"
 
 #: po/tmp/dialog-stf-export.glade.h:30
-#, fuzzy
 msgid "Tab\n"
-msgstr "Ta_bulátor"
+msgstr "Tabulátor\n"
 
 #: po/tmp/dialog-stf-export.glade.h:31
-#, fuzzy
 msgid "Bang (!)\n"
-msgstr "Fel_kiáltójel (!)"
+msgstr "Felkiáltójel (!)\n"
 
 #: po/tmp/dialog-stf-export.glade.h:32
 msgid "Colon (:)\n"
-msgstr ""
+msgstr "Kettõspont (:)\n"
 
 #: po/tmp/dialog-stf-export.glade.h:33
-#, fuzzy
 msgid "Comma (,)\n"
-msgstr "Ve_sszõ (,)"
+msgstr "Vesszõ (,)\n"
 
 #: po/tmp/dialog-stf-export.glade.h:34
-#, fuzzy
 msgid "Hyphen (-)\n"
-msgstr "Kö_tõjel (-)"
+msgstr "Kötõjel (-)\n"
 
 #: po/tmp/dialog-stf-export.glade.h:35
 msgid "Pipe (|)\n"
-msgstr ""
+msgstr "Pipe (|)\n"
 
 #: po/tmp/dialog-stf-export.glade.h:36
-#, fuzzy
 msgid "Semicolon (;)\n"
-msgstr "Pontos_vesszõ (;)"
+msgstr "Pontosvesszõ (;)\n"
 
 #: po/tmp/dialog-stf-export.glade.h:37
 msgid "Slash (/)\n"
-msgstr ""
+msgstr "Perjel (/)\n"
 
 #: po/tmp/dialog-stf-export.glade.h:38
 #: src/dialogs/dialog-stf-format-page.c:174
@@ -3339,15 +3330,15 @@ msgstr "Egyéni"
 
 #: po/tmp/dialog-stf-export.glade.h:39
 msgid "Unix (linefeed)\n"
-msgstr ""
+msgstr "Unix (soremelés)\n"
 
 #: po/tmp/dialog-stf-export.glade.h:40
 msgid "Macintosh (carriage return)\n"
-msgstr ""
+msgstr "Macintosh (kocsivissza)\n"
 
 #: po/tmp/dialog-stf-export.glade.h:41
 msgid "Windows (carriage return + linefeed)"
-msgstr ""
+msgstr "Windows (kocsivissza + soremelés)"
 
 #: src/dialogs/dialog-stf-fixed-page.c:63
 msgid "Autodiscovery did not find any columns in the text. Try manually"
@@ -3836,7 +3827,6 @@ msgstr "_Fájl adatai"
 #. * DO NOT compile it as part of your application.
 #.
 #: po/tmp/print.glade.h:7
-#, c-format
 msgid "% of normal size"
 msgstr "%-a"
 
@@ -4008,19 +3998,16 @@ msgid "page(s) wide by"
 msgstr "oldal széles és"
 
 #: po/tmp/print.glade.h:50
-#, fuzzy
 msgid "pts\n"
-msgstr "pts"
+msgstr "pts\n"
 
 #: po/tmp/print.glade.h:51
-#, fuzzy
 msgid "mm\n"
-msgstr "mm"
+msgstr "mm\n"
 
 #: po/tmp/print.glade.h:52
-#, fuzzy
 msgid "cm\n"
-msgstr "cm"
+msgstr "cm\n"
 
 #: po/tmp/print.glade.h:53 src/print-info.c:443
 msgid "In"
