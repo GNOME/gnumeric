@@ -72,7 +72,7 @@ Pending Patches
 20) Change =IF back to a nodes function to handle the majority case
 21) AutoFilter
     21.1)  clip size for long lists				(DONE)
-    21.2)  fix mouse events for scrolled combos
+    21.2)  fix mouse events for scrolled combos			(DONE)
     21.3)  race condition on start				(DONE)
     21.4)  top 10 dialog					(DONE)
     21.5)  top 10 item filters					(DONE)
@@ -81,15 +81,17 @@ Pending Patches
     21.8)  visual cue that row in part of a filter		(DONE)
     21.9)  visual cue that a field is active			(DONE)
     21.10) select the current condition in the combos		(DONE)
-    21.11) expression filters
+    21.11) expression filters					(DONE)
     21.12) expression dialog					(DONE)
     21.13) Handle range changes (cut-n-paste or ins/del col/row)
     21.14) Handle the relationship between groups and filters	(DONE)
     21.15) xml import/export
-    21.16) sax import/export
-    21.17) Fix cursor redraw after filter			(DONE)
-    21.18) Link filters to Show All menu			(DONE)
-    21.19) Have the show all action clear filter conditions	(DONE)
+    21.16) Fix cursor redraw after filter			(DONE)
+    21.17) Link filters to Show All menu			(DONE)
+    21.18) Have the show all action clear filter conditions	(DONE)
+    21.19) Change value entries in expr dialog into combos
+    21.20) editable enters for value entries
+    21.21) drag scroll for value combos
 
 22) Add dirty flags to workbook too, adding a sheet should
     make workbook dirty not the new sheet.
@@ -121,6 +123,7 @@ Possibly Post 1.2 Targets
 - input message				(Stored)
 - Put a pango layout in rendered value
 - load/save of external references
+- all the merged cell singleton bugs
 
 Probably Post 1.2 Targets
 -------------------------
@@ -175,11 +178,6 @@ Misc stuff that should be fixed
     : Is there such a thing as an array formula in a name ?
     : Handle pasting an expression with an un-qualified sheet local name into
       another sheet
-
-- can_try_save_to uses access().  That's bogus in a number of ways: (a) it
-  checks the wrong permissions in the set[gu]id case.  (b) It reports the
-  wrong result if the path is not readable.  The Right Way to do this, is
-  just to do it.  And then check the error code.
 
 - hidden rows/cols
     : Make unhide smarter to find hidden regions on either side of selected ranges.

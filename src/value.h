@@ -82,6 +82,7 @@ union _Value {
 #define	VALUE_FMT(v)			((v)->v_any.fmt)
 #define VALUE_IS_EMPTY(v)		(((v) == NULL) || ((v)->type == VALUE_EMPTY))
 #define VALUE_IS_EMPTY_OR_ERROR(v)	(VALUE_IS_EMPTY(v) || (v)->type == VALUE_ERROR)
+#define VALUE_IS_STRING(v)		((v)->type == VALUE_STRING)
 #define VALUE_IS_NUMBER(v)		(((v)->type == VALUE_INTEGER) || \
 					 ((v)->type == VALUE_FLOAT) || \
 					 ((v)->type == VALUE_BOOLEAN))

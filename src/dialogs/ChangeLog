@@ -2,6 +2,8 @@
 
 	* dialog-autofilter.c (init_operator) : new.
 	(dialog_auto_filter) : init the operators.
+	(map_op) : new.
+	(cb_autofilter_ok) : save operators and values.
 
 2002-12-05  Jody Goldberg <jody@gnome.org>
 

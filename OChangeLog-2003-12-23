@@ -1,3 +1,7 @@
+2002-12-07  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-filter.c : Initial attempt at expr filters
+
 2002-12-07  Christian Neumair  <chris@gnome-de.org>
 
 	* src/dialogs/sheet-order.glade: Made "_Duplicate" translatable.
@@ -12,6 +16,9 @@
 	rather than the popup.
 
 2002-12-06  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-filter.c (filter_field_arrow_format) : new to make the
+	  arrow more obviously different.
 
 	* src/regutf8.c (gnumeric_regcomp_XL) : moved from
 	  plugins/fn-string/functions.c:search_pattern_to_regexp and turned into

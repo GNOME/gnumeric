@@ -36,6 +36,7 @@
 #include "number-match.h"
 #include "dialogs.h"
 #include "regutf8.h"
+#include "style-color.h"
 
 #include <libfoocanvas/foo-canvas-widget.h>
 #include <gtk/gtk.h>
@@ -135,7 +136,7 @@ filter_field_update_bounds (SheetObject *so, GObject *view_obj)
 		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
 
  	scg_object_view_position (scg, so, coords);
-	 
+
 	/* clip vertically */
 	tmp = (coords[3] - coords[1]);
 	if (tmp > 20.) {
@@ -194,7 +195,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 	GnmFilterCondition *cond = NULL;
 	WorkbookControlGUI *wbcg;
 	GtkWidget *event_widget = gtk_get_event_widget ((GdkEvent *) event);
-	
+
 	/* A release inside list accepts */
 	if (event_widget != GTK_WIDGET (list))
 		return FALSE;
@@ -216,7 +217,6 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 		switch (type) {
 		case  0 : cond = gnm_filter_condition_new_single (
 				  GNM_FILTER_OP_EQUAL, value_duplicate (val));
-			set_condition = FALSE;
 			break;
 		case  1 : cond = NULL;	break; /* unfilter */
 		case  2 : /* Custom */
@@ -485,10 +485,22 @@ cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 
 	gtk_grab_add (popup);
 	gdk_pointer_grab (popup->window, TRUE,
-		GDK_BUTTON_PRESS_MASK | 
+		GDK_BUTTON_PRESS_MASK |
 		GDK_BUTTON_RELEASE_MASK |
-		GDK_POINTER_MOTION_MASK, 
+		GDK_POINTER_MOTION_MASK,
 		NULL, NULL, GDK_CURRENT_TIME);
+}
+
+static void
+filter_field_arrow_format (GnmFilterField *field, GtkWidget *arrow)
+{
+	gtk_arrow_set (GTK_ARROW (arrow),
+		field->cond != NULL ? GTK_ARROW_RIGHT : GTK_ARROW_DOWN,
+		GTK_SHADOW_IN);
+	if (field->cond != NULL)
+		gtk_widget_modify_fg (arrow, GTK_STATE_NORMAL, &gs_yellow);
+	else
+		gtk_widget_set_style (arrow, NULL);
 }
 
 static GObject *
@@ -505,8 +517,9 @@ filter_field_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 		NULL);
 
 	GTK_WIDGET_UNSET_FLAGS (view_widget, GTK_CAN_FOCUS);
-	arrow = gtk_arrow_new (field->cond != NULL ?  GTK_ARROW_RIGHT : GTK_ARROW_DOWN,
+	arrow = gtk_arrow_new (field->cond != NULL ? GTK_ARROW_RIGHT : GTK_ARROW_DOWN,
 			       GTK_SHADOW_IN);
+	filter_field_arrow_format (field, arrow);
 	gtk_container_add (GTK_CONTAINER (view_widget), arrow);
 
 	g_object_set_data (G_OBJECT (view_widget), VIEW_ITEM_ID, view_item);
@@ -545,10 +558,90 @@ GSF_CLASS (GnmFilterField, filter_field,
 
 /*****************************************************************************/
 
-static Value *
-cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
+typedef struct  {
+	GnmFilterCondition const *cond;
+	Value		 *val[2];
+	gnumeric_regex_t  regexp[2];
+} FilterExpr;
+
+static void
+filter_expr_init (FilterExpr *data, unsigned i, GnmFilterCondition const *cond)
 {
-#warning TODO
+	Value *tmp = cond->value[i];
+	if (VALUE_IS_STRING (tmp)) {
+		GnmFilterOp op = cond->op[i];
+		char const *str = value_peek_string (tmp);
+		data->val[i] = format_match_number (str, NULL);
+		if (data->val[i] != NULL)
+			return;
+		if ((op == GNM_FILTER_OP_EQUAL || op == GNM_FILTER_OP_NOT_EQUAL) &&
+		    gnumeric_regcomp_XL (data->regexp + i,  str, REG_ICASE) == REG_OK)
+			return;
+	}
+	data->val[i] = value_duplicate (tmp);
+}
+
+static void
+filter_expr_release (FilterExpr *data, unsigned i)
+{
+	if (data->val[i] != NULL)
+		value_release (data->val[i]);
+	else
+		gnumeric_regfree (data->regexp + i);
+}
+
+static gboolean
+filter_expr_eval (GnmFilterOp op, Value const *src, gnumeric_regex_t const *regexp,
+		  Value *target)
+{
+	ValueCompare cmp;
+
+	if (src == NULL) {
+		char const *str = value_peek_string (target);
+		regmatch_t rm;
+
+		switch (gnumeric_regexec (regexp, str, 1, &rm, 0)) {
+		case REG_NOMATCH: return op == GNM_FILTER_OP_NOT_EQUAL;
+		case REG_OK: return op == GNM_FILTER_OP_EQUAL;
+
+		default:
+			g_warning ("Unexpected regexec result");
+			return FALSE;
+		}
+	} 
+
+	cmp = value_compare (target, src, TRUE);
+	switch (op) {
+	case GNM_FILTER_OP_EQUAL     : return cmp == IS_EQUAL;
+	case GNM_FILTER_OP_NOT_EQUAL : return cmp != IS_EQUAL;
+	case GNM_FILTER_OP_GTE	: if (cmp == IS_EQUAL) return TRUE; /* fall */
+	case GNM_FILTER_OP_GT	: return cmp == IS_GREATER;
+	case GNM_FILTER_OP_LTE	: if (cmp == IS_EQUAL) return TRUE; /* fall */
+	case GNM_FILTER_OP_LT	: return cmp == IS_LESS;
+	default :
+		g_warning ("Huh?");
+		return FALSE;
+	};
+}
+
+static Value *
+cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell,
+		FilterExpr const *data)
+{
+	if (cell != NULL) {
+		gboolean res = filter_expr_eval (data->cond->op[0],
+			data->val[0], data->regexp + 0, cell->value);
+		if (data->cond->op[1] != GNM_FILTER_UNUSED) {
+			if (res && !data->cond->is_and)
+				return NULL;
+			res = filter_expr_eval (data->cond->op[1],
+				data->val[1], data->regexp + 1, cell->value);
+		} 
+		if (res)
+			return NULL;
+	}
+
+	colrow_set_visibility (sheet, FALSE, FALSE, row, row);
 	return NULL;
 }
 
@@ -611,12 +704,14 @@ static Value *
 cb_hide_unwanted_items (Sheet *sheet, int col, int row, Cell *cell,
 			FilterItems const *data)
 {
-	int i = data->elements;
-	Value const *v = cell->value;
+	if (cell != NULL) {
+		int i = data->elements;
+		Value const *v = cell->value;
 
-	while (i-- > 0)
-		if (data->vals[i] == v)
-			return NULL;
+		while (i-- > 0)
+			if (data->vals[i] == v)
+				return NULL;
+	}
 	colrow_set_visibility (sheet, FALSE, FALSE, row, row);
 	return NULL;
 }
@@ -652,7 +747,7 @@ static Value *
 cb_hide_unwanted_percentage (Sheet *sheet, int col, int row, Cell *cell,
 			     FilterPercentage const *data)
 {
-	if (VALUE_IS_NUMBER (cell->value)) {
+	if (cell != NULL && VALUE_IS_NUMBER (cell->value)) {
 		gnm_float const v = value_get_as_float (cell->value);
 		if (data->find_max) {
 			if (v >= data->high)
@@ -678,12 +773,22 @@ filter_field_apply (GnmFilterField *field)
 	if (field->cond == NULL ||
 	    field->cond->op[0] == GNM_FILTER_UNUSED)
 		return;
-	if (0x10 >= (field->cond->op[0] & GNM_FILTER_OP_TYPE_MASK))
+	if (0x10 >= (field->cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
+		FilterExpr data;
+		data.cond = field->cond;
+		filter_expr_init (&data, 0, field->cond);
+		if (field->cond->op[1] != GNM_FILTER_UNUSED)
+			filter_expr_init (&data, 1, field->cond);
+
 		sheet_foreach_cell_in_range (filter->dep.sheet,
-			CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
+			CELL_ITER_IGNORE_HIDDEN,
 			col, start_row, col, end_row,
-			cb_filter_expr, field);
-	else if (field->cond->op[0] == GNM_FILTER_OP_BLANKS)
+			(CellIterFunc) cb_filter_expr, &data);
+
+		filter_expr_release (&data, 0);
+		if (field->cond->op[1] != GNM_FILTER_UNUSED)
+			filter_expr_release (&data, 1);
+	} else if (field->cond->op[0] == GNM_FILTER_OP_BLANKS)
 		sheet_foreach_cell_in_range (filter->dep.sheet,
 			CELL_ITER_IGNORE_HIDDEN,
 			col, start_row, col, end_row,
@@ -737,9 +842,8 @@ filter_field_set_active (GnmFilterField *field)
 	SheetObject *so = &field->parent;
 
 	for (ptr = so->realized_list; ptr; ptr = ptr->next)
-		gtk_arrow_set (g_object_get_data (ptr->data, ARROW_ID),
-			field->cond != NULL ?  GTK_ARROW_UP : GTK_ARROW_DOWN,
-			GTK_SHADOW_IN);
+		filter_field_arrow_format (field,
+			g_object_get_data (ptr->data, ARROW_ID));
 }
 
 /*************************************************************************/

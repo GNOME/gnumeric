@@ -21,7 +21,7 @@ Jody:
 	* More attributes for excel95 objects
 	* Support pruning 3d references on sheet deletion.
 	* Clean up some workbook view life cycle issues
-	* Begin support for auto-filters
+	* Implement Auto-filters
 	* Begin support for pivot tables
 	* Full support for SUBTOTAL magic
 	* Fix sneaky bug between sheetobjects and frozen panes

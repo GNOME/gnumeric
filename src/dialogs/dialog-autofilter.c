@@ -31,6 +31,7 @@
 #include <sheet.h>
 #include <value.h>
 #include <sheet-filter.h>
+#include <number-match.h>
 
 #include <glade/glade.h>
 
@@ -59,6 +60,57 @@ cb_autofilter_destroy (AutoFilterState *state)
 	g_free (state);
 }
 
+static Value *
+map_op (AutoFilterState *state, GnmFilterOp *op,
+	char const *op_widget, char const *val_widget)
+{
+	int i;
+	GtkWidget *w = glade_xml_get_widget (state->gui, val_widget);
+	char const *txt = gtk_entry_get_text (GTK_ENTRY (w));
+	Value *v = NULL;
+
+	*op = GNM_FILTER_UNUSED;
+	if (txt == NULL || *txt == '\0')
+		return NULL;
+
+	w = glade_xml_get_widget (state->gui, op_widget);
+	i = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+	switch (i) {
+	case 0: return NULL;
+	case 1: *op = GNM_FILTER_OP_EQUAL;	break;
+	case 2: *op = GNM_FILTER_OP_NOT_EQUAL;	break;
+	case 3: *op = GNM_FILTER_OP_GT;		break;
+	case 4: *op = GNM_FILTER_OP_GTE;	break;
+	case 5: *op = GNM_FILTER_OP_LT;		break;
+	case 6: *op = GNM_FILTER_OP_LTE;	break;
+
+	case 7: 
+	case 8: *op = (i == 8) ? GNM_FILTER_OP_NOT_EQUAL : GNM_FILTER_OP_EQUAL;
+		v = value_new_string_nocopy (g_strconcat ("*", txt, NULL));
+		break;
+
+	case 9: 
+	case 10: *op = (i == 10) ? GNM_FILTER_OP_NOT_EQUAL : GNM_FILTER_OP_EQUAL;
+		v = value_new_string_nocopy (g_strconcat (txt, "*", NULL));
+		break;
+
+	case 11: 
+	case 12: *op = (i == 12) ? GNM_FILTER_OP_NOT_EQUAL : GNM_FILTER_OP_EQUAL;
+		v = value_new_string_nocopy (g_strconcat ("*", txt, "*", NULL));
+		break;
+	default :
+		g_warning ("huh?");
+		return NULL;
+	};
+
+	if (v == NULL)
+		v = format_match (txt, NULL);
+	if (v == NULL)
+		v = value_new_string (txt);
+
+	return v;
+}
+
 static void
 cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 		  AutoFilterState *state)
@@ -67,12 +119,20 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget *w;
 
 	if (state->is_expr) {
-		int bottom, percentage, count;
-		w = glade_xml_get_widget (state->gui, "op0");
-		bottom = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+		GnmFilterOp op0;
+		Value *v0 = map_op (state, &op0, "op0", "value0");
 
-		w = glade_xml_get_widget (state->gui, "op1");
-		percentage = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+		if (op0 != GNM_FILTER_UNUSED) {
+			GnmFilterOp op1;
+			Value *v1 = map_op (state, &op1, "op1", "value1");
+			if (op1 != GNM_FILTER_UNUSED) {
+				w = glade_xml_get_widget (state->gui, "and_button");
+				cond = gnm_filter_condition_new_double (op0, v0,
+						gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)),
+						op1, v1);
+			} else
+				cond = gnm_filter_condition_new_single (op0, v0);
+		}
 	} else {
 		int bottom, percentage, count;
 
