@@ -5294,6 +5294,7 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 }
 
 /***************************************************************************/
+#ifdef NEW_GRAPHS
 #include <goffice-graph/go-plot-data-impl.h>
 
 static void
@@ -5331,12 +5332,18 @@ wbcg_go_plot_data_allocator_init (GOPlotDataAllocatorClass *iface)
 	iface->edit_end	  = wbcg_plot_data_allocator_edit_end;
 	iface->editor	  = wbcg_plot_data_allocator_editor;
 }
+
 /***************************************************************************/
 
 GSF_CLASS_FULL (WorkbookControlGUI, workbook_control_gui,
 		workbook_control_gui_ctor_class, NULL,
 		WORKBOOK_CONTROL_TYPE, 0,
 		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GO_PLOT_DATA_ALLOCATOR_TYPE))
+#else
+GSF_CLASS (WorkbookControlGUI, workbook_control_gui,
+	   workbook_control_gui_ctor_class, NULL,
+	   WORKBOOK_CONTROL_TYPE)
+#endif
 
 WorkbookControl *
 workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)
