@@ -78,6 +78,7 @@ Morten:
 	  http://bugzilla.gnome.org/show_bug.cgi?id=125573
 	* Fix column selection in stf import.
 	  http://bugzilla.gnome.org/show_bug.cgi?id=125417
+	* Plug a few leaks.
 
 Rodrigo:
 	* Bump requirement to libgda/libgnomedb 1.0.1
