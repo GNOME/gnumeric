@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-05-12 23:34+0200\n"
-"PO-Revision-Date: 2003-05-12 23:42+0200\n"
+"POT-Creation-Date: 2003-05-14 11:24+0200\n"
+"PO-Revision-Date: 2003-05-14 11:25+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17692,14 +17692,10 @@ msgid "Default font name"
 msgstr "Standardtypsnitt"
 
 #: schemas/gnumeric-general.schemas.in.h:12
-msgid "Helvetica"
-msgstr "Helvetica"
-
-#: schemas/gnumeric-general.schemas.in.h:13
 msgid "Horizontal DPI"
 msgstr "Horisontell PPT"
 
-#: schemas/gnumeric-general.schemas.in.h:14
+#: schemas/gnumeric-general.schemas.in.h:13
 msgid ""
 "If this value is positive, auto expressions are recalculated within that "
 "many millesecond after a change. If it is negative they are recalculated "
@@ -17712,37 +17708,41 @@ msgstr ""
 "definierad som slutet på en period med den storleken efter en förändring "
 "utan flera förändringar."
 
-#: schemas/gnumeric-general.schemas.in.h:15
+#: schemas/gnumeric-general.schemas.in.h:14
 msgid "Length of File History"
 msgstr "Längden på filhistoriken"
 
-#: schemas/gnumeric-general.schemas.in.h:16
+#: schemas/gnumeric-general.schemas.in.h:15
 msgid "Length of the Undo Descriptors"
 msgstr "Längden på ångrabeskrivningarna"
 
-#: schemas/gnumeric-general.schemas.in.h:17
+#: schemas/gnumeric-general.schemas.in.h:16
 msgid "List of recently used files"
 msgstr "Lista på nyligen använda filer"
 
-#: schemas/gnumeric-general.schemas.in.h:18
+#: schemas/gnumeric-general.schemas.in.h:17
 msgid "Live Scrolling"
 msgstr "Realtidsskrollning"
 
-#: schemas/gnumeric-general.schemas.in.h:19
+#: schemas/gnumeric-general.schemas.in.h:18
 msgid "Maximal Undo Size"
 msgstr "Maximal ångrastorlek"
 
-#: schemas/gnumeric-general.schemas.in.h:20
+#: schemas/gnumeric-general.schemas.in.h:19
 msgid "Number of Automatic Clauses"
 msgstr "Antal automatiska satser"
 
-#: schemas/gnumeric-general.schemas.in.h:21
+#: schemas/gnumeric-general.schemas.in.h:20
 msgid "Number of Undo Items"
 msgstr "Antal ångraenheter"
 
-#: schemas/gnumeric-general.schemas.in.h:22
+#: schemas/gnumeric-general.schemas.in.h:21
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Föredrar CLIPBOARD över huvudurklippet"
+
+#: schemas/gnumeric-general.schemas.in.h:22
+msgid "Sans"
+msgstr "Sans"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -23139,7 +23139,7 @@ msgstr "Tillgängliga blad"
 msgid "Bang (!)"
 msgstr "Utropstecken (!)"
 
-#: src/dialogs/dialog-stf-export.glade.h:12 src/gui-file.c:183
+#: src/dialogs/dialog-stf-export.glade.h:12
 msgid "Character encoding:"
 msgstr "Teckenkodning:"
 
@@ -26198,20 +26198,24 @@ msgstr "Fel vid förhandskonvertering av urklippsdata"
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Fel vid tolkning av data till cellområde"
 
-#: src/gui-file.c:73
+#: src/gui-file.c:74
 msgid "Automatically detected"
 msgstr "Upptäcks automatiskt"
 
+#: src/gui-file.c:169
+msgid "Character _encoding:"
+msgstr "Tecken_kodning:"
+
 #. Pack it into file selector
-#: src/gui-file.c:169 src/workbook-control-gui.c:3029
+#: src/gui-file.c:172 src/workbook-control-gui.c:3029
 msgid "Load file"
 msgstr "Öppna fil"
 
-#: src/gui-file.c:177
-msgid "File format:"
-msgstr "Filformat:"
+#: src/gui-file.c:179
+msgid "File _type:"
+msgstr "Filt_yp:"
 
-#: src/gui-file.c:230
+#: src/gui-file.c:236
 #, c-format
 msgid ""
 "%s\n"
@@ -26220,7 +26224,7 @@ msgstr ""
 "%s\n"
 "är ett katalognamn"
 
-#: src/gui-file.c:236
+#: src/gui-file.c:242
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -26229,7 +26233,7 @@ msgstr ""
 "Du har inte rättigheter att spara till\n"
 "%s"
 
-#: src/gui-file.c:243
+#: src/gui-file.c:249
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -26238,7 +26242,7 @@ msgstr ""
 "Arbetsboken %s finns redan.\n"
 "Vill du skriva över den?"
 
-#: src/gui-file.c:263
+#: src/gui-file.c:269
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -26250,7 +26254,7 @@ msgstr ""
 "ett annat filformat.\n"
 "Vill du spara endast det aktuella bladet?"
 
-#: src/gui-file.c:287
+#: src/gui-file.c:293
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -26258,7 +26262,7 @@ msgstr ""
 "Var vänlig ange ett filnamn,\n"
 "inte en katalog"
 
-#: src/gui-file.c:293
+#: src/gui-file.c:299
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -26267,11 +26271,11 @@ msgstr ""
 "namn i alla fall?"
 
 #. Pack it into file selector
-#: src/gui-file.c:340
+#: src/gui-file.c:346
 msgid "Save workbook as"
 msgstr "Spara arbetsbok som"
 
-#: src/gui-file.c:418
+#: src/gui-file.c:424
 msgid "Which file format would you like?"
 msgstr "Vilket filformat önskar du?"
 
@@ -27225,36 +27229,40 @@ msgstr ""
 "Byte 0x%d hittades.\n"
 "Dina lokalinställningar är troligtvis fel."
 
-#: src/stf.c:328 src/stf.c:358
+#: src/stf.c:285
+msgid "Cancelled"
+msgstr "Avbruten"
+
+#: src/stf.c:336 src/stf.c:366
 msgid "Text to Columns"
 msgstr "Text till kolumner"
 
-#: src/stf.c:333
+#: src/stf.c:341
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr "Endast en kolumn med <b>indata</b> kan tolkas åt gången, inte %d"
 
-#: src/stf.c:364
+#: src/stf.c:372
 msgid "Error while trying to parse data into sheet"
 msgstr "Fel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:457
+#: src/stf.c:465
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Tolkningsfel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:523
+#: src/stf.c:531
 msgid "Error while trying to write csv file"
 msgstr "Fel vid skrivning av csv-fil"
 
-#: src/stf.c:538
+#: src/stf.c:546
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr "Komma- eller tabseparerad fil (CSV/TSV)"
 
-#: src/stf.c:542
+#: src/stf.c:550
 msgid "Text import (configurable)"
 msgstr "Textimport (konfigurerbar)"
 
-#: src/stf.c:546
+#: src/stf.c:554
 msgid "Text export (configurable)"
 msgstr "Textexport (konfigurerbar)"
 
@@ -28268,395 +28276,397 @@ msgstr "#OMKALK!"
 msgid "Expecting a single range"
 msgstr "Förväntar sammanhängande område"
 
-#: src/widgets/widget-charmap-selector.c:68
+#: src/widgets/widget-charmap-selector.c:69
 msgid "Arabic"
 msgstr "Arabiska"
 
-#: src/widgets/widget-charmap-selector.c:69
+#: src/widgets/widget-charmap-selector.c:70
 msgid "Baltic"
 msgstr "Baltiska"
 
-#: src/widgets/widget-charmap-selector.c:70
+#: src/widgets/widget-charmap-selector.c:71
 msgid "Central European"
 msgstr "Centraleuropeiska"
 
-#: src/widgets/widget-charmap-selector.c:71
+#: src/widgets/widget-charmap-selector.c:72
 msgid "Chinese"
 msgstr "Chinesiska"
 
-#: src/widgets/widget-charmap-selector.c:72
+#: src/widgets/widget-charmap-selector.c:73
 msgid "Cyrillic"
 msgstr "Kyrilliska"
 
-#: src/widgets/widget-charmap-selector.c:73
+#: src/widgets/widget-charmap-selector.c:74
 msgid "Greek"
 msgstr "Grekiska"
 
-#: src/widgets/widget-charmap-selector.c:74
+#: src/widgets/widget-charmap-selector.c:75
 msgid "Hebrew"
 msgstr "Hebreiska"
 
-#: src/widgets/widget-charmap-selector.c:75
+#: src/widgets/widget-charmap-selector.c:76
 msgid "Indian"
 msgstr "Indiska"
 
-#: src/widgets/widget-charmap-selector.c:76
+#: src/widgets/widget-charmap-selector.c:77
 msgid "Japanese"
 msgstr "Japanska"
 
-#: src/widgets/widget-charmap-selector.c:77
+#: src/widgets/widget-charmap-selector.c:78
 msgid "Korean"
 msgstr "Koreanska"
 
-#: src/widgets/widget-charmap-selector.c:78
+#: src/widgets/widget-charmap-selector.c:79
 msgid "Turkish"
 msgstr "Turkiska"
 
-#: src/widgets/widget-charmap-selector.c:79
+#: src/widgets/widget-charmap-selector.c:80
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/widgets/widget-charmap-selector.c:80
+#: src/widgets/widget-charmap-selector.c:81
 msgid "Vietnamese"
 msgstr "Vietnamesiska"
 
-#: src/widgets/widget-charmap-selector.c:81
+#: src/widgets/widget-charmap-selector.c:82
 msgid "Western"
 msgstr "Västlig"
 
-#: src/widgets/widget-charmap-selector.c:82
+#: src/widgets/widget-charmap-selector.c:83
 msgid "Other"
 msgstr "Annan"
 
-#: src/widgets/widget-charmap-selector.c:87
+#: src/widgets/widget-charmap-selector.c:88
 msgid "Arabic (IBM-864)"
 msgstr "Arabiska (IBM-864)"
 
-#: src/widgets/widget-charmap-selector.c:88
+#: src/widgets/widget-charmap-selector.c:89
 msgid "Arabic (IBM-864-I)"
 msgstr "Arabiska (IBM-864-I)"
 
-#: src/widgets/widget-charmap-selector.c:89
+#: src/widgets/widget-charmap-selector.c:90
 msgid "Arabic (ISO-8859-6)"
 msgstr "Arabiska (ISO-8859-6)"
 
-#: src/widgets/widget-charmap-selector.c:90
+#: src/widgets/widget-charmap-selector.c:91
 msgid "Arabic (ISO-8859-6-E)"
 msgstr "Arabiska (ISO-8859-6-E)"
 
-#: src/widgets/widget-charmap-selector.c:91
+#: src/widgets/widget-charmap-selector.c:92
 msgid "Arabic (ISO-8859-6-I)"
 msgstr "Arabiska (ISO-8859-6-I)"
 
-#: src/widgets/widget-charmap-selector.c:92
+#: src/widgets/widget-charmap-selector.c:93
 msgid "Arabic (MacArabic)"
 msgstr "Arabiska (MacArabic)"
 
-#: src/widgets/widget-charmap-selector.c:93
+#: src/widgets/widget-charmap-selector.c:94
 msgid "Arabic (Windows-1256)"
 msgstr "Arabiska (Windows-1256)"
 
-#: src/widgets/widget-charmap-selector.c:94
+#: src/widgets/widget-charmap-selector.c:95
 msgid "Armenian (ARMSCII-8)"
 msgstr "Armeniska (ARMSCII-8)"
 
-#: src/widgets/widget-charmap-selector.c:95
+#: src/widgets/widget-charmap-selector.c:96
 msgid "Baltic (ISO-8859-13)"
 msgstr "Baltiska (ISO-8859-13)"
 
-#: src/widgets/widget-charmap-selector.c:96
+#: src/widgets/widget-charmap-selector.c:97
 msgid "Baltic (ISO-8859-4)"
 msgstr "Baltiska (ISO-8859-4)"
 
-#: src/widgets/widget-charmap-selector.c:97
+#: src/widgets/widget-charmap-selector.c:98
 msgid "Baltic (Windows-1257)"
 msgstr "Baltiska (Windows-1257)"
 
-#: src/widgets/widget-charmap-selector.c:98
+#: src/widgets/widget-charmap-selector.c:99
 msgid "Celtic (ISO-8859-14)"
 msgstr "Keltiska (ISO-8859-14)"
 
-#: src/widgets/widget-charmap-selector.c:99
+#: src/widgets/widget-charmap-selector.c:100
 msgid "Central European (IBM-852)"
 msgstr "Centraleuropeiska (IBM-852)"
 
-#: src/widgets/widget-charmap-selector.c:100
+#: src/widgets/widget-charmap-selector.c:101
 msgid "Central European (ISO-8859-2)"
 msgstr "Celntraleuropeiska (ISO-8859-2)"
 
-#: src/widgets/widget-charmap-selector.c:101
+#: src/widgets/widget-charmap-selector.c:102
 msgid "Central European (MacCE)"
 msgstr "Centraleuropeiska (MacCE)"
 
-#: src/widgets/widget-charmap-selector.c:102
+#: src/widgets/widget-charmap-selector.c:103
 msgid "Central European (Windows-1250)"
 msgstr "Centraleuropeiska (Windows-1250)"
 
-#: src/widgets/widget-charmap-selector.c:103
+#: src/widgets/widget-charmap-selector.c:104
 msgid "Chinese Simplified (GB18030)"
 msgstr "Kinesiska förenklad (GB18030)"
 
-#: src/widgets/widget-charmap-selector.c:104
+#: src/widgets/widget-charmap-selector.c:105
 msgid "Chinese Simplified (GB2312)"
 msgstr "Kinesiska förenklad (GB2312)"
 
-#: src/widgets/widget-charmap-selector.c:105
+#: src/widgets/widget-charmap-selector.c:106
 msgid "Chinese Simplified (GBK)"
 msgstr "Kinesiska förenklad (GBK)"
 
-#: src/widgets/widget-charmap-selector.c:106
+#: src/widgets/widget-charmap-selector.c:107
 msgid "Chinese Simplified (HZ)"
 msgstr "Kinesiska förenklad (HZ)"
 
-#: src/widgets/widget-charmap-selector.c:107
+#: src/widgets/widget-charmap-selector.c:108
 msgid "Chinese Simplified (Windows-936)"
 msgstr "Kinesiska förenklad (Windows-936)"
 
-#: src/widgets/widget-charmap-selector.c:108
+#: src/widgets/widget-charmap-selector.c:109
 msgid "Chinese Traditional (Big5)"
 msgstr "Kinesiska traditionell (Big5)"
 
-#: src/widgets/widget-charmap-selector.c:109
+#: src/widgets/widget-charmap-selector.c:110
 msgid "Chinese Traditional (Big5-HKSCS)"
 msgstr "Kinesiska traditionell (Big5-HKSCS)"
 
-#: src/widgets/widget-charmap-selector.c:110
+#: src/widgets/widget-charmap-selector.c:111
 msgid "Chinese Traditional (EUC-TW)"
 msgstr "Kinesiska traditionell (EUC-TW)"
 
-#: src/widgets/widget-charmap-selector.c:111
+#: src/widgets/widget-charmap-selector.c:112
 msgid "Croatian (MacCroatian)"
 msgstr "Croatiska (MacCroatian)"
 
-#: src/widgets/widget-charmap-selector.c:112
+#: src/widgets/widget-charmap-selector.c:113
 msgid "Cyrillic (IBM-855)"
 msgstr "Kyrilliska (IBM-855)"
 
-#: src/widgets/widget-charmap-selector.c:113
+#: src/widgets/widget-charmap-selector.c:114
 msgid "Cyrillic (ISO-8859-5)"
 msgstr "Kyrilliska (ISO-8859-5)"
 
-#: src/widgets/widget-charmap-selector.c:114
+#: src/widgets/widget-charmap-selector.c:115
 msgid "Cyrillic (ISO-IR-111)"
 msgstr "Kyrilliska (ISO-IR-111)"
 
-#: src/widgets/widget-charmap-selector.c:115
+#: src/widgets/widget-charmap-selector.c:116
 msgid "Cyrillic (KOI8-R)"
 msgstr "Kyrilliska (KOI8-R)"
 
-#: src/widgets/widget-charmap-selector.c:116
+#: src/widgets/widget-charmap-selector.c:117
 msgid "Cyrillic (MacCyrillic)"
 msgstr "Kyrilliska (MacCyrillic)"
 
-#: src/widgets/widget-charmap-selector.c:117
+#: src/widgets/widget-charmap-selector.c:118
 msgid "Cyrillic (Windows-1251)"
 msgstr "Kyrilliska (Windows-1251)"
 
-#: src/widgets/widget-charmap-selector.c:118
+#: src/widgets/widget-charmap-selector.c:119
 msgid "Russian (CP-866)"
 msgstr "Ryska (CP-866)"
 
-#: src/widgets/widget-charmap-selector.c:119
+#: src/widgets/widget-charmap-selector.c:120
 msgid "Ukrainian (KOI8-U)"
 msgstr "Ukrainska (KOI8-U)"
 
-#: src/widgets/widget-charmap-selector.c:120
+#: src/widgets/widget-charmap-selector.c:121
 msgid "Ukrainian (MacUkrainian)"
 msgstr "Ukrainska (MacUkrainian)"
 
-#: src/widgets/widget-charmap-selector.c:121
+#: src/widgets/widget-charmap-selector.c:122
 msgid "English (US-ASCII)"
 msgstr "Engelska (US-ASCII)"
 
-#: src/widgets/widget-charmap-selector.c:122
+#: src/widgets/widget-charmap-selector.c:123
 msgid "Farsi (MacFarsi)"
 msgstr "Farsi (MacFarsi)"
 
-#: src/widgets/widget-charmap-selector.c:123
+#: src/widgets/widget-charmap-selector.c:124
 msgid "Georgian (GEOSTD8)"
 msgstr "Georgiska (GEOSTD8)"
 
-#: src/widgets/widget-charmap-selector.c:124
+#: src/widgets/widget-charmap-selector.c:125
 msgid "Greek (ISO-8859-7)"
 msgstr "Grekiska (ISO-8859-7)"
 
-#: src/widgets/widget-charmap-selector.c:125
+#: src/widgets/widget-charmap-selector.c:126
 msgid "Greek (MacGreek)"
 msgstr "Grekiska (MacGreek)"
 
-#: src/widgets/widget-charmap-selector.c:126
+#: src/widgets/widget-charmap-selector.c:127
 msgid "Greek (Windows-1253)"
 msgstr "Grekiska (Windows-1253)"
 
-#: src/widgets/widget-charmap-selector.c:127
+#: src/widgets/widget-charmap-selector.c:128
 msgid "Gujarati (MacGujarati)"
 msgstr "Gujarati (MacGujarati)"
 
-#: src/widgets/widget-charmap-selector.c:128
+#: src/widgets/widget-charmap-selector.c:129
 msgid "Gurmukhi (MacGurmukhi)"
 msgstr "Gurmukhi (MacGurmukhi)"
 
-#: src/widgets/widget-charmap-selector.c:129
+#: src/widgets/widget-charmap-selector.c:130
 msgid "Hebrew (IBM-862)"
 msgstr "Hebreiska (IBM-862)"
 
-#: src/widgets/widget-charmap-selector.c:130
+#: src/widgets/widget-charmap-selector.c:131
 msgid "Hebrew (ISO-8859-8-E)"
 msgstr "Hebreiska (ISO-8859-8-E)"
 
-#: src/widgets/widget-charmap-selector.c:131
+#: src/widgets/widget-charmap-selector.c:132
 msgid "Hebrew (ISO-8859-8-I)"
 msgstr "Hebreiska (ISO-8859-8-I)"
 
-#: src/widgets/widget-charmap-selector.c:132
+#: src/widgets/widget-charmap-selector.c:133
 msgid "Hebrew (MacHebrew)"
 msgstr "Hebreiska (MacHebrew)"
 
-#: src/widgets/widget-charmap-selector.c:133
+#: src/widgets/widget-charmap-selector.c:134
 msgid "Hebrew (Windows-1255)"
 msgstr "Hebreiska (Windows-1253)"
 
-#: src/widgets/widget-charmap-selector.c:134
+#: src/widgets/widget-charmap-selector.c:135
 msgid "Hindi (MacDevanagari)"
 msgstr "Hindi (MacDevanagari)"
 
-#: src/widgets/widget-charmap-selector.c:135
+#: src/widgets/widget-charmap-selector.c:136
 msgid "Icelandic (MacIcelandic)"
 msgstr "Isländska (MacIcelandic)"
 
-#: src/widgets/widget-charmap-selector.c:136
+#: src/widgets/widget-charmap-selector.c:137
 msgid "Japanese (EUC-JP)"
 msgstr "Japanska (EUC-JP)"
 
-#: src/widgets/widget-charmap-selector.c:137
+#: src/widgets/widget-charmap-selector.c:138
 msgid "Japanese (ISO-2022-JP)"
 msgstr "Japanska (ISO-2022-JP)"
 
-#: src/widgets/widget-charmap-selector.c:138
+#: src/widgets/widget-charmap-selector.c:139
 msgid "Japanese (Shift_JIS)"
 msgstr "Japanska (Shift_JIS)"
 
-#: src/widgets/widget-charmap-selector.c:139
+#: src/widgets/widget-charmap-selector.c:140
 msgid "Korean (EUC-KR)"
 msgstr "Koreanska (EUC-KR)"
 
-#: src/widgets/widget-charmap-selector.c:140
+#: src/widgets/widget-charmap-selector.c:141
 msgid "Korean (ISO-2022-KR)"
 msgstr "Koreanska (ISO-2022-KR)"
 
-#: src/widgets/widget-charmap-selector.c:141
+#: src/widgets/widget-charmap-selector.c:142
 msgid "Korean (JOHAB)"
 msgstr "Koreanska (JOHAB)"
 
-#: src/widgets/widget-charmap-selector.c:142
+#: src/widgets/widget-charmap-selector.c:143
 msgid "Korean (UHC)"
 msgstr "Koreanska (UHC)"
 
-#: src/widgets/widget-charmap-selector.c:143
+#: src/widgets/widget-charmap-selector.c:144
 msgid "Nordic (ISO-8859-10)"
 msgstr "Nordiska (ISO-8859-10)"
 
-#: src/widgets/widget-charmap-selector.c:144
+#: src/widgets/widget-charmap-selector.c:145
 msgid "Romanian (MacRomanian)"
 msgstr "Rumänska (MacRomanian)"
 
-#: src/widgets/widget-charmap-selector.c:145
+#: src/widgets/widget-charmap-selector.c:146
 msgid "Romanian (ISO-8859-16)"
 msgstr "Rumänska (ISO-8859-16)"
 
-#: src/widgets/widget-charmap-selector.c:146
+#: src/widgets/widget-charmap-selector.c:147
 msgid "South European (ISO-8859-3)"
 msgstr "Sydeuropeiska (ISO-8859-3)"
 
-#: src/widgets/widget-charmap-selector.c:147
+#: src/widgets/widget-charmap-selector.c:148
 msgid "Thai (TIS-620)"
 msgstr "Thai (TIS-620)"
 
-#: src/widgets/widget-charmap-selector.c:148
+#: src/widgets/widget-charmap-selector.c:149
 msgid "Turkisk (IBM-857)"
 msgstr "Turkiska (IBM-857)"
 
-#: src/widgets/widget-charmap-selector.c:149
+#: src/widgets/widget-charmap-selector.c:150
 msgid "Turkisk (ISO-8859-9)"
 msgstr "Turkiska (ISO-8859-9)"
 
-#: src/widgets/widget-charmap-selector.c:150
+#: src/widgets/widget-charmap-selector.c:151
 msgid "Turkisk (MacTurkish)"
 msgstr "Turkiska (MacTurkish)"
 
-#: src/widgets/widget-charmap-selector.c:151
+#: src/widgets/widget-charmap-selector.c:152
 msgid "Turkisk (Windows-1254)"
 msgstr "Turkiska (Windows-1254)"
 
-#: src/widgets/widget-charmap-selector.c:152
+#: src/widgets/widget-charmap-selector.c:153
 msgid "Unicode (UTF-7)"
 msgstr "Unicode (UTF-7)"
 
-#: src/widgets/widget-charmap-selector.c:153
+#: src/widgets/widget-charmap-selector.c:154
 msgid "Unicode (UTF-8)"
 msgstr "Unicode (UTF-8)"
 
-#: src/widgets/widget-charmap-selector.c:154
+#. Test encoding that surely does not exist.
+#. {"Unicode (UTF-9)",                    "UTF-9",                 LG_UNICODE},
+#: src/widgets/widget-charmap-selector.c:157
 msgid "Unicode (UTF-16BE)"
 msgstr "Unicode (UTF-16BE)"
 
-#: src/widgets/widget-charmap-selector.c:155
+#: src/widgets/widget-charmap-selector.c:158
 msgid "Unicode (UTF-16LE)"
 msgstr "Unicode (UTF-16LE)"
 
-#: src/widgets/widget-charmap-selector.c:156
+#: src/widgets/widget-charmap-selector.c:159
 msgid "Unicode (UTF-32BE)"
 msgstr "Unicode (UTF-32BE)"
 
-#: src/widgets/widget-charmap-selector.c:157
+#: src/widgets/widget-charmap-selector.c:160
 msgid "Unicode (UTF-32LE)"
 msgstr "Unicode (UTF-32LE)"
 
-#: src/widgets/widget-charmap-selector.c:158
+#: src/widgets/widget-charmap-selector.c:161
 msgid "User Defined"
 msgstr "Egendefinierad"
 
-#: src/widgets/widget-charmap-selector.c:159
+#: src/widgets/widget-charmap-selector.c:162
 msgid "Vietnamese (TCVN)"
 msgstr "Vietnamesiska (TVCN)"
 
-#: src/widgets/widget-charmap-selector.c:160
+#: src/widgets/widget-charmap-selector.c:163
 msgid "Vietnamese (VISCII)"
 msgstr "Vietnamesiska (VISCII)"
 
-#: src/widgets/widget-charmap-selector.c:161
+#: src/widgets/widget-charmap-selector.c:164
 msgid "Vietnamese (VPS)"
 msgstr "Vietnamesiska (VPS)"
 
-#: src/widgets/widget-charmap-selector.c:162
+#: src/widgets/widget-charmap-selector.c:165
 msgid "Vietnamese (Windows-1258)"
 msgstr "Vietnamesiska (Windows-1258)"
 
-#: src/widgets/widget-charmap-selector.c:163
-msgid "Visual Hebrew(ISO-8859-8)"
+#: src/widgets/widget-charmap-selector.c:166
+msgid "Visual Hebrew (ISO-8859-8)"
 msgstr "Visuell Hebreiska (ISO-8859-8)"
 
-#: src/widgets/widget-charmap-selector.c:164
+#: src/widgets/widget-charmap-selector.c:167
 msgid "Western (IBM-850)"
 msgstr "Västlig (IBM-850)"
 
-#: src/widgets/widget-charmap-selector.c:165
+#: src/widgets/widget-charmap-selector.c:168
 msgid "Western (ISO-8859-1)"
 msgstr "Västlig (ISO-8859-1)"
 
-#: src/widgets/widget-charmap-selector.c:166
+#: src/widgets/widget-charmap-selector.c:169
 msgid "Western (ISO-8859-15)"
 msgstr "Västlig (ISO-8859-15)"
 
-#: src/widgets/widget-charmap-selector.c:167
+#: src/widgets/widget-charmap-selector.c:170
 msgid "Western (MacRoman)"
 msgstr "Västlig (MacRoman)"
 
-#: src/widgets/widget-charmap-selector.c:168
+#: src/widgets/widget-charmap-selector.c:171
 msgid "Western (Windows-1252)"
 msgstr "Västlig (Windows-1252)"
 
-#: src/widgets/widget-charmap-selector.c:287
+#: src/widgets/widget-charmap-selector.c:301
 msgid "Locale: "
 msgstr "Locale: "
 
@@ -29081,6 +29091,12 @@ msgstr "Filen är inte en Gnumeric-arbetsboksfil"
 #: src/xml-io.c:3861
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "Helvetica"
+#~ msgstr "Helvetica"
+
+#~ msgid "File format:"
+#~ msgstr "Filformat:"
 
 #~ msgid "Charset:"
 #~ msgstr "Teckenuppsättning:"
