@@ -687,6 +687,7 @@ doc/sv/Makefile
 omf-install/Makefile
 plugins/Makefile
 plugins/numtheory/Makefile
+plugins/fn-complex/Makefile
 plugins/fn-database/Makefile
 plugins/fn-date/Makefile
 plugins/fn-eng/Makefile
