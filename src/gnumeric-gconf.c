@@ -698,8 +698,10 @@ gnm_conf_init (gboolean fast)
 void     
 gnm_conf_shutdown (void)
 {
-	mstyle_unref (prefs.printer_decoration_font);
-	prefs.printer_decoration_font = NULL;
+	if (prefs.printer_decoration_font) {
+		mstyle_unref (prefs.printer_decoration_font);
+		prefs.printer_decoration_font = NULL;
+	}
 #ifdef WITH_GNOME
 	if (gconf_client) {
 		gconf_client_remove_dir (gconf_client, "/apps/gnumeric", NULL);
