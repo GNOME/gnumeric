@@ -17,7 +17,7 @@ extern char *x_geometry;
 void init_init (char const* gnumeric_binary);
 poptContext gnumeric_arg_parse (int argc, char *argv []);
 
-void gnm_common_init ();
+void gnm_common_init (void);
 int  gnm_dump_func_defs (char const* filename);
 void gnm_shutdown (void);
 

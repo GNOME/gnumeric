@@ -40,6 +40,7 @@ void	 expr_name_remove_dep (GnmNamedExpr *ne, Dependent *dep);
 GList	 *expr_name_list_destroy	  (GList *names);
 
 void expr_name_init       (void);
+void expr_name_shutdown   (void);
 
 GList *sheet_get_available_names (Sheet const *sheet);
 

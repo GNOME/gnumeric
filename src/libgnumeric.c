@@ -111,7 +111,7 @@ gnumeric_check_for_components (void)
  * to tell whether we are in GUI or not.
  */
 void
-gnm_common_init ()
+gnm_common_init (void)
 {	
 #ifdef USE_WM_ICONS
 	gnome_window_icon_set_default_from_file (GNOME_ICONDIR"/gnome-gnumeric.png");
@@ -164,13 +164,14 @@ gnm_dump_func_defs (char const* filename)
 }
 
 void
-gnm_shutdown ()
+gnm_shutdown (void)
 {
 	application_release_pref_dialog ();
 
 	autocorrect_shutdown ();
 	plugins_shutdown ();
 	print_shutdown ();
+	expr_name_shutdown ();
 	functions_shutdown ();
 	auto_format_shutdown ();
 	e_cursors_shutdown ();

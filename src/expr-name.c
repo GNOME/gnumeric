@@ -574,7 +574,7 @@ static struct {
 void
 expr_name_init (void)
 {
-	int lp=0;
+	int lp = 0;
 
 	/* Not in global function table though ! */
 	for (; builtins[lp].name ; lp++) {
@@ -582,6 +582,20 @@ expr_name_init (void)
 		nexpr = expr_name_new (builtins[lp].name, TRUE);
 		nexpr->t.expr_func = builtins[lp].fn;
 		global_names = g_list_append (global_names, nexpr);
+	}
+}
+
+void
+expr_name_shutdown (void)
+{
+	int lp = 0;
+	for (; builtins[lp].name ; lp++) {
+		GnmNamedExpr *nexpr =
+			expr_name_lookup (NULL, builtins[lp].name);
+		if (nexpr) {
+			expr_name_unref (nexpr);
+			global_names = g_list_remove (global_names, nexpr);
+		}
 	}
 }
 
