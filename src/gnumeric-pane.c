@@ -760,6 +760,7 @@ gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
 
 	gnm_simple_canvas_grab (ctrl_pts [drag_type],
 		GDK_POINTER_MOTION_MASK |
+		GDK_BUTTON_PRESS_MASK |
 		GDK_BUTTON_RELEASE_MASK,
 		NULL, event->time);
 	pane->drag.created_objects = is_creation || make_dup;
@@ -804,6 +805,11 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 				NULL);
 			gnm_pane_clear_obj_size_tip (pane);
 		}
+		break;
+
+	case GDK_2BUTTON_PRESS:
+		if (pane->drag.button == 1)
+			sheet_object_get_editor (so, SHEET_CONTROL (scg));
 		break;
 
 	case GDK_BUTTON_RELEASE:
@@ -965,8 +971,12 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, FooCanvasItem **ctrl_pts,
 		       NULL);
 	} else {
 		double coords[4];
+		SheetObjectView *sov = sheet_object_get_view (so, (SheetObjectViewContainer *)pane);
+		if (NULL == sov)
+			return;
+
 		coords [0] = l; coords [2] = r; coords [1] = t; coords [3] = b;
-		sheet_object_view_set_bounds (sheet_object_get_view (so, (SheetObjectViewContainer *)pane), coords, TRUE);
+		sheet_object_view_set_bounds (sov, coords, TRUE);
 		normalize_high_low (r, l);
 		normalize_high_low (b, t);
 	}
@@ -1081,15 +1091,14 @@ cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 		if (event->button.button > 3)
 			return FALSE;
 
-		/* If we are here the object is not selected yet */
-		g_return_val_if_fail (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so), FALSE);
-
-		if (!(event->button.state & GDK_SHIFT_MASK))
-			scg_object_unselect (pane->gcanvas->simple.scg, NULL);
-
-		scg_object_select (pane->gcanvas->simple.scg, so);
-		if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so))
-			return FALSE;	/* protected ? */
+		/* cb_sheet_object_widget_canvas_event calls even if selected */
+		if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so)) {
+			if (!(event->button.state & GDK_SHIFT_MASK))
+				scg_object_unselect (pane->gcanvas->simple.scg, NULL);
+			scg_object_select (pane->gcanvas->simple.scg, so);
+			if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so))
+				return FALSE;	/* protected ? */
+		}
 
 		if (event->button.button < 3)
 			gnm_pane_object_start_resize (pane, &event->button, so, 8, FALSE);
@@ -1118,6 +1127,12 @@ cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
 	if (event->type == GDK_BUTTON_PRESS && event->button.button == 3)
 		return cb_sheet_object_canvas_event (view, event,
 			sheet_object_view_get_so (SHEET_OBJECT_VIEW (view)));
+	if (event->type == GDK_2BUTTON_PRESS && event->button.button == 1) {
+		sheet_object_get_editor (
+			sheet_object_view_get_so (SHEET_OBJECT_VIEW (view)),
+			SHEET_CONTROL (GNM_SIMPLE_CANVAS (view->canvas)->scg));
+		return TRUE;
+	}
 
 	return FALSE;
 }

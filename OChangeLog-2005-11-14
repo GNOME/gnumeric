@@ -1,3 +1,23 @@
+2005-01-05  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c (cb_sheet_object_widget_canvas_event) : handle
+	  double click
+
+	* src/sheet-object-widget.c (sheet_object_widget_class_init) : widgets
+	  render quickly rubber band directly
+	(sheet_widget_slider_create_widget) : do not draw the value
+
+2004-12-31  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c (set_acetate_coords) : don't crash if we have
+	  not created a view yet.
+
+2004-12-31  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c (gnm_pane_object_start_resize) : watch press
+	  events too.
+	(cb_control_point_event) : launch an editor for double clicks
+
 2005-01-04  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (fmt_general_float): Use GNUM_FORMAT_G.  The days

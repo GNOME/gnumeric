@@ -220,7 +220,8 @@ sheet_object_widget_class_init (GtkObjectClass *object_class)
 	sheet_object_widget_parent_class = g_type_class_peek_parent (object_class);
 
 	/* SheetObject class method overrides */
-	so_class->new_view	= sheet_object_widget_new_view;
+	so_class->new_view		= sheet_object_widget_new_view;
+	so_class->rubber_band_directly	= TRUE;
 
 	sow_class->create_widget = NULL;
 }
@@ -1218,6 +1219,7 @@ sheet_widget_slider_create_widget (SheetObjectWidget *sow,
 	slider = is_horizontal
 		? gtk_hscale_new (swa->adjustment)
 		: gtk_vscale_new (swa->adjustment);
+	gtk_scale_set_draw_value (GTK_SCALE (slider), FALSE);
 	GTK_WIDGET_UNSET_FLAGS (slider, GTK_CAN_FOCUS);
 	swa->being_updated = FALSE;
 

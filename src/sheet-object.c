@@ -80,10 +80,14 @@ cb_so_delete (SheetObject *so, SheetControl *sc)
 	cmd_objects_delete (sc_wbc (sc), 
 		gnm_slist_create (so, NULL), NULL);
 }
-static void
-cb_so_configure (SheetObject *so, SheetControl *sc)
+void
+sheet_object_get_editor (SheetObject *so, SheetControl *sc)
 {
-	SO_CLASS(so)->user_config (so, sc);
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (SO_CLASS (so));
+
+	if (SO_CLASS(so)->user_config)
+		SO_CLASS(so)->user_config (so, sc);
 }
 static void
 cb_so_cut (SheetObject *so, SheetControl *sc)
@@ -102,7 +106,7 @@ static void
 sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const so_actions [] = {
-		{ "gtk-properties",	NULL,		NULL,  0, cb_so_configure },
+		{ "gtk-properties",	NULL,		NULL,  0, sheet_object_get_editor },
 		{ NULL,	NULL, NULL, 0, NULL },
 		{ NULL,			N_("_Order"),	NULL,  1, NULL },
 			{ NULL,			N_("Pul_l to Front"),	NULL,  0, cb_so_pull_to_front },

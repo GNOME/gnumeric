@@ -53,6 +53,7 @@ gboolean      sheet_object_can_print	 (SheetObject const *so);
 void          sheet_object_print	 (SheetObject const *so,
 					  GnomePrintContext *ctx,
 					  double width, double height);
+void	     sheet_object_get_editor	 (SheetObject *so, SheetControl *sc);
 void	     sheet_object_update_bounds  (SheetObject *so, GnmCellPos const *p);
 void	     sheet_object_default_size	 (SheetObject *so, double *w, double *h);
 gint	     sheet_object_adjust_stacking(SheetObject *so, gint positions);
