@@ -7,7 +7,7 @@
   <para>The simplest of these types are strings and numbers. They are
     just constant values that are stored in a cell. There is  no special
     syntax for this kind of data. The only limitation is that strings and
-    numbers can not contain newlines or begin with a '='. The '=' is
+    numbers cannot contain newlines or begin with a '='. The '=' is
     used to denote cells that contain formulas or cell references.</para>
   
   <para>See <xref linkend="stringnumber"> for an example of entering

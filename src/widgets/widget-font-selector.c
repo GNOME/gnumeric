@@ -41,7 +41,7 @@ reload_preview (FontSelector *fs)
 		 fs->is_italic,
 		 fs->size);
 	 if (!gnome_font){
-		 g_warning ("Uh oh, can not get the font!");
+		 g_warning ("Uh oh, cannot get the font!");
 		 return;
 	 }
 
@@ -53,7 +53,7 @@ reload_preview (FontSelector *fs)
 		 1.0);
 
 	 if (!display_font){
-		 g_warning ("Uh oh, can not get the display font");
+		 g_warning ("Uh oh, cannot get the display font");
 		 return;
 	 }
 
