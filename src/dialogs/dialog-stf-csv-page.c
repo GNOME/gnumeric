@@ -1,7 +1,7 @@
 /*
  * dialog-stf.c : Controls the widget on the CSV (Comma Separated Value) page of the druid
  *
- * Almer. S. Tigelaar <almer1@dds.nl>
+ * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
  *
  */
 
@@ -34,8 +34,7 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 	GSList *list;
 	char *textfieldtext;
 	gboolean customvalid = FALSE;
-
-	stf_parse_options_before_modification (parseoptions);
+	int i;
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_custom))) {
 		char *csvcustomtext = gtk_editable_get_chars (GTK_EDITABLE (info->csv_customseparator), 0, -1);
@@ -70,29 +69,14 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 	stf_parse_options_csv_set_duplicates (parseoptions,
 					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_duplicates)));
 
-	/* Check if we actually changed something and invalidate the cache if necessary */
-	if (stf_parse_options_after_modification (parseoptions)) {
-		int i;
+	data->colcount = stf_parse_get_colcount (parseoptions, data->cur);
+	stf_preview_colwidths_clear (info->csv_run_renderdata);
+	for (i = 0; i < data->colcount + 1; i++)
+		stf_preview_colwidths_add (info->csv_run_renderdata, stf_parse_get_colwidth (parseoptions, data->cur, i));
 
-		data->colcount = stf_parse_get_colcount (parseoptions, data->cur);
+	list = stf_parse_general (parseoptions, data->cur);
 
-		stf_cache_options_invalidate (info->csv_run_cacheoptions);
-
-		stf_preview_colwidths_clear (info->csv_run_renderdata);
-		for (i = 0; i < data->colcount + 1; i++)
-			stf_preview_colwidths_add (info->csv_run_renderdata, stf_parse_get_colwidth (parseoptions, data->cur, i));
-	}
-
-	/* actually do the parsing and rendering */
-	stf_cache_options_set_range (info->csv_run_cacheoptions,
-				     info->csv_run_renderdata->startrow - 1,
-				     (info->csv_run_renderdata->startrow - 1) + info->csv_run_displayrows);
-
-	list = stf_parse_general_cached (parseoptions,
-					 info->csv_run_cacheoptions);
-
-	stf_preview_render (info->csv_run_renderdata,
-			    list,
+	stf_preview_render (info->csv_run_renderdata, list,
 			    info->csv_run_displayrows,
 			    data->colcount);
 }
@@ -165,18 +149,7 @@ stf_dialog_csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageD
 {
 	CsvInfo_t *info = pagedata->csv_info;
 
-	if (pagedata->cur != info->csv_run_cacheoptions->data ||
-	    pagedata->importlines != info->csv_run_parseoptions->parselines)
-	{
-
-		stf_parse_options_set_lines_to_parse (info->csv_run_parseoptions, pagedata->importlines);
-		stf_cache_options_set_data  (info->csv_run_cacheoptions, info->csv_run_parseoptions, pagedata->cur);
-	}
-
 	stf_parse_options_set_trim_spaces (info->csv_run_parseoptions, pagedata->trim);
-
-	stf_cache_options_invalidate (info->csv_run_cacheoptions);
-
 	pagedata->colcount = stf_parse_get_colcount (info->csv_run_parseoptions, pagedata->cur);
 
 	/*
@@ -186,10 +159,13 @@ stf_dialog_csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageD
 	{
 		int rowcount = stf_parse_get_rowcount (info->csv_run_parseoptions, pagedata->cur) + 1;
 
-		if (rowcount > LINE_DISPLAY_LIMIT)
+		if (rowcount > LINE_DISPLAY_LIMIT) {
 			GTK_RANGE (info->csv_scroll)->adjustment->upper = LINE_DISPLAY_LIMIT;
-		else
+			stf_parse_options_set_lines_to_parse (info->csv_run_parseoptions, LINE_DISPLAY_LIMIT);
+		} else {
 			GTK_RANGE (info->csv_scroll)->adjustment->upper = rowcount;
+			stf_parse_options_set_lines_to_parse (info->csv_run_parseoptions, pagedata->importlines);
+		}
 	}
 
 	gtk_adjustment_changed (GTK_RANGE (info->csv_scroll)->adjustment);
@@ -211,9 +187,6 @@ void
 stf_dialog_csv_page_cleanup (DruidPageData_t *pagedata)
 {
 	CsvInfo_t *info = pagedata->csv_info;
-
-	stf_cache_options_free (info->csv_run_cacheoptions);
-	info->csv_run_cacheoptions = NULL;
 
 	if (info->csv_run_parseoptions) {
 		stf_parse_options_free (info->csv_run_parseoptions);
@@ -269,11 +242,9 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	/* Set properties */
 	info->csv_run_renderdata    = stf_preview_new (info->csv_canvas, FALSE);
 	info->csv_run_parseoptions  = stf_parse_options_new ();
-	info->csv_run_cacheoptions  = stf_cache_options_new ();
 	info->csv_run_displayrows   = stf_preview_get_displayed_rowcount (info->csv_run_renderdata);
 
 	stf_parse_options_set_type  (info->csv_run_parseoptions, PARSE_TYPE_CSV);
-	stf_cache_options_set_data  (info->csv_run_cacheoptions, info->csv_run_parseoptions, pagedata->cur);
 
 	/* Connect signals */
 	gtk_signal_connect (GTK_OBJECT (info->csv_tab),

@@ -1,7 +1,7 @@
 /*
  * dialog-stf.c : Controls the widgets on the format page of the dialog
  *
- * Almer. S. Tigelaar <almer1@dds.nl>
+ * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
  *
  */
 
@@ -36,11 +36,9 @@ format_page_update_preview (DruidPageData_t *pagedata)
 		iterator = g_slist_next (iterator);
 	}
 
-	list = stf_parse_general_cached (info->format_run_parseoptions,
-					 info->format_run_cacheoptions);
+	list = stf_parse_general (info->format_run_parseoptions, pagedata->cur);
 
-	stf_preview_render (info->format_run_renderdata,
-			    list,
+	stf_preview_render (info->format_run_renderdata, list,
 			    info->format_run_displayrows,
 			    pagedata->colcount);
 
@@ -66,11 +64,6 @@ format_page_scroll_value_changed (GtkAdjustment *adjustment, DruidPageData_t *da
 	FormatInfo_t *info = data->format_info;
 
 	stf_preview_set_startrow (info->format_run_renderdata, adjustment->value);
-
-	stf_cache_options_set_range (info->format_run_cacheoptions,
-				     info->format_run_renderdata->startrow - 1,
-				     (info->format_run_renderdata->startrow - 1) + info->format_run_displayrows);
-
 	format_page_update_preview (data);
 }
 
@@ -202,14 +195,9 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 		g_return_if_fail (listitem != NULL);
 
 		sf = listitem->data;
-		if (sf) {
-			char *fmt = style_format_as_XL (sf, TRUE);
-			if (strcmp (fmt, new_fmt) != 0)
-				stf_cache_options_invalidate (info->format_run_cacheoptions);
-			g_free (fmt);
-
+		if (sf)
 			style_format_unref (sf);
-		}
+			
 		listitem->data = style_format_new_XL (new_fmt, TRUE);
 
 		gtk_clist_set_text (info->format_collist, info->format_run_index, 1, new_fmt);
@@ -288,19 +276,18 @@ stf_dialog_format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 
 	gtk_clist_columns_autosize (info->format_collist);
 
-	if (data->lines > LINE_DISPLAY_LIMIT)
+	if (data->lines > LINE_DISPLAY_LIMIT) {
 		GTK_RANGE (info->format_scroll)->adjustment->upper = LINE_DISPLAY_LIMIT;
-	else
+		stf_parse_options_set_lines_to_parse (info->format_run_parseoptions, LINE_DISPLAY_LIMIT);
+	} else {
 		GTK_RANGE (info->format_scroll)->adjustment->upper = data->lines + 1;
+		stf_parse_options_set_lines_to_parse (info->format_run_parseoptions, data->importlines);
+	}
 
 	stf_preview_colwidths_clear (info->format_run_renderdata);
 	for (i = 0; i < data->colcount + 1; i++) {
 		stf_preview_colwidths_add (info->format_run_renderdata, stf_parse_get_colwidth (info->format_run_parseoptions, data->cur, i));
 	}
-
-	stf_cache_options_set_range (info->format_run_cacheoptions,
-				     info->format_run_renderdata->startrow - 1,
-				     (info->format_run_renderdata->startrow - 1) + stf_preview_get_displayed_rowcount (info->format_run_renderdata));
 
 	info->format_run_manual_change = TRUE;
 	gtk_clist_select_row (info->format_collist, 0, 0);
@@ -335,9 +322,6 @@ stf_dialog_format_page_cleanup (DruidPageData_t *pagedata)
 	FormatInfo_t *info = pagedata->format_info;
 
 	stf_preview_free (info->format_run_renderdata);
-
-	stf_cache_options_free (info->format_run_cacheoptions);
-	info->format_run_cacheoptions = NULL;
 }
 
 /**
@@ -381,7 +365,6 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->format_run_manual_change = FALSE;
 	info->format_run_sublist_select = TRUE;
 	info->format_run_displayrows   = stf_preview_get_displayed_rowcount (info->format_run_renderdata);
-	info->format_run_cacheoptions  = stf_cache_options_new ();
 	info->format_run_parseoptions  = NULL; /*  stf_parse_options_new (); */
 
         gtk_clist_column_titles_passive (info->format_sublist);

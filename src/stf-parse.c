@@ -32,12 +32,6 @@
 #define WARN_TOO_MANY_ROWS _("Too many rows in data to parse: %d")
 #define WARN_TOO_MANY_COLS _("Too many columns in data to parse: %d")
 
-/* CacheItem_t struct, used for the caching engine */
-typedef struct {
-	const char *line;      /* A pointer to the start of the line in memory */
-	int signature;         /* signature, used for caching */
-} CacheItem_t;
-
 /* Source_t struct, used for interchanging parsing information between the low level parse functions */
 typedef struct {
 	const char *position;  /* Indicates the current position within data */
@@ -94,7 +88,6 @@ stf_parse_options_new (void)
 
 	parseoptions->splitpositions    = g_array_new (FALSE, FALSE, sizeof (int));
 	parseoptions->oldsplitpositions = NULL;
-	parseoptions->modificationmode  = FALSE;
 
 	parseoptions->indicator_2x_is_single = TRUE;
 	parseoptions->duplicates             = FALSE;
@@ -134,9 +127,6 @@ stf_parse_options_set_type (StfParseOptions_t *parseoptions, StfParseType_t pars
 	g_return_if_fail (parseoptions != NULL);
 	g_return_if_fail ((parsetype == PARSE_TYPE_CSV || parsetype == PARSE_TYPE_FIXED));
 
-	if (parseoptions->parsetype != parsetype)
-		parseoptions->modified = TRUE;
-
 	parseoptions->parsetype = parsetype;
 }
 
@@ -157,9 +147,6 @@ stf_parse_options_set_line_terminator (StfParseOptions_t *parseoptions, char ter
 {
 	g_return_if_fail (parseoptions != NULL);
 
-	if (parseoptions->terminator != terminator)
-		parseoptions->modified = TRUE;
-
 	parseoptions->terminator = terminator;
 }
 
@@ -179,10 +166,8 @@ stf_parse_options_set_lines_to_parse (StfParseOptions_t *parseoptions, int lines
 	g_return_if_fail (parseoptions != NULL);
 
 	/* we'll convert this to an index by subtracting 1 */
-	lines--;
-
-	if (parseoptions->parselines != lines)
-		parseoptions->modified = TRUE;
+	if (lines != -1)
+		lines--;
 
 	parseoptions->parselines = lines;
 }
@@ -200,69 +185,7 @@ stf_parse_options_set_trim_spaces (StfParseOptions_t *parseoptions, StfTrimType_
 {
 	g_return_if_fail (parseoptions != NULL);
 
-	if (parseoptions->trim_spaces != trim_spaces)
-		parseoptions->modified = TRUE;
-
 	parseoptions->trim_spaces = trim_spaces;
-}
-
-/**
- * stf_parse_options_before_modification
- * @parseoptions : a parse options struct
- *
- * returns : nothing
- **/
-void
-stf_parse_options_before_modification (StfParseOptions_t *parseoptions)
-{
-	int i;
-
-	g_return_if_fail (parseoptions != NULL);
-	g_return_if_fail (parseoptions->modificationmode == FALSE);
-
-	parseoptions->modified = FALSE;
-	parseoptions->modificationmode = TRUE;
-
-	/* Copy the old splitpositions into a temporary array so we can compare them later */
-	parseoptions->oldsplitpositions = g_array_new (FALSE, FALSE, sizeof (int));
-
-	for (i = 0; i < my_garray_len (parseoptions->splitpositions); i++) {
-		int idx = g_array_index (parseoptions->splitpositions, int, i);
-		g_array_append_val (parseoptions->oldsplitpositions, idx);
-	}
-}
-
-/**
- * stf_parse_options_after_modification
- * @parseoptions : an import options struct
- *
- * returns : weather the contents of @parseoptions has been changed since the
- *           last call to stf_parse_options_beofre_modification;
- **/
-gboolean
-stf_parse_options_after_modification (StfParseOptions_t *parseoptions)
-{
-	g_return_val_if_fail (parseoptions != NULL, FALSE);
-	g_return_val_if_fail (parseoptions->modificationmode, FALSE);
-
-	if (my_garray_len (parseoptions->splitpositions) == my_garray_len (parseoptions->oldsplitpositions)) {
-		int i;
-
-		for (i = 0; i < my_garray_len (parseoptions->oldsplitpositions); i++) {
-
-			if (g_array_index (parseoptions->oldsplitpositions, int, i) != g_array_index (parseoptions->splitpositions, int, i)) {
-
-				parseoptions->modified = TRUE;
-				break;
-			}
-		}
-	} else
-		parseoptions->modified = TRUE;
-
-	g_array_free (parseoptions->oldsplitpositions, TRUE);
-	parseoptions->modificationmode = FALSE;
-
-	return parseoptions->modified;
 }
 
 /**
@@ -309,9 +232,6 @@ stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions,
 	if (custom)
 		separators |= TEXT_SEPARATOR_CUSTOM;
 
-	if (parseoptions->separators != separators)
-		parseoptions->modified = TRUE;
-
 	parseoptions->separators = separators;
 }
 
@@ -329,9 +249,6 @@ stf_parse_options_csv_set_customfieldseparator (StfParseOptions_t *parseoptions,
 {
 	g_return_if_fail (parseoptions != NULL);
 
-	if (parseoptions->customfieldseparator != customfieldseparator)
-		parseoptions->modified = TRUE;
-
 	parseoptions->customfieldseparator = customfieldseparator;
 }
 
@@ -348,9 +265,6 @@ stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, char
 	g_return_if_fail (parseoptions != NULL);
 	g_return_if_fail (stringindicator != '\0');
 
-	if (parseoptions->stringindicator != stringindicator)
-		parseoptions->modified = TRUE;
-
 	parseoptions->stringindicator = stringindicator;
 }
 
@@ -364,13 +278,10 @@ stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, char
  * returns : nothing
  **/
 void
-stf_parse_options_csv_set_indicator_2x_is_single  (StfParseOptions_t *parseoptions,
-						   gboolean indic_2x)
+stf_parse_options_csv_set_indicator_2x_is_single (StfParseOptions_t *parseoptions,
+						  gboolean indic_2x)
 {
 	g_return_if_fail (parseoptions != NULL);
-
-	if (parseoptions->indicator_2x_is_single != indic_2x)
-		parseoptions->modified = TRUE;
 
 	parseoptions->indicator_2x_is_single = indic_2x;
 }
@@ -387,9 +298,6 @@ void
 stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean duplicates)
 {
 	g_return_if_fail (parseoptions != NULL);
-
-	if (parseoptions->duplicates != duplicates)
-		parseoptions->modified = TRUE;
 
 	parseoptions->duplicates = duplicates;
 }
@@ -461,208 +369,6 @@ stf_parse_options_valid (StfParseOptions_t *parseoptions)
 		}
 	}
 
-	if (parseoptions->modificationmode) {
-
-		g_warning ("STF: Before modification without end modification called");
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
-/*******************************************************************************************************
- * STF CACHE OPTIONS : StfCacheOptions related
- *******************************************************************************************************/
-
-/**
- * stf_cache_options_new
- *
- * This will return a new StfCacheOptions_t struct.
- * The struct should, after being used, freed with stf_parse_options_free.
- *
- * returns : a new StfCacheOptions_t
- **/
-StfCacheOptions_t*
-stf_cache_options_new (void)
-{
-	StfCacheOptions_t *cacheoptions = g_new0 (StfCacheOptions_t, 1);
-
-	cacheoptions->fromline = -1;
-	cacheoptions->toline   = -1;
-
-	cacheoptions->lines = g_ptr_array_new ();
-	cacheoptions->validsignature = 0;
-
-	return cacheoptions;
-}
-
-/**
- * stf_cache_options_free
- * @cacheoptions : an import options struct
- *
- * will free @cacheoptions
- *
- * returns : nothing
- **/
-void
-stf_cache_options_free (StfCacheOptions_t *cacheoptions)
-{
-	int i;
-
-	g_return_if_fail (cacheoptions != NULL);
-
-	for (i = 0; i < my_gptrarray_len (cacheoptions->lines); i++) {
-		CacheItem_t *item;
-
-		item = g_ptr_array_index (cacheoptions->lines, i);
-		g_free (item);
-	}
-
-	g_ptr_array_free (cacheoptions->lines, TRUE);
-
-	g_free (cacheoptions);
-}
-
-/**
- * stf_cache_options_set_data
- * @cacheoptions : a cache options struct
- * @parseoptions : a parse options struct
- * @data : a pointer to the data to parse
- *
- * This routine will actually look at the data and put pointer to the start
- * of _every_ line in a pointer array
- *
- * returns : nothing
- **/
-void
-stf_cache_options_set_data (StfCacheOptions_t *cacheoptions, StfParseOptions_t *parseoptions, const char *data)
-{
-	const char *iterator = data;
-	gboolean terminator = FALSE;
-	int i;
-
-	g_return_if_fail (cacheoptions != NULL);
-	g_return_if_fail (data != NULL);
-
-	cacheoptions->data = data;
-
-	for (i = 0; i < my_gptrarray_len (cacheoptions->lines); i++) {
-		CacheItem_t *item;
-
-		item = g_ptr_array_index (cacheoptions->lines, i);
-		g_free (item);
-	}
-
-	g_ptr_array_free (cacheoptions->lines, TRUE);
-	cacheoptions->lines = g_ptr_array_new ();
-
-	cacheoptions->linecount = 0;
-	terminator = TRUE;
-	while (*iterator) {
-
-		if (*iterator == parseoptions->terminator && !terminator) {
-
-			terminator = TRUE;
-			iterator++;
-			continue;
-		}
-
-		if (terminator) {
-			CacheItem_t *newitem;
-
-			newitem = g_new (CacheItem_t, 1);
-
-			newitem->line = iterator;
-			newitem->signature = 0;
-
-			g_ptr_array_add (cacheoptions->lines, newitem);
-
-			terminator = FALSE;
-
-			cacheoptions->linecount++;
-
-			if (parseoptions->parselines != -1)
-				if (cacheoptions->linecount > parseoptions->parselines)
-					break;
-
-			continue;
-		}
-
-		iterator++;
-	}
-
-	cacheoptions->validsignature = 1;
-}
-
-/**
- * stf_cache_options_set_range
- * @parseoptions : a cache options struct
- * @fromline : line number to start importing at (zero based)
- * @toline : line number to stop importing at (zero based)
- *
- * returns : nothing
- **/
-void
-stf_cache_options_set_range (StfCacheOptions_t *cacheoptions, int fromline, int toline)
-{
-
-	g_return_if_fail (cacheoptions != NULL);
-
-	cacheoptions->fromline = fromline;
-	cacheoptions->toline = toline;
-}
-
-/**
- * stf_cache_options_invalidate
- * @cacheoptions : a cache options struct
- *
- * This will invalidate the already cached data so it will
- * be re-parsed when necessary
- *
- * returns : nothing
- **/
-void
-stf_cache_options_invalidate (StfCacheOptions_t *cacheoptions)
-{
-
-	g_return_if_fail (cacheoptions != NULL);
-
-	cacheoptions->validsignature++;
-
-	/* If it has wrapped around, invalidate all cache items, just to be sure */
-	if (cacheoptions->validsignature == 0) {
-		CacheItem_t *iterator;
-		int i;
-
-		for (i = 0; i < my_gptrarray_len (cacheoptions->lines); i++) {
-
-			iterator = g_ptr_array_index (cacheoptions->lines, i);
-
-			if (iterator)
-				iterator->signature = -1;
-		}
-	}
-}
-
-/**
- * stf_cache_options_valid
- * @cacheoptions : a cache options struct
- *
- * This will check if the cache options struct is valid
- *
- * returns : true if the struct is correctly filled, false otherwise.
- **/
-static gboolean
-stf_cache_options_valid (StfCacheOptions_t *cacheoptions)
-{
-	g_return_val_if_fail (cacheoptions != NULL, FALSE);
-
-	if (!cacheoptions->data) {
-
-		g_warning ("STF: No input data set in cacheoptions!");
-		return FALSE;
-	}
-
 	return TRUE;
 }
 
@@ -670,7 +376,7 @@ stf_cache_options_valid (StfCacheOptions_t *cacheoptions)
  * STF PARSE : The actual routines that do the 'trick'
  *******************************************************************************************************/
 
-static void
+static inline void
 trim_spaces_inplace (char *field, const StfParseOptions_t *parseoptions)
 {
 	unsigned char *s = (unsigned char *)field;
@@ -699,28 +405,23 @@ trim_spaces_inplace (char *field, const StfParseOptions_t *parseoptions)
  *
  * returns : true if character is a separator, false otherwise
  **/
-static gboolean
+static inline gboolean
 stf_parse_csv_is_separator (const char *character, StfParseType_t parsetype, char customfieldseparator)
 {
 	g_return_val_if_fail (character != NULL, FALSE);
-
-	if ( (parsetype & TEXT_SEPARATOR_CUSTOM) && (customfieldseparator == *character))
-			return TRUE;
 
 	/* I have done this to slightly speed up the parsing, if we
 	 * wouldn't do this, it had to go over the case statement below for
 	 * each character, which clearly slows parsing down
 	 */
-	if (isalnum ((unsigned char)*character)) {
-
+	if (isalnum ((unsigned char)*character))
 		return FALSE;
-	}
 
 	switch (*character) {
+	case ' '              : if (parsetype & TEXT_SEPARATOR_SPACE)     return TRUE; break;
 	case '\t'             : if (parsetype & TEXT_SEPARATOR_TAB)       return TRUE; break;
 	case ':'              : if (parsetype & TEXT_SEPARATOR_COLON)     return TRUE; break;
 	case ','              : if (parsetype & TEXT_SEPARATOR_COMMA)     return TRUE; break;
-	case ' '              : if (parsetype & TEXT_SEPARATOR_SPACE)     return TRUE; break;
 	case ';'              : if (parsetype & TEXT_SEPARATOR_SEMICOLON) return TRUE; break;
 	case '|'              : if (parsetype & TEXT_SEPARATOR_PIPE)      return TRUE; break;
 	case '/'              : if (parsetype & TEXT_SEPARATOR_SLASH)     return TRUE; break;
@@ -728,6 +429,8 @@ stf_parse_csv_is_separator (const char *character, StfParseType_t parsetype, cha
 	case '!'              : if (parsetype & TEXT_SEPARATOR_BANG)      return TRUE; break;
         }
 
+	if ((parsetype & TEXT_SEPARATOR_CUSTOM) && (customfieldseparator == *character))
+		return TRUE;
 
 	return FALSE;
 }
@@ -739,7 +442,7 @@ stf_parse_csv_is_separator (const char *character, StfParseType_t parsetype, cha
  *
  * returns : a pointer to the parsed cell contents. (has to be freed by the calling routine)
  **/
-static char*
+static inline char*
 stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 {
 	GString *res;
@@ -875,11 +578,11 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
  *
  * returns : a pointer to the parsed cell contents. (has to be freed by the calling routine)
  **/
-static char*
+static inline char *
 stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 {
 	GString *res;
-	const char* cur;
+	const char *cur;
 	int splitval;
 	int len = 0;
 
@@ -964,7 +667,6 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 	return list;
 }
 
-
 /**
  * stf_parse_general
  * @parseoptions : a parseoptions struct
@@ -1006,7 +708,6 @@ stf_parse_general (StfParseOptions_t *parseoptions, const char *data)
 	row = 0;
 
 	while (TRUE) {
-
 		if (parseoptions->parsetype == PARSE_TYPE_CSV)
 			celllist = stf_parse_csv_line (&src, parseoptions);
 		else
@@ -1041,83 +742,12 @@ stf_parse_general (StfParseOptions_t *parseoptions, const char *data)
 }
 
 /**
- * stf_parse_general_cached
- * @parseoptions : parsing options struct
- * @cacheoptions : cache options struct
- *
- * The format of the returned GSList is _exacly_ the same
- * as with stf_parse_general. (look at the description of that functions
- * to find out the format). there are however TWO small differences :
- * 1) The list will only contain @cacheoptions->fromline to @cacheoptions->toline
- * 2) Any line which has been cached already according to the cache data will _NOT_
- *    be parsed again. the sublist of that line will be set to NULL
- *
- * REMEMBER : YOU MUST FREE _EVERYTHING_ YOURSELF (look at stf_parse_general for details on this)
- *
- * returns : a GSList containing Sub-GSList's which contain actual row data (cells)
- **/
-GSList*
-stf_parse_general_cached (StfParseOptions_t *parseoptions, StfCacheOptions_t *cacheoptions)
-{
-	GSList *celllist = NULL;
-	GSList *list = NULL;
-	GSList *listend = NULL;
-	Source_t src;
-	CacheItem_t *item;
-	int row;
-
-	g_return_val_if_fail (parseoptions != NULL, NULL);
-	g_return_val_if_fail (cacheoptions != NULL, NULL);
-	g_return_val_if_fail (stf_parse_options_valid (parseoptions), NULL);
-	g_return_val_if_fail (stf_cache_options_valid (cacheoptions), NULL);
-
-	if (my_gptrarray_len (cacheoptions->lines) - 1 >= SHEET_MAX_ROWS) {
-		g_warning (WARN_TOO_MANY_ROWS, my_gptrarray_len (cacheoptions->lines) - 1);
-		return NULL;
-	}
-
-	if (cacheoptions->toline >= my_gptrarray_len (cacheoptions->lines) || cacheoptions->toline == -1)
-		cacheoptions->toline = my_gptrarray_len (cacheoptions->lines) - 1;
-
-	for (row = cacheoptions->fromline; row <= cacheoptions->toline; row++) {
-
-		item = g_ptr_array_index (cacheoptions->lines, row);
-
-		if (item->signature != cacheoptions->validsignature) {
-			src.position = item->line;
-
-			if (parseoptions->parsetype == PARSE_TYPE_CSV)
-				celllist = stf_parse_csv_line (&src, parseoptions);
-			else
-				celllist = stf_parse_fixed_line (&src, parseoptions);
-
-			item->signature = cacheoptions->validsignature;
-		} else {
-
-			celllist = NULL;
-		}
-
-		if (list != NULL) {
-
-			listend = g_slist_append (listend, celllist)->next;
-		} else {
-
-			list = g_slist_append (list, celllist);
-			listend = list;
-		}
-	}
-
-	return list;
-}
-
-/**
  * stf_parse_get_rowcount
  * @parseoptions : a parse options struct
  * @data : the data
  *
  * This will retrieve the number of rows @data consists of.
- * It will always return the right number of rows weather you are using cache or
- * not.
+ * It will always return the right number of rows.
  *
  * returns : number of rows in @data
  **/
@@ -1155,8 +785,8 @@ stf_parse_get_rowcount (StfParseOptions_t *parseoptions, const char *data)
  * @data : the data
  *
  * This will retrieve the number of columns @data consists of.
- * It will always return the right number of columns weather your are using
- * cache or doing a fixed or csv parse.
+ * It will always return the right number of columns wether you
+ * are doing a fixed or csv parse.
  *
  * returns : number of columns in @data
  **/

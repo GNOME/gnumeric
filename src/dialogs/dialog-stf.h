@@ -17,7 +17,7 @@
 
 #include "dialog-stf-preview.h"
 
-#define LINE_DISPLAY_LIMIT 512
+#define LINE_DISPLAY_LIMIT 128
 
 /* Define for text offsets used on the main page of the druid */
 #define TEXT_OFFSET 10.0
@@ -56,7 +56,6 @@ typedef struct {
 	/* Page members that are created at run-time */
 	RenderData_t       *csv_run_renderdata;
 	StfParseOptions_t  *csv_run_parseoptions;
-	StfCacheOptions_t  *csv_run_cacheoptions;
 	int                 csv_run_scrollpos;
 	int                 csv_run_displayrows;
 } CsvInfo_t;
@@ -72,7 +71,6 @@ typedef struct {
 	/* Page members that are created at run-time */
 	RenderData_t      *fixed_run_renderdata;
 	StfParseOptions_t *fixed_run_parseoptions;
-	StfCacheOptions_t *fixed_run_cacheoptions;
 	int                fixed_run_index;
 	gboolean           fixed_run_manual;
 	int                fixed_run_displayrows;
@@ -92,7 +90,6 @@ typedef struct {
 	/* Page members that are created at run-time */
 	RenderData_t      *format_run_renderdata;
 	StfParseOptions_t *format_run_parseoptions;  /* Note : refers to either FixedInfo_t or CsvInfo_t parseoptions */
-	StfCacheOptions_t *format_run_cacheoptions;  /* Note : refers to either FixedInfo_t or CsvInfo_t cacheoptions */
 	RenderData_t      *format_run_source_hash;   /* Note : refers to either FixedInfo_t or CsvInfo_t RenderData_t */
 	GSList            *format_run_list; /* List of StyleFormat * */
 	int                format_run_index;

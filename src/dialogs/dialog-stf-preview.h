@@ -31,8 +31,6 @@ typedef struct {
 	GnomeCanvasGroup *group;          /* Group used to hold items put on the canvas in 1 render cycle */
 	GnomeCanvasGroup *gridgroup;      /* Used to hold the grid */
 
-	GHashTable       *hashtable;      /* Hashtable that holds gslists */
-
 	GArray           *colwidths;      /* An array containing the column widths */
 	GArray           *temp;           /* temporary array holder */
 	GArray           *actualwidths;   /* Array containing the actual column widths (without caption sizes) */

@@ -1,8 +1,7 @@
 /*
  * dialog-stf.c : implementation of the STF import dialog
  *
- * Copyright (C) Almer. S. Tigelaar.
- * EMail: almer1@dds.nl or almer-t@bigfoot.com
+ * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -204,11 +203,6 @@ stf_dialog_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageDa
 	case DPG_CSV    : {
 		newpos = DPG_FORMAT;
 
-		if (data->format_info->format_run_parseoptions != data->csv_info->csv_run_parseoptions)
-			stf_cache_options_set_data  (data->format_info->format_run_cacheoptions, data->csv_info->csv_run_parseoptions, data->cur);
-		else
-			stf_cache_options_invalidate (data->format_info->format_run_cacheoptions);
-
 		data->format_info->format_run_parseoptions = data->csv_info->csv_run_parseoptions;
 		data->format_info->format_run_source_hash  = data->csv_info->csv_run_renderdata;
 	} break;
@@ -221,12 +215,6 @@ stf_dialog_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageDa
 		 * columns getting mangled
 		 */
 		stf_parse_options_set_trim_spaces (data->fixed_info->fixed_run_parseoptions, data->trim);
-		if (data->format_info->format_run_parseoptions != data->fixed_info->fixed_run_parseoptions) {
-			stf_cache_options_set_data  (data->format_info->format_run_cacheoptions, data->fixed_info->fixed_run_parseoptions, data->cur);
-		}
-		else
-			stf_cache_options_invalidate (data->format_info->format_run_cacheoptions);
-
 		data->format_info->format_run_parseoptions = data->fixed_info->fixed_run_parseoptions;
 		data->format_info->format_run_source_hash  = data->fixed_info->fixed_run_renderdata;
 	} break;

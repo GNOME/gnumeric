@@ -3,7 +3,7 @@
  *                        render sheet previews on the gnomecanvas and offers
  *                        functions for making this preview more interactive.
  *
- * Almer. S. Tigelaar <almer1@dds.nl>
+ * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
  *
  * NOTES :
  * 1) This is rather sucky, it works, reasonably fast, but it's not ideal.
@@ -21,47 +21,7 @@
  *  |
  *  |--- GSList (Sub) --> Contains strings as GSList->Data
  *
- * What it comes down to is that the stf_preview_render call actually
- * merges this which an internal hash. The previewing system is thus
- * responsible for freeing all the lists _and_ the strings. Ofcourse
- * it does not have to do this immediately (and in fact it does not)
- * It first puts the Sublists in a hash and 'overwrites' them when
- * newer 'version' of these sublists come available.
- *
- * This sounds complex, but is really simple in essence, to illustrate
- * see the diagram below. It tries to tell what happens to each item in
- * GSList (Sub)
- * (Note that the NULL item has a special meaning, it means that
- *  the line has been parsed before and we just have to use
- *  the existing value in the hash)
- *
- *     |-----< GSList (Sub) Item
- *     |
- * Is this item's data NULL?
- *     |
- *     |--------------------------------------
- *     |                                     |
- *    Nope                                  Yes
- *     |                                     |
- *     |                                Look up the existing list of strings
- *     |                                in the hash and use it for display
- *     |
- * Is this item already in hash?
- *     |
- *     |--------------------------------------
- *     |                                     |
- *    Yes                                   Nope
- *     |                                     |
- * Replace our hashed list of string    Insert the new list of strings
- * with this new one and use the        into the hash and use it for
- * new one for display                  display
- * (Free both the old list and it's
- *  strings!)
- *
- * Lists from the stf_parse_cached routines are _exacly_ in this format
- * look in the stf-parse.[ch] for more details on this.
  */
-
 #include <config.h>
 #include "format.h"
 #include "number-match.h"
@@ -337,7 +297,14 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int 
 		int widthwanted;
 
 		if (iterator != NULL && iterator->data != NULL) {
+			char *text = NULL;
 
+			/*
+			 * We need an upper limit or else we'll crash X
+			 */
+			if (strlen (iterator->data) > INT_MAX)
+				text = g_strndup (iterator->data, INT_MAX);
+			
 			/* In case the active color differs from the inactive color
 			 * this code can be activated
 			 *
@@ -346,13 +313,16 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int 
 			 * else
 			 *	 color = text_color;
 			 */
-
+			
 			textwidth = stf_preview_draw_text (renderdata->group,
 							   iterator->data,
 							   renderdata->font,
 							   TEXT_COLOR,
 							   xpos + (CELL_HPAD / 2),
 							   rowy + (CELL_VPAD / 2));
+
+			if (text)
+				g_free (text);
 		}
 
 		widthwanted = renderdata->charwidth * g_array_index (renderdata->colwidths, int, col);
@@ -369,28 +339,6 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int 
 	}
 
 	return rowy + CELL_VPAD + renderdata->charheight;
-}
-
-/**
- * stf_preview_free_row
- * @row : a GSList row
- *
- * will free @row and the char*'s it points too
- *
- * returns : nothing
- **/
-static void
-stf_preview_free_row (GSList *row)
-{
-	GSList *iterator = row;
-
-	while (iterator) {
-
-		g_free ( (char *) iterator->data);
-		iterator = g_slist_next (iterator);
-	}
-
-	g_slist_free (row);
 }
 
 /**
@@ -507,78 +455,6 @@ stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
 }
 
 /**
- * stf_preview_format_recalc_colwidths
- * @renderdata : renderdata struct
- * @data : a list containing lists with strings
- * @colcount : number of items in each list in @data
- *
- * Walks trough a list which has been acquired by calling parse_sheet_cached and
- * creates a new list which is a merge of items that were in the hash and items
- * that are 'new'
- *
- * returns : a new list (which the calling routine HAS to free)
- **/
-static GSList *
-stf_preview_merge_with_hash (RenderData_t *renderdata, GSList *list, int colcount)
-{
-	GSList *result = NULL;
-	GSList *result_end = NULL;
-	GSList *iterator = list;
-	int i = 0;
-
-	while (iterator) {
-		GSList *data;
-		int row = renderdata->startrow + i;
-
-		if (iterator->data == NULL) {
-
-			data = g_hash_table_lookup (renderdata->hashtable, &row);
-
-			/*
-			 * If the data is NULL we simply assume
-			 * this means the line is empty
-			 */
-		} else {
-			int *key;
-			GSList *orig_data;
-
-			if (g_hash_table_lookup_extended (renderdata->hashtable, &row, (gpointer*) &key, (gpointer*) &orig_data)) {
-
-				stf_preview_free_row (orig_data);
-			} else {
-
-				key = g_new (int, 1);
-				*key = row;
-			}
-
-			data = iterator->data;
-
-			g_hash_table_insert (renderdata->hashtable, key, data);
-
-			/* Reformat the line */
-			if (renderdata->formatted && data != NULL)
-				stf_preview_format_line (renderdata, data, colcount);
-		}
-
-		if (result != NULL) {
-
-			result_end = g_slist_append (result_end, data)->next;
-		} else {
-
-			result = g_slist_append (result, data);
-			result_end = result;
-		}
-
-		iterator = g_slist_next (iterator);
-		i++;
-	}
-
-	g_slist_free (list);
-
-	return result;
-}
-
-/**
  * stf_preview_render
  * @renderdata : a renderdata struct
  * @list : a list containing the rows of of data to display
@@ -622,8 +498,6 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 							   "y", 0.0,
 							   NULL));
 
-	list = stf_preview_merge_with_hash (renderdata, list, colcount);
-
 	if (renderdata->formatted)
 		stf_preview_format_recalc_colwidths (renderdata, list, colcount);
 
@@ -639,11 +513,16 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 
 	/* Render line by line */
 	iterator = list;
+	i = 1;
  	while (iterator) {
-
-		ypos = stf_preview_render_row (renderdata, ypos, iterator->data, colcount);
+		if (i >= renderdata->startrow) {
+			if (renderdata->formatted && iterator->data != NULL)
+				stf_preview_format_line (renderdata, iterator->data, colcount);
+			ypos = stf_preview_render_row (renderdata, ypos, iterator->data, colcount);
+		}
 
 		iterator = g_slist_next (iterator);
+		i++;
 	}
 
 	stf_preview_draw_grid (renderdata, rowcount, colcount);
@@ -663,21 +542,30 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 
 	iterator = captions;
 	while (iterator) {
-
 		g_free (iterator->data);
-
 		iterator = g_slist_next (iterator);
 	}
 	g_slist_free (captions);
 
 	/* Swap the actual column widths with the set columnwidths */
 	if (renderdata->formatted) {
-
 		dummy                 = renderdata->temp;
 		renderdata->temp      = renderdata->colwidths;
 		renderdata->colwidths = dummy;
 	}
 
+	/* Free all the data */
+	iterator = list;
+	while (iterator) {
+		GSList *subiterator = iterator->data;
+		
+		while (subiterator) {
+			g_free ((char *) subiterator->data);
+			subiterator = g_slist_next (subiterator);
+		}
+		g_slist_free (subiterator);
+		iterator = g_slist_next (iterator);
+	}
 	g_slist_free (list);
 }
 
@@ -710,7 +598,6 @@ stf_preview_new (GnomeCanvas *canvas, gboolean formatted)
 	renderdata->temp         = NULL;
 	renderdata->group        = NULL;
 	renderdata->gridgroup    = NULL;
-	renderdata->hashtable    = g_hash_table_new (g_int_hash, g_int_equal);
 
 	renderdata->font       = gdk_font_load ("fixed");
 	renderdata->charwidth  = gdk_string_width (renderdata->font, "W");
@@ -722,31 +609,10 @@ stf_preview_new (GnomeCanvas *canvas, gboolean formatted)
 }
 
 /**
- * stf_preview_hash_item_remove
- * @key : the key
- * @value : a value
- * @user_data : some misc data
- *
- * This will free an item in the cache, both the int* key and the GSList* value will be
- * freed
- *
- * returns : always TRUE
- **/
-static gboolean
-stf_preview_hash_item_remove (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	stf_preview_free_row ( (GSList *) value);
-
-	return TRUE;
-}
-
-/**
  * stf_preview_free
  * @renderdata : a renderdata struct
  *
- * This will free the @renderdata and if it's hash is not shared
- * across multiple previews it will also free the hash
+ * This will free the @renderdata
  *
  * returns : nothing
  **/
@@ -766,11 +632,6 @@ stf_preview_free (RenderData_t *renderdata)
 
 	stf_preview_colformats_clear (renderdata);
 	g_ptr_array_free (renderdata->colformats, TRUE);
-
-	g_hash_table_foreach_remove (renderdata->hashtable,
-				     stf_preview_hash_item_remove,
-				     NULL);
-	g_hash_table_destroy (renderdata->hashtable);
 
 	gdk_font_unref (renderdata->font);
 

@@ -90,7 +90,8 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 		if (dialogresult != NULL) {
 			GSList *iterator;
 			int col, rowcount;
-
+			
+			stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, -1);
 			cr = stf_parse_region (dialogresult->parseoptions, dialogresult->newstart);
 
 			if (cr == NULL) {

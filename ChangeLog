@@ -1,3 +1,34 @@
+2001-06-03  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/stf-parse.[ch] (stf_cache_options_new): Burn.
+	(stf_cache_options_free): Burn.
+	(stf_cache_options_set_data): Burn.
+	(stf_cache_options_set_range): Burn.
+	(stf_cache_options_invalidate): Burn.
+	(stf_parse_general_cached): Burn.
+	(stf_parse_options_before_modification): Burn.
+	(stf_parse_options_after_modification): Burn.
+	(stf_parse_options_set_type): Don't set modified.
+	(stf_parse_options_set_line_terminator): Idem.
+	(stf_parse_options_set_lines_to_parse): Idem.
+	(stf_parse_options_set_trim_spaces): Idem.
+	(stf_parse_options_csv_set_separators): Idem.
+	(stf_parse_options_csv_set_customfieldseparator): Idem.
+	(stf_parse_options_csv_set_stringindicator): Idem.
+	(stf_parse_options_csv_set_indicator_2x_is_single): Idem.
+	(stf_parse_options_csv_set_duplicates): Idem.
+	(stf_parse_options_valid): Remove modificationmode.
+	(stf_parse_options_new): Idem.
+	(trim_spaces_inplace): Make inline.
+	(stf_parse_csv_is_separator): Idem and move things around
+	a for some more speed.
+	(stf_parse_csv_cell): Make inline.
+	(stf_parse_fixed_cell): Idem.
+
+	* src/stf.c (stf_read_workbook): Set maximum number of
+	lines to parse to infinite.
+	(x_selection_to_cell_region): Idem.
+
 2001-06-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_value) : ref the colour.

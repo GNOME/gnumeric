@@ -1,3 +1,35 @@
+2001-06-03  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-stf.c (stf_dialog_druid_page_next): Remove cacheoptions.
+	
+	* dialog-stf-preview.c (stf_preview_merge_with_hash): Remove.
+	(stf_preview_hash_item_remove): Idem.
+	(stf_preview_free_row): Idem.
+	(stf_preview_free): Remove hashtable.
+	(stf_preview_new): Idem.
+	(stf_preview_render): Free the list that is passed.
+	(stf_preview_render_row): Truncate strings if they are too long.
+	
+	* dialog-stf-csv-page.c (csv_page_global_change): Use
+	stf_parse_general.
+	(stf_dialog_csv_page_prepare): Remove cacheoptions.
+	(stf_dialog_csv_page_init): Idem.
+	(stf_dialog_csv_page_cleanup): Idem.
+
+	* dialog-stf-fixed-page.c (fixed_page_update_preview): Use
+	stf_parse_general.
+	(stf_dialog_fixed_page_prepare): Remove cacheoptions.
+	(stf_dialog_fixed_page_cleanup): Idem.
+	(stf_dialog_fixed_page_init): Idem.
+
+	* dialog-stf-format-page.c (format_page_update_preview): Use
+	stf_parse_general.
+	(format_page_scroll_value_changed ): Don't use cacheoptions.
+	(format_page_format_changed): Idem.
+	(stf_dialog_format_page_prepare): Idem.
+	(stf_dialog_format_page_cleanup): Remove cacheoptions.
+	(stf_dialog_format_page_init): Idem.
+
 2001-06-02  Almer S. Tigelaar  <almer@gnome.org>
 
 	* colrow.glade: New simple dialog.

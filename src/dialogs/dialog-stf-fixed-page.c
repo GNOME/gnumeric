@@ -1,7 +1,7 @@
 /*
  * dialog-stf.c : Controls the widgets on the fixed page of the dialog (fixed-width page that is)
  *
- * Almer. S. Tigelaar <almer1@dds.nl>
+ * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
  *
  */
 
@@ -85,8 +85,6 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 	char *t[2];
 	int i, temp;
 
-	stf_parse_options_before_modification (parseoptions);
-
 	stf_parse_options_fixed_splitpositions_clear (parseoptions);
 	for (i = 0; i < info->fixed_collist->rows; i++) {
 		gtk_clist_get_text (info->fixed_collist, i, 1, t);
@@ -94,26 +92,15 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 		stf_parse_options_fixed_splitpositions_add (parseoptions, temp);
 	}
 
-	if (stf_parse_options_after_modification (parseoptions)) {
+	pagedata->colcount = stf_parse_get_colcount (parseoptions, pagedata->cur);
 
-		stf_cache_options_invalidate (info->fixed_run_cacheoptions);
+	stf_preview_colwidths_clear (info->fixed_run_renderdata);
+	for (i = 0; i < pagedata->colcount + 1; i++)
+		stf_preview_colwidths_add (info->fixed_run_renderdata, stf_parse_get_colwidth (parseoptions, pagedata->cur, i));
 
-		pagedata->colcount = stf_parse_get_colcount (parseoptions, pagedata->cur);
+	list = stf_parse_general (parseoptions, pagedata->cur);
 
-		stf_preview_colwidths_clear (info->fixed_run_renderdata);
-		for (i = 0; i < pagedata->colcount + 1; i++)
-			stf_preview_colwidths_add (info->fixed_run_renderdata, stf_parse_get_colwidth (parseoptions, pagedata->cur, i));
-	}
-
-	stf_cache_options_set_range (info->fixed_run_cacheoptions,
-				     info->fixed_run_renderdata->startrow - 1,
-				     (info->fixed_run_renderdata->startrow - 1) + info->fixed_run_displayrows);
-
-	list = stf_parse_general_cached (parseoptions,
-					 info->fixed_run_cacheoptions);
-
-	stf_preview_render (info->fixed_run_renderdata,
-			    list,
+	stf_preview_render (info->fixed_run_renderdata, list,
 			    info->fixed_run_displayrows,
 			    pagedata->colcount);
 }
@@ -538,18 +525,7 @@ stf_dialog_fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPag
 	FixedInfo_t *info = pagedata->fixed_info;
 	GtkAdjustment *spinadjust;
 
-	if (pagedata->cur != info->fixed_run_cacheoptions->data ||
-	    pagedata->importlines != info->fixed_run_parseoptions->parselines)
-	{
-
-		stf_parse_options_set_lines_to_parse (info->fixed_run_parseoptions, pagedata->importlines);
-		stf_cache_options_set_data (info->fixed_run_cacheoptions, info->fixed_run_parseoptions, pagedata->cur);
-	}
-
 	stf_parse_options_set_trim_spaces (info->fixed_run_parseoptions, TRIM_TYPE_NEVER);
-
-	stf_cache_options_invalidate (info->fixed_run_cacheoptions);
-
 	pagedata->colcount = stf_parse_get_colcount (info->fixed_run_parseoptions, pagedata->cur);
 
 	/*
@@ -559,10 +535,13 @@ stf_dialog_fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPag
 	{
 		int rowcount = stf_parse_get_rowcount (info->fixed_run_parseoptions, pagedata->cur) + 1;
 
-		if (rowcount > LINE_DISPLAY_LIMIT)
+		if (rowcount > LINE_DISPLAY_LIMIT) {
 			GTK_RANGE (info->fixed_scroll)->adjustment->upper = LINE_DISPLAY_LIMIT;
-		else
+			stf_parse_options_set_lines_to_parse (info->fixed_run_parseoptions, LINE_DISPLAY_LIMIT);
+		} else {
 			GTK_RANGE (info->fixed_scroll)->adjustment->upper = rowcount;
+			stf_parse_options_set_lines_to_parse (info->fixed_run_parseoptions, pagedata->importlines);
+		}
 	}
 
 	gtk_adjustment_changed (GTK_RANGE (info->fixed_scroll)->adjustment);
@@ -595,9 +574,6 @@ stf_dialog_fixed_page_cleanup (DruidPageData_t *pagedata)
 		stf_parse_options_free (info->fixed_run_parseoptions);
 		info->fixed_run_parseoptions = NULL;
 	}
-
-	stf_cache_options_free (info->fixed_run_cacheoptions);
-	info->fixed_run_cacheoptions = NULL;
 }
 
 /**
@@ -635,7 +611,6 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	/* Set properties */
 	info->fixed_run_renderdata    = stf_preview_new (info->fixed_canvas, FALSE);
 	info->fixed_run_parseoptions  = stf_parse_options_new ();
-	info->fixed_run_cacheoptions  = stf_cache_options_new ();
 	info->fixed_run_manual        = FALSE;
 	info->fixed_run_index         = -1;
 	info->fixed_run_displayrows   = stf_preview_get_displayed_rowcount (info->fixed_run_renderdata);
@@ -643,7 +618,6 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->fixed_run_xorigin       = 0;
 
 	stf_parse_options_set_type  (info->fixed_run_parseoptions, PARSE_TYPE_FIXED);
-	stf_cache_options_set_data  (info->fixed_run_cacheoptions, info->fixed_run_parseoptions, pagedata->cur);
 
 	gtk_clist_column_titles_passive (info->fixed_collist);
 

@@ -196,6 +196,7 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 			col++;
 		}
 		
+		stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, -1);
 		if (!stf_parse_sheet (dialogresult->parseoptions, dialogresult->newstart, sheet)) {
 
 			workbook_sheet_detach (book, sheet);
@@ -203,8 +204,7 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 			 * Note this buffer was allocated with malloc, not g_malloc
 			 */
 			free (data);
-			gnumeric_io_error_read (context,
-			_("Parse error while trying to parse data into sheet"));
+			gnumeric_io_error_read (context, _("Parse error while trying to parse data into sheet"));
 			return;
 		}
 
@@ -220,9 +220,9 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 	 */
 	free (data);
 
-	if (dialogresult != NULL) {
+	if (dialogresult != NULL)
 		stf_dialog_result_free (dialogresult);
-	} else
+	else
 		gnumeric_io_error_unknown (context);
 }
 

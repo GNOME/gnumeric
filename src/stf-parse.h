@@ -48,7 +48,6 @@ typedef struct {
 	/* Fixed width related */
         GArray              *splitpositions;        /* Positions where text will be split vertically */
 
-	gboolean             modified;              /* Indicates whether the contents have changed */
 	int                  rowcount;              /* Number of rows parsed */
 	int                  colcount;              /* Number of columns parsed */
 
@@ -56,17 +55,6 @@ typedef struct {
 	GArray              *oldsplitpositions;     /* Splitpositions before before_modification was called */
 	gboolean             modificationmode;      /* If TRUE we are in modification determination mode */
 } StfParseOptions_t;
-
-typedef struct {
-	const char         *data;           /* Data to parse */
-	int                 validsignature; /* time signature used for caching */
-
-	int                 fromline;       /* Line to begin parsing at */
-	int                 toline;         /* Line to stop parsing at */
-
-	GPtrArray          *lines;          /* An array of pointers to each individual line in the data */
-	int                 linecount;      /* Number of lines */
-} StfCacheOptions_t;
 
 /* CREATION/DESTRUCTION of stf options struct */
 
@@ -79,9 +67,6 @@ void                stf_parse_options_set_type                        (StfParseO
 void                stf_parse_options_set_line_terminator             (StfParseOptions_t *parseoptions, char terminator);
 void                stf_parse_options_set_lines_to_parse              (StfParseOptions_t *parseoptions, int lines);
 void                stf_parse_options_set_trim_spaces                 (StfParseOptions_t *parseoptions, StfTrimType_t trim_spaces);
-
-void                stf_parse_options_before_modification             (StfParseOptions_t *parseoptions);
-gboolean            stf_parse_options_after_modification              (StfParseOptions_t *parseoptions);
 
 void                stf_parse_options_csv_set_separators              (StfParseOptions_t *parseoptions,
 								       gboolean tab, gboolean colon,
@@ -97,21 +82,9 @@ void                stf_parse_options_csv_set_duplicates              (StfParseO
 void                stf_parse_options_fixed_splitpositions_clear      (StfParseOptions_t *parseoptions);
 void                stf_parse_options_fixed_splitpositions_add        (StfParseOptions_t *parseoptions, int position);
 
-/* Manipulation of the stf parse cache struct */
-
-StfCacheOptions_t  *stf_cache_options_new                             (void);
-void                stf_cache_options_free                            (StfCacheOptions_t *cacheoptions);
-
-void                stf_cache_options_set_data                        (StfCacheOptions_t *cacheoptions, StfParseOptions_t *parseoptions, const char *data);
-
-void                stf_cache_options_set_range                       (StfCacheOptions_t *cacheoptions, int fromline, int toline);
-
-void                stf_cache_options_invalidate                      (StfCacheOptions_t *cacheoptions);
-
 /* USING the stf structs to actually do some parsing, these are the lower-level functions and utility functions */
 
 GSList             *stf_parse_general                                 (StfParseOptions_t *parseoptions, const char *data);
-GSList             *stf_parse_general_cached                          (StfParseOptions_t *parseoptions, StfCacheOptions_t *cacheoptions);
 
 int                 stf_parse_get_rowcount                            (StfParseOptions_t *parseoptions, const char *data);
 int                 stf_parse_get_colcount                            (StfParseOptions_t *parseoptions, const char *data);
