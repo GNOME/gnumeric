@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.31\n"
 "POT-Creation-Date: 1999-09-23 13:37-0500\n"
-"PO-Revision-Date: 1999-09-08 20:00+0200\n"
+"PO-Revision-Date: 1999-09-23 20:00+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Excel(R) 95 filformat"
 
 #: plugins/excel/ms-excel-read.c:266
 msgid "#UNKNOWN!"
-msgstr ""
+msgstr "#OKÄND!"
 
 #: plugins/excel/ms-formula-read.c:645
 msgid "Unknown Function"
@@ -481,20 +481,18 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:75
 #: src/dialogs/dialog-analysis-tools.c:408
-#, fuzzy
 msgid "Correlation"
-msgstr "Orientering"
+msgstr "Korrelation"
 
 #: src/dialogs/dialog-analysis-tools.c:77
 #: src/dialogs/dialog-analysis-tools.c:489
 msgid "Covariance"
-msgstr ""
+msgstr "Kovarians"
 
 #: src/dialogs/dialog-analysis-tools.c:79
 #: src/dialogs/dialog-analysis-tools.c:677
-#, fuzzy
 msgid "Descriptive Statistics"
-msgstr "Statistik"
+msgstr "Deskriptiv statistik"
 
 #: src/dialogs/dialog-analysis-tools.c:81
 #: src/dialogs/dialog-analysis-tools.c:1204
@@ -503,14 +501,13 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:83
 #: src/dialogs/dialog-analysis-tools.c:1659
-#, fuzzy
 msgid "Moving Average"
 msgstr "Medelvärde"
 
 #: src/dialogs/dialog-analysis-tools.c:85
 #: src/dialogs/dialog-analysis-tools.c:1368
 msgid "Random Number Generation"
-msgstr ""
+msgstr "Slumptalsgenerering"
 
 #: src/dialogs/dialog-analysis-tools.c:87
 #: src/dialogs/dialog-analysis-tools.c:1749
@@ -520,13 +517,12 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:89
 #: src/dialogs/dialog-analysis-tools.c:1559
 msgid "Regression"
-msgstr ""
+msgstr "Regression"
 
 #: src/dialogs/dialog-analysis-tools.c:91
 #: src/dialogs/dialog-analysis-tools.c:566
-#, fuzzy
 msgid "Sampling"
-msgstr "Exempel-insticksprogram"
+msgstr "Sampling"
 
 #: src/dialogs/dialog-analysis-tools.c:93
 #: src/dialogs/dialog-analysis-tools.c:890
@@ -552,7 +548,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1337
 #: src/dialogs/dialog-analysis-tools.c:1516
 msgid "Discrete"
-msgstr ""
+msgstr "Diskret"
 
 #: src/dialogs/dialog-analysis-tools.c:107
 #: src/dialogs/dialog-analysis-tools.c:1334
@@ -579,7 +575,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:152
 msgid "Confidence Level for Mean"
-msgstr ""
+msgstr "Konfidensnivå för medelvärde"
 
 #: src/dialogs/dialog-analysis-tools.c:153
 msgid "0.95"
@@ -608,7 +604,7 @@ msgstr "Rubriker"
 
 #: src/dialogs/dialog-analysis-tools.c:174
 msgid "Standard Errors"
-msgstr ""
+msgstr "Standardfel"
 
 #: src/dialogs/dialog-analysis-tools.c:201
 msgid "Columns"
@@ -632,23 +628,21 @@ msgid "OK"
 msgstr "OK"
 
 #: src/dialogs/dialog-analysis-tools.c:345
-#, fuzzy
 msgid "New Sheet"
-msgstr "Blad"
+msgstr "Nytt blad"
 
 #. hbox = gtk_hbox_new (FALSE, 0);
 #: src/dialogs/dialog-analysis-tools.c:349
-#, fuzzy
 msgid "New Workbook"
-msgstr "arbetsboken"
+msgstr "Ny arbetsbok"
 
 #: src/dialogs/dialog-analysis-tools.c:354
 msgid "Output Range:"
-msgstr ""
+msgstr "Utdataområde:"
 
 #: src/dialogs/dialog-analysis-tools.c:373
 msgid "Grouped By:"
-msgstr ""
+msgstr "Grupperad efter:"
 
 #: src/dialogs/dialog-analysis-tools.c:418
 #: src/dialogs/dialog-analysis-tools.c:499
@@ -659,7 +653,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1842
 #: src/dialogs/dialog-analysis-tools.c:1931
 msgid "Input Range:"
-msgstr ""
+msgstr "Indataområde:"
 
 #: src/dialogs/dialog-analysis-tools.c:453
 #: src/dialogs/dialog-analysis-tools.c:533
@@ -668,9 +662,8 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1794
 #: src/dialogs/dialog-analysis-tools.c:1879
 #: src/dialogs/dialog-analysis-tools.c:1965
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Range:'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Sätt cell'"
+msgstr "Du måste ange ett giltigt cellnamn i 'Område:'"
 
 #: src/dialogs/dialog-analysis-tools.c:496
 #: src/dialogs/dialog-analysis-tools.c:573
@@ -685,21 +678,19 @@ msgstr "Du måste ange ett giltigt cellnamn i 'Sätt cell'"
 #: src/dialogs/dialog-analysis-tools.c:1839
 #: src/dialogs/dialog-analysis-tools.c:1928
 msgid "Input:"
-msgstr ""
+msgstr "Indata:"
 
 #: src/dialogs/dialog-analysis-tools.c:578
-#, fuzzy
 msgid "Sampling Method:"
-msgstr "Exempel:"
+msgstr "Stickprovsmetod:"
 
 #: src/dialogs/dialog-analysis-tools.c:590
-#, fuzzy
 msgid "Period:"
-msgstr "Periodisk"
+msgstr "Periodisk:"
 
 #: src/dialogs/dialog-analysis-tools.c:593
 msgid "Number of Samples:"
-msgstr ""
+msgstr "Antal stickprov:"
 
 #: src/dialogs/dialog-analysis-tools.c:784
 #: src/dialogs/dialog-analysis-tools.c:901
@@ -740,7 +731,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1846
 #: src/dialogs/dialog-analysis-tools.c:1933
 msgid "Alpha:"
-msgstr ""
+msgstr "Alpha:"
 
 #: src/dialogs/dialog-analysis-tools.c:830
 #: src/dialogs/dialog-analysis-tools.c:941
@@ -748,9 +739,8 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1152
 #: src/dialogs/dialog-analysis-tools.c:1252
 #: src/dialogs/dialog-analysis-tools.c:1606
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Variable 1:'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Sätt cell'"
+msgstr "Du måste ange ett giltigt cellnamn i 'Variabel 1:'"
 
 #: src/dialogs/dialog-analysis-tools.c:841
 #: src/dialogs/dialog-analysis-tools.c:952
@@ -758,79 +748,74 @@ msgstr "Du måste ange ett giltigt cellnamn i 'Sätt cell'"
 #: src/dialogs/dialog-analysis-tools.c:1163
 #: src/dialogs/dialog-analysis-tools.c:1263
 #: src/dialogs/dialog-analysis-tools.c:1617
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Variable 2:'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Sätt cell'"
+msgstr "Du måste ange ett giltigt cellnamn i 'Variabel 2:'"
 
 #: src/dialogs/dialog-analysis-tools.c:1379
 msgid "Number of Variables:"
-msgstr ""
+msgstr "Antal variabler:"
 
 #: src/dialogs/dialog-analysis-tools.c:1382
 msgid "Number of Random Numbers:"
-msgstr ""
+msgstr "Antal slumptal:"
 
 #: src/dialogs/dialog-analysis-tools.c:1393
 msgid "Parameters:"
-msgstr ""
+msgstr "Parametrar:"
 
 #: src/dialogs/dialog-analysis-tools.c:1406
 msgid "Value and Probability Input Range:"
-msgstr ""
+msgstr "Indataområde, värde och sannolikhet:"
 
 #: src/dialogs/dialog-analysis-tools.c:1411
 msgid "Between:"
-msgstr ""
+msgstr "mellan:"
 
 #: src/dialogs/dialog-analysis-tools.c:1414
 msgid "And:"
-msgstr ""
+msgstr "och:"
 
 #: src/dialogs/dialog-analysis-tools.c:1419
 msgid "Mean = "
-msgstr ""
+msgstr "medelvårde = "
 
 #: src/dialogs/dialog-analysis-tools.c:1421
 msgid "Standard Deviation = "
-msgstr ""
+msgstr "standardavvikelse = "
 
 #: src/dialogs/dialog-analysis-tools.c:1425
 msgid "Lambda"
-msgstr ""
+msgstr "Lamba"
 
 #: src/dialogs/dialog-analysis-tools.c:1429
-#, fuzzy
 msgid "p Value"
-msgstr "Värden"
+msgstr "p-värde"
 
 #: src/dialogs/dialog-analysis-tools.c:1524
-#, fuzzy
 msgid ""
 "You should introduce a valid cell range in 'Value and Probability Input "
 "Range:'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Genom att ändra cell'"
+msgstr "Du måste ange ett giltigt cellnamn i 'Indata, värde och sannolikhet '"
 
 #: src/dialogs/dialog-analysis-tools.c:1568
 msgid "Input Y Range:"
-msgstr ""
+msgstr "Indataområde Y:"
 
 #: src/dialogs/dialog-analysis-tools.c:1571
 msgid "Input X Range:"
-msgstr ""
+msgstr "Indataområde X:"
 
 #: src/dialogs/dialog-analysis-tools.c:1573
 msgid "Confidence Level:"
-msgstr ""
+msgstr "Konfidensnivå:"
 
 #: src/dialogs/dialog-analysis-tools.c:1670
-#, fuzzy
 msgid "Interval:"
-msgstr "Allmänt"
+msgstr "Intervall:"
 
 #: src/dialogs/dialog-analysis-tools.c:1705
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Range Input:'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Sätt cell'"
+msgstr "Du måste ange ett giltigt cellnamn i 'Indataområde:'"
 
 #: src/dialogs/dialog-analysis-tools.c:2008
 msgid "Data Analysis"
@@ -838,11 +823,11 @@ msgstr "Dataanalys"
 
 #: src/dialogs/dialog-analysis-tools.c:2015
 msgid "Analysis Tools"
-msgstr ""
+msgstr "Analysverktyg"
 
 #: src/dialogs/dialog-cell-comment.c:25
 msgid "Cell comment"
-msgstr "Cellkommentar  "
+msgstr "Cellkommentar"
 
 #: src/dialogs/dialog-cell-format.c:69
 msgid "Numbers"
@@ -1374,9 +1359,8 @@ msgstr "Du måste ange ett giltigt cellnamn för 'Genom att ändra celler'"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/col-width.glade.h:7
-#, fuzzy
 msgid "_Column width:"
-msgstr "Kolumn:"
+msgstr "_Kolumnbredd:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1384,17 +1368,16 @@ msgstr "Kolumn:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/hf-config.glade.h:7
-#, fuzzy
 msgid "Left section:"
-msgstr "Vänster"
+msgstr "Vänster del:"
 
 #: src/dialogs/hf-config.glade.h:8
 msgid "Center section:"
-msgstr "Mitten:"
+msgstr "Mittendel:"
 
 #: src/dialogs/hf-config.glade.h:9
 msgid "Right section:"
-msgstr "Höger:"
+msgstr "Höger del:"
 
 #: src/dialogs/hf-config.glade.h:10
 msgid "Enter the format strings for each section:"
@@ -1662,9 +1645,8 @@ msgstr "Refererar till:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/row-height.glade.h:7
-#, fuzzy
 msgid "_Row height:"
-msgstr "_Nedåt, sedan höger"
+msgstr "_Radhöjd:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1673,7 +1655,7 @@ msgstr "_Nedåt, sedan höger"
 #.
 #: src/dialogs/sheet-rename.glade.h:7
 msgid "Enter new _sheet name:"
-msgstr ""
+msgstr "Ange nytt name för _bladet:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1697,9 +1679,8 @@ msgid "Keywords"
 msgstr "Nyckelord"
 
 #: src/dialogs/summary.glade.h:11
-#, fuzzy
 msgid "Manager"
-msgstr "Område"
+msgstr "Manager"
 
 #: src/dialogs/summary.glade.h:12
 msgid "Document Summary Information\n"
@@ -2058,7 +2039,6 @@ msgid "Database"
 msgstr "Databas"
 
 #: src/functions/fn-date.c:68
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -2076,6 +2056,8 @@ msgstr ""
 "(datumets serienummer).\n"
 "@dag kan vara negativ för att räkna baklänges i förhållande till föregående "
 "månad. @år skall vara minst 1900.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:101
@@ -2087,7 +2069,6 @@ msgid "Invalid day"
 msgstr "Ogiltig dag"
 
 #: src/functions/fn-date.c:123
-#, fuzzy
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -2103,10 +2084,11 @@ msgstr ""
 "@DESCRIPTION=DATEVALUE returnerar datumets serienummer. @datum_str är en "
 "sträng som innehåller datumet. Till exempel ger DATEVALUE(\"1/1/1999\") "
 "resulatet 36160. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DATE"
 
 #: src/functions/fn-date.c:145
-#, fuzzy
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -2126,10 +2108,11 @@ msgstr ""
 "är serienumret för startdatumet och @månader är antalet månader före "
 "(negativt tal) eller efter (positivt tal) det ursprungliga datumet.\n"
 "Om @månader inte är ett heltal, avrundas det till närmsta lägre heltal.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DATE"
 
 #: src/functions/fn-date.c:193
-#, fuzzy
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -2143,10 +2126,11 @@ msgstr ""
 "@SYNTAX=TODAY ()\n"
 "@DESCRIPTION=Returnerar serienumret för dagens datum (antalet dagar som har "
 "gått sedan den första januari 1900).\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:219
-#, fuzzy
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -2170,10 +2154,11 @@ msgstr ""
 "antal dagar som passerat sedan 1 januari 1900. Decimaldelen representerar "
 "hur stor del av dagen som passerat.\n"
 "Till exempel: 0.0 representerar början av dagen och 0.5 mitt på dagen.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:262
-#, fuzzy
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -2186,10 +2171,11 @@ msgstr ""
 "@SYNTAX=TIME (timmar,minuter,sekunder)\n"
 "@DESCRIPTION=Returnerar ett tal mellan 0 och 1 som representerar det angivna "
 "klockslaget.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=HOUR"
 
 #: src/functions/fn-date.c:289
-#, fuzzy
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -2203,10 +2189,11 @@ msgstr ""
 "@SYNTAX=TIMEVALUE (tidstext)\n"
 "@DESCRIPTION=Returnerar ett tal mellan 0 och 1, som representerar det "
 "angivna klockslaget.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=HOUR"
 
 #: src/functions/fn-date.c:310
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -2225,10 +2212,12 @@ msgstr ""
 "av ett heltal i intervallet 0 (12:00 A.M.) till 23 (11:00 P.M.)\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
 #: src/functions/fn-date.c:338
-#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -2246,10 +2235,11 @@ msgstr ""
 "av ett heltal i intervallet 0 till 59.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
 #: src/functions/fn-date.c:366
-#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -2267,10 +2257,11 @@ msgstr ""
 " av ett heltal i intervallet 0 till 59.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
 #: src/functions/fn-date.c:394
-#, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -2286,10 +2277,11 @@ msgstr ""
 "@DESCRIPTION=Konverterar från serienummer till år.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
 #: src/functions/fn-date.c:424
-#, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -2305,10 +2297,11 @@ msgstr ""
 "@DESCRIPTION=Konverterar från serienummer till månad.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:454
-#, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -2324,10 +2317,11 @@ msgstr ""
 "@DESCRIPTION=Konverterar från serienummer till dag.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:484
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number)\n"
@@ -2343,10 +2337,11 @@ msgstr ""
 "@DESCRIPTION=Konverterar från serienummer till veckodag.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:514
-#, fuzzy
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -2372,6 +2367,8 @@ msgstr ""
 "komplicerad industristandard.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:550
@@ -2379,7 +2376,6 @@ msgid "Unsupported method"
 msgstr "Ej stödd metod"
 
 #: src/functions/fn-date.c:611
-#, fuzzy
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -2395,10 +2391,11 @@ msgstr ""
 "@DESCRIPTION=Returnerar den sista dagen i måndaden som ligger @månader "
 "månader efter datumet @startdatum.\n"
 "Returnerar #NUM! om @startdatum eller @månader är felaktiga.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MONTH"
 
 #: src/functions/fn-date.c:654
-#, fuzzy
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -2415,6 +2412,8 @@ msgstr ""
 "@DESCRIPTION=Returnerar dagen som är @dagar arbetsdagar efter datumet "
 "@startdatum. Hänsyn tas till veckoslut och helgdagar som anges i @helger.\n"
 "Returnerar #NUM! om @startdatum eller @dagar är felaktiga.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=NETWORKDAYS"
 
 #. 1 if the cell is formatted in color for negative values;
@@ -2429,7 +2428,6 @@ msgid "Unimplemented"
 msgstr "Oimplementerat"
 
 #: src/functions/fn-date.c:719
-#, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -2445,6 +2443,8 @@ msgstr ""
 "@DESCRIPTION=Returnerar antalet vardagar mellan @startdatum och @slutdatum. "
 "Helger kan valfritt anges i @helger.\n"
 "Returnerar #NUM om @startdatum eller @slutdatum är felaktiga.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=WORKDAY"
 
 #: src/functions/fn-date.c:831
@@ -2470,7 +2470,6 @@ msgid "Base error"
 msgstr "Fel i bas"
 
 #: src/functions/fn-eng.c:135
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -2485,6 +2484,9 @@ msgstr ""
 "@SYNTAX=HEX2DEC(x)\n"
 "@DESCRIPTION=HEX2DEC omvandlar ett hexadecimalt tal till dess decimala "
 "motsvarighet.\n"
+"\n"
+"@EXAMPLES=\n"
+"BIN2DEC(101) är lika med 5.\n"
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
@@ -2641,7 +2643,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-eng.c:415
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -2656,6 +2657,9 @@ msgstr ""
 "@SYNTAX=HEX2DEC(x)\n"
 "@DESCRIPTION=HEX2DEC omvandlar ett hexadecimalt tal till dess decimala "
 "motsvarighet.\n"
+"\n"
+"@EXAMPLES=\n"
+"HEX2DEC(\"2A\") equals 42.\n"
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
@@ -2736,7 +2740,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-eng.c:675
-#, fuzzy
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -2751,10 +2754,12 @@ msgstr ""
 "@SYNTAX=IMAGINARY(i)\n"
 "@DESCRIPTION=IMAGINARY returnerar imaginärdelens koefficient för ett "
 "komplext tal. \n"
+"@EXAMPLES=\n"
+"IMAGINARY(\"132-j\") är lika med -1.\n"
+"\n"
 "@SEEALSO=IMREAL"
 
 #: src/functions/fn-eng.c:706
-#, fuzzy
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -2768,10 +2773,12 @@ msgstr ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(i)\n"
 "@DESCRIPTION=IMREAL returnerar realdelens koefficient för ett komplext tal.\n"
+"@EXAMPLES=\n"
+"imreal(\"132-j\") är lika med 132.\n"
+"\n"
 "@SEEALSO=IMAGINARY"
 
 #: src/functions/fn-eng.c:737
-#, fuzzy
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
@@ -2785,10 +2792,12 @@ msgstr ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(i)\n"
 "@DESCRIPTION=IMABS returnerar absolutbeloppet av ett komplext tal.\n"
+"@EXAMPLES=\n"
+"IMABS(\"2-j\") är lika med 2.23606798.\n"
+"\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/functions/fn-eng.c:768
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -2801,11 +2810,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(i)\n"
-"@DESCRIPTION=IMCONJUGATE returnerar komplexkonjugatet för ett komplext tal.\n"
+"@DESCRIPTION=IMCONJUGATE returnerar komplexkonjugatet för ett komplext tal. "
+"Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMCONJUGATE(\"1-j\") är lika med 1+j.\n"
+"\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/functions/fn-eng.c:799
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
@@ -2818,11 +2830,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(i)\n"
-"@DESCRIPTION=IMCOS returnerar cosinus för ett komplext tal.\n"
+"@DESCRIPTION=IMCOS returnerar cosinus för ett komplext tal. "
+"Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMCOS(\"1+j\") är lika med 0.833730-0.988898j.\n"
+"\n"
 "@SEEALSO=IMSIN,IMTAN"
 
 #: src/functions/fn-eng.c:827
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -2834,11 +2849,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(i)\n"
-"@DESCRIPTION=IMTAN returnerar tangens för ett komplext tal.\n"
+"@DESCRIPTION=IMTAN returnerar tangens för ett komplext tal. "
+"Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-eng.c:854
-#, fuzzy
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
@@ -2851,11 +2868,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(i)\n"
-"@DESCRIPTION=IMEXP returnerar exponentialen av ett komplext tal.\n"
+"@DESCRIPTION=IMEXP returnerar exponentialen av ett komplext tal. "
+"Funktionen är kompatibel med Excel.\n"
 "@SEEALSO=IMLN"
 
 #: src/functions/fn-eng.c:882
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -2868,11 +2885,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(i)\n"
-"@DESCRIPTION=IMARGUMENT returnerar argumentet (theta) för ett komplext tal.\n"
+"@DESCRIPTION=IMARGUMENT returnerar argumentet (theta) för ett komplext tal. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMEXP(\"2-j\") är lika med 3.992324-6.217676j.\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-eng.c:909
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
@@ -2891,11 +2911,14 @@ msgstr ""
 "@DESCRIPTION=IMLN returnerar den naturliga logaritmen för ett komplext tal. "
 "(Resultatet har en imaginärdel mellan -pi och +pi. Den naturliga logaritmen "
 "är inte unikt definierad för komplexa tal, och därför kan du behöva addera "
-"eller subtrahera en jämn multipel av pi på imaginärdelen.)\n"
+"eller subtrahera en jämn multipel av pi på imaginärdelen.) "
+"Denna funtion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMLN(\"3-j\") är lika med 1.15129-0.32175j.\n"
+"\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 
 #: src/functions/fn-eng.c:941
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -2908,11 +2931,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(i)\n"
-"@DESCRIPTION=IMLOG2 returnerar logaritmen i basen 2 för ett komplext tal.\n"
+"@DESCRIPTION=IMLOG2 returnerar logaritmen i basen 2 för ett komplext tal. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMLOG2(\"3-j\") är lika med 1.66096-0.46419j.\n"
+"\n"
 "@SEEALSO=IMLN,IMLOG10"
 
 #: src/functions/fn-eng.c:971
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -2925,11 +2951,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(i)\n"
-"@DESCRIPTION=IMLOG10 returnerar logaritmen i basen 10 för ett komplext tal.\n"
+"@DESCRIPTION=IMLOG10 returnerar logaritmen i basen 10 för ett komplext tal. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMLOG10(\"3-j\") är lika med 0.5-0.13973j.\n"
+"\n"
 "@SEEALSO=IMLN,IMLOG2"
 
 #: src/functions/fn-eng.c:1001
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
@@ -2944,11 +2973,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(i,exp)\n"
-"@DESCRIPTION=IMPOWER returnerar ett komplext tal @i upphöjt till @exp.\n"
+"@DESCRIPTION=IMPOWER returnerar ett komplext tal @i upphöjt till @exp. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMPOWER(\"4-j\",2) är lika med 15-8j.\n"
+"\n"
 "@SEEALSO=IMSQRT"
 
 #: src/functions/fn-eng.c:1037
-#, fuzzy
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
@@ -2961,11 +2993,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(i,i)\n"
-"@DESCRIPTION=IMDIV returnerar kvoten av två komplexa tal.\n"
+"@DESCRIPTION=IMDIV returnerar kvoten av två komplexa tal. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMDIV(\"2-j\",\"2+j\") är lika med 0.6-0.8j.\n"
+"\n"
 "@SEEALSO=IMPRODUCT"
 
 #: src/functions/fn-eng.c:1071
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -2978,11 +3013,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(i)\n"
-"@DESCRIPTION=IMSIN returnerar sinus för ett komplext tal.\n"
+"@DESCRIPTION=IMSIN returnerar sinus för ett komplext tal. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMSIN(\"1+j\") är lika med 1.29846+0.63496j.\n"
+"\n"
 "@SEEALSO=IMCOS,IMTAN"
 
 #: src/functions/fn-eng.c:1099
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -2995,11 +3033,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(i)\n"
-"@DESCRIPTION=IMSQRT returnerar kvadratroten av ett komplext tal.\n"
+"@DESCRIPTION=IMSQRT returnerar kvadratroten av ett komplext tal. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMSQRT(\"1+j\") är lika med 1.09868+0.4550899j.\n"
+"\n"
 "@SEEALSO=IMPOWER"
 
 #: src/functions/fn-eng.c:1127
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
@@ -3012,7 +3053,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(i,i)\n"
-"@DESCRIPTION=IMSUB returnerar skillnaden mellan två komplexa tal.\n"
+"@DESCRIPTION=IMSUB returnerar skillnaden mellan två komplexa tal. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMSUB(\"3-j\",\"2+j\") är lika med 1-2j.\n"
+"\n"
 "@SEEALSO=IMSUM"
 
 #: src/functions/fn-eng.c:1158
@@ -8530,9 +8575,8 @@ msgid "&[DATE]"
 msgstr "&[DATE]"
 
 #: src/print-info.c:268
-#, fuzzy
 msgid "Sheet &[PAGE]"
-msgstr "Sida &[PAGE]"
+msgstr "Blad &[PAGE]"
 
 #: src/print-info.c:419
 msgid "pts"
@@ -8679,14 +8723,13 @@ msgid "Zooms the page out"
 msgstr "Zoomar ut sidan"
 
 #: src/print-preview.c:475
-#, fuzzy, c-format
+#, c-format
 msgid "Preview for %s in %s"
-msgstr "Förhandsgranskning för %s"
+msgstr "Förhandsgranskning för %s i %s"
 
 #: src/print-preview.c:476
-#, fuzzy
 msgid "the sheet"
-msgstr "Lägg till ett nytt blad"
+msgstr "bladet"
 
 #: src/print-preview.c:477
 msgid "the workbook"
@@ -8813,9 +8856,8 @@ msgid "Create a new spreadsheet"
 msgstr "Skapa ett nytt kalkylark"
 
 #: src/workbook.c:847
-#, fuzzy
 msgid "_Import..."
-msgstr "_Importera"
+msgstr "_Importera..."
 
 #: src/workbook.c:847
 msgid "Imports a file"
@@ -8878,9 +8920,8 @@ msgid "P_aste special..."
 msgstr "Klistra in _special..."
 
 #: src/workbook.c:899
-#, fuzzy
 msgid "_Delete..."
-msgstr "Ta bort"
+msgstr "Ta bort..."
 
 #: src/workbook.c:901
 msgid "C_lear"
@@ -8995,9 +9036,8 @@ msgid "_Special"
 msgstr "_Special"
 
 #: src/workbook.c:974 src/workbook.c:982
-#, fuzzy
 msgid "_Auto fit selection"
-msgstr "Vänster"
+msgstr "_Anpassa till markeringen"
 
 #: src/workbook.c:976
 msgid "_Width"
@@ -9108,18 +9148,16 @@ msgid "Button"
 msgstr "Knapp"
 
 #: src/workbook.c:1080
-#, fuzzy
 msgid "Creates a button"
-msgstr "Skapar ett knapp-objekt"
+msgstr "Skapar en knapp"
 
 #: src/workbook.c:1083
 msgid "Checkbox"
-msgstr ""
+msgstr "Kryssruta"
 
 #: src/workbook.c:1083
-#, fuzzy
 msgid "Creates a checkbox"
-msgstr "Skapar ett nytt kalkylblad"
+msgstr "Skapar en kryssruta"
 
 #: src/workbook.c:1090
 msgid "Line"
@@ -9236,180 +9274,66 @@ msgid "Right justifies the cell contents"
 msgstr "Högerjusterar cellinnehållet"
 
 #: src/workbook-format-toolbar.c:422
-#, fuzzy
 msgid "Money format"
-msgstr "Kopiera formatering"
+msgstr "Valutaformatering"
 
 #: src/workbook-format-toolbar.c:422
-#, fuzzy
 msgid "Sets the format of the selected cells to monetary"
-msgstr "Ändra formateringen på markerade celler"
+msgstr "Ändra formateringen på markerade celler till valutaformat"
 
 #: src/workbook-format-toolbar.c:425
-#, fuzzy
 msgid "Sets the format of the selected cells to percentage"
-msgstr "Ändra formateringen på markerade celler"
+msgstr "Ändra formateringen på markerade celler till procentformat"
 
 #: src/workbook-format-toolbar.c:428
 msgid "Thousand separator"
-msgstr ""
+msgstr "Tusentalsseparator"
 
 #: src/workbook-format-toolbar.c:428
 msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr ""
+msgstr "Ändra formateringen på markerade celler till att använda tusentalsseparator"
 
 #: src/workbook-format-toolbar.c:431
 msgid "Add decimals"
-msgstr ""
+msgstr "Lägg till decimaler"
 
 #: src/workbook-format-toolbar.c:431
 msgid "Increases the number of decimal numbers displayed"
-msgstr ""
+msgstr "Ökar antalet visade decimaler"
 
 #: src/workbook-format-toolbar.c:434
 msgid "Remove decimals"
-msgstr ""
+msgstr "Ta bort decimaler"
 
 #: src/workbook-format-toolbar.c:434
 msgid "Decreases the number of decimal numbers displayed"
-msgstr ""
+msgstr "Minskar antalet visade decimaler"
 
 #: src/workbook-format-toolbar.c:542
-#, fuzzy
 msgid "Font selector"
-msgstr "Stil:"
+msgstr "Typsnittsväljare"
 
 #: src/workbook-format-toolbar.c:558
-#, fuzzy
 msgid "Size"
-msgstr "Storlek:"
+msgstr "Storlek"
 
 #: src/workbook-format-toolbar.c:580
 msgid "Foreground"
-msgstr ""
+msgstr "Förgrund"
 
 #: src/workbook-format-toolbar.c:583
 msgid "Background"
-msgstr ""
+msgstr "Bakgrund"
 
 #: src/workbook-cmd-format.c:83
 msgid "You entered an invalid column width value.  It must be bigger than 0"
-msgstr ""
+msgstr "Du angav en ogiltig kolumnbredd.  Den måste vara större än 0"
 
 #: src/workbook-cmd-format.c:162
 msgid "You entered an invalid row height value.  It must be bigger than 0"
-msgstr ""
+msgstr "Du angav en ogiltig radhöjd.  Den måste vara större än 0"
 
 #: src/xml-io.c:2277
 msgid "Old Gnumeric XML file format"
 msgstr "Gammalt Gnumeric XML filformat"
 
-#~ msgid "Sheet &[NUM]"
-#~ msgstr "Sheet &[NUM]"
-
-#~ msgid "Page &[NUM]"
-#~ msgstr "Sida &[NUM]"
-
-#~ msgid "Zoom"
-#~ msgstr "Zoom"
-
-#~ msgid "Custom"
-#~ msgstr "Egen"
-
-#~ msgid "Zoom factor should be at least 25%"
-#~ msgstr "Zoomfaktorn bör vara minst 25%"
-
-#~ msgid "Zoom factor should be at most 900%"
-#~ msgstr "Zoomfaktorn bör inte vara över 900%"
-
-#~ msgid "acos - domain error"
-#~ msgstr "acos - domänfel"
-
-#~ msgid "acosh - domain error"
-#~ msgstr "acosh - domänfel"
-
-#~ msgid "asin - domain error"
-#~ msgstr "asin - domänfel"
-
-#~ msgid "atanh: domain error"
-#~ msgstr "atanh: domänfel"
-
-#~ msgid ""
-#~ "@FUNCTION=COUNTIF\n"
-#~ "@SYNTAX=COUNTIF(range,criteria)\n"
-#~ "@DESCRIPTION=COUNTIF function counts the number of cells in the given @range "
-#~ "that meet the given @criteria. \n"
-#~ "@SEEALSO=COUNT,SUMIF"
-#~ msgstr ""
-#~ "@FUNCTION=COUNTIF\n"
-#~ "@SYNTAX=COUNTIF(område,villkor)\n"
-#~ "@DESCRIPTION=COUNTIF räknar antalet celler i det angivna området, som "
-#~ "uppfyller det givna villkoret.\n"
-#~ "@SEEALSO=COUNT,SUMIF"
-
-#~ msgid "log2: domain error"
-#~ msgstr "log2: domänfel"
-
-#~ msgid "log10: domain error"
-#~ msgstr "log10: domänfel"
-
-#~ msgid ""
-#~ "@FUNCTION=ERROR.TYPE\n"
-#~ "@SYNTAX=ERROR(exp)\n"
-#~ "@DESCRIPTION=FIXME\n"
-#~ "@SEEALSO=ISERROR"
-#~ msgstr ""
-#~ "@FUNCTION=ERROR.TYPE\n"
-#~ "@SYNTAX=ERROR(uttryck)\n"
-#~ "@DESCRIPTION=FIXME\n"
-#~ "@SEEALSO=ISERROR"
-
-#~ msgid "Miscellaneous"
-#~ msgstr "Diverse"
-
-#~ msgid ""
-#~ "@FUNCTION=SELECTION\n"
-#~ "@SYNTAX=SELECTION(x)\n"
-#~ "@DESCRIPTION=The SELECTION function returns a list with the values in the "
-#~ "current mouse cursor. This is usually used to implement on-the-flight "
-#~ "computation of values.\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=SELECTION\n"
-#~ "@SYNTAX=SELECTION(x)\n"
-#~ "@DESCRIPTION=Funktionen SELECTION returnerar en lista med värdena i den "
-#~ "aktuella markeringen.\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=SLOPE\n"
-#~ "@SYNTAX=SLOPE(known_y's,known_x's)\n"
-#~ "@DESCRIPTION=SLOPE returns the slope of the linear regression line.\n"
-#~ "@SEEALSO=STDEV,STDEVPA"
-#~ msgstr ""
-#~ "@FUNCTION=SLOPE\n"
-#~ "@SYNTAX=SLOPE(kända_y,kända_x)\n"
-#~ "@DESCRIPTION=SLOPE returnerar lutningen på linjen som bildas av linjär "
-#~ "regression av punkterna.\n"
-#~ "@SEEALSO=STDEV,STDEVPA"
-
-#~ msgid "The command `"
-#~ msgstr "Kommandot `"
-
-#~ msgid "' cannot be performed with multiple selections"
-#~ msgstr "' kan inte utföras på flera markeringar"
-
-#~ msgid "copy"
-#~ msgstr "kopiera"
-
-#~ msgid "cut"
-#~ msgstr "klipp ut"
-
-#~ msgid "paste"
-#~ msgstr "klistra in"
-
-#~ msgid "_Comments"
-#~ msgstr "_Kommentarer"
-
-#~ msgid "_Autoadjust"
-#~ msgstr "_Autojustera"
