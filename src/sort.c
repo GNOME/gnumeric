@@ -53,102 +53,42 @@ sort_data_length (const SortData *data)
 static int
 sort_compare_cells (const Cell *ca, const Cell *cb, SortClause *clause)
 {
-	Value *a,  *b;
-	int ans = 0, fans = 0;
+	Value *a, *b;
+	ValueType ta, tb;
+	ValueCompare comp = IS_EQUAL;	
+	int ans = 0;
 
 	if (!ca)
-		a = value_new_int (0);
+		a = NULL;
 	else
 		a = ca->value;
 	if (!cb)
-		b = value_new_int (0);
+		b = NULL;
 	else
 		b = cb->value;
 
-	if (clause->val) {
-		switch (a->type) {
-		case VALUE_EMPTY:
-		case VALUE_BOOLEAN:
-		case VALUE_FLOAT:
-		case VALUE_INTEGER:
-			switch (b->type) {
-			case VALUE_EMPTY:
-			case VALUE_BOOLEAN:
-			case VALUE_FLOAT:
-			case VALUE_INTEGER:
-			{
-				float_t fa, fb;
-				fa = value_get_as_float (a);
-				fb = value_get_as_float (b);
-				if (fa < fb)
-					ans = -1;
-				else if (fa == fb)
-					ans = 0;
-				else
-					ans = 1;
-				break;
-			}
-			default:
-				ans = -1;
-				break;
-			}
-			break;
-		default: {
-			switch (b->type) {
-			case VALUE_EMPTY:
-			case VALUE_BOOLEAN:
-			case VALUE_FLOAT:
-			case VALUE_INTEGER:
-				ans = 1;
-				break;
-			default: {
-					char *sa, *sb;
-					sa  = value_get_as_string (a);
-					sb  = value_get_as_string (b);
-					if (clause->cs)
-						ans = strcmp (sa, sb);
-					else
-						ans = g_strcasecmp (sa, sb);
-					g_free (sa);
-					g_free (sb);
-					break;
-				}
-				}
-				break;
-			}
-		}
-	} else {
-		char *sa, *sb;
-		if (ca)
-			sa = cell_get_entered_text (ca);
-		else
-			sa = g_strdup ("0");
-		if (cb)
-			sb = cell_get_entered_text (cb);
-		else
-			sb = g_strdup ("0");
+	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->type;
+	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->type;
 
-		if (clause->cs)
-			ans = strcmp (sa, sb);
-		else
-			ans = g_strcasecmp (sa, sb);
-		g_free (sa);
-		g_free (sb);
+	if (ta == VALUE_EMPTY && tb != VALUE_EMPTY) {
+		comp = clause->asc ? IS_LESS : IS_GREATER;
+	} else if (tb == VALUE_EMPTY && ta != VALUE_EMPTY) {
+		comp = clause->asc ? IS_GREATER : IS_LESS;
+	} else if (ta == VALUE_ERROR && tb != VALUE_ERROR) {
+		comp = IS_GREATER;
+	} else if (tb == VALUE_ERROR && ta != VALUE_ERROR) {
+		comp = IS_LESS;
+	} else {
+		comp = value_compare (a, b, clause->cs);
+	}
+	
+	if (comp == IS_LESS) {
+		ans = clause->asc ?  1 : -1;
+	} else if (comp == IS_GREATER) {
+		ans = clause->asc ? -1 :  1;
 	}
 
-	if (ans == 0)
-		fans = ans;
-	else if (ans < 0)
-		fans = clause->asc ?  1 : -1;
-	else
-		fans = clause->asc ? -1 :  1;
-
-	if (!ca)
-		value_release (a);
-	if (!cb)
-		value_release (b);
-
-	return fans;
+	return ans;
 }
 
 static int

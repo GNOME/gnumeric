@@ -636,10 +636,11 @@ compare_float_float (Value const *va, Value const *vb)
  * Compares two (Value *) and returns one of ValueCompare
  *
  * if pos is non null it will perform implict intersection for
- * cellranges.
+ * cellranges. if cs is true, be case sensitive on string 
+ * comparisons.
  */
 ValueCompare
-value_compare (Value const *a, Value const *b)
+value_compare (Value const *a, Value const *b, gboolean cs)
 {
 	ValueType ta, tb;
 
@@ -668,7 +669,16 @@ value_compare (Value const *a, Value const *b)
 		/* If both are strings compare as string */
 		case VALUE_STRING :
 		{
-			int const t = g_strcasecmp (a->v_str.val->str, b->v_str.val->str);
+			int t;
+
+			if (cs) {
+				t = strcmp (a->v_str.val->str, 
+					    b->v_str.val->str);
+			} else {
+				t = g_strcasecmp (a->v_str.val->str, 
+						  b->v_str.val->str);
+			}
+			
 			if (t == 0)
 				return IS_EQUAL;
 			else if (t > 0)

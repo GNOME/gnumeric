@@ -214,6 +214,8 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	OrderBox *orderbox;
 	GtkWidget *hbox = gtk_hbox_new (FALSE, 2);
 
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 5);
+	
 	orderbox  = g_new (OrderBox, 1);
 	orderbox->parent = parent;
 	orderbox->main_frame = gtk_frame_new (frame_text);
@@ -232,7 +234,7 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 
 		orderbox->asc = 1;
 		orderbox->asc_desc = gtk_hbox_new (FALSE, 0);
-
+		
 		item = gtk_radio_button_new_with_label (group, _("Ascending"));
 		gtk_box_pack_start (GTK_BOX (orderbox->asc_desc), item, FALSE, FALSE, 0);
 		group = gtk_radio_button_group (GTK_RADIO_BUTTON (item));
@@ -247,8 +249,14 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	/* Advanced button */
 	orderbox->cs = FALSE;
 	orderbox->val = TRUE;
-	orderbox->adv_button = gtk_button_new_with_label(_("Advanced..."));
-	gtk_box_pack_start (GTK_BOX (hbox), orderbox->adv_button, FALSE, FALSE, 0);
+	
+	{
+		GtkWidget *pm = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_PROPERTIES);
+		orderbox->adv_button = gnome_pixmap_button (pm, _("Advanced..."));
+	}
+	
+	gtk_box_pack_start (GTK_BOX (hbox), orderbox->adv_button, 
+			    FALSE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (orderbox->adv_button), "clicked",
 		GTK_SIGNAL_FUNC (dialog_cell_sort_adv),  orderbox);
 

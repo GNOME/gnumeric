@@ -482,7 +482,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 			}
 		}
 
-		comp = value_compare (a, b);
+		comp = value_compare (a, b, FALSE);
 
 		if (a != NULL)
 			value_release (a);

@@ -134,6 +134,7 @@
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>frame2</name>
+	  <border_width>5</border_width>
 	  <label>Selection has</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -146,6 +147,7 @@
 	  <widget>
 	    <class>GtkCheckButton</class>
 	    <name>cell_sort_header_check</name>
+	    <border_width>5</border_width>
 	    <can_focus>True</can_focus>
 	    <label>A header</label>
 	    <active>False</active>
@@ -156,6 +158,7 @@
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>frame3</name>
+	  <border_width>5</border_width>
 	  <label>Sort</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -168,6 +171,7 @@
 	  <widget>
 	    <class>GtkHBox</class>
 	    <name>hbox2</name>
+	    <border_width>5</border_width>
 	    <homogeneous>True</homogeneous>
 	    <spacing>0</spacing>
 

@@ -1,3 +1,10 @@
+2000-06-15  JP Rosevear  <jpr@arcavia.com>
+
+	* cell-sort.glade: Tidy the UI
+
+	* dialog-cell-sort.c (order_box_new): Make the clause boxes look
+	a little nicer.
+
 2000-06-13  Morten Welinder  <terra@diku.dk>
 
 	* dialog-stf-format-page.c (format_page_format_changed): Plug
