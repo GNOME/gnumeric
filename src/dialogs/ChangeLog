@@ -1,3 +1,8 @@
+2002-03-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-sheet-order.c : various minor modifications to make 
+	  Jody happy.
+
 2002-03-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.glade, dialog-solver.c: Renamed `Program Report' as

@@ -35,11 +35,13 @@ typedef struct {
 	GtkWidget *delete_btn;
 	GtkWidget *ok_btn;
 	GtkWidget *cancel_btn;
+	GdkPixbuf *sheet_image;
 
 	GSList *old_order;
 } SheetManager;
 
 enum {
+	SHEET_PIX,
 	SHEET_NAME,
 	SHEET_NEW_NAME,
 	SHEET_POINTER,
@@ -49,20 +51,20 @@ enum {
 };
 
 static void
-edited (GtkCellRendererText *cell,
+cb_name_edited (GtkCellRendererText *cell,
 	gchar               *path_string,
 	gchar               *new_text,
         SheetManager        *state)
 {
-  GtkTreeIter iter;
-  GtkTreePath *path;
+	GtkTreeIter iter;
+	GtkTreePath *path;
 
-	  path = gtk_tree_path_new_from_string (path_string);
-	  
-	  gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path);
-	  gtk_list_store_set (state->model, &iter, SHEET_NEW_NAME, new_text, -1);
-	  
-	  gtk_tree_path_free (path);
+	path = gtk_tree_path_new_from_string (path_string);
+	
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path);
+	gtk_list_store_set (state->model, &iter, SHEET_NEW_NAME, new_text, -1);
+	
+	gtk_tree_path_free (path);
 }
 
 static gint
@@ -116,7 +118,9 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 			    IS_DELETED, &is_deleted,
 			    SHEET_POINTER, &sheet,
 			    -1);
-	gtk_widget_set_sensitive (state->delete_btn, !is_deleted);
+	gtk_widget_set_sensitive (state->delete_btn, TRUE);
+	gtk_button_set_label (GTK_BUTTON (state->delete_btn),
+                              is_deleted ? _("Restore") : _("Remove"));
 
 	gtk_widget_set_sensitive (state->up_btn,
 				  location_of_iter (&iter, state->model) > 0);
@@ -132,30 +136,6 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 			wb_control_view (WORKBOOK_CONTROL (state->wbcg)), sheet);
 }
 
-static void
-cb_toggle_deleted (GtkCellRendererToggle *cell,
-	 gchar                 *path_string,
-	 gpointer               data)
-{
-	SheetManager *state = data;
-	GtkTreeModel *model = GTK_TREE_MODEL (state->model);
-	GtkTreeIter iter;
-	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
-	gboolean value;
-	Sheet *sheet;
-
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, SHEET_POINTER, &sheet, IS_DELETED, &value, -1);
-
-	if (sheet == NULL)
-		gtk_list_store_remove (state->model, &iter);
-	else {
-		value = !value;
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter, IS_DELETED, value, -1);
-	}
-	gtk_tree_path_free (path);
-}
-
 /* Add all of the sheets to the sheet_list */
 static void
 populate_sheet_list (SheetManager *state)
@@ -167,11 +147,11 @@ populate_sheet_list (SheetManager *state)
 	Sheet *cur_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
 	int i, n = workbook_sheet_count (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)));
 	GtkCellRenderer *renderer;
-	GtkWidget *image;
 
-	state->model = gtk_list_store_new (NUM_COLMNS,
+	state->model = gtk_list_store_new (NUM_COLMNS, GDK_TYPE_PIXBUF,
 		G_TYPE_STRING, 	G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
-	state->sheet_list = GTK_TREE_VIEW (gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
+	state->sheet_list = GTK_TREE_VIEW (gtk_tree_view_new_with_model 
+					   (GTK_TREE_MODEL (state->model)));
 	selection = gtk_tree_view_get_selection (state->sheet_list);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 	for (i = 0 ; i < n ; i++) {
@@ -179,6 +159,7 @@ populate_sheet_list (SheetManager *state)
 			wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)), i);
 		gtk_list_store_append (state->model, &iter);
 		gtk_list_store_set (state->model, &iter,
+				    SHEET_PIX, state->sheet_image,
 				    SHEET_NAME, sheet->name_unquoted,
 				    SHEET_NEW_NAME, "",
 				    SHEET_POINTER, sheet,
@@ -192,32 +173,29 @@ populate_sheet_list (SheetManager *state)
 
 	state->old_order = g_slist_reverse (state->old_order);
 
-	column = gtk_tree_view_column_new_with_attributes (_("Current Name"),
-			gtk_cell_renderer_text_new (),
-			"text", SHEET_NAME, NULL);
+	column = gtk_tree_view_column_new_with_attributes ("",
+							   gtk_cell_renderer_pixbuf_new (),
+							   "pixbuf", SHEET_PIX, 
+							   NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
-	renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT (renderer),
-		"toggled",
-		G_CALLBACK (cb_toggle_deleted), state);
-	column = gtk_tree_view_column_new_with_attributes (_("Rem"),
-							   renderer,
-							   "active", IS_DELETED, NULL);
+	column = gtk_tree_view_column_new_with_attributes (_("Current Name"),
+							   gtk_cell_renderer_text_new (),
+							   "text", SHEET_NAME, 
+							   "strikethrough", IS_DELETED,
+							   NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
-	image = gtk_image_new_from_stock (GTK_STOCK_REMOVE, GTK_ICON_SIZE_SMALL_TOOLBAR);
-	gtk_tree_view_column_set_widget (column, image);
-	gtk_widget_show (image);
 
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (_("New Name"),
 							   renderer,
 							   "text", SHEET_NEW_NAME, 
 							   "editable", IS_EDITABLE_COLUMN,
+							   "strikethrough", IS_DELETED,
 							   NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 	g_signal_connect (G_OBJECT (renderer), "edited",
-			  G_CALLBACK (edited), state);
+			  G_CALLBACK (cb_name_edited), state);
 	gtk_tree_view_set_reorderable (state->sheet_list, TRUE);
 
 	/* Init the buttons & selection */
@@ -230,7 +208,7 @@ populate_sheet_list (SheetManager *state)
 }
 
 static void
-move_cb (SheetManager *state, gint direction)
+cb_item_move (SheetManager *state, gint direction)
 {
 	char* name;
 	char* new_name;
@@ -238,6 +216,7 @@ move_cb (SheetManager *state, gint direction)
 	GtkTreeIter iter;
 	gint row;
 	gboolean is_deleted;
+	gboolean is_editable;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
@@ -246,6 +225,7 @@ move_cb (SheetManager *state, gint direction)
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
 			    SHEET_NAME, &name,
 			    SHEET_NEW_NAME, &new_name,
+			    IS_EDITABLE_COLUMN, &is_editable,
 			    SHEET_POINTER, &sheet,
 			    IS_DELETED,	&is_deleted,   
 			    -1);
@@ -255,21 +235,23 @@ move_cb (SheetManager *state, gint direction)
 	gtk_list_store_remove (state->model, &iter);
 	gtk_list_store_insert (state->model, &iter, row + direction);
 	gtk_list_store_set (state->model, &iter,
+			    SHEET_PIX, state->sheet_image,
 			    SHEET_NAME, name,
 			    SHEET_NEW_NAME, new_name,
-			    IS_EDITABLE_COLUMN, TRUE,
+			    IS_EDITABLE_COLUMN, is_editable,
 			    SHEET_POINTER, sheet,
 			    IS_DELETED,	is_deleted,   
 			    -1);
 	g_free (name);
 	g_free (new_name);
+	gtk_tree_selection_select_iter (selection, &iter);
 
 	/* this is a little hack-ish, but we need to refresh the buttons */
 	cb_selection_changed (NULL, state);
 }
 
-static void cb_up   (GtkWidget *w, SheetManager *state) { move_cb (state, -1); }
-static void cb_down (GtkWidget *w, SheetManager *state) { move_cb (state,  1); }
+static void cb_up   (GtkWidget *w, SheetManager *state) { cb_item_move (state, -1); }
+static void cb_down (GtkWidget *w, SheetManager *state) { cb_item_move (state,  1); }
 
 static void
 cb_add_clicked (GtkWidget *ignore, SheetManager *state)
@@ -310,6 +292,7 @@ cb_add_clicked (GtkWidget *ignore, SheetManager *state)
 			break;
 	}
 	gtk_list_store_set (state->model, &iter,
+			    SHEET_PIX, state->sheet_image,
 			    SHEET_NAME, _(""),
 			    SHEET_NEW_NAME, name,
 			    SHEET_POINTER, NULL,
@@ -332,19 +315,29 @@ cb_delete_clicked (GtkWidget *ignore, SheetManager *state)
 	GtkTreeIter sel_iter;
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
 	Sheet *sheet;
+	gboolean is_deleted;
 
 	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter,
 				    SHEET_POINTER, &sheet,
+				    IS_DELETED, &is_deleted,
 				    -1);
-		if (sheet == NULL) {
-			gtk_list_store_remove (state->model, &sel_iter);
-		} else {
+		if (is_deleted) {
 			gtk_list_store_set (state->model, &sel_iter,
-				    IS_DELETED,	TRUE,
-				    -1);
-			gtk_widget_set_sensitive (state->delete_btn, FALSE);
+					    IS_DELETED,	FALSE,
+					    IS_EDITABLE_COLUMN, TRUE,
+					    -1);
+		} else {
+			if (sheet == NULL) {
+				gtk_list_store_remove (state->model, &sel_iter);
+			} else {
+				gtk_list_store_set (state->model, &sel_iter,
+						    IS_DELETED,	TRUE,
+						    IS_EDITABLE_COLUMN, FALSE,
+						    -1);
+			}
 		}
+		cb_selection_changed (NULL, state);
 	}
 }
 
@@ -466,6 +459,8 @@ cb_sheet_order_destroy (GtkWidget *ignored, SheetManager *state)
 	wbcg_edit_detach_guru (state->wbcg);
 	g_object_unref (G_OBJECT (state->gui));
 	state->gui = NULL;
+	g_object_unref (state->sheet_image);
+	state->sheet_image = NULL;
 	if (state->old_order != NULL) {
 		g_slist_free (state->old_order);
 		state->old_order = NULL;
@@ -497,6 +492,10 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	state->ok_btn  = glade_xml_get_widget (gui, "ok_button");
 	state->cancel_btn  = glade_xml_get_widget (gui, "cancel_button");
 	state->old_order  = NULL;
+	state->sheet_image =  gtk_widget_render_icon (state->dialog,
+                                             "Gnumeric_MergeCells",
+                                             GTK_ICON_SIZE_SMALL_TOOLBAR,
+                                             "Gnumeric-Sheet-Manager");
 
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->up_btn),   0., .5, 0., 0.);
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->down_btn), 0., .5, 0., 0.);
