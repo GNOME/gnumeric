@@ -1,5 +1,8 @@
 2000-08-10  Jody Goldberg <jgoldberg@home.com>
 
+	* src/functions/fn-stat.c : All callers to float_range_function ignore
+	  blanks.
+
 	* src/functions/fn-database.c (find_column_of_field) : Use
 	  cell_get_rendered_text rather than entered_text.
 	(parse_criteria_rang) : Ditto.

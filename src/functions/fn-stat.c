@@ -142,7 +142,8 @@ gnumeric_varp (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list, ei,
 				     range_var_pop,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_DIV0);
 }
 
@@ -175,7 +176,8 @@ gnumeric_var (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list, ei,
 				     range_var_est,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_DIV0);
 }
 
@@ -204,7 +206,8 @@ gnumeric_stdev (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list, ei,
 				     range_stddev_est,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_DIV0);
 }
 
@@ -233,7 +236,8 @@ gnumeric_stdevp (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list, ei,
 				     range_stddev_pop,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_DIV0);
 }
 
@@ -380,7 +384,8 @@ gnumeric_trimmean (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list, ei,
 				     range_trimmean,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -771,7 +776,8 @@ gnumeric_harmean (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_harmonic_mean,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -801,7 +807,8 @@ gnumeric_geomean (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_geometric_mean,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -917,7 +924,8 @@ gnumeric_average (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_average,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_DIV0);
 }
 
@@ -958,7 +966,8 @@ gnumeric_min (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_min0,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -999,7 +1008,8 @@ gnumeric_max (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_max0,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -1036,7 +1046,8 @@ gnumeric_skew (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_skew_est,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_DIV0);
 }
 
@@ -1068,7 +1079,8 @@ gnumeric_skewp (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_skew_pop,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_DIV0);
 }
 
@@ -2088,7 +2100,8 @@ gnumeric_kurt (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_kurtosis_m3_est,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_DIV0);
 }
 
@@ -2121,7 +2134,8 @@ gnumeric_kurtp (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_kurtosis_m3_pop,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_DIV0);
 }
 
@@ -2151,7 +2165,8 @@ gnumeric_avedev (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_avedev,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_NUM);
 }
 
@@ -2183,7 +2198,8 @@ gnumeric_devsq (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_devsq,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -2366,7 +2382,8 @@ gnumeric_median (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_excel_median,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_NUM);
 }
 
@@ -2418,7 +2435,8 @@ gnumeric_large (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_large,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_NUM);
 }
 
@@ -2470,7 +2488,8 @@ gnumeric_small (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_small,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_NUM);
 }
 
@@ -2888,7 +2907,8 @@ gnumeric_averagea (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_average,
 				     COLLECT_ZERO_STRINGS |
-				     COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZEROONE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_DIV0);
 }
 
@@ -2922,7 +2942,8 @@ gnumeric_maxa (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_max,
 				     COLLECT_ZERO_STRINGS |
-				     COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZEROONE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -2934,11 +2955,11 @@ static char *help_mina = {
 
 	   "@DESCRIPTION="
 	   "MINA returns the smallest value of the given arguments.  Numbers, "
-	   "text and logical values are included in the calculation too. "
-	   "If the cell contains text or the argument evaluates to FALSE, "
-	   "it is counted as value zero (0).  If the argument evaluates to "
-	   "TRUE, it is counted as one (1).  Note that empty cells are not "
-	   "counted. "
+	   "text and logical values are included in the calculation, blank "
+	   "cells are not.  If the cell contains text or the argument evaluates "
+	   "to FALSE, it is counted as value zero (0).  If the argument "
+	   "evaluates to TRUE, it is counted as one (1).  Note that empty "
+	   "cells are not counted. "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -2956,7 +2977,8 @@ gnumeric_mina (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_min,
 				     COLLECT_ZERO_STRINGS |
-				     COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZEROONE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -2990,7 +3012,8 @@ gnumeric_vara (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_var_est,
 				     COLLECT_ZERO_STRINGS |
-				     COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZEROONE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -3024,7 +3047,8 @@ gnumeric_varpa (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_var_pop,
 				     COLLECT_ZERO_STRINGS |
-				     COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZEROONE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -3058,7 +3082,8 @@ gnumeric_stdeva (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_stddev_est,
 				     COLLECT_ZERO_STRINGS |
-				     COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZEROONE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -3092,7 +3117,8 @@ gnumeric_stdevpa (FunctionEvalInfo *ei, GList *expr_node_list)
 				     ei,
 				     range_stddev_pop,
 				     COLLECT_ZERO_STRINGS |
-				     COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZEROONE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
