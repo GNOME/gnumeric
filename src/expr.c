@@ -925,8 +925,7 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 		} else {
 			char *tmp = g_strconcat (value_peek_string (a),
 						 value_peek_string (b), NULL);
-			res = value_new_string (tmp);
-			g_free (tmp);
+			res = value_new_string_nocopy (tmp);
 			value_release (a);
 			value_release (b);
 		}
