@@ -443,8 +443,8 @@ wbcg_set_entry (WorkbookControlGUI *wbcg, GnumericExprEntry *entry)
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	if (wbcg->edit_line.temp_entry != entry) {
-		wbcg->edit_line.temp_entry = entry;
 		scg_rangesel_stop (wb_control_gui_cur_sheet (wbcg), FALSE);
+		wbcg->edit_line.temp_entry = entry;
 	}
 }
 

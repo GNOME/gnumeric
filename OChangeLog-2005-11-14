@@ -1,3 +1,8 @@
+2002-11-05   Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/workbook-edit.c (wbcg_set_entry) : stop editing before 
+	  changing the entry.
+	
 2002-11-05  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Consistently use $python_prog to find out about Python,
