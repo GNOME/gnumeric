@@ -43,16 +43,13 @@ typedef struct {
 #define OLEO_TO_GNUMERIC(a) ((a) - 1)
 #define GNUMERIC_TO_OLEO(a) ((a) + 1)
 
-/* Copied from Lotus-123 plugin */
 static void
-append_zeros (char *s, int n)
+append_zeros (GString *s, int n)
 {
 	if (n > 0) {
-		s = s + strlen (s);
-		*s++ = '.';
-		while (n--)
-			*s++ = '0';
-		*s = 0;
+		size_t oldlen = s->len;
+		g_string_set_size (s, oldlen + n);
+		memset (s->str+oldlen, '0', n);
 	}
 }
 
@@ -297,32 +294,32 @@ static void
 oleo_deal_with_format (OleoParseState *state, guint8 *str, int *ccol, int *crow,
 		       MStyle **style)
 {
-	char *ptr = str + 1, fmt_string[100];
+	char *ptr = str + 1;
 	MStyle *mstyle = mstyle_new_default ();
-
-	fmt_string[0] = '\0';
+	GString *fmt_string = g_string_new (NULL);
 
 	while (*ptr) {
-		char c=*ptr++;
+		char c = *ptr++;
 
 		switch (c) {
 		case 'c' : *ccol = astol (&ptr); break;
 		case 'r' : *crow = astol (&ptr); break;
 		case 'F': case 'G':
-			c=*ptr++;
+			c = *ptr++;
 
-			strcpy (fmt_string, "0");
+			g_string_truncate (fmt_string, 0);
+			g_string_append_c (fmt_string, '0');
 			if (g_ascii_isdigit (*ptr))
 				append_zeros (fmt_string, astol (&ptr));
 			switch (c) {
 			case 'F':
 				break;
 			case '%':
-				strcat (fmt_string, "%");
+				g_string_append_c (fmt_string, '%');
 				break;
 			default: /* Unknown format type... */
-				fmt_string[0] = '\0'; /* - ignore completely */
-		}
+				g_string_truncate (fmt_string, 0);
+			}
 			break;
 		case 'L':
 			mstyle_set_align_h (mstyle, HALIGN_LEFT);
@@ -331,8 +328,9 @@ oleo_deal_with_format (OleoParseState *state, guint8 *str, int *ccol, int *crow,
 			mstyle_set_align_h (mstyle, HALIGN_RIGHT);
 	}
 	}
-	if (fmt_string[0])
-		mstyle_set_format_text (mstyle, fmt_string);
+	if (fmt_string->len)
+		mstyle_set_format_text (mstyle, fmt_string->str);
+	g_string_free (fmt_string, TRUE);
 
 	if (*style)
 		mstyle_unref (*style);

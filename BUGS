@@ -201,7 +201,7 @@ Misc stuff that should be fixed
     plugins/html: Done 20030110 MW.
     plugins/lotus: Done 20030110 MW.
     plugins/numtheory: Done 20030110 MW.
-    plugins/oleo: oleo_deal_with_format NOT SAFE.
+    plugins/oleo: Done 20030408 MW.
     plugins/perl: Done 20030110 MW.
     plugins/qpro: Done 20030110 MW.
     plugins/sample_datasource: Done 20030110 MW.
