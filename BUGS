@@ -163,7 +163,8 @@ Dialogs
 -------
 - Formula Guru
     : Fix keyboard interface
-    : Fix the problem that calling the function selector does not finish editing
+    : Fix the problem that calling the function selector does not finish 
+      editing (--> GTK+ Bug #76066)
 - Import Dialog
     : Rewrite main page preview (see Bug #66393)
 
