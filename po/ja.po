@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.7\n"
-"POT-Creation-Date: 2002-05-10 00:32+0900\n"
-"PO-Revision-Date: 2002-05-10 00:32+0900\n"
+"POT-Creation-Date: 2002-05-28 01:54+0900\n"
+"PO-Revision-Date: 2002-05-28 01:54+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -407,7 +407,7 @@ msgstr ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
 "opt_bs_gamma"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4531
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4534
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "ファイルの読み込み中..."
@@ -526,16 +526,16 @@ msgstr "グラフ%d"
 msgid "Module%d"
 msgstr "モジュール%d"
 
-#: plugins/excel/ms-excel-read.c:4526
+#: plugins/excel/ms-excel-read.c:4529
 msgid "No book or workbook streams found."
 msgstr "ブックあるいはワークブックストリームが見つかりませんでした。"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4690
+#: plugins/excel/ms-excel-read.c:4693
 msgid "Password protected workbooks are not supported yet."
 msgstr "パスワード保護されたワークブックは、まだサポートされていません。"
 
-#: plugins/excel/ms-excel-read.c:4803
+#: plugins/excel/ms-excel-read.c:4806
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "有効な MS Excel のワークブックが見つかりません"
 
@@ -4384,36 +4384,36 @@ msgid "_Wrap text"
 msgstr "折り返し(_W)"
 
 #: src/dialogs/cell-format.glade.h:129
-msgid "min &lt;= val &lt;= max         (between)"
-msgstr "最小値 &lt;= 値 &lt;= 最大値     (範囲内)"
+msgid "min <= val <= max         (between)"
+msgstr "最小値 <= 値 <= 最大値     (範囲内)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "値 != 境界値                   (等しくない)"
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "val &gt;  bound                  (greater than)"
-msgstr "値 &gt; 境界値                        (大きい)"
+msgid "val <  bound                  (less than)"
+msgstr "値 < 境界値                     (小さい)"
 
 #: src/dialogs/cell-format.glade.h:132
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "値 &gt;= 境界値                      (大きいまたは等しい)"
+msgid "val <= min || max <= val (not between)"
+msgstr "値 <= 最小値 || 最大値 <= 値  (範囲外)"
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val &lt;  bound                  (less than)"
-msgstr "値 &lt 境界値                     (小さい)"
+msgid "val <=bound                  (less than or equal to)"
+msgstr "値 <= 境界値                    (小さいまたは等しい)"
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val &lt;= min || max &lt;= val (not between)"
-msgstr "値 &lt;= 最小値 || 最大値 &lt;= 値  (範囲外)"
-
-#: src/dialogs/cell-format.glade.h:135
-msgid "val &lt;=bound                  (less than or equal to)"
-msgstr "値 &lt;= 境界値                    (小さいまたは等しい)"
-
-#: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
 msgstr "値 == 境界値                  (等しい)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val >  bound                  (greater than)"
+msgstr "値 > 境界値                        (大きい)"
+
+#: src/dialogs/cell-format.glade.h:136
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "値 >= 境界値                      (大きいまたは等しい)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5661,15 +5661,15 @@ msgstr "注釈"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "シート `%s' を削除しても宜しいですか？"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5715,25 +5715,25 @@ msgstr "本当にキャンセルしますか?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "&lt;- Remove"
-msgstr "&lt;- 削除"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "&lt;- Remove all"
-msgstr "&lt;- 全て削除"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "<- Remove"
+msgstr "<- 削除"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+msgid "<- Remove all"
+msgstr "<- 全て削除"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add -&gt;"
-msgstr "追加 -&gt;"
+msgid "Add ->"
+msgstr "追加 ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all -&gt;"
-msgstr "全て追加 -&gt;"
+msgid "Add all ->"
+msgstr "全て追加 ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -7220,14 +7220,6 @@ msgstr "新しいシート名を入力(_S):"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "シートの名前を変更"
-
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr "&gt;="
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr "&lt;="
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -20038,42 +20030,42 @@ msgstr "fontmap2 ファイルには Helvetica に対する適当なエントリがありません。"
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "fontmap2 ファイルが指定された場所に見つかりませんでした。"
 
-#: src/validation.c:138
+#: src/validation.c:139
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "セル %s を空白にすることはできません"
 
-#: src/validation.c:155
+#: src/validation.c:156
 #, c-format
 msgid "'%s' is an error"
 msgstr "'%s' はエラーです"
 
-#: src/validation.c:165
+#: src/validation.c:166
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "'%s' は正しい日付ではありません"
 
-#: src/validation.c:167
+#: src/validation.c:168
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "'%s' は正しい時刻ではありません"
 
-#: src/validation.c:169
+#: src/validation.c:170
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' は数値ではありません"
 
-#: src/validation.c:182
+#: src/validation.c:183
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "'%s' は整数ではありません"
 
-#: src/validation.c:275
+#: src/validation.c:276
 #, c-format
 msgid "%s is not true."
 msgstr "%s は TRUE(真) ではありません"
 
-#: src/validation.c:288
+#: src/validation.c:289
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -20081,7 +20073,7 @@ msgstr ""
 "その値は不正です。\n"
 "制約条件がこのセルの内容に適用されています。"
 
-#: src/validation.c:295
+#: src/validation.c:296
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric : 変化量"
 
