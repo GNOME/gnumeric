@@ -393,12 +393,10 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *ev)
 		break;
 
 	case GDK_KP_Left: case GDK_Left:
- 		scg_objects_nudge (scg, gcanvas, (alt ? 4 : (control ? 3 : 8)), 
-			scg->rtl ? 1.0 : -1.0 , 0, symmetric, shift);
+ 		scg_objects_nudge (scg, gcanvas, (alt ? 4 : (control ? 3 : 8)), -1.0 , 0, symmetric, shift);
 		return TRUE;
 	case GDK_KP_Right: case GDK_Right:
- 		scg_objects_nudge (scg, gcanvas, (alt ? 4 : (control ? 3 : 8)), 
-			scg->rtl ? -1.0 : 1.0, 0, symmetric, shift);
+ 		scg_objects_nudge (scg, gcanvas, (alt ? 4 : (control ? 3 : 8)), 1.0, 0, symmetric, shift);
 		return TRUE;
 	case GDK_KP_Up: case GDK_Up:
  		scg_objects_nudge (scg, gcanvas, (alt ? 6 : (control ? 1 : 8)), 0, -1.0, symmetric, shift);

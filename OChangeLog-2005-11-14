@@ -1,3 +1,13 @@
+2005-01-26  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object): don't invert
+	move in rtl mode.
+	* src/sheet-control-gui.c (snap_pos_to_grid): use correct SHEET_MAX
+	depending on what to snap to grid.
+	(snap_to_grid): handle rtl case, where GNUMERIC_CANVAS_FACTOR_X is
+	0 in world coordinates. World coordinates are negative in rtl mode.
+	(apply_move): positive delta means going downward in cell numbers.
+
 2005-01-25  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (gnumeric_gnome_reqs): Upgrade requirements to

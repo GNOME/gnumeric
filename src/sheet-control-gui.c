@@ -1861,6 +1861,7 @@ snap_pos_to_grid (GnmCanvas *gcanvas, gboolean is_col, int *pos, gboolean to_min
 	gboolean snap = FALSE;
 	int length = 0;
 	ColRowInfo const *info;
+	int sheet_max = is_col ? SHEET_MAX_COLS : SHEET_MAX_ROWS;
 
 	if (*pos < pixel) {
 		while (cell > 0 && *pos < pixel) {
@@ -1886,7 +1887,7 @@ snap_pos_to_grid (GnmCanvas *gcanvas, gboolean is_col, int *pos, gboolean to_min
 				}
 				pixel += length;
 			}
-		} while (++cell < SHEET_MAX_ROWS && !snap);
+		} while (++cell < sheet_max && !snap);
 		pixel -= length;	
 	}
 
@@ -1905,16 +1906,21 @@ snap_to_grid (GnmCanvas *gcanvas,
 	      gboolean snap_x, gboolean snap_y,
 	      double *x, double *y,
 	      gboolean to_left, gboolean to_top,
-	      gboolean is_mouse_move) {
-
+	      gboolean is_mouse_move,
+	      gboolean rtl)
+{
 	int x_int, y_int;
 
 	if (gcanvas == NULL)
 		return;
 
 	foo_canvas_w2c (FOO_CANVAS (gcanvas), *x, *y, &x_int, &y_int);
+	if (rtl) x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
+
 	if (snap_x) snap_pos_to_grid (gcanvas, TRUE, &x_int, to_left, is_mouse_move);
 	if (snap_y) snap_pos_to_grid (gcanvas, FALSE, &y_int, to_top, is_mouse_move);
+	
+	if (rtl) x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
 	foo_canvas_c2w (FOO_CANVAS (gcanvas), x_int, y_int, x, y);
 }
 
@@ -1924,13 +1930,15 @@ apply_move (SheetObject *so, int x_idx, int y_idx, double *coords, ObjDragInfo *
 	gboolean move_x = (x_idx >= 0);
 	gboolean move_y = (y_idx >= 0);
 	double x, y;
+	gboolean rtl = info->gcanvas->simple.scg->rtl;
 
 	x = move_x ? coords[x_idx] + info->dx : 0;
 	y = move_y ? coords[y_idx] + info->dy : 0;
 
 	if (snap) {
 		snap_to_grid (info->gcanvas, move_x, move_y, &x, &y, 
-			      info->dx < 0., info->dy < 0., info->is_mouse_move);
+			      rtl ? info->dx > 0. : info->dx < 0.,
+			      info->dy < 0., info->is_mouse_move, rtl);
 		if (info->primary_object == so || NULL == info->primary_object) {
 			if (move_x) info->dx = x - coords[x_idx];
 			if (move_y) info->dy = y - coords[y_idx];
