@@ -1,0 +1,367 @@
+<sect1 id="sect-bugs">
+  <title>How to report a problem</title>
+
+  <para>
+    <application>Gnumeric</application> is a complex computer program
+    and therefore necessarily contains some mistakes. These are called
+    "bugs" after one of the earliest errors in very old machines which
+    was actually caused by an insect entering the machine and
+    preventing a switch from closing. The
+    <application>Gnumeric</application> team is keenly interested in
+    finding these errors and correcting them. Please, help us to fix
+    these errors by telling us about them. Often the mistake is
+    obvious and a fix can be made immediately to be included in the
+    very next release of <application>Gnumeric</application>.
+  </para>
+
+  <para>
+    The <application>Gnumeric</application> project uses a world wide
+    web system called <application>Bugzilla</application> to collect
+    reports of program errors and then to track these errors until
+    they are finally fixed. This process is quite simple and can be
+    completed in just a few steps. For more detailed instructions,
+    GNOME's bugzilla can be found at <ulink type="http"
+    url="http://bugzilla.gnome.org/">
+<verbatim>
+http://bugzilla.gnome.org/ 
+</verbatim>
+    </ulink> and instructions can be found at <ulink type="http"
+    url="http://bugzilla.gnome.org/bug-HOWTO.html">
+<verbatim>
+http://bugzilla.gnome.org/bug-HOWTO.html 
+</verbatim>
+    </ulink>. 
+  </para>
+
+  <para>
+  <!-- make a list of steps -->
+  </para>
+
+  <sect2 id="sect-bugs-understand">
+    <title>Understanding the error</title>
+
+    <para>
+      The most critical step is understanding the error as well as
+      possible. This requires knowing clearly what was happening
+      before the error occurred, what specifically caused the error to
+      occur, what the error condition is and what happened as a
+      consequence of the error. The most helpful situation to enable
+      the developers to find and correct the error is to come up with
+      a sequence of steps that generate the error. If the error can be
+      repeated, it can almost always be corrected. The most helpful
+      error reports include a small recipe that can cause the error.
+    </para>
+
+  </sect2>
+
+
+
+  <sect2 id="sect-bugs-bugzilla_access">
+    <title>Accessing the GNOME project's bugzilla</title>
+
+    <para>
+      There are several ways to file a bug report through
+      bugzilla. One of the entries in the <guimenu>Help</guimenu> menu
+      is called <guimenuitem>Report a Problem</guimenuitem>. This menu
+      entry should cause a browser window to launch and open the
+      <application>Gnumeric</application> bugzilla page. 
+    </para>
+
+    <para>
+      Alternatively users can access gnumeric's page of bugzilla by
+      visiting the <application>Gnumeric</application> <ulink type="http"
+      url="http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric">
+      bug entry page</ulink> which is located at the 
+<verbatim>
+http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric
+</verbatim> URL.
+    </para>
+
+  </sect2>
+
+  <sect2 id="sect-bugs-bugzilla_account">
+    <title>Opening a bugzilla account</title>
+
+    <para>
+      The first time a user uses bugzilla, they must create an
+      account. This account is needed to allow users to be informed of
+      the status of the bug as it is tracked by the system from
+      submission to resolution. The only requirement for opening a
+      bugzilla account is the possession of a valid email address
+      through which the user can receive a password. Users who have
+      not previously logged into bugzilla and had the browser they are
+      using accept a cookie are automatically redirected to a login
+      page which has a link called "create a new account" which will
+      direct users to the account creation page.
+    </para>
+
+    <para>
+      Alternative, by clicking on this <ulink type="http"
+      url="http://bugzilla.gnome.org/createaccount.cgi">link</ulink>,
+      users can follow a shortcut directly to the account creation
+      page.
+    </para>
+
+    <para>
+      Creating a new account is very simple. The account creation page
+      has two fields. In the first, a valid email account must be
+      given. The second asks for a name that the users wishes to be
+      known by but this name can be anything. After a user fills out
+      these two fields, clicking on the button labelled "Create
+      Account" will cause a new account to be created and an email
+      sent to the address given in the email field. The email will
+      contain the password used to identify this user.
+    </para>
+
+    <para>
+      After creating an account, users can visit the <ulink
+      type="http"
+      url="http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric">
+      <application>Gnumeric</application> bug entry page</ulink>. Here
+      users are asked to login with their email address and
+      password. After logging in, bugzilla will present a page to add
+      a bug report.
+   </para>
+
+   <note>
+     <para>
+       A user who accepts cookes from bugzilla.gnome.org will only
+       have to give a password the first time they visit GNOME's
+       bugzilla. During all future visits, GNOME will recognize the
+       cookie and therefore identify the user.
+     </para>
+   </note>
+
+  </sect2>
+
+  <sect2 id="sect-bugs-report">
+    <title>Filing a bug report through bugzilla</title>
+
+    <para>
+      The <application>Gnumeric</application> bug entry page consists
+      of several fields many of which must be filled out to provide a
+      useful bug report. The most important of these will be the "Bug
+      Description" which contains both the brief "Summary" which acts
+      like an email subject line and the detailled description which
+      describes step by step how to reproduce the bug. The remaining
+      fields provide extra information which may help resolve the
+      problem.
+    </para>
+
+
+    <sect3 id="sect-bugs-report-description">
+      <title>The Bug Description</title>
+
+      <para>
+        A useful error report will include a subject that describes
+        the error concisely, has a brief introduction which explains
+        in greater detail what happened and, ideally, has a small
+        recipe that leads to the error being repeated.
+      </para>
+
+      <para>
+        The summary field, like the subject of an email message,
+        briefly describes the problem. For example, a useful error
+        report might have a summary "Gnumeric crashes when saving a
+        file".
+      </para>
+
+      <para>
+        The field titled "Steps to reproduce the bug" should contain a
+        slightly expanded version of the summary giving an overview of
+        the problem and then give a step-by-step example of how to
+        reproduce the problem. For example, this field could look like
+        the following: 
+<screen> 
+This report describes an error which causes gnumeric to crash
+during the use of the file save dialog.
+
+1) Start a new gnumeric
+2) In Cell A1 type "hello"
+3) From the "File" menu, select "Save As"
+=> The "Save As dialog" opens up
+4) In the file name box, type "My spreadsheet is cool"
+5) Click on the "Save" button
+=> I expected the file to be saved, and to be able to keep
+working but instead gnumeric disappeared and the file was 
+never saved.
+
+thanks, 
+a user
+</screen>
+       </para>
+
+    </sect3>
+
+
+
+
+    <sect3 id="sect-bugs-report-product">
+      <title>Product and Component</title>
+<!--
+Product: <GNUMERIC>
+	component
+  Analytics
+  Compilation
+  Database plugin
+  Documentation
+  General
+  Graphing
+  GUI
+  GUI Expression Entry Widget
+  import/export Applix
+  i/e HTML
+  i/e Excel
+  i/e OOo/OASIS
+  i/e Text
+  install
+  Main System
+  Printing
+  Sheet Objects
+-->
+
+      <para>
+        
+      </para>
+    </sect3>
+
+    <sect3 id="sect-bugs-report-severity">
+      <title>The Severity of the Problem</title>
+
+<!--
+Severity
+
+	Severity
+  blocker
+  critical
+  major
+  normal
+  minor
+  trivial
+  enhancement
+
+	Priority
+  Normal (leave for developers to decide)
+-->
+      <para>
+        
+      </para>
+    </sect3>
+
+
+
+
+    <sect3 id="sect-bugs-report-version">
+      <title>The Verison of Gnumeric and GNOME</title>
+
+<!--
+Version
+	Version
+        Other version details
+	GNOME Version
+  Unsepecified
+2.0
+2.1/2.2
+2.3/2.4
+2.5/2.6
+2.7/2.8
+-->
+      <para>
+        
+      </para>
+    </sect3>
+
+
+
+
+
+    <sect3 id="sect-bugs-report-os">
+      <title>The Type of Operating System and Distribution</title>
+
+<!--
+
+Operating System
+	OS
+	Distribution/version
+-->
+      <para>
+        
+      </para>
+    </sect3>
+
+
+
+
+
+
+    <sect3 id="sect-bugs-report-other">
+      <title>Other fields and keywords</title>
+
+<!--
+Other bugzilla fields
+-->
+
+      <para>
+        
+      </para>
+    </sect3>
+
+
+    <sect3 id="sect-bugs-report-commit">
+      <title>Subitting the report</title>
+
+      <para>
+        In order to submit the bug report into bugzilla, once all of
+        the important fields have been submitted, simply click on the
+        button labeled "commit".
+      </para>
+
+      <para>
+        Once the bug is committed, a bug report number for this bug
+        will be assigned, and email will be sent either the the
+        project maintainer or to one of the other developers which
+        deal specifically with that component of the program. When
+        others take an interest in the bug and add comments or
+        solutions, email will be sent out to the user to inform them
+        of the status of the bug until it is either dismissed or
+        resolved. Bugs can be dismissed if they describe a behaviour
+        that is expected or if they are not deemed important enough to
+        fix. 
+      </para>
+
+    </sect3>
+
+
+
+
+    <sect3 id="sect-bugs-report-template">
+      <title>Bookmarking a template</title>
+
+      <para>
+        A version of the bug entry page with most of the fields
+        already filled out can be saved as a link and bookmarked for
+        future use. This ability is only of use for developers or for
+        users who have found a large number of bugs in one particular
+        component of <application>Gnumeric</application>.
+      </para>
+
+      <para>
+        To use this shortcut, first open a new bug report, then fill
+        out only the fields that will apply to all the future bugs
+        being reported and then click on the button labelled "Bookmark
+        these values". Bugzilla will then construct a template and
+        will provide a link which can be saved for future use just as
+        any othe r page on the web can be saved as a bookmark. To use
+        these values, simply clicking on the bookmark will open the
+        <application>Gnumeric</application> with the common fields
+        already filled out.
+      </para>
+
+    </sect3>
+
+
+  </sect2>
+
+
+</sect1>
+

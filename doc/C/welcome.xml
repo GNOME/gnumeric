@@ -16,6 +16,39 @@
 </para>
 
 <para>
+  The features of <application>Gnumeric</application> make it
+  versatile and powerful. The screenshot (picture) of
+  <application>Gnumeric</application> shown in <xref
+  linkend="fig-gnumeric-power-example" /> demonstrates the main
+  program window and some of the features currently available.
+
+  <figure id="fig-gnumeric-power-example">
+    <title>An example of what Gnumeric can do.</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/gnumeric-power-example.png" 
+              format="PNG" scale="100"/>
+        </imageobject>
+        <textobject>
+          <phrase>An image of <application>Gnumeric</application>
+          showing the use of complex formatting and several graphical
+          plots.</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+  </figure>
+
+  <application>Gnumeric</application> currently supports a full
+  complement of calculation functions, formatting options, graph
+  types and drawing options.
+  </para>
+
+<para>
+      
+</para>
+
+<para>
   <application>Gnumeric</application> intends to be the best
   spreadsheet available anywhere. It has been developed over many
   years to become fully mature and mathematically
@@ -183,38 +216,6 @@
   </itemizedlist> 
 </para>
 
-<para>
-  These features of <application>Gnumeric</application> make it
-  versatile and powerful. The screenshot (picture) of
-  <application>Gnumeric</application> shown in <xref
-  linkend="fig-gnumeric-power-example" /> demonstrates the main
-  program window and some of the features currently available.
-
-  <figure id="fig-gnumeric-power-example">
-    <title>An example of what Gnumeric can do.</title>
-    <screenshot>
-      <mediaobject>
-        <imageobject>
-          <imagedata fileref="figures/gnumeric-power-example.png" 
-              format="PNG" scale="100"/>
-        </imageobject>
-        <textobject>
-          <phrase>An image of <application>Gnumeric</application>
-          showing the use of complex formatting and several graphical
-          plots.</phrase>
-        </textobject>
-      </mediaobject>
-    </screenshot>
-  </figure>
-
-  <application>Gnumeric</application> currently supports a full
-  complement of calculation functions, formatting options, graph
-  types and drawing options.
-  </para>
-
-<para>
-      
-</para>
 
 <para>
   <guilabel>The Gnumeric 1.3 Series of Releases for Developers</guilabel>

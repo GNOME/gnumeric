@@ -25,8 +25,9 @@
       workbook contains one or more worksheets. Each worksheet
       contains a large number of cells usually arranged into a two
       dimensional grid made up of columns and rows. The names of the
-      parts of <application>Gnumeric</application> will be explained
-      below in <xref linkend="quick-parts-of-gnumeric" />
+      parts of <application>Gnumeric</application> are introduced
+      below in <xref linkend="quick-parts-of-gnumeric" /> and explained 
+      exhaustively in <xref linkend="chapter-gui-elements"/>.
     </para>
   </note>
 

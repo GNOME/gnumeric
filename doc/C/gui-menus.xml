@@ -149,15 +149,21 @@
   </sect3>
 
 	<sect3>
-		<title>Keyboard Shortcuts</title>
-		<para> Many menu entries are followed by a series of keynames. These keys
-		can be used to perform the menu action without having to open the menu.
-		These are often combinations of keys involving the control key which is
-		labeled as <keycap>Ctrl</keycap>, the shift key which is labeled <keycap>Shift</keycap> and the function
-		keys which are labeled with an <keycap>F</keycap> and then a number. For example, to
-		quickly cut a selection (accessible through the <guimenu>Edit</guimenu>
-		menu), the user can make a selection and then type the
-		control key and the "x" key at the same time. 
+		<title>Keyboard Shortcuts</title> 
+                  <para> 
+                    Many menu entries are followed by a series of
+                    keynames. These keys can be used to perform the
+                    menu action without having to open the menu.
+                    These are often combinations of keys involving the
+                    control key which is labeled as
+                    <keycap>Ctrl</keycap>, the shift key which is
+                    labeled <keycap>Shift</keycap> and the function
+                    keys which are labeled with an <keycap>F</keycap>
+                    and then a number. For example, to quickly cut a
+                    selection (accessible through the
+                    <guimenu>Edit</guimenu> menu), the user can make a
+                    selection and then type the control key and the
+                    "x" key at the same time.
 		</para>
 	</sect3>
 	
