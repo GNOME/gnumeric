@@ -162,10 +162,17 @@ sub GeneratePot{
     while (<FILE>) {
        if ($_=~ /(.*)(\.xml\.h)/o){
           $filename = "$1\.xml";
-          $xmlfiles="\.\/ui-extract.pl ../$filename";
+          $xmlfiles="\.\/ui-extract.pl --update ../$filename";
+          system($xmlfiles);
+          }
+
+       elsif ($_=~ /(.*)(\.glade\.h)/o){
+          $filename = "$1\.glade";
+          $xmlfiles="\.\/ui-extract.pl --update ../$filename";
           system($xmlfiles);
        }
     }
+
     close FILE;
 
     system($c);

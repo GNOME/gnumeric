@@ -12,6 +12,7 @@ use Getopt::Long;
 my $FILE	= $ARGV[0];
 my $HELP_ARG 	= "0";
 my $VERSION_ARG = "0";
+my $UPDATE_ARG  = "0";
 my $VERSION 	= "0.5";
 my %string 	= ();
 my $n		= 0;
@@ -21,6 +22,7 @@ $| = 1;
 GetOptions (
 	    "help|h|?"   => \$HELP_ARG,
 	    "version|v"  => \$VERSION_ARG,
+	    "update"     => \$UPDATE_ARG,
 	    ) or &Error2;
 
 &SplitOnArgument;
@@ -39,7 +41,11 @@ sub SplitOnArgument {
     } elsif ($HELP_ARG) {
 	&Help;   
 
+    } elsif ($UPDATE_ARG) {
+        &Xmlfiles;
+
     } elsif (@ARGV > 0) {
+	&Message;
 	&Xmlfiles;
 
     } else {
@@ -77,8 +83,11 @@ sub Error2{
     exit;
 }
 
+sub Message {
+    print "Generating headerfile for XML translation.\n";
+}
+
 sub Xmlfiles {
-    print "Generating headerfile for XML translation.";
 
    if (-s "$FILE.h"){
 	unlink "$FILE.h";
@@ -91,11 +100,17 @@ sub Xmlfiles {
     &addMessages;
     close OUT;
 
-    print  "\nWrote $FILE.h\n";
+    print  "Wrote $FILE.h\n";
 }
 
 #-------------------
 sub Convert($) {
+
+    if ($ARGV[1]){
+        $FILE   = $ARGV[1];
+    } else {
+        $FILE   = $ARGV[0];
+    }
 
     #-----------------
     # Reading the file
@@ -103,12 +118,10 @@ sub Convert($) {
     my $input; {
 	local (*IN);
 	local $/; #slurp mode
-	open (IN, "< $_[0]") || die "can't open $_[0]: $!";
+	open (IN, "<$FILE") || die "can't open $FILE: $!";
 	$input = <IN>;
     }
  
-    my $check2_input = $input;
-
     if (!-s "$FILE.h"){
     	open OUT, ">$FILE.h";
 
@@ -121,13 +134,31 @@ sub Convert($) {
         }   
        	close OUT;
 
+	### For generic translatable XML files ### 
+
         while ($input =~ /_[a-zA-Z0-9_]+=\"([^\"]*)\"/sg) {
 	   	$string{$1} = [];
         }
 
-	while ($check2_input =~ /<_[a-zA-Z0-9_]+>(..[^_]*)<\/_[a-zA-Z0-9_]+>/sg) {
+	while ($input =~ /<_[a-zA-Z0-9_]+>(..[^_]*)<\/_[a-zA-Z0-9_]+>/sg) {
 		$string{$1} = [];
  	}
+
+        ### For translatable Glade XML files ###
+	#end_label        = translate_this_string
+	#end_title        = translate_this_string
+	#end_text         = translate_this_string
+	#end_format       = translate_this_string
+	#end_copyright    = translate_this_string
+	#end_comments     = translate_this_string
+	#end_preview_text = translate_this_string
+	#end_tooltip      = translate_this_string
+
+        my $translate = "label|title|text|format|copyright|comments|preview_text|tooltip";
+
+        while ($input =~ /<($translate)>(..[^<]*)<\/($translate)>/sg) {
+                $string{$2} = [];
+        }
     }
 
 sub addMessages{
