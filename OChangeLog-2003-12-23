@@ -1,5 +1,9 @@
 2002-10-24  Morten Welinder  <terra@diku.dk>
 
+	* src/print-info.c (render_opcode): Unconstify opcode args since
+	it is being changed.
+	(hf_format_render): Simplify.
+
 	* configure.in (with_long_double): Check for lgammal.
 
 	* src/numbers.h (lgammagnum): define.

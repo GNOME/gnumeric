@@ -353,7 +353,7 @@ save_formats (void)
 	format_count = g_list_length (hf_formats);
 	gnome_config_set_int ("formats", format_count);
 
-	for (i = 0, l = hf_formats; l; l = l->next, i++){
+	for (i = 0, l = hf_formats; l; l = l->next, i++) {
 		PrintHF *hf = l->data;
 		char *name;
 
@@ -470,7 +470,7 @@ unit_name_to_unit (char const *s, gboolean translated)
 {
 	int i;
 
-	for (i = 0; units [i].full_name != NULL; i++){
+	for (i = 0; units [i].full_name != NULL; i++) {
 		if (translated) {
 			if (strcmp (s, _(units [i].full_name)) == 0)
 				return (UnitName) i;
@@ -586,21 +586,22 @@ static struct {
  * to the opcode and then a number format code
  */
 static void
-render_opcode (GString *target, char const *opcode, HFRenderInfo *info, HFRenderType render_type)
+render_opcode (GString *target, char /* non-const */ *opcode,
+	       HFRenderInfo *info, HFRenderType render_type)
 {
 	char *args;
 	int i;
 
-	for (i = 0; render_ops [i].name; i++){
-		if (render_type == HF_RENDER_TO_ENGLISH){
-			if (g_ascii_strcasecmp (_(render_ops [i].name), opcode) == 0){
+	for (i = 0; render_ops [i].name; i++) {
+		if (render_type == HF_RENDER_TO_ENGLISH) {
+			if (g_ascii_strcasecmp (_(render_ops [i].name), opcode) == 0) {
 				g_string_append (target, render_ops [i].name);
 				continue;
 			}
 		}
 
-		if (render_type == HF_RENDER_TO_LOCALE){
-			if (g_ascii_strcasecmp (render_ops [i].name, opcode) == 0){
+		if (render_type == HF_RENDER_TO_LOCALE) {
+			if (g_ascii_strcasecmp (render_ops [i].name, opcode) == 0) {
 				g_string_append (target, render_ops [i].name);
 				continue;
 			}
@@ -610,13 +611,13 @@ render_opcode (GString *target, char const *opcode, HFRenderInfo *info, HFRender
 		 * opcode then comes from a the user interface
 		 */
 		args = strchr (opcode, ':');
-		if (args){
+		if (args) {
 			*args = 0;
 			args++;
 		}
 
 		if ((g_ascii_strcasecmp (render_ops [i].name, opcode) == 0) ||
-		    (g_ascii_strcasecmp (_(render_ops [i].name), opcode) == 0)){
+		    (g_ascii_strcasecmp (_(render_ops [i].name), opcode) == 0)) {
 			(*render_ops [i].render)(target, info, args);
 		}
 
@@ -628,13 +629,12 @@ hf_format_render (char const *format, HFRenderInfo *info, HFRenderType render_ty
 {
 	GString *result;
 	char const *p;
-	char *str;
 
 	g_return_val_if_fail (format != NULL, NULL);
 
 	result = g_string_new ("");
-	for (p = format; *p; p++){
-		if (*p == '&' && *(p+1) == '['){
+	for (p = format; *p; p++) {
+		if (*p == '&' && p[1] == '[') {
 			char const *start;
 
 			p += 2;
@@ -642,11 +642,8 @@ hf_format_render (char const *format, HFRenderInfo *info, HFRenderType render_ty
 			while (*p && (*p != ']'))
 				p++;
 
-			if (*p == ']'){
-				char *operation = g_malloc (p - start + 1);
-
-				strncpy (operation, start, p - start);
-				operation [p-start] = 0;
+			if (*p == ']') {
+				char *operation = g_strndup (start, p - start);
 				render_opcode (result, operation, info, render_type);
 				g_free (operation);
 			} else
@@ -655,10 +652,7 @@ hf_format_render (char const *format, HFRenderInfo *info, HFRenderType render_ty
 			g_string_append_c (result, *p);
 	}
 
-	str = result->str;
-	g_string_free (result, FALSE);
-
-	return str;
+	return g_string_free (result, FALSE);
 }
 
 HFRenderInfo *
