@@ -1,3 +1,8 @@
+1999-07-21  Richard Hestilow  <hestgray@ionet.net>
+	
+	* gnumeric.gnorba: Fix "Embeddable" typo 
+	(was IDL:/GNOME/Embeddable, should have been IDL:GNOME/Embeddable)
+
 1999-07-21  Michael Meeks  <michael@edenproject.org>
 
 	* src/widget-font-selector.c (fs_init): Convert g_error to

@@ -18,7 +18,7 @@ location-info=gnumeric-bonobo
 
 [GNOME:Gnumeric:Grid:1.0]
 type=factory
-repo_id=IDL:GNOME/Gnumeric/Grid IDL:/GNOME/Embeddable:1.0
+repo_id=IDL:GNOME/Gnumeric/Grid IDL:GNOME/Embeddable:1.0
 description=Embeddable Grid Component
 location_info=GNOME:Gnumeric:GridFactory:1.0
 
