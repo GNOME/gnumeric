@@ -1,7 +1,7 @@
 SUBDIRS = intl po macros plugins src doc
 
 EXTRA_DIST = \
-	gnumeric.desktop README HACKING \
+	gnumeric.desktop README HACKING gnumeric.spec.in \
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA)
 
 appicondir = $(datadir)/pixmaps
@@ -22,5 +22,6 @@ gnumeric.keys: gnumeric.keys.in Makefile
 
 dist-hook:
 	mkdir $(distdir)/samples
-	cp $(srcdir)/samples/*gnumeric $(distdir)/samples
+	cp $(srcdir)/samples/*gnumeric $(distdir)/samples	
+	cp gnumeric.spec $(distdir)
 

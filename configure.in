@@ -114,6 +114,7 @@ fi
 AM_CONDITIONAL(WITH_PYTHON, $python_val)
 
 AC_OUTPUT([
+gnumeric.spec
 Makefile
 src/Makefile
 doc/Makefile
