@@ -1,3 +1,4 @@
+# translation of gnumeric.HEAD.sk.po to Slovak
 # translation of sk.po to Slovak
 # Gnumeric Slovak translation
 # Copyright (c) 1999,2000,2001,2002 The Free Software Foundation
@@ -5,20 +6,21 @@
 # 2000,2001,2002 Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
 # Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>, 2002
 # Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>, 2002
+# Stanislav Visnovsky <visnovsky@kde.org>, 2003
 msgid ""
 msgstr ""
-"Project-Id-Version: sk\n"
-"POT-Creation-Date: 2003-01-28 00:35-0500\n"
-"PO-Revision-Date: 2002-12-04 18:28+0100\n"
-"Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
-"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
+"Project-Id-Version: gnumeric.HEAD.sk\n"
+"POT-Creation-Date: 2003-01-23 05:43+0100\n"
+"PO-Revision-Date: 2003-01-28 00:24+0100\n"
+"Last-Translator: Stanislav Visnovsky <visnovsky@kde.org>\n"
+"Language-Team: Slovak <sk-i18n@linux.sk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "<bobo@bobo.bspc.sk>\n"
 "Date: 1999-04-30 12:12:02+0000\n"
 "From: Bobo Rajec,BSP Consulting,+42 7 5330 017,, <bobo@bobo.bspc.sk>\n"
-"X-Generator: KBabel 1.0\n"
+"X-Generator: KBabel 1.2\n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -604,8 +606,7 @@ msgid "a, b, rho"
 msgstr ""
 
 #: plugins/derivatives/options.c:1738
-msgid ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+msgid "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 
 #: plugins/derivatives/options.c:1743
@@ -617,8 +618,7 @@ msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr ""
 
 #: plugins/derivatives/options.c:1753
-msgid ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 
 #: plugins/derivatives/options.c:1758 plugins/derivatives/options.c:1768
@@ -636,13 +636,11 @@ msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr ""
 
 #: plugins/derivatives/options.c:1778
-msgid ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+msgid "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 
 #: plugins/derivatives/options.c:1783
-msgid ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
+msgid "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 
 #: plugins/derivatives/options.c:1788
@@ -675,7 +673,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funkcie pre finančné produkty"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5100
-#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3586
+#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3585
 msgid "Reading file..."
 msgstr "Čítam súbor..."
 
@@ -743,19 +741,18 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Modul pre Data Interchange Format (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Zapisuje a číta informácie uložené v Data Interchange Format (*.dif)"
 
-#: plugins/excel/boot.c:166
+#: plugins/excel/boot.c:165
 msgid "No Workbook or Book streams found."
 msgstr "Neboli nájdené žiadne kanále pre zošit."
 
-#: plugins/excel/boot.c:209
+#: plugins/excel/boot.c:208
 msgid "Preparing to save..."
 msgstr "Pripravujem ukladanie..."
 
-#: plugins/excel/boot.c:218
+#: plugins/excel/boot.c:217
 msgid "Saving file..."
 msgstr "Súbor sa ukladá..."
 
@@ -865,10 +862,8 @@ msgstr "Pokazená funkcia"
 
 #: plugins/excel/ms-formula-write.c:428
 #, c-format
-msgid ""
-"Too many arguments for function, MS Excel expects exactly %d and we have more"
-msgstr ""
-"Príliš veľa argumentov funkcie, MS Excel očakáva práve %d a my máme viac"
+msgid "Too many arguments for function, MS Excel expects exactly %d and we have more"
+msgstr "Príliš veľa argumentov funkcie, MS Excel očakáva práve %d a my máme viac"
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
@@ -893,11 +888,6 @@ msgstr "MS Excel (tm) 97/2000/XP"
 #: plugins/excel/plugin.xml.in.h:6
 msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
-
-#: plugins/excel/plugin.xml.in.h:7
-#, fuzzy
-msgid "MS Excel (tm) XML"
-msgstr "MS Excel (tm)"
 
 #: plugins/fn-complex/functions.c:80
 #, fuzzy
@@ -14928,25 +14918,25 @@ msgstr "Formát súborov Gnome Glossary PO"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Poskytuje podporu pre ukladanie Gnome Glossary do súborov .po."
 
-#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3045
+#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3044
 msgid "Unparsable xml in clipboard"
 msgstr "XML obsah schránky nie je možné spracovať"
 
-#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3052
+#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3051
 msgid "Clipboard is in unknown format"
 msgstr "Obsah schránky má neznámy formát."
 
 #: plugins/gnumeric_1_0/xml-io.c:3111 plugins/xbase/boot.c:173
 #: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:721
-#: src/dialogs/print.glade.h:21 src/workbook.c:1049 src/workbook.c:1379
-#: src/xml-io.c:3334
+#: src/dialogs/print.glade.h:20 src/workbook.c:1049 src/workbook.c:1379
+#: src/xml-io.c:3333
 msgid "Sheet"
 msgstr "List"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3466
+#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3465
 msgid "Processing file..."
 msgstr "Spracovávam súbor..."
 
@@ -14954,7 +14944,7 @@ msgstr "Spracovávam súbor..."
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Nie je súbor so zošitom Gnumeric"
 
-#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3665
+#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3664
 #, fuzzy
 msgid "Failure saving file"
 msgstr "Chyba pri ukladaní súboru."
@@ -15391,46 +15381,45 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Importuje súbory GNU Oleo"
 
-#: plugins/openoffice/openoffice-read.c:421
+#: plugins/openoffice/openoffice-read.c:386
 #, fuzzy
 msgid "Missing expression"
 msgstr "Neplatný výraz"
 
-#: plugins/openoffice/openoffice-read.c:426
+#: plugins/openoffice/openoffice-read.c:391
 #, fuzzy, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Výraz nezačína '=' ? '%s'"
 
-#: plugins/openoffice/openoffice-read.c:439
+#: plugins/openoffice/openoffice-read.c:404
 #, fuzzy, c-format
 msgid "Unable to parse '%s' because '%s'"
 msgstr "Súbor '%s' sa nedá otvoriť"
 
-#: plugins/openoffice/openoffice-read.c:496
+#: plugins/openoffice/openoffice-read.c:462
 msgid "Invalid array expression does no specify number of columns"
 msgstr ""
 
-#: plugins/openoffice/openoffice-read.c:499
+#: plugins/openoffice/openoffice-read.c:465
 msgid "Invalid array expression does no specify number of rows"
 msgstr ""
 
-#: plugins/openoffice/openoffice-read.c:747
+#: plugins/openoffice/openoffice-read.c:713
 #, fuzzy, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Súbor '%s' sa nedá otvoriť"
 
-#: plugins/openoffice/openoffice-read.c:760
+#: plugins/openoffice/openoffice-read.c:726
 #, fuzzy, c-format
-msgid ""
-"Unable to parse position for expression '%s' with value '%s' because '%s'"
+msgid "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr "Súbor '%s' sa nedá otvoriť"
 
-#: plugins/openoffice/openoffice-read.c:934
+#: plugins/openoffice/openoffice-read.c:883
 msgid "No stream named content.xml found."
 msgstr ""
 
-#: plugins/openoffice/openoffice-read.c:974
-#: plugins/xml_sax/xml-sax-read.c:1501
+#: plugins/openoffice/openoffice-read.c:923
+#: plugins/xml_sax/xml-sax-read.c:1468
 msgid "XML document not well formed!"
 msgstr "XML dokument nie je syntakticky správny!"
 
@@ -15771,7 +15760,7 @@ msgstr "Nová generácia V/V XML subsystému založená na sax"
 
 #: plugins/xml_sax/xml-sax-read.c:267
 #, c-format
-msgid "Unexpected attribute %s::%s == '%s'."
+msgid "Unexpected attribute '%s'='%s' for element of type %s."
 msgstr ""
 
 #: plugins/xml_sax/xml-sax-read.c:299
@@ -15930,7 +15919,7 @@ msgstr "Vymaže formáty, komentáre a obsah vybraných buniek"
 msgid "Close the current file"
 msgstr "Zatvorí aktuálny súbor"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:7
+#: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:6
 #: src/workbook-control-gui.c:3203
 msgid "Co_mments"
 msgstr "_Komentáre"
@@ -16385,8 +16374,7 @@ msgstr "Opakovane prepočítava pre nájdenie cieľovej hodnoty"
 
 #: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3651
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
+msgstr "Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
 
 #: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3326
 msgid "Jump to a specified cell"
@@ -16463,8 +16451,7 @@ msgstr "Spojiť..."
 
 #: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3247
 #, fuzzy
-msgid ""
-"Merges columnar data into a sheet creating duplicate sheets for each row"
+msgid "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Spojí stĺpcové dáta do listu vytvorením duplikovaných listov pre každý "
 "riadok."
@@ -16570,7 +16557,7 @@ msgstr "Periodické a náhodné výbery"
 msgid "Preferen_ces..."
 msgstr "Nas_tavenie..."
 
-#: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:14
+#: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:13
 #: src/workbook-control-gui.c:3785
 msgid "Print"
 msgstr "Tlačiť"
@@ -16584,7 +16571,7 @@ msgid "Print Preview"
 msgstr "Ukážka pred tlačou"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/dialogs/print.glade.h:16 src/print.c:1353
+#: src/dialogs/print.glade.h:15 src/print.c:1212
 #: src/workbook-control-gui.c:3171 src/workbook-control-gui.c:3788
 msgid "Print preview"
 msgstr "Ukážka pred tlačou"
@@ -16919,7 +16906,7 @@ msgstr "_ANOVA"
 #: src/GNOME_Gnumeric.xml.h:258
 #, fuzzy
 msgid "_About"
-msgstr "_O programe..."
+msgstr "_O programe"
 
 #: src/GNOME_Gnumeric.xml.h:259 src/sheet-control-gui.c:1482
 #: src/workbook-control-gui.c:3420
@@ -17148,7 +17135,7 @@ msgstr "_Tlačiť..."
 #: src/GNOME_Gnumeric.xml.h:310
 #, fuzzy
 msgid "_Quit"
-msgstr "_Vložiť:"
+msgstr "_Koniec"
 
 #: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3252
 msgid "_Random Generator..."
@@ -17911,7 +17898,6 @@ msgid "The orientation of the toolbar"
 msgstr "Stav prepínača"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:137
-#: schemas/gnumeric-general.schemas.in.h:51
 msgid "Toolbar Style"
 msgstr ""
 
@@ -18040,8 +18026,7 @@ msgid "Homogeneous size"
 msgstr ""
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:169
-msgid ""
-"Whether the toolbar item should be the same size as other homogeneous items."
+msgid "Whether the toolbar item should be the same size as other homogeneous items."
 msgstr ""
 
 #: src/dates.c:16
@@ -18289,7 +18274,7 @@ msgid "_Unique Records Only"
 msgstr "Iba _unikátne záznamy"
 
 #: src/dialogs/autofilter-expression.glade.h:1
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid " "
 msgstr " "
 
@@ -18298,11 +18283,11 @@ msgstr " "
 #: src/dialogs/cell-format.glade.h:1 src/dialogs/dialog-stf-export.glade.h:3
 #: src/dialogs/dialog-stf.glade.h:3 src/dialogs/font-sel.glade.h:1
 #: src/dialogs/hyperlink.glade.h:1 src/dialogs/names.glade.h:1
-#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/print.glade.h:3
-#: src/dialogs/so-frame.glade.h:1 src/dialogs/solver.glade.h:1
-#: src/dialogs/workbook-attr.glade.h:1
+#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/so-frame.glade.h:1
+#: src/dialogs/solver.glade.h:1 src/dialogs/workbook-attr.glade.h:1
+#, fuzzy
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: src/dialogs/autofilter-expression.glade.h:3
 #: src/dialogs/autofilter-top10.glade.h:2
@@ -18525,8 +18510,8 @@ msgstr "_Prvé písmeno"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/autocorrect.glade.h:8 src/dialogs/dialog-autoformat.c:671
-#: src/format.c:1766 src/format.c:1848 src/format.c:1857 src/format.c:1924
+#: src/dialogs/autocorrect.glade.h:8 src/dialogs/dialog-autoformat.c:672
+#: src/format.c:1763 src/format.c:1845 src/format.c:1854 src/format.c:1921
 #: src/plugin-service.c:233
 msgid "General"
 msgstr "Všeobecné"
@@ -18866,8 +18851,7 @@ msgstr "Vľavo"
 
 #: src/dialogs/cell-format.glade.h:55
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr ""
-"Zamykanie buniek alebo skrývanie vzorcov má zmysel len u chránených listov."
+msgstr "Zamykanie buniek alebo skrývanie vzorcov má zmysel len u chránených listov."
 
 #: src/dialogs/cell-format.glade.h:56
 msgid "Message:"
@@ -19179,7 +19163,7 @@ msgid "A _header"
 msgstr "_Hlavička A"
 
 #: src/dialogs/cell-sort.glade.h:2 src/dialogs/histogram.glade.h:16
-#: src/dialogs/print.glade.h:11 src/tools/solver/reports-write.c:755
+#: src/dialogs/print.glade.h:10 src/tools/solver/reports-write.c:755
 msgid "Options"
 msgstr "Možnosti"
 
@@ -19696,8 +19680,7 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre výbery."
 
 #: src/dialogs/dialog-analysis-tools.c:1986 src/tools/analysis-tools.c:2156
 #: src/tools/analysis-tools.c:2231
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr "Pre každú premennú regresie musí byť rovnaký počet položiek."
 
 #: src/dialogs/dialog-analysis-tools.c:2089 src/dialogs/regression.glade.h:19
@@ -19730,8 +19713,7 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre histogram."
 
 #: src/dialogs/dialog-analysis-tools.c:2769
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr ""
-"Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
+msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
 
 #: src/dialogs/dialog-analysis-tools.c:2848
 msgid ""
@@ -19745,8 +19727,7 @@ msgstr ""
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
-msgstr ""
-"Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce a dva riadky dát."
+msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce a dva riadky dát."
 
 #: src/dialogs/dialog-analysis-tools.c:2857
 msgid ""
@@ -19780,101 +19761,101 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (dvojité triedenie)
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg pre automatické opravy."
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "Jan"
 msgstr "Jan"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "Feb"
 msgstr "Feb"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "Mrt"
 msgstr "Mrt"
 
-#: src/dialogs/dialog-autoformat.c:67 src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:68 src/dialogs/dialog-autoformat.c:72
 #: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
 #: src/tools/analysis-tools.c:3370
 msgid "Total"
 msgstr "Celkom"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "North"
 msgstr "Sever"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "39"
 msgstr "39"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "South"
 msgstr "Juh"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "33"
 msgstr "33"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "West"
 msgstr "Západ"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:70 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:71 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:72
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:72
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:72
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:72
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:662
+#: src/dialogs/dialog-autoformat.c:663
 msgid "An error occurred while reading the category list"
 msgstr "Nastala chyba pri načítavaní zoznamu kategórií"
 
@@ -19900,7 +19881,7 @@ msgstr "Použiť _formát čísel"
 #: src/dialogs/dialog-cell-format.c:1252
 #, fuzzy
 msgid "Text"
-msgstr "Te_xt"
+msgstr "Text"
 
 #. There must be a better way than this
 #: src/dialogs/dialog-cell-format.c:1536 src/dialogs/dialog-cell-format.c:1596
@@ -19969,10 +19950,8 @@ msgstr "Zmení štandardnú šírku stĺpca"
 
 #: src/dialogs/dialog-col-width.c:234
 #, c-format
-msgid ""
-"Set column width of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr ""
-"Nastaviť šírku stĺpca výberu na <span style='italic' weight='bold'>%s</span>"
+msgid "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
+msgstr "Nastaviť šírku stĺpca výberu na <span style='italic' weight='bold'>%s</span>"
 
 #: src/dialogs/dialog-consolidate.c:138
 #, c-format
@@ -20316,7 +20295,7 @@ msgstr "Chyba pri aktivácii modulov."
 #: src/dialogs/dialog-plugin-manager.c:670
 #, fuzzy
 msgid "Active"
-msgstr "aktívny"
+msgstr "Aktívne"
 
 #: src/dialogs/dialog-plugin-manager.c:675
 #, fuzzy
@@ -20324,21 +20303,22 @@ msgid "Plugin name"
 msgstr "Správca modulov"
 
 #: src/dialogs/dialog-plugin-manager.c:698
+#, fuzzy
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: src/dialogs/dialog-plugin-manager.c:718
 msgid "Directory"
 msgstr "Priečinok"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:374 src/format.c:1666
+#: src/dialogs/dialog-preferences.c:374 src/format.c:1663
 #: src/number-match.c:1067 src/value-sheet.c:33 src/value.c:403
 #: src/value.c:773
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/dialogs/dialog-preferences.c:375 src/format.c:1666
+#: src/dialogs/dialog-preferences.c:375 src/format.c:1663
 #: src/number-match.c:1069 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:773
 msgid "FALSE"
@@ -20364,19 +20344,19 @@ msgstr "Položky na tejto stránke upravujú štandardný nový zošiť."
 msgid "The items on this page are related to the saving and opening of files."
 msgstr "Položky na tejto stránke sa týkajú ukladania a otvárania súborov."
 
-#: src/dialogs/dialog-printer-setup.c:848
+#: src/dialogs/dialog-printer-setup.c:847
 msgid "Customize header"
 msgstr "Upraviť hlavičku"
 
-#: src/dialogs/dialog-printer-setup.c:850
+#: src/dialogs/dialog-printer-setup.c:849
 msgid "Customize footer"
 msgstr "Upraviť pätičku"
 
-#: src/dialogs/dialog-printer-setup.c:1000
+#: src/dialogs/dialog-printer-setup.c:999
 msgid "Custom header configuration"
 msgstr "Vlastné nastavenie hlavičky"
 
-#: src/dialogs/dialog-printer-setup.c:1005
+#: src/dialogs/dialog-printer-setup.c:1004
 msgid "Custom footer configuration"
 msgstr "Vlastné nastavenie pätičky"
 
@@ -20638,10 +20618,8 @@ msgstr "Zmení štandardnú výšku riadku"
 
 #: src/dialogs/dialog-row-height.c:234
 #, c-format
-msgid ""
-"Set row height of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr ""
-"Nastaviť výšku riadku výberu na <span style='italic' weight='bold'>%s</span>"
+msgid "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
+msgstr "Nastaviť výšku riadku výberu na <span style='italic' weight='bold'>%s</span>"
 
 #: src/dialogs/dialog-search-replace.c:151 src/dialogs/dialog-search.c:655
 msgid "You must select some cell types to search."
@@ -20828,23 +20806,20 @@ msgstr ""
 "obmedzenia. Tieto správy preto nebudú vygenerované."
 
 #: src/dialogs/dialog-solver.c:776
-msgid ""
-"The Target Cell value specified does not converge!  The program is unbounded."
+msgid "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr "Hodnota cieľovej bunky nekonverguje! Program je neohraničený."
 
 #: src/dialogs/dialog-solver.c:790
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
-msgstr ""
-"Vhodné riešenie nenájdené. Všetky obmedzenia naraz nie je možné dosiahnuť."
+msgstr "Vhodné riešenie nenájdené. Všetky obmedzenia naraz nie je možné dosiahnuť."
 
 #: src/dialogs/dialog-solver.c:805
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
-msgstr ""
-"Presiahnutý maximálny počet iterácií. Optimálnu hodnotu sa nepodarilo nájsť."
+msgstr "Presiahnutý maximálny počet iterácií. Optimálnu hodnotu sa nepodarilo nájsť."
 
 #: src/dialogs/dialog-solver.c:819
 msgid ""
@@ -21144,8 +21119,7 @@ msgstr "Definujte šírku každého stĺpca ručne."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr ""
-"Každý stĺpec textu je oddelený 'oddeľovacím' znakom, napríklad bodkočiarkou."
+msgstr "Každý stĺpec textu je oddelený 'oddeľovacím' znakom, napríklad bodkočiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "Example"
@@ -21234,10 +21208,8 @@ msgid "See two successive separators as one."
 msgstr "Chápať dva za sebou idúce oddeľovače ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:43
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
-msgstr ""
-"Chápať dva za sebou idúce indikátory textu ako jeden, ktorý neukončuje bunku."
+msgid "See two successive text indicators as one that does not terminate the cell."
+msgstr "Chápať dva za sebou idúce indikátory textu ako jeden, ktorý neukončuje bunku."
 
 #: src/dialogs/dialog-stf.glade.h:44
 msgid ""
@@ -21764,7 +21736,7 @@ msgstr "Definovať mená"
 #: src/dialogs/names.glade.h:4
 #, fuzzy
 msgid "Definition"
-msgstr "_Cieľ:"
+msgstr "Definícia"
 
 #: src/dialogs/names.glade.h:5
 msgid "Workbook"
@@ -21839,7 +21811,7 @@ msgstr "Stránka"
 #: src/dialogs/pivottable.glade.h:14
 #, fuzzy
 msgid "_Up"
-msgstr "_Aktualizovať"
+msgstr "_Vyššie"
 
 #: src/dialogs/plugin-manager.glade.h:2
 msgid "Activate _new plugins by default"
@@ -21899,126 +21871,124 @@ msgid "Gnumeric Preferences"
 msgstr "Nastavenie Gnumeric"
 
 #: src/dialogs/print.glade.h:2
-#, fuzzy, no-c-format
-msgid "% of _normal size"
+#, no-c-format
+msgid "% of normal size"
 msgstr "% normálnej veľkosti"
 
-#: src/dialogs/print.glade.h:4
+#: src/dialogs/print.glade.h:3
 msgid "Apply _to:"
 msgstr "Použiť _na:"
 
-#: src/dialogs/print.glade.h:5
+#: src/dialogs/print.glade.h:4
 msgid "Apply to _all sheets."
 msgstr "Použiť na _všetky listy:"
 
-#: src/dialogs/print.glade.h:6
+#: src/dialogs/print.glade.h:5
 msgid "Center on page"
 msgstr "V strede stránky"
 
-#: src/dialogs/print.glade.h:8
+#: src/dialogs/print.glade.h:7
 msgid "Fi_rst page number:"
 msgstr "Prvé čís_lo stránky:"
 
-#: src/dialogs/print.glade.h:9
+#: src/dialogs/print.glade.h:8
 msgid "He_ader:"
 msgstr "_Hlavička:"
 
-#: src/dialogs/print.glade.h:10
+#: src/dialogs/print.glade.h:9
 msgid "Headers and footers"
 msgstr "Hravičky a pätičky"
 
-#: src/dialogs/print.glade.h:12
+#: src/dialogs/print.glade.h:11
 msgid "Page"
 msgstr "Stránka"
 
-#: src/dialogs/print.glade.h:13
+#: src/dialogs/print.glade.h:12
 msgid "Page order"
 msgstr "Poradie stránok"
 
-#: src/dialogs/print.glade.h:15
+#: src/dialogs/print.glade.h:14
 msgid "Print _area:"
 msgstr "Tlačená _oblasť:"
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:16
 msgid "Print setup"
 msgstr "Nastavenie tlače."
 
-#: src/dialogs/print.glade.h:18
+#: src/dialogs/print.glade.h:17
 msgid "R_ight, then down"
 msgstr "Do_prava, potom dolu"
 
-#: src/dialogs/print.glade.h:19
+#: src/dialogs/print.glade.h:18
 msgid "Row and co_lumn headings"
 msgstr "Hlavičky riadkov a stĺp_cov"
 
-#: src/dialogs/print.glade.h:20
+#: src/dialogs/print.glade.h:19
 msgid "Scale"
 msgstr "Roztiahnuť"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:21
 msgid "Styles with no content"
 msgstr "Štýly bez obsahu"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:22
 msgid "Titles to print"
 msgstr "Tlačené titulky"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:23
 msgid "_Adjust to:"
 msgstr "Pri_spôsobiť:"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:24
 msgid "_Black and white"
 msgstr "Č_ierna a biela"
 
-#: src/dialogs/print.glade.h:26
+#: src/dialogs/print.glade.h:25
 msgid "_Columns to repeat on the left side:"
 msgstr "_Stĺpce opakované na ľavej strane:"
 
-#: src/dialogs/print.glade.h:27
+#: src/dialogs/print.glade.h:26
 msgid "_Down, then right"
 msgstr "_Dolu potom doprava"
 
-#: src/dialogs/print.glade.h:28
+#: src/dialogs/print.glade.h:27
 msgid "_Fit to:"
 msgstr "Prispôsobiť _na:"
 
-#: src/dialogs/print.glade.h:29
+#: src/dialogs/print.glade.h:28
 msgid "_Footer:"
 msgstr "_Pätička:"
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:29
 msgid "_Grid lines"
 msgstr "_Mriežka"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:30
 msgid "_Header:"
 msgstr "_Hlavička:"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:31
 msgid "_Horizontally"
 msgstr "_Horizontálne"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:32
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Riadky opakované v hornej časti:"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:33
 msgid "_Units:"
 msgstr "_Jednotky:"
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:34
 msgid "_Vertically"
 msgstr "_Vertikálne"
 
-#: src/dialogs/print.glade.h:36
-#, fuzzy
-msgid "_page(s) wide by"
+#: src/dialogs/print.glade.h:35
+msgid "page(s) wide by"
 msgstr "strán široké"
 
-#: src/dialogs/print.glade.h:37
-#, fuzzy
-msgid "_tall"
+#: src/dialogs/print.glade.h:36
+msgid "tall"
 msgstr "vysoké"
 
 #: src/dialogs/random-generation.glade.h:5
@@ -22481,35 +22451,31 @@ msgstr "Správa limitoch"
 
 #: src/dialogs/simulation.glade.h:17
 msgid "Summary of Results: "
-msgstr ""
+msgstr "Súhrn výsledkov: "
 
 #: src/dialogs/simulation.glade.h:18
 msgid "Summary report grupped by rounds"
-msgstr ""
+msgstr "Súhrnná správa podľa kôl"
 
 #: src/dialogs/simulation.glade.h:19
-#, fuzzy
 msgid "Summary: "
-msgstr "Súhrn"
+msgstr "Súhrn: "
 
 #: src/dialogs/simulation.glade.h:20
-#, fuzzy
 msgid "Variables: "
-msgstr "Premenné"
+msgstr "Premenné: "
 
 #: src/dialogs/simulation.glade.h:22
 msgid "_Options"
 msgstr "_Možnosti"
 
 #: src/dialogs/simulation.glade.h:23
-#, fuzzy
 msgid "_Output Range: "
-msgstr "_Výstupný rozsah:"
+msgstr "_Výstupný rozsah: "
 
 #: src/dialogs/simulation.glade.h:24
-#, fuzzy
 msgid "_Summary"
-msgstr "Súhrn"
+msgstr "_Súhrn"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Configure Arrow/Line"
@@ -22536,14 +22502,12 @@ msgid "Configure Filled Object"
 msgstr "Nastaviť vyplnený objekt"
 
 #: src/dialogs/so-frame.glade.h:2
-#, fuzzy
 msgid "Frame Label"
-msgstr "Vytvorí návestie"
+msgstr "Označenie rámca"
 
 #: src/dialogs/so-frame.glade.h:3
-#, fuzzy
 msgid "Frame Properties"
-msgstr "_Vlastnosti"
+msgstr "Vlastnosti rámca"
 
 #: src/dialogs/so-scrollbar.glade.h:1
 msgid "Scrollbar Configure"
@@ -22588,9 +22552,8 @@ msgid "Max Iterations:"
 msgstr "Max iterácií:"
 
 #: src/dialogs/solver.glade.h:16
-#, fuzzy
 msgid "Max Time (sec.):"
-msgstr "Max ča_s (sek.)"
+msgstr "Max čas (sek.):"
 
 #: src/dialogs/solver.glade.h:17 src/tools/solver/reports-write.c:703
 #: src/tools/solver/reports-write.c:711
@@ -22750,8 +22713,7 @@ msgid "Tabulate Dependency"
 msgstr "Tabulovať závislosti"
 
 #: src/dialogs/tabulate.glade.h:10
-msgid ""
-"Use down for first source, right for second, and multiple sheets for third"
+msgid "Use down for first source, right for second, and multiple sheets for third"
 msgstr "Prejsť dolu pre prvý zdroj, vpravo pre druhý a ďalšie listy pre tretí"
 
 #: src/dialogs/tabulate.glade.h:11
@@ -22775,76 +22737,63 @@ msgid "Variable _2 Range:"
 msgstr "Rozsah premennej _2:"
 
 #: src/dialogs/workbook-attr.glade.h:2
-#, fuzzy
 msgid "A_uto Complete Text in Cells"
 msgstr "_Automatické dopĺňanie textu v bunkách"
 
 #: src/dialogs/workbook-attr.glade.h:3
-#, fuzzy
 msgid "A_utomatic"
-msgstr "Automatické"
+msgstr "_Automatické"
 
 #: src/dialogs/workbook-attr.glade.h:4
-#, fuzzy
 msgid "Calculation"
-msgstr "Tabulácia"
+msgstr "Výpočet"
 
 #: src/dialogs/workbook-attr.glade.h:5
-#, fuzzy
 msgid "H_orizontal Scrollbar"
 msgstr "_Horizontálny posuvník"
 
 #: src/dialogs/workbook-attr.glade.h:6
-#, fuzzy
 msgid "Maximum c_hange:"
-msgstr "Maximum"
+msgstr "Maximálna _zmena:"
 
 #: src/dialogs/workbook-attr.glade.h:7
-#, fuzzy
 msgid "Maximum it_erations:"
-msgstr "Max iterácií:"
+msgstr "Maximálny počet _opakovaní:"
 
 #: src/dialogs/workbook-attr.glade.h:8
 msgid "Notebook _Tabs for Sheets"
 msgstr "_Záložky notesu pre Listy"
 
 #: src/dialogs/workbook-attr.glade.h:9
-#, fuzzy
 msgid "Pa_ssword:"
-msgstr "Heslo:"
+msgstr "_Heslo:"
 
 #: src/dialogs/workbook-attr.glade.h:11
-#, fuzzy
 msgid "Recalculation:"
-msgstr "Prepočítať"
+msgstr "Prepočítanie:"
 
 #: src/dialogs/workbook-attr.glade.h:12
-#, fuzzy
 msgid "Unimplementented"
 msgstr "Neimplementované"
 
 #: src/dialogs/workbook-attr.glade.h:13
-#, fuzzy
 msgid "V_ertical Scrollbar"
 msgstr "_Vertikálny posuvník"
 
 #: src/dialogs/workbook-attr.glade.h:14
 #, fuzzy
 msgid "View"
-msgstr "_Zobraziť"
+msgstr "Zobraziť"
 
 #: src/dialogs/workbook-attr.glade.h:15
-#, fuzzy
 msgid "_Iteration"
-msgstr "Operácia"
+msgstr "_Opakovanie"
 
 #: src/dialogs/workbook-attr.glade.h:16
-#, fuzzy
 msgid "_Manual"
-msgstr "_Nerovné"
+msgstr "_Ručne"
 
 #: src/dialogs/workbook-attr.glade.h:17
-#, fuzzy
 msgid "_Workbook Protected"
 msgstr "_Chránený zošit"
 
@@ -22854,14 +22803,14 @@ msgid "'%s' has a circular reference"
 msgstr "'%s' obsahuje kruhový odkaz"
 
 #: src/expr-name.c:385
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is already defined in sheet"
-msgstr "už v liste definované"
+msgstr "'%s' už je v liste definované"
 
 #: src/expr-name.c:386
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is already defined in workbook"
-msgstr "už v zošite definované"
+msgstr "'%s' už je v zošite definované"
 
 #: src/expr.c:752
 msgid "Internal type error"
@@ -22909,8 +22858,7 @@ msgid "Saving over old files of this type is disabled for safety."
 msgstr "Uloženie do starých súborov tohto typu je kvôli bezpečenosti vypnuté."
 
 #: src/file.c:499
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Túto funkciu môžete bezpečne vypnúť úpravou zodpovedajúceho súboru plugin."
 "xml."
@@ -22933,10 +22881,8 @@ msgstr "Neplatný XML súbor. Strom je prázdny?"
 
 #: src/format-template.c:972
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
-msgstr ""
-"Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
+msgstr "Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
 
 #: src/format-template.c:976
 #, c-format
@@ -22949,47 +22895,39 @@ msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Cieľová oblasť je príliš malá, mala by byť vysoká aspoň %d riadkov"
 
 #: src/format.c:598
-#, fuzzy
 msgid "Black"
-msgstr "Nepresný"
+msgstr "Čierna"
 
 #: src/format.c:599
-#, fuzzy
 msgid "Blue"
-msgstr "modrá"
+msgstr "Modrá"
 
 #: src/format.c:600
-#, fuzzy
 msgid "Cyan"
-msgstr "modrozelená"
+msgstr "Modrozelená"
 
 #: src/format.c:601
-#, fuzzy
 msgid "Green"
-msgstr "zelená"
+msgstr "Zelená"
 
 #: src/format.c:602
-#, fuzzy
 msgid "Magenta"
-msgstr "fialová"
+msgstr "Fialová"
 
 #: src/format.c:603
-#, fuzzy
 msgid "Red"
-msgstr "Opakovať vrátené"
+msgstr "Červená"
 
 #: src/format.c:604
-#, fuzzy
 msgid "White"
-msgstr "biela"
+msgstr "Biela"
 
 #: src/format.c:605
-#, fuzzy
 msgid "Yellow"
-msgstr "žltá"
+msgstr "Žltá"
 
 #. Array of arrays ??
-#: src/format.c:1701
+#: src/format.c:1698
 msgid "ARRAY"
 msgstr "POLE"
 
@@ -23000,114 +22938,95 @@ msgstr "POLE"
 #. 2002/08/04 Updated to match iso 4217
 #: src/formats.c:318
 msgid "United Arab Emirates, Dirhams"
-msgstr ""
+msgstr "Spojené arabské emiráty, Dirham"
 
 #: src/formats.c:319
-#, fuzzy
 msgid "Afghanistan, Afghanis"
-msgstr "Afgánsky afghani"
+msgstr "Afghánistán, Afghani"
 
 #: src/formats.c:320
-#, fuzzy
 msgid "Albania, Leke"
-msgstr "Albánsky lek"
+msgstr "Albánsko, Lek"
 
 #: src/formats.c:321
 msgid "Armenia, Drams"
-msgstr ""
+msgstr "Arménsko, Drams"
 
 #: src/formats.c:322
-#, fuzzy
 msgid "Netherlands Antilles, Guilders"
-msgstr "Guilden Holandských antíl"
+msgstr "Holandské antíly, Gulden"
 
 #: src/formats.c:323
-#, fuzzy
 msgid "Angola, Kwanza"
-msgstr "Angolská nová kwanza"
+msgstr "Angola, Kwanza"
 
 #: src/formats.c:324
-#, fuzzy
 msgid "Argentina, Pesos"
-msgstr "Argentínske peso"
+msgstr "Argentina, Peso"
 
 #: src/formats.c:325
-#, fuzzy
 msgid "Australia, Dollars"
-msgstr "Austrálsky dolár"
+msgstr "Austrália, Doláre"
 
 #: src/formats.c:326
-#, fuzzy
 msgid "Aruba, Guilders"
-msgstr "Arubský guilden"
+msgstr "Aruba, Guldeny"
 
 #: src/formats.c:327
 msgid "Azerbaijan, Manats"
-msgstr ""
+msgstr "Ázerbajdžán, Manat"
 
 #: src/formats.c:328
 msgid "Bosnia and Herzegovina, Convertible Marka"
-msgstr ""
+msgstr "Bosna a Hercegovina, Prevoditeľná marka"
 
 #: src/formats.c:329
-#, fuzzy
 msgid "Barbados, Dollars"
-msgstr "Barbadosský dolár"
+msgstr "Barbados, Dolár"
 
 #: src/formats.c:330
-#, fuzzy
 msgid "Bangladesh, Taka"
-msgstr "Bangladéžska taka"
+msgstr "Bangladéž, Taka"
 
 #: src/formats.c:331
-#, fuzzy
 msgid "Bulgaria, Leva"
-msgstr "Bulharský lev"
+msgstr "Bulharsko, Leva"
 
 #: src/formats.c:332
-#, fuzzy
 msgid "Bahrain, Dinars"
-msgstr "Bahrainský dinár"
+msgstr "Bahrain, Dinár"
 
 #: src/formats.c:333
-#, fuzzy
 msgid "Burundi, Francs"
-msgstr "Burundský frank"
+msgstr "Burundi, Frank"
 
 #: src/formats.c:334
-#, fuzzy
 msgid "Bermuda, Dollars"
-msgstr "Bermudský dolár"
+msgstr "Bermudy, Dolár"
 
 #: src/formats.c:335
-#, fuzzy
 msgid "Brunei Darussalam, Dollars"
-msgstr "Bruneiský dolár"
+msgstr "Brunei Darussalam, Dolár"
 
 #: src/formats.c:336
-#, fuzzy
 msgid "Bolivia, Bolivianos"
-msgstr "Bolívske boliviano"
+msgstr "Bolivia, Boliviano"
 
 #: src/formats.c:337
-#, fuzzy
 msgid "Brazil, Brazil Real"
-msgstr "Brazílsky real"
+msgstr "Brazília, Real"
 
 #: src/formats.c:338
-#, fuzzy
 msgid "Bahamas, Dollars"
-msgstr "Bahamský dolár"
+msgstr "Bahamy, Dolár"
 
 #: src/formats.c:339
-#, fuzzy
 msgid "Bhutan, Ngultrum"
-msgstr "Bhutánsky ngultrum"
+msgstr "Bhutan, Ngultrum"
 
 #: src/formats.c:340
-#, fuzzy
 msgid "Botswana, Pulas"
-msgstr "Botswanská pula"
+msgstr "Botswana, Pula"
 
 #: src/formats.c:341
 #, fuzzy
@@ -23163,23 +23082,20 @@ msgid "Cape Verde, Escudos"
 msgstr "Escudo Cape Verde"
 
 #: src/formats.c:352
-#, fuzzy
 msgid "Cyprus, Pounds"
-msgstr "Cyperská libra"
+msgstr "Cyprus, Libra"
 
 #: src/formats.c:353
-#, fuzzy
 msgid "Czech Republic, Koruny"
-msgstr "Česká koruna"
+msgstr "Českár republika, Koruny"
 
 #: src/formats.c:354
-#, fuzzy
 msgid "Djibouti, Francs"
-msgstr "Džibutský frank"
+msgstr "Džibuti, Frank"
 
 #: src/formats.c:355
 msgid "Denmark, Kroner"
-msgstr ""
+msgstr "Dánsko, Krone"
 
 #: src/formats.c:356
 #, fuzzy
@@ -23193,30 +23109,27 @@ msgstr "Alžírsky dinár"
 
 #: src/formats.c:358
 msgid "Estonia, Krooni"
-msgstr ""
+msgstr "Estónsko, Krooni"
 
 #: src/formats.c:359
-#, fuzzy
 msgid "Egypt, Pounds"
-msgstr "Egyptská libra"
+msgstr "Egypt, Libra"
 
 #: src/formats.c:360
 msgid "Eritrea, Nakfa"
-msgstr ""
+msgstr "Eritrea, Nakfa"
 
 #: src/formats.c:361
-#, fuzzy
 msgid "Ethiopia, Birr"
-msgstr "Etiópsky birr"
+msgstr "Etiópia, Birr"
 
 #: src/formats.c:362
 msgid "Euro Member Countries, Euro"
-msgstr ""
+msgstr "Členské krajiny Euro, Euro"
 
 #: src/formats.c:363
-#, fuzzy
 msgid "Fiji, Dollars"
-msgstr "Dolár Fidži"
+msgstr "Fidži, Dolár"
 
 #: src/formats.c:364
 #, fuzzy
@@ -23617,14 +23530,12 @@ msgid "Saint Helena, Pounds"
 msgstr "Libra Ostrova Sv. Heleny"
 
 #: src/formats.c:447
-#, fuzzy
 msgid "Slovenia, Tolars"
-msgstr "Slovinský tolar"
+msgstr "Slovinsko, Tolár"
 
 #: src/formats.c:448
-#, fuzzy
 msgid "Slovakia, Koruny"
-msgstr "Slovinský tolar"
+msgstr "Slovensko, Koruny"
 
 #: src/formats.c:449
 #, fuzzy
@@ -23666,157 +23577,136 @@ msgid "Swaziland, Emalangeni"
 msgstr "Swazilský lilangeni"
 
 #: src/formats.c:457
-#, fuzzy
 msgid "Thailand, Baht"
-msgstr "Thajský baht"
+msgstr "Thajsko, Baht"
 
 #: src/formats.c:458
-#, fuzzy
 msgid "Tajikistan, Rubles"
-msgstr "Pakistánska rupia"
+msgstr "Tadžikistán, Rubeľ"
 
 #: src/formats.c:459
 msgid "Turkmenistan, Manats"
-msgstr ""
+msgstr "Turkmenistán, Manat"
 
 #: src/formats.c:460
-#, fuzzy
 msgid "Tunisia, Dinars"
-msgstr "Tuniský dinár"
+msgstr "Tunisko, Dinár"
 
 #: src/formats.c:461
-#, fuzzy
 msgid "Tonga, Pa'anga"
-msgstr "Tongan pa'anga"
+msgstr "Tonga, Pa'anga"
 
 #: src/formats.c:462
-#, fuzzy
 msgid "Turkey, Liras"
-msgstr "Turecká líra"
+msgstr "Turecko, Líra"
 
 #: src/formats.c:463
-#, fuzzy
 msgid "Trinidad and Tobago, Dollars"
-msgstr "Dolár Trinidad a Tobago"
+msgstr "Trinidad a Tobago, Dolár"
 
 #: src/formats.c:464
 msgid "Tuvalu, Tuvalu Dollars"
-msgstr ""
+msgstr "Tuvalu, Dolár"
 
 #: src/formats.c:465
-#, fuzzy
 msgid "Taiwan, New Dollars"
-msgstr "Nový taiwanský dolár"
+msgstr "Taiwan, Nový dolár"
 
 #: src/formats.c:466
-#, fuzzy
 msgid "Tanzania, Shillings"
-msgstr "Tanzánsky šiling"
+msgstr "Tanzánia, Šilink"
 
 #: src/formats.c:467
-#, fuzzy
 msgid "Ukraine, Hryvnia"
-msgstr "Ukrajinská hrivna"
+msgstr "Ukrajina, Hrivna"
 
 #: src/formats.c:468
-#, fuzzy
 msgid "Uganda, Shillings"
-msgstr "Ugandský šiling"
+msgstr "Uganda, Šilink"
 
 #: src/formats.c:469
 msgid "United States of America, Dollars"
-msgstr ""
+msgstr "United States of America, Dolár"
 
 #: src/formats.c:470
-#, fuzzy
 msgid "Uruguay, Pesos"
-msgstr "Uruguajský peso"
+msgstr "Uruguay, Peso"
 
 #: src/formats.c:471
 msgid "Uzbekistan, Sums"
-msgstr ""
+msgstr "Uzbekistán, Sum"
 
 #: src/formats.c:472
-#, fuzzy
 msgid "Venezuela, Bolivares"
-msgstr "Venezuelský bolivar"
+msgstr "Venezuela, Bolivar"
 
 #: src/formats.c:473
-#, fuzzy
 msgid "Viet Nam, Dong"
-msgstr "Vietnamský dong"
+msgstr "Vietnam, Dong"
 
 #: src/formats.c:474
-#, fuzzy
 msgid "Vanuatu, Vatu"
-msgstr "Vanuatský vatu"
+msgstr "Vanuatu, Vatu"
 
 #: src/formats.c:475
-#, fuzzy
 msgid "Samoa, Tala"
-msgstr "Samojská tala"
+msgstr "Samoa, Tala"
 
 #: src/formats.c:476
 msgid "Communaute Financiere Africaine BEAC, Francs"
-msgstr ""
+msgstr "Communaute Financiere Africaine BEAC, Franky"
 
 #: src/formats.c:477
 msgid "Silver, Ounces"
-msgstr ""
+msgstr "Striebro, Unce"
 
 #: src/formats.c:478
 msgid "Gold, Ounces"
-msgstr ""
+msgstr "Zlato, Unce"
 
 #: src/formats.c:479
-#, fuzzy
 msgid "East Caribbean Dollars"
 msgstr "Východokaribský dolár"
 
 #: src/formats.c:480
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
-msgstr ""
+msgstr "International Monetary Fund (IMF) Special Drawing Rights"
 
 #: src/formats.c:481
 msgid "Communaute Financiere Africaine BCEAO, Francs"
-msgstr ""
+msgstr "Communaute Financiere Africaine BCEAO, Frank"
 
 #: src/formats.c:482
 msgid "Palladium Ounces"
-msgstr ""
+msgstr "Palladium Unce"
 
 #: src/formats.c:483
 msgid "Comptoirs Francais du Pacifique Francs"
-msgstr ""
+msgstr "Comptoirs Francais du Pacifique Francs"
 
 #: src/formats.c:484
 msgid "Platinum, Ounces"
-msgstr ""
+msgstr "Platina, Unce"
 
 #: src/formats.c:485
-#, fuzzy
 msgid "Yemen, Rials"
-msgstr "Jemenský rial"
+msgstr "Jemen, Rial"
 
 #: src/formats.c:486
-#, fuzzy
 msgid "Yugoslavia, New Dinars"
-msgstr "Nový juhoslovanský dinár"
+msgstr "Juhoslávia, Nový dinár"
 
 #: src/formats.c:487
-#, fuzzy
 msgid "South Africa, Rand"
-msgstr "Juhoafrický rand"
+msgstr "Južná afrika, Rand"
 
 #: src/formats.c:488
-#, fuzzy
 msgid "Zambia, Kwacha"
-msgstr "Zambská kwacha"
+msgstr "Zambia, Kwacha"
 
 #: src/formats.c:489
-#, fuzzy
 msgid "Zimbabwe, Zimbabwe Dollars"
-msgstr "Zimbabwský dolár"
+msgstr "Zimbabwe, Dolár"
 
 #: src/formats.c:782
 msgid ";[Red]"
@@ -24075,15 +23965,13 @@ msgstr "Súbor '%s' sa nedá otvoriť"
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "modfgnum."
-msgstr ""
-"Táto verzia Gnumeric bola preložená s nedostatočnou presnosťou modfgnum."
+msgstr "Táto verzia Gnumeric bola preložená s nedostatočnou presnosťou modfgnum."
 
 #: src/gutils.c:541
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "frexpgnum."
-msgstr ""
-"Táto verzia Gnumeric bola preložená s nedostatočnou presnosťou frexpgnum."
+msgstr "Táto verzia Gnumeric bola preložená s nedostatočnou presnosťou frexpgnum."
 
 #: src/gutils.c:594
 msgid ""
@@ -24292,13 +24180,11 @@ msgstr "Neznámy zošit '%s'"
 
 #: src/parser.y:759
 msgid "This locale uses '\\' rather than ',' to separate array columns."
-msgstr ""
-"Toto kódovanie locale používa '\\' a nie ',' pre oddelenie polí stĺpcov."
+msgstr "Toto kódovanie locale používa '\\' a nie ',' pre oddelenie polí stĺpcov."
 
 #: src/parser.y:772
 msgid "This locale uses ',' rather than '\\' to separate array columns."
-msgstr ""
-"Toto kódovanie locale používa ',' a nie '\\' pre oddelenie polí stĺpcov."
+msgstr "Toto kódovanie locale používa ',' a nie '\\' pre oddelenie polí stĺpcov."
 
 #: src/parser.y:892 src/parser.y:1141
 msgid "Could not find matching closing quote"
@@ -24725,27 +24611,27 @@ msgid "file"
 msgstr "Súbor/"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:582
+#: src/print.c:581
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1110
+#: src/print.c:975
 msgid "Print Region"
 msgstr "Oblasť"
 
-#: src/print.c:1269
+#: src/print.c:1128
 msgid "Print Sheets"
 msgstr "Listy"
 
-#: src/print.c:1277
+#: src/print.c:1136
 msgid "Act_ive sheet"
 msgstr "A_ktuálny list"
 
-#: src/print.c:1277
+#: src/print.c:1136
 msgid "S_heets"
 msgstr "_Listy"
 
-#: src/print.c:1362
+#: src/print.c:1221
 msgid "Printing failed"
 msgstr "Tlač zlyhala"
 
@@ -25252,8 +25138,7 @@ msgstr ""
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
-msgstr ""
-"Pravdepodobnosť absolútnej hodnoty pozorovania je väčšia ako t-hodnoty."
+msgstr "Pravdepodobnosť absolútnej hodnoty pozorovania je väčšia ako t-hodnoty."
 
 #: src/tools/analysis-tools.c:2402
 msgid ""
@@ -26410,12 +26295,12 @@ msgstr "Už existuje list s menom"
 msgid "You may not use this name twice"
 msgstr "Nemôžete použiť jedno meno dvakrát"
 
-#: src/xml-io.c:3628
+#: src/xml-io.c:3627
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Nie je súbor so zošitom Gnumeric"
 
-#: src/xml-io.c:3697
+#: src/xml-io.c:3696
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
 
@@ -26538,8 +26423,7 @@ msgid "High, Low, Close."
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:29
-msgid ""
-"Interpolate between multi-dimensional points, with markers at each point."
+msgid "Interpolate between multi-dimensional points, with markers at each point."
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:30
@@ -26565,8 +26449,7 @@ msgid "Linearly interpolated points"
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:36
-msgid ""
-"Major totals as percentages with each wedge subdivided into secondary pies."
+msgid "Major totals as percentages with each wedge subdivided into secondary pies."
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:37
@@ -26625,8 +26508,7 @@ msgid ""
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:47
-msgid ""
-"Minor categories stacked in horizontal 3D bars, grouped by major category."
+msgid "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:48
@@ -26644,8 +26526,7 @@ msgid "Minor categories stacked in lines grouped by major category."
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:51
-msgid ""
-"Minor categories stacked in vertical 3D columns, grouped by major category."
+msgid "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:52
@@ -26752,92 +26633,84 @@ msgid "open, High, Low, Close."
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
-#, fuzzy
 msgid "Activate New Plugins"
-msgstr "A_ktivovať modul"
+msgstr "Aktivovať nové moduly"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:2
 msgid "Allow Unfocused Range Selections"
-msgstr ""
+msgstr "Povoliť výber nekatívnych rozsahov"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:3
-#, fuzzy
 msgid "Apply print-setup to all sheets"
-msgstr "Použiť na _všetky listy:"
+msgstr "Použiť nastavenie tlače pre všetky listy"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
 msgid "Autocorrect first letter"
-msgstr ""
+msgstr "Prvé písmená pre automatické opravy"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:5
 msgid "Autocorrect initial caps"
-msgstr ""
+msgstr "Počiatočné veľké písmená pre automatické opravy"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:6
-#, fuzzy
 msgid "Autocorrect names of days"
-msgstr "Veľké _mená dní"
+msgstr "Mená dní pre automatické opravy"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:7
-#, fuzzy
 msgid "Autocorrect replace"
-msgstr "Automatické opravy"
+msgstr "Náhrada pre automatické opravy"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:8
-#, fuzzy
 msgid "List of Active Plugins."
-msgstr "A_ktivovať modul"
+msgstr "Zoznam aktívnych modulov."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:9
 msgid "List of Extra Autoformat Directories."
-msgstr ""
+msgstr "Zoznam extra priečinkov pre autoformát."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:10
 msgid "List of Extra Plugin Directories."
-msgstr ""
+msgstr "Zoznam priečinkov extra modulov."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:11
 msgid "List of First Letter Exceptions"
-msgstr ""
+msgstr "Zoznam výnimiek pre prvé písmeno"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:12
 msgid "List of Init Caps Exceptions"
-msgstr ""
+msgstr "Zoznam výnimiek pre počiatočné prvé písmená"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:13
 msgid "List of Known Plugins."
-msgstr ""
+msgstr "Zoznam známych modulov."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:14
 msgid "List of Plugin File States."
-msgstr ""
+msgstr "Zoznam stavov súborov pre moduly."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:15
 msgid "List of recently used functions."
-msgstr ""
+msgstr "Zoznam nedávno použitých funkcií."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:16
 msgid "Maximum Length of Recently Used Functions List"
-msgstr ""
+msgstr "Maximálny počet nedávno použitých funkcií"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "Print-to Filename"
-msgstr ""
+msgstr "Meno súboru pre tlač"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
-#, fuzzy
 msgid "Printer"
-msgstr "Tlačiť"
+msgstr "Tlačiareň"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:19
-#, fuzzy
 msgid "Printer Backend"
-msgstr "Tlač zlyhala"
+msgstr "Systém tlače"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:20
-#, fuzzy
 msgid "Printing Command"
-msgstr "Tlač zlyhala"
+msgstr "Príkaz pre tlač"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:21
 msgid ""
@@ -26848,7 +26721,7 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:22
 msgid "System Directory for Autoformats"
-msgstr ""
+msgstr "Systémový priečinok pre automatické formáty"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:23
 msgid ""
@@ -26864,87 +26737,101 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:25
 msgid "The backend used in gnome-print. Do not edit this variable."
-msgstr ""
+msgstr "Systém použitý v gnome-print. Túto premennú neupravujte."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:26
 msgid ""
 "The configuration name of the printer in gnome-print. Do not edit this "
 "variable."
 msgstr ""
+"Meno konfigurácie tlačiarne v gnome-print. Túto premennú "
+"neupravujte."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:27
 msgid "The custom printing command (lpr, xpp, ...)"
-msgstr ""
+msgstr "Vlastný príkaz pre tlač (lpq, xpp, ...)"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:28
 msgid ""
 "The file name when printing to a file in gnome-print. Do not edit this "
 "variable."
 msgstr ""
+"Meno súboru, do ktorého sa bude tlačiť v gnome-print. Túto "
+"premennú neupravujte."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:29
 msgid ""
 "The function selector keeps a list of recently used functions. This is that "
 "list."
 msgstr ""
+"Výber funkcie udržiava zoznam naposledy použitých funkcií. Toto "
+"je tento zoznam.maximálna dĺžka tohto zoznamu."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:30
 msgid ""
 "The function selector keeps a list of recently used functions. This is the "
 "maximum length of that list."
 msgstr ""
+"Výber funkcie udržiava zoznam naposledy použitých funkcií. Toto "
+"je maximálna dĺžka tohto zoznamu."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "The main directory for user specific autoformat templates."
 msgstr ""
+"Hlavný priečinok pre používateľské šablóny automatického "
+"formátu."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:32
 msgid "The printer used with the lpr command"
-msgstr ""
+msgstr "Tlačiareň použitá pre príkaz lpr"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:33
-#, fuzzy
 msgid "This directory contains the pre-installed autoformat templates."
-msgstr "Chyba pri načítavaní šablóny autoformátu"
+msgstr ""
+"Tento priečinok obsahuje preinštalované šablóny automatického "
+"formátu."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:34
-msgid ""
-"This list contains all extra directories containing autoformat templates."
+msgid "This list contains all extra directories containing autoformat templates."
 msgstr ""
+"Tento zoznam obsahuje všetky extra priečinky pre šablóny automatického "
+"formátu."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:35
 msgid "This list contains all extra directories containing plugins."
-msgstr ""
+msgstr "Tento zoznam obsahuje všetky extra priečinky pre moduly."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:36
 msgid "This list contains all known plugins."
-msgstr ""
+msgstr "Tento zoznam obsahuje všetky známe moduly."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:37
-#, fuzzy
 msgid "This list contains all plugin file states."
-msgstr "Súbor neobsahuje (symbol \"plugin_file_struct\")."
+msgstr "Tento zoznam obsahuje všetky stavy súborov modulov."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
 msgid ""
 "This list contains all plugins that are supposed to be automatically "
 "activated."
 msgstr ""
+"Tento zoznam obsahuje všetky moduly, ktoré sa majú automaticky "
+"aktivovať."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:39
 msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
+"Táto hodnota určuje, či sa štandardný dialóg pre tlač použije "
+"pre všetky listy naraz."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:40
-msgid ""
-"This variable determines whether to activate every new encountered plugin."
-msgstr ""
+msgid "This variable determines whether to activate every new encountered plugin."
+msgstr "Táto premenná určuje, či sa má aktivovať každý novonájdený modul."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "User Directory for Autoformats"
-msgstr ""
+msgstr "Používateľský priečinok pre automatický formát"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:42
 msgid "lpr Printer"
@@ -27113,8 +27000,7 @@ msgid "The default font size for new workbooks."
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:35
-msgid ""
-"The file menu shows a list of recently used functions. This is that list."
+msgid "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:36
@@ -27166,18 +27052,15 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:44
-msgid ""
-"This value determines the maximum number of items in the undo/redo list."
+msgid "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:45
-msgid ""
-"This value determines whether the default font for a new workbook bold is."
+msgid "This value determines whether the default font for a new workbook bold is."
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:46
-msgid ""
-"This value determines whether the default font for a new workbook italic is."
+msgid "This value determines whether the default font for a new workbook italic is."
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:47
@@ -27202,68 +27085,18 @@ msgid ""
 "performed."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:52
-msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
-msgstr ""
-
-#: schemas/gnumeric-general.schemas.in.h:53
+#: schemas/gnumeric-general.schemas.in.h:51
 msgid "Vertical DPI"
 msgstr "Vertikálne rozlíšenie"
 
-#: schemas/gnumeric-general.schemas.in.h:54
+#: schemas/gnumeric-general.schemas.in.h:52
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:55
+#: schemas/gnumeric-general.schemas.in.h:53
 msgid ""
 "When selecting a sort region in the sort dialog, search clauses are "
 "automatically added. This number determines the maximum number of clauses to "
 "be added automatically."
 msgstr ""
 
-#~ msgid "Workbook uses unsupported 1904 Date System, Dates will be incorrect"
-#~ msgstr ""
-#~ "Pracovný zošit používa nepodporvaný systém dátumov 1904, dátumy budú "
-#~ "neplatné"
-
-#~ msgid "Too many rows for this format (%d > %d)"
-#~ msgstr "Príliš veľa riadkov pre tento formát (%d > %d)"
-
-#~ msgid "Out_put"
-#~ msgstr "Výs_tup"
-
-#~ msgid "_Input"
-#~ msgstr "_Vstup"
-
-#~ msgid "_Normal"
-#~ msgstr "_Normálne"
-
-#, fuzzy
-#~ msgid "_Protection"
-#~ msgstr "Ochrana"
-
-#~ msgid "This file is encrypted"
-#~ msgstr "Tento súbor je šifrovaný"
-
-#~ msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
-#~ msgstr "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
-
-#~ msgid "black"
-#~ msgstr "čierna"
-
-#~ msgid "red"
-#~ msgstr "červená"
-
-#~ msgid "Password :"
-#~ msgstr "Heslo:"
-
-#, fuzzy
-#~ msgid "Autocorrect First Letter"
-#~ msgstr "_Prvé písmeno"
-
-#, fuzzy
-#~ msgid "Autocorrect Replace"
-#~ msgstr "Automatické opravy"
-
-#~ msgid "#3D MULT?"
-#~ msgstr "#3D NÁSOB?"
