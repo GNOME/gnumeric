@@ -1,3 +1,17 @@
+2000-09-08  Michael Meeks  <michael@helixcode.com>
+
+	* src/workbook.c (workbook_new): Parse the xml file and add the verbs.
+	(workbook_do_destroy): remove warning.
+
+	* src/Makefile.am: Add gnumeric.xml installation
+
+	* src/gnumeric-util.c (gnumeric_dialog_show): remove conditional code.
+
+	* src/sheet-object-container.c (sheet_object_container_realize): upd.
+
+	* src/workbook.c (workbook_get_toplevel): update, BonoboApp is now a
+	widget.
+
 2000-09-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-format-toolbar.c (workbook_create_format_toolbar) : Fix

@@ -190,14 +190,13 @@ plugins_cmd (GtkWidget *widget, Workbook *wb)
 	dialog_plugin_manager (wb);
 }
 
-#ifndef ENABLE_BONOBO
 static void
 about_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_about (wb);
 }
 
-#else
+#ifdef ENABLE_BONOBO
 static void
 create_embedded_component_cmd (GtkWidget *widget, Workbook *wb)
 {
@@ -380,12 +379,8 @@ workbook_do_destroy (Workbook *wb)
 
 	workbook_private_delete (wb->priv);
 
-#ifdef ENABLE_BONOBO
-#warning FIXME we need to think about what this mess is about.
-#else
 	if (!GTK_OBJECT_DESTROYED (wb->toplevel))
 		gtk_object_destroy (GTK_OBJECT (wb->toplevel));
-#endif
 
 	if (initial_worbook_open_complete && workbook_count == 0) {
 		application_history_write_config ();
@@ -1159,8 +1154,79 @@ insert_object_cmd (GtkWidget *widget, Workbook *wb)
 }
 #endif
 
-/* File menu */
+#ifdef ENABLE_BONOBO
 
+BonoboUIVerb verbs [] = {
+
+	BONOBO_UI_VERB ("FileNew", new_cmd),
+	BONOBO_UI_VERB ("FileOpen", file_open_cmd),
+	BONOBO_UI_VERB ("FileImport", file_import_cmd),
+	BONOBO_UI_VERB ("FileSave", file_save_cmd),
+	BONOBO_UI_VERB ("FileSummary", summary_cmd),
+	BONOBO_UI_VERB ("FilePrint", file_print_cmd),
+	BONOBO_UI_VERB ("FilePrintSetup", print_setup_cmd),
+	BONOBO_UI_VERB ("FilePrintPreviw", file_print_preview_cmd),
+	BONOBO_UI_VERB ("FileClose", close_cmd),
+	BONOBO_UI_VERB ("FileExit", quit_cmd),
+
+	BONOBO_UI_VERB ("EditClearAll", clear_all_cmd),
+	BONOBO_UI_VERB ("EditClearFormats", clear_formats_cmd),
+	BONOBO_UI_VERB ("EditClearComments", clear_comments_cmd),
+	BONOBO_UI_VERB ("EditClearContent", clear_content_cmd),
+
+	BONOBO_UI_VERB ("EditSelectAll", cb_edit_select_all),
+	BONOBO_UI_VERB ("EditSelectRow", cb_edit_select_row),
+	BONOBO_UI_VERB ("EditSelectColumn", cb_edit_select_col),
+	BONOBO_UI_VERB ("EditSelectArray", cb_edit_select_array),
+	BONOBO_UI_VERB ("EditSelectDepends", cb_edit_select_depends),
+
+	BONOBO_UI_VERB ("EditUndo", undo_cmd),
+	BONOBO_UI_VERB ("EditRedo", redo_cmd),
+	BONOBO_UI_VERB ("EditCut", cut_cmd),
+	BONOBO_UI_VERB ("EditCopy", copy_cmd),
+	BONOBO_UI_VERB ("EditPaste", paste_cmd),
+	BONOBO_UI_VERB ("EditPasteSpecial", paste_special_cmd),
+	BONOBO_UI_VERB ("EditDelete", delete_cells_cmd),
+	BONOBO_UI_VERB ("EditDeleteSheet", delete_sheet_cmd),
+	BONOBO_UI_VERB ("EditGoto", goto_cell_cmd),
+	BONOBO_UI_VERB ("EditRecalc", recalc_cmd),
+
+	BONOBO_UI_VERB ("ViewZoom", zoom_cmd),
+
+	BONOBO_UI_VERB ("InsertCurrentDate", insert_current_date_cmd),
+	BONOBO_UI_VERB ("InsertCurrentTime", insert_current_time_cmd),
+	BONOBO_UI_VERB ("EditNames", cb_edit_named_expr),
+
+	BONOBO_UI_VERB ("InsertSheet", insert_sheet_cmd),
+	BONOBO_UI_VERB ("InsertRows", insert_rows_cmd),
+	BONOBO_UI_VERB ("InsertColumns", insert_cols_cmd),
+	BONOBO_UI_VERB ("InsertCells", insert_cells_cmd),
+	BONOBO_UI_VERB ("InsertObject", insert_object_cmd),
+	BONOBO_UI_VERB ("InsertComment", workbook_edit_comment),
+	
+	BONOBO_UI_VERB ("FormatCells", format_cells_cmd),
+	BONOBO_UI_VERB ("FormatAuto", autoformat_cmd),
+	BONOBO_UI_VERB ("FormatWorkbook", workbook_attr_cmd),
+	
+	BONOBO_UI_VERB ("ToolsPlugins", plugins_cmd),
+	BONOBO_UI_VERB ("ToolsAutoCorrect", autocorrect_cmd),
+	BONOBO_UI_VERB ("ToolsAutoSave", autosave_cmd),
+	BONOBO_UI_VERB ("ToolsGoalSeek", goal_seek_cmd),
+	BONOBO_UI_VERB ("ToolsSolver", solver_cmd),
+	BONOBO_UI_VERB ("ToolsDataAnalysis", data_analysis_cmd),
+	
+	BONOBO_UI_VERB ("DataSort", sort_cells_cmd),
+	BONOBO_UI_VERB ("DataFilter", advanced_filter_cmd),
+
+	BONOBO_UI_VERB ("HelpAbout", about_cmd),
+	
+	BONOBO_UI_VERB_END
+
+};
+
+#endif
+
+/* File menu */
 static GnomeUIInfo workbook_menu_file [] = {
         GNOMEUIINFO_MENU_NEW_ITEM(N_("_New"), N_("Create a new spreadsheet"),
 				  &new_cmd, NULL),
@@ -1194,7 +1260,6 @@ static GnomeUIInfo workbook_menu_file [] = {
 };
 
 /* Edit menu */
-
 static GnomeUIInfo workbook_menu_edit_clear [] = {
 	GNOMEUIINFO_ITEM_NONE(N_("_All"),
 		N_("Clear the selected cells' formats, comments, and contents"),
@@ -1230,7 +1295,7 @@ static GnomeUIInfo workbook_menu_edit_select [] = {
 	  NULL, 0, 0, ' ', GDK_CONTROL_MASK },
 
 	{ GNOME_APP_UI_ITEM, N_("Select Arra_y"),
-	  N_("Select an entire column"),
+	  N_("Select an array of cells"),
 	  &cb_edit_select_array, NULL,
 	  NULL, 0, 0, '/', GDK_CONTROL_MASK },
 
@@ -1493,19 +1558,17 @@ static GnomeUIInfo workbook_menu_data [] = {
 		N_("Sort the selected cells"),
 		&sort_cells_cmd),
 	GNOMEUIINFO_ITEM_NONE(N_("_Filter..."),
-		N_("Filter date with given criterias"),
+		N_("Filter data with given criteria"),
 		&advanced_filter_cmd),
 
 	GNOMEUIINFO_END
 };
 
-#ifndef ENABLE_BONOBO
 static GnomeUIInfo workbook_menu_help [] = {
 	GNOMEUIINFO_HELP ("gnumeric"),
         GNOMEUIINFO_MENU_ABOUT_ITEM(about_cmd, NULL),
 	GNOMEUIINFO_END
 };
-#endif
 
 static GnomeUIInfo workbook_menu [] = {
         GNOMEUIINFO_MENU_FILE_TREE (workbook_menu_file),
@@ -1515,11 +1578,7 @@ static GnomeUIInfo workbook_menu [] = {
 	GNOMEUIINFO_SUBTREE(N_("F_ormat"), workbook_menu_format),
 	GNOMEUIINFO_SUBTREE(N_("_Tools"),  workbook_menu_tools),
 	GNOMEUIINFO_SUBTREE(N_("_Data"),   workbook_menu_data),
-#ifdef ENABLE_BONOBO
-#warning Should enable this when Bonobo gets menu help support
-#else
 	GNOMEUIINFO_MENU_HELP_TREE (workbook_menu_help),
-#endif
 	GNOMEUIINFO_END
 };
 
@@ -2739,11 +2798,31 @@ workbook_new (void)
 
 		wb->priv->workbook_views  = NULL;
 		wb->priv->persist_file    = NULL;
-		wb->priv->uih = bonobo_ui_handler_new_for_app (BONOBO_APP (wb->toplevel));
-		bonobo_ui_handler_create_menubar (wb->priv->uih);
-		list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (workbook_menu, wb);
-		bonobo_ui_handler_menu_add_list (wb->priv->uih, "/", list);
-		bonobo_ui_handler_menu_free_list (list);
+
+		wb->priv->uih = bonobo_ui_handler_new ();
+		bonobo_ui_handler_set_app (wb->priv->uih, BONOBO_APP (wb->toplevel));
+		{
+			char *fname;
+			xmlNode *ui;
+			BonoboUIComponent *component =
+				bonobo_ui_compat_get_component (wb->priv->uih);
+			Bonobo_UIContainer container = 
+				bonobo_ui_compat_get_container (wb->priv->uih);
+
+			bonobo_ui_component_add_verb_list_with_data (
+				component, verbs, wb);
+			
+			fname = bonobo_ui_util_get_ui_fname ("gnumeric.xml");
+			g_warning ("Loading ui from '%s'", fname);
+			
+			ui = bonobo_ui_util_new_ui (fname);
+			
+			bonobo_ui_component_set_tree (
+				component, container, "/", ui, NULL);
+
+			g_free (fname);
+			xmlFreeNode (ui);
+		}
 	}
 #endif
 	/* Create dynamic history menu items. */
@@ -3917,11 +3996,7 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
 GtkWidget *
 workbook_get_toplevel (Workbook *wb)
 {
-#ifdef ENABLE_BONOBO
-	return GTK_WIDGET (bonobo_app_get_window (BONOBO_APP (wb->toplevel)));
-#else
 	return GTK_WIDGET (wb->toplevel);
-#endif
 }
 
 void

@@ -296,5 +296,7 @@ dist-hook:
 #	$(GNOME_XML_LIB) 		\
 #	$(INTLLIBS)
 
-EXTRA_DIST = portability.h.in
+EXTRA_DIST = portability.h.in gnumeric.xml
 
+uidir=$(datadir)/gnome/ui
+ui_DATA=gnumeric.xml

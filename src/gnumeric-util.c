@@ -168,11 +168,7 @@ gnumeric_dialog_show (GtkObject *parent, GnomeDialog *dialog,
 	if (parent) {
 		run_info = g_new0 (DialogRunInfo, 1);
 		run_info->parent_toplevel =
-#if ENABLE_BONOBO
-			bonobo_app_get_window (BONOBO_APP (parent));
-#else
 			gtk_widget_get_toplevel (GTK_WIDGET (parent));
-#endif
 
 		gnome_dialog_set_parent
 			(GNOME_DIALOG (dialog),
