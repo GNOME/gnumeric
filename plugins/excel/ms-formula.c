@@ -107,14 +107,14 @@ FORMULA_FUNC_DATA formula_func_data[] =
 	{ "OR", -1 },
 	{ "NOT", 1 },
 	{ "MOD", 2 },
-	{ "0x28", 8 },
-	{ "0x29", 8 },
-	{ "0x2a", 8 },
-	{ "0x2b", 8 },
-	{ "0x2c", 8 },
-	{ "0x2d", 8 },
+	{ "DCOUNT", 3 },
+	{ "DSUM", 3 },
+	{ "DAVERAGE", 3 },
+	{ "DMIN", 3 },
+	{ "DMAX", 3 },
+	{ "DSTDEV", 3 },
 	{ "VAR", -1 },
-	{ "0x2f", 8 },
+	{ "DVAR", 3 },
 	{ "REPLACE", 2 },
 	{ "LINEST", 2 },
 	{ "TREND", 4 },
@@ -256,17 +256,17 @@ FORMULA_FUNC_DATA formula_func_data[] =
 	{ "0xba", 8 },
 	{ "0xbb", 8 },
 	{ "0xbc", 8 },
-	{ "0xbd", 8 },
+	{ "DPRODUCT", 3 },
 	{ "ISNONTEXT", 1 },
 	{ "0xbf", 8 },
 	{ "0xc0", 8 },
 	{ "STDEVP", -1 },
 	{ "VARP", -1 },
-	{ "0xc3", 8 },
-	{ "0xc4", 8 },
+	{ "DSTDEVP", 3 },
+	{ "DVARP", 3 },
 	{ "TRUNC", 1 },
 	{ "ISLOGICAL", 1 },
-	{ "0xc7", 8 },
+	{ "DCOUNTA", 3 },
 	{ "0xc8", 8 },
 	{ "0xc9", 8 },
 	{ "0xca", 8 },
@@ -302,7 +302,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 	{ "ASINH", 1 },
 	{ "ACOSH", 1 },
 	{ "ATANH", 1 },
-	{ "0xeb", 8 },
+	{ "DGET", 3 },
 	{ "0xec", 8 },
 	{ "0xed", 8 },
 	{ "0xee", 8 },
@@ -627,9 +627,9 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 			return 0;
 		}
 		else {
-/*			printf ("Fn : '%s', '%s'\n", fn->name, args->name) ; */
 			name = symbol_lookup (global_symbol_table, tmp->u.constant->v.str->str);
 			if (!name) {
+				printf ("Fn : '%s'\n", tmp->u.constant->v.str->str);
 				parse_list_free (&fn->u.function.arg_list);
 				parse_list_push (stack, expr_tree_string (g_strdup_printf ("Duff fn '%s'", 
 											   tmp->u.constant->v.str->str)));
@@ -653,6 +653,7 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 			if (fd->prefix)
 				name = symbol_lookup (global_symbol_table, fd->prefix);
 			if (!name) {
+				printf ("Unknown fn '%s'\n", fd->prefix);
 				parse_list_free (&fn->u.function.arg_list);
 				parse_list_push (stack, expr_tree_string (g_strdup_printf ("Duff fn '%s'", 
 											   fd->prefix?fd->prefix:"Umm...")));

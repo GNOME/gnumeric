@@ -1,3 +1,8 @@
+1999-05-09  Michael Meeks  <michael@imaginator.com>
+
+	* ms-formula.c (make_function): More useful debug.
+	Added Database function translation.
+
 1999-05-08  Michael Meeks  <michael@imaginator.com>
 
 	* ole.c (do_get, do_put): Sill fread/write no brainer.
