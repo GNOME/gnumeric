@@ -1,3 +1,8 @@
+2001-01-21  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/sheet-autofill.c (autofill_cell):
+	Use sheet_cell_set_value instead of sheet_cell_set_text. Fixes bug #38175.
+
 2001-01-17  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (cmd_search_replace_undo,

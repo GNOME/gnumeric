@@ -590,8 +590,8 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 			v = g_strconcat (n, buffer, NULL);
 			g_free (n);
 		}
-		/* FIXME : Should we set this as a value ? */
-		sheet_cell_set_text (cell, v);
+	
+		sheet_cell_set_value (cell, value_new_string (v), NULL);
 		g_free (v);
 		return;
 	}
