@@ -196,9 +196,9 @@ foreach my $filename (@src) {
 	    # Use gnm_float instead of double
 	    $line =~ s/double/gnm_float/g;
 
-	    # Use sqrtgnum instead of sqrt, etc.
-	    $line =~ s/\b(sqrt|exp|log|pow|log1p|expm1|ceil|floor|sin|sinh|tan)(\s|$|\()/$1gnum$2/g;
-	    $line =~ s/\bfabs\b/gnumabs/g;
+	    # Use gnm_sqrt instead of sqrt, etc.
+	    $line =~ s/\b(sqrt|exp|log|pow|log1p|expm1|ceil|floor|sin|sinh|tan)(\s|$|\()/gnm_$1$2/g;
+	    $line =~ s/\bfabs\b/gnm_abs/g;
 
 	    # Use g_malloc instead of malloc
 	    $line =~ s/[^u]malloc\s*\(/g_malloc \(/g;
