@@ -21,6 +21,8 @@ Requires: libglade >= 0.16
 Requires: libxml >= 1.8.10
 Requires: libole2 >= 0.1.7
 Requires: gal >= 0.5
+# The help menu commands require whatever package contains the gnome-help
+# program.
 
 %description
 GNOME (GNU Network Object Model Environment) is a user-friendly set of
