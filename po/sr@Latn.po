@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-15 04:31-0400\n"
-"PO-Revision-Date: 2003-09-14 18:01+0200\n"
+"POT-Creation-Date: 2003-09-17 06:04+0200\n"
+"PO-Revision-Date: 2003-09-17 06:16+0200\n"
 "Last-Translator: Slobodan Sredojević <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -807,7 +807,7 @@ msgstr "#NEPOZNAT!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:435 src/dialogs/dialog-sheet-order.c:439
+#: src/dialogs/dialog-sheet-order.c:436 src/dialogs/dialog-sheet-order.c:440
 #, c-format
 msgid "Sheet%d"
 msgstr "Tabela%d"
@@ -3368,8 +3368,8 @@ msgstr "Inženjerske funkcije"
 #: plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr ""
-"Funkcije koje rade sa kompleksnim brojevima, osnovnim pretvaranjima i više "
-"od toga"
+"Funkcije koje rade sa kompleksnim brojevima, osnovnim pretvaranjima i više od "
+"toga"
 
 #: plugins/fn-financial/functions.c:306
 msgid ""
@@ -11000,8 +11000,8 @@ msgid ""
 "The autocorrect engine does not correct the inital caps for words in this "
 "list."
 msgstr ""
-"Sistem za automatsko ispravljanje ne ispravlja početna slova za reči koje su "
-"u ovom spisku."
+"Sistem za automatsko ispravljanje ne ispravlja početna slova za reči koje su u "
+"ovom spisku."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:24
 msgid "The configuration of gnome-print. Do not edit this variable."
@@ -11179,9 +11179,8 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:22
-#, fuzzy
 msgid "Sans"
-msgstr "Rangovi"
+msgstr "Bezserifni"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -11314,10 +11313,10 @@ msgid ""
 "simple one-cell edit (size of 1). The undo list will be truncated when its "
 "total size exceeds this configurable value."
 msgstr ""
-"Ova vrednost određuje dužinu „Opozovi“ spiska. Svaka radnja ima veličinu "
-"koja je za nju vezana, kako bi se poredila sa memorijskim zahtevom vezanim "
-"za prosto uređenje jednog polja (veličine 1). „Opozovi“ spisak će biti "
-"odsečen kada njegova ukupna vrednost nadmaši ovu podesivu vrednost."
+"Ova vrednost određuje dužinu „Opozovi“ spiska. Svaka radnja ima veličinu koja "
+"je za nju vezana, kako bi se poredila sa memorijskim zahtevom vezanim za "
+"prosto uređenje jednog polja (veličine 1). „Opozovi“ spisak će biti odsečen "
+"kada njegova ukupna vrednost nadmaši ovu podesivu vrednost."
 
 #: schemas/gnumeric-general.schemas.in.h:45
 msgid ""
@@ -11418,7 +11417,7 @@ msgstr ""
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
 msgid "Use UTF-8 in LaTeX Export"
-msgstr ""
+msgstr "Koristi UTF-8 pri LaTeH izvozu"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "About this application"
@@ -13892,7 +13891,7 @@ msgstr "Stil"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
-#: src/dialogs/dialog-sheet-order.c:952 src/dialogs/dialog-sheet-order.c:965
+#: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
 msgid "Default"
 msgstr "Podrazumevano"
 
@@ -17020,25 +17019,25 @@ msgstr "Ceo broj"
 msgid "Other value"
 msgstr "Druga vrednost"
 
-#: src/dialogs/dialog-sheet-order.c:317
+#: src/dialogs/dialog-sheet-order.c:318
 msgid "Current Name"
 msgstr "Tekući naziv"
 
-#: src/dialogs/dialog-sheet-order.c:327
+#: src/dialogs/dialog-sheet-order.c:328
 msgid "New Name"
 msgstr "Novi naziv"
 
-#: src/dialogs/dialog-sheet-order.c:656
+#: src/dialogs/dialog-sheet-order.c:657
 msgid "You may not delete all sheets in a workbook!"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:661
+#: src/dialogs/dialog-sheet-order.c:662
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:893
+#: src/dialogs/dialog-sheet-order.c:894
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "Redosled tabela se promenio. Da li želite da osvežite spisak?"
 
@@ -17773,9 +17772,9 @@ msgid ""
 "in GTK+, libgnomeui, libgnomeprintui, libbonoboui, and Gnumeric at the time "
 "of writing, ultimo May 2003."
 msgstr ""
-"Podrška za više monitora je isključena u Gnumerik-u zbog brojnih grešaka u "
-"gtk+, libgnomeui, libgnomeprintui i libbonoboui bibliotekama i samom "
-"Gnumerik-u. Maj 2003."
+"Podrška za više monitora je isključena u Gnumerik-u zbog brojnih grešaka u gtk"
+"+, libgnomeui, libgnomeprintui i libbonoboui bibliotekama i samom Gnumerik-"
+"u. Maj 2003."
 
 #: src/dialogs/dialog-view.c:94
 #, c-format
@@ -18444,8 +18443,8 @@ msgid ""
 "Gnumeric (unless needed by another plugin)."
 msgstr ""
 "Dodatak sada ne može biti zaustavljen jer je u upotrebi. Pored svega, ako Vi "
-"štiklirate kućicu ispod, dodatak neće biti pokrenut nakon ponovnog "
-"pokretanja programa (sve dok ga, eventualno, nezatraži drugi dodatak)."
+"štiklirate kućicu ispod, dodatak neće biti pokrenut nakon ponovnog pokretanja "
+"programa (sve dok ga, eventualno, nezatraži drugi dodatak)."
 
 #: src/dialogs/plugin-manager.glade.h:10
 msgid "_Activate All"
@@ -19568,8 +19567,7 @@ msgstr "Neispravna datoteka sa šablonom: %s"
 
 #: src/file.c:466
 msgid "Saving over old files of this type is disabled for safety."
-msgstr ""
-"Čuvanje preko starih datoteka ove vrste je onemogućeno zbog sigurnosti."
+msgstr "Čuvanje preko starih datoteka ove vrste je onemogućeno zbog sigurnosti."
 
 #: src/file.c:468
 msgid ""
@@ -20685,8 +20683,7 @@ msgstr "Ne prikazuj uvodni ekran"
 
 #: src/main-application.c:83
 msgid "Exit immediately after loading the selected books (useful for testing)."
-msgstr ""
-"Izađi odmah nakon učitavanja izabranih tabela (korisno za isprobavanje)."
+msgstr "Izađi odmah nakon učitavanja izabranih tabela (korisno za isprobavanje)."
 
 #: src/main-application.c:113
 msgid ""
@@ -21064,8 +21061,7 @@ msgstr "Dodatak nema identifikaciju."
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr ""
-"Greška u postavljanju početnih vrednosti za sistem za učitavanje dodatka(„%"
-"s“)."
+"Greška u postavljanju početnih vrednosti za sistem za učitavanje dodatka(„%s“)."
 
 #: src/plugin.c:924 src/plugin.c:1081
 msgid "Detected cyclic plugin dependencies."
@@ -21130,8 +21126,7 @@ msgstr "Greška prilikom čitanja informacija o dostupnim dodacima."
 
 #: src/plugin.c:1622
 msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr ""
-"Greška prilikom zaustavljanja dodataka koji se više ne nalaze na disku."
+msgstr "Greška prilikom zaustavljanja dodataka koji se više ne nalaze na disku."
 
 #: src/plugin.c:1643
 #, c-format
@@ -22005,8 +22000,7 @@ msgid ""
 "in your model (maybe your last round # is too high)."
 msgstr ""
 "Izlazna promenljiva nije proizvela brojnu vrednost. Proverite izlazne "
-"promenljive u vašem modelu (možda je Vaše poslednje zaokruživanje # "
-"preveliko)."
+"promenljive u vašem modelu (možda je Vaše poslednje zaokruživanje # preveliko)."
 
 #: src/tools/simulation.c:242
 msgid "Simulation Report"
