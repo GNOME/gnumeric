@@ -1,3 +1,8 @@
+2001-01-26  Michael Meeks  <michael@helixcode.com>
+
+	* src/plugin.c (plugin_info_read): g_new0 the PluginInfo so the
+	umpteen function pointers are NULL'd.
+
 2001-01-25  Almer S. Tigelaar  <almer1@dds.nl>
 
         * src/workbook-control-priv.h: Remove insert struct, there

@@ -1,5 +1,9 @@
 2001-01-26  Michael Meeks  <michael@helixcode.com>
 
+	* Makefile.am: Fix correctly.
+
+2001-01-26  Michael Meeks  <michael@helixcode.com>
+
 	* Makefile.am (gnum_gb_la_SOURCES): install plugin.xml
 
 	* plugin.c (init_plugin): fix bit rot.

@@ -236,7 +236,7 @@ plugin_info_read (const gchar *dir_name, xmlNodePtr tree, ErrorInfo **ret_error)
 	if (x_id != NULL && x_name != NULL && activation != PLUGIN_ACTIVATION_LAST) {
 		ErrorInfo *error;
 
-		pinfo = g_new (PluginInfo, 1);
+		pinfo = g_new0 (PluginInfo, 1);
 		pinfo->dir_name = g_strdup (dir_name);
 		pinfo->id = g_strdup (x_id);
 		pinfo->name = g_strdup (x_name);

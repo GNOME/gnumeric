@@ -3,8 +3,9 @@ INCLUDES = \
     -I$(includedir)	-I$(top_srcdir)/src	\
     $(GNOME_INCLUDEDIR) $(GB_CFLAGS)
 
-gnumeric_plugin_LTLIBRARIES = gnum_gb.la
-
+gnum_gbdir = $(gnumeric_plugindir)/gb
+gnum_gb_DATA = plugin.xml
+gnum_gb_LTLIBRARIES = gnum_gb.la
 gnum_gb_la_LDFLAGS = -module -avoid-version
 
 gnum_gb_la_SOURCES =			\
@@ -34,8 +35,5 @@ gnum_gb_la_LIBADD =		\
 	$(GB_LIBS)		\
 	$(EXTRA_GNOME_LIBS)	\
 	-lm @GLIB_LIBS@ -lgb -lgbrun
-
-gnumeric_plugin_gbdir = $(gnumeric_plugindir)/gb
-gnumeric_plugin_gb_DATA = plugin.xml
 
 EXTRA_DIST = README main.gba gnumeric.gbp
